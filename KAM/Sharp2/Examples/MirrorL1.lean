@@ -402,8 +402,10 @@ theorem le_erate (hp : p.toA.Pos) (hE : E.toA.Wf) (hei : Ent.einv ≤ (E.ei : �
 end StepQ
 
 
+namespace NumQ
+
 /-- `sumA` is monotone in the rates and in the errors (nonnegative data). -/
-theorem sumA_le_of {a lam ρ ρinf γb b : ℝ} {x x' c c' : ℕ → ℝ} {kp : ℕ}
+theorem l1_sumA_le {a lam ρ ρinf γb b : ℝ} {x x' c c' : ℕ → ℝ} {kp : ℕ}
     (hd : ∀ t, 0 ≤ deltaSeq lam ρ ρinf t) (hc : ∀ t, 0 ≤ c t ∧ c t ≤ c' t)
     (hx : ∀ t, 0 ≤ x t ∧ x t ≤ x' t) :
     sumA a lam ρ ρinf γb x c b kp ≤ sumA a lam ρ ρinf γb x' c' b kp := by
@@ -415,8 +417,6 @@ theorem sumA_le_of {a lam ρ ρinf γb b : ℝ} {x x' c c' : ℕ → ℝ} {kp : 
   refine add_le_add (Finset.sum_le_sum fun t _ => mul_le_mul_of_nonneg_right (hcx t) (hw t)) ?_
   have := mul_le_mul_of_nonneg_right (hcx kp) (hw kp)
   nlinarith [hw kp, mul_nonneg (hc kp).1 (hx kp).1]
-
-namespace NumQ
 
 variable (Q : NumQ) (E : EntryQ)
 
@@ -453,12 +453,12 @@ def okL1 (σ m₀ : Fin 8 → ℚ) (Xs : ℚ) : Bool :=
 
 variable {Q E}
 
-theorem four_rpow : (2 : ℝ) ^ (2 * (2 * (1 : ℝ))) = 16 := by
+theorem l1_four_rpow : (2 : ℝ) ^ (2 * (2 * (1 : ℝ))) = 16 := by
   rw [show (2 * (2 * (1 : ℝ))) = ((4 : ℕ) : ℝ) by norm_num, Real.rpow_natCast]
   norm_num
 
 /-- The real stage constants against their mirrors. -/
-theorem stage_bounds (hQ : Q.toA.Wf) (hE : E.toA.Wf) (hei : Ent.einv ≤ (E.ei : ℝ)) (s : ℕ) :
+theorem l1_stage_bounds (hQ : Q.toA.Wf) (hE : E.toA.Wf) (hei : Ent.einv ≤ (E.ei : ℝ)) (s : ℕ) :
     (0 ≤ (stageL1 Q.toA E.toA s).CE ∧ (stageL1 Q.toA E.toA s).CE ≤ (Q.stCE E s : ℝ)) ∧
     (∀ i, 0 ≤ (stageL1 Q.toA E.toA s).rate i ∧
       (stageL1 Q.toA E.toA s).rate i ≤ (Q.stRate E s i : ℝ)) ∧
@@ -490,7 +490,7 @@ theorem stage_bounds (hQ : Q.toA.Wf) (hE : E.toA.Wf) (hei : Ent.einv ≤ (E.ei :
       rw [Q.cast_inp, StepQ.cast_CDK]
 
 /-- The real errors are bounded by their mirrors. -/
-theorem x_bounds (hQ : Q.toA.Wf) (hE : E.toA.Wf) (hei : Ent.einv ≤ (E.ei : ℝ)) {Xs : ℚ}
+theorem l1_x_bounds (hQ : Q.toA.Wf) (hE : E.toA.Wf) (hei : Ent.einv ≤ (E.ei : ℝ)) {Xs : ℚ}
     (hX : 0 ≤ Xs) (s : ℕ) :
     0 ≤ xSL1 Q.toA E.toA (Xs : ℝ) s ∧ xSL1 Q.toA E.toA (Xs : ℝ) s ≤ (Q.xL1 E Xs s : ℝ) := by
   induction s with
@@ -501,12 +501,12 @@ theorem x_bounds (hQ : Q.toA.Wf) (hE : E.toA.Wf) (hei : Ent.einv ≤ (E.ei : ℝ
     · show (Xs : ℝ) ≤ ((Q.xL1 E Xs 0 : ℚ) : ℝ)
       simp [xL1]
   | succ s ih =>
-    obtain ⟨⟨hc0, hc⟩, -, -⟩ := stage_bounds hQ hE hei s
+    obtain ⟨⟨hc0, hc⟩, -, -⟩ := l1_stage_bounds hQ hE hei s
     have e1 : xSL1 Q.toA E.toA (Xs : ℝ) (s + 1) =
         2 ^ (2 * (2 * Q.toA.τ)) * (stageL1 Q.toA E.toA s).CE * xSL1 Q.toA E.toA (Xs : ℝ) s ^ 2 :=
       rfl
     have hτ : Q.toA.τ = 1 := rfl
-    rw [e1, hτ, four_rpow]
+    rw [e1, hτ, l1_four_rpow]
     have e2 : ((Q.xL1 E Xs (s + 1) : ℚ) : ℝ) =
         16 * (Q.stCE E s : ℝ) * (Q.xL1 E Xs s : ℝ) ^ 2 := by
       simp [xL1]
@@ -527,7 +527,7 @@ theorem okL1_sound (hQ : Q.toA.Wf) (hei : Ent.einv ≤ (E.ei : ℝ)) {σ m₀ : 
   obtain ⟨⟨⟨⟨⟨⟨⟨h0, hkp⟩, hwf⟩, hJ0⟩, hJ1⟩, hJ1t⟩, hJ2⟩, hJ3⟩ := h
   obtain ⟨hE, -⟩ := EntryQ.wf_of hwf
   have hp0 : (Q.inp 0).toA.Pos := by rw [← Q.cast_inp]; exact hQ.pos 0
-  have hx := x_bounds hQ hE hei h0
+  have hx := l1_x_bounds hQ hE hei h0
   refine ⟨hE, ⟨hkp, by exact_mod_cast h0, ?_, fun s hs1 hs => ?_, ?_, ?_, fun i => ?_⟩⟩
   · rw [Q.cast_inp]
     exact StepQ.econd_sound hp0 hE hei h0 hJ0
@@ -543,7 +543,7 @@ theorem okL1_sound (hQ : Q.toA.Wf) (hei : Ent.einv ≤ (E.ei : ℝ)) {σ m₀ : 
     exact this.down (hQ.pos _) (hx _).2
   · have hτ : Q.toA.τ = 1 := rfl
     have hk : Q.toA.kp = Q.kp := rfl
-    rw [hτ, four_rpow, hk]
+    rw [hτ, l1_four_rpow, hk]
     have hC : (Q.toA.stage Q.kp).CE = ((Q.inp Q.kp).CE : ℝ) := by
       show (Q.toA.inp Q.kp).CE = _
       rw [Q.cast_inp, StepQ.cast_CE]
@@ -556,8 +556,8 @@ theorem okL1_sound (hQ : Q.toA.Wf) (hei : Ent.einv ≤ (E.ei : ℝ)) {σ m₀ : 
     refine le_trans ?_ h3
     exact mul_le_mul_of_nonneg_left (hx _).2 (by positivity)
   · have hd : ∀ t, 0 ≤ deltaSeq 3 Q.toA.ρ Q.toA.ρinf t := fun t => (hQ.δ_pos t).le
-    have hle := sumA_le_of (a := 2 * Q.toA.τ) (γb := Q.toA.γb) (b := 2 * Q.toA.τ + (jA i : ℝ))
-      (kp := Q.toA.kp) hd (fun t => (stage_bounds hQ hE hei t).2.1 i) hx
+    have hle := l1_sumA_le (a := 2 * Q.toA.τ) (γb := Q.toA.γb) (b := 2 * Q.toA.τ + (jA i : ℝ))
+      (kp := Q.toA.kp) hd (fun t => (l1_stage_bounds hQ hE hei t).2.1 i) hx
     have hcast : sumA (2 * Q.toA.τ) 3 Q.toA.ρ Q.toA.ρinf Q.toA.γb
         (fun t => (Q.xL1 E Xs t : ℝ)) (fun t => (Q.stRate E t i : ℝ))
         (2 * Q.toA.τ + (jA i : ℝ)) Q.toA.kp = (Q.sumL1 E Xs i : ℝ) := by
@@ -573,7 +573,7 @@ theorem okL1_sound (hQ : Q.toA.Wf) (hei : Ent.einv ≤ (E.ei : ℝ)) {σ m₀ : 
     exact (add_le_add le_rfl (hle.trans hcast.le)).trans h4
 
 /-- The closeness constant of the entry branch, in rational form. -/
-theorem sumD_le (hQ : Q.toA.Wf) (hE : E.toA.Wf) (hei : Ent.einv ≤ (E.ei : ℝ)) {Xs : ℚ}
+theorem sumDL1_le (hQ : Q.toA.Wf) (hE : E.toA.Wf) (hei : Ent.einv ≤ (E.ei : ℝ)) {Xs : ℚ}
     (hX : 0 ≤ Xs) :
     sumA (2 * Q.toA.τ) 3 Q.toA.ρ Q.toA.ρinf 1 (xSL1 Q.toA E.toA (Xs : ℝ))
       (fun s => (stageL1 Q.toA E.toA s).CD) (2 * Q.toA.τ) Q.toA.kp ≤
@@ -581,9 +581,9 @@ theorem sumD_le (hQ : Q.toA.Wf) (hE : E.toA.Wf) (hei : Ent.einv ≤ (E.ei : ℝ)
   have hd : ∀ t, 0 ≤ deltaSeq 3 Q.toA.ρ Q.toA.ρinf t := fun t => (hQ.δ_pos t).le
   have hc : ∀ t, 0 ≤ (stageL1 Q.toA E.toA t).CD ∧
       (stageL1 Q.toA E.toA t).CD ≤ (Q.stCD E t : ℝ) := fun t => by
-    rw [(stage_bounds hQ hE hei t).2.2]
+    rw [(l1_stage_bounds hQ hE hei t).2.2]
     refine ⟨?_, le_rfl⟩
-    rw [← (stage_bounds hQ hE hei t).2.2]
+    rw [← (l1_stage_bounds hQ hE hei t).2.2]
     rcases Nat.eq_zero_or_pos t with ht | ht
     · subst ht
       have hp0 : (Q.inp 0).toA.Pos := by rw [← Q.cast_inp]; exact hQ.pos 0
@@ -595,8 +595,8 @@ theorem sumD_le (hQ : Q.toA.Wf) (hE : E.toA.Wf) (hei : Ent.einv ≤ (E.ei : ℝ)
     · have hst : stageL1 Q.toA E.toA t = Q.toA.stage t := by simp [stageL1, ht.ne']
       rw [hst]
       exact (hQ.pos t).CDK
-  have hle := sumA_le_of (a := 2 * Q.toA.τ) (γb := 1) (b := 2 * Q.toA.τ) (kp := Q.toA.kp) hd hc
-    (x_bounds hQ hE hei hX)
+  have hle := l1_sumA_le (a := 2 * Q.toA.τ) (γb := 1) (b := 2 * Q.toA.τ) (kp := Q.toA.kp) hd hc
+    (l1_x_bounds hQ hE hei hX)
   refine hle.trans (le_of_eq ?_)
   have hd' : ∀ t, deltaSeq 3 Q.toA.ρ Q.toA.ρinf t = (Q.δ t : ℝ) := Q.cast_δ
   have hτ : Q.toA.τ = 1 := rfl

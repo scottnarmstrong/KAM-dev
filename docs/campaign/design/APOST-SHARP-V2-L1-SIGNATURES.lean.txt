@@ -39,6 +39,13 @@ interfaces are repaired (SHARP2-FIX); it pays 0.1 orders on R1. The audited B10D
 
 This file elaborates as a `.lean` probe (`nice -n 5 lake env lean`) against the B10a/B10b modules and B9;
 the `sorry` bodies are the B10c targets. The F1–F7 dispositions are in the design note, §9.
+
+SHARP2-B10C: re-elaborated unchanged against `sharp-v2` at 5c55a5e0 (B9 with the PLCERT follow-ups:
+`NumA.bbar`, `Cert.bar` at `bbar s`); no declaration changed. The six targets are proved, verbatim, in
+`KAM.Sharp2.L1.EntryScheme` (`schemeAL1_isNewton`, `routeAOkL1.runData`), `KAM.Sharp2.L1.G1A`
+(`g1_v2A_l1`), `KAM.Iso.Sharp2.L1.Scheme` (`routeAOkIL1.runData`, `schemeIAL1_isNewton`) and
+`KAM.Iso.Sharp2.L1.G1A` (`iso_g1_v2A_l1`); the definitions are in those modules and
+`KAM.Sharp2.L1.EntryA`.
 -/
 
 noncomputable section

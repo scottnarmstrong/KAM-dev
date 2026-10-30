@@ -235,7 +235,7 @@ theorem cAL1_core {𝔅 : Set ((Fin 2 → ℂ) × (Fin 2 → ℂ))}
     exact (h6 θ hθ).trans_eq (by norm_num)
   · intro θ hθ
     refine (h7 θ hθ).trans ?_
-    have hle := NumQ.sumD_le hQ hEw einv_le_l1 hXs.le
+    have hle := NumQ.sumDL1_le hQ hEw einv_le_l1 hXs.le
     rw [V.numQ_toA] at hle
     have hc2 : c2AL1 V.numA l1Entry.toA l1Xs ≤
         (1 / 50) ^ 2 * (V.numQ.sumDL1 l1Entry l1Xs : ℝ) / ((l1Xs : ℝ) * (333 / 100000) ^ 4) := by

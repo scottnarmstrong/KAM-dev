@@ -32,6 +32,19 @@ namespace KAM.Sharp2.Examples
 
 open KAM KAM.Certificate KAM.CertificateSharp
 
+/-- The data of a fibered `Γ_∞` claim at `ω*`. -/
+structure GInfData where
+  /-- The loss of `Γ_∞(ω*, δ)`. -/
+  δ : ℚ
+  /-- The cut-off of the fibers. -/
+  N : ℕ
+  /-- A rational upper bound of `e^{-2πδ}`. -/
+  E1 : ℚ
+  /-- The claimed bound. -/
+  claim : ℚ
+
+namespace GInfData
+
 /-- The centre of the enclosure of `ι`. -/
 def iotaC : ℚ := 137430725939 / 10 ^ 12
 
@@ -45,19 +58,6 @@ theorem abs_iota_sub_le : |iota - (iotaC : ℝ)| ≤ (iotaR : ℝ) := by
   simp only [iota, iotaC, iotaR]
   push_cast
   constructor <;> linarith
-
-/-- The data of a fibered `Γ_∞` claim at `ω*`. -/
-structure GInfData where
-  /-- The loss of `Γ_∞(ω*, δ)`. -/
-  δ : ℚ
-  /-- The cut-off of the fibers. -/
-  N : ℕ
-  /-- A rational upper bound of `e^{-2πδ}`. -/
-  E1 : ℚ
-  /-- The claimed bound. -/
-  claim : ℚ
-
-namespace GInfData
 
 variable (d : GInfData)
 
