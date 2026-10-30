@@ -1430,6 +1430,12 @@ public import KAM.Sharp2.Data
 public import KAM.Sharp2.Engine
 public import KAM.Sharp2.EngineArith
 public import KAM.Sharp2.Geometry
+public import KAM.Sharp2.L1.Data
+public import KAM.Sharp2.L1.Norms
+public import KAM.Sharp2.L1.NormsCauchy
+public import KAM.Sharp2.L1.NormsProduct
+public import KAM.Sharp2.L1.Solve
+public import KAM.Sharp2.L1.SolveDefect
 public import KAM.Sharp2.ModConstants
 public import KAM.Sharp2.ModConstantsBd
 public import KAM.Sharp2.ModConstantsData
