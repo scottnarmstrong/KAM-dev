@@ -277,3 +277,8 @@ SOURCE line.
 
 ## Change log
 - 2026-10-30: initial specification (wave 1: W0–W3 and the headline).
+
+## Sub-orchestrator rulings
+- **2026-10-30 (kam-d4):** `KAM.IsDiophantine` (`kam.IsDiophantine.v1`) is kept as the 13th anchor
+  `bpW:wh:dioph#IsDiophantine`, following the I/P precedent. It is an existing frozen manifest anchor that the frozen
+  `nlw2` imports, so nothing new is frozen.
