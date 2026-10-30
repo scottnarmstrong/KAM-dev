@@ -14,7 +14,8 @@ import Mathlib.Tactic.Linarith
 /-!
 # Separation of the small divisors and the shell sums `S_N`
 
-For `ω` `(γ, τ)`-Diophantine, the reals `k·ω` with `0 < |k|₁ ≤ N` are pairwise `γ (2N)^{-τ}`-separated
+For `ω` `(γ, τ)`-Diophantine, the reals `k·ω` with `0 < |k|₁ ≤ N` are pairwise
+`γ (2N)^{-τ}`-separated
 and have modulus at least `γ N^{-τ}`. Rüssmann's counting lemma then gives
 `∑_{0<|k|₁≤N} |k·ω|⁻² ≤ 2 (1 + 2^τ) γ⁻² N^{2τ}` (`KAM.sum_inv_sq_frequencyDot_le`).
 -/

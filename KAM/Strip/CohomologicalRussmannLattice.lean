@@ -51,7 +51,8 @@ theorem abel_finite [DecidableEq ι] (F : Finset ι) (m : ι → ℕ) (a : ι �
     ∑ k ∈ F, a k * w (m k) =
       ∑ N ∈ Finset.Ico 1 M, (w N - w (N + 1)) * ∑ k ∈ F.filter (fun k => m k ≤ N), a k +
         w M * ∑ k ∈ F, a k := by
-  have h1 : ∀ N, ∑ k ∈ F.filter (fun k => m k ≤ N), a k = ∑ k ∈ F, a k * (if m k ≤ N then 1 else 0) := by
+  have h1 : ∀ N, ∑ k ∈ F.filter (fun k => m k ≤ N), a k =
+      ∑ k ∈ F, a k * (if m k ≤ N then 1 else 0) := by
     intro N
     rw [Finset.sum_filter]
     exact Finset.sum_congr rfl fun k _ => by split_ifs <;> simp
@@ -153,7 +154,8 @@ theorem sum_inv_sq_exp_le {ω : Fin n → ℝ} {γ τ δ : ℝ} (hω : Diophanti
       push_cast
       nlinarith))
   -- first part
-  have hfirst : ∑ N ∈ Finset.Ico 1 M, (w N - w (N + 1)) * ∑ k ∈ F.filter (fun k => modeNat k ≤ N), a k
+  have hfirst : ∑ N ∈ Finset.Ico 1 M,
+      (w N - w (N + 1)) * ∑ k ∈ F.filter (fun k => modeNat k ≤ N), a k
       ≤ ∑ N ∈ Finset.Ico 1 M, C * (b * R * Real.exp (-(b / 2) * N)) := by
     refine Finset.sum_le_sum fun N hN => ?_
     have hN1 : 1 ≤ N := (Finset.mem_Ico.mp hN).1
@@ -187,6 +189,40 @@ theorem sum_inv_sq_exp_le {ω : Fin n → ℝ} {γ τ δ : ℝ} (hω : Diophanti
   rw [← hRe]
   calc _ ≤ 2 * C * R + C * R := htot
     _ = 6 * (1 + 2 ^ τ) * (γ ^ 2)⁻¹ * R := by rw [hC]; ring
+
+/-- The constant of Rüssmann's cohomological estimate:
+`cohConstR n τ = (2π)⁻¹ √(2ⁿ · 6 (1 + 2^τ) (2τ/(eπ))^{2τ})`. -/
+@[expose] def cohConstR (n : ℕ) (τ : ℝ) : ℝ :=
+  (2 * Real.pi)⁻¹ *
+    Real.sqrt (2 ^ n * (6 * (1 + 2 ^ τ) * (2 * τ / (Real.exp 1 * Real.pi)) ^ (2 * τ)))
+
+theorem cohConstR_nonneg (n : ℕ) (τ : ℝ) : 0 ≤ cohConstR n τ := by
+  unfold cohConstR
+  positivity
+
+theorem cohConstR_pos (n : ℕ) {τ : ℝ} (hτ : 0 ≤ τ) : 0 < cohConstR n τ := by
+  unfold cohConstR
+  have h1 : 0 < (2 * τ / (Real.exp 1 * Real.pi)) ^ (2 * τ) := by
+    rcases eq_or_lt_of_le hτ with h | h
+    · rw [← h]
+      simp
+    · exact Real.rpow_pos_of_pos (by positivity) _
+  have h2 : 0 < 2 ^ n * (6 * (1 + 2 ^ τ) * (2 * τ / (Real.exp 1 * Real.pi)) ^ (2 * τ)) := by
+    positivity
+  exact mul_pos (by positivity) (Real.sqrt_pos.mpr h2)
+
+theorem lattice_bound_eq_russmann {τ δ : ℝ} (hτ : 0 ≤ τ) (hδ : 0 < δ) :
+    (2 * τ / (Real.exp 1 * (Real.pi * δ))) ^ (2 * τ) =
+      (2 * τ / (Real.exp 1 * Real.pi)) ^ (2 * τ) / (δ ^ τ) ^ 2 := by
+  have h1 : 2 * τ / (Real.exp 1 * (Real.pi * δ)) = 2 * τ / (Real.exp 1 * Real.pi) / δ := by
+    field_simp
+  have hτ' : 0 ≤ 2 * τ / (Real.exp 1 * Real.pi) := by positivity
+  have hD : (δ ^ τ) ^ 2 = δ ^ (2 * τ) := by
+    rw [← Real.rpow_natCast, ← Real.rpow_mul hδ.le]
+    congr 1
+    push_cast
+    ring
+  rw [h1, Real.div_rpow hτ' hδ.le, hD]
 
 end KAM
 
