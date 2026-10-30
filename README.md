@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 10:22 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **273,562 lines of Lean** of an estimated ≈ 275,000
+> **Last updated: 2026-10-30 10:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **273,562 lines of Lean** of an estimated ≈ 276,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -214,17 +214,17 @@ Overall, everything together: 96.8 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **273,562** (213,401 excluding blank lines and comments) · **+28,843** since 2026-10-29 10:20 UTC |
-| Written on agent branches, not yet landed | 0 |
+| On `main` now | **273,562** (213,401 excluding blank lines and comments) · **+28,843** since 2026-10-29 10:40 UTC |
+| Written on agent branches, not yet landed | 647 |
 | Generated certificate data on agent branches (numeric literals, not counted above or below) | 59,598 |
-| **Estimated total at completion** | **≈ 275,000** |
+| **Estimated total at completion** | **≈ 276,000** |
 | Estimated still to write | ≈ 1,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment; track SO is added from its design (lines on `main` plus the line estimates of its packages not yet landed). History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 10:22 UTC from `main` at `a3c1eb85` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 10:40 UTC from `main` at `d2ec8f59` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -388,7 +388,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **socsplit** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: SO-COMPOSE-SPLIT: design audit 1 (FAIL as written: evidence, not logic; route E chaining s | `inp-socsplit` | 2 (vs `inp`) |
 | **sodata2** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: SO-DATA-2: shard-size probes (blockRows 32/16/8/4, 14 GB cap) and projection in the handof | `inp-sodata2` | 2 (vs `inp`) |
 | **sokperf** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: SO-KPERF: per-part kernel profile of a packed shard; sparse-block + D&C decode prototype | `inp-sokperf` | 3 (vs `inp`) |
-| **sopackfix** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA-2: shard-size probes (blockRows 32/16/8/4, 14 GB cap) and projection in the handof | `inp-sopackfix` | 2 (vs `inp`) |
+| **sopackfix** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-PACKFIX (D34): sparse term-driven packed products (F1) and offset-Nat mask/shift slot d | `inp-sopackfix` | 3 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
