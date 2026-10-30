@@ -1,35 +1,56 @@
 # SO-LOCK: Lean design of "the Moon stays locked in synchronous rotation forever"
 
-**Status:** design, 30 October 2026 (package DESIGN-LOCK, branch `inp-lockdesign`). No proofs, nothing frozen.
-Governing decisions: D45 (route (a′), statement L1, N = 65, certified periodic orbit, no Birkhoff) and its
-addendum (the headline names ψ* explicitly), D29/D34–D44 for the certifier and the SO stack. Source study:
-[`SO-LOCK-SCOPE.md`](../studies/SO-LOCK-SCOPE.md). Signatures: `.drafts/design/SOLockSignatures.lean`
-(elaborated, only `sorry` warnings, §1.6). Owner-facing statements: [`FREEZE-PROPOSAL-LOCK.md`](FREEZE-PROPOSAL-LOCK.md).
+**Status:** design, revision 2, 30 October 2026 (package DESIGN-LOCK, branch `inp-lockdesign`). No proofs, nothing
+frozen.
 
-Notation (period-one units, the frozen model `soField` on x = (q, p, φ)): ψ = q − φ (turns), q̇ = p,
-ṗ = −soVq(q, φ), φ̇ = 1. A *synchronous orbit* is ψ(φ) with q(t) = φ(t) + ψ(φ(t)), p = 1 + ψ′(φ),
-equivalently ψ″(φ) = −soVq(φ + ψ(φ), φ).
+- **Revision 2** answers design audit 1 ([`SO-LOCK-design-audit-1.md`](SO-LOCK-design-audit-1.md), FAIL: F1–F3,
+  N1–N5). It adopts the main orchestrator's change to F1 (total real-preserving `sqrtE`) and the LOCK-GEN-1
+  numerics. The response table is in §9.
+- **Governing decisions:**
+  - D45: route (a′), statement L1, N = 65, certified periodic orbit, no Birkhoff;
+  - its addendum: the headline names ψ*;
+  - D29/D34–D44: the certifier and the SO stack.
+- **Sources:**
+  - [`SO-LOCK-SCOPE.md`](../studies/SO-LOCK-SCOPE.md);
+  - `inp-lockgen:docs/tracks/SO/studies/LOCK-GEN-NUMERICS.md` and `.drafts/handoff-LOCK-GEN-1.md` (LOCK-GEN-1).
+- **Lean text:** `.drafts/design/SOLockSignatures.lean`, 342 lines. It elaborates with 29 `sorry` warnings and no
+  other diagnostic (§1.6).
+- **Owner-facing statements:** [`FREEZE-PROPOSAL-LOCK.md`](FREEZE-PROPOSAL-LOCK.md).
+
+**Notation.** Period-one units, in the landed model `soField` on x = (q, p, φ). `soField` is approved for freezing
+by D40 but **not yet frozen**: there is no `KAM/Frozen/SpinOrbit`.
+
+- ψ = q − φ, in turns.
+- q̇ = p, ṗ = −soVq(q, φ), φ̇ = 1.
+- A *synchronous orbit* is a function ψ(φ) with q(t) = φ(t) + ψ(φ(t)) and p = 1 + ψ′(φ). Equivalently,
+  ψ″(φ) = −soVq(φ + ψ(φ), φ).
 
 ## 0. Summary
 
-- **Headline** `lunar_sync_lock`: for every initial state with libration action around ψ* below I_in, the solution is
-  global and unique and, for all real t, |ψ(t) − ψ*(φ(t))| ≤ Rψ, |p(t) − 1 − ψ*′(φ(t))| ≤ Rp and |q(t) − φ(t)| < 1/4.
-  ψ* = `lunarSyncOrbit` is a **named definition**, characterised as *the unique odd one-periodic synchronous orbit*.
-- **Key design finding.** The synchronous orbit is unique *globally* (no pinning ball, no Fourier data in the
-  statement). The force is globally Lipschitz in q with constant L = 16π² ε Σ|Aₘ| ≈ 0.067. An odd 1-periodic
-  solution vanishes at 0 and 1/2, and the Dirichlet inverse of ∂² on [0, 1/2] has sup-norm ≤ 1/32. So the
-  fixed-point map is a contraction with factor ≈ 0.002 on *all* odd periodic continuous functions. Banach's theorem
-  then gives existence, global uniqueness and the location bound at once. This replaces the recommended
-  weighted-ℓ¹ Newton–Kantorovich, which is not needed because ε is small (§2).
-- **Route (a′) unchanged:** a rational trigonometric centre c (data, *not* in any statement), an exact centre shift,
-  elliptic polar coordinates with rational Ω, the v2 certifier `checkTorusCertificateV2 routeAV2` applied unchanged,
-  one new trusted primitive `HamExpr.sqrt`. `HamExpr` is **not frozen**: grep of `KAM/Frozen`, `manifest` finds
-  no mention, so a constructor can be added (§4).
-- **Estimate:** about 3.5–4.6k new Lean lines in about 14 files, each under 900 lines, plus data modules.
+- **Headline `lunar_sync_lock`.** Suppose the libration action of the initial state around ψ* is below 129/10000.
+  Then the solution is global and unique, and for all real t:
+  - |ψ(t) − ψ*(φ(t))| ≤ 21/100;
+  - |p(t) − 1 − ψ*′(φ(t))| ≤ 26/1000;
+  - |q(t) − φ(t)| < 1/4.
+
+  ψ* = `lunarSyncOrbit` is a named definition: the unique odd one-periodic synchronous orbit. The literals come
+  from LOCK-GEN-1's N = 65 torus and Ω = 8/65 by the rules of §1.4. They are provisional until the kernel accepts
+  the certificate.
+- **LOCK-PO.** A Banach contraction in sup norm on odd periodic functions. It gives existence, uniqueness among
+  odd orbits and the location bound, with no kernel data.
+- **Route (a′):**
+  - the LOCK-GEN centre c (data; it appears in no headline statement);
+  - an exact shift to the landed rotated frame;
+  - elliptic polar coordinates with Ω = 8/65;
+  - `checkTorusCertificateV2 routeAV2`, unchanged;
+  - one new `HamExpr` constructor `.sqrt`, with **total real-preserving semantics `sqrtE`** (F1 as changed by the
+    orchestrator). **No landed declaration's statement changes**; the landed files get only new match cases (§4.6).
+- **Estimate:** 3.6–4.8k new Lean lines, every new file under 900 lines, plus about 0.3–0.6k lines of new match
+  cases in 13 landed checker files (§4.6).
 
 ## 1. Statements
 
-### 1.1 Meaning-carrying definitions
+### 1.1 Meaning-carrying definitions (exact text in the signatures file)
 
 ```lean
 def IsSyncOrbit (ψ : ℝ → ℝ) : Prop :=
@@ -43,25 +64,19 @@ def lunarSyncOrbit : ℝ → ℝ :=
 def libAction (Ω : ℝ) (ψ : ℝ → ℝ) (x : ℝ × ℝ × ℝ) : ℝ :=
   π * (Ω * (x.1 - x.2.2 - ψ x.2.2) ^ 2 + (x.2.1 - 1 - deriv ψ x.2.2) ^ 2 / Ω)
 
-def lunarOmega : ℚ := 1644 / 10000   -- DATA (≈ 2π ω₀)
+def lunarOmega : ℚ := 8 / 65
 ```
 
-- `soVq` is landed, not frozen. If the definition is frozen, `-soVq` should be written as
-  `deriv (fun s => soV s φ) (φ + ψ φ)`, exactly as in the frozen `soField`. Recommended for the freeze: write it
-  as `(soField (φ + ψ φ, 1 + deriv ψ φ, φ)).2.1`, so that the statement mentions only frozen `soField`.
-  For owner review.
-- **Oddness** is part of the definition. It encodes reversibility. Without it, φ ↦ ψ(φ + a) shifts would not be
-  orbits anyway, because the field depends on φ; but the even-part freedom is what uniqueness needs (ψ(0) = 0 = ψ(1/2)).
-  Uniqueness among all 1-periodic (not necessarily odd) orbits is also true for the same contraction reason on
-  the periodic problem ψ″ − 0 = f. That problem is not invertible, because constants are in the kernel; it is
-  solved there by the mean condition. That variant is heavier. We keep "odd".
-- The `Classical.choose` definition is canonical because of `lunarSyncOrbit_unique`. The headline never depends on
-  the junk branch, because `lunarSyncOrbit_spec` holds.
-- **"The resonance angle stays bounded"** is written out literally in the conclusion:
-  `|(z t).1 - (z t).2.2| < 1 / 4` (ψ = q − φ; the separatrix is at 1/4). No extra definition.
-- **Solid-torus region:** not in the headline. The headline's premise is the elliptic tube `libAction Ω ψ* x < I_in`.
-  The solid torus V lives in LOCK-CONF (§5).
-- **Polar coordinates:** not in the headline (§3).
+- **The orbit equation.** For the freeze, write it as `(soField (φ + ψ φ, 1 + deriv ψ φ, φ)).2.1`, which equals
+  `-soVq …` by the landed `soField_eq` (the audit checked the bridge). The statement then mentions only the
+  definitions approved for freezing in D40.
+- **Oddness is essential.** It gives the Dirichlet values ψ(0) = ψ(1/2) = 0. Uniqueness among all one-periodic
+  orbits is **false**: q has period 1/2 in the force, so ψ + 1/2 is another orbit, namely the second synchronous
+  orientation (audit N4). The design claims uniqueness only among odd orbits.
+- **`Classical.choose`.** The definition is canonical by `lunarSyncOrbit_unique`. The fallback branch is excluded
+  by `lunarSyncOrbit_spec`.
+- **"The resonance angle stays bounded"** is written literally: `|(z t).1 - (z t).2.2| < 1 / 4`.
+- The polar coordinates and the solid torus do not appear in the headline. They are in §3 and §5.
 
 ### 1.2 Theorems for the freeze proposal
 
@@ -69,300 +84,463 @@ def lunarOmega : ℚ := 1644 / 10000   -- DATA (≈ 2π ω₀)
 theorem lunarSyncOrbit_spec : IsSyncOrbit lunarSyncOrbit
 theorem lunarSyncOrbit_unique (ψ : ℝ → ℝ) (h : IsSyncOrbit ψ) : ψ = lunarSyncOrbit
 theorem lunarSyncOrbit_bound (φ : ℝ) :
-    |lunarSyncOrbit φ| ≤ 13 / 1000000 ∧ |deriv lunarSyncOrbit φ| ≤ 1 / 10000          -- DATA
+    |lunarSyncOrbit φ| ≤ 17 / 1000000 ∧ |deriv lunarSyncOrbit φ| ≤ 27 / 200000
 theorem lunar_sync_lock (q₀ p₀ φ₀ : ℝ)
-    (h₀ : libAction lunarOmega lunarSyncOrbit (q₀, p₀, φ₀) < 11 / 1000) :            -- DATA I_in
+    (h₀ : libAction lunarOmega lunarSyncOrbit (q₀, p₀, φ₀) < 129 / 10000) :
     ∃ z : ℝ → ℝ × ℝ × ℝ, (z 0 = (q₀, p₀, φ₀) ∧ ∀ t, HasDerivAt z (soField (z t)) t) ∧
-      (∀ t, |(z t).1 - (z t).2.2 - lunarSyncOrbit (z t).2.2| ≤ 22 / 100 ∧            -- DATA Rψ
-        |(z t).2.1 - 1 - deriv lunarSyncOrbit (z t).2.2| ≤ 37 / 1000 ∧               -- DATA Rp
+      (∀ t, |(z t).1 - (z t).2.2 - lunarSyncOrbit (z t).2.2| ≤ 21 / 100 ∧
+        |(z t).2.1 - 1 - deriv lunarSyncOrbit (z t).2.2| ≤ 26 / 1000 ∧
         |(z t).1 - (z t).2.2| < 1 / 4) ∧
       ∀ y : ℝ → ℝ × ℝ × ℝ, (y 0 = (q₀, p₀, φ₀) ∧ ∀ t, HasDerivAt y (soField (y t)) t) →
         y = z
-theorem lunar_sync_lock_nonvacuous (φ₀ : ℝ) :
-    libAction lunarOmega lunarSyncOrbit
-      (φ₀ + lunarSyncOrbit φ₀, 1 + deriv lunarSyncOrbit φ₀, φ₀) < 11 / 1000
 ```
 
-`lunar_sync_lock_nonvacuous` is trivially true, because the action of ψ* itself is 0. It is kept only as the
-analogue of `lunarPLo_lt_lunarPHi`, and dropping it is recommended (owner review). The meaningful non-vacuity
-is that the tube is a nonempty open set of positive measure, which is obvious from the formula.
+`lunar_sync_lock_nonvacuous` stays in the signatures file. It is trivial (ψ* has action 0), and dropping it is
+recommended (Q4).
 
-### 1.3 Choice discussion (existential vs named orbit)
+### 1.3 Choice of the orbit name
 
-- **Rejected: an existential ψ\* with a pinning ball.** The addendum requires naming ψ*.
-- **Rejected: a ball-pinned definition** (`IsSyncOrbit ψ ∧ |ψ − c| ≤ r` with c an explicit Fourier list). It would
-  put about 20 rational coefficients into the frozen text, and it only becomes canonical once uniqueness in the ball
-  is proved.
-- **Chosen: the global characterisation.** It costs nothing extra, because the contraction gives global
-  uniqueness for free (§2), and the frozen text contains no data except the four scalar literals and Ω.
+Three options were considered:
 
-### 1.4 Literal rules (to be fixed from final LOCK-GEN data; placeholders now)
+- **An existential orbit:** rejected by the addendum.
+- **A ball-pinned predicate:** puts Fourier data into the frozen text.
+- **The global odd characterisation (chosen):** canonical through the contraction, and it carries no data.
 
-- **Ω:** the rational used in the certified polar coordinates (4 significant digits).
-- **Tube transfer to centre ψ\*.** The tori are certified around c. By the triangle inequality in the Ω-norm,
-  `sqrt_libAction_le` gives √𝓘_c ≤ √𝓘_ψ* + δ, with δ = √π(√Ω r + r′/√Ω), where r and r′ are the certified
-  sup bounds of |ψ* − c| and |ψ*′ − c′|.
-- **I_in:** the largest 3-digit rational with (√I_in + δ)² ≤ min P − disp, where min P is the graph's certified
-  lower bound g.pLo.
-- **Rψ, Rp:** the smallest 2- resp. 3-digit rationals with
-  - √((√I_out + δ)²/(πΩ)) + r ≤ Rψ;
-  - √(Ω(√I_out + δ)²/π) + r′ ≤ Rp;
+### 1.4 Literal rules and the numbers (N1: from proved rational bounds)
 
-  where I_out = max P + disp.
-- **Corollary 1/4:** Rψ + sup|ψ*| < 1/4, which needs Rψ ≤ 0.2499. At N = 65, Rψ ≈ 0.21.
-- **Sharpness caveat.** The ellipse bound on Rp is coarse: about 3.7 % against the torus's true max |p − 1| of
-  about 2.5 %, because the tori are not ellipses. A sharper Rp needs a second invariant-set description (a graph
-  in the (ψ, p) plane per φ) and is not proposed. For owner review: accept the coarse Rp, or state the band
-  through a certified sup of the Y-coordinate over the torus graph (+150 lines in LOCK-GRAPH, using
-  max over θ of Y∘K).
+**Orbit constants**, by exact rational arithmetic with π ≤ 31416/10000 and the exact rationals
+Aₘ = `soAQ m`, e = 549/10000, ε = 69/200000:
+
+- Σ|Aₘ| = 0.61973;
+- L = 16π²εΣ|Aₘ| ≤ 0.033764 (the Lipschitz constant of soVq in q);
+- η = 4πεΣ_{m≠2}|Aₘ| ≤ 5.3540·10⁻⁴ (the sup of the forcing at ψ = 0).
+
+**Contraction around 0 (§2):**
+
+- r₀ := sup|ψ*| ≤ η/(32 − L) = 1.6749·10⁻⁵ ≤ **17/10⁶**;
+- r₁ := sup|ψ*′| ≤ (η + L·r₀)/4 = 1.3399·10⁻⁴ ≤ **27/200000** (= 1.35·10⁻⁴).
+
+These are `lunarSyncOrbit_bound`, proved by `norm_num` from the majorants. The literals of revision 1,
+13/10⁶ and 1/10⁴, were not reachable by this argument (audit N1) and are replaced.
+
+**Transfer to the certified centre c:**
+
+- sup|c| ≤ Σ|c_k| = 1.23677·10⁻⁵;
+- sup|c′| ≤ 2π Σ k|c_k| = 8.0123·10⁻⁵.
+
+Hence:
+
+- r := sup|ψ* − c| ≤ 2.937·10⁻⁵;
+- r′ := sup|ψ*′ − c′| ≤ 2.152·10⁻⁴;
+- δ := √π (√Ω r + r′/√Ω) ≤ 1.106·10⁻³, with Ω = 8/65 and √Ω = 0.35082.
+
+**Rules**, with lo = g.pLo − disp and hi = g.pHi + disp the certified barrier range. The certified tube is
+`sqrt_libAction_le`: √𝓘_c ≤ √𝓘_ψ* + δ.
+
+- **I_in:** the largest 3-significant-digit rational with (√I_in + δ)² < lo.
+- **Rψ:** the smallest 2-digit rational with √(hi/(πΩ)) + r ≤ Rψ.
+- **Rp:** the smallest 3-digit rational with √(Ωhi/π) + r′ ≤ Rp.
+- **Corollary:** Rψ + r₀ < 1/4.
+
+The outputs are bounded around c and then transferred by the pointwise triangle inequality. This is not
+re-transferred through δ; revision 1 added δ twice (audit N1, "conservative").
+
+**Numbers** (LOCK-GEN-1: P ∈ [0.013238, 0.016258]; disp ≈ 10⁻³⁸ is negligible):
+
+| literal | value | margin |
+|---|---|---|
+| I_in | 129/10000 | (√0.013238 − δ)² = 0.012985 |
+| Rψ | 21/100 | √(0.016258/(π·8/65)) + r = 0.20509 |
+| Rp | 26/1000 | √(8/65 · 0.016258/π) + r′ = 0.025452 |
+| corollary | 0.21 + 1.7·10⁻⁵ < 1/4 | — |
+
+Physically, the tube reaches 66° of libration at zero spin offset (|X| ≤ √(I_in/(πΩ)) = 0.1827 turn), and the confinement is
+21/100 turn = 75.6° and 2.6 % in spin. The real Moon's forced libration (15.5″) is deep inside the tube.
+
+`lockLiteralCheck` (§7) re-verifies these inequalities from the certificate's `pLo`/`pHi` with rational majorants
+of √ and π. It is a `Bool` decided by kernel reduction in a proof term, not by `#eval`.
 
 ### 1.5 Parametric helpers (unfrozen; distinct names; hypotheses are conclusions of pending packages)
 
-These are in the signatures file:
+All of these are typed in the signatures file:
 
-- `LockBarrier Ω c Iin Iout`: an invariant graph 𝓘_c = P(α, φ). Here α = arg(i√Ω X + Y/√Ω)/(2π), where
-  `Complex.arg` is continuous off the negative real axis and the real-axis branch is handled by periodicity; see §5.
-- `lock_confinement` (LOCK-CONF);
-- `abs_le_of_libAction_lt`, `sqrt_libAction_le` (LOCK-ASSEMBLY glue).
+- `LockBarrier`, `lock_confinement`, `abs_le_of_libAction_lt`, `sqrt_libAction_le` (§5);
+- the coordinate contracts (§3);
+- the sqrt contracts (§4);
+- `LockGraphCert`, `lockBarrier_of_certV2`, `lockLiteralCheck`, `lunar_sync_lock_of_cert` (§7).
 
-Not in the signatures file (they need the new HamExpr node first): `lockBarrier_of_certV2` (LOCK-GRAPH) and
-`lunar_sync_lock_of_cert` (LOCK-ASSEMBLY, over a lawful backend). Their shapes are given in §6.
+`LockBarrier.invariant` is **produced** by `lockBarrier_of_certV2` from the certifier and the conjugacy. It is
+never assumed by a source-level theorem.
 
 ### 1.6 Elaboration
 
-`inp_sig_check.sh /root/code/KAM-inp-lockdesign .drafts/scratch/SOLockSignatures.lean` (against the `inp` build):
-11 warnings, all `declaration uses 'sorry'`, and no errors. The scratch copy was deleted, and the committed text is
-`.drafts/design/SOLockSignatures.lean`.
+The command was `inp_sig_check.sh /root/code/KAM-inp-lockdesign .drafts/scratch/SOLockSignatures.lean`, slot 1,
+16:21 UTC, against the `inp` build.
 
-## 2. The certified periodic orbit (LOCK-PO)
+- Exit 0, with 29 warnings `declaration uses 'sorry'` and no other diagnostic.
+- The first run of revision 2 failed on a missing `open KAM.CertificateSharp.V2` (`routeAV2`). That was fixed and
+  re-run.
+- The scratch copy was deleted.
+- Three placeholder definitions have `sorry` bodies, marked in their docstrings. They cannot be written before
+  the `.sqrt` constructor and the checker exist:
+  - `lockHamExpr`;
+  - `sqrtWitnessRadius`;
+  - `lockLiteralCheck`.
 
-### 2.1 Method chosen: Banach contraction in sup norm on odd periodic functions
+## 2. The synchronous periodic orbit (LOCK-PO)
 
-- **Space.** B = {d : ℝ → ℝ continuous, 1-periodic, odd}. Use the sup norm, realised as `BoundedContinuousFunction`
-  restricted to the closed subspace. This is a complete metric space (closed subset of `ℝ →ᵇ ℝ`).
-- **Map.** Let G be the Dirichlet Green operator on [0, 1/2], extended oddly and periodically:
-  (G f)(φ) = ∫₀^φ ∫₀^s f − 2φ ∫₀^{1/2} ∫₀^s f on [0, 1/2]. Then (G f)″ = f, (G f)(0) = (G f)(1/2) = 0, and
-  ‖G f‖∞ ≤ ‖f‖∞/32. Given a centre c (any C² odd trigonometric polynomial; the rational LOCK-GEN centre or even
-  c = 0), set T(d) = G(−soVq(φ + c + d, φ) − c″).
-- **Contraction.** ‖T d − T e‖ ≤ (L/32)‖d − e‖, with L = 16π² ε Σ|Aₘ| ≈ 0.067, a factor of about 2·10⁻³.
-  Mathlib: `ContractingWith`, `ContractingWith.fixedPoint`, `ContractingWith.dist_fixedPoint_le`,
-  `ContractingWith.fixedPoint_unique'`; `BoundedContinuousFunction` is complete. The bound
-  ‖T 0‖ ≤ η/32 gives ‖d*‖ ≤ (η/32)/(1 − L/32).
-- **Residual η.** η ≥ sup_φ |c″(φ) + soVq(φ + c(φ), φ)|.
-  - With c = 0: η = 4πε sup|Σ Aₘ sin 2π(2 − m)φ|. This is ≤ 4πε Σ_{m≠2}|Aₘ| by the triangle inequality, with no
-    kernel arithmetic. It gives sup|ψ*| ≲ 2·10⁻⁵ against a true value of 1.2·10⁻⁵. That is enough for
-    `lunarSyncOrbit_bound` with the literal 13/10⁶ replaced by 3/10⁵ if needed.
-  - With the LOCK-GEN centre: η ≈ 10⁻¹² is certified by ball arithmetic on a 1-D trig expression (existing
-    `Slp.balls` with one angle), and r ≈ 3·10⁻¹⁴.
-  - **Recommendation:** use c = 0 for the orbit theorem. It is purely analytic, with no data. Then
-    ψ* − c_gen ≤ |ψ*| + |c_gen| ≈ 2.5·10⁻⁵ in the tube transfer of §1.4, so δ ≈ √π·√Ω·2.5·10⁻⁵ ≈ 2·10⁻⁵. That
-    is negligible against √I ≈ 0.1. The certified-centre variant is kept as a fallback if the margins are tight.
-- **Regularity.** The fixed point d* is continuous, so T(d*) = G(continuous) is C², and d* = T d* is C². The
-  equation holds pointwise, and oddness and periodicity hold by construction. The derivative bound uses
-  |(G f)′| ≤ ‖f‖∞/4.
-- **Uniqueness (global).** Let ψ satisfy `IsSyncOrbit`. Then ψ(0) = 0 and ψ(1/2) = 0 (odd + periodic), so
-  d = ψ − c solves the Dirichlet problem d″ = F(d), and d = G(d″) = T d, by uniqueness for u″ = 0 with zero
-  boundary values. So d is the fixed point.
-- **Lean cost.** 600–900 lines in `Lock/PO/{Green,Contraction,Orbit}.lean`. The main work is G: the
-  double-integral formulas, `HasDerivAt` of parametric integrals (`intervalIntegral.integral_hasDerivAt_right`), the
-  odd periodic extension, and the 1/32 and 1/4 bounds. Risk: low, and it is independent of all certificate code.
+### 2.1 Method: Banach contraction in sup norm on odd periodic functions
+
+**Space.** B = {d ∈ `ℝ →ᵇ ℝ` | d is 1-periodic and odd}. It is a closed subset of a complete space, so it is
+complete.
+
+**Map.** G is the Dirichlet inverse of ∂² on [0, 1/2], extended oddly and periodically:
+
+- (G f)(φ) = ∫₀^φ∫₀^s f − 2φ∫₀^{1/2}∫₀^s f on [0, 1/2];
+- ‖G f‖∞ ≤ ‖f‖∞/32 and ‖(G f)′‖∞ ≤ ‖f‖∞/4.
+
+Then T(d) := G(−soVq(φ + d, φ)), centred at 0.
+
+**Contraction.** ‖T d − T e‖ ≤ (L/32)‖d − e‖ with L/32 ≈ 1.06·10⁻³.
+
+**Mathlib APIs** (checked by the audit):
+
+- `ContractingWith`, `ContractingWith.fixedPoint`, `ContractingWith.dist_fixedPoint_le`,
+  `ContractingWith.fixedPoint_unique'`;
+- completeness of `BoundedContinuousFunction`;
+- `intervalIntegral.integral_hasDerivAt_right` for G.
+
+**Location.** ‖d*‖ ≤ ‖T 0‖/(1 − L/32) ≤ (η/32)/(1 − L/32) = η/(32 − L). The bound on d*′ is |(G f)′| ≤ ‖f‖/4
+with ‖f‖ ≤ η + L‖d*‖ (§1.4).
+
+**Regularity.** d* = T d* = G(continuous) is C², and the equation holds pointwise.
+
+**Uniqueness among odd orbits.** Let ψ satisfy `IsSyncOrbit`. Odd plus periodic gives ψ(0) = ψ(1/2) = 0, and ψ″ is
+continuous. Uniqueness of the Dirichlet problem u″ = f, u(0) = u(1/2) = 0 gives ψ = G(ψ″) = Tψ, so ψ = d*.
+
+**Lean cost and risk.** 600–900 lines in `Lock/PO/{Green,Contraction,Orbit}.lean`. Risk is low. The package is
+independent of all certificate code, so **it can start now**.
 
 ### 2.2 Alternatives evaluated
 
 | route | proves | Lean | risk |
 |---|---|---|---|
-| **Banach in sup norm (chosen)** | existence, global uniqueness, location | 600–900 | low; Mathlib `ContractingWith` |
-| radii polynomial / Newton–Kantorovich in weighted ℓ¹ Fourier (brief's recommendation) | existence, local uniqueness, analytic bounds | 1.5–2.5k; needs an ℓ¹ Banach algebra of sine series, composition of `sin` with ℓ¹ series (only the `CertModel` majorant machinery exists, tied to 2-D certificates), and an inverse of the linearisation | medium–high |
-| Brouwer on the invariant disc of the time-1 map | existence only, no uniqueness, location only within the disc (≈ 0.2 turn) | ~1k plus Brouwer in 2-D (not in Mathlib) | high; useless location |
+| **Banach in sup norm (chosen)** | existence, uniqueness among odd orbits, location | 600–900 | low |
+| radii polynomial / NK in weighted ℓ¹ (LOCK-GEN-1 closes it numerically: r ∈ [2.3e-59, 1.6e-3]) | existence, local uniqueness, analytic bounds | 1.5–2.5k | medium–high: an ℓ¹ sine algebra, sin-composition, an analytic tail beyond l = 127 (LOCK-GEN caveat) |
+| Brouwer on the invariant disc | existence only, location ≈ 0.2 turn | ~1k + 2-D Brouwer (not in Mathlib) | high |
 
-Newton–Kantorovich is unnecessary here because the problem is a small perturbation of ψ″ = 0, not of a
-resonant operator: L/32 ≪ 1. The scoping study's monodromy remark (ω₀ ≈ 0.026) concerns the *libration*
-frequency, which is irrelevant to the periodic problem at frequency 1.
+The sharper NK location, 5.5·10⁻⁹ to c, is not needed: δ is dominated by r′ from the crude bound and costs only
+0.6 % of √I.
 
-## 3. Symplectic change of variables (LOCK-COORDS)
+## 3. Coordinates (LOCK-COORDS), corrected after audit F3
 
-The certificate Hamiltonian is a `HamExpr 2` on angles (α, φ) and actions (I, J̃). The clock action J̃ is
-conjugate to φ, as in `soRotHamExpr`.
+**Landed frames.**
 
-1. **Rotated frame** (landed `soRotMap`): (ψ, φ; p′, J′) with p′ = p − 1 and H′ = p′²/2 + J′ + V(ψ + φ, φ) − 1/2.
-   The constant is irrelevant.
-2. **Centre shift** by the rational odd trigonometric polynomial c (LOCK-GEN data, `lockCentre : List ℚ`), via the
-   generating function F₂ = (ψ − c(φ))(c′(φ) + Y) + φJ̃:
-   - X = ψ − c(φ), p′ = c′(φ) + Y;
-   - J′ = ∂F₂/∂φ = J̃ − c′(φ)(c′(φ) + Y) + X c″(φ) (checked here; agrees with SO-LOCK-SCOPE §2).
+- Physical: ((q, φ), (p, J)).
+- Rotated: ((Q₀, Q₁), (P₀, P₁)), with `soRotMap` mapping **rotated → physical**:
+  - (q, φ) = (Q₀ + Q₁, Q₁);
+  - (p, J) = (P₀, P₁ − P₀).
+- In the rotated frame, P₀ = p is the *physical* spin, not p − 1, and
+  H′ = soRotHC = P₀²/2 − P₀ + P₁ + V(Q₀ + Q₁, Q₁).
 
-   Lean defines both directions explicitly and proves the identity of the pulled-back 2-form. The map is
-   polynomial in (X, Y) and trigonometric in φ.
-3. **Elliptic polar coordinates:** X = √(I/(πΩ)) sin 2πα and Y = √(IΩ/π) cos 2πα, so dX∧dY = dI∧dα. The inverse is
-   I = π(ΩX² + Y²/Ω) (= `libAction Ω c`) and α = arg(…)/(2π). This is defined on the annulus
-   I ∈ (I₁, I₂) ⊂ (0, ∞).
-4. **K = H′ ∘ Φ as a `HamExpr 2`** in which √(I/π) appears through `HamExpr.sqrt (.mul (.const (1/π…)) (.action 0))`.
-   Use `.div … .pi`, because π is not rational. The trig polynomial c(φ) appears through `sinMode`/`cosMode` on the
-   key (0, k). V(ψ + φ, φ) = V(φ + c + X, φ) is expanded with `sin(a + b)` into `sin`/`cos` nodes of the
-   expression X = √(…)·sinMode(1, 0); the landed `HamExpr.sin`/`.cos` compose.
-   - Proved: `lockHamExpr_eval : (lockHamExpr d).eval z = soRotHC (lockMapC d z)` on the complex annulus domain
-     where Re(I) > 0.
-   - Proved: `lockHamExpr_clock`, the J̃ coefficient is 1, as `soRotHamExpr_clock`.
-5. **Conjugacy, real points only.** For a real solution w(t) = (α, φ, I, J̃) of X_K, Φ(w(t)) solves the rotated
-   field, hence `soField` after `soRotMapInv`. Proof: chain rule plus the symplectic identity, by direct `fderiv`
-   computation on the real annulus. This avoids the complex-analytic conjugacy. Only real-point vector fields
-   are needed, because `IsInvariantSet` is about real solutions.
-6. **Transport of the invariant set, not the flow.** The certificate gives an invariant graph I = P(α, φ) for K.
-   - LOCK-COORDS gives the converse direction: every `soField` solution y inside the annulus image maps by Φ⁻¹ to a
-     K-solution. The flow is never transported; this is the same move as `Graph/Inverse` (`soGraph_invariant`).
-   - Then K-invariance of the graph, together with the uniqueness of K solutions (C¹ on the annulus), gives
-     invariance of {𝓘_c = P(α, φ)} for `soField`, as required by `LockBarrier.invariant`.
-   - Subtlety: `IsInvariantSet` quantifies over solutions on any interval J, which may leave the annulus. Membership
-     at t₁ and continuity keep the solution in the open annulus near the graph; continuation is by the
-     connectedness argument already used in `Graph/Inverse` (`soOrbit` construction). Alternatively, construct the
-     orbit on the graph explicitly via the torus parametrisation K∞ and use the global uniqueness of `soField`
-     (`so_global_exists_unique`), as `soGraph_invariant` does. **Recommended: the latter** (copy pattern; no
-     annulus-exit reasoning).
+**Lock map.** It goes from z = ((α, φ), (I, J̃)) to the rotated frame (exact text: `lockX`, `lockY`, `lockToRotR`):
 
-## 4. `HamExpr.sqrt` (LOCK-SQRT)
+- X = √(I/(πΩ)) sin 2πα and Y = √(IΩ/π) cos 2πα;
+- Q₀ = c(φ) + X, Q₁ = φ;
+- P₀ = **1 + c′(φ) + Y**;
+- P₁ = J̃ − c′(φ)(c′(φ) + Y) + X c″(φ).
 
-- **Is `HamExpr` frozen?** No. It lives in `KAM/Certificate/Expr/Basic.lean`, and no file under `KAM/Frozen/` or
-  `manifest/` mentions it; the frozen G1 and the SO anchors talk about functions, not expressions. Adding a
-  constructor is allowed. It forces new cases in every `HamExpr` recursion: `eval`, `NonvanishingOn`,
-  `contDiffOn_eval`, `eval_add_int`, `exists_real_eval`, the SLP compiler (`Expr/Slp`), the differentiation layers
-  (`Diff`, `DiffNode`, `DiffBuild`, `DiffCalculus*`), `Compose`/`ComposeModels`, the sharp/V2 Ham checks
-  (`HamClaim`, `HamTrig`, `BallsTrig`, `SplitBounds`), and their soundness proofs. Grep before starting; any
-  exhaustive `match` breaks loudly, which is good.
-- **Semantics:** `.sqrt a ↦ (a.eval z) ^ (1/2 : ℂ)`, the principal branch (`Complex.cpow`), holomorphic on the slit
-  plane. The domain condition is extended by
-  `NonvanishingOn (.sqrt a) S := a.NonvanishingOn S ∧ ∀ z ∈ S, 0 < (a.eval z).re`.
-  `0 < re` is stronger than slit-plane membership. It is ball-checkable, and it suffices.
-  - Holomorphy: `DifferentiableAt.cpow_const` / `differentiableAt_cpow_const_of_mem_slitPlane`
-    (`Complex.slitPlane`, `0 < re → mem`).
-  - Reality: on real points a.eval is real, and with re > 0 its root is real.
-  - Translation invariance: structural.
-- **Ball rule.** If |w − s²| ≤ r < s² with s > 0 rational, then |√w − s| ≤ r/s, by
-  √w − s = (w − s²)/(√w + s) and Re √w ≥ 0. This is `sqrtSem_ball` in the signatures.
-  - The checker picks s by a rational Newton step on the ball centre, then rounds outward. That is the same
-    dyadic outward rounding as D39 / SO-BALLFIX's `ballRound`: the radius is rounded up and the centre is rounded
-    to a dyadic, with the rounding error added to the radius.
-  - It also checks r < s², which certifies Re w ≥ s² − r > 0, i.e. the `NonvanishingOn` condition.
-  - Interaction with SO-BALLFIX: the new op is one more case of `ballStep`, rounded like `mul`/`inv`. Coordinate
-    with the BALLFIX landing (it is not landed; the log at 8230b16d records a clash with sharp-v2 `BallsTrig`).
-    **LOCK-SQRT must start from whatever `Expr/Ball` is on `inp` after BALLFIX lands**, or own the merge.
-- **Jet / derivative rules.** d√f = f′/(2√f). The differentiation layer emits `.div f′ (.mul 2 (.sqrt f))`, reusing
-  the landed `div` soundness; second derivatives follow by the same rule. No new jet primitive.
-- **Composition witness** (the analogue of `ExpWitness`, for the model-level `Compose` path): a Fourier model W with
-  checked ‖W·W − f‖ ≤ ε_W and ‖W − W₀‖ < |W₀| (W₀ the mean). Soundness: on the strip, √f = W + E with
-  ‖E‖ ≤ ε_W / (2|W₀| − 2‖W − W₀‖ − …), by the same algebra as the ball rule with norms in place of absolute values.
-  The rule reads ‖√f − W‖ ≤ ‖f − W²‖ / inf|√f + W|, and inf|√f + W| ≥ 2(|W₀| − ‖W − W₀‖) − ‖√f − W‖ is closed by
-  a quadratic inequality that the checker verifies rationally.
-- **V2 interaction.** `HamClaim` (claimed |DH|, |D²H| …) is checked against SLP balls, so it needs nothing new
-  beyond the ball and jet cases. `BallsTrig`/`SplitBounds` get the extra case. The route witnesses are unchanged.
-  The certificate format gains one SLP opcode; that is not a statement change.
-- **Soundness obligations:** (i) eval/holomorphy/reality/translation for the new node; (ii) `ballStep` sqrt case
-  ⊆ ball; (iii) diff emission correct on {re > 0}; (iv) composition witness sound; (v) all existing soundness
-  theorems re-proved with the new case. Independent audit like AUDIT-C6-1 (D45).
-- **Cost:** 900–1500 lines across `Expr/Sqrt.lean`, `Expr/BallSqrt.lean`, `Model/SqrtWitness.lean`, plus about
-  30–80 lines of new cases in about 12 existing files. Those edits fall outside track SO's files, so the
-  orchestrator must assign them (D34-style checker change).
+**Symplecticity.**
 
-## 5. Confinement (LOCK-CONF)
+- The shift comes from F₂(Q; Y, J̃) = (Q₀ − c(Q₁))(1 + c′(Q₁) + Y) + Q₁J̃. That gives P₁ = J̃ − c′(1 + c′ + Y) + Xc″.
+- `lockToRotR` drops the summand −c′(φ). This is a function of φ alone: the shear P₁ ↦ P₁ + f(Q₁) is symplectic,
+  since f′ dQ₁∧dQ₁ = 0. Dropping it gives the audit's cleaner Hamiltonian.
+- The 2-form sign (corrected): dY∧dX = dI∧dα, equivalently dX∧dY = dα∧dI. This is compatible with the frozen
+  convention Σ dIᵢ∧dθᵢ, in which X_H = (∂_I H, −∂_θ H) (`KAM.hamiltonianVectorField`).
 
-- **Region.** V = {x | 𝓘_c(x) < r₀} ∪ {x | r₀/2 < 𝓘_c(x) ∧ 𝓘_c(x) < P(α(x), φ)}, with r₀ = I_in (= `LockBarrier.lower`
-  bound).
-  - α(x) is continuous on {𝓘_c > 0} as a map to the circle. Implement the composite P(α(x), φ) as
-    P̃(u, v, φ), with (u, v) = (√Ω X, Y/√Ω)/|·| on the unit circle and P̃ continuous there.
-  - `Complex.arg` jumps on the negative axis, but P(·, φ) is 1-periodic, so P ∘ (arg/2π) is continuous; this is
-    proved via `Complex.exp`-periodicity or `Circle`.
-  - **Design decision:** state `LockBarrier.invariant` with `Complex.arg` (the signatures) and prove a lemma
-    `continuousOn_P_arg` once.
-- **Openness:** the two pieces are open (continuity of 𝓘_c, and of P∘α on {𝓘_c > r₀/2}).
-- **Frontier:** frontier V ⊆ {𝓘_c = P(α, φ)}, because P ≥ I_in = r₀ gives frontier of the first piece ∩ closure V
-  ⊆ interior. The proof is the same closure computation as `so_confinement`.
-- **Barrier:** `gen_barrier` with F = soField, W = G = univ, S = the invariant graph, and z₀ ∉ S since
-  𝓘_c(x₀) < I_in ≤ P. Global existence and uniqueness come from `so_global_exists_unique`.
-- **Conclusion:** ∀ t, 𝓘_c(z t) < I_out (V ⊆ {𝓘_c < I_out}), then `abs_le_of_libAction_lt`.
-- **Glue in LOCK-ASSEMBLY:** the premise 𝓘_ψ*(x₀) < I_in implies 𝓘_c(x₀) < g.pLo − disp, and the transfer back
-  to ψ* gives the conclusion (§1.4).
-- **Cost:** 350–550 lines.
+**Transformed Hamiltonian** (`lockHamiltonianR`):
+
+K = H′ ∘ lockToRotR = J̃ + Y²/2 − c′²/2 + Xc″ + V(φ + c + X, φ) − 1/2.
+
+To check: P₀²/2 − P₀ = (c′ + Y)²/2 − 1/2, and adding P₁ gives the formula.
+
+**Physical projection** (`lockToPhysicalR`): soRotMap ∘ lockToRotR without the clock action, i.e.
+(φ + c + X, 1 + c′ + Y, φ). The lemma is `lockToPhysicalR_eq`.
+
+**Contracts** (all typed in the signatures file):
+
+- `libAction_lockToPhysicalR`: 𝓘_c ∘ Φ = I for I ≥ 0.
+- `lockToPhysicalR_surj`: the explicit inverse on {𝓘_c > 0}, with angle arg(Y/√Ω + i√Ω X)/2π and action
+  `libAction`.
+- `lock_conjugacy` (hΩ, **hc : ContDiff ℝ 3 c**, I > 0): fderiv Φ · X_K = soField ∘ Φ. C³ is needed because the
+  P₁ component contains c″, whose derivative enters through ∂_φ K. The lock centre is a trigonometric polynomial
+  (`lockCentre_contDiff`, C^∞).
+- **Complex side** (`lockToRotC`): the same formulas with `sqrtE` and the explicit complex centre and derivatives
+  `lockCentreC`, `lockCentreDC`, `lockCentreDDC`. They are written as sine/cosine sums, not `deriv`.
+  - `lockToRotC_ofReal` (I > 0) ties it to `lockToRotR (lockCentre cs)`.
+  - `lockHamExpr_eval` holds **for all z**, because `sqrtE` is total: (lockHamExpr Ω cs).eval z = soRotHC
+    (lockToRotC Ω cs z).
+  - `lockHamExpr_clock` holds on 0 < Re I.
+
+**Expression.** `lockHamExpr` is written with:
+
+- `.sqrt (.div (.mul (.const (1/Ω)) (.action 0)) .pi)` and its Ω-twin for √(I/(πΩ)) and √(IΩ/π);
+- `sinMode`/`cosMode` on keys (1, 0) for sin/cos 2πα and (0, k) for the centre;
+- V expanded through the landed `.cos`/`.sin` nodes of the composite argument 2π(2(c + X) + (2 − m)φ).
+
+**Invariant-set transport.** Only the invariant set is transported, never the flow. LOCK-GRAPH builds, for each
+point of the graph, the physical orbit `Φ(K∞(θ + tω))`:
+
+- it is a `soField` solution by `lock_conjugacy`;
+- it is unique by `so_global_exists_unique`.
+
+This is the pattern of `Graph/Inverse.lean:223–236` (`soGraph_invariant`). No global inverse polar angle is
+needed, and no annulus-exit argument either.
+
+## 4. `HamExpr.sqrt` (LOCK-SQRT), revised for F1 (orchestrator's change) and F2
+
+### 4.1 Semantics: total and real-preserving (F1)
+
+```lean
+def sqrtE (z : ℂ) : ℂ := if z.im = 0 ∧ z.re ≤ 0 then 0 else z ^ (1 / 2 : ℂ)
+```
+
+- **Like Lean's 0⁻¹ = 0.** It is 0 on the closed nonpositive real axis and the principal root elsewhere.
+- **Reals go to reals.** A real x ≤ 0 goes to 0; a real x > 0 goes to the real root. So the landed
+  `HamExpr.exists_real_eval` and `HamExpr.eval_real` **stay true unconditionally with their text unchanged**: one
+  new proof case each, `sqrtE_ofReal`. The consumer `TorusCertificate.ham_structural` (`Sound/Ham.lean:77`) is
+  untouched.
+- **Holomorphy.** `sqrtE` agrees with the principal root on `Complex.slitPlane`, which is open, so it is
+  holomorphic there (`differentiableAt_sqrtE`). Proof: `DifferentiableAt.cpow_const` from
+  `Mathlib.Analysis.SpecialFunctions.Pow.Deriv`, plus eventual equality. Revision 1 cited a nonexistent name (N3).
+  In particular `sqrtE` is holomorphic on the certified region Re z > 0.
+- **Further lemmas:** `sqrtE_sq` (on the slit plane), `sqrtE_re_nonneg` (everywhere), and `hasDerivAt_sqrtE`
+  (Re > 0, derivative 1/(2√z)).
+
+### 4.2 Domain safety (like `inv`)
+
+- Revision 1's `NonvanishingOn` change is withdrawn: `HamExpr.NonvanishingOn` is not modified.
+- Instead, the new `SlpOp.sqrt a` gets a certified condition `SlpSqrtGood n S ops`: every sqrt operand has
+  re > 0 on S. This is the analogue of `SlpInvGood` (`Expr/Ball.lean:380`), and it comes with
+  `Slp.sqrtGood_of_balls`.
+- Analyticity of the compiled program is proved under `SlpInvGood ∧ SlpSqrtGood`, exactly as the inv case is.
+  At the `HamExpr` level, `contDiffOn_eval`'s premise `NonvanishingOn` does not mention sqrt.
+- The statement of `HamExpr.contDiffOn_eval` therefore cannot get a sqrt case without a premise. **It keeps its
+  text.** Its `.sqrt` case is proved only for expressions whose sqrt arguments are certified; otherwise it needs a
+  premise.
+
+**Resolution.** Extend `NonvanishingOn` with a `.sqrt` match arm, i.e. *add a new equation for the new
+constructor*:
+
+```lean
+| .sqrt a, S => a.NonvanishingOn S ∧ ∀ z ∈ S, 0 < (a.eval z).re
+```
+
+- This changes no existing equation, so no landed statement's text changes, and no instance becomes false.
+- `contDiffOn_eval` then gets its new case from `differentiableAt_sqrtE`.
+- `checkHamBounds_sound` must produce `NonvanishingOn` for sqrt nodes from `SlpSqrtGood` (new lemma
+  `nonvanishingOn_of_sqrtGood`), as it does today for `div` from `SlpInvGood`.
+
+### 4.3 Ball rule (outward rounded)
+
+`sqrtE_ball`: |z − s²| ≤ r < s² and s > 0 give 0 < Re z and |√z − s| ≤ r/s.
+
+**The `ballStep` sqrt case:**
+
+1. From the operand ball (m, ρ) with ρ < Re m, compute a dyadic s ≈ √|m| by a rational Newton step.
+2. Bound r ≥ |m − s²| + ρ, rounded up.
+3. **Check r < s²**, which certifies Re > 0 on the ball. Failure returns `none`, as the inv test does.
+4. Output the ball (s, r/s rounded up), using the same outward dyadic rounding as the D39 `ballRound` (BALLFIX)
+   for `mul`/`inv`.
+
+New lemmas: `ballStep_sqrt_sound` and the `SlpSqrtGood` prefix lemma (the analogue of `ballsAux_prefix_inv`).
+
+### 4.4 Jet and derivative rules
+
+- d√f = f′/(2√f). The differentiation layer (`Diff`, `DiffNode`, `DiffBuild`, `DiffCalculus`, `DiffCalculus3`)
+  emits `.div f′ (.mul (.const 2) (.sqrt f))` and reuses the `div`/`inv` soundness.
+- The new node-level lemma is `hasDerivAt_sqrtE` on Re > 0.
+- The second and third derivatives used by `DiffCalculus3` follow by re-differentiating the emitted expression.
+  No new jet primitive is introduced.
+
+### 4.5 Composition witness (F2: positive real anchor)
+
+Revision 1's witness accepted the opposite root (the audit's counterexample: f = 1, W = −1). The replacement:
+
+- **Witness:** `SqrtWitness α := {poly : CertPoly α, anchor s : ℚ, margin d : ℚ}`.
+- **Checker:** `sqrtWitnessRadius n W cfg g S : Option α`. It checks, all with outward-rounded model arithmetic:
+  1. 0 ≤ d < s;
+  2. ‖W − s‖_strip ≤ d (the model sup bound of `poly − s`);
+  3. ‖g − W²‖ ≤ ε;
+  4. ‖g − s²‖ < s², which gives Re g > 0 on the strip by the scalar ball rule.
+
+  It returns ε/(s − d), rounded up.
+- **Soundness:** `sqrtWitness_sound` concludes `(∀ θ ∈ strip, 0 < Re g θ) ∧ ⟨0, W, r⟩.Encloses (sqrtE ∘ g)`.
+  - Pointwise it reduces to `sqrtE_model_error`: Re W ≥ s − d > 0 and Re √f ≥ 0, so |√f + W| ≥ s − d and
+    |√f − W| = |f − W²|/|√f + W| ≤ ε/(s − d).
+  - The model bounds are uniform sup bounds on the strip, the same semantic norm as `CertModel.Encloses`, so no
+    coefficient-norm/pointwise mixing occurs.
+- **Use.** The torus Hamiltonian composes √ with the action model I(θ) ∈ [0.0132, 0.0163]. With s² ≈ mean I and
+  d ≈ the spread of √I (≈ 0.006 against s ≈ 0.12), the margin is ample.
+
+### 4.6 Landed files that get a new match case (N5 inventory)
+
+**No landed declaration's statement changes.** Every new obligation is a new name or a new case of an existing
+induction. Line counts are as of this revision; the cap rechecks happen in LOCK-SQRT.
+
+| landed file (lines) | new case / lemma |
+|---|---|
+| `Certificate/Expr/Basic.lean` (208) | constructor `sqrt`; `eval` arm `sqrtE`; `NonvanishingOn` arm; cases of `contDiffOn_eval`, `eval_add_int`, `exists_real_eval` |
+| `Certificate/Expr/Slp.lean` (125) | `SlpOp.sqrt`, its value, the `slpCompile` arm |
+| `Certificate/Expr/Ball.lean` (506) | `ballStep` arm, `SlpSqrtGood`, `Slp.sqrtGood_of_balls`, prefix lemma, compile/eval agreement case |
+| `Certificate/Expr/Diff.lean` (445), `DiffNode.lean` (669), `DiffBuild.lean` (343), `DiffCalculus.lean` (163), `DiffCalculus3.lean` (236) | emission arm and its soundness case |
+| `Certificate/Expr/Compose.lean` (472), `ComposeModels.lean` (432) | witness list `sqrtWit`, composition arm, soundness case |
+| `Certificate/Sound/Ham.lean` (158) | `nonvanishingOn_of_sqrtGood` use in `checkHamBounds_sound` (proof only) |
+| `CertificateSharp/Ham/BallsTrig.lean` (409) | trig-ball arm (coordinate with BALLFIX) |
+| `CertificateSharp/Kernel/Prune.lean` (222) | pass-through arm for `SlpOp.sqrt` |
+| `Certificate/Tests/Ball.lean` (84) | test arm if exhaustive |
+
+**New files:**
+
+- `Certificate/Expr/Sqrt.lean`: `sqrtE` and its lemmas;
+- `Certificate/Expr/BallSqrt.lean`;
+- `Certificate/Model/SqrtWitness.lean`.
+
+The certificate format gains one SLP opcode and an optional `sqrtWit` list. Existing certificates are unchanged:
+they contain no sqrt and their checks reduce identically.
+
+**Ownership.** These files are shared checker code, outside track SO. The orchestrator must assign LOCK-SQRT as a
+D34/D39-style checker change with an independent audit (D45). LOCK-SQRT must start from `inp` after BALLFIX
+lands, because BALLFIX is not landed and clashes with `BallsTrig`.
+
+## 5. Confinement (LOCK-CONF), unchanged by the audit (consumer PASS)
+
+**The region.** V = {𝓘_c < r₀} ∪ {r₀/2 < 𝓘_c < P(α, φ)}, with r₀ = Iin, the barrier's lower bound.
+
+- **α and the branch cut.** α = arg(Y/√Ω + i√Ω X)/2π. Since P is 1-periodic in α, P∘α is continuous on {𝓘_c > 0}
+  despite the cut of `Complex.arg`. This is one lemma, `continuousOn_P_arg`.
+- **Open and frontier.** V is open, and frontier V ⊆ {𝓘_c = P(α, φ)}, because P ≥ Iin.
+- **`gen_barrier`.** Apply it with W = G = J = univ and S = the invariant graph. The initial point is not in S
+  because 𝓘_c(x₀) < Iin ≤ P. Global existence and uniqueness come from `so_global_exists_unique`.
+- **Conclusion.** For all t, 𝓘_c(z t) < Iout, and then `abs_le_of_libAction_lt` gives the coordinate bounds.
+- **Cost.** 350–550 lines. **It can start now**, because it is parametric in `LockBarrier`.
 
 ## 6. Packages
 
-All Lean is under `KAM/SpinOrbit/Lock/`; data are under `KAM/SpinOrbit/Data/Lock*`. Every file stays below 900
-lines (cap 1500).
+The new Lean files are `KAM/SpinOrbit/Lock/**` and the three new checker files of §4.6. The exceptions are the
+landed checker files of §4.6, which get match cases only. Data live in `KAM/SpinOrbit/Data/LockN65/**`. Every new
+file is planned under 900 lines (cap 1500).
 
-| package | files | lines | depends on | notes |
+| package | files | lines | depends on | can start |
 |---|---|---:|---|---|
-| **LOCK-PO** | `Lock/PO/Green.lean`, `Lock/PO/Contraction.lean`, `Lock/PO/Orbit.lean` | 600–900 | Model, Barrier (Lipschitz of soVq) | defines `IsSyncOrbit`, `lunarSyncOrbit`; proves spec/unique/bound. **Start now**, independent |
-| **LOCK-SQRT** | `Certificate/Expr/Sqrt.lean`, `Expr/BallSqrt.lean`, `Model/SqrtWitness.lean` + cases in ~12 existing checker files | 900–1500 | BALLFIX landing | trusted-engine change, own audit; owner of checker files must be assigned |
-| **LOCK-COORDS** | `Lock/Coords/Maps.lean` (shift, polar, inverses), `Lock/Coords/Symplectic.lean`, `Lock/Coords/HamExpr.lean` (`lockHamExpr`, `_eval`, `_clock`) | 700–1000 | LOCK-SQRT (only for `HamExpr.lean`; the rest parametric) | |
-| **LOCK-GRAPH** | `Lock/Graph.lean` | 250–400 | LOCK-COORDS, V2 engine, `Graph/Inverse` pattern | `lockBarrier_of_certV2 (g : LockGraphCert α) (hc : checkTorusCertificateV2 routeAV2 g.base w = true) (hω …) (hdio …) : LockBarrier Ω c (g.pLo − disp) (g.pHi + disp)` |
-| **LOCK-CONF** | `Lock/Confine.lean` | 350–550 | Barrier, ODE | `lock_confinement`, `abs_le_of_libAction_lt`; parametric in `LockBarrier`, **start now** |
-| **LOCK-GEN** | scripts + `Data/LockN65/*.lean` (shards, as R2) | data | — | running in `KAM-inp-lockgen` |
-| **LOCK-DATA** | `Data/LockN65/Params.lean`, the certificate instance, `#eval`/`decide` replay modules | data + 200 | LOCK-GEN, LOCK-SQRT, COORDS | kernel replay at N = 65 |
-| **LOCK-ASSEMBLY** | `Lock/Assembly.lean` (`lunar_sync_lock_of_cert` over a lawful backend), `Lock/AssemblyN65.lean` (instance + literals), provider later | 300–500 | all | `sqrt_libAction_le`; Diophantine via `lunarRotFreqPlusN_isDiophantine_65` |
+| **LOCK-PO** | `Lock/PO/{Green,Contraction,Orbit}.lean` | 600–900 | Model, Barrier | now |
+| **LOCK-CONF** | `Lock/Confine.lean` | 350–550 | Barrier, ODE | now |
+| **LOCK-COORDS-R** | `Lock/Coords/{Maps,Inverse,Conjugacy}.lean` (real maps, inverse, `lock_conjugacy`, `lockCentre_contDiff`) | 600–900 | Model, Rotated | now |
+| **LOCK-SQRT** | 3 new files + cases in 13 landed files (§4.6) | 900–1500 + 300–600 | BALLFIX landed; ownership assigned | after BALLFIX |
+| **LOCK-COORDS-C** | `Lock/Coords/{Complex,HamExpr}.lean` (`lockToRotC`, `_ofReal`, `lockHamExpr`, `_eval`, `_clock`) | 400–600 | LOCK-SQRT (Expr/Sqrt only) | after SQRT's `Expr/Sqrt` |
+| **LOCK-GRAPH** | `Lock/Graph.lean` (`LockGraphCert`, `lockBarrier_of_certV2`) | 300–450 | COORDS, V2 engine, `Graph/Cert` | after COORDS-C |
+| **LOCK-GEN** | scripts, data emitter | — | — | running |
+| **LOCK-DATA** | `Data/LockN65/*.lean`: the certificate as a `def`, shards, and the kernel-checked theorems `lockN65_check : checkTorusCertificateV2 routeAV2 cert w = true := by decide`-style (proof declarations; **no `#eval` in production**, N5; diagnostic evaluation only in scripts or scratch) | data + 200 | GEN, SQRT, COORDS-C | last |
+| **LOCK-ASSEMBLY** | `Lock/Assembly.lean` (`sqrt_libAction_le`, `abs_le_of_libAction_lt`, `lockLiteralCheck` and its soundness, `lunar_sync_lock_of_cert`), `Lock/AssemblyN65.lean` (instance, literals, `lunarRotFreqPlusN_isDiophantine_65`) | 400–600 | all | glue now; instance last |
 
 **Parametric critical path:**
 
-- **Now, in parallel:** LOCK-PO, LOCK-CONF (parametric in `LockBarrier`), LOCK-COORDS/Maps+Symplectic (parametric
-  in a C² centre c and Ω), and LOCK-ASSEMBLY's glue (`sqrt_libAction_le`, and `lunar_sync_lock_of_barrier :
-  LockBarrier Ω c Iin Iout → (r, r′ bounds) → (literal inequalities) → headline shape`).
-- **After LOCK-SQRT:** COORDS/HamExpr, LOCK-GRAPH.
-- **Then:** LOCK-DATA, then the instance.
+1. Now: PO, CONF, COORDS-R, and the ASSEMBLY glue.
+2. Then: SQRT, which needs BALLFIX and an owner.
+3. Then COORDS-C, then GRAPH, then DATA, then the instance.
 
-Total: about 3.5–4.6k lines, of which 0.9–1.5k are trusted-engine lines.
+**Totals:** 3.6–4.8k new lines plus 0.3–0.6k lines of cases.
 
-## 7. Numerics under v2 at N = 65 (projection)
+## 7. Numerics under v2 at N = 65 (from LOCK-GEN-1)
 
-- **Frequency.** ω = (1/(65+g), 1) is the R2 frequency family; γ = κ/67, τ = 1. The Diophantine lemma is landed.
-- **Threshold.** Under `routeAV2` the best available route for the sharp/refined certifier is the frozen-data route,
-  ≈ 10⁻²⁰·⁹, on the R1 design inputs. The landed sharp route is ≈ 10⁻²⁵ (and 10⁻³²…⁻³⁴ in the scoping study's
-  `sharp_q` around R2).
-  - The scoping study's own threshold table used the *sharp* (`Sum.inl`) route.
-  - The polar Hamiltonian has a similar torsion (|dω/d𝓘| 0.55–0.92) and M; σK grows (the embedding has
-    amplitude ≈ 0.2 in α-units; the √ factor inflates |D²H| near the inner annulus radius).
-  - Expect a threshold of 10⁻²⁰–10⁻³⁰. Design to a residual of 10⁻³⁵ at 160–192 bits, as in the scoping study,
-    which clears every route with margin.
-- **Truncation.** At a ≈ 1.37 (74°) the decay is 0.27 decade per α-harmonic and 1.14 per φ-harmonic, giving
-  K ≈ 130, L ≈ 31 for 10⁻³⁵, about 4.0k half-terms per function (≈ 3.3× R2). For a 10⁻²⁵ target (refined
-  threshold, if it is the binding one): K ≈ 93, L ≈ 22, about 2.0k half-terms.
-- **Cost.** Products scale ≈ (half-terms)², about 11× R2 at 10⁻³⁵ (R2 replay ≈ 62k advice, 1230 shards, so
-  ≈ 0.7M advice and ≈ 14k shards). The √ node adds one Newton-ball op per Ham evaluation (negligible), and the
-  composition witness for √(I/π) along the torus adds one model product chain of the size of an `ExpWitness`
-  (≈ +10 %).
-- **Annulus.** At 74°, 𝓘 ∈ [0.012, 0.025] on the torus. The polydisc in I must avoid 0 with r < s² margin, e.g.
-  centre 0.018, radius 0.009 (ratio 0.5, which gives ‖√‖ derivative growth ≤ 1/√0.009 ≈ 10.5). This drives σB/M up
-  by ~2–3×, one more reason to aim at 10⁻³⁵.
-- **LOCK-GEN notes:** `/root/code/KAM-inp-lockgen` had no LOCK-GEN notes yet at writing; it is at `fa002b43` and
-  only holds the scoping data. The numbers above are the scoping study's projections, and LOCK-GEN's
-  high-precision run supersedes them.
+**Data.**
+
+- **Frequency.** ω = 1/(65 + g) = 0.0152397…, γ = κ/67, τ = 1. The Diophantine lemma is landed.
+- **Coordinates.** Centre `lunarLockCentre` (3 harmonics; sup|ψ* − c| = 5.5·10⁻⁹) and Ω = 8/65, the roundest
+  choice: P spread ±10 %.
+- **Torus.** The amplitude is 73.8°, P ∈ [0.013238, 0.016258], and the twist is dω/d⟨P⟩ ≈ −1.24.
+- **Annulus.** For the sqrt domain, take I ∈ [1/80, 1/60], i.e. centre 7/480 and radius 1/480 (ratio 0.14), so
+  the ball check r < s² holds with a wide margin. |d√I/dI| ≤ 1/(2√(1/80)) ≈ 4.5, which is a modest increase in
+  the majorants.
+- **Decay.** 0.29 decades per α-harmonic and 1.45 per φ-harmonic.
+- **Full support.** |k| ≤ 129, |l| ≤ 27, with a tail of 4·10⁻⁴⁰ and about 7.1k half-terms per function.
+  - The truncated residual is E_α = 4.7·10⁻³⁹ and E_I = 5.2·10⁻⁴².
+
+**Thresholds** (projections with R1's M and σ):
+
+| route | threshold |
+|---|---|
+| sharp mirror (`Sum.inl`), γ = κ/67 | 10^−28.7 |
+| v2 refined (routeARefined) | 10^−12.1 to 10^−12.9 |
+
+**Sizing recommendation.** Truncate to the threshold of the route actually witnessed, with 3 decades of headroom.
+
+| route witnessed | target | support (from the decay) | half-terms | products vs R2 (1.2k) |
+|---|---|---|---:|---:|
+| v2 refined (**recommended first**) | 10^−16 | \|k\| ≤ 55, \|l\| ≤ 11 | ≈ 1.3k | ≈ 1.2× |
+| sharp (fallback) | 10^−32 | \|k\| ≤ 110, \|l\| ≤ 22 | ≈ 5.0k | ≈ 17× |
+| full LOCK-GEN data | 10^−39 | 129 × 27 | ≈ 7.1k | ≈ 35× |
+
+- **Kernel cost.** The refined core costs about 140 s and 10.4 GB at prefix 3 (SHARP-CERTIFIER-FOR-SO). The extra
+  Ham, frame and sqrt-witness checks add roughly one `checkHamBounds` plus one model product chain (≈ +10 %).
+  - At the recommended size, the checker cost is close to R2's.
+  - At the sharp fallback, it is ≈ 17× R2's (ballpark ≈ 1M advice and ≈ 20k shards).
+  - A diamond support roughly halves every row.
+- **Caveat.** The thresholds reuse R1's M and σ, not lock-package constants. √ raises M and σB, and the twist
+  (−1.24) differs from R1's. LOCK-GEN phase 2 must compute the lock-package constants before the support is
+  fixed. If the refined margin falls below 2 decades, use the sharp row.
 
 ## 8. Decisions, risks, errata, departures
 
-**Decisions taken (reversible; owner review):**
+**Owner review** (reversible choices taken):
 
-- **(R1) ψ\* is characterised globally** (unique odd 1-periodic synchronous orbit), not ball-pinned.
-- **(R2) LOCK-PO by Banach contraction** in sup norm with c = 0, not Newton–Kantorovich in weighted ℓ¹.
-- **(R3) Coarse ellipse bounds** for Rψ, Rp (Rp ≈ 3.7 % vs the true 2.5 %).
-- **(R4) Drop `lunar_sync_lock_nonvacuous`.**
-- **(R5) Write the orbit equation through frozen `soField`** at freeze time.
-- **(R6) `NonvanishingOn` for sqrt uses `0 < re`.**
+- **Q1:** characterise ψ* globally among odd orbits.
+- **Q2:** write the orbit equation through `soField`.
+- **Q3:** accept the ellipse bounds (Rp = 2.6 % against the true 2.51 %; the earlier coarseness is gone with
+  Ω = 8/65).
+- **Q4:** drop the trivial non-vacuity theorem.
+- **Q5:** freeze `lunarSyncOrbit_bound` with 17/10⁶ and 27/200000.
+- **Q6:** fix the literals by the rules of §1.4 from the kernel-passed data.
+- **Q7 (new):** keep the LOCK-GEN centre c (rational, 3 harmonics) for the coordinates while the headline is
+  stated around ψ*. The tube transfer costs 0.6 % of √I.
 
 **Risks:**
 
-- Checker files are shared with BALLFIX and V2, so there will be merge contention.
-- Arg-continuity bookkeeping in LOCK-CONF.
-- √ near the inner annulus edge inflates the majorants.
-- Kernel cost ≈ 11× R2.
-- The tube transfer needs |c_gen| small (true: c_gen ≈ ψ*).
+- contention in the shared checker files (BALLFIX, V2);
+- arg-continuity in LOCK-CONF;
+- the lock-package constants are not computed yet, and √ inflates the majorants;
+- `DiffCalculus3` and the third-derivative claims of v2 through the sqrt emission;
+- kernel cost if the sharp fallback is needed.
 
-**Suspected errata:**
+**Errata** (non-pinned notes):
 
-- **SO-LOCK-SCOPE §1 L3** says certifying the periodic orbit needs "an additional Newton–Kantorovich certificate".
-  A data-free contraction suffices (§2.1). This is a non-pinned note.
-- **SO-LOCK-SCOPE §2 route (a′)** names `checkTorusCertificateSharp`. The current certifier is
-  `checkTorusCertificateV2 routeAV2` (D44); the sharp certifier is its `Sum.inl` route, so the statement is not
-  wrong, only dated.
+- SO-LOCK-SCOPE §1 L3 says certifying the orbit needs Newton–Kantorovich. The contraction suffices.
+- SO-LOCK-SCOPE §2 names `checkTorusCertificateSharp`. That name is dated (D44).
+- Revision 1 of this design (now corrected):
+  - the Lipschitz constant 0.067 was overstated (the true value is ≤ 0.0338);
+  - the 2-form sign was wrong;
+  - the map direction was wrong;
+  - the momentum translation was missing;
+  - it claimed uniqueness without oddness;
+  - it cited a nonexistent Mathlib name.
 
 **Departures from the brief:**
 
-- Newton–Kantorovich was replaced by Banach in sup norm (§2.2 has the justification).
-- The orbit is pinned by global uniqueness instead of "within δ of c".
-- The `HamExpr.sqrt` ball, jet and witness rules are specified here but not given Lean signatures, because they
-  need the new constructor. Only the semantic lemmas are in the signatures file.
+- Banach instead of Newton–Kantorovich.
+- Uniqueness among odd orbits instead of "within δ of c".
+- Three placeholder definitions with `sorry` bodies in the signatures file (§1.6).
+
+## 9. Response to design audit 1
+
+| finding | fix | location |
+|---|---|---|
+| F1 HIGH: principal sqrt breaks `exists_real_eval`/`eval_real` | Orchestrator's change adopted: total real-preserving `sqrtE` (0 on nonpositive reals). The landed statements are unchanged and get one new case each. Domain safety comes from the ball check r < s² and `SlpSqrtGood` (the analogue of `SlpInvGood`), plus a new `NonvanishingOn` arm. Consumer `ham_structural` is untouched. Full case inventory in §4.6. | §4.1–4.2, §4.6; sig `sqrtE`, `sqrtE_ofReal`, `differentiableAt_sqrtE`, `sqrtE_sq`, `sqrtE_re_nonneg`, `hasDerivAt_sqrtE` |
+| F2 HIGH: the witness accepts the opposite root | Positive real anchor s, margin 0 ≤ d < s, error ε/(s − d). Typed witness, checker and soundness. | §4.5; sig `sqrtE_model_error`, `SqrtWitness`, `sqrtWitnessRadius`, `sqrtWitness_sound` |
+| F2 (scalar) | `sqrtE_ball` now also concludes 0 < Re z | §4.3; sig `sqrtE_ball` |
+| F3 HIGH: map direction, P₀ translation, 2-form sign | Exact real and complex maps with P₀ = 1 + c′ + Y; `soRotMap` is rotated → physical; dY∧dX = dI∧dα; `lock_conjugacy` with `ContDiff ℝ 3 c`; complex eval identity through `lockToRotC` | §3; sig `lockX`, `lockY`, `lockToRotR`, `lockToPhysicalR`, `lockHamiltonianR`, `lockToPhysicalR_eq`, `libAction_lockToPhysicalR`, `lockToPhysicalR_surj`, `lock_conjugacy`, `lockCentre*`, `lockToRotC`, `lockToRotC_ofReal` |
+| N1: literals not reachable | Literals recomputed from proved rational majorants: 17/10⁶, 27/200000. Tube and output literals from LOCK-GEN-1: 129/10000, 21/100, 26/1000, Ω = 8/65. The rules no longer double-count δ. `lockLiteralCheck` re-verifies them. | §1.4; sig `lunarSyncOrbit_bound`, `lunar_sync_lock`, `lunarOmega`, `lockLiteralCheck` |
+| N2: untyped interfaces | Typed: `LockGraphCert`, `lockBarrier_of_certV2` (with the `hham` tie, Ω, κ, positivity margin, V2 witness, lawful backend), `lunar_sync_lock_of_cert`, `lockHamExpr_eval`/`_clock`, and the map, inverse and conjugacy contracts. `LockBarrier.invariant` is produced, not assumed. | §1.5, §3, §7; sig §§6–7 |
+| N3: nonexistent Mathlib name | Uses `DifferentiableAt.cpow_const` (import `Pow.Deriv`) | §4.1; sig imports |
+| N4: uniqueness without oddness | Claim deleted; the ψ + 1/2 counterexample is noted | §1.1 |
+| N5: ownership, `#eval` | Checker-file inventory with line counts, an ownership note, and no `#eval` in production (`decide`-style proof declarations) | §4.6, §6 |
+| "frozen soField" (consumer note) | Corrected to "landed, approved for freezing (D40)" | Notation, §1.1 |

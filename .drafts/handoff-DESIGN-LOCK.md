@@ -1,44 +1,41 @@
-# Handoff DESIGN-LOCK (SO-LOCK design writer), 2026-10-30
+# Handoff DESIGN-LOCK, revision 2 (after design audit 1 FAIL), 2026-10-30
 
-**Files (committed on inp-lockdesign):** `docs/tracks/SO/design/SO-LOCK-DESIGN.md` (design, §§1–8),
-`docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md` (owner statements, Q1–Q6), `.drafts/design/SOLockSignatures.lean`
-(tracked draft, not a KAM module). Nothing frozen; no KAM/ file touched; scratch copy deleted.
+**Files (committed on inp-lockdesign):** `docs/tracks/SO/design/SO-LOCK-DESIGN.md` (rev 2; response table §9),
+`docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md` (rev 2, Q1–Q7), `.drafts/design/SOLockSignatures.lean` (342 lines,
+tracked draft). Audit report `SO-LOCK-design-audit-1.md` committed unedited. Nothing frozen; no KAM/ file touched.
 
-**Decisions (addendum applied: the headline names ψ*):**
-- ψ* = `lunarSyncOrbit`, defined by `Classical.choose` over `IsSyncOrbit` (C², 1-periodic, odd, solves the orbit
-  equation) and made canonical by `lunarSyncOrbit_unique` — GLOBAL uniqueness, no pinning ball, no Fourier data in
-  the statement. Headline `lunar_sync_lock`: tube `libAction Ω ψ* x₀ < I_in` ⇒ unique global solution with
-  |ψ − ψ*(φ)| ≤ Rψ, |p − 1 − ψ*′(φ)| ≤ Rp, |q − φ| < 1/4 for all t.
-- LOCK-PO by Banach contraction (Mathlib `ContractingWith`) in sup norm on odd periodic functions: Lipschitz
-  L = 16π²εΣ|Aₘ| ≈ 0.067, Dirichlet Green bound 1/32 ⇒ factor ≈ 0.002; gives existence, global uniqueness and
-  location with c = 0 (no kernel data). Replaces the brief's Newton–Kantorovich (deviation, justified §2.2).
-- Route (a′) as ruled: rational centre c (data only), exact shift (J′ = J̃ − c′(c′+Y) + Xc″), elliptic polar, v2
-  `checkTorusCertificateV2 routeAV2` unchanged; invariant set transported via global uniqueness of soField.
-- `HamExpr` is NOT frozen (no mention in KAM/Frozen or manifest) ⇒ add constructor `.sqrt`; semantics cpow 1/2,
-  domain `0 < re`, ball rule |√w − s| ≤ r/s (outward-rounded like ballRound), derivative via existing `div`,
-  composition witness à la ExpWitness.
+**Fixes:**
+- F1 (orchestrator's change adopted): `sqrtE` total real-preserving (0 on nonpositive reals, principal root
+  elsewhere). No landed statement changes; `exists_real_eval`/`eval_real` get one case each (`sqrtE_ofReal`);
+  domain safety via ball check r < s² + `SlpSqrtGood` (analogue of `SlpInvGood`) + new `NonvanishingOn` arm.
+  13 landed files get match cases (inventory with line counts, design §4.6).
+- F2: `SqrtWitness` with positive anchor s, margin 0 ≤ d < s, error ε/(s−d); typed `sqrtWitnessRadius`,
+  `sqrtWitness_sound`, pointwise `sqrtE_model_error`.
+- F3: exact real/complex maps (`lockToRotR`, P₀ = 1+c′+Y; `lockToPhysicalR` = soRotMap∘…; `lockHamiltonianR`
+  = J̃+Y²/2−c′²/2+Xc″+V−1/2), 2-form dY∧dX = dI∧dα, `lock_conjugacy` with `ContDiff ℝ 3 c`, `lockToRotC`,
+  `lockHamExpr_eval` (all z), `_clock` (Re I > 0), inverse contract `lockToPhysicalR_surj`.
+- N1: literals from proved rational majorants (L ≤ 0.03377, η ≤ 5.354e-4): |ψ*| ≤ 17/10⁶, |ψ*′| ≤ 27/200000;
+  from LOCK-GEN-1: Ω = 8/65, I_in = 129/10000, Rψ = 21/100, Rp = 26/1000 (provisional until kernel pass).
+- N2: typed `LockGraphCert`, `lockBarrier_of_certV2`, `lockLiteralCheck`, `lunar_sync_lock_of_cert`.
+- N3: `DifferentiableAt.cpow_const` (Pow.Deriv). N4: odd-free uniqueness claim deleted. N5: inventory,
+  ownership note, no `#eval` in production.
 
-**For owner review (reversible choices taken):** Q1 global characterisation of ψ*; Q2 orbit equation via frozen
-`soField`; Q3 coarse ellipse spin bound (≈3.7 % vs true ≈2.5 %); Q4 drop trivial non-vacuity theorem; Q5 freeze
-`lunarSyncOrbit_bound`; Q6 literal rules (design §1.4). All literals are placeholders (marked DATA).
+**For owner review:** Q1 global odd characterisation of ψ*; Q2 orbit eq. via `soField`; Q3 ellipse spin bound
+2.6 %; Q4 drop trivial non-vacuity; Q5 freeze orbit bound; Q6 literal rules; Q7 keep rational centre c for coords.
 
-**Packages:** LOCK-PO (600–900, start now), LOCK-CONF (350–550, parametric in `LockBarrier`, start now),
-LOCK-COORDS (700–1000; Maps/Symplectic now, HamExpr after SQRT), LOCK-SQRT (900–1500 + cases in ~12 shared checker
-files; needs owner of checker files, after BALLFIX), LOCK-GRAPH (250–400), LOCK-GEN/LOCK-DATA (data, N = 65:
-K≈130 × L≈31, ≈4k half-terms, ≈11× R2 products), LOCK-ASSEMBLY (300–500). Total ≈ 3.5–4.6k lines; all files < 900.
+**Packages:** start now LOCK-PO, LOCK-CONF, LOCK-COORDS-R, ASSEMBLY glue; LOCK-SQRT after BALLFIX lands and an
+owner for the 13 checker files is assigned; then COORDS-C → GRAPH → DATA → instance. ≈3.6–4.8k new lines +
+0.3–0.6k case lines. Sizing (§7): v2 refined first at |k|≤55, |l|≤11 (≈1.3k half-terms, ≈R2 cost); sharp fallback
+110×22 (≈17× R2); full 129×27 data available.
 
-**Risks:** checker-file contention with BALLFIX/V2 (BALLFIX not landed, clashes with BallsTrig); arg-continuity in
-LOCK-CONF; √ near inner annulus inflates majorants; kernel cost ≈ 11× R2; v2 thresholds for the polar Hamiltonian
-are projections (no LOCK-GEN notes existed yet in KAM-inp-lockgen).
+**Risks:** checker-file contention (BALLFIX/V2); lock-package constants not yet computed (thresholds reuse R1's
+M, σ); √ inflates majorants; arg-continuity in LOCK-CONF; three placeholder defs (`lockHamExpr`,
+`sqrtWitnessRadius`, `lockLiteralCheck`) have `sorry` bodies until the constructor exists.
 
-**Suspected errata (non-pinned notes):** SO-LOCK-SCOPE §1 L3 says certifying the orbit needs Newton–Kantorovich — a
-data-free contraction suffices; SO-LOCK-SCOPE §2 names `checkTorusCertificateSharp` (now `…V2 routeAV2`, D44; dated,
-not wrong).
+**Errata (non-pinned):** SO-LOCK-SCOPE §1 L3 (NK not needed); §2 dated certifier name. Own rev-1 errors
+corrected (listed design §8).
 
-**Deviations:** Banach instead of NK; orbit pinned by global uniqueness instead of "within δ of c"; sqrt
-ball/jet/witness rules specified in prose only (need the new constructor), semantic lemmas in the signatures file.
-
-**Sig-check** (`inp_sig_check.sh /root/code/KAM-inp-lockdesign .drafts/scratch/SOLockSignatures.lean`, slot 1,
-16:06 UTC): 11 warnings `declaration uses 'sorry'` (lines 43,46,49,68,78,100,107,113,123,125,129), no errors.
-Earlier ball-pinned variant also elaborated clean (superseded). No lint run (no KAM/ Lean changed).
-**Axioms:** n/a (no proofs).
+**Sig-check** (`inp_sig_check.sh … .drafts/scratch/SOLockSignatures.lean`, slot 1, 16:21 UTC): exit 0, 29
+warnings `declaration uses 'sorry'`, no other diagnostics (a first run failed on a missing
+`open KAM.CertificateSharp.V2`, fixed). Scratch deleted. Lint not run: worktree has no `.lake/build` (audit saw
+the ABI phase fail for that reason); no KAM/ file changed. Axioms: n/a.
