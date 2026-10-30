@@ -21,7 +21,7 @@ step `modified_stepIB`.
   `GoodI` is `Good` at the frequency `ς ω*`, with the energy error `|⟨H ∘ K⟩ - E₀| ≤ λ_ω μ`, the ray
   margin `ν - m₆ ≤ ν(ς)`, and the drift of `Tab` in the two forms that the row sums of the bordered
   torsion need: `|⟨𝒯_ab(K)⟩ - ⟨𝒯_ab(K₀)⟩| + |ς ω* - ς₀ ω*| ≤ m₅`, `n |ς ω* - ς₀ ω*| ≤ m₅`.
-* `RunHypI`: the fixed data of a run, with the reference data of the initial pair `(K₀, ς₀)`.
+* `RunBaseI`, `RunHypI`: the fixed data of a run, and the reference data of the pair `(K₀, ς₀)`.
 * `RunHypI.tors`: step `stepI:p2s2:st-t`: the local parts at the stage and at stage `0`
   (`|⟨T⟩ - ⟨𝒯_ab⟩| ≤ B_sup X ≤ b_F`, `n |⟨Y⟩ - ω| ≤ n g₁ X ≤ b_F`, `B^𝖳_loc X ≤ b_F`) and the drift
   give `|⟨𝖳⟩ - ⟨𝖳₀⟩| ≤ β_T`, so `|⟨𝖳⟩⁻¹| ≤ σ̂_T`.
@@ -102,10 +102,10 @@ theorem inv_le_of_ref_bord {ι : Type*} [Fintype ι] [DecidableEq ι] {A A0 : Ma
   calc ‖A0⁻¹‖ ≤ m := hm
     _ = σ * (m / σ) := by field_simp
 
-/-- The fixed data of a run of the isoenergetic route B, with the reference data of `(K₀, ς₀)`. -/
-structure RunHypI (τ M : ℝ) (N : NumB n) (𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ)))
+/-- The fixed data of a run of the isoenergetic route B. -/
+structure RunBaseI (τ M : ℝ) (N : NumB n) (𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ)))
     (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (ωstar : Fin n → ℝ) (Ω : Set (Fin n → ℝ))
-    (E₀ σω ν γ σT μm : ℝ) (K0 : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (ς0 : ℝ) : Prop where
+    (σω ν γ : ℝ) : Prop where
   wf : N.Wf
   iso : N.iso = true
   std : IsoStanding n τ M N.sK N.sB N.sT σω ν ωstar 𝔅 h γ
@@ -120,6 +120,12 @@ structure RunHypI (τ M : ℝ) (N : NumB n) (𝔅 : Set ((Fin n → ℂ) × (Fin
   γ_le : γ ≤ N.γb
   mem : ∀ s : ℝ, 1 ≤ s → s • ωstar ∈ Ω
   cert : N.Cert γ Ω
+
+/-- With the reference data of the initial pair `(K₀, ς₀)`. -/
+structure RunHypI (τ M : ℝ) (N : NumB n) (𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ)))
+    (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (ωstar : Fin n → ℝ) (Ω : Set (Fin n → ℝ))
+    (σω ν γ σT μm : ℝ) (K0 : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (ς0 : ℝ) : Prop
+    extends RunBaseI τ M N 𝔅 h ωstar Ω σω ν γ where
   A0 : IsUnit (KAM.Iso.extendedTorsionAverage h K0 (ς0 • ωstar)).det
   A0inv : ‖(KAM.Iso.extendedTorsionAverage h K0 (ς0 • ωstar))⁻¹‖ ≤ σT - μm
   mT_pos : 0 < σT - μm
@@ -134,9 +140,9 @@ variable {N : NumB n} {𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))} {h : (Fi
   {ωstar : Fin n → ℝ} {Ω : Set (Fin n → ℝ)} {τ M E₀ σω ν γ σT μm Xi ς0 : ℝ}
   {K0 : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
 
-namespace RunHypI
+namespace RunBaseI
 
-variable (R : RunHypI τ M N 𝔅 h ωstar Ω E₀ σω ν γ σT μm K0 ς0)
+variable (R : RunBaseI τ M N 𝔅 h ωstar Ω σω ν γ)
 include R
 
 theorem γ_pos : 0 < γ := R.std.gamma_pos
@@ -318,6 +324,13 @@ theorem local_parts {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ}
       _ = (n : ℝ) * sg1 (N.inp s) * (w / (γ * N.δ s ^ (N.τ + 1))) := by ring
       _ ≤ _ := hB2
 
+end RunBaseI
+
+namespace RunHypI
+
+variable (R : RunHypI τ M N 𝔅 h ωstar Ω σω ν γ σT μm K0 ς0)
+include R
+
 /-- The torsion and bordered twist bounds at a flagged stage torus (`stepI:p2s2:st-t`). -/
 theorem tors {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ}
     {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {ς : ℝ}
@@ -328,7 +341,7 @@ theorem tors {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ}
       (N.inp s).cTh * (N.inp s).sNt * (N.inp s).sN + (N.inp s).ts) ∧
       IsUnit (KAM.Iso.extendedTorsionAverage h K (ς • ωstar)).det ∧
       ‖(KAM.Iso.extendedTorsionAverage h K (ς • ωstar))⁻¹‖ ≤ (N.inp s).sT := by
-  obtain ⟨hT, hlT, hlY, hform⟩ := R.local_parts hG hcond hcaps
+  obtain ⟨hT, hlT, hlY, hform⟩ := R.toRunBaseI.local_parts hG hcond hcaps
   refine ⟨hT, ?_⟩
   set bF := N.bF
   set βT := (N.sT - (σT - μm)) / (N.sT * (σT - μm)) with hβT

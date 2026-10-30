@@ -7,7 +7,7 @@ module
 
 public import KAM.Iso.Sharp2.RouteB.Scheme
 public import KAM.Iso.Sharp2.RouteA.Correction
-public import KAM.Sharp2.RouteB.Step
+public import KAM.Sharp2.RouteB.Newton
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 import Mathlib.Tactic.FieldSimp
@@ -54,7 +54,7 @@ theorem norm_smul_le_of_margin' {s ν' : ℝ} (hs : 1 < s) (hν' : 0 < ν')
 
 namespace RunHypI
 
-variable (R : RunHypI τ M N 𝔅 h ωstar Ω E₀ σω ν γ σT μm K0 ς0)
+variable (R : RunHypI τ M N 𝔅 h ωstar Ω σω ν γ σT μm K0 ς0)
 include R
 
 /-- The new weighted error is at most `μ̄_{s+1}`. -/
@@ -174,7 +174,7 @@ theorem good_step {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ}
   obtain ⟨hc, ⟨c', hc', hc1⟩, cb, hcb, hcavg⟩ := R.cert.at R.wf s
   have hSet := R.setting hG.ς_gt
   have hS := hSet.toStanding
-  obtain ⟨r0, r1, r2, r3, r4, r5⟩ := KAM.Sharp2.RouteB.RunHyp.rate_wt (N := N) s
+  obtain ⟨r0, r1, r2, r3, r4, r5⟩ := KAM.Sharp2.RouteB.RunBase.rate_wt (N := N) s
   have r6 := rate_wt6 (N := N) s (R.wf.δ_pos _)
   obtain ⟨c2, L⟩ := R.loc hG hcond hcaps
   set X := w / (γ * N.δ s ^ (N.τ + 1)) with hXd
