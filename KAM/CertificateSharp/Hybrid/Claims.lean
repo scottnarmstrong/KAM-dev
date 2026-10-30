@@ -12,12 +12,13 @@ public import KAM.CertificateSharp.V2.RouteACore
 /-!
 # The step claims of the hybrid witness (package C8c)
 
-The step `ΔK̂` of the witness is a rational embedding increment (format v1, `step.dK`); `ratE` rounds
-its coefficients into the backend, and the step of the theorem is `stepFun n (ratE dK)` (any rounding
-is sound: the claims are checked on the rounded step, which is the step that is certified).
+The step `ΔK̂` of the witness is a rational embedding increment (format v1, `step.dK`); `ratE`
+rounds its coefficients into the backend, and the step of the theorem is `stepFun n (ratE dK)` (any
+rounding is sound: the claims are checked on the rounded step, which is the step that is
+certified).
 
-* `HybStep`: the step data (format v1 `step`): `ΔK̂`, `s₁`, the weights of `T_{ρ₁}`, `T_{ρ∞}` and the
-  torsion strip, the claims `(S1)–(S7)` (`StepNumQ`), `ℓ_H`, `d_ω`;
+* `HybStep`: the step data (format v1 `step`): `ΔK̂`, `s₁`, the weights of `T_{ρ₁}`, `T_{ρ∞}` and
+  the torsion strip, the claims `(S1)–(S7)` (`StepNumQ`), `ℓ_H`, `d_ω`;
 * `hybStepOk`: the checks of format §3, at the restart strip `ρ₁`, the limit strip `ρi` and the
   torsion strip `ρT` (rationals of the restarted run);
 * `hybStepBounds`: C8b's `StepBounds`, `|ε̃| ≤ ℓ_H` and `|s₁ω* − sω*| ≤ d_ω` from a passing check.

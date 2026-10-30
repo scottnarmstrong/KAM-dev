@@ -12,9 +12,9 @@ public import KAM.Certificate.Sound.Energy
 # The linearised energy error of the step (package C8c, isoenergetic)
 
 `ε̃ = ⟨H∘K⟩ - E₀ + ⟨DH(K) ΔK⟩` (`KAM.Sharp2.Hybrid.linNewEnergy`). One merged model of
-`H∘K - E₀ + DH(K) ΔK` is formed (the energy composition, the constant `-E₀`, and the first-derivative
-composition times the exact models of `ΔK`); its zero mode plus its radius bounds `|ε̃|`, exactly as
-the landed `energyOk` bounds `|⟨H∘K⟩ - E₀|`.
+`H∘K - E₀ + DH(K) ΔK` is formed (the energy composition, the constant `-E₀`, and the
+first-derivative composition times the exact models of `ΔK`); its zero mode plus its radius bounds
+`|ε̃|`, exactly as the landed `energyOk` bounds `|⟨H∘K⟩ - E₀|`.
 
 * `d1slot_encloses`: the composed first derivatives `∂_a H ∘ K`;
 * `enModel`, `energyLinOk`, `linNewEnergy_le`.

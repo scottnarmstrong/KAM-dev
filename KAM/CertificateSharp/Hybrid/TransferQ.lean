@@ -18,8 +18,9 @@ exactly; the casts are equalities.
 * `FrameQ`, `FrameQ.toNum` and the casts of `g`, `β₁`, `b`, `n_Δ`, `n_Δᵗ` (Lemma `bp:p2s2hc:frames`,
   `KAM.Sharp2.Hybrid.FrameNum`);
 * `dABQ`, `cast_dAB` (`KAM.Sharp2.Hybrid.dAB`);
-* `KDataQ`, `StepNumQ`, `IsoNumQ` and the casts of `e₁`, `λ₀`, `λ₁`, `t₁`, `t_A`, `σ_{K,1}`, `σ_{B,1}`,
-  the transferred initial values, `e₁` (iso) and `t_A^ext` (C8b's `KData`, `StepNum`, `IsoNum`).
+* `KDataQ`, `StepNumQ`, `IsoNumQ` and the casts of `e₁`, `λ₀`, `λ₁`, `t₁`, `t_A`, `σ_{K,1}`,
+  `σ_{B,1}`, the transferred initial values, `e₁` (iso) and `t_A^ext` (C8b's `KData`, `StepNum`,
+  `IsoNum`).
 -/
 
 @[expose] public section

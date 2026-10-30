@@ -82,7 +82,8 @@ theorem dotModel_encloses {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N =
     obtain ⟨j, rfl⟩ := (List.mem_ofFn' _ _).mp hp
     exact CertModel.Encloses.mulD hW cfg (ha j) (hb j)
   have h := modelSum_encloses hW hpe L hL
-  have hfst : L.map Prod.fst = List.ofFn fun j : Fin c => CertModel.mulD W cfg (a j.val) (b j.val) :=
+  have hfst :
+      L.map Prod.fst = List.ofFn fun j : Fin c => CertModel.mulD W cfg (a j.val) (b j.val) :=
     by simp only [L, List.map_ofFn]; rfl
   rw [hfst] at h
   refine h.of_eq_fun fun θ => ?_

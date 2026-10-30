@@ -100,7 +100,8 @@ theorem CertModel.Encloses.derivC {W' : CertWeight} {s N : ℕ} (hW' : checkWeig
     zpow_add_one₀ (by positivity) _
   -- the Cauchy term in units of `(2π)^{d+1}`
   have hcau : ((ρ - W'.rho : ℚ) : ℝ)⁻¹ * ((2 * Real.pi) ^ m.deg * val m.rad) ≤
-      (2 * Real.pi) ^ (m.deg + 1) * val (upMul m.rad (ofRatUp (cauchyFactor (ρ - W'.rho))) : α) := by
+      (2 * Real.pi) ^ (m.deg + 1) *
+        val (upMul m.rad (ofRatUp (cauchyFactor (ρ - W'.rho))) : α) := by
     rw [hzpow]
     have e1 : ((ρ - W'.rho : ℚ) : ℝ)⁻¹ * ((2 * Real.pi) ^ m.deg * val m.rad) =
         (2 * Real.pi) ^ m.deg * (2 * Real.pi) * (val m.rad * (1 / (2 * Real.pi *

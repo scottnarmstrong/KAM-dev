@@ -141,7 +141,8 @@ theorem dstepModel_encloses {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N
 
 /-- `‖ΔK‖ ≤ d` on the strip of the weight `W`. -/
 def stepSupOk (W : CertWeight) (dK : CertEmbedding α) (d : ℚ) : Bool :=
-  decide (0 ≤ d) && (List.finRange (n + n)).all fun a => ble ((stepModel n dK a.val).supBound W) (ofRatDown d)
+  decide (0 ≤ d) && (List.finRange (n + n)).all fun a =>
+    ble ((stepModel n dK a.val).supBound W) (ofRatDown d)
 
 /-- `‖ΔK‖ ≤ d` on the real torus. -/
 def stepRealOk (dK : CertEmbedding α) (d : ℚ) : Bool :=
