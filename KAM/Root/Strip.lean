@@ -14,6 +14,10 @@ public import KAM.Strip.Bridges
 public import KAM.Strip.Cauchy
 public import KAM.Strip.Cohomological
 public import KAM.Strip.CohomologicalDefs
+public import KAM.Strip.CohomologicalL1
+public import KAM.Strip.CohomologicalL1Bound
+public import KAM.Strip.CohomologicalL1Cert
+public import KAM.Strip.CohomologicalL1Sup
 public import KAM.Strip.CohomologicalNodes
 public import KAM.Strip.CohomologicalOperator
 public import KAM.Strip.CohomologicalParseval
@@ -25,6 +29,11 @@ public import KAM.Strip.CohomologicalRussmannBound
 public import KAM.Strip.CohomologicalRussmannCount
 public import KAM.Strip.CohomologicalRussmannLattice
 public import KAM.Strip.CohomologicalRussmannSep
+public import KAM.Strip.CohomologicalSum
+public import KAM.Strip.CohomologicalSumBound
+public import KAM.Strip.CohomologicalSumCert
+public import KAM.Strip.CohomologicalSumFiber
+public import KAM.Strip.CohomologicalSumSeries
 public import KAM.Strip.Fourier
 public import KAM.Strip.FourierBasic
 public import KAM.Strip.FourierDerivative

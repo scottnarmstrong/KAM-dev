@@ -24,6 +24,7 @@ public import KAM.Root.Planetary
 public import KAM.Root.Provider
 public import KAM.Root.Russmann
 public import KAM.Root.Sharp
+public import KAM.Root.Sharp2
 public import KAM.Root.SpinOrbit
 public import KAM.Root.Strip
 public import KAM.Root.Torus
