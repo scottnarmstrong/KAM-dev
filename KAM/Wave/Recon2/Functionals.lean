@@ -104,7 +104,7 @@ lemma sqrt_lam_sq (m : ℝ) (hm : 0 < m) (j : ℕ+) :
     Real.sqrt (lam m hm j) ^ 2 = lam m hm j :=
   Real.sq_sqrt (lt_of_lt_of_le one_pos (one_le_lam m hm j)).le
 
-lemma lam_le_sqrt_mul (m : ℝ) (hm : 0 < m) (j : ℕ+) :
+private lemma recon2_lam_le_sqrt_mul (m : ℝ) (hm : 0 < m) (j : ℕ+) :
     lam m hm j ≤ Real.sqrt (1 + m) * j := by
   have hj : (1 : ℝ) ≤ j := by exact_mod_cast j.pos
   unfold lam
@@ -162,7 +162,7 @@ lemma reconFeatureV_coord_sq_le (m : ℝ) (hm : 0 < m) (x : ℝ) (j : ℕ+) :
     unfold sineFeatCoord betaV
     rw [div_pow, mul_pow, sqrt_lam_sq]
   rw [hc, div_le_iff₀ (by positivity), ellWeight_one_one_eq]
-  have hl := lam_le_sqrt_mul m hm j
+  have hl := recon2_lam_le_sqrt_mul m hm j
   have hs : 0 ≤ Real.sqrt (1 + m) := Real.sqrt_nonneg _
   have he : Real.exp (-2 * (j : ℝ)) * Real.exp j ^ 2 = 1 := by
     rw [← Real.exp_nat_mul, ← Real.exp_add]; simp
