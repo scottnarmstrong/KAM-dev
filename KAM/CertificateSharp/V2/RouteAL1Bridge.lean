@@ -64,41 +64,38 @@ theorem poly_weightedNorm_le {W : CertWeight} {s N : ℕ} (hW : checkWeight W s 
       if certKeyFun n t.1 = k then t.2.toC else 0).sum := funext (P.coeff_eq_sum n)
   have hL := (summableWeighted_list (β := CertKey × CC α) (2 * Real.pi * W.rho)
     (fun t => certKeyFun n t.1) (fun t => t.2.toC) P.terms).2
-  rw [e]
-  refine hL.trans ?_
-  unfold CertPoly.weightedNormUp
-  induction P.terms with
-  | nil => simp [LawfulCertArith.val_ofInt]
-  | cons t L ih =>
-    have hw1 := CertWeight.one_le_w hW
+  have hw1 := CertWeight.one_le_w hW
+  -- each term, through the rounding of `upMul` and `ofRatUp`
+  have hterm : ∀ t : CertKey × CC α,
+      ‖t.2.toC‖ * Real.exp (2 * Real.pi * W.rho * Fourier.modeSize (certKeyFun n t.1)) ≤
+        val (upMul t.2.normUp (ofRatUp (W.w ^ (t.1.map Int.natAbs).sum)) : α) := by
+    intro t
     have hq : (0 : ℝ) ≤ ((W.w ^ (t.1.map Int.natAbs).sum : ℚ) : ℝ) := by
-      have : (0 : ℝ) ≤ W.w := by linarith
-      push_cast; positivity
+      have : (0 : ℝ) ≤ W.w := le_trans zero_le_one hw1
+      rw [Rat.cast_pow]
+      exact pow_nonneg this _
     have hr := LawfulCertArith.ofRatUp_ge (α := α) (W.w ^ (t.1.map Int.natAbs).sum)
     have hn := CC.normUp_nonneg t.2
-    have hm := LawfulCertArith.upMul_ge t.2.normUp
-      (ofRatUp (W.w ^ (t.1.map Int.natAbs).sum)) hn (hq.trans hr)
-    have hs := LawfulCertArith.upAdd_ge
-      (upMul t.2.normUp (ofRatUp (W.w ^ (t.1.map Int.natAbs).sum)))
-      (L.foldr (fun t acc =>
-        upAdd (upMul t.2.normUp (ofRatUp (W.w ^ (t.1.map Int.natAbs).sum))) acc) (ofInt 0))
     have hexp : Real.exp (2 * Real.pi * W.rho * Fourier.modeSize (certKeyFun n t.1)) ≤
-        (W.w : ℝ) ^ (t.1.map Int.natAbs).sum := by
+        ((W.w ^ (t.1.map Int.natAbs).sum : ℚ) : ℝ) := by
       have hmo : Fourier.modeSize (certKeyFun n t.1) =
           ((∑ i, (certKeyFun n t.1 i).natAbs : ℕ) : ℝ) := by
         simp [Fourier.modeSize, Nat.cast_sum, Nat.cast_natAbs]
-      rw [hmo, mul_comm, Real.exp_nat_mul]
+      rw [Rat.cast_pow, hmo, mul_comm, Real.exp_nat_mul]
       exact (pow_le_pow_left₀ (Real.exp_nonneg _) (CertWeight.exp_le_w hW) _).trans
         (pow_le_pow_right₀ hw1 (sum_natAbs_certKeyFun_le n t.1))
-    have hterm : ‖t.2.toC‖ * Real.exp (2 * Real.pi * W.rho * Fourier.modeSize (certKeyFun n t.1)) ≤
-        val t.2.normUp * ((W.w : ℝ) ^ (t.1.map Int.natAbs).sum) :=
-      mul_le_mul (CC.norm_le_normUp t.2) hexp (Real.exp_pos _).le hn
-    simp only [List.foldr_cons, List.map_cons, List.sum_cons]
-    push_cast at hq hr hm hs
-    have : val t.2.normUp * ((W.w : ℝ) ^ (t.1.map Int.natAbs).sum) ≤
-        val t.2.normUp * val (ofRatUp (W.w ^ (t.1.map Int.natAbs).sum) : α) :=
-      mul_le_mul_of_nonneg_left hr hn
-    linarith
+    calc ‖t.2.toC‖ * Real.exp (2 * Real.pi * W.rho * Fourier.modeSize (certKeyFun n t.1))
+        ≤ val t.2.normUp * ((W.w ^ (t.1.map Int.natAbs).sum : ℚ) : ℝ) :=
+          mul_le_mul (CC.norm_le_normUp t.2) hexp (Real.exp_pos _).le hn
+      _ ≤ val t.2.normUp * val (ofRatUp (W.w ^ (t.1.map Int.natAbs).sum) : α) :=
+          mul_le_mul_of_nonneg_left hr hn
+      _ ≤ val (upMul t.2.normUp (ofRatUp (W.w ^ (t.1.map Int.natAbs).sum)) : α) :=
+          LawfulCertArith.upMul_ge _ _ hn (hq.trans hr)
+  -- the sum, through `sumUp_ge` only (independent of how `weightedNormUp` arranges the sum)
+  rw [e]
+  refine hL.trans ((List.sum_le_sum fun t _ => hterm t).trans ?_)
+  unfold CertPoly.weightedNormUp
+  exact sumUp_ge _ _
 
 /-- An ℓ¹ enclosure at the width of `W` is bounded by the model's sup bound at `W`. -/
 theorem weightedNorm_le_supBound {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true)

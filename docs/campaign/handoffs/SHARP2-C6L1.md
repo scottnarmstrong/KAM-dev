@@ -268,3 +268,23 @@ None in pinned sources.
 - The R1 bite at `l = 13` under the 10 GB cap: a rounded `balBound`, or prefix 4.
 - Optionally ℓ¹ model products for `ηᴸ`, which the Wiener bound overestimates by about 18×; this barely matters on
   R1.
+
+## SHARP2-C6L1FIX (after the merge into `sharp-v2`, e5c6705c)
+
+- **Cause.** `KAM/CertificateSharp/V2/RouteAL1Bridge.lean:101` (`poly_weightedNorm_le`) failed on `sharp-v2` with
+  `linarith failed`. The SO track's SO-KDEPTH (f1dc41bf, "balanced weightedNormUp") changed
+  `CertPoly.weightedNormUp` from a `foldr` of `upAdd` to the balanced `sumUp`. The old proof unfolded the `foldr`
+  and closed each step with `linarith`, and that `foldr` no longer exists.
+- **Fix.** The proof is now independent of how the sum is arranged.
+  - Each term is bounded by an explicit `calc` (`norm_le_normUp`, the weight, `ofRatUp_ge`, `upMul_ge`).
+  - The sum then goes through `List.sum_le_sum` and the soundness lemma `sumUp_ge` only.
+  - No `linarith` or `push_cast` remain in it.
+- **Checks.**
+  - `git merge sharp-v2` was a fast-forward to 501383af, with no `KAM.lean`/`KAM/Root` conflict.
+  - `privatize-traces.sh` privatized 0 files.
+  - `nice -n 5 lake build KAM.CertificateSharp.V2.RouteAL1Engine KAM.CertificateSharp.V2.Tests.L1Toy`:
+    `Build completed successfully (3567 jobs)`, peak RSS 2.0 GB, no warnings in the C6L1 files.
+  - `#print axioms` of `poly_weightedNorm_le`, `weightedNorm_le_l1Up`, `routeAL1`,
+    `checkTorusCertificateV2_routeAV2L1_sharp`, `toyCert2_l1_torus`: `[propext, Classical.choice, Quot.sound]`.
+  - `gen_root_imports.py`: no change.
+  - `kernel-tests/` was not built.
