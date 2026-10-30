@@ -238,9 +238,13 @@ the refined data, the certificates, and a step with bounds~\ref{bp:p2s2hc:S1}--\
 \[
 C_1^{\sharp\sharp}e/(\gamma^4\rho^{4\tau})<1\qquad\text{or}\qquad\mathrm{HybOk}_R,
 \]
-then the conclusion of Theorem~\ref{bp:p0:g1} holds with the closeness $\max\{C_2^{\sharp\sharp}e/(\gamma^2\rho^{2\tau}),\,d_\infty+D_1\}$. It is never worse than the
-existing routes: the first disjunct is Corollary~\ref{bp:p2s2:frozen-form}. Moreover $\Delta K=0$, $\rho_1=\rho_0$, $\mu_1=\mu$ make every increment vanish
-and $e_1=e$, so $\mathrm{HybOk}_R$ is then route $R$'s own condition.
+then the conclusion of Theorem~\ref{bp:p0:g1} holds with the closeness $\max\{C_2^{\sharp\sharp}e/(\gamma^2\rho^{2\tau}),\,d_\infty+D_1\}$. Acceptance is
+never worse than the existing routes because the first disjunct, Corollary~\ref{bp:p2s2:frozen-form}, remains available; the hybrid branch is an
+additional sufficient condition. The transfer formulas themselves are conservative and are \emph{not} claimed to reproduce a route at $\Delta K=0$:
+there the frame differences and $\Delta_{ab}$ vanish, but the local torsion bounds $\lambda_0,\lambda_1$ of Lemma~\ref{bp:p2s2hc:torsion} (with $\varepsilon_1'=ne/\delta_0'$)
+need not, so $t_A$, $t_1$ and $\sigma_{T,1}$ can exceed the original values (audit AUDIT-HYBRID-1, F3). The displayed maximum is a common bound; a
+consumer that needs a branch's own displacement (the SO certificate's \Lean{disp}) applies the branch that holds and keeps its closeness
+($C_2^{\sharp\sharp}e/(\gamma^2\rho^{2\tau})$, respectively $d_\infty+D_1$).
 \source{Ours.}
 \end{corollary}
 
@@ -272,7 +276,9 @@ No division by a small divisor and no composition with $K_1$ occur for the step.
 \begin{remark}[Register]\label{bp:p2s2hc:register}
 \begin{enumerate}[label=(\roman*)]
 \item \emph{Numbers} (\texttt{scripts/apost\_sharp/hybrid\_cert\_r1.py}; design document \S4). They are reported in the design document; they
-  are design numbers in the enclosures' norms, computed in double precision, not certificates.
+  are floating planning numbers in the enclosures' intended norms, computed on finite dyadic candidates $\hat K$, $\Delta\hat K$ (AUDIT-HYBRID-1,
+  F1) in double precision; they are not certificates (F2): on R1's finite candidates the hybrid's floating test passes from $L=8$, a planning
+  scale around $10^{-5.25}$ (iso, route A$'$), against $L=15$ for the plain theorem.
 \item \emph{Relation to Corollary~\ref{bp:p2s2:hybrid}.} Superseded: the restart applies the whole theorem to $K_1$, so neither the step identities
   nor stage-$0$ constants are needed, and the step need not be a Newton step. The engine of Proposition~\ref{bp:p2s2:engine} is not modified.
 \item \emph{Restart schedule.} The restarted run recomputes its bite from $\rho_1$. For $\rho_1=\rho_0-3\delta_0$ and $\rho_0-\rho_\infty\le6$ this is the original
@@ -280,9 +286,12 @@ No division by a small divisor and no composition with $K_1$ occur for the step.
 \item \emph{The step's form.} A route-B step $(K+N\xi^N)\circ(\mathrm{id}+\xi^L)$ would need a certified composition of models with a shift of the argument
   and its Taylor remainder in $\theta$; the measured new error of the additive step is already second order (design document \S4), so it is
   not used.
-\item \emph{Observation on R1.} In R1's rotated frame $H$ is linear in $P_2$, and the frozen torsion average is singular: $\avg T=\mathrm{diag}(1.96,0)$
-  (sampled), while the bordered torsion is invertible with inverse $0.584$. Only the isoenergetic theorem applies to R1; its fixed-frequency
-  rows in the design tables are formal. The hybrid for R1 is the isoenergetic one (track~I part \texttt{p2s2-iso-hybrid-cert}).
+\item \emph{Observation on R1} (wording corrected after AUDIT-HYBRID-1, F4). The ordinary torsion average of R1's candidate is sampled as nearly
+  singular: $\avg T\approx\mathrm{diag}(1.96,\,{-1.3}\cdot10^{-20})$, $\abs{\avg T^{-1}}\approx8\cdot10^{19}$ (and $2\cdot10^{14}$ for the $L=8$ truncation), while the
+  bordered inverse is $0.584$. The design package uses the bordered inverse and so supplies only isoenergetic applicability; the listed
+  fixed-frequency rows are formal scalar experiments, not R1 applications. Exact singularity is \emph{not} claimed: it would need an exact identity
+  on the specific $K$ and the frozen torsion, not only the affine dependence of $H$ on $P_2$. The hybrid for R1 is the isoenergetic one (track~I
+  part \texttt{p2s2-iso-hybrid-cert}).
 \item \emph{Suspected errata.} None in a pinned source. \emph{Deviations.} None from a source; the restart and the transfer lemmas are ours.
 \end{enumerate}
 \end{remark}

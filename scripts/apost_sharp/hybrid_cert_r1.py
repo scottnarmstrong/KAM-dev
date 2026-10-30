@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""The certified first step (hybrid) on R1: design numbers in the norms of the enclosures (package SHARP2-HYBRID).
+"""The certified first step (hybrid) on R1: floating planning numbers in the enclosures' norms (SHARP2-HYBRID, -FIX).
 
 Untrusted design tooling, double precision.  Design document docs/campaign/design/APOST-SHARP-V2-HYBRID.md (section 4),
 blueprint blueprint/parts/p2s2-hybrid-cert.tex.  The hybrid theorem restarts the proved v2 theorem at the torus
@@ -11,16 +11,20 @@ K1 = K + DK of the first Newton step and transfers its conclusion back to K.  Th
 The new error is e1 = |E_lin~|_{l1,rho1} + (M2/2)|DK|_{l1,rho1}^2.  The restarted theorem (route A with L8', route B
 with the levers) is evaluated by thresholds_v2.py at the strip rho1 with the transferred caps and the margin mu1.
 
-Two measurements:
+Measurements (floating-point planning numbers in the enclosures' intended norms, NOT certificates; AUDIT-HYBRID-1 F2):
+  --finite  the primary experiment (AUDIT-HYBRID-1 F1): a FINITE dyadic embedding K^ = (psi + U, phi, P1, P2) (the
+            checker's carrier) and a FINITE dyadic step DK^, emitted (--emit DIR writes the L = 8 candidate) and every
+            bound recomputed from them; supports of all components and of the witness exp(4 pi i U) are counted.
   --shape   R1's own residual shape (the L = 88 candidate, residual 4e-79; step0_actual.py), every step object
             normalised by e = sup_{T_rho}|E|.  Since E_lin~ is quadratic in the residual at leading order
             (E_lin~ = P E_lin, E_lin = E_red xi + Omega0 E_sym d_omega xi), the hybrid threshold of this SHAPE is the
             largest e with A(rho1) e^2 <= e1*(rho1), A = |P E_lin^|_{l1} + (M2/2)|DK^|_{l1}^2.  A property of the
             residual's shape (its spectrum), not of the theorem: re-measured per candidate.
-  --trunc   truncated candidates: v cut at 10^-L (the graph torus of r1_norms.py, exactly energy-normalised), the
-            residual E_L in closed form, the isoenergetic step DK (R1's <T> is singular), E_lin~ = E + A DK - d_omega DK and the actual new
+  --trunc   analytic-graph truncations (planning, superseded by --finite): v cut at 10^-L (the graph torus of
+            r1_norms.py, exactly energy-normalised, NOT a finite polynomial embedding), the
+            residual E_L in closed form, the isoenergetic step DK (R1's <T> is sampled nearly singular), E_lin~ = E + A DK - d_omega DK and the actual new
             error E1 = X_h(K + DK) - D(K + DK) omega computed DIRECTLY (no leading-order approximation).  For each L: does
-            the plain theorem certify K_L, does the hybrid?
+            the plain floating test pass on K_L, does the hybrid's?
 
 Norms: max norm on vectors, maximum absolute row sum on matrices (the frozen convention); "l1" is the weighted l^1
 norm sum_k |f_k| exp(2 pi r |k|_1) of the Fourier coefficients (a bound for the sup on T_r, what the kernel computes
@@ -28,7 +32,7 @@ from a model's polynomial part), read off from the shifted grids at the corners 
 k <= 0 from the matching corner, the rest by realness).  "sup" is the sampled sup on the corners (lower bound).
 
 Usage:  python3 -I scripts/apost_sharp/hybrid_cert_r1.py [--shape] [--trunc [--L 7,8,9]] [--sizes] [--quick]
-        [--json OUT]
+        [--finite [--L 7,8] [--emit DIR]] [--json OUT]
   (default: both; about 10-20 min with nice; --quick: fewer strips and candidates)
 """
 import json, math, os, sys, time
@@ -190,8 +194,8 @@ def step_iso(G, y, consts=None):
     xi^N = xi0 - R eta^N, g^L = T xi^N + omega xi^w - eta^L, xi^L = R g^L, DK = L xi^L + N xi^N, the new frequency
     omega1 = omega - xi^w omega (the sign that makes the new error quadratic; checked on the grid), with (xi0, xi^w)
     from the bordered system [[<T>, omega], [<Y>, 0]] (xi0, xi^w) = (<eta^L> + <T R eta^N>, eta^w + <Y R eta^N>),
-    eta^w = 0 (the graph torus has H(K) = E0 = 0).  R1's <T> is singular (H is linear in P2: <T> = diag(1.96, 0)),
-    so only the bordered (isoenergetic) step exists; this is the step of the iso hybrid."""
+    eta^w = 0 (the graph torus has H(K) = E0 = 0).  R1's <T> is sampled as nearly singular (|<T>^-1| ~ 1e14 at L = 8,
+    8e19 for the full candidate; exact singularity is not claimed), so only the bordered (isoenergetic) step is used."""
     o, g, E, A = torus_at(G, y)
     L, B, N, T, Y = o["L"], o["B"], o["N"], o["T"], o["Y"]
     LT = np.swapaxes(L, -1, -2)
@@ -257,6 +261,288 @@ def trunc_measure(L_digits, strips, N1=512, N2=128, log=print):
         r["rhoinf"] = dict(dK_l1=vec_norm(l1w(G, a["dK"], b["dK"])))
         out[Ld] = r
         log("  trunc L = %d (%d terms): e_l1 = %.3e (%.0fs)" % (Ld, G.nterms, r["e_l1"], time.time() - t0))
+    return out
+
+
+# ============================================================================================ 2'. finite candidates (F1)
+# AUDIT-HYBRID-1 F1: the checker's carrier is a FINITE real polynomial embedding (CertEmbedding: finite angle and action
+# polynomials) and a finite correction.  Here K^ = (psi + U, phi, P1, P2) with every component a finite dyadic
+# trigonometric polynomial: U = the truncated v / (2 pi), P1 = nu + D_t U, P2 = P1 + J^ with J^ a truncation of
+# J = -P1^2/2 - V(q, phi) (which is NOT finite); all coefficients rounded to 2^-BITS.  Its residual, energy error, frame,
+# torsion and both Lagrangian defects are recomputed from these finite objects; the step is computed on K^ and
+# emitted as a finite rounded polynomial DK^; every bound is recomputed with DK^.  Norms of finite polynomials are
+# exact coefficient sums; norms of non-finite functions (E, E_lin~, the witness) use the corner method.
+BITS = 60
+
+
+def rnd(C, bits=BITS):
+    """round real and imaginary parts to 2^-bits (symmetric: keeps conjugate symmetry)."""
+    s = 2.0 ** bits
+    return (np.round(C.real * s) + 1j * np.round(C.imag * s)) / s
+
+
+def wts(G, r):
+    return np.exp(TWO_PI * r * (np.abs(G.kk) + np.abs(G.ll)))
+
+
+def l1_coef(G, C, r):
+    """exact weighted l^1 norm sum |C_k| e^{2 pi r |k|_1} of a finite polynomial (per trailing component)."""
+    w = wts(G, r).reshape(G.kk.shape + (1,) * (C.ndim - 2))
+    return (np.abs(C) * w).sum(axis=(0, 1))
+
+
+def coef_from_corners(G, fpp, fpm, r):
+    """full coefficient array of a real-on-reals function from its values at the corners (r, r), (r, -r): the shifted
+    coefficients there are c_k e^{2 pi r |k|_1} on the quadrants {k<=0, l<=0}, {k<=0, l>0}; k>0 by c_k = conj(c_-k)."""
+    m1, m2, z1, z2 = _masks(G)
+    w = wts(G, r).reshape(G.kk.shape + (1,) * (fpp.ndim - 2))
+    s1 = G.coef_at(fpp) / w; s2 = G.coef_at(fpm) / w
+    sh = lambda m: m.reshape(m.shape + (1,) * (fpp.ndim - 2))
+    C = np.where(sh(m1), s1, 0) + np.where(sh(m2), s2, 0)               # k <= 0
+    N1, N2 = G.N1, G.N2
+    neg = lambda X: np.roll(np.roll(X[::-1, ::-1], 1, axis=0), 1, axis=1)   # X[-k, -l]
+    kpos = sh(G.kk > 0)
+    return np.where(kpos, np.conj(neg(C)), C)
+
+
+def trunc_tail(G, C, r, tol, bits=BITS, keep0=True):
+    """drop the coefficients of smallest weighted size whose total weighted l^1 mass on T_r is <= tol (per component,
+    the same support for conjugate pairs), round the rest to 2^-bits."""
+    out = np.array(C)
+    w = wts(G, r)
+    comps = [()] if C.ndim == 2 else [(i,) for i in range(C.shape[2])]
+    for ix in comps:
+        Ci = C[(slice(None), slice(None)) + ix]
+        a = (np.abs(Ci) * w).ravel()
+        order = np.argsort(a)
+        cs = np.cumsum(a[order])
+        ndrop = int(np.searchsorted(cs, tol, side="right"))
+        drop = np.zeros(a.size, bool); drop[order[:ndrop]] = True
+        drop = drop.reshape(Ci.shape)
+        drop = drop & np.roll(np.roll(drop[::-1, ::-1], 1, 0), 1, 1)     # drop a pair only together
+        if keep0:
+            drop[0, 0] = False
+        Ci = np.where(drop, 0, Ci)
+        out[(slice(None), slice(None)) + ix] = rnd(Ci, bits)
+    return out
+
+
+class FinTorus:
+    """K^ = (psi + U, phi, P1, P2), finite coefficient arrays on G's lattice."""
+
+    def __init__(self, G, U, P1, P2):
+        self.G, self.U, self.P1, self.P2 = G, U, P1, P2
+
+    def support(self):
+        return {k: int(np.count_nonzero(v)) for k, v in (("U", self.U), ("P1", self.P1), ("P2", self.P2))}
+
+    def geom(self, y):
+        G = self.G
+        ev = lambda C: G.eval(C, y)
+        tk, tl = 2j * math.pi * G.kk, 2j * math.pi * G.ll
+        g = dict(u=ev(self.U), us=ev(self.U * tk), uf=ev(self.U * tl), p=ev(self.P1), ps=ev(self.P1 * tk),
+                 pf=ev(self.P1 * tl), P2=ev(self.P2), P2s=ev(self.P2 * tk), P2f=ev(self.P2 * tl))
+        psi = G.cand.psi + 1j * y[0]; phi = G.cand.phi + 1j * y[1]
+        g["q"] = psi + phi + g["u"]; g["ph"] = phi
+        V = Vq = Vf = Vqq = Vqf = Vff = 0
+        for m in model.M_MODES:
+            X = TWO_PI * (2 * g["q"] - m * g["ph"])
+            a = S0.EPSA_F[m]
+            cX, sX = np.cos(X), np.sin(X)
+            V = V - a * cX
+            Vq = Vq + a * TWO_PI * 2 * sX
+            Vf = Vf + a * TWO_PI * (-m) * sX
+            Vqq = Vqq + a * TWO_PI ** 2 * 4 * cX
+            Vqf = Vqf + a * TWO_PI ** 2 * (-2 * m) * cX
+            Vff = Vff + a * TWO_PI ** 2 * m * m * cX
+        g.update(V=V, Vq=Vq, Vf=Vf, Vqq=Vqq, Vqf=Vqf, Vff=Vff)
+        return g
+
+    def objects(self, y):
+        """frame, torsion, E = X_H(K^) - D K^ omega, H(K^), A = DX_H(K^) at the shifted grid y."""
+        G, c = self.G, C_TIME
+        g = self.geom(y)
+        s = G.cand.nu - 1
+        sh = g["u"].shape
+        L = np.zeros(sh + (4, 2), complex)
+        L[..., 0, 0] = 1 + g["us"]; L[..., 0, 1] = g["uf"]; L[..., 1, 1] = 1
+        L[..., 2, 0] = g["ps"]; L[..., 2, 1] = g["pf"]; L[..., 3, 0] = g["P2s"]; L[..., 3, 1] = g["P2f"]
+        DH = np.zeros(sh + (4,), complex)
+        DH[..., 0] = c * g["Vq"]; DH[..., 1] = c * (g["Vq"] + g["Vf"]); DH[..., 2] = c * (g["p"] - 1); DH[..., 3] = c
+        Hs = np.zeros(sh + (4, 4), complex)
+        a_, b_, d_ = g["Vqq"], g["Vqf"], g["Vff"]
+        Hs[..., 0, 0] = c * a_; Hs[..., 0, 1] = Hs[..., 1, 0] = c * (a_ + b_); Hs[..., 1, 1] = c * (a_ + 2 * b_ + d_)
+        Hs[..., 2, 2] = c
+        A = np.einsum("ab,...bc->...ac", JX, Hs)
+        XH = np.stack([c * (g["p"] - 1), c + 0 * g["p"], -c * g["Vq"], -c * (g["Vq"] + g["Vf"])], axis=-1)
+        dwK = np.stack([c * (s + s * g["us"] + g["uf"]), c + 0 * g["p"], c * (s * g["ps"] + g["pf"]),
+                        c * (s * g["P2s"] + g["P2f"])], axis=-1)
+        E = XH - dwK
+        H = c * (g["p"] ** 2 / 2 - g["p"] + g["P2"] + g["V"])
+        Gm = np.einsum("...ki,...kj->...ij", L, L)
+        B = np.linalg.inv(Gm)
+        N = np.einsum("ab,...bk,...kj->...aj", OM, L, B)
+        Nh = np.fft.fft2(N, axes=(0, 1))
+        DN = np.fft.ifft2(Nh * G.mult[:, :, None, None], axes=(0, 1))
+        XN = np.einsum("...ab,...bj->...aj", A, N) - DN
+        T = np.einsum("...ia,ab,...bj->...ij", np.swapaxes(N, -1, -2), OM, XN)
+        Y = np.einsum("...a,...aj->...j", DH, N)
+        return dict(g=g, L=L, B=B, N=N, T=T, Y=Y, DH=DH, A=A, E=E, H=H, dwK=dwK)
+
+    def eval4(self, C4, y):
+        return np.stack([self.G.eval(C4[..., i], y) for i in range(4)], axis=-1)
+
+
+def build_finite(G, Ld, tolJ, bits=BITS, r=None):
+    """K^_L: U from v cut at 10^-L, P1 = nu + D_t U, P2 = P1 + J^, J^ = J truncated at weighted tail mass tolJ on T_r."""
+    r = S0.RHO if r is None else r
+    co = r1_norms.load("lower", 10.0 ** (-Ld))
+    N1, N2 = G.N1, G.N2
+    U = np.zeros((N1, N2), complex)
+    for k, l, b in co:
+        U[k % N1, l % N2] += b / 2j / TWO_PI
+        U[(-k) % N1, (-l) % N2] += -b / 2j / TWO_PI
+    U = rnd(U, bits)
+    lam = (G.cand.nu - 1) * G.kk + G.ll
+    P1 = 2j * math.pi * lam * U
+    P1[0, 0] += G.cand.nu
+    P1 = rnd(P1, bits)
+    K0 = FinTorus(G, U, P1, P1)                     # P2 placeholder to get the geometry
+    Js = []
+    for y in ((r, r), (r, -r)):
+        g = K0.geom(y)
+        Js.append(-g["p"] ** 2 / 2 - g["V"])
+    CJ = coef_from_corners(G, Js[0], Js[1], r)
+    CJh = trunc_tail(G, CJ, r, tolJ, bits)
+    return FinTorus(G, U, P1, rnd(P1 + CJh, bits)), len(co), int(np.count_nonzero(CJh))
+
+
+def step_fin(K, y, consts=None, E0=0.0):
+    """the isoenergetic additive step of the finite torus K at the shifted grid y (signs of step_iso)."""
+    G = K.G
+    o = K.objects(y)
+    L, B, N, T, Y, E = o["L"], o["B"], o["N"], o["T"], o["Y"], o["E"]
+    LT = np.swapaxes(L, -1, -2)
+    etaL = -S0.mv(S0.mm(B, LT), E)
+    etaN = S0.mv(LT, S0.mv(OM, E))
+    uN, _ = G.solve(etaN)
+    if consts is None:
+        TT = np.zeros((3, 3), complex)
+        TT[:2, :2] = G.coef_at(T)[0, 0]; TT[:2, 2] = G.omega; TT[2, :2] = G.coef_at(Y)[0, 0]
+        eta_w = -(G.coef_at(o["H"])[0, 0] - E0)
+        rhs = np.concatenate([G.coef_at(etaL)[0, 0] + G.coef_at(S0.mv(T, uN))[0, 0],
+                              [eta_w + G.coef_at(np.einsum("...j,...j->...", Y, uN)[..., None])[0, 0, 0]]])
+        sol = np.linalg.solve(TT, rhs)
+        consts = (sol[:2], sol[2])
+    xi0, xiw = consts
+    xiN = xi0 - uN
+    gL = S0.mv(T, xiN) + G.omega * xiw - etaL
+    xiL, _ = G.solve(gL)
+    return S0.mv(L, xiL) + S0.mv(N, xiN), consts, o
+
+
+def finite_measure(Ld, strips, tolJ, tolD, N1=512, N2=128, bits=BITS, emit=None, log=print):
+    """Build K^_L, compute its step, emit DK^ (finite, rounded), and recompute every bound from K^ and DK^."""
+    t0 = time.time()
+    rho = S0.RHO
+    G = S0.Grid(N1, N2)
+    K, nv, nJ = build_finite(G, Ld, tolJ, bits)
+    _, consts, o0 = step_fin(K, (0.0, 0.0))
+    xi0, xiw = consts
+    xiw_r = float(np.round(np.real(xiw) * 2.0 ** bits) / 2.0 ** bits)
+    # the step at the corners of T_rho, emitted as a finite polynomial DK^
+    dKc = [step_fin(K, y, consts)[0] for y in ((rho, rho), (rho, -rho))]
+    CdK = trunc_tail(G, coef_from_corners(G, dKc[0], dKc[1], rho), rho, tolD, bits, keep0=True)
+    an = []
+    for y, dk in zip(((rho, rho), (rho, -rho)), dKc):           # E_lin~ with the analytic step (the ledger of DK^)
+        ob = K.objects(y)
+        dw = G.domega(dk)
+        an.append(ob["E"] + S0.mv(ob["A"], dk) - dw + xiw_r * (ob["dwK"] + dw))
+    tk = (2j * math.pi * G.kk)[..., None]; tl = (2j * math.pi * G.ll)[..., None]
+    out = dict(L=Ld, v_terms=nv, J_terms=nJ, support=K.support(), dK_terms=[int(np.count_nonzero(CdK[..., i]))
+                                                                             for i in range(4)],
+               xiw=xiw_r, energy0=complex(G.coef_at(o0["H"])[0, 0]), strips={})
+    # residual of K^ on T_rho (corner method) and its sampled sup
+    Er = [K.objects(y)["E"] for y in ((rho, rho), (rho, -rho))]
+    out["e_l1"] = vec_norm(l1w(G, Er[0], Er[1])); out["e_sup"] = sup_vec(*Er)
+    out["nterms"] = nv
+    out["Elin_l1_analytic_step"] = vec_norm(l1w(G, an[0], an[1]))
+    out["energy_err"] = abs(out["energy0"])
+    # caps of K^ (sampled) for comparison with the package
+    caps = dict(L=0.0, LT=0.0, B=0.0, N=0.0, NT=0.0)
+    for y in ((rho, rho), (rho, -rho)):
+        ob = K.objects(y)
+        caps["L"] = max(caps["L"], sup_mat(ob["L"])); caps["LT"] = max(caps["LT"], sup_mat(np.swapaxes(ob["L"], -1, -2)))
+        caps["B"] = max(caps["B"], sup_mat(ob["B"])); caps["N"] = max(caps["N"], sup_mat(ob["N"]))
+        caps["NT"] = max(caps["NT"], sup_mat(np.swapaxes(ob["N"], -1, -2)))
+    d0 = min(1.0, (rho - S0.RHOINF) / 6)
+    caps["T"] = max(sup_mat(K.objects((rho - d0, rho - d0))["T"]), sup_mat(K.objects((rho - d0, -(rho - d0)))["T"]))
+    ext = np.zeros((3, 3), complex)
+    ext[:2, :2] = G.coef_at(o0["T"])[0, 0]; ext[:2, 2] = G.omega; ext[2, :2] = G.coef_at(o0["Y"])[0, 0]
+    caps["Text_inv"] = float(np.abs(np.linalg.inv(ext)).sum(-1).max())
+    caps["Tavg_inv"] = float(np.abs(np.linalg.inv(G.coef_at(o0["T"])[0, 0])).sum(-1).max())
+    out["caps"] = caps
+    # bounds with the finite DK^ at each restart strip
+    for r1 in strips:
+        acc = {}
+        res = []
+        for y in ((r1, r1), (r1, -r1)):
+            ob = K.objects(y)
+            dK = K.eval4(CdK, y)
+            dwdK = K.eval4(CdK * G.mult[..., None], y)
+            DdK = np.stack([K.eval4(CdK * tk, y), K.eval4(CdK * tl, y)], axis=-1)
+            Elin = ob["E"] + S0.mv(ob["A"], dK) - dwdK + xiw_r * (ob["dwK"] + dwdK)
+            E1 = ob["E"] + dXH(ob["g"], dK) - dwdK + xiw_r * (ob["dwK"] + dwdK)
+            L1 = ob["L"] + DdK
+            OmK = S0.mm(np.swapaxes(ob["L"], -1, -2), S0.mm(OM, ob["L"]))
+            OmK1 = S0.mm(np.swapaxes(L1, -1, -2), S0.mm(OM, L1))
+            DE = deriv(G, ob["E"])
+            res.append(dict(Elin=Elin, E1=E1, OmK=OmK, OmK1=OmK1, DE=DE))
+        a, b = res
+        Cd = [CdK * tk, CdK * tl]
+        dKn = l1_coef(G, CdK, r1)                                         # exact: finite polynomial
+        Dn = np.stack([l1_coef(G, Cd[0], r1), l1_coef(G, Cd[1], r1)], axis=-1)   # (4, 2) entry norms
+        acc.update(dK_l1=float(dKn.max()), DdK_l1=float(Dn.sum(-1).max()), DdKT_l1=float(Dn.T.sum(-1).max()),
+                   Elin_l1=vec_norm(l1w(G, a["Elin"], b["Elin"])), Elin_sup=sup_vec(a["Elin"], b["Elin"]),
+                   E1_sup=sup_vec(a["E1"], b["E1"]), R2_sup=sup_vec(a["E1"] - a["Elin"], b["E1"] - b["Elin"]),
+                   OmK_l1=mat_norm(l1w(G, a["OmK"], b["OmK"])), OmK1_l1=mat_norm(l1w(G, a["OmK1"], b["OmK1"])),
+                   DE_l1=mat_norm(l1w(G, a["DE"], b["DE"])))
+        out["strips"]["%.10g" % r1] = acc
+    # real torus and T_rho_inf (finite: exact coefficient sums)
+    Dn0 = np.stack([l1_coef(G, CdK * tk, 0.0), l1_coef(G, CdK * tl, 0.0)], axis=-1)
+    z = K.objects((0.0, 0.0))
+    dK0 = K.eval4(CdK, (0.0, 0.0))
+    L1r = z["L"] + np.stack([K.eval4(CdK * tk, (0.0, 0.0)), K.eval4(CdK * tl, (0.0, 0.0))], axis=-1)
+    out["real"] = dict(dK_l1=float(l1_coef(G, CdK, 0.0).max()), DdK_l1=float(Dn0.sum(-1).max()),
+                       DdKT_l1=float(Dn0.T.sum(-1).max()), DE_l1=mat_norm(l1w_real(G, deriv(G, z["E"]))),
+                       OmK_l1=mat_norm(l1w_real(G, S0.mm(np.swapaxes(z["L"], -1, -2), S0.mm(OM, z["L"])))),
+                       OmK1_l1=mat_norm(l1w_real(G, S0.mm(np.swapaxes(L1r, -1, -2), S0.mm(OM, L1r)))))
+    out["energy_lin"] = abs(out["energy0"] + np.mean(np.einsum("...a,...a->...", z["DH"], dK0)))
+    out["rhoinf"] = dict(dK_l1=float(l1_coef(G, CdK, S0.RHOINF).max()))
+    # supports of the composition witness W = exp(4 pi i U) and of the model of E at tolerance tolE
+    Wc = [np.exp(4j * math.pi * K.geom(y)["u"]) for y in ((rho, rho), (rho, -rho))]
+    CW = coef_from_corners(G, Wc[0], Wc[1], rho)
+    CE = coef_from_corners(G, Er[0], Er[1], rho)
+    for tolE in (2e-12, 2e-13):
+        out["W_terms_%.0e" % tolE] = int(np.count_nonzero(trunc_tail(G, CW, rho, tolE, 200, keep0=True)))
+        out["E_terms_%.0e" % tolE] = int(max(np.count_nonzero(trunc_tail(G, CE[..., i], rho, tolE, 200))
+                                             for i in range(4)))
+    if emit:
+        S = 2 ** bits
+        pack = lambda C: [[int(k), int(l), int(round(C[k % N1, l % N2].real * S)), int(round(C[k % N1, l % N2].imag * S))]
+                          for k, l in zip(*[x.ravel() for x in np.meshgrid(np.fft.fftfreq(N1, 1 / N1).astype(int),
+                                                                         np.fft.fftfreq(N2, 1 / N2).astype(int),
+                                                                         indexing="ij")])
+                          if C[k % N1, l % N2] != 0]
+        data = dict(note="finite candidate K^ = (psi + U, phi, P1, P2) and step DK^ (iso), coefficients of e_(k,l) "
+                         "= exp(2 pi i (k psi + l phi)), entries [k, l, re*2^bits, im*2^bits]; design tooling, "
+                         "AUDIT-HYBRID-1 F1", L=Ld, scale_bits=bits, c=C_TIME, nu=float(G.cand.nu), rho=rho,
+                    rhoinf=S0.RHOINF, tolJ=tolJ, tolD=tolD, E0=0.0, xiw_num=int(round(xiw_r * S)),
+                    U=pack(K.U), P1=pack(K.P1), P2=pack(K.P2), dK=[pack(CdK[..., i]) for i in range(4)])
+        json.dump(data, open(emit, "w"))
+    out["time"] = time.time() - t0
+    log("  finite L = %d: v %d, J^ %d, DK^ %s terms; e_l1 %.3e (sup %.3e), energy %.1e; %.0fs" % (
+        Ld, nv, nJ, out["dK_terms"], out["e_l1"], out["e_sup"], out["energy_err"], out["time"]))
     return out
 
 
@@ -509,6 +795,39 @@ def trunc_hybrid(tr, routes=("A",), forms=(False,), plain=None, log=print):
 def main():
     args = sys.argv[1:]
     quick = "--quick" in args
+    if "--finite" in args:
+        Ls = (6, 7, 8, 9, 10, 15)
+        if "--L" in args:
+            Ls = tuple(int(x) for x in args[args.index("--L") + 1].split(","))
+        emit_dir = args[args.index("--emit") + 1] if "--emit" in args else None
+        rho, d0 = S0.RHO, S0.DELTA0
+        strips = [rho, rho - d0 / 2, rho - d0]
+        out = dict(params=dict(rho=rho, rhoinf=S0.RHOINF, delta0=d0, c=C_TIME, slack=SLACK, bits=BITS,
+                               rule="tolJ = 1e-3 e(analytic graph), tolD = 1e-3 e^2"), finite={})
+        D = T2.package("R1")
+        plain = {(r_, i_): restart_threshold(D, r_, i_)[0] for r_ in ("A", "B") for i_ in (False, True)}
+        out["plain"] = {"%s %s" % (r_, "iso" if i_ else "fixed"): v for (r_, i_), v in plain.items()}
+        print("== finite candidates K^ (finite dyadic polynomials, 2^-%d), grid 512 x 128" % BITS)
+        fin = {}
+        for Ld in Ls:
+            G = S0.Grid(512, 128)
+            Kf, _, _ = build_finite(G, Ld, 0.0)                   # J kept whole: the analytic graph
+            Ef = [Kf.objects(y)["E"] for y in ((rho, rho), (rho, -rho))]
+            e_an = vec_norm(l1w(G, Ef[0], Ef[1]))
+            del Kf, Ef, G
+            emit = os.path.join(emit_dir, "r1-L%d-finite-candidate.json" % Ld) if (emit_dir and Ld == 8) else None
+            r = finite_measure(Ld, strips, 1e-3 * e_an, 1e-3 * e_an ** 2, emit=emit)
+            r["e_l1_analytic_graph"] = e_an
+            fin[Ld] = r
+        out["finite"] = {str(k): v for k, v in fin.items()}
+        for route, iso in (("A", True), ("A", False), ("B", True), ("B", False)):
+            print("\n%s, %s: | L | terms | e (l1, T_rho) | plain margin | e1 (l1 bound) | best strip loss | hybrid margin |"
+                  % (route, "iso" if iso else "fixed"))
+            print("|---:|---:|---:|---:|---:|---:|---:|")
+            out.setdefault("finite_rows", []).extend(trunc_hybrid(fin, routes=(route,), forms=(iso,), plain=plain))
+        if "--json" in args:
+            json.dump(out, open(args[args.index("--json") + 1], "w"), indent=1, default=str)
+        return
     if "--sizes" in args:
         out = dict(sizes=sizes_measure())
         if "--json" in args:
