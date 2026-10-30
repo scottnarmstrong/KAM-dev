@@ -13,7 +13,7 @@ public import KAM.Certificate.Poly.OverlapAdd
 The dense route (`checkPackedProduct` on `PackLayout.dense` lists, cut into blocks) walks every
 slot of every factor block, and almost all of them are zeros. The sparse route works on the
 factor's own `(slot, value)` terms: `spBlocks` cuts strictly increasing terms into blocks of
-`blockLen` slots in one pass, `spPack` packs a block from its terms (shift by the slot offset),
+`blockLen` slots in one pass, `spPack` packs a block from its terms (a balanced tree of nodes carrying their lowest slot),
 and the fit guard uses the largest term (`spMax`). `checkShardSp` is `checkShard` with these
 ingredients; `checkPackedSp` runs it on every shard.
 
@@ -35,16 +35,43 @@ def spBlocks (L : ℕ) : ℕ → ℕ → List (ℕ × ℤ) → List (List (ℕ �
   | n + 1, b, es => es.takeWhile (fun e => decide (e.1 < (b + 1) * L)) ::
       spBlocks L n (b + 1) (es.dropWhile fun e => decide (e.1 < (b + 1) * L))
 
-/-- Packing of a block's terms relative to the slot `base` (positive and negative parts
-accumulated separately with `Nat.shiftLeft`). -/
-def spPackAux (w base : ℕ) : List (ℕ × ℤ) → ℕ → ℕ → ℤ
-  | [], p, n => (p : ℤ) - (n : ℤ)
-  | e :: es, p, n =>
-    if 0 ≤ e.2 then spPackAux w base es (p + (e.2.toNat <<< (w * (e.1 - base)))) n
-    else spPackAux w base es p (n + ((-e.2).toNat <<< (w * (e.1 - base))))
+/-- A packing node `(b, p, n)`: the value `(p - n) · 2^(w b)`, with its lowest slot `b`. -/
+def spNodeVal (w : ℕ) (x : ℕ × ℕ × ℕ) : ℤ := ((x.2.1 : ℤ) - x.2.2) * 2 ^ (w * x.1)
 
-/-- `Σ_e e.2 · 2^(w (e.1 - base))` over the terms of a block. -/
-def spPack (w base : ℕ) (es : List (ℕ × ℤ)) : ℤ := spPackAux w base es 0 0
+/-- The node of one term. -/
+def spLeaf (e : ℕ × ℤ) : ℕ × ℕ × ℕ :=
+  if 0 ≤ e.2 then (e.1, e.2.toNat, 0) else (e.1, 0, (-e.2).toNat)
+
+/-- Join two nodes at the lower slot (the other part shifted by the slot gap). -/
+def spJoin (w : ℕ) (x y : ℕ × ℕ × ℕ) : ℕ × ℕ × ℕ :=
+  if x.1 ≤ y.1 then
+    (x.1, x.2.1 + (y.2.1 <<< (w * (y.1 - x.1))), x.2.2 + (y.2.2 <<< (w * (y.1 - x.1))))
+  else (y.1, y.2.1 + (x.2.1 <<< (w * (x.1 - y.1))), y.2.2 + (x.2.2 <<< (w * (x.1 - y.1))))
+
+/-- One balanced level: adjacent nodes joined. -/
+def spLevel (w : ℕ) : List (ℕ × ℕ × ℕ) → List (ℕ × ℕ × ℕ)
+  | x :: y :: r => spJoin w x y :: spLevel w r
+  | r => r
+
+/-- Linear joining (the fallback when the level budget is exhausted). -/
+def spFold (w : ℕ) : List (ℕ × ℕ × ℕ) → ℕ × ℕ × ℕ
+  | [] => (0, 0, 0)
+  | [x] => x
+  | x :: y :: r => spJoin w x (spFold w (y :: r))
+
+/-- Balanced joining: `fuel` levels of `spLevel`. -/
+def spTree (w : ℕ) : ℕ → List (ℕ × ℕ × ℕ) → ℕ × ℕ × ℕ
+  | _, [] => (0, 0, 0)
+  | _, [x] => x
+  | 0, x :: y :: r => spFold w (x :: y :: r)
+  | f + 1, x :: y :: r => spTree w f (spLevel w (x :: y :: r))
+
+/-- `Σ_e e.2 · 2^(w (e.1 - base))` over the terms of a block: the terms are joined in a balanced
+tree of nodes carrying their own lowest slot, so every intermediate integer is only as wide as
+the slot range it covers (`64` levels suffice; the fallback keeps the value exact regardless). -/
+def spPack (w base : ℕ) (es : List (ℕ × ℤ)) : ℤ :=
+  let r := spTree w 64 (es.map spLeaf)
+  ((r.2.1 <<< (w * (r.1 - base)) : ℕ) : ℤ) - ((r.2.2 <<< (w * (r.1 - base)) : ℕ) : ℤ)
 
 /-- The largest absolute term value. -/
 def spMax (es : List (ℕ × ℤ)) : ℕ := packMaxAbsAux 0 (es.map Prod.snd)
@@ -54,26 +81,94 @@ def shardPackedSp (w L : ℕ) (SA SB : List (List (ℕ × ℤ))) (s : ℕ) : ℤ
   ((List.range (s + 1)).map fun i =>
     spPack w (i * L) (SA.getD i []) * spPack w ((s - i) * L) (SB.getD (s - i) [])).sum
 
-theorem spPackAux_eq (w base : ℕ) : ∀ (es : List (ℕ × ℤ)) (p n : ℕ),
-    spPackAux w base es p n = (p : ℤ) - n + (es.map fun e => e.2 * 2 ^ (w * (e.1 - base))).sum
-  | [], p, n => by simp [spPackAux]
-  | e :: es, p, n => by
-    rw [spPackAux]
-    split_ifs with h
-    · rw [spPackAux_eq w base es, Nat.shiftLeft_eq]
-      have : ((e.2.toNat : ℕ) : ℤ) = e.2 := Int.toNat_of_nonneg h
-      push_cast
-      rw [this, List.map_cons, List.sum_cons]
-      ring
-    · rw [spPackAux_eq w base es, Nat.shiftLeft_eq]
-      have : (((-e.2).toNat : ℕ) : ℤ) = -e.2 := Int.toNat_of_nonneg (by omega)
-      push_cast
-      rw [this, List.map_cons, List.sum_cons]
-      ring
+theorem spNodeVal_spJoin (w : ℕ) (x y : ℕ × ℕ × ℕ) :
+    spNodeVal w (spJoin w x y) = spNodeVal w x + spNodeVal w y := by
+  unfold spJoin spNodeVal
+  split_ifs with h
+  · simp only [Nat.shiftLeft_eq]
+    push_cast
+    rw [show w * y.1 = w * (y.1 - x.1) + w * x.1 by rw [← Nat.mul_add]; congr 1; omega, pow_add]
+    ring
+  · simp only [Nat.shiftLeft_eq]
+    push_cast
+    rw [show w * x.1 = w * (x.1 - y.1) + w * y.1 by rw [← Nat.mul_add]; congr 1; omega, pow_add]
+    ring
 
-theorem spPack_eq (w base : ℕ) (es : List (ℕ × ℤ)) :
+theorem spJoin_fst_ge {w B : ℕ} {x y : ℕ × ℕ × ℕ} (hx : B ≤ x.1) (hy : B ≤ y.1) :
+    B ≤ (spJoin w x y).1 := by
+  unfold spJoin; split_ifs <;> assumption
+
+/-- The value of a node list. -/
+def spListVal (w : ℕ) (xs : List (ℕ × ℕ × ℕ)) : ℤ := (xs.map (spNodeVal w)).sum
+
+theorem spLevel_spec (w B : ℕ) : ∀ xs : List (ℕ × ℕ × ℕ), (∀ x ∈ xs, B ≤ x.1) →
+    spListVal w (spLevel w xs) = spListVal w xs ∧ ∀ x ∈ spLevel w xs, B ≤ x.1
+  | x :: y :: r, h => by
+    obtain ⟨ih1, ih2⟩ := spLevel_spec w B r fun z hz => h z (by simp [hz])
+    refine ⟨?_, ?_⟩
+    · simp only [spLevel, spListVal, List.map_cons, List.sum_cons] at ih1 ⊢
+      rw [ih1, spNodeVal_spJoin]
+      ring
+    · intro z hz
+      rcases List.mem_cons.mp hz with rfl | hz
+      · exact spJoin_fst_ge (h x (by simp)) (h y (by simp))
+      · exact ih2 z hz
+  | [], _ => by simp [spLevel, spListVal]
+  | [x], h => ⟨rfl, by simpa [spLevel] using h⟩
+
+theorem spFold_spec (w B : ℕ) : ∀ xs : List (ℕ × ℕ × ℕ), (∀ x ∈ xs, B ≤ x.1) →
+    spNodeVal w (spFold w xs) = spListVal w xs ∧ (xs ≠ [] → B ≤ (spFold w xs).1)
+  | [], _ => by simp [spFold, spNodeVal, spListVal]
+  | [x], h => by simpa [spFold, spListVal] using h
+  | x :: y :: r, h => by
+    obtain ⟨ih1, ih2⟩ := spFold_spec w B (y :: r) fun z hz => h z (by simp [hz])
+    refine ⟨?_, fun _ => spJoin_fst_ge (h x (by simp)) (ih2 (by simp))⟩
+    rw [spFold, spNodeVal_spJoin, ih1]
+    simp [spListVal]
+
+theorem spTree_spec (w B : ℕ) : ∀ (f : ℕ) (xs : List (ℕ × ℕ × ℕ)), (∀ x ∈ xs, B ≤ x.1) →
+    spNodeVal w (spTree w f xs) = spListVal w xs ∧ (xs ≠ [] → B ≤ (spTree w f xs).1)
+  | _, [], _ => by simp [spTree, spNodeVal, spListVal]
+  | f, [x], h => by cases f <;> simpa [spTree, spListVal] using h
+  | 0, x :: y :: r, h => spFold_spec w B _ h
+  | f + 1, x :: y :: r, h => by
+    obtain ⟨l1, l2⟩ := spLevel_spec w B (x :: y :: r) h
+    obtain ⟨t1, t2⟩ := spTree_spec w B f _ l2
+    refine ⟨t1.trans l1, fun _ => t2 ?_⟩
+    simp [spLevel]
+
+theorem spPack_eq (w base : ℕ) (es : List (ℕ × ℤ)) (hb : ∀ e ∈ es, base ≤ e.1) :
     spPack w base es = (es.map fun e => e.2 * 2 ^ (w * (e.1 - base))).sum := by
-  simp [spPack, spPackAux_eq]
+  have hleaf : ∀ x ∈ es.map spLeaf, base ≤ x.1 := by
+    intro x hx
+    obtain ⟨e, he, rfl⟩ := List.mem_map.mp hx
+    unfold spLeaf; split_ifs <;> exact hb e he
+  obtain ⟨h1, h2⟩ := spTree_spec w base 64 _ hleaf
+  set r := spTree w 64 (es.map spLeaf) with hr
+  have hpos : (0 : ℤ) < 2 ^ (w * base) := by positivity
+  have hval : spListVal w (es.map spLeaf) =
+      (es.map fun e => e.2 * 2 ^ (w * (e.1 - base))).sum * 2 ^ (w * base) := by
+    unfold spListVal
+    rw [List.map_map, ← List.sum_map_mul_right]
+    congr 1
+    refine List.map_congr_left fun e he => ?_
+    have := hb e he
+    simp only [Function.comp_apply, spNodeVal, spLeaf]
+    rw [mul_assoc, ← pow_add, ← Nat.mul_add, Nat.sub_add_cancel this]
+    split_ifs with hc
+    · simp [Int.toNat_of_nonneg hc]
+    · simp [Int.toNat_of_nonneg (show 0 ≤ -e.2 by omega)]
+  refine mul_right_cancel₀ hpos.ne' ?_
+  rw [← hval, ← h1]
+  by_cases he : es = []
+  · subst he
+    simp [hr, spTree, spPack, spNodeVal]
+  · have hrb := h2 (by simpa using he)
+    simp only [spPack, ← hr, spNodeVal, Nat.shiftLeft_eq]
+    push_cast
+    rw [show w * r.1 = w * (r.1 - base) + w * base by rw [← Nat.mul_add]; congr 1; omega,
+      pow_add]
+    ring
 
 theorem takeWhile_lt_eq_filter (c : ℕ) : ∀ es : List (ℕ × ℤ),
     es.Pairwise (fun a b => a.1 < b.1) →
@@ -238,7 +333,8 @@ theorem packSum_cut_packFill {adv : PackedAdvice} (hL : 0 < adv.blockLen) {N : �
       exact List.getElem_mem _
     obtain ⟨k, hk⟩ := PackedAdvice.cut_flatten hL (packFill N 0 es)
     rw [packSum_eq_sum_of_length_le w (PackedAdvice.cut_length _ hmem).le,
-      spBlocks_getD L _ 0 es hs (by simp) i hi, spPack_eq, Nat.zero_add]
+      spBlocks_getD L _ 0 es hs (by simp) i hi, spPack_eq _ _ _ (fun e he => by
+        have := (List.mem_filter.mp he).2; simp at this; omega), Nat.zero_add]
     rw [Finset.sum_congr rfl fun a ha => by
       rw [getD_getD_of_flatten _ (fun x hx => PackedAdvice.cut_length x hx) i a
         (Finset.mem_range.mp ha), hk, getD_append_replicate_zero, packFill_getD hs hN]]
@@ -248,7 +344,7 @@ theorem packSum_cut_packFill {adv : PackedAdvice} (hL : 0 < adv.blockLen) {N : �
     rw [pow_mul]
   · rw [List.getD_eq_getElem?_getD, List.getElem?_eq_none (by omega),
       List.getD_eq_getElem?_getD, List.getElem?_eq_none (by rw [spBlocks_length]; omega)]
-    simp [packSum_nil, spPack_eq]
+    simp [packSum_nil, spPack, spTree]
 
 /-- Every entry of a linear fill of strictly increasing terms is bounded by the largest term. -/
 theorem natAbs_packSlotTotal_le {es : List (ℕ × ℤ)} (hs : es.Pairwise fun a b => a.1 < b.1)
