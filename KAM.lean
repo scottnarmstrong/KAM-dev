@@ -1344,6 +1344,10 @@ public import KAM.Provider.Planetary.SecularBoxSafety
 public import KAM.Provider.VolumeNotDiophantineLe
 public import KAM.Sharp.Box
 public import KAM.Sharp.BoxTorsion
+public import KAM.Sharp.Engine.Decay
+public import KAM.Sharp.Engine.Limit
+public import KAM.Sharp.Engine.Schedule
+public import KAM.Sharp.Engine.Scheme
 public import KAM.SpinOrbit.Barrier
 public import KAM.SpinOrbit.Freq
 public import KAM.SpinOrbit.Graph.Cert
