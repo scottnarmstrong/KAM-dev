@@ -300,3 +300,27 @@ These need LOCK-DATA's emission: models, advice books, `gramInv`/`torsInv`.
    - C2 (bridge) is **blocked**; C3 (Ham passes) is measured at about 2 × 76 CPU-s on literal ops.
    - Every other row remains unmeasured.
    - The total is deferred.
+
+**Follow-up runs (20:17–20:20 UTC).** The runner now also logs the 1 s-sampled maxima of `memory.stat` anon, file
+and file_mapped. The G1 work is on hold until SO-KDEPTH2 lands; G1a/b/c are its acceptance tests.
+
+| probe | rc | CPU s | wall s | MEMPEAK | anon | file / file_mapped | MAXRSS | outcome |
+|---|---:|---:|---:|---:|---:|---:|---:|---|
+| G2claim P=320 (repeat) | 0 | 72.5 | 71.4 | 7.8 GB | 7.6 GB | 5 / 5 MB | 11.0 GB | claims pass; identical to the first run |
+| G2claim P=128 | 0 | 68.4 | 68.5 | 6.8 GB | 6.6 GB | 67 / 32 MB | 9.9 GB | **claims pass** |
+
+**The 11 GB MAXRSS question.**
+- The cgroup's charge is almost all **anon**, about 7.6 GB. The roughly 3.3 GB gap to MAXRSS is mmapped `.olean`
+  pages already resident in the page cache and charged to the cgroups that first read them. Process RSS counts
+  them; this cgroup's charge does not.
+- I did not drop system caches (per the instruction), so a truly cold run was **not** produced. "Cold" here means
+  the first run in this scope.
+- On a fully cold cache those clean, file-backed pages would be charged to the probe. They are reclaimable under
+  `memory.max`, though: the expected effect is re-reads, not an OOM, because only anon (7.6 GB) is unreclaimable
+  with swap off. That is an inference, not a measurement.
+
+**Decision.**
+- The Ham claim pass is **one theorem**, at either precision. P = 128 saves about 1 GB (6.8 against 7.8 GB) and
+  about 6 % CPU, and both pass the claims.
+- Lever 2 (precision) is optional: it is worth about 1 GB of headroom, not a necessity.
+- Bill row C3 (two Ham passes) is measured at about 2 × 70 CPU-s.
