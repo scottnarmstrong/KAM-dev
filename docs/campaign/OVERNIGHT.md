@@ -1089,3 +1089,9 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   determinism reruns running. SO-DATA-2 (Lean data modules, kernel passes, the final lunar theorems as one-liners,
   no freezing) is briefed with a staged stop: measure the heaviest sub-check's kernel time and memory on one torus
   before emitting everything (stop at > 10 GB per theorem or > ~12 CPU-h projected).
+- **01:49. Heartbeat.** kam-inp is building the batch (B34, B2SO, SO-TOYFIX2, SO-LUNAR-A; Toy2d alone took 342 s, 17 GB
+  free throughout). SO-DATA-1 waits on its determinism reruns (data not yet committed), so SO-DATA-2 waits too. The
+  release elaboration test is deferred: a clean rebuild of ~1400 files would compete with the landing build and
+  SO-DATA-2's capped kernel runs for memory. README: the Main theorems section now lists track SO's two results
+  (the sound certificate checker `checkTorusCertificate_sound`; the first certified tori), marked as ordinary
+  theorems, not frozen statements. Quotas: claude-12 96 %, codex-3 87 %, codex-4 64 %.
