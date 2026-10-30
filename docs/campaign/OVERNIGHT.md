@@ -1376,3 +1376,13 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - Nothing of LOCK is started until the owner answers. Under v2, the lock thresholds (projected from v1 sharp) will
     also improve.
   - Disk 13 GB free (soballdy and soballdyl removed; branches kept).
+- **15:50. Correction: SO-BALLDY is NOT landed.**
+  - The 15:42 entry was wrong. The lander's landing build failed and the merge a40b1224 was rolled back before the
+    push. I checked ancestry in that window.
+  - Cause: sharp-v2's KAM/CertificateSharp/Ham/BallsTrig.lean (SHARP-C3) relies on the old `ballStep` internals,
+    giving unsolved goals at 223:61 and `split_ifs` with no conditions at 366:6. Each side built alone.
+  - kam-inp removed BALLDY from inp and fast-forwarded inp to main 10a159ad, which has v2 built.
+  - Fix: SO-BALLFIX, i.e. BALLDY rebased on main with BallsTrig's proofs adapted and no statement changes, then a
+    delta audit on codex-3.
+  - Owner answered the SO-LOCK-SCOPE questions (D45): L1, the sqrt route, N = 65 directly, a certified periodic
+    orbit as centre, no Birkhoff normal form, novelty conditional.
