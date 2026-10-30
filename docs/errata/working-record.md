@@ -35,6 +35,7 @@ Locations refer to the pinned versions in [`sources.json`](../sources.json); cou
 | Rus01 (doi:10.1070/RD2001v006n02ABEH000169) | 2 | 0 |
 | Rus05 (doi:10.1070/RD2005v010n01ABEH000297) | 3 | 1 |
 | AKN06 (doi:10.1007/978-3-540-48926-9) | 0 | 1 |
+| P96-W | 0 | 2 |
 
 ## Pos01 (arXiv:0908.2234v1)
 
@@ -415,3 +416,15 @@ None.
 ### Deviations
 
 1. **§6.1.9 versus averaging drafts.** *proof supplement / reformulation; PLANNED* (D-N-ADD-5). Specialize to analytic Hamiltonians, fixed h,f,K, period-one angles, absolute volume and separate local existence. Evidence: docs/tracks/N/notes.md D-N-ADD-5 and v0.5. Effect: This averaging draft is not an approved or proved frozen addition..
+
+
+## P96-W
+
+### Errata
+
+None.
+
+### Deviations
+
+1. **frozen docstrings of KAM.Wave.linearTorus, reconU, reconV (approved text docs/tracks/W/W-STATEMENTS.md rev 1, ffcbdb93).** *whitespace-only rewrap of approved text; ADOPTED* (D-W-FREEZE-1). One space replaced by a newline in each of three approved declaration docstrings, to meet the 100-column lint (D-WF1, main orchestrator ruling 2026-10-30; AmdConfinement precedent). Evidence: docs/tracks/W/FREEZE.md; ABI hashes (pp.all #print/#check) identical before and after; identity audit docs/tracks/W/audits/W-FREEZE-identity-audit.md. Effect: none: docstring whitespace only, ABI unchanged.
+2. **frozen docstrings of KAM.Wave.reconV and KAM.Wave.nlw2 (approved text docs/tracks/W/W-STATEMENTS.md rev 1, ffcbdb93).** *docstring-only correction of approved text; ADOPTED* (D-W-FREEZE-2). Docstring corrections (D-WF2, main orchestrator ruling 2026-10-30): reconV 'where `q = coeff y`' -> 'where `p = coeff y`' (the formula is in the momentum coordinate p); nlw2 '**W-NLW2 (proposed).**' -> '**W-NLW2.**' (now owner-approved and frozen). Evidence: docs/tracks/W/FREEZE.md; ABI hashes (pp.all #print/#check) identical before and after; identity audit docs/tracks/W/audits/W-FREEZE-identity-audit.md. Effect: none: docstring only, ABI unchanged.

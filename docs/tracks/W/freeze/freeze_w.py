@@ -15,6 +15,9 @@ APPROVAL = ("Owner-approved on 2026-10-30 (decision D41; docs/tracks/W/W-STATEME
             "ffcbdb93). This file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an "
             "owner-approved versioned successor.")
 out = {}
+# Deviation D-WF2 (main orchestrator ruling, 2026-10-30): two docstring-only fixes, ABI unchanged.
+DOCFIX = {"ReconV": {"`q = coeff y` (P96-W p. 277). -/": "`p = coeff y` (P96-W p. 277). -/"},
+          "Nlw2": {"/-- **W-NLW2 (proposed).** For": "/-- **W-NLW2.** For"}}
 # Deviation D-WF1 (lint: lines over 100 characters): one space -> newline in three declaration docstrings.
 WRAP = {"(positivity is part of the carrier, W-ST1), period-one angle": "(positivity is part of the carrier, W-ST1),\nperiod-one angle",
         "φ_j(x)`, where `q = coeff y` (P96-W p. 277). -/": "φ_j(x)`, where\n`q = coeff y` (P96-W p. 277). -/"}
@@ -29,6 +32,8 @@ def convert(sub, stem, name, thm):
     assert block.endswith("end KAM.Wave\n\nend\n"), stem
     for a, b in WRAP.items():
         if a in block: block = block.replace(a, b, 1)
+    for a, b in DOCFIX.get(stem, {}).items():
+        assert block.count(a) == 1, (stem, a); block = block.replace(a, b, 1)
     head = re.sub(r"(?m)^public import KAM\.Wave\.Defs\.", "public import KAM.Frozen.Wave.Defs.", head)
     m = re.search(r"/-!\n# (.*?)\n\n(.*?)\n-/\n", head, re.S)
     body = m.group(2)

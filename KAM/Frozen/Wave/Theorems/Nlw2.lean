@@ -36,7 +36,7 @@ open MeasureTheory Filter Topology
 
 namespace KAM.Wave
 
-/-- **W-NLW2 (proposed).** For every `m > 0` the cubic Dirichlet wave equation
+/-- **W-NLW2.** For every `m > 0` the cubic Dirichlet wave equation
 `u_tt = u_xx - m u - u³` has a density-one (in the actions, at `0`) Borel family of small analytic
 invariant 2-tori with Diophantine frequencies, carrying exact classical PDE solutions, pairwise
 disjoint and embedded. -/

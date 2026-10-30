@@ -27,7 +27,7 @@ owner-approved versioned successor.
 namespace KAM.Wave
 
 /-- The velocity reconstruction `V_m(p)(x) = Σ_{j ≥ 1} √λ_j p_j · φ_j(x)`, where
-`q = coeff y` (P96-W p. 277). -/
+`p = coeff y` (P96-W p. 277). -/
 def reconV (m : ℝ) (hm : 0 < m) (y : lp (fun _ : ℕ+ => ℝ) 2) (x : ℝ) : ℝ :=
   ∑' j : ℕ+, Real.sqrt (lam m hm j) * coeff y j * sineMode j x
 

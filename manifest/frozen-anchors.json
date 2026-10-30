@@ -9656,7 +9656,7 @@
     }
    ],
    "state": "SEALED",
-   "full_file_sha256": "d1a292029389c7572c9ed6eae45cc4e5b557755bd5843f545966a0affff450a8"
+   "full_file_sha256": "806e6a22726d296c11ef1c5aad0959a80445e463f3f7a864089cade9f29f3181"
   },
   {
    "id": "wave.cubicGrad.v1",
@@ -9868,7 +9868,7 @@
     },
     {
      "path": "KAM/Frozen/Wave/Defs/ReconV.lean",
-     "sha256": "d1a292029389c7572c9ed6eae45cc4e5b557755bd5843f545966a0affff450a8"
+     "sha256": "806e6a22726d296c11ef1c5aad0959a80445e463f3f7a864089cade9f29f3181"
     },
     {
      "path": "KAM/Frozen/Wave/Defs/SineMode.lean",
@@ -9884,7 +9884,7 @@
     "export": "KAM.Provider.Wave.nlw2"
    },
    "state": "DRAFT_SORRY",
-   "prefix_sha256": "c862256f0a6ae478f5e25ffd686ccf8790eb8686ded91445803c25c0dce7aca4",
+   "prefix_sha256": "b2962b367741a5f5e42202a09b1c4908e36416e12687ca3528b77379a3a6a9b5",
    "suffix_sha256": "9fbcbc092ac5275ee83355be1725aec08622915482639ba4d88d69383961d4f6",
    "draft_allowlist": {
     "frozen_paths": [],

@@ -57,10 +57,19 @@ otherwise; precedent: the frozen AmdConfinement docstring rewrap, OVERNIGHT 2026
 * `linearTorus`: `... W-ST1),` / `period-one angle ...`
 * `reconU`, `reconV`: `... φ_j(x)\`, where` / `` `q = coeff y` (P96-W p. 277). -/``
 Docstrings are not part of the ABI (`#print`/`#check` with `pp.all`); the ABI hashes were computed before the
-rewrap and re-checked after it: identical.
+rewrap and re-checked after it: identical. Confirmed by the main orchestrator (2026-10-30); ledger
+`D-W-FREEZE-1`.
 
-Every other byte from `namespace KAM.Wave` to the end of each definition file, and to the `:=` of `nlw2`, is
-identical to the draft.
+## Deviation D-WF2 (docstring corrections, main orchestrator ruling 2026-10-30)
+
+* `reconV`: `` `q = coeff y` `` becomes `` `p = coeff y` `` (the formula `V_m(p)` is in the momentum coordinate).
+* `nlw2`: `/-- **W-NLW2 (proposed).** For` becomes `/-- **W-NLW2.** For` (owner-approved and frozen).
+
+Applied by `DOCFIX` in `freeze/freeze_w.py`. Docstring only; ABI hashes re-checked against the values computed
+before D-WF1: identical. Ledger `D-W-FREEZE-2`.
+
+Apart from D-WF1 and D-WF2, every byte from `namespace KAM.Wave` to the end of each definition file, and to the
+`:=` of `nlw2`, is identical to the draft.
 
 ## Checks (2026-10-30)
 
@@ -74,8 +83,9 @@ identical to the draft.
 * `#print axioms`: `nlw2` `[propext, sorryAx, Classical.choice, Quot.sound]`; the eleven definitions
   `[propext, Classical.choice, Quot.sound]`.
 
-## Notes for errata / later successors (not changed: frozen text)
+## Notes
 
-* N1. `reconV` docstring: "`V_m(p)(x) = Σ √λ_j p_j φ_j(x)`, where `q = coeff y`" should read `p = coeff y`
-  (docstring only; the body is right).
-* N2. The `nlw2` declaration docstring still opens "**W-NLW2 (proposed).**" (approved text, kept).
+* N1 (`reconV` docstring `q`/`p`) and N2 (`nlw2` "(proposed)") were fixed as D-WF2 before landing.
+* After D-WF2: rebuild OK (same single `sorry` warning), `FROZEN-ANCHOR GUARD OK`, `lint_sources.sh` exit 0 with
+  `ABI HASHES OK (158 frozen declarations)`, `check_lean_modules: PASS (1477 Lean files ...)` (the earlier count
+  1464 predates `git add` of the 13 new files; the module checker lists files with `git ls-files`).
