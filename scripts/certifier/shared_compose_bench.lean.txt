@@ -1,0 +1,27 @@
+-- Native timing of the landed checkInvariance + checkEnergy against checkInvEnShared.
+-- Run: copy to .drafts/bench.lean, then `nice -n 5 lake env lean .drafts/bench.lean` (needs KAM.CertificateSharp.Tests.Shared built).
+import KAM.CertificateSharp.Tests.Shared
+open KAM.Certificate KAM.CertificateSharp
+
+def timeIt (label : String) (reps : ℕ) (f : ℕ → Bool) : IO Unit := do
+  let t0 ← IO.monoMsNow
+  let mut ok := true
+  for i in [0:reps] do
+    ok := ok && f i
+  let t1 ← IO.monoMsNow
+  IO.println s!"{label}: {ok} {(t1 - t0) * 1000 / reps} us/run"
+
+def landed {n} (c : TorusCertificate n ℚ) (i : ℕ) : Bool :=
+  -- perturb the error bound so nothing is cached across reps
+  let c' := { c with params := { c.params with err := c.params.err + (i : ℚ) / 10 ^ 40 } }
+  checkInvariance c' && checkEnergy c'
+def shared {n} (c : TorusCertificate n ℚ) (i : ℕ) : Bool :=
+  let c' := { c with params := { c.params with err := c.params.err + (i : ℚ) / 10 ^ 40 } }
+  checkInvEnShared c'
+
+#eval timeIt "T2d landed (invariance+energy)" 20 (landed toyCert2d)
+#eval timeIt "T2d shared" 20 (shared toyCert2d)
+#eval timeIt "T3 landed" 20 (landed toyCert3)
+#eval timeIt "T3 shared" 20 (shared toyCert3)
+#eval timeIt "T2 landed" 20 (landed toyCert2)
+#eval timeIt "T2 shared" 20 (shared toyCert2)
