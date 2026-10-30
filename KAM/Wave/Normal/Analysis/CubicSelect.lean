@@ -103,7 +103,8 @@ theorem wave_selection_sum_le {x y z : ℤ → ℝ}
     (if ((l : ℕ) : ℤ) = waveSign ε.1 * ((t.1 : ℕ) : ℤ) + waveSign ε.2.1 * ((t.2.1 : ℕ) : ℤ)
           + waveSign ε.2.2 * ((t.2.2 : ℕ) : ℤ) then (1 : ℝ) else 0) *
         (x ((t.1 : ℕ) : ℤ) * (y ((t.2.1 : ℕ) : ℤ) * z ((t.2.2 : ℕ) : ℤ))) with hF
-  have hPnn : ∀ t : ℕ+ × ℕ+ × ℕ+, 0 ≤ x ((t.1 : ℕ) : ℤ) * (y ((t.2.1 : ℕ) : ℤ) * z ((t.2.2 : ℕ) : ℤ)) :=
+  have hPnn : ∀ t : ℕ+ × ℕ+ × ℕ+, 0 ≤ x ((t.1 : ℕ) : ℤ) * (y ((t.2.1 : ℕ) : ℤ) * z ((t.2.2 : ℕ) :
+      ℤ)) :=
     fun t => mul_nonneg (hx0 _) (mul_nonneg (hy0 _) (hz0 _))
   have hFnn : ∀ ε t, 0 ≤ F ε t := fun ε t => by
     simp only [hF]
@@ -151,7 +152,8 @@ theorem wave_selection_sum_le {x y z : ℤ → ℝ}
           + waveSign ε.2.2 * ((t.2.2 : ℕ) : ℤ)) ↔
         (waveSign ε.1 * ((t.1 : ℕ) : ℤ) = ((l : ℕ) : ℤ) - waveSign ε.2.2 * ((t.2.2 : ℕ) : ℤ)
           - waveSign ε.2.1 * ((t.2.1 : ℕ) : ℤ)) := by omega
-    by_cases hc : ((l : ℕ) : ℤ) = waveSign ε.1 * ((t.1 : ℕ) : ℤ) + waveSign ε.2.1 * ((t.2.1 : ℕ) : ℤ)
+    by_cases hc : ((l : ℕ) : ℤ) = waveSign ε.1 * ((t.1 : ℕ) : ℤ) + waveSign ε.2.1 * ((t.2.1 : ℕ) :
+        ℤ)
           + waveSign ε.2.2 * ((t.2.2 : ℕ) : ℤ)
     · rw [if_pos hc, if_pos (hiff.1 hc)]; ring
     · rw [if_neg hc, if_neg (fun h => hc (hiff.2 h))]; ring

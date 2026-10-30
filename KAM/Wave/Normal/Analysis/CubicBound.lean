@@ -116,7 +116,8 @@ lemma wave_trilinear_pointwise (m : ℝ) (hm : 0 < m) {q q' q'' : ℕ+ → ℝ}
           waveQuartic t.1 t.2.1 t.2.2 l| :=
     Summable.of_nonneg_of_le (fun t => abs_nonneg _) (fun t => by rw [habs2]; exact hbound t)
       (hsum.mul_left (1 / (2 * π)))
-  calc |∑' t : ℕ+ × ℕ+ × ℕ+, (waveHat m hm q t.1 * (waveHat m hm q' t.2.1 * waveHat m hm q'' t.2.2)) *
+  calc |∑' t : ℕ+ × ℕ+ × ℕ+, (waveHat m hm q t.1 * (waveHat m hm q' t.2.1 * waveHat m hm q''
+      t.2.2)) *
           waveQuartic t.1 t.2.1 t.2.2 l|
       ≤ ∑' t : ℕ+ × ℕ+ × ℕ+,
         |(waveHat m hm q t.1 * (waveHat m hm q' t.2.1 * waveHat m hm q'' t.2.2)) *
@@ -186,7 +187,8 @@ theorem wave_trilinear_bound (m : ℝ) (hm : 0 < m) {a p : ℝ} (ha : 0 ≤ a) (
   have hLz0 : 0 ≤ w0aL2 (fun i => w0aW2 a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q'') i) :=
     Real.sqrt_nonneg _
   have hLA0 : 0 ≤ w0aL2 (fun i => w0aW2 a (p + 1 / 2) i *
-      w0aConv (waveEvenAbs (waveHat m hm q)) (waveEvenAbs (waveHat m hm q')) i) := Real.sqrt_nonneg _
+      w0aConv (waveEvenAbs (waveHat m hm q)) (waveEvenAbs (waveHat m hm q')) i) :=
+          Real.sqrt_nonneg _
   have hN1 := waveEllNorm_nonneg a p q
   have hN2 := waveEllNorm_nonneg a p q'
   have hN3 := waveEllNorm_nonneg a p q''
@@ -199,7 +201,8 @@ theorem wave_trilinear_bound (m : ℝ) (hm : 0 < m) {a p : ℝ} (ha : 0 ≤ a) (
   set N1 := waveEllNorm a p q
   set N2 := waveEllNorm a p q'
   set N3 := waveEllNorm a p q''
-  have hL : w0aL2 (fun l => w0aW2 a (p + 1 / 2) l * X3 l) ≤ K ^ 2 * (2 * Real.sqrt 2) * (N1 * N2 * N3) := by
+  have hL : w0aL2 (fun l => w0aW2 a (p + 1 / 2) l * X3 l) ≤ K ^ 2 * (2 * Real.sqrt 2) * (N1 * N2 *
+      N3) := by
     calc _ ≤ K * w0aL2 (fun i => w0aW2 a (p + 1 / 2) i *
             w0aConv (waveEvenAbs (waveHat m hm q)) (waveEvenAbs (waveHat m hm q')) i) *
           w0aL2 (fun i => w0aW2 a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q'') i) := hA2L
@@ -259,7 +262,8 @@ theorem wave_trilinear_bound (m : ℝ) (hm : 0 < m) {a p : ℝ} (ha : 0 ≤ a) (
     rw [hLsq, hint.tsum_eq]
     nlinarith [sq_nonneg (w0aW2 a (p + 1 / 2) 0 * X3 0)]
   have hL0 : 0 ≤ w0aL2 (fun l => w0aW2 a (p + 1 / 2) l * X3 l) := Real.sqrt_nonneg _
-  have hsumle : ∑' l : ℕ+, (ellWeight a (p + 1) l * T l) ^ 2 ≤ (K ^ 2 * (N1 * N2 * N3) / π) ^ 2 := by
+  have hsumle : ∑' l : ℕ+, (ellWeight a (p + 1) l * T l) ^ 2 ≤ (K ^ 2 * (N1 * N2 * N3) / π) ^ 2 :=
+      by
     calc ∑' l : ℕ+, (ellWeight a (p + 1) l * T l) ^ 2
         ≤ ∑' n : ℕ+, (1 / (4 * π ^ 2)) *
             (w0aW2 a (p + 1 / 2) ((n : ℕ) : ℤ) * X3 ((n : ℕ) : ℤ)) ^ 2 :=
@@ -273,7 +277,8 @@ theorem wave_trilinear_bound (m : ℝ) (hm : 0 < m) {a p : ℝ} (ha : 0 ≤ a) (
       _ = (K ^ 2 * (N1 * N2 * N3) / π) ^ 2 := by
           have : (2 * Real.sqrt 2) ^ 2 = 8 := by
             rw [mul_pow, Real.sq_sqrt (by norm_num)]; norm_num
-          calc _ = (1 / (4 * π ^ 2)) * ((K ^ 2 * (N1 * N2 * N3)) ^ 2 * (2 * Real.sqrt 2) ^ 2 / 2) := by
+          calc _ = (1 / (4 * π ^ 2)) * ((K ^ 2 * (N1 * N2 * N3)) ^ 2 * (2 * Real.sqrt 2) ^ 2 / 2)
+              := by
                 ring
             _ = _ := by rw [this]; field_simp; ring
   unfold waveEllNorm

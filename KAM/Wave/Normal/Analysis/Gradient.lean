@@ -43,7 +43,8 @@ variable (m : ℝ) (hm : 0 < m)
 /-- `ĉ_j = c_j / √λ_j`. -/
 def waveHat (c : ℕ+ → ℝ) (j : ℕ+) : ℝ := c j / Real.sqrt (lam m hm j)
 
-/-- `U_m(q)(x) = Σ_j q_j/√λ_j φ_j(x)` for a real sequence `q` (blueprint `bpW:w0:reconstruction`). -/
+/-- `U_m(q)(x) = Σ_j q_j/√λ_j φ_j(x)` for a real sequence `q` (blueprint `bpW:w0:reconstruction`).
+-/
 def waveU (c : ℕ+ → ℝ) (x : ℝ) : ℝ :=
   ∑' j : ℕ+, c j / Real.sqrt (lam m hm j) * sineMode j x
 
@@ -214,9 +215,11 @@ lemma wave_hasDerivAt_integral_pow_four {u v : ℝ → ℝ} (hu : Continuous u) 
     have i1 : IntervalIntegrable (fun x => t * (4 * (u x ^ 3 * v x))) MeasureTheory.volume 0 π :=
       (by fun_prop : Continuous fun x => t * (4 * (u x ^ 3 * v x))).intervalIntegrable _ _
     have i2 : IntervalIntegrable (fun x => t ^ 2 * (6 * (u x ^ 2 * v x ^ 2))) MeasureTheory.volume
-        0 π := (by fun_prop : Continuous fun x => t ^ 2 * (6 * (u x ^ 2 * v x ^ 2))).intervalIntegrable _ _
+        0 π := (by fun_prop : Continuous fun x => t ^ 2 * (6 * (u x ^ 2 * v x ^
+            2))).intervalIntegrable _ _
     have i3 : IntervalIntegrable (fun x => t ^ 3 * (4 * (u x * v x ^ 3))) MeasureTheory.volume
-        0 π := (by fun_prop : Continuous fun x => t ^ 3 * (4 * (u x * v x ^ 3))).intervalIntegrable _ _
+        0 π := (by fun_prop : Continuous fun x => t ^ 3 * (4 * (u x * v x ^
+            3))).intervalIntegrable _ _
     have i4 : IntervalIntegrable (fun x => t ^ 4 * v x ^ 4) MeasureTheory.volume 0 π :=
       (by fun_prop : Continuous fun x => t ^ 4 * v x ^ 4).intervalIntegrable _ _
     simp_rw [hx]

@@ -5,6 +5,24 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
+public import KAM.Wave.Normal.Analysis.ConvAlgebra
+public import KAM.Wave.Normal.Analysis.ConvYoung
+public import KAM.Wave.Normal.Analysis.CubicAnalytic
+public import KAM.Wave.Normal.Analysis.CubicBound
+public import KAM.Wave.Normal.Analysis.CubicHeadline
+public import KAM.Wave.Normal.Analysis.CubicLinear
+public import KAM.Wave.Normal.Analysis.CubicSelect
+public import KAM.Wave.Normal.Analysis.CubicTools
+public import KAM.Wave.Normal.Analysis.EllSeq
+public import KAM.Wave.Normal.Analysis.EvenMajorant
+public import KAM.Wave.Normal.Analysis.Gradient
+public import KAM.Wave.Normal.Analysis.PdeBase
+public import KAM.Wave.Normal.Analysis.PdeConverse
+public import KAM.Wave.Normal.Analysis.PdeForce
+public import KAM.Wave.Normal.Analysis.PdeForward
+public import KAM.Wave.Normal.Analysis.SelectionRule
+public import KAM.Wave.Normal.Analysis.SineProducts
+public import KAM.Wave.Normal.Analysis.SineSeries
 public import KAM.Wave.Recon.ReconAnalytic
 public import KAM.Wave.Recon.SineCompleteness
 public import KAM.Wave.Recon.SineFeature

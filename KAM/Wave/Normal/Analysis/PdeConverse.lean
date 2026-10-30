@@ -63,7 +63,8 @@ lemma waveParam_hasDerivAt {I : Set ℝ} (hI : IsOpen I) {F F' : ℝ → ℝ →
       hG.comp (continuousOn_const.prodMk continuousOn_id)
         (fun x hx => (⟨hs, hx⟩ : (s, x) ∈ I ×ˢ Icc 0 π))
     exact hc.intervalIntegrable_of_Icc hpi.le
-  have hbound : ∀ᵐ x ∂(volume : Measure ℝ), x ∈ Ι (0 : ℝ) π → ∀ s ∈ Metric.ball t₀ r, ‖F' s x‖ ≤ C' := by
+  have hbound : ∀ᵐ x ∂(volume : Measure ℝ), x ∈ Ι (0 : ℝ) π → ∀ s ∈ Metric.ball t₀ r, ‖F' s x‖ ≤
+      C' := by
     refine Filter.Eventually.of_forall fun x hx s hs => ?_
     rw [Set.uIoc_of_le hpi.le] at hx
     exact hC' (s, x) ⟨Metric.ball_subset_closedBall hs, Ioc_subset_Icc_self hx⟩

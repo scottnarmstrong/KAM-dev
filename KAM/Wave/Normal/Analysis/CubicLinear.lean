@@ -104,7 +104,8 @@ end Linear
 theorem waveTrilinear_smul_left (m : ℝ) (hm : 0 < m) (c : ℝ) (q q' q'' : ℕ+ → ℝ) (l : ℕ+) :
     waveTrilinear m hm (fun j => c * q j) q' q'' l = c * waveTrilinear m hm q q' q'' l := by
   unfold waveTrilinear
-  have e : (∑' t : ℕ+ × ℕ+ × ℕ+, (waveHat m hm (fun j => c * q j) t.1 * (waveHat m hm q' t.2.1 * waveHat m hm q'' t.2.2)) * waveQuartic t.1 t.2.1 t.2.2 l) =
+  have e : (∑' t : ℕ+ × ℕ+ × ℕ+, (waveHat m hm (fun j => c * q j) t.1 * (waveHat m hm q' t.2.1 *
+      waveHat m hm q'' t.2.2)) * waveQuartic t.1 t.2.1 t.2.2 l) =
       c * ∑' t : ℕ+ × ℕ+ × ℕ+,
         (waveHat m hm q t.1 * (waveHat m hm q' t.2.1 * waveHat m hm q'' t.2.2)) *
           waveQuartic t.1 t.2.1 t.2.2 l := by
@@ -115,7 +116,8 @@ theorem waveTrilinear_smul_left (m : ℝ) (hm : 0 < m) (c : ℝ) (q q' q'' : ℕ
 theorem waveTrilinear_smul_mid (m : ℝ) (hm : 0 < m) (c : ℝ) (q q' q'' : ℕ+ → ℝ) (l : ℕ+) :
     waveTrilinear m hm q (fun j => c * q' j) q'' l = c * waveTrilinear m hm q q' q'' l := by
   unfold waveTrilinear
-  have e : (∑' t : ℕ+ × ℕ+ × ℕ+, (waveHat m hm q t.1 * (waveHat m hm (fun j => c * q' j) t.2.1 * waveHat m hm q'' t.2.2)) * waveQuartic t.1 t.2.1 t.2.2 l) =
+  have e : (∑' t : ℕ+ × ℕ+ × ℕ+, (waveHat m hm q t.1 * (waveHat m hm (fun j => c * q' j) t.2.1 *
+      waveHat m hm q'' t.2.2)) * waveQuartic t.1 t.2.1 t.2.2 l) =
       c * ∑' t : ℕ+ × ℕ+ × ℕ+,
         (waveHat m hm q t.1 * (waveHat m hm q' t.2.1 * waveHat m hm q'' t.2.2)) *
           waveQuartic t.1 t.2.1 t.2.2 l := by
@@ -126,7 +128,8 @@ theorem waveTrilinear_smul_mid (m : ℝ) (hm : 0 < m) (c : ℝ) (q q' q'' : ℕ+
 theorem waveTrilinear_smul_right (m : ℝ) (hm : 0 < m) (c : ℝ) (q q' q'' : ℕ+ → ℝ) (l : ℕ+) :
     waveTrilinear m hm q q' (fun j => c * q'' j) l = c * waveTrilinear m hm q q' q'' l := by
   unfold waveTrilinear
-  have e : (∑' t : ℕ+ × ℕ+ × ℕ+, (waveHat m hm q t.1 * (waveHat m hm q' t.2.1 * waveHat m hm (fun j => c * q'' j) t.2.2)) * waveQuartic t.1 t.2.1 t.2.2 l) =
+  have e : (∑' t : ℕ+ × ℕ+ × ℕ+, (waveHat m hm q t.1 * (waveHat m hm q' t.2.1 * waveHat m hm (fun
+      j => c * q'' j) t.2.2)) * waveQuartic t.1 t.2.1 t.2.2 l) =
       c * ∑' t : ℕ+ × ℕ+ × ℕ+,
         (waveHat m hm q t.1 * (waveHat m hm q' t.2.1 * waveHat m hm q'' t.2.2)) *
           waveQuartic t.1 t.2.1 t.2.2 l := by

@@ -15,8 +15,10 @@ public import KAM.Wave.Normal.Analysis.ConvYoung
 
 Infrastructure used by several nodes; the dependency graph is still being built.
 
-This module is a *local stand-in*, to be replaced by `KAM.Wave.Algebra` (`wave_algebra`) once package
-W1-ALGEBRA has landed; all its public names carry the prefix `w0a` so as not to clash with that package.
+This module is a *local stand-in*, to be replaced by `KAM.Wave.Algebra` (`wave_algebra`) once
+package
+W1-ALGEBRA has landed; all its public names carry the prefix `w0a` so as not to clash with that
+package.
 It is a *local helper* for `bpW:w0n:cubic-bound`: the inequality of `bpW:w0n:algebra`
 (`‖c * d‖_{a,s} ≤ K_s ‖c‖_{a,s} ‖d‖_{a,s}`, `K_s = 2^s (1 + 2ζ(2s))^{1/2}`, `s ≥ 1`, `a ≥ 0`)
 for **nonnegative** two-sided sequences, which suffices for the majorant argument. The general
@@ -73,7 +75,8 @@ lemma w0aW2_add_le {a : ℝ} (ha : 0 ≤ a) {s : ℝ} (hs : 1 ≤ s) (u i : ℤ)
     · linarith [w0a_one_le_jap u, w0a_one_le_jap i]
     · push_cast
       linarith [abs_add_le (u : ℝ) (i : ℝ), w0a_abs_le_jap u, w0a_abs_le_jap i]
-  have hE : Real.exp (a * |((u + i : ℤ) : ℝ)|) ≤ Real.exp (a * |(u : ℝ)|) * Real.exp (a * |(i : ℝ)|) := by
+  have hE : Real.exp (a * |((u + i : ℤ) : ℝ)|) ≤ Real.exp (a * |(u : ℝ)|) * Real.exp (a * |(i :
+      ℝ)|) := by
     rw [← Real.exp_add]
     apply Real.exp_le_exp.2
     push_cast
@@ -262,7 +265,8 @@ theorem w0a_convAlgebra_nonneg {a s : ℝ} (ha : 0 ≤ a) (hs : 1 ≤ s) {X Y : 
       w0aL2 (fun l => (2 : ℝ) ^ (s - 1) * (w0aConv C D1 l + w0aConv D C1 l)) :=
     w0aL2_mono (fun l => pow_le_pow_left₀ (hA0 l) (hA_le l) 2) hAsq hBsum
   rw [w0aL2_const_mul hc0] at h1
-  have hK : w0aAlgConst s = 2 * (2 : ℝ) ^ (s - 1) * Real.sqrt (1 + 2 * ∑' n : ℕ+, (n : ℝ) ^ (-(2 * s))) := by
+  have hK : w0aAlgConst s = 2 * (2 : ℝ) ^ (s - 1) * Real.sqrt (1 + 2 * ∑' n : ℕ+, (n : ℝ) ^ (-(2 *
+      s))) := by
     unfold w0aAlgConst
     rw [Real.rpow_sub_one (by norm_num : (2 : ℝ) ≠ 0)]
     field_simp
@@ -273,9 +277,11 @@ theorem w0a_convAlgebra_nonneg {a s : ℝ} (ha : 0 ≤ a) (hs : 1 ≤ s) {X Y : 
   have hr1 := yA.2.2
   have hr2 := yB.2.2
   have hsq0 : 0 ≤ Real.sqrt (1 + 2 * ∑' n : ℕ+, (n : ℝ) ^ (-(2 * s))) := Real.sqrt_nonneg _
-  have hS1 : w0aL2 C * ∑' i, D1 i ≤ w0aL2 C * (Real.sqrt (1 + 2 * ∑' n : ℕ+, (n : ℝ) ^ (-(2 * s))) * w0aL2 D) :=
+  have hS1 : w0aL2 C * ∑' i, D1 i ≤ w0aL2 C * (Real.sqrt (1 + 2 * ∑' n : ℕ+, (n : ℝ) ^ (-(2 * s)))
+      * w0aL2 D) :=
     mul_le_mul_of_nonneg_left hl1D.2 (Real.sqrt_nonneg _)
-  have hS2 : w0aL2 D * ∑' i, C1 i ≤ w0aL2 D * (Real.sqrt (1 + 2 * ∑' n : ℕ+, (n : ℝ) ^ (-(2 * s))) * w0aL2 C) :=
+  have hS2 : w0aL2 D * ∑' i, C1 i ≤ w0aL2 D * (Real.sqrt (1 + 2 * ∑' n : ℕ+, (n : ℝ) ^ (-(2 * s)))
+      * w0aL2 C) :=
     mul_le_mul_of_nonneg_left hl1C.2 (Real.sqrt_nonneg _)
   rw [hC'] at hS1 hS2 hr1
   rw [hD'] at hS1 hS2 hr2
@@ -291,9 +297,11 @@ theorem w0a_convAlgebra_nonneg {a s : ℝ} (ha : 0 ≤ a) (hs : 1 ≤ s) {X Y : 
           w0aL2 (fun i => w0aW2 a s i * Y i) * ∑' i, C1 i) := by
         gcongr
     _ ≤ (2 : ℝ) ^ (s - 1) * (w0aL2 (fun i => w0aW2 a s i * X i) *
-          (Real.sqrt (1 + 2 * ∑' n : ℕ+, (n : ℝ) ^ (-(2 * s))) * w0aL2 (fun i => w0aW2 a s i * Y i)) +
+          (Real.sqrt (1 + 2 * ∑' n : ℕ+, (n : ℝ) ^ (-(2 * s))) * w0aL2 (fun i => w0aW2 a s i * Y
+              i)) +
         w0aL2 (fun i => w0aW2 a s i * Y i) *
-          (Real.sqrt (1 + 2 * ∑' n : ℕ+, (n : ℝ) ^ (-(2 * s))) * w0aL2 (fun i => w0aW2 a s i * X i))) := by
+          (Real.sqrt (1 + 2 * ∑' n : ℕ+, (n : ℝ) ^ (-(2 * s))) * w0aL2 (fun i => w0aW2 a s i * X
+              i))) := by
         gcongr
     _ = _ := by ring
 

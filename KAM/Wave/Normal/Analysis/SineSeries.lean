@@ -42,7 +42,8 @@ open Real
 
 namespace KAM.Wave
 
-/-- The `k`-th derivative series `Σ_{j ≥ 1} c_j φ_j^{(k)}(x)` (blueprint `bpW:w0n:recon-bounded`). -/
+/-- The `k`-th derivative series `Σ_{j ≥ 1} c_j φ_j^{(k)}(x)` (blueprint `bpW:w0n:recon-bounded`).
+-/
 def waveSineSeries (k : ℕ) (c : ℕ+ → ℝ) (x : ℝ) : ℝ :=
   ∑' j : ℕ+, c j * sineModeIter k j x
 
@@ -201,7 +202,8 @@ theorem wave_integral_sineMode_mul_sineMode (i j : ℕ+) :
     ∫ x in (0 : ℝ)..π, sineMode i x * sineMode j x = if i = j then 1 else 0 := by
   have hpi := Real.pi_pos
   have e : ∀ x : ℝ, sineMode i x * sineMode j x =
-      (1 / π) * (Real.cos (((i : ℕ) - (j : ℕ) : ℤ) * x) - Real.cos (((i : ℕ) + (j : ℕ) : ℤ) * x)) := by
+      (1 / π) * (Real.cos (((i : ℕ) - (j : ℕ) : ℤ) * x) - Real.cos (((i : ℕ) + (j : ℕ) : ℤ) * x))
+          := by
     intro x
     unfold sineMode
     have h2 := Real.two_mul_sin_mul_sin ((i : ℝ) * x) ((j : ℝ) * x)
@@ -210,7 +212,8 @@ theorem wave_integral_sineMode_mul_sineMode (i j : ℕ+) :
     have : ((((i : ℕ) - (j : ℕ) : ℤ) : ℝ)) * x = (i : ℝ) * x - (j : ℝ) * x := by push_cast; ring
     have h3 : ((((i : ℕ) + (j : ℕ) : ℤ) : ℝ)) * x = (i : ℝ) * x + (j : ℝ) * x := by push_cast; ring
     rw [this, h3]
-    calc _ = (Real.sqrt (2 / π) * Real.sqrt (2 / π)) * (Real.sin (i * x) * Real.sin (j * x)) := by ring
+    calc _ = (Real.sqrt (2 / π) * Real.sqrt (2 / π)) *
+          (Real.sin (i * x) * Real.sin (j * x)) := by ring
       _ = (1 / π) * (2 * Real.sin (i * x) * Real.sin (j * x)) := by rw [hs]; field_simp
       _ = _ := by rw [h2]
   simp_rw [e]

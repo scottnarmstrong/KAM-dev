@@ -45,7 +45,8 @@ lemma waveEll_sub {a p : ℝ} {c d : ℕ+ → ℝ} (hc : WaveEll a p c) (hd : Wa
   refine this.congr fun j => ?_
   ring
 
-lemma wave_abs_lam_le (m : ℝ) (hm : 0 < m) (j : ℕ+) : |lam m hm j| ≤ (1 + m) * (j : ℝ) ^ (1 : ℝ) := by
+lemma wave_abs_lam_le (m : ℝ) (hm : 0 < m) (j : ℕ+) : |lam m hm j| ≤ (1 + m) * (j : ℝ) ^ (1 : ℝ)
+    := by
   rw [Real.rpow_one, abs_of_nonneg (lt_of_lt_of_le one_pos (one_le_lam m hm j)).le]
   exact lam_le m hm j
 
@@ -104,10 +105,12 @@ theorem wave_force_identity (m : ℝ) (hm : 0 < m) {c : ℕ+ → ℝ} (hc : Wave
     simp_rw [e]
     have i1 : IntervalIntegrable (fun x => waveU m hm c x ^ 3 * sineMode l x)
         MeasureTheory.volume 0 π :=
-      (by have := wave_continuous_sineMode l; fun_prop : Continuous fun x => waveU m hm c x ^ 3 * sineMode l x).intervalIntegrable _ _
+      (by have := wave_continuous_sineMode l; fun_prop : Continuous fun x => waveU m hm c x ^ 3 *
+          sineMode l x).intervalIntegrable _ _
     have i2 : IntervalIntegrable (fun x => waveSineSeries 0 cc x * sineMode l x)
         MeasureTheory.volume 0 π :=
-      (by have := wave_continuous_sineMode l; fun_prop : Continuous fun x => waveSineSeries 0 cc x * sineMode l x).intervalIntegrable _ _
+      (by have := wave_continuous_sineMode l; fun_prop : Continuous fun x => waveSineSeries 0 cc x
+          * sineMode l x).intervalIntegrable _ _
     rw [intervalIntegral.integral_sub i1 i2,
       integral_waveU_cube_mul_sineMode, integral_waveSineSeries_mul_sineMode hcc1]
     simp [hcc]

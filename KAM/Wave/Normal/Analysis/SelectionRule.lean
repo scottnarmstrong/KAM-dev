@@ -16,7 +16,8 @@ Infrastructure used by several nodes; the dependency graph is still being built.
 
 `KAM.Wave.waveQuartic_eq_signed` is the signed form (`bpW:w0n:g-signed`)
 `g_{ijkl} = (1/2π) Σ_{ε ∈ {±1}³} s(ε) [l = ε₁ i + ε₂ j + ε₃ k]`, `s(ε) = -ε₁ε₂ε₃`, and
-`KAM.Wave.abs_waveQuartic_le_signs` the consequence `|g_{ijkl}| ≤ (1/2π) Σ_ε [l = ε₁ i + ε₂ j + ε₃ k]`.
+`KAM.Wave.abs_waveQuartic_le_signs` the consequence `|g_{ijkl}| ≤ (1/2π) Σ_ε [l = ε₁ i + ε₂ j + ε₃
+k]`.
 Both are proved here directly from the product-to-sum formula, so that no other package is
 needed.
 -/
@@ -91,11 +92,13 @@ lemma waveQuartic_eq_brackets (i j k l : ℕ+) :
         - ((if ((i : ℕ) : ℤ) + ((j : ℕ) : ℤ) = ((k : ℕ) : ℤ) - ((l : ℕ) : ℤ) then 1 else 0) +
           (if ((i : ℕ) : ℤ) + ((j : ℕ) : ℤ) = -(((k : ℕ) : ℤ) - ((l : ℕ) : ℤ)) then 1 else 0))
         + ((if ((i : ℕ) : ℤ) + ((j : ℕ) : ℤ) = ((k : ℕ) : ℤ) + ((l : ℕ) : ℤ) then 1 else 0) +
-          (if ((i : ℕ) : ℤ) + ((j : ℕ) : ℤ) = -(((k : ℕ) : ℤ) + ((l : ℕ) : ℤ)) then 1 else 0))) := by
+          (if ((i : ℕ) : ℤ) + ((j : ℕ) : ℤ) = -(((k : ℕ) : ℤ) + ((l : ℕ) : ℤ)) then 1 else 0))) :=
+              by
   have hpi := Real.pi_pos
   have hc1 : ∀ A B : ℤ, IntervalIntegrable (fun x : ℝ => Real.cos (A * x) * Real.cos (B * x))
       MeasureTheory.volume 0 π := fun A B =>
-    (by fun_prop : Continuous fun x : ℝ => Real.cos (A * x) * Real.cos (B * x)).intervalIntegrable _ _
+    (by fun_prop : Continuous fun x : ℝ => Real.cos (A * x) * Real.cos (B * x)).intervalIntegrable
+        _ _
   unfold waveQuartic
   simp_rw [wave_sineMode_mul4_eq]
   rw [intervalIntegral.integral_const_mul]

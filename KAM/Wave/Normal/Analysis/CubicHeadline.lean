@@ -85,7 +85,8 @@ theorem wave_cubic_bound (m : ℝ) (hm : 0 < m) (y : lp (fun _ : ℕ+ => ℝ) 2)
       waveEllNorm 1 2 (waveCubic m hm (coeff y)) ≤
         waveCubicHeadlineConst * waveEllNorm 1 1 (coeff y) ^ 3 := by
   have hq := waveEll_coeff y
-  have h := wave_trilinear_bound m hm (zero_le_one) (le_refl _ |>.trans' (by norm_num : (1 / 2 : ℝ) ≤ 1))
+  have h := wave_trilinear_bound m hm (zero_le_one) (le_refl _ |>.trans' (by norm_num : (1 / 2 :
+      ℝ) ≤ 1))
     hq hq hq
   have e : waveCubic m hm (coeff y) = waveTrilinear m hm (coeff y) (coeff y) (coeff y) :=
     funext fun l => waveCubic_eq_trilinear m hm one_pos hq l

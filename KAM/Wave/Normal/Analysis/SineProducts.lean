@@ -107,7 +107,8 @@ variable {h : ℕ+ → ℝ}
 
 lemma wave_summable_abs_mul_sineMode (hh : Summable fun j => |h j|) (x : ℝ) :
     Summable fun j => |h j * sineMode j x| := by
-  refine Summable.of_nonneg_of_le (fun j => abs_nonneg _) (fun j => ?_) (hh.mul_right (Real.sqrt (2 / π)))
+  refine Summable.of_nonneg_of_le (fun j => abs_nonneg _) (fun j => ?_) (hh.mul_right (Real.sqrt
+      (2 / π)))
   rw [abs_mul]
   gcongr
   exact wave_abs_sineMode_le j x
@@ -140,7 +141,8 @@ theorem hasSum_integral_cube_mul_sineMode (hh : Summable fun j => |h j|) (l : �
       (∫ x in (0 : ℝ)..π, waveSineSeries 0 h x ^ 3 * sineMode l x) := by
   have hpi := Real.pi_pos
   set K := Real.sqrt (2 / π) with hK
-  have hcube := waveHasSum_cube (hasSum_waveSineSeries_zero hh 0) (wave_summable_abs_mul_sineMode hh 0)
+  have hcube := waveHasSum_cube (hasSum_waveSineSeries_zero hh 0) (wave_summable_abs_mul_sineMode
+      hh 0)
   have hcube0 := waveHasSum_cube hh.of_abs.hasSum hh
   have hb : Summable fun t : ℕ+ × ℕ+ × ℕ+ => |h t.1 * (h t.2.1 * h t.2.2)| * K ^ 4 :=
     hcube0.2.mul_right _
@@ -190,7 +192,8 @@ theorem summable_abs_cube_terms (hh : Summable fun j => |h j|) (l : ℕ+) :
   gcongr
   exact abs_waveQuartic_le _ _ _ _
 
-/-- `∫₀^π U^4 = Σ_{i,j,k,l} g_{ijkl} h_i h_j h_k h_l`, absolutely convergent (`bpW:w0n:gradient`). -/
+/-- `∫₀^π U^4 = Σ_{i,j,k,l} g_{ijkl} h_i h_j h_k h_l`, absolutely convergent (`bpW:w0n:gradient`).
+-/
 theorem hasSum_integral_fourth_pow (hh : Summable fun j => |h j|) :
     HasSum (fun t : ℕ+ × ℕ+ × ℕ+ × ℕ+ =>
         (h t.1 * (h t.2.1 * (h t.2.2.1 * h t.2.2.2))) *
