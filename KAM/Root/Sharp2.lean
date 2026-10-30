@@ -11,6 +11,8 @@ public import KAM.Sharp2.EngineArith
 public import KAM.Sharp2.EngineRatio
 public import KAM.Sharp2.EngineRatioArith
 public import KAM.Sharp2.EngineRatioInst
+public import KAM.Sharp2.EngineRatioPar
+public import KAM.Sharp2.EngineRatioParCor
 public import KAM.Sharp2.Examples.MirrorL1
 public import KAM.Sharp2.Examples.MirrorQ
 public import KAM.Sharp2.Examples.MirrorQRef
