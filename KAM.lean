@@ -383,6 +383,8 @@ public import KAM.Iso.R3bp.Region
 public import KAM.Iso.R3bp.Safe
 public import KAM.Iso.R3bp.Uniqueness
 public import KAM.Iso.RestrictedHam
+public import KAM.Iso.Sharp.Box
+public import KAM.Iso.Sharp.BoxLemmas
 public import KAM.Iso.ShiftPotential
 public import KAM.Iso.TransferStepNodes
 public import KAM.Kepler.Basic
@@ -1340,6 +1342,8 @@ public import KAM.Provider.Planetary.ProperlyDegenerateKAM
 public import KAM.Provider.Planetary.SecularBoxAtCitedMasses
 public import KAM.Provider.Planetary.SecularBoxSafety
 public import KAM.Provider.VolumeNotDiophantineLe
+public import KAM.Sharp.Box
+public import KAM.Sharp.BoxTorsion
 public import KAM.SpinOrbit.Barrier
 public import KAM.SpinOrbit.Freq
 public import KAM.SpinOrbit.Graph.Cert
@@ -1366,6 +1370,15 @@ public import KAM.Strip.Cohomological
 public import KAM.Strip.CohomologicalDefs
 public import KAM.Strip.CohomologicalNodes
 public import KAM.Strip.CohomologicalOperator
+public import KAM.Strip.CohomologicalParseval
+public import KAM.Strip.CohomologicalParsevalBessel
+public import KAM.Strip.CohomologicalParsevalBound
+public import KAM.Strip.CohomologicalParsevalLattice
+public import KAM.Strip.CohomologicalRussmann
+public import KAM.Strip.CohomologicalRussmannBound
+public import KAM.Strip.CohomologicalRussmannCount
+public import KAM.Strip.CohomologicalRussmannLattice
+public import KAM.Strip.CohomologicalRussmannSep
 public import KAM.Strip.Fourier
 public import KAM.Strip.FourierBasic
 public import KAM.Strip.FourierDerivative
