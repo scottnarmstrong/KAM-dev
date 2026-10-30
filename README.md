@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 17:46 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 19 %** · frozen statements proved: 23 / 24 · **325,355 lines of Lean** of an estimated ≈ 333,000
+> **Last updated: 2026-10-30 18:17 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 19 %** · frozen statements proved: 23 / 24 · **325,601 lines of Lean** of an estimated ≈ 338,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -257,26 +257,27 @@ Overall, everything together: 78.7 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **325,355** (253,258 excluding blank lines and comments) · **+61,246** since 2026-10-29 17:43 UTC |
-| Written on agent branches, not yet landed | 5,836 |
-| Generated certificate data on agent branches (numeric literals, not counted above or below) | 28,421 |
-| **Estimated total at completion** | **≈ 333,000** |
+| On `main` now | **325,601** (253,421 excluding blank lines and comments) · **+61,492** since 2026-10-29 18:00 UTC |
+| Written on agent branches, not yet landed | 10,704 |
+| Generated certificate data on agent branches (numeric literals, not counted above or below) | 29,827 |
+| **Estimated total at completion** | **≈ 338,000** |
 | Estimated still to write | ≈ 2,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment; track SO is added from its design (lines on `main` plus the line estimates of its packages not yet landed). History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 17:46 UTC from `main` at `402a7240` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 18:17 UTC from `main` at `88af7f63` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
 **Track SO** (D30, started 2026-10-29; [plan](docs/campaign/design/SPIN-ORBIT-PLAN.md)), in three parts:
 
-- **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 80 modules · 20,526 lines. **Packages landed: 27 / 27**.
+- **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 82 modules · 20,770 lines. **Packages landed: 27 / 27**.
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3 % of its orbital rate for all time (target about 2.7 % at N = 65, D38). `KAM/SpinOrbit` and the data generator: 28 modules · 5,276 lines. **Packages landed: 21 / 24**.
-- **Part 3, the Moon locked in synchronous rotation forever** (D42, D45): one librational invariant torus around a certified synchronous periodic orbit confines the spin (a stronger result than the spin-rate band; route: polar coordinates, the landed certifier, one new primitive `HamExpr.sqrt`; N = 65) · **50 %** · stages reached: scoping study, design, Lean proof modules · the lock sub-orchestrator is running (3 package workers)
+- **Part 3, the Moon locked in synchronous rotation forever** (D42, D45): one librational invariant torus around a certified synchronous periodic orbit confines the spin (a stronger result than the spin-rate band; route: polar coordinates, the landed certifier, one new primitive `HamExpr.sqrt`; N = 65) · **50 %** · stages reached: scoping study, design, Lean proof modules · the lock sub-orchestrator is running (4 package workers)
 - Design estimate for parts 1 and 2: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-PACKFIX, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-DION, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-SHARPLINK, SO-GEN, SO-GEN2, SO-DATA-PY, SO-GEN3, SO-R1, SO-LUNAR-A, SO-R2.
+- **Now:** proving SO-DATA3 · in audit —
 - **Gates:** design of the general checker ACCEPTED (Revision 7). Lunar route (2026-10-30): sharp certifier checkTorusCertificateSharp (D36, threshold about 1e-25), barriers at N = 65, band about 2.71 % (D38; floor 2.62 %), kernel-cheap packed products (D34, SO-PACKFIX). SO-GEN3 sizes the data: about 40 digits and 1-2k terms per torus (R1 had 88 digits and 8.5k terms). Final data wait for the next certifier version (same format).
 
 **Track W** (D30, D41; [plan](blueprint-W/PLAN.md)): PDE KAM for the cubic wave equation u_tt = u_xx − m u − u³ on [0, π] (Pöschel 1996) · **19 %**
@@ -284,7 +285,7 @@ Overall, everything together: 78.7 %
 
 **Frozen statements proved: 23 / 24** · frozen definitions: 134
 
-**Lean on `main`:** 1656 modules · 325,355 lines · 13,494 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
+**Lean on `main`:** 1658 modules · 325,601 lines · 13,508 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
 
 ```text
 DRAFT_ANCHORS: 1 (KAM/Frozen/Wave/Theorems/Nlw2.lean)
@@ -422,8 +423,8 @@ flowchart BT
 | [`KAM/Sharp/`](KAM/Sharp) | Sharp explicit a-posteriori KAM: Newton engine, torsion route, step, g1_sharp, parameter boxes | 20 | 4,469 | 107 |
 | [`KAM/CertificateSharp/`](KAM/CertificateSharp) | The sharp KAM certifier: engine-agnostic checker, rational constants, soundness | 52 | 8,862 | 344 |
 | [`KAM/Sharp2/`](KAM/Sharp2) | v2 sharp a-posteriori KAM: route A, modified step (route B), l1 entry, small-divisor constants, PlasmaLean example | 73 | 17,878 | 769 |
-| [`KAM/Root/`](KAM/Root) | Generated parts of the root import file KAM.lean (scripts/gen_root_imports.py) | 26 | 2,044 | 0 |
-| [`KAM/Certificate/`](KAM/Certificate) | Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies) | 80 | 20,526 | 944 |
+| [`KAM/Root/`](KAM/Root) | Generated parts of the root import file KAM.lean (scripts/gen_root_imports.py) | 26 | 2,046 | 0 |
+| [`KAM/Certificate/`](KAM/Certificate) | Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies) | 82 | 20,770 | 958 |
 | [`KAM/SpinOrbit/`](KAM/SpinOrbit) | Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs) | 28 | 5,276 | 315 |
 | [`KAM/Wave/`](KAM/Wave) | — | 11 | 2,233 | 174 |
 <!-- /AUTO:areas -->
@@ -442,13 +443,18 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **locksqrt** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: LOCK-SQRT: corrected ABI receipt (audit 1 F1; four test-statement migrations authorized by | `inp-locksqrt` | 2 (vs `inp`) |
-| **sodata3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA3: mirror directItems follows SO-KDEPTH's balanced merge tree (data unchanged, byte | `inp-sodata3` | 8 (vs `inp`) |
-| **sokdepth-oninp** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: SO-KDEPTH: audit focus (landing branch) | `inp-sokdepth-oninp` | 3 (vs `inp`) |
-| **wbp** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Blueprint-W W5/W6 aligned with W7 beta=1/4 and W3 transport-tori-weak; prep-step (v) prove | `inp-wbp` | 3 (vs `inp`) |
+| **lockcc** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: LOCK-COORDS-C: lockToRotC, lockHamExpr (LOCK-GEN-2 design tree), eval identity, clock | `inp-lockcc` | 4 (vs `inp`) |
+| **lockdesign** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-LOCK-COST: compact to under 250 lines | `inp-lockdesign` | 2 (vs `inp`) |
+| **lockgen2** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: LOCK-GEN-2: v2 numerics and emitter for the N = 65 lock certificate | `inp-lockgen2` | 1 (vs `inp`) |
+| **locksqrt** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: LOCK-SQRT: package audits 1-2 (codex-1; audit 2 PASS WITH NOTES, sqrt-free values bit-exac | `inp-locksqrt` | 3 (vs `inp`) |
+| **sodata3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA3 step 4: kernel-pass modules (one heavy theorem per module), assembly, locked runn | `inp-sodata3` | 12 (vs `inp`) |
+| **wbp** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Blueprint-W: review of W7 beta=1/4 revision (ACCEPT) and W8 round 1 (REVISE: inherited W56 | `inp-wbp` | 8 (vs `inp`) |
 | **wgraph** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Track W graph: delta review 2 applied; inp merged; wave-1 corpus re-pinned (blueprint clea | `inp-wgraph` | 10 (vs `inp`) |
-| **wpc** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: W0-NORMAL: rename quarticCoeff -> sineQuarticCoeff, integral_cos_int_mul -> integral_cos_i | `inp-wpc` | 4 (vs `inp`) |
-| **wpd** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: W1-ANALYTIC: audit handoff with focus | `inp-wpd` | 11 (vs `inp`) |
+| **wpc** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: W0-NORMAL round 2: resonant quartic part in complex coordinates and bridge to AB (finite m | `inp-wpc` | 5 (vs `inp`) |
+| **wpd** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge branch 'inp' into inp-wpd | `inp-wpd` | 13 (vs `inp`) |
+| **wpe** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: W0-ANALYSIS wip: trilinear linearity | `inp-wpe` | 6 (vs `inp`) |
+| **wpf** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: W1-ALGEBRA: audit handoff with focus | `inp-wpf` | 2 (vs `inp`) |
+| **wpg** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: W1-KAMSUP: lattice sums and Banach-valued Fourier coefficients | `inp-wpg` | 1 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -458,6 +464,11 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 18:07 | `88af7f63` | Land inp into main |
+| 2026-10-30 18:02 | `dd4e886e` | Log: LOCK-SQRT pass, landing; DATA3 merges it; W blueprint complete |
+| 2026-10-30 18:00 | `e3f1829b` | OVERNIGHT: LOCK-SQRT passed; LOCK-GEN-2 cost signal for owner review |
+| 2026-10-30 17:58 | `8a93b241` | Log: SO-KDEPTH audit pass, landing |
+| 2026-10-30 17:47 | `7a56062e` | Log: SO-KDEPTH in audit; SO-DATA3 steps 2-3b done (band 2.755 %), kernel passes started |
 | 2026-10-30 17:44 | `402a7240` | Land inp into main |
 | 2026-10-30 17:42 | `c16b0175` | OVERNIGHT: LOCK-SQRT test-statement migration for owner review |
 | 2026-10-30 17:34 | `6b85d2b1` | Land inp into main |
@@ -465,11 +476,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 17:20 | `150dd6a4` | Log: heartbeat (kam-d4 rotated to claude-3; KDEPTH releases lock; DATA3 below floor; LOCK-SQRT in audit) |
 | 2026-10-30 17:12 | `ce43b98a` | Land inp into main |
 | 2026-10-30 17:09 | `aaa09a19` | Land inp into main |
-| 2026-10-30 17:02 | `0f4f91cb` | Log: 17:20 (track W: W5/W6, W7 weight decision for owner review) |
-| 2026-10-30 16:59 | `eb8e5e89` | Land inp into main |
-| 2026-10-30 16:57 | `cfa4732b` | Log: SO-BALLFIX landed; DATA3 merge; lock and W status |
-| 2026-10-30 16:46 | `9959a171` | Land inp into main |
-| 2026-10-30 16:35 | `023a9dcd` | Log: SO-BALLFIX audit pass, landing; disk relief; W and lock progress |
 <!-- /AUTO:landed -->
 
 ## Decisions
