@@ -181,7 +181,7 @@ def PackLayout.keyInBox (L : PackLayout) (k : CertKey) : Bool :=
 def PackLayout.slot (L : PackLayout) (k : CertKey) : Option ℕ :=
   if L.keyInBox k then some (packDot ((L.keyOffsets k).map Int.toNat) L.stride) else none
 
-/-- **Canonical dense length** of a layout (Revision 7, audit 6 F14): `1 + Σ_j (dims_j - 1) ·
+/-- **Canonical dense length** of a layout: `1 + Σ_j (dims_j - 1) ·
 stride_j` when every extent is positive, `0` on an empty box. Padding by `cut` forgets the raw
 factor length, so the whole check compares the RAW lists against this number. -/
 def PackLayout.denseLen (L : PackLayout) : ℕ :=

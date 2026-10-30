@@ -44,7 +44,7 @@ theorem certCExpSmall_reduced (z : CC ℚ) (r : ℚ) (s : ℕ) :
     CertBall.mulReErr, CertBall.mulImErr]
   rw [add_mul, add_mul]
 
-/-- Completeness over the exact backend (SO-BALL): with the computed count the reduction never
+/-- Completeness over the exact backend: with the computed count the reduction never
 fails, so `Slp.balls` returns `none` at an `exp` slot only on a malformed program. -/
 theorem certCExpReduced_cexpHalvings_isSome (z : CC ℚ) {r : ℚ} (hr : 0 ≤ r) (N : ℕ) :
     (certCExpReduced z r (cexpHalvings z r) N).isSome = true := by

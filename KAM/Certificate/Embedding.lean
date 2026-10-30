@@ -13,8 +13,8 @@ public import KAM.Frozen.Defs.IsRealOnReals
 # Certified embeddings
 
 `CertEmbedding α` is the embedding `K(θ) = (θ + (2π)^{dU_i} U_i(θ), (2π)^{dA_i} A_i(θ))` given by
-real Fourier data `U_i`, `A_i` (SO design §2); a missing component denotes `0` (no backend default
-value, finding F2). It is entire, primary and real on reals by construction, with law-free proofs
+real Fourier data `U_i`, `A_i`; a missing component denotes `0` (no backend default
+value). It is entire, primary and real on reals by construction, with law-free proofs
 (`CertEmbedding.differentiable_eval`, `CertEmbedding.isPrimaryOnStrip`,
 `CertEmbedding.isRealOnReals`). The angle displacement `θ ↦ (2π)^{dU_i} U_i(θ)` (`angleAt`) commutes
 with complex conjugation (`CertEmbedding.angleAt_conj`), which the composition uses for the
@@ -28,7 +28,7 @@ namespace KAM.Certificate
 open KAM CertArith
 
 /-- The embedding `K(θ) = (θ + (2π)^{dU_i} U_i(θ), (2π)^{dA_i} A_i(θ))` from real Fourier data;
-a missing component denotes `0` (no backend default value is used, finding F2). -/
+a missing component denotes `0` (no backend default value is used). -/
 structure CertEmbedding (α : Type) where
   angleDeg : List ℤ
   angle : List (CertRealPoly α)
@@ -104,7 +104,7 @@ theorem CertEmbedding.isPrimaryOnStrip {α : Type} [CertArith α] (n : ℕ) (K :
   · change realComp n _ _ (θ + fun i => (k i : ℂ)) = realComp n _ _ θ + 0
     rw [realComp_add_int, add_zero]
 
-/-- Law-free (finding F2): `CertRealPoly.eval_real` and the `0` default. -/
+/-- Law-free: `CertRealPoly.eval_real` and the `0` default. -/
 theorem CertEmbedding.isRealOnReals {α : Type} [CertArith α] (n : ℕ) (K : CertEmbedding α) :
     IsRealOnReals (K.eval n) := by
   intro θ

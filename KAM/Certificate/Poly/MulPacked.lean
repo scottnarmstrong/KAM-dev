@@ -15,7 +15,7 @@ public import KAM.Certificate.Model.Basic
 through an UNTRUSTED decoder, re-verifying every value by `mantCheck` (zero mantissas are dropped,
 so an all-zero part is the empty list). `CertPoly.mulPacked` forms the four real products
 (`re·re`, `im·im`, `re·im`, `im·re`) by `packedRealProduct`: an empty factor gives the exact zero
-product with no advice and no kernel work (SO-ADVCOUNT lever 2: parity makes three of the four
+product with no advice and no kernel work (parity makes three of the four
 real products of a lunar complex product identically zero); otherwise the factors are laid out
 densely, checked by `checkPackedProduct`, and the result is the combined rounded target
 (nonzero slots) plus a remainder bound `Σ_i b_i w^{|k_i|₁} / 2^{2P}` over every product slot
@@ -479,7 +479,7 @@ theorem CertPoly.mulPacked_sound {α : Type} [CertArith α] [LawfulCertArith α]
         nlinarith [bRR, bII, bRI, bIR]
 
 /-- Advice for one model product: `packed` (four real packed products at mantissa scale `P`) or
-`direct` (the direct product of Revision 4; tests and the `ℚ` toys). -/
+`direct` (the direct product; tests and the `ℚ` toys). -/
 inductive ProductAdvice : Type
   | direct
   | packed (P : ℕ) (rr ii ri ir : PackedAdvice)

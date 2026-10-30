@@ -14,7 +14,7 @@ public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 public import Mathlib.Analysis.Calculus.Deriv.Prod
 
 /-!
-# The autonomous lunar Hamiltonian (track SO, package SO-MODEL)
+# The autonomous lunar Hamiltonian
 
 Proposal §2.4, in exactly the conventions of track I's isoenergetic theorem (`IG1Body`):
 phase space `(Fin 2 → ℂ) × (Fin 2 → ℂ)` with angles `θ = (q, φ)` first and actions `I = (p, J)`
@@ -147,7 +147,7 @@ theorem soExtFieldC_ofReal (z : (Fin 2 → ℝ) × (Fin 2 → ℝ)) :
 
 /-! ### The bordered matrix -/
 
-/-- The bordered matrix `((1, 0, p), (0, 0, 1), (p, 1, 0))` of proposal §2.4 (Hessian block of
+/-- The bordered matrix `((1, 0, p), (0, 0, 1), (p, 1, 0))` (Hessian block of
 `h₀` in the `(p, J)` order, bordered by `∇h₀ = (p, 1)`). -/
 def soBordered {R : Type*} [CommRing R] (p : R) : Matrix (Fin 3) (Fin 3) R :=
   !![1, 0, p; 0, 0, 1; p, 1, 0]
@@ -217,7 +217,7 @@ theorem borderedHessian_soH0 (I : Fin 2 → ℝ) :
   · fin_cases b <;> simp [soBorderEquiv, soBordered]
   · simp [soBorderEquiv, soBordered]
 
-/-- The determinant identity of proposal §2.4 for the frozen bordered Hessian: `det = -1`. -/
+/-- The determinant identity for the frozen bordered Hessian: `det = -1`. -/
 theorem det_borderedHessian_soH0 (I : Fin 2 → ℝ) : (KAM.Iso.borderedHessian soH0 I).det = -1 := by
   rw [borderedHessian_soH0, Matrix.det_reindex_self, det_soBordered]
 

@@ -10,7 +10,7 @@ public import KAM.Certificate.Soundness
 public import KAM.Certificate.CubicDiophantine
 
 /-!
-# The positive toy T3 through the whole checker (SO design §8, finding F1 example)
+# The positive toy T3 through the whole checker (box-exclusion example)
 
 `n = 3`, `τ = 2`: `H = I₂ + I₀²/2 + I₁²/2` (`toyHam3`), `K(θ) = (θ, (a, b, -(a² + b²)/2))` with
 rational `a ≈ ∛2`, `b ≈ ∛4` (`|a - ∛2|, |b - ∛4| ≤ 10^{-63}`), `s = 2`, a box of `cubicFreq`, a

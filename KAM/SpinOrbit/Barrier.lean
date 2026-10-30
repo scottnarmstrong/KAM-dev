@@ -11,9 +11,9 @@ public import KAM.ODE.Continuation
 public import KAM.ODE.Maximal
 
 /-!
-# Two barriers confine, globally and uniquely (track SO, package SO-CONF)
+# Two barriers confine, globally and uniquely
 
-Unfrozen helper code (design §6, proposal §7.3).
+Unfrozen helper code.
 
 * `SoBarrier lo hi`: an invariant continuous doubly periodic graph `p = P(q, φ)` of the flow of
   `soField` with values in `[lo, hi]`.

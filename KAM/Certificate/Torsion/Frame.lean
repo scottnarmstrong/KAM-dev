@@ -13,7 +13,7 @@ public import KAM.Frozen.Iso.Defs.ExtendedTorsionAverage
 /-!
 # The bordered torsion of a certified embedding: frame calculus
 
-The analytic identities behind the torsion models (SO design §1.9), for an embedding `K`
+The analytic identities behind the torsion models, for an embedding `K`
 holomorphic on `ℂⁿ` whose Gram matrix is invertible on the open strip `T_ρ`:
 
 * `fderiv_tangentMat_eq_sum_partials`: `(D L[v])_{sj} = Σ_l v_l ∂_l L_{sj}` (`L = DK`);

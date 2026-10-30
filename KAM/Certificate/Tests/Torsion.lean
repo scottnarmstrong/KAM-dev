@@ -15,11 +15,11 @@ public import KAM.Certificate.Arith.Rat
 Every check below is decided by `decide +kernel` (kernel reduction only), in `ℚ`.
 
 * **Averaging check, bordered form**: the bordered average `[[0, 1], [1, 0]]` at `n = 1` has a
-  singular (zero) torsion block and is invertible only through the border (the lunar pattern
-  of SO-GEN2); the self-inverse witness passes, with radius `10⁻³` in every entry.
+  singular (zero) torsion block and is invertible only through the border (the pattern
+  of the lunar tori); the self-inverse witness passes, with radius `10⁻³` in every entry.
 * **Fail closed**: the witness `0` (`δ_T ≥ 1`), a too small bound `σT - μ`, an entry of degree
   `1`, and radii too large for the witness.
-* **F7 (negative test 9)**: the audit's self-inverse `A = [1 0 0; 0 0 1; 0 1 0]` is a valid
+* **Shape (negative test 9)**: the self-inverse `A = [1 0 0; 0 0 1; 0 1 0]` is a valid
   inverse pair with zero defect and passes `torsionAvgCheck 2`, but fails `torsionAvgCheck 1`
   as a model matrix (`3` rows) and as a witness.
 * **Pipeline, `n = 1`**: `H = I²/2`, `K(θ) = (θ + U/2π, A)` with `U = 0.1 cos 2πθ`,
@@ -74,10 +74,10 @@ theorem torsTest_failClosed :
         false := by
   decide +kernel
 
-/-- The audit's self-inverse `3 × 3` pair. -/
+/-- The self-inverse `3 × 3` pair. -/
 def torsTestA3 : List (List ℚ) := [[1, 0, 0], [0, 0, 1], [0, 1, 0]]
 
-/-- **F7.** A valid inverse pair at `n = 2`, rejected at `n = 1` (model matrix or witness). -/
+/-- **Shape.** A valid inverse pair at `n = 2`, rejected at `n = 1` (model matrix or witness). -/
 theorem torsTest_F7 :
     torsionAvgCheck 2 (torsTestMat torsTestA3 0) (torsTestCC torsTestA3) 2 = true ∧
       torsionAvgCheck 1 (torsTestMat torsTestA3 0) (torsTestCC torsTestA3) 100 = false ∧

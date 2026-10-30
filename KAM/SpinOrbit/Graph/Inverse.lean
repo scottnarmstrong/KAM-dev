@@ -10,9 +10,9 @@ public import KAM.SpinOrbit.Barrier
 public import KAM.SpinOrbit.Hamiltonian
 
 /-!
-# Graph inversion of an exact torus (track SO, package SO-GRAPHM)
+# Graph inversion of an exact torus
 
-Unfrozen helper code (design §6, proposal §7.2).
+Unfrozen helper code.
 
 An exact invariant torus of the lunar flow, after the clock lemma, is given by real functions of
 `(x, y)` (the two angles `θ₀, θ₁`): `Q` (the angle `q`), `Pp` (the momentum `p`); the angle `φ` is
@@ -239,7 +239,7 @@ theorem Torus.soGraph_invariant (T : Torus Q Pp dQ ν c m) :
 
 end SoGraph
 
-/-- **Graph inversion of an exact torus** (proposal §7.2, owner ruling O4: continuous graphs).
+/-- **Graph inversion of an exact torus** (continuous graphs).
 Let `(Q, Pp)` be the angle `q` and the momentum `p` of an exact torus on the reals, as functions of
 the torus angles `(x, y)`, where the clock lemma gave `φ = y + c` and the frequency `(ν, 1)`:
 both are continuous, `Q - x` and `Pp` are doubly 1-periodic, `∂_x Q ≥ m > 0`, and

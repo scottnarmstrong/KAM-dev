@@ -8,14 +8,14 @@ module
 public import KAM.Certificate.Defs
 
 /-!
-# The lunar parameter package R1
+# The lunar parameters R1
 
-CONSTANTS-STUDY §2.2 and §4, owner ruling O5: `ρ' = 1/70`, `ρ∞ = ρ'/1000`, `μ = 1/160`, ray
+In the rotated frame `q - φ`: `ρ' = 1/70`, `ρ∞ = ρ'/1000`, `μ = 1/160`, ray
 scalar `s = 1 + 10⁻⁶`, `ν = 10⁻⁶`, `σω = 2`, time scale `c = 237/125`, one majorant
-`σK = σB = σT = 1987/1000` (SO-GEN2's measured package; binding `σB`, the weighted-ℓ¹
+`σK = σB = σT = 1987/1000` (measured on the lunar certificates; binding `σB`, the weighted-ℓ¹
 Gram inverse bound 1.97994), `M = 203/100` (above the `checkHamBounds` D²H sum, 2.0205 on both
 tori), `γ = γ̄ = c/(42 s)`, `τ = 1`, `E₀ = 0`. The residual budget `err` and the displacement
-`disp` of each torus are parameters (filled by SO-DATA).
+`disp` of each torus are parameters (filled by the certificate data).
 -/
 
 @[expose] public section
@@ -54,7 +54,7 @@ def lunarR1 (err disp : ℚ) : CertParams where
 theorem lunarR1Kappa_div : lunarR1Kappa / 42 = 316000 / 7000007 := by
   decide +kernel
 
-/-! ### Kernel pre-checks (helpers; the certificates themselves are SO-DATA's) -/
+/-! ### Kernel pre-checks (helpers; the certificates themselves are separate data) -/
 
 /-- The parameter-only conjuncts of `checkStatic` except `0 ≤ err` (shapes, weights, the `π`
 enclosure and the box are certificate data). -/
@@ -76,7 +76,7 @@ theorem lunarR1_err_nonneg {err : ℚ} (disp : ℚ) (h : 0 ≤ err) :
     decide (0 ≤ (lunarR1 err disp).err) = true :=
   decide_eq_true h
 
-/-- At the SO-GEN2 budgets (`4.03e-78`, `7.84e-78`; literal rationals just above). -/
+/-- At the measured residual budgets (`4.03e-78`, `7.84e-78`; literal rationals just above). -/
 theorem lunarR1_staticCore_gen2 :
     (lunarR1StaticCore (lunarR1 (41 / 10 ^ 79) 0) &&
       decide (0 ≤ (lunarR1 (41 / 10 ^ 79) 0).err)) = true ∧

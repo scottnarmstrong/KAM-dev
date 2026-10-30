@@ -137,9 +137,9 @@ theorem sumVec_fderiv_hamiltonianVectorFieldℂ {H : (Fin n → ℂ) × (Fin n �
   rw [hfun, hX.fderiv]
   exact congrFun ((sumVecIso n).apply_symm_apply _) a
 
-/-- Row-sum bound for `DX_H` from second partials; local `C²` (division, O2). `1 ≤ n` makes the
-row-sum premise nonvacuous, hence `0 ≤ B` (at `n = 0` the statement fails for `B < 0`, audit 2
-F8); the checker derives it from `StaticFacts.hn : 2 ≤ n`. -/
+/-- Row-sum bound for `DX_H` from second partials; local `C²` (division). `1 ≤ n` makes the
+row-sum premise nonvacuous, hence `0 ≤ B` (at `n = 0` the statement fails for `B < 0`); the
+checker derives it from `StaticFacts.hn : 2 ≤ n`. -/
 theorem norm_fderiv_hamiltonianVectorFieldℂ_le (hn : 1 ≤ n)
     {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
     {z : (Fin n → ℂ) × (Fin n → ℂ)} (hH : ContDiffAt ℂ 2 H z) {B : ℝ}
@@ -198,7 +198,7 @@ theorem iteratedFDeriv_three_rotate {H : (Fin n → ℂ) × (Fin n → ℂ) → 
     iteratedFDeriv ℂ 3 H z ![u, v, e] = iteratedFDeriv ℂ 3 H z ![e, u, v] := by
   rw [iteratedFDeriv_three_swap_last hH u v e, iteratedFDeriv_three_swap_first hH u e v]
 
-/-- Bound for `D²X_H` from third partials; local `C³`; `1 ≤ n` as above (F8). -/
+/-- Bound for `D²X_H` from third partials; local `C³`; `1 ≤ n` as above. -/
 theorem norm_iteratedFDeriv_two_hamiltonianVectorFieldℂ_le (hn : 1 ≤ n)
     {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {z : (Fin n → ℂ) × (Fin n → ℂ)}
     (hH : ContDiffAt ℂ 3 H z)
