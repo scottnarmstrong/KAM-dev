@@ -1538,3 +1538,18 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
       codex-1.
     - Lean: W1-SINES and W1-WEIGHTED complete and in audit on codex-1. W0-NORMAL (claude-4) and W1-ANALYTIC
       (claude-6) are proving. The W5/W6 writer is running.
+- **16:57. SO-BALLFIX (with BALLDY) landed: main 9959a171.**
+  - The full landing build with sharp-v2 passes (10674 jobs); lint, ABI 158 and the frozen guard are OK.
+  - D39's two checker fixes: dyadic ball rounding is on main; the recursion-depth fix (SO-KDEPTH) is writing its
+    handoff.
+  - SO-DATA3 told to merge inp at its next safe point, taking inp's version of any Ball, BallRound, BallsTrig or root
+    file. Both N = 65 tori already pass every exact mirror check of the v2 refined route (Hamiltonian claim, frame
+    checks, refinedCore). The l = 12 bite kernel probe is queued on the shared lock.
+  - Lock: design audit 3 PASS WITH NOTES (codex-1), sent to land with LOCK-GEN-1's numerics.
+    - Freeze proposal for the owner: docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md (`lunar_sync_lock` around
+      ψ* = `lunarSyncOrbit`; literals provisional; nothing frozen).
+    - Running: LOCK-PO then LOCK-CONF, and LOCK-SQRT (cut from inp with BALLFIX; / briefly at 9.9 GB, authorized
+      until KDEPTH lands).
+    - LOCK-COORDS-R is done; its audit is with the lock sub-orchestrator.
+  - W: W1-SINES is in the landing queue. Provers wpc and wpd are running, and the second batched graph review is on
+    codex-1.
