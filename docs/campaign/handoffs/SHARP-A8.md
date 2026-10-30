@@ -5,7 +5,7 @@
   `checkTorusCertificateWith_sound`, instance `oldEngine` (`checkSmallness`, sealed `g1_explicit`),
   regression `checkTorusCertificateWith_old` (`rfl`) and `checkTorusCertificate_sound_via_engine`.
 - `Constants.lean`: `sqrtUpQ`, `cRRQ`, `cohConstR_le_cRRQ` (rational upper bound of `cohConstR`;
-  `cRRQ 2 1 ≈ 0.31622`, true value `0.31628`... see note below).
+  `cRRQ 2 1` has log10 −0.49988, i.e. ≈ 0.3163 against the true 0.31628).
 - `ConstantsQ.lean`: `Q` mirrors of every constant of `KAM/Sharp/Constants.lean` and
   `KAM/Iso/Sharp/Constants.lean` at `κ = τ ∈ ℕ`; `sharpIsoC1Q/2Q/3Q`.
 - `ConstantsDom.lean` (generated layers `Pos`, `DomA/B/C`): each real constant (data = exact casts,
