@@ -66,7 +66,11 @@ _orig_poly = M.polyProduct
 def _polyProduct(B, W, cfg, key, a, b):
     out = _orig_poly(B, W, cfg, key, a, b)
     if not (M.isConst(a) or M.isConst(b)):
-        PACK.append((cfg.name, tuple(cfg.full_key(key)) if hasattr(cfg, "full_key") else tuple(key), len(a), len(b)))
+        # the memoized decoded product (L1c (b)): one `tm` row per output term, plus a 200-byte def header
+        ob = 200 + (sum(len("  tm %s %s %s %s,\n" % (SL.num(t[0][0]), SL.num(t[0][1]), SL.num(t[1][0]),
+                                                      SL.num(t[1][1]))) for t in out[0]) if out else 0)
+        PACK.append((cfg.name, tuple(cfg.full_key(key)) if hasattr(cfg, "full_key") else tuple(key), len(a), len(b),
+                     ob))
     return out
 
 
@@ -77,10 +81,28 @@ def terms(m):
     return len(m.poly) if m is not None else 0
 
 
-def lit_bytes(m):
-    """bytes of the emitted literal rows `  tm k0 k1 re im,` (sofx_lean's format) plus a 120-byte header."""
-    return 120 + sum(len("  tm %s %s %s %s,\n" % (SL.num(k[0]), SL.num(k[1]), SL.num(c[0]), SL.num(c[1])))
-                     for k, c in m.poly)
+def row_bytes(m):
+    """bytes of the term rows `  tm k0 k1 re im,` (sofx_lean's format)."""
+    return sum(len("  tm %s %s %s %s,\n" % (SL.num(k[0]), SL.num(k[1]), SL.num(c[0]), SL.num(c[1])))
+               for k, c in m.poly)
+
+
+def def_text(name, m, norm=None):
+    """the complete emitted definition of a ledger model (and its cached norm), as SO-CSEG-GEN would write it:
+    `def <name> : CertModel SoBackendV2 := ⟨deg, ⟨[rows]⟩, ⟨rad⟩⟩` and `def <name>.norm : SoBackendV2 := ⟨norm⟩`."""
+    rows = "".join("  tm %s %s %s %s,\n" % (SL.num(k[0]), SL.num(k[1]), SL.num(c[0]), SL.num(c[1]))
+                   for k, c in m.poly)
+    rows = rows[:-2] + "\n" if rows else ""
+    t = "/-- ledger model %s (generated) -/\ndef %s : CertModel SoBackendV2 :=\n  ⟨%s, ⟨[\n%s  ]⟩, ⟨%s⟩⟩\n\n" % (
+        name, name, SL.num(m.deg), rows, SL.num(m.rad))
+    if norm is not None:
+        t += "def %s.norm : SoBackendV2 := ⟨%s⟩\n\n" % (name, SL.num(norm))
+    return t
+
+
+def lit_bytes(m, norm=None, name="lowerFull.s000"):
+    """complete emitted bytes (UTF-8) of the definition(s) of one model."""
+    return len(def_text(name, m, norm).encode())
 
 
 def mhash(m):
@@ -111,7 +133,7 @@ def census_compose(B, c, cfg, wanted):
         m = st.slots[-1][0]
         reads = [op[1], op[2]] if t in ("add", "mul") else ([op[1]] if t in ("exp", "inv") else [])
         recs.append(dict(slot=i, op=t, reads=reads, ins=ins, out=terms(m), deg=m.deg, ops=o1 - o0,
-                         bytes=lit_bytes(m), hash=mhash(m),
+                         bytes=lit_bytes(m, st.slots[-1][1]), rowBytes=row_bytes(m), hash=mhash(m),
                          packed=[list(x[1:]) for x in PACK[p0:p1]], sec=round(time.time() - t0, 4)))
     return recs, [st.slots[j][0] for j in wanted], st
 
@@ -169,14 +191,14 @@ def main(which, out):
             m = C.gramEntryModel(B, 2, c.emb, W, cl, pe, a, b, c.DKc)
             o1, p1 = snap()
             G_[a][b] = m
-            gram.append(dict(stage="gramEntry", idx=[a, b], out=terms(m), ops=o1 - o0,
+            gram.append(dict(stage="gramEntry", idx=[a, b], out=terms(m), ops=o1 - o0, bytes=lit_bytes(m),
                              packed=[list(x[1:]) for x in PACK[p0:p1]]))
     for i in range(2):
         for j in range(2):
             o0, p0 = snap()
             m = C.gramBGModel(B, 2, c.gramInv, G_, W, cl, pe, i, j)
             o1, p1 = snap()
-            gram.append(dict(stage="gramBG", idx=[i, j], out=terms(m), ops=o1 - o0,
+            gram.append(dict(stage="gramBG", idx=[i, j], out=terms(m), ops=o1 - o0, bytes=lit_bytes(m),
                              packed=[list(x[1:]) for x in PACK[p0:p1]]))
     rep["gram"] = gram
     p = c.params
@@ -193,14 +215,17 @@ def main(which, out):
         o1, p1 = snap()
         stages.append(dict(stage="mul", key=list(key), shape=[r, m_, cc], ops=o1 - o0,
                            inTerms=[[terms(x) for x in row] for row in X] + [[terms(x) for x in row] for row in Y],
-                           out=[[terms(x) for x in row] for row in R], packed=len(PACK[p0:p1])))
+                           out=[[terms(x) for x in row] for row in R], packed=len(PACK[p0:p1]),
+                           packedBytes=sum(x[4] for x in PACK[p0:p1]),
+                           bytes=sum(lit_bytes(x) for row in R for x in row)))
         return R
 
     def ma(B_, W_, pe_, r, cc, X, Y):
         o0 = CNT["ops"]
         R = _ma(B_, W_, pe_, r, cc, X, Y)
         stages.append(dict(stage="add", shape=[r, cc], ops=CNT["ops"] - o0,
-                           out=[[terms(x) for x in row] for row in R]))
+                           out=[[terms(x) for x in row] for row in R],
+                           bytes=sum(lit_bytes(x) for row in R for x in row)))
         return R
     C.modelMatMul, C.modelMatAdd = mm, ma
     o0 = CNT["ops"]

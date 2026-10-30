@@ -1,6 +1,21 @@
 # SO-CSPLIT: segmented proof of the heavy sub-checks under the 10 GB kernel cap (design, Phase 1)
 
-Status: design only, 2026-10-30 (owner ruling D39; track SO). No Lean file was written and no kernel probe was run.
+Status: design, **revision 1** (2026-10-30), answering design audit 1 (`SO-CSPLIT-design-audit-1.md`: F1–F4,
+N1–N4; dispositions in §1). Owner ruling D39; track SO.
+
+**The exact Lean interface is `.drafts/design/SOCsplitSignatures.lean`.** It is a module-form scratch file
+elaborated against the landed `inp` build (`lake env lean` through the compile gate, default heartbeats: rc = 0,
+no errors). It holds:
+- 33 definitions with their bodies, 3 structures and 1 instance;
+- 47 theorems with exact statements. **34 are proved.** **13 are `sorry`:**
+  - the five comparator reflections (`eq_of_termsBeq`, `CertPoly.eq_of_segBeq`, `CertModel.eq_of_segBeq`,
+    `eq_of_pairBeq`, `eq_of_cacheBeq`);
+  - the M1 core (`pushSlot_slot_lt`, `composeStep_congr`, `seed_slot_of_mem`, `shadowRun_agree`,
+    `composeOpsAux_slot_persist`, `ComposeCkpt.compose_eq`);
+  - two table lemmas (`modelMatMul_eq_of_entries`, `gramModels_eq_of_entries`).
+
+The Lean blocks below are excerpts of that file; where they differ, the file is authoritative. No library Lean
+file was written, and no kernel probe was run by me.
 This revises route E of SO-COMPOSE-SPLIT (branch `inp-socsplit`) and answers its audit 1. The Python evidence is two
 new untrusted tools, `scripts/spin_orbit/csplit_census.py` and `csplit_plan.py`. Their outputs are in
 `/mnt/HC_Volume_106379410/kam-data/so-csplit/` (`census_{lower,upper}.json`, `plan_*.json`).
@@ -54,23 +69,25 @@ Inputs read:
   - Packed products come from SO-DATA3's forced probes, not from the census:
     - one shard costs 4 s and 0.47 GB;
     - the decode and assembly of the 847-term output cost 26 s and 3.1 GB.
-  - Per torus that is 129 packed products, 667–718 shards and 351–358 k target slots.
+  - Per torus that is 129 packed products in SO-DATA3's report (128 evaluated: §4.3), 667–718 shards and
+    351–358 k target slots.
   - L = 14 does not rescue a whole compose: its `checkEnergy` was OOM-killed. That is consistent with M0, because
     the jet alone costs 6.9 GB at any L.
-- **Ledger (§5): 10–11 MB of Lean literals per torus, about 21 MB for both, far below the 50 MB flag.**
-  - cfgFull 155 models (2.5 MB); cfgLow 324 models (5.6 MB); 384 distinct after dedupe.
-  - Level-2 stage literals and the decoded packed-product outputs add about 2.4 MB.
-  - Volumes are exact emitted bytes from the mirror at SO-DATA3's `tm` format.
+- **Ledger (§5): 10.4 / 10.3 MB of emitted Lean literals per torus (complete), 20.7 MB for both, far below the
+  50 MB flag.**
+  - cfgFull 155 models (2.5 MB); cfgLow 324 models (5.6 MB); 384 distinct across the chains.
+  - Stage literals and decoded product memos add about 2.0 MB.
+  - Plans, metas and module headers add about 0.2 MB.
 - **Cost (§6), per torus:**
-  - about 430–480 theorems, each in its own module and built serially under the cap (about 260 of them are
+  - about 460–480 theorems, each in its own module and built serially under the cap (about 256 of them are
     packed-product shard and decode theorems);
-  - 10.7 M backend calls plus 129 packed products of kernel work;
+  - 10.7 M backend calls plus 128 packed products of kernel work;
   - **≈ 3.0–4.3 CPU-h per torus, 6–8.6 CPU-h for both.**
 - **Lock (§7).** M0–M3 carry over unchanged in shape. The lock's models are about 6.5× larger and its program is
   3.56× longer, so the projection is 25–60 CPU-h and a ledger of roughly 100–200 MB. The volume flag applies to the
   lock, not to the lunar tori (§10, owner item O2).
 - **Packages (§8).** About 1,650 Lean lines in four packages (SO-CSEG-A, -B, -L2, -L3), plus a Python emitter
-  (SO-CSEG-GEN, ~900 lines, extending `sofx_*`) and a Phase-2 calibration gate (SO-CSEG-CAL).
+  (SO-CSEG-GEN, ~900 lines, extending `sofx_*`) and two Phase-2 calibration gates (SO-CSEG-CAL-1, CAL-2).
 
 ## 1. What changed since SO-COMPOSE-SPLIT, and the audit's findings
 
@@ -87,10 +104,28 @@ Audit 1 and where it is answered:
 |---|---|
 | F1: P11 is an `isSome`, not forced; PF28 − P11 is invalid | No calibration here uses those receipts. The law of §4.1 uses only completed passes with forced Bool or equality results, plus SO-PACKFIX's forced shard and SO-DATA3's forced product (P1: sum, length, radius and degree of all 847 terms). The Phase-2 gate (§4.5) forces equality to complete literals, with matched imports. |
 | F2: invariants of route E | §3.3 lists the full invariant set: whole-pair agreement, meta indices, length checks and terminal exports. It adds the dead-op extension and its argument. |
-| F3: terminal outputs missing; union vs sum; per-chain counts | The planner exports the wanted slots and counts the ledger as a union, separately per chain and torus. Volumes are exact emitted bytes. |
+| F3: terminal outputs missing; union vs sum; per-chain counts | The planner exports the wanted slots and counts the ledger as a union, separately per chain and torus. Volumes: see N1 below. |
 | F4: additive memory law; Level 2 "needed regardless" | The law is now a fitted *rate*, with its mechanism (§4.1) and an explicit gate. Level 2 is needed because a single Gram defect row was OOM-killed (SO-DATA3 interim 3), which is a measured fact. |
 | F5: sharing needs a projection | M1 yields one `composeOps` success plus a ledger; `ComposeCkpt.compose_eq` projects to any `wanted ⊆ ledger`, so invariance (`d1Slots`) and energy (`[v0]`) share the run. |
 | F6: simpler alternatives | §3.1 and §3.6. Measured sharing and pruning (sharp-v2's `checkInvEnShared`, `composePruned`) were OOM-killed (SO-DATA3 round 2). Pruning is kept *inside* M1 as dead-op skipping. |
+
+Design audit 1 (codex-1) and revision 1:
+
+| finding | disposition |
+|---|---|
+| F1 (blocking): no elaborating signatures | `.drafts/design/SOCsplitSignatures.lean`: every definition with a body; every lemma of §3 with its exact statement; elaborates at default heartbeats (§3, excerpts). It covers `segOk`, `planOk`, `AgreeOn`, `composeStep_congr`, `composeStep_infallible`, `shadowRun_agree`, the four comparators with reflection, the bridges, `all_range_of_lt`, `gramCheck_eq_of_rows`, `expWitnessRadius*`, and the two assembly templates. `meta` is renamed `stateMeta`; the shape premise is explicit (`hrows`, `hcols`). |
+| F2: the product carrier | `polyProduct_eq_of_mulPacked` (→ `some (out.1.toErrTerms, out.2)`) and `CertPoly.mulPacked_eq_of_parts` (II decoded negated into the real component; RI and IR into the imaginary component, as landed). Both are **proved** in the file. |
+| F3: the sparse-product contract | `packedRealProduct_eq_nil_left/right` (`some ([], 0)`), `packedRealProduct_eq_of_sparse`, and `checkPackedSp_of_groups`: the verbatim non-shard prefix `checkPackedSpPrefix`, a coverage premise over `PackedAdvice.shardRange`, and per-group `checkShardAt` at the exact `spBlocks`/`spMax` arguments. All **proved**. |
+| F4: `segOk_one_of` | `segOk` is factored as `segPrefixOk` (S1, S2, all bounds) `&&` the shadow run `&&` `segResultOk` (S3 metadata, S4). `segOk_one_of` takes `hprefix` and `hresult` and is **proved**; `segOk` is never assumed. |
+| N1: prospective counts; bytes not complete | §4.3 is the plan the planner now **emits** (its `SegSpec` rows are in the plan JSON), with forced one-op cuts. §5 gives **complete** emitted bytes: definitions with degree, radius and cached norm, module headers, plan and metas, stage literals, product memos. |
+| N2: product split is a projection | §4.1–4.2 now label the shard/decode split (RR vs P1) a projection by subtraction, pending gate G4. GB are decimal; the cgroup cap `MemoryMax=10G` is 10 GiB = 10.74 GB. |
+| N3: calibration order | CAL is split: CAL-1 (G0–G5, standalone probes, after A and L3) and CAL-2 (G6, G7, after L2 and the B bridges); §4.5, §8. |
+| N4: sharing changes the plan proposition | `planOk C len` no longer mentions `wanted`; each projection adds the cheap `wantedOk C wanted` (`compose_eq`'s `hw`). One `hplan` and the same `hseg` serve `[v0]` and `d1Slots` (templates `checkEnergy_of_ckpt`, `checkInvariance_of_ckpt`, proved from `compose_eq`). |
+
+**Design signals from the elaboration** (default heartbeats; nothing raised):
+- `simp only [torsionModels, …]` over the landed body exhausts `whnf`, and `congr 1` on `sumUp` does too.
+- Both proofs became explicit `unfold`/`rw`/`congrArg` chains, and the generated proofs follow the same rule:
+  rewriting only, never `simp` over a landed checker body.
 
 ## 2. Facts that fix the design
 
@@ -119,10 +154,11 @@ Audit 1 and where it is answered:
    - SO-DATA3 forced the 503×503 product `[0,10]` in full (7 shards of 1,312 slots at w = 207 bits; 847 output
      terms) from literal operands: **69 s, 9.89 GB**, against a 3.50 GB literal baseline.
    - Its parts: one shard costs 10.8 s and 4.18 GB (+0.7 GB). All 7 shards (`packedRealProduct … .isSome`) cost
-     36 s and 6.78 GB (+3.3 GB). The rest, about 3.1 GB, is the decode of the 8,536-slot target (`dyadicTerms`),
-     `toErrTerms`, `truncPoly` and `errRadius`.
-   - So a whole product is too close to the cap to share a theorem with anything, while one shard group or one
-     decode fits easily.
+     36 s and 6.78 GB (+3.3 GB). By subtraction, the rest, about 3.1 GB, is the decode of the 8,536-slot target
+     (`dyadicTerms`), `toErrTerms`, `truncPoly` and `errRadius`. This is a projection, not a measured isolated
+     decode (N2; gate G4).
+   - So a whole product is too close to the cap to share a theorem with anything. One shard group (measured as
+     part of RR) or one decode (projected) is expected to fit.
    - Per torus there are 129 packed products (3 cfgFull, 126 cfgLow), 667 / 718 shards and 351 / 358 k target
      slots (lower / upper). Their targets at cfgLow are 1.2–4.3 k slots, smaller than `[0,10]`'s 8.5 k.
    - The other 485 products of the program are scalar × model (`directItems`, up to 1 × 1,067). These are census
@@ -151,13 +187,16 @@ mirror that is not bit-exact, is not needed: SO-DATA3 shows the mirror bit-ident
 ### 3.2 M0: the literal jet bridge
 
 ```lean
-/-- Bool equality of op lists, tail-recursive (`&&` in tail position; derived `DecidableEq` on `List` nests one
-kernel `whnf` per element, risking the depth limit at 887 ops). -/
-def SlpOp.beq : SlpOp → SlpOp → Bool
-def opsBeq : List SlpOp → List SlpOp → Bool
-def HamJet.beq (J J' : HamJet) : Bool       -- prog, v0, d1, d2, d3
-theorem HamJet.eq_of_beq {J J' : HamJet} (h : J.beq J' = true) : J = J'
+def keyBeq : CertKey → CertKey → Bool                       -- tail-recursive `&&`
+def SlpOp.beq : SlpOp → SlpOp → Bool                        -- eight arms, `false` across
+def opsBeq : List SlpOp → List SlpOp → Bool                 -- `a.beq b && opsBeq as bs`
+def HamJet.beq (J J' : HamJet) : Bool :=
+  opsBeq J.prog.ops J'.prog.ops && J.v0 == J'.v0 && J.d1 == J'.d1 && J.d2 == J'.d2 && J.d3 == J'.d3
+theorem HamJet.eq_of_beq {J J' : HamJet} (h : J.beq J' = true) : J = J'      -- proved
 ```
+`&&` puts the recursive call in tail position, so the kernel iterates. The derived `DecidableEq` on `List` would
+nest one `whnf` per element and risk the depth limit at 887 ops. The reflection lemmas `eq_of_keyBeq`,
+`SlpOp.eq_of_beq` and `eq_of_opsBeq` are proved.
 
 `lower_jet : base.ham.jet = jetLit` is proved as `HamJet.eq_of_beq (by decide +kernel)`.
 - `jetLit : HamJet` is emitted from the mirror (`sofx_lunar.jet()`), which SO-DATA3 found identical to Lean's
@@ -173,37 +212,29 @@ Every later theorem rewrites `c.ham.jet` to `jetLit` (`rw [lower_jet]`) and neve
 
 ### 3.3 M1: the composition chain (route E with a shadow fold)
 
-**Data (untrusted, emitted).**
+**Data (untrusted, emitted).** `ComposeMeta` (`len`, `nExp`, `nInv`, `cache`), `SegSpec` (`start`, `stop`,
+`live`, `imports`, `exports`) and `ComposeCkpt` (`segs`, `metas`, `ledger : List (ℕ × (CertModel α × α))`), as in the
+file.
+- `C.pairOpt i` is the first ledger match.
+- `C.pair W i := (C.pairOpt i).getD (slotEntry W zeroModel)`, the same default as `ComposeState.slot`.
+
+**The shadow fold** (file §B):
 ```lean
-structure ComposeMeta (α : Type) where      -- the non-slot fields of `ComposeState`
-  len : ℕ
-  nExp : ℕ
-  nInv : ℕ
-  cache : List (CertKey × CertPoly α × α)
-
-structure SegSpec where                       -- ops [start, stop)
-  start : ℕ
-  stop : ℕ
-  live : List ℕ          -- the slots of [start, stop) that must be computed faithfully
-  imports : List ℕ       -- ledger slots < start read by live ops
-  exports : List ℕ       -- ledger slots in [start, stop)
-
-structure ComposeCkpt (α : Type) where
-  segs : List SegSpec
-  metas : List (ComposeMeta α)               -- `metas.length = segs.length + 1`
-  ledger : List (ℕ × (CertModel α × α))      -- (slot, (model, cached norm)), slots strictly increasing
+def SlpOp.fallible : SlpOp → Bool                      -- char, exp, inv, sqrt
+def shadowStep (n) (K) (wit) (W) (cfg) (pe) (s : SegSpec) (st : ComposeState α) (op : SlpOp) :
+    Option (ComposeState α) :=
+  if s.live.contains st.len || op.fallible then composeStep n K wit W cfg pe st op
+  else some (st.pushSlot W zeroModel)
+def shadowRun … (s : SegSpec) : Option (ComposeState α) → List SlpOp → Option (ComposeState α)
+  -- strict loop, as `composeOpsAux`
+def ComposeState.seed (W) (m : ComposeMeta α) (C : ComposeCkpt α) (imps : List ℕ) : ComposeState α :=
+  { rev := (List.range m.len).reverse.map fun i =>
+      if imps.contains i then C.pair W i else slotEntry W zeroModel
+    len := m.len, nExp := m.nExp, nInv := m.nInv, cache := m.cache }
 ```
 
-**The shadow fold.** `fallible op := op is char/exp/inv/sqrt`; `liveEff s i op := i ∈ s.live ∨ fallible op`.
-```lean
-def shadowStep (env) (s : SegSpec) (st : ComposeState α) (op : SlpOp) : Option (ComposeState α) :=
-  if liveEff s st.len op then composeStep n K wit W cfg pe st op    -- the landed step, unchanged
-  else some (st.pushSlot W zeroModel)                                -- dead infallible op: a placeholder
-def ComposeState.seed (W) (m : ComposeMeta α) (C : ComposeCkpt α) (imports : List ℕ) : ComposeState α
-  -- `rev` dense of length `m.len`: the ledger pair at imported slots, `slotEntry W zeroModel` elsewhere
-```
-
-**`segOk env ops C j : Bool`** checks, for `s = C.segs[j]`, with checked indexing (`getD` only after length checks):
+**`C.segOk n ops K wit W cfg pe j : Bool`** is `C.segPrefixOk ops j && (shadow run from the seed) && C.segResultOk
+W ops j st`. All indexing is `[j]?` with a `false` fallback. It checks, for `s = C.segs[j]`:
 - **(S1) Metas.** `C.metas[j].len = s.start` and `C.metas[j+1]` exists.
 - **(S2) Reads.** For each `i ∈ [start, stop)` with `liveEff s i ops[i]`, every `a ∈ opDeps ops[i]` satisfies
   `a < i` and either `a ∈ s.imports` or (`start ≤ a` and `liveEff s a ops[a]`). This is index arithmetic only.
@@ -212,26 +243,42 @@ def ComposeState.seed (W) (m : ComposeMeta α) (C : ComposeCkpt α) (imports : L
 - **(S4) Exports.** For each `e ∈ s.exports`: `start ≤ e < stop`, `liveEff s e ops[e]`, and
   `pairBeq (st.slot W e) (C.pair e) = true`. This compares the **whole pair**, model and cached norm (audit F2).
 
-**`planOk C ops.length wanted : Bool`** works on indices only, with no model compared:
-- the segments tile `[0, ops.length)` in order;
-- `metas.length = segs.length + 1` and `metas[0] = ⟨0, 0, 0, []⟩`;
-- the ledger slots are strictly increasing, hence distinct;
-- every import of segment `j` is `< segs[j].start` and is an export of the segment containing it;
-- every ledger slot is an export of the segment containing it;
-- `wanted ⊆ ledger slots`.
+**`C.planOk len : Bool`** works on indices only, with no model compared:
+- `segsTile` of `[0, len)`;
+- `metas.length = segs.length + 1` and the initial meta `⟨0, 0, 0, []⟩`;
+- `ledgerAsc`;
+- every import of segment `j` is `< segs[j].start` and is `C.exported`;
+- every ledger slot is `C.exported`.
 
-**Bool equalities.** `polyBeq`, `modelBeq`, `pairBeq` and `cacheBeq` are tail-recursive conjunctions over the term
-lists. `[DecidableEq α]` is used for the leaves (`CertFixed P` through `m : ℤ`). Soundness lemmas give `… = true → … = …`.
-The checks traverse lists by `&&` chains, which SO-KDEPTH measured as depth-safe at 20 k elements. Derived
-`DecidableEq` on `List` is never used.
+**`C.wantedOk wanted`** checks that every wanted slot is on the ledger. It is separate from `planOk`, so one
+`hplan` serves every projection (audit N4).
+
+**Bool equalities** (file §A):
+- `ccBeq`, `termsBeq`, `CertPoly.segBeq`, `CertModel.segBeq` (degree, radius, terms), `pairBeq` (with the cached
+  norm), `cacheBeq` (key, polynomial, radius, in order) and `ComposeMeta.beq`.
+- They are tail-recursive `&&` chains, which SO-KDEPTH measured as depth-safe at 20 k elements. Derived
+  `DecidableEq` on `List` is never used.
+- `[DecidableEq α]` is used only for the leaves. For `CertFixed P` it is a **new instance**,
+  `instDecidableEqCertFixedSeg`, through the mantissa (`decidable_of_iff` with `CertFixed.eq_of_m`). This is the
+  one instance SO-CSEG-A adds on a landed type; an alternative is a leaf comparator passed as an argument.
+- Reflection lemmas give `… = true → … = …` (stated; `sorry` in the file).
 
 **Chain theorem (proved once, generic in all data).**
 ```lean
-theorem ComposeCkpt.compose_eq [DecidableEq α] (C : ComposeCkpt α) {p : Slp} {wanted : List ℕ}
-    (hplan : C.planOk p.ops.length wanted = true)
-    (hseg : ∀ j < C.segs.length, C.segOk n p.ops K wit W cfg pe j = true) :
-    Slp.compose n p K wit W cfg pe wanted = some (wanted.map fun i => (C.pair i).1)
+theorem ComposeCkpt.compose_eq [DecidableEq α] (n : ℕ) (K : CertEmbedding α) (wit : Witnesses α)
+    (W : CertWeight) (cfg : ModelConfig α) (pe : PiEnclosure α) (C : ComposeCkpt α)
+    {p : Slp} {wanted : List ℕ} (hplan : C.planOk p.ops.length = true)
+    (hseg : ∀ j < C.segs.length, C.segOk n p.ops K wit W cfg pe j = true)
+    (hw : C.wantedOk wanted = true) :
+    Slp.compose n p K wit W cfg pe wanted = some (wanted.map fun i => (C.pair W i).1)
 ```
+**Its lemmas** (file §B):
+- `composeStep_congr` (to `Option.Rel` of `AgreeOn W (R ∪ {len})`, reads in `R` and below `len`);
+- `composeStep_infallible` (`∃ m, … = some (st.pushSlot W m)`), **proved**;
+- `seed_slot_of_mem`, and `seed_stateMeta` (proved);
+- `shadowRun_agree`;
+- `composeOpsAux_slot_persist`;
+- `pushSlot_slot_lt`.
 
 **Proof (computation-only).**
 
@@ -261,8 +308,8 @@ a dead failure is never hidden. This is the audit F6 caveat ("success of the who
 that can fail"). In the lunar program, all 14 `char` ops run; 13 are cache hits (exact shifts).
 
 **Sharing.** One plan per chain:
-- **cfgFull.** `wanted = v0 :: d1`. `compose_eq` applied with `[v0]` and with `d1Slots` uses the same `hplan` and
-  `hseg` facts (audit F5).
+- **cfgFull.** The templates `checkEnergy_of_ckpt` and `checkInvariance_of_ckpt` (file §F) take the same `hplan`
+  and `hseg` and differ only in `hw` and the residual (energy, or the 4 rows). Both are proved from `compose_eq`.
 - **cfgLow.** `wanted = torsionSlots`.
 
 **The lunar plans (§4.3).** 38 cfgFull and 70 cfgLow segments per torus.
@@ -273,47 +320,49 @@ that can fail"). In the lunar program, all 14 `char` ops run; 13 are cache hits 
 `lit`); the consumer proof `rw`s it and decides the rest. This is SO-DATA3's FrameN pattern
 (`rw [lower_gramCheck_eq]; decide +kernel`), generalized.
 
-**Table lemmas.** The landed bodies build matrices under binders, so a closed equality cannot be `rw`ritten there.
-Generic congruence lemmas (`funext` / `List.ofFn` / `buildMat` extensionality) move the per-entry equalities
-inside. All are stated over variables:
+**Table lemmas** (file §E). The landed bodies build matrices under binders, so a closed equality cannot be
+`rw`ritten there; generic lemmas over variables move the per-entry equalities inside.
+- **Proved:**
+  - `matMulEntry`, the `(i, j)` body of `modelMatMul`, with `modelMatMul_eq_buildMat` (`rfl`);
+  - `matMulEntry_eq_of_products`;
+  - `gramDefectRows_eq_of_entries`;
+  - `gramCheck_eq_of_rows` (shape premise, memoized rows, then the landed `gramBoundsOk`/`maxCandidate`
+    residual);
+  - `torsionModels_eq_of_stages`;
+  - `frameNModels_eq_of_stage`.
+- **Stated, `sorry`:**
+  - `modelMatMul_eq_of_entries` (explicit `hrows`, `hcols`);
+  - `gramModels_eq_of_entries` (triangular reuse, as landed).
+
+`torsionModels_eq_of_stages` has one premise per landed stage, each stated on the previous stages' results with
+the landed keys and shapes, from `[4,0]` (`L·Gi`) to `[4,9]` (`d1·N`). Its conclusion is the landed final
+`buildMat`. Since it is proved by `unfold; rw`, the premises are exactly the landed stage terms:
 ```lean
-theorem gramModels_eq_of_entries {E : ℕ → ℕ → CertModel α}
-    (h : ∀ a < n, ∀ b < n, a ≤ b → gramEntryModel n K W cfg pe a b = E a b) :
-    gramModels n K W cfg pe = (List.range n).map fun a => (List.range n).map fun b =>
-      if a ≤ b then E a b else E b a
-theorem gramDefectRows_eq_of_entries {T : ℕ → ℕ → CertModel α}
-    (h : ∀ i < n, ∀ j < n, gramBGModel n B G W cfg pe i j = T i j) :
-    gramDefectRows n B G W cfg pe =
-      List.ofFn fun i : Fin n => sumUp (fun j : Fin n => gramDefectUp W i.val j.val (T i.val j.val))
-        (List.finRange n)
-/-- the `(i, j)` body of `modelMatMul` (definitionally equal; new name) -/
-def matMulEntry (W) (cfg) (pe) (key) (m : ℕ) (A B : ModelMatrix α) (i j : ℕ) : CertModel α
-theorem modelMatMul_eq_of_entries {M : ModelMatrix α} (hs : M has shape r × c)
-    (h : ∀ i < r, ∀ j < c, matMulEntry W cfg pe key m A B i j = modelMatrixEntry M i j) :
-    modelMatMul W cfg pe key r m c A B = M
-theorem matMulEntry_eq_of_products {P : ℕ → CertModel α}
-    (h : ∀ k < m, CertModel.mul W cfg (key ++ [i, j, k]) (modelMatrixEntry A i k)
-      (modelMatrixEntry B k j) = P k) :
-    matMulEntry W cfg pe key m A B i j = CertModel.toDeg W pe 0 (modelSum W pe (List.ofFn fun k : Fin m => P k))
-theorem torsionModels_eq_of_stages … : torsionModels n e K wit B δβ box s W cfg pe = some T
-  -- hypotheses: the cfgLow `Slp.compose … (torsionSlots n e.jet) = some ms`, `gramInvRadius δβ = some ε`,
-  -- `dkModels … = Llit`, `dkwModels … = DLlit`, and one equation per matrix stage `[4,0]`–`[4,9]`, add,
-  -- transpose and omega, each on the previous stage's literal; conclusion: the `buildMat` of the final stage
-  -- literals (`unfold torsionModels; rw [...]`, no evaluation)
+    (hN0 : modelMatMul W cfg pe [4, 0] (n + n) n n L Gi = N0)
+    …
+    (hTb : modelMatMul W cfg pe [4, 8] n (n + n) n
+      (modelMatTranspose (n + n) n (modelMatOmega n n N0))
+      (modelMatOmega n n (modelMatAdd W pe (n + n) n XN1
+        (modelMatNeg (n + n) n (modelMatOmega n n (modelMatAdd W pe (n + n) n DN1 DN2))))) = Tb)
+    (hY : modelMatMul W cfg pe [4, 9] 1 (n + n) n (d1Models n ms) (modelMatOmega n n N0) = Y) :
+    torsionModels n e K wit Binv δβ box s W cfg pe =
+      some (buildMat (n + 1) (n + 1) fun i j =>
+        if i < n then (if j < n then modelMatrixEntry Tb i j else freqModel n box s i)
+        else (if j < n then modelMatrixEntry Y 0 j else zeroModel))
 ```
 
 **Recipes** (`L = lower`; `jet` = M0; `Cfull`, `Clow` = M1 plans):
 
 | landed Bool | proof |
 |---|---|
-| `checkInvariance base` | `rw [lower_jet]`, then `checkInvariance_eq_of_compose (Cfull.compose_eq …)`. The residual is `(List.range 4).all (row a)`, assembled by `List.all_range_of` from **4 row theorems** (43 k, 0.1 k, 57 k, 59 k calls) on the literal `d1` models. |
-| `checkEnergy base` | the same chain with `[v0]`, then **1** `energyOk …` theorem (3 k calls) |
-| `checkGram base` | `gramCheck_eq_some` (below), then `Option.isSome_some` |
-| `gramCheck … = some δβ` | **3 entry** theorems (`gramEntryModel`, 67–76 k calls; their 3 packed products each memoized by L1c) and **4 BG-entry** theorems (31–40 k; 2 memoized products each). Then `gramModels_eq_of_entries` and `gramDefectRows_eq_of_entries`; the final `gramBoundsOk` and the `maxCandidate` on literal rows are one cheap decide. |
-| `checkTorsion base` | `rw [gramCheck_eq_some, torsionModels_eq_some]`, then `torsionAvgCheck` on literal `T` (one decide) |
+| `checkInvariance base` | the template `checkInvariance_of_ckpt` (proved from `compose_eq`, `checkInvariance_eq_of_compose`, `all_range_of_lt`) with `hjet := lower_jet`. The residual is `(List.range 4).all (row a)`, assembled by `List.all_range_of` from **4 row theorems** (43 k, 0.1 k, 57 k, 59 k calls) on the literal `d1` models. |
+| `checkEnergy base` | the template `checkEnergy_of_ckpt` with the same `hplan`/`hseg`, `hw` for `[v0]`, and **1** `energyOk …` theorem (3 k calls) |
+| `checkGram base` | `checkGram_of_gramCheck` (proved) on the `gramCheck` equation below |
+| `gramCheck … = some δβ` | `gramCheck_eq_of_rows` with **3 entry** theorems (`gramEntryModel`, 67–76 k calls; their 3 packed products each memoized by L1c) and **4 BG-entry** theorems (31–40 k; 2 memoized products each). Then `gramModels_eq_of_entries` and `gramDefectRows_eq_of_entries`; the final `gramBoundsOk` and the `maxCandidate` on literal rows are one cheap decide. |
+| `checkTorsion base` | `checkTorsion_eq_of` (proved), then `torsionAvgCheck` on literal `T` (one decide) |
 | `torsionModels … = some T` | `torsionModels_eq_of_stages`, built from: the cfgLow chain; `dkModels`, `dkwModels` and `gramInvModels` (one theorem each); **one theorem per matrix-product entry** (54 entries; their 106 packed products memoized by L1c; an entry over B splits per product: 54–75 theorems, §4.3); and the adds, transposes and omegas (cheap, one each) |
-| `checkFrameN base bN bNt` | `unfold checkFrameN frameGram frameNModels`, `rw [gramCheck_eq_some, hε, stage [4,0] equations]`. The `[4,0]` stage literal **is** torsion's `N`, so nothing is recomputed. Then 2 corner theorems (54 k calls each). |
-| `checkFrameT base bT` | `rw [gramCheck_eq_some, torsionModels_eq_some]`, then 1 corner theorem (33 k) |
+| `checkFrameN base bN bNt` | `checkFrameN_eq_of` with `frameNModels_eq_of_stage` (both proved). The `[4,0]` stage literal **is** torsion's `N`, so nothing is recomputed. Then 2 corner theorems (54 k calls each). |
+| `checkFrameT base bT` | `checkFrameT_eq_of` (proved), then 1 corner theorem (33 k) |
 | `checkFrameL base bL` | DK corner bounds (69 k calls): 1 theorem, unchanged (not yet run by SO-DATA3) |
 
 Each `rw` in elaboration matches closed terms. The residual `decide +kernel` sees only literals. Risk R7
@@ -326,19 +375,40 @@ Each `rw` in elaboration matches closed terms. The residual `decide +kernel` see
 An op or stage entry that contains a packed product is never decided whole. Its own closed subterms are
 memoized instead. There is still no new checker code: these are equation lemmas about the landed
 `CertModel.mul`/`mulN`, `polyProduct`, `mulPacked`, `packedRealProduct` and `expWitnessRadius` bodies.
+The chain of lemmas (file §D; all **proved**):
 ```lean
-theorem CertModel.mulN_eq_of_polyProduct (h : CertModel.polyProduct W cfg key a.poly b.poly = some out) :
-    CertModel.mulN W cfg key a na b nb = ⟨a.deg + b.deg, truncPoly cfg.cutoff out.1, upAdd (upAdd out.2 …) …⟩
-theorem polyProduct_eq_of_parts (ha : a.isConst = false) (hb : b.isConst = false)
+theorem CertModel.mulN_eq_of_polyProduct … (h : CertModel.polyProduct W cfg key a.poly b.poly = some out) :
+    CertModel.mulN W cfg key a na b nb =
+      ⟨a.deg + b.deg, truncPoly cfg.cutoff out.1,
+        upAdd (upAdd out.2 (errRadius W (out.1.map (truncErr cfg.cutoff))))
+          (upAdd (upAdd (crossUp na b.rad) (crossUp nb a.rad)) (upMul a.rad b.rad))⟩
+theorem polyProduct_eq_of_mulPacked … (ha : a.isConst = false) (hb : b.isConst = false)
     (hk : adviceLookup cfg.advice key = some (.packed P rr ii ri ir))
-    (hma : a.toMants cfg.toMant P = some ma) (hmb : b.toMants cfg.toMant P = some mb)
-    (hRR : packedRealProduct rr W (2 * P) ma.1 mb.1 = some pRR) (hII : …) (hRI : …) (hIR : …)
-    (htRR : dyadicTerms (2 * P) rr.scale (fun v => ⟨v, ofInt 0⟩) pRR.1 = some tRR) (htII : …) (htRI : …) (htIR : …) :
-    CertModel.polyProduct W cfg key a b = some (⟨tRR ++ tII ++ tRI ++ tIR⟩, ofRatUp (pRR.2 + pII.2 + pRI.2 + pIR.2))
-theorem packedRealProduct_eq_of_shards (hx : adv.la.allSlots x = true) (hy : adv.lb.allSlots y = true)
-    (hg : checkPackedSp guards = true)
-    (hs : ∀ s ∈ group₁ ++ … ++ group_g, checkShardSp adv SA SB mA mB s = true) :
-    packedRealProduct adv W P2 x y = some (adv.targetTerms, adv.remainderBound W P2)
+    (hp : CertPoly.mulPacked cfg.toMant W P rr ii ri ir a b = some out) :
+    CertModel.polyProduct W cfg key a b = some (out.1.toErrTerms, out.2)            -- F2
+theorem CertPoly.mulPacked_eq_of_parts … (hma : a.toMants dec P = some ma) (hmb : …)
+    (hRR : packedRealProduct rr W (2 * P) ma.1 mb.1 = some pRR) (hII : … ii … ma.2 mb.2 …)
+    (hRI : … ri … ma.1 mb.2 …) (hIR : … ir … ma.2 mb.1 …)
+    (htRR : dyadicTerms (2 * P) rr.scale (fun v => ⟨v, ofInt 0⟩) pRR.1 = some tRR)
+    (htII : dyadicTerms (2 * P) ii.scale (fun v => ⟨v, ofInt 0⟩) (pII.1.map fun t => (t.1, -t.2)) = some tII)
+    (htRI : dyadicTerms (2 * P) ri.scale (fun v => ⟨ofInt 0, v⟩) pRI.1 = some tRI)
+    (htIR : dyadicTerms (2 * P) ir.scale (fun v => ⟨ofInt 0, v⟩) pIR.1 = some tIR) :
+    CertPoly.mulPacked dec W P rr ii ri ir a b =
+      some (⟨tRR ++ tII ++ tRI ++ tIR⟩, ofRatUp (pRR.2 + pII.2 + pRI.2 + pIR.2))
+theorem packedRealProduct_eq_nil_left … (hx : x.isEmpty = true) : packedRealProduct adv W P2 x y = some ([], 0)
+theorem packedRealProduct_eq_nil_right … (hy : y.isEmpty = true) : … = some ([], 0)
+theorem packedRealProduct_eq_of_sparse … (hx : x.isEmpty = false) (hy : y.isEmpty = false)
+    (ha : adv.la.allSlots x = true) (hb : adv.lb.allSlots y = true)
+    (hs : checkPackedSp adv (adv.la.slotTerms x) (adv.lb.slotTerms y) = true) :
+    packedRealProduct adv W P2 x y = some (adv.targetTerms, adv.remainderBound W P2)       -- F3
+def checkPackedSpPrefix (adv) (ea eb) : Bool          -- the non-shard prefix of `checkPackedSp`, verbatim
+def PackedAdvice.shardRange (adv) : List ℕ            -- `List.range (spCount la + spCount lb - 1)`
+def checkShardAt (adv) (ea eb) (s) : Bool             -- `checkShardSp` at the exact `spBlocks`/`spMax`
+theorem checkPackedSp_of_groups (adv) (ea eb) (groups : List (List ℕ))
+    (hpre : checkPackedSpPrefix adv ea eb = true)
+    (hcover : ∀ s ∈ adv.shardRange, ∃ g ∈ groups, s ∈ g)
+    (hgroups : ∀ g ∈ groups, g.all (checkShardAt adv ea eb) = true) :
+    checkPackedSp adv ea eb = true                                                          -- F3
 ```
 **Per packed part, two theorems, plus a cheap one:**
 - **(a) the shard group.** The shards `checkShardSp … s`: at ≈ 0.47 GB each, all 7 fit one theorem (≈ 3.3 GB of
@@ -347,8 +417,9 @@ theorem packedRealProduct_eq_of_shards (hx : adv.la.allSlots x = true) (hy : adv
   ≤ 1.6 GB at cfgLow's ≤ 4.3 k.
 - **(c) `toMants` of the two literal operands:** cheap; it may merge into (a).
 
-`packedRealProduct_eq_of_shards` and `polyProduct_eq_of_parts` then assemble `polyProduct … = some lit` with no
-kernel evaluation. The real lunar embedding makes 3 of the 4 parts empty for every lunar product. The census
+`checkPackedSp_of_groups`, `packedRealProduct_eq_of_sparse` (or the empty lemmas), `mulPacked_eq_of_parts` and
+`polyProduct_eq_of_mulPacked` then assemble `polyProduct … = some (lit.toErrTerms, err)` with no kernel
+evaluation. The real lunar embedding makes 3 of the 4 parts empty for every lunar product. The census
 counts the truncation, `errRadius` and norm work of the product's consumer; that work stays in the consumer's
 theorem (a segment or a stage entry).
 
@@ -356,21 +427,30 @@ theorem (a segment or a stage entry).
 character witness: `expResidualProduct` with keys `[1,j]`, j = 0, 1, both packed `ir`).
 - The plan forces the cuts `[10, 11)` and `[28, 29)`. Their operands are ledger slots (slot 10 reads slots 8 and
   5), and slot 28 reads the meta cache only.
-- `segOk` for such a segment is not decided whole. It is proved through
+- `segOk` for such a segment is not decided whole. It is proved (F4) through
   ```lean
-  theorem segOk_one_of (hj : C.segs[j] = ⟨i, i + 1, [i], imps, [i]⟩)
-      (hop : composeStep n K wit W cfg pe (seed W (C.metas[j]) C imps) (ops[i]) = some st')
-      (hx : metaBeq (meta st') (C.metas[j+1]) && pairBeq (st'.slot W i) (C.pair i) = true) :
-      C.segOk n ops K wit W cfg pe j = true
-  theorem seed_slot_of_mem (ha : a ∈ imps) (ha' : a < m.len) : (seed W m C imps).slot W a = C.pair a
+  theorem ComposeCkpt.segOk_one_of … (hs : C.segs[j]? = some s) (hm : C.metas[j]? = some m)
+      (hone : s.ops ops = [op])
+      (hprefix : C.segPrefixOk ops j = true)                       -- S1, S2, bounds: one cheap decide
+      (hop : shadowStep n K wit W cfg pe s (ComposeState.seed W m C s.imports) op = some st')
+      (hresult : C.segResultOk W ops j st' = true) :               -- S3 meta, S4: a small decide
+      C.segOk n ops K wit W cfg pe j = true                         -- proved
+  theorem seed_slot_of_mem … (ha : imps.contains a = true) (hlt : a < m.len) :
+      (ComposeState.seed W m C imps).slot W a = C.pair W a
+  theorem shadowStep_of_live … (h : s.live.contains st.len = true) :
+      shadowStep n K wit W cfg pe s st op = composeStep n K wit W cfg pe st op        -- proved
   ```
 - `hop` is proved by rewriting:
   - slot 10: `composeStep` of `.mul`, `seed_slot_of_mem`, then `CertModel.mulN_eq_of_polyProduct` with the
     assembled `polyProduct` literal;
-  - slot 28: `composeStep` of `.char`, `charSlot`, `charEntry`, `charResolve` on the meta cache `[]`, then
-    `expWitnessRadius_eq_of_residuals`, whose two `expResidualProduct … j = lit_j` premises come from (a) and (b)
-    plus one remainder theorem.
-- `hx` is a small decide on literals.
+  - slot 28: `composeStep` of `.char`, `charSlot`, `charEntry`, then `charResolve_eq_of_radius` (cache miss, own
+    key). Its radius premise comes from:
+    - `expWitnessRadius_eq_of_pin`;
+    - `expWitnessRadiusOf_eq_of_residuals`, which takes the two memoized `expResidualUp … j` values;
+    - `expResidualProduct_eq_of_polyProduct`, which takes the (a)+(b) product literals.
+
+    All are proved in the file.
+- `hresult` is a small decide on literals.
 
 SO-DATA3's C1 (`(charResolve … [2,0]).isSome`, 10.9 s, 3.66 GB) did not force the radius, so the packed residual
 products inside `res` were not evaluated (audit F1). It is not used as a bound.
@@ -422,7 +502,8 @@ products inside `res` were not evaluated (audit F1). It is not used as a bound.
 **Consequences:**
 - A theorem with at most 40 s of kernel work is predicted at ≤ 6.7 GB at base 1.5 GB, and ≤ 8.7 GB even at the
   in-file 3.5 GB base.
-- The plan therefore budgets t ≤ 40 s and keeps every single unit (a shard group or a decode) at ≤ 3.3 GB of work.
+- The plan therefore budgets t ≤ 40 s. It expects every single unit (a shard group, measured within RR; a decode,
+  projected) at about 3.3 GB of work or less, to be confirmed by G4.
 
 ### 4.2 Work proxy: backend calls (census)
 
@@ -442,12 +523,20 @@ corner. Packed products are counted separately, because the mirror evaluates the
   base; it was killed at 132 s and 9.3 GB.
 - Pruned energy: 859 k calls plus J0 (6.9 GB). That is far over the cap; it was killed within 1.5 min.
 
-**Packed products (measured, SO-DATA3 P1/SH/RR).**
-- 0.47 GB and 4.1 s per shard;
-- 0.36 MB and 3 ms per decoded target slot (`[0,10]`: 3.1 GB and 26 s).
+**Packed products (SO-DATA3 P1/SH/RR; the split is a projection, N2).**
+- *Measured:* the whole product P1 at +6.39 GB and +62 s; all 7 shards RR at +3.28 GB and +29 s; one shard SH at
+  +0.68 GB.
+- *Projected by subtraction (P1 − RR), not measured:*
+  - ≈ 0.47 GB and 4.1 s per shard;
+  - a remainder of ≈ 3.1 GB and 26 s for the decode, `toErrTerms`, truncation and `errRadius` of the 847-term
+    output. That is ≈ 0.36 MB and 3 ms per target slot.
+- Peaks under different cache states need not subtract. The isolated decode theorem (b) is therefore **unmeasured
+  until gate G4**, and no bound "≤ 3.1 GB" is claimed before then.
+- **Units:** GB are decimal (`/usr/bin/time` max RSS in kB × 10³). The cgroup cap `MemoryMax=10G` is 10 GiB, i.e.
+  10.74 GB. The gate records cgroup `memory.peak` as well.
 
-My earlier scaling from SO-PACKFIX (0.3–1.1 GB per whole product) under-estimated by 6×. The decode, which
-SO-PACKFIX's shard probe did not include, is half the cost.
+My earlier scaling from SO-PACKFIX (0.3–1.1 GB per whole product) under-estimated by 6×. By the
+projection, the decode remainder, which SO-PACKFIX's shard probe did not include, is about half the cost.
 
 **Planning value.** Each packed product is memoized in its own theorems (§3.5). Inside segments and entries it
 costs 0, and the shard and decode theorems are planned by GB directly.
@@ -459,27 +548,35 @@ costs 0, and the shard and decode theorems are planned by GB directly.
 
 ### 4.3 The plans (census + `csplit_plan.py`; both tori; B = 75 k)
 
-The segment counts include the forced one-op cuts. Packed products are memoized (L1c) and cost 0 inside
-segments and entries.
+**These are the plans the planner emits** (N1): the plan JSON carries every `SegSpec` row
+(`kam-data/so-csplit/plan_{lower,upper}_75000.json`, field `segSpecs`).
+- The segment counts include the forced one-op cuts: cfgFull `[10,11)` and `[28,29)`; cfgLow `[28,29)` only.
+- In cfgLow, slot 10 is dead for `torsionSlots`. Its packed product is skipped by the shadow run, never
+  evaluated, so a torus has 128 evaluated packed products, not 129.
+- Packed products are memoized (L1c) and cost 0 inside segments and entries.
+- The largest segment cost is the one-op character segment: 112 k census calls in cfgFull, 94 k in cfgLow. Its
+  two residuals are memoized in their own theorems (`expResidualProduct`/`expResidualUp`, §3.5), so the segment
+  keeps only the remainder. G5 measures this.
+- Every other segment is ≤ 75 k.
 
 | | lower | upper |
 |---|---:|---:|
 | cfgFull: live slots / live work | 215 / 2.40 M | 215 / 2.39 M |
-| cfgFull: segments / max imports per segment | 38 / 8 | 38 / 8 |
+| cfgFull: segments (one-op cuts) / max imports per segment | 38 (10, 28) / 8 | 38 (10, 28) / 8 |
 | cfgLow (torsion): live slots / live work | 401 / 4.52 M | 401 / 4.51 M |
-| cfgLow: segments / max imports | 70 / 12 | 70 / 12 |
+| cfgLow: segments (one-op cuts) / max imports | 70 (28) / 12 | 70 (28) / 12 |
 | ops over B before M3 | slot 28 (char): 112 k (cfgFull) / 94 k (cfgLow) calls plus its 2 packed products; slot 10's product | the same |
 | packed products / shards / target slots | 129 / 667 / 351 k | 129 / 718 / 358 k |
-| packed theorems, (a) shards + (b) decode per product | 258 (≤ 3.3 + ≤ 3.1 GB each) | 258 |
-| Gram: work without products / packed / entry theorems | 361 k / 17 / 7 | 351 k / 17 / 7 |
+| packed theorems, (a) shards + (b) decode per evaluated product | 256 (projected ≈ 3.3 + ≈ 3.1 GB of work each; G4) | 256 |
+| Gram: work without products / packed / entry theorems | 361 k / 17 / 9 (entry (0,0) at 75.8 k splits) | 351 k / 17 / 7 |
 | torsion stages: work without products / packed / entry theorems | 3.03 M / 106 / 54–75 (an entry over B splits per product) | 2.99 M / 106 / 54–75 |
 | invariance rows / energy tail / frame corners (L, N, Nt, T) | 43, 0.1, 57, 59 k / 3 k / 69, 54, 54, 33 k | ≈ the same |
 
 The live sets reproduce SO-DATA3's independent counts exactly (v0 86 slots / 26 products; d1 rows 99/36, 85/31,
 16/7, 3/1; shared 215/100), which cross-validates the census.
 
-**Sensitivity.** At B = 150 k (if the gate shows the faster end of the rate), cfgFull needs 18 segments and cfgLow
-33, and nothing is over budget (slot 28 fits). The plan generator takes B as its parameter.
+**Sensitivity.** At B = 150 k (if the gate shows the faster end of the rate), cfgFull needs 20 segments and cfgLow
+33, with the same forced cuts. The plan generator takes B as its parameter.
 
 ### 4.4 Level structure
 
@@ -491,7 +588,11 @@ The live sets reproduce SO-DATA3's independent counts exactly (v0 86 slots / 26 
 | L1c | one packed product → shard group + decode (M3) | every packed product (129 per torus) |
 | L2 | one stage entry (M2) | Gram entries, BG entries, torsion matrix entries, invariance rows, corners |
 
-### 4.5 Phase-2 gate SO-CSEG-CAL (before any generation at scale)
+### 4.5 Phase-2 gates SO-CSEG-CAL-1 and CAL-2 (before any generation at scale; N3)
+
+**CAL-1** (G0–G5) runs after packages A and L3. Its probes are standalone: G2 and G3 use A's `segOk` on one
+emitted segment; G4 and G5 use L3's lemmas and hand-written stage statements. **CAL-2** (G6, G7) runs after L2
+and B's bridges and templates, because those probes exercise the table lemmas and an assembled recipe.
 
 Every probe runs alone under the kernel-probe lock with `MemoryMax=10G`, `MemorySwapMax=0` and
 `LEAN_NUM_THREADS=1`, and records USER+SYS CPU, wall and `memory.peak`. Each forces **equality to a complete
@@ -503,7 +604,7 @@ literal** with the **production import closure** (audit F1):
 | G1 | import-only control of a segment module | the base with the plan and ledger imports |
 | G2 | one cfgFull segment at ≈ 75 k calls (8 imports, real exports) | κ (ms and KB per call), seed and export overhead |
 | G3 | one cfgFull segment at ≈ 150 k calls | linearity of the rate; whether B = 150 k is safe |
-| G4 | (a) all 7 shards of `[0,10]` `= true` and (b) its decode `dyadicTerms … = some lit`, as production modules | confirms SO-DATA3's P1/RR split (6.4 GB = 3.3 + 3.1) with module imports |
+| G4 | (a) all 7 shards of `[0,10]` `= true` and (b) its decode `dyadicTerms … = some lit`, as production modules | **measures** the projected split of SO-DATA3's P1/RR (6.4 GB ≈ 3.3 + 3.1), with module imports and forced literals |
 | G5 | slot-28 pieces: `expResidualProduct … 0 = lit` (forced; C1 was an `isSome`), the remainder, the one-op segment | L1b |
 | G6 | one Gram entry and one torsion `[4,8]` entry | L2 entry vs per-product split |
 | G7 | a residual recipe (`checkEnergy` from the chain) | R7: no accidental evaluation |
@@ -534,24 +635,40 @@ norm):
 - the products and entries of `[4,0]`–`[4,9]`;
 - the adds, `T`, `ms` (the cfgLow `torsionSlots` models, already in the ledger), and `ε`.
 
-Counts (exact; B = 75 k):
+**Complete emitted volume** (N1; B = 75 k). The census formats every literal as SO-CSEG-GEN will emit it
+(`csplit_census.py` `def_text`):
+- the definition header;
+- degree and radius;
+- one `tm` row per term;
+- the cached norm `def <name>.norm`.
 
-| per torus | models | bytes (exact emitted) |
+The planner adds:
+- the plan text (`SegSpec` rows) and the metas;
+- the stage literals: Gram entries, BG entries, every torsion stage matrix and add;
+- the decoded product memos, one per packed product (its output terms);
+- one 700-byte module header per ≤ 1,400-line module.
+
+| per torus (bytes) | lower | upper |
 |---|---:|---:|
-| cfgFull ledger | 155 | 2.49 MB |
-| cfgLow ledger | 324 / 322 | 5.58 / 5.54 MB |
-| distinct across the two chains (by hash) | 384 | ≈ 7.6 MB |
-| Gram stage literals | 7 entries + 17 decoded product outputs | 0.05 + 0.15 MB |
-| torsion stage literals | ≈ 60 matrix entries + 106 decoded product outputs | 0.8 + 1.2 MB |
-| compose product literals (`[0,10]` and the two residuals, per chain) | 6 | ≈ 0.2 MB |
-| metas | ≤ 2 cache entries, 109 boundaries | ≈ 0.1 MB (the reflected witness once) |
-| **total** | | **≈ 10–11 MB per torus; ≈ 21 MB for both** |
+| cfgFull ledger (155 models, with norms) | 2,508,714 | 2,505,875 |
+| cfgLow ledger (324 / 322 models) | 5,615,385 | 5,566,978 |
+| plans and metas | 13,640 | 13,624 |
+| reflected character witness (cache literal) | ≈ 20,000 | ≈ 20,000 |
+| compose product memos (3 cfgFull + 2 cfgLow) | 96,984 | 96,440 |
+| Gram stage literals / Gram product memos | 55,033 / 121,398 | 54,320 / 122,160 |
+| torsion stage literals / torsion product memos | 877,953 / 923,141 | 884,497 / 933,483 |
+| module headers | 145,600 | 144,900 |
+| **total** | **10,377,848 (10.4 MB)** | **10,342,277 (10.3 MB)** |
 
-The literal format is SO-DATA3's `tm k₀ k₁ re im` rows, at 31.7 B per term (census). For scale: the whole
-887-slot cfgFull state would be 13.7 MB. At B = 150 k the ledger shrinks to 1.7 + 4.6 MB per torus.
+Both tori: **20.7 MB**.
+- Deduplicating the 384 distinct models across the two chains would save about 1 MB per torus. These figures do
+  not dedupe.
+- At B = 150 k the totals are 8.52 / 8.46 MB.
+- **What remains an estimate:** the reflected witness (one 498-term literal) and the module-header size. The
+  definition texts, plans and memos are formatted bytes. The generator's actual files are the receipt; it must
+  report `du -b` of the emitted tree before the volume decision.
 
-**Flag:** not triggered (≈ 10–11 MB per torus). The total is well under 50 MB, but it lands in the public
-repository.
+**Flag:** not triggered (10.4 MB per torus, well under 50 MB). It lands in the public repository.
 
 Alternatives, which matter for the lock (§7):
 - **(i) Content-addressed shards:** one module per distinct model hash, shared across chains, tori and segments.
@@ -571,7 +688,7 @@ Alternatives, which matter for the lock (§7):
 |---|---:|
 | cfgFull segments (incl. one-op `[10,11)`, `[28,29)`, + slot-28 remainder) | 40 |
 | cfgLow segments (the same) | 72 |
-| packed products: (a) shard group + (b) decode, 129 products | 258 |
+| packed products: (a) shard group + (b) decode, 128 evaluated products | 256 |
 | invariance rows + energy tail | 5 |
 | Gram and BG entries + final rows | 8 |
 | torsion: `dkModels`, `dkwModels`, `gramInvModels`, 54–75 entries, adds, `T` average | 62–83 |
@@ -582,8 +699,9 @@ Alternatives, which matter for the lock (§7):
 Shared: one jet bridge for both tori.
 
 **Per-theorem memory bound and evidence.** The bound is predicted, not guaranteed: peak ≤ base + 0.13·t, with
-t ≤ 40 s ⇒ ≤ 6.7 GB at base 1.5 GB (≤ 8.7 GB at the in-file 3.5 GB base). The shard groups and decodes are
-≤ 3.3 GB of work by SO-DATA3's measurement (§4.1). Each theorem's own capped build is its receipt, and the runner records the peak. A
+t ≤ 40 s ⇒ ≤ 6.7 GB at base 1.5 GB (≤ 8.7 GB at the in-file 3.5 GB base). A shard group of ≤ 7 shards is
+measured as part of RR (+3.3 GB). The decode is projected at about 3.1 GB until G4. Each theorem's own capped build
+is its receipt, and the runner records the cgroup `memory.peak`. A
 theorem above 8 GB is re-planned at B/2. After L1c that is a reported design signal.
 
 **CPU-h per torus:**
@@ -638,13 +756,13 @@ the lock's G3 probe (SO-LOCK-COST) should run with M1/M3 in hand.
 |---|---|---:|---|
 | **SO-CSEG-A** | `CertificateSharp/Kernel/SegDefs.lean`: `ComposeMeta`, `SegSpec`, `ComposeCkpt`, `seed`, `shadowStep`, `segOk`, `planOk`, `polyBeq`/`modelBeq`/`pairBeq`/`cacheBeq` with soundness, `SlpOp.beq`/`opsBeq`/`HamJet.beq` with `eq_of_beq` (≈ 330). `Kernel/SegAgree.lean`: `AgreeOn`, `composeStep_congr` (8 arms), `composeStep_infallible`, `shadow_agree`, persistence (≈ 330). | 660 | landed `Expr/Compose`, `Kernel/Prune` (`opDeps`) |
 | **SO-CSEG-B** | `Kernel/SegChain.lean`: `planOk` facts, induction, `ComposeCkpt.compose_eq` (≈ 280). `Kernel/SegBridges.lean`: `checkInvariance_eq_of_compose`, `checkEnergy_eq_of_compose`, `List.all_range_of` (≈ 120). `Tests/Seg.lean`: toys equal to the monolithic run; negatives: corrupted export, wrong norm, wrong radius, missing import, dead read, skipped fallible op, wrong counter, wrong cache order, malformed meta (≈ 220). | 620 | A |
-| **SO-CSEG-L2** | `Kernel/Stage.lean`: the §3.4 table lemmas, `gramCheck_eq_some_of`, `torsionModels_eq_of_stages`, `frameNModels` unfolding (≈ 300). `Tests/Stage.lean`: toy recipes, R7 timing (≈ 120). | 420 | landed Gram, Torsion, Frame |
-| **SO-CSEG-L3** | `Kernel/ProductSplit.lean`: `mulN_eq_of_polyProduct`, `polyProduct_eq_of_parts`, `packedRealProduct_eq_of_shards`, `expWitnessRadius_eq_of_residuals`, `charResolve` unfolding (≈ 280). `Kernel/SegOne.lean`: `segOk_one_of`, `seed_slot_of_mem`, the `composeStep` arm equations (≈ 100). Tests (≈ 110). | 490 | landed `Model/*`, `Poly/*`; A |
+| **SO-CSEG-L2** | `Kernel/Stage.lean`: the §3.4 table lemmas, `gramCheck_eq_of_rows`, `torsionModels_eq_of_stages`, `frameNModels_eq_of_stage` (≈ 300). `Tests/Stage.lean`: toy recipes, R7 timing (≈ 120). | 420 | landed Gram, Torsion, Frame |
+| **SO-CSEG-L3** | `Kernel/ProductSplit.lean`: `mulN_eq_of_polyProduct`, `polyProduct_eq_of_mulPacked`, `mulPacked_eq_of_parts`, the three `packedRealProduct` lemmas, `checkPackedSpPrefix`/`checkShardAt`/`checkPackedSp_of_groups`, `charResolve_eq_of_radius`, the three `expWitnessRadius*`/`expResidualProduct` lemmas (≈ 280). `Kernel/SegOne.lean`: `segOk_one_of`, `seed_slot_of_mem`, the `composeStep` arm equations (≈ 100). Tests (≈ 110). | 490 | landed `Model/*`, `Poly/*`; A |
 | **SO-CSEG-GEN** | Python. `csplit_census.py` (done), `csplit_plan.py` (done; to become the optimizer: union-aware ledger, forced cuts at L1b ops, B from the gate). `csplit_ledger.py`: pairs, metas and stage literals from the mirror, bit-exact, self-checked by re-running segments in the mirror. `csplit_emit.py`: Lean modules, extending `sofx_lean.py`'s formatters. `csplit_kbuild.sh`. `heavy_modules.txt`. | ≈ 900 | sofx mirror (SO-DATA3) |
-| **SO-CSEG-CAL** | the §4.5 gate (probes in `kam-data/so-csplit/gate`, not landed) | – | A (for G2/G3), L3 (G4/G5) |
+| **SO-CSEG-CAL-1 / CAL-2** | the §4.5 gates (probes in `kam-data/so-csplit/gate`, not landed) | – | CAL-1: A (G2/G3), L3 (G4/G5); CAL-2: L2 and B (G6/G7) |
 | **SO-CSEG-DATA** | per torus: the emitted modules and the serial capped run | generated | all |
 
-**Order:** A → B and L3 in parallel → CAL → L2 → GEN finalization → DATA.
+**Order:** A → (B ∥ L3) → CAL-1 → L2 → CAL-2 → GEN finalization → DATA.
 - **Lean core:** ≈ 2,190 lines including tests (≈ 1,650 without).
 - **Audits:** one design-level audit of this document (codex-1, next), then one per package. The packages are
   computation-only lemmas, and A plus B carry the chain argument.
@@ -657,9 +775,14 @@ the lock's G3 probe (SO-LOCK-COST) should run with M1/M3 in hand.
   - Detection: a divergence fails closed in one segment, which localizes it. `csplit_ledger.py` also compares the
     mirror's segment re-run.
   - Fallback: route S (§3.1).
-- **R2. Packed products.** These are measured: 6.4 GB for the largest whole, so they are always split, giving
-  shard groups ≤ 3.3 GB and decodes ≤ 3.1 GB. The residual risk is a cfgLow product whose decode or shard group is
-  larger than `[0,10]`'s; none is, by the report's shard counts (≤ 7) and target sizes (≤ 4.3 k).
+- **R2. Packed products.** The whole product is measured at 6.4 GB, so products are always split. The split
+  (shard groups ≈ 3.3 GB, decode ≈ 3.1 GB) is a **projection** by subtraction until G4 measures the isolated
+  decode. If the decode is over budget, it needs a further split by target ranges: `targetTerms` is a `filterMap` over
+  `(List.range prodLen).zip combined`, and `dyadicTerms` is a guarded `map`. That needs an `append` lemma for each,
+  plus `List.range` splitting. These are new, small lemmas, designed only if G4 shows the need; that would be a
+  design signal, reported. The cfgLow
+  products are smaller by the report (≤ 7 shards, ≤ 4.3 k target slots against 8.5 k), but this is not
+  established until measured.
 - **R3. Jet bridge near the cap** (expected 7–7.5 GB). If G0 exceeds 9 GB, split it by program segments (lock G1c),
   as designed for the lock.
 - **R4. The rate law.** It is a fit, not a theorem. Every heavy module is its own receipt; the runner aborts at the
@@ -679,7 +802,7 @@ the lock's G3 probe (SO-LOCK-COST) should run with M1/M3 in hand.
 - **O1.** Option A (prove the landed Bools) over a new `BaseChecker`: recommended. No trusted change.
 - **O2.** Lock ledger volume projected at 100–200 MB (§7): above the 50 MB flag. Choose among content-addressed
   shards, packed mantissas and fewer boundaries (§5) when the lock's data exist. The lunar tori are at about
-  10–11 MB each, under the flag.
+  10.4 / 10.3 MB each, under the flag.
 - **O3.** Landing procedure for heavy modules: a serial capped prebuild in `land-branch.sh` (§6), plus a lint on
   `heavy_modules.txt`.
 - **O4.** Optional: re-prove `checkHamBounds` and `checkHamClaim` through the jet bridge (HamClaim is at 10.24 GB
@@ -691,8 +814,8 @@ the lock's G3 probe (SO-LOCK-COST) should run with M1/M3 in hand.
 - `kam-data/so-csplit/census_{lower,upper}.json`: per-slot op, reads, operand and output terms, backend calls,
   packed products, literal bytes, model hash; Gram entries; torsion stages; invariance rows; energy tail; frame
   corners.
-- `kam-data/so-csplit/plan_{lower,upper}_{75000,150000}.json` and `plan_*_75000_s6500.json` (with a cost per
-  packed product inside segments; superseded by L1c memoization, kept for comparison).
+- `kam-data/so-csplit/plan_{lower,upper}_{75000,150000}.json`: the emitted plans (`segSpecs`), counts and
+  complete volume (`volume`).
 - SO-DATA3's product probes: `kam-data/so-data3/product-probes.md`, `probes/csplit/{P0,P1,SH,RR,C1,EN14}`.
 - Runs: `python3 -B csplit_census.py lower|upper OUT` (85 s each, 0.23 GB RSS), then
   `python3 -B -I csplit_plan.py CENSUS B SHARD`.
