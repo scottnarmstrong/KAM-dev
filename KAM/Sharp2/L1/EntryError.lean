@@ -34,39 +34,33 @@ variable {n : ℕ} {τ M : ℝ} {𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))
   {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {ω : Fin n → ℝ} {γ : ℝ}
 
 /-- The Lagrangian defect of the initial torus on `T_{r-2δ}`: `|Ω_K| ≤ C^K_Ω ε/(γ δ^{κ+1})`. -/
-theorem entry_lagrange_le {p : StepInA} {E : EntryA} (hp : p.Pos) (hE : E.Wf) (hpn : p.n = n)
-    (hS : Standing n τ M p.sK p.sB p.sT 𝔅 h ω γ) (hγb : γ ≤ p.γb) {Ω : Set (Fin n → ℝ)}
-    (hω : ω ∈ Ω) {r β ε δ : ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
-    (hK : AdmA 𝔅 h ω r (r - δ) β ε p.sK p.sB p.sT p.sLt p.sN p.sNt p.t K)
+theorem entry_lagrange_le_of {p : StepInA} {E : EntryA} (hp : p.Pos) (hE : E.Wf)
+    (hpn : p.n = n) {σK σB σT : ℝ} (hS : Standing n τ M σK σB σT 𝔅 h ω γ) (hγb : γ ≤ p.γb)
+    {Ω : Set (Fin n → ℝ)} (hω : ω ∈ Ω) {r ε δ : ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    (hr : 0 < r) (hε0 : 0 ≤ ε) (hKd : DifferentiableOn ℂ K (complexStrip n r))
+    (hKp : IsPrimaryOnStrip K r) (hK𝔅 : ∀ θ ∈ complexStrip n r, K θ ∈ 𝔅)
+    (hGu : ∀ θ ∈ complexStrip n r, IsUnit (gramMatrix K θ).det)
+    (hηNd : DifferentiableOn ℂ (etaN h K ω) (complexStrip n r))
+    (hHN : ∀ θ ∈ complexStrip n r, ‖etaN h K ω θ‖ ≤ p.sLt * ε)
     (hδ : 0 < δ) (hδD : δ ≤ p.δ) (h2δ : 2 * δ < r) (hc : SDConst n p.κ γ δ p.c Ω)
-    (hD : EntryData E h K ω r δ ε) :
+    (hηN1 : L1Vec r (etaN h K ω) (E.aN * ε)) (hΓ : smallDivisorSup ω δ ≤ E.G0) :
     ∀ θ ∈ complexStrip n (r - 2 * δ),
       ‖lagrangeMat K θ‖ ≤ Ent.COmK p E * (ε / (γ * δ ^ (p.κ + 1))) := by
   subst hpn
   intro θ hθ
-  have hr := hK.r_pos
-  have hε0 := hK.ε_nonneg
   have hγ := hS.gamma_pos
-  have hK𝔅 := hK.mem
-  have hGu : ∀ θ ∈ complexStrip p.n r, IsUnit (gramMatrix K θ).det := fun θ hθ =>
-    (hK.gram θ hθ).1
-  obtain ⟨⟨-, -, -, -, -, -, -, -, -, -, -, -, hηd, -, -⟩, -, -, -⟩ :=
-    frame_basic hS hr hK.β_pos hK.holo hK.ball_sub hK.deriv_le hK.gram
-  have hηNd := Correction.diffOn_etaN hηd
-  have hHN : ∀ θ ∈ complexStrip p.n r, ‖etaN h K ω θ‖ ≤ p.sLt * ε := fun θ hθ =>
-    norm_etaN_le (hK.tangentT θ hθ) (hK.error_le θ hθ)
+  have hK := hKd
   set W := ε / (γ * δ ^ (p.κ + 1)) with hW
   have hW0 : 0 ≤ W := div_nonneg hε0 (by positivity)
   unfold Ent.COmK
   rw [min_mul_of_nonneg _ _ hW0]
   refine le_min ?_ ?_
-  · refine (norm_lagrangeMat_le hS hp.n_pos hc hω hr h2δ hK.holo hK.primary hK𝔅 hηNd hHN θ
+  · refine (norm_lagrangeMat_le hS hp.n_pos hc hω hr h2δ hKd hKp hK𝔅 hηNd hHN θ
       hθ).trans (le_of_eq ?_)
     unfold StepInA.COm
     ring
   · have hθ' : θ ∈ complexStrip p.n (r - δ - δ) := by rwa [show r - δ - δ = r - 2 * δ by ring]
-    have h1 := norm_lagrangeMat_le_l1 hS hδ hδ (by linarith) hK.holo hK.primary hK𝔅 hGu
-      hD.l1EtaN θ hθ'
+    have h1 := norm_lagrangeMat_le_l1 hS hδ hδ (by linarith) hKd hKp hK𝔅 hGu hηN1 θ hθ'
     have hεδ : ε / δ ≤ p.g * W := by
       obtain ⟨-, -, -, -, -, -, -, s8⟩ := scales (ε := ε) (κ := p.κ) hγ hδ
       have hgd := StepInA.gd_le hp hγ hγb hδ hδD
@@ -77,7 +71,6 @@ theorem entry_lagrange_le {p : StepInA} {E : EntryA} (hp : p.Pos) (hE : E.Wf) (h
       rw [e]
       exact mul_le_mul_of_nonneg_right hgd hW0
     have hn0 : (0 : ℝ) ≤ p.n := Nat.cast_nonneg _
-    have hΓ := hD.gam0
     have haN := hE.aN
     calc ‖lagrangeMat K θ‖ ≤ p.n / (Real.exp 1 * δ) * smallDivisorSup ω δ * (E.aN * ε) := h1
       _ = p.n * (Real.exp 1)⁻¹ * smallDivisorSup ω δ * E.aN * (ε / δ) := by
@@ -92,6 +85,23 @@ theorem entry_lagrange_le {p : StepInA} {E : EntryA} (hp : p.Pos) (hE : E.Wf) (h
                 have := hE.G0
                 gcongr
       _ = p.n * Ent.einv * E.G0 * E.aN * p.g * W := by unfold Ent.einv; ring
+
+/-- The Lagrangian defect of the initial torus on `T_{r-2δ}` (fixed frequency). -/
+theorem entry_lagrange_le {p : StepInA} {E : EntryA} (hp : p.Pos) (hE : E.Wf) (hpn : p.n = n)
+    (hS : Standing n τ M p.sK p.sB p.sT 𝔅 h ω γ) (hγb : γ ≤ p.γb) {Ω : Set (Fin n → ℝ)}
+    (hω : ω ∈ Ω) {r β ε δ : ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    (hK : AdmA 𝔅 h ω r (r - δ) β ε p.sK p.sB p.sT p.sLt p.sN p.sNt p.t K)
+    (hδ : 0 < δ) (hδD : δ ≤ p.δ) (h2δ : 2 * δ < r) (hc : SDConst n p.κ γ δ p.c Ω)
+    (hD : EntryData E h K ω r δ ε) :
+    ∀ θ ∈ complexStrip n (r - 2 * δ),
+      ‖lagrangeMat K θ‖ ≤ Ent.COmK p E * (ε / (γ * δ ^ (p.κ + 1))) := by
+  have hr := hK.r_pos
+  obtain ⟨⟨-, -, -, -, -, -, -, -, -, -, -, -, hηd, -, -⟩, -, -, -⟩ :=
+    frame_basic hS hr hK.β_pos hK.holo hK.ball_sub hK.deriv_le hK.gram
+  exact entry_lagrange_le_of hp hE hpn hS hγb hω hr hK.ε_nonneg hK.holo hK.primary hK.mem
+    (fun θ hθ => (hK.gram θ hθ).1) (Correction.diffOn_etaN hηd)
+    (fun θ hθ => norm_etaN_le (hK.tangentT θ hθ) (hK.error_le θ hθ)) hδ hδD h2δ hc hD.l1EtaN
+    hD.gam0
 
 /-- Blueprint `bp:p2s2l1:entryA`, the new error (`p.iso = false`, `Θ = 0`). -/
 theorem entry_newton_error {p : StepInA} {E : EntryA} (hp : p.Pos) (hE : E.Wf)

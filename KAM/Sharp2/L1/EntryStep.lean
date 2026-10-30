@@ -201,9 +201,9 @@ theorem entry_frame_rates {p : StepInA} {E : EntryA} (hp : p.Pos) (hE : E.Wf) (h
       (hD.frame F hF).2 hXLd hXLp hXNd hXNp hXL1 hXN1
 
 /-- The arithmetic of the torsion rate of the entry step: the bound of `torsion_sub_leG` at the
-entry increments is `≤ C_ΔT X`. -/
+entry increments is `≤ C_ΔT,0 X`. -/
 theorem entry_torsion_arith {p : StepInA} {E : EntryA} (hp : p.Pos) (hE : E.Wf)
-    (hfix : p.iso = false) (hpn : p.n = n) {δ ε X E' : ℝ} (hγ : 0 < γ) (hγb : γ ≤ p.γb)
+    (hpn : p.n = n) {δ ε X E' : ℝ} (hγ : 0 < γ) (hγb : γ ≤ p.γb)
     (hδ : 0 < δ) (hδD : δ ≤ p.δ) (hX0 : 0 ≤ X)
     (hX : X = ε / (γ ^ 2 * δ ^ (2 * p.κ + 1))) (hE' : E' = ε / (γ ^ 2 * δ ^ (2 * p.κ))) :
     2 * p.M1 * (Ent.rNt p E * X * p.sN + p.sNt * (Ent.rN p E * X)) +
@@ -211,7 +211,7 @@ theorem entry_torsion_arith {p : StepInA} {E : EntryA} (hp : p.Pos) (hE : E.Wf)
         p.sB ^ 3 * p.w * (p.sK * (Ent.dLt p E * X) + p.sLt * (Ent.dL p E * X)) +
         2 * n * p.sNt * p.sB * (ε / δ) +
         2 * p.sB ^ 3 * p.w * (Ent.COmK p E * (ε / (γ * δ ^ (p.κ + 1)))) ≤
-      Ent.CDT p E * X := by
+      Ent.CDT0 p E * X := by
   have hk := Ent.nonneg hp hE
   obtain ⟨-, -, s3, s4, -, -, -, s8⟩ := scales (ε := ε) (κ := p.κ) hγ hδ
   have hYg : ε / (γ * δ ^ (p.κ + 1)) ≤ p.g * X := by
@@ -221,7 +221,6 @@ theorem entry_torsion_arith {p : StepInA} {E : EntryA} (hp : p.Pos) (hE : E.Wf)
     rw [s4, ← hX]
     exact mul_le_mul_of_nonneg_right
       (pow_mul_rpow_le 2 hγ hγb hδ hδD (by linarith [hp.κ_ge])) hX0
-  have hCDT : Ent.CDT p E = Ent.CDT0 p E := by simp [Ent.CDT, hfix]
   have hw0 := hp.w
   have hsB0 := hp.sB
   have hNt0 := hp.sNt
@@ -254,7 +253,7 @@ theorem entry_torsion_arith {p : StepInA} {E : EntryA} (hp : p.Pos) (hE : E.Wf)
     mul_le_mul_of_nonneg_left hεg (by positivity)
   refine (add_le_add (add_le_add (add_le_add (add_le_add le_rfl hB2) le_rfl) hC2) hA).trans
     (le_of_eq ?_)
-  rw [hCDT]; unfold Ent.CDT0; rw [hpn]; ring
+  unfold Ent.CDT0; rw [hpn]; ring
 
 /-- The ℓ¹ entry step of route A at fixed frequency. -/
 theorem entry_step_A {p : StepInA} {E : EntryA} (hp : p.Pos) (hE : E.Wf) (hfix : p.iso = false)
@@ -418,7 +417,9 @@ theorem entry_step_A {p : StepInA} {E : EntryA} (hp : p.Pos) (hE : E.Wf) (hfix :
       (hK0.tangentT θ hθr) (hK0.normalT θ hθr) (hK0.gram θ hθr).2 hL' ((hLt'θ θ hθ).trans hcLt)
       ((hN'θ θ hθ).trans hcN) ((hNt'θ θ hθ).trans hcNt) ((hB'θ θ hθ).trans hcB) (hΩ θ hθ2)
       (hfr θ hθ)
-    exact hmain.trans (entry_torsion_arith hp hE hfix hpn hγ hγb hδ hδD hX0 rfl rfl)
+    have hCDT : Ent.CDT p E = Ent.CDT0 p E := by simp [Ent.CDT, hfix]
+    rw [hCDT]
+    exact hmain.trans (entry_torsion_arith hp hE hpn hγ hγb hδ hδD hX0 rfl rfl)
   -- the averaged torsion
   have hTd' : DifferentiableOn ℂ (torsion h K' ω) (complexStrip n (r - 3 * δ)) := by
     have hNd := differentiableOn_normalMat (hdiff.mono hsub32) hG'3
