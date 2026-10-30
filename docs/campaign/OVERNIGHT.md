@@ -1596,3 +1596,10 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     BallsTrig did.
   - The measurement worktree is removed (branch kept); / at 12 GB. SO-DATA3 is told to mirror the new
     `directItems` merge order; equality is argued, not proved.
+- **Lock (kam-inp-24): LOCK-SQRT audit 1: mathematics PASS; ABI-contract FAIL on four test statements. For owner review:**
+  - *Question:* besides the sanctioned helper `HamExpr.nonvanishingOn_of_inv_good`, four handwritten test theorems in
+    `KAM/Certificate/Tests/Compose.lean` (`composeTest_noChar`, `_noExp`, `_noInv`, `_n2`) change elaborated type: the
+    `Witnesses.mk` literal in their statements gains the new fourth argument `[]` (no sqrt witness). Options: (a)
+    authorize as a test-only migration; (b) a 3-argument compatibility constructor so the old text elaborates;
+    (c) delete or rewrite the tests. *Choice:* (a), the smallest and reversible. The tests' mathematics and truth
+    value are unchanged, and no production or frozen statement is affected.
