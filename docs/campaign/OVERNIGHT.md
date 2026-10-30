@@ -1820,3 +1820,17 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     counted), so relabel them, with the final `du -b` as the gate; propagate qualifiers into the summary tables.
   - SO-KDEPTH2 (jet-compiler depth) is running on claude-6.
   - Quotas: claude-3 76 %, claude-12 73 %, claude-6 57 %, claude-4 44 %, codex-1 96 %.
+- **20:29. SO-CSPLIT design PASS WITH NOTES (codex-1, audit 3); Phase 2 started.**
+  - Audits 1 and 2 had FAILed: no elaborating signatures and three contracts, then the false `shadowRun_agree`.
+    Both are fixed; the audits are committed on inp-socsplit2 (c2a38f5b).
+  - **Packages** (design §8, about 2,190 Lean lines with tests; order A → (B ∥ L3) → CAL-1 → L2 → CAL-2 → GEN →
+    DATA):
+    - **SO-CSEG-A then B**, by the designer (claude-4, branch inp-socsplit2): segment definitions, the
+      `compose_eq` chain, the bridges and the templates.
+    - **SO-CSEG-L3**, the product split (claude-12, worktree KAM-inp-csegl3 off c2a38f5b).
+    - SO-CSEG-L2, the stage memo, waits for disk: / is at 9.7 GB, briefly under the floor while these worktrees
+      are live.
+  - Lock: emitter resync done (2c293847). The certificate's Hamiltonian is the κ-wrapped 3,158-op program; the gate
+    measured the bare 3,116. G2claim fits in one theorem (7.8 GB at P = 320, 6.8 GB at P = 128), so the Ham pass
+    needs no segmentation. LOCK-GEN-2 is in its first codex-1 audit. The G1 bridge waits for SO-KDEPTH2, which also
+    checks the wrapped program.
