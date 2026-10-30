@@ -61,6 +61,22 @@ Revision 5 inputs (base `inp-design-so` `79ec938c`; `inp` read at `f8405551`, KA
 | `inp:KAM/Certificate/MatrixInv.lean` | `d5e94c5d279b356aed5aa6a02095772895051224416141c90b7e5e3652cec3cc` |
 | `inp:KAM/Certificate/Arith/Fixed.lean` | `c2896ac698f4f087981ff826da068ed3846ead29466dfaf3ce7c9fe2b9815a47` |
 
+## Overnight amendments (2026-10-29/30, under D29; for owner review)
+
+Two parameter and test-data rulings taken overnight (docs/campaign/OVERNIGHT.md, 22:45 and 23:55); signed types
+and statements are unchanged. Where older text below says otherwise, these amendments take precedence.
+
+- **R1: `M = 203/100`** (was `1987/1000`; σK, σB, σT unchanged). The landed `checkHamBounds` bounds `‖D²H‖` by
+  Σ_{a,b} |∂_a∂_b H|, which is 2.0205 for `soRotHamExprScaled (237/125)` on both tori (SO-DATA-1's fixed-point
+  mirror; closed form agrees); SO-GEN2's majorant had been too optimistic. The enclosed threshold becomes
+  `10^{−75.010}` (9.772e-76); the SO-GEN2 budgets 4.03e-78 / 7.84e-78 sit 242x / 125x below it; C₂ needs
+  `disp ≥ 1.709e35 · err`. Landed as SO-R1B (`KAM/SpinOrbit/LunarParams.lean`).
+- **Toy T2d: `H = J + (p²/2)·((a + cos 2πq)/(a + cos 2πq))` with `a = 10^30`** (was `a = 3`). With `a = 3` the
+  denominator vanishes near Im q ≈ 0.28, forcing a smallness threshold of 10^−188.8 and a 531-term, 683-bit
+  reciprocal witness that the kernel could not check within 6 GB. With `a = 10^30` the threshold equals T2's
+  (10^−38.23) and the witness has 15 terms; T2d still exercises `div`, the certified denominator ball and the
+  reciprocal witness (SO-TOYFIX2).
+
 ## Revision 7
 
 Revision 7 is a targeted revision (base `d965c152`, audit 6 FAIL with F14 MEDIUM; F15 LOW). Every other
@@ -717,7 +733,7 @@ fallback is the sharper theorem (HL19 torsion route plus Parseval, about 1e-52, 
 - **Positive toys with the external premise discharged (F4, F1):**
   - **T2**: `H = J + p²/2`, `K = (θ, (ν̃, −ν̃²/2))`, rational `ν̃` with `|ν̃ − ν₋| ≤ 10^{−N}`, reference
     vector `(ν₋/2, 1/2)` (SO-DIO), `s = 2`, `err ≥ |ν̃ − ν₋|`, positive. Result: `toyCert2_torus`.
-  - **T2d**: T2 with `H = J + (p²/2)·((3 + cos 2πq)/(3 + cos 2πq))`, which exercises `div`, balls and a
+  - **T2d**: T2 with `H = J + (p²/2)·((a + cos 2πq)/(a + cos 2πq))`, `a = 10^30` (overnight amendment), which exercises `div`, balls and a
     reciprocal witness. Result: `toyCert2d_torus`.
   - **T3** (`n = 3`, `τ = 2`): `H = I₂ + I₀²/2 + I₁²/2`, `K = (θ, (a, b, −(a² + b²)/2))` with rational
     `a ≈ ∛2`, `b ≈ ∛4`, `ω* = cubicFreq` (`IsDiophantine (1/12) 2`, norm-form proof), positive residual.
@@ -2022,7 +2038,7 @@ theorem toyCert3_torus : CertifiedTorus toyCert3 cubicFreq := sorry
 
 /-- Toy T2: `H = J + p²/2`, `K(θ) = (θ, (ν̃, -ν̃²/2))` with rational `ν̃ ≈ ν₋`, reference vector
 `(ν₋/2, 1/2)` (SO-DIO), positive residual. Toy T2d: the same with `H` written with a division,
-`J + (p²/2)·((3 + cos 2πq)/(3 + cos 2πq))` (exercises O2). -/
+`J + (p²/2)·((a + cos 2πq)/(a + cos 2πq))`, `a = 10^30` (overnight amendment; was 3) (exercises O2). -/
 def toyCert2 : TorusCertificate 2 ℚ := sorry
 
 def toyCert2d : TorusCertificate 2 ℚ := sorry
@@ -2429,7 +2445,7 @@ def lunarR1 (err disp : ℚ) : CertParams where
   tau := 1
   rho := 1 / 70
   rhoInf := 1 / 70000
-  M := 1987 / 1000
+  M := 203 / 100  -- overnight amendment (was 1987 / 1000)
   σK := 1987 / 1000
   σB := 1987 / 1000
   σT := 1987 / 1000
