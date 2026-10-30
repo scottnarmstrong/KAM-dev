@@ -1,0 +1,140 @@
+\sloppy
+\section{The certified first step for the isoenergetic v2 theorem (package SHARP2-HYBRID)}\label{bpI:p2s2hc}
+
+This part is the isoenergetic delta of track K's part \texttt{p2s2-hybrid-cert} (labels \Kref{bp:p2s2hc:*}). The restart applies a proved
+isoenergetic theorem (concluding the frozen body \Lean{IG1Body}, (O1)--(O6) of Theorem~\ref{bpI:p0:g1}) to the new torus $K_1=K+\Delta K$ at a new point
+$s_1\omega^*$ of the ray, and transfers its conclusion back to $(K,s)$. It is the hybrid that matters for R1: R1's frozen torsion average is
+singular (\Kref{bp:p2s2hc:register}(v)), so only the bordered (isoenergetic) step and theorem apply to it. Every lemma of track K holds verbatim at
+the frequency $s\omega^*$ for $K$ and $s_1\omega^*$ for $K_1$; this part lists only the changes.
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Data}\label{bpI:p2s2hc:sec-data}
+
+\begin{assumption}[Isoenergetic standing data of the hybrid]\label{bpI:p2s2hc:standing}
+The hypotheses of Theorem~\ref{bpI:p0:g1} for $(H,K,s,e,E_0)$ on $T_{\rho_0}$ with the margin $\mu$, the caps $\sigma_K,\sigma_B,\sigma_T$ (the last for the bordered
+average $\avg{T^{\mathrm{ext}}}$ of Definition~\ref{bpI:p0:extended}), the ray $(\sigma_\omega,\nu,\omega^*)$, the iso refined data (\Lean{RefHypIA}: $M_1$, $M_2$,
+$\abs{DH}\le M_{h1}$, $\abs{D^2H}\le M_{h2}$, and the frame and torsion initial values), and \Kref{bp:p2s2hc:standing}(d), (e) for the step $\Delta K$, the strips and
+the margins; in addition a new ray parameter $s_1$, with $\Delta s:=s_1-s$.
+\end{assumption}
+
+\begin{definition}[Linearised new errors]\label{bpI:p2s2hc:lin}
+With $E_s:=X_H\circ K-DK\,(s\omega^*)$,
+\[
+\tilde E_s:=E_s+DX_H(K)\,\Delta K-D\Delta K\,(s\omega^*)-\Delta s\,DK_1\,\omega^*,\qquad
+\tilde\varepsilon:=\avg{H\circ K}-E_0+\avg{DH(K)\,\Delta K},
+\]
+the averages over $[0,1]^n$ (\Lean{KAM.Iso.Sharp2.Hybrid.linNewErrorIso}, \Lean{linNewEnergy}). Both are computed from the checker's models of
+$E_s$, $DX_H\circ K$, $DH\circ K$ and $\avg{H\circ K}$ (the existing composition), the polynomial $\Delta K$ and the number $\Delta s$.
+\end{definition}
+
+\begin{definition}[Isoenergetic step bounds]\label{bpI:p2s2hc:bounds}
+The step bounds \Kref{bp:p2s2hc:S1}--\Kref{bp:p2s2hc:S7} with $E$, $E_1$ at the frequencies $s\omega^*$, $s_1\omega^*$ and \Kref{bp:p2s2hc:S5} replaced by
+\begin{enumerate}[label=(S\arabic*$'$),start=5]
+\item\label{bpI:p2s2hc:S5} $\abs{\tilde E_s}\le\ell_E$ on $T_{\rho_1}$;
+\end{enumerate}
+and in addition
+\begin{enumerate}[label=(S\arabic*),start=8]
+\item\label{bpI:p2s2hc:S8} $\abs{\tilde\varepsilon}\le\ell_H$;
+\item\label{bpI:p2s2hc:S9} $\abs{\Delta s}\abs{\omega^*}\le d_\omega$ and $\nu_1:=\nu-d_\omega>0$;
+\item\label{bpI:p2s2hc:S10} $\abs{Y}\le y_0$ on $\R^n$, $Y=DH(K)N$ (refined datum).
+\end{enumerate}
+\end{definition}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Restart and transfer}\label{bpI:p2s2hc:sec-transfer}
+
+\begin{proposition}[Isoenergetic restart]\label{bpI:p2s2hc:restart}
+Let $\mathbb B_\mu(K(\theta))\subset D$ on $T_{\rho_\infty}$, $\abs{K_1-K}\le d_\infty$ on $T_{\rho_\infty}$, $\abs{s_1-s}\abs{\omega^*}\le d_\omega$, and suppose the conclusion of
+Theorem~\ref{bpI:p0:g1} holds for $(K_1,s_1)$ with $(\rho_\infty,\mu_1,\sigma_{K,1},\sigma_\omega,E_0)$, the closeness $D_1$ and the frequency closeness $D_1^\omega$. If
+$d_\infty+D_1\le\mu/2$ and $\sigma_{K,1}-\mu_1/2\le\sigma_K-\mu/2$, the conclusion holds for $(K,s)$ with $(\rho_\infty,\mu,\sigma_K,\sigma_\omega,E_0)$, the closeness $d_\infty+D_1$
+and the frequency closeness $d_\omega+D_1^\omega$, with the same $(K_\infty,s_\infty)$.
+\source{\Kref{bp:p2s2hc:restart}; ours.}
+\end{proposition}
+
+\begin{proof}
+\proofstep{As at fixed frequency}\label{stepI:p2s2hc:rs}
+\Kref{bp:p2s2hc:restart} for the torus; $1<s_\infty<\sigma_\omega$, invariance at $s_\infty\omega^*$ and $H\circ K_\infty=E_0$ are properties of $(K_\infty,s_\infty)$; and
+$\abs{s_\infty\omega^*-s\omega^*}\le\abs{s_\infty\omega^*-s_1\omega^*}+\abs{s_1-s}\abs{\omega^*}$.
+\end{proof}
+
+\begin{lemma}[New errors and the ray]\label{bpI:p2s2hc:errors}
+Under Assumption~\ref{bpI:p2s2hc:standing} and the step bounds:
+\begin{enumerate}[label=(\alph*)]
+\item $\abs{X_H\circ K_1-DK_1(s_1\omega^*)}\le\ell_E+\frac{M_2}2d_0^2$ on $T_{\rho_1}$;
+\item $\abs{\avg{H\circ K_1}-E_0}\le\ell_H+\frac{M_{h2}}2(d_0^\R)^2$;
+\item $1<s_1<\sigma_\omega$, $\nu_1\le(s_1-1)\abs{\omega^*}$ and $\nu_1\le(\sigma_\omega-s_1)\abs{\omega^*}$.
+\end{enumerate}
+Put $e_1:=\max\{\ell_E+\frac{M_2}2d_0^2,\ \ell_H+\frac{M_{h2}}2(d_0^\R)^2\}$.
+\source{\Kref{bp:p2s2hc:error}, \Kref{bp:p1:taylor}; ours.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Invariance error}\label{stepI:p2s2hc:er}
+$X_H\circ K_1-DK_1(s_1\omega^*)=\tilde E_s+\bigl(X_H(K+\Delta K)-X_H(K)-DX_H(K)\Delta K\bigr)$, since $DK_1(s_1\omega^*)=DK(s\omega^*)+D\Delta K(s\omega^*)+\Delta s\,DK_1\omega^*$;
+Taylor as in \Kref{step:p2s2hc:er-tay}.
+
+\proofstep{Energy}\label{stepI:p2s2hc:en}
+$H(K_1)=H(K)+DH(K)\Delta K+R$ with $\abs R\le\frac{M_{h2}}2\abs{\Delta K}^2$ at real points (\Kref{bp:p1:taylor} for $H$, the segment in $\mathbb B_\mu(K)\subset D$); average over
+$[0,1]^n$.
+
+\proofstep{The ray}\label{stepI:p2s2hc:ray}
+$(s_1-1)\abs{\omega^*}\ge(s-1)\abs{\omega^*}-d_\omega\ge\nu-d_\omega=\nu_1>0$, and the same at $\sigma_\omega$.
+\end{proof}
+
+\begin{lemma}[Bordered torsion of the new torus]\label{bpI:p2s2hc:torsion}
+With the real data of \Kref{bp:p2s2hc:frames} and \Kref{bp:p2s2hc:torsion} at the frequencies $s\omega^*$ (for $K$) and $s_1\omega^*$ (for $K_1$), let
+$t_A\ge\sup_{\R^n}(\Delta^\R_{ab}+\lambda_0^\R+\lambda_1^\R)$ and
+\[
+t_A^{\mathrm{ext}}:=\max\bigl\{t_A+d_\omega,\ M_{h1}n_\Delta^\R+M_{h2}d_0^\R(\nu+n_\Delta^\R)\bigr\}.
+\]
+If $\abs{\avg{T^{\mathrm{ext}}}^{-1}}\le m$ and $mt_A^{\mathrm{ext}}<1$, then $\avg{T_1^{\mathrm{ext}}}$ (at $s_1\omega^*$) is invertible and $\abs{\avg{T_1^{\mathrm{ext}}}^{-1}}\le m/(1-mt_A^{\mathrm{ext}})$.
+\source{\Kref{bp:p2s2hc:torsion}; Definition~\ref{bpI:p0:extended}; ours.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Blocks}\label{stepI:p2s2hc:bl}
+$\avg{T_1^{\mathrm{ext}}}-\avg{T^{\mathrm{ext}}}$ has the blocks $\avg{T_1}-\avg T$ (bounded by $t_A$: the frame parts do not depend on the frequency, the local parts are
+those of $K$ at $s\omega^*$ and of $K_1$ at $s_1\omega^*$), the column $\Delta s\,\omega^*$, and the row $\avg{DH(K_1)N_1-DH(K)N}$, bounded by
+$M_{h1}\abs{N_1-N}+\abs{DH(K_1)-DH(K)}\abs{N_1}$ with $\abs{DH(K_1)-DH(K)}\le M_{h2}\abs{\Delta K}$; the bordered row-sum norm is the larger row sum.
+
+\proofstep{Neumann}\label{stepI:p2s2hc:nm}
+\Kref{bp:p2s:neumann}.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{The theorem}\label{bpI:p2s2hc:sec-g1}
+
+\begin{theorem}[The isoenergetic hybrid theorem]\label{bpI:p2s2hc:g1}
+Assume Assumption~\ref{bpI:p2s2hc:standing}, the isoenergetic step bounds, the small-divisor certificates of the restart numbers $N_1$ on the ray, and
+$\mathrm{HybOk}^{\mathrm I}_R$: the conditions of \Kref{bp:p2s2hc:data} with $\sigma_{T,1}:=m/(1-mt_A^{\mathrm{ext}})+\mu_1$, $e_1$ of Lemma~\ref{bpI:p2s2hc:errors}, the frequency budget
+$\nu_1/2$ of the restarted run (Lean \Lean{capI}), route $R$'s isoenergetic numerical condition (\Lean{routeAOkI}, \Lean{routeAOkRI}, \Lean{routeBOk} with
+\Lean{iso = true}) at $N_1$, and $d_\infty+D_1\le\mu/2$. Then the conclusion of Theorem~\ref{bpI:p0:g1} holds for $(K,s)$ with the closeness $d_\infty+D_1$ and the
+frequency closeness $d_\omega+D_1^\omega$, $D_1^\omega:=C_3^R(N_1,X_\star^1)e_1/(\gamma^2\rho_1^{2\tau})$.
+\source{Theorem~\ref{bpI:p2s2:g1} (route $R$'s branch); ours.}
+\end{theorem}
+
+\begin{proof}
+\proofstep{The hypotheses for $(K_1,s_1)$}\label{stepI:p2s2hc:hyp}
+\Kref{bp:p2s2hc:struct}, \Kref{bp:p2s2hc:frames} and \Kref{bp:p2s2hc:torsion}(c) as at fixed frequency; Lemma~\ref{bpI:p2s2hc:errors} for the two errors and the ray;
+Lemma~\ref{bpI:p2s2hc:torsion} for the bordered twist. The refined Hamiltonian data are those of $H$ on $D$.
+
+\proofstep{Restart}\label{stepI:p2s2hc:rs2}
+Route $R$'s isoenergetic branch at $N_1$, then Proposition~\ref{bpI:p2s2hc:restart}.
+\end{proof}
+
+\begin{corollary}[The minimum with the existing routes]\label{bpI:p2s2hc:frozen}
+\Kref{bp:p2s2hc:frozen} holds for the isoenergetic theorem with the constants of Corollary~\ref{bpI:p2s2:frozen}, the closeness
+$\max\{C_2e/(\gamma^2\rho^{2\tau}),d_\infty+D_1\}$ and the frequency closeness $\max\{C_3e/(\gamma^2\rho^{2\tau}),d_\omega+D_1^\omega\}$.
+\source{Ours.}
+\end{corollary}
+
+\begin{proof}
+\proofstep{By cases}\label{stepI:p2s2hc:fr}
+As in \Kref{step:p2s2hc:fr}.
+\end{proof}
+
+\begin{remark}[Register]\label{bpI:p2s2hc:register}
+For the SO certificate (\Lean{CertifiedTorus}) the displacement is $\max\{d_\infty+D_1,d_\omega+D_1^\omega\}$ and must stay below its monotonicity margin
+($\approx\mathrm{mono}\cdot\rho_\infty$). For R1 and its truncations the step has $\abs{\xi^\omega}\le10^{-10}$ (reversibility), so $d_\omega$ is negligible. Numbers in the
+design document \S4. No suspected erratum in a pinned source; no deviation from a source.
+\end{remark}
