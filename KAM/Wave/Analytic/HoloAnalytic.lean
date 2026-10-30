@@ -87,7 +87,8 @@ theorem summable_card_mul_pow (n : ℕ) {t : ℝ} (h0 : 0 ≤ t) (h1 : t < 1) :
     Summable fun m : ℕ => ((Finset.Nat.antidiagonalTuple n m).card : ℝ) * t ^ m := by
   have h := (KAM.hasSum_pow_sum n h0 h1).tsum_fiberwise (fun α : Fin n → ℕ => ∑ i, α i)
   refine h.summable.congr fun m => ?_
-  rw [tsum_degree_fiber (fun α : Fin n → ℕ => t ^ ∑ i, α i) m, Finset.sum_congr rfl (g := fun _ => t ^ m) (fun α hα => by
+  rw [tsum_degree_fiber (fun α : Fin n → ℕ => t ^ ∑ i, α i) m,
+    Finset.sum_congr rfl (g := fun _ => t ^ m) (fun α hα => by
     rw [Finset.Nat.mem_antidiagonalTuple.mp hα])]
   simp
 

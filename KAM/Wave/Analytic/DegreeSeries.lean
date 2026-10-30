@@ -82,7 +82,8 @@ def degreeSeries (c : (Fin n → ℕ) → F) : FormalMultilinearSeries ℂ (Fin 
 
 
 theorem sum_wordCount {m : ℕ} (σ : Fin m → Fin n) : ∑ i, wordCount σ i = m := by
-  have := Finset.card_eq_sum_card_fiberwise (s := (univ : Finset (Fin m))) (t := (univ : Finset (Fin n)))
+  have := Finset.card_eq_sum_card_fiberwise (s := (univ : Finset (Fin m)))
+    (t := (univ : Finset (Fin n)))
     (f := σ) (fun _ _ => mem_univ _)
   simpa [wordCount] using this.symm
 
@@ -112,7 +113,8 @@ theorem exists_word_of_sum {m : ℕ} {α : Fin n → ℕ} (hα : ∑ i, α i = m
 
 theorem prod_word {m : ℕ} (σ : Fin m → Fin n) (h : Fin n → ℂ) :
     ∏ l, h (σ l) = ∏ i, h i ^ wordCount σ i := by
-  rw [← Finset.prod_fiberwise_of_maps_to (s := (univ : Finset (Fin m))) (t := (univ : Finset (Fin n)))
+  rw [← Finset.prod_fiberwise_of_maps_to (s := (univ : Finset (Fin m)))
+    (t := (univ : Finset (Fin n)))
     (g := σ) (fun _ _ => mem_univ _) (fun l => h (σ l))]
   refine Finset.prod_congr rfl fun i _ => ?_
   rw [Finset.prod_congr rfl (g := fun _ => h i) (fun l hl => by rw [(Finset.mem_filter.mp hl).2])]
@@ -160,7 +162,8 @@ theorem norm_degreeSeries_le (c : (Fin n → ℕ) → F) (m : ℕ) {b : ℝ}
     refine (norm_sum_le _ _).trans (Finset.sum_le_sum fun σ _ => ?_)
     refine (norm_wordTerm_le _ _).trans ?_
     rw [norm_smul, norm_inv, Complex.norm_natCast]
-    exact mul_le_mul_of_nonneg_left (hb _ (Finset.Nat.mem_antidiagonalTuple.mp (hmaps σ (mem_univ σ))))
+    exact mul_le_mul_of_nonneg_left
+      (hb _ (Finset.Nat.mem_antidiagonalTuple.mp (hmaps σ (mem_univ σ))))
       (by positivity)
   refine h1.trans_eq ?_
   rw [← Finset.sum_fiberwise_of_maps_to hmaps]

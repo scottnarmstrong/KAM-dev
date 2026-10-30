@@ -27,7 +27,8 @@ open Filter Topology
 
 namespace KAM.Wave
 
-/-- `E^ℂ_{1,1}` in weighted coordinates: two copies of `ℓ²_ℂ` (blueprint `bpW:w1:complexification`). -/
+/-- `E^ℂ_{1,1}` in weighted coordinates: two copies of `ℓ²_ℂ`
+(blueprint `bpW:w1:complexification`). -/
 abbrev WaveSpaceC : Type :=
   lp (fun _ : ℕ+ => ℂ) 2 × lp (fun _ : ℕ+ => ℂ) 2
 

@@ -33,11 +33,11 @@ variable {F : Type*} [NormedAddCommGroup F] [NormedSpace ℂ F]
 
 /-- The `w`-derivative of the `k`-th Picard iterate at time `t`. -/
 def picardD (X : F → F) (k : ℕ) (t : ℝ) (w : F) : F →L[ℂ] F :=
-  fderiv ℂ (fun w' => picard X w' k t) w
+  fderiv ℂ (fun w' => wavePicard X w' k t) w
 
 /-- The induction hypothesis of `KAM.Wave.picard_holo`. -/
 structure PicardInv (X : F → F) (U : Set F) (L : ℝ) (k : ℕ) : Prop where
-  diff : ∀ t ∈ Icc (-1 : ℝ) 1, DifferentiableOn ℂ (fun w' => picard X w' k t) U
+  diff : ∀ t ∈ Icc (-1 : ℝ) 1, DifferentiableOn ℂ (fun w' => wavePicard X w' k t) U
   bound : ∀ t ∈ Icc (-1 : ℝ) 1, ∀ w ∈ U, ‖picardD X k t w‖ ≤ Real.exp (L * |t|)
   cont : ∀ w ∈ U, ContinuousOn (fun t => picardD X k t w) (Icc (-1) 1)
 
@@ -63,34 +63,35 @@ theorem picardInv_zero : PicardInv X U (M / δ) 0 where
 
 /-- The `w`-derivative of the integrand `X (φ_k (w, σ))`. -/
 def picardG (X : F → F) (w : F) (k : ℕ) (σ : ℝ) : F →L[ℂ] F :=
-  (fderiv ℂ X (picard X w k σ)).comp (picardD X k σ w)
+  (fderiv ℂ X (wavePicard X w k σ)).comp (picardD X k σ w)
 
 theorem continuousOn_picardG {k : ℕ} (hk : PicardInv X U (M / δ) k) {w : F} (hw : w ∈ U) :
     ContinuousOn (picardG X w k) (Icc (-1) 1) := by
-  have h1 : ContinuousOn (fun σ => fderiv ℂ X (picard X w k σ)) (Icc (-1) 1) :=
+  have h1 : ContinuousOn (fun σ => fderiv ℂ X (wavePicard X w k σ)) (Icc (-1) 1) :=
     (continuousOn_fderiv_of_holomorphic h.isOpen_V h.holo).comp (norm_picard_sub_le h hw k).2
-      fun σ hσ => h.mem_V hw (picard_mem_ball h hw k hσ)
+      fun σ hσ => h.mem_V_of_ball hw (picard_mem_ball h hw k hσ)
   exact h1.clm_comp (hk.cont w hw)
 
 theorem norm_picardG_le {k : ℕ} (hk : PicardInv X U (M / δ) k) {w : F} (hw : w ∈ U) {σ : ℝ}
     (hσ : σ ∈ Icc (-1 : ℝ) 1) : ‖picardG X w k σ‖ ≤ M / δ * Real.exp (M / δ * |σ|) :=
   (ContinuousLinearMap.opNorm_comp_le _ _).trans
-    (mul_le_mul (h.fderiv_le hw (picard_mem_ball h hw k hσ)) (hk.bound σ hσ w hw)
+    (mul_le_mul (h.norm_fderiv_le_ball hw (picard_mem_ball h hw k hσ)) (hk.bound σ hσ w hw)
       (norm_nonneg _) (div_nonneg h.M_pos.le h.delta_pos.le))
 
 /-- The derivative of `Φ_{k+1}` in `w`, by differentiation under the integral sign. -/
 theorem hasFDerivAt_picard_succ {k : ℕ} (hk : PicardInv X U (M / δ) k) {w : F} (hw : w ∈ U)
     {t : ℝ} (ht : t ∈ Icc (-1 : ℝ) 1) :
-    HasFDerivAt (fun w' => picard X w' (k + 1) t)
+    HasFDerivAt (fun w' => wavePicard X w' (k + 1) t)
       (ContinuousLinearMap.id ℂ F + ∫ σ in (0 : ℝ)..t, picardG X w k σ) w := by
   obtain ⟨ε, hε, hεU⟩ := Metric.isOpen_iff.mp h.isOpen_U w hw
   have hL : 0 ≤ M / δ := div_nonneg h.M_pos.le h.delta_pos.le
-  have hmeas : ∀ x ∈ U, AEStronglyMeasurable (fun σ => X (picard X x k σ))
+  have hmeas : ∀ x ∈ U, AEStronglyMeasurable (fun σ => X (wavePicard X x k σ))
       (volume.restrict (Ι 0 t)) := fun x hx =>
-    ((continuousOn_X_picard h hx k).mono (uIoc_subset_Icc ht)).aestronglyMeasurable measurableSet_uIoc
+    ((continuousOn_X_picard h hx k).mono (uIoc_subset_Icc ht)).aestronglyMeasurable
+      measurableSet_uIoc
   have hmain := intervalIntegral.hasFDerivAt_integral_of_dominated_of_fderiv_le (𝕜 := ℂ)
     (μ := volume) (a := 0) (b := t) (s := ball w ε) (x₀ := w)
-    (F := fun x σ => X (picard X x k σ)) (F' := fun x σ => picardG X x k σ)
+    (F := fun x σ => X (wavePicard X x k σ)) (F' := fun x σ => picardG X x k σ)
     (bound := fun _ => M / δ * Real.exp (M / δ))
     (ball_mem_nhds w hε)
     (Filter.eventually_of_mem (h.isOpen_U.mem_nhds hw) fun x hx => hmeas x hx)
@@ -108,10 +109,10 @@ theorem hasFDerivAt_picard_succ {k : ℕ} (hk : PicardInv X U (M / δ) k) {w : F
     (Filter.Eventually.of_forall fun σ hσ x hx => by
       have hxU : x ∈ U := hεU hx
       have hσ' := uIoc_subset_Icc ht hσ
-      have hz : picard X x k σ ∈ V := h.mem_V hxU (picard_mem_ball h hxU k hσ')
-      have h1 : HasFDerivAt X (fderiv ℂ X (picard X x k σ)) (picard X x k σ) :=
+      have hz : wavePicard X x k σ ∈ V := h.mem_V_of_ball hxU (picard_mem_ball h hxU k hσ')
+      have h1 : HasFDerivAt X (fderiv ℂ X (wavePicard X x k σ)) (wavePicard X x k σ) :=
         (h.holo.differentiableAt (h.isOpen_V.mem_nhds hz)).hasFDerivAt
-      have h2 : HasFDerivAt (fun x' => picard X x' k σ) (picardD X k σ x) x :=
+      have h2 : HasFDerivAt (fun x' => wavePicard X x' k σ) (picardD X k σ x) x :=
         ((hk.diff σ hσ').differentiableAt (h.isOpen_U.mem_nhds hxU)).hasFDerivAt
       exact h1.comp x h2)
   exact (hasFDerivAt_id w).add hmain
@@ -141,7 +142,7 @@ theorem picard_holo : ∀ k : ℕ, PicardInv X U (M / δ) k
         _ = Real.exp (M / δ * |t|) := by ring
     · have : ContinuousOn (fun t => ContinuousLinearMap.id ℂ F + ∫ σ in (0 : ℝ)..t, picardG X w k σ)
           (Icc (-1) 1) :=
-        continuousOn_const.add (continuousOn_primitive (continuousOn_picardG h hk hw))
+        continuousOn_const.add (continuousOn_wavePrimitive (continuousOn_picardG h hk hw))
       refine this.congr fun t ht => ?_
       exact picardD_succ h hk hw ht
 

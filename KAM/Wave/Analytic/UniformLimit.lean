@@ -54,8 +54,10 @@ theorem uniformCauchySeqOn_fderiv {f : ℕ → E → F} {U : Set E} (hU : IsOpen
   have hd : DifferentiableOn ℂ (f k - f l) (ball x δ) :=
     ((hf k).sub (hf l)).mono (fun y hy => hw (hxδ hy))
   have key := norm_fderiv_le_div_of_ball hδ (by positivity) hd hM
-  have hdk : DifferentiableAt ℂ (f k) x := (hf k).differentiableAt (hU.mem_nhds (hw (hxδ (mem_ball_self hδ))))
-  have hdl : DifferentiableAt ℂ (f l) x := (hf l).differentiableAt (hU.mem_nhds (hw (hxδ (mem_ball_self hδ))))
+  have hdk : DifferentiableAt ℂ (f k) x :=
+    (hf k).differentiableAt (hU.mem_nhds (hw (hxδ (mem_ball_self hδ))))
+  have hdl : DifferentiableAt ℂ (f l) x :=
+    (hf l).differentiableAt (hU.mem_nhds (hw (hxδ (mem_ball_self hδ))))
   rw [fderiv_sub hdk hdl, dist_eq_norm] at *
   refine lt_of_le_of_lt key ?_
   rw [show ε * δ / 2 / δ = ε / 2 by field_simp]

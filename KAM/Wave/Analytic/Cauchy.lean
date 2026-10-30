@@ -19,7 +19,8 @@ space and `‖f‖ ≤ M` there, `‖Df(v)‖ ≤ M / r` (`KAM.Wave.norm_fderiv_
 with a margin `δ` the derivative is bounded by `M / δ` and `f` is `(M/δ)`-Lipschitz on convex sets
 with margin `δ` (`KAM.Wave.norm_fderiv_le_div_of_ball_subset`, `KAM.Wave.lipschitz_of_margin`). The
 derivative of a holomorphic map is locally Lipschitz with the constant `2 B ρ⁻²`
-(`KAM.Wave.norm_fderiv_sub_le`), hence continuous (`KAM.Wave.continuousOn_fderiv_of_holomorphic`).
+(`KAM.Wave.norm_fderiv_sub_le_holoMargin`), hence continuous
+(`KAM.Wave.continuousOn_fderiv_of_holomorphic`).
 -/
 
 @[expose] public section
@@ -75,7 +76,8 @@ theorem lipschitz_of_margin {f : E → F} {V : Set E} {δ M : ℝ} (hδ : 0 < δ
 
 /-- Local Lipschitz bound for the derivative of a holomorphic map (blueprint
 `bpW:w1:deriv-continuous`, quantitative part). -/
-theorem norm_fderiv_sub_le {f : E → F} {U : Set E} (hU : IsOpen U) (hf : DifferentiableOn ℂ f U)
+theorem norm_fderiv_sub_le_holoMargin {f : E → F} {U : Set E} (hU : IsOpen U)
+    (hf : DifferentiableOn ℂ f U)
     {w₀ : E} {ρ B : ℝ} (hρ : 0 < ρ) (hB : 0 ≤ B) (hsub : ball w₀ (2 * ρ) ⊆ U)
     (hbd : ∀ z ∈ ball w₀ (2 * ρ), ‖f z‖ ≤ B) {w w' : E}
     (hw : w ∈ ball w₀ (ρ / 2)) (hw' : w' ∈ ball w₀ (ρ / 2)) :
@@ -158,7 +160,7 @@ theorem continuousOn_fderiv_of_holomorphic {f : E → F} {U : Set E} (hU : IsOpe
   have hw1 : w ∈ ball w₀ (ρ / 2) := by
     rw [mem_ball, dist_eq_norm]; exact lt_of_lt_of_le hw (min_le_left _ _)
   have hw0 : w₀ ∈ ball w₀ (ρ / 2) := mem_ball_self (by positivity)
-  have := norm_fderiv_sub_le hU hf hρ hB hsub hbd hw1 hw0
+  have := norm_fderiv_sub_le_holoMargin hU hf hρ hB hsub hbd hw1 hw0
   refine this.trans_lt ?_
   have hw2 : ‖w - w₀‖ < η / (K + 1) := lt_of_lt_of_le hw (min_le_right _ _)
   rw [lt_div_iff₀ (by positivity)] at hw2
