@@ -38,7 +38,8 @@ lemma wave_sqrt_pnat_le_sqrt_lam (n : ℕ+) : Real.sqrt (n : ℝ) ≤ Real.sqrt 
 /-- The selection-rule bound for `c_{ijkl}` with `M = 1/(2π)` (`stepW:w1:tricoord`). -/
 theorem waveTriCoef_bound (i j k l : ℕ+) :
     ‖(waveTriCoef m hm i j k l : K)‖ ≤
-      (1 / (2 * Real.pi)) * (((i : ℝ) * j * k * l) ^ (-(1 / 2 : ℝ))) * waveSelCount l (i, j, k) := by
+      (1 / (2 * Real.pi)) * (((i : ℝ) * j * k * l) ^ (-(1 / 2 : ℝ))) *
+        waveSelCount l (i, j, k) := by
   rw [RCLike.norm_ofReal, wave_rpow_neg_half_prod]
   unfold waveTriCoef
   have hpos : ∀ n : ℕ+, 0 < Real.sqrt (n : ℝ) := fun n => Real.sqrt_pos.2 (by positivity)
@@ -80,7 +81,8 @@ theorem waveTri_oneSided {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) {q q' q''
       ellTsumNorm a (p + 1) (waveTriSeq m hm q q' q'') ≤
         waveCubicConst p * (ellTsumNorm a p q * ellTsumNorm a p q' * ellTsumNorm a p q'') := by
   have h := waveSel_oneSided (K := K) ha hp (by positivity : (0 : ℝ) ≤ 1 / (2 * Real.pi))
-    (c := fun i j k l => (waveTriCoef m hm i j k l : K)) (fun i j k l => waveTriCoef_bound m hm i j k l)
+    (c := fun i j k l => (waveTriCoef m hm i j k l : K))
+    (fun i j k l => waveTriCoef_bound m hm i j k l)
     hq hq' hq''
   refine ⟨h.1, h.2.1, ?_⟩
   have hc : 2 * (1 / (2 * Real.pi)) * waveAlgConst (p + 1 / 2) ^ 2 = waveCubicConst p := by

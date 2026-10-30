@@ -20,7 +20,8 @@ For `c ∈ ℓ^{a,p}_𝕜` (`IsEll a p c`), `a > 0`, `k ∈ ℕ`:
 
 * `KAM.Wave.waveEllK_tsum_pow_mul_le`: `Σ_j ‖c_j‖ j^k ≤ M_{a,p,k} ‖c‖_{a,p}`
   (`M = waveEllMajorant a p k`), the series being summable (`waveEllK_summable_pow_mul`);
-* `KAM.Wave.waveSineSeriesK_norm_le`: `‖Σ c_j φ_j^{(k)}(x)‖ ≤ √(2/π) M_{a,p,k} ‖c‖_{a,p}` for all `x`;
+* `KAM.Wave.waveSineSeriesK_norm_le`: `‖Σ c_j φ_j^{(k)}(x)‖ ≤ √(2/π) M_{a,p,k} ‖c‖_{a,p}` for
+  all `x`;
 * linearity (`waveSineSeriesK_add`, `waveSineSeriesK_smul`), uniform convergence
   (`waveSineSeriesK_tendstoUniformly`), termwise differentiation
   (`hasDerivAt_waveSineSeriesK`, `contDiff_waveSineSeriesK`, `iteratedDeriv_waveSineSeriesK`),

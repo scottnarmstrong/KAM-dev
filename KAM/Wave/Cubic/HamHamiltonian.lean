@@ -103,7 +103,8 @@ theorem waveHw_analyticOnNhd {a p : ℝ} (ha : 0 < a) (hp : 1 / 2 ≤ p) :
     intro w hw
     have hb : AnalyticAt ℝ (fun x : lp (fun _ : ℕ+ => ℝ) 2 × lp (fun _ : ℕ+ => ℝ) 2 =>
         innerSL ℝ x.1 x.2) (waveSigmaCLM m hm ha.le hp (w z), w z) :=
-      (innerSL ℝ : lp (fun _ : ℕ+ => ℝ) 2 →L[ℝ] lp (fun _ : ℕ+ => ℝ) 2 →L[ℝ] ℝ).analyticAt_bilinear _
+      (innerSL ℝ : lp (fun _ : ℕ+ => ℝ) 2 →L[ℝ] lp (fun _ : ℕ+ => ℝ) 2 →L[ℝ] ℝ).analyticAt_bilinear
+        _
     have hc := AnalyticAt.comp (f := fun x => (waveSigmaCLM m hm ha.le hp (w x), w x)) (x := z) hb
       (((waveSigmaCLM m hm ha.le hp).analyticAt _).comp hw |>.prod hw)
     simpa [Function.comp_def] using hc
@@ -153,7 +154,8 @@ theorem waveHw_fderiv_p {a p : ℝ} (ha : 0 < a) (hp : 1 / 2 ≤ p) (z : WaveSpa
       lam m hm j * coeffW a p z.2 j := by
   rw [(waveHw_hasFDerivAt m hm ha hp z).fderiv]
   simp only [waveHwDeriv, add_apply, ContinuousLinearMap.comp_apply,
-    innerSL_apply_apply, ContinuousLinearMap.coe_fst', ContinuousLinearMap.coe_snd', inner_zero_right,
+    innerSL_apply_apply, ContinuousLinearMap.coe_fst', ContinuousLinearMap.coe_snd',
+    inner_zero_right,
     add_zero, zero_add, wave_inner_single_right, waveSigmaCLM_apply]
   have hw := ellWeight_pos a p j
   simp only [waveSigma, coeffW_apply, RCLike.ofReal_real_eq_id, id]
@@ -172,7 +174,8 @@ theorem waveHw_fderiv_q {a p : ℝ} (ha : 0 < a) (hp : 1 / 2 ≤ p) (z : WaveSpa
       ellWeight a (p + 1) j := by
     rw [hN, waveCubicNL_eq]; simp [coeffW]
   simp only [waveHwDeriv, add_apply, ContinuousLinearMap.comp_apply,
-    innerSL_apply_apply, ContinuousLinearMap.coe_fst', ContinuousLinearMap.coe_snd', inner_zero_right,
+    innerSL_apply_apply, ContinuousLinearMap.coe_fst', ContinuousLinearMap.coe_snd',
+    inner_zero_right,
     add_zero, wave_inner_single_right, waveSigmaCLM_apply, waveGradW, waveRhoCLM_apply, waveRho, hl]
   simp only [waveSigma, coeffW_apply, RCLike.ofReal_real_eq_id, id]
   field_simp

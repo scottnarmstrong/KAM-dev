@@ -13,7 +13,8 @@ public import KAM.Wave.Cubic.GradIdentity
 Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
 still being built.
 
-For `a > 0`, `p ≥ 1/2` and `y ∈ ℓ²_ℝ`, put `q = κ_{a,p} y` and let `ρ_l = 1/(ω_{a,p+1}(l) ω_{a,p}(l))`,
+For `a > 0`, `p ≥ 1/2` and `y ∈ ℓ²_ℝ`, put `q = κ_{a,p} y` and let
+`ρ_l = 1/(ω_{a,p+1}(l) ω_{a,p}(l))`,
 `D_ρ = waveRhoCLM`. Then `G^w(y) := G(κ_{a,p} y) = ¼ ⟨D_ρ 𝒩(y), y⟩_{ℓ²}`
 (`waveG_coeffW_eq_inner`), `G^w` is real analytic on `ℓ²` (`waveG_coeffW_analyticOnNhd`) and its
 `ℓ²` gradient is `D_ρ 𝒩(y)`, i.e. `DG^w(y) h = ⟨D_ρ 𝒩(y), h⟩ = Σ_l 𝒢(q)_l (κ_{a,p} h)_l =
@@ -34,7 +35,8 @@ lemma one_le_ellWeight (ha : 0 ≤ a) (hp : 0 ≤ p) (l : ℕ+) : 1 ≤ ellWeigh
   exact one_le_mul_of_one_le_of_one_le (Real.one_le_rpow h1 hp)
     (Real.one_le_exp (mul_nonneg ha (by positivity)))
 
-/-- The diagonal `ρ_l = 1 / (ω_{a,p+1}(l) ω_{a,p}(l))` of the pairing `⟨κ_{a,p+1} u, κ_{a,p} v⟩₀`. -/
+/-- The diagonal `ρ_l = 1 / (ω_{a,p+1}(l) ω_{a,p}(l))` of the pairing
+`⟨κ_{a,p+1} u, κ_{a,p} v⟩₀`. -/
 def waveRho (a p : ℝ) (l : ℕ+) : ℝ := 1 / (ellWeight a (p + 1) l * ellWeight a p l)
 
 lemma waveRho_norm_le_one (ha : 0 ≤ a) (hp : 0 ≤ p) (l : ℕ+) : ‖waveRho a p l‖ ≤ 1 := by

@@ -96,7 +96,8 @@ theorem waveTriML_embed {K : Type*} [RCLike K] {a' p' : ℝ} (ha' : 0 ≤ a') (h
     waveTriML (K := K) m hm ha' hp'
         ![embedCLM a p a' p' haa hpp y, embedCLM a p a' p' haa hpp y',
           embedCLM a p a' p' haa hpp y''] =
-      embedCLM a (p + 1) a' (p' + 1) haa (by linarith) (waveTriML (K := K) m hm ha hp ![y, y', y'']) := by
+      embedCLM a (p + 1) a' (p' + 1) haa (by linarith)
+        (waveTriML (K := K) m hm ha hp ![y, y', y'']) := by
   refine coeffW_injective a' (p' + 1) ?_
   rw [coeffW_waveTriML, coeffW_embedCLM, coeffW_embedCLM, coeffW_embedCLM, coeffW_embedCLM,
     coeffW_waveTriML]

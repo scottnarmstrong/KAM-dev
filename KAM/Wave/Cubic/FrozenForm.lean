@@ -110,7 +110,8 @@ def waveShift : lp (fun _ : ℕ+ => ℝ) 2 →L[ℝ] lp (fun _ : ℕ+ => ℝ) 2 
 /-- `X^w(y,y') = (D y', -D y - S² 𝒢^w(y))` on `WaveSpace`, `D = D_μ`, `μ_j = λ_j / j`
 (blueprint `bpW:w1:hamfield` (v)). -/
 def waveXw (z : WaveSpace) : WaveSpace :=
-  (lamMul (K := ℝ) m hm 1 z.2, -(lamMul (K := ℝ) m hm 1 z.1) - waveShift (waveShift (waveGw m hm z.1)))
+  (lamMul (K := ℝ) m hm 1 z.2,
+    -(lamMul (K := ℝ) m hm 1 z.1) - waveShift (waveShift (waveGw m hm z.1)))
 
 lemma lamRatio_one (j : ℕ+) : lamRatio m hm 1 j = lam m hm j / (j : ℝ) := by
   simp [lamRatio]

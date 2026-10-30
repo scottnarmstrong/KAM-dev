@@ -139,7 +139,8 @@ theorem waveXG_sub_le {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (z z' : Wave
 /-- (ii) The complex extension of `X_G` is compatible with the real one. -/
 theorem waveXG_complexify {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (z : WaveSpaceK ℝ) :
     waveXG (K := ℂ) m hm ha hp (complexifyLp z.1, complexifyLp z.2) =
-      (complexifyLp (waveXG (K := ℝ) m hm ha hp z).1, complexifyLp (waveXG (K := ℝ) m hm ha hp z).2) := by
+      (complexifyLp (waveXG (K := ℝ) m hm ha hp z).1,
+        complexifyLp (waveXG (K := ℝ) m hm ha hp z).2) := by
   simp only [waveXG, waveCubicNL_eq]
   rw [Prod.ext_iff]
   refine ⟨by simp, ?_⟩
@@ -159,8 +160,10 @@ theorem waveXH_analyticOnNhd {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) :
   intro z _
   have hG := waveXG_analyticOnNhd (K := K) m hm ha hp z trivial
   have hι : AnalyticAt K (fun w : WaveSpaceK K =>
-      ((embedCLM (K := K) a (p + 1) a (p - 1) le_rfl (by linarith) : lp (fun _ : ℕ+ => K) 2 →L[K] _) w.1,
-        (embedCLM (K := K) a (p + 1) a (p - 1) le_rfl (by linarith) : lp (fun _ : ℕ+ => K) 2 →L[K] _) w.2))
+      ((embedCLM (K := K) a (p + 1) a (p - 1) le_rfl (by linarith) :
+          lp (fun _ : ℕ+ => K) 2 →L[K] _) w.1,
+        (embedCLM (K := K) a (p + 1) a (p - 1) le_rfl (by linarith) :
+          lp (fun _ : ℕ+ => K) 2 →L[K] _) w.2))
       (waveXG m hm ha hp z) :=
     by exact ((embedCLM (K := K) a (p + 1) a (p - 1) le_rfl (by linarith)).prodMap
       (embedCLM (K := K) a (p + 1) a (p - 1) le_rfl (by linarith))).analyticAt (waveXG m hm ha hp z)
@@ -172,7 +175,8 @@ theorem waveXH_analyticOnNhd {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) :
 theorem coeffW_waveXH_fst {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (z : WaveSpaceK K) (j : ℕ+) :
     coeffW a (p - 1) (waveXH m hm ha hp z).1 j = (lam m hm j : K) * coeffW a p z.2 j := by
   have e : (waveXH m hm ha hp z).1 = (waveXLam m hm z).1 +
-      (embedCLM (K := K) a (p + 1) a (p - 1) le_rfl (by linarith)) (0 : lp (fun _ : ℕ+ => K) 2) := rfl
+      (embedCLM (K := K) a (p + 1) a (p - 1) le_rfl (by linarith))
+        (0 : lp (fun _ : ℕ+ => K) 2) := rfl
   rw [e, map_zero, add_zero]
   exact coeffW_waveXLam_fst m hm a p z j
 
@@ -183,7 +187,8 @@ theorem coeffW_waveXH_snd {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (z : Wav
       -((lam m hm j : K) * coeffW a p z.1 j) -
         coeffW a (p + 1) (waveCubicNL (K := K) m hm ha hp z.1) j := by
   have e : (waveXH m hm ha hp z).2 = (waveXLam m hm z).2 +
-      (embedCLM (K := K) a (p + 1) a (p - 1) le_rfl (by linarith)) (-waveCubicNL (K := K) m hm ha hp z.1) :=
+      (embedCLM (K := K) a (p + 1) a (p - 1) le_rfl (by linarith))
+        (-waveCubicNL (K := K) m hm ha hp z.1) :=
     rfl
   rw [e, map_neg, ← sub_eq_add_neg, coeffW_sub, Pi.sub_apply, coeffW_embedCLM,
     coeffW_waveXLam_snd]

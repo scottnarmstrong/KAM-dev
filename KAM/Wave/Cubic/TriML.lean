@@ -97,7 +97,8 @@ theorem waveTriML_unique
   have hv : v = ![v 0, v 1, v 2] := by
     ext i; fin_cases i <;> rfl
   rw [hv]
-  exact coeffW_injective a (p + 1) ((hS _ _ _).trans (coeffW_waveTriML (K := K) m hm ha hp _ _ _).symm)
+  exact coeffW_injective a (p + 1)
+    ((hS _ _ _).trans (coeffW_waveTriML (K := K) m hm ha hp _ _ _).symm)
 
 /-- Symmetry of `𝒯^{a,p}_𝕜` under the transposition of the first two arguments. -/
 theorem waveTriML_swap_left_mid (y y' y'' : lp (fun _ : ℕ+ => K) 2) :
