@@ -823,6 +823,50 @@ Lemmas~\ref{bpW:w3:Lambda} and~\ref{bpW:w3:quartic-ident}.
 \end{proof}
 \source{P96-W p.~290 (``These tori carry the quasi-periodic motions $\gamma=\Gamma\circ\Psi(\dots)$'').}
 
+The tori produced by the KAM iteration lie a priori only in $\mathfrak W_{a,p+1/2}$, and their invariance equation is an
+identity in the weaker space $\mathfrak W_{a,p-1}$ (Theorem~\ref{bpW:w6:tori}(i),(iii)). The next corollary shows that
+this weak form suffices: the equation itself forces every torus point into $\mathfrak W^+$, where
+Theorem~\ref{bpW:w3:main}(iv) applies pointwise.
+
+\begin{corollary}[Weak invariance is transported]\label{bpW:w3:transport-tori-weak}
+For $w\in\mathfrak W$ let $X_\Lambda(w)=(-i\lambda'_lw_l)_{l\ne0}\in\mathfrak W_{a,p-1}$, extending
+Lemma~\ref{bpW:w3:Lambda}. Let $\nu\in\R^2$ and $\Psi:\R^2\to B_{\rho_1}$ be differentiable as a map into
+$\mathfrak W$, and suppose that for every $\theta$
+\[D\Psi(\theta)\nu=X_\Lambda(\Psi(\theta))+X_{\bar G}(\Psi(\theta))+X_{G^{\rm nor}}(\Psi(\theta))+X_K(\Psi(\theta))
+\qquad\text{in }\mathfrak W_{a,p-1}.\]
+Then $\Psi(\theta)\in\mathfrak W^+$ with $\norm{\Psi(\theta)}_+\le\norm{D\Psi(\theta)\nu}+C_*\norm{\Psi(\theta)}^3+
+C'_K\norm{\Psi(\theta)}^5$ for every $\theta$, and all conclusions of Corollary~\ref{bpW:w3:transport-tori} hold:
+$\Gamma\circ\Psi$ takes values in $\mathfrak W^+$, $D(\Gamma\circ\Psi)(\theta)\nu=X_H(\Gamma\circ\Psi(\theta))$ in
+$\mathfrak W$, and for real $\Psi$ the coefficient system \eqref{bpW:w0:coeffsys} holds for
+$(Q,P)=\mathcal Z^{-1}\Gamma\circ\Psi$.
+\end{corollary}
+
+\begin{proof}
+\proofstep{The linear field on $\mathfrak W$}\label{stepW:w3:wk-lin}
+By Lemma~\ref{bpW:w1:diag}(i) (with $p-1$ in place of $p$ and $r=1$), $X_\Lambda:\mathfrak W\to\mathfrak W_{a,p-1}$ is
+bounded with norm $\le\sqrt{1+m}$, so the hypothesis is meaningful; on $\mathfrak W^+$ it agrees with
+Lemma~\ref{bpW:w3:Lambda}. The other three fields take values in $\mathfrak W^+\subset\mathfrak W\subset\mathfrak W_{a,p-1}$
+(Theorem~\ref{bpW:w3:main}(ii),(iii)), with the norm-one inclusions of Lemma~\ref{bpW:w1:embed}.
+\proofstep{Regularity of the torus points}\label{stepW:w3:wk-reg}
+Fix $\theta$ and write $w=\Psi(\theta)$. The hypothesis gives
+$X_\Lambda(w)=D\Psi(\theta)\nu-X_{\bar G}(w)-X_{G^{\rm nor}}(w)-X_K(w)$, whose right side lies in $\mathfrak W$ with norm
+$\le\norm{D\Psi(\theta)\nu}+C_*\norm w^3+C'_K\norm w^5$ (Theorem~\ref{bpW:w3:main}; $\norm{X_{\bar G}(w)+X_{G^{\rm nor}}(w)}\le
+C_*\norm w^3$ by Lemma~\ref{bpW:w3:quartic} applied to $\bar{\mathfrak G}+\mathfrak G^{\rm nor}$, whose coefficient
+sets are disjoint). Since
+$w_l=i\,X_\Lambda(w)_l/\lambda'_l$ and $\abs l\le\lambda_{\abs l}$, each weight satisfies
+$\abs l^{p+1}e^{a\abs l}\abs{w_l}\le\abs l^pe^{a\abs l}\abs{X_\Lambda(w)_l}$ (Lemma~\ref{bpW:w1:diag}(i) with $r=-1$), so
+$w\in\mathfrak W^+$ with $\norm w_+\le\norm{X_\Lambda(w)}$.
+\proofstep{Transport}\label{stepW:w3:wk-transport}
+Since $w\in B_{\rho_1}\cap\mathfrak W^+$, both sides of the hypothesis lie in $\mathfrak W$ and agree there, i.e.\
+$D\Psi(\theta)\nu=X_{H'}(w)$ in $\mathfrak W$ with $X_{H'}$ as in Corollary~\ref{bpW:w3:transport-tori}. The chain rule
+($\Gamma$ is differentiable on $\mathfrak W$, $\Psi$ differentiable into $\mathfrak W$) and Theorem~\ref{bpW:w3:main}(iv)
+at $w$ give $D(\Gamma\circ\Psi)(\theta)\nu=D\Gamma(w)X_{H'}(w)=X_H(\Gamma(w))$, and $\Gamma(w)\in\mathfrak W^+$. The
+coefficient system follows as in the proof of Corollary~\ref{bpW:w3:transport-tori}. The argument is pointwise in
+$\theta$; no differentiability of $\Psi$ into $\mathfrak W^+$ is needed.
+\end{proof}
+\source{ours. The KAM tori are invariant in a weaker space than the one P96-W p.~290 tacitly uses; see the return-trip
+item of Remark~\ref{bpW:w3:interface}.}
+
 \subsection{Interface to milestones W4--W6}\label{bpW:w3:interface-sec}
 
 \begin{remark}[What W3 supplies toward P96-K Theorem~A]\label{bpW:w3:interface}
@@ -863,9 +907,13 @@ ball $B_{\rho_1}\subset\mathfrak W$, with:
   (Remark~\ref{bpW:w0n:kappa}).
 \item \emph{Normal form.} $\bar G=\frac12\avg{AI,I}+\avg{BI,Z}$ with $I_j=w_jw_{-j}$, the corrected $A,B$
   (Theorem~\ref{bpW:w0n:AB}); nondegeneracy is Theorem~\ref{bpW:w0n:nondeg}.
-\item \emph{Return trip.} Tori of $H'$ in $B_{\rho_1}\cap\mathfrak W^+$ are carried to tori of $H$ by
-  Corollary~\ref{bpW:w3:transport-tori}; the KAM embeddings take values in the $\bar p$-space (KP96 p.~28, Step~5),
-  so $\Psi\in\mathfrak W^+$ holds. Analyticity in $\theta$ of $\Gamma^\R\circ\Psi^\R$ follows from
+\item \emph{Return trip.} The KAM tori $\tilde\Psi_\xi$ of W6 take values in $B_{\rho_1}$ with normal part only in
+  $\mathfrak W_{a,p+1/2}$, and are invariant in the sense of an identity in $\mathfrak W_{a,p-1}$
+  (Theorem~\ref{bpW:w6:tori}(i),(iii)); they are \emph{not} known a priori to lie in $\mathfrak W^+$, so the strong
+  Corollary~\ref{bpW:w3:transport-tori} does not apply directly (the $\bar p$-space embeddings of KP96 p.~28,
+  Step~5, are not what W6 establishes). Corollary~\ref{bpW:w3:transport-tori-weak} covers exactly this case: the
+  invariance equation forces each torus point into $\mathfrak W^+$, and $\Gamma\circ\tilde\Psi_\xi$ is then an
+  invariant torus of $H$ satisfying the coefficient system. Analyticity in $\theta$ of $\Gamma^\R\circ\Psi^\R$ follows from
   Corollary~\ref{bpW:w3:gamma-real}(i) and analyticity of $\Psi^\R$; injectivity of $\Gamma^\R$ transports the family
   injectivity (6) of W-NLW2; the closeness $\norm{\Gamma^\R(x)-x}\le6\sqrt2C_F\norm x^3$ is $o(r)$ in (3).
 \end{itemize}
@@ -903,7 +951,7 @@ of differentiability.
 \item \emph{Proved here}: Lemmas~\ref{bpW:w3:coords}, \ref{bpW:w3:omega}, \ref{bpW:w3:Lambda},
   \ref{bpW:w3:majorant}, \ref{bpW:w3:quartic}, \ref{bpW:w3:quartic-ident}, \ref{bpW:w3:divisor},
   \ref{bpW:w3:leibniz}, \ref{bpW:w3:real-restrict}, \ref{bpW:w3:Yseries}; Theorems~\ref{bpW:w3:F}, \ref{bpW:w3:flow}, \ref{bpW:w3:symplectic}, \ref{bpW:w3:main};
-  Proposition~\ref{bpW:w3:homological}; Corollaries~\ref{bpW:w3:gamma-real}, \ref{bpW:w3:transport-tori}.
+  Proposition~\ref{bpW:w3:homological}; Corollaries~\ref{bpW:w3:gamma-real}, \ref{bpW:w3:transport-tori}, \ref{bpW:w3:transport-tori-weak}.
 \item \emph{External}: \ref{bpW:w3:ext-multilinear}--\ref{bpW:w3:ext-neumann}, all in Mathlib.
 \item \emph{From W1}: Lemmas~\ref{bpW:w1:space}, \ref{bpW:w1:embed}, \ref{bpW:w1:diag},
   Definition~\ref{bpW:w1:holomorphic}, Proposition~\ref{bpW:w1:gradient-identity} (the last also covered by
