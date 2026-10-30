@@ -123,7 +123,7 @@ def num_from(D, st, ct, k=5, iso=False):
             ca = cr * (delta(s) / min(r(s), 1.0)) ** tau     # the bite of Lean's `NumA.bbar`
             dd = delta(s)
         else:
-            c = ca = f(ct)
+            c = ca = f(ct[0] if isinstance(ct, tuple) else ct)   # c_stages: (tail, full-strip tail)
             dd = delta(k)
         return dict(n=D["n"], kap=tau, d=dd, gb=gb, sK=sK, sB=f(D["sB"]), sT=f(D["sT"]), sLt=f(D["sLt"]), sN=f(D["sN"]),
                     sNt=f(D["sNt"]), t=capT, M1=f(D["M1"]), M2=f(D["M2"]), c=c, ca=ca, th=0.125, iso=iso,
