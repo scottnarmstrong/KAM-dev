@@ -211,11 +211,12 @@ provenance, Lean-totality notes, "requests to W1", "what W3 supplies", status su
 
 Refine one into its own node only if consumers use it independently and that matters for the topology.
 
-## Reachability (wave 1)
-Every graph node must eventually feed the root. In wave 1 the root has no proof, so nearly all W0n–W3 nodes are
-unreachable. They are **not** excluded: they are kept and listed as "awaiting W4–W8".
-- The linter runs without `--require-all-reachable` until W8 is in the corpus.
-- A labelled result is excluded as "outside every root closure of track W" only after W8 has been extracted.
+## Reachability
+- **Wave 1.** The root had no proof, so nearly all W0n–W3 nodes were unreachable. They were kept, not excluded, and
+  the linter ran without `--require-all-reachable`.
+- **Wave 2 (from 2026-10-30).** W8 is in the corpus and the root's PROOF_SOURCE is the proof of
+  `bpW:w8:nlw2-proof`. `--require-all-reachable` is part of the gate. A node outside the closure is linked (a missed
+  use) or EXCLUDED with the reason "outside every root closure of track W" plus the check made.
 
 ## Edges
 - Direct uses only, conjunctive, `consumer -> prerequisite`. Every edge has one `EDGE:` line locating the use in the
@@ -261,16 +262,24 @@ unreachable. They are **not** excluded: they are kept and listed as "awaiting W4
 Line-addressable, aligned to statement/proof units, and recorded in `docs/graph/W/packets/slices.json`. Each part is
 one slice. W1 (128 draft nodes) is split at its §"The sine system" (L591). New parts W4–W8 become new slices.
 
-| Slice | Source range | Draft nodes | Nodes (wave 1) | Edges | Coverage items | Status |
-|---|---|---|---|---|---|---|
-| `W-w0c` | w0-conventions.tex, all (10 of the 13 anchors) | 18 | 19 | 43 | 41 | review 1 FAIL, fragments applied; delta review pending |
-| `W-w0n` | w0-normalization.tex, all | 38 | 38 | 163 | 62 | review 1 FAIL, fragments applied; delta review pending |
-| `W-w1a` | w1-sequences.tex L1–590 (transport, externals, weighted spaces, two-sided, cubic field) | 64 | 65 | 185 | 95 | awaiting review |
-| `W-w1b` | w1-sequences.tex L591–end (sines, analytic toolkit, KAM support, ledger) | 64 | 62 | 166 | 91 | awaiting review |
-| `W-w2` | w2-reconstruction.tex, all | 36 | 33 | 177 | 60 | awaiting review |
-| `W-w3` | w3-birkhoff.tex, all | 84 | 84 | 283 | 134 | awaiting review |
-| `W-wh` | w-headline.tex, all (3 anchors: embedding, IsDiophantine, the root nlw2) | 7 | 3 | 11 | 14 | review 1 PASS (REVIEWED) |
-| `W-imports` | 5 imported track-K nodes (writer-owned; `blueprint/parts/p1-analysis.tex` pinned in IMPORTS.sha256) | – | 5 | 0 | 5 | awaiting review |
+| Slice | Source range | Nodes | Edges | Coverage items | Status (2026-10-30, wave 2) |
+|---|---|---|---|---|---|
+| `W-w0c` | w0-conventions.tex, all (10 of the 13 anchors) | 18 | 43 | 41 | REVIEWED; 1 coverage item re-opened (rescaling excluded) |
+| `W-w0n` | w0-normalization.tex, all | 31 | 117 | 62 | REVIEWED; 8 coverage items re-opened (reachability exclusions, kappa) |
+| `W-w1a` | w1-sequences.tex L1–590 | 66 | 188 | 96 | REVIEWED |
+| `W-w1b` | w1-sequences.tex L591–end | 66 | 173 | 96 | REVIEWED; 1 coverage item re-opened (kam-conventions) |
+| `W-w2` | w2-reconstruction.tex, all | 33 | 189 | 60 | REVIEWED |
+| `W-w3` | w3-birkhoff.tex, all | 89 | 332 | 141 | REVIEWED; 4 nodes and 8 items re-opened (transport-tori-weak; remarks) |
+| `W-w4` | w4-homological.tex, all | 57 | 148 | 102 | awaiting review 1 |
+| `W-w5a` | w5-kamstep.tex L1–449 | 50 | 175 | 74 | awaiting review 1 |
+| `W-w5b` | w5-kamstep.tex L450–end | 32 | 120 | 48 | awaiting review 1 |
+| `W-w6` | w6-iteration.tex, all | 47 | 154 | 70 | awaiting review 1 |
+| `W-w7a` | w7-measure.tex L1–459 | 50 | 129 | 79 | awaiting review 1 |
+| `W-w7b` | w7-measure.tex L460–end | 42 | 105 | 63 | awaiting review 1 |
+| `W-w8a` | w8-assembly.tex L1–410 | 56 | 186 | 79 | awaiting review 1 |
+| `W-w8b` | w8-assembly.tex L411–end | 46 | 189 | 61 | awaiting review 1 |
+| `W-wh` | w-headline.tex, all (3 anchors: embedding, IsDiophantine, the root nlw2) | 3 | 12 | 14 | REVIEWED; root node and 1 item re-opened |
+| `W-imports` | imported track-K nodes (writer-owned) | 4 | 0 | 4 | REVIEWED |
 
 A node belongs to the slice containing the first line of its STATEMENT_SOURCE, and coverage items follow their
 SOURCE line.
@@ -360,6 +369,31 @@ SOURCE line.
     rationales) from fa002b43 to the re-pinned corpus, with the same line map as the locators. This is a mechanical
     remap like the locator remap, so statuses are unchanged. It touched 33 records, e.g. the W3 preambles now cite
     L336-L338, L632 and L708-L709.
+
+- **2026-10-30, wave 2 extraction** (writer tag `claude-suborch-W-w2`; inp merged, all eleven parts re-pinned, wave-1
+  locators and in-text line numbers remapped).
+  - New slices W-w4, W-w5a/b, W-w6, W-w7a/b, W-w8a/b (380 nodes) from specs `specs/W-w4.py` … `W-w8b.py`.
+  - W5–W8 symbol policy: a bare `\lambda` there is P96-K's weight parameter, so `bpW:w0:basis#lam` matches only
+    `\lambda_{1,2,j,J,i,n}` and `\Lean{lam`. In W7/W8 `\phi` is a phase, so `sineMode` matches only
+    `\Lean{sineMode`. `linearTorus` matches `K^0_` and `\Lean{linearTorus`.
+  - Unlabelled prose that fixes data is a `<section>#data` definition node (`bpW:w7#data`, `bpW:w7:basic#data`,
+    `bpW:w8#data`, …).
+  - W-w3 gains `bpW:w3:transport-tori-weak` and its steps `wk-lin`, `wk-reg`, `wk-transport`.
+  - Root: PROOF_SOURCE = `w8-assembly.tex#bpW:w8:nlw2-proof@L552-L599`, plus one edge to `bpW:w8:nlw2-proof`. The
+    frozen fields are unchanged and the record is PROPOSED.
+  - Cycle repair: Definition `bpW:w7:constdef` (C3) uses σ_X, c_X of Lemma `bpW:w7:Xzones`, whose proof uses
+    (C4). The definitional part is the separate node `bpW:w7:Xzones#consts` (L422–L426), and constdef depends on it.
+  - All-reachable check: these nodes are EXCLUDED as "outside every root closure of track W", each with the check:
+    `bpW:w0:reconstruction#rescaling`; `bpW:w0n:pde-equiv` with steps `time`, `ident`, `converse` (W2 uses only
+    step `stepW:w0n:force`, which stays); `bpW:w0n:formal-birkhoff` (W3 re-derives it and cites it only in source
+    notes); `bpW:w0n:duffing` and the ledger fact `bpW:w0n:ledger#ext-lindstedt`; `bpW:w4:k0` with steps `k0one`,
+    `k0diff` (the k = 0 conditions downstream come from W7 Lemma `bpW:w7:sep`).
+  - Excluded remarks re-checked against W4–W8: `w1:kam-conventions`, `w3:interface`, `w3:class-remark`,
+    `wh:weakenings` and `w0n:kappa` are cited only in prose, source notes or excluded remarks, except W6 step
+    `t-an`, which cites `w3:class-remark`; that edge goes to `bpW:w3:flow`. They stay EXCLUDED with updated reasons.
+    `operator-fourier`, `w2:hyp`, `w2:constants`, `w2:hidden` and `wh:reading` have no W4–W8 citations.
+  - The linter passes with `--require-complete-coverage --require-initial-lean-status --require-all-reachable`:
+    690 nodes, 2260 edges, all in the root closure.
 
 ## Wave-2 plan (proposed 2026-10-30; extraction starts on the sub-orchestrator's go)
 - **Corpus.**

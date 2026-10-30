@@ -406,8 +406,8 @@ REVIEWER: -
 ITEM: bpW:w7:Xzones
 KIND: lemma
 SOURCE: blueprint-W/parts/w7-measure.tex#bpW:w7:Xzones@L421-L429
-DISPOSITION: NODE bpW:w7:Xzones
-REASON: mechanical inventory of a labelled unit
+DISPOSITION: NODE bpW:w7:Xzones, bpW:w7:Xzones#consts
+REASON: the lemma; its definitional part (sigma_X, c_X) is a separate definition node so that Definition bpW:w7:constdef (C3) does not depend on the lemma (cycle)
 COVERAGE_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -

@@ -88,7 +88,7 @@ NODES = {
           "application Pi, alpha in (0,alpha_0], hat alpha = alpha^{44/47}, check alpha = alpha^{48/47}; every constant of "
           "(C1)-(C5) depends on m only", S="(C1)-(C5) depend on m only",
         deps=[("bpW:w7:freqcoords", "L215", "D_A, N_A, L_A"), ("bpW:w7:unpert-bounds", "L216", "beta_*, a_kappa"),
-              ("bpW:w7:Xdef", "L218", "X"), ("bpW:w7:Xzones", "L219", "sigma_X, c_X"),
+              ("bpW:w7:Xdef", "L218", "X"), ("bpW:w7:Xzones#consts", "L219", "sigma_X, c_X (defined in the statement of Lemma bpW:w7:Xzones)"),
               ("bpW:w7:ext-zeta", "L225", "Z_3")]),
     "bpW:w7:zones": dict(
         H="Pi subset {|xi|_infty <= 1/2} Borel, 0 < alpha <= alpha_0", Q="(k,l) in Z; D, omega', Omega'_j, a > 0",
@@ -169,12 +169,21 @@ NODES = {
         deps=[("bpW:w7:largek", "L412", "large k"), ("bpW:w7:constdef", "L412", "K_* = 16 c_Lambda")]),
     "stepW:w7:dich-small": dict(H="", Q="none", C="for |k| < K_*, (k,l) not in X forces l in Lambda^- with j >= j_*, whence the "
         "|k| bound", S="none", deps=[("bpW:w7:constdef", "L416", "j_*")]),
+    "bpW:w7:Xzones#consts": dict(
+        new=True, kind="definition", title="The exceptional-zone constants sigma_X, c_X", stmt=f"{F}#bpW:w7:Xzones@L422-L426", proof="-",
+        H="m > 0; X (Definition bpW:w7:Xdef)", Q="(k,l) in X",
+        C="defines g_kl(zeta) = <k,zeta> + <l,Omega^0(zeta)> = c_kl + <p_kl,zeta> with p_kl = k + (4/7)(sum_j l_j/lambda_j) lambda_J, "
+          "sigma_X = min{|p_kl|_infty : (k,l) in X, p_kl != 0} and c_X = min{|<k,lambda_J> + <l,lambda>| : (k,l) in X, p_kl = 0} "
+          "(minimum over the empty set := 1)", S="depend on m only",
+        note="Definitional part of Lemma bpW:w7:Xzones, split off so that Definition bpW:w7:constdef (C3) can use sigma_X, c_X "
+             "without depending on the lemma, whose proof uses (C4) (otherwise a dependency cycle).",
+        deps=[("bpW:w7:Xdef", "L422", "X"), ("bpW:w7:freqcoords", "L423", "(iii) affine Omega^0"), ("bpW:w7:omega0", "L422", "Omega^0")]),
     "bpW:w7:Xzones": dict(
         H=FIX + "; for (k,l) in X, g_kl(zeta) = <k,zeta> + <l,Omega^0(zeta)> = c_kl + <p_kl,zeta>, p_kl = k + (4/7)(sum l_j/"
           "lambda_j) lambda_J; sigma_X, c_X as displayed", Q="for a frequency pair on D, (k,l) in X, 0 < a <= hat alpha",
         C="g_kl is not identically 0; sigma_X, c_X > 0; the zone Y = {xi in D : |phi_kl| < a<l>/A_k} is empty if p_kl = 0 and "
           "Leb(Y) <= 4 rho_zeta a K_*/(vartheta sigma_X D_A) if p_kl != 0", S="sigma_X, c_X depend only on m",
-        deps=[("bpW:w7:Xdef", "L422", "X"), ("bpW:w7:freqcoords", "L423", "(iii)"),
+        deps=[("bpW:w7:Xdef", "L422", "X"), ("bpW:w7:freqcoords", "L423", "(iii)"), ("bpW:w7:Xzones#consts", "L424", "sigma_X, c_X"),
               ("stepW:w7:X-A3", "L431", PS), ("stepW:w7:X-const", "L436", PS), ("stepW:w7:X-slope", "L439", PS)]),
     "stepW:w7:X-A3": dict(H="", Q="(k,l) in X", C="g_kl not identically zero; constant case value nonzero; sigma_X, c_X > 0",
         S="none", deps=[("bpW:w0n:nondeg", "L433", "(iii) (A3)"), ("bpW:w7:freqcoords", "L434", "omega^0 bijective")]),
@@ -193,6 +202,7 @@ NODES = {
 DELETE = ["bpW:w7:reindex", "bpW:w7:choices", "bpW:w7:w6-needs"]
 
 COV = {
+    "bpW:w7:Xzones": ("NODE bpW:w7:Xzones, bpW:w7:Xzones#consts", "the lemma; its definitional part (sigma_X, c_X) is a separate definition node so that Definition bpW:w7:constdef (C3) does not depend on the lemma (cycle)"),
     "bpW:w7:reindex": ("EXCLUDED", "administrative remark (comparison of the Dirichlet labels and weights with P96-K's); W5-W6 "
                        "use the Dirichlet weights directly"),
     "bpW:w7:choices": ("EXCLUDED", "administrative remark (why tau = 24, varpi = 1/2, beta = 1/4); the values are fixed in "

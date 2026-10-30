@@ -127,11 +127,11 @@ REVIEWER: sol-delta-W-w0n
 ITEM: bpW:w0n:pde-equiv
 KIND: proposition
 SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L167-L185
-DISPOSITION: NODE bpW:w0n:pde-equiv
-REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w0n
+DISPOSITION: EXCLUDED
+REASON: outside every root closure of track W (wave-2 all-reachable check): no W proof uses the PDE equivalence; clause (5) comes from W2 (bpW:w2:clause5), which uses only Step stepW:w0n:force of this proof (kept as a node, cited by stepW:w2:fcub); the headline's citation is in the excluded reading remark bpW:wh:reading
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+claude-suborch-W-w2
+REVIEWER: -
 
 ITEM: stepW:w0n:force
 KIND: proof-region
@@ -145,29 +145,29 @@ REVIEWER: sol-delta-W-w0n
 ITEM: stepW:w0n:time
 KIND: proof-region
 SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L195-L200
-DISPOSITION: NODE stepW:w0n:time
-REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w0n
+DISPOSITION: EXCLUDED
+REASON: outside every root closure of track W (wave-2 all-reachable check): step of the excluded Proposition bpW:w0n:pde-equiv; no other proof uses it
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+claude-suborch-W-w2
+REVIEWER: -
 
 ITEM: stepW:w0n:ident
 KIND: proof-region
 SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L201-L203
-DISPOSITION: NODE stepW:w0n:ident
-REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w0n
+DISPOSITION: EXCLUDED
+REASON: outside every root closure of track W (wave-2 all-reachable check): step of the excluded Proposition bpW:w0n:pde-equiv; no other proof uses it
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+claude-suborch-W-w2
+REVIEWER: -
 
 ITEM: stepW:w0n:converse
 KIND: proof-region
 SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L204-L210
-DISPOSITION: NODE stepW:w0n:converse
-REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w0n
+DISPOSITION: EXCLUDED
+REASON: outside every root closure of track W (wave-2 all-reachable check): step of the excluded Proposition bpW:w0n:pde-equiv; no other proof uses it
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+claude-suborch-W-w2
+REVIEWER: -
 
 ITEM: bpW:w0n:nonres
 KIND: lemma
@@ -253,11 +253,11 @@ REVIEWER: sol-delta-W-w0n
 ITEM: bpW:w0n:formal-birkhoff
 KIND: proposition
 SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L309-L317
-DISPOSITION: NODE bpW:w0n:formal-birkhoff
-REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w0n
+DISPOSITION: EXCLUDED
+REASON: outside every root closure of track W (wave-2 all-reachable check): the formal normal form is re-derived on all of the phase space in W3 (bpW:w3:F, bpW:w3:main); W3 cites it only in its source-provenance notes (w3-birkhoff.tex L404, L450)
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+claude-suborch-W-w2
+REVIEWER: -
 
 ITEM: bpW:w0n:compare
 KIND: claim
@@ -326,19 +326,19 @@ ITEM: bpW:w0n:kappa
 KIND: claim
 SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:kappa@L385-L389
 DISPOSITION: EXCLUDED
-REASON: administrative remark (P96-W's exponent kappa = 2 is unchanged by the correction); the spectral asymptotics used later are proved in bpW:w1:tails; no proof consumes it
-COVERAGE_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w0n
+REASON: administrative remark (P96-W's exponent kappa = 2 is unchanged by the correction); the spectral asymptotics used later are proved in bpW:w1:tails; no proof consumes it. Re-checked in wave 2: W7 cites it in a source note (L207) and in its excluded interface remark (L783); the quantitative form is Lemma bpW:w7:unpert-bounds
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+claude-suborch-W-w2
+REVIEWER: -
 
 ITEM: bpW:w0n:duffing
 KIND: proposition
 SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L393-L402
-DISPOSITION: NODE bpW:w0n:duffing
-REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w0n
+DISPOSITION: EXCLUDED
+REASON: outside every root closure of track W (wave-2 all-reachable check): consistency check of the normal-form coefficients against the Duffing oscillator; no proof uses it
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+claude-suborch-W-w2
+REVIEWER: -
 
 ITEM: heading:bpW:w0n
 KIND: heading
@@ -550,8 +550,8 @@ REVIEWER: sol-delta-W-w0n
 ITEM: w0-normalization:prose-L417-L429
 KIND: proof-region
 SOURCE: blueprint-W/parts/w0-normalization.tex#prose@L419-L431
-DISPOSITION: NODE bpW:w0n:ledger#ext-lindstedt
-REASON: ledger: its only unlabelled external not provided elsewhere is the Lindstedt shift; the other external facts map to bpW:w1:sine-completeness, bpW:w1:ext-analytic, bpW:w1:young, bpW:w1:ext-series (SPEC); the rest is administrative
-COVERAGE_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w0n
+DISPOSITION: EXCLUDED
+REASON: outside every root closure of track W (wave-2 all-reachable check): W0 citation ledger (administrative); its one unlabelled external fact (Lindstedt, formerly bpW:w0n:ledger#ext-lindstedt) was used only by the excluded Duffing check
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+claude-suborch-W-w2
+REVIEWER: -

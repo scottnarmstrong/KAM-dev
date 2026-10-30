@@ -415,43 +415,6 @@ LEAN_REF: -
 LEAN_NOTE: -
 NOTE: -
 
-NODE: bpW:w0n:pde-equiv
-KIND: proposition
-TITLE: Equivalence, (a)
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L167-L185
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L187-L211
-CONTRACT_ID: bpW:w0n:pde-equiv
-CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: I subset R open interval; q, p : I -> l^{1,1}; (i): q, p continuous into l^{1,1}, continuously differentiable into l^{1,0}, satisfying (bpW:w0:coeffsys) in l^{1,0}; (ii): u(t,x) = U_m(q(t))(x) is a classical solution of (bpW:w0:eq) on I and u_t(t,.) = V_m(p(t)) for every t
-SOURCE_QUANTIFIERS: for every open I and q, p as stated; (force identity) for every q in l^{1,1}
-SOURCE_CONCLUSION: (i) u = U_m(q(t)) is a classical solution of (bpW:w0:eq) on I with u_t = V_m(p(t)); (ii) every q_j, p_j is C^1 on I and (bpW:w0:coeffsys) holds coordinatewise; and (bpW:w0n:force): U_m(q)^3 = sum_l sqrt(lambda_l) G_q(q)_l phi_l uniformly on [0,pi] and -d_x^2 U_m(q) + m U_m(q) = U_m(lambda^2 q)
-CONSTANT_SCOPE: none
-FROZEN_FILE: -
-FROZEN_DECL: -
-FROZEN_ANCHOR_ID: -
-FROZEN_ABI_SHA256: -
-DEPS: bpW:w0:eqmotion, bpW:w0:nlw#IsClassicalSolution, bpW:w0:reconstruction#reconU, bpW:w0:reconstruction#reconV, stepW:w0n:force, stepW:w0n:time, stepW:w0n:ident, stepW:w0n:converse, bpW:w0:basis#lam, bpW:w0:Gq#cubicGrad, bpW:w0:basis#sineMode
-ROUTES: -
-ROUTE_FOR: -
-EDGE: bpW:w0:eqmotion | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L171-L171 | the coefficient system (bpW:w0:coeffsys)
-EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L172-L172 | classical solution of (bpW:w0:eq)
-EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L172-L172 | u = U_m(q(t))
-EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L173-L173 | u_t = V_m(p(t))
-EDGE: stepW:w0n:force | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L188-L188 | proof step
-EDGE: stepW:w0n:time | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L195-L195 | proof step
-EDGE: stepW:w0n:ident | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L201-L201 | proof step
-EDGE: stepW:w0n:converse | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L204-L204 | proof step
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L180-L180 | lambda occurs explicitly in the local source statement or calculation
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L180-L180 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L180-L180 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
-NOTE: -
-
 NODE: stepW:w0n:force
 KIND: step
 TITLE: Force identity
@@ -478,106 +441,6 @@ EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#stepW:w0n:f
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L194-L194 | the eigenvalue lambda_j^2 = j^2 + m
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L189-L189 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L189-L189 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
-NOTE: -
-
-NODE: stepW:w0n:time
-KIND: step
-TITLE: Time regularity
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L195-L200
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L195-L200
-CONTRACT_ID: stepW:w0n:time
-CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: the hypotheses of (i)
-SOURCE_QUANTIFIERS: t in I
-SOURCE_CONCLUSION: dot q is C^1 into l^{1,-1}, hence q is C^2 there, with ddot q = -lambda^2 q - lambda G_q(q); t -> u(t,.) is C^2 into C^2([0,pi]); u,u_t,u_tt,u_x,u_xx exist and are jointly continuous; u_t=U_m(lambda p)=V_m(p), u_tt=U_m(ddot q)
-CONSTANT_SCOPE: none
-FROZEN_FILE: -
-FROZEN_DECL: -
-FROZEN_ANCHOR_ID: -
-FROZEN_ABI_SHA256: -
-DEPS: bpW:w0:eqmotion, bpW:w0n:recon-bounded, bpW:w0:reconstruction#reconV, bpW:w0:basis#lam, bpW:w0:reconstruction#reconU, bpW:w0:Gq#cubicGrad
-ROUTES: -
-ROUTE_FOR: -
-EDGE: bpW:w0:eqmotion | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L196-L196 | dot q = lambda p and dot p = -lambda q - G_q(q)
-EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L198-L198 | lambda bounded l^{1,0} -> l^{1,-1}; U_m : l^{1,-1} -> C^2([0,pi]) bounded linear
-EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L200-L200 | U_m(lambda p) = V_m(p)
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L196-L196 | lambda occurs explicitly in the local source statement or calculation
-EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L198-L198 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L198-L198 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
-NOTE: -
-
-NODE: stepW:w0n:ident
-KIND: step
-TITLE: Identification
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L201-L203
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L201-L203
-CONTRACT_ID: stepW:w0n:ident
-CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: I subset R open interval; q,p:I -> l^{1,1}, continuous there and C^1 into l^{1,0}, satisfying the coefficient system in l^{1,0}; u(t,x)=U_m(q(t))(x)
-SOURCE_QUANTIFIERS: t in I
-SOURCE_CONCLUSION: u_tt = u_xx - m u - u^3 and u(t,0) = u(t,pi) = 0, so u is a classical solution with u_t = V_m(p)
-CONSTANT_SCOPE: none
-FROZEN_FILE: -
-FROZEN_DECL: -
-FROZEN_ANCHOR_ID: -
-FROZEN_ABI_SHA256: -
-DEPS: stepW:w0n:force, stepW:w0n:time, bpW:w0n:recon-bounded, bpW:w0:nlw#IsClassicalSolution, bpW:w0:basis#lam, bpW:w0:reconstruction#reconU, bpW:w0:Gq#cubicGrad
-ROUTES: -
-ROUTE_FOR: -
-EDGE: stepW:w0n:force | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L202-L202 | U_m(lambda^2 q) = -u_xx + m u and U_m(lambda G_q(q)) = u^3
-EDGE: stepW:w0n:time | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L202-L202 | u_tt = U_m(ddot q)
-EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L203-L203 | boundary values vanish
-EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L203-L203 | the definition of classical solution being verified
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L202-L202 | lambda occurs explicitly in the local source statement or calculation
-EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L202-L202 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L202-L202 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
-NOTE: -
-
-NODE: stepW:w0n:converse
-KIND: step
-TITLE: Converse
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L204-L210
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L204-L210
-CONTRACT_ID: stepW:w0n:converse
-CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: the hypotheses of (ii)
-SOURCE_QUANTIFIERS: t in I, l >= 1
-SOURCE_CONCLUSION: int u phi_l = q_l/sqrt(lambda_l), int u_t phi_l = sqrt(lambda_l) p_l; dot q_l = lambda_l p_l and sqrt(lambda_l) dot p_l = int u_tt phi_l = -lambda_l^2 q_l/sqrt(lambda_l) - sqrt(lambda_l) G_q(q)_l, i.e. (bpW:w0:coeffsys) coordinatewise with q_l, p_l in C^1
-CONSTANT_SCOPE: none
-FROZEN_FILE: -
-FROZEN_DECL: -
-FROZEN_ANCHOR_ID: -
-FROZEN_ABI_SHA256: -
-DEPS: bpW:w0:nlw#IsClassicalSolution, bpW:w0n:recon-bounded, bpW:w1:ext-integral, bpW:w0:basis#sineMode, bpW:w0n:gradient, bpW:w0:basis#lam, bpW:w0:reconstruction#reconU, bpW:w0:reconstruction#reconV, bpW:w0:Gq#cubicGrad
-ROUTES: -
-ROUTE_FOR: -
-EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L206-L206 | u_t, u_tt continuous; the equation and boundary values
-EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L205-L205 | the coefficient formula int (sum c_j phi_j) phi_l = c_l
-EDGE: bpW:w1:ext-integral | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L206-L206 | differentiation under the integral sign
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L208-L208 | phi_l(0) = phi_l(pi) = 0 and phi_l'' = -l^2 phi_l (integration by parts)
-EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L209-L209 | int u^3 phi_l = sqrt(lambda_l) G_q(q)_l
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L205-L205 | lambda occurs explicitly in the local source statement or calculation
-EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L205-L205 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L205-L205 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L209-L209 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -824,38 +687,6 @@ LEAN_REF: -
 LEAN_NOTE: -
 NOTE: -
 
-NODE: bpW:w0n:formal-birkhoff
-KIND: proposition
-TITLE: Formal partial Birkhoff transformation
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L309-L317
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L319-L325
-CONTRACT_ID: bpW:w0n:formal-birkhoff
-CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: F the quartic polynomial with coefficient c_ab/(-i<alpha-beta,hat lambda>) on each nonresonant monomial z^alpha zbar^beta of G^tan (coefficient c_ab) and zero otherwise
-SOURCE_QUANTIFIERS: none
-SOURCE_CONCLUSION: F is real; X_Lambda F = G^tan - bar G (X_Lambda F = dF/dt along the linear flow); formally H o Phi^1_F = Lambda + bar G + G^nor + (terms of degree >= 6); the quartic part of the normal form is independent of the choice of F among solutions of X_Lambda F = G^tan - bar G
-CONSTANT_SCOPE: none
-FROZEN_FILE: -
-FROZEN_DECL: -
-FROZEN_ANCHOR_ID: -
-FROZEN_ABI_SHA256: -
-DEPS: bpW:w0n:birkhoff#data, bpW:w0n:Qdef, bpW:w0n:nonres, bpW:w0:z, bpW:w0:H, bpW:w0:basis#lam
-ROUTES: -
-ROUTE_FOR: -
-EDGE: bpW:w0n:birkhoff#data | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L310-L310 | monomials of G^tan, resonance, divisors <alpha-beta,hat lambda>
-EDGE: bpW:w0n:Qdef | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L312-L312 | bar G and the normal form
-EDGE: bpW:w0n:nonres | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L320-L320 | the divisors of nonresonant monomials are nonzero
-EDGE: bpW:w0:z | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L320-L320 | X_Lambda (z^alpha zbar^beta) = -i<alpha-beta,hat lambda> z^alpha zbar^beta along dz = -i lambda z
-EDGE: bpW:w0:H | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L323-L323 | H = Lambda + G in the Lie series
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L311-L311 | lambda occurs explicitly in the local source statement or calculation
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
-NOTE: -
-
 NODE: bpW:w0n:nondeg
 KIND: theorem
 TITLE: Nondegeneracy, (e)
@@ -1033,39 +864,6 @@ LEAN_REF: -
 LEAN_NOTE: -
 NOTE: -
 
-NODE: bpW:w0n:duffing
-KIND: proposition
-TITLE: One-mode frequency shift, (f)
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L393-L402
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L404-L409
-CONTRACT_ID: bpW:w0n:duffing
-CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: restriction of (bpW:w0:eq) to u = x(t) phi_j(x), only mode j excited, forcing of other modes dropped
-SOURCE_QUANTIFIERS: j >= 1; amplitude a
-SOURCE_CONCLUSION: the projected one-mode equation is ddot x+lambda_j^2 x+eps x^3=0, eps=g_jjjj=3/(2pi); its frequency at small amplitude a is lambda_j+3 eps a^2/(8 lambda_j)+O(a^4)=lambda_j+9 a^2/(16pi lambda_j)+O(a^4); setting I_j=lambda_j a^2/2 to leading order gives lambda_j+9 I_j/(8pi lambda_j^2)+O(a^4), agreeing with the normal-form first-order shift A_jj I_j (for the tangential diagonal in AB); the printed coefficient would give a shift 16 times larger
-CONSTANT_SCOPE: none
-FROZEN_FILE: -
-FROZEN_DECL: -
-FROZEN_ANCHOR_ID: -
-FROZEN_ABI_SHA256: -
-DEPS: bpW:w0:nlw#IsClassicalSolution, bpW:w0n:quartic-coeff, bpW:w0n:ledger#ext-lindstedt, bpW:w0:actions, bpW:w0n:AB, bpW:w0:basis#lam, bpW:w0:basis#sineMode
-ROUTES: -
-ROUTE_FOR: -
-EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L394-L394 | restriction of the equation (bpW:w0:eq)
-EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L405-L405 | int (x phi_j)^3 phi_j = x^3 g_jjjj, g_jjjj = 3/(2pi)
-EDGE: bpW:w0n:ledger#ext-lindstedt | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L405-L405 | the classical Lindstedt shift 3 eps a^2/(8 omega_0)
-EDGE: bpW:w0:actions | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L408-L408 | I_j = (q_j^2+p_j^2)/2 = lambda_j a^2/2 to leading order
-EDGE: bpW:w0n:AB | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L399-L399 | A_jj = 9/(8 pi lambda_j^2)
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L396-L396 | lambda occurs explicitly in the local source statement or calculation
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L394-L394 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
-NOTE: Consistency check (f) of W0; no later proof consumes it so far (decide at W8, SPEC Reachability).
-
 NODE: bpW:w0n:birkhoff#data
 KIND: definition
 TITLE: Quartic part in complex coordinates; resonance; tangential/normal split
@@ -1122,29 +920,3 @@ LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
 NOTE: Unlabelled prose L343-L346 defining the conditions stated in Theorem bpW:w0n:nondeg (SPEC section-data rule).
-
-NODE: bpW:w0n:ledger#ext-lindstedt
-KIND: external
-TITLE: Classical Lindstedt frequency shift (unlabelled W0 external)
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:ledger@L424-L425
-PROOF_SOURCE: -
-CONTRACT_ID: bpW:w0n:ledger#ext-lindstedt
-CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: the Duffing equation ddot x + omega_0^2 x + eps x^3 = 0
-SOURCE_QUANTIFIERS: amplitude a -> 0
-SOURCE_CONCLUSION: its Lindstedt-Poincare frequency at amplitude a is omega_0 + 3 eps a^2/(8 omega_0) + O(a^4) ("the classical Lindstedt shift", W0 ledger "External standard facts")
-CONSTANT_SCOPE: none
-FROZEN_FILE: -
-FROZEN_DECL: -
-FROZEN_ANCHOR_ID: -
-FROZEN_ABI_SHA256: -
-DEPS: -
-ROUTES: -
-ROUTE_FOR: -
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w0n
-LEAN_STATUS: EXTERNAL
-LEAN_REF: -
-LEAN_NOTE: -
-NOTE: Unlabelled external of the W0 ledger (SPEC External inputs); used only by bpW:w0n:duffing.

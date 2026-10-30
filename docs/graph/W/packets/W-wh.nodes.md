@@ -54,7 +54,7 @@ NODE: bpW:wh:nlw2
 KIND: theorem
 TITLE: W-NLW2, proposed
 STATEMENT_SOURCE: blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L47-L71
-PROOF_SOURCE: blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L47-L71
+PROOF_SOURCE: blueprint-W/parts/w8-assembly.tex#bpW:w8:nlw2-proof@L552-L599
 CONTRACT_ID: wave.nlw2
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: m > 0 (frozen hm : 0 < m); the data fixed at L19-L22: weights a = p = 1, E = E_{1,1} with the max norm, U_m, V_m, G_q, P = (0,infinity)^2, r(I) = sqrt(I_1+I_2), B_h = {I : max_i ¦I_i¦ < h}
@@ -65,7 +65,7 @@ FROZEN_FILE: KAM/Frozen/Wave/Theorems/Nlw2.lean
 FROZEN_DECL: KAM.Wave.nlw2
 FROZEN_ANCHOR_ID: wave.nlw2.v1
 FROZEN_ABI_SHA256: eca3aee797e9040ce3fde0e946ce30e10fe8550faa413b6a83fc9abda495ddb7
-DEPS: bpW:w0:mass, bpW:w0:ellap#WaveSpace, bpW:wh:dioph#IsDiophantine, bpW:w0:basis#lam, bpW:wh:embedding#IsAnalyticTorusEmbedding, bpW:w0:periodone#linearTorus, bpW:w0:ellap#coeff, bpW:w0:Gq#cubicGrad, bpW:w0:reconstruction#reconU, bpW:w0:nlw#IsClassicalSolution, bpW:w0:reconstruction#reconV
+DEPS: bpW:w0:mass, bpW:w0:ellap#WaveSpace, bpW:wh:dioph#IsDiophantine, bpW:w0:basis#lam, bpW:wh:embedding#IsAnalyticTorusEmbedding, bpW:w0:periodone#linearTorus, bpW:w0:ellap#coeff, bpW:w0:Gq#cubicGrad, bpW:w0:reconstruction#reconU, bpW:w0:nlw#IsClassicalSolution, bpW:w0:reconstruction#reconV, bpW:w8:nlw2-proof
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w0:mass | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L48-L48 | for every m > 0 (hm)
@@ -79,10 +79,11 @@ EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L61-L61
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L63-L63 | (5) u = U_m(Q_I(theta_0 + t nu(I)))
 EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L64-L64 | (5) classical solution of (bpW:w0:eq) on R
 EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L65-L65 | (5) u_t = V_m(P_I(theta_0 + t nu(I)))
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-wh
+EDGE: bpW:w8:nlw2-proof | blueprint-W/parts/w8-assembly.tex#bpW:w8:nlw2-proof@L548-L550 | Theorem bpW:w8:nlw2-proof states that Theorem bpW:wh:nlw2 holds exactly as frozen; its proof (L552-L599) is the proof of the root
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+claude-suborch-W-w2
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: Root of track W. PROOF_SOURCE is provisionally the statement locator: the proof (the W8 assembly) is not in the wave-1 corpus. Its proof (assembly) is milestone W8, not yet in the corpus (W4-W8 pending); until then DEPS lists only the statement-level definitions. W2 (bpW:w2:clause5) supplies conclusion (5) from (3)-(4) and becomes a dependency when W8 is added. D_nu (bpW:wh:Dnu) is inlined in the frozen statement.
+NOTE: Root of track W. PROOF_SOURCE is the proof environment of Theorem bpW:w8:nlw2-proof (W8 assembly, wave 2), which proves the frozen statement conjunct by conjunct; the root depends on it through one edge, and on the statement-level definitions through the symbol edges. W2 (bpW:w2:clause5) enters through Step stepW:w8:p-pde. D_nu (bpW:wh:Dnu) is inlined in the frozen statement.

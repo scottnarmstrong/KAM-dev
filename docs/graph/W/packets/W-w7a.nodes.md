@@ -573,13 +573,13 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w7:freqcoords, bpW:w7:unpert-bounds, bpW:w7:Xdef, bpW:w7:Xzones, bpW:w7:ext-zeta, bpW:w0:basis#lam
+DEPS: bpW:w7:freqcoords, bpW:w7:unpert-bounds, bpW:w7:Xdef, bpW:w7:Xzones#consts, bpW:w7:ext-zeta, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:freqcoords | blueprint-W/parts/w7-measure.tex#bpW:w7:constdef@L215-L215 | D_A, N_A, L_A
 EDGE: bpW:w7:unpert-bounds | blueprint-W/parts/w7-measure.tex#bpW:w7:constdef@L216-L216 | beta_*, a_kappa
 EDGE: bpW:w7:Xdef | blueprint-W/parts/w7-measure.tex#bpW:w7:constdef@L218-L218 | X
-EDGE: bpW:w7:Xzones | blueprint-W/parts/w7-measure.tex#bpW:w7:constdef@L219-L219 | sigma_X, c_X
+EDGE: bpW:w7:Xzones#consts | blueprint-W/parts/w7-measure.tex#bpW:w7:constdef@L219-L219 | sigma_X, c_X (defined in the statement of Lemma bpW:w7:Xzones)
 EDGE: bpW:w7:ext-zeta | blueprint-W/parts/w7-measure.tex#bpW:w7:constdef@L225-L225 | Z_3
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#bpW:w7:constdef@L215-L215 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: PROPOSED
@@ -1204,11 +1204,12 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w7:Xdef, bpW:w7:freqcoords, stepW:w7:X-A3, stepW:w7:X-const, stepW:w7:X-slope, bpW:w0:basis#lam
+DEPS: bpW:w7:Xdef, bpW:w7:freqcoords, bpW:w7:Xzones#consts, stepW:w7:X-A3, stepW:w7:X-const, stepW:w7:X-slope, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:Xdef | blueprint-W/parts/w7-measure.tex#bpW:w7:Xzones@L422-L422 | X
 EDGE: bpW:w7:freqcoords | blueprint-W/parts/w7-measure.tex#bpW:w7:Xzones@L423-L423 | (iii)
+EDGE: bpW:w7:Xzones#consts | blueprint-W/parts/w7-measure.tex#bpW:w7:Xzones@L424-L424 | sigma_X, c_X
 EDGE: stepW:w7:X-A3 | blueprint-W/parts/w7-measure.tex#bpW:w7:Xzones@L431-L431 | proof step
 EDGE: stepW:w7:X-const | blueprint-W/parts/w7-measure.tex#bpW:w7:Xzones@L436-L436 | proof step
 EDGE: stepW:w7:X-slope | blueprint-W/parts/w7-measure.tex#bpW:w7:Xzones@L439-L439 | proof step
@@ -1395,3 +1396,33 @@ LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
 NOTE: Unlabelled prose L339-L343 fixing the data of the zone lemmas (SPEC section-data rule).
+
+NODE: bpW:w7:Xzones#consts
+KIND: definition
+TITLE: The exceptional-zone constants sigma_X, c_X
+STATEMENT_SOURCE: blueprint-W/parts/w7-measure.tex#bpW:w7:Xzones@L422-L426
+PROOF_SOURCE: -
+CONTRACT_ID: bpW:w7:Xzones#consts
+CONTRACT_VERSION: 1
+SOURCE_HYPOTHESES: m > 0; X (Definition bpW:w7:Xdef)
+SOURCE_QUANTIFIERS: (k,l) in X
+SOURCE_CONCLUSION: defines g_kl(zeta) = <k,zeta> + <l,Omega^0(zeta)> = c_kl + <p_kl,zeta> with p_kl = k + (4/7)(sum_j l_j/lambda_j) lambda_J, sigma_X = min{¦p_kl¦_infty : (k,l) in X, p_kl != 0} and c_X = min{¦<k,lambda_J> + <l,lambda>¦ : (k,l) in X, p_kl = 0} (minimum over the empty set := 1)
+CONSTANT_SCOPE: depend on m only
+FROZEN_FILE: -
+FROZEN_DECL: -
+FROZEN_ANCHOR_ID: -
+FROZEN_ABI_SHA256: -
+DEPS: bpW:w7:Xdef, bpW:w7:freqcoords, bpW:w7:omega0, bpW:w0:basis#lam
+ROUTES: -
+ROUTE_FOR: -
+EDGE: bpW:w7:Xdef | blueprint-W/parts/w7-measure.tex#bpW:w7:Xzones@L422-L422 | X
+EDGE: bpW:w7:freqcoords | blueprint-W/parts/w7-measure.tex#bpW:w7:Xzones@L423-L423 | (iii) affine Omega^0
+EDGE: bpW:w7:omega0 | blueprint-W/parts/w7-measure.tex#bpW:w7:Xzones@L422-L422 | Omega^0
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#bpW:w7:Xzones@L423-L423 | lambda occurs directly here (frozen lam)
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W
+REVIEWER: -
+LEAN_STATUS: NOT_STARTED
+LEAN_REF: -
+LEAN_NOTE: -
+NOTE: Definitional part of Lemma bpW:w7:Xzones, split off so that Definition bpW:w7:constdef (C3) can use sigma_X, c_X without depending on the lemma, whose proof uses (C4) (otherwise a dependency cycle).

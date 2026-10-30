@@ -722,10 +722,10 @@ ITEM: bpW:w3:class-remark
 KIND: claim
 SOURCE: blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L771-L778
 DISPOSITION: EXCLUDED
-REASON: administrative remark (summary of the regularity class; the facts are proved in Theorems bpW:w3:flow, bpW:w3:main and Lemma bpW:w3:Yseries)
-COVERAGE_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REASON: administrative remark (summary of the regularity class; the facts are proved in Theorems bpW:w3:flow, bpW:w3:main and Lemma bpW:w3:Yseries). Re-checked in wave 2: W6 Step stepW:w6:t-an (L374) cites it for 'Gamma is analytic'; that edge points to Theorem bpW:w3:flow, which proves the fact
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+claude-suborch-W-w2
+REVIEWER: -
 
 ITEM: bpW:w3:gamma-real
 KIND: corollary
@@ -749,10 +749,10 @@ ITEM: bpW:w3:interface
 KIND: claim
 SOURCE: blueprint-W/parts/w3-birkhoff.tex#bpW:w3:interface@L872-L920
 DISPOSITION: EXCLUDED
-REASON: administrative remark (what W3 supplies to W4-W6); no wave-1 proof consumes it; re-examine when W4-W6 are added
-COVERAGE_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REASON: administrative remark (what W3 supplies to W4-W8). Re-checked in wave 2: the 15 citations in W4, W5, W7, W8 are in inputs prose, excluded remarks and source notes (W8 L353, L381, L409: provenance of the return trip and the closeness bound). Each supplied fact is a labelled result that the consumers cite directly: bpW:w3:main (normal form), bpW:w3:gamma-real (Gamma^R, closeness 6 sqrt2 C_F ¦¦x¦¦^3), bpW:w3:transport-tori-weak (return trip)
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+claude-suborch-W-w2
+REVIEWER: -
 
 ITEM: heading:bpW:w3
 KIND: heading

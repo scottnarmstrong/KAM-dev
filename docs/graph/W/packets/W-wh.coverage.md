@@ -56,10 +56,10 @@ ITEM: bpW:wh:weakenings
 KIND: claim
 SOURCE: blueprint-W/parts/w-headline.tex#bpW:wh:weakenings@L97-L107
 DISPOSITION: EXCLUDED
-REASON: administrative remark (declared weakenings W-A2, D30 Q3); no proof consumes it
-COVERAGE_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-wh
+REASON: administrative remark (declared weakenings W-A2, D30 Q3); no proof consumes it. Re-checked in wave 2: W6 L165 and W8 L601 cite it in source notes and W8 L34 in the excluded outline; the weakened clauses are the frozen statement itself
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+claude-suborch-W-w2
+REVIEWER: -
 
 ITEM: heading:bpW:wh
 KIND: heading

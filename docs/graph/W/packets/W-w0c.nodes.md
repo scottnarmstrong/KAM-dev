@@ -508,33 +508,3 @@ LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
 NOTE: -
-
-NODE: bpW:w0:reconstruction#rescaling
-KIND: definition
-TITLE: Inverse coefficient dictionary and symplectic rescaling
-STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L82-L84
-PROOF_SOURCE: -
-CONTRACT_ID: bpW:w0:reconstruction#rescaling
-CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: m > 0 through lambda; coefficient data (q,p) in E_{a,p}, a > 0; u = U_m(q), u_t = V_m(p), u = sum x_j phi_j, u_t = sum y_j phi_j
-SOURCE_QUANTIFIERS: j >= 1
-SOURCE_CONCLUSION: records the equivalent coefficient dictionary q_j = sqrt(lambda_j) x_j, p_j = y_j/sqrt(lambda_j), and the coordinatewise symplectic identity dq_j wedge dp_j = dx_j wedge dy_j; x_j,y_j here are sine coefficients, not the frozen weighted coordinates
-CONSTANT_SCOPE: none
-FROZEN_FILE: -
-FROZEN_DECL: -
-FROZEN_ANCHOR_ID: -
-FROZEN_ABI_SHA256: -
-DEPS: bpW:w0:reconstruction#reconU, bpW:w0:reconstruction#reconV, bpW:w0:basis#lam, bpW:w0:basis#sineMode
-ROUTES: -
-ROUTE_FOR: -
-EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L82-L83 | u = U_m(q) gives the displacement coefficient rescaling
-EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L82-L83 | u_t = V_m(p) gives the momentum coefficient rescaling
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L83-L84 | reciprocal sqrt(lambda_j) factors give the symplectic rescaling
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L82-L82 | the inverse dictionary explicitly expands u and u_t in the frozen sine basis phi_j
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: new+sol-delta-W-w0c
-REVIEWER: sol-delta2-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
-NOTE: -

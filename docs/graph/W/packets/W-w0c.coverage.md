@@ -82,11 +82,11 @@ REVIEWER: sol-delta3-W-w0c
 ITEM: bpW:w0:reconstruction#reconU
 KIND: definition
 SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L79-L85
-DISPOSITION: NODE bpW:w0:reconstruction#reconU, bpW:w0:reconstruction#rescaling
-REASON: reconstruction formula plus the inverse coefficient dictionary and symplectic rescaling
-COVERAGE_STATUS: REVIEWED
-EXTRACTOR: sol-review-W-w0c
-REVIEWER: sol-delta-W-w0c
+DISPOSITION: NODE bpW:w0:reconstruction#reconU
+REASON: reconstruction formula; the inverse coefficient dictionary and symplectic rescaling (L82-L84, formerly node bpW:w0:reconstruction#rescaling) are outside every root closure of track W (wave-2 all-reachable check): informational, used by no proof
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: sol-review-W-w0c+claude-suborch-W-w2
+REVIEWER: -
 
 ITEM: bpW:w0:reconstruction#reconV
 KIND: definition

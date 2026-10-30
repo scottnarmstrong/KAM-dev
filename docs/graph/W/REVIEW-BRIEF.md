@@ -121,11 +121,28 @@ The writer `claude-suborch-W` extracted these records. You did not. Your slice a
     - Check that its W consumer really uses that K result: `stepW:w1:hacoef`, `stepW:w1:shift`, `stepW:w1:fsum`,
       `stepW:w1:fbdecay`. The SPEC change log names a suspected misreference (contour shift).
 
+11. **Wave 2 (W-w4 … W-w8b, and the re-opened wave-1 records).**
+    - Symbols in W5–W8: a bare `\lambda` is P96-K's weight parameter, not the frozen `lam`. Only
+      `\lambda_{1,2,j,J,i,n}` and `\Lean{lam …}` need the `bpW:w0:basis#lam` edge. In W7/W8 `\phi` is a phase,
+      not `sineMode`. Fail a mechanical symbol edge that is not a genuine use, and add any that were missed.
+    - `<section>#data` nodes record unlabelled prose that fixes data (e.g. `bpW:w8#data`). Check that their fields
+      match the prose and that consumers edge to them.
+    - `bpW:w7:Xzones#consts` is the definitional part of Lemma `bpW:w7:Xzones`, split off to break a cycle
+      through Definition `bpW:w7:constdef` (C3)/(C4). Check that the split is faithful.
+    - The root `bpW:wh:nlw2` (W-wh) is re-opened: its new PROOF_SOURCE (proof of `bpW:w8:nlw2-proof`) and the one
+      edge to it. Its frozen fields are unchanged.
+    - W-w3: `bpW:w3:transport-tori-weak` with steps `wk-lin`, `wk-reg`, `wk-transport`, and their coverage items.
+    - Reachability exclusions (W-w0c, W-w0n, W-w4) and re-checked remark reasons (W-w1b, W-w3, W-wh, W-w0n) are
+      PROPOSED coverage items. Each one names the check made; confirm it against the text of W4–W8. A missed use
+      means the node must be restored and linked.
+    - Remarks that a later part cites only in prose, `\source` notes or other excluded remarks stay EXCLUDED. A
+      citation inside a proof step or a statement is a use.
+
 Topology status is not proof status. A faithfully exposed `SOURCE_GAP` node passes. Do not supply missing mathematics
 yourself.
 
-**Wave-1 reachability is expected to fail.** Nearly every node of W0n–W3 is unreachable from the root until W8
-exists. Do not fail a node for that.
+**Reachability.** Since wave 2 the whole graph is in the root closure, and the linter runs with
+`--require-all-reachable`.
 
 You may run, from `/root/code/KAM-inp-wgraph`:
 ```

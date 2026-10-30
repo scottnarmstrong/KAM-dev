@@ -118,8 +118,8 @@ REVIEWER: -
 ITEM: bpW:w4:k0
 KIND: lemma
 SOURCE: blueprint-W/parts/w4-homological.tex#bpW:w4:k0@L219-L224
-DISPOSITION: NODE bpW:w4:k0
-REASON: mechanical inventory of a labelled unit
+DISPOSITION: EXCLUDED
+REASON: outside every root closure of track W (wave-2 all-reachable check): the k = 0 Melnikov conditions used downstream come from W7 Lemma bpW:w7:sep (perturbed frequencies, all l in Lambda); W4 cites this lemma only in the excluded Remark bpW:w4:melnikov-check
 COVERAGE_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -
@@ -127,8 +127,8 @@ REVIEWER: -
 ITEM: stepW:w4:k0one
 KIND: proof-region
 SOURCE: blueprint-W/parts/w4-homological.tex#stepW:w4:k0one@L228-L230
-DISPOSITION: NODE stepW:w4:k0one
-REASON: mechanical inventory of a labelled unit
+DISPOSITION: EXCLUDED
+REASON: outside every root closure of track W (wave-2 all-reachable check): step of the excluded Lemma bpW:w4:k0
 COVERAGE_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -
@@ -136,8 +136,8 @@ REVIEWER: -
 ITEM: stepW:w4:k0diff
 KIND: proof-region
 SOURCE: blueprint-W/parts/w4-homological.tex#stepW:w4:k0diff@L231-L235
-DISPOSITION: NODE stepW:w4:k0diff
-REASON: mechanical inventory of a labelled unit
+DISPOSITION: EXCLUDED
+REASON: outside every root closure of track W (wave-2 all-reachable check): step of the excluded Lemma bpW:w4:k0
 COVERAGE_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -

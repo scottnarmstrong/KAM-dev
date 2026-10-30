@@ -301,9 +301,13 @@ NODES = {
               ("bpW:w3:omega", "L782", "the symplectic form"), ("bpW:w3:hamfield-def", "L783", "X_P")]),
 }
 
-DELETE = ["bpW:w4:weights", "bpW:w4:melnikov-check", "bpW:w4:counterexample", "bpW:w4:compare", "bpW:w4:to-w5"]
+DELETE = ["bpW:w4:weights", "bpW:w4:melnikov-check", "bpW:w4:counterexample", "bpW:w4:compare", "bpW:w4:to-w5",
+          "bpW:w4:k0", "stepW:w4:k0one", "stepW:w4:k0diff"]
 
 COV = {
+    "bpW:w4:k0": ("EXCLUDED", "outside every root closure of track W (wave-2 all-reachable check): the k = 0 Melnikov conditions used downstream come from W7 Lemma bpW:w7:sep (perturbed frequencies, all l in Lambda); W4 cites this lemma only in the excluded Remark bpW:w4:melnikov-check"),
+    "stepW:w4:k0one": ("EXCLUDED", "outside every root closure of track W (wave-2 all-reachable check): step of the excluded Lemma bpW:w4:k0"),
+    "stepW:w4:k0diff": ("EXCLUDED", "outside every root closure of track W (wave-2 all-reachable check): step of the excluded Lemma bpW:w4:k0"),
     "bpW:w4:weights": ("EXCLUDED", "administrative remark (why the wave weights are kept)"),
     "bpW:w4:melnikov-check": ("EXCLUDED", "administrative remark (summary of what is checked about the Melnikov conditions)"),
     "bpW:w4:counterexample": ("EXCLUDED", "administrative remark (counterexample to P96-K p. 127's operator-valued "
