@@ -1069,3 +1069,16 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   hypotheses = the signed conclusions of the data theorems plus rational band inequalities), so the final theorems
   become one-liners when SO-DATA-2 lands, and the end-to-end chain is exercised before the data exist. Running:
   SO-DATA-1, SO-TOYFIX2 (T2d with a wide-strip denominator), CLEANUP-B34, SO-LUNAR-A (claude-12, Opus).
+- **01:00. All four toy certificates complete; lunar assembly parametric; clean-up B34 in audit.** Landed since
+  23:25: SO-TEST-A (positive toys) and SO-R1B (M = 203/100), after the large landing at fb97435e (B2 scrub,
+  SO-GRAPH, SO-R1, SO-TEST-B, SO-PYALIGN). Note: my uncommitted log edit in the main checkout made kam-inp's landing
+  loop retry twice; log entries now wait in the scratchpad until the HQ lock is free. SO-TOYFIX2 done: with the
+  ruled wide-strip denominator (a = 10^30) T2d's witness drops from 531 terms to 15, its threshold equals T2's
+  (10^-38.23), and toyCert2d_passes / toyCert2d_torus are proved, every kernel check under a 6 GB cap (heaviest:
+  checkTorsion 59 s, 5.8 GB). In audit (codex-4). SO-LUNAR-A done: `lunar_barriers_of` and
+  `lunar_spin_confinement_of` prove the 3.3 % confinement for arbitrary data from the signed data conclusions
+  plus five rational band inequalities (standard axioms); the signed final theorems become one-liners once SO-DATA
+  lands. In audit (codex-3). CLEANUP-B34 done: 8 unused helpers deleted (4 others found used), 10 cross-directory
+  duplicate statements merged, full build green, frozen guard and ABI OK; in audit (codex-3; the short-name gate
+  was bypassed with reason: its four hits predate the batch and go to the rename batch D1). SO-DATA-1: the lunar
+  checkEnergy passes in the fixed-point mirror (2.4e-80 against err 3.93e-78); Gram and torsion running.
