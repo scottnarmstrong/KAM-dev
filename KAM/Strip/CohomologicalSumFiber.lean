@@ -16,21 +16,24 @@ import Mathlib.Tactic.Linarith
 
 For a frequency of the form `ω = (ω', 1)` (a clock or extended-phase-space frequency, after
 scaling), `k·ω = k'·ω' + k_n` and `|k|₁ = |k'|₁ + |k_n|`, so the series `S(ω, δ)` fibers over
-`k' ∈ ℤ^{n-1}` (`KAM.smallDivisorSum_snoc_le_fiber`):
-`S(ω, δ) ≤ π²/3 + ∑_{0<|k'|₁≤N} (E_{|k'|₁+|p_{k'}|} L_{k'}⁻² + E_{|k'|₁} C₀) + T_N`.
+`k' ∈ ℤ^{n-1}` (`KAM.smallDivisorSum_snoc_le_fiber`, `b = 2πδ`, `E_j ≥ e^{-bj}`):
+`S(ω, δ) ≤ E₁ π²/3 + ∑_{0<|k'|₁≤N} (E_{|k'|₁+|p|} L⁻² + E_{|k'|₁} ([p ≠ 0] L₀⁻² + E₁ C₀)) + T_N`.
 
-* The fiber `k' = 0` contributes at most `∑_{j≠0} j⁻² = π²/3` (`KAM.sum_inv_sq_int_le`).
-* In a fiber `k' ≠ 0`, with `x = k'·ω'` and an integer `p` with `|x + p| ≤ 1/2` (the data `p_{k'}`,
-  the nearest integer to `-x`), the term `j = p` keeps its weight `e^{-2πδ(|k'|₁+|p|)}` and is
-  bounded by the datum `0 < L_{k'} ≤ |x + p|`; the other terms lose `e^{-2πδ|j|} ≤ 1` and sum to at
-  most `C₀ = 4 + π²/3` (`KAM.fiberConst`, `KAM.sum_fiber_le`: `|x + j| ≥ |j - p|` on one side and
-  `≥ |j - p| - 1/2` on the other, with `ζ(2) = π²/6`).
+* The fiber `k' = 0` (all `|k_n| ≥ 1`) contributes at most `e^{-b} ∑_{j≠0} j⁻² = e^{-b} π²/3`
+  (`KAM.sum_inv_sq_int_le`).
+* In a fiber `k' ≠ 0`, with `x = k'·ω'` and an integer `p = p_{k'}` with `|x + p| ≤ 1/2` (the
+  nearest integer to `-x`), the term `j = p` keeps its weight `e^{-b(|k'|₁+|p|)}` and is bounded
+  by the datum `0 < L ≤ |x + p|`; the term `j = 0` (if `p ≠ 0`) keeps its weight `e^{-b|k'|₁}`
+  and is bounded by the datum `0 < L₀ ≤ |x|`; all other terms have `|j| ≥ 1`, weight at most
+  `e^{-b(|k'|₁+1)}`, and sum to at most `C₀ = 4 + π²/3` without the weights (`KAM.fiberConst`,
+  `KAM.sum_fiber_le`: `|x + j| ≥ |j - p|` on one side of `-x` and `≥ |j - p| - 1/2` on the other,
+  with `ζ(2) = π²/6`).
 * The fibers `|k'|₁ > N` consist of modes with `|k|₁ > N`: the tail `T_N = KAM.sdTail γ τ δ N` of
   `KAM.smallDivisorSum_le_box_add_tail` (separation/shell argument) applies.
 
-The data form a box of `#{0<|k'|₁≤N}` entries in `ℤ^{n-1}` instead of `ℤ^n`. The weights are
-supplied as `E j ≥ e^{-2πδj}`. `KAM.fiber_dist_ge` records the Diophantine lower bound
-`|k'·ω' + p| ≥ γ ((3/2 + ‖ω'‖) |k'|₁)^{-τ}` for every integer `p` with `|k'·ω' + p| ≤ 1/2`.
+The data form a box of `#{0<|k'|₁≤N}` entries in `ℤ^{n-1}` instead of `ℤ^n`. `KAM.fiber_dist_ge`
+records the Diophantine lower bound `|k'·ω' + p| ≥ γ ((3/2 + ‖ω'‖) |k'|₁)^{-τ}` for every integer
+`p` with `|k'·ω' + p| ≤ 1/2`.
 -/
 
 public noncomputable section
@@ -172,16 +175,43 @@ theorem sum_inv_sq_shift_le {y : ℝ} (hy : |y| ≤ 1 / 2) (I : Finset ℤ) (hI 
             obtain ⟨j, hj, rfl⟩ := Finset.mem_image.mp hi
             exact neg_ne_zero.mpr (hI j hj)
 
-/-- **One fiber.** For `x ∈ ℝ`, an integer `p` with `|x + p| ≤ 1/2`, `0 < L ≤ |x + p|`, `b ≥ 0` and
-a finite set `J` of integers: `∑_{j∈J} (x + j)⁻² e^{-b|j|} ≤ e^{-b|p|} L⁻² + C₀`. -/
-theorem sum_fiber_le {x L b : ℝ} {p : ℤ} (hb : 0 ≤ b) (hp : |x + p| ≤ 1 / 2) (hL0 : 0 < L)
-    (hL : L ≤ |x + p|) (J : Finset ℤ) :
+/-- Away from the nearest integer: for `|x + p| ≤ 1/2` and a finite set `J` of integers,
+`∑_{j∈J, j≠p} (x + j)⁻² ≤ C₀`. -/
+theorem sum_inv_sq_ne_le {x : ℝ} {p : ℤ} (hp : |x + p| ≤ 1 / 2) (J : Finset ℤ) :
+    ∑ j ∈ J.filter (fun j => ¬ j = p), ((x + j) ^ 2)⁻¹ ≤ fiberConst := by
+  classical
+  have hinj : Set.InjOn (fun j : ℤ => j - p) (J.filter (fun j => ¬ j = p) : Set ℤ) :=
+    fun i _ j _ h => by simpa using h
+  calc ∑ j ∈ J.filter (fun j => ¬ j = p), ((x + j) ^ 2)⁻¹
+      = ∑ j ∈ J.filter (fun j => ¬ j = p), (((x + p) + ((j - p : ℤ) : ℝ)) ^ 2)⁻¹ :=
+        Finset.sum_congr rfl fun j _ => by push_cast; ring_nf
+    _ = ∑ i ∈ (J.filter (fun j => ¬ j = p)).image (fun j : ℤ => j - p),
+          (((x + p) + (i : ℝ)) ^ 2)⁻¹ :=
+        (Finset.sum_image (f := fun i : ℤ => (((x + p) + (i : ℝ)) ^ 2)⁻¹) hinj).symm
+    _ ≤ fiberConst := sum_inv_sq_shift_le hp _ fun i hi => by
+        obtain ⟨j, hj, rfl⟩ := Finset.mem_image.mp hi
+        exact sub_ne_zero.mpr (Finset.mem_filter.mp hj).2
+
+theorem exp_neg_natAbs_le {b : ℝ} (hb : 0 ≤ b) {j : ℤ} (hj : j ≠ 0) :
+    Real.exp (-b * (j.natAbs : ℝ)) ≤ Real.exp (-b) := by
+  refine Real.exp_le_exp.mpr ?_
+  have : (1 : ℝ) ≤ j.natAbs := by exact_mod_cast Int.natAbs_pos.mpr hj
+  nlinarith
+
+/-- **One fiber.** For `x ∈ ℝ`, an integer `p` with `|x + p| ≤ 1/2`, `0 < L ≤ |x + p|`, `b ≥ 0`,
+`0 < L₀ ≤ |x|` if `p ≠ 0`, and a finite set `J` of integers:
+`∑_{j∈J} (x + j)⁻² e^{-b|j|} ≤ e^{-b|p|} L⁻² + [p ≠ 0] L₀⁻² + e^{-b} C₀`
+(the nearest term `j = p` and the term `j = 0` keep their weights, all others have `|j| ≥ 1`). -/
+theorem sum_fiber_le {x L L₀ b : ℝ} {p : ℤ} (hb : 0 ≤ b) (hp : |x + p| ≤ 1 / 2) (hL0 : 0 < L)
+    (hL : L ≤ |x + p|) (hM : p ≠ 0 → 0 < L₀ ∧ L₀ ≤ |x|) (J : Finset ℤ) :
     ∑ j ∈ J, ((x + j) ^ 2)⁻¹ * Real.exp (-b * (j.natAbs : ℝ)) ≤
-      Real.exp (-b * (p.natAbs : ℝ)) * (L ^ 2)⁻¹ + fiberConst := by
+      Real.exp (-b * (p.natAbs : ℝ)) * (L ^ 2)⁻¹ +
+        ((if p = 0 then 0 else (L₀ ^ 2)⁻¹) + Real.exp (-b) * fiberConst) := by
   classical
   rw [← Finset.sum_filter_add_sum_filter_not J (fun j => j = p)]
   refine add_le_add ?_ ?_
-  · refine le_trans (Finset.sum_le_sum_of_subset_of_nonneg (t := {p}) (fun j hj => ?_)
+  · -- the nearest term `j = p`
+    refine le_trans (Finset.sum_le_sum_of_subset_of_nonneg (t := {p}) (fun j hj => ?_)
       fun j _ _ => by positivity) ?_
     · rw [Finset.mem_singleton]
       exact (Finset.mem_filter.mp hj).2
@@ -190,22 +220,42 @@ theorem sum_fiber_le {x L b : ℝ} {p : ℤ} (hb : 0 ≤ b) (hp : |x + p| ≤ 1 
         rw [← sq_abs (x + p)]
         exact pow_le_pow_left₀ hL0.le hL 2
       exact mul_le_mul_of_nonneg_left (inv_anti₀ (by positivity) hsq) (Real.exp_pos _).le
-  · have hinj : Set.InjOn (fun j : ℤ => j - p) (J.filter (fun j => ¬ j = p) : Set ℤ) :=
-      fun i _ j _ h => by simpa using h
-    calc ∑ j ∈ J.filter (fun j => ¬ j = p), ((x + j) ^ 2)⁻¹ * Real.exp (-b * (j.natAbs : ℝ))
-        ≤ ∑ j ∈ J.filter (fun j => ¬ j = p), (((x + p) + ((j - p : ℤ) : ℝ)) ^ 2)⁻¹ := by
-          refine Finset.sum_le_sum fun j _ => ?_
-          have he : Real.exp (-b * (j.natAbs : ℝ)) ≤ 1 :=
-            Real.exp_le_one_iff.mpr (by have : (0 : ℝ) ≤ j.natAbs := Nat.cast_nonneg _; nlinarith)
-          have hx : x + (p : ℝ) + ((j - p : ℤ) : ℝ) = x + j := by push_cast; ring
-          rw [hx]
-          exact mul_le_of_le_one_right (by positivity) he
-      _ = ∑ i ∈ (J.filter (fun j => ¬ j = p)).image (fun j : ℤ => j - p),
-            (((x + p) + (i : ℝ)) ^ 2)⁻¹ :=
-          (Finset.sum_image (f := fun i : ℤ => (((x + p) + (i : ℝ)) ^ 2)⁻¹) hinj).symm
-      _ ≤ fiberConst := sum_inv_sq_shift_le hp _ fun i hi => by
-          obtain ⟨j, hj, rfl⟩ := Finset.mem_image.mp hi
-          exact sub_ne_zero.mpr (Finset.mem_filter.mp hj).2
+  rw [← Finset.sum_filter_add_sum_filter_not (J.filter (fun j => ¬ j = p)) (fun j => j = 0)]
+  refine add_le_add ?_ ?_
+  · -- the term `j = 0` (only if `p ≠ 0`)
+    by_cases hp0 : p = 0
+    · simp only [hp0, ↓reduceIte]
+      refine le_of_eq (Finset.sum_eq_zero fun j hj => ?_)
+      simp only [Finset.mem_filter] at hj
+      exact absurd hj.2 hj.1.2
+    · simp only [hp0, ↓reduceIte]
+      obtain ⟨hM0, hMx⟩ := hM hp0
+      refine le_trans (Finset.sum_le_sum_of_subset_of_nonneg (t := {0}) (fun j hj => ?_)
+        fun j _ _ => by positivity) ?_
+      · rw [Finset.mem_singleton]
+        exact (Finset.mem_filter.mp hj).2
+      · rw [Finset.sum_singleton]
+        simp only [Int.cast_zero, add_zero, Int.natAbs_zero, Nat.cast_zero, mul_zero,
+          Real.exp_zero, mul_one]
+        have hsq : L₀ ^ 2 ≤ x ^ 2 := by
+          rw [← sq_abs x]
+          exact pow_le_pow_left₀ hM0.le hMx 2
+        exact inv_anti₀ (by positivity) hsq
+  · -- every other term has `|j| ≥ 1`
+    calc ∑ j ∈ (J.filter (fun j => ¬ j = p)).filter (fun j => ¬ j = 0),
+          ((x + j) ^ 2)⁻¹ * Real.exp (-b * (j.natAbs : ℝ))
+        ≤ ∑ j ∈ (J.filter (fun j => ¬ j = p)).filter (fun j => ¬ j = 0),
+            Real.exp (-b) * ((x + j) ^ 2)⁻¹ := by
+          refine Finset.sum_le_sum fun j hj => ?_
+          rw [mul_comm]
+          exact mul_le_mul_of_nonneg_right
+            (exp_neg_natAbs_le hb (Finset.mem_filter.mp hj).2) (by positivity)
+      _ = Real.exp (-b) * ∑ j ∈ (J.filter (fun j => ¬ j = p)).filter (fun j => ¬ j = 0),
+            ((x + j) ^ 2)⁻¹ := (Finset.mul_sum _ _ _).symm
+      _ ≤ Real.exp (-b) * fiberConst := by
+          refine mul_le_mul_of_nonneg_left ?_ (Real.exp_pos _).le
+          exact (Finset.sum_le_sum_of_subset_of_nonneg (Finset.filter_subset _ _)
+            fun j _ _ => by positivity).trans (sum_inv_sq_ne_le hp J)
 
 /-! ### The fibered bound -/
 
@@ -264,25 +314,28 @@ theorem fiber_dist_ge {ω' : Fin m → ℝ} {γ τ : ℝ}
 
 /-- **The fibered certified bound.** For `(γ, τ)`-Diophantine `ω = (ω', 1)`, `δ > 0`, a cut-off
 `N` with `2τ < 2πδ(N + 1)`, and data on the box `0 < |k'|₁ ≤ N` of `ℤ^{n-1}`: integers `p_{k'}` with
-`|k'·ω' + p_{k'}| ≤ 1/2`, lower bounds `0 < L_{k'} ≤ |k'·ω' + p_{k'}|`, and upper bounds
-`E_j ≥ e^{-2πδj}`:
-`S(ω, δ) ≤ π²/3 + ∑_{0<|k'|₁≤N} (E_{|k'|₁+|p_{k'}|} L_{k'}⁻² + E_{|k'|₁} C₀) + T_N`. -/
+`|k'·ω' + p_{k'}| ≤ 1/2`, lower bounds `0 < L_{k'} ≤ |k'·ω' + p_{k'}|` and, where `p_{k'} ≠ 0`,
+`0 < L₀_{k'} ≤ |k'·ω'|`, and upper bounds `E_j ≥ e^{-2πδj}`:
+`S(ω, δ) ≤ E₁ π²/3 + ∑_{0<|k'|₁≤N} (E_{|k'|₁+|p_{k'}|} L_{k'}⁻² + E_{|k'|₁} ([p_{k'} ≠ 0] L₀_{k'}⁻² +
+E₁ C₀)) + T_N`. -/
 theorem smallDivisorSum_snoc_le_fiber {ω' : Fin m → ℝ} {γ τ δ : ℝ}
     (hω : IsDiophantine γ τ (Fin.snoc ω' 1 : Fin (m + 1) → ℝ)) (hγ : 0 < γ) (hτ : 0 ≤ τ)
     (hδ : 0 < δ) {N : ℕ} (hN : 2 * τ < 2 * Real.pi * δ * (N + 1))
-    (p : (Fin m → ℤ) → ℤ) (L : (Fin m → ℤ) → ℝ)
+    (p : (Fin m → ℤ) → ℤ) (L L₀ : (Fin m → ℤ) → ℝ)
     (hp : ∀ k ∈ modeBox m N, |Diophantine.frequencyDot ω' k + p k| ≤ 1 / 2)
     (hL : ∀ k ∈ modeBox m N, 0 < L k ∧ L k ≤ |Diophantine.frequencyDot ω' k + p k|)
+    (hL₀ : ∀ k ∈ modeBox m N, p k ≠ 0 → 0 < L₀ k ∧ L₀ k ≤ |Diophantine.frequencyDot ω' k|)
     (E : ℕ → ℝ) (hE : ∀ j : ℕ, Real.exp (-(2 * Real.pi * δ) * j) ≤ E j) :
     smallDivisorSum (Fin.snoc ω' 1 : Fin (m + 1) → ℝ) δ ≤
-      Real.pi ^ 2 / 3 +
+      E 1 * (Real.pi ^ 2 / 3) +
         ∑ k ∈ modeBox m N, (E (modeNat k + (p k).natAbs) * (L k ^ 2)⁻¹ +
-          E (modeNat k) * fiberConst) +
+          E (modeNat k) * ((if p k = 0 then 0 else (L₀ k ^ 2)⁻¹) + E 1 * fiberConst)) +
         sdTail γ τ δ N := by
   classical
   set ω : Fin (m + 1) → ℝ := Fin.snoc ω' 1 with hωdef
   set b : ℝ := 2 * Real.pi * δ with hb
   have hb0 : 0 ≤ b := by positivity
+  have hE1 : Real.exp (-b) ≤ E 1 := by simpa using hE 1
   have hsum := summable_smallDivisorTerm hω.condition hγ hτ hδ
   refine hsum.tsum_le_of_sum_le fun u => ?_
   rw [← Finset.sum_filter_add_sum_filter_not u (fun k => modeNat (Fin.init k) ≤ N)]
@@ -315,25 +368,28 @@ theorem smallDivisorSum_snoc_le_fiber {ω' : Fin m → ℝ} {γ τ δ : ℝ}
     have h2 := (Finset.mem_filter.mp hl).2
     exact eq_of_init_eq_of_last_eq (h1.trans h2.symm) h
   refine add_le_add ?_ (Finset.sum_le_sum fun k' hk' => ?_)
-  · -- the fiber `k' = 0`
+  · -- the fiber `k' = 0`: every mode has `|k_n| ≥ 1`
     calc ∑ k ∈ u₁.filter (fun k => Fin.init k = 0), smallDivisorTerm ω δ k
-        ≤ ∑ k ∈ u₁.filter (fun k => Fin.init k = 0), (((k (Fin.last m) : ℤ) : ℝ) ^ 2)⁻¹ := by
+        ≤ ∑ k ∈ u₁.filter (fun k => Fin.init k = 0),
+            Real.exp (-b) * (((k (Fin.last m) : ℤ) : ℝ) ^ 2)⁻¹ := by
           refine Finset.sum_le_sum fun k hk => ?_
           have hinit := (Finset.mem_filter.mp hk).2
           by_cases hk0 : k = 0
           · rw [hk0]
             simp [smallDivisorTerm]
-          · rw [hterm k hk0, hinit, Diophantine.frequencyDot_zero, zero_add]
+          · have hl0 : k (Fin.last m) ≠ 0 := fun h => hk0
+              (eq_of_init_eq_of_last_eq (hinit.trans rfl) (by rw [h]; rfl))
+            rw [hterm k hk0, hinit, Diophantine.frequencyDot_zero, zero_add]
             have : (modeNat (0 : Fin m → ℤ) : ℝ) = 0 := by simp [modeNat]
-            rw [this, mul_zero, Real.exp_zero, one_mul]
-            exact mul_le_of_le_one_right (by positivity)
-              (Real.exp_le_one_iff.mpr (by
-                have : (0 : ℝ) ≤ (k (Fin.last m)).natAbs := Nat.cast_nonneg _
-                nlinarith))
-      _ = ∑ j ∈ (u₁.filter (fun k => Fin.init k = 0)).image
-            (fun k : Fin (m + 1) → ℤ => k (Fin.last m)), (((j : ℤ) : ℝ) ^ 2)⁻¹ :=
-          (Finset.sum_image (f := fun j : ℤ => ((j : ℝ) ^ 2)⁻¹) (hlast_inj 0)).symm
-      _ ≤ Real.pi ^ 2 / 3 := sum_inv_sq_int_le _
+            rw [this, mul_zero, Real.exp_zero, one_mul, mul_comm]
+            exact mul_le_mul_of_nonneg_right (exp_neg_natAbs_le hb0 hl0) (by positivity)
+      _ = Real.exp (-b) * ∑ j ∈ (u₁.filter (fun k => Fin.init k = 0)).image
+            (fun k : Fin (m + 1) → ℤ => k (Fin.last m)), (((j : ℤ) : ℝ) ^ 2)⁻¹ := by
+          rw [← Finset.mul_sum,
+            Finset.sum_image (f := fun j : ℤ => ((j : ℝ) ^ 2)⁻¹) (hlast_inj 0)]
+      _ ≤ E 1 * (Real.pi ^ 2 / 3) :=
+          mul_le_mul hE1 (sum_inv_sq_int_le _) (Finset.sum_nonneg fun j _ => by positivity)
+            ((Real.exp_pos _).le.trans hE1)
   · -- a fiber `0 < |k'|₁ ≤ N`
     obtain ⟨hk'0, -⟩ := mem_modeBox.mp hk'
     obtain ⟨hL0, hLk⟩ := hL k' hk'
@@ -342,6 +398,8 @@ theorem smallDivisorSum_snoc_le_fiber {ω' : Fin m → ℝ} {γ τ δ : ℝ}
       have := (Finset.mem_filter.mp hk).2
       rw [h] at this
       exact hk'0 this.symm
+    have hE1' : 0 ≤ E 1 := (Real.exp_pos _).le.trans hE1
+    have hif : 0 ≤ (if p k' = 0 then 0 else (L₀ k' ^ 2)⁻¹) := by split_ifs <;> positivity
     calc ∑ k ∈ u₁.filter (fun k => Fin.init k = k'), smallDivisorTerm ω δ k
         = Real.exp (-b * modeNat k') * ∑ k ∈ u₁.filter (fun k => Fin.init k = k'),
             ((x + k (Fin.last m)) ^ 2)⁻¹ * Real.exp (-b * ((k (Fin.last m)).natAbs : ℝ)) := by
@@ -355,17 +413,24 @@ theorem smallDivisorSum_snoc_le_fiber {ω' : Fin m → ℝ} {γ τ δ : ℝ}
           rw [Finset.sum_image (f := fun j : ℤ => ((x + j) ^ 2)⁻¹ * Real.exp (-b * (j.natAbs : ℝ)))
             (hlast_inj k')]
       _ ≤ Real.exp (-b * modeNat k') *
-            (Real.exp (-b * ((p k').natAbs : ℝ)) * (L k' ^ 2)⁻¹ + fiberConst) :=
-          mul_le_mul_of_nonneg_left (sum_fiber_le hb0 (hp k' hk') hL0 hLk _) (Real.exp_pos _).le
+            (Real.exp (-b * ((p k').natAbs : ℝ)) * (L k' ^ 2)⁻¹ +
+              ((if p k' = 0 then 0 else (L₀ k' ^ 2)⁻¹) + Real.exp (-b) * fiberConst)) :=
+          mul_le_mul_of_nonneg_left (sum_fiber_le hb0 (hp k' hk') hL0 hLk (hL₀ k' hk') _)
+            (Real.exp_pos _).le
       _ = Real.exp (-b * ((modeNat k' + (p k').natAbs : ℕ) : ℝ)) * (L k' ^ 2)⁻¹ +
-            Real.exp (-b * modeNat k') * fiberConst := by
+            Real.exp (-b * modeNat k') *
+              ((if p k' = 0 then 0 else (L₀ k' ^ 2)⁻¹) + Real.exp (-b) * fiberConst) := by
           push_cast
           rw [show -b * ((modeNat k' : ℝ) + ((p k').natAbs : ℝ)) =
             -b * modeNat k' + -b * ((p k').natAbs : ℝ) by ring, Real.exp_add]
           ring
-      _ ≤ E (modeNat k' + (p k').natAbs) * (L k' ^ 2)⁻¹ + E (modeNat k') * fiberConst :=
-          add_le_add (mul_le_mul_of_nonneg_right (hE _) (by positivity))
-            (mul_le_mul_of_nonneg_right (hE _) fiberConst_nonneg)
+      _ ≤ E (modeNat k' + (p k').natAbs) * (L k' ^ 2)⁻¹ +
+            E (modeNat k') * ((if p k' = 0 then 0 else (L₀ k' ^ 2)⁻¹) + E 1 * fiberConst) := by
+          refine add_le_add (mul_le_mul_of_nonneg_right (hE _) (by positivity)) ?_
+          refine mul_le_mul (hE _) (add_le_add le_rfl
+            (mul_le_mul_of_nonneg_right hE1 fiberConst_nonneg))
+            (add_nonneg hif (mul_nonneg (Real.exp_pos _).le fiberConst_nonneg))
+            ((Real.exp_pos _).le.trans (hE _))
 
 end Snoc
 
