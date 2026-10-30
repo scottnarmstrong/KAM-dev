@@ -87,6 +87,23 @@ public import KAM.Iso.Sharp.NewtonError
 public import KAM.Iso.Sharp.Scheme
 public import KAM.Iso.Sharp.Step
 public import KAM.Iso.Sharp.Twist
+public import KAM.Iso.Sharp2.G1
+public import KAM.Iso.Sharp2.L1.EntryCorrection
+public import KAM.Iso.Sharp2.L1.EntryError
+public import KAM.Iso.Sharp2.L1.EntryStep
+public import KAM.Iso.Sharp2.L1.G1A
+public import KAM.Iso.Sharp2.L1.Scheme
+public import KAM.Iso.Sharp2.ModStepB.Comp
+public import KAM.Iso.Sharp2.ModStepB.Defs
+public import KAM.Iso.Sharp2.ModStepB.Energy
+public import KAM.Iso.Sharp2.ModStepB.Frames
+public import KAM.Iso.Sharp2.ModStepB.Geo
+public import KAM.Iso.Sharp2.ModStepB.Hyp
+public import KAM.Iso.Sharp2.ModStepB.Inter
+public import KAM.Iso.Sharp2.ModStepB.NewErr
+public import KAM.Iso.Sharp2.ModStepB.Normal
+public import KAM.Iso.Sharp2.ModStepB.SelfCons
+public import KAM.Iso.Sharp2.ModStepB
 public import KAM.Iso.Sharp2.RouteA.Correction
 public import KAM.Iso.Sharp2.RouteA.Frozen
 public import KAM.Iso.Sharp2.RouteA.G1
@@ -96,6 +113,11 @@ public import KAM.Iso.Sharp2.RouteA.Ref.Scheme
 public import KAM.Iso.Sharp2.RouteA.Ref.Step
 public import KAM.Iso.Sharp2.RouteA.Scheme
 public import KAM.Iso.Sharp2.RouteA.Step
+public import KAM.Iso.Sharp2.RouteB.Core
+public import KAM.Iso.Sharp2.RouteB.Run
+public import KAM.Iso.Sharp2.RouteB.Scheme
+public import KAM.Iso.Sharp2.RouteB.Step
+public import KAM.Iso.Sharp2.RouteB
 public import KAM.Iso.ShiftPotential
 public import KAM.Iso.TransferStepNodes
 
