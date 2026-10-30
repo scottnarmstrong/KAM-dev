@@ -11,11 +11,14 @@ public import Mathlib.Analysis.SpecialFunctions.Pow.Real
 # The constants of route A (v2)
 
 Definition `bp:p2s2:constantsA` (`blueprint/parts/p2s2-modified.tex`), the additive step with the
-levers L1–L3 and L8; the mirror is `stageA` of `scripts/apost_sharp/thresholds_v2.py` with the options
+levers L1–L3 and L8; the mirror is `stageA` of `scripts/apost_sharp/thresholds_v2.py` with the
+options
 `L1, torsion_cap, omega_eta, avg_full_bite, keep_delta, caps_tilde` (row A7 of the design document).
 
-`StepInA` holds the inputs of one bite. `δ` is the value of the bite *used in the constants*: the step
-lemmas apply to every actual bite `≤ δ`, so one record serves a stage of the prefix (`δ = δ_s`) and all
+`StepInA` holds the inputs of one bite. `δ` is the value of the bite *used in the constants*: the
+step
+lemmas apply to every actual bite `≤ δ`, so one record serves a stage of the prefix (`δ = δ_s`) and
+all
 of the tail (`δ = δ_k`). The exponent is `a = 2κ`, and `g = γ̄ δ^κ`.
 -/
 
@@ -24,7 +27,8 @@ of the tail (`δ = δ_k`). The exponent is `a = 2κ`, and `g = γ̄ δ^κ`.
 namespace KAM.Sharp2.RouteA
 
 /-- The inputs of one additive step: dimension, exponent, Hamiltonian bounds, caps, torsion cap `t`,
-small-divisor constant `c` of the bite, average constant `ca`, `γ̄`, the bite, the ratio `ϑ`; the last
+small-divisor constant `c` of the bite, average constant `ca`, `γ̄`, the bite, the ratio `ϑ`; the
+last
 four fields are the isoenergetic inputs (`Θ ≥ |ω|`, the energy-row bound `HY`, `|D²H| ≤ Mh2`). -/
 structure StepInA where
   n : ℕ

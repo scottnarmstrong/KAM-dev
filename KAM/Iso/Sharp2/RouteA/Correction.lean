@@ -15,10 +15,12 @@ import Mathlib.Tactic.Positivity
 
 The route-A deltas (`bp:p2s2:constantsA`, `bpI:p2s2:g1`) of `bpI:p2s:correction`:
 
-* `AdmIA`: the admissibility of the isoenergetic route A: every cap of `(R1)–(R3)`, the bordered twist,
+* `AdmIA`: the admissibility of the isoenergetic route A: every cap of `(R1)–(R3)`, the bordered
+  twist,
   the energy error;
 * `sum_norm_energyRow_le_ref`: `∑_b |Y_b| ≤ M_{h1} |N|`;
-* `norm_bordSol_le_avg`: the bordered solution with the averages `⟨T 𝓡ηᴺ⟩`, `⟨Y 𝓡ηᴺ⟩` at real points;
+* `norm_bordSol_le_avg`: the bordered solution with the averages `⟨T 𝓡ηᴺ⟩`, `⟨Y 𝓡ηᴺ⟩` at real
+  points;
 * `norm_fderiv_frameMat_le`: `|∂_ω P| ≤ C_P`, refined;
 * `iso_correction_boundsA`: the bounds of `ξ^ω, ξᴺ, gᴸ, ξ, ΔK, ∂_ω ξ, ∂_ω ΔK, ξᴸ, Δω`.
 -/
@@ -37,7 +39,8 @@ variable {n : ℕ} {D : Set ((Fin n → ℂ) × (Fin n → ℂ))} {H : (Fin n �
 
 /-- Admissibility of the isoenergetic route A at the strip `r`, at the point `s` of the ray. -/
 structure AdmIA {n : ℕ} (D : Set ((Fin n → ℂ) × (Fin n → ℂ)))
-    (H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (ωstar : Fin n → ℝ) (E₀ r rT β ε s mK mB mT mLt mN mNt mH : ℝ)
+    (H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (ωstar : Fin n → ℝ) (E₀ r rT β ε s mK mB mT mLt mN mNt mH :
+        ℝ)
     (K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) : Prop where
   r_pos : 0 < r
   β_pos : 0 < β
@@ -156,7 +159,8 @@ theorem norm_bordSol_le_avg {ω : Fin n → ℝ} (d : BordData n) {r HL HT HY Z 
   have hw : ‖(Sum.elim (avg d.ηL + avg (fun θ => d.T θ *ᵥ triU ω d.ηN θ))
       (fun _ => d.ηω + avg (fun θ => d.Y θ ⬝ᵥ triU ω d.ηN θ)) : Fin n ⊕ Unit → ℂ)‖ ≤
         max (HL + HT * Z) (‖d.ηω‖ + HY * Z) :=
-    BorderSolve.norm_sumElim_le ((norm_add_le _ _).trans ((add_le_add h1 h2).trans (le_max_left _ _)))
+    BorderSolve.norm_sumElim_le ((norm_add_le _ _).trans ((add_le_add h1 h2).trans (le_max_left _
+        _)))
       ((norm_add_le _ _).trans ((add_le_add le_rfl h3).trans (le_max_right _ _)))
   calc ‖bordSol ω d‖ ≤ ‖(bordAvg ω d)⁻¹‖ * ‖(Sum.elim (avg d.ηL +
         avg (fun θ => d.T θ *ᵥ triU ω d.ηN θ))
@@ -366,7 +370,8 @@ theorem iso_correction_boundsA {p : StepInA} (hp : p.Pos) (hiso : p.iso = true) 
       ‖bordXiN (s • ωstar) (isoBordData H K (s • ωstar) E₀) θ‖ ≤ p.CXiN * u ∧
       ‖bordGL (s • ωstar) (isoBordData H K (s • ωstar) E₀) θ‖ ≤ p.CG * u := by
     intro θ hθ
-    obtain ⟨h1, h2⟩ := BorderSolve.norm_bordXiN_bordGL_le (s • ωstar) (isoBordData H K (s • ωstar) E₀) hS0 hU
+    obtain ⟨h1, h2⟩ := BorderSolve.norm_bordXiN_bordGL_le (s • ωstar) (isoBordData H K (s • ωstar)
+        E₀) hS0 hU
       (fun θ hθ => hHL θ (hsubr hθ)) hK.tors hθ
     rw [e1] at h1 h2
     refine ⟨h1, h2.trans ?_⟩

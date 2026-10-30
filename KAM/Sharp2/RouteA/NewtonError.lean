@@ -192,7 +192,8 @@ theorem newton_error_boundsA {p : StepInA} (hp : p.Pos) (hfix : p.iso = false) (
   have hCL := hp.CLin
   calc _ ≤ ‖frameMat K θ *ᵥ ((sMat K θ)⁻¹ *ᵥ linError h K ω θ)‖ +
         ‖sumVec p.n (quadRemainder h K ω θ)‖ := norm_add_le _ _
-    _ ≤ p.P * (2 * (p.CLin * (ε * X))) + p.M2 / 2 * (p.CDK * (ε / (γ ^ 2 * δ ^ (2 * p.κ)))) ^ 2 := by
+    _ ≤ p.P * (2 * (p.CLin * (ε * X))) + p.M2 / 2 * (p.CDK * (ε / (γ ^ 2 * δ ^ (2 * p.κ)))) ^ 2 :=
+        by
         rw [norm_sumVec]
         exact add_le_add (NewtonError.norm_mulVec_mulVec_le hPn hSn hL1) hq
     _ = 2 * p.P * p.CLin * ε * X + p.M2 / 2 * (p.CDK ^ 2 * (ε * x)) := by rw [hsq]; ring

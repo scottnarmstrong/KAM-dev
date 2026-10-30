@@ -14,11 +14,14 @@ import Mathlib.Tactic.Positivity
 # The frames of the new torus, route A
 
 Lever L8 of `bp:p2s2:constantsA`: the barred factors are bounded by the caps, not by `ϑ̂^k`.
-`frames_bar`: for `K̄` holomorphic on `T_{r-2δ}` with `|K̄ - K| ≤ d`, on `T_{r-3δ}` and with `D = d/δ`,
+`frames_bar`: for `K̄` holomorphic on `T_{r-2δ}` with `|K̄ - K| ≤ d`, on `T_{r-3δ}` and with
+`D = d/δ`,
 
-`|L̄ - L| ≤ n D`, `|(L̄ - L)ᵀ| ≤ 2n D`, `|B̄ - B| ≤ C_B D`, `|N̄ - N| ≤ C_N̄ D`, `|N̄ᵀ - Nᵀ| ≤ C_N̄ᵀ D`,
+`|L̄ - L| ≤ n D`, `|(L̄ - L)ᵀ| ≤ 2n D`, `|B̄ - B| ≤ C_B D`, `|N̄ - N| ≤ C_N̄ D`,
+`|N̄ᵀ - Nᵀ| ≤ C_N̄ᵀ D`,
 
-using the caps `|L̄ᵀ| ≤ σ_{Lᵀ}` and `|B̄| ≤ σ_B` (given by the budgets of the engine) and the Neumann
+using the caps `|L̄ᵀ| ≤ σ_{Lᵀ}` and `|B̄| ≤ σ_B` (given by the budgets of the engine) and the
+Neumann
 condition `σ_B C_G D ≤ ϑ`.
 -/
 

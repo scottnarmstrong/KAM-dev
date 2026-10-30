@@ -92,7 +92,8 @@ theorem fderiv_lagrange_eq (hS : Standing n τ M σK σB σT 𝔅 h ω γ)
     fderiv_etaN_entry hS hK hK𝔅 hθ j i, mixed_symm hK hθ _ j i]
   have hT : (errDerivMat h K ω θ)ᵀ * omegaZeroMatrix n * tangentMat K θ =
       -((tangentMat K θ)ᵀ * omegaZeroMatrix n * errDerivMat h K ω θ)ᵀ := by
-    rw [Matrix.transpose_mul, Matrix.transpose_mul, omegaZeroMatrix_transpose, Matrix.transpose_transpose]
+    rw [Matrix.transpose_mul, Matrix.transpose_mul, omegaZeroMatrix_transpose,
+        Matrix.transpose_transpose]
     simp only [Matrix.mul_neg, Matrix.neg_mul, neg_neg, Matrix.mul_assoc]
   rw [hT, Matrix.sub_apply, Matrix.neg_apply, Matrix.neg_apply, Matrix.transpose_apply]
   ring

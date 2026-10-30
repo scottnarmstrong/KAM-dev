@@ -14,7 +14,8 @@ import Mathlib.Tactic.Positivity
 # The default-data form of the isoenergetic route A: the literal frozen body
 
 `iso_g1_v2A_frozen` concludes the literal `KAM.Iso.Charts.IG1Body`, with no refined hypothesis: the
-refined data come from (I1)–(I13) as in `KAM.Sharp2.RouteA.g1_v2A_frozen`, the certificates are on the
+refined data come from (I1)–(I13) as in `KAM.Sharp2.RouteA.g1_v2A_frozen`, the certificates are on
+the
 whole Diophantine set, which contains the ray.
 -/
 
@@ -30,7 +31,8 @@ open KAM KAM.Torus KAM.Apost KAM.Iso.Linear KAM.Iso.Apost KAM.Sharp KAM.Sharp2 K
 
 variable {N : NumA}
 
-/-- Corollary `bpI:p2s2:frozen`, route A, with the default refined data: literally `IG1Body`, so every
+/-- Corollary `bpI:p2s2:frozen`, route A, with the default refined data: literally `IG1Body`, so
+every
 sub-check of a certificate of I-G1 except the smallness transfers. -/
 theorem iso_g1_v2A_frozen (hN : N.Wf) (hiso : N.iso = true) (hτ : (N.n : ℝ) - 1 ≤ N.τ)
     {M σK σB σT μ γbar σω ν Xs : ℝ} (hM : 0 < M) (hσK : 0 < σK) (hσB : 0 < σB) (hσT : 0 < σT)
@@ -46,7 +48,8 @@ theorem iso_g1_v2A_frozen (hN : N.Wf) (hiso : N.iso = true) (hτ : (N.n : ℝ) -
       KAM.Iso.Charts.IG1Body N.n N.τ N.ρ N.ρinf M σK σB σT μ γbar σω ν ωstar
         (min (sharpIsoC1 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar μ ν N.τ N.ρ N.ρinf) (c1A N Xs))
         (max (sharpIsoC2 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar N.τ N.ρ N.ρinf) (c2I N Xs))
-        (max (sharpIsoC3 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar N.τ N.ρ N.ρinf) (c3I N Xs)) := by
+        (max (sharpIsoC3 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar N.τ N.ρ N.ρinf) (c3I N Xs)) :=
+            by
   have hρ0 : 0 < N.ρ := hN.ρinf_pos.trans hN.ρinf_lt
   have hlam : (0 : ℝ) < 3 := by norm_num
   have hD : 0 < delta0 3 N.ρ N.ρinf := delta0_pos hlam hN.ρinf_lt
@@ -131,8 +134,10 @@ theorem iso_g1_v2A_frozen (hN : N.Wf) (hiso : N.iso = true) (hτ : (N.n : ℝ) -
         normal := fun θ hθ => (hfb θ hθ).2.2.1
         normalT := fun θ hθ => (hfb θ hθ).2.2.2.2.1
         tors := torsion_default hN hSv hAd hγb hc0' hX0 hTs hT1 hT2 }
-    obtain ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11⟩ := iso_g1_branch_A hN hiso hτ hM
-      hμ hσω hν hωstar hγbar hsK hΘ hHY hOk hXpos hopen htransl hholo hper hreal hbd hK hKp hKr hball
+    obtain ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11⟩ := iso_g1_branch_A hN hiso hτ
+        hM
+      hμ hσω hν hωstar hγbar hsK hΘ hHY hOk hXpos hopen htransl hholo hper hreal hbd hK hKp hKr
+          hball
       hDK hG hTu hTb hs1 hν1 hν2 hRef (fun s' hs' => isDiophantine_smul hdio hs')
       (hcert γ hγ hγγbar) hγ hγγbar hdio he0 hE hEn hsm'
     exact ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, h9,

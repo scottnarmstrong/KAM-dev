@@ -180,7 +180,8 @@ theorem step_A {p : StepInA} (hp : p.Pos) (hfix : p.iso = false) (hΘ : p.Θ = 0
   have hfr := frames_bar hp hpn hK.holo hLθ hK.gram hK.tangentT (by linarith) (by linarith) hδ hdiff
     hdist (by rw [hD]; exact hgr) (by rw [hD]; linarith) (by rw [hD]; linarith)
   rw [hD] at hfr
-  have hL'θ : ∀ θ ∈ complexStrip n (r - 3 * δ), ‖fderiv ℂ K' θ‖ ≤ mK + n * p.CDK * X := fun θ hθ => by
+  have hL'θ : ∀ θ ∈ complexStrip n (r - 3 * δ), ‖fderiv ℂ K' θ‖ ≤ mK + n * p.CDK * X := fun θ hθ =>
+      by
     have := norm_le_add_sub (hK.deriv_le θ (hsub3r hθ)) (hfr θ hθ).dDK
     rwa [← mul_assoc] at this
   have hLt'θ : ∀ θ ∈ complexStrip n (r - 3 * δ),
@@ -221,9 +222,12 @@ theorem step_A {p : StepInA} (hp : p.Pos) (hfix : p.iso = false) (hΘ : p.Θ = 0
     have hL' : ‖tangentMat K' θ‖ ≤ p.sK :=
       (FrameAux.norm_tangentMat K' θ).le.trans ((hL'θ θ hθ).trans hcK)
     have hmain := torsion_sub_le hp hpn hS hd1 hd2 (K := K) (K' := K') (ω₁ := ω) (ω₂ := ω)
-      (β := β) (d := p.CDK * E) (δ := δ) (ε := ε) (ε' := p.CE * ε ^ 2 / (γ ^ 4 * δ ^ (2 * (2 * p.κ))))
-      (Wb := p.COm * (ε / (γ * δ ^ (p.κ + 1)))) hr hδ hδD h3δ hθ hK.holo hK.mem hGu hK.error_le hdiff
-      hK'𝔅 hG'3 herr (hK.ball_sub θ hθr) (hdist θ hθ2) hβ hε0 hE hεδ (hLθ θ hθr) (hK0.tangentT θ hθr)
+      (β := β) (d := p.CDK * E) (δ := δ) (ε := ε) (ε' := p.CE * ε ^ 2 / (γ ^ 4 * δ ^ (2 * (2 *
+          p.κ))))
+      (Wb := p.COm * (ε / (γ * δ ^ (p.κ + 1)))) hr hδ hδD h3δ hθ hK.holo hK.mem hGu hK.error_le
+          hdiff
+      hK'𝔅 hG'3 herr (hK.ball_sub θ hθr) (hdist θ hθ2) hβ hε0 hE hεδ (hLθ θ hθr) (hK0.tangentT θ
+          hθr)
       (hK0.normalT θ hθr) (hK0.gram θ hθr).2 hL' ((hLt'θ θ hθ).trans hcLt) ((hN'θ θ hθ).trans hcN)
       ((hNt'θ θ hθ).trans hcNt) ((hB'θ θ hθ).trans hcB) (hΩ θ hθ2)
       (by rw [hD]; exact hfr θ hθ)

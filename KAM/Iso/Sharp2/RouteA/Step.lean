@@ -16,8 +16,10 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The additive step of the isoenergetic route A
 
-`step_IA`: one step `(K, s) ↦ (K̄, s̄)` from an admissible pair, each cap increased by its rate, with the
-ray margin decreased by `C_Δω E`. The torsion of the new pair is bounded by `torsion_sub_le` for the two
+`step_IA`: one step `(K, s) ↦ (K̄, s̄)` from an admissible pair, each cap increased by its rate,
+with the
+ray margin decreased by `C_Δω E`. The torsion of the new pair is bounded by `torsion_sub_le` for the
+two
 frequencies `s ω*`, `s̄ ω*`; the bordered torsion adds the blocks `Δω` and `ΔY`.
 -/
 
@@ -139,7 +141,8 @@ theorem step_IA {p : StepInA} (hp : p.Pos) (hiso : p.iso = true) (hpn : p.n = n)
   have hfr := frames_bar hp hpn hK.holo hLθ hK.gram hK.tangentT (by linarith) (by linarith) hδ hdiff
     hdist (by rw [hD]; exact hgr) (by rw [hD]; linarith) (by rw [hD]; linarith)
   rw [hD] at hfr
-  have hL'θ : ∀ θ ∈ complexStrip n (r - 3 * δ), ‖fderiv ℂ K' θ‖ ≤ mK + n * p.CDK * X := fun θ hθ => by
+  have hL'θ : ∀ θ ∈ complexStrip n (r - 3 * δ), ‖fderiv ℂ K' θ‖ ≤ mK + n * p.CDK * X := fun θ hθ =>
+      by
     have := norm_le_add_sub (hK.deriv_le θ (hsub3r hθ)) (hfr θ hθ).dDK
     rwa [← mul_assoc] at this
   have hLt'θ : ∀ θ ∈ complexStrip n (r - 3 * δ),
@@ -182,8 +185,10 @@ theorem step_IA {p : StepInA} (hp : p.Pos) (hiso : p.iso = true) (hpn : p.n = n)
     have hmain := torsion_sub_le hp hpn hSt hd1 hd2 (K := K) (K' := K') (ω₁ := s • ωstar)
       (ω₂ := s' • ωstar) (β := β) (d := p.CDK * E) (δ := δ) (ε := ε)
       (ε' := p.CE * ε ^ 2 / (γ ^ 4 * δ ^ (2 * (2 * p.κ))))
-      (Wb := p.COm * (ε / (γ * δ ^ (p.κ + 1)))) hr hδ hδD h3δ hθ hK.holo hK.mem hGu hK.error_le hdiff
-      hK'𝔅 hG'3 herr (hK.ball_sub θ hθr) (hdist θ hθ2) hβ hε0 hE hεδ (hLθ θ hθr) (hK0.tangentT θ hθr)
+      (Wb := p.COm * (ε / (γ * δ ^ (p.κ + 1)))) hr hδ hδD h3δ hθ hK.holo hK.mem hGu hK.error_le
+          hdiff
+      hK'𝔅 hG'3 herr (hK.ball_sub θ hθr) (hdist θ hθ2) hβ hε0 hE hεδ (hLθ θ hθr) (hK0.tangentT θ
+          hθr)
       (hK0.normalT θ hθr) (hK0.gram θ hθr).2 hL' ((hLt'θ θ hθ).trans hcLt) ((hN'θ θ hθ).trans hcN)
       ((hNt'θ θ hθ).trans hcNt) ((hB'θ θ hθ).trans hcB) (hΩ θ hθ2)
       (by rw [hD]; exact hfr θ hθ)

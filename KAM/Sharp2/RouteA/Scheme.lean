@@ -14,8 +14,10 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The fixed-frequency scheme of route A
 
-`schemeA` is the additive scheme whose states are tori; the eight cap values are the used ball budget
-and the current bounds of `|DK|, |B|, |⟨T⟩⁻¹|, |Lᵀ|, |N|, |Nᵀ|, |T|`. `schemeA_isNewton` proves (N1),
+`schemeA` is the additive scheme whose states are tori; the eight cap values are the used ball
+budget
+and the current bounds of `|DK|, |B|, |⟨T⟩⁻¹|, |Lᵀ|, |N|, |Nᵀ|, |T|`. `schemeA_isNewton` proves
+(N1),
 (N2) from `KAM.Sharp2.RouteA.step_A`, stage by stage, with the certificates of `NumA.Cert`.
 -/
 
@@ -45,7 +47,8 @@ variable {N : NumA} {τ M : ℝ} {𝔅 : Set ((Fin N.n → ℂ) × (Fin N.n → 
   {h : (Fin N.n → ℂ) × (Fin N.n → ℂ) → ℂ} {ω : Fin N.n → ℝ} {γ : ℝ}
   {Ω : Set (Fin N.n → ℝ)}
 
-/-- The small-divisor inputs of `step_A` at stage `s`: in the prefix the full bite `r_s`, in the tail
+/-- The small-divisor inputs of `step_A` at stage `s`: in the prefix the full bite `r_s`, in the
+tail
 the bite `δ_s` itself. -/
 theorem NumA.Cert.at (hN : N.Wf) (hC : N.Cert γ Ω) (s : ℕ) :
     SDConst N.n N.τ γ (N.δ s) (N.cS s) Ω ∧ ∃ b cb, SDConst N.n N.τ γ b cb Ω ∧ b ≤ N.r s ∧

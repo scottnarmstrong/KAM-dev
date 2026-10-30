@@ -22,7 +22,8 @@ Blueprint `bp:p2s2:engine` for the additive step. The normalised error is
 
 The constants depend on the stage, are constant from the stage `kp` on, and the increments of a cap
 `i` are `ϱ_{i,s} ε_s/(γ² δ_s^{a+j_i})`. `RunData` holds (J1)–(J3): the prefix conditions, the tail
-conditions **at entry** with downward closure of the conditions on nonnegative errors, the tail decay
+conditions **at entry** with downward closure of the conditions on nonnegative errors, the tail
+decay
 and the cap sums, at a majorant `X⋆` of the initial normalised error (audit finding F2).
 
 * `epsA`, `xA`: the errors and the majorising recursion;
@@ -152,7 +153,8 @@ theorem xA_scale {t : ℝ} (ht0 : 0 ≤ t) (ht1 : t ≤ 1) (hX : 0 ≤ X₀) (hC
 /-- `sumA` scales with the initial value. -/
 theorem sumA_scale {t b : ℝ} {c : ℕ → ℝ} {kp : ℕ} (ht0 : 0 ≤ t) (ht1 : t ≤ 1) (hX : 0 ≤ X₀)
     (hCE : ∀ s, 0 ≤ CE s) (hc : ∀ s, 0 ≤ c s) (hlam : 0 < lam) (hρ : ρinf < ρ) :
-    sumA a lam ρ ρinf γb (xA a CE (t * X₀)) c b kp ≤ t * sumA a lam ρ ρinf γb (xA a CE X₀) c b kp := by
+    sumA a lam ρ ρinf γb (xA a CE (t * X₀)) c b kp ≤ t * sumA a lam ρ ρinf γb (xA a CE X₀) c b kp :=
+        by
   have hw : ∀ s, 0 ≤ γb ^ 2 * deltaSeq lam ρ ρinf s ^ (2 * a - b) := fun s =>
     mul_nonneg (sq_nonneg _) (Real.rpow_nonneg (deltaSeq_pos hlam hρ s).le _)
   have hterm : ∀ s, c s * xA a CE (t * X₀) s * (γb ^ 2 * deltaSeq lam ρ ρinf s ^ (2 * a - b)) ≤
@@ -200,7 +202,8 @@ theorem deltaSeq_rpow_tail {q : ℝ} (hq : 1 ≤ q) (hlam : 0 < lam) (hρ : ρin
   have h1 : 0 ≤ (2 : ℝ) ^ (-(q * (kp : ℝ))) * delta0 lam ρ ρinf ^ q :=
     mul_nonneg (Real.rpow_nonneg zero_le_two _) (Real.rpow_nonneg hd0 _)
   calc (2 : ℝ) ^ (-(q * (kp : ℝ))) * (2 : ℝ) ^ (-(q * (t : ℝ))) * delta0 lam ρ ρinf ^ q
-      = ((2 : ℝ) ^ (-(q * (kp : ℝ))) * delta0 lam ρ ρinf ^ q) * (2 : ℝ) ^ (-(q * (t : ℝ))) := by ring
+      = ((2 : ℝ) ^ (-(q * (kp : ℝ))) * delta0 lam ρ ρinf ^ q) * (2 : ℝ) ^ (-(q * (t : ℝ))) := by
+          ring
     _ ≤ _ := mul_le_mul_of_nonneg_left e2 h1
 
 /-- The hypotheses on the data of a term `c_t ε_t/(γ² δ_t^b)`. -/
@@ -445,7 +448,8 @@ theorem SchemeA.run (hS : S.IsNewton a lam ρ ρinf γ C j Cond σ)
   have hcond : ∀ s, Cond s (runEps a lam ρ ρinf γ C e s /
       (γ ^ 4 * deltaSeq lam ρ ρinf s ^ (2 * a))) := by
     intro s
-    have hx := eps_div_le_xA (a := a) (CE := fun s => (C s).CE) (s := s) R.CE_nonneg hlam hρ hγ he hX
+    have hx := eps_div_le_xA (a := a) (CE := fun s => (C s).CE) (s := s) R.CE_nonneg hlam hρ hγ he
+        hX
     have hnn : 0 ≤ runEps a lam ρ ρinf γ C e s / (γ ^ 4 * deltaSeq lam ρ ρinf s ^ (2 * a)) := by
       have := epsA_nonneg (a := a) (γ := γ) (CE := fun s => (C s).CE) R.CE_nonneg hlam hρ he s
       have := Real.rpow_pos_of_pos (deltaSeq_pos hlam hρ s) (2 * a)

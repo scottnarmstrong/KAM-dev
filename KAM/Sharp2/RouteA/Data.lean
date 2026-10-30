@@ -18,7 +18,8 @@ import Mathlib.Tactic.FinCases
 Audit finding F3: numerical data, object bounds and Fourier certificates are separate packages.
 
 * `NumA`: the numbers of a run (caps, schedule, small-divisor constants);
-* `NumA.inp`: the inputs of the step at stage `s` (from `kp` on, the tail inputs, valid for every bite
+* `NumA.inp`: the inputs of the step at stage `s` (from `kp` on, the tail inputs, valid for every
+  bite
   `≤ δ_kp`);
 * `NumA.stage`, `jA`: the stage constants of the engine and the eight rates (ball, `|DK|`, `|B|`,
   `|⟨T⟩⁻¹|`, `|Lᵀ|`, `|N|`, `|Nᵀ|`, `|T|`);
@@ -247,7 +248,8 @@ theorem StepInA.Cond.down {p : StepInA} (hp : p.Pos) {x y : ℝ} (hxy : x ≤ y)
   have h5 := hp.sB
   have h6 := hp.CGr
   have h7 := hp.CDK
-  exact ⟨hw (by positivity) h.err, hw (by positivity) h.sym, hw h2 h.quad, hw (by positivity) h.twist,
+  exact ⟨hw (by positivity) h.err, hw (by positivity) h.sym, hw h2 h.quad, hw (by positivity)
+      h.twist,
     hw (by positivity) h.gram⟩
 
 /-- (J1)–(J3) of `bp:p2s2:engine` for route A at `X⋆`, with initial cap values `m₀` and caps `σ`. -/

@@ -17,11 +17,14 @@ Lemma `bp:p2s2:defaults` for route A (audit finding F3): `g1_v2A_frozen` conclud
 `KAM.Sharp.G1Body`, with no refined hypothesis. The refined data are derived from the frozen ones:
 
 * `defaultInit`: `|Lᵀ| ≤ 2n(σ_K - μ)`, `|N| ≤ (σ_K - μ)(σ_B - μ)`, `|Nᵀ| ≤ 2n(σ_K - μ)(σ_B - μ)`,
-  and `|T| ≤ H_T` on `T_{ρ-δ₀}` from `KAM.Sharp.torsion_bound`, which needs the smallness `TorsionOk`;
-* `NumA.cert_classical`: the classical constants of `bp:p2s2sd:classical` are certificates on the whole
+  and `|T| ≤ H_T` on `T_{ρ-δ₀}` from `KAM.Sharp.torsion_bound`, which needs the smallness
+  `TorsionOk`;
+* `NumA.cert_classical`: the classical constants of `bp:p2s2sd:classical` are certificates on the
+  whole
   Diophantine set, for `ρ ≤ 1`.
 
-The torsion bound is proved only in the route-A branch of the minimum, so the case split on the branch
+The torsion bound is proved only in the route-A branch of the minimum, so the case split on the
+branch
 is made here, and `g1_branch_A` is the route-A branch.
 -/
 
@@ -87,6 +90,40 @@ theorem NumA.cert_classical {N : NumA} (hN : N.Wf) (hρ1 : N.ρ ≤ 1) {γ : ℝ
       (hle.trans (hN.δ_le _))
     exact sdConst_mono hγ h1 (cohConstC_mono hN.τ_ge hδ.le hle)
 
+/-- A small-divisor constant on `Ω` is one on every subset. -/
+theorem sdConst_subset {n : ℕ} {κ γ δ c : ℝ} {Ω Ω' : Set (Fin n → ℝ)} (h : SDConst n κ γ δ c Ω)
+    (hsub : Ω' ⊆ Ω) : SDConst n κ γ δ c Ω' :=
+  ⟨h.c_pos, h.delta_pos, fun ω hω => h.sol ω (hsub hω), fun ω hω => h.apriori ω (hsub hω),
+    fun ω hω => h.real ω (hsub hω)⟩
+
+/-- Lever L2c: the frequency-specific constants of `bp:p2s2sd:freq` in the prefix, from certified
+finite sums `sdFinite ω* δ_s Nf_s ≤ Sf_s`, and the classical constant in the tail, are certificates
+on
+the ray of `ω*`. This is the small-divisor data of the design's R1, H50 and PlasmaLean rows. -/
+theorem NumA.cert_freq {N : NumA} (hN : N.Wf) {γ : ℝ} (hγ : 0 < γ) {ωstar : Fin N.n → ℝ}
+    (hdio : IsDiophantine γ N.τ ωstar) {Nf Nb : ℕ → ℕ} {Sf Sb : ℕ → ℝ}
+    (hNf : ∀ s < N.kp, 1 ≤ Nf s) (hNb : ∀ s < N.kp, 1 ≤ Nb s)
+    (hSf : ∀ s < N.kp, sdFinite ωstar (N.δ s) (Nf s) ≤ Sf s)
+    (hSb : ∀ s < N.kp, sdFinite ωstar (N.r s) (Nb s) ≤ Sb s)
+    (hc : ∀ s < N.kp, N.c s = cohConstF N.n N.τ γ (N.δ s) (Nf s) (Sf s))
+    (hcb : ∀ s < N.kp, N.cbar s = cohConstF N.n N.τ γ (N.r s) (Nb s) (Sb s))
+    (ht : N.ctail = cohConstC N.n N.τ (N.δ N.kp)) : N.Cert γ (ray ωstar) where
+  stage := fun s hs => by
+    rw [hc s hs]
+    exact sdConst_freq (by have := hN.two_le; omega) hN.τ_ge hγ hdio (hN.δ_pos s) (hNf s hs)
+      (hSf s hs)
+  bar := fun s hs => by
+    rw [hcb s hs]
+    exact sdConst_freq (by have := hN.two_le; omega) hN.τ_ge hγ hdio (hN.r_pos s) (hNb s hs)
+      (hSb s hs)
+  tail := fun δ hδ hle => by
+    rw [ht]
+    have h1 := sdConst_classical (n := N.n) (by have := hN.two_le; omega) hN.τ_ge hγ hδ
+      (hle.trans (hN.δ_le _))
+    refine sdConst_subset (sdConst_mono hγ h1 (cohConstC_mono hN.τ_ge hδ.le hle)) ?_
+    rintro ω ⟨s, hs, rfl⟩
+    exact isDiophantine_ray hdio hs
+
 /-- The default initial values. -/
 def defaultInit (n : ℕ) (M σK σB μ : ℝ) : InitA :=
   ⟨2 * n * (σK - μ), (σK - μ) * (σB - μ), 2 * n * (σK - μ) * (σB - μ), hT n M σK σB⟩
@@ -140,7 +177,8 @@ theorem torsion_default {N : NumA} (hN : N.Wf) {M σK σB σT μ γ e Xs : ℝ} 
 
 variable {N : NumA}
 
-/-- Lemma `bp:p2s2:defaults` and Corollary `bp:p2s2:frozen-form` for route A: the literal frozen body
+/-- Lemma `bp:p2s2:defaults` and Corollary `bp:p2s2:frozen-form` for route A: the literal frozen
+body
 `KAM.Sharp.G1Body`, with the default refined data. `hcert` is a statement on the numbers `N.c`,
 `N.cbar`, `N.ctail` alone: `NumA.cert_classical` proves it for the classical constants. -/
 theorem g1_v2A_frozen (hN : N.Wf) (hfix : N.iso = false) (hΘ : N.Θ = 0) (hτ : (N.n : ℝ) - 1 ≤ N.τ)
@@ -175,7 +213,8 @@ theorem g1_v2A_frozen (hN : N.Wf) (hfix : N.iso = false) (hΘ : N.Θ = 0) (hτ :
     exact mul_le_mul_of_nonneg_right hc hp2
   by_cases hcase : sharpC1 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar μ N.τ N.ρ N.ρinf ≤ c1A N Xs
   · rw [min_eq_left hcase] at hsm
-    obtain ⟨Kinf, h1, h2, h3, h4, h5, h6, h7⟩ := hbody 𝔅 h K ω γ e hopen htransl hholo hper hreal hbd
+    obtain ⟨Kinf, h1, h2, h3, h4, h5, h6, h7⟩ := hbody 𝔅 h K ω γ e hopen htransl hholo hper hreal
+        hbd
       hK hKp hKr hball hDK hG hTu hTb hγ hγγbar hdio hE hsm
     exact ⟨Kinf, h1, h2, h3, h4, h5, h6, fun θ hθ => (h7 θ hθ).trans (hmono (le_max_left _ _))⟩
   · rw [min_eq_right (not_le.1 hcase).le] at hsm

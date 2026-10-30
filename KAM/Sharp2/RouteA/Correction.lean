@@ -119,7 +119,8 @@ theorem StepInA.gd_le {p : StepInA} (hp : p.Pos) {γ δ : ℝ} (hγ : 0 < γ) (h
   simpa [StepInA.g] using this
 
 /-- `⟨Y 𝓡 g⟩` at real points from a small-divisor constant at any bite `b ≤ r` (`bp:p2s2sd:avg`
-in the form used by the additive step): `|⟨Y 𝓡g⟩| ≤ y ca H/(γδ^κ)`, where `cb b^{-κ} ≤ ca δ^{-κ}`. -/
+in the form used by the additive step): `|⟨Y 𝓡g⟩| ≤ y ca H/(γδ^κ)`, where `cb b^{-κ} ≤ ca δ^{-κ}`.
+    -/
 theorem norm_avg_mulVec_cohR_le {κ b cb ca δ r y H : ℝ} {Ω : Set (Fin n → ℝ)} {q : ℕ}
     (hγ : 0 < γ) (hω : ω ∈ Ω) (hcb : SDConst n κ γ b cb Ω) (hbr : b ≤ r)
     (hca : cb * b ^ (-κ) ≤ ca * δ ^ (-κ)) {g : (Fin n → ℂ) → Fin n → ℂ}

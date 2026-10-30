@@ -15,8 +15,10 @@ import Mathlib.Tactic.FinCases
 /-!
 # The isoenergetic scheme of route A
 
-`schemeIA`: the additive scheme on pairs `(K, s)`, with nine cap values: the eight of the fixed-frequency
-scheme and the used part of the ray margin `ν`. `schemeIA_isNewton` proves (N1), (N2) from `step_IA`, and
+`schemeIA`: the additive scheme on pairs `(K, s)`, with nine cap values: the eight of the
+fixed-frequency
+scheme and the used part of the ray margin `ν`. `schemeIA_isNewton` proves (N1), (N2) from
+`step_IA`, and
 `routeAOkI` is (J1)–(J3) with the frequency budget.
 -/
 
@@ -81,7 +83,8 @@ theorem stageI_tail {N : NumA} {s : ℕ} (hs : N.kp ≤ s) : stageI N s = stageI
 /-- `routeAOkI` is the engine's `RunData`. -/
 theorem routeAOkI.runData {N : NumA} (hN : N.Wf) {σ m₀ : Fin 9 → ℝ} {Xs : ℝ}
     (h : routeAOkI N σ m₀ Xs) :
-    RunData (2 * N.τ) 3 N.ρ N.ρinf N.γb (stageI N) jI (fun s x => (N.inp s).Cond x) σ m₀ N.kp Xs where
+    RunData (2 * N.τ) 3 N.ρ N.ρinf N.γb (stageI N) jI (fun s x => (N.inp s).Cond x) σ m₀ N.kp Xs
+        where
   two_le_a := by linarith [hN.τ_ge]
   j_le := by intro i; fin_cases i <;> simp [jI]
   CE_nonneg := fun s => (hN.pos s).CE
@@ -154,11 +157,13 @@ theorem schemeIA_isNewton (hN : N.Wf) (hiso : N.iso = true) (hΘ : N.Θ = σω *
       rw [Nat.cast_zero, add_zero, mul_div_assoc]
     have c0 : m 0 + p.CDK * E ≤ b := by
       have := hcap 0
-      rwa [show (stageI N j).rate 0 = p.CDK from rfl, show ((jI 0 : ℕ) : ℝ) = ((0 : ℕ) : ℝ) from rfl,
+      rwa [show (stageI N j).rate 0 = p.CDK from rfl, show ((jI 0 : ℕ) : ℝ) = ((0 : ℕ) : ℝ) from
+          rfl,
         show deltaSeq 3 N.ρ N.ρinf j = N.δ j from rfl, e0] at this
     have c8 : m 8 + p.CDw * E ≤ bν := by
       have := hcap 8
-      rwa [show (stageI N j).rate 8 = p.CDw from rfl, show ((jI 8 : ℕ) : ℝ) = ((0 : ℕ) : ℝ) from rfl,
+      rwa [show (stageI N j).rate 8 = p.CDw from rfl, show ((jI 8 : ℕ) : ℝ) = ((0 : ℕ) : ℝ) from
+          rfl,
         show deltaSeq 3 N.ρ N.ρinf j = N.δ j from rfl, e0] at this
     have cj : ∀ (i : Fin 9) (c : ℝ), (stageI N j).rate i = c → jI i = 1 →
         m i + c * X ≤ capI N b bν i := by

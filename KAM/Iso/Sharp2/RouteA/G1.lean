@@ -17,8 +17,10 @@ import Mathlib.Tactic.FieldSimp
 # The v2 isoenergetic a-posteriori theorem, route A (blueprint `bpI:p2s2:g1`, `bpI:p2s2:frozen`)
 
 * `RefHypIA`: the refined data of the isoenergetic theorem;
-* `iso_energy_limit_A`: the energy of the limit torus. `KAM.Iso.Apost.tendsto_energyAverage_of_uniform`
-  needs closeness `≤ μ/4`, and route A spends the free ball budget `μ/2`, so the lemma is applied from a
+* `iso_energy_limit_A`: the energy of the limit torus.
+  `KAM.Iso.Apost.tendsto_energyAverage_of_uniform`
+  needs closeness `≤ μ/4`, and route A spends the free ball budget `μ/2`, so the lemma is applied
+  from a
   late iterate of the scheme;
 * `iso_g1_core_A`: Theorem `bpI:p2s2:g1`, route A;
 * `IG1BodyA`: the frozen `IG1Body` with the refined data and the certificates on the ray;
@@ -55,12 +57,14 @@ def initI (I : InitA) (σK σB σT μ : ℝ) : Fin 9 → ℝ :=
 
 /-- `C₂` of route A, isoenergetic. -/
 def c2I (N : NumA) (Xs : ℝ) : ℝ :=
-  N.ρ ^ (2 * N.τ) * sumA (2 * N.τ) 3 N.ρ N.ρinf 1 (xI N Xs) (fun s => (stageI N s).CD) (2 * N.τ) N.kp /
+  N.ρ ^ (2 * N.τ) * sumA (2 * N.τ) 3 N.ρ N.ρinf 1 (xI N Xs) (fun s => (stageI N s).CD) (2 * N.τ)
+      N.kp /
     (Xs * delta0 3 N.ρ N.ρinf ^ (4 * N.τ))
 
 /-- `C₃` of route A, isoenergetic. -/
 def c3I (N : NumA) (Xs : ℝ) : ℝ :=
-  N.ρ ^ (2 * N.τ) * sumA (2 * N.τ) 3 N.ρ N.ρinf 1 (xI N Xs) (fun s => (stageI N s).Cp) (2 * N.τ) N.kp /
+  N.ρ ^ (2 * N.τ) * sumA (2 * N.τ) 3 N.ρ N.ρinf 1 (xI N Xs) (fun s => (stageI N s).Cp) (2 * N.τ)
+      N.kp /
     (Xs * delta0 3 N.ρ N.ρinf ^ (4 * N.τ))
 
 variable {N : NumA}
@@ -247,7 +251,8 @@ theorem iso_g1_core_A (hN : N.Wf) (hiso : N.iso = true) {τ M μ σω ν γ e Xs
       ‖fderiv ℂ ((schemeIA N D H ωstar E₀ σω ν μ).limTor N.ρinf (K, s)) θ‖ ≤ N.sK := fun θ hθ => by
     refine le_of_tendsto (hconvd.tendsto_at hθ).norm (Eventually.of_forall fun j => ?_)
     exact (AdmIA.deriv_le (hAdm j).1 θ (hsub j hθ)).trans (hbud j 1)
-  refine ⟨_, p / ‖ωstar‖, hs1, hs2, hholoL, hprimL, hrealL, hinv, hcons, hmarg', hdk, fun θ hθ => ?_,
+  refine ⟨_, p / ‖ωstar‖, hs1, hs2, hholoL, hprimL, hrealL, hinv, hcons, hmarg', hdk, fun θ hθ =>
+      ?_,
     hsclose⟩
   refine (hclose' θ hθ).trans (le_of_eq ?_)
   rw [show 2 * (2 * N.τ) = 4 * N.τ by ring]
@@ -377,7 +382,8 @@ theorem iso_g1_branch_A (hN : N.Wf) (hiso : N.iso = true) (hτ : (N.n : ℝ) - 1
     (margin_of_le hν1 hν2) hsm.le hXpos
   exact ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, fun θ hθ => (h9 θ hθ).trans_eq hsK, h10, h11⟩
 
-/-- Corollary `bpI:p2s2:frozen`, route A. `C₁♯, C₂♯, C₃♯` are v1's constants with Rüssmann's data, so the
+/-- Corollary `bpI:p2s2:frozen`, route A. `C₁♯, C₂♯, C₃♯` are v1's constants with Rüssmann's data,
+so the
 theorem is never worse than v1. -/
 theorem iso_g1_v2A (hN : N.Wf) (hiso : N.iso = true) (hτ : (N.n : ℝ) - 1 ≤ N.τ)
     {M σK σB σT μ γbar σω ν Xs Mh1 : ℝ} (I : InitA) (hM : 0 < M) (hσK : 0 < σK) (hσB : 0 < σB)
@@ -391,7 +397,8 @@ theorem iso_g1_v2A (hN : N.Wf) (hiso : N.iso = true) (hτ : (N.n : ℝ) - 1 ≤ 
       IG1BodyA N I Mh1 M σK σB σT μ γbar σω ν ωstar
         (min (sharpIsoC1 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar μ ν N.τ N.ρ N.ρinf) (c1A N Xs))
         (max (sharpIsoC2 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar N.τ N.ρ N.ρinf) (c2I N Xs))
-        (max (sharpIsoC3 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar N.τ N.ρ N.ρinf) (c3I N Xs)) := by
+        (max (sharpIsoC3 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar N.τ N.ρ N.ρinf) (c3I N Xs)) :=
+            by
   have hρ0 : 0 < N.ρ := hN.ρinf_pos.trans hN.ρinf_lt
   have hlam : (0 : ℝ) < 3 := by norm_num
   have hD : 0 < delta0 3 N.ρ N.ρinf := delta0_pos hlam hN.ρinf_lt
@@ -429,8 +436,10 @@ theorem iso_g1_v2A (hN : N.Wf) (hiso : N.iso = true) (hτ : (N.n : ℝ) - 1 ≤ 
         field_simp
       rw [e1, div_lt_one hXpos] at hsm
       exact hsm
-    obtain ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11⟩ := iso_g1_branch_A hN hiso hτ hM
-      hμ hσω hν hωstar hγbar hsK hΘ hHY hOk hXpos hopen htransl hholo hper hreal hbd hK hKp hKr hball
+    obtain ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11⟩ := iso_g1_branch_A hN hiso hτ
+        hM
+      hμ hσω hν hωstar hγbar hsK hΘ hHY hOk hXpos hopen htransl hholo hper hreal hbd hK hKp hKr
+          hball
       hDK hG hTu hTb hs1 hν1 hν2 hRef hΩ hCt hγ hγγbar hdio he0 hE hEn hsm'
     exact ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, h9,
       fun θ hθ => (h10 θ hθ).trans (hmono (le_max_right _ _)), h11.trans (hmono (le_max_right _ _))⟩

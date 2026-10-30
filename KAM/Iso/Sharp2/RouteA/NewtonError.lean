@@ -79,7 +79,8 @@ theorem products {γ δ ε κ : ℝ} (hγ : 0 < γ) (hδ : 0 < δ) :
     (ε / (γ ^ 2 * δ ^ (2 * κ))) ^ 2 = ε * (ε / (γ ^ 4 * δ ^ (2 * (2 * κ)))) ∧
     (ε / (γ * δ ^ κ)) * (ε / (γ ^ 2 * δ ^ (2 * κ))) =
       (γ * δ ^ κ) * (ε * (ε / (γ ^ 4 * δ ^ (2 * (2 * κ))))) ∧
-    ε * (ε / (γ ^ 2 * δ ^ (2 * κ))) = (γ ^ 2 * δ ^ (2 * κ)) * (ε * (ε / (γ ^ 4 * δ ^ (2 * (2 * κ))))) ∧
+    ε * (ε / (γ ^ 2 * δ ^ (2 * κ))) = (γ ^ 2 * δ ^ (2 * κ)) * (ε * (ε / (γ ^ 4 * δ ^ (2 * (2 *
+        κ))))) ∧
     (ε / (γ * δ ^ (κ + 1))) * (ε / (γ ^ 2 * δ ^ (2 * κ))) =
       (γ * δ ^ (κ - 1)) * (ε * (ε / (γ ^ 4 * δ ^ (2 * (2 * κ))))) := by
   have hs : 0 < δ ^ κ := Real.rpow_pos_of_pos hδ κ
@@ -146,7 +147,8 @@ theorem iso_newton_error_boundsA {p : StepInA} (hp : p.Pos) (hiso : p.iso = true
   have hΩ : ∀ θ ∈ complexStrip p.n (r - 2 * δ),
       ‖lagrangeMat K θ‖ ≤ p.COm * (ε / (γ * δ ^ (p.κ + 1))) := by
     intro θ hθ
-    refine (norm_lagrangeMat_le hSt hp.n_pos hc hω hr h2δ hK.holo hK.primary hK𝔅 hηNd hHN θ hθ).trans
+    refine (norm_lagrangeMat_le hSt hp.n_pos hc hω hr h2δ hK.holo hK.primary hK𝔅 hηNd hHN θ
+        hθ).trans
       (le_of_eq ?_)
     unfold StepInA.COm
     ring

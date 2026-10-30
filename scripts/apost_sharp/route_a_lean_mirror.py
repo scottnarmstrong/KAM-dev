@@ -169,3 +169,27 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def default_data():
+    """`g1_v2A_frozen` / `iso_g1_v2A_frozen` on R1: no refined hypothesis.  M1 = M2 = Mh2 = M, the initial values of
+    `defaultInit`, H_T = cT0 + 1 for the torsion, classical constants, caps = initial values + 5%."""
+    print("| default data, R1 | form | classical constants | Lean routeAOk at default data | v1 |")
+    D0 = T2.package("R1")
+    n, M, sK, sB, mu = D0["n"], D0["M"], D0["sK"], D0["sB"], D0["mu"]
+    D = dict(D0, M1=M, M2=M, Mh1=M, Mh2=M)
+    sK1, sB1 = sK - mu, sB - mu
+    D.update(sLt=2 * n * sK1 + mu, sN=sK1 * sB1 + mu, sNt=2 * n * sK1 * sB1 + mu,
+             Tsup=4 * n * M * sK ** 2 * sB ** 2 + 1)
+    for k_, base in (("B", D["sB"]), ("Tinv", D["sT"]), ("Lt", D["sLt"]), ("N", D["sN"]), ("Nt", D["sNt"]),
+                     ("Tsup", D["Tsup"])):
+        D["bud_" + k_] = base / 10
+    Dv = T2.with_caps(D, F(1, 20))
+    st, ct = T2.c_stages(Dv, "classical")
+    for iso in (False, True):
+        print("| R1 | %s | c_nat | %.2f | %s |" % ("iso" if iso else "fixed", threshold(num_from(Dv, st, ct, iso=iso)),
+                                                  "-24.98" if iso else "-24.72"))
+
+
+if __name__ == "__main__":
+    default_data()

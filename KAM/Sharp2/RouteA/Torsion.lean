@@ -20,7 +20,8 @@ import Mathlib.Tactic.Abel
 where `W` bounds `|Ω_K|`, for any two frequencies. Both torsions are torsion polynomials
 (`KAM.Sharp.torsion_identity`). `𝒯_ab = Y (A Ω₀ - Ω₀ A) Z` with `Y = B Lᵀ = Nᵀ Ω₀` and `Ω₀ Z = N` is
 telescoped; `𝒯_F`, `𝒯_c` are bounded for each torus (`|Ω̄_K| ≤ |Ω_K| + (2nσ_K + nσ_{Lᵀ}) D`). No
-small-divisor constant at a later bite enters: the Lagrangian defect of the new torus is bounded from
+small-divisor constant at a later bite enters: the Lagrangian defect of the new torus is bounded
+from
 that of `K` (audit finding F8 concerns route B only).
 -/
 

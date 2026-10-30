@@ -14,7 +14,8 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The v2 a-posteriori theorem, route A (blueprint `bp:p2s2:g1`, `bp:p2s2:frozen-form`)
 
-* `InitA`, `RefHypA`: the refined data `(R1)–(R3)`: bounds on explicit objects of `h`, `K`, `ω`, with
+* `InitA`, `RefHypA`: the refined data `(R1)–(R3)`: bounds on explicit objects of `h`, `K`, `ω`,
+  with
   their initial values (the caps of `NumA` may be larger: free budgets, L8);
 * `g1_core_A`: Theorem `bp:p2s2:g1`, route A: from `routeAOk` at `X⋆` and
   `e/(γ⁴ δ₀^{2a}) ≤ X⋆`, the conclusion of the frozen G1 with the budgets `μ/2`, and closeness
@@ -23,7 +24,8 @@ import Mathlib.Tactic.FieldSimp
 * `c1A`, `c2A`: the route-A constants. `c1A = ρ^{4τ}/(X⋆ δ₀^{4τ})`; `c2A = ρ^{2τ} S/(X⋆ δ₀^{4τ})`,
   where `S` is the ball sum at `X⋆` with `γ̄` replaced by `1`: the sums are superlinear in `X₀` and
   carry `γ²`, so `|K∞ - K| ≤ (X₀/X⋆) γ² S`, and there is no factor `γ̄²` (audit finding F6);
-* `g1_v2A`: Corollary `bp:p2s2:frozen-form`, route A, with `C₁ = min {C₁♯, c1A}`, `C₂ = max {C₂♯, c2A}`,
+* `g1_v2A`: Corollary `bp:p2s2:frozen-form`, route A, with `C₁ = min {C₁♯, c1A}`,
+  `C₂ = max {C₂♯, c2A}`,
   by cases on the branch of the minimum.
 -/
 
@@ -43,7 +45,8 @@ structure InitA where
   iNt : ℝ
   iH : ℝ
 
-/-- The refined hypotheses `(R1)–(R3)`, with the initial values `I`. Each bounds an explicit object of
+/-- The refined hypotheses `(R1)–(R3)`, with the initial values `I`. Each bounds an explicit object
+of
 `h`, `K`, `ω`; `T` is bounded on `T_{ρ-δ₀}`. -/
 structure RefHypA (N : NumA) (I : InitA) (𝔅 : Set ((Fin N.n → ℂ) × (Fin N.n → ℂ)))
     (h : (Fin N.n → ℂ) × (Fin N.n → ℂ) → ℂ) (K : (Fin N.n → ℂ) → (Fin N.n → ℂ) × (Fin N.n → ℂ))
@@ -64,7 +67,8 @@ def c1A (N : NumA) (Xs : ℝ) : ℝ := N.ρ ^ (4 * N.τ) / (Xs * delta0 3 N.ρ N
 
 /-- `C₂` of route A. -/
 def c2A (N : NumA) (Xs : ℝ) : ℝ :=
-  N.ρ ^ (2 * N.τ) * sumA (2 * N.τ) 3 N.ρ N.ρinf 1 (N.xS Xs) (fun s => (N.stage s).CD) (2 * N.τ) N.kp /
+  N.ρ ^ (2 * N.τ) * sumA (2 * N.τ) 3 N.ρ N.ρinf 1 (N.xS Xs) (fun s => (N.stage s).CD) (2 * N.τ) N.kp
+      /
     (Xs * delta0 3 N.ρ N.ρinf ^ (4 * N.τ))
 
 variable {N : NumA}
@@ -281,7 +285,8 @@ theorem g1_v2A (hN : N.Wf) (hfix : N.iso = false) (hΘ : N.Θ = 0) (hτ : (N.n :
   by_cases hcase : sharpC1 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar μ N.τ N.ρ N.ρinf ≤ c1A N Xs
   · -- the branch of v1
     rw [min_eq_left hcase] at hsm
-    obtain ⟨Kinf, h1, h2, h3, h4, h5, h6, h7⟩ := hbody 𝔅 h K ω γ e hopen htransl hholo hper hreal hbd
+    obtain ⟨Kinf, h1, h2, h3, h4, h5, h6, h7⟩ := hbody 𝔅 h K ω γ e hopen htransl hholo hper hreal
+        hbd
       hK hKp hKr hball hDK hG hTu hTb hγ hγγbar hdio hE hsm
     exact ⟨Kinf, h1, h2, h3, h4, h5, h6, hclose_mono (le_max_left _ _) h7⟩
   · -- route A
