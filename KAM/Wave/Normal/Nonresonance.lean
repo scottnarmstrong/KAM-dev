@@ -77,7 +77,7 @@ theorem lamExt_two_two_pnat {m : ℝ} (hm : 0 < m) {a b c d : ℕ+} (hs : Quarti
 
 /-- Qualitative nonresonance of all quartic terms (blueprint `bpW:w0n:nonres`). -/
 theorem quartic_nonresonance (m : ℝ) (hm : 0 < m) (v : Fin 4 → ℕ+)
-    (hg : quarticCoeff (v 0) (v 1) (v 2) (v 3) ≠ 0) (σ : Fin 4 → ℤˣ)
+    (hg : sineQuarticCoeff (v 0) (v 1) (v 2) (v 3) ≠ 0) (σ : Fin 4 → ℤˣ)
     (hres : ∑ t, ((σ t : ℤ) : ℝ) * lam m hm (v t) = 0) :
     signSide σ v 1 = signSide σ v (-1) := by
   have hs := quarticSel_of_quarticCoeff_ne_zero _ _ _ _ hg

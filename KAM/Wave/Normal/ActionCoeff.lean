@@ -44,55 +44,55 @@ theorem modeIdx_injective {N : ℕ} : Function.Injective (modeIdx (N := N)) := b
   exact Fin.ext (by omega)
 
 /-- `g_{iikk}` for the modes `i, k`. -/
-theorem quarticCoeff_pair_val (a b : ℕ+) :
-    quarticCoeff a a b b = 1 / π + (if a = b then 1 / (2 * π) else 0) := by
+theorem sineQuarticCoeff_pair_val (a b : ℕ+) :
+    sineQuarticCoeff a a b b = 1 / π + (if a = b then 1 / (2 * π) else 0) := by
   by_cases hab : a = b
   · subst hab
-    rw [quarticCoeff_diag]
+    rw [sineQuarticCoeff_diag]
     simp
     field_simp
     norm_num
-  · rw [quarticCoeff_diag_pair a b hab]
+  · rw [sineQuarticCoeff_diag_pair a b hab]
     simp [hab]
 
-theorem quarticCoeff_pair_val_b (a b : ℕ+) :
-    quarticCoeff a b a b = 1 / π + (if a = b then 1 / (2 * π) else 0) := by
-  rw [← quarticCoeff_pair_val, quarticCoeff_eq, quarticCoeff_eq]
+theorem sineQuarticCoeff_pair_val_b (a b : ℕ+) :
+    sineQuarticCoeff a b a b = 1 / π + (if a = b then 1 / (2 * π) else 0) := by
+  rw [← sineQuarticCoeff_pair_val, sineQuarticCoeff_eq, sineQuarticCoeff_eq]
   have := a.pos
   have := b.pos
   split_ifs <;> first | (exfalso; omega) | ring
 
-theorem quarticCoeff_pair_val_c (a b : ℕ+) :
-    quarticCoeff a b b a = 1 / π + (if a = b then 1 / (2 * π) else 0) := by
-  rw [← quarticCoeff_pair_val, quarticCoeff_eq, quarticCoeff_eq]
+theorem sineQuarticCoeff_pair_val_c (a b : ℕ+) :
+    sineQuarticCoeff a b b a = 1 / π + (if a = b then 1 / (2 * π) else 0) := by
+  rw [← sineQuarticCoeff_pair_val, sineQuarticCoeff_eq, sineQuarticCoeff_eq]
   have := a.pos
   have := b.pos
   split_ifs <;> first | (exfalso; omega) | ring
 
 /-- The quartic coefficient of two mode indices. -/
 def gN {N : ℕ} (i j k l : Fin N) : ℝ :=
-  quarticCoeff (modeIdx i) (modeIdx j) (modeIdx k) (modeIdx l)
+  sineQuarticCoeff (modeIdx i) (modeIdx j) (modeIdx k) (modeIdx l)
 
 theorem gN_pair {N : ℕ} (i k : Fin N) :
     gN i i k k = 1 / π + (if i = k then 1 / (2 * π) else 0) := by
   unfold gN
-  rw [quarticCoeff_pair_val]
+  rw [sineQuarticCoeff_pair_val]
   simp [modeIdx_injective.eq_iff]
 
 theorem gN_pair_b {N : ℕ} (i k : Fin N) :
     gN i k i k = 1 / π + (if i = k then 1 / (2 * π) else 0) := by
   unfold gN
-  rw [quarticCoeff_pair_val_b]
+  rw [sineQuarticCoeff_pair_val_b]
   simp [modeIdx_injective.eq_iff]
 
 theorem gN_pair_c {N : ℕ} (i k : Fin N) :
     gN i k k i = 1 / π + (if i = k then 1 / (2 * π) else 0) := by
   unfold gN
-  rw [quarticCoeff_pair_val_c]
+  rw [sineQuarticCoeff_pair_val_c]
   simp [modeIdx_injective.eq_iff]
 
 theorem gN_diag {N : ℕ} (i : Fin N) : gN i i i i = 3 / (2 * π) := by
-  unfold gN; exact quarticCoeff_diag _
+  unfold gN; exact sineQuarticCoeff_diag _
 
 section sums
 variable {N : ℕ} (F : Fin N → Fin N → Fin N → Fin N → ℝ)

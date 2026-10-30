@@ -10,11 +10,11 @@ Hard rules observed: no `set_option maxHeartbeats` (or any override); every file
 - Only imports: Mathlib, frozen `Lam`/`SineMode` definitions. No other W package.
 
 ## Blueprint labels proved
-- `bpW:w0n:quartic-coeff` (QuarticCoeff.lean): `quarticCoeff` (g_{ijkl} = ∫₀^π of four frozen `sineMode`);
-  `quarticCoeff_eq` (Iverson closed form); `quarticCoeff_perm` (symmetry under all of S4);
-  `quarticSel_of_quarticCoeff_ne_zero` / `quarticCoeff_eq_zero_of_not_sel` (selection rule, `QuarticSel`);
-  `quarticCoeff_diag` (3/(2π)); `quarticCoeff_diag_pair` (1/π, i≠j).
-- `bpW:w0n:g-signed`: `quarticCoeff_signed` (sum over ε∈{±1}³ coded by Bool, `signedSign`, `boolSign`);
+- `bpW:w0n:quartic-coeff` (QuarticCoeff.lean): `sineQuarticCoeff` (g_{ijkl} = ∫₀^π of four frozen `sineMode`);
+  `sineQuarticCoeff_eq` (Iverson closed form); `sineQuarticCoeff_perm` (symmetry under all of S4);
+  `quarticSel_of_quarticCoeff_ne_zero` / `sineQuarticCoeff_eq_zero_of_not_sel` (selection rule, `QuarticSel`);
+  `sineQuarticCoeff_diag` (3/(2π)); `sineQuarticCoeff_diag_pair` (1/π, i≠j).
+- `bpW:w0n:g-signed`: `sineQuarticCoeff_signed` (sum over ε∈{±1}³ coded by Bool, `signedSign`, `boolSign`);
   `abs_quarticCoeff_le` (the bound).
 - `bpW:w0n:nonres` (NonresAux.lean + Nonresonance.lean): `quartic_nonresonance` for all m>0, all
   indices: g≠0, σ∈(ℤˣ)⁴, Σσ_t lam(v_t)=0 ⇒ `signSide σ v 1 = signSide σ v (-1)` (multisets).
@@ -55,8 +55,8 @@ Hard rules observed: no `set_option maxHeartbeats` (or any override); every file
   KAM.Wave.Normal.FinsuppAbs KAM.Wave.Normal.Nondegeneracy` → "Build completed successfully
   (2843 jobs)", no warnings.
 - Lint: `/root/code/KAM-inp/.drafts/W/w_lint.sh /root/code/KAM-inp-wpc` exit 0; tail: "check_lean_modules: PASS (1630 Lean files, 0 comparator configurations) / FROZEN-ANCHOR GUARD OK / ABI HASHES OK (158 frozen declarations)" (root files regenerated with gen_root_imports.py first).
-- `#print axioms` (file `.drafts/axioms_W0N.lean`): quarticCoeff_eq, quarticCoeff_signed,
-  quarticCoeff_perm, quarticCoeff_diag, quarticCoeff_diag_pair, abs_quarticCoeff_le,
+- `#print axioms` (file `.drafts/axioms_W0N.lean`): sineQuarticCoeff_eq, sineQuarticCoeff_signed,
+  sineQuarticCoeff_perm, sineQuarticCoeff_diag, sineQuarticCoeff_diag_pair, abs_quarticCoeff_le,
   quartic_nonresonance, avgG_eq, partial_avgG_eq, det_actionA, pairing_ne_zero, A3_holds,
   nondegeneracy: all `[propext, Classical.choice, Quot.sound]`.
 
