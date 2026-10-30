@@ -12,12 +12,14 @@ public import KAM.Sharp2.EngineRatio
 public import KAM.Sharp2.EngineRatioArith
 public import KAM.Sharp2.EngineRatioInst
 public import KAM.Sharp2.Examples.MirrorQ
+public import KAM.Sharp2.Examples.MirrorQRef
 public import KAM.Sharp2.Examples.PlasmaLean.Balanced
 public import KAM.Sharp2.Examples.PlasmaLean.Bites
 public import KAM.Sharp2.Examples.PlasmaLean.ClassicalConst
 public import KAM.Sharp2.Examples.PlasmaLean.Core
 public import KAM.Sharp2.Examples.PlasmaLean.Frequency
 public import KAM.Sharp2.Examples.PlasmaLean.NonVacuous
+public import KAM.Sharp2.Examples.PlasmaLean.Ref
 public import KAM.Sharp2.Examples.PlasmaLean.Witness
 public import KAM.Sharp2.Examples.PlasmaLean
 public import KAM.Sharp2.Geometry
@@ -58,6 +60,11 @@ public import KAM.Sharp2.RouteA.G1
 public import KAM.Sharp2.RouteA.Geometry
 public import KAM.Sharp2.RouteA.Mono
 public import KAM.Sharp2.RouteA.NewtonError
+public import KAM.Sharp2.RouteA.Ref.Constants
+public import KAM.Sharp2.RouteA.Ref.G1
+public import KAM.Sharp2.RouteA.Ref.Local
+public import KAM.Sharp2.RouteA.Ref.Scheme
+public import KAM.Sharp2.RouteA.Ref.Step
 public import KAM.Sharp2.RouteA.Scheme
 public import KAM.Sharp2.RouteA.Step
 public import KAM.Sharp2.RouteA.Torsion

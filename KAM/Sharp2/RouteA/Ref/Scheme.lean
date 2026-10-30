@@ -106,7 +106,8 @@ theorem schemeR_isNewton (hN : N.Wf) (hfix : N.iso = false) (hΘ : N.Θ = 0)
     have c0 : m 0 + p.CDK * E ≤ b := by
       have := hcap 0
       rwa [show (N.stageR s).rate 0 = p.CDK from rfl,
-        show ((jR 0 : ℕ) : ℝ) = ((0 : ℕ) : ℝ) from rfl, show deltaSeq 3 N.ρ N.ρinf s = N.δ s from rfl, e0] at this
+        show ((jR 0 : ℕ) : ℝ) = ((0 : ℕ) : ℝ) from rfl,
+        show deltaSeq 3 N.ρ N.ρinf s = N.δ s from rfl, e0] at this
     have cj : ∀ (i : Fin 7) (c : ℝ), (N.stageR s).rate i = c → jR i = 1 →
         m i + c * X ≤ N.capR b bT i := by
       intro i c hc1 hj

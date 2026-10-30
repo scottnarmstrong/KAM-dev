@@ -289,8 +289,8 @@ theorem g1_v2A' (hN : N.Wf) (hfix : N.iso = false) (hΘ : N.Θ = 0) (hτ : (N.n 
       rw [e1, div_lt_one hXpos] at hsm
       exact hsm
     obtain ⟨Kinf, h1, h2, h3, h4, h5, h6, h7⟩ := Ref.g1_branch_R hN hfix hΘ hτ hM hμ hγbar hsK hOk
-      hB hXpos hopen htransl hholo hper hreal hbd hK hKp hKr hball hDK hG hTu hTb hRef hω hCt hγ hγγbar
-      hdio he0 hE hsm'
+      hB hXpos hopen htransl hholo hper hreal hbd hK hKp hKr hball hDK hG hTu hTb hRef hω hCt hγ
+      hγγbar hdio he0 hE hsm'
     exact ⟨Kinf, h1, h2, h3, h4, h5, h6, hclose_mono (le_max_right _ _) h7⟩
 
 end KAM.Sharp2.RouteA

@@ -106,12 +106,11 @@ def okR (bF : ℚ) (σ m₀ : Fin 7 → ℚ) (Xs : ℚ) : Bool :=
     decide (∀ i, m₀ i + Q.sumR Xs i ≤ σ i)
 
 theorem cast_cS (s : ℕ) : Q.toA.cS s = (Q.cS s : ℝ) := by
+  have hk : Q.toA.kp = Q.kp := rfl
   by_cases h : s < Q.kp
-  · simp only [NumA.cS, cS]
-    rw [if_pos (show s < Q.toA.kp from h), if_pos h]
+  · simp only [NumA.cS, cS, hk, h, ite_true]
     rfl
-  · simp only [NumA.cS, cS]
-    rw [if_neg (show ¬ s < Q.toA.kp from h), if_neg h]
+  · simp only [NumA.cS, cS, hk, h, ite_false]
     rfl
 
 theorem cast_bLocS (s : ℕ) : Q.toA.bLocS s = (Q.bLocS s : ℝ) := by
