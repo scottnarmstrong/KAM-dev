@@ -1581,3 +1581,18 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     - LOCK-ASSEMBLY part 1 and LOCK-GEN-2 (v2 optimization of the librational certificate) are running.
     - LOCK-SQRT's design signal: ball bounds on high derivatives of √(long product) are loose, so the generator
       should compile √ of the simplest operand.
+- **17:29. SO-KDEPTH done; landing branch in a full build before audit.**
+  - The checker commit f1f3b760 makes the traversals log-depth: balanced `weightedNormUp`, a merge tree for
+    `directItems`, a strict `composeOps` loop, new modules Arith/BalancedSum and Model/FixedEq. No signed statement
+    and no format changed.
+  - The kernel's real depth limit is accumulation of non-literal arithmetic (Int or `upAdd` folds, nested lazy
+    merges). Nat folds and list operations pass at 20k elements.
+  - A synthetic 20,000-term polynomial now passes every operation, where the old foldr hit deep recursion at 9 s.
+  - On R1 data (CertFixed 320) these remain memory-bound in one kernel check, and SO-DATA3 splits them per piece:
+    whole `checkEmbedding` (22 min, then the 10 GB cap), `checkSoGraph` (386 s, then the cap), and `checkGram`
+    (more than 72 min, stopped to free the lock). Every piece of `checkEmbedding` passes alone.
+  - Landing branch inp-sokdepth-oninp: f1f3b760 cherry-picked onto inp a5f010eb as f1dc41bf, plus the audit request
+    (b128d433). A full `KAM` build is running there first, because sharp-v2 may rely on the rewritten internals as
+    BallsTrig did.
+  - The measurement worktree is removed (branch kept); / at 12 GB. SO-DATA3 is told to mirror the new
+    `directItems` merge order; equality is argued, not proved.
