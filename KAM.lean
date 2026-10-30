@@ -396,7 +396,9 @@ public import KAM.Iso.Sharp.BoxLemmas
 public import KAM.Iso.Sharp.Constants
 public import KAM.Iso.Sharp.ConstantsArith
 public import KAM.Iso.Sharp.Correction
+public import KAM.Iso.Sharp.G1
 public import KAM.Iso.Sharp.NewtonError
+public import KAM.Iso.Sharp.Scheme
 public import KAM.Iso.Sharp.Step
 public import KAM.Iso.Sharp.Twist
 public import KAM.Iso.ShiftPotential
