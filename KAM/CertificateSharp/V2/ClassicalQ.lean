@@ -202,18 +202,18 @@ theorem cohConstC_le_of_ok {n τ J : ℕ} {δ c : ℚ} (hδ : 0 ≤ δ)
     _ = c := by field_simp
 
 /-- Rational majorants of the classical constants at the schedule are certificates on the
-Diophantine set. -/
-theorem NumA.cert_of_le {N : NumA} (hN : N.Wf) (hρ1 : N.ρ ≤ 1) {γ : ℝ} (hγ : 0 < γ)
-    (hc : ∀ s < N.kp, cohConstC N.n N.τ (N.δ s) ≤ N.c s)
-    (hcb : ∀ s < N.kp, cohConstC N.n N.τ (N.r s) ≤ N.cbar s)
+Diophantine set, for average bites `≤ 1`. -/
+theorem NumA.cert_of_le {N : NumA} (hN : N.Wf) (hb1 : ∀ s < N.kp, N.bbar s ≤ 1) {γ : ℝ}
+    (hγ : 0 < γ) (hc : ∀ s < N.kp, cohConstC N.n N.τ (N.δ s) ≤ N.c s)
+    (hcb : ∀ s < N.kp, cohConstC N.n N.τ (N.bbar s) ≤ N.cbar s)
     (ht : cohConstC N.n N.τ (N.δ N.kp) ≤ N.ctail) :
     N.Cert γ {ω | IsDiophantine γ N.τ ω} where
   stage := fun s hs =>
     sdConst_mono hγ (sdConst_classical (by have := hN.two_le; omega) hN.τ_ge hγ (hN.δ_pos s)
       (hN.δ_le s)) (hc s hs)
   bar := fun s hs =>
-    sdConst_mono hγ (sdConst_classical (by have := hN.two_le; omega) hN.τ_ge hγ (hN.r_pos s)
-      ((hN.r_le s).trans hρ1)) (hcb s hs)
+    sdConst_mono hγ (sdConst_classical (by have := hN.two_le; omega) hN.τ_ge hγ (hN.bbar s hs).1
+      (hb1 s hs)) (hcb s hs)
   tail := fun δ hδ hle => by
     have h1 := sdConst_classical (n := N.n) (by have := hN.two_le; omega) hN.τ_ge hγ hδ
       (hle.trans (hN.δ_le _))

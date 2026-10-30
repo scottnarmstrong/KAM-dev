@@ -21,6 +21,10 @@ itself over `ℚ`, with no rounding.
 * `NumQ.x`, `NumQ.sumQ`, `NumQ.okB`: the mirror of `routeAOkI` (`okB_sound`);
 * `NumQ.wfOk`: the mirror of `NumA.Wf` (`wfOk_sound`);
 * `NumQ.c2Q`, `NumQ.c3Q`: the mirrors of `c2I`, `c3I`.
+
+The average bite is `b_s = min r_s 1` (`NumQ.b`), which serves the classical constant on every
+strip. `KAM.Sharp2.Examples.MirrorQ` is a mirror of the fixed-frequency `routeAOk` at `τ = 1`; this
+one is of the isoenergetic `routeAOkI`, at every `τ ∈ ℕ`.
 -/
 
 @[expose] public section
@@ -281,7 +285,9 @@ noncomputable def toNum : NumA :=
   { n := Q.n, τ := Q.τ, ρ := Q.ρ, ρinf := Q.ρinf, M1 := Q.M1, M2 := Q.M2, sK := Q.sK, sB := Q.sB,
     sT := Q.sT, sLt := Q.sLt, sN := Q.sN, sNt := Q.sNt, t := Q.t, th := Q.th, γb := Q.γb,
     c := fun s => (Q.c.getD s 0 : ℚ), cbar := fun s => (Q.cbar.getD s 0 : ℚ), ctail := Q.ctail,
-    kp := Q.kp, iso := true, Θ := Q.Θ, HY := Q.HY, Mh2 := Q.Mh2 }
+    kp := Q.kp, iso := true, Θ := Q.Θ, HY := Q.HY, Mh2 := Q.Mh2,
+    bbar := fun s => (min (Q.ρ - 2 * 3 * min 1 ((Q.ρ - Q.ρinf) / (2 * 3)) *
+      (1 - (2 : ℚ)⁻¹ ^ s)) 1 : ℚ) }
 
 /-- `δ₀ = min {1, (ρ - ρ∞)/6}`. -/
 def δ0 : ℚ := min 1 ((Q.ρ - Q.ρinf) / (2 * 3))
@@ -289,10 +295,12 @@ def δ0 : ℚ := min 1 ((Q.ρ - Q.ρinf) / (2 * 3))
 def δ (s : ℕ) : ℚ := (2 : ℚ)⁻¹ ^ s * Q.δ0
 /-- `r_s = ρ - 6 δ₀ (1 - 2^{-s})`. -/
 def r (s : ℕ) : ℚ := Q.ρ - 2 * 3 * Q.δ0 * (1 - (2 : ℚ)⁻¹ ^ s)
+/-- The bite of the averages: `b_s = min r_s 1`. -/
+def b (s : ℕ) : ℚ := min (Q.r s) 1
 /-- `c(δ_s)` in the prefix, `c_∞` in the tail. -/
 def cS (s : ℕ) : ℚ := if s < Q.kp then Q.c.getD s 0 else Q.ctail
-/-- `c̄_s (δ_s/r_s)^τ` in the prefix, `c_∞` in the tail. -/
-def caS (s : ℕ) : ℚ := if s < Q.kp then Q.cbar.getD s 0 * (Q.δ s / Q.r s) ^ Q.τ else Q.ctail
+/-- `c̄_s (δ_s/b_s)^τ` in the prefix, `c_∞` in the tail. -/
+def caS (s : ℕ) : ℚ := if s < Q.kp then Q.cbar.getD s 0 * (Q.δ s / Q.b s) ^ Q.τ else Q.ctail
 /-- The value of the bite in the constants. -/
 def dS (s : ℕ) : ℚ := Q.δ (min s Q.kp)
 
@@ -356,11 +364,16 @@ theorem wfOk_sound (h : Q.wfOk = true) : Q.toNum.Wf := by
       | none => simp
       | some a => simpa using hl a (List.mem_of_getElem? hh)
     exact_mod_cast this
+  have hρ0 : (0 : ℝ) < Q.toNum.ρinf := by show (0 : ℝ) < Q.ρinf; exact_mod_cast h3
+  have hρ1 : Q.toNum.ρinf < Q.toNum.ρ := by show (Q.ρinf : ℝ) < Q.ρ; exact_mod_cast h4
+  have hrb : ∀ s, Q.toNum.r s = (Q.r s : ℝ) := fun s => by
+    show rSeq 3 (Q.ρ : ℝ) Q.ρinf s = _
+    simp only [rSeq, r, delta0, δ0]; push_cast; rfl
   exact
     { two_le := h1
       τ_ge := by show (1 : ℝ) ≤ (Q.τ : ℝ); exact_mod_cast h2
-      ρinf_pos := by show (0 : ℝ) < Q.ρinf; exact_mod_cast h3
-      ρinf_lt := by show (Q.ρinf : ℝ) < Q.ρ; exact_mod_cast h4
+      ρinf_pos := hρ0
+      ρinf_lt := hρ1
       M1 := by show (0 : ℝ) ≤ Q.M1; exact_mod_cast h5
       M2 := by show (0 : ℝ) ≤ Q.M2; exact_mod_cast h6
       sK := by show (0 : ℝ) < Q.sK; exact_mod_cast h7
@@ -378,7 +391,14 @@ theorem wfOk_sound (h : Q.wfOk = true) : Q.toNum.Wf := by
       ctail := by show (0 : ℝ) ≤ Q.ctail; exact_mod_cast h19
       Θ := by show (0 : ℝ) ≤ Q.Θ; exact_mod_cast h20
       HY := by show (0 : ℝ) ≤ Q.HY; exact_mod_cast h21
-      Mh2 := by show (0 : ℝ) ≤ Q.Mh2; exact_mod_cast h22 }
+      Mh2 := by show (0 : ℝ) ≤ Q.Mh2; exact_mod_cast h22
+      bbar := fun s _ => by
+        have hr := NumA.r_pos_of hρ0 hρ1 s
+        have e : Q.toNum.bbar s = ((Q.b s : ℚ) : ℝ) := rfl
+        rw [e, hrb] at *
+        have hb : (Q.b s : ℝ) = min (Q.r s : ℝ) 1 := by simp only [b]; push_cast; rfl
+        rw [hb]
+        exact ⟨lt_min hr one_pos, min_le_left _ _⟩ }
 
 theorem cast_δ0 : delta0 3 (Q.ρ : ℝ) Q.ρinf = (Q.δ0 : ℝ) := by
   simp only [delta0, δ0]; push_cast; rfl
@@ -396,12 +416,14 @@ theorem cast_cS (s : ℕ) : Q.toNum.cS s = (Q.cS s : ℝ) := by
   show (if s < Q.kp then ((Q.c.getD s 0 : ℚ) : ℝ) else (Q.ctail : ℝ)) = _
   split_ifs <;> rfl
 
+theorem cast_b (s : ℕ) : Q.toNum.bbar s = (Q.b s : ℝ) := rfl
+
 theorem cast_caS (s : ℕ) : Q.toNum.caS s = (Q.caS s : ℝ) := by
   unfold NumA.caS caS
-  show (if s < Q.kp then ((Q.cbar.getD s 0 : ℚ) : ℝ) * (Q.toNum.δ s / Q.toNum.r s) ^ (Q.τ : ℝ)
+  show (if s < Q.kp then ((Q.cbar.getD s 0 : ℚ) : ℝ) * (Q.toNum.δ s / Q.toNum.bbar s) ^ (Q.τ : ℝ)
     else (Q.ctail : ℝ)) = _
   split_ifs
-  · rw [cast_δ, cast_r, Real.rpow_natCast]; push_cast; rfl
+  · rw [cast_δ, cast_b, Real.rpow_natCast]; push_cast; rfl
   · rfl
 
 theorem cast_dS (s : ℕ) : Q.toNum.dS s = (Q.dS s : ℝ) := by

@@ -10,11 +10,15 @@ public import KAM.CertificateSharp.V2.RouteACore
 /-!
 # Stage 1: route A at the frozen data
 
-`routeAFrozen` is the engine of `KAM.Iso.Sharp2.RouteA.iso_g1_v2A_frozen`: no refined hypothesis,
+`routeAFrozen` is the engine of `KAM.Iso.Sharp2.RouteA.iso_g1_v2A_default`: no refined hypothesis,
 `M₁ = M₂ = M`, the default initial values of `defaultInit`, the classical small-divisor constants.
-The test evaluates, in exact rational arithmetic, `NumA.Wf` (`wfOk`), `routeAOkI` (`okB`),
-`TorsionOk` (`torsionOkQ`), the classical constants (`classicalListOk`), and the comparisons
-`finalOk`, from the certificate's parameters, its frequency box and a witness `FrozenWit`.
+The test evaluates, in exact rational arithmetic, `NumA.Wf` (`wfOk`), `routeAOkI` (`okB`), the
+classical constants (`classicalListOk`), and the comparisons `finalOk`, from the certificate's
+parameters, its frequency box and a witness `FrozenWit`.
+
+That theorem works at the threshold `torsionXs N M σK σB X⋆ = min X⋆ (1 + torsionCoef)⁻¹`, a real
+number through `cohConstR`. `torsionCapOk` checks `X⋆ ≤ (1 + A)⁻¹` for a rational `A ≥ torsionCoef`,
+and then `torsionXs = X⋆` (`torsionXs_eq`): the constants stay rational.
 -/
 
 @[expose] public section
@@ -34,7 +38,7 @@ structure FrozenWit where
   th : ℚ
   /-- The classical constants at `δ_s`, `s < kp`. -/
   c : List ℚ
-  /-- The classical constants at `r_s`, `s < kp`. -/
+  /-- The classical constants at `b_s = min r_s 1`, `s < kp`. -/
   cbar : List ℚ
   /-- The classical constant at `δ_kp`. -/
   ctail : ℚ
@@ -58,12 +62,16 @@ def FrozenWit.num (w : FrozenWit) (n : ℕ) (p : CertParams) (box : FreqBox) : N
 /-- The classical constants at the schedule. -/
 def classicalListOk (Q : NumQ) (J : ℕ) : Bool :=
   (List.range Q.kp).all (fun s => classicalOk Q.n Q.τ J (Q.δ s) (Q.c.getD s 0) &&
-    classicalOk Q.n Q.τ J (Q.r s) (Q.cbar.getD s 0)) && classicalOk Q.n Q.τ J (Q.δ Q.kp) Q.ctail
+    classicalOk Q.n Q.τ J (Q.b s) (Q.cbar.getD s 0)) && classicalOk Q.n Q.τ J (Q.δ Q.kp) Q.ctail
 
-/-- `TorsionOk` over `ℚ`, with `c_R := cRRQ`. -/
-def torsionOkQ (Q : NumQ) (M σK σB Xs : ℚ) : Bool :=
-  decide ((cT1Q Q.n σK σB * (Q.γb ^ 4 * Q.δ 0 ^ (2 * (2 * Q.τ) - 1)) +
-    cT2Q Q.n Q.τ (cRRQ Q.n Q.τ) M σK σB * (Q.γb ^ 3 * Q.δ 0 ^ (3 * Q.τ - 1))) * Xs ≤ 1)
+/-- The rational majorant of `torsionCoef`, with `c_R := cRRQ`. -/
+def torsionCoefQ (Q : NumQ) (M σK σB : ℚ) : ℚ :=
+  cT1Q Q.n σK σB * (Q.γb ^ 4 * Q.δ 0 ^ (2 * (2 * Q.τ) - 1)) +
+    cT2Q Q.n Q.τ (cRRQ Q.n Q.τ) M σK σB * (Q.γb ^ 3 * Q.δ 0 ^ (3 * Q.τ - 1))
+
+/-- `X⋆` is below the torsion cap of `torsionXs`. -/
+def torsionCapOk (Q : NumQ) (M σK σB Xs : ℚ) : Bool :=
+  decide ((1 + torsionCoefQ Q M σK σB) * Xs ≤ 1)
 
 /-- The default initial values of `defaultInit`, for the parameters `p`. -/
 def defaultInitQ (n : ℕ) (p : CertParams) : Fin 9 → ℚ :=
@@ -73,9 +81,8 @@ def defaultInitQ (n : ℕ) (p : CertParams) : Fin 9 → ℚ :=
 /-- The test of stage 1 on the parameters and the box. -/
 def frozenCore (n : ℕ) (p : CertParams) (box : FreqBox) (w : FrozenWit) : Bool :=
   let Q := w.num n p box
-  decide (0 < w.Xs) && decide (p.rho ≤ 1) && Q.wfOk &&
-    Q.okB (capQ Q p.μ p.nuRay) (defaultInitQ n p) w.Xs &&
-    torsionOkQ Q p.M p.σK p.σB w.Xs && classicalListOk Q w.J && finalOk Q n p box w.Xs
+  decide (0 < w.Xs) && Q.wfOk && Q.okB (capQ Q p.μ p.nuRay) (defaultInitQ n p) w.Xs &&
+    torsionCapOk Q p.M p.σK p.σB w.Xs && classicalListOk Q w.J && finalOk Q n p box w.Xs
 
 variable {n : ℕ} {α : Type} [CertArith α]
 
@@ -105,11 +112,10 @@ theorem cT2_le (n τ : ℕ) {M σK σB : ℚ} (hM : 0 < M) (hσK : 0 < σK) (hσ
   push_cast
   gcongr
 
-/-- `TorsionOk` from its rational mirror. -/
-theorem torsionOk_of {Q : NumQ} {M σK σB Xs : ℚ} (hτ : 1 ≤ Q.τ) (hγ : 0 < Q.γb) (hδ : 0 ≤ Q.δ 0)
-    (hσK : 0 < σK) (hσB : 0 < σB) (hM : 0 < M) (hX : 0 ≤ Xs)
-    (h : torsionOkQ Q M σK σB Xs = true) : TorsionOk Q.toNum M σK σB Xs := by
-  simp only [torsionOkQ, decide_eq_true_eq] at h
+/-- `torsionCoef` is below its rational majorant. -/
+theorem torsionCoef_le {Q : NumQ} {M σK σB : ℚ} (hτ : 1 ≤ Q.τ) (hγ : 0 < Q.γb) (hδ : 0 ≤ Q.δ 0)
+    (hσK : 0 < σK) (hσB : 0 < σB) (hM : 0 < M) :
+    torsionCoef Q.toNum M σK σB ≤ (torsionCoefQ Q M σK σB : ℝ) := by
   have e4 : (2 * (2 * (Q.τ : ℝ)) - 1 : ℝ) = ((2 * (2 * Q.τ) - 1 : ℕ) : ℝ) := by
     rw [Nat.cast_sub (by omega)]; push_cast; ring
   have e3 : (3 * (Q.τ : ℝ) - 1 : ℝ) = ((3 * Q.τ - 1 : ℕ) : ℝ) := by
@@ -119,19 +125,53 @@ theorem torsionOk_of {Q : NumQ} {M σK σB Xs : ℚ} (hτ : 1 ≤ Q.τ) (hγ : 0
   have hc2 := cT2_le Q.n Q.τ hM hσK hσB
   have hγ' : (0 : ℝ) ≤ Q.γb := by exact_mod_cast hγ.le
   have hδ' : (0 : ℝ) ≤ Q.δ 0 := by exact_mod_cast hδ
-  have hX' : (0 : ℝ) ≤ Xs := by exact_mod_cast hX
-  unfold TorsionOk
-  show (cT1 Q.n (σK : ℝ) σB * ((Q.γb : ℝ) ^ 4 * Q.toNum.δ 0 ^ (2 * (2 * (Q.τ : ℝ)) - 1)) +
+  unfold torsionCoef
+  show cT1 Q.n (σK : ℝ) σB * ((Q.γb : ℝ) ^ 4 * Q.toNum.δ 0 ^ (2 * (2 * (Q.τ : ℝ)) - 1)) +
     cT2 Q.n (Q.τ : ℝ) (cohConstR Q.n (Q.τ : ℝ)) M σK σB *
-      ((Q.γb : ℝ) ^ 3 * Q.toNum.δ 0 ^ (3 * (Q.τ : ℝ) - 1))) * Xs ≤ 1
+      ((Q.γb : ℝ) ^ 3 * Q.toNum.δ 0 ^ (3 * (Q.τ : ℝ) - 1)) ≤ _
   rw [NumQ.cast_δ, e4, e3, Real.rpow_natCast, Real.rpow_natCast, ec1]
-  have h' := (Rat.cast_le (K := ℝ)).mpr h
-  push_cast at h'
-  refine le_trans ?_ h'
+  simp only [torsionCoefQ]
+  push_cast
   gcongr
 
+/-- Below the rational cap, `torsionXs` is `X⋆`. -/
+theorem torsionXs_eq {Q : NumQ} {M σK σB Xs : ℚ} (hτ : 1 ≤ Q.τ) (hγ : 0 < Q.γb) (hδ : 0 ≤ Q.δ 0)
+    (hσK : 0 < σK) (hσB : 0 < σB) (hM : 0 < M) (hX : 0 ≤ Xs) (hN : Q.toNum.Wf)
+    (h : torsionCapOk Q M σK σB Xs = true) : torsionXs Q.toNum M σK σB Xs = Xs := by
+  simp only [torsionCapOk, decide_eq_true_eq] at h
+  have hc := torsionCoef_le hτ hγ hδ hσK hσB hM
+  have hc0 : 0 ≤ torsionCoef Q.toNum M σK σB := by
+    have hT1 : 0 ≤ cT1 Q.toNum.n (σK : ℝ) σB := by
+      have : (0 : ℝ) < σK := by exact_mod_cast hσK
+      have : (0 : ℝ) < σB := by exact_mod_cast hσB
+      unfold cT1; positivity
+    have hT2 : 0 ≤ cT2 Q.toNum.n Q.toNum.τ (cohConstR Q.toNum.n Q.toNum.τ) M σK σB := by
+      have hcR := (cohData_russmann (n := Q.toNum.n) hN.τ_ge).cR_pos
+      have : (0 : ℝ) < σK := by exact_mod_cast hσK
+      have : (0 : ℝ) < σB := by exact_mod_cast hσB
+      have : (0 : ℝ) < M := by exact_mod_cast hM
+      unfold cT2 wT cOm
+      positivity
+    have h1 := Real.rpow_nonneg (hN.δ_pos 0).le (2 * (2 * Q.toNum.τ) - 1)
+    have h2 := Real.rpow_nonneg (hN.δ_pos 0).le (3 * Q.toNum.τ - 1)
+    have h3 := hN.γb
+    unfold torsionCoef
+    positivity
+  have hX' : (0 : ℝ) ≤ Xs := by exact_mod_cast hX
+  have h' := (Rat.cast_le (K := ℝ)).mpr h
+  push_cast at h'
+  have hpos : 0 < 1 + torsionCoef Q.toNum M σK σB := by linarith
+  unfold torsionXs
+  refine min_eq_left ?_
+  rw [← one_div, le_div_iff₀ hpos]
+  have : (Xs : ℝ) * (1 + torsionCoef Q.toNum M σK σB) ≤
+      (1 + (torsionCoefQ Q M σK σB : ℝ)) * Xs := by
+    rw [mul_comm]
+    exact mul_le_mul_of_nonneg_right (by linarith) hX'
+  exact this.trans h'
+
 /-- The classical certificates from `classicalListOk`. -/
-theorem cert_of_classicalListOk {Q : NumQ} {J : ℕ} (hN : Q.toNum.Wf) (hρ1 : (Q.ρ : ℝ) ≤ 1)
+theorem cert_of_classicalListOk {Q : NumQ} {J : ℕ} (hN : Q.toNum.Wf)
     (h : classicalListOk Q J = true) {γ : ℝ} (hγ : 0 < γ) :
     Q.toNum.Cert γ {ω | IsDiophantine γ Q.toNum.τ ω} := by
   simp only [classicalListOk, Bool.and_eq_true, List.all_eq_true, List.mem_range] at h
@@ -140,19 +180,23 @@ theorem cert_of_classicalListOk {Q : NumQ} {J : ℕ} (hN : Q.toNum.Wf) (hρ1 : (
     have := hN.δ_pos s
     rw [NumQ.cast_δ] at this
     exact_mod_cast this.le
-  have hr : ∀ s, 0 ≤ Q.r s := fun s => by
-    have := hN.r_pos s
-    rw [NumQ.cast_r] at this
+  have hb : ∀ s < Q.kp, 0 ≤ Q.b s := fun s hs => by
+    have := (hN.bbar s hs).1
+    rw [NumQ.cast_b] at this
     exact_mod_cast this.le
-  refine NumA.cert_of_le hN hρ1 hγ (fun s hs => ?_) (fun s hs => ?_) ?_
+  have hb1 : ∀ s < Q.toNum.kp, Q.toNum.bbar s ≤ 1 := fun s _ => by
+    rw [NumQ.cast_b]
+    have : Q.b s ≤ 1 := min_le_right _ _
+    exact_mod_cast this
+  refine NumA.cert_of_le hN hb1 hγ (fun s hs => ?_) (fun s hs => ?_) ?_
   · rw [NumQ.cast_δ]
     exact cohConstC_le_of_ok (hδ s) (h1 s hs).1
-  · rw [NumQ.cast_r]
-    exact cohConstC_le_of_ok (hr s) (h1 s hs).2
+  · rw [NumQ.cast_b]
+    exact cohConstC_le_of_ok (hb s hs) (h1 s hs).2
   · rw [NumQ.cast_δ]
     exact cohConstC_le_of_ok (hδ _) h2
 
-/-- **Soundness of stage 1**, through `iso_g1_v2A_frozen`. -/
+/-- **Soundness of stage 1**, through `iso_g1_v2A_default`. -/
 theorem frozenCore_sound [LawfulCertArith α] (c : TorusCertificate n α) (w : FrozenWit)
     {ωstar : Fin n → ℝ} (hω : FreqEncloses n c.freqBox ωstar)
     (hdio : IsDiophantine (c.params.γ : ℝ) (c.params.tau : ℝ) ωstar) (B : BaseFacts c ωstar)
@@ -160,7 +204,7 @@ theorem frozenCore_sound [LawfulCertArith α] (c : TorusCertificate n α) (w : F
   have S := checkStatic_sound B.hs
   obtain ⟨hω0, -, -⟩ := checkStatic_freq B.hs hω
   simp only [frozenCore, Bool.and_eq_true, decide_eq_true_eq] at h
-  obtain ⟨⟨⟨⟨⟨⟨hX, hρ1⟩, hwf⟩, hok⟩, htor⟩, hcl⟩, hfin⟩ := h
+  obtain ⟨⟨⟨⟨⟨hX, hwf⟩, hok⟩, htor⟩, hcl⟩, hfin⟩ := h
   set Q := w.num n c.params c.freqBox with hQ
   have hN : Q.toNum.Wf := NumQ.wfOk_sound hwf
   have hτ1 : 1 ≤ Q.τ := by
@@ -170,7 +214,6 @@ theorem frozenCore_sound [LawfulCertArith α] (c : TorusCertificate n α) (w : F
     have h : (0 : ℝ) < (Q.γb : ℝ) := hN.γb
     exact_mod_cast h
   have hX' : (0 : ℝ) < w.Xs := by exact_mod_cast hX
-  have hρ1' : (Q.ρ : ℝ) ≤ 1 := by exact_mod_cast hρ1
   have hδ0 : 0 ≤ Q.δ 0 := by
     have := hN.δ_pos 0
     rw [NumQ.cast_δ] at this
@@ -181,15 +224,15 @@ theorem frozenCore_sound [LawfulCertArith α] (c : TorusCertificate n α) (w : F
     hσ0 (by push_cast; exact le_rfl) hω hω0
   have hOk := NumQ.okB_sound hτ1 hok
   rw [← cast_capQ, ← cast_defaultInit] at hOk
-  obtain ⟨-, -, -, hbody⟩ := iso_g1_v2A_frozen (N := Q.toNum) (M := c.params.M)
+  obtain ⟨-, -, -, hbody⟩ := iso_g1_v2A_default (N := Q.toNum) (M := c.params.M)
     (σK := c.params.σK) (σB := c.params.σB) (σT := c.params.σT) (μ := c.params.μ)
     (γbar := c.params.γbar) (σω := ((c.params.σω * boxNormUp c.freqBox : ℚ) : ℝ) / ‖ωstar‖)
     (ν := c.params.nuRay) (Xs := w.Xs) hN rfl S.hτ S.hM S.hσK S.hσB S.hσT S.hμ
     (S.hσω.trans_le hσ) S.hν ωstar hω0 rfl (by simp [NumQ.toNum, Q, FrozenWit.num]) hΘ
     (by simp [NumQ.toNum, Q, FrozenWit.num]) rfl rfl rfl hOk hX'
-    (torsionOk_of hτ1 hγb hδ0 (by exact_mod_cast S.hσK)
-      (by exact_mod_cast S.hσB) (by exact_mod_cast S.hM) hX.le htor)
-    (fun _ hγ _ => cert_of_classicalListOk hN hρ1' hcl hγ)
+    (fun _ hγ _ => cert_of_classicalListOk hN hcl hγ)
+  rw [torsionXs_eq hτ1 hγb hδ0 (by exact_mod_cast S.hσK) (by exact_mod_cast S.hσB)
+    (by exact_mod_cast S.hM) hX.le hN htor] at hbody
   exact certifiedTorus_of_ray hω hdio B hσ hA (fun _ _ ht => ray_lt_of_disp hroom ht) hbody
 
 /-- **The engine of route A at the frozen data.** -/
