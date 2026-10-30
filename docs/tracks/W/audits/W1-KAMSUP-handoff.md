@@ -75,3 +75,25 @@ It has no provider and no seal, so skip audit item 1.
 4. Hygiene. This is a SLIM worktree, so run lint only via `/root/code/KAM-inp/.drafts/W/w_lint.sh /root/code/KAM-inp-wpg`.
    Run the kernel replay of the 9 modules. Regenerated roots are authorized. The machine is short on memory: one
    lean process at a time, LEAN_NUM_THREADS=1.
+
+## Round 2 (after audit 1)
+
+**F1 (kamOpNorm/kamNorm carrier).** `KamSpace.lean`: the raw `sInf` on arbitrary linear maps is gone.
+New `KamOpAdmissible r s L C` (`0 ≤ C ∧ ∀ W, kamNorm r (L W) ≤ C * kamNorm s W`) and the source carrier
+`KamBoundedMap r s` (a linear map together with `0 < r`, `0 < s` and an admissible bound). `kamOpNorm` is defined
+only on `KamBoundedMap r s`; `kamOpNorm_isLeast` proves it is admissible and below every admissible constant
+(`kamOpNorm_apply_le`, `kamOpNorm_nonneg`, `kamOpNorm_le` updated: no loose `C` arguments in `_apply_le`).
+`kamNorm` stays a plain formula; it is a norm only for `0 < r` (`kamNorm_eq_zero`, `kamNorm_nonneg` carry that
+hypothesis; documented in the module docstring). No consumers outside `KamSpace.lean`.
+
+**F2 (Schur (iii) constant).** `kamSchurBound_of_dominated` and `exists_clm_of_dominated` no longer assume `0 ≤ c`.
+Caveat (blueprint defect, tacit `c ≥ 0`): for `c < 0` and `A ≠ 0`, the matrix `F = 0` satisfies the domination
+hypotheses while the literal conclusion `‖T‖ ≤ c(1+π/√3)‖A‖` would be negative, hence false. The premise-free
+statements therefore use `max c 0` (identical to the blueprint's constants when `c ≥ 0`); the exact-constant form
+for `c ≥ 0` is `kamSchurBound_of_dominated_nonneg` / `exists_clm_of_dominated_nonneg`. Helper `KamDominated.mono_const`.
+Also fixed the stale name in the `HilbertMatrix` docstring (N5). N4: largest module is `HilbertMatrix.lean` (~420 lines).
+`KamSchurBound.bound_nonneg/bound_mono` names kept.
+
+Checks: gate build of `KAM.Wave.KamSupport.HilbertMatrix KAM.Wave.KamSupport.KamSpace`: `Build completed successfully (3160 jobs).`
+Lint: see below.
+Lint (round 2): `w_lint.sh` exit 0 (check_lean_modules PASS, FROZEN-ANCHOR GUARD OK, ABI HASHES OK).

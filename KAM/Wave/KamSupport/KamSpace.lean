@@ -23,7 +23,9 @@ representatives: the inclusion `𝒫^{a,p} ⊂ 𝒫^{a,p̄}` (`p̄ ≤ p`) is `k
 operator of `bpW:w1:embed`.
 
 * `kamNorm r W = |W|_{p̄,r}` and `kamDomain s r = D(s,r)` (`bpW:w1:kam-space`);
-* `kamOpNorm r s L = |L|_{r,s}`, the least admissible constant, with `kamOpNorm_apply_le`;
+* `kamOpNorm L = |L|_{r,s}` on `KamBoundedMap r s` (positive radii, bounded maps): the least
+  admissible constant (`kamOpNorm_isLeast`, `kamOpNorm_apply_le`); `kamNorm` is a norm only for
+  `0 < r` (`kamNorm_eq_zero`);
 * `kamDomain_isOpen`, `kamDomain_convex`, `kamDomain_mono`, `kamDomain_add_mem`,
   `kamNorm_embed_le`, `kamNorm_le_of_le_radius` (`bpW:w1:kam-domain`);
 * the conventions of `bpW:w1:kam-conventions`: `kam_conj_relabel`, `kam_wave_norm_sum_le`,
@@ -55,10 +57,24 @@ def kamDomain (s r : ℝ) : Set KamPhase :=
 def kamEmbed (a p p' : ℝ) (hp : p' ≤ p) (W : KamPhase) : KamPhase :=
   (W.1, W.2.1, embedCLM a p a p' le_rfl hp W.2.2.1, embedCLM a p a p' le_rfl hp W.2.2.2)
 
-/-- `|L|_{r,s}`: the least `C ≥ 0` with `|L W|_{r} ≤ C |W|_{s}` for all `W`.
-(blueprint `bpW:w1:kam-space`; the operator norm for the norms `kamNorm`) -/
-def kamOpNorm (r s : ℝ) (L : KamPhase →ₗ[ℂ] KamPhase) : ℝ :=
-  sInf {C : ℝ | 0 ≤ C ∧ ∀ W, kamNorm r (L W) ≤ C * kamNorm s W}
+/-- `C` is an admissible constant for `L` at radii `r, s`: `C ≥ 0` and `|L W|_r ≤ C |W|_s`. -/
+def KamOpAdmissible (r s : ℝ) (L : KamPhase →ₗ[ℂ] KamPhase) (C : ℝ) : Prop :=
+  0 ≤ C ∧ ∀ W, kamNorm r (L W) ≤ C * kamNorm s W
+
+/-- The source carrier of `|L|_{r,s}` (blueprint `bpW:w1:kam-space`): positive radii and a
+linear map with an admissible bound (a bounded map). -/
+structure KamBoundedMap (r s : ℝ) where
+  /-- The underlying linear map. -/
+  toLinear : KamPhase →ₗ[ℂ] KamPhase
+  pos_r : 0 < r
+  pos_s : 0 < s
+  bounded : ∃ C, KamOpAdmissible r s toLinear C
+
+/-- `|L|_{r,s}`: the least admissible `C ≥ 0` with `|L W|_{r} ≤ C |W|_{s}` for all `W`
+(blueprint `bpW:w1:kam-space`; the operator norm for the norms `kamNorm`). Defined on bounded maps
+with positive radii only; `kamOpNorm_isLeast` is the least-admissible characterization. -/
+def kamOpNorm {r s : ℝ} (L : KamBoundedMap r s) : ℝ :=
+  sInf {C : ℝ | KamOpAdmissible r s L.toLinear C}
 
 theorem kamNorm_nonneg {r : ℝ} (hr : 0 ≤ r) (W : KamPhase) : 0 ≤ kamNorm r W := by
   unfold kamNorm; positivity
@@ -88,27 +104,34 @@ theorem kamNorm_eq_zero {r : ℝ} (hr : 0 < r) {W : KamPhase} (h : kamNorm r W =
   exact Prod.ext (norm_eq_zero.mp e1) (Prod.ext (norm_eq_zero.mp e2')
     (Prod.ext (norm_eq_zero.mp e3') (norm_eq_zero.mp e4')))
 
-/-- The operator norm is admissible once the admissible set is nonempty (`0 < s`). -/
-theorem kamOpNorm_apply_le {r s C : ℝ} (hs : 0 < s) (L : KamPhase →ₗ[ℂ] KamPhase) (hC0 : 0 ≤ C)
-    (hC : ∀ W, kamNorm r (L W) ≤ C * kamNorm s W) (W : KamPhase) :
-    kamNorm r (L W) ≤ kamOpNorm r s L * kamNorm s W := by
+/-- The operator norm is admissible: `|L W|_r ≤ |L|_{r,s} |W|_s`. -/
+theorem kamOpNorm_apply_le {r s : ℝ} (L : KamBoundedMap r s) (W : KamPhase) :
+    kamNorm r (L.toLinear W) ≤ kamOpNorm L * kamNorm s W := by
+  obtain ⟨C, hC0, hC⟩ := L.bounded
   by_cases hW : kamNorm s W = 0
-  · have := kamNorm_eq_zero hs hW
+  · have := kamNorm_eq_zero L.pos_s hW
     subst this
     simp [kamNorm]
-  · have hpos : 0 < kamNorm s W := lt_of_le_of_ne (kamNorm_nonneg hs.le _) (Ne.symm hW)
+  · have hpos : 0 < kamNorm s W :=
+      lt_of_le_of_ne (kamNorm_nonneg L.pos_s.le _) (Ne.symm hW)
     rw [← div_le_iff₀ hpos]
     refine le_csInf ⟨C, hC0, hC⟩ ?_
     rintro C' ⟨-, hC'⟩
     rw [div_le_iff₀ hpos]
     exact hC' W
 
-theorem kamOpNorm_le {r s C : ℝ} (L : KamPhase →ₗ[ℂ] KamPhase) (hC0 : 0 ≤ C)
-    (hC : ∀ W, kamNorm r (L W) ≤ C * kamNorm s W) : kamOpNorm r s L ≤ C :=
-  csInf_le ⟨0, fun _ h => h.1⟩ ⟨hC0, hC⟩
-
-theorem kamOpNorm_nonneg (r s : ℝ) (L : KamPhase →ₗ[ℂ] KamPhase) : 0 ≤ kamOpNorm r s L :=
+theorem kamOpNorm_nonneg {r s : ℝ} (L : KamBoundedMap r s) : 0 ≤ kamOpNorm L :=
   Real.sInf_nonneg fun _ h => h.1
+
+/-- The operator norm is below every admissible constant. -/
+theorem kamOpNorm_le {r s C : ℝ} (L : KamBoundedMap r s) (hC : KamOpAdmissible r s L.toLinear C) :
+    kamOpNorm L ≤ C :=
+  csInf_le ⟨0, fun _ h => h.1⟩ hC
+
+/-- **Least admissible constant**: `|L|_{r,s}` is admissible and below every admissible `C`. -/
+theorem kamOpNorm_isLeast {r s : ℝ} (L : KamBoundedMap r s) :
+    IsLeast {C : ℝ | KamOpAdmissible r s L.toLinear C} (kamOpNorm L) :=
+  ⟨⟨kamOpNorm_nonneg L, kamOpNorm_apply_le L⟩, fun _ hC => kamOpNorm_le L hC⟩
 
 /-! ### Domains (`bpW:w1:kam-domain`) -/
 

@@ -25,8 +25,9 @@ For a bounded operator `A` on `ℓ²_K` with matrix `A_ij = (A e_j)_i` (`kamEntr
 * (i) `kamHilbertCLM`, `norm_kamHilbertCLM_le`: the matrix `B_ij = |A_ij|/|i-j|` is a bounded
   operator of norm at most `(π/√3) ‖A‖`;
 * (ii) `norm_kamEntry_diag_le`, `kamEntryDiagCLM`: the diagonal multiplier has norm at most `‖A‖`;
-* (iii) `kamSchurBound_of_dominated`, `exists_clm_of_dominated`: entrywise dominated matrices;
-* (iv) `kamSchur_weights_dominated`: the domination hypothesis is invariant under the weights.
+* (iii) `kamSchurBound_of_dominated`, `exists_clm_of_dominated` (no sign premise, constant
+  `max c 0`; `_nonneg` variants for `c ≥ 0`): entrywise dominated matrices;
+* (iv) `KamDominated.weighted`: the domination hypothesis is invariant under the weights.
 -/
 
 @[expose] public noncomputable section
@@ -355,7 +356,7 @@ theorem KamDominated.weighted {F M : ℕ+ → ℕ+ → K} {c : ℝ} (h : KamDomi
 
 /-- **Dominated matrices** (blueprint `bpW:w1:schur` (iii)): Schur bound with
 `Λ = c (1 + π/√3) ‖A‖`. -/
-theorem kamSchurBound_of_dominated (A : lp (fun _ : ℕ+ => K) 2 →L[K] lp (fun _ : ℕ+ => K) 2)
+theorem kamSchurBound_of_dominated_nonneg (A : lp (fun _ : ℕ+ => K) 2 →L[K] lp (fun _ : ℕ+ => K) 2)
     {F : ℕ+ → ℕ+ → K} {c : ℝ} (hc : 0 ≤ c) (h : KamDominated F (kamEntry A) c) :
     KamSchurBound F (c * (1 + kamHilbertConst) * ‖A‖) := by
   classical
@@ -393,17 +394,46 @@ theorem kamSchurBound_of_dominated (A : lp (fun _ : ℕ+ => K) 2 →L[K] lp (fun
 /-- **Dominated matrices define bounded operators** (blueprint `bpW:w1:schur` (iii)): if
 `|F_ij| ≤ c |A_ij|/|i-j|` (`i ≠ j`) and `|F_ii| ≤ c |A_ii|`, then `F` defines a bounded operator
 `T` with `(T v)_i = ∑_j F_ij v_j` and `‖T‖ ≤ c (1 + π/√3) ‖A‖ ≤ 3 c ‖A‖`. -/
-theorem exists_clm_of_dominated (A : lp (fun _ : ℕ+ => K) 2 →L[K] lp (fun _ : ℕ+ => K) 2)
+theorem exists_clm_of_dominated_nonneg (A : lp (fun _ : ℕ+ => K) 2 →L[K] lp (fun _ : ℕ+ => K) 2)
     {F : ℕ+ → ℕ+ → K} {c : ℝ} (hc : 0 ≤ c) (h : KamDominated F (kamEntry A) c) :
     ∃ T : lp (fun _ : ℕ+ => K) 2 →L[K] lp (fun _ : ℕ+ => K) 2,
       (∀ (v : lp (fun _ : ℕ+ => K) 2) (i : ℕ+), HasSum (fun j => F i j * v j) (T v i)) ∧
         ‖T‖ ≤ c * (1 + Real.pi / Real.sqrt 3) * ‖A‖ ∧ ‖T‖ ≤ 3 * c * ‖A‖ := by
-  have hb := kamSchurBound_of_dominated A hc h
+  have hb := kamSchurBound_of_dominated_nonneg A hc h
   refine ⟨kamSchurCLM F hb, fun v i => kamSchurCLM_hasSum hb v i, norm_kamSchurCLM_le hb, ?_⟩
   refine (norm_kamSchurCLM_le hb).trans ?_
   have h2 := kamHilbertConst_lt_two
   have hAn := norm_nonneg A
   unfold kamHilbertConst at h2 ⊢
   nlinarith [mul_nonneg (sub_nonneg.2 h2.le) (mul_nonneg hc hAn)]
+
+theorem KamDominated.mono_const {F M : ℕ+ → ℕ+ → K} {c c' : ℝ} (h : KamDominated F M c)
+    (hc : c ≤ c') : KamDominated F M c' := by
+  refine ⟨fun i j hij => (h.off i j hij).trans ?_, fun i => (h.diag i).trans ?_⟩
+  · have : 0 ≤ ‖M i j‖ / |(i : ℝ) - (j : ℝ)| := by positivity
+    calc c * ‖M i j‖ / |(i : ℝ) - (j : ℝ)| = c * (‖M i j‖ / |(i : ℝ) - (j : ℝ)|) := by ring
+      _ ≤ c' * (‖M i j‖ / |(i : ℝ) - (j : ℝ)|) := mul_le_mul_of_nonneg_right hc this
+      _ = _ := by ring
+  · exact mul_le_mul_of_nonneg_right hc (norm_nonneg _)
+
+/-- **Dominated matrices** (blueprint `bpW:w1:schur` (iii)), no sign premise on `c`: Schur bound
+with
+`Λ = max c 0 (1 + π/√3) ‖A‖` (for `c ≥ 0` this is the blueprint's `c (1 + π/√3) ‖A‖`; for `c < 0`
+domination forces `F = 0`, and the literal inequality `‖T‖ ≤ c(1+π/√3)‖A‖` would be false for
+`A ≠ 0`, so the constant is `max c 0`). -/
+theorem kamSchurBound_of_dominated (A : lp (fun _ : ℕ+ => K) 2 →L[K] lp (fun _ : ℕ+ => K) 2)
+    {F : ℕ+ → ℕ+ → K} {c : ℝ} (h : KamDominated F (kamEntry A) c) :
+    KamSchurBound F (max c 0 * (1 + kamHilbertConst) * ‖A‖) :=
+  kamSchurBound_of_dominated_nonneg A (le_max_right c 0) (h.mono_const (le_max_left c 0))
+
+/-- **Dominated matrices define bounded operators** (blueprint `bpW:w1:schur` (iii)), without a sign
+premise on `c`: `‖T‖ ≤ max c 0 (1 + π/√3) ‖A‖ ≤ 3 max c 0 ‖A‖`. For `c ≥ 0` use
+`exists_clm_of_dominated_nonneg` (the blueprint's literal constants). -/
+theorem exists_clm_of_dominated (A : lp (fun _ : ℕ+ => K) 2 →L[K] lp (fun _ : ℕ+ => K) 2)
+    {F : ℕ+ → ℕ+ → K} {c : ℝ} (h : KamDominated F (kamEntry A) c) :
+    ∃ T : lp (fun _ : ℕ+ => K) 2 →L[K] lp (fun _ : ℕ+ => K) 2,
+      (∀ (v : lp (fun _ : ℕ+ => K) 2) (i : ℕ+), HasSum (fun j => F i j * v j) (T v i)) ∧
+        ‖T‖ ≤ max c 0 * (1 + Real.pi / Real.sqrt 3) * ‖A‖ ∧ ‖T‖ ≤ 3 * max c 0 * ‖A‖ :=
+  exists_clm_of_dominated_nonneg A (le_max_right c 0) (h.mono_const (le_max_left c 0))
 
 end KAM.Wave
