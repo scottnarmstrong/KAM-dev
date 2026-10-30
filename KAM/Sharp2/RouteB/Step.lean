@@ -86,7 +86,7 @@ theorem good_step {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ}
   obtain ⟨hT, -, hTa⟩ := R.tors hG hcond hcaps
   obtain ⟨hc, ⟨c', hc', hc1⟩, cb, hcb, hcavg⟩ := R.cert.at R.wf s
   obtain ⟨τ0, M0, γ0, hS⟩ := R.std
-  obtain ⟨r0, r1, r2, r3, r4, r5⟩ := RunHyp.rate_wt (N := N) s
+  obtain ⟨r0, r1, r2, r3, r4, r5⟩ := RunBase.rate_wt (N := N) s
   set X := w / (γ * N.δ s ^ (N.τ + 1)) with hXd
   have hX0 : 0 ≤ X := div_nonneg hw0 (R.gd1_pos s).le
   have hmax : max ((N.inp s).lam * w / (N.inp s).lam)

@@ -39,10 +39,10 @@ open KAM KAM.Torus KAM.Apost KAM.Sharp KAM.Sharp2 KAM.Sharp2.ModStepB
 
 variable {n : ℕ}
 
-/-- The fixed data of a run of route B, with the reference data of the initial torus `K₀`. -/
-structure RunHyp (N : NumB n) (𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ)))
-    (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (ω : Fin n → ℝ) (Ω : Set (Fin n → ℝ)) (γ σT μm : ℝ)
-    (K0 : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) : Prop where
+/-- The fixed data of a run of route B: numbers, standing and Hamiltonian data, certificates. -/
+structure RunBase (N : NumB n) (𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ)))
+    (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (ω : Fin n → ℝ) (Ω : Set (Fin n → ℝ)) (γ : ℝ) :
+    Prop where
   wf : N.Wf
   fix : N.iso = false
   std : ∃ τ M γ₀ : ℝ, Standing n τ M N.sK N.sB N.sT 𝔅 h ω γ₀
@@ -55,6 +55,11 @@ structure RunHyp (N : NumB n) (𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ)))
   γ_le : γ ≤ N.γb
   mem : ω ∈ Ω
   cert : N.Cert γ Ω
+
+/-- The fixed data of a run of route B, with the reference data of the initial torus `K₀`. -/
+structure RunHyp (N : NumB n) (𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ)))
+    (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (ω : Fin n → ℝ) (Ω : Set (Fin n → ℝ)) (γ σT μm : ℝ)
+    (K0 : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) : Prop extends RunBase N 𝔅 h ω Ω γ where
   A0 : IsUnit (torsionAverage h K0 ω).det
   A0inv : ‖(torsionAverage h K0 ω)⁻¹‖ ≤ σT - μm
   mT_pos : 0 < σT - μm
@@ -65,9 +70,9 @@ variable {N : NumB n} {𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))} {h : (Fi
   {ω : Fin n → ℝ} {Ω : Set (Fin n → ℝ)} {γ σT μm Xi : ℝ}
   {K0 : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
 
-namespace RunHyp
+namespace RunBase
 
-variable (R : RunHyp N 𝔅 h ω Ω γ σT μm K0)
+variable (R : RunBase N 𝔅 h ω Ω γ)
 include R
 
 theorem gd_pos (s : ℕ) : 0 < γ * N.δ s ^ N.τ :=
@@ -170,16 +175,16 @@ theorem cont_AB {r β : ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n 
     frame_basic hS hr hβ hK hball hdK hG
   exact ⟨Triangular.continuous_ofReal_comp hr (diffOn_torsionAB hS hr hβ hK hball hdK hG), hTc⟩
 
-/-- `bp:p2s2:torsion-local` and `bp:p2s2:torsion-ref` at a flagged stage torus: the torsion bound
-on `T_{r_s-δ_s}` and the twist bound `|⟨T⟩⁻¹| ≤ σ̂_T`, with the local part `|⟨T⟩ - ⟨𝒯_ab⟩| ≤ b_F`. -/
-theorem tors {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+/-- The local part of the torsion average of a flagged stage torus, `|⟨T⟩ - ⟨𝒯_ab⟩| ≤ b_F`,
+and the torsion bound on `T_{r_s-δ_s}` (`bp:p2s2:torsion-local`). -/
+theorem locpart {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    {Xi σT μm : ℝ} {K0 : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
     (hG : Good N 𝔅 h ω γ Xi K0 s (N.r s) β w m K)
     (hcond : stepCondB (N.inp s) (w / (γ * N.δ s ^ (N.τ + 1))))
     (hcaps : ∀ i, m i ≤ capB N σT μm 0 i) :
     (∀ θ ∈ complexStrip n (N.r s - N.δ s), ‖torsion h K ω θ‖ ≤
       (N.inp s).cTh * (N.inp s).sNt * (N.inp s).sN + (N.inp s).ts) ∧
-      ‖torsionAverage h K ω - torsionABAverage h K‖ ≤ N.bF ∧
-      IsUnit (torsionAverage h K ω).det ∧ ‖(torsionAverage h K ω)⁻¹‖ ≤ (N.inp s).sT := by
+      ‖torsionAverage h K ω - torsionABAverage h K‖ ≤ N.bF := by
   obtain ⟨c', L⟩ := R.loc hG hcond hcaps
   obtain ⟨τ0, M0, γ0, hS⟩ := R.std
   have hr0 := R.wf.r_gt s
@@ -199,12 +204,7 @@ theorem tors {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ} {K : (Fin n → ℂ) →
       IsUnit (gramMatrix K θ).det ∧ ‖(gramMatrix K θ)⁻¹‖ ≤ N.sB := fun θ hθ =>
     ⟨(hG.G θ hθ).1, (hG.G θ hθ).2.trans (hcaps 2)⟩
   obtain ⟨hcAB, hcT⟩ := R.cont_AB (hr0.trans' R.wf.ρinf_pos) hG.β_pos hG.holo hG.ball hdK hGB
-  -- the local part of the average
-  have hlocA : ‖torsionAverage h K ω - torsionABAverage h K‖ ≤ N.bF := by
-    rw [torsionAverage_eq' hcT, torsionABAverage_eq hcAB]
-    refine norm_torusAverage_sub_le hcT hcAB fun x => (hloc _ ?_).trans hBl
-    exact ofReal_mem_complexStrip hr1 x
-  refine ⟨fun θ hθ => ?_, hlocA, ?_⟩
+  refine ⟨fun θ hθ => ?_, ?_⟩
   · have hθr : θ ∈ complexStrip n (N.r s) :=
       Triangular.strip_mono (by linarith [R.wf.δ_pos s]) hθ
     have hab := norm_torsionAB_le (hG.G θ hθr).1 ((hG.Nm θ hθr).trans (hcaps 3))
@@ -214,25 +214,46 @@ theorem tors {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ} {K : (Fin n → ℂ) →
           rwa [add_sub_cancel] at this
       _ ≤ N.sNt * N.cTh * N.sN + (N.inp s).ts := add_le_add hab ((hloc θ hθ).trans hBX)
       _ = _ := by show _ = N.cTh * N.sNt * N.sN + _; ring
-  · -- the reference Neumann
-    have hdrift : ‖torsionABAverage h K - torsionABAverage h K0‖ ≤
-        (N.sT - (σT - μm)) / (N.sT * (σT - μm)) - 2 * N.bF := hG.drift.trans (hcaps 5)
-    have hd : ‖torsionAverage h K ω - torsionAverage h K0 ω‖ ≤
-        (N.sT - (σT - μm)) / (N.sT * (σT - μm)) := by
-      have e : torsionAverage h K ω - torsionAverage h K0 ω =
-          (torsionAverage h K ω - torsionABAverage h K) +
-            (torsionABAverage h K - torsionABAverage h K0) -
-              (torsionAverage h K0 ω - torsionABAverage h K0) := by abel
-      rw [e]
-      have := R.loc0
-      calc _ ≤ ‖(torsionAverage h K ω - torsionABAverage h K) +
-            (torsionABAverage h K - torsionABAverage h K0)‖ +
-              ‖torsionAverage h K0 ω - torsionABAverage h K0‖ := norm_sub_le _ _
-        _ ≤ (‖torsionAverage h K ω - torsionABAverage h K‖ +
-            ‖torsionABAverage h K - torsionABAverage h K0‖) + N.bF :=
-            add_le_add (norm_add_le _ _) R.loc0
-        _ ≤ _ := by linarith
-    exact inv_le_of_ref R.A0 R.A0inv R.mT_pos R.mT_lt hd
+  · rw [torsionAverage_eq' hcT, torsionABAverage_eq hcAB]
+    refine norm_torusAverage_sub_le hcT hcAB fun x => (hloc _ ?_).trans hBl
+    exact ofReal_mem_complexStrip hr1 x
+
+end RunBase
+
+namespace RunHyp
+
+variable (R : RunHyp N 𝔅 h ω Ω γ σT μm K0)
+include R
+
+/-- `bp:p2s2:torsion-local` and `bp:p2s2:torsion-ref` at a flagged stage torus: the torsion bound
+on `T_{r_s-δ_s}` and the twist bound `|⟨T⟩⁻¹| ≤ σ̂_T`, with the local part `|⟨T⟩ - ⟨𝒯_ab⟩| ≤ b_F`. -/
+theorem tors {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    (hG : Good N 𝔅 h ω γ Xi K0 s (N.r s) β w m K)
+    (hcond : stepCondB (N.inp s) (w / (γ * N.δ s ^ (N.τ + 1))))
+    (hcaps : ∀ i, m i ≤ capB N σT μm 0 i) :
+    (∀ θ ∈ complexStrip n (N.r s - N.δ s), ‖torsion h K ω θ‖ ≤
+      (N.inp s).cTh * (N.inp s).sNt * (N.inp s).sN + (N.inp s).ts) ∧
+      ‖torsionAverage h K ω - torsionABAverage h K‖ ≤ N.bF ∧
+      IsUnit (torsionAverage h K ω).det ∧ ‖(torsionAverage h K ω)⁻¹‖ ≤ (N.inp s).sT := by
+  obtain ⟨hT, hlocA⟩ := R.toRunBase.locpart hG hcond hcaps
+  refine ⟨hT, hlocA, ?_⟩
+  have hdrift : ‖torsionABAverage h K - torsionABAverage h K0‖ ≤
+      (N.sT - (σT - μm)) / (N.sT * (σT - μm)) - 2 * N.bF := hG.drift.trans (hcaps 5)
+  have hd : ‖torsionAverage h K ω - torsionAverage h K0 ω‖ ≤
+      (N.sT - (σT - μm)) / (N.sT * (σT - μm)) := by
+    have e : torsionAverage h K ω - torsionAverage h K0 ω =
+        (torsionAverage h K ω - torsionABAverage h K) +
+          (torsionABAverage h K - torsionABAverage h K0) -
+            (torsionAverage h K0 ω - torsionABAverage h K0) := by abel
+    rw [e]
+    calc _ ≤ ‖(torsionAverage h K ω - torsionABAverage h K) +
+          (torsionABAverage h K - torsionABAverage h K0)‖ +
+            ‖torsionAverage h K0 ω - torsionABAverage h K0‖ := norm_sub_le _ _
+      _ ≤ (‖torsionAverage h K ω - torsionABAverage h K‖ +
+          ‖torsionABAverage h K - torsionABAverage h K0‖) + N.bF :=
+          add_le_add (norm_add_le _ _) R.loc0
+      _ ≤ _ := by linarith
+  exact inv_le_of_ref R.A0 R.A0inv R.mT_pos R.mT_lt hd
 
 end RunHyp
 
