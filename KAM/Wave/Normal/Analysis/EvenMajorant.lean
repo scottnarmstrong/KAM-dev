@@ -37,9 +37,9 @@ lemma waveEvenAbs_neg (f : ℕ+ → ℝ) (i : ℤ) : waveEvenAbs f (-i) = waveEv
 
 lemma waveEvenAbs_pnat (f : ℕ+ → ℝ) (n : ℕ+) : waveEvenAbs f ((n : ℕ) : ℤ) = |f n| := by
   have hn : ((n : ℕ) : ℤ) ≠ 0 := by exact_mod_cast n.ne_zero
-  simp only [waveEvenAbs, hn, if_false, Int.natAbs_natCast]
+  simp only [waveEvenAbs, hn, ite_false, Int.natAbs_natCast]
   congr 2
-  exact PNat.coe_injective (by simp [Nat.toPNat'_coe, n.pos])
+  exact PNat.coe_injective (by simp)
 
 lemma waveConv_even {X Y : ℤ → ℝ} (hX : ∀ i, X (-i) = X i) (hY : ∀ i, Y (-i) = Y i) (l : ℤ) :
     waveConv X Y (-l) = waveConv X Y l := by
@@ -49,7 +49,7 @@ lemma waveConv_even {X Y : ℤ → ℝ} (hX : ∀ i, X (-i) = X i) (hY : ∀ i, 
   simp only [Equiv.neg_apply]
   rw [← hX (-l - i), ← hY (-i)]
   simp only [neg_sub, neg_neg]
-  congr 2 <;> ring
+  congr 2; ring
 
 lemma waveW2_neg (a s : ℝ) (i : ℤ) : waveW2 a s (-i) = waveW2 a s i := by
   simp [waveW2, waveJap]
@@ -61,16 +61,20 @@ lemma waveW2_pnat (a s : ℝ) (n : ℕ+) : waveW2 a s ((n : ℕ) : ℤ) = ellWei
   have : max 1 ((n : ℕ+) : ℝ) = ((n : ℕ+) : ℝ) := max_eq_right (by exact_mod_cast n.pos)
   rw [this]
 
-/-- Sums over `ℤ` of an even function vanishing at `0`. -/
-lemma waveHasSum_int_even_pnat {f : ℤ → ℝ} (hev : ∀ i, f (-i) = f i) (h0 : f 0 = 0) {S : ℝ}
-    (hS : HasSum (fun n : ℕ+ => f ((n : ℕ) : ℤ)) S) : HasSum f (2 * S) := by
+/-- Sums over `ℤ` of an even function. -/
+lemma waveHasSum_int_even_pnat' {f : ℤ → ℝ} (hev : ∀ i, f (-i) = f i) {S : ℝ}
+    (hS : HasSum (fun n : ℕ+ => f ((n : ℕ) : ℤ)) S) : HasSum f (f 0 + 2 * S) := by
   have h1 : HasSum (fun n : ℕ => f ((n : ℤ) + 1)) S := by
     have := (Equiv.pnatEquivNat.symm.hasSum_iff (f := fun n : ℕ+ => f ((n : ℕ) : ℤ))).2 hS
     convert this using 1
     funext n
     simp [Equiv.pnatEquivNat_symm_apply]
-  have := waveHasSum_int_even hev h1
-  simpa [h0] using this
+  exact waveHasSum_int_even hev h1
+
+/-- Sums over `ℤ` of an even function vanishing at `0`. -/
+lemma waveHasSum_int_even_pnat {f : ℤ → ℝ} (hev : ∀ i, f (-i) = f i) (h0 : f 0 = 0) {S : ℝ}
+    (hS : HasSum (fun n : ℕ+ => f ((n : ℕ) : ℤ)) S) : HasSum f (2 * S) := by
+  simpa [h0] using waveHasSum_int_even_pnat' hev hS
 
 end KAM.Wave
 
