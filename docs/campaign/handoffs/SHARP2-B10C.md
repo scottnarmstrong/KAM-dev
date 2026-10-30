@@ -38,25 +38,25 @@
 
 ## Files
 
-| File | Lines | Content |
+| File | Lines (`wc -l`) | Content |
 |---|---:|---|
-| `KAM/Sharp2/L1/EntryA.lean` | 455 | `FrameL1`, `EntryA`, `EntryA.Wf`, `EntryHypA`, `EntryConstsA`, `entryConsts`, `EntryCond`, `entryStageA`, `stageL1`, `condL1`, `xSL1` (verbatim). Named constants `Ent.*`, `entryConsts_eq` (rfl), `Ent.nonneg`, `EntryCond.down`, rate nonnegativity |
-| `KAM/Sharp2/L1/NormsOps.lean` | 82 | `L1Vec.sub`, `L1Mat.mono`, `L1Vec.congr_real`, `L1Vec.le`, `L1Mat.le` |
-| `KAM/Sharp2/L1/EntryCorrection.lean` | 318 | `EntryData`, `EntryHypA.toData`, `entry_correction_bounds`: each solve is the min of its sup and ℓ¹ bound, plus ℓ¹ bounds of `ξᴺ`, `ξᴸ` |
-| `KAM/Sharp2/L1/EntryError.lean` | 213 | `entry_lagrange_le_of`/`entry_lagrange_le` (`C^K_Ω`), `entry_newton_error` |
-| `KAM/Sharp2/L1/EntryFrames.lean` | 237 | `BarBdG`, `rBOf`, `frames_barG` (B9's `frames_bar` with general increments), `l1_frame_increment_of` (any correction `ΔK = Lξᴸ + Nξᴺ`), `l1_frame_increment` |
-| `KAM/Sharp2/L1/EntryTorsion.lean` | 240 | `torsion_sub_leG` (B9's `torsion_sub_le` with general increments, two frequencies) |
-| `KAM/Sharp2/L1/EntryStep.lean` | 480 | `EntryCond.facts`, `entry_frame_rates_of`, `entry_frame_rates`, `entry_torsion_arith`, `entry_step_A` |
-| `KAM/Sharp2/L1/EntryScheme.lean` | 225 | `schemeAL1`, `schemeAL1_isNewton`, `routeAOkL1`, `routeAOkL1.runData` (verbatim) |
-| `KAM/Sharp2/L1/G1A.lean` | 304 | `c2AL1`, `G1BodyAL1`, `g1_v2A_l1` (verbatim); `g1_core_AL1`, `g1_branch_AL1` |
-| `KAM/Iso/Sharp2/L1/EntryCorrection.lean` | 409 | `iso_entry_correction_bounds` |
+| `KAM/Sharp2/L1/EntryA.lean` | 454 | `FrameL1`, `EntryA`, `EntryA.Wf`, `EntryHypA`, `EntryConstsA`, `entryConsts`, `EntryCond`, `entryStageA`, `stageL1`, `condL1`, `xSL1` (verbatim). Named constants `Ent.*`, `entryConsts_eq` (rfl), `Ent.nonneg`, `EntryCond.down`, rate nonnegativity |
+| `KAM/Sharp2/L1/NormsOps.lean` | 81 | `L1Vec.sub`, `L1Mat.mono`, `L1Vec.congr_real`, `L1Vec.le`, `L1Mat.le` |
+| `KAM/Sharp2/L1/EntryCorrection.lean` | 317 | `EntryData`, `EntryHypA.toData`, `entry_correction_bounds`: each solve is the min of its sup and ℓ¹ bound, plus ℓ¹ bounds of `ξᴺ`, `ξᴸ` |
+| `KAM/Sharp2/L1/EntryError.lean` | 212 | `entry_lagrange_le_of`/`entry_lagrange_le` (`C^K_Ω`), `entry_newton_error` |
+| `KAM/Sharp2/L1/EntryFrames.lean` | 236 | `BarBdG`, `rBOf`, `frames_barG` (B9's `frames_bar` with general increments), `l1_frame_increment_of` (any correction `ΔK = Lξᴸ + Nξᴺ`), `l1_frame_increment` |
+| `KAM/Sharp2/L1/EntryTorsion.lean` | 239 | `torsion_sub_leG` (B9's `torsion_sub_le` with general increments, two frequencies) |
+| `KAM/Sharp2/L1/EntryStep.lean` | 479 | `EntryCond.facts`, `entry_frame_rates_of`, `entry_frame_rates`, `entry_torsion_arith`, `entry_step_A` |
+| `KAM/Sharp2/L1/EntryScheme.lean` | 224 | `schemeAL1`, `schemeAL1_isNewton`, `routeAOkL1`, `routeAOkL1.runData` (verbatim) |
+| `KAM/Sharp2/L1/G1A.lean` | 303 | `c2AL1`, `G1BodyAL1`, `g1_v2A_l1` (verbatim); `g1_core_AL1`, `g1_branch_AL1` |
+| `KAM/Iso/Sharp2/L1/EntryCorrection.lean` | 408 | `iso_entry_correction_bounds` |
 | `KAM/Iso/Sharp2/L1/EntryError.lean` | 251 | `iso_entry_newton_error` |
-| `KAM/Iso/Sharp2/L1/EntryStep.lean` | 335 | `iso_entry_step` |
-| `KAM/Iso/Sharp2/L1/Scheme.lean` | 288 | `entryStageIA`, `stageIL1`, `xIL1`, `routeAOkIL1`, `routeAOkIL1.runData`, `schemeIAL1`, `schemeIAL1_isNewton` (verbatim) |
-| `KAM/Iso/Sharp2/L1/G1A.lean` | 409 | `c2IL1`, `c3IL1`, `IG1BodyAL1`, `iso_g1_v2A_l1` (verbatim); `iso_g1_core_AL1`, `iso_g1_branch_AL1` |
-| `KAM/Sharp2/Examples/PlasmaLean/GammaInf.lean` | 296 | `GInfData` (fibered `Γ_∞` checker at ω*), `GInfData.sound`, `gammaInf_d0`, `gammaInf_rho` |
-| `KAM/Sharp2/Examples/MirrorL1.lean` | 615 | `EntryQ`; the rational entry constants `StepQ.e*`; `ecast_*` (exact) and `le_*` (through `e⁻¹ ≤ ei`); `econd_sound`; `NumQ.okL1`, `okL1_sound` into `routeAOkL1`; `sumDL1_le` |
-| `KAM/Sharp2/Examples/PlasmaLeanL1.lean` | 292 | `CAL1Like`, `l1Entry`, `l1Var`, `l1Xs`, the kernel checks, `cAL1_core`, `plasmaLean_torus_l1` |
+| `KAM/Iso/Sharp2/L1/EntryStep.lean` | 334 | `iso_entry_step` |
+| `KAM/Iso/Sharp2/L1/Scheme.lean` | 287 | `entryStageIA`, `stageIL1`, `xIL1`, `routeAOkIL1`, `routeAOkIL1.runData`, `schemeIAL1`, `schemeIAL1_isNewton` (verbatim) |
+| `KAM/Iso/Sharp2/L1/G1A.lean` | 417 | `c2IL1`, `c3IL1`, `IG1BodyAL1`, `iso_g1_v2A_l1` (verbatim); `iso_g1_core_AL1`, `iso_g1_branch_AL1` |
+| `KAM/Sharp2/Examples/PlasmaLean/GammaInf.lean` | 295 | `GInfData` (fibered `Γ_∞` checker at ω*), `GInfData.sound`, `gammaInf_d0`, `gammaInf_rho` |
+| `KAM/Sharp2/Examples/MirrorL1.lean` | 614 | `EntryQ`; the rational entry constants `StepQ.e*`; `ecast_*` (exact) and `le_*` (through `e⁻¹ ≤ ei`); `econd_sound`; `NumQ.okL1`, `okL1_sound` into `routeAOkL1`; `sumDL1_le` |
+| `KAM/Sharp2/Examples/PlasmaLeanL1.lean` | 291 | `CAL1Like`, `l1Entry`, `l1Var`, `l1Xs`, the kernel checks, `cAL1_core`, `plasmaLean_torus_l1` |
 | `KAM.lean` | — | regenerated by `scripts/gen_root_imports.py` (17 new imports). This branch predates the D43 root split, so there is no `KAM/Root` |
 | `docs/campaign/design/APOST-SHARP-V2-L1-SIGNATURES.lean.txt` | — | header note only (step 1) |
 | `docs/campaign/design/APOST-SHARP-V2-L1.md` | — | §9 F4 wording (C2) and a B10C status paragraph |
@@ -64,7 +64,7 @@
 | `scripts/apost_sharp/l1_entry_lean_mirror.py` | — | exact Python mirror of `entryConsts` and `okL1` at τ = 1, fixed frequency; reproduces the PlasmaLean run |
 
 Every Lean file is a module: copyright, `module`, `public import`, docstring, `@[expose] public noncomputable section`.
-All are ≤ 615 lines with every line ≤ 100 characters. Helpers live in package namespaces: `KAM.Sharp2.L1`, `Ent`,
+All are ≤ 614 lines (`wc -l`) with every line ≤ 100 characters. Helpers live in package namespaces: `KAM.Sharp2.L1`, `Ent`,
 `KAM.Iso.Sharp2.L1`, `GInfData`, and the `e`/`l1_` prefixed members of `StepQ`/`NumQ`.
 
 Commits (after 5c55a5e0): 75d51ab0 (fixed frequency), 994d9901 (PlasmaLean, iso correction), 1bc61ea0 (iso route),
