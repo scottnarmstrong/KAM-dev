@@ -7,7 +7,7 @@ v1 values (\Kref{bp:p2s2:defaults}), and the smallness is the disjunction of rou
 levers of \Kref{bp:p2s2:constantsA}) and route B (the modified step below). There is no published isoenergetic version of the modified step
 (FH24 treat fixed frequencies with first integrals); its isoenergetic ingredients are those of HL19 \S6 (the bordered system, the parallel frequency
 correction $\Delta\omega=-\omega\xi^\omega$, the energy row), and the new identities are proved here. For R1
-(\texttt{thresholds\_v2.py}): route A $10^{-11.37}$, route B $10^{-12.39}$, v1 $10^{-24.98}$.
+(\texttt{thresholds\_v2.py}, after the repairs of audits AUDIT-SHARP-V2-iso-1 F1--F8): route A $10^{-10.95}$, route B $10^{-12.33}$, v1 $10^{-24.98}$.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{The bordered modified step}\label{bpI:p2s2:sec-step}
@@ -22,20 +22,26 @@ with weights $\lambda,\lambda_\omega\in(0,1]$ (both $1$ except at stage $0$). Pu
 $M_{h1}\ge\abs{DH}$ and $M_{h2}\ge\abs{D^2H}$ on $D$ (refined data; both $\le M$ by (I6)).
 
 \begin{definition}[Constants of the bordered modified step]\label{bpI:p2s2:constants}
-The constants of \Kref{bp:p2s2:constantsB} with the following changes:
+The constants of \Kref{bp:p2s2:constantsB} with the following changes, where $\vartheta_\omega\in(0,1)$ is one more ratio (design $\frac18$) and
+$a_\omega:=1+\vartheta_\omega$:
 \begin{align*}
-&C_0:=\sigma_T\max\bigl\{\lambda+t\,\bar c(\delta/r)^\varkappa,\ \lambda_\omega+y_0\,\bar c(\delta/r)^\varkappa\bigr\},\qquad C_{gL}:=\lambda+tC_{\xi N}+\Theta C_0,\qquad
-C_{\tilde E}\mathrel{+}=\tilde\sigma_K\Theta C_0,\\
-&\bar Q_N\mathrel{+}=(1+n\vartheta_\xi)\Theta C_\Omega\tilde Q_NC_0\vartheta_\xi/C_{\xi L},\qquad
-Q_L\mathrel{+}=C_0C_{gL}g_1+C_0\sigma_{N^\top}C_{D\tilde L}\Theta g,\qquad
-Q_\omega:=\tfrac{M_{h2}}2C_{\tilde K}^2g_1+n\tilde Q_N\vartheta_\xi(\Theta C_\Omega+g_1),\\
-&Q_L\to\max\{Q_L,Q_\omega\},\qquad C_{\Delta\mathsf T}:=\max\bigl\{C_{\Delta T}+\Theta C_0g_1,\ n\Theta C_0g_1+2ng_1\bigr\},\qquad\varrho_\nu:=\Theta C_0\ (\text{weight }\gamma\delta^{\varkappa+1}),
+&C_0:=\sigma_T\max\bigl\{\lambda+t\,c_{\mathrm{avg}},\ \lambda_\omega+y_0\,c_{\mathrm{avg}}\bigr\},\qquad C_{gL}:=\lambda+tC_{\xi N}+\Theta C_0,\qquad
+C_{\tilde E}\mathrel{+}=\tilde\sigma_K\Theta C_0,\qquad C_{\bar E}:=C_{\tilde E}+a_\omega\tilde\sigma_KC_{gL},\\
+&Q'_L:\ \text{the term }\sigma_{N^\top}C_{gL}(n\tilde\sigma_KC_{\xi L}+gC_{D\tilde L})\text{ is multiplied by }a_\omega,\ \text{and }Q'_L\mathrel{+}=C_0C_{gL}g_1+C_0\sigma_{N^\top}C_{D\tilde L}\Theta g,\\
+&\bar Q_N:=(1+n\vartheta_\xi)\bigl(1+(1+a_\omega)\vartheta_\Omega\bigr)\tilde Q_N,\qquad
+Q_\omega:=\tfrac{M_{h2}}2C_{\tilde K}^2g_1+n\tilde Q_N\vartheta_\xi(\Theta C_\Omega+g_1),\qquad Q_L\to\max\{Q_L,Q_\omega\},\\
+&C^{\mathsf T}_{ab}:=\max\bigl\{C_{ab}+\Theta C_0g_1,\ n\Theta C_0g_1\bigr\}\ (\text{rate of }\mathrm{Tab}),\qquad
+B^{\mathsf T}_{\mathrm{loc}}:=\max\{B_{\mathrm{loc}},\,ng_1\},\qquad\varrho_\nu:=\Theta C_0\ (\text{weight }\gamma\delta^{\varkappa+1}),
 \end{align*}
-and $\sigma_TC_{\Delta\mathsf T}X\le\vartheta$ in place of the last step condition. The mirror is \texttt{stageB(\dots, iso=True)} of \texttt{thresholds\_v2.py}.
+the condition $B_{\mathrm{loc}}X\le\min\{t_s,b_F\}$ replaced by $B_{\mathrm{loc}}X\le t_s$ and $B^{\mathsf T}_{\mathrm{loc}}X\le b_F$, and the extra condition $C_0g_1X\le\vartheta_\omega$.
+All constants are polynomials with nonnegative coefficients (the earlier increment $(1+n\vartheta_\xi)\Theta C_\Omega\tilde Q_NC_0\vartheta_\xi/C_{\xi L}$ of
+$\bar Q_N$, not monotone in the small-divisor constants, SHARP2-B3, is gone: option (b) of the B3 signal), so the tail argument of
+\Kref{bp:p2s2:engine} applies verbatim. The mirror is \texttt{stageB(\dots, iso=True)} of \texttt{thresholds\_v2.py}.
 \end{definition}
 
 \begin{proposition}[The bordered modified step]\label{bpI:p2s2:step}
-Under the hypotheses of \Kref{bp:p2s2:step} (with the caps, the bordered torsion and $\mu,X$ as above) and $2^{\varkappa+1}QX\le1$, let
+Under the hypotheses of \Kref{bp:p2s2:step} (with the caps, the bordered torsion and $\mu,X$ as above; $H$ real on real points and periodic, the
+standing (I1)--(I13)), let
 \[
 \begin{pmatrix}\xi^N_0\\\xi^\omega\end{pmatrix}:=\avg{\mathsf T}^{-1}\begin{pmatrix}\avg{\eta^L+T\mathcal R\eta^N}\\-E^\omega+\avg{Y\mathcal R\eta^N}\end{pmatrix},\quad
 \xi^N:=\xi^N_0-\mathcal R\eta^N,\quad\xi^L:=-\mathcal R(\eta^L-T\xi^N-\omega\xi^\omega),
@@ -49,67 +55,88 @@ $\tilde K:=K+N\xi^N$, $\bar K:=\tilde K\circ(\mathrm{id}+\xi^L)$, $\bar\omega:=(
 \begin{proof}
 \proofstep{The bordered averages}\label{stepI:p2s2:st-av}
 The first row of $\avg{\mathsf T}(\xi^N_0,\xi^\omega)$ gives $\avg{\eta^L-T\xi^N-\omega\xi^\omega}=0$, so $\xi^L$ is defined; the second gives $\avg{Y\xi^N}=-E^\omega$.
-By \Kref{bp:p2s2sd:avg} the right side is bounded by $\max\{\lambda+t\bar c(\delta/r)^\varkappa,\lambda_\omega+y_0\bar c(\delta/r)^\varkappa\}\mu$ in the bordered
-row-sum norm, so $\abs{\xi^N_0},\abs{\xi^\omega}\le C_0\mu$ (Lemma~\ref{bpI:p1:border-solve}(c) structure) and $\abs{\Delta\omega}=\abs\omega\abs{\xi^\omega}\le\Theta C_0\mu$.
+By \Kref{bp:p2s2sd:avg} the right side is bounded by $\max\{\lambda+tc_{\mathrm{avg}},\lambda_\omega+y_0c_{\mathrm{avg}}\}\mu$ in the bordered
+row-sum norm, so $\abs{\xi^N_0},\abs{\xi^\omega}\le C_0\mu$ (Lemma~\ref{bpI:p1:border-solve}(c) structure) and $\abs{\Delta\omega}=\abs\omega\abs{\xi^\omega}\le\Theta C_0\mu$. Moreover
+$\abs{\xi^\omega}\le C_0\mu\le C_0g_1X\le\vartheta_\omega$, so $\abs{1-\xi^\omega}\le a_\omega$ (audit iso F5: $\xi^\omega$ has no sign).
 
 \proofstep{The frequency in the error}\label{stepI:p2s2:st-w}
 $\tilde E_{\bar\omega}:=X_H(\tilde K)-D\tilde K\bar\omega=\tilde E_\omega+\xi^\omega D\tilde K\omega$, and $\bar E=\tilde E_{\bar\omega}\circ\varphi-(\tilde L\circ\varphi)\partial_{\bar\omega}\xi^L$ with
-$\partial_{\bar\omega}\xi^L=(1-\xi^\omega)\partial_\omega\xi^L$. Hence $\abs{\tilde E_{\bar\omega}}\le(C_{\tilde E}+\tilde\sigma_K\Theta C_0)\mu$, and $\tilde L^\top\Omega_0\tilde E_{\bar\omega}=\tilde\eta^N+\xi^\omega\Omega_{\tilde K}\omega$,
-so $\bar\eta^N=(I+D\xi^L)^\top(\tilde\eta^N\circ\varphi+\xi^\omega\Omega_{\tilde K}\circ\varphi\,\omega-\Omega_{\tilde K}\circ\varphi\,\partial_{\bar\omega}\xi^L)$; the middle term is cubic and gives
-the increment of $\bar Q_N$ (with $C_{\xi L}X\le\vartheta_\xi$).
+$\partial_{\bar\omega}\xi^L=(1-\xi^\omega)\partial_\omega\xi^L$, $\abs{\partial_{\bar\omega}\xi^L}\le a_\omega C_{gL}\mu$. Hence $\abs{\tilde E_{\bar\omega}}\le(C_{\tilde E}+\tilde\sigma_K\Theta C_0)\mu$,
+$\abs{\bar E}\le C_{\bar E}\mu$, and $\tilde L^\top\Omega_0\tilde E_{\bar\omega}=\tilde\eta^N+\xi^\omega\Omega_{\tilde K}\omega$, so
+$\bar\eta^N=(I+D\xi^L)^\top\bigl(\tilde\eta^N\circ\varphi+\Omega_{\tilde K}\circ\varphi\,(\xi^\omega\omega-\partial_{\bar\omega}\xi^L)\bigr)$. With
+$\abs{\xi^\omega\omega-\partial_{\bar\omega}\xi^L}\le(\Theta C_0+a_\omega C_{gL})\mu\le(1+a_\omega)C_{gL}\mu$ (as $\Theta C_0\le C_{gL}$) and $C_\Omega C_{gL}X\le\vartheta_\Omega$ this is
+$\bar Q_N$.
 
 \proofstep{The tangential error}\label{stepI:p2s2:st-l}
 $-N^\top\Omega_0\tilde E_{\bar\omega}=\eta^L-T\xi^N-\omega\xi^\omega-N^\top\Omega_0\Delta^2X-\Omega_N\eta^N-\xi^\omega N^\top\Omega_0D(N\xi^N)\omega$ (as $N^\top\Omega_0L=I$), and
 $N^\top\Omega_0L\partial_{\bar\omega}\xi^L=-(1-\xi^\omega)(\eta^L-T\xi^N-\omega\xi^\omega)$. The difference leaves $\xi^\omega(\eta^L-T\xi^N-\omega\xi^\omega)$, of norm $\le C_0C_{gL}\mu^2$,
-and $\xi^\omega N^\top\Omega_0D(N\xi^N)\omega$, of norm $\le C_0\sigma_{N^\top}C_{D\tilde L}\Theta\mu^2/\delta$; the other terms are those of \Kref{step:p2s2:st-etal}.
+and $\xi^\omega N^\top\Omega_0D(N\xi^N)\omega$, of norm $\le C_0\sigma_{N^\top}C_{D\tilde L}\Theta\mu^2/\delta$; the term (iii) of \Kref{step:p2s2:st-etal} carries the factor
+$\abs{1-\xi^\omega}\le a_\omega$, and the others are those of \Kref{step:p2s2:st-etal} (with option L10 of \Kref{step:p2s2:selfcons}: the recovery is pure frame
+algebra and applies to $\bar E=\bar E_{\bar\omega}$).
 
 \proofstep{The energy error}\label{stepI:p2s2:st-en}
 $\avg{H\circ\tilde K}=\avg{H\circ K}+\avg{Y\xi^N}+\avg{\Delta^2H}=E_0+\avg{\Delta^2H}$ by the second bordered row, with $\abs{\Delta^2H}\le\frac{M_{h2}}2\abs{N\xi^N}^2$. For the
 composition, $D(H\circ\tilde K)=DH(\tilde K)\tilde L=-X_H(\tilde K)^\top\Omega_0\tilde L=-\omega^\top\Omega_{\tilde K}+(\tilde\eta^N)^\top$, so
-$\abs{\avg{H\circ\tilde K\circ\varphi-H\circ\tilde K}}\le n(\Theta\abs{\Omega_{\tilde K}}+\abs{\tilde\eta^N})\abs{\xi^L}$, which is cubic; with $C_{\xi L}X\le\vartheta_\xi$ this is the bound $Q_\omega$.
+$\abs{\avg{H\circ\tilde K\circ\varphi-H\circ\tilde K}}\le n(\Theta\abs{\Omega_{\tilde K}}+\abs{\tilde\eta^N})\abs{\xi^L}$ (real segments), which is cubic; with $C_{\xi L}X\le\vartheta_\xi$ this
+is the bound $Q_\omega$.
 
-\proofstep{The bordered torsion}\label{stepI:p2s2:st-t}
-$\avg{\bar{\mathsf T}}-\avg{\mathsf T}$ has blocks $\avg{\bar T-T}$ (\Kref{step:p2s2:st-fr}; the torsion polynomial involves $\bar\omega$ only through $D\bar E_{\bar\omega}$),
-$\bar\omega-\omega$, and $\avg{\bar Y-Y}$ with $Y=\omega^\top-(\eta^L)^\top$ (Lemma~\ref{bpI:p1:last-row}(a) and its algebraic content for the new pair, as in
-Step~\ref{stepI:p2s:tw-y}), so $\abs{\bar Y-Y}\le n\abs{\Delta\omega}+n(\abs{\eta^L}+\abs{\bar\eta^L})\le(n\Theta C_0+2n)g_1X$; \Kref{bp:p2:matrix}(c) gives $C_{\Delta\mathsf T}$, and
-\Kref{bp:p2s:neumann} the inverse.
+\proofstep{The bordered torsion against the initial torus}\label{stepI:p2s2:st-t}
+$\avg{\mathsf T_s}-\avg{\mathsf T_0}$ has the blocks $\avg{T_s}-\avg{T_0}$ (\Kref{bp:p2s2:torsion-ref}: the $\mathcal T_{ab}$ increments plus the local parts at
+stages $s$ and $0$), $\omega_s-\omega_0$ (the frequency sum), and $\avg{Y_s}-\avg{Y_0}$ with $Y=\omega^\top-(\eta^L)^\top$ (Lemma~\ref{bpI:p1:last-row}(a)), so
+$\abs{\avg{Y_s}-\avg{Y_0}}\le n\abs{\omega_s-\omega_0}+n(\abs{\eta^L_s}+\abs{\eta^L_0})$ with $\abs{\eta^L_j}\le\mu_j\le g_1X_j$ (local, at the two stages). In the bordered row-sum
+norm, $\abs{\avg{\mathsf T_s}-\avg{\mathsf T_0}}\le\sum_{j<s}C^{\mathsf T}_{ab,j}X_j+B^{\mathsf T}_{\mathrm{loc},s}X_s+B^{\mathsf T}_{\mathrm{loc},0}X_0$ (the maximum of sums is at most the sum of
+maxima), and \Kref{bp:p2s:neumann} gives the inverse as in \Kref{bp:p2s2:torsion-ref}. No bound on the new torus' $\mathcal T_F$, $\mathcal T_c$ or $\eta^L$ beyond the
+step's is used, and no local contraction premise (the earlier design used $\abs{\bar\eta^L}\le\abs{\eta^L}$ here).
 \end{proof}
 
 %----------------------------------------------------------------------------------------------------
 \subsection{The theorem}\label{bpI:p2s2:sec-g1}
 
 \begin{theorem}[I-G1 with v2 constants]\label{bpI:p2s2:g1}
-Let the data of Theorem~\ref{bpI:p0:g1} and the refined data of \Kref{bp:p2s2:standing} be given, and put
-$\lambda_0:=\sigma_{N^\top}\gamma\delta_0^\varkappa/\sigma_{L^\top}$, $\lambda_{\omega,0}:=\gamma\delta_0^\varkappa/\sigma_{L^\top}$ and $X_0:=\sigma_{L^\top}e/(\gamma^2\delta_0^{2\varkappa+1})$. If the conditions
-\Kref{bp:p2s2:J1}--\Kref{bp:p2s2:J3} of \Kref{bp:p2s2:engine} hold for the bordered modified step (caps of \Kref{bp:p2s2:g1} and the frequency cap with budget $\nu/2$
-and rate $\varrho_\nu$), or route A of \Kref{bp:p2s2:g1} holds for the isoenergetic step of Part~\ref{bpI:p2s} with the levers, then (O1)--(O6) hold, with
-$\abs{K_\infty-K}$ bounded by the ball sum and $\abs{s_\infty\omega^*-s\omega^*}$ by the frequency sum of (J3).
+Let the data of Theorem~\ref{bpI:p0:g1} and the refined data of \Kref{bp:p2s2:standing} be given (small-divisor certificates on the ray of $\omega^*$ at
+the scale $\bar\gamma$, valid at every $\gamma\le\bar\gamma$ by \Kref{bp:p2s2sd:gamma-mono}, or the classical constants), with a well-formed package. Put
+(clipped weights, audit iso F4)
+\[
+p_0:=\max\Bigl\{\sigma_{N^\top},\frac{\sigma_{L^\top}}{\gamma\delta_0^\varkappa},1\Bigr\},\quad\mu_0:=p_0e,\quad\lambda_0:=\frac{\sigma_{N^\top}}{p_0},\quad\lambda_{\omega,0}:=\frac1{p_0},\quad
+X_0:=\frac{p_0e}{\gamma\delta_0^{\varkappa+1}},
+\]
+so $\lambda_0,\lambda_{\omega,0}\in(0,1]$. If the conditions \Kref{bp:p2s2:J0}--\Kref{bp:p2s2:J4} of \Kref{bp:p2s2:engine} hold for the bordered modified step
+(caps of \Kref{bp:p2s2:g1} with $\avg{\mathsf T}$ in place of $\avg T$, and the frequency cap with budget $\nu/2$ and rate $\varrho_\nu$), or route A of
+\Kref{bp:p2s2:g1} holds for the isoenergetic step of Part~\ref{bpI:p2s} with the levers, then (O1)--(O6) hold, with $\abs{K_\infty-K}$ bounded by the ball sum
+and $\abs{s_\infty\omega^*-s\omega^*}$ by the frequency sum of (J3).
 \source{HL19 Theorem~3.6 and Remark~3.7; Theorem~\ref{bpI:p2s:g1}; FH24 Theorem~2.18.}
 \end{theorem}
 
 \begin{proof}
 \proofstep{The engine}\label{stepI:p2s2:g1}
-At stage $0$, $\abs{\eta^L}\le\sigma_{N^\top}e$, $\abs{\eta^N}\le\sigma_{L^\top}e$, $\abs{E^\omega}\le e$, so $X\le X_0$ with the weights $\lambda_0,\lambda_{\omega,0}$. The frequency cap gives
-$\nu(s_j)\ge\nu/2$ for every $j$ as in Step~\ref{stepI:p2s:sc-s}; Proposition~\ref{bpI:p2s2:step} is the abstract step and \Kref{bp:p2s2:engine} the iteration and limit.
-(O2) is Step~\ref{stepI:p2:lim-inv}; (O3) is Lemma~\ref{bpI:p2:energy-limit} with $\abs{E^\omega_j}\le\lambda_\omega\mu_j\to0$ and Lemma~\ref{bpI:p1:energy-conservation}(b);
-(O4)--(O6) as Step~\ref{stepI:p2s:g1-o}.
+At stage $0$, $\abs{\eta^L}\le\sigma_{N^\top}e$, $\abs{\eta^N}\le\sigma_{L^\top}e$, $\abs{E^\omega}\le e$, so $\mu\le p_0e$ with the weights $\lambda_0,\lambda_{\omega,0}$: each of the three
+components is dominated (audit iso F4). The frequency cap gives $\nu(s_j)\ge\nu/2$ for every $j$ as in Step~\ref{stepI:p2s:sc-s} (the ray certificates stay valid since
+$s_j\ge1$); Proposition~\ref{bpI:p2s2:step} is the abstract step and \Kref{bp:p2s2:engine} the iteration and limit. (O2) is Step~\ref{stepI:p2:lim-inv}; (O3) is
+Lemma~\ref{bpI:p2:energy-limit} with $\abs{E^\omega_j}\le\lambda_\omega\mu_j\to0$ and Lemma~\ref{bpI:p1:energy-conservation}(b); (O4)--(O6) as Step~\ref{stepI:p2s:g1-o}.
 \end{proof}
 
 \begin{corollary}[Frozen form and hybrid]\label{bpI:p2s2:frozen}
-\Kref{bp:p2s2:frozen-form} and \Kref{bp:p2s2:hybrid} hold verbatim for the isoenergetic theorem, with $C_2^{\sharp\sharp},C_3^{\sharp\sharp}$ the ball and frequency sums of
-(J3) at $X_\star$ times $\gamma^2\rho^{2\tau}/e$. In the SO checker only \Lean{checkSmallness} changes: it tests $X_0\le X_\star$ for a certified $X_\star$ (or the
-two routes' finite lists of inequalities directly); every other sub-check proves hypotheses of \Lean{IG1Body}, unchanged.
+\Kref{bp:p2s2:frozen-form} and \Kref{bp:p2s2:hybrid} hold for the isoenergetic theorem with $\sigma_{N^\top}$ replaced by $\max\{\sigma_{N^\top},1\}$ in $C_1^B$, and
+\[
+C_2^B,\ C_3^B:=\frac{\rho^{2\tau}\max\{\sigma_{L^\top},\ \max\{\sigma_{N^\top},1\}\bar\gamma\delta_0^\tau\}}{X_\star\delta_0^{2\tau+1}}\times(\text{the ball, resp.\ frequency, sum at }X_\star)
+\]
+(no factor $\bar\gamma^2$: audit iso F3); $C_1=\min\{C_1^\sharp,C_1^B\}$, $C_2=\max\{C_2^\sharp,C_2^B\}$, $C_3=\max\{C_3^\sharp,C_3^B\}$, by cases as in \Kref{step:p2s2:ff}. In
+the SO checker only \Lean{checkSmallness} changes: it tests $X_0\le X_\star$ for a certified $X_\star$ (or the two routes' finite lists of inequalities
+directly); every other sub-check proves hypotheses of \Lean{IG1Body}, unchanged.
 \source{Ours.}
 \end{corollary}
 
 \begin{proof}
 \proofstep{As at fixed frequency}\label{stepI:p2s2:ff}
-The proofs of \Kref{bp:p2s2:frozen-form}, \Kref{bp:p2s2:hybrid} use only monotonicity in $X_0$ and one application of the step.
+The proofs of \Kref{bp:p2s2:frozen-form}, \Kref{bp:p2s2:hybrid} use only monotonicity in $X_0$ and in the stage-$0$ weights, homogeneity of the prefix and one
+application of the step.
 \end{proof}
 
 \begin{remark}[Deviations]\label{bpI:p2s2:dev}
 (W1$^{\sharp\sharp}$) the energy error carries the weight $\lambda_\omega$ at stage $0$ and $1$ afterwards (HL19 use $\norm{E_c}=\max\{\norm E,\abs{E^\omega}\}$);
 (W2$^{\sharp\sharp}$) the averages of the bordered system use the full bite (\Kref{bp:p2s2sd:avg}; HL19 (6.29) use the bite $\delta$);
-(W3$^{\sharp\sharp}$) $\Theta=\sigma_\omega\abs{\omega^*}$ (HL19 (6.30), $C_\omega$) instead of $2n\sigma_K\sigma_B(M+1)$. The errata of Remarks~\Kref{bp:p2s2:register} and~\ref{bpI:p2s:register}
-stand.
+(W3$^{\sharp\sharp}$) $\Theta=\sigma_\omega\abs{\omega^*}$ (HL19 (6.30), $C_\omega$) instead of $2n\sigma_K\sigma_B(M+1)$;
+(W4$^{\sharp\sharp}$) the bordered torsion against the initial torus, the factor $a_\omega$ and the polynomial $\bar Q_N$ (audit iso F2, F5, SHARP2-B3).
+The hybrid numbers are heuristic extrapolations assuming certified first-step transfer (audit iso F6). The errata of Remarks~\Kref{bp:p2s2:register}
+and~\ref{bpI:p2s:register} stand.
 \end{remark}

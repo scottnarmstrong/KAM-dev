@@ -46,15 +46,18 @@ def engine_A(stage, tail, k, X0, a, gamma, gbar, delta0, budgets, lam, absorb_su
     x = X0
     used = {nm: F(0) for nm in budgets}
     fails = []
+    maxB = 0
     for s in range(k):
         st = stage(s)
         ds = delta0 / 2 ** s
         for i, (coef, bound) in enumerate(st["cond"]):
             if coef * x > bound:
                 fails.append("stage%d cond%d" % (s, i))
+        maxB = max(maxB, st.get("B_loc", 0) * x)
         for nm, (rho, j) in st["rates"].items():
             wgt = gamma ** 2 * ds ** (a - j) if keep else gbar ** 2   # eps_s/(gamma^2 delta_s^{a+j}) = x_s gamma^2 delta_s^{a-j}
-            used[nm] += rho * x * wgt
+            if nm in used:
+                used[nm] += rho * x * wgt
         try:
             x = 2 ** (2 * a) * st["CE"] * x ** 2
         except OverflowError:                                  # float data: far above any threshold
@@ -64,14 +67,22 @@ def engine_A(stage, tail, k, X0, a, gamma, gbar, delta0, budgets, lam, absorb_su
     # tail (v1 engine from stage k): (I1)-(I4) with e := eps_k, delta_0 := delta_k
     dk = delta0 / 2 ** k
     tl = tail
-    if 2 ** (2 * a) * tl["CE"] * x > 1:
+    # tail decay: k = 0 is v1's engine (y <= 1 and the geometric delta-weights); k >= 1 is the stage engine
+    # bp:p2s2:engine with exponent p = 4 kappa (audit F5): y = 2^{4 kappa} C_E x_k <= 1/2, sums <= 2 rho w(delta_k) x_k
+    ytail = F(1) if k == 0 else F(1, 2)
+    if 2 ** (2 * a) * tl["CE"] * x > ytail:
         fails.append("tail E")
     for i, (coef, bound) in enumerate(tl["cond"]):
         if coef * x > bound:
             fails.append("tail cond%d" % i)
+    maxB = max(maxB, tl.get("B_loc", 0) * x)
     for nm, (rho, j) in tl["rates"].items():
         w = gbar ** 2 if absorb_sums else gamma ** 2 * dk ** (a - j)   # v1's G1 step absorbs gamma^2 delta^{a-j} <= gbar^2
-        used[nm] += 2 * rho * x * w                              # Lemma bp:p2s:decay: sum <= 2 eps_k/delta_k^{a+j}
+        if nm in used:
+            used[nm] += 2 * rho * x * w                          # Lemma bp:p2s:decay: sum <= 2 eps_k/delta_k^{a+j}
+    for nm in ("Tab", "Tsup"):
+        if nm in used and "Tab" in used:
+            used[nm] += 2 * maxB
     fails += ["sum " + nm for nm in budgets if used[nm] > budgets[nm]]
     return fails if diag else not fails
 
@@ -183,18 +194,34 @@ def stageA(D, o, delta, r, c, ch, cr, iso=False):
         rates["Tsup"] = (C_DT, 1)
     if iso:
         rates["nu"] = (C_Dw, 0)
+    B_loc = 0
+    tref = o.get("tref", False)
+    if tref:
+        # audit F8 (Lemma bp:p2s2:torsion-ref): only T_ab is telescoped; T_F + T_c is bounded at each stage by its own
+        # data (|T_F| <= s_Nt s_B n eps/delta, |T_c| <= s_B^3 w |Omega_K|) and <T_s> is compared with <T_0>
+        rate_ab = C_Dab * C_DK / eta
+        B_loc = C_T1 * G(4, 2 * a - 1) + C_T2 * G(3, 2 * a - kap - 1)
+        if iso:
+            D1 = delta if keep else 1
+            rate_ab = max(rate_ab + C_Dw * D1, n * C_Dw * D1)
+            B_loc = max(B_loc, n * Nt * G(4, 2 * a))           # the eta^L row of the bordered torsion
+        del rates["Tinv"]
+        rates["Tab"] = (rate_ab, 1)
+        if o.get("torsion_cap") is not None:
+            rates["Tsup"] = (rate_ab, 1)
     # step smallness (Proposition bp:p2s:step): coef * X <= bound
     cond = [(G(4, 2 * a - 1), F(1)),                                    # eps <= delta
             (C_sym * G(3, 3 * kap - 1), qS),                             # |E_sym| <= qS
-            (C_E, eta if caps else F(1)),                                 # eps_bar <= eta*eps (caps) / eps
-            (sT * C_DT * G(2, a - 1), th)]                                # Neumann for <T>
+            (C_E, eta if caps else F(1))]                                 # eps_bar <= eta*eps (caps) / eps
+    if not tref:
+        cond.append((sT * C_DT * G(2, a - 1), th))                       # Neumann for <T_bar> (v1)
     if o.get("torsion_cap") is None:
         cond.append((C_T1 * G(4, 2 * a - 1) + C_T2 * G(3, 2 * a - kap - 1), tslack))
     if caps:
         cond.append((sB * C_G * C_DK * G(2, a - 1) / eta, th))           # Neumann for B
     else:
         cond += [(n * C_DK * G(2, a - 1) / (eta * sK), th), (sB * C_G * C_DK * G(2, a - 1) / eta, th)]
-    return dict(CE=C_E, cond=cond, rates=rates, C_DK=C_DK, C_Dw=C_Dw, C_E=C_E, H=H)
+    return dict(CE=C_E, cond=cond, rates=rates, C_DK=C_DK, C_Dw=C_Dw, C_E=C_E, H=H, B_loc=B_loc)
 
 
 def thresholdA(D, o, iso, k=0, c_stage=None, c_tail=None):
@@ -206,6 +233,10 @@ def thresholdA(D, o, iso, k=0, c_stage=None, c_tail=None):
     gamma, gbar, mu = D["gamma"], D["gbar"], D["mu"]
     r = lambda s: D["rho"] - 2 * lam * delta0 * (1 - F(1, 2 ** s))
 
+    if k >= 1:
+        o = dict(o, tref=True)                             # torsion against the initial torus (audit F8)
+    check_data(D)
+
     def stage(s):
         ds = delta0 / 2 ** s
         c, ch, cr = c_stage(s)
@@ -215,8 +246,12 @@ def thresholdA(D, o, iso, k=0, c_stage=None, c_tail=None):
         tail = stageA(D, o, delta0, D["rho"], *c_stage(0), iso)
     else:                                                  # tail: absorbed constants, valid for every bite <= 1
         ot = dict(o, keep_delta=False, avg_full_bite=False)
-        tail = stageA(D, ot, delta0 / 2 ** k, r(k), c_tail, c_tail, c_tail, iso)
+        ctA = c_tail[0] if isinstance(c_tail, tuple) else c_tail     # route-A tail: average at the small bite
+        tail = stageA(D, ot, delta0 / 2 ** k, r(k), ctA, ctA, ctA, iso)
     budgets = budgets_for(D, o, iso)
+    if o.get("tref"):
+        budgets.pop("Tinv")
+        budgets["Tab"] = torsion_budget(D, o.get("free_budgets", False))
     keep = o.get("keep_delta", False)
     pred = lambda X: engine_A(stage, tail, k, X, a, gamma, gbar, delta0, budgets, lam, absorb_sums=(k == 0),
                               keep=keep)
@@ -237,6 +272,30 @@ def with_caps(D, f):
         E["bud_" + {"sB": "B", "sT": "Tinv", "sLt": "Lt", "sN": "N", "sNt": "Nt"}[k_]] = meas * f
     E["Tsup_cap"] = D["Tsup"] * (1 + f); E["bud_Tsup"] = D["Tsup"] * f
     return E
+
+
+def torsion_budget(D, free):
+    """Neumann budget of the torsion average against the initial torus (Lemma bp:p2s2:torsion-ref): with the initial
+    |<T_0>^{-1}| <= m and the cap s (= m + budget), |<T_s> - <T_0>| <= (s - m)/(s m) gives |<T_s>^{-1}| <= s."""
+    cap = D["sT"]
+    bud = D["bud_Tinv"] if free else D["mu"]                  # frozen: |<T_0>^{-1}| <= sigma_T - mu, cap sigma_T
+    init = cap - bud
+    assert init > 0 and bud > 0
+    return bud / (cap * init)
+
+
+def check_data(D):
+    """Audit F1: a well-formed numerical package (positive caps and weights, nonnegative Hamiltonian bounds, initial
+    values strictly below the caps)."""
+    for k_ in ("sK", "sB", "sT", "sLt", "sN", "sNt", "gamma", "gbar", "mu", "rho"):
+        assert D[k_] > 0, k_
+    for k_ in ("M", "M1", "M2", "Mh1", "Mh2", "cTh"):
+        assert D.get(k_, 0) >= 0, k_
+    assert D["gamma"] <= D["gbar"] and 0 < D["rhoinf"] < D["rho"]
+    for k_ in ("B", "Tinv", "Lt", "N", "Nt"):
+        if "bud_" + k_ in D:
+            assert D["bud_" + k_] > 0, k_
+    assert D["sK"] > D["mu"] / 2 and D["sT"] > D["mu"]
 
 
 def budgets_for(D, o, iso):
@@ -320,59 +379,96 @@ def stageB(D, o, delta, r, c, c1, cr, iso=False, stage0=None, lamL=F(1), lamW=F(
     C_gL = lamL + t * C_xiN + (Theta * C_0 if iso else 0)
     C_xiL = c * C_gL                                          # |xi^L| <= C_xiL mu/(gamma delta^kappa)
     C_DK = sKt * C_xiL + gd * C_Kt                             # |K_bar - K| <= C_DK mu/(gamma delta^kappa)
-    C_Eb = C_Et + sKt * C_gL                                   # |E_bar| <= C_Eb mu (crude)
-    # (8) frames of K_bar, torsion change (T = frozen torsion; polynomial of bp:p2s:torsion-identity)
+    # iso (audit iso F5): d_{omega_bar} xi^L = (1 - xi^omega) d_omega xi^L, |xi^omega| <= C_0 mu <= C_0 g1 X <= theta_om2
+    # (step condition below), so |1 - xi^omega| <= a := 1 + theta_om2; a = 1 at fixed frequency
+    a_w = 1 + o.get("theta_w", F(1, 8)) if iso else F(1)
+    C_Eb = C_Et + a_w * sKt * C_gL                             # |E_bar| <= C_Eb mu (crude)
+    # (8) frames of K_bar
     C_Lb = n * C_DK; C_Lbt = 2 * n * C_DK
     C_G = n * Lt + 2 * n * sK
     C_Bb = sB ** 2 * C_G * C_DK / (1 - th)
     C_Nb = n * C_DK * sB + sK * C_Bb
     C_Nbt = C_Bb * Lt + 2 * n * C_DK * sB
     w = 2 * M1 * Lt * sK + (2 * n * sK + n * Lt)
-    # T = T_ab + T_F + T_c (bp:p2s:torsion-identity): T_ab telescoped; T_F, T_c bounded for each torus separately,
-    # with the Lagrangian defect of K_bar from its own (quadratic) normal error (Lemma bp:p2s2:omega), <= that of K.
+    # torsion (audit F8, Lemma bp:p2s2:torsion-ref): T = T_ab + T_F + T_c (bp:p2s:torsion-identity).  Only T_ab is
+    # telescoped (rate C_ab, the cap "Tab"); T_F + T_c is bounded at each stage by its own data, B_loc X (on T_{r-delta}),
+    # and <T_s> is compared with the INITIAL <T_0>: |<T_s> - <T_0>| <= sum_j C_ab,j X_j + B_s + B_0 (no barred-torus
+    # estimate, no next-bite certificate).  iso: the bordered torsion adds the frequency (rate) and the eta^L row (local).
     cDTh = o.get("cDTh", 2 * M2)                             # |D T_h| <= 2 |D^2 X_h|, or a certified c_DTh (L1)
-    C_DT = (cTh * (C_Nbt * Nn + Nt * C_Nb) + cDTh * Nt * Nn * C_DK * (delta if keep else 1)
-            + gd * (2 * Nt * sB * C_DE + 2 * sB ** 3 * w * C_Om))
+    C_ab = cTh * (C_Nbt * Nn + Nt * C_Nb) + cDTh * Nt * Nn * C_DK * (delta if keep else 1)
+    B_sup = (Nt * sB * C_DE + sB ** 3 * w * C_Om) * gd        # |T_F| + |T_c| <= B_sup X on T_{r-delta}
+    B_loc = B_sup
     # (6), (7) new errors
     Qb_N = (1 + n * thx) * (1 + thO) * Qt_N
-    QL = (Nt * M2 / 2 * C_Kt ** 2 * gd1 + sB ** 2 * C_Om * gd * gd + Nt * n * C_Et * C_xiL
-          + Nt * C_gL * (n * sKt * C_xiL + gd * C_DLt) + C_Nbt * C_Eb)
-    rates = {"ball": (C_DK, "delta"), "DK": (C_Lb, 1), "B": (C_Bb, 1), "Tinv": (sT ** 2 * C_DT / (1 - th), 1),
-             "Lt": (C_Lbt, 1), "N": (C_Nb, 1), "Nt": (C_Nbt, 1), "Tsup": (C_DT, 1)}
+    QL1 = (Nt * M2 / 2 * C_Kt ** 2 * gd1 + sB ** 2 * C_Om * gd * gd + Nt * n * C_Et * C_xiL
+           + a_w * Nt * C_gL * (n * sKt * C_xiL + gd * C_DLt))         # Q'_L: the bound of N^T Om0 E_bar
+    rates = {"ball": (C_DK, "delta"), "DK": (C_Lb, 1), "B": (C_Bb, 1), "Tab": (C_ab, 1),
+             "Lt": (C_Lbt, 1), "N": (C_Nb, 1), "Nt": (C_Nbt, 1)}
+    if o.get("torsion_cap") is not None:
+        rates["Tsup"] = (C_ab, 1)
+    Qw = None
     if iso:
-        Qb_N += (1 + n * thx) * Theta * C_Om * Qt_N * C_0 * thx / C_xiL
-        QL += C_0 * C_gL * gd1 + C_0 * Nt * C_DLt * Theta * gd
+        # audit iso F5 / B3 signal: Omega_K~ (xi^omega omega - d_omega_bar xi^L), |.| <= C_Omega (Theta C_0 + a C_gL) X Q~_N mu^2/delta
+        # <= (1 + a) theta_Omega Q~_N mu^2/delta since Theta C_0 <= C_gL: polynomial, no 1/C_xiL
+        Qb_N = (1 + n * thx) * (1 + (1 + a_w) * thO) * Qt_N
+        QL1 += C_0 * C_gL * gd1 + C_0 * Nt * C_DLt * Theta * gd
         Qw = Mh2 / 2 * C_Kt ** 2 * gd1 + n * Qt_N * thx * (Theta * C_Om + gd1)
-        QL = max(QL, Qw)
-        C_DT = max(C_DT + Theta * C_0 * gd1, n * Theta * C_0 * gd1 + 2 * n * gd1)
-        rates["Tinv"] = (sT ** 2 * C_DT / (1 - th), 1); rates["Tsup"] = (C_DT, 1)
+        rates["Tab"] = (max(C_ab + Theta * C_0 * gd1, n * Theta * C_0 * gd1), 1)
+        B_loc = max(B_sup, n * gd1)                            # |eta^L_s| <= mu_s <= g1 X_s in the row Y = omega^T - (eta^L)^T
         rates["nu"] = (Theta * C_0, "gd1")
-    Q = max(QL, 2 ** kap * Qb_N)
+    QL = QL1 + C_Nbt * C_Eb                                    # crude: |(N_bar - N)^T Om0 E_bar| <= C_Nbt X C_Eb mu
+    QL_sc = None
+    if o.get("selfcons", True):
+        # self-consistent tangential error (L10, step:p2s2:selfcons): |E_bar| <= C_EL |eta_bar^L| + C_EN |eta_bar^N| (recovery for
+        # K_bar on T_{r-3delta}; Omega_K_bar = D phi^T (Omega_K~ o phi) D phi, |Omega_K_bar| <= (1 + n th_xi)^2 C_Omega Q~_N g X^2)
+        thN = o.get("theta_N", F(1, 8))
+        QL_sc = (QL1 + thN * (C_EN / C_EL) * Qb_N * gd) / (1 - thN)
+        QL = min(QL, QL_sc)
+    if iso:
+        QL = max(QL, Qw)
+    a_r = o.get("ratio", 2)                                    # next bite delta/a: eta^N divided by gamma (delta/a)^kappa
+    Q = max(QL, a_r ** kap * Qb_N)
     cond = [(max(F(1), sB ** 2) * C_Om * gd, q),               # |Omega_K|, |Omega_N| <= q
             (C_DE * gd, F(n)),                                 # |DE| <= n
             (C_xiL, thx),                                      # |xi^L| <= theta_xi delta (composition)
             (C_Om * C_gL, thO),
             (C_Kt * gd1, F(1)),
             (C_DLt * gd / sK, th), (C_DLtt * gd / Lt, th),     # intermediate frame of K~
-            (sB * C_G * C_DK, th),                             # Neumann for B_bar
-            (sT * C_DT, th)]                                   # Neumann for <T_bar>
-    if o.get("torsion_cap") is None:                           # derived torsion: |T_F| + |T_c| <= tslack
-        cond.append(((Nt * sB * C_DE + sB ** 3 * w * C_Om) * gd, tslack))
-    return dict(Q=Q, cond=cond, rates=rates, C_DK=C_DK, C_0=C_0, C_xiL=C_xiL, Qt_N=Qt_N, QL=QL, gd=gd, gd1=gd1)
+            (sB * C_G * C_DK, th)]                             # Neumann for B_bar
+    if iso:
+        cond.append((C_0 * gd1, a_w - 1))                      # |xi^omega| <= theta_w (iso F5)
+    if QL_sc is not None:
+        cond.append((C_Nbt * C_EL, o.get("theta_N", F(1, 8))))  # |N_bar - N|^T C_EL <= th_N (self-consistent eta_bar^L)
+        cond.append((max(F(1), sB ** 2) * (1 + n * thx) ** 2 * C_Om * Qt_N * gd, q, 2))   # |Omega_K_bar| <= q (X^2)
+    if o.get("torsion_cap") is None:                           # derived torsion cap t: |T_F| + |T_c| <= tslack
+        cond.append((B_sup, tslack))
+    return dict(Q=Q, cond=cond, rates=rates, C_DK=C_DK, C_0=C_0, C_xiL=C_xiL, Qt_N=Qt_N, QL=QL, gd=gd, gd1=gd1,
+                B_loc=B_loc)
 
 
-def engine_B(stage, tail, k, X0, kap, delta0, gamma, gbar, budgets, diag=False, ratio=2):
+def _pw(x, p):
+    try:
+        return x ** p
+    except OverflowError:                                      # float data far above any threshold
+        return float("inf")
+
+
+def engine_B(stage, tail, k, X0, kap, delta0, gamma, gbar, budgets, diag=False, ratio=2, ymax=F(1, 2)):
     """Weighted recursion X_{s+1} = 2^{kappa+1} Q_s X_s^2 (X_s = mu_s/(gamma delta_s^{kappa+1})); k prefix stages, then a
     uniform tail with the critical sums bounded by X_k/(1 - y_k), y_k = 2^{kappa+1} Q_tail X_k (Proposition bp:p2s2:engine)."""
     x = X0
     used = {nm: F(0) for nm in budgets}
     fails = []
+    maxB = 0                                                   # max_s B_loc,s X_s (local torsion parts, F8)
     for s in range(k):
         st = stage(s)
         ds = delta0 / ratio ** s
-        for i, (coef, bound) in enumerate(st["cond"]):
-            if coef * x > bound:
+        for i, cnd in enumerate(st["cond"]):
+            if cnd[0] * _pw(x, cnd[2] if len(cnd) > 2 else 1) > cnd[1]:
                 fails.append("stage%d cond%d" % (s, i))
+        # no local contraction premise: the repaired step (torsion against the initial torus, iso Y row local) does
+        # not use 2^{kappa+1} Q X <= 1 (audit F8); X_s may grow inside the finite prefix
+        maxB = max(maxB, st.get("B_loc", 0) * x)
         for nm, (rho, wk) in st["rates"].items():
             wv = ds if wk == "delta" else (st["gd1"] if wk == "gd1" else 1)
             if nm in used:
@@ -384,19 +480,25 @@ def engine_B(stage, tail, k, X0, kap, delta0, gamma, gbar, budgets, diag=False, 
         if not isinstance(x, F) and x > 1e300:
             x = 1e300
     tl = tail
-    y = 2 ** (kap + 1) * tl["Q"] * x
-    ymax = F(1, 2)
+    y = ratio ** (kap + 1) * tl["Q"] * x                       # the tail continues the schedule delta_s = delta_k a^{k-s}
+    # J2 with a free decay bound ymax < 1 (FH24's kappa): tail sums <= X_k/(1 - ymax)
     if y > ymax:
         fails.append("tail decay")
-    for i, (coef, bound) in enumerate(tl["cond"]):
-        if coef * x > bound:
+    for i, cnd in enumerate(tl["cond"]):
+        if cnd[0] * _pw(x, cnd[2] if len(cnd) > 2 else 1) > cnd[1]:
             fails.append("tail cond%d" % i)
+    maxB = max(maxB, tl.get("B_loc", 0) * x)                   # tail stages: X_s <= X_k, B_loc <= tail value
     dk = delta0 / ratio ** k
     for nm, (rho, wk) in tl["rates"].items():
         wv = dk if wk == "delta" else (tl["gd1"] if wk == "gd1" else 1)
         if nm in used:
             used[nm] += rho * wv * x / (1 - ymax)
-    fails += ["sum " + nm for nm in budgets if used[nm] > budgets[nm]]
+    # torsion against the initial torus: sum of the T_ab increments + B_s + B_0 <= the Neumann budget beta_T
+    for nm in ("Tab", "Tsup"):
+        if nm in used:
+            used[nm] += 2 * maxB
+    fails += ["sum " + nm for nm in budgets
+              if (used[nm] >= budgets[nm] if nm == "ball" else used[nm] > budgets[nm])]
     return fails if diag else not fails
 
 
@@ -420,8 +522,12 @@ def thresholdB(D, o, iso, k, c_stage, c_tail, e_from_mu=True):
 
     def stage(s):
         ds = delta0 / a_r ** s
-        c, ch, cr = c_stage(s) if a_r == 2 else c_stage(ds, r(s))
-        c1 = 2 ** (kap + 1) * ch                            # s = 1/2 split, constant of the next bite
+        c, ch, cr = c_stage(ds, r(s)) if (a_r != 2 or getattr(c_stage, "by_bite", False)) else c_stage(s)
+        # Russmann-Cauchy split (Corollary bp:p2s2sd:rc): c1 = c(s delta)/(s^kappa (1 - s)), ch = c at the split bite
+        # s delta; s = kappa/(kappa + 1) is optimal for flat c ((kappa+1)^{kappa+1}/kappa^kappa; = 2^{kappa+1}, s = 1/2,
+        # at kappa = 1)
+        sp = o.get("split", F(kap, kap + 1) if isinstance(kap, int) else kap / (kap + 1))
+        c1 = ch / (sp ** kap * (1 - sp))
         if s == 0 and o.get("aniso", False):                   # stage-0 weights from the measured/derived eta's
             gd0 = gamma * delta0 ** kap
             lamL = min(F(1), (o["eta_measured"][0] if o.get("eta_measured") else Nt) / per_e)
@@ -431,17 +537,32 @@ def thresholdB(D, o, iso, k, c_stage, c_tail, e_from_mu=True):
         return stageB(D, o, ds, r(s), c, c1, cr, iso,
                       stage0=(dict(e_over_mu=1 / per_e) if (s == 0 and not o.get("no_e")) else None),
                       lamL=lamL, lamW=lamW)
-    # tail: constants at the bite delta_k, valid for every bite <= delta_k (monotone in delta), uniform c
-    ot = dict(o, avg_full_bite=False)
-    ct = c_tail
-    tail = stageB(D, ot, delta0 / a_r ** k, r(k), ct, ct * (kap + 1) ** (kap + 1) / kap ** kap, ct, iso)
+    # tail: constants at the bite delta_k, valid for every bite <= delta_k (monotone in delta), uniform c.  Full-strip
+    # averages (audit F9): either c_tail = (ct, cbar_inf) with cbar_inf certified at EVERY full-strip bite r_j <= r_k
+    # (classical: c^nat(min(r_k, 1)), monotone), used with the factor (delta_k/r_k)^kappa, valid for every later stage
+    # since r_j - rho_inf = 3 delta_j a/(a-1) makes delta_j/r_j increasing in delta_j; or a scalar ct: average at the
+    # small bite, avg = ct (no factor)
+    if isinstance(c_tail, tuple):
+        ct, cbt = c_tail
+        ot = dict(o, avg_full_bite=True)
+    else:
+        ct = cbt = c_tail
+        ot = dict(o, avg_full_bite=False)
+    tail = stageB(D, ot, delta0 / a_r ** k, r(k), ct, ct * (kap + 1) ** (kap + 1) / kap ** kap, cbt, iso)
+    if o.get("aniso"):
+        assert k >= 1, "anisotropic stage-0 weights need kpre >= 1 (the tail has weights 1; audit iso F2)"
+    check_data(D)
     budgets = budgets_for(D, dict(o, caps_tilde=True, free_budgets=o.get("free_budgets", False)), iso)
     budgets["ball"] = D["mu"] / 2                              # d < beta with D_s <= mu/2 (route B ball budget)
     if o.get("torsion_cap") is None:
         budgets.pop("Tsup", None)
-    pred = lambda X: engine_B(stage, tail, k, X, kap, delta0, gamma, gbar, budgets, ratio=a_r)
+    budgets.pop("Tinv")
+    budgets["Tab"] = torsion_budget(D, o.get("free_budgets", False))
+    ym = o.get("ymax", F(1, 2))
+    pred = lambda X: engine_B(stage, tail, k, X, kap, delta0, gamma, gbar, budgets, ratio=a_r, ymax=ym)
     lx = bisect(pred, 1e-60, 1e10)
-    why = engine_B(stage, tail, k, Fr(10 ** (lx + 0.01)), kap, delta0, gamma, gbar, budgets, diag=True, ratio=a_r)
+    why = engine_B(stage, tail, k, Fr(10 ** (lx + 0.01)), kap, delta0, gamma, gbar, budgets, diag=True, ratio=a_r,
+                   ymax=ym)
     # mu_0 from e: X0 = mu_0/(gamma delta0^{kappa+1}), mu_0 = e * max{s_Nt, s_Lt/(gamma delta0^kappa), 1 (iso)}
     le = lx + math.log10(float(gamma * delta0 ** (kap + 1))) - math.log10(float(per_e))
     return le, delta0, why
@@ -494,8 +615,9 @@ def package(name="R1"):
     return D
 
 
-def c_stages(D, which, k=6):
-    """Small-divisor constants per stage: which in {'v1', 'classical', 'freq'}."""
+def c_stages(D, which, k=5):
+    """Small-divisor constants per stage: which in {'v1', 'classical', 'freq'}; the tail constant is valid at every bite
+    <= delta_k (k = the number of prefix stages; the tail starts at stage k)."""
     n, tau = D["n"], int(D["tau"])
     if which == "v1":
         cv = v1.cohConstR_lean(n, tau)
@@ -504,6 +626,8 @@ def c_stages(D, which, k=6):
     delta0 = (D["rho"] - D["rhoinf"]) / (2 * lam)
     ccl = lambda d: Fr(sd.c_classical(n, tau, float(d)))           # Proposition bp:p2s2sd:classical at the bite d
     ctail = ccl(delta0 / 2 ** k)                                  # every bite <= delta_k (monotone; Proposition bp:p2s2:engine)
+    rk = D["rho"] - 2 * lam * delta0 * (1 - F(1, 2 ** k))
+    ctail = (ctail, ccl(min(rk, F(1))))                           # + full-strip constant at every r_j <= r_k (F9)
     if which == "classical":
         def stc(s):
             ds = delta0 / 2 ** s
@@ -551,9 +675,10 @@ def run_routeA(D, label="", only_last=False):
         vs = [vs[0], vs[-1]]
     for name, o, cw, k in vs:
         Dv = with_caps(D, F(1, 20)) if o.get("free_budgets") else D
-        if o.get("torsion_cap") is not None:
-            o = dict(o); o["torsion_cap"] = Dv.get("Tsup_cap", D["Tsup"]); o["torsion_real"] = o["torsion_cap"]
-        st, ct = c_stages(Dv, cw)
+        if o.get("torsion_cap") is not None:                # cap = initial sup|T| + its budget ((R3) with margin)
+            o = dict(o); o["torsion_cap"] = Dv.get("Tsup_cap", D["Tsup"] + D["mu"] / 2)
+            o["torsion_real"] = o["torsion_cap"]
+        st, ct = c_stages(Dv, cw, max(k, 1))
         for iso in (False, True):
             lx, d0, why = thresholdA(Dv, o, iso, k=k, c_stage=st, c_tail=ct)
             out.append(dict(package=label, variant=name, form="iso" if iso else "fixed", log10_threshold=round(lx, 2),
@@ -576,13 +701,13 @@ def hybrid(D, label, A_meas):
                 name, o, cw, k = routeA_variants(D1)[-1]
                 Dv = with_caps(D1, F(1, 20))
                 o = dict(o); o["torsion_cap"] = Dv["Tsup_cap"]; o["torsion_real"] = o["torsion_cap"]
-                st, ct = c_stages(Dv, cw)
+                st, ct = c_stages(Dv, cw, max(k, 1))
                 le1, _, why = thresholdA(Dv, o, iso, k=k, c_stage=st, c_tail=ct)
             else:
                 Dv = with_caps(D1, F(1, 20))
                 o = dict(L1=True, keep_delta=True, avg_full_bite=True, cTh=Dv["cTh"], theta=F(1, 16),
                          free_budgets=True, aniso=True)
-                st, ct = c_stages(Dv, "freq")
+                st, ct = c_stages(Dv, "freq", 5)
                 le1, _, why = thresholdB(Dv, o, iso, 5, st, ct)
             le = (le1 - math.log10(A_meas)) / 2
             out.append(dict(package=label, variant="L6 hybrid (measured step 0), route %s from stage 1" % route,
@@ -629,7 +754,7 @@ def run_routeB(D, label=""):
         Dv = with_caps(D, F(1, 20)) if o.get("free_budgets") else D
         if o.get("torsion_cap") is not None:
             o = dict(o); o["torsion_cap"] = Dv.get("Tsup_cap", D["Tsup"]); o["torsion_real"] = o["torsion_cap"]
-        st, ct = c_stages(Dv, cw)
+        st, ct = c_stages(Dv, cw, max(k, 1))
         for iso in (False, True):
             le, d0, why = thresholdB(Dv, o, iso, k, st, ct)
             out.append(dict(variant=name, form="iso" if iso else "fixed", log10_threshold=round(le, 2), binding=why))
