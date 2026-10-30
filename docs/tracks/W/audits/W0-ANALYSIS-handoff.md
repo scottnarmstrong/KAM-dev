@@ -65,3 +65,20 @@ No Wave/Seq, Wave/Normal(other), no inp-wpf, no Provider/Theorems.
   New `RealAlgebra.lean` bridges real nonnegative sequences to the landed complex `wave_algebra` (`w0a_convAlgebra_nonneg`,
   `w0a_summable_of_weighted` via `wave_l1_le_of_mem`). Landed `waveConv`, `waveTwoWeight`, `waveJap`, `waveAlgConst` are used directly;
   the former tsum-defined constant is replaced by `waveCubicHeadlineConst = 8(1 + 2 Re ζ(3))/π` (ζ = `riemannZeta`).
+
+## AUDIT FOCUS (sub-orchestrator kam-d4)
+
+This package is off the frontier: source-faithful infrastructure (blueprint w0-normalization.tex: `recon-bounded`,
+`gradient`, `cubic-bound`, `pde-equiv`/force identity). W2 and W3 consume it. It has no provider and no seal, so skip
+audit item 1.
+1. Statement fidelity against the CURRENT inp blueprint. After the cleanup, G and G_q are defined on ℓ^{a,p} for a > 0
+   (`bpW:w0:Gq`, `bpW:w0:H`); the cubic bound is for p ≥ ½ with the √2 of E-W-N-1; C_m = 8(1+2ζ(3))/π.
+2. Links to the frozen definitions: `reconU_eq_waveU` and `cubicGrad_eq_waveCubic` must hold for exactly the frozen
+   functions; `isClassicalSolution_iff_with_univ` must match frozen `IsClassicalSolution` at I = ℝ.
+3. `pde-equiv` (i): the unused hypotheses `_hqc`/`_hpc` (continuity into ℓ^{1,1}). Are they an extra premise?
+   (ii): the hypothesis forms (ContDiffOn ℝ 1 into ℓ^{1,0}).
+4. The refactor bridges `SeqBridge.lean` (to KAM.Wave.Seq) and `RealAlgebra.lean` (to KAM.Wave.Algebra): check that
+   they are correct and that no duplicate of a landed definition remains.
+5. Hygiene. This is a SLIM worktree, so run lint only via `/root/code/KAM-inp/.drafts/W/w_lint.sh /root/code/KAM-inp-wpe`.
+   Run the kernel replay of all modules. Regenerated roots are authorized. Memory is tight: one lean process at a time,
+   LEAN_NUM_THREADS=1.
