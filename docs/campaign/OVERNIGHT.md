@@ -2002,3 +2002,15 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     - SO lock: sizing with kp = 4 and a larger support (a smaller amplitude would be logged and paused for the
       owner), then generation, kernel, headline, audit and landing.
     - Then resume W from its pause note, as the owner allowed.
+- **22:49. Heartbeat: SO-DATA3 limited by disk; data build output relocated to the HC volume.**
+  - Each data module produces about 7.7 MB of build output (.olean.private 2.9 MB, C 3.0 MB, setup.json 1.5 MB), so
+    both tori need about 3.8 GB. / was at 7.7 GB and the drivers halt cleanly at 8 GB.
+  - The ir dedup of main against KAM-inp freed only 0.17 GiB. So SO-DATA3 will move
+    `.lake/build/{lib/lean,ir}/KAM/SpinOrbit/Data` to /mnt/HC_Volume_106379410/kam-data/so-data3/build-overlay/
+    behind symlinks, at a safe point between modules (regular files only, verified copy).
+  - The graph check of the band is solved by a row-chunk split (KAM/SpinOrbit/Data/CsegGraph.lean, new names, all
+    proved), so the band stays at 2.755 %.
+  - SO-DATA3 keeps two lanes (its driver has no cross-process claim, so splitting one torus would race). Its brief
+    edit of CsegSupport.lean mid-build stopped lane 1; it was restored and restarted with no loss.
+  - Lock: the exact-mirror sizing pass and the support scan are running. The clock char witness is fixed; charWit
+    (1,0) radius 1.73e-17 is under investigation.
