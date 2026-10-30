@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 15:02 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 0 % · track W 2 %** · frozen statements proved: 23 / 23 · **287,559 lines of Lean** of an estimated ≈ 291,000
+> **Last updated: 2026-10-30 15:04 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 0 % · track W 2 %** · frozen statements proved: 23 / 23 · **287,559 lines of Lean** of an estimated ≈ 291,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -254,7 +254,7 @@ Overall, everything together: 72.6 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 15:02 UTC from `main` at `7a59da15` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 15:04 UTC from `main` at `4638fc36` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -424,12 +424,12 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **soballdy-oninp** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: SO-BALLDY: relative dyadic outward rounding and reverse-cons slot list in the Hamiltonian  | `inp-soballdy-oninp` | 1 (vs `inp`) |
 | **socsplit** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: SO-COMPOSE-SPLIT: design audit 1 (FAIL as written: evidence, not logic; route E chaining s | `inp-socsplit` | 2 (vs `inp`) |
 | **sokdepth** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-EMITFIX: kernel deep-recursion diagnosis, checkHamBounds memory probes, handoff | `inp-sokdepth` | 9 (vs `inp`) |
-| **wfreeze** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Track W freeze: D-WF2 docstring corrections (reconV p, nlw2 not 'proposed'); D-WF1/D-WF2 i | `inp-wfreeze` | 2 (vs `inp`) |
+| **wfreeze** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: Track W freeze: independent identity audit (PASS WITH NOTES) of a526d662 | `inp-wfreeze` | 3 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -439,6 +439,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 15:04 | `4638fc36` | Log: 15:04 (track W freeze audited) |
 | 2026-10-30 15:02 | `7a59da15` | HQ: track W and track SO part 3 as rows of the 'Part of the project' table (derived; weighted by size; kept out of the original project's figure) |
 | 2026-10-30 15:00 | `f021c8dd` | HQ: track SO part 3 (the Moon locked in synchronous rotation, D42) with a stage meter read from the repository |
 | 2026-10-30 14:59 | `949a08f7` | HQ: track W in the README (progress meter, glance, tracks table, statements page), derived from repository state |
@@ -450,7 +451,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 14:18 | `06d9ca32` | Log: 14:18 |
 | 2026-10-30 14:13 | `728f287b` | Log: 14:13 (SO-R2) |
 | 2026-10-30 14:07 | `9919ee84` | Land inp into main |
-| 2026-10-30 14:05 | `1b7df9b1` | Merge remote-tracking branch 'origin/main' |
 <!-- /AUTO:landed -->
 
 ## Decisions
