@@ -68,7 +68,7 @@ Notation:
    | sup \|T\| on the strip | 3.60 | H_T = 93 |
    | \|ω\| | 1.90 | Θ = 28.8 |
    | \|D²X_H\| | 1.13 (cosh) | M = 1.99 |
-6. **Optimizer (§3).** `scripts/certifier/optimize.py` searches 29 unimodular frames, action scaling, time
+6. **Optimizer (§3).** `scripts/certifier/optimize.py` searches 13 unimodular frame classes, action scaling, time
    scaling, ρ, μ and s against v0, v1, an L2-emulated v1 and SHARP-PLUS's v2.
    - It reproduces CONSTANTS-STUDY exactly: P0 −99.87, R1 −74.51, and the emitted R1 −74.67 with T/e +3.03.
    - ⟨OPT-SUMMARY⟩

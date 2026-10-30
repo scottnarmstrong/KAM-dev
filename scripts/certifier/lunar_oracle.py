@@ -105,8 +105,10 @@ def series_from_grid(vals, N1, N2, rel=1e-13):
 
 
 class LunarOracle:
-    def __init__(self, which, cache_dir=None, log=print):
+    def __init__(self, which, cache_dir=None, log=print, L=88, S=None):
         self.which = which
+        self.L = L
+        self.S = S if S is not None else (318 if L == 88 else int(math.ceil(3.33 * L)) + 24)
         self.log = log
         import model
         self.eps = {m: float(model.EPS * model.A_EXACT[m]) for m in model.M_MODES}
@@ -120,14 +122,15 @@ class LunarOracle:
 
     # ------------------------------------------------------------------ data
     def _load(self, cache_dir):
-        path = os.path.join(cache_dir, "lunar_%s.pkl" % self.which) if cache_dir else None
+        tag = "" if self.L == 88 else "_L%d" % self.L
+        path = os.path.join(cache_dir, "lunar_%s%s.pkl" % (self.which, tag)) if cache_dir else None
         if path and os.path.exists(path):
             d = pickle.load(open(path, "rb"))
         else:
             import rot_build as RB
             import measure_residual as MR
             t0 = time.time()
-            cand = RB.build(self.which, 88, 88, 88, 318, log=lambda *a: None)
+            cand = RB.build(self.which, self.L, self.L, self.L, self.S, log=lambda *a: None)
             k, l, c3, c4 = MR.residual_rows(cand)
             wd = MR.witness_data(cand)
             d = dict(v=_arr(cand["v"]), p=_arr(cand["p"]), J=_arr(cand["J"]), R3=(k, l, c3), R4=(k, l, c4),
