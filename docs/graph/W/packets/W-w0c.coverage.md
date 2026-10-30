@@ -72,7 +72,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: bpW:w0:twosided
 KIND: definition
-SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:twosided@L66-L71
+SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:twosided@L66-L75
 DISPOSITION: NODE bpW:w0:twosided
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
@@ -81,7 +81,7 @@ REVIEWER: sol-review-W-w0c
 
 ITEM: bpW:w0:reconstruction#reconU
 KIND: definition
-SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L75-L81
+SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L79-L85
 DISPOSITION: NODE bpW:w0:reconstruction#reconU, bpW:w0:reconstruction#rescaling
 REASON: reconstruction formula plus the inverse coefficient dictionary and symplectic rescaling
 COVERAGE_STATUS: REVIEWED
@@ -90,7 +90,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: bpW:w0:reconstruction#reconV
 KIND: definition
-SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L75-L81
+SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L79-L85
 DISPOSITION: NODE bpW:w0:reconstruction#reconV
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
@@ -99,7 +99,7 @@ REVIEWER: sol-review-W-w0c
 
 ITEM: bpW:w0:H
 KIND: definition
-SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L87-L92
+SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L91-L98
 DISPOSITION: NODE bpW:w0:H
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
@@ -108,7 +108,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: bpW:w0:Gq#cubicGrad
 KIND: definition
-SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L96-L101
+SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L102-L109
 DISPOSITION: NODE bpW:w0:Gq#cubicGrad
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
@@ -117,7 +117,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: bpW:w0:eqmotion
 KIND: definition
-SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion@L103-L112
+SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion@L111-L120
 DISPOSITION: NODE bpW:w0:eqmotion
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
@@ -126,7 +126,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: bpW:w0:z
 KIND: definition
-SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:z@L118-L123
+SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:z@L126-L131
 DISPOSITION: NODE bpW:w0:z
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
@@ -135,7 +135,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: bpW:w0:actions
 KIND: definition
-SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:actions@L127-L134
+SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:actions@L135-L142
 DISPOSITION: NODE bpW:w0:actions
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
@@ -144,7 +144,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: bpW:w0:periodone#linearTorus
 KIND: definition
-SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:periodone@L136-L144
+SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:periodone@L144-L152
 DISPOSITION: NODE bpW:w0:periodone#linearTorus
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
@@ -153,7 +153,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: bpW:w0:harmless
 KIND: claim
-SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:harmless@L175-L180
+SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:harmless@L183-L188
 DISPOSITION: EXCLUDED
 REASON: administrative remark on the printed-convention disagreements (errata E-PDE-W-1/2); no proof consumes it
 COVERAGE_STATUS: REVIEWED
@@ -198,7 +198,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: heading:bpW:w0:hamiltonian
 KIND: heading
-SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:hamiltonian@L73-L73
+SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:hamiltonian@L77-L77
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
 COVERAGE_STATUS: REVIEWED
@@ -207,7 +207,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: heading:bpW:w0:complex
 KIND: heading
-SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:complex@L116-L116
+SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:complex@L124-L124
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
 COVERAGE_STATUS: REVIEWED
@@ -216,7 +216,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: heading:bpW:w0:table
 KIND: heading
-SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:table@L146-L146
+SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:table@L154-L154
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
 COVERAGE_STATUS: REVIEWED
@@ -252,7 +252,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: w0-conventions:source-L82
 KIND: citation
-SOURCE: blueprint-W/parts/w0-conventions.tex#source@L82-L82
+SOURCE: blueprint-W/parts/w0-conventions.tex#source@L86-L86
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: REVIEWED
@@ -261,7 +261,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: w0-conventions:source-L93
 KIND: citation
-SOURCE: blueprint-W/parts/w0-conventions.tex#source@L93-L93
+SOURCE: blueprint-W/parts/w0-conventions.tex#source@L99-L99
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: REVIEWED
@@ -270,7 +270,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: w0-conventions:source-L113
 KIND: citation
-SOURCE: blueprint-W/parts/w0-conventions.tex#source@L113-L113
+SOURCE: blueprint-W/parts/w0-conventions.tex#source@L121-L121
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: REVIEWED
@@ -279,7 +279,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: w0-conventions:source-L124
 KIND: citation
-SOURCE: blueprint-W/parts/w0-conventions.tex#source@L124-L124
+SOURCE: blueprint-W/parts/w0-conventions.tex#source@L132-L132
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: REVIEWED
@@ -315,7 +315,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: w0-conventions:prose-L84-L85
 KIND: proof-region
-SOURCE: blueprint-W/parts/w0-conventions.tex#prose@L84-L85
+SOURCE: blueprint-W/parts/w0-conventions.tex#prose@L88-L89
 DISPOSITION: EXCLUDED
 REASON: forward pointer to Lemma bpW:w0n:recon-bounded
 COVERAGE_STATUS: REVIEWED
@@ -324,7 +324,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: w0-conventions:prose-L148-L149
 KIND: proof-region
-SOURCE: blueprint-W/parts/w0-conventions.tex#prose@L148-L149
+SOURCE: blueprint-W/parts/w0-conventions.tex#prose@L156-L157
 DISPOSITION: EXCLUDED
 REASON: introduction of the comparison table (provenance)
 COVERAGE_STATUS: REVIEWED
@@ -333,7 +333,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: w0-conventions:prose-L151-L172
 KIND: proof-region
-SOURCE: blueprint-W/parts/w0-conventions.tex#prose@L151-L172
+SOURCE: blueprint-W/parts/w0-conventions.tex#prose@L159-L180
 DISPOSITION: EXCLUDED
 REASON: comparison table with the printed conventions of P96-W/KP96 (provenance and errata E-PDE-W-1/2); no proof consumes it
 COVERAGE_STATUS: REVIEWED
@@ -342,7 +342,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: w0-conventions:prose-L174-L174
 KIND: proof-region
-SOURCE: blueprint-W/parts/w0-conventions.tex#prose@L174-L174
+SOURCE: blueprint-W/parts/w0-conventions.tex#prose@L182-L182
 DISPOSITION: EXCLUDED
 REASON: layout line
 COVERAGE_STATUS: REVIEWED
@@ -360,7 +360,7 @@ REVIEWER: sol-delta-W-w0c
 
 ITEM: bpW:w0:coeffsys
 KIND: display
-SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:coeffsys@L106-L108
+SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:coeffsys@L114-L116
 DISPOSITION: NODE bpW:w0:eqmotion
 REASON: equation label maps to its enclosing definition, per SPEC
 COVERAGE_STATUS: REVIEWED

@@ -1,19 +1,9 @@
 {
- "replaced": [
-  "bpW:w0:reconstruction#rescaling"
- ],
+ "replaced": [],
  "added": [],
  "items": [],
  "unresolved": {},
  "passes": [
-  "bpW:w0:basis#lam",
-  "bpW:w0:ellap#WaveSpace",
-  "bpW:w0:H",
-  "bpW:w0:Gq#cubicGrad",
-  "bpW:w0:eqmotion",
-  "bpW:w0:z",
-  "bpW:w0:actions",
-  "bpW:w0:periodone#linearTorus",
-  "bpW:w0:ellap#spaces"
+  "bpW:w0:reconstruction#rescaling"
  ]
 }

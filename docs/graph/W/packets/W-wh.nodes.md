@@ -1,7 +1,7 @@
 NODE: bpW:wh:embedding#IsAnalyticTorusEmbedding
 KIND: definition
 TITLE: Analytic torus embedding: KAM.Wave.IsAnalyticTorusEmbedding
-STATEMENT_SOURCE: blueprint-W/parts/w-headline.tex#bpW:wh:embedding@L22-L27
+STATEMENT_SOURCE: blueprint-W/parts/w-headline.tex#bpW:wh:embedding@L28-L33
 PROOF_SOURCE: -
 CONTRACT_ID: wave.IsAnalyticTorusEmbedding
 CONTRACT_VERSION: 1
@@ -27,7 +27,7 @@ NOTE: -
 NODE: bpW:wh:dioph#IsDiophantine
 KIND: definition
 TITLE: Diophantine: KAM.IsDiophantine
-STATEMENT_SOURCE: blueprint-W/parts/w-headline.tex#bpW:wh:dioph@L33-L37
+STATEMENT_SOURCE: blueprint-W/parts/w-headline.tex#bpW:wh:dioph@L39-L43
 PROOF_SOURCE: -
 CONTRACT_ID: kam.IsDiophantine
 CONTRACT_VERSION: 1
@@ -53,8 +53,8 @@ NOTE: -
 NODE: bpW:wh:nlw2
 KIND: theorem
 TITLE: W-NLW2, proposed
-STATEMENT_SOURCE: blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L41-L65
-PROOF_SOURCE: blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L41-L65
+STATEMENT_SOURCE: blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L47-L71
+PROOF_SOURCE: blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L47-L71
 CONTRACT_ID: wave.nlw2
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: m > 0 (frozen hm : 0 < m); the data fixed at L13-L16: weights a = p = 1, E = E_{1,1} with the max norm, U_m, V_m, G_q, P = (0,infinity)^2, r(I) = sqrt(I_1+I_2), B_h = {I : max_i ¦I_i¦ < h}
@@ -68,17 +68,17 @@ FROZEN_ABI_SHA256: eca3aee797e9040ce3fde0e946ce30e10fe8550faa413b6a83fc9abda495d
 DEPS: bpW:w0:mass, bpW:w0:ellap#WaveSpace, bpW:wh:dioph#IsDiophantine, bpW:w0:basis#lam, bpW:wh:embedding#IsAnalyticTorusEmbedding, bpW:w0:periodone#linearTorus, bpW:w0:ellap#coeff, bpW:w0:Gq#cubicGrad, bpW:w0:reconstruction#reconU, bpW:w0:nlw#IsClassicalSolution, bpW:w0:reconstruction#reconV
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:mass | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L42-L42 | for every m > 0 (hm)
-EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L44-L44 | K_I : R^2 -> E, E = E_{1,1} (frozen WaveSpace)
-EDGE: bpW:wh:dioph#IsDiophantine | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L50-L50 | (2) nu(I) is (gamma_I,tau)-Diophantine
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L50-L50 | (2) limit (lambda_1,lambda_2)/(2 pi); (4) lambda_j
-EDGE: bpW:wh:embedding#IsAnalyticTorusEmbedding | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L51-L51 | (3) each K_I is an analytic torus embedding
-EDGE: bpW:w0:periodone#linearTorus | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L52-L52 | (3) closeness to K^0_I
-EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L54-L54 | (4) the coefficients Q_{I,j}, P_{I,j} (frozen coeff)
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L55-L55 | (4) the cubic gradient G_q(Q_I(theta))_j
-EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L57-L57 | (5) u = U_m(Q_I(theta_0 + t nu(I)))
-EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L58-L58 | (5) classical solution of (bpW:w0:eq) on R
-EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L59-L59 | (5) u_t = V_m(P_I(theta_0 + t nu(I)))
+EDGE: bpW:w0:mass | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L48-L48 | for every m > 0 (hm)
+EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L50-L50 | K_I : R^2 -> E, E = E_{1,1} (frozen WaveSpace)
+EDGE: bpW:wh:dioph#IsDiophantine | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L56-L56 | (2) nu(I) is (gamma_I,tau)-Diophantine
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L56-L56 | (2) limit (lambda_1,lambda_2)/(2 pi); (4) lambda_j
+EDGE: bpW:wh:embedding#IsAnalyticTorusEmbedding | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L57-L57 | (3) each K_I is an analytic torus embedding
+EDGE: bpW:w0:periodone#linearTorus | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L58-L58 | (3) closeness to K^0_I
+EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L60-L60 | (4) the coefficients Q_{I,j}, P_{I,j} (frozen coeff)
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L61-L61 | (4) the cubic gradient G_q(Q_I(theta))_j
+EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L63-L63 | (5) u = U_m(Q_I(theta_0 + t nu(I)))
+EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L64-L64 | (5) classical solution of (bpW:w0:eq) on R
+EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L65-L65 | (5) u_t = V_m(P_I(theta_0 + t nu(I)))
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-wh

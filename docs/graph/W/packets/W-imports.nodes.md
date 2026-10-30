@@ -16,9 +16,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-imports
-REVIEWER: -
+REVIEWER: sol-delta-W-imports
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
@@ -42,9 +42,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-imports
-REVIEWER: -
+REVIEWER: sol-delta-W-imports
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
@@ -68,9 +68,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-imports
-REVIEWER: -
+REVIEWER: sol-delta-W-imports
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
@@ -94,36 +94,10 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-imports
-REVIEWER: -
+REVIEWER: sol-delta-W-imports
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
 NOTE: IMPORTED: proved in the track-K graph, node bp:p1:strip-identity; shared Lean provider. There: KIND lemma, contract bp:p1:strip-identity v1. Source-context correction proposed by sol-review-W-imports: these inherited typing data are explicit in blueprint/parts/p1-analysis.tex L24-L47. The input four fields were exact copies of K; the upstream K record needs the same review before a regenerated import can again be an exact copy.
-
-NODE: K:step:p1:dec-shift
-KIND: external
-TITLE: [K] Shifting one variable
-STATEMENT_SOURCE: blueprint/parts/p1-analysis.tex#step:p1:dec-shift@L800-L811
-PROOF_SOURCE: -
-CONTRACT_ID: K:step:p1:dec-shift
-CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: K p1 proof context L792-L798: n >= 1, rho > 0; W a finite-dimensional complex normed space; u:T_rho -> W holomorphic, bounded and 1-periodic; k in Z^n; 0 <= rho_prime < rho; t_l=-rho_prime sgn(k_l) with sgn(0)=0; t^(j)=(t_1,...,t_j,0,...,0); I_j=int_[0,1]^n u(x+i t^(j)) exp(-2 pi i k.(x+i t^(j))) dx
-SOURCE_QUANTIFIERS: for every n,rho,W,u,k,rho_prime as stated; for each 1 <= j <= n and x_l in [0,1] for l != j
-SOURCE_CONCLUSION: I_{j-1}=I_j for 1<=j<=n
-CONSTANT_SCOPE: none
-FROZEN_FILE: -
-FROZEN_DECL: -
-FROZEN_ANCHOR_ID: -
-FROZEN_ABI_SHA256: -
-DEPS: -
-ROUTES: -
-ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+sol-review-W-imports
-REVIEWER: -
-LEAN_STATUS: EXTERNAL
-LEAN_REF: -
-LEAN_NOTE: -
-NOTE: IMPORTED: proved in the track-K graph, node step:p1:dec-shift; shared Lean provider. There: KIND step, contract step:p1:dec-shift v1. Source-context correction proposed by sol-review-W-imports: these inherited typing data are explicit in blueprint/parts/p1-analysis.tex L24-L47 and L792-L811. The input four fields were exact copies of K; the upstream K record needs the same review before a regenerated import can again be an exact copy.

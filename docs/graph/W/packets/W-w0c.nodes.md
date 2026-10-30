@@ -190,13 +190,13 @@ NOTE: -
 NODE: bpW:w0:twosided
 KIND: definition
 TITLE: Two-sided spaces
-STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:twosided@L66-L71
+STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:twosided@L66-L75
 PROOF_SOURCE: -
 CONTRACT_ID: bpW:w0:twosided
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: typing data: a >= 0, s in R
+SOURCE_HYPOTHESES: typing data: a >= 0, s in R; for the convolution a >= 0, s >= 0 and c, d in l^{a,s}_b
 SOURCE_QUANTIFIERS: a, s
-SOURCE_CONCLUSION: defines l^{a,s}_b, complex sequences (c_l)_{l in Z} with ¦¦c¦¦_{a,s}^2 = sum_l <l>^{2s} e^{2a¦l¦} ¦c_l¦^2 < infinity, <l> = max(1,¦l¦), and the convolution (c*d)_l = sum_i c_i d_{l-i}
+SOURCE_CONCLUSION: defines l^{a,s}_b, complex sequences (c_l)_{l in Z} with ¦¦c¦¦_{a,s}^2 = sum_l <l>^{2s} e^{2a¦l¦} ¦c_l¦^2 < infinity, <l> = max(1,¦l¦); for a >= 0, s >= 0 the convolution (c*d)_l = sum_i c_i d_{l-i} converges absolutely for every l (Cauchy-Schwarz, the weight is >= 1 so ¦¦c¦¦_{l^2} <= ¦¦c¦¦_{a,s}); for s < 0 it can diverge (a = 0, s = -1, c = d = 1)
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
@@ -205,18 +205,18 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w0c
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+claude-suborch-W-r2
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): convolution restricted to s >= 0 with its convergence argument (inline); the pointers to bpW:w0n:algebra and bpW:w1:twosided-transport at L73-L74 are forward pointers, not edges.
 
 NODE: bpW:w0:reconstruction#reconU
 KIND: definition
 TITLE: Reconstruction: KAM.Wave.reconU
-STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L75-L81
+STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L79-L85
 PROOF_SOURCE: -
 CONTRACT_ID: wave.reconU
 CONTRACT_VERSION: 1
@@ -231,9 +231,9 @@ FROZEN_ABI_SHA256: afecc78929f2434f1c43fd73388bfed906c707c14f209552209f0da3ace2e
 DEPS: bpW:w0:basis#lam, bpW:w0:basis#sineMode, bpW:w0:ellap#coeff
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L77-L77 | the weight 1/sqrt(lambda_j)
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L77-L77 | the modes phi_j
-EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L76-L76 | q is the coefficient sequence of a point of E (frozen: q = coeff y)
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L81-L81 | the weight 1/sqrt(lambda_j)
+EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L81-L81 | the modes phi_j
+EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L80-L80 | q is the coefficient sequence of a point of E (frozen: q = coeff y)
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0c
@@ -245,7 +245,7 @@ NOTE: -
 NODE: bpW:w0:reconstruction#reconV
 KIND: definition
 TITLE: Reconstruction: KAM.Wave.reconV
-STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L75-L81
+STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L79-L85
 PROOF_SOURCE: -
 CONTRACT_ID: wave.reconV
 CONTRACT_VERSION: 1
@@ -260,9 +260,9 @@ FROZEN_ABI_SHA256: 5b3a45c2e7dd82cb415595bda752e0518964fda80deb44200323523b5a0a3
 DEPS: bpW:w0:basis#lam, bpW:w0:basis#sineMode, bpW:w0:ellap#coeff
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L77-L77 | the weight sqrt(lambda_j)
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L77-L77 | the modes phi_j
-EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L76-L76 | p is the coefficient sequence of a point of E (frozen: p = coeff y)
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L81-L81 | the weight sqrt(lambda_j)
+EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L81-L81 | the modes phi_j
+EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L80-L80 | p is the coefficient sequence of a point of E (frozen: p = coeff y)
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0c
@@ -274,67 +274,70 @@ NOTE: -
 NODE: bpW:w0:H
 KIND: definition
 TITLE: Hamiltonian
-STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L87-L92
+STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L91-L98
 PROOF_SOURCE: -
 CONTRACT_ID: bpW:w0:H
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: typing data: (q,p) in E_{1,1}
 SOURCE_QUANTIFIERS: (q,p)
-SOURCE_CONCLUSION: defines H_m(q,p) = Lambda(q,p) + G(q), Lambda(q,p) = (1/2) sum_j lambda_j (q_j^2 + p_j^2), G(q) = (1/4) int_0^pi U_m(q)(x)^4 dx; and states that Lambda is finite on E_{a,p} for p >= 1/2
+SOURCE_CONCLUSION: defines H_m(q,p) = Lambda(q,p) + G(q), Lambda(q,p) = (1/2) sum_j lambda_j (q_j^2 + p_j^2), G(q) = (1/4) int_0^pi U_m(q)(x)^4 dx on E_{1,1}; states that Lambda is finite on E_{a,p} for p >= 1/2; and that the same formula defines G(q) for q in l^{a,p} with a > 0, p in R (U_m(q) continuous)
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w0:basis#lam, bpW:w0:reconstruction#reconU, bpW:w0:ellap#WaveSpace, bpW:w0:ellap#spaces
+DEPS: bpW:w0:basis#lam, bpW:w0:reconstruction#reconU, bpW:w0:ellap#WaveSpace, bpW:w0:ellap#spaces, bpW:w0n:recon-bounded
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L89-L89 | Lambda is weighted by lambda_j
-EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L90-L90 | G integrates U_m(q)^4
-EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L88-L88 | H is defined on E_{1,1}
-EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L91-L91 | finiteness is stated on the general coefficient space E_{a,p}
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W+sol-review-W-w0c
-REVIEWER: sol-delta-W-w0c
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L93-L93 | Lambda is weighted by lambda_j
+EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L94-L94 | G integrates U_m(q)^4
+EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L92-L92 | H is defined on E_{1,1}
+EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L95-L97 | finiteness is stated on the general coefficient space E_{a,p}
+EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L96-L96 | U_m(q) is continuous on [0,pi] for q in l^{a,p}, a > 0, so G(q) is defined there
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-review-W-w0c+claude-suborch-W-r2
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): G extended to l^{a,p}, a > 0; the mention of bpW:w0n:gradient and bpW:w1:gradient-identity at L97 is a forward pointer, not an edge.
 
 NODE: bpW:w0:Gq#cubicGrad
 KIND: definition
 TITLE: Cubic gradient: KAM.Wave.cubicGrad
-STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L96-L101
+STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L102-L109
 PROOF_SOURCE: -
 CONTRACT_ID: wave.cubicGrad
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: typing data: m > 0 (carrier hm); q in l^{1,1} (frozen: q = coeff y, y in l^2(N_+;R)); l in N_+
-SOURCE_QUANTIFIERS: m, hm, y, l
-SOURCE_CONCLUSION: defines G_q(q)_l = (1/sqrt(lambda_l)) int_0^pi U_m(q)(x)^3 phi_l(x) dx (KAM.Wave.cubicGrad m hm y l); the remarks that G_q(q)_l = dG/dq_l and G_q(q) in l^{1,2} are forward pointers to Lemma bpW:w0n:gradient and Theorem bpW:w0n:cubic-bound, not part of the definition
+SOURCE_HYPOTHESES: typing data: m > 0 (carrier hm); a > 0, p in R, q in l^{a,p} (the headline and the frozen cubicGrad: q in l^{1,1}, q = coeff y, y in l^2(N_+;R)); l in N_+
+SOURCE_QUANTIFIERS: m, hm; a > 0, p, q (frozen: y); l
+SOURCE_CONCLUSION: defines G_q(q)_l = (1/sqrt(lambda_l)) int_0^pi U_m(q)(x)^3 phi_l(x) dx, the integrand being continuous and the value depending only on the sequence q (KAM.Wave.cubicGrad m hm y l is the case q = coeff y in l^{1,1}); the remarks that G_q(q)_l = dG/dq_l (p >= 0) and G_q(q) in l^{a,p+1} (p >= 1/2) are forward pointers to Lemma bpW:w0n:gradient and Theorem bpW:w0n:cubic-bound
 CONSTANT_SCOPE: none
 FROZEN_FILE: KAM/Frozen/Wave/Defs/CubicGrad.lean
 FROZEN_DECL: KAM.Wave.cubicGrad
 FROZEN_ANCHOR_ID: wave.cubicGrad.v1
 FROZEN_ABI_SHA256: b43284c7493204aa6da9c006fdc338b3d48c53e243ae7cdbb6383dd7d4028600
-DEPS: bpW:w0:reconstruction#reconU, bpW:w0:basis#lam, bpW:w0:basis#sineMode, bpW:w0:ellap#coeff
+DEPS: bpW:w0:reconstruction#reconU, bpW:w0:basis#lam, bpW:w0:basis#sineMode, bpW:w0:ellap#coeff, bpW:w0n:recon-bounded, bpW:w0:ellap#spaces
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L98-L98 | the integrand U_m(q)^3
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L98-L98 | the factor 1/sqrt(lambda_l)
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L98-L98 | the test mode phi_l
-EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L97-L98 | q in ell^{1,1} is read as coeff y in the frozen carrier dictionary
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W+sol-review-W-w0c
-REVIEWER: sol-delta-W-w0c
+EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L103-L108 | the integrand U_m(q)^3
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L103-L108 | the factor 1/sqrt(lambda_l)
+EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L103-L108 | the test mode phi_l
+EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L103-L108 | q in ell^{1,1} is read as coeff y in the frozen carrier dictionary
+EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L105-L105 | the integrand U_m(q)^3 phi_l is continuous (k = 0), so the integral is defined
+EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L103-L103 | G_q is defined on the general space l^{a,p}
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-review-W-w0c+claude-suborch-W-r2
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: The \ref{bpW:w0n:gradient} and \ref{bpW:w0n:cubic-bound} of L99-L100 are forward pointers (they would close the cycle cubicGrad -> gradient -> cubicGrad); not edges.
+NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): domain extended to l^{a,p}, a > 0 (the frozen cubicGrad is the l^{1,1} case, unchanged). The refs to bpW:w0n:gradient and bpW:w0n:cubic-bound at L107-L108 are forward pointers (they would close a cycle); not edges.
 
 NODE: bpW:w0:eqmotion
 KIND: definition
 TITLE: Symplectic form and equations of motion
-STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion@L103-L112
+STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion@L111-L120
 PROOF_SOURCE: -
 CONTRACT_ID: bpW:w0:eqmotion
 CONTRACT_VERSION: 1
@@ -349,12 +352,12 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:H, bpW:w0:basis#lam, bpW:w0:Gq#cubicGrad, bpW:w0:mass, bpW:w0:ellap#WaveSpace, bpW:w0:ellap#spaces
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:H | blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion@L104-L104 | the equations are Hamilton's equations of H
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion@L107-L107 | the linear part lambda_j
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion@L107-L107 | the nonlinear part G_q(q)_j
-EDGE: bpW:w0:mass | blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion@L109-L109 | the operator norm bound explicitly uses the fixed positive mass through sqrt(1+m)
-EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion@L110-L110 | the equation is read for points of E_{1,1}
-EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion@L109-L110 | linear multiplier maps ell^{a,p+1} to ell^{a,p}
+EDGE: bpW:w0:H | blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion@L112-L112 | the equations are Hamilton's equations of H
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion@L115-L115 | the linear part lambda_j
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion@L115-L115 | the nonlinear part G_q(q)_j
+EDGE: bpW:w0:mass | blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion@L117-L117 | the operator norm bound explicitly uses the fixed positive mass through sqrt(1+m)
+EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion@L118-L118 | the equation is read for points of E_{1,1}
+EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion@L117-L118 | linear multiplier maps ell^{a,p+1} to ell^{a,p}
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
 REVIEWER: sol-delta-W-w0c
@@ -366,7 +369,7 @@ NOTE: The \ref{bpW:w0n:cubic-bound} of L111 (smoothing of order one) is a forwar
 NODE: bpW:w0:z
 KIND: definition
 TITLE: Complex coordinates
-STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:z@L118-L123
+STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:z@L126-L131
 PROOF_SOURCE: -
 CONTRACT_ID: bpW:w0:z
 CONTRACT_VERSION: 1
@@ -381,9 +384,9 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:H, bpW:w0:eqmotion, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:H | blueprint-W/parts/w0-conventions.tex#bpW:w0:z@L121-L121 | Lambda = sum lambda_j ¦z_j¦^2 rewrites the quadratic part of H
-EDGE: bpW:w0:eqmotion | blueprint-W/parts/w0-conventions.tex#bpW:w0:z@L122-L122 | the linear flow dq_j = lambda_j p_j, dp_j = -lambda_j q_j and the form sum dq ^ dp
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:z@L121-L122 | Lambda and the complex linear flow directly use lambda_j
+EDGE: bpW:w0:H | blueprint-W/parts/w0-conventions.tex#bpW:w0:z@L129-L129 | Lambda = sum lambda_j ¦z_j¦^2 rewrites the quadratic part of H
+EDGE: bpW:w0:eqmotion | blueprint-W/parts/w0-conventions.tex#bpW:w0:z@L130-L130 | the linear flow dq_j = lambda_j p_j, dp_j = -lambda_j q_j and the form sum dq ^ dp
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:z@L129-L130 | Lambda and the complex linear flow directly use lambda_j
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
 REVIEWER: sol-delta-W-w0c
@@ -395,7 +398,7 @@ NOTE: -
 NODE: bpW:w0:actions
 KIND: definition
 TITLE: Actions and radian angles
-STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:actions@L127-L134
+STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:actions@L135-L142
 PROOF_SOURCE: -
 CONTRACT_ID: bpW:w0:actions
 CONTRACT_VERSION: 1
@@ -410,9 +413,9 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:z, bpW:w0:eqmotion, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:z | blueprint-W/parts/w0-conventions.tex#bpW:w0:actions@L128-L128 | I_j = ¦z_j¦^2 and z_j = sqrt(I_j) e^{-i phi_j}
-EDGE: bpW:w0:eqmotion | blueprint-W/parts/w0-conventions.tex#bpW:w0:actions@L132-L132 | the linear flow in action-angle form
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:actions@L131-L132 | Lambda = sum lambda_j I_j and angular velocity lambda_j
+EDGE: bpW:w0:z | blueprint-W/parts/w0-conventions.tex#bpW:w0:actions@L136-L136 | I_j = ¦z_j¦^2 and z_j = sqrt(I_j) e^{-i phi_j}
+EDGE: bpW:w0:eqmotion | blueprint-W/parts/w0-conventions.tex#bpW:w0:actions@L140-L140 | the linear flow in action-angle form
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:actions@L139-L140 | Lambda = sum lambda_j I_j and angular velocity lambda_j
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
 REVIEWER: sol-delta-W-w0c
@@ -424,7 +427,7 @@ NOTE: -
 NODE: bpW:w0:periodone#linearTorus
 KIND: definition
 TITLE: Period-one torus angles and frequencies: KAM.Wave.linearTorus
-STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:periodone@L136-L144
+STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:periodone@L144-L152
 PROOF_SOURCE: -
 CONTRACT_ID: wave.linearTorus
 CONTRACT_VERSION: 1
@@ -439,10 +442,10 @@ FROZEN_ABI_SHA256: 3826f3c033910de266a3363c9baadc5ea96c76e6d2b8678a2407cda0b1235
 DEPS: bpW:w0:actions, bpW:w0:ellap#WaveSpace, bpW:w0:ellap#ellWeight, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:actions | blueprint-W/parts/w0-conventions.tex#bpW:w0:periodone@L141-L141 | the formula is the action-angle map with phi_j = 2 pi theta_j
-EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w0-conventions.tex#bpW:w0:periodone@L141-L141 | K^0_I takes values in E (frozen: WaveSpace, weighted coordinates)
-EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w0-conventions.tex#bpW:w0:periodone@L141-L141 | frozen weighted coordinates ellWeight 1 1 j * Q^0_j
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:periodone@L143-L143 | linear invariance frequency is (lambda_1,lambda_2)/(2 pi)
+EDGE: bpW:w0:actions | blueprint-W/parts/w0-conventions.tex#bpW:w0:periodone@L149-L149 | the formula is the action-angle map with phi_j = 2 pi theta_j
+EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w0-conventions.tex#bpW:w0:periodone@L149-L149 | K^0_I takes values in E (frozen: WaveSpace, weighted coordinates)
+EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w0-conventions.tex#bpW:w0:periodone@L149-L149 | frozen weighted coordinates ellWeight 1 1 j * Q^0_j
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:periodone@L151-L151 | linear invariance frequency is (lambda_1,lambda_2)/(2 pi)
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
 REVIEWER: sol-delta-W-w0c
@@ -509,7 +512,7 @@ NOTE: -
 NODE: bpW:w0:reconstruction#rescaling
 KIND: definition
 TITLE: Inverse coefficient dictionary and symplectic rescaling
-STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L78-L80
+STATEMENT_SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L82-L84
 PROOF_SOURCE: -
 CONTRACT_ID: bpW:w0:reconstruction#rescaling
 CONTRACT_VERSION: 1
@@ -524,13 +527,13 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:reconstruction#reconU, bpW:w0:reconstruction#reconV, bpW:w0:basis#lam, bpW:w0:basis#sineMode
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L78-L79 | u = U_m(q) gives the displacement coefficient rescaling
-EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L78-L79 | u_t = V_m(p) gives the momentum coefficient rescaling
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L79-L80 | reciprocal sqrt(lambda_j) factors give the symplectic rescaling
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L78-L78 | the inverse dictionary explicitly expands u and u_t in the frozen sine basis phi_j
-TOPOLOGY_STATUS: PROPOSED
+EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L82-L83 | u = U_m(q) gives the displacement coefficient rescaling
+EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L82-L83 | u_t = V_m(p) gives the momentum coefficient rescaling
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L83-L84 | reciprocal sqrt(lambda_j) factors give the symplectic rescaling
+EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L82-L82 | the inverse dictionary explicitly expands u and u_t in the frozen sine basis phi_j
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-delta-W-w0c
-REVIEWER: -
+REVIEWER: sol-delta2-W-w0c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

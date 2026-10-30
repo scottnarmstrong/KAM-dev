@@ -145,11 +145,11 @@ NOTE: -
 NODE: bpW:w0n:gradient
 KIND: lemma
 TITLE: $G$ and its gradient as absolutely convergent sums
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L76-L82
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L84-L92
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L76-L83
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L85-L93
 CONTRACT_ID: bpW:w0n:gradient
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: a > 0, p >= 0, q in l^{a,p}; hat q_j = q_j/sqrt(lambda_j)
+SOURCE_HYPOTHESES: a > 0, p >= 0, q in l^{a,p}; hat q_j = q_j/sqrt(lambda_j); G and G_q taken on l^{a,p} (Definitions bpW:w0:H and bpW:w0:Gq)
 SOURCE_QUANTIFIERS: for all a > 0, p >= 0, q
 SOURCE_CONCLUSION: G(q) = (1/4) sum_{i,j,k,l} g_ijkl hat q_i hat q_j hat q_k hat q_l and G_q(q)_l = (1/sqrt(lambda_l)) sum_{i,j,k} g_ijkl hat q_i hat q_j hat q_k, both absolutely convergent; G is Gateaux differentiable along every coordinate with dG/dq_l = G_q(q)_l; int_0^pi U_m(q)^3 phi_l dx = sqrt(lambda_l) G_q(q)_l
 CONSTANT_SCOPE: none
@@ -160,27 +160,27 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0n:recon-bounded, bpW:w0:reconstruction#reconU, bpW:w0:H, bpW:w0n:quartic-coeff, bpW:w1:ext-integral, bpW:w0:Gq#cubicGrad, bpW:w0:basis#lam, bpW:w0:basis#sineMode
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L85-L85 | k = 0: sum ¦hat q_j¦ < infinity and U_m(q) = sum hat q_j phi_j uniformly
-EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L85-L85 | U_m(q) = sum hat q_j phi_j
-EDGE: bpW:w0:H | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L88-L88 | G(q) = (1/4) int U_m(q)^4
-EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L86-L86 | the coefficients g_ijkl of the termwise-integrated quadruple series
-EDGE: bpW:w1:ext-integral | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L87-L87 | termwise integration (dominated convergence for series) and differentiation under the integral
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L90-L90 | identifies int U_m(q)^3 phi_l / sqrt(lambda_l) with G_q(q)_l
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L77-L77 | lambda occurs explicitly in the local source statement or calculation
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L86-L86 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: sol-delta-W-w0n
+EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L86-L86 | k = 0: sum ¦hat q_j¦ < infinity and U_m(q) = sum hat q_j phi_j uniformly
+EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L86-L86 | U_m(q) = sum hat q_j phi_j
+EDGE: bpW:w0:H | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L89-L89 | G(q) = (1/4) int U_m(q)^4
+EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L87-L87 | the coefficients g_ijkl of the termwise-integrated quadruple series
+EDGE: bpW:w1:ext-integral | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L88-L88 | termwise integration (dominated convergence for series) and differentiation under the integral
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L91-L91 | identifies int U_m(q)^3 phi_l / sqrt(lambda_l) with G_q(q)_l
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L77-L78 | lambda occurs explicitly in the local source statement or calculation
+EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L87-L87 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-review-W-w0n+claude-suborch-W-r2
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): the statement now names the domain l^{a,p} of G and G_q (L78-L79).
 
 NODE: bpW:w0n:algebra
 KIND: lemma
 TITLE: Weighted convolution algebra
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:algebra@L94-L98
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:algebra@L100-L113
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:algebra@L95-L99
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:algebra@L101-L114
 CONTRACT_ID: bpW:w0n:algebra
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: a >= 0, s >= 1; c, d in l^{a,s}_b
@@ -194,9 +194,9 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:twosided, stepW:w0n:weight, stepW:w0n:young
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:twosided | blueprint-W/parts/w0-normalization.tex#bpW:w0n:algebra@L95-L95 | the two-sided spaces and the convolution
-EDGE: stepW:w0n:weight | blueprint-W/parts/w0-normalization.tex#bpW:w0n:algebra@L102-L102 | proof step
-EDGE: stepW:w0n:young | blueprint-W/parts/w0-normalization.tex#bpW:w0n:algebra@L107-L107 | proof step
+EDGE: bpW:w0:twosided | blueprint-W/parts/w0-normalization.tex#bpW:w0n:algebra@L96-L96 | the two-sided spaces and the convolution
+EDGE: stepW:w0n:weight | blueprint-W/parts/w0-normalization.tex#bpW:w0n:algebra@L103-L103 | proof step
+EDGE: stepW:w0n:young | blueprint-W/parts/w0-normalization.tex#bpW:w0n:algebra@L108-L108 | proof step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
@@ -208,8 +208,8 @@ NOTE: -
 NODE: stepW:w0n:weight
 KIND: step
 TITLE: Weight inequality
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:weight@L102-L106
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:weight@L102-L106
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:weight@L103-L107
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:weight@L103-L107
 CONTRACT_ID: stepW:w0n:weight
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: a >= 0, s >= 1; w_l = <l>^s e^{a¦l¦}
@@ -223,7 +223,7 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:twosided
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:twosided | blueprint-W/parts/w0-normalization.tex#stepW:w0n:weight@L103-L103 | the weight <l> = max(1,¦l¦) of l^{a,s}_b
+EDGE: bpW:w0:twosided | blueprint-W/parts/w0-normalization.tex#stepW:w0n:weight@L104-L104 | the weight <l> = max(1,¦l¦) of l^{a,s}_b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
@@ -235,8 +235,8 @@ NOTE: -
 NODE: stepW:w0n:young
 KIND: step
 TITLE: Young and Cauchy--Schwarz
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:young@L107-L112
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:young@L107-L112
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:young@L108-L113
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:young@L108-L113
 CONTRACT_ID: stepW:w0n:young
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: a >= 0, s >= 1; c,d in l_b^{a,s}; w_l = <l>^s exp(a abs(l)); C_l = w_l abs(c_l), D_l = w_l abs(d_l); C'_l=C_l/<l>^s, D'_l=D_l/<l>^s
@@ -250,8 +250,8 @@ FROZEN_ABI_SHA256: -
 DEPS: stepW:w0n:weight, bpW:w1:young
 ROUTES: -
 ROUTE_FOR: -
-EDGE: stepW:w0n:weight | blueprint-W/parts/w0-normalization.tex#stepW:w0n:young@L108-L108 | inserts the weight inequality
-EDGE: bpW:w1:young | blueprint-W/parts/w0-normalization.tex#stepW:w0n:young@L109-L109 | Young's inequality (i) and the l^1 control with 1+2 zeta(2s) (ii)
+EDGE: stepW:w0n:weight | blueprint-W/parts/w0-normalization.tex#stepW:w0n:young@L109-L109 | inserts the weight inequality
+EDGE: bpW:w1:young | blueprint-W/parts/w0-normalization.tex#stepW:w0n:young@L110-L110 | Young's inequality (i) and the l^1 control with 1+2 zeta(2s) (ii)
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -263,43 +263,43 @@ NOTE: -
 NODE: bpW:w0n:cubic-bound
 KIND: theorem
 TITLE: Cubic gradient, (b)
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L118-L129
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L131-L155
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L119-L131
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L133-L157
 CONTRACT_ID: bpW:w0n:cubic-bound
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: a >= 0, p >= 1/2; T(q,q',q'')_l = (1/sqrt(lambda_l)) sum_{i,j,k} g_ijkl hat q_i hat q'_j hat q''_k on (l^{a,p}_C)^3, hat q_j = q_j/sqrt(lambda_j)
 SOURCE_QUANTIFIERS: for all a >= 0, p >= 1/2; for all q, q', q''
-SOURCE_CONCLUSION: the sums converge absolutely; T is a bounded symmetric trilinear map into l^{a,p+1}_C, real on real arguments, with ¦¦T(q,q',q'')¦¦_{a,p+1} <= C_* ¦¦q¦¦ ¦¦q'¦¦ ¦¦q''¦¦, C_* = K_{p+1/2}^2/pi; for a > 0, G_q(q) = T(q,q,q); for a = p = 1, G_q : l^{1,1} -> l^{1,2} is real analytic (a continuous cubic polynomial) with ¦¦G_q(q)¦¦_{1,2} <= C_m ¦¦q¦¦_{1,1}^3, C_m = 8(1+2 zeta(3))/pi (about 8.67)
+SOURCE_CONCLUSION: the sums converge absolutely; T is a bounded symmetric trilinear map into l^{a,p+1}_C, real on real arguments, with ¦¦T(q,q',q'')¦¦_{a,p+1} <= C_* ¦¦q¦¦ ¦¦q'¦¦ ¦¦q''¦¦, C_* = K_{p+1/2}^2/pi; for a > 0 and real q in l^{a,p}, G_q(q) = T(q,q,q) (Definition bpW:w0:Gq on l^{a,p}); for a = p = 1, G_q : l^{1,1} -> l^{1,2} is real analytic (a continuous cubic polynomial) with ¦¦G_q(q)¦¦_{1,2} <= C_m ¦¦q¦¦_{1,1}^3, C_m = 8(1+2 zeta(3))/pi (about 8.67)
 CONSTANT_SCOPE: C_* depends only on p; C_m is independent of m > 0 (only lambda_j >= j is used)
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w0n:gradient, bpW:w0n:algebra, bpW:w0n:quartic-coeff, bpW:w0:basis#lam, bpW:w0:Gq#cubicGrad, stepW:w0n:majorant, stepW:w0n:selection, stepW:w0n:smoothing, stepW:w0n:analytic
+DEPS: bpW:w0n:quartic-coeff, bpW:w0:basis#lam, bpW:w0:Gq#cubicGrad, stepW:w0n:majorant, stepW:w0n:selection, stepW:w0n:smoothing, stepW:w0n:analytic, bpW:w0n:gradient, bpW:w0n:algebra
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L120-L120 | the coefficients g_ijkl of T
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L120-L120 | the weights 1/sqrt(lambda)
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L125-L125 | the identification G_q(q) = T(q,q,q)
-EDGE: stepW:w0n:majorant | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L132-L132 | proof step
-EDGE: stepW:w0n:selection | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L136-L136 | proof step
-EDGE: stepW:w0n:smoothing | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L142-L142 | proof step
-EDGE: stepW:w0n:analytic | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L149-L149 | proof step
-EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L125-L125 | explicit citation identifying G_q with the diagonal T
-EDGE: bpW:w0n:algebra | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L124-L124 | K_{p+1/2} is the algebra constant, with p >= 1/2 ensuring s >= 1
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: sol-delta-W-w0n
+EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L121-L121 | the coefficients g_ijkl of T
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L121-L121 | the weights 1/sqrt(lambda)
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L126-L127 | the identification G_q(q) = T(q,q,q)
+EDGE: stepW:w0n:majorant | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L134-L134 | proof step
+EDGE: stepW:w0n:selection | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L138-L138 | proof step
+EDGE: stepW:w0n:smoothing | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L144-L144 | proof step
+EDGE: stepW:w0n:analytic | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L151-L151 | proof step
+EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L126-L127 | explicit citation identifying G_q with the diagonal T
+EDGE: bpW:w0n:algebra | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L125-L125 | K_{p+1/2} is the algebra constant, with p >= 1/2 ensuring s >= 1
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-review-W-w0n+claude-suborch-W-r2
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): the identification G_q = T(q,q,q) is stated for real q in l^{a,p} with Definition bpW:w0:Gq on l^{a,p} (L126-L127).
 
 NODE: stepW:w0n:majorant
 KIND: step
 TITLE: Even majorants
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:majorant@L132-L135
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:majorant@L132-L135
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:majorant@L134-L137
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:majorant@L134-L137
 CONTRACT_ID: stepW:w0n:majorant
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: a >= 0, p >= 1/2; q,q',q'' in l_C^{a,p}; define x_i=abs(q_abs(i))/sqrt(lambda_abs(i)) for i != 0 and x_0=0, and similarly x',x''
@@ -313,9 +313,9 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:twosided, bpW:w0:basis#lambda-facts, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:twosided | blueprint-W/parts/w0-normalization.tex#stepW:w0n:majorant@L135-L135 | the two-sided norm of the majorant
-EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:majorant@L134-L134 | lambda_i >= i (i/lambda_i < 1)
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:majorant@L133-L133 | lambda occurs explicitly in the local source statement or calculation
+EDGE: bpW:w0:twosided | blueprint-W/parts/w0-normalization.tex#stepW:w0n:majorant@L137-L137 | the two-sided norm of the majorant
+EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:majorant@L136-L136 | lambda_i >= i (i/lambda_i < 1)
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:majorant@L135-L135 | lambda occurs explicitly in the local source statement or calculation
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -327,8 +327,8 @@ NOTE: -
 NODE: stepW:w0n:selection
 KIND: step
 TITLE: Selection rule bound
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:selection@L136-L141
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:selection@L136-L141
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:selection@L138-L143
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:selection@L138-L143
 CONTRACT_ID: stepW:w0n:selection
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: a >= 0, p >= 1/2; q,q',q'' in l_C^{a,p}; l >= 1; hat q and even majorants are the explicit sequences defined at L120-L121 and L133-L134
@@ -342,9 +342,9 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0n:quartic-coeff, stepW:w0n:majorant, bpW:w0n:algebra
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:selection@L137-L137 | the signed form (bpW:w0n:g-signed) and its bound
-EDGE: stepW:w0n:majorant | blueprint-W/parts/w0-normalization.tex#stepW:w0n:selection@L139-L139 | the even majorants x, x', x''
-EDGE: bpW:w0n:algebra | blueprint-W/parts/w0-normalization.tex#stepW:w0n:selection@L141-L141 | finiteness of the triple convolution: apply the algebra estimate twice, s=p+1/2 >= 1
+EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:selection@L139-L139 | the signed form (bpW:w0n:g-signed) and its bound
+EDGE: stepW:w0n:majorant | blueprint-W/parts/w0-normalization.tex#stepW:w0n:selection@L141-L141 | the even majorants x, x', x''
+EDGE: bpW:w0n:algebra | blueprint-W/parts/w0-normalization.tex#stepW:w0n:selection@L143-L143 | finiteness of the triple convolution: apply the algebra estimate twice, s=p+1/2 >= 1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -356,8 +356,8 @@ NOTE: -
 NODE: stepW:w0n:smoothing
 KIND: step
 TITLE: Smoothing
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L142-L148
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L142-L148
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L144-L150
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L144-L150
 CONTRACT_ID: stepW:w0n:smoothing
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: a >= 0, p >= 1/2; q,q',q'' in l_C^{a,p}; s=p+1/2; X=x*x'*x'' with the explicit majorants of L133-L134
@@ -371,11 +371,11 @@ FROZEN_ABI_SHA256: -
 DEPS: stepW:w0n:selection, bpW:w0:basis#lambda-facts, bpW:w0n:algebra, stepW:w0n:majorant, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: stepW:w0n:selection | blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L143-L143 | the pointwise bound by X_l/(2pi)
-EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L143-L143 | l/lambda_l <= 1
-EDGE: bpW:w0n:algebra | blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L146-L146 | the algebra bound with s = p + 1/2 >= 1, applied twice
-EDGE: stepW:w0n:majorant | blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L147-L147 | ¦¦x¦¦ <= sqrt 2 ¦¦q¦¦
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L143-L143 | lambda occurs explicitly in the local source statement or calculation
+EDGE: stepW:w0n:selection | blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L145-L145 | the pointwise bound by X_l/(2pi)
+EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L145-L145 | l/lambda_l <= 1
+EDGE: bpW:w0n:algebra | blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L148-L148 | the algebra bound with s = p + 1/2 >= 1, applied twice
+EDGE: stepW:w0n:majorant | blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L149-L149 | ¦¦x¦¦ <= sqrt 2 ¦¦q¦¦
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L145-L145 | lambda occurs explicitly in the local source statement or calculation
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -387,8 +387,8 @@ NOTE: -
 NODE: stepW:w0n:analytic
 KIND: step
 TITLE: Analyticity
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L149-L154
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L149-L154
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L151-L156
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L151-L156
 CONTRACT_ID: stepW:w0n:analytic
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: a >= 0, p >= 1/2; q in l_C^{a,p}; T is the series formula of L120-L121 (boundedness and symmetry are proved, not assumed)
@@ -402,11 +402,11 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0n:quartic-coeff, bpW:w1:ext-analytic, bpW:w0n:gradient, bpW:w0:Gq#cubicGrad, stepW:w0n:smoothing
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L150-L150 | symmetry of g
-EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L152-L152 | a continuous multilinear map (its diagonal) is analytic
-EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L154-L154 | identification with G_q for a > 0
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L154-L154 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-EDGE: stepW:w0n:smoothing | blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L151-L151 | boundedness of the trilinear formula is supplied by the preceding smoothing estimate
+EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L152-L152 | symmetry of g
+EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L154-L154 | a continuous multilinear map (its diagonal) is analytic
+EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L156-L156 | identification with G_q for a > 0
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L156-L156 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
+EDGE: stepW:w0n:smoothing | blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L153-L153 | boundedness of the trilinear formula is supplied by the preceding smoothing estimate
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -418,8 +418,8 @@ NOTE: -
 NODE: bpW:w0n:pde-equiv
 KIND: proposition
 TITLE: Equivalence, (a)
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L165-L183
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L185-L209
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L167-L185
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L187-L211
 CONTRACT_ID: bpW:w0n:pde-equiv
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: I subset R open interval; q, p : I -> l^{1,1}; (i): q, p continuous into l^{1,1}, continuously differentiable into l^{1,0}, satisfying (bpW:w0:coeffsys) in l^{1,0}; (ii): u(t,x) = U_m(q(t))(x) is a classical solution of (bpW:w0:eq) on I and u_t(t,.) = V_m(p(t)) for every t
@@ -433,17 +433,17 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:eqmotion, bpW:w0:nlw#IsClassicalSolution, bpW:w0:reconstruction#reconU, bpW:w0:reconstruction#reconV, stepW:w0n:force, stepW:w0n:time, stepW:w0n:ident, stepW:w0n:converse, bpW:w0:basis#lam, bpW:w0:Gq#cubicGrad, bpW:w0:basis#sineMode
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:eqmotion | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L169-L169 | the coefficient system (bpW:w0:coeffsys)
-EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L170-L170 | classical solution of (bpW:w0:eq)
-EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L170-L170 | u = U_m(q(t))
-EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L171-L171 | u_t = V_m(p(t))
-EDGE: stepW:w0n:force | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L186-L186 | proof step
-EDGE: stepW:w0n:time | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L193-L193 | proof step
-EDGE: stepW:w0n:ident | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L199-L199 | proof step
-EDGE: stepW:w0n:converse | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L202-L202 | proof step
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L178-L178 | lambda occurs explicitly in the local source statement or calculation
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L178-L178 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L178-L178 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
+EDGE: bpW:w0:eqmotion | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L171-L171 | the coefficient system (bpW:w0:coeffsys)
+EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L172-L172 | classical solution of (bpW:w0:eq)
+EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L172-L172 | u = U_m(q(t))
+EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L173-L173 | u_t = V_m(p(t))
+EDGE: stepW:w0n:force | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L188-L188 | proof step
+EDGE: stepW:w0n:time | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L195-L195 | proof step
+EDGE: stepW:w0n:ident | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L201-L201 | proof step
+EDGE: stepW:w0n:converse | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L204-L204 | proof step
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L180-L180 | lambda occurs explicitly in the local source statement or calculation
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L180-L180 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
+EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L180-L180 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -455,8 +455,8 @@ NOTE: -
 NODE: stepW:w0n:force
 KIND: step
 TITLE: Force identity
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L186-L192
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L186-L192
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L188-L194
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L188-L194
 CONTRACT_ID: stepW:w0n:force
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: q in l^{1,1}; f = U_m(q)^3 in C([0,pi])
@@ -470,14 +470,14 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0n:gradient, bpW:w0n:cubic-bound, bpW:w0n:recon-bounded, bpW:w1:sine-completeness, bpW:w0:basis#sineMode, bpW:w0:basis#lam, bpW:w0:reconstruction#reconU, bpW:w0:Gq#cubicGrad
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L187-L187 | int f phi_l = sqrt(lambda_l) G_q(q)_l
-EDGE: bpW:w0n:cubic-bound | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L188-L188 | (sqrt(lambda_l) G_q(q)_l) lies in l^{1,1}
-EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L188-L188 | uniform convergence of S (k = 0) and termwise differentiation (k = 2)
-EDGE: bpW:w1:sine-completeness | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L190-L190 | (phi_l) is a complete orthonormal system of L^2(0,pi)
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L192-L192 | -phi_j'' + m phi_j = lambda_j^2 phi_j
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L192-L192 | the eigenvalue lambda_j^2 = j^2 + m
-EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L187-L187 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L187-L187 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
+EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L189-L189 | int f phi_l = sqrt(lambda_l) G_q(q)_l
+EDGE: bpW:w0n:cubic-bound | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L190-L190 | (sqrt(lambda_l) G_q(q)_l) lies in l^{1,1}
+EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L190-L190 | uniform convergence of S (k = 0) and termwise differentiation (k = 2)
+EDGE: bpW:w1:sine-completeness | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L192-L192 | (phi_l) is a complete orthonormal system of L^2(0,pi)
+EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L194-L194 | -phi_j'' + m phi_j = lambda_j^2 phi_j
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L194-L194 | the eigenvalue lambda_j^2 = j^2 + m
+EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L189-L189 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L189-L189 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -489,8 +489,8 @@ NOTE: -
 NODE: stepW:w0n:time
 KIND: step
 TITLE: Time regularity
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L193-L198
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L193-L198
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L195-L200
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L195-L200
 CONTRACT_ID: stepW:w0n:time
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: the hypotheses of (i)
@@ -504,12 +504,12 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:eqmotion, bpW:w0n:recon-bounded, bpW:w0:reconstruction#reconV, bpW:w0:basis#lam, bpW:w0:reconstruction#reconU, bpW:w0:Gq#cubicGrad
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:eqmotion | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L194-L194 | dot q = lambda p and dot p = -lambda q - G_q(q)
-EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L196-L196 | lambda bounded l^{1,0} -> l^{1,-1}; U_m : l^{1,-1} -> C^2([0,pi]) bounded linear
-EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L198-L198 | U_m(lambda p) = V_m(p)
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L194-L194 | lambda occurs explicitly in the local source statement or calculation
-EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L196-L196 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L196-L196 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
+EDGE: bpW:w0:eqmotion | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L196-L196 | dot q = lambda p and dot p = -lambda q - G_q(q)
+EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L198-L198 | lambda bounded l^{1,0} -> l^{1,-1}; U_m : l^{1,-1} -> C^2([0,pi]) bounded linear
+EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L200-L200 | U_m(lambda p) = V_m(p)
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L196-L196 | lambda occurs explicitly in the local source statement or calculation
+EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L198-L198 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L198-L198 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -521,8 +521,8 @@ NOTE: -
 NODE: stepW:w0n:ident
 KIND: step
 TITLE: Identification
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L199-L201
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L199-L201
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L201-L203
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L201-L203
 CONTRACT_ID: stepW:w0n:ident
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: I subset R open interval; q,p:I -> l^{1,1}, continuous there and C^1 into l^{1,0}, satisfying the coefficient system in l^{1,0}; u(t,x)=U_m(q(t))(x)
@@ -536,13 +536,13 @@ FROZEN_ABI_SHA256: -
 DEPS: stepW:w0n:force, stepW:w0n:time, bpW:w0n:recon-bounded, bpW:w0:nlw#IsClassicalSolution, bpW:w0:basis#lam, bpW:w0:reconstruction#reconU, bpW:w0:Gq#cubicGrad
 ROUTES: -
 ROUTE_FOR: -
-EDGE: stepW:w0n:force | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L200-L200 | U_m(lambda^2 q) = -u_xx + m u and U_m(lambda G_q(q)) = u^3
-EDGE: stepW:w0n:time | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L200-L200 | u_tt = U_m(ddot q)
-EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L201-L201 | boundary values vanish
-EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L201-L201 | the definition of classical solution being verified
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L200-L200 | lambda occurs explicitly in the local source statement or calculation
-EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L200-L200 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L200-L200 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
+EDGE: stepW:w0n:force | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L202-L202 | U_m(lambda^2 q) = -u_xx + m u and U_m(lambda G_q(q)) = u^3
+EDGE: stepW:w0n:time | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L202-L202 | u_tt = U_m(ddot q)
+EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L203-L203 | boundary values vanish
+EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L203-L203 | the definition of classical solution being verified
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L202-L202 | lambda occurs explicitly in the local source statement or calculation
+EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L202-L202 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L202-L202 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -554,8 +554,8 @@ NOTE: -
 NODE: stepW:w0n:converse
 KIND: step
 TITLE: Converse
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L202-L208
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L202-L208
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L204-L210
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L204-L210
 CONTRACT_ID: stepW:w0n:converse
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: the hypotheses of (ii)
@@ -569,15 +569,15 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:nlw#IsClassicalSolution, bpW:w0n:recon-bounded, bpW:w1:ext-integral, bpW:w0:basis#sineMode, bpW:w0n:gradient, bpW:w0:basis#lam, bpW:w0:reconstruction#reconU, bpW:w0:reconstruction#reconV, bpW:w0:Gq#cubicGrad
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L204-L204 | u_t, u_tt continuous; the equation and boundary values
-EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L203-L203 | the coefficient formula int (sum c_j phi_j) phi_l = c_l
-EDGE: bpW:w1:ext-integral | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L204-L204 | differentiation under the integral sign
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L206-L206 | phi_l(0) = phi_l(pi) = 0 and phi_l'' = -l^2 phi_l (integration by parts)
-EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L207-L207 | int u^3 phi_l = sqrt(lambda_l) G_q(q)_l
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L203-L203 | lambda occurs explicitly in the local source statement or calculation
-EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L203-L203 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L203-L203 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L207-L207 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
+EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L206-L206 | u_t, u_tt continuous; the equation and boundary values
+EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L205-L205 | the coefficient formula int (sum c_j phi_j) phi_l = c_l
+EDGE: bpW:w1:ext-integral | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L206-L206 | differentiation under the integral sign
+EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L208-L208 | phi_l(0) = phi_l(pi) = 0 and phi_l'' = -l^2 phi_l (integration by parts)
+EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L209-L209 | int u^3 phi_l = sqrt(lambda_l) G_q(q)_l
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L205-L205 | lambda occurs explicitly in the local source statement or calculation
+EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L205-L205 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
+EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L205-L205 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L209-L209 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -589,8 +589,8 @@ NOTE: -
 NODE: bpW:w0n:nonres
 KIND: lemma
 TITLE: Qualitative nonresonance of all quartic terms
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:nonres@L220-L224
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:nonres@L226-L247
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:nonres@L222-L226
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:nonres@L228-L249
 CONTRACT_ID: bpW:w0n:nonres
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: m > 0; a, b, c, d >= 1 with g_abcd != 0; sigma in {+-1}^4 with sigma_1 lambda_a + sigma_2 lambda_b + sigma_3 lambda_c + sigma_4 lambda_d = 0
@@ -604,10 +604,10 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:basis#lam, bpW:w0n:quartic-coeff, stepW:w0n:31, stepW:w0n:22
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nonres@L222-L222 | the frequencies lambda
-EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nonres@L227-L227 | g_abcd != 0 implies a signed relation +-a+-b+-c+-d = 0
-EDGE: stepW:w0n:31 | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nonres@L229-L229 | proof step
-EDGE: stepW:w0n:22 | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nonres@L233-L233 | proof step
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nonres@L224-L224 | the frequencies lambda
+EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nonres@L229-L229 | g_abcd != 0 implies a signed relation +-a+-b+-c+-d = 0
+EDGE: stepW:w0n:31 | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nonres@L231-L231 | proof step
+EDGE: stepW:w0n:22 | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nonres@L235-L235 | proof step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
@@ -619,8 +619,8 @@ NOTE: -
 NODE: stepW:w0n:31
 KIND: step
 TITLE: Four or three equal signs
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L229-L232
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L229-L232
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L231-L234
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L231-L234
 CONTRACT_ID: stepW:w0n:31
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: m > 0; a,b,c,d >= 1 with g_abcd != 0; sigma in {+1,-1}^4; sum sigma_r lambda_index(r)=0; consider the cases of four or three equal signs
@@ -634,10 +634,10 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:basis#lambda-facts, bpW:w0:mass, bpW:w0:basis#lam, bpW:w0n:quartic-coeff
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L231-L231 | lambda > 0 and j -> lambda_j increasing
-EDGE: bpW:w0:mass | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L232-L232 | squaring: 2 sqrt((x^2+m)(y^2+m)) > 2xy - m uses m > 0
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L231-L231 | lambda occurs explicitly in the local source statement or calculation
-EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L231-L231 | g_abcd != 0 supplies d <= a+b+c via the selection rule at L227-L228
+EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L233-L233 | lambda > 0 and j -> lambda_j increasing
+EDGE: bpW:w0:mass | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L234-L234 | squaring: 2 sqrt((x^2+m)(y^2+m)) > 2xy - m uses m > 0
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L233-L233 | lambda occurs explicitly in the local source statement or calculation
+EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L233-L233 | g_abcd != 0 supplies d <= a+b+c via the selection rule at L227-L228
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -649,8 +649,8 @@ NOTE: -
 NODE: stepW:w0n:22
 KIND: step
 TITLE: Two against two
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L233-L246
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L233-L246
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L235-L248
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L235-L248
 CONTRACT_ID: stepW:w0n:22
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: m > 0; a,b,c,d >= 1 with g_abcd != 0; lambda_a+lambda_b=lambda_c+lambda_d; {a,b} != {c,d} as multisets (contradiction case); f(s)=sqrt(s^2+m)
@@ -664,9 +664,9 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:basis#lambda-facts, bpW:w0:basis#lam, bpW:w0n:quartic-coeff
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L236-L236 | strict convexity of f, f' > 0 increasing
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L234-L234 | lambda occurs explicitly in the local source statement or calculation
-EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L235-L235 | the signed index relation used in the exhaustive cases comes from L227-L228
+EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L238-L238 | strict convexity of f, f' > 0 increasing
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L236-L236 | lambda occurs explicitly in the local source statement or calculation
+EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L237-L237 | the signed index relation used in the exhaustive cases comes from L227-L228
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -678,7 +678,7 @@ NOTE: -
 NODE: bpW:w0n:Qdef
 KIND: definition
 TITLE: Partial quartic normal form
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:Qdef@L270-L273
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:Qdef@L272-L275
 PROOF_SOURCE: -
 CONTRACT_ID: bpW:w0n:Qdef
 CONTRACT_VERSION: 1
@@ -693,8 +693,8 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0n:birkhoff#data, bpW:w0:H
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0n:birkhoff#data | blueprint-W/parts/w0-normalization.tex#bpW:w0n:Qdef@L271-L271 | resonant monomials of G^tan; G^nor
-EDGE: bpW:w0:H | blueprint-W/parts/w0-normalization.tex#bpW:w0n:Qdef@L272-L272 | Lambda, the quadratic part of H
+EDGE: bpW:w0n:birkhoff#data | blueprint-W/parts/w0-normalization.tex#bpW:w0n:Qdef@L273-L273 | resonant monomials of G^tan; G^nor
+EDGE: bpW:w0:H | blueprint-W/parts/w0-normalization.tex#bpW:w0n:Qdef@L274-L274 | Lambda, the quadratic part of H
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
@@ -706,8 +706,8 @@ NOTE: -
 NODE: bpW:w0n:AB
 KIND: theorem
 TITLE: Action coefficients, (d)
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:AB@L275-L286
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:AB@L288-L305
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:AB@L277-L288
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:AB@L290-L307
 CONTRACT_ID: bpW:w0n:AB
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: J = {1,2}; m > 0; I = (I_1,I_2), Z = (I_j)_{j>=3}, I_j = ¦z_j¦^2
@@ -721,12 +721,12 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0n:Qdef, bpW:w0:actions, bpW:w0:basis#lam, stepW:w0n:resavg, stepW:w0n:moments, stepW:w0n:sum
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0n:Qdef | blueprint-W/parts/w0-normalization.tex#bpW:w0n:AB@L277-L277 | bar G is the resonant tangential part
-EDGE: bpW:w0:actions | blueprint-W/parts/w0-normalization.tex#bpW:w0n:AB@L276-L276 | I_j = ¦z_j¦^2, tangential I, normal Z
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:AB@L278-L278 | lambda in A and B
-EDGE: stepW:w0n:resavg | blueprint-W/parts/w0-normalization.tex#bpW:w0n:AB@L289-L289 | proof step
-EDGE: stepW:w0n:moments | blueprint-W/parts/w0-normalization.tex#bpW:w0n:AB@L295-L295 | proof step
-EDGE: stepW:w0n:sum | blueprint-W/parts/w0-normalization.tex#bpW:w0n:AB@L299-L299 | proof step
+EDGE: bpW:w0n:Qdef | blueprint-W/parts/w0-normalization.tex#bpW:w0n:AB@L279-L279 | bar G is the resonant tangential part
+EDGE: bpW:w0:actions | blueprint-W/parts/w0-normalization.tex#bpW:w0n:AB@L278-L278 | I_j = ¦z_j¦^2, tangential I, normal Z
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:AB@L280-L280 | lambda in A and B
+EDGE: stepW:w0n:resavg | blueprint-W/parts/w0-normalization.tex#bpW:w0n:AB@L291-L291 | proof step
+EDGE: stepW:w0n:moments | blueprint-W/parts/w0-normalization.tex#bpW:w0n:AB@L297-L297 | proof step
+EDGE: stepW:w0n:sum | blueprint-W/parts/w0-normalization.tex#bpW:w0n:AB@L301-L301 | proof step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
@@ -738,8 +738,8 @@ NOTE: -
 NODE: stepW:w0n:resavg
 KIND: step
 TITLE: Resonant equals averaged
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:resavg@L289-L294
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:resavg@L289-L294
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:resavg@L291-L296
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:resavg@L291-L296
 CONTRACT_ID: stepW:w0n:resavg
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: the monomials of (bpW:w0n:Gz) with nonzero coefficient
@@ -753,11 +753,11 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0n:nonres, bpW:w0n:birkhoff#data, bpW:w0:actions, bpW:w0n:Qdef, bpW:w0n:gradient
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0n:nonres | blueprint-W/parts/w0-normalization.tex#stepW:w0n:resavg@L290-L290 | resonance with nonzero coefficient forces alpha = beta
-EDGE: bpW:w0n:birkhoff#data | blueprint-W/parts/w0-normalization.tex#stepW:w0n:resavg@L290-L290 | the monomials of (bpW:w0n:Gz)
-EDGE: bpW:w0:actions | blueprint-W/parts/w0-normalization.tex#stepW:w0n:resavg@L291-L291 | z_j = sqrt(I_j) e^{-i phi_j}
-EDGE: bpW:w0n:Qdef | blueprint-W/parts/w0-normalization.tex#stepW:w0n:resavg@L292-L292 | bar G as the resonant tangential monomials
-EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#stepW:w0n:resavg@L294-L294 | absolute convergence justifies extension of the finite-support average
+EDGE: bpW:w0n:nonres | blueprint-W/parts/w0-normalization.tex#stepW:w0n:resavg@L292-L292 | resonance with nonzero coefficient forces alpha = beta
+EDGE: bpW:w0n:birkhoff#data | blueprint-W/parts/w0-normalization.tex#stepW:w0n:resavg@L292-L292 | the monomials of (bpW:w0n:Gz)
+EDGE: bpW:w0:actions | blueprint-W/parts/w0-normalization.tex#stepW:w0n:resavg@L293-L293 | z_j = sqrt(I_j) e^{-i phi_j}
+EDGE: bpW:w0n:Qdef | blueprint-W/parts/w0-normalization.tex#stepW:w0n:resavg@L294-L294 | bar G as the resonant tangential monomials
+EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#stepW:w0n:resavg@L296-L296 | absolute convergence justifies extension of the finite-support average
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -769,8 +769,8 @@ NOTE: -
 NODE: stepW:w0n:moments
 KIND: step
 TITLE: Averages of monomials
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:moments@L295-L298
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:moments@L295-L298
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:moments@L297-L300
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:moments@L297-L300
 CONTRACT_ID: stepW:w0n:moments
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: q_j = sqrt(2 I_j) cos phi_j, independent angles
@@ -784,7 +784,7 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:actions
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:actions | blueprint-W/parts/w0-normalization.tex#stepW:w0n:moments@L296-L296 | q_j = sqrt(2 I_j) cos phi_j
+EDGE: bpW:w0:actions | blueprint-W/parts/w0-normalization.tex#stepW:w0n:moments@L298-L298 | q_j = sqrt(2 I_j) cos phi_j
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
@@ -796,8 +796,8 @@ NOTE: -
 NODE: stepW:w0n:sum
 KIND: step
 TITLE: Summation
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L299-L304
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L299-L304
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L301-L306
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L301-L306
 CONTRACT_ID: stepW:w0n:sum
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: m > 0; oscillator actions I_j=abs(z_j)^2; y_j=I_j/lambda_j; first compute on finite support and extend as at L293-L294
@@ -811,11 +811,11 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0n:gradient, bpW:w0n:quartic-coeff, stepW:w0n:moments, stepW:w0n:resavg, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L300-L300 | G = (1/4) sum g_ijkl hat q^4 with hat q = q/sqrt(lambda)
-EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L300-L300 | g_iiii = 3/(2pi), g_iijj = 1/pi
-EDGE: stepW:w0n:moments | blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L301-L301 | the moments 3/2 I^2, I_i I_j and the multiplicities
-EDGE: stepW:w0n:resavg | blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L303-L303 | bar G = the part of <G> with a tangential action
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L300-L300 | lambda occurs explicitly in the local source statement or calculation
+EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L302-L302 | G = (1/4) sum g_ijkl hat q^4 with hat q = q/sqrt(lambda)
+EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L302-L302 | g_iiii = 3/(2pi), g_iijj = 1/pi
+EDGE: stepW:w0n:moments | blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L303-L303 | the moments 3/2 I^2, I_i I_j and the multiplicities
+EDGE: stepW:w0n:resavg | blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L305-L305 | bar G = the part of <G> with a tangential action
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L302-L302 | lambda occurs explicitly in the local source statement or calculation
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -827,8 +827,8 @@ NOTE: -
 NODE: bpW:w0n:formal-birkhoff
 KIND: proposition
 TITLE: Formal partial Birkhoff transformation
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L307-L315
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L317-L323
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L309-L317
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L319-L325
 CONTRACT_ID: bpW:w0n:formal-birkhoff
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: F the quartic polynomial with coefficient c_ab/(-i<alpha-beta,hat lambda>) on each nonresonant monomial z^alpha zbar^beta of G^tan (coefficient c_ab) and zero otherwise
@@ -842,12 +842,12 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0n:birkhoff#data, bpW:w0n:Qdef, bpW:w0n:nonres, bpW:w0:z, bpW:w0:H, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0n:birkhoff#data | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L308-L308 | monomials of G^tan, resonance, divisors <alpha-beta,hat lambda>
-EDGE: bpW:w0n:Qdef | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L310-L310 | bar G and the normal form
-EDGE: bpW:w0n:nonres | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L318-L318 | the divisors of nonresonant monomials are nonzero
-EDGE: bpW:w0:z | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L318-L318 | X_Lambda (z^alpha zbar^beta) = -i<alpha-beta,hat lambda> z^alpha zbar^beta along dz = -i lambda z
-EDGE: bpW:w0:H | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L321-L321 | H = Lambda + G in the Lie series
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L309-L309 | lambda occurs explicitly in the local source statement or calculation
+EDGE: bpW:w0n:birkhoff#data | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L310-L310 | monomials of G^tan, resonance, divisors <alpha-beta,hat lambda>
+EDGE: bpW:w0n:Qdef | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L312-L312 | bar G and the normal form
+EDGE: bpW:w0n:nonres | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L320-L320 | the divisors of nonresonant monomials are nonzero
+EDGE: bpW:w0:z | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L320-L320 | X_Lambda (z^alpha zbar^beta) = -i<alpha-beta,hat lambda> z^alpha zbar^beta along dz = -i lambda z
+EDGE: bpW:w0:H | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L323-L323 | H = Lambda + G in the Lie series
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L311-L311 | lambda occurs explicitly in the local source statement or calculation
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -859,8 +859,8 @@ NOTE: -
 NODE: bpW:w0n:nondeg
 KIND: theorem
 TITLE: Nondegeneracy, (e)
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L346-L353
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L355-L377
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L348-L355
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L357-L379
 CONTRACT_ID: bpW:w0n:nondeg
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: J = {1,2}; m > 0; A, B of Theorem bpW:w0n:AB; (A1)-(A3) as in bpW:w0n:nondeg-sec#data
@@ -874,14 +874,14 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0n:nondeg-sec#data, bpW:w0n:AB, stepW:w0n:det, stepW:w0n:A2, stepW:w0n:A3red, stepW:w0n:l1, stepW:w0n:l2, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0n:nondeg-sec#data | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L351-L351 | the conditions (A2), (A3)
-EDGE: bpW:w0n:AB | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L349-L349 | the matrix A
-EDGE: stepW:w0n:det | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L356-L356 | proof step
-EDGE: stepW:w0n:A2 | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L360-L360 | proof step
-EDGE: stepW:w0n:A3red | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L363-L363 | proof step
-EDGE: stepW:w0n:l1 | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L369-L369 | proof step
-EDGE: stepW:w0n:l2 | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L373-L373 | proof step
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L349-L349 | lambda occurs explicitly in the local source statement or calculation
+EDGE: bpW:w0n:nondeg-sec#data | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L353-L353 | the conditions (A2), (A3)
+EDGE: bpW:w0n:AB | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L351-L351 | the matrix A
+EDGE: stepW:w0n:det | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L358-L358 | proof step
+EDGE: stepW:w0n:A2 | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L362-L362 | proof step
+EDGE: stepW:w0n:A3red | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L365-L365 | proof step
+EDGE: stepW:w0n:l1 | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L371-L371 | proof step
+EDGE: stepW:w0n:l2 | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L375-L375 | proof step
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L351-L351 | lambda occurs explicitly in the local source statement or calculation
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -893,8 +893,8 @@ NOTE: -
 NODE: stepW:w0n:det
 KIND: step
 TITLE: Determinant
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:det@L356-L359
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:det@L356-L359
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:det@L358-L361
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:det@L358-L361
 CONTRACT_ID: stepW:w0n:det
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: m > 0 fixed; J={1,2}; A defined by Theorem bpW:w0n:AB (not an additional assumed estimate)
@@ -908,11 +908,11 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0n:AB, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0n:AB | blueprint-W/parts/w0-normalization.tex#stepW:w0n:det@L357-L357 | A = (3/(8pi)) D(4 11^T - Id) D
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:det@L357-L357 | lambda occurs explicitly in the local source statement or calculation
-TOPOLOGY_STATUS: PROPOSED
+EDGE: bpW:w0n:AB | blueprint-W/parts/w0-normalization.tex#stepW:w0n:det@L359-L359 | A = (3/(8pi)) D(4 11^T - Id) D
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:det@L359-L359 | lambda occurs explicitly in the local source statement or calculation
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta2-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -921,8 +921,8 @@ NOTE: -
 NODE: stepW:w0n:A2
 KIND: step
 TITLE: Pure normal
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:A2@L360-L362
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:A2@L360-L362
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:A2@L362-L364
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:A2@L362-L364
 CONTRACT_ID: stepW:w0n:A2
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: m > 0 fixed; l an integer sequence supported on N={j>=3}, with 1 <= sum_j abs(l_j) <= 2
@@ -936,11 +936,11 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:basis#lambda-facts, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:A2@L362-L362 | lambda > 0 strictly increasing
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:A2@L361-L361 | lambda occurs explicitly in the local source statement or calculation
-TOPOLOGY_STATUS: PROPOSED
+EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:A2@L364-L364 | lambda > 0 strictly increasing
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:A2@L363-L363 | lambda occurs explicitly in the local source statement or calculation
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta2-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -949,8 +949,8 @@ NOTE: -
 NODE: stepW:w0n:A3red
 KIND: step
 TITLE: Reduction of (A$_3$)
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:A3red@L363-L368
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:A3red@L363-L368
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:A3red@L365-L370
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:A3red@L365-L370
 CONTRACT_ID: stepW:w0n:A3red
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: m > 0 fixed; k in Z^2, l an integer sequence on N={j>=3}, 1 <= sum_j abs(l_j) <= 2; b=(1/lambda_1,1/lambda_2), s=sum_{j>=3} l_j/lambda_j; A,B and the affine map are defined in the enclosing statement
@@ -964,12 +964,12 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0n:AB, bpW:w0n:nondeg-sec#data, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0n:AB | blueprint-W/parts/w0-normalization.tex#stepW:w0n:A3red@L365-L365 | A and B
-EDGE: bpW:w0n:nondeg-sec#data | blueprint-W/parts/w0-normalization.tex#stepW:w0n:A3red@L366-L366 | the affine map of (A3)
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:A3red@L364-L364 | lambda occurs explicitly in the local source statement or calculation
-TOPOLOGY_STATUS: PROPOSED
+EDGE: bpW:w0n:AB | blueprint-W/parts/w0-normalization.tex#stepW:w0n:A3red@L367-L367 | A and B
+EDGE: bpW:w0n:nondeg-sec#data | blueprint-W/parts/w0-normalization.tex#stepW:w0n:A3red@L368-L368 | the affine map of (A3)
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:A3red@L366-L366 | lambda occurs explicitly in the local source statement or calculation
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta2-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -978,8 +978,8 @@ NOTE: -
 NODE: stepW:w0n:l1
 KIND: step
 TITLE: The case $\abs l=1$
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:l1@L369-L372
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:l1@L369-L372
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:l1@L371-L374
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:l1@L371-L374
 CONTRACT_ID: stepW:w0n:l1
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: m > 0; k in Z^2, l in Z^N finitely supported with abs(l)=1; l=sigma e_nu, sigma in {+1,-1}, nu >= 3; consider vanishing of the affine map in (A3)
@@ -993,9 +993,9 @@ FROZEN_ABI_SHA256: -
 DEPS: stepW:w0n:A3red, bpW:w0:basis#lam, bpW:w0:basis#lambda-facts
 ROUTES: -
 ROUTE_FOR: -
-EDGE: stepW:w0n:A3red | blueprint-W/parts/w0-normalization.tex#stepW:w0n:l1@L370-L370 | the vanishing conditions of the reduction
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:l1@L370-L370 | lambda occurs explicitly in the local source statement or calculation
-EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:l1@L372-L372 | strict positivity of lambda makes k_i^2 strictly between zero and 4/7
+EDGE: stepW:w0n:A3red | blueprint-W/parts/w0-normalization.tex#stepW:w0n:l1@L372-L372 | the vanishing conditions of the reduction
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:l1@L372-L372 | lambda occurs explicitly in the local source statement or calculation
+EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:l1@L374-L374 | strict positivity of lambda makes k_i^2 strictly between zero and 4/7
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -1007,8 +1007,8 @@ NOTE: -
 NODE: stepW:w0n:l2
 KIND: step
 TITLE: The case $\abs l=2$
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:l2@L373-L376
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:l2@L373-L376
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:l2@L375-L378
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:l2@L375-L378
 CONTRACT_ID: stepW:w0n:l2
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: m > 0; k in Z^2, l in Z^N finitely supported with abs(l)=2; consider vanishing of the linear part of the affine map in (A3)
@@ -1022,9 +1022,9 @@ FROZEN_ABI_SHA256: -
 DEPS: stepW:w0n:A3red, bpW:w0:basis#lambda-facts, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: stepW:w0n:A3red | blueprint-W/parts/w0-normalization.tex#stepW:w0n:l2@L374-L374 | the vanishing conditions of the reduction
-EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:l2@L375-L375 | lambda_3 > 3, 0 < lambda_2 - lambda_1 < 1, lambda injective
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:l2@L374-L374 | lambda occurs explicitly in the local source statement or calculation
+EDGE: stepW:w0n:A3red | blueprint-W/parts/w0-normalization.tex#stepW:w0n:l2@L376-L376 | the vanishing conditions of the reduction
+EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:l2@L377-L377 | lambda_3 > 3, 0 < lambda_2 - lambda_1 < 1, lambda injective
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:l2@L376-L376 | lambda occurs explicitly in the local source statement or calculation
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -1036,8 +1036,8 @@ NOTE: -
 NODE: bpW:w0n:duffing
 KIND: proposition
 TITLE: One-mode frequency shift, (f)
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L391-L400
-PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L402-L407
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L393-L402
+PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L404-L409
 CONTRACT_ID: bpW:w0n:duffing
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: restriction of (bpW:w0:eq) to u = x(t) phi_j(x), only mode j excited, forcing of other modes dropped
@@ -1051,13 +1051,13 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:nlw#IsClassicalSolution, bpW:w0n:quartic-coeff, bpW:w0n:ledger#ext-lindstedt, bpW:w0:actions, bpW:w0n:AB, bpW:w0:basis#lam, bpW:w0:basis#sineMode
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L392-L392 | restriction of the equation (bpW:w0:eq)
-EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L403-L403 | int (x phi_j)^3 phi_j = x^3 g_jjjj, g_jjjj = 3/(2pi)
-EDGE: bpW:w0n:ledger#ext-lindstedt | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L403-L403 | the classical Lindstedt shift 3 eps a^2/(8 omega_0)
-EDGE: bpW:w0:actions | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L406-L406 | I_j = (q_j^2+p_j^2)/2 = lambda_j a^2/2 to leading order
-EDGE: bpW:w0n:AB | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L397-L397 | A_jj = 9/(8 pi lambda_j^2)
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L394-L394 | lambda occurs explicitly in the local source statement or calculation
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L392-L392 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
+EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L394-L394 | restriction of the equation (bpW:w0:eq)
+EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L405-L405 | int (x phi_j)^3 phi_j = x^3 g_jjjj, g_jjjj = 3/(2pi)
+EDGE: bpW:w0n:ledger#ext-lindstedt | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L405-L405 | the classical Lindstedt shift 3 eps a^2/(8 omega_0)
+EDGE: bpW:w0:actions | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L408-L408 | I_j = (q_j^2+p_j^2)/2 = lambda_j a^2/2 to leading order
+EDGE: bpW:w0n:AB | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L399-L399 | A_jj = 9/(8 pi lambda_j^2)
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L396-L396 | lambda occurs explicitly in the local source statement or calculation
+EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L394-L394 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -1069,7 +1069,7 @@ NOTE: Consistency check (f) of W0; no later proof consumes it so far (decide at 
 NODE: bpW:w0n:birkhoff#data
 KIND: definition
 TITLE: Quartic part in complex coordinates; resonance; tangential/normal split
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:birkhoff@L258-L268
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:birkhoff@L260-L270
 PROOF_SOURCE: -
 CONTRACT_ID: bpW:w0n:birkhoff#data
 CONTRACT_VERSION: 1
@@ -1084,9 +1084,9 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:z, bpW:w0n:gradient, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:z | blueprint-W/parts/w0-normalization.tex#bpW:w0n:birkhoff@L259-L259 | q_j = (z_j + zbar_j)/sqrt 2 and the linear flow dz_j = -i lambda_j z_j
-EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#bpW:w0n:birkhoff@L261-L261 | G = (1/4) sum g_ijkl q-hat^4 (quartic series)
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:birkhoff@L261-L261 | the weights (lambda_i lambda_j lambda_k lambda_l)^{-1/2}
+EDGE: bpW:w0:z | blueprint-W/parts/w0-normalization.tex#bpW:w0n:birkhoff@L261-L261 | q_j = (z_j + zbar_j)/sqrt 2 and the linear flow dz_j = -i lambda_j z_j
+EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#bpW:w0n:birkhoff@L263-L263 | G = (1/4) sum g_ijkl q-hat^4 (quartic series)
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:birkhoff@L263-L263 | the weights (lambda_i lambda_j lambda_k lambda_l)^{-1/2}
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
@@ -1098,7 +1098,7 @@ NOTE: Unlabelled prose L258-L268 (with the display bpW:w0n:Gz) that fixes data c
 NODE: bpW:w0n:nondeg-sec#data
 KIND: definition
 TITLE: Nondegeneracy conditions (A1)-(A3) of the Cantor Manifold Theorem
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg-sec@L341-L344
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg-sec@L343-L346
 PROOF_SOURCE: -
 CONTRACT_ID: bpW:w0n:nondeg-sec#data
 CONTRACT_VERSION: 1
@@ -1113,8 +1113,8 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0n:AB, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0n:AB | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg-sec@L341-L341 | omega(I) = lambda_J + A I and Omega(I) = lambda_N + B I
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg-sec@L341-L341 | lambda occurs explicitly in the local source statement or calculation
+EDGE: bpW:w0n:AB | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg-sec@L343-L343 | omega(I) = lambda_J + A I and Omega(I) = lambda_N + B I
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg-sec@L343-L343 | lambda occurs explicitly in the local source statement or calculation
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -1126,7 +1126,7 @@ NOTE: Unlabelled prose L341-L344 defining the conditions stated in Theorem bpW:w
 NODE: bpW:w0n:ledger#ext-lindstedt
 KIND: external
 TITLE: Classical Lindstedt frequency shift (unlabelled W0 external)
-STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:ledger@L422-L423
+STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:ledger@L424-L425
 PROOF_SOURCE: -
 CONTRACT_ID: bpW:w0n:ledger#ext-lindstedt
 CONTRACT_VERSION: 1

@@ -1,36 +1,14 @@
 {
- "replaced": [
-  "stepW:w0n:det",
-  "stepW:w0n:A2",
-  "stepW:w0n:A3red"
- ],
+ "replaced": [],
  "added": [],
  "items": [],
  "unresolved": {},
  "passes": [
-  "stepW:w0n:cos",
-  "stepW:w0n:signed",
-  "bpW:w0n:gradient",
-  "stepW:w0n:young",
-  "bpW:w0n:cubic-bound",
-  "stepW:w0n:majorant",
-  "stepW:w0n:selection",
-  "stepW:w0n:smoothing",
-  "stepW:w0n:analytic",
-  "bpW:w0n:pde-equiv",
-  "stepW:w0n:force",
-  "stepW:w0n:time",
-  "stepW:w0n:ident",
-  "stepW:w0n:converse",
-  "stepW:w0n:31",
-  "stepW:w0n:22",
-  "stepW:w0n:resavg",
-  "stepW:w0n:sum",
-  "bpW:w0n:formal-birkhoff",
-  "bpW:w0n:nondeg",
-  "stepW:w0n:l1",
-  "stepW:w0n:l2",
-  "bpW:w0n:duffing",
-  "bpW:w0n:nondeg-sec#data"
+  "stepW:w0n:det",
+  "stepW:w0n:A2",
+  "stepW:w0n:A3red",
+  "stepW:w0n:det",
+  "stepW:w0n:A2",
+  "stepW:w0n:A3red"
  ]
 }

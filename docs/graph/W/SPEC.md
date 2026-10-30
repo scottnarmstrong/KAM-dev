@@ -331,3 +331,23 @@ SOURCE line.
       `K:step:p1:dec-shift` is not given;
     - `stepW:w3:XG` and its two routes: the a = 0 case is not covered by the cited gradient results, which assume
       a > 0.
+- **2026-10-30, delta review 2 and corpus re-pin.**
+  - Delta review 2 (codex-1; review-3 for W-w0c and W-w0n, review-2 for the others) was applied and marked. Its
+    replacements left 5 nodes PROPOSED: `stepW:w1:flowlim`, `stepW:w3:gradtrans`, `stepW:w3:majY`, `stepW:w3:majps`,
+    `stepW:w3:conj`.
+  - inp was merged into inp-wgraph (the blueprint cleanup 99afc128), and the wave-1 corpus was re-pinned in
+    `CORPUS.sha256`. W4 and W7 are in inp but not in the corpus (wave 2).
+  - Every locator was remapped mechanically from fa002b43 with `tools/w_depgraph_remap_locators.py`, a W copy whose
+    path regex accepts `blueprint-W`.
+  - Writer revisions r2 (`EXTRACTOR ... +claude-suborch-W-r2`, all PROPOSED):
+    - **Restated statements:** `bpW:w0:twosided` (convolution for s >= 0), `bpW:w0:H` (G on l^{a,p}, a > 0; edge to
+      recon-bounded), `bpW:w0:Gq#cubicGrad` (domain l^{a,p}; the frozen cubicGrad is the l^{1,1} case; edges to
+      recon-bounded and ellap#spaces), `bpW:w0n:gradient`, `bpW:w0n:cubic-bound`.
+    - **Re-worded steps:** `stepW:w1:ext`, `stepW:w1:restr`.
+    - **New nodes:** the external `bpW:w1:ext-rect`; the lemma `bpW:w1:fourier-shift` with its steps `fshift-one`,
+      `fshift-iter`, `fshift-end`.
+    - **Resolved SOURCE_GAPs:** `stepW:w1:shift` now uses fourier-shift, and the import `K:step:p1:dec-shift` is
+      pruned; `stepW:w3:XG` now covers every a >= 0, and its two route nodes are deleted, because the a > 0
+      citations are now consistency remarks.
+    - **Coverage:** two headline prose items have new exclusion reasons.
+  - The specs (`specs/`) and `draft/` are wave-1 historical inputs; the packets are the source of truth.

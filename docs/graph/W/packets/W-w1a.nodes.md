@@ -19,9 +19,9 @@ ROUTE_FOR: -
 EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w1-sequences.tex#bpW:w1:transport@L31-L31 | omega_{a,p}(j) is the frozen ellWeight a p j
 EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w1-sequences.tex#bpW:w1:transport@L51-L51 | kappa_{1,1} is the frozen coeff in the realization table
 EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w1-sequences.tex#bpW:w1:transport@L33-L33 | the general weighted spaces are taken from Definition bpW:w0:ellap
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
-REVIEWER: -
+REVIEWER: sol-delta-W-w1a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -238,8 +238,8 @@ NOTE: -
 NODE: bpW:w1:space
 KIND: lemma
 TITLE: The weighted spaces
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L122-L136
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L138-L154
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L131-L145
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L147-L163
 CONTRACT_ID: bpW:w1:space
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: a >= 0, p in R, K in {R, C}
@@ -253,13 +253,13 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:transport, stepW:w1:iso, stepW:w1:sep, stepW:w1:coord, stepW:w1:frozen, bpW:w0:ellap#coeff, bpW:w0:ellap#WaveSpace
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L125-L125 | tau, kappa and the weights
-EDGE: stepW:w1:iso | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L139-L139 | proof step
-EDGE: stepW:w1:sep | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L144-L144 | proof step
-EDGE: stepW:w1:coord | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L148-L148 | proof step
-EDGE: stepW:w1:frozen | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L151-L151 | proof step
-EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L132-L132 | the frozen coeff occurs directly here
-EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L132-L132 | the frozen WaveSpace occurs directly here
+EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L134-L134 | tau, kappa and the weights
+EDGE: stepW:w1:iso | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L148-L148 | proof step
+EDGE: stepW:w1:sep | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L153-L153 | proof step
+EDGE: stepW:w1:coord | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L157-L157 | proof step
+EDGE: stepW:w1:frozen | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L160-L160 | proof step
+EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L141-L141 | the frozen coeff occurs directly here
+EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L141-L141 | the frozen WaveSpace occurs directly here
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -271,8 +271,8 @@ NOTE: -
 NODE: stepW:w1:iso
 KIND: step
 TITLE: Isometry
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:iso@L139-L143
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:iso@L139-L143
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:iso@L148-L152
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:iso@L148-L152
 CONTRACT_ID: stepW:w1:iso
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:space: a >= 0, p in R, K in {R, C}
@@ -286,13 +286,13 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:transport, bpW:w0:ellap#ellWeight, bpW:w1:ext-lp, bpW:w0:ellap#spaces
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:iso@L140-L140 | tau, kappa, omega
-EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w1-sequences.tex#stepW:w1:iso@L140-L140 | the norm of Definition bpW:w0:ellap
-EDGE: bpW:w1:ext-lp | blueprint-W/parts/w1-sequences.tex#stepW:w1:iso@L143-L143 | inner product and completeness of l^2
-EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w1-sequences.tex#stepW:w1:iso@L140-L140 | the weighted norm identity directly invokes the general spaces definition
-TOPOLOGY_STATUS: PROPOSED
+EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:iso@L149-L149 | tau, kappa, omega
+EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w1-sequences.tex#stepW:w1:iso@L149-L149 | the norm of Definition bpW:w0:ellap
+EDGE: bpW:w1:ext-lp | blueprint-W/parts/w1-sequences.tex#stepW:w1:iso@L152-L152 | inner product and completeness of l^2
+EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w1-sequences.tex#stepW:w1:iso@L149-L149 | the weighted norm identity directly invokes the general spaces definition
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
-REVIEWER: -
+REVIEWER: sol-delta-W-w1a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -301,8 +301,8 @@ NOTE: -
 NODE: stepW:w1:sep
 KIND: step
 TITLE: Separability
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:sep@L144-L147
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:sep@L144-L147
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:sep@L153-L156
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:sep@L153-L156
 CONTRACT_ID: stepW:w1:sep
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:space: a >= 0, p in R, K in {R, C}
@@ -316,10 +316,10 @@ FROZEN_ABI_SHA256: -
 DEPS: stepW:w1:coord
 ROUTES: -
 ROUTE_FOR: -
-EDGE: stepW:w1:coord | blueprint-W/parts/w1-sequences.tex#stepW:w1:sep@L146-L146 | density by the truncation statement (iii)
-TOPOLOGY_STATUS: PROPOSED
+EDGE: stepW:w1:coord | blueprint-W/parts/w1-sequences.tex#stepW:w1:sep@L155-L155 | density by the truncation statement (iii)
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
-REVIEWER: -
+REVIEWER: sol-delta-W-w1a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -328,8 +328,8 @@ NOTE: -
 NODE: stepW:w1:coord
 KIND: step
 TITLE: Coordinates and truncation
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:coord@L148-L150
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:coord@L148-L150
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:coord@L157-L159
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:coord@L157-L159
 CONTRACT_ID: stepW:w1:coord
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:space: a >= 0, p in R, K in {R, C}; local data: y in l^2_K
@@ -343,8 +343,8 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:ext-lp, bpW:w1:transport
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:ext-lp | blueprint-W/parts/w1-sequences.tex#stepW:w1:coord@L149-L149 | ¦y_j¦ <= ¦¦y¦¦
-EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:coord@L149-L149 | kappa divides by omega(j)
+EDGE: bpW:w1:ext-lp | blueprint-W/parts/w1-sequences.tex#stepW:w1:coord@L158-L158 | ¦y_j¦ <= ¦¦y¦¦
+EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:coord@L158-L158 | kappa divides by omega(j)
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -356,8 +356,8 @@ NOTE: -
 NODE: stepW:w1:frozen
 KIND: step
 TITLE: Frozen case
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:frozen@L151-L153
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:frozen@L151-L153
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:frozen@L160-L162
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:frozen@L160-L162
 CONTRACT_ID: stepW:w1:frozen
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:space: a >= 0, p in R, K in {R, C}; local data: K = R, a = p = 1
@@ -371,8 +371,8 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:ellap#coeff, bpW:w0:ellap#WaveSpace
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w1-sequences.tex#stepW:w1:frozen@L152-L152 | unfolds the frozen coeff
-EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#stepW:w1:frozen@L153-L153 | the frozen WaveSpace with the product (max) norm
+EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w1-sequences.tex#stepW:w1:frozen@L161-L161 | unfolds the frozen coeff
+EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#stepW:w1:frozen@L162-L162 | the frozen WaveSpace with the product (max) norm
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -384,8 +384,8 @@ NOTE: -
 NODE: bpW:w1:coordinatewise
 KIND: lemma
 TITLE: Derivatives of coordinates
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L158-L168
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L170-L180
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L167-L177
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L179-L189
 CONTRACT_ID: bpW:w1:coordinatewise
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: c : R -> l^2_K differentiable at t; weights (a,p), (a',p') with a >= a', p >= p'; iota the inclusion of Lemma bpW:w1:embed, represented by hat iota; v in l^2_K
@@ -399,12 +399,12 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:embed, bpW:w1:hamfield, bpW:w0:ellap#coeff, stepW:w1:coordder, stepW:w1:coordcomp, bpW:w0:ellap#WaveSpace
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:embed | blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L160-L160 | the inclusion iota and its representative
-EDGE: bpW:w1:hamfield | blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L165-L165 | the field X^w of (v)
-EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L165-L165 | the coefficients coeff in the frozen conclusion (4)
-EDGE: stepW:w1:coordder | blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L171-L171 | proof step
-EDGE: stepW:w1:coordcomp | blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L175-L175 | proof step
-EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L164-L164 | the frozen WaveSpace occurs directly here
+EDGE: bpW:w1:embed | blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L169-L169 | the inclusion iota and its representative
+EDGE: bpW:w1:hamfield | blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L174-L174 | the field X^w of (v)
+EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L174-L174 | the coefficients coeff in the frozen conclusion (4)
+EDGE: stepW:w1:coordder | blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L180-L180 | proof step
+EDGE: stepW:w1:coordcomp | blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L184-L184 | proof step
+EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L173-L173 | the frozen WaveSpace occurs directly here
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -416,8 +416,8 @@ NOTE: The statement speaks of the *form* of the frozen conclusion (4) of nlw2; t
 NODE: stepW:w1:coordder
 KIND: step
 TITLE: Coordinates of the derivative
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:coordder@L171-L174
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:coordder@L171-L174
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:coordder@L180-L183
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:coordder@L180-L183
 CONTRACT_ID: stepW:w1:coordder
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:coordinatewise: c : R -> l^2_K differentiable at t; weights (a,p), (a',p') with a >= a', p >= p'; iota the inclusion of Lemma bpW:w1:embed, represented by hat iota; v in l^2_K; local data: c differentiable at t
@@ -431,8 +431,8 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:space, bpW:w1:embed
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:space | blueprint-W/parts/w1-sequences.tex#stepW:w1:coordder@L172-L172 | (ii): the coordinate is a continuous linear functional
-EDGE: bpW:w1:embed | blueprint-W/parts/w1-sequences.tex#stepW:w1:coordder@L174-L174 | (iii): the inclusion does not change coefficients
+EDGE: bpW:w1:space | blueprint-W/parts/w1-sequences.tex#stepW:w1:coordder@L181-L181 | (ii): the coordinate is a continuous linear functional
+EDGE: bpW:w1:embed | blueprint-W/parts/w1-sequences.tex#stepW:w1:coordder@L183-L183 | (iii): the inclusion does not change coefficients
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -444,8 +444,8 @@ NOTE: -
 NODE: stepW:w1:coordcomp
 KIND: step
 TITLE: Comparison
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:coordcomp@L175-L179
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:coordcomp@L175-L179
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:coordcomp@L184-L188
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:coordcomp@L184-L188
 CONTRACT_ID: stepW:w1:coordcomp
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:coordinatewise: c : R -> l^2_K differentiable at t; weights (a,p), (a',p') with a >= a', p >= p'; iota the inclusion of Lemma bpW:w1:embed, represented by hat iota; v in l^2_K
@@ -459,9 +459,9 @@ FROZEN_ABI_SHA256: -
 DEPS: stepW:w1:coordder, bpW:w1:space, bpW:w1:hamfield
 ROUTES: -
 ROUTE_FOR: -
-EDGE: stepW:w1:coordder | blueprint-W/parts/w1-sequences.tex#stepW:w1:coordcomp@L176-L176 | the derivative of the coordinates
-EDGE: bpW:w1:space | blueprint-W/parts/w1-sequences.tex#stepW:w1:coordcomp@L177-L177 | injectivity of kappa ((i))
-EDGE: bpW:w1:hamfield | blueprint-W/parts/w1-sequences.tex#stepW:w1:coordcomp@L179-L179 | (v): the coordinates of X^w are the right sides of (4)
+EDGE: stepW:w1:coordder | blueprint-W/parts/w1-sequences.tex#stepW:w1:coordcomp@L185-L185 | the derivative of the coordinates
+EDGE: bpW:w1:space | blueprint-W/parts/w1-sequences.tex#stepW:w1:coordcomp@L186-L186 | injectivity of kappa ((i))
+EDGE: bpW:w1:hamfield | blueprint-W/parts/w1-sequences.tex#stepW:w1:coordcomp@L188-L188 | (v): the coordinates of X^w are the right sides of (4)
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -473,8 +473,8 @@ NOTE: -
 NODE: bpW:w1:multiplier
 KIND: lemma
 TITLE: Diagonal multipliers
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:multiplier@L183-L189
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:multiplier@L191-L195
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:multiplier@L192-L198
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:multiplier@L200-L204
 CONTRACT_ID: bpW:w1:multiplier
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: mu : N_+ -> K and M >= 0 with ¦mu_j¦ <= M for all j
@@ -488,8 +488,8 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:ext-lp, bpW:w1:transport
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:ext-lp | blueprint-W/parts/w1-sequences.tex#bpW:w1:multiplier@L193-L193 | norm bounds from finite partial sums
-EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:multiplier@L194-L194 | the representative tau o (m .) o kappa
+EDGE: bpW:w1:ext-lp | blueprint-W/parts/w1-sequences.tex#bpW:w1:multiplier@L202-L202 | norm bounds from finite partial sums
+EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:multiplier@L203-L203 | the representative tau o (m .) o kappa
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -501,8 +501,8 @@ NOTE: -
 NODE: bpW:w1:embed
 KIND: lemma
 TITLE: Embeddings
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:embed@L198-L207
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:embed@L209-L214
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:embed@L207-L216
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:embed@L218-L223
 CONTRACT_ID: bpW:w1:embed
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: a >= a' >= 0, p, p' in R
@@ -516,8 +516,8 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:multiplier, bpW:w1:transport
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:multiplier | blueprint-W/parts/w1-sequences.tex#bpW:w1:embed@L210-L210 | m_j = 1, mu_j = omega_{a',p'}(j)/omega_{a,p}(j)
-EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:embed@L213-L213 | the identity mu_j/omega_{a',p'}(j) = 1/omega_{a,p}(j)
+EDGE: bpW:w1:multiplier | blueprint-W/parts/w1-sequences.tex#bpW:w1:embed@L219-L219 | m_j = 1, mu_j = omega_{a',p'}(j)/omega_{a,p}(j)
+EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:embed@L222-L222 | the identity mu_j/omega_{a',p'}(j) = 1/omega_{a,p}(j)
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -529,8 +529,8 @@ NOTE: -
 NODE: bpW:w1:diag
 KIND: lemma
 TITLE: Frequency multipliers and the linear flow
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:diag@L217-L232
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:diag@L234-L249
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:diag@L226-L241
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:diag@L243-L258
 CONTRACT_ID: bpW:w1:diag
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: a >= 0, p in R, r in R; lambda^r the multiplier w -> (lambda_j^r w_j)
@@ -544,11 +544,11 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:basis#lam, bpW:w0:z, stepW:w1:ratio, stepW:w1:rot, stepW:w1:realflow
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#bpW:w1:diag@L218-L218 | the multiplier lambda^r
-EDGE: bpW:w0:z | blueprint-W/parts/w1-sequences.tex#bpW:w1:diag@L230-L230 | the complex coordinates z
-EDGE: stepW:w1:ratio | blueprint-W/parts/w1-sequences.tex#bpW:w1:diag@L235-L235 | proof step
-EDGE: stepW:w1:rot | blueprint-W/parts/w1-sequences.tex#bpW:w1:diag@L240-L240 | proof step
-EDGE: stepW:w1:realflow | blueprint-W/parts/w1-sequences.tex#bpW:w1:diag@L244-L244 | proof step
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#bpW:w1:diag@L227-L227 | the multiplier lambda^r
+EDGE: bpW:w0:z | blueprint-W/parts/w1-sequences.tex#bpW:w1:diag@L239-L239 | the complex coordinates z
+EDGE: stepW:w1:ratio | blueprint-W/parts/w1-sequences.tex#bpW:w1:diag@L244-L244 | proof step
+EDGE: stepW:w1:rot | blueprint-W/parts/w1-sequences.tex#bpW:w1:diag@L249-L249 | proof step
+EDGE: stepW:w1:realflow | blueprint-W/parts/w1-sequences.tex#bpW:w1:diag@L253-L253 | proof step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -560,8 +560,8 @@ NOTE: -
 NODE: stepW:w1:ratio
 KIND: step
 TITLE: Ratio
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:ratio@L235-L239
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:ratio@L235-L239
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:ratio@L244-L248
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:ratio@L244-L248
 CONTRACT_ID: stepW:w1:ratio
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:diag: a >= 0, p in R, r in R; lambda^r the multiplier w -> (lambda_j^r w_j)
@@ -575,10 +575,10 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:multiplier, bpW:w0:basis#lambda-facts, bpW:w0:mass, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:multiplier | blueprint-W/parts/w1-sequences.tex#stepW:w1:ratio@L236-L236 | the representative and its norm
-EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:ratio@L237-L237 | j < lambda_j
-EDGE: bpW:w0:mass | blueprint-W/parts/w1-sequences.tex#stepW:w1:ratio@L237-L237 | lambda_j^2 = j^2 + m <= (1+m) j^2
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:ratio@L236-L236 | lambda occurs directly here (frozen lam)
+EDGE: bpW:w1:multiplier | blueprint-W/parts/w1-sequences.tex#stepW:w1:ratio@L245-L245 | the representative and its norm
+EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:ratio@L246-L246 | j < lambda_j
+EDGE: bpW:w0:mass | blueprint-W/parts/w1-sequences.tex#stepW:w1:ratio@L246-L246 | lambda_j^2 = j^2 + m <= (1+m) j^2
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:ratio@L245-L245 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -590,8 +590,8 @@ NOTE: -
 NODE: stepW:w1:rot
 KIND: step
 TITLE: Unboundedness and rotations
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:rot@L240-L243
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:rot@L240-L243
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:rot@L249-L252
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:rot@L249-L252
 CONTRACT_ID: stepW:w1:rot
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:diag: a >= 0, p in R, r in R; lambda^r the multiplier w -> (lambda_j^r w_j); local data: t, s in R; z in l^{a,p}_C
@@ -605,12 +605,12 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:multiplier, bpW:w1:ext-series, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:multiplier | blueprint-W/parts/w1-sequences.tex#stepW:w1:rot@L241-L241 | R_t is a multiplier D_mu with ¦mu_j¦ = 1
-EDGE: bpW:w1:ext-series | blueprint-W/parts/w1-sequences.tex#stepW:w1:rot@L243-L243 | dominated convergence for series (Tonelli/Fubini for series)
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:rot@L241-L241 | lambda occurs directly here (frozen lam)
-TOPOLOGY_STATUS: PROPOSED
+EDGE: bpW:w1:multiplier | blueprint-W/parts/w1-sequences.tex#stepW:w1:rot@L250-L250 | R_t is a multiplier D_mu with ¦mu_j¦ = 1
+EDGE: bpW:w1:ext-series | blueprint-W/parts/w1-sequences.tex#stepW:w1:rot@L252-L252 | dominated convergence for series (Tonelli/Fubini for series)
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:rot@L250-L250 | lambda occurs directly here (frozen lam)
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
-REVIEWER: -
+REVIEWER: sol-delta-W-w1a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -619,8 +619,8 @@ NOTE: -
 NODE: stepW:w1:realflow
 KIND: step
 TITLE: Real flow
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:realflow@L244-L248
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:realflow@L244-L248
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:realflow@L253-L257
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:realflow@L253-L257
 CONTRACT_ID: stepW:w1:realflow
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:diag: a >= 0, p in R, r in R; lambda^r the multiplier w -> (lambda_j^r w_j); local data: (q,p) in E_{a,p}
@@ -634,8 +634,8 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:z, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:z | blueprint-W/parts/w1-sequences.tex#stepW:w1:realflow@L248-L248 | z_j = (q_j + i p_j)/sqrt 2
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:realflow@L248-L248 | lambda occurs directly here (frozen lam)
+EDGE: bpW:w0:z | blueprint-W/parts/w1-sequences.tex#stepW:w1:realflow@L257-L257 | z_j = (q_j + i p_j)/sqrt 2
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:realflow@L257-L257 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -647,7 +647,7 @@ NOTE: -
 NODE: bpW:w1:linfty
 KIND: definition
 TITLE: Sup-weighted sequences
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:linfty@L254-L261
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:linfty@L263-L270
 PROOF_SOURCE: -
 CONTRACT_ID: bpW:w1:linfty
 CONTRACT_VERSION: 1
@@ -673,8 +673,8 @@ NOTE: -
 NODE: bpW:w1:tails
 KIND: lemma
 TITLE: Spectral asymptotics of the wave normal frequencies
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:tails@L264-L273
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:tails@L275-L280
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:tails@L273-L282
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:tails@L284-L289
 CONTRACT_ID: bpW:w1:tails
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: b = (1/lambda_1, 1/lambda_2); Omega_j(xi) = lambda_j + (3/(2 pi lambda_j))<b,xi> (j >= 3, xi in R^2); bar Omega_j = j; tilde Omega_j = Omega_j - bar Omega_j
@@ -688,10 +688,10 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0n:AB, bpW:w1:linfty, bpW:w0:basis#lambda-facts, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0n:AB | blueprint-W/parts/w1-sequences.tex#bpW:w1:tails@L266-L266 | Omega = lambda_N + B xi with the corrected B
-EDGE: bpW:w1:linfty | blueprint-W/parts/w1-sequences.tex#bpW:w1:tails@L268-L268 | the norm ¦.¦_1 of l^1_infty and the Lipschitz condition
-EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#bpW:w1:tails@L276-L276 | lambda_j - j = m/(lambda_j + j) in (0, m/(2j)]; lambda_j > j
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#bpW:w1:tails@L265-L265 | lambda occurs directly here (frozen lam)
+EDGE: bpW:w0n:AB | blueprint-W/parts/w1-sequences.tex#bpW:w1:tails@L275-L275 | Omega = lambda_N + B xi with the corrected B
+EDGE: bpW:w1:linfty | blueprint-W/parts/w1-sequences.tex#bpW:w1:tails@L277-L277 | the norm ¦.¦_1 of l^1_infty and the Lipschitz condition
+EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#bpW:w1:tails@L285-L285 | lambda_j - j = m/(lambda_j + j) in (0, m/(2j)]; lambda_j > j
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#bpW:w1:tails@L274-L274 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -703,7 +703,7 @@ NOTE: -
 NODE: bpW:w1:twosided-transport
 KIND: definition
 TITLE: Two-sided transport
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided-transport@L288-L294
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided-transport@L297-L303
 PROOF_SOURCE: -
 CONTRACT_ID: bpW:w1:twosided-transport
 CONTRACT_VERSION: 1
@@ -718,8 +718,8 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:twosided, bpW:w1:space
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:twosided | blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided-transport@L290-L290 | the space l^{a,s}_b and the convolution
-EDGE: bpW:w1:space | blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided-transport@L291-L291 | the isometry argument
+EDGE: bpW:w0:twosided | blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided-transport@L299-L299 | the space l^{a,s}_b and the convolution
+EDGE: bpW:w1:space | blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided-transport@L300-L300 | the isometry argument
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -731,8 +731,8 @@ NOTE: -
 NODE: bpW:w1:twosided
 KIND: lemma
 TITLE: Passage between one- and two-sided sequences
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided@L297-L313
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided@L315-L325
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided@L306-L322
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided@L324-L337
 CONTRACT_ID: bpW:w1:twosided
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: a >= 0, p in R
@@ -746,11 +746,11 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:twosided-transport, bpW:w0:basis#lam, stepW:w1:ext, stepW:w1:restr, stepW:w1:pair
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:twosided-transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided@L302-L302 | the two-sided weights
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided@L300-L300 | the factor 1/sqrt(lambda_¦l¦)
-EDGE: stepW:w1:ext | blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided@L316-L316 | proof step
-EDGE: stepW:w1:restr | blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided@L320-L320 | proof step
-EDGE: stepW:w1:pair | blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided@L323-L323 | proof step
+EDGE: bpW:w1:twosided-transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided@L311-L311 | the two-sided weights
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided@L309-L309 | the factor 1/sqrt(lambda_¦l¦)
+EDGE: stepW:w1:ext | blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided@L325-L325 | proof step
+EDGE: stepW:w1:restr | blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided@L330-L330 | proof step
+EDGE: stepW:w1:pair | blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided@L335-L335 | proof step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -762,8 +762,8 @@ NOTE: -
 NODE: stepW:w1:ext
 KIND: step
 TITLE: Extensions
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:ext@L316-L319
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:ext@L316-L319
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:ext@L325-L329
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:ext@L325-L329
 CONTRACT_ID: stepW:w1:ext
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:twosided: a >= 0, p in R; local data: q in l^{a,p}_C
@@ -777,21 +777,21 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:basis#lambda-facts, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:ext@L318-L318 | j/lambda_j < 1
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:ext@L317-L317 | lambda occurs directly here (frozen lam)
+EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:ext@L327-L329 | j/lambda_j < 1
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:ext@L326-L326 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+sol-review-W-w1a
+EXTRACTOR: claude-suborch-W+sol-review-W-w1a+claude-suborch-W-r2
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): the step text now says the computation is self-contained (every a >= 0, p in R) and only analogous to the W0 step; consistent with the existing record, which has no edge to the W0 step.
 
 NODE: stepW:w1:restr
 KIND: step
 TITLE: Restriction
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:restr@L320-L322
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:restr@L320-L322
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:restr@L330-L334
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:restr@L330-L334
 CONTRACT_ID: stepW:w1:restr
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:twosided: a >= 0, p in R; local data: X in l^{a,p+1/2}_b
@@ -805,21 +805,21 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:basis#lambda-facts, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:restr@L321-L321 | l/lambda_l < 1
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:restr@L321-L321 | lambda occurs directly here (frozen lam)
+EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:restr@L331-L331 | l/lambda_l < 1
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:restr@L331-L331 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+sol-review-W-w1a
+EXTRACTOR: claude-suborch-W+sol-review-W-w1a+claude-suborch-W-r2
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): the step text now says the computation is self-contained (every a >= 0, p in R) and only analogous to the W0 step; consistent with the existing record, which has no edge to the W0 step.
 
 NODE: stepW:w1:pair
 KIND: step
 TITLE: Pairing
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:pair@L323-L324
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:pair@L323-L324
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:pair@L335-L336
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:pair@L335-L336
 CONTRACT_ID: stepW:w1:pair
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:twosided: a >= 0, p in R; local data: z, zbar in l^{a,p}_C
@@ -833,7 +833,7 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:twosided-transport
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:twosided-transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:pair@L324-L324 | the two-sided weight <l>
+EDGE: bpW:w1:twosided-transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:pair@L336-L336 | the two-sided weight <l>
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -845,8 +845,8 @@ NOTE: -
 NODE: bpW:w1:young
 KIND: lemma
 TITLE: Young and $\ell^1$ control
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:young@L329-L339
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:young@L341-L357
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:young@L341-L351
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:young@L353-L369
 CONTRACT_ID: bpW:w1:young
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: (i) X in l^2(Z), Y in l^1(Z); (ii) s > 1/2, a >= 0, Y in l^{a,s}_b; (iii) nonnegative X, Y, Z in l^{0,s}_b with s > 1/2; complex c, d
@@ -860,11 +860,11 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:twosided-transport, stepW:w1:cs, stepW:w1:youngsum, stepW:w1:l1, stepW:w1:rules
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:twosided-transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:young@L333-L333 | the norms ¦¦.¦¦_{a,s} and the convolution
-EDGE: stepW:w1:cs | blueprint-W/parts/w1-sequences.tex#bpW:w1:young@L342-L342 | proof step
-EDGE: stepW:w1:youngsum | blueprint-W/parts/w1-sequences.tex#bpW:w1:young@L346-L346 | proof step
-EDGE: stepW:w1:l1 | blueprint-W/parts/w1-sequences.tex#bpW:w1:young@L349-L349 | proof step
-EDGE: stepW:w1:rules | blueprint-W/parts/w1-sequences.tex#bpW:w1:young@L353-L353 | proof step
+EDGE: bpW:w1:twosided-transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:young@L345-L345 | the norms ¦¦.¦¦_{a,s} and the convolution
+EDGE: stepW:w1:cs | blueprint-W/parts/w1-sequences.tex#bpW:w1:young@L354-L354 | proof step
+EDGE: stepW:w1:youngsum | blueprint-W/parts/w1-sequences.tex#bpW:w1:young@L358-L358 | proof step
+EDGE: stepW:w1:l1 | blueprint-W/parts/w1-sequences.tex#bpW:w1:young@L361-L361 | proof step
+EDGE: stepW:w1:rules | blueprint-W/parts/w1-sequences.tex#bpW:w1:young@L365-L365 | proof step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -876,8 +876,8 @@ NOTE: -
 NODE: stepW:w1:cs
 KIND: step
 TITLE: Weighted Cauchy--Schwarz
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:cs@L342-L345
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:cs@L342-L345
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:cs@L354-L357
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:cs@L354-L357
 CONTRACT_ID: stepW:w1:cs
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:young: (i) X in l^2(Z), Y in l^1(Z); (ii) s > 1/2, a >= 0, Y in l^{a,s}_b; (iii) nonnegative X, Y, Z in l^{0,s}_b with s > 1/2; complex c, d; local data: X in l^2, Y in l^1
@@ -902,8 +902,8 @@ NOTE: -
 NODE: stepW:w1:youngsum
 KIND: step
 TITLE: Summation
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:youngsum@L346-L348
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:youngsum@L346-L348
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:youngsum@L358-L360
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:youngsum@L358-L360
 CONTRACT_ID: stepW:w1:youngsum
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:young: (i) X in l^2(Z), Y in l^1(Z); (ii) s > 1/2, a >= 0, Y in l^{a,s}_b; (iii) nonnegative X, Y, Z in l^{0,s}_b with s > 1/2; complex c, d
@@ -917,8 +917,8 @@ FROZEN_ABI_SHA256: -
 DEPS: stepW:w1:cs, bpW:w1:ext-series
 ROUTES: -
 ROUTE_FOR: -
-EDGE: stepW:w1:cs | blueprint-W/parts/w1-sequences.tex#stepW:w1:youngsum@L348-L348 | sums the pointwise bound over l
-EDGE: bpW:w1:ext-series | blueprint-W/parts/w1-sequences.tex#stepW:w1:youngsum@L347-L347 | exchange of the nonnegative double sum (Tonelli)
+EDGE: stepW:w1:cs | blueprint-W/parts/w1-sequences.tex#stepW:w1:youngsum@L360-L360 | sums the pointwise bound over l
+EDGE: bpW:w1:ext-series | blueprint-W/parts/w1-sequences.tex#stepW:w1:youngsum@L359-L359 | exchange of the nonnegative double sum (Tonelli)
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -930,8 +930,8 @@ NOTE: -
 NODE: stepW:w1:l1
 KIND: step
 TITLE: $\ell^1$ control
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:l1@L349-L352
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:l1@L349-L352
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:l1@L361-L364
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:l1@L361-L364
 CONTRACT_ID: stepW:w1:l1
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:young: (i) X in l^2(Z), Y in l^1(Z); (ii) s > 1/2, a >= 0, Y in l^{a,s}_b; (iii) nonnegative X, Y, Z in l^{0,s}_b with s > 1/2; complex c, d
@@ -945,7 +945,7 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:ext-series
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:ext-series | blueprint-W/parts/w1-sequences.tex#stepW:w1:l1@L350-L350 | sum k^{-sigma} < infinity for sigma = 2s > 1
+EDGE: bpW:w1:ext-series | blueprint-W/parts/w1-sequences.tex#stepW:w1:l1@L362-L362 | sum k^{-sigma} < infinity for sigma = 2s > 1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -957,8 +957,8 @@ NOTE: -
 NODE: stepW:w1:rules
 KIND: step
 TITLE: Algebraic rules
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:rules@L353-L356
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:rules@L353-L356
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:rules@L365-L368
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:rules@L365-L368
 CONTRACT_ID: stepW:w1:rules
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:young: (i) X in l^2(Z), Y in l^1(Z); (ii) s > 1/2, a >= 0, Y in l^{a,s}_b; (iii) nonnegative X, Y, Z in l^{0,s}_b with s > 1/2; complex c, d
@@ -972,11 +972,11 @@ FROZEN_ABI_SHA256: -
 DEPS: stepW:w1:l1, bpW:w1:ext-series
 ROUTES: -
 ROUTE_FOR: -
-EDGE: stepW:w1:l1 | blueprint-W/parts/w1-sequences.tex#stepW:w1:rules@L354-L354 | (ii) puts the sequences in l^1 cap l^2
-EDGE: bpW:w1:ext-series | blueprint-W/parts/w1-sequences.tex#stepW:w1:rules@L355-L355 | Fubini for absolutely summable double series
-TOPOLOGY_STATUS: PROPOSED
+EDGE: stepW:w1:l1 | blueprint-W/parts/w1-sequences.tex#stepW:w1:rules@L366-L366 | (ii) puts the sequences in l^1 cap l^2
+EDGE: bpW:w1:ext-series | blueprint-W/parts/w1-sequences.tex#stepW:w1:rules@L367-L367 | Fubini for absolutely summable double series
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
-REVIEWER: -
+REVIEWER: sol-delta-W-w1a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -985,8 +985,8 @@ NOTE: -
 NODE: bpW:w1:algebra
 KIND: lemma
 TITLE: Convolution algebra
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:algebra@L360-L363
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:algebra@L365-L369
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:algebra@L372-L375
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:algebra@L377-L381
 CONTRACT_ID: bpW:w1:algebra
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: a >= 0, s >= 1, c, d (, e) in l^{a,s}_b
@@ -1000,8 +1000,8 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0n:algebra, bpW:w1:young
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0n:algebra | blueprint-W/parts/w1-sequences.tex#bpW:w1:algebra@L366-L366 | the two-factor bound is Lemma bpW:w0n:algebra
-EDGE: bpW:w1:young | blueprint-W/parts/w1-sequences.tex#bpW:w1:algebra@L367-L367 | (iii): associativity for the three-factor form
+EDGE: bpW:w0n:algebra | blueprint-W/parts/w1-sequences.tex#bpW:w1:algebra@L378-L378 | the two-factor bound is Lemma bpW:w0n:algebra
+EDGE: bpW:w1:young | blueprint-W/parts/w1-sequences.tex#bpW:w1:algebra@L379-L379 | (iii): associativity for the three-factor form
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1013,8 +1013,8 @@ NOTE: -
 NODE: bpW:w1:selection
 KIND: lemma
 TITLE: Selection-rule trilinear maps
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:selection@L386-L400
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:selection@L402-L427
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:selection@L398-L412
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:selection@L414-L439
 CONTRACT_ID: bpW:w1:selection
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: a >= 0, p >= 1/2, s = p + 1/2, M >= 0; (a) c : N_+^4 -> C with ¦c_ijkl¦ <= M (ijkl)^{-1/2} sum_eps [l = eps_1 i + eps_2 j + eps_3 k], q, q', q'' in l^{a,p}_C; (b) c : (Z\0)^4 -> C with the same bound in ¦ijkl¦, w, w', w'' in l^{a,p}_b
@@ -1028,12 +1028,12 @@ FROZEN_ABI_SHA256: -
 DEPS: stepW:w1:maj1, stepW:w1:sel1, stepW:w1:smooth1, stepW:w1:maj2, stepW:w1:sel2, stepW:w1:smooth2
 ROUTES: -
 ROUTE_FOR: -
-EDGE: stepW:w1:maj1 | blueprint-W/parts/w1-sequences.tex#bpW:w1:selection@L403-L403 | proof step
-EDGE: stepW:w1:sel1 | blueprint-W/parts/w1-sequences.tex#bpW:w1:selection@L406-L406 | proof step
-EDGE: stepW:w1:smooth1 | blueprint-W/parts/w1-sequences.tex#bpW:w1:selection@L412-L412 | proof step
-EDGE: stepW:w1:maj2 | blueprint-W/parts/w1-sequences.tex#bpW:w1:selection@L415-L415 | proof step
-EDGE: stepW:w1:sel2 | blueprint-W/parts/w1-sequences.tex#bpW:w1:selection@L419-L419 | proof step
-EDGE: stepW:w1:smooth2 | blueprint-W/parts/w1-sequences.tex#bpW:w1:selection@L423-L423 | proof step
+EDGE: stepW:w1:maj1 | blueprint-W/parts/w1-sequences.tex#bpW:w1:selection@L415-L415 | proof step
+EDGE: stepW:w1:sel1 | blueprint-W/parts/w1-sequences.tex#bpW:w1:selection@L418-L418 | proof step
+EDGE: stepW:w1:smooth1 | blueprint-W/parts/w1-sequences.tex#bpW:w1:selection@L424-L424 | proof step
+EDGE: stepW:w1:maj2 | blueprint-W/parts/w1-sequences.tex#bpW:w1:selection@L427-L427 | proof step
+EDGE: stepW:w1:sel2 | blueprint-W/parts/w1-sequences.tex#bpW:w1:selection@L431-L431 | proof step
+EDGE: stepW:w1:smooth2 | blueprint-W/parts/w1-sequences.tex#bpW:w1:selection@L435-L435 | proof step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1045,8 +1045,8 @@ NOTE: -
 NODE: stepW:w1:maj1
 KIND: step
 TITLE: One-sided majorant
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:maj1@L403-L405
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:maj1@L403-L405
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:maj1@L415-L417
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:maj1@L415-L417
 CONTRACT_ID: stepW:w1:maj1
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:selection: a >= 0, p >= 1/2, s = p + 1/2, M >= 0; (a) c : N_+^4 -> C with ¦c_ijkl¦ <= M (ijkl)^{-1/2} sum_eps [l = eps_1 i + eps_2 j + eps_3 k], q, q', q'' in l^{a,p}_C; (b) c : (Z\0)^4 -> C with the same bound in ¦ijkl¦, w, w', w'' in l^{a,p}_b; local data: x_i = ¦q_¦i¦¦/sqrt(¦i¦), x_0 = 0
@@ -1060,7 +1060,7 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:twosided
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:twosided | blueprint-W/parts/w1-sequences.tex#stepW:w1:maj1@L405-L405 | (i): the even sequence x
+EDGE: bpW:w1:twosided | blueprint-W/parts/w1-sequences.tex#stepW:w1:maj1@L417-L417 | (i): the even sequence x
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1072,8 +1072,8 @@ NOTE: -
 NODE: stepW:w1:sel1
 KIND: step
 TITLE: One-sided selection
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:sel1@L406-L411
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:sel1@L406-L411
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:sel1@L418-L423
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:sel1@L418-L423
 CONTRACT_ID: stepW:w1:sel1
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:selection: a >= 0, p >= 1/2, s = p + 1/2, M >= 0; (a) c : N_+^4 -> C with ¦c_ijkl¦ <= M (ijkl)^{-1/2} sum_eps [l = eps_1 i + eps_2 j + eps_3 k], q, q', q'' in l^{a,p}_C; (b) c : (Z\0)^4 -> C with the same bound in ¦ijkl¦, w, w', w'' in l^{a,p}_b
@@ -1087,10 +1087,10 @@ FROZEN_ABI_SHA256: -
 DEPS: stepW:w1:maj1, stepW:w0n:selection, bpW:w1:young, bpW:w1:algebra
 ROUTES: -
 ROUTE_FOR: -
-EDGE: stepW:w1:maj1 | blueprint-W/parts/w1-sequences.tex#stepW:w1:sel1@L408-L408 | the even majorants
-EDGE: stepW:w0n:selection | blueprint-W/parts/w1-sequences.tex#stepW:w1:sel1@L410-L410 | the injectivity argument of the W0 selection step
-EDGE: bpW:w1:young | blueprint-W/parts/w1-sequences.tex#stepW:w1:sel1@L410-L410 | X is finite (Young, l^1 control)
-EDGE: bpW:w1:algebra | blueprint-W/parts/w1-sequences.tex#stepW:w1:sel1@L411-L411 | X lies in l^{a,s}_b
+EDGE: stepW:w1:maj1 | blueprint-W/parts/w1-sequences.tex#stepW:w1:sel1@L420-L420 | the even majorants
+EDGE: stepW:w0n:selection | blueprint-W/parts/w1-sequences.tex#stepW:w1:sel1@L422-L422 | the injectivity argument of the W0 selection step
+EDGE: bpW:w1:young | blueprint-W/parts/w1-sequences.tex#stepW:w1:sel1@L422-L422 | X is finite (Young, l^1 control)
+EDGE: bpW:w1:algebra | blueprint-W/parts/w1-sequences.tex#stepW:w1:sel1@L423-L423 | X lies in l^{a,s}_b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1102,8 +1102,8 @@ NOTE: -
 NODE: stepW:w1:smooth1
 KIND: step
 TITLE: One-sided smoothing
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth1@L412-L414
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth1@L412-L414
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth1@L424-L426
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth1@L424-L426
 CONTRACT_ID: stepW:w1:smooth1
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:selection: a >= 0, p >= 1/2, s = p + 1/2, M >= 0; (a) c : N_+^4 -> C with ¦c_ijkl¦ <= M (ijkl)^{-1/2} sum_eps [l = eps_1 i + eps_2 j + eps_3 k], q, q', q'' in l^{a,p}_C; (b) c : (Z\0)^4 -> C with the same bound in ¦ijkl¦, w, w', w'' in l^{a,p}_b
@@ -1117,9 +1117,9 @@ FROZEN_ABI_SHA256: -
 DEPS: stepW:w1:sel1, bpW:w1:algebra, stepW:w1:maj1
 ROUTES: -
 ROUTE_FOR: -
-EDGE: stepW:w1:sel1 | blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth1@L413-L413 | the pointwise bound by M l^{-1/2} X_l
-EDGE: bpW:w1:algebra | blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth1@L414-L414 | three-factor algebra bound
-EDGE: stepW:w1:maj1 | blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth1@L414-L414 | ¦¦x¦¦ = sqrt2 ¦¦q¦¦
+EDGE: stepW:w1:sel1 | blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth1@L425-L425 | the pointwise bound by M l^{-1/2} X_l
+EDGE: bpW:w1:algebra | blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth1@L426-L426 | three-factor algebra bound
+EDGE: stepW:w1:maj1 | blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth1@L426-L426 | ¦¦x¦¦ = sqrt2 ¦¦q¦¦
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1131,8 +1131,8 @@ NOTE: -
 NODE: stepW:w1:maj2
 KIND: step
 TITLE: Two-sided majorant
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:maj2@L415-L418
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:maj2@L415-L418
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:maj2@L427-L430
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:maj2@L427-L430
 CONTRACT_ID: stepW:w1:maj2
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:selection: a >= 0, p >= 1/2, s = p + 1/2, M >= 0; (a) c : N_+^4 -> C with ¦c_ijkl¦ <= M (ijkl)^{-1/2} sum_eps [l = eps_1 i + eps_2 j + eps_3 k], q, q', q'' in l^{a,p}_C; (b) c : (Z\0)^4 -> C with the same bound in ¦ijkl¦, w, w', w'' in l^{a,p}_b; local data: tilde x_i = (¦w_i¦ + ¦w_{-i}¦)/sqrt(¦i¦), tilde x_0 = 0
@@ -1146,7 +1146,7 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:twosided-transport
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:twosided-transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:maj2@L417-L417 | the two-sided weights
+EDGE: bpW:w1:twosided-transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:maj2@L429-L429 | the two-sided weights
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1158,8 +1158,8 @@ NOTE: -
 NODE: stepW:w1:sel2
 KIND: step
 TITLE: Two-sided selection
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:sel2@L419-L422
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:sel2@L419-L422
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:sel2@L431-L434
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:sel2@L431-L434
 CONTRACT_ID: stepW:w1:sel2
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:selection: a >= 0, p >= 1/2, s = p + 1/2, M >= 0; (a) c : N_+^4 -> C with ¦c_ijkl¦ <= M (ijkl)^{-1/2} sum_eps [l = eps_1 i + eps_2 j + eps_3 k], q, q', q'' in l^{a,p}_C; (b) c : (Z\0)^4 -> C with the same bound in ¦ijkl¦, w, w', w'' in l^{a,p}_b
@@ -1173,7 +1173,7 @@ FROZEN_ABI_SHA256: -
 DEPS: stepW:w1:maj2
 ROUTES: -
 ROUTE_FOR: -
-EDGE: stepW:w1:maj2 | blueprint-W/parts/w1-sequences.tex#stepW:w1:sel2@L421-L421 | ¦w_i¦/sqrt(¦i¦) <= tilde x_{i'}
+EDGE: stepW:w1:maj2 | blueprint-W/parts/w1-sequences.tex#stepW:w1:sel2@L433-L433 | ¦w_i¦/sqrt(¦i¦) <= tilde x_{i'}
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1185,8 +1185,8 @@ NOTE: -
 NODE: stepW:w1:smooth2
 KIND: step
 TITLE: Two-sided smoothing
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth2@L423-L426
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth2@L423-L426
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth2@L435-L438
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth2@L435-L438
 CONTRACT_ID: stepW:w1:smooth2
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:selection: a >= 0, p >= 1/2, s = p + 1/2, M >= 0; (a) c : N_+^4 -> C with ¦c_ijkl¦ <= M (ijkl)^{-1/2} sum_eps [l = eps_1 i + eps_2 j + eps_3 k], q, q', q'' in l^{a,p}_C; (b) c : (Z\0)^4 -> C with the same bound in ¦ijkl¦, w, w', w'' in l^{a,p}_b
@@ -1200,9 +1200,9 @@ FROZEN_ABI_SHA256: -
 DEPS: stepW:w1:sel2, bpW:w1:algebra, stepW:w1:maj2
 ROUTES: -
 ROUTE_FOR: -
-EDGE: stepW:w1:sel2 | blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth2@L424-L424 | the pointwise bound
-EDGE: bpW:w1:algebra | blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth2@L425-L425 | three-factor algebra bound
-EDGE: stepW:w1:maj2 | blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth2@L425-L425 | ¦¦tilde x¦¦ <= 2 ¦¦w¦¦
+EDGE: stepW:w1:sel2 | blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth2@L436-L436 | the pointwise bound
+EDGE: bpW:w1:algebra | blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth2@L437-L437 | three-factor algebra bound
+EDGE: stepW:w1:maj2 | blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth2@L437-L437 | ¦¦tilde x¦¦ <= 2 ¦¦w¦¦
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1214,8 +1214,8 @@ NOTE: -
 NODE: bpW:w1:trilinear
 KIND: theorem
 TITLE: The cubic map as a continuous trilinear map
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L431-L450
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L452-L472
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L443-L462
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L464-L484
 CONTRACT_ID: bpW:w1:trilinear
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: a >= 0, p >= 1/2, C_* = K_{p+1/2}^2/pi, K in {R, C}; for (iii) a >= a' >= 0, p >= p' >= 1/2; for (iv) y in l^2_R, l >= 1 (and a > 0 for the general case)
@@ -1229,15 +1229,15 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:transport, bpW:w1:complexification, bpW:w0:Gq#cubicGrad, stepW:w1:tricoord, stepW:w1:tricont, stepW:w1:trireal, stepW:w1:trifrozen, bpW:w0:basis#lam, bpW:w0:reconstruction#reconU
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L437-L437 | kappa, omega
-EDGE: bpW:w1:complexification | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L439-L439 | iota and conjugation
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L446-L446 | the frozen cubicGrad in (iv)
-EDGE: stepW:w1:tricoord | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L453-L453 | proof step
-EDGE: stepW:w1:tricont | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L459-L459 | proof step
-EDGE: stepW:w1:trireal | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L463-L463 | proof step
-EDGE: stepW:w1:trifrozen | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L467-L467 | proof step
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L455-L455 | lambda occurs directly here (frozen lam)
-EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L468-L468 | U_m occurs directly here (frozen reconU)
+EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L449-L449 | kappa, omega
+EDGE: bpW:w1:complexification | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L451-L451 | iota and conjugation
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L458-L458 | the frozen cubicGrad in (iv)
+EDGE: stepW:w1:tricoord | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L465-L465 | proof step
+EDGE: stepW:w1:tricont | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L471-L471 | proof step
+EDGE: stepW:w1:trireal | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L475-L475 | proof step
+EDGE: stepW:w1:trifrozen | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L479-L479 | proof step
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L467-L467 | lambda occurs directly here (frozen lam)
+EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L480-L480 | U_m occurs directly here (frozen reconU)
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1249,8 +1249,8 @@ NOTE: -
 NODE: stepW:w1:tricoord
 KIND: step
 TITLE: Coordinates
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L453-L458
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L453-L458
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L465-L470
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L465-L470
 CONTRACT_ID: stepW:w1:tricoord
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:trilinear: a >= 0, p >= 1/2, C_* = K_{p+1/2}^2/pi, K in {R, C}; for (iii) a >= a' >= 0, p >= p' >= 1/2; for (iv) y in l^2_R, l >= 1 (and a > 0 for the general case); local data: y, y', y'' in l^2_K; q = kappa_{a,p} y etc.
@@ -1264,10 +1264,10 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:transport, bpW:w0:basis#lam
 ROUTES: stepW:w1:tricoord#via-cubic-bound, stepW:w1:tricoord#via-selection
 ROUTE_FOR: -
-EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L458-L458 | tau_{a,p+1} and the weighted coordinates
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L455-L455 | lambda occurs directly here (frozen lam)
-EDGE: stepW:w1:tricoord#via-cubic-bound | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L454-L454 | first derivation: Theorem bpW:w0n:cubic-bound
-EDGE: stepW:w1:tricoord#via-selection | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L455-L455 | equivalent derivation: Lemma bpW:w1:selection(a)
+EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L470-L470 | tau_{a,p+1} and the weighted coordinates
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L467-L467 | lambda occurs directly here (frozen lam)
+EDGE: stepW:w1:tricoord#via-cubic-bound | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L466-L466 | first derivation: Theorem bpW:w0n:cubic-bound
+EDGE: stepW:w1:tricoord#via-selection | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L467-L467 | equivalent derivation: Lemma bpW:w1:selection(a)
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1279,8 +1279,8 @@ NOTE: -
 NODE: stepW:w1:tricont
 KIND: step
 TITLE: Continuity
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricont@L459-L462
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricont@L459-L462
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricont@L471-L474
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricont@L471-L474
 CONTRACT_ID: stepW:w1:tricont
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:trilinear: a >= 0, p >= 1/2, C_* = K_{p+1/2}^2/pi, K in {R, C}; for (iii) a >= a' >= 0, p >= p' >= 1/2; for (iv) y in l^2_R, l >= 1 (and a > 0 for the general case)
@@ -1294,9 +1294,9 @@ FROZEN_ABI_SHA256: -
 DEPS: stepW:w1:tricoord, bpW:w0n:quartic-coeff, bpW:w1:space
 ROUTES: -
 ROUTE_FOR: -
-EDGE: stepW:w1:tricoord | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricont@L461-L461 | the bound C_* prod ¦¦y¦¦
-EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricont@L460-L460 | symmetry of g
-EDGE: bpW:w1:space | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricont@L462-L462 | kappa is injective ((i))
+EDGE: stepW:w1:tricoord | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricont@L473-L473 | the bound C_* prod ¦¦y¦¦
+EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricont@L472-L472 | symmetry of g
+EDGE: bpW:w1:space | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricont@L474-L474 | kappa is injective ((i))
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1308,8 +1308,8 @@ NOTE: -
 NODE: stepW:w1:trireal
 KIND: step
 TITLE: Real structure and compatibility
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:trireal@L463-L466
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:trireal@L463-L466
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:trireal@L475-L478
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:trireal@L475-L478
 CONTRACT_ID: stepW:w1:trireal
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:trilinear: a >= 0, p >= 1/2, C_* = K_{p+1/2}^2/pi, K in {R, C}; for (iii) a >= a' >= 0, p >= p' >= 1/2; for (iv) y in l^2_R, l >= 1 (and a > 0 for the general case)
@@ -1323,9 +1323,9 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:complexification, bpW:w1:embed, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:complexification | blueprint-W/parts/w1-sequences.tex#stepW:w1:trireal@L465-L465 | iota and conjugation
-EDGE: bpW:w1:embed | blueprint-W/parts/w1-sequences.tex#stepW:w1:trireal@L466-L466 | (iii): inclusions do not change coefficients
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:trireal@L464-L464 | lambda occurs directly here (frozen lam)
+EDGE: bpW:w1:complexification | blueprint-W/parts/w1-sequences.tex#stepW:w1:trireal@L477-L477 | iota and conjugation
+EDGE: bpW:w1:embed | blueprint-W/parts/w1-sequences.tex#stepW:w1:trireal@L478-L478 | (iii): inclusions do not change coefficients
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:trireal@L476-L476 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1337,8 +1337,8 @@ NOTE: -
 NODE: stepW:w1:trifrozen
 KIND: step
 TITLE: Frozen identification
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L467-L471
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L467-L471
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L479-L483
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L479-L483
 CONTRACT_ID: stepW:w1:trifrozen
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:trilinear: a >= 0, p >= 1/2, C_* = K_{p+1/2}^2/pi, K in {R, C}; for (iii) a >= a' >= 0, p >= p' >= 1/2; for (iv) y in l^2_R, l >= 1 (and a > 0 for the general case); local data: y in l^2_R, a = p = 1 (or a > 0)
@@ -1352,12 +1352,12 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:reconstruction#reconU, bpW:w0n:recon-bounded, bpW:w0:Gq#cubicGrad, bpW:w0n:gradient, bpW:w0:ellap#coeff, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L468-L468 | unfolds the frozen reconU
-EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L469-L469 | the tsum converges absolutely
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L470-L470 | unfolds the frozen cubicGrad
-EDGE: bpW:w0n:gradient | blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L471-L471 | G_q(q)_l = T(q,q,q)_l for a > 0
-EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L468-L468 | kappa_{1,1} = coeff
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L470-L470 | lambda occurs directly here (frozen lam)
+EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L480-L480 | unfolds the frozen reconU
+EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L481-L481 | the tsum converges absolutely
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L482-L482 | unfolds the frozen cubicGrad
+EDGE: bpW:w0n:gradient | blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L483-L483 | G_q(q)_l = T(q,q,q)_l for a > 0
+EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L480-L480 | kappa_{1,1} = coeff
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L482-L482 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1369,8 +1369,8 @@ NOTE: -
 NODE: bpW:w1:cubic-analytic
 KIND: corollary
 TITLE: Analyticity and Lipschitz bounds of the cubic gradient
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:cubic-analytic@L475-L489
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:cubic-analytic@L491-L505
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:cubic-analytic@L487-L501
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:cubic-analytic@L503-L517
 CONTRACT_ID: bpW:w1:cubic-analytic
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: a >= 0, p >= 1/2, T = T^{a,p}_K, C_* as in Theorem bpW:w1:trilinear, N(y) = T(y,y,y)
@@ -1384,12 +1384,12 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:trilinear, bpW:w0:Gq#cubicGrad, stepW:w1:can, stepW:w1:cder, stepW:w1:clip, stepW:w1:cfrozen
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:trilinear | blueprint-W/parts/w1-sequences.tex#bpW:w1:cubic-analytic@L476-L476 | T and C_*
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#bpW:w1:cubic-analytic@L484-L484 | the frozen cubicGrad in (iv)
-EDGE: stepW:w1:can | blueprint-W/parts/w1-sequences.tex#bpW:w1:cubic-analytic@L492-L492 | proof step
-EDGE: stepW:w1:cder | blueprint-W/parts/w1-sequences.tex#bpW:w1:cubic-analytic@L494-L494 | proof step
-EDGE: stepW:w1:clip | blueprint-W/parts/w1-sequences.tex#bpW:w1:cubic-analytic@L499-L499 | proof step
-EDGE: stepW:w1:cfrozen | blueprint-W/parts/w1-sequences.tex#bpW:w1:cubic-analytic@L502-L502 | proof step
+EDGE: bpW:w1:trilinear | blueprint-W/parts/w1-sequences.tex#bpW:w1:cubic-analytic@L488-L488 | T and C_*
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#bpW:w1:cubic-analytic@L496-L496 | the frozen cubicGrad in (iv)
+EDGE: stepW:w1:can | blueprint-W/parts/w1-sequences.tex#bpW:w1:cubic-analytic@L504-L504 | proof step
+EDGE: stepW:w1:cder | blueprint-W/parts/w1-sequences.tex#bpW:w1:cubic-analytic@L506-L506 | proof step
+EDGE: stepW:w1:clip | blueprint-W/parts/w1-sequences.tex#bpW:w1:cubic-analytic@L511-L511 | proof step
+EDGE: stepW:w1:cfrozen | blueprint-W/parts/w1-sequences.tex#bpW:w1:cubic-analytic@L514-L514 | proof step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1401,8 +1401,8 @@ NOTE: -
 NODE: stepW:w1:can
 KIND: step
 TITLE: Analyticity
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:can@L492-L493
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:can@L492-L493
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:can@L504-L505
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:can@L504-L505
 CONTRACT_ID: stepW:w1:can
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:cubic-analytic: a >= 0, p >= 1/2, T = T^{a,p}_K, C_* as in Theorem bpW:w1:trilinear, N(y) = T(y,y,y)
@@ -1416,11 +1416,11 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:ext-analytic, bpW:w1:trilinear
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:can@L493-L493 | continuous multilinear maps and compositions are analytic
-EDGE: bpW:w1:trilinear | blueprint-W/parts/w1-sequences.tex#stepW:w1:can@L493-L493 | continuity of the named trilinear map is supplied by the theorem
-TOPOLOGY_STATUS: PROPOSED
+EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:can@L505-L505 | continuous multilinear maps and compositions are analytic
+EDGE: bpW:w1:trilinear | blueprint-W/parts/w1-sequences.tex#stepW:w1:can@L505-L505 | continuity of the named trilinear map is supplied by the theorem
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
-REVIEWER: -
+REVIEWER: sol-delta-W-w1a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1429,8 +1429,8 @@ NOTE: -
 NODE: stepW:w1:cder
 KIND: step
 TITLE: Derivatives
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:cder@L494-L498
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:cder@L494-L498
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:cder@L506-L510
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:cder@L506-L510
 CONTRACT_ID: stepW:w1:cder
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:cubic-analytic: a >= 0, p >= 1/2, T = T^{a,p}_K, C_* as in Theorem bpW:w1:trilinear, N(y) = T(y,y,y)
@@ -1444,10 +1444,10 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:trilinear
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:trilinear | blueprint-W/parts/w1-sequences.tex#stepW:w1:cder@L496-L496 | symmetry and the bound C_* ((i))
-TOPOLOGY_STATUS: PROPOSED
+EDGE: bpW:w1:trilinear | blueprint-W/parts/w1-sequences.tex#stepW:w1:cder@L508-L508 | symmetry and the bound C_* ((i))
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
-REVIEWER: -
+REVIEWER: sol-delta-W-w1a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1456,8 +1456,8 @@ NOTE: -
 NODE: stepW:w1:clip
 KIND: step
 TITLE: Lipschitz
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:clip@L499-L501
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:clip@L499-L501
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:clip@L511-L513
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:clip@L511-L513
 CONTRACT_ID: stepW:w1:clip
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:cubic-analytic: a >= 0, p >= 1/2, T = T^{a,p}_K, C_* as in Theorem bpW:w1:trilinear, N(y) = T(y,y,y)
@@ -1471,10 +1471,10 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:trilinear
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:trilinear | blueprint-W/parts/w1-sequences.tex#stepW:w1:clip@L501-L501 | the bound C_*
-TOPOLOGY_STATUS: PROPOSED
+EDGE: bpW:w1:trilinear | blueprint-W/parts/w1-sequences.tex#stepW:w1:clip@L513-L513 | the bound C_*
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
-REVIEWER: -
+REVIEWER: sol-delta-W-w1a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1483,8 +1483,8 @@ NOTE: -
 NODE: stepW:w1:cfrozen
 KIND: step
 TITLE: Frozen form
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:cfrozen@L502-L504
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:cfrozen@L502-L504
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:cfrozen@L514-L516
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:cfrozen@L514-L516
 CONTRACT_ID: stepW:w1:cfrozen
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:cubic-analytic: a >= 0, p >= 1/2, T = T^{a,p}_K, C_* as in Theorem bpW:w1:trilinear, N(y) = T(y,y,y); local data: (a,p) = (1,1), K = R
@@ -1498,9 +1498,9 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:trilinear, bpW:w0n:cubic-bound, bpW:w1:transport
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:trilinear | blueprint-W/parts/w1-sequences.tex#stepW:w1:cfrozen@L503-L503 | (iv) frozen identification
-EDGE: bpW:w0n:cubic-bound | blueprint-W/parts/w1-sequences.tex#stepW:w1:cfrozen@L504-L504 | C_m = K_{3/2}^2/pi
-EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:cfrozen@L503-L503 | the weight ratios
+EDGE: bpW:w1:trilinear | blueprint-W/parts/w1-sequences.tex#stepW:w1:cfrozen@L515-L515 | (iv) frozen identification
+EDGE: bpW:w0n:cubic-bound | blueprint-W/parts/w1-sequences.tex#stepW:w1:cfrozen@L516-L516 | C_m = K_{3/2}^2/pi
+EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:cfrozen@L515-L515 | the weight ratios
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1512,8 +1512,8 @@ NOTE: -
 NODE: bpW:w1:gradient-identity
 KIND: proposition
 TITLE: Gradient identity
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L509-L522
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L524-L540
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L521-L534
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L536-L552
 CONTRACT_ID: bpW:w1:gradient-identity
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: a > 0, p >= 1/2; G(q) = (1/4) int_0^pi U_m(q)^4 for q in l^{a,p}; <u,v>_0 = sum_j u_j v_j (unweighted), absolutely convergent for u in l^{a,p+1}, v in l^{a,p}
@@ -1527,14 +1527,14 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:H, bpW:w0n:cubic-bound, bpW:w0:Gq#cubicGrad, bpW:w0:ellap#coeff, stepW:w1:quartic, stepW:w1:gradder, stepW:w1:gradw, bpW:w0:reconstruction#reconU
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:H | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L510-L510 | G(q) = (1/4) int U_m(q)^4
-EDGE: bpW:w0n:cubic-bound | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L515-L515 | the trilinear map T
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L519-L519 | frozen cubicGrad in (iii)
-EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L519-L519 | frozen coeff in (iii)
-EDGE: stepW:w1:quartic | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L525-L525 | proof step
-EDGE: stepW:w1:gradder | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L531-L531 | proof step
-EDGE: stepW:w1:gradw | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L535-L535 | proof step
-EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L510-L510 | U_m occurs directly here (frozen reconU)
+EDGE: bpW:w0:H | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L522-L522 | G(q) = (1/4) int U_m(q)^4
+EDGE: bpW:w0n:cubic-bound | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L527-L527 | the trilinear map T
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L531-L531 | frozen cubicGrad in (iii)
+EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L531-L531 | frozen coeff in (iii)
+EDGE: stepW:w1:quartic | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L537-L537 | proof step
+EDGE: stepW:w1:gradder | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L543-L543 | proof step
+EDGE: stepW:w1:gradw | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L547-L547 | proof step
+EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L522-L522 | U_m occurs directly here (frozen reconU)
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1546,8 +1546,8 @@ NOTE: -
 NODE: stepW:w1:quartic
 KIND: step
 TITLE: Quartic form
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:quartic@L525-L530
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:quartic@L525-L530
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:quartic@L537-L542
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:quartic@L537-L542
 CONTRACT_ID: stepW:w1:quartic
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:gradient-identity: a > 0, p >= 1/2; G(q) = (1/4) int_0^pi U_m(q)^4 for q in l^{a,p}; <u,v>_0 = sum_j u_j v_j (unweighted), absolutely convergent for u in l^{a,p+1}, v in l^{a,p}; local data: q in l^{a,p}, a > 0
@@ -1561,10 +1561,10 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0n:gradient, bpW:w0n:quartic-coeff, bpW:w1:embed, bpW:w0n:cubic-bound
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0n:gradient | blueprint-W/parts/w1-sequences.tex#stepW:w1:quartic@L526-L526 | G as an absolutely convergent quartic sum
-EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w1-sequences.tex#stepW:w1:quartic@L528-L528 | symmetry of g
-EDGE: bpW:w1:embed | blueprint-W/parts/w1-sequences.tex#stepW:w1:quartic@L529-L529 | ¦¦u¦¦_{0,0} <= ¦¦u¦¦_{a,p+1}, ¦¦v¦¦_{0,0} <= ¦¦v¦¦_{a,p}
-EDGE: bpW:w0n:cubic-bound | blueprint-W/parts/w1-sequences.tex#stepW:w1:quartic@L530-L530 | the bound on T
+EDGE: bpW:w0n:gradient | blueprint-W/parts/w1-sequences.tex#stepW:w1:quartic@L538-L538 | G as an absolutely convergent quartic sum
+EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w1-sequences.tex#stepW:w1:quartic@L540-L540 | symmetry of g
+EDGE: bpW:w1:embed | blueprint-W/parts/w1-sequences.tex#stepW:w1:quartic@L541-L541 | ¦¦u¦¦_{0,0} <= ¦¦u¦¦_{a,p+1}, ¦¦v¦¦_{0,0} <= ¦¦v¦¦_{a,p}
+EDGE: bpW:w0n:cubic-bound | blueprint-W/parts/w1-sequences.tex#stepW:w1:quartic@L542-L542 | the bound on T
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1576,8 +1576,8 @@ NOTE: -
 NODE: stepW:w1:gradder
 KIND: step
 TITLE: Derivative
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:gradder@L531-L534
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:gradder@L531-L534
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:gradder@L543-L546
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:gradder@L543-L546
 CONTRACT_ID: stepW:w1:gradder
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:gradient-identity: a > 0, p >= 1/2; G(q) = (1/4) int_0^pi U_m(q)^4 for q in l^{a,p}; <u,v>_0 = sum_j u_j v_j (unweighted), absolutely convergent for u in l^{a,p+1}, v in l^{a,p}
@@ -1591,10 +1591,10 @@ FROZEN_ABI_SHA256: -
 DEPS: stepW:w1:quartic, bpW:w1:ext-analytic, bpW:w1:trilinear, bpW:w0:Gq#cubicGrad
 ROUTES: -
 ROUTE_FOR: -
-EDGE: stepW:w1:quartic | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradder@L532-L532 | the quartic form Q
-EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradder@L532-L532 | continuous multilinear maps are analytic
-EDGE: bpW:w1:trilinear | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradder@L534-L534 | (iv): T(q,q,q) = G_q(q)
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradder@L533-L533 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
+EDGE: stepW:w1:quartic | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradder@L544-L544 | the quartic form Q
+EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradder@L544-L544 | continuous multilinear maps are analytic
+EDGE: bpW:w1:trilinear | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradder@L546-L546 | (iv): T(q,q,q) = G_q(q)
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradder@L545-L545 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1606,8 +1606,8 @@ NOTE: -
 NODE: stepW:w1:gradw
 KIND: step
 TITLE: Weighted coordinates
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:gradw@L535-L539
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:gradw@L535-L539
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:gradw@L547-L551
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:gradw@L547-L551
 CONTRACT_ID: stepW:w1:gradw
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:gradient-identity: a > 0, p >= 1/2; G(q) = (1/4) int_0^pi U_m(q)^4 for q in l^{a,p}; <u,v>_0 = sum_j u_j v_j (unweighted), absolutely convergent for u in l^{a,p+1}, v in l^{a,p}
@@ -1621,9 +1621,9 @@ FROZEN_ABI_SHA256: -
 DEPS: stepW:w1:gradder, bpW:w1:cubic-analytic, bpW:w0:Gq#cubicGrad
 ROUTES: -
 ROUTE_FOR: -
-EDGE: stepW:w1:gradder | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradw@L536-L536 | DG(q)h = <G_q(q),h>_0
-EDGE: bpW:w1:cubic-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradw@L538-L538 | (iv): G^w and the weighted coordinates of G_q(kappa y)
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradw@L536-L536 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
+EDGE: stepW:w1:gradder | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradw@L548-L548 | DG(q)h = <G_q(q),h>_0
+EDGE: bpW:w1:cubic-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradw@L550-L550 | (iv): G^w and the weighted coordinates of G_q(kappa y)
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradw@L548-L548 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1635,8 +1635,8 @@ NOTE: -
 NODE: bpW:w1:hamfield
 KIND: proposition
 TITLE: The Hamiltonian field
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L543-L563
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L565-L586
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L555-L575
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L577-L598
 CONTRACT_ID: bpW:w1:hamfield
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: a > 0, p >= 1/2
@@ -1650,18 +1650,18 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:H, bpW:w0:eqmotion, bpW:w1:cubic-analytic, bpW:w0:ellap#WaveSpace, bpW:w0:ellap#coeff, bpW:w0:Gq#cubicGrad, stepW:w1:hlin, stepW:w1:hnonlin, stepW:w1:hsum, stepW:w1:hham, stepW:w1:hfrozen, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:H | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L553-L553 | H = Lambda + G
-EDGE: bpW:w0:eqmotion | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L555-L555 | the system (bpW:w0:coeffsys)
-EDGE: bpW:w1:cubic-analytic | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L550-L550 | the bounds of the cubic gradient
-EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L557-L557 | X^w : WaveSpace -> WaveSpace
-EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L560-L560 | the coordinates in terms of coeff
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L560-L560 | the coordinates in terms of cubicGrad
-EDGE: stepW:w1:hlin | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L566-L566 | proof step
-EDGE: stepW:w1:hnonlin | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L568-L568 | proof step
-EDGE: stepW:w1:hsum | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L571-L571 | proof step
-EDGE: stepW:w1:hham | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L574-L574 | proof step
-EDGE: stepW:w1:hfrozen | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L581-L581 | proof step
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L546-L546 | lambda occurs directly here (frozen lam)
+EDGE: bpW:w0:H | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L565-L565 | H = Lambda + G
+EDGE: bpW:w0:eqmotion | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L567-L567 | the system (bpW:w0:coeffsys)
+EDGE: bpW:w1:cubic-analytic | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L562-L562 | the bounds of the cubic gradient
+EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L569-L569 | X^w : WaveSpace -> WaveSpace
+EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L572-L572 | the coordinates in terms of coeff
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L572-L572 | the coordinates in terms of cubicGrad
+EDGE: stepW:w1:hlin | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L578-L578 | proof step
+EDGE: stepW:w1:hnonlin | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L580-L580 | proof step
+EDGE: stepW:w1:hsum | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L583-L583 | proof step
+EDGE: stepW:w1:hham | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L586-L586 | proof step
+EDGE: stepW:w1:hfrozen | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L593-L593 | proof step
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L558-L558 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1673,8 +1673,8 @@ NOTE: -
 NODE: stepW:w1:hlin
 KIND: step
 TITLE: Linear part
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hlin@L566-L567
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hlin@L566-L567
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hlin@L578-L579
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hlin@L578-L579
 CONTRACT_ID: stepW:w1:hlin
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:hamfield: a > 0, p >= 1/2
@@ -1688,7 +1688,7 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:diag
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:diag | blueprint-W/parts/w1-sequences.tex#stepW:w1:hlin@L567-L567 | (i)-(ii) with r = 1
+EDGE: bpW:w1:diag | blueprint-W/parts/w1-sequences.tex#stepW:w1:hlin@L579-L579 | (i)-(ii) with r = 1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1700,8 +1700,8 @@ NOTE: -
 NODE: stepW:w1:hnonlin
 KIND: step
 TITLE: Nonlinear part
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hnonlin@L568-L570
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hnonlin@L568-L570
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hnonlin@L580-L582
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hnonlin@L580-L582
 CONTRACT_ID: stepW:w1:hnonlin
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:hamfield: a > 0, p >= 1/2
@@ -1715,8 +1715,8 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:cubic-analytic, bpW:w1:trilinear
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:cubic-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:hnonlin@L569-L569 | analyticity and bounds of N
-EDGE: bpW:w1:trilinear | blueprint-W/parts/w1-sequences.tex#stepW:w1:hnonlin@L569-L569 | (iv) identification with G_q and (ii) complex version
+EDGE: bpW:w1:cubic-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:hnonlin@L581-L581 | analyticity and bounds of N
+EDGE: bpW:w1:trilinear | blueprint-W/parts/w1-sequences.tex#stepW:w1:hnonlin@L581-L581 | (iv) identification with G_q and (ii) complex version
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1728,8 +1728,8 @@ NOTE: -
 NODE: stepW:w1:hsum
 KIND: step
 TITLE: Sum
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hsum@L571-L573
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hsum@L571-L573
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hsum@L583-L585
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hsum@L583-L585
 CONTRACT_ID: stepW:w1:hsum
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:hamfield: a > 0, p >= 1/2
@@ -1743,13 +1743,13 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:embed, stepW:w1:hlin, stepW:w1:hnonlin, bpW:w1:ext-analytic
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:embed | blueprint-W/parts/w1-sequences.tex#stepW:w1:hsum@L572-L572 | E_{a,p+1} subset E_{a,p-1}
-EDGE: stepW:w1:hlin | blueprint-W/parts/w1-sequences.tex#stepW:w1:hsum@L573-L573 | X_Lambda bounded linear
-EDGE: stepW:w1:hnonlin | blueprint-W/parts/w1-sequences.tex#stepW:w1:hsum@L573-L573 | X_G analytic
-EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:hsum@L573-L573 | sums of analytic maps
-TOPOLOGY_STATUS: PROPOSED
+EDGE: bpW:w1:embed | blueprint-W/parts/w1-sequences.tex#stepW:w1:hsum@L584-L584 | E_{a,p+1} subset E_{a,p-1}
+EDGE: stepW:w1:hlin | blueprint-W/parts/w1-sequences.tex#stepW:w1:hsum@L585-L585 | X_Lambda bounded linear
+EDGE: stepW:w1:hnonlin | blueprint-W/parts/w1-sequences.tex#stepW:w1:hsum@L585-L585 | X_G analytic
+EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:hsum@L585-L585 | sums of analytic maps
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
-REVIEWER: -
+REVIEWER: sol-delta-W-w1a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1758,8 +1758,8 @@ NOTE: -
 NODE: stepW:w1:hham
 KIND: step
 TITLE: Hamiltonian
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L574-L580
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L574-L580
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L586-L592
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L586-L592
 CONTRACT_ID: stepW:w1:hham
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:hamfield: a > 0, p >= 1/2
@@ -1773,14 +1773,14 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0:basis#lambda-facts, bpW:w1:embed, bpW:w1:gradient-identity, bpW:w0:basis#lam, bpW:w1:ext-analytic
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L576-L576 | lambda_j <= sqrt(1+m) j
-EDGE: bpW:w1:embed | blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L577-L577 | ¦¦q¦¦_{0,1/2} <= ¦¦q¦¦_{a,p} for p >= 1/2
-EDGE: bpW:w1:gradient-identity | blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L579-L579 | (ii): DG(q)h = <G_q(q),h>_0
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L575-L575 | lambda occurs directly here (frozen lam)
-EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L578-L578 | analyticity of the bounded quadratic form uses the continuous multilinear external
-TOPOLOGY_STATUS: PROPOSED
+EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L588-L588 | lambda_j <= sqrt(1+m) j
+EDGE: bpW:w1:embed | blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L589-L589 | ¦¦q¦¦_{0,1/2} <= ¦¦q¦¦_{a,p} for p >= 1/2
+EDGE: bpW:w1:gradient-identity | blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L591-L591 | (ii): DG(q)h = <G_q(q),h>_0
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L587-L587 | lambda occurs directly here (frozen lam)
+EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L590-L590 | analyticity of the bounded quadratic form uses the continuous multilinear external
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
-REVIEWER: -
+REVIEWER: sol-delta-W-w1a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1789,8 +1789,8 @@ NOTE: -
 NODE: stepW:w1:hfrozen
 KIND: step
 TITLE: Frozen form
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L581-L585
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L581-L585
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L593-L597
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L593-L597
 CONTRACT_ID: stepW:w1:hfrozen
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w1:hamfield: a > 0, p >= 1/2; local data: a = p = 1
@@ -1804,13 +1804,13 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:cubic-analytic, bpW:w1:multiplier, bpW:w0:basis#lambda-facts, bpW:w1:ext-analytic, bpW:w0:basis#lam, bpW:w0:Gq#cubicGrad, bpW:w0:ellap#WaveSpace
 ROUTES: -
 ROUTE_FOR: -
-EDGE: bpW:w1:cubic-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L583-L583 | (iv): e^j cubicGrad_j = j^{-2} G^w(y)_j
-EDGE: bpW:w1:multiplier | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L584-L584 | D and S are bounded
-EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L584-L584 | lambda_j/j <= sqrt(1+m)
-EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L585-L585 | polynomial maps are analytic
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L582-L582 | lambda occurs directly here (frozen lam)
-EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L583-L583 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
-EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L585-L585 | the frozen WaveSpace occurs directly here
+EDGE: bpW:w1:cubic-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L595-L595 | (iv): e^j cubicGrad_j = j^{-2} G^w(y)_j
+EDGE: bpW:w1:multiplier | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L596-L596 | D and S are bounded
+EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L596-L596 | lambda_j/j <= sqrt(1+m)
+EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L597-L597 | polynomial maps are analytic
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L594-L594 | lambda occurs directly here (frozen lam)
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L595-L595 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
+EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L597-L597 | the frozen WaveSpace occurs directly here
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1822,8 +1822,8 @@ NOTE: -
 NODE: stepW:w1:tricoord#via-cubic-bound
 KIND: route
 TITLE: Coordinates of the trilinear map via Theorem bpW:w0n:cubic-bound
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L454-L458
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L454-L454
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L466-L470
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L466-L466
 CONTRACT_ID: stepW:w1:tricoord#via-cubic-bound
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: as in Step stepW:w1:tricoord
@@ -1837,7 +1837,7 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w0n:cubic-bound
 ROUTES: -
 ROUTE_FOR: stepW:w1:tricoord
-EDGE: bpW:w0n:cubic-bound | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L454-L454 | absolute convergence and the bound C_*
+EDGE: bpW:w0n:cubic-bound | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L466-L466 | absolute convergence and the bound C_*
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
@@ -1849,8 +1849,8 @@ NOTE: -
 NODE: stepW:w1:tricoord#via-selection
 KIND: route
 TITLE: Coordinates of the trilinear map via Lemma bpW:w1:selection(a)
-STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L454-L458
-PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L455-L456
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L466-L470
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L467-L468
 CONTRACT_ID: stepW:w1:tricoord#via-selection
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: as in Step stepW:w1:tricoord
@@ -1864,14 +1864,40 @@ FROZEN_ABI_SHA256: -
 DEPS: bpW:w1:selection, bpW:w0n:quartic-coeff, bpW:w0:basis#lambda-facts, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: stepW:w1:tricoord
-EDGE: bpW:w1:selection | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L455-L455 | (a) with M = 1/(2pi)
-EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L456-L456 | the bound after (bpW:w0n:g-signed) gives the hypothesis on c
-EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L456-L456 | lambda >= j gives the (ijkl)^{-1/2} decay
-EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L455-L455 | the coefficient formula explicitly uses lambda
-TOPOLOGY_STATUS: PROPOSED
+EDGE: bpW:w1:selection | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L467-L467 | (a) with M = 1/(2pi)
+EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L468-L468 | the bound after (bpW:w0n:g-signed) gives the hypothesis on c
+EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L468-L468 | lambda >= j gives the (ijkl)^{-1/2} decay
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L467-L467 | the coefficient formula explicitly uses lambda
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
-REVIEWER: -
+REVIEWER: sol-delta-W-w1a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
 NOTE: "equivalently Lemma bpW:w1:selection(a) with c_ijkl = g_ijkl (lambda lambda lambda lambda)^{-1/2}, M = 1/(2pi)": the text offers it as a sufficient alternative to cubic-bound.
+
+NODE: bpW:w1:ext-rect
+KIND: external
+TITLE: Cauchy's theorem for rectangles, Banach values
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:ext-rect@L117-L125
+PROOF_SOURCE: -
+CONTRACT_ID: bpW:w1:ext-rect
+CONTRACT_VERSION: 1
+SOURCE_HYPOTHESES: none (Mathlib-level external fact)
+SOURCE_QUANTIFIERS: as stated in the item
+SOURCE_CONCLUSION: for a complete complex normed space F, f : C -> F and z, w in C with f complex differentiable on the closed rectangle [Re z, Re w] x [Im z, Im w], the oriented boundary integral vanishes (Complex.integral_boundary_rect_eq_zero_of_differentiableOn; interval integrals oriented; K's bp:p1:ext-rectangle, provenance); Fubini for continuous integrands on a box (MeasureTheory.integral_prod)
+CONSTANT_SCOPE: none
+FROZEN_FILE: -
+FROZEN_DECL: -
+FROZEN_ANCHOR_ID: -
+FROZEN_ABI_SHA256: -
+DEPS: -
+ROUTES: -
+ROUTE_FOR: -
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W-r2
+REVIEWER: -
+LEAN_STATUS: EXTERNAL
+LEAN_REF: -
+LEAN_NOTE: -
+NOTE: New labelled external added by the blueprint cleanup (inp 99afc128).

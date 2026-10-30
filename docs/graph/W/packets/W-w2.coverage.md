@@ -21,18 +21,18 @@ KIND: external
 SOURCE: blueprint-W/parts/w2-reconstruction.tex#bpW:w2:ext-sums@L55-L60
 DISPOSITION: NODE bpW:w2:ext-sums
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-delta-W-w2
 
 ITEM: bpW:w2:ext-trig
 KIND: external
 SOURCE: blueprint-W/parts/w2-reconstruction.tex#bpW:w2:ext-trig@L61-L64
 DISPOSITION: NODE bpW:w2:ext-trig
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-delta-W-w2
 
 ITEM: bpW:w2:derived
 KIND: definition
@@ -102,36 +102,36 @@ KIND: lemma
 SOURCE: blueprint-W/parts/w2-reconstruction.tex#bpW:w2:force@L128-L137
 DISPOSITION: NODE bpW:w2:force
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-delta-W-w2
 
 ITEM: stepW:w2:fsum
 KIND: proof-region
 SOURCE: blueprint-W/parts/w2-reconstruction.tex#stepW:w2:fsum@L140-L147
 DISPOSITION: NODE stepW:w2:fsum
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-delta-W-w2
 
 ITEM: stepW:w2:flin
 KIND: proof-region
 SOURCE: blueprint-W/parts/w2-reconstruction.tex#stepW:w2:flin@L148-L153
 DISPOSITION: NODE stepW:w2:flin
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-delta-W-w2
 
 ITEM: stepW:w2:fcub
 KIND: proof-region
 SOURCE: blueprint-W/parts/w2-reconstruction.tex#stepW:w2:fcub@L154-L159
 DISPOSITION: NODE stepW:w2:fcub
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-delta-W-w2
 
 ITEM: bpW:w2:coeffsol
 KIND: definition
@@ -174,27 +174,27 @@ KIND: lemma
 SOURCE: blueprint-W/parts/w2-reconstruction.tex#bpW:w2:curve-deriv@L206-L210
 DISPOSITION: NODE bpW:w2:curve-deriv
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-delta-W-w2
 
 ITEM: stepW:w2:cdiff
 KIND: proof-region
 SOURCE: blueprint-W/parts/w2-reconstruction.tex#stepW:w2:cdiff@L213-L215
 DISPOSITION: NODE stepW:w2:cdiff
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-delta-W-w2
 
 ITEM: stepW:w2:ccoord
 KIND: proof-region
 SOURCE: blueprint-W/parts/w2-reconstruction.tex#stepW:w2:ccoord@L216-L219
 DISPOSITION: NODE stepW:w2:ccoord
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-delta-W-w2
 
 ITEM: bpW:w2:hidden
 KIND: claim
@@ -228,18 +228,18 @@ KIND: proof-region
 SOURCE: blueprint-W/parts/w2-reconstruction.tex#stepW:w2:t1@L263-L270
 DISPOSITION: NODE stepW:w2:t1
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-delta-W-w2
 
 ITEM: stepW:w2:t2
 KIND: proof-region
 SOURCE: blueprint-W/parts/w2-reconstruction.tex#stepW:w2:t2@L271-L278
 DISPOSITION: NODE stepW:w2:t2
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-delta-W-w2
 
 ITEM: stepW:w2:x
 KIND: proof-region
@@ -282,9 +282,9 @@ KIND: proof-region
 SOURCE: blueprint-W/parts/w2-reconstruction.tex#stepW:w2:mred@L324-L327
 DISPOSITION: NODE stepW:w2:mred
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-delta-W-w2
 
 ITEM: stepW:w2:mconc
 KIND: proof-region
