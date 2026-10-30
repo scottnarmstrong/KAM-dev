@@ -1,0 +1,9 @@
+theorem | best margin log10(T/e(L)) is not the criterion: L needed and S(L) at the best (rho, mu, c, ell)
+v0        T 1e-132.19  L 142.1  S 3.78e+04  | rho 0.010 mu 1e-03 c 1e+04 ell 1e-03  M 63 sK 1.2581 sB 1.3563 tinv(iso 52.8 fixed 230) gamma 0.0929
+v0fixed   T 1e-150.04  L 161.3  S 4.87e+04  | rho 0.010 mu 1e-02 c 2e+04 ell 1e-03  M 135 sK 1.2581 sB 1.3563 tinv(iso 30.5 fixed 133) gamma 0.161
+v1        T 1e-31.14  L 36.3  S 2.46e+03  | rho 0.006 mu 1e-05 c 1e+06 ell 3e-03  M 4.03e+03 sK 1.2561 sB 1.3538 tinv(iso 0.21 fixed 0.767) gamma 9.29
+v1fixed   T 1e-32.11  L 37.4  S 2.6e+03  | rho 0.006 mu 2e-05 c 1e+06 ell 3e-03  M 4.03e+03 sK 1.2561 sB 1.3538 tinv(iso 0.21 fixed 0.767) gamma 9.29
+A         T 1e-13.26  L 17.6  S 630  | rho 0.017 mu 1e-05 c 1e+06 ell 3e-03  M 5.2e+03 sK 1.2640 sB 1.3601 tinv(iso 0.21 fixed 0.767) gamma 9.29
+Aiso      T 1e-13.86  L 18.3  S 680  | rho 0.017 mu 1e-05 c 1e+06 ell 3e-03  M 5.2e+03 sK 1.2640 sB 1.3601 tinv(iso 0.21 fixed 0.767) gamma 9.29
+Afreq     T 1e-11.83  L 16.1  S 521  (at the A point)
+Aisofreq  T 1e-12.15  L 16.4  S 545  (at the Aiso point)
