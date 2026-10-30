@@ -6,6 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.Certificate.Expr.DiffNode
+public import KAM.Certificate.Expr.DiffNodeSqrt
 
 /-!
 # The symbolic jet of a Hamiltonian expression, to third order
@@ -14,9 +15,10 @@ public import KAM.Certificate.Expr.DiffNode
 slots (`slpCompile`): every sub-expression is compiled once and its value, first, second and third
 derivative slots are shared by its parents. Sine and cosine of an expression and of a mode are
 compiled through `exp` and the characters `e^{±2πi k·θ}`; a quotient is a product with an
-`inv` node; a power is repeated multiplication. No operation is ever dropped from the program
-(only derivative slots that vanish identically are folded), so every `inv` operand of the source
-stays in the program, as the ball arithmetic of `Expr/Ball` requires.
+`inv` node; a power is repeated multiplication; a square root is a `sqrt` node
+(`slpSqrtNode`). No operation is ever dropped from the program (only derivative slots that vanish
+identically are folded), so every `inv` and `sqrt` operand of the source stays in the program, as
+the ball arithmetic of `Expr/Ball` requires.
 
 The values are those of `HamExpr.eval` everywhere (`jet_v0`), and on an open set where the
 denominators are nonvanishing the tables are the first, second and third derivatives (`jet_d1`,
@@ -218,6 +220,9 @@ def slpCompile {n : ℕ} : HamExpr n → List SlpOp → List SlpOp × SlpNode
   | .cos a, s =>
     let ra := slpCompile a s
     slpTrigNode n (1 / 2) 0 (1 / 2) 0 ra.1 ra.2
+  | .sqrt a, s =>
+    let ra := slpCompile a s
+    slpSqrtNode n ra.1 ra.2
 
 theorem HamExpr.jetSmoothOn {n : ℕ} (e : HamExpr n) {S : Set ((Fin n → ℂ) × (Fin n → ℂ))}
     (hS : IsOpen S) (h : e.NonvanishingOn S) : JetSmoothOn S e.eval :=
@@ -233,6 +238,7 @@ theorem HamExpr.nonvanishingOn_empty {n : ℕ} (e : HamExpr n) :
   | exp a iha => exact iha
   | sin a iha => exact iha
   | cos a iha => exact iha
+  | sqrt a iha => exact ⟨iha, fun z hz => absurd hz (Set.notMem_empty z)⟩
   | _ => trivial
 
 /-- The compiled node computes `e.eval` and its derivatives on an open set where the
@@ -324,6 +330,10 @@ theorem slpCompile_sound {n : ℕ} (e : HamExpr n) {S : Set ((Fin n → ℂ) × 
         slpConstVal (1 / 2) 0 0 * Complex.exp (slpConstVal 0 (-1) 0 * a.eval z) := by
       funext z; exact cos_eq_exp (a.eval z)
     rw [e]
+    exact ⟨p1.trans p2, h2⟩
+  | sqrt a iha =>
+    obtain ⟨p1, h1⟩ := iha hnv.1 s
+    obtain ⟨p2, h2⟩ := slpSqrtNode_sound hS (a.jetSmoothOn hS hnv.1) hnv.2 h1
     exact ⟨p1.trans p2, h2⟩
 
 /-- The jet of an expression: the program of `slpCompile` (after the zero slot) and the tables
