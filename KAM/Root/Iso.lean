@@ -88,6 +88,11 @@ public import KAM.Iso.Sharp.Scheme
 public import KAM.Iso.Sharp.Step
 public import KAM.Iso.Sharp.Twist
 public import KAM.Iso.Sharp2.G1
+public import KAM.Iso.Sharp2.L1.EntryCorrection
+public import KAM.Iso.Sharp2.L1.EntryError
+public import KAM.Iso.Sharp2.L1.EntryStep
+public import KAM.Iso.Sharp2.L1.G1A
+public import KAM.Iso.Sharp2.L1.Scheme
 public import KAM.Iso.Sharp2.ModStepB.Comp
 public import KAM.Iso.Sharp2.ModStepB.Defs
 public import KAM.Iso.Sharp2.ModStepB.Energy
