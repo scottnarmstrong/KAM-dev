@@ -1713,3 +1713,30 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     and W0-NORMAL landing; W1-ALGEBRA in audit; W0-ANALYSIS and W1-KAMSUP proving. Graph wave 1: 309/314 reviewed.
   - **Machine:** swap full. Claude Code reaped this session's and the lock sub-orchestrator's background waiters
     under memory pressure, and both are not re-armed. Track W keeps to 2 heavy lean processes and the lock to 1.
+- **19:20. SO-DATA3: the sharp-v2 levers do not fit either; the checker-side split SO-CSPLIT is started.**
+  - Lower torus, under the cap:
+    - pruned and shared invariance plus energy (`checkInvEnShared`; 215 of 887 slots, 100 products): killed at
+      10.27 GB;
+    - energy alone pruned to v0 (86 slots, 26 products): killed within about 1.5 min;
+    - torsion and the frames need the Gram check, which already fails per row.
+  - So the kernel cost is per model-by-model product (SO-KDEPTH: a synthetic 200×200 `directItems` takes 7.0 GB),
+    not per slot.
+  - The data levers do not help:
+    - lower precision shrinks bits, not the term counts;
+    - the cfgLow cutoff does not touch the full-config compose;
+    - L = 20 is the minimal truncation with one order of margin.
+  - **Decision (overnight, reversible, for owner review):** revive route E of the design study SO-COMPOSE-SPLIT
+    (equality checkpoints; a ledger of literal slot models; segment theorems re-running the unchanged
+    `composeStep`; a computation-only chaining lemma proving the landed sub-check Bools; nothing signed changes).
+    Product-level splitting is added if one product exceeds the cap.
+    - Package **SO-CSPLIT** (Opus, claude-4, worktree KAM-inp-socsplit2). Phase 1 is a design revision with a
+      codex-1 audit, fixing that study's audit findings (memory evidence, Level 2, ledger counts).
+    - SO-DATA3 measures single-product memory and an L = 14 scaling probe as the calibration gate.
+    - The lock track reuses the same tool for its 3,158-op polar Hamiltonian.
+  - **Owner-review flag:** that study estimated 110–250 MB of ledger literals per torus, which would land in the
+    public repository. SO-CSPLIT must price the volume and offer alternatives (compression, content-addressed
+    shards); anything above about 50 MB per torus is flagged to the owner.
+  - **W:** the full dependency graph is extracted (690 nodes, 2,260 edges, all reachable from `nlw2`, 13 anchors,
+    44 external leaves, 0 SOURCE_GAP). Wave 1 (314 nodes) is reviewed; wave 2 (385 nodes) is in two batched codex-1
+    reviews. Lean: W1-SINES, W1-WEIGHTED, W1-ANALYTIC, W0-NORMAL and W1-ALGEBRA on main; W1-KAMSUP in audit;
+    W0-ANALYSIS being refactored.
