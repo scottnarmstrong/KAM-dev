@@ -250,7 +250,7 @@ Overall, everything together: 97.2 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 14:59 UTC from `main` at `f4ae4808` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 14:59 UTC from `main` at `949a08f7` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -433,6 +433,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 14:59 | `949a08f7` | HQ: track W in the README (progress meter, glance, tracks table, statements page), derived from repository state |
 | 2026-10-30 14:48 | `ed226434` | Log: 14:48 |
 | 2026-10-30 14:44 | `96e2313c` | Log: 14:44 (track W freeze built) |
 | 2026-10-30 14:36 | `ddd10bb3` | Log: 14:36 (D41 track W sub-orchestrator; D42 lock scoping) |
@@ -444,7 +445,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 14:05 | `1b7df9b1` | Merge remote-tracking branch 'origin/main' |
 | 2026-10-30 14:05 | `e993723c` | Log: 14:05 (SO-GEN3 done, SO-R2 started) |
 | 2026-10-30 13:49 | `793e86c5` | Log: 13:49 |
-| 2026-10-30 13:47 | `49a5760b` | Errata ledger: independent verification of the side campaign's 20 candidates (ERRATA-VERIFY-SIDE-1) |
 <!-- /AUTO:landed -->
 
 ## Decisions
