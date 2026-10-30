@@ -1407,7 +1407,9 @@ public import KAM.SpinOrbit.HamExpr
 public import KAM.SpinOrbit.Hamiltonian
 public import KAM.SpinOrbit.LunarAssembly
 public import KAM.SpinOrbit.LunarAssemblySharp
+public import KAM.SpinOrbit.LunarAssemblySharpGen
 public import KAM.SpinOrbit.LunarParams
+public import KAM.SpinOrbit.LunarParamsR2
 public import KAM.SpinOrbit.Model
 public import KAM.SpinOrbit.PeriodOne
 public import KAM.SpinOrbit.RotFreq
