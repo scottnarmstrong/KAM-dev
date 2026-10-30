@@ -1819,4 +1819,4 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - N1/N2: the volume totals are estimates (fixed allowances, characters rather than UTF-8 bytes, dead memos
     counted), so relabel them, with the final `du -b` as the gate; propagate qualifiers into the summary tables.
   - SO-KDEPTH2 (jet-compiler depth) is running on claude-6.
-  - Quotas: claude-3 79 %, claude-12 76 %, claude-6 55 %, claude-4 49 %, codex-1 92 %.
+  - Quotas: claude-3 76 %, claude-12 73 %, claude-6 57 %, claude-4 44 %, codex-1 96 %.
