@@ -1183,3 +1183,10 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
 - **07:18. Heartbeat.** SO-KPERF running its per-part shard probes (baseline elaboration ~85 s; packing, multiplication, representation and a sparse-block prototype, each alone under a 10 GB cap). Nothing else is runnable on track SO until the owner chooses a kernel route; no other worker active.
 - **07:48. Heartbeat.** SO-KPERF interim (one blockRows-4 shard, each part alone, peak anon): decoding 0.9 GB (109 s), packing 4.0 GB (119 s), full shard check 7.3 GB (149 s), so packing is the largest part, consistent with the O(n²) linear-accumulator hypothesis. Representation and sparse-block prototype probes running.
 - **08:18. Heartbeat.** SO-KPERF's sparse-block prototype cuts one blockRows-4 shard's peak from 7.3 GB to 2.5 GB (packing 1.8 GB); wall times include data elaboration and are being separated. blockRows-8 probes next (4x fewer shards). Only SO-KPERF is running.
+- **08:35. Owner back; D34 (route A) recorded; SO-PACKFIX started.** The owner chose to fix the packed-product
+  implementation (D34). SO-PACKFIX (claude-12, Opus, branch off inp-sokperf) rewrites the packing in
+  KAM/Certificate/Poly with balanced or sparse packing, signed statements and the advice format unchanged, soundness
+  lemmas re-proved, with before/after shard probes and a new projection as its acceptance test; independent audit
+  next, then SO-DATA-2 resumes. HQ fix on the owner's question: generated certificate data (KAM/SpinOrbit/Data/,
+  59.5k lines of lunar literals held on inp-sodata2) is now shown apart from hand-written unlanded Lean and kept
+  out of the size estimate (unlanded hand-written: 0; estimated total ≈ 275,000).
