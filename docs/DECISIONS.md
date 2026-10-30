@@ -322,3 +322,15 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
     shared operand bound once and the accumulator built without quadratic copying); every signed statement and the
     certificate format unchanged; the soundness lemmas re-proved and independently audited. Rejected: raising
     maxRecDepth for data checks (AGENTS.md rule 4 stays).
+- **D40 (2026-10-30, 13:31) Track SO freeze plan: freeze proposal 2 approved.** *(Scott: "Approve all recommendations",
+  on docs/tracks/SO/FREEZE-PROPOSAL-2.md, questions Q1-Q11.)*
+  - Freeze three theorems (`lunar_spin_confinement`, `lunar_barriers`, `lunarPLo_lt_lunarPHi`) and the ten
+    definitions of the proposal (`soEcc`, `soEps`, `soCoeffPoly`, `soA`, `soModes`, `soV`, `soField`,
+    `SoBarrier` with the invariance written out, `lunarPLo`, `lunarPHi`); the statements mention only the ODE and
+    literals.
+  - Literals by the proposal's rules: the band δ by rule B from the final certified data (interim 2.714 %), the window
+    by rule W (interim 9933/10000 … 10067/10000), written as fractions (precedent 33/1000).
+  - Timing: freeze only after the final N = 65 certificates pass the kernel; the literals computed by the rules are
+    recorded with the freeze. A fallback to N = 60 or 55 changes only the literals, which the owner re-approves.
+  - Not frozen now: either certifier's soundness theorem (Q4). Before the freeze the landed `SoBarrier` switches to
+    the frozen structure (Q11). Narrower window accepted (Q10, D-SOF-4).
