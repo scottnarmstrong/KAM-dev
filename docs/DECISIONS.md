@@ -263,3 +263,12 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - Copyright: one uniform two-author line (and Authors line) in every file; no comment credits one contributor.
   - The blueprints ship, so the `bp*:` labels cited in Lean comments stay.
   - The proof dependency graphs (`docs/graph/*/DEPGRAPH.md`) ship; the built PDFs do not.
+- **D34 (2026-10-30, 08:31) Lunar kernel route: fix the packed-product implementation.** *(Scott: "(A)", answering the
+  orchestrator's three options after SO-DATA-2's stop.)*
+  - One packed shard of the lunar certificates needed more than 13.6 GB of kernel memory at the planned block size;
+    only blockRows 4 fits (6.4 GB), projecting 100-170 CPU-hours for both tori, about 50x worse per shard than
+    SO-REPLAY2. SO-KPERF located the cost in the landed packing (linear accumulators, quadratic in bits; packing
+    alone 4.0 of 7.3 GB per shard), where SO-REPLAY2's prototype used balanced shift trees.
+  - Ruling: rewrite the packing inside KAM/Certificate/Poly (balanced or sparse packing), with every signed statement
+    unchanged and the packed-product soundness lemmas re-proved and independently audited, then resume SO-DATA-2.
+    Rejected for now: paying ~150 CPU-hours (B) and the HL19 fallback (C).
