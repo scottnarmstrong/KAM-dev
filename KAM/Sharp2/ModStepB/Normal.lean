@@ -227,7 +227,7 @@ theorem Kt_scale : sCKt p * mu p γ εL εN δ < β := by
   have h1 : sCKt p * mu p γ εL εN δ ≤ sCDK p * (mu p γ εL εN δ / (γ * δ ^ p.κ)) := by
     have hgK : sg p * sCKt p ≤ sCDK p := by
       rw [sCDK]
-      have := mul_nonneg (nn_sKt H.ok) (nn_sCxiL H.ok)
+      have := mul_nonneg H.ok.caps.1.le (nn_sCxiL H.ok)
       linarith
     calc sCKt p * mu p γ εL εN δ ≤ sCKt p * (sg p * (mu p γ εL εN δ / (γ * δ ^ p.κ))) :=
           mul_le_mul_of_nonneg_left H.mu_le_g_mu_div (nn_sCKt H.ok)

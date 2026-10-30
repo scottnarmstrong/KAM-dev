@@ -22,6 +22,7 @@ public import KAM.Sharp2.Examples.PlasmaLean.NonVacuous
 public import KAM.Sharp2.Examples.PlasmaLean.Ref
 public import KAM.Sharp2.Examples.PlasmaLean.Witness
 public import KAM.Sharp2.Examples.PlasmaLean
+public import KAM.Sharp2.G1
 public import KAM.Sharp2.Geometry
 public import KAM.Sharp2.L1.Data
 public import KAM.Sharp2.L1.Norms
@@ -68,6 +69,16 @@ public import KAM.Sharp2.RouteA.Ref.Step
 public import KAM.Sharp2.RouteA.Scheme
 public import KAM.Sharp2.RouteA.Step
 public import KAM.Sharp2.RouteA.Torsion
+public import KAM.Sharp2.RouteB.Core
+public import KAM.Sharp2.RouteB.Data
+public import KAM.Sharp2.RouteB.Frozen
+public import KAM.Sharp2.RouteB.G1
+public import KAM.Sharp2.RouteB.Local
+public import KAM.Sharp2.RouteB.Newton
+public import KAM.Sharp2.RouteB.Run
+public import KAM.Sharp2.RouteB.Sched
+public import KAM.Sharp2.RouteB.Scheme
+public import KAM.Sharp2.RouteB.Step
 public import KAM.Sharp2.SmallDiv.Abel
 public import KAM.Sharp2.SmallDiv.Bound
 public import KAM.Sharp2.SmallDiv.Classical

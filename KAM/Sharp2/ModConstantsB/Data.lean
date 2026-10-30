@@ -202,7 +202,7 @@ def sCxiL (p : StepInB) : ℝ :=
   p.c * sCgL p
 
 def sCDK (p : StepInB) : ℝ :=
-  sKt p * sCxiL p + sg p * sCKt p
+  p.sK * sCxiL p + sg p * sCKt p
 
 def sCEb (p : StepInB) : ℝ :=
   sCEt p + saw p * sKt p * sCgL p
