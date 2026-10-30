@@ -310,3 +310,15 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - Proceed now with the work independent of the certifier's strength (Diophantine lemmas, sharp barrier and
     assembly variants with the band as a parameter, data-emitter reducibility fixes, the full SO-GEN3 study at N = 65);
     the final data generation and kernel passes wait for the next certifier version (same format).
+- **D39 (2026-10-30, 13:18) Kernel depth and ball arithmetic: fix the checker.** *(Scott: "(a) Fix the checker",
+  answering SO-EMITFIX's two findings.)*
+  - Finding 1: the kernel's reduction depth is bounded (default maxRecDepth 512), and the checker's non-tail-recursive
+    traversals of CertPoly term lists (foldr/map/sums; the lazy kernel also turns foldl accumulators into deep thunks)
+    fail beyond about 2,000-3,000 terms; the lunar polynomials are longer. Finding 2: `Slp.balls` evaluates the
+    Hamiltonian's balls in exact ℚ, whose sizes roughly double per multiplication over the 887-op program
+    (checkHamBounds above 10 GB at every expOrder tried).
+  - Ruling: change the checker's implementation, as in D34: balanced (log-depth) traversals of term lists in the
+    model, polynomial and sub-check code, and outward dyadic rounding of the slot balls in `Slp.balls` (with the
+    shared operand bound once and the accumulator built without quadratic copying); every signed statement and the
+    certificate format unchanged; the soundness lemmas re-proved and independently audited. Rejected: raising
+    maxRecDepth for data checks (AGENTS.md rule 4 stays).
