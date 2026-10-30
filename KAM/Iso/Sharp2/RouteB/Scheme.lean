@@ -17,9 +17,11 @@ import Mathlib.Tactic.Positivity
 The isoenergetic counterpart of `KAM.Sharp2.RouteB.Scheme` (SHARP2-B6), with the bordered modified
 step `modified_stepIB`.
 
-* `StI`, `GoodI`, `schemeIB`: the states `(s, b, K, ς)`, with the frequency `ς ω*` on the ray.
-  `GoodI` is `Good` at the frequency `ς ω*`, with the energy error `|⟨H ∘ K⟩ - E₀| ≤ λ_ω μ`, the ray
-  margin `ν - m₆ ≤ ν(ς)`, and the drift of `Tab` in the two forms that the row sums of the bordered
+* `StI`, `GoodI`, `schemeIB`: the states `(s, b, K, ς, ς₋)`, with the frequency `ς ω*` on the ray
+  and the scale `ς₋` of the previous stage. `GoodI` is `Good` at the frequency `ς ω*`, with the
+  energy error `|⟨H ∘ K⟩ - E₀| ≤ λ_ω μ`, the ray margin `ν - m₆ ≤ ν(ς)`, the last frequency increment
+  (the engine's conclusion carries no limit of the parameter, so the frequency sum is taken along
+  the admissible states), and the drift of `Tab` in the two forms that the row sums of the bordered
   torsion need: `|⟨𝒯_ab(K)⟩ - ⟨𝒯_ab(K₀)⟩| + |ς ω* - ς₀ ω*| ≤ m₅`, `n |ς ω* - ς₀ ω*| ≤ m₅`.
 * `RunBaseI`, `RunHypI`: the fixed data of a run, and the reference data of the pair `(K₀, ς₀)`.
 * `RunHypI.tors`: step `stepI:p2s2:st-t`: the local parts at the stage and at stage `0`
@@ -39,14 +41,15 @@ open KAM.Iso.Sharp2.ModStepB (newK)
 
 variable {n : ℕ}
 
-/-- The states of the isoenergetic route B: stage, validity flag, torus, frequency scale. -/
-abbrev StI (n : ℕ) := ℕ × Bool × (((Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) × ℝ)
+/-- The states of the isoenergetic route B: stage, validity flag, torus, frequency scale, scale
+of the previous stage. -/
+abbrev StI (n : ℕ) := ℕ × Bool × (((Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) × ℝ × ℝ)
 
 /-- Admissibility of a flagged state at stage `s` (`bpI:p2s2:g1`). -/
 structure GoodI (N : NumB n) (𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ)))
     (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (ωstar : Fin n → ℝ) (E₀ σω ν γ Xi : ℝ)
     (K0 : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (ς0 : ℝ) (s : ℕ) (r β μ : ℝ) (m : Fin 7 → ℝ)
-    (K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (ς : ℝ) : Prop where
+    (K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (ς ςp : ℝ) : Prop where
   r_eq : r = N.r s
   μ_nonneg : 0 ≤ μ
   μ_le : μ ≤ γ * N.δ s ^ (N.τ + 1) * N.xS Xi s
@@ -64,6 +67,8 @@ structure GoodI (N : NumB n) (𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ)))
   drift' : n * ‖ς • ωstar - ς0 • ωstar‖ ≤ m 5
   ς_gt : 1 < ς
   ray : ν - m 6 ≤ rayMargin σω ωstar ς
+  incr : ∀ t, s = t + 1 → |ς * ‖ωstar‖ - ςp * ‖ωstar‖| ≤
+    (stepConstsB (N.inp t)).Cnu * (γ * N.δ t ^ (N.τ + 1) * N.xS Xi t)
   ηL : ∀ θ ∈ complexStrip n r, ‖etaL h K (ς • ωstar) θ‖ ≤ (N.inp s).lam * μ
   ηN : ∀ θ ∈ complexStrip n r, ‖etaN h K (ς • ωstar) θ‖ ≤ γ * N.δ s ^ N.τ * μ
   ηω : ‖KAM.Iso.energyAverage h K - (E₀ : ℂ)‖ ≤ (N.inp s).lamW * μ
@@ -75,13 +80,13 @@ def schemeIB (N : NumB n) (𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ)))
     (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (ωstar : Fin n → ℝ) (E₀ σω ν γ Xi : ℝ)
     (K0 : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (ς0 : ℝ) : StageScheme n 7 (StI n) where
   tor := fun x => x.2.2.1
-  par := fun x => x.2.2.2 * ‖ωstar‖
+  par := fun x => x.2.2.2.1 * ‖ωstar‖
   Adm := fun r β μ m x => if x.2.1 then
-      GoodI N 𝔅 h ωstar E₀ σω ν γ Xi K0 ς0 x.1 r β μ m x.2.2.1 x.2.2.2
+      GoodI N 𝔅 h ωstar E₀ σω ν γ Xi K0 ς0 x.1 r β μ m x.2.2.1 x.2.2.2.1 x.2.2.2.2
     else Junk r μ x.2.2.1
   step := fun r δ x => if x.2.1 = true ∧ r = N.r x.1 ∧ δ = N.δ x.1 then
-      (x.1 + 1, true, newK h x.2.2.1 (x.2.2.2 • ωstar) E₀ (r - 2 * δ),
-        isoNewS h x.2.2.1 ωstar E₀ x.2.2.2)
+      (x.1 + 1, true, newK h x.2.2.1 (x.2.2.2.1 • ωstar) E₀ (r - 2 * δ),
+        isoNewS h x.2.2.1 ωstar E₀ x.2.2.2.1, x.2.2.2.1)
     else (x.1 + 1, false, x.2.2)
 
 /-- `bp:p2s2:torsion-ref` over any index type: Neumann against the initial average. -/
@@ -186,7 +191,7 @@ theorem setting {ς : ℝ} (hς : 1 < ς) : Setting n τ M N.sK N.sB N.sT 𝔅 h
 
 /-- The local data `LocHyp` of a flagged stage torus. -/
 theorem loc {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
-    {ς : ℝ} (hG : GoodI N 𝔅 h ωstar E₀ σω ν γ Xi K0 ς0 s (N.r s) β w m K ς)
+    {ς ςp : ℝ} (hG : GoodI N 𝔅 h ωstar E₀ σω ν γ Xi K0 ς0 s (N.r s) β w m K ς ςp)
     (hcond : stepCondB (N.inp s) (w / (γ * N.δ s ^ (N.τ + 1))))
     (hcaps : ∀ i, m i ≤ capB N σT μm ν i) :
     ∃ c', LocHyp (N.inp s) 𝔅 h K (ς • ωstar) Ω γ β ((N.inp s).lam * w) (γ * N.δ s ^ N.τ * w)
@@ -246,8 +251,8 @@ theorem avgY_sub_le {r A ς : ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (
 
 /-- The local parts and the torsion bound at a flagged stage torus (`stepI:p2s2:st-t`). -/
 theorem local_parts {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ}
-    {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {ς : ℝ}
-    (hG : GoodI N 𝔅 h ωstar E₀ σω ν γ Xi K0 ς0 s (N.r s) β w m K ς)
+    {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {ς ςp : ℝ}
+    (hG : GoodI N 𝔅 h ωstar E₀ σω ν γ Xi K0 ς0 s (N.r s) β w m K ς ςp)
     (hcond : stepCondB (N.inp s) (w / (γ * N.δ s ^ (N.τ + 1))))
     (hcaps : ∀ i, m i ≤ capB N σT μm ν i) :
     (∀ θ ∈ complexStrip n (N.r s - N.δ s), ‖torsion h K (ς • ωstar) θ‖ ≤
@@ -333,8 +338,8 @@ include R
 
 /-- The torsion and bordered twist bounds at a flagged stage torus (`stepI:p2s2:st-t`). -/
 theorem tors {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ}
-    {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {ς : ℝ}
-    (hG : GoodI N 𝔅 h ωstar E₀ σω ν γ Xi K0 ς0 s (N.r s) β w m K ς)
+    {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {ς ςp : ℝ}
+    (hG : GoodI N 𝔅 h ωstar E₀ σω ν γ Xi K0 ς0 s (N.r s) β w m K ς ςp)
     (hcond : stepCondB (N.inp s) (w / (γ * N.δ s ^ (N.τ + 1))))
     (hcaps : ∀ i, m i ≤ capB N σT μm ν i) :
     (∀ θ ∈ complexStrip n (N.r s - N.δ s), ‖torsion h K (ς • ωstar) θ‖ ≤

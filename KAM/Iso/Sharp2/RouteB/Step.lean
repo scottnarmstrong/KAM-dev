@@ -153,8 +153,8 @@ theorem drift_incr {s : ℕ} {w d X : ℝ} (hX : 0 ≤ X) (hw : w ≤ sg1 (N.inp
 
 /-- One stage of the isoenergetic route B. -/
 theorem good_step {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ}
-    {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {ς : ℝ}
-    (hG : GoodI N 𝔅 h ωstar E₀ σω ν γ Xi K0 ς0 s (N.r s) β w m K ς)
+    {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {ς ςp : ℝ}
+    (hG : GoodI N 𝔅 h ωstar E₀ σω ν γ Xi K0 ς0 s (N.r s) β w m K ς ςp)
     (hcond : stepCondB (N.inp s) (w / (γ * N.δ s ^ (N.τ + 1))))
     (hβ : (stepConstsB (N.inp s)).CDK * w / (γ * N.δ s ^ N.τ) < β)
     (hcap : ∀ i, m i + N.rate s i * N.wt s i * (w / (γ * N.δ s ^ (N.τ + 1))) ≤
@@ -163,7 +163,7 @@ theorem good_step {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ}
         (β - (stepConstsB (N.inp s)).CDK * w / (γ * N.δ s ^ N.τ))
         (N.Qs s * w ^ 2 / (γ * N.δ s ^ (N.τ + 1)))
         (fun i => m i + N.rate s i * N.wt s i * (w / (γ * N.δ s ^ (N.τ + 1))))
-        (newK h K (ς • ωstar) E₀ (N.r s - 2 * N.δ s)) (isoNewS h K ωstar E₀ ς) ∧
+        (newK h K (ς • ωstar) E₀ (N.r s - 2 * N.δ s)) (isoNewS h K ωstar E₀ ς) ς ∧
       (∀ θ ∈ complexStrip n (N.r s - 3 * N.δ s),
         ‖newK h K (ς • ωstar) E₀ (N.r s - 2 * N.δ s) θ - K θ‖ ≤
           (stepConstsB (N.inp s)).CDK * w / (γ * N.δ s ^ N.τ)) ∧
@@ -383,6 +383,7 @@ theorem good_step {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ}
             drift' := hdrift2
             ς_gt := hς1
             ray := ?_
+            incr := fun t ht => ?_
             ηL := hηL'
             ηN := hηN'
             ηω := hEn'
@@ -392,6 +393,11 @@ theorem good_step {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ}
     show ν - (m 6 + N.rate s 6 * N.wt s 6 * X) ≤ rayMargin σω ωstar ς'
     rw [r6]
     linarith
+  · obtain rfl : s = t := by omega
+    refine le_trans ?_ (mul_le_mul_of_nonneg_left hG.μ_le hCnu)
+    rw [← sub_mul, abs_mul, abs_of_nonneg (norm_nonneg ωstar),
+      ← (KAM.Iso.Apost.ray (σω := σω) R.std.dio).2.2.2.1 ς ς']
+    exact hfreq
   · rw [← sub_mul, abs_mul, abs_of_nonneg (norm_nonneg ωstar),
       ← (KAM.Iso.Apost.ray (σω := σω) R.std.dio).2.2.2.1 ς ς']
     exact hfreq
