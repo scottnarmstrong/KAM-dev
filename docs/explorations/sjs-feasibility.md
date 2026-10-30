@@ -434,7 +434,7 @@ All entries are from the papers, as read by the literature subagent:
 
 | Paper | Model | What is proved | Size |
 |---|---|---|---|
-| **LG00**, Locatelli–Giorgilli, CMDA 78 (2000) | Secular SJS: 2 degrees of freedom, polynomial of degree 6 in (ξ, η) (eq. 11; 129 monomials), from degree 2 in fast actions, order 7 in eccentricity, 21 Laplace terms, averaged at order 2 in the masses | **Rigorous** (interval arithmetic) KAM for the truncated secular model: two invariant tori confining the secular motion (Thm 1). γ = 8·10⁻⁶, τ = 1 | Birkhoff to order 6 (truncated at degree 70, up to 5.9·10⁵ monomials), 33 explicit Kolmogorov steps; about 30 h of 2000-era CPU per run |
+| **LG00**, Locatelli–Giorgilli, CMDA 78 (2000) | Secular SJS: 2 degrees of freedom, polynomial of degree 6 in (ξ, η) (eq. 11; 69 printed monomials, all even in η; SJS-LG00), from degree 2 in fast actions, order 7 in eccentricity, 21 Laplace terms, averaged at order 2 in the masses | **Rigorous** (interval arithmetic) KAM for the truncated secular model: two invariant tori confining the secular motion (Thm 1). γ = 8·10⁻⁶, τ = 1 | Birkhoff to order 6 (truncated at degree 70, up to 5.9·10⁵ monomials), 33 explicit Kolmogorov steps; about 30 h of 2000-era CPU per run |
 | **LG07**, Locatelli–Giorgilli, DCDS-B 7 (2007) | Full 3-body, spatial, Jacobi-reduced, 4 degrees of freedom; fast actions degree 3, (ξ, η) degree 10–12, Fourier \|k\| ≤ 20; averaged at order 2 | **Not rigorous** ("strong indication") | about 10⁷ coefficients, a week of CPU |
 | **GLS09**, Giorgilli–Locatelli–Sansottera | as LG07; normal form of order 17, Fourier order 34 | **Not rigorous**; Nekhoroshev-type time about 10¹⁰ yr | over 7.1·10⁶ coefficients |
 | GLS17 / SLG13 (Sun–Jupiter–Saturn–Uranus, secular, planar) | 3 degrees of freedom; 25 Kolmogorov steps, Fourier degree 50 | **Not rigorous** | intermediate Hamiltonian 9.4·10⁷ monomials |
@@ -444,7 +444,7 @@ All entries are from the papers, as read by the literature subagent:
 models come next, and LG07/GLS09 are not worth it.
 
 - **LG00** (truncated secular SJS, 2 degrees of freedom).
-  - **Why it fits.** The Hamiltonian is a degree-6 polynomial with 129 monomials, so it is a `HamExpr` today: no
+  - **Why it fits.** The Hamiltonian is a degree-6 polynomial with 69 monomials (SJS-LG00 count), so it is a `HamExpr` today: no
     Kepler equation, no witnesses beyond the polynomial.
   - **Why it is cheap.** The tori surround an elliptic equilibrium, so in Cartesian secular variables (ξ, η) the
     embedding K: 𝕋² → ℝ⁴ is close to linear in cos θ and sin θ, and its harmonics decay at about the eccentricity
@@ -470,7 +470,7 @@ models come next, and LG07/GLS09 are not worth it.
 In order. Each step is useful on its own.
 
 1. **SJS-LG00 scout** (Python, about a day).
-   - Rebuild LG00's secular polynomial (eq. 11, 129 monomials).
+   - Rebuild LG00's secular polynomial (eq. 11, 69 monomials).
    - Compute its invariant tori in Cartesian secular variables.
    - Run `scripts/certifier/optimize.py` under v1 and the v2 mirrors.
    - This is the go/no-go for a v1 certificate with today's checker. On a go, the certificate is lunar-class: the
