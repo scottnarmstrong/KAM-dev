@@ -17,8 +17,8 @@ sizes are `‖χ_k‖ = s = e^{-t}` and `‖χ_{-k}‖ = s⁻¹` with `|t| ≤ 2
 h⁻¹)`, which is `(a + b) cosh` for `a = b`.
 
 * `trig_pair_le`: the real inequality.
-* `expLoTrigQ`, `expLoTrigQ_le_exp`: a rational lower bound of `e^x`, `x ≥ 0` (Taylor partial sum), the
-  source of the rational upper bound `1/lo` of `e^{-x}`.
+* `expLoTrigQ`, `expLoTrigQ_le_exp`: a rational lower bound of `e^x`, `x ≥ 0` (Taylor partial sum),
+  the source of the rational upper bound `1/lo` of `e^{-x}`.
 * `trigRad WH N k a b`: the rational radius, `max (a L + b W) (a W + b L)` with `W = w^{|k|}`
   and `L = 1/expLoTrigQ(2 π_lo ρ |k|)`.
 * `charNorm`, `charNorm_negKey`, `charNorm_le`: the norm of the compiled character.

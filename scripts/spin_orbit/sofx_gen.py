@@ -26,11 +26,14 @@ import sofx_check as C
 import sofx_lunar as L
 import sofx_packed as PK
 import toy_constants as TC
+import sharp_q as SQ
+
+SHARP = os.environ.get("SO_SHARP") == "1"       # SO-GEN3: size disp for, and report, the sharp test
 
 CUT_FULL = 100000
-CUT_LOW = 30
+CUT_LOW = int(os.environ.get("SO_CUT_LOW", "30"))   # SO-GEN3: env
 TAYLOR, HALV = 30, 12
-BUDGET = {"cfgFull": F(1, 10 ** 80), "cfgLow": F(1, 10 ** 8)}
+BUDGET = {"cfgFull": F(1, 10 ** int(os.environ.get("SO_BUDGET_FULL", "80"))), "cfgLow": F(1, 10 ** 8)}   # SO-GEN3: env
 SOS_BITS = 40
 
 
@@ -185,8 +188,14 @@ def main(which, outdir):
     inv_exact = max(F(x) for x in rows)
     err = up3(max(F(max(rows)), F(en)) * F(1001, 1000))
     p = c.params
-    c2 = TC.isoC2Q(2, p["tau"], p["rho"], p["rhoInf"], p["M"], p["sK"], p["sB"], p["sT"])
-    disp = up3(c2 * err / (p["gamma"] ** 2 * p["rho"] ** 2))
+    if SHARP:       # SO-GEN3: the sharp certifier's C2/C3 (sharp_q.py mirrors ConstantsQ.lean)
+        sq = SQ.sharp(dict(p, nu=p["nu"]))
+        disp = up3(sq["disp_coef"] * err)
+        rep["sharp"] = dict(log10_threshold=SQ.lg(sq["threshold"]), active=sq["active"],
+                            err_over_threshold=fl(err / sq["threshold"]))
+    else:
+        c2 = TC.isoC2Q(2, p["tau"], p["rho"], p["rhoInf"], p["M"], p["sK"], p["sB"], p["sT"])
+        disp = up3(c2 * err / (p["gamma"] ** 2 * p["rho"] ** 2))
     c.params = L.lunarR1(err, disp)
     rep["err"], rep["disp"] = str(err), str(disp)
     log("err", fl(err), "disp", fl(disp))
@@ -225,6 +234,12 @@ def main(which, outdir):
     rep["check"] = chk["checks"]
     rep["check"]["checkSoGraph"] = chk["checkSoGraph"]
     rep["check_seconds"] = round(time.time() - t1)
+    if SHARP:       # the sharp certifier replaces checkSmallness by sharpTest
+        st = SQ.sharpTest(c2c.params)
+        rep["check"]["sharpTest"] = dict(ok=st)
+        log("sharpTest", st)
+        v = {k: x for k, x in v.items() if k != "checkSmallness"}
+        v["sharpTest"] = st
     rep["passes"] = all(v.values()) and vg
     # ---- key coverage
     cov = {}

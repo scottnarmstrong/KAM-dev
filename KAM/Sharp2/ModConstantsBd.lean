@@ -23,7 +23,7 @@ set_option linter.unusedTactic false
 namespace KAM.Sharp2
 
 theorem bd_sg {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sg p p' := by
+    Bd og p p' := by
   have h' := h.mono hl
   have hn1 : (0 : ℝ) ≤ (p.n : ℝ) - 1 := by
     have : (1 : ℝ) ≤ p.n := by exact_mod_cast h.n1
@@ -31,14 +31,14 @@ theorem bd_sg {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sg
+  unfold Bd og
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sKt {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sKt p p' := by
+    Bd oKt p p' := by
   have h' := h.mono hl
   have hn1 : (0 : ℝ) ≤ (p.n : ℝ) - 1 := by
     have : (1 : ℝ) ≤ p.n := by exact_mod_cast h.n1
@@ -46,14 +46,14 @@ theorem bd_sKt {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sKt
+  unfold Bd oKt
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCΩ {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCΩ p p' := by
+    Bd oCΩ p p' := by
   have h' := h.mono hl
   have hn1 : (0 : ℝ) ≤ (p.n : ℝ) - 1 := by
     have : (1 : ℝ) ≤ p.n := by exact_mod_cast h.n1
@@ -61,14 +61,14 @@ theorem bd_sCΩ {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCΩ
+  unfold Bd oCΩ
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCEL {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCEL p p' := by
+    Bd oCEL p p' := by
   have h' := h.mono hl
   have hn1 : (0 : ℝ) ≤ (p.n : ℝ) - 1 := by
     have : (1 : ℝ) ≤ p.n := by exact_mod_cast h.n1
@@ -76,14 +76,14 @@ theorem bd_sCEL {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCEL
+  unfold Bd oCEL
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCEN {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCEN p p' := by
+    Bd oCEN p p' := by
   have h' := h.mono hl
   have hn1 : (0 : ℝ) ≤ (p.n : ℝ) - 1 := by
     have : (1 : ℝ) ≤ p.n := by exact_mod_cast h.n1
@@ -91,14 +91,14 @@ theorem bd_sCEN {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCEN
+  unfold Bd oCEN
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCE {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCE p p' := by
+    Bd oCE p p' := by
   have h' := h.mono hl
   obtain ⟨asg0, asg1⟩ := bd_sg h hl
   have asg2 := asg0.trans asg1
@@ -112,14 +112,14 @@ theorem bd_sCE {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCE
+  unfold Bd oCE
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCDE {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCDE p p' := by
+    Bd oCDE p p' := by
   have h' := h.mono hl
   obtain ⟨asg0, asg1⟩ := bd_sg h hl
   have asg2 := asg0.trans asg1
@@ -131,14 +131,14 @@ theorem bd_sCDE {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCDE
+  unfold Bd oCDE
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCNN {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCNN p p' := by
+    Bd oCNN p p' := by
   have h' := h.mono hl
   obtain ⟨asCE0, asCE1⟩ := bd_sCE h hl
   have asCE2 := asCE0.trans asCE1
@@ -148,7 +148,7 @@ theorem bd_sCNN {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCNN
+  unfold Bd oCNN
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
@@ -170,7 +170,7 @@ theorem bd_sAvgB {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sC0 {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sC0 p p' := by
+    Bd oC0 p p' := by
   have h' := h.mono hl
   obtain ⟨asAvgB0, asAvgB1⟩ := bd_sAvgB h hl
   have asAvgB2 := asAvgB0.trans asAvgB1
@@ -180,14 +180,14 @@ theorem bd_sC0 {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sC0
+  unfold Bd oC0
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCxiN {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCxiN p p' := by
+    Bd oCxiN p p' := by
   have h' := h.mono hl
   obtain ⟨asC00, asC01⟩ := bd_sC0 h hl
   have asC02 := asC00.trans asC01
@@ -197,14 +197,14 @@ theorem bd_sCxiN {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCxiN
+  unfold Bd oCxiN
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCKt {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCKt p p' := by
+    Bd oCKt p p' := by
   have h' := h.mono hl
   obtain ⟨asCxiN0, asCxiN1⟩ := bd_sCxiN h hl
   have asCxiN2 := asCxiN0.trans asCxiN1
@@ -214,14 +214,14 @@ theorem bd_sCKt {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCKt
+  unfold Bd oCKt
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCDLt {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCDLt p p' := by
+    Bd oCDLt p p' := by
   have h' := h.mono hl
   obtain ⟨asC00, asC01⟩ := bd_sC0 h hl
   have asC02 := asC00.trans asC01
@@ -231,14 +231,14 @@ theorem bd_sCDLt {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCDLt
+  unfold Bd oCDLt
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCDLtT {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCDLtT p p' := by
+    Bd oCDLtT p p' := by
   have h' := h.mono hl
   obtain ⟨asC00, asC01⟩ := bd_sC0 h hl
   have asC02 := asC00.trans asC01
@@ -248,14 +248,14 @@ theorem bd_sCDLtT {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCDLtT
+  unfold Bd oCDLtT
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCdN {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCdN p p' := by
+    Bd oCdN p p' := by
   have h' := h.mono hl
   have hn1 : (0 : ℝ) ≤ (p.n : ℝ) - 1 := by
     have : (1 : ℝ) ≤ p.n := by exact_mod_cast h.n1
@@ -263,14 +263,14 @@ theorem bd_sCdN {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCdN
+  unfold Bd oCdN
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCXN {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCXN p p' := by
+    Bd oCXN p p' := by
   have h' := h.mono hl
   obtain ⟨asCdN0, asCdN1⟩ := bd_sCdN h hl
   have asCdN2 := asCdN0.trans asCdN1
@@ -280,14 +280,14 @@ theorem bd_sCXN {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCXN
+  unfold Bd oCXN
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCEt {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCEt p p' := by
+    Bd oCEt p p' := by
   have h' := h.mono hl
   obtain ⟨asCE0, asCE1⟩ := bd_sCE h hl
   have asCE2 := asCE0.trans asCE1
@@ -309,14 +309,14 @@ theorem bd_sCEt {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCEt
+  unfold Bd oCEt
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sQtN {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sQtN p p' := by
+    Bd oQtN p p' := by
   have h' := h.mono hl
   obtain ⟨asCDLtT0, asCDLtT1⟩ := bd_sCDLtT h hl
   have asCDLtT2 := asCDLtT0.trans asCDLtT1
@@ -334,14 +334,14 @@ theorem bd_sQtN {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sQtN
+  unfold Bd oQtN
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCgL {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCgL p p' := by
+    Bd oCgL p p' := by
   have h' := h.mono hl
   obtain ⟨asCxiN0, asCxiN1⟩ := bd_sCxiN h hl
   have asCxiN2 := asCxiN0.trans asCxiN1
@@ -353,14 +353,14 @@ theorem bd_sCgL {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCgL
+  unfold Bd oCgL
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCxiL {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCxiL p p' := by
+    Bd oCxiL p p' := by
   have h' := h.mono hl
   obtain ⟨asCgL0, asCgL1⟩ := bd_sCgL h hl
   have asCgL2 := asCgL0.trans asCgL1
@@ -370,14 +370,14 @@ theorem bd_sCxiL {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCxiL
+  unfold Bd oCxiL
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCDK {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCDK p p' := by
+    Bd oCDK p p' := by
   have h' := h.mono hl
   obtain ⟨asKt0, asKt1⟩ := bd_sKt h hl
   have asKt2 := asKt0.trans asKt1
@@ -393,14 +393,14 @@ theorem bd_sCDK {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCDK
+  unfold Bd oCDK
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCEb {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCEb p p' := by
+    Bd oCEb p p' := by
   have h' := h.mono hl
   obtain ⟨asCEt0, asCEt1⟩ := bd_sCEt h hl
   have asCEt2 := asCEt0.trans asCEt1
@@ -414,14 +414,14 @@ theorem bd_sCEb {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCEb
+  unfold Bd oCEb
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCG {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCG p p' := by
+    Bd oCG p p' := by
   have h' := h.mono hl
   have hn1 : (0 : ℝ) ≤ (p.n : ℝ) - 1 := by
     have : (1 : ℝ) ≤ p.n := by exact_mod_cast h.n1
@@ -429,14 +429,14 @@ theorem bd_sCG {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCG
+  unfold Bd oCG
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCBb {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCBb p p' := by
+    Bd oCBb p p' := by
   have h' := h.mono hl
   obtain ⟨asCG0, asCG1⟩ := bd_sCG h hl
   have asCG2 := asCG0.trans asCG1
@@ -448,14 +448,14 @@ theorem bd_sCBb {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCBb
+  unfold Bd oCBb
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCNb {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCNb p p' := by
+    Bd oCNb p p' := by
   have h' := h.mono hl
   obtain ⟨asCDK0, asCDK1⟩ := bd_sCDK h hl
   have asCDK2 := asCDK0.trans asCDK1
@@ -467,14 +467,14 @@ theorem bd_sCNb {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCNb
+  unfold Bd oCNb
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sCNbT {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sCNbT p p' := by
+    Bd oCNbT p p' := by
   have h' := h.mono hl
   obtain ⟨asCBb0, asCBb1⟩ := bd_sCBb h hl
   have asCBb2 := asCBb0.trans asCBb1
@@ -486,14 +486,14 @@ theorem bd_sCNbT {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sCNbT
+  unfold Bd oCNbT
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sw {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sw p p' := by
+    Bd ow p p' := by
   have h' := h.mono hl
   have hn1 : (0 : ℝ) ≤ (p.n : ℝ) - 1 := by
     have : (1 : ℝ) ≤ p.n := by exact_mod_cast h.n1
@@ -501,7 +501,7 @@ theorem bd_sw {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sw
+  unfold Bd ow
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl
@@ -558,7 +558,7 @@ theorem bd_sCDT {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sQbN {p p' : StepIn} (h : p.Ok) (hl : p.Le p') (hi : p.iso = false) :
-    Bd sQbN p p' := by
+    Bd oQbN p p' := by
   have h' := h.mono hl
   obtain ⟨asQtN0, asQtN1⟩ := bd_sQtN h hl
   have asQtN2 := asQtN0.trans asQtN1
@@ -568,7 +568,7 @@ theorem bd_sQbN {p p' : StepIn} (h : p.Ok) (hl : p.Le p') (hi : p.iso = false) :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sQbN
+  unfold Bd oQbN
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   simp only [hi, ite_false, Bool.false_eq_true]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
@@ -611,7 +611,7 @@ theorem bd_sQL0 {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   refine ⟨?_, ?_⟩ <;> (try split_ifs) <;> first | positivity | gcongr
 
 theorem bd_sQL {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
-    Bd sQL p p' := by
+    Bd oQL p p' := by
   have h' := h.mono hl
   obtain ⟨asQL00, asQL01⟩ := bd_sQL0 h hl
   have asQL02 := asQL00.trans asQL01
@@ -635,7 +635,7 @@ theorem bd_sQL {p p' : StepIn} (h : p.Ok) (hl : p.Le p') :
   have hq1 : 0 < 1 - p.q := by have := h.q1; linarith
   have hq2 : 0 < 1 - p.q ^ 2 := by have := h.q1; have := h.q0; nlinarith
   have hθ1 : 0 < 1 - p.θ := by have := h.θ1; linarith
-  unfold Bd sQL
+  unfold Bd oQL
   try simp only [hl.n, hl.κ, hl.r, hl.θ, hl.θξ, hl.θΩ, hl.q, hl.iso]
   have hn1' : (0 : ℝ) ≤ (p.n : ℝ) := by linarith
   obtain ⟨⟩ := h; obtain ⟨⟩ := h'; obtain ⟨⟩ := hl

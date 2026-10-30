@@ -204,7 +204,7 @@ C_{D\tilde L^\top}=2n\sigma_N(C_0+c^{(1)}),\\
 &C_{dN}=(M_1\sigma_K+n)\sigma_B+\sigma_N\bigl((\sigma_{L^\top}M_1+2n)\sigma_K+\sigma_{L^\top}(M_1\sigma_K+n)\bigr)\sigma_B,\quad C_{XN}=M_1\sigma_N+C_{dN},\\
 &C_{\tilde E}=C_E+C_{XN}C_{\xi N}+\sigma_Ng+\tfrac{M_2}2C_{\tilde K},\quad
 \tilde Q_N=C_{D\tilde L^\top}C_{\tilde E}+C_{NN}C_{\xi N}+\delta\sigma_{L^\top}\tfrac{M_2}2C_{\tilde K}^2,\\
-&C_{gL}=\lambda+tC_{\xi N},\quad C_{\xi L}=cC_{gL},\quad C_{\Delta K}=\tilde\sigma_KC_{\xi L}+gC_{\tilde K},\quad C_{\bar E}=C_{\tilde E}+\tilde\sigma_KC_{gL},\\
+&C_{gL}=\lambda+tC_{\xi N},\quad C_{\xi L}=cC_{gL},\quad C_{\Delta K}=\sigma_KC_{\xi L}+gC_{\tilde K},\quad C_{\bar E}=C_{\tilde E}+\tilde\sigma_KC_{gL},\\
 &C_G=n\sigma_{L^\top}+2n\sigma_K,\quad C_{\bar B}=\frac{\sigma_B^2C_GC_{\Delta K}}{1-\vartheta},\quad C_{\bar N}=nC_{\Delta K}\sigma_B+\sigma_KC_{\bar B},\quad
 C_{\bar N^\top}=C_{\bar B}\sigma_{L^\top}+2nC_{\Delta K}\sigma_B,\\
 &w=2M_1\sigma_{L^\top}\sigma_K+2n\sigma_K+n\sigma_{L^\top},\quad C_{ab}=c_{Th}(C_{\bar N^\top}\sigma_N+\sigma_{N^\top}C_{\bar N})+c_{DTh}\sigma_{N^\top}\sigma_NC_{\Delta K}\delta,\quad
@@ -223,8 +223,9 @@ C_{D\tilde L}gX\le\vartheta\sigma_K,\ C_{D\tilde L^\top}gX\le\vartheta\sigma_{L^
 and, with the option L10, $C_{\bar N^\top}C^L_EX\le\vartheta_N$ and $\max\{1,\sigma_B^2\}(1+n\vartheta_\xi)^2C_\Omega\tilde Q_NgX^2\le q$. Every condition has the
 form $\mathrm{coef}\cdot X^p\le b$ with $\mathrm{coef}\ge0$, so it persists for smaller $X\ge0$. The cap rates (increments per unit $X$) are
 $nC_{\Delta K}$ ($DK$), $2nC_{\Delta K}$ ($L^\top$), $C_{\bar B}$, $C_{\bar N}$, $C_{\bar N^\top}$, $C_{ab}$ ($\mathrm{Tab}$), and $C_{\Delta K}$ with weight $\delta$
-(the ball). At stage $0$, $C_E$ and $C_{DE}$ may be replaced by $1/p_0$ and $n/p_0$, $p_0=\mu_0/e$ (the frozen bound $\abs E\le e$ on $T_\rho$ and
-Cauchy).
+(the ball). If moreover $\abs E\le e_{\mathrm{per}}\,\mu$ on $T_r$, then $C_E$ and $C_{DE}$ may be replaced by $\min\{C_E,e_{\mathrm{per}}\}$ and
+$\min\{C_{DE},ne_{\mathrm{per}}\}$ (Cauchy); at stage $0$ this holds with $e_{\mathrm{per}}=1/p_0=e/\mu_0$ by the frozen bound $\abs E\le e$ on $T_\rho$. In the
+step it is a hypothesis (\Lean{hE0} of \Lean{modified\_stepB}; AUDIT-SHARP2-FIX-iso-1, F1), not a consequence of the weighted error.
 \end{definition}
 
 All constants are polynomials with nonnegative coefficients in $(c,c',c_{\mathrm{avg}},\lambda,\delta,\bar\gamma)$ and the caps, maxima and minima of
@@ -238,7 +239,8 @@ Assume the standing hypotheses (Assumption~\ref{bp:p2s2:standing}: $\mathfrak B$
 in $\theta$ and real on real points, $n\ge1$, $\varkappa\ge1$) and let $0<\delta\le1$, $3\delta<r$, $a>1$, and let $K$ be holomorphic, primary, real on
 reals on $T_r$, with $\mathbb B_\beta(K(\theta))\subset\mathfrak B$, $\abs L\le m_1$, $\abs{L^\top}\le m_2$, $\abs B\le m_3$, $\abs N\le m_4$, $\abs{N^\top}\le m_5$ on
 $T_r$, $\abs T\le t$ on $T_{r-\delta}$, $\abs{\avg T^{-1}}\le\sigma_T$, with $m\le\sigma$ (the caps), and errors $\abs{\eta^L}\le\varepsilon_L$,
-$\abs{\eta^N}\le\varepsilon_N$ on $T_r$. Let the small-divisor constants be valid on a set containing $\omega$, with $\omega\in\Dio_{\gamma,\tau}$,
+$\abs{\eta^N}\le\varepsilon_N$ on $T_r$ and, if the stage-$0$ replacement of Definition~\ref{bp:p2s2:constantsB} is used, $\abs E\le e_{\mathrm{per}}\mu$ on $T_r$. Let
+the small-divisor constants be valid on a set containing $\omega$, with $\omega\in\Dio_{\gamma,\tau}$,
 $\gamma\le\bar\gamma$. Put $\mu:=\max\{\varepsilon_L/\lambda,\varepsilon_N/(\gamma\delta^\varkappa)\}$, $X:=\mu/(\gamma\delta^{\varkappa+1})$, and assume the step conditions of
 Definition~\ref{bp:p2s2:constantsB}, $C_{\Delta K}\mu/(\gamma\delta^\varkappa)<\beta$ and that the caps admit the increments ($m_i+\varrho_iX\le\sigma_i$ for the
 frame caps). Let
@@ -280,7 +282,9 @@ and Lemma~\ref{bp:p2s2:recovery} gives $\abs{\tilde\eta^N}\le\tilde Q_N\mu^2/\de
 \proofstep{Tangential correction by composition}\label{step:p2s2:st-l}
 $g^L:=\eta^L-T\xi^N$ has $\avg{g^L}=0$ by the choice of $\xi^N_0$ and $\abs{g^L}\le C_{gL}\mu$ on $T_{r-\delta}$; $\abs{\xi^L}\le C_{\xi L}\mu/(\gamma\delta^\varkappa)\le\vartheta_\xi\delta$ on
 $T_{r-2\delta}$. Hence $\theta+\xi^L(\theta)\in T_{r-\delta}$ for $\theta\in T_{r-2\delta}$, $\bar K$ is defined, holomorphic and primary there ($\xi^L$ is periodic, real on reals), and
-the mean value inequality on the convex strip gives $\abs{\bar K-K}\le\tilde\sigma_K\abs{\xi^L}+\abs{\tilde K-K}\le C_{\Delta K}\mu/(\gamma\delta^\varkappa)$; the ball follows.
+$\bar K-K=(K\circ\varphi-K)+(N\xi^N)\circ\varphi$; the mean value inequality along the segment $[\theta,\theta+\xi^L(\theta)]\subset T_{r-\delta}$ with $\abs{DK}\le\sigma_K$
+there, and $\abs{N\xi^N}\le C_{\tilde K}\mu$ on $T_{r-\delta}$, give $\abs{\bar K-K}\le\sigma_K\abs{\xi^L}+C_{\tilde K}\mu\le C_{\Delta K}\mu/(\gamma\delta^\varkappa)$ (no factor $1+\vartheta$:
+the intermediate frame $\tilde L$ is not needed here; SHARP2-DOMPLUS); the ball follows.
 
 \proofstep{The new normal error}\label{step:p2s2:st-e}
 With $\varphi=\mathrm{id}+\xi^L$ and $\partial_\omega\xi^L=-g^L$: $\bar E=\tilde E\circ\varphi-(\tilde L\circ\varphi)\partial_\omega\xi^L$ and $\bar L=(\tilde L\circ\varphi)(I+D\xi^L)$, so
