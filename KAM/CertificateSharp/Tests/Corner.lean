@@ -14,9 +14,11 @@ public import KAM.CertificateSharp.Tests.Margin
 * **Non-flat model.** `n = 2`, the real trigonometric polynomial `e_{(1,1)} + e_{(1,-1)}` (not
   flat: its two modes have mixed signs), on the strip `ρ = 1/100` with `w = 1065/1000`. The landed
   bound is `2 w² = 2.268`, the corner bound is `w² + 1 = 2.134` (vertex `σ = (1,1)`: the
-  second mode has `σ·k = 0`). A target `b = 2.2` separates them: the corner check passes, the landed fails.
+  second mode has `σ·k = 0`). A target `b = 2.2` separates them: the corner check passes, the
+  landed one fails.
 * **Toys.** T2 and T3 pass the corner invariance and embedding checks, hence the whole corner
-  certifier with the sharp engine (`checkTorusCertificateCornerSharp`); the other five sub-checks are
+  certifier with the sharp engine (`checkTorusCertificateCornerSharp`); the other five sub-checks
+  are
   the landed ones. The toys are flat (`U ≡ 0`, constant `A`), so the corner and landed bounds agree
   on them, as design study §1.3 predicts.
 -/
