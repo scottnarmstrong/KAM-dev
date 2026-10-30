@@ -87,7 +87,8 @@ theorem isDiophantine_omegaStar : IsDiophantine (gammaStar : ℝ) 1 omegaStar :=
   have hi2 : Irrational iotaConj := by
     have := irrational_comb (-1) (Or.inr rfl)
     simpa [iotaConj, sub_eq_add_neg] using this
-  refine isDiophantine_of_quadCheck iotaData iotaData_check (α' := iotaConj) ?_ ?_ hi1 hi2 ?_ ?_ ?_ ?_
+  refine isDiophantine_of_quadCheck iotaData iotaData_check (α' := iotaConj) ?_ ?_ hi1 hi2
+    ?_ ?_ ?_ ?_
   · simp only [iotaData, iota, iotaConj]
     push_cast
     ring

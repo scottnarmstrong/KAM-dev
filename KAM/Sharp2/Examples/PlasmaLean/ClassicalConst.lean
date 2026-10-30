@@ -87,7 +87,8 @@ theorem cohConstC_two_one_le {δ C : ℝ} (hδ : 0 ≤ δ) (hC : 0 ≤ C)
     linarith
   have hroot : Real.sqrt (Z * (1 + E)) ≤ Real.pi ^ 2 * C :=
     Real.sqrt_le_iff.mpr ⟨by positivity, hkey⟩
-  have e1 : (2 : ℝ) ^ 2 * (shellConst 1 * Real.Gamma (2 * 1 + 1) * (1 + sdEps 1 (4 * Real.pi * δ))) =
+  have e1 : (2 : ℝ) ^ 2 *
+      (shellConst 1 * Real.Gamma (2 * 1 + 1) * (1 + sdEps 1 (4 * Real.pi * δ))) =
       8 ^ 2 * (Z * (1 + E)) := by
     rw [shellConst_one, gamma_three, sdEps_one, hE]
     ring

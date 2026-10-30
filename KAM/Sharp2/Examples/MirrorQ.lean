@@ -247,6 +247,11 @@ def sum (Xs : ℚ) (i : Fin 8) : ℚ :=
   (∑ t ∈ Finset.range Q.kp, (Q.inp t).rate i * Q.x Xs t * (Q.γb ^ 2 * Q.δ t ^ (2 - jA i))) +
     2 * (Q.inp Q.kp).rate i * Q.x Xs Q.kp * (Q.γb ^ 2 * Q.δ Q.kp ^ (2 - jA i))
 
+/-- The sum of the closeness estimate, `c2A` without its powers of `ρ`, `X⋆`, `δ₀`. -/
+def sumD (Xs : ℚ) : ℚ :=
+  (∑ t ∈ Finset.range Q.kp, (Q.inp t).CDK * Q.x Xs t * (1 ^ 2 * Q.δ t ^ 2)) +
+    2 * (Q.inp Q.kp).CDK * Q.x Xs Q.kp * (1 ^ 2 * Q.δ Q.kp ^ 2)
+
 /-- (J1)–(J3), as one Boolean. -/
 def ok (σ m₀ : Fin 8 → ℚ) (Xs : ℚ) : Bool :=
   decide (0 ≤ Xs) && (List.range Q.kp).all (fun s => (Q.inp s).cond (Q.x Xs s)) &&
@@ -327,6 +332,21 @@ theorem cast_sum (Xs : ℚ) (i : Fin 8) :
   have hk : Q.toA.kp = Q.kp := rfl
   have hγ : Q.toA.γb = (Q.γb : ℝ) := rfl
   simp only [sumA, hτ, hk, hγ, hd, cast_stage_rate, cast_x, rpow_sum, sum]
+  push_cast
+  rfl
+
+theorem cast_sumD (Xs : ℚ) :
+    sumA (2 * Q.toA.τ) 3 Q.toA.ρ Q.toA.ρinf 1 (Q.toA.xS (Xs : ℝ))
+      (fun s => (Q.toA.stage s).CD) (2 * Q.toA.τ) Q.toA.kp = (Q.sumD Xs : ℝ) := by
+  have hd : ∀ t, deltaSeq 3 Q.toA.ρ Q.toA.ρinf t = (Q.δ t : ℝ) := Q.cast_δ
+  have hτ : Q.toA.τ = 1 := rfl
+  have hk : Q.toA.kp = Q.kp := rfl
+  have hp : ∀ y : ℝ, y ^ (2 * (2 * (1 : ℝ)) - 2 * (1 : ℝ)) = y ^ 2 := fun y => by
+    rw [show (2 * (2 * (1 : ℝ)) - 2 * (1 : ℝ)) = ((2 : ℕ) : ℝ) by norm_num, Real.rpow_natCast]
+  have hC : ∀ s, (Q.toA.stage s).CD = ((Q.inp s).CDK : ℝ) := fun s => by
+    show (Q.toA.inp s).CDK = _
+    rw [cast_inp, StepQ.cast_CDK]
+  simp only [sumA, hτ, hk, hd, hC, cast_x, hp, sumD]
   push_cast
   rfl
 

@@ -1429,6 +1429,13 @@ public import KAM.Sharp.TorsionPoly
 public import KAM.Sharp2.Data
 public import KAM.Sharp2.Engine
 public import KAM.Sharp2.EngineArith
+public import KAM.Sharp2.Examples.MirrorQ
+public import KAM.Sharp2.Examples.PlasmaLean.Balanced
+public import KAM.Sharp2.Examples.PlasmaLean.Bites
+public import KAM.Sharp2.Examples.PlasmaLean.ClassicalConst
+public import KAM.Sharp2.Examples.PlasmaLean.Core
+public import KAM.Sharp2.Examples.PlasmaLean.Frequency
+public import KAM.Sharp2.Examples.PlasmaLean
 public import KAM.Sharp2.Geometry
 public import KAM.Sharp2.ModConstants
 public import KAM.Sharp2.ModConstantsBd

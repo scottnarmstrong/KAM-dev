@@ -14,9 +14,10 @@ import Mathlib.Tactic.Positivity
 # Certified small-divisor constants at PlasmaLean's frequency
 
 With `ρ = 1/50`, `ρ∞ = ρ/1000`, the schedule is `δ_s = 2^{-s} 333/100000`,
-`r_s = ρ - 6δ₀(1 - 2^{-s})`. For each of the bites `δ₀, δ₁, δ₂, r₀, r₁, r₂` of the prefix, two kernel `decide`s certify a
-rational bound `B` of the whole sum `S(ω*, b)`, finite part and tail, by `smallDivisorSum_le_bal`
-at the cut-off `2^l`; then `sdConst_bite` gives `SDConst 2 1 γ* b c {ω*}`.
+`r_s = ρ - 6δ₀(1 - 2^{-s})`. For each of the bites `δ₀, δ₁, δ₂, r₀, r₁, r₂` of the prefix, two
+kernel `decide`s certify a rational bound `B` of the whole sum `S(ω*, b)`, finite part and tail, by
+`smallDivisorSum_le_bal` at the cut-off `2^l`; then `sdConst_bite` gives
+`SDConst 2 1 γ* b c {ω*}`.
 
 Each `decide` is a single bite. The heaviest is `δ₂`, with `2 · 2¹¹` modes `k'` of `ι`.
 -/
