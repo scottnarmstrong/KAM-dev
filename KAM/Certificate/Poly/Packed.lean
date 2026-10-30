@@ -114,6 +114,33 @@ def packTree : ℕ → ℕ → List (ℕ × ℕ) → ℕ × ℕ
   | 0, W, xs => packFold W xs
   | f + 1, W, x :: y :: xs => packTree f (2 * W) (packMerge W (x :: y :: xs))
 
+/-- The linear packing loop (the original `packShift` body), kept as a public helper: the shift `s`
+advances by `w` per slot. `packShift` now packs by a balanced tree (`packTree`). -/
+def packShiftAux (w : ℕ) : ℕ → List ℤ → ℕ → ℕ → ℤ
+  | _, [], p, n => (p : ℤ) - (n : ℤ)
+  | s, c :: cs, p, n =>
+    if 0 ≤ c then packShiftAux w (s + w) cs (p + (c.toNat <<< s)) n
+    else packShiftAux w (s + w) cs p (n + ((-c).toNat <<< s))
+
+theorem packShiftAux_eq (w : ℕ) (cs : List ℤ) :
+    ∀ (s p n : ℕ), packShiftAux w s cs p n = (p : ℤ) - n + 2 ^ s * packSum w cs := by
+  induction cs with
+  | nil => intro s p n; simp [packShiftAux, packSum_nil]
+  | cons c cs ih =>
+    intro s p n
+    rw [packShiftAux, packSum_cons]
+    split_ifs with h
+    · rw [ih, Nat.shiftLeft_eq]
+      have : ((c.toNat : ℕ) : ℤ) = c := Int.toNat_of_nonneg h
+      push_cast
+      rw [this, pow_add]
+      ring
+    · rw [ih, Nat.shiftLeft_eq]
+      have : (((-c).toNat : ℕ) : ℤ) = -c := Int.toNat_of_nonneg (by omega)
+      push_cast
+      rw [this, pow_add]
+      ring
+
 /-- The kernel packing: leaf chunks of `16` slots, merged by `packTree` (`64` levels suffice for
 any list; the fallback keeps the value exact regardless). -/
 def packShift (w : ℕ) (cs : List ℤ) : ℤ :=

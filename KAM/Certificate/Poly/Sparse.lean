@@ -66,9 +66,10 @@ def spTree (w : ℕ) : ℕ → List (ℕ × ℕ × ℕ) → ℕ × ℕ × ℕ
   | 0, x :: y :: r => spFold w (x :: y :: r)
   | f + 1, x :: y :: r => spTree w f (spLevel w (x :: y :: r))
 
-/-- `Σ_e e.2 · 2^(w (e.1 - base))` over the terms of a block: the terms are joined in a balanced
-tree of nodes carrying their own lowest slot, so every intermediate integer is only as wide as
-the slot range it covers (`64` levels suffice; the fallback keeps the value exact regardless). -/
+/-- `Σ_e e.2 · 2^(w (e.1 - base))` over the terms of a block, provided `base ≤ e.1` for every term
+(`spPack_eq`; below `base` the truncated subtraction makes the formula meaningless): the terms are
+joined in a balanced tree of nodes carrying their own lowest slot, so every intermediate integer is
+only as wide as the slot range it covers (the fallback keeps the value exact for any depth). -/
 def spPack (w base : ℕ) (es : List (ℕ × ℤ)) : ℤ :=
   let r := spTree w 64 (es.map spLeaf)
   ((r.2.1 <<< (w * (r.1 - base)) : ℕ) : ℤ) - ((r.2.2 <<< (w * (r.1 - base)) : ℕ) : ℤ)
