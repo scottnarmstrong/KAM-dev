@@ -248,7 +248,7 @@ Overall, everything together: 96.6 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 13:40 UTC from `main` at `961a5546` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 13:40 UTC from `main` at `1e751759` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -427,6 +427,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 13:40 | `1e751759` | Log: 13:40 (finish N = 65; N = 80 optional stretch) |
 | 2026-10-30 13:33 | `c1e43611` | Land inp into main |
 | 2026-10-30 13:31 | `f3fba607` | D40: track SO freeze plan (freeze proposal 2 approved) |
 | 2026-10-30 13:21 | `f7bc54e0` | Log: 13:21 |
@@ -438,7 +439,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 12:57 | `7f540203` | Errata ledger: 25 candidate errata from the side campaign; 10 newly cited sources; band note corrected |
 | 2026-10-30 12:48 | `a1948e59` | Log: 12:48 |
 | 2026-10-30 12:44 | `5fc446e1` | Land inp into main |
-| 2026-10-30 12:37 | `632eb21c` | Log: 12:37 |
 <!-- /AUTO:landed -->
 
 ## Decisions
