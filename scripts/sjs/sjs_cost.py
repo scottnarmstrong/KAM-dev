@@ -104,14 +104,14 @@ OPS = dict(lo=dict(N_full=60, N_ops=500, N_low=300, N_low_ops=1000),
            hi=dict(N_full=150, N_ops=2000, N_low=600, N_low_ops=3000))
 BETA_BOX, BETA_IDEAL = 10.0, 1.0       # box/support: adapted unimodular frame (model, L 12; 10-17 at small L), ideal
 
-# (label, log10 T at rho = 0.1 or None = the applications study's numbers, d'Alembert factor)
+# (label, log10 T at rho = 0.1 or None = the applications study's numbers, d'Alembert factor, delta power p)
 SCEN = [
-    ("apps baseline (L 85, S 1e8, box/support 6)", None, 1.0),
-    ("v1, tau 2.4 interpolated (-130)", -130.0, 7.0),
-    ("v2 route B, tau 2, numerical gamma (-46.5)", -46.5, 7.0),
-    ("v2 route B, tau 3, FH gamma (-52.1)", -52.1, 7.0),
-    ("v2 hybrid L6 estimate (-23.3)", -23.3, 7.0),
-    ("v2 hybrid L6 estimate (-26.1)", -26.1, 7.0),
+    ("apps baseline (L 85, S 1e8, box/support 6)", None, 1.0, None),
+    ("v1, tau 2.4 interpolated (-130)", -130.0, 7.0, 9.6),
+    ("v2 route B, tau 2, numerical gamma (-46.5)", -46.5, 7.0, 5.8),
+    ("v2 route B, tau 3, FH gamma (-52.1)", -52.1, 7.0, 5.8),
+    ("v2 hybrid L6 estimate (-23.3)", -23.3, 7.0, 5.8),
+    ("v2 hybrid L6 estimate (-26.1)", -26.1, 7.0, 5.8),
 ]
 
 
@@ -132,12 +132,12 @@ def main():
           "| declarations (box) | advice TB (box) | data elaboration CPU-h (box) | GMP CPU-h | GMP min/product, peak GB "
           "| apps tier P CPU-h |")
     print("|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
-    for name, lt, dal in SCEN:
+    for name, lt, dal, p in SCEN:
         if lt is None:
             sup = dict(rho=0.1, L=85.0, S_pm=1e8, S=1e8, logT=-79.0)
             bbox, bideal = 6.0, 6.0
         else:
-            sup = true_support(lt, dal)
+            sup = true_support(lt, dal, p)
             bbox, bideal = BETA_BOX, BETA_IDEAL
         S, L = sup["S"], sup["L"]
         S_low = low_support(sup["rho"], dal)
