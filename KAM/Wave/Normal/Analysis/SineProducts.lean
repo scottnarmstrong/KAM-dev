@@ -8,6 +8,7 @@ module
 public import Mathlib.Analysis.Normed.Group.FunctionSeries
 public import Mathlib.Analysis.Normed.Ring.InfiniteSum
 public import KAM.Wave.Normal.Analysis.SineSeries
+public import KAM.Wave.Normal.QuarticCoeff
 public import KAM.Frozen.Wave.Defs.CubicGrad
 
 /-!
@@ -36,8 +37,7 @@ open Real
 namespace KAM.Wave
 
 /-- The quartic overlap `g_{ijkl} = ∫₀^π φ_i φ_j φ_k φ_l` (blueprint `bpW:w0n:quartic-coeff`). -/
-def waveQuartic (i j k l : ℕ+) : ℝ :=
-  ∫ x in (0 : ℝ)..π, sineMode i x * sineMode j x * sineMode k x * sineMode l x
+abbrev waveQuartic (i j k l : ℕ+) : ℝ := sineQuarticCoeff i j k l
 
 lemma wave_abs_sineMode_le (j : ℕ+) (x : ℝ) : |sineMode j x| ≤ Real.sqrt (2 / π) := by
   have := wave_abs_sineModeIter_le 0 j x
@@ -52,7 +52,7 @@ lemma wave_sqrt_two_div_pi_sq : Real.sqrt (2 / π) ^ 2 = 2 / π :=
 /-- `|g_{ijkl}| ≤ 4/π`. -/
 lemma abs_waveQuartic_le (i j k l : ℕ+) : |waveQuartic i j k l| ≤ 4 / π := by
   have hpi := Real.pi_pos
-  unfold waveQuartic
+  unfold waveQuartic sineQuarticCoeff
   have := intervalIntegral.norm_integral_le_of_norm_le_const (a := 0) (b := π)
     (C := (Real.sqrt (2 / π)) ^ 4)
     (f := fun x => sineMode i x * sineMode j x * sineMode k x * sineMode l x) (fun x _ => by
@@ -175,7 +175,7 @@ theorem hasSum_integral_cube_mul_sineMode (hh : Summable fun j => |h j|) (l : �
         (h t.2.1 * sineMode t.2.1 x * (h t.2.2 * sineMode t.2.2 x))) * sineMode l x) =
       fun t => (h t.1 * (h t.2.1 * h t.2.2)) * waveQuartic t.1 t.2.1 t.2.2 l := by
     funext t
-    unfold waveQuartic
+    unfold waveQuartic sineQuarticCoeff
     rw [← intervalIntegral.integral_const_mul]
     exact intervalIntegral.integral_congr fun x _ => by ring
   rw [e] at hs
@@ -235,7 +235,7 @@ theorem hasSum_integral_fourth_pow (hh : Summable fun j => |h j|) :
       fun t => (h t.1 * (h t.2.1 * (h t.2.2.1 * h t.2.2.2))) *
         waveQuartic t.1 t.2.1 t.2.2.1 t.2.2.2 := by
     funext t
-    unfold waveQuartic
+    unfold waveQuartic sineQuarticCoeff
     rw [← intervalIntegral.integral_const_mul]
     exact intervalIntegral.integral_congr fun x _ => by ring
   rw [e] at hs

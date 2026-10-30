@@ -1,7 +1,7 @@
 # Handoff W0-ANALYSIS (branch inp-wpe)
 
 Modules (all `KAM/Wave/Normal/Analysis/`, namespace `KAM.Wave`, 3601 lines total, each file < 400 lines):
-EllSeq, SineSeries, SineProducts, Gradient, SelectionRule, ConvYoung, ConvAlgebra, EvenMajor­ant (EvenMajorant),
+EllSeq, SineSeries, SineProducts, Gradient, SelectionRule, ConvYoung, ConvAlgebra, EvenMajorant, SeqBridge,
 CubicSelect, CubicTools, CubicBound, CubicLinear, CubicHeadline, CubicAnalytic, PdeBase, PdeForce,
 PdeForward, PdeConverse (the last written by a forked sub-agent, reviewed/built by me).
 Imports only Mathlib, frozen Wave Defs, and `KAM.Wave.Recon.*` (SineFeature, ReconAnalytic, SineCompleteness).
@@ -54,3 +54,13 @@ No Wave/Seq, Wave/Normal(other), no inp-wpf, no Provider/Theorems.
 ## Design signals
 - `waveQuartic_eq_signed` first timed out at default heartbeats as one theorem; split into 4 lemmas (no override).
 - `Fin 3` update lemmas inside `MultilinearMap` fields use a local `DecidableEq` instance: `decide` must be done in standalone lemmas (`wave_fin3_ne_*`).
+
+## Refactor (after landing of W0-NORMAL and W1-SEQ on `inp`)
+- Merged `inp` into `inp-wpe`; `KAM/Root/Wave.lean` conflict resolved by `gen_root_imports.py`.
+- `waveQuartic` is now an `abbrev` for the landed `sineQuarticCoeff` (same integral), `waveSign` an `abbrev` for `boolSign`;
+  `SelectionRule.lean` shrank to one theorem `abs_waveQuartic_le_signs := abs_quarticCoeff_le`. Deleted duplicates:
+  `waveQuartic_eq_signed`, `waveQuartic_eq_brackets`, `sineMode_mul4_eq`, `waveSigned_indicator_alg`, `integral_cos_mul_cos_int`,
+  `abs_waveSign_prod` (the landed `sineQuarticCoeff_signed` replaces the former).
+- New `SeqBridge.lean`: `waveEll_iff_isEll` (WaveEll ↔ `IsEll`), `waveEllNorm_eq_ellNorm`, `waveEllToLp_eq_tauLp`,
+  `coeff_isEll_one_one`, connecting to `KAM.Wave.Seq` (`IsEll`, `ellNorm`, `tauLp`). Nothing else was rewritten.
+- ConvAlgebra/ConvYoung unchanged (local stand-ins, awaiting W1-ALGEBRA).

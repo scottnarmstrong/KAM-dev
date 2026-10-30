@@ -37,6 +37,7 @@ public import KAM.Wave.Normal.Analysis.PdeConverse
 public import KAM.Wave.Normal.Analysis.PdeForce
 public import KAM.Wave.Normal.Analysis.PdeForward
 public import KAM.Wave.Normal.Analysis.SelectionRule
+public import KAM.Wave.Normal.Analysis.SeqBridge
 public import KAM.Wave.Normal.Analysis.SineProducts
 public import KAM.Wave.Normal.Analysis.SineSeries
 public import KAM.Wave.Normal.AngleAvg

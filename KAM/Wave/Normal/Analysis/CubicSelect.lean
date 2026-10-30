@@ -46,7 +46,8 @@ lemma waveSign_mul_inj {b b' : Bool} {n n' : ℕ+}
     (h : waveSign b * ((n : ℕ) : ℤ) = waveSign b' * ((n' : ℕ) : ℤ)) : b = b' ∧ n = n' := by
   have hn := n.pos
   have hn' := n'.pos
-  cases b <;> cases b' <;> simp only [waveSign, Bool.false_eq_true, ite_true, ite_false] at h
+  cases b <;> cases b' <;>
+    simp only [waveSign, boolSign, Bool.false_eq_true, ite_true, ite_false] at h
   · exact ⟨rfl, PNat.coe_injective (by omega)⟩
   · omega
   · omega
@@ -70,8 +71,8 @@ lemma waveSignedEmb_injective : Function.Injective waveSignedEmb := by
 lemma even_apply_waveSign {x : ℤ → ℝ} (hxe : ∀ i, x (-i) = x i) (b : Bool) (n : ℤ) :
     x (waveSign b * n) = x n := by
   cases b
-  · simp [waveSign, hxe]
-  · simp [waveSign]
+  · simp [waveSign, boolSign, hxe]
+  · simp [waveSign, boolSign]
 
 theorem wave_selection_sum_le {x y z : ℤ → ℝ}
     (hx0 : ∀ i, 0 ≤ x i) (hy0 : ∀ i, 0 ≤ y i) (hz0 : ∀ i, 0 ≤ z i)
