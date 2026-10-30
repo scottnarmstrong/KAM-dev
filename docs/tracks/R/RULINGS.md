@@ -14,5 +14,9 @@
     `KAM/Provider/Russmann/RussmannKam.lean`. Bytes: the audited drafts with two changes, both shown to the owner in
     the approval exchange: the status line of each docstring ("Owner-approved …" instead of "DRAFT v0.1 (not
     approved)"), and the Q1(d) conclusion with its docstring sentence.
+  - One further documentation-only byte change, found by the seal audit (AUDIT-RUSSMANN-SEAL-1, F1): the
+    sealing-instructions sentence of the theorem's docstring names the provider module
+    ("when the provider `KAM.Provider.Russmann.RussmannKam` is complete"), as in the repository's other frozen anchors.
+    No Lean term, type or premise is affected; reported to the owner with the landing.
   - Deviations from Rus01 adopted with this ruling: D-R1–D-R5 (`statement.md` §1).
   - The branch lands on `main` only after the anchor is SEALED, kernel-replayed and audited.
