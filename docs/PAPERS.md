@@ -481,7 +481,7 @@ Links: none (print only).
 
 **Used for.** Context: PDE-KAM extension study (docs/explorations/pde-kam-and-leapfrogging.md); abstract infinite-dimensional KAM theorem (Numdam scan)
 
-**Errata recorded:** 2 entries.
+**Errata recorded:** 6 entries.
 
 ### Pos96W
 
@@ -491,7 +491,7 @@ Links: [doi:10.1007/BF02566420](https://doi.org/10.1007/BF02566420)
 
 **Used for.** Context: PDE-KAM extension study (docs/explorations/pde-kam-and-leapfrogging.md); proposed first target (cubic Dirichlet wave); candidate errata E-PDE-W-1/2
 
-**Errata recorded:** 5 entries.
+**Errata recorded:** 10 entries.
 
 ### KP96
 
@@ -500,6 +500,8 @@ S. Kuksin, J. Pöschel, *Invariant Cantor manifolds of quasi-periodic oscillatio
 Links: [doi:10.2307/2118656](https://doi.org/10.2307/2118656)
 
 **Used for.** Context: PDE-KAM extension study (docs/explorations/pde-kam-and-leapfrogging.md); Cantor manifold theorem used by Pos96W; NLS fallback; candidate errata E-PDE-KP-1/2
+
+**Errata recorded:** 4 entries.
 
 ### HHM25
 

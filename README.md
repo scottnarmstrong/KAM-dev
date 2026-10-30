@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 16:18 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 17 % · track W 15 %** · frozen statements proved: 23 / 24 · **321,037 lines of Lean** of an estimated ≈ 337,000
+> **Last updated: 2026-10-30 16:30 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 17 % · track W 19 %** · frozen statements proved: 23 / 24 · **321,037 lines of Lean** of an estimated ≈ 327,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -159,7 +159,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 ## At a glance
 
 <!-- AUTO:progress -->
-### Estimated completion: original project **99.3 %** · SO checker **100 %** · SO Moon **74 %** · Moon locked **17 %** · track W **15 %**
+### Estimated completion: original project **99.3 %** · SO checker **100 %** · SO Moon **74 %** · Moon locked **17 %** · track W **19 %**
 
 Original project (tracks K, I, N, P): `█████████████████████████` 99.3 %
 
@@ -169,9 +169,9 @@ Track SO, part 2, the Moon's spin rate (its first client): `██████�
 
 Track SO, part 3, the Moon locked in synchronous rotation forever (D42): `████░░░░░░░░░░░░░░░░░░░░░` 17 % (stages: scoping study, design, statements frozen, Lean proof modules, certificate data, sealed; read from the repository)
 
-Track W, PDE KAM for the cubic wave equation: `████░░░░░░░░░░░░░░░░░░░░░` 15.1 % (statements frozen 1, blueprint milestones 3, graph published 1, graph nodes resolved 10, seal 0.5; all read from the repository)
+Track W, PDE KAM for the cubic wave equation: `█████░░░░░░░░░░░░░░░░░░░░` 19.4 % (statements frozen 1, blueprint milestones 3, graph published 1, graph nodes resolved 10, seal 0.5; all read from the repository)
 
-Overall, everything together: 76.1 %
+Overall, everything together: 77.0 %
 
 | Part of the project | Items | Weight | Done | Completion |
 |---|---|---|---|---|
@@ -187,8 +187,8 @@ Overall, everything together: 76.1 %
 | Track SO, part 1: general Lean certificate checker | 6 | 32 | 32.0 | `██████████` 100 % |
 | Track SO, part 2: the Moon's spin rate (lunar spin–orbit) | 6 | 20 | 14.8 | `███████░░░` 74 % |
 | Track SO, part 3: the Moon locked in synchronous rotation (D42) | 6 | 16 | 2.7 | `██░░░░░░░░` 17 % |
-| Track W: PDE KAM for the cubic wave equation (D30, D41) | 5 | 64 | 9.6 | `██░░░░░░░░` 15 % |
-| **Total** | 86 | 310 | 235.9 | **76.1 %** |
+| Track W: PDE KAM for the cubic wave equation (D30, D41) | 5 | 64 | 12.4 | `██░░░░░░░░` 19 % |
+| **Total** | 86 | 310 | 238.7 | **77.0 %** |
 
 **How this is estimated.** The project is divided into 52 work items: planning deliverables, campaign infrastructure, the four layers of track K's proof, the proof campaigns of tracks I, N and P, and track SO (its items count the design's line estimates of the packages landed so far; [`docs/campaign/progress-SO.json`](docs/campaign/progress-SO.json)). Each item is weighted by its difficulty (low 1, moderate 2, high 4, very high 8) and counts with the fraction of it that is done; each sealed frozen theorem adds 1. Items marked *graph* take that fraction from their proof graph (nodes `PROVED`, `BYPASSED`, `EXTERNAL` or owner-accepted `ASSUMED` in [`docs/graph/`](docs/graph)), so they update themselves at every refresh, and count as complete once every frozen theorem of their track is sealed; the other items are the orchestrators' assessment, last reviewed **2026-10-28 03:25 UTC**. Files: [`docs/campaign/progress.json`](docs/campaign/progress.json) (track K and infrastructure) and [`docs/campaign/progress-INP.json`](docs/campaign/progress-INP.json) (tracks I, N, P).
 
@@ -257,16 +257,17 @@ Overall, everything together: 76.1 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **321,037** (250,246 excluding blank lines and comments) · **+60,662** since 2026-10-29 16:18 UTC |
-| Written on agent branches, not yet landed | 14,326 |
-| **Estimated total at completion** | **≈ 337,000** |
+| On `main` now | **321,037** (250,246 excluding blank lines and comments) · **+60,662** since 2026-10-29 16:22 UTC |
+| Written on agent branches, not yet landed | 4,777 |
+| Generated certificate data on agent branches (numeric literals, not counted above or below) | 59,710 |
+| **Estimated total at completion** | **≈ 327,000** |
 | Estimated still to write | ≈ 2,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment; track SO is added from its design (lines on `main` plus the line estimates of its packages not yet landed). History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 16:18 UTC from `main` at `55566c4e` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 16:30 UTC from `main` at `2325997f` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -274,12 +275,13 @@ Overall, everything together: 76.1 %
 
 - **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 79 modules · 20,168 lines. **Packages landed: 27 / 27**.
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3 % of its orbital rate for all time (target about 2.7 % at N = 65, D38). `KAM/SpinOrbit` and the data generator: 20 modules · 3,584 lines. **Packages landed: 21 / 24**.
-- **Part 3, the Moon locked in synchronous rotation forever** (D42): librational invariant tori around the synchronous orbit (Celletti 1994), a stronger result than the spin-rate band · **17 %** · stages reached: scoping study
+- **Part 3, the Moon locked in synchronous rotation forever** (D42, D45): one librational invariant torus around a certified synchronous periodic orbit confines the spin (a stronger result than the spin-rate band; route: polar coordinates, the landed certifier, one new primitive `HamExpr.sqrt`; N = 65) · **17 %** · stages reached: scoping study · the lock sub-orchestrator is running (2 package workers)
 - Design estimate for parts 1 and 2: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-PACKFIX, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-DION, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-SHARPLINK, SO-GEN, SO-GEN2, SO-DATA-PY, SO-GEN3, SO-R1, SO-LUNAR-A, SO-R2.
+- **Now:** proving SO-DATA3, SO-KDEPTH · in audit SO-BALLFIX
 - **Gates:** design of the general checker ACCEPTED (Revision 7). Lunar route (2026-10-30): sharp certifier checkTorusCertificateSharp (D36, threshold about 1e-25), barriers at N = 65, band about 2.71 % (D38; floor 2.62 %), kernel-cheap packed products (D34, SO-PACKFIX). SO-GEN3 sizes the data: about 40 digits and 1-2k terms per torus (R1 had 88 digits and 8.5k terms). Final data wait for the next certifier version (same format).
 
-**Track W** (D30, D41; [plan](blueprint-W/PLAN.md)): PDE KAM for the cubic wave equation u_tt = u_xx − m u − u³ on [0, π] (Pöschel 1996) · **15 %**
-- Statements: frozen (12 anchors; `nlw2` draft until proved) · blueprint milestones written: 4 / 9 (W0, W1, W2, W3) · proof graph: not published yet · `KAM/Wave`: 0 modules, 0 lines
+**Track W** (D30, D41; [plan](blueprint-W/PLAN.md)): PDE KAM for the cubic wave equation u_tt = u_xx − m u − u³ on [0, π] (Pöschel 1996) · **19 %**
+- Statements: frozen (12 anchors; `nlw2` draft until proved) · blueprint milestones written: 6 / 9 (W0, W1, W2, W3, W4, W7) · proof graph: not published yet · `KAM/Wave`: 0 modules, 0 lines
 
 **Frozen statements proved: 23 / 24** · frozen definitions: 134
 
@@ -438,9 +440,18 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
+| **lockdesign** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-LOCK design rev 2: answer design audit 1 (F1 total sqrtE, F2 anchored witness, F3 exact | `inp-lockdesign` | 2 (vs `inp`) |
+| **soballfix** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-BALLFIX: BallsTrig proofs repaired for the rounded ballStep (helpers ballForce_some, ba | `inp-soballfix` | 4 (vs `inp`) |
+| **socsplit** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: SO-COMPOSE-SPLIT: design audit 1 (FAIL as written: evidence, not logic; route E chaining s | `inp-socsplit` | 2 (vs `inp`) |
+| **sodata3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge branch 'inp' into inp-sodata3 | `inp-sodata3` | 5 (vs `inp`) |
+| **sokdepth** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-KDEPTH: log-depth checker traversals (balanced weightedNormUp, merge tree for directIte | `inp-sokdepth` | 10 (vs `inp`) |
+| **wgraph** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: Track W graph: slice reviews round 1 of W-w0c (FAIL), W-wh (PASS), W-w0n (FAIL) (sol, code | `inp-wgraph` | 5 (vs `inp`) |
+| **wpa** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: W1-WEIGHTED: audit handoff with focus | `inp-wpa` | 2 (vs `inp`) |
+| **wpb** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: W1-SINES: make helper ellWeight_pos private (short-name clash with inp-wpa) | `inp-wpb` | 3 (vs `inp`) |
 
-*6 finished agent sessions not shown.*
+*5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
 
 ### Recent changes on `main`
@@ -448,18 +459,18 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
-| 2026-10-30 16:17 | `55566c4e` | Land sharp-v2: lever L8' of route A (torsion against the initial torus; g1_v2A', iso_g1_v2A'; audit AUDIT-L8P-1 PASS) and plasmaLean_torus' (certified e* = 3.72e-17, 65x PlasmaLean's tolerance) |
-| 2026-10-30 15:57 | `8230b16d` | D45: Moon-lock route (owner answers to SO-LOCK-SCOPE); log: BALLDY not landed (clash with sharp-v2 BallsTrig), correction |
-| 2026-10-30 15:49 | `e507bc23` | Land inp into main |
-| 2026-10-30 15:49 | `0a9efe75` | Merge remote-tracking branch 'origin/main' |
-| 2026-10-30 15:45 | `8c3d0a7d` | Log: correct the 15:42 entry time label |
-| 2026-10-30 15:43 | `10a159ad` | Log: 15:58 (BALLDY landed; v2 certifier re-stages SO-DATA3; SO-V2PKG; SO-LOCK-SCOPE questions) |
-| 2026-10-30 15:35 | `f27c2cda` | Merge remote-tracking branch 'origin/main' |
-| 2026-10-30 15:29 | `500ba047` | Merge remote-tracking branch 'origin/main' |
-| 2026-10-30 15:27 | `0e78a618` | Log: 15:36 heartbeat (SO-BALLDY audit pass, landing; SO-DATA3 staged) |
-| 2026-10-30 15:22 | `73534ef0` | Log: owner ruling, audits stay on codex-3 |
-| 2026-10-30 15:20 | `41e560ff` | Log: 15:18 (SO-BALLDY in audit; Codex nearly exhausted) |
-| 2026-10-30 15:18 | `7654beef` | HQ: refresh stage texts of SO-1, SO-2 and W (W freeze landed, R2 package landed, D39 fixes in audit) |
+| 2026-10-30 16:28 | `2325997f` | Land inp into main |
+| 2026-10-30 16:26 | `8c52a46d` | Log: codex-1 reset; main merged with origin; SO-BALLFIX in audit |
+| 2026-10-30 16:24 | `ee00c270` | Land inp into main |
+| 2026-10-30 16:22 | `3885dfec` | Merge remote-tracking branch 'origin/main' |
+| 2026-10-30 16:19 | `a5503c54` | Log: heartbeat (codex-3 rationing; lock design round 1; KDEPTH rescoped) |
+| 2026-10-30 16:17 | `e87ed49b` | Log: correct the 16:15 entry time label |
+| 2026-10-30 16:15 | `dbc6fc86` | Log: 16:18 (SO-V2PKG: v2 makes N = 65 data cheap; DATA3 steps 2-3b; N = 80 deferred for owner review) |
+| 2026-10-30 16:11 | `52795a10` | OVERNIGHT: lock design written, audit running; owner-review items |
+| 2026-10-30 16:07 | `8c5bd93e` | Log: 16:09 heartbeat (sweep incident and fix) |
+| 2026-10-30 16:05 | `8429ae9b` | Log: 16:10 (track W overnight: errata, slim provers, graph writer) |
+| 2026-10-30 16:03 | `f1045c48` | Log: 16:02 (overnight mode; lock sub-orchestrator; W throughput) |
+| 2026-10-30 16:01 | `cdeff4f2` | HQ: lock row shows the D45 route and the lock sub-orchestrator (derived from sessions) |
 <!-- /AUTO:landed -->
 
 ## Decisions
@@ -548,13 +559,14 @@ against the pinned PDF.
 | GCB16 | 1 candidate, 2 confirmed | 0 |
 | GJLV05 | 6 confirmed | 1 planned |
 | HL19 | 1 candidate, 15 confirmed, 2 dropped | 2 adopted, 6 planned |
+| KP96 | 1 candidate, 3 confirmed | 0 |
 | LP17 | 1 confirmed | 1 adopted, 1 planned |
 | Nei76 | 1 confirmed | 3 adopted |
 | Nek77 | 3 confirmed | 5 adopted, 1 planned |
 | Pos01 | 5 confirmed | 2 planned |
 | Pos93scan | 2 candidate, 3 confirmed, 3 dropped | 3 adopted, 3 planned |
-| Pos96K | 1 confirmed | 1 adopted |
-| Pos96W | 3 confirmed | 2 adopted |
+| Pos96K | 4 confirmed | 2 adopted |
+| Pos96W | 1 candidate, 7 confirmed | 2 adopted |
 | Rus01 | 2 confirmed | 0 |
 | Rus05 | 3 confirmed | 1 planned |
 | VL22 | 1 confirmed | 0 |
@@ -775,6 +787,19 @@ against the pinned PDF.
 | E-W-Pos96W-2 | erratum | Pos96W | p. 286, proof of Lemma 4, Case 2 | The reduction misses the subcase i = j < k = l: there δ_{+−−+} ≡ 0 (paired), while δ_{−−++} = 2(λ_k − λ_i) is nonpaired and still needs a positive lower bound. Lemma 4 is true; the case needs a separate outer-pair bound. | CONFIRMED |
 | E-W-Pos96W-3 | erratum | Pos96W | p. 286, proof of Lemma 4 | The first factor 2 should be 2i: λ_{j+2i} − λ_j ≥ 2i(λ_{j+1} − λ_j) ≥ 2i f′(j) (sum of 2i increasing unit gaps). | CONFIRMED |
 | D-W-Pos96K-A4 | deviation | Pos96K | p. 147, Lemma A.4 (flows of parameter-dependent vector fields), second displayed estimate | The proof bounds the field difference at two trajectory points by ‖DX‖_V‖Δφ^s‖_U, which needs the segment between them to lie in the derivative-controlled domain (V is only open, not convex); blueprint-W supplies this: both trajectories and all Picard iterates stay in a convex ball B(w,δ) with margin 2δ, where Cauchy gives ‖DX‖ ≤ M/δ. | ADOPTED |
+| E-PDE-W-1 | erratum | Pos96W | p. 282, proof of the Main Proposition (expansion of H in z, w); propagated to p. 284 (Ḡ_ij) and pp. 290-291 (A, B, v) | Two factor-4 slips: the first line must carry (1/16) (q = (z+z̄)/√2 gives (1/√2)⁴ = ¼ on top of the ¼ of (9)), and the second line drops the remaining prefactor. Correct values: Ḡ_ii = A_ii = 9/(8πλ_i²), Ḡ_ij = A_ij = B_ji = 3/(2πλ_iλ_j), v = (3/2π)(λ_1^{-1}, …); the printed A, B, v are 16 times too large | CONFIRMED |
+| E-PDE-W-2 | erratum | Pos96W | pp. 287-290: actions (p. 287) vs p. 281, attachment α = λ, A = Ḡ and real recovery (p. 290), rotation sign (pp. 287, 289-290) | Inconsistent with p. 281 (z = (q+ip)/√2, symplectic form i Σ dz∧dz̄): (a) the recovery is q = √2 Re z, p = √2 Im z; (b) the canonical action is ∣z_j∣² = (q_j²+p_j²)/2, so with p. 287's I = ½∣z∣² one needs α = 2λ; (c) under p. 287's I the quartic matrix is 4Ḡ, not Ḡ (independent of E-PDE-W-1); (d) the source's own field gives ż = −iλz, whereas pp. 287-290 use the time-reversed ż = iωz | CONFIRMED |
+| E-PDE-KP-1 | erratum | KP96 | author version 2.1, p. 16 (normal form H∘Γ) and p. 5 Remark 2 | With the symplectic form (i/2) Σ dq∧dq̄ the canonical action is ∣q∣²/2, so ½ Σ Ḡ_ij∣q_i∣²∣q_j∣² = ½⟨(4Ḡ)I, I⟩: A = 4Ḡ = (4 − δ_ij)/π, not Ḡ. Journal printing (Ann. Math. 143 (1996)) unverified: only the author version 2.1 is pinned | CONFIRMED |
+| E-PDE-KP-2 | erratum | KP96 | author version 2.1, Theorem 1 p. 5 vs Lemma 6 p. 20 | The 'clearly' is false for some masses: with λ_j = j² + m, λ_a = 0 at m = −a² and λ_a + λ_b = 0 at m = −(a²+b²)/2 (a, b ∉ J), so condition (A₂) of Theorem 2 fails there; a gauge reduction u ↦ e^{−ict}u is the natural repair but is not given. Journal printing unverified | CONFIRMED |
+| E-W-N-1 | erratum | Pos96W | p. 280, proof of Lemma 3 | The operator norm of q ↦ Sq into the two-sided space is exactly √2 for every m > 0 (sup_j j/λ_j = 1), so the printed norm-one bound fails for every m > 0. Constant only; ‖G_q‖_{a,s+1} = O(‖q‖³) stands | CONFIRMED |
+| E-W-N-2 | erratum | KP96 | author version 2.1, p. 13, proof of Lemma 3 | The two-sided norm of the odd extension is √2‖q‖_{a,p} (same pattern as E-W-N-1). Constant only | CANDIDATE |
+| E-W-N-3 | erratum | Pos96W | p. 282, Main Proposition | Typographical: p. 284 shows the intended (6/π)(4 − δ_ij)/(λ_iλ_j); superseded in any case by E-PDE-W-1 (factor 16) | CANDIDATE |
+| E-W-N-4 | erratum | Pos96W | p. 278 (PDF p. 11), proof of Lemma 1, second line of the u_tt display | The λ_j² q_j term needs a minus sign: by (6), (7) q̈_j = −λ_j² q_j − √λ_j⟨f(u), φ_j⟩; the next printed line already has −Au | CONFIRMED |
+| E-W-N-5 | erratum | KP96 | author version 2.1, p. 13, first display in the proof of Lemma 3 | Missing factor ½: G = ½∫g(∣Sq∣²) (p. 11 (5)) and ∂∣u∣²/∂q̄_j = uφ_j give ∂G/∂q̄_j = ½∫ f(∣u∣²) u φ_j dx; p. 11 Lemma 1 is consistent with the correct value | CONFIRMED |
+| E-W-Pos96K-2 | erratum | Pos96K | p. 127 (PDF p. 10), proof of Lemma 1, divisor bound for the operator part | The Melnikov hypothesis gives α·max(1,∣i^d−j^d∣)/A_k, i.e. α·max(1,∣i−j∣)/A_k at d = 1, which is up to a factor 2 smaller than the printed α(1+∣i−j∣)/A_k; the inference 'since d ≥ 1' does not give the printed bound | CONFIRMED |
+| E-W-Pos96K-3 | erratum | Pos96K | p. 124 (PDF p. 7) definition of the mean [R]; p. 125 (PDF p. 8) homological equation | The mean omits the constant term of R, so the stated equation holds only modulo that constant; add â_0 to N̂ (or state the equation modulo constants). Vector fields are unaffected | CONFIRMED |
+| E-W-Pos96K-4 | erratum | Pos96K | p. 137 (PDF p. 20), proof of Lemma 5 | The displayed derivation does not give the factor 4: the preceding r-interval has length 8δ/∣k∣ (radius 4δ/∣k∣), and the oblique coordinates have Jacobian ∣v∣₂ = √n, not 1. Only the form c₃α/A_k is used later | CONFIRMED |
+| D-W-Pos96K-L10 | deviation | Pos96K | p. 142 (PDF p. 25), Lemma 10 | The source asserts the perturbed frequencies are 'Lipschitz close of order α' to nontrivial affine functions; its estimates give sup-closeness O(α) but only a sufficiently small unweighted Lipschitz seminorm. Blueprint-W makes the needed condition explicit as θ ≤ θ₀ (a smallness condition on γ) and keeps the measure conclusion | ADOPTED |
 
 </details>
 <!-- /AUTO:errata -->
