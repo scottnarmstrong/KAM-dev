@@ -131,6 +131,7 @@ public import KAM.CertificateSharp.Corner.Checks
 public import KAM.CertificateSharp.Corner.SupBound
 public import KAM.CertificateSharp.Corner.Vertex
 public import KAM.CertificateSharp.Engine
+public import KAM.CertificateSharp.Frame.Majorants
 public import KAM.CertificateSharp.Ham.BallsTrig
 public import KAM.CertificateSharp.Ham.SplitBounds
 public import KAM.CertificateSharp.Ham.TrigBound
@@ -140,6 +141,7 @@ public import KAM.CertificateSharp.SharpEngine
 public import KAM.CertificateSharp.Sound
 public import KAM.CertificateSharp.Tests.BallsTrig
 public import KAM.CertificateSharp.Tests.Corner
+public import KAM.CertificateSharp.Tests.Frame
 public import KAM.CertificateSharp.Tests.Margin
 public import KAM.Diophantine.Basic
 public import KAM.Diophantine.Cohomological
