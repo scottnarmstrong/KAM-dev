@@ -67,9 +67,10 @@ def engine_A(stage, tail, k, X0, a, gamma, gbar, delta0, budgets, lam, absorb_su
     # tail (v1 engine from stage k): (I1)-(I4) with e := eps_k, delta_0 := delta_k
     dk = delta0 / 2 ** k
     tl = tail
-    # tail decay: k = 0 is v1's engine (y <= 1 and the geometric delta-weights); k >= 1 is the stage engine
-    # bp:p2s2:engine with exponent p = 4 kappa (audit F5): y = 2^{4 kappa} C_E x_k <= 1/2, sums <= 2 rho w(delta_k) x_k
-    ytail = F(1) if k == 0 else F(1, 2)
+    # tail decay (audit F5): x_{s+1} = 2^{4 kappa} C_E x_s^2 (route A's own normalisation); y = 2^{4 kappa} C_E x_k <= 1
+    # with the geometric delta-weights gamma^2 delta^{a-j} (a - j >= 1) gives sums <= 2 rho w(delta_k) x_k: this is B9's
+    # SchemeA (KAM/Sharp2/RouteA/Engine.lean, routeAOk.J2), proved
+    ytail = F(1)
     if 2 ** (2 * a) * tl["CE"] * x > ytail:
         fails.append("tail E")
     for i, (coef, bound) in enumerate(tl["cond"]):
@@ -136,7 +137,7 @@ def stageA(D, o, delta, r, c, ch, cr, iso=False):
     else:
         H = 2 * M1 * Nt * Nn + tslack
     t0 = o.get("torsion_real", H)
-    c_avg = cr * (delta / r) ** int(kap) if o.get("avg_full_bite", False) else c
+    c_avg = cr * (delta / min(r, 1)) ** int(kap) if o.get("avg_full_bite", False) else c   # bite min(r, 1) (B9 flag)
     # correction (Lemma bp:p2s:correction / bpI:p2s:correction)
     if not iso:
         C_S = sT * (Nt * G(1, kap) + t0 * c_avg * Lt)
@@ -358,7 +359,7 @@ def stageB(D, o, delta, r, c, c1, cr, iso=False, stage0=None, lamL=F(1), lamW=F(
         C_DE = min(C_DE, n * stage0["e_over_mu"])
     C_NN = n * (lamL + Nt * C_E)                               # |E_red^NN| = |(N^T Om0 DE)^T| <= C_NN mu/delta
     # (3) normal correction (full-bite average, Lemma bp:p2s2sd:avg)
-    avgf = cr * (delta / r) ** kap if o.get("avg_full_bite", True) else c
+    avgf = cr * (delta / min(r, 1)) ** kap if o.get("avg_full_bite", True) else c   # full bite min(r, 1) <= r
     if not iso:
         C_0 = sT * (lamL + t0 * avgf)
     else:
@@ -741,7 +742,7 @@ def run_routeB(D, label=""):
     Tc = D["Tsup"]
     cT = D["cTh"]
     th = F(1, 16)
-    common = dict(keep_delta=True, avg_full_bite=True, theta=th)
+    common = dict(keep_delta=True, avg_full_bite=True, theta=th, selfcons=False)
     variants = [
         ("B0 modified step (L5), v1 data, cohConstR (FH24 structure)", dict(common, L1=False), "v1", 1),
         ("B1 + L1 finer data (incl. c_Th >= |T_h|)", dict(common, L1=True, cTh=cT), "v1", 1),
@@ -759,6 +760,37 @@ def run_routeB(D, label=""):
             le, d0, why = thresholdB(Dv, o, iso, k, st, ct)
             out.append(dict(variant=name, form="iso" if iso else "fixed", log10_threshold=round(le, 2), binding=why))
             print("| %s%s | %s | %.2f | %s |" % (label, name, "iso" if iso else "fixed", le, ", ".join(why)))
+    # B7: the levers of the fair comparison (design section 11): schedule ratio a, tail decay bound, L10; the best
+    # admissible choice (each is a free parameter of the theorem), floating point
+    Dv = with_caps(D, F(1, 20))
+    Dvf = {k_: (float(v) if isinstance(v, F) else v) for k_, v in Dv.items()}
+    gam = float(D["gamma"]); om = D["omega_star"]; n_, tau_ = D["n"], int(D["tau"])
+    cache = {}
+
+    def cf(d):
+        d = float(d)
+        if d not in cache:
+            cache[d] = min(sd.c_freq(om, gam, tau_, d)[0], sd.c_classical(n_, tau_, d))
+        return cache[d]
+    stf = lambda ds, r: (cf(ds), cf(ds * tau_ / (tau_ + 1)), cf(min(r, 1.0)))
+    stf.by_bite = True
+    for iso in (False, True):
+        best = (-1e9, None, None)
+        for a, k in ((F(2), 5), (F(3, 2), 9)):
+            for ym in (F(1, 2), F(9, 10)):
+                for sc in (False, True):
+                    d0 = float((D["rho"] - D["rhoinf"]) * (a - 1) / (3 * a))
+                    rk = float(D["rho"]) - 3 * d0 * (1 - float(a) ** -k) / (1 - 1 / float(a))
+                    ct = (sd.c_classical(n_, tau_, d0 / float(a) ** k), sd.c_classical(n_, tau_, min(rk, 1.0)))
+                    o = dict(common, L1=True, cTh=Dvf["cTh"], free_budgets=True, aniso=True, ratio=a, ymax=ym,
+                             selfcons=sc)
+                    le, _, why = thresholdB(Dvf, o, iso, k, stf, ct)
+                    if le > best[0]:
+                        best = (le, why, (float(a), k, float(ym), sc))
+        name = "B7 + L4' schedule ratio, J2 decay bound, L10 self-consistent eta^L (best choice %s)" % (best[2],)
+        out.append(dict(variant=name, form="iso" if iso else "fixed", log10_threshold=round(best[0], 2),
+                        binding=best[1]))
+        print("| %s%s | %s | %.2f | %s |" % (label, name, "iso" if iso else "fixed", best[0], ", ".join(best[1])))
     return out
 
 

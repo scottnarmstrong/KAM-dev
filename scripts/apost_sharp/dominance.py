@@ -26,6 +26,7 @@ A competitor "wins" at a point if its threshold exceeds v2's by more than 0.005 
 
 Usage:  python3 -I scripts/apost_sharp/dominance.py [--quick] [--grid old|ext] [--jobs J] [--json OUT]
         python3 -I scripts/apost_sharp/dominance.py --point n tau gamma rho size     (one point, with diagnosis)
+        --ablate: v2 without the levers of the fair comparison (split 1/2, ratio 2, decay 1/2, no L10)
 """
 from fractions import Fraction as F
 import json, math, os, sys, time
@@ -83,6 +84,8 @@ def v2_same_data(D, thetas=(F(1, 16), F(1, 8)), kpre=5, ratios=RATIOS, ymaxs=(F(
     Df = {k_: (float(v) if isinstance(v, F) else v) for k_, v in D.items()}
     cf = lambda d: c_nat(n, tau, d, exact=False)
     sp = tau / (tau + 1)                            # optimal Russmann-Cauchy split (the second constant is at s delta)
+    if ABLATE:                                      # the design before the fair comparison: s = 1/2, a = 2, ybar = 1/2, no L10
+        sp, ratios, ymaxs, scs = 0.5, ((F(2), 5),), (F(1, 2),), (False,)
     stf = lambda ds, r: (cf(ds), cf(sp * ds), cf(min(r, 1.0)))
     stf.by_bite = True
     lB, wB, parB = -1e9, None, None
@@ -223,6 +226,8 @@ def _point(args):
     best_comp = max(res["HL19"], res["FH24_corr"])
     return dict(n=n, tau=tau, gamma=float(g), rho=float(r), size=s, **res, margin=res["v2"] - best_comp)
 
+
+ABLATE = "--ablate" in sys.argv
 
 GRID_OLD = dict(ns=[(2, 1), (2, 2), (3, 2), (4, 3)], gammas=[F(1, 1000), F(1, 100), F(1, 10)],
                 rhos=[F(1, 1000), F(1, 100), F(1, 10)], sizes=[1, 3, 10])
