@@ -1257,3 +1257,11 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   will be one-liners; the landed 3.3 % theorems re-derived as a sanity check; no landed statement changed. Audit on
   codex-3.
 - **12:48. Heartbeat.** Landed: SO-DION (d879ee54), SO-SHARPLINK (5fc446e1). Every Lean piece for the N = 65 result except the certificate data is now on main. Running: SO-GEN3 (N = 65 package and sizing), SO-EMITFIX (kernel-reducible data). The next certifier version is not on origin yet; the final data and kernel passes wait for it. Disk 17 GB free.
+- **13:16. Owner: implement every remaining SO step while the next certifier version is built.** Since the format is
+  unchanged and the new version only sharpens the threshold, data generated now for the current sharp certifier stay
+  valid; final data generation starts as soon as SO-GEN3's parameter package and SO-EMITFIX's emitter fix are in
+  (re-sized if the new version cuts digits materially). Started: SO-FREEZE-PREP2 (claude-6; the freeze proposal
+  revised for the sharp route at N = 65, for owner approval; nothing frozen). Running: SO-GEN3 (N = 65 full study +
+  the N = 80/100 sweep), SO-EMITFIX. Queued: SO-R2 (the parameter package in Lean), SO-DATA3 (data, kernel passes,
+  final theorems), then freeze, seal, README main theorem and the SO scrub of the new modules. HQ inputs updated to the
+  N = 65 route (SO Moon 68 %: the new route's remaining packages now listed).
