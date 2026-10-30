@@ -1438,6 +1438,8 @@ public import KAM.Sharp2.Examples.PlasmaLean.Bites
 public import KAM.Sharp2.Examples.PlasmaLean.ClassicalConst
 public import KAM.Sharp2.Examples.PlasmaLean.Core
 public import KAM.Sharp2.Examples.PlasmaLean.Frequency
+public import KAM.Sharp2.Examples.PlasmaLean.NonVacuous
+public import KAM.Sharp2.Examples.PlasmaLean.Witness
 public import KAM.Sharp2.Examples.PlasmaLean
 public import KAM.Sharp2.Geometry
 public import KAM.Sharp2.L1.Data
