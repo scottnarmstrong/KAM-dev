@@ -62,7 +62,9 @@ public import KAM.Sharp2.RouteA.Scheme
 public import KAM.Sharp2.RouteA.Step
 public import KAM.Sharp2.RouteA.Torsion
 public import KAM.Sharp2.RouteB.Data
+public import KAM.Sharp2.RouteB.Local
 public import KAM.Sharp2.RouteB.Sched
+public import KAM.Sharp2.RouteB.Scheme
 public import KAM.Sharp2.SmallDiv.Abel
 public import KAM.Sharp2.SmallDiv.Bound
 public import KAM.Sharp2.SmallDiv.Classical

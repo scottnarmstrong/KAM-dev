@@ -20,8 +20,9 @@ With `gᴸ = T ξᴺ + ω ξ^ω - ηᴸ` (`gLI`) and `ξᴸ = 𝓡 gᴸ` (`xiLI`
 * `phi_mem`: `θ + ξᴸ(θ) ∈ T_{a+δ}` for `θ ∈ T_a`, `a ≤ r - 2δ`;
 * `Kb_holo`, `Kb_primary`, `Kb_real`: `K̄ = K̃ ∘ (id + ξᴸ)` is holomorphic, primary and real on
   `T_{r-2δ}`;
-* `Kb_sub_le`, `Kb_mem`: `|K̄ - K| ≤ |L̃| |ξᴸ| + |K̃ - K| ≤ C_ΔK μ/(γ δ^κ) < β` (mean value
-  inequality on the convex strip `T_{r-δ}`).
+* `Kb_sub_le`, `Kb_mem`: `K̄ - K = (K ∘ φ - K) + (N ξᴺ) ∘ φ`, so
+  `|K̄ - K| ≤ σ_K |ξᴸ| + |K̃ - K| ≤ C_ΔK μ/(γ δ^κ) < β` (mean value inequality for `K` on the convex
+  strip `T_{r-δ}`, where `|DK| ≤ σ_K`; SHARP2-DOMPLUS).
 -/
 
 @[expose] public noncomputable section
@@ -163,20 +164,22 @@ theorem Kb_sub_le : ∀ θ ∈ complexStrip n (r - 2 * δ),
   have hφ := H.phi_mem hS le_rfl hθ
   rw [show r - 2 * δ + δ = r - δ by ring] at hφ
   rw [newK_of_mem hθ]
+  -- `K̄ - K = (K ∘ φ - K) + (N ξᴺ) ∘ φ`; the segment `[θ, φ(θ)]` lies in `T_{r-δ}`, `|DK| ≤ σ_K`
   have hmvt := Convex.norm_image_sub_le_of_norm_fderiv_le (𝕜 := ℂ)
-    (fun x hx => H.Kt_diffAt hS x hx) (fun x hx => by
-      rw [← norm_colMat]; exact (H.Lt_le hS x hx).1) (convex_complexStrip n (r - δ)) hθ1 hφ
+    (fun x hx => H.K_diffAt x (H.sub1 hx)) (fun x hx => H.fderiv_le x (H.sub1 hx))
+    (convex_complexStrip n (r - δ)) hθ1 hφ
   rw [add_sub_cancel_left] at hmvt
-  have h1 : ‖tilK h K ω E₀ (θ + xiLI h K ω E₀ θ) - tilK h K ω E₀ θ‖ ≤
-      sKt p * (sCxiL p * (mu p γ εL εN δ / (γ * δ ^ p.κ))) :=
-    hmvt.trans (mul_le_mul_of_nonneg_left (H.xiL_le hS θ hθ) (nn_sKt H.ok))
-  have h2 : ‖tilK h K ω E₀ θ - K θ‖ ≤ sg p * sCKt p * (mu p γ εL εN δ / (γ * δ ^ p.κ)) := by
-    refine (H.Kt_sub_le hS θ hθ1).trans ?_
+  have h1 : ‖K (θ + xiLI h K ω E₀ θ) - K θ‖ ≤
+      p.sK * (sCxiL p * (mu p γ εL εN δ / (γ * δ ^ p.κ))) :=
+    hmvt.trans (mul_le_mul_of_nonneg_left (H.xiL_le hS θ hθ) H.ok.caps.1.le)
+  have h2 : ‖tilK h K ω E₀ (θ + xiLI h K ω E₀ θ) - K (θ + xiLI h K ω E₀ θ)‖ ≤
+      sg p * sCKt p * (mu p γ εL εN δ / (γ * δ ^ p.κ)) := by
+    refine (H.Kt_sub_le hS _ hφ).trans ?_
     calc sCKt p * mu p γ εL εN δ ≤ sCKt p * (sg p * (mu p γ εL εN δ / (γ * δ ^ p.κ))) :=
           mul_le_mul_of_nonneg_left H.mu_le_g_mu_div (nn_sCKt H.ok)
       _ = _ := by ring
-  calc _ = ‖(tilK h K ω E₀ (θ + xiLI h K ω E₀ θ) - tilK h K ω E₀ θ) +
-        (tilK h K ω E₀ θ - K θ)‖ := by abel_nf
+  calc _ = ‖(K (θ + xiLI h K ω E₀ θ) - K θ) +
+        (tilK h K ω E₀ (θ + xiLI h K ω E₀ θ) - K (θ + xiLI h K ω E₀ θ))‖ := by abel_nf
     _ ≤ _ := (norm_add_le _ _).trans (add_le_add h1 h2)
     _ = sCDK p * (mu p γ εL εN δ / (γ * δ ^ p.κ)) := by rw [sCDK]; ring
 

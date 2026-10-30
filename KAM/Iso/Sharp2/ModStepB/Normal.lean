@@ -106,10 +106,12 @@ theorem Y_props : DifferentiableOn ℂ (energyRow h K) (complexStrip n r) ∧
   · have hz' : z + Pi.single i 1 ∈ complexStrip n r :=
       add_mem_complexStrip_of_im_eq_zero hz fun j => by
         simp only [Pi.single_apply]; split_ifs <;> simp
-    rw [LastRowAux.energyRow_eq_sub_etaL (ω := ω) (H.gram _ hz'), LastRowAux.energyRow_eq_sub_etaL (ω := ω) (H.gram _ hz),
+    rw [LastRowAux.energyRow_eq_sub_etaL (ω := ω) (H.gram _ hz'),
+      LastRowAux.energyRow_eq_sub_etaL (ω := ω) (H.gram _ hz),
       hηp i z hz]
   · have hx := ofReal_mem_complexStrip H.r_pos x
-    rw [LastRowAux.energyRow_eq_sub_etaL (ω := ω) (H.gram _ hx), Pi.sub_apply, Complex.sub_im, hηr x i]
+    rw [LastRowAux.energyRow_eq_sub_etaL (ω := ω) (H.gram _ hx), Pi.sub_apply, Complex.sub_im,
+      hηr x i]
     simp
 
 /-- The bordered triangular system of v1 for `ηᴸ, ηᴺ, T, Y, η^ω` (`KAM.Iso.Linear.border_solve`):
@@ -252,7 +254,7 @@ theorem Kt_scale : sCKt p * mu p γ εL εN δ < β := by
   have h1 : sCKt p * mu p γ εL εN δ ≤ sCDK p * (mu p γ εL εN δ / (γ * δ ^ p.κ)) := by
     have hgK : sg p * sCKt p ≤ sCDK p := by
       rw [sCDK]
-      have := mul_nonneg (nn_sKt H.ok) (nn_sCxiL H.ok)
+      have := mul_nonneg H.ok.caps.1.le (nn_sCxiL H.ok)
       linarith
     calc sCKt p * mu p γ εL εN δ ≤ sCKt p * (sg p * (mu p γ εL εN δ / (γ * δ ^ p.κ))) :=
           mul_le_mul_of_nonneg_left H.mu_le_g_mu_div (nn_sCKt H.ok)
