@@ -29,6 +29,9 @@ def main(which, outdir, stage1_iters=8, stage2_iters=10):
     vre, vim = H1.vhat_from_double(v)
     vre, vim, er, ei, h1 = H1.run(vre, vim, v, eps, stage1_iters, tag=f"{which}[256x64]", log=log)
     pickle.dump(dict(vre=vre, vim=vim, hist=h1), open(f"{outdir}/{which}_256.pkl", "wb"))
+    if os.environ.get("SO_HP_STAGE1_ONLY") == "1":     # SO-GEN3: the 256x64 stage (alias floor ~1e-46) suffices
+        log(f"{which}: total {time.time()-t0:.0f}s (stage 1 only)")
+        return
     H2 = HP(512, 128, which)
     vre, vim = embed(vre, vim, 256, 64, 512, 128)
     # double base for the Jacobian: interpolate from the hp coefficients
