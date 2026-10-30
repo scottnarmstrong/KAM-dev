@@ -2019,3 +2019,16 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     re-verified identical; originals renamed aside, then symlinked. `lake build --no-build` confirmed the heavy
     built modules are up to date through the symlinks; originals deleted.
   - / at 9.0 GB. The driver's disk stop is lowered to 6 GB, since new data output goes to the volume.
+- **23:49. Heartbeat.**
+  - SO-DATA3: both kernel lanes are building, with output on the HC volume; / at 15 GB.
+    - The upper torus's l = 12 bite was killed at lane 2's 8 GB cap. It needs about 9.5 GB, as on the lower torus
+      under the 10 GB cap, so it is headroom, not a proof problem.
+    - The bite modules now queue in lane 1 under the 10 GB cap, so no two 10 GB runs overlap.
+    - Lower torus: the l = 12 bite, SiteB2 and Core are done.
+  - LOCK-DATA (non-kernel):
+    - the charWit(1,0) radius is down to 8.2e-23;
+    - support scan: D100×20 4.2e-22, D110×22 3.3e-24, about 2–4 orders under the threshold estimates, so no
+      amplitude or N change is expected;
+    - a ham/box scale mismatch is fixed (c = 1000001/10^6, accepted by the landed LockGraphCert);
+    - the exact sizing pass is in energy/Gram; then the threshold, the support choice, generation and the ledger.
+  - W paused. Quotas checked.
