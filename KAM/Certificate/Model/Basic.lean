@@ -6,6 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.Certificate.Poly.Basic
+public import KAM.Certificate.Arith.BalancedSum
 public import KAM.Certificate.Arith.Roots
 public import KAM.Certificate.Arith.Transcendental
 public import KAM.Frozen.Defs.ComplexStrip
@@ -90,10 +91,10 @@ section SupBound
 
 variable {α : Type} [CertArith α]
 
-/-- `Σ |c_k| w^{|k|₁}` over the terms, rounded upward (`|k|₁` of the stored list). -/
+/-- `Σ |c_k| w^{|k|₁}` over the terms, rounded upward (`|k|₁` of the stored list), summed as a
+balanced tree (`sumUp`), so the kernel reduces it at depth about `log₂` of the term count. -/
 def CertPoly.weightedNormUp (W : CertWeight) (P : CertPoly α) : α :=
-  P.terms.foldr (fun t acc =>
-    upAdd (upMul t.2.normUp (ofRatUp (W.w ^ (t.1.map Int.natAbs).sum))) acc) (ofInt 0)
+  sumUp (fun t => upMul t.2.normUp (ofRatUp (W.w ^ (t.1.map Int.natAbs).sum))) P.terms
 
 /-- A rational upper bound of `(2π)^d`: `piUpQ` if `d ≥ 0`, `piLoQ` if `d < 0`. -/
 def degFactorUp (d : ℤ) : ℚ := if 0 ≤ d then (2 * piUpQ) ^ d else (2 * piLoQ) ^ d
@@ -169,6 +170,51 @@ theorem weightedNormUp_bound [LawfulCertArith α] {n : ℕ} {W : CertWeight} {s 
       mul_le_mul_of_nonneg_left hr hn
     linarith
 
+/-- The bound of the balanced `weightedNormUp`: nonnegative, and above `|Σ c_k χ_k|` on the
+strip. -/
+theorem CertPoly.weightedNormUp_ge [LawfulCertArith α] {n : ℕ} {W : CertWeight} {s N : ℕ}
+    (hW : checkWeight W s N = true) (P : CertPoly α) {θ : Fin n → ℂ}
+    (hθ : θ ∈ complexStrip n W.rho) :
+    0 ≤ val (P.weightedNormUp W) ∧
+      ‖(P.terms.map fun t => t.2.toC * character (certKeyFun n t.1) θ).sum‖ ≤
+        val (P.weightedNormUp W) := by
+  have hterm : ∀ t : CertKey × CC α,
+      0 ≤ val (upMul t.2.normUp (ofRatUp (W.w ^ (t.1.map Int.natAbs).sum)) : α) ∧
+      ‖t.2.toC * character (certKeyFun n t.1) θ‖ ≤
+        val (upMul t.2.normUp (ofRatUp (W.w ^ (t.1.map Int.natAbs).sum)) : α) := by
+    intro t
+    have hw1 := CertWeight.one_le_w hW
+    have hq : (0 : ℝ) ≤ ((W.w ^ (t.1.map Int.natAbs).sum : ℚ) : ℝ) := by
+      have : (0 : ℝ) ≤ W.w := by linarith
+      push_cast; positivity
+    have hr := LawfulCertArith.ofRatUp_ge (α := α) (W.w ^ (t.1.map Int.natAbs).sum)
+    have hn := CC.normUp_nonneg t.2
+    have hm := LawfulCertArith.upMul_ge t.2.normUp
+      (ofRatUp (W.w ^ (t.1.map Int.natAbs).sum)) hn (hq.trans hr)
+    have hc : ‖t.2.toC * character (certKeyFun n t.1) θ‖ ≤
+        val t.2.normUp * ((W.w : ℝ) ^ (t.1.map Int.natAbs).sum) := by
+      rw [norm_mul]
+      refine mul_le_mul (CC.norm_le_normUp t.2) ((norm_character_le_weight hW _ hθ).trans ?_)
+        (norm_nonneg _) hn
+      exact pow_le_pow_right₀ hw1 (sum_natAbs_certKeyFun_le n t.1)
+    push_cast at hq hr hm
+    have : val t.2.normUp * ((W.w : ℝ) ^ (t.1.map Int.natAbs).sum) ≤
+        val t.2.normUp * val (ofRatUp (W.w ^ (t.1.map Int.natAbs).sum) : α) :=
+      mul_le_mul_of_nonneg_left hr hn
+    exact ⟨by nlinarith [mul_nonneg hn (hq.trans hr)], by linarith⟩
+  have hs := sumUp_ge (fun t : CertKey × CC α =>
+    upMul t.2.normUp (ofRatUp (W.w ^ (t.1.map Int.natAbs).sum))) P.terms
+  refine ⟨le_trans (List.sum_nonneg fun x hx => ?_) hs, ?_⟩
+  · obtain ⟨t, -, rfl⟩ := List.mem_map.mp hx
+    exact (hterm t).1
+  · refine le_trans ?_ hs
+    clear hs
+    induction P.terms with
+    | nil => simp
+    | cons t L ih =>
+      simp only [List.map_cons, List.sum_cons]
+      exact (norm_add_le _ _).trans (add_le_add (hterm t).2 ih)
+
 theorem CertModel.norm_le_supBound [LawfulCertArith α] {n : ℕ}
     {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true) {m : CertModel α}
     {f : (Fin n → ℂ) → ℂ} (hm : m.Encloses n W.rho f) {θ : Fin n → ℂ}
@@ -179,7 +225,7 @@ theorem CertModel.norm_le_supBound [LawfulCertArith α] {n : ℕ}
     have h0 : (0 : Fin n → ℂ) ∈ complexStrip n W.rho := fun i => by simpa using hρ
     have := (norm_nonneg _).trans (hm 0 h0)
     exact nonneg_of_mul_nonneg_right this h2pi
-  obtain ⟨hS0, hS⟩ := weightedNormUp_bound hW m.poly.terms hθ
+  obtain ⟨hS0, hS⟩ := m.poly.weightedNormUp_ge hW hθ
   have hS0' : 0 ≤ val (m.poly.weightedNormUp W) := hS0
   have hadd := LawfulCertArith.upAdd_ge (m.poly.weightedNormUp W) m.rad
   have hF : (0 : ℝ) ≤ (degFactorUp m.deg : ℝ) := h2pi.le.trans (two_pi_zpow_le _)
