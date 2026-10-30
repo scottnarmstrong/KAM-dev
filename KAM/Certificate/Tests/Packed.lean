@@ -90,6 +90,30 @@ theorem packedTest_sound2 :
       2 ^ 4 * packedTestAdv2.combined.getD 8 0| ≤ 2 ^ 4 :=
   ((checkPackedProduct_sound packedTest_pass2).2 8 (by decide +kernel)).1 (by decide +kernel)
 
+/-- The sparse route on the same product: the terms' slots, the sparse check, and the bridge
+to the dense check (the dense lists are the linear fills of the terms). -/
+theorem packedTest_sparse2 :
+    packedTestLay2.slotTerms packedTestA2 = [(0, 3), (1, -5), (2, 7), (5, 2), (6, 11), (7, -4)] ∧
+      checkPackedSp packedTestAdv2 (packedTestLay2.slotTerms packedTestA2)
+        (packedTestLay2.slotTerms packedTestB2) = true := by
+  decide +kernel
+
+theorem packedTest_sparse2_dense :
+    checkPackedProduct packedTestAdv2 (packFill packedTestLay2.denseLen 0
+      (packedTestLay2.slotTerms packedTestA2))
+      (packFill packedTestLay2.denseLen 0 (packedTestLay2.slotTerms packedTestB2)) = true :=
+  checkPackedSp_dense packedTest_sparse2.2
+
+/-- Negative (sparse): one changed advice slot is rejected; so are descending slots. -/
+theorem packedTest_sparse2_rejects :
+    checkPackedSp ⟨packedTestLay2, packedTestLay2, packedTestTarget2, 4,
+        [[1, -2, 1, 3, -4, 0, 0, 0, 0], [0, 7, -5, -4, 5, 0, 0, 0, 0],
+          [0, -1, 7, 1, -1, 0, 0, 0, 0]], 0⟩
+        (packedTestLay2.slotTerms packedTestA2) (packedTestLay2.slotTerms packedTestB2) = false ∧
+      checkPackedSp packedTestAdv2 (packedTestLay2.slotTerms packedTestA2).reverse
+        (packedTestLay2.slotTerms packedTestB2) = false := by
+  decide +kernel
+
 /-- A fixed-point polynomial with the given real mantissas (scale `2^4`). -/
 def packedTestRe (cs : List (CertKey × ℤ)) : CertPoly (CertFixed 4) :=
   ⟨cs.map fun t => (t.1, ⟨⟨t.2⟩, ⟨0⟩⟩)⟩

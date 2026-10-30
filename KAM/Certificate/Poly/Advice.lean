@@ -226,14 +226,45 @@ theorem packMaxAbsAux_eq : ∀ (m : ℕ) (l : List ℤ), packMaxAbsAux m l = max
     · rw [packMaxAbsAux_eq]; omega
     · rw [packMaxAbsAux_eq]; omega
 
+/-- `packLenLe` on each of the first `n` blocks (no copy of the prefix). -/
+def packLenLeBlocks (L : ℕ) : ℕ → List (List ℤ) → Bool
+  | 0, _ => true
+  | _ + 1, [] => true
+  | n + 1, x :: xs => packLenLe x L && packLenLeBlocks L n xs
+
+theorem packLenLeBlocks_eq (L : ℕ) : ∀ (n : ℕ) (C : List (List ℤ)),
+    packLenLeBlocks L n C = (C.take n).all fun x => packLenLe x L
+  | 0, _ => by simp [packLenLeBlocks]
+  | _ + 1, [] => by simp [packLenLeBlocks]
+  | n + 1, x :: xs => by simp [packLenLeBlocks, packLenLeBlocks_eq L n xs]
+
+/-- `max m (maxAbs (C.take n).flatten)`, block by block (no copy of the prefix). -/
+def packMaxBlocks : ℕ → ℕ → List (List ℤ) → ℕ
+  | m, 0, _ => m
+  | m, _ + 1, [] => m
+  | m, n + 1, x :: xs => packMaxBlocks (packMaxAbsAux m x) n xs
+
+theorem maxAbs_append (a b : List ℤ) : maxAbs (a ++ b) = max (maxAbs a) (maxAbs b) := by
+  induction a with
+  | nil => simp [maxAbs]
+  | cons c a ih =>
+    simp only [List.cons_append, maxAbs, List.foldr_cons] at ih ⊢
+    rw [ih, max_assoc]
+
+theorem packMaxBlocks_eq : ∀ (m n : ℕ) (C : List (List ℤ)),
+    packMaxBlocks m n C = max m (maxAbs (C.take n).flatten)
+  | m, 0, _ => by simp [packMaxBlocks, maxAbs]
+  | m, _ + 1, [] => by simp [packMaxBlocks, maxAbs]
+  | m, n + 1, x :: xs => by
+    rw [packMaxBlocks, packMaxBlocks_eq, packMaxAbsAux_eq, List.take_succ_cons,
+      List.flatten_cons, maxAbs_append, max_assoc]
+
 /-- Cheap sufficient test that the exact shard convolution fits the slots:
 `2 · (s + 1) · L · max|A| · max|B| < 2^w` (maxima over the blocks `0, …, s`, which are checked to
 have at most `L` slots). -/
 def shardFits (w L : ℕ) (A B : List (List ℤ)) (s : ℕ) : Bool :=
-  ((A.take (s + 1)).all fun x => packLenLe x L) &&
-    ((B.take (s + 1)).all fun x => packLenLe x L) &&
-    decide (2 * (s + 1) * L * packMaxAbsAux 0 (A.take (s + 1)).flatten *
-      packMaxAbsAux 0 (B.take (s + 1)).flatten < 2 ^ w)
+  packLenLeBlocks L (s + 1) A && packLenLeBlocks L (s + 1) B &&
+    decide (2 * (s + 1) * L * packMaxBlocks 0 (s + 1) A * packMaxBlocks 0 (s + 1) B < 2 ^ w)
 
 theorem maxAbs_le_of_forall {cs : List ℤ} {M : ℕ} (h : ∀ c ∈ cs, c.natAbs ≤ M) :
     maxAbs cs ≤ M := by
@@ -268,8 +299,8 @@ theorem length_getD_le_take {C : List (List ℤ)} {i s L : ℕ} (hi : i ≤ s)
 
 theorem slotsBounded_shardConv {w L : ℕ} {A B : List (List ℤ)} {s : ℕ}
     (h : shardFits w L A B s = true) : SlotsBounded w (shardConv L A B s) := by
-  simp only [shardFits, Bool.and_eq_true, decide_eq_true_eq, packMaxAbsAux_eq,
-    Nat.zero_max] at h
+  simp only [shardFits, Bool.and_eq_true, decide_eq_true_eq, packMaxBlocks_eq,
+    packLenLeBlocks_eq, Nat.zero_max] at h
   obtain ⟨⟨hlA, hlB⟩, hfit⟩ := h
   set mA := maxAbs (A.take (s + 1)).flatten
   set mB := maxAbs (B.take (s + 1)).flatten
