@@ -293,3 +293,12 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - The lunar certificate is to move to the sharp certifier (owner, coordinated with the SO orchestrator).
   - Continuing on later branches: v2 (uniform dominance over published explicit theorems), checker-side sharpness,
     frequency-specific small-divisor constants, applications study.
+- **D37 (2026-10-30, 11:45) Lunar band target 2.8–2.9 %, with the sharp certifier.** *(Scott: "There is a MUCH sharper
+  certificate theorem now and this should make our lunar SO project much easier, in fact, we can shoot for below 3%
+  now I think. Maybe 2.8-2.9%".)*
+  - The lunar certificate moves to the sharp certifier `checkTorusCertificateSharp` (D36; same certificate, same
+    sub-checks, sharp smallness test; threshold about 1e-25 instead of 1e-75 for R1).
+  - Target: barriers at ν± = 1 ± 1/(N+g), g = (√5−1)/2, N ≈ 50 (band about 2.9 %, primary) or 55–60 (about 2.8 %,
+    stretch); floor 2.62 % (separatrix), per docs/explorations/lunar-band-2p8-2p9.md. SO-GEN3 computes the tori, a new
+    parameter package for the sharp constants, the data sizes and the certified band; the R1 lunar data
+    (87 digits, 3.3 %) are superseded. The frozen statements (freeze proposal) will use the new band.

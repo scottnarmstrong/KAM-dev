@@ -159,10 +159,10 @@
   "N": "**complete**: all six frozen theorems sealed (the last, partialConvex_nekhoroshev, on 2026-10-29); every graph node resolved (one convention accepted under D31, three blueprint steps repaired under D32)",
   "P": "**complete**: all seven frozen theorems sealed (the last, planetaryExponentialSafety, on 2026-10-29); every graph node resolved (two conventions accepted by owner ruling D31)",
   "SO-1": "every engine module and the certificate checker landed; the soundness theorem (a passing certificate yields an invariant torus, through the sealed isoenergetic theorem) proved 2026-10-29 21:40, in independent audit; toy certificates next",
-  "SO-2": "model, Diophantine frequencies, clock, rotated frame, barriers and graph inversion landed; parameter package R1 and the advice data confirmed numerically; the Python mirror is being aligned with the landed checker before the lunar data are generated"
+  "SO-2": "moving to the sharp certifier (D36) with a target band of 2.8–2.9 % (D37): new tori closer to the resonance and a new parameter package being computed (SO-GEN3); model, frequencies, clock, rotated frame, barriers, graph certificates and the parametric final assembly landed"
  },
  "so": {
-  "goal": "a general Lean certificate checker that turns numerical KAM tori into theorems; first client: the Moon's spin rate stays within 3.3% of its orbital rate (|p(t) − 1| ≤ 33/1000) for all time.",
+  "goal": "a general Lean certificate checker that turns numerical KAM tori into theorems; first client: the Moon's spin rate stays within 2.8–2.9 % of its orbital rate (target band, D37; the earlier milestone was 3.3 %) for all time.",
   "planned_lines": "≈ 18,500 lines, 21,500–23,000 with overrun",
   "packages": [
    "SO-DIO",

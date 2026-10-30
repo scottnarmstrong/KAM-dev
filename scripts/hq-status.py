@@ -312,7 +312,7 @@ def so_glance():
            f'exact invariant torus. `KAM/Certificate`: {nc} modules · {lc:,} lines. '
            f'**Packages landed: {len(p1["landed"])} / {len(p1["packages"])}**.',
            "- **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays "
-           'within 3.3 % of its orbital rate for all time. `KAM/SpinOrbit` and the data generator: '
+           'within 3 % of its orbital rate for all time (target 2.8–2.9 %, D37). `KAM/SpinOrbit` and the data generator: '
            f'{ns} modules · {ls:,} lines. **Packages landed: {len(p2["landed"])} / {len(p2["packages"])}**.',
            f'- Design estimate for both: {so["planned_lines"]}; landed: {", ".join(so["landed"])}.']
     if flight['inp-mprov-'] or flight['inp-maud-']:
@@ -436,7 +436,7 @@ TRACKS = [
     ('P', 'planetary', 'Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun'),
     ('R', 'russmann', "Rüssmann's KAM theorem under weak non-degeneracy: invariant tori fill all but κ of phase space"),
     ('SO-1', 'so', 'Track SO, part 1: a general Lean certificate checker turning numerical KAM tori into theorems'),
-    ('SO-2', 'so', 'Track SO, part 2: the Moon\'s spin rate stays within 3.3% of its orbital rate for all time'),
+    ('SO-2', 'so', 'Track SO, part 2: the Moon\'s spin rate stays within 2.8–2.9 % of its orbital rate for all time (D37)'),
 ]
 
 
