@@ -477,7 +477,7 @@ def stageB(D, o, delta, r, c, c1, cr, iso=False, stage0=None, lamL=F(1), lamW=F(
         rates["nu"] = (Theta * C_0, "gd1")
     QL = QL1 + C_Nbt * C_Eb                                    # crude: |(N_bar - N)^T Om0 E_bar| <= C_Nbt X C_Eb mu
     QL_sc = None
-    if o.get("selfcons", True):
+    if o.get("selfcons", False):                              # option L10 (off by default)
         # self-consistent tangential error (L10, step:p2s2:selfcons): |E_bar| <= C_EL |eta_bar^L| + C_EN |eta_bar^N| (recovery for
         # K_bar on T_{r-3delta}; Omega_K_bar = D phi^T (Omega_K~ o phi) D phi, |Omega_K_bar| <= (1 + n th_xi)^2 C_Omega Q~_N g X^2)
         thN = o.get("theta_N", F(1, 8))

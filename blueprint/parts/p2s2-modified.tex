@@ -231,7 +231,7 @@ All constants are polynomials with nonnegative coefficients in $(c,c',c_{\mathrm
 such, and $(1-x)^{-1}$ of the fixed ratios ($C^N_E/C^L_E$ depends on the caps and $q$ only): they are nondecreasing in each argument, in
 particular in $\delta$ and in $c_{\mathrm{avg}}$ for fixed small-divisor constants. This monotonicity is what the engine uses for the tail
 (Proposition~\ref{bp:p2s2:engine}); the earlier iso increment of $\bar Q_N$ with $1/C_{\xi L}$, which violated it (SHARP2-B3), is replaced in
-Definition~\ref{bpI:p2s2:constants}.
+the isoenergetic Definition \texttt{bpI:p2s2:constants} (\texttt{blueprint-I}).
 
 \begin{proposition}[The modified step]\label{bp:p2s2:step}
 Assume the standing hypotheses (Assumption~\ref{bp:p2s2:standing}: $\mathfrak B$ open and translation invariant, $h$ holomorphic, $1$-periodic
@@ -376,7 +376,7 @@ These are the constants of Definition~\ref{bp:p2s:constants} with the following 
 \item (L8) the barred factors in the perturbation are bounded by the caps (no $\hat\vartheta^k$); budgets per cap.
 \item (L8$'$, $k\ge1$) the torsion against the initial torus (Lemma~\ref{bp:p2s2:torsion-ref}): the cap $\mathrm{Tab}$ with the rate $C_{\Delta ab}C_{\Delta K}/\eta$ (the
   $\mathcal T_{ab}$ part of $C_{\Delta T}$), the local bound $B_{\mathrm{loc}}=C_{T1}\bar\gamma^4\delta^{2a-1}+C_{T2}\bar\gamma^3\delta^{2a-\varkappa-1}$ per unit $x$ (Lemma~\ref{bp:p2s:torsion-bound}),
-  no Neumann condition for $\avg{\bar T}$; iso: the bordered maxima of Definition~\ref{bpI:p2s2:constants}.
+  no Neumann condition for $\avg{\bar T}$; iso: the bordered maxima of the isoenergetic Definition \texttt{bpI:p2s2:constants} (\texttt{blueprint-I}).
 \end{enumerate}
 The engine is Proposition~\ref{bp:p2s2:engine} with $a=2$, $p=4\varkappa$ and $\bar y=\frac12$ (audit F5): route A's normalized error
 $x_s=\varepsilon_s/(\gamma^4\delta_s^{4\varkappa})$ is the engine's $X$ with $\mu:=\varepsilon/\gamma^3$ and exponent $4\varkappa$ (\Lean{xSeq} with $\varkappa_e=4\varkappa-1$), so
@@ -470,10 +470,13 @@ leading-order coefficient of the new error (\texttt{step0\_actual.py}), not an e
 \begin{remark}[Register, deviations and suspected errata]\label{bp:p2s2:register}
 \begin{enumerate}[label=(\roman*)]
 \item \emph{Numbers} (\texttt{thresholds\_v2.py}, after the repairs; design document \S11): R1 fixed/iso: v1 $-24.72/-24.98$; route A
-  $-10.71/-10.95$ (binding: the $\mathrm{Tab}$ sum); route B $-12.25/-12.33$ (binding: the tail decay). H50: v1 $-27.19/-27.37$, route A
-  $-11.73/-11.90$, route B $-13.05/-13.13$. Hybrid (heuristic extrapolation assuming certified first-step transfer): about $-4.2$ (A) to $-5.0$ (B).
-\item \emph{Fair dominance} (\texttt{dominance.py}, competitors with $c^\natural$ at their own bites, design document \S11): see the design document for
-  the grid, the minimum margin and the levers that remove FH24's wins (schedule ratio, optimal split, decay bound, L10).
+  $-11.18/-11.37$ as proved (SHARP2-B9) and $-10.71/-10.95$ with (L8$'$) (binding: the $\mathrm{Tab}$ sum); route B $-12.25/-12.33$ (binding: the
+  tail decay). H50: v1 $-27.19/-27.37$, route A $-12.29/-12.44$ (proved) and $-11.73/-11.90$ with (L8$'$), route B $-13.05/-13.12$. Hybrid
+  (heuristic extrapolation assuming certified first-step transfer): about $-4.2$ (A) to $-5.0$ (B).
+\item \emph{Fair dominance} (\texttt{dominance.py}, every competitor with $c^\natural$ at its own bites, optimised free parameters, erratum (3.72)
+  corrected): on $720$ points ($n\le6$, $\tau\le5$, $\gamma\in[10^{-6},10^{-1}]$, $\rho\in[10^{-3},0.3]$, sizes $1$--$30$) no competitor wins; minimum margin
+  $+0.80$ orders, median $+3.36$. Without the levers of the fair comparison (schedule ratio $a$, split $s_\varkappa$, decay bound $\bar y$, L10)
+  corrected FH24 wins at $53$ of the $108$ points of the earlier grid (worst $-0.47$): the levers are necessary.
 \item \emph{Deviations from FH24.} The frozen torsion instead of $N^\top T_hN$ (no $E^{LN}_{\mathrm{red}}$); the torsion against the initial torus
   (Lemma~\ref{bp:p2s2:torsion-ref}; FH24 bound $\bar T-T$); the self-consistent tangential error (L10); caps for the intermediate frame of $\tilde K$ with
   ratio $\vartheta$ (FH24 bound $\abs{D\xi^L}<n$ in (3.80), here $n\vartheta_\xi$); the anisotropic weight $\lambda_0$ at stage $0$ (FH24: $\lambda=1$); stage constants and

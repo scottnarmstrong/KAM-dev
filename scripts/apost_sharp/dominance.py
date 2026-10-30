@@ -346,7 +346,9 @@ def plasmalean():
                 cf = sd.c_freq(om, gam, 1, float(delta0))[0]
                 cr_ = sd.c_freq(om, gam, 1, float(D["rho"]))[0]
                 st = lambda s, cf=cf, cr_=cr_: (cf, cf, cr_)
-                ct = float(T2.Fr(sd.c_classical(2, 1, float(delta0) / 32)))
+                rk = float(D["rho"]) - 6 * float(delta0) * (1 - 2 ** -5)
+                ct = (float(T2.Fr(sd.c_classical(2, 1, float(delta0) / 32))),   # tail: every bite <= delta_k, and
+                      float(T2.Fr(sd.c_classical(2, 1, min(rk, 1.0)))))          # every full bite r_j <= r_k (F9)
                 pen = 0.0
             else:                                       # L9: SHARP-L9's certified c_inf = Gamma_inf gamma delta^tau, flat
                 cinf = 0.00123                          # (docs/campaign/handoffs/SHARP-L9.md, PlasmaLean's frequency)
@@ -360,9 +362,10 @@ def plasmalean():
             lA = T2.thresholdA(Dv, oA, False, k=5, c_stage=st, c_tail=ct)[0] - pen
             lB = -1e9
             for th in (F(1, 16), F(1, 8)):
-                oB = dict(L1=True, keep_delta=True, avg_full_bite=True, aniso=True, theta=th, cTh=Dv["cTh"],
-                          free_budgets=True)
-                lB = max(lB, T2.thresholdB(Dv, oB, False, 5, st, ct)[0] - pen)
+                for sc in (False, True):                # option L10 is a free choice of the theorem
+                    oB = dict(L1=True, keep_delta=True, avg_full_bite=True, aniso=True, theta=th, cTh=Dv["cTh"],
+                              free_budgets=True, selfcons=sc)
+                    lB = max(lB, T2.thresholdB(Dv, oB, False, 5, st, ct)[0] - pen)
             best = max(lA, lB)
             rows.append(dict(norms=tag, small_divisors=which, A=lA, B=lB, best=best,
                              margin=best - PLASMALEAN["log10_tolerance"]))
