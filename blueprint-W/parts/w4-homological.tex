@@ -57,7 +57,9 @@ The bound in~\ref{bpW:w4:ext-exp} follows from $e^{x/q-1}\ge x/q$ raised to the 
 \subsection{Setting and hypotheses}\label{bpW:w4:setting}
 
 \begin{convention}[Normal modes, reindexing, coordinates]\label{bpW:w4:index}
-Fix $a\ge0$, $p\ge0$ and put $\bar p=p+1$ (the wave case of P96-K Assumption~C, $\bar p-p=1$). The tangential modes
+Fix $a\ge0$, $p\ge0$ and put $\bar p=p+1$ (the wave case of P96-K Assumption~C, $\bar p-p=1$). All results of this part hold for $a,p\ge0$
+except the identification of the weak bracket with a derivative of $N$, which needs the guard \eqref{bpW:w4:guard}
+($a>0$ or $p\ge\frac12$; Lemma~\ref{bpW:w4:lie}(iv)); the wave consumer $a=p=1$ satisfies it. The tangential modes
 are the wave modes $1,2$; the normal modes are the wave modes $J\ge3$. Following P96-K (index $j\ge1$) we write
 \[J=j+2\qquad(j\ge1)\]
 and index every normal quantity by the \emph{P96-K index} $j$: $\Omega_j$, $z_j$, $\bar z_j$, matrix entries
@@ -160,7 +162,8 @@ $M_0,M_\omega,M_\Omega\ge0$ and all $\xi,\zeta\in\Pi$,
 \sup_jj\abs{\Omega_j(\xi)-\Omega_j(\zeta)}\le M_\Omega\abs{\xi-\zeta},
 \end{equation}
 and put $M=M_\omega+M_\Omega$ (P96-K's $M=\abs\omega^{\mathcal L}+\abs\Omega^{\mathcal L}_{-\delta}$, $-\delta=1$). Let
-$\tau\ge0$, $A_k=1+\abs k_1^\tau$ ($A_0=1$), $\abs l=\sum_j\abs{l_j}$ and $\jap l=\max(1,\abs{\sum_jjl_j})$ for finitely
+$\tau\ge0$, $A_0=1$ and $A_k=1+\abs k_1^\tau$ for $k\ne0$ (so $A_0=1$ also when $\tau=0$; this is the
+convention throughout this part), $\abs l=\sum_j\abs{l_j}$ and $\jap l=\max(1,\abs{\sum_jjl_j})$ for finitely
 supported $l\in\Z^{\N_+}$, and
 \[\mathcal Z=\{(k,l)\in\Z^2\times\Z^{\N_+}:(k,l)\ne0,\ \abs l\le2\}.\]
 For $\alpha>0$, the \emph{Melnikov conditions} $(\mathrm H_\alpha)$ are
@@ -320,12 +323,14 @@ Let $\sigma>0$ and $S_q(\sigma)=\sum_{k\in\Z^2}\abs k_1^qe^{-2\pi\abs k_1\sigma}
 \item $\#\{k\in\Z^2:\abs k_1=N\}=4N$ for $N\ge1$.
 \item $S_0(\sigma)=\coth(\pi\sigma)^2\le(1+(\pi\sigma)^{-1})^2$.
 \item For $q>0$, $S_q(\sigma)\le\dfrac4{\pi\sigma}\Bigl(\dfrac{q+1}{e\pi\sigma}\Bigr)^{q+1}$.
-\item Let $\tau\ge0$, $A_k=1+\abs k_1^\tau$ and
+\item Let $\tau\ge0$, $A_0=1$ and $A_k=1+\abs k_1^\tau$ for $k\ne0$ (as in Definition~\ref{bpW:w4:melnikov}), and
   \[B^{\rm W}_\sigma=\sum_{k\in\Z^2}(1+\abs k_1)A_k^2e^{-2\pi\abs k_1\sigma}.\]
   Then $\sum_kA_ke^{-2\pi\abs k_1\sigma}\le B^{\rm W}_\sigma$, and for $0<\sigma\le1$,
   \[B^{\rm W}_\sigma\le\frac{b_{\rm W}(\tau)}{\sigma^{2\tau+3}},\qquad
-  b_{\rm W}(\tau)=2\Bigl[\bigl(1+\tfrac1\pi\bigr)^2+\sum_{q\in\{1,2\tau,2\tau+1\}}\frac4\pi\Bigl(\frac{q+1}{e\pi}\Bigr)^{q+1}\Bigr]\]
-  (for $\tau=0$ read the term $q=2\tau=0$ as $(1+\frac1\pi)^2$). Since $n=2$, $2\tau+3=2\tau+n+1$.
+  b_{\rm W}(\tau)=2\bigl(C_0+C_1+C_{2\tau}+C_{2\tau+1}\bigr),\qquad C_0=\bigl(1+\tfrac1\pi\bigr)^2,\quad
+  C_q=\frac4\pi\Bigl(\frac{q+1}{e\pi}\Bigr)^{q+1}\ (q>0),\]
+  a sum of four terms counted with multiplicity (for $\tau=0$ the term $C_{2\tau}$ is $C_0$; for $\tau=\frac12$,
+  $C_{2\tau}=C_1$ occurs twice). Since $n=2$, $2\tau+3=2\tau+n+1$.
 \end{enumerate}
 \end{lemma}
 
@@ -340,11 +345,15 @@ $\sum_{m\in\Z}e^{-x\abs m}=1+\frac{2}{e^x-1}=\coth\frac x2$ (\ref{bpW:w4:ext-exp
 For $q>0$ the term $k=0$ vanishes and, with $x=2\pi\sigma$, $S_q=4\sum_{N\ge1}N^{q+1}e^{-xN}$ by (i). By
 \ref{bpW:w4:ext-exp}, $N^{q+1}e^{-xN/2}\le(2(q+1)/(ex))^{q+1}$ and $\sum_{N\ge1}e^{-xN/2}=1/(e^{x/2}-1)\le2/x$.
 \proofstep{The constant}\label{stepW:w4:bw}
-$A_k\ge1$ gives the first claim. $(1+\abs k_1)A_k^2\le2(1+\abs k_1)(1+\abs k_1^{2\tau})$, so
-$B^{\rm W}_\sigma\le2(S_0+S_1+S_{2\tau}+S_{2\tau+1})$; by (ii)--(iii) each term is at most its constant in
-$b_{\rm W}$ times $\sigma^{-(q+2)}$ ($\sigma^{-2}$ for $S_0$), and $\sigma^{-(q+2)}\le\sigma^{-(2\tau+3)}$ for $\sigma\le1$.
+$A_k\ge1$ gives the first claim. The term $k=0$ of $B^{\rm W}_\sigma$ is $1$ ($A_0=1$). For $k\ne0$,
+$(1+\abs k_1)A_k^2\le2(1+\abs k_1)(1+\abs k_1^{2\tau})=2\bigl(1+\abs k_1+\abs k_1^{2\tau}+\abs k_1^{2\tau+1}\bigr)$. Summing over
+$k\ne0$, the four sums are at most $S_0-1$, $S_1$, $S_{2\tau}$, $S_{2\tau+1}$ (for $\tau=0$ the third is again at most
+$S_0-1$), so $B^{\rm W}_\sigma\le1+2(S_0-1)+2(S_1+S'_{2\tau}+S_{2\tau+1})\le2(S_0+S_1+S'_{2\tau}+S_{2\tau+1})$, where
+$S'_{2\tau}=S_{2\tau}$ for $\tau>0$ and $S'_0=S_0$. By (ii)--(iii), $S_0\le C_0\sigma^{-2}$ and $S_q\le C_q\sigma^{-(q+2)}$ for $q>0$,
+each term counted separately even when two exponents coincide ($\tau=\frac12$), and
+$\sigma^{-(q+2)}\le\sigma^{-(2\tau+3)}$ for $\sigma\le1$ and $q\le2\tau+1$.
 \end{proof}
-\source{ours. Checked numerically for $\tau\in\{3,3.5,5\}$, $\sigma\in[0.02,1]$
+\source{ours. Checked numerically for $\tau\in\{0,0.5,1,3,3.5,5\}$, $\sigma\in[0.02,1]$
 (\texttt{checks.py}); e.g.\ $b_{\rm W}(3)\approx5.76$.}
 
 \subsection{Divisors and the multiplier solve}\label{bpW:w4:solve-sec}
@@ -457,26 +466,44 @@ Step~\ref{stepW:w4:solvecoef}.}
 
 \subsection{The Lie derivative along the normal form}\label{bpW:w4:lie-sec}
 
-Let $N=\langle\omega(\xi),y\rangle+\sum_j\Omega_j(\xi)z_j\bar z_j$ be the normal form at a fixed real parameter $\xi$.
-Its field is unbounded on $\ell^N_{a,p}$ ($\Omega_j\sim j$), so the bracket of $N$ with $F\in\mathcal T$ is defined
-through the smoothing gradients of $F$.
+At a fixed real parameter $\xi$ the normal form is formally $N=\langle\omega(\xi),y\rangle+\sum_j\Omega_j(\xi)z_j\bar z_j$.
+Its field is unbounded on $\ell^N_{a,p}$ ($\Omega_j\sim j$). For general $a,p\ge0$ the series $\sum_j\Omega_jz_j\bar z_j$
+need not even converge: for $a=p=0$, $\Omega_j=j+2$ and $z_j=\bar z_j=1/j$ it is $\sum_j(1/j+2/j^2)=\infty$. So we
+define the bracket of $N$ with $F\in\mathcal T$ as a \emph{weak pairing} through the smoothing gradients of $F$, which
+exists for all $a,p\ge0$, and identify it with an actual derivative of $N$ only under the guard
+\begin{equation}\label{bpW:w4:guard}
+\gamma_{a,p}:=\sup_{j\ge1}\frac{j+2}{\omega_{a,p}(j+2)^2}<\infty.\tag{G}
+\end{equation}
+(G) holds if and only if $a>0$ or $p\ge\frac12$: for $a>0$, $J^{1-2p}e^{-2aJ}\to0$; for $a=0$, $J^{1-2p}$ is bounded iff
+$p\ge\frac12$. The wave consumer $a=p=1$ satisfies (G) with $\gamma_{1,1}=e^{-6}/3$ (at $J=3$).
 
-\begin{lemma}[Lie derivative]\label{bpW:w4:lie}
+\begin{lemma}[Lie derivative and weak bracket]\label{bpW:w4:lie}
 Assume \eqref{bpW:w4:freq} and let $F\in\mathcal T_{s'}$ (Definition~\ref{bpW:w4:taylor}) with components
 $a_F,b_F,c^\pm_F,P_F,Q_F,P'_F$. For $(\theta,y,z,\bar z)\in T_{s'}\times\C^2\times(\ell^N_{a,p})^2$ put
 \[L_NF=\frac1{2\pi}\langle\omega,F_\theta\rangle-i\langle F_z,\Omega z\rangle_0+i\langle F_{\bar z},\Omega\bar z\rangle_0,\qquad
-\langle\omega,F_\theta\rangle=\sum_i\omega_i\partial_{\theta_i}F.\]
+\langle\omega,F_\theta\rangle=\sum_i\omega_i\partial_{\theta_i}F,\]
+and the \emph{weak bracket}
+\[\langle\!\langle N,F\rangle\!\rangle=-\frac1{2\pi}\langle\omega,F_\theta\rangle+\langle\Omega\bar z,\dot Z\rangle_0+\langle\Omega z,\dot{\bar Z}\rangle_0,
+\qquad(\dot Z,\dot{\bar Z})=(-iF_{\bar z},iF_z),\]
+which is the formal expression for $DN\cdot X_F$: $-\frac1{2\pi}F_\theta$ is the $y$-component and $(\dot Z,\dot{\bar Z})$ the
+normal components of $X_F$ by \eqref{bpW:w4:hameq}.
 \begin{enumerate}[label=(\roman*)]
-\item $\Omega z\in\ell^N_{a,p-1}$ with $\norm{\Omega z}_{a,p-1}\le(1+M_0)\norm z$; the pairings converge absolutely,
-  $L_NF$ is continuous in $(z,\bar z)$ and a polynomial of degree $\le2$ in $(y,z,\bar z)$.
-\item (Bracket.) Let $DN\cdot X_F=\frac1{2\pi}\bigl(\langle\omega,-F_\theta\rangle\bigr)+\langle\Omega\bar z,\dot Z\rangle_0+\langle\Omega z,\dot{\bar Z}\rangle_0$,
-  where $(\dot Z,\dot{\bar Z})=(-iF_{\bar z},iF_z)$ are the normal components of $X_F$ by \eqref{bpW:w4:hameq} and the
-  $y$-component of $X_F$ is $-\frac1{2\pi}F_\theta$. Then $DN\cdot X_F=-L_NF$.
-\item (Coefficients.) For finitely supported $z,\bar z$, $L_NF$ is the finite expression obtained from
+\item ($a,p\ge0$.) $\Omega z\in\ell^N_{a,p-1}$ with $\norm{\Omega z}_{a,p-1}\le(1+M_0)\norm z$; the pairings converge
+  absolutely, $L_NF$ and $\langle\!\langle N,F\rangle\!\rangle$ are continuous in $(z,\bar z)$ and polynomials of degree $\le2$ in
+  $(y,z,\bar z)$.
+\item ($a,p\ge0$.) $\langle\!\langle N,F\rangle\!\rangle=-L_NF$.
+\item (Coefficients, $a,p\ge0$.) For finitely supported $z,\bar z$, $L_NF$ is the finite expression obtained from
   \eqref{bpW:w4:R} for $F$ by replacing the coefficient of $e^{2\pi i\langle k,\theta\rangle}$ in
   $a_F$, $b_F$, $c^+_{F,j}$, $c^-_{F,j}$, $P_{F,ij}$, $Q_{F,ij}$, $P'_{F,ij}$ by $i\delta$ times it, with
   $\delta=\langle k,\omega\rangle$ (for $a_F$, $b_F$), $\delta^+_{k,j}$, $\delta^-_{k,j}$, $\delta^P_{k,ij}$, $\delta^Q_{k,ij}$
   (with $\delta^Q_{0,jj}=0$), $\delta^{P'}_{k,ij}$ respectively.
+\item (Derivative, under (G).) If \eqref{bpW:w4:guard} holds, then $N_\Omega(z,\bar z)=\sum_j\Omega_jz_j\bar z_j$
+  converges absolutely and is a continuous bilinear form on $\ell^N_{a,p}\times\ell^N_{a,p}$ with
+  $\abs{N_\Omega(z,\bar z)}\le(1+M_0)\gamma_{a,p}\norm z\norm{\bar z}$; $N=\langle\omega,y\rangle+N_\Omega(z,\bar z)$ is a
+  continuous polynomial on $\C^2\times\C^2\times(\ell^N_{a,p})^2$ (independent of $\theta$), Fr\'echet differentiable with
+  $DN(w)(\Theta,Y,Z,\bar Z)=\langle\omega,Y\rangle+N_\Omega(Z,\bar z)+N_\Omega(z,\bar Z)$, and
+  \[DN(w)\cdot X_F(w)=\langle\!\langle N,F\rangle\!\rangle(w)=-L_NF(w).\]
+  Without (G) the left side is not defined in general (example above), and only (ii) is available.
 \end{enumerate}
 \end{lemma}
 
@@ -486,11 +513,10 @@ $\abs{\Omega_j}\le j+2+M_0/j\le(1+M_0)(j+2)$, so $\abs{\Omega_j}\omega_{a,p-1}(j
 gradients $F_z,F_{\bar z}$ lie in $\ell^N_{a,\bar p}=\ell^N_{a,p+1}$, and \eqref{bpW:w4:pairing} with $q=p-1$, $q'=p+1$
 ($q+q'=2p\ge0$) bounds the pairings. Continuity in $(z,\bar z)$: $F_z$, $F_{\bar z}$ are affine continuous in
 $(z,\bar z)$ and the pairing is a bounded bilinear form on $\ell^N_{a,p-1}\times\ell^N_{a,p+1}$.
-\proofstep{Bracket}\label{stepW:w4:liebr}
-Substitute: $DN\cdot X_F=-\frac1{2\pi}\langle\omega,F_\theta\rangle-i\langle\Omega\bar z,F_{\bar z}\rangle_0+i\langle\Omega z,F_z\rangle_0$, which
-is $-L_NF$ by symmetry of $\langle\cdot,\cdot\rangle_0$. The formula for $DN$ is the derivative of
-$\langle\omega,y\rangle+\sum_j\Omega_jz_j\bar z_j$ in a direction $(\Theta,Y,Z,\bar Z)$ with $Z,\bar Z\in\ell^N_{a,\bar p}$, a
-convergent series by Step~\ref{stepW:w4:liebd}.
+\proofstep{Weak bracket}\label{stepW:w4:liebr}
+Substitute $(\dot Z,\dot{\bar Z})$: $\langle\!\langle N,F\rangle\!\rangle=-\frac1{2\pi}\langle\omega,F_\theta\rangle-i\langle\Omega\bar z,F_{\bar z}\rangle_0
++i\langle\Omega z,F_z\rangle_0$, which is $-L_NF$ by symmetry of $\langle\cdot,\cdot\rangle_0$. This is an identity of explicit
+expressions; no derivative of $N$ is involved.
 \proofstep{Coefficients}\label{stepW:w4:liecoef}
 For finitely supported $z,\bar z$ every pairing is a finite sum. Write $F_z=c^+_F+2P_Fz+Q_F^T\bar z$,
 $F_{\bar z}=c^-_F+Q_Fz+2P'_F\bar z$ (Definition~\ref{bpW:w4:taylor}) and collect: the coefficient of $z_j$ is
@@ -499,12 +525,22 @@ $\frac1{2\pi}\langle\omega,\partial_\theta P_{F,ij}\rangle-i(\Omega_i+\Omega_j)P
 $\frac1{2\pi}\langle\omega,\partial_\theta Q_{F,ij}\rangle-i(\Omega_j-\Omega_i)Q_{F,ij}$; and similarly for $c^-_F$, $P'_F$ with
 $+i\Omega$. By Lemma~\ref{bpW:w4:fourier-ops}, the $k$-th coefficient of $\frac1{2\pi}\langle\omega,\partial_\theta g\rangle$
 is $i\langle k,\omega\rangle\hat g_k$, and the matrix entries are continuous linear functionals of the operators.
+\proofstep{The guarded derivative}\label{stepW:w4:lieder}
+Under (G), $\abs{\Omega_jz_j\bar z_j}\le(1+M_0)(j+2)\abs{z_j}\abs{\bar z_j}\le(1+M_0)\gamma_{a,p}\,\omega_{a,p}(j+2)^2\abs{z_j}\abs{\bar z_j}$,
+and Cauchy--Schwarz gives absolute convergence and the bound; so $N_\Omega$ is a bounded bilinear form and $N$ a
+continuous polynomial, whose derivative is the displayed one (Mathlib: \Lean{ContinuousLinearMap.hasFDerivAt} for the
+linear part and the bilinear-map derivative \Lean{IsBoundedBilinearMap.hasFDerivAt}). The direction $X_F(w)$ has
+normal components $\dot Z,\dot{\bar Z}\in\ell^N_{a,\bar p}\subset\ell^N_{a,p}$ (Lemma~\ref{bpW:w1:embed}) and $y$-component
+$-\frac1{2\pi}F_\theta$, so $DN(w)\cdot X_F(w)=-\frac1{2\pi}\langle\omega,F_\theta\rangle+N_\Omega(\dot Z,\bar z)+N_\Omega(z,\dot{\bar Z})$,
+and $N_\Omega(\dot Z,\bar z)=\langle\Omega\bar z,\dot Z\rangle_0$, $N_\Omega(z,\dot{\bar Z})=\langle\Omega z,\dot{\bar Z}\rangle_0$ termwise
+(both series converge absolutely). This is $\langle\!\langle N,F\rangle\!\rangle$, and (ii) concludes.
 \end{proof}
 \source{P96-K p.~125 (``by comparison of coefficients \dots\ $iF_{kmq\bar q}=R_{kmq\bar q}/(\langle k,\omega\rangle+\langle q-\bar q,\Omega\rangle)$''),
 in the W0 sign convention: our $\langle\cdot,\Omega\rangle$-terms are those of P96-K with $q\leftrightarrow\bar q$
-(Remark~\ref{bpW:w4:melnikov-check}(b)). P96-K writes the bracket as $\{F,N\}$; here $\{F,N\}:=L_NF=-DN\cdot X_F$.
-The identity (ii) is the input W5 needs to expand $N\circ X^t_F$; W5 must use it in this form because $X_N$ is
-unbounded.}
+(Remark~\ref{bpW:w4:melnikov-check}(b)). P96-K writes the bracket as $\{F,N\}$; here $\{F,N\}:=L_NF=-\langle\!\langle N,F\rangle\!\rangle$,
+which equals $-DN\cdot X_F$ under (G). P96-K takes $a\ge0$, $p\ge0$ (p.~120) and does not address the convergence of
+$N$; the guard (G) is ours. The identity (iv) is the input W5 needs to expand $N\circ X^t_F$; W5 must use it in this
+form because $X_N$ is unbounded.}
 
 \subsection{Reading the components off the field norm}\label{bpW:w4:extract-sec}
 
@@ -586,7 +622,8 @@ Let $C_1=7+10K_S$ ($<36$) and $B=B^{\rm W}_\sigma$ (Lemma~\ref{bpW:w4:lattice}).
 \item $F(\cdot,\xi)\in\mathcal T_{s-\sigma}$, with $\hat a_{F,0}=0$, $\hat b_{F,0}=0$, $(\hat Q_{F,0})_{jj}=0$; if $R$ is real,
   so are $F$ and $\hat N$ ($\hat\omega\in\R^2$, $\hat\Omega_j\in\R$).
 \item $L_NF+\hat N=R-\hat a_0$ on $T_{s-\sigma}\times\C^2\times(\ell^N_{a,p})^2$, with $L_N$ of Lemma~\ref{bpW:w4:lie};
-  equivalently $R+DN\cdot X_F=\hat N+\hat a_0$.
+  equivalently $R+\langle\!\langle N,F\rangle\!\rangle=\hat N+\hat a_0$ (weak bracket of Lemma~\ref{bpW:w4:lie}), and, under
+  the guard \eqref{bpW:w4:guard} (in particular for $a=p=1$), $R+DN\cdot X_F=\hat N+\hat a_0$ with the Fr\'echet derivative of $N$.
 \item On $D(s-\sigma,r)$: $\abs{X_F}_r\le\frac{C_1B}{\alpha}\varepsilon$ and
   $\abs{X_{F(\xi)}-X_{F(\zeta)}}_r\le\frac{C_1B}{\alpha}\bigl(\varepsilon^{\mathcal L}+\frac{2M}{\alpha}\varepsilon\bigr)\abs{\xi-\zeta}$.
 \item $\abs{\hat\omega}\le2\pi\varepsilon$, $\sup_j(j+2)\abs{\hat\Omega_j}\le\varepsilon$, and the same with
@@ -618,7 +655,8 @@ definition of $F$, its $k$-th coefficient is a finite sum of terms $i\delta\cdot
 nonresonant terms, while the resonant terms are $-\hat a_0+\hat a_0$, $\langle\hat\omega-\hat b_0,y\rangle$ and
 $(\hat\Omega_j-(\hat Q_0)_{jj})z_j\bar z_j$, all zero. By \ref{bpW:w4:F3} the function vanishes. Both sides are
 continuous in $(z,\bar z)\in(\ell^N_{a,p})^2$ (Lemma~\ref{bpW:w4:lie}(i); $\hat N$ by (iv) below), and finitely
-supported sequences are dense (Lemma~\ref{bpW:w1:space}(iii)). The second form is Lemma~\ref{bpW:w4:lie}(ii).
+supported sequences are dense (Lemma~\ref{bpW:w1:space}(iii)). The second form is Lemma~\ref{bpW:w4:lie}(ii), the third
+Lemma~\ref{bpW:w4:lie}(iv).
 \proofstep{Component bounds of $F$}\label{stepW:w4:Fcomp}
 By Lemma~\ref{bpW:w4:components}, Step~\ref{stepW:w4:divops} and Lemma~\ref{bpW:w4:solve}(i),(iii),(iv), on $T_{s-\sigma}$:
 $\abs{b_F}\le2\pi\varepsilon B/\alpha$; $\norm{c^\pm_F}_{\bar p}\le\frac{B}{\alpha}\frac{r\varepsilon}{\sqrt2}$;
@@ -743,19 +781,29 @@ norm of $D(s,r)$ and the $\mathfrak W$-norm compare by $\norm{\hat w}\le\norm u+
 smoothing class of W3 ($X_K$ with values in $\mathfrak W^+$) gives normal gradients in $\ell^N_{a,\bar p}$, $\bar p=p+1$, as
 required by Definition~\ref{bpW:w4:taylor}; (d) the symplectic form $\Omega$ of Lemma~\ref{bpW:w3:omega} restricted to
 the normal part is $\sum_jdu_j\wedge dv_j$, and $\dot z=-iH_{\bar z}$ agrees with $X_P(w)_l=-i\operatorname{sgn}(l)DP(w)e_{-l}$
-(Definition~\ref{bpW:w3:hamfield-def}). The tangential part enters only after W5's action--angle substitution, which
-produces $\theta$, $y$, the parameter $\xi$ and the form $2\pi d\theta\wedge dy$. The exponent $g=6$ of
-Remark~\ref{bpW:w3:interface} is not used in W4.
+(Definition~\ref{bpW:w3:hamfield-def}). The exponent $g=6$ of Remark~\ref{bpW:w3:interface} is not used in W4.
+
+\emph{Ownership (coordinator ruling on review finding W4-R3).} W5, not W4, owns: the action--angle substitution of the
+tangential modes (KP96 p.~25, Step~1), which produces $\theta$, $y$, the parameter $\xi$ and the form
+$2\pi d\theta\wedge dy$; the check that the image of $D(s,r)$ lies in W3's ball $B_{\rho_1}$ (the domain check); and every
+norm comparison between W3's coordinates and the KAM norms, including the sum-versus-$\mathfrak W$ comparison (b)
+above. W4 keeps the shifted wave weights $\omega_{a,p}(j+2)$, so the weight-equivalence factor $3^pe^{2a}$ mentioned
+in Remark~\ref{bpW:w3:interface} never arises; only the explicit phase-norm comparisons (b) remain, for W5. On this
+point Remark~\ref{bpW:w3:interface}, which says ``W4 must carry these two conversions'', is superseded.
 \end{remark}
 
 \begin{remark}[To W5]\label{bpW:w4:to-w5}
 W5 receives: Theorem~\ref{bpW:w4:lemma1} and Corollary~\ref{bpW:w4:lemma2} for arbitrary frequencies
 $(\omega_\nu,\Omega_\nu)$ obeying \eqref{bpW:w4:freq} and $(\mathrm H_{\alpha_\nu})$ (no wave-specific input is used in
-the proof); the bracket identity $R+DN\cdot X_F=\hat N+\hat a_0$ (Lemma~\ref{bpW:w4:lie}(ii)) in the form valid for the
-unbounded $X_N$; and $\hat\Omega\in\ell^1_\infty$ with $\abs{\hat\Omega}_1\le\varepsilon$, so that
+the proof); the bracket identity $R+\langle\!\langle N,F\rangle\!\rangle=\hat N+\hat a_0$ for the weak bracket
+(Lemma~\ref{bpW:w4:lie}(ii)), valid for all $a,p\ge0$, and, under the guard \eqref{bpW:w4:guard}, its identification
+$\langle\!\langle N,F\rangle\!\rangle=DN\cdot X_F$ with the Fr\'echet derivative of the continuous polynomial $N$
+(Lemma~\ref{bpW:w4:lie}(iv)); the wave case $a=p=1$ satisfies (G), and W5 must work under (G) whenever it
+differentiates $N$; and $\hat\Omega\in\ell^1_\infty$ with $\abs{\hat\Omega}_1\le\varepsilon$, so that
 $\Omega_{\nu+1}=\Omega_\nu+\hat\Omega$ keeps \eqref{bpW:w4:freq} with $M_0$ increased by $\varepsilon$. W5 must supply:
 the Taylor approximation $R$ of $P$ in the class $\mathcal T_s$ (P96-K (7), p.~129), including holomorphy and boundedness
-of the components and of $Q^T$; the parameter regularity of $R$ in the form of the hypothesis
+of the components and of $Q^T$; the action--angle substitution, the domain check and the norm comparisons
+(Remark~\ref{bpW:w4:from-w3}, ownership); the parameter regularity of $R$ in the form of the hypothesis
 $\abs{X_{R(\xi)}-X_{R(\zeta)}}_r\le\varepsilon^{\mathcal L}\abs{\xi-\zeta}$; and, if it needs analyticity of the field of $P$
 beyond Cauchy-type estimates, the revised W3 interface (finding W3-R1).
 \end{remark}
