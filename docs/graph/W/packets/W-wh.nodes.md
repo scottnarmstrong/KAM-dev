@@ -54,7 +54,7 @@ NODE: bpW:wh:nlw2
 KIND: theorem
 TITLE: W-NLW2, proposed
 STATEMENT_SOURCE: blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L41-L65
-PROOF_SOURCE: -
+PROOF_SOURCE: blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L41-L65
 CONTRACT_ID: wave.nlw2
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: m > 0 (frozen hm : 0 < m); the data fixed at L13-L16: weights a = p = 1, E = E_{1,1} with the max norm, U_m, V_m, G_q, P = (0,infinity)^2, r(I) = sqrt(I_1+I_2), B_h = {I : max_i ¦I_i¦ < h}
@@ -85,4 +85,4 @@ REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: Root of track W. Its proof (assembly) is milestone W8, not yet in the corpus (W4-W8 pending); until then DEPS lists only the statement-level definitions. W2 (bpW:w2:clause5) supplies conclusion (5) from (3)-(4) and becomes a dependency when W8 is added. D_nu (bpW:wh:Dnu) is inlined in the frozen statement.
+NOTE: Root of track W. PROOF_SOURCE is provisionally the statement locator: the proof (the W8 assembly) is not in the wave-1 corpus. Its proof (assembly) is milestone W8, not yet in the corpus (W4-W8 pending); until then DEPS lists only the statement-level definitions. W2 (bpW:w2:clause5) supplies conclusion (5) from (3)-(4) and becomes a dependency when W8 is added. D_nu (bpW:wh:Dnu) is inlined in the frozen statement.

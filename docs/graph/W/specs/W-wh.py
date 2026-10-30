@@ -33,7 +33,8 @@ NODES = {
           "K_I(theta) = K_I'(theta') implies I = I' and theta - theta' in Z^2",
         S="r_0, C, tau, eta, Gamma, nu, K are chosen after m and before I, theta, theta_0; they may depend on m; "
           "gamma_I is chosen per I (it may degenerate as I -> 0); C is common to (3) and (5); no uniformity in m",
-        note="Root of track W. Its proof (assembly) is milestone W8, not yet in the corpus (W4-W8 pending); until then "
+        proof=f"{F}#bpW:wh:nlw2@L41-L65",
+        note="Root of track W. PROOF_SOURCE is provisionally the statement locator: the proof (the W8 assembly) is not in the wave-1 corpus. Its proof (assembly) is milestone W8, not yet in the corpus (W4-W8 pending); until then "
              "DEPS lists only the statement-level definitions. W2 (bpW:w2:clause5) supplies conclusion (5) from (3)-(4) "
              "and becomes a dependency when W8 is added. D_nu (bpW:wh:Dnu) is inlined in the frozen statement.",
         deps=[("bpW:w0:mass", "L42", "for every m > 0 (hm)"),
