@@ -1160,3 +1160,17 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   condition, it was asked for two cheap measurements: the shard size is a data parameter (the emitter's blockLen),
   so one shard each at 1/2 and 1/4 of the block, and the current shard once under a 14 GB cap for its true peak.
   If smaller shards fit, the lunar route needs only more, smaller shard theorems, with no checker change.
+- **06:20. DESIGN SIGNAL FOR THE OWNER: the lunar kernel check costs ~100-170 CPU-hours as built.** SO-DATA-2 stopped
+  at its kernel-risk stage (branch inp-sodata2: the lower torus's 61 data modules, 59.5k lines, 3.57 MB, build in
+  395 s; the emitter sofx_lean.py; the probes; the handoff). One shard of the heavy packed product A0·A0 needs more
+  than 13.6 GB of kernel memory at the current block size (blockRows 32; killed at a 14 GB cap); blockRows 16 still
+  OOMs, 8 fits with no margin (9.9 GB), 4 fits (708-slot blocks, 149 s, 6.4 GB per shard). At blockRows 4 the
+  lunar certificates need ~9.1-9.4k shard theorems per torus and a projected 50-85 CPU-h per torus (100-170 for
+  both), about 10x the brief's budget, before composition, Gram and torsion; SO-REPLAY2's per-shard figure is
+  contradicted by ~50x. Options for the morning: (1) pay it (one-time, cached in oleans, but every kernel replay
+  repeats it), (2) make the checker's packed multiplication kernel-cheaper (signed statements unchanged; Poly/Packed
+  and its soundness proofs change), (3) the recorded fallback, the sharper theorem (HL19 torsion route plus
+  Parseval, about 1e-52, 3-4k Lean lines). Started overnight, measurement only: SO-KPERF profiles one shard by
+  parts (packing, multiplication, window comparison, each anti-carry guard) and explains the 50x gap, with a
+  scratch prototype of the cheapest fix and its measured gain, so option (2) can be priced before the decision.
+  SO-DATA-2's branch is kept, not landed (its data are only useful with a feasible kernel route).
