@@ -15,6 +15,7 @@ Levers (APOST-SHARP-V2.md section 3): L1 finer data, L2 small divisors, L3 no ab
 L5 the modified route, L6 measured step-0 objects, L8 engine budgets and sums.
 
 Usage:  python3 -I scripts/apost_sharp/thresholds_v2.py [--json OUT]
+        python3 -I scripts/apost_sharp/thresholds_v2.py --l1 [--json OUT]   # B10: the l^1 entry step (R1)
 """
 from fractions import Fraction as F
 import json, math, os, sys
@@ -28,9 +29,13 @@ lg = v1.lg
 up = v1.up
 
 
+
 def Fr(x, digits=10):
     """Rational upper bound of a positive float/mpf."""
     return up(x, digits)
+
+
+EINV = Fr(1 / math.e)    # 1/e (rounded up): the row-sum l^1 Cauchy factor sup_k 2 pi |k|_1 e^{-2 pi d |k|_1} <= 1/(e d)
 
 
 # =============================================================================================================
@@ -39,10 +44,13 @@ def Fr(x, digits=10):
 # =============================================================================================================
 
 def engine_A(stage, tail, k, X0, a, gamma, gbar, delta0, budgets, lam, absorb_sums=False, diag=False,
-             keep=False):
+             keep=False, b5=False):
     """Additive route.  stage(s) -> dict(CE, cond=[(coef, bound)], rates={name: (rho, j)});  tail likewise (uniform).
     Errors: x_s = eps_s/(gamma^4 delta_s^{2a}), x_{s+1} = 2^{2a} C_E(s) x_s^2 (Lemma bp:p2s:decay, stage form).
-    Returns True iff every condition holds at X0."""
+    Returns True iff every condition holds at X0.
+    b5 (B10): the conditions of the route-A embedding into KAM.Sharp2.StageScheme.converge_checked
+    (blueprint bp:p2s2l1:engine(b), Lean routeAOkL1): the local contraction 2^{2a} C_E(s) x_s <= 1 at every prefix
+    stage and the tail decay 2^{2a} C_E x_k <= 1/2 (instead of <= 1, the v1 engine)."""
     x = X0
     used = {nm: F(0) for nm in budgets}
     fails = []
@@ -52,6 +60,8 @@ def engine_A(stage, tail, k, X0, a, gamma, gbar, delta0, budgets, lam, absorb_su
         for i, (coef, bound) in enumerate(st["cond"]):
             if coef * x > bound:
                 fails.append("stage%d cond%d" % (s, i))
+        if b5 and 2 ** (2 * a) * st["CE"] * x > 1:
+            fails.append("stage%d contraction" % s)
         for nm, (rho, j) in st["rates"].items():
             wgt = gamma ** 2 * ds ** (a - j) if keep else gbar ** 2   # eps_s/(gamma^2 delta_s^{a+j}) = x_s gamma^2 delta_s^{a-j}
             used[nm] += rho * x * wgt
@@ -64,7 +74,7 @@ def engine_A(stage, tail, k, X0, a, gamma, gbar, delta0, budgets, lam, absorb_su
     # tail (v1 engine from stage k): (I1)-(I4) with e := eps_k, delta_0 := delta_k
     dk = delta0 / 2 ** k
     tl = tail
-    if 2 ** (2 * a) * tl["CE"] * x > 1:
+    if 2 ** (2 * a) * tl["CE"] * x > (F(1, 2) if b5 else 1):
         fails.append("tail E")
     for i, (coef, bound) in enumerate(tl["cond"]):
         if coef * x > bound:
@@ -92,9 +102,14 @@ def bisect(pred, lo, hi, iters=60):
 # route A: stage constants (generalises Definition bp:p2s:constants / bpI:p2s:constants)
 # =============================================================================================================
 
-def stageA(D, o, delta, r, c, ch, cr, iso=False):
+def stageA(D, o, delta, r, c, ch, cr, iso=False, l1=None):
     """Stage constants of the additive route at the bite delta, strip r, small-divisor constants c = c(delta),
-    ch = c(delta/2), cr = c(r).  D: data (rationals).  o: options (levers).  Returns the dict used by engine_A."""
+    ch = c(delta/2), cr = c(r).  D: data (rationals).  o: options (levers).  Returns the dict used by engine_A.
+
+    l1 (B10, the l^1 entry step, stage 0 only; blueprint p2s2-l1hybrid, Definition bp:p2s2l1:constA): dict with
+    ci = c_inf(delta) = Gamma_inf(omega, delta) gamma delta^kappa, cir = c_inf(r) (full bite, real points), the ratios
+    rN = |eta^N|_{l1,r}/(sigma_{L^T} e), rL = |eta^L|_{l1,r}/(sigma_{N^T} e) and t1 >= |T|_{l1,r-delta}.  The two solves
+    of the triangular system and the Lagrangian defect of K use the l^1 data; every other estimate is the sup one."""
     n = D["n"]; kap = D["kappa"]; a = 2 * kap
     gb = D["gbar"]
     keep = o.get("keep_delta", False)                     # L3: gamma^i delta^j <= gbar^i delta^j (else gbar^i)
@@ -112,7 +127,9 @@ def stageA(D, o, delta, r, c, ch, cr, iso=False):
     Theta = D["Theta_omega"] if (iso and o.get("L1", False)) else 2 * n * sK * sB * (D["M"] + 1)
     # geometry (Lemma bp:p2s:geometry; L2/FH24 Lemma 3.1: d_omega Omega_K = antisym(D eta^N))
     C_Om = 2 * (n - 1) * c * Lt if o.get("omega_eta", False) else c * (2 * n * sK + n * Lt)
-    C_sym = max(F(1), sB ** 2) * C_Om
+    # l^1 entry: Omega_K = -(Du - (Du)^T), u = R eta^N; row-sum l^1 Cauchy (n/(e delta)) on |u|_{l1, r-delta}
+    C_OmK = min(C_Om, n * EINV * l1["ci"] * l1["rN"] * Lt) if l1 is not None else C_Om
+    C_sym = max(F(1), sB ** 2) * C_OmK
     C_red = n * max(Nt, Lt + 2 * Nn)
     # torsion (Lemma bp:p2s:torsion-bound or a supplied cap, L1)
     w = 2 * M1 * Lt * sK + (2 * n * sK + n * Lt)
@@ -126,19 +143,35 @@ def stageA(D, o, delta, r, c, ch, cr, iso=False):
         H = 2 * M1 * Nt * Nn + tslack
     t0 = o.get("torsion_real", H)
     c_avg = cr * (delta / r) ** int(kap) if o.get("avg_full_bite", False) else c
+    cN = cN1 = c                                          # solve u = R eta^N: sup bound cN, l^1 bound cN1 (per unit)
+    if l1 is not None:                                    # l^1 entry: |u|_{l1} <= Gamma_inf(delta) |eta^N|_{l1}; each
+        cN1 = l1["ci"] * l1["rN"]                         # ingredient takes the smaller of its sup and l^1 bounds
+        cN = min(c, cN1)
+        c_avg = min(c_avg, l1["cir"] * (delta / r) ** int(kap) * l1["rN"])
     # correction (Lemma bp:p2s:correction / bpI:p2s:correction)
     if not iso:
         C_S = sT * (Nt * G(1, kap) + t0 * c_avg * Lt)
-        C_xiN = C_S + c * Lt
+        C_xiN = C_S + cN * Lt
         C_g = H * C_xiN + Nt * G(1, kap)
     else:
         HY = Mh1 * Nn
         C_S = sT * max(Nt * G(1, kap) + t0 * c_avg * Lt, G(1, kap) + c_avg * HY * Lt)
-        C_xiN = C_S + c * Lt
+        C_xiN = C_S + cN * Lt
         C_g = H * C_xiN + Theta * C_S + Nt * G(1, kap)
+    C_xiN1 = C_S + cN1 * Lt                               # l^1 bound of xi^N (only the l^1 route gives one)
     C_dxi = max(C_g, Lt * G(1, kap))
-    C_xi = max(c * C_g, G(1, kap) * C_xiN)
-    C_DK = sK * c * C_g + Nn * G(1, kap) * C_xiN
+    C_xiL = C_xiL1 = c * C_g
+    if l1 is not None:                                    # |xi^L|_{l1} <= Gamma_inf(delta) |g^L|_{l1, r-delta}
+        C_xiL1 = l1["ci"] * (l1["t1"] * C_xiN1 + l1["rL"] * Nt * G(1, kap) + (Theta * C_S if iso else 0))
+        C_xiL = min(C_xiL, C_xiL1)
+    C_xi = max(C_xiL, G(1, kap) * C_xiN)
+    C_DK = sK * C_xiL + Nn * G(1, kap) * C_xiN
+    # Cauchy factors of the frame increment: |L_bar - L| <= kc1 |DeltaK|/(eta delta), |(L_bar - L)^T| <= kc2 (...)
+    kc1, kc2 = n, 2 * n
+    if l1 is not None and l1.get("nuK") is not None:      # l^1 frame increment (Lemma bp:p2s2l1:frame): row-sum l^1
+        C_DK1 = l1["nuK"] * C_xiL1 + l1["nuN"] * G(1, kap) * C_xiN1   # Cauchy 1/(e eta delta) on |DeltaK|_{l1}
+        kc1 = min(F(n), EINV * C_DK1 / C_DK)
+        kc2 = min(F(2 * n), 2 * n * EINV * C_DK1 / C_DK)
     # new error (Lemma bp:p2s:newton-error / bpI:p2s:newton-error)
     C_lin = C_red * C_xi + C_sym * C_dxi
     P = sK + Nn
@@ -149,36 +182,37 @@ def stageA(D, o, delta, r, c, ch, cr, iso=False):
         C_Dw = Theta * G(1, kap) * C_S
         C_P = (M1 * sK + n) * (1 + sB) + Nn * ((Lt * M1 + 2 * n) * sK + Lt * (M1 * sK + n)) * sB
         C_dK = C_P * C_xi + P * G(1, kap) * C_dxi
-        C_lin = C_lin + Theta * C_Om * C_S
+        C_lin = C_lin + Theta * C_OmK * C_S
         C_E1 = P / (1 - qS) * G(2, a - 1) * C_lin + tX * M2 * C_DK ** 2 + G(1, kap) * C_S * C_dK
-        C_E2 = G(1, kap - 1) * n * (Lt * G(1, kap) + Theta * C_Om) * c * C_g + tX * Mh2 * C_DK ** 2
+        C_E2 = G(1, kap - 1) * n * (Lt * G(1, kap) + Theta * C_OmK) * C_xiL + tX * Mh2 * C_DK ** 2
         C_E = max(C_E1, C_E2)
     # perturbation and rates (Lemma bp:p2s:perturbation; caps-based variant, L8)
     caps = o.get("caps_tilde", False)
     if caps:
-        C_G = n * Lt + 2 * n * sK
+        C_G = kc1 * Lt + kc2 * sK
         C_B = sB ** 2 * C_G / (1 - th)
-        C_Nd = n * sB + sK * C_B
-        C_Ntd = C_B * Lt + 2 * n * sB
+        C_Nd = kc1 * sB + sK * C_B
+        C_Ntd = C_B * Lt + kc2 * sB
         C_Dab = 2 * M1 * (C_Ntd * Nn + Nt * C_Nd) + 2 * M2 * Nt * Nn * eta * (delta if keep else 1)
-        C_Dcd = sB ** 3 * w * (2 * n * sK + n * Lt)
-        C_DT = (C_Dab + C_Dcd) * C_DK / eta + n * Nt * sB * (1 + 1 / eta) * G(2, a) + 2 * sB ** 3 * w * C_Om * G(1, kap)
+        C_Dcd = sB ** 3 * w * (kc2 * sK + kc1 * Lt)
+        # T_c of K (l^1 defect C_OmK at the entry) and of K_bar (sup defect C_Om, as in the sup step)
+        C_DT = (C_Dab + C_Dcd) * C_DK / eta + n * Nt * sB * (1 + 1 / eta) * G(2, a) + sB ** 3 * w * (C_Om + C_OmK) * G(1, kap)
         rho_T = sT ** 2 / (1 - th) * C_DT
     else:
         C_G = 2 * n * sK * (n * (1 + th) + 1)
         C_B = thh * sB ** 2 * C_G
         C_Dab = 2 * thh ** 4 * 2 * n * M1 * sK ** 2 * sB ** 2 * (2 * C_B / sB + (n + 1) / sK + 1)
         C_Dc = thh ** 5 * sB ** 3 * w * 2 * n * sK * (n + thh)
-        C_DT = (C_Dab + C_Dc) * C_DK / eta + (1 + thh ** 3) * C_T1 * G(2, a) + (thh ** 5 + 1) * sB ** 3 * w * C_Om * G(1, kap)
+        C_DT = (C_Dab + C_Dc) * C_DK / eta + (1 + thh ** 3) * C_T1 * G(2, a) + (thh ** 5 + 1) * sB ** 3 * w * max(C_Om, C_OmK) * G(1, kap)
         C_Nd = C_Ntd = None
         rho_T = thh * sT ** 2 * C_DT
     if iso:
         D1 = delta if keep else 1
         C_DT = max(C_DT + C_Dw * D1, n * C_Dw * D1 + n * (1 + (1 if caps else thh ** 2)) * Nt * G(2, a))
         rho_T = (sT ** 2 / (1 - th) if caps else thh * sT ** 2) * C_DT
-    rates = {"ball": (C_DK, 0), "DK": (n * C_DK / eta, 1), "B": (C_B * C_DK / eta, 1), "Tinv": (rho_T, 1)}
+    rates = {"ball": (C_DK, 0), "DK": (kc1 * C_DK / eta, 1), "B": (C_B * C_DK / eta, 1), "Tinv": (rho_T, 1)}
     if caps:
-        rates.update({"Lt": (2 * n * C_DK / eta, 1), "N": (C_Nd * C_DK / eta, 1), "Nt": (C_Ntd * C_DK / eta, 1)})
+        rates.update({"Lt": (kc2 * C_DK / eta, 1), "N": (C_Nd * C_DK / eta, 1), "Nt": (C_Ntd * C_DK / eta, 1)})
     if o.get("torsion_cap") is not None:
         rates["Tsup"] = (C_DT, 1)
     if iso:
@@ -209,20 +243,27 @@ def thresholdA(D, o, iso, k=0, c_stage=None, c_tail=None):
     def stage(s):
         ds = delta0 / 2 ** s
         c, ch, cr = c_stage(s)
-        return stageA(D, o, ds, r(s), c, ch, cr, iso)
+        l1 = None
+        if s == 0 and o.get("l1"):                       # B10: the l^1 entry step (stage 0 only)
+            L = o["l1"]
+            l1 = dict(ci=L["cinf"](ds), cir=L["cinf"](r(0)), rN=L["aN"], rL=L["aL"], t1=L["t1"],
+                      nuK=L.get("nuK"), nuN=L.get("nuN"))
+        return stageA(D, o, ds, r(s), c, ch, cr, iso, l1=l1)
     if k == 0:                                             # the v1 engine from stage 0, uniform constants
         assert not o.get("keep_delta", False) and not o.get("avg_full_bite", False)
+        assert not o.get("l1"), "the l^1 entry step needs k >= 1 (stage 0 is special)"
         tail = stageA(D, o, delta0, D["rho"], *c_stage(0), iso)
     else:                                                  # tail: absorbed constants, valid for every bite <= 1
         ot = dict(o, keep_delta=False, avg_full_bite=False)
         tail = stageA(D, ot, delta0 / 2 ** k, r(k), c_tail, c_tail, c_tail, iso)
     budgets = budgets_for(D, o, iso)
     keep = o.get("keep_delta", False)
+    b5 = o.get("b5", False)
     pred = lambda X: engine_A(stage, tail, k, X, a, gamma, gbar, delta0, budgets, lam, absorb_sums=(k == 0),
-                              keep=keep)
+                              keep=keep, b5=b5)
     lx = bisect(pred, 1e-60, 1e30)
     why = engine_A(stage, tail, k, Fr(10 ** (lx + 0.01)), a, gamma, gbar, delta0, budgets, lam,
-                   absorb_sums=(k == 0), diag=True, keep=keep)
+                   absorb_sums=(k == 0), diag=True, keep=keep, b5=b5)
     return lx + math.log10(float(gamma ** 4 * delta0 ** (2 * a))), delta0, why
 
 
@@ -264,10 +305,15 @@ def budgets_for(D, o, iso):
 # weighted error mu = max{|eta^L|, |eta^N|/(gamma delta^kappa), |E^omega| (iso)}, X = mu/(gamma delta^{kappa+1})
 # =============================================================================================================
 
-def stageB(D, o, delta, r, c, c1, cr, iso=False, stage0=None, lamL=F(1), lamW=F(1)):
+def stageB(D, o, delta, r, c, c1, cr, iso=False, stage0=None, lamL=F(1), lamW=F(1), l1=None):
     """Stage constants of the modified step at the bite delta, strip r: small-divisor constants c (bite delta), c1
     (Russmann-Cauchy, Corollary bp:p2s2sd:rc), cr (full bite r, real points).  Returns Q (X_{s+1} <= 2^{kappa+1} Q X_s^2),
-    conditions [(coef, bound)] meaning coef*X <= bound, rates {name: (rho, w)} (cap increment rho*w*X), C_DK, C_0."""
+    conditions [(coef, bound)] meaning coef*X <= bound, rates {name: (rho, w)} (cap increment rho*w*X), C_DK, C_0.
+
+    l1 (B10, the l^1 entry step, stage 0 only; Definition bp:p2s2l1:constB): ci = c_inf(delta), cih = c_inf(delta/2),
+    cir = c_inf(r), rN = |eta^N|_{l1,r}/(gamma delta^kappa mu), rL = |eta^L|_{l1,r}/mu (mu: the sup weighted error) and
+    t1 >= |T|_{l1,r-delta}.  The solves u = R eta^N, xi^L = -R g^L, the average <T u>, the derivative D(N u) and the
+    Lagrangian defect of K use the l^1 data; the defects of K~ and K_bar keep the sup constant c1."""
     n = D["n"]; kap = D["kappa"]
     gb = D["gbar"]
     keep = o.get("keep_delta", True)
@@ -288,7 +334,9 @@ def stageB(D, o, delta, r, c, c1, cr, iso=False, stage0=None, lamL=F(1), lamW=F(
     t0 = o.get("torsion_real", t)
     sKt = (1 + th) * sK; sLtt = (1 + th) * Lt                 # intermediate frame of K~ (conditions below)
     # (1) Lagrangian defect and recovery of E (FH24 Lemmas 3.1, 3.3)
-    C_Om = 2 * (n - 1) * c1
+    C_Om = 2 * (n - 1) * c1                                 # defects of K~, K_bar (sup data; Corollary bp:p2s2sd:rc)
+    # defect of K: sup route, or (l^1 entry) Omega_K = -(Du - (Du)^T), |Omega_K| <= (2n/(e delta)) Gamma_inf(delta/2) eps1_N
+    C_OmK = min(C_Om, 2 ** (kap + 1) * n * EINV * l1["cih"] * l1["rN"]) if l1 is not None else C_Om
     C_EL = (sK + Nn * q) / (1 - q ** 2); C_EN = (Nn + sK * q) / (1 - q ** 2)
     # anisotropic weight (lever L3b): mu = max{|eta^L|/lamL, |eta^N|/(gamma delta^kappa), |E^omega|/lamW}
     C_E = lamL * C_EL + gd * C_EN
@@ -300,15 +348,22 @@ def stageB(D, o, delta, r, c, c1, cr, iso=False, stage0=None, lamL=F(1), lamW=F(
     C_NN = n * (lamL + Nt * C_E)                               # |E_red^NN| = |(N^T Om0 DE)^T| <= C_NN mu/delta
     # (3) normal correction (full-bite average, Lemma bp:p2s2sd:avg)
     avgf = cr * (delta / r) ** kap if o.get("avg_full_bite", True) else c
+    cN = cN1 = c                                               # solve u = R eta^N: sup / l^1 bounds, per unit mu
+    c1N = c1                                                   # D(N u)
+    if l1 is not None:                                         # each ingredient: the smaller of its two bounds
+        avgf = min(avgf, l1["cir"] * (delta / r) ** kap * l1["rN"])   # Gamma_inf(omega, r) at the actual strip r
+        cN1 = l1["ci"] * l1["rN"]
+        cN, c1N = min(c, cN1), min(c1, 2 ** (kap + 1) * l1["cih"] * l1["rN"])
     if not iso:
         C_0 = sT * (lamL + t0 * avgf)
     else:
         y0 = Mh1 * Nn
         C_0 = sT * max(lamL + t0 * avgf, lamW + y0 * avgf)
-    C_xiN = C_0 + c
+    C_xiN = C_0 + cN
+    C_xiN1 = C_0 + cN1                                         # l^1 bound of xi^N
     C_Kt = Nn * C_xiN                                          # |K~ - K| <= C_Kt mu
-    C_DLt = n * Nn * (C_0 + c1)                                # |L~ - L| <= C_DLt mu/delta
-    C_DLtt = 2 * n * Nn * (C_0 + c1)
+    C_DLt = n * Nn * (C_0 + c1N)                               # |L~ - L| <= C_DLt mu/delta
+    C_DLtt = 2 * n * Nn * (C_0 + c1N)
     # (4) intermediate error and normal error of K~
     C_dN = (M1 * sK + n) * sB + Nn * ((Lt * M1 + 2 * n) * sK + Lt * (M1 * sK + n)) * sB
     C_XN = M1 * Nn + C_dN
@@ -319,6 +374,9 @@ def stageB(D, o, delta, r, c, c1, cr, iso=False, stage0=None, lamL=F(1), lamW=F(
     # (5) tangential correction by composition
     C_gL = lamL + t * C_xiN + (Theta * C_0 if iso else 0)
     C_xiL = c * C_gL                                          # |xi^L| <= C_xiL mu/(gamma delta^kappa)
+    C_xiLs = C_xiL                                             # sup route (kept for the cubic iso term below)
+    if l1 is not None:                                         # |xi^L| <= Gamma_inf(delta) |g^L|_{l1, r-delta}
+        C_xiL = min(C_xiL, l1["ci"] * (l1["rL"] + l1["t1"] * C_xiN1 + (Theta * C_0 if iso else 0)))
     C_DK = sKt * C_xiL + gd * C_Kt                             # |K_bar - K| <= C_DK mu/(gamma delta^kappa)
     C_Eb = C_Et + sKt * C_gL                                   # |E_bar| <= C_Eb mu (crude)
     # (8) frames of K_bar, torsion change (T = frozen torsion; polynomial of bp:p2s:torsion-identity)
@@ -332,15 +390,15 @@ def stageB(D, o, delta, r, c, c1, cr, iso=False, stage0=None, lamL=F(1), lamW=F(
     # with the Lagrangian defect of K_bar from its own (quadratic) normal error (Lemma bp:p2s2:omega), <= that of K.
     cDTh = o.get("cDTh", 2 * M2)                             # |D T_h| <= 2 |D^2 X_h|, or a certified c_DTh (L1)
     C_DT = (cTh * (C_Nbt * Nn + Nt * C_Nb) + cDTh * Nt * Nn * C_DK * (delta if keep else 1)
-            + gd * (2 * Nt * sB * C_DE + 2 * sB ** 3 * w * C_Om))
+            + gd * (2 * Nt * sB * C_DE + sB ** 3 * w * (C_Om + C_OmK)))
     # (6), (7) new errors
     Qb_N = (1 + n * thx) * (1 + thO) * Qt_N
-    QL = (Nt * M2 / 2 * C_Kt ** 2 * gd1 + sB ** 2 * C_Om * gd * gd + Nt * n * C_Et * C_xiL
+    QL = (Nt * M2 / 2 * C_Kt ** 2 * gd1 + sB ** 2 * C_OmK * gd * gd + Nt * n * C_Et * C_xiL
           + Nt * C_gL * (n * sKt * C_xiL + gd * C_DLt) + C_Nbt * C_Eb)
     rates = {"ball": (C_DK, "delta"), "DK": (C_Lb, 1), "B": (C_Bb, 1), "Tinv": (sT ** 2 * C_DT / (1 - th), 1),
              "Lt": (C_Lbt, 1), "N": (C_Nb, 1), "Nt": (C_Nbt, 1), "Tsup": (C_DT, 1)}
     if iso:
-        Qb_N += (1 + n * thx) * Theta * C_Om * Qt_N * C_0 * thx / C_xiL
+        Qb_N += (1 + n * thx) * Theta * C_Om * Qt_N * C_0 * thx / C_xiLs
         QL += C_0 * C_gL * gd1 + C_0 * Nt * C_DLt * Theta * gd
         Qw = Mh2 / 2 * C_Kt ** 2 * gd1 + n * Qt_N * thx * (Theta * C_Om + gd1)
         QL = max(QL, Qw)
@@ -348,7 +406,7 @@ def stageB(D, o, delta, r, c, c1, cr, iso=False, stage0=None, lamL=F(1), lamW=F(
         rates["Tinv"] = (sT ** 2 * C_DT / (1 - th), 1); rates["Tsup"] = (C_DT, 1)
         rates["nu"] = (Theta * C_0, "gd1")
     Q = max(QL, 2 ** kap * Qb_N)
-    cond = [(max(F(1), sB ** 2) * C_Om * gd, q),               # |Omega_K|, |Omega_N| <= q
+    cond = [(max(F(1), sB ** 2) * C_OmK * gd, q),              # |Omega_K|, |Omega_N| <= q
             (C_DE * gd, F(n)),                                 # |DE| <= n
             (C_xiL, thx),                                      # |xi^L| <= theta_xi delta (composition)
             (C_Om * C_gL, thO),
@@ -357,7 +415,11 @@ def stageB(D, o, delta, r, c, c1, cr, iso=False, stage0=None, lamL=F(1), lamW=F(
             (sB * C_G * C_DK, th),                             # Neumann for B_bar
             (sT * C_DT, th)]                                   # Neumann for <T_bar>
     if o.get("torsion_cap") is None:                           # derived torsion: |T_F| + |T_c| <= tslack
-        cond.append(((Nt * sB * C_DE + sB ** 3 * w * C_Om) * gd, tslack))
+        cond.append(((Nt * sB * C_DE + sB ** 3 * w * C_OmK) * gd, tslack))
+    if l1 is not None and iso:                                 # the cubic iso term uses C_xiLs X <= theta_xi
+        cond.append((C_xiLs, thx))
+    if l1 is not None:                                         # local contraction (Lean entryCondB; audit F8)
+        cond.append((2 ** (kap + 1) * Q, F(1)))
     return dict(Q=Q, cond=cond, rates=rates, C_DK=C_DK, C_0=C_0, C_xiL=C_xiL, Qt_N=Qt_N, QL=QL, gd=gd, gd1=gd1)
 
 
@@ -428,9 +490,14 @@ def thresholdB(D, o, iso, k, c_stage, c_tail, e_from_mu=True):
             lamW = min(F(1), F(1) / per_e) if iso else F(1)
         else:
             lamL = lamW = F(1)
+        l1 = None
+        if s == 0 and o.get("l1"):                       # B10: the l^1 entry step (stage 0 only)
+            L = o["l1"]                                  # eps1_N = aN s_Lt e, eps1_L = aL s_Nt e; mu_0 = per_e e
+            l1 = dict(ci=L["cinf"](ds), cih=L["cinf"](ds / 2), cir=L["cinf"](r(0)),
+                      rN=L["aN"] * Lt / (gamma * ds ** kap) / per_e, rL=L["aL"] * Nt / per_e, t1=L["t1"])
         return stageB(D, o, ds, r(s), c, c1, cr, iso,
                       stage0=(dict(e_over_mu=1 / per_e) if (s == 0 and not o.get("no_e")) else None),
-                      lamL=lamL, lamW=lamW)
+                      lamL=lamL, lamW=lamW, l1=l1)
     # tail: constants at the bite delta_k, valid for every bite <= delta_k (monotone in delta), uniform c
     ot = dict(o, avg_full_bite=False)
     ct = c_tail
@@ -525,6 +592,89 @@ def c_stages(D, which, k=6):
         r = D["rho"] - 2 * lam * delta0 * (1 - F(1, 2 ** s))
         return cf(ds), cf(ds / 2), cf(r)
     return st, ctail
+
+
+# =============================================================================================================
+# B10: the l^1 entry step (blueprint/parts/p2s2-l1hybrid.tex).  Stage 0 solves the two cohomological equations, takes
+# the average <T u> and bounds the Lagrangian defect of K from weighted-l^1 data of the INITIAL torus (certificate
+# objects: |eta^N|_{l1,rho} <= aN s_Lt e, |eta^L|_{l1,rho} <= aL s_Nt e, |T|_{l1,rho-delta0} <= t1), with
+# Gamma_inf(omega, d) (KAM.smallDivisorSup, SHARP-L9) at the actual bites d = delta0, delta0/2 and the full strip rho.
+# Every other estimate of stage 0, and every later stage, is the sup one (stage constants c_freq at the actual bites,
+# classical c(delta_k) in the tail).  No sup -> l^1 conversion occurs anywhere (design section 3 of the blueprint).
+# =============================================================================================================
+
+def c_inf_fn(D, exact=True, digits=10):
+    """d -> c_inf(d) = Gamma_inf(omega*, d) gamma d^tau, n = 2, omega* = (w1, w2):
+    Gamma_inf((w1, w2), d) = Gamma_inf((w1/w2, 1), d)/|w2|, fibered computation (smalldiv_sup.gamma_inf, SHARP-L9).
+    Rounded up to `digits` significant digits (rational) if exact, else double precision."""
+    import smalldiv_sup as sds                       # noqa: E402
+    w1, w2 = D["omega_star"]
+    alpha = abs(float(w1) / float(w2)); gam = float(D["gamma"]) / abs(float(w2)); tau = int(D["tau"])
+    cache = {}
+
+    def f(d):
+        d = float(d)
+        if d not in cache:
+            cache[d] = sds.gamma_inf(alpha, gam, tau, d)[0] * gam * d ** tau
+        return Fr(cache[d], digits) if exact else cache[d] * (1 + 1e-9)
+    return f
+
+
+def l1_options(D, aN, aL, t1, exact=True, nuK=None, nuN=None):
+    """The option `l1` of thresholdA/thresholdB (stage 0 only).  nuK, nuN: l^1 caps |L|_{l1,rho}, |N|_{l1,rho}
+    (route A only: the l^1 frame increment of Lemma bp:p2s2l1:frame)."""
+    return dict(cinf=c_inf_fn(D, exact), aN=aN, aL=aL, t1=t1, nuK=nuK, nuN=nuN)
+
+
+def entry_variants(D, aN, aL, t1, exact=True, torsion_cap_B=False, nuK=None, nuN=None):
+    """(label, route, options, small divisors, k): the best sup variants (A7, B6) and their l^1 entry versions."""
+    Dv = with_caps(D, F(1, 20)) if exact else T2_float_caps(D)
+    Tc = Dv["Tsup_cap"]
+    oA = dict(L1=True, torsion_cap=Tc, torsion_real=Tc, omega_eta=True, avg_full_bite=True, keep_delta=True,
+              caps_tilde=True, free_budgets=True, b5=True)      # b5: the conditions of Lean routeAOkL1
+    oB = dict(L1=True, keep_delta=True, avg_full_bite=True, theta=F(1, 16), cTh=Dv["cTh"], free_budgets=True,
+              aniso=True)
+    if torsion_cap_B:
+        oB.update(torsion_cap=Tc, torsion_real=Tc)
+    L = l1_options(Dv, aN, aL, t1, exact)
+    vs = [("A7 sup (freq, k = 5)", "A", oA), ("A7 + l1 entry step (B10)", "A", dict(oA, l1=L))]
+    if nuK is not None:
+        vs.append(("A7 + l1 entry step + l1 frame increment (B10)", "A",
+                   dict(oA, l1=l1_options(Dv, aN, aL, t1, exact, nuK, nuN))))
+    vs += [("B6 sup (freq, k = 5)", "B", oB), ("B6 + l1 entry step (B10)", "B", dict(oB, l1=L))]
+    return Dv, vs
+
+
+def T2_float_caps(D, f=0.05):
+    """with_caps for float data (PlasmaLean)."""
+    E = dict(D)
+    mu = D["mu"]
+    for k_, nm in (("sB", "B"), ("sT", "Tinv"), ("sLt", "Lt"), ("sN", "N"), ("sNt", "Nt")):
+        meas = D[k_] - mu
+        E[k_] = meas * (1 + f); E["bud_" + nm] = meas * f
+    E["Tsup_cap"] = D["Tsup"] * (1 + f); E["bud_Tsup"] = D["Tsup"] * f
+    return E
+
+
+def run_l1(D, label, aN, aL, t1, exact=True, k=5, forms=(False, True), torsion_cap_B=False, nuK=None, nuN=None,
+           log=print):
+    """Thresholds of A7/B6 (sup) and of their l^1 entry versions on the package D (log10 e, e = sup error at stage 0).
+    t1: l^1 torsion cap at stage 0 (None: t1 = Tsup_cap, i.e. |T|_{l1} = sup |T|)."""
+    Dv, vs = entry_variants(D, aN, aL, t1, exact, torsion_cap_B, nuK, nuN)
+    out = []
+    st, ct = c_stages(Dv, "freq")
+    for name, route, o in vs:
+        if o.get("l1") and o["l1"]["t1"] is None:
+            o = dict(o, l1=dict(o["l1"], t1=Dv["Tsup_cap"]))
+        for iso in forms:
+            if route == "A":
+                le, _, why = thresholdA(Dv, o, iso, k=k, c_stage=st, c_tail=ct)
+            else:
+                le, _, why = thresholdB(Dv, o, iso, k, st, ct)
+            out.append(dict(package=label, variant=name, form="iso" if iso else "fixed", log10_threshold=round(le, 2),
+                            binding=why, aN=float(aN), aL=float(aL)))
+            log("| %s | %s | %s | %.2f | %s |" % (label, name, "iso" if iso else "fixed", le, ", ".join(why)))
+    return out
 
 
 def routeA_variants(D):
@@ -635,6 +785,48 @@ def run_routeB(D, label=""):
             out.append(dict(variant=name, form="iso" if iso else "fixed", log10_threshold=round(le, 2), binding=why))
             print("| %s%s | %s | %.2f | %s |" % (label, name, "iso" if iso else "fixed", le, ", ".join(why)))
     return out
+
+
+# R1 weighted-l1 data (scripts/apost_sharp/l1_entry_r1.py, grid 1024 x 256; HEURISTIC: sampled FFT coefficients, not
+# enclosures): |eta^N|_{l1,rho} = aN s_Lt e, |eta^L|_{l1,rho} = aL s_Nt e, |T|_{l1,rho-delta0} = t1, |L|_{l1,rho} = nuK,
+# |N|_{l1,rho} = nuN (|E|_{l1,rho}/sup |E| = 4.28).  The theorem's data are these times 1.05 (+ mu for the frame).
+R1_L1 = dict(aN=3.9200, aL=0.2558, t1=3.5512, nuK=1.3604, nuN=1.4159, rE=4.2842)
+
+
+def main_l1():
+    """B10 tables: R1 with its measured l^1 data, and the sensitivity to the l^1/sup ratio a = aN = aL."""
+    D = package("R1")
+    s = F(105, 100)
+    aN, aL, t1 = Fr(R1_L1["aN"]) * s, Fr(R1_L1["aL"]) * s, Fr(R1_L1["t1"]) * s
+    nuK, nuN = Fr(R1_L1["nuK"]) * s + D["mu"], Fr(R1_L1["nuN"]) * s + D["mu"]
+    f = c_inf_fn(D)
+    d0 = (D["rho"] - D["rhoinf"]) / 6
+    print("c_inf(delta0) = %.5f, c_inf(delta0/2) = %.5f, c_inf(rho) = %.5f (R1; SHARP-L9 Gamma_inf at the actual bites)"
+          % (f(d0), f(d0 / 2), f(D["rho"])))
+    print("R1 measured l1 data x 1.05 (heuristic): aN %.3f, aL %.3f, t1 %.3f, nuK %.3f, nuN %.3f"
+          % (aN, aL, t1, nuK, nuN))
+    print("| package | variant | form | log10 threshold (sup e) | binding |")
+    print("|---|---|---|---:|---|")
+    rows = run_l1(D, "R1", aN, aL, t1, nuK=nuK, nuN=nuN)
+    print()
+    print("Sensitivity (R1, fixed frequency, route A + l1 entry + l1 frame increment): l1/sup ratio a = aN = aL")
+    print("| a | log10 threshold | gain over A7 sup |")
+    print("|---:|---:|---:|")
+    st, ct = c_stages(with_caps(D, F(1, 20)), "freq")
+    base = None
+    for a_ in (F(1), F(2), F(36, 10), aN, F(8)):
+        Dv, vs = entry_variants(D, a_, a_, t1, nuK=nuK, nuN=nuN)
+        if base is None:
+            base = thresholdA(Dv, vs[0][2], False, k=5, c_stage=st, c_tail=ct)[0]
+        le = thresholdA(Dv, vs[2][2], False, k=5, c_stage=st, c_tail=ct)[0]
+        rows.append(dict(package="R1", variant="sensitivity a = %.3f" % a_, form="fixed", log10_threshold=round(le, 2)))
+        print("| %.3f | %.2f | %+.2f |" % (a_, le, le - base))
+    if "--json" in sys.argv:
+        json.dump(dict(rows=rows), open(sys.argv[sys.argv.index("--json") + 1], "w"), indent=1, default=str)
+
+
+if __name__ == "__main__" and "--l1" in sys.argv:
+    main_l1()
 
 
 if __name__ == "__main__" and len(sys.argv) > 1 and sys.argv[1] == "--routeB":
