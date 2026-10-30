@@ -35,11 +35,13 @@ theorem lamExt_pos {m : ℝ} (hm : 0 < m) (x : ℝ) : 0 < lamExt m x :=
 theorem lamExt_sq (m x : ℝ) (hm : 0 < m) : lamExt m x ^ 2 = x ^ 2 + m :=
   Real.sq_sqrt (by positivity)
 
-theorem lamExt_lt {m : ℝ} (hm : 0 < m) {x y : ℝ} (hx : 0 ≤ x) (hxy : x < y) : lamExt m x < lamExt m y := by
+theorem lamExt_lt {m : ℝ} (hm : 0 < m) {x y : ℝ} (hx : 0 ≤ x) (hxy : x < y) : lamExt m x < lamExt m
+    y := by
   unfold lamExt
   exact Real.sqrt_lt_sqrt (by positivity) (by nlinarith)
 
-theorem lamExt_le {m : ℝ} (hm : 0 < m) {x y : ℝ} (hx : 0 ≤ x) (hxy : x ≤ y) : lamExt m x ≤ lamExt m y := by
+theorem lamExt_le {m : ℝ} (hm : 0 < m) {x y : ℝ} (hx : 0 ≤ x) (hxy : x ≤ y) : lamExt m x ≤ lamExt m
+    y := by
   rcases hxy.eq_or_lt with rfl | h
   · exact le_rfl
   · exact (lamExt_lt hm hx h).le

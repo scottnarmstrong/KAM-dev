@@ -29,7 +29,8 @@ open intervalIntegral Real
 
 namespace KAM.Wave
 
-/-- The quartic coefficient `g_{ijkl} = ∫₀^π φ_i φ_j φ_k φ_l dx` (blueprint `bpW:w0n:quartic-coeff`). -/
+/-- The quartic coefficient `g_{ijkl} = ∫₀^π φ_i φ_j φ_k φ_l dx` (blueprint
+    `bpW:w0n:quartic-coeff`). -/
 def quarticCoeff (i j k l : ℕ+) : ℝ :=
   ∫ x in (0 : ℝ)..π, sineMode i x * sineMode j x * sineMode k x * sineMode l x
 
@@ -86,7 +87,8 @@ theorem quarticCoeff_eq (i j k l : ℕ+) :
   unfold quarticCoeff
   simp_rw [sineMode_mul_four]
   have hc : ∀ n : ℤ, IntervalIntegrable (fun x : ℝ => Real.cos ((n : ℝ) * x)) MeasureTheory.volume
-      0 π := fun n => (by fun_prop : Continuous fun x : ℝ => Real.cos ((n : ℝ) * x)).intervalIntegrable _ _
+      0 π := fun n => (by fun_prop : Continuous fun x : ℝ => Real.cos ((n : ℝ) *
+          x)).intervalIntegrable _ _
   rw [intervalIntegral.integral_const_mul]
   have e : ∀ f : ℤ → ℝ → ℝ, (∀ n, IntervalIntegrable (f n) MeasureTheory.volume 0 π) →
       ∀ n1 n2 n3 n4 n5 n6 n7 n8 : ℤ,
@@ -183,7 +185,8 @@ theorem quarticSel_of_quarticCoeff_ne_zero (i j k l : ℕ+) (h : quarticCoeff i 
 /-- Symmetry of `g` under all permutations of the four indices (blueprint
 `bpW:w0n:quartic-coeff`). -/
 theorem quarticCoeff_perm (v : Fin 4 → ℕ+) (σ : Equiv.Perm (Fin 4)) :
-    quarticCoeff (v (σ 0)) (v (σ 1)) (v (σ 2)) (v (σ 3)) = quarticCoeff (v 0) (v 1) (v 2) (v 3) := by
+    quarticCoeff (v (σ 0)) (v (σ 1)) (v (σ 2)) (v (σ 3)) = quarticCoeff (v 0) (v 1) (v 2) (v 3) :=
+        by
   have key : ∀ (w : Fin 4 → ℕ+) (x : ℝ), sineMode (w 0) x * sineMode (w 1) x * sineMode (w 2) x
       * sineMode (w 3) x = ∏ t, sineMode (w t) x := fun w x => by
     simp [Fin.prod_univ_four]

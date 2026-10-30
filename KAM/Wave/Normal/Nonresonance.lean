@@ -56,6 +56,25 @@ theorem lamExt_two_two {m : ℝ} (hm : 0 < m) {a b c d : ℕ} (ha : 1 ≤ a) (hb
     have := lamExt_big_lt (m := m) hm (X := d) (Y := c) (Z := a) (W := b) hc (by omega)
     linarith
 
+/-- One sign against three, on `ℕ+` indices. -/
+theorem lamExt_three_pnat {m : ℝ} (hm : 0 < m) {a b c d : ℕ+} (hs : QuarticSel a b c d)
+    (h : lamExt m ((a : ℕ) : ℝ) + lamExt m ((b : ℕ) : ℝ) + lamExt m ((c : ℕ) : ℝ)
+      = lamExt m ((d : ℕ) : ℝ)) : False := by
+  have := a.pos
+  have := b.pos
+  have := c.pos
+  have := d.pos
+  unfold QuarticSel at hs
+  exact lamExt_three_ne hm (by omega) h
+
+/-- Two against two, on `ℕ+` indices. -/
+theorem lamExt_two_two_pnat {m : ℝ} (hm : 0 < m) {a b c d : ℕ+} (hs : QuarticSel a b c d)
+    (h : lamExt m ((a : ℕ) : ℝ) + lamExt m ((b : ℕ) : ℝ)
+      = lamExt m ((c : ℕ) : ℝ) + lamExt m ((d : ℕ) : ℝ)) : (a = c ∧ b = d) ∨ (a = d ∧ b = c) := by
+  rcases lamExt_two_two hm a.pos b.pos c.pos d.pos hs h with ⟨h1, h2⟩ | ⟨h1, h2⟩
+  · exact Or.inl ⟨PNat.coe_injective h1, PNat.coe_injective h2⟩
+  · exact Or.inr ⟨PNat.coe_injective h1, PNat.coe_injective h2⟩
+
 /-- Qualitative nonresonance of all quartic terms (blueprint `bpW:w0n:nonres`). -/
 theorem quartic_nonresonance (m : ℝ) (hm : 0 < m) (v : Fin 4 → ℕ+)
     (hg : quarticCoeff (v 0) (v 1) (v 2) (v 3) ≠ 0) (σ : Fin 4 → ℤˣ)
@@ -79,60 +98,62 @@ theorem quartic_nonresonance (m : ℝ) (hm : 0 < m) (v : Fin 4 → ℕ+)
   have ld := lamExt_pos hm ((d : ℕ) : ℝ)
   have n1 : ¬ ((1 : ℤˣ) = -1) := by decide
   have n2 : ¬ ((-1 : ℤˣ) = 1) := by decide
-  rcases Int.units_eq_one_or (σ 0) with h0 | h0 <;> rcases Int.units_eq_one_or (σ 1) with h1 | h1 <;>
-    rcases Int.units_eq_one_or (σ 2) with h2 | h2 <;> rcases Int.units_eq_one_or (σ 3) with h3 | h3 <;>
-    simp only [h0, h1, h2, h3, n1, n2, ite_true, ite_false,
-      Units.val_one, Units.val_neg, Int.cast_one, Int.cast_neg, one_mul, neg_mul] at hres ⊢
+  rcases Int.units_eq_one_or (σ 0) with h0 | h0 <;>
+    rcases Int.units_eq_one_or (σ 1) with h1 | h1 <;>
+    rcases Int.units_eq_one_or (σ 2) with h2 | h2 <;>
+    rcases Int.units_eq_one_or (σ 3) with h3 | h3 <;>
+    simp only [h0, h1, h2, h3, n1, n2, ite_true, ite_false, Units.val_one, Units.val_neg,
+      Int.cast_one, Int.cast_neg, one_mul, neg_mul] at hres ⊢
   · -- ++++
     exfalso; linarith
   · -- +++-
-    exact absurd (by linarith : lamExt m ((a : ℕ) : ℝ) + lamExt m ((b : ℕ) : ℝ) + lamExt m ((c : ℕ) : ℝ) = lamExt m ((d : ℕ) : ℝ))
-      (lamExt_three_ne hm (a := (a : ℕ)) (b := (b : ℕ)) (c := (c : ℕ)) (d := (d : ℕ)) (by unfold QuarticSel at hs; omega))
+    exact (lamExt_three_pnat hm (a := a) (b := b) (c := c) (d := d)
+      (by unfold QuarticSel at hs ⊢; omega) (by linarith)).elim
   · -- ++-+
-    exact absurd (by linarith : lamExt m ((a : ℕ) : ℝ) + lamExt m ((b : ℕ) : ℝ) + lamExt m ((d : ℕ) : ℝ) = lamExt m ((c : ℕ) : ℝ))
-      (lamExt_three_ne hm (a := (a : ℕ)) (b := (b : ℕ)) (c := (d : ℕ)) (d := (c : ℕ)) (by unfold QuarticSel at hs; omega))
+    exact (lamExt_three_pnat hm (a := a) (b := b) (c := d) (d := c)
+      (by unfold QuarticSel at hs ⊢; omega) (by linarith)).elim
   · -- ++--
-    have hk := lamExt_two_two hm (a := (a : ℕ)) (b := (b : ℕ)) (c := (c : ℕ)) (d := (d : ℕ)) pa pb pc pd
+    have hk := lamExt_two_two_pnat hm (a := a) (b := b) (c := c) (d := d)
       (by unfold QuarticSel at hs ⊢; omega) (by linarith)
-    rcases hk with ⟨e1, e2⟩ | ⟨e1, e2⟩ <;> rw [PNat.coe_injective e1, PNat.coe_injective e2] <;> abel
+    rcases hk with ⟨e1, e2⟩ | ⟨e1, e2⟩ <;> rw [e1, e2] <;> abel
   · -- +-++
-    exact absurd (by linarith : lamExt m ((a : ℕ) : ℝ) + lamExt m ((c : ℕ) : ℝ) + lamExt m ((d : ℕ) : ℝ) = lamExt m ((b : ℕ) : ℝ))
-      (lamExt_three_ne hm (a := (a : ℕ)) (b := (c : ℕ)) (c := (d : ℕ)) (d := (b : ℕ)) (by unfold QuarticSel at hs; omega))
+    exact (lamExt_three_pnat hm (a := a) (b := c) (c := d) (d := b)
+      (by unfold QuarticSel at hs ⊢; omega) (by linarith)).elim
   · -- +-+-
-    have hk := lamExt_two_two hm (a := (a : ℕ)) (b := (c : ℕ)) (c := (b : ℕ)) (d := (d : ℕ)) pa pc pb pd
+    have hk := lamExt_two_two_pnat hm (a := a) (b := c) (c := b) (d := d)
       (by unfold QuarticSel at hs ⊢; omega) (by linarith)
-    rcases hk with ⟨e1, e2⟩ | ⟨e1, e2⟩ <;> rw [PNat.coe_injective e1, PNat.coe_injective e2] <;> abel
+    rcases hk with ⟨e1, e2⟩ | ⟨e1, e2⟩ <;> rw [e1, e2] <;> abel
   · -- +--+
-    have hk := lamExt_two_two hm (a := (a : ℕ)) (b := (d : ℕ)) (c := (b : ℕ)) (d := (c : ℕ)) pa pd pb pc
+    have hk := lamExt_two_two_pnat hm (a := a) (b := d) (c := b) (d := c)
       (by unfold QuarticSel at hs ⊢; omega) (by linarith)
-    rcases hk with ⟨e1, e2⟩ | ⟨e1, e2⟩ <;> rw [PNat.coe_injective e1, PNat.coe_injective e2] <;> abel
+    rcases hk with ⟨e1, e2⟩ | ⟨e1, e2⟩ <;> rw [e1, e2] <;> abel
   · -- +---
-    exact absurd (by linarith : lamExt m ((b : ℕ) : ℝ) + lamExt m ((c : ℕ) : ℝ) + lamExt m ((d : ℕ) : ℝ) = lamExt m ((a : ℕ) : ℝ))
-      (lamExt_three_ne hm (a := (b : ℕ)) (b := (c : ℕ)) (c := (d : ℕ)) (d := (a : ℕ)) (by unfold QuarticSel at hs; omega))
+    exact (lamExt_three_pnat hm (a := b) (b := c) (c := d) (d := a)
+      (by unfold QuarticSel at hs ⊢; omega) (by linarith)).elim
   · -- -+++
-    exact absurd (by linarith : lamExt m ((b : ℕ) : ℝ) + lamExt m ((c : ℕ) : ℝ) + lamExt m ((d : ℕ) : ℝ) = lamExt m ((a : ℕ) : ℝ))
-      (lamExt_three_ne hm (a := (b : ℕ)) (b := (c : ℕ)) (c := (d : ℕ)) (d := (a : ℕ)) (by unfold QuarticSel at hs; omega))
+    exact (lamExt_three_pnat hm (a := b) (b := c) (c := d) (d := a)
+      (by unfold QuarticSel at hs ⊢; omega) (by linarith)).elim
   · -- -++-
-    have hk := lamExt_two_two hm (a := (b : ℕ)) (b := (c : ℕ)) (c := (a : ℕ)) (d := (d : ℕ)) pb pc pa pd
+    have hk := lamExt_two_two_pnat hm (a := b) (b := c) (c := a) (d := d)
       (by unfold QuarticSel at hs ⊢; omega) (by linarith)
-    rcases hk with ⟨e1, e2⟩ | ⟨e1, e2⟩ <;> rw [PNat.coe_injective e1, PNat.coe_injective e2] <;> abel
+    rcases hk with ⟨e1, e2⟩ | ⟨e1, e2⟩ <;> rw [e1, e2] <;> abel
   · -- -+-+
-    have hk := lamExt_two_two hm (a := (b : ℕ)) (b := (d : ℕ)) (c := (a : ℕ)) (d := (c : ℕ)) pb pd pa pc
+    have hk := lamExt_two_two_pnat hm (a := b) (b := d) (c := a) (d := c)
       (by unfold QuarticSel at hs ⊢; omega) (by linarith)
-    rcases hk with ⟨e1, e2⟩ | ⟨e1, e2⟩ <;> rw [PNat.coe_injective e1, PNat.coe_injective e2] <;> abel
+    rcases hk with ⟨e1, e2⟩ | ⟨e1, e2⟩ <;> rw [e1, e2] <;> abel
   · -- -+--
-    exact absurd (by linarith : lamExt m ((a : ℕ) : ℝ) + lamExt m ((c : ℕ) : ℝ) + lamExt m ((d : ℕ) : ℝ) = lamExt m ((b : ℕ) : ℝ))
-      (lamExt_three_ne hm (a := (a : ℕ)) (b := (c : ℕ)) (c := (d : ℕ)) (d := (b : ℕ)) (by unfold QuarticSel at hs; omega))
+    exact (lamExt_three_pnat hm (a := a) (b := c) (c := d) (d := b)
+      (by unfold QuarticSel at hs ⊢; omega) (by linarith)).elim
   · -- --++
-    have hk := lamExt_two_two hm (a := (c : ℕ)) (b := (d : ℕ)) (c := (a : ℕ)) (d := (b : ℕ)) pc pd pa pb
+    have hk := lamExt_two_two_pnat hm (a := c) (b := d) (c := a) (d := b)
       (by unfold QuarticSel at hs ⊢; omega) (by linarith)
-    rcases hk with ⟨e1, e2⟩ | ⟨e1, e2⟩ <;> rw [PNat.coe_injective e1, PNat.coe_injective e2] <;> abel
+    rcases hk with ⟨e1, e2⟩ | ⟨e1, e2⟩ <;> rw [e1, e2] <;> abel
   · -- --+-
-    exact absurd (by linarith : lamExt m ((a : ℕ) : ℝ) + lamExt m ((b : ℕ) : ℝ) + lamExt m ((d : ℕ) : ℝ) = lamExt m ((c : ℕ) : ℝ))
-      (lamExt_three_ne hm (a := (a : ℕ)) (b := (b : ℕ)) (c := (d : ℕ)) (d := (c : ℕ)) (by unfold QuarticSel at hs; omega))
+    exact (lamExt_three_pnat hm (a := a) (b := b) (c := d) (d := c)
+      (by unfold QuarticSel at hs ⊢; omega) (by linarith)).elim
   · -- ---+
-    exact absurd (by linarith : lamExt m ((a : ℕ) : ℝ) + lamExt m ((b : ℕ) : ℝ) + lamExt m ((c : ℕ) : ℝ) = lamExt m ((d : ℕ) : ℝ))
-      (lamExt_three_ne hm (a := (a : ℕ)) (b := (b : ℕ)) (c := (c : ℕ)) (d := (d : ℕ)) (by unfold QuarticSel at hs; omega))
+    exact (lamExt_three_pnat hm (a := a) (b := b) (c := c) (d := d)
+      (by unfold QuarticSel at hs ⊢; omega) (by linarith)).elim
   · -- ----
     exfalso; linarith
 
