@@ -1844,3 +1844,12 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - Lock state: every Lean package is on main. Remaining are LOCK-DATA (the N = 65 certificate and kernel passes)
     and the one-line headline, waiting on SO-KDEPTH2 (G1 bridge) and SO-CSPLIT (segmented
     compose/Gram/torsion).
+- **20:44. SO-CSEG-L3 audit PASS WITH NOTES (codex-1), landing with the SO-CSPLIT design; SO-CSEG-L2 started.**
+  - L3: all 14 declarations match the design §(D) block; 11 production and 8 test theorems on standard axioms;
+    build, probes and replay pass. Sent to kam-inp (branch inp-csegl3) with the approved design, its three audits
+    and the planning scripts.
+  - **SO-CSEG-L2**, the stage memo (Gram, torsion and frames proved one entry at a time), started now (Opus,
+    claude-12) rather than after CAL-1. Its lemmas depend only on landed Gram/Torsion/Frame, and calibration
+    changes granularity, not statements. It reuses the L3 worktree on branch inp-csegl2, so no extra build copy
+    at 9.7 GB free.
+  - Running: SO-CSEG-A/B (+SegOne; claude-4) and SO-KDEPTH2 (claude-6).
