@@ -91,3 +91,10 @@ W8 now describes epsilon_0,n as a value of W6's existing starting-size parameter
 The three-file delta is fully classified; one minor general-range clarification remains in W5. No fresh full-part, frozen-statement, dependency-graph or Lean-proof audit was performed. No change to protected files is proposed.
 
 The revised P96-K p. 140 note now correctly calls the printed full-lambda justification insufficient/suspected, retains the doubled-weight obstruction, and explicitly disclaims a complete admissible counterexample. Its additional action-component strip cost is identified as the blueprint's proof route. This review does not certify a new source erratum; the adopted beta=1/4, loss=1/2 and t^natural=53 deviations remain explicit.
+
+## Fix verification (sub-orchestrator kam-d4, 2026-10-30)
+
+W568-R2-1 was applied in w5-kamstep.tex (`w4-modified` (iii), `stepW:w5:m-const`). It is now
+b♮(τ) = 4(C₀ + C₂ + C_{2τ} + C_{2τ+2}), with the four terms counted with multiplicity. C₀ = (1+1/π)² comes from W4's
+lattice (ii) at q = 0, C_q from (iii) for q > 0, and each power is ≤ σ^{−(2τ+4)} for σ ≤ 1. At τ = 24 the value is
+unchanged. Checked by the sub-orchestrator; CLOSED. W5 status: ACCEPTED.

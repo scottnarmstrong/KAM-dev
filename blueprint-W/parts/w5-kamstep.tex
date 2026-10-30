@@ -171,7 +171,8 @@ formulas. Then:
   \qquad B^\natural_\sigma=\sum_{k\in\Z^2}(1+\abs k_1)^2A_k^2e^{-2\pi\abs k_1\sigma}\ \ (\ge B^{\rm W}_\sigma),\]
   so for $0\le\lambda\le\hat\alpha/M$: $\abs{X_F}^\lambda_{r,D(s-\sigma,r)}\le\frac{3C_1B^\natural_\sigma}{\hat\alpha}\abs{X_R}^\lambda_{r,D(s,r)}$.
 \item For $0<\sigma\le1$, $B^\natural_\sigma\le b^\natural(\tau)\sigma^{-(2\tau+4)}$ with
-  $b^\natural(\tau)=4\bigl[(1+\frac1\pi)^2+\sum_{q\in\{2,2\tau,2\tau+2\}}\frac4\pi\bigl(\frac{q+1}{e\pi}\bigr)^{q+1}\bigr]\ (\ge b_{\rm W}(\tau))$.
+  $b^\natural(\tau)=4\bigl(C_0+C_2+C_{2\tau}+C_{2\tau+2}\bigr)$ (four terms, counted with multiplicity), where
+  $C_0=(1+\frac1\pi)^2$ and $C_q=\frac4\pi\bigl(\frac{q+1}{e\pi}\bigr)^{q+1}$ for $q>0$ (so $C_{2\tau}=C_0$ when $\tau=0$).
 \end{enumerate}
 \end{lemma}
 \begin{proof}
@@ -215,8 +216,9 @@ $\partial_\theta F$ taken from Step~\ref{stepW:w5:m-act} instead of the bilinear
 or, for the $Q_F$-part of $\partial_\theta F$, with $B^\natural_\sigma$; the assembly is linear in the component bounds. The
 $\lambda$-form follows as in Corollary~\ref{bpW:w4:lemma2}.
 \proofstep{The constant}\label{stepW:w5:m-const} $(1+x)^2(1+x^\tau)^2\le4(1+x^2)(1+x^{2\tau})$ for $x\ge0$ (Cauchy--Schwarz), so
-$B^\natural_\sigma\le4(S_0+S_2+S_{2\tau}+S_{2\tau+2})$ in the notation of Lemma~\ref{bpW:w4:lattice}, and (ii)--(iii) there give
-each term $\le$ its constant in $b^\natural$ times $\sigma^{-(q+2)}\le\sigma^{-(2\tau+4)}$ ($\sigma\le1$).
+$B^\natural_\sigma\le4(S_0+S_2+S_{2\tau}+S_{2\tau+2})$ (four terms, with multiplicity) in the notation of
+Lemma~\ref{bpW:w4:lattice}. By (ii) there, $S_0\le(1+\frac1{\pi\sigma})^2\le C_0\sigma^{-2}$, and by (iii), $S_q\le C_q\sigma^{-(q+2)}$ for $q>0$;
+for $\sigma\le1$ every $\sigma^{-(q+2)}$ with $q\le2\tau+2$ is $\le\sigma^{-(2\tau+4)}$. Summing the four terms gives (iii).
 \end{proof}
 \source{P96-K \S6, p.~140, (23) (``$\abs{\langle k,\omega\rangle+\Omega_i-\Omega_j}\ge\frac{\hat\alpha}{A_k}\cdot
 \frac{\abs{i-j}}{\min(i^\varpi,j^\varpi)}$'') and ``$\abs{X_F}^\lambda_{\check p,r,D(s-\sigma,r)}\le\frac{aB_\sigma}{\hat\alpha}
