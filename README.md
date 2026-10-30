@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 01:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **274,488 lines of Lean** of an estimated ≈ 276,000
+> **Last updated: 2026-10-30 01:49 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **274,488 lines of Lean** of an estimated ≈ 276,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -223,7 +223,7 @@ Overall, everything together: 96.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 01:40 UTC from `main` at `560e072d` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 01:49 UTC from `main` at `36a3d05b` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -393,6 +393,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 01:49 | `36a3d05b` | README: main theorems of track SO (the sound certificate checker; the first certified tori) |
 | 2026-10-30 01:20 | `0e28395c` | Overnight log: 01:20 |
 | 2026-10-30 01:00 | `33822ae1` | SO design: overnight amendments (R1 M = 203/100; toy T2d denominator a = 10^30), for owner review |
 | 2026-10-30 01:00 | `27f7cd23` | Overnight log: 01:00 |
@@ -404,7 +405,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 22:24 | `89c72301` | Overnight log: correct a time label |
 | 2026-10-29 22:24 | `87f41cc0` | Overnight log: heartbeat 22:27, SO-DATA-1 started |
 | 2026-10-29 22:17 | `78984409` | Overnight log: SO-PYALIGN done, SO-TEST-A started |
-| 2026-10-29 22:15 | `ee820b90` | Overnight log: SO-GRAPH and SO-R1 audited |
 <!-- /AUTO:landed -->
 
 ## Decisions
