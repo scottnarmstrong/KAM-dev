@@ -114,19 +114,87 @@ For `ε ≤ ε₀ ≤ thresholds d`, `weak_kam_quantitative n μ τ s C₁` give
   `4⁻ⁿ meas FD = p·meas B ≤ q·(meas K − ε*) ≤ q·meas good ≤ meas E ≤ meas(FD ∩ russmannCover …)`,
   where `meas FD = meas B` since `meas [0,1)ⁿ = 1`.
 
-## Status of the pieces
+## Status of the pieces (all proved, 30 October 2026)
 
-| Piece | Module | Status |
+| Piece | Lean declaration | Module |
 |---|---|---|
-| Rüssmann non-degeneracy lemma (Step 1) | `KAM/Russmann/Nondegeneracy.lean` | see handoff |
-| compact set, margin, budget (Step 2) | `KAM/Russmann/Domain.lean` | see handoff |
-| bounds `M, M₀, C₁` (Step 3) | `KAM/Russmann/Bounds.lean` | see handoff |
-| torus transfer (Step 5) | `KAM/Russmann/Torus.lean` | see handoff |
-| volume of `E`, rearrangement (Step 5) | `KAM/Russmann/FamilyVolume.lean`, `FundamentalDomain.lean` | see handoff |
-| assembly in inline form (Steps 0–5) | `KAM/Russmann/Assembly.lean` | see handoff |
+| real neighbourhood; analyticity of `∇h` and `∇_ℂ h` (Step 1) | `isConnected_realNbhd`, `analyticOnNhd_frequencyMap`, `analyticOnNhd_gradC` | `KAM/Russmann/Frequency.lean` |
+| Rüssmann non-degeneracy lemma (Step 1) | `russmann_finite_order`, `russmann_finite_order_frequencyMap` | `KAM/Russmann/Nondegeneracy.lean` |
+| compact set, margin, budget (Step 2) | `exists_compact_budget`, `volume_fundamentalDomain` | `KAM/Russmann/Domain.lean` |
+| bounds `M, M₀, C₁` (Step 3) | `exists_bound_iteratedFDeriv`, `abs_iteratedFDeriv_scalar_le`, `euclid_iteratedFDeriv_le`, `isCompact_euclidThick`, `exists_hessian_bound` | `KAM/Russmann/Bounds.lean` |
+| data and `QuantitativeInput` (Step 3) | `russmannData`, `russmannData_valid`, `russmannData_input` | `KAM/Russmann/Data.lean` |
+| torus transfer (Step 5) | `isInvariantLagrangianTorus_of_isLatticeTorus` | `KAM/Russmann/Torus.lean` |
+| volume of `E` (Step 5) | `volume_le_of_lower_bound`, `familyImage_volume_lower`, `familyImage_eq_add_angleTranslate` | `KAM/Russmann/FamilyVolume.lean` |
+| reduction modulo `ℤⁿ` (Step 5) | `volume_le_volume_fundamentalDomain_inter` | `KAM/Russmann/FundamentalDomain.lean` |
+| assembly in inline form (Steps 0–5) | `russmann_tori` | `KAM/Russmann/Assembly.lean` |
 
-The **assembly in inline form** is a theorem with R-HEAD's hypotheses and, in its conclusion, an
-explicit set `E ⊆ fundamentalDomain B` of volume `≥ 4⁻ⁿ meas FD`, every point of which satisfies
-the defining predicate of `russmannCover` written out. It refers to no draft definition. After
-freezing, the provider is a few lines: `E ⊆ FD ∩ russmannCover` by `Iff.rfl` on the definition, then
-`measure_mono`.
+`KAM.Russmann.russmann_tori` has R-HEAD's hypotheses verbatim, and its conclusion is R-HEAD's
+with `russmannCover h f B r₀ τ δ` written out as a set-builder. It refers to no draft definition.
+Its axioms are `propext`, `Classical.choice`, `Quot.sound`.
+
+A probe (`.drafts/russmann/ProviderCheck.lean`: the draft cover, then the draft theorem with body
+`KAM.Russmann.russmann_tori hn hs₀ hr₀ hB_open hB_conn hB_bdd hh hh_real h_russmann`) elaborates
+with the same three axioms. So after freezing, the provider of R-HEAD v0.1 is this one term: the
+draft cover and the inline set are equal by definition.
+
+## Cost of the stronger form (audit F1: `meas(FD ∖ cover) ≤ κ · meas FD` for every `κ > 0`)
+
+The audit's form `∀ δ > 0, ∀ κ > 0, ∃ ε₀ > 0, … → volume (fundamentalDomain B \ russmannCover …) ≤
+ENNReal.ofReal κ * volume (fundamentalDomain B)` needs `meas(FD ∩ cover) ≥ (1 − κ) meas FD`. Two
+losses enter the current chain.
+
+- **Parameter loss.** `meas good ≥ meas K − ε*`, with `K` and `ε*` free. Already arbitrarily small.
+- **Evaluation loss.** The factor `(1 − 2⁻¹⁰)^{2n}`. Track P exports only the bi-Lipschitz bounds
+  `lower`/`upper` with the fixed constant `λ* = 2⁻¹⁰`. With only those clauses and `Δ(ε) → 0`, the
+  loss cannot be removed in general: a bi-Lipschitz map close to the identity in sup norm may
+  compress a Cantor-like set by up to `(1 − λ)^{2n}`, unless one uses degree theory.
+
+There are two ways to remove it.
+
+**(A) Make `λ(ε) → 0` inside track P.** Mathematically free: both halves of the defect's Lipschitz
+constant are linear in `Q₀Ξ`, and `Q₀ = C_Q 2^N T₀^τ λ₀ / (π γ ς₀^{N+1})` with
+`λ₀ = (2 N C₁ ε)^{1/2}` (`free-radius`), so `λ(ε) ≤ C(d)·√ε`.
+- The parameter half is already explicit: `pl4_sum_node` gives `S_b ≤ (32/31) Q₀Ξ (2/C_Q + 1/32)`.
+- The angle half is not. `selectionLim_derivative_bound` (LimitProps.lean) and
+  `selectionLim_defect_lipschitz` (Limit.lean) use the structure field
+  `SelectionChain.composition_small : ‖DΦ^ν − id‖ ≤ 2⁻¹¹`, produced by the composition budget
+  (`CompositionBound.lean`, `e^{Σ m_j} ≤ 1 + 2⁻¹¹`). Threading `e^{Σ m_j} − 1 ≤ c·Q₀Ξ` through it
+  means:
+  - a parallel chain structure (or a changed field);
+  - new versions of the limit derivative bound, the angle Lipschitz bound, `lipschitz_family` and
+    `evaluation_bilipschitz` with `λ(ε)`;
+  - a lemma `Q₀(ε) = c(d)·√ε`;
+  - a new export carrying `lower` with `1 − λ(ε)`.
+
+  Estimate: **600–900 lines** in `KAM/Planetary/WeakKAM` and `Quantitative`, plus about 100 in
+  track R. It is invasive: existing track-P files or structures would change, or be duplicated.
+
+**(B) Keep `λ = 2⁻¹⁰` fixed; use the global extension and `Δ(ε) → 0` (recommended).**
+- *Track P (additive).* Export the defect Lipschitz bound that is already proved,
+  `SelectionLipschitz.lipschitz_joint`: `‖u(b,θ) − u(b′,θ′)‖ ≤ 2⁻¹⁰ ‖(θ,b) − (θ′,b′)‖` on
+  `good × ℝⁿ`, with `u(b,θ) = torus b θ − (θ, b)`. This needs a theorem parallel to
+  `weak_kam_quantitative`, repeating the repackaging of `Assembly.lean` (`p11c_asm_family`, about
+  120 lines) with one more clause. The zero case is trivial (`u = 0`). **About 150 lines**, with no
+  change to track P's constants or files.
+- *Track R.*
+  - Extend `u|_{ℝⁿ × good}` to a global `2⁻¹⁰`-Lipschitz `Φ` (Mathlib `LipschitzOnWith.extend_pi`,
+    max norm), and clip it componentwise to `[−Δ, Δ]`. `E = id + Φ` is then a bijection
+    (`KAM.lipeo_onto`) with `‖E − id‖ ≤ Δ`, and `E = T` on `ℝⁿ × good`. Track P's
+    `Evaluation.lean` (`EvalExtData`) already does this internally.
+  - With `U` open, `K ⊆ U ⊆ B`, `meas(U ∖ K)` small (outer regularity), `Ω = [0,1)ⁿ × U` and
+    `A = [0,1)ⁿ × good`:
+    - `E(Ω) ⊇ {z : closedBall z Δ ⊆ Ω} ⊇ [Δ, 1 − Δ)ⁿ × U_Δ`, where
+      `U_Δ = {b : closedBall b Δ ⊆ U}`. This is elementary from bijectivity and `‖E − id‖ ≤ Δ`;
+      no degree theory is needed.
+    - `meas E(Ω ∖ A) ≤ (1 + 2⁻¹⁰)^{2n} meas(U ∖ good)` (`KAM.lip_image_prod`).
+    - Hence `meas T(A) ≥ (1 − 2Δ)ⁿ meas U_Δ − (1 + 2⁻¹⁰)^{2n} (meas(U ∖ K) + ε*)`.
+  - `meas U_Δ ↑ meas U` as `Δ ↓ 0` (continuity from below), and `Δ(ε) ≤ c_Δ √ε / γ` is already
+    exported. Hence `meas T(A) ≥ (1 − κ) meas B` for `ε ≤ ε₀(κ)`. `τ` is unaffected (it is fixed
+    on `closure B` before `κ`).
+  - The complement: a measurable-subset variant of `volume_le_volume_fundamentalDomain_inter` (it
+    already builds the measurable set `⋃ₖ Aₖ`), and `meas(FD ∖ cover) ≤ meas FD − meas(⋃ₖ Aₖ)`.
+
+  **About 350 lines.**
+
+  Total for (B): **about 500 lines**, no new mathematics, nothing invasive. (B) can reuse every
+  current track-R module unchanged except the assembly (a second assembly theorem).
