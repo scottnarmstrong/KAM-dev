@@ -17,12 +17,16 @@ import Mathlib.Tactic.Linarith
 
 Blueprint `bp:p2s2l1:norms` and `bp:p2s2l1:toolkit` (a), (b) of `blueprint/parts/p2s2-l1hybrid.tex`.
 
-For `f : T_r → ℂ^ι` the bound `‖f‖_{1,r} ≤ A` is the predicate `L1Vec r f A`: every component has torus
-coefficients summable with the weight `e^{2πr|k|₁}` (the repository's `KAM.Fourier.weightedNorm` at the
-coefficient radius `2πr`) and weighted sum `≤ A`, and `0 ≤ A`. For a matrix function `L1Mat r M A` bounds every
+For `f : T_r → ℂ^ι` the bound `‖f‖_{1,r} ≤ A` is the predicate `L1Vec r f A`: every component has
+    torus
+coefficients summable with the weight `e^{2πr|k|₁}` (the repository's `KAM.Fourier.weightedNorm` at
+    the
+coefficient radius `2πr`) and weighted sum `≤ A`, and `0 ≤ A`. For a matrix function `L1Mat r M A`
+    bounds every
 row sum of the entry norms. No junk value enters a statement.
 
-* `L1Vec.norm_le`, `L1Mat.norm_le`: the sup bound on the strip (the max norm and its operator norm, the maximal
+* `L1Vec.norm_le`, `L1Mat.norm_le`: the sup bound on the strip (the max norm and its operator norm,
+    the maximal
   row sum), from the SHARP-L9 bridge `KAM.norm_le_of_l1`.
 * `L1Vec.const`, `L1Vec.add`, `L1Vec.mono`: constants, sums and monotonicity in the strip.
 
@@ -46,7 +50,8 @@ variable {n : ℕ}
 abbrev coeffR {ι : Type*} (f : (Fin n → ℂ) → ι → ℂ) (i : ι) : (Fin n → ℤ) → ℂ :=
   torusCoeff fun x => f (fun j => (x j : ℂ)) i
 
-/-- Blueprint `bp:p2s2l1:norms` (vectors): `‖f‖_{1,r} ≤ A`, componentwise, with summability and `0 ≤ A`
+/-- Blueprint `bp:p2s2l1:norms` (vectors): `‖f‖_{1,r} ≤ A`, componentwise, with summability and `0
+    ≤ A`
 (the vector premise of `KAM.cohomological_l1`). -/
 def L1Vec {ι : Type*} (r : ℝ) (f : (Fin n → ℂ) → ι → ℂ) (A : ℝ) : Prop :=
   0 ≤ A ∧ ∀ i, Fourier.SummableWeighted (2 * Real.pi * r) (coeffR f i) ∧
@@ -56,7 +61,8 @@ def L1Vec {ι : Type*} (r : ℝ) (f : (Fin n → ℂ) → ι → ℂ) (A : ℝ) 
 def L1Mat {ι κ : Type*} [Fintype κ] (r : ℝ) (M : (Fin n → ℂ) → Matrix ι κ ℂ) (A : ℝ) : Prop :=
   0 ≤ A ∧ (∀ i j, Fourier.SummableWeighted (2 * Real.pi * r)
       (torusCoeff fun x => M (fun l => (x l : ℂ)) i j)) ∧
-    ∀ i, ∑ j, Fourier.weightedNorm (2 * Real.pi * r) (torusCoeff fun x => M (fun l => (x l : ℂ)) i j) ≤ A
+    ∀ i, ∑ j, Fourier.weightedNorm (2 * Real.pi * r) (torusCoeff fun x => M (fun l => (x l : ℂ)) i
+        j) ≤ A
 
 /-- The Jacobian matrix `(∂_j f_i)`. -/
 def jac {ι : Type*} (f : (Fin n → ℂ) → ι → ℂ) (θ : Fin n → ℂ) : Matrix ι (Fin n) ℂ :=
@@ -129,11 +135,14 @@ theorem L1Vec.norm_le {ι : Type*} [Fintype ι] {r A : ℝ} {f : (Fin n → ℂ)
       (fun j z hz => congrFun (hfp j z hz) i) (h.2 i).1 (h.2 i).2 θ hθ
 
 /-- Blueprint `bp:p2s2l1:toolkit`(a), matrices (operator norm of the max norm = maximal row sum). -/
-theorem L1Mat.norm_le {ι κ : Type*} [Fintype ι] [Fintype κ] {r A : ℝ} {M : (Fin n → ℂ) → Matrix ι κ ℂ}
-    (hr : 0 < r) (hM : DifferentiableOn ℂ M (complexStrip n r)) (hMp : IsPeriodicOn M r) (h : L1Mat r M A) :
+theorem L1Mat.norm_le {ι κ : Type*} [Fintype ι] [Fintype κ] {r A : ℝ} {M : (Fin n → ℂ) → Matrix ι κ
+    ℂ}
+    (hr : 0 < r) (hM : DifferentiableOn ℂ M (complexStrip n r)) (hMp : IsPeriodicOn M r) (h : L1Mat
+        r M A) :
     ∀ θ ∈ complexStrip n r, ‖M θ‖ ≤ A := fun θ hθ =>
   (norm_le_iff_forall_rowSum h.1).2 fun i =>
-    (Finset.sum_le_sum fun j _ => norm_le_of_l1 (g := fun z => M z i j) hr (differentiableOn_entry hM i j)
+    (Finset.sum_le_sum fun j _ => norm_le_of_l1 (g := fun z => M z i j) hr (differentiableOn_entry
+        hM i j)
       (fun l z hz => by simp only [hMp l z hz]) (h.2.1 i j) le_rfl θ hθ).trans (h.2.2 i)
 
 /-! ### Constants, sums and monotonicity (`bp:p2s2l1:toolkit`(b)) -/
