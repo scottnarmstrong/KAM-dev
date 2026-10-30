@@ -86,9 +86,9 @@ comparison.
 - `sh scripts/lint_sources.sh`: exit 1, see item 2. Otherwise no forbidden construct, no line over 100 characters in
   my files, `check_lean_modules: PASS (1514 Lean files, 0 comparator configurations)`, `FROZEN-ANCHOR GUARD OK`.
 - No heartbeat or recursion override. One default-heartbeat timeout (`triple_sub_le`) was fixed by restructuring.
-- Largest file: 642+ lines (`Engine.lean`), under the 800 limit. About 5.3k lines in 19 files.
-- Signature check: `.drafts/b9_sig.lean` closes `∃ C₁ C₂, … G1Body …` and `∃ C₁ C₂ C₃, … IG1Body …`, stated
-  independently of my theorems' names, and the end-to-end example. No errors.
+- Largest file: 646 lines (`Engine.lean`), under the 800 limit. 5546 lines in 19 files.
+- Signature check: there are no verbatim route-A signatures to copy (item 1), so `.drafts/b9_sig.lean` instead closes
+  `∃ C₁ C₂, … G1Body …`, `∃ C₁ C₂ C₃, … IG1Body …` (the frozen bodies) and the end-to-end example. No errors.
 - `#print axioms`: `[propext, Classical.choice, Quot.sound]` for `g1_core_A`, `g1_v2A`, `g1_branch_A`,
   `g1_v2A_frozen`, `step_A`, `SchemeA.run`, `SchemeA.limit`, `norm_lagrangeMat_le`, `iso_g1_core_A`, `iso_g1_v2A`,
   `iso_g1_branch_A`, `iso_g1_v2A_frozen`, `step_IA`, `iso_energy_limit_A`, `NumA.cert_classical`, `NumA.cert_freq`,
