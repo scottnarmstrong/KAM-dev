@@ -137,7 +137,8 @@ theorem schemeRI_isNewton (hN : N.Wf) (hiso : N.iso = true) (hΘ : N.Θ = σω *
     (hd2 : ∀ z ∈ D, ‖iteratedFDeriv ℂ 2 (hamiltonianVectorFieldℂ H) z‖ ≤ N.M2)
     (hd2H : ∀ z ∈ D, ‖iteratedFDeriv ℂ 2 H z‖ ≤ N.Mh2) {Mh1 : ℝ}
     (hdH : ∀ z ∈ D, ‖fderiv ℂ H z‖ ≤ Mh1) (hHY : N.HY = Mh1 * N.sN)
-    (hγb : γ ≤ N.γb) (hΩ : ∀ s : ℝ, 1 ≤ s → s • ωstar ∈ Ω) (hC : N.Cert γ Ω) {μ b bT bν bF iH mT s₀ : ℝ}
+    (hγb : γ ≤ N.γb) (hΩ : ∀ s : ℝ, 1 ≤ s → s • ωstar ∈ Ω) (hC : N.Cert γ Ω)
+    {μ b bT bν bF iH mT s₀ : ℝ}
     (hb : b < μ) (hbν : bν < ν) {K₀ : (Fin N.n → ℂ) → (Fin N.n → ℂ) × (Fin N.n → ℂ)}
     (hR : RefTI H K₀ (s₀ • ωstar) (N.r 0 - N.δ 0) bF iH mT) (hB : Budget N mT iH bF bT) :
     (schemeRI N D H ωstar E₀ σω ν μ K₀ s₀).IsNewton (2 * N.τ) 3 N.ρ N.ρinf γ (stageRI N) jRI

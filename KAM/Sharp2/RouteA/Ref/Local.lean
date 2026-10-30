@@ -252,8 +252,8 @@ theorem local_bound {p : StepInA} (hp : p.Pos) (hpn : p.n = n)
 
 /-- The data of the initial torus `K₀`, on the strip `T_R`: `|⟨T₀⟩⁻¹| ≤ m_T`, `|T₀| ≤ H`, and the
 local bound `b_F`. -/
-structure RefT {n : ℕ} (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (K₀ : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ))
-    (ω : Fin n → ℝ) (R bF iH mT : ℝ) : Prop where
+structure RefT {n : ℕ} (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ)
+    (K₀ : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (ω : Fin n → ℝ) (R bF iH mT : ℝ) : Prop where
   cont : Continuous (fun x : Fin n → ℝ => torsion h K₀ ω (fun i => (x i : ℂ)))
   unit : IsUnit (torsionAverage h K₀ ω).det
   inv : ‖(torsionAverage h K₀ ω)⁻¹‖ ≤ mT

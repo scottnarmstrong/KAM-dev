@@ -105,8 +105,8 @@ theorem schemeR_isNewton (hN : N.Wf) (hfix : N.iso = false) (hΘ : N.Θ = 0)
       rw [Nat.cast_zero, add_zero, mul_div_assoc]
     have c0 : m 0 + p.CDK * E ≤ b := by
       have := hcap 0
-      rwa [show (N.stageR s).rate 0 = p.CDK from rfl, show ((jR 0 : ℕ) : ℝ) = ((0 : ℕ) : ℝ) from rfl,
-        show deltaSeq 3 N.ρ N.ρinf s = N.δ s from rfl, e0] at this
+      rwa [show (N.stageR s).rate 0 = p.CDK from rfl,
+        show ((jR 0 : ℕ) : ℝ) = ((0 : ℕ) : ℝ) from rfl, show deltaSeq 3 N.ρ N.ρinf s = N.δ s from rfl, e0] at this
     have cj : ∀ (i : Fin 7) (c : ℝ), (N.stageR s).rate i = c → jR i = 1 →
         m i + c * X ≤ N.capR b bT i := by
       intro i c hc1 hj
@@ -149,8 +149,8 @@ theorem schemeR_isNewton (hN : N.Wf) (hfix : N.iso = false) (hΘ : N.Θ = 0)
     have hAd : AdmA 𝔅 h ω (N.r s) (N.r s - N.δ s) (μ - m 0) ε (m 1) (m 2) N.sT (m 4) (m 5) (m 6) N.t
         K := hA.entry hR (strip_sub hN s) (cont_torsion hS hA.toAdm0) hrT hloc hB.mT_pos hB.mT_lt
       (by have := hB.beta; linarith) (by have := hB.sup; linarith)
-    obtain ⟨hA', -, hclose, hab⟩ := step_core (p := p) (n := N.n) (ω := ω) hpos hfix hΘ rfl hS hd1 hd2
-      hγb hω hAd hδ hδD h3δ hc hcb hbr hca hcond.base hβ c1 c2 c4 c5 c6
+    obtain ⟨hA', -, hclose, hab⟩ := step_core (p := p) (n := N.n) (ω := ω) hpos hfix hΘ rfl hS hd1
+      hd2 hγb hω hAd hδ hδD h3δ hc hcb hbr hca hcond.base hβ c1 c2 c4 c5 c6
     have hrAb : p.rAb = p.CDab * p.CDK := by simp [StepInA.rAb, hfixp]
     refine ⟨?_, fun θ hθ => ?_, ?_⟩
     · show AdmR 𝔅 h ω K₀ (N.r (s + 1)) (N.r (s + 1) - N.δ (s + 1))

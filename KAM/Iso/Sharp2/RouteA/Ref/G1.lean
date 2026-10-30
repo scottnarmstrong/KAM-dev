@@ -103,7 +103,8 @@ theorem iso_g1_core_R (hN : N.Wf) (hiso : N.iso = true) {τ M μ σω ν γ e Xs
     h0.mono (hcaps 1) (hcaps 2) (hcaps 4) (hcaps 5) (hcaps 6)
   have h3δ := hN.lam_δ_lt 0
   have hbL : N.bLocS 0 = max ((N.inp 0).bLoc0 (N.cS (0 + 1)))
-      ((N.inp 0).n * (N.inp 0).sNt * ((N.inp 0).γb ^ 4 * (N.inp 0).δ ^ (2 * (2 * (N.inp 0).κ)))) := by
+      ((N.inp 0).n * (N.inp 0).sNt *
+        ((N.inp 0).γb ^ 4 * (N.inp 0).δ ^ (2 * (2 * (N.inp 0).κ)))) := by
     have hf : (N.inp 0).iso = true := hiso
     simp [NumA.bLocS, StepInA.bLoc, hf]
   have hl2 := hc0'.loc
@@ -149,7 +150,8 @@ theorem iso_g1_core_R (hN : N.Wf) (hiso : N.iso = true) {τ M μ σω ν γ e Xs
       (𝓝 (p / ‖ωstar‖)) := by
     refine (hpar.div_const ‖ωstar‖).congr fun j => ?_
     exact mul_div_cancel_right₀ _ hωpos.ne'
-  have hmj : ∀ j, ν / 2 ≤ rayMargin σω ωstar ((schemeRI N D H ωstar E₀ σω ν μ K s).iter (K, s) j).2 :=
+  have hmj : ∀ j, ν / 2 ≤
+      rayMargin σω ωstar ((schemeRI N D H ωstar E₀ σω ν μ K s).iter (K, s) j).2 :=
     fun j => by
       have h1 := (hAdm j).2
       have h2 := (hit j).2.1 7
@@ -231,7 +233,8 @@ theorem iso_g1_core_R (hN : N.Wf) (hiso : N.iso = true) {τ M μ σω ν γ e Xs
   have hcons := (energy_conservation (hS.setting hs1.le) hN.ρinf_pos hholoL hprimL hrealL hKD
     hinv).2.1 (E₀ : ℂ) hEn
   have hdk : ∀ θ ∈ complexStrip N.n N.ρinf,
-      ‖fderiv ℂ ((schemeRI N D H ωstar E₀ σω ν μ K s).limTor N.ρinf (K, s)) θ‖ ≤ N.sK := fun θ hθ => by
+      ‖fderiv ℂ ((schemeRI N D H ωstar E₀ σω ν μ K s).limTor N.ρinf (K, s)) θ‖ ≤ N.sK := by
+    intro θ hθ
     refine le_of_tendsto (hconvd.tendsto_at hθ).norm (Eventually.of_forall fun j => ?_)
     exact (Adm0.deriv_le (AdmRI.toAdm0 (hAdm j).1) θ (hsub j hθ)).trans (hbud j 1)
   refine ⟨_, p / ‖ωstar‖, hs1, hs2, hholoL, hprimL, hrealL, hinv, hcons, hmarg', hdk, fun θ hθ =>
@@ -326,8 +329,8 @@ theorem iso_g1_branch_R (hN : N.Wf) (hiso : N.iso = true) (hτ : (N.n : ℝ) - 1
     rw [hr0]
     exact hRef.tors
   obtain ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11⟩ := iso_g1_core_R hN hiso hS hΘ
-    hRef.dX hRef.d2X hRef.d2H hRef.dH hHY (hγγbar.trans_eq hγbar) hΩ hCt hμ rfl rfl rfl hOk hB h0 hs1
-    hEn hTu (norm_le_of_rowSum_le_of_nonempty hTb) hTs (margin_of_le hν1 hν2) hsm.le hXpos
+    hRef.dX hRef.d2X hRef.d2H hRef.dH hHY (hγγbar.trans_eq hγbar) hΩ hCt hμ rfl rfl rfl hOk hB h0
+    hs1 hEn hTu (norm_le_of_rowSum_le_of_nonempty hTb) hTs (margin_of_le hν1 hν2) hsm.le hXpos
   exact ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, fun θ hθ => (h9 θ hθ).trans_eq hsK, h10, h11⟩
 
 end Ref
@@ -390,8 +393,8 @@ theorem iso_g1_v2A' (hN : N.Wf) (hiso : N.iso = true) (hτ : (N.n : ℝ) - 1 ≤
         field_simp
       rw [e1, div_lt_one hXpos] at hsm
       exact hsm
-    obtain ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11⟩ := Ref.iso_g1_branch_R hN hiso hτ
-        hM
+    obtain ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11⟩ := Ref.iso_g1_branch_R hN hiso
+      hτ hM
       hμ hσω hν hωstar hγbar hsK hΘ hHY hOk hB hXpos hopen htransl hholo hper hreal hbd hK hKp hKr
           hball
       hDK hG hTu hTb hs1 hν1 hν2 hRef hΩ hCt hγ hγγbar hdio he0 hE hEn hsm'
