@@ -69,10 +69,11 @@ torsion are estimated as in the sup step: they use $\xi^N_0,\xi^\omega$ only thr
 \begin{theorem}[I-G1 with the $\ell^1$ entry]\label{bpI:p2s2l1:g1}
 Let the data of Theorem~\ref{bpI:p0:g1}, the refined data with initial margins for every cap (including the frequency cap with budget $\nu/2$) and the
 entry data of Assumption~\ref{bpI:p2s2l1:data} be given. If the route-A (resp.\ route-B) smallness predicate of \Kref{bp:p2s2l1:g1A} (resp.\
-\Kref{bp:p2s2l1:g1B}) holds for the isoenergetic constants, with the entry at stage $0$ and the engine \Lean{KAM.Sharp2.StageScheme.converge\_checked} from
-stage $1$ (\Kref{bp:p2s2l1:engine}), then (O1)--(O6) hold, with $\abs{K_\infty-K}$ bounded by the ball sum and $\abs{s_\infty\omega^*-s\omega^*}$ by the frequency sum
+\Kref{bp:p2s2l1:g1B}) holds for the isoenergetic constants, with the entry at stage $0$ and route A's stage-indexed engine (SHARP2-B9,
+\Lean{KAM.Sharp2.RouteA.SchemeA.run}) on the original schedule, B9's stages from stage $1$ (\Kref{bp:p2s2l1:engine}), then (O1)--(O6) hold, with $\abs{K_\infty-K}$ bounded by the ball sum and $\abs{s_\infty\omega^*-s\omega^*}$ by the frequency sum
 (entry increment included), normalised without $\bar\gamma^2$ (\Kref{bp:p2s2l1:engine}(c)).
 \source{Theorem~\ref{bpI:p2s2:g1}; HL19 Theorem~3.6; ours.}
+\Lean{KAM.Iso.Sharp2.L1.iso\_g1\_v2A\_l1} (route A, SHARP2-B10C)
 \end{theorem}
 
 \begin{proof}

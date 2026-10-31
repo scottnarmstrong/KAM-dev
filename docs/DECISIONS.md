@@ -375,3 +375,49 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - No Birkhoff normalization.
   - The novelty wording stays conditional on reading Celletti (1994) in full.
   - As always, the exact Lean statements are shown to the owner before any freeze.
+- **D46 (2026-10-30, 18:30) Route B lands; heavy kernel tests are opt-in.** Route B of the v2 theorem and the combined
+  `KAM.Sharp2.g1_v2` / `KAM.Iso.Sharp2.iso_g1_v2` (best of v1, route A, route B; audits AUDIT-ROUTEB-{fixed,iso}-1 PASS),
+  the l1 entry step on route A and L8′ in the v2 certifier land at b9e58666. *(Scott, after lemma.farm's memory guard
+  killed a 15 GB, 3-hour test build: "Do NOT rebuild RefinedRefR1 (or other heavy V2 Tests files)"; a guard now kills
+  any single lean process above 10 GB.)* Lunar-size `decide +kernel` tests live in `kernel-tests/`, outside the library:
+  a plain `lake build` never compiles them; they run only with the owner's approval. Certificate data runs belong in
+  opt-in targets or a separate repository for the same reason.
+- **D47 (2026-10-31, 07:00 UTC) The N = 65 band literal is 2.755 %; rule B's emitter-tightness clause is relaxed.**
+  *(Scott: "accept 2.755%", answering SO-DATA3 audit 1 F1.)*
+  - The emitted outer graph bounds of the N = 65 data stay as certified: lower pLo 0.9724531, upper pHi 1.027544.
+    They lie about 4.2e-4 from the grid extrema because of the SOS slack on the band edges. Rule B's rounding
+    (δ = ⌈10⁵ M⌉ / 10⁵ = 2755/100000, band [0.97245, 1.02755]) and rule W (window 9934/10000 … 10066/10000) are
+    applied as written.
+  - The clause "within about 10⁻⁶ of the computed extrema" (FREEZE-PROPOSAL-2 §1.4) is waived for this package.
+    A sharper SOS enclosure is not pursued now.
+- **D48 (2026-10-31, 07:10 UTC) The LOCK-DATA certificate data land as is.** *(Scott: "land the lock data as-is".)*
+  About 131 MB in 1,307 files, the largest 0.12 MB, so far below GitHub's 100 MB per-file limit. The 50 MB flag was
+  the project's own repo-growth threshold; no shrinking.
+- **D49 (2026-10-31, 07:10 UTC) Freeze approvals.** *(Scott: "yes freeze these numbers (band and lock)".)*
+  - **Band:** freeze FREEZE-PROPOSAL-2's anchors (D40) with the final literals of D47:
+    - `lunar_barriers` with `SoBarrier (97245/100000) (102755/100000)`;
+    - `lunar_spin_confinement` with `|p − 1| ≤ 2755/100000`;
+    - `lunarPLo = 9934/10000`, `lunarPHi = 10066/10000`;
+    - the window lemma and the D40 definitions.
+    Then seal through the landed `lunar_barriers_65_v2` / `lunar_spin_confinement_65_v2`.
+  - **Lock:** freeze FREEZE-PROPOSAL-LOCK §1 exactly (`IsSyncOrbit`, `lunarSyncOrbit`, `libAction`,
+    `lunarOmega = 8/65`, `lunarSyncOrbit_spec`, `_unique`, `_bound`, and `lunar_sync_lock` with 129/10000, 21/100,
+    26/1000). It is sealed after LOCK-DATA lands.
+- **D50 (2026-10-31, 13:50 UTC) Seal SO-2.** *(Scott: "I approve sealing SO-2".)* The frozen band statements
+  (D49) are sealed by providers through the landed `lunar_barriers_65_v2` / `lunar_spin_confinement_65_v2`, after
+  the Q11 rebuild of SO-FREEZE3, with a codex-1 seal audit (report docs/tracks/SO/audits/SO-FREEZE3-seal-audit.md).
+- **D51 (2026-10-31, 14:15 UTC) Certificate applications are opt-in builds.** *(Scott: "Yes", to the
+  orchestrator's proposal.)* Numerical certificates of physical systems (SO-2 band data, SO-3 lock data, LG00, and
+  future applications) can take many CPU-hours and GB, so a plain `lake build` must not compile them.
+  - The default library `KAM` builds only the import closure of its root (`roots := #[`KAM]`, no
+    `.andSubmodules` glob). `scripts/gen_root_imports.py` keeps importing every core module (so every core theorem
+    is still built by default) and excludes the certificate subtrees.
+  - Each application gets its own non-default `lean_lib` with its own root file (`KAMLunarBand`, `KAMLunarLock`,
+    and `KAMLG00` when LG00 lands), built deliberately through the serial capped driver. Module names and paths do
+    not change, so existing builds are reused (verified with `lake build --no-build` before switching).
+  - Frozen anchors sealed through heavy data (the band's `lunar_barriers` / `lunar_spin_confinement`, later the
+    lock headline) are imported by their application's root, not by `KAM.lean`. Frozen definitions stay in core.
+    The guard and manifest are unaffected; ABI and axiom checks for those anchors run with the opt-in build.
+  - Future applications start as separate Lake packages (`applications/<name>/`, requiring the core); the
+    existing ones keep their module names to avoid recompiling.
+  - This amends the earlier rule that a plain `lake build` covers every theorem: it now covers every core theorem.

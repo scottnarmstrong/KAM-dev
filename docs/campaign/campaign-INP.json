@@ -2,66 +2,13 @@
  "workers": [
   {
    "id": "suborch-INP",
+   "label": "kam-inp-63",
    "kind": "sub-orchestrator (D23)",
    "model": "Claude Opus 5.5",
-   "account": "claude-7",
+   "account": "claude-3",
    "session": "kam-suborch",
-   "assignment": "Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator",
+   "assignment": "Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P",
    "state": "active"
-  },
-  {
-   "id": "lean-status-sync",
-   "kind": "graph bookkeeping (subagent)",
-   "model": "Claude Sonnet 5.5",
-   "account": "claude-7",
-   "session": null,
-   "assignment": "Bring LEAN_STATUS of graphs I and N up to date from the package audits",
-   "state": "done"
-  },
-  {
-   "id": "grev-2",
-   "kind": "graph review (Codex)",
-   "model": "GPT-6.1-Sol medium",
-   "account": "codex-4",
-   "session": "inp-grev-2",
-   "assignment": "Track P graph: final delta (P-p10, P-p11a12)",
-   "state": "running"
-  },
-  {
-   "id": "grev-3",
-   "kind": "graph review (Codex)",
-   "model": "GPT-6.1-Sol medium",
-   "account": "codex-4",
-   "session": "inp-grev-3",
-   "assignment": "Track P graph: final delta (P-p11a3, P-p11a45)",
-   "state": "running"
-  },
-  {
-   "id": "grev-4",
-   "kind": "graph review (Codex)",
-   "model": "GPT-6.1-Sol medium",
-   "account": "codex-1",
-   "session": "inp-grev-4",
-   "assignment": "Track P graph: final delta (P-p11, P-p13, P-p7)",
-   "state": "running"
-  },
-  {
-   "id": "aud-2",
-   "kind": "graph review (Codex)",
-   "model": "GPT-6.1-Sol medium",
-   "account": "codex-1",
-   "session": "inp-aud-2",
-   "assignment": "Track P graph: imports delta",
-   "state": "running"
-  },
-  {
-   "id": "glob-i",
-   "kind": "graph review (Codex)",
-   "model": "GPT-6.1-Sol medium",
-   "account": "codex-4",
-   "session": "inp-glob-i",
-   "assignment": "idle (track I global reviewer; P imports review done)",
-   "state": "idle"
   }
  ]
 }
