@@ -41,6 +41,11 @@ SOS_BITS = 40
 DISP_COEF = F(os.environ["SO_DISP_COEF"]) if os.environ.get("SO_DISP_COEF") else None
 GRAPH_SLACK = F(os.environ.get("SO_GRAPH_SLACK", "3/10000"))
 MONO_SLACK = F(os.environ["SO_MONO_SLACK"]) if os.environ.get("SO_MONO_SLACK") else None
+# SO-DATA3: per-side SOS margins (SO_GRAPH_SLACK_LO / _HI override SO_GRAPH_SLACK for pLo / pHi), and an exact
+# disp (SO_DISP, a rational string; it must not be below the certifier's minimum, which v2_witness.py checks).
+GRAPH_SLACK_LO = F(os.environ.get("SO_GRAPH_SLACK_LO", str(GRAPH_SLACK)))
+GRAPH_SLACK_HI = F(os.environ.get("SO_GRAPH_SLACK_HI", str(GRAPH_SLACK)))
+DISP_EXACT = F(os.environ["SO_DISP"]) if os.environ.get("SO_DISP") else None
 
 
 def log(*a):
@@ -204,6 +209,8 @@ def main(which, outdir):
         disp = up3(c2 * err / (p["gamma"] ** 2 * p["rho"] ** 2))
     if DISP_COEF is not None:
         disp = up3(DISP_COEF * err)
+    if DISP_EXACT is not None:
+        disp = DISP_EXACT
     c.params = L.lunarR1(err, disp)
     rep["err"], rep["disp"] = str(err), str(disp)
     log("err", fl(err), "disp", fl(disp))
@@ -220,8 +227,8 @@ def main(which, outdir):
     fm = C.soGraphMonoModel(B, c)
     fa = C.soGraphActionModel(B, c)
     mono0, mono, gM = graph_side(B, c, fm, MONO_SLACK, "mono", gi)
-    pLo0, pLo, gL = graph_side(B, c, fa, GRAPH_SLACK, "pLo", gi)
-    nhi0, nhi, gH = graph_side(B, c, M.negM(B, fa), GRAPH_SLACK, "pHi", gi)
+    pLo0, pLo, gL = graph_side(B, c, fa, GRAPH_SLACK_LO, "pLo", gi)
+    nhi0, nhi, gH = graph_side(B, c, M.negM(B, fa), GRAPH_SLACK_HI, "pHi", gi)
     c.graph = dict(mono=mono, mono0=mono0, sosMono=gM, pLo=pLo, pLo0=pLo0, sosLo=gL, pHi=-nhi, pHi0=-nhi0, sosHi=gH)
     rep["graph_choice"] = gi
     log("graph", json.dumps(gi))
