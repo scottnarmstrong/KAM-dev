@@ -155,7 +155,7 @@ theorem density_one_of_shells {q t0 : ℝ} (hq : 0 < q) (hq1 : q < 1) (ht : 0 < 
       have e := shellT_succ q t0 k
       have h1 := shellT_pos hq ht (k + 1)
       nlinarith
-    have hdecomp := measure_inter_add_sdiff (boxIoo 0 h) hΓ
+    have hdecomp := measure_inter_add_sdiff (μ := (volume : Measure (Fin 2 → ℝ))) (boxIoo 0 h) hΓ
     have hh0 := hh.1
     have hV : ENNReal.ofReal (h ^ 2) ≤ volume (Γ ∩ Metric.ball 0 h) +
         ENNReal.ofReal (ε * h ^ 2) := by
@@ -169,8 +169,9 @@ theorem density_one_of_shells {q t0 : ℝ} (hq : 0 < q) (hq1 : q < 1) (ht : 0 < 
         _ = volume (Γ ∩ Metric.ball 0 h) + ENNReal.ofReal (ε * q ^ 2 * shellT q t0 k ^ 2) := by
             rw [← ENNReal.ofReal_mul (by positivity)]
         _ ≤ _ := by
-            gcongr
-            nlinarith [hqt, hεpos]
+            refine add_le_add_right (ENNReal.ofReal_le_ofReal ?_) _
+            have := mul_le_mul_of_nonneg_left hqt hεpos.le
+            linarith
     refine lt_of_lt_of_le haε ?_
     rw [hden h hh0, ENNReal.le_div_iff_mul_le (Or.inl (ENNReal.ofReal_pos.2 (by positivity)).ne')
       (Or.inl ENNReal.ofReal_ne_top), ← ENNReal.ofReal_mul' (sq_nonneg h)]
