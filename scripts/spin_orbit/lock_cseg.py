@@ -327,10 +327,28 @@ def _split_aux(self, rel, body, imports, ns):
                 b = b[:-1]
             pm = re.search(r"checkPackedSpPrefix (\S+) ", " ".join(b))
             if pm and pm.group(1) in OPSNAMES:
-                ea_t, eb_t, nea, neb, omod = OPSNAMES[pm.group(1)]
+                adv = pm.group(1)
+                ea_t, eb_t, nea, neb, omod = OPSNAMES[adv]
                 st = " ".join(" ".join(b[1:-1]).split()).replace(ea_t, nea).replace(eb_t, neb)
-                b = [b[0]] + wrap(st.split(" "), "    ") + [b[-1]]
-                imports_b = list(imports) + [omod]
+                # the eight conjuncts one module each (together 6.20 GB on M1, measured), assembled by `simp only`
+                cj = ["%s.shapeOK" % adv, "decide (0 < %s.la.denseLen)" % adv, "decide (0 < %s.lb.denseLen)" % adv,
+                      "packStrictAsc %s" % nea, "packStrictAsc %s" % neb,
+                      "(%s.all fun e => decide (e.1 < %s.la.denseLen))" % (nea, adv),
+                      "(%s.all fun e => decide (e.1 < %s.lb.denseLen))" % (neb, adv),
+                      "(%s.rounded.length == %s.spCount %s.la.denseLen + %s.spCount %s.lb.denseLen - 1)"
+                      % (adv, adv, adv, adv, adv)]
+                base_nm = m.group(1)
+                cmods = []
+                for ci, c in enumerate(cj):
+                    cb = ["theorem %s_c%d :" % (base_nm, ci)] + wrap(("%s = true := by" % c).split(" "), "    ") + \
+                        ["  decide +kernel"]
+                    cmods.append(_tree_write(self, "%sAux%sC%d" % (rel, base_nm.rsplit("A", 1)[1], ci),
+                                             list(imports) + [omod], "Prefix conjunct %d of %s" % (ci, adv),
+                                             "One kernel run.", cb, heavy=True, ns=ns))
+                b = [b[0]] + wrap(st.replace(" := by", " := by").split(" "), "    ")
+                b += _hang("simp only [checkPackedSpPrefix, %s, Bool.and_self, Bool.and_true]"
+                           % ", ".join("%s_c%d" % (base_nm, ci) for ci in range(len(cj))))
+                imports_b = list(imports) + [omod] + cmods
             else:
                 imports_b = imports
             mods.append(_tree_write(self, "%sAux%s" % (rel, m.group(1).rsplit("A", 1)[1]), imports_b,
@@ -629,16 +647,22 @@ class LockEmitter(CE.Emitter):
             cw, g, E = self.cfgw(chain, 1, k), self.g_exp(chain, v["a"]), self.exp_wit(k)
             (cre, cim), crad = v["out"]
             out = "((⟨%s, %s⟩ : CC %s), %s)" % (fixed(cre), fixed(cim), TY, fixed(crad))
+            # each residual its own module (one kernel run each; together 6.22 GB, measured)
+            rmods = []
             for j in range(2):
                 mk = memos[(1, k, j)]
                 st = "expResidualUp %s %s %s.poly %s.poly (%s.poly.supNormUp %s) %d = %s" % (
                     W, cw, g, E, E, W, j, fixed(v["res"][j]))
-                body += ["theorem %s_res%d :" % (nm, j)] + wrap(st.split(" "), "    ")
-                body[-1] += " := by"
-                body += ["  unfold expResidualUp"]
-                body += wrap(("rw [expResidualProduct_eq_of_polyProduct %s %s %s.poly %s.poly %d %s]"
-                              % (W, cw, g, E, j, self.memo_name(mk))).split(" "), "  ")
-                body += ["  decide +kernel", ""]
+                rb = ["theorem %s_res%d :" % (nm, j)] + wrap(st.split(" "), "    ")
+                rb[-1] += " := by"
+                rb += ["  unfold expResidualUp"]
+                rb += _hang("rw [expResidualProduct_eq_of_polyProduct %s %s %s.poly %s.poly %d %s]"
+                            % (W, cw, g, E, j, self.memo_name(mk)))
+                rb += ["  decide +kernel"]
+                rmods.append(self.tree.write("Rad/%s%s%dRes%d" % (op[0].capitalize(), sub, i, j), self.base + imps,
+                                             "The exp residual %d at slot %d (%s)" % (j, i, chain), "One kernel run.",
+                                             [CE.Emitter.fix_long(l) for l in rb], heavy=True))
+            imps = list(imps) + rmods
             rs = "(fun j => if j = 0 then %s else %s)" % (fixed(v["res"][0]), fixed(v["res"][1]))
             st = "expWitnessRadius 2 %s %s %s %s = some %s" % (W, cw, g, E, fixed(v["r"]))
             body += ["theorem %s :" % nm] + wrap(st.split(" "), "    ")
