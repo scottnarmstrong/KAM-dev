@@ -160,13 +160,13 @@ theorem homDivGen_bounds {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → F
   have hb0 : b ≠ 0 := fun h0 => by rw [h0, abs_zero] at hlb; linarith
   have hd := homDivGen_diff_le h hξ hζ k l
   have hl2 : (homL1 l : ℝ) ≤ 2 := by exact_mod_cast hz.2
-  have hM : 0 ≤ Mω + MΩ := by have := h.nonneg; linarith
+  have hM : 0 ≤ Mω + MΩ := by have := h.consts_nonneg; linarith
   have hnorm : 0 ≤ ‖ξ - ζ‖ := norm_nonneg _
   have hk0 := Fourier.modeSize_nonneg k
   have hD : |a - b| ≤ 2 * (1 + Fourier.modeSize k) * (Mω + MΩ) * ‖ξ - ζ‖ := by
     refine hd.trans ?_
-    have hMω := h.nonneg.2.1
-    have hMΩ := h.nonneg.2.2
+    have hMω := h.consts_nonneg.2.1
+    have hMΩ := h.consts_nonneg.2.2
     have hl0 : (0 : ℝ) ≤ homL1 l := Nat.cast_nonneg _
     have e1 : Fourier.modeSize k * Mω + homL1 l * MΩ ≤
         2 * (1 + Fourier.modeSize k) * (Mω + MΩ) := by

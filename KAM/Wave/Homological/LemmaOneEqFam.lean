@@ -43,7 +43,7 @@ theorem HomHadamardBound.norm_le' {d : ℕ+ → ℕ+ → ℂ} {c : ℝ} (h : Hom
       have h2 : (1 : ℤ) ≤ |(i : ℤ) - j| := Int.one_le_abs (sub_ne_zero.mpr this)
       have h3 : (1 : ℝ) ≤ |((i : ℤ) - j : ℤ)| := by exact_mod_cast h2
       simpa using h3
-    exact div_le_self h.nonneg h1
+    exact div_le_self h.homNonneg h1
 
 theorem homInv_resonance {δ lam kz : ℝ} (hδ : δ ≠ 0) (h : δ = kz - lam) :
     Complex.I * ((kz : ℂ) - lam) * homInv δ = 1 := by

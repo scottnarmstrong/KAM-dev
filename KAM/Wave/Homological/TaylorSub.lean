@@ -15,10 +15,10 @@ import Mathlib.Tactic.Positivity
 Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
 being built.
 
-`HomTaylor_gen.sub R₁ R₂ ∈ 𝒯_s` has the componentwise differences as components; its field is the
+`HomTaylor_gen.homSub R₁ R₂ ∈ 𝒯_s` has the componentwise differences as components; its field is the
 difference of the fields (`X_{R₁ - R₂} = X_{R₁} - X_{R₂}`, the fields being linear in the
 components), so the Lipschitz hypothesis `|X_{R(ξ)} - X_{R(ζ)}|_r ≤ ε^L |ξ-ζ|` is
-`HomFieldBound_gen … (R₁.sub R₂)`.
+`HomFieldBound_gen … (R₁.homSub R₂)`.
 -/
 
 @[expose] public noncomputable section
@@ -29,7 +29,7 @@ open KAM
 
 variable {a p pb s : ℝ}
 
-theorem IsHomComp.sub {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] {s : ℝ}
+theorem IsHomComp.homSub {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] {s : ℝ}
     {f g : (Fin 2 → ℂ) → E} (hf : IsHomComp s f) (hg : IsHomComp s g) :
     IsHomComp s (fun z => f z - g z) := by
   obtain ⟨hd, hp, C, hC⟩ := hf
@@ -52,7 +52,7 @@ theorem homNormalEntry_sub_gen (a p pb : ℝ) (A B : HomOp) (i j : ℕ+) :
   simp [homNormalEntry_gen, kamEntry, mul_sub]
 
 /-- The difference `R₁ - R₂ ∈ 𝒯_s`. -/
-def HomTaylor_gen.sub (R₁ R₂ : HomTaylor_gen a p pb s) : HomTaylor_gen a p pb s where
+def HomTaylor_gen.homSub (R₁ R₂ : HomTaylor_gen a p pb s) : HomTaylor_gen a p pb s where
   a0 := fun z => R₁.a0 z - R₂.a0 z
   b := fun z => R₁.b z - R₂.b z
   cp := fun z => R₁.cp z - R₂.cp z
@@ -61,14 +61,14 @@ def HomTaylor_gen.sub (R₁ R₂ : HomTaylor_gen a p pb s) : HomTaylor_gen a p p
   P' := fun z => R₁.P' z - R₂.P' z
   Q := fun z => R₁.Q z - R₂.Q z
   Qt := fun z => R₁.Qt z - R₂.Qt z
-  comp_a0 := R₁.comp_a0.sub R₂.comp_a0
-  comp_b := R₁.comp_b.sub R₂.comp_b
-  comp_cp := R₁.comp_cp.sub R₂.comp_cp
-  comp_cm := R₁.comp_cm.sub R₂.comp_cm
-  comp_P := R₁.comp_P.sub R₂.comp_P
-  comp_P' := R₁.comp_P'.sub R₂.comp_P'
-  comp_Q := R₁.comp_Q.sub R₂.comp_Q
-  comp_Qt := R₁.comp_Qt.sub R₂.comp_Qt
+  comp_a0 := R₁.comp_a0.homSub R₂.comp_a0
+  comp_b := R₁.comp_b.homSub R₂.comp_b
+  comp_cp := R₁.comp_cp.homSub R₂.comp_cp
+  comp_cm := R₁.comp_cm.homSub R₂.comp_cm
+  comp_P := R₁.comp_P.homSub R₂.comp_P
+  comp_P' := R₁.comp_P'.homSub R₂.comp_P'
+  comp_Q := R₁.comp_Q.homSub R₂.comp_Q
+  comp_Qt := R₁.comp_Qt.homSub R₂.comp_Qt
   symP := fun θ hθ i j => by
     simp only [homNormalEntry_sub_gen, R₁.symP θ hθ i j, R₂.symP θ hθ i j]
   symP' := fun θ hθ i j => by

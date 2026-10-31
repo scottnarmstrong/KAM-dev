@@ -82,9 +82,9 @@ abbrev homXnorm {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (r : ℝ) (T : HomTayl
 abbrev HomFieldBound {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (r ε : ℝ) (T : HomTaylor a p s) : Prop :=
   HomFieldBound_gen ha hp (homPlusOne_le p) r ε T
 
-abbrev HomTaylor.sub (R₁ R₂ : HomTaylor a p s) : HomTaylor a p s := HomTaylor_gen.sub R₁ R₂
+abbrev HomTaylor.homSub (R₁ R₂ : HomTaylor a p s) : HomTaylor a p s := HomTaylor_gen.homSub R₁ R₂
 
-abbrev HomTaylor.IsReal (R : HomTaylor a p s) : Prop := HomTaylor_gen.IsReal R
+abbrev HomTaylor.isRealTaylor (R : HomTaylor a p s) : Prop := HomTaylor_gen.isRealTaylor R
 
 abbrev homRval {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (T : HomTaylor a p s) (θ y : Fin 2 → ℂ)
     (z zb : HomL2) : ℂ :=
@@ -141,15 +141,15 @@ theorem homLemma1_lipschitz (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε εL : ℝ} (hr :
     (hm₁ : HomMultBounds τ α w₁ W₁) (hm₂ : HomMultBounds τ α w₂ W₂)
     (hL : HomMultLip τ α M d w₁ W₁ w₂ W₂) (R₁ R₂ : HomTaylor a p s)
     (hX₁ : HomFieldBound ha hp r ε R₁) (hX₂ : HomFieldBound ha hp r ε R₂)
-    (hXL : HomFieldBound ha hp r (εL * d) (R₁.sub R₂)) :
+    (hXL : HomFieldBound ha hp r (εL * d) (R₁.homSub R₂)) :
     HomFieldBound ha hp r ((7 + 10 * homKS) * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d))
-      ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)) := by
+      ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).homSub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)) := by
   apply homLemma1_lipschitz_gen (pb := p + 1) <;> first | assumption | exact homPlusOne_le p |
       linarith
 
 theorem homNhat_lipschitz (ha : 0 ≤ a) (hp : 0 ≤ p) {r εL : ℝ} (hr : 0 < r) (hs : 0 < s)
-    (R₁ R₂ : HomTaylor a p s) (hXL : HomFieldBound ha hp r (εL * d) (R₁.sub R₂)) :
-    HomFieldBound ha hp r (2 * (εL * d)) ((homNhatTaylor R₁).sub (homNhatTaylor R₂)) := by
+    (R₁ R₂ : HomTaylor a p s) (hXL : HomFieldBound ha hp r (εL * d) (R₁.homSub R₂)) :
+    HomFieldBound ha hp r (2 * (εL * d)) ((homNhatTaylor R₁).homSub (homNhatTaylor R₂)) := by
   apply homNhat_lipschitz_gen (pb := p + 1) <;> first | assumption | exact homPlusOne_le p |
       linarith
 
@@ -237,13 +237,13 @@ theorem norm_homLam_hadamard_le {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {d : �
       linarith
 
 theorem homSolveTaylor_isReal (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) (hσs : σ < s)
-    (hm : HomMultBounds τ α w W) (R : HomTaylor a p s) (hR : R.IsReal) :
-    (homSolveTaylor hτ hα hσ hσs hm R).IsReal := by
+    (hm : HomMultBounds τ α w W) (R : HomTaylor a p s) (hR : R.isRealTaylor) :
+    (homSolveTaylor hτ hα hσ hσs hm R).isRealTaylor := by
   apply homSolveTaylor_isReal_gen (pb := p + 1) <;> first | assumption | exact homPlusOne_le p |
       linarith
 
-theorem homNhatTaylor_isReal (hs : 0 < s) (R : HomTaylor a p s) (hR : R.IsReal) :
-    (homNhatTaylor R).IsReal := by
+theorem homNhatTaylor_isReal (hs : 0 < s) (R : HomTaylor a p s) (hR : R.isRealTaylor) :
+    (homNhatTaylor R).isRealTaylor := by
   apply homNhatTaylor_isReal_gen (pb := p + 1) <;> first | assumption | exact homPlusOne_le p |
       linarith
 
@@ -274,9 +274,9 @@ theorem homLipField_dQ {r ε εL : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hr : 0 < 
     (hm₁ : HomMultBounds τ α w₁ W₁) (hm₂ : HomMultBounds τ α w₂ W₂)
     (hL : HomMultLip τ α M d w₁ W₁ w₂ W₂) (R₁ R₂ : HomTaylor a p s)
     (hX₁ : HomFieldBound ha hp r ε R₁) (hX₂ : HomFieldBound ha hp r ε R₂)
-    (hXL : HomFieldBound ha hp r (εL * d) (R₁.sub R₂)) {θ : Fin 2 → ℂ}
+    (hXL : HomFieldBound ha hp r (εL * d) (R₁.homSub R₂)) {θ : Fin 2 → ℂ}
     (hθ : θ ∈ complexStrip 2 (s - σ)) (i : Fin 2) :
-    ‖homLamCLM ha hp (homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub
+    ‖homLamCLM ha hp (homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).homSub
         (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).Q θ)‖ ≤
       homKS * (16 * Real.pi * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d)) :=
   homLipField_dQ_gen ha hp (homPlusOne_le p) hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂
@@ -287,10 +287,10 @@ theorem homF_sub_compBounds {r ε εL : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hr :
     (hm₁ : HomMultBounds τ α w₁ W₁) (hm₂ : HomMultBounds τ α w₂ W₂)
     (hL : HomMultLip τ α M d w₁ W₁ w₂ W₂) (R₁ R₂ : HomTaylor a p s)
     (hX₁ : HomFieldBound ha hp r ε R₁) (hX₂ : HomFieldBound ha hp r ε R₂)
-    (hXL : HomFieldBound ha hp r (εL * d) (R₁.sub R₂)) {θ : Fin 2 → ℂ}
+    (hXL : HomFieldBound ha hp r (εL * d) (R₁.homSub R₂)) {θ : Fin 2 → ℂ}
     (hθ : θ ∈ complexStrip 2 (s - σ)) :
     HomCompBounds ha hp r homKS (waveBW τ σ / α * (εL + 2 * M * ε / α) * d)
-      ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)) θ :=
+      ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).homSub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)) θ :=
   homF_sub_compBounds_gen ha hp (homPlusOne_le p) hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁
     hX₂ hXL hθ
 

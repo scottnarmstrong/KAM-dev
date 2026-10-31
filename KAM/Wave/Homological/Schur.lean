@@ -60,7 +60,7 @@ structure HomHadamardBound (d : ℕ+ → ℕ+ → ℂ) (c : ℝ) : Prop where
   off : ∀ i j : ℕ+, i ≠ j → ‖d i j‖ ≤ c / |(i : ℝ) - (j : ℝ)|
   diag : ∀ i : ℕ+, ‖d i i‖ ≤ c
 
-theorem HomHadamardBound.nonneg {d : ℕ+ → ℕ+ → ℂ} {c : ℝ} (h : HomHadamardBound d c) : 0 ≤ c :=
+theorem HomHadamardBound.homNonneg {d : ℕ+ → ℕ+ → ℂ} {c : ℝ} (h : HomHadamardBound d c) : 0 ≤ c :=
   (norm_nonneg _).trans (h.diag 1)
 
 theorem HomHadamardBound.dominated {d : ℕ+ → ℕ+ → ℂ} {c : ℝ} (h : HomHadamardBound d c)
@@ -76,7 +76,7 @@ theorem HomHadamardBound.dominated {d : ℕ+ → ℕ+ → ℂ} {c : ℝ} (h : Ho
 theorem HomHadamardBound.schur {d : ℕ+ → ℕ+ → ℂ} {c : ℝ} (h : HomHadamardBound d c) (A : HomOp) :
     KamSchurBound (fun i j => d i j * kamEntry A i j) (c * homKS * ‖A‖) := by
   have := kamSchurBound_of_dominated A (h.dominated A)
-  rwa [max_eq_left h.nonneg] at this
+  rwa [max_eq_left h.homNonneg] at this
 
 /-- The Hadamard image `(d_ij A_ij)` of one operator. -/
 noncomputable def homHadamardOp {d : ℕ+ → ℕ+ → ℂ} {c : ℝ} (h : HomHadamardBound d c)
@@ -156,7 +156,7 @@ noncomputable def homHadamardCLM {d : ℕ+ → ℕ+ → ℂ} {c : ℝ} (h : HomH
 /-- **Hadamard division, (i)** (blueprint `bpW:w4:schur` (i)): `‖H_d‖ ≤ c K_S`. -/
 theorem norm_homHadamardCLM_le {d : ℕ+ → ℕ+ → ℂ} {c : ℝ} (h : HomHadamardBound d c) :
     ‖homHadamardCLM h‖ ≤ c * homKS :=
-  LinearMap.mkContinuous_norm_le _ (mul_nonneg h.nonneg (zero_le_one.trans one_le_homKS)) _
+  LinearMap.mkContinuous_norm_le _ (mul_nonneg h.homNonneg (zero_le_one.trans one_le_homKS)) _
 
 /-- **Hadamard division, (i), transposition** (blueprint `bpW:w4:schur` (i)): if `N` has the
 transposed entries of `M`, then `H_{dᵀ}(N)` has the transposed entries of `H_d(M)`. -/
@@ -172,7 +172,7 @@ theorem norm_homHadamardOp_diag_le {d : ℕ+ → ℕ+ → ℂ} {c : ℝ} (h : Ho
     (hd : ∀ i j, i ≠ j → d i j = 0) (A : HomOp) : ‖homHadamardOp h A‖ ≤ c * ‖A‖ := by
   have hμ : ∀ i, ‖d i i * kamEntry A i i‖ ≤ c * ‖A‖ := fun i => by
     rw [norm_mul]
-    exact mul_le_mul (h.diag i) (norm_kamEntry_diag_le A i) (norm_nonneg _) h.nonneg
+    exact mul_le_mul (h.diag i) (norm_kamEntry_diag_le A i) (norm_nonneg _) h.homNonneg
   have hD : homHadamardOp h A = weightedDiagCLM (fun i => d i i * kamEntry A i i) hμ := by
     refine homOp_ext_entries fun i j => ?_
     rw [homHadamard_entry]

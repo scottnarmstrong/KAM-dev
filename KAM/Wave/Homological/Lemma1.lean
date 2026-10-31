@@ -46,9 +46,10 @@ theorem homLemma1_lipschitz_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {
     (hm₁ : HomMultBounds τ α w₁ W₁) (hm₂ : HomMultBounds τ α w₂ W₂)
     (hL : HomMultLip τ α M d w₁ W₁ w₂ W₂) (R₁ R₂ : HomTaylor_gen a p pb s)
     (hX₁ : HomFieldBound_gen ha hp hpb r ε R₁) (hX₂ : HomFieldBound_gen ha hp hpb r ε R₂)
-    (hXL : HomFieldBound_gen ha hp hpb r (εL * d) (R₁.sub R₂)) :
+    (hXL : HomFieldBound_gen ha hp hpb r (εL * d) (R₁.homSub R₂)) :
     HomFieldBound_gen ha hp hpb r ((7 + 10 * homKS) * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d))
-      ((homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂)) := by
+      ((homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).homSub (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂)) :=
+          by
   intro θ y z zb hdom
   have hs : 0 < s := hσ.trans hσs
   have hε : 0 ≤ ε := by
@@ -79,16 +80,16 @@ theorem homCoeff_sub_banach {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ 
 
 /-- `N̂` is linear in `R`. -/
 theorem homNhatTaylor_sub_gen (hs : 0 < s) (R₁ R₂ : HomTaylor_gen a p pb s) :
-    (homNhatTaylor_gen R₁).sub (homNhatTaylor_gen R₂) = homNhatTaylor_gen (R₁.sub R₂) := by
+    (homNhatTaylor_gen R₁).homSub (homNhatTaylor_gen R₂) = homNhatTaylor_gen (R₁.homSub R₂) := by
   refine HomTaylor_gen.ext_of ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_
-  · funext z; simp [HomTaylor_gen.sub, homNhatTaylor_gen]
+  · funext z; simp [HomTaylor_gen.homSub, homNhatTaylor_gen]
   · funext z
     show homCoeff R₁.b 0 - homCoeff R₂.b 0 = homCoeff (fun z => R₁.b z - R₂.b z) 0
     rw [homCoeff_sub_banach hs R₁.comp_b.1 R₂.comp_b.1]
-  · funext z; simp [HomTaylor_gen.sub, homNhatTaylor_gen]
-  · funext z; simp [HomTaylor_gen.sub, homNhatTaylor_gen]
-  · funext z; simp [HomTaylor_gen.sub, homNhatTaylor_gen]
-  · funext z; simp [HomTaylor_gen.sub, homNhatTaylor_gen]
+  · funext z; simp [HomTaylor_gen.homSub, homNhatTaylor_gen]
+  · funext z; simp [HomTaylor_gen.homSub, homNhatTaylor_gen]
+  · funext z; simp [HomTaylor_gen.homSub, homNhatTaylor_gen]
+  · funext z; simp [HomTaylor_gen.homSub, homNhatTaylor_gen]
   · funext z
     show kamEntryDiagCLM (homCoeff R₁.Q 0) - kamEntryDiagCLM (homCoeff R₂.Q 0) =
       kamEntryDiagCLM (homCoeff (fun z => R₁.Q z - R₂.Q z) 0)
@@ -108,11 +109,11 @@ theorem homNhatTaylor_sub_gen (hs : 0 < s) (R₁ R₂ : HomTaylor_gen a p pb s) 
 theorem homNhat_lipschitz_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r εL : ℝ} (hr : 0 < r) (hs
     : 0
     < s)
-    (R₁ R₂ : HomTaylor_gen a p pb s) (hXL : HomFieldBound_gen ha hp hpb r (εL * d) (R₁.sub R₂)) :
-    HomFieldBound_gen ha hp hpb r (2 * (εL * d)) ((homNhatTaylor_gen R₁).sub (homNhatTaylor_gen
+    (R₁ R₂ : HomTaylor_gen a p pb s) (hXL : HomFieldBound_gen ha hp hpb r (εL * d) (R₁.homSub R₂)) :
+    HomFieldBound_gen ha hp hpb r (2 * (εL * d)) ((homNhatTaylor_gen R₁).homSub (homNhatTaylor_gen
         R₂)) := by
   rw [homNhatTaylor_sub_gen hs]
-  exact homNhat_fieldBound_gen ha hp hpb hr hs (R₁.sub R₂) hXL
+  exact homNhat_fieldBound_gen ha hp hpb hr hs (R₁.homSub R₂) hXL
 
 
 theorem homKS_lt_29 : homKS < 2.9 := by

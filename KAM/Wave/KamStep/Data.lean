@@ -33,7 +33,7 @@ namespace KAM.Wave
 noncomputable def stepC1 : ℝ := 7 + 10 * homKS
 
 /-- The exponent `t = 2τ + 4`. -/
-def stepT (τ : ℝ) : ℝ := 2 * τ + 4
+def stepExpT (τ : ℝ) : ℝ := 2 * τ + 4
 
 /-- `c_F = 9 C₁ b_W(τ)`. -/
 noncomputable def stepCF (τ : ℝ) : ℝ := 9 * stepC1 * waveBWconst τ
@@ -128,10 +128,10 @@ theorem stepMF_margins {M σ η : ℝ} (hσ : 0 < σ) (hη : 0 < η) (hη8 : η 
 `(3 C₁ B^W_σ/α) (3 ε) ≤ M_F`. -/
 theorem stepSolve_bound {τ α σ ε : ℝ} (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) (hσ1 : σ ≤ 1)
     (hε : 0 ≤ ε) :
-    3 * stepC1 * waveBW τ σ / α * (3 * ε) ≤ stepMF (stepCF τ) (stepT τ) α σ ε := by
+    3 * stepC1 * waveBW τ σ / α * (3 * ε) ≤ stepMF (stepCF τ) (stepExpT τ) α σ ε := by
   have hB := waveBW_le hτ hσ hσ1
   have hC1 := stepC1_pos
-  unfold stepMF stepCF stepT
+  unfold stepMF stepCF stepExpT
   have e : (2 * τ + 4 - 1) = 2 * τ + 3 := by ring
   rw [e]
   have hpow : 0 < σ ^ (2 * τ + 3) := Real.rpow_pos_of_pos hσ _

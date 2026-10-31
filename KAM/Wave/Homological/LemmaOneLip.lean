@@ -84,7 +84,7 @@ theorem norm_homInv_sub_le {k : Fin 2 → ℤ} {wt : ℝ} {δ : (Fin 2 → ℝ) 
 theorem homMultLip_of (h : HomFreqHyp Par ω Ω M0 Mω MΩ) (hα : 0 < α)
     (hH : HomMelnikov τ α Par ω Ω) {ξ ζ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (hζ : ζ ∈ Par) :
     HomMultLip τ α (Mω + MΩ) ‖ξ - ζ‖ (ω ξ) (Ω ξ) (ω ζ) (Ω ζ) := by
-  have hM : 0 ≤ Mω + MΩ := by linarith [h.nonneg.2.1, h.nonneg.2.2]
+  have hM : 0 ≤ Mω + MΩ := by linarith [h.consts_nonneg.2.1, h.consts_nonneg.2.2]
   have hc := fun k => homLipC_nonneg (τ := τ) (α := α) hM (norm_nonneg (ξ - ζ)) k
   have hw1 : ∀ j : ℕ+, (1 : ℝ) ≤ j := fun j => by exact_mod_cast j.pos
   refine ⟨fun k => ?_, fun k j => ?_, fun k j => ?_, fun k => ?_, fun k => ?_, fun k => ?_,

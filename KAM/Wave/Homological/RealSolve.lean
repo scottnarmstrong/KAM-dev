@@ -28,7 +28,7 @@ namespace KAM.Wave
 open KAM MeasureTheory
 open scoped ComplexConjugate
 
-theorem conj_character_real (k : Fin 2 → ℤ) (x : Fin 2 → ℝ) :
+theorem homConj_character_real (k : Fin 2 → ℤ) (x : Fin 2 → ℝ) :
     starRingEnd ℂ (character k (fun j => (x j : ℂ))) = character (-k) (fun j => (x j : ℂ)) := by
   unfold character
   rw [← Complex.exp_conj]
@@ -44,7 +44,7 @@ theorem homCoeff_conj {u v : (Fin 2 → ℂ) → ℂ}
   congr 1
   funext x
   simp only [smul_eq_mul, map_mul, hv x, Complex.conj_conj, neg_neg]
-  rw [conj_character_real k x]
+  rw [homConj_character_real k x]
 
 
 theorem homSolve_conj_real {u v : (Fin 2 → ℂ) → ℂ}
@@ -57,7 +57,7 @@ theorem homSolve_conj_real {u v : (Fin 2 → ℂ) → ℂ}
   rw [Complex.conj_tsum]
   rw [← (Equiv.neg (Fin 2 → ℤ)).tsum_eq]
   refine tsum_congr fun k => ?_
-  simp only [Equiv.neg_apply, map_mul, conj_character_real, neg_neg]
+  simp only [Equiv.neg_apply, map_mul, homConj_character_real, neg_neg]
   rw [hm' k, homCoeff_conj hv k]
 
 

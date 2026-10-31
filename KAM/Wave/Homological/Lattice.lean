@@ -47,7 +47,7 @@ theorem waveS_zero_value {σ : ℝ} (hσ : 0 < σ) :
   (waveS_zero_eq hσ).tsum_eq
 
 /-- `coth t ≤ 1 + 1/t` for `t > 0`. -/
-theorem coth_le_one_add_inv {t : ℝ} (ht : 0 < t) :
+theorem wave_coth_le_one_add_inv {t : ℝ} (ht : 0 < t) :
     Real.cosh t / Real.sinh t ≤ 1 + t⁻¹ := by
   have hs : 0 < Real.sinh t := Real.sinh_pos_iff.2 ht
   rw [div_le_iff₀ hs, Real.cosh_eq, Real.sinh_eq]
@@ -76,7 +76,7 @@ theorem waveS_zero_le {σ : ℝ} (hσ : 0 < σ) : waveS 0 σ ≤ (1 + (Real.pi *
   have hs : 0 < Real.sinh (Real.pi * σ) := Real.sinh_pos_iff.2 (by positivity)
   have hc : 0 ≤ Real.cosh (Real.pi * σ) / Real.sinh (Real.pi * σ) := by
     have := Real.cosh_pos (Real.pi * σ); positivity
-  exact pow_le_pow_left₀ hc (coth_le_one_add_inv (by positivity)) 2
+  exact pow_le_pow_left₀ hc (wave_coth_le_one_add_inv (by positivity)) 2
 
 /-- Partial geometric sums: `∑_{N<M} e^{-(ε/2)(N+1)} ≤ 2/ε`. -/
 theorem waveGeom_partial_le {ε : ℝ} (hε : 0 < ε) (M : ℕ) :

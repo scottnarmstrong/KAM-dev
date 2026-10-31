@@ -48,7 +48,7 @@ theorem homOmega_le {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 
     have : |Ω ξ j - ((j : ℝ) + 2)| ≤ (j : ℝ) ^ (1 / 2 : ℝ) * |Ω ξ j - ((j : ℝ) + 2)| :=
       le_mul_of_one_le_left (abs_nonneg _) hr
     linarith
-  have hM0 := h.nonneg.1
+  have hM0 := h.consts_nonneg.1
   calc |Ω ξ j| = |((j : ℝ) + 2) + (Ω ξ j - ((j : ℝ) + 2))| := by ring_nf
     _ ≤ |((j : ℝ) + 2)| + |Ω ξ j - ((j : ℝ) + 2)| := abs_add_le _ _
     _ ≤ ((j : ℝ) + 2) + M0 := by rw [abs_of_pos (by positivity)]; linarith
@@ -60,7 +60,7 @@ theorem homLie_Omega_mem {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → F
     {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {a p : ℝ} {z : ℕ+ → ℂ} (hz : HomNormal a p z) :
     ∃ hy : HomNormal a (p - 1) (fun j => (Ω ξ j : ℂ) * z j),
       homNorm hy ≤ (1 + M0) * homNorm hz :=
-  homNormal_mul (by linarith [h.nonneg.1]) (fun j => by
+  homNormal_mul (by linarith [h.consts_nonneg.1]) (fun j => by
     simpa [Complex.norm_real] using homOmega_le h hξ j) hz
 
 /-- **Absolute convergence of the pairings** (blueprint `bpW:w4:lie` (i)): for `F ∈ ℓ^N_{a,p_+}`
@@ -146,7 +146,7 @@ theorem homNOmega_le_gen {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → F
     Summable (fun j => ‖(Ω ξ j : ℂ) * z j * zb j‖) ∧
       ‖∑' j, (Ω ξ j : ℂ) * z j * zb j‖ ≤ (1 + M0) * γ * (homNorm hz * homNorm hzb) := by
   have hγ : 0 ≤ γ := (by have := homWt_pos a p 1; positivity : (0 : ℝ) ≤ _).trans (hG 1)
-  have hM0 : 0 ≤ 1 + M0 := by linarith [h.nonneg.1]
+  have hM0 : 0 ≤ 1 + M0 := by linarith [h.consts_nonneg.1]
   obtain ⟨hs, hle⟩ := summable_tsum_mul_le
     (A := fun j => homWt a p j * ‖z j‖) (B := fun j => homWt a p j * ‖zb j‖)
     (fun j => by have := homWt_pos a p j; positivity)

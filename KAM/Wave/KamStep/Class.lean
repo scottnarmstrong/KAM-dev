@@ -54,7 +54,7 @@ def FamBound (Pa : Set (Fin 2 → ℝ)) (V : Set KamPhase) (r lam ε : ℝ)
     (∀ ξ ∈ Pa, ∀ w ∈ V, kamNorm r (X ξ w) ≤ ε₀) ∧
     (∀ ξ ∈ Pa, ∀ ζ ∈ Pa, ∀ w ∈ V, kamNorm r (X ξ w - X ζ w) ≤ ε₁ * ‖ξ - ζ‖)
 
-theorem FamBound.mono {Pa : Set (Fin 2 → ℝ)} {V V' : Set KamPhase} {r lam ε ε' : ℝ}
+theorem FamBound.famMono {Pa : Set (Fin 2 → ℝ)} {V V' : Set KamPhase} {r lam ε ε' : ℝ}
     {X : (Fin 2 → ℝ) → KamPhase → KamPhase} (h : FamBound Pa V r lam ε X) (hV : V' ⊆ V)
     (hε : ε ≤ ε') : FamBound Pa V' r lam ε' X := by
   obtain ⟨ε₀, ε₁, h0, h1, hs, hb, hl⟩ := h

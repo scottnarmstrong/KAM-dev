@@ -17,7 +17,7 @@ import Mathlib.Tactic.Positivity
 Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
 being built.
 
-`HomTaylor_gen.IsReal R`: at real `θ`, `a, b` are real, `c^- = \\overline{c^+}`,
+`HomTaylor_gen.isRealTaylor R`: at real `θ`, `a, b` are real, `c^- = \\overline{c^+}`,
 `P' = \\overline P`, `Q^T = \\overline Q` (entrywise, in the entries of the represented operators;
     the
 weights are real so this is the same on representatives). Theorem `homSolveTaylor_isReal_gen`:
@@ -36,7 +36,7 @@ open scoped ComplexConjugate
 variable {a p pb s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ}
 
 /-- **Reality** of a Taylor Hamiltonian (`bpW:w4:taylor`), at real `θ`. -/
-def HomTaylor_gen.IsReal (R : HomTaylor_gen a p pb s) : Prop :=
+def HomTaylor_gen.isRealTaylor (R : HomTaylor_gen a p pb s) : Prop :=
   ∀ x : Fin 2 → ℝ, (R.a0 fun j => (x j : ℂ)).im = 0 ∧
     (∀ k, (R.b (fun j => (x j : ℂ)) k).im = 0) ∧
     (∀ j, R.cm (fun j => (x j : ℂ)) j = conj (R.cp (fun j => (x j : ℂ)) j)) ∧
@@ -46,8 +46,8 @@ def HomTaylor_gen.IsReal (R : HomTaylor_gen a p pb s) : Prop :=
       conj (homNormalEntry_gen a p pb (R.Q fun j => (x j : ℂ)) i j))
 
 theorem homSolveTaylor_isReal_gen (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) (hσs : σ < s)
-    (hm : HomMultBounds τ α w W) (R : HomTaylor_gen a p pb s) (hR : R.IsReal) :
-    (homSolveTaylor_gen hτ hα hσ hσs hm R).IsReal := by
+    (hm : HomMultBounds τ α w W) (R : HomTaylor_gen a p pb s) (hR : R.isRealTaylor) :
+    (homSolveTaylor_gen hτ hα hσ hσs hm R).isRealTaylor := by
   have hs : 0 < s := hσ.trans hσs
   intro x
   set θ : Fin 2 → ℂ := fun j => (x j : ℂ) with hθdef
@@ -153,8 +153,8 @@ theorem homCoeff_zero_im {s : ℝ} {u : (Fin 2 → ℂ) → ℂ}
   exact (Complex.conj_eq_iff_im).mp h.symm
 
 /-- **`N̂` is real** if `R` is (`\hat ω ∈ ℝ²`, `\hat Ω_j ∈ ℝ`). -/
-theorem homNhatTaylor_isReal_gen (hs : 0 < s) (R : HomTaylor_gen a p pb s) (hR : R.IsReal) :
-    (homNhatTaylor_gen R).IsReal := by
+theorem homNhatTaylor_isReal_gen (hs : 0 < s) (R : HomTaylor_gen a p pb s) (hR : R.isRealTaylor) :
+    (homNhatTaylor_gen R).isRealTaylor := by
   intro x
   refine ⟨by simp [homNhatTaylor_gen], fun k => ?_, fun j => by simp [homNhatTaylor_gen],
     fun i j => by simp [homNhatTaylor_gen, homNormalEntry_gen, kamEntry], fun i j => ?_⟩

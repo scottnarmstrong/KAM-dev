@@ -120,8 +120,8 @@ theorem stepFreqHyp {Par : Set (Fin 2 → ℝ)} {ω ω' : (Fin 2 → ℝ) → Fi
     (hΩL : ∀ ξ ∈ Par, ∀ ζ ∈ Par, ∀ j : ℕ+, ((j : ℝ) + 2) ^ (pb - p) *
       |(Ω' ξ j - Ω ξ j) - (Ω' ζ j - Ω ζ j)| ≤ 3 * ε / lam * ‖ξ - ζ‖) :
     HomFreqHyp Par ω' Ω' (M0 + 3 * ε) (Mω + 6 * Real.pi * ε / lam) (MΩ + 3 * ε / lam) where
-  nonneg := by
-    obtain ⟨n0, n1, n2⟩ := h.nonneg
+  consts_nonneg := by
+    obtain ⟨n0, n1, n2⟩ := h.consts_nonneg
     have hpi := Real.pi_pos
     have a1 : 0 ≤ 6 * Real.pi * ε / lam := by positivity
     have a2 : 0 ≤ 3 * ε / lam := by positivity

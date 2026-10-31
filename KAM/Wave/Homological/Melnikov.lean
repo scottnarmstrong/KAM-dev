@@ -50,7 +50,7 @@ def homZ : Set ((Fin 2 → ℤ) × (ℕ+ →₀ ℤ)) := {p | p ≠ 0 ∧ homL1 
 (`bpW:w4:freq`, tail weight `j`) is `HomFreqHyp1`; it implies this one (`HomFreqHyp1.toHyp`). -/
 structure HomFreqHyp (Par : Set (Fin 2 → ℝ)) (ω : (Fin 2 → ℝ) → Fin 2 → ℝ)
     (Ω : (Fin 2 → ℝ) → ℕ+ → ℝ) (M0 Mω MΩ : ℝ) : Prop where
-  nonneg : 0 ≤ M0 ∧ 0 ≤ Mω ∧ 0 ≤ MΩ
+  consts_nonneg : 0 ≤ M0 ∧ 0 ≤ Mω ∧ 0 ≤ MΩ
   tail : ∀ ξ ∈ Par, ∀ j : ℕ+, (j : ℝ) ^ (1 / 2 : ℝ) * |Ω ξ j - ((j : ℝ) + 2)| ≤ M0
   lipOmega : ∀ ξ ∈ Par, ∀ ζ ∈ Par, ‖ω ξ - ω ζ‖ ≤ Mω * ‖ξ - ζ‖
   lipTail : ∀ ξ ∈ Par, ∀ ζ ∈ Par, ∀ j : ℕ+,
@@ -59,7 +59,7 @@ structure HomFreqHyp (Par : Set (Fin 2 → ℝ)) (ω : (Fin 2 → ℝ) → Fin 2
 /-- **The original frequency hypotheses** (blueprint `bpW:w4:freq`): tail weight `j`. -/
 structure HomFreqHyp1 (Par : Set (Fin 2 → ℝ)) (ω : (Fin 2 → ℝ) → Fin 2 → ℝ)
     (Ω : (Fin 2 → ℝ) → ℕ+ → ℝ) (M0 Mω MΩ : ℝ) : Prop where
-  nonneg : 0 ≤ M0 ∧ 0 ≤ Mω ∧ 0 ≤ MΩ
+  consts_nonneg : 0 ≤ M0 ∧ 0 ≤ Mω ∧ 0 ≤ MΩ
   tail : ∀ ξ ∈ Par, ∀ j : ℕ+, (j : ℝ) * |Ω ξ j - ((j : ℝ) + 2)| ≤ M0
   lipOmega : ∀ ξ ∈ Par, ∀ ζ ∈ Par, ‖ω ξ - ω ζ‖ ≤ Mω * ‖ξ - ζ‖
   lipTail : ∀ ξ ∈ Par, ∀ ζ ∈ Par, ∀ j : ℕ+, (j : ℝ) * |Ω ξ j - Ω ζ j| ≤ MΩ * ‖ξ - ζ‖
@@ -73,7 +73,7 @@ theorem rpow_half_le_self {x : ℝ} (hx : 1 ≤ x) : x ^ (1 / 2 : ℝ) ≤ x := 
 theorem HomFreqHyp1.toHyp {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 → ℝ}
     {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ} {M0 Mω MΩ : ℝ} (h : HomFreqHyp1 Par ω Ω M0 Mω MΩ) :
     HomFreqHyp Par ω Ω M0 Mω MΩ where
-  nonneg := h.nonneg
+  consts_nonneg := h.consts_nonneg
   tail ξ hξ j := by
     have hj : (1 : ℝ) ≤ j := by exact_mod_cast j.pos
     exact (mul_le_mul_of_nonneg_right (rpow_half_le_self hj) (abs_nonneg _)).trans (h.tail ξ hξ j)
