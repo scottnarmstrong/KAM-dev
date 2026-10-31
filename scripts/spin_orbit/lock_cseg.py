@@ -542,8 +542,7 @@ class LockEmitter(CE.Emitter):
             st = "sqrtWitnessRadius 2 %s %s %s %s = some %s" % (W, cw, g, S, fixed(v["r"]))
             body += ["theorem %s :" % nm] + wrap(st.split(" "), "    ")
             body[-1] += " := by"
-            body += wrap(("rw [sqrtWitnessRadius_eq_of_residual 2 %s %s %s %s %s_ok %s_res]"
-                          % (W, cw, g, S, nm, nm)).split(" "), "  ")
+            body += _hang("rw [sqrtWitnessRadius_eq_of_residual 2 %s %s %s %s %s_ok %s_res]" % (W, cw, g, St, nm, nm))
             body += ["  decide +kernel", ""]
         return self.tree.write("Rad/%s%s%d" % (op[0].capitalize(), sub, i), self.base + imps,
                                "The %s witness radius at slot %d (%s)" % (op[0], i, chain),
