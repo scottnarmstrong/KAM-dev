@@ -290,10 +290,6 @@ def full(outdir, books=None):
 if __name__ == "__main__" and sys.argv[1] == "generate":
     full(sys.argv[2])
 
-if __name__ == "__main__" and sys.argv[1] == "check":
-    import pickle
-    g = pickle.load(open(os.path.join(sys.argv[2], "gen.pkl"), "rb"))
-    full(sys.argv[3], dict(g["books"], torsInv=g["torsInv"], graph=g["graph"]))
 
 
 # ---------------------------------------------------------------------------------------------- graph SOS (lock)
@@ -354,3 +350,10 @@ def regraph(gdir):
 
 if __name__ == "__main__" and sys.argv[1] == "regraph":
     regraph(sys.argv[2])
+
+
+# (after BAND and the graph helpers, which `full` reads)
+if __name__ == "__main__" and sys.argv[1] == "check":
+    import pickle
+    g = pickle.load(open(os.path.join(sys.argv[2], "gen.pkl"), "rb"))
+    full(sys.argv[3], dict(g["books"], torsInv=g["torsInv"], graph=g["graph"]))
