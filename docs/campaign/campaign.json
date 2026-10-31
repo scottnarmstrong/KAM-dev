@@ -1,5 +1,5 @@
 {
- "current_phase": "Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and its freeze and seal are in progress (SO-FREEZE3; D49, D50); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) is paused by the owner since 2026-10-31 until both SO tracks are done.",
+ "current_phase": "Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) is paused by the owner since 2026-10-31 until both SO tracks are done.",
  "workers": [
   {
    "id": "orchestrator",
@@ -186,7 +186,7 @@
   "SO-3": "every Lean package on main (LOCK-PO, LOCK-CONF, LOCK-COORDS-R/C, LOCK-SQRT, assembly part 1, LOCK-GRAPH); freeze of `lunar_sync_lock` approved (D49); the N = 65 librational certificate (73.8°) passes every check in the exact mirror; kernel runs and data emission in progress (about 158 MB after compaction; owner ruling on the size pending); then the headline, a one-line application, and the seal"
  },
  "so": {
-  "goal": "a general Lean certificate checker that turns numerical KAM tori into theorems (complete); first client: the Moon's spin rate stays within 2.755 % of its orbital rate for all time (N = 65; D38, D47), PROVED through the v2 certifier (D44) and on main since 2026-10-31; freeze and seal in progress (D49, D50). Next: the Moon locked in synchronous rotation forever (part 3; D42, D45).",
+  "goal": "a general Lean certificate checker that turns numerical KAM tori into theorems (complete); first client: the Moon's spin rate stays within 2.755 % of its orbital rate for all time (N = 65; D38, D47), PROVED through the v2 certifier (D44) and on main since 2026-10-31; frozen and sealed (D49, D50) (D49, D50). Next: the Moon locked in synchronous rotation forever (part 3; D42, D45).",
   "planned_lines": "≈ 18,500 lines, 21,500–23,000 with overrun",
   "packages": [
    "SO-DIO",
