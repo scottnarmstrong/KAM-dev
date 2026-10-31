@@ -196,14 +196,17 @@ theorem waveTriCoef_swap_last (r s : ℕ+) :
   rw [sineQuarticCoeff_pair_val_b, sineQuarticCoeff_pair_val_c]
   ring
 
+/-- The summand of `V(+,+,-,-)` over pairs `(r, s)`: `[min(r,s) ≤ 2] (1 + [r ≠ s]) 𝔤_{rsrs} I_r I_s`. -/
+def birkKterm (a p : ℝ) (w : BirkSpace) (rs : ℕ+ × ℕ+) : ℂ :=
+  if ((rs.1 : ℕ) ≤ 2 ∨ (rs.2 : ℕ) ≤ 2) then
+    (1 + (if rs.1 = rs.2 then 0 else 1)) * ((waveTriCoef m hm rs.1 rs.2 rs.1 rs.2 : ℝ) : ℂ) *
+      (birkAction a p w rs.1 * birkAction a p w rs.2) else 0
+
 include ha hp in
-/-- `V(+,+,-,-)` as a sum over pairs `(r, s)`. -/
+/-- `V(+,+,-,-)` as a sum over pairs `(r, s)` (and the summability of the summand). -/
 theorem birkV_s0_eq (w : BirkSpace) :
-    birkV a p (birkCoefBar m hm) w birkS0 =
-      ∑' rs : ℕ+ × ℕ+, (if ((rs.1 : ℕ) ≤ 2 ∨ (rs.2 : ℕ) ≤ 2) then
-        (1 + (if rs.1 = rs.2 then 0 else 1)) *
-          ((waveTriCoef m hm rs.1 rs.2 rs.1 rs.2 : ℝ) : ℂ) *
-            (birkAction a p w rs.1 * birkAction a p w rs.2) else 0) := by
+    Summable (birkKterm m hm a p w) ∧
+      birkV a p (birkCoefBar m hm) w birkS0 = ∑' rs : ℕ+ × ℕ+, birkKterm m hm a p w rs := by
   classical
   set c := birkCoefBar m hm with hcdef
   set F : (Fin 4 → ℕ+) → ℂ := fun mm => c (birkMk birkS0 mm) *
@@ -235,9 +238,10 @@ theorem birkV_s0_eq (w : BirkSpace) :
     Summable.of_norm_bounded hFs.norm (fun mm => by simp only [hF1]; split_ifs <;> simp)
   have hF2s : Summable F2 :=
     Summable.of_norm_bounded hFs.norm (fun mm => by simp only [hF2]; split_ifs <;> simp)
-  unfold birkV
-  show ∑' mm, F mm = _
-  rw [tsum_congr hsplit, hF1s.tsum_add hF2s]
+  have hV : birkV a p (birkCoefBar m hm) w birkS0 = ∑' mm, F1 mm + ∑' mm, F2 mm := by
+    unfold birkV
+    show ∑' mm, F mm = _
+    rw [tsum_congr hsplit, hF1s.tsum_add hF2s]
   let ι1 : ℕ+ × ℕ+ → (Fin 4 → ℕ+) := fun rs => ![rs.1, rs.2, rs.1, rs.2]
   let ι2 : ℕ+ × ℕ+ → (Fin 4 → ℕ+) := fun rs => ![rs.1, rs.2, rs.2, rs.1]
   have i1 : Function.Injective ι1 := fun x y h =>
@@ -262,66 +266,67 @@ theorem birkV_s0_eq (w : BirkSpace) :
     by_contra h; exact hx (hs2 h)
   have hS1 : Summable (F1 ∘ ι1) := (i1.summable_iff hz1).2 hF1s
   have hS2 : Summable (F2 ∘ ι2) := (i2.summable_iff hz2).2 hF2s
-  rw [← i1.tsum_eq hs1, ← i2.tsum_eq hs2]
-  refine (Summable.tsum_add hS1 hS2).symm.trans ?_
-  refine tsum_congr fun rs => ?_
-  obtain ⟨r, s⟩ := rs
-  have hc1 : ((∃ t : Fin 4, (((ι1 (r, s) t : ℕ+) : ℕ) ≤ 2)) ∧
-      (((ι1 (r, s)) 0 = (ι1 (r, s)) 2 ∧ (ι1 (r, s)) 1 = (ι1 (r, s)) 3) ∨
-        ((ι1 (r, s)) 0 = (ι1 (r, s)) 3 ∧ (ι1 (r, s)) 1 = (ι1 (r, s)) 2))) ↔
-      (((r : ℕ) ≤ 2) ∨ ((s : ℕ) ≤ 2)) := by
-    constructor
-    · rintro ⟨⟨t, ht⟩, -⟩
-      fin_cases t <;> simp [ι1] at ht <;> tauto
-    · intro h
-      refine ⟨?_, Or.inl ⟨rfl, rfl⟩⟩
-      rcases h with h | h
-      · exact ⟨0, by simpa [ι1] using h⟩
-      · exact ⟨1, by simpa [ι1] using h⟩
-  have hc2 : ((∃ t : Fin 4, (((ι2 (r, s) t : ℕ+) : ℕ) ≤ 2)) ∧
-      (((ι2 (r, s)) 0 = (ι2 (r, s)) 2 ∧ (ι2 (r, s)) 1 = (ι2 (r, s)) 3) ∨
-        ((ι2 (r, s)) 0 = (ι2 (r, s)) 3 ∧ (ι2 (r, s)) 1 = (ι2 (r, s)) 2))) ↔
-      (((r : ℕ) ≤ 2) ∨ ((s : ℕ) ≤ 2)) := by
-    constructor
-    · rintro ⟨⟨t, ht⟩, -⟩
-      fin_cases t <;> simp [ι2] at ht <;> tauto
-    · intro h
-      refine ⟨?_, Or.inr ⟨rfl, rfl⟩⟩
-      rcases h with h | h
-      · exact ⟨0, by simpa [ι2] using h⟩
-      · exact ⟨1, by simpa [ι2] using h⟩
-  have hFi1 : F (ι1 (r, s)) = (if ((r : ℕ) ≤ 2 ∨ (s : ℕ) ≤ 2) then
-      ((waveTriCoef m hm r s r s : ℝ) : ℂ) else 0) * (birkAction a p w r * birkAction a p w s) := by
-    simp only [hF, hcdef, birkCoefBar_s0, hc1]
-    have : (∏ t, birkCoord a p w (birkS0 t, ι1 (r, s) t)) =
-        birkAction a p w r * birkAction a p w s := by
-      simp [Fin.prod_univ_four, birkS0, ι1, birkAction]; ring
-    rw [this]
-    rfl
-  have hFi2 : F (ι2 (r, s)) = (if ((r : ℕ) ≤ 2 ∨ (s : ℕ) ≤ 2) then
-      ((waveTriCoef m hm r s r s : ℝ) : ℂ) else 0) * (birkAction a p w r * birkAction a p w s) := by
-    simp only [hF, hcdef, birkCoefBar_s0, hc2]
-    have : (∏ t, birkCoord a p w (birkS0 t, ι2 (r, s) t)) =
-        birkAction a p w r * birkAction a p w s := by
-      simp [Fin.prod_univ_four, birkS0, ι2, birkAction]; ring
-    rw [this]
-    show (if _ then ((waveTriCoef m hm r s s r : ℝ) : ℂ) else 0) * _ = _
-    rw [waveTriCoef_swap_last]
-  show F1 (ι1 (r, s)) + F2 (ι2 (r, s)) = _
-  have e1 : (ι1 (r, s)) 0 = (ι1 (r, s)) 2 ∧ (ι1 (r, s)) 1 = (ι1 (r, s)) 3 := ⟨rfl, rfl⟩
-  simp only [hF1, hF2]
-  rw [if_pos e1]
-  by_cases hrs : r = s
-  · have : ¬ ((ι2 (r, s)) 0 ≠ (ι2 (r, s)) 1 ∧ (ι2 (r, s)) 0 = (ι2 (r, s)) 3 ∧
-        (ι2 (r, s)) 1 = (ι2 (r, s)) 2) := fun h => h.1 (by simpa [ι2] using hrs)
-    rw [if_neg this, add_zero, hFi1]
-    simp only [hrs, if_true]
-    split_ifs <;> simp
-  · have : (ι2 (r, s)) 0 ≠ (ι2 (r, s)) 1 ∧ (ι2 (r, s)) 0 = (ι2 (r, s)) 3 ∧
-        (ι2 (r, s)) 1 = (ι2 (r, s)) 2 := ⟨by simpa [ι2] using hrs, rfl, rfl⟩
-    rw [if_pos this, hFi1, hFi2]
-    simp only [hrs, if_false]
-    split_ifs <;> ring
+  have hpt : ∀ rs : ℕ+ × ℕ+, F1 (ι1 rs) + F2 (ι2 rs) = birkKterm m hm a p w rs := by
+    rintro ⟨r, s⟩
+    have hc1 : ((∃ t : Fin 4, (((ι1 (r, s) t : ℕ+) : ℕ) ≤ 2)) ∧
+        (((ι1 (r, s)) 0 = (ι1 (r, s)) 2 ∧ (ι1 (r, s)) 1 = (ι1 (r, s)) 3) ∨
+          ((ι1 (r, s)) 0 = (ι1 (r, s)) 3 ∧ (ι1 (r, s)) 1 = (ι1 (r, s)) 2))) ↔
+        (((r : ℕ) ≤ 2) ∨ ((s : ℕ) ≤ 2)) := by
+      constructor
+      · rintro ⟨⟨t, ht⟩, -⟩
+        fin_cases t <;> simp [ι1] at ht <;> tauto
+      · intro h
+        refine ⟨?_, Or.inl ⟨rfl, rfl⟩⟩
+        rcases h with h | h
+        · exact ⟨0, by simpa [ι1] using h⟩
+        · exact ⟨1, by simpa [ι1] using h⟩
+    have hc2 : ((∃ t : Fin 4, (((ι2 (r, s) t : ℕ+) : ℕ) ≤ 2)) ∧
+        (((ι2 (r, s)) 0 = (ι2 (r, s)) 2 ∧ (ι2 (r, s)) 1 = (ι2 (r, s)) 3) ∨
+          ((ι2 (r, s)) 0 = (ι2 (r, s)) 3 ∧ (ι2 (r, s)) 1 = (ι2 (r, s)) 2))) ↔
+        (((r : ℕ) ≤ 2) ∨ ((s : ℕ) ≤ 2)) := by
+      constructor
+      · rintro ⟨⟨t, ht⟩, -⟩
+        fin_cases t <;> simp [ι2] at ht <;> tauto
+      · intro h
+        refine ⟨?_, Or.inr ⟨rfl, rfl⟩⟩
+        rcases h with h | h
+        · exact ⟨0, by simpa [ι2] using h⟩
+        · exact ⟨1, by simpa [ι2] using h⟩
+    have hFi1 : F (ι1 (r, s)) = (if ((r : ℕ) ≤ 2 ∨ (s : ℕ) ≤ 2) then
+        ((waveTriCoef m hm r s r s : ℝ) : ℂ) else 0) * (birkAction a p w r * birkAction a p w s) := by
+      simp only [hF, hcdef, birkCoefBar_s0, hc1]
+      have : (∏ t, birkCoord a p w (birkS0 t, ι1 (r, s) t)) =
+          birkAction a p w r * birkAction a p w s := by
+        simp [Fin.prod_univ_four, birkS0, ι1, birkAction]; ring
+      rw [this]
+      rfl
+    have hFi2 : F (ι2 (r, s)) = (if ((r : ℕ) ≤ 2 ∨ (s : ℕ) ≤ 2) then
+        ((waveTriCoef m hm r s r s : ℝ) : ℂ) else 0) * (birkAction a p w r * birkAction a p w s) := by
+      simp only [hF, hcdef, birkCoefBar_s0, hc2]
+      have : (∏ t, birkCoord a p w (birkS0 t, ι2 (r, s) t)) =
+          birkAction a p w r * birkAction a p w s := by
+        simp [Fin.prod_univ_four, birkS0, ι2, birkAction]; ring
+      rw [this]
+      show (if _ then ((waveTriCoef m hm r s s r : ℝ) : ℂ) else 0) * _ = _
+      rw [waveTriCoef_swap_last]
+    show F1 (ι1 (r, s)) + F2 (ι2 (r, s)) = _
+    have e1 : (ι1 (r, s)) 0 = (ι1 (r, s)) 2 ∧ (ι1 (r, s)) 1 = (ι1 (r, s)) 3 := ⟨rfl, rfl⟩
+    simp only [hF1, hF2]
+    rw [if_pos e1]
+    by_cases hrs : r = s
+    · have : ¬ ((ι2 (r, s)) 0 ≠ (ι2 (r, s)) 1 ∧ (ι2 (r, s)) 0 = (ι2 (r, s)) 3 ∧
+          (ι2 (r, s)) 1 = (ι2 (r, s)) 2) := fun h => h.1 (by simpa [ι2] using hrs)
+      rw [if_neg this, add_zero, hFi1]
+      simp only [birkKterm, hrs, if_true]
+      split_ifs <;> simp
+    · have : (ι2 (r, s)) 0 ≠ (ι2 (r, s)) 1 ∧ (ι2 (r, s)) 0 = (ι2 (r, s)) 3 ∧
+          (ι2 (r, s)) 1 = (ι2 (r, s)) 2 := ⟨by simpa [ι2] using hrs, rfl, rfl⟩
+      rw [if_pos this, hFi1, hFi2]
+      simp only [birkKterm, hrs, if_false]
+      split_ifs <;> ring
+  refine ⟨(hS1.add hS2).congr hpt, ?_⟩
+  rw [hV, ← i1.tsum_eq hs1, ← i2.tsum_eq hs2]
+  exact (Summable.tsum_add hS1 hS2).symm.trans (tsum_congr hpt)
 
 end
 
