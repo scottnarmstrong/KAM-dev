@@ -29,6 +29,7 @@ axioms, `w_lint.sh` exit 0; `#print axioms` of every main result listed: propext
 | `KamStep/TaylorScale.lean`, `TaylorEst.lean` | `S_t`, `T_t` (`scaleS`, `scaleT`), `scaleS_mem`, `kamNorm_scaleT_le`; `taylorXR` (sum of the Taylor coefficients of `t ↦ T_t X(S_t w)`), `taylorXR_bound` (`≤ 3ε`), `taylorXR_remainder` and `taylorXR_remainder_128` (`|X-X_R|_{ηr} ≤ 128ηε` on `D(s,4ηr)`) for any field `X` holomorphic on `D(s,r)` with `|X|_r ≤ ε` | `taylor` (iii), (iv), steps `t-disc`, `t-est` (the identification of `taylorXR` with the field of the Taylor polynomial `R`, parts (i), (ii), is open) |
 | `KamStep/FlowInverse.lean`, `FlowTransport.lean`, `FlowTime.lean`, `FlowSkew.lean` | `isUnit_fderiv_holoFlow` (`‖Dφ^t-I‖ ≤ 1/8`, Neumann), `hasFDerivAt_comp_hamiltonian` (transport: field of `G∘φ` is `A⁻¹ X_G∘φ`), `hasDerivWithinAt_comp_holoFlow` (time derivative), `skew_of_hamiltonian` (`DX_F` is `B`-skew from symmetry of `D²F`, external E3), `hasFDerivAt_bracket` (`D{G,F} = B([X_G,X_F],·)`) | `flow-calc` (iii)–(v), step `c-skew`, `new-ham` step `n-br` (all abstract in `F`, `B`) |
 | `KamStep/NewHamExp.lean` | `stepFTC`, `stepIntegral_eq`, `stepExpansion`, `stepExpansion_H`: `H(Φw) = N + N̂ + â₀ + (P-R)(Φw) + ∫₀¹((1-τ){N̂,F}+τ{R,F})` along a trajectory (scalar core) | `new-ham` (i), step `n-exp` (scalar core) |
+| `KamStep/StepCLM.lean` | `stepSympCLM` (`ϖ` as `StepPhase r →L StepPhase r →L ℂ`, `‖·‖ ≤ (4π+1) r²`, antisymmetric for `q=q'`), `stepEmbedCLM` (`kamEmbed` as a CLM, `‖ι W‖ ≤ ‖W‖`): the concrete `B` and `ι` for the abstract flow calculus | `omega`, `flow` (instantiation data) |
 
 ## Session 2 summary
 Landed: the abstract flow calculus (smoothing, variational equation, symplecticity, Cauchy bounds with the step
@@ -63,3 +64,12 @@ constants, equivariance) and external W5-E1; the W4 audit fixes F1/F2 (see `W4-H
 * Omega bound: `(4π+1)r²` proved (stronger than the blueprint's `(4π+2)r²`).
 * `stepImage_mem` needs `σ ≤ 1` (the blueprint step `f-image` uses the numerical smallness only); harmless since
   `σ ≤ 1/4` in step data.
+
+## Session 4 (partial)
+Landed `KamStep/StepCLM.lean` (builds with `w_build.sh`, default heartbeats; `w_lint.sh` not re-run). It gives the
+concrete `B = stepSympCLM` and `ι = stepEmbedCLM` on `F = G = StepPhase r` (the weight lives in the representatives, so
+one carrier serves both). Still needed for step 1 (instantiation): a function `taylorFun T : KamPhase → ℂ` and field
+`taylorField T : KamPhase → KamPhase` for `T : HomTaylor_gen`, via `u=(z+z̄)/√2`, `v=(z-z̄)/(i√2)` (`homU`, `homV`,
+`homRu_gen`, `homRv_gen`), with `DF·W = ϖ(X_F, W)` and holomorphy of `X_F` into the `p_+` target; only then do the
+abstract flow results specialise. Steps 2-6 of the order above are untouched; `bpW:w5:step` is NOT proved and
+`.drafts/READY-W5-STEP` was deliberately NOT written (not done, not blocked).
