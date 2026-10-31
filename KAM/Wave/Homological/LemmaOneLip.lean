@@ -94,10 +94,12 @@ theorem homMultLip_of (h : HomFreqHyp Par ω Ω M0 Mω MΩ) (hα : 0 < α)
     · rw [homMultA0, homMultA0, if_neg hk, if_neg hk]
       have := norm_homInv_sub_le hα one_pos (homDelta0_bound h hα hH hk) hξ hζ
       simpa [homDelta0] using this
-  · have := norm_homInv_sub_le hα (by have := hw1 j; positivity) (homDeltaPlus_bound h hα hH k j) hξ hζ
+  · have := norm_homInv_sub_le hα (by have := hw1 j; positivity) (homDeltaPlus_bound h hα hH k j)
+      hξ hζ
     refine this.trans ?_
     exact div_le_self (hc k) (hw1 j)
-  · have := norm_homInv_sub_le hα (by have := hw1 j; positivity) (homDeltaMinus_bound h hα hH k j) hξ hζ
+  · have := norm_homInv_sub_le hα (by have := hw1 j; positivity) (homDeltaMinus_bound h hα hH k j)
+      hξ hζ
     refine this.trans ?_
     exact div_le_self (hc k) (hw1 j)
   · refine homHadamardBound_of_weight (hc k) (fun i j => (i : ℝ) + j) ?_ ?_ ?_
@@ -128,7 +130,8 @@ theorem homMultLip_of (h : HomFreqHyp Par ω Ω M0 Mω MΩ) (hα : 0 < α)
           by_contra hcon; push Not at hcon; exact hkij hcon
         exact norm_homInv_sub_le hα hw (homDeltaQ_bound h hα hH hne) hξ hζ
     refine homHadamardBound_of_weight (hc k) (fun i j => (homWeightQ i j : ℝ))
-      (fun i j hij => homWeightQ_abs i j hij) (fun i j => by exact_mod_cast one_le_homWeightQ i j) key
+      (fun i j hij => homWeightQ_abs i j hij) (fun i j => by exact_mod_cast one_le_homWeightQ i j)
+          key
   · have key : ∀ i j : ℕ+, ‖homDQt (ω ξ) (Ω ξ) k i j - homDQt (ω ζ) (Ω ζ) k i j‖ ≤
         homLipC τ α (Mω + MΩ) ‖ξ - ζ‖ k / (homWeightQ j i : ℝ) := by
       intro i j

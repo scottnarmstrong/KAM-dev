@@ -68,8 +68,10 @@ theorem homMultBounds_of {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → F
     homDP_bound h hα hH hξ, homDP'_bound h hα hH hξ, homDQ_bound h hα hH hξ,
     homDQt_bound h hα hH hξ,
     fun k hk => ne_zero_of_divisorBound hα one_pos (homDelta0_bound h hα hH hk) hξ,
-    fun k j => ne_zero_of_divisorBound hα (by exact_mod_cast j.pos) (homDeltaPlus_bound h hα hH k j) hξ,
-    fun k j => ne_zero_of_divisorBound hα (by exact_mod_cast j.pos) (homDeltaMinus_bound h hα hH k j) hξ,
+    fun k j => ne_zero_of_divisorBound hα (by exact_mod_cast j.pos) (homDeltaPlus_bound h hα hH k
+        j) hξ,
+    fun k j => ne_zero_of_divisorBound hα (by exact_mod_cast j.pos) (homDeltaMinus_bound h hα hH k
+        j) hξ,
     fun k i j => ne_zero_of_divisorBound hα (by have := i.pos; have := j.pos; positivity)
       (homDeltaP_bound h hα hH k i j) hξ,
     fun k i j => ne_zero_of_divisorBound hα (by have := i.pos; have := j.pos; positivity)

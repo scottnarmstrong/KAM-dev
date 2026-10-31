@@ -17,7 +17,8 @@ import Mathlib.Tactic.FieldSimp
 Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
 being built.
 
-For `F = homSolveTaylor … R` and `θ ∈ T_{s-σ}` (writing `Δ_l = ∂_{θ_l}`, `𝔏 g = (2π)⁻¹ ∑_l ω_l Δ_l g`):
+For `F = homSolveTaylor … R` and `θ ∈ T_{s-σ}` (writing `Δ_l = ∂_{θ_l}`, `𝔏 g = (2π)⁻¹ ∑_l ω_l Δ_l
+    g`):
 * `homEq_a`: `𝔏 a_F = a - â₀`; `homEq_b`: `𝔏 b_{F,k} = b_k - \hat b_{0,k}`;
 * `homEq_cp`, `homEq_cm`: `𝔏 (Dc^±_F)_j ∓ iΩ_j (Dc^±_F)_j = (Dc^±)_j`;
 * `homEq_P`, `homEq_P'`: `𝔏 S(P_F)_ij ∓ i(Ω_i+Ω_j) S(P_F)_ij = S(P)_ij`;
@@ -121,7 +122,8 @@ theorem homEq_cp (j : ℕ+) :
     (T := homTdp hm) (fun k => homMultDp w W k j) (norm_homTdp_le hm)
     (fun k => by
       refine ContinuousLinearMap.ext fun v => ?_
-      simp only [ContinuousLinearMap.comp_apply, hΛ, homTdp, weightedDiagCLM_apply, homLamDiag_apply,
+      simp only [ContinuousLinearMap.comp_apply, hΛ, homTdp, weightedDiagCLM_apply,
+          homLamDiag_apply,
         ContinuousLinearMap.smul_apply, ContinuousLinearMap.id_apply, smul_eq_mul]
       ring)
     (fun k => by simpa using hm.dp k j)
@@ -148,7 +150,8 @@ theorem homEq_cm (j : ℕ+) :
     (T := homTdm hm) (fun k => homMultDm w W k j) (norm_homTdm_le hm)
     (fun k => by
       refine ContinuousLinearMap.ext fun v => ?_
-      simp only [ContinuousLinearMap.comp_apply, hΛ, homTdm, weightedDiagCLM_apply, homLamDiag_apply,
+      simp only [ContinuousLinearMap.comp_apply, hΛ, homTdm, weightedDiagCLM_apply,
+          homLamDiag_apply,
         ContinuousLinearMap.smul_apply, ContinuousLinearMap.id_apply, smul_eq_mul]
       ring)
     (fun k => by simpa using hm.dm k j)
@@ -188,7 +191,8 @@ theorem homEq_P (i j : ℕ+) :
     (fun l z hz => by
       rw [homPartial_clm Λ (R.comp_P.1.differentiableAt ((isOpen_complexStrip 2 s).mem_nhds hz)) l,
         hΛ]
-      exact (norm_kamEntry_le _ i j).trans ((fun z hz l => (homComp_angle ha hp hr R hX hz l).2.2.2.2.1) z hz l)) hθ
+      exact (norm_kamEntry_le _ i j).trans ((fun z hz l => (homComp_angle ha hp hr R hX hz
+          l).2.2.2.2.1) z hz l)) hθ
   simpa [hΛ, homSolveTaylor] using this
 
 theorem homEq_P' (i j : ℕ+) :
@@ -215,7 +219,8 @@ theorem homEq_P' (i j : ℕ+) :
     (fun l z hz => by
       rw [homPartial_clm Λ (R.comp_P'.1.differentiableAt ((isOpen_complexStrip 2 s).mem_nhds hz)) l,
         hΛ]
-      exact (norm_kamEntry_le _ i j).trans ((fun z hz l => (homComp_angle ha hp hr R hX hz l).2.2.2.2.2.1) z hz l)) hθ
+      exact (norm_kamEntry_le _ i j).trans ((fun z hz l => (homComp_angle ha hp hr R hX hz
+          l).2.2.2.2.2.1) z hz l)) hθ
   simpa [hΛ, homSolveTaylor] using this
 
 
@@ -257,7 +262,8 @@ theorem homEq_Q (i j : ℕ+) :
     by_cases hij : i = j
     · subst hij; simp
     · simp only [hij, if_false]
-      have h0 : Complex.I * (((homPairZ 0 w : ℝ) : ℂ) - ((W j - W i : ℝ) : ℂ)) * homDQ w W 0 i j = 1 := by
+      have h0 : Complex.I * (((homPairZ 0 w : ℝ) : ℂ) - ((W j - W i : ℝ) : ℂ)) * homDQ w W 0 i j =
+          1 := by
         rw [homDQ, if_neg (fun h => hij h.2)]
         exact homInv_resonance (hm.nzQ 0 i j (Or.inr hij)) (by simp [homDeltaQ, homPairZ] <;> ring)
       have hz : (homPairZ 0 w : ℂ) = 0 := by simp [homPairZ]

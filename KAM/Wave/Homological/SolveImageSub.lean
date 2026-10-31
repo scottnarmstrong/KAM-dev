@@ -44,7 +44,8 @@ theorem homSolve_image_sub_bound {s σ m₁ m₂ mΛ mL κ κ' α τ M d : ℝ} 
     (hp₁ : ∀ (i : Fin 2) z, z ∈ complexStrip 2 s → u₁ (z + Pi.single i 1) = u₁ z)
     (hp₂ : ∀ (i : Fin 2) z, z ∈ complexStrip 2 s → u₂ (z + Pi.single i 1) = u₂ z)
     (hm₁ : ∀ z ∈ complexStrip 2 s, ‖u₁ z‖ ≤ m₁) (hm₂ : ∀ z ∈ complexStrip 2 s, ‖u₂ z‖ ≤ m₂)
-    (hΛm₁ : ∀ z ∈ complexStrip 2 s, ‖Λ (u₁ z)‖ ≤ mΛ) (hΛm₂ : ∀ z ∈ complexStrip 2 s, ‖Λ (u₂ z)‖ ≤ mΛ)
+    (hΛm₁ : ∀ z ∈ complexStrip 2 s, ‖Λ (u₁ z)‖ ≤ mΛ) (hΛm₂ : ∀ z ∈ complexStrip 2 s, ‖Λ (u₂ z)‖ ≤
+        mΛ)
     (hΛL : ∀ z ∈ complexStrip 2 s, ‖Λ (u₁ z) - Λ (u₂ z)‖ ≤ mL * d) {θ : Fin 2 → ℂ}
     (hθ : θ ∈ complexStrip 2 (s - σ)) :
     ‖Λ (homSolve T₁ u₁ θ) - Λ (homSolve T₂ u₂ θ)‖ ≤
@@ -53,7 +54,8 @@ theorem homSolve_image_sub_bound {s σ m₁ m₂ mΛ mL κ κ' α τ M d : ℝ} 
     homSolve_image_eq hτ hα hκ hσ hσs hT₂ Λ hΛ₂ hu₂ hp₂ hm₂ hθ]
   exact homSolve_sub_le hτ hα hκ' hM hd hσ hσs hT₁' hT₂' hTd
     (Λ.differentiable.comp_differentiableOn hu₁) (Λ.differentiable.comp_differentiableOn hu₂)
-    (fun i z hz => by simp only [Function.comp_apply, hp₁ i z hz]) (fun i z hz => by simp only [Function.comp_apply, hp₂ i z hz])
+    (fun i z hz => by simp only [Function.comp_apply, hp₁ i z hz]) (fun i z hz => by simp only
+        [Function.comp_apply, hp₂ i z hz])
     hΛm₁ hΛm₂ hΛL hmL0 θ hθ
 
 theorem homSolve_image_partial_sub_bound {s σ m₁ m₂ mΛ mΛ' mL' κ κ' α τ M d : ℝ} (hτ : 0 ≤ τ)
@@ -71,7 +73,8 @@ theorem homSolve_image_partial_sub_bound {s σ m₁ m₂ mΛ mΛ' mL' κ κ' α 
     (hp₁ : ∀ (i : Fin 2) z, z ∈ complexStrip 2 s → u₁ (z + Pi.single i 1) = u₁ z)
     (hp₂ : ∀ (i : Fin 2) z, z ∈ complexStrip 2 s → u₂ (z + Pi.single i 1) = u₂ z)
     (hm₁ : ∀ z ∈ complexStrip 2 s, ‖u₁ z‖ ≤ m₁) (hm₂ : ∀ z ∈ complexStrip 2 s, ‖u₂ z‖ ≤ m₂)
-    (hΛm₁ : ∀ z ∈ complexStrip 2 s, ‖Λ (u₁ z)‖ ≤ mΛ) (hΛm₂ : ∀ z ∈ complexStrip 2 s, ‖Λ (u₂ z)‖ ≤ mΛ)
+    (hΛm₁ : ∀ z ∈ complexStrip 2 s, ‖Λ (u₁ z)‖ ≤ mΛ) (hΛm₂ : ∀ z ∈ complexStrip 2 s, ‖Λ (u₂ z)‖ ≤
+        mΛ)
     (i : Fin 2)
     (hΛ'm₁ : ∀ z ∈ complexStrip 2 s, ‖homPartial i (fun z => Λ (u₁ z)) z‖ ≤ mΛ')
     (hΛ'm₂ : ∀ z ∈ complexStrip 2 s, ‖homPartial i (fun z => Λ (u₂ z)) z‖ ≤ mΛ')

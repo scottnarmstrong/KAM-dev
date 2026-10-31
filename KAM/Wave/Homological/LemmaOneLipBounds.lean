@@ -75,7 +75,8 @@ variable {a p s σ τ α M d : ℝ} {w₁ w₂ : Fin 2 → ℝ} {W₁ W₂ : ℕ
 include ha hp hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL hX₁ hX₂ hXL hθ
 
 theorem homLipField_b :
-    ‖((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).b θ‖ ≤ 2 * Real.pi * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
+    ‖((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).b θ‖ ≤ 2 *
+        Real.pi * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
@@ -104,7 +105,8 @@ theorem homLipField_b :
   exact (le_of_eq rfl).trans (this.trans (le_of_eq (by ring)))
 
 theorem homLipField_cp :
-    ‖((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).cp θ‖ ≤ r * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) / Real.sqrt 2 := by
+    ‖((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).cp θ‖ ≤ r *
+        (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) / Real.sqrt 2 := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
@@ -120,7 +122,8 @@ theorem homLipField_cp :
       (hX₁ θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   obtain ⟨C₁, hC₁⟩ := R₁.comp_cp.2.2
   obtain ⟨C₂, hC₂⟩ := R₂.comp_cp.2.2
-  have := homSolve_sub_le (m := r * ε / Real.sqrt 2) (mL := r * εL / Real.sqrt 2) (κ := 1) hτ hα le_rfl
+  have := homSolve_sub_le (m := r * ε / Real.sqrt 2) (mL := r * εL / Real.sqrt 2) (κ := 1) hτ hα
+      le_rfl
     hM hd hσ hσs (norm_homTdp_le hm₁) (norm_homTdp_le hm₂) (norm_homTdp_sub_le hm₁ hm₂ hL)
     R₁.comp_cp.1 R₂.comp_cp.1 R₁.comp_cp.2.1 R₂.comp_cp.2.1
     (fun z hz => (hf₁ z hz).2.1) (fun z hz => (hf₂ z hz).2.1)
@@ -133,7 +136,8 @@ theorem homLipField_cp :
   exact (le_of_eq rfl).trans (this.trans (le_of_eq (by ring)))
 
 theorem homLipField_cm :
-    ‖((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).cm θ‖ ≤ r * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) / Real.sqrt 2 := by
+    ‖((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).cm θ‖ ≤ r *
+        (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) / Real.sqrt 2 := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
@@ -149,7 +153,8 @@ theorem homLipField_cm :
       (hX₁ θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   obtain ⟨C₁, hC₁⟩ := R₁.comp_cm.2.2
   obtain ⟨C₂, hC₂⟩ := R₂.comp_cm.2.2
-  have := homSolve_sub_le (m := r * ε / Real.sqrt 2) (mL := r * εL / Real.sqrt 2) (κ := 1) hτ hα le_rfl
+  have := homSolve_sub_le (m := r * ε / Real.sqrt 2) (mL := r * εL / Real.sqrt 2) (κ := 1) hτ hα
+      le_rfl
     hM hd hσ hσs (norm_homTdm_le hm₁) (norm_homTdm_le hm₂) (norm_homTdm_sub_le hm₁ hm₂ hL)
     R₁.comp_cm.1 R₂.comp_cm.1 R₁.comp_cm.2.1 R₂.comp_cm.2.1
     (fun z hz => (hf₁ z hz).2.2.1) (fun z hz => (hf₂ z hz).2.2.1)
@@ -162,7 +167,8 @@ theorem homLipField_cm :
   exact (le_of_eq rfl).trans (this.trans (le_of_eq (by ring)))
 
 theorem homLipField_P :
-    ‖(2 : ℂ) • ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).P θ‖ ≤ homKS * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
+    ‖(2 : ℂ) • ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).P θ‖
+        ≤ homKS * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
@@ -197,7 +203,8 @@ theorem homLipField_P :
     _ = _ := by ring
 
 theorem homLipField_Q :
-    ‖((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).Q θ‖ ≤ homKS * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
+    ‖((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).Q θ‖ ≤ homKS *
+        (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
@@ -226,7 +233,8 @@ theorem homLipField_Q :
   exact (le_of_eq rfl).trans (this.trans (le_of_eq (by ring)))
 
 theorem homLipField_Qt :
-    ‖((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).Qt θ‖ ≤ homKS * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
+    ‖((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).Qt θ‖ ≤ homKS
+        * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
@@ -255,7 +263,8 @@ theorem homLipField_Qt :
   exact (le_of_eq rfl).trans (this.trans (le_of_eq (by ring)))
 
 theorem homLipField_P' :
-    ‖(2 : ℂ) • ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).P' θ‖ ≤ homKS * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
+    ‖(2 : ℂ) • ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).P'
+        θ‖ ≤ homKS * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
@@ -290,7 +299,9 @@ theorem homLipField_P' :
     _ = _ := by ring
 
 theorem homLipField_dcp (i : Fin 2) :
-    homDualNorm ha hp (homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).cp θ) ≤ 2 * Real.sqrt 2 * Real.pi * r * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
+    homDualNorm ha hp (homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα
+        hσ hσs hm₂ R₂)).cp θ) ≤ 2 * Real.sqrt 2 * Real.pi * r * (waveBW τ σ / α * (εL + 2 * M * ε /
+        α) * d) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
@@ -311,8 +322,10 @@ theorem homLipField_dcp (i : Fin 2) :
     R₁.comp_cp.1.differentiableAt (hopen.mem_nhds hz)
   have d2 : ∀ z ∈ complexStrip 2 s, DifferentiableAt ℂ R₂.cp z := fun z hz =>
     R₂.comp_cp.1.differentiableAt (hopen.mem_nhds hz)
-  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamDiag ha hp‖ * max C₁ C₂)
-    (mΛ' := 2 * Real.sqrt 2 * Real.pi * r * ε) (mL' := 2 * Real.sqrt 2 * Real.pi * r * εL) (κ := 1) (κ' := 1)
+  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamDiag ha hp‖ * max C₁
+      C₂)
+    (mΛ' := 2 * Real.sqrt 2 * Real.pi * r * ε) (mL' := 2 * Real.sqrt 2 * Real.pi * r * εL) (κ := 1)
+        (κ' := 1)
     hτ hα le_rfl le_rfl hM hd (by positivity) hσ hσs (T₁ := homTdp hm₁) (T₂ := homTdp hm₂)
     (T₁' := homTdp hm₁) (T₂' := homTdp hm₂)
     (norm_homTdp_le hm₁) (norm_homTdp_le hm₂) (norm_homTdp_le hm₁) (norm_homTdp_le hm₂)
@@ -333,13 +346,16 @@ theorem homLipField_dcp (i : Fin 2) :
   have e := homPartial_sub_comp (a := a) (p := p) (s := s) (σ := σ)
     (homSolveTaylor hτ hα hσ hσs hm₁ R₁).comp_cp (homSolveTaylor hτ hα hσ hσs hm₂ R₂).comp_cp hθ i
   refine le_trans (le_of_eq ?_) (this.trans (le_of_eq ?_))
-  · show ‖homLamDiag ha hp (homPartial i (fun z => (homSolveTaylor hτ hα hσ hσs hm₁ R₁).cp z - (homSolveTaylor hτ hα hσ hσs hm₂ R₂).cp z) θ)‖ = _
+  · show ‖homLamDiag ha hp (homPartial i (fun z => (homSolveTaylor hτ hα hσ hσs hm₁ R₁).cp z -
+      (homSolveTaylor hτ hα hσ hσs hm₂ R₂).cp z) θ)‖ = _
     rw [e, map_sub]
     rfl
   · ring
 
 theorem homLipField_dcm (i : Fin 2) :
-    homDualNorm ha hp (homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).cm θ) ≤ 2 * Real.sqrt 2 * Real.pi * r * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
+    homDualNorm ha hp (homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα
+        hσ hσs hm₂ R₂)).cm θ) ≤ 2 * Real.sqrt 2 * Real.pi * r * (waveBW τ σ / α * (εL + 2 * M * ε /
+        α) * d) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
@@ -360,8 +376,10 @@ theorem homLipField_dcm (i : Fin 2) :
     R₁.comp_cm.1.differentiableAt (hopen.mem_nhds hz)
   have d2 : ∀ z ∈ complexStrip 2 s, DifferentiableAt ℂ R₂.cm z := fun z hz =>
     R₂.comp_cm.1.differentiableAt (hopen.mem_nhds hz)
-  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamDiag ha hp‖ * max C₁ C₂)
-    (mΛ' := 2 * Real.sqrt 2 * Real.pi * r * ε) (mL' := 2 * Real.sqrt 2 * Real.pi * r * εL) (κ := 1) (κ' := 1)
+  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamDiag ha hp‖ * max C₁
+      C₂)
+    (mΛ' := 2 * Real.sqrt 2 * Real.pi * r * ε) (mL' := 2 * Real.sqrt 2 * Real.pi * r * εL) (κ := 1)
+        (κ' := 1)
     hτ hα le_rfl le_rfl hM hd (by positivity) hσ hσs (T₁ := homTdm hm₁) (T₂ := homTdm hm₂)
     (T₁' := homTdm hm₁) (T₂' := homTdm hm₂)
     (norm_homTdm_le hm₁) (norm_homTdm_le hm₂) (norm_homTdm_le hm₁) (norm_homTdm_le hm₂)
@@ -382,13 +400,16 @@ theorem homLipField_dcm (i : Fin 2) :
   have e := homPartial_sub_comp (a := a) (p := p) (s := s) (σ := σ)
     (homSolveTaylor hτ hα hσ hσs hm₁ R₁).comp_cm (homSolveTaylor hτ hα hσ hσs hm₂ R₂).comp_cm hθ i
   refine le_trans (le_of_eq ?_) (this.trans (le_of_eq ?_))
-  · show ‖homLamDiag ha hp (homPartial i (fun z => (homSolveTaylor hτ hα hσ hσs hm₁ R₁).cm z - (homSolveTaylor hτ hα hσ hσs hm₂ R₂).cm z) θ)‖ = _
+  · show ‖homLamDiag ha hp (homPartial i (fun z => (homSolveTaylor hτ hα hσ hσs hm₁ R₁).cm z -
+      (homSolveTaylor hτ hα hσ hσs hm₂ R₂).cm z) θ)‖ = _
     rw [e, map_sub]
     rfl
   · ring
 
 theorem homLipField_dP (i : Fin 2) :
-    ‖homLamCLM ha hp (homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).P θ)‖ ≤ homKS * (4 * Real.pi * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d)) := by
+    ‖homLamCLM ha hp (homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα
+        hσ hσs hm₂ R₂)).P θ)‖ ≤ homKS * (4 * Real.pi * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d))
+        := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
@@ -409,7 +430,8 @@ theorem homLipField_dP (i : Fin 2) :
     R₁.comp_P.1.differentiableAt (hopen.mem_nhds hz)
   have d2 : ∀ z ∈ complexStrip 2 s, DifferentiableAt ℂ R₂.P z := fun z hz =>
     R₂.comp_P.1.differentiableAt (hopen.mem_nhds hz)
-  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamCLM ha hp‖ * max C₁ C₂)
+  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamCLM ha hp‖ * max C₁
+      C₂)
     (mΛ' := 4 * Real.pi * ε) (mL' := 4 * Real.pi * εL) (κ := homKS) (κ' := homKS)
     hτ hα one_le_homKS one_le_homKS hM hd (by positivity) hσ hσs (T₁ := homTP hm₁) (T₂ := homTP hm₂)
     (T₁' := homTP hm₁) (T₂' := homTP hm₂)
@@ -431,13 +453,16 @@ theorem homLipField_dP (i : Fin 2) :
   have e := homPartial_sub_comp (a := a) (p := p) (s := s) (σ := σ)
     (homSolveTaylor hτ hα hσ hσs hm₁ R₁).comp_P (homSolveTaylor hτ hα hσ hσs hm₂ R₂).comp_P hθ i
   refine le_trans (le_of_eq ?_) (this.trans (le_of_eq ?_))
-  · show ‖homLamCLM ha hp (homPartial i (fun z => (homSolveTaylor hτ hα hσ hσs hm₁ R₁).P z - (homSolveTaylor hτ hα hσ hσs hm₂ R₂).P z) θ)‖ = _
+  · show ‖homLamCLM ha hp (homPartial i (fun z => (homSolveTaylor hτ hα hσ hσs hm₁ R₁).P z -
+      (homSolveTaylor hτ hα hσ hσs hm₂ R₂).P z) θ)‖ = _
     rw [e, map_sub]
     rfl
   · ring
 
 theorem homLipField_dP' (i : Fin 2) :
-    ‖homLamCLM ha hp (homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).P' θ)‖ ≤ homKS * (4 * Real.pi * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d)) := by
+    ‖homLamCLM ha hp (homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα
+        hσ hσs hm₂ R₂)).P' θ)‖ ≤ homKS * (4 * Real.pi * (waveBW τ σ / α * (εL + 2 * M * ε / α) *
+        d)) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
@@ -458,9 +483,11 @@ theorem homLipField_dP' (i : Fin 2) :
     R₁.comp_P'.1.differentiableAt (hopen.mem_nhds hz)
   have d2 : ∀ z ∈ complexStrip 2 s, DifferentiableAt ℂ R₂.P' z := fun z hz =>
     R₂.comp_P'.1.differentiableAt (hopen.mem_nhds hz)
-  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamCLM ha hp‖ * max C₁ C₂)
+  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamCLM ha hp‖ * max C₁
+      C₂)
     (mΛ' := 4 * Real.pi * ε) (mL' := 4 * Real.pi * εL) (κ := homKS) (κ' := homKS)
-    hτ hα one_le_homKS one_le_homKS hM hd (by positivity) hσ hσs (T₁ := homTP' hm₁) (T₂ := homTP' hm₂)
+    hτ hα one_le_homKS one_le_homKS hM hd (by positivity) hσ hσs (T₁ := homTP' hm₁) (T₂ := homTP'
+        hm₂)
     (T₁' := homTP' hm₁) (T₂' := homTP' hm₂)
     (norm_homTP'_le hm₁) (norm_homTP'_le hm₂) (norm_homTP'_le hm₁) (norm_homTP'_le hm₂)
     (norm_homTP'_sub_le hm₁ hm₂ hL) (homLamCLM ha hp)
@@ -480,13 +507,16 @@ theorem homLipField_dP' (i : Fin 2) :
   have e := homPartial_sub_comp (a := a) (p := p) (s := s) (σ := σ)
     (homSolveTaylor hτ hα hσ hσs hm₁ R₁).comp_P' (homSolveTaylor hτ hα hσ hσs hm₂ R₂).comp_P' hθ i
   refine le_trans (le_of_eq ?_) (this.trans (le_of_eq ?_))
-  · show ‖homLamCLM ha hp (homPartial i (fun z => (homSolveTaylor hτ hα hσ hσs hm₁ R₁).P' z - (homSolveTaylor hτ hα hσ hσs hm₂ R₂).P' z) θ)‖ = _
+  · show ‖homLamCLM ha hp (homPartial i (fun z => (homSolveTaylor hτ hα hσ hσs hm₁ R₁).P' z -
+      (homSolveTaylor hτ hα hσ hσs hm₂ R₂).P' z) θ)‖ = _
     rw [e, map_sub]
     rfl
   · ring
 
 theorem homLipField_dQ (i : Fin 2) :
-    ‖homLamCLM ha hp (homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).Q θ)‖ ≤ homKS * (16 * Real.pi * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d)) := by
+    ‖homLamCLM ha hp (homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα
+        hσ hσs hm₂ R₂)).Q θ)‖ ≤ homKS * (16 * Real.pi * (waveBW τ σ / α * (εL + 2 * M * ε / α) *
+        d)) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
@@ -507,7 +537,8 @@ theorem homLipField_dQ (i : Fin 2) :
     R₁.comp_Q.1.differentiableAt (hopen.mem_nhds hz)
   have d2 : ∀ z ∈ complexStrip 2 s, DifferentiableAt ℂ R₂.Q z := fun z hz =>
     R₂.comp_Q.1.differentiableAt (hopen.mem_nhds hz)
-  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamCLM ha hp‖ * max C₁ C₂)
+  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamCLM ha hp‖ * max C₁
+      C₂)
     (mΛ' := 16 * Real.pi * ε) (mL' := 16 * Real.pi * εL) (κ := homKS) (κ' := homKS)
     hτ hα one_le_homKS one_le_homKS hM hd (by positivity) hσ hσs (T₁ := homTQ hm₁) (T₂ := homTQ hm₂)
     (T₁' := homTQ hm₁) (T₂' := homTQ hm₂)
@@ -529,12 +560,14 @@ theorem homLipField_dQ (i : Fin 2) :
   have e := homPartial_sub_comp (a := a) (p := p) (s := s) (σ := σ)
     (homSolveTaylor hτ hα hσ hσs hm₁ R₁).comp_Q (homSolveTaylor hτ hα hσ hσs hm₂ R₂).comp_Q hθ i
   refine le_trans (le_of_eq ?_) (this.trans (le_of_eq ?_))
-  · show ‖homLamCLM ha hp (homPartial i (fun z => (homSolveTaylor hτ hα hσ hσs hm₁ R₁).Q z - (homSolveTaylor hτ hα hσ hσs hm₂ R₂).Q z) θ)‖ = _
+  · show ‖homLamCLM ha hp (homPartial i (fun z => (homSolveTaylor hτ hα hσ hσs hm₁ R₁).Q z -
+      (homSolveTaylor hτ hα hσ hσs hm₂ R₂).Q z) θ)‖ = _
     rw [e, map_sub, homSolveTaylor_Q, homSolveTaylor_Q]
   · ring
 
 theorem homLipField_da (i : Fin 2) :
-    ‖homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).a0 θ‖ ≤ 2 * Real.pi * r ^ 2 * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
+    ‖homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂
+        R₂)).a0 θ‖ ≤ 2 * Real.pi * r ^ 2 * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
@@ -579,7 +612,8 @@ theorem homLipField_da (i : Fin 2) :
   exact this.trans (le_of_eq (by ring))
 
 theorem homLipField_db (i : Fin 2) (y : Fin 2 → ℂ) :
-    ‖∑ k, homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).b θ k * y k‖ ≤ 2 * Real.pi * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) * ‖y‖ := by
+    ‖∑ k, homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂
+        R₂)).b θ k * y k‖ ≤ 2 * Real.pi * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) * ‖y‖ := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
@@ -636,7 +670,8 @@ theorem homLipField_db (i : Fin 2) (y : Fin 2 → ℂ) :
     hθ
   have e := homPartial_sub_comp (a := a) (p := p) (s := s) (σ := σ)
     (homSolveTaylor hτ hα hσ hσs hm₁ R₁).comp_b (homSolveTaylor hτ hα hσ hσs hm₂ R₂).comp_b hθ i
-  have e2 : ∑ k, homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).b θ k * y k =
+  have e2 : ∑ k, homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ
+      hσs hm₂ R₂)).b θ k * y k =
       Λy (homPartial i (homSolveTaylor hτ hα hσ hσs hm₁ R₁).b θ) -
         Λy (homPartial i (homSolveTaylor hτ hα hσ hσs hm₂ R₂).b θ) := by
     rw [hΛy, hΛy, ← Finset.sum_sub_distrib]

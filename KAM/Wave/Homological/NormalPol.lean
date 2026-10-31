@@ -35,7 +35,8 @@ def homPairF (v w : HomL2) : ℂ := ∑' j : ℕ+, (v j : ℂ) * (w j : ℂ)
 theorem homPairF_summable (v w : HomL2) : Summable fun j : ℕ+ => (v j : ℂ) * (w j : ℂ) :=
   Summable.of_norm (homL2_pair_le v w).1
 
-theorem homPairF_add_left (v v' w : HomL2) : homPairF (v + v') w = homPairF v w + homPairF v' w := by
+theorem homPairF_add_left (v v' w : HomL2) : homPairF (v + v') w = homPairF v w + homPairF v' w :=
+    by
   unfold homPairF
   rw [← Summable.tsum_add (homPairF_summable v w) (homPairF_summable v' w)]
   refine tsum_congr fun j => ?_
@@ -50,7 +51,8 @@ theorem homPairF_smul_left (c : ℂ) (v w : HomL2) : homPairF (c • v) w = c * 
 theorem homPairF_comm (v w : HomL2) : homPairF v w = homPairF w v :=
   tsum_congr fun _ => mul_comm _ _
 
-theorem homPairF_add_right (v w w' : HomL2) : homPairF v (w + w') = homPairF v w + homPairF v w' := by
+theorem homPairF_add_right (v w w' : HomL2) : homPairF v (w + w') = homPairF v w + homPairF v w' :=
+    by
   rw [homPairF_comm, homPairF_add_left, homPairF_comm w, homPairF_comm w' ]
 
 theorem homPairF_smul_right (c : ℂ) (v w : HomL2) : homPairF v (c • w) = c * homPairF v w := by

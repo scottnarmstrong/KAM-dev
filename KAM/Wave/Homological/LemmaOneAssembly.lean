@@ -84,7 +84,8 @@ theorem norm_add7_le {E : Type*} [SeminormedAddCommGroup E] (a b c d e f g : E) 
     _ ≤ (((((‖a‖ + ‖b‖) + ‖c‖) + ‖d‖) + ‖e‖) + ‖f‖) + ‖g‖ := by gcongr; exact norm_add_le _ _
     _ = _ := by ring
 
-/-- **Assembly** (`bpW:w4:lemma1`, step *Assembly*): `|X_T|_r ≤ (7 + 10K) E₀` at a point of the domain
+/-- **Assembly** (`bpW:w4:lemma1`, step *Assembly*): `|X_T|_r ≤ (7 + 10K) E₀` at a point of the
+    domain
 over `θ`. -/
 theorem homXnorm_le_of_components {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {r K E0 : ℝ}
     (hr : 0 < r) (hK : 1 ≤ K) (hE0 : 0 ≤ E0) (T : HomTaylor a p s) {θ y : Fin 2 → ℂ}
@@ -108,7 +109,8 @@ theorem homXnorm_le_of_components {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {r
   have hK0 : 0 ≤ K := by linarith
   have hKE : 0 ≤ K * E0 := mul_nonneg hK0 hE0
   -- the angle derivatives
-  have hRth : ‖fun i => homRtheta ha hp T i θ y z zb‖ ≤ (4 + 6 * K) * (2 * Real.pi * r ^ 2 * E0) := by
+  have hRth : ‖fun i => homRtheta ha hp T i θ y z zb‖ ≤ (4 + 6 * K) * (2 * Real.pi * r ^ 2 * E0) :=
+      by
     refine (pi_norm_le_iff_of_nonneg (by positivity)).mpr fun i => ?_
     have e1 := hb.da i
     have e2 : ‖∑ k, homPartial i T.b θ k * y k‖ ≤ 2 * Real.pi * E0 * r ^ 2 :=
@@ -133,7 +135,8 @@ theorem homXnorm_le_of_components {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {r
         _ ≤ (K * (4 * Real.pi * E0)) * (r ^ 2 / 2) :=
             mul_le_mul_of_nonneg_left hzz (by positivity)
         _ = _ := by ring
-    have e6 : ‖homPairRep ha hp (homPartial i T.Q θ z) zb‖ ≤ K * (2 * Real.pi * r ^ 2 * E0) * 4 := by
+    have e6 : ‖homPairRep ha hp (homPartial i T.Q θ z) zb‖ ≤ K * (2 * Real.pi * r ^ 2 * E0) * 4 :=
+        by
       refine (norm_homPairRep_op_le ha hp _ _ _).trans ?_
       calc ‖homLamCLM ha hp (homPartial i T.Q θ)‖ * ‖z‖ * ‖zb‖
           ≤ (K * (16 * Real.pi * E0)) * (‖z‖ * ‖zb‖) := by
@@ -151,7 +154,8 @@ theorem homXnorm_le_of_components {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {r
         _ = _ := by ring
     unfold homRtheta
     refine le_trans (norm_add7_le _ _ _ _ _ _ _) ?_
-    have := add_le_add (add_le_add (add_le_add (add_le_add (add_le_add (add_le_add e1 e2) e3) e4) e5) e6) e7
+    have := add_le_add (add_le_add (add_le_add (add_le_add (add_le_add (add_le_add e1 e2) e3) e4)
+        e5) e6) e7
     refine this.trans (le_of_eq ?_)
     ring
   -- the normal components
@@ -203,7 +207,8 @@ theorem homXnorm_le_of_components {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {r
     calc (2 * Real.pi)⁻¹ * ‖homRy T θ‖ ≤ (2 * Real.pi)⁻¹ * (2 * Real.pi * E0) :=
           mul_le_mul_of_nonneg_left this (by positivity)
       _ = E0 := by field_simp
-  have t2 : (2 * Real.pi * r ^ 2)⁻¹ * ‖fun i => homRtheta ha hp T i θ y z zb‖ ≤ (4 + 6 * K) * E0 := by
+  have t2 : (2 * Real.pi * r ^ 2)⁻¹ * ‖fun i => homRtheta ha hp T i θ y z zb‖ ≤ (4 + 6 * K) * E0 :=
+      by
     calc _ ≤ (2 * Real.pi * r ^ 2)⁻¹ * ((4 + 6 * K) * (2 * Real.pi * r ^ 2 * E0)) :=
           mul_le_mul_of_nonneg_left hRth (by positivity)
       _ = _ := by field_simp

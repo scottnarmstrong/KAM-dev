@@ -35,7 +35,8 @@ theorem kamEntry_sub' (A B : HomOp) (i j : ℕ+) :
 variable {τ α M d : ℝ} {w₁ w₂ : Fin 2 → ℝ} {W₁ W₂ : ℕ+ → ℝ}
 
 theorem norm_homTscal_sub_le (hL : HomMultLip τ α M d w₁ W₁ w₂ W₂) (k : Fin 2 → ℤ) :
-    ‖homTscal w₁ k - homTscal w₂ k‖ ≤ 2 * 1 * (1 + Fourier.modeSize k) * waveA τ k ^ 2 * M / α ^ 2 * d := by
+    ‖homTscal w₁ k - homTscal w₂ k‖ ≤ 2 * 1 * (1 + Fourier.modeSize k) * waveA τ k ^ 2 * M / α ^ 2
+        * d := by
   have : homTscal w₁ k - homTscal w₂ k =
       (homMultA0 w₁ k - homMultA0 w₂ k) • ContinuousLinearMap.id ℂ ℂ := by
     refine ContinuousLinearMap.ext fun x => ?_
@@ -48,7 +49,8 @@ theorem norm_homTscal_sub_le (hL : HomMultLip τ α M d w₁ W₁ w₂ W₂) (k 
   linarith
 
 theorem norm_homTvec_sub_le (hL : HomMultLip τ α M d w₁ W₁ w₂ W₂) (k : Fin 2 → ℤ) :
-    ‖homTvec w₁ k - homTvec w₂ k‖ ≤ 2 * 1 * (1 + Fourier.modeSize k) * waveA τ k ^ 2 * M / α ^ 2 * d := by
+    ‖homTvec w₁ k - homTvec w₂ k‖ ≤ 2 * 1 * (1 + Fourier.modeSize k) * waveA τ k ^ 2 * M / α ^ 2 *
+        d := by
   have : homTvec w₁ k - homTvec w₂ k =
       (homMultA0 w₁ k - homMultA0 w₂ k) • ContinuousLinearMap.id ℂ (Fin 2 → ℂ) := by
     refine ContinuousLinearMap.ext fun v => ?_
@@ -65,7 +67,8 @@ variable {w₁' : Fin 2 → ℝ}
 
 theorem norm_homTdp_sub_le (hm₁ : HomMultBounds τ α w₁ W₁) (hm₂ : HomMultBounds τ α w₂ W₂)
     (hL : HomMultLip τ α M d w₁ W₁ w₂ W₂) (k : Fin 2 → ℤ) :
-    ‖homTdp hm₁ k - homTdp hm₂ k‖ ≤ 2 * 1 * (1 + Fourier.modeSize k) * waveA τ k ^ 2 * M / α ^ 2 * d := by
+    ‖homTdp hm₁ k - homTdp hm₂ k‖ ≤ 2 * 1 * (1 + Fourier.modeSize k) * waveA τ k ^ 2 * M / α ^ 2 *
+        d := by
   have hb : ∀ j, ‖homMultDp w₁ W₁ k j - homMultDp w₂ W₂ k j‖ ≤ homLipC τ α M d k :=
     fun j => hL.dp k j
   have : homTdp hm₁ k - homTdp hm₂ k =
@@ -79,7 +82,8 @@ theorem norm_homTdp_sub_le (hm₁ : HomMultBounds τ α w₁ W₁) (hm₂ : HomM
 
 theorem norm_homTdm_sub_le (hm₁ : HomMultBounds τ α w₁ W₁) (hm₂ : HomMultBounds τ α w₂ W₂)
     (hL : HomMultLip τ α M d w₁ W₁ w₂ W₂) (k : Fin 2 → ℤ) :
-    ‖homTdm hm₁ k - homTdm hm₂ k‖ ≤ 2 * 1 * (1 + Fourier.modeSize k) * waveA τ k ^ 2 * M / α ^ 2 * d := by
+    ‖homTdm hm₁ k - homTdm hm₂ k‖ ≤ 2 * 1 * (1 + Fourier.modeSize k) * waveA τ k ^ 2 * M / α ^ 2 *
+        d := by
   have hb : ∀ j, ‖homMultDm w₁ W₁ k j - homMultDm w₂ W₂ k j‖ ≤ homLipC τ α M d k :=
     fun j => hL.dm k j
   have : homTdm hm₁ k - homTdm hm₂ k =

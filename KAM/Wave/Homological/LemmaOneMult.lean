@@ -136,7 +136,8 @@ theorem norm_homMultDm_le (k : Fin 2 → ℤ) (j : ℕ+) :
     ‖homMultDm (ω ξ) (Ω ξ) k j‖ ≤ 1 * waveA τ k / α := by
   have hA : 0 < waveA τ k := lt_of_lt_of_le one_pos (waveA_ge_one k)
   have hj : (1 : ℝ) ≤ j := by exact_mod_cast j.pos
-  have := norm_mult_le_of_bound hα (by positivity : (0 : ℝ) < j) (homDeltaMinus_bound h hα hH k j) hξ
+  have := norm_mult_le_of_bound hα (by positivity : (0 : ℝ) < j) (homDeltaMinus_bound h hα hH k j)
+      hξ
   refine this.trans ?_
   rw [one_mul, div_le_div_iff₀ (by positivity) hα]
   nlinarith [mul_pos hα hA]

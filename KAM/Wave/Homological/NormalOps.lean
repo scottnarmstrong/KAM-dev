@@ -117,7 +117,8 @@ theorem homL2_pair_le (v w : HomL2) :
     (norm_nonneg v) (norm_nonneg w) hv hw
   have e : ∀ j : ℕ+, ‖(v j : ℂ) * (w j : ℂ)‖ = ‖(v j : ℂ)‖ * ‖(w j : ℂ)‖ := fun j => norm_mul _ _
   simp only [e]
-  exact ⟨hs, (norm_tsum_le_tsum_norm (by simpa only [e] using hs)).trans (by simpa only [e] using hle)⟩
+  exact ⟨hs, (norm_tsum_le_tsum_norm (by simpa only [e] using hs)).trans (by simpa only [e] using
+      hle)⟩
 
 theorem memℓp_homConj (v : HomL2) : Memℓp (fun j => starRingEnd ℂ (v j)) 2 := by
   have h2 : (0 : ℝ) < (2 : ENNReal).toReal := by norm_num

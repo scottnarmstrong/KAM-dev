@@ -48,14 +48,16 @@ theorem homPartial_clm {E G : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
 variable {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ}
 
 theorem homLamDiag_comm_homTdp {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hm : HomMultBounds τ α w W)
-    (k : Fin 2 → ℤ) : (homLamDiag ha hp).comp (homTdp hm k) = (homTdp hm k).comp (homLamDiag ha hp) := by
+    (k : Fin 2 → ℤ) : (homLamDiag ha hp).comp (homTdp hm k) = (homTdp hm k).comp (homLamDiag ha hp)
+        := by
   refine ContinuousLinearMap.ext fun v => ?_
   ext j
   simp [homTdp, homLamDiag_apply]
   ring
 
 theorem homLamDiag_comm_homTdm {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hm : HomMultBounds τ α w W)
-    (k : Fin 2 → ℤ) : (homLamDiag ha hp).comp (homTdm hm k) = (homTdm hm k).comp (homLamDiag ha hp) := by
+    (k : Fin 2 → ℤ) : (homLamDiag ha hp).comp (homTdm hm k) = (homTdm hm k).comp (homLamDiag ha hp)
+        := by
   refine ContinuousLinearMap.ext fun v => ?_
   ext j
   simp [homTdm, homLamDiag_apply]
@@ -158,7 +160,8 @@ theorem homF_compBounds {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ →
       (fun z hz => (Λy.le_opNorm _).trans (mul_le_mul_of_nonneg_left (hC z hz) (norm_nonneg _)))
       i (mΛ' := 2 * Real.pi * ε * ‖y‖)
       (fun z hz => by
-        rw [homPartial_clm Λy (R.comp_b.1.differentiableAt ((isOpen_complexStrip 2 s).mem_nhds hz)) i,
+        rw [homPartial_clm Λy (R.comp_b.1.differentiableAt ((isOpen_complexStrip 2 s).mem_nhds hz))
+            i,
           hΛy]
         exact (norm_sum_mul_le_of_sum_norm _ _).trans
           (mul_le_mul_of_nonneg_right (hang z hz i).2.1 (norm_nonneg y))) hθ
@@ -173,7 +176,8 @@ theorem homF_compBounds {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ →
       (fun z hz => (homDualNorm_le ha hp _).trans (hC z hz)) i
       (mΛ' := 2 * Real.sqrt 2 * Real.pi * r * ε)
       (fun z hz => by
-        rw [homPartial_clm _ (R.comp_cp.1.differentiableAt ((isOpen_complexStrip 2 s).mem_nhds hz)) i]
+        rw [homPartial_clm _ (R.comp_cp.1.differentiableAt ((isOpen_complexStrip 2 s).mem_nhds hz))
+            i]
         exact (hang z hz i).2.2.1) hθ
     refine (this : homDualNorm ha hp (homPartial i (homSolve (homTdp hm) R.cp) θ) ≤ _).trans
       (le_of_eq ?_)
@@ -187,7 +191,8 @@ theorem homF_compBounds {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ →
       (fun z hz => (homDualNorm_le ha hp _).trans (hC z hz)) i
       (mΛ' := 2 * Real.sqrt 2 * Real.pi * r * ε)
       (fun z hz => by
-        rw [homPartial_clm _ (R.comp_cm.1.differentiableAt ((isOpen_complexStrip 2 s).mem_nhds hz)) i]
+        rw [homPartial_clm _ (R.comp_cm.1.differentiableAt ((isOpen_complexStrip 2 s).mem_nhds hz))
+            i]
         exact (hang z hz i).2.2.2.1) hθ
     refine (this : homDualNorm ha hp (homPartial i (homSolve (homTdm hm) R.cm) θ) ≤ _).trans
       (le_of_eq ?_)
@@ -201,7 +206,8 @@ theorem homF_compBounds {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ →
       (fun z hz => (norm_homLamCLM_apply_le ha hp _).trans (hC z hz)) i
       (mΛ' := 4 * Real.pi * ε)
       (fun z hz => by
-        rw [homPartial_clm _ (R.comp_P.1.differentiableAt ((isOpen_complexStrip 2 s).mem_nhds hz)) i]
+        rw [homPartial_clm _ (R.comp_P.1.differentiableAt ((isOpen_complexStrip 2 s).mem_nhds hz))
+            i]
         exact (hang z hz i).2.2.2.2.1) hθ
     refine this.trans (le_of_eq ?_); ring
   · -- dP'
@@ -213,7 +219,8 @@ theorem homF_compBounds {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ →
       (fun z hz => (norm_homLamCLM_apply_le ha hp _).trans (hC z hz)) i
       (mΛ' := 4 * Real.pi * ε)
       (fun z hz => by
-        rw [homPartial_clm _ (R.comp_P'.1.differentiableAt ((isOpen_complexStrip 2 s).mem_nhds hz)) i]
+        rw [homPartial_clm _ (R.comp_P'.1.differentiableAt ((isOpen_complexStrip 2 s).mem_nhds hz))
+            i]
         exact (hang z hz i).2.2.2.2.2.1) hθ
     refine this.trans (le_of_eq ?_); ring
   · -- dQ
@@ -225,7 +232,8 @@ theorem homF_compBounds {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ →
       (fun z hz => (norm_homLamCLM_apply_le ha hp _).trans (hC z hz)) i
       (mΛ' := 16 * Real.pi * ε)
       (fun z hz => by
-        rw [homPartial_clm _ (R.comp_Q.1.differentiableAt ((isOpen_complexStrip 2 s).mem_nhds hz)) i]
+        rw [homPartial_clm _ (R.comp_Q.1.differentiableAt ((isOpen_complexStrip 2 s).mem_nhds hz))
+            i]
         exact (hang z hz i).2.2.2.2.2.2) hθ
     refine this.trans (le_of_eq ?_); ring
 

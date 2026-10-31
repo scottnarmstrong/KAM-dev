@@ -63,7 +63,8 @@ theorem homAngle_Q {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε : ℝ} (hr 
     (fun ζ η hζ hη => by
       have hd := homXnorm_parts ha hp hr T
         (hX θ 0 (ζ • z0) (η • z1) (homDomain_zzb hθ hr (hz z0 ζ h0 hζ) (hz z1 η h1 hη)))
-      have h2 := (norm_le_pi_norm (fun i => homRtheta ha hp T i θ 0 (ζ • z0) (η • z1)) i).trans hd.2.1
+      have h2 := (norm_le_pi_norm (fun i => homRtheta ha hp T i θ 0 (ζ • z0) (η • z1)) i).trans
+          hd.2.1
       rw [homRtheta_zzb] at h2
       have : polyEval2 c ζ η = homPartial i T.a0 θ
           + ζ * homPairRep ha hp (homPartial i T.cp θ) z0
@@ -101,12 +102,15 @@ theorem homComp_angle {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε : ℝ} (
   · exact norm_le_of_pairing_le fun y hy => (homAngle_z ha hp hr T hX hθ i y hy).1
   · exact norm_le_of_pairing_le fun y hy => (homAngle_zb ha hp hr T hX hθ i y hy).1
   · refine norm_le_of_quadratic (homLam_entry_symm ha hp
-      (homNormalEntry_partial_symm hdP (hopen.mem_nhds hθ) T.symP i)) fun z => homQuad_of_unit (fun z hz => ?_) z
+      (homNormalEntry_partial_symm hdP (hopen.mem_nhds hθ) T.symP i)) fun z => homQuad_of_unit (fun
+          z hz => ?_) z
     exact (homAngle_z ha hp hr T hX hθ i z hz).2
   · refine norm_le_of_quadratic (homLam_entry_symm ha hp
-      (homNormalEntry_partial_symm hdP' (hopen.mem_nhds hθ) T.symP' i)) fun z => homQuad_of_unit (fun z hz => ?_) z
+      (homNormalEntry_partial_symm hdP' (hopen.mem_nhds hθ) T.symP' i)) fun z => homQuad_of_unit
+          (fun z hz => ?_) z
     exact (homAngle_zb ha hp hr T hX hθ i z hz).2
-  · refine ContinuousLinearMap.opNorm_le_of_unit_norm (by have := Real.pi_pos; positivity) fun z0 hz0 => ?_
+  · refine ContinuousLinearMap.opNorm_le_of_unit_norm (by have := Real.pi_pos; positivity) fun z0
+      hz0 => ?_
     refine norm_le_of_pairing_le fun z1 hz1 => ?_
     exact homAngle_Q ha hp hr T hX hθ i z0 z1 hz0.le hz1
 

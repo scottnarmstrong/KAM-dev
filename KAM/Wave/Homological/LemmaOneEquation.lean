@@ -18,7 +18,8 @@ being built.
 
 * `homRval T θ y z zb`: the value of the Taylor polynomial `R` (`bpW:w4:R`);
 * `homLieN`: `L_N F = (1/2π)⟨ω,F_θ⟩ - i⟨F_z,Ωz⟩₀ + i⟨F_{\bar z},Ω\bar z⟩₀` (`bpW:w4:lie`);
-* `homNhat R y z zb = ⟨ω̂,y⟩ + ∑ Ω̂_j z_j \bar z_j`, `ω̂ = [b]`, `Ω̂_j = ([Q])_{jj}` (true coordinates
+* `homNhat R y z zb = ⟨ω̂,y⟩ + ∑ Ω̂_j z_j \bar z_j`, `ω̂ = [b]`, `Ω̂_j = ([Q])_{jj}` (true
+    coordinates
   `z_j = ẑ_j/ω_{a,p}(j+2)`);
 * `homLemma1_equation`: for finitely supported `z, \bar z`, all `y` and `θ ∈ T_{s-σ}`,
   `L_N F + N̂ = R - â₀`.
@@ -47,7 +48,8 @@ def homLieN {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (w : Fin 2 → ℝ) (W :
     - Complex.I * homPairOmega ha hp W (homRz T θ z zb) z
     + Complex.I * homPairOmega ha hp W (homRzb T θ z zb) zb
 
-/-- `N̂ = ⟨ω̂,y⟩ + ∑_j Ω̂_j z_j \bar z_j` with `ω̂ = [b]`, `Ω̂_j = ([Q])_{jj}`, in true coordinates. -/
+/-- `N̂ = ⟨ω̂,y⟩ + ∑_j Ω̂_j z_j \bar z_j` with `ω̂ = [b]`, `Ω̂_j = ([Q])_{jj}`, in true
+    coordinates. -/
 def homNhat {a p s : ℝ} (R : HomTaylor a p s) (y : Fin 2 → ℂ) (z zb : HomL2) : ℂ :=
   ∑ k, homCoeff R.b 0 k * y k +
     ∑' j : ℕ+, homNormalEntry a p (homCoeff R.Q 0) j j *
@@ -173,7 +175,8 @@ theorem homBlk_Q (S : Finset ℕ+) (SR SF S0 SQt : ℕ+ → ℕ+ → ℂ)
         Complex.I * ((W j : ℂ) - (W i : ℂ)) * SF i j) * z j * zb i
       - Complex.I * ∑ i ∈ S, ∑ j ∈ S, (W i : ℂ) * SQt i j * zb j * z i
       + Complex.I * ∑ i ∈ S, ∑ j ∈ S, (W i : ℂ) * SF i j * z j * zb i =
-      ∑ i ∈ S, ∑ j ∈ S, SR i j * z j * zb i - ∑ i ∈ S, (if i ∈ S then S0 i i * z i * zb i else 0) := by
+      ∑ i ∈ S, ∑ j ∈ S, SR i j * z j * zb i - ∑ i ∈ S, (if i ∈ S then S0 i i * z i * zb i else 0)
+          := by
   have swap : ∑ i ∈ S, ∑ j ∈ S, (W i : ℂ) * SQt i j * zb j * z i =
       ∑ i ∈ S, ∑ j ∈ S, (W j : ℂ) * SF i j * z j * zb i := by
     simp only [hQt]
@@ -238,12 +241,14 @@ theorem homLemma1_equation :
     have := homEq_cm ha hp hr hτ hα hσ hσs hm R hX hθ j (W := W)
     unfold homLop; push_cast at this; linear_combination this
   have hLP : ∀ i j : ℕ+, homLop w (fun l => homSent ha hp (homPartial l F.P θ) i j) =
-      homSent ha hp (R.P θ) i j + Complex.I * ((W i : ℂ) + (W j : ℂ)) * homSent ha hp (F.P θ) i j := by
+      homSent ha hp (R.P θ) i j + Complex.I * ((W i : ℂ) + (W j : ℂ)) * homSent ha hp (F.P θ) i j
+          := by
     intro i j
     have := homEq_P ha hp hr hτ hα hσ hσs hm R hX hθ i j (W := W)
     unfold homLop; push_cast at this; linear_combination this
   have hLP' : ∀ i j : ℕ+, homLop w (fun l => homSent ha hp (homPartial l F.P' θ) i j) =
-      homSent ha hp (R.P' θ) i j + (-Complex.I) * ((W i : ℂ) + (W j : ℂ)) * homSent ha hp (F.P' θ) i j := by
+      homSent ha hp (R.P' θ) i j + (-Complex.I) * ((W i : ℂ) + (W j : ℂ)) * homSent ha hp (F.P' θ)
+          i j := by
     intro i j
     have := homEq_P' ha hp hr hτ hα hσ hσs hm R hX hθ i j (W := W)
     unfold homLop; push_cast at this; linear_combination this
@@ -285,8 +290,10 @@ theorem homLemma1_equation :
     (fun i j => homSent ha hp (F.P θ) i j) hsymP W z
   have bP' := homBlk_sym S (-Complex.I) (fun i j => homSent ha hp (R.P' θ) i j)
     (fun i j => homSent ha hp (F.P' θ) i j) hsymP' W zb
-  have bQ := homBlk_Q S (fun i j => homSent ha hp (R.Q θ) i j) (fun i j => homSent ha hp (F.Q θ) i j)
-    (fun i j => homSent ha hp (homCoeff R.Q 0) i j) (fun i j => homSent ha hp (F.Qt θ) i j) hQt W z zb
+  have bQ := homBlk_Q S (fun i j => homSent ha hp (R.Q θ) i j) (fun i j => homSent ha hp (F.Q θ) i
+      j)
+    (fun i j => homSent ha hp (homCoeff R.Q 0) i j) (fun i j => homSent ha hp (F.Qt θ) i j) hQt W z
+        zb
   have bC := homBlk_c S Complex.I (fun j => (homLamDiag ha hp (R.cp θ) j : ℂ))
     (fun j => (homLamDiag ha hp (F.cp θ) j : ℂ)) W z
   have bCm := homBlk_c S (-Complex.I) (fun j => (homLamDiag ha hp (R.cm θ) j : ℂ))
