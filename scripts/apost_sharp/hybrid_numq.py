@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Exact rational port of the v2 certifier's route-A' numbers (package SHARP2-C8D).
+"""Exact rational port of the v2 certifier's route-A' numbers (package SHARP2-C8D; SHARP2-C8DFIX: Lean's
+totalized division x / 0 = 0 (`qdiv`) and the natural-number exponents of RouteAQ.lean (`nsub`)).
 
 Untrusted tooling.  A literal port, in Fractions with no float in any predicate, of
   * `StepQ` and its constants (KAM/CertificateSharp/V2/RouteAQ.lean);
@@ -25,6 +26,16 @@ JRI = [0, 1, 1, 1, 1, 1, 1, 0]
 
 
 # ============================================================================================ StepQ
+def qdiv(a, b):
+    """`a / b` in Lean's `ℚ` (x / 0 = 0)."""
+    return F(0) if b == 0 else F(a) / F(b)
+
+
+def nsub(a, b):
+    """`a - b` in `ℕ` (truncated): the exponents of RouteAQ.lean are natural numbers."""
+    return max(a - b, 0)
+
+
 class StepQ:
     """The rational inputs of one bite (RouteAQ.lean `StepQ`); the constants are cached properties."""
 
@@ -51,13 +62,13 @@ class StepQ:
         p.CFr = (p.M1 * p.sK + n) * (1 + p.sB) + \
             p.sN * ((p.sLt * p.M1 + 2 * n) * p.sK + p.sLt * (p.M1 * p.sK + n)) * p.sB
         p.CdK = p.CFr * p.CXi + p.P * p.g * p.CDXi
-        p.CE1 = 2 * p.P * (p.gb ** 2 * p.d ** (2 * p.kap - 1)) * p.CLin + p.M2 / 2 * p.CDK ** 2 + \
+        p.CE1 = 2 * p.P * (p.gb ** 2 * p.d ** nsub(2 * p.kap, 1)) * p.CLin + p.M2 / 2 * p.CDK ** 2 + \
             p.g * p.CS * p.CdK
-        p.CE2 = p.gb * p.d ** (p.kap - 1) * n * (p.sLt * p.g + p.Th * p.COm) * p.c * p.CG + \
+        p.CE2 = p.gb * p.d ** nsub(p.kap, 1) * n * (p.sLt * p.g + p.Th * p.COm) * p.c * p.CG + \
             p.Mh2 / 2 * p.CDK ** 2
         p.CE = max(p.CE1, p.CE2)
         p.CGr = n * p.sLt + 2 * n * p.sK
-        p.CB = p.sB ** 2 * p.CGr / (1 - p.th)
+        p.CB = qdiv(p.sB ** 2 * p.CGr, 1 - p.th)
         p.CNd = n * p.sB + p.sK * p.CB
         p.CNtd = p.CB * p.sLt + 2 * n * p.sB
         p.CDab = 2 * p.M1 * (p.CNtd * p.sN + p.sNt * p.CNd) + 2 * p.M2 * p.sNt * p.sN * p.d
@@ -67,8 +78,8 @@ class StepQ:
 
     def bLoc0(self, ch):
         p, n = self, F(self.n)
-        return (n * p.sNt * p.sB * (p.gb ** 4 * p.d ** (2 * (2 * p.kap) - 1)) +
-                2 ** (p.kap + 1) * p.sB ** 3 * p.w * (2 * (n - 1) * ch * p.sLt) * (p.gb ** 3 * p.d ** (3 * p.kap - 1)))
+        return (n * p.sNt * p.sB * (p.gb ** 4 * p.d ** nsub(2 * (2 * p.kap), 1)) +
+                2 ** (p.kap + 1) * p.sB ** 3 * p.w * (2 * (n - 1) * ch * p.sLt) * (p.gb ** 3 * p.d ** nsub(3 * p.kap, 1)))
 
     def bLoc(self, ch):
         p, n = self, F(self.n)
@@ -76,10 +87,10 @@ class StepQ:
 
     def cond0(self, x):
         p = self
-        return (p.gb ** 4 * p.d ** (2 * (2 * p.kap) - 1) * x <= 1 and
-                p.CSym * (p.gb ** 3 * p.d ** (3 * p.kap - 1)) * x <= H and
+        return (p.gb ** 4 * p.d ** nsub(2 * (2 * p.kap), 1) * x <= 1 and
+                p.CSym * (p.gb ** 3 * p.d ** nsub(3 * p.kap, 1)) * x <= H and
                 p.CE * x <= 1 and
-                p.sB * p.CGr * p.CDK * (p.gb ** 2 * p.d ** (2 * p.kap - 1)) * x <= p.th)
+                p.sB * p.CGr * p.CDK * (p.gb ** 2 * p.d ** nsub(2 * p.kap, 1)) * x <= p.th)
 
     def cond0_slack(self, x):
         """the smallest relative slack of the four conditions (>= 0 iff cond0)."""
@@ -122,7 +133,7 @@ class NumQ:
         return self.getc(s) if s < self.kp else self.ctail
 
     def caS(self, s):
-        return self.getcbar(s) * (self.delta(s) / self.b(s)) ** self.tau if s < self.kp else self.ctail
+        return self.getcbar(s) * qdiv(self.delta(s), self.b(s)) ** self.tau if s < self.kp else self.ctail
 
     def dS(self, s):
         return self.delta(min(s, self.kp))
@@ -161,13 +172,13 @@ class NumQ:
         if not 2 ** (2 * (2 * self.tau)) * self.inp(self.kp).CE * xs[self.kp] <= 1:
             return (False, "tail J2") if detail else False
         for i in range(8):
-            used = self.sumQ(self.gb, xs, lambda s, i=i: self.inp(s).rateR[i], 2 * self.tau - JRI[i])
+            used = self.sumQ(self.gb, xs, lambda s, i=i: self.inp(s).rateR[i], nsub(2 * self.tau, JRI[i]))
             if not m0[i] + used <= sig[i]:
                 return (False, "J3 cap %d" % i) if detail else False
         return (True, "") if detail else True
 
     def budgetOk(self, mT, iH, bF, bT):
-        return (0 < mT and mT < self.sT and bT + 2 * bF <= (self.sT - mT) / (self.sT * mT) and
+        return (0 < mT and mT < self.sT and bT + 2 * bF <= qdiv(self.sT - mT, self.sT * mT) and
                 iH + bT + 2 * bF <= self.t)
 
     def wfOk(self):
@@ -179,13 +190,13 @@ class NumQ:
 
     def c2Q(self, Xs):
         xs = self.xs(Xs)
-        return (self.rho ** (2 * self.tau) * self.sumQ(F(1), xs, lambda s: self.inp(s).CDK, 2 * self.tau) /
-                (Xs * self.delta0 ** (4 * self.tau)))
+        return qdiv(self.rho ** (2 * self.tau) * self.sumQ(F(1), xs, lambda s: self.inp(s).CDK, 2 * self.tau),
+                    Xs * self.delta0 ** (4 * self.tau))
 
     def c3Q(self, Xs):
         xs = self.xs(Xs)
-        return (self.rho ** (2 * self.tau) * self.sumQ(F(1), xs, lambda s: self.inp(s).CDw, 2 * self.tau) /
-                (Xs * self.delta0 ** (4 * self.tau)))
+        return qdiv(self.rho ** (2 * self.tau) * self.sumQ(F(1), xs, lambda s: self.inp(s).CDw, 2 * self.tau),
+                    Xs * self.delta0 ** (4 * self.tau))
 
 
 # ============================================================================================ the witnesses

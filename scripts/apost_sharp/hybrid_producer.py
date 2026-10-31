@@ -1,17 +1,25 @@
 #!/usr/bin/env python3
-"""The hybrid producer (package SHARP2-C8D, C8d first part; format docs/campaign/design/hybrid/format.md).
+"""The hybrid producer (packages SHARP2-C8D and SHARP2-C8DFIX; format docs/campaign/design/hybrid/format.md v2).
 
-Untrusted tooling.  Writes `kam-hybrid` v1 files: the finite candidate K^, the finite step DK^, the composition witness W,
+Untrusted tooling.  Writes `kam-hybrid` v2 files: the finite candidate K^, the finite step DK^, the composition witness W,
 the Gram and torsion witnesses of K^, the (advisory) models of E and E_lin~, the step claims, and the restart numbers
-(`params1`, `witness1`) of the restarted route-A' run, all consistent with the exact mirror (hybrid_mirror.py), whose
-transfer this producer calls.
+(`params1`, `witness1`) of the restarted route-A' run.  Every number the Lean checker `checkHybrid` recomputes is computed
+here with the exact port of its definitions (hybrid_mirror.py), and the file is checked by the mirror before it is
+written:
+  * weights: w >= ratExpUp(2 piUpQ rho, s, N) at the declared settings and at (12, 30) (SO's lunar settings), rounded
+    up (an integer if w >= 100, else to 10^-15);
+  * polynomial claims d0, dinf, d0R, d1, d1t, d1R, d1tR: the Lean sup bounds (stepSupOk, stepRealOk, dstepOk) at the
+    worst-case pi enclosure (Machin parameters (0, 0): piUpMin = piUpQ, piLowPos = piLoQ), so they hold for any
+    certificate's piEnc; rounded up;
+  * dE0, dE0R: the whole-error Cauchy bound n err / (rho - rhoT) that hybCauchyOk checks;
+  * the transfer: TransferQ's formulas (the real-torus frame uses d1R, d1tR; lambda_1 uses the invariance error).
 
   R1-L8   R1's L = 8 finite candidate in the design package (c = 7/4, `r1Params`, `r1Claim`, `r1RefinedWitR`):
           K^ = (psi + v^/(2 pi), phi, P1^, P2^) with v^ = R1's v cut at 10^-8 and rounded to 2^-S (the stored angle,
           degree -1), P1^ = nu + D_t U rounded, P2^ = P1^ + J^ (J truncated at 10^-3 e, rounded); DK^ the isoenergetic
           step of K^ (truncated at 10^-3 e^2, rounded; angle components stored with degree -1).  Floating measurements on
-          512 x 128 shifted grids (hybrid_cert_r1.py); polynomial claims exact (the mirror's norms); kernel-only claims are
-          the floating values x 1.10.
+          512 x 128 shifted grids (hybrid_cert_r1.py); the claims lE, o0, o0R, o1, o1R, lH (kernel-only: hybCompOk,
+          hybOmegaOk) are the floating values x 1.10.
   T2      the toy T2 (KAM/Certificate/Tests/Toy2Data.lean, toyRefinedWitR) with the zero step: its residual is the width
           of its frequency box, which no step can reduce (format.md, design note F3: the hybrid branch is not claimed to
           reproduce the plain one; the mirror shows the cost).
@@ -35,6 +43,12 @@ import r1_norms                   # noqa: E402
 
 S = 60
 TWO_PI = 2 * math.pi
+
+# the base certificate's settings read by the ported checks (format v2 `base.cert`)
+T2_CERT = dict(expHalvings=8, expOrder=24, piEnc=dict(machinK=4, machinJ=4), weightRho=F(9))      # toyCert2 (Lean)
+R1_CERT = dict(expHalvings=8, expOrder=24, piEnc=dict(machinK=4, machinJ=4), weightRho=F(1, 70),  # assumed: R1's base
+               assumed="R1's base certificate is not in Lean; the toy's settings, as AUDIT-C8C-1 and C8c checked; "
+                       "weights also pass at (12, 30), polynomial claims at any Machin parameters")
 
 
 def mant(x):
@@ -91,9 +105,40 @@ def round_dyadic(C, scale=1.0):
     return (np.round(C.real * scale * s) + 1j * np.round(C.imag * scale * s)) / s / scale
 
 
-def weight(r):
-    w = HM.exp_up(2 * HM.PI_HI * F(r))
-    return {"rho": fq(F(r)) if r else "0", "w": fq(rup(w, 15))}
+ROBUST_EXP = ((12, 30),)            # also cover SO's lunar settings (expHalvings 12, expOrder 30)
+PE_WORST = (0, 0)                   # Machin (0, 0): piUpMin = piUpQ, piLowPos = piLoQ (the loosest twoPiZpow)
+
+
+def weight(r, cert):
+    """a `CertWeight` (r, w) with w >= ratExpUp(2 piUpQ r, s, N) at the declared and the robust settings: the integer
+    ceiling if w >= 100 (as the Lean T2 test), else the ceiling at 10^-15."""
+    r = F(r)
+    best = None
+    for s, N in ((cert["expHalvings"], cert["expOrder"]),) + ROBUST_EXP:
+        a, b = HM.rat_exp_up(2 * HM.PI_UP_Q * r, s, N)
+        best = (a, b) if best is None or a * best[1] > best[0] * b else best
+    a, b = best
+    w = F(-((-a) // b)) if a >= 100 * b else F(-((-a * 10 ** 15) // b), 10 ** 15)
+    for s, N in ((cert["expHalvings"], cert["expOrder"]),) + ROBUST_EXP:
+        assert HM.check_weight((r, w), s, N)
+    return {"rho": fq(r), "w": fq(w)}
+
+
+def poly_claims(n, dKe, Wt):
+    """the Lean sup bounds of the step at the worst-case pi enclosure, rounded up."""
+    dK = HM.emb_from(dKe, S)
+    W1, Wi = HM.weight_from(Wt["rho1"]), HM.weight_from(Wt["rhoinf"])
+    lv_s = HM.dstep_matrix(n, W1, W1, PE_WORST, dK)
+    lv_r = HM.dstep_matrix(n, Wi, HM.REAL_WEIGHT, PE_WORST, dK)
+    top = lambda lv, col: HM.sums_ok(lv, n, F(0), col)[1]
+    return dict(d0=rup(max(HM.step_sups(n, W1, dK))), dinf=rup(max(HM.step_sups(n, Wi, dK))),
+                d1=rup(top(lv_s, False)), d1t=rup(top(lv_s, True)),
+                d0R=rup(max(HM.step_sups(n, HM.REAL_WEIGHT, dK))), d1R=rup(top(lv_r, False)), d1tR=rup(top(lv_r, True)))
+
+
+def rho_t(rho1, rhoinf):
+    """`HybWit.ρT`: rho1 - min(1, (rho1 - rhoInf)/6)."""
+    return rho1 - min(F(1), (rho1 - rhoinf) / 6)
 
 
 # ============================================================================================ R1, L = 8
@@ -184,28 +229,24 @@ def produce_r1(Ld=8, out_dir=None, lean_dir=None, log=print):
            "action": [realpoly(K.P1, G), realpoly(K.P2, G)]}
     dKe = {"angleDeg": [-1, -1], "angle": [realpoly(CdK[..., 0], G, TWO_PI), realpoly(CdK[..., 1], G, TWO_PI)],
            "actionDeg": [0, 0], "action": [realpoly(CdK[..., 2], G), realpoly(CdK[..., 3], G)]}
-    dl1 = min(1.0, (rho - rhoinf) / 6)
-    Wt = {"rho1": weight(F(1, 70)), "rhoinf": weight(F(1, 70000)), "real": {"rho": "0", "w": "1"},
-          "torsion": weight(F(1, 70) - min(F(1), (F(1, 70) - F(1, 70000)) / 6))}
+    n = 2
+    rho1 = F(1, 70)
     s0 = 1 + F(1, 10 ** 6)
     xiw_q = F(int(round(xiw * 2 ** S)), 2 ** S)
     s1 = s0 * (1 - xiw_q)
-    n = 2
-    exact_dK = HM.emb_from(dKe, S)
-    v1, D1, D1t = HM.step_norms(exact_dK, n, F(Wt["rho1"]["w"]))
-    vi, _, _ = HM.step_norms(exact_dK, n, F(Wt["rhoinf"]["w"]))
-    vR, DR, DRt = HM.step_norms(exact_dK, n, F(1))
-    k10 = lambda x: rup(F(x) * F(110, 100))
-    claims = dict(d0=rup(v1), dinf=rup(vi), d1=rup(D1), d1t=rup(D1t), d0R=rup(vR), d1R=rup(DR), d1tR=rup(DRt),
-                  lE=k10(meas["rho1"]["Elin"]), dE0=k10(meas["rho1"]["DE"]), o0=k10(meas["rho1"]["OmK"]),
-                  dE0R=k10(meas["real"]["DE"]), o0R=k10(meas["real"]["OmK"]), o1=k10(meas["rho1"]["OmK1"]),
-                  o1R=k10(meas["real"]["OmK1"]), lH=k10(meas["energy_lin"]) + F(1, 10 ** 30),
-                  dw=rup(abs(s1 - s0) * NQ.box_norm_up(NQ.R1_BOX)))
     base_p = NQ.r1_params(rup(F(meas["rho1"]["e"]) * F(110, 100)), F(1, 300))
+    rhoT = rho_t(rho1, base_p["rhoInf"])
+    Wt = {"rho1": weight(rho1, R1_CERT), "rhoinf": weight(base_p["rhoInf"], R1_CERT), "torsion": weight(rhoT, R1_CERT)}
+    k10 = lambda x: rup(F(x) * F(110, 100))
+    cauchy = rup(n * base_p["err"] / (base_p["rho"] - rhoT))         # hybCauchyOk's bound (whole-error Cauchy)
+    claims = poly_claims(n, dKe, Wt)
+    claims.update(lE=k10(meas["rho1"]["Elin"]), dE0=cauchy, o0=k10(meas["rho1"]["OmK"]), dE0R=cauchy,
+                  o0R=k10(meas["real"]["OmK"]), o1=k10(meas["rho1"]["OmK1"]), o1R=k10(meas["real"]["OmK1"]),
+                  lH=k10(meas["energy_lin"]) + F(1, 10 ** 30), dw=rup(abs(s1 - s0) * NQ.box_norm_up(NQ.R1_BOX)))
     mu = base_p["mu"]
     mu1 = mu - rup(2 * max(claims["d0"], claims["d1"])) - F(1, 10 ** 12)
     data = assemble("R1-L8", "R1 design package (c = 7/4; r1Params, r1Claim, r1RefinedWitR, r1Box)", n, base_p,
-                    NQ.R1_BOX, NQ.R1_CLAIM, emb, dKe, Wt, claims, F(1, 70), mu1, s1, NQ.R1_WIT_R, log)
+                    NQ.R1_BOX, NQ.R1_CLAIM, emb, dKe, Wt, claims, rho1, mu1, s1, NQ.R1_WIT_R, R1_CERT, log)
     data["base"]["witnesses"] = {"exp": certpoly(CW, G, real_only=True),
                                  "gramInv": [[certpoly(CB[..., i, j], G) for j in range(2)] for i in range(2)],
                                  "torsInv": [[[str(F(float(np.real(extinv[i, j]))).limit_denominator(10 ** 12)), "0"]
@@ -239,17 +280,23 @@ def model(C, G, r, tol):
 
 
 # ============================================================================================ assembly (shared)
-def assemble(name, package, n, base_p, box, claim, emb, dKe, Wt, claims, rho1, mu1, s1, plain_wit, log):
-    """the restart numbers from the exact transfer (hybrid_mirror.transfer), and the file."""
-    tr, sl = HM.transfer(n, base_p, claim, claims, rho1, mu1, iso=True)
-    if tr is None:
-        raise SystemExit("%s: transfer fails: %s" % (name, {k: v for k, v in sl.items() if not v}))
+def assemble(name, package, n, base_p, box, claim, emb, dKe, Wt, claims, rho1, mu1, s1, plain_wit, cert, log):
+    """the restart numbers from the exact port of TransferQ / transferOk (hybrid_mirror.hyb_numbers), and the file,
+    checked by the mirror before it is returned."""
+    cl = {k: claims[k] for k in HM.CLAIMS}
     p1 = dict(base_p)
-    p1.update(rho=rho1, mu=mu1, sK=tr["sK1"], sB=rup(tr["sB1"]), sT=rup(tr["sT1"]), err=rup(tr["e1"]),
-              nuRay=rdown(tr["nuRay1"]), s=s1)
+    p1.update(rho=rho1, mu=mu1, s=s1)
+    st = dict(s1=s1, cl=cl, lH=claims["lH"], dw=claims["dw"])
+    h = HM.hyb_numbers(n, base_p, dict(R0=claim, step=st, p1=p1))
+    k, fS, fR = h["kq"], h["frS"], h["frR"]
+    if not (k["beta"] * fS["g"] < 1 and k["beta"] * fR["g"] < 1 and k["m"] * h["tAx"] < 1):
+        raise SystemExit("%s: the transfer fails (beta g, beta gR, m tAx)" % name)
+    e1 = max(h["e1"], claims["lH"] + claim["d2h"] / 2 * claims["d0R"] ** 2)
+    p1.update(sK=h["sK1"], sB=rup(h["sB1"]), sT=rup(h["mT"] + mu1), err=rup(e1),
+              nuRay=rdown(base_p["nuRay"] - claims["dw"]))
     core = dict(plain_wit["base"]["core"])
     R1 = dict(claim)
-    R1.update(bL=rup(tr["bL1"]), bN=rup(tr["bN1"]), bNt=rup(tr["bNt1"]), bT=rup(tr["bT1"]))
+    R1.update(bL=rup(k["lt"] + cl["d1t"]), bN=rup(k["nu"] + fS["nD"]), bNt=rup(k["nut"] + fS["nDt"]), bT=rup(h["t1"]))
     # the |T| cap of the restarted run follows its initial value (budgetOk: iH + bT + 2 bF <= t)
     core["t"] = core["t"] + (R1["bT"] - claim["bT"])
     w1 = dict(base=dict(core=core, R=R1, kappa=plain_wit["base"]["kappa"], sites=plain_wit["base"]["sites"]),
@@ -261,22 +308,31 @@ def assemble(name, package, n, base_p, box, claim, emb, dKe, Wt, claims, rho1, m
     p1["disp"] = rup(c23 * p1["err"] / (p1["gamma"] ** 2 * p1["rho"] ** (2 * p1["tau"])))
     base_p = dict(base_p)
     base_p["disp"] = rup(max(claims["dinf"], claims["dw"]) + p1["disp"])
-    enc = lambda d: {k: (str(v) if k == "tau" else fq(F(v))) for k, v in d.items()}
-    encw = lambda w: {"base": {"core": {k: ([fq(x) for x in v] if isinstance(v, list) else
-                                            (str(v) if k in ("kp", "J") else fq(v)))
-                                        for k, v in w["base"]["core"].items()},
-                               "R": {k: fq(v) for k, v in w["base"]["R"].items()}, "kappa": fq(w["base"]["kappa"]),
+    enc = lambda d: {kk: (str(v) if kk == "tau" else fq(F(v))) for kk, v in d.items()}
+    encw = lambda w: {"base": {"core": {kk: ([fq(x) for x in v] if isinstance(v, list) else
+                                             (str(v) if kk in ("kp", "J") else fq(v)))
+                                        for kk, v in w["base"]["core"].items()},
+                               "R": {kk: fq(v) for kk, v in w["base"]["R"].items()}, "kappa": fq(w["base"]["kappa"]),
                                "sites": w["base"]["sites"]}, "bF": fq(w["bF"]), "bT": fq(w["bT"])}
-    return {"format": "kam-hybrid", "version": 1, "name": name, "package": package, "n": n, "scale_bits": S,
-            "base": {"params": enc(base_p), "freqBox": [[fq(c), fq(r)] for c, r in box],
-                     "emb": emb, "claim": {k: fq(v) for k, v in claim.items()}},
+    certj = {kk: (fq(v) if isinstance(v, F) else v) for kk, v in cert.items()}
+    tr = dict(e1=e1, sK1=h["sK1"], sB1=h["sB1"], sT1=h["mT"] + mu1, bL1=k["lt"] + cl["d1t"], bN1=k["nu"] + fS["nD"],
+              bNt1=k["nut"] + fS["nDt"], bT1=h["t1"], tA=h["tA"], tAx=h["tAx"], mT=h["mT"], dab=h["dabS"],
+              lam0=h["lam0S"], lam1=h["lam1S"], delta0p=h["delta1"], rhoT=h["rhoT"], g=fS["g"], gR=fR["g"],
+              nuRay1=base_p["nuRay"] - claims["dw"])
+    data = {"format": "kam-hybrid", "version": 2, "name": name, "package": package, "n": n, "scale_bits": S,
+            "base": {"params": enc(base_p), "freqBox": [[fq(c), fq(r)] for c, r in box], "cert": certj,
+                     "emb": emb, "claim": {kk: fq(v) for kk, v in claim.items()}},
             "step": {"iso": True, "dK": dKe, "s1": fq(s1), "rho1": fq(rho1), "mu1": fq(mu1), "weights": Wt,
-                     "claims": {k: fq(v) for k, v in claims.items()},
-                     "kernel_only": ["lE", "dE0", "dE0R", "o0", "o0R", "o1", "o1R", "lH"]},
+                     "claims": {kk: fq(v) for kk, v in claims.items()},
+                     "kernel_only": ["lE", "o0", "o0R", "o1", "o1R", "lH"]},
             "restart": {"params1": enc(p1), "witness1": encw(w1),
                         "sites": "reuse-base" if rho1 == base_p["rho"] else "list",
-                        "transferred": {k: fq(v) for k, v in tr.items()}},
+                        "transferred": {kk: fq(v) for kk, v in tr.items()}},
             "plain_witness": encw(plain_wit)}
+    res = HM.check(data, margins=False)
+    if not res["ok"]:
+        raise SystemExit("%s: the mirror rejects the produced file: %s" % (name, res["fails"]))
+    return data
 
 
 def write(data, out_dir, fname, log):
@@ -298,17 +354,20 @@ def produce_t2(out_dir=None, log=print):
     # the exact action values are not dyadic: the toy's own emb (Toy2Data.lean) is exact; this field is the
     # 2^-60 rounding, marked in `note`; the hybrid test reads only the step and the claims
     dKe = {"angleDeg": [0, 0], "angle": [zero, zero], "actionDeg": [0, 0], "action": [zero, zero]}
-    Wt = {"rho1": weight(F(9)), "rhoinf": weight(F(1)), "real": {"rho": "0", "w": "1"}, "torsion": weight(F(8))}
+    rhoT = rho_t(p["rho"], p["rhoInf"])
+    Wt = {"rho1": weight(p["rho"], T2_CERT), "rhoinf": weight(p["rhoInf"], T2_CERT), "torsion": weight(rhoT, T2_CERT)}
     err = p["err"]
-    dl1 = min(F(1), (p["rho"] - p["rhoInf"]) / 6)
+    cauchy = n * err / (p["rho"] - rhoT)
     claims = dict(d0=F(0), dinf=F(0), d1=F(0), d1t=F(0), d0R=F(0), d1R=F(0), d1tR=F(0), lE=err,
-                  dE0=n * err / dl1, o0=F(0), dE0R=n * err / dl1, o0R=F(0), o1=F(0), o1R=F(0), lH=F(0), dw=F(0))
+                  dE0=cauchy, o0=F(0), dE0R=cauchy, o0R=F(0), o1=F(0), o1R=F(0), lH=F(0), dw=F(0))
     mu1 = p["mu"] * (1 - F(1, 10 ** 6))
     data = assemble("T2", "toy T2 (KAM/Certificate/Tests/Toy2Data.lean; toyRefinedWitR)", n, p, NQ.TOY_BOX,
-                    NQ.TOY_WIT_R["base"]["R"], emb, dKe, Wt, claims, p["rho"], mu1, p["s"], NQ.TOY_WIT_R, log)
-    data["note"] = ("zero step: the toy's residual is the width of its frequency box (no step reduces it); the base "
-                    "embedding's actions are the 2^-60 roundings of the toy's exact rationals (the hybrid test reads only "
-                    "the step, the claims and the numbers)")
+                    NQ.TOY_WIT_R["base"]["R"], emb, dKe, Wt, claims, p["rho"], mu1, p["s"], NQ.TOY_WIT_R, T2_CERT,
+                    log)
+    data["note"] = ("zero step: the toy's residual is the width of its frequency box (no step reduces it); "
+                    "base.params are the toy's except the outer displacement claim disp (Lean: toyParamsH, "
+                    "Hybrid/Tests/T2.lean); the base embedding's actions are the 2^-60 roundings of the toy's exact "
+                    "rationals (the hybrid test reads only the step, the claims and the numbers)")
     write(data, out_dir, "hybrid-T2.json", log)
     return data
 
@@ -359,6 +418,7 @@ def write_lean(data, lean_dir, log):
     w = data["restart"]["witness1"]
     core, R = w["base"]["core"], w["base"]["R"]
     cl = data["step"]["claims"]
+    Wt = data["step"]["weights"]
     pq = lambda d: "\n".join("  %s := %s" % ({"sK": "σK", "sB": "σB", "sT": "σT", "mu": "μ", "gbar": "γbar",
                                               "sigma_omega": "σω", "gamma": "γ", "rhoInf": "rhoInf"}.get(k, k),
                                              (d[k] if k == "tau" else lean_q(d[k])))
@@ -377,10 +437,12 @@ def write_lean(data, lean_dir, log):
              "# Data of the hybrid kernel test on R1's L = 8 finite candidate (generated; not built)",
              "",
              "Generated by `scripts/apost_sharp/hybrid_producer.py` from",
-             "`docs/campaign/design/hybrid/hybrid-R1-L8.json` (format `docs/campaign/design/hybrid/format.md`).",
+             "`docs/campaign/design/hybrid/hybrid-R1-L8.json` (format `docs/campaign/design/hybrid/format.md` v2).",
              "`r1HybEmb` is the finite candidate K̂, `r1HybStep` the finite step ΔK̂ (degrees as in the format),",
              "`r1HybParams1`, `r1HybCore`, `r1HybClaim` the restarted route-A′ run, and `r1HybClaims` the step",
-             "claims in the order of `r1HybClaimNames`. Under `kernel-tests/`: never built; it compiles as",
+             "claims in the order of `r1HybClaimNames`; `r1HybBaseParams`, `r1HybBaseClaim`, `r1HybW1`,",
+             "`r1HybWinf`, `r1HybWT` are `base.params`, `base.claim` and `step.weights` (format v2). Under",
+             "`kernel-tests/`: never built; it compiles as",
              "`KAM.CertificateSharp.V2.Tests.HybridR1L8Data` when placed back under `KAM/`.",
              "-/",
              "",
@@ -394,6 +456,22 @@ def write_lean(data, lean_dir, log):
              "def q%d (m : ℤ) : ℚ := m / 2 ^ %d" % (S, S),
              ""] + lean_emb_defs("r1HybEmb", data["base"]["emb"], "The finite candidate K̂ (R1, L = 8).") \
           + lean_emb_defs("r1HybStep", data["step"]["dK"], "The finite step ΔK̂.") + [
+             "/-- The base parameters (`base.params`). -/",
+             "def r1HybBaseParams : CertParams where",
+             pq(data["base"]["params"]),
+             "",
+             "/-- The base claim (`base.claim`). -/",
+             "def r1HybBaseClaim : RefClaim where",
+             "\n".join("  %s := %s" % (k, lean_q(F(data["base"]["claim"][k])))
+                       for k in ("dh", "dx", "d2x", "d2h", "bL", "bN", "bNt", "bT")),
+             "",
+             "/-- The weights of `T_{ρ₁}`, `T_{ρ∞}` and the torsion strip (`step.weights`). -/",
+             "def r1HybW1 : CertWeight := ⟨%s, %s⟩" % (lean_q(F(Wt["rho1"]["rho"])), lean_q(F(Wt["rho1"]["w"]))),
+             "/-- The weight of `T_{ρ∞}`. -/",
+             "def r1HybWinf : CertWeight := ⟨%s, %s⟩" % (lean_q(F(Wt["rhoinf"]["rho"])), lean_q(F(Wt["rhoinf"]["w"]))),
+             "/-- The weight of the torsion strip. -/",
+             "def r1HybWT : CertWeight := ⟨%s, %s⟩" % (lean_q(F(Wt["torsion"]["rho"])), lean_q(F(Wt["torsion"]["w"]))),
+             "",
              "/-- The parameters of the restarted run. -/",
              "def r1HybParams1 : CertParams where",
              pq(pr),
