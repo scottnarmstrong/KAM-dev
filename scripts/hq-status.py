@@ -824,7 +824,7 @@ def w_glance():
     n, lines, thms = lean_stats([root / 'KAM' / 'Wave'])
     stmt = ('frozen (12 anchors; `nlw2` sealed)' if sealed else 'frozen (12 anchors; `nlw2` draft until proved)'
             if frozen else 'approved (D41), freeze in progress')
-    gtxt = f'{g[0]} / {g[1]} nodes resolved' if g and g[1] else 'not published yet'
+    gtxt = f'{g[0]} / {g[1]} nodes resolved' if g and g[1] else 'not on `main` yet'
     return ['', f'**Track W** (D30, D41; [plan](blueprint-W/PLAN.md)): PDE KAM for the cubic wave equation '
             f'u_tt = u_xx − m u − u³ on [0, π] (Pöschel 1996) · **{pct:.0f} %**',
             f'- Statements: {stmt} · blueprint milestones written: {len(written)} / {len(W_MILESTONES)} '
