@@ -1,0 +1,313 @@
+#!/usr/bin/env python3
+"""LOCK-DATA (B1): SO-CSEG-GEN's emitter on the N = 65 lock, with the exp / inv / sqrt arms (untrusted tooling).
+
+`csplit_emit.Emitter` (unchanged; this shim only subclasses it) emits the segmented proof of a lunar torus; its
+forced one-op segments cover `.mul` and the character slot.  The lock's program also has fallible `exp`, `inv` and
+`sqrt` slots carrying packed products (4 of each per chain), so this shim
+
+* renames the lunar data (`SoBackendV2` -> `LockBackend`, precision 112, `soJetLit` -> `lockJetLit`, the modules
+  under `KAM.SpinOrbit.Data.LockN65.Seg`), and takes the advice books and the character witnesses from the lock's
+  own generation (`gen.pkl`) instead of the lunar JSON files;
+* adds the forced exp / inv / sqrt segments, proved through the lock-owned routes
+  (`KAM/SpinOrbit/Data/LockN65/SegRoutes.lean`) from their memoized products and the values of
+  `lock_fallible.py`;
+* gives every packed product of those slots its operands (`operands`), so `emit_products` memoizes them like
+  the lunar ones.
+
+    SO_LOCK_DATA=... SO_LOCK_SIZE=... python3 lock_cseg.py GENDIR PLAN.json LEDGER.pkl FALLIBLE.pkl OUTROOT \
+        [--slots S1,S2,...]      # only the forced segments at these slots (and their products): small probes
+"""
+import os
+import pickle
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+sys.set_int_max_str_digits(0)
+import csplit_emit as CE     # noqa: E402
+
+CE.TY = "LockBackend"
+CE.P = 112
+TY = CE.TY
+wrap, fixed, nat_list = CE.wrap, CE.fixed, CE.nat_list
+
+EXPD = "(⟨⟨[]⟩, 0, 0⟩ : ExpWitness %s)" % TY
+INVD = "(⟨[]⟩ : CertPoly %s)" % TY
+SQD = "((0, ⟨⟨[]⟩, 0, 0⟩) : ℕ × SqrtWitness %s)" % TY
+CHD = "(([], ⟨⟨[]⟩, 0, 0⟩) : CertKey × ExpWitness %s)" % TY
+
+
+class LockEmitter(CE.Emitter):
+    def __init__(self, gdir, plan, led, fall, root, slots=None):
+        import sofx_gen as G
+        g = pickle.load(open(os.path.join(gdir, "gen.pkl"), "rb"))
+        self.w, self.t, self.T = "lock", "lock", "LockN65"
+        self.plan, self.led, self.fall = plan, led, fall
+        self.adv = {bk: [(list(k), G.adv_json(a)) for k, a in g["books"][bk]] for bk in ("cfgFull", "cfgLow")}
+        self.cert = None
+        self.tree = CE.Tree(root, self.T)
+        self.base = ["KAM.SpinOrbit.Data.LockN65.Cert", "KAM.SpinOrbit.Data.LockN65.SegSupport",
+                     "KAM.SpinOrbit.Data.LockN65.SegRoutes", "KAM.SpinOrbit.Data.LockN65.Jet"]
+        self.W = "base.weight"
+        self.pe = "base.piEnc"
+        self.slots = slots
+        self.charWit = None
+
+    # ------------------------------------------------------------------ names
+    def seg_stmt(self, chain, j):
+        return ("%s.segOk 2 lockJetLit.prog.ops base.emb base.wit %s %s %s %d = true"
+                % (self.ck(chain), self.W, self.cfgOf(chain), self.pe, j))
+
+    def book(self, cfg):
+        return self.adv["cfgFull" if cfg == "cfgFull" else "cfgLow"]
+
+    # ------------------------------------------------------------------ character witnesses (the lock has several)
+    def set_char_wit(self, charWit):
+        """the mirror's `c.wit.charWit`: [(key, (poly, halvings, order))]."""
+        self.charWit = [(tuple(k), [((int(a[0]), int(a[1])), (int(z[0]), int(z[1]))) for a, z in P])
+                        for k, (P, _h, _o) in charWit]
+
+    def char_term(self, c):
+        return "(base.wit.charWit.getD %d %s).2.poly" % (c, CHD)
+
+    def meta_lit(self, chain, b):
+        L, nE, nI, cache = self.led["chains"][chain]["metas"][b]
+        ents = []
+        for k, (poly, r) in cache:
+            poly = [(tuple(a), tuple(z)) for a, z in poly]
+            pt = None
+            for c, (_k, E) in enumerate(self.charWit):
+                if poly == E:
+                    pt = self.char_term(c)
+                elif poly == self.reflected(E):
+                    pt = "%s.reflectSorted" % self.char_term(c)
+                if pt:
+                    break
+            if pt is None:
+                raise SystemExit("cache polynomial is no character witness nor its reflection")
+            ents.append("(%s, %s, %s)" % (nat_list(k), pt, fixed(r)))
+        return "⟨%d, %d, %d, [%s]⟩" % (L, nE, nI, ", ".join(ents))
+
+    def charE(self):
+        return self.charWit[self.led["char"]["cfgFull"]["cidx"]][1]
+
+    # ------------------------------------------------------------------ the fallible slots' terms
+    def slot_model(self, chain, a):
+        return "(%s.slotPair %s %d).1" % (self.ck(chain), self.W, a)
+
+    def g_exp(self, chain, a):
+        return "(CertModel.toDeg %s %s 0 %s)" % (self.W, self.pe, self.slot_model(chain, a))
+
+    def exp_wit(self, k):
+        return "(base.wit.expWit[%d]?.getD %s)" % (k, EXPD)
+
+    def inv_wit(self, k):
+        return "(base.wit.invWit[%d]?.getD %s)" % (k, INVD)
+
+    def sqrt_wit(self, slot):
+        return "((base.wit.sqrtWit.find? fun e => e.1 == %d).getD %s).2" % (slot, SQD)
+
+    def cfgw(self, chain, s, i):
+        return "(%s.forWitness %d %d)" % (self.cfgOf(chain), s, i)
+
+    # ------------------------------------------------------------------ operands of every memo
+    def operands(self):
+        out = {}
+        for k, m in enumerate(self.led["memos"]):
+            ctx, fk = m["ctx"], tuple(m["fullKey"])
+            if not ctx.startswith("cfg") or fk[0] == 0 or (fk[0] == 1 and fk[1] >= len(self.exp_slots())):
+                continue
+            chain = ctx.split("/")[0]
+            slot = int(ctx.split("slot")[1])
+            if self.slots is not None and slot not in self.slots:
+                continue
+            v = self.fall[chain][slot]
+            pm = [self.plan_mods[chain]]
+            if fk[0] == 1:                            # exp residual [1, k, j]
+                j = fk[2]
+                g = self.g_exp(chain, v["a"])
+                out[k] = (self.cfgw(chain, 1, v["k"]), "[1, %d]" % j,
+                          "(itemsPoly (%s.poly.terms.filterMap (derivItem %d)))" % (g, j),
+                          "%s.poly.negP" % self.exp_wit(v["k"]), pm)
+            elif fk[0] == 2:                          # inverse product [2, k]
+                out[k] = (self.cfgw(chain, 2, v["k"]), "[2]", self.inv_wit(v["k"]),
+                          "%s.poly" % self.slot_model(chain, v["a"]), pm)
+            elif fk[0] == 3:                          # square-root product [3, slot]
+                S = self.sqrt_wit(v["slot"])
+                out[k] = (self.cfgw(chain, 3, v["slot"]), "[3]", "%s.poly" % S, "%s.poly" % S, pm)
+        if self.slots is None:
+            # the lunar operands for the program products, the character residuals and the stages; the memos of
+            # the fallible slots are hidden from it (an unevaluated slot: skipped there)
+            nE = len(self.exp_slots())
+            hide = {"ctx": "cfgFull/slot-1", "fullKey": [9]}
+            led = self.led
+            self.led = dict(led, memos=[hide if tuple(m["fullKey"])[0] in (2, 3) or
+                                        (tuple(m["fullKey"])[0] == 1 and m["fullKey"][1] < nE) else m
+                                        for m in led["memos"]])
+            try:
+                base = CE.Emitter.operands(self)
+            finally:
+                self.led = led
+            for k, val in base.items():
+                out.setdefault(k, val)
+        return out
+
+    def exp_slots(self):
+        return [i for i, o in enumerate(self.led_ops) if o[0] == "exp"]
+
+    # ------------------------------------------------------------------ forced segments
+    def op_lit(self, op):
+        if op[0] in ("exp", "inv", "sqrt"):
+            return "(.%s %d)" % (op[0], op[1])
+        return CE.Emitter.op_lit(self, op)
+
+    def forced_segment(self, chain, j, s, nm):
+        i = s["start"]
+        op = self.led_ops[i]
+        if op[0] not in ("exp", "inv", "sqrt"):
+            if self.slots is not None and i not in self.slots:
+                return None
+            return CE.Emitter.forced_segment(self, chain, j, s, nm)
+        if self.slots is not None and i not in self.slots:
+            return None
+        C, W, cfg, pe = self.ck(chain), self.W, self.cfgOf(chain), self.pe
+        spec = "(%sSegs.getD %d ⟨0, 0, [], [], []⟩)" % (C, j)
+        meta = "(%sMetas.getD %d ⟨0, 0, 0, []⟩)" % (C, j)
+        head = ["theorem %s :" % nm] + wrap(self.seg_stmt(chain, j).split(" "), "    ")
+        head[-1] += " := by"
+        common = ["  refine ComposeCkpt.segOk_one_of (s := %s)" % spec,
+                  "    (m := %s)" % meta,
+                  "    (op := %s) rfl rfl rfl (by decide +kernel) ?hop ?hres" % self.op_lit(op)]
+        v = self.fall[chain][i]
+        rad = self.emit_radius(chain, i, op, v)
+        self.forced_imports[(chain, j)] = [rad]
+        seed_rw = ("rw [seed_slot_of_mem %s %s %s (a := %d) (by decide +kernel) (by decide +kernel)]"
+                   % (W, meta, C, op[1]))
+        radn = "%s_%sRad%s%d" % (self.t, op[0], "F" if chain == "cfgFull" else "L", i)
+        if op[0] == "exp":
+            arm = ("composeStep_exp_eq 2 base.emb base.wit %s %s %s _ %d (E := %s) (r := %s)"
+                   " (eq_some_getD_cseg %s (by decide +kernel))" % (W, cfg, pe, op[1], self.exp_wit(v["k"]),
+                                                                    fixed(v["r"]), EXPD))
+        elif op[0] == "inv":
+            arm = ("composeStep_inv_eq 2 base.emb base.wit %s %s %s _ %d (Q := %s) (r := %s)"
+                   " (eq_some_getD_cseg %s (by decide +kernel))" % (W, cfg, pe, op[1], self.inv_wit(v["k"]),
+                                                                    fixed(v["r"]), INVD))
+        else:
+            arm = ("composeStep_sqrt_eq 2 base.emb base.wit %s %s %s _ %d (S := %s) (r := %s)"
+                   " (eq_some_getD_cseg %s (by decide +kernel))" % (W, cfg, pe, op[1], self.sqrt_wit(v["slot"]),
+                                                                    fixed(v["r"]), SQD))
+        pf = ["  case hop =>",
+              "    rw [shadowStep_of_live 2 base.emb base.wit %s %s %s (by decide +kernel)," % (W, cfg, pe)]
+        pf += wrap((arm + " (by %s; exact %s)]" % (seed_rw, radn)).split(" "), "      ")
+        pf += ["  case hres =>", "    decide +kernel"]
+        return head + common + pf
+
+    # ------------------------------------------------------------------ the radius theorems (one module per slot)
+    def emit_radius(self, chain, i, op, v):
+        W = self.W
+        sub = "F" if chain == "cfgFull" else "L"
+        t = self.t
+        nm = "%s_%sRad%s%d" % (t, op[0], sub, i)
+        memos = {tuple(m["fullKey"]): k for k, m in enumerate(self.led["memos"])
+                 if m["ctx"] == "%s/slot%d" % (chain, i)}
+        imps = [self.plan_mods[chain]] + [self.prod_done[k] for k in memos.values()]
+        body = []
+        if op[0] == "exp":
+            k = v["k"]
+            cw, g, E = self.cfgw(chain, 1, k), self.g_exp(chain, v["a"]), self.exp_wit(k)
+            (cre, cim), crad = v["out"]
+            out = "((⟨%s, %s⟩ : CC %s), %s)" % (fixed(cre), fixed(cim), TY, fixed(crad))
+            for j in range(2):
+                mk = memos[(1, k, j)]
+                st = "expResidualUp %s %s %s.poly %s.poly (%s.poly.supNormUp %s) %d = %s" % (
+                    W, cw, g, E, E, W, j, fixed(v["res"][j]))
+                body += ["theorem %s_res%d :" % (nm, j)] + wrap(st.split(" "), "    ")
+                body[-1] += " := by"
+                body += ["  unfold expResidualUp"]
+                body += wrap(("rw [expResidualProduct_eq_of_polyProduct %s %s %s.poly %s.poly %d %s]"
+                              % (W, cw, g, E, j, self.memo_name(mk))).split(" "), "  ")
+                body += ["  decide +kernel", ""]
+            rs = "(fun j => if j = 0 then %s else %s)" % (fixed(v["res"][0]), fixed(v["res"][1]))
+            st = "expWitnessRadius 2 %s %s %s %s = some %s" % (W, cw, g, E, fixed(v["r"]))
+            body += ["theorem %s :" % nm] + wrap(st.split(" "), "    ")
+            body[-1] += " := by"
+            body += wrap(("rw [expWitnessRadius_eq_of_pin 2 %s %s %s %s (out := %s) "
+                          "(eq_some_pair_cseg (by decide +kernel)),"
+                          % (W, cw, g, E, out)).split(" "), "  ")
+            body += wrap(("expWitnessRadiusOf_eq_of_residuals 2 %s %s %s %s.poly %s (mB := %s) (mη := %s) (rs := %s)"
+                          " (by decide +kernel) (by decide +kernel)" % (W, cw, g, E, out, fixed(v["mB"]),
+                                                                        fixed(v["mEta"]), rs)).split(" "), "    ")
+            body += ["      (fun j => match j with",
+                     "        | ⟨0, _⟩ => %s_res0" % nm, "        | ⟨1, _⟩ => %s_res1" % nm,
+                     "        | ⟨j + 2, h⟩ => absurd h (by omega))]", "  decide +kernel", ""]
+        elif op[0] == "inv":
+            k = v["k"]
+            cw, Q, b = self.cfgw(chain, 2, k), self.inv_wit(k), self.slot_model(chain, v["a"])
+            mk = memos[(2, k)]
+            st = "invWitnessRadius 2 %s %s %s %s = some %s" % (W, cw, b, Q, fixed(v["r"]))
+            body += ["theorem %s :" % nm] + wrap(st.split(" "), "    ")
+            body[-1] += " := by"
+            body += wrap(("rw [invWitnessRadius_eq_of_delta 2 %s %s %s %s (δ := %s) (t := %s)"
+                          % (W, cw, b, Q, fixed(v["delta"]), fixed(v["t"]))).split(" "), "  ")
+            body += wrap(("(by rw [mul_eq_of_polyProduct_cseg %s %s [2] ⟨0, %s, ofInt 0⟩ ⟨0, %s.poly, %s.rad⟩ %s];"
+                          " decide +kernel)" % (W, cw, Q, b, b, self.memo_name(mk))).split(" "), "    ")
+            body += ["    (by decide +kernel) (by decide +kernel)]", "  decide +kernel", ""]
+        else:
+            cw, g, S = self.cfgw(chain, 3, v["slot"]), self.g_exp(chain, v["a"]), self.sqrt_wit(v["slot"])
+            mk = memos[(3, v["slot"])]
+            st = "sqrtWitnessRadius 2 %s %s %s %s = some %s" % (W, cw, g, S, fixed(v["r"]))
+            body += ["theorem %s :" % nm] + wrap(st.split(" "), "    ")
+            body[-1] += " := by"
+            body += wrap(("rw [sqrtWitnessRadius_eq_of_residual 2 %s %s %s %s (e := %s) (by decide +kernel)"
+                          % (W, cw, g, S, fixed(v["e"]))).split(" "), "  ")
+            body += wrap(("(by unfold sqrtResidual; rw [mul_eq_of_polyProduct_cseg %s %s [3] %s.model %s.model %s];"
+                          " decide +kernel)]" % (W, cw, S, S, self.memo_name(mk))).split(" "), "    ")
+            body += ["  decide +kernel", ""]
+        return self.tree.write("Rad/%s%s%d" % (op[0].capitalize(), sub, i), self.base + imps,
+                               "The %s witness radius at slot %d (%s)" % (op[0], i, chain),
+                               "Memoized through the lock routes (`SegRoutes`); one kernel run.",
+                               [CE.Emitter.fix_long(l) for l in body], heavy=True)
+
+    # ------------------------------------------------------------------ the parts emitted here
+    def emit_charE(self):
+        """`charE`: the terms of the character witness of the forced character slot (the lunar emitter's name)."""
+        c = self.led["char"]["cfgFull"]["cidx"]
+        body = ["/-- The character witness of the forced character slot. -/",
+                "def charE : List (CertKey × CC %s) := %s.terms" % (TY, self.char_term(c))]
+        self.base = self.base + [self.tree.write("CharE", self.base, "The forced character witness",
+                                                "The witness of the character slot, by name.", body)]
+
+    def run(self):
+        self.led_ops = [tuple(o) for o in self.led["ops"]]
+        self.emit_charE()
+        self.emit_ledger()
+        self.emit_plans()
+        self.ops_map = self.operands()
+        self.emit_products(self.ops_map)
+        if self.slots is None or self.led["char"]["cfgFull"]["slot"] in self.slots:
+            self.emit_char()
+        self.emit_segments()
+
+
+def main(argv):
+    slots = None
+    if "--slots" in argv:
+        slots = {int(x) for x in argv[argv.index("--slots") + 1].split(",")}
+    gdir, plan_path, led_path, fall_path, root = argv[:5]
+    import json
+    import lock_seg as LSG
+    plan = json.load(open(plan_path))
+    led = pickle.load(open(led_path, "rb"))
+    fall = pickle.load(open(fall_path, "rb"))
+    E = LockEmitter(gdir, plan, led, fall, root, slots)
+    c, _d = LSG.lock_cert(gdir)
+    E.set_char_wit(c.wit.charWit)
+    E.run()
+    E.tree.save()
+    n = sum(t.count("\n") for t in E.tree.files.values())
+    by = sum(len(t.encode()) for t in E.tree.files.values())
+    print("lock", len(E.tree.files), "modules", n, "lines", by, "bytes", len(E.tree.heavy), "heavy")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
