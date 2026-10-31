@@ -14,9 +14,10 @@ public import Mathlib.Data.Int.Notation
 A list of integers written as one natural-number literal: each entry zigzag-coded (`v ≥ 0 ↦ 2v`,
 `v < 0 ↦ -2v - 1`) as a little-endian base-`128` varint (a byte `≥ 128` continues the entry), the
 bytes packed little-endian into one `ℕ`. `zdec k n` reads `k` entries back with kernel-accelerated
-`Nat` division and remainder only, so a generated module states `def x : List ℤ := zdec k (zjoin [0x…, …])`
-instead of a long `List ℤ` literal, whose elaboration dominates the cost of the lock's data. The
-data stay untrusted: a checker checks whatever `zdec` denotes.
+`Nat` division and remainder only, so a generated module states
+`def x : List ℤ := zdecs [(k, 0x…), …]` instead of a long `List ℤ` literal, whose elaboration
+dominates the cost of the lock's data. The data stay untrusted: a checker checks whatever `zdecs`
+denotes.
 -/
 
 @[expose] public section
@@ -41,6 +42,12 @@ def zdec : ℕ → ℕ → List ℤ
 /-- The natural number with little-endian chunks of `40` bytes (one short source line each). -/
 def zjoin (cs : List ℕ) : ℕ := cs.foldr (fun c a => c + a * 2 ^ 320) 0
 
+/-- The entries of chunked data: each pair `(k, c)` codes `k` whole entries in the chunk `c` (at
+most `40` bytes), so every decoding step divides a small number. -/
+def zdecs (cs : List (ℕ × ℕ)) : List ℤ := cs.flatMap fun c => zdec c.1 c.2
+
 theorem zdec_test : zdec 5 (zjoin [0x01030405]) = [-3, 2, -2, -1, 0] := by decide +kernel
+
+theorem zdecs_test : zdecs [(2, 0x0405), (3, 0x0103)] = [-3, 2, -2, -1, 0] := by decide +kernel
 
 end KAM.SpinOrbit.Data.LockN65
