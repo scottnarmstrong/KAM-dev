@@ -181,9 +181,17 @@ theorem stepWinv_ne_zero (a q q' : ℝ) (j : ℕ+) : stepWinv a q q' j ≠ 0 := 
   have := homWt_pos a q' j
   exact_mod_cast (inv_pos.mpr (by positivity)).ne'
 
-/-- **Nondegeneracy** of `ϖ` (`bpW:w5:omega`). -/
-theorem stepSymp_nondeg {a q : ℝ} (ha : 0 ≤ a) (hqq : 0 ≤ q + q) {W : KamPhase}
-    (h : ∀ W', stepSymp (q := q) (q' := q) ha hqq W W' = 0) : W = 0 := by
+theorem stepSymp_sub_left {a q q' : ℝ} (ha : 0 ≤ a) (hqq' : 0 ≤ q + q') (W₁ W₂ W : KamPhase) :
+    stepSymp ha hqq' (W₁ - W₂) W = stepSymp ha hqq' W₁ W - stepSymp ha hqq' W₂ W := by
+  unfold stepSymp
+  simp only [Prod.fst_sub, Prod.snd_sub, Pi.sub_apply, sub_mul, Finset.sum_sub_distrib,
+    map_sub, sub_apply]
+  ring
+
+/-- **Nondegeneracy** of `ϖ_{q,q'}` (`bpW:w5:omega`): a vector of `𝒫^q` pairing to zero with all of
+`𝒫^{q'}` vanishes. -/
+theorem stepSymp_nondeg {a q q' : ℝ} (ha : 0 ≤ a) (hqq' : 0 ≤ q + q') {W : KamPhase}
+    (h : ∀ W', stepSymp (q := q) (q' := q') ha hqq' W W' = 0) : W = 0 := by
   have hπ : (2 * Real.pi : ℂ) ≠ 0 := by
     have := Real.pi_pos; exact_mod_cast (by positivity : (2 * Real.pi) ≠ 0)
   refine Prod.ext (funext fun i => ?_) (Prod.ext (funext fun i => ?_) (Prod.ext ?_ ?_))
@@ -195,17 +203,19 @@ theorem stepSymp_nondeg {a q : ℝ} (ha : 0 ≤ a) (hqq : 0 ≤ q + q) {W : KamP
     simpa using this
   · refine lp.ext (funext fun j => ?_)
     have := h (0, 0, 0, kamBasis ℂ j)
-    simp only [stepSymp, Prod.fst_zero, Prod.snd_zero, Pi.zero_apply, mul_zero, Finset.sum_const_zero,
+    simp only [stepSymp, Prod.fst_zero, Prod.snd_zero, Pi.zero_apply, mul_zero,
+        Finset.sum_const_zero,
       sub_self, map_zero, ContinuousLinearMap.zero_apply, sub_zero, zero_add] at this
     rw [stepPairCLM_basis] at this
-    have h2 := (mul_eq_zero.mp this).resolve_left (stepWinv_ne_zero a q q j)
+    have h2 := (mul_eq_zero.mp this).resolve_left (stepWinv_ne_zero a q q' j)
     simpa using h2
   · refine lp.ext (funext fun j => ?_)
     have := h (0, 0, kamBasis ℂ j, 0)
-    simp only [stepSymp, Prod.fst_zero, Prod.snd_zero, Pi.zero_apply, mul_zero, Finset.sum_const_zero,
+    simp only [stepSymp, Prod.fst_zero, Prod.snd_zero, Pi.zero_apply, mul_zero,
+        Finset.sum_const_zero,
       sub_self, map_zero, ContinuousLinearMap.zero_apply, zero_sub, zero_add, sub_zero] at this
     rw [stepPairCLM_basis] at this
-    have h2 := (mul_eq_zero.mp (neg_eq_zero.mp this)).resolve_left (stepWinv_ne_zero a q q j)
+    have h2 := (mul_eq_zero.mp (neg_eq_zero.mp this)).resolve_left (stepWinv_ne_zero a q q' j)
     simpa using h2
 
 end KAM.Wave

@@ -89,6 +89,9 @@ public import KAM.Wave.Homological.Taylor
 public import KAM.Wave.Homological.TaylorSub
 public import KAM.Wave.Homological.Wave
 public import KAM.Wave.Homological.WaveReindex
+public import KAM.Wave.KamStep.Class
+public import KAM.Wave.KamStep.Omega
+public import KAM.Wave.KamStep.Phase
 public import KAM.Wave.KamSupport.FourierBanach
 public import KAM.Wave.KamSupport.FourierBessel
 public import KAM.Wave.KamSupport.FourierL2
