@@ -19,11 +19,18 @@ run() {
 for m in "$@"; do
   log=$L/$m.log; { date -u; git rev-parse HEAD; df -h / | tail -1; } > "$log"
   exec 8>$T/.kernel-probe.lock 9>$T/.kernel-probe-lane2.lock
-  if flock -n 8; then lane=1; elif flock -n 9; then lane=2; else flock 8; lane=1; fi
+  # LANE=1|2 pins one lane (strictly serial); default: first free lane
+  case "$LANE" in
+    1) flock 8; lane=1 ;;
+    2) flock 9; lane=2 ;;
+    *) if flock -n 8; then lane=1; elif flock -n 9; then lane=2; else flock 8; lane=1; fi ;;
+  esac
   echo "lane $lane" >> "$log"
   run "$m"
   exec 8>&- 9>&-
   u=$(grep 'User time' "$log" | awk '{print $NF}'); s=$(grep 'System time' "$log" | awk '{print $NF}')
-  echo "$m $(grep '^rc=' "$log" | tail -1) cpu=$(echo "$u + $s" | bc) wall=$(grep Elapsed "$log" | awk '{print $NF}') \
+  rcl=$(grep '^rc=' "$log" | tail -1); [ -n "$rcl" ] || rcl="rc=OOM-or-killed"
+  echo "$m $rcl cpu=$( [ -n "$u" ] && echo "$u + $s" | bc) wall=$(grep Elapsed "$log" | awk '{print $NF}') \
 peak=$(grep MEMPEAK "$log" | awk '{print $2}') oom=$(grep OOMKILL "$log" | awk '{print $2}') lane=$lane"
+  [ "$rcl" = "rc=0" ] || { echo "STOP: $m failed; dependents not dispatched"; break; }
 done

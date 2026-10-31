@@ -21,12 +21,14 @@ forced one-op segments cover `.mul` and the character slot.  The lock's program 
 """
 import os
 import pickle
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 sys.set_int_max_str_digits(0)
 import csplit_emit as CE     # noqa: E402
+import sofx_packed as SP     # noqa: E402
 
 import lock_zadv as LZ      # noqa: E402
 
@@ -72,6 +74,111 @@ SQD = "((0, ⟨⟨[]⟩, 0, 0⟩) : ℕ × SqrtWitness %s)" % TY
 CHD = "(([], ⟨⟨[]⟩, 0, 0⟩) : CertKey × ExpWitness %s)" % TY
 
 
+SH_GROUP = 2             # shards per kernel theorem: one M0 shard 4.4 GB, three 5.9 GB (measured); all 13 > 8 GB
+NSHARDS = {}             # advice name (`advFull.p0.rr`) -> number of shards, filled by LockEmitter
+_GRP = re.compile(r"^( *)checkPackedSp_of_groups (\S+) (.*?)\s+\[(\S+)\.shardRange\]\s+(\(by decide \+kernel\)|\S+)\s+\(fun s hs => "
+                  r"⟨\S+\.shardRange, List\.mem_singleton_self _, hs⟩\)\s+\(fun g hg => by rw "
+                  r"\[List\.mem_singleton\.1 hg\]; exact (\S+)\)", re.M | re.S)
+DECSPLIT = "KAM.SpinOrbit.Data.LockN65.DecSplit"
+ADVOBJ = {}              # advice name -> the part object (sofx_packed mirror)
+_DEC = re.compile(r"^theorem (\S+)_dec : dyadicTerms \(2 \* (\d+)\) (\S+)\.scale (\(fun v => ⟨[^⟩]*⟩\)) "
+                  r"(\(\(\S+\.targetTerms, .*\)\.1\)) = some (\S+) := eq_some_of_termsBeq_cseg "
+                  r"\(by decide \+kernel\)$")
+_SH = re.compile(r"^theorem (\S+) : (\S+)\.shardRange\.all (.*) = true := by$")
+
+
+def _groups(n):
+    return [list(range(i, min(i + SH_GROUP, n))) for i in range(0, n, SH_GROUP)]
+
+
+def _group_lit(n):
+    return "[" + ", ".join("[" + ", ".join(map(str, g)) + "]" for g in _groups(n)) + "]"
+
+
+def _write_sharded(self, rel, imports, title, doc, body, heavy=False, ns=None):
+    """`Tree.write` with the one-theorem shard modules cut into SH_GROUP-shard theorems (each its own module; `rel`
+    becomes a facade), and the products' `checkPackedSp_of_groups` calls given the matching groups."""
+    joined = " ".join(l.strip() for l in body if l.strip() and l.strip() != "decide +kernel")
+    m = _SH.match(joined)
+    if m and rel.endswith("Sh") and body[-1].strip() == "decide +kernel":
+        nm, adv, rest = m.groups()
+        mods = []
+        for gi, g in enumerate(_groups(NSHARDS[adv])):
+            st = "[%s].all %s = true := by" % (", ".join(map(str, g)), rest)
+            gb = ["theorem %sG%d :" % (nm, gi)] + wrap(st.split(" "), "    ") + ["  decide +kernel"]
+            mods.append(_tree_write(self, "%sG%d" % (rel, gi), imports, "%s, shards %s" % (title, g), doc, gb,
+                                    heavy=heavy, ns=ns))
+        return _tree_write(self, rel, mods, title, doc + " (facade over the shard-group modules)", [], ns=ns)
+    if rel.endswith("Dec"):
+        md = _DEC.match(" ".join(" ".join(body).split()))
+        if md:
+            return _write_dec(self, rel, imports, title, doc, md, heavy, ns)
+    text = "\n".join(body)
+
+    def sub(mm):
+        ind, adv, eaeb, hpre, nm = mm.group(1), mm.group(2), " ".join(mm.group(3).split()), mm.group(5), mm.group(6)
+        n = NSHARDS[adv]
+        hg = "(fun _ h => nomatch h)"
+        for gi in reversed(range(len(_groups(n)))):
+            hg = "(List.forall_mem_cons.2 ⟨%sG%d, %s⟩)" % (nm, gi, hg)
+        ls = wrap(("checkPackedSp_of_groups %s %s %s %s (by decide +kernel) %s"
+                   % (adv, eaeb, _group_lit(n), hpre, hg)).split(" "), ind + "    ")
+        ls[0] = ind + ls[0].lstrip()
+        return "\n".join(ls)
+    text, nsub = _GRP.subn(sub, text)
+    out = text.split("\n") if nsub else body
+    return _tree_write(self, rel, imports, title, doc, out, heavy=heavy, ns=ns)
+
+
+def _write_dec(self, rel, imports, title, doc, md, heavy, ns):
+    """a decode `dyadicTerms … targetTerms = some T` cut at the slots where the chunks `T.cK` of the memo begin
+    (one kernel theorem per piece, DecSplit.lean)."""
+    nm, P, adv, place, src, T = md.groups()
+    po = ADVOBJ[adv]
+    nz = [i for i, c in enumerate(SP.combined(po)) if c != 0]
+    n = SP.prodLen(po)
+    nch = max(1, -(-len(nz) // TERMS_PER_DEF))
+    cuts = [0] + [nz[TERMS_PER_DEF * j] for j in range(1, nch)] + [n]
+    mods, hs = [], []
+    for j in range(nch):
+        st = ("dyadicTerms (2 * %s) %s.scale %s (pieceAt %s.targetEntry %s.combined %d %d) = some %s.c%d :="
+              % (P, adv, place, adv, adv, cuts[j], cuts[j + 1], T, j))
+        pb = ["theorem %s_decP%d :" % (nm, j)] + wrap(st.split(" "), "    ") + \
+            ["  eq_some_of_termsBeq_cseg (by decide +kernel)"]
+        mods.append(_tree_write(self, "%sP%d" % (rel, j), imports + [DECSPLIT], "%s, piece %d" % (title, j), doc, pb,
+                                heavy=heavy, ns=ns))
+        hs.append("%s_decP%d" % (nm, j))
+    fa = ".nil"
+    for h in reversed(hs):
+        fa = "(.cons %s %s)" % (h, fa)
+
+    def hang(text):
+        """two-space first line, four-space continuation"""
+        ls = wrap(text.split(" "), "    ")
+        ls[0] = "  " + ls[0].lstrip()
+        return ls
+    Ts = ", ".join("%s.c%d" % (T, j) for j in range(nch))
+    plc = "dyadicTerms (2 * %s) %s.scale %s" % (P, adv, place)
+    # three steps, each a syntactic match for the elaborator (a direct `exact` against the pair form or against
+    # `T` makes it unfold and evaluate `targetTerms`: maximum recursion depth, measured)
+    body = ["theorem %s_decF :" % nm] + wrap(("List.Forall₂ (fun p X => %s (pieceAt %s.targetEntry %s.combined p.1 p.2) ="
+                                              " some X) (cutPairs [%s]) [%s] :=" % (plc, adv, adv,
+                                                                                    ", ".join(map(str, cuts)), Ts)
+                                              ).split(" "), "    ") + hang(fa) + [""]
+    body += ["theorem %s_decA :" % nm] + wrap(("%s %s.targetTerms = some (List.flatten [%s]) :=" % (plc, adv, Ts)
+                                              ).split(" "), "    ")
+    body += hang("dyadicTerms_targetTerms_of_pieces (2 * %s) %s.scale %s %s [%s] (by decide +kernel) (by decide"
+                 " +kernel) %s_decF" % (P, adv, place, adv, ", ".join(map(str, cuts[1:])), nm))
+    body += ["", "theorem %s_dec :" % nm] + wrap(("%s %s = some %s := by" % (plc, src, T)).split(" "), "    ")
+    body += hang("rw [fst_targetPair, show %s = List.flatten [%s] from rfl]" % (T, Ts))
+    body += ["  exact %s_decA" % nm]
+    return _tree_write(self, rel, mods + [DECSPLIT], title, doc, body, heavy=False, ns=ns)
+
+
+_tree_write = CE.Tree.write
+CE.Tree.write = _write_sharded
+
+
 def _split_items(items):
     """items whose lines exceed the file budget, cut at every blank line between definitions (`data` re-packs
     them) into pieces under the same name (the files chain-import, so the last piece's module brings every earlier piece)."""
@@ -101,6 +208,13 @@ class LockEmitter(CE.Emitter):
         self.w, self.t, self.T = "lock", "lock", "LockN65"
         self.plan, self.led, self.fall = plan, led, fall
         self.adv = {bk: [(list(k), G.adv_json(a)) for k, a in g["books"][bk]] for bk in ("cfgFull", "cfgLow")}
+        for bk, bn in (("cfgFull", "advFull"), ("cfgLow", "advLow")):
+            for i, (_, a) in enumerate(self.adv[bk]):
+                if a[0] != "direct":
+                    for part, pa in zip(("rr", "ii", "ri", "ir"), a[2:]):
+                        NSHARDS["%s.p%d.%s" % (bn, i, part)] = len(pa["rounded"])
+                    for part, po in zip(("rr", "ii", "ri", "ir"), g["books"][bk][i][1][2:]):
+                        ADVOBJ["%s.p%d.%s" % (bn, i, part)] = po
         self.cert = None
         self.tree = CE.Tree(root, self.T)
         self.base = ["KAM.SpinOrbit.Data.LockN65.Cert", "KAM.SpinOrbit.Data.LockN65.SegSupport",
