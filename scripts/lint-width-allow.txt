@@ -1,0 +1,2 @@
+# Exact overlong Lean lines exempted from the 100-column lint (path, sha256 of the line, line number at the time).
+# Currently empty of entries (the SO-DATA3 CsegSupport.lean entries were removed after Q11 fixed those widths).

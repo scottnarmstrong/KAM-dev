@@ -7,7 +7,8 @@
 # when the checkout has no uncommitted changes to tracked files. Conflicts confined to generated
 # files are settled automatically: KAM.lean is regenerated, the README's live sections are
 # regenerated (the local side of each conflict hunk is kept first), history.csv is a union. The root
-# parts KAM/Root/*.lean are regenerated with KAM.lean. Any
+# parts KAM/Root/*.lean, and the application roots <Lib>.lean with their parts <Lib>/ (D51), are regenerated with
+# KAM.lean. Any
 # other conflict aborts the merge and is logged for the orchestrator; nothing is pushed then.
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -34,7 +35,7 @@ if [ "$remote" = 1 ] && ! git merge-base --is-ancestor origin/main HEAD; then
     remote=0
   elif ! HQ_UPDATING=1 git merge -q --no-edit origin/main >/dev/null 2>&1; then
     others=$(git diff --name-only --diff-filter=U | grep -v -x -e README.md -e KAM.lean -e docs/campaign/history.csv \
-      | grep -v '^KAM/Root/' || true)
+      | grep -v -e '^KAM/Root/' -e '^KAM[A-Za-z0-9_]*\.lean$' -e '^KAM[A-Za-z0-9_][A-Za-z0-9_]*/' || true)
     if [ -n "$others" ]; then
       git merge --abort
       echo "$(stamp) merge of origin/main needs the orchestrator (conflicts: $others)"
@@ -54,7 +55,8 @@ EOF
       python3 -I scripts/gen_root_imports.py
       python3 -I scripts/hq-status.py >/dev/null
       git add README.md docs/campaign/history.csv docs/PAPERS.md docs/STATEMENTS.md
-      git add -A -- KAM.lean KAM/Root
+      mapfile -t generated < <(python3 -I scripts/gen_root_imports.py --generated-paths | grep -v -x lakefile.lean)
+      git add -A -- "${generated[@]}"
       HQ_UPDATING=1 git commit -q --no-edit
       echo "$(stamp) merged origin/main (generated-file conflicts settled) $(git rev-parse --short HEAD)"
     fi

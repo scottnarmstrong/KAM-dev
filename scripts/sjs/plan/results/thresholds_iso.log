@@ -1,0 +1,4 @@
+syn num rho 0.020 ell 0.1 c 3e+03 mu 1e-04 fixed: tinv 14.1, route B -31.66 (raw -34.34) tail decay
+syn num rho 0.020 ell 0.1 c 3e+03 mu 1e-04 iso: tinv 13.7, route B -31.69 (raw -34.37) tail decay
+syn cert8 rho 0.020 ell 0.1 c 3e+03 mu 1e-04 fixed: tinv 14.1, route B -35.31 (raw -37.99) tail decay
+syn cert8 rho 0.020 ell 0.1 c 3e+03 mu 1e-04 iso: tinv 13.7, route B -35.34 (raw -38.02) tail decay

@@ -6,7 +6,7 @@
   "H": 4,
   "VH": 8
  },
- "reviewed": "2026-10-28 03:25 UTC",
+ "reviewed": "2026-10-31 14:00 UTC",
  "items": [
   {
    "group": "Campaign infrastructure",
@@ -54,15 +54,15 @@
    "title": "Pinned source library: PDFs with SHA-256, bibliographic data checked against arXiv and Crossref",
    "difficulty": "L",
    "done": 0.85,
-   "note": "50 PDFs pinned in sources/SHA256SUMS; 20 in the registry; per-paper summaries still to write"
+   "note": "67 PDFs pinned in sources/SHA256SUMS; 61 in the registry, each with its role (docs/PAPERS.md); per-paper summaries still to write"
   },
   {
    "group": "Statement and planning",
    "id": "S.ROUTE",
    "title": "Route verdict for the measure layer (a-posteriori KAM + Lipschitz dependence on the frequency)",
    "difficulty": "H",
-   "done": 0.9,
-   "note": "verdict: route works; rate ε^{1/4}; flow local uniqueness must be proved by us (no published version)"
+   "done": 1.0,
+   "note": "verdict: route works; rate ε^{1/4}; flow local uniqueness proved by us (G2 sealed); confirmed by the sealed headline (D8)"
   },
   {
    "group": "Statement and planning",

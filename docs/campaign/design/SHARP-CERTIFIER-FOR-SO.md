@@ -46,3 +46,13 @@ Same certificate format, same conclusion; a new engine interface and a witness.
   Ham and frame checks cost about one more `checkHamBounds`, `checkTorsion` and `checkGram` (estimate 0.3–0.9 CPU-h at
   L ≈ 18). Handoff: `docs/campaign/handoffs/SHARP2-C6.md`.
 - **Coming:** route B (`orElse`, for the dominance claim; worse than route A on R1) and the l1 entry step.
+
+## Update: every route in one engine (landed b451b95b, 30 October 2026)
+
+Use `KAM.CertificateSharp.checkTorusCertificateV2 routeV2All c w` (`KAM/CertificateSharp/V2/RouteAll.lean`; its
+docstring tables the witness constructor for each route). Routes: the landed sharp certifier (`Sum.inl ()`, equal by
+`rfl`), route A frozen/refined, route A with L8′ (`routeARefinedR`), the l1 entry step (`routeAL1`, which computes the
+torus's l1 data from the certificate's models), route B frozen/refined. On the lunar design package the best is the
+l1 entry (numerical core 10^−10.18, kernel except the bites), then L8′ (10^−10.81), route A (10^−11.33), route B
+(10^−12.59); these R1 checks are opt-in (`kernel-tests/`), and the bites at l ≥ 13 exceed lemma.farm's 10 GB per-process
+limit, so a lunar run there needs prefix ≤ 4 or a rounded `balBound`. Audits: AUDIT-C6-1, C6L8-1, C6B-1, C6L1-1 (PASS).

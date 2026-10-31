@@ -599,6 +599,16 @@
    "pdf": "paper.pdf (lemma.farm ~/kam-tools/papers/ccdll20-dsm)",
    "sha256": "9dafdb82f9c29175b2613cb8bfd35fc555461c7065e9508e1439b326d3e6cf0e",
    "role": "Conformally symplectic KAM estimates for the dissipative standard map; literature survey of the v2 design (errata E-CCdlL20d-*)"
+  },
+  {
+   "key": "CVCGL05",
+   "tier": "side campaign (reference)",
+   "citation": "C. Chandre, M. Vittot, G. Ciraolo, Ph. Ghendrih, R. Lima, *Control of stochasticity in magnetic field lines*, arXiv:nlin/0504033v2 (2005)",
+   "arxiv": "nlin/0504033",
+   "doi": null,
+   "pdf": "paper.pdf (lemma.farm ~/kam-tools/papers/chandre05-control)",
+   "sha256": "e63bf2eea3ac49a97308a7b6493e24de8bdc688f179fbcb4a70b4a8be7b40153",
+   "role": "Hamiltonian control of magnetic field lines; the next-demonstrations study (magnetic transport barrier)"
   }
  ]
 }
