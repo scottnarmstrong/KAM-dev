@@ -4,7 +4,7 @@
 
 Every statement below is an exact Lean declaration that the owner approved before its proof was written. Each lives alone in its own file under `KAM/Frozen/`, and the manifest pins its bytes. A sealed theorem has a complete proof, assembled in a separate provider module, replayed by the kernel, and using only the standard axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
-**27 frozen theorems, 26 sealed; 144 frozen definitions.**
+**31 frozen theorems, 26 sealed; 148 frozen definitions.**
 
 ## Index
 
@@ -14,7 +14,7 @@ Every statement below is an exact Lean declaration that the owner approved befor
 - **Track P: planetary systems:** [`properlyDegenerateKAM`](#properlydegeneratekam) · [`planarTwoPlanetKAM`](#planartwoplanetkam) · [`fixedSunPlanetaryKAM`](#fixedsunplanetarykam) · [`amdConfinement`](#amdconfinement) · [`planetaryExponentialSafety`](#planetaryexponentialsafety) · [`secularBoxSafety`](#secularboxsafety) · [`secularBoxAtCitedMasses`](#secularboxatcitedmasses)
 - **Track R: Rüssmann's KAM theorem (weak non-degeneracy):** [`russmann_kam`](#russmann_kam)
 - **Track W: PDE KAM (cubic wave equation):** [`nlw2`](#nlw2)
-- **Track SO: the Moon's spin rate and synchronous lock (certified tori):** [`lunar_barriers`](#lunar_barriers) · [`lunar_spin_confinement`](#lunar_spin_confinement) · [`lunarPLo_lt_lunarPHi`](#lunarplo_lt_lunarphi)
+- **Track SO: the Moon's spin rate and synchronous lock (certified tori):** [`lunar_barriers`](#lunar_barriers) · [`lunar_spin_confinement`](#lunar_spin_confinement) · [`lunarPLo_lt_lunarPHi`](#lunarplo_lt_lunarphi) · [`lunarSyncOrbit_spec`](#lunarsyncorbit_spec) · [`lunarSyncOrbit_unique`](#lunarsyncorbit_unique) · [`lunarSyncOrbit_bound`](#lunarsyncorbit_bound) · [`lunar_sync_lock`](#lunar_sync_lock)
 
 ## Track K: positive-measure KAM
 
@@ -469,7 +469,41 @@ The initial momentum window of `lunar_spin_confinement` is nonempty.
 - **Proof assembled in:** `KAM.Provider.SpinOrbit.LunarWindow`
 - **Manifest ID:** `spinorbit.d40.lunarPLo_lt_lunarPHi.v1`
 
-<details><summary>Frozen definitions of this track (10)</summary>
+### lunarSyncOrbit_spec
+
+[`KAM.SpinOrbit.lunarSyncOrbit_spec`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitSpec.lean#L28) · ⬜ not yet
+
+- **Source:** FREEZE-PROPOSAL-LOCK §1.2 (existence; Q1)
+- **Proof assembled in:** `KAM.Provider.SpinOrbit.LunarSyncOrbitSpec`
+- **Manifest ID:** `spinorbit.lock.lunarSyncOrbit_spec.v1`
+
+### lunarSyncOrbit_unique
+
+[`KAM.SpinOrbit.lunarSyncOrbit_unique`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitUnique.lean#L28) · ⬜ not yet
+
+- **Source:** FREEZE-PROPOSAL-LOCK §1.2 (uniqueness among odd one-periodic orbits; Q1)
+- **Proof assembled in:** `KAM.Provider.SpinOrbit.LunarSyncOrbitUnique`
+- **Manifest ID:** `spinorbit.lock.lunarSyncOrbit_unique.v1`
+
+### lunarSyncOrbit_bound
+
+[`KAM.SpinOrbit.lunarSyncOrbit_bound`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitBound.lean#L27) · ⬜ not yet
+
+- **Source:** FREEZE-PROPOSAL-LOCK §1.2 (location of psi*; Q5, D49 literals)
+- **Proof assembled in:** `KAM.Provider.SpinOrbit.LunarSyncOrbitBound`
+- **Manifest ID:** `spinorbit.lock.lunarSyncOrbit_bound.v1`
+
+### lunar_sync_lock
+
+[`KAM.SpinOrbit.lunar_sync_lock`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncLock.lean#L31) · ⬜ not yet
+
+The Moon stays locked in synchronous rotation forever.
+
+- **Source:** FREEZE-PROPOSAL-LOCK §1.2 headline (Q3, D49 literals)
+- **Proof assembled in:** `KAM.Provider.SpinOrbit.LunarSyncLock`
+- **Manifest ID:** `spinorbit.lock.lunar_sync_lock.v1`
+
+<details><summary>Frozen definitions of this track (14)</summary>
 
 - [`KAM.SpinOrbit.soEcc`](../KAM/Frozen/SpinOrbit/Defs/SoEcc.lean#L23)
 - [`KAM.SpinOrbit.soEps`](../KAM/Frozen/SpinOrbit/Defs/SoEps.lean#L23)
@@ -481,5 +515,9 @@ The initial momentum window of `lunar_spin_confinement` is nonempty.
 - [`KAM.SpinOrbit.SoBarrier`](../KAM/Frozen/SpinOrbit/Defs/SoBarrier.lean#L26)
 - [`KAM.SpinOrbit.lunarPLo`](../KAM/Frozen/SpinOrbit/Defs/LunarPLo.lean#L23)
 - [`KAM.SpinOrbit.lunarPHi`](../KAM/Frozen/SpinOrbit/Defs/LunarPHi.lean#L23)
+- [`KAM.SpinOrbit.IsSyncOrbit`](../KAM/Frozen/SpinOrbit/Defs/IsSyncOrbit.lean#L25)
+- [`KAM.SpinOrbit.lunarSyncOrbit`](../KAM/Frozen/SpinOrbit/Defs/LunarSyncOrbit.lean#L24)
+- [`KAM.SpinOrbit.libAction`](../KAM/Frozen/SpinOrbit/Defs/LibAction.lean#L26)
+- [`KAM.SpinOrbit.lunarOmega`](../KAM/Frozen/SpinOrbit/Defs/LunarOmega.lean#L22)
 
 </details>
