@@ -142,9 +142,22 @@ def _group_lit(n):
     return "[" + ", ".join("[" + ", ".join(map(str, g)) + "]" for g in _groups(n)) + "]"
 
 
+def _lock_jet_names(body, imports):
+    """the landed stage templates name the band's jet (`soJetLit`, `CsegJetEq`): the lock's are `lockJetLit` and
+    `JetEq.lock_jet`; the stage-side jet theorem becomes `lock_jetB` (no clash with `JetEq.lock_jet`)"""
+    t = "\n".join(body)
+    if "soJetLit" not in t and "CsegJetEq" not in " ".join(imports):
+        return body, imports
+    t = re.sub(r"\block_jet\b", "lock_jetB", t)
+    t = t.replace("soJetLit_eq", "lock_jet").replace("soJetLit", "lockJetLit")
+    imports = ["KAM.SpinOrbit.Data.LockN65.JetEq" if i == "KAM.SpinOrbit.Data.CsegJetEq" else i for i in imports]
+    return t.split("\n"), imports
+
+
 def _write_sharded(self, rel, imports, title, doc, body, heavy=False, ns=None):
     """`Tree.write` with the one-theorem shard modules cut into SH_GROUP-shard theorems (each its own module; `rel`
     becomes a facade), and the products' `checkPackedSp_of_groups` calls given the matching groups."""
+    body, imports = _lock_jet_names(body, imports)
     joined = " ".join(l.strip() for l in body if l.strip() and l.strip() != "decide +kernel")
     m = _SH.match(joined)
     if m and rel.endswith("Sh") and body[-1].strip() == "decide +kernel":
