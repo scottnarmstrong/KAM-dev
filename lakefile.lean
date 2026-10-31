@@ -22,7 +22,7 @@ private def projectLeanOptions : Array LeanOption := #[
 The frozen-anchor quarantine forbids every other module, the roots included, from importing
 them, so each library builds them as extra globs beside its root. -/
 private def quarantinedModules : Array (Lean.Name × Array Lean.Name) := #[
-  (`KAM, #[`KAM.Frozen.Wave.Theorems.Nlw2, `KAM.Provider.Wave.Nlw2])]
+  (`KAM, #[`KAM.Frozen.SpinOrbit.Theorems.LunarSyncLock, `KAM.Frozen.SpinOrbit.Theorems.LunarSyncOrbitBound, `KAM.Frozen.SpinOrbit.Theorems.LunarSyncOrbitSpec, `KAM.Frozen.SpinOrbit.Theorems.LunarSyncOrbitUnique, `KAM.Frozen.Wave.Theorems.Nlw2, `KAM.Provider.SpinOrbit.LunarSyncLock, `KAM.Provider.SpinOrbit.LunarSyncOrbitBound, `KAM.Provider.SpinOrbit.LunarSyncOrbitSpec, `KAM.Provider.SpinOrbit.LunarSyncOrbitUnique, `KAM.Provider.Wave.Nlw2])]
 -- END GENERATED BLOCK
 
 /-- The globs of library `lib`: its root (with its whole import closure) and its quarantined
