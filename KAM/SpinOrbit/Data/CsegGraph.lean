@@ -11,8 +11,9 @@ public import KAM.Certificate.Positivity
 /-!
 # The graph check by row chunks (SO-DATA3)
 
-`checkRealLowerBound` forms the SOS square `g g*` by the direct product (`[7]`, forced `.direct`): one
-`directItems` of all `|g|²` term pairs, too large for one kernel check on the lunar witnesses. The
+`checkRealLowerBound` forms the SOS square `g g*` by the direct product (`[7]`, forced
+`.direct`): one `directItems` of all `|g|²` term pairs, too large for one kernel check on the
+lunar witnesses. The
 landed `directItems` merges its rows as a balanced tree (`mergeRowsTree`, pairing positionally), so
 `k` merge levels over a row list whose chunks have `2^k` rows are the chunk-wise levels
 (`levelNCseg_flatten`): each chunk is one kernel computation, and the rest of the tree runs on the
