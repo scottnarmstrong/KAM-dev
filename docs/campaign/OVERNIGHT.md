@@ -2181,3 +2181,7 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     then the seal and audit. Its landing needs main's and KAM-inp's Data symlinks repointed to the new overlay first.
   - Lock: LOCK-DATA (B1 routes, B3 cost table) and LOCK-FREEZE Phase A (waits for SO-FREEZE3). The owner's ruling
     on the 345 MB lock data is pending.
+- **Correction (decision numbering):** the owner decisions of 2026-10-31 recorded as D46, D47, D48 collided with
+  the existing D46 (2026-10-30 18:30, route B). They are renumbered **D47** (band at 2.755 %, rule B tightness
+  waived), **D48** (lock data land as is) and **D49** (freeze approvals, band and lock). Earlier log lines that
+  say D46/D47/D48 for these mean D47/D48/D49.

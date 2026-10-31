@@ -382,7 +382,7 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   any single lean process above 10 GB.)* Lunar-size `decide +kernel` tests live in `kernel-tests/`, outside the library:
   a plain `lake build` never compiles them; they run only with the owner's approval. Certificate data runs belong in
   opt-in targets or a separate repository for the same reason.
-- **D46 (2026-10-31, 07:00 UTC) The N = 65 band literal is 2.755 %; rule B's emitter-tightness clause is relaxed.**
+- **D47 (2026-10-31, 07:00 UTC) The N = 65 band literal is 2.755 %; rule B's emitter-tightness clause is relaxed.**
   *(Scott: "accept 2.755%", answering SO-DATA3 audit 1 F1.)*
   - The emitted outer graph bounds of the N = 65 data stay as certified: lower pLo 0.9724531, upper pHi 1.027544.
     They lie about 4.2e-4 from the grid extrema because of the SOS slack on the band edges. Rule B's rounding
@@ -390,11 +390,11 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
     applied as written.
   - The clause "within about 10⁻⁶ of the computed extrema" (FREEZE-PROPOSAL-2 §1.4) is waived for this package.
     A sharper SOS enclosure is not pursued now.
-- **D47 (2026-10-31, 07:10 UTC) The LOCK-DATA certificate data land as is.** *(Scott: "land the lock data as-is".)*
+- **D48 (2026-10-31, 07:10 UTC) The LOCK-DATA certificate data land as is.** *(Scott: "land the lock data as-is".)*
   About 131 MB in 1,307 files, the largest 0.12 MB, so far below GitHub's 100 MB per-file limit. The 50 MB flag was
   the project's own repo-growth threshold; no shrinking.
-- **D48 (2026-10-31, 07:10 UTC) Freeze approvals.** *(Scott: "yes freeze these numbers (band and lock)".)*
-  - **Band:** freeze FREEZE-PROPOSAL-2's anchors (D40) with the final literals of D46:
+- **D49 (2026-10-31, 07:10 UTC) Freeze approvals.** *(Scott: "yes freeze these numbers (band and lock)".)*
+  - **Band:** freeze FREEZE-PROPOSAL-2's anchors (D40) with the final literals of D47:
     - `lunar_barriers` with `SoBarrier (97245/100000) (102755/100000)`;
     - `lunar_spin_confinement` with `|p − 1| ≤ 2755/100000`;
     - `lunarPLo = 9934/10000`, `lunarPHi = 10066/10000`;
