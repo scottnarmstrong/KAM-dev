@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-31 02:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 95.0 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **365,931 lines of Lean** of an estimated ≈ 373,000
+> **Last updated: 2026-10-31 03:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 95.7 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **365,931 lines of Lean** of an estimated ≈ 373,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -164,9 +164,9 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 ## At a glance
 
 <!-- AUTO:progress -->
-### Estimated completion: original project **95.0 %** · SO checker **100 %** · SO Moon **74 %** · Moon locked **50 %** · track W **26 %** · LG00 **31 %**
+### Estimated completion: original project **95.7 %** · SO checker **100 %** · SO Moon **74 %** · Moon locked **50 %** · track W **26 %** · LG00 **42 %**
 
-Original project (tracks K, I, N, P): `████████████████████████░` 95.0 %
+Original project (tracks K, I, N, P): `████████████████████████░` 95.7 %
 
 Track SO, part 1, the general Lean certificate checker: `█████████████████████████` 100.0 %
 
@@ -176,9 +176,9 @@ Track SO, part 3, the Moon locked in synchronous rotation forever (D42): `██
 
 Track W, PDE KAM for the cubic wave equation: `██████░░░░░░░░░░░░░░░░░░░` 25.8 % (statements frozen 1, blueprint milestones 3, graph published 1, graph nodes resolved 10, seal 0.5; all read from the repository)
 
-Side project LG00, a certified torus of the secular Sun–Jupiter–Saturn model: `████████░░░░░░░░░░░░░░░░░` 31 % (stages, weighted by effort: scout: model, torus, thresholds, cost, Diophantine lemmas for the frequency directions (Lean), certificate-data generator and exact dry run, pilot: kernel cost measured on representative shards, kernel certificate of the torus T′ and the closed theorem, second torus T″ (confinement between two tori), independent audit and separate repository; from [`docs/campaign/side/lg00-status.json`](docs/campaign/side/lg00-status.json), the side orchestrator's assessment, last reviewed 2026-10-31 02:30 UTC)
+Side project LG00, a certified torus of the secular Sun–Jupiter–Saturn model: `██████████░░░░░░░░░░░░░░░` 42 % (stages, weighted by effort: scout: model, torus, thresholds, cost, Diophantine lemmas for the frequency directions (Lean), certificate-data generator and exact dry run, pilot: kernel cost measured on representative shards, kernel certificate of the torus T′ and the closed theorem, second torus T″ (confinement between two tori), independent audit and separate repository; from [`docs/campaign/side/lg00-status.json`](docs/campaign/side/lg00-status.json), the side orchestrator's assessment, last reviewed 2026-10-31 03:05 UTC)
 
-Overall, everything together: 78.2 %
+Overall, everything together: 78.6 %
 
 | Part of the project | Items | Weight | Done | Completion |
 |---|---|---|---|---|
@@ -194,9 +194,9 @@ Overall, everything together: 78.2 %
 | Track SO, part 1: general Lean certificate checker | 6 | 32 | 32.0 | `██████████` 100 % |
 | Track SO, part 2: the Moon's spin rate (lunar spin–orbit) | 6 | 20 | 14.8 | `███████░░░` 74 % |
 | Track SO, part 3: the Moon locked in synchronous rotation (D42) | 6 | 16 | 8.0 | `█████░░░░░` 50 % |
-| Side project LG00: certified torus of the secular Sun–Jupiter–Saturn model | 7 | 12 | 3.8 | `███░░░░░░░` 31 % |
+| Side project LG00: certified torus of the secular Sun–Jupiter–Saturn model | 7 | 12 | 5.0 | `████░░░░░░` 42 % |
 | Track W: PDE KAM for the cubic wave equation (D30, D41) | 5 | 64 | 16.5 | `███░░░░░░░` 26 % |
-| **Total** | 93 | 322 | 251.9 | **78.2 %** |
+| **Total** | 93 | 322 | 253.1 | **78.6 %** |
 
 **How this is estimated.** The project is divided into 52 work items: planning deliverables, campaign infrastructure, the four layers of track K's proof, the proof campaigns of tracks I, N and P, and track SO (its items count the design's line estimates of the packages landed so far; [`docs/campaign/progress-SO.json`](docs/campaign/progress-SO.json)). Each item is weighted by its difficulty (low 1, moderate 2, high 4, very high 8) and counts with the fraction of it that is done; each sealed frozen theorem adds 1. Items marked *graph* take that fraction from their proof graph (nodes `PROVED`, `BYPASSED`, `EXTERNAL` or owner-accepted `ASSUMED` in [`docs/graph/`](docs/graph)), so they update themselves at every refresh, and count as complete once every frozen theorem of their track is sealed; the other items are the orchestrators' assessment, last reviewed **2026-10-28 03:25 UTC**. Files: [`docs/campaign/progress.json`](docs/campaign/progress.json) (track K and infrastructure) and [`docs/campaign/progress-INP.json`](docs/campaign/progress-INP.json) (tracks I, N, P).
 
@@ -275,7 +275,7 @@ Overall, everything together: 78.2 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-31 02:40 UTC from `main` at `cfeab6de` by `scripts/hq-status.py`.*
+*Generated 2026-10-31 03:00 UTC from `main` at `95dc7aab` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -319,7 +319,7 @@ Four parallel tracks (decision D14; details in [`docs/TRACKS.md`](docs/TRACKS.md
 | **SO-1** | Track SO, part 1: a general Lean certificate checker turning numerical KAM tori into theorems | 0 / 0 | not published yet | the certificate checker, its soundness theorem (`checkTorusCertificate_sound`, through the sealed isoenergetic theorem), the sharp certifier (D36) and the toy certificates landed; kernel-scale fixes for the lunar data under way (sparse packing, D34, landed; recursion depth and dyadic ball rounding, D39, in audit) |
 | **SO-3** | Track SO, part 3: the Moon stays locked in synchronous rotation forever (librational tori; scoping, D42) | 0 / 0 | not published yet |  |
 | **SO-2** | Track SO, part 2: the Moon's spin rate stays within about 2.7 % of its orbital rate for all time (N = 65, D38) | 0 / 0 | not published yet | barriers at N = 65 (D38), band about 2.7 %: general-N Diophantine lemmas, the sharp barrier, the band-parametric assembly and the N = 65 parameter package R2 landed; next the N = 65 certificate data, its kernel passes and the final theorems (SO-DATA3), then the freeze of the lunar statements (D40) |
-| **LG00** | Side project: a kernel-checked KAM torus of Locatelli–Giorgilli's secular Sun–Jupiter–Saturn model (first formally verified torus of a planetary model; v2 certifier) | 0 / 0 | not published yet | 31 %: done: scout: model, torus, thresholds, cost; Diophantine lemmas for the frequency directions (Lean); now: certificate-data generator and exact dry run (75 %) |
+| **LG00** | Side project: a kernel-checked KAM torus of Locatelli–Giorgilli's secular Sun–Jupiter–Saturn model (first formally verified torus of a planetary model; v2 certifier) | 0 / 0 | not published yet | 42 %: done: scout: model, torus, thresholds, cost; Diophantine lemmas for the frequency directions (Lean); certificate-data generator and exact dry run; pilot: kernel cost measured on representative shards; now: kernel certificate of the torus T′ and the closed theorem (0 %) |
 <!-- /AUTO:tracks -->
 
 **Track SO, the lunar spin–orbit certificate.** Numerical KAM computations find invariant tori to 100+ digits, but a
@@ -473,6 +473,9 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-31 03:00 | `95dc7aab` | Merge remote-tracking branch 'origin/main' |
+| 2026-10-31 02:57 | `a75cf5a6` | Log: earlyoom killed LOCK-DATA python at 15.5 GB; caps for Python jobs |
+| 2026-10-31 02:49 | `5e8e6f1d` | Log: heartbeat (DATA3 throughput drop; diagnosis requested) |
 | 2026-10-31 02:20 | `cfeab6de` | LG00 status: pilot stage at 25 % (checkHamBounds kernel-checked at L = 8 on lg00-cert) |
 | 2026-10-31 01:49 | `221e164f` | Log: heartbeat (DATA3 heartbeat-timeout stall fixed by splitting; lock sizing done) |
 | 2026-10-31 00:49 | `af1d5ef7` | Log: heartbeat (DATA3 one-third through kernel build; landing plan for data build output) |
@@ -482,9 +485,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 23:49 | `7d8d62f3` | Log: heartbeat (band lanes building; lock sizing) |
 | 2026-10-30 23:27 | `b1b404b1` | Land sharp-v2: the certified first step, theorem side (restart and transfer lemmas, g1_hybrid_R, iso_g1_hybrid_R, never-worse disjunctions; AUDIT-C8AB-1 PASS), its producer and design; plans: Sun-Jupiter-Saturn (SJS-PLAN), the magnetic barrier and Mercury 3:2, effective-stability programs A-D, next demonstrations, ambition |
 | 2026-10-30 23:21 | `e4cc5411` | Merge remote-tracking branch 'origin/main' |
-| 2026-10-30 23:19 | `6c512f0e` | Log: DATA3 build output on HC volume; lanes restarted |
-| 2026-10-30 22:50 | `30b8171f` | Log: heartbeat (DATA3 disk: build output to HC volume; graph check solved) |
-| 2026-10-30 22:48 | `b41ab651` | Log: overnight mode (SO band, SO lock, then W) |
 <!-- /AUTO:landed -->
 
 ## Decisions
