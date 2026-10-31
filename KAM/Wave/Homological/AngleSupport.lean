@@ -55,16 +55,18 @@ theorem homNormalEntry_partial {a p : ℝ} {F : (Fin 2 → ℂ) → HomOp} {θ :
   rw [e, h]
   rfl
 
-/-- If every entry of `F θ` is symmetric (for all `θ`), so is every entry of `∂_{θ_i} F`. -/
+/-- If every entry of `F θ'` is symmetric for `θ'` near `θ`, so is every entry of `∂_{θ_i} F`. -/
 theorem homNormalEntry_partial_symm {a p : ℝ} {F : (Fin 2 → ℂ) → HomOp} {θ : Fin 2 → ℂ}
-    (hF : DifferentiableAt ℂ F θ)
-    (hs : ∀ θ k l, homNormalEntry a p (F θ) k l = homNormalEntry a p (F θ) l k) (i : Fin 2)
-    (k l : ℕ+) :
+    (hF : DifferentiableAt ℂ F θ) {U : Set (Fin 2 → ℂ)} (hU : U ∈ nhds θ)
+    (hs : ∀ θ' ∈ U, ∀ k l, homNormalEntry a p (F θ') k l = homNormalEntry a p (F θ') l k)
+    (i : Fin 2) (k l : ℕ+) :
     homNormalEntry a p (homPartial i F θ) k l = homNormalEntry a p (homPartial i F θ) l k := by
   rw [homNormalEntry_partial hF, homNormalEntry_partial hF]
-  have : (fun θ => homNormalEntry a p (F θ) k l) = fun θ => homNormalEntry a p (F θ) l k :=
-    funext fun θ => hs θ k l
-  rw [this]
+  have : (fun θ => homNormalEntry a p (F θ) k l) =ᶠ[nhds θ]
+      fun θ => homNormalEntry a p (F θ) l k :=
+    Filter.eventually_of_mem hU fun θ' hθ' => hs θ' hθ' k l
+  unfold homPartial
+  rw [this.fderiv_eq]
 
 /-- `(ΛM)_ij = M_ij / (ω_{a,p}(i+2) ω_{a,p}(j+2))`. -/
 theorem homLam_entry_eq {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (A : HomOp) (i j : ℕ+) :

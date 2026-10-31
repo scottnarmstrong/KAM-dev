@@ -62,9 +62,12 @@ structure HomTaylor (a p s : ℝ) where
   comp_P' : IsHomComp s P'
   comp_Q : IsHomComp s Q
   comp_Qt : IsHomComp s Qt
-  symP : ∀ θ i j, homNormalEntry a p (P θ) i j = homNormalEntry a p (P θ) j i
-  symP' : ∀ θ i j, homNormalEntry a p (P' θ) i j = homNormalEntry a p (P' θ) j i
-  transQ : ∀ θ i j, homNormalEntry a p (Qt θ) i j = homNormalEntry a p (Q θ) j i
+  symP : ∀ θ ∈ complexStrip 2 s, ∀ i j,
+    homNormalEntry a p (P θ) i j = homNormalEntry a p (P θ) j i
+  symP' : ∀ θ ∈ complexStrip 2 s, ∀ i j,
+    homNormalEntry a p (P' θ) i j = homNormalEntry a p (P' θ) j i
+  transQ : ∀ θ ∈ complexStrip 2 s, ∀ i j,
+    homNormalEntry a p (Qt θ) i j = homNormalEntry a p (Q θ) j i
 
 variable {a p s : ℝ}
 
