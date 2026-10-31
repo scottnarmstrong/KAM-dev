@@ -1,6 +1,6 @@
 #!/bin/bash
 # LOCK-DATA: kernel-pass modules, one at a time, each alone on the first free probe lane (lane 1, else lane 2,
-# else FIFO wait on lane 1), in a scope with MemoryMax=8G (the lock's per-theorem rule) and MemorySwapMax=0.
+# else FIFO wait on lane 1), in a scope with MemoryMax=LOCK_MEM (default 6G = 6 GiB; cgroup memory.peak includes page cache) and MemorySwapMax=0.
 #   lock_kbuild.sh LOGDIR Module [Module ...]   -> LOGDIR/<Module>.log, and one summary line per module on stdout
 #   (rc, user+sys CPU s, wall, cgroup memory.peak, oom_kill).  Dependencies must already be built (compile gate).
 L=$1; shift; mkdir -p "$L"
