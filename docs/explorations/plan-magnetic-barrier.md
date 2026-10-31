@@ -243,7 +243,7 @@ proof must consume the particular checked certificate.
 ### 3.1 Numerical producer
 
 Reuse the methods, not the success claim, of
-[LG00-PREP](/home/scott/KAM-dev-worktrees/lg00-prep/docs/explorations/lg00-prep.md):
+LG00-PREP (`docs/explorations/lg00-prep.md` on the unpublished branch `lg00-prep`):
 
 1. Archive inputs and hashes. Reproduce the 30-step continuation from `ε=0`
    to `.003` with additive isoenergetic quasi-Newton, starting near `h'(p)=α`.

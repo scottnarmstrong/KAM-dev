@@ -50,7 +50,7 @@ The old “needs a sqrt node” estimates are stale.
 |---|---|
 | [APOST-SHARP-V2 §11–12](../campaign/design/APOST-SHARP-V2.md) | Finite comparisons of theorem formulas, not universal dominance or an application certificate |
 | [C6](../campaign/handoffs/SHARP2-C6.md), [C6L8](../campaign/handoffs/SHARP2-C6L8.md) | Toy tori and kernel evaluation of lunar numerical cores at supplied bounds; those tests do not establish a lunar torus |
-| [Hybrid design on sharp-hybrid](/home/scott/KAM-dev-worktrees/sharp-hybrid/docs/campaign/design/APOST-SHARP-V2-HYBRID.md) | Proposed restart; R1 truncations give 23 half-lattice terms and a threshold near 10⁻⁵·²⁸, versus 87 terms for plain v2; design and sampled evidence |
+| [Hybrid design](../campaign/design/APOST-SHARP-V2-HYBRID.md) | Proposed restart; R1 truncations give 23 half-lattice terms and a threshold near 10⁻⁵·²⁸, versus 87 terms for plain v2; design and sampled evidence |
 | This report | New double-precision tori, sampled engine inputs, resource projections |
 
 I have **not** transferred R1's hybrid tolerance to these candidates. It depends on the actual
@@ -363,7 +363,7 @@ these clients as identical-cost lunar data, not an exact operation count.
 
 The **10⁻²⁵ targets are inferred feasibility goals, not achieved errors**. LG00's multiprecision
 success demonstrates relevant producer techniques, not the validity of these tails. The
-[LG00 prep](/home/scott/KAM-dev-worktrees/lg00-prep/docs/explorations/lg00-prep.md) and SJS studies
+LG00 prep (`docs/explorations/lg00-prep.md` on the unpublished branch `lg00-prep`) and SJS studies
 were read without duplicating that separately assigned campaign.
 
 ### Suspected source defects and explicit deviations
