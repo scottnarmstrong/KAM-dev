@@ -119,3 +119,33 @@ Blueprint Lemma 1: (i) `homSolveTaylor` + `homLemma1_zero_modes`; (ii) `homLemma
 No heartbeat failures in final code. One elaboration trap: passing `fun hm k => lemma (hm.Q k)` with `hm`'s type left to
 unification (field-notation on a metavariable) made `homLipField_dQ` time out; stating the commutation facts as named
 lemmas (`homLam_comm_homTQ`, …) fixed it.
+
+## p_plus refactor (bpW:w5:w4-general)
+
+**Commit: `945977b7`** ("W4 p_plus refactor: ..."); the W4 audit should target this commit.
+
+W4 is now parametrized by the smoothing exponent `p_+` (Lean: `pb`, hypotheses `hp : 0 ≤ p`, `hpb : p ≤ pb`):
+* New parameter: `HomTaylor a p pb s`, `homNormalEntry a p pb`, `homLamD a p pb` (hence `homLamDiag/homLamCLM/homPairRep/
+  homDualNorm` with weight condition `homPP : 0 ≤ p + pb`), `homNormEntryCLM a p pb`, `homEmbed a p pb hpb`
+  (`ĉ_j ↦ ĉ_j ω_p/ω_{p_+}`), and everything built on them (`HomFieldBound`, `homXnorm`, `homSolveTaylor`, `homLieN`, …).
+  The unchanged parts (`homLemma2`, lattice, divisors, `homGuard_of_cond`, `one_le_homWt`) do not take `pb`.
+* Tail hypothesis: `HomFreqHyp` now has `j^{1/2}|Ω̃_j| ≤ M₀`, `j^{1/2}|Ω_j(ξ)-Ω_j(ζ)| ≤ M_Ω|ξ-ζ|` (`bpW:w5:freq`).
+  The original (tail weight `j`) is `HomFreqHyp1`, with `HomFreqHyp1.toHyp : HomFreqHyp1 … → HomFreqHyp …`
+  (same constants). `homFreqHyp1_wave` is the old wave statement; `homFreqHyp_wave` gives the weak one.
+* Statement changes forced by `p_+`: Lemma 1 (iv) coefficient bound reads
+  `(j+2)^{p_+-p} ‖(homNormalEntry …) j j‖ ≤ ε` (`homNhat_coeff_bounds`, `homDiagonal_bound`);
+  `homLie_pairing_summable` has `F ∈ ℓ_{a,p_+}` and hypothesis `1 ≤ p + p_+` (pairing pair `(p-1, p_+)`);
+  `homLemma1_equation_all` has the extra hypothesis `1 ≤ p + p_+` (`homWt_mul_ge`, `norm_homLamD_mul_le`,
+  needed for `‖D_jΩ_j‖ ≤ K₀`). The field bounds, Lipschitz bounds, Lemma 2 and constants are unchanged.
+* **Old statements.** `KAM/Wave/Homological/PPlusOne.lean` records the `p_+ = p+1` statements as one-line
+  corollaries `homLemma1_fieldBound_succ`, `homLemma1_lipschitz_succ`, `homLemma1_equation_all_succ`,
+  `homNhat_coeff_bounds_succ` (old form `(j+2)|…| ≤ ε`), `homNhat_fieldBound_succ`, `homNhat_lipschitz_succ`,
+  `homSolveTaylor_isReal_succ`, `homLemma_lie_iv_succ`, over `HomTaylorSucc a p s := HomTaylor a p (p+1) s`.
+  **Deviation from the request, stated plainly:** the old *names* are not kept verbatim. The general theorems
+  keep the original names (they now carry `pb`), and the `p_+ = p+1` forms are the `_succ` corollaries.
+  Reason: a definition such as `HomTaylor` cannot have two meanings under one name, and every theorem mentions
+  it. In content nothing is lost: each old statement is an instance (`pb := p+1`, `hpb := p ≤ p+1`) of the new one.
+  If you want the old names on the corollaries (and `_gen` on the general ones), that is a mechanical rename.
+* Checks: all W4 modules and `PPlusOne` build (`w_build.sh`); `w_lint.sh` exit 0;
+  `#print axioms` of `homLemma1_fieldBound`, `homLemma1_lipschitz`, `homLemma1_equation_all`, `homLemma_lie_iv`,
+  `homNhat_coeff_bounds`, `homSolveTaylor_isReal`, `homFreqHyp_wave`, `homLemma2`: propext, Classical.choice, Quot.sound.
