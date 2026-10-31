@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-31 04:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 95.7 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **365,931 lines of Lean** of an estimated ≈ 373,000
+> **Last updated: 2026-10-31 04:21 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 95.7 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **365,931 lines of Lean** of an estimated ≈ 373,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -265,7 +265,7 @@ Overall, everything together: 78.6 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **365,931** (284,125 excluding blank lines and comments) · **+92,369** since 2026-10-30 04:00 UTC |
+| On `main` now | **365,931** (284,125 excluding blank lines and comments) · **+92,369** since 2026-10-30 04:20 UTC |
 | Written on agent branches, not yet landed | 5,638 |
 | Generated certificate data on agent branches (numeric literals, not counted above or below) | 639,776 |
 | **Estimated total at completion** | **≈ 373,000** |
@@ -275,7 +275,7 @@ Overall, everything together: 78.6 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-31 04:00 UTC from `main` at `38cdaf1f` by `scripts/hq-status.py`.*
+*Generated 2026-10-31 04:21 UTC from `main` at `b50a3a99` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -459,7 +459,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **lockdata** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: LOCK-DATA: jet bridge lock_jet kernel-checked (33.7 CPU-s, 3.37 GB peak) | `inp-lockdata` | 122 (vs `inp`) |
+| **lockdata** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: LOCK-DATA: lock_sos (weighted truncation, k-heavy degree, per-side slack) and regraph; cap | `inp-lockdata` | 123 (vs `inp`) |
 | **sodata3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-CSEG-GEN: product and character side checks as separate theorems (nested decides shared | `inp-sodata3` | 19 (vs `inp`) |
 | **wgraph** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Track W graph: delta review 7 (codex-1), reports only (track W paused) | `inp-wgraph` | 24 (vs `inp`) |
 | **wph** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: W1-CUBIC: audit 2 report (track W paused) | `inp-wph` | 13 (vs `inp`) |
@@ -473,6 +473,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-31 04:19 | `b50a3a99` | Log: heartbeat (DATA3 75 %; landing pre-check passes; hold checker landings) |
 | 2026-10-31 03:18 | `ee52647c` | Log: heartbeat (DATA3 throughput recovered; lock SOS capped rerun) |
 | 2026-10-31 03:00 | `95dc7aab` | Merge remote-tracking branch 'origin/main' |
 | 2026-10-31 02:57 | `a75cf5a6` | Log: earlyoom killed LOCK-DATA python at 15.5 GB; caps for Python jobs |
@@ -484,7 +485,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-31 00:19 | `2bb8f09e` | Land sharp-v2: hybrid producer and mirror aligned with the Lean checker (SHARP2-C8DFIX; fixes AUDIT-C8C-1 F1, F2 and a Cauchy-bound finding; R1-L8 hybrid margin +0.471) |
 | 2026-10-31 00:00 | `b5b7c4ac` | Merge remote-tracking branch 'origin/main' |
 | 2026-10-30 23:49 | `7d8d62f3` | Log: heartbeat (band lanes building; lock sizing) |
-| 2026-10-30 23:27 | `b1b404b1` | Land sharp-v2: the certified first step, theorem side (restart and transfer lemmas, g1_hybrid_R, iso_g1_hybrid_R, never-worse disjunctions; AUDIT-C8AB-1 PASS), its producer and design; plans: Sun-Jupiter-Saturn (SJS-PLAN), the magnetic barrier and Mercury 3:2, effective-stability programs A-D, next demonstrations, ambition |
 <!-- /AUTO:landed -->
 
 ## Decisions
