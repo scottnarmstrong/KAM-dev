@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-31 14:17 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 55 % · track W 26 %** · frozen statements proved: 26 / 27 · **368,538 lines of hand-written Lean** of an estimated ≈ 431,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-10-31 14:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 55 % · track W 26 %** · frozen statements proved: 26 / 27 · **368,538 lines of hand-written Lean** of an estimated ≈ 431,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -281,7 +281,7 @@ Overall, everything together: 80.8 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **368,538** (286,126 excluding blank lines and comments) · **+81,306** since 2026-10-30 14:13 UTC |
+| On `main` now (hand-written) | **368,538** (286,126 excluding blank lines and comments) · **+80,979** since 2026-10-30 14:20 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 632,896 lines in 1,649 modules |
 | Written on agent branches, not yet landed (hand-written) | 5,281 |
 | Generated certificate data on agent branches (numeric literals; not counted in the other rows) | 4,249 |
@@ -292,9 +292,9 @@ Overall, everything together: 80.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-31 14:17 UTC from `main` at `1aaddfe1` by `scripts/hq-status.py`.*
+*Generated 2026-10-31 14:20 UTC from `main` at `7d85e8bc` by `scripts/hq-status.py`.*
 
-**Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and its freeze and seal are in progress (SO-FREEZE3; D49, D50); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) is paused by the owner since 2026-10-31 until both SO tracks are done.
+**Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) is paused by the owner since 2026-10-31 until both SO tracks are done.
 
 **Track SO** (D30, started 2026-10-29; [plan](docs/campaign/design/SPIN-ORBIT-PLAN.md)), in three parts:
 
@@ -500,6 +500,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-31 14:18 | `7d85e8bc` | HQ: SO-2 sealed in the current-phase text |
 | 2026-10-31 14:15 | `1aaddfe1` | HQ: SO-2 frozen and sealed (D49, D50; ceeb106c): stage texts and Main-theorems item 12 |
 | 2026-10-31 14:13 | `45a76023` | HQ: track W size estimate from its dependency graph (690 nodes x 87-109 lines/node, +20 % infinite-dim): 60k-90k (was 34k-70k) |
 | 2026-10-31 14:08 | `ceeb106c` | Land inp into main |
@@ -511,7 +512,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-10-31 09:24 | `648ec216` | Log: lock data cost cuts (345 -> ~158 MB, <1 h elaboration); owner ruling on size pending |
 | 2026-10-31 08:35 | `b17bf0c0` | DECISIONS: renumber the 2026-10-31 owner decisions D46-D48 to D47-D49 (collision with the existing D46) |
 | 2026-10-31 08:22 | `284c420a` | Log: MILESTONE - N = 65 Moon band theorems on main |
-| 2026-10-31 08:20 | `52d04ad1` | OVERNIGHT: SO-LOCK data volume 345 MB update (owner review) |
 <!-- /AUTO:landed -->
 
 ## Decisions
