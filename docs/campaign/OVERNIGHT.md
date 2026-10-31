@@ -2301,3 +2301,65 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - W runs kam-1b plus 2 provers: 4 GB cap each, nice 10, pausing below 8 GB MemAvailable.
   - codex-1 (14 %) stays with the lock. New W audits wait for codex-3 (5 Nov). **FOR OWNER:** name another audit
     account if W should land sooner.
+- **17:03. LOCK-DATA probe: M0 passes (4.59 GB) after the rewrite-direction fix. kseg7 stopped at Seg.Rad.SqrtF17.**
+  - It is a shape mismatch: the product states its operands as `.2.poly`, while the consumer
+    `mul_eq_of_polyProduct_cseg` expects `.2.model.poly`, with an unresolved find? predicate.
+  - It probably predates today, since earlier runs never reached SqrtF17. Emitter fix in progress, with a mechanical
+    check of every product and consumer pair before the relaunch.
+- **17:11. kseg8: SqrtF17 now type-checks but hits the 6 GB cap (cgroup OOM at 17:10, 5.95 GB anon).**
+  - The worker measures it once at 8 GB (the lock design's per-theorem rule allows that, with MemAvailable ≥ 12 GB),
+    then splits the heavy check into modules of at most 6 GB, as for the decoders.
+  - InvF18 and ExpF888 are pre-measured the same way.
+- **17:18. Heartbeat.**
+  - LOCK-DATA: SqrtF17's residual-bound module needs more than 8 GB. The 8 GB measurement was OOM-killed at 17:15,
+    inside its own scope, so the system was unaffected. It is being split into the memoized square, the −1 constant
+    multiplication and the slot-15 model g, each probed at 6 GB.
+  - Track W (D53): kam-1b is linting W1-CUBIC before the merge and landing. Provers next.
+- **17:22. Track W running (D53).**
+  - W1-CUBIC (inp-wph@51a1d0a5) is merged into inp (9c6d9128) and queued with kam-inp-63 for main.
+  - Provers on claude-11:
+    - W4-HOMOLOGICAL: the rest of part 1, then part 2 (inp-mprov-wpj).
+    - W3-SETTING: W3's first lemma group (inp-mprov-wpk; worktree on the HC volume).
+  - Every W build goes through .drafts/W/w_build.sh: one module per call, a 4 GB scope with no swap, nice 10,
+    1 thread, a compile-gate slot, and it waits for MemAvailable ≥ 8 GB.
+  - New W audits queue (codex-1 is reserved for the lock).
+- **17:26. Track W: delta review 7 applied to the W graph (de133459).** The global review waits for an audit account (codex-3 resets 5 Nov).
+- **17:33. LOCK-DATA: the root cause of SqrtF17's memory is the advice remainder bound.**
+  - `remainderBound` and `maxSlotDeg` evaluate over all 29,645 product slots.
+  - Fix: kernel checks over 2000-slot ranges, with lock-owned split lemmas (RemSplit.lean), and the products state
+    the literal bound. No option raised.
+  - Re-emitted: 1,000 modules, 44 MB. kseg10 is running 144 modules serially at 6 GB.
+- **17:49. Heartbeat.**
+  - W1-CUBIC is on main (0189f0f2, from inp 9c6d9128).
+  - W provers are running: W4-HOMOLOGICAL is building Homological/Index, and W3-SETTING is checking
+    Birkhoff/QuartML. Both run under 4 GB caps.
+  - LOCK-DATA kseg10: 30 of 144 modules pass, with no OOM since 17:22. CPU load is about 5 and memory 15 GB available.
+- **17:49. FOR OWNER: codex-1, KAM's reserved audit account, is also used by a KPZ agent.**
+  - The Codex session in tmux `amelie_agent` (cwd /root/code/KPZ/Phi4project, CODEX_HOME=/root/.codex = account 1)
+    has run for about 22 h.
+  - codex-1 fell from 16 % (15:20) to 12 % (17:20) with no KAM audit running.
+  - The lock still needs two codex-1 audits: LOCK-DATA, then the seal.
+  - Not touched (another project). Owner: move that agent off codex-1, or name a backup KAM audit account.
+- **17:52. kseg10: 33 of 144 pass.**
+  - The RemSplit ranges all pass, and SqrtF17Res passes at 5.96 GB. No OOM.
+  - It stopped at the light assembly Rad.SqrtF17 with a whnf timeout at the default heartbeats: the find?/getD
+    witness argument, unified with _ok/_res, makes whnf evaluate find? over the witness list.
+  - Fix in progress, no option raised: name the witness once with an rfl bridge, as for the product operands.
+- **17:59. LOCK-DATA template bugs, one per run.**
+  - Rad.SqrtF17 now passes (typed witness binder).
+  - kseg12 hit a parse slip in Full.S2. It is fixed, and a layout scan of all 1,000 files flags none.
+  - kseg13: Full.S2 cannot synthesize the post-state `st'` of segOk_one_of.
+  - Asked for one probe per template (Prod, Rad, Full, Rem, assembly) before the next full run, instead of finding
+    one template bug per run. Engineering only, no option raised.
+- **18:13. Template pass: 25 of 109 pass (all M1 Rem ranges, at most 1.2 GB). Then Prod.M1ShG1 was OOM-killed at 6 GB.**
+  - M1ShG0 had already peaked at 5.87 GB: the inv product's shards are heavier than M0's.
+  - Fix: size the shard groups per product with a 5 GB budget (1 shard where needed), then re-run from M1ShG0.
+  - Owner asked for an SO-3 update at 18:07. Estimate: the full chain of about 1,000 modules takes 11–20 h serial, so
+    SO-3 completes during 1 Nov if no more template bugs appear. Offered a light second lane for modules under
+    2 GB.
+- **18:19. Heartbeat.**
+  - LOCK-DATA tpass2: 24 of 169 pass with one shard per theorem (max 2.72 GB) and no OOM since 18:14.
+  - Track W: W4 and W3 provers active on claude-11. The W4 prover's single-file `lake env lean` checks ran uncapped,
+    and kam-1b is told to wrap them in the 4 GB scope.
+  - Load 8 (a transient filesystem search plus builds). Memory: 18 GB available.
+  - Quotas: codex-1 12 %, claude-11 86 %, claude-12 50 %, claude-3 42 %.
