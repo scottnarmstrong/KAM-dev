@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-31 16:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 26 %** · frozen statements proved: 26 / 31 · **367,179 lines of hand-written Lean** of an estimated ≈ 429,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-10-31 16:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 26 %** · frozen statements proved: 26 / 31 · **367,179 lines of hand-written Lean** of an estimated ≈ 429,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -281,7 +281,7 @@ Overall, everything together: 81.0 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **367,179** (284,585 excluding blank lines and comments) · **+46,142** since 2026-10-30 16:18 UTC |
+| On `main` now (hand-written) | **367,179** (284,585 excluding blank lines and comments) · **+46,142** since 2026-10-30 16:40 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 632,896 lines in 1,649 modules |
 | Written on agent branches, not yet landed (hand-written) | 4,918 |
 | Generated certificate data on agent branches (numeric literals; not counted in the other rows) | 4,396 |
@@ -292,7 +292,7 @@ Overall, everything together: 81.0 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-31 16:20 UTC from `main` at `f675cae2` by `scripts/hq-status.py`.*
+*Generated 2026-10-31 16:40 UTC from `main` at `c03aea77` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) is paused by the owner since 2026-10-31 until both SO tracks are done.
 
@@ -495,7 +495,7 @@ account read from each agent's running process) and their branches. Rules for ag
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (final review rounds), proof campaign; PAUSED by the owner on 2026-10-31 until both SO tracks are done | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
-| **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA: DecSplit (decode of a packed product in slot pieces), shard groups and piecewis | `inp-lockdata` | 32 (vs `inp`) |
+| **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA lock_cseg: shard cover/groups as named theorems; product operands named once (Pr | `inp-lockdata` | 33 (vs `inp`) |
 | **wgraph** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: Track W graph: delta review 7 (codex-1), reports only (track W paused) | `inp-wgraph` | 24 (vs `inp`) |
 | **wph** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: W1-CUBIC: audit 2 report (track W paused) | `inp-wph` | 13 (vs `inp`) |
 | **wpj** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: W4-HOMOLOGICAL WIP: solve (i)(ii)(iv), linear images, wave frequencies, divisors (all file | `inp-wpj` | 2 (vs `inp`) |
