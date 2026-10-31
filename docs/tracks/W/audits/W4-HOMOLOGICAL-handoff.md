@@ -122,7 +122,7 @@ lemmas (`homLam_comm_homTQ`, …) fixed it.
 
 ## p_plus refactor (bpW:w5:w4-general)
 
-**Commit: `945977b7`** ("W4 p_plus refactor: ..."); the W4 audit should target this commit.
+**Audit target commit: `82d8325d`** ("W4 p_plus refactor (names): ..."; supersedes `945977b7`, which had the `_succ` corollaries).
 
 W4 is now parametrized by the smoothing exponent `p_+` (Lean: `pb`, hypotheses `hp : 0 ≤ p`, `hpb : p ≤ pb`):
 * New parameter: `HomTaylor a p pb s`, `homNormalEntry a p pb`, `homLamD a p pb` (hence `homLamDiag/homLamCLM/homPairRep/
@@ -137,15 +137,24 @@ W4 is now parametrized by the smoothing exponent `p_+` (Lean: `pb`, hypotheses `
   `homLie_pairing_summable` has `F ∈ ℓ_{a,p_+}` and hypothesis `1 ≤ p + p_+` (pairing pair `(p-1, p_+)`);
   `homLemma1_equation_all` has the extra hypothesis `1 ≤ p + p_+` (`homWt_mul_ge`, `norm_homLamD_mul_le`,
   needed for `‖D_jΩ_j‖ ≤ K₀`). The field bounds, Lipschitz bounds, Lemma 2 and constants are unchanged.
-* **Old statements.** `KAM/Wave/Homological/PPlusOne.lean` records the `p_+ = p+1` statements as one-line
-  corollaries `homLemma1_fieldBound_succ`, `homLemma1_lipschitz_succ`, `homLemma1_equation_all_succ`,
-  `homNhat_coeff_bounds_succ` (old form `(j+2)|…| ≤ ε`), `homNhat_fieldBound_succ`, `homNhat_lipschitz_succ`,
-  `homSolveTaylor_isReal_succ`, `homLemma_lie_iv_succ`, over `HomTaylorSucc a p s := HomTaylor a p (p+1) s`.
-  **Deviation from the request, stated plainly:** the old *names* are not kept verbatim. The general theorems
-  keep the original names (they now carry `pb`), and the `p_+ = p+1` forms are the `_succ` corollaries.
-  Reason: a definition such as `HomTaylor` cannot have two meanings under one name, and every theorem mentions
-  it. In content nothing is lost: each old statement is an instance (`pb := p+1`, `hpb := p ≤ p+1`) of the new one.
-  If you want the old names on the corollaries (and `_gen` on the general ones), that is a mechanical rename.
-* Checks: all W4 modules and `PPlusOne` build (`w_build.sh`); `w_lint.sh` exit 0;
+* **Old names keep old statements.** Every declaration whose statement mentions `p_+` was renamed with the
+  suffix `_gen` (e.g. `HomTaylor_gen a p pb s`, `homLemma1_fieldBound_gen`, `homLemma_lie_iv_gen`,
+  `homNormalEntry_gen a p pb`); the general ones take `hpb : p ≤ pb`. In `KAM/Wave/Homological/PPlusOne.lean`
+  the original names denote the original (`p_+ = p+1`) objects again: definitions are `abbrev`s at `pb := p+1`
+  (`HomTaylor`, `homNormalEntry`, `homLamD`, `homLamDiag`, `homLamCLM`, `homPairRep`, `homDualNorm`, `homRz` …,
+  `homRtheta`, `homXnorm`, `HomFieldBound`, `HomTaylor.sub`, `HomTaylor.IsReal`, `homRval`, `homLieN`, `homNhat`,
+  `homPairOmega`, `homSolveTaylor`, `homNhatTaylor`, `homEmbed`, `homNormEntryCLM`) and the theorems have their
+  original statements, each proved by its `_gen` version (all headline results: `homLemma1_fieldBound`,
+  `homLemma1_lipschitz`, `homLemma1_equation`, `homLemma1_equation_all`, `homLemma1_zero_modes`,
+  `homNhat_coeff_bounds` (original `(j+2)|…| ≤ ε` form), `homNhat_fieldBound`, `homNhat_lipschitz`,
+  `homNhatTaylor_val`, `homComp_first`, `homComp_angle`, `homF_compBounds`, `homXnorm_le_of_components`,
+  `homLemma_lie_iv`, `homLie_pairing_summable`, `homSolveTaylor_isReal`, `homNhatTaylor_isReal`,
+  `homDiagonal_bound`, `norm_homLamD_mul_le`, `norm_homLamCLM_apply_le`, `homHadamardOp_lam`,
+  `norm_homLam_hadamard_le`, `homEq_Q`, `homLam_comm_homTQ`, `homLipField_dQ`, `homF_sub_compBounds`).
+  Declarations whose statement does not mention `p_+` (e.g. `homLemma2`, `homGuard_of_cond`, `homKS_lt_29`)
+  were not renamed. **Exception, stated plainly:** the 72 internal helper names listed below (changed
+  statements, not mentioned in any handoff) have *no* old-name version: only the `_gen` name exists, so no old
+  name changed meaning silently. They are: `HomCompBounds`, `HomTaylor.ext_of`, `continuous_homPairRep_op`, `continuous_homPairRep_right`, `continuous_homRtheta`, `continuous_homRval`, `continuous_homRz`, `continuous_homRzb`, `homAngle_Q`, `homAngle_a`, `homAngle_b`, `homAngle_z`, `homAngle_zb`, `homDiagW`, `homDualNorm_le`, `homEmbedCoef`, `homEq_P`, `homEq_P'`, `homEq_cm`, `homEq_cp`, `homFieldBound_nonneg`, `homLamCLM_apply`, `homLamDiag_apply`, `homLamDiag_comm_homTdm`, `homLamDiag_comm_homTdp`, `homLam_comm_hadamard`, `homLam_comm_homTP`, `homLam_comm_homTP'`, `homLam_entry_eq`, `homLam_entry_symm`, `homLipField_dP`, `homLipField_dP'`, `homLipField_dcm`, `homLipField_dcp`, `homNOmega_embed`, `homNOmega_le`, `homNhatTaylor_sub`, `homNormEntryCLM_apply`, `homNormalEntry_hadamard`, `homNormalEntry_partial`, `homNormalEntry_partial_symm`, `homNormalEntry_sub`, `homPairOmega_Rz`, `homPairOmega_Rzb`, `homPairOmega_eq_clm`, `homPairOmega_fin`, `homPairOmega_op_fin`, `homPairRep_eq`, `homPairRep_eq'`, `homPairRep_fin`, `homPairRep_op_fin`, `homPartial_sub_comp`, `homRtheta_fin`, `homRtheta_y`, `homRtheta_z`, `homRtheta_zb`, `homRtheta_zzb`, `homRval_fin`, `homRz_eq`, `homRzb_eq`, `homSent`, `homSolveTaylor_Q`, `homSolve_entry_symm`, `homSolve_hadamard_entry`, `homXnorm_nonneg`, `homXnorm_parts`, `kamEntry_homLamCLM`, `norm_homEmbedCoef_le`, `norm_homLamD_le`, `norm_homLamDiag_le`, `norm_homPairRep_le`, `norm_homPairRep_op_le`.
+* Checks: all W4 modules and `PPlusOne` build (rebuilt in import order after the rename) (`w_build.sh`); `w_lint.sh` exit 0;
   `#print axioms` of `homLemma1_fieldBound`, `homLemma1_lipschitz`, `homLemma1_equation_all`, `homLemma_lie_iv`,
   `homNhat_coeff_bounds`, `homSolveTaylor_isReal`, `homFreqHyp_wave`, `homLemma2`: propext, Classical.choice, Quot.sound.
