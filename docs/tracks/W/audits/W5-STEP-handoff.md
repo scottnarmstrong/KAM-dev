@@ -34,6 +34,7 @@ axioms, `w_lint.sh` exit 0; `#print axioms` of every main result listed: propext
 | `KamStep/TaylorFieldDiff.lean`, `StepSympEmbed.lean` | `differentiableOn_homPartial`, `stepField_differentiableAt` (holomorphy of `X_F`), `stepSymp_embed` (`ϖ_{p,p}(ιX,W)=ϖ_{p,p_+}(X,W)`) | `solve` `s-class`, `flow-calc` `c-skew` |
 | `KamStep/StepFlowConcrete.lean`, `StepFieldBound.lean` | `stepToKCLM/stepOfKCLM`, `stepFieldS` (`Z`), `stepFS`, `stepFS_hasFDerivAt` (`DF=B(ιZ,·)`), **`stepFieldS_skew`** (`DX_F` is `B`-skew, concrete), `kamNorm_stepField` (= W4's `homXnorm_gen`), `homDomain_stepZ`, `stepFieldS_bound` (W4 `HomFieldBound_gen` ⇒ `‖Z‖≤ε` on `D(s',r)`), **`stepFlowHyp_concrete`**: `FlowHyp (ι∘Z) D(s-σ,r) D(s-2σ,r/2) M (σ/4)` | `flow` (hypotheses), `flow-calc` `c-skew` (concrete) |
 | `KamStep/StepNfun.lean`, `StepSolve.lean` | `stepToHom`, `stepNfun` (`N` on `KamPhase`), `stepNfun_hasFDerivAt`, **`stepNfun_lie`** (`DN(w)(ιX_F(w)) = -L_NF(w)`, from W4 `homLemma_lie_iv_gen`); `stepField_sub`; **`stepSolve_fam`** (`|X_F|^λ_{r,D(s-σ,r)} ≤ (3C₁B^W_σ/α)(ε+λε^L)` as a `FamBound`, from W4 `homLemma1_fieldBound_gen`/`homLemma1_lipschitz_gen`/`homLemma2`); **`stepSolve_equation`** (`R + DN·ιX_F = N̂ + â₀` on `θ∈T_{s-σ}`); `stepNhat_fam` (`|X_{N̂}|^λ ≤ 2(ε+λε^L)`); `stepSymp_comm_weights`; **`stepFun_isSmoothing`** (`stepFun T ∈ 𝒮_{p_+}(D(s',r))` with field `stepField T`) | `solve` (unmodified case, concrete), `flow-calc` (v) |
+| `KamStep/NewHamFlow.lean` | **`stepNewHam_flow_H`**: `N(Φw)+P(Φw) = N(w)+N̂(w)+â₀+(P-R)(Φw)+∫₀¹((1-τ)DN̂·X+τDR·X)(φ^τ w)dτ` for any `FlowHyp` flow and `C¹` `N,N̂,R` with `DN·X = N̂+â₀-R` on `V` (abstract in the phase space; instantiate with `stepNfun_hasFDerivAt`, `stepFS_hasFDerivAt`-type derivatives and `stepSolve_equation`) | `new-ham` (i), step `n-exp` (along the flow) |
 
 ## Session 2 summary
 Landed: the abstract flow calculus (smoothing, variational equation, symplecticity, Cauchy bounds with the step
@@ -96,3 +97,20 @@ core analytic argument (new-ham, pullback, step) is shared and `w4-modified` onl
 Design note for w4-modified: `F` is `homSolve` of `R`'s `(p+1)`-representatives with the multipliers `ratio_i * d_ij`
 (`ratio_i = ω_{p_+}(i)/ω_{p+1}(i)`), cp/cm/P/P' with `ratio_i`-twisted multipliers; bounds need a modified copy of
 `LemmaOneBounds/LemmaOneLipBounds` (dQ from the operator norm, `m-act`).
+
+## Session 4, new-ham (i) along the flow — DONE (abstract in `F`); instantiation pending
+`stepNewHam_flow_H` closes `new-ham` (i) at the level of functions. To instantiate on `StepPhase r`: functions
+`N := stepNfun ∘ toK` (derivative `stepNfun_hasFDerivAt`), `R := stepFS R`, `N̂ := stepFS (homNhatTaylor_gen R)` (derivative
+from `stepFS_hasFDerivAt`: `ϖ(ι X_·, ·)`), `heq` from `stepSolve_equation` with `V = D(s-σ,r)`; continuity of the brackets along
+the trajectory from continuity of the fields (`continuousOn_holoFlow_time`).
+## State at the end of session 4 (bpW:w5:step NOT proved; READY file NOT written)
+Done: item 1 (instantiation), unmodified solve outputs, `N` and the Lie identity, `H∘Φ` expansion along the flow.
+NOT done: `w4-modified` (item 2), `taylor` (i),(ii) (the `R ∈ 𝒯_s` identification `stepField R = taylorXR X_P`),
+`new-ham` (ii) (field of `P_+`: transport of `P-R` and of the brackets `{R(t),F}` with holomorphy of
+`w ↦ Dφ^t(w)⁻¹X_G(φ^t w)` into the `p_+` target) and (iii) (weak conjugacy), the concrete application of
+`stepPullback_*` and `stepCommutator_arith` (Cauchy bounds on balls `D(s-3σ,4ηr)`), and the statement and proof of
+`bpW:w5:step` (i)-(v). No blueprint defect and no default-heartbeat failure was found, so neither stop condition
+(a) nor (b) of the owner's instruction holds; the work stopped for lack of capacity in this session, not on a blocker.
+Lint: `w_lint.sh` run after the first three modules of this session (exit 0, only line-length notices for lines
+> 100 chars in TaylorFun*.lean, StepFlowConcrete.lean, StepFieldBound.lean, StepCLM.lean, to be wrapped); `KAM.lean`
+is regenerated at landing.
