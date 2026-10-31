@@ -16,8 +16,8 @@ states at the cut points, each segment is its own kernel computation (`segOk`), 
 Boolean comparison (`ballsBeq`, sound by `eq_of_ballsBeq`); `balls_eq_of_segs` assembles a whole
 pass `Slp.balls … = some bs` from a list of decided segments.
 
-The disc pass of the `N = 65` lock (3158 operations at `slpBallPrec = 320` bits) is about 8 GB as one
-kernel computation (SO-LOCK-COST §12); three segments keep each theorem well under that.
+The disc pass of the `N = 65` lock (3158 operations at `slpBallPrec = 320` bits) is about 8 GB as
+one kernel computation (SO-LOCK-COST §12); three segments keep each theorem well under that.
 -/
 
 @[expose] public section

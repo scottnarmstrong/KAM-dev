@@ -11,10 +11,11 @@ public import KAM.Certificate.Arith.Rat
 /-!
 # Probe of the lock's memo routes on toy data (LOCK-DATA, B1)
 
-The `inv` and `sqrt` arms of `composeStep` on the exact rational toy of `Tests/Sqrt` (`n = 1`), proved
-through `composeStep_inv_eq` / `invWitnessRadius_eq_of_delta` (with the product rewritten by
-`CertModel.mul_eq_of_polyProduct`) and `composeStep_sqrt_eq` / `sqrtWitnessRadius_eq_of_residual`,
-the Boolean checks kernel computations (the toy's lookups and product by `rfl`: `CC ℚ` has no `DecidableEq`).
+The `inv` and `sqrt` arms of `composeStep` on the exact rational toy of `Tests/Sqrt` (`n = 1`),
+proved through `composeStep_inv_eq` / `invWitnessRadius_eq_of_delta` (with the product rewritten
+by `CertModel.mul_eq_of_polyProduct`) and `composeStep_sqrt_eq` /
+`sqrtWitnessRadius_eq_of_residual`, the Boolean checks kernel computations (the toy's lookups and
+product by `rfl`: `CC ℚ` has no `DecidableEq`).
 -/
 
 @[expose] public section
