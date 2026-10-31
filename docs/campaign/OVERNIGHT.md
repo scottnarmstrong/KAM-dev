@@ -2105,3 +2105,16 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - Next: the codex-1 audit (the final theorems, the new lemmas, the assembly chain, a replayed sample of data
     modules), then the landing via the HC build overlay (pre-check passed), then the D40 freeze text to the
     owner in the morning.
+- **05:41. SO-DATA3 in its codex-1 audit** (inp-maud-sodata3; branch head 7ee5f3c3).
+  - CsegGraph.lean width fixed (cf758ff2; comment only; dependents up to date).
+  - Audit scope:
+    - the final theorems' fidelity and the literals by rules B/W;
+    - the new lemmas (`levelNCseg_flatten`, the reflections, the rfl expansions);
+    - that the assembly uses only landed bridges;
+    - axioms;
+    - replay of the final and support modules plus a ≥ 12-module sample across every data family, each alone
+      under the probe lock and the cap (a full replay of all 1,100 heavy theorems is out of scope);
+    - the width allowlist.
+  - Lock: the CHECK pass on the emitted books passes everything (7 sub-checks, hamClaim, frames, refinedCore,
+    checkSoGraph; band inside the _check window; peak 6.30 GB). Lean emission, ledger measurement and kernel are
+    next.
