@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-31 00:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 94.9 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **365,931 lines of Lean** of an estimated ≈ 373,000
+> **Last updated: 2026-10-31 01:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 94.9 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **365,931 lines of Lean** of an estimated ≈ 373,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -265,9 +265,9 @@ Overall, everything together: 78.1 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **365,931** (284,125 excluding blank lines and comments) · **+93,175** since 2026-10-30 00:40 UTC |
+| On `main` now | **365,931** (284,125 excluding blank lines and comments) · **+91,443** since 2026-10-30 01:00 UTC |
 | Written on agent branches, not yet landed | 5,638 |
-| Generated certificate data on agent branches (numeric literals, not counted above or below) | 612,667 |
+| Generated certificate data on agent branches (numeric literals, not counted above or below) | 618,353 |
 | **Estimated total at completion** | **≈ 373,000** |
 | Estimated still to write | ≈ 2,000 |
 
@@ -275,7 +275,7 @@ Overall, everything together: 78.1 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-31 00:40 UTC from `main` at `e67b85a4` by `scripts/hq-status.py`.*
+*Generated 2026-10-31 01:00 UTC from `main` at `af1d5ef7` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -460,7 +460,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **lockdata** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: LOCK-DATA: emitter witnesses of the truncated embedding (--wtrunc) and weighted truncation | `inp-lockdata` | 119 (vs `inp`) |
-| **sodata3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA3: graph check's SOS sides by 32-row chunks (CsegGraph: levelNCseg_flatten and frie | `inp-sodata3` | 17 (vs `inp`) |
+| **sodata3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-CSEG-GEN: entry theorems decide segBeq on a named right side (a large inline term in de | `inp-sodata3` | 18 (vs `inp`) |
 | **wgraph** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Track W graph: delta review 7 (codex-1), reports only (track W paused) | `inp-wgraph` | 24 (vs `inp`) |
 | **wph** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: W1-CUBIC: audit 2 report (track W paused) | `inp-wph` | 13 (vs `inp`) |
 | **wpj** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: W4-HOMOLOGICAL WIP: solve (i)(ii)(iv), linear images, wave frequencies, divisors (all file | `inp-wpj` | 2 (vs `inp`) |
@@ -473,6 +473,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-31 00:49 | `af1d5ef7` | Log: heartbeat (DATA3 one-third through kernel build; landing plan for data build output) |
 | 2026-10-31 00:20 | `e67b85a4` | Merge remote-tracking branch 'origin/main' |
 | 2026-10-31 00:19 | `2bb8f09e` | Land sharp-v2: hybrid producer and mirror aligned with the Lean checker (SHARP2-C8DFIX; fixes AUDIT-C8C-1 F1, F2 and a Cauchy-bound finding; R1-L8 hybrid margin +0.471) |
 | 2026-10-31 00:00 | `b5b7c4ac` | Merge remote-tracking branch 'origin/main' |
@@ -484,7 +485,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 22:48 | `b41ab651` | Log: overnight mode (SO band, SO lock, then W) |
 | 2026-10-30 22:46 | `54383231` | Log: owner order (both SO tracks, then W); W paused state |
 | 2026-10-30 22:33 | `29260b2a` | Log: owner pauses track W to land SO |
-| 2026-10-30 22:31 | `8c258a39` | Log: owner directive (finish SO and W); second kernel lane; W to 4 provers |
 <!-- /AUTO:landed -->
 
 ## Decisions
