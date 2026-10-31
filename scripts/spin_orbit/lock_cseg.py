@@ -1034,11 +1034,19 @@ class LockEmitter(CE.Emitter):
         # the ledger parts chain-import, so the last part brings the whole ledger (the plan file stays under the cap)
         self.ledger_mods = {k: v[-1:] for k, v in self.ledger_mods.items()}
         self.emit_plans()
+        self.stage_mod = self.tree.mod("StageMats")
         self.ops_map = self.operands()
         self.emit_products(self.ops_map)
         if self.slots is None or self.led["char"]["cfgFull"]["slot"] in self.slots:
             self.emit_char()
         self.emit_segments()
+        if self.slots is None and os.environ.get("LOCK_STAGES", "1") != "0":
+            # the landed stages and checks (Gram, torsion, invariance, energy, frames)
+            self.emit_stage_data()
+            self.emit_chain()
+            self.emit_gram()
+            self.emit_torsion()
+            self.emit_checks()
 
 
 def main(argv):
