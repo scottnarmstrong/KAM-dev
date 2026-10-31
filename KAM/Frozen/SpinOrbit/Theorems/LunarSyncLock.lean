@@ -15,10 +15,11 @@ import KAM.Provider.SpinOrbit.LunarSyncLock
 /-!
 # Frozen theorem `KAM.SpinOrbit.lunar_sync_lock`
 
-Owner-approved on 2026-10-31 (decision D48; docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md §1, with
-the recommended answers of §2). This file is frozen: it is hashed in `manifest/frozen-anchors.json`;
-any change needs an owner-approved versioned successor. Only the proof body between the markers may
-change, and only to `by exact KAM.Provider.SpinOrbit.lunar_sync_lock q₀ p₀ φ₀ h₀` when the provider
+Owner-approved on 2026-10-31 (decision D49, route D45; docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md
+§1, with the recommended answers of §2). This file is frozen: it is hashed in
+`manifest/frozen-anchors.json`; any change needs an owner-approved versioned successor. Only the
+proof body between the markers may change, and only to `by exact
+KAM.Provider.SpinOrbit.lunar_sync_lock q₀ p₀ φ₀ h₀` when the provider
 `KAM.Provider.SpinOrbit.LunarSyncLock` is complete (sealing).
 -/
 

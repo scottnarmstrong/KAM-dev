@@ -10,8 +10,8 @@ public import KAM.Frozen.SpinOrbit.Defs.IsSyncOrbit
 /-!
 # Frozen definition `KAM.SpinOrbit.lunarSyncOrbit`
 
-Owner-approved on 2026-10-31 (decision D48; docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md §1,
-with the recommended answers of §2). This file is frozen: it is hashed in
+Owner-approved on 2026-10-31 (decision D49, route D45; docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md
+§1, with the recommended answers of §2). This file is frozen: it is hashed in
 `manifest/frozen-anchors.json`; any change needs an owner-approved versioned successor.
 -/
 
