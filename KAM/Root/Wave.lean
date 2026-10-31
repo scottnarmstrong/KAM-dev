@@ -93,6 +93,7 @@ public import KAM.Wave.Homological.WaveReindex
 public import KAM.Wave.KamStep.Class
 public import KAM.Wave.KamStep.Data
 public import KAM.Wave.KamStep.Divisors
+public import KAM.Wave.KamStep.Flow
 public import KAM.Wave.KamStep.LatticeBN
 public import KAM.Wave.KamStep.Omega
 public import KAM.Wave.KamStep.Phase
