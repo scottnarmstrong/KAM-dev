@@ -15,7 +15,8 @@ from fractions import Fraction as F
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 sys.set_int_max_str_digits(0)
-import sofx_lean as SL       # noqa: E402
+import sofx_lean as SL
+import lock_zadv as LZ       # noqa: E402
 import lock_seg as LSG       # noqa: E402
 import lock_gen as LG        # noqa: E402
 import lock_bites as LB      # noqa: E402
@@ -123,7 +124,8 @@ def main(gdir, root):
     sos = {nm: (wpoly(gr[nm], nm) if gr[nm] else "[]") for nm in ("sosMono", "sosLo", "sosHi")}
     import sofx_gen as G
     for nm, bk in (("advFull", "cfgFull"), ("advLow", "cfgLow")):
-        imps.append(SL.emit_advice(tree, nm, [(k, G.adv_json(a)) for k, a in g["books"][bk]]))
+        emit = SL.emit_advice if os.environ.get("LOCK_ZADV", "1") == "0" else LZ.emit_advice_z
+        imps.append(emit(tree, nm, [(k, G.adv_json(a)) for k, a in g["books"][bk]]))
     body = []
 
     def rp(nm):
