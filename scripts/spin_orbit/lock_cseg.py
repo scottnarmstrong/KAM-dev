@@ -82,6 +82,7 @@ _GRP = re.compile(r"^( *)checkPackedSp_of_groups (\S+) (.*?)\s+\[(\S+)\.shardRan
                   r"\[List\.mem_singleton\.1 hg\]; exact (\S+)\)", re.M | re.S)
 DECSPLIT = "KAM.SpinOrbit.Data.LockN65.DecSplit"
 REMSPLIT = "KAM.SpinOrbit.Data.LockN65.RemSplit"
+PAIRCODE = "KAM.SpinOrbit.Data.LockN65.PairCode"
 REM_CHUNK = 2000         # slots per remainder-bound range (maxSlotDeg over 12 260 slots: 6.17 GB, measured)
 
 
@@ -147,6 +148,11 @@ def _write_sharded(self, rel, imports, title, doc, body, heavy=False, ns=None):
     m = _SH.match(joined)
     if m and rel.endswith("Sh") and body[-1].strip() == "decide +kernel":
         nm, adv, rest = m.groups()
+        ops = _ops_module(self, rel, nm, adv, rest, imports, ns)
+        if ops is not None:
+            ea_t, eb_t, nea, neb, omod = ops
+            rest = "(checkShardAt %s %s %s)" % (adv, nea, neb)
+            imports = list(imports) + [omod]
         mods = []
         for gi, g in enumerate(_groups(NSHARDS[adv])):
             st = "[%s].all %s = true := by" % (", ".join(map(str, g)), rest)
@@ -176,6 +182,19 @@ def _write_sharded(self, rel, imports, title, doc, body, heavy=False, ns=None):
         pre.extend(["theorem %s_cover :" % nm] + wrap(("∀ s ∈ %s.shardRange, ∃ g ∈ %s, s ∈ g := by" % (adv, G)
                                                         ).split(" "), "    ") + ["  decide +kernel", ""])
         ea, eb = _split2(eaeb)
+        if adv in OPSNAMES:
+            _, _, nea, neb, _ = OPSNAMES[adv]
+            pre.extend(["theorem %s_groups :" % nm] + wrap(("∀ g ∈ %s, g.all (checkShardAt %s %s %s) = true :="
+                                                             % (G, adv, nea, neb)).split(" "), "    ")
+                       + wrap(hg.split(" "), "  ") + [""])
+            # the prefix and the goal rewritten from the operand terms to their literals (computed once, in the
+            # operand module), then the grouped check against the literals
+            eqs = ", ".join(["%s_eq" % nea] + ([] if neb == nea else ["%s_eq" % neb]))
+            ls = ["by"] + ["  have h :"] + wrap(("checkPackedSpPrefix %s %s %s = true := %s" % (adv, ea, eb, hpre)
+                                                 ).split(" "), "      ")
+            ls += ["  rw [%s] at h ⊢" % eqs]
+            ls += _hang("exact checkPackedSp_of_groups %s %s %s %s h %s_cover %s_groups" % (adv, nea, neb, G, nm, nm))
+            return "\n".join(ind + l for l in ls)
         pre.extend(["theorem %s_groups :" % nm] + wrap(("∀ g ∈ %s, g.all (checkShardAt %s %s %s) = true :="
                                                          % (G, adv, ea, eb)).split(" "), "    ")
                    + wrap(hg.split(" "), "  ") + [""])
@@ -193,6 +212,54 @@ def _write_sharded(self, rel, imports, title, doc, body, heavy=False, ns=None):
     else:
         out = body
     return _tree_write(self, rel, imports, title, doc, out, heavy=heavy, ns=ns)
+
+
+OPSNAMES = {}             # advice name -> (ea text, eb text, ea name, eb name, operand module)
+EAEB = {}                 # (chain, full key) -> {part: (ea, eb)}  (lock_eaeb.py)
+ADVKEY = {}               # advice name -> (chain, full key, part)
+
+
+def _load_eaeb(path):
+    if not os.path.exists(path):
+        return
+    with open(path, "rb") as f:
+        while True:
+            try:
+                k, rec = pickle.load(f)
+            except EOFError:
+                return
+            EAEB[(k[0], tuple(k[1]))] = rec
+
+
+def _pairs_def(name, xs):
+    flat = [int(v) for s_, v_ in xs for v in (s_, v_)]
+    cs = LZ.chunks(flat)
+    out = ["def %s : List (ℕ × ℤ) := pairsOf (zdecs [" % name]
+    for i, (n, b) in enumerate(cs):
+        out.append("  (%d, 0x%x)" % (n, int.from_bytes(b, "little")) + ("," if i + 1 < len(cs) else "])"))
+    return out + [""]
+
+
+def _ops_module(self, rel, nm, adv, rest, imports, ns):
+    """the operand slot terms `ea`, `eb` of one product part as literals, each proved equal to its expression
+    (one kernel run each, computed once); None when the data are missing"""
+    key = ADVKEY.get(adv)
+    rec = EAEB.get(key[:2]) if key else None
+    if not rec or key[2] not in rec:
+        return None
+    ea_l, eb_l = rec[key[2]]
+    inner = rest[len("(checkShardAt %s " % adv):-1]
+    ea_t, eb_t = _split2(inner)
+    nea = "%sEA" % nm
+    neb = nea if (eb_t == ea_t.replace(".la.", ".lb.") and False) else "%sEB" % nm
+    body = _pairs_def(nea, ea_l) + _pairs_def(neb, eb_l)
+    for n_, t_ in ((nea, ea_t), (neb, eb_t)):
+        body += ["theorem %s_eq :" % n_] + wrap(("%s = %s := by" % (t_, n_)).split(" "), "    ") + \
+            ["  decide +kernel", ""]
+    omod = _tree_write(self, rel + "Ops", list(imports) + [PAIRCODE], "Operand slot terms of %s" % adv,
+                       "Computed once (`decide`); the shard checks use the literals.", body, heavy=True, ns=ns)
+    OPSNAMES[adv] = (ea_t, eb_t, nea, neb, omod)
+    return OPSNAMES[adv]
 
 
 def _orig_stmt(body, nm, ops, rems=()):
@@ -299,6 +366,7 @@ class LockEmitter(CE.Emitter):
                         NSHARDS["%s.p%d.%s" % (bn, i, part)] = len(pa["rounded"])
                     for part, po in zip(("rr", "ii", "ri", "ir"), g["books"][bk][i][1][2:]):
                         ADVOBJ["%s.p%d.%s" % (bn, i, part)] = po
+                        ADVKEY["%s.p%d.%s" % (bn, i, part)] = (bk, tuple(g["books"][bk][i][0]), part)
         self.cert = None
         self.tree = CE.Tree(root, self.T)
         self.base = ["KAM.SpinOrbit.Data.LockN65.Cert", "KAM.SpinOrbit.Data.LockN65.SegSupport",
@@ -863,6 +931,7 @@ def main(argv):
     plan = json.load(open(plan_path))
     led = pickle.load(open(led_path, "rb"))
     fall = pickle.load(open(fall_path, "rb"))
+    _load_eaeb(os.path.join(os.path.dirname(fall_path), "eaeb.pkls"))
     E = LockEmitter(gdir, plan, led, fall, root, slots)
     c, _d = LSG.lock_cert(gdir)
     E.set_char_wit(c.wit.charWit)
