@@ -287,7 +287,7 @@ remain quarantined in the demonstration repository under the same rules.
 
 ### 3.1 Multiprecision producer
 
-Follow [LG00-PREP](/home/scott/KAM-dev-worktrees/lg00-prep/docs/explorations/lg00-prep.md)
+Follow LG00-PREP (`docs/explorations/lg00-prep.md` on the unpublished branch `lg00-prep`)
 for mixed-precision iteration, exact reversibility, witness generation and the
 receipt ledger. Do not inherit its Taylor model, thresholds, or incomplete
 `L=36` mirror status.
