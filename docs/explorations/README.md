@@ -7,9 +7,9 @@ statement is sealed (see the [repository README](../../README.md) and [`docs/STA
 exploration led to a proved theorem or a running campaign, the catalogue says so and names the decision in
 [`docs/DECISIONS.md`](../DECISIONS.md).
 
-This page and the pages under [`themes/`](themes/) are an index written on 31 October 2026. The 20 documents themselves
-are not edited here. Numbers are quoted from the documents together with their own qualifications (sampled, projected,
-estimated, measured).
+This page and the pages under [`themes/`](themes/) are an index written on 31 October 2026. The original 20 documents
+themselves are not edited here. Later review comments are dated and linked separately. Numbers are quoted from the
+documents together with their own qualifications (sampled, projected, estimated, measured).
 
 **Status legend**
 
@@ -45,6 +45,11 @@ MP, multiprecision; CPU-h, kernel CPU-hours; Dn, decision n in [`docs/DECISIONS.
 6. [**next-demonstrations.md**](next-demonstrations.md): the two proposed next applications of the certifier (a magnetic
    field-line barrier and Mercury's 3:2 spin), with reasons for the candidates not selected; read
    [plan-mercury-32.md](plan-mercury-32.md) next.
+7. [**Plasma physics routes: 31 October review**](themes/applications-and-demonstrations.md#plasma-physics-routes-review-31-october-2026):
+   controlled field-line barriers, device-derived fields and particle dynamics require different application contracts.
+   See also the [confirmed v2 fixes](../campaign/design/CERTIFIER-V2-FIXES.md) and
+   [v2 improvements](../campaign/design/CERTIFIER-V2-IMPROVEMENTS.md). The review identifies no fundamental defect
+   in SO-2/SO-3; the fixes document distinguishes their campaign-reported progress from this review's own checks.
 
 ## The catalogue
 
@@ -104,7 +109,9 @@ Overview, in date order within each theme:
   [SO-LOCK-SCOPE](../tracks/SO/studies/SO-LOCK-SCOPE.md) (D42, D45).
 - **Next demonstrations, including a non-celestial one.** [striking-applications](striking-applications.md) →
   [next-demonstrations](next-demonstrations.md) → [plan-magnetic-barrier](plan-magnetic-barrier.md) (a controlled
-  magnetic field-line model) and [plan-mercury-32](plan-mercury-32.md).
+  magnetic field-line model) and [plan-mercury-32](plan-mercury-32.md). Continue with the
+  [plasma-route assessment](themes/applications-and-demonstrations.md#plasma-physics-routes-review-31-october-2026)
+  for the distinction between field-line barriers, device fields and particle confinement.
 - **"Almost every" initial condition.** [almost-every-shorter-times](almost-every-shorter-times.md) (most data, polynomial
   times) → [almost-every-round2](almost-every-round2.md) (all data, exponential times) →
   [almost-every-round3-refutation](almost-every-round3-refutation.md). The theme returns in
@@ -197,11 +204,15 @@ Each correction is also stated in both catalogue entries.
 | Hybrid plus packed: 6–19 CPU-h; charts do not reduce support; d'Alembert ÷7; 60–150 products | [sjs-feasibility](sjs-feasibility.md) | [sjs-plan](sjs-plan.md) §8: hybrid gives no kernel gain; chart ÷2.7; ÷3.7 and falling; 252–657 products |
 | Route A "proved, not wired"; no `sqrt` node | [sjs-lg00-scout](sjs-lg00-scout.md) | Both now in place; the LG00 campaign runs route A refined at L = 20 with the exact square root |
 | Magnetic barrier ranked first among the next demonstrations | [next-demonstrations](next-demonstrations.md) | [plan-magnetic-barrier](plan-magnetic-barrier.md): multiprecision gate failed so far; Mercury has the stronger evidence |
-| "Hybrid is a design" | [ambition](ambition.md) | Programs [A](program-a-plan.md)–[D](program-d-plan.md): the hybrid theorems have landed; no certificate wiring yet |
+| "Hybrid is a design"; later, "no certificate wiring yet" | [ambition](ambition.md); programs [A](program-a-plan.md)–[D](program-d-plan.md) | [31 October review](../campaign/design/CERTIFIER-V2-IMPROVEMENTS.md): the hybrid theorem and `routeV2Hyb` checker wiring are present; application gains still need measurement |
 | Certifier not yet better than PlasmaLean on its own example | [striking-applications](striking-applications.md) | [Repository README](../../README.md): a v2 example reaches 65 times PlasmaLean's tolerance, at assumed canonical data |
 
 ## Related documents elsewhere in the repository
 
+- [`CERTIFIER-V2-FIXES.md`](../campaign/design/CERTIFIER-V2-FIXES.md): four confirmed review findings, reproduction
+  evidence, repair criteria and the explicit SO-2/SO-3 clarification. Proposed fixes, not applied changes.
+- [`CERTIFIER-V2-IMPROVEMENTS.md`](../campaign/design/CERTIFIER-V2-IMPROVEMENTS.md): sharper structured bounds,
+  producer route selection, higher-dimensional frequency checks, bounded replay costs and physical-model interfaces.
 - [`docs/DECISIONS.md`](../DECISIONS.md): owner rulings cited here (D14 tracks, D22 and D25 planetary milestones, D30 tracks
   SO and W, D37–D38 lunar band, D41 W freeze, D42 and D45 Moon lock).
 - [`docs/STATEMENTS.md`](../STATEMENTS.md): every frozen statement and its proof status.
