@@ -475,8 +475,10 @@ class LockEmitter(CE.Emitter):
             body[-1] += " := by"
             body += wrap(("rw [invWitnessRadius_eq_of_delta 2 %s %s %s %s (δ := %s) (t := %s)"
                           % (W, cw, b, Q, fixed(v["delta"]), fixed(v["t"]))).split(" "), "  ")
-            body += wrap(("(by rw [mul_eq_of_polyProduct_cseg %s %s [2] ⟨0, %s, ofInt 0⟩ ⟨0, %s.poly, %s.rad⟩ %s];"
-                          " decide +kernel)" % (W, cw, Q, b, b, self.memo_name(mk))).split(" "), "    ")
+            rw = wrap(("rw [mul_eq_of_polyProduct_cseg %s %s [2] ⟨0, %s, ofInt 0⟩ ⟨0, %s.poly, %s.rad⟩ %s]"
+                       % (W, cw, Q, b, b, self.memo_name(mk))).split(" "), "          ")
+            rw[0] = "      " + rw[0].lstrip()
+            body += ["    (by"] + rw + ["      decide +kernel)"]
             body += ["    (by decide +kernel) (by decide +kernel)]", "  decide +kernel", ""]
         else:
             cw, g, S = self.cfgw(chain, 3, v["slot"]), self.g_exp(chain, v["a"]), self.sqrt_wit(v["slot"])
@@ -486,8 +488,16 @@ class LockEmitter(CE.Emitter):
             body[-1] += " := by"
             body += wrap(("rw [sqrtWitnessRadius_eq_of_residual 2 %s %s %s %s (e := %s) (by decide +kernel)"
                           % (W, cw, g, S, fixed(v["e"]))).split(" "), "  ")
-            body += wrap(("(by unfold sqrtResidual; rw [mul_eq_of_polyProduct_cseg %s %s [3] %s.model %s.model %s];"
-                          " decide +kernel)]" % (W, cw, S, S, self.memo_name(mk))).split(" "), "    ")
+            # the witness lookup with a typed binder (an untyped `fun e => e.1 == 17` is elaborated with a
+            # metavariable there, and `.model.poly` then fails to match the product's `.poly`), and the models
+            # unfolded to the anonymous constructor the product statement's operand is the `.poly` of
+            St = S.replace("fun e =>", "fun (e : ℕ × SqrtWitness %s) =>" % CE.TY)
+            # one tactic per line (a wrapped `…; decide` can put a tactic left of the block's column)
+            body += ["    (by", "      unfold sqrtResidual SqrtWitness.model"]
+            rw = wrap(("rw [mul_eq_of_polyProduct_cseg %s %s [3] ⟨0, %s.poly, ofInt 0⟩ ⟨0, %s.poly, ofInt 0⟩ %s]"
+                       % (W, cw, St, St, self.memo_name(mk))).split(" "), "          ")
+            rw[0] = "      " + rw[0].lstrip()
+            body += rw + ["      decide +kernel)]"]
             body += ["  decide +kernel", ""]
         return self.tree.write("Rad/%s%s%d" % (op[0].capitalize(), sub, i), self.base + imps,
                                "The %s witness radius at slot %d (%s)" % (op[0], i, chain),
