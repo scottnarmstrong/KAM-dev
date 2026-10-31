@@ -292,7 +292,7 @@ Overall, everything together: 81.0 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-31 15:42 UTC from `main` at `f6ca8f68` by `scripts/hq-status.py`.*
+*Generated 2026-10-31 15:42 UTC from `main` at `7aacfdd5` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) is paused by the owner since 2026-10-31 until both SO tracks are done.
 
@@ -492,9 +492,9 @@ account read from each agent's running process) and their branches. Rules for ag
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | 🔄 working | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
-| **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
+| **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | 🔄 working | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (final review rounds), proof campaign; PAUSED by the owner on 2026-10-31 until both SO tracks are done | — | — |
-| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | 🔄 working | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
+| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: Merge inp (LOCK-FREEZE Phase A, 8d03a917) into inp-lockdata | `inp-lockdata` | 31 (vs `inp`) |
 | **wgraph** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: Track W graph: delta review 7 (codex-1), reports only (track W paused) | `inp-wgraph` | 24 (vs `inp`) |
 | **wph** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: W1-CUBIC: audit 2 report (track W paused) | `inp-wph` | 13 (vs `inp`) |
@@ -506,6 +506,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-31 15:42 | `7aacfdd5` | HQ: repository layout shows the opt-in application roots (D51 landed, f6ca8f68) |
 | 2026-10-31 15:36 | `f6ca8f68` | Land inp into main |
 | 2026-10-31 15:23 | `e0f2376e` | Land inp into main |
 | 2026-10-31 14:47 | `e7d41e71` | D52: the lock data land at about 158 MB (owner) |
@@ -517,7 +518,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-10-31 14:05 | `5f3604a2` | HQ: track W glance says the graph is not on main yet (as the tracks table) |
 | 2026-10-31 14:03 | `f1340c2e` | HQ: README made current (generated data counted apart, Moon band proved, live agents, D30-D51) |
 | 2026-10-31 13:53 | `2fc39e81` | D51: certificate applications are opt-in builds (owner) |
-| 2026-10-31 13:41 | `09e5d963` | HQ: SO-2 meter reads the landed final theorems; freeze item derived from the frozen file and the seal audit; D50 (owner approves sealing SO-2) |
 <!-- /AUTO:landed -->
 
 ## Decisions
