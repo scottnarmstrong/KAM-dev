@@ -2063,3 +2063,8 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     order under the same lock and cap, or batching), with a final `lake build` that must find everything up to date.
   - Lock: LOCK-DATA generation at the final literals; checkInvariance passes (err 1.08e-21); energy, Gram, torsion
     and frames running.
+- **02:57. Memory event: earlyoom killed LOCK-DATA's python3 sos2.py at 15.5 GB RSS** (02:56 UTC; low cutoff 250,
+  D100×20). Claude Code also reaped this session's DATA3 waiter (not restarted, per its notice).
+  - The band's capped kernel lanes were unaffected. Available memory recovered to 17.6 GB.
+  - LOCK-DATA must now run Python mirrors under `systemd-run --user --scope -p MemoryMax=8G`, chunk the
+    SOS/Gram/torsion pass, and use the smallest torsion cutoff that passes exactly.
