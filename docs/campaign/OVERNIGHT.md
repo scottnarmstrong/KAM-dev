@@ -2453,3 +2453,10 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - kam-inp-63 is landing W3-SETTING with W3-DIVISOR-F.
   - W graph global review round 2 is running on codex-1. W5-STEP and W3-FLOW provers are active.
   - Memory: 15 GB available. Root disk: 11 GB free. Quotas: claude-11 80 %, claude-12 48 %, claude-3 40 %.
+- **SO-LOCK full-chain cost (for owner review, 2026-10-31 23:xx UTC):** with every template kernel-checked under the
+  6 GiB cap, LOCK-DATA projects the full segmented chain at ~50k modules, ~330 h serial (~7 days on two 6G lanes),
+  ~340 GB build output (HC has 87 GB free) and ~1.9 GB source (D52 approved ~158 MB). Driver: ~600 heavy products
+  each split into ~70 modules that re-elaborate shared inputs. Held, not started. Costed options requested in
+  LOCK-DATA's .drafts/LOCK-OPTIONS.md: 8 vs 10 GB heavy budget, shared-literal restructuring, a smaller
+  certificate (support/cut coarsening within the 1.74-decade margin; any N or amplitude change is logged with
+  numbers but not switched without the owner), and combinations. Headline statement and literals unchanged.
