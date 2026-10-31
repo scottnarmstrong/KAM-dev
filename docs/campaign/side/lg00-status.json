@@ -1,7 +1,7 @@
 {
  "title": "LG00: a kernel-checked KAM torus of Locatelli–Giorgilli's secular Sun–Jupiter–Saturn model",
  "note": "Side campaign (lemma.farm). The certificate data and kernel shards live on branch lg00-cert and are never part of KAM-dev's default build (separate repository pending, owner decision). The orchestrator updates this file when a stage completes; weights are the stages' relative effort.",
- "reviewed": "2026-10-31 03:05 UTC",
+ "reviewed": "2026-10-31 04:45 UTC",
  "stages": [
   {"name": "scout: model, torus, thresholds, cost", "weight": 1, "done": 1.0,
    "evidence": "docs/explorations/sjs-lg00-scout.md"},
@@ -11,7 +11,8 @@
    "evidence": "branches lg00-prep and lg00-cert: generator with the exact sqrt Hamiltonian and Hermitian-averaged torus; all seven landed sub-checks pass in the exact dry runs at L = 20 (err 8.1e-18) and L = 21 (err 1.1e-18)"},
   {"name": "pilot: kernel cost measured on representative shards", "weight": 1, "done": 1.0,
    "evidence": "branch lg00-cert f12f3db4, docs/campaign/handoffs/LG00-CERT.md: every check kind kernel-checked on L = 8 data (jet bridge, Hamiltonian bounds, static, embedding, plan, regular, product, witness, sqrt and inv segments, energy, an invariance row), each under 6.1 GB; budget gate passed (route A refined at L = 20, about 26 CPU-h projected, range 13-40)"},
-  {"name": "kernel certificate of the torus T′ and the closed theorem", "weight": 4, "done": 0.0, "evidence": "LG00-CERT-T1 running on branch lg00-cert"},
+  {"name": "kernel certificate of the torus T′ and the closed theorem", "weight": 4, "done": 0.15,
+   "evidence": "exact final theorem written and independently audited (AUDIT-LG00-STMT-1, all 69 coefficients, chart, clock, frequency; T′ window in eq. (51) via disp = 1e-10); Hamiltonian identity, positivity and the physical-ODE corollary proved on branch lg00-phys (standard axioms); L = 20 data generated; kernel shard run next"},
   {"name": "second torus T″ (confinement between two tori)", "weight": 2, "done": 0.0, "evidence": ""},
   {"name": "independent audit and separate repository", "weight": 1, "done": 0.0, "evidence": ""}
  ]
