@@ -2207,3 +2207,20 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - Lock: the B3 levers are implemented. The CHECK on regenerated data passes every sub-check (inv 1.08e-21, energy
     5.9e-23, Gram margin 7.3e-4, torsion margin 2.66e-4); the graph verdict is re-running. The owner's ruling on
     about 158 MB is pending.
+- **14:22. SO-2 COMPLETE; owner rulings D47–D51 recorded; the lock is next.**
+  - **Owner (awake 11:00–14:15):** D47 accepts the 2.755 % band (rule B tightness waived); D48 lands the lock data as
+    is; D49 freezes the band and lock numbers; D50 approves sealing SO-2; D51 makes certificate applications opt-in
+    builds. Track W's size plan is now graph-scaled, 60,000–90,000 lines (45a76023).
+  - **SO-FREEZE3 landed (main ceeb106c):** `lunar_barriers`, `lunar_spin_confinement`, `lunarPLo_lt_lunarPHi`
+    frozen and sealed; seal audit PASS WITH NOTES (codex-1); standard axioms. Q11 done (landed code uses the frozen
+    D40 definitions). The data modules were reused from the HC build overlay with no recompilation.
+  - **Lock (SO-3):** the Q11 kernel redo passes; segments re-emitted (782 modules, 43 MB); kernel probes of the
+    sqrt/inv/exp segments running, then the segmented checks and AssemblyN65. LOCK-FREEZE Phase A done (3f8679c7);
+    the landed helpers lunarSyncOrbit_{spec,unique,bound} are being renamed for the short-name rule before the
+    identity audit.
+  - **BUILD-OPTIN (D51)** started (tmux inp-mprov-buildoptin, claude-3): opt-in libs KAMLunarBand and KAMLunarLock;
+    it is measuring whether one root over all data oleans fits the 10 GB cap.
+  - **Audit quota:** codex-3 is at 0 % (resets 5 Nov); codex-1 at 19 % (resets 6 Nov) carries the remaining audits:
+    LOCK-FREEZE identity, BUILD-OPTIN, LOCK-DATA, LOCK-FREEZE seal. **FOR OWNER:** if codex-1 runs out, name another
+    audit account; no Claude fallback.
+  - **Still FOR OWNER:** land the lock data at about 158 MB (D48 covered 131 MB as is).
