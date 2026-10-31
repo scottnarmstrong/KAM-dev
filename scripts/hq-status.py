@@ -91,7 +91,26 @@ for it in progress['items']:
         f = 1.0 if track_sealed(it['auto']['graph']) else graph_resolved(it['auto']['graph'], it['auto']['parts'])
         if f is not None:
             it['done'] = f
-NOW =datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
+
+
+def ledger_note():
+    """Counts of the errata ledger by type and status (2026-10-31: the hand-kept note still read "8 candidate errata,
+    6 planned deviations")."""
+    out = []
+    for typ, label in (('erratum', 'errata'), ('deviation', 'deviations')):
+        es = [e for e in ledger['entries'] if e['type'] == typ]
+        st = {}
+        for e in es:
+            st[e['status'].lower()] = st.get(e['status'].lower(), 0) + 1
+        out.append(f'{len(es)} {label} (' + ', '.join(f'{v} {k}' for k, v in sorted(st.items())) + ')')
+    return (f'ledger: {" and ".join(out)} over {len({e["source"] for e in ledger["entries"]})} sources; reader-facing '
+            'record docs/ERRATA-AND-DEVIATIONS.md')
+
+
+for it in progress['items']:
+    if it['id'] == 'S.ERRATA':
+        it['note'] = ledger_note()
+NOW = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
 LIB = [root / 'KAM']
 
 
@@ -101,12 +120,38 @@ def git(*args, cwd=root):
 
 
 THM = re.compile(r'^\s*(?:@\[[^\]]*\]\s*)?(?:public\s+|private\s+|protected\s+)*(?:theorem|lemma)\s', re.M)
+# Machine-generated certificate literals (track SO: the Moon's barrier tori, later the lock's torus), emitted by
+# scripts/spin_orbit/. 2026-10-31: counted apart everywhere; the hand-written size, the size estimate and the
+# theorem count exclude them (they had made the headline read 1,000,870 lines and "≈ 0 still to write").
+GENERATED_DATA = 'KAM/SpinOrbit/Data/'
+_FILE_STATS = {}
 
 
-def lean_stats(paths):
+def is_generated(f):
+    return f.relative_to(root).as_posix().startswith(GENERATED_DATA)
+
+
+def file_stats(f):
+    """(lines, code lines, theorems) of one .lean file, cached; code lines exclude blank lines and comments."""
+    s = _FILE_STATS.get(f)
+    if s is None:
+        t = f.read_text(encoding='utf-8', errors='replace')
+        u = re.sub(r'/-.*?-/', lambda m: '\n' * m.group(0).count('\n'), t, flags=re.S)
+        code = sum(1 for l in u.splitlines() if l.strip() and not l.strip().startswith('--'))
+        s = _FILE_STATS[f] = (t.count('\n'), code, len(THM.findall(t)))
+    return s
+
+
+def lean_files(paths, generated=None):
+    """The .lean files under `paths`; generated=False drops the generated certificate data, True keeps only it."""
     files = [p for d in paths if d.exists() for p in d.rglob('*.lean')]
-    text = [f.read_text(encoding='utf-8', errors='replace') for f in files]
-    return len(files), sum(t.count('\n') for t in text), sum(len(THM.findall(t)) for t in text)
+    return files if generated is None else [f for f in files if is_generated(f) == generated]
+
+
+def lean_stats(paths, generated=None):
+    """(modules, lines, theorems) of the .lean files under `paths` (see lean_files for `generated`)."""
+    st = [file_stats(f) for f in lean_files(paths, generated)]
+    return len(st), sum(s[0] for s in st), sum(s[2] for s in st)
 
 
 def statement_rows():
@@ -153,7 +198,8 @@ STATEMENT_TRACKS = [('kam', 'Track K: positive-measure KAM'),
                     ('nekhoroshev', 'Track N: Nekhoroshev stability'),
                     ('planetary', 'Track P: planetary systems'),
                     ('russmann', "Track R: Rüssmann's KAM theorem (weak non-degeneracy)"),
-                    ('wave', 'Track W: PDE KAM (cubic wave equation)')]
+                    ('wave', 'Track W: PDE KAM (cubic wave equation)'),
+                    ('spinorbit', "Track SO: the Moon's spin rate and synchronous lock (certified tori)")]
 
 
 def frozen_doc(path, short):
@@ -259,7 +305,8 @@ def section_graph():
 
 
 def section_glance(rows):
-    n, lines, thms = lean_stats(LIB)
+    n, lines, thms = lean_stats(LIB, generated=False)
+    gn, gl, gt = lean_stats(LIB, generated=True)
     bad_sorry, bad_axiom = code_scan()
     sealed = sum(1 for r in rows if r[4] == 'sealed')
     head = git('rev-parse', '--short', 'HEAD') or '(no commit yet)'
@@ -268,8 +315,12 @@ def section_glance(rows):
     out = [f'*Generated {NOW} from `main` at `{head}` by `scripts/hq-status.py`.*', '',
            f'**Current phase:** {campaign["current_phase"]}', ''] + so_glance() + w_glance() + ['',
            f'**Frozen statements proved: {sealed} / {len(rows)}** · frozen definitions: {ndefs}', '',
-           f'**Lean on `main`:** {n} modules · {lines:,} lines · {thms:,} theorems · '
-           f'`sorry` outside frozen anchors: {len(bad_sorry)} files · `axiom` declarations: {len(bad_axiom)}', '',
+           f'**Lean on `main` (hand-written):** {n:,} modules · {lines:,} lines · {thms:,} theorems · '
+           f'`sorry` outside frozen anchors: {len(bad_sorry)} files · `axiom` declarations: {len(bad_axiom)} '
+           '(both scans cover every module, generated data included)', '',
+           *([f'**Generated certificate data on `main`:** {gl:,} lines in {gn:,} modules (numeric literals; not '
+              f'counted above), with {gt:,} generated kernel-check theorems; under '
+              f'[`{GENERATED_DATA}`]({GENERATED_DATA.rstrip("/")})', ''] if gn else []),
            '```text',
            f'DRAFT_ANCHORS: {len(drafts)}' + (f' ({", ".join(drafts)})' if drafts else ''),
            f'UNREGISTERED_SORRIES: {len(bad_sorry)}' + (f' ({", ".join(bad_sorry)})' if bad_sorry else ''),
@@ -281,10 +332,72 @@ def section_glance(rows):
 
 
 def so_package(suffix):
-    """Track SO package name of a worktree suffix: `soexpr` -> SO-EXPR, `design-so` -> SO-DESIGN."""
+    """Track SO package name of a worktree suffix: `soexpr` -> SO-EXPR, `design-so` -> SO-DESIGN, `lockdata` ->
+    LOCK-DATA."""
     special = {'design-so': 'SO-DESIGN', 'soadv': 'SO-ADVCOUNT', 'sopolya': 'SO-POLY-A', 'sopolyb': 'SO-POLY-B',
                'soexprc': 'SO-EXPR-B2', 'sosounda': 'SO-SOUND-A', 'sosoundb': 'SO-SOUND-B'}
+    if suffix.startswith('lock'):
+        return 'LOCK-' + suffix[4:].upper()
     return special.get(suffix, 'SO-' + suffix[2:].upper())
+
+
+_SESSIONS = []
+
+
+def tmux_sessions():
+    """Names of the tmux sessions (none where tmux is missing); cached."""
+    if not _SESSIONS:
+        try:
+            r = subprocess.run(['tmux', 'ls', '-F', '#S'], capture_output=True, text=True)
+            _SESSIONS.append(r.stdout.split() if r.returncode == 0 else [])
+        except FileNotFoundError:
+            _SESSIONS.append([])
+    return _SESSIONS[0]
+
+
+def session_worktree(session, sfx):
+    """Where an agent session works: the worktree KAM-inp-<sfx> beside the main checkout if it exists, else the
+    pane's working directory (the LOCK-FREEZE worker runs in KAM-inp-lockdesign)."""
+    wt = root.parent / f'KAM-inp-{sfx}'
+    if wt.exists():
+        return wt
+    try:
+        r = subprocess.run(['tmux', 'display', '-p', '-t', session, '#{pane_current_path}'], capture_output=True,
+                           text=True)
+    except FileNotFoundError:
+        return None
+    path = Path(r.stdout.strip()) if r.returncode == 0 and r.stdout.strip() else None
+    return path if path and path.exists() else None
+
+
+def session_package(session, sfx):
+    """Package of an agent session, from the branch of its worktree (2026-10-31: session names outlive their
+    package; inp-mprov-sodata3 runs SO-FREEZE3 on branch inp-sofreeze3)."""
+    wt = session_worktree(session, sfx)
+    b = git('-C', str(wt), 'rev-parse', '--abbrev-ref', 'HEAD') if wt else ''
+    return so_package(b[4:] if b.startswith('inp-') else sfx)
+
+
+MOON_FILE = 'KAM/SpinOrbit/LunarFinalR2V2.lean'
+MOON_THEOREM = 'lunar_spin_confinement_65_v2'
+MOON_FROZEN = 'KAM/Frozen/SpinOrbit/Theorems/LunarSpinConfinement.lean'
+
+
+def so_anchors(lock):
+    """Frozen theorems of track SO part 2 (lock=False) or part 3 (lock=True), by manifest id."""
+    return [a for a in manifest['anchors'] if a['kind'] == 'theorem' and a['id'].startswith(('spinorbit.', 'so.'))
+            and (re.search(r'sync|lock', a['id'], re.I) is not None) == lock]
+
+
+def moon_state():
+    """Track SO part 2 read from the repository: (proved, when it reached main, frozen, sealed)."""
+    f = root / MOON_FILE
+    proved = f.exists() and re.search(rf'^theorem\s+{MOON_THEOREM}\b', f.read_text(), re.M) is not None
+    when = git('log', '--first-parent', 'main', '--diff-filter=A', '--date=format:%Y-%m-%d %H:%M',
+               '--format=%cd UTC, `%h`', '--', MOON_FILE).splitlines()
+    thm = so_anchors(False)
+    return (proved, when[-1] if when else '', (root / MOON_FROZEN).exists(),
+            bool(thm) and all(a['state'] == 'SEALED' for a in thm))
 
 
 def so_glance():
@@ -292,29 +405,37 @@ def so_glance():
     so = campaign.get('so')
     if not so:
         return []
-    n, lines, thms = lean_stats([root / 'KAM' / 'Certificate', root / 'KAM' / 'SpinOrbit'])
-    try:
-        r = subprocess.run(['tmux', 'ls', '-F', '#S'], capture_output=True, text=True)
-        sessions = r.stdout.split() if r.returncode == 0 else []
-    except FileNotFoundError:
-        sessions = []
+    sessions = tmux_sessions()
     flight = {'inp-mprov-': set(), 'inp-maud-': set()}
     for s in sessions:
         for pre in flight:
             sfx = s[len(pre):]
             if s.startswith(pre) and (sfx.startswith('so') or sfx == 'design-so') and pane_state(s) == '🔄 working':
-                flight[pre].add(so_package(sfx))
+                flight[pre].add(session_package(s, sfx))
     nc, lc, tc = lean_stats([root / 'KAM' / 'Certificate'])
-    ns, ls, ts = lean_stats([root / 'KAM' / 'SpinOrbit'])
+    ns, ls, ts = lean_stats([root / 'KAM' / 'SpinOrbit'], generated=False)
+    gn, gl, gt = lean_stats([root / 'KAM' / 'SpinOrbit'], generated=True)
     p1, p2 = (SO_PARTS.get(g, {'landed': [], 'packages': []}) for g in SO_GROUPS)
+    proved, when, frozen, sealed = moon_state()
+    done1 = bool(p1['packages']) and len(p1['landed']) == len(p1['packages'])
+    if not proved:
+        moon = ("- **Part 2, the Moon's spin rate:** two certified barrier tori at N = 65 (D38) prove that the Moon's "
+                'spin rate stays close to its orbital rate for all time; in progress.')
+    else:
+        seal = ('frozen (D49) and sealed (D50)' if sealed else
+                'frozen (D49); the seal (D50) is in progress (SO-FREEZE3)' if frozen else
+                'freeze (D49) and seal (D50) approved by the owner and in progress (SO-FREEZE3: Q11 data rebuild, '
+                'freeze, seal, seal audit)')
+        moon = (f"- **Part 2, the Moon's spin rate: PROVED** (on `main` since {when}): {so['moon_statement']} "
+                f'[`{MOON_THEOREM}`]({MOON_FILE}). Status: ordinary theorem; {seal}.')
     out = [f'**Track SO** (D30, started 2026-10-29; [plan](docs/campaign/design/SPIN-ORBIT-PLAN.md)), in three parts:', '',
-           '- **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians '
-           'given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an '
-           f'exact invariant torus. `KAM/Certificate`: {nc} modules · {lc:,} lines. '
+           f'- **Part 1, a general Lean certificate checker{" (complete)" if done1 else ""}:** a numerical KAM '
+           'candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and '
+           'one soundness theorem turns it into an exact invariant torus. ' + so.get('part1_note', '') +
+           f' `KAM/Certificate`: {nc} modules · {lc:,} lines. '
            f'**Packages landed: {len(p1["landed"])} / {len(p1["packages"])}**.',
-           "- **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays "
-           'within 3 % of its orbital rate for all time (target about 2.7 % at N = 65, D38). `KAM/SpinOrbit` and the data generator: '
-           f'{ns} modules · {ls:,} lines. **Packages landed: {len(p2["landed"])} / {len(p2["packages"])}**.',
+           f'{moon} `KAM/SpinOrbit`: {ns:,} modules · {ls:,} lines hand-written, plus {gl:,} lines of generated '
+           f'certificate data in {gn:,} modules. **Packages landed: {len(p2["landed"])} / {len(p2["packages"])}**.',
            *lock_glance(sessions),
            f'- Design estimate for parts 1 and 2: {so["planned_lines"]}; landed: {", ".join(so["landed"])}.']
     if flight['inp-mprov-'] or flight['inp-maud-']:
@@ -350,11 +471,20 @@ AREAS = [
     ('Sharp2', 'v2 sharp a-posteriori KAM: route A, modified step (route B), l1 entry, small-divisor constants, PlasmaLean example'),
     ('Root', 'Generated parts of the root import file KAM.lean (scripts/gen_root_imports.py)'),
     ('Certificate', 'Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies)'),
-    ('SpinOrbit', 'Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs)'),
+    ('SpinOrbit', "Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs, the Moon's band "
+                  'theorems, the synchronous lock in `Lock/`); its generated certificate data are the next row'),
+    ('SpinOrbit/Data', 'Track SO: generated certificate data of the barrier tori (numeric literals emitted by '
+                       '`scripts/spin_orbit/`, checked by the kernel; with their literal format and support lemmas); '
+                       'counted apart from the hand-written Lean'),
+    ('Wave', 'Track W: PDE KAM for the cubic wave equation (Pöschel 1996): sequence calculus and the weighted '
+             'convolution algebra, analytic maps on Banach domains, Banach-valued Fourier coefficients for the KAM '
+             'step, Birkhoff normal form (averaged quartic part, nonresonance, nondegeneracy), analytic and classical '
+             'reconstruction of the solutions'),
 ]
 
 
 def section_areas():
+    """One row per area; an area listed with a sub-path (SpinOrbit/Data) gets its own row and leaves its parent's."""
     out = ['| Area | Content | Modules | Lines | Theorems |', '|---|---|---|---|---|']
     known = {d for d, _ in AREAS}
     extra = sorted(p.name for p in (root / 'KAM').iterdir() if p.is_dir() and p.name not in known)
@@ -362,9 +492,10 @@ def section_areas():
         p = root / 'KAM' / d
         if not p.exists():
             continue
-        n, lines, thms = lean_stats([p])
+        subs = [root / 'KAM' / k for k in known if k.startswith(d + '/')]
+        st = [file_stats(f) for f in lean_files([p]) if not any(s in f.parents for s in subs)]
         link = f'[`KAM/{d}/`](KAM/{d})'
-        out.append(f'| {link} | {desc} | {n} | {lines:,} | {thms} |')
+        out.append(f'| {link} | {desc} | {len(st)} | {sum(x[0] for x in st):,} | {sum(x[2] for x in st)} |')
     return '\n'.join(out)
 
 
@@ -389,41 +520,157 @@ def pane_state(session):
 
 
 STATE_ICON = {'active': '🔄 active', 'running': '🔄 running', 'idle': '⏸ idle', 'done': '✅ done',
-              'blocked': '⛔ blocked'}
+              'blocked': '⛔ blocked', 'paused': '⏸ paused'}
+_PROCS = []
+
+
+def process_table():
+    """{pid: (parent pid, argv)} of the running processes, read from /proc (empty without it); cached."""
+    if not _PROCS:
+        procs = {}
+        for d in (Path('/proc').iterdir() if Path('/proc').is_dir() else []):
+            if not d.name.isdigit():
+                continue
+            try:
+                argv = [x.decode(errors='replace') for x in (d / 'cmdline').read_bytes().split(b'\0') if x]
+                ppid = int((d / 'stat').read_text().rsplit(')', 1)[1].split()[1])
+            except (OSError, ValueError, IndexError):
+                continue
+            procs[int(d.name)] = (ppid, argv)
+        _PROCS.append(procs)
+    return _PROCS[0]
+
+
+def model_name(argv):
+    """Readable model of an agent's launch command: `--model claude-opus-5-5` -> Claude Opus 5.5; codex
+    `-m gpt-6.1-sol -c model_reasoning_effort="medium"` -> GPT-6.1-Sol medium; None without a model flag."""
+    m = next((argv[i + 1] for i in range(len(argv) - 1) if argv[i] in ('--model', '-m')), None)
+    m = m or next((x.split('=', 1)[1] for x in argv if x.startswith('--model=')), None)
+    if not m:
+        return None
+    c = re.fullmatch(r'claude-([a-z]+)-(\d+)-(\d+)(?:-\d+)?', m)
+    if c:
+        return f'Claude {c.group(1).title()} {c.group(2)}.{c.group(3)}'
+    g = re.fullmatch(r'gpt-([\d.]+)-(\w+)', m)
+    if g:
+        eff = next((e.group(1) for x in argv for e in [re.search(r'model_reasoning_effort="?(\w+)', x)] if e), '')
+        return f'GPT-{g.group(1)}-{g.group(2).title()}' + (f' {eff}' if eff else '')
+    return m
+
+
+def agent_process(session):
+    """(model, account) of the agent in a tmux session, from its launch command (`--model`, codex `-m`) and its
+    environment (CLAUDE_CONFIG_DIR=/root/.claude-accounts/N is account claude-N); None where unknown."""
+    if not session or session not in tmux_sessions():
+        return None, None
+    try:
+        r = subprocess.run(['tmux', 'list-panes', '-t', session, '-F', '#{pane_pid}'], capture_output=True, text=True)
+    except FileNotFoundError:
+        return None, None
+    procs = process_table()
+    kids = {}
+    for pid, (ppid, _) in procs.items():
+        kids.setdefault(ppid, []).append(pid)
+    queue, seen = [int(x) for x in r.stdout.split() if x.isdigit()], set()
+    while queue:
+        pid = queue.pop(0)
+        if pid in seen or pid not in procs:
+            continue
+        seen.add(pid)
+        argv = procs[pid][1]
+        exe = Path(argv[0]).name if argv else ''
+        if exe in ('claude', 'codex') or (exe == 'node' and len(argv) > 1 and Path(argv[1]).name == 'codex.js'):
+            acct = None
+            try:
+                for e in (Path('/proc') / str(pid) / 'environ').read_bytes().split(b'\0'):
+                    m = re.match(rb'CLAUDE_CONFIG_DIR=.*claude-accounts/(\d+)/?$', e)
+                    if m:
+                        acct = f'claude-{m.group(1).decode()}'
+            except OSError:
+                pass
+            return model_name(argv), acct
+        queue.extend(kids.get(pid, []))
+    return None, None
+
+
+def trailer_model(rng):
+    """The most frequent Claude co-author of the commits in a git range (`Co-Authored-By: Claude Opus 5.5 <…>`)."""
+    out = git('log', '--format=%(trailers:key=Co-Authored-By,valueonly,separator=%x1f)', rng)
+    names = [re.sub(r'\s*<[^>]*>', '', t).strip() for l in out.splitlines() for t in l.split('\x1f')]
+    names = [n for n in names if n.startswith('Claude')]
+    return max(sorted(set(names)), key=names.count) if names else None
+
+
+def worktree_paths():
+    """{branch: worktree path} of the worktrees."""
+    out, path = {}, None
+    for l in git('worktree', 'list', '--porcelain').splitlines():
+        if l.startswith('worktree '):
+            path = Path(l[len('worktree '):])
+        elif l.startswith('branch refs/heads/') and path:
+            out[l[len('branch refs/heads/'):]] = path
+    return out
 
 
 def section_workers():
+    """Agents from campaign.json (and campaign-INP.json), then one row per offloaded package branch. Model and account
+    come from the agent's running process where there is one (2026-10-31: the table showed stale accounts and Sonnet
+    for Opus workers); otherwise from the JSON, or for a branch from its commits' co-author trailers."""
     out = ['| Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |',
            '|---|---|---|---|---|---|---|---|']
     gone = 0
     for w in campaign['workers']:
-        state = pane_state(w.get('session')) or STATE_ICON.get(w.get('state', ''), w.get('state', ''))
-        if state == '⚠️ session missing':
+        live = pane_state(w.get('session'))
+        state = live or STATE_ICON.get(w.get('state', ''), w.get('state', ''))
+        if state in ('⚠️ session missing', '✅ done'):
             gone += 1
             continue
+        if w.get('state') == 'paused' and live in ('⏸ idle', '✅ handed off'):
+            state = STATE_ICON['paused']
+        model, acct = agent_process(w.get('session'))
         branch = w.get('branch')
         ahead = git('rev-list', '--count', '--no-merges', f'main..{branch}') if branch else ''
-        sess = f' `{w["session"]}`' if w.get('session') else ''
-        out.append(f'| **{w["id"]}**{sess} | {w["kind"]} | {w.get("model", "")} | {w.get("account", "")} | '
+        name = f'**{w["id"]}**' + (f' ({w["label"]})' if w.get('label') else '') + \
+            (f' `{w["session"]}`' if w.get('session') else '')
+        out.append(f'| {name} | {w["kind"]} | {model or w.get("model", "")} | {acct or w.get("account", "")} | '
                    f'{state} | {w["assignment"]} | {f"`{branch}`" if branch else "—"} | {ahead or "—"} |')
-    # Packages of tracks I, N, P offloaded by the lead: one row per worktree branch inp-<suffix> not yet in inp.
+    # Offloaded packages: one row per worktree branch inp-<suffix> not yet in inp. Their sessions are named after the
+    # branch suffix or after the worktree folder KAM-inp-<sfx> (2026-10-31: SO-FREEZE3 runs on branch inp-sofreeze3
+    # in session inp-mprov-sodata3 and showed as "parked (no session)").
+    paths = worktree_paths()
     for b in worktree_branches():
         if not b.startswith('inp-') or b.startswith('inp-design'):
             continue
         if subprocess.run(['git', 'merge-base', '--is-ancestor', b, 'inp'], cwd=root).returncode == 0:
             continue
         subj = git('log', '-1', '--format=%s', b).replace('|', '∣')
-        aud = pane_state(f'inp-maud-{b[4:]}')
-        prov = pane_state(f'inp-mprov-{b[4:]}')
+        sfxs = [b[4:]]
+        if b in paths and paths[b].name.startswith('KAM-inp-') and paths[b].name[8:] != b[4:]:
+            sfxs.append(paths[b].name[8:])
+
+        def live(pre):
+            for x in sfxs:
+                st = pane_state(pre + x)
+                if st and st != '⚠️ session missing':
+                    return pre + x, st
+            return None, None
+        aud_s, aud = live('inp-maud-')
+        prov_s, prov = live('inp-mprov-')
         # 2026-10-29: 'not yet audited' matched 'audit', and branches without a prover session showed as proving.
-        state = ('🔍 in audit' if aud and aud != '⚠️ session missing' else
-                 '🔄 proving' if prov and prov != '⚠️ session missing' else
+        # 2026-10-31: an auditor that has handed off (READY) no longer marks the branch as in audit.
+        state = ('🔍 in audit' if aud == '🔄 working' else
+                 '🔄 proving' if prov else
+                 '🔍 in audit' if aud and aud != '✅ handed off' else
                  '❌ audit failed, parked' if 'FAIL' in subj else
                  '✅ audited, handed back' if 'audit' in subj and 'not yet audited' not in subj else
                  '⏸ parked (no session)')
+        model, acct = agent_process(prov_s)
+        model = model or trailer_model(f'inp..{b}') or '—'
         ahead = git('rev-list', '--count', '--no-merges', f'inp..{b}')
-        out.append(f'| **{b[4:]}** | prover (offload) | Claude Sonnet 5.5 | — | {state} | last commit: {subj[:90]} | '
-                   f'`{b}` | {ahead} (vs `inp`) |')
+        pkg = so_package(b[4:]) if b[4:].startswith(('so', 'lock')) else b[4:]
+        sess = ''.join(f' `{x}`' for x in (prov_s, aud_s) if x)
+        out.append(f'| **{pkg}**{sess} | prover (offload) | {model} | {acct or "—"} | {state} | last commit: '
+                   f'{subj[:90]} | `{b}` | {ahead} (vs `inp`) |')
     if gone:
         out += ['', f'*{gone} finished agent sessions not shown.*']
     q = campaign.get('queued', [])
@@ -441,24 +688,37 @@ TRACKS = [
     ('R', 'russmann', "Rüssmann's KAM theorem under weak non-degeneracy: invariant tori fill all but κ of phase space"),
     ('W', 'wave', 'PDE KAM: two-frequency quasi-periodic solutions of the cubic wave equation '
                   'u_tt = u_xx − m u − u³ on [0, π], every m > 0 (Pöschel 1996)'),
-    ('SO-1', 'so', 'Track SO, part 1: a general Lean certificate checker turning numerical KAM tori into theorems'),
-    ('SO-3', 'so', 'Track SO, part 3: the Moon stays locked in synchronous rotation forever (librational tori; '
-                   'scoping, D42)'),
-    ('SO-2', 'so', 'Track SO, part 2: the Moon\'s spin rate stays within about 2.7 % of its orbital rate for all time (N = 65, D38)'),
+    ('SO-1', None, 'Track SO, part 1: a general Lean certificate checker turning numerical KAM tori into theorems'),
+    ('SO-2', 'so-band', "Track SO, part 2: the Moon's spin rate stays within 2.755 % of its orbital rate for all time "
+                        '(N = 65; proved 2026-10-31)'),
+    ('SO-3', 'so-lock', 'Track SO, part 3: the Moon locked in synchronous rotation forever (one librational torus '
+                        'around a certified synchronous orbit; D42, D45)'),
     ('LG00', 'lg00', 'Side project: a kernel-checked KAM torus of Locatelli–Giorgilli\'s secular Sun–Jupiter–Saturn '
                      'model (first formally verified torus of a planetary model; v2 certifier)'),
 ]
+# Tracks without a source-level dependency graph: track R is proved through track P's quantitative theorem; track SO
+# and LG00 are certificate campaigns.
+NO_GRAPH = {'R', 'SO-1', 'SO-2', 'SO-3', 'LG00'}
+
+
+def track_anchors(prefix):
+    """Frozen theorems of a track: by manifest id prefix; track SO's parts 2 and 3 split its `spinorbit.*` ids."""
+    if prefix in ('so-band', 'so-lock'):
+        return so_anchors(prefix == 'so-lock')
+    return [a for a in manifest['anchors'] if a['kind'] == 'theorem' and a['id'].split('.')[0] == prefix]
 
 
 def section_tracks():
     out = ['| Track | Headline | Frozen theorems sealed | Proof graph | Stage |', '|---|---|---|---|---|']
     for t, prefix, head in TRACKS:
-        thm = [a for a in manifest['anchors'] if a['kind'] == 'theorem' and a['id'].split('.')[0] == prefix]
+        thm = track_anchors(prefix) if prefix else []
         sealed = sum(a['state'] == 'SEALED' for a in thm)
         g = graph_counts(t)
-        gtxt = f'{g[0]} / {g[1]} nodes resolved' if g and g[1] else 'not published yet'
+        gtxt = (f'{g[0]} / {g[1]} nodes resolved' if g and g[1] else '—' if t in NO_GRAPH else 'not on `main` yet')
+        ftxt = (f'{sealed} / {len(thm)}' if thm else '— (ordinary theorems)' if prefix is None else
+                'none frozen yet (freeze approved, D49)' if prefix.startswith('so-') else '0 / 0')
         stage = campaign.get('tracks', {}).get(t, '') if t != 'LG00' else lg00_stage_text()
-        out.append(f'| **{t}** | {head} | {sealed} / {len(thm)} | {gtxt} | {stage} |')
+        out.append(f'| **{t}** | {head} | {ftxt} | {gtxt} | {stage} |')
     return '\n'.join(out)
 
 
@@ -495,7 +755,8 @@ def completion(rows):
         g[2] += 1
     # The original project's sealing row: tracks K, I, N, P and R. Track W's and track SO's own frozen theorems are
     # counted in their own rows below (2026-10-30: a frozen nlw2 must not lower the original project's figure).
-    orig_rows = [r for r in rows if not r[0].startswith(('wave.', 'so.'))]
+    # Track SO's anchors are `spinorbit.*` (SO-FREEZE3, LOCK-FREEZE); `so.` kept for older drafts.
+    orig_rows = [r for r in rows if not r[0].startswith(('wave.', 'so.', 'spinorbit.'))]
     if orig_rows:
         sealed = sum(1 for r in orig_rows if r[4] == 'sealed')
         groups['Sealing of the frozen statements'] = [float(len(orig_rows)), float(sealed), len(orig_rows)]
@@ -567,70 +828,68 @@ def w_glance():
     return ['', f'**Track W** (D30, D41; [plan](blueprint-W/PLAN.md)): PDE KAM for the cubic wave equation '
             f'u_tt = u_xx − m u − u³ on [0, π] (Pöschel 1996) · **{pct:.0f} %**',
             f'- Statements: {stmt} · blueprint milestones written: {len(written)} / {len(W_MILESTONES)} '
-            f'({", ".join(written) or "none"}) · proof graph: {gtxt} · `KAM/Wave`: {n} modules, {lines:,} lines']
+            f'({", ".join(written) or "none"}) · proof graph: {gtxt} · `KAM/Wave`: {n} modules, {lines:,} lines',
+            *([f'- **Now:** {campaign["w"]["now"]}'] if campaign.get('w', {}).get('now') else [])]
 
 
+# Stages of track SO part 3, weighted by effort (owner/orchestrator, 2026-10-31; they had counted equally): each
+# test reads the repository. The sealed test also accepts the planned anchor `lunar_sync_lock` (LOCK-FREEZE names its
+# anchors spinorbit.*, which `so.lunar_lock` alone never matched).
 LOCK_STAGES = [
-    ('scoping study', lambda: (root / 'docs/tracks/SO/studies/SO-LOCK-SCOPE.md').exists()),
-    ('design', lambda: (root / 'docs/tracks/SO/design/SO-LOCK-DESIGN.md').exists()),
-    ('statements frozen', lambda: any((root / 'KAM/Frozen/SpinOrbit/Theorems').glob('*Lock*.lean'))),
-    ('Lean proof modules', lambda: (root / 'KAM/SpinOrbit/Lock').exists()),
-    ('certificate data', lambda: any((root / 'KAM/SpinOrbit/Data').glob('Lock*'))
+    ('scoping study', 5, lambda: (root / 'docs/tracks/SO/studies/SO-LOCK-SCOPE.md').exists()),
+    ('design', 10, lambda: (root / 'docs/tracks/SO/design/SO-LOCK-DESIGN.md').exists()),
+    ('statements frozen', 5, lambda: any((root / 'KAM/Frozen/SpinOrbit/Theorems').glob('*Lock*.lean'))),
+    ('Lean proof modules', 40, lambda: (root / 'KAM/SpinOrbit/Lock').exists()),
+    ('certificate data', 35, lambda: any((root / 'KAM/SpinOrbit/Data').glob('Lock*'))
      if (root / 'KAM/SpinOrbit/Data').exists() else False),
-    ('sealed', lambda: any(a['id'].startswith('so.lunar_lock') and a['state'] == 'SEALED'
-                           for a in manifest['anchors'])),
+    ('sealed', 5, lambda: any(re.match(r'(?:so\.lunar_lock|spinorbit\.(?:\w+\.)?lunar_sync_lock)', a['id'])
+                              and a['state'] == 'SEALED' for a in manifest['anchors'])),
 ]
 
 
 def lock_progress():
-    """Track SO part 3 (the synchronous lock, D42), read from the repository: the stages reached."""
-    done = [name for name, test in LOCK_STAGES if test()]
-    return 100 * len(done) / len(LOCK_STAGES), done
+    """Track SO part 3 (the synchronous lock, D42), read from the repository: (percent by stage weight, stages
+    reached)."""
+    done = [(name, w) for name, w, test in LOCK_STAGES if test()]
+    return 100 * sum(w for _, w in done) / sum(w for _, w, _ in LOCK_STAGES), [name for name, _ in done]
 
 
 def lock_glance(sessions):
     pct, done = lock_progress()
     suborch = any(t.startswith('kam-suborch-lock') for t in sessions)
-    workers = sum(t.startswith('inp-mprov-lock') for t in sessions)
-    now = (f' · the lock sub-orchestrator is running ({workers} package worker{"" if workers == 1 else "s"})'
+    pkgs = sorted(session_package(t, t[len('inp-mprov-'):]) for t in sessions if t.startswith('inp-mprov-lock'))
+    now = (f' · the lock sub-orchestrator is running (package workers: {", ".join(pkgs) or "none"})'
            if suborch else '')
+    note = campaign.get('so', {}).get('lock_note', '')
     return [f'- **Part 3, the Moon locked in synchronous rotation forever** (D42, D45): one librational invariant torus '
             f'around a certified synchronous periodic orbit confines the spin (a stronger result than the spin-rate '
             f'band; route: polar coordinates, the landed certifier, one new primitive `HamExpr.sqrt`; N = 65) · '
-            f'**{pct:.0f} %** · stages reached: {", ".join(done) or "none yet"}' + now]
+            f'**{pct:.0f} %** · stages reached: {", ".join(done) or "none yet"}' + now + (f'. {note}' if note else '')]
 
 
 def completion_split(rows):
-    """(original project %, SO checker %, SO Moon %, overall %): the original project is every group except SO."""
+    """(original project %, SO checker %, SO Moon %, overall %): the original project is every group except track SO
+    (its three parts), track W and the side project LG00 (2026-10-31: LG00 had been counted in the original project's
+    figure, which read 96.0 % then)."""
     pct, groups, total, done = completion(rows)
     parts = [groups.get(g, [0.0, 0.0, 0]) for g in SO_GROUPS]
-    extra = [groups.get(g, [0.0, 0.0, 0]) for g in (LOCK_GROUP, W_GROUP)]
+    extra = [groups.get(g, [0.0, 0.0, 0]) for g in (LOCK_GROUP, W_GROUP, LG00_GROUP)]
     orig = 100 * (done - sum(p[1] for p in parts + extra)) / (total - sum(p[0] for p in parts + extra))
     so1, so2 = (100 * p[1] / p[0] if p[0] else 0.0 for p in parts)
     return orig, so1, so2, pct
 
 
-def loc(dirs):
-    """(total lines, code lines) of the .lean files under `dirs`; code lines exclude blanks and comments."""
-    total = code = 0
-    for d in dirs:
-        if not d.exists():
-            continue
-        for f in d.rglob('*.lean'):
-            t = f.read_text(encoding='utf-8', errors='replace')
-            total += t.count('\n')
-            t = re.sub(r'/-.*?-/', lambda m: '\n' * m.group(0).count('\n'), t, flags=re.S)
-            code += sum(1 for l in t.splitlines() if l.strip() and not l.strip().startswith('--'))
-    return total, code
+def loc(dirs, generated=False):
+    """(total lines, code lines) of the .lean files under `dirs`; code lines exclude blanks and comments. By default
+    hand-written only (generated certificate data excluded; generated=True: the data only, None: everything)."""
+    st = [file_stats(f) for f in lean_files(dirs, generated)]
+    return sum(s[0] for s in st), sum(s[1] for s in st)
 
 
 def worktree_branches():
     out = git('worktree', 'list', '--porcelain')
     return sorted({l.split('refs/heads/', 1)[1] for l in out.splitlines() if l.startswith('branch refs/heads/')}
                   - {'main'})
-
-
-GENERATED_DATA = 'KAM/SpinOrbit/Data/'   # machine-generated certificate literals (track SO), not hand-written Lean
 
 
 def unlanded_split():
@@ -640,10 +899,21 @@ def unlanded_split():
     counted already-landed files as unlanded (8,080 shown for about 2,300 real lines).
     2026-10-30: generated certificate data (KAM/SpinOrbit/Data/) is counted apart; 59.5k lines of lunar literals had
     been shown as unlanded Lean work."""
+    return _unlanded()[:2]
+
+
+_UNLANDED = []
+
+
+def _unlanded():
+    """(hand-written, generated, hand-written by top-level area of KAM/) lines on unlanded agent commits; cached."""
+    if _UNLANDED:
+        return _UNLANDED[0]
     commits = set()
     for b in worktree_branches():
         commits.update(git('rev-list', '--no-merges', f'main..{b}').split())
     hand = gen = 0
+    area = {}
     for c in commits:
         for l in git('show', '--numstat', '--format=', c, '--', '*.lean').splitlines():
             a, _, path = l.split('\t', 2)
@@ -652,7 +922,10 @@ def unlanded_split():
                     gen += int(a)
                 else:
                     hand += int(a)
-    return hand, gen
+                    key = path.split('/')[1] if path.startswith('KAM/') and path.count('/') > 1 else ''
+                    area[key] = area.get(key, 0) + int(a)
+    _UNLANDED.append((hand, gen, area))
+    return _UNLANDED[0]
 
 
 def unlanded_lines():
@@ -661,25 +934,49 @@ def unlanded_lines():
 
 
 def size_estimate(rows):
+    """(hand-written lines on main, their code lines, hand-written unlanded lines, total weight, done weight)."""
     total, code = loc(LIB)
     pct, groups, wt, done = completion(rows)
     return total, code, unlanded_lines(), wt, done
 
 
+HISTORY_HEADER = 'utc,main,modules,lean_lines,code_lines,unlanded_lines,theorems,completion_pct,sealed,generated_lines'
+
+
 def append_history(rows):
-    """One line per run in docs/campaign/history.csv."""
+    """One line per run in docs/campaign/history.csv. The columns before `generated_lines` keep their meaning (every
+    .lean file under KAM/, generated certificate data included; unlanded_lines is hand-written only). The column
+    `generated_lines` (added 2026-10-31) is the generated data's share of lean_lines: hand-written lines on main are
+    lean_lines - generated_lines. Older rows have no value there (lines_24h_ago reads their commit instead)."""
     h = root / 'docs/campaign/history.csv'
-    total, code, unl, wt, done = size_estimate(rows)
+    unl = unlanded_lines()
+    total, code = loc(LIB, generated=None)
     pct = completion(rows)[0]
     n, _, thms = lean_stats(LIB)
+    gen = lean_stats(LIB, generated=True)[1]
     sealed = sum(1 for r in rows if r[4] == 'sealed')
     if not h.exists():
-        h.write_text('utc,main,modules,lean_lines,code_lines,unlanded_lines,theorems,completion_pct,sealed\n')
+        h.write_text(HISTORY_HEADER + '\n')
+    else:
+        head, _, body = h.read_text().partition('\n')
+        if head.startswith('utc,') and 'generated_lines' not in head:
+            h.write_text(head + ',generated_lines\n' + body)
     with h.open('a') as f:
-        f.write(f'{NOW},{git("rev-parse", "--short", "HEAD")},{n},{total},{code},{unl},{thms},{pct:.1f},{sealed}\n')
+        f.write(f'{NOW},{git("rev-parse", "--short", "HEAD")},{n},{total},{code},{unl},{thms},{pct:.1f},{sealed},'
+                f'{gen}\n')
+
+
+def generated_lines_at(commit):
+    """Lines of generated certificate data in a commit (git grep counts every line); None for an unknown commit."""
+    r = subprocess.run(['git', 'grep', '-c', '', commit, '--', GENERATED_DATA + '*.lean'], cwd=root,
+                       capture_output=True, text=True)
+    if r.returncode not in (0, 1):
+        return None
+    return sum(int(l.rsplit(':', 1)[1]) for l in r.stdout.splitlines() if l)
 
 
 def lines_24h_ago():
+    """(hand-written Lean lines, time) of the last history row at least 24 hours old (the first row otherwise)."""
     h = root / 'docs/campaign/history.csv'
     if not h.exists():
         return None
@@ -692,7 +989,8 @@ def lines_24h_ago():
         return datetime.strptime(r[0], '%Y-%m-%d %H:%M UTC').replace(tzinfo=timezone.utc).timestamp()
     old = [r for r in hist if ts(r) <= cutoff]
     r = old[-1] if old else hist[0]
-    return int(r[3]), r[0]
+    gen = int(r[9]) if len(r) > 9 and r[9].isdigit() else generated_lines_at(r[1])
+    return (int(r[3]) - gen, r[0]) if gen is not None else None
 
 
 # Rough planning figure for the total size; replaced by a rate-based estimate once real proofs land.
@@ -704,40 +1002,65 @@ def lean_item(it):
     return it['id'].split('.')[0] in ('F', 'K', 'M') or '.PROOF' in it['id']
 
 
-def section_size(rows):
-    total, code, unl, wt, done = size_estimate(rows)
-    gen = unlanded_split()[1]
-    prev = lines_24h_ago()
-    growth = f' · **{total - prev[0]:+,}** since {prev[1]}' if prev else ''
+def size_parts(rows):
+    """The size estimate in parts (hand-written lines only): the other tracks scaled by the done share of their Lean
+    work items; track SO from its design; track W from its planning range (campaign.json size_plan.W)."""
+    total, code, unl, _, _ = size_estimate(rows)
     w = progress['weights']
     lean = [it for it in progress['items'] if lean_item(it)]
+    lean_all = sum(w[it['difficulty']] for it in lean)
     lean_done = sum(w[it['difficulty']] * it['done'] for it in lean)
-    rate_based = lean_done >= 8
-    est = (total + unl) / lean_done * sum(w[it['difficulty']] for it in lean) if rate_based else PLANNED_TOTAL
-    # Track SO is sized by its design instead: its lines on main, plus the design's estimates of the unlanded Lean
-    # packages (the Python generator packages excluded); the rate-based figure above then covers the other tracks.
     so_on_main = loc([root / 'KAM' / 'Certificate', root / 'KAM' / 'SpinOrbit'])[0]
     landed = set(campaign.get('so', {}).get('landed', []))
     so_left = sum(v[0] for it in progress['items'] for k, v in it.get('so_packages', {}).items()
                   if k not in landed and not v[1][0].startswith('scripts/'))
-    if rate_based and so_on_main:
-        est = (total - so_on_main + unl) / lean_done * sum(w[it['difficulty']] for it in lean) + so_on_main + so_left
-    how = ('scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work '
-           'items, weighted by difficulty: track K\'s analysis, a-posteriori and measure items and the proof items of '
-           'tracks I, N and P. It is as good as those done fractions: track K\'s come from its proof graph, the others '
-           'from the sub-orchestrator\'s assessment; track SO is added from its design (lines on `main` plus the '
-           'line estimates of its packages not yet landed)' if rate_based else
+    wave = loc([root / 'KAM' / 'Wave'])[0] + _unlanded()[2].get('Wave', 0)
+    plan = campaign.get('size_plan', {}).get('W', {})
+    lo, hi = plan.get('low', 0), plan.get('high', 0)
+    rest = total + unl - so_on_main - wave        # tracks K, I, N, P, R, the sharp a-posteriori work, the rest
+    rest_est = rest / lean_done * lean_all if lean_done >= 8 else PLANNED_TOTAL
+    fixed = rest_est + so_on_main + so_left
+    est, est_lo, est_hi = (fixed + max(x, wave) for x in ((lo + hi) / 2, lo, hi))
+    return dict(total=total, code=code, unl=unl, est=est, est_lo=est_lo, est_hi=est_hi, so_left=so_left, wave=wave,
+                lo=lo, hi=hi, source=plan.get('source', ''), share=lean_done / lean_all if lean_all else 0.0,
+                rate_based=lean_done >= 8)
+
+
+def section_size(rows):
+    z = size_parts(rows)
+    total, unl, est = z['total'], z['unl'], z['est']
+    gen_unl = unlanded_split()[1]
+    gn, gl, gt = lean_stats(LIB, generated=True)
+    prev = lines_24h_ago()
+    growth = f' · **{total - prev[0]:+,}** since {prev[1]}' if prev else ''
+    left, left_lo, left_hi = (max(x - total - unl, 0) for x in (est, z['est_lo'], z['est_hi']))
+    rng = (f' ({round(left_lo, -3):,.0f}–{round(left_hi, -3):,.0f} over the range of track W\'s plan)'
+           if z['hi'] > z['lo'] else '')
+    how = (f'scales the lines written so far for the other tracks (on `main` plus the agent branches: tracks K, I, N, '
+           f'P and R, the sharp a-posteriori theorems and certifiers, the shared infrastructure) by the done share of '
+           f'the Lean work items, weighted by difficulty (track K\'s analysis, a-posteriori and measure items and the '
+           f'proof items of tracks I, N and P: {100 * z["share"]:.0f} % done); adds track SO from its design (its '
+           f'lines on `main` plus the line estimates of its packages not yet landed, {z["so_left"]:,} lines; the Lean '
+           f'packages of part 3 are on `main`, and what it still needs is generated data); and adds track W from its '
+           f'planning range of {z["lo"]:,}–{z["hi"]:,} lines ({z["source"]}; midpoint used), of which '
+           f'{z["wave"]:,} are written. The side project LG00 is not counted: its certificate never enters this '
+           f'library' if z['rate_based'] else
            'is a planning figure; it switches to a rate-based estimate once 8 weight units of Lean work are done')
     out = ['### Size of the formalization', '',
            '| | Lines of Lean |', '|---|---|',
-           f'| On `main` now | **{total:,}** ({code:,} excluding blank lines and comments){growth} |',
-           f'| Written on agent branches, not yet landed | {unl:,} |',
-           *([f'| Generated certificate data on agent branches (numeric literals, not counted above or below) | '
-              f'{gen:,} |'] if gen else []),
-           f'| **Estimated total at completion** | **≈ {round(est, -3):,.0f}** |',
-           f'| Estimated still to write | ≈ {round(max(est - total - unl, 0), -3):,.0f} |', '',
-           f'**How the size is estimated.** The estimate {how}. History of all counts: '
-           '[`docs/campaign/history.csv`](docs/campaign/history.csv).']
+           f'| On `main` now (hand-written) | **{total:,}** ({z["code"]:,} excluding blank lines and comments){growth} |',
+           f'| Generated certificate data on `main` (numeric literals; not counted in the other rows) | {gl:,} lines '
+           f'in {gn:,} modules |',
+           f'| Written on agent branches, not yet landed (hand-written) | {unl:,} |',
+           *([f'| Generated certificate data on agent branches (numeric literals; not counted in the other rows) | '
+              f'{gen_unl:,} |'] if gen_unl else []),
+           f'| **Estimated total at completion** (hand-written) | **≈ {round(est, -3):,.0f}** |',
+           f'| Estimated still to write | ≈ {round(left, -3):,.0f}{rng} |', '',
+           f'**How the size is estimated.** Every figure except the two rows of generated data counts hand-written Lean '
+           f'only: the generated certificate data under `{GENERATED_DATA}` (the barrier tori of the Moon, emitted by '
+           f'`scripts/spin_orbit/` and checked by the kernel) are counted apart. The estimate {how}. History of all '
+           'counts: [`docs/campaign/history.csv`](docs/campaign/history.csv) (`lean_lines` counts every module, '
+           '`generated_lines` the generated data among them).']
     return '\n'.join(out), est
 
 
@@ -750,11 +1073,13 @@ def section_updated(rows, est):
     orig, so1, so2, pct = completion_split(rows)
     sealed = sum(1 for r in rows if r[4] == 'sealed')
     total = loc(LIB)[0]
+    gen = lean_stats(LIB, generated=True)[1]
     return (f'> **Last updated: {NOW}** (automatic: every 20 minutes and after every commit) · '
             f'**estimated completion: original project {orig:.1f} % · SO checker {so1:.0f} % · SO Moon {so2:.0f} % · '
             f'Moon locked {lock_progress()[0]:.0f} % · track W {w_progress()[0]:.0f} %** · '
             f'frozen statements proved: {sealed} / {len(rows)} · '
-            f'**{total:,} lines of Lean** of an estimated ≈ {round(est, -3):,.0f}')
+            f'**{total:,} lines of hand-written Lean** of an estimated ≈ {round(est, -3):,.0f}' +
+            (f' (plus {gen:,} lines of generated certificate data, not counted)' if gen else ''))
 
 
 def section_progress(rows):
@@ -767,8 +1092,8 @@ def section_progress(rows):
            f'Track SO, part 1, the general Lean certificate checker: `{bar(so1)}` {so1:.1f} %', '',
            f"Track SO, part 2, the Moon's spin rate (its first client): `{bar(so2)}` {so2:.1f} %", '',
            f'Track SO, part 3, the Moon locked in synchronous rotation forever (D42): `{bar(lock_progress()[0])}` '
-           f'{lock_progress()[0]:.0f} % (stages: ' + ', '.join(n for n, _ in LOCK_STAGES) + '; read from the '
-           'repository)', '',
+           f'{lock_progress()[0]:.0f} % (stages, weighted by effort: ' +
+           ', '.join(f'{n} {w}' for n, w, _ in LOCK_STAGES) + '; each read from the repository)', '',
            f'Track W, PDE KAM for the cubic wave equation: `{bar(w_progress()[0])}` {w_progress()[0]:.1f} % '
            '(statements frozen 1, blueprint milestones 3, graph published 1, graph nodes resolved 10, seal 0.5; '
            'all read from the repository)', '',
@@ -783,15 +1108,18 @@ def section_progress(rows):
     out.append(f'| **Total** | {sum(g[2] for g in groups.values())} | {total:.0f} | {done:.1f} | **{pct:.1f} %** |')
     out += ['', f'**How this is estimated.** The project is divided into {len(progress["items"])} work items: planning '
             'deliverables, campaign infrastructure, the four layers of track K\'s proof, the proof campaigns of '
-            'tracks I, N and P, and track SO (its items count the design\'s line estimates of the packages landed so '
-            'far; [`docs/campaign/progress-SO.json`](docs/campaign/progress-SO.json)). Each item is weighted by its difficulty (low 1, moderate 2, high 4, very high 8) and '
+            'tracks I, N and P, and parts 1 and 2 of track SO (their items count the design\'s line estimates of the '
+            'packages landed so far; [`docs/campaign/progress-SO.json`](docs/campaign/progress-SO.json)). Each item is '
+            'weighted by its difficulty (low 1, moderate 2, high 4, very high 8) and '
             'counts with the fraction of it that is done; each sealed frozen theorem adds 1. Items marked *graph* '
             'take that fraction from their proof graph (nodes `PROVED`, `BYPASSED`, `EXTERNAL` or owner-accepted `ASSUMED` in '
             '[`docs/graph/`](docs/graph)), so they update themselves at every refresh, and count as complete once '
             'every frozen theorem of their track is sealed; the other items are the '
             f'orchestrators\' assessment, last reviewed **{progress["reviewed"]}**. Files: '
             '[`docs/campaign/progress.json`](docs/campaign/progress.json) (track K and infrastructure) and '
-            '[`docs/campaign/progress-INP.json`](docs/campaign/progress-INP.json) (tracks I, N, P).',
+            '[`docs/campaign/progress-INP.json`](docs/campaign/progress-INP.json) (tracks I, N, P). The rows of track '
+            'SO part 3, track W and the side project LG00 are not work items: they take their fraction from the meters '
+            'above, with weights 16, 64 and the LG00 stage weights.',
             '', '<details><summary>All work items with their weight and status</summary>', '',
             '| ID | Item | Difficulty | Done | Note |', '|---|---|---|---|---|']
     for it in progress['items']:

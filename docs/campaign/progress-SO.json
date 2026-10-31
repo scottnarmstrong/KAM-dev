@@ -384,7 +384,7 @@
   {
    "group": "Track SO, part 2: the Moon's spin rate (lunar spin–orbit)",
    "id": "SO2.LUNAR",
-   "title": "The lunar certificates pass and the confinement theorem: the Moon's spin rate stays within about 2.7 % of its orbital rate for all time (N = 65, D38)",
+   "title": "The lunar certificates pass and the confinement theorem: the Moon's spin rate stays within 2.755 % of its orbital rate for all time (N = 65; D38, D47; proved 2026-10-31)",
    "difficulty": "H",
    "so_packages": {
     "SO-R1": [

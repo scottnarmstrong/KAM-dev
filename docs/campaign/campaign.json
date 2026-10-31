@@ -1,14 +1,35 @@
 {
- "current_phase": "Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.",
+ "current_phase": "Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and its freeze and seal are in progress (SO-FREEZE3; D49, D50); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) is paused by the owner since 2026-10-31 until both SO tracks are done.",
  "workers": [
   {
    "id": "orchestrator",
+   "label": "root-b8",
    "kind": "lead",
    "model": "Claude Opus 5.5",
-   "account": "claude-1",
-   "session": null,
-   "assignment": "Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README",
+   "account": "claude-4",
+   "session": "KAM",
+   "assignment": "Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README",
    "state": "active"
+  },
+  {
+   "id": "suborch-LOCK",
+   "label": "kam-inp-24",
+   "kind": "sub-orchestrator, track SO part 3 (D42, D45)",
+   "model": "Claude Opus 5.5",
+   "account": "claude-12",
+   "session": "kam-suborch-lock",
+   "assignment": "The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal",
+   "state": "active"
+  },
+  {
+   "id": "suborch-W",
+   "label": "kam-1b",
+   "kind": "sub-orchestrator, track W (D41)",
+   "model": "Claude Opus 5.5",
+   "account": "claude-3",
+   "session": "kam-suborch-w",
+   "assignment": "Track W: blueprint W0–W8 (complete), dependency graph (final review rounds), proof campaign; PAUSED by the owner on 2026-10-31 until both SO tracks are done",
+   "state": "paused"
   }
  ],
  "queued": [],
@@ -158,12 +179,14 @@
   "I": "**complete**: all four frozen theorems sealed — I-G1 isoenergetic KAM, I-KEPLER, I-HEAD all-time confinement, I-R3BP restricted three-body (2026-10-28); open graph nodes are alternative routes or steps proved in a specialized form",
   "N": "**complete**: all six frozen theorems sealed (the last, partialConvex_nekhoroshev, on 2026-10-29); every graph node resolved (one convention accepted under D31, three blueprint steps repaired under D32)",
   "P": "**complete**: all seven frozen theorems sealed (the last, planetaryExponentialSafety, on 2026-10-29); every graph node resolved (two conventions accepted by owner ruling D31)",
-  "SO-1": "the certificate checker, its soundness theorem (`checkTorusCertificate_sound`, through the sealed isoenergetic theorem), the sharp certifier (D36) and the toy certificates landed; kernel-scale fixes for the lunar data under way (sparse packing, D34, landed; recursion depth and dyadic ball rounding, D39, in audit)",
-  "SO-2": "barriers at N = 65 (D38), band about 2.7 %: general-N Diophantine lemmas, the sharp barrier, the band-parametric assembly and the N = 65 parameter package R2 landed; next the N = 65 certificate data, its kernel passes and the final theorems (SO-DATA3), then the freeze of the lunar statements (D40)",
-  "W": "statements frozen (D41: twelve declarations, on main since 762a7e3d; `nlw2` awaits its proof); blueprint parts W1–W8 being written and independently audited by the track W sub-orchestrator; then the dependency graph and the proof campaign"
+  "SO-1": "**complete**: the checker and its soundness theorem (`checkTorusCertificate_sound`, through the sealed isoenergetic theorem), the sharp certifier (D36), the toy certificates, and the kernel-scale fixes SO-PACKFIX (D34), SO-BALLDY/SO-BALLFIX and SO-KDEPTH (D39), SO-KDEPTH2 (log-depth jet compiler) and SO-CSPLIT's segmented-proof core; the Moon uses the v2 certifier `checkTorusCertificateV2` (D44)",
+  "SO-2": "**proved** on main since 2026-10-31 08:18 (SO-DATA3, `7adca9fc`): `lunar_barriers_65_v2` and `lunar_spin_confinement_65_v2`, band 2.755 % (D47), window 0.9934 < p₀ < 1.0066, kernel-checked through the v2 certifier with standard axioms only; freeze (D49) and seal (D50) approved, in progress (SO-FREEZE3: Q11 data rebuild, freeze, seal, seal audit)",
+  "W": "**paused by the owner on 2026-10-31** until both SO tracks are done. Statements frozen (D41: twelve declarations; `nlw2` awaits its proof); blueprint W0–W8 complete and independently accepted; dependency graph extracted (690 nodes, 2260 edges), in its final review rounds, not yet on main; 8 Lean packages on main (W1-SINES, W1-WEIGHTED, W1-ANALYTIC, W0-NORMAL, W1-ALGEBRA, W1-KAMSUP, W0-ANALYSIS, W2-RECON)",
+  "R": "**complete**: Rüssmann's theorem frozen (strong form Q1(d)) and sealed on 2026-10-30 (D35); proved through track P's quantitative weak-non-degeneracy theorem, without a separate graph",
+  "SO-3": "every Lean package on main (LOCK-PO, LOCK-CONF, LOCK-COORDS-R/C, LOCK-SQRT, assembly part 1, LOCK-GRAPH); freeze of `lunar_sync_lock` approved (D49); the N = 65 librational certificate (73.8°) passes every check in the exact mirror; kernel runs and data emission in progress (about 158 MB after compaction; owner ruling on the size pending); then the headline, a one-line application, and the seal"
  },
  "so": {
-  "goal": "a general Lean certificate checker that turns numerical KAM tori into theorems; first client: the Moon's spin rate stays within about 2.7 % of its orbital rate (N = 65, D38; the earlier milestone was 3.3 %) for all time.",
+  "goal": "a general Lean certificate checker that turns numerical KAM tori into theorems (complete); first client: the Moon's spin rate stays within 2.755 % of its orbital rate for all time (N = 65; D38, D47), PROVED through the v2 certifier (D44) and on main since 2026-10-31; freeze and seal in progress (D49, D50). Next: the Moon locked in synchronous rotation forever (part 3; D42, D45).",
   "planned_lines": "≈ 18,500 lines, 21,500–23,000 with overrun",
   "packages": [
    "SO-DIO",
@@ -237,6 +260,19 @@
    "SO-RFREQ",
    "SO-GRAPHR"
   ],
-  "gates": "design of the general checker ACCEPTED (Revision 7). Lunar route (2026-10-30): sharp certifier checkTorusCertificateSharp (D36, threshold about 1e-25), barriers at N = 65, band about 2.71 % (D38; floor 2.62 %), kernel-cheap packed products (D34, SO-PACKFIX). SO-GEN3 sizes the data: about 40 digits and 1-2k terms per torus (R1 had 88 digits and 8.5k terms). Final data wait for the next certifier version (same format)."
+  "gates": "design of the general checker ACCEPTED (Revision 7). Moon band route: the v2 certifier `checkTorusCertificateV2` (D44), refined route A, barriers at N = 65 (D38), kernel-scale fixes D34 (packed products) and D39 (log-depth traversals, dyadic ball rounding), segmented kernel proofs (SO-CSPLIT); band literal 2.755 % with window 9934/10000 … 10066/10000 (D47; rule B's tightness clause waived). Proved on main 2026-10-31 (SO-DATA3, about 1,650 generated data modules). Freeze approved with these literals (D49), seal approved (D50); SO-FREEZE3 carries them out (Q11 data rebuild, freeze, seal, seal audit).",
+  "part1_note": "Since the packages: kernel-scale fixes SO-PACKFIX (D34), SO-BALLDY/SO-BALLFIX and SO-KDEPTH (D39), SO-KDEPTH2 (log-depth jet compiler) and the segmented-proof core of SO-CSPLIT (`KAM/CertificateSharp/Kernel`); the Moon is checked by the v2 certifier `checkTorusCertificateV2` (D44).",
+  "moon_statement": "for every initial state with spin rate 0.9934 < p₀ < 1.0066 (in units of the orbital rate; any angles) the unique global solution satisfies |p(t) − 1| ≤ 2755/100000 (2.755 %) for all real t; two barrier tori at N = 65 (frequencies 1 ± 1/(65 + g), g the golden-mean conjugate) bound the band [0.97245, 1.02755]; kernel-checked through the v2 certifier (refined route A), standard axioms only (D38, D44, D47).",
+  "lock_note": "Every Lean package is on `main` (LOCK-PO, LOCK-CONF, LOCK-COORDS-R/C, LOCK-SQRT, assembly part 1, LOCK-GRAPH); freeze of `lunar_sync_lock` approved (D49); the N = 65 librational certificate at 73.8° (diamond support 100×20, kp = 4) passes every check in the exact mirror (error 1.08e-21 against the threshold 10^-19.23, margin 1.74 decades); kernel runs and data emission in progress (about 158 MB of data after compaction; owner ruling on the size pending); the headline `lunar_sync_lock` will be a one-line application."
+ },
+ "w": {
+  "now": "**paused by the owner on 2026-10-31** until both SO tracks are done. Blueprint W0–W8 complete and independently accepted; dependency graph extracted (690 nodes, 2260 edges), in its final review rounds; 8 Lean packages on `main` (W1-SINES, W1-WEIGHTED, W1-ANALYTIC, W0-NORMAL, W1-ALGEBRA, W1-KAMSUP, W0-ANALYSIS, W2-RECON); the resume plan is with the track W sub-orchestrator."
+ },
+ "size_plan": {
+  "W": {
+   "low": 34000,
+   "high": 70000,
+   "source": "[`docs/TRACKS.md`](docs/TRACKS.md), low confidence"
+  }
  }
 }
