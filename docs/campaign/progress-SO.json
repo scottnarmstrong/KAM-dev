@@ -384,7 +384,7 @@
   {
    "group": "Track SO, part 2: the Moon's spin rate (lunar spin–orbit)",
    "id": "SO2.LUNAR",
-   "title": "The lunar certificates pass and the confinement theorem: the Moon's spin rate stays within about 2.7 % of its orbital rate for all time (N = 65, D38)",
+   "title": "The lunar certificates pass and the confinement theorem: the Moon's spin rate stays within 2.755 % of its orbital rate for all time (N = 65; D38, D47; proved 2026-10-31)",
    "difficulty": "H",
    "so_packages": {
     "SO-R1": [
@@ -396,7 +396,7 @@
     "SO-LUNAR": [
      400,
      [
-      "KAM/SpinOrbit/LunarConfinement.lean"
+      "KAM/SpinOrbit/LunarFinalR2V2.lean"
      ]
     ],
     "SO-LUNAR-A": [
@@ -418,8 +418,21 @@
    "id": "SO2.FREEZE",
    "title": "Owner approval of the final statement, freeze, and seal",
    "difficulty": "M",
-   "done": 0.0,
-   "note": "the final statement is approved by the owner before freezing"
+   "note": "the final statement is approved by the owner before freezing",
+   "so_packages": {
+    "SO-FREEZE3 (freeze)": [
+     100,
+     [
+      "KAM/Frozen/SpinOrbit/Theorems/LunarSpinConfinement.lean"
+     ]
+    ],
+    "SO-FREEZE3 (seal)": [
+     100,
+     [
+      "docs/tracks/SO/audits/SO-FREEZE3-seal-audit.md"
+     ]
+    ]
+   }
   }
  ]
 }

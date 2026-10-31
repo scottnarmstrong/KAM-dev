@@ -54,6 +54,20 @@ Besides W1 \S\ref{bpW:w1:ext} and W3 \S\ref{bpW:w3:ext}:
 \item\label{bpW:w5:ext-ftc} \emph{Calculus along curves.} For $C^1$ maps $c:[0,1]\to V$ into an open subset of a
   Banach space and $G$ $C^1$ on $V$: $G(c(1))-G(c(0))=\int_0^1DG(c(t))c'(t)\,dt$; differentiation under the
   integral sign (\ref{bpW:w3:ext-integral}); Neumann series (\ref{bpW:w3:ext-neumann}); Gronwall (\ref{bpW:w1:ext-ode}).
+\item\label{bpW:w5:ext-symm} \emph{Symmetry of second derivatives.} Over $\mathbb K\in\{\R,\C\}$: if $f$ has derivative $f'(y)$
+  at every $y$ in a neighbourhood of $x$, and $f'$ has derivative $f''$ at $x$, then $f''(v)(w)=f''(w)(v)$ for all $v,w$.
+  (Mathlib \Lean{second\_derivative\_symmetric\_of\_eventually} with \Lean{[IsRCLikeNormedField K]} ($K=\mathbb K$),
+  \Lean{(hf : }$\forall^{\mathsf f}$\Lean{ y in nhds x, HasFDerivAt f (f' y) y) (hx : HasFDerivAt f' f'' x)}, in
+  \texttt{Mathlib/Analysis/Calculus/FDeriv/Symmetric.lean}.)
+\item\label{bpW:w5:ext-sqrt} \emph{Principal square root.} $\sqrt\zeta:=\zeta^{1/2}$ (Mathlib \Lean{Complex.cpow} with exponent
+  $(2:\C)^{-1}$) satisfies $(\sqrt\zeta)^2=\zeta$ (\Lean{Complex.cpow\_ofNat\_inv\_pow}) and is complex differentiable at every
+  $\zeta$ with $\operatorname{Re}\zeta>0$: such $\zeta$ lie in \Lean{Complex.slitPlane} (\Lean{Complex.mem\_slitPlane\_iff}:
+  $0<\operatorname{Re}\zeta\vee\operatorname{Im}\zeta\ne0$), the hypothesis \Lean{f x }$\in$\Lean{ slitPlane} of
+  \Lean{DifferentiableAt.cpow\_const}. Moreover $\abs{\sqrt\zeta}=\abs\zeta^{1/2}$, and $\sqrt\zeta>0$ for $\zeta>0$.
+\item\label{bpW:w5:ext-triangle} \emph{A triangular double integral.} For continuous $g:[0,1]\to V$ (Banach $V$),
+  $\int_0^1\int_0^tg(\tau)\,d\tau\,dt=\int_0^1(1-\tau)g(\tau)\,d\tau$. No Fubini is needed: $h(t)=\int_0^tg$ is $C^1$ with $h'=g$
+  (\Lean{intervalIntegral.integral\_hasDerivAt\_right}), and integrating $\frac d{dt}\bigl((t-1)h(t)\bigr)=h(t)+(t-1)g(t)$ over
+  $[0,1]$ by \ref{bpW:w5:ext-ftc} gives $0=\int_0^1h+\int_0^1(t-1)g$.
 \end{enumerate}
 \par}
 
@@ -286,8 +300,9 @@ last claim of (i).
 $\mathsf H(\theta)=\frac1{2\pi i}\oint_{\abs\zeta=\rho'}(-X^v_P,X^u_P)(\theta,0,\zeta U,\zeta V)\zeta^{-2}d\zeta$ (as an
 operator applied to $(U,V)$, Lemma~\ref{bpW:w1:deriv-continuous}), holomorphic in $\theta$ by differentiation under the
 integral, bounded $\ell^N_{a,p}{}^2\to\ell^N_{a,p_+}{}^2$ by Lemma~\ref{bpW:w1:cauchy} (in fact $\norm{\mathsf H}\le\epsilon$,
-Step~\ref{stepW:w5:t-est}). $\mathsf H$ is symmetric for $\langle\cdot,\cdot\rangle_0$ because $D^2P$ is symmetric
-(Schwarz, \Lean{second\_derivative\_symmetric}); its blocks satisfy $\mathsf H_{uv}^T=\mathsf H_{vu}$, so the blocks
+Step~\ref{stepW:w5:t-est}). $\mathsf H$ is symmetric for $\langle\cdot,\cdot\rangle_0$ because $D^2P$ is symmetric:
+$DP(w)=\symp(X_P(w),\cdot)$ at every point, and this has derivative $W\mapsto\symp(DX_P(w)W,\cdot)$ ($X_P$ holomorphic), so
+\ref{bpW:w5:ext-symm} applies with $\mathbb K=\C$; its blocks satisfy $\mathsf H_{uv}^T=\mathsf H_{vu}$, so the blocks
 $P,Q,Q^T,P'$ are bounded and $P,P'$ symmetric. The $z$-formulas are the substitution $u=(z+\bar z)/\sqrt2$,
 $v=(z-\bar z)/(i\sqrt2)$. Reality and periodicity are inherited from $P$.
 \proofstep{Field}\label{stepW:w5:t-field} For fixed $w$ and $W'$, $\varepsilon\mapsto R(w+\varepsilon W')$ is the sum of
@@ -353,7 +368,8 @@ $\abs{X_R}^\lambda_{r,D(s,r)}\le3\epsilon$.
 $\varepsilon+\lambda\varepsilon^{\mathcal L}\le3\epsilon$: $\abs{X_F}^\lambda\le3C_1B^{\rm W}_\sigma\cdot3\epsilon/\alpha
 \le9C_1b_{\rm W}\epsilon/(\alpha\sigma^{2\tau+3})=M_F$ since $\sigma\le1$ (Lemma~\ref{bpW:w4:lattice}(iv)); and
 $\abs{X_{\hat N}}^\lambda\le2\cdot3\epsilon$, Theorem~\ref{bpW:w4:lemma1}(iv). The bracket identity is
-Theorem~\ref{bpW:w4:lemma1}(ii) (Lemma~\ref{bpW:w4:lie}(ii), weight guard $a=p=1$).
+Theorem~\ref{bpW:w4:lemma1}(ii) together with the derivative identification of Lemma~\ref{bpW:w4:lie}(iv), valid under the
+weight guard (G) since $a=p=1$.
 \proofstep{Class}\label{stepW:w5:s-class} A member of $\mathcal T$ is a polynomial of degree $\le2$ in $(y,u,v)$ whose
 coefficients are holomorphic in finitely many variables $\theta$, hence analytic (Lemma~\ref{bpW:w1:holo-analytic-fd});
 so it is $C^2$ on its domain, its field (Definition~\ref{bpW:w4:taylor}) is holomorphic into $\Pc^{p_+}$ and satisfies
@@ -432,7 +448,8 @@ $(t,w)$ uniformly for $\abs W_{p,r}\le1$.
 under the integral (\ref{bpW:w3:ext-integral}; the integrand's derivative $DX_F(\phi^\tau w)D\phi^\tau(w)$ is continuous
 in $(\tau,w)$ by Step~\ref{stepW:w5:c-cont} and Lemma~\ref{bpW:w1:deriv-continuous}, and bounded by $Le^L$).
 \proofstep{Skewness}\label{stepW:w5:c-skew} $F$ is $C^2$ (Step~\ref{stepW:w5:s-class}) and
-$\symp(DX_F(w)A,B)=D^2F(w)[A,B]$ (differentiate $DF(w)B=\symp(X_F(w),B)$ in $w$), which is symmetric; by antisymmetry
+$\symp(DX_F(w)A,B)=D^2F(w)[A,B]$ (differentiate $DF(w)B=\symp(X_F(w),B)$ in $w$), which is symmetric by
+\ref{bpW:w5:ext-symm} ($F$ has derivative $DF$ near $w$ and $DF$ is differentiable); by antisymmetry
 of $\symp$, $\symp(DX_FA,B)+\symp(A,DX_FB)=0$.
 \proofstep{Symplecticity}\label{stepW:w5:c-symp} $g(t)=\symp(D\phi^tW,D\phi^tW')$ is $C^1$ with $g'=0$ by
 Steps~\ref{stepW:w5:c-var}--\ref{stepW:w5:c-skew}; $g(0)=\symp(W,W')$ (\ref{bpW:w3:ext-mvt}).
@@ -474,8 +491,9 @@ $\Omega_+=\Omega+\hat\Omega$), and
 \proofstep{Expansion}\label{stepW:w5:n-exp} Fix $w\in D_+$; $\phi^t(w)\in D(s-4\sigma,2\eta r)$ for $\abs t\le1$
 (Lemma~\ref{bpW:w5:flow}(iii)). By Lemma~\ref{bpW:w5:flow-calc}(v) and \ref{bpW:w5:ext-ftc},
 $N(\Phi w)=N(w)+\int_0^1(\hat N+\hat a_0-R)(\phi^tw)\,dt$ and, for $G\in\{\hat N,R\}$,
-$G(\phi^tw)=G(w)+\int_0^t\{G,F\}(\phi^\tau w)\,d\tau$. Substituting the second into the first, exchanging the order
-of integration over $0\le\tau\le t\le1$, and writing $P=R+(P-R)$:
+$G(\phi^tw)=G(w)+\int_0^t\{G,F\}(\phi^\tau w)\,d\tau$. Substituting the second into the first, applying
+\ref{bpW:w5:ext-triangle} to $g(\tau)=\{\hat N-R,F\}(\phi^\tau w)$ (continuous by Lemma~\ref{bpW:w5:flow-calc}(i)), and writing
+$P=R+(P-R)$:
 \[H(\Phi w)=N(w)+\hat N(w)+\hat a_0+(P-R)(\Phi w)+\int_0^1\{(1-\tau)\hat N+\tau R,F\}(\phi^\tau w)\,d\tau,\]
 using $R(\Phi w)=R(w)+\int_0^1\{R,F\}(\phi^\tau w)d\tau$. This is (i).
 \proofstep{Bracket field}\label{stepW:w5:n-br} For $G,F\in\mathcal T$, $\{G,F\}$ is $C^1$ and
@@ -508,17 +526,21 @@ Then for $\abs t\le1$,
 \proofstep{Inverse in the small scale}\label{stepW:w5:p-inv} For $W\in\Pc^{p_+}$, by Lemma~\ref{bpW:w5:omega} and
 Lemma~\ref{bpW:w5:flow}(ii),
 $\abs{(D\phi^t-I)W}_{p_+,\eta r}\le\eta^{-2}\abs{(D\phi^t-I)W}_{p_+,r}\le\eta^{-2}\frac{8M_F}\sigma\abs W_{p,r}\le\frac12\abs W_{p_+,\eta r}$,
-so $\abs{D(\phi^t)^{-1}}_{p_+\to p_+,\eta r}\le2$ on $D(s-3\sigma,r/4)\supset D_+$. Likewise
-$\lambda\abs{\Delta D\phi^t}_{p_+\to p_+,\eta r}\le\eta^{-2}\cdot16\lambda N_1/\sigma\le1$ (Step~\ref{stepW:w5:f-der},
-$\lambda N_1\le\abs{\xi-\zeta}M_F$), so $\lambda\abs{\Delta(D\phi^t)^{-1}}\le2\cdot1\cdot2=4$.
+so $\abs{D(\phi^t)^{-1}}_{p_+\to p_+,\eta r}\le2$ on $D(s-3\sigma,r/4)\supset D_+$. Fix $\xi\ne\zeta$, write $\Delta$ for the
+difference between the values at $\xi$ and $\zeta$, and $N_1=\sup_V\abs{X_{F(\xi)}-X_{F(\zeta)}}_{p_+,r}$, so
+$\lambda N_1\le M_F\abs{\xi-\zeta}$. By Step~\ref{stepW:w5:f-der}, $\abs{\Delta D\phi^t}_{p\to p_+,r}\le16N_1/\sigma$, hence
+$\lambda\abs{\Delta D\phi^t}_{p_+\to p_+,\eta r}\le\eta^{-2}\cdot16\lambda N_1/\sigma\le\abs{\xi-\zeta}$ (by \eqref{bpW:w5:small}); and
+$\Delta(D\phi^t)^{-1}=-(D\phi^t_\xi)^{-1}(\Delta D\phi^t)(D\phi^t_\zeta)^{-1}$ gives $\lambda\abs{\Delta(D\phi^t)^{-1}}\le4\abs{\xi-\zeta}$.
 \proofstep{Derivative of $Y$}\label{stepW:w5:p-dy} By Lemma~\ref{bpW:w1:kam-domain} with $(s-2\sigma,\sigma,4\eta r)$, every
 point of $D(s-4\sigma,2\eta r)$ has a $\abs\cdot_{p,4\eta r}$-ball of radius $\sigma/2$ in $D(s-3\sigma,4\eta r)$, and
 $\abs\cdot_{p,4\eta r}\le\abs\cdot_{p,\eta r}$; so $\abs{DY}_{p\to p_+,\eta r}\le2\abs Y/\sigma$ there (Lemma~\ref{bpW:w1:cauchy}).
 \proofstep{Assemble}\label{stepW:w5:p-ass} $\abs{(\phi^t)^*Y}\le2\abs Y$. For the differences,
 $\Delta[(D\phi^t)^{-1}Y\circ\phi^t]=\Delta(D\phi^t)^{-1}\,Y_\xi\circ\phi^t_\xi+(D\phi^t_\zeta)^{-1}\bigl[(\Delta Y)\circ\phi^t_\xi+Y_\zeta\circ\phi^t_\xi-Y_\zeta\circ\phi^t_\zeta\bigr]$;
 the last bracket is $\le\frac{2\abs Y}\sigma\abs{\Delta\phi^t}_{p,\eta r}$ (segment in the convex $D(s-4\sigma,2\eta r)$), and
-$\lambda\abs{\Delta\phi^t}_{p,\eta r}\le\eta^{-2}\lambda\cdot2N_1\le\sigma/8$. Total:
-$2\abs Y+4\abs Y+2\lambda\abs Y^{\mathcal L}+2\cdot\frac2\sigma\cdot\frac\sigma8\abs Y\le7\abs Y^\lambda$.
+$\lambda\abs{\Delta\phi^t}_{p,\eta r}\le\eta^{-2}\lambda\cdot2N_1\le\frac\sigma8\abs{\xi-\zeta}$. Hence
+$\lambda\abs{\Delta[(\phi^t)^*Y]}\le\bigl(4\abs Y+2\lambda\abs Y^{\mathcal L}+2\cdot\frac2\sigma\cdot\frac\sigma8\abs Y\bigr)\abs{\xi-\zeta}$, where
+$\abs Y^{\mathcal L}$ is the Lipschitz constant of $Y$; dividing by $\abs{\xi-\zeta}$ and adding the sup bound $2\abs Y$:
+$\abs{(\phi^t)^*Y}^\lambda\le\frac{13}2\abs Y+2\lambda\abs Y^{\mathcal L}\le7\abs Y^\lambda$.
 \end{proof}
 \source{P96-K (12), p.~130, and its proof pp.~131--132 (domains $U=D(s-5\sigma,\eta r)$, $V=D(s-4\sigma,2\eta r)$,
 $W=D(s-2\sigma,4\eta r)$). Constant ours; our $W$ is $D(s-3\sigma,4\eta r)$.}
@@ -637,8 +659,9 @@ $\mathcal A_\xi(w)\in\mathfrak W$ by
 \end{enumerate}
 \end{lemma}
 \begin{proof}
-\proofstep{Holomorphy and reality}\label{stepW:w5:a-hol} $\sqrt\cdot$ is holomorphic on $\operatorname{Re}>0$, the normal
-part is linear. For real data, $\mathcal A_{-i}=\overline{\mathcal A_i}$ and $\bar z=\overline z$. At the torus,
+\proofstep{Holomorphy and reality}\label{stepW:w5:a-hol} $\sqrt\cdot$ is holomorphic on $\operatorname{Re}>0$
+(\ref{bpW:w5:ext-sqrt}) and is composed with the holomorphic $(\xi,y)\mapsto\xi_i+y_i$; the exponentials are entire and the
+normal part is linear. For real data, $\mathcal A_{-i}=\overline{\mathcal A_i}$ and $\bar z=\overline z$. At the torus,
 $\mathcal Z^{-1}$ gives $q_i=\sqrt2\operatorname{Re}(\sqrt{\xi_i}e^{-2\pi i\theta_i})=\sqrt{2\xi_i}\cos2\pi\theta_i$,
 $p_i=\sqrt2\operatorname{Im}(\dots)=-\sqrt{2\xi_i}\sin2\pi\theta_i$.
 \proofstep{Domain}\label{stepW:w5:a-dom} $\abs{\xi_i+y_i}<t+r^2$ and $\abs{e^{\mp2\pi i\theta_i}}\le e^{2\pi s}$, so the tangential

@@ -189,10 +189,16 @@ def rowItems(B, s, bs):
 
 
 def directItems(B, As, Bs):
-    acc = []
-    for s in As:
-        acc = mergeErrTerms(B, acc, rowItems(B, s, Bs))
-    return acc
+    """SO-KDEPTH (Model/Terms.lean, mergeRowsLevel/mergeRowsTree): the rows rowItems(a_i, Bs), merged in a
+    balanced tree: [r0, r1, r2, ...] -> [merge(r0, r1), merge(r2, r3), ...] (an odd last row carried) until one
+    row remains ([] for no rows)."""
+    rows = [rowItems(B, s, Bs) for s in As]
+    if not rows:
+        return []
+    while len(rows) > 1:
+        rows = [mergeErrTerms(B, rows[i], rows[i + 1]) if i + 1 < len(rows) else rows[i]
+                for i in range(0, len(rows), 2)]
+    return rows[0]
 
 
 def truncKeep(cutoff, t):
