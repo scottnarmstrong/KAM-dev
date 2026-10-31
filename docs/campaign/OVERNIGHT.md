@@ -2170,3 +2170,14 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   (lock-owned exp/inv/sqrt segment routes) approved by root-b8; cost ≈ 20 CPU-h kernel + ≈ 2 days literal
   elaboration. Not covered by D47 until the owner confirms; generation/kernel only. Cuts (packed literals, lanes,
   memos; 60°/66° amplitude for comparison only) being priced.
+- **08:21. MILESTONE: the N = 65 Moon band theorems are on main (SO-DATA3, 7adca9fc).**
+  - `KAM.SpinOrbit.lunar_barriers_65_v2` and `lunar_spin_confinement_65_v2`: for p₀ in (0.9934, 1.0066), the unique
+    global solution satisfies |p(t) − 1| ≤ 2.755 % for all t. Standard axioms; kernel-checked through the owner's
+    v2 certifier; about 1,650 data modules (21 MB).
+  - Landing: full build 12438 jobs, guard and ABI OK. prebuild_heavy reused the verified overlay with no data
+    rebuild. The first push lost a race, and the retry merged cleanly.
+  - D46–D48 are recorded in DECISIONS.md.
+  - Next for the band: SO-FREEZE3, i.e. Q11 plus a full data rebuild (running, into kam-data/so-freeze3/build-overlay),
+    then the seal and audit. Its landing needs main's and KAM-inp's Data symlinks repointed to the new overlay first.
+  - Lock: LOCK-DATA (B1 routes, B3 cost table) and LOCK-FREEZE Phase A (waits for SO-FREEZE3). The owner's ruling
+    on the 345 MB lock data is pending.
