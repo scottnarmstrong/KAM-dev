@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-31 15:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 55 % · track W 26 %** · frozen statements proved: 26 / 27 · **368,538 lines of hand-written Lean** of an estimated ≈ 431,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-10-31 15:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 55 % · track W 26 %** · frozen statements proved: 26 / 27 · **368,538 lines of hand-written Lean** of an estimated ≈ 431,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -281,9 +281,9 @@ Overall, everything together: 80.8 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **368,538** (286,126 excluding blank lines and comments) · **+80,979** since 2026-10-30 15:00 UTC |
+| On `main` now (hand-written) | **368,538** (286,126 excluding blank lines and comments) · **+80,480** since 2026-10-30 15:10 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 632,896 lines in 1,649 modules |
-| Written on agent branches, not yet landed (hand-written) | 5,417 |
+| Written on agent branches, not yet landed (hand-written) | 5,433 |
 | Generated certificate data on agent branches (numeric literals; not counted in the other rows) | 4,249 |
 | **Estimated total at completion** (hand-written) | **≈ 431,000** |
 | Estimated still to write | ≈ 57,000 (42,000–72,000 over the range of track W's plan) |
@@ -292,7 +292,7 @@ Overall, everything together: 80.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-31 15:00 UTC from `main` at `e7d41e71` by `scripts/hq-status.py`.*
+*Generated 2026-10-31 15:20 UTC from `main` at `f0c4d4c1` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) is paused by the owner since 2026-10-31 until both SO tracks are done.
 
@@ -483,13 +483,12 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:workers -->
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
-| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | ✅ handed off | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
+| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (final review rounds), proof campaign; PAUSED by the owner on 2026-10-31 until both SO tracks are done | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
-| **buildoptin** `inp-mprov-buildoptin` `inp-maud-buildoptin` | prover (offload) | Claude Opus 5.5 | claude-3 | 🔍 in audit | last commit: BUILD-OPTIN: certificate applications become opt-in Lake libraries (D51) | `inp-buildoptin` | 260 (vs `inp`) |
+| **buildoptin** `inp-mprov-buildoptin` `inp-maud-buildoptin` | prover (offload) | Claude Opus 5.5 | claude-3 | 🔍 in audit | last commit: BUILD-OPTIN audit 1 fixes: check every application at landing; public section in roots; GU | `inp-buildoptin` | 261 (vs `inp`) |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA lock_cseg: initialise memo_out (landed csplit_emit API after the inp merge) | `inp-lockdata` | 147 (vs `inp`) |
-| **LOCK-FREEZE** `inp-mprov-lockfreeze` `inp-maud-lockdesign` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-FREEZE: rename landed Lock.lunarSyncOrbit_{spec,unique,bound} to Lock.syncOrbit_* (cl | `inp-lockfreeze` | 4 (vs `inp`) |
 | **wgraph** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: Track W graph: delta review 7 (codex-1), reports only (track W paused) | `inp-wgraph` | 24 (vs `inp`) |
 | **wph** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: W1-CUBIC: audit 2 report (track W paused) | `inp-wph` | 13 (vs `inp`) |
 | **wpj** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: W4-HOMOLOGICAL WIP: solve (i)(ii)(iv), linear images, wave frequencies, divisors (all file | `inp-wpj` | 2 (vs `inp`) |
