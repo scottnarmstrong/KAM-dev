@@ -5,7 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.Wave.Homological.Melnikov
+public import KAM.Wave.Homological.Divisors
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 
@@ -78,11 +78,6 @@ theorem homJap_neg (l : ℕ+ →₀ ℤ) : homJap (-l) = homJap l := by
 theorem homJapW_neg (l : ℕ+ →₀ ℤ) : homJapW (-l) = homJapW l := by
   unfold homJapW
   rw [homSum_neg l (fun j => (j : ℤ) + 2), Int.natAbs_neg]
-
-theorem homL1_neg (l : ℕ+ →₀ ℤ) : homL1 (-l) = homL1 l := by
-  unfold homL1 Finsupp.sum
-  rw [Finsupp.support_neg]
-  exact Finset.sum_congr rfl fun j _ => by simp
 
 /-- **Reindexing** (blueprint `bpW:w4:wave` (ii)). For `1 ≤ |l| ≤ 2`: if `∑ l_j = 0` the two
 brackets agree; otherwise `⟨l⟩ ≤ ⟨l⟩^w ≤ 3⟨l⟩`. -/
