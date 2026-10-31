@@ -29,7 +29,8 @@ No `bpW:w5:step` statement exists in Lean yet.
 
 ## Checks
 `w_lint.sh` exit 0 at commit 9fad71be; `w_build.sh` of `KAM.Wave.KamStep.Class` succeeded. No `sorry`, no axioms
-added (no `#print axioms` run on the three modules yet).
+added (axioms: see below).
 
 ## Errata / deviations
 - `(4π+2)r²` in the omega bound is true but not sharp; Lean proves `(4π+1)r²` (stronger, no deviation in use).
+- `#print axioms` of `norm_stepSymp_le`, `stepSymp_nondeg`, `isSmoothing_unique_apply`, `lamProd_bound`: propext, Classical.choice, Quot.sound only.
