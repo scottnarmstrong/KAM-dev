@@ -25,7 +25,13 @@ public import KAM.Root.Provider
 public import KAM.Root.Russmann
 public import KAM.Root.Sharp
 public import KAM.Root.Sharp2
-public import KAM.Root.SpinOrbit
+public import KAM.Root.SpinOrbit.Data.Lower
+public import KAM.Root.SpinOrbit.Data.Top
+public import KAM.Root.SpinOrbit.Data.Upper
+public import KAM.Root.SpinOrbit.Graph
+public import KAM.Root.SpinOrbit.Lock
+public import KAM.Root.SpinOrbit.Tests
+public import KAM.Root.SpinOrbit.Top
 public import KAM.Root.Strip
 public import KAM.Root.Torus
 public import KAM.Root.Uniq
