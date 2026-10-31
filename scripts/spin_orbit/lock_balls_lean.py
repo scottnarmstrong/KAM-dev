@@ -78,7 +78,8 @@ def main(gdir, root):
     body = ["/-- The whole disc pass of the certificate's program, from the three segments. -/",
             "theorem lock_balls :",
             "    Slp.balls 2 lockJetLit.prog lockWH lockCentre lockRadius lockTaylor = some ck3.reverse :=",
-            "  balls_eq_of_segs hamSeg0 hamSeg1 hamSeg2"]
+            "  balls_eq_of_segs (k₁ := %d) (k₂ := %d) (by decide +kernel) (by decide +kernel)" % CUTS,
+            "    hamSeg0 hamSeg1 hamSeg2"]
     tree.write("HamBalls", [tree.module("HamSeg%d" % i) for i in range(3)] + [tree.module("Jet")],
                "The lock disc pass (generated)", "Assembled from `HamSeg0`–`HamSeg2` by `balls_eq_of_segs`.\n" + GEN,
                body)

@@ -83,13 +83,17 @@ theorem ballsRev_of_segOk {n : ℕ} {WH : CertWeight} {centre radius : List ℚ}
   · next r hr => rw [hr, eq_of_ballsBeq h]
   · exact absurd h Bool.false_ne_true
 
-/-- Three decided segments give the whole pass (`rout` is the reversed final state). -/
+/-- Three decided segments give the whole pass (`rout` is the reversed final state). The offsets
+`k₁`, `k₂` are literals, tied to the segment lengths by `hk₁`, `hk₂` (decided in the kernel, so the
+elaborator never unfolds a long operation list). -/
 theorem balls_eq_of_segs {n : ℕ} {WH : CertWeight} {centre radius : List ℚ} {taylorN : ℕ}
-    {o₁ o₂ o₃ : List SlpOp} {r₁ r₂ r₃ : List (CC ℚ × ℚ)}
+    {o₁ o₂ o₃ : List SlpOp} {r₁ r₂ r₃ : List (CC ℚ × ℚ)} {k₁ k₂ : ℕ}
+    (hk₁ : o₁.length = k₁) (hk₂ : o₁.length + o₂.length = k₂)
     (h₁ : segOk n WH centre radius taylorN 0 [] o₁ r₁ = true)
-    (h₂ : segOk n WH centre radius taylorN o₁.length r₁ o₂ r₂ = true)
-    (h₃ : segOk n WH centre radius taylorN (o₁.length + o₂.length) r₂ o₃ r₃ = true) :
+    (h₂ : segOk n WH centre radius taylorN k₁ r₁ o₂ r₂ = true)
+    (h₃ : segOk n WH centre radius taylorN k₂ r₂ o₃ r₃ = true) :
     Slp.balls n ⟨o₁ ++ o₂ ++ o₃⟩ WH centre radius taylorN = some r₃.reverse := by
+  subst hk₁ hk₂
   simp only [Slp.balls, ballsAux, List.length_nil, List.reverse_nil]
   rw [ballsRev_append, ballsRev_append, ballsRev_of_segOk h₁, Option.bind_some,
     ballsRev_of_segOk (by simpa using h₂), Option.bind_some,
