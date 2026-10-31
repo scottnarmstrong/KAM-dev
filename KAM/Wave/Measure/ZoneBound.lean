@@ -114,47 +114,32 @@ theorem IsFreqPair.zone_diff_bounds (hP : IsFreqPair m hm Pi α D ω Ω εω ε1
     nlinarith
 
 
-/-- **Zone estimate** (blueprint `bpW:w7:zone`). -/
-theorem IsFreqPair.zone_measure_le (hP : IsFreqPair m hm Pi α D ω Ω εω ε1 ε2 θ)
-    {k : Fin 2 → ℤ} (hk : k ≠ 0) (ψ : (Fin 2 → ℝ) → ℝ)
-    (hψ : ∀ ξ ∈ D, ∀ ξ' ∈ D, |ψ ξ - ψ ξ'| ≤ kAbs k / 8 * ‖omegaTan m hm ξ - omegaTan m hm ξ'‖)
-    {ρζ : ℝ}
-    (hρζ : ∀ ξ ∈ D, ∀ ξ' ∈ D, ‖omegaTan m hm ξ - omegaTan m hm ξ'‖ ≤ ρζ) {η : ℝ} (hη : 0 < η) :
-    MeasurableSet {ξ ∈ D | |∑ i, (k i : ℝ) * ω ξ i + ψ ξ| < η} ∧
-      volume {ξ ∈ D | |∑ i, (k i : ℝ) * ω ξ i + ψ ξ| < η} ≤
-        ENNReal.ofReal (8 * η * ρζ / (kAbs k * measDA m hm)) := by
-  set F : (Fin 2 → ℝ) → ℝ := fun ξ => ∑ i, (k i : ℝ) * ω ξ i + ψ ξ with hF
+/-- Abstract slicing estimate in the frequency coordinate: if `F` is continuous on the Borel set
+`D` and grows at least like `σ |Δζ_i|` along the coordinate lines `e_i` of `ζ = ω⁰(ξ)`, then
+`{ξ ∈ D : |F ξ| < η}` is Borel of measure `≤ 2 η ρ_ζ / (σ D_A)`. -/
+theorem measure_abs_lt_le_of_growth {D : Set (Fin 2 → ℝ)} (hD : MeasurableSet D)
+    {F : (Fin 2 → ℝ) → ℝ} (hFc : ContinuousOn F D) (i : Fin 2) {σ ρζ η : ℝ} (hσ : 0 < σ)
+    (hη : 0 < η)
+    (hρζ : ∀ ξ ∈ D, ∀ ξ' ∈ D, ‖omegaTan m hm ξ - omegaTan m hm ξ'‖ ≤ ρζ)
+    (hgrow : ∀ ξ ∈ D, ∀ ξ' ∈ D, (∀ j, j ≠ i → omegaTan m hm ξ j = omegaTan m hm ξ' j) →
+      σ * |omegaTan m hm ξ i - omegaTan m hm ξ' i| ≤ |F ξ - F ξ'|) :
+    MeasurableSet {ξ ∈ D | |F ξ| < η} ∧
+      volume {ξ ∈ D | |F ξ| < η} ≤ ENNReal.ofReal (2 * η * ρζ / (σ * measDA m hm)) := by
   set S0 : Set (Fin 2 → ℝ) := {ξ ∈ D | |F ξ| < η} with hS0
-  have hk1 := one_le_kAbs hk
   have hDA := measDA_pos m hm
-  -- continuity of `F` on `D`
-  have hcont : ContinuousOn F D := by
-    set C := kAbs k * measNA m hm + θ * kAbs k + kAbs k / 8 * measNA m hm with hC
-    have hlip := LipschitzOnWith.of_dist_le' (K := C) (f := F) (s := D) (fun x hx y hy => by
-      rw [Real.dist_eq, dist_eq_norm]
-      exact (hP.zone_diff_bounds m hm ψ hψ hx hy).1)
-    exact hlip.continuousOn
-  have hmeas : MeasurableSet S0 := measurableSet_abs_lt_of_continuousOn hP.meas hcont η
+  have hmeas : MeasurableSet S0 := measurableSet_abs_lt_of_continuousOn hD hFc η
   refine ⟨hmeas, ?_⟩
-  -- the image in the frequency coordinate
   set S : Set (Fin 2 → ℝ) := omegaTan m hm '' S0 with hS
   have hSmeas : MeasurableSet S :=
     hmeas.image_of_continuousOn_injOn (continuous_omegaTan m hm).continuousOn
       ((omegaTan_injective m hm).injOn)
   have hvol : volume S = ENNReal.ofReal (measDA m hm) * volume S0 :=
     measure_omegaTan_image m hm S0
-  -- choose the coordinate
-  obtain ⟨i, hi⟩ : ∃ i : Fin 2, kAbs k / 2 ≤ |(k i : ℝ)| := by
-    have : kAbs k = |(k 0 : ℝ)| + |(k 1 : ℝ)| := by simp [kAbs, Fin.sum_univ_two]
-    rcases le_total |(k 1 : ℝ)| |(k 0 : ℝ)| with h | h
-    · exact ⟨0, by linarith⟩
-    · exact ⟨1, by linarith⟩
   set φ : (Fin 2 → ℝ) → ℝ := fun ζ => F (Function.invFun (omegaTan m hm) ζ) with hφ
   have hφ' : ∀ ξ, φ (omegaTan m hm ξ) = F ξ := fun ξ => by
     simp only [hφ]
     rw [Function.leftInverse_invFun (omegaTan_injective m hm)]
-  have hslab := slab_measure_le i hSmeas (ρ := ρζ) (σ := kAbs k / 4) (η := η)
-    (by positivity) hη.le φ
+  have hslab := slab_measure_le i hSmeas (ρ := ρζ) (σ := σ) (η := η) hσ hη.le φ
     (by
       rintro _ ⟨x, hx, rfl⟩ _ ⟨y, hy, rfl⟩
       rw [dist_eq_norm]
@@ -166,18 +151,45 @@ theorem IsFreqPair.zone_measure_le (hP : IsFreqPair m hm Pi α D ω Ω εω ε1 
     (by
       rintro _ ⟨x, hx, rfl⟩ _ ⟨y, hy, rfl⟩ hxy
       rw [hφ', hφ']
-      exact (hP.zone_diff_bounds m hm ψ hψ hx.1 hy.1).2 i hxy hi)
+      exact hgrow x hx.1 y hy.1 hxy)
   rw [hvol] at hslab
-  have hpos : 0 < kAbs k := by linarith
   have hkey : ENNReal.ofReal (measDA m hm) * volume S0 ≤
-      ENNReal.ofReal (measDA m hm) * ENNReal.ofReal (8 * η * ρζ / (kAbs k * measDA m hm)) := by
+      ENNReal.ofReal (measDA m hm) * ENNReal.ofReal (2 * η * ρζ / (σ * measDA m hm)) := by
     rw [← ENNReal.ofReal_mul hDA.le]
     refine hslab.trans (le_of_eq ?_)
     congr 1
     field_simp
-    ring
   exact (ENNReal.mul_le_mul_iff_right (by simpa using hDA) ENNReal.ofReal_ne_top).1 hkey
-    |> fun h => by simpa using h
+
+/-- **Zone estimate** (blueprint `bpW:w7:zone`). -/
+theorem IsFreqPair.zone_measure_le (hP : IsFreqPair m hm Pi α D ω Ω εω ε1 ε2 θ)
+    {k : Fin 2 → ℤ} (hk : k ≠ 0) (ψ : (Fin 2 → ℝ) → ℝ)
+    (hψ : ∀ ξ ∈ D, ∀ ξ' ∈ D, |ψ ξ - ψ ξ'| ≤ kAbs k / 8 * ‖omegaTan m hm ξ - omegaTan m hm ξ'‖)
+    {ρζ : ℝ}
+    (hρζ : ∀ ξ ∈ D, ∀ ξ' ∈ D, ‖omegaTan m hm ξ - omegaTan m hm ξ'‖ ≤ ρζ) {η : ℝ} (hη : 0 < η) :
+    MeasurableSet {ξ ∈ D | |∑ i, (k i : ℝ) * ω ξ i + ψ ξ| < η} ∧
+      volume {ξ ∈ D | |∑ i, (k i : ℝ) * ω ξ i + ψ ξ| < η} ≤
+        ENNReal.ofReal (8 * η * ρζ / (kAbs k * measDA m hm)) := by
+  set F : (Fin 2 → ℝ) → ℝ := fun ξ => ∑ i, (k i : ℝ) * ω ξ i + ψ ξ with hF
+  have hk1 := one_le_kAbs hk
+  have hcont : ContinuousOn F D := by
+    set C := kAbs k * measNA m hm + θ * kAbs k + kAbs k / 8 * measNA m hm with hC
+    have hlip := LipschitzOnWith.of_dist_le' (K := C) (f := F) (s := D) (fun x hx y hy => by
+      rw [Real.dist_eq, dist_eq_norm]
+      exact (hP.zone_diff_bounds m hm ψ hψ hx hy).1)
+    exact hlip.continuousOn
+  obtain ⟨i, hi⟩ : ∃ i : Fin 2, kAbs k / 2 ≤ |(k i : ℝ)| := by
+    have : kAbs k = |(k 0 : ℝ)| + |(k 1 : ℝ)| := by simp [kAbs, Fin.sum_univ_two]
+    rcases le_total |(k 1 : ℝ)| |(k 0 : ℝ)| with h | h
+    · exact ⟨0, by linarith⟩
+    · exact ⟨1, by linarith⟩
+  have := measure_abs_lt_le_of_growth m hm hP.meas hcont i (σ := kAbs k / 4) (ρζ := ρζ) (η := η)
+    (by positivity) hη hρζ (fun x hx y hy hxy =>
+      (hP.zone_diff_bounds m hm ψ hψ hx hy).2 i hxy hi)
+  refine ⟨this.1, this.2.trans (le_of_eq ?_)⟩
+  congr 1
+  field_simp
+  ring
 
 end
 
