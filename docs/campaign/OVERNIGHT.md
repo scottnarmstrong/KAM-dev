@@ -2089,3 +2089,19 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   [13155/1000000, 163/10000] instead of the 132/10000-wired helper; `lockLiteralCheck` passes for the frozen
   headline literals (129/10000, 21/100, 26/1000) at lo ≥ 0.013155. Headline statement unchanged; N = 65, 73.8° unchanged.
   Reversible: a tighter SOS later restores the wired helper.
+- **05:05. SO-DATA3 DONE: the N = 65 Moon band theorems are kernel-checked through the v2 certifier.**
+  - `lunar_barriers_65_v2` and `lunar_spin_confinement_65_v2` (KAM/SpinOrbit/LunarFinalR2V2.lean) are one-line
+    applications of `lunar_barriers_of_R2V2` and `lunar_spin_confinement_of_band`, with standard axioms only.
+  - Statement: for initial spin rate p₀ in the window (0.9934, 1.0066), the unique solution satisfies
+    |p(t) − 1| ≤ 2755/100000 for all time (band [0.97245, 1.02755], rule B; window by rule W).
+  - err 1.6e-16 / 1.83e-16 (10^1.44–1.50 below the threshold); disp 5.78e-11 / 6.62e-11.
+  - Kernel: 1,100 heavy theorems, 7.47 h of kernel wall time on two lanes (4.5 h elapsed); maximum peak 9.49 GB
+    (the l = 12 bite); every family under the cap. Emitted data 21.1 MB. Nothing frozen.
+  - **For owner review:**
+    - 8 lines of CsegSupport.lean exceed 100 columns. Every segmented module imports that file, so a reformat
+      means a ~7.5 h rebuild. Exempted by an exact-line allowlist (scripts/lint-width-allow.txt, main e8972901,
+      keyed by path and line sha256), to be removed at the next data regeneration.
+    - The one overlong line of CsegGraph.lean is cheap to fix and is being fixed.
+  - Next: the codex-1 audit (the final theorems, the new lemmas, the assembly chain, a replayed sample of data
+    modules), then the landing via the HC build overlay (pre-check passed), then the D40 freeze text to the
+    owner in the morning.
