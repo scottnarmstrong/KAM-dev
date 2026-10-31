@@ -3,5 +3,21 @@
  "added": [],
  "items": [],
  "unresolved": {},
- "passes": []
+ "passes": [
+  "stepW:w7:prep-0",
+  "stepW:w7:prep-plus",
+  "stepW:w7:prep-minus-group",
+  "stepW:w7:prep-j0",
+  "stepW:w7:prep-n",
+  "stepW:w7:prep-X",
+  "stepW:w7:prep-sum",
+  "stepW:w7:it-plus",
+  "stepW:w7:it-group",
+  "stepW:w7:it-j0",
+  "stepW:w7:it-n",
+  "stepW:w7:it-sum",
+  "stepW:w7:it-X",
+  "bpW:w7:measurable",
+  "stepW:w7:meas-union"
+ ]
 }

@@ -266,7 +266,7 @@ DISPOSITION: NODE stepW:w1:hacoef
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w1b
+REVIEWER: sol-delta9-W-W-w1b
 
 ITEM: stepW:w1:hagroup
 KIND: proof-region

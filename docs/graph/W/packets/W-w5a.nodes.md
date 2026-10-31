@@ -102,9 +102,9 @@ EDGE: stepW:w5:ombd | blueprint-W/parts/w5-kamstep.tex#bpW:w5:omega@L95-L95 | pr
 EDGE: stepW:w5:omnd | blueprint-W/parts/w5-kamstep.tex#bpW:w5:omega@L97-L97 | proof step
 EDGE: stepW:w5:omnorm | blueprint-W/parts/w5-kamstep.tex#bpW:w5:omega@L100-L100 | proof step
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#bpW:w5:omega@L89-L93 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -130,9 +130,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:index | blueprint-W/parts/w5-kamstep.tex#stepW:w5:ombd@L96-L96 | (bpW:w4:pairing)
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:ombd@L95-L96 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -157,9 +157,9 @@ DEPS: bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:omnd@L97-L99 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -185,9 +185,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:embed | blueprint-W/parts/w5-kamstep.tex#stepW:w5:omnorm@L100-L100 | weights increase with q
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:omnorm@L100-L101 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -216,9 +216,9 @@ EDGE: bpW:w5:setting | blueprint-W/parts/w5-kamstep.tex#bpW:w5:class@L108-L108 |
 EDGE: bpW:w5:omega | blueprint-W/parts/w5-kamstep.tex#bpW:w5:class@L110-L110 | uniqueness of X_P
 EDGE: bpW:w4:taylor | blueprint-W/parts/w5-kamstep.tex#bpW:w5:class@L111-L111 | the field formula
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#bpW:w5:class@L105-L119 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -337,9 +337,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w4:liebd | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-tail@L153-L153 | the only use of the tails
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-tail@L153-L154 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -365,9 +365,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w4:divlip | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-div@L155-L155 | its use of M_Omega
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-div@L155-L157 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -394,9 +394,9 @@ ROUTE_FOR: -
 EDGE: bpW:w4:schur | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-diag@L158-L158 | (iii)
 EDGE: stepW:w4:Nhat | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-diag@L159-L159 | its only use
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-diag@L158-L160 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -427,9 +427,9 @@ EDGE: bpW:w4:solve | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-rest@L162-L162 
 EDGE: bpW:w4:extract | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-rest@L162-L162 | general
 EDGE: bpW:w4:components | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-rest@L162-L162 | general
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-rest@L161-L164 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -463,9 +463,9 @@ EDGE: stepW:w5:m-ass | blueprint-W/parts/w5-kamstep.tex#bpW:w5:w4-modified@L227-
 EDGE: stepW:w5:m-const | blueprint-W/parts/w5-kamstep.tex#bpW:w5:w4-modified@L232-L232 | proof step
 EDGE: bpW:w5:w4-general | blueprint-W/parts/w5-kamstep.tex#bpW:w5:w4-modified@L171-L171 | the modified lemma assumes the new frequency hypothesis (freq) defined here
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#bpW:w5:w4-modified@L170-L191 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -491,9 +491,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:schur | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-sup@L197-L197 | Hadamard division
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-sup@L194-L198 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -520,9 +520,9 @@ ROUTE_FOR: -
 EDGE: bpW:w4:lemma1 | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-other@L200-L200 | its bounds
 EDGE: bpW:w1:embed | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-other@L200-L200 | the inclusion l^{a,p+1} into l^{a,p_+} has norm at most one
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-other@L199-L200 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -550,9 +550,9 @@ EDGE: stepW:w4:divlip | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-lip@L201-L20
 EDGE: bpW:w4:solve | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-lip@L204-L204 | (ii)
 EDGE: stepW:w4:lip | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-lip@L204-L204 | as in this step
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-lip@L201-L204 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -585,9 +585,9 @@ EDGE: stepW:w5:m-lip | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-act@L220-L220
 EDGE: bpW:w4:fourier-ops | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-act@L223-L223 | (iii)
 EDGE: stepW:w4:assembly | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-act@L218-L218 | the revised action-component bound is inserted into W4 assembly
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-act@L205-L226 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -618,9 +618,9 @@ EDGE: stepW:w5:m-act | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-ass@L228-L228
 EDGE: bpW:w4:lemma2 | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-ass@L231-L231 | the lambda-form
 EDGE: stepW:w4:lip | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-ass@L227-L227 | the explicitly cited Fcomp-through-Nhat range includes the Lipschitz assembly
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-ass@L227-L231 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -646,9 +646,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:lattice | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-const@L233-L233 | (ii), (iii)
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-const@L232-L235 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -682,9 +682,9 @@ EDGE: stepW:w5:t-comp | blueprint-W/parts/w5-kamstep.tex#bpW:w5:taylor@L299-L299
 EDGE: stepW:w5:t-field | blueprint-W/parts/w5-kamstep.tex#bpW:w5:taylor@L308-L308 | proof step
 EDGE: stepW:w5:t-est | blueprint-W/parts/w5-kamstep.tex#bpW:w5:taylor@L314-L314 | proof step
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#bpW:w5:taylor@L265-L285 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -710,9 +710,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:setting | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-scale@L287-L287 | varpi
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-scale@L287-L290 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -737,9 +737,9 @@ DEPS: bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-disc@L291-L293 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -765,9 +765,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:class | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-poly@L297-L297 | DP W = varpi(X_P,W)
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-poly@L294-L298 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -801,9 +801,9 @@ EDGE: bpW:w5:ext-symm | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L305-L3
 EDGE: bpW:w5:omega | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L304-L304 | DP(w) = varpi(X_P(w), .)
 EDGE: bpW:w5:class | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L304-L305 | the smoothing Hamiltonian definition supplies DP = varpi(X_P, .) on a neighbourhood and holomorphy of X_P, needed for the second-derivative symmetry application
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L299-L307 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta7-W-w5a+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -831,9 +831,9 @@ EDGE: stepW:w5:t-scale | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-field@L310-
 EDGE: bpW:w5:omega | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-field@L312-L312 | uniqueness
 EDGE: bpW:w3:ext-integral | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-field@L309-L309 | differentiate the coefficient integrals in epsilon
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-field@L308-L313 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -861,9 +861,9 @@ EDGE: stepW:w5:t-disc | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-est@L315-L31
 EDGE: bpW:w5:ext-taylor | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-est@L316-L316 | Taylor coefficients and remainder
 EDGE: bpW:w5:omega | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-est@L319-L319 | norm comparison
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-est@L314-L320 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -894,9 +894,9 @@ EDGE: bpW:w4:lemma1 | blueprint-W/parts/w5-kamstep.tex#bpW:w5:data@L339-L339 | C
 EDGE: bpW:w4:lattice | blueprint-W/parts/w5-kamstep.tex#bpW:w5:data@L339-L339 | b_W(tau)
 EDGE: bpW:w5:w4-general | blueprint-W/parts/w5-kamstep.tex#bpW:w5:data@L331-L331 | (bpW:w5:freq)
 EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#bpW:w5:data@L328-L348 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

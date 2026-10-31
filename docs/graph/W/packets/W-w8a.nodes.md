@@ -254,9 +254,9 @@ ROUTE_FOR: -
 EDGE: bpW:w8:const | blueprint-W/parts/w8-assembly.tex#bpW:w8:shells@L118-L118 | t_0, E_3
 EDGE: bpW:w7:shells | blueprint-W/parts/w8-assembly.tex#bpW:w8:shells@L119-L119 | W7's shells
 EDGE: bpW:w8#data | blueprint-W/parts/w8-assembly.tex#bpW:w8:shells@L117-L128 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w8a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

@@ -21,9 +21,9 @@ KIND: external
 SOURCE: blueprint/parts/p1-analysis.tex#bp:p1:holomorphic-analytic@L296-L312
 DISPOSITION: EXCLUDED
 REASON: proof provenance only under SPEC import policy: stepW:w1:hacoef owns the Banach-target adaptation of K's finite-dimensional Cauchy argument, with W external suppliers ext-onevar and ext-integral; no W node applies the K theorem with its literal finite-dimensional target premise
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-imports
 
 ITEM: K:bp:p1:strip-identity
 KIND: external

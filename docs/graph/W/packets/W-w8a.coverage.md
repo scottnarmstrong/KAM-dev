@@ -86,7 +86,7 @@ DISPOSITION: NODE bpW:w8:shells
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8a
+REVIEWER: sol-delta9-W-W-w8a
 
 ITEM: bpW:w8:shell-data
 KIND: lemma

@@ -204,9 +204,9 @@ EDGE: bpW:w3:space | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:coords@L121-L121 |
 EDGE: bpW:w0:z | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:coords@L127-L127 | the complex coordinates z_j
 EDGE: bpW:w0:actions | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:coords@L127-L127 | I_j = ¦z_j¦^2
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:coords@L119-L128 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -234,9 +234,9 @@ EDGE: bpW:w3:space | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:omega@L140-L140 | 
 EDGE: bpW:w3:coords | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:omega@L149-L149 | the inverse formulas of Z
 EDGE: bpW:w0:eqmotion | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:omega@L144-L144 | the symplectic form sum dq_j ^ dp_j
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:omega@L139-L145 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -265,9 +265,9 @@ EDGE: bpW:w3:coords | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:hamfield-def@L158
 EDGE: bpW:w1:holomorphic | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:hamfield-def@L161-L161 | holomorphic maps
 EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:hamfield-def@L161-L161 | analytic maps are Frechet differentiable, hence holomorphic
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:hamfield-def@L154-L162 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -294,9 +294,9 @@ ROUTE_FOR: -
 EDGE: bpW:w3:coords | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:real-restrict@L182-L182 | Z and the projection Pi are continuous R-linear
 EDGE: bpW:w3:ext-series | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:real-restrict@L180-L180 | C-analytic is R-analytic; compositions
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:real-restrict@L171-L177 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -324,9 +324,9 @@ EDGE: bpW:w3:omega | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:forms@L192-L192 | 
 EDGE: bpW:w3:hamfield-def | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:forms@L194-L194 | the Hamiltonian field X_P
 EDGE: bpW:w3:ext-multilinear | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:forms@L194-L194 | derivative of the diagonal of a multilinear map
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:forms@L189-L197 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -358,9 +358,9 @@ EDGE: bpW:w3:hamfield-def | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:Lambda@L210
 EDGE: bpW:w1:diag | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:Lambda@L211-L211 | (i) with r = 1: the operator bound
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:Lambda@L201-L201 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:Lambda@L200-L206 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -391,9 +391,9 @@ EDGE: stepW:w0n:selection | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:majorant@L2
 EDGE: stepW:w0n:smoothing | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:majorant@L242-L242 | the W0 smoothing step
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:majorant@L234-L234 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:majorant@L232-L239 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -423,9 +423,9 @@ EDGE: stepW:w3:maj | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:quartic@L262-L262 
 EDGE: stepW:w3:gradbound | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:quartic@L266-L266 | proof step
 EDGE: stepW:w3:identify | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:quartic@L270-L270 | proof step
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:quartic@L248-L259 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -452,9 +452,9 @@ ROUTE_FOR: -
 EDGE: bpW:w3:majorant | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:maj@L265-L265 | the majorant M
 EDGE: bpW:w3:quartic-sec#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:maj@L265-L265 | frak g
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:maj@L262-L265 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -481,9 +481,9 @@ ROUTE_FOR: -
 EDGE: bpW:w3:majorant | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:gradbound@L267-L267 | the bound C_*
 EDGE: stepW:w3:maj | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:gradbound@L268-L268 | the majorization
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:gradbound@L266-L269 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -513,9 +513,9 @@ EDGE: bpW:w3:forms | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:identify@L276-L2
 EDGE: stepW:w3:gradbound | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:identify@L276-L276 | c = C_*/4
 EDGE: bpW:w3:coords | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:identify@L275-L275 | the involution rho
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:identify@L270-L277 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -551,9 +551,9 @@ EDGE: stepW:w3:res | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:quartic-ident@L319
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:quartic-ident@L315-L315 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:quartic-ident@L285-L285 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:quartic-ident@L282-L291 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -581,9 +581,9 @@ EDGE: bpW:w0n:birkhoff#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Gz@L295
 EDGE: bpW:w3:quartic | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Gz@L296-L296 | absolute convergence
 EDGE: bpW:w0n:gradient | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Gz@L297-L297 | G(q) as the quartic sum
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Gz@L294-L297 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -615,9 +615,9 @@ EDGE: bpW:w3:majorant | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XG@L306-L306 
 EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XG@L307-L307 | symmetry of g gives the symmetry of Q
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XG@L303-L303 | hat q_j = q_j/sqrt(lambda_j) uses the frozen lam definition directly
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XG@L298-L311 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta3-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -644,9 +644,9 @@ ROUTE_FOR: -
 EDGE: bpW:w3:quartic-sec#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Gnor@L313-L313 | the set T
 EDGE: bpW:w3:quartic | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Gnor@L313-L313 | the normal-only size and field bounds use the quartic result at the normal projection
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Gnor@L312-L313 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -674,9 +674,9 @@ EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:count@L
 EDGE: bpW:w0n:AB | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:count@L318-L318 | A and B
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:count@L315-L315 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:count@L314-L318 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -702,9 +702,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w0n:nonres | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:res@L320-L320 | applied to the indices ¦x¦ with signs sgn x_t
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:res@L319-L321 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -740,9 +740,9 @@ EDGE: stepW:w3:divconcl | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:divisor@L370-
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:divisor@L337-L337 | lambda occurs directly here (frozen lam)
 EDGE: stepW:w3:divisor#curvature | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:divisor@L337-L337 | the curvature or beta comparison from the proof preamble is directly used
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:divisor@L327-L333 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -767,9 +767,9 @@ DEPS: bpW:w3#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:sel@L339-L342 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -794,9 +794,9 @@ DEPS: bpW:w3#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:signs@L343-L346 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -824,9 +824,9 @@ EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s0@
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s0@L348-L348 | lambda occurs directly here (frozen lam)
 EDGE: stepW:w3:divisor#curvature | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s0@L348-L348 | the curvature or beta comparison from the proof preamble is directly used
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s0@L347-L348 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -855,9 +855,9 @@ EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s1@
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s1@L350-L350 | lambda occurs directly here (frozen lam)
 EDGE: stepW:w3:divisor#curvature | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s1@L352-L352 | the curvature or beta comparison from the proof preamble is directly used
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s1@L349-L353 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -885,9 +885,9 @@ EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s23
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s23@L355-L355 | lambda occurs directly here (frozen lam)
 EDGE: stepW:w3:divisor#curvature | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s23@L357-L357 | the curvature or beta comparison from the proof preamble is directly used
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s23@L354-L358 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -917,9 +917,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s1inner@L360
 EDGE: bpW:w3:ext-integral | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s1inner@L363-L363 | the double integral argument uses the fundamental theorem of calculus
 EDGE: stepW:w3:divisor#curvature | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s1inner@L364-L364 | the curvature or beta comparison from the proof preamble is directly used
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s1inner@L359-L369 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -949,9 +949,9 @@ EDGE: stepW:w3:s23 | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:divconcl@L371-L3
 EDGE: stepW:w3:s1inner | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:divconcl@L371-L371 | delta_1
 EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:divconcl@L373-L373 | frak g_x != 0 implies the selection rule
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:divconcl@L370-L373 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -978,9 +978,9 @@ ROUTE_FOR: -
 EDGE: bpW:w3:quartic-sec#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:Fdef@L396-L396 | frak g, delta, pairing, T
 EDGE: bpW:w3:forms | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:Fdef@L400-L400 | nabla of a form
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:Fdef@L395-L401 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1008,9 +1008,9 @@ EDGE: bpW:w3:Fdef | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:F@L407-L407 | frak 
 EDGE: stepW:w3:fcoef | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:F@L416-L416 | proof step
 EDGE: stepW:w3:Fconcl | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:F@L420-L420 | proof step
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:F@L406-L413 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1037,9 +1037,9 @@ ROUTE_FOR: -
 EDGE: bpW:w3:divisor | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:fcoef@L418-L418 | ¦delta_x¦ >= delta_*
 EDGE: bpW:w3:quartic | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:fcoef@L418-L418 | its coefficient hypotheses
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:fcoef@L416-L419 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1068,9 +1068,9 @@ EDGE: stepW:w3:fcoef | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Fconcl@L421-L4
 EDGE: bpW:w3:hamfield-def | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Fconcl@L423-L423 | reality of the field from reality of the form
 EDGE: bpW:w3:ext-series | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Fconcl@L423-L423 | polynomials are analytic
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Fconcl@L420-L423 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1100,9 +1100,9 @@ EDGE: stepW:w3:euler | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:homological@L438
 EDGE: stepW:w3:divide | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:homological@L444-L444 | proof step
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:homological@L439-L439 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:homological@L427-L432 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1129,9 +1129,9 @@ ROUTE_FOR: -
 EDGE: bpW:w3:Fdef | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Xfcoord@L436-L436 | S = 4 nabla frak F
 EDGE: bpW:w3:quartic | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Xfcoord@L436-L436 | the formula for nabla
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Xfcoord@L435-L437 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1161,9 +1161,9 @@ EDGE: bpW:w3:F | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:euler@L443-L443 | ¦
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:euler@L442-L442 | lambda_¦l¦ <= sqrt(1+m) ¦l¦^{p+1} e^{a¦l¦}
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:euler@L439-L439 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:euler@L438-L443 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1191,9 +1191,9 @@ EDGE: stepW:w3:euler | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:divide@L446-L4
 EDGE: bpW:w3:divisor | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:divide@L446-L446 | delta_x != 0 where frak g_x != 0
 EDGE: bpW:w3:quartic | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:divide@L447-L447 | the forms and G = G^tan + G^nor
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:divide@L444-L448 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1221,9 +1221,9 @@ EDGE: bpW:w3:Fdef | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:lie-coeff@L463-L463
 EDGE: bpW:w3:F | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:lie-coeff@L463-L463 | S must be a continuous trilinear map to construct continuous Lie coefficients
 EDGE: bpW:w3:ext-multilinear | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:lie-coeff@L463-L463 | slot insertion preserves continuous multilinearity
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:lie-coeff@L461-L466 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1254,9 +1254,9 @@ EDGE: stepW:w3:Phireal | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:leibniz@L491-L
 EDGE: stepW:w3:leib | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:leibniz@L493-L493 | proof step
 EDGE: stepW:w3:leibid | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:leibniz@L497-L497 | proof step
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:leibniz@L470-L480 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1283,9 +1283,9 @@ ROUTE_FOR: -
 EDGE: bpW:w3:ext-multilinear | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:rec@L484-L484 | derivative of the diagonal
 EDGE: bpW:w3:lie-coeff | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:rec@L485-L485 | the recursion
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:rec@L483-L485 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1313,9 +1313,9 @@ EDGE: bpW:w3:ext-multilinear | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:norms@
 EDGE: bpW:w3:F | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:norms@L487-L487 | ¦¦S¦¦ <= C_F
 EDGE: bpW:w3:lie-coeff | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:norms@L489-L489 | Phi_1 = S and the recursion
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:norms@L486-L490 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1341,9 +1341,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w3:F | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Phireal@L492-L492 | S commutes with rho
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Phireal@L491-L492 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1369,9 +1369,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w3:ext-multilinear | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:leib@L494-L494 | product and chain rules for multilinear maps
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:leib@L493-L496 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1399,9 +1399,9 @@ EDGE: stepW:w3:rec | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:leibid@L499-L499
 EDGE: stepW:w3:leib | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:leibid@L499-L499 | the Leibniz rule
 EDGE: bpW:w3:F | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:leibid@L500-L500 | symmetry of S
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:leibid@L497-L500 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1435,9 +1435,9 @@ EDGE: stepW:w3:Greal | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:flow@L552-L552 |
 EDGE: stepW:w3:var | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:flow@L554-L554 | proof step
 EDGE: stepW:w3:inv | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:flow@L558-L558 | proof step
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:flow@L504-L527 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1465,9 +1465,9 @@ EDGE: bpW:w3:leibniz | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:conv@L531-L531
 EDGE: bpW:w3:ext-series | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:conv@L534-L534 | power series give analyticity
 EDGE: bpW:w3:ext-tsum | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:conv@L537-L537 | termwise differentiation
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:conv@L530-L537 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1495,9 +1495,9 @@ EDGE: bpW:w3:leibniz | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:floweq@L540-L5
 EDGE: bpW:w3:ext-tsum | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:floweq@L541-L541 | Cauchy product
 EDGE: stepW:w3:conv | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:floweq@L539-L539 | termwise derivative
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:floweq@L538-L541 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1524,9 +1524,9 @@ ROUTE_FOR: -
 EDGE: bpW:w3:leibniz | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:transport@L544-L544 | (i)
 EDGE: stepW:w3:conv | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:transport@L544-L544 | termwise derivatives
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:transport@L542-L544 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1554,9 +1554,9 @@ EDGE: bpW:w3:leibniz | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:est@L547-L547 
 EDGE: bpW:w3:ext-neumann | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:est@L550-L550 | Neumann series
 EDGE: stepW:w3:conv | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:est@L546-L546 | r <= 1/10
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:est@L545-L551 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1582,9 +1582,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w3:leibniz | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Greal@L553-L553 | (iii)
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Greal@L552-L553 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1612,9 +1612,9 @@ EDGE: bpW:w3:leibniz | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:var@L555-L555 
 EDGE: bpW:w3:ext-tsum | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:var@L555-L555 | Cauchy product
 EDGE: stepW:w3:conv | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:var@L556-L556 | termwise derivative
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:var@L554-L557 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1644,9 +1644,9 @@ EDGE: stepW:w3:transport | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:inv@L562-L
 EDGE: stepW:w3:floweq | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:inv@L562-L562 | flow equation
 EDGE: bpW:w3:ext-mvt | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:inv@L563-L563 | zero derivative implies constant
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:inv@L558-L565 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1676,9 +1676,9 @@ EDGE: stepW:w3:skew | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:symplectic@L589-L
 EDGE: stepW:w3:constform | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:symplectic@L593-L593 | proof step
 EDGE: stepW:w3:gradtrans | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:symplectic@L598-L598 | proof step
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:symplectic@L579-L586 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1706,9 +1706,9 @@ EDGE: bpW:w3:F | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:skew@L591-L591 | Ome
 EDGE: bpW:w3:omega | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:skew@L592-L592 | antisymmetry
 EDGE: bpW:w3:flow | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:skew@L590-L590 | (v): DX_F(y) xi = 3 S(y,y,xi)
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:skew@L589-L592 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1737,9 +1737,9 @@ EDGE: stepW:w3:skew | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:constform@L596-
 EDGE: bpW:w3:ext-mvt | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:constform@L597-L597 | zero derivative
 EDGE: bpW:w3:omega | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:constform@L594-L594 | continuity and bilinearity of the symplectic form are used to differentiate g
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:constform@L593-L597 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1767,9 +1767,9 @@ EDGE: bpW:w3:flow | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:gradtrans@L601-L6
 EDGE: stepW:w3:constform | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:gradtrans@L602-L602 | constant form
 EDGE: bpW:w3:hamfield-def | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:gradtrans@L599-L599 | the defining Hamiltonian pairing of P is directly consumed
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:gradtrans@L598-L602 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1804,9 +1804,9 @@ EDGE: stepW:w3:majint | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:Yseries@L672-L6
 EDGE: stepW:w3:majps | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:Yseries@L676-L676 | proof step
 EDGE: stepW:w3:majreal | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:Yseries@L679-L679 | proof step
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:Yseries@L621-L629 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1833,9 +1833,9 @@ ROUTE_FOR: -
 EDGE: bpW:w3:ext-multilinear | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majcalc@L640-L640 | norms of composites
 EDGE: bpW:w3:ext-tsum | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majcalc@L641-L641 | regrouping
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majcalc@L633-L644 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1863,9 +1863,9 @@ EDGE: bpW:w3:flow | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majflow@L646-L646
 EDGE: bpW:w3:leibniz | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majflow@L647-L647 | (ii)
 EDGE: stepW:w3:majcalc | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majflow@L646-L646 | (t,w)-series
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majflow@L645-L647 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1894,9 +1894,9 @@ EDGE: stepW:w3:est | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majA@L653-L653 |
 EDGE: bpW:w3:ext-multilinear | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majA@L653-L653 | derivative of the diagonal
 EDGE: bpW:w3:flow | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majA@L654-L654 | (i) termwise derivative
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majA@L648-L654 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1925,9 +1925,9 @@ EDGE: stepW:w3:majcalc | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majN@L657-L6
 EDGE: bpW:w3:ext-tsum | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majN@L659-L659 | regrouping
 EDGE: bpW:w3:ext-neumann | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majN@L660-L660 | Neumann series
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majN@L655-L661 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1955,9 +1955,9 @@ EDGE: bpW:w3:quartic | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majX@L663-L663
 EDGE: stepW:w3:majflow | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majX@L664-L664 | the series Gamma
 EDGE: stepW:w3:majcalc | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majX@L664-L664 | composites
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majX@L662-L665 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1986,9 +1986,9 @@ EDGE: stepW:w3:majX | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majY@L668-L668 
 EDGE: bpW:w3:main-sec#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majY@L669-L669 | Y(t,w)
 EDGE: stepW:w3:majcalc | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majY@L667-L670 | the bilinear application composite and subtraction use the composite-series identity and product majorant bound
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majY@L666-L671 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta3-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2015,9 +2015,9 @@ ROUTE_FOR: -
 EDGE: stepW:w3:majY | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majint@L674-L674 | the bounds on Y_j
 EDGE: bpW:w3:ext-integral | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majint@L674-L674 | termwise integration
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majint@L672-L675 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2045,9 +2045,9 @@ EDGE: stepW:w3:majY | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majps@L677-L677
 EDGE: bpW:w3:ext-series | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majps@L677-L677 | power series give analyticity
 EDGE: stepW:w3:majint | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majps@L677-L678 | the preceding termwise integral identity identifies the diagonal series with coefficients q with the integral whose analyticity is asserted
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majps@L676-L678 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta3-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2075,9 +2075,9 @@ EDGE: bpW:w3:flow | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majreal@L680-L680
 EDGE: bpW:w3:hamfield-def | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majreal@L681-L681 | X_{Z'} commutes with rho
 EDGE: bpW:w3:ext-integral | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majreal@L682-L682 | continuous R-linear maps commute with the integral
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majreal@L679-L682 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2113,9 +2113,9 @@ EDGE: stepW:w3:XKconcl | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:main@L742-L742
 EDGE: stepW:w3:iii | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:main@L747-L747 | proof step
 EDGE: stepW:w3:conj | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:main@L749-L749 | proof step
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:main@L687-L705 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2144,9 +2144,9 @@ EDGE: bpW:w3:ext-series | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Kanalytic@L
 EDGE: bpW:w3:Lambda | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Kanalytic@L711-L711 | Lambda a continuous polynomial
 EDGE: bpW:w3:quartic | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Kanalytic@L711-L711 | G, bar G, G^nor polynomials
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Kanalytic@L710-L713 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2175,9 +2175,9 @@ EDGE: bpW:w3:flow | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:K1@L717-L717 | (i
 EDGE: bpW:w3:quartic | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:K1@L716-L716 | ¦¦X_G(y)¦¦_+ <= C_*¦¦y¦¦^3
 EDGE: bpW:w3:omega | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:K1@L716-L716 | DG(y)v = Omega(X_G(y),v)
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:K1@L714-L717 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2208,9 +2208,9 @@ EDGE: stepW:w3:Kanalytic | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:K2@L723-L7
 EDGE: bpW:w3:ext-integral | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:K2@L723-L723 | integrating the derivative bound on h gives the K2 estimate
 EDGE: bpW:w3:quartic | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:K2@L722-L722 | the derivative bound for Z prime requires its quartic smoothing bound
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:K2@L718-L723 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2240,9 +2240,9 @@ EDGE: bpW:w3:flow | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XK1@L727-L727 | (
 EDGE: bpW:w3:ext-series | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XK1@L730-L730 | analyticity of D(Gamma - id), inversion
 EDGE: bpW:w3:quartic | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XK1@L728-L728 | the cubic field bound for X_G supplies the premise of the transport estimate
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XK1@L724-L731 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2273,9 +2273,9 @@ EDGE: bpW:w3:main-sec#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XK2@L736
 EDGE: stepW:w3:XK1 | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XK2@L736-L736 | the same bound
 EDGE: bpW:w3:Yseries | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XK2@L737-L737 | D_w Y bounded; analyticity of the integral
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XK2@L732-L741 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2307,9 +2307,9 @@ EDGE: bpW:w3:hamfield-def#hamilton | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:
 EDGE: bpW:w3:coords | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XKconcl@L746-L746 | ¦¦Zx¦¦ <= sqrt2 ¦¦x¦¦_E
 EDGE: stepW:w3:Kanalytic | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XKconcl@L744-L744 | reality of K from part (i) supplies the reality premise of the Hamiltonian-field argument
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XKconcl@L742-L746 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2336,9 +2336,9 @@ ROUTE_FOR: -
 EDGE: bpW:w3:quartic | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:iii@L748-L748 | forms and bounds
 EDGE: bpW:w3:quartic-ident | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:iii@L748-L748 | bar G, G^nor
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:iii@L747-L748 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2369,9 +2369,9 @@ EDGE: bpW:w3:omega | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:conj@L755-L755 |
 EDGE: stepW:w3:XKconcl | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:conj@L754-L754 | X_K
 EDGE: bpW:w3:quartic | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:conj@L751-L754 | the quartic Hamiltonian fields supply the G, bar G and G^nor derivative pairings in DH and the transformed Hamiltonian
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:conj@L749-L755 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta3-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2404,9 +2404,9 @@ EDGE: bpW:w3:symplectic | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:gamma-real@L8
 EDGE: bpW:w3:main | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:gamma-real@L805-L805 | (iv) the normal form
 EDGE: bpW:w3:quartic-ident | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:gamma-real@L805-L805 | bar G on real points
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:gamma-real@L780-L794 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2437,9 +2437,9 @@ EDGE: bpW:w0:eqmotion | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori@
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori@L815-L815 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori@L816-L816 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori@L810-L817 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2494,9 +2494,9 @@ EDGE: bpW:w3:hamfield-def | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:hamfield-de
 EDGE: bpW:w3:omega | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:hamfield-def@L165-L165 | Omega(Zx,Zx') = sum (q p' - p q') and Omega(rho w, rho w') = conj Omega
 EDGE: bpW:w0:eqmotion | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:hamfield-def@L165-L165 | the sign convention of Hamilton's equations
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:hamfield-def@L164-L167 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2524,9 +2524,9 @@ EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:quartic-s
 EDGE: bpW:w3:space | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:quartic-sec@L227-L227 | lambda'_l = sgn(l) lambda_¦l¦
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:quartic-sec@L226-L226 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:quartic-sec@L224-L230 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2556,9 +2556,9 @@ EDGE: bpW:w0:H | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:main-sec@L609-L609 | t
 EDGE: bpW:w3:homological | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:main-sec@L615-L615 | Z' = bar G - G^tan and X_{Z'}
 EDGE: bpW:w3:flow | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:main-sec@L617-L617 | (iii) the inverse of D Gamma_t on W+
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:main-sec@L608-L619 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2621,9 +2621,9 @@ EDGE: stepW:w3:wk-lin | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-
 EDGE: stepW:w3:wk-reg | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-weak@L850-L850 | proof step
 EDGE: stepW:w3:wk-transport | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-weak@L859-L859 | proof step
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-weak@L831-L842 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-w2+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2653,9 +2653,9 @@ EDGE: bpW:w3:main | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-lin@L849-L849 
 EDGE: bpW:w1:embed | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-lin@L849-L849 | norm-one inclusions
 EDGE: bpW:w0:mass | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-lin@L847-L847 | m > 0 in the sqrt(1+m) multiplier bound
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-lin@L845-L849 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-w2+sol-delta5-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2686,9 +2686,9 @@ EDGE: bpW:w1:diag | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-reg@L857-L857 
 EDGE: stepW:w3:wk-lin | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-reg@L852-L852 | X_Lambda(w) is defined in W_{a,p-1}
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-reg@L856-L856 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-reg@L850-L858 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-w2+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2717,9 +2717,9 @@ EDGE: bpW:w3:transport-tori | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-tran
 EDGE: bpW:w3:flow | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-transport@L862-L862 | Gamma is differentiable on W ((i))
 EDGE: bpW:w3:main | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-transport@L863-L863 | (iv) conjugacy at w
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-transport@L859-L865 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-w2+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2750,9 +2750,9 @@ EDGE: bpW:w3:real-restrict | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-rema
 EDGE: bpW:w1:holomorphic | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L776-L777 | the definition of holomorphy to which analyticity is applied
 EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L776-L777 | analytic maps are Frechet differentiable, hence holomorphic in the cited definition
 EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L771-L778 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-delta7-W-w3+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

@@ -3,16 +3,5 @@
  "added": [],
  "items": [],
  "unresolved": {},
- "passes": [
-  "K:bp:p1:decay",
-  "K:bp:p1:fourier-basic",
-  "K:bp:p1:holomorphic-analytic",
-  "K:bp:p1:strip-identity",
-  "K:step:p1:dec-shift",
-  "K:bp:p1:decay",
-  "K:bp:p1:fourier-basic",
-  "K:bp:p1:holomorphic-analytic",
-  "K:bp:p1:strip-identity",
-  "K:step:p1:dec-shift"
- ]
+ "passes": []
 }

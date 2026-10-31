@@ -77,7 +77,7 @@ DISPOSITION: NODE bpW:w3:coords
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:omega
 KIND: lemma
@@ -86,7 +86,7 @@ DISPOSITION: NODE bpW:w3:omega
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:hamfield-def
 KIND: definition
@@ -95,7 +95,7 @@ DISPOSITION: NODE bpW:w3:hamfield-def
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:real-restrict
 KIND: lemma
@@ -104,7 +104,7 @@ DISPOSITION: NODE bpW:w3:real-restrict
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:forms
 KIND: definition
@@ -113,7 +113,7 @@ DISPOSITION: NODE bpW:w3:forms
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:Lambda
 KIND: lemma
@@ -122,7 +122,7 @@ DISPOSITION: NODE bpW:w3:Lambda
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:w1-requests
 KIND: claim
@@ -140,7 +140,7 @@ DISPOSITION: NODE bpW:w3:majorant
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:quartic
 KIND: lemma
@@ -149,7 +149,7 @@ DISPOSITION: NODE bpW:w3:quartic
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:maj
 KIND: proof-region
@@ -158,7 +158,7 @@ DISPOSITION: NODE stepW:w3:maj
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:gradbound
 KIND: proof-region
@@ -167,7 +167,7 @@ DISPOSITION: NODE stepW:w3:gradbound
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:identify
 KIND: proof-region
@@ -176,7 +176,7 @@ DISPOSITION: NODE stepW:w3:identify
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:quartic-ident
 KIND: lemma
@@ -185,7 +185,7 @@ DISPOSITION: NODE bpW:w3:quartic-ident
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:Gz
 KIND: proof-region
@@ -194,7 +194,7 @@ DISPOSITION: NODE stepW:w3:Gz
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:XG
 KIND: proof-region
@@ -203,7 +203,7 @@ DISPOSITION: NODE stepW:w3:XG
 REASON: labelled proof step (route nodes removed after the blueprint cleanup)
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-r2
-REVIEWER: sol-delta4-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:Gnor
 KIND: proof-region
@@ -212,7 +212,7 @@ DISPOSITION: NODE stepW:w3:Gnor
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:count
 KIND: proof-region
@@ -221,7 +221,7 @@ DISPOSITION: NODE stepW:w3:count
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:res
 KIND: proof-region
@@ -230,7 +230,7 @@ DISPOSITION: NODE stepW:w3:res
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:divisor
 KIND: lemma
@@ -239,7 +239,7 @@ DISPOSITION: NODE bpW:w3:divisor
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:sel
 KIND: proof-region
@@ -248,7 +248,7 @@ DISPOSITION: NODE stepW:w3:sel
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:signs
 KIND: proof-region
@@ -257,7 +257,7 @@ DISPOSITION: NODE stepW:w3:signs
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:s0
 KIND: proof-region
@@ -266,7 +266,7 @@ DISPOSITION: NODE stepW:w3:s0
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:s1
 KIND: proof-region
@@ -275,7 +275,7 @@ DISPOSITION: NODE stepW:w3:s1
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:s23
 KIND: proof-region
@@ -284,7 +284,7 @@ DISPOSITION: NODE stepW:w3:s23
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:s1inner
 KIND: proof-region
@@ -293,7 +293,7 @@ DISPOSITION: NODE stepW:w3:s1inner
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:divconcl
 KIND: proof-region
@@ -302,7 +302,7 @@ DISPOSITION: NODE stepW:w3:divconcl
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:Fdef
 KIND: definition
@@ -311,7 +311,7 @@ DISPOSITION: NODE bpW:w3:Fdef
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:F
 KIND: theorem
@@ -320,7 +320,7 @@ DISPOSITION: NODE bpW:w3:F
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:fcoef
 KIND: proof-region
@@ -329,7 +329,7 @@ DISPOSITION: NODE stepW:w3:fcoef
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:Fconcl
 KIND: proof-region
@@ -338,7 +338,7 @@ DISPOSITION: NODE stepW:w3:Fconcl
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:homological
 KIND: proposition
@@ -347,7 +347,7 @@ DISPOSITION: NODE bpW:w3:homological
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:Xfcoord
 KIND: proof-region
@@ -356,7 +356,7 @@ DISPOSITION: NODE stepW:w3:Xfcoord
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:euler
 KIND: proof-region
@@ -365,7 +365,7 @@ DISPOSITION: NODE stepW:w3:euler
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:divide
 KIND: proof-region
@@ -374,7 +374,7 @@ DISPOSITION: NODE stepW:w3:divide
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:lie-coeff
 KIND: definition
@@ -383,7 +383,7 @@ DISPOSITION: NODE bpW:w3:lie-coeff
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:leibniz
 KIND: lemma
@@ -392,7 +392,7 @@ DISPOSITION: NODE bpW:w3:leibniz
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:rec
 KIND: proof-region
@@ -401,7 +401,7 @@ DISPOSITION: NODE stepW:w3:rec
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:norms
 KIND: proof-region
@@ -410,7 +410,7 @@ DISPOSITION: NODE stepW:w3:norms
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:Phireal
 KIND: proof-region
@@ -419,7 +419,7 @@ DISPOSITION: NODE stepW:w3:Phireal
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:leib
 KIND: proof-region
@@ -428,7 +428,7 @@ DISPOSITION: NODE stepW:w3:leib
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:leibid
 KIND: proof-region
@@ -437,7 +437,7 @@ DISPOSITION: NODE stepW:w3:leibid
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:flow
 KIND: theorem
@@ -446,7 +446,7 @@ DISPOSITION: NODE bpW:w3:flow
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:conv
 KIND: proof-region
@@ -455,7 +455,7 @@ DISPOSITION: NODE stepW:w3:conv
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:floweq
 KIND: proof-region
@@ -464,7 +464,7 @@ DISPOSITION: NODE stepW:w3:floweq
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:transport
 KIND: proof-region
@@ -473,7 +473,7 @@ DISPOSITION: NODE stepW:w3:transport
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:est
 KIND: proof-region
@@ -482,7 +482,7 @@ DISPOSITION: NODE stepW:w3:est
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:Greal
 KIND: proof-region
@@ -491,7 +491,7 @@ DISPOSITION: NODE stepW:w3:Greal
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:var
 KIND: proof-region
@@ -500,7 +500,7 @@ DISPOSITION: NODE stepW:w3:var
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:inv
 KIND: proof-region
@@ -509,7 +509,7 @@ DISPOSITION: NODE stepW:w3:inv
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:symplectic
 KIND: theorem
@@ -518,7 +518,7 @@ DISPOSITION: NODE bpW:w3:symplectic
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:skew
 KIND: proof-region
@@ -527,7 +527,7 @@ DISPOSITION: NODE stepW:w3:skew
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:constform
 KIND: proof-region
@@ -536,7 +536,7 @@ DISPOSITION: NODE stepW:w3:constform
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:gradtrans
 KIND: proof-region
@@ -545,7 +545,7 @@ DISPOSITION: NODE stepW:w3:gradtrans
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta3-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:Yseries
 KIND: lemma
@@ -554,7 +554,7 @@ DISPOSITION: NODE bpW:w3:Yseries
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:majcalc
 KIND: proof-region
@@ -563,7 +563,7 @@ DISPOSITION: NODE stepW:w3:majcalc
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:majflow
 KIND: proof-region
@@ -572,7 +572,7 @@ DISPOSITION: NODE stepW:w3:majflow
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:majA
 KIND: proof-region
@@ -581,7 +581,7 @@ DISPOSITION: NODE stepW:w3:majA
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:majN
 KIND: proof-region
@@ -590,7 +590,7 @@ DISPOSITION: NODE stepW:w3:majN
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:majX
 KIND: proof-region
@@ -599,7 +599,7 @@ DISPOSITION: NODE stepW:w3:majX
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:majY
 KIND: proof-region
@@ -608,7 +608,7 @@ DISPOSITION: NODE stepW:w3:majY
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta4-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:majint
 KIND: proof-region
@@ -617,7 +617,7 @@ DISPOSITION: NODE stepW:w3:majint
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:majps
 KIND: proof-region
@@ -626,7 +626,7 @@ DISPOSITION: NODE stepW:w3:majps
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta4-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:majreal
 KIND: proof-region
@@ -635,7 +635,7 @@ DISPOSITION: NODE stepW:w3:majreal
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:main
 KIND: theorem
@@ -644,7 +644,7 @@ DISPOSITION: NODE bpW:w3:main
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:Kanalytic
 KIND: proof-region
@@ -653,7 +653,7 @@ DISPOSITION: NODE stepW:w3:Kanalytic
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:K1
 KIND: proof-region
@@ -662,7 +662,7 @@ DISPOSITION: NODE stepW:w3:K1
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:K2
 KIND: proof-region
@@ -671,7 +671,7 @@ DISPOSITION: NODE stepW:w3:K2
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:XK1
 KIND: proof-region
@@ -680,7 +680,7 @@ DISPOSITION: NODE stepW:w3:XK1
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:XK2
 KIND: proof-region
@@ -689,7 +689,7 @@ DISPOSITION: NODE stepW:w3:XK2
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:XKconcl
 KIND: proof-region
@@ -698,7 +698,7 @@ DISPOSITION: NODE stepW:w3:XKconcl
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:iii
 KIND: proof-region
@@ -707,7 +707,7 @@ DISPOSITION: NODE stepW:w3:iii
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:conj
 KIND: proof-region
@@ -716,7 +716,7 @@ DISPOSITION: NODE stepW:w3:conj
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta4-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:class-remark
 KIND: claim
@@ -725,7 +725,7 @@ DISPOSITION: NODE bpW:w3:class-remark
 REASON: the regularity claim is directly cited inside stepW:w6:t-an; retained with dependencies on its W3 suppliers
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-w2+sol-delta5-W-w3
-REVIEWER: sol-delta8-W-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:gamma-real
 KIND: corollary
@@ -734,7 +734,7 @@ DISPOSITION: NODE bpW:w3:gamma-real
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:transport-tori
 KIND: corollary
@@ -743,7 +743,7 @@ DISPOSITION: NODE bpW:w3:transport-tori
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: bpW:w3:interface
 KIND: claim
@@ -1220,7 +1220,7 @@ DISPOSITION: NODE bpW:w3:transport-tori-weak
 REASON: labelled unit of the revised W3 (wave 2)
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-w2
-REVIEWER: sol-delta5-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:wk-lin
 KIND: proof-region
@@ -1229,7 +1229,7 @@ DISPOSITION: NODE stepW:w3:wk-lin
 REASON: labelled unit of the revised W3 (wave 2)
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-w2
-REVIEWER: sol-delta6-W-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:wk-reg
 KIND: proof-region
@@ -1238,7 +1238,7 @@ DISPOSITION: NODE stepW:w3:wk-reg
 REASON: labelled unit of the revised W3 (wave 2)
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-w2
-REVIEWER: sol-delta5-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: stepW:w3:wk-transport
 KIND: proof-region
@@ -1247,7 +1247,7 @@ DISPOSITION: NODE stepW:w3:wk-transport
 REASON: labelled unit of the revised W3 (wave 2)
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-w2
-REVIEWER: sol-delta5-W-w3
+REVIEWER: sol-delta9-W-W-w3
 
 ITEM: w3-birkhoff:prose-L826-L829
 KIND: proof-region

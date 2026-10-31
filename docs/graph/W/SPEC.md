@@ -467,6 +467,12 @@ SOURCE line.
     satisfy the finite-dimensional premise.
   - GLOBAL-BRIEF: the step count is corrected to 16 conjunct steps plus assembly.
 
+- **2026-10-31, delta 9 and the K amendments.** Delta 9 (tags `sol-delta9-W-W-<slice>`) passed all 150 reopened
+  records and the W-imports item; they are marked. K-A045 to K-A048 (reviewed PASS by `sol-kamend-W`) were appended to
+  `docs/graph/K/AMENDMENTS.md` and K was reassembled and re-pinned; K's check exits 0. W's three imports are exact copies
+  of the effective K records. All 695 nodes and 1094 coverage items are REVIEWED. GLOBAL-BRIEF.md now covers global
+  review round 2 (output `reviews/GLOBAL-review-2.md`, same tag `sol-global-W`, as in the I/N precedent).
+
 ## Wave-2 plan (proposed 2026-10-30; extraction starts on the sub-orchestrator's go)
 - **Corpus.**
   - Once W4–W8 are accepted and on inp, merge inp again.

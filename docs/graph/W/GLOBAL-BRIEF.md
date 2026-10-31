@@ -10,6 +10,29 @@ already used:
 
 Your job is to find a global modelling error.
 
+**Round 2 (2026-10-31).** Round 1 (`docs/graph/W/reviews/GLOBAL-review.md`) returned FAIL on G1–G3 only. As in the
+track-I and track-N precedent, the same tag `sol-global-W` reviews every round, and your tag must still differ from
+every slice and delta tag. In this round:
+- **(R1) G1.** Check that the section-data findings are resolved. The 121 direct package edges of round 1 are in place
+  (81 W3, 24 W5, 15 W7, 1 W8). The writer applied the same rule to 28 records that name `bpW:w7:basic#data`. Confirm
+  that every record whose own SOURCE_HYPOTHESES invokes a `<section>#data` package now has a direct edge to it, and
+  report any record that still lacks one.
+- **(R2) G3.** Check that `stepW:w1:hacoef` is W's own Banach-target step (w1-sequences.tex L829–L835) with K provenance
+  in its NOTE and no import edge, and that `K:bp:p1:holomorphic-analytic` is no longer a W import (its coverage item is
+  EXCLUDED as proof provenance).
+- **(R3) G2.** Check the K amendments and the import copies:
+  - The append-only records K-A045 to K-A048 in `docs/graph/K/AMENDMENTS.md` were reviewed PASS in
+    `docs/graph/K/reviews/AMEND-W-G2-review.md` (`sol-kamend-W`) and are assembled into `docs/graph/K/DEPGRAPH.md`.
+  - K's FROZEN_MANIFEST hash is re-pinned (commit aebcc14e). K's linter (`--require-reviewed --require-complete-coverage
+    --require-all-reachable --check`) exits 0.
+  - Confirm that the four source fields of each of W's three imports (`K:bp:p1:decay`, `K:bp:p1:fourier-basic`,
+    `K:bp:p1:strip-identity`) are exact copies of the *effective* K records (`python3 -I scripts/proof_depgraph.py --db
+    docs/graph/K/DEPGRAPH.md --json`).
+  - Confirm that every W use of them (`stepW:w1:fsum`, `stepW:w1:fbdecay`) satisfies their premises (scalar,
+    finite-dimensional target).
+- **(R4)** Re-run every global check below on the whole graph, not only the changed records. Any new error is a
+  finding.
+
 ## Read
 - `docs/graph/W/SPEC.md`. It is binding. It covers:
   - the root and the 13 anchors;
@@ -72,7 +95,7 @@ Your job is to find a global modelling error.
    - the external boundary:
      - the labelled ext-items of W1–W5, W7 and W8, including the new gap-repair items `bpW:w4:ext-riesz`,
        `bpW:w5:ext-symm`, `bpW:w5:ext-sqrt` and `bpW:w5:ext-triangle`;
-     - the imported K nodes;
+     - the three imported K nodes;
      - nothing else. Each external must be a leaf, and no alias may duplicate another external.
    - The graph has no SOURCE_GAP nodes. Look for any gap that a step hides, in particular in W4–W6, where the blueprint
      repair of 2026-10-30 closed ten exposed gaps.
@@ -108,7 +131,8 @@ Your job is to find a global modelling error.
    - Run `python3 -I /mnt/HC_Volume_106379410/orchestrator-tools/inp_depgraph_imports.py docs/graph/W/packets --slice
      W-imports --root . --owner K=blueprint --owner-graph K=docs/graph/K --self-track W`.
    - Every imported node must be referenced, and must be a node of `docs/graph/K/DEPGRAPH.md`.
-   - Compare each import's source fields with its statement in `blueprint/parts/p1-analysis.tex`.
+   - Compare each import's source fields with its statement in `blueprint/parts/p1-analysis.tex`, and with the effective
+     amended K record (exact copy required, R3).
 6. **Coverage.**
    - Every proof paragraph that contributes a substantive obligation must appear in the graph or be excluded with a
      valid reason. This includes the unlabelled prose and the section-data paragraphs.
@@ -133,7 +157,8 @@ Every node and coverage item is REVIEWED. The only expected failures of this com
 finding.
 
 ## Output
-Write `docs/graph/W/reviews/GLOBAL-review.md` with:
+Write `docs/graph/W/reviews/GLOBAL-review-2.md` with:
+- a resolution verdict per round-1 finding (G1, G2, G3: RESOLVED or NOT RESOLVED, with evidence);
 - the root verdict (PASS or FAIL), with the four reconstructed source fields;
 - the global findings. Give each a severity (blocking, major or minor) and evidence (file and line). Where a record
   must change, include a complete replacement node block or EDGE line in a fenced block, saying which slice owns it;

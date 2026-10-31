@@ -228,9 +228,9 @@ ROUTE_FOR: -
 EDGE: bpW:w0n:AB | blueprint-W/parts/w7-measure.tex#bpW:w7:omega0@L130-L130 | A and B
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#bpW:w7:omega0@L129-L129 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#bpW:w7:omega0@L127-L131 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -261,9 +261,9 @@ EDGE: stepW:w7:Omegazeta | blueprint-W/parts/w7-measure.tex#bpW:w7:freqcoords@L1
 EDGE: stepW:w7:measure-affine | blueprint-W/parts/w7-measure.tex#bpW:w7:freqcoords@L166-L166 | proof step
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#bpW:w7:freqcoords@L137-L137 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#bpW:w7:freqcoords@L135-L150 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -291,9 +291,9 @@ EDGE: bpW:w0n:AB | blueprint-W/parts/w7-measure.tex#stepW:w7:inverse@L153-L153 |
 EDGE: bpW:w0n:nondeg | blueprint-W/parts/w7-measure.tex#stepW:w7:inverse@L157-L157 | (i) det A
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#stepW:w7:inverse@L153-L153 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#stepW:w7:inverse@L152-L157 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -322,9 +322,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#stepW:w7:norms@L160-L1
 EDGE: stepW:w7:inverse | blueprint-W/parts/w7-measure.tex#stepW:w7:norms@L159-L162 | row sums of the displayed inverse computed in the preceding step
 EDGE: bpW:w0n:AB | blueprint-W/parts/w7-measure.tex#stepW:w7:norms@L159-L159 | row sums of the corrected A
 EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#stepW:w7:norms@L158-L162 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -352,9 +352,9 @@ EDGE: stepW:w7:inverse | blueprint-W/parts/w7-measure.tex#stepW:w7:Omegazeta@L16
 EDGE: bpW:w7:omega0 | blueprint-W/parts/w7-measure.tex#stepW:w7:Omegazeta@L165-L165 | the definition
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#stepW:w7:Omegazeta@L164-L164 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#stepW:w7:Omegazeta@L163-L165 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -382,9 +382,9 @@ EDGE: bpW:w7:ext-linear | blueprint-W/parts/w7-measure.tex#stepW:w7:measure-affi
 EDGE: stepW:w7:norms | blueprint-W/parts/w7-measure.tex#stepW:w7:measure-affine@L167-L167 | operator norms
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#stepW:w7:measure-affine@L167-L167 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#stepW:w7:measure-affine@L166-L167 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -417,9 +417,9 @@ EDGE: stepW:w7:kappa | blueprint-W/parts/w7-measure.tex#bpW:w7:unpert-bounds@L19
 EDGE: stepW:w7:liplOmega | blueprint-W/parts/w7-measure.tex#bpW:w7:unpert-bounds@L201-L201 | proof step
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#bpW:w7:unpert-bounds@L175-L175 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#bpW:w7:unpert-bounds@L172-L181 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -447,9 +447,9 @@ EDGE: bpW:w7:freqcoords | blueprint-W/parts/w7-measure.tex#stepW:w7:ssize@L185-L
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#stepW:w7:ssize@L184-L184 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w7-measure.tex#stepW:w7:ssize@L184-L184 | lambda_1 > 1 and lambda_2 > 2 give the reciprocal bound
 EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#stepW:w7:ssize@L183-L185 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -477,9 +477,9 @@ EDGE: stepW:w7:ssize | blueprint-W/parts/w7-measure.tex#stepW:w7:plus@L187-L187 
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w7-measure.tex#stepW:w7:plus@L187-L187 | lambda_j >= j
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#stepW:w7:plus@L187-L187 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#stepW:w7:plus@L186-L189 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -507,9 +507,9 @@ EDGE: stepW:w7:ssize | blueprint-W/parts/w7-measure.tex#stepW:w7:minus@L192-L192
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w7-measure.tex#stepW:w7:minus@L193-L193 | f' increasing
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#stepW:w7:minus@L191-L191 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#stepW:w7:minus@L190-L194 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -537,9 +537,9 @@ EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w7-measure.tex#stepW:w7:kapp
 EDGE: stepW:w7:ssize | blueprint-W/parts/w7-measure.tex#stepW:w7:kappa@L199-L199 | ¦s¦ <= 1
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#stepW:w7:kappa@L196-L196 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#stepW:w7:kappa@L195-L200 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -567,9 +567,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#stepW:w7:liplOmega@L20
 EDGE: bpW:w7:freqcoords | blueprint-W/parts/w7-measure.tex#stepW:w7:liplOmega@L202-L203 | the affine Omega^0 formula and s(zeta) from (iii)
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w7-measure.tex#stepW:w7:liplOmega@L203-L203 | j < lambda_j gives the reciprocal bound used in the coefficient sum
 EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#stepW:w7:liplOmega@L201-L203 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w7a+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -601,9 +601,9 @@ EDGE: bpW:w7:ext-zeta | blueprint-W/parts/w7-measure.tex#bpW:w7:constdef@L225-L2
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#bpW:w7:constdef@L215-L215 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w7:constdef#base | blueprint-W/parts/w7-measure.tex#bpW:w7:constdef@L214-L217 | the preliminary constants (C1)-(C2), defined before X
 EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#bpW:w7:constdef@L211-L231 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -828,9 +828,9 @@ ROUTE_FOR: -
 EDGE: bpW:w7:family | blueprint-W/parts/w7-measure.tex#stepW:w7:sep-drift@L351-L351 | (H2)
 EDGE: bpW:w7:constdef | blueprint-W/parts/w7-measure.tex#stepW:w7:sep-drift@L352-L352 | (C4)
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:sep-drift@L350-L352 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -860,9 +860,9 @@ EDGE: bpW:w7:zones | blueprint-W/parts/w7-measure.tex#stepW:w7:sep-concl@L354-L3
 EDGE: bpW:w7:indexdef | blueprint-W/parts/w7-measure.tex#stepW:w7:sep-concl@L355-L355 | hat w(l) <= <l> and A_0 = 1
 EDGE: bpW:w7:constdef | blueprint-W/parts/w7-measure.tex#stepW:w7:sep-concl@L354-L355 | hat alpha and check alpha <= beta_*
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:sep-concl@L353-L355 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -921,9 +921,9 @@ EDGE: bpW:w7:family | blueprint-W/parts/w7-measure.tex#stepW:w7:largek-tan@L366-
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#stepW:w7:largek-tan@L366-L366 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w7:constdef | blueprint-W/parts/w7-measure.tex#stepW:w7:largek-tan@L366-L366 | W = lambda_2 + 1 and alpha <= alpha_0
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:largek-tan@L365-L367 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -950,9 +950,9 @@ ROUTE_FOR: -
 EDGE: bpW:w7:sep | blueprint-W/parts/w7-measure.tex#stepW:w7:largek-cmp@L370-L370 | separation
 EDGE: stepW:w7:largek-tan | blueprint-W/parts/w7-measure.tex#stepW:w7:largek-cmp@L369-L369 | the tangential bound
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:largek-cmp@L368-L370 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1011,9 +1011,9 @@ EDGE: bpW:w7:family | blueprint-W/parts/w7-measure.tex#stepW:w7:zone-lower@L385-
 EDGE: bpW:w7:freqcoords | blueprint-W/parts/w7-measure.tex#stepW:w7:zone-lower@L385-L385 | (iv)
 EDGE: bpW:w7:constdef | blueprint-W/parts/w7-measure.tex#stepW:w7:zone-lower@L385-L385 | theta_0
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:zone-lower@L382-L386 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1041,9 +1041,9 @@ EDGE: bpW:w7:slab | blueprint-W/parts/w7-measure.tex#stepW:w7:zone-slab@L388-L38
 EDGE: bpW:w7:freqcoords | blueprint-W/parts/w7-measure.tex#stepW:w7:zone-slab@L389-L389 | (iv)
 EDGE: stepW:w7:zone-lower | blueprint-W/parts/w7-measure.tex#stepW:w7:zone-slab@L388-L388 | sigma = ¦k¦/4
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:zone-slab@L387-L389 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1072,9 +1072,9 @@ EDGE: bpW:w7:family | blueprint-W/parts/w7-measure.tex#stepW:w7:zone-psi@L391-L3
 EDGE: bpW:w7:constdef | blueprint-W/parts/w7-measure.tex#stepW:w7:zone-psi@L392-L392 | c_Lambda
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#stepW:w7:zone-psi@L392-L392 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:zone-psi@L390-L393 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1101,9 +1101,9 @@ ROUTE_FOR: -
 EDGE: bpW:w7:indexdef | blueprint-W/parts/w7-measure.tex#bpW:w7:Xdef@L399-L399 | Lambda^+-, <l>
 EDGE: bpW:w7:constdef#base | blueprint-W/parts/w7-measure.tex#bpW:w7:Xdef@L399-L400 | the constants K_*, vartheta and j_* from (C2)
 EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#bpW:w7:Xdef@L398-L401 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1161,9 +1161,9 @@ ROUTE_FOR: -
 EDGE: bpW:w7:indexdef | blueprint-W/parts/w7-measure.tex#stepW:w7:Xfinite@L409-L409 | <l> on Lambda^+
 EDGE: bpW:w7:Xdef | blueprint-W/parts/w7-measure.tex#stepW:w7:Xfinite@L409-L410 | the support and index cutoffs defining X
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:Xfinite@L408-L410 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1190,9 +1190,9 @@ ROUTE_FOR: -
 EDGE: bpW:w7:largek | blueprint-W/parts/w7-measure.tex#stepW:w7:dich-large@L412-L412 | large k
 EDGE: bpW:w7:constdef | blueprint-W/parts/w7-measure.tex#stepW:w7:dich-large@L412-L412 | K_* = 16 c_Lambda
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:dich-large@L411-L413 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1220,9 +1220,9 @@ EDGE: bpW:w7:constdef | blueprint-W/parts/w7-measure.tex#stepW:w7:dich-small@L41
 EDGE: bpW:w7:Xdef | blueprint-W/parts/w7-measure.tex#stepW:w7:dich-small@L415-L415 | not in X forces a difference with j >= j_*
 EDGE: stepW:w7:dich-large | blueprint-W/parts/w7-measure.tex#stepW:w7:dich-small@L415-L416 | largek supplies k != 0 and <l> <= ¦k¦/vartheta
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:dich-small@L414-L416 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1286,9 +1286,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#stepW:w7:X-A3@L434-L43
 EDGE: stepW:w7:Xfinite | blueprint-W/parts/w7-measure.tex#stepW:w7:X-A3@L435-L435 | X is finite, used to obtain positive minima
 EDGE: bpW:w7:Xzones#consts | blueprint-W/parts/w7-measure.tex#stepW:w7:X-A3@L434-L435 | the defined g_kl, sigma_X and c_X
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:X-A3@L431-L435 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1317,9 +1317,9 @@ EDGE: bpW:w7:constdef | blueprint-W/parts/w7-measure.tex#stepW:w7:X-const@L438-L
 EDGE: stepW:w7:X-A3 | blueprint-W/parts/w7-measure.tex#stepW:w7:X-const@L437-L437 | c_X
 EDGE: bpW:w7:Xdef | blueprint-W/parts/w7-measure.tex#stepW:w7:X-const@L437-L438 | the exceptional-set cutoffs used in the two inequalities
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:X-const@L436-L438 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1350,9 +1350,9 @@ EDGE: bpW:w7:freqcoords | blueprint-W/parts/w7-measure.tex#stepW:w7:X-slope@L443
 EDGE: stepW:w7:X-A3 | blueprint-W/parts/w7-measure.tex#stepW:w7:X-slope@L440-L442 | sigma_X > 0 discharges the positive-slope premise of slab
 EDGE: bpW:w7:Xdef | blueprint-W/parts/w7-measure.tex#stepW:w7:X-slope@L441-L442 | the bounds on ¦k¦ and <l> for (k,l) in X
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:X-slope@L439-L443 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1498,9 +1498,9 @@ EDGE: bpW:w7:unpert-bounds | blueprint-W/parts/w7-measure.tex#bpW:w7:constdef@L2
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#bpW:w7:constdef@L215-L217 | lambda_1 and lambda_2
 EDGE: bpW:w0:mass | blueprint-W/parts/w7-measure.tex#bpW:w7:constdef@L214-L214 | m > 0 fixed
 EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#bpW:w7:constdef@L214-L217 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-W-w7a+sol-global-W
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

@@ -32,7 +32,7 @@ DISPOSITION: NODE bpW:w5:omega
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: stepW:w5:ombd
 KIND: proof-region
@@ -41,7 +41,7 @@ DISPOSITION: NODE stepW:w5:ombd
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: stepW:w5:omnd
 KIND: proof-region
@@ -50,7 +50,7 @@ DISPOSITION: NODE stepW:w5:omnd
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: stepW:w5:omnorm
 KIND: proof-region
@@ -59,7 +59,7 @@ DISPOSITION: NODE stepW:w5:omnorm
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: bpW:w5:class
 KIND: definition
@@ -68,7 +68,7 @@ DISPOSITION: NODE bpW:w5:class
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: bpW:w5:lambda-product
 KIND: claim
@@ -104,7 +104,7 @@ DISPOSITION: NODE stepW:w5:g-tail
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: stepW:w5:g-div
 KIND: proof-region
@@ -113,7 +113,7 @@ DISPOSITION: NODE stepW:w5:g-div
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: stepW:w5:g-diag
 KIND: proof-region
@@ -122,7 +122,7 @@ DISPOSITION: NODE stepW:w5:g-diag
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: stepW:w5:g-rest
 KIND: proof-region
@@ -131,7 +131,7 @@ DISPOSITION: NODE stepW:w5:g-rest
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: bpW:w5:w4-modified
 KIND: lemma
@@ -140,7 +140,7 @@ DISPOSITION: NODE bpW:w5:w4-modified
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: stepW:w5:m-sup
 KIND: proof-region
@@ -149,7 +149,7 @@ DISPOSITION: NODE stepW:w5:m-sup
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: stepW:w5:m-other
 KIND: proof-region
@@ -158,7 +158,7 @@ DISPOSITION: NODE stepW:w5:m-other
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: stepW:w5:m-lip
 KIND: proof-region
@@ -167,7 +167,7 @@ DISPOSITION: NODE stepW:w5:m-lip
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: stepW:w5:m-act
 KIND: proof-region
@@ -176,7 +176,7 @@ DISPOSITION: NODE stepW:w5:m-act
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: stepW:w5:m-ass
 KIND: proof-region
@@ -185,7 +185,7 @@ DISPOSITION: NODE stepW:w5:m-ass
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: stepW:w5:m-const
 KIND: proof-region
@@ -194,7 +194,7 @@ DISPOSITION: NODE stepW:w5:m-const
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: bpW:w5:prep-gap
 KIND: claim
@@ -212,7 +212,7 @@ DISPOSITION: NODE bpW:w5:taylor
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: stepW:w5:t-scale
 KIND: proof-region
@@ -221,7 +221,7 @@ DISPOSITION: NODE stepW:w5:t-scale
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: stepW:w5:t-disc
 KIND: proof-region
@@ -230,7 +230,7 @@ DISPOSITION: NODE stepW:w5:t-disc
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: stepW:w5:t-poly
 KIND: proof-region
@@ -239,7 +239,7 @@ DISPOSITION: NODE stepW:w5:t-poly
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: stepW:w5:t-comp
 KIND: proof-region
@@ -248,7 +248,7 @@ DISPOSITION: NODE stepW:w5:t-comp
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta8-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: stepW:w5:t-field
 KIND: proof-region
@@ -257,7 +257,7 @@ DISPOSITION: NODE stepW:w5:t-field
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: stepW:w5:t-est
 KIND: proof-region
@@ -266,7 +266,7 @@ DISPOSITION: NODE stepW:w5:t-est
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: bpW:w5:data
 KIND: definition
@@ -275,7 +275,7 @@ DISPOSITION: NODE bpW:w5:data
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta9-W-W-w5a
 
 ITEM: bpW:w5:solve
 KIND: lemma

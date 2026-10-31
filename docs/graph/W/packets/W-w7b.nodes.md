@@ -55,9 +55,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:zone | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-0@L468-L468 | psi = 0
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-0@L467-L468 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -85,9 +85,9 @@ EDGE: bpW:w7:dichotomy | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-plus@L47
 EDGE: bpW:w7:zone | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-plus@L470-L470 | zone estimate
 EDGE: bpW:w7:count | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-plus@L472-L472 | (i)
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-plus@L469-L473 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -116,9 +116,9 @@ EDGE: bpW:w7:unpert-bounds | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-minu
 EDGE: bpW:w7:largek | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-minus-group@L476-L477 | nonempty S forces n <= ¦k¦/vartheta
 EDGE: bpW:w7:dichotomy | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-minus-group@L477-L478 | outside X supplies the zone lemma's lower bound on ¦k¦
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-minus-group@L474-L481 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7b+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -146,9 +146,9 @@ EDGE: bpW:w7:zone | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-j0@L484-L484 
 EDGE: bpW:w7:ext-ennreal | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-j0@L493-L493 | ceil(x) <= 2x and real powers
 EDGE: stepW:w7:prep-minus-group | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-j0@L486-L486 | the grouping
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-j0@L482-L493 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -174,9 +174,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w7:prep-j0 | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-n@L496-L496 | per n
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-n@L494-L496 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -202,9 +202,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:Xzones | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-X@L498-L498 | a = hat alpha
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-X@L497-L499 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -237,9 +237,9 @@ EDGE: stepW:w7:prep-X | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-sum@L502-
 EDGE: bpW:w7:indexdef | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-sum@L501-L501 | A_k >= ¦k¦^24
 EDGE: bpW:w7:constdef | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-sum@L502-L502 | the coefficient C_P of (C5)
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-sum@L500-L503 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7b+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -300,9 +300,9 @@ ROUTE_FOR: -
 EDGE: stepW:w7:prep-0 | blueprint-W/parts/w7-measure.tex#stepW:w7:it-plus@L519-L519 | as there
 EDGE: stepW:w7:prep-plus | blueprint-W/parts/w7-measure.tex#stepW:w7:it-plus@L519-L519 | as there
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:it-plus@L518-L520 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -330,9 +330,9 @@ EDGE: bpW:w7:family | blueprint-W/parts/w7-measure.tex#stepW:w7:it-group@L522-L5
 EDGE: bpW:w7:unpert-bounds | blueprint-W/parts/w7-measure.tex#stepW:w7:it-group@L522-L522 | (iii)
 EDGE: bpW:w7:largek | blueprint-W/parts/w7-measure.tex#stepW:w7:it-group@L522-L522 | n <= ¦k¦/vartheta, otherwise the zone is empty
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:it-group@L521-L526 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7b+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -361,9 +361,9 @@ EDGE: stepW:w7:it-group | blueprint-W/parts/w7-measure.tex#stepW:w7:it-j0@L529-L
 EDGE: bpW:w7:dichotomy | blueprint-W/parts/w7-measure.tex#stepW:w7:it-j0@L528-L530 | outside X discharges the nonconstant-psi premise of zone
 EDGE: bpW:w7:ext-ennreal | blueprint-W/parts/w7-measure.tex#stepW:w7:it-j0@L528-L532 | ceil rounding and real-power comparisons for j_0
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:it-j0@L527-L532 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7b+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -389,9 +389,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w7:it-j0 | blueprint-W/parts/w7-measure.tex#stepW:w7:it-n@L534-L534 | per n
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:it-n@L533-L536 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -420,9 +420,9 @@ EDGE: stepW:w7:it-n | blueprint-W/parts/w7-measure.tex#stepW:w7:it-sum@L539-L539
 EDGE: stepW:w7:it-plus | blueprint-W/parts/w7-measure.tex#stepW:w7:it-sum@L539-L539 | per k
 EDGE: bpW:w7:indexdef | blueprint-W/parts/w7-measure.tex#stepW:w7:it-sum@L539-L539 | tau = 24 and A_k >= ¦k¦^24
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:it-sum@L537-L540 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7b+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -451,9 +451,9 @@ EDGE: bpW:w7:measurable | blueprint-W/parts/w7-measure.tex#stepW:w7:it-X@L543-L5
 EDGE: bpW:w7:count | blueprint-W/parts/w7-measure.tex#stepW:w7:it-X@L542-L542 | each k occurs for at most ¦k¦ levels
 EDGE: bpW:w7:Xdef | blueprint-W/parts/w7-measure.tex#stepW:w7:it-X@L542-L542 | ¦k¦ < K_* on X
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:it-X@L541-L543 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7b+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -482,9 +482,9 @@ EDGE: bpW:w7:family | blueprint-W/parts/w7-measure.tex#bpW:w7:measurable@L551-L5
 EDGE: stepW:w7:meas-cont | blueprint-W/parts/w7-measure.tex#bpW:w7:measurable@L555-L555 | proof step
 EDGE: stepW:w7:meas-union | blueprint-W/parts/w7-measure.tex#bpW:w7:measurable@L558-L558 | proof step
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#bpW:w7:measurable@L550-L553 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -540,9 +540,9 @@ ROUTE_FOR: -
 EDGE: bpW:w7:ext-borel | blueprint-W/parts/w7-measure.tex#stepW:w7:meas-union@L559-L559 | Borel sets
 EDGE: stepW:w7:meas-cont | blueprint-W/parts/w7-measure.tex#stepW:w7:meas-union@L559-L559 | continuity
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:meas-union@L558-L559 | the consumer explicitly inherits the fixed zone-estimate data (L339-L343) recorded in SOURCE_HYPOTHESES
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-g1
-REVIEWER: -
+REVIEWER: sol-delta9-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
