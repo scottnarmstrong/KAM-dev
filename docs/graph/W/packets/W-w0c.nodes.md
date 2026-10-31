@@ -46,9 +46,9 @@ EDGE: bpW:w0:mass | blueprint-W/parts/w0-conventions.tex#bpW:w0:nlw@L33-L33 | th
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsClassicalSolution (KAM/Frozen/Wave/Defs/IsClassicalSolution.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:w0:basis#lam
@@ -74,9 +74,9 @@ EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-conventions.tex#bpW:w0:basis@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
 REVIEWER: sol-delta-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.lam (KAM/Frozen/Wave/Defs/Lam.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:w0:basis#sineMode
@@ -100,9 +100,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.sineMode (KAM/Frozen/Wave/Defs/SineMode.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:w0:ellap#ellWeight
@@ -126,9 +126,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.ellWeight (KAM/Frozen/Wave/Defs/EllWeight.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:w0:ellap#WaveSpace
@@ -155,9 +155,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w0-conventions.tex#bpW:w0:ellap@L53
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
 REVIEWER: sol-delta-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.WaveSpace (KAM/Frozen/Wave/Defs/WaveSpace.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:w0:ellap#coeff
@@ -182,9 +182,9 @@ EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w0-conventions.tex#bpW:w0:ellap
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.coeff (KAM/Frozen/Wave/Defs/Coeff.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:w0:twosided
@@ -208,9 +208,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-r2
 REVIEWER: sol-delta3-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.WaveTwoMem.summable_sq, KAM.Wave.wave_conv_summable (KAM/Wave/Algebra/TwoSided.lean)
+LEAN_NOTE: W1-ALGEBRA audit 1 PASS WITH NOTES; space and absolute convergence for a, s >= 0 proved; s < 0 divergence example not formalized; N4 only square-summability exported
 NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): convolution restricted to s >= 0 with its convergence argument (inline); the pointers to bpW:w0n:algebra and bpW:w1:twosided-transport at L73-L74 are forward pointers, not edges.
 
 NODE: bpW:w0:reconstruction#reconU
@@ -237,9 +237,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstru
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-delta5-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconU (KAM/Frozen/Wave/Defs/ReconU.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:w0:reconstruction#reconV
@@ -266,9 +266,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstru
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconV (KAM/Frozen/Wave/Defs/ReconV.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:w0:H
@@ -329,9 +329,9 @@ EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L103-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c+claude-suborch-W-r2
 REVIEWER: sol-delta3-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.cubicGrad (KAM/Frozen/Wave/Defs/CubicGrad.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): domain extended to l^{a,p}, a > 0 (the frozen cubicGrad is the l^{1,1} case, unchanged). The refs to bpW:w0n:gradient and bpW:w0n:cubic-bound at L107-L108 are forward pointers (they would close a cycle); not edges.
 
 NODE: bpW:w0:eqmotion
@@ -449,9 +449,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:periodone@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
 REVIEWER: sol-delta-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.linearTorus (KAM/Frozen/Wave/Defs/LinearTorus.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:w0:basis#lambda-facts
