@@ -1,0 +1,12 @@
+{
+ "replaced": [],
+ "added": [],
+ "items": [],
+ "unresolved": {},
+ "passes": [
+  "stepW:w4:schurrep",
+  "bpW:w4:from-w3",
+  "bpW:w4:ext-riesz",
+  "bpW:w4:ext-riesz"
+ ]
+}
