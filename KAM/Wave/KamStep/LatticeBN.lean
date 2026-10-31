@@ -13,7 +13,8 @@ import Mathlib.Tactic.Positivity
 # The modified lattice constant `B^♮_σ` (`bpW:w5:w4-modified` (iii), step `m-const`)
 
 `waveBN τ σ = ∑_k (1+|k|₁)² A_k² e^{-2π|k|₁σ}` (`B^♮_σ`) and
-`waveBNconst τ = 4 (C_0 + C_2 + C_{2τ} + C_{2τ+2})` (`b^♮(τ)`, four terms counted with multiplicity).
+`waveBNconst τ = 4 (C_0 + C_2 + C_{2τ} + C_{2τ+2})` (`b^♮(τ)`, four terms counted with
+    multiplicity).
 Main results: `waveBW_le_waveBN` (`B^W_σ ≤ B^♮_σ`) and `waveBN_le`
 (`B^♮_σ ≤ b^♮(τ) σ^{-(2τ+4)}` for `0 < σ ≤ 1`).
 -/
@@ -76,7 +77,8 @@ theorem waveBN_summable {τ σ : ℝ} (hτ : 0 ≤ τ) (hσ : 0 < σ) :
       Real.exp (-(2 * Real.pi * σ) * Fourier.modeSize k)) := by
   have hnn : ∀ k : Fin 2 → ℤ, 0 ≤ (1 + Fourier.modeSize k) ^ 2 * waveA τ k ^ 2 *
       Real.exp (-(2 * Real.pi * σ) * Fourier.modeSize k) := fun k => by positivity
-  have hs := ((((waveS_summable (q := 0) le_rfl hσ).add (waveS_summable (q := 2) (by norm_num) hσ)).add
+  have hs := ((((waveS_summable (q := 0) le_rfl hσ).add (waveS_summable (q := 2) (by norm_num)
+      hσ)).add
       (waveS_summable (q := 2 * τ) (by linarith) hσ)).add
       (waveS_summable (q := 2 * τ + 2) (by linarith) hσ)).mul_left 4
   exact Summable.of_nonneg_of_le hnn (waveBN_pointwise hτ σ) hs
