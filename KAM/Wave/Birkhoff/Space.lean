@@ -114,7 +114,8 @@ theorem birk_summable_iff {f : BirkIdx → ℝ} (hf : 0 ≤ f) :
   refine ⟨fun ⟨h, _⟩ => ⟨h true, h false⟩, fun ⟨h1, h2⟩ => ⟨fun b => ?_, Summable.of_finite⟩⟩
   cases b <;> assumption
 
-theorem birk_tsum_split {f : BirkIdx → ℝ} (hf : Summable f) :
+theorem birk_tsum_split {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F] [CompleteSpace F]
+    {f : BirkIdx → F} (hf : Summable f) :
     ∑' l, f l = ∑' j : ℕ+, f (true, j) + ∑' j : ℕ+, f (false, j) := by
   rw [Summable.tsum_prod hf, tsum_fintype, Fintype.sum_bool]
 
