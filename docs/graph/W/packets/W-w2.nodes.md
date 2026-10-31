@@ -126,9 +126,9 @@ EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w2-reconstruction.tex#bpW
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconUx, KAM.Wave.reconUxx, KAM.Wave.reconUx_eq_iter, KAM.Wave.reconUxx_eq_iter, KAM.Wave.reconWaveC0, KAM.Wave.reconWaveBound (KAM/Wave/Recon2/Functionals.lean)
+LEAN_NOTE: definition formalized by W2-RECON; W2-RECON audit 1 PASS WITH NOTES; D^0 is frozen reconU; (1+m)^{1/4} written sqrt(sqrt(1+m)) (equal, bridge checked)
 NOTE: -
 
 NODE: bpW:w2:functionals
@@ -163,9 +163,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:functi
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_functionals, KAM.Wave.norm_reconFeatureU_le, KAM.Wave.norm_reconFeatureV_le, KAM.Wave.abs_reconU_le, KAM.Wave.abs_reconUx_le, KAM.Wave.abs_reconV_le, KAM.Wave.summable_abs_reconU_terms, KAM.Wave.summable_abs_reconUx_terms, KAM.Wave.summable_abs_reconUxx_terms, KAM.Wave.summable_abs_reconV_terms, KAM.Wave.reconU_apply_zero, KAM.Wave.reconU_apply_pi (KAM/Wave/Recon2/Functionals.lean)
+LEAN_NOTE: W2-RECON audit 1 PASS WITH NOTES; bundle plus separate exports jointly supply all items
 NOTE: -
 
 NODE: stepW:w2:features
@@ -194,9 +194,9 @@ EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:f
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_functionals, KAM.Wave.reconFeatureU_coord_sq_le, KAM.Wave.reconFeatureV_coord_sq_le (KAM/Wave/Recon2/Functionals.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:functionals; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:pairing
@@ -229,9 +229,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:pair
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconU_eq_inner, KAM.Wave.reconUx_eq_inner, KAM.Wave.reconUxx_eq_inner, KAM.Wave.reconV_eq_inner (KAM/Wave/Recon2/Functionals.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:functionals; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:norms
@@ -262,9 +262,9 @@ EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:n
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.norm_reconFeatureU_le, KAM.Wave.norm_reconFeatureV_le, KAM.Wave.abs_reconU_le, KAM.Wave.abs_reconUx_le, KAM.Wave.abs_reconV_le (KAM/Wave/Recon2/Functionals.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:functionals; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:xder
@@ -294,9 +294,9 @@ EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:x
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.hasDerivAt_reconU_reconUx, KAM.Wave.hasDerivAt_reconUx_reconUxx (KAM/Wave/Recon2/Functionals.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:functionals; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:bdry
@@ -324,9 +324,9 @@ EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w2-reconstruction.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconU_apply_zero, KAM.Wave.reconU_apply_pi (KAM/Wave/Recon2/Functionals.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:functionals; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: bpW:w2:force
@@ -359,9 +359,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:force@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_force, KAM.Wave.reconWave_force_summable_lin, KAM.Wave.reconWave_force_summable_cub, KAM.Wave.reconWave_force_lin, KAM.Wave.reconWave_force_cub (KAM/Wave/Recon2/Force.lean)
+LEAN_NOTE: W2-RECON audit 1 PASS WITH NOTES; cubic identity on [0,pi], its source domain
 NOTE: -
 
 NODE: stepW:w2:fsum
@@ -395,9 +395,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:fsum
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_force_summable_lin, KAM.Wave.reconWave_force_summable_cub (KAM/Wave/Recon2/Force.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:force; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:flin
@@ -429,9 +429,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:flin
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.lam_sq_eq, KAM.Wave.reconWave_lin_term, KAM.Wave.reconWave_force_lin (KAM/Wave/Recon2/Force.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:force; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:fcub
@@ -462,9 +462,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:fcub
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_force_cub (KAM/Wave/Recon2/Force.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:force; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: bpW:w2:coeffsol
@@ -493,9 +493,9 @@ EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:co
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsAnalyticCoeffSolution (KAM/Wave/Recon2/Orbit.lean)
+LEAN_NOTE: definition formalized by W2-RECON; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: bpW:w2:orbit
@@ -526,9 +526,9 @@ EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:or
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.isAnalyticCoeffSolution_orbit (KAM/Wave/Recon2/Orbit.lean)
+LEAN_NOTE: W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:oan
@@ -553,9 +553,9 @@ EDGE: bpW:w2:ext-an | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:oan@L195-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.isAnalyticCoeffSolution_orbit (KAM/Wave/Recon2/Orbit.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:orbit; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:oshift
@@ -582,9 +582,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:oshi
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.isAnalyticCoeffSolution_orbit (KAM/Wave/Recon2/Orbit.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:orbit; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: bpW:w2:curve-deriv
@@ -614,9 +614,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:curve-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.hasDerivAt_coeffSol, KAM.Wave.hasDerivAt_coeffSol_fst, KAM.Wave.hasDerivAt_coeffSol_snd, KAM.Wave.coeff_deriv_coeffSol_fst, KAM.Wave.coeff_deriv_coeffSol_snd (KAM/Wave/Recon2/Orbit.lean)
+LEAN_NOTE: W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:cdiff
@@ -642,9 +642,9 @@ EDGE: bpW:w2:coeffsol | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:cdiff@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.hasDerivAt_coeffSol, KAM.Wave.hasDerivAt_coeffSol_fst, KAM.Wave.hasDerivAt_coeffSol_snd (KAM/Wave/Recon2/Orbit.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:curve-deriv; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:ccoord
@@ -673,9 +673,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:ccoo
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.coeff_deriv_coeffSol_fst, KAM.Wave.coeff_deriv_coeffSol_snd (KAM/Wave/Recon2/Orbit.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:curve-deriv; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: bpW:w2:curve
@@ -714,9 +714,9 @@ EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w2-reconstruction.tex#b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_curve, KAM.Wave.analyticAt_reconWave_u, KAM.Wave.analyticAt_reconWave_ux, KAM.Wave.analyticAt_reconWave_uxx, KAM.Wave.analyticAt_reconWave_ut, KAM.Wave.analyticAt_reconWave_utt, KAM.Wave.hasDerivAt_reconWave_ut, KAM.Wave.hasDerivAt_reconWave_utt, KAM.Wave.hasDerivAt_reconWave_ux, KAM.Wave.isClassicalSolution_reconWave, KAM.Wave.reconWave_bound (KAM/Wave/Recon2/Curve.lean)
+LEAN_NOTE: W2-RECON audit 1 PASS WITH NOTES; (iv) and (vi) proved for arbitrary vector/curve, no coefficient ODE needed (stronger)
 NOTE: -
 
 NODE: stepW:w2:joint
@@ -746,9 +746,9 @@ EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w2-reconstruction.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.analyticAt_coeffSol_fst, KAM.Wave.analyticAt_coeffSol_snd, KAM.Wave.analyticAt_reconWave_u, KAM.Wave.analyticAt_reconWave_ux, KAM.Wave.analyticAt_reconWave_uxx, KAM.Wave.analyticAt_reconWave_ut, KAM.Wave.analyticAt_reconWave_utt (KAM/Wave/Recon2/Curve.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:curve; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:t1
@@ -782,9 +782,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:t1@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconU_eq_reconV_of_coeff, KAM.Wave.hasDerivAt_reconWave_ut (KAM/Wave/Recon2/Curve.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:curve; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:t2
@@ -819,9 +819,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:t2@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.lam_mul_div_sqrt_lam, KAM.Wave.hasDerivAt_reconWave_utt (KAM/Wave/Recon2/Curve.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:curve; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:x
@@ -846,9 +846,9 @@ EDGE: bpW:w2:functionals | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:x@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.hasDerivAt_reconWave_ux (KAM/Wave/Recon2/Curve.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:curve; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:frozen
@@ -880,9 +880,9 @@ EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w2-reconstruction.tex#s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.isClassicalSolution_reconWave (KAM/Wave/Recon2/Curve.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:curve; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:bound
@@ -911,9 +911,9 @@ EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w2-reconstruction.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_bound (KAM/Wave/Recon2/Curve.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:curve; W2-RECON audit 1 PASS WITH NOTES; derivWithin identified incl. endpoints
 NOTE: -
 
 NODE: bpW:w2:main
@@ -946,9 +946,9 @@ EDGE: bpW:wh:embedding#IsAnalyticTorusEmbedding | blueprint-W/parts/w2-reconstru
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_main, KAM.Wave.reconWave_main_le (KAM/Wave/Recon2/Main.lean)
+LEAN_NOTE: W2-RECON audit 1 PASS WITH NOTES; exact H1-H3, no EXCESS binders, bound M_m B
 NOTE: -
 
 NODE: stepW:w2:mred
@@ -975,9 +975,9 @@ EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w2-reconstruction.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_main, KAM.Wave.isAnalyticCoeffSolution_orbit (KAM/Wave/Recon2/Main.lean, KAM/Wave/Recon2/Orbit.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:main; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:mconc
@@ -1004,9 +1004,9 @@ EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w2-reconstruction.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_main (KAM/Wave/Recon2/Main.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:main; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: bpW:w2:clause5
@@ -1040,7 +1040,7 @@ EDGE: bpW:wh:embedding#IsAnalyticTorusEmbedding | blueprint-W/parts/w2-reconstru
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_clause5 (KAM/Wave/Recon2/Main.lean)
+LEAN_NOTE: W2-RECON audit 1 PASS WITH NOTES; C = max 1 M_m * C_3; frozen clause (5) text consumed in a term-level probe; nlw2 itself stays DRAFT_SORRY
 NOTE: Consumer: the W8 assembly (later wave) for the root bpW:wh:nlw2. The statement speaks of the form of conclusions (4)-(5) of nlw2; that is not a use of the root.
