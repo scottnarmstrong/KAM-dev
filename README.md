@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-31 12:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 96.0 % · SO checker 100 % · SO Moon 81 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **1,000,870 lines of Lean** of an estimated ≈ 1,007,000
+> **Last updated: 2026-10-31 12:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 96.0 % · SO checker 100 % · SO Moon 81 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **1,000,870 lines of Lean** of an estimated ≈ 1,007,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -265,7 +265,7 @@ Overall, everything together: 79.2 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **1,000,870** (866,999 excluding blank lines and comments) · **+714,523** since 2026-10-30 12:20 UTC |
+| On `main` now | **1,000,870** (866,999 excluding blank lines and comments) · **+713,943** since 2026-10-30 12:40 UTC |
 | Written on agent branches, not yet landed | 5,776 |
 | Generated certificate data on agent branches (numeric literals, not counted above or below) | 4,249 |
 | **Estimated total at completion** | **≈ 1,007,000** |
@@ -275,7 +275,7 @@ Overall, everything together: 79.2 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-31 12:20 UTC from `main` at `b5a2a0f7` by `scripts/hq-status.py`.*
+*Generated 2026-10-31 12:40 UTC from `main` at `35cdd4d7` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -459,7 +459,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **lockdata** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: LOCK-DATA: wrappers cap at 6G (LOCK_MEM) and wait for MemAvailable >= 8 GB (memory budget) | `inp-lockdata` | 142 (vs `inp`) |
+| **lockdata** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: LOCK-DATA lock_zadv: advice parts import only the parts they reference (no import chain) | `inp-lockdata` | 144 (vs `inp`) |
 | **lockfreeze** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: LOCK-FREEZE: cite D49 (freeze approval) and D45 (route) after renumbering | `inp-lockfreeze` | 2 (vs `inp`) |
 | **sofreeze3** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: SO-FREEZE3: decision references D46/D48 -> D47/D49 (metadata only); fail-closed identity c | `inp-sofreeze3` | 2 (vs `inp`) |
 | **wgraph** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Track W graph: delta review 7 (codex-1), reports only (track W paused) | `inp-wgraph` | 24 (vs `inp`) |
