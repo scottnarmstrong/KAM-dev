@@ -2044,3 +2044,13 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     checks are the build itself.
   - LOCK-DATA chose support D100×20, kp = 4, at 73.8°: threshold 10^−18.35…−20.03 against residual 4.2e-22, a margin
     of 1.6–3.0 orders. The exact torsion values (bT/σT) come next, then generation, ledger and kernel.
+- **01:49. Heartbeat: SO-DATA3 stalled about 30 min on a heartbeat timeout; fixed by splitting, no override.**
+  - Product 11 hit the default heartbeat budget on both tori: nested decides shared one theorem's budget.
+  - Fix (bc85da41): every product and character side check is its own top-level theorem, and the product theorem
+    cites them. Default heartbeats throughout; grep confirms no maxHeartbeats or maxRecDepth anywhere in the
+    branch. The earlier b45d6dc6 likewise names large right-hand sides instead of inlining them in decide +kernel.
+  - Lanes resumed at the Seg/CharLow modules. At 01:19: lower 372/830, upper 372/824. Projected finish about
+    04:30–04:45 UTC.
+  - LOCK-DATA: sizing done (D100×20, kp 4; error 1.08e-21 against exact threshold 10^−19.23, a margin of 1.74
+    decades). Generation is passing at the final literals. The first lock kernel theorem (JetEq bridge) passed at
+    3.37 GB.
