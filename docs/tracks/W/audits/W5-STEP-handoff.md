@@ -16,6 +16,10 @@ axioms, `w_lint.sh` exit 0; `#print axioms` of every main result listed: propext
 | `KamStep/Data.lean` | step constants `stepC1, stepT, stepCF, stepC0, stepC2` and modified `stepTn, stepCFn, stepC0n, stepC2n`, `stepMF`; positivity; `stepMF_le_of_small` (smallness ⇒ `M_F ≤ ση²/16`); `stepMF_margins` (`M_F ≤ σ/1024`, `M_F/(σ/4) ≤ 1/256`, `16M_F/σ ≤ η²`); `stepSolve_bound`, `stepSolve_bound_mod` (`3C₁B_σ/α · 3ε ≤ M_F`, both cases); `stepEstimate_arith` (`896ηε + 168 c ε²/(ασ^tη²) ≤ C₂(...)`) | `data`, `solve` (arithmetic), `step` (st-1/st-2 arithmetic) |
 | `KamStep/Divisors.lean` | `stepDivisors` (divisor lower bounds after the step, `HomMelnikov` data), `stepFreqHyp` (the frequency hypothesis `bpW:w5:freq` is stable with `M₀+3ε`, `M_ω+6πε/λ`, `M_Ω+3ε/λ`), helper `homPairL_sub_le`, `waveA_le_of_modeSize_le` | `step` (iii), (iv) |
 | `KamStep/Flow.lean` | `stepDomain ρ s r'`, openness, `stepDomain_margin` (ball `B(w,σ/2) ⊂ D(s-σ,r)` for `w ∈ D(s-2σ,r/2)`), **`stepFlowHyp`**: `FlowHyp X V U M (σ/4)` on `StepPhase r` with the concrete A.4 margins (so all landed `KAM/Wave/Analytic/Flow` lemmas apply), `stepImage_mem` (`φ^t(D(s-5σ,ηr)) ⊂ D(s-4σ,2ηr)`) | `flow` (margins, image, hypotheses) |
+| `KamStep/Pullback.lean` | abstract core of the pull-back: `stepInv_sub`, `stepPullback_diff` (`λ‖B_ξy₁-B_ζy₂‖ ≤ (9/2 Y₀+2λY_L)d`), `stepPullback_const` (`2Y₀+(9/2Y₀+2λY_L) ≤ 7(Y₀+λY_L)`), `stepCommutator_arith` (`24εM_F/(ση²)`) | `pullback` (operator core, step `p-ass`), `commutator` (arithmetic) |
+| `KamStep/SymplecticFlow.lean` | `stepSymp_const`: `B(a(t),b(t))` is constant along `a'=K a` when each `K(t)` is `B`-skew (derivative lemma `stepSymp_hasDerivWithinAt`) | `flow-calc` (ii), step `c-symp` (abstract core) |
+| `KamStep/Triangle.lean` | `stepTriangle`, `stepTriangle_on`: `∫₀¹∫₀ᵗ g = ∫₀¹(1-τ)g` | external `W5-E5` |
+| `KamStep/NewHamExp.lean` | `stepFTC`, `stepIntegral_eq`, `stepExpansion`, `stepExpansion_H`: `H(Φw) = N + N̂ + â₀ + (P-R)(Φw) + ∫₀¹((1-τ){N̂,F}+τ{R,F})` along a trajectory (scalar core) | `new-ham` (i), step `n-exp` (scalar core) |
 
 ## Not done
 * `w4-modified` (i), (ii), m-act (operator estimate for `∂_θ Q_F : ℓ_p → ℓ_{p_+}`), the modified `Q`-division; only the
@@ -27,9 +31,8 @@ axioms, `w_lint.sh` exit 0; `#print axioms` of every main result listed: propext
   `flow` (ii): `|φ^t - id|^λ ≤ 2M_F` and derivative bounds (Cauchy on balls); the existence/holomorphy/Lipschitz-in-ξ
   conclusions follow from the landed lemmas applied through `stepFlowHyp` but the `p_+`-smoothing and the λ-norm
   statements are not written; reality/equivariance (iv).
-* `flow-calc` (continuity, variational equation, symplecticity, inverse, transport, time derivative via W4 Lie (iv)).
-* `new-ham` (expansion with the triangle integral, field of `P_+`, weak conjugacy), `pullback` (constant 7),
-  `commutator` (`24 ε M_F/(ση²)`), and the step theorem `bpW:w5:step` (i)–(v). No Lean statement of `bpW:w5:step` exists.
+* `flow-calc`: only the abstract symplecticity core is done; continuity, the variational equation for the actual flow, skewness of `DX_F` (needs `F ∈ C²` and external E3), inverse/Neumann, transport, and the time derivative via W4 Lie (iv) are open.
+* `new-ham`: only the scalar expansion core is done; the bracket field `[X_G,X_F]`, the field of `P_+` and the weak conjugacy (iii) are open. `pullback`/`commutator`: only the abstract cores/arithmetic; applying them needs the flow derivative bounds (Cauchy on balls). The step theorem `bpW:w5:step` (i)–(v). No Lean statement of `bpW:w5:step` exists.
   The arithmetic closing it is `stepEstimate_arith`; the analytic content of (i), (ii), (v) is missing.
 * Action–angle and initial perturbation were out of scope (need W3).
 
