@@ -35,7 +35,7 @@ theorem lock_core : refinedCore 2 params freqBox refinedWit = true :=
       | 1, _ => exact ⟨lock_site_d1, lock_site_b1⟩
       | 2, _ => exact ⟨(by decide +kernel), lock_site_b2⟩
       | 3, _ => exact ⟨(by decide +kernel), lock_site_b3⟩
-      | _ + 4, h => absurd h (by omega))
+      | _ + 4, h => exact absurd h (by omega))
     (by decide +kernel) (by decide +kernel)
 
 end KAM.SpinOrbit.Data.LockN65

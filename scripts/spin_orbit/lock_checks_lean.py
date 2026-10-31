@@ -67,7 +67,7 @@ def main(root):
             "      match s, hs with"]
     for s in range(LB.KP):
         body += ["      | %d, _ => exact ⟨%s, %s⟩" % (s, comp("d", s), comp("b", s))]
-    body += ["      | _ + %d, h => absurd h (by omega))" % LB.KP,
+    body += ["      | _ + %d, h => exact absurd h (by omega))" % LB.KP,
              "    (by decide +kernel) (by decide +kernel)"]
     tree.write("Core", light + [tree.module(r) for r in sorted(
         "Site%d%s" % (s, side.upper()) for (side, s) in mods)], "The lock v2 core test (generated)", GEN, body,
