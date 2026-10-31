@@ -177,9 +177,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:space@L113-L11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.BirkIdx, KAM.Wave.BirkSpace, KAM.Wave.birkCoord, KAM.Wave.birkEmbed, KAM.Wave.birkEmbed_injective, KAM.Wave.norm_birkEmbed_le, KAM.Wave.birkCoord_birkEmbed, KAM.Wave.birkRho, KAM.Wave.birkCoord_birkRho, KAM.Wave.birkSgn, KAM.Wave.birkLam, KAM.Wave.lpDiagCLM, KAM.Wave.birkNormalPart (KAM/Wave/Birkhoff/Space.lean, KAM/Wave/Birkhoff/QuartNormal.lean)
+LEAN_NOTE: definition formalized by W3-SETTING; W3-SETTING-DIVF audit 1 PASS (space row); carrier lp (Bool x PNat -> C) 2 in weighted coordinates, W+ read at weight p+1
 NOTE: -
 
 NODE: bpW:w3:coords
@@ -207,9 +207,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:coords@L119-L128 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkZ, KAM.Wave.birkZinv, KAM.Wave.birkZEquiv, KAM.Wave.norm_le_norm_birkZ, KAM.Wave.norm_birkZ_le, KAM.Wave.norm_birkZinv_le, KAM.Wave.birkCoord_birkZ_true, KAM.Wave.birkCoord_birkZ_false, KAM.Wave.birkCoord_mul_birkZ, KAM.Wave.birkRho_birkZ_real, KAM.Wave.exists_birkZ_of_birkRho_eq, KAM.Wave.birkReal, KAM.Wave.birkReal_injective (KAM/Wave/Birkhoff/Coords.lean)
+LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: bpW:w3:omega
@@ -237,9 +237,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:omega@L139-L145 | t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkOmega, KAM.Wave.norm_birkOmega_le, KAM.Wave.birkOmega_antisymm, KAM.Wave.birkOmega_unit_neg, KAM.Wave.birkOmega_nondegenerate, KAM.Wave.birkOmega_birkZ, KAM.Wave.birkOmega_birkZ_real, KAM.Wave.birkOmega_birkRho (KAM/Wave/Birkhoff/Omega.lean)
+LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: bpW:w3:hamfield-def
@@ -268,9 +268,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:hamfield-def@L154-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsBirkHamFieldW, KAM.Wave.birkFieldW_eq, KAM.Wave.birkFieldW_coord, KAM.Wave.IsBirkHamFieldPlus, KAM.Wave.IsBirkHamFieldPlus.toW, KAM.Wave.IsBirkClassA, KAM.Wave.BirkClassA, KAM.Wave.IsBirkClassA.hamField, KAM.Wave.IsBirkClassA.field_rho (KAM/Wave/Birkhoff/HamClass.lean)
+LEAN_NOTE: definition formalized by W3-SETTING; W3-SETTING-DIVF audit 1 FAIL on the general field predicate (F1), audit 2 PASS for the F1 fix (general W-valued IsBirkHamFieldW; former predicate renamed IsBirkHamFieldPlus); class A(U) PASS in audit 1; the remark 'analytic maps are holomorphic' is not restated (Mathlib analytic implies differentiable); X_P o rho = rho o X_P exported for class-A fields (see #hamilton)
 NOTE: -
 
 NODE: bpW:w3:real-restrict
@@ -327,9 +327,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:forms@L189-L197 | t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsBirkSmoothing, KAM.Wave.birkDiag, KAM.Wave.birkDiagField, KAM.Wave.birkDiag_field, KAM.Wave.norm_birkDiag_le, KAM.Wave.norm_birkDiagField_le, KAM.Wave.norm_birkDiagField_sub_le, KAM.Wave.birkDiag_analyticOnNhd, KAM.Wave.birkDiagField_analyticOnNhd, KAM.Wave.birkDiag_isClassA (KAM/Wave/Birkhoff/Forms.lean)
+LEAN_NOTE: definition formalized by W3-SETTING; W3-SETTING-DIVF audit 1 PASS; birkDiag_field returns the Plus predicate after the F1 fix (audit 2 PASS)
 NOTE: -
 
 NODE: bpW:w3:Lambda
@@ -361,9 +361,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:Lambda@L200-L206 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.birkLamBil, KAM.Wave.birkLambda, KAM.Wave.norm_birkLambda_le, KAM.Wave.birkLambda_analyticOnNhd, KAM.Wave.birkLambda_birkZ, KAM.Wave.fderiv_birkLambda_apply, KAM.Wave.birkXLam, KAM.Wave.norm_birkXLam_le, KAM.Wave.birkLambda_field, KAM.Wave.not_exists_birkXLam_bounded (KAM/Wave/Birkhoff/Lambda.lean)
+LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS WITH NOTES (N1), audit 2 PASS (N1 docstring); all clauses proved except 'X_Lambda does not map W into itself', which is exported only as nonexistence of a bounded linear operator on W with the coordinates of X_Lambda (no explicit point of W mapped outside W); no later package closes it
 NOTE: -
 
 NODE: bpW:w3:majorant
@@ -394,9 +394,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:majorant@L232-L239 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkMajorant, KAM.Wave.birkMajorant_eq, KAM.Wave.birkMajorant_bound, KAM.Wave.waveCubicConst_one (KAM/Wave/Birkhoff/Majorant.lean, KAM/Wave/Normal/Analysis/CubicHeadline.lean)
+LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS; constant waveCubicConst p = K_{p+1/2}^2/pi independent of m; value 8(1+2 zeta(3))/pi at p = 1 is waveCubicConst_one (W0-ANALYSIS, audit 1 PASS)
 NOTE: -
 
 NODE: bpW:w3:quartic
@@ -426,9 +426,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:quartic@L248-L259 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsBirkQuartCoef, KAM.Wave.birkQuartForm, KAM.Wave.birkQuartP, KAM.Wave.birkQuartX, KAM.Wave.birkGradML, KAM.Wave.norm_birkGradML_le, KAM.Wave.birkQuartForm_perm, KAM.Wave.birkQuartForm_rho, KAM.Wave.birkQuart_isSmoothing, KAM.Wave.birkQuart_isClassA, KAM.Wave.norm_birkQuartP_le, KAM.Wave.norm_birkQuartX_le, KAM.Wave.norm_birkQuartX_sub_le, KAM.Wave.isBirkQuartCoef_on, KAM.Wave.birkCoefAll, KAM.Wave.birkCoefTan, KAM.Wave.birkCoefBar, KAM.Wave.birkCoefNor, KAM.Wave.birkCoord_birkGradML, KAM.Wave.birkQuartSum_eq_omega, KAM.Wave.birkQuartP_all_eq_tan_add_nor (KAM/Wave/Birkhoff/QuartForm.lean, KAM/Wave/Birkhoff/QuartMain.lean, KAM/Wave/Birkhoff/QuartML.lean, KAM/Wave/Birkhoff/QuartIdent.lean, KAM/Wave/Birkhoff/QuartBarAlg.lean, KAM/Wave/Birkhoff/QuartPaired.lean, KAM/Wave/Birkhoff/QuartNormal.lean, KAM/Wave/Birkhoff/QuartSum.lean)
+LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS (normalization 1/16 and C_*/4 retained)
 NOTE: -
 
 NODE: stepW:w3:maj
@@ -455,9 +455,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:maj@L262-L265 | t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkGrad_majorize, KAM.Wave.birkFoldNorm, KAM.Wave.ellTsumNorm_birkFoldNorm_le (KAM/Wave/Birkhoff/QuartGrad.lean, KAM/Wave/Birkhoff/Fold.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:quartic; W3-SETTING-DIVF audit 1 PASS (quartic majorization ledger rows); (mapping inferred)
 NOTE: -
 
 NODE: stepW:w3:gradbound
@@ -484,9 +484,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:gradbound@L266-L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.norm_birkGradML_le (KAM/Wave/Birkhoff/QuartML.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:quartic; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:identify
@@ -516,9 +516,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:identify@L270-L27
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkQuartSum_eq_omega, KAM.Wave.birkQuartForm_perm, KAM.Wave.birkQuartForm_rho, KAM.Wave.isBirkQuartCoef_on (KAM/Wave/Birkhoff/QuartSum.lean, KAM/Wave/Birkhoff/QuartForm.lean, KAM/Wave/Birkhoff/QuartMain.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:quartic; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: bpW:w3:quartic-ident
@@ -554,9 +554,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:quartic-ident@L282-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkQuartP_birkZ, KAM.Wave.birkQuartP_birkZ_real, KAM.Wave.birkZinv_birkQuartX_birkZ, KAM.Wave.birkQuartP_normal, KAM.Wave.birkQuartX_normal, KAM.Wave.birkQuartX_tangential, KAM.Wave.norm_birkQuartP_normal_le, KAM.Wave.norm_birkQuartX_normal_le, KAM.Wave.birkQuartP_bar, KAM.Wave.birkActionB_eq, KAM.Wave.birkPaired_iff_divisor (KAM/Wave/Birkhoff/QuartIdent.lean, KAM/Wave/Birkhoff/QuartNormal.lean, KAM/Wave/Birkhoff/QuartBarAlg.lean, KAM/Wave/Birkhoff/QuartPaired.lean)
+LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS: series identity for a>=0, waveG identity for a>0, X_G = (0,-T(q,q,q)) via landed waveXG, corrected A,B on all complex W, landed quartic_nonresonance applied
 NOTE: -
 
 NODE: stepW:w3:Gz
@@ -584,9 +584,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Gz@L294-L297 | th
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkQuartP_birkZ, KAM.Wave.birkQuartP_birkZ_real (KAM/Wave/Birkhoff/QuartIdent.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:quartic-ident; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:XG
@@ -618,9 +618,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XG@L298-L311 | th
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta3-W-w3+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkZinv_birkQuartX_birkZ, KAM.Wave.waveQuartForm_perm, KAM.Wave.norm_waveQuartForm_le (KAM/Wave/Birkhoff/QuartIdent.lean, KAM/Wave/Cubic/QSymm.lean, KAM/Wave/Cubic/QPair.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:quartic-ident; W3-SETTING-DIVF audit 1 PASS; the symmetric 4-linear Q with its C_* bound is the W1-CUBIC waveQuartForm (W1-CUBIC audit 2 PASS)
 NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): the step now proves the field formula for every a >= 0 directly; the SOURCE_GAP (a = 0 not covered) is resolved and removed. The citations of bpW:w0n:gradient and bpW:w1:gradient-identity at L310-L311 are consistency remarks for a > 0, not alternative derivations, so the two route nodes are deleted.
 
 NODE: stepW:w3:Gnor
@@ -647,9 +647,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Gnor@L312-L313 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkQuartP_normal, KAM.Wave.birkQuartX_normal, KAM.Wave.norm_birkQuartP_normal_le, KAM.Wave.norm_birkQuartX_normal_le (KAM/Wave/Birkhoff/QuartNormal.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:quartic-ident; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:count
@@ -677,9 +677,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:count@L314-L318 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkV_sum_eq_six, KAM.Wave.birkV_s0_eq, KAM.Wave.tsum_tan_split, KAM.Wave.birkQuartP_bar (KAM/Wave/Birkhoff/QuartBar.lean, KAM/Wave/Birkhoff/QuartBarAlg.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:quartic-ident, separately named; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:res
@@ -705,9 +705,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:res@L319-L321 | t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkPaired_iff_divisor (KAM/Wave/Birkhoff/QuartPaired.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:quartic-ident, separately named; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: bpW:w3:divisor
@@ -743,9 +743,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:divisor@L327-L333 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birk_divisor_bound, KAM.Wave.birk_divisor_bound_tan, KAM.Wave.birkDeltaStar, KAM.Wave.birk_divisor_sorted (KAM/Wave/Birkhoff/Divisor.lean)
+LEAN_NOTE: W3-DIVISOR-F audit 1 PASS (W3-SETTING-DIVF): exact m/(27(n^2+m)^{3/2}) for all 16 sign patterns, delta_* = m/(27(4+m)^{3/2}); minimum given by an attained index
 NOTE: -
 
 NODE: stepW:w3:sel
@@ -770,9 +770,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:sel@L339-L342 | t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birk_divisor_bound_tan, KAM.Wave.quarticSel_of_quarticCoeff_ne_zero (KAM/Wave/Birkhoff/Divisor.lean, KAM/Wave/Normal/QuarticCoeff.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:divisor; W3-SETTING-DIVF audit 1 PASS; selection rule taken as hypothesis (exists eps) in birk_divisor_bound and derived from the landed selection rule in the tangential corollary
 NOTE: -
 
 NODE: stepW:w3:signs
@@ -797,9 +797,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:signs@L343-L346 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birk_divisor_sorted (KAM/Wave/Birkhoff/Divisor.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:divisor; W3-SETTING-DIVF audit 1 PASS; sorting internal (Tuple.sort), all 16 sign patterns handled
 NOTE: -
 
 NODE: stepW:w3:s0
@@ -827,9 +827,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s0@L347-L348 | th
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkDiv_C0 (KAM/Wave/Birkhoff/DivisorCore.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:divisor, separately named; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:s1
@@ -858,9 +858,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s1@L349-L353 | th
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkDiv_C1 (KAM/Wave/Birkhoff/DivisorCore.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:divisor, separately named; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:s23
@@ -888,9 +888,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s23@L354-L358 | t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkDiv_C3, KAM.Wave.birkDiv_C2, KAM.Wave.birkDelta_ge (KAM/Wave/Birkhoff/DivisorCore.lean, KAM/Wave/Birkhoff/DivisorReal.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:divisor, separately named; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:s1inner
@@ -920,9 +920,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s1inner@L359-L369
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkDiv_C1i, KAM.Wave.birkDiv_C1ii, KAM.Wave.birkL_second_diff (KAM/Wave/Birkhoff/DivisorCore.lean, KAM/Wave/Birkhoff/DivisorReal.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:divisor, separately named; W3-SETTING-DIVF audit 1 PASS; route deviation: f'' integral replaced by the exact algebraic second-difference bound (same constants); Lean route differs: discrete second differences replace the derivative facts
 NOTE: -
 
 NODE: stepW:w3:divconcl
@@ -952,9 +952,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:divconcl@L370-L37
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birk_divisor_sorted, KAM.Wave.birk_divisor_bound, KAM.Wave.birk_divisor_bound_tan, KAM.Wave.birkDeltaStar (KAM/Wave/Birkhoff/Divisor.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:divisor; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: bpW:w3:Fdef
@@ -981,9 +981,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:Fdef@L395-L401 | th
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkFx, KAM.Wave.birkFcoef, KAM.Wave.birkFform, KAM.Wave.birkFgrad, KAM.Wave.birkS, KAM.Wave.birkXF_eq (KAM/Wave/Birkhoff/FCoef.lean, KAM/Wave/Birkhoff/FForm.lean)
+LEAN_NOTE: definition formalized by W3-DIVISOR-F; W3-SETTING-DIVF audit 1 PASS (Fdef row)
 NOTE: -
 
 NODE: bpW:w3:F
@@ -1011,9 +1011,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:F@L406-L413 | the c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkF_isSmoothing, KAM.Wave.birkCF, KAM.Wave.norm_birkS_le, KAM.Wave.birkS_pairing, KAM.Wave.birkS_perm, KAM.Wave.birkS_rho, KAM.Wave.birkF_real, KAM.Wave.norm_birkF_le, KAM.Wave.birkXF_eq, KAM.Wave.birkF_isClassA (KAM/Wave/Birkhoff/FForm.lean)
+LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS: S into W+ with C_F = C_*/delta_*, four-slot pairing symmetry, reality, X_F analytic W to W+
 NOTE: -
 
 NODE: stepW:w3:fcoef
@@ -1040,9 +1040,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:fcoef@L416-L419 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkFx_perm, KAM.Wave.birkFx_neg, KAM.Wave.abs_birkFx_le, KAM.Wave.birkFcoef_isCoef, KAM.Wave.birkFform (KAM/Wave/Birkhoff/FCoef.lean, KAM/Wave/Birkhoff/FForm.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:F, separately named; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:Fconcl
@@ -1071,9 +1071,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Fconcl@L420-L423 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkF_isSmoothing, KAM.Wave.norm_birkS_le, KAM.Wave.birkS_rho, KAM.Wave.birkF_isClassA (KAM/Wave/Birkhoff/FForm.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:F; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: bpW:w3:homological
@@ -1103,9 +1103,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:homological@L427-L4
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birk_homological, KAM.Wave.birk_homological', KAM.Wave.birk_DLam_XF, KAM.Wave.birk_euler, KAM.Wave.birk_delta_mul_fx, KAM.Wave.summable_birkLamQuartTerm (KAM/Wave/Birkhoff/Homological.lean, KAM/Wave/Birkhoff/HomSum.lean)
+LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS: DLambda(w) X_F(w) = bar G(w) - G^tan(w) for every w in W, and G + DLambda X_F = bar G + G^nor; the parenthetical class of the form frak z (smoothing C_*/4, bound on X_Z') has no separately named export
 NOTE: -
 
 NODE: stepW:w3:Xfcoord
@@ -1132,9 +1132,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Xfcoord@L435-L437
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkCoord_birkXF, KAM.Wave.birkXF_eq (KAM/Wave/Birkhoff/Homological.lean, KAM/Wave/Birkhoff/FForm.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:homological; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:euler
@@ -1164,9 +1164,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:euler@L438-L443 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birk_euler, KAM.Wave.birk_DLam_XF, KAM.Wave.summable_birkLamQuartTerm (KAM/Wave/Birkhoff/Homological.lean, KAM/Wave/Birkhoff/HomSum.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:homological, separately named; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:divide
@@ -1194,9 +1194,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:divide@L444-L448 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birk_delta_mul_fx, KAM.Wave.birk_homological, KAM.Wave.birk_homological' (KAM/Wave/Birkhoff/Homological.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:homological; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: bpW:w3:lie-coeff
@@ -2497,9 +2497,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:hamfield-def@L164-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.IsBirkClassA.field_rho, KAM.Wave.birkZinv_birkQuartX_birkZ (KAM/Wave/Birkhoff/HamClass.lean, KAM/Wave/Birkhoff/QuartIdent.lean)
+LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS for IsBirkClassA.field_rho; covered: X_P o rho = rho o X_P for class-A Hamiltonians; not covered: the general real-point identity Z^{-1} X_P = (d_p P, -d_q P) (proved only for P = G via birkZinv_birkQuartX_birkZ) and reality of the field for real P outside class A
 NOTE: Unlabelled paragraph after Definition bpW:w3:hamfield-def, cited as "paragraph after Definition bpW:w3:hamfield-def" in Steps stepW:w3:XG and stepW:w3:XKconcl.
 
 NODE: bpW:w3:quartic-sec#data
@@ -2527,9 +2527,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:quartic-sec@L224-L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkAbs, KAM.Wave.birkAtom, KAM.Wave.birkG, KAM.Wave.birkDivisor, KAM.Wave.birkPaired, KAM.Wave.birkTanSet, KAM.Wave.birkBarSet (KAM/Wave/Birkhoff/Reindex.lean, KAM/Wave/Birkhoff/QuartGrad.lean, KAM/Wave/Birkhoff/QuartPaired.lean)
+LEAN_NOTE: definition formalized by W3-SETTING; W3-SETTING-DIVF audit 1 PASS (definition ledger rows; all literal formulas); (mapping inferred)
 NOTE: Unlabelled prose L224-L230 fixing notation consumed throughout W3 (SPEC section-data rule).
 
 NODE: bpW:w3:main-sec#data
@@ -2588,9 +2588,9 @@ EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:divis
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-W-w3
 REVIEWER: sol-delta-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkL, KAM.Wave.lam_eq_birkL, KAM.Wave.birkL_second_diff, KAM.Wave.birkDelta_mono, KAM.Wave.birkDelta_ge, KAM.Wave.birkL_incr_mono, KAM.Wave.birkL_incr_sub (KAM/Wave/Birkhoff/DivisorReal.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:divisor; W3-SETTING-DIVF audit 1 PASS; route deviation: the derivative statements on f' and f'' are replaced by exact discrete increment/second-difference inequalities, not formalized as stated; Lean route differs: discrete second differences replace the derivative facts
 NOTE: This separates the quantitative preamble used by the sign cases; it is not an extra assumption. The symbol A here is the smallest mode, not the exponential weight a.
 
 NODE: bpW:w3:transport-tori-weak

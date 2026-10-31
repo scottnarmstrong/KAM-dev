@@ -64,9 +64,9 @@ EDGE: bpW:w0:mass | blueprint-W/parts/w0-conventions.tex#bpW:w0:nlw@L33-L33 | th
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsClassicalSolution (KAM/Frozen/Wave/Defs/IsClassicalSolution.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:w0:basis#lam
@@ -92,9 +92,9 @@ EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-conventions.tex#bpW:w0:basis@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
 REVIEWER: sol-delta-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.lam (KAM/Frozen/Wave/Defs/Lam.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:w0:basis#sineMode
@@ -118,9 +118,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.sineMode (KAM/Frozen/Wave/Defs/SineMode.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:w0:ellap#ellWeight
@@ -144,9 +144,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.ellWeight (KAM/Frozen/Wave/Defs/EllWeight.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:w0:ellap#WaveSpace
@@ -173,9 +173,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w0-conventions.tex#bpW:w0:ellap@L53
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
 REVIEWER: sol-delta-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.WaveSpace (KAM/Frozen/Wave/Defs/WaveSpace.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:w0:ellap#coeff
@@ -200,9 +200,9 @@ EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w0-conventions.tex#bpW:w0:ellap
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.coeff (KAM/Frozen/Wave/Defs/Coeff.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:w0:twosided
@@ -226,9 +226,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-r2
 REVIEWER: sol-delta3-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.WaveTwoMem.summable_sq, KAM.Wave.wave_conv_summable (KAM/Wave/Algebra/TwoSided.lean)
+LEAN_NOTE: W1-ALGEBRA audit 1 PASS WITH NOTES; space and absolute convergence for a, s >= 0 proved; s < 0 divergence example not formalized; N4 only square-summability exported
 NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): convolution restricted to s >= 0 with its convergence argument (inline); the pointers to bpW:w0n:algebra and bpW:w1:twosided-transport at L73-L74 are forward pointers, not edges.
 
 NODE: bpW:w0:reconstruction#reconU
@@ -255,9 +255,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstru
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-delta5-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconU (KAM/Frozen/Wave/Defs/ReconU.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:w0:reconstruction#reconV
@@ -284,9 +284,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstru
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconV (KAM/Frozen/Wave/Defs/ReconV.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:w0:H
@@ -347,9 +347,9 @@ EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L103-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c+claude-suborch-W-r2
 REVIEWER: sol-delta3-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.cubicGrad (KAM/Frozen/Wave/Defs/CubicGrad.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): domain extended to l^{a,p}, a > 0 (the frozen cubicGrad is the l^{1,1} case, unchanged). The refs to bpW:w0n:gradient and bpW:w0n:cubic-bound at L107-L108 are forward pointers (they would close a cycle); not edges.
 
 NODE: bpW:w0:eqmotion
@@ -467,9 +467,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:periodone@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
 REVIEWER: sol-delta-W-w0c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.linearTorus (KAM/Frozen/Wave/Defs/LinearTorus.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:w0:basis#lambda-facts
@@ -555,9 +555,9 @@ EDGE: bpW:w0:mass | blueprint-W/parts/w0-normalization.tex#bpW:w0n:recon-bounded
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveEll_summable_pow_mul, KAM.Wave.waveEll_tsum_pow_mul_le, KAM.Wave.waveSineSeries, KAM.Wave.waveSineSeries_abs_le, KAM.Wave.waveSineSeries_tendstoUniformly, KAM.Wave.waveSineSeries_add, KAM.Wave.waveSineSeries_smul, KAM.Wave.hasDerivAt_waveSineSeries, KAM.Wave.contDiff_waveSineSeries, KAM.Wave.iteratedDeriv_waveSineSeries, KAM.Wave.waveSineSeries_zero_apply, KAM.Wave.waveSineSeries_pi, KAM.Wave.integral_waveSineSeries_mul_sineMode, KAM.Wave.waveEll_mul_poly, KAM.Wave.waveEllK_summable_pow_mul, KAM.Wave.waveEllK_tsum_pow_mul_le, KAM.Wave.waveSineSeriesK, KAM.Wave.waveSineSeriesK_norm_le, KAM.Wave.waveSineSeriesK_tendstoUniformly, KAM.Wave.waveSineSeriesK_add, KAM.Wave.waveSineSeriesK_smul, KAM.Wave.hasDerivAt_waveSineSeriesK, KAM.Wave.contDiff_waveSineSeriesK, KAM.Wave.iteratedDeriv_waveSineSeriesK, KAM.Wave.waveSineSeriesK_zero_apply, KAM.Wave.waveSineSeriesK_pi, KAM.Wave.integral_waveSineSeriesK_mul_sineMode (KAM/Wave/Normal/Analysis/EllSeq.lean, KAM/Wave/Normal/Analysis/SineSeries.lean, KAM/Wave/Cubic/ReconComplex.lean)
+LEAN_NOTE: W0-ANALYSIS audit 1 FAIL only for F1 (complex carrier missing), all real clauses PASS; complex clause supplied by W1-CUBIC (scope ruling), W1-CUBIC audit 1 PASS WITH NOTES, closes F1; notes: boundedness into C^k expressed as sup bound per derivative order plus linearity (no bundled C^k space); complex restatement of the 'in particular' U_m/V_m/U_m(lambda q) sentence not exported (real multiplier step waveEll_mul_poly PASS)
 NOTE: -
 
 NODE: bpW:w0n:quartic-coeff
@@ -585,9 +585,9 @@ EDGE: stepW:w0n:signed | blueprint-W/parts/w0-normalization.tex#bpW:w0n:quartic-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.sineQuarticCoeff, KAM.Wave.sineQuarticCoeff_eq, KAM.Wave.sineQuarticCoeff_perm, KAM.Wave.quarticSel_of_quarticCoeff_ne_zero, KAM.Wave.sineQuarticCoeff_eq_zero_of_not_sel, KAM.Wave.sineQuarticCoeff_diag, KAM.Wave.sineQuarticCoeff_diag_pair, KAM.Wave.sineQuarticCoeff_signed, KAM.Wave.abs_quarticCoeff_le (KAM/Wave/Normal/QuarticCoeff.lean)
+LEAN_NOTE: W0-NORMAL audit 1 PASS (quartic-coeff and g-signed rows); signs Bool-coded via signedSign/boolSign
 NOTE: -
 
 NODE: stepW:w0n:prod
@@ -612,9 +612,9 @@ EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#stepW:w0n:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.sin_mul_four, KAM.Wave.sineMode_mul_four, KAM.Wave.sineQuarticCoeff_eq (KAM/Wave/Normal/QuarticCoeff.lean)
+LEAN_NOTE: step of PROVED parent bpW:w0n:quartic-coeff; W0-NORMAL audit 1 PASS (product-to-sum helpers in QuarticCoeff ledger); (mapping inferred)
 NOTE: -
 
 NODE: stepW:w0n:cos
@@ -639,9 +639,9 @@ EDGE: stepW:w0n:prod | blueprint-W/parts/w0-normalization.tex#stepW:w0n:cos@L60-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.integral_cos_int_mul_Ioc_zero_pi, KAM.Wave.sineQuarticCoeff_eq, KAM.Wave.sineQuarticCoeff_diag, KAM.Wave.sineQuarticCoeff_diag_pair (KAM/Wave/Normal/QuarticCoeff.lean)
+LEAN_NOTE: step of PROVED parent bpW:w0n:quartic-coeff; W0-NORMAL audit 1 PASS; (mapping inferred)
 NOTE: -
 
 NODE: stepW:w0n:signed
@@ -666,9 +666,9 @@ EDGE: stepW:w0n:cos | blueprint-W/parts/w0-normalization.tex#stepW:w0n:signed@L6
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.sineQuarticCoeff_signed, KAM.Wave.abs_quarticCoeff_le (KAM/Wave/Normal/QuarticCoeff.lean)
+LEAN_NOTE: step of PROVED parent bpW:w0n:quartic-coeff, separately named; W0-NORMAL audit 1 PASS (g-signed row)
 NOTE: -
 
 NODE: bpW:w0n:gradient
@@ -700,9 +700,9 @@ EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gra
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n+claude-suborch-W-r2
 REVIEWER: sol-delta3-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveG_hasSum, KAM.Wave.waveCubic_hasSum, KAM.Wave.hasDerivAt_waveG_coord, KAM.Wave.integral_waveU_cube_mul_sineMode, KAM.Wave.reconU_eq_waveU, KAM.Wave.cubicGrad_eq_waveCubic (KAM/Wave/Normal/Analysis/Gradient.lean)
+LEAN_NOTE: W0-ANALYSIS audit 1 PASS; valid strengthening: every real p with a>0 (source p>=0)
 NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): the statement now names the domain l^{a,p} of G and G_q (L78-L79).
 
 NODE: bpW:w0n:algebra
@@ -729,9 +729,9 @@ EDGE: stepW:w0n:young | blueprint-W/parts/w0-normalization.tex#bpW:w0n:algebra@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.wave_algebra (KAM/Wave/Algebra/Algebra.lean)
+LEAN_NOTE: W1-ALGEBRA audit 1 PASS WITH NOTES; algebra inequality proved; the identity K_{3/2}^2 = 8(1+2 zeta(3)) not exported
 NOTE: -
 
 NODE: stepW:w0n:weight
@@ -819,9 +819,9 @@ EDGE: bpW:w0n:algebra | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bou
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n+claude-suborch-W-r2
 REVIEWER: sol-delta3-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveTriCoef, KAM.Wave.waveTriSeq, KAM.Wave.waveTri_oneSided, KAM.Wave.waveTriML, KAM.Wave.waveTriML_norm_le, KAM.Wave.waveTriML_perm, KAM.Wave.waveTriML_complexify, KAM.Wave.waveTriSeq_ofReal, KAM.Wave.waveTrilinear_eq_waveTriSeq, KAM.Wave.waveTrilinear, KAM.Wave.wave_trilinear_bound, KAM.Wave.waveCubic_eq_trilinear, KAM.Wave.wave_cubic_bound, KAM.Wave.cubicGrad_mem_ell, KAM.Wave.cubicGrad_norm_le, KAM.Wave.waveCubicLp_analyticOnNhd (KAM/Wave/Cubic/TriSeq.lean, KAM/Wave/Cubic/TriML.lean, KAM/Wave/Cubic/CubicDeriv.lean, KAM/Wave/Cubic/TriProps.lean, KAM/Wave/Normal/Analysis/CubicBound.lean, KAM/Wave/Normal/Analysis/CubicLinear.lean, KAM/Wave/Normal/Analysis/CubicHeadline.lean, KAM/Wave/Normal/Analysis/CubicAnalytic.lean)
+LEAN_NOTE: W0-ANALYSIS audit 1 PASS for the real headline (C_m = 8(1+2 zeta(3))/pi, real analytic) and the real T, FAIL only for missing complex T (F1); complex trilinear clause supplied by W1-CUBIC (scope ruling), W1-CUBIC audit 1 PASS (exact C_* over RCLike K, real on real arguments)
 NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): the identification G_q = T(q,q,q) is stated for real q in l^{a,p} with Definition bpW:w0:Gq on l^{a,p} (L126-L127).
 
 NODE: stepW:w0n:majorant
@@ -848,9 +848,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:majora
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveEvenAbs, KAM.Wave.waveEvenAbs_weighted (KAM/Wave/Normal/Analysis/EvenMajorant.lean, KAM/Wave/Normal/Analysis/CubicTools.lean)
+LEAN_NOTE: step of PROVED parent bpW:w0n:cubic-bound, separately named; W0-ANALYSIS audit 1 PASS (constant sqrt 2 of errata N-1)
 NOTE: -
 
 NODE: stepW:w0n:selection
@@ -877,9 +877,9 @@ EDGE: bpW:w0n:algebra | blueprint-W/parts/w0-normalization.tex#stepW:w0n:selecti
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.abs_waveQuartic_le_signs, KAM.Wave.wave_selection_sum_le, KAM.Wave.waveSignedEmb_injective (KAM/Wave/Normal/Analysis/SelectionRule.lean, KAM/Wave/Normal/Analysis/CubicSelect.lean)
+LEAN_NOTE: step of PROVED parent bpW:w0n:cubic-bound, separately named; W0-ANALYSIS audit 1 PASS
 NOTE: -
 
 NODE: stepW:w0n:smoothing
@@ -908,9 +908,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:smooth
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.wave_trilinear_bound, KAM.Wave.waveTri_oneSided (KAM/Wave/Normal/Analysis/CubicBound.lean, KAM/Wave/Cubic/TriSeq.lean)
+LEAN_NOTE: step of PROVED parent bpW:w0n:cubic-bound; W0-ANALYSIS audit 1 PASS (real), W1-CUBIC audit 1 PASS (RCLike K)
 NOTE: -
 
 NODE: stepW:w0n:analytic
@@ -939,9 +939,9 @@ EDGE: stepW:w0n:smoothing | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ana
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveTriML, KAM.Wave.waveTriML_perm, KAM.Wave.waveTriML_complexify, KAM.Wave.waveCubicNL_analyticOnNhd, KAM.Wave.waveCubic_eq_trilinear, KAM.Wave.waveCubicLp_analyticOnNhd (KAM/Wave/Cubic/TriML.lean, KAM/Wave/Cubic/CubicDeriv.lean, KAM/Wave/Cubic/TriProps.lean, KAM/Wave/Cubic/CubicMap.lean, KAM/Wave/Normal/Analysis/CubicLinear.lean, KAM/Wave/Normal/Analysis/CubicAnalytic.lean)
+LEAN_NOTE: step of PROVED parent bpW:w0n:cubic-bound; W0-ANALYSIS audit 1 PASS (real analytic cubic); W1-CUBIC audit 1 PASS (K-analytic cubic on all of l^2_K, symmetry, real structure)
 NOTE: -
 
 NODE: stepW:w0n:force
@@ -973,9 +973,9 @@ EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:for
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.wave_force_identity, KAM.Wave.summable_abs_sqrtLam_waveCubic, KAM.Wave.waveSineSeries_tendstoUniformly, KAM.Wave.wave_sineModeIter_two, KAM.Wave.wave_pde_identity, KAM.Wave.iteratedDeriv_waveSineSeries (KAM/Wave/Normal/Analysis/PdeForce.lean, KAM/Wave/Normal/Analysis/SineSeries.lean, KAM/Wave/Normal/Analysis/PdeForward.lean)
+LEAN_NOTE: W0-ANALYSIS audit 1 PASS WITH NOTES (N2): first identity U_m(q)^3 = sum sqrt(lambda_l) G_q(q)_l phi_l proved pointwise on [0,pi] with uniform convergence; second identity -d_x^2 U_m(q) + m U_m(q) = U_m(lambda^2 q) only coefficientwise inside wave_pde_identity, no standalone export
 NOTE: -
 
 NODE: bpW:w0n:nonres
@@ -1003,9 +1003,9 @@ EDGE: stepW:w0n:22 | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nonres@L235-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.quartic_nonresonance (KAM/Wave/Normal/Nonresonance.lean)
+LEAN_NOTE: W0-NORMAL audit 1 PASS; signed multisets via signSide; proof route deviates (algebraic ab=cd for type (1), supermodularity for type (3))
 NOTE: -
 
 NODE: stepW:w0n:31
@@ -1033,9 +1033,9 @@ EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.quartic_nonresonance, KAM.Wave.lamExt_three_pnat, KAM.Wave.lamExt_three_ne, KAM.Wave.lamExt_add_lt, KAM.Wave.lamExt_big_lt (KAM/Wave/Normal/Nonresonance.lean, KAM/Wave/Normal/NonresAux.lean)
+LEAN_NOTE: step of PROVED parent bpW:w0n:nonres; W0-NORMAL audit 1 PASS (helpers in NonresAux/Nonresonance ledger); (mapping inferred)
 NOTE: -
 
 NODE: stepW:w0n:22
@@ -1062,9 +1062,9 @@ EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.quartic_nonresonance, KAM.Wave.lamExt_two_two_pnat, KAM.Wave.lamExt_two_two, KAM.Wave.lamExt_pair_eq, KAM.Wave.lamExt_cross_eq, KAM.Wave.lamExt_super (KAM/Wave/Normal/Nonresonance.lean, KAM/Wave/Normal/NonresAux.lean)
+LEAN_NOTE: step of PROVED parent bpW:w0n:nonres; W0-NORMAL audit 1 PASS; route deviation: type (1) by an algebraic argument (ab=cd), type (3) by supermodularity instead of the derivative argument; (mapping inferred)
 NOTE: -
 
 NODE: bpW:w0n:Qdef
@@ -1090,9 +1090,9 @@ EDGE: bpW:w0:H | blueprint-W/parts/w0-normalization.tex#bpW:w0n:Qdef@L274-L274 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.resonantQuarticPart, KAM.Wave.tangentialQuarticTuple, KAM.Wave.normalQuarticTuple, KAM.Wave.quarticDivisor, KAM.Wave.normQuarticCoeff (KAM/Wave/Normal/ResonantPart.lean)
+LEAN_NOTE: W0-NORMAL audit 2 PASS WITH NOTES; bar G defined as the genuine resonant projection for finitely many modes (Fin N) only; infinite-mode/weighted-space version absent (F2 open); no unfiltered G^nor functional and no partial normal form Lambda + bar G + G^nor constructed (normalQuarticTuple is a resonance-filtered predicate); W3 two-sided analogue is birkBarSet/birkCoefBar (W3-SETTING); candidate bridge: W3 birkQuartP_bar (KAM/Wave/Birkhoff/QuartBarAlg.lean, audited PASS) gives the infinite-mode complex bar G formula; equivalence with this node not yet checked
 NOTE: -
 
 NODE: bpW:w0n:AB
@@ -1122,9 +1122,9 @@ EDGE: stepW:w0n:sum | blueprint-W/parts/w0-normalization.tex#bpW:w0n:AB@L301-L30
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.resonantQuarticPart_tangential_eq, KAM.Wave.avgG_eq, KAM.Wave.partial_avgG_eq, KAM.Wave.actionA, KAM.Wave.actionB, KAM.Wave.actionA_eq (KAM/Wave/Normal/ResonantPart.lean, KAM/Wave/Normal/ActionCoeff.lean, KAM/Wave/Normal/Nondegeneracy.lean)
+LEAN_NOTE: W0-NORMAL audit 1 FAIL (F1,F2), audit 2 PASS WITH NOTES for the finite-mode repair; proved: bar G = (1/2)<AI,I> + <BI,Z> for finitely many modes on polar points z_j = sqrt(I_j) e^{-i phi_j} (I,Z >= 0), corrected A,B, equivalent matrix form, and avgG for finitely many modes; not covered (F2): infinite-mode extension and arbitrary complex coordinates; follow-on package queued per landing note (W3-SETTING birkQuartP_bar proves a two-sided complex analogue, see ambiguity list); candidate bridge: W3 birkQuartP_bar (KAM/Wave/Birkhoff/QuartBarAlg.lean, audited PASS) gives the infinite-mode complex bar G formula; equivalence with this node not yet checked; (mapping inferred)
 NOTE: -
 
 NODE: stepW:w0n:resavg
@@ -1153,9 +1153,9 @@ EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#stepW:w0n:resavg
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.signBalanced_of_resonant, KAM.Wave.signBalanced_sum_zero, KAM.Wave.signBalanced_iff, KAM.Wave.resonantQuartic_term_eq, KAM.Wave.resonantQuarticPart_polar, KAM.Wave.resonantQuarticReal_all, KAM.Wave.resonantQuarticReal_split (KAM/Wave/Normal/ResonantBalance.lean, KAM/Wave/Normal/ResonantPart.lean)
+LEAN_NOTE: step of PARTIAL parent bpW:w0n:AB; W0-NORMAL audit 2 PASS for finite modes (resonant iff balanced via quartic_nonresonance, phase-independence, resonant part = avgG); the extension 'by the absolutely convergent formula' beyond finitely supported q is not formalized (F2); candidate bridge: W3 birkQuartP_bar (KAM/Wave/Birkhoff/QuartBarAlg.lean, audited PASS) gives the infinite-mode complex bar G formula; equivalence with this node not yet checked
 NOTE: -
 
 NODE: stepW:w0n:moments
@@ -1180,9 +1180,9 @@ EDGE: bpW:w0:actions | blueprint-W/parts/w0-normalization.tex#stepW:w0n:moments@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.angleAvg_cos_four, KAM.Wave.sum_quartic_moment, KAM.Wave.prod_cosMoment_idxCount, KAM.Wave.angleAvg_prod_cos_pow (KAM/Wave/Normal/AngleAvg.lean, KAM/Wave/Normal/ActionCoeff.lean)
+LEAN_NOTE: step of PARTIAL parent bpW:w0n:AB whose own (finite) content is covered; W0-NORMAL audit 1 PASS (moments row), angle convention matches period-one campaign angles
 NOTE: -
 
 NODE: stepW:w0n:sum
@@ -1211,9 +1211,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.avgG_eq, KAM.Wave.partial_avgG_eq (KAM/Wave/Normal/ActionCoeff.lean)
+LEAN_NOTE: step of PARTIAL parent bpW:w0n:AB; its own computation (on finitely supported q) is covered: W0-NORMAL audit 1 local identity PASS for avgG_eq and partial_avgG_eq; the infinite extension belongs to resavg/F2
 NOTE: -
 
 NODE: bpW:w0n:nondeg
@@ -1245,9 +1245,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.actionA_eq, KAM.Wave.det_actionA, KAM.Wave.pairing_ne_zero, KAM.Wave.A3_holds, KAM.Wave.nondegeneracy (KAM/Wave/Normal/Nondegeneracy.lean)
+LEAN_NOTE: W0-NORMAL audit 1 PASS for (i),(ii),(iii), all m>0, exact (A3) as nonidentity of an affine function with 1<=norm1(l)<=2; coefficients are the explicit corrected A,B (identification with the Hamiltonian normal form rests on bpW:w0n:AB, PARTIAL)
 NOTE: -
 
 NODE: stepW:w0n:det
@@ -1273,9 +1273,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:det@L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta-W-w0n
 REVIEWER: sol-delta2-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.det_actionA, KAM.Wave.actionA_eq (KAM/Wave/Normal/Nondegeneracy.lean)
+LEAN_NOTE: step of parent bpW:w0n:nondeg; W0-NORMAL audit 1 PASS for the determinant of the two-mode action matrix (det_actionA, actionA_eq); NOT formalized: the parenthetical general-n identity det(4 11^T - Id_n) = (-1)^{n-1}(4n-1)
 NOTE: -
 
 NODE: stepW:w0n:A2
@@ -1301,9 +1301,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:A2@L36
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta-W-w0n
 REVIEWER: sol-delta2-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.pairing_ne_zero, KAM.Wave.l1Norm_one, KAM.Wave.l1Norm_two, KAM.Wave.lamN_injective (KAM/Wave/Normal/Nondegeneracy.lean, KAM/Wave/Normal/FinsuppAbs.lean)
+LEAN_NOTE: step of PROVED parent bpW:w0n:nondeg, separately named; W0-NORMAL audit 1 PASS
 NOTE: -
 
 NODE: stepW:w0n:A3red
@@ -1330,9 +1330,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:A3red@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta-W-w0n
 REVIEWER: sol-delta2-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.affineForm_expand, KAM.Wave.actionA_eq, KAM.Wave.A3_holds (KAM/Wave/Normal/Nondegeneracy.lean)
+LEAN_NOTE: step of PROVED parent bpW:w0n:nondeg; W0-NORMAL audit 1 PASS
 NOTE: -
 
 NODE: stepW:w0n:l1
@@ -1359,9 +1359,9 @@ EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.A3_holds, KAM.Wave.s_single_props (KAM/Wave/Normal/Nondegeneracy.lean)
+LEAN_NOTE: step of PROVED parent bpW:w0n:nondeg; W0-NORMAL audit 1 PASS; (mapping inferred)
 NOTE: -
 
 NODE: stepW:w0n:l2
@@ -1388,9 +1388,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:l2@L37
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.A3_holds, KAM.Wave.s_pair_props (KAM/Wave/Normal/Nondegeneracy.lean)
+LEAN_NOTE: step of PROVED parent bpW:w0n:nondeg; W0-NORMAL audit 1 PASS (s != 0 via explicit classification of norm1(l)=2); (mapping inferred)
 NOTE: -
 
 NODE: bpW:w0n:birkhoff#data
@@ -1417,9 +1417,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:birkhoff
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.quarticGComplex, KAM.Wave.quarticG_eq_complex, KAM.Wave.sum_quarticMonomial, KAM.Wave.quarticMonomial, KAM.Wave.conjSelect, KAM.Wave.quarticDivisor, KAM.Wave.tangentialQuarticTuple, KAM.Wave.normalQuarticTuple (KAM/Wave/Normal/ResonantPart.lean)
+LEAN_NOTE: definition formalized by W0-NORMAL for finitely many modes only; W0-NORMAL audit 2 PASS (Gz expansion with 1/16, divisor, tangential/normal tuple split); infinite-mode expansion and an unfiltered G^nor functional absent (F2; audit 2 line 39); candidate bridge: W3 birkQuartP_bar (KAM/Wave/Birkhoff/QuartBarAlg.lean, audited PASS) gives the infinite-mode complex bar G formula; equivalence with this node not yet checked
 NOTE: Unlabelled prose L260-L270 (with the display bpW:w0n:Gz) that fixes data consumed by Qdef, AB and formal-birkhoff (SPEC section-data rule).
 
 NODE: bpW:w0n:nondeg-sec#data
@@ -1445,9 +1445,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg-s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.omegaTan, KAM.Wave.omegaNor, KAM.Wave.affineForm, KAM.Wave.l1Norm, KAM.Wave.lamN, KAM.Wave.actionBN, KAM.Wave.actionAMat, KAM.Wave.linF (KAM/Wave/Normal/FinsuppAbs.lean, KAM/Wave/Normal/Nondegeneracy.lean)
+LEAN_NOTE: definition formalized by W0-NORMAL; W0-NORMAL audit 1 PASS (definition table); (mapping inferred)
 NOTE: Unlabelled prose L343-L346 defining the conditions stated in Theorem bpW:w0n:nondeg (SPEC section-data rule).
 
 NODE: bpW:w1:transport
@@ -1474,9 +1474,9 @@ EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w1-sequences.tex#bpW:w1:transport@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
 REVIEWER: sol-delta-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.coeffW, KAM.Wave.IsEll, KAM.Wave.tauLp, KAM.Wave.ellNorm, KAM.Wave.ellTsumNorm (KAM/Wave/Seq/Transport.lean)
+LEAN_NOTE: definition formalized by W1-WEIGHTED; audit 2 PASS WITH NOTES (F1 norm carrier fixed: ellNorm takes IsEll proof, raw tsum renamed ellTsumNorm); omega is frozen ellWeight
 NOTE: -
 
 NODE: bpW:w1:ext-lp
@@ -1715,9 +1715,9 @@ EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.tauLp_coeffW, KAM.Wave.coeffW_tauLp, KAM.Wave.coeffW_injective, KAM.Wave.coeffWLinear, KAM.Wave.norm_tauLp_sq, KAM.Wave.ellNorm_coeffW, KAM.Wave.inner_tauLp, KAM.Wave.norm_coeffW_le, KAM.Wave.coeffWCLM, KAM.Wave.tendsto_norm_sub_truncLp, KAM.Wave.coeffW_one_one, KAM.Wave.norm_prod_eq_max_ellNorm (KAM/Wave/Seq/Transport.lean)
+LEAN_NOTE: W1-WEIGHTED audit 2 PASS WITH NOTES; (i) bijection/isometry/inner product/completeness by transport (no new Hilbert type), (ii),(iii),(iv) proved; NOT covered: separability of l^{a,p} (stepW:w1:sep, source says unconsumed; handoff:32, audit-1:83,250); no later package closes it
 NOTE: -
 
 NODE: stepW:w1:iso
@@ -1745,9 +1745,9 @@ EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w1-sequences.tex#stepW:w1:iso@L149
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
 REVIEWER: sol-delta-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.norm_tauLp_sq, KAM.Wave.tauLp_coeffW, KAM.Wave.coeffW_tauLp, KAM.Wave.inner_tauLp, KAM.Wave.ellNorm_coeffW (KAM/Wave/Seq/Transport.lean)
+LEAN_NOTE: W1-WEIGHTED audit 2 PASS WITH NOTES; step content of PARTIAL parent bpW:w1:space covered (completeness transported, no new type)
 NOTE: -
 
 NODE: stepW:w1:sep
@@ -1800,9 +1800,9 @@ EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:coord@L158-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.norm_coeffW_le, KAM.Wave.coeffWCLM, KAM.Wave.truncLp, KAM.Wave.tendsto_norm_sub_truncLp (KAM/Wave/Seq/Transport.lean)
+LEAN_NOTE: W1-WEIGHTED audit 2 PASS WITH NOTES; step content of PARTIAL parent bpW:w1:space covered
 NOTE: -
 
 NODE: stepW:w1:frozen
@@ -1828,9 +1828,9 @@ EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#stepW:w1:froze
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.coeffW_one_one, KAM.Wave.norm_prod_eq_max_ellNorm (KAM/Wave/Seq/Transport.lean)
+LEAN_NOTE: W1-WEIGHTED audit 2 PASS WITH NOTES; step content of PARTIAL parent bpW:w1:space covered
 NOTE: -
 
 NODE: bpW:w1:coordinatewise
@@ -1860,9 +1860,9 @@ EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#bpW:w1:coordin
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.hasDerivAt_coeffW, KAM.Wave.hasDerivAt_coordinates_iff, KAM.Wave.frozen_invariance_iff, KAM.Wave.frozen_invariance_iff_waveXw (KAM/Wave/Seq/Coordinatewise.lean, KAM/Wave/Cubic/FrozenForm.lean)
+LEAN_NOTE: W1-WEIGHTED audit 2 PASS WITH NOTES (general (a) iff (b); X^w clause PARTIAL there, F3) + W1-CUBIC audit 1 PASS for X^w specialization (frozen_invariance_iff_waveXw, only DifferentiableAt at theta, no hv premises), audit 2 PASS WITH NOTES
 NOTE: The statement speaks of the *form* of the frozen conclusion (4) of nlw2; that is not a use of the root (no edge to bpW:wh:nlw2, which would create a cycle once W8 is added).
 
 NODE: stepW:w1:coordder
@@ -1888,9 +1888,9 @@ EDGE: bpW:w1:embed | blueprint-W/parts/w1-sequences.tex#stepW:w1:coordder@L183-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.hasDerivAt_coeffW (KAM/Wave/Seq/Coordinatewise.lean)
+LEAN_NOTE: W1-WEIGHTED audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:coordinatewise
 NOTE: -
 
 NODE: stepW:w1:coordcomp
@@ -1917,9 +1917,9 @@ EDGE: bpW:w1:hamfield | blueprint-W/parts/w1-sequences.tex#stepW:w1:coordcomp@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.hasDerivAt_coordinates_iff, KAM.Wave.frozen_invariance_iff, KAM.Wave.frozen_invariance_iff_waveXw (KAM/Wave/Seq/Coordinatewise.lean, KAM/Wave/Cubic/FrozenForm.lean)
+LEAN_NOTE: W1-WEIGHTED audit 2 PASS WITH NOTES + W1-CUBIC audit 1 PASS (X^w comparison with hamfield (v)); step of PROVED parent bpW:w1:coordinatewise
 NOTE: -
 
 NODE: bpW:w1:multiplier
@@ -1945,9 +1945,9 @@ EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:multiplier@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.weightedDiagCLM, KAM.Wave.norm_diagCLM_le, KAM.Wave.norm_le_norm_diagCLM, KAM.Wave.not_exists_diag_of_unbounded, KAM.Wave.diag_representative (KAM/Wave/Seq/Multiplier.lean)
+LEAN_NOTE: W1-WEIGHTED audit 2 PASS WITH NOTES (node PASS in audit 1)
 NOTE: -
 
 NODE: bpW:w1:embed
@@ -1973,9 +1973,9 @@ EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:embed@L222-L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.embedRatio_le_one, KAM.Wave.embedRatio_le_of_lt (KAM/Wave/Seq/Multiplier.lean), KAM.Wave.embedCLM, KAM.Wave.norm_embedCLM_le, KAM.Wave.ellNorm_coeffW_le_of_le, KAM.Wave.ellNorm_coeffW_le_of_lt, KAM.Wave.coeffW_embedCLM, KAM.Wave.embedCLM_injective, KAM.Wave.embedCLM_comp (KAM/Wave/Seq/Embed.lean)
+LEAN_NOTE: W1-WEIGHTED audit 2 PASS WITH NOTES; (ii) as norm/membership bound rather than bundled CLM (audit-1:86)
 NOTE: -
 
 NODE: bpW:w1:diag
@@ -2004,9 +2004,9 @@ EDGE: stepW:w1:realflow | blueprint-W/parts/w1-sequences.tex#bpW:w1:diag@L253-L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.lamMul, KAM.Wave.lamMul_represents, KAM.Wave.norm_lamMul_le_of_nonneg, KAM.Wave.norm_lamMul_le_of_neg, KAM.Wave.norm_lamMul_eq, KAM.Wave.lamMul_comp_neg, KAM.Wave.not_exists_bounded_lam_pow (KAM/Wave/Seq/Diag.lean), KAM.Wave.rotCLM, KAM.Wave.norm_rotCLM, KAM.Wave.rotCLM_add, KAM.Wave.continuous_rotCLM_apply, KAM.Wave.flowCLM, KAM.Wave.norm_sq_flowCLM, KAM.Wave.norm_flowCLM_apply_le, KAM.Wave.flowCLM_add, KAM.Wave.hasDerivAt_coeffW_flow_fst, KAM.Wave.hasDerivAt_coeffW_flow_snd (KAM/Wave/Seq/Flow.lean)
+LEAN_NOTE: W1-WEIGHTED audit 2 PASS WITH NOTES; (i)-(iii) and (iv) norm/group/coordinate ODE proved; NOT covered: last sentence of (iv) (in z coordinates of bpW:w0:z, L_t is R_t) (handoff:33-34, audit-1:91,251); no later package closes it
 NOTE: -
 
 NODE: stepW:w1:ratio
@@ -2034,9 +2034,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:ratio@L245-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.lamRatio, KAM.Wave.lamRatio_le_of_nonneg, KAM.Wave.lamRatio_le_one_of_neg, KAM.Wave.one_le_lam_div_pnat, KAM.Wave.lam_div_pnat_le, KAM.Wave.norm_lamMul_eq, KAM.Wave.lamMul_comp_neg (KAM/Wave/Seq/Diag.lean)
+LEAN_NOTE: W1-WEIGHTED audit 2 PASS WITH NOTES; step content of PARTIAL parent bpW:w1:diag covered
 NOTE: -
 
 NODE: stepW:w1:rot
@@ -2063,9 +2063,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:rot@L250-L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
 REVIEWER: sol-delta-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.not_exists_bounded_lam_pow (KAM/Wave/Seq/Diag.lean), KAM.Wave.rotCLM, KAM.Wave.norm_rotCLM, KAM.Wave.rotCLM_add, KAM.Wave.rotCLM_zero, KAM.Wave.continuous_rotCLM_apply (KAM/Wave/Seq/Flow.lean)
+LEAN_NOTE: W1-WEIGHTED audit 2 PASS WITH NOTES; step content of PARTIAL parent bpW:w1:diag covered
 NOTE: -
 
 NODE: stepW:w1:realflow
@@ -2117,9 +2117,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsLinfty, KAM.Wave.tauInfty, KAM.Wave.norm_tauInfty_le_iff, KAM.Wave.IsLinftyLipschitz, KAM.Wave.IsLinftyDiffLipschitz, KAM.Wave.isLinftyLipschitz_iff (KAM/Wave/Seq/Linfty.lean)
+LEAN_NOTE: definition formalized by W1-WEIGHTED; audit 2 PASS WITH NOTES (F2 fixed: predicate includes 0 <= L and value membership); the remark that P96-K semi-norm is the least such L is not separately stated
 NOTE: -
 
 NODE: bpW:w1:tails
@@ -2147,9 +2147,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#bpW:w1:tails@L274-L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.waveOmegaTilde, KAM.Wave.tildeOmegaSeq, KAM.Wave.tail_bound, KAM.Wave.tail_lipschitz, KAM.Wave.tail_gap, KAM.Wave.isLinfty_tildeOmegaSeq, KAM.Wave.norm_tildeOmegaSeq_le, KAM.Wave.isLinftyLipschitz_tildeOmegaSeq (KAM/Wave/Seq/Tails.lean)
+LEAN_NOTE: W1-WEIGHTED audit 2 PASS WITH NOTES; all three quantitative bounds proved (for all j >= 1, strengthening j >= 3); NOT covered: packaged statement that P96-K Assumption B holds with d = 1, delta = -1 (and p - bar p <= delta) (handoff:37, audit-1:93,253); consumer W4
 NOTE: -
 
 NODE: bpW:w1:twosided-transport
@@ -2175,9 +2175,9 @@ EDGE: bpW:w1:space | blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided-transpor
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveJap, KAM.Wave.waveTwoWeight, KAM.Wave.WaveTwoMem, KAM.Wave.waveTwoNorm, KAM.Wave.waveTwoToLp, KAM.Wave.waveTwoToLp_norm, KAM.Wave.waveTwoMem_of_lp, KAM.Wave.waveConv (KAM/Wave/Algebra/TwoSided.lean, KAM/Wave/Algebra/Young.lean)
+LEAN_NOTE: definition formalized by W1-ALGEBRA; W1-ALGEBRA audit 1 PASS WITH NOTES; norm and convolution are guarded tsum helpers, summability proved before each use (N1); lp transport isometry plus inverse membership (N2)
 NOTE: -
 
 NODE: bpW:w1:twosided
@@ -2206,9 +2206,9 @@ EDGE: stepW:w1:pair | blueprint-W/parts/w1-sequences.tex#bpW:w1:twosided@L335-L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveExt, KAM.Wave.wave_ext_mem, KAM.Wave.waveExt_add, KAM.Wave.waveExt_smul, KAM.Wave.waveExt_norm_pos, KAM.Wave.waveExt_norm_neg, KAM.Wave.waveEvenMaj, KAM.Wave.wave_evenMaj_norm_sq, KAM.Wave.waveRestr, KAM.Wave.wave_restr_mem, KAM.Wave.waveJ, KAM.Wave.waveJ_add, KAM.Wave.waveJ_smul, KAM.Wave.wave_J_norm_sq, KAM.Wave.wave_J_norm_le, KAM.Wave.wave_J_surj (KAM/Wave/Algebra/Extension.lean)
+LEAN_NOTE: W1-ALGEBRA audit 1 PASS WITH NOTES; (i)-(iii) proved at function level (linearity via add/smul lemmas, not bundled linear maps; audit N2 packaging boundary); E^sigma for any unit sigma, all real a (stronger)
 NOTE: -
 
 NODE: stepW:w1:ext
@@ -2234,9 +2234,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:ext@L326-L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a+claude-suborch-W-r2
 REVIEWER: sol-delta3-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.wave_ext_mem, KAM.Wave.waveExt_norm_pos, KAM.Wave.waveExt_norm_neg, KAM.Wave.wave_evenMaj_norm_sq (KAM/Wave/Algebra/Extension.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:twosided; W1-ALGEBRA audit 1 PASS WITH NOTES
 NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): the step text now says the computation is self-contained (every a >= 0, p in R) and only analogous to the W0 step; consistent with the existing record, which has no edge to the W0 step.
 
 NODE: stepW:w1:restr
@@ -2262,9 +2262,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:restr@L331-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a+claude-suborch-W-r2
 REVIEWER: sol-delta3-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.wave_restr_mem (KAM/Wave/Algebra/Extension.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:twosided; W1-ALGEBRA audit 1 PASS WITH NOTES
 NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): the step text now says the computation is self-contained (every a >= 0, p in R) and only analogous to the W0 step; consistent with the existing record, which has no edge to the W0 step.
 
 NODE: stepW:w1:pair
@@ -2289,9 +2289,9 @@ EDGE: bpW:w1:twosided-transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:pa
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.wave_J_norm_sq (KAM/Wave/Algebra/Extension.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:twosided; W1-ALGEBRA audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: bpW:w1:young
@@ -2320,9 +2320,9 @@ EDGE: stepW:w1:rules | blueprint-W/parts/w1-sequences.tex#bpW:w1:young@L365-L365
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.wave_young, KAM.Wave.wave_young_sqrt_le, KAM.Wave.wave_young_real, KAM.Wave.wave_jap_hasSum_zeta, KAM.Wave.wave_l1_le_of_mem, KAM.Wave.wave_expl1_le, KAM.Wave.waveConv_comm, KAM.Wave.waveConv_mono, KAM.Wave.norm_waveConv_le, KAM.Wave.waveConv_assoc_l1, KAM.Wave.wave_conv_assoc_of_mem (KAM/Wave/Algebra/Young.lean, KAM/Wave/Algebra/TwoSided.lean)
+LEAN_NOTE: W1-ALGEBRA audit 1 PASS WITH NOTES; (iii) monotonicity takes summability of X' as well (source wording gap, audit N3, not a Lean deviation); associativity proved for complex l^1 superset of l^{0,s}
 NOTE: -
 
 NODE: stepW:w1:cs
@@ -2346,9 +2346,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.wave_tsum_mul_sq_le, KAM.Wave.wave_young_real (KAM/Wave/Algebra/Young.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:young; W1-ALGEBRA audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w1:youngsum
@@ -2374,9 +2374,9 @@ EDGE: bpW:w1:ext-series | blueprint-W/parts/w1-sequences.tex#stepW:w1:youngsum@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.wave_young, KAM.Wave.wave_young_real (KAM/Wave/Algebra/Young.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:young; W1-ALGEBRA audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w1:l1
@@ -2401,9 +2401,9 @@ EDGE: bpW:w1:ext-series | blueprint-W/parts/w1-sequences.tex#stepW:w1:l1@L362-L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.wave_jap_hasSum, KAM.Wave.wave_jap_hasSum_zeta, KAM.Wave.wave_l1_le_of_mem (KAM/Wave/Algebra/TwoSided.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:young; W1-ALGEBRA audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w1:rules
@@ -2429,9 +2429,9 @@ EDGE: bpW:w1:ext-series | blueprint-W/parts/w1-sequences.tex#stepW:w1:rules@L367
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
 REVIEWER: sol-delta-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveConv_comm, KAM.Wave.waveConv_mono, KAM.Wave.norm_waveConv_le, KAM.Wave.waveConv_assoc_l1, KAM.Wave.wave_conv_assoc_of_mem (KAM/Wave/Algebra/Young.lean, KAM/Wave/Algebra/TwoSided.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:young; W1-ALGEBRA audit 1 PASS WITH NOTES; monotonicity under both summabilities (N3)
 NOTE: -
 
 NODE: bpW:w1:algebra
@@ -2457,9 +2457,9 @@ EDGE: bpW:w1:young | blueprint-W/parts/w1-sequences.tex#bpW:w1:algebra@L379-L379
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.wave_algebra, KAM.Wave.wave_algebra_three, KAM.Wave.waveAlgConst (KAM/Wave/Algebra/Algebra.lean, KAM/Wave/Algebra/TwoSided.lean)
+LEAN_NOTE: W1-ALGEBRA audit 1 PASS WITH NOTES; exact K_s = 2^s(1+2 zeta(2s))^{1/2}, a >= 0, s >= 1, three-factor form left-associated
 NOTE: -
 
 NODE: bpW:w1:selection
@@ -2489,9 +2489,9 @@ EDGE: stepW:w1:smooth2 | blueprint-W/parts/w1-sequences.tex#bpW:w1:selection@L43
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveSel_oneSided, KAM.Wave.waveSelSum_add_left, KAM.Wave.waveSelSum_smul_left, KAM.Wave.waveSelSum_swap_left_mid, KAM.Wave.waveSelSum_swap_mid_right (KAM/Wave/Cubic/SelectionOneSided.lean), KAM.Wave.waveSel_twoSided (KAM/Wave/Cubic/SelectionTwoFinal.lean), KAM.Wave.waveSelTwo_add_left, KAM.Wave.waveSelTwo_smul_left, KAM.Wave.waveSelTwo_swap_left_mid, KAM.Wave.waveSelTwo_swap_mid_right, KAM.Wave.waveSelTwo_swap_left_right (KAM/Wave/Cubic/SelectionTwoAlg.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES (F2 two-sided trilinearity/symmetry closed; additivity summability premises discharged by waveSel_twoSided); exact constants 2MK_s^2, 64MK_s^2
 NOTE: -
 
 NODE: stepW:w1:maj1
@@ -2516,9 +2516,9 @@ EDGE: bpW:w1:twosided | blueprint-W/parts/w1-sequences.tex#stepW:w1:maj1@L417-L4
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveEvenAbs_weighted_eq (KAM/Wave/Cubic/SelectionCore.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:selection
 NOTE: -
 
 NODE: stepW:w1:sel1
@@ -2546,9 +2546,9 @@ EDGE: bpW:w1:algebra | blueprint-W/parts/w1-sequences.tex#stepW:w1:sel1@L423-L42
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveSel_norm_step, KAM.Wave.waveTripleConv_weighted (KAM/Wave/Cubic/SelectionCore.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:selection
 NOTE: -
 
 NODE: stepW:w1:smooth1
@@ -2575,9 +2575,9 @@ EDGE: stepW:w1:maj1 | blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth1@L426-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveSel_oneSided (KAM/Wave/Cubic/SelectionOneSided.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:selection
 NOTE: -
 
 NODE: stepW:w1:maj2
@@ -2602,9 +2602,9 @@ EDGE: bpW:w1:twosided-transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:ma
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveTwoMaj, KAM.Wave.waveTwoMaj_weighted (KAM/Wave/Cubic/SelectionTwoMaj.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:selection
 NOTE: -
 
 NODE: stepW:w1:sel2
@@ -2629,9 +2629,9 @@ EDGE: stepW:w1:maj2 | blueprint-W/parts/w1-sequences.tex#stepW:w1:sel2@L433-L433
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveSelSumZ_pointwise, KAM.Wave.waveSignZEmb (KAM/Wave/Cubic/SelectionTwoSided.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:selection
 NOTE: -
 
 NODE: stepW:w1:smooth2
@@ -2658,9 +2658,9 @@ EDGE: stepW:w1:maj2 | blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth2@L437-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveSel_twoSided (KAM/Wave/Cubic/SelectionTwoFinal.lean), KAM.Wave.waveSelTwo_add_left, KAM.Wave.waveSelTwo_swap_left_right (KAM/Wave/Cubic/SelectionTwoAlg.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:selection (trilinearity/symmetry from round 2)
 NOTE: -
 
 NODE: bpW:w1:trilinear
@@ -2693,9 +2693,9 @@ EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w1-sequences.tex#bpW:w1:t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveTri_oneSided (KAM/Wave/Cubic/TriSeq.lean), KAM.Wave.waveTriML, KAM.Wave.waveTriML_norm_le, KAM.Wave.coeffW_waveTriML, KAM.Wave.waveTriML_unique (KAM/Wave/Cubic/TriML.lean), KAM.Wave.waveTriML_perm (KAM/Wave/Cubic/CubicDeriv.lean), KAM.Wave.waveTriML_complexify, KAM.Wave.waveTriML_conj, KAM.Wave.waveTriML_embed, KAM.Wave.waveCubic_coeffW_eq_coeffW_triML, KAM.Wave.cubicGrad_eq_triML_div (KAM/Wave/Cubic/TriProps.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES ((i)-(iv) PASS in audit 1; over RCLike K)
 NOTE: -
 
 NODE: stepW:w1:tricoord
@@ -2723,9 +2723,9 @@ EDGE: stepW:w1:tricoord#via-selection | blueprint-W/parts/w1-sequences.tex#stepW
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveTriSeq, KAM.Wave.waveTriCoef_bound, KAM.Wave.waveTri_oneSided (KAM/Wave/Cubic/TriSeq.lean), KAM.Wave.waveTriCoords_isEll, KAM.Wave.waveTriAux (KAM/Wave/Cubic/TriLp.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:trilinear
 NOTE: -
 
 NODE: stepW:w1:tricont
@@ -2752,9 +2752,9 @@ EDGE: bpW:w1:space | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricont@L474-L4
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveTriML, KAM.Wave.waveTriML_norm_le, KAM.Wave.waveTriML_unique (KAM/Wave/Cubic/TriML.lean), KAM.Wave.waveTriML_perm (KAM/Wave/Cubic/CubicDeriv.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:trilinear
 NOTE: -
 
 NODE: stepW:w1:trireal
@@ -2781,9 +2781,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:trireal@L47
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveTriML_complexify, KAM.Wave.waveTriML_conj, KAM.Wave.waveTriML_embed (KAM/Wave/Cubic/TriProps.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:trilinear
 NOTE: -
 
 NODE: stepW:w1:trifrozen
@@ -2813,9 +2813,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.cubicGrad_eq_triML_div, KAM.Wave.waveCubic_coeffW_eq_coeffW_triML (KAM/Wave/Cubic/TriProps.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:trilinear (literal frozen cubicGrad)
 NOTE: -
 
 NODE: bpW:w1:cubic-analytic
@@ -2845,9 +2845,9 @@ EDGE: stepW:w1:cfrozen | blueprint-W/parts/w1-sequences.tex#bpW:w1:cubic-analyti
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveCubicNL, KAM.Wave.waveCubicNL_analyticOnNhd, KAM.Wave.waveCubicNL_norm_le, KAM.Wave.waveCubicNL_hasFDerivAt, KAM.Wave.norm_fderiv_waveCubicNL_le, KAM.Wave.waveCubicNL_sub_le (KAM/Wave/Cubic/CubicMap.lean), KAM.Wave.waveCubicNL_second_apply, KAM.Wave.waveCubicNL_second_norm_le, KAM.Wave.waveCubicNL_third_apply (KAM/Wave/Cubic/CubicDeriv.lean), KAM.Wave.waveGw_apply, KAM.Wave.waveGw_norm_le, KAM.Wave.waveGw_analyticOnNhd, KAM.Wave.coeffW_one_two_waveGw, KAM.Wave.waveGw_weighted_one_one, KAM.Wave.waveGw_weighted_one_zero (KAM/Wave/Cubic/FrozenForm.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; note N1: D^2N identity and bound in directional form (fderiv of y' -> fderiv N y' h), not bundled fderiv(fderiv N) operator norm
 NOTE: -
 
 NODE: stepW:w1:can
@@ -2873,9 +2873,9 @@ EDGE: bpW:w1:trilinear | blueprint-W/parts/w1-sequences.tex#stepW:w1:can@L505-L5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
 REVIEWER: sol-delta-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveCubicNL_analyticOnNhd (KAM/Wave/Cubic/CubicMap.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:cubic-analytic
 NOTE: -
 
 NODE: stepW:w1:cder
@@ -2900,9 +2900,9 @@ EDGE: bpW:w1:trilinear | blueprint-W/parts/w1-sequences.tex#stepW:w1:cder@L508-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
 REVIEWER: sol-delta-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveCubicNL_hasFDerivAt, KAM.Wave.norm_fderiv_waveCubicNL_le (KAM/Wave/Cubic/CubicMap.lean), KAM.Wave.waveCubicNL_second_apply, KAM.Wave.waveCubicNL_second_norm_le, KAM.Wave.waveCubicNL_third_apply (KAM/Wave/Cubic/CubicDeriv.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:cubic-analytic; second derivative directional (N1)
 NOTE: -
 
 NODE: stepW:w1:clip
@@ -2927,9 +2927,9 @@ EDGE: bpW:w1:trilinear | blueprint-W/parts/w1-sequences.tex#stepW:w1:clip@L513-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
 REVIEWER: sol-delta-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveCubicNL_sub_le (KAM/Wave/Cubic/CubicMap.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:cubic-analytic
 NOTE: -
 
 NODE: stepW:w1:cfrozen
@@ -2956,9 +2956,9 @@ EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:cfrozen@L51
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveGw_apply, KAM.Wave.waveGw_norm_le, KAM.Wave.coeffW_one_two_waveGw, KAM.Wave.waveGw_weighted_one_one, KAM.Wave.waveGw_weighted_one_zero (KAM/Wave/Cubic/FrozenForm.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:cubic-analytic
 NOTE: -
 
 NODE: bpW:w1:gradient-identity
@@ -2990,9 +2990,9 @@ EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w1-sequences.tex#bpW:w1:g
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.waveG_hasSum_pairing (KAM/Wave/Cubic/GradIdentity.lean), KAM.Wave.waveG_coeffW_eq_inner, KAM.Wave.waveG_coeffW_analyticOnNhd, KAM.Wave.waveG_coeffW_hasFDerivAt, KAM.Wave.waveG_coeffW_fderiv_apply, KAM.Wave.waveG_frozen_fderiv_apply, KAM.Wave.waveGradW_one_one_apply (KAM/Wave/Cubic/GradLp.lean), KAM.Wave.waveQuartForm, KAM.Wave.waveQuartForm_apply, KAM.Wave.waveQuartForm_norm_le, KAM.Wave.norm_waveQuartForm_le (KAM/Wave/Cubic/QPair.lean), KAM.Wave.waveQuartForm_perm (KAM/Wave/Cubic/QSymm.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; (i) incl. symmetric 4-linear Q with C_* bound (F1 closed; G = Q(y,y,y,y)/4 not separately named, elaborated by audit probe), (ii), and (iii) frozen formulas proved; NOT covered: (iii) general l^{a,p} Riesz-gradient characterization (omega^{-2} G_q(q)_j) (handoff:79-80,169-170; audit-2:17)
 NOTE: -
 
 NODE: stepW:w1:quartic
@@ -3020,9 +3020,9 @@ EDGE: bpW:w0n:cubic-bound | blueprint-W/parts/w1-sequences.tex#stepW:w1:quartic@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveG_hasSum_pairing (KAM/Wave/Cubic/GradIdentity.lean), KAM.Wave.waveQuartForm, KAM.Wave.waveQuartForm_norm_le (KAM/Wave/Cubic/QPair.lean), KAM.Wave.waveQuartForm_perm, KAM.Wave.waveTri_quad_summable (KAM/Wave/Cubic/QSymm.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step content of PARTIAL parent bpW:w1:gradient-identity covered
 NOTE: -
 
 NODE: stepW:w1:gradder
@@ -3050,9 +3050,9 @@ EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradder@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveG_coeffW_analyticOnNhd, KAM.Wave.waveG_coeffW_hasFDerivAt, KAM.Wave.waveG_coeffW_fderiv_apply (KAM/Wave/Cubic/GradLp.lean), KAM.Wave.waveQuartForm_apply (KAM/Wave/Cubic/QPair.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step content of PARTIAL parent covered (derivative proved via l^2 pairing; Q(q,q,q,h) = <T(q,q,q),h>_0 is the waveQuartForm_apply instance)
 NOTE: -
 
 NODE: stepW:w1:gradw
@@ -3117,9 +3117,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L558
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveXLam, KAM.Wave.norm_waveXLam_le, KAM.Wave.not_exists_bounded_waveXLam, KAM.Wave.waveXG, KAM.Wave.waveXG_analyticOnNhd, KAM.Wave.waveXG_norm_le, KAM.Wave.waveXG_sub_le, KAM.Wave.waveXG_complexify, KAM.Wave.waveXH, KAM.Wave.waveXH_analyticOnNhd (KAM/Wave/Cubic/HamField.lean), KAM.Wave.waveHw, KAM.Wave.waveHw_analyticOnNhd, KAM.Wave.waveHw_hasFDerivAt, KAM.Wave.waveHw_fderiv_p, KAM.Wave.waveHw_fderiv_q (KAM/Wave/Cubic/HamHamiltonian.lean), KAM.Wave.waveXw, KAM.Wave.waveXw_analyticOnNhd, KAM.Wave.coeffW_one_zero_waveXw_fst, KAM.Wave.coeffW_one_zero_waveXw_snd (KAM/Wave/Cubic/FrozenForm.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; stated in weighted l^2 coordinates (realization table); note N3: (i) non-boundedness is the single-multiplier obstruction not_exists_bounded_waveXLam, not literally quantified over maps on the product
 NOTE: -
 
 NODE: stepW:w1:hlin
@@ -3144,9 +3144,9 @@ EDGE: bpW:w1:diag | blueprint-W/parts/w1-sequences.tex#stepW:w1:hlin@L579-L579 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveXLam, KAM.Wave.coeffW_waveXLam_fst, KAM.Wave.coeffW_waveXLam_snd, KAM.Wave.norm_waveXLam_le, KAM.Wave.not_exists_bounded_waveXLam (KAM/Wave/Cubic/HamField.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:hamfield (N3)
 NOTE: -
 
 NODE: stepW:w1:hnonlin
@@ -3172,9 +3172,9 @@ EDGE: bpW:w1:trilinear | blueprint-W/parts/w1-sequences.tex#stepW:w1:hnonlin@L58
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveXG, KAM.Wave.waveXG_analyticOnNhd, KAM.Wave.waveXG_norm_le, KAM.Wave.waveXG_sub_le, KAM.Wave.waveXG_complexify (KAM/Wave/Cubic/HamField.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:hamfield
 NOTE: -
 
 NODE: stepW:w1:hsum
@@ -3202,9 +3202,9 @@ EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:hsum@L58
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
 REVIEWER: sol-delta-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveXH, KAM.Wave.waveXH_analyticOnNhd, KAM.Wave.coeffW_waveXH_fst, KAM.Wave.coeffW_waveXH_snd (KAM/Wave/Cubic/HamField.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:hamfield
 NOTE: -
 
 NODE: stepW:w1:hham
@@ -3233,9 +3233,9 @@ EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L59
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
 REVIEWER: sol-delta-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveSigma_norm_le, KAM.Wave.waveSigmaCLM, KAM.Wave.waveLamQuad, KAM.Wave.waveHw, KAM.Wave.waveHw_hasFDerivAt, KAM.Wave.waveHw_fderiv_p, KAM.Wave.waveHw_fderiv_q (KAM/Wave/Cubic/HamHamiltonian.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:hamfield
 NOTE: -
 
 NODE: stepW:w1:hfrozen
@@ -3266,9 +3266,9 @@ EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfroz
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveXw, KAM.Wave.waveXw_analyticOnNhd, KAM.Wave.coeffW_one_zero_waveXw_fst, KAM.Wave.coeffW_one_zero_waveXw_snd (KAM/Wave/Cubic/FrozenForm.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; step of PROVED parent bpW:w1:hamfield
 NOTE: -
 
 NODE: stepW:w1:tricoord#via-cubic-bound
@@ -3323,9 +3323,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L4
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a
 REVIEWER: sol-delta-W-w1a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.waveTriCoef_bound, KAM.Wave.waveTri_oneSided (KAM/Wave/Cubic/TriSeq.lean), KAM.Wave.waveSel_oneSided (KAM/Wave/Cubic/SelectionOneSided.lean)
+LEAN_NOTE: W1-CUBIC audit 2 PASS WITH NOTES; route actually formalized (selection bound with M = 1/(2pi) instantiated, C_* = 2M K^2)
 NOTE: "equivalently Lemma bpW:w1:selection(a) with c_ijkl = g_ijkl (lambda lambda lambda lambda)^{-1/2}, M = 1/(2pi)": the text offers it as a sufficient alternative to cubic-bound.
 
 NODE: bpW:w1:ext-rect
@@ -3380,9 +3380,9 @@ EDGE: stepW:w1:cont | blueprint-W/parts/w1-sequences.tex#bpW:w1:sine-completenes
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.ae_eq_zero_of_integral_sineMode_eq_zero, KAM.Wave.eqOn_zero_of_integral_sineMode_eq_zero (KAM/Wave/Recon/SineCompleteness.lean)
+LEAN_NOTE: W1-SINES audit 1 PASS WITH NOTES (N2: odd extension is compactly supported zero-extension, a.e.-equivalent)
 NOTE: -
 
 NODE: stepW:w1:odd
@@ -3406,9 +3406,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.oddExt, KAM.Wave.memLp_oddExt (KAM/Wave/Recon/SineCompleteness.lean)
+LEAN_NOTE: W1-SINES audit 1 PASS WITH NOTES; step of PROVED parent bpW:w1:sine-completeness; the norm identity of g is bypassed by direct MemLp, not exported (N2)
 NOTE: -
 
 NODE: stepW:w1:coeffs
@@ -3434,9 +3434,9 @@ EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w1-sequences.tex#stepW:w1:coeffs
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.integral_sin_int_mul_eq_zero, KAM.Wave.fourierCoeffOn_oddExt_eq_zero (KAM/Wave/Recon/SineCompleteness.lean)
+LEAN_NOTE: W1-SINES audit 1 PASS WITH NOTES; step of PROVED parent bpW:w1:sine-completeness
 NOTE: -
 
 NODE: stepW:w1:basis
@@ -3462,9 +3462,9 @@ EDGE: bpW:w1:ext-fourier | blueprint-W/parts/w1-sequences.tex#stepW:w1:basis@L62
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.ae_eq_zero_of_integral_sineMode_eq_zero (KAM/Wave/Recon/SineCompleteness.lean)
+LEAN_NOTE: W1-SINES audit 1 PASS WITH NOTES; step of PROVED parent; Parseval (tsum_sq_fourierCoeffOn) replaces Fourier-basis injectivity (N4)
 NOTE: -
 
 NODE: stepW:w1:cont
@@ -3489,9 +3489,9 @@ EDGE: stepW:w1:basis | blueprint-W/parts/w1-sequences.tex#stepW:w1:cont@L624-L62
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.eqOn_zero_of_integral_sineMode_eq_zero (KAM/Wave/Recon/SineCompleteness.lean)
+LEAN_NOTE: W1-SINES audit 1 PASS WITH NOTES; step of PROVED parent bpW:w1:sine-completeness
 NOTE: -
 
 NODE: bpW:w1:sine-feature
@@ -3520,9 +3520,9 @@ EDGE: stepW:w1:sinereal | blueprint-W/parts/w1-sequences.tex#bpW:w1:sine-feature
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.sineFeatureC, KAM.Wave.sineFeatureR, KAM.Wave.sineFeatureC_bound, KAM.Wave.summable_sineFeatMajorant, KAM.Wave.sineFeatureC_analyticAt, KAM.Wave.sineFeatureR_eq_re, KAM.Wave.sineFeatureR_analyticAt, KAM.Wave.hasSum_inner_sineFeatureR, KAM.Wave.summable_abs_inner_sineFeatureR (KAM/Wave/Recon/SineFeature.lean)
+LEAN_NOTE: W1-SINES audit 1 PASS WITH NOTES (N1: sineFeatureC is zero off the strip; consumers keep strip guards)
 NOTE: -
 
 NODE: stepW:w1:growth
@@ -3546,9 +3546,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.norm_complex_sin_le, KAM.Wave.sineFeatCoordC_norm_le, KAM.Wave.sineFeatureC_bound, KAM.Wave.summable_sineFeatMajorant (KAM/Wave/Recon/SineFeature.lean)
+LEAN_NOTE: W1-SINES audit 1 PASS WITH NOTES; step of PROVED parent bpW:w1:sine-feature
 NOTE: -
 
 NODE: stepW:w1:normal
@@ -3574,9 +3574,9 @@ EDGE: bpW:w1:ext-onevar | blueprint-W/parts/w1-sequences.tex#stepW:w1:normal@L65
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.sineFeatureC_differentiableOn, KAM.Wave.sineFeatureC_analyticAt (KAM/Wave/Recon/SineFeature.lean)
+LEAN_NOTE: W1-SINES audit 1 PASS WITH NOTES; step of PROVED parent bpW:w1:sine-feature (via differentiableOn_tsum_of_summable_norm)
 NOTE: -
 
 NODE: stepW:w1:sinereal
@@ -3603,9 +3603,9 @@ EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:sinereal@L6
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.sineFeatureR_eq_re, KAM.Wave.sineFeatureR_analyticAt, KAM.Wave.hasSum_inner_sineFeatureR, KAM.Wave.summable_abs_inner_sineFeatureR (KAM/Wave/Recon/SineFeature.lean)
+LEAN_NOTE: W1-SINES audit 1 PASS WITH NOTES; step of PROVED parent bpW:w1:sine-feature
 NOTE: -
 
 NODE: bpW:w1:recon-analytic
@@ -3638,9 +3638,9 @@ EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w1-sequences.tex#bpW:w1:recon-an
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconUIter_zero, KAM.Wave.reconVIter_zero, KAM.Wave.hasSum_reconUIter, KAM.Wave.hasSum_reconVIter, KAM.Wave.summable_abs_reconUIter, KAM.Wave.summable_abs_reconVIter, KAM.Wave.hasDerivAt_reconUIter, KAM.Wave.hasDerivAt_reconVIter, KAM.Wave.iteratedDeriv_reconU, KAM.Wave.iteratedDeriv_reconV, KAM.Wave.derivWithin_reconU_Icc, KAM.Wave.derivWithin_reconV_Icc, KAM.Wave.analyticAt_iteratedDeriv_reconU, KAM.Wave.analyticAt_iteratedDeriv_reconV (KAM/Wave/Recon/ReconAnalytic.lean)
+LEAN_NOTE: W1-SINES audit 1 PASS WITH NOTES (N3: internal coefficient bound weaker than displayed, consumer statements unchanged; generic real normed S covers R^n)
 NOTE: -
 
 NODE: stepW:w1:bil
@@ -3669,9 +3669,9 @@ EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w1-sequences.tex#stepW:w1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.polyBounded_betaU, KAM.Wave.polyBounded_betaV, KAM.Wave.hasSum_reconUIter, KAM.Wave.reconUIter_zero (KAM/Wave/Recon/ReconAnalytic.lean)
+LEAN_NOTE: W1-SINES audit 1 PASS WITH NOTES; step of PROVED parent bpW:w1:recon-analytic; displayed sharp bound abs(beta_j) <= (1+m)^{1/4} j^{1/2} NOT proved, Lean proves abs(beta_j) <= (1+m) j, sufficient for the feature lemma (N3); Lean route differs: weaker beta bound (1+m) j suffices
 NOTE: -
 
 NODE: stepW:w1:recanalytic
@@ -3697,9 +3697,9 @@ EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:recanaly
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: sol-delta-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.analyticAt_reconUIter, KAM.Wave.analyticAt_reconVIter, KAM.Wave.analyticAt_iteratedDeriv_reconU, KAM.Wave.analyticAt_iteratedDeriv_reconV (KAM/Wave/Recon/ReconAnalytic.lean)
+LEAN_NOTE: W1-SINES audit 1 PASS WITH NOTES; step of PROVED parent bpW:w1:recon-analytic
 NOTE: -
 
 NODE: stepW:w1:recder
@@ -3730,9 +3730,9 @@ EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w1-sequences.tex#stepW:w1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: sol-delta-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.hasDerivAt_sineFeatureR, KAM.Wave.hasDerivAt_reconUIter, KAM.Wave.hasDerivAt_reconVIter, KAM.Wave.iteratedDeriv_reconU, KAM.Wave.iteratedDeriv_reconV, KAM.Wave.derivWithin_reconU_Icc, KAM.Wave.derivWithin_reconV_Icc (KAM/Wave/Recon/ReconAnalytic.lean)
+LEAN_NOTE: W1-SINES audit 1 PASS WITH NOTES; step of PROVED parent bpW:w1:recon-analytic
 NOTE: -
 
 NODE: bpW:w1:complexification
@@ -3756,9 +3756,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.complexifyLp, KAM.Wave.reLp, KAM.Wave.conjLp (KAM/Wave/Analytic/ComplexificationLp.lean), KAM.Wave.WaveSpaceC, KAM.Wave.complexifyWave, KAM.Wave.reWave (KAM/Wave/Analytic/TorusAnalytic.lean)
+LEAN_NOTE: definition formalized by W1-ANALYTIC; audit 2 PASS WITH NOTES; real-on-reals is expressed as explicit hypotheses at use sites (no named predicate)
 NOTE: -
 
 NODE: bpW:w1:complexification-lemma
@@ -3785,9 +3785,9 @@ EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#bpW:w1:complexifi
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.norm_complexifyLp, KAM.Wave.norm_reLp_le, KAM.Wave.reLp_complexifyLp, KAM.Wave.norm_conjLp, KAM.Wave.conjLp_smul, KAM.Wave.norm_sq_complexify_add_I_smul (KAM/Wave/Analytic/ComplexificationLp.lean), KAM.Wave.coeffW_complexifyLp, KAM.Wave.coeffW_reLp, KAM.Wave.coeffW_conjLp, KAM.Wave.complexifyLp_tauLp, KAM.Wave.reLp_tauLp, KAM.Wave.conjLp_tauLp, KAM.Wave.weightedDiagCLM_complexifyLp, KAM.Wave.weightedDiagCLM_reLp, KAM.Wave.weightedDiagCLM_conjLp (KAM/Wave/Analytic/ComplexificationCommute.lean), KAM.Wave.analyticAt_comp_realLinear, KAM.Wave.analyticAt_real_part (KAM/Wave/Analytic/Complexification.lean)
+LEAN_NOTE: W1-ANALYTIC audit 2 PASS WITH NOTES (F1 commutation with tau, kappa, D_mu closed in round 2)
 NOTE: -
 
 NODE: bpW:w1:holomorphic
@@ -3811,9 +3811,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: DifferentiableOn (Mathlib; used throughout KAM/Wave/Analytic/Cauchy.lean)
+LEAN_NOTE: definition formalized by W1-ANALYTIC via Mathlib DifferentiableOn C (no new definition); audit 1 PASS, audit 2 PASS WITH NOTES
 NOTE: -
 
 NODE: bpW:w1:cauchy
@@ -3841,9 +3841,9 @@ EDGE: stepW:w1:margins | blueprint-W/parts/w1-sequences.tex#bpW:w1:cauchy@L762-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.norm_fderiv_le_div_of_ball, KAM.Wave.norm_fderiv_le_div_of_ball_subset, KAM.Wave.lipschitz_of_margin (KAM/Wave/Analytic/Cauchy.lean)
+LEAN_NOTE: W1-ANALYTIC audit 2 PASS WITH NOTES (node PASS in audit 1)
 NOTE: -
 
 NODE: stepW:w1:lines
@@ -3867,9 +3867,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.norm_fderiv_le_div_of_ball (KAM/Wave/Analytic/Cauchy.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:cauchy; W1-ANALYTIC audit 1 PASS
 NOTE: -
 
 NODE: stepW:w1:onevar
@@ -3895,9 +3895,9 @@ EDGE: bpW:w1:ext-onevar | blueprint-W/parts/w1-sequences.tex#stepW:w1:onevar@L76
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.norm_fderiv_le_div_of_ball (KAM/Wave/Analytic/Cauchy.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:cauchy; W1-ANALYTIC audit 1 PASS
 NOTE: -
 
 NODE: stepW:w1:margins
@@ -3923,9 +3923,9 @@ EDGE: bpW:w1:ext-unifderiv | blueprint-W/parts/w1-sequences.tex#stepW:w1:margins
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.norm_fderiv_le_div_of_ball_subset, KAM.Wave.lipschitz_of_margin (KAM/Wave/Analytic/Cauchy.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:cauchy; W1-ANALYTIC audit 1 PASS
 NOTE: -
 
 NODE: bpW:w1:deriv-continuous
@@ -3953,9 +3953,9 @@ EDGE: stepW:w1:dclip | blueprint-W/parts/w1-sequences.tex#bpW:w1:deriv-continuou
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.norm_fderiv_sub_le_holoMargin, KAM.Wave.continuousOn_fderiv_of_holomorphic (KAM/Wave/Analytic/Cauchy.lean)
+LEAN_NOTE: W1-ANALYTIC audit 2 PASS WITH NOTES (node PASS in audit 1)
 NOTE: -
 
 NODE: stepW:w1:dcbound
@@ -3979,9 +3979,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: sol-delta-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.continuousOn_fderiv_of_holomorphic (KAM/Wave/Analytic/Cauchy.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:deriv-continuous; W1-ANALYTIC audit 1 PASS
 NOTE: -
 
 NODE: stepW:w1:dcintegral
@@ -4006,9 +4006,9 @@ EDGE: bpW:w1:ext-onevar | blueprint-W/parts/w1-sequences.tex#stepW:w1:dcintegral
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.norm_fderiv_sub_le_holoMargin (KAM/Wave/Analytic/Cauchy.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:deriv-continuous; W1-ANALYTIC audit 1 PASS
 NOTE: -
 
 NODE: stepW:w1:dclip
@@ -4035,9 +4035,9 @@ EDGE: stepW:w1:dcbound | blueprint-W/parts/w1-sequences.tex#stepW:w1:dclip@L783-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.norm_fderiv_sub_le_holoMargin (KAM/Wave/Analytic/Cauchy.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:deriv-continuous; W1-ANALYTIC audit 1 PASS
 NOTE: -
 
 NODE: bpW:w1:uniform-limit
@@ -4065,9 +4065,9 @@ EDGE: stepW:w1:ullimit | blueprint-W/parts/w1-sequences.tex#bpW:w1:uniform-limit
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.holomorphic_of_tendstoUniformlyOn, KAM.Wave.mem_of_tendstoUniformlyOn, KAM.Wave.norm_fderiv_le_div_of_tendstoUniformlyOn (KAM/Wave/Analytic/UniformLimit.lean)
+LEAN_NOTE: W1-ANALYTIC audit 2 PASS WITH NOTES; reality generalized to any closed set (strengthening)
 NOTE: -
 
 NODE: stepW:w1:ulcauchy
@@ -4092,9 +4092,9 @@ EDGE: bpW:w1:cauchy | blueprint-W/parts/w1-sequences.tex#stepW:w1:ulcauchy@L803-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.uniformCauchySeqOn_fderiv (KAM/Wave/Analytic/UniformLimit.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:uniform-limit; W1-ANALYTIC audit 1 PASS
 NOTE: -
 
 NODE: stepW:w1:ullimit
@@ -4121,9 +4121,9 @@ EDGE: bpW:w1:cauchy | blueprint-W/parts/w1-sequences.tex#stepW:w1:ullimit@L809-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.holomorphic_of_tendstoUniformlyOn, KAM.Wave.mem_of_tendstoUniformlyOn, KAM.Wave.norm_fderiv_le_div_of_tendstoUniformlyOn (KAM/Wave/Analytic/UniformLimit.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:uniform-limit; W1-ANALYTIC audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: bpW:w1:holo-analytic-fd
@@ -4153,9 +4153,9 @@ EDGE: stepW:w1:hareal | blueprint-W/parts/w1-sequences.tex#bpW:w1:holo-analytic-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.analyticOnNhd_of_differentiableOn_banach, KAM.Wave.holomorphic_fd_power_series, KAM.Wave.holomorphic_real_part_analytic (KAM/Wave/Analytic/HoloAnalytic.lean)
+LEAN_NOTE: W1-ANALYTIC audit 2 PASS WITH NOTES (node PASS in audit 1; degree grouping by averaged words, disclosed proof-construction deviation)
 NOTE: -
 
 NODE: stepW:w1:hamargin
@@ -4179,9 +4179,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: sol-delta-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.holomorphic_fd_power_series (KAM/Wave/Analytic/HoloAnalytic.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:holo-analytic-fd; W1-ANALYTIC audit 1 PASS
 NOTE: -
 
 NODE: stepW:w1:hacoef
@@ -4208,9 +4208,9 @@ EDGE: bpW:w1:ext-integral | blueprint-W/parts/w1-sequences.tex#stepW:w1:hacoef@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.exists_powerSeries_coeff_banach (KAM/Wave/Analytic/HoloAnalytic.lean), KAM.Wave.exists_separable_lift (KAM/Wave/Analytic/Separable.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:holo-analytic-fd; W1-ANALYTIC audit 1 PASS
 NOTE: W owns the complete-target Cauchy coefficient argument described at L829-L835. The finite-dimensional K theorem is not applied to F; its han-cauchy through han-bounds proof is provenance for this local adaptation. The external Cauchy formula and Bochner integration supply the transfer. This is the SPEC proof-reuse case, not an imported theorem application.
 
 NODE: stepW:w1:hagroup
@@ -4237,9 +4237,9 @@ EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:hagroup@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.degreeSeries, KAM.Wave.degreeSeries_apply_diag, KAM.Wave.norm_degreeSeries_le (KAM/Wave/Analytic/DegreeSeries.lean), KAM.Wave.holomorphic_fd_power_series (KAM/Wave/Analytic/HoloAnalytic.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:holo-analytic-fd; W1-ANALYTIC audit 1 PASS; p_m averages words instead of selecting nondecreasing ones (diagonal and norm bound as in source)
 NOTE: -
 
 NODE: stepW:w1:hareal
@@ -4264,9 +4264,9 @@ EDGE: bpW:w1:complexification-lemma | blueprint-W/parts/w1-sequences.tex#stepW:w
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.holomorphic_real_part_analytic (KAM/Wave/Analytic/HoloAnalytic.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:holo-analytic-fd; W1-ANALYTIC audit 1 PASS
 NOTE: -
 
 NODE: bpW:w1:torus-analytic
@@ -4293,9 +4293,9 @@ EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#bpW:w1:torus-a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.torus_analytic (KAM/Wave/Analytic/TorusAnalytic.lean)
+LEAN_NOTE: W1-ANALYTIC audit 2 PASS WITH NOTES (node PASS in audit 1; frozen analyticity conjunct consumed in probe)
 NOTE: -
 
 NODE: bpW:w1:flow
@@ -4327,9 +4327,9 @@ EDGE: stepW:w1:flowpar | blueprint-W/parts/w1-sequences.tex#bpW:w1:flow@L909-L90
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: sol-delta-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.FlowHyp, KAM.Wave.wavePicard (KAM/Wave/Analytic/Flow/Picard.lean), KAM.Wave.holoFlow, KAM.Wave.holoFlow_zero, KAM.Wave.norm_holoFlow_sub_le, KAM.Wave.holoFlow_mem_ball, KAM.Wave.holoFlow_eq_integral (KAM/Wave/Analytic/Flow/Limit.lean), KAM.Wave.hasDerivWithinAt_holoFlow, KAM.Wave.eq_holoFlow_of_solution, KAM.Wave.holomorphicOn_holoFlow, KAM.Wave.norm_fderiv_holoFlow_le, KAM.Wave.holoFlow_mem_range, KAM.Wave.norm_holoFlow_sub_holoFlow_le (KAM/Wave/Analytic/Flow/Holomorphic.lean)
+LEAN_NOTE: W1-ANALYTIC audit 2 PASS WITH NOTES; (iii) stated abstractly for a split closed real subspace (instantiation with complexifyLp left to consumers)
 NOTE: -
 
 NODE: stepW:w1:flowlip
@@ -4354,9 +4354,9 @@ EDGE: bpW:w1:cauchy | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlip@L883-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.FlowHyp.lipschitzOn_ball, KAM.Wave.FlowHyp.norm_fderiv_le_ball (KAM/Wave/Analytic/Flow/Picard.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:flow; W1-ANALYTIC audit 1 PASS
 NOTE: -
 
 NODE: stepW:w1:picard
@@ -4382,9 +4382,9 @@ EDGE: bpW:w1:ext-integral | blueprint-W/parts/w1-sequences.tex#stepW:w1:picard@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: sol-delta-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.wavePicard, KAM.Wave.picard_mem_ball, KAM.Wave.norm_picard_succ_sub_le (KAM/Wave/Analytic/Flow/Picard.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:flow; W1-ANALYTIC audit 1 PASS
 NOTE: -
 
 NODE: stepW:w1:picardholo
@@ -4412,9 +4412,9 @@ EDGE: stepW:w1:picard | blueprint-W/parts/w1-sequences.tex#stepW:w1:picardholo@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: sol-delta-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.PicardInv, KAM.Wave.picardInv_zero, KAM.Wave.picard_holo (KAM/Wave/Analytic/Flow/PicardHolo.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:flow; W1-ANALYTIC audit 1 PASS; iterate derivative bound proved as e^{L abs t} directly, sharper finite exponential sum not exported
 NOTE: -
 
 NODE: stepW:w1:flowlim
@@ -4444,9 +4444,9 @@ EDGE: stepW:w1:flowlip | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L90
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta3-W-w1b
 REVIEWER: sol-delta4-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.holoFlow_eq_integral (KAM/Wave/Analytic/Flow/Limit.lean), KAM.Wave.hasDerivWithinAt_holoFlow, KAM.Wave.eq_holoFlow_of_solution, KAM.Wave.holomorphicOn_holoFlow, KAM.Wave.norm_fderiv_holoFlow_le (KAM/Wave/Analytic/Flow/Holomorphic.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:flow; W1-ANALYTIC audit 1 PASS
 NOTE: -
 
 NODE: stepW:w1:flowreal
@@ -4472,9 +4472,9 @@ EDGE: stepW:w1:flowlim | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowreal@L9
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.holoFlow_mem_range (KAM/Wave/Analytic/Flow/Holomorphic.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:flow; W1-ANALYTIC audit 1 PASS WITH NOTES (abstract closed real subspace)
 NOTE: -
 
 NODE: stepW:w1:flowpar
@@ -4501,9 +4501,9 @@ EDGE: bpW:w1:ext-ode | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowpar@L912-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: sol-delta-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.norm_holoFlow_sub_holoFlow_le (KAM/Wave/Analytic/Flow/Holomorphic.lean), KAM.Wave.norm_sub_le_of_solutions (KAM/Wave/Analytic/Flow/Gronwall.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:flow; W1-ANALYTIC audit 1 PASS
 NOTE: -
 
 NODE: bpW:w1:kam-space
@@ -4528,9 +4528,9 @@ EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:kam-space@L93
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.KamPhase, KAM.Wave.kamNorm, KAM.Wave.kamDomain, KAM.Wave.kamEmbed, KAM.Wave.KamOpAdmissible, KAM.Wave.KamBoundedMap, KAM.Wave.kamOpNorm, KAM.Wave.kamOpNorm_isLeast, KAM.Wave.kam_strip_period_conversion (KAM/Wave/KamSupport/KamSpace.lean)
+LEAN_NOTE: definition formalized by W1-KAMSUP; W1-KAMSUP audit 2 PASS WITH NOTES (audit 1 F1 carrier FAIL closed in round 2); weighted coordinates; operator norm is least admissible constant on KamBoundedMap (positive radii, bounded), not ContinuousLinearMap.opNorm; kamNorm is a norm only for r > 0
 NOTE: -
 
 NODE: bpW:w1:kam-domain
@@ -4556,9 +4556,9 @@ EDGE: bpW:w1:embed | blueprint-W/parts/w1-sequences.tex#bpW:w1:kam-domain@L962-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamDomain_isOpen, KAM.Wave.kamDomain_convex, KAM.Wave.kamDomain_mono, KAM.Wave.kamDomain_add_mem, KAM.Wave.kamNorm_embed_le, KAM.Wave.kamNorm_le_of_le_radius (KAM/Wave/KamSupport/KamSpace.lean)
+LEAN_NOTE: W1-KAMSUP audit 2 PASS WITH NOTES (node PASS in audit 1, unchanged in round 2); premise 2 sigma < s carried but unused
 NOTE: -
 
 NODE: bpW:w1:fourier-l2
@@ -4587,9 +4587,9 @@ EDGE: stepW:w1:fsum | blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-l2@L1026
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamBessel, KAM.Wave.kamFourierL2_orthant_le, KAM.Wave.kamFourierL2_finite_le_of_lt, KAM.Wave.kamFourierL2_sum_le, KAM.Wave.kamFourierL2_summation, KAM.Wave.kamFourierBanach_summation, KAM.Wave.kamFourierL2_eq_fourierSum (KAM/Wave/KamSupport/FourierBessel.lean, KAM/Wave/KamSupport/FourierL2.lean, KAM/Wave/KamSupport/FourierBanach.lean)
+LEAN_NOTE: W1-KAMSUP audit 2 PASS WITH NOTES (node PASS/PASS WITH NOTES in audit 1); (i) via Bessel instead of Parseval; (ii) full convergence conjuncts via kamFourierBanach_summation (N1); (iii) on all of T_s (stronger)
 NOTE: -
 
 NODE: stepW:w1:shift
@@ -4614,9 +4614,9 @@ EDGE: bpW:w1:fourier-shift | blueprint-W/parts/w1-sequences.tex#stepW:w1:shift@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1b+claude-suborch-W-r2
 REVIEWER: sol-delta3-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamFourierL2_orthant_le, KAM.Wave.kamFourierL2_sum_le (KAM/Wave/KamSupport/FourierL2.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:fourier-l2; W1-KAMSUP audit 2 PASS WITH NOTES; not separately formalized
 NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): the step now applies Lemma bpW:w1:fourier-shift with F = H; the SOURCE_GAP (misreferenced contour shift, arbitrary eta) is resolved and removed, and the import K:step:p1:dec-shift is no longer used.
 
 NODE: stepW:w1:parseval
@@ -4643,9 +4643,9 @@ EDGE: stepW:w1:shift | blueprint-W/parts/w1-sequences.tex#stepW:w1:parseval@L102
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamBessel (KAM/Wave/KamSupport/FourierBessel.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:fourier-l2; W1-KAMSUP audit 2 PASS WITH NOTES; only the inequality <= M^2 proved (Bessel); the Parseval equality is not formalized; Lean route differs: Bessel inequality suffices (Parseval equality not formalized)
 NOTE: -
 
 NODE: stepW:w1:orthants
@@ -4671,9 +4671,9 @@ EDGE: bpW:w1:ext-series | blueprint-W/parts/w1-sequences.tex#stepW:w1:orthants@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: sol-delta-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamFourierL2_orthant_le, KAM.Wave.kamFourierL2_finite_le_of_lt, KAM.Wave.kamFourierL2_sum_le (KAM/Wave/KamSupport/FourierL2.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:fourier-l2; W1-KAMSUP audit 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w1:fsum
@@ -4702,9 +4702,9 @@ EDGE: K:bp:p1:strip-identity | blueprint-W/parts/w1-sequences.tex#stepW:w1:fsum@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamFourierL2_summation, KAM.Wave.kamFourierBanach_summation, KAM.Wave.kamFourierL2_eq_fourierSum (KAM/Wave/KamSupport/FourierL2.lean, KAM/Wave/KamSupport/FourierBanach.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:fourier-l2; W1-KAMSUP audit 2 PASS WITH NOTES (N1)
 NOTE: -
 
 NODE: bpW:w1:fourier-banach
@@ -4734,9 +4734,9 @@ EDGE: stepW:w1:fbconv | blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-banach
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamFourierBanach_coeff_le, KAM.Wave.kamFourierBanach_sum_le, KAM.Wave.kamFourierBanach_weighted_sum_le, KAM.Wave.kamFourierBanach_summation, KAM.Wave.kamFourierBanach_coeff_sub, KAM.Wave.kamFourierBanach_coeff_sub_le (KAM/Wave/KamSupport/FourierBanach.lean)
+LEAN_NOTE: W1-KAMSUP audit 2 PASS WITH NOTES (node (i)-(iii) PASS, (iv) PASS WITH NOTES in audit 1); (iv) gives subtraction and difference-coefficient results, weighted Lipschitz versions follow by applying (ii) to u1-u2 (N2)
 NOTE: -
 
 NODE: stepW:w1:fbdual
@@ -4761,9 +4761,9 @@ EDGE: bpW:w1:ext-onevar | blueprint-W/parts/w1-sequences.tex#stepW:w1:fbdual@L10
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamFourierBanach_coeff_le (KAM/Wave/KamSupport/FourierBanach.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:fourier-banach; W1-KAMSUP audit 2 PASS WITH NOTES; not separately formalized (track K Banach-valued decay used directly); Lean route differs: track-K Banach-valued decay used directly
 NOTE: -
 
 NODE: stepW:w1:fbdecay
@@ -4790,9 +4790,9 @@ EDGE: bpW:w1:ext-onevar | blueprint-W/parts/w1-sequences.tex#stepW:w1:fbdecay@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamFourierBanach_coeff_le (KAM/Wave/KamSupport/FourierBanach.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:fourier-banach; W1-KAMSUP audit 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w1:fbsum
@@ -4818,9 +4818,9 @@ EDGE: bpW:w1:lattice | blueprint-W/parts/w1-sequences.tex#stepW:w1:fbsum@L1066-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamFourierBanach_sum_le, KAM.Wave.kamFourierBanach_weighted_sum_le (KAM/Wave/KamSupport/FourierBanach.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:fourier-banach; W1-KAMSUP audit 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w1:fbconv
@@ -4846,9 +4846,9 @@ EDGE: bpW:w1:ext-integral | blueprint-W/parts/w1-sequences.tex#stepW:w1:fbconv@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamFourierBanach_summation, KAM.Wave.kamFourierBanach_coeff_sub (KAM/Wave/KamSupport/FourierBanach.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:fourier-banach; W1-KAMSUP audit 2 PASS WITH NOTES
 NOTE: -
 
 NODE: bpW:w1:lattice
@@ -4876,9 +4876,9 @@ EDGE: stepW:w1:latdiv | blueprint-W/parts/w1-sequences.tex#bpW:w1:lattice@L1104-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamL1, KAM.Wave.kamLattice_ncard_fiber_le, KAM.Wave.kamLattice_ncard_fiber_le_pow, KAM.Wave.kamLattice_card_filter_le, KAM.Wave.kamLattice_card_filter_le_pow, KAM.Wave.kamChoose_add_le_pow, KAM.Wave.kamLattice_hasSum_exp, KAM.Wave.kamLatticeConst, KAM.Wave.kamLattice_tsum_pow_exp_le, KAM.Wave.kamDivisor_le, KAM.Wave.kamLattice_tsum_divisor_le, KAM.Wave.kamLattice_BSigma_le (KAM/Wave/KamSupport/LatticeCount.lean, KAM/Wave/KamSupport/Lattice.lean)
+LEAN_NOTE: W1-KAMSUP audit 2 PASS WITH NOTES (node (i)-(iv) PASS in audit 1); exact constants coth(pi sigma)^n and S_{n,c}(sigma), n >= 1 for (iii)
 NOTE: -
 
 NODE: stepW:w1:latprod
@@ -4903,9 +4903,9 @@ EDGE: bpW:w1:ext-series | blueprint-W/parts/w1-sequences.tex#stepW:w1:latprod@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamLattice_hasSum_exp (KAM/Wave/KamSupport/Lattice.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:lattice; W1-KAMSUP audit 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w1:latcount
@@ -4929,9 +4929,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamLattice_ncard_fiber_le, KAM.Wave.kamLattice_ncard_fiber_le_pow, KAM.Wave.kamChoose_add_le_pow (KAM/Wave/KamSupport/LatticeCount.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:lattice; W1-KAMSUP audit 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w1:latweight
@@ -4956,9 +4956,9 @@ EDGE: stepW:w1:latcount | blueprint-W/parts/w1-sequences.tex#stepW:w1:latweight@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamGeom_sum_le, KAM.Wave.kamLattice_partial_sum_le, KAM.Wave.kamLattice_term_fiber, KAM.Wave.kamLattice_tsum_pow_exp_le (KAM/Wave/KamSupport/Lattice.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:lattice; W1-KAMSUP audit 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w1:latdiv
@@ -4983,9 +4983,9 @@ EDGE: stepW:w1:latweight | blueprint-W/parts/w1-sequences.tex#stepW:w1:latdiv@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamDivisor_le, KAM.Wave.kamLattice_tsum_divisor_le, KAM.Wave.kamLattice_BSigma_le (KAM/Wave/KamSupport/Lattice.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:lattice; W1-KAMSUP audit 2 PASS WITH NOTES
 NOTE: -
 
 NODE: bpW:w1:schur
@@ -5014,9 +5014,9 @@ EDGE: stepW:w1:schurweights | blueprint-W/parts/w1-sequences.tex#bpW:w1:schur@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamHilbertCLM, KAM.Wave.kamHilbertCLM_hasSum, KAM.Wave.norm_kamHilbertCLM_le, KAM.Wave.norm_kamEntry_diag_le, KAM.Wave.kamEntryDiagCLM, KAM.Wave.norm_kamEntryDiagCLM_le, KAM.Wave.KamDominated, KAM.Wave.kamSchurBound_of_dominated, KAM.Wave.exists_clm_of_dominated, KAM.Wave.exists_clm_of_dominated_nonneg, KAM.Wave.KamDominated.weighted (KAM/Wave/KamSupport/HilbertMatrix.lean, KAM/Wave/KamSupport/SchurTest.lean)
+LEAN_NOTE: W1-KAMSUP audit 2 PASS WITH NOTES (audit 1 F2 extra 0 <= c premise closed); (iii) exported with max c 0 (exact constant for c >= 0 via _nonneg; the c < 0 case reduces to A = 0, shown only in audit probe, not a package export); (iv) as positive-weight invariance of domination (N3)
 NOTE: -
 
 NODE: stepW:w1:rows
@@ -5041,9 +5041,9 @@ EDGE: bpW:w1:ext-series | blueprint-W/parts/w1-sequences.tex#stepW:w1:rows@L1168
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamEntry_sum_sq_row_le, KAM.Wave.kamEntry_sum_sq_col_le, KAM.Wave.kamHilbertKernel_sum_sq_le, KAM.Wave.kamHilbert_row_le, KAM.Wave.kamHilbert_col_le (KAM/Wave/KamSupport/HilbertMatrix.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:schur; W1-KAMSUP audit 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w1:schurtest
@@ -5069,9 +5069,9 @@ EDGE: bpW:w1:ext-lp | blueprint-W/parts/w1-sequences.tex#stepW:w1:schurtest@L117
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.KamSchurBound, KAM.Wave.kamSchurCLM, KAM.Wave.norm_kamSchurCLM_le (KAM/Wave/KamSupport/SchurTest.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:schur; W1-KAMSUP audit 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w1:diagcomb
@@ -5097,9 +5097,9 @@ EDGE: stepW:w1:schurtest | blueprint-W/parts/w1-sequences.tex#stepW:w1:diagcomb@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.norm_kamEntry_diag_le, KAM.Wave.kamEntryDiagCLM, KAM.Wave.kamSchurBound_of_dominated, KAM.Wave.exists_clm_of_dominated, KAM.Wave.exists_clm_of_dominated_nonneg (KAM/Wave/KamSupport/HilbertMatrix.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:schur; W1-KAMSUP audit 2 PASS WITH NOTES (max c 0 form, see parent)
 NOTE: -
 
 NODE: stepW:w1:schurweights
@@ -5124,9 +5124,9 @@ EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:schurweight
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.KamDominated.weighted (KAM/Wave/KamSupport/HilbertMatrix.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:schur; W1-KAMSUP audit 2 PASS WITH NOTES (N3)
 NOTE: -
 
 NODE: bpW:w1:fourier-shift
@@ -5154,9 +5154,9 @@ EDGE: stepW:w1:fshift-end | blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-sh
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
 REVIEWER: sol-delta3-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamFourier_shift, KAM.Wave.kamCharacter_neg_imag, KAM.Wave.kamTorusAverage_clm (KAM/Wave/KamSupport/FourierShift.lean)
+LEAN_NOTE: W1-KAMSUP audit 2 PASS WITH NOTES (node PASS in audit 1); exact statement (arbitrary eta, Banach values, no boundedness premise); proof route via track K imaginary shift plus separating dual, not the rectangle steps
 NOTE: New lemma added by the blueprint cleanup (inp 99afc128); replaces the misreferenced contour shift of stepW:w1:shift. Its \source cites K's step:p1:dec-shift as provenance (same argument for a particular shift), not as an input.
 
 NODE: stepW:w1:fshift-one
@@ -5181,9 +5181,9 @@ EDGE: bpW:w1:ext-rect | blueprint-W/parts/w1-sequences.tex#stepW:w1:fshift-one@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
 REVIEWER: sol-delta3-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamFourier_shift (KAM/Wave/KamSupport/FourierShift.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:fourier-shift; W1-KAMSUP audit 2 PASS WITH NOTES; not separately formalized (Lean route differs: track K shift plus duality); Lean route differs: via track-K torus average plus duality
 NOTE: -
 
 NODE: stepW:w1:fshift-iter
@@ -5210,9 +5210,9 @@ EDGE: bpW:w1:ext-rect | blueprint-W/parts/w1-sequences.tex#stepW:w1:fshift-iter@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
 REVIEWER: sol-delta3-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamFourier_shift (KAM/Wave/KamSupport/FourierShift.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:fourier-shift; W1-KAMSUP audit 2 PASS WITH NOTES; not separately formalized (Lean route differs); Lean route differs: via track-K torus average plus duality
 NOTE: -
 
 NODE: stepW:w1:fshift-end
@@ -5237,9 +5237,9 @@ EDGE: stepW:w1:fshift-iter | blueprint-W/parts/w1-sequences.tex#stepW:w1:fshift-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
 REVIEWER: sol-delta3-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamFourier_shift, KAM.Wave.kamCharacter_neg_imag (KAM/Wave/KamSupport/FourierShift.lean)
+LEAN_NOTE: step of PROVED parent bpW:w1:fourier-shift; W1-KAMSUP audit 2 PASS WITH NOTES; Lean route differs: via track-K torus average plus duality
 NOTE: -
 
 NODE: bpW:w1:kam-conventions
@@ -5266,9 +5266,9 @@ EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#bpW:w1:kam-con
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-delta5-W-w1b
 REVIEWER: sol-delta6-W-W-w1b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kam_conj_relabel, KAM.Wave.kam_wave_norm_sum_ge, KAM.Wave.kam_wave_norm_sum_le, KAM.Wave.kam_strip_period_conversion (KAM/Wave/KamSupport/KamSpace.lean)
+LEAN_NOTE: W1-KAMSUP audit 2 PASS WITH NOTES (node PASS WITH NOTES in audit 1); conjugation identity and sum/max factor-2 comparison proved; the W4-W6 convention directive and vector-field angle scaling are conventions, not theorems
 NOTE: Restored because bpW:w4:index cites the coordinate-exchange claim at w4-homological.tex L87 inside its convention statement. The P96-K convention is source comparison, not a new external theorem.
 
 NODE: bpW:w2:ext-deriv
@@ -5399,9 +5399,9 @@ EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w2-reconstruction.tex#bpW
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconUx, KAM.Wave.reconUxx, KAM.Wave.reconUx_eq_iter, KAM.Wave.reconUxx_eq_iter, KAM.Wave.reconWaveC0, KAM.Wave.reconWaveBound (KAM/Wave/Recon2/Functionals.lean)
+LEAN_NOTE: definition formalized by W2-RECON; W2-RECON audit 1 PASS WITH NOTES; D^0 is frozen reconU; (1+m)^{1/4} written sqrt(sqrt(1+m)) (equal, bridge checked)
 NOTE: -
 
 NODE: bpW:w2:functionals
@@ -5436,9 +5436,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:functi
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_functionals, KAM.Wave.norm_reconFeatureU_le, KAM.Wave.norm_reconFeatureV_le, KAM.Wave.abs_reconU_le, KAM.Wave.abs_reconUx_le, KAM.Wave.abs_reconV_le, KAM.Wave.summable_abs_reconU_terms, KAM.Wave.summable_abs_reconUx_terms, KAM.Wave.summable_abs_reconUxx_terms, KAM.Wave.summable_abs_reconV_terms, KAM.Wave.reconU_apply_zero, KAM.Wave.reconU_apply_pi (KAM/Wave/Recon2/Functionals.lean)
+LEAN_NOTE: W2-RECON audit 1 PASS WITH NOTES; bundle plus separate exports jointly supply all items
 NOTE: -
 
 NODE: stepW:w2:features
@@ -5467,9 +5467,9 @@ EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:f
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_functionals, KAM.Wave.reconFeatureU_coord_sq_le, KAM.Wave.reconFeatureV_coord_sq_le (KAM/Wave/Recon2/Functionals.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:functionals; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:pairing
@@ -5502,9 +5502,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:pair
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconU_eq_inner, KAM.Wave.reconUx_eq_inner, KAM.Wave.reconUxx_eq_inner, KAM.Wave.reconV_eq_inner (KAM/Wave/Recon2/Functionals.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:functionals; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:norms
@@ -5535,9 +5535,9 @@ EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:n
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.norm_reconFeatureU_le, KAM.Wave.norm_reconFeatureV_le, KAM.Wave.abs_reconU_le, KAM.Wave.abs_reconUx_le, KAM.Wave.abs_reconV_le (KAM/Wave/Recon2/Functionals.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:functionals; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:xder
@@ -5567,9 +5567,9 @@ EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:x
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.hasDerivAt_reconU_reconUx, KAM.Wave.hasDerivAt_reconUx_reconUxx (KAM/Wave/Recon2/Functionals.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:functionals; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:bdry
@@ -5597,9 +5597,9 @@ EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w2-reconstruction.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconU_apply_zero, KAM.Wave.reconU_apply_pi (KAM/Wave/Recon2/Functionals.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:functionals; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: bpW:w2:force
@@ -5632,9 +5632,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:force@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_force, KAM.Wave.reconWave_force_summable_lin, KAM.Wave.reconWave_force_summable_cub, KAM.Wave.reconWave_force_lin, KAM.Wave.reconWave_force_cub (KAM/Wave/Recon2/Force.lean)
+LEAN_NOTE: W2-RECON audit 1 PASS WITH NOTES; cubic identity on [0,pi], its source domain
 NOTE: -
 
 NODE: stepW:w2:fsum
@@ -5668,9 +5668,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:fsum
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_force_summable_lin, KAM.Wave.reconWave_force_summable_cub (KAM/Wave/Recon2/Force.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:force; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:flin
@@ -5702,9 +5702,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:flin
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.lam_sq_eq, KAM.Wave.reconWave_lin_term, KAM.Wave.reconWave_force_lin (KAM/Wave/Recon2/Force.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:force; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:fcub
@@ -5735,9 +5735,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:fcub
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_force_cub (KAM/Wave/Recon2/Force.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:force; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: bpW:w2:coeffsol
@@ -5766,9 +5766,9 @@ EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:co
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsAnalyticCoeffSolution (KAM/Wave/Recon2/Orbit.lean)
+LEAN_NOTE: definition formalized by W2-RECON; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: bpW:w2:orbit
@@ -5799,9 +5799,9 @@ EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:or
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.isAnalyticCoeffSolution_orbit (KAM/Wave/Recon2/Orbit.lean)
+LEAN_NOTE: W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:oan
@@ -5826,9 +5826,9 @@ EDGE: bpW:w2:ext-an | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:oan@L195-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.isAnalyticCoeffSolution_orbit (KAM/Wave/Recon2/Orbit.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:orbit; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:oshift
@@ -5855,9 +5855,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:oshi
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.isAnalyticCoeffSolution_orbit (KAM/Wave/Recon2/Orbit.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:orbit; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: bpW:w2:curve-deriv
@@ -5887,9 +5887,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:curve-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.hasDerivAt_coeffSol, KAM.Wave.hasDerivAt_coeffSol_fst, KAM.Wave.hasDerivAt_coeffSol_snd, KAM.Wave.coeff_deriv_coeffSol_fst, KAM.Wave.coeff_deriv_coeffSol_snd (KAM/Wave/Recon2/Orbit.lean)
+LEAN_NOTE: W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:cdiff
@@ -5915,9 +5915,9 @@ EDGE: bpW:w2:coeffsol | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:cdiff@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.hasDerivAt_coeffSol, KAM.Wave.hasDerivAt_coeffSol_fst, KAM.Wave.hasDerivAt_coeffSol_snd (KAM/Wave/Recon2/Orbit.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:curve-deriv; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:ccoord
@@ -5946,9 +5946,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:ccoo
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.coeff_deriv_coeffSol_fst, KAM.Wave.coeff_deriv_coeffSol_snd (KAM/Wave/Recon2/Orbit.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:curve-deriv; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: bpW:w2:curve
@@ -5987,9 +5987,9 @@ EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w2-reconstruction.tex#b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_curve, KAM.Wave.analyticAt_reconWave_u, KAM.Wave.analyticAt_reconWave_ux, KAM.Wave.analyticAt_reconWave_uxx, KAM.Wave.analyticAt_reconWave_ut, KAM.Wave.analyticAt_reconWave_utt, KAM.Wave.hasDerivAt_reconWave_ut, KAM.Wave.hasDerivAt_reconWave_utt, KAM.Wave.hasDerivAt_reconWave_ux, KAM.Wave.isClassicalSolution_reconWave, KAM.Wave.reconWave_bound (KAM/Wave/Recon2/Curve.lean)
+LEAN_NOTE: W2-RECON audit 1 PASS WITH NOTES; (iv) and (vi) proved for arbitrary vector/curve, no coefficient ODE needed (stronger)
 NOTE: -
 
 NODE: stepW:w2:joint
@@ -6019,9 +6019,9 @@ EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w2-reconstruction.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.analyticAt_coeffSol_fst, KAM.Wave.analyticAt_coeffSol_snd, KAM.Wave.analyticAt_reconWave_u, KAM.Wave.analyticAt_reconWave_ux, KAM.Wave.analyticAt_reconWave_uxx, KAM.Wave.analyticAt_reconWave_ut, KAM.Wave.analyticAt_reconWave_utt (KAM/Wave/Recon2/Curve.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:curve; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:t1
@@ -6055,9 +6055,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:t1@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconU_eq_reconV_of_coeff, KAM.Wave.hasDerivAt_reconWave_ut (KAM/Wave/Recon2/Curve.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:curve; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:t2
@@ -6092,9 +6092,9 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:t2@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.lam_mul_div_sqrt_lam, KAM.Wave.hasDerivAt_reconWave_utt (KAM/Wave/Recon2/Curve.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:curve; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:x
@@ -6119,9 +6119,9 @@ EDGE: bpW:w2:functionals | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:x@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.hasDerivAt_reconWave_ux (KAM/Wave/Recon2/Curve.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:curve; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:frozen
@@ -6153,9 +6153,9 @@ EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w2-reconstruction.tex#s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.isClassicalSolution_reconWave (KAM/Wave/Recon2/Curve.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:curve; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:bound
@@ -6184,9 +6184,9 @@ EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w2-reconstruction.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_bound (KAM/Wave/Recon2/Curve.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:curve; W2-RECON audit 1 PASS WITH NOTES; derivWithin identified incl. endpoints
 NOTE: -
 
 NODE: bpW:w2:main
@@ -6219,9 +6219,9 @@ EDGE: bpW:wh:embedding#IsAnalyticTorusEmbedding | blueprint-W/parts/w2-reconstru
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_main, KAM.Wave.reconWave_main_le (KAM/Wave/Recon2/Main.lean)
+LEAN_NOTE: W2-RECON audit 1 PASS WITH NOTES; exact H1-H3, no EXCESS binders, bound M_m B
 NOTE: -
 
 NODE: stepW:w2:mred
@@ -6248,9 +6248,9 @@ EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w2-reconstruction.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: sol-delta-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_main, KAM.Wave.isAnalyticCoeffSolution_orbit (KAM/Wave/Recon2/Main.lean, KAM/Wave/Recon2/Orbit.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:main; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepW:w2:mconc
@@ -6277,9 +6277,9 @@ EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w2-reconstruction.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_main (KAM/Wave/Recon2/Main.lean)
+LEAN_NOTE: step of PROVED parent bpW:w2:main; W2-RECON audit 1 PASS WITH NOTES
 NOTE: -
 
 NODE: bpW:w2:clause5
@@ -6313,9 +6313,9 @@ EDGE: bpW:wh:embedding#IsAnalyticTorusEmbedding | blueprint-W/parts/w2-reconstru
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.reconWave_clause5 (KAM/Wave/Recon2/Main.lean)
+LEAN_NOTE: W2-RECON audit 1 PASS WITH NOTES; C = max 1 M_m * C_3; frozen clause (5) text consumed in a term-level probe; nlw2 itself stays DRAFT_SORRY
 NOTE: Consumer: the W8 assembly (later wave) for the root bpW:wh:nlw2. The statement speaks of the form of conclusions (4)-(5) of nlw2; that is not a use of the root.
 
 NODE: bpW:w3:ext-multilinear
@@ -6497,9 +6497,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:space@L113-L11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.BirkIdx, KAM.Wave.BirkSpace, KAM.Wave.birkCoord, KAM.Wave.birkEmbed, KAM.Wave.birkEmbed_injective, KAM.Wave.norm_birkEmbed_le, KAM.Wave.birkCoord_birkEmbed, KAM.Wave.birkRho, KAM.Wave.birkCoord_birkRho, KAM.Wave.birkSgn, KAM.Wave.birkLam, KAM.Wave.lpDiagCLM, KAM.Wave.birkNormalPart (KAM/Wave/Birkhoff/Space.lean, KAM/Wave/Birkhoff/QuartNormal.lean)
+LEAN_NOTE: definition formalized by W3-SETTING; W3-SETTING-DIVF audit 1 PASS (space row); carrier lp (Bool x PNat -> C) 2 in weighted coordinates, W+ read at weight p+1
 NOTE: -
 
 NODE: bpW:w3:coords
@@ -6527,9 +6527,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:coords@L119-L128 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkZ, KAM.Wave.birkZinv, KAM.Wave.birkZEquiv, KAM.Wave.norm_le_norm_birkZ, KAM.Wave.norm_birkZ_le, KAM.Wave.norm_birkZinv_le, KAM.Wave.birkCoord_birkZ_true, KAM.Wave.birkCoord_birkZ_false, KAM.Wave.birkCoord_mul_birkZ, KAM.Wave.birkRho_birkZ_real, KAM.Wave.exists_birkZ_of_birkRho_eq, KAM.Wave.birkReal, KAM.Wave.birkReal_injective (KAM/Wave/Birkhoff/Coords.lean)
+LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: bpW:w3:omega
@@ -6557,9 +6557,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:omega@L139-L145 | t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkOmega, KAM.Wave.norm_birkOmega_le, KAM.Wave.birkOmega_antisymm, KAM.Wave.birkOmega_unit_neg, KAM.Wave.birkOmega_nondegenerate, KAM.Wave.birkOmega_birkZ, KAM.Wave.birkOmega_birkZ_real, KAM.Wave.birkOmega_birkRho (KAM/Wave/Birkhoff/Omega.lean)
+LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: bpW:w3:hamfield-def
@@ -6588,9 +6588,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:hamfield-def@L154-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsBirkHamFieldW, KAM.Wave.birkFieldW_eq, KAM.Wave.birkFieldW_coord, KAM.Wave.IsBirkHamFieldPlus, KAM.Wave.IsBirkHamFieldPlus.toW, KAM.Wave.IsBirkClassA, KAM.Wave.BirkClassA, KAM.Wave.IsBirkClassA.hamField, KAM.Wave.IsBirkClassA.field_rho (KAM/Wave/Birkhoff/HamClass.lean)
+LEAN_NOTE: definition formalized by W3-SETTING; W3-SETTING-DIVF audit 1 FAIL on the general field predicate (F1), audit 2 PASS for the F1 fix (general W-valued IsBirkHamFieldW; former predicate renamed IsBirkHamFieldPlus); class A(U) PASS in audit 1; the remark 'analytic maps are holomorphic' is not restated (Mathlib analytic implies differentiable); X_P o rho = rho o X_P exported for class-A fields (see #hamilton)
 NOTE: -
 
 NODE: bpW:w3:real-restrict
@@ -6647,9 +6647,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:forms@L189-L197 | t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsBirkSmoothing, KAM.Wave.birkDiag, KAM.Wave.birkDiagField, KAM.Wave.birkDiag_field, KAM.Wave.norm_birkDiag_le, KAM.Wave.norm_birkDiagField_le, KAM.Wave.norm_birkDiagField_sub_le, KAM.Wave.birkDiag_analyticOnNhd, KAM.Wave.birkDiagField_analyticOnNhd, KAM.Wave.birkDiag_isClassA (KAM/Wave/Birkhoff/Forms.lean)
+LEAN_NOTE: definition formalized by W3-SETTING; W3-SETTING-DIVF audit 1 PASS; birkDiag_field returns the Plus predicate after the F1 fix (audit 2 PASS)
 NOTE: -
 
 NODE: bpW:w3:Lambda
@@ -6681,9 +6681,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:Lambda@L200-L206 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.birkLamBil, KAM.Wave.birkLambda, KAM.Wave.norm_birkLambda_le, KAM.Wave.birkLambda_analyticOnNhd, KAM.Wave.birkLambda_birkZ, KAM.Wave.fderiv_birkLambda_apply, KAM.Wave.birkXLam, KAM.Wave.norm_birkXLam_le, KAM.Wave.birkLambda_field, KAM.Wave.not_exists_birkXLam_bounded (KAM/Wave/Birkhoff/Lambda.lean)
+LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS WITH NOTES (N1), audit 2 PASS (N1 docstring); all clauses proved except 'X_Lambda does not map W into itself', which is exported only as nonexistence of a bounded linear operator on W with the coordinates of X_Lambda (no explicit point of W mapped outside W); no later package closes it
 NOTE: -
 
 NODE: bpW:w3:majorant
@@ -6714,9 +6714,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:majorant@L232-L239 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkMajorant, KAM.Wave.birkMajorant_eq, KAM.Wave.birkMajorant_bound, KAM.Wave.waveCubicConst_one (KAM/Wave/Birkhoff/Majorant.lean, KAM/Wave/Normal/Analysis/CubicHeadline.lean)
+LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS; constant waveCubicConst p = K_{p+1/2}^2/pi independent of m; value 8(1+2 zeta(3))/pi at p = 1 is waveCubicConst_one (W0-ANALYSIS, audit 1 PASS)
 NOTE: -
 
 NODE: bpW:w3:quartic
@@ -6746,9 +6746,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:quartic@L248-L259 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsBirkQuartCoef, KAM.Wave.birkQuartForm, KAM.Wave.birkQuartP, KAM.Wave.birkQuartX, KAM.Wave.birkGradML, KAM.Wave.norm_birkGradML_le, KAM.Wave.birkQuartForm_perm, KAM.Wave.birkQuartForm_rho, KAM.Wave.birkQuart_isSmoothing, KAM.Wave.birkQuart_isClassA, KAM.Wave.norm_birkQuartP_le, KAM.Wave.norm_birkQuartX_le, KAM.Wave.norm_birkQuartX_sub_le, KAM.Wave.isBirkQuartCoef_on, KAM.Wave.birkCoefAll, KAM.Wave.birkCoefTan, KAM.Wave.birkCoefBar, KAM.Wave.birkCoefNor, KAM.Wave.birkCoord_birkGradML, KAM.Wave.birkQuartSum_eq_omega, KAM.Wave.birkQuartP_all_eq_tan_add_nor (KAM/Wave/Birkhoff/QuartForm.lean, KAM/Wave/Birkhoff/QuartMain.lean, KAM/Wave/Birkhoff/QuartML.lean, KAM/Wave/Birkhoff/QuartIdent.lean, KAM/Wave/Birkhoff/QuartBarAlg.lean, KAM/Wave/Birkhoff/QuartPaired.lean, KAM/Wave/Birkhoff/QuartNormal.lean, KAM/Wave/Birkhoff/QuartSum.lean)
+LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS (normalization 1/16 and C_*/4 retained)
 NOTE: -
 
 NODE: stepW:w3:maj
@@ -6775,9 +6775,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:maj@L262-L265 | t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkGrad_majorize, KAM.Wave.birkFoldNorm, KAM.Wave.ellTsumNorm_birkFoldNorm_le (KAM/Wave/Birkhoff/QuartGrad.lean, KAM/Wave/Birkhoff/Fold.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:quartic; W3-SETTING-DIVF audit 1 PASS (quartic majorization ledger rows); (mapping inferred)
 NOTE: -
 
 NODE: stepW:w3:gradbound
@@ -6804,9 +6804,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:gradbound@L266-L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.norm_birkGradML_le (KAM/Wave/Birkhoff/QuartML.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:quartic; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:identify
@@ -6836,9 +6836,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:identify@L270-L27
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkQuartSum_eq_omega, KAM.Wave.birkQuartForm_perm, KAM.Wave.birkQuartForm_rho, KAM.Wave.isBirkQuartCoef_on (KAM/Wave/Birkhoff/QuartSum.lean, KAM/Wave/Birkhoff/QuartForm.lean, KAM/Wave/Birkhoff/QuartMain.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:quartic; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: bpW:w3:quartic-ident
@@ -6874,9 +6874,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:quartic-ident@L282-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkQuartP_birkZ, KAM.Wave.birkQuartP_birkZ_real, KAM.Wave.birkZinv_birkQuartX_birkZ, KAM.Wave.birkQuartP_normal, KAM.Wave.birkQuartX_normal, KAM.Wave.birkQuartX_tangential, KAM.Wave.norm_birkQuartP_normal_le, KAM.Wave.norm_birkQuartX_normal_le, KAM.Wave.birkQuartP_bar, KAM.Wave.birkActionB_eq, KAM.Wave.birkPaired_iff_divisor (KAM/Wave/Birkhoff/QuartIdent.lean, KAM/Wave/Birkhoff/QuartNormal.lean, KAM/Wave/Birkhoff/QuartBarAlg.lean, KAM/Wave/Birkhoff/QuartPaired.lean)
+LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS: series identity for a>=0, waveG identity for a>0, X_G = (0,-T(q,q,q)) via landed waveXG, corrected A,B on all complex W, landed quartic_nonresonance applied
 NOTE: -
 
 NODE: stepW:w3:Gz
@@ -6904,9 +6904,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Gz@L294-L297 | th
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkQuartP_birkZ, KAM.Wave.birkQuartP_birkZ_real (KAM/Wave/Birkhoff/QuartIdent.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:quartic-ident; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:XG
@@ -6938,9 +6938,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XG@L298-L311 | th
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta3-W-w3+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkZinv_birkQuartX_birkZ, KAM.Wave.waveQuartForm_perm, KAM.Wave.norm_waveQuartForm_le (KAM/Wave/Birkhoff/QuartIdent.lean, KAM/Wave/Cubic/QSymm.lean, KAM/Wave/Cubic/QPair.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:quartic-ident; W3-SETTING-DIVF audit 1 PASS; the symmetric 4-linear Q with its C_* bound is the W1-CUBIC waveQuartForm (W1-CUBIC audit 2 PASS)
 NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): the step now proves the field formula for every a >= 0 directly; the SOURCE_GAP (a = 0 not covered) is resolved and removed. The citations of bpW:w0n:gradient and bpW:w1:gradient-identity at L310-L311 are consistency remarks for a > 0, not alternative derivations, so the two route nodes are deleted.
 
 NODE: stepW:w3:Gnor
@@ -6967,9 +6967,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Gnor@L312-L313 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkQuartP_normal, KAM.Wave.birkQuartX_normal, KAM.Wave.norm_birkQuartP_normal_le, KAM.Wave.norm_birkQuartX_normal_le (KAM/Wave/Birkhoff/QuartNormal.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:quartic-ident; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:count
@@ -6997,9 +6997,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:count@L314-L318 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkV_sum_eq_six, KAM.Wave.birkV_s0_eq, KAM.Wave.tsum_tan_split, KAM.Wave.birkQuartP_bar (KAM/Wave/Birkhoff/QuartBar.lean, KAM/Wave/Birkhoff/QuartBarAlg.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:quartic-ident, separately named; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:res
@@ -7025,9 +7025,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:res@L319-L321 | t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkPaired_iff_divisor (KAM/Wave/Birkhoff/QuartPaired.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:quartic-ident, separately named; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: bpW:w3:divisor
@@ -7063,9 +7063,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:divisor@L327-L333 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birk_divisor_bound, KAM.Wave.birk_divisor_bound_tan, KAM.Wave.birkDeltaStar, KAM.Wave.birk_divisor_sorted (KAM/Wave/Birkhoff/Divisor.lean)
+LEAN_NOTE: W3-DIVISOR-F audit 1 PASS (W3-SETTING-DIVF): exact m/(27(n^2+m)^{3/2}) for all 16 sign patterns, delta_* = m/(27(4+m)^{3/2}); minimum given by an attained index
 NOTE: -
 
 NODE: stepW:w3:sel
@@ -7090,9 +7090,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:sel@L339-L342 | t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birk_divisor_bound_tan, KAM.Wave.quarticSel_of_quarticCoeff_ne_zero (KAM/Wave/Birkhoff/Divisor.lean, KAM/Wave/Normal/QuarticCoeff.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:divisor; W3-SETTING-DIVF audit 1 PASS; selection rule taken as hypothesis (exists eps) in birk_divisor_bound and derived from the landed selection rule in the tangential corollary
 NOTE: -
 
 NODE: stepW:w3:signs
@@ -7117,9 +7117,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:signs@L343-L346 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birk_divisor_sorted (KAM/Wave/Birkhoff/Divisor.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:divisor; W3-SETTING-DIVF audit 1 PASS; sorting internal (Tuple.sort), all 16 sign patterns handled
 NOTE: -
 
 NODE: stepW:w3:s0
@@ -7147,9 +7147,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s0@L347-L348 | th
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkDiv_C0 (KAM/Wave/Birkhoff/DivisorCore.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:divisor, separately named; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:s1
@@ -7178,9 +7178,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s1@L349-L353 | th
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkDiv_C1 (KAM/Wave/Birkhoff/DivisorCore.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:divisor, separately named; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:s23
@@ -7208,9 +7208,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s23@L354-L358 | t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkDiv_C3, KAM.Wave.birkDiv_C2, KAM.Wave.birkDelta_ge (KAM/Wave/Birkhoff/DivisorCore.lean, KAM/Wave/Birkhoff/DivisorReal.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:divisor, separately named; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:s1inner
@@ -7240,9 +7240,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s1inner@L359-L369
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w3+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkDiv_C1i, KAM.Wave.birkDiv_C1ii, KAM.Wave.birkL_second_diff (KAM/Wave/Birkhoff/DivisorCore.lean, KAM/Wave/Birkhoff/DivisorReal.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:divisor, separately named; W3-SETTING-DIVF audit 1 PASS; route deviation: f'' integral replaced by the exact algebraic second-difference bound (same constants); Lean route differs: discrete second differences replace the derivative facts
 NOTE: -
 
 NODE: stepW:w3:divconcl
@@ -7272,9 +7272,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:divconcl@L370-L37
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birk_divisor_sorted, KAM.Wave.birk_divisor_bound, KAM.Wave.birk_divisor_bound_tan, KAM.Wave.birkDeltaStar (KAM/Wave/Birkhoff/Divisor.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:divisor; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: bpW:w3:Fdef
@@ -7301,9 +7301,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:Fdef@L395-L401 | th
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkFx, KAM.Wave.birkFcoef, KAM.Wave.birkFform, KAM.Wave.birkFgrad, KAM.Wave.birkS, KAM.Wave.birkXF_eq (KAM/Wave/Birkhoff/FCoef.lean, KAM/Wave/Birkhoff/FForm.lean)
+LEAN_NOTE: definition formalized by W3-DIVISOR-F; W3-SETTING-DIVF audit 1 PASS (Fdef row)
 NOTE: -
 
 NODE: bpW:w3:F
@@ -7331,9 +7331,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:F@L406-L413 | the c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkF_isSmoothing, KAM.Wave.birkCF, KAM.Wave.norm_birkS_le, KAM.Wave.birkS_pairing, KAM.Wave.birkS_perm, KAM.Wave.birkS_rho, KAM.Wave.birkF_real, KAM.Wave.norm_birkF_le, KAM.Wave.birkXF_eq, KAM.Wave.birkF_isClassA (KAM/Wave/Birkhoff/FForm.lean)
+LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS: S into W+ with C_F = C_*/delta_*, four-slot pairing symmetry, reality, X_F analytic W to W+
 NOTE: -
 
 NODE: stepW:w3:fcoef
@@ -7360,9 +7360,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:fcoef@L416-L419 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkFx_perm, KAM.Wave.birkFx_neg, KAM.Wave.abs_birkFx_le, KAM.Wave.birkFcoef_isCoef, KAM.Wave.birkFform (KAM/Wave/Birkhoff/FCoef.lean, KAM/Wave/Birkhoff/FForm.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:F, separately named; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:Fconcl
@@ -7391,9 +7391,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Fconcl@L420-L423 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkF_isSmoothing, KAM.Wave.norm_birkS_le, KAM.Wave.birkS_rho, KAM.Wave.birkF_isClassA (KAM/Wave/Birkhoff/FForm.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:F; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: bpW:w3:homological
@@ -7423,9 +7423,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:homological@L427-L4
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birk_homological, KAM.Wave.birk_homological', KAM.Wave.birk_DLam_XF, KAM.Wave.birk_euler, KAM.Wave.birk_delta_mul_fx, KAM.Wave.summable_birkLamQuartTerm (KAM/Wave/Birkhoff/Homological.lean, KAM/Wave/Birkhoff/HomSum.lean)
+LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS: DLambda(w) X_F(w) = bar G(w) - G^tan(w) for every w in W, and G + DLambda X_F = bar G + G^nor; the parenthetical class of the form frak z (smoothing C_*/4, bound on X_Z') has no separately named export
 NOTE: -
 
 NODE: stepW:w3:Xfcoord
@@ -7452,9 +7452,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Xfcoord@L435-L437
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkCoord_birkXF, KAM.Wave.birkXF_eq (KAM/Wave/Birkhoff/Homological.lean, KAM/Wave/Birkhoff/FForm.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:homological; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:euler
@@ -7484,9 +7484,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:euler@L438-L443 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birk_euler, KAM.Wave.birk_DLam_XF, KAM.Wave.summable_birkLamQuartTerm (KAM/Wave/Birkhoff/Homological.lean, KAM/Wave/Birkhoff/HomSum.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:homological, separately named; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: stepW:w3:divide
@@ -7514,9 +7514,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:divide@L444-L448 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birk_delta_mul_fx, KAM.Wave.birk_homological, KAM.Wave.birk_homological' (KAM/Wave/Birkhoff/Homological.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:homological; W3-SETTING-DIVF audit 1 PASS
 NOTE: -
 
 NODE: bpW:w3:lie-coeff
@@ -8817,9 +8817,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:hamfield-def@L164-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.IsBirkClassA.field_rho, KAM.Wave.birkZinv_birkQuartX_birkZ (KAM/Wave/Birkhoff/HamClass.lean, KAM/Wave/Birkhoff/QuartIdent.lean)
+LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS for IsBirkClassA.field_rho; covered: X_P o rho = rho o X_P for class-A Hamiltonians; not covered: the general real-point identity Z^{-1} X_P = (d_p P, -d_q P) (proved only for P = G via birkZinv_birkQuartX_birkZ) and reality of the field for real P outside class A
 NOTE: Unlabelled paragraph after Definition bpW:w3:hamfield-def, cited as "paragraph after Definition bpW:w3:hamfield-def" in Steps stepW:w3:XG and stepW:w3:XKconcl.
 
 NODE: bpW:w3:quartic-sec#data
@@ -8847,9 +8847,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:quartic-sec@L224-L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkAbs, KAM.Wave.birkAtom, KAM.Wave.birkG, KAM.Wave.birkDivisor, KAM.Wave.birkPaired, KAM.Wave.birkTanSet, KAM.Wave.birkBarSet (KAM/Wave/Birkhoff/Reindex.lean, KAM/Wave/Birkhoff/QuartGrad.lean, KAM/Wave/Birkhoff/QuartPaired.lean)
+LEAN_NOTE: definition formalized by W3-SETTING; W3-SETTING-DIVF audit 1 PASS (definition ledger rows; all literal formulas); (mapping inferred)
 NOTE: Unlabelled prose L224-L230 fixing notation consumed throughout W3 (SPEC section-data rule).
 
 NODE: bpW:w3:main-sec#data
@@ -8908,9 +8908,9 @@ EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:divis
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-W-w3
 REVIEWER: sol-delta-W-w3
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.birkL, KAM.Wave.lam_eq_birkL, KAM.Wave.birkL_second_diff, KAM.Wave.birkDelta_mono, KAM.Wave.birkDelta_ge, KAM.Wave.birkL_incr_mono, KAM.Wave.birkL_incr_sub (KAM/Wave/Birkhoff/DivisorReal.lean)
+LEAN_NOTE: step of PROVED parent bpW:w3:divisor; W3-SETTING-DIVF audit 1 PASS; route deviation: the derivative statements on f' and f'' are replaced by exact discrete increment/second-difference inequalities, not formalized as stated; Lean route differs: discrete second differences replace the derivative facts
 NOTE: This separates the quantitative preamble used by the sign cases; it is not an extra assumption. The symbol A here is the smallest mode, not the exponential weight a.
 
 NODE: bpW:w3:transport-tori-weak
@@ -20484,9 +20484,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-wh
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsAnalyticTorusEmbedding (KAM/Frozen/Wave/Defs/IsAnalyticTorusEmbedding.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:wh:dioph#IsDiophantine
@@ -20510,9 +20510,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-wh
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.IsDiophantine (KAM/Frozen/Defs/IsDiophantine.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: bpW:wh:nlw2
