@@ -96,10 +96,13 @@ public import KAM.Wave.KamStep.Divisors
 public import KAM.Wave.KamStep.Flow
 public import KAM.Wave.KamStep.FlowEquivariant
 public import KAM.Wave.KamStep.FlowInverse
+public import KAM.Wave.KamStep.FlowSkew
 public import KAM.Wave.KamStep.FlowSmooth
 public import KAM.Wave.KamStep.FlowSmoothDeriv
 public import KAM.Wave.KamStep.FlowStepBounds
 public import KAM.Wave.KamStep.FlowSymplectic
+public import KAM.Wave.KamStep.FlowTime
+public import KAM.Wave.KamStep.FlowTransport
 public import KAM.Wave.KamStep.FlowVariational
 public import KAM.Wave.KamStep.LatticeBN
 public import KAM.Wave.KamStep.NewHamExp

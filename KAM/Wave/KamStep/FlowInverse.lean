@@ -14,7 +14,8 @@ import Mathlib.Analysis.Complex.ExponentialBounds
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
-From the variational equation, `‖Dφ^t(w) - I‖ ≤ |t| L e^L` with `L = M/δ` (`norm_fderiv_holoFlow_sub_id_le`);
+From the variational equation, `‖Dφ^t(w) - I‖ ≤ |t| L e^L` with `L = M/δ`
+(`norm_fderiv_holoFlow_sub_id_le`);
 for `L ≤ 1/64` this is `< 1/8`, so `Dφ^t(w)` is a unit of `F →L F` by the Neumann series
 (`isUnit_fderiv_holoFlow`).
 -/
