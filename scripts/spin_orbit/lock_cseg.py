@@ -454,11 +454,16 @@ class LockEmitter(CE.Emitter):
                                                                     fixed(v["r"]), INVD))
         else:
             arm = ("composeStep_sqrt_eq 2 base.emb base.wit %s %s %s _ %d (S := %s) (r := %s)"
-                   " (eq_some_getD_cseg %s (by decide +kernel))" % (W, cfg, pe, op[1], self.sqrt_wit(v["slot"]),
+                   " (eq_some_getD_cseg %s (by decide +kernel))" % (W, cfg, pe, op[1], self.sqrt_wit(v["slot"]).replace(
+                       "fun e =>", "fun (e : ℕ × SqrtWitness %s) =>" % CE.TY),
                                                                     fixed(v["r"]), SQD))
         pf = ["  case hop =>",
               "    rw [shadowStep_of_live 2 base.emb base.wit %s %s %s (by decide +kernel)," % (W, cfg, pe)]
-        pf += wrap((arm + " (by %s; exact %s)]" % (seed_rw, radn)).split(" "), "      ")
+        # the radius goal: one tactic per line (an inline `(by …; exact …)` wraps left of its block's column)
+        pf += wrap(arm.split(" "), "      ")
+        sr = wrap(seed_rw.split(" "), "            ")
+        sr[0] = "        " + sr[0].lstrip()
+        pf += ["      (by"] + sr + ["        exact %s)]" % radn]
         pf += ["  case hres =>", "    decide +kernel"]
         return head + common + pf
 
