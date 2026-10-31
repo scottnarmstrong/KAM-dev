@@ -9890,6 +9890,581 @@
     "frozen_paths": [],
     "audit_paths": []
    }
+  },
+  {
+   "id": "spinorbit.d40.soEcc.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner replies 'Approve all recommendations' (D40, 2026-10-30, on docs/tracks/SO/FREEZE-PROPOSAL-2.md Q1-Q11), the 2.755 % literal with rule B's tightness clause waived (D47) and 'yes freeze these numbers' (D49); docs/DECISIONS.md D40, D47, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@9517d71e (inp) docs/tracks/SO/FREEZE-PROPOSAL-2.md §1 (definition texts §1.1-§1.8 of docs/tracks/SO/FREEZE-PROPOSAL.md), literals of D47/D49; Celletti, Stability and Chaos in Celestial Mechanics (2010), eq. (7.55)",
+    "range": "FREEZE-PROPOSAL-2 §1.1 (model definitions, unchanged from FREEZE-PROPOSAL §1.1-§1.8); Celletti (7.55), e = 0.0549, eps = 3.45e-4"
+   },
+   "contract": {
+    "id": "spinorbit.soEcc",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Defs/SoEcc.lean",
+   "export": "KAM.SpinOrbit.soEcc",
+   "split_policy": {
+    "source_group": "spinorbit.soEcc",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D40, D47, D49"
+   },
+   "abi_sha256": "65e9f453942205cb210df8f1fb54519e6bcb406d9add3f87e5ddcf962339d82a",
+   "definition_closure": [],
+   "state": "SEALED",
+   "full_file_sha256": "d59bd3c3df45b160ec7219702efc19a5d1f0b63efdee004f10b13ad2fb3ab80a"
+  },
+  {
+   "id": "spinorbit.d40.soEps.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner replies 'Approve all recommendations' (D40, 2026-10-30, on docs/tracks/SO/FREEZE-PROPOSAL-2.md Q1-Q11), the 2.755 % literal with rule B's tightness clause waived (D47) and 'yes freeze these numbers' (D49); docs/DECISIONS.md D40, D47, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@9517d71e (inp) docs/tracks/SO/FREEZE-PROPOSAL-2.md §1 (definition texts §1.1-§1.8 of docs/tracks/SO/FREEZE-PROPOSAL.md), literals of D47/D49; Celletti, Stability and Chaos in Celestial Mechanics (2010), eq. (7.55)",
+    "range": "FREEZE-PROPOSAL-2 §1.1 (model definitions, unchanged from FREEZE-PROPOSAL §1.1-§1.8); Celletti (7.55), e = 0.0549, eps = 3.45e-4"
+   },
+   "contract": {
+    "id": "spinorbit.soEps",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Defs/SoEps.lean",
+   "export": "KAM.SpinOrbit.soEps",
+   "split_policy": {
+    "source_group": "spinorbit.soEps",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D40, D47, D49"
+   },
+   "abi_sha256": "27c5834addc5c77bf22d60788c3741791d0e5aded0055e48b3e5a9182a840868",
+   "definition_closure": [],
+   "state": "SEALED",
+   "full_file_sha256": "7b75cb0c3bcab687c9673464f71160d5293ee9b40aeaff33b4c7048b1550eb4a"
+  },
+  {
+   "id": "spinorbit.d40.soCoeffPoly.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner replies 'Approve all recommendations' (D40, 2026-10-30, on docs/tracks/SO/FREEZE-PROPOSAL-2.md Q1-Q11), the 2.755 % literal with rule B's tightness clause waived (D47) and 'yes freeze these numbers' (D49); docs/DECISIONS.md D40, D47, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@9517d71e (inp) docs/tracks/SO/FREEZE-PROPOSAL-2.md §1 (definition texts §1.1-§1.8 of docs/tracks/SO/FREEZE-PROPOSAL.md), literals of D47/D49; Celletti, Stability and Chaos in Celestial Mechanics (2010), eq. (7.55)",
+    "range": "FREEZE-PROPOSAL-2 §1.1 (model definitions, unchanged from FREEZE-PROPOSAL §1.1-§1.8); Celletti (7.55), e = 0.0549, eps = 3.45e-4"
+   },
+   "contract": {
+    "id": "spinorbit.soCoeffPoly",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Defs/SoCoeffPoly.lean",
+   "export": "KAM.SpinOrbit.soCoeffPoly",
+   "split_policy": {
+    "source_group": "spinorbit.soCoeffPoly",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D40, D47, D49"
+   },
+   "abi_sha256": "37382ab82ab9e28d93e4dbf704d2ea37eb31c9a1e399ed9f18c4f76b7fddc5b8",
+   "definition_closure": [],
+   "state": "SEALED",
+   "full_file_sha256": "f2b5e036c8593a5b6e4a9ccadd206fef5e3bea4df5526302b4918a7bc2f0e5b6"
+  },
+  {
+   "id": "spinorbit.d40.soA.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner replies 'Approve all recommendations' (D40, 2026-10-30, on docs/tracks/SO/FREEZE-PROPOSAL-2.md Q1-Q11), the 2.755 % literal with rule B's tightness clause waived (D47) and 'yes freeze these numbers' (D49); docs/DECISIONS.md D40, D47, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@9517d71e (inp) docs/tracks/SO/FREEZE-PROPOSAL-2.md §1 (definition texts §1.1-§1.8 of docs/tracks/SO/FREEZE-PROPOSAL.md), literals of D47/D49; Celletti, Stability and Chaos in Celestial Mechanics (2010), eq. (7.55)",
+    "range": "FREEZE-PROPOSAL-2 §1.1 (model definitions, unchanged from FREEZE-PROPOSAL §1.1-§1.8); Celletti (7.55), e = 0.0549, eps = 3.45e-4"
+   },
+   "contract": {
+    "id": "spinorbit.soA",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Defs/SoA.lean",
+   "export": "KAM.SpinOrbit.soA",
+   "split_policy": {
+    "source_group": "spinorbit.soA",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D40, D47, D49"
+   },
+   "abi_sha256": "4b0fc27216fdfcfedeaba8402561bb19a9e38c367feea4554081ca6de3b7417b",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoCoeffPoly.lean",
+     "sha256": "f2b5e036c8593a5b6e4a9ccadd206fef5e3bea4df5526302b4918a7bc2f0e5b6"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEcc.lean",
+     "sha256": "d59bd3c3df45b160ec7219702efc19a5d1f0b63efdee004f10b13ad2fb3ab80a"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "422dbf5d92591d780c8c66243e66f452c96149015b32b53ba9f135a91f82932e"
+  },
+  {
+   "id": "spinorbit.d40.soModes.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner replies 'Approve all recommendations' (D40, 2026-10-30, on docs/tracks/SO/FREEZE-PROPOSAL-2.md Q1-Q11), the 2.755 % literal with rule B's tightness clause waived (D47) and 'yes freeze these numbers' (D49); docs/DECISIONS.md D40, D47, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@9517d71e (inp) docs/tracks/SO/FREEZE-PROPOSAL-2.md §1 (definition texts §1.1-§1.8 of docs/tracks/SO/FREEZE-PROPOSAL.md), literals of D47/D49; Celletti, Stability and Chaos in Celestial Mechanics (2010), eq. (7.55)",
+    "range": "FREEZE-PROPOSAL-2 §1.1 (model definitions, unchanged from FREEZE-PROPOSAL §1.1-§1.8); Celletti (7.55), e = 0.0549, eps = 3.45e-4"
+   },
+   "contract": {
+    "id": "spinorbit.soModes",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Defs/SoModes.lean",
+   "export": "KAM.SpinOrbit.soModes",
+   "split_policy": {
+    "source_group": "spinorbit.soModes",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D40, D47, D49"
+   },
+   "abi_sha256": "50c5fa3573029713c2672612ad3238577e0078ba814777566cc27db8bb9de9c3",
+   "definition_closure": [],
+   "state": "SEALED",
+   "full_file_sha256": "0693e56af24d7c43e281cd143e70e8c3f01dd6d6b1da6ad051e261cd1b0188dc"
+  },
+  {
+   "id": "spinorbit.d40.soV.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner replies 'Approve all recommendations' (D40, 2026-10-30, on docs/tracks/SO/FREEZE-PROPOSAL-2.md Q1-Q11), the 2.755 % literal with rule B's tightness clause waived (D47) and 'yes freeze these numbers' (D49); docs/DECISIONS.md D40, D47, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@9517d71e (inp) docs/tracks/SO/FREEZE-PROPOSAL-2.md §1 (definition texts §1.1-§1.8 of docs/tracks/SO/FREEZE-PROPOSAL.md), literals of D47/D49; Celletti, Stability and Chaos in Celestial Mechanics (2010), eq. (7.55)",
+    "range": "FREEZE-PROPOSAL-2 §1.1 (model definitions, unchanged from FREEZE-PROPOSAL §1.1-§1.8); Celletti (7.55), e = 0.0549, eps = 3.45e-4"
+   },
+   "contract": {
+    "id": "spinorbit.soV",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Defs/SoV.lean",
+   "export": "KAM.SpinOrbit.soV",
+   "split_policy": {
+    "source_group": "spinorbit.soV",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D40, D47, D49"
+   },
+   "abi_sha256": "2da5bf701745baf86e234efdacc64cdfd86361225265ab86c9ba524578772d08",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoA.lean",
+     "sha256": "422dbf5d92591d780c8c66243e66f452c96149015b32b53ba9f135a91f82932e"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoCoeffPoly.lean",
+     "sha256": "f2b5e036c8593a5b6e4a9ccadd206fef5e3bea4df5526302b4918a7bc2f0e5b6"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEcc.lean",
+     "sha256": "d59bd3c3df45b160ec7219702efc19a5d1f0b63efdee004f10b13ad2fb3ab80a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEps.lean",
+     "sha256": "7b75cb0c3bcab687c9673464f71160d5293ee9b40aeaff33b4c7048b1550eb4a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoModes.lean",
+     "sha256": "0693e56af24d7c43e281cd143e70e8c3f01dd6d6b1da6ad051e261cd1b0188dc"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "f8ced7718e330ec3cf11774ff6eb63b690f18bb600663f25c09524c926569784"
+  },
+  {
+   "id": "spinorbit.d40.soField.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner replies 'Approve all recommendations' (D40, 2026-10-30, on docs/tracks/SO/FREEZE-PROPOSAL-2.md Q1-Q11), the 2.755 % literal with rule B's tightness clause waived (D47) and 'yes freeze these numbers' (D49); docs/DECISIONS.md D40, D47, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@9517d71e (inp) docs/tracks/SO/FREEZE-PROPOSAL-2.md §1 (definition texts §1.1-§1.8 of docs/tracks/SO/FREEZE-PROPOSAL.md), literals of D47/D49; Celletti, Stability and Chaos in Celestial Mechanics (2010), eq. (7.55)",
+    "range": "FREEZE-PROPOSAL-2 §1.1 (model definitions, unchanged from FREEZE-PROPOSAL §1.1-§1.8); Celletti (7.55), e = 0.0549, eps = 3.45e-4"
+   },
+   "contract": {
+    "id": "spinorbit.soField",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Defs/SoField.lean",
+   "export": "KAM.SpinOrbit.soField",
+   "split_policy": {
+    "source_group": "spinorbit.soField",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D40, D47, D49"
+   },
+   "abi_sha256": "8201e171233188fecf7ed819919466ddd7b929300c9ebe5190cbda88fe4f2bb3",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoA.lean",
+     "sha256": "422dbf5d92591d780c8c66243e66f452c96149015b32b53ba9f135a91f82932e"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoCoeffPoly.lean",
+     "sha256": "f2b5e036c8593a5b6e4a9ccadd206fef5e3bea4df5526302b4918a7bc2f0e5b6"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEcc.lean",
+     "sha256": "d59bd3c3df45b160ec7219702efc19a5d1f0b63efdee004f10b13ad2fb3ab80a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEps.lean",
+     "sha256": "7b75cb0c3bcab687c9673464f71160d5293ee9b40aeaff33b4c7048b1550eb4a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoModes.lean",
+     "sha256": "0693e56af24d7c43e281cd143e70e8c3f01dd6d6b1da6ad051e261cd1b0188dc"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoV.lean",
+     "sha256": "f8ced7718e330ec3cf11774ff6eb63b690f18bb600663f25c09524c926569784"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "82d70590beec180e5151c644d7cb37b4e61f2d8e150e023a4a507386a43c497b"
+  },
+  {
+   "id": "spinorbit.d40.SoBarrier.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner replies 'Approve all recommendations' (D40, 2026-10-30, on docs/tracks/SO/FREEZE-PROPOSAL-2.md Q1-Q11), the 2.755 % literal with rule B's tightness clause waived (D47) and 'yes freeze these numbers' (D49); docs/DECISIONS.md D40, D47, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@9517d71e (inp) docs/tracks/SO/FREEZE-PROPOSAL-2.md §1 (definition texts §1.1-§1.8 of docs/tracks/SO/FREEZE-PROPOSAL.md), literals of D47/D49; Celletti, Stability and Chaos in Celestial Mechanics (2010), eq. (7.55)",
+    "range": "FREEZE-PROPOSAL-2 §1.1 (FREEZE-PROPOSAL §1.8; invariance written out, D-SOF-1)"
+   },
+   "contract": {
+    "id": "spinorbit.SoBarrier",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Defs/SoBarrier.lean",
+   "export": "KAM.SpinOrbit.SoBarrier",
+   "split_policy": {
+    "source_group": "spinorbit.SoBarrier",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D40, D47, D49"
+   },
+   "abi_sha256": "95b8c0567f81a4fa58cd2c6a75f9c706df77ab1761d0d4bca69b905dffeef8d8",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoA.lean",
+     "sha256": "422dbf5d92591d780c8c66243e66f452c96149015b32b53ba9f135a91f82932e"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoCoeffPoly.lean",
+     "sha256": "f2b5e036c8593a5b6e4a9ccadd206fef5e3bea4df5526302b4918a7bc2f0e5b6"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEcc.lean",
+     "sha256": "d59bd3c3df45b160ec7219702efc19a5d1f0b63efdee004f10b13ad2fb3ab80a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEps.lean",
+     "sha256": "7b75cb0c3bcab687c9673464f71160d5293ee9b40aeaff33b4c7048b1550eb4a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoField.lean",
+     "sha256": "82d70590beec180e5151c644d7cb37b4e61f2d8e150e023a4a507386a43c497b"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoModes.lean",
+     "sha256": "0693e56af24d7c43e281cd143e70e8c3f01dd6d6b1da6ad051e261cd1b0188dc"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoV.lean",
+     "sha256": "f8ced7718e330ec3cf11774ff6eb63b690f18bb600663f25c09524c926569784"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "800b81e4d9614bc80afefecdcc81a52c6a6d89af832e9a69397c8839ffa26162"
+  },
+  {
+   "id": "spinorbit.d40.lunarPLo.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner replies 'Approve all recommendations' (D40, 2026-10-30, on docs/tracks/SO/FREEZE-PROPOSAL-2.md Q1-Q11), the 2.755 % literal with rule B's tightness clause waived (D47) and 'yes freeze these numbers' (D49); docs/DECISIONS.md D40, D47, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@9517d71e (inp) docs/tracks/SO/FREEZE-PROPOSAL-2.md §1 (definition texts §1.1-§1.8 of docs/tracks/SO/FREEZE-PROPOSAL.md), literals of D47/D49; Celletti, Stability and Chaos in Celestial Mechanics (2010), eq. (7.55)",
+    "range": "FREEZE-PROPOSAL-2 §1.2, rule W; literal 9934/10000 (D47/D49); constant window O1 (D-SOF-2)"
+   },
+   "contract": {
+    "id": "spinorbit.lunarPLo",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Defs/LunarPLo.lean",
+   "export": "KAM.SpinOrbit.lunarPLo",
+   "split_policy": {
+    "source_group": "spinorbit.lunarPLo",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D40, D47, D49"
+   },
+   "abi_sha256": "aa9b2a72788933782eb53fbf611f886d4d3555fa96bf152667ec2953c1b7b254",
+   "definition_closure": [],
+   "state": "SEALED",
+   "full_file_sha256": "56c38a694b6bdec4828856cf1b143d072b59bb6856e72dc8136bdcc3619bd261"
+  },
+  {
+   "id": "spinorbit.d40.lunarPHi.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner replies 'Approve all recommendations' (D40, 2026-10-30, on docs/tracks/SO/FREEZE-PROPOSAL-2.md Q1-Q11), the 2.755 % literal with rule B's tightness clause waived (D47) and 'yes freeze these numbers' (D49); docs/DECISIONS.md D40, D47, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@9517d71e (inp) docs/tracks/SO/FREEZE-PROPOSAL-2.md §1 (definition texts §1.1-§1.8 of docs/tracks/SO/FREEZE-PROPOSAL.md), literals of D47/D49; Celletti, Stability and Chaos in Celestial Mechanics (2010), eq. (7.55)",
+    "range": "FREEZE-PROPOSAL-2 §1.2, rule W; literal 10066/10000 (D47/D49); constant window O1 (D-SOF-2)"
+   },
+   "contract": {
+    "id": "spinorbit.lunarPHi",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Defs/LunarPHi.lean",
+   "export": "KAM.SpinOrbit.lunarPHi",
+   "split_policy": {
+    "source_group": "spinorbit.lunarPHi",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D40, D47, D49"
+   },
+   "abi_sha256": "cd2ad51619d95842dc9deb6b2f13edc1471a35fa3b781f583f9101e4dae6a2bc",
+   "definition_closure": [],
+   "state": "SEALED",
+   "full_file_sha256": "332da77a9524791ed9776b6b4c1f9386105483270e0c3f22865197af1f314d2a"
+  },
+  {
+   "id": "spinorbit.d40.lunar_barriers.v1",
+   "kind": "theorem",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner replies 'Approve all recommendations' (D40, 2026-10-30, on docs/tracks/SO/FREEZE-PROPOSAL-2.md Q1-Q11), the 2.755 % literal with rule B's tightness clause waived (D47) and 'yes freeze these numbers' (D49); docs/DECISIONS.md D40, D47, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@9517d71e (inp) docs/tracks/SO/FREEZE-PROPOSAL-2.md §1 (definition texts §1.1-§1.8 of docs/tracks/SO/FREEZE-PROPOSAL.md), literals of D47/D49; Celletti, Stability and Chaos in Celestial Mechanics (2010), eq. (7.55)",
+    "range": "FREEZE-PROPOSAL-2 §1.3 Theorem A, band [97245/100000, 102755/100000] (D47/D49); D-SOF-3"
+   },
+   "contract": {
+    "id": "spinorbit.lunar_barriers",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Theorems/LunarBarriers.lean",
+   "export": "KAM.SpinOrbit.lunar_barriers",
+   "split_policy": {
+    "source_group": "spinorbit.lunar_barriers",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D40, D47, D49"
+   },
+   "abi_sha256": "65230c7382ca07c9a69a6d51cf06a520f9589d5fa0e3ec155a9415f23bead7f8",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/LunarPHi.lean",
+     "sha256": "332da77a9524791ed9776b6b4c1f9386105483270e0c3f22865197af1f314d2a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/LunarPLo.lean",
+     "sha256": "56c38a694b6bdec4828856cf1b143d072b59bb6856e72dc8136bdcc3619bd261"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoA.lean",
+     "sha256": "422dbf5d92591d780c8c66243e66f452c96149015b32b53ba9f135a91f82932e"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoBarrier.lean",
+     "sha256": "800b81e4d9614bc80afefecdcc81a52c6a6d89af832e9a69397c8839ffa26162"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoCoeffPoly.lean",
+     "sha256": "f2b5e036c8593a5b6e4a9ccadd206fef5e3bea4df5526302b4918a7bc2f0e5b6"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEcc.lean",
+     "sha256": "d59bd3c3df45b160ec7219702efc19a5d1f0b63efdee004f10b13ad2fb3ab80a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEps.lean",
+     "sha256": "7b75cb0c3bcab687c9673464f71160d5293ee9b40aeaff33b4c7048b1550eb4a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoField.lean",
+     "sha256": "82d70590beec180e5151c644d7cb37b4e61f2d8e150e023a4a507386a43c497b"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoModes.lean",
+     "sha256": "0693e56af24d7c43e281cd143e70e8c3f01dd6d6b1da6ad051e261cd1b0188dc"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoV.lean",
+     "sha256": "f8ced7718e330ec3cf11774ff6eb63b690f18bb600663f25c09524c926569784"
+    }
+   ],
+   "implementation": {
+    "module": "KAM.Provider.SpinOrbit.LunarBarriers",
+    "export": "KAM.Provider.SpinOrbit.lunar_barriers"
+   },
+   "state": "SEALED",
+   "prefix_sha256": "916afb3874c6439113725b48bba522342ac9737c4914e2749cf7d7e68c1715c3",
+   "suffix_sha256": "82fffec8a7bd503242e8ee1117e463982ec052c8e1b2de510fef566b666e802f",
+   "draft_allowlist": {
+    "frozen_paths": [],
+    "audit_paths": []
+   }
+  },
+  {
+   "id": "spinorbit.d40.lunar_spin_confinement.v1",
+   "kind": "theorem",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner replies 'Approve all recommendations' (D40, 2026-10-30, on docs/tracks/SO/FREEZE-PROPOSAL-2.md Q1-Q11), the 2.755 % literal with rule B's tightness clause waived (D47) and 'yes freeze these numbers' (D49); docs/DECISIONS.md D40, D47, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@9517d71e (inp) docs/tracks/SO/FREEZE-PROPOSAL-2.md §1 (definition texts §1.1-§1.8 of docs/tracks/SO/FREEZE-PROPOSAL.md), literals of D47/D49; Celletti, Stability and Chaos in Celestial Mechanics (2010), eq. (7.55)",
+    "range": "FREEZE-PROPOSAL-2 §1.3 Theorem B, bound 2755/100000 (D47/D49); D-SOF-3, D-SOF-4"
+   },
+   "contract": {
+    "id": "spinorbit.lunar_spin_confinement",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Theorems/LunarSpinConfinement.lean",
+   "export": "KAM.SpinOrbit.lunar_spin_confinement",
+   "split_policy": {
+    "source_group": "spinorbit.lunar_spin_confinement",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D40, D47, D49"
+   },
+   "abi_sha256": "1024652814efd6d51aa5477400d573c54432bf9eb60607830da285b354dc88de",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/LunarPHi.lean",
+     "sha256": "332da77a9524791ed9776b6b4c1f9386105483270e0c3f22865197af1f314d2a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/LunarPLo.lean",
+     "sha256": "56c38a694b6bdec4828856cf1b143d072b59bb6856e72dc8136bdcc3619bd261"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoA.lean",
+     "sha256": "422dbf5d92591d780c8c66243e66f452c96149015b32b53ba9f135a91f82932e"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoCoeffPoly.lean",
+     "sha256": "f2b5e036c8593a5b6e4a9ccadd206fef5e3bea4df5526302b4918a7bc2f0e5b6"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEcc.lean",
+     "sha256": "d59bd3c3df45b160ec7219702efc19a5d1f0b63efdee004f10b13ad2fb3ab80a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEps.lean",
+     "sha256": "7b75cb0c3bcab687c9673464f71160d5293ee9b40aeaff33b4c7048b1550eb4a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoField.lean",
+     "sha256": "82d70590beec180e5151c644d7cb37b4e61f2d8e150e023a4a507386a43c497b"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoModes.lean",
+     "sha256": "0693e56af24d7c43e281cd143e70e8c3f01dd6d6b1da6ad051e261cd1b0188dc"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoV.lean",
+     "sha256": "f8ced7718e330ec3cf11774ff6eb63b690f18bb600663f25c09524c926569784"
+    }
+   ],
+   "implementation": {
+    "module": "KAM.Provider.SpinOrbit.LunarSpinConfinement",
+    "export": "KAM.Provider.SpinOrbit.lunar_spin_confinement"
+   },
+   "state": "SEALED",
+   "prefix_sha256": "494e71d4ea5b5242b576c80da92e069a0edb04e9e7065465aa66ae3dfbedb5ab",
+   "suffix_sha256": "82fffec8a7bd503242e8ee1117e463982ec052c8e1b2de510fef566b666e802f",
+   "draft_allowlist": {
+    "frozen_paths": [],
+    "audit_paths": []
+   }
+  },
+  {
+   "id": "spinorbit.d40.lunarPLo_lt_lunarPHi.v1",
+   "kind": "theorem",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner replies 'Approve all recommendations' (D40, 2026-10-30, on docs/tracks/SO/FREEZE-PROPOSAL-2.md Q1-Q11), the 2.755 % literal with rule B's tightness clause waived (D47) and 'yes freeze these numbers' (D49); docs/DECISIONS.md D40, D47, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@9517d71e (inp) docs/tracks/SO/FREEZE-PROPOSAL-2.md §1 (definition texts §1.1-§1.8 of docs/tracks/SO/FREEZE-PROPOSAL.md), literals of D47/D49; Celletti, Stability and Chaos in Celestial Mechanics (2010), eq. (7.55)",
+    "range": "FREEZE-PROPOSAL-2 §1.3 non-vacuity of the window (Q1, R4)"
+   },
+   "contract": {
+    "id": "spinorbit.lunarPLo_lt_lunarPHi",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Theorems/LunarWindow.lean",
+   "export": "KAM.SpinOrbit.lunarPLo_lt_lunarPHi",
+   "split_policy": {
+    "source_group": "spinorbit.lunarPLo_lt_lunarPHi",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D40, D47, D49"
+   },
+   "abi_sha256": "2072d9a341480545df396b56c0030e0e04d4dd8db990a2ebdd3367e12c25b436",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/LunarPHi.lean",
+     "sha256": "332da77a9524791ed9776b6b4c1f9386105483270e0c3f22865197af1f314d2a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/LunarPLo.lean",
+     "sha256": "56c38a694b6bdec4828856cf1b143d072b59bb6856e72dc8136bdcc3619bd261"
+    }
+   ],
+   "implementation": {
+    "module": "KAM.Provider.SpinOrbit.LunarWindow",
+    "export": "KAM.Provider.SpinOrbit.lunarPLo_lt_lunarPHi"
+   },
+   "state": "SEALED",
+   "prefix_sha256": "33bf78fa53593c3afab7bb59152f183fbda5e5a1e826d3b02e670478976beb7b",
+   "suffix_sha256": "82fffec8a7bd503242e8ee1117e463982ec052c8e1b2de510fef566b666e802f",
+   "draft_allowlist": {
+    "frozen_paths": [],
+    "audit_paths": []
+   }
   }
  ]
 }

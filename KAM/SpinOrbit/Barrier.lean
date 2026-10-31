@@ -6,6 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.SpinOrbit.Model
+public import KAM.Frozen.SpinOrbit.Defs.SoBarrier
 public import KAM.ODE.Exit
 public import KAM.ODE.Continuation
 public import KAM.ODE.Maximal
@@ -15,8 +16,9 @@ public import KAM.ODE.Maximal
 
 Unfrozen helper code.
 
-* `SoBarrier lo hi`: an invariant continuous doubly periodic graph `p = P(q, φ)` of the flow of
-  `soField` with values in `[lo, hi]`.
+* `SoBarrier lo hi` (frozen, decision D40; `KAM/Frozen/SpinOrbit/Defs/SoBarrier.lean`): an invariant
+  continuous doubly periodic graph `p = P(q, φ)` of the flow of `soField` with values in `[lo, hi]`.
+  `SoBarrier.isInvariantSet` restates its invariance as `KAM.ODE.IsInvariantSet`.
 * `soField_contDiff`, `soVq_abs_le`: `soField` is `C¹` and its force is bounded (the field is
   globally Lipschitz and of linear growth in `p`).
 * `soSolution_norm_le`: an a priori bound on `[-T, T]` for every solution.
@@ -32,15 +34,19 @@ open scoped NNReal
 
 namespace KAM.SpinOrbit
 
-/-- An invariant barrier graph `p = P(q, φ)` of the physical flow with values in `[lo, hi]`. -/
-structure SoBarrier (lo hi : ℝ) where
-  P : ℝ → ℝ → ℝ
-  continuous : Continuous fun x : ℝ × ℝ => P x.1 x.2
-  periodic_q : ∀ q φ, P (q + 1) φ = P q φ
-  periodic_φ : ∀ q φ, P q (φ + 1) = P q φ
-  invariant : KAM.ODE.IsInvariantSet soField Set.univ {x | x.2.1 = P x.1 x.2.2}
-  lower : ∀ q φ, lo ≤ P q φ
-  upper : ∀ q φ, P q φ ≤ hi
+/-- The invariance of a barrier graph in the form of `KAM.ODE.IsInvariantSet` (the frozen field
+drops the trivial `y t ∈ univ`). -/
+theorem SoBarrier.isInvariantSet {lo hi : ℝ} (B : SoBarrier lo hi) :
+    KAM.ODE.IsInvariantSet soField Set.univ {x | x.2.1 = B.P x.1 x.2.2} :=
+  fun J y hJ hy t₁ ht₁ h t ht => B.invariant J y hJ (fun s hs => (hy s hs).2) t₁ ht₁ h t ht
+
+/-- A barrier graph from the invariance in the form of `KAM.ODE.IsInvariantSet`. -/
+theorem SoBarrier.invariant_of_isInvariantSet {P : ℝ → ℝ → ℝ}
+    (h : KAM.ODE.IsInvariantSet soField Set.univ {x | x.2.1 = P x.1 x.2.2}) :
+    ∀ (J : Set ℝ) (y : ℝ → ℝ × ℝ × ℝ), J.OrdConnected →
+      (∀ t ∈ J, HasDerivAt y (soField (y t)) t) →
+      ∀ t₁ ∈ J, (y t₁).2.1 = P (y t₁).1 (y t₁).2.2 → ∀ t ∈ J, (y t).2.1 = P (y t).1 (y t).2.2 :=
+  fun J y hJ hy t₁ ht₁ h' t ht => h J y hJ (fun s hs => ⟨Set.mem_univ _, hy s hs⟩) t₁ ht₁ h' t ht
 
 /-! ### The field: smoothness and a force bound -/
 
@@ -210,7 +216,7 @@ theorem so_confinement {lo₁ hi₁ lo₂ hi₂ : ℝ} (B₁ : SoBarrier lo₁ h
       ((isClosed_le hc₁ hp).inter (isClosed_le hp hc₂))
   have hsol : KAM.ODE.IsSolutionIn soField univ univ z := KAM.ODE.isSolutionIn_univ_iff.2
     fun t _ => hzd t
-  have hS := KAM.ODE.isInvariantSet_union B₁.invariant B₂.invariant
+  have hS := KAM.ODE.isInvariantSet_union B₁.isInvariantSet B₂.isInvariantSet
   have key := KAM.ODE.gen_barrier (F := soField) (W := univ) ordConnected_univ (mem_univ (0 : ℝ))
     hsol hVo (by rw [hz0]; exact ⟨h₁, h₂⟩) (G := univ) (subset_univ _)
     (S := {x | x.2.1 = B₁.P x.1 x.2.2} ∪ {x | x.2.1 = B₂.P x.1 x.2.2}) hS

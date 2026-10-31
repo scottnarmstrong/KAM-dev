@@ -258,7 +258,8 @@ theorem soBarrier_of_torus {Q Pp dQ : ℝ → ℝ → ℝ} {ν c m lo hi : ℝ} 
     Nonempty (SoBarrier lo hi) := by
   have T : SoGraph.Torus Q Pp dQ ν c m :=
     ⟨hm, hQc, hPc, hQ₀, hQ₁, hP₀, hP₁, hdQ, hmono, hflowQ, hflowP⟩
-  refine ⟨⟨T.soGraphFun, T.continuous_soGraphFun, fun q φ => ?_, fun q φ => ?_, T.soGraph_invariant,
+  refine ⟨⟨T.soGraphFun, T.continuous_soGraphFun, fun q φ => ?_, fun q φ => ?_,
+    SoBarrier.invariant_of_isInvariantSet T.soGraph_invariant,
     fun q φ => hlo _ _, fun q φ => hhi _ _⟩⟩
   · unfold SoGraph.Torus.soGraphFun
     rw [T.soGraphInv_add_one, hP₀]
