@@ -195,27 +195,26 @@ def emit_cert(tree, c, g):
         return ["⟨" + rl(W.rho)[0] + ","] + ["  " + l for l in rl(W.w)] + ["⟩"]
 
     body += ["", "def weight : CertWeight :="] + ["  " + l for l in wt(c.weight)]
-    body += ["", "def weightH : CertWeight :="] + ["  " + l for l in wt(c.weightH)]
-    for nm, cfg, adv in (("cfgFull", c.cfgFull, "advFull"), ("cfgLow", c.cfgLow, "advLow")):
-        body += ["", "def %s : ModelConfig %s :=" % (nm, TY),
-                 "  ⟨%d, %d, %d, CertFixed.toMant lockPrecision, %s⟩" % (cfg.cutoff, cfg.taylorN, cfg.halvings,
-                                                                          adv)]
     names = dict(tau="tau", rho="rho", rhoInf="rhoInf", M="M", sK="σK", sB="σB", sT="σT", mu="μ", gbar="γbar",
                  som="σω", nu="nuRay", gamma="γ", s="s", err="err", E0="E0", disp="disp")
     body += ["", "/-- The parameters (LOCK-DATA sizing: exact mirrors; `lock_gen.py`). -/",
              "def params : CertParams where"]
     for k, ln in names.items():
         body += ["  %s := %s" % (ln, rl(p[k])[0] if k != "tau" else str(int(p[k])))]
-    body += ["", "/-- The Hamiltonian's time scale `c = κ s` (`κ = 1`). -/",
-             "def hamScale : ℚ := %s" % SL.q_lit(c.hamScale)]
+    tree.write("Params", [SL.FORMAT], "The N = 65 lock: box, weight and parameters (generated)",
+               "The light part of the certificate (no model data), imported by the bite and core checks.\n" + GEN,
+               body)
+    body = []
+    for nm, cfg, adv in (("cfgFull", c.cfgFull, "advFull"), ("cfgLow", c.cfgLow, "advLow")):
+        body += ["", "def %s : ModelConfig %s :=" % (nm, TY),
+                 "  ⟨%d, %d, %d, CertFixed.toMant lockPrecision, %s⟩" % (cfg.cutoff, cfg.taylorN, cfg.halvings,
+                                                                          adv)]
     body += ["", "/-- The torus certificate. -/", "def base : TorusCertificate 2 %s where" % TY,
-             "  params := params", "  ham := .mul (.const hamScale) (lockHamExpr (8 / 65) lunarLockCentre)",
-             "  weightH := weightH",
-             "  centre := [%s]" % ", ".join(rl(x)[0] for x in c.centre),
-             "  radius := [%s]" % ", ".join(rl(x)[0] for x in c.radius),
+             "  params := params", "  ham := lockHam",
+             "  weightH := lockWH", "  centre := lockCentre", "  radius := lockRadius",
              "  freqBox := freqBox", "  emb := emb", "  weight := weight", "  wit := wit",
              "  gramInv := gramInv", "  torsInv := torsInv", "  cfgFull := cfgFull", "  cfgLow := cfgLow",
-             "  piEnc := piEnc", "  expHalvings := %d" % c.expHalvings, "  expOrder := %d" % c.expOrder]
+             "  piEnc := piEnc", "  expHalvings := %d" % c.expHalvings, "  expOrder := lockTaylor"]
     gr = g["graph"]
     body += ["", "/-- The graph certificate. -/", "def graph : SoGraphCert %s where" % TY, "  base := base"]
     for k in ("mono", "mono0", "pLo", "pLo0", "pHi", "pHi0"):
@@ -223,7 +222,8 @@ def emit_cert(tree, c, g):
     body += ["  sosMono := sosMonoPoly", "  sosLo := sosLoPoly", "  sosHi := sosHiPoly"]
     body += ["", "/-- The lock certificate. -/", "def cert : LockGraphCert %s where" % TY, "  graph := graph",
              "  Ω := 8 / 65", "  cs := lunarLockCentre", "  κ := hamScale"]
-    tree.write("Cert", [tree.module("Pieces"), "KAM.SpinOrbit.Lock.Graph"],
+    tree.write("Cert", [tree.module("Pieces"), tree.module("Params"), tree.module("Domain"), tree.module("Jet"),
+                        "KAM.SpinOrbit.Lock.Graph"],
                "The N = 65 lock: the certificate (generated)",
                "Parameters, Hamiltonian, frequency box, weights, model configurations and graph data.\n" + GEN,
                body, opens="KAM.Certificate KAM.SpinOrbit KAM.SpinOrbit.Lock")
