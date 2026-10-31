@@ -302,11 +302,13 @@ def _split_aux(self, rel, body, imports, ns):
     for b in blocks:
         m = re.match(r"^theorem (\S+A\d+) :", b[0])
         if m and b[0].startswith("theorem "):
-            while b and b[-1].strip() == "":
+            tail = []
+            while b and (b[-1].strip() == "" or b[-1].lstrip().startswith("/--")):
+                tail.insert(0, b[-1])
                 b = b[:-1]
             mods.append(_tree_write(self, "%sAux%s" % (rel, m.group(1).rsplit("A", 1)[1]), imports,
                                     "Side check %s" % m.group(1), "One kernel run.", b, heavy=True, ns=ns))
-            keep.append("")
+            keep.extend([""] + tail)
         else:
             keep.extend(b)
     return keep, mods
