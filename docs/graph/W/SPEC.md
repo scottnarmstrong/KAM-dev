@@ -451,6 +451,22 @@ SOURCE line.
   only on the placeholders `GLOBAL_REVIEWER` and `GLOBAL_REVIEW_REF`, which await the global review `sol-global-W`
   (GLOBAL-BRIEF.md).
 
+- **2026-10-31, global review 1** (`sol-global-W`, docs/graph/W/reviews/GLOBAL-review.md): FAIL on G1–G3 only. The root
+  correspondence and the frozen-order assembly pass.
+  - G1: the reviewer's 121 direct section-data edges were applied verbatim: 81 to `bpW:w3#data`, 24 to `bpW:w5#data`,
+    15 to `bpW:w7#data` or `#base` consumers, and 1 to `bpW:w8#data`. Applying the same rule consistently, the writer
+    added 28 edges to `bpW:w7:basic#data`, one for each record whose SOURCE_HYPOTHESES names that package (W7 zone,
+    separation, preparatory and iteration steps, plus `bpW:w7:measurable`). No other package is invoked without an edge.
+  - G3: `stepW:w1:hacoef` is now W's own Banach-target adaptation, with K provenance in its NOTE; the reviewer's
+    block was applied. `K:bp:p1:holomorphic-analytic` is removed from W-imports, and its coverage item is EXCLUDED as
+    proof provenance. W now has 3 imports.
+  - G2 (ruling root-b8, option (a)): four append-only K amendments (K-A045 to K-A048) are staged in
+    `docs/graph/K/AMENDMENTS-W-PENDING.md`. They make K's Part 1 typing conventions explicit in the source premises
+    of the K nodes. They will be appended to `docs/graph/K/AMENDMENTS.md` after an independent review
+    (`sol-kamend-W`). The consumption check found that all three remaining W uses of K imports are scalar, so they
+    satisfy the finite-dimensional premise.
+  - GLOBAL-BRIEF: the step count is corrected to 16 conjunct steps plus assembly.
+
 ## Wave-2 plan (proposed 2026-10-30; extraction starts on the sub-orchestrator's go)
 - **Corpus.**
   - Once W4–W8 are accepted and on inp, merge inp again.

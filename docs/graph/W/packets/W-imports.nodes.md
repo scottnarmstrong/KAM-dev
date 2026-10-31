@@ -50,32 +50,6 @@ LEAN_REF: -
 LEAN_NOTE: -
 NOTE: IMPORTED: proved in the track-K graph, node bp:p1:fourier-basic; shared Lean provider. There: KIND lemma, contract bp:p1:fourier-basic v1. Source-context correction proposed by sol-review-W-imports: these inherited typing data are explicit in blueprint/parts/p1-analysis.tex L24-L47. The input four fields were exact copies of K; the upstream K record needs the same review before a regenerated import can again be an exact copy.
 
-NODE: K:bp:p1:holomorphic-analytic
-KIND: external
-TITLE: [K] Holomorphic maps are analytic
-STATEMENT_SOURCE: blueprint/parts/p1-analysis.tex#bp:p1:holomorphic-analytic@L296-L312
-PROOF_SOURCE: -
-CONTRACT_ID: K:bp:p1:holomorphic-analytic
-CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: typing convention K p1 L24-L32: W is a finite-dimensional complex normed space; m is a natural-number dimension; U in C^m open; F:U->W holomorphic; (a) z_0 in U, r>0 with P-bar(z_0,r) in U, A=max_{P-bar(z_0,r)}|F|; (b) U_R=U cap R^m, x_0 in U_R; W=C^p and F(U_R) in R^p for the real clause
-SOURCE_QUANTIFIERS: F,U,W,m; then z_0,r (A determined); alpha in N^m
-SOURCE_CONCLUSION: (a) exist c_alpha in W with |c_alpha|<=A r^-|alpha| and F(z)=sum_alpha c_alpha (z-z_0)^alpha on P(z_0,r), absolutely convergent; F analytic on U; (b) F|U_R real-analytic near each x_0 (power series in x-x_0, absolutely convergent); real coefficients if W=C^p and F(U_R) in R^p
-CONSTANT_SCOPE: c_alpha depends on F,z_0,r only
-FROZEN_FILE: -
-FROZEN_DECL: -
-FROZEN_ANCHOR_ID: -
-FROZEN_ABI_SHA256: -
-DEPS: -
-ROUTES: -
-ROUTE_FOR: -
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W+sol-review-W-imports
-REVIEWER: sol-delta-W-imports
-LEAN_STATUS: EXTERNAL
-LEAN_REF: -
-LEAN_NOTE: -
-NOTE: IMPORTED: proved in the track-K graph, node bp:p1:holomorphic-analytic; shared Lean provider. There: KIND lemma, contract bp:p1:holomorphic-analytic v1. Source-context correction proposed by sol-review-W-imports: these inherited typing data are explicit in blueprint/parts/p1-analysis.tex L24-L47. The input four fields were exact copies of K; the upstream K record needs the same review before a regenerated import can again be an exact copy.
-
 NODE: K:bp:p1:strip-identity
 KIND: external
 TITLE: [K] Identity theorem on strips

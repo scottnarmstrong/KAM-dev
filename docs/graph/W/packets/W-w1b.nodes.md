@@ -843,20 +843,19 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: stepW:w1:hamargin, K:bp:p1:holomorphic-analytic, bpW:w1:ext-onevar, bpW:w1:ext-integral
+DEPS: stepW:w1:hamargin, bpW:w1:ext-onevar, bpW:w1:ext-integral
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:hamargin | blueprint-W/parts/w1-sequences.tex#stepW:w1:hacoef@L831-L831 | the radius r_1 and the bound M_1
-EDGE: K:bp:p1:holomorphic-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:hacoef@L830-L830 | K's Cauchy-coefficient argument (steps han-cauchy..han-bounds), applied with W replaced by the complete F
 EDGE: bpW:w1:ext-onevar | blueprint-W/parts/w1-sequences.tex#stepW:w1:hacoef@L833-L833 | the one-variable Cauchy formula for complete F
 EDGE: bpW:w1:ext-integral | blueprint-W/parts/w1-sequences.tex#stepW:w1:hacoef@L835-L835 | Fubini and termwise integration of Bochner integrals on the torus
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w1b
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: Uses the proof of track K's Lemma bp:p1:holomorphic-analytic (steps han-cauchy to han-bounds) with radius r_1 and K's target W replaced by the complete space F (a carrier change); the text justifies the transfer (L833-L835: only the one-variable Cauchy formula for complete F and Bochner integration on the domain torus are used). Reviewer: check that the import and the two externals cover the transfer.
+NOTE: W owns the complete-target Cauchy coefficient argument described at L829-L835. The finite-dimensional K theorem is not applied to F; its han-cauchy through han-bounds proof is provenance for this local adaptation. The external Cauchy formula and Bochner integration supply the transfer. This is the SPEC proof-reuse case, not an imported theorem application.
 
 NODE: stepW:w1:hagroup
 KIND: step

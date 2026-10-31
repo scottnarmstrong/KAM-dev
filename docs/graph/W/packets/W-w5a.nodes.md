@@ -94,16 +94,17 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w5:setting, stepW:w5:ombd, stepW:w5:omnd, stepW:w5:omnorm
+DEPS: bpW:w5:setting, stepW:w5:ombd, stepW:w5:omnd, stepW:w5:omnorm, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:setting | blueprint-W/parts/w5-kamstep.tex#bpW:w5:omega@L90-L90 | varpi and the norms
 EDGE: stepW:w5:ombd | blueprint-W/parts/w5-kamstep.tex#bpW:w5:omega@L95-L95 | proof step
 EDGE: stepW:w5:omnd | blueprint-W/parts/w5-kamstep.tex#bpW:w5:omega@L97-L97 | proof step
 EDGE: stepW:w5:omnorm | blueprint-W/parts/w5-kamstep.tex#bpW:w5:omega@L100-L100 | proof step
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#bpW:w5:omega@L89-L93 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -124,13 +125,14 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w4:index
+DEPS: bpW:w4:index, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:index | blueprint-W/parts/w5-kamstep.tex#stepW:w5:ombd@L96-L96 | (bpW:w4:pairing)
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:ombd@L95-L96 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -151,12 +153,13 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: -
+DEPS: bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:omnd@L97-L99 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -177,13 +180,14 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:embed
+DEPS: bpW:w1:embed, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:embed | blueprint-W/parts/w5-kamstep.tex#stepW:w5:omnorm@L100-L100 | weights increase with q
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:omnorm@L100-L101 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -204,16 +208,17 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:holomorphic, bpW:w5:setting, bpW:w5:omega, bpW:w4:taylor
+DEPS: bpW:w1:holomorphic, bpW:w5:setting, bpW:w5:omega, bpW:w4:taylor, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:holomorphic | blueprint-W/parts/w5-kamstep.tex#bpW:w5:class@L107-L107 | holomorphic maps
 EDGE: bpW:w5:setting | blueprint-W/parts/w5-kamstep.tex#bpW:w5:class@L108-L108 | varpi, P^{p_+}
 EDGE: bpW:w5:omega | blueprint-W/parts/w5-kamstep.tex#bpW:w5:class@L110-L110 | uniqueness of X_P
 EDGE: bpW:w4:taylor | blueprint-W/parts/w5-kamstep.tex#bpW:w5:class@L111-L111 | the field formula
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#bpW:w5:class@L105-L119 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -327,13 +332,14 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: stepW:w4:liebd
+DEPS: stepW:w4:liebd, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w4:liebd | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-tail@L153-L153 | the only use of the tails
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-tail@L153-L154 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -354,13 +360,14 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: stepW:w4:divlip
+DEPS: stepW:w4:divlip, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w4:divlip | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-div@L155-L155 | its use of M_Omega
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-div@L155-L157 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -381,14 +388,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w4:schur, stepW:w4:Nhat
+DEPS: bpW:w4:schur, stepW:w4:Nhat, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:schur | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-diag@L158-L158 | (iii)
 EDGE: stepW:w4:Nhat | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-diag@L159-L159 | its only use
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-diag@L158-L160 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -409,7 +417,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w4:fourier-ops, bpW:w4:lattice, bpW:w4:schur, bpW:w4:solve, bpW:w4:extract, bpW:w4:components
+DEPS: bpW:w4:fourier-ops, bpW:w4:lattice, bpW:w4:schur, bpW:w4:solve, bpW:w4:extract, bpW:w4:components, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:fourier-ops | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-rest@L161-L161 | general
@@ -418,9 +426,10 @@ EDGE: bpW:w4:schur | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-rest@L162-L162 
 EDGE: bpW:w4:solve | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-rest@L162-L162 | general
 EDGE: bpW:w4:extract | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-rest@L162-L162 | general
 EDGE: bpW:w4:components | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-rest@L162-L162 | general
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-rest@L161-L164 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -441,7 +450,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w4:melnikov, bpW:w4:lemma1, stepW:w5:m-sup, stepW:w5:m-other, stepW:w5:m-lip, stepW:w5:m-act, stepW:w5:m-ass, stepW:w5:m-const, bpW:w5:w4-general
+DEPS: bpW:w4:melnikov, bpW:w4:lemma1, stepW:w5:m-sup, stepW:w5:m-other, stepW:w5:m-lip, stepW:w5:m-act, stepW:w5:m-ass, stepW:w5:m-const, bpW:w5:w4-general, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:melnikov | blueprint-W/parts/w5-kamstep.tex#bpW:w5:w4-modified@L172-L172 | divisors and (H_{hat alpha})
@@ -453,9 +462,10 @@ EDGE: stepW:w5:m-act | blueprint-W/parts/w5-kamstep.tex#bpW:w5:w4-modified@L205-
 EDGE: stepW:w5:m-ass | blueprint-W/parts/w5-kamstep.tex#bpW:w5:w4-modified@L227-L227 | proof step
 EDGE: stepW:w5:m-const | blueprint-W/parts/w5-kamstep.tex#bpW:w5:w4-modified@L232-L232 | proof step
 EDGE: bpW:w5:w4-general | blueprint-W/parts/w5-kamstep.tex#bpW:w5:w4-modified@L171-L171 | the modified lemma assumes the new frequency hypothesis (freq) defined here
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a
-REVIEWER: sol-delta6-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#bpW:w5:w4-modified@L170-L191 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -476,13 +486,14 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w4:schur
+DEPS: bpW:w4:schur, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:schur | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-sup@L197-L197 | Hadamard division
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-sup@L194-L198 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -503,14 +514,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w4:lemma1, bpW:w1:embed
+DEPS: bpW:w4:lemma1, bpW:w1:embed, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:lemma1 | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-other@L200-L200 | its bounds
 EDGE: bpW:w1:embed | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-other@L200-L200 | the inclusion l^{a,p+1} into l^{a,p_+} has norm at most one
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a
-REVIEWER: sol-delta6-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-other@L199-L200 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -531,15 +543,16 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: stepW:w4:divlip, bpW:w4:solve, stepW:w4:lip
+DEPS: stepW:w4:divlip, bpW:w4:solve, stepW:w4:lip, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w4:divlip | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-lip@L201-L201 | the divisor difference
 EDGE: bpW:w4:solve | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-lip@L204-L204 | (ii)
 EDGE: stepW:w4:lip | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-lip@L204-L204 | as in this step
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-lip@L201-L204 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -560,7 +573,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w4:components, bpW:w4:w1-requests, stepW:w5:m-sup, bpW:w1:ext-unifderiv, bpW:w4:index, stepW:w5:m-lip, bpW:w4:fourier-ops, stepW:w4:assembly
+DEPS: bpW:w4:components, bpW:w4:w1-requests, stepW:w5:m-sup, bpW:w1:ext-unifderiv, bpW:w4:index, stepW:w5:m-lip, bpW:w4:fourier-ops, stepW:w4:assembly, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:components | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-act@L209-L209 | (i): ¦¦Q¦¦ <= eps
@@ -571,9 +584,10 @@ EDGE: bpW:w4:index | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-act@L216-L216 |
 EDGE: stepW:w5:m-lip | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-act@L220-L220 | the divisor differences
 EDGE: bpW:w4:fourier-ops | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-act@L223-L223 | (iii)
 EDGE: stepW:w4:assembly | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-act@L218-L218 | the revised action-component bound is inserted into W4 assembly
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a
-REVIEWER: sol-delta6-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-act@L205-L226 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -594,7 +608,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: stepW:w4:Fcomp, stepW:w4:assembly, stepW:w4:Nhat, stepW:w5:m-act, bpW:w4:lemma2, stepW:w4:lip
+DEPS: stepW:w4:Fcomp, stepW:w4:assembly, stepW:w4:Nhat, stepW:w5:m-act, bpW:w4:lemma2, stepW:w4:lip, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w4:Fcomp | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-ass@L227-L227 | W4's component bounds
@@ -603,9 +617,10 @@ EDGE: stepW:w4:Nhat | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-ass@L227-L227 
 EDGE: stepW:w5:m-act | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-ass@L228-L228 | the Q_F contribution
 EDGE: bpW:w4:lemma2 | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-ass@L231-L231 | the lambda-form
 EDGE: stepW:w4:lip | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-ass@L227-L227 | the explicitly cited Fcomp-through-Nhat range includes the Lipschitz assembly
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a
-REVIEWER: sol-delta6-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-ass@L227-L231 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -626,13 +641,14 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w4:lattice
+DEPS: bpW:w4:lattice, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:lattice | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-const@L233-L233 | (ii), (iii)
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-const@L232-L235 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -653,7 +669,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w5:class, bpW:w4:taylor, bpW:w4:index, stepW:w5:t-scale, stepW:w5:t-disc, stepW:w5:t-poly, stepW:w5:t-comp, stepW:w5:t-field, stepW:w5:t-est
+DEPS: bpW:w5:class, bpW:w4:taylor, bpW:w4:index, stepW:w5:t-scale, stepW:w5:t-disc, stepW:w5:t-poly, stepW:w5:t-comp, stepW:w5:t-field, stepW:w5:t-est, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:class | blueprint-W/parts/w5-kamstep.tex#bpW:w5:taylor@L266-L266 | the class S_{p_+} and the lambda-norm
@@ -665,9 +681,10 @@ EDGE: stepW:w5:t-poly | blueprint-W/parts/w5-kamstep.tex#bpW:w5:taylor@L294-L294
 EDGE: stepW:w5:t-comp | blueprint-W/parts/w5-kamstep.tex#bpW:w5:taylor@L299-L299 | proof step
 EDGE: stepW:w5:t-field | blueprint-W/parts/w5-kamstep.tex#bpW:w5:taylor@L308-L308 | proof step
 EDGE: stepW:w5:t-est | blueprint-W/parts/w5-kamstep.tex#bpW:w5:taylor@L314-L314 | proof step
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#bpW:w5:taylor@L265-L285 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -688,13 +705,14 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w5:setting
+DEPS: bpW:w5:setting, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:setting | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-scale@L287-L287 | varpi
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-scale@L287-L290 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -715,12 +733,13 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: -
+DEPS: bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-disc@L291-L293 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -741,13 +760,14 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w5:class
+DEPS: bpW:w5:class, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:class | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-poly@L297-L297 | DP W = varpi(X_P,W)
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-poly@L294-L298 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -768,7 +788,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:deriv-continuous, bpW:w1:cauchy, bpW:w4:index, bpW:w3:ext-integral, bpW:w1:ext-onevar, stepW:w5:t-est, bpW:w5:ext-symm, bpW:w5:omega, bpW:w5:class
+DEPS: bpW:w1:deriv-continuous, bpW:w1:cauchy, bpW:w4:index, bpW:w3:ext-integral, bpW:w1:ext-onevar, stepW:w5:t-est, bpW:w5:ext-symm, bpW:w5:omega, bpW:w5:class, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:deriv-continuous | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L301-L301 | the derivative as a Cauchy integral
@@ -780,9 +800,10 @@ EDGE: stepW:w5:t-est | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L303-L30
 EDGE: bpW:w5:ext-symm | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L305-L305 | symmetry of D^2P with K = C
 EDGE: bpW:w5:omega | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L304-L304 | DP(w) = varpi(X_P(w), .)
 EDGE: bpW:w5:class | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L304-L305 | the smoothing Hamiltonian definition supplies DP = varpi(X_P, .) on a neighbourhood and holomorphy of X_P, needed for the second-derivative symmetry application
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W+sol-delta7-W-w5a
-REVIEWER: sol-delta8-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L299-L307 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-delta7-W-w5a+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -803,15 +824,16 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: stepW:w5:t-scale, bpW:w5:omega, bpW:w3:ext-integral
+DEPS: stepW:w5:t-scale, bpW:w5:omega, bpW:w3:ext-integral, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w5:t-scale | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-field@L310-L310 | X_{P o S_t} = G(t,.)
 EDGE: bpW:w5:omega | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-field@L312-L312 | uniqueness
 EDGE: bpW:w3:ext-integral | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-field@L309-L309 | differentiate the coefficient integrals in epsilon
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a
-REVIEWER: sol-delta6-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-field@L308-L313 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -832,15 +854,16 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: stepW:w5:t-disc, bpW:w5:ext-taylor, bpW:w5:omega
+DEPS: stepW:w5:t-disc, bpW:w5:ext-taylor, bpW:w5:omega, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w5:t-disc | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-est@L315-L315 | the disc of radius > 1
 EDGE: bpW:w5:ext-taylor | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-est@L316-L316 | Taylor coefficients and remainder
 EDGE: bpW:w5:omega | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-est@L319-L319 | norm comparison
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-est@L314-L320 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -861,7 +884,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w4:melnikov, bpW:w5:w4-modified, bpW:w5:class, bpW:w4:lemma1, bpW:w4:lattice, bpW:w5:w4-general
+DEPS: bpW:w4:melnikov, bpW:w5:w4-modified, bpW:w5:class, bpW:w4:lemma1, bpW:w4:lattice, bpW:w5:w4-general, bpW:w5#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:melnikov | blueprint-W/parts/w5-kamstep.tex#bpW:w5:data@L332-L332 | (H_alpha)
@@ -870,9 +893,10 @@ EDGE: bpW:w5:class | blueprint-W/parts/w5-kamstep.tex#bpW:w5:data@L335-L335 | th
 EDGE: bpW:w4:lemma1 | blueprint-W/parts/w5-kamstep.tex#bpW:w5:data@L339-L339 | C_1
 EDGE: bpW:w4:lattice | blueprint-W/parts/w5-kamstep.tex#bpW:w5:data@L339-L339 | b_W(tau)
 EDGE: bpW:w5:w4-general | blueprint-W/parts/w5-kamstep.tex#bpW:w5:data@L331-L331 | (bpW:w5:freq)
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#bpW:w5:data@L328-L348 | the consumer explicitly inherits the standing section data recorded in SOURCE_HYPOTHESES
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W+sol-global-W
+REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

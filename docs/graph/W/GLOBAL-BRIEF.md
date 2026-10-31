@@ -41,7 +41,7 @@ Your job is to find a global modelling error.
      from the headline (`w-headline.tex`) and from `Nlw2.lean`. Compare all four with the node.
    - Check that the anchor identity fields match the manifest.
    - PROOF_SOURCE is the proof of `bpW:w8:nlw2-proof` (w8 L552–L599). Check that the one edge to that theorem, and
-     its 17 conjunct steps plus the assembly step, cover every conjunct of the frozen statement, in the frozen order.
+     its 16 conjunct steps plus the assembly step (17 steps in all), cover every conjunct of the frozen statement, in the frozen order.
    - Then trace the root backward through its whole closure.
    - **W-NLW2 checks:**
      - The witnesses r₀, C, τ, η, Γ, ν, K are chosen after m and before I, θ, θ₀.
