@@ -2074,3 +2074,12 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - SO-DATA3 measured no Lake bottleneck: the slow window was the M11 stop and restart. No driver change.
   - LOCK-DATA's generate pass at the final literals finished. The SOS test is re-running under the 8 GB cap (degree
     100×20, slack 1e-5, weighted truncation, 64-bit rounding).
+- **04:19. Heartbeat: SO-DATA3 about 75 % through the kernel build; landing pre-check passes.**
+  - At 03:49: lower 621/830 (heavy 390/558), upper 626/824 (heavy 398/554), finishing about 05:00–05:10 UTC.
+  - Pre-check: since SO-DATA3's last inp merge (2f8550f3), inp changed only KAM/Wave (5 files) and the generated
+    root, none of them a dependency of the data modules. The data builds therefore stay valid on current inp.
+  - **Landing plan:** KAM-inp and main point `.lake/build/{lib/lean,ir}/KAM/SpinOrbit/Data` at SO-DATA3's verified
+    HC overlay, so the capped prebuild only confirms that everything is up to date. **Hold any checker-side
+    landing on inp until SO-DATA3 has landed** (W is paused; LOCK-DATA adds only new data modules).
+  - Lock: fixing the graph-band slack (weighted SOS truncation, capped test). Fallback: the landed `_check` variant
+    with a wider window, logged for owner review.
