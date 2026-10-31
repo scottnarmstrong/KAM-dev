@@ -42,10 +42,11 @@ theorem homOmega_le {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 
     {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ} {M0 Mω MΩ : ℝ} (h : HomFreqHyp Par ω Ω M0 Mω MΩ)
     {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (j : ℕ+) : |Ω ξ j| ≤ (1 + M0) * ((j : ℝ) + 2) := by
   have hj : (1 : ℝ) ≤ j := by exact_mod_cast Nat.succ_le_of_lt j.pos
-  have h1 : (j : ℝ) * |Ω ξ j - ((j : ℝ) + 2)| ≤ M0 := h.tail ξ hξ j
+  have h1 : (j : ℝ) ^ (1 / 2 : ℝ) * |Ω ξ j - ((j : ℝ) + 2)| ≤ M0 := h.tail ξ hξ j
   have h2 : |Ω ξ j - ((j : ℝ) + 2)| ≤ M0 := by
-    have : |Ω ξ j - ((j : ℝ) + 2)| ≤ (j : ℝ) * |Ω ξ j - ((j : ℝ) + 2)| :=
-      le_mul_of_one_le_left (abs_nonneg _) hj
+    have hr : (1 : ℝ) ≤ (j : ℝ) ^ (1 / 2 : ℝ) := Real.one_le_rpow hj (by norm_num)
+    have : |Ω ξ j - ((j : ℝ) + 2)| ≤ (j : ℝ) ^ (1 / 2 : ℝ) * |Ω ξ j - ((j : ℝ) + 2)| :=
+      le_mul_of_one_le_left (abs_nonneg _) hr
     linarith
   have hM0 := h.nonneg.1
   calc |Ω ξ j| = |((j : ℝ) + 2) + (Ω ξ j - ((j : ℝ) + 2))| := by ring_nf
@@ -62,17 +63,18 @@ theorem homLie_Omega_mem {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → F
   homNormal_mul (by linarith [h.nonneg.1]) (fun j => by
     simpa [Complex.norm_real] using homOmega_le h hξ j) hz
 
-/-- **Absolute convergence of the pairings** (blueprint `bpW:w4:lie` (i)): for `F ∈ ℓ^N_{a,p+1}`
+/-- **Absolute convergence of the pairings** (blueprint `bpW:w4:lie` (i)): for `F ∈ ℓ^N_{a,p_+}`
+    (`p_+ = pb`, `1 ≤ p + p_+`)
 and `z ∈ ℓ^N_{a,p}` (`a, p ≥ 0`), `⟨F, Ωz⟩₀` converges absolutely with
-`|⟨F, Ωz⟩₀| ≤ (1+M₀) ‖F‖_{a,p+1} ‖z‖_{a,p}`. -/
+`|⟨F, Ωz⟩₀| ≤ (1+M₀) ‖F‖_{a,p_+} ‖z‖_{a,p}`. -/
 theorem homLie_pairing_summable {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 → ℝ}
     {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ} {M0 Mω MΩ : ℝ} (h : HomFreqHyp Par ω Ω M0 Mω MΩ)
-    {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {F z : ℕ+ → ℂ}
-    (hF : HomNormal a (p + 1) F) (hz : HomNormal a p z) :
+    {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {a p pb : ℝ} (ha : 0 ≤ a) (hp1 : 1 ≤ p + pb) {F z : ℕ+ → ℂ}
+    (hF : HomNormal a pb F) (hz : HomNormal a p z) :
     Summable (fun j => ‖F j * ((Ω ξ j : ℂ) * z j)‖) ∧
       ‖∑' j, F j * ((Ω ξ j : ℂ) * z j)‖ ≤ (1 + M0) * (homNorm hF * homNorm hz) := by
   obtain ⟨hy, hn⟩ := homLie_Omega_mem h hξ hz
-  have hq : 0 ≤ (p + 1) + (p - 1) := by linarith
+  have hq : 0 ≤ pb + (p - 1) := by linarith
   refine ⟨(homPair_le ha hq hF hy).1, ?_⟩
   calc _ ≤ homNorm hF * homNorm hy := norm_homPair_le ha hq hF hy
     _ ≤ homNorm hF * ((1 + M0) * homNorm hz) :=
@@ -139,7 +141,7 @@ theorem homGuard_one_one : HomGuard 1 1 (Real.exp (-6) / 3) := by
 under (G) the series converges absolutely and `|N_Ω(z,\bar z)| ≤ (1+M₀) γ ‖z‖ ‖\bar z‖`. -/
 theorem homNOmega_le {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 → ℝ}
     {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ} {M0 Mω MΩ : ℝ} (h : HomFreqHyp Par ω Ω M0 Mω MΩ)
-    {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {a p γ : ℝ} (hG : HomGuard a p γ) {z zb : ℕ+ → ℂ}
+    {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {a p pb γ : ℝ} (hG : HomGuard a p γ) {z zb : ℕ+ → ℂ}
     (hz : HomNormal a p z) (hzb : HomNormal a p zb) :
     Summable (fun j => ‖(Ω ξ j : ℂ) * z j * zb j‖) ∧
       ‖∑' j, (Ω ξ j : ℂ) * z j * zb j‖ ≤ (1 + M0) * γ * (homNorm hz * homNorm hzb) := by

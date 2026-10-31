@@ -41,45 +41,49 @@ namespace KAM.Wave
 
 open KAM
 
-/-- The diagonal `D_j = 1/(ω_{a,p}(j+2) ω_{a,p+1}(j+2))`. -/
-def homLamD (a p : ℝ) (j : ℕ+) : ℂ := ((homWt a p j * homWt a (p + 1) j)⁻¹ : ℝ)
+/-- `0 ≤ p ≤ p_+` gives the weight condition `0 ≤ p + p_+` of the pairings. -/
+theorem homPP {p pb : ℝ} (hp : 0 ≤ p) (hpb : p ≤ pb) : 0 ≤ p + pb := by linarith
 
-theorem norm_homLamD_le {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (j : ℕ+) : ‖homLamD a p j‖ ≤ 1 := by
+/-- The diagonal `D_j = 1/(ω_{a,p}(j+2) ω_{a,p+1}(j+2))`. -/
+def homLamD (a p pb : ℝ) (j : ℕ+) : ℂ := ((homWt a p j * homWt a pb j)⁻¹ : ℝ)
+
+theorem norm_homLamD_le {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (j : ℕ+) : ‖homLamD a p pb j‖ ≤
+    1 := by
   unfold homLamD
   rw [Complex.norm_real, Real.norm_eq_abs]
-  have h1 := one_le_homWt_mul (a := a) (q := p) (q' := p + 1) ha (by linarith) j
-  have h0 : 0 < homWt a p j * homWt a (p + 1) j := lt_of_lt_of_le one_pos h1
+  have h1 := one_le_homWt_mul (a := a) (q := p) (q' := pb) ha hp j
+  have h0 : 0 < homWt a p j * homWt a pb j := lt_of_lt_of_le one_pos h1
   rw [abs_of_pos (inv_pos.mpr h0)]
   exact inv_le_one_of_one_le₀ h1
 
 /-- The diagonal multiplier `D` on `ℓ²`. -/
-def homLamDiag {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) : HomOp :=
-  weightedDiagCLM (homLamD a p) (norm_homLamD_le ha hp)
+def homLamDiag {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) : HomOp :=
+  weightedDiagCLM (homLamD a p pb) (norm_homLamD_le ha hp)
 
-theorem norm_homLamDiag_le {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) : ‖homLamDiag ha hp‖ ≤ 1 :=
+theorem norm_homLamDiag_le {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) : ‖homLamDiag ha hp‖ ≤ 1 :=
   norm_diagCLM_le _ _
 
-theorem homLamDiag_apply {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (y : HomL2) (j : ℕ+) :
-    homLamDiag ha hp y j = homLamD a p j * y j := rfl
+theorem homLamDiag_apply {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (y : HomL2) (j : ℕ+) :
+    homLamDiag ha hp y j = homLamD a p pb j * y j := rfl
 
 /-- **`Λ : 𝓛 → 𝓑`** in the representative model: `ΛM = D M̂`. -/
-def homLamCLM {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) : HomOp →L[ℂ] HomOp :=
+def homLamCLM {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) : HomOp →L[ℂ] HomOp :=
   ContinuousLinearMap.compL ℂ HomL2 HomL2 HomL2 (homLamDiag ha hp)
 
-theorem homLamCLM_apply {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (A : HomOp) :
+theorem homLamCLM_apply {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (A : HomOp) :
     homLamCLM ha hp A = (homLamDiag ha hp).comp A := rfl
 
 /-- The bilinear norm `‖M‖_bil = ‖ΛM‖`; it is at most `‖M‖`. -/
-theorem norm_homLamCLM_apply_le {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (A : HomOp) :
+theorem norm_homLamCLM_apply_le {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (A : HomOp) :
     ‖homLamCLM ha hp A‖ ≤ ‖A‖ :=
   (ContinuousLinearMap.opNorm_comp_le _ _).trans
     (by simpa using mul_le_mul_of_nonneg_right (norm_homLamDiag_le ha hp) (norm_nonneg A))
 
-theorem kamEntry_homLamCLM {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (A : HomOp) (i j : ℕ+) :
-    kamEntry (homLamCLM ha hp A) i j = homLamD a p i * kamEntry A i j := rfl
+theorem kamEntry_homLamCLM {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (A : HomOp) (i j : ℕ+) :
+    kamEntry (homLamCLM ha hp A) i j = homLamD a p pb i * kamEntry A i j := rfl
 
 /-- `Λ` commutes with the Hadamard map (`bpW:w4:schur` (ii), in the representative model). -/
-theorem homHadamardOp_lam {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {d : ℕ+ → ℕ+ → ℂ} {c : ℝ}
+theorem homHadamardOp_lam {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) {d : ℕ+ → ℕ+ → ℂ} {c : ℝ}
     (h : HomHadamardBound d c) (A : HomOp) :
     homHadamardOp h (homLamCLM ha hp A) = homLamCLM ha hp (homHadamardOp h A) := by
   refine homOp_ext_entries fun i j => ?_
@@ -88,20 +92,21 @@ theorem homHadamardOp_lam {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {d : ℕ+ �
 
 /-- **`Λ` of the Hadamard image: the `𝓑`-bound** (`bpW:w4:schur` (ii)):
 `‖Λ H_d M‖ ≤ c K_S ‖ΛM‖`. -/
-theorem norm_homLam_hadamard_le {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {d : ℕ+ → ℕ+ → ℂ} {c : ℝ}
+theorem norm_homLam_hadamard_le {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) {d : ℕ+ → ℕ+ → ℂ} {c :
+    ℝ}
     (h : HomHadamardBound d c) (A : HomOp) :
     ‖homLamCLM ha hp (homHadamardOp h A)‖ ≤ c * homKS * ‖homLamCLM ha hp A‖ := by
   rw [← homHadamardOp_lam]
   exact norm_homHadamardOp_le h _
 
 /-- The pairing `⟨c, z⟩₀` of representatives: `∑ (D ĉ)_j ẑ_j`. -/
-def homPairRep {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (c z : HomL2) : ℂ :=
+def homPairRep {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (c z : HomL2) : ℂ :=
   ∑' j, homLamDiag ha hp c j * z j
 
 /-- The dual norm `‖c‖_* = ‖D ĉ‖ ≤ ‖ĉ‖`. -/
-def homDualNorm {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (c : HomL2) : ℝ := ‖homLamDiag ha hp c‖
+def homDualNorm {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (c : HomL2) : ℝ := ‖homLamDiag ha hp c‖
 
-theorem homDualNorm_le {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (c : HomL2) :
+theorem homDualNorm_le {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (c : HomL2) :
     homDualNorm ha hp c ≤ ‖c‖ :=
   ((homLamDiag ha hp).le_opNorm c).trans
     (by simpa using mul_le_mul_of_nonneg_right (norm_homLamDiag_le ha hp) (norm_nonneg c))

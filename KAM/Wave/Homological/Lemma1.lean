@@ -35,32 +35,33 @@ namespace KAM.Wave
 
 open KAM
 
-variable {a p s σ τ α M d : ℝ} {w₁ w₂ : Fin 2 → ℝ} {W₁ W₂ : ℕ+ → ℝ}
+variable {a p pb s σ τ α M d : ℝ} {w₁ w₂ : Fin 2 → ℝ} {W₁ W₂ : ℕ+ → ℝ}
 
 /-- **Lemma 1 (iii), Lipschitz bound**: `|X_{F(ξ)} - X_{F(ζ)}|_r ≤ C₁ B^W_σ (ε^L + 2Mε/α) d/α`
 on `D(s-σ,r)`, `C₁ = 7 + 10K_S`, `d = |ξ-ζ|`. -/
-theorem homLemma1_lipschitz (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε εL : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ)
+theorem homLemma1_lipschitz (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε εL : ℝ} (hr : 0 < r) (hτ
+    : 0 ≤ τ)
     (hα : 0 < α) (hM : 0 ≤ M) (hd : 0 ≤ d) (hεL : 0 ≤ εL) (hσ : 0 < σ) (hσs : σ < s)
     (hm₁ : HomMultBounds τ α w₁ W₁) (hm₂ : HomMultBounds τ α w₂ W₂)
-    (hL : HomMultLip τ α M d w₁ W₁ w₂ W₂) (R₁ R₂ : HomTaylor a p s)
-    (hX₁ : HomFieldBound ha hp r ε R₁) (hX₂ : HomFieldBound ha hp r ε R₂)
-    (hXL : HomFieldBound ha hp r (εL * d) (R₁.sub R₂)) :
-    HomFieldBound ha hp r ((7 + 10 * homKS) * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d))
+    (hL : HomMultLip τ α M d w₁ W₁ w₂ W₂) (R₁ R₂ : HomTaylor a p pb s)
+    (hX₁ : HomFieldBound ha hp hpb r ε R₁) (hX₂ : HomFieldBound ha hp hpb r ε R₂)
+    (hXL : HomFieldBound ha hp hpb r (εL * d) (R₁.sub R₂)) :
+    HomFieldBound ha hp hpb r ((7 + 10 * homKS) * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d))
       ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)) := by
   intro θ y z zb hdom
   have hs : 0 < s := hσ.trans hσs
   have hε : 0 ≤ ε := by
     have hθ' : θ ∈ complexStrip 2 s := fun j => by have := hdom.1 j; linarith
-    exact (homXnorm_nonneg ha hp hr R₁ θ 0 0 0).trans
+    exact (homXnorm_nonneg ha hp hpb hr R₁ θ 0 0 0).trans
       (hX₁ θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   have hE0 : 0 ≤ waveBW τ σ / α * (εL + 2 * M * ε / α) * d := by
     have := waveBW_nonneg τ σ; positivity
-  exact homXnorm_le_of_components ha hp hr one_le_homKS hE0 _
-    (homF_sub_compBounds ha hp hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL hdom.1)
+  exact homXnorm_le_of_components ha hp hpb hr one_le_homKS hE0 _
+    (homF_sub_compBounds ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL hdom.1)
     hdom.2.1.le hdom.2.2
 
 
-theorem HomTaylor.ext_of {T T' : HomTaylor a p s} (h1 : T.a0 = T'.a0) (h2 : T.b = T'.b)
+theorem HomTaylor.ext_of {T T' : HomTaylor a p pb s} (h1 : T.a0 = T'.a0) (h2 : T.b = T'.b)
     (h3 : T.cp = T'.cp) (h4 : T.cm = T'.cm) (h5 : T.P = T'.P) (h6 : T.P' = T'.P')
     (h7 : T.Q = T'.Q) (h8 : T.Qt = T'.Qt) : T = T' := by
   cases T; cases T'
@@ -75,7 +76,7 @@ theorem homCoeff_sub_banach {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ 
   kamFourierBanach_coeff_sub (homContinuous_restrict hs hu) (homContinuous_restrict hs hv) k
 
 /-- `N̂` is linear in `R`. -/
-theorem homNhatTaylor_sub (hs : 0 < s) (R₁ R₂ : HomTaylor a p s) :
+theorem homNhatTaylor_sub (hs : 0 < s) (R₁ R₂ : HomTaylor a p pb s) :
     (homNhatTaylor R₁).sub (homNhatTaylor R₂) = homNhatTaylor (R₁.sub R₂) := by
   refine HomTaylor.ext_of ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_
   · funext z; simp [HomTaylor.sub, homNhatTaylor]
@@ -102,11 +103,12 @@ theorem homNhatTaylor_sub (hs : 0 < s) (R₁ R₂ : HomTaylor a p s) :
     split_ifs <;> simp
 
 /-- **Lemma 1 (iv), Lipschitz bound for `N̂`**: `|X_{N̂(ξ)} - X_{N̂(ζ)}|_r ≤ 2 ε^L d`. -/
-theorem homNhat_lipschitz (ha : 0 ≤ a) (hp : 0 ≤ p) {r εL : ℝ} (hr : 0 < r) (hs : 0 < s)
-    (R₁ R₂ : HomTaylor a p s) (hXL : HomFieldBound ha hp r (εL * d) (R₁.sub R₂)) :
-    HomFieldBound ha hp r (2 * (εL * d)) ((homNhatTaylor R₁).sub (homNhatTaylor R₂)) := by
+theorem homNhat_lipschitz (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r εL : ℝ} (hr : 0 < r) (hs : 0
+    < s)
+    (R₁ R₂ : HomTaylor a p pb s) (hXL : HomFieldBound ha hp hpb r (εL * d) (R₁.sub R₂)) :
+    HomFieldBound ha hp hpb r (2 * (εL * d)) ((homNhatTaylor R₁).sub (homNhatTaylor R₂)) := by
   rw [homNhatTaylor_sub hs]
-  exact homNhat_fieldBound ha hp hr hs (R₁.sub R₂) hXL
+  exact homNhat_fieldBound ha hp hpb hr hs (R₁.sub R₂) hXL
 
 
 theorem homKS_lt_29 : homKS < 2.9 := by

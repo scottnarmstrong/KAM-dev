@@ -33,20 +33,20 @@ namespace KAM.Wave
 open KAM
 open scoped ComplexConjugate
 
-variable {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ}
+variable {a p pb s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ}
 
 /-- **Reality** of a Taylor Hamiltonian (`bpW:w4:taylor`), at real `θ`. -/
-def HomTaylor.IsReal (R : HomTaylor a p s) : Prop :=
+def HomTaylor.IsReal (R : HomTaylor a p pb s) : Prop :=
   ∀ x : Fin 2 → ℝ, (R.a0 fun j => (x j : ℂ)).im = 0 ∧
     (∀ k, (R.b (fun j => (x j : ℂ)) k).im = 0) ∧
     (∀ j, R.cm (fun j => (x j : ℂ)) j = conj (R.cp (fun j => (x j : ℂ)) j)) ∧
-    (∀ i j, homNormalEntry a p (R.P' fun j => (x j : ℂ)) i j =
-      conj (homNormalEntry a p (R.P fun j => (x j : ℂ)) i j)) ∧
-    (∀ i j, homNormalEntry a p (R.Qt fun j => (x j : ℂ)) i j =
-      conj (homNormalEntry a p (R.Q fun j => (x j : ℂ)) i j))
+    (∀ i j, homNormalEntry a p pb (R.P' fun j => (x j : ℂ)) i j =
+      conj (homNormalEntry a p pb (R.P fun j => (x j : ℂ)) i j)) ∧
+    (∀ i j, homNormalEntry a p pb (R.Qt fun j => (x j : ℂ)) i j =
+      conj (homNormalEntry a p pb (R.Q fun j => (x j : ℂ)) i j))
 
 theorem homSolveTaylor_isReal (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) (hσs : σ < s)
-    (hm : HomMultBounds τ α w W) (R : HomTaylor a p s) (hR : R.IsReal) :
+    (hm : HomMultBounds τ α w W) (R : HomTaylor a p pb s) (hR : R.IsReal) :
     (homSolveTaylor hτ hα hσ hσs hm R).IsReal := by
   have hs : 0 < s := hσ.trans hσs
   intro x
@@ -107,33 +107,33 @@ theorem homSolveTaylor_isReal (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) (h�
     rw [ecm θ hθs, ecp θ hθs]
     exact h.symm
   · -- P'
-    have eP : ∀ z ∈ complexStrip 2 (s - σ), homNormalEntry a p
+    have eP : ∀ z ∈ complexStrip 2 (s - σ), homNormalEntry a p pb
         ((homSolveTaylor hτ hα hσ hσs hm R).P z) i j =
         homSolve (fun k => homDP w W k i j • ContinuousLinearMap.id ℂ ℂ)
-          (fun z => homNormalEntry a p (R.P z) i j) z := fun z hz =>
-      homSolve_hadamard_entry a p hτ hα one_le_homKS hσ hσs hm.P (norm_homTP_le hm)
+          (fun z => homNormalEntry a p pb (R.P z) i j) z := fun z hz =>
+      homSolve_hadamard_entry a p pb hτ hα one_le_homKS hσ hσs hm.P (norm_homTP_le hm)
         R.comp_P.1 R.comp_P.2.1 R.comp_P.2.2.choose_spec i j hz
-    have eP' : ∀ z ∈ complexStrip 2 (s - σ), homNormalEntry a p
+    have eP' : ∀ z ∈ complexStrip 2 (s - σ), homNormalEntry a p pb
         ((homSolveTaylor hτ hα hσ hσs hm R).P' z) i j =
         homSolve (fun k => homDP' w W k i j • ContinuousLinearMap.id ℂ ℂ)
-          (fun z => homNormalEntry a p (R.P' z) i j) z := fun z hz =>
-      homSolve_hadamard_entry a p hτ hα one_le_homKS hσ hσs hm.P' (norm_homTP'_le hm)
+          (fun z => homNormalEntry a p pb (R.P' z) i j) z := fun z hz =>
+      homSolve_hadamard_entry a p pb hτ hα one_le_homKS hσ hσs hm.P' (norm_homTP'_le hm)
         R.comp_P'.1 R.comp_P'.2.1 R.comp_P'.2.2.choose_spec i j hz
-    have h := homSolve_conj_real (u := fun z => homNormalEntry a p (R.P z) i j)
-      (v := fun z => homNormalEntry a p (R.P' z) i j)
+    have h := homSolve_conj_real (u := fun z => homNormalEntry a p pb (R.P z) i j)
+      (v := fun z => homNormalEntry a p pb (R.P' z) i j)
       (fun y => (hR y).2.2.2.1 i j) (fun k => homDP w W k i j) (fun k => homDP' w W k i j)
       (fun k => (homDP_conj w W k i j).symm) x
     rw [eP' θ hθs, eP θ hθs]
     exact h.symm
   · -- Qt
-    have eQ : ∀ i j : ℕ+, ∀ z ∈ complexStrip 2 (s - σ), homNormalEntry a p
+    have eQ : ∀ i j : ℕ+, ∀ z ∈ complexStrip 2 (s - σ), homNormalEntry a p pb
         ((homSolveTaylor hτ hα hσ hσs hm R).Q z) i j =
         homSolve (fun k => homDQ w W k i j • ContinuousLinearMap.id ℂ ℂ)
-          (fun z => homNormalEntry a p (R.Q z) i j) z := fun i j z hz =>
-      homSolve_hadamard_entry a p hτ hα one_le_homKS hσ hσs hm.Q (norm_homTQ_le hm)
+          (fun z => homNormalEntry a p pb (R.Q z) i j) z := fun i j z hz =>
+      homSolve_hadamard_entry a p pb hτ hα one_le_homKS hσ hσs hm.Q (norm_homTQ_le hm)
         R.comp_Q.1 R.comp_Q.2.1 R.comp_Q.2.2.choose_spec i j hz
-    have h := homSolve_conj_real (u := fun z => homNormalEntry a p (R.Q z) i j)
-      (v := fun z => homNormalEntry a p (R.Q z) j i)
+    have h := homSolve_conj_real (u := fun z => homNormalEntry a p pb (R.Q z) i j)
+      (v := fun z => homNormalEntry a p pb (R.Q z) j i)
       (fun y => by
         have h1 := (hR y).2.2.2.2 i j
         rw [R.transQ _ (ofReal_mem_complexStrip hs y) i j] at h1
@@ -153,7 +153,7 @@ theorem homCoeff_zero_im {s : ℝ} {u : (Fin 2 → ℂ) → ℂ}
   exact (Complex.conj_eq_iff_im).mp h.symm
 
 /-- **`N̂` is real** if `R` is (`\hat ω ∈ ℝ²`, `\hat Ω_j ∈ ℝ`). -/
-theorem homNhatTaylor_isReal (hs : 0 < s) (R : HomTaylor a p s) (hR : R.IsReal) :
+theorem homNhatTaylor_isReal (hs : 0 < s) (R : HomTaylor a p pb s) (hR : R.IsReal) :
     (homNhatTaylor R).IsReal := by
   intro x
   refine ⟨by simp [homNhatTaylor], fun k => ?_, fun j => by simp [homNhatTaylor],
@@ -165,20 +165,20 @@ theorem homNhatTaylor_isReal (hs : 0 < s) (R : HomTaylor a p s) (hR : R.IsReal) 
   · by_cases hij : i = j
     · subst hij
       have hre : ∀ y : Fin 2 → ℝ,
-          (homNormalEntry a p (R.Q fun j => (y j : ℂ)) i i).im = 0 := fun y => by
+          (homNormalEntry a p pb (R.Q fun j => (y j : ℂ)) i i).im = 0 := fun y => by
         have h1 := (hR y).2.2.2.2 i i
         rw [R.transQ _ (ofReal_mem_complexStrip hs y) i i] at h1
         exact (Complex.conj_eq_iff_im).mp h1.symm
-      have h2 := homCoeff_zero_im (u := fun z => homNormalEntry a p (R.Q z) i i) (s := s) hre
-      have hc : homCoeff (fun z => homNormalEntry a p (R.Q z) i i) 0 =
-          homNormalEntry a p (homCoeff R.Q 0) i i := by
-        have := homCoeff_clm hs R.comp_Q.1 (homNormEntryCLM a p i i) 0
+      have h2 := homCoeff_zero_im (u := fun z => homNormalEntry a p pb (R.Q z) i i) (s := s) hre
+      have hc : homCoeff (fun z => homNormalEntry a p pb (R.Q z) i i) 0 =
+          homNormalEntry a p pb (homCoeff R.Q 0) i i := by
+        have := homCoeff_clm hs R.comp_Q.1 (homNormEntryCLM a p pb i i) 0
         simpa [homNormEntryCLM_apply] using this
       rw [hc] at h2
-      show (homNormalEntry a p (kamEntryDiagCLM (homCoeff R.Q 0)) i i) =
-        conj (homNormalEntry a p (kamEntryDiagCLM (homCoeff R.Q 0)) i i)
-      have e : homNormalEntry a p (kamEntryDiagCLM (homCoeff R.Q 0)) i i =
-          homNormalEntry a p (homCoeff R.Q 0) i i := by
+      show (homNormalEntry a p pb (kamEntryDiagCLM (homCoeff R.Q 0)) i i) =
+        conj (homNormalEntry a p pb (kamEntryDiagCLM (homCoeff R.Q 0)) i i)
+      have e : homNormalEntry a p pb (kamEntryDiagCLM (homCoeff R.Q 0)) i i =
+          homNormalEntry a p pb (homCoeff R.Q 0) i i := by
         simp [homNormalEntry, kamEntry_diagCLM]
       rw [e]
       exact ((Complex.conj_eq_iff_im).mpr h2).symm

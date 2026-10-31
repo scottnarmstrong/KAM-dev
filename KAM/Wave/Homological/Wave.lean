@@ -20,7 +20,8 @@ being built.
 
 `waveFreqTan m hm ξ = (λ₁, λ₂) + Aξ` (`A = actionA`, Theorem `bpW:w0n:AB`) and
 `waveFreqNor m hm ξ j = Ω_j(ξ) = waveOmega (j+2)` (P96-K index `j`, wave index `J = j+2`).
-`homFreqHyp_wave` proves `HomFreqHyp` with the explicit constants
+`homFreqHyp1_wave` proves `HomFreqHyp1` (and `homFreqHyp_wave` the weaker `HomFreqHyp`) with the
+    explicit constants
 `M_ω = 9/(8πλ₁²) + 3/(2πλ₁λ₂)`, `M_Ω = 3/(2π)(λ₁⁻¹ + λ₂⁻¹)`, `M₀ = m/2 + 3/(2π) B` where
 `B` bounds `|⟨b,ξ⟩|` on the parameter set.
 -/
@@ -109,9 +110,9 @@ theorem abs_waveFreqTan_sub_le (ξ ζ : Fin 2 → ℝ) :
 /-- **The wave frequencies** (blueprint `bpW:w4:wave` (i)): `(bpW:w4:freq)` holds with
 `M_ω = 9/(8πλ₁²) + 3/(2πλ₁λ₂)`, `M_Ω = 3/(2π)(λ₁⁻¹+λ₂⁻¹)`, `M₀ = m/2 + 3/(2π) B`, where
 `|⟨b,ξ⟩| ≤ B` on the parameter set `Par`. -/
-theorem homFreqHyp_wave (Par : Set (Fin 2 → ℝ)) {B : ℝ} (hB0 : 0 ≤ B)
+theorem homFreqHyp1_wave (Par : Set (Fin 2 → ℝ)) {B : ℝ} (hB0 : 0 ≤ B)
     (hB : ∀ ξ ∈ Par, |waveB m hm ξ| ≤ B) :
-    HomFreqHyp Par (waveFreqTan m hm) (waveFreqNor m hm)
+    HomFreqHyp1 Par (waveFreqTan m hm) (waveFreqNor m hm)
       (m / 2 + 3 / (2 * Real.pi) * B) (waveMomega m hm) (waveMOmega m hm) := by
   have hl1 := lam_pnat_pos hm 1
   have hl2 := lam_pnat_pos hm 2
@@ -144,5 +145,12 @@ theorem homFreqHyp_wave (Par : Set (Fin 2 → ℝ)) {B : ℝ} (hB0 : 0 ≤ B)
           gcongr
       _ = _ := by ring
       _ ≤ _ := h
+
+/-- The wave frequencies satisfy the general hypothesis `bpW:w5:freq` (with the same constants). -/
+theorem homFreqHyp_wave (Par : Set (Fin 2 → ℝ)) {B : ℝ} (hB0 : 0 ≤ B)
+    (hB : ∀ ξ ∈ Par, |waveB m hm ξ| ≤ B) :
+    HomFreqHyp Par (waveFreqTan m hm) (waveFreqNor m hm)
+      (m / 2 + 3 / (2 * Real.pi) * B) (waveMomega m hm) (waveMOmega m hm) :=
+  (homFreqHyp1_wave m hm Par hB0 hB).toHyp
 
 end KAM.Wave

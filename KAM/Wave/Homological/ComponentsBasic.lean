@@ -27,7 +27,7 @@ namespace KAM.Wave
 
 open KAM
 
-variable {a p s : ℝ}
+variable {a p pb s : ℝ}
 
 theorem homUV_le (z zb : HomL2) :
     ‖homU z zb‖ + ‖homV z zb‖ ≤ Real.sqrt 2 * (‖z‖ + ‖zb‖) := by
@@ -100,25 +100,26 @@ theorem homAffine_bound {E E1 : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E
   simpa using h
 
 /-- `‖R_z‖, ‖R_{\bar z}‖ ≤ rε/√2` and the three parts of the norm at a domain point. -/
-theorem homXnorm_parts {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε : ℝ} (hr : 0 < r)
-    (T : HomTaylor a p s) {θ y : Fin 2 → ℂ} {z zb : HomL2}
-    (h : homXnorm ha hp r T θ y z zb ≤ ε) :
+theorem homXnorm_parts {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε : ℝ} (hr : 0 < r)
+    (T : HomTaylor a p pb s) {θ y : Fin 2 → ℂ} {z zb : HomL2}
+    (h : homXnorm ha hp hpb r T θ y z zb ≤ ε) :
     ‖homRy T θ‖ ≤ 2 * Real.pi * ε ∧
-      ‖fun i => homRtheta ha hp T i θ y z zb‖ ≤ 2 * Real.pi * r ^ 2 * ε ∧
+      ‖fun i => homRtheta ha hp hpb T i θ y z zb‖ ≤ 2 * Real.pi * r ^ 2 * ε ∧
       ‖homRu T θ z zb‖ + ‖homRv T θ z zb‖ ≤ r * ε ∧
       ‖homRz T θ z zb‖ ≤ r * ε / Real.sqrt 2 ∧ ‖homRzb T θ z zb‖ ≤ r * ε / Real.sqrt 2 := by
   have hs : 0 < Real.sqrt 2 := Real.sqrt_pos.mpr (by norm_num)
   have hπ := Real.pi_pos
   unfold homXnorm at h
   have t1 : 0 ≤ (2 * Real.pi)⁻¹ * ‖homRy T θ‖ := by positivity
-  have t2 : 0 ≤ (2 * Real.pi * r ^ 2)⁻¹ * ‖fun i => homRtheta ha hp T i θ y z zb‖ := by positivity
+  have t2 : 0 ≤ (2 * Real.pi * r ^ 2)⁻¹ * ‖fun i => homRtheta ha hp hpb T i θ y z zb‖ := by
+      positivity
   have t3 : 0 ≤ r⁻¹ * (‖homRu T θ z zb‖ + ‖homRv T θ z zb‖) := by positivity
   have e1 : ‖homRy T θ‖ ≤ 2 * Real.pi * ε := by
     have : (2 * Real.pi)⁻¹ * ‖homRy T θ‖ ≤ ε := by linarith
     rw [← div_eq_inv_mul, div_le_iff₀ (by positivity)] at this
     linarith
-  have e2 : ‖fun i => homRtheta ha hp T i θ y z zb‖ ≤ 2 * Real.pi * r ^ 2 * ε := by
-    have : (2 * Real.pi * r ^ 2)⁻¹ * ‖fun i => homRtheta ha hp T i θ y z zb‖ ≤ ε := by linarith
+  have e2 : ‖fun i => homRtheta ha hp hpb T i θ y z zb‖ ≤ 2 * Real.pi * r ^ 2 * ε := by
+    have : (2 * Real.pi * r ^ 2)⁻¹ * ‖fun i => homRtheta ha hp hpb T i θ y z zb‖ ≤ ε := by linarith
     rw [← div_eq_inv_mul, div_le_iff₀ (by positivity)] at this
     linarith
   have e3 : ‖homRu T θ z zb‖ + ‖homRv T θ z zb‖ ≤ r * ε := by

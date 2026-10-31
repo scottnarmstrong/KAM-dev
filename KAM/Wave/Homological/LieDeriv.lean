@@ -26,7 +26,7 @@ bounded bilinear form on `HomL2` (`homNOmegaCLM`), `N = ⟨ω,y⟩ + N_Ω` is a 
 (`homNfun`), it is Fréchet differentiable with
 `DN(w)(Θ,Y,Z,\bar Z) = ⟨ω,Y⟩ + N_Ω(Z,\bar z) + N_Ω(z,\bar Z)` (`homNfun_hasFDerivAt`), and along the
 field `X_F(w) = (·, -(1/2π)F_θ, -i F_{\bar z}, i F_z)` (the normal components embedded
-`ℓ^N_{a,p+1} ⊂ ℓ^N_{a,p}`, `homEmbed`):
+`ℓ^N_{a,p_+} ⊂ ℓ^N_{a,p}`, `homEmbed`):
 `DN(w) X_F(w) = -L_N F(w)` (`homLemma_lie_iv`).
 -/
 
@@ -36,28 +36,35 @@ namespace KAM.Wave
 
 open KAM
 
-variable {a p s : ℝ}
+variable {a p pb s : ℝ}
 
 /-- The phase space `(θ, y, z, \bar z)` of the normal-form Hamiltonian (carrier of `KAM/Wave/Seq`).
     -/
 abbrev HomPhase : Type := (Fin 2 → ℂ) × (Fin 2 → ℂ) × HomL2 × HomL2
 
-/-- The embedding `ℓ^N_{a,p+1} ⊂ ℓ^N_{a,p}` on representatives: `ĉ_j ↦ ĉ_j/(j+2)`. -/
-def homEmbedCoef (j : ℕ+) : ℂ := 1 / ((j : ℂ) + 2)
+/-- The embedding `ℓ^N_{a,p_+} ⊂ ℓ^N_{a,p}` (`p ≤ p_+ = pb`) on representatives:
+`ĉ_j ↦ ĉ_j ω_{a,p}(j+2)/ω_{a,p_+}(j+2)`. -/
+def homEmbedCoef (a p pb : ℝ) (j : ℕ+) : ℂ := ((homWt a p j / homWt a pb j : ℝ) : ℂ)
 
-theorem norm_homEmbedCoef_le (j : ℕ+) : ‖homEmbedCoef j‖ ≤ 1 := by
+theorem norm_homEmbedCoef_le {a p pb : ℝ} (hpb : p ≤ pb) (j : ℕ+) :
+    ‖homEmbedCoef a p pb j‖ ≤ 1 := by
   unfold homEmbedCoef
-  have h : (1 : ℝ) ≤ (j : ℝ) + 2 := by
+  rw [Complex.norm_real, Real.norm_eq_abs]
+  have h1 : (1 : ℝ) ≤ ((j : ℝ) + 2) := by
     have : (1 : ℝ) ≤ j := by exact_mod_cast j.pos
     linarith
-  have : ‖((j : ℂ) + 2)‖ = (j : ℝ) + 2 := by
-    have : ((j : ℂ) + 2) = (((j : ℝ) + 2 : ℝ) : ℂ) := by push_cast; ring
-    rw [this, Complex.norm_real, Real.norm_eq_abs, abs_of_pos (by linarith)]
-  rw [norm_div, this, norm_one, div_le_one (by linarith)]
-  exact h
+  have e : homWt a p j / homWt a pb j = ((j : ℝ) + 2) ^ (p - pb) := by
+    unfold homWt
+    rw [ellWeight_div_ellWeight]
+    congr 1
+    push_cast
+    ring
+  rw [e, abs_of_pos (Real.rpow_pos_of_pos (by linarith) _)]
+  exact Real.rpow_le_one_of_one_le_of_nonpos h1 (by linarith)
 
 /-- The embedding as a bounded diagonal operator. -/
-def homEmbed : HomOp := weightedDiagCLM homEmbedCoef norm_homEmbedCoef_le
+def homEmbed (a p pb : ℝ) (hpb : p ≤ pb) : HomOp :=
+  weightedDiagCLM (homEmbedCoef a p pb) (norm_homEmbedCoef_le hpb)
 
 /-- The coefficients `Ω_j/ω_{a,p}(j+2)²` of the form `N_Ω` in the representative coordinates. -/
 def homNcoef (a p : ℝ) (Ω : ℕ+ → ℝ) (j : ℕ+) : ℂ := (Ω j : ℂ) / ((homWt a p j : ℝ) : ℂ) ^ 2
@@ -87,9 +94,10 @@ theorem homNOmegaCLM_apply {a p γ K0 : ℝ} {Ω : ℕ+ → ℝ} (hG : HomGuard 
   exact tsum_congr fun j => by simp [weightedDiagCLM_apply, mul_assoc]
 
 /-- `N_Ω(ĉ-embedded, z) = ⟨c, Ωz⟩₀` (the pairing of `bpW:w4:lie`). -/
-theorem homNOmega_embed {a p γ K0 : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {Ω : ℕ+ → ℝ}
+theorem homNOmega_embed {a p γ K0 : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {Ω : ℕ+ → ℝ}
     (hG : HomGuard a p γ) (hK0 : 0 ≤ K0) (hΩ : ∀ j : ℕ+, |Ω j| ≤ K0 * ((j : ℝ) + 2))
-    (c z : HomL2) : homNOmegaCLM hG hK0 hΩ (homEmbed c) z = homPairOmega ha hp Ω c z := by
+    (c z : HomL2) : homNOmegaCLM hG hK0 hΩ (homEmbed a p pb hpb c) z =
+      homPairOmega ha hp hpb Ω c z := by
   rw [homNOmegaCLM_apply]
   unfold homPairOmega
   refine tsum_congr fun j => ?_
@@ -97,14 +105,10 @@ theorem homNOmega_embed {a p γ K0 : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {Ω : �
   have hj : ((j : ℂ) + 2) ≠ 0 := by
     have : (0 : ℝ) < (j : ℝ) + 2 := by positivity
     exact_mod_cast this.ne'
-  have hw1 : (homWt a (p + 1) j : ℂ) = ((j : ℂ) + 2) * (homWt a p j : ℂ) := by
-    rw [homWt_succ]; push_cast; ring
+  have hw2 : (homWt a pb j : ℂ) ≠ 0 := by exact_mod_cast (homWt_pos a pb j).ne'
   simp only [homEmbed, weightedDiagCLM_apply, homEmbedCoef, homNcoef, homLamDiag_apply, homLamD]
-  rw [show (homWt a p j * homWt a (p + 1) j : ℝ) = homWt a p j * (((j : ℝ) + 2) * homWt a p j) by
-    rw [homWt_succ]]
   push_cast
   field_simp
-
 
 theorem homNOmega_comm {a p γ K0 : ℝ} {Ω : ℕ+ → ℝ} (hG : HomGuard a p γ) (hK0 : 0 ≤ K0)
     (hΩ : ∀ j : ℕ+, |Ω j| ≤ K0 * ((j : ℝ) + 2)) (z zb : HomL2) :
@@ -163,20 +167,22 @@ theorem homDN_apply (w X : HomPhase) :
 `DN(w)·X_F(w) = -L_N F(w)` (equal to the weak bracket `⟨⟨N,F⟩⟩` of (ii)); the `y`-component of
 `X_F` is `-(1/2π)F_θ` and the normal components are `(-iF_{\bar z}, iF_z)` embedded in
 `ℓ^N_{a,p}`. -/
-theorem homLemma_lie_iv (ha : 0 ≤ a) (hp : 0 ≤ p) (T : HomTaylor a p s) (θ y : Fin 2 → ℂ)
+theorem homLemma_lie_iv (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : HomTaylor a p pb s) (θ y :
+    Fin 2 → ℂ)
     (z zb : HomL2) :
     homDN hG hK0 hΩ ω (θ, y, z, zb)
-        ((0 : Fin 2 → ℂ), (fun i => -(2 * Real.pi : ℂ)⁻¹ * homRtheta ha hp T i θ y z zb),
-          (-Complex.I) • homEmbed (homRzb T θ z zb), Complex.I • homEmbed (homRz T θ z zb)) =
-      -homLieN ha hp ω Ω T θ y z zb := by
+        ((0 : Fin 2 → ℂ), (fun i => -(2 * Real.pi : ℂ)⁻¹ * homRtheta ha hp hpb T i θ y z zb),
+          (-Complex.I) • homEmbed a p pb hpb (homRzb T θ z zb),
+          Complex.I • homEmbed a p pb hpb (homRz T θ z zb)) =
+      -homLieN ha hp hpb ω Ω T θ y z zb := by
   rw [homDN_apply]
   simp only [homPrZ, ContinuousLinearMap.coe_comp', Function.comp_apply,
     ContinuousLinearMap.coe_snd', map_smul, smul_apply, smul_eq_mul]
-  rw [homNOmega_comm hG hK0 hΩ z, homNOmega_embed ha hp hG hK0 hΩ,
-    homNOmega_embed ha hp hG hK0 hΩ]
+  rw [homNOmega_comm hG hK0 hΩ z, homNOmega_embed ha hp hpb hG hK0 hΩ,
+    homNOmega_embed ha hp hpb hG hK0 hΩ]
   unfold homLieN
-  have : ∑ k, (ω k : ℂ) * (-(2 * Real.pi : ℂ)⁻¹ * homRtheta ha hp T k θ y z zb) =
-      -((2 * Real.pi : ℂ)⁻¹ * ∑ k, (ω k : ℂ) * homRtheta ha hp T k θ y z zb) := by
+  have : ∑ k, (ω k : ℂ) * (-(2 * Real.pi : ℂ)⁻¹ * homRtheta ha hp hpb T k θ y z zb) =
+      -((2 * Real.pi : ℂ)⁻¹ * ∑ k, (ω k : ℂ) * homRtheta ha hp hpb T k θ y z zb) := by
     rw [Finset.mul_sum, ← Finset.sum_neg_distrib]
     exact Finset.sum_congr rfl fun k _ => by ring
   rw [this]

@@ -77,6 +77,7 @@ public import KAM.Wave.Homological.Melnikov
 public import KAM.Wave.Homological.NhatTaylor
 public import KAM.Wave.Homological.NormalOps
 public import KAM.Wave.Homological.NormalPol
+public import KAM.Wave.Homological.PPlusOne
 public import KAM.Wave.Homological.RealF
 public import KAM.Wave.Homological.RealSolve
 public import KAM.Wave.Homological.Schur

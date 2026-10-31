@@ -173,7 +173,7 @@ theorem homSolve_congr {E E' : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
   rw [homCoeff_congr hs h]
 
 /-- **Entries of a Hadamard solve** are scalar solves of the entries. -/
-theorem homSolve_hadamard_entry {s σ m κ α τ : ℝ} (a p : ℝ) (hτ : 0 ≤ τ) (hα : 0 < α)
+theorem homSolve_hadamard_entry {s σ m κ α τ : ℝ} (a p pb : ℝ) (hτ : 0 ≤ τ) (hα : 0 < α)
     (hκ : 1 ≤ κ) (hσ : 0 < σ) (hσs : σ < s) {d : (Fin 2 → ℤ) → ℕ+ → ℕ+ → ℂ}
     {c : (Fin 2 → ℤ) → ℝ} (hd : ∀ k, HomHadamardBound (d k) (c k))
     (hT : ∀ k, ‖homHadamardCLM (hd k)‖ ≤ κ * waveA τ k / α) {u : (Fin 2 → ℂ) → HomOp}
@@ -181,10 +181,10 @@ theorem homSolve_hadamard_entry {s σ m κ α τ : ℝ} (a p : ℝ) (hτ : 0 ≤
     (hp : ∀ (i : Fin 2) z, z ∈ complexStrip 2 s → u (z + Pi.single i 1) = u z)
     (hm : ∀ z ∈ complexStrip 2 s, ‖u z‖ ≤ m) (i j : ℕ+) {θ : Fin 2 → ℂ}
     (hθ : θ ∈ complexStrip 2 (s - σ)) :
-    homNormalEntry a p (homSolve (fun k => homHadamardCLM (hd k)) u θ) i j =
+    homNormalEntry a p pb (homSolve (fun k => homHadamardCLM (hd k)) u θ) i j =
       homSolve (fun k => d k i j • ContinuousLinearMap.id ℂ ℂ)
-        (fun z => homNormalEntry a p (u z) i j) θ := by
-  have := homSolve_image_eq hτ hα hκ hσ hσs hT (homNormEntryCLM a p i j)
+        (fun z => homNormalEntry a p pb (u z) i j) θ := by
+  have := homSolve_image_eq hτ hα hκ hσ hσs hT (homNormEntryCLM a p pb i j)
     (T' := fun k => d k i j • ContinuousLinearMap.id ℂ ℂ)
     (fun k => by
       refine ContinuousLinearMap.ext fun A => ?_
@@ -195,21 +195,22 @@ theorem homSolve_hadamard_entry {s σ m κ α τ : ℝ} (a p : ℝ) (hτ : 0 ≤
 
 
 /-- Entries of the Hadamard solve of an operator component, packaged. -/
-theorem homSolve_entry_symm {s σ κ : ℝ} {a p : ℝ} (hτ : 0 ≤ τ) (hα : 0 < α) (hκ : 1 ≤ κ)
+theorem homSolve_entry_symm {s σ κ : ℝ} {a p pb : ℝ} (hτ : 0 ≤ τ) (hα : 0 < α) (hκ : 1 ≤ κ)
     (hσ : 0 < σ) (hσs : σ < s) {d d' : (Fin 2 → ℤ) → ℕ+ → ℕ+ → ℂ} {c c' : (Fin 2 → ℤ) → ℝ}
     (hd : ∀ k, HomHadamardBound (d k) (c k)) (hd' : ∀ k, HomHadamardBound (d' k) (c' k))
     (hT : ∀ k, ‖homHadamardCLM (hd k)‖ ≤ κ * waveA τ k / α)
     (hT' : ∀ k, ‖homHadamardCLM (hd' k)‖ ≤ κ * waveA τ k / α)
     {u u' : (Fin 2 → ℂ) → HomOp} (hu : IsHomComp s u) (hu' : IsHomComp s u')
     (i j : ℕ+) (hdd : ∀ k, d k i j = d' k j i)
-    (huu : ∀ z ∈ complexStrip 2 s, homNormalEntry a p (u z) i j = homNormalEntry a p (u' z) j i)
+    (huu : ∀ z ∈ complexStrip 2 s, homNormalEntry a p pb (u z) i j = homNormalEntry a p pb (u' z) j
+        i)
     {θ : Fin 2 → ℂ} (hθ : θ ∈ complexStrip 2 (s - σ)) :
-    homNormalEntry a p (homSolve (fun k => homHadamardCLM (hd k)) u θ) i j =
-      homNormalEntry a p (homSolve (fun k => homHadamardCLM (hd' k)) u' θ) j i := by
+    homNormalEntry a p pb (homSolve (fun k => homHadamardCLM (hd k)) u θ) i j =
+      homNormalEntry a p pb (homSolve (fun k => homHadamardCLM (hd' k)) u' θ) j i := by
   obtain ⟨hud, hup, m, hm⟩ := hu
   obtain ⟨hud', hup', m', hm'⟩ := hu'
-  rw [homSolve_hadamard_entry a p hτ hα hκ hσ hσs hd hT hud hup hm i j hθ,
-    homSolve_hadamard_entry a p hτ hα hκ hσ hσs hd' hT' hud' hup' hm' j i hθ]
+  rw [homSolve_hadamard_entry a p pb hτ hα hκ hσ hσs hd hT hud hup hm i j hθ,
+    homSolve_hadamard_entry a p pb hτ hα hκ hσ hσs hd' hT' hud' hup' hm' j i hθ]
   have hs : 0 < s := hσ.trans hσs
   have := homSolve_congr hs (fun k => d k i j • ContinuousLinearMap.id ℂ ℂ) huu
   rw [this]
@@ -219,8 +220,8 @@ theorem homSolve_entry_symm {s σ κ : ℝ} {a p : ℝ} (hτ : 0 ≤ τ) (hα : 
 
 /-- **The solution `F ∈ 𝒯_{s-σ}`** of Theorem `bpW:w4:lemma1` (i): its components are the solves of
 the components of `R`. -/
-def homSolveTaylor {a p s σ : ℝ} (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) (hσs : σ < s)
-    (hm : HomMultBounds τ α w W) (R : HomTaylor a p s) : HomTaylor a p (s - σ) where
+def homSolveTaylor {a p pb s σ : ℝ} (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) (hσs : σ < s)
+    (hm : HomMultBounds τ α w W) (R : HomTaylor a p pb s) : HomTaylor a p pb (s - σ) where
   a0 := homSolve (homTscal w) R.a0
   b := homSolve (homTvec w) R.b
   cp := homSolve (homTdp hm) R.cp

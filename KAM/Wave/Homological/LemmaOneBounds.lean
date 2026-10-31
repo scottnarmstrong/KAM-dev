@@ -45,30 +45,36 @@ theorem homPartial_clm {E G : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
   rw [show (fun z => Λ (u z)) = Λ ∘ u from rfl, this]
   rfl
 
-variable {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ}
+variable {a p pb s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ}
 
-theorem homLamDiag_comm_homTdp {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hm : HomMultBounds τ α w W)
-    (k : Fin 2 → ℤ) : (homLamDiag ha hp).comp (homTdp hm k) = (homTdp hm k).comp (homLamDiag ha hp)
+theorem homLamDiag_comm_homTdp {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hm :
+    HomMultBounds τ α w W)
+    (k : Fin 2 → ℤ) : (homLamDiag ha (homPP hp hpb)).comp (homTdp hm k) = (homTdp hm k).comp
+        (homLamDiag ha (homPP hp hpb))
         := by
   refine ContinuousLinearMap.ext fun v => ?_
   ext j
   simp [homTdp, homLamDiag_apply]
   ring
 
-theorem homLamDiag_comm_homTdm {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hm : HomMultBounds τ α w W)
-    (k : Fin 2 → ℤ) : (homLamDiag ha hp).comp (homTdm hm k) = (homTdm hm k).comp (homLamDiag ha hp)
+theorem homLamDiag_comm_homTdm {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hm :
+    HomMultBounds τ α w W)
+    (k : Fin 2 → ℤ) : (homLamDiag ha (homPP hp hpb)).comp (homTdm hm k) = (homTdm hm k).comp
+        (homLamDiag ha (homPP hp hpb))
         := by
   refine ContinuousLinearMap.ext fun v => ?_
   ext j
   simp [homTdm, homLamDiag_apply]
   ring
 
-theorem homLam_comm_hadamard {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {d : ℕ+ → ℕ+ → ℂ} {c : ℝ}
+theorem homLam_comm_hadamard {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {d : ℕ+ → ℕ+ →
+    ℂ} {c : ℝ}
     (h : HomHadamardBound d c) :
-    (homLamCLM ha hp).comp (homHadamardCLM h) = (homHadamardCLM h).comp (homLamCLM ha hp) := by
+    (homLamCLM ha (homPP hp hpb)).comp (homHadamardCLM h) = (homHadamardCLM h).comp (homLamCLM ha
+        (homPP hp hpb)) := by
   refine ContinuousLinearMap.ext fun A => ?_
   simp only [ContinuousLinearMap.comp_apply, homHadamardCLM_apply]
-  exact (homHadamardOp_lam ha hp h A).symm
+  exact (homHadamardOp_lam ha (homPP hp hpb) h A).symm
 
 
 theorem norm_sum_mul_le_of_sum_norm (β y : Fin 2 → ℂ) :
@@ -80,21 +86,22 @@ theorem norm_sum_mul_le_of_sum_norm (β y : Fin 2 → ℂ) :
   exact mul_le_mul_of_nonneg_left (norm_le_pi_norm y k) (norm_nonneg _)
 
 /-- **Component bounds of `F`** (`bpW:w4:lemma1`, step *Component bounds of F*). -/
-theorem homF_compBounds {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p)
+theorem homF_compBounds {a p pb s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p)
+    (hpb : p ≤ pb)
     {r ε : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) (hσs : σ < s)
-    (hm : HomMultBounds τ α w W) (R : HomTaylor a p s) (hX : HomFieldBound ha hp r ε R)
+    (hm : HomMultBounds τ α w W) (R : HomTaylor a p pb s) (hX : HomFieldBound ha hp hpb r ε R)
     {θ : Fin 2 → ℂ} (hθ : θ ∈ complexStrip 2 (s - σ)) :
-    HomCompBounds ha hp r homKS (waveBW τ σ * ε / α) (homSolveTaylor hτ hα hσ hσs hm R) θ := by
+    HomCompBounds ha hp hpb r homKS (waveBW τ σ * ε / α) (homSolveTaylor hτ hα hσ hσs hm R) θ := by
   have hs : 0 < s := hσ.trans hσs
   have hsub : complexStrip 2 (s - σ) ⊆ complexStrip 2 s := fun z hz j => by
     have := hz j; linarith
   have hε : 0 ≤ ε := by
     have hθ' : θ ∈ complexStrip 2 s := hsub hθ
-    exact (homXnorm_nonneg ha hp hr R θ 0 0 0).trans
+    exact (homXnorm_nonneg ha hp hpb hr R θ 0 0 0).trans
       (hX θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   have hB := waveBW_nonneg τ σ
-  have hfirst := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hr R hX hz
-  have hang := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hr R hX hz i
+  have hfirst := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R hX hz
+  have hang := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R hX hz i
   have hK1 := one_le_homKS
   have hs2 : 0 ≤ Real.sqrt 2 := Real.sqrt_nonneg _
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
@@ -171,39 +178,41 @@ theorem homF_compBounds {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ →
     intro i
     obtain ⟨C, hC⟩ := R.comp_cp.2.2
     have := homSolve_image_partial_bound (T' := homTdp hm) hτ hα le_rfl le_rfl hσ hσs
-      (norm_homTdp_le hm) (norm_homTdp_le hm) (homLamDiag ha hp)
-      (homLamDiag_comm_homTdp ha hp hm) R.comp_cp.1 R.comp_cp.2.1 hC (mΛ := C)
-      (fun z hz => (homDualNorm_le ha hp _).trans (hC z hz)) i
+      (norm_homTdp_le hm) (norm_homTdp_le hm) (homLamDiag ha (homPP hp hpb))
+      (homLamDiag_comm_homTdp ha hp hpb hm) R.comp_cp.1 R.comp_cp.2.1 hC (mΛ := C)
+      (fun z hz => (homDualNorm_le ha (homPP hp hpb) _).trans (hC z hz)) i
       (mΛ' := 2 * Real.sqrt 2 * Real.pi * r * ε)
       (fun z hz => by
         rw [homPartial_clm _ (R.comp_cp.1.differentiableAt ((isOpen_complexStrip 2 s).mem_nhds hz))
             i]
         exact (hang z hz i).2.2.1) hθ
-    refine (this : homDualNorm ha hp (homPartial i (homSolve (homTdp hm) R.cp) θ) ≤ _).trans
+    refine (this : homDualNorm ha (homPP hp hpb) (homPartial i (homSolve (homTdp hm) R.cp) θ) ≤
+        _).trans
       (le_of_eq ?_)
     ring
   · -- dcm
     intro i
     obtain ⟨C, hC⟩ := R.comp_cm.2.2
     have := homSolve_image_partial_bound (T' := homTdm hm) hτ hα le_rfl le_rfl hσ hσs
-      (norm_homTdm_le hm) (norm_homTdm_le hm) (homLamDiag ha hp)
-      (homLamDiag_comm_homTdm ha hp hm) R.comp_cm.1 R.comp_cm.2.1 hC (mΛ := C)
-      (fun z hz => (homDualNorm_le ha hp _).trans (hC z hz)) i
+      (norm_homTdm_le hm) (norm_homTdm_le hm) (homLamDiag ha (homPP hp hpb))
+      (homLamDiag_comm_homTdm ha hp hpb hm) R.comp_cm.1 R.comp_cm.2.1 hC (mΛ := C)
+      (fun z hz => (homDualNorm_le ha (homPP hp hpb) _).trans (hC z hz)) i
       (mΛ' := 2 * Real.sqrt 2 * Real.pi * r * ε)
       (fun z hz => by
         rw [homPartial_clm _ (R.comp_cm.1.differentiableAt ((isOpen_complexStrip 2 s).mem_nhds hz))
             i]
         exact (hang z hz i).2.2.2.1) hθ
-    refine (this : homDualNorm ha hp (homPartial i (homSolve (homTdm hm) R.cm) θ) ≤ _).trans
+    refine (this : homDualNorm ha (homPP hp hpb) (homPartial i (homSolve (homTdm hm) R.cm) θ) ≤
+        _).trans
       (le_of_eq ?_)
     ring
   · -- dP
     intro i
     obtain ⟨C, hC⟩ := R.comp_P.2.2
     have := homSolve_image_partial_bound (T' := homTP hm) hτ hα one_le_homKS one_le_homKS hσ hσs
-      (norm_homTP_le hm) (norm_homTP_le hm) (homLamCLM ha hp)
-      (fun k => homLam_comm_hadamard ha hp (hm.P k)) R.comp_P.1 R.comp_P.2.1 hC (mΛ := C)
-      (fun z hz => (norm_homLamCLM_apply_le ha hp _).trans (hC z hz)) i
+      (norm_homTP_le hm) (norm_homTP_le hm) (homLamCLM ha (homPP hp hpb))
+      (fun k => homLam_comm_hadamard ha hp hpb (hm.P k)) R.comp_P.1 R.comp_P.2.1 hC (mΛ := C)
+      (fun z hz => (norm_homLamCLM_apply_le ha (homPP hp hpb) _).trans (hC z hz)) i
       (mΛ' := 4 * Real.pi * ε)
       (fun z hz => by
         rw [homPartial_clm _ (R.comp_P.1.differentiableAt ((isOpen_complexStrip 2 s).mem_nhds hz))
@@ -214,9 +223,9 @@ theorem homF_compBounds {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ →
     intro i
     obtain ⟨C, hC⟩ := R.comp_P'.2.2
     have := homSolve_image_partial_bound (T' := homTP' hm) hτ hα one_le_homKS one_le_homKS hσ hσs
-      (norm_homTP'_le hm) (norm_homTP'_le hm) (homLamCLM ha hp)
-      (fun k => homLam_comm_hadamard ha hp (hm.P' k)) R.comp_P'.1 R.comp_P'.2.1 hC (mΛ := C)
-      (fun z hz => (norm_homLamCLM_apply_le ha hp _).trans (hC z hz)) i
+      (norm_homTP'_le hm) (norm_homTP'_le hm) (homLamCLM ha (homPP hp hpb))
+      (fun k => homLam_comm_hadamard ha hp hpb (hm.P' k)) R.comp_P'.1 R.comp_P'.2.1 hC (mΛ := C)
+      (fun z hz => (norm_homLamCLM_apply_le ha (homPP hp hpb) _).trans (hC z hz)) i
       (mΛ' := 4 * Real.pi * ε)
       (fun z hz => by
         rw [homPartial_clm _ (R.comp_P'.1.differentiableAt ((isOpen_complexStrip 2 s).mem_nhds hz))
@@ -227,9 +236,9 @@ theorem homF_compBounds {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ →
     intro i
     obtain ⟨C, hC⟩ := R.comp_Q.2.2
     have := homSolve_image_partial_bound (T' := homTQ hm) hτ hα one_le_homKS one_le_homKS hσ hσs
-      (norm_homTQ_le hm) (norm_homTQ_le hm) (homLamCLM ha hp)
-      (fun k => homLam_comm_hadamard ha hp (hm.Q k)) R.comp_Q.1 R.comp_Q.2.1 hC (mΛ := C)
-      (fun z hz => (norm_homLamCLM_apply_le ha hp _).trans (hC z hz)) i
+      (norm_homTQ_le hm) (norm_homTQ_le hm) (homLamCLM ha (homPP hp hpb))
+      (fun k => homLam_comm_hadamard ha hp hpb (hm.Q k)) R.comp_Q.1 R.comp_Q.2.1 hC (mΛ := C)
+      (fun z hz => (norm_homLamCLM_apply_le ha (homPP hp hpb) _).trans (hC z hz)) i
       (mΛ' := 16 * Real.pi * ε)
       (fun z hz => by
         rw [homPartial_clm _ (R.comp_Q.1.differentiableAt ((isOpen_complexStrip 2 s).mem_nhds hz))
@@ -240,10 +249,11 @@ theorem homF_compBounds {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ →
 
 /-- **Lemma 1 (iii), uniform bound** (`bpW:w4:lemma1` (iii)): `|X_F|_r ≤ C₁ B^W_σ ε/α` on
 `D(s-σ,r)`, `C₁ = 7 + 10K_S`. -/
-theorem homLemma1_fieldBound {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ} (ha : 0 ≤ a)
-    (hp : 0 ≤ p) {r ε : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) (hσs : σ < s)
-    (hm : HomMultBounds τ α w W) (R : HomTaylor a p s) (hX : HomFieldBound ha hp r ε R) :
-    HomFieldBound ha hp r ((7 + 10 * homKS) * (waveBW τ σ * ε / α))
+theorem homLemma1_fieldBound {a p pb s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ} (ha : 0 ≤ a)
+    (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) (hσs
+        : σ < s)
+    (hm : HomMultBounds τ α w W) (R : HomTaylor a p pb s) (hX : HomFieldBound ha hp hpb r ε R) :
+    HomFieldBound ha hp hpb r ((7 + 10 * homKS) * (waveBW τ σ * ε / α))
       (homSolveTaylor hτ hα hσ hσs hm R) := by
   intro θ y z zb hdom
   have hs : 0 < s := hσ.trans hσs
@@ -251,11 +261,11 @@ theorem homLemma1_fieldBound {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ
     have := hz j; linarith
   have hε : 0 ≤ ε := by
     have hθ' : θ ∈ complexStrip 2 s := hsub hdom.1
-    exact (homXnorm_nonneg ha hp hr R θ 0 0 0).trans
+    exact (homXnorm_nonneg ha hp hpb hr R θ 0 0 0).trans
       (hX θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   have hE0 : 0 ≤ waveBW τ σ * ε / α := by
     have := waveBW_nonneg τ σ; positivity
-  exact homXnorm_le_of_components ha hp hr one_le_homKS hE0 _
-    (homF_compBounds ha hp hr hτ hα hσ hσs hm R hX hdom.1) hdom.2.1.le hdom.2.2
+  exact homXnorm_le_of_components ha hp hpb hr one_le_homKS hE0 _
+    (homF_compBounds ha hp hpb hr hτ hα hσ hσs hm R hX hdom.1) hdom.2.1.le hdom.2.2
 
 end KAM.Wave

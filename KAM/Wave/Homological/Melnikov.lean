@@ -44,14 +44,44 @@ noncomputable def homPairL (l : ℕ+ →₀ ℤ) (Ω : ℕ+ → ℝ) : ℝ := l.
 /-- The index set `𝒵 = {(k,l) : (k,l) ≠ 0, |l| ≤ 2}` (blueprint `bpW:w4:melnikov`). -/
 def homZ : Set ((Fin 2 → ℤ) × (ℕ+ →₀ ℤ)) := {p | p ≠ 0 ∧ homL1 p.2 ≤ 2}
 
-/-- **Frequency hypotheses** (blueprint `bpW:w4:freq`): `Ω_j = j + 2 + Ω̃_j`, `j |Ω̃_j| ≤ M₀`,
-`ω` is `M_ω`-Lipschitz and `j |Ω_j(ξ) - Ω_j(ζ)| ≤ M_Ω |ξ - ζ|`, on `Π`, with max norms. -/
+/-- **Frequency hypotheses** (blueprint `bpW:w5:freq`, the general form of `bpW:w4:freq`):
+`Ω_j = j + 2 + Ω̃_j`, `j^{1/2} |Ω̃_j| ≤ M₀`, `ω` is `M_ω`-Lipschitz and
+`j^{1/2} |Ω_j(ξ) - Ω_j(ζ)| ≤ M_Ω |ξ - ζ|`, on `Π`, with max norms. The original hypothesis
+(`bpW:w4:freq`, tail weight `j`) is `HomFreqHyp1`; it implies this one (`HomFreqHyp1.toHyp`). -/
 structure HomFreqHyp (Par : Set (Fin 2 → ℝ)) (ω : (Fin 2 → ℝ) → Fin 2 → ℝ)
+    (Ω : (Fin 2 → ℝ) → ℕ+ → ℝ) (M0 Mω MΩ : ℝ) : Prop where
+  nonneg : 0 ≤ M0 ∧ 0 ≤ Mω ∧ 0 ≤ MΩ
+  tail : ∀ ξ ∈ Par, ∀ j : ℕ+, (j : ℝ) ^ (1 / 2 : ℝ) * |Ω ξ j - ((j : ℝ) + 2)| ≤ M0
+  lipOmega : ∀ ξ ∈ Par, ∀ ζ ∈ Par, ‖ω ξ - ω ζ‖ ≤ Mω * ‖ξ - ζ‖
+  lipTail : ∀ ξ ∈ Par, ∀ ζ ∈ Par, ∀ j : ℕ+,
+    (j : ℝ) ^ (1 / 2 : ℝ) * |Ω ξ j - Ω ζ j| ≤ MΩ * ‖ξ - ζ‖
+
+/-- **The original frequency hypotheses** (blueprint `bpW:w4:freq`): tail weight `j`. -/
+structure HomFreqHyp1 (Par : Set (Fin 2 → ℝ)) (ω : (Fin 2 → ℝ) → Fin 2 → ℝ)
     (Ω : (Fin 2 → ℝ) → ℕ+ → ℝ) (M0 Mω MΩ : ℝ) : Prop where
   nonneg : 0 ≤ M0 ∧ 0 ≤ Mω ∧ 0 ≤ MΩ
   tail : ∀ ξ ∈ Par, ∀ j : ℕ+, (j : ℝ) * |Ω ξ j - ((j : ℝ) + 2)| ≤ M0
   lipOmega : ∀ ξ ∈ Par, ∀ ζ ∈ Par, ‖ω ξ - ω ζ‖ ≤ Mω * ‖ξ - ζ‖
   lipTail : ∀ ξ ∈ Par, ∀ ζ ∈ Par, ∀ j : ℕ+, (j : ℝ) * |Ω ξ j - Ω ζ j| ≤ MΩ * ‖ξ - ζ‖
+
+theorem rpow_half_le_self {x : ℝ} (hx : 1 ≤ x) : x ^ (1 / 2 : ℝ) ≤ x := by
+  calc x ^ (1 / 2 : ℝ) ≤ x ^ (1 : ℝ) :=
+        Real.rpow_le_rpow_of_exponent_le hx (by norm_num)
+    _ = x := Real.rpow_one x
+
+/-- The original hypothesis implies the weaker one with the same constants. -/
+theorem HomFreqHyp1.toHyp {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 → ℝ}
+    {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ} {M0 Mω MΩ : ℝ} (h : HomFreqHyp1 Par ω Ω M0 Mω MΩ) :
+    HomFreqHyp Par ω Ω M0 Mω MΩ where
+  nonneg := h.nonneg
+  tail ξ hξ j := by
+    have hj : (1 : ℝ) ≤ j := by exact_mod_cast j.pos
+    exact (mul_le_mul_of_nonneg_right (rpow_half_le_self hj) (abs_nonneg _)).trans (h.tail ξ hξ j)
+  lipOmega := h.lipOmega
+  lipTail ξ hξ ζ hζ j := by
+    have hj : (1 : ℝ) ≤ j := by exact_mod_cast j.pos
+    exact (mul_le_mul_of_nonneg_right (rpow_half_le_self hj) (abs_nonneg _)).trans
+      (h.lipTail ξ hξ ζ hζ j)
 
 /-- **Melnikov conditions** `(H_α)` (blueprint `bpW:w4:melnikov`):
 `|⟨k,ω(ξ)⟩ + ⟨l,Ω(ξ)⟩| ≥ α ⟨l⟩ / A_k` for all `ξ ∈ Par` and `(k,l) ∈ 𝒵`. -/

@@ -126,7 +126,8 @@ theorem homDivGen_diff_le {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → 
     rw [← mul_sub, abs_mul]
     refine mul_le_mul_of_nonneg_left ?_ (abs_nonneg _)
     have hj := h.lipTail ξ hξ ζ hζ j
-    have hj1 : (1 : ℝ) ≤ j := by exact_mod_cast j.pos
+    have hj1 : (1 : ℝ) ≤ (j : ℝ) ^ (1 / 2 : ℝ) :=
+      Real.one_le_rpow (by exact_mod_cast j.pos) (by norm_num)
     have := abs_nonneg (Ω ξ j - Ω ζ j)
     nlinarith
   calc _ = |(homPairZ k (ω ξ) - homPairZ k (ω ζ)) + (homPairL l (Ω ξ) - homPairL l (Ω ζ))| := by

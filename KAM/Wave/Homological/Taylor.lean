@@ -20,7 +20,7 @@ Representative model (`NormalOps.lean`): the normal variables `z, \bar z ∈ ℓ
 their representatives in `ℓ²` (`HomL2`), the gradients `c^±` by representatives in `ℓ²` of
 `ℓ^N_{a,p+1}`, and the operator components `P, P', Q, Q^T` by weighted matrices (`HomOp`).
 
-* `HomTaylor a p s`: the class `𝒯_s`; components `a, b, c^±, P, P', Q, Q^T` (here `a0, b, cp, cm,
+* `HomTaylor a p pb s`: the class `𝒯_s`; components `a, b, c^±, P, P', Q, Q^T` (here `a0, b, cp, cm,
   P, P', Q, Qt`) complex differentiable, `1`-periodic and bounded on `T_s`, `P, P'` symmetric and
   `Q^T` the entrywise transpose of `Q` (entries `homNormalEntry`);
 * `homRz`, `homRzb`, `homRu`, `homRv`, `homRy`, `homRtheta`: the gradients `R_z, R_{\bar z}, R_u,
@@ -45,7 +45,7 @@ def IsHomComp {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] (s : ℝ)
     ∃ C : ℝ, ∀ z ∈ complexStrip 2 s, ‖f z‖ ≤ C
 
 /-- **The class `𝒯_s`** (blueprint `bpW:w4:taylor`). -/
-structure HomTaylor (a p s : ℝ) where
+structure HomTaylor (a p pb s : ℝ) where
   a0 : (Fin 2 → ℂ) → ℂ
   b : (Fin 2 → ℂ) → (Fin 2 → ℂ)
   cp : (Fin 2 → ℂ) → HomL2
@@ -63,13 +63,13 @@ structure HomTaylor (a p s : ℝ) where
   comp_Q : IsHomComp s Q
   comp_Qt : IsHomComp s Qt
   symP : ∀ θ ∈ complexStrip 2 s, ∀ i j,
-    homNormalEntry a p (P θ) i j = homNormalEntry a p (P θ) j i
+    homNormalEntry a p pb (P θ) i j = homNormalEntry a p pb (P θ) j i
   symP' : ∀ θ ∈ complexStrip 2 s, ∀ i j,
-    homNormalEntry a p (P' θ) i j = homNormalEntry a p (P' θ) j i
+    homNormalEntry a p pb (P' θ) i j = homNormalEntry a p pb (P' θ) j i
   transQ : ∀ θ ∈ complexStrip 2 s, ∀ i j,
-    homNormalEntry a p (Qt θ) i j = homNormalEntry a p (Q θ) j i
+    homNormalEntry a p pb (Qt θ) i j = homNormalEntry a p pb (Q θ) j i
 
-variable {a p s : ℝ}
+variable {a p pb s : ℝ}
 
 /-- `√2` as a complex number. -/
 def homSqrt2 : ℂ := ((Real.sqrt 2 : ℝ) : ℂ)
@@ -88,22 +88,22 @@ theorem homSqrt2_sq : homSqrt2 * homSqrt2 = 2 := by
   simp
 
 /-- `R_y = b`. -/
-def homRy (T : HomTaylor a p s) (θ : Fin 2 → ℂ) : Fin 2 → ℂ := T.b θ
+def homRy (T : HomTaylor a p pb s) (θ : Fin 2 → ℂ) : Fin 2 → ℂ := T.b θ
 
 /-- `R_z = c^+ + 2Pz + Q^T \bar z`. -/
-def homRz (T : HomTaylor a p s) (θ : Fin 2 → ℂ) (z zb : HomL2) : HomL2 :=
+def homRz (T : HomTaylor a p pb s) (θ : Fin 2 → ℂ) (z zb : HomL2) : HomL2 :=
   T.cp θ + (2 : ℂ) • T.P θ z + T.Qt θ zb
 
 /-- `R_{\bar z} = c^- + Qz + 2P'\bar z`. -/
-def homRzb (T : HomTaylor a p s) (θ : Fin 2 → ℂ) (z zb : HomL2) : HomL2 :=
+def homRzb (T : HomTaylor a p pb s) (θ : Fin 2 → ℂ) (z zb : HomL2) : HomL2 :=
   T.cm θ + T.Q θ z + (2 : ℂ) • T.P' θ zb
 
 /-- `R_u = (R_z + R_{\bar z})/√2`. -/
-def homRu (T : HomTaylor a p s) (θ : Fin 2 → ℂ) (z zb : HomL2) : HomL2 :=
+def homRu (T : HomTaylor a p pb s) (θ : Fin 2 → ℂ) (z zb : HomL2) : HomL2 :=
   (homSqrt2⁻¹) • (homRz T θ z zb + homRzb T θ z zb)
 
 /-- `R_v = i (R_z - R_{\bar z})/√2`. -/
-def homRv (T : HomTaylor a p s) (θ : Fin 2 → ℂ) (z zb : HomL2) : HomL2 :=
+def homRv (T : HomTaylor a p pb s) (θ : Fin 2 → ℂ) (z zb : HomL2) : HomL2 :=
   (Complex.I * homSqrt2⁻¹) • (homRz T θ z zb - homRzb T θ z zb)
 
 theorem homSqrt2_inv : homSqrt2⁻¹ = homSqrt2 / 2 := by
@@ -113,7 +113,7 @@ theorem homSqrt2_inv : homSqrt2⁻¹ = homSqrt2 / 2 := by
   exact homSqrt2_sq.symm
 
 /-- `R_z = (R_u - i R_v)/√2` and `R_{\bar z} = (R_u + i R_v)/√2`. -/
-theorem homRz_eq (T : HomTaylor a p s) (θ : Fin 2 → ℂ) (z zb : HomL2) :
+theorem homRz_eq (T : HomTaylor a p pb s) (θ : Fin 2 → ℂ) (z zb : HomL2) :
     homRz T θ z zb = (homSqrt2⁻¹) • (homRu T θ z zb - Complex.I • homRv T θ z zb) := by
   unfold homRu homRv
   have h2' : homSqrt2 ^ 2 = 2 := by rw [sq]; exact homSqrt2_sq
@@ -125,7 +125,7 @@ theorem homRz_eq (T : HomTaylor a p s) (θ : Fin 2 → ℂ) (z zb : HomL2) :
   simp only [h2', Complex.I_sq]
   ring
 
-theorem homRzb_eq (T : HomTaylor a p s) (θ : Fin 2 → ℂ) (z zb : HomL2) :
+theorem homRzb_eq (T : HomTaylor a p pb s) (θ : Fin 2 → ℂ) (z zb : HomL2) :
     homRzb T θ z zb = (homSqrt2⁻¹) • (homRu T θ z zb + Complex.I • homRv T θ z zb) := by
   unfold homRu homRv
   have h2' : homSqrt2 ^ 2 = 2 := by rw [sq]; exact homSqrt2_sq
@@ -140,12 +140,15 @@ theorem homRzb_eq (T : HomTaylor a p s) (θ : Fin 2 → ℂ) (z zb : HomL2) :
 
 /-- `∂_{θ_i} R` for the Taylor polynomial, in terms of the derivatives of the components
 (`bpW:w4:taylor`). -/
-def homRtheta {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (T : HomTaylor a p s) (i : Fin 2)
+def homRtheta {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : HomTaylor a p pb s) (i :
+    Fin 2)
     (θ y : Fin 2 → ℂ) (z zb : HomL2) : ℂ :=
   homPartial i T.a0 θ + ∑ k, homPartial i T.b θ k * y k
-    + homPairRep ha hp (homPartial i T.cp θ) z + homPairRep ha hp (homPartial i T.cm θ) zb
-    + homPairRep ha hp (homPartial i T.P θ z) z + homPairRep ha hp (homPartial i T.Q θ z) zb
-    + homPairRep ha hp (homPartial i T.P' θ zb) zb
+    + homPairRep ha (homPP hp hpb) (homPartial i T.cp θ) z + homPairRep ha (homPP hp hpb)
+        (homPartial i T.cm θ) zb
+    + homPairRep ha (homPP hp hpb) (homPartial i T.P θ z) z + homPairRep ha (homPP hp hpb)
+        (homPartial i T.Q θ z) zb
+    + homPairRep ha (homPP hp hpb) (homPartial i T.P' θ zb) zb
 
 /-- The coordinates `u = (z + \bar z)/√2`. -/
 def homU (z zb : HomL2) : HomL2 := (homSqrt2⁻¹) • (z + zb)
@@ -158,15 +161,15 @@ def HomDomain (s r : ℝ) (θ y : Fin 2 → ℂ) (z zb : HomL2) : Prop :=
   θ ∈ complexStrip 2 s ∧ ‖y‖ < r ^ 2 ∧ ‖homU z zb‖ + ‖homV z zb‖ < r
 
 /-- **The field norm** `|X_R|_r` (blueprint `bpW:w4:taylor`), at a point. -/
-def homXnorm {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (r : ℝ) (T : HomTaylor a p s)
+def homXnorm {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (r : ℝ) (T : HomTaylor a p pb s)
     (θ y : Fin 2 → ℂ) (z zb : HomL2) : ℝ :=
   (2 * Real.pi)⁻¹ * ‖homRy T θ‖
-    + (2 * Real.pi * r ^ 2)⁻¹ * ‖fun i => homRtheta ha hp T i θ y z zb‖
+    + (2 * Real.pi * r ^ 2)⁻¹ * ‖fun i => homRtheta ha hp hpb T i θ y z zb‖
     + r⁻¹ * (‖homRu T θ z zb‖ + ‖homRv T θ z zb‖)
 
-theorem homXnorm_nonneg {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {r : ℝ} (hr : 0 < r)
-    (T : HomTaylor a p s) (θ y : Fin 2 → ℂ) (z zb : HomL2) :
-    0 ≤ homXnorm ha hp r T θ y z zb := by
+theorem homXnorm_nonneg {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r : ℝ} (hr : 0 < r)
+    (T : HomTaylor a p pb s) (θ y : Fin 2 → ℂ) (z zb : HomL2) :
+    0 ≤ homXnorm ha hp hpb r T θ y z zb := by
   unfold homXnorm
   positivity
 

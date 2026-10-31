@@ -184,15 +184,16 @@ theorem norm_homHadamardOp_diag_le {d : ℕ+ → ℕ+ → ℂ} {c : ℝ} (h : Ho
   exact norm_diagCLM_le _ hμ
 
 
-/-- The matrix entry `M_ij` of the operator `M ∈ 𝓛` (`ℓ^N_{a,p} → ℓ^N_{a,p+1}`) whose weighted
-matrix is `A`: `A_ij = μ_i M_ij ν_j` with `μ_i = ω_{a,p+1}(i+2)`, `ν_j = ω_{a,p}(j+2)⁻¹`. -/
-noncomputable def homNormalEntry (a p : ℝ) (A : HomOp) (i j : ℕ+) : ℂ :=
-  ((ellWeight a p (j + 2) / ellWeight a (p + 1) (i + 2) : ℝ) : ℂ) * kamEntry A i j
+/-- The matrix entry `M_ij` of the operator `M ∈ 𝓛` (`ℓ^N_{a,p} → ℓ^N_{a,p_+}`, `p_+ = pb`) whose
+weighted matrix is `A`: `A_ij = μ_i M_ij ν_j` with `μ_i = ω_{a,p_+}(i+2)`, `ν_j = ω_{a,p}(j+2)⁻¹`.
+    -/
+noncomputable def homNormalEntry (a p pb : ℝ) (A : HomOp) (i j : ℕ+) : ℂ :=
+  ((ellWeight a p (j + 2) / ellWeight a pb (i + 2) : ℝ) : ℂ) * kamEntry A i j
 
 /-- The Hadamard map acts entrywise on the matrix entries of `M`. -/
-theorem homNormalEntry_hadamard (a p : ℝ) {d : ℕ+ → ℕ+ → ℂ} {c : ℝ} (h : HomHadamardBound d c)
-    (A : HomOp) (i j : ℕ+) :
-    homNormalEntry a p (homHadamardOp h A) i j = d i j * homNormalEntry a p A i j := by
+theorem homNormalEntry_hadamard (a p pb : ℝ) {d : ℕ+ → ℕ+ → ℂ} {c : ℝ}
+    (h : HomHadamardBound d c) (A : HomOp) (i j : ℕ+) :
+    homNormalEntry a p pb (homHadamardOp h A) i j = d i j * homNormalEntry a p pb A i j := by
   unfold homNormalEntry
   rw [homHadamard_entry]
   ring
@@ -203,18 +204,30 @@ theorem ellWeight_succ_exponent (a p : ℝ) (J : ℕ+) :
   rw [Real.rpow_add_one (by exact_mod_cast J.ne_zero)]
   ring
 
-/-- **Diagonal bound** (blueprint `bpW:w4:schur` (iii)): `(i+2) |M_ii| ≤ ‖M‖`. -/
-theorem homDiagonal_bound (a p : ℝ) (A : HomOp) (i : ℕ+) :
-    ((i : ℝ) + 2) * ‖homNormalEntry a p A i i‖ ≤ ‖A‖ := by
-  have hw := ellWeight_pos a p (i + 2)
+/-- The ratio of two weights with the same exponential factor is a power. -/
+theorem ellWeight_div_ellWeight (a p pb : ℝ) (J : ℕ+) :
+    ellWeight a p J / ellWeight a pb J = (J : ℝ) ^ (p - pb) := by
+  unfold ellWeight
+  have h : (0 : ℝ) < (J : ℝ) := by exact_mod_cast J.pos
+  rw [Real.rpow_sub h]
+  field_simp [(Real.exp_pos (a * J)).ne']
+
+/-- **Diagonal bound** (blueprint `bpW:w4:schur` (iii), general `p_+`):
+`(i+2)^{p_+-p} |M_ii| ≤ ‖M‖`. -/
+theorem homDiagonal_bound (a p pb : ℝ) (A : HomOp) (i : ℕ+) :
+    ((i : ℝ) + 2) ^ (pb - p) * ‖homNormalEntry a p pb A i i‖ ≤ ‖A‖ := by
   have hJ : (((i + 2 : ℕ+) : ℕ+) : ℝ) = (i : ℝ) + 2 := by push_cast; ring
-  have hq : ellWeight a p (i + 2) / ellWeight a (p + 1) (i + 2) = 1 / ((i : ℝ) + 2) := by
-    rw [ellWeight_succ_exponent, hJ]
-    field_simp
+  have hq : ellWeight a p (i + 2) / ellWeight a pb (i + 2) = ((i : ℝ) + 2) ^ (-(pb - p)) := by
+    rw [ellWeight_div_ellWeight, hJ]
+    congr 1
+    ring
+  have hpos : (0 : ℝ) < (i : ℝ) + 2 := by positivity
   unfold homNormalEntry
-  rw [norm_mul, hq, Complex.norm_real, Real.norm_eq_abs, abs_of_pos (by positivity)]
-  have : ((i : ℝ) + 2) * (1 / ((i : ℝ) + 2) * ‖kamEntry A i i‖) = ‖kamEntry A i i‖ := by
-    field_simp
+  rw [norm_mul, hq, Complex.norm_real, Real.norm_eq_abs, abs_of_pos (Real.rpow_pos_of_pos hpos _)]
+  have : ((i : ℝ) + 2) ^ (pb - p) * (((i : ℝ) + 2) ^ (-(pb - p)) * ‖kamEntry A i i‖) =
+      ‖kamEntry A i i‖ := by
+    rw [← mul_assoc, ← Real.rpow_add hpos]
+    simp
   rw [this]
   exact norm_kamEntry_diag_le A i
 

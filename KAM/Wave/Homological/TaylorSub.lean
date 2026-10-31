@@ -27,7 +27,7 @@ namespace KAM.Wave
 
 open KAM
 
-variable {a p s : ℝ}
+variable {a p pb s : ℝ}
 
 theorem IsHomComp.sub {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] {s : ℝ}
     {f g : (Fin 2 → ℂ) → E} (hf : IsHomComp s f) (hg : IsHomComp s g) :
@@ -45,12 +45,13 @@ theorem homPartial_sub {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
   have := fderiv_sub (𝕜 := ℂ) hu hv
   rw [show (fun z => u z - v z) = u - v from rfl, this]; rfl
 
-theorem homNormalEntry_sub (a p : ℝ) (A B : HomOp) (i j : ℕ+) :
-    homNormalEntry a p (A - B) i j = homNormalEntry a p A i j - homNormalEntry a p B i j := by
+theorem homNormalEntry_sub (a p pb : ℝ) (A B : HomOp) (i j : ℕ+) :
+    homNormalEntry a p pb (A - B) i j = homNormalEntry a p pb A i j - homNormalEntry a p pb B i j
+        := by
   simp [homNormalEntry, kamEntry, mul_sub]
 
 /-- The difference `R₁ - R₂ ∈ 𝒯_s`. -/
-def HomTaylor.sub (R₁ R₂ : HomTaylor a p s) : HomTaylor a p s where
+def HomTaylor.sub (R₁ R₂ : HomTaylor a p pb s) : HomTaylor a p pb s where
   a0 := fun z => R₁.a0 z - R₂.a0 z
   b := fun z => R₁.b z - R₂.b z
   cp := fun z => R₁.cp z - R₂.cp z

@@ -28,44 +28,47 @@ namespace KAM.Wave
 
 open KAM
 
-variable {a p s : ℝ}
+variable {a p pb s : ℝ}
 
-theorem homRtheta_y {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (T : HomTaylor a p s) (i : Fin 2)
+theorem homRtheta_y {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : HomTaylor a p pb s)
+    (i : Fin 2)
     (θ y : Fin 2 → ℂ) :
-    homRtheta ha hp T i θ y 0 0 = homPartial i T.a0 θ + ∑ k, homPartial i T.b θ k * y k := by
+    homRtheta ha hp hpb T i θ y 0 0 = homPartial i T.a0 θ + ∑ k, homPartial i T.b θ k * y k := by
   simp [homRtheta, homPairRep_eq]
 
-theorem homRtheta_z {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (T : HomTaylor a p s) (i : Fin 2)
+theorem homRtheta_z {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : HomTaylor a p pb s)
+    (i : Fin 2)
     (θ : Fin 2 → ℂ) (ζ : ℂ) (z0 : HomL2) :
-    homRtheta ha hp T i θ 0 (ζ • z0) 0 = homPartial i T.a0 θ
-      + ζ * homPairRep ha hp (homPartial i T.cp θ) z0
-      + ζ ^ 2 * homPairRep ha hp (homPartial i T.P θ z0) z0 := by
+    homRtheta ha hp hpb T i θ 0 (ζ • z0) 0 = homPartial i T.a0 θ
+      + ζ * homPairRep ha (homPP hp hpb) (homPartial i T.cp θ) z0
+      + ζ ^ 2 * homPairRep ha (homPP hp hpb) (homPartial i T.P θ z0) z0 := by
   simp [homRtheta, homPairRep_eq, map_smul]
   ring
 
-theorem homRtheta_zb {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (T : HomTaylor a p s) (i : Fin 2)
+theorem homRtheta_zb {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : HomTaylor a p pb s)
+    (i : Fin 2)
     (θ : Fin 2 → ℂ) (ζ : ℂ) (z0 : HomL2) :
-    homRtheta ha hp T i θ 0 0 (ζ • z0) = homPartial i T.a0 θ
-      + ζ * homPairRep ha hp (homPartial i T.cm θ) z0
-      + ζ ^ 2 * homPairRep ha hp (homPartial i T.P' θ z0) z0 := by
+    homRtheta ha hp hpb T i θ 0 0 (ζ • z0) = homPartial i T.a0 θ
+      + ζ * homPairRep ha (homPP hp hpb) (homPartial i T.cm θ) z0
+      + ζ ^ 2 * homPairRep ha (homPP hp hpb) (homPartial i T.P' θ z0) z0 := by
   simp [homRtheta, homPairRep_eq, map_smul]
   ring
 
 /-- **Zeroth order**: `|∂_{θ_i} a| ≤ 2π r² ε`. -/
-theorem homAngle_a {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε : ℝ} (hr : 0 < r)
-    (T : HomTaylor a p s) (hX : HomFieldBound ha hp r ε T) {θ : Fin 2 → ℂ}
+theorem homAngle_a {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε : ℝ} (hr : 0 < r)
+    (T : HomTaylor a p pb s) (hX : HomFieldBound ha hp hpb r ε T) {θ : Fin 2 → ℂ}
     (hθ : θ ∈ complexStrip 2 s) (i : Fin 2) :
     ‖homPartial i T.a0 θ‖ ≤ 2 * Real.pi * r ^ 2 * ε := by
-  have h := (homXnorm_parts ha hp hr T
+  have h := (homXnorm_parts ha hp hpb hr T
     (hX θ 0 0 0 (homDomain_y hθ hr (by simpa using pow_pos hr 2)))).2.1
-  have := (norm_le_pi_norm (fun i => homRtheta ha hp T i θ 0 0 0) i).trans h
+  have := (norm_le_pi_norm (fun i => homRtheta ha hp hpb T i θ 0 0 0) i).trans h
   rw [homRtheta_y] at this
   simpa using this
 
 
 /-- **Linear order in `y`**: `∑_k |∂_{θ_i} b_k| ≤ 2π ε` (the dual of the max norm). -/
-theorem homAngle_b {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε : ℝ} (hr : 0 < r)
-    (T : HomTaylor a p s) (hX : HomFieldBound ha hp r ε T) {θ : Fin 2 → ℂ}
+theorem homAngle_b {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε : ℝ} (hr : 0 < r)
+    (T : HomTaylor a p pb s) (hX : HomFieldBound ha hp hpb r ε T) {θ : Fin 2 → ℂ}
     (hθ : θ ∈ complexStrip 2 s) (i : Fin 2) :
     ∑ k, ‖homPartial i T.b θ k‖ ≤ 2 * Real.pi * ε := by
   have hr2 : 0 < r ^ 2 := pow_pos hr 2
@@ -78,8 +81,8 @@ theorem homAngle_b {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε : ℝ} (hr 
         rw [norm_smul]
         calc ‖ζ‖ * ‖y0‖ ≤ ‖ζ‖ * 1 := mul_le_mul_of_nonneg_left hy0 (norm_nonneg _)
           _ < _ := by linarith
-      have h := (homXnorm_parts ha hp hr T (hX θ (ζ • y0) 0 0 (homDomain_y hθ hr hd))).2.1
-      have h2 := (norm_le_pi_norm (fun i => homRtheta ha hp T i θ (ζ • y0) 0 0) i).trans h
+      have h := (homXnorm_parts ha hp hpb hr T (hX θ (ζ • y0) 0 0 (homDomain_y hθ hr hd))).2.1
+      have h2 := (norm_le_pi_norm (fun i => homRtheta ha hp hpb T i θ (ζ • y0) 0 0) i).trans h
       rw [homRtheta_y] at h2
       have e : homPartial i T.a0 θ + ∑ k, homPartial i T.b θ k * (ζ • y0) k =
           homPartial i T.a0 θ + ζ • L y0 := by
@@ -139,30 +142,30 @@ theorem homQuad_of_unit {B : HomOp} {M : ℝ} (h : ∀ z : HomL2, ‖z‖ ≤ 1 
 
 /-- **First and second order in `z`**: `‖⟨∂_{θ_i}c^+, z₀⟩₀‖ ≤ 2√2π r ε` and
 `|⟨∂_{θ_i}P z₀, z₀⟩₀| ≤ 4πε` for `‖z₀‖ ≤ 1`. -/
-theorem homAngle_z {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε : ℝ} (hr : 0 < r)
-    (T : HomTaylor a p s) (hX : HomFieldBound ha hp r ε T) {θ : Fin 2 → ℂ}
+theorem homAngle_z {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε : ℝ} (hr : 0 < r)
+    (T : HomTaylor a p pb s) (hX : HomFieldBound ha hp hpb r ε T) {θ : Fin 2 → ℂ}
     (hθ : θ ∈ complexStrip 2 s) (i : Fin 2) (z0 : HomL2) (hz0 : ‖z0‖ ≤ 1) :
-    ‖homPairRep ha hp (homPartial i T.cp θ) z0‖ ≤ 2 * Real.sqrt 2 * Real.pi * r * ε ∧
-      ‖homPairRep ha hp (homPartial i T.P θ z0) z0‖ ≤ 4 * Real.pi * ε := by
+    ‖homPairRep ha (homPP hp hpb) (homPartial i T.cp θ) z0‖ ≤ 2 * Real.sqrt 2 * Real.pi * r * ε ∧
+      ‖homPairRep ha (homPP hp hpb) (homPartial i T.P θ z0) z0‖ ≤ 4 * Real.pi * ε := by
   have hs : 0 < Real.sqrt 2 := Real.sqrt_pos.mpr (by norm_num)
   have hs2 : Real.sqrt 2 * Real.sqrt 2 = 2 := Real.mul_self_sqrt (by norm_num)
   have hρ : 0 < r / Real.sqrt 2 := by positivity
   have h := polyExtract_one
-    (![homPartial i T.a0 θ, homPairRep ha hp (homPartial i T.cp θ) z0,
-      homPairRep ha hp (homPartial i T.P θ z0) z0] : Fin 3 → ℂ) hρ
+    (![homPartial i T.a0 θ, homPairRep ha (homPP hp hpb) (homPartial i T.cp θ) z0,
+      homPairRep ha (homPP hp hpb) (homPartial i T.P θ z0) z0] : Fin 3 → ℂ) hρ
     (K := 2 * Real.pi * r ^ 2 * ε) (fun ζ hζ => by
       have hd : ‖ζ • z0‖ < r / Real.sqrt 2 := by
         rw [norm_smul]
         calc ‖ζ‖ * ‖z0‖ ≤ ‖ζ‖ * 1 := mul_le_mul_of_nonneg_left hz0 (norm_nonneg _)
           _ < _ := by linarith
-      have h1 := (homXnorm_parts ha hp hr T (hX θ 0 (ζ • z0) 0 (homDomain_z hθ hr hd))).2.1
-      have h2 := (norm_le_pi_norm (fun i => homRtheta ha hp T i θ 0 (ζ • z0) 0) i).trans h1
+      have h1 := (homXnorm_parts ha hp hpb hr T (hX θ 0 (ζ • z0) 0 (homDomain_z hθ hr hd))).2.1
+      have h2 := (norm_le_pi_norm (fun i => homRtheta ha hp hpb T i θ 0 (ζ • z0) 0) i).trans h1
       rw [homRtheta_z] at h2
       have : ∑ q : Fin 3, ζ ^ (q : ℕ) • (![homPartial i T.a0 θ,
-          homPairRep ha hp (homPartial i T.cp θ) z0,
-          homPairRep ha hp (homPartial i T.P θ z0) z0] : Fin 3 → ℂ) q =
-          homPartial i T.a0 θ + ζ * homPairRep ha hp (homPartial i T.cp θ) z0
-            + ζ ^ 2 * homPairRep ha hp (homPartial i T.P θ z0) z0 := by
+          homPairRep ha (homPP hp hpb) (homPartial i T.cp θ) z0,
+          homPairRep ha (homPP hp hpb) (homPartial i T.P θ z0) z0] : Fin 3 → ℂ) q =
+          homPartial i T.a0 θ + ζ * homPairRep ha (homPP hp hpb) (homPartial i T.cp θ) z0
+            + ζ ^ 2 * homPairRep ha (homPP hp hpb) (homPartial i T.P θ z0) z0 := by
         simp [Fin.sum_univ_three]
       rw [this]; exact h2)
   have h1 := h 1
@@ -177,30 +180,30 @@ theorem homAngle_z {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε : ℝ} (hr 
     ring
 
 /-- The same for `c^-` and `P'`. -/
-theorem homAngle_zb {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε : ℝ} (hr : 0 < r)
-    (T : HomTaylor a p s) (hX : HomFieldBound ha hp r ε T) {θ : Fin 2 → ℂ}
+theorem homAngle_zb {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε : ℝ} (hr : 0 < r)
+    (T : HomTaylor a p pb s) (hX : HomFieldBound ha hp hpb r ε T) {θ : Fin 2 → ℂ}
     (hθ : θ ∈ complexStrip 2 s) (i : Fin 2) (z0 : HomL2) (hz0 : ‖z0‖ ≤ 1) :
-    ‖homPairRep ha hp (homPartial i T.cm θ) z0‖ ≤ 2 * Real.sqrt 2 * Real.pi * r * ε ∧
-      ‖homPairRep ha hp (homPartial i T.P' θ z0) z0‖ ≤ 4 * Real.pi * ε := by
+    ‖homPairRep ha (homPP hp hpb) (homPartial i T.cm θ) z0‖ ≤ 2 * Real.sqrt 2 * Real.pi * r * ε ∧
+      ‖homPairRep ha (homPP hp hpb) (homPartial i T.P' θ z0) z0‖ ≤ 4 * Real.pi * ε := by
   have hs : 0 < Real.sqrt 2 := Real.sqrt_pos.mpr (by norm_num)
   have hs2 : Real.sqrt 2 * Real.sqrt 2 = 2 := Real.mul_self_sqrt (by norm_num)
   have hρ : 0 < r / Real.sqrt 2 := by positivity
   have h := polyExtract_one
-    (![homPartial i T.a0 θ, homPairRep ha hp (homPartial i T.cm θ) z0,
-      homPairRep ha hp (homPartial i T.P' θ z0) z0] : Fin 3 → ℂ) hρ
+    (![homPartial i T.a0 θ, homPairRep ha (homPP hp hpb) (homPartial i T.cm θ) z0,
+      homPairRep ha (homPP hp hpb) (homPartial i T.P' θ z0) z0] : Fin 3 → ℂ) hρ
     (K := 2 * Real.pi * r ^ 2 * ε) (fun ζ hζ => by
       have hd : ‖ζ • z0‖ < r / Real.sqrt 2 := by
         rw [norm_smul]
         calc ‖ζ‖ * ‖z0‖ ≤ ‖ζ‖ * 1 := mul_le_mul_of_nonneg_left hz0 (norm_nonneg _)
           _ < _ := by linarith
-      have h1 := (homXnorm_parts ha hp hr T (hX θ 0 0 (ζ • z0) (homDomain_zb hθ hr hd))).2.1
-      have h2 := (norm_le_pi_norm (fun i => homRtheta ha hp T i θ 0 0 (ζ • z0)) i).trans h1
+      have h1 := (homXnorm_parts ha hp hpb hr T (hX θ 0 0 (ζ • z0) (homDomain_zb hθ hr hd))).2.1
+      have h2 := (norm_le_pi_norm (fun i => homRtheta ha hp hpb T i θ 0 0 (ζ • z0)) i).trans h1
       rw [homRtheta_zb] at h2
       have : ∑ q : Fin 3, ζ ^ (q : ℕ) • (![homPartial i T.a0 θ,
-          homPairRep ha hp (homPartial i T.cm θ) z0,
-          homPairRep ha hp (homPartial i T.P' θ z0) z0] : Fin 3 → ℂ) q =
-          homPartial i T.a0 θ + ζ * homPairRep ha hp (homPartial i T.cm θ) z0
-            + ζ ^ 2 * homPairRep ha hp (homPartial i T.P' θ z0) z0 := by
+          homPairRep ha (homPP hp hpb) (homPartial i T.cm θ) z0,
+          homPairRep ha (homPP hp hpb) (homPartial i T.P' θ z0) z0] : Fin 3 → ℂ) q =
+          homPartial i T.a0 θ + ζ * homPairRep ha (homPP hp hpb) (homPartial i T.cm θ) z0
+            + ζ ^ 2 * homPairRep ha (homPP hp hpb) (homPartial i T.P' θ z0) z0 := by
         simp [Fin.sum_univ_three]
       rw [this]; exact h2)
   have h1 := h 1
