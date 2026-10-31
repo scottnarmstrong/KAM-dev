@@ -28,6 +28,7 @@ import time
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 PFX = "KAM.SpinOrbit.Data.LockN65"
 IMP = re.compile(r"^(?:public )?import (\S+)", re.M)
+MISSING = []
 
 
 def src(m):
@@ -45,6 +46,10 @@ def closure(targets):
         if m in seen:
             continue
         seen.add(m)
+        if not os.path.exists(src(m)):
+            print("MISSING source %s" % m, flush=True)
+            MISSING.append(m)
+            continue
         ds = [i for i in IMP.findall(open(src(m)).read()) if i.startswith(PFX)]
         deps[m] = ds
         stack.append((m, True))
@@ -94,12 +99,27 @@ def main(argv):
         targets += [l.strip() for l in open(t[1:]) if l.strip()] if t.startswith("@") else [t]
     os.makedirs(logdir, exist_ok=True)
     order, deps = closure(targets)
+    if MISSING:
+        print("missing sources: %d (first: %s); not building" % (len(MISSING), MISSING[0]), flush=True)
+        return 2
     gate = int(os.environ.get("LOCK_GATE", "8388608"))
     state = {m: "todo" for m in order}            # todo / run / ok / fail / skip
     lock = threading.Lock()
     free = list(range(1, lanes + 1))
     print("modules %d lanes %d mem %s gate %d kB" % (len(order), lanes, os.environ.get("LOCK_MEM", "10G"), gate),
           flush=True)
+    if os.environ.get("LOCK_DRY") == "1":
+        # the schedule only: topological levels (a module's level = 1 + its deepest import), no builds
+        lv = {}
+        for m in order:
+            lv[m] = 1 + max([lv[d] for d in deps[m]], default=-1)
+        width = {}
+        for m in order:
+            width[lv[m]] = width.get(lv[m], 0) + 1
+        print("levels %d widest %d" % (len(width), max(width.values()) if width else 0))
+        for m in order:
+            print("%d %s" % (lv[m], m))
+        return 0
 
     def worker(m, lane):
         ok, line = run(m, logdir, lane)
