@@ -58,6 +58,12 @@ def main():
     before, dry = sys.argv[1], '--dry-run' in sys.argv[2:]
     seq = order(changed(before))
     print(f'prebuild_heavy: {len(seq)} heavy module(s) changed since {before[:8]}')
+    # Fast path (2026-10-31, SO-DATA3: about 1,650 data modules whose verified builds are reused via the HC build
+    # overlay): one `lake build --no-build` over all of them; if every module is up to date, nothing to do.
+    if seq and not dry and subprocess.run(['lake', 'build', '--no-build'] + seq,
+                                          capture_output=True).returncode == 0:
+        print('prebuild_heavy: all up to date (lake build --no-build)', flush=True)
+        return
     for m in seq:
         cmd = ['flock', LOCK, 'systemd-run', '--user', '--scope', '--quiet', '-p', 'MemoryMax=10G',
                '-p', 'MemorySwapMax=0', 'env', 'LEAN_NUM_THREADS=1', 'nice', '-n', '5', 'lake', 'build', m]
