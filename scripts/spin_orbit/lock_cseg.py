@@ -160,6 +160,8 @@ def _write_sharded(self, rel, imports, title, doc, body, heavy=False, ns=None):
             mods.append(_tree_write(self, "%sG%d" % (rel, gi), imports, "%s, shards %s" % (title, g), doc, gb,
                                     heavy=heavy, ns=ns))
         return _tree_write(self, rel, mods, title, doc + " (facade over the shard-group modules)", [], ns=ns)
+    if rel.startswith("Full/") or rel.startswith("Low/"):
+        body, imports = _seg_lookups(body, imports)
     if self.mod(rel) in PRODSTMT:
         body = _orig_stmt(body, *PRODSTMT[self.mod(rel)])
         # the side checks `…A<n>` (each a `decide` over the operands, ~4 GB each on M1) one module each, so the
@@ -286,6 +288,24 @@ def _ops_module(self, rel, nm, adv, rest, imports, ns):
                        "Computed once (`decide`); the shard checks use the literals.", body, heavy=True, ns=ns)
     OPSNAMES[adv] = (ea_t, eb_t, nea, neb, omod)
     return OPSNAMES[adv]
+
+
+SEGDECIDE = "KAM.SpinOrbit.Data.LockN65.SegDecide"
+_RFL3 = re.compile(r"rfl\s+rfl\s+rfl\s+\(by\s+decide\s+\+kernel\)")
+
+
+def _seg_lookups(body, imports):
+    """segment proofs: the spec and metadata as `C.segs[j]?.getD d`, `C.metas[j]?.getD d`, with `hs`/`hm` from
+    `eq_some_getD_cseg` and `hone` by kernel evaluation (the elaborator `rfl`s recurse once per list cell and
+    exceed the default depth past index ~80 of the chunked plan lists, measured on Full.S88)"""
+    t = "\n".join(body)
+    if not _RFL3.search(t):
+        return body, imports
+    t = re.sub(r"\((\w+)Segs\.getD(\s+)(\d+) ", r"(\1.segs[\3]?.getD\2", t)
+    t = re.sub(r"\((\w+)Metas\.getD(\s+)(\d+) ", r"(\1.metas[\3]?.getD\2", t)
+    t = _RFL3.sub("(eq_some_getD_cseg _ (by decide +kernel)) (eq_some_getD_cseg _ (by decide +kernel))\n"
+                  "      (by decide +kernel) (by decide +kernel)", t)
+    return t.split("\n"), list(imports) + [SEGDECIDE]
 
 
 def _split_aux(self, rel, body, imports, ns):
