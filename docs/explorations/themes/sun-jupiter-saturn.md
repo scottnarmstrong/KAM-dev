@@ -49,7 +49,7 @@ milestone, then route B, then a packed-arithmetic prototype as the decision poin
   "6–19 CPU-h" is wrong); charts do reduce the support (2.7×) and the constants; the d'Alembert factor of 7 does not hold
   on the torus (3.7 at L = 10 and falling); the operation count is 252–657 products, not 60–150; the data ledger is
   80–560 GB, not 3–4 GB; its unexplained 11–22× gap between modelled and measured lunar cost is closed. Route B has
-  since been proved in Lean (README; D45).
+  since been proved in Lean (README; D46).
   The "129 monomials" for LG00 was corrected to 69 in the document after the [LG00 scout](../sjs-lg00-scout.md).
   [ambition](../ambition.md) and programs [A](../program-a-plan.md)–[D](../program-d-plan.md) quote its per-slot figure of
   10,000–33,000 CPU-h and do not cite sjs-plan, which prices the current checker (after CSPLIT) at 7·10⁴–5·10⁵ CPU-h per
