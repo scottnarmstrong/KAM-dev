@@ -12,7 +12,9 @@ forced one-op segments cover `.mul` and the character slot.  The lock's program 
   (`KAM/SpinOrbit/Data/LockN65/SegRoutes.lean`) from their memoized products and the values of
   `lock_fallible.py`;
 * gives every packed product of those slots its operands (`operands`), so `emit_products` memoizes them like
-  the lunar ones.
+  the lunar ones;
+* writes every term list compactly (`terms_defs_z`: `tmsOf (zdecs …)`, ZRows.lean; B3 lever (a)), unless
+  LOCK_ZROWS=0.
 
     SO_LOCK_DATA=... SO_LOCK_SIZE=... python3 lock_cseg.py GENDIR PLAN.json LEDGER.pkl FALLIBLE.pkl OUTROOT \
         [--slots S1,S2,...]      # only the forced segments at these slots (and their products): small probes
@@ -26,10 +28,42 @@ sys.path.insert(0, HERE)
 sys.set_int_max_str_digits(0)
 import csplit_emit as CE     # noqa: E402
 
+import lock_zadv as LZ      # noqa: E402
+
 CE.TY = "LockBackend"
 CE.P = 112
 TY = CE.TY
 wrap, fixed, nat_list = CE.wrap, CE.fixed, CE.nat_list
+TERMS_PER_DEF = 900       # about one hex line per term: a definition stays under the file's line cap
+
+
+def terms_defs_z(name, terms, named=False):
+    """`csplit_emit.terms_defs` in the compact form: each chunk `name.cK` is `tmsOf (zdecs [...])` (ZRows.lean) of
+    the flat list `k0, k1, re, im, ...`; the same names and the same returned expression."""
+    if not terms:
+        if named:
+            return ["def %s : List (CertKey × CC %s) := []" % (name, TY), ""], name
+        return [], "[]"
+    chunks = [terms[i:i + TERMS_PER_DEF] for i in range(0, len(terms), TERMS_PER_DEF)]
+    out = []
+    for k, ch in enumerate(chunks):
+        flat = [int(x) for (k0, k1), (re, im) in ch for x in (k0, k1, re, im)]
+        assert LZ.decode_check(flat) == flat
+        cs = LZ.chunks(flat)
+        out.append("def %s.c%d : List (CertKey × CC %s) := tmsOf (zdecs [" % (name, k, TY))
+        for i, (n, b) in enumerate(cs):
+            out.append("  (%d, 0x%x)" % (n, int.from_bytes(b, "little")) + ("," if i + 1 < len(cs) else "])"))
+        out.append("")
+    if len(chunks) == 1 and not named:
+        return out, "%s.c0" % name
+    nm = ["%s.c%d" % (name, k) for k in range(len(chunks))]
+    out += wrap(["def %s : List (CertKey × CC %s) := List.flatten [" % (name, TY)] +
+                [x + "," for x in nm[:-1]] + [nm[-1] + "]"], "") + [""]
+    return out, name
+
+
+if os.environ.get("LOCK_ZROWS", "1") != "0":
+    CE.terms_defs = terms_defs_z
 
 EXPD = "(⟨⟨[]⟩, 0, 0⟩ : ExpWitness %s)" % TY
 INVD = "(⟨[]⟩ : CertPoly %s)" % TY
@@ -47,7 +81,8 @@ class LockEmitter(CE.Emitter):
         self.cert = None
         self.tree = CE.Tree(root, self.T)
         self.base = ["KAM.SpinOrbit.Data.LockN65.Cert", "KAM.SpinOrbit.Data.LockN65.SegSupport",
-                     "KAM.SpinOrbit.Data.LockN65.SegRoutes", "KAM.SpinOrbit.Data.LockN65.Jet"]
+                     "KAM.SpinOrbit.Data.LockN65.SegRoutes", "KAM.SpinOrbit.Data.LockN65.Jet",
+                     "KAM.SpinOrbit.Data.LockN65.ZRows"]
         self.W = "base.weight"
         self.pe = "base.piEnc"
         self.slots = slots
