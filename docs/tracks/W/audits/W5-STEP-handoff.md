@@ -20,7 +20,7 @@ No `bpW:w5:step` statement exists in Lean yet.
 
 ## Design notes for the continuation
 - **`w4-general` DONE** (owner chose option (a)): W4 is parametrized by `pb = p_+` and the `j^{1/2}` tail; see the
-  `p_plus refactor` section of `W4-HOMOLOGICAL-handoff.md` (commit 945977b7). Previously recorded blocker: W4 hard-codes p̄ = p+1 (`homWt a (p+1)` in `homLamD`, `homNormalEntry`,
+  `p_plus refactor` section of `W4-HOMOLOGICAL-handoff.md` (audit-target commit 82d8325d; general declarations carry the suffix `_gen`, e.g. `HomTaylor_gen a p pb s`, `homLemma1_fieldBound_gen`, `homLemma_lie_iv_gen`; W5 must use the `_gen` names). Previously recorded blocker: W4 hard-codes p̄ = p+1 (`homWt a (p+1)` in `homLamD`, `homNormalEntry`,
   `HomTaylor`). `w4-general` needs p₊ ∈ [p+½, p+1] and the j^{1/2} frequency hypothesis (5). Either parametrize the
   ~25 W4 files by `pb`, or first deliver the step for p₊ = p+1. Not started.
 - Pairing at different weights: `stepPairCLM ha hqq'` needs `0 ≤ a`, `0 ≤ q+q'`; fields of smoothing Hamiltonians live
