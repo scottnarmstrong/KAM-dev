@@ -2400,3 +2400,56 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
 - **19:50. Track W: both provers unblocked.** W5-STEP takes option (a), parametrizing W4 by p₊, because W6 and W7 apply w4-general at p₊ = p+½ after the ½ smoothing loss. The existing W4 theorems stay as p₊ = p+1 corollaries with their names. The W4 audit targets the post-refactor commit. W3 continues group 3 from LieFlow4. kam-1b's watcher now also flags idle prover panes.
 - **19:52. Owner: D54, audits continue on codex-1 for every track** ("do not complain about quota"). This closes the
   FOR OWNER items about the audit account and the codex-1 contention. W's queued audits are launched on codex-1.
+- **19:58. W audits resumed on codex-1 (D54), one at a time.**
+  - Running: W3-SETTING with W3-DIVISOR-F (26 modules) in a detached audit worktree at 47fa21b9 on the HC volume.
+    Pre-checks: 26 of 26 replays exit 0; name-clash, shadow and short-name checks OK.
+  - Launcher .drafts/W/w_audit.sh runs every replay inside the D53 cap.
+  - Next: graph delta 8, the global review, publication, then W4 post-refactor.
+  - LOCK-DATA: Prod.M1 was OOM-killed at 6 GB (19:52). Its side checks are split into their own modules and the inv
+    chain resumes.
+- **20:07. W3-SETTING with W3-DIVISOR-F, audit 1 (codex-1): FAIL on F1 only.**
+  - The four main results pass statement review.
+  - F1: the general Hamiltonian-field predicate (hamfield-def) wrongly requires a 𝔚⁺-valued lift; the blueprint's is
+    𝔚-valued (separating example). No concrete result is refuted.
+  - Fix: a general 𝔚-valued predicate, plus the renamed smoothing predicate and an implication lemma. Then a round-2
+    delta.
+  - LOCK-DATA tpass4: the M1 side-check split works (Aux modules 1.9–2.5 GB). M1Aux11 had a parse slip (a stray
+    docstring before `end`) and is being fixed.
+  - Running on codex-1: graph delta 8 (4 nodes).
+- **20:16. LOCK-DATA milestone: the inv chain passes end to end through Full.S3** (serial at 6 GB, no OOM). M1ShOps 3.92 GB; one-shard modules 3.18–4.71 GB; side checks 0.36–0.73 GB except Aux7 at 5.77 GiB (to be split); M1 assembly 0.72 GB; Rad.InvF18 2.48 GB; Full.S3 3.65 GB. Running: tpass7, 172 modules (M0 rebuilt against literals through Full.S2, then the exp chain).
+- **20:19. Heartbeat.**
+  - LOCK-DATA tpass7: 24 of 172 pass (M0 rebuilt against literals, then the exp chain), no OOM.
+  - W: the global graph review is running on codex-1, W3-FLOW continues with its F1 fix queued, and the W5-STEP
+    prover is active.
+  - Root disk at 94 % (9.6 GB free; about 1 GB lost per hour). Archiving the closed Codex rollouts older than 2 days
+    (738 files, 2.45 GB) to the HC volume with ~/bin/archive_codex_rollouts.py: per-file symlinks, regular files only,
+    open files skipped.
+- **20:20. Root disk: archived 737 closed Codex rollouts (2.07 GB freed); / now at 93 % with 12 GB free.**
+- **20:20. W graph global review (codex-1): FAIL on three findings.** The root correspondence and the frozen-order
+  assembly PASS, and nothing refutes nlw2.
+  - G1: about 121 records lack a direct edge to their section's standing data. Being added.
+  - G3: the hacoef step is remodelled as W's own step with K provenance.
+  - G2 (orchestrator ruling, as K's graph owner): the 4 W imports of K nodes carry K-source premises that the K
+    records omit. Fix: append-only SET_SOURCE_HYPOTHESES amendments to docs/graph/K/AMENDMENTS.md with an
+    independent codex-1 delta review and K's linter, then W re-copies. None of the nodes is a frozen anchor; no K
+    statement changes. Every W use must satisfy the added premises; otherwise it becomes W's own step.
+  - Next: delta 9, then global review round 2.
+- **20:30. W graph G2 done.**
+  - K-A045..A048 (decay, fourier-basic, holomorphic-analytic, strip-identity) passed an independent codex-1 review,
+    4 of 4, and are appended to docs/graph/K/AMENDMENTS.md.
+  - The 3 remaining K imports are used only in scalar settings. holomorphic-analytic is no longer imported; the W
+    step does its own Banach adaptation.
+  - K's pre-existing FROZEN_MANIFEST pin mismatch (from the later freezes) is refreshed on the same branch, with
+    K's linter --check requiring every K anchor to match exactly.
+  - Delta 9 (150 W records) is running on codex-1.
+- **20:30. K graph re-pinned (inp-wgraph aebcc14e):** FROZEN_MANIFEST is now 674c7321… (the current manifest). Only that line changed. K's linter --check exits 0 with every K anchor matching (verified by root-b8).
+- **20:44. W3-SETTING with W3-DIVISOR-F: audit 2 PASS (F1 fix). Landing go-ahead given to kam-inp-63.**
+  - Branch inp-w3land@693f8b7b is the audited 47fa21b9 plus only the F1 files; checked.
+  - 26 core modules: the setting, the divisor bound, F, and the homological identity.
+  - W graph: delta 9 is 7 of 7 PASS and all 695 nodes are REVIEWED. Global review round 2 is running on codex-1.
+  - The W4 audit target is fixed at 82d8325d (after the p₊ refactor).
+- **20:48. Heartbeat.**
+  - LOCK-DATA tpass7: 89 of 172 pass (the exp chain is in progress), no OOM since 20:20.
+  - kam-inp-63 is landing W3-SETTING with W3-DIVISOR-F.
+  - W graph global review round 2 is running on codex-1. W5-STEP and W3-FLOW provers are active.
+  - Memory: 15 GB available. Root disk: 11 GB free. Quotas: claude-11 80 %, claude-12 48 %, claude-3 40 %.
