@@ -2273,3 +2273,26 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - LOCK-DATA is fixing its emitter's product-module split, then the full emission, the kernel passes and AssemblyN65,
     with the overlay copy coordinated before landing. LOCK-FREEZE waits for LOCK-DATA before Phase B (the seal).
   - Quotas: codex-1 16 %, claude-3 53 %, claude-12 53 %, claude-4 17 %. Memory: 12 GB available. Disk: 91 %.
+- **15:51. LOCK-DATA segment probe (kseg3): 3 of 15 pass; the rest are cgroup OOM kills at the 8 GB scope cap.**
+  - The passes are the decoders M0Dec 5.8 GB, M202Dec 8.57 GB and M203Dec 7.96 GB. The kernel log shows twelve
+    single-lean kills at about 8.08 GB between 14:43 and 15:44.
+  - Fix: split the decoder and segment chunks to at most about 6 GB per module (the ≤ 8 GB rule; MemAvailable is
+    about 9 GB with swap full), run them serially on one lane, and re-measure. Engineering only; no statement change.
+- **16:02. Owner: "Ok then do it"**, the go-ahead for splitting the LOCK-DATA segment modules to at most 6 GB each
+  (engineering, no statement change). The worker has re-emitted the segments (segprobe3) and is kernel-checking the
+  M202 decoder pieces serially at a 6 GB cap.
+- **16:18. The split works.** M202's decode (8.57 GB as one module) is now 7 pieces, all passing at 2.3–4.3 GB, serial
+  at a 6 GB cap. Shards are 2 per module (about 5.2 GB). No OOM kills since the split runs began. Running: kseg4,
+  67 modules serial at 6 GB, stopping at the first failure.
+- **16:29. kseg4: 13 of 67 pass (max 4.91 GB, no OOM); Seg.Prod.M0 failed in elaboration (design signal).**
+  - Line 88 hits the recursion-depth limit (the nested group-proof term of the new 2-shard split). Line 126 hits a
+    whnf timeout at the default 200k heartbeats.
+  - No option raises (hard rule 1, AGENTS rule 4). The emitter is being restructured: named subterm definitions,
+    a flat group proof, a named decide. Then M0 re-runs alone and kseg4 resumes from M0.
+- **16:47. kseg5: the M0 fix works (Prod.M0 passes at 4.61 GB); 15 of 71 pass with no OOM.**
+  - It stopped at Seg.Rad.SqrtF17, a type mismatch: the consumer still expects lockM0's old expanded form.
+  - The emitter is propagating the named operands lockM{k}a/b to the Rad/Full consumers, with rfl bridges where
+    needed.
+- **16:48. Heartbeat.** LOCK-DATA is re-emitting the segments with the named operands propagated to the consumers,
+  then kseg6. LOCK-FREEZE waits for LOCK-DATA. Quotas: codex-1 14 %, claude-3 47 %, claude-12 52 %, claude-4 17 %.
+  Memory: 15 GB available. Disk: 92 %.
