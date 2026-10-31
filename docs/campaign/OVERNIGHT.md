@@ -2133,3 +2133,9 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - Landing: KAM-inp and main point `.lake/build/{lib/lean,ir}/KAM/SpinOrbit/Data` at SO-DATA3's verified HC
     overlay; prebuild_heavy gained an all-up-to-date fast path (8a8d3b7d). kam-inp must stop if
     `lake build --no-build` shows any rebuild.
+- **SO-LOCK data volume (for owner review, 2026-10-31 06:2x UTC):** LOCK-DATA emission is 131.4 MB of literal Lean
+  source (1239 files, 1.62 M lines), of which 129.4 MB are advice books (certificate proper ~2 MB); the segment
+  ledger adds more (not yet measured). Over the 50 MB flag: generation and kernel passes continue, sources/oleans
+  live on the HC volume (symlinked); **not landed without the owner's ruling** (options: land as is, land via
+  an external data artifact, or shrink advice books). Kernel so far: JetEq, disc pass HamSeg0-2 + HamBalls all
+  rc 0, peaks ≤ 3.43 GB.
