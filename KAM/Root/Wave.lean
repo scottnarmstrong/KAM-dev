@@ -95,6 +95,7 @@ public import KAM.Wave.KamStep.Data
 public import KAM.Wave.KamStep.Divisors
 public import KAM.Wave.KamStep.Flow
 public import KAM.Wave.KamStep.FlowEquivariant
+public import KAM.Wave.KamStep.FlowInverse
 public import KAM.Wave.KamStep.FlowSmooth
 public import KAM.Wave.KamStep.FlowSmoothDeriv
 public import KAM.Wave.KamStep.FlowStepBounds
