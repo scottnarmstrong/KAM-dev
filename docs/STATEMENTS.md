@@ -4,7 +4,7 @@
 
 Every statement below is an exact Lean declaration that the owner approved before its proof was written. Each lives alone in its own file under `KAM/Frozen/`, and the manifest pins its bytes. A sealed theorem has a complete proof, assembled in a separate provider module, replayed by the kernel, and using only the standard axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
-**24 frozen theorems, 23 sealed; 134 frozen definitions.**
+**27 frozen theorems, 26 sealed; 144 frozen definitions.**
 
 ## Index
 
@@ -14,6 +14,7 @@ Every statement below is an exact Lean declaration that the owner approved befor
 - **Track P: planetary systems:** [`properlyDegenerateKAM`](#properlydegeneratekam) · [`planarTwoPlanetKAM`](#planartwoplanetkam) · [`fixedSunPlanetaryKAM`](#fixedsunplanetarykam) · [`amdConfinement`](#amdconfinement) · [`planetaryExponentialSafety`](#planetaryexponentialsafety) · [`secularBoxSafety`](#secularboxsafety) · [`secularBoxAtCitedMasses`](#secularboxatcitedmasses)
 - **Track R: Rüssmann's KAM theorem (weak non-degeneracy):** [`russmann_kam`](#russmann_kam)
 - **Track W: PDE KAM (cubic wave equation):** [`nlw2`](#nlw2)
+- **Track SO: the Moon's spin rate and synchronous lock (certified tori):** [`lunar_barriers`](#lunar_barriers) · [`lunar_spin_confinement`](#lunar_spin_confinement) · [`lunarPLo_lt_lunarPHi`](#lunarplo_lt_lunarphi)
 
 ## Track K: positive-measure KAM
 
@@ -433,5 +434,52 @@ The decimal model masses of Figueras--Haro, arXiv:2403.10152v1 §4 p. 6: μ=0.00
 - [`KAM.Wave.linearTorus`](../KAM/Frozen/Wave/Defs/LinearTorus.lean#L32)
 - [`KAM.Wave.IsAnalyticTorusEmbedding`](../KAM/Frozen/Wave/Defs/IsAnalyticTorusEmbedding.lean#L30)
 - [`KAM.Wave.IsClassicalSolution`](../KAM/Frozen/Wave/Defs/IsClassicalSolution.lean#L31)
+
+</details>
+
+## Track SO: the Moon's spin rate and synchronous lock (certified tori)
+
+### lunar_barriers
+
+[`KAM.SpinOrbit.lunar_barriers`](../KAM/Frozen/SpinOrbit/Theorems/LunarBarriers.lean#L33) · ✅ proved and sealed
+
+**Theorem A (continuous form).** In the seven-mode lunar spin–orbit model there are two invariant continuous barrier graphs with values in the band `[0.97245, 1.02755]`, the lower one strictly below the window end `lunarPLo` and the upper one strictly above `lunarPHi`.
+
+- **Source:** FREEZE-PROPOSAL-2 §1.3 Theorem A, band [97245/100000, 102755/100000] (D47/D49); D-SOF-3
+- **Proof assembled in:** `KAM.Provider.SpinOrbit.LunarBarriers`
+- **Manifest ID:** `spinorbit.d40.lunar_barriers.v1`
+
+### lunar_spin_confinement
+
+[`KAM.SpinOrbit.lunar_spin_confinement`](../KAM/Frozen/SpinOrbit/Theorems/LunarSpinConfinement.lean#L32) · ✅ proved and sealed
+
+**Theorem B.** In the seven-mode lunar spin–orbit model, every initial state `(q₀, p₀, φ₀)` with `lunarPLo < p₀ < lunarPHi` (any angles) has a global solution, unique among global solutions, and its spin rate satisfies `|p(t) − 1| ≤ 2755/100000` (2.755 %) for all real `t`.
+
+- **Source:** FREEZE-PROPOSAL-2 §1.3 Theorem B, bound 2755/100000 (D47/D49); D-SOF-3, D-SOF-4
+- **Proof assembled in:** `KAM.Provider.SpinOrbit.LunarSpinConfinement`
+- **Manifest ID:** `spinorbit.d40.lunar_spin_confinement.v1`
+
+### lunarPLo_lt_lunarPHi
+
+[`KAM.SpinOrbit.lunarPLo_lt_lunarPHi`](../KAM/Frozen/SpinOrbit/Theorems/LunarWindow.lean#L28) · ✅ proved and sealed
+
+The initial momentum window of `lunar_spin_confinement` is nonempty.
+
+- **Source:** FREEZE-PROPOSAL-2 §1.3 non-vacuity of the window (Q1, R4)
+- **Proof assembled in:** `KAM.Provider.SpinOrbit.LunarWindow`
+- **Manifest ID:** `spinorbit.d40.lunarPLo_lt_lunarPHi.v1`
+
+<details><summary>Frozen definitions of this track (10)</summary>
+
+- [`KAM.SpinOrbit.soEcc`](../KAM/Frozen/SpinOrbit/Defs/SoEcc.lean#L23)
+- [`KAM.SpinOrbit.soEps`](../KAM/Frozen/SpinOrbit/Defs/SoEps.lean#L23)
+- [`KAM.SpinOrbit.soCoeffPoly`](../KAM/Frozen/SpinOrbit/Defs/SoCoeffPoly.lean#L25)
+- [`KAM.SpinOrbit.soA`](../KAM/Frozen/SpinOrbit/Defs/SoA.lean#L24)
+- [`KAM.SpinOrbit.soModes`](../KAM/Frozen/SpinOrbit/Defs/SoModes.lean#L23)
+- [`KAM.SpinOrbit.soV`](../KAM/Frozen/SpinOrbit/Defs/SoV.lean#L29)
+- [`KAM.SpinOrbit.soField`](../KAM/Frozen/SpinOrbit/Defs/SoField.lean#L25)
+- [`KAM.SpinOrbit.SoBarrier`](../KAM/Frozen/SpinOrbit/Defs/SoBarrier.lean#L26)
+- [`KAM.SpinOrbit.lunarPLo`](../KAM/Frozen/SpinOrbit/Defs/LunarPLo.lean#L23)
+- [`KAM.SpinOrbit.lunarPHi`](../KAM/Frozen/SpinOrbit/Defs/LunarPHi.lean#L23)
 
 </details>
