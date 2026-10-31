@@ -26,6 +26,8 @@ axioms, `w_lint.sh` exit 0; `#print axioms` of every main result listed: propext
 | `KamStep/FlowStepBounds.lean` | the same with `L ≤ 1/64`: `‖Ψ‖ ≤ M`, `‖ΔΨ‖ ≤ 2N`, `‖DΨ‖ ≤ M/ρ`, `‖ΔDΨ‖ ≤ 2N/ρ` (`ρ = σ/8`) | `flow` (i), (ii) (numerical form) |
 | `KamStep/FlowEquivariant.lean` | `holoFlow_translate`: `φ^t(w+a) = φ^t w + a` for translation-invariant fields (reality is `holoFlow_mem_range` of W1) | `flow` (iv), step `f-real` (abstract) |
 | `KamStep/TaylorOneVar.lean` | `norm_taylorCoeff_le`, `norm_taylor_remainder_le` (Banach-valued, one variable) | external `W5-E1` |
+| `KamStep/TaylorScale.lean`, `TaylorEst.lean` | `S_t`, `T_t` (`scaleS`, `scaleT`), `scaleS_mem`, `kamNorm_scaleT_le`; `taylorXR` (sum of the Taylor coefficients of `t ↦ T_t X(S_t w)`), `taylorXR_bound` (`≤ 3ε`), `taylorXR_remainder` and `taylorXR_remainder_128` (`|X-X_R|_{ηr} ≤ 128ηε` on `D(s,4ηr)`) for any field `X` holomorphic on `D(s,r)` with `|X|_r ≤ ε` | `taylor` (iii), (iv), steps `t-disc`, `t-est` (the identification of `taylorXR` with the field of the Taylor polynomial `R`, parts (i), (ii), is open) |
+| `KamStep/FlowInverse.lean`, `FlowTransport.lean`, `FlowTime.lean`, `FlowSkew.lean` | `isUnit_fderiv_holoFlow` (`‖Dφ^t-I‖ ≤ 1/8`, Neumann), `hasFDerivAt_comp_hamiltonian` (transport: field of `G∘φ` is `A⁻¹ X_G∘φ`), `hasDerivWithinAt_comp_holoFlow` (time derivative), `skew_of_hamiltonian` (`DX_F` is `B`-skew from symmetry of `D²F`, external E3), `hasFDerivAt_bracket` (`D{G,F} = B([X_G,X_F],·)`) | `flow-calc` (iii)–(v), step `c-skew`, `new-ham` step `n-br` (all abstract in `F`, `B`) |
 | `KamStep/NewHamExp.lean` | `stepFTC`, `stepIntegral_eq`, `stepExpansion`, `stepExpansion_H`: `H(Φw) = N + N̂ + â₀ + (P-R)(Φw) + ∫₀¹((1-τ){N̂,F}+τ{R,F})` along a trajectory (scalar core) | `new-ham` (i), step `n-exp` (scalar core) |
 
 ## Session 2 summary
@@ -44,8 +46,8 @@ constants, equivariance) and external W5-E1; the W4 audit fixes F1/F2 (see `W4-H
   `flow` (ii): `|φ^t - id|^λ ≤ 2M_F` and derivative bounds (Cauchy on balls); the existence/holomorphy/Lipschitz-in-ξ
   conclusions follow from the landed lemmas applied through `stepFlowHyp` but the `p_+`-smoothing and the λ-norm
   statements are not written; reality/equivariance (iv).
-* `flow-calc`: abstract continuity, variational equation, symplecticity are done; open: skewness of `DX_F` for the concrete `F` (needs `F ∈ C²`, external E3), inverse/Neumann (`‖Dφ^t - I‖ ≤ 1/8` follows from `flowII_deriv`; `Units.oneSub` not yet applied), transport, time derivative via W4 Lie (iv).
-* `taylor`: only the one-variable Taylor fact (E1) is done; the scaling `S_t`, `T_t`, components, estimates (iii)/(iv) are open.
+* `flow-calc`: all items are done abstractly (continuity, variational equation, symplecticity, inverse, transport, time derivative, skewness). Open: the instantiation on `StepPhase r` (`B = stepSymp` between the `p_+` and `p` weights, `ι = kamEmbed`, `Z = X_F` with `F ∈ C²` from its polynomial form), holomorphy of `w ↦ Dφ^t(w)⁻¹ X_G(φ^t w)` into the `p_+` target, and the time derivative for `N` via W4 Lie (iv).
+* `taylor`: the estimates (iii), (iv) are done for `taylorXR`; open: parts (i), (ii) (that `taylorXR` is the field of the Taylor polynomial `R` and `R ∈ 𝒯_s`, with the `z,\bar z` component formulas, `H` symmetry via E3), reality/periodicity.
 * `new-ham`: only the scalar expansion core is done; the bracket field `[X_G,X_F]`, the field of `P_+` and the weak conjugacy (iii) are open. `pullback`/`commutator`: only the abstract cores/arithmetic; applying them needs the flow derivative bounds (Cauchy on balls). The step theorem `bpW:w5:step` (i)–(v). No Lean statement of `bpW:w5:step` exists.
   The arithmetic closing it is `stepEstimate_arith`; the analytic content of (i), (ii), (v) is missing.
 * Action–angle and initial perturbation were out of scope (need W3).
