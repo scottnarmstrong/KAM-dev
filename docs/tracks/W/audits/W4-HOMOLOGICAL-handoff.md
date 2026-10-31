@@ -1,11 +1,12 @@
 # Handoff: W4-HOMOLOGICAL (branch `inp-wpj`)
 
 Blueprint: `blueprint-W/parts/w4-homological.tex` (current `inp` version, with the accepted W4-E5 Riesz gap
-repair). Status: **Lemma 1 (i)–(iv) and Lemma 2 are proved in the representative model below, with the
-deviations listed**; not done: the guarded Fréchet derivative of `N` (Lie (iv)), the extension of the equation
-(ii) from finitely supported to all `(z, \bar z)`, reality in (i), and the remarks `from-w3`/`to-w5` (no
-statements). Everything compiles under the gate, has no `sorry`, no new axiom, no heartbeat override, all
-files are under 700 lines, no line over 100 characters.
+repair). Status: **every statement of the W4 package is proved** in the representative model below:
+Lemma 1 (i)–(iv) (including reality and the equation for all `(z, \bar z)`), Lemma 2 and bound (4), and the
+guarded Fréchet derivative `DN·X_F = −L_N F` of `bpW:w4:lie` (iv). Remaining: only remarks without statements.
+Everything compiles under the gate, has no `sorry`, no new axiom, no heartbeat override, all files are under
+710 lines, no line over 100 characters. Note: `Lie.lean`'s sequence-level `homLieN` was renamed `homLieSeq`
+(it clashed with `homLieN` of `LemmaOneEquation` when both were imported).
 
 ## Model (read first)
 
@@ -33,7 +34,7 @@ Part 1 (previous session): `LatticeCount`, `Lattice`, `LatticeBW` (`lattice`), `
 Part 1 (this session): `SolveDeriv`, `HolomorphicBanach` (`solve` (iii), `fourier-ops` (ii): the derivative of a
 holomorphic *Banach-valued* map is holomorphic, without separability; track K only has the second countable
 case), `WaveReindex` (`wave` (ii)), `Extract` (`extract`), `Schur` (`schur` (i),(iii)), `Index` (pairing,
-multipliers), `Lie` (`lie` (i),(ii) and the guard (G) at sequence level).
+multipliers), `Lie` (`lie` (i),(ii) and the guard (G) at sequence level; `homLieSeq`).
 
 Part 2:
 
@@ -51,6 +52,9 @@ Part 2:
 | `NhatTaylor` | `lemma1` (i),(iv) | `homNhatTaylor`, `homNhatTaylor_val`, `homNhat_coeff_bounds`, `homNhat_fieldBound`, `homLemma1_zero_modes` |
 | `TaylorSub`, `LemmaOneLip`, `LemmaOneLipDiff`, `LemmaOneLipBounds` | Lipschitz in `ξ` | `HomTaylor.sub`, `HomMultLip`, `homMultLip_of`, `homF_sub_compBounds` |
 | `Lemma1` | assembly, `lemma2` | `homLemma1_lipschitz`, `homNhat_lipschitz`, `homLemma2` |
+| `LieDeriv` | `lie` (iv) | `homNfun`, `homNfun_hasFDerivAt`, `homLemma_lie_iv`, `homGuard_of_cond`, `not_homGuard_of_lt` |
+| `LemmaOneAll` | `lemma1` (ii), all `z` | `homLemma1_equation_all` (continuity + truncations) |
+| `RealSolve`, `RealF` | `lemma1` (i), reality | `HomTaylor.IsReal`, `homSolveTaylor_isReal`, `homNhatTaylor_isReal` |
 
 Blueprint Lemma 1: (i) `homSolveTaylor` + `homLemma1_zero_modes`; (ii) `homLemma1_equation`; (iii)
 `homLemma1_fieldBound`, `homLemma1_lipschitz`; (iv) `homNhat_coeff_bounds`, `homNhat_fieldBound`,
@@ -58,42 +62,48 @@ Blueprint Lemma 1: (i) `homSolveTaylor` + `homLemma1_zero_modes`; (ii) `homLemma
 
 ## Deviations and caveats (read before audit)
 
-* **Equation (ii) for finitely supported `z, \bar z`** (`∀ j ∉ S, z j = 0`, `S` finite). The blueprint states it for
-  all `z` and extends by density; the density step (continuity of both sides, `truncLp`) is not formalized.
-  `L_N F` is `homLieN` (with `homPairOmega` for `⟨F_z, Ωz⟩₀`), `N̂` is `homNhat` (true coordinates), and the
-  statement is `L_N F + N̂ = R − â₀`.
-* **Lipschitz statements** are stated for the *difference* Taylor Hamiltonian `F(ξ).sub F(ζ)`: the hypothesis
-  `|X_{R(ξ)} − X_{R(ζ)}|_r ≤ ε^L d` is `HomFieldBound … (εL * d) (R₁.sub R₂)`; the fields are linear in the
-  components, so `X_{R₁.sub R₂} = X_{R₁} − X_{R₂}`. The parameter dependence enters through
-  `HomMultBounds` at `ξ` and `ζ` and `HomMultLip` (derived from `(H_α)`, `homMultLip_of`).
-* **Reality** in (i) (`F` and `N̂` real if `R` real) is not formalized (the class has no reality predicate).
+* **Lemma 1 (ii) for all `(z, \bar z)`**: `homLemma1_equation_all` (needs `|Ω_j| ≤ K₀ (j+2)`, from the frequency
+  hypotheses `homOmega_le`); it is deduced from the finitely supported case `homLemma1_equation` by continuity of
+  both sides in `(z, \bar z) ∈ HomL2 × HomL2` and the truncations `P_N z → z`. `L_N F` is `homLieN` (with
+  `homPairOmega` for `⟨F_z, Ωz⟩₀`), `N̂` is `homNhat` (true coordinates).
+* **Guarded derivative** (`LieDeriv`): the phase carrier is `HomPhase = ℂ² × ℂ² × HomL2 × HomL2` (the weighted
+  `lp` carrier of `KAM/Wave/Seq`; normal variables by their representatives). Under `HomGuard a p γ` the form
+  `N_Ω` is the bounded bilinear map `homNOmegaCLM`, `N = homNfun` has the derivative `homDN` (`DN(w)(Θ,Y,Z,\bar Z)
+  = ⟨ω,Y⟩ + N_Ω(Z,\bar z) + N_Ω(z,\bar Z)`), and `homLemma_lie_iv` gives `DN(w)·X_F(w) = −L_N F(w)` for the
+  field `X_F = (·, −(1/2π)F_θ, −iF_{\bar z}, iF_z)` with the normal components embedded in `ℓ^N_{a,p}`
+  (`homEmbed`, `ĉ_j ↦ ĉ_j/(j+2)`); equality with the weak bracket is `homWeakBracket_eq_neg_lieN` (`Lie.lean`).
+  `homGuard_of_cond` (for `a, p ≥ 0`: `a > 0 ∨ p ≥ 1/2 ⟹ ∃γ, (G)`) and `not_homGuard_of_lt` (`a = 0`, `p < 1/2`
+  fails) give the characterisation of (G); `homGuard_one_one` the wave value `γ = e^{-6}/3`.
+* **Reality** is `HomTaylor.IsReal` (at real `θ`: `a, b` real, `c^- = \overline{c^+}`, `P' = \overline P`,
+  `Q^T = \overline Q` in the entries of the represented operators; weights are real). `F` and `N̂` real if `R` is
+  (`homSolveTaylor_isReal`, `homNhatTaylor_isReal`), by `homSolve_conj_real` and the divisor parities
+  (`homMultA0_conj`, `homMultDp_conj`, `homDP_conj`, `homDQ_conj`, …).
+* **Lipschitz statements** are for the *difference* Taylor Hamiltonian `F(ξ).sub F(ζ)`: the hypothesis
+  `|X_{R(ξ)} − X_{R(ζ)}|_r ≤ ε^L d` is `HomFieldBound … (εL * d) (R₁.sub R₂)` (fields are linear in the components).
+  The parameter dependence enters through `HomMultBounds` at `ξ`, `ζ` and `HomMultLip` (`homMultLip_of`).
 * `N̂`'s field is the field of the Taylor Hamiltonian `homNhatTaylor R` (constant components), identified with the
   blueprint `N̂` by `homNhatTaylor_val`.
-* The Hadamard maps are used with the weighted-matrix model; `P`, `Q^T` etc. keep the entrywise relations
-  (`symP`, `transQ`) as fields of `HomTaylor`, on `T_s` only (not on all of `ℂ²`).
-* In `Lie.lean`, items (iii) and the Fréchet derivative of (iv) (the identity `DN·X_F = −L_N F` under (G)) are
-  not stated separately; (iii) is used inside `homLemma1_equation` through the entrywise equations.
+* The Hadamard maps are used in the weighted-matrix model; `symP`, `symP'`, `transQ` are fields of `HomTaylor` on
+  `T_s` only.
 
 ## Not done
 
-* `bpW:w4:lie` (iv) Fréchet derivative of `N` under the guard (needs a Banach model of `ℓ^N`), and the "iff"
-  characterisation of (G).
-* Extension of (ii) to all `(z, \bar z)`; reality; `bpW:w4:from-w3`, `bpW:w4:to-w5` (remarks about interfaces, no
-  formal statements); `bpW:w4:k0` (superseded by W7); the `weights` remark (no statement).
+* Only remarks without formal statements: `bpW:w4:from-w3`, `bpW:w4:to-w5`, the `weights` remark, and
+  `bpW:w4:k0` (superseded by W7, "used by no later result").
 
 ## Checks
 
 * Every module built with `/root/code/KAM-inp/.drafts/W/w_build.sh /root/code/KAM-inp-wpj <Module>` in import order
   (final run after the line wrapping; last line `Build completed successfully`); single-file checks with
   `w_lean.sh`.
-* `w_lint.sh /root/code/KAM-inp-wpj`: exit 0; tail `check_lean_modules: PASS (3598 Lean files, 0 comparator
+* `w_lint.sh /root/code/KAM-inp-wpj`: exit 0; tail `check_lean_modules: PASS (3602 Lean files, 0 comparator
   configurations)`, `FROZEN-ANCHOR GUARD OK`, `ABI HASHES OK (177 frozen declarations of KAM; ...)`. `KAM/Root/Wave.lean`
   regenerated by `scripts/gen_root_imports.py`.
 * `#print axioms`: `[propext, Classical.choice, Quot.sound]` for `homLemma1_equation`, `homLemma1_fieldBound`,
   `homLemma1_lipschitz`, `homNhat_fieldBound`, `homNhat_lipschitz`, `homNhat_coeff_bounds`,
   `homLemma1_zero_modes`, `homLemma2`, `homComp_first`, `homComp_angle`, `homMultLip_of`, `homMultBounds_of`,
   `homCohEq_scalar`, `norm_le_of_quadratic`, `homF_compBounds`, `homXnorm_le_of_components`, `homSolveTaylor`,
-  `homNhatTaylor_val`, `homEq_Q`, and for all part-1 declarations listed in the earlier handoff.
+  `homNhatTaylor_val`, `homEq_Q`, `homLemma_lie_iv`, `homNfun_hasFDerivAt`, `homGuard_of_cond`, `not_homGuard_of_lt`, `homLemma1_equation_all`, `homSolveTaylor_isReal`, `homNhatTaylor_isReal`, and for all part-1 declarations listed in the earlier handoff.
 
 ## Suspected errata / blueprint observations
 
