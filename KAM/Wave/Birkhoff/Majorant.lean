@@ -121,7 +121,7 @@ theorem birk_three_sum {G : ℕ+ → ℕ+ → ℕ+ → ℝ} (hG : ∀ i j k, 0 �
   have e1 : ∑ s : Fin 3 → Bool, ∑' mm : Fin 3 → ℕ+, G (mm 0) (mm 1) (mm 2) * ∏ t, W t (s t, mm t) =
       ∑' mm : Fin 3 → ℕ+, ∑ s : Fin 3 → Bool, G (mm 0) (mm 1) (mm 2) * ∏ t, W t (s t, mm t) :=
     (Summable.tsum_finsetSum hs).symm
-  simp only [birkPiEquiv_apply] at e1 ⊢
+  simp only at e1 ⊢
   rw [e1]
   have e2 : ∀ mm : Fin 3 → ℕ+, ∑ s : Fin 3 → Bool, G (mm 0) (mm 1) (mm 2) * ∏ t, W t (s t, mm t) =
       H mm := fun mm => by

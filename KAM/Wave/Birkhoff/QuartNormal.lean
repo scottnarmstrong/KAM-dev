@@ -55,7 +55,7 @@ def birkCoefNor : (Fin 4 → BirkIdx) → ℂ := birkQuartCoefOn m hm birkNormal
 
 theorem birkCoefNor_isCoef : IsBirkQuartCoef m hm (birkCoefNor m hm) :=
   isBirkQuartCoef_on m hm birkNormalSet
-    (fun σ x hx t => hx (σ t)) (fun x hx t => hx t)
+    (fun σ _ hx t => hx (σ t)) (fun _ hx t => hx t)
 
 theorem birkCoefNor_eq_zero {x : Fin 4 → BirkIdx} (hx : x ∉ birkNormalSet) : birkCoefNor m hm x = 0 := by
   simp [birkCoefNor, birkQuartCoefOn, hx]

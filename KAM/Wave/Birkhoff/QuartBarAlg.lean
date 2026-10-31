@@ -173,12 +173,12 @@ theorem birkQuartP_bar (w : BirkSpace) :
     show (6 / 16 : ℂ) * ((1 + (if modeIdx i = modeIdx i' then 0 else 1)) * ((_ : ℝ) : ℂ) * _) = _
     by_cases h : i = i'
     · subst h
-      simp only [if_true]
+      simp only [ite_true]
       push_cast
       field_simp
       ring
     · have h' : modeIdx i ≠ modeIdx i' := fun e => h (modeIdx_injective e)
-      simp only [h, h', if_false]
+      simp only [h, h', ite_false]
       push_cast
       field_simp
       ring
@@ -188,7 +188,7 @@ theorem birkQuartP_bar (w : BirkSpace) :
     have hj' := wave_lam_pos m hm j
     have hne : modeIdx i ≠ j := fun e => by
       have := modeIdx_le_two i; rw [e] at this; omega
-    simp only [hk, waveTriCoef_rsrs, birkActionB, hne, if_false, lamTan_eq]
+    simp only [hk, waveTriCoef_rsrs, birkActionB, hne, ite_false, lamTan_eq]
     push_cast
     field_simp
     ring
@@ -205,8 +205,8 @@ theorem birkQuartP_bar (w : BirkSpace) :
     rw [← tsum_mul_left, ← tsum_mul_left]
     refine tsum_congr fun j => ?_
     by_cases hj : 3 ≤ (j : ℕ)
-    · simp only [hj, if_true]; exact hTN i j hj
-    · simp only [hj, if_false]; ring
+    · simp only [hj, ite_true]; exact hTN i j hj
+    · simp only [hj, ite_false]; ring
   calc (1 / 16 : ℂ) * (6 * (∑ i : Fin 2, ∑ i' : Fin 2, k (modeIdx i) (modeIdx i') +
         2 * ∑ i : Fin 2, ∑' j : ℕ+, (if 3 ≤ (j : ℕ) then k (modeIdx i) j else 0)))
       = (6 / 16 : ℂ) * ∑ i : Fin 2, ∑ i' : Fin 2, k (modeIdx i) (modeIdx i') +

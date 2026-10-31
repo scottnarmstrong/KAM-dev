@@ -317,12 +317,12 @@ theorem birkV_s0_eq (w : BirkSpace) :
     · have : ¬ ((ι2 (r, s)) 0 ≠ (ι2 (r, s)) 1 ∧ (ι2 (r, s)) 0 = (ι2 (r, s)) 3 ∧
           (ι2 (r, s)) 1 = (ι2 (r, s)) 2) := fun h => h.1 (by simpa [ι2] using hrs)
       rw [if_neg this, add_zero, hFi1]
-      simp only [birkKterm, hrs, if_true]
+      simp only [birkKterm, hrs, ite_true]
       split_ifs <;> simp
     · have : (ι2 (r, s)) 0 ≠ (ι2 (r, s)) 1 ∧ (ι2 (r, s)) 0 = (ι2 (r, s)) 3 ∧
           (ι2 (r, s)) 1 = (ι2 (r, s)) 2 := ⟨by simpa [ι2] using hrs, rfl, rfl⟩
       rw [if_pos this, hFi1, hFi2]
-      simp only [birkKterm, hrs, if_false]
+      simp only [birkKterm, hrs, ite_false]
       split_ifs <;> ring
   refine ⟨(hS1.add hS2).congr hpt, ?_⟩
   rw [hV, ← i1.tsum_eq hs1, ← i2.tsum_eq hs2]
