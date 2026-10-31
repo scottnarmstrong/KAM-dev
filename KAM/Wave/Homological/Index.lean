@@ -97,7 +97,7 @@ theorem summable_tsum_mul_le {A B : ℕ+ → ℝ} {a b : ℝ} (hA : ∀ j, 0 ≤
 theorem one_le_homWt_mul {a q q' : ℝ} (ha : 0 ≤ a) (hqq' : 0 ≤ q + q') (j : ℕ+) :
     1 ≤ homWt a q j * homWt a q' j := by
   unfold homWt ellWeight
-  have hJ : (1 : ℝ) ≤ ((j + 2 : ℕ+) : ℝ) := by exact_mod_cast one_le (j + 2)
+  have hJ : (1 : ℝ) ≤ ((j + 2 : ℕ+) : ℝ) := by exact_mod_cast Nat.succ_le_of_lt (j + 2).pos
   have hJ0 : (0 : ℝ) ≤ ((j + 2 : ℕ+) : ℝ) := by linarith
   have h1 : (1 : ℝ) ≤ ((j + 2 : ℕ+) : ℝ) ^ (q + q') := Real.one_le_rpow hJ hqq'
   have h2 : (1 : ℝ) ≤ Real.exp (2 * a * ((j + 2 : ℕ+) : ℝ)) := Real.one_le_exp (by positivity)
