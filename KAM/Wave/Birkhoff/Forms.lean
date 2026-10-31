@@ -16,13 +16,16 @@ being built. Package W3-SETTING, blueprint label `bpW:w3:forms`.
 A continuous symmetric `(n+1)`-linear form `𝔓` on `𝔚` is *smoothing with constant `c`*
 (`IsBirkSmoothing`, `d = n + 1`, `n ≥ 1`) if there is a continuous `n`-linear `N = ∇𝔓 : 𝔚ⁿ → 𝔚^+`
 (a map into `BirkSpace` read at weight `p + 1`) with
-`𝔓(w¹, …, wⁿ, v) = Ω(∇𝔓(w¹, …, wⁿ), v)` and `‖∇𝔓(w)‖₊ ≤ c ∏ ‖wⁱ‖`. For its diagonal `P(w) = 𝔓(w,…,w)`:
+`𝔓(w¹, …, wⁿ, v) = Ω(∇𝔓(w¹, …, wⁿ), v)` and `‖∇𝔓(w)‖₊ ≤ c ∏ ‖wⁱ‖`. For its diagonal
+`P(w) = 𝔓(w,…,w)`:
 
-* `birkDiag_field`: `X_P(w) = d ∇𝔓(w,…,w)` is the Hamiltonian field (`IsBirkHamField` on all of `𝔚`);
+* `birkDiag_field`: `X_P(w) = d ∇𝔓(w,…,w)` is the Hamiltonian field (`IsBirkHamField` on all of
+  `𝔚`);
 * `norm_birkDiag_le`, `norm_birkDiagField_le`, `norm_birkDiagField_sub_le`:
   `|P(w)| ≤ c ‖w‖^d`, `‖X_P(w)‖₊ ≤ d c ‖w‖^{d-1}`,
   `‖X_P(y) - X_P(w)‖₊ ≤ d(d-1) c max(‖y‖,‖w‖)^{d-2} ‖y - w‖`;
-* `birkDiag_analyticOnNhd`, `birkDiagField_analyticOnNhd`, `birkDiag_isClassA`: analyticity of `P` and
+* `birkDiag_analyticOnNhd`, `birkDiagField_analyticOnNhd`, `birkDiag_isClassA`: analyticity of `P`
+  and
   `X_P`, hence `P ∈ 𝒜(𝔚)` when `P` is real.
 -/
 
@@ -58,7 +61,8 @@ section
 variable {c : ℝ} {𝔓 : ContinuousMultilinearMap ℂ (fun _ : Fin (n + 1) => BirkSpace) ℂ}
   {N : ContinuousMultilinearMap ℂ (fun _ : Fin n => BirkSpace) BirkSpace}
 
-theorem birkDiag_analyticOnNhd (𝔓 : ContinuousMultilinearMap ℂ (fun _ : Fin (n + 1) => BirkSpace) ℂ) :
+theorem birkDiag_analyticOnNhd (𝔓 : ContinuousMultilinearMap ℂ (fun _ : Fin (n + 1) => BirkSpace) ℂ)
+    :
     AnalyticOnNhd ℂ (birkDiag 𝔓) Set.univ := by
   intro w _
   have hdiag : AnalyticAt ℂ (fun w : BirkSpace => fun _ : Fin (n + 1) => w) w :=
@@ -71,7 +75,8 @@ theorem birkDiagField_analyticOnNhd
   intro w _
   have hdiag : AnalyticAt ℂ (fun w : BirkSpace => fun _ : Fin n => w) w :=
     (ContinuousLinearMap.pi fun _ : Fin n => ContinuousLinearMap.id ℂ BirkSpace).analyticAt w
-  exact ((N.cpolynomialAt (x := fun _ => w)).analyticAt.comp hdiag).const_smul (c := ((n + 1 : ℕ) : ℂ))
+  exact ((N.cpolynomialAt (x := fun _ => w)).analyticAt.comp hdiag).const_smul (c := ((n + 1 : ℕ) :
+      ℂ))
 
 theorem snoc_const_apply (w v : BirkSpace) (j : Fin (n + 1)) :
     (Fin.snoc (α := fun _ => BirkSpace) (fun _ : Fin n => w) v) j =

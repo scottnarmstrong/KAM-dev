@@ -17,9 +17,11 @@ being built. Package W3-SETTING, blueprint label `bpW:w3:omega`.
 coordinates at weight `(a, r)` (`0 ≤ a`, `0 ≤ r`; the blueprint takes `r = p`).
 
 * `birkOmega_apply`, `norm_birkOmega_le` (`|Ω(w,w')| ≤ ‖w‖‖w'‖`), `birkOmega_antisymm`;
-* `birkOmega_unit_neg`, `birkOmega_nondegenerate`: `Ω(ζ, e_{-l}) = i sgn(l) ζ_l` for the unit vectors
+* `birkOmega_unit_neg`, `birkOmega_nondegenerate`: `Ω(ζ, e_{-l}) = i sgn(l) ζ_l` for the unit
+  vectors
   `e_l = birkUnit a r l` (`ω_{a,r}(l) δ_l` in weighted coordinates), so `Ω(ζ,·) = 0 ⇒ ζ = 0`;
-* `birkOmega_birkZ`: `Ω(𝒵x, 𝒵x') = Σ_j (q_j p'_j - p_j q'_j)` (also over `ℝ`: `birkOmega_birkZ_real`);
+* `birkOmega_birkZ`: `Ω(𝒵x, 𝒵x') = Σ_j (q_j p'_j - p_j q'_j)` (also over `ℝ`:
+  `birkOmega_birkZ_real`);
 * `birkOmega_birkRho`: `Ω(ϱw, ϱw') = conj Ω(w,w')`.
 -/
 
@@ -125,13 +127,15 @@ theorem birkOmega_antisymm (ha : 0 ≤ a) (hr : 0 ≤ r) (y y' : BirkSpace) :
     birkOmega ha hr y' y = -birkOmega ha hr y y' := by
   rw [birkOmega_apply, birkOmega_apply, ← mul_neg, ← tsum_neg]
   congr 1
-  rw [← birkNegEquiv.tsum_eq (fun l => birkSgn l * birkCoord a r y' l * birkCoord a r y (birkNeg l))]
+  rw [← birkNegEquiv.tsum_eq (fun l => birkSgn l * birkCoord a r y' l * birkCoord a r y (birkNeg
+      l))]
   refine tsum_congr fun l => ?_
   simp only [birkNegEquiv, Equiv.coe_fn_mk, birkSgn_neg, birkNeg_birkNeg]
   ring
 
 /-- The unit vector `e_l`: `(e_l)_{l'} = δ_{ll'}` in the actual coordinates at weight `(a,r)`. -/
-def birkUnit (a r : ℝ) (l : BirkIdx) : BirkSpace := lp.single 2 l (RCLike.ofReal (ellWeight a r l.2) : ℂ)
+def birkUnit (a r : ℝ) (l : BirkIdx) : BirkSpace := lp.single 2 l (RCLike.ofReal (ellWeight a r l.2)
+    : ℂ)
 
 theorem birkCoord_birkUnit (a r : ℝ) (l l' : BirkIdx) :
     birkCoord a r (birkUnit a r l) l' = if l' = l then 1 else 0 := by
@@ -144,7 +148,8 @@ theorem birkCoord_birkUnit (a r : ℝ) (l l' : BirkIdx) :
 theorem birkOmega_unit_neg (ha : 0 ≤ a) (hr : 0 ≤ r) (ζ : BirkSpace) (l : BirkIdx) :
     birkOmega ha hr ζ (birkUnit a r (birkNeg l)) = Complex.I * birkSgn l * birkCoord a r ζ l := by
   rw [birkOmega_apply]
-  have : ∀ l', birkSgn l' * birkCoord a r ζ l' * birkCoord a r (birkUnit a r (birkNeg l)) (birkNeg l') =
+  have : ∀ l', birkSgn l' * birkCoord a r ζ l' * birkCoord a r (birkUnit a r (birkNeg l)) (birkNeg
+      l') =
       if l' = l then birkSgn l * birkCoord a r ζ l else 0 := by
     intro l'
     rw [birkCoord_birkUnit]
@@ -178,7 +183,8 @@ theorem birkOmega_birkRho (ha : 0 ≤ a) (hr : 0 ≤ r) (y y' : BirkSpace) :
   rw [← birkNegEquiv.tsum_eq (fun l => birkSgn l * birkCoord a r (birkRho y) l *
     birkCoord a r (birkRho y') (birkNeg l))]
   refine tsum_congr fun l => ?_
-  simp only [birkNegEquiv, Equiv.coe_fn_mk, birkSgn_neg, birkNeg_birkNeg, birkCoord_birkRho, map_mul,
+  simp only [birkNegEquiv, Equiv.coe_fn_mk, birkSgn_neg, birkNeg_birkNeg, birkCoord_birkRho,
+      map_mul,
     birkSgn_conj]
   ring
 
@@ -198,7 +204,8 @@ theorem birkOmega_birkZ (ha : 0 ≤ a) (hr : 0 ≤ r) (x x' : WaveSpaceK ℂ) :
   refine tsum_congr fun j => ?_
   have h3 := birkSqrt2_sq
   have h4 := birkSqrt2_ne
-  simp only [birkOmegaTerm, birkSgn, birkNeg, ite_true, Bool.false_eq_true, ite_false, Bool.not_true,
+  simp only [birkOmegaTerm, birkSgn, birkNeg, ite_true, Bool.false_eq_true, ite_false,
+      Bool.not_true,
     Bool.not_false, birkCoord_birkZ_true, birkCoord_birkZ_false]
   field_simp
   ring_nf

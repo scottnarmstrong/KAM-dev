@@ -127,7 +127,8 @@ theorem birkQuartSum_rho (hc : IsBirkQuartCoef m hm c) (w : Fin 4 → BirkSpace)
 
 include ha hp in
 theorem birkQuartForm_rho (hc : IsBirkQuartCoef m hm c) (w : Fin 4 → BirkSpace) :
-    birkQuartForm m hm ha hp hc (fun i => birkRho (w i)) = conj (birkQuartForm m hm ha hp hc w) := by
+    birkQuartForm m hm ha hp hc (fun i => birkRho (w i)) = conj (birkQuartForm m hm ha hp hc w) :=
+        by
   rw [birkQuartForm_apply, birkQuartForm_apply, birkQuartSum_rho m hm hc, map_mul]
   have : conj (1 / 16 : ℂ) = 1 / 16 := by
     have h16 : (1 / 16 : ℂ) = ((1 / 16 : ℝ) : ℂ) := by push_cast; ring

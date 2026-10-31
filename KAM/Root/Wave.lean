@@ -25,9 +25,16 @@ public import KAM.Wave.Analytic.Separable
 public import KAM.Wave.Analytic.TorusAnalytic
 public import KAM.Wave.Analytic.UniformLimit
 public import KAM.Wave.Birkhoff.Coords
+public import KAM.Wave.Birkhoff.Divisor
+public import KAM.Wave.Birkhoff.DivisorCore
+public import KAM.Wave.Birkhoff.DivisorReal
+public import KAM.Wave.Birkhoff.FCoef
+public import KAM.Wave.Birkhoff.FForm
 public import KAM.Wave.Birkhoff.Fold
 public import KAM.Wave.Birkhoff.Forms
 public import KAM.Wave.Birkhoff.HamClass
+public import KAM.Wave.Birkhoff.HomSum
+public import KAM.Wave.Birkhoff.Homological
 public import KAM.Wave.Birkhoff.Lambda
 public import KAM.Wave.Birkhoff.Majorant
 public import KAM.Wave.Birkhoff.Omega

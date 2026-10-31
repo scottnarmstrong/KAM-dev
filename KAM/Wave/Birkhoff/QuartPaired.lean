@@ -16,7 +16,8 @@ Off-frontier, source-faithful infrastructure used by several nodes; the dependen
 being built. Package W3-SETTING, blueprint label `bpW:w3:quartic-ident`.
 
 `birkPaired x`: the multiset `{x_t : x_t > 0}` equals `{-x_t : x_t < 0}` (as multisets of absolute
-values); `birkTanSet` is `𝒯 = {x : min_t |x_t| ≤ 2}`. The sets `𝒯` and `{paired}` are invariant under
+values); `birkTanSet` is `𝒯 = {x : min_t |x_t| ≤ 2}`. The sets `𝒯` and `{paired}` are invariant
+under
 permutations and `x ↦ -x` (`birkCoefBar_isCoef`: the coefficient `𝔤·1_{𝒯 ∩ paired}` of `Ḡ`).
 `birkPaired_iff_divisor`: for `𝔤_x ≠ 0`, `δ_x = Σ_t λ'_{x_t} = 0` if and only if `x` is paired
 (by the landed Lemma `quartic_nonresonance`).

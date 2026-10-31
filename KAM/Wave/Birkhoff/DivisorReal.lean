@@ -36,7 +36,8 @@ theorem lam_eq_birkL (j : ℕ+) : lam m hm j = birkL m (j : ℕ) := by
 theorem birkL_sq (k : ℕ) : birkL m k ^ 2 = (k : ℝ) ^ 2 + m := by
   unfold birkL; rw [Real.sq_sqrt (by have := sq_nonneg (k : ℝ); linarith)]
 
-theorem birkL_pos (k : ℕ) : 0 < birkL m k := Real.sqrt_pos.2 (by have := sq_nonneg (k : ℝ); linarith)
+theorem birkL_pos (k : ℕ) : 0 < birkL m k :=
+  Real.sqrt_pos.2 (lt_of_lt_of_le hm (le_add_of_nonneg_left (sq_nonneg _)))
 
 theorem birkL_mono {k l : ℕ} (h : k ≤ l) : birkL m k ≤ birkL m l := by
   unfold birkL
@@ -97,7 +98,8 @@ theorem birkL_second_diff (k : ℕ) :
     nlinarith [mul_le_mul_of_nonneg_left this hS.le]
   rw [div_le_iff₀ (by positivity)]
   have hq3 : q ^ 2 ≤ r ^ 2 := by nlinarith
-  nlinarith [mul_pos hS r0, mul_nonneg hS.le r0.le, mul_le_mul_of_nonneg_left hq3 (mul_pos hS r0).le]
+  nlinarith [mul_pos hS r0, mul_nonneg hS.le r0.le, mul_le_mul_of_nonneg_left hq3 (mul_pos hS
+      r0).le]
 
 /-- The increment `Δ(k) = L(k+1) - L(k)`. -/
 def birkDelta (m : ℝ) (k : ℕ) : ℝ := birkL m (k + 1) - birkL m k

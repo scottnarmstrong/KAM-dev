@@ -13,7 +13,8 @@ public import KAM.Wave.Birkhoff.HomSum
 Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
 being built. Package W3-DIVISOR-F, blueprint label `bpW:w3:homological`.
 
-`birk_homological`: for every `w ∈ 𝔚`, `DΛ(w) X_F(w) = Z'(w) = Ḡ(w) - G^{tan}(w)` (with `X_F(w) ∈ 𝔚⁺`
+`birk_homological`: for every `w ∈ 𝔚`, `DΛ(w) X_F(w) = Z'(w) = Ḡ(w) - G^{tan}(w)` (with
+`X_F(w) ∈ 𝔚⁺`
 embedded in `𝔚`); `birk_homological'`: `G + DΛ·X_F = Ḡ + G^{nor}`.
 -/
 
@@ -28,7 +29,8 @@ variable (m : ℝ) (hm : 0 < m) {a p : ℝ}
 /-- `δ_x f_x = -(c̄_x - c^{tan}_x)`: the divided coefficient times the divisor is the resonant
 difference. -/
 theorem birk_delta_mul_fx (x : Fin 4 → BirkIdx) :
-    ((birkDivisor m hm x * birkFx m hm x : ℝ) : ℂ) = -(birkCoefBar m hm x - birkCoefTan m hm x) := by
+    ((birkDivisor m hm x * birkFx m hm x : ℝ) : ℂ) = -(birkCoefBar m hm x - birkCoefTan m hm x) :=
+        by
   classical
   unfold birkFx birkCoefBar birkCoefTan birkQuartCoefOn birkBarSet
   by_cases hT : x ∈ birkTanSet
@@ -154,7 +156,8 @@ theorem birk_DLam_XF (w : BirkSpace) :
   rw [← birkNegEquiv.tsum_eq]
   have hd : ((birkDeltaStar m : ℝ) : ℂ) ≠ 0 :=
     Complex.ofReal_ne_zero.2 (birkDeltaStar_pos m hm).ne'
-  have hT : ∀ r : BirkIdx, (lam m hm (birkNegEquiv r).2 : ℂ) * birkCoord a p w (birkNeg (birkNegEquiv r)) *
+  have hT : ∀ r : BirkIdx, (lam m hm (birkNegEquiv r).2 : ℂ) * birkCoord a p w (birkNeg
+      (birkNegEquiv r)) *
       ((4 : ℂ) * ((birkDeltaStar m : ℂ)⁻¹ * ((-Complex.I * birkSgn (birkNegEquiv r) / 16) *
         ∑' y : Fin 3 → BirkIdx, birkFcoef m hm ![y 0, y 1, y 2, birkNeg (birkNegEquiv r)] *
           ∏ t, birkCoord a p w (y t)))) =
@@ -195,8 +198,10 @@ theorem birk_homological (w : BirkSpace) :
         birkQuartP m hm ha hp (birkCoefTan_isCoef m hm) w := by
   rw [birk_DLam_XF m hm ha hp w]
   have h4 := birk_euler m hm ha hp w
-  have hbar := (summable_birkQuartTerm m hm ha hp (birkCoefBar_isCoef m hm).bound (fun _ => w)).of_norm
-  have htan := (summable_birkQuartTerm m hm ha hp (birkCoefTan_isCoef m hm).bound (fun _ => w)).of_norm
+  have hbar := (summable_birkQuartTerm m hm ha hp (birkCoefBar_isCoef m hm).bound (fun _ =>
+      w)).of_norm
+  have htan := (summable_birkQuartTerm m hm ha hp (birkCoefTan_isCoef m hm).bound (fun _ =>
+      w)).of_norm
   have e : ∀ x : Fin 4 → BirkIdx, ((birkDivisor m hm x * birkFx m hm x : ℝ) : ℂ) *
       ∏ t, birkCoord a p w (x t) =
       -(birkCoefBar m hm x * birkAtom a p x (fun _ => w) -

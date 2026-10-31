@@ -13,9 +13,11 @@ public import KAM.Wave.Birkhoff.FCoef
 Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
 being built. Package W3-DIVISOR-F, blueprint label `bpW:w3:F`.
 
-`birkFform = δ_*⁻¹ 𝔓_c` (`𝔉`), `birkFgrad` (`∇𝔉`), `birkS = 4∇𝔉 : 𝔚³ → 𝔚⁺`, `C_F = C_*/δ_*` (`birkCF`):
+`birkFform = δ_*⁻¹ 𝔓_c` (`𝔉`), `birkFgrad` (`∇𝔉`), `birkS = 4∇𝔉 : 𝔚³ → 𝔚⁺`,
+`C_F = C_*/δ_*` (`birkCF`):
 `birkF_isSmoothing` (smoothing with constant `C_*/(4δ_*)`), `norm_birkS_le` (`‖S‖₊ ≤ C_F ∏‖w^t‖`),
-`birkS_pairing` (`Ω(S(w¹,w²,w³), v) = 4 𝔉(w¹,w²,w³,v)`), `birkS_perm` (symmetry), `birkS_rho` (reality),
+`birkS_pairing` (`Ω(S(w¹,w²,w³), v) = 4 𝔉(w¹,w²,w³,v)`), `birkS_perm` (symmetry),
+`birkS_rho` (reality),
 `birkF_real`, `norm_birkF_le` (`|F(w)| ≤ (C_F/4)‖w‖⁴`), `birkXF_eq` (`X_F(w) = S(w,w,w)`),
 `birkF_isClassA` (`X_F` analytic into `𝔚⁺`).
 -/
@@ -32,7 +34,7 @@ variable (m : ℝ) (hm : 0 < m) {a p : ℝ}
 def birkCF (m p : ℝ) : ℝ := waveCubicConst p / birkDeltaStar m
 
 /-- Scaling a smoothing form by `z` scales the constant by `‖z‖`. -/
-theorem IsBirkSmoothing.smul {ha : 0 ≤ a} {hp : 0 ≤ p} {n : ℕ} {c c' : ℝ}
+theorem IsBirkSmoothing.birkScale {ha : 0 ≤ a} {hp : 0 ≤ p} {n : ℕ} {c c' : ℝ}
     {𝔓 : ContinuousMultilinearMap ℂ (fun _ : Fin (n + 1) => BirkSpace) ℂ}
     {N : ContinuousMultilinearMap ℂ (fun _ : Fin n => BirkSpace) BirkSpace}
     (hS : IsBirkSmoothing a p ha hp n c 𝔓 N) (z : ℂ) (hc : ‖z‖ * c = c') :
@@ -75,7 +77,7 @@ include ha hp in
 theorem birkF_isSmoothing :
     IsBirkSmoothing a p ha (by linarith) 3 (waveCubicConst p / (4 * birkDeltaStar m))
       (birkFform m hm ha hp) (birkFgrad m hm ha hp) := by
-  refine (birkQuart_isSmoothing m hm ha hp (birkFcoef_isCoef m hm)).smul _ ?_
+  refine (birkQuart_isSmoothing m hm ha hp (birkFcoef_isCoef m hm)).birkScale _ ?_
   rw [norm_inv_deltaStar m hm]
   have := birkDeltaStar_pos m hm
   field_simp

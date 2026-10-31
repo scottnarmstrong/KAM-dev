@@ -13,7 +13,8 @@ public import KAM.Wave.Birkhoff.DivisorReal
 Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
 being built. Package W3-DIVISOR-F, blueprint label `bpW:w3:divisor`.
 
-For naturals `1 ≤ a ≤ b ≤ c ≤ d` and `β = m/(27 L(a)³)`: no minus sign (`birkDiv_C0`), one minus sign
+For naturals `1 ≤ a ≤ b ≤ c ≤ d` and `β = m/(27 L(a)³)`: no minus sign (`birkDiv_C0`),
+one minus sign
 (`birkDiv_C1`, needs `d ≤ a+b+c`), two minus signs, outer pairs (`birkDiv_C3`), `δ₂` (`birkDiv_C2`),
 inner pair `δ₁` with `d + a = b + c` (`birkDiv_C1i`) and with `d = a + b + c` (`birkDiv_C1ii`).
 -/
@@ -39,7 +40,8 @@ theorem birkBeta_le_half {a : ℕ} (ha : 1 ≤ a) :
   have h1 := one_le_birkL m hm ha
   rw [div_le_div_iff₀ (by positivity) (by positivity)]
   have hL : birkL m a ≤ birkL m a ^ 3 := by
-    nlinarith [mul_nonneg (by linarith : (0 : ℝ) ≤ birkL m a) (by nlinarith : (0 : ℝ) ≤ birkL m a ^ 2 - 1)]
+    nlinarith [mul_nonneg (by linarith : (0 : ℝ) ≤ birkL m a) (by nlinarith : (0 : ℝ) ≤ birkL m a ^
+        2 - 1)]
   have key : 2 * birkL m a ≤ 27 * birkL m a ^ 3 := by linarith
   nlinarith [mul_le_mul_of_nonneg_left key hm.le]
 

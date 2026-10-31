@@ -137,7 +137,8 @@ theorem norm_birkGradLp_le (w : Fin 3 → BirkSpace) :
     exact tsum_nonneg fun _ => by positivity
   have h2 : ‖birkGradLp m hm ha hp hc w‖ ^ 2 ≤ (2 / 256) * ellTsumSq a (p + 1) M := by
     calc ‖birkGradLp m hm ha hp hc w‖ ^ 2
-        = ∑' l, ‖birkGradSeq a p c w l‖ ^ 2 := (lp_two_hasSum_sq (birkGradLp m hm ha hp hc w)).tsum_eq.symm
+        = ∑' l, ‖birkGradSeq a p c w l‖ ^ 2 := (lp_two_hasSum_sq (birkGradLp m hm ha hp hc
+            w)).tsum_eq.symm
       _ ≤ _ := (birkGradSeq_sq m hm ha hp hc w).2
   have hP : 0 ≤ ∏ t, ‖w t‖ := Finset.prod_nonneg fun _ _ => norm_nonneg _
   have e3 : ((Real.sqrt 2 * ‖w 0‖) * (Real.sqrt 2 * ‖w 1‖) * (Real.sqrt 2 * ‖w 2‖)) =
@@ -152,7 +153,8 @@ theorem norm_birkGradLp_le (w : Fin 3 → BirkSpace) :
   have h3 : ‖birkGradLp m hm ha hp hc w‖ ^ 2 ≤ ((waveCubicConst p / 4) * ∏ t, ‖w t‖) ^ 2 := by
     refine h2.trans ?_
     rw [hS]
-    have h4 : ellTsumNorm a (p + 1) M ^ 2 ≤ (waveCubicConst p * (2 * Real.sqrt 2 * ∏ t, ‖w t‖)) ^ 2 :=
+    have h4 : ellTsumNorm a (p + 1) M ^ 2 ≤ (waveCubicConst p * (2 * Real.sqrt 2 * ∏ t,
+        ‖w t‖)) ^ 2 :=
       pow_le_pow_left₀ hT0 hT 2
     calc (2 / 256) * ellTsumNorm a (p + 1) M ^ 2
         ≤ (2 / 256) * (waveCubicConst p * (2 * Real.sqrt 2 * ∏ t, ‖w t‖)) ^ 2 := by gcongr

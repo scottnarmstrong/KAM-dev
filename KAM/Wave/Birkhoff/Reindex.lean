@@ -38,7 +38,8 @@ def birkNegPi {n : ℕ} (x : Fin n → BirkIdx) : Fin n → BirkIdx := fun t => 
 @[simp] theorem birkNegPi_apply {n : ℕ} (x : Fin n → BirkIdx) (t : Fin n) :
     birkNegPi x t = birkNeg (x t) := rfl
 
-@[simp] theorem birkNegPi_birkNegPi {n : ℕ} (x : Fin n → BirkIdx) : birkNegPi (birkNegPi x) = x := by
+@[simp] theorem birkNegPi_birkNegPi {n : ℕ} (x : Fin n → BirkIdx) : birkNegPi (birkNegPi x) = x :=
+    by
   ext t <;> simp [birkNegPi]
 
 /-- `x ↦ -x` as an equivalence of `(ℤ ∖ {0})ⁿ`. -/

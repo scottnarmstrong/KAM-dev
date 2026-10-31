@@ -47,7 +47,7 @@ Conventions. `BirkIdx = Bool × ℕ+` (sign, |l|), `BirkSpace = lp (BirkIdx → 
 
 ## Checks
 - Gate: `w_build.sh /root/code/KAM-inp-wpk <19 modules in import order>` -> tail `Build completed successfully (3324 jobs).`
-- `w_lint.sh /root/code/KAM-inp-wpk`: exit 0; tail `check_lean_modules: PASS (3576 Lean files, 0 comparator configurations)`, `FROZEN-ANCHOR GUARD OK`, `ABI HASHES OK (177 frozen declarations of KAM; ...)`. It also prints an informational list of Lean lines over 100 columns (some in my files, 101-108 wide; not a failure, to be wrapped in a cleanup).
+- `w_lint.sh /root/code/KAM-inp-wpk`: exit 1 at 32c9b184 because of over-100-column lines (fixed in the following commit: exit 0); tail `check_lean_modules: PASS (3576 Lean files, 0 comparator configurations)`, `FROZEN-ANCHOR GUARD OK`, `ABI HASHES OK (177 frozen declarations of KAM; ...)`. It also prints an informational list of Lean lines over 100 columns (some in my files, 101-108 wide; not a failure, to be wrapped in a cleanup).
 - `main_shortname_check.py` on all modules: `short-name check OK (no reused public short name)`.
 - `#print axioms` of 95 main declarations: all exactly `[propext, Classical.choice, Quot.sound]`.
 - `KAM/Root/Wave.lean` regenerated with `scripts/gen_root_imports.py` (no hand edit).

@@ -57,7 +57,8 @@ theorem birkCoefNor_isCoef : IsBirkQuartCoef m hm (birkCoefNor m hm) :=
   isBirkQuartCoef_on m hm birkNormalSet
     (fun σ _ hx t => hx (σ t)) (fun _ hx t => hx t)
 
-theorem birkCoefNor_eq_zero {x : Fin 4 → BirkIdx} (hx : x ∉ birkNormalSet) : birkCoefNor m hm x = 0 := by
+theorem birkCoefNor_eq_zero {x : Fin 4 → BirkIdx} (hx : x ∉ birkNormalSet) : birkCoefNor m hm x = 0
+    := by
   simp [birkCoefNor, birkQuartCoefOn, hx]
 
 section
@@ -86,7 +87,8 @@ theorem birkQuartP_normal (w : BirkSpace) :
 include ha hp in
 theorem birkCoord_birkQuartX_normal (w : BirkSpace) (l : BirkIdx) :
     birkCoord a (p + 1) (birkQuartX m hm ha hp (birkCoefNor_isCoef m hm) w) l =
-      birkCoord a (p + 1) (birkQuartX m hm ha hp (birkCoefNor_isCoef m hm) (birkNormalPart w)) l := by
+      birkCoord a (p + 1) (birkQuartX m hm ha hp (birkCoefNor_isCoef m hm) (birkNormalPart w)) l :=
+          by
   unfold birkQuartX birkDiagField
   rw [birkCoord_smul, birkCoord_smul, birkCoord_birkGradML m hm ha hp,
     birkCoord_birkGradML m hm ha hp]

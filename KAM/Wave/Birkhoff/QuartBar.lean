@@ -13,7 +13,8 @@ public import KAM.Wave.Birkhoff.QuartPaired
 Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
 being built. Package W3-SETTING, blueprint label `bpW:w3:quartic-ident`.
 
-The quartic sum of `Ḡ` is split by sign pattern `s ∈ {±}⁴` (`birkV`); a pattern contributes only if it
+The quartic sum of `Ḡ` is split by sign pattern `s ∈ {±}⁴` (`birkV`); a pattern contributes only if
+it
 has exactly two `+` (`birkV_eq_zero_of_pat`), all six such patterns contribute the same
 (`birkV_perm`), so `16 Ḡ(w) = 6 · V(+,+,-,-)` (`birkQuartP_bar_eq_six`).
 -/
@@ -132,7 +133,8 @@ theorem summable_birkV_term {c : (Fin 4 → BirkIdx) → ℂ} (hc : IsBirkQuartC
 omit ha hp in
 /-- `Σ_s V(s) = 6 V(+,+,-,-)`. -/
 theorem birkV_sum_eq_six (w : BirkSpace) :
-    ∑ s : Fin 4 → Bool, birkV a p (birkCoefBar m hm) w s = 6 * birkV a p (birkCoefBar m hm) w birkS0 := by
+    ∑ s : Fin 4 → Bool, birkV a p (birkCoefBar m hm) w s = 6 * birkV a p (birkCoefBar m hm) w birkS0
+        := by
   have hc := birkCoefBar_isCoef m hm
   have h : ∀ s : Fin 4 → Bool, birkV a p (birkCoefBar m hm) w s =
       if birkPat s = 2 then birkV a p (birkCoefBar m hm) w birkS0 else 0 := fun s => by
@@ -196,7 +198,8 @@ theorem waveTriCoef_swap_last (r s : ℕ+) :
   rw [sineQuarticCoeff_pair_val_b, sineQuarticCoeff_pair_val_c]
   ring
 
-/-- The summand of `V(+,+,-,-)` over pairs `(r, s)`: `[min(r,s) ≤ 2] (1 + [r ≠ s]) 𝔤_{rsrs} I_r I_s`. -/
+/-- The summand of `V(+,+,-,-)` over pairs `(r, s)`:
+`[min(r,s) ≤ 2] (1 + [r ≠ s]) 𝔤_{rsrs} I_r I_s`. -/
 def birkKterm (a p : ℝ) (w : BirkSpace) (rs : ℕ+ × ℕ+) : ℂ :=
   if ((rs.1 : ℕ) ≤ 2 ∨ (rs.2 : ℕ) ≤ 2) then
     (1 + (if rs.1 = rs.2 then 0 else 1)) * ((waveTriCoef m hm rs.1 rs.2 rs.1 rs.2 : ℝ) : ℂ) *
@@ -293,7 +296,8 @@ theorem birkV_s0_eq (w : BirkSpace) :
         · exact ⟨0, by simpa [ι2] using h⟩
         · exact ⟨1, by simpa [ι2] using h⟩
     have hFi1 : F (ι1 (r, s)) = (if ((r : ℕ) ≤ 2 ∨ (s : ℕ) ≤ 2) then
-        ((waveTriCoef m hm r s r s : ℝ) : ℂ) else 0) * (birkAction a p w r * birkAction a p w s) := by
+        ((waveTriCoef m hm r s r s : ℝ) : ℂ) else 0) * (birkAction a p w r * birkAction a p w s) :=
+            by
       simp only [hF, hcdef, birkCoefBar_s0, hc1]
       have : (∏ t, birkCoord a p w (birkS0 t, ι1 (r, s) t)) =
           birkAction a p w r * birkAction a p w s := by
@@ -301,7 +305,8 @@ theorem birkV_s0_eq (w : BirkSpace) :
       rw [this]
       rfl
     have hFi2 : F (ι2 (r, s)) = (if ((r : ℕ) ≤ 2 ∨ (s : ℕ) ≤ 2) then
-        ((waveTriCoef m hm r s r s : ℝ) : ℂ) else 0) * (birkAction a p w r * birkAction a p w s) := by
+        ((waveTriCoef m hm r s r s : ℝ) : ℂ) else 0) * (birkAction a p w r * birkAction a p w s) :=
+            by
       simp only [hF, hcdef, birkCoefBar_s0, hc2]
       have : (∏ t, birkCoord a p w (birkS0 t, ι2 (r, s) t)) =
           birkAction a p w r * birkAction a p w s := by

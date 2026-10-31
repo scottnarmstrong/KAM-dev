@@ -71,7 +71,8 @@ def BirkClassA (a p : ℝ) (ha : 0 ≤ a) (hp : 0 ≤ p) (U : Set BirkSpace) (P 
     Prop := ∃ X, IsBirkClassA a p ha hp U P X
 
 theorem IsBirkClassA.hamField {ha : 0 ≤ a} {hp : 0 ≤ p} {U : Set BirkSpace} {P : BirkSpace → ℂ}
-    {X : BirkSpace → BirkSpace} (h : IsBirkClassA a p ha hp U P X) : IsBirkHamField a p ha hp U P X :=
+    {X : BirkSpace → BirkSpace} (h : IsBirkClassA a p ha hp U P X) : IsBirkHamField a p ha hp U P X
+        :=
   ⟨h.analytic.differentiableOn, h.field⟩
 
 /-- (`bpW:w3:hamfield-def`) The Hamiltonian field is unique on `U`. -/
@@ -93,7 +94,8 @@ theorem birkField_eq {ha : 0 ≤ a} {hp : 0 ≤ p} {U : Set BirkSpace} {P : Birk
 theorem birkField_coord {ha : 0 ≤ a} {hp : 0 ≤ p} {U : Set BirkSpace} {P : BirkSpace → ℂ}
     {X : BirkSpace → BirkSpace} (h : IsBirkHamField a p ha hp U P X) {w : BirkSpace} (hw : w ∈ U)
     (l : BirkIdx) :
-    birkCoord a (p + 1) (X w) l = -Complex.I * birkSgn l * fderiv ℂ P w (birkUnit a p (birkNeg l)) := by
+    birkCoord a (p + 1) (X w) l = -Complex.I * birkSgn l * fderiv ℂ P w (birkUnit a p (birkNeg l))
+        := by
   have h1 := h.deriv_eq w hw (birkUnit a p (birkNeg l))
   simp only [birkOmegaPlus] at h1
   rw [h1, birkOmega_unit_neg, birkCoord_birkEmbed]

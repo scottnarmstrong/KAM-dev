@@ -14,7 +14,8 @@ Off-frontier, source-faithful infrastructure used by several nodes; the dependen
 being built. Package W3-SETTING, blueprint label `bpW:w3:quartic`.
 
 `birkQuartSum a p c w = Σ_{x ∈ (ℤ∖0)⁴} c_x ∏_t w^t_{x_t}` converges absolutely
-(`summable_birkQuartTerm`), and equals `16 Ω(∇𝔓(w¹,w²,w³), w⁴)` (`birkQuartSum_eq_omega`), the pairing
+(`summable_birkQuartTerm`), and equals `16 Ω(∇𝔓(w¹,w²,w³), w⁴)` (`birkQuartSum_eq_omega`),
+the pairing
 identity of the blueprint.
 -/
 
@@ -135,7 +136,8 @@ theorem birkQuartSum_eq_omega (w : Fin 4 → BirkSpace) :
   -- the right side as a sum over `l`
   have hR : ∀ l : BirkIdx, birkSgn l * birkCoord a p (birkEmbed a (p + 1) p (by linarith)
       (birkGradML m hm ha hp hc (birkInit4 w))) l * birkCoord a p (w 3) (birkNeg l) =
-        (-Complex.I / 16) * (birkGradSum a p c (birkInit4 w) l * birkCoord a p (w 3) (birkNeg l)) := by
+        (-Complex.I / 16) * (birkGradSum a p c (birkInit4 w) l * birkCoord a p (w 3) (birkNeg l)) :=
+            by
     intro l
     rw [birkCoord_birkEmbed, birkCoord_birkGradML]
     have := birkSgn_mul_self l

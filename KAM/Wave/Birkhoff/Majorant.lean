@@ -108,16 +108,19 @@ theorem birk_three_sum {G : ℕ+ → ℕ+ → ℕ+ → ℝ} (hG : ∀ i j k, 0 �
     mul_nonneg (hG _ _ _) (Finset.prod_nonneg fun t _ => hW _ _)
   have hle : ∀ (s : Fin 3 → Bool) (mm : Fin 3 → ℕ+),
       G (mm 0) (mm 1) (mm 2) * ∏ t, W t (s t, mm t) ≤ H mm := fun s mm => by
-    refine mul_le_mul_of_nonneg_left (Finset.prod_le_prod₀ (fun t _ => hW _ _) fun t _ => ?_) (hG _ _ _)
+    refine mul_le_mul_of_nonneg_left (Finset.prod_le_prod₀ (fun t _ => hW _ _) fun t _ => ?_) (hG _
+        _ _)
     cases hs : s t <;> simp [birkFold, hW]
-  have hsumm : Summable (fun y : Fin 3 → BirkIdx => G (y 0).2 (y 1).2 (y 2).2 * ∏ t, W t (y t)) := by
+  have hsumm : Summable (fun y : Fin 3 → BirkIdx => G (y 0).2 (y 1).2 (y 2).2 * ∏ t,
+      W t (y t)) := by
     refine birk_summable_pi hF0 fun s => ?_
     exact Summable.of_nonneg_of_le (fun mm => hF0 (fun t => (s t, mm t))) (fun mm => hle s mm) hHs
   refine ⟨hsumm, ?_⟩
   rw [birk_tsum_pi hsumm]
   have hs : ∀ s ∈ (Finset.univ : Finset (Fin 3 → Bool)), Summable fun mm : Fin 3 → ℕ+ =>
       G (mm 0) (mm 1) (mm 2) * ∏ t, W t (s t, mm t) :=
-    fun s _ => Summable.of_nonneg_of_le (fun mm => hF0 (fun t => (s t, mm t))) (fun mm => hle s mm) hHs
+    fun s _ => Summable.of_nonneg_of_le (fun mm => hF0 (fun t => (s t,
+        mm t))) (fun mm => hle s mm) hHs
   have e1 : ∑ s : Fin 3 → Bool, ∑' mm : Fin 3 → ℕ+, G (mm 0) (mm 1) (mm 2) * ∏ t, W t (s t, mm t) =
       ∑' mm : Fin 3 → ℕ+, ∑ s : Fin 3 → Bool, G (mm 0) (mm 1) (mm 2) * ∏ t, W t (s t, mm t) :=
     (Summable.tsum_finsetSum hs).symm

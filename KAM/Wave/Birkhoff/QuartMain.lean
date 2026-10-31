@@ -46,7 +46,8 @@ include ha hp hc in
 /-- (`bpW:w3:quartic`) The diagonal `P` is real and belongs to `𝒜(𝔚)`, with Hamiltonian field
 `X_P(w) = 4 ∇𝔓(w,w,w)`: both are analytic on `𝔚`. -/
 theorem birkQuart_isClassA :
-    IsBirkClassA a p ha (by linarith) Set.univ (birkQuartP m hm ha hp hc) (birkQuartX m hm ha hp hc) :=
+    IsBirkClassA a p ha (by linarith) Set.univ (birkQuartP m hm ha hp hc) (birkQuartX m hm ha hp hc)
+        :=
   birkDiag_isClassA (birkQuart_isSmoothing m hm ha hp hc) (birkQuartForm_rho m hm ha hp hc)
 
 include ha hp hc in

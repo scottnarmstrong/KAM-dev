@@ -14,7 +14,8 @@ public import Mathlib.Data.Fin.Tuple.Sort
 Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
 being built. Package W3-DIVISOR-F, blueprint label `bpW:w3:divisor`.
 
-`birk_divisor_bound`: for `x ∈ (ℤ∖0)⁴` satisfying the selection rule (`∃ ε ∈ {±1}⁴, Σ ε_t |x_t| = 0`) and
+`birk_divisor_bound`: for `x ∈ (ℤ∖0)⁴` satisfying the selection rule
+(`∃ ε ∈ {±1}⁴, Σ ε_t |x_t| = 0`) and
 not paired, `|δ_x| ≥ m/(27 (n² + m)^{3/2})`, `n = min |x_t|`. `birk_divisor_bound_tan`: if
 `x ∈ 𝒯`, `𝔤_x ≠ 0` and `x` not paired then `|δ_x| ≥ δ_*(m) = m/(27 (4+m)^{3/2})` (`birkDeltaStar`).
 -/
@@ -113,7 +114,8 @@ theorem birkL_pow_three (k : ℕ) : birkL m k ^ 3 = (((k : ℕ) : ℝ) ^ 2 + m) 
   rw [Real.sqrt_eq_rpow, ← Real.rpow_natCast, ← Real.rpow_mul h]
   norm_num
 
-/-- (`bpW:w3:divisor`) `|δ_x| ≥ m / (27 (n² + m)^{3/2})` for `x` satisfying the selection rule and not
+/-- (`bpW:w3:divisor`) `|δ_x| ≥ m / (27 (n² + m)^{3/2})` for `x` satisfying the selection rule and
+not
 paired, `n = min |x_t|` (attained at `t₀`). -/
 theorem birk_divisor_bound (x : Fin 4 → BirkIdx)
     (hsel : ∃ ε : Fin 4 → Bool,
@@ -182,11 +184,13 @@ theorem birk_divisor_bound_tan (x : Fin 4 → BirkIdx) (hT : x ∈ birkTanSet)
   have hg' : sineQuarticCoeff (x 0).2 (x 1).2 (x 2).2 (x 3).2 ≠ 0 := by
     intro h; apply hg; unfold birkG waveTriCoef waveQuartic; rw [h]; simp
   have hsel := quarticSel_exists_eps m hm x (quarticSel_of_quarticCoeff_ne_zero _ _ _ _ hg')
-  obtain ⟨t0, -, ht0⟩ := Finset.exists_min_image Finset.univ (fun t => ((x t).2 : ℕ+)) ⟨0, Finset.mem_univ _⟩
+  obtain ⟨t0, -, ht0⟩ := Finset.exists_min_image Finset.univ (fun t => ((x t).2 : ℕ+)) ⟨0,
+      Finset.mem_univ _⟩
   have key := birk_divisor_bound m hm x hsel hnp t0 (fun t => ht0 t (Finset.mem_univ t))
   refine le_trans ?_ key
   obtain ⟨t1, ht1⟩ := hT
-  have hn : (((x t0).2 : ℕ+) : ℕ) ≤ 2 := (PNat.coe_le_coe _ _).2 (ht0 t1 (Finset.mem_univ _)) |>.trans ht1
+  have hn : (((x t0).2 : ℕ+) : ℕ) ≤ 2 := (PNat.coe_le_coe _ _).2 (ht0 t1 (Finset.mem_univ _))
+      |>.trans ht1
   have hn' : ((((x t0).2 : ℕ+) : ℕ) : ℝ) ^ 2 ≤ 4 := by
     have : ((((x t0).2 : ℕ+) : ℕ) : ℝ) ≤ 2 := by exact_mod_cast hn
     nlinarith [Nat.cast_nonneg (α := ℝ) (((x t0).2 : ℕ+) : ℕ)]

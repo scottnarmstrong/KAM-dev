@@ -14,7 +14,8 @@ Off-frontier, source-faithful infrastructure used by several nodes; the dependen
 being built. Package W3-SETTING, blueprint label `bpW:w3:quartic-ident`.
 
 `birkQuartP_bar`: for every `w ∈ 𝔚` (complex coordinates, no reality assumption),
-`Ḡ(w) = ½ Σ_{i,i'∈J} A_{ii'} I_i I_{i'} + Σ_{j ≥ 3, i ∈ J} B_{ji} I_i I_j`, `I_j = w_j w_{-j}`, with the
+`Ḡ(w) = ½ Σ_{i,i'∈J} A_{ii'} I_i I_{i'} + Σ_{j ≥ 3, i ∈ J} B_{ji} I_i I_j`, `I_j = w_j w_{-j}`,
+with the
 corrected `A`, `B` of the landed `actionA` and `birkActionB` (`birkActionB_eq`: `actionB` for the
 finite normal modes), where `Ḡ = P` of the coefficient `𝔤 · 1_{𝒯 ∩ paired}` (`birkCoefBar`).
 The proof counts the paired terms: `24` orderings for `r ≠ s` (six sign patterns, each with the two
@@ -47,7 +48,8 @@ theorem modeIdx_le_two (i : Fin 2) : ((modeIdx i : ℕ+) : ℕ) ≤ 2 := by
 /-- Splitting a symmetric sum over `{(r,s) : min(r,s) ≤ 2}` into the tangential block and twice the
 mixed part. -/
 theorem tsum_tan_split (k : ℕ+ → ℕ+ → ℂ) (hsym : ∀ r s, k r s = k s r)
-    (hK : Summable fun rs : ℕ+ × ℕ+ => if ((rs.1 : ℕ) ≤ 2 ∨ (rs.2 : ℕ) ≤ 2) then k rs.1 rs.2 else 0) :
+    (hK : Summable fun rs : ℕ+ × ℕ+ => if ((rs.1 : ℕ) ≤ 2 ∨ (rs.2 : ℕ) ≤ 2) then k rs.1 rs.2 else 0)
+        :
     ∑' rs : ℕ+ × ℕ+, (if ((rs.1 : ℕ) ≤ 2 ∨ (rs.2 : ℕ) ≤ 2) then k rs.1 rs.2 else 0) =
       ∑ i : Fin 2, ∑ i' : Fin 2, k (modeIdx i) (modeIdx i') +
         2 * ∑ i : Fin 2, ∑' j : ℕ+, (if 3 ≤ (j : ℕ) then k (modeIdx i) j else 0) := by
@@ -74,8 +76,10 @@ theorem tsum_tan_split (k : ℕ+ → ℕ+ → ℂ) (hsym : ∀ r s, k r s = k s 
     (Equiv.prodComm ℕ+ ℕ+).tsum_eq (fun rs : ℕ+ × ℕ+ => KTN rs)
   -- the tangential block
   have ιTT : Function.Injective (fun ii : Fin 2 × Fin 2 => (modeIdx ii.1, modeIdx ii.2)) :=
-    fun x y h => Prod.ext (modeIdx_injective (Prod.mk.inj h).1) (modeIdx_injective (Prod.mk.inj h).2)
-  have sTT : Function.support KTT ⊆ Set.range (fun ii : Fin 2 × Fin 2 => (modeIdx ii.1, modeIdx ii.2)) := by
+    fun x y h => Prod.ext (modeIdx_injective (Prod.mk.inj h).1) (modeIdx_injective (Prod.mk.inj
+        h).2)
+  have sTT : Function.support KTT ⊆ Set.range (fun ii : Fin 2 × Fin 2 => (modeIdx ii.1,
+      modeIdx ii.2)) := by
     intro rs hrs
     have h : (rs.1 : ℕ) ≤ 2 ∧ (rs.2 : ℕ) ≤ 2 := by
       by_contra h; exact hrs (by simp only [KTT]; rw [if_neg h])
@@ -100,7 +104,8 @@ theorem tsum_tan_split (k : ℕ+ → ℕ+ → ℂ) (hsym : ∀ r s, k r s = k s 
     fun x hx => by by_contra h; exact hx (sTN h)
   have hKTN' : Summable fun ij : Fin 2 × ℕ+ => KTN (modeIdx ij.1, ij.2) :=
     (ιTN.summable_iff zTN).2 hKTN
-  have eTN : ∑' rs, KTN rs = ∑ i : Fin 2, ∑' j : ℕ+, (if 3 ≤ (j : ℕ) then k (modeIdx i) j else 0) := by
+  have eTN : ∑' rs, KTN rs = ∑ i : Fin 2, ∑' j : ℕ+, (if 3 ≤ (j : ℕ) then k (modeIdx i) j else 0) :=
+      by
     rw [← ιTN.tsum_eq sTN, hKTN'.tsum_prod, tsum_fintype]
     refine Finset.sum_congr rfl fun i _ => tsum_congr fun j => ?_
     simp only [KTN]
@@ -138,13 +143,15 @@ variable (ha : 0 ≤ a) (hp : 1 / 2 ≤ p)
 
 include ha hp in
 /-- (`bpW:w3:quartic-ident`) For every `w ∈ 𝔚`, with `I_j = w_j w_{-j}`:
-`Ḡ(w) = ½ Σ_{i,i'∈J} A_{ii'} I_i I_{i'} + Σ_{j ≥ 3, i ∈ J} B_{ji} I_i I_j` with the corrected `A`, `B`. -/
+`Ḡ(w) = ½ Σ_{i,i'∈J} A_{ii'} I_i I_{i'} + Σ_{j ≥ 3, i ∈ J} B_{ji} I_i I_j` with the corrected `A`,
+`B`. -/
 theorem birkQuartP_bar (w : BirkSpace) :
     birkQuartP m hm ha hp (birkCoefBar_isCoef m hm) w =
       (1 / 2 : ℂ) * ∑ i : Fin 2, ∑ i' : Fin 2, (actionA m hm i i' : ℂ) *
           (birkAction a p w (modeIdx i) * birkAction a p w (modeIdx i')) +
         ∑ i : Fin 2, ∑' j : ℕ+, (if 3 ≤ (j : ℕ) then
-          (birkActionB m hm j i : ℂ) * (birkAction a p w (modeIdx i) * birkAction a p w j) else 0) := by
+          (birkActionB m hm j i : ℂ) * (birkAction a p w (modeIdx i) * birkAction a p w j) else 0)
+              := by
   have hc := birkCoefBar_isCoef m hm
   rw [birkQuartP_eq_sum_V m hm ha hp hc, birkV_sum_eq_six m hm]
   obtain ⟨hKs, hV⟩ := birkV_s0_eq m hm ha hp w
@@ -183,7 +190,8 @@ theorem birkQuartP_bar (w : BirkSpace) :
       field_simp
       ring
   have hTN : ∀ (i : Fin 2) (j : ℕ+), 3 ≤ (j : ℕ) → (6 / 16 : ℂ) * (2 * k (modeIdx i) j) =
-      (birkActionB m hm j i : ℂ) * (birkAction a p w (modeIdx i) * birkAction a p w j) := fun i j hj => by
+      (birkActionB m hm j i : ℂ) * (birkAction a p w (modeIdx i) * birkAction a p w j) := fun i j hj
+          => by
     have hi := wave_lam_pos m hm (modeIdx i)
     have hj' := wave_lam_pos m hm j
     have hne : modeIdx i ≠ j := fun e => by
@@ -197,9 +205,11 @@ theorem birkQuartP_bar (w : BirkSpace) :
         (birkAction a p w (modeIdx i) * birkAction a p w (modeIdx i')) := by
     simp only [Finset.mul_sum]
     exact Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun i' _ => hTT i i'
-  have e2 : (6 / 16 : ℂ) * (2 * ∑ i : Fin 2, ∑' j : ℕ+, (if 3 ≤ (j : ℕ) then k (modeIdx i) j else 0)) =
+  have e2 : (6 / 16 : ℂ) * (2 * ∑ i : Fin 2, ∑' j : ℕ+, (if 3 ≤ (j : ℕ) then k (modeIdx i) j else
+      0)) =
       ∑ i : Fin 2, ∑' j : ℕ+, (if 3 ≤ (j : ℕ) then
-        (birkActionB m hm j i : ℂ) * (birkAction a p w (modeIdx i) * birkAction a p w j) else 0) := by
+        (birkActionB m hm j i : ℂ) * (birkAction a p w (modeIdx i) * birkAction a p w j) else 0) :=
+            by
     rw [Finset.mul_sum, Finset.mul_sum]
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [← tsum_mul_left, ← tsum_mul_left]
@@ -210,7 +220,8 @@ theorem birkQuartP_bar (w : BirkSpace) :
   calc (1 / 16 : ℂ) * (6 * (∑ i : Fin 2, ∑ i' : Fin 2, k (modeIdx i) (modeIdx i') +
         2 * ∑ i : Fin 2, ∑' j : ℕ+, (if 3 ≤ (j : ℕ) then k (modeIdx i) j else 0)))
       = (6 / 16 : ℂ) * ∑ i : Fin 2, ∑ i' : Fin 2, k (modeIdx i) (modeIdx i') +
-        (6 / 16 : ℂ) * (2 * ∑ i : Fin 2, ∑' j : ℕ+, (if 3 ≤ (j : ℕ) then k (modeIdx i) j else 0)) := by
+        (6 / 16 : ℂ) * (2 * ∑ i : Fin 2, ∑' j : ℕ+, (if 3 ≤ (j : ℕ) then k (modeIdx i) j else 0)) :=
+            by
         ring
     _ = _ := by rw [e1, e2]
 

@@ -108,13 +108,15 @@ def birkLamBil : BirkSpace →L[ℂ] BirkSpace →L[ℂ] ℂ :=
   LinearMap.mkContinuous₂
     (LinearMap.mk₂ ℂ (fun y y' => ∑' j, birkLamTerm m hm a p y y' j)
       (fun y₁ y₂ y' => by
-        rw [← (summable_birkLamTerm m hm ha hp y₁ y').tsum_add (summable_birkLamTerm m hm ha hp y₂ y')]
+        rw [← (summable_birkLamTerm m hm ha hp y₁ y').tsum_add (summable_birkLamTerm m hm ha hp y₂
+            y')]
         exact tsum_congr fun j => by simp only [birkLamTerm]; simp; ring)
       (fun c y y' => by
         rw [smul_eq_mul, ← tsum_mul_left]
         exact tsum_congr fun j => by simp only [birkLamTerm]; simp; ring)
       (fun y y₁ y₂ => by
-        rw [← (summable_birkLamTerm m hm ha hp y y₁).tsum_add (summable_birkLamTerm m hm ha hp y y₂)]
+        rw [← (summable_birkLamTerm m hm ha hp y y₁).tsum_add (summable_birkLamTerm m hm ha hp y
+            y₂)]
         exact tsum_congr fun j => by simp only [birkLamTerm]; simp; ring)
       (fun c y y' => by
         rw [smul_eq_mul, ← tsum_mul_left]
@@ -210,7 +212,8 @@ theorem birkLambda_term_eq (a p : ℝ) (y v : BirkSpace) (l : BirkIdx) :
 
 include ha hp in
 theorem summable_birkLambda_term (y v : BirkSpace) :
-    Summable fun l : BirkIdx => (lam m hm l.2 : ℂ) * birkCoord a p y (birkNeg l) * birkCoord a p v l := by
+    Summable fun l : BirkIdx => (lam m hm l.2 : ℂ) * birkCoord a p y (birkNeg l) * birkCoord a p v l
+        := by
   refine Summable.of_norm_bounded
     ((birkPair_summable v y).1.mul_left (Real.sqrt (1 + m))) fun l => ?_
   rw [birkLambda_term_eq, norm_mul, norm_mul, Complex.norm_real]
@@ -283,7 +286,8 @@ theorem birkLambda_field (y v : BirkSpace) :
     birkCoord_birkXLam, birkCoord_birkEmbed]
   have := birkSgn_mul_self l
   have hI : Complex.I * Complex.I = -1 := Complex.I_mul_I
-  linear_combination ((lam m hm l.2 : ℂ) * birkCoord a (p + 1) y l * birkCoord a p v (birkNeg l)) * hI +
+  linear_combination ((lam m hm l.2 : ℂ) * birkCoord a (p + 1) y l * birkCoord a p v (birkNeg l)) *
+      hI +
     ((lam m hm l.2 : ℂ) * birkCoord a (p + 1) y l * birkCoord a p v (birkNeg l) *
       (Complex.I * Complex.I)) * this
 
@@ -294,7 +298,8 @@ theorem not_exists_birkXLam_bounded :
     ¬ ∃ T : BirkSpace →L[ℂ] BirkSpace, ∀ (y : BirkSpace) (l : BirkIdx),
       birkCoord a p (T y) l = -Complex.I * birkSgn l * (lam m hm l.2 : ℂ) * birkCoord a p y l := by
   rintro ⟨T, hT⟩
-  refine not_exists_lpDiag_of_unbounded (μ := fun l : BirkIdx => -Complex.I * birkSgn l * (lam m hm l.2 : ℂ))
+  refine not_exists_lpDiag_of_unbounded (μ := fun l : BirkIdx => -Complex.I * birkSgn l * (lam m hm
+      l.2 : ℂ))
     (fun B => ?_) ⟨T, fun y l => ?_⟩
   · refine ⟨(true, (⟨⌈B⌉₊ + 1, Nat.succ_pos _⟩ : ℕ+)), ?_⟩
     rw [norm_mul, norm_mul, norm_neg, Complex.norm_I, norm_birkSgn, one_mul, one_mul,

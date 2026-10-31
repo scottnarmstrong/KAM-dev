@@ -14,7 +14,8 @@ Off-frontier, source-faithful infrastructure used by several nodes; the dependen
 being built. Package W3-DIVISOR-F, blueprint labels `bpW:w3:Fdef`, `bpW:w3:F`.
 
 `birkFx x = 𝔤_x / δ_x` for `x ∈ 𝒯` not paired and `0` otherwise (Lean: division by `0` is `0`);
-`birkFcoef = i δ_* f_x`. `birkFcoef_isCoef`: `c` satisfies `IsBirkQuartCoef` (symmetric, `c_{-x} = conj c_x`,
+`birkFcoef = i δ_* f_x`. `birkFcoef_isCoef`: `c` satisfies `IsBirkQuartCoef` (symmetric,
+`c_{-x} = conj c_x`,
 `|c_x| ≤ |𝔤_x|`), so `𝔉 = δ_*⁻¹ 𝔓_c`.
 -/
 
@@ -56,14 +57,16 @@ theorem birkFx_perm (σ : Equiv.Perm (Fin 4)) (x : Fin 4 → BirkIdx) :
 theorem birkFx_neg (x : Fin 4 → BirkIdx) : birkFx m hm (birkNegPi x) = -birkFx m hm x := by
   classical
   have hT : birkNegPi x ∈ birkTanSet ↔ x ∈ birkTanSet :=
-    ⟨fun ⟨t, ht⟩ => ⟨t, by simpa [birkNegPi] using ht⟩, fun ⟨t, ht⟩ => ⟨t, by simpa [birkNegPi] using ht⟩⟩
+    ⟨fun ⟨t, ht⟩ => ⟨t, by simpa [birkNegPi] using ht⟩, fun ⟨t, ht⟩ => ⟨t,
+        by simpa [birkNegPi] using ht⟩⟩
   unfold birkFx
   simp only [hT, birkPaired_neg, birkG_neg, birkDivisor_neg]
   by_cases h : x ∈ birkTanSet ∧ ¬ birkPaired x
   · simp [h, div_neg]
   · simp [h]
 
-theorem abs_birkFx_le (x : Fin 4 → BirkIdx) : |birkFx m hm x| ≤ |birkG m hm x| / birkDeltaStar m := by
+theorem abs_birkFx_le (x : Fin 4 → BirkIdx) : |birkFx m hm x| ≤ |birkG m hm x| / birkDeltaStar m :=
+    by
   classical
   have hs : 0 < birkDeltaStar m := by
     unfold birkDeltaStar; positivity

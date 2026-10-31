@@ -16,11 +16,13 @@ being built. Package W3-SETTING, blueprint label `bpW:w3:coords`.
 
 `E^ℂ = ℓ^{a,p}_ℂ × ℓ^{a,p}_ℂ` is `WaveSpaceK ℂ` in weighted coordinates (max norm), and
 `birkZ : E^ℂ →L[ℂ] 𝔚` is `(𝒵x)_{±j} = (q_j ± i p_j)/√2`. In weighted coordinates the formula is the
-same at *every* weight `(a, r)` (`birkCoord_birkZ`), so the same map is the `𝒵` of `E^ℂ_{a,p+1} → 𝔚^+`.
+same at *every* weight `(a, r)` (`birkCoord_birkZ`), so the same map is the `𝒵` of
+`E^ℂ_{a,p+1} → 𝔚^+`.
 
 * `birkZ`, `birkZinv`, `birkZEquiv`: the `ℂ`-linear bijection with the inverse formulas;
 * `norm_le_norm_birkZ`, `norm_birkZ_le`: `‖x‖_E ≤ ‖𝒵x‖ ≤ √2 ‖x‖_E`; `norm_birkZinv_le`;
-* `birkRho_birkZ_real`, `exists_birkZ_of_birkRho_eq`: `𝒵` maps the real space onto the fixed set of `ϱ`
+* `birkRho_birkZ_real`, `exists_birkZ_of_birkRho_eq`: `𝒵` maps the real space onto the fixed set of
+  `ϱ`
   (`birkReal` is the real inclusion `E_{a,p} ⊂ E^ℂ`), `birkCoord_mul_birkZ` for `w_j w_{-j}`.
 The conjugate-linear isometric involution `ϱ` is `birkRho` of `KAM.Wave.Birkhoff.Space`.
 -/
@@ -214,7 +216,8 @@ theorem memℓp_birkZinv (w : BirkSpace) :
 /-- The inverse of `𝒵`: `q_j = (w_j + w_{-j})/√2`, `p_j = (w_j - w_{-j})/(i√2)`. -/
 def birkZinv : BirkSpace →L[ℂ] WaveSpaceK ℂ :=
   LinearMap.mkContinuous
-    { toFun := fun w => (⟨birkZinvFst w, (memℓp_birkZinv w).1⟩, ⟨birkZinvSnd w, (memℓp_birkZinv w).2⟩)
+    { toFun := fun w => (⟨birkZinvFst w, (memℓp_birkZinv w).1⟩, ⟨birkZinvSnd w,
+        (memℓp_birkZinv w).2⟩)
       map_add' := fun w w' => by
         refine Prod.ext (lp.ext (funext fun j => ?_)) (lp.ext (funext fun j => ?_))
         · show (w (true, j) + w' (true, j) + (w (false, j) + w' (false, j))) / birkSqrt2 =
@@ -304,13 +307,15 @@ theorem norm_le_sqrt_two_mul_birkZinv (w : BirkSpace) : ‖w‖ ≤ Real.sqrt 2 
 
 /-- (`bpW:w3:coords`) `(𝒵x)_{j} = (q_j + i p_j)/√2` in the actual coordinates at any weight. -/
 theorem birkCoord_birkZ_true (a r : ℝ) (x : WaveSpaceK ℂ) (j : ℕ+) :
-    birkCoord a r (birkZ x) (true, j) = (coeffW a r x.1 j + Complex.I * coeffW a r x.2 j) / birkSqrt2 := by
+    birkCoord a r (birkZ x) (true, j) = (coeffW a r x.1 j + Complex.I * coeffW a r x.2 j) /
+        birkSqrt2 := by
   simp only [birkCoord, birkZ_apply, birkSgn, ite_true, one_mul, coeffW_apply]
   ring
 
 /-- (`bpW:w3:coords`) `(𝒵x)_{-j} = (q_j - i p_j)/√2`. -/
 theorem birkCoord_birkZ_false (a r : ℝ) (x : WaveSpaceK ℂ) (j : ℕ+) :
-    birkCoord a r (birkZ x) (false, j) = (coeffW a r x.1 j - Complex.I * coeffW a r x.2 j) / birkSqrt2 := by
+    birkCoord a r (birkZ x) (false, j) = (coeffW a r x.1 j - Complex.I * coeffW a r x.2 j) /
+        birkSqrt2 := by
   simp only [birkCoord, birkZ_apply, birkSgn, Bool.false_eq_true, ite_false, coeffW_apply]
   ring
 

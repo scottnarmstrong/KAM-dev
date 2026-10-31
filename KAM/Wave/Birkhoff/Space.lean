@@ -221,7 +221,8 @@ theorem birkCoord_birkEmbed (a r r' : ℝ) (h : r' ≤ r) (y : BirkSpace) (l : B
   push_cast
   field_simp
 
-theorem birkEmbed_injective (a r r' : ℝ) (h : r' ≤ r) : Function.Injective (birkEmbed a r r' h) := by
+theorem birkEmbed_injective (a r r' : ℝ) (h : r' ≤ r) : Function.Injective (birkEmbed a r r' h) :=
+    by
   intro y y' hy
   ext l
   have := congrArg (fun z => birkCoord a r' z l) hy

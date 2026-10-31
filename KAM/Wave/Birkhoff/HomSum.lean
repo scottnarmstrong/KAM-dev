@@ -14,7 +14,8 @@ Off-frontier, source-faithful infrastructure used by several nodes; the dependen
 being built. Package W3-DIVISOR-F, blueprint label `bpW:w3:homological`.
 
 `summable_birkLamQuartTerm`: for a coefficient `c` with `|c_x| ≤ |𝔤_x|` and `w ∈ 𝔚`, the series
-`Σ_x λ_{|x₄|} c_x ∏_t w_{x_t}` converges absolutely (the factor `λ_{|x₄|} ≤ √(1+m)|x₄|` is absorbed by the
+`Σ_x λ_{|x₄|} c_x ∏_t w_{x_t}` converges absolutely (the factor `λ_{|x₄|} ≤ √(1+m)|x₄|` is absorbed
+by the
 one-smoothing of `∇𝔓`).
 -/
 
@@ -97,7 +98,8 @@ theorem summable_birkLamQuartTerm (w : BirkSpace) :
     have e2 : (z.2 : ℝ) / ellWeight a p z.2 ≤ ellWeight a (p + 1) z.2 := by
       rw [hsucc, div_le_iff₀ hw0]
       nlinarith [mul_nonneg hz0.le (sub_nonneg.2 hw1), mul_pos hz0 hw0]
-    have := mul_le_mul_of_nonneg_left e2 (mul_nonneg (Real.sqrt_nonneg (1 + m)) (norm_nonneg (wv 3 z)))
+    have := mul_le_mul_of_nonneg_left e2 (mul_nonneg (Real.sqrt_nonneg (1 + m)) (norm_nonneg (wv 3
+        z)))
     have hMz := hM0 z.2
     calc (Real.sqrt (1 + m) * z.2) * (M z.2 * (‖wv 3 z‖ / ellWeight a p z.2))
         = (Real.sqrt (1 + m) * ‖wv 3 z‖) * ((z.2 : ℝ) / ellWeight a p z.2) * M z.2 := by ring

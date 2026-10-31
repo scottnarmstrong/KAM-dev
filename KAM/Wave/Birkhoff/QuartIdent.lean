@@ -15,10 +15,12 @@ public import KAM.Wave.Cubic.HamHamiltonian
 Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
 being built. Package W3-SETTING, blueprint label `bpW:w3:quartic-ident`.
 
-For the coefficient `𝔤` on all of `(ℤ∖0)⁴` (`birkCoefAll`; `G = P`), at every point `x` of the complex
+For the coefficient `𝔤` on all of `(ℤ∖0)⁴` (`birkCoefAll`; `G = P`),
+at every point `x` of the complex
 phase space `E^ℂ` (in particular on real points):
 
-* `birkQuartP_birkZ`: `G(𝒵x) = ¼ Σ_{ijkl} g_{ijkl} q̂_i q̂_j q̂_k q̂_l`, the Part 0 series; for `a > 0`
+* `birkQuartP_birkZ`: `G(𝒵x) = ¼ Σ_{ijkl} g_{ijkl} q̂_i q̂_j q̂_k q̂_l`,
+  the Part 0 series; for `a > 0`
   it is `waveG` of the coordinates (`birkQuartP_birkZ_real`);
 * `birkZinv_birkQuartX`: `𝒵⁻¹ X_G(𝒵x) = (0, -T(q,q,q)) = waveXG x`, the field of Part 0
   (the landed `waveXG`, the representative of `(0, -𝒢(q))`).
@@ -218,7 +220,8 @@ theorem birkZinv_birkQuartX_birkZ (x : WaveSpaceK ℂ) :
     show _ = (-(waveCubicNL (K := ℂ) m hm ha hp x.1)) j
     simp only [lp.coeFn_neg, Pi.neg_apply, hcub]
     field_simp
-    linear_combination (T j * (RCLike.ofReal (ellWeight a (p + 1) j) : ℂ) * birkSqrt2 * Complex.I ^ 2 * 0) * h2
+    linear_combination (T j * (RCLike.ofReal (ellWeight a (p + 1) j) : ℂ) * birkSqrt2 * Complex.I ^
+        2 * 0) * h2
 
 end
 

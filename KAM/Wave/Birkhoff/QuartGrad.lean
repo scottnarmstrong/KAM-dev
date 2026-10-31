@@ -15,7 +15,8 @@ Off-frontier, source-faithful infrastructure used by several nodes; the dependen
 being built. Package W3-SETTING, blueprint label `bpW:w3:quartic`.
 
 For a coefficient family `c : (ℤ ∖ {0})⁴ → ℂ` with `|c_x| ≤ |𝔤_x|` (`birkG`) the gradient
-`∇𝔓(w¹,w²,w³)_l = -i sgn(l)/16 Σ_{y ∈ (ℤ∖0)³} c_{(y,-l)} w¹_{y₁} w²_{y₂} w³_{y₃}` converges absolutely
+`∇𝔓(w¹,w²,w³)_l = -i sgn(l)/16 Σ_{y ∈ (ℤ∖0)³} c_{(y,-l)} w¹_{y₁} w²_{y₂} w³_{y₃}` converges
+absolutely
 (`summable_birkGradTerm`, bounded by the majorant `birkMajorant` of the folded sequences,
 `norm_birkGradSum_le`), is an element of `𝔚^+` (a point of `BirkSpace` read at weight `p + 1`,
 `birkGradSeq`), and defines a continuous trilinear map `birkGradML` with `‖∇𝔓‖ ≤ C_*/4`
