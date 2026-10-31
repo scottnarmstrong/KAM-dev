@@ -97,7 +97,7 @@ versions simplify; the linked Lean statements are exact. The full list of frozen
    C·μ^(3a/2). The constants are asymptotic: this does not certify the actual Solar System. [`KAM.Planetary.planetaryExponentialSafety`](KAM/Frozen/Planetary/Theorems/PlanetaryExponentialSafety.lean#L53)
 
 **Certified numerical tori (track SO).** These are ordinary proved theorems, not frozen statements. For the Moon's
-band (item 12), the freeze (D49) and the seal (D50) are approved by the owner and in progress.
+band (item 12) is frozen and sealed: `KAM.SpinOrbit.lunar_spin_confinement` (D49, D50; 2026-10-31).
 
 10. **A sound certificate checker for KAM tori.** `checkTorusCertificate` is a Lean function, evaluated inside the
    kernel, that reads a finite certificate: a Hamiltonian written as an expression, a candidate torus given by
@@ -128,7 +128,7 @@ band (item 12), the freeze (D49) and the seal (D50) are approved by the owner an
     time t. Two invariant barrier tori, with frequencies 1 ± 1/(65 + g) for g the golden-mean conjugate (N = 65),
     enclose the band [0.97245, 1.02755]. Their certificates, about 1,650 generated data modules, pass the v2
     certifier (refined route A) inside Lean's kernel, and the proof uses only the standard axioms. Ordinary theorem;
-    freeze approved (D49), seal in progress. Proved on 2026-10-31.
+    Frozen as `KAM.SpinOrbit.lunar_spin_confinement` (D49) and sealed (D50) on 2026-10-31.
     [`KAM.SpinOrbit.lunar_spin_confinement_65_v2`](KAM/SpinOrbit/LunarFinalR2V2.lean#L65) · the barriers:
     [`KAM.SpinOrbit.lunar_barriers_65_v2`](KAM/SpinOrbit/LunarFinalR2V2.lean#L50)
 
@@ -352,7 +352,7 @@ evaluates a checker on it, and one soundness theorem, proved once, turns a passi
 with explicit error bounds through the sealed isoenergetic theorem I-G1. The first client is the classical lunar
 spin–orbit problem: two certified barrier tori around the synchronous resonance prove that the Moon's spin rate stays
 within 2.755 % of its orbital rate for all time, for every initial spin rate in the window 0.9934 < p₀ < 1.0066 (proved
-on 2026-10-31 with barriers at N = 65 and the v2 certifier; freeze and seal in progress). Part 3 goes further: one
+on 2026-10-31 with barriers at N = 65 and the v2 certifier; frozen and sealed the same day). Part 3 goes further: one
 librational invariant torus around a certified synchronous periodic orbit keeps the Moon locked in synchronous rotation
 forever (D42, D45; in progress). Plan and owner decisions: [`docs/campaign/design/SPIN-ORBIT-PLAN.md`](docs/campaign/design/SPIN-ORBIT-PLAN.md); proposal and
 numerical pilot: [`docs/explorations/`](docs/explorations).
