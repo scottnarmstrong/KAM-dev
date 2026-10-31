@@ -347,6 +347,7 @@ class LockEmitter(CE.Emitter):
 
     def emit_products(self, operand_of):
         self.prod_done = {}
+        self.memo_out = {}
         self.prod_led = {}
         memo_only = {k: v for k, v in operand_of.items() if self.led_route(k) is None}
         items = []
