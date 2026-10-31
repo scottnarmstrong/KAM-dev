@@ -38,6 +38,15 @@ def birkOmegaPlus (a p : ℝ) (ha : 0 ≤ a) (hp : 0 ≤ p) (X v : BirkSpace) : 
 theorem birkOmegaPlus_eq (ha : 0 ≤ a) (hp : 0 ≤ p) (X v : BirkSpace) :
     birkOmegaPlus a p ha hp X v = birkOmega ha hp (birkEmbed a (p + 1) p (by linarith) X) v := rfl
 
+theorem norm_birkOmegaPlus_le (ha : 0 ≤ a) (hp : 0 ≤ p) (X v : BirkSpace) :
+    ‖birkOmegaPlus a p ha hp X v‖ ≤ ‖X‖ * ‖v‖ := by
+  refine (norm_birkOmega_le ha hp _ _).trans ?_
+  have h2 : ‖birkEmbed a (p + 1) p (by linarith) X‖ ≤ ‖X‖ := by
+    refine (ContinuousLinearMap.le_opNorm _ _).trans ?_
+    calc _ ≤ 1 * ‖X‖ := by gcongr; exact norm_birkEmbed_le _ _ _ _
+      _ = _ := one_mul _
+  gcongr
+
 /-- (`bpW:w3:hamfield-def`) `X` is a *Hamiltonian field* of `P` on `U`:
 `DP(w)v = Ω(X(w), v)` for `w ∈ U`, `v ∈ 𝔚`; here `P` is complex differentiable on `U`. -/
 structure IsBirkHamField (a p : ℝ) (ha : 0 ≤ a) (hp : 0 ≤ p) (U : Set BirkSpace)
