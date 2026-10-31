@@ -27,7 +27,7 @@ namespace KAM.SpinOrbit
 theorem lunarSyncOrbit_bound (φ : ℝ) :
     |lunarSyncOrbit φ| ≤ 17 / 1000000 ∧ |deriv lunarSyncOrbit φ| ≤ 27 / 200000 :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
-  sorry
+  by sorry
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 

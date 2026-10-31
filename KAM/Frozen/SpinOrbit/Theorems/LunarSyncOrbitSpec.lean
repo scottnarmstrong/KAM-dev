@@ -27,7 +27,7 @@ namespace KAM.SpinOrbit
 
 theorem lunarSyncOrbit_spec : IsSyncOrbit lunarSyncOrbit :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
-  sorry
+  by sorry
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
