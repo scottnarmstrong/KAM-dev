@@ -2165,3 +2165,8 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
       removed.
   - The codex-1 identity audit of the 13 frozen files runs now (independent of Q11).
   - LOCK-DATA was told to pause kernel runs that depend on Model, Barrier or Inverse until Q11 lands.
+- **SO-LOCK data volume update (for owner review, 2026-10-31 07:3x UTC):** after D47 (land the 131 MB as is), the full
+  census puts the lock data at about 345 MB (131 MB books + 54 MB segment ledger + ~153 MB memos + stages); B1
+  (lock-owned exp/inv/sqrt segment routes) approved by root-b8; cost ≈ 20 CPU-h kernel + ≈ 2 days literal
+  elaboration. Not covered by D47 until the owner confirms; generation/kernel only. Cuts (packed literals, lanes,
+  memos; 60°/66° amplitude for comparison only) being priced.
