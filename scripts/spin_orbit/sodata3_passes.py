@@ -60,13 +60,7 @@ def families(t):
             "decide (cert.base.params.disp < cert.mono * cert.base.params.rhoInf) = true"),
            ("GraphM", "the graph check: mono", "%s_graphM" % t,
             "checkRealLowerBound cert.base.weight cert.base.cfgLow (soGraphMonoModel cert) cert.mono₀\n"
-            "      cert.mono cert.sosMono = true"),
-           ("GraphL", "the graph check: pLo", "%s_graphL" % t,
-            "checkRealLowerBound cert.base.weight cert.base.cfgLow (soGraphActionModel cert) cert.pLo₀\n"
-            "      cert.pLo cert.sosLo = true"),
-           ("GraphH", "the graph check: pHi", "%s_graphH" % t,
-            "checkRealLowerBound cert.base.weight cert.base.cfgLow (soGraphActionModel cert).negM\n"
-            "      (-cert.pHi₀) (-cert.pHi) cert.sosHi = true")]
+            "      cert.mono cert.sosMono = true")]
     for k, s in (("d", 0), ("d", 1), ("b", 0), ("b", 1), ("b", 2)):
         a, b = site(s, k, None)
         out.append(("Site%s%d" % (k.upper(), s), "the small-divisor bite at %s%d" % (k, s), "%s_site_%s%d" % (t, k, s),
@@ -119,7 +113,8 @@ def main(which, root):
                                       "small\nkernel computations.", body="\n\n".join(cheap))
     # assembly
     S = lambda nm: "%s_%s" % (t, nm)
-    seg = ["Seg.Checks", "Seg.Checks.Torsion", "Seg.Checks.FrameN", "Seg.Checks.FrameT"]
+    seg = ["Seg.Checks", "Seg.Checks.Torsion", "Seg.Checks.FrameN", "Seg.Checks.FrameT",
+           "Pass.GraphL", "Pass.GraphH"]      # the chunked SOS sides (csplit_graph.py)
     pass_imps = imps + "\n" + "\n".join("public import KAM.SpinOrbit.Data.%s.Pass.%s" % (T, m)
                                         for m in [f[0] for f in fams] + ["Core"]) + "\n" + \
         "\n".join("public import KAM.SpinOrbit.Data.%s.%s" % (T, m) for m in seg)
@@ -131,11 +126,15 @@ def main(which, root):
     body = """/-- The √5 enclosure of the data: `rootLo ≤ √5 ≤ rootHi`. -/
 theorem {t}_sqrtFive_mem :
     ((rootLo : ℚ) : ℝ) ≤ Real.sqrt 5 ∧ Real.sqrt 5 ≤ ((rootHi : ℚ) : ℝ) := by
+  have h1 : (0 : ℚ) ≤ rootLo := by decide +kernel
+  have h2 : rootLo ^ 2 ≤ 5 := by decide +kernel
+  have h3 : (0 : ℚ) ≤ rootHi := by decide +kernel
+  have h4 : (5 : ℚ) ≤ rootHi ^ 2 := by decide +kernel
   constructor
-  · rw [Real.le_sqrt (by norm_num [rootLo]) (by norm_num)]
-    norm_num [rootLo]
-  · rw [Real.sqrt_le_left (by norm_num [rootHi])]
-    norm_num [rootHi]
+  · rw [Real.le_sqrt (by exact_mod_cast h1) (by norm_num)]
+    exact_mod_cast h2
+  · rw [Real.sqrt_le_left (by exact_mod_cast h3)]
+    exact_mod_cast h4
 
 /-- **`_freq`**: the certificate's box encloses the frequency. -/
 theorem {t}_freq :

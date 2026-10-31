@@ -16,8 +16,6 @@ public import KAM.SpinOrbit.Data.Lower.Pass.HamClaim
 public import KAM.SpinOrbit.Data.Lower.Pass.FrameL
 public import KAM.SpinOrbit.Data.Lower.Pass.GraphS
 public import KAM.SpinOrbit.Data.Lower.Pass.GraphM
-public import KAM.SpinOrbit.Data.Lower.Pass.GraphL
-public import KAM.SpinOrbit.Data.Lower.Pass.GraphH
 public import KAM.SpinOrbit.Data.Lower.Pass.SiteD0
 public import KAM.SpinOrbit.Data.Lower.Pass.SiteD1
 public import KAM.SpinOrbit.Data.Lower.Pass.SiteB0
@@ -28,6 +26,8 @@ public import KAM.SpinOrbit.Data.Lower.Seg.Checks
 public import KAM.SpinOrbit.Data.Lower.Seg.Checks.Torsion
 public import KAM.SpinOrbit.Data.Lower.Seg.Checks.FrameN
 public import KAM.SpinOrbit.Data.Lower.Seg.Checks.FrameT
+public import KAM.SpinOrbit.Data.Lower.Pass.GraphL
+public import KAM.SpinOrbit.Data.Lower.Pass.GraphH
 
 /-!
 # The lunar lower torus: the data conclusions (generated)
@@ -47,11 +47,15 @@ open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2 KAM.SpinOr
 /-- The √5 enclosure of the data: `rootLo ≤ √5 ≤ rootHi`. -/
 theorem lower_sqrtFive_mem :
     ((rootLo : ℚ) : ℝ) ≤ Real.sqrt 5 ∧ Real.sqrt 5 ≤ ((rootHi : ℚ) : ℝ) := by
+  have h1 : (0 : ℚ) ≤ rootLo := by decide +kernel
+  have h2 : rootLo ^ 2 ≤ 5 := by decide +kernel
+  have h3 : (0 : ℚ) ≤ rootHi := by decide +kernel
+  have h4 : (5 : ℚ) ≤ rootHi ^ 2 := by decide +kernel
   constructor
-  · rw [Real.le_sqrt (by norm_num [rootLo]) (by norm_num)]
-    norm_num [rootLo]
-  · rw [Real.sqrt_le_left (by norm_num [rootHi])]
-    norm_num [rootHi]
+  · rw [Real.le_sqrt (by exact_mod_cast h1) (by norm_num)]
+    exact_mod_cast h2
+  · rw [Real.sqrt_le_left (by exact_mod_cast h3)]
+    exact_mod_cast h4
 
 /-- **`_freq`**: the certificate's box encloses the frequency. -/
 theorem lower_freq :
