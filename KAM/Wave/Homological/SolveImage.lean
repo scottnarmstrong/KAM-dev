@@ -22,7 +22,8 @@ the image `Λ 𝒮u` is the solve `𝒮'(Λ u)` (`bpW:w4:solve` (iv)), hence
 * `homSolve_image_partial_bound`: `‖Λ ∂_{θ_i}𝒮u(θ)‖ ≤ κ' B^W_σ m'_Λ/α` if `‖∂_{θ_i}Λ u‖ ≤ m'_Λ`
   (`bpW:w4:solve` (iii) in the image space).
 
-With `Λ` the identity, `Λ = ` the matrix entries, `Λ = D` or `Λ = homLamCLM` this gives the bounds
+With `Λ` the identity, `Λ = ` the matrix entries, `Λ = D` or `Λ = homLamCLM_gen` this gives the
+    bounds
 of the seven components and of their `θ`-derivatives (`bilinear` and `dual` norms).
 -/
 

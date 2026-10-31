@@ -16,7 +16,7 @@ import Mathlib.Tactic.FieldSimp
 Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
 being built.
 
-`homXnorm_le_of_components`: if the components of `T ∈ 𝒯_s` at `θ` satisfy the bounds of
+`homXnorm_le_of_components_gen`: if the components of `T ∈ 𝒯_s` at `θ` satisfy the bounds of
 `bpW:w4:components` with the scale `E₀` and the operator constant `K ≥ 1` (that is `|b| ≤ 2πE₀`,
 `‖c^±‖ ≤ rE₀/√2`, `‖2P‖,‖Q‖,‖Q^T‖,‖2P'‖ ≤ KE₀`, `|∂_ia| ≤ 2πr²E₀`, `|⟨∂_ib,y⟩| ≤ 2πE₀|y|`,
 `‖∂_ic^±‖_* ≤ 2√2π r E₀`, `‖Λ∂_iP‖,‖Λ∂_iP'‖ ≤ 4πKE₀`, `‖Λ∂_iQ‖ ≤ 16πKE₀`), then at every point of
@@ -32,8 +32,8 @@ open KAM
 variable {a p pb s : ℝ}
 
 /-- The component hypotheses at one `θ`. -/
-structure HomCompBounds {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (r K E0 : ℝ)
-    (T : HomTaylor a p pb s) (θ : Fin 2 → ℂ) : Prop where
+structure HomCompBounds_gen {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (r K E0 : ℝ)
+    (T : HomTaylor_gen a p pb s) (θ : Fin 2 → ℂ) : Prop where
   b : ‖T.b θ‖ ≤ 2 * Real.pi * E0
   cp : ‖T.cp θ‖ ≤ r * E0 / Real.sqrt 2
   cm : ‖T.cm θ‖ ≤ r * E0 / Real.sqrt 2
@@ -43,27 +43,32 @@ structure HomCompBounds {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p 
   P' : ‖(2 : ℂ) • T.P' θ‖ ≤ K * E0
   da : ∀ i, ‖homPartial i T.a0 θ‖ ≤ 2 * Real.pi * r ^ 2 * E0
   db : ∀ i (y : Fin 2 → ℂ), ‖∑ k, homPartial i T.b θ k * y k‖ ≤ 2 * Real.pi * E0 * ‖y‖
-  dcp : ∀ i, homDualNorm ha (homPP hp hpb) (homPartial i T.cp θ) ≤ 2 * Real.sqrt 2 * Real.pi * r *
+  dcp : ∀ i, homDualNorm_gen ha (homPP hp hpb) (homPartial i T.cp θ) ≤ 2 * Real.sqrt 2 * Real.pi *
+      r *
       E0
-  dcm : ∀ i, homDualNorm ha (homPP hp hpb) (homPartial i T.cm θ) ≤ 2 * Real.sqrt 2 * Real.pi * r *
+  dcm : ∀ i, homDualNorm_gen ha (homPP hp hpb) (homPartial i T.cm θ) ≤ 2 * Real.sqrt 2 * Real.pi *
+      r *
       E0
-  dP : ∀ i, ‖homLamCLM ha (homPP hp hpb) (homPartial i T.P θ)‖ ≤ K * (4 * Real.pi * E0)
-  dP' : ∀ i, ‖homLamCLM ha (homPP hp hpb) (homPartial i T.P' θ)‖ ≤ K * (4 * Real.pi * E0)
-  dQ : ∀ i, ‖homLamCLM ha (homPP hp hpb) (homPartial i T.Q θ)‖ ≤ K * (16 * Real.pi * E0)
+  dP : ∀ i, ‖homLamCLM_gen ha (homPP hp hpb) (homPartial i T.P θ)‖ ≤ K * (4 * Real.pi * E0)
+  dP' : ∀ i, ‖homLamCLM_gen ha (homPP hp hpb) (homPartial i T.P' θ)‖ ≤ K * (4 * Real.pi * E0)
+  dQ : ∀ i, ‖homLamCLM_gen ha (homPP hp hpb) (homPartial i T.Q θ)‖ ≤ K * (16 * Real.pi * E0)
 
 
-theorem norm_homPairRep_le {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (c z : HomL2) :
-    ‖homPairRep ha (homPP hp hpb) c z‖ ≤ homDualNorm ha (homPP hp hpb) c * ‖z‖ := by
-  have := norm_homPairF_le (homLamDiag ha (homPP hp hpb) c) z
-  simpa [homPairRep, homPairF, homDualNorm] using this
+theorem norm_homPairRep_le_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (c z : HomL2) :
+    ‖homPairRep_gen ha (homPP hp hpb) c z‖ ≤ homDualNorm_gen ha (homPP hp hpb) c * ‖z‖ := by
+  have := norm_homPairF_le (homLamDiag_gen ha (homPP hp hpb) c) z
+  simpa [homPairRep_gen, homPairF, homDualNorm_gen] using this
 
-theorem norm_homPairRep_op_le {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (M : HomOp) (z
+theorem norm_homPairRep_op_le_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (M : HomOp)
+    (z
     z' : HomL2) :
-    ‖homPairRep ha (homPP hp hpb) (M z) z'‖ ≤ ‖homLamCLM ha (homPP hp hpb) M‖ * ‖z‖ * ‖z'‖ := by
-  have h1 := norm_homPairF_le ((homLamCLM ha (homPP hp hpb) M) z) z'
-  have h2 : ‖(homLamCLM ha (homPP hp hpb) M) z‖ ≤ ‖homLamCLM ha (homPP hp hpb) M‖ * ‖z‖ :=
-    (homLamCLM ha (homPP hp hpb) M).le_opNorm z
-  have h3 : homPairRep ha (homPP hp hpb) (M z) z' = homPairF ((homLamCLM ha (homPP hp hpb) M) z) z'
+    ‖homPairRep_gen ha (homPP hp hpb) (M z) z'‖ ≤ ‖homLamCLM_gen ha (homPP hp hpb) M‖ * ‖z‖ * ‖z'‖
+        := by
+  have h1 := norm_homPairF_le ((homLamCLM_gen ha (homPP hp hpb) M) z) z'
+  have h2 : ‖(homLamCLM_gen ha (homPP hp hpb) M) z‖ ≤ ‖homLamCLM_gen ha (homPP hp hpb) M‖ * ‖z‖ :=
+    (homLamCLM_gen ha (homPP hp hpb) M).le_opNorm z
+  have h3 : homPairRep_gen ha (homPP hp hpb) (M z) z' = homPairF ((homLamCLM_gen ha (homPP hp hpb)
+      M) z) z'
       := rfl
   rw [h3]
   refine h1.trans ?_
@@ -91,12 +96,13 @@ theorem norm_add7_le {E : Type*} [SeminormedAddCommGroup E] (a b c d e f g : E) 
 /-- **Assembly** (`bpW:w4:lemma1`, step *Assembly*): `|X_T|_r ≤ (7 + 10K) E₀` at a point of the
     domain
 over `θ`. -/
-theorem homXnorm_le_of_components {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r K E0 :
+theorem homXnorm_le_of_components_gen {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r K
+    E0 :
     ℝ}
-    (hr : 0 < r) (hK : 1 ≤ K) (hE0 : 0 ≤ E0) (T : HomTaylor a p pb s) {θ y : Fin 2 → ℂ}
-    {z zb : HomL2} (hb : HomCompBounds ha hp hpb r K E0 T θ) (hy : ‖y‖ ≤ r ^ 2)
+    (hr : 0 < r) (hK : 1 ≤ K) (hE0 : 0 ≤ E0) (T : HomTaylor_gen a p pb s) {θ y : Fin 2 → ℂ}
+    {z zb : HomL2} (hb : HomCompBounds_gen ha hp hpb r K E0 T θ) (hy : ‖y‖ ≤ r ^ 2)
     (hdom : ‖homU z zb‖ + ‖homV z zb‖ < r) :
-    homXnorm ha hp hpb r T θ y z zb ≤ (7 + 10 * K) * E0 := by
+    homXnorm_gen ha hp hpb r T θ y z zb ≤ (7 + 10 * K) * E0 := by
   have hs : 0 < Real.sqrt 2 := Real.sqrt_pos.mpr (by norm_num)
   have hs2 : Real.sqrt 2 * Real.sqrt 2 = 2 := Real.mul_self_sqrt (by norm_num)
   have hπ := Real.pi_pos
@@ -114,56 +120,61 @@ theorem homXnorm_le_of_components {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p)
   have hK0 : 0 ≤ K := by linarith
   have hKE : 0 ≤ K * E0 := mul_nonneg hK0 hE0
   -- the angle derivatives
-  have hRth : ‖fun i => homRtheta ha hp hpb T i θ y z zb‖ ≤ (4 + 6 * K) * (2 * Real.pi * r ^ 2 *
+  have hRth : ‖fun i => homRtheta_gen ha hp hpb T i θ y z zb‖ ≤ (4 + 6 * K) * (2 * Real.pi * r ^ 2 *
       E0) :=
       by
     refine (pi_norm_le_iff_of_nonneg (by positivity)).mpr fun i => ?_
     have e1 := hb.da i
     have e2 : ‖∑ k, homPartial i T.b θ k * y k‖ ≤ 2 * Real.pi * E0 * r ^ 2 :=
       (hb.db i y).trans (mul_le_mul_of_nonneg_left hy (by positivity))
-    have e3 : ‖homPairRep ha (homPP hp hpb) (homPartial i T.cp θ) z‖ ≤ 2 * Real.pi * r ^ 2 * E0 :=
+    have e3 : ‖homPairRep_gen ha (homPP hp hpb) (homPartial i T.cp θ) z‖ ≤ 2 * Real.pi * r ^ 2 * E0
+        :=
         by
-      refine (norm_homPairRep_le ha hp hpb _ _).trans ?_
-      calc homDualNorm ha (homPP hp hpb) (homPartial i T.cp θ) * ‖z‖
+      refine (norm_homPairRep_le_gen ha hp hpb _ _).trans ?_
+      calc homDualNorm_gen ha (homPP hp hpb) (homPartial i T.cp θ) * ‖z‖
           ≤ (2 * Real.sqrt 2 * Real.pi * r * E0) * q :=
             mul_le_mul (hb.dcp i) hzq (norm_nonneg _) (by positivity)
         _ = 2 * Real.pi * r ^ 2 * E0 := by rw [hq]; field_simp
-    have e4 : ‖homPairRep ha (homPP hp hpb) (homPartial i T.cm θ) zb‖ ≤ 2 * Real.pi * r ^ 2 * E0 :=
+    have e4 : ‖homPairRep_gen ha (homPP hp hpb) (homPartial i T.cm θ) zb‖ ≤ 2 * Real.pi * r ^ 2 *
+        E0 :=
         by
-      refine (norm_homPairRep_le ha hp hpb _ _).trans ?_
-      calc homDualNorm ha (homPP hp hpb) (homPartial i T.cm θ) * ‖zb‖
+      refine (norm_homPairRep_le_gen ha hp hpb _ _).trans ?_
+      calc homDualNorm_gen ha (homPP hp hpb) (homPartial i T.cm θ) * ‖zb‖
           ≤ (2 * Real.sqrt 2 * Real.pi * r * E0) * q :=
             mul_le_mul (hb.dcm i) hzbq (norm_nonneg _) (by positivity)
         _ = 2 * Real.pi * r ^ 2 * E0 := by rw [hq]; field_simp
-    have e5 : ‖homPairRep ha (homPP hp hpb) (homPartial i T.P θ z) z‖ ≤ K * (2 * Real.pi * r ^ 2 *
+    have e5 : ‖homPairRep_gen ha (homPP hp hpb) (homPartial i T.P θ z) z‖ ≤ K * (2 * Real.pi * r ^
+        2 *
         E0) := by
-      refine (norm_homPairRep_op_le ha hp hpb _ _ _).trans ?_
-      calc ‖homLamCLM ha (homPP hp hpb) (homPartial i T.P θ)‖ * ‖z‖ * ‖z‖
+      refine (norm_homPairRep_op_le_gen ha hp hpb _ _ _).trans ?_
+      calc ‖homLamCLM_gen ha (homPP hp hpb) (homPartial i T.P θ)‖ * ‖z‖ * ‖z‖
           ≤ (K * (4 * Real.pi * E0)) * (‖z‖ * ‖z‖) := by
             rw [mul_assoc]; exact mul_le_mul_of_nonneg_right (hb.dP i) (by positivity)
         _ ≤ (K * (4 * Real.pi * E0)) * (r ^ 2 / 2) :=
             mul_le_mul_of_nonneg_left hzz (by positivity)
         _ = _ := by ring
-    have e6 : ‖homPairRep ha (homPP hp hpb) (homPartial i T.Q θ z) zb‖ ≤ K * (2 * Real.pi * r ^ 2 *
+    have e6 : ‖homPairRep_gen ha (homPP hp hpb) (homPartial i T.Q θ z) zb‖ ≤ K * (2 * Real.pi * r ^
+        2 *
         E0) * 4 :=
         by
-      refine (norm_homPairRep_op_le ha hp hpb _ _ _).trans ?_
-      calc ‖homLamCLM ha (homPP hp hpb) (homPartial i T.Q θ)‖ * ‖z‖ * ‖zb‖
+      refine (norm_homPairRep_op_le_gen ha hp hpb _ _ _).trans ?_
+      calc ‖homLamCLM_gen ha (homPP hp hpb) (homPartial i T.Q θ)‖ * ‖z‖ * ‖zb‖
           ≤ (K * (16 * Real.pi * E0)) * (‖z‖ * ‖zb‖) := by
             rw [mul_assoc]; exact mul_le_mul_of_nonneg_right (hb.dQ i) (by positivity)
         _ ≤ (K * (16 * Real.pi * E0)) * (r ^ 2 / 2) :=
             mul_le_mul_of_nonneg_left hzzb (by positivity)
         _ = _ := by ring
-    have e7 : ‖homPairRep ha (homPP hp hpb) (homPartial i T.P' θ zb) zb‖ ≤ K * (2 * Real.pi * r ^ 2
+    have e7 : ‖homPairRep_gen ha (homPP hp hpb) (homPartial i T.P' θ zb) zb‖ ≤ K * (2 * Real.pi * r
+        ^ 2
         * E0) := by
-      refine (norm_homPairRep_op_le ha hp hpb _ _ _).trans ?_
-      calc ‖homLamCLM ha (homPP hp hpb) (homPartial i T.P' θ)‖ * ‖zb‖ * ‖zb‖
+      refine (norm_homPairRep_op_le_gen ha hp hpb _ _ _).trans ?_
+      calc ‖homLamCLM_gen ha (homPP hp hpb) (homPartial i T.P' θ)‖ * ‖zb‖ * ‖zb‖
           ≤ (K * (4 * Real.pi * E0)) * (‖zb‖ * ‖zb‖) := by
             rw [mul_assoc]; exact mul_le_mul_of_nonneg_right (hb.dP' i) (by positivity)
         _ ≤ (K * (4 * Real.pi * E0)) * (r ^ 2 / 2) :=
             mul_le_mul_of_nonneg_left hzbzb (by positivity)
         _ = _ := by ring
-    unfold homRtheta
+    unfold homRtheta_gen
     refine le_trans (norm_add7_le _ _ _ _ _ _ _) ?_
     have := add_le_add (add_le_add (add_le_add (add_le_add (add_le_add (add_le_add e1 e2) e3) e4)
         e5) e6) e7
@@ -176,55 +187,58 @@ theorem homXnorm_le_of_components {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p)
   have hn1 : ∀ x : HomL2, ‖x‖ ≤ q → ∀ M : HomOp, ‖M‖ ≤ K * E0 →
       ‖M x‖ ≤ K * E0 * q := fun x hx M hM =>
     ((M.le_opNorm x).trans (mul_le_mul hM hx (norm_nonneg _) hKE))
-  have hRz : ‖homRz T θ z zb‖ ≤ (r * E0 / Real.sqrt 2) * (1 + 2 * K) := by
+  have hRz : ‖homRz_gen T θ z zb‖ ≤ (r * E0 / Real.sqrt 2) * (1 + 2 * K) := by
     have h1 := hn2 z hzq _ hb.P
     have h2 := hn1 zb hzbq _ hb.Qt
-    have e : homRz T θ z zb = T.cp θ + ((2 : ℂ) • T.P θ) z + T.Qt θ zb := by
-      simp [homRz]
+    have e : homRz_gen T θ z zb = T.cp θ + ((2 : ℂ) • T.P θ) z + T.Qt θ zb := by
+      simp [homRz_gen]
     rw [e]
     refine (norm_add_le _ _).trans (add_le_add ((norm_add_le _ _).trans (add_le_add hb.cp h1)) h2)
       |>.trans (le_of_eq ?_)
     rw [hq]; field_simp; ring
-  have hRzb : ‖homRzb T θ z zb‖ ≤ (r * E0 / Real.sqrt 2) * (1 + 2 * K) := by
+  have hRzb : ‖homRzb_gen T θ z zb‖ ≤ (r * E0 / Real.sqrt 2) * (1 + 2 * K) := by
     have h1 := hn1 z hzq _ hb.Q
     have h2 := hn2 zb hzbq _ hb.P'
-    have e : homRzb T θ z zb = T.cm θ + T.Q θ z + ((2 : ℂ) • T.P' θ) zb := by
-      simp [homRzb]
+    have e : homRzb_gen T θ z zb = T.cm θ + T.Q θ z + ((2 : ℂ) • T.P' θ) zb := by
+      simp [homRzb_gen]
     rw [e]
     refine (norm_add_le _ _).trans (add_le_add ((norm_add_le _ _).trans (add_le_add hb.cm h1)) h2)
       |>.trans (le_of_eq ?_)
     rw [hq]; field_simp; ring
   have hn : ‖homSqrt2⁻¹‖ = (Real.sqrt 2)⁻¹ := by rw [norm_inv, norm_homSqrt2]
-  have hRuv : ‖homRu T θ z zb‖ + ‖homRv T θ z zb‖ ≤
-      Real.sqrt 2 * (‖homRz T θ z zb‖ + ‖homRzb T θ z zb‖) := by
-    have hu : ‖homRu T θ z zb‖ ≤ (Real.sqrt 2)⁻¹ * (‖homRz T θ z zb‖ + ‖homRzb T θ z zb‖) := by
-      unfold homRu; rw [norm_smul, hn]
+  have hRuv : ‖homRu_gen T θ z zb‖ + ‖homRv_gen T θ z zb‖ ≤
+      Real.sqrt 2 * (‖homRz_gen T θ z zb‖ + ‖homRzb_gen T θ z zb‖) := by
+    have hu : ‖homRu_gen T θ z zb‖ ≤ (Real.sqrt 2)⁻¹ * (‖homRz_gen T θ z zb‖ + ‖homRzb_gen T θ z
+        zb‖) := by
+      unfold homRu_gen; rw [norm_smul, hn]
       exact mul_le_mul_of_nonneg_left (norm_add_le _ _) (by positivity)
-    have hv : ‖homRv T θ z zb‖ ≤ (Real.sqrt 2)⁻¹ * (‖homRz T θ z zb‖ + ‖homRzb T θ z zb‖) := by
-      unfold homRv; rw [norm_smul, norm_mul, Complex.norm_I, one_mul, hn]
+    have hv : ‖homRv_gen T θ z zb‖ ≤ (Real.sqrt 2)⁻¹ * (‖homRz_gen T θ z zb‖ + ‖homRzb_gen T θ z
+        zb‖) := by
+      unfold homRv_gen; rw [norm_smul, norm_mul, Complex.norm_I, one_mul, hn]
       exact mul_le_mul_of_nonneg_left (norm_sub_le _ _) (by positivity)
     have : (Real.sqrt 2)⁻¹ + (Real.sqrt 2)⁻¹ = Real.sqrt 2 := by field_simp; linarith
-    nlinarith [norm_nonneg (homRz T θ z zb), norm_nonneg (homRzb T θ z zb)]
-  have hN : ‖homRu T θ z zb‖ + ‖homRv T θ z zb‖ ≤ 2 * r * E0 * (1 + 2 * K) := by
+    nlinarith [norm_nonneg (homRz_gen T θ z zb), norm_nonneg (homRzb_gen T θ z zb)]
+  have hN : ‖homRu_gen T θ z zb‖ + ‖homRv_gen T θ z zb‖ ≤ 2 * r * E0 * (1 + 2 * K) := by
     refine hRuv.trans ?_
     have := add_le_add hRz hRzb
-    calc Real.sqrt 2 * (‖homRz T θ z zb‖ + ‖homRzb T θ z zb‖)
+    calc Real.sqrt 2 * (‖homRz_gen T θ z zb‖ + ‖homRzb_gen T θ z zb‖)
         ≤ Real.sqrt 2 * ((r * E0 / Real.sqrt 2) * (1 + 2 * K) +
           (r * E0 / Real.sqrt 2) * (1 + 2 * K)) := mul_le_mul_of_nonneg_left this hs.le
       _ = _ := by field_simp; ring
-  unfold homXnorm
-  have t1 : (2 * Real.pi)⁻¹ * ‖homRy T θ‖ ≤ E0 := by
-    have : ‖homRy T θ‖ ≤ 2 * Real.pi * E0 := hb.b
-    calc (2 * Real.pi)⁻¹ * ‖homRy T θ‖ ≤ (2 * Real.pi)⁻¹ * (2 * Real.pi * E0) :=
+  unfold homXnorm_gen
+  have t1 : (2 * Real.pi)⁻¹ * ‖homRy_gen T θ‖ ≤ E0 := by
+    have : ‖homRy_gen T θ‖ ≤ 2 * Real.pi * E0 := hb.b
+    calc (2 * Real.pi)⁻¹ * ‖homRy_gen T θ‖ ≤ (2 * Real.pi)⁻¹ * (2 * Real.pi * E0) :=
           mul_le_mul_of_nonneg_left this (by positivity)
       _ = E0 := by field_simp
-  have t2 : (2 * Real.pi * r ^ 2)⁻¹ * ‖fun i => homRtheta ha hp hpb T i θ y z zb‖ ≤ (4 + 6 * K) *
+  have t2 : (2 * Real.pi * r ^ 2)⁻¹ * ‖fun i => homRtheta_gen ha hp hpb T i θ y z zb‖ ≤ (4 + 6 * K)
+      *
       E0 :=
       by
     calc _ ≤ (2 * Real.pi * r ^ 2)⁻¹ * ((4 + 6 * K) * (2 * Real.pi * r ^ 2 * E0)) :=
           mul_le_mul_of_nonneg_left hRth (by positivity)
       _ = _ := by field_simp
-  have t3 : r⁻¹ * (‖homRu T θ z zb‖ + ‖homRv T θ z zb‖) ≤ 2 * (1 + 2 * K) * E0 := by
+  have t3 : r⁻¹ * (‖homRu_gen T θ z zb‖ + ‖homRv_gen T θ z zb‖) ≤ 2 * (1 + 2 * K) * E0 := by
     calc _ ≤ r⁻¹ * (2 * r * E0 * (1 + 2 * K)) := mul_le_mul_of_nonneg_left hN (by positivity)
       _ = _ := by field_simp
   linarith

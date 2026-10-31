@@ -15,10 +15,10 @@ import Mathlib.Tactic.Positivity
 Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
 being built.
 
-`HomTaylor.sub R₁ R₂ ∈ 𝒯_s` has the componentwise differences as components; its field is the
+`HomTaylor_gen.sub R₁ R₂ ∈ 𝒯_s` has the componentwise differences as components; its field is the
 difference of the fields (`X_{R₁ - R₂} = X_{R₁} - X_{R₂}`, the fields being linear in the
 components), so the Lipschitz hypothesis `|X_{R(ξ)} - X_{R(ζ)}|_r ≤ ε^L |ξ-ζ|` is
-`HomFieldBound … (R₁.sub R₂)`.
+`HomFieldBound_gen … (R₁.sub R₂)`.
 -/
 
 @[expose] public noncomputable section
@@ -45,13 +45,14 @@ theorem homPartial_sub {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
   have := fderiv_sub (𝕜 := ℂ) hu hv
   rw [show (fun z => u z - v z) = u - v from rfl, this]; rfl
 
-theorem homNormalEntry_sub (a p pb : ℝ) (A B : HomOp) (i j : ℕ+) :
-    homNormalEntry a p pb (A - B) i j = homNormalEntry a p pb A i j - homNormalEntry a p pb B i j
+theorem homNormalEntry_sub_gen (a p pb : ℝ) (A B : HomOp) (i j : ℕ+) :
+    homNormalEntry_gen a p pb (A - B) i j = homNormalEntry_gen a p pb A i j - homNormalEntry_gen a
+        p pb B i j
         := by
-  simp [homNormalEntry, kamEntry, mul_sub]
+  simp [homNormalEntry_gen, kamEntry, mul_sub]
 
 /-- The difference `R₁ - R₂ ∈ 𝒯_s`. -/
-def HomTaylor.sub (R₁ R₂ : HomTaylor a p pb s) : HomTaylor a p pb s where
+def HomTaylor_gen.sub (R₁ R₂ : HomTaylor_gen a p pb s) : HomTaylor_gen a p pb s where
   a0 := fun z => R₁.a0 z - R₂.a0 z
   b := fun z => R₁.b z - R₂.b z
   cp := fun z => R₁.cp z - R₂.cp z
@@ -69,10 +70,10 @@ def HomTaylor.sub (R₁ R₂ : HomTaylor a p pb s) : HomTaylor a p pb s where
   comp_Q := R₁.comp_Q.sub R₂.comp_Q
   comp_Qt := R₁.comp_Qt.sub R₂.comp_Qt
   symP := fun θ hθ i j => by
-    simp only [homNormalEntry_sub, R₁.symP θ hθ i j, R₂.symP θ hθ i j]
+    simp only [homNormalEntry_sub_gen, R₁.symP θ hθ i j, R₂.symP θ hθ i j]
   symP' := fun θ hθ i j => by
-    simp only [homNormalEntry_sub, R₁.symP' θ hθ i j, R₂.symP' θ hθ i j]
+    simp only [homNormalEntry_sub_gen, R₁.symP' θ hθ i j, R₂.symP' θ hθ i j]
   transQ := fun θ hθ i j => by
-    simp only [homNormalEntry_sub, R₁.transQ θ hθ i j, R₂.transQ θ hθ i j]
+    simp only [homNormalEntry_sub_gen, R₁.transQ θ hθ i j, R₂.transQ θ hθ i j]
 
 end KAM.Wave

@@ -16,8 +16,8 @@ import Mathlib.Tactic.FieldSimp
 Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
 being built.
 
-`homF_sub_compBounds`: the difference `F(ξ) - F(ζ)` of the solutions for the data `R₁ = R(ξ)`,
-`R₂ = R(ζ)` satisfies `HomCompBounds` on `T_{s-σ}` with the scale
+`homF_sub_compBounds_gen`: the difference `F(ξ) - F(ζ)` of the solutions for the data `R₁ = R(ξ)`,
+`R₂ = R(ζ)` satisfies `HomCompBounds_gen` on `T_{s-σ}` with the scale
 `E₀' = B^W_σ(ε^L + 2Mε/α)d/α` and `K = K_S` (`d = |ξ-ζ|`), by `bpW:w4:solve` (ii) in the image
 spaces and `bpW:w4:components` for `R₁`, `R₂` and `R₁ - R₂`.
 -/
@@ -28,34 +28,41 @@ namespace KAM.Wave
 
 open KAM
 
-theorem homSolveTaylor_Q {a p pb s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ} (hτ : 0 ≤ τ)
-    (hα : 0 < α) (hσ : 0 < σ) (hσs : σ < s) (hm : HomMultBounds τ α w W) (R : HomTaylor a p pb s) :
-    (homSolveTaylor hτ hα hσ hσs hm R).Q = homSolve (homTQ hm) R.Q := rfl
+theorem homSolveTaylor_Q_gen {a p pb s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ} (hτ : 0 ≤ τ)
+    (hα : 0 < α) (hσ : 0 < σ) (hσs : σ < s) (hm : HomMultBounds τ α w W) (R : HomTaylor_gen a p pb
+        s) :
+    (homSolveTaylor_gen hτ hα hσ hσs hm R).Q = homSolve (homTQ hm) R.Q := rfl
 
-theorem homLam_comm_homTP {a p pb τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p)
+theorem homLam_comm_homTP_gen {a p pb τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ} (ha : 0 ≤ a) (hp : 0 ≤
+    p)
     (hpb
     : p ≤ pb)
     (hm : HomMultBounds τ α w W) (k : Fin 2 → ℤ) :
-    (homLamCLM ha (homPP hp hpb)).comp (homTP hm k) = (homTP hm k).comp (homLamCLM ha (homPP hp
+    (homLamCLM_gen ha (homPP hp hpb)).comp (homTP hm k) = (homTP hm k).comp (homLamCLM_gen ha
+        (homPP hp
         hpb)) :=
-  homLam_comm_hadamard ha hp hpb (hm.P k)
+  homLam_comm_hadamard_gen ha hp hpb (hm.P k)
 
-theorem homLam_comm_homTP' {a p pb τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p)
+theorem homLam_comm_homTP'_gen {a p pb τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ} (ha : 0 ≤ a) (hp : 0 ≤
+    p)
     (hpb : p ≤ pb)
     (hm : HomMultBounds τ α w W) (k : Fin 2 → ℤ) :
-    (homLamCLM ha (homPP hp hpb)).comp (homTP' hm k) = (homTP' hm k).comp (homLamCLM ha (homPP hp
+    (homLamCLM_gen ha (homPP hp hpb)).comp (homTP' hm k) = (homTP' hm k).comp (homLamCLM_gen ha
+        (homPP hp
         hpb)) :=
-  homLam_comm_hadamard ha hp hpb (hm.P' k)
+  homLam_comm_hadamard_gen ha hp hpb (hm.P' k)
 
-theorem homLam_comm_homTQ {a p pb τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p)
+theorem homLam_comm_homTQ_gen {a p pb τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ} (ha : 0 ≤ a) (hp : 0 ≤
+    p)
     (hpb
     : p ≤ pb)
     (hm : HomMultBounds τ α w W) (k : Fin 2 → ℤ) :
-    (homLamCLM ha (homPP hp hpb)).comp (homTQ hm k) = (homTQ hm k).comp (homLamCLM ha (homPP hp
+    (homLamCLM_gen ha (homPP hp hpb)).comp (homTQ hm k) = (homTQ hm k).comp (homLamCLM_gen ha
+        (homPP hp
         hpb)) :=
-  homLam_comm_hadamard ha hp hpb (hm.Q k)
+  homLam_comm_hadamard_gen ha hp hpb (hm.Q k)
 
-theorem homPartial_sub_comp {s σ : ℝ} {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
+theorem homPartial_sub_comp_gen {s σ : ℝ} {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
     {f g : (Fin 2 → ℂ) → E} (hf : IsHomComp (s - σ) f) (hg : IsHomComp (s - σ) g)
     {θ : Fin 2 → ℂ} (hθ : θ ∈ complexStrip 2 (s - σ)) (i : Fin 2) :
     homPartial i (fun z => f z - g z) θ = homPartial i f θ - homPartial i g θ :=
@@ -77,27 +84,29 @@ variable {a p pb s σ τ α M d : ℝ} {w₁ w₂ : Fin 2 → ℝ} {W₁ W₂ : 
       : 0 ≤ M)
   (hd : 0 ≤ d) (hεL : 0 ≤ εL) (hσ : 0 < σ) (hσs : σ < s)
   (hm₁ : HomMultBounds τ α w₁ W₁) (hm₂ : HomMultBounds τ α w₂ W₂)
-  (hL : HomMultLip τ α M d w₁ W₁ w₂ W₂) (R₁ R₂ : HomTaylor a p pb s)
-  (hX₁ : HomFieldBound ha hp hpb r ε R₁) (hX₂ : HomFieldBound ha hp hpb r ε R₂)
-  (hXL : HomFieldBound ha hp hpb r (εL * d) (R₁.sub R₂)) {θ : Fin 2 → ℂ}
+  (hL : HomMultLip τ α M d w₁ W₁ w₂ W₂) (R₁ R₂ : HomTaylor_gen a p pb s)
+  (hX₁ : HomFieldBound_gen ha hp hpb r ε R₁) (hX₂ : HomFieldBound_gen ha hp hpb r ε R₂)
+  (hXL : HomFieldBound_gen ha hp hpb r (εL * d) (R₁.sub R₂)) {θ : Fin 2 → ℂ}
   (hθ : θ ∈ complexStrip 2 (s - σ))
 include ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL hX₁ hX₂ hXL hθ
 
 theorem homLipField_b :
-    ‖((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).b θ‖ ≤ 2 *
+    ‖((homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂)).b θ‖ ≤
+        2 *
         Real.pi * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
-  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₁ hX₁ hz
-  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₂ hX₂ hz
-  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr (R₁.sub R₂) hXL hz
-  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₁ hX₁ hz i
-  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₂ hX₂ hz i
-  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr (R₁.sub R₂) hXL hz i
+  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₁ hX₁ hz
+  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₂ hX₂ hz
+  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr (R₁.sub R₂) hXL hz
+  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₁ hX₁ hz i
+  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₂ hX₂ hz i
+  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr (R₁.sub R₂) hXL
+      hz i
   have hε : 0 ≤ ε := by
     have hθ' : θ ∈ complexStrip 2 s := fun j => by have := hθ j; linarith
-    exact (homXnorm_nonneg ha hp hpb hr R₁ θ 0 0 0).trans
+    exact (homXnorm_nonneg_gen ha hp hpb hr R₁ θ 0 0 0).trans
       (hX₁ θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   obtain ⟨C₁, hC₁⟩ := R₁.comp_b.2.2
   obtain ⟨C₂, hC₂⟩ := R₂.comp_b.2.2
@@ -114,20 +123,22 @@ theorem homLipField_b :
   exact (le_of_eq rfl).trans (this.trans (le_of_eq (by ring)))
 
 theorem homLipField_cp :
-    ‖((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).cp θ‖ ≤ r *
+    ‖((homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂)).cp θ‖
+        ≤ r *
         (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) / Real.sqrt 2 := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
-  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₁ hX₁ hz
-  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₂ hX₂ hz
-  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr (R₁.sub R₂) hXL hz
-  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₁ hX₁ hz i
-  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₂ hX₂ hz i
-  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr (R₁.sub R₂) hXL hz i
+  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₁ hX₁ hz
+  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₂ hX₂ hz
+  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr (R₁.sub R₂) hXL hz
+  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₁ hX₁ hz i
+  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₂ hX₂ hz i
+  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr (R₁.sub R₂) hXL
+      hz i
   have hε : 0 ≤ ε := by
     have hθ' : θ ∈ complexStrip 2 s := fun j => by have := hθ j; linarith
-    exact (homXnorm_nonneg ha hp hpb hr R₁ θ 0 0 0).trans
+    exact (homXnorm_nonneg_gen ha hp hpb hr R₁ θ 0 0 0).trans
       (hX₁ θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   obtain ⟨C₁, hC₁⟩ := R₁.comp_cp.2.2
   obtain ⟨C₂, hC₂⟩ := R₂.comp_cp.2.2
@@ -145,20 +156,22 @@ theorem homLipField_cp :
   exact (le_of_eq rfl).trans (this.trans (le_of_eq (by ring)))
 
 theorem homLipField_cm :
-    ‖((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).cm θ‖ ≤ r *
+    ‖((homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂)).cm θ‖
+        ≤ r *
         (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) / Real.sqrt 2 := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
-  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₁ hX₁ hz
-  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₂ hX₂ hz
-  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr (R₁.sub R₂) hXL hz
-  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₁ hX₁ hz i
-  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₂ hX₂ hz i
-  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr (R₁.sub R₂) hXL hz i
+  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₁ hX₁ hz
+  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₂ hX₂ hz
+  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr (R₁.sub R₂) hXL hz
+  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₁ hX₁ hz i
+  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₂ hX₂ hz i
+  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr (R₁.sub R₂) hXL
+      hz i
   have hε : 0 ≤ ε := by
     have hθ' : θ ∈ complexStrip 2 s := fun j => by have := hθ j; linarith
-    exact (homXnorm_nonneg ha hp hpb hr R₁ θ 0 0 0).trans
+    exact (homXnorm_nonneg_gen ha hp hpb hr R₁ θ 0 0 0).trans
       (hX₁ θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   obtain ⟨C₁, hC₁⟩ := R₁.comp_cm.2.2
   obtain ⟨C₂, hC₂⟩ := R₂.comp_cm.2.2
@@ -176,20 +189,22 @@ theorem homLipField_cm :
   exact (le_of_eq rfl).trans (this.trans (le_of_eq (by ring)))
 
 theorem homLipField_P :
-    ‖(2 : ℂ) • ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).P θ‖
+    ‖(2 : ℂ) • ((homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor_gen hτ hα hσ hσs hm₂
+        R₂)).P θ‖
         ≤ homKS * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
-  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₁ hX₁ hz
-  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₂ hX₂ hz
-  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr (R₁.sub R₂) hXL hz
-  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₁ hX₁ hz i
-  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₂ hX₂ hz i
-  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr (R₁.sub R₂) hXL hz i
+  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₁ hX₁ hz
+  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₂ hX₂ hz
+  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr (R₁.sub R₂) hXL hz
+  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₁ hX₁ hz i
+  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₂ hX₂ hz i
+  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr (R₁.sub R₂) hXL
+      hz i
   have hε : 0 ≤ ε := by
     have hθ' : θ ∈ complexStrip 2 s := fun j => by have := hθ j; linarith
-    exact (homXnorm_nonneg ha hp hpb hr R₁ θ 0 0 0).trans
+    exact (homXnorm_nonneg_gen ha hp hpb hr R₁ θ 0 0 0).trans
       (hX₁ θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   have h2 : ‖(2 : ℂ)‖ = 2 := by simp
   have hP₁ : ∀ z ∈ complexStrip 2 s, ‖R₁.P z‖ ≤ ε / 2 := fun z hz => by
@@ -212,20 +227,22 @@ theorem homLipField_P :
     _ = _ := by ring
 
 theorem homLipField_Q :
-    ‖((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).Q θ‖ ≤ homKS *
+    ‖((homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂)).Q θ‖ ≤
+        homKS *
         (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
-  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₁ hX₁ hz
-  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₂ hX₂ hz
-  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr (R₁.sub R₂) hXL hz
-  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₁ hX₁ hz i
-  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₂ hX₂ hz i
-  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr (R₁.sub R₂) hXL hz i
+  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₁ hX₁ hz
+  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₂ hX₂ hz
+  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr (R₁.sub R₂) hXL hz
+  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₁ hX₁ hz i
+  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₂ hX₂ hz i
+  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr (R₁.sub R₂) hXL
+      hz i
   have hε : 0 ≤ ε := by
     have hθ' : θ ∈ complexStrip 2 s := fun j => by have := hθ j; linarith
-    exact (homXnorm_nonneg ha hp hpb hr R₁ θ 0 0 0).trans
+    exact (homXnorm_nonneg_gen ha hp hpb hr R₁ θ 0 0 0).trans
       (hX₁ θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   obtain ⟨C₁, hC₁⟩ := R₁.comp_Q.2.2
   obtain ⟨C₂, hC₂⟩ := R₂.comp_Q.2.2
@@ -242,20 +259,22 @@ theorem homLipField_Q :
   exact (le_of_eq rfl).trans (this.trans (le_of_eq (by ring)))
 
 theorem homLipField_Qt :
-    ‖((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).Qt θ‖ ≤ homKS
+    ‖((homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂)).Qt θ‖
+        ≤ homKS
         * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
-  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₁ hX₁ hz
-  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₂ hX₂ hz
-  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr (R₁.sub R₂) hXL hz
-  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₁ hX₁ hz i
-  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₂ hX₂ hz i
-  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr (R₁.sub R₂) hXL hz i
+  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₁ hX₁ hz
+  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₂ hX₂ hz
+  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr (R₁.sub R₂) hXL hz
+  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₁ hX₁ hz i
+  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₂ hX₂ hz i
+  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr (R₁.sub R₂) hXL
+      hz i
   have hε : 0 ≤ ε := by
     have hθ' : θ ∈ complexStrip 2 s := fun j => by have := hθ j; linarith
-    exact (homXnorm_nonneg ha hp hpb hr R₁ θ 0 0 0).trans
+    exact (homXnorm_nonneg_gen ha hp hpb hr R₁ θ 0 0 0).trans
       (hX₁ θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   obtain ⟨C₁, hC₁⟩ := R₁.comp_Qt.2.2
   obtain ⟨C₂, hC₂⟩ := R₂.comp_Qt.2.2
@@ -272,20 +291,22 @@ theorem homLipField_Qt :
   exact (le_of_eq rfl).trans (this.trans (le_of_eq (by ring)))
 
 theorem homLipField_P' :
-    ‖(2 : ℂ) • ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)).P'
+    ‖(2 : ℂ) • ((homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor_gen hτ hα hσ hσs hm₂
+        R₂)).P'
         θ‖ ≤ homKS * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
-  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₁ hX₁ hz
-  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₂ hX₂ hz
-  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr (R₁.sub R₂) hXL hz
-  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₁ hX₁ hz i
-  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₂ hX₂ hz i
-  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr (R₁.sub R₂) hXL hz i
+  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₁ hX₁ hz
+  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₂ hX₂ hz
+  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr (R₁.sub R₂) hXL hz
+  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₁ hX₁ hz i
+  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₂ hX₂ hz i
+  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr (R₁.sub R₂) hXL
+      hz i
   have hε : 0 ≤ ε := by
     have hθ' : θ ∈ complexStrip 2 s := fun j => by have := hθ j; linarith
-    exact (homXnorm_nonneg ha hp hpb hr R₁ θ 0 0 0).trans
+    exact (homXnorm_nonneg_gen ha hp hpb hr R₁ θ 0 0 0).trans
       (hX₁ θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   have h2 : ‖(2 : ℂ)‖ = 2 := by simp
   have hP₁ : ∀ z ∈ complexStrip 2 s, ‖R₁.P' z‖ ≤ ε / 2 := fun z hz => by
@@ -307,23 +328,24 @@ theorem homLipField_P' :
       ≤ 2 * (homKS * waveBW τ σ / α * (εL / 2 + 2 * M * (ε / 2) / α) * d) := by gcongr
     _ = _ := by ring
 
-theorem homLipField_dcp (i : Fin 2) :
-    homDualNorm ha (homPP hp hpb) (homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub
-        (homSolveTaylor hτ hα
+theorem homLipField_dcp_gen (i : Fin 2) :
+    homDualNorm_gen ha (homPP hp hpb) (homPartial i ((homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).sub
+        (homSolveTaylor_gen hτ hα
         hσ hσs hm₂ R₂)).cp θ) ≤ 2 * Real.sqrt 2 * Real.pi * r * (waveBW τ σ / α * (εL + 2 * M * ε /
         α) * d) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
-  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₁ hX₁ hz
-  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₂ hX₂ hz
-  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr (R₁.sub R₂) hXL hz
-  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₁ hX₁ hz i
-  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₂ hX₂ hz i
-  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr (R₁.sub R₂) hXL hz i
+  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₁ hX₁ hz
+  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₂ hX₂ hz
+  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr (R₁.sub R₂) hXL hz
+  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₁ hX₁ hz i
+  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₂ hX₂ hz i
+  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr (R₁.sub R₂) hXL
+      hz i
   have hε : 0 ≤ ε := by
     have hθ' : θ ∈ complexStrip 2 s := fun j => by have := hθ j; linarith
-    exact (homXnorm_nonneg ha hp hpb hr R₁ θ 0 0 0).trans
+    exact (homXnorm_nonneg_gen ha hp hpb hr R₁ θ 0 0 0).trans
       (hX₁ θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   obtain ⟨C₁, hC₁⟩ := R₁.comp_cp.2.2
   obtain ⟨C₂, hC₂⟩ := R₂.comp_cp.2.2
@@ -332,7 +354,7 @@ theorem homLipField_dcp (i : Fin 2) :
     R₁.comp_cp.1.differentiableAt (hopen.mem_nhds hz)
   have d2 : ∀ z ∈ complexStrip 2 s, DifferentiableAt ℂ R₂.cp z := fun z hz =>
     R₂.comp_cp.1.differentiableAt (hopen.mem_nhds hz)
-  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamDiag ha (homPP hp
+  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamDiag_gen ha (homPP hp
       hpb)‖ * max C₁
       C₂)
     (mΛ' := 2 * Real.sqrt 2 * Real.pi * r * ε) (mL' := 2 * Real.sqrt 2 * Real.pi * r * εL) (κ := 1)
@@ -340,12 +362,12 @@ theorem homLipField_dcp (i : Fin 2) :
     hτ hα le_rfl le_rfl hM hd (by positivity) hσ hσs (T₁ := homTdp hm₁) (T₂ := homTdp hm₂)
     (T₁' := homTdp hm₁) (T₂' := homTdp hm₂)
     (norm_homTdp_le hm₁) (norm_homTdp_le hm₂) (norm_homTdp_le hm₁) (norm_homTdp_le hm₂)
-    (norm_homTdp_sub_le hm₁ hm₂ hL) (homLamDiag ha (homPP hp hpb))
-    (homLamDiag_comm_homTdp ha hp hpb hm₁) (homLamDiag_comm_homTdp ha hp hpb hm₂)
+    (norm_homTdp_sub_le hm₁ hm₂ hL) (homLamDiag_gen ha (homPP hp hpb))
+    (homLamDiag_comm_homTdp_gen ha hp hpb hm₁) (homLamDiag_comm_homTdp_gen ha hp hpb hm₂)
     R₁.comp_cp.1 R₂.comp_cp.1 R₁.comp_cp.2.1 R₂.comp_cp.2.1 hC₁ hC₂
-    (fun z hz => ((homLamDiag ha (homPP hp hpb)).le_opNorm _).trans
+    (fun z hz => ((homLamDiag_gen ha (homPP hp hpb)).le_opNorm _).trans
       (mul_le_mul_of_nonneg_left ((hC₁ z hz).trans (le_max_left _ _)) (norm_nonneg _)))
-    (fun z hz => ((homLamDiag ha (homPP hp hpb)).le_opNorm _).trans
+    (fun z hz => ((homLamDiag_gen ha (homPP hp hpb)).le_opNorm _).trans
       (mul_le_mul_of_nonneg_left ((hC₂ z hz).trans (le_max_right _ _)) (norm_nonneg _))) i
     (fun z hz => by rw [homPartial_clm _ (d1 z hz) i]; exact (ha₁ z hz i).2.2.1)
     (fun z hz => by rw [homPartial_clm _ (d2 z hz) i]; exact (ha₂ z hz i).2.2.1)
@@ -354,33 +376,36 @@ theorem homLipField_dcp (i : Fin 2) :
       have h := (haL z hz i).2.2.1
       calc _ ≤ _ := h
         _ = _ := by ring) hθ
-  have e := homPartial_sub_comp (s := s) (σ := σ)
-    (homSolveTaylor hτ hα hσ hσs hm₁ R₁).comp_cp (homSolveTaylor hτ hα hσ hσs hm₂ R₂).comp_cp hθ i
+  have e := homPartial_sub_comp_gen (s := s) (σ := σ)
+    (homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).comp_cp (homSolveTaylor_gen hτ hα hσ hσs hm₂
+        R₂).comp_cp hθ i
   refine le_trans (le_of_eq ?_) (this.trans (le_of_eq ?_))
-  · show ‖homLamDiag ha (homPP hp hpb) (homPartial i (fun z => (homSolveTaylor hτ hα hσ hσs hm₁
+  · show ‖homLamDiag_gen ha (homPP hp hpb) (homPartial i (fun z => (homSolveTaylor_gen hτ hα hσ hσs
+      hm₁
       R₁).cp z -
-      (homSolveTaylor hτ hα hσ hσs hm₂ R₂).cp z) θ)‖ = _
+      (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂).cp z) θ)‖ = _
     rw [e, map_sub]
     rfl
   · ring
 
-theorem homLipField_dcm (i : Fin 2) :
-    homDualNorm ha (homPP hp hpb) (homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub
-        (homSolveTaylor hτ hα
+theorem homLipField_dcm_gen (i : Fin 2) :
+    homDualNorm_gen ha (homPP hp hpb) (homPartial i ((homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).sub
+        (homSolveTaylor_gen hτ hα
         hσ hσs hm₂ R₂)).cm θ) ≤ 2 * Real.sqrt 2 * Real.pi * r * (waveBW τ σ / α * (εL + 2 * M * ε /
         α) * d) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
-  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₁ hX₁ hz
-  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₂ hX₂ hz
-  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr (R₁.sub R₂) hXL hz
-  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₁ hX₁ hz i
-  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₂ hX₂ hz i
-  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr (R₁.sub R₂) hXL hz i
+  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₁ hX₁ hz
+  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₂ hX₂ hz
+  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr (R₁.sub R₂) hXL hz
+  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₁ hX₁ hz i
+  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₂ hX₂ hz i
+  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr (R₁.sub R₂) hXL
+      hz i
   have hε : 0 ≤ ε := by
     have hθ' : θ ∈ complexStrip 2 s := fun j => by have := hθ j; linarith
-    exact (homXnorm_nonneg ha hp hpb hr R₁ θ 0 0 0).trans
+    exact (homXnorm_nonneg_gen ha hp hpb hr R₁ θ 0 0 0).trans
       (hX₁ θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   obtain ⟨C₁, hC₁⟩ := R₁.comp_cm.2.2
   obtain ⟨C₂, hC₂⟩ := R₂.comp_cm.2.2
@@ -389,7 +414,7 @@ theorem homLipField_dcm (i : Fin 2) :
     R₁.comp_cm.1.differentiableAt (hopen.mem_nhds hz)
   have d2 : ∀ z ∈ complexStrip 2 s, DifferentiableAt ℂ R₂.cm z := fun z hz =>
     R₂.comp_cm.1.differentiableAt (hopen.mem_nhds hz)
-  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamDiag ha (homPP hp
+  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamDiag_gen ha (homPP hp
       hpb)‖ * max C₁
       C₂)
     (mΛ' := 2 * Real.sqrt 2 * Real.pi * r * ε) (mL' := 2 * Real.sqrt 2 * Real.pi * r * εL) (κ := 1)
@@ -397,12 +422,12 @@ theorem homLipField_dcm (i : Fin 2) :
     hτ hα le_rfl le_rfl hM hd (by positivity) hσ hσs (T₁ := homTdm hm₁) (T₂ := homTdm hm₂)
     (T₁' := homTdm hm₁) (T₂' := homTdm hm₂)
     (norm_homTdm_le hm₁) (norm_homTdm_le hm₂) (norm_homTdm_le hm₁) (norm_homTdm_le hm₂)
-    (norm_homTdm_sub_le hm₁ hm₂ hL) (homLamDiag ha (homPP hp hpb))
-    (homLamDiag_comm_homTdm ha hp hpb hm₁) (homLamDiag_comm_homTdm ha hp hpb hm₂)
+    (norm_homTdm_sub_le hm₁ hm₂ hL) (homLamDiag_gen ha (homPP hp hpb))
+    (homLamDiag_comm_homTdm_gen ha hp hpb hm₁) (homLamDiag_comm_homTdm_gen ha hp hpb hm₂)
     R₁.comp_cm.1 R₂.comp_cm.1 R₁.comp_cm.2.1 R₂.comp_cm.2.1 hC₁ hC₂
-    (fun z hz => ((homLamDiag ha (homPP hp hpb)).le_opNorm _).trans
+    (fun z hz => ((homLamDiag_gen ha (homPP hp hpb)).le_opNorm _).trans
       (mul_le_mul_of_nonneg_left ((hC₁ z hz).trans (le_max_left _ _)) (norm_nonneg _)))
-    (fun z hz => ((homLamDiag ha (homPP hp hpb)).le_opNorm _).trans
+    (fun z hz => ((homLamDiag_gen ha (homPP hp hpb)).le_opNorm _).trans
       (mul_le_mul_of_nonneg_left ((hC₂ z hz).trans (le_max_right _ _)) (norm_nonneg _))) i
     (fun z hz => by rw [homPartial_clm _ (d1 z hz) i]; exact (ha₁ z hz i).2.2.2.1)
     (fun z hz => by rw [homPartial_clm _ (d2 z hz) i]; exact (ha₂ z hz i).2.2.2.1)
@@ -411,33 +436,36 @@ theorem homLipField_dcm (i : Fin 2) :
       have h := (haL z hz i).2.2.2.1
       calc _ ≤ _ := h
         _ = _ := by ring) hθ
-  have e := homPartial_sub_comp (s := s) (σ := σ)
-    (homSolveTaylor hτ hα hσ hσs hm₁ R₁).comp_cm (homSolveTaylor hτ hα hσ hσs hm₂ R₂).comp_cm hθ i
+  have e := homPartial_sub_comp_gen (s := s) (σ := σ)
+    (homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).comp_cm (homSolveTaylor_gen hτ hα hσ hσs hm₂
+        R₂).comp_cm hθ i
   refine le_trans (le_of_eq ?_) (this.trans (le_of_eq ?_))
-  · show ‖homLamDiag ha (homPP hp hpb) (homPartial i (fun z => (homSolveTaylor hτ hα hσ hσs hm₁
+  · show ‖homLamDiag_gen ha (homPP hp hpb) (homPartial i (fun z => (homSolveTaylor_gen hτ hα hσ hσs
+      hm₁
       R₁).cm z -
-      (homSolveTaylor hτ hα hσ hσs hm₂ R₂).cm z) θ)‖ = _
+      (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂).cm z) θ)‖ = _
     rw [e, map_sub]
     rfl
   · ring
 
-theorem homLipField_dP (i : Fin 2) :
-    ‖homLamCLM ha (homPP hp hpb) (homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub
-        (homSolveTaylor hτ hα
+theorem homLipField_dP_gen (i : Fin 2) :
+    ‖homLamCLM_gen ha (homPP hp hpb) (homPartial i ((homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).sub
+        (homSolveTaylor_gen hτ hα
         hσ hσs hm₂ R₂)).P θ)‖ ≤ homKS * (4 * Real.pi * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d))
         := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
-  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₁ hX₁ hz
-  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₂ hX₂ hz
-  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr (R₁.sub R₂) hXL hz
-  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₁ hX₁ hz i
-  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₂ hX₂ hz i
-  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr (R₁.sub R₂) hXL hz i
+  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₁ hX₁ hz
+  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₂ hX₂ hz
+  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr (R₁.sub R₂) hXL hz
+  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₁ hX₁ hz i
+  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₂ hX₂ hz i
+  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr (R₁.sub R₂) hXL
+      hz i
   have hε : 0 ≤ ε := by
     have hθ' : θ ∈ complexStrip 2 s := fun j => by have := hθ j; linarith
-    exact (homXnorm_nonneg ha hp hpb hr R₁ θ 0 0 0).trans
+    exact (homXnorm_nonneg_gen ha hp hpb hr R₁ θ 0 0 0).trans
       (hX₁ θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   obtain ⟨C₁, hC₁⟩ := R₁.comp_P.2.2
   obtain ⟨C₂, hC₂⟩ := R₂.comp_P.2.2
@@ -446,19 +474,19 @@ theorem homLipField_dP (i : Fin 2) :
     R₁.comp_P.1.differentiableAt (hopen.mem_nhds hz)
   have d2 : ∀ z ∈ complexStrip 2 s, DifferentiableAt ℂ R₂.P z := fun z hz =>
     R₂.comp_P.1.differentiableAt (hopen.mem_nhds hz)
-  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamCLM ha (homPP hp
+  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamCLM_gen ha (homPP hp
       hpb)‖ * max C₁
       C₂)
     (mΛ' := 4 * Real.pi * ε) (mL' := 4 * Real.pi * εL) (κ := homKS) (κ' := homKS)
     hτ hα one_le_homKS one_le_homKS hM hd (by positivity) hσ hσs (T₁ := homTP hm₁) (T₂ := homTP hm₂)
     (T₁' := homTP hm₁) (T₂' := homTP hm₂)
     (norm_homTP_le hm₁) (norm_homTP_le hm₂) (norm_homTP_le hm₁) (norm_homTP_le hm₂)
-    (norm_homTP_sub_le hm₁ hm₂ hL) (homLamCLM ha (homPP hp hpb))
-    (homLam_comm_homTP ha hp hpb hm₁) (homLam_comm_homTP ha hp hpb hm₂)
+    (norm_homTP_sub_le hm₁ hm₂ hL) (homLamCLM_gen ha (homPP hp hpb))
+    (homLam_comm_homTP_gen ha hp hpb hm₁) (homLam_comm_homTP_gen ha hp hpb hm₂)
     R₁.comp_P.1 R₂.comp_P.1 R₁.comp_P.2.1 R₂.comp_P.2.1 hC₁ hC₂
-    (fun z hz => ((homLamCLM ha (homPP hp hpb)).le_opNorm _).trans
+    (fun z hz => ((homLamCLM_gen ha (homPP hp hpb)).le_opNorm _).trans
       (mul_le_mul_of_nonneg_left ((hC₁ z hz).trans (le_max_left _ _)) (norm_nonneg _)))
-    (fun z hz => ((homLamCLM ha (homPP hp hpb)).le_opNorm _).trans
+    (fun z hz => ((homLamCLM_gen ha (homPP hp hpb)).le_opNorm _).trans
       (mul_le_mul_of_nonneg_left ((hC₂ z hz).trans (le_max_right _ _)) (norm_nonneg _))) i
     (fun z hz => by rw [homPartial_clm _ (d1 z hz) i]; exact (ha₁ z hz i).2.2.2.2.1)
     (fun z hz => by rw [homPartial_clm _ (d2 z hz) i]; exact (ha₂ z hz i).2.2.2.2.1)
@@ -467,33 +495,36 @@ theorem homLipField_dP (i : Fin 2) :
       have h := (haL z hz i).2.2.2.2.1
       calc _ ≤ _ := h
         _ = _ := by ring) hθ
-  have e := homPartial_sub_comp (s := s) (σ := σ)
-    (homSolveTaylor hτ hα hσ hσs hm₁ R₁).comp_P (homSolveTaylor hτ hα hσ hσs hm₂ R₂).comp_P hθ i
+  have e := homPartial_sub_comp_gen (s := s) (σ := σ)
+    (homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).comp_P (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂).comp_P
+        hθ i
   refine le_trans (le_of_eq ?_) (this.trans (le_of_eq ?_))
-  · show ‖homLamCLM ha (homPP hp hpb) (homPartial i (fun z => (homSolveTaylor hτ hα hσ hσs hm₁
+  · show ‖homLamCLM_gen ha (homPP hp hpb) (homPartial i (fun z => (homSolveTaylor_gen hτ hα hσ hσs
+      hm₁
       R₁).P z -
-      (homSolveTaylor hτ hα hσ hσs hm₂ R₂).P z) θ)‖ = _
+      (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂).P z) θ)‖ = _
     rw [e, map_sub]
     rfl
   · ring
 
-theorem homLipField_dP' (i : Fin 2) :
-    ‖homLamCLM ha (homPP hp hpb) (homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub
-        (homSolveTaylor hτ hα
+theorem homLipField_dP'_gen (i : Fin 2) :
+    ‖homLamCLM_gen ha (homPP hp hpb) (homPartial i ((homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).sub
+        (homSolveTaylor_gen hτ hα
         hσ hσs hm₂ R₂)).P' θ)‖ ≤ homKS * (4 * Real.pi * (waveBW τ σ / α * (εL + 2 * M * ε / α) *
         d)) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
-  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₁ hX₁ hz
-  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₂ hX₂ hz
-  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr (R₁.sub R₂) hXL hz
-  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₁ hX₁ hz i
-  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₂ hX₂ hz i
-  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr (R₁.sub R₂) hXL hz i
+  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₁ hX₁ hz
+  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₂ hX₂ hz
+  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr (R₁.sub R₂) hXL hz
+  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₁ hX₁ hz i
+  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₂ hX₂ hz i
+  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr (R₁.sub R₂) hXL
+      hz i
   have hε : 0 ≤ ε := by
     have hθ' : θ ∈ complexStrip 2 s := fun j => by have := hθ j; linarith
-    exact (homXnorm_nonneg ha hp hpb hr R₁ θ 0 0 0).trans
+    exact (homXnorm_nonneg_gen ha hp hpb hr R₁ θ 0 0 0).trans
       (hX₁ θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   obtain ⟨C₁, hC₁⟩ := R₁.comp_P'.2.2
   obtain ⟨C₂, hC₂⟩ := R₂.comp_P'.2.2
@@ -502,7 +533,7 @@ theorem homLipField_dP' (i : Fin 2) :
     R₁.comp_P'.1.differentiableAt (hopen.mem_nhds hz)
   have d2 : ∀ z ∈ complexStrip 2 s, DifferentiableAt ℂ R₂.P' z := fun z hz =>
     R₂.comp_P'.1.differentiableAt (hopen.mem_nhds hz)
-  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamCLM ha (homPP hp
+  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamCLM_gen ha (homPP hp
       hpb)‖ * max C₁
       C₂)
     (mΛ' := 4 * Real.pi * ε) (mL' := 4 * Real.pi * εL) (κ := homKS) (κ' := homKS)
@@ -510,12 +541,12 @@ theorem homLipField_dP' (i : Fin 2) :
         hm₂)
     (T₁' := homTP' hm₁) (T₂' := homTP' hm₂)
     (norm_homTP'_le hm₁) (norm_homTP'_le hm₂) (norm_homTP'_le hm₁) (norm_homTP'_le hm₂)
-    (norm_homTP'_sub_le hm₁ hm₂ hL) (homLamCLM ha (homPP hp hpb))
-    (homLam_comm_homTP' ha hp hpb hm₁) (homLam_comm_homTP' ha hp hpb hm₂)
+    (norm_homTP'_sub_le hm₁ hm₂ hL) (homLamCLM_gen ha (homPP hp hpb))
+    (homLam_comm_homTP'_gen ha hp hpb hm₁) (homLam_comm_homTP'_gen ha hp hpb hm₂)
     R₁.comp_P'.1 R₂.comp_P'.1 R₁.comp_P'.2.1 R₂.comp_P'.2.1 hC₁ hC₂
-    (fun z hz => ((homLamCLM ha (homPP hp hpb)).le_opNorm _).trans
+    (fun z hz => ((homLamCLM_gen ha (homPP hp hpb)).le_opNorm _).trans
       (mul_le_mul_of_nonneg_left ((hC₁ z hz).trans (le_max_left _ _)) (norm_nonneg _)))
-    (fun z hz => ((homLamCLM ha (homPP hp hpb)).le_opNorm _).trans
+    (fun z hz => ((homLamCLM_gen ha (homPP hp hpb)).le_opNorm _).trans
       (mul_le_mul_of_nonneg_left ((hC₂ z hz).trans (le_max_right _ _)) (norm_nonneg _))) i
     (fun z hz => by rw [homPartial_clm _ (d1 z hz) i]; exact (ha₁ z hz i).2.2.2.2.2.1)
     (fun z hz => by rw [homPartial_clm _ (d2 z hz) i]; exact (ha₂ z hz i).2.2.2.2.2.1)
@@ -524,33 +555,36 @@ theorem homLipField_dP' (i : Fin 2) :
       have h := (haL z hz i).2.2.2.2.2.1
       calc _ ≤ _ := h
         _ = _ := by ring) hθ
-  have e := homPartial_sub_comp (s := s) (σ := σ)
-    (homSolveTaylor hτ hα hσ hσs hm₁ R₁).comp_P' (homSolveTaylor hτ hα hσ hσs hm₂ R₂).comp_P' hθ i
+  have e := homPartial_sub_comp_gen (s := s) (σ := σ)
+    (homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).comp_P' (homSolveTaylor_gen hτ hα hσ hσs hm₂
+        R₂).comp_P' hθ i
   refine le_trans (le_of_eq ?_) (this.trans (le_of_eq ?_))
-  · show ‖homLamCLM ha (homPP hp hpb) (homPartial i (fun z => (homSolveTaylor hτ hα hσ hσs hm₁
+  · show ‖homLamCLM_gen ha (homPP hp hpb) (homPartial i (fun z => (homSolveTaylor_gen hτ hα hσ hσs
+      hm₁
       R₁).P' z -
-      (homSolveTaylor hτ hα hσ hσs hm₂ R₂).P' z) θ)‖ = _
+      (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂).P' z) θ)‖ = _
     rw [e, map_sub]
     rfl
   · ring
 
-theorem homLipField_dQ (i : Fin 2) :
-    ‖homLamCLM ha (homPP hp hpb) (homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub
-        (homSolveTaylor hτ hα
+theorem homLipField_dQ_gen (i : Fin 2) :
+    ‖homLamCLM_gen ha (homPP hp hpb) (homPartial i ((homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).sub
+        (homSolveTaylor_gen hτ hα
         hσ hσs hm₂ R₂)).Q θ)‖ ≤ homKS * (16 * Real.pi * (waveBW τ σ / α * (εL + 2 * M * ε / α) *
         d)) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
-  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₁ hX₁ hz
-  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₂ hX₂ hz
-  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr (R₁.sub R₂) hXL hz
-  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₁ hX₁ hz i
-  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₂ hX₂ hz i
-  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr (R₁.sub R₂) hXL hz i
+  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₁ hX₁ hz
+  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₂ hX₂ hz
+  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr (R₁.sub R₂) hXL hz
+  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₁ hX₁ hz i
+  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₂ hX₂ hz i
+  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr (R₁.sub R₂) hXL
+      hz i
   have hε : 0 ≤ ε := by
     have hθ' : θ ∈ complexStrip 2 s := fun j => by have := hθ j; linarith
-    exact (homXnorm_nonneg ha hp hpb hr R₁ θ 0 0 0).trans
+    exact (homXnorm_nonneg_gen ha hp hpb hr R₁ θ 0 0 0).trans
       (hX₁ θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   obtain ⟨C₁, hC₁⟩ := R₁.comp_Q.2.2
   obtain ⟨C₂, hC₂⟩ := R₂.comp_Q.2.2
@@ -559,19 +593,19 @@ theorem homLipField_dQ (i : Fin 2) :
     R₁.comp_Q.1.differentiableAt (hopen.mem_nhds hz)
   have d2 : ∀ z ∈ complexStrip 2 s, DifferentiableAt ℂ R₂.Q z := fun z hz =>
     R₂.comp_Q.1.differentiableAt (hopen.mem_nhds hz)
-  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamCLM ha (homPP hp
+  have := homSolve_image_partial_sub_bound (m₁ := C₁) (m₂ := C₂) (mΛ := ‖homLamCLM_gen ha (homPP hp
       hpb)‖ * max C₁
       C₂)
     (mΛ' := 16 * Real.pi * ε) (mL' := 16 * Real.pi * εL) (κ := homKS) (κ' := homKS)
     hτ hα one_le_homKS one_le_homKS hM hd (by positivity) hσ hσs (T₁ := homTQ hm₁) (T₂ := homTQ hm₂)
     (T₁' := homTQ hm₁) (T₂' := homTQ hm₂)
     (norm_homTQ_le hm₁) (norm_homTQ_le hm₂) (norm_homTQ_le hm₁) (norm_homTQ_le hm₂)
-    (norm_homTQ_sub_le hm₁ hm₂ hL) (homLamCLM ha (homPP hp hpb))
-    (homLam_comm_homTQ ha hp hpb hm₁) (homLam_comm_homTQ ha hp hpb hm₂)
+    (norm_homTQ_sub_le hm₁ hm₂ hL) (homLamCLM_gen ha (homPP hp hpb))
+    (homLam_comm_homTQ_gen ha hp hpb hm₁) (homLam_comm_homTQ_gen ha hp hpb hm₂)
     R₁.comp_Q.1 R₂.comp_Q.1 R₁.comp_Q.2.1 R₂.comp_Q.2.1 hC₁ hC₂
-    (fun z hz => ((homLamCLM ha (homPP hp hpb)).le_opNorm _).trans
+    (fun z hz => ((homLamCLM_gen ha (homPP hp hpb)).le_opNorm _).trans
       (mul_le_mul_of_nonneg_left ((hC₁ z hz).trans (le_max_left _ _)) (norm_nonneg _)))
-    (fun z hz => ((homLamCLM ha (homPP hp hpb)).le_opNorm _).trans
+    (fun z hz => ((homLamCLM_gen ha (homPP hp hpb)).le_opNorm _).trans
       (mul_le_mul_of_nonneg_left ((hC₂ z hz).trans (le_max_right _ _)) (norm_nonneg _))) i
     (fun z hz => by rw [homPartial_clm _ (d1 z hz) i]; exact (ha₁ z hz i).2.2.2.2.2.2)
     (fun z hz => by rw [homPartial_clm _ (d2 z hz) i]; exact (ha₂ z hz i).2.2.2.2.2.2)
@@ -580,30 +614,33 @@ theorem homLipField_dQ (i : Fin 2) :
       have h := (haL z hz i).2.2.2.2.2.2
       calc _ ≤ _ := h
         _ = _ := by ring) hθ
-  have e := homPartial_sub_comp (s := s) (σ := σ)
-    (homSolveTaylor hτ hα hσ hσs hm₁ R₁).comp_Q (homSolveTaylor hτ hα hσ hσs hm₂ R₂).comp_Q hθ i
+  have e := homPartial_sub_comp_gen (s := s) (σ := σ)
+    (homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).comp_Q (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂).comp_Q
+        hθ i
   refine le_trans (le_of_eq ?_) (this.trans (le_of_eq ?_))
-  · show ‖homLamCLM ha (homPP hp hpb) (homPartial i (fun z => (homSolveTaylor hτ hα hσ hσs hm₁
+  · show ‖homLamCLM_gen ha (homPP hp hpb) (homPartial i (fun z => (homSolveTaylor_gen hτ hα hσ hσs
+      hm₁
       R₁).Q z -
-      (homSolveTaylor hτ hα hσ hσs hm₂ R₂).Q z) θ)‖ = _
-    rw [e, map_sub, homSolveTaylor_Q, homSolveTaylor_Q]
+      (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂).Q z) θ)‖ = _
+    rw [e, map_sub, homSolveTaylor_Q_gen, homSolveTaylor_Q_gen]
   · ring
 
 theorem homLipField_da (i : Fin 2) :
-    ‖homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂
+    ‖homPartial i ((homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor_gen hτ hα hσ hσs hm₂
         R₂)).a0 θ‖ ≤ 2 * Real.pi * r ^ 2 * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
-  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₁ hX₁ hz
-  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₂ hX₂ hz
-  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr (R₁.sub R₂) hXL hz
-  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₁ hX₁ hz i
-  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₂ hX₂ hz i
-  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr (R₁.sub R₂) hXL hz i
+  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₁ hX₁ hz
+  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₂ hX₂ hz
+  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr (R₁.sub R₂) hXL hz
+  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₁ hX₁ hz i
+  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₂ hX₂ hz i
+  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr (R₁.sub R₂) hXL
+      hz i
   have hε : 0 ≤ ε := by
     have hθ' : θ ∈ complexStrip 2 s := fun j => by have := hθ j; linarith
-    exact (homXnorm_nonneg ha hp hpb hr R₁ θ 0 0 0).trans
+    exact (homXnorm_nonneg_gen ha hp hpb hr R₁ θ 0 0 0).trans
       (hX₁ θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   obtain ⟨C₁, hC₁⟩ := R₁.comp_a0.2.2
   obtain ⟨C₂, hC₂⟩ := R₂.comp_a0.2.2
@@ -628,28 +665,31 @@ theorem homLipField_da (i : Fin 2) :
         _ = _ := by ring)
     hθ
   simp only [ContinuousLinearMap.id_apply] at this
-  have e := homPartial_sub_comp (s := s) (σ := σ)
-    (homSolveTaylor hτ hα hσ hσs hm₁ R₁).comp_a0 (homSolveTaylor hτ hα hσ hσs hm₂ R₂).comp_a0 hθ i
-  show ‖homPartial i (fun z => (homSolveTaylor hτ hα hσ hσs hm₁ R₁).a0 z -
-    (homSolveTaylor hτ hα hσ hσs hm₂ R₂).a0 z) θ‖ ≤ _
+  have e := homPartial_sub_comp_gen (s := s) (σ := σ)
+    (homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).comp_a0 (homSolveTaylor_gen hτ hα hσ hσs hm₂
+        R₂).comp_a0 hθ i
+  show ‖homPartial i (fun z => (homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).a0 z -
+    (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂).a0 z) θ‖ ≤ _
   rw [e]
   exact this.trans (le_of_eq (by ring))
 
 theorem homLipField_db (i : Fin 2) (y : Fin 2 → ℂ) :
-    ‖∑ k, homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂
+    ‖∑ k, homPartial i ((homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor_gen hτ hα hσ
+        hσs hm₂
         R₂)).b θ k * y k‖ ≤ 2 * Real.pi * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) * ‖y‖ := by
   have hs : 0 < s := hσ.trans hσs
   have hB := waveBW_nonneg τ σ
   have hK1 := one_le_homKS
-  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₁ hX₁ hz
-  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr R₂ hX₂ hz
-  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first ha hp hpb hr (R₁.sub R₂) hXL hz
-  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₁ hX₁ hz i
-  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr R₂ hX₂ hz i
-  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle ha hp hpb hr (R₁.sub R₂) hXL hz i
+  have hf₁ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₁ hX₁ hz
+  have hf₂ := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R₂ hX₂ hz
+  have hfL := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr (R₁.sub R₂) hXL hz
+  have ha₁ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₁ hX₁ hz i
+  have ha₂ := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R₂ hX₂ hz i
+  have haL := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr (R₁.sub R₂) hXL
+      hz i
   have hε : 0 ≤ ε := by
     have hθ' : θ ∈ complexStrip 2 s := fun j => by have := hθ j; linarith
-    exact (homXnorm_nonneg ha hp hpb hr R₁ θ 0 0 0).trans
+    exact (homXnorm_nonneg_gen ha hp hpb hr R₁ θ 0 0 0).trans
       (hX₁ θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   obtain ⟨C₁, hC₁⟩ := R₁.comp_b.2.2
   obtain ⟨C₂, hC₂⟩ := R₂.comp_b.2.2
@@ -692,15 +732,17 @@ theorem homLipField_db (i : Fin 2) (y : Fin 2 → ℂ) :
       calc _ ≤ (2 * Real.pi * (εL * d)) * ‖y‖ := mul_le_mul_of_nonneg_right h hy0
         _ = _ := by ring)
     hθ
-  have e := homPartial_sub_comp (s := s) (σ := σ)
-    (homSolveTaylor hτ hα hσ hσs hm₁ R₁).comp_b (homSolveTaylor hτ hα hσ hσs hm₂ R₂).comp_b hθ i
-  have e2 : ∑ k, homPartial i ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ
+  have e := homPartial_sub_comp_gen (s := s) (σ := σ)
+    (homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).comp_b (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂).comp_b
+        hθ i
+  have e2 : ∑ k, homPartial i ((homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor_gen hτ
+      hα hσ
       hσs hm₂ R₂)).b θ k * y k =
-      Λy (homPartial i (homSolveTaylor hτ hα hσ hσs hm₁ R₁).b θ) -
-        Λy (homPartial i (homSolveTaylor hτ hα hσ hσs hm₂ R₂).b θ) := by
+      Λy (homPartial i (homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).b θ) -
+        Λy (homPartial i (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂).b θ) := by
     rw [hΛy, hΛy, ← Finset.sum_sub_distrib]
-    show ∑ k, homPartial i (fun z => (homSolveTaylor hτ hα hσ hσs hm₁ R₁).b z -
-      (homSolveTaylor hτ hα hσ hσs hm₂ R₂).b z) θ k * y k = _
+    show ∑ k, homPartial i (fun z => (homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).b z -
+      (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂).b z) θ k * y k = _
     rw [e]
     refine Finset.sum_congr rfl fun k _ => ?_
     simp [sub_mul]
@@ -708,9 +750,9 @@ theorem homLipField_db (i : Fin 2) (y : Fin 2 → ℂ) :
   exact this.trans (le_of_eq (by ring))
 
 /-- **Lipschitz component bounds of `F`** (`bpW:w4:lemma1` (iii), step *Lipschitz*). -/
-theorem homF_sub_compBounds :
-    HomCompBounds ha hp hpb r homKS (waveBW τ σ / α * (εL + 2 * M * ε / α) * d)
-      ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)) θ :=
+theorem homF_sub_compBounds_gen :
+    HomCompBounds_gen ha hp hpb r homKS (waveBW τ σ / α * (εL + 2 * M * ε / α) * d)
+      ((homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂)) θ :=
   ⟨homLipField_b ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL hθ,
    homLipField_cp ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL hθ,
    homLipField_cm ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL hθ,
@@ -720,11 +762,11 @@ theorem homF_sub_compBounds :
    homLipField_P' ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL hθ,
    homLipField_da ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL hθ,
    homLipField_db ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL hθ,
-   homLipField_dcp ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL hθ,
-   homLipField_dcm ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL hθ,
-   homLipField_dP ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL hθ,
-   homLipField_dP' ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL hθ,
-   homLipField_dQ ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL hθ⟩
+   homLipField_dcp_gen ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL hθ,
+   homLipField_dcm_gen ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL hθ,
+   homLipField_dP_gen ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL hθ,
+   homLipField_dP'_gen ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL hθ,
+   homLipField_dQ_gen ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL hθ⟩
 
 end lip
 

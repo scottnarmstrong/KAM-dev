@@ -23,7 +23,7 @@ being built.
   (`homMultBounds_of` derives them from `(H_α)`);
 * the multiplier families `homTscal`, `homTvec`, `homTdp`, `homTdm`, `homTP`, `homTP'`, `homTQ`,
   `homTQt` (continuous linear maps) and their norm bounds `κ A_k/α` with `κ = 1` or `K_S`;
-* `homSolveTaylor`: for `R ∈ 𝒯_s` the Taylor Hamiltonian `F ∈ 𝒯_{s-σ}` whose components are the
+* `homSolveTaylor_gen`: for `R ∈ 𝒯_s` the Taylor Hamiltonian `F ∈ 𝒯_{s-σ}` whose components are the
   solves of the components of `R` (`F.a0 = homSolve (homTscal w) R.a0`, …).
 -/
 
@@ -173,7 +173,7 @@ theorem homSolve_congr {E E' : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
   rw [homCoeff_congr hs h]
 
 /-- **Entries of a Hadamard solve** are scalar solves of the entries. -/
-theorem homSolve_hadamard_entry {s σ m κ α τ : ℝ} (a p pb : ℝ) (hτ : 0 ≤ τ) (hα : 0 < α)
+theorem homSolve_hadamard_entry_gen {s σ m κ α τ : ℝ} (a p pb : ℝ) (hτ : 0 ≤ τ) (hα : 0 < α)
     (hκ : 1 ≤ κ) (hσ : 0 < σ) (hσs : σ < s) {d : (Fin 2 → ℤ) → ℕ+ → ℕ+ → ℂ}
     {c : (Fin 2 → ℤ) → ℝ} (hd : ∀ k, HomHadamardBound (d k) (c k))
     (hT : ∀ k, ‖homHadamardCLM (hd k)‖ ≤ κ * waveA τ k / α) {u : (Fin 2 → ℂ) → HomOp}
@@ -181,36 +181,37 @@ theorem homSolve_hadamard_entry {s σ m κ α τ : ℝ} (a p pb : ℝ) (hτ : 0 
     (hp : ∀ (i : Fin 2) z, z ∈ complexStrip 2 s → u (z + Pi.single i 1) = u z)
     (hm : ∀ z ∈ complexStrip 2 s, ‖u z‖ ≤ m) (i j : ℕ+) {θ : Fin 2 → ℂ}
     (hθ : θ ∈ complexStrip 2 (s - σ)) :
-    homNormalEntry a p pb (homSolve (fun k => homHadamardCLM (hd k)) u θ) i j =
+    homNormalEntry_gen a p pb (homSolve (fun k => homHadamardCLM (hd k)) u θ) i j =
       homSolve (fun k => d k i j • ContinuousLinearMap.id ℂ ℂ)
-        (fun z => homNormalEntry a p pb (u z) i j) θ := by
-  have := homSolve_image_eq hτ hα hκ hσ hσs hT (homNormEntryCLM a p pb i j)
+        (fun z => homNormalEntry_gen a p pb (u z) i j) θ := by
+  have := homSolve_image_eq hτ hα hκ hσ hσs hT (homNormEntryCLM_gen a p pb i j)
     (T' := fun k => d k i j • ContinuousLinearMap.id ℂ ℂ)
     (fun k => by
       refine ContinuousLinearMap.ext fun A => ?_
-      simp only [ContinuousLinearMap.comp_apply, homNormEntryCLM_apply, homHadamardCLM_apply,
-        homNormalEntry_hadamard, ContinuousLinearMap.smul_apply, ContinuousLinearMap.id_apply,
+      simp only [ContinuousLinearMap.comp_apply, homNormEntryCLM_apply_gen, homHadamardCLM_apply,
+        homNormalEntry_hadamard_gen, ContinuousLinearMap.smul_apply, ContinuousLinearMap.id_apply,
         smul_eq_mul]) hu hp hm hθ
-  simpa only [homNormEntryCLM_apply] using this
+  simpa only [homNormEntryCLM_apply_gen] using this
 
 
 /-- Entries of the Hadamard solve of an operator component, packaged. -/
-theorem homSolve_entry_symm {s σ κ : ℝ} {a p pb : ℝ} (hτ : 0 ≤ τ) (hα : 0 < α) (hκ : 1 ≤ κ)
+theorem homSolve_entry_symm_gen {s σ κ : ℝ} {a p pb : ℝ} (hτ : 0 ≤ τ) (hα : 0 < α) (hκ : 1 ≤ κ)
     (hσ : 0 < σ) (hσs : σ < s) {d d' : (Fin 2 → ℤ) → ℕ+ → ℕ+ → ℂ} {c c' : (Fin 2 → ℤ) → ℝ}
     (hd : ∀ k, HomHadamardBound (d k) (c k)) (hd' : ∀ k, HomHadamardBound (d' k) (c' k))
     (hT : ∀ k, ‖homHadamardCLM (hd k)‖ ≤ κ * waveA τ k / α)
     (hT' : ∀ k, ‖homHadamardCLM (hd' k)‖ ≤ κ * waveA τ k / α)
     {u u' : (Fin 2 → ℂ) → HomOp} (hu : IsHomComp s u) (hu' : IsHomComp s u')
     (i j : ℕ+) (hdd : ∀ k, d k i j = d' k j i)
-    (huu : ∀ z ∈ complexStrip 2 s, homNormalEntry a p pb (u z) i j = homNormalEntry a p pb (u' z) j
+    (huu : ∀ z ∈ complexStrip 2 s, homNormalEntry_gen a p pb (u z) i j = homNormalEntry_gen a p pb
+        (u' z) j
         i)
     {θ : Fin 2 → ℂ} (hθ : θ ∈ complexStrip 2 (s - σ)) :
-    homNormalEntry a p pb (homSolve (fun k => homHadamardCLM (hd k)) u θ) i j =
-      homNormalEntry a p pb (homSolve (fun k => homHadamardCLM (hd' k)) u' θ) j i := by
+    homNormalEntry_gen a p pb (homSolve (fun k => homHadamardCLM (hd k)) u θ) i j =
+      homNormalEntry_gen a p pb (homSolve (fun k => homHadamardCLM (hd' k)) u' θ) j i := by
   obtain ⟨hud, hup, m, hm⟩ := hu
   obtain ⟨hud', hup', m', hm'⟩ := hu'
-  rw [homSolve_hadamard_entry a p pb hτ hα hκ hσ hσs hd hT hud hup hm i j hθ,
-    homSolve_hadamard_entry a p pb hτ hα hκ hσ hσs hd' hT' hud' hup' hm' j i hθ]
+  rw [homSolve_hadamard_entry_gen a p pb hτ hα hκ hσ hσs hd hT hud hup hm i j hθ,
+    homSolve_hadamard_entry_gen a p pb hτ hα hκ hσ hσs hd' hT' hud' hup' hm' j i hθ]
   have hs : 0 < s := hσ.trans hσs
   have := homSolve_congr hs (fun k => d k i j • ContinuousLinearMap.id ℂ ℂ) huu
   rw [this]
@@ -220,8 +221,8 @@ theorem homSolve_entry_symm {s σ κ : ℝ} {a p pb : ℝ} (hτ : 0 ≤ τ) (hα
 
 /-- **The solution `F ∈ 𝒯_{s-σ}`** of Theorem `bpW:w4:lemma1` (i): its components are the solves of
 the components of `R`. -/
-def homSolveTaylor {a p pb s σ : ℝ} (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) (hσs : σ < s)
-    (hm : HomMultBounds τ α w W) (R : HomTaylor a p pb s) : HomTaylor a p pb (s - σ) where
+def homSolveTaylor_gen {a p pb s σ : ℝ} (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) (hσs : σ < s)
+    (hm : HomMultBounds τ α w W) (R : HomTaylor_gen a p pb s) : HomTaylor_gen a p pb (s - σ) where
   a0 := homSolve (homTscal w) R.a0
   b := homSolve (homTvec w) R.b
   cp := homSolve (homTdp hm) R.cp
@@ -239,15 +240,15 @@ def homSolveTaylor {a p pb s σ : ℝ} (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 
   comp_Q := isHomComp_solve hτ hα one_le_homKS hσ hσs (norm_homTQ_le hm) R.comp_Q
   comp_Qt := isHomComp_solve hτ hα one_le_homKS hσ hσs (norm_homTQt_le hm) R.comp_Qt
   symP := fun θ hθ i j =>
-    homSolve_entry_symm (a := a) (p := p) hτ hα one_le_homKS hσ hσs hm.P hm.P (norm_homTP_le hm)
+    homSolve_entry_symm_gen (a := a) (p := p) hτ hα one_le_homKS hσ hσs hm.P hm.P (norm_homTP_le hm)
       (norm_homTP_le hm) R.comp_P R.comp_P i j (fun k => homDP_symm w W k i j)
       (fun z hz => R.symP z hz i j) hθ
   symP' := fun θ hθ i j =>
-    homSolve_entry_symm (a := a) (p := p) hτ hα one_le_homKS hσ hσs hm.P' hm.P'
+    homSolve_entry_symm_gen (a := a) (p := p) hτ hα one_le_homKS hσ hσs hm.P' hm.P'
       (norm_homTP'_le hm) (norm_homTP'_le hm) R.comp_P' R.comp_P' i j
       (fun k => homDP'_symm w W k i j) (fun z hz => R.symP' z hz i j) hθ
   transQ := fun θ hθ i j =>
-    homSolve_entry_symm (a := a) (p := p) hτ hα one_le_homKS hσ hσs hm.Qt hm.Q
+    homSolve_entry_symm_gen (a := a) (p := p) hτ hα one_le_homKS hσ hσs hm.Qt hm.Q
       (norm_homTQt_le hm) (norm_homTQ_le hm) R.comp_Qt R.comp_Q i j (fun k => rfl)
       (fun z hz => R.transQ z hz i j) hθ
 

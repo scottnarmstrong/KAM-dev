@@ -19,12 +19,12 @@ being built.
 
 Assembly of the statements of Theorem `bpW:w4:lemma1` from the earlier modules:
 
-* (i) `homSolveTaylor` (membership in `𝒯_{s-σ}`), `homLemma1_zero_modes`;
-* (ii) `homLemma1_equation` (`L_N F + N̂ = R - â₀`, finitely supported `z, \bar z`);
-* (iii) `homLemma1_fieldBound`, `homLemma1_lipschitz`;
-* (iv) `homNhat_coeff_bounds`, `homNhat_fieldBound`, `homNhat_lipschitz`.
+* (i) `homSolveTaylor_gen` (membership in `𝒯_{s-σ}`), `homLemma1_zero_modes_gen`;
+* (ii) `homLemma1_equation_gen` (`L_N F + N̂ = R - â₀`, finitely supported `z, \bar z`);
+* (iii) `homLemma1_fieldBound_gen`, `homLemma1_lipschitz_gen`;
+* (iv) `homNhat_coeff_bounds_gen`, `homNhat_fieldBound_gen`, `homNhat_lipschitz_gen`.
 
-`homLemma1_lipschitz` and `homNhat_lipschitz` bound the fields of the *difference* of the
+`homLemma1_lipschitz_gen` and `homNhat_lipschitz_gen` bound the fields of the *difference* of the
 solutions (resp. corrections) at two parameters; the field of `R(ξ) - R(ζ)` is
 `X_{R(ξ)} - X_{R(ζ)}` since fields are linear in the components (`TaylorSub.lean`).
 -/
@@ -39,29 +39,31 @@ variable {a p pb s σ τ α M d : ℝ} {w₁ w₂ : Fin 2 → ℝ} {W₁ W₂ : 
 
 /-- **Lemma 1 (iii), Lipschitz bound**: `|X_{F(ξ)} - X_{F(ζ)}|_r ≤ C₁ B^W_σ (ε^L + 2Mε/α) d/α`
 on `D(s-σ,r)`, `C₁ = 7 + 10K_S`, `d = |ξ-ζ|`. -/
-theorem homLemma1_lipschitz (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε εL : ℝ} (hr : 0 < r) (hτ
+theorem homLemma1_lipschitz_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε εL : ℝ} (hr : 0 < r)
+    (hτ
     : 0 ≤ τ)
     (hα : 0 < α) (hM : 0 ≤ M) (hd : 0 ≤ d) (hεL : 0 ≤ εL) (hσ : 0 < σ) (hσs : σ < s)
     (hm₁ : HomMultBounds τ α w₁ W₁) (hm₂ : HomMultBounds τ α w₂ W₂)
-    (hL : HomMultLip τ α M d w₁ W₁ w₂ W₂) (R₁ R₂ : HomTaylor a p pb s)
-    (hX₁ : HomFieldBound ha hp hpb r ε R₁) (hX₂ : HomFieldBound ha hp hpb r ε R₂)
-    (hXL : HomFieldBound ha hp hpb r (εL * d) (R₁.sub R₂)) :
-    HomFieldBound ha hp hpb r ((7 + 10 * homKS) * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d))
-      ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)) := by
+    (hL : HomMultLip τ α M d w₁ W₁ w₂ W₂) (R₁ R₂ : HomTaylor_gen a p pb s)
+    (hX₁ : HomFieldBound_gen ha hp hpb r ε R₁) (hX₂ : HomFieldBound_gen ha hp hpb r ε R₂)
+    (hXL : HomFieldBound_gen ha hp hpb r (εL * d) (R₁.sub R₂)) :
+    HomFieldBound_gen ha hp hpb r ((7 + 10 * homKS) * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d))
+      ((homSolveTaylor_gen hτ hα hσ hσs hm₁ R₁).sub (homSolveTaylor_gen hτ hα hσ hσs hm₂ R₂)) := by
   intro θ y z zb hdom
   have hs : 0 < s := hσ.trans hσs
   have hε : 0 ≤ ε := by
     have hθ' : θ ∈ complexStrip 2 s := fun j => by have := hdom.1 j; linarith
-    exact (homXnorm_nonneg ha hp hpb hr R₁ θ 0 0 0).trans
+    exact (homXnorm_nonneg_gen ha hp hpb hr R₁ θ 0 0 0).trans
       (hX₁ θ 0 0 0 (homDomain_y hθ' hr (by simpa using pow_pos hr 2)))
   have hE0 : 0 ≤ waveBW τ σ / α * (εL + 2 * M * ε / α) * d := by
     have := waveBW_nonneg τ σ; positivity
-  exact homXnorm_le_of_components ha hp hpb hr one_le_homKS hE0 _
-    (homF_sub_compBounds ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL hdom.1)
+  exact homXnorm_le_of_components_gen ha hp hpb hr one_le_homKS hE0 _
+    (homF_sub_compBounds_gen ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL
+        hdom.1)
     hdom.2.1.le hdom.2.2
 
 
-theorem HomTaylor.ext_of {T T' : HomTaylor a p pb s} (h1 : T.a0 = T'.a0) (h2 : T.b = T'.b)
+theorem HomTaylor_gen.ext_of {T T' : HomTaylor_gen a p pb s} (h1 : T.a0 = T'.a0) (h2 : T.b = T'.b)
     (h3 : T.cp = T'.cp) (h4 : T.cm = T'.cm) (h5 : T.P = T'.P) (h6 : T.P' = T'.P')
     (h7 : T.Q = T'.Q) (h8 : T.Qt = T'.Qt) : T = T' := by
   cases T; cases T'
@@ -76,17 +78,17 @@ theorem homCoeff_sub_banach {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ 
   kamFourierBanach_coeff_sub (homContinuous_restrict hs hu) (homContinuous_restrict hs hv) k
 
 /-- `N̂` is linear in `R`. -/
-theorem homNhatTaylor_sub (hs : 0 < s) (R₁ R₂ : HomTaylor a p pb s) :
-    (homNhatTaylor R₁).sub (homNhatTaylor R₂) = homNhatTaylor (R₁.sub R₂) := by
-  refine HomTaylor.ext_of ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_
-  · funext z; simp [HomTaylor.sub, homNhatTaylor]
+theorem homNhatTaylor_sub_gen (hs : 0 < s) (R₁ R₂ : HomTaylor_gen a p pb s) :
+    (homNhatTaylor_gen R₁).sub (homNhatTaylor_gen R₂) = homNhatTaylor_gen (R₁.sub R₂) := by
+  refine HomTaylor_gen.ext_of ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_
+  · funext z; simp [HomTaylor_gen.sub, homNhatTaylor_gen]
   · funext z
     show homCoeff R₁.b 0 - homCoeff R₂.b 0 = homCoeff (fun z => R₁.b z - R₂.b z) 0
     rw [homCoeff_sub_banach hs R₁.comp_b.1 R₂.comp_b.1]
-  · funext z; simp [HomTaylor.sub, homNhatTaylor]
-  · funext z; simp [HomTaylor.sub, homNhatTaylor]
-  · funext z; simp [HomTaylor.sub, homNhatTaylor]
-  · funext z; simp [HomTaylor.sub, homNhatTaylor]
+  · funext z; simp [HomTaylor_gen.sub, homNhatTaylor_gen]
+  · funext z; simp [HomTaylor_gen.sub, homNhatTaylor_gen]
+  · funext z; simp [HomTaylor_gen.sub, homNhatTaylor_gen]
+  · funext z; simp [HomTaylor_gen.sub, homNhatTaylor_gen]
   · funext z
     show kamEntryDiagCLM (homCoeff R₁.Q 0) - kamEntryDiagCLM (homCoeff R₂.Q 0) =
       kamEntryDiagCLM (homCoeff (fun z => R₁.Q z - R₂.Q z) 0)
@@ -103,12 +105,14 @@ theorem homNhatTaylor_sub (hs : 0 < s) (R₁ R₂ : HomTaylor a p pb s) :
     split_ifs <;> simp
 
 /-- **Lemma 1 (iv), Lipschitz bound for `N̂`**: `|X_{N̂(ξ)} - X_{N̂(ζ)}|_r ≤ 2 ε^L d`. -/
-theorem homNhat_lipschitz (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r εL : ℝ} (hr : 0 < r) (hs : 0
+theorem homNhat_lipschitz_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r εL : ℝ} (hr : 0 < r) (hs
+    : 0
     < s)
-    (R₁ R₂ : HomTaylor a p pb s) (hXL : HomFieldBound ha hp hpb r (εL * d) (R₁.sub R₂)) :
-    HomFieldBound ha hp hpb r (2 * (εL * d)) ((homNhatTaylor R₁).sub (homNhatTaylor R₂)) := by
-  rw [homNhatTaylor_sub hs]
-  exact homNhat_fieldBound ha hp hpb hr hs (R₁.sub R₂) hXL
+    (R₁ R₂ : HomTaylor_gen a p pb s) (hXL : HomFieldBound_gen ha hp hpb r (εL * d) (R₁.sub R₂)) :
+    HomFieldBound_gen ha hp hpb r (2 * (εL * d)) ((homNhatTaylor_gen R₁).sub (homNhatTaylor_gen
+        R₂)) := by
+  rw [homNhatTaylor_sub_gen hs]
+  exact homNhat_fieldBound_gen ha hp hpb hr hs (R₁.sub R₂) hXL
 
 
 theorem homKS_lt_29 : homKS < 2.9 := by
@@ -126,10 +130,10 @@ def homLamNorm (lam εX εXL : ℝ) : ℝ := εX + lam * εXL
 /-- **P96-K Lemma 2 and bound (4)** (`bpW:w4:lemma2`): for `M > 0`, `0 ≤ λ ≤ α/M`, with
 `(ε_R, ε_R^L)` the uniform and Lipschitz bounds of `X_R` and `C₁ = 7 + 10K_S`:
 
-* `|X_{N̂}|^λ ≤ 2|X_R|^λ` (from the bounds `2ε`, `2ε^L` of `homNhat_fieldBound`,
-  `homNhat_lipschitz`);
+* `|X_{N̂}|^λ ≤ 2|X_R|^λ` (from the bounds `2ε`, `2ε^L` of `homNhat_fieldBound_gen`,
+  `homNhat_lipschitz_gen`);
 * `|X_F|^λ ≤ (3C₁B^W_σ/α)|X_R|^λ` (from the bounds `C₁Bε/α` and `C₁B(ε^L + 2Mε/α)/α` of
-  `homLemma1_fieldBound`, `homLemma1_lipschitz`);
+  `homLemma1_fieldBound_gen`, `homLemma1_lipschitz_gen`);
 * `B^W_σ ≤ b_W(τ) σ^{-(2τ+3)}` for `0 < σ ≤ 1` (`bpW:w4:lattice` (iv)); `3C₁ < 108`. -/
 theorem homLemma2 {τ α M lam σ ε εL : ℝ} (hτ : 0 ≤ τ) (hα : 0 < α) (hM : 0 < M)
     (hlam0 : 0 ≤ lam) (hlam : lam ≤ α / M) (hσ : 0 < σ) (hσ1 : σ ≤ 1) (hε : 0 ≤ ε)

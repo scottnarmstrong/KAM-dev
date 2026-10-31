@@ -23,11 +23,11 @@ number):
 
 * `homOmega_le`: `|Ω_j| ≤ (1+M₀)(j+2)` from the frequency hypotheses;
 * `homLie_Omega_mem` (i): `Ωz ∈ ℓ^N_{a,p-1}` with `‖Ωz‖_{a,p-1} ≤ (1+M₀)‖z‖_{a,p}`, and
-  `homLie_pairing_summable` (i): the pairings converge absolutely with the bound of
+  `homLie_pairing_summable_gen` (i): the pairings converge absolutely with the bound of
   `bpW:w4:pairing`;
 * `homLieSeq`, `homWeakBracket` and `homWeakBracket_eq_neg_lieN` (ii): `⟨⟨N,F⟩⟩ = -L_N F`;
 * the guard (G): `HomGuard a p γ`, its verification for the wave consumer `a = p = 1`
-  (`homGuard_one_one`), and (iv): `homNOmega_le` (`|N_Ω(z, \bar z)| ≤ (1+M₀) γ ‖z‖ ‖\bar z‖`).
+  (`homGuard_one_one`), and (iv): `homNOmega_le_gen` (`|N_Ω(z, \bar z)| ≤ (1+M₀) γ ‖z‖ ‖\bar z‖`).
 
 Not done here: the coefficient identity (iii) and the Fréchet derivative (iv), which need the Taylor
 class `𝒯_s` and the Banach structure of `ℓ^N_{a,p}`.
@@ -67,7 +67,7 @@ theorem homLie_Omega_mem {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → F
     (`p_+ = pb`, `1 ≤ p + p_+`)
 and `z ∈ ℓ^N_{a,p}` (`a, p ≥ 0`), `⟨F, Ωz⟩₀` converges absolutely with
 `|⟨F, Ωz⟩₀| ≤ (1+M₀) ‖F‖_{a,p_+} ‖z‖_{a,p}`. -/
-theorem homLie_pairing_summable {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 → ℝ}
+theorem homLie_pairing_summable_gen {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 → ℝ}
     {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ} {M0 Mω MΩ : ℝ} (h : HomFreqHyp Par ω Ω M0 Mω MΩ)
     {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {a p pb : ℝ} (ha : 0 ≤ a) (hp1 : 1 ≤ p + pb) {F z : ℕ+ → ℂ}
     (hF : HomNormal a pb F) (hz : HomNormal a p z) :
@@ -139,7 +139,7 @@ theorem homGuard_one_one : HomGuard 1 1 (Real.exp (-6) / 3) := by
 
 /-- **The guarded form** `N_Ω(z, \bar z) = ∑_j Ω_j z_j \bar z_j` (blueprint `bpW:w4:lie` (iv)):
 under (G) the series converges absolutely and `|N_Ω(z,\bar z)| ≤ (1+M₀) γ ‖z‖ ‖\bar z‖`. -/
-theorem homNOmega_le {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 → ℝ}
+theorem homNOmega_le_gen {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 → ℝ}
     {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ} {M0 Mω MΩ : ℝ} (h : HomFreqHyp Par ω Ω M0 Mω MΩ)
     {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {a p pb γ : ℝ} (hG : HomGuard a p γ) {z zb : ℕ+ → ℂ}
     (hz : HomNormal a p z) (hzb : HomNormal a p zb) :

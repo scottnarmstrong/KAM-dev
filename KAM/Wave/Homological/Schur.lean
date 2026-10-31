@@ -20,13 +20,13 @@ Model. By `bpW:w4:schur`, step *Representatives*, an element `M ∈ 𝓛` (a bou
 `ℓ^N_{a,p} → ℓ^N_{a,p̄}`) is the same thing, with the same norm, as its weighted matrix
 `(μ_i M_ij ν_j)`, `μ_i = ω_{a,p̄}(i+2)`, `ν_j = ω_{a,p}(j+2)⁻¹`, viewed as a bounded operator on
 `ℓ²_ℂ`. Here `HomOp := ℓ²_ℂ →L ℓ²_ℂ` is that representative model of `𝓛`, with matrix entries
-`kamEntry`. `homNormalEntry a p A i j` is the matrix entry `M_ij` of the operator `M ∈ 𝓛`
+`kamEntry`. `homNormalEntry_gen a p A i j` is the matrix entry `M_ij` of the operator `M ∈ 𝓛`
 represented by `A`.
 
 * `homHadamardCLM hd`: the Hadamard map `A ↦ (d_ij A_ij)` as a continuous linear map `HomOp → HomOp`
   of norm `≤ c K_S`, `K_S = 1 + π/√3` (`norm_homHadamardCLM_le`), entries `homHadamard_entry`,
   and the transposition identity in entry form `homHadamard_transpose_entry` (part (i));
-* `homDiagonal_bound`: `(i+2) |M_ii| ≤ ‖M‖` (part (iii)).
+* `homDiagonal_bound_gen`: `(i+2) |M_ii| ≤ ‖M‖` (part (iii)).
 -/
 
 @[expose] public section
@@ -187,14 +187,15 @@ theorem norm_homHadamardOp_diag_le {d : ℕ+ → ℕ+ → ℂ} {c : ℝ} (h : Ho
 /-- The matrix entry `M_ij` of the operator `M ∈ 𝓛` (`ℓ^N_{a,p} → ℓ^N_{a,p_+}`, `p_+ = pb`) whose
 weighted matrix is `A`: `A_ij = μ_i M_ij ν_j` with `μ_i = ω_{a,p_+}(i+2)`, `ν_j = ω_{a,p}(j+2)⁻¹`.
     -/
-noncomputable def homNormalEntry (a p pb : ℝ) (A : HomOp) (i j : ℕ+) : ℂ :=
+noncomputable def homNormalEntry_gen (a p pb : ℝ) (A : HomOp) (i j : ℕ+) : ℂ :=
   ((ellWeight a p (j + 2) / ellWeight a pb (i + 2) : ℝ) : ℂ) * kamEntry A i j
 
 /-- The Hadamard map acts entrywise on the matrix entries of `M`. -/
-theorem homNormalEntry_hadamard (a p pb : ℝ) {d : ℕ+ → ℕ+ → ℂ} {c : ℝ}
+theorem homNormalEntry_hadamard_gen (a p pb : ℝ) {d : ℕ+ → ℕ+ → ℂ} {c : ℝ}
     (h : HomHadamardBound d c) (A : HomOp) (i j : ℕ+) :
-    homNormalEntry a p pb (homHadamardOp h A) i j = d i j * homNormalEntry a p pb A i j := by
-  unfold homNormalEntry
+    homNormalEntry_gen a p pb (homHadamardOp h A) i j = d i j * homNormalEntry_gen a p pb A i j :=
+        by
+  unfold homNormalEntry_gen
   rw [homHadamard_entry]
   ring
 
@@ -214,15 +215,15 @@ theorem ellWeight_div_ellWeight (a p pb : ℝ) (J : ℕ+) :
 
 /-- **Diagonal bound** (blueprint `bpW:w4:schur` (iii), general `p_+`):
 `(i+2)^{p_+-p} |M_ii| ≤ ‖M‖`. -/
-theorem homDiagonal_bound (a p pb : ℝ) (A : HomOp) (i : ℕ+) :
-    ((i : ℝ) + 2) ^ (pb - p) * ‖homNormalEntry a p pb A i i‖ ≤ ‖A‖ := by
+theorem homDiagonal_bound_gen (a p pb : ℝ) (A : HomOp) (i : ℕ+) :
+    ((i : ℝ) + 2) ^ (pb - p) * ‖homNormalEntry_gen a p pb A i i‖ ≤ ‖A‖ := by
   have hJ : (((i + 2 : ℕ+) : ℕ+) : ℝ) = (i : ℝ) + 2 := by push_cast; ring
   have hq : ellWeight a p (i + 2) / ellWeight a pb (i + 2) = ((i : ℝ) + 2) ^ (-(pb - p)) := by
     rw [ellWeight_div_ellWeight, hJ]
     congr 1
     ring
   have hpos : (0 : ℝ) < (i : ℝ) + 2 := by positivity
-  unfold homNormalEntry
+  unfold homNormalEntry_gen
   rw [norm_mul, hq, Complex.norm_real, Real.norm_eq_abs, abs_of_pos (Real.rpow_pos_of_pos hpos _)]
   have : ((i : ℝ) + 2) ^ (pb - p) * (((i : ℝ) + 2) ^ (-(pb - p)) * ‖kamEntry A i i‖) =
       ‖kamEntry A i i‖ := by

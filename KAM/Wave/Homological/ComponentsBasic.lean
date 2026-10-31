@@ -100,39 +100,41 @@ theorem homAffine_bound {E E1 : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E
   simpa using h
 
 /-- `‖R_z‖, ‖R_{\bar z}‖ ≤ rε/√2` and the three parts of the norm at a domain point. -/
-theorem homXnorm_parts {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε : ℝ} (hr : 0 < r)
-    (T : HomTaylor a p pb s) {θ y : Fin 2 → ℂ} {z zb : HomL2}
-    (h : homXnorm ha hp hpb r T θ y z zb ≤ ε) :
-    ‖homRy T θ‖ ≤ 2 * Real.pi * ε ∧
-      ‖fun i => homRtheta ha hp hpb T i θ y z zb‖ ≤ 2 * Real.pi * r ^ 2 * ε ∧
-      ‖homRu T θ z zb‖ + ‖homRv T θ z zb‖ ≤ r * ε ∧
-      ‖homRz T θ z zb‖ ≤ r * ε / Real.sqrt 2 ∧ ‖homRzb T θ z zb‖ ≤ r * ε / Real.sqrt 2 := by
+theorem homXnorm_parts_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε : ℝ} (hr : 0
+    < r)
+    (T : HomTaylor_gen a p pb s) {θ y : Fin 2 → ℂ} {z zb : HomL2}
+    (h : homXnorm_gen ha hp hpb r T θ y z zb ≤ ε) :
+    ‖homRy_gen T θ‖ ≤ 2 * Real.pi * ε ∧
+      ‖fun i => homRtheta_gen ha hp hpb T i θ y z zb‖ ≤ 2 * Real.pi * r ^ 2 * ε ∧
+      ‖homRu_gen T θ z zb‖ + ‖homRv_gen T θ z zb‖ ≤ r * ε ∧
+      ‖homRz_gen T θ z zb‖ ≤ r * ε / Real.sqrt 2 ∧ ‖homRzb_gen T θ z zb‖ ≤ r * ε / Real.sqrt 2 := by
   have hs : 0 < Real.sqrt 2 := Real.sqrt_pos.mpr (by norm_num)
   have hπ := Real.pi_pos
-  unfold homXnorm at h
-  have t1 : 0 ≤ (2 * Real.pi)⁻¹ * ‖homRy T θ‖ := by positivity
-  have t2 : 0 ≤ (2 * Real.pi * r ^ 2)⁻¹ * ‖fun i => homRtheta ha hp hpb T i θ y z zb‖ := by
+  unfold homXnorm_gen at h
+  have t1 : 0 ≤ (2 * Real.pi)⁻¹ * ‖homRy_gen T θ‖ := by positivity
+  have t2 : 0 ≤ (2 * Real.pi * r ^ 2)⁻¹ * ‖fun i => homRtheta_gen ha hp hpb T i θ y z zb‖ := by
       positivity
-  have t3 : 0 ≤ r⁻¹ * (‖homRu T θ z zb‖ + ‖homRv T θ z zb‖) := by positivity
-  have e1 : ‖homRy T θ‖ ≤ 2 * Real.pi * ε := by
-    have : (2 * Real.pi)⁻¹ * ‖homRy T θ‖ ≤ ε := by linarith
+  have t3 : 0 ≤ r⁻¹ * (‖homRu_gen T θ z zb‖ + ‖homRv_gen T θ z zb‖) := by positivity
+  have e1 : ‖homRy_gen T θ‖ ≤ 2 * Real.pi * ε := by
+    have : (2 * Real.pi)⁻¹ * ‖homRy_gen T θ‖ ≤ ε := by linarith
     rw [← div_eq_inv_mul, div_le_iff₀ (by positivity)] at this
     linarith
-  have e2 : ‖fun i => homRtheta ha hp hpb T i θ y z zb‖ ≤ 2 * Real.pi * r ^ 2 * ε := by
-    have : (2 * Real.pi * r ^ 2)⁻¹ * ‖fun i => homRtheta ha hp hpb T i θ y z zb‖ ≤ ε := by linarith
+  have e2 : ‖fun i => homRtheta_gen ha hp hpb T i θ y z zb‖ ≤ 2 * Real.pi * r ^ 2 * ε := by
+    have : (2 * Real.pi * r ^ 2)⁻¹ * ‖fun i => homRtheta_gen ha hp hpb T i θ y z zb‖ ≤ ε := by
+        linarith
     rw [← div_eq_inv_mul, div_le_iff₀ (by positivity)] at this
     linarith
-  have e3 : ‖homRu T θ z zb‖ + ‖homRv T θ z zb‖ ≤ r * ε := by
-    have : r⁻¹ * (‖homRu T θ z zb‖ + ‖homRv T θ z zb‖) ≤ ε := by linarith
+  have e3 : ‖homRu_gen T θ z zb‖ + ‖homRv_gen T θ z zb‖ ≤ r * ε := by
+    have : r⁻¹ * (‖homRu_gen T θ z zb‖ + ‖homRv_gen T θ z zb‖) ≤ ε := by linarith
     rw [← div_eq_inv_mul, div_le_iff₀ hr] at this
     linarith
   have hn : ‖homSqrt2⁻¹‖ = (Real.sqrt 2)⁻¹ := by rw [norm_inv, norm_homSqrt2]
   refine ⟨e1, e2, e3, ?_, ?_⟩
-  · rw [homRz_eq, norm_smul, hn]
+  · rw [homRz_eq_gen, norm_smul, hn]
     refine le_trans (mul_le_mul_of_nonneg_left (norm_sub_le _ _) (by positivity)) ?_
     rw [norm_smul, Complex.norm_I, one_mul, div_eq_inv_mul]
     exact mul_le_mul_of_nonneg_left e3 (by positivity)
-  · rw [homRzb_eq, norm_smul, hn]
+  · rw [homRzb_eq_gen, norm_smul, hn]
     refine le_trans (mul_le_mul_of_nonneg_left (norm_add_le _ _) (by positivity)) ?_
     rw [norm_smul, Complex.norm_I, one_mul, div_eq_inv_mul]
     exact mul_le_mul_of_nonneg_left e3 (by positivity)

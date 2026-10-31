@@ -23,14 +23,14 @@ Representative model (see `Schur.lean`): `HomL2 = ℓ²_ℂ` is the common model
 (`ẑ_j = ω_{a,q}(j+2) z_j`), and `HomOp` the model of `𝓛` (weighted matrices).
 
 * the unweighted pairing of a vector `c ∈ ℓ^N_{a,p+1}` (representative `ĉ`) with `z ∈ ℓ^N_{a,p}`
-  (representative `ẑ`) is `⟨c,z⟩₀ = ∑ (D ĉ)_j ẑ_j` with the diagonal `D = homLamD a p`,
-  `D_j = 1/(ω_{a,p}(j+2) ω_{a,p+1}(j+2)) ∈ (0,1]` (`homPairRep`);
-* the dual norm `‖c‖_* = ‖D ĉ‖` (`homDualNorm`), `‖c‖_* ≤ ‖ĉ‖`;
-* `Λ : 𝓛 → 𝓑`, `ΛM = D M̂` (`homLamCLM`): the weighted matrix of the bilinear form
+  (representative `ẑ`) is `⟨c,z⟩₀ = ∑ (D ĉ)_j ẑ_j` with the diagonal `D = homLamD_gen a p`,
+  `D_j = 1/(ω_{a,p}(j+2) ω_{a,p+1}(j+2)) ∈ (0,1]` (`homPairRep_gen`);
+* the dual norm `‖c‖_* = ‖D ĉ‖` (`homDualNorm_gen`), `‖c‖_* ≤ ‖ĉ‖`;
+* `Λ : 𝓛 → 𝓑`, `ΛM = D M̂` (`homLamCLM_gen`): the weighted matrix of the bilinear form
   `(z,z') ↦ ⟨Mz,z'⟩₀` on the representatives; `‖M‖_bil = ‖D M̂‖ ≤ ‖M̂‖` (`norm_homLamCLM_le`).
   The space `𝓑` is thus modelled by the operators `D M̂` on `ℓ²` and the Hadamard map on `𝓑`
   (`bpW:w4:schur` (ii)) is `homHadamardOp` itself, which commutes with `Λ`
-  (`homHadamardOp_lam`);
+  (`homHadamardOp_lam_gen`);
 * `norm_le_of_pairing_le`: a vector `v ∈ ℓ²` with `|∑ v_j y_j| ≤ K` for all `‖y‖ ≤ 1` has `‖v‖ ≤ K`
   (the norm formula of W4-E5 for the pairing without conjugation).
 -/
@@ -45,11 +45,12 @@ open KAM
 theorem homPP {p pb : ℝ} (hp : 0 ≤ p) (hpb : p ≤ pb) : 0 ≤ p + pb := by linarith
 
 /-- The diagonal `D_j = 1/(ω_{a,p}(j+2) ω_{a,p+1}(j+2))`. -/
-def homLamD (a p pb : ℝ) (j : ℕ+) : ℂ := ((homWt a p j * homWt a pb j)⁻¹ : ℝ)
+def homLamD_gen (a p pb : ℝ) (j : ℕ+) : ℂ := ((homWt a p j * homWt a pb j)⁻¹ : ℝ)
 
-theorem norm_homLamD_le {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (j : ℕ+) : ‖homLamD a p pb j‖ ≤
+theorem norm_homLamD_le_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (j : ℕ+) : ‖homLamD_gen a p
+    pb j‖ ≤
     1 := by
-  unfold homLamD
+  unfold homLamD_gen
   rw [Complex.norm_real, Real.norm_eq_abs]
   have h1 := one_le_homWt_mul (a := a) (q := p) (q' := pb) ha hp j
   have h0 : 0 < homWt a p j * homWt a pb j := lt_of_lt_of_le one_pos h1
@@ -57,59 +58,62 @@ theorem norm_homLamD_le {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (j : �
   exact inv_le_one_of_one_le₀ h1
 
 /-- The diagonal multiplier `D` on `ℓ²`. -/
-def homLamDiag {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) : HomOp :=
-  weightedDiagCLM (homLamD a p pb) (norm_homLamD_le ha hp)
+def homLamDiag_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) : HomOp :=
+  weightedDiagCLM (homLamD_gen a p pb) (norm_homLamD_le_gen ha hp)
 
-theorem norm_homLamDiag_le {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) : ‖homLamDiag ha hp‖ ≤ 1 :=
+theorem norm_homLamDiag_le_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) : ‖homLamDiag_gen ha hp‖
+    ≤ 1 :=
   norm_diagCLM_le _ _
 
-theorem homLamDiag_apply {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (y : HomL2) (j : ℕ+) :
-    homLamDiag ha hp y j = homLamD a p pb j * y j := rfl
+theorem homLamDiag_apply_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (y : HomL2) (j : ℕ+) :
+    homLamDiag_gen ha hp y j = homLamD_gen a p pb j * y j := rfl
 
 /-- **`Λ : 𝓛 → 𝓑`** in the representative model: `ΛM = D M̂`. -/
-def homLamCLM {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) : HomOp →L[ℂ] HomOp :=
-  ContinuousLinearMap.compL ℂ HomL2 HomL2 HomL2 (homLamDiag ha hp)
+def homLamCLM_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) : HomOp →L[ℂ] HomOp :=
+  ContinuousLinearMap.compL ℂ HomL2 HomL2 HomL2 (homLamDiag_gen ha hp)
 
-theorem homLamCLM_apply {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (A : HomOp) :
-    homLamCLM ha hp A = (homLamDiag ha hp).comp A := rfl
+theorem homLamCLM_apply_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (A : HomOp) :
+    homLamCLM_gen ha hp A = (homLamDiag_gen ha hp).comp A := rfl
 
 /-- The bilinear norm `‖M‖_bil = ‖ΛM‖`; it is at most `‖M‖`. -/
-theorem norm_homLamCLM_apply_le {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (A : HomOp) :
-    ‖homLamCLM ha hp A‖ ≤ ‖A‖ :=
+theorem norm_homLamCLM_apply_le_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (A : HomOp) :
+    ‖homLamCLM_gen ha hp A‖ ≤ ‖A‖ :=
   (ContinuousLinearMap.opNorm_comp_le _ _).trans
-    (by simpa using mul_le_mul_of_nonneg_right (norm_homLamDiag_le ha hp) (norm_nonneg A))
+    (by simpa using mul_le_mul_of_nonneg_right (norm_homLamDiag_le_gen ha hp) (norm_nonneg A))
 
-theorem kamEntry_homLamCLM {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (A : HomOp) (i j : ℕ+) :
-    kamEntry (homLamCLM ha hp A) i j = homLamD a p pb i * kamEntry A i j := rfl
+theorem kamEntry_homLamCLM_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (A : HomOp) (i j : ℕ+) :
+    kamEntry (homLamCLM_gen ha hp A) i j = homLamD_gen a p pb i * kamEntry A i j := rfl
 
 /-- `Λ` commutes with the Hadamard map (`bpW:w4:schur` (ii), in the representative model). -/
-theorem homHadamardOp_lam {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) {d : ℕ+ → ℕ+ → ℂ} {c : ℝ}
+theorem homHadamardOp_lam_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) {d : ℕ+ → ℕ+ → ℂ} {c : ℝ}
     (h : HomHadamardBound d c) (A : HomOp) :
-    homHadamardOp h (homLamCLM ha hp A) = homLamCLM ha hp (homHadamardOp h A) := by
+    homHadamardOp h (homLamCLM_gen ha hp A) = homLamCLM_gen ha hp (homHadamardOp h A) := by
   refine homOp_ext_entries fun i j => ?_
-  rw [homHadamard_entry, kamEntry_homLamCLM, kamEntry_homLamCLM, homHadamard_entry]
+  rw [homHadamard_entry, kamEntry_homLamCLM_gen, kamEntry_homLamCLM_gen, homHadamard_entry]
   ring
 
 /-- **`Λ` of the Hadamard image: the `𝓑`-bound** (`bpW:w4:schur` (ii)):
 `‖Λ H_d M‖ ≤ c K_S ‖ΛM‖`. -/
-theorem norm_homLam_hadamard_le {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) {d : ℕ+ → ℕ+ → ℂ} {c :
+theorem norm_homLam_hadamard_le_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) {d : ℕ+ → ℕ+ → ℂ}
+    {c :
     ℝ}
     (h : HomHadamardBound d c) (A : HomOp) :
-    ‖homLamCLM ha hp (homHadamardOp h A)‖ ≤ c * homKS * ‖homLamCLM ha hp A‖ := by
-  rw [← homHadamardOp_lam]
+    ‖homLamCLM_gen ha hp (homHadamardOp h A)‖ ≤ c * homKS * ‖homLamCLM_gen ha hp A‖ := by
+  rw [← homHadamardOp_lam_gen]
   exact norm_homHadamardOp_le h _
 
 /-- The pairing `⟨c, z⟩₀` of representatives: `∑ (D ĉ)_j ẑ_j`. -/
-def homPairRep {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (c z : HomL2) : ℂ :=
-  ∑' j, homLamDiag ha hp c j * z j
+def homPairRep_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (c z : HomL2) : ℂ :=
+  ∑' j, homLamDiag_gen ha hp c j * z j
 
 /-- The dual norm `‖c‖_* = ‖D ĉ‖ ≤ ‖ĉ‖`. -/
-def homDualNorm {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (c : HomL2) : ℝ := ‖homLamDiag ha hp c‖
+def homDualNorm_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (c : HomL2) : ℝ := ‖homLamDiag_gen
+    ha hp c‖
 
-theorem homDualNorm_le {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (c : HomL2) :
-    homDualNorm ha hp c ≤ ‖c‖ :=
-  ((homLamDiag ha hp).le_opNorm c).trans
-    (by simpa using mul_le_mul_of_nonneg_right (norm_homLamDiag_le ha hp) (norm_nonneg c))
+theorem homDualNorm_le_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p + pb) (c : HomL2) :
+    homDualNorm_gen ha hp c ≤ ‖c‖ :=
+  ((homLamDiag_gen ha hp).le_opNorm c).trans
+    (by simpa using mul_le_mul_of_nonneg_right (norm_homLamDiag_le_gen ha hp) (norm_nonneg c))
 
 /-- Cauchy–Schwarz for the unconjugated pairing on `ℓ²`. -/
 theorem homL2_pair_le (v w : HomL2) :
