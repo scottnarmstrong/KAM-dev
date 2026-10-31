@@ -167,3 +167,23 @@ W4 is now parametrized by the smoothing exponent `p_+` (Lean: `pb`, hypotheses `
 HomTaylor.isRealTaylor`), `HomHadamardBound.nonneg → HomHadamardBound.homNonneg`, `HomFreqHyp.nonneg`/`HomFreqHyp1.nonneg
 → consts_nonneg`. **The W4 audit should target this commit (`7de5b4e0`), which supersedes `82d8325d`.** The old-name
 statements are unchanged in content; only these auxiliary identifiers changed.
+
+## Round 2 (audit fixes F1, F2; commit recorded below)
+
+* **F1.** The raw totalized operations are renamed internal: `homPair0Raw`, `homLieSeqRaw`, `homWeakBracketRaw`
+  (+ `homWeakBracketRaw_eq_neg_lieSeqRaw`), `homPairOmegaRaw_gen`, `homLieNRaw_gen` (and the `p_+ = p+1` aliases
+  `homPairOmegaRaw`, `homLieNRaw`). Source-domain versions carry the carrier evidence: `homPair0 x x' (h : Summable ..)`
+  with `homPair0_hasSum`; `homLieSeq`, `homWeakBracket` (summability of `F_z Ωz`, `F_{\bar z} Ω\bar z`) and
+  `homWeakBracket_eq_neg_lieN` with exactly those hypotheses; `HomOmegaCarrier` (summability of the `⟨c,Ωz⟩₀` series
+  for all `c,z`), `homPairOmega_gen` + `homPairOmega_hasSum_gen`, `homLieN_gen` + `homLieN_gen_eq`; the carrier is
+  supplied by `homOmegaCarrier_of_bound` (`|Ω_j| ≤ K0(j+2)`, `1 ≤ p+pb`) or `homOmegaCarrier_of_guard` (guard (G)).
+  `homLemma_lie_iv_gen` is stated with `homLieN_gen` (carrier from (G)).
+* **F2.** The gate-taking Lemma 1 exports are now CONDITIONAL helpers `homLemma1_fieldBound_of_gates_gen`,
+  `homLemma1_lipschitz_of_gates_gen`, `homLemma1_equation_all_of_gates_gen` (and `_of_gates` at `p_+ = p+1`).
+  The original names `homLemma1_fieldBound(_gen)`, `homLemma1_lipschitz(_gen)`, `homLemma1_equation_all(_gen)` now take
+  only the blueprint premises (`HomFreqHyp`, `HomMelnikov`, positivity, `ξ ∈ Π`, `1 ≤ p+pb` for the equation) and apply
+  `homMultBounds_of`, `homMultLip_of`, `homOmega_le` inside. The finitely supported `homLemma1_equation_gen` and the
+  `homEq_*` coefficient lemmas remain gate-taking internal steps (stated with the internal `homLieNRaw_gen`).
+* No module under `KAM/Wave/KamStep` cites any of these statements (checked by grep).
+* Checks: all touched modules and dependents rebuilt with `w_build.sh` in import order; `w_lint.sh` exit 0;
+  `#print axioms` of the new public names: propext, Classical.choice, Quot.sound only; no line > 100 chars.

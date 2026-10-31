@@ -253,9 +253,10 @@ theorem homF_compBounds_gen {a p pb s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : �
     refine this.trans (le_of_eq ?_); ring
 
 
-/-- **Lemma 1 (iii), uniform bound** (`bpW:w4:lemma1` (iii)): `|X_F|_r ≤ C₁ B^W_σ ε/α` on
-`D(s-σ,r)`, `C₁ = 7 + 10K_S`. -/
-theorem homLemma1_fieldBound_gen {a p pb s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ} (ha : 0 ≤ a)
+/-- CONDITIONAL helper for Lemma 1 (iii), uniform bound: assumes the intermediate gate
+`HomMultBounds`. The source-premise export is `homLemma1_fieldBound_gen`. -/
+theorem homLemma1_fieldBound_of_gates_gen {a p pb s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ} (ha : 0
+  ≤ a)
     (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) (hσs
         : σ < s)
     (hm : HomMultBounds τ α w W) (R : HomTaylor_gen a p pb s) (hX : HomFieldBound_gen ha hp hpb r ε
@@ -274,5 +275,18 @@ theorem homLemma1_fieldBound_gen {a p pb s σ τ α : ℝ} {w : Fin 2 → ℝ} {
     have := waveBW_nonneg τ σ; positivity
   exact homXnorm_le_of_components_gen ha hp hpb hr one_le_homKS hE0 _
     (homF_compBounds_gen ha hp hpb hr hτ hα hσ hσs hm R hX hdom.1) hdom.2.1.le hdom.2.2
+
+/-- **Lemma 1 (iii), uniform bound** (`bpW:w4:lemma1` (iii)) from the source premises
+(`HomFreqHyp`, `HomMelnikov`, positivity, `ξ ∈ Π`): `|X_F|_r ≤ C₁ B^W_σ ε/α` on `D(s-σ,r)`,
+`C₁ = 7 + 10K_S`. -/
+theorem homLemma1_fieldBound_gen {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 → ℝ}
+    {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ} {M0 Mω MΩ : ℝ} (h : HomFreqHyp Par ω Ω M0 Mω MΩ)
+    (hH : HomMelnikov τ α Par ω Ω) {a p pb s σ : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb)
+    {r ε : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) (hσs : σ < s)
+    {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (R : HomTaylor_gen a p pb s)
+    (hX : HomFieldBound_gen ha hp hpb r ε R) :
+    HomFieldBound_gen ha hp hpb r ((7 + 10 * homKS) * (waveBW τ σ * ε / α))
+      (homSolveTaylor_gen hτ hα hσ hσs (homMultBounds_of h hα hH hξ) R) :=
+  homLemma1_fieldBound_of_gates_gen ha hp hpb hr hτ hα hσ hσs (homMultBounds_of h hα hH hξ) R hX
 
 end KAM.Wave

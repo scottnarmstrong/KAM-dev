@@ -57,7 +57,10 @@ theorem flowII_disp_sub (h : FlowHyp (smoothField ι Z) V U M δ)
   have h2 := one_add_mul_exp_le_two (div_nonneg h.M_pos.le h.delta_pos.le) hL
   have h3 : N * (1 + M / δ * Real.exp (M / δ)) ≤ 2 * N := by nlinarith
   have hc0 : 0 ≤ N * (1 + M / δ * Real.exp (M / δ)) :=
-    mul_nonneg hN (by have := Real.exp_pos (M / δ); have := div_nonneg h.M_pos.le h.delta_pos.le; positivity)
+    mul_nonneg hN (by
+      have := Real.exp_pos (M / δ)
+      have := div_nonneg h.M_pos.le h.delta_pos.le
+      positivity)
   calc _ ≤ |t| * (N * (1 + M / δ * Real.exp (M / δ))) := this
     _ ≤ 1 * (2 * N) := mul_le_mul h1 h3 hc0 zero_le_one
     _ = 2 * N := one_mul _
@@ -87,7 +90,10 @@ theorem flowII_deriv_sub (h : FlowHyp (smoothField ι Z) V U M δ)
   have h2 := one_add_mul_exp_le_two (div_nonneg h.M_pos.le h.delta_pos.le) hL
   have h3 : N * (1 + M / δ * Real.exp (M / δ)) ≤ 2 * N := by nlinarith
   have hc0 : 0 ≤ N * (1 + M / δ * Real.exp (M / δ)) :=
-    mul_nonneg hN (by have := Real.exp_pos (M / δ); have := div_nonneg h.M_pos.le h.delta_pos.le; positivity)
+    mul_nonneg hN (by
+      have := Real.exp_pos (M / δ)
+      have := div_nonneg h.M_pos.le h.delta_pos.le
+      positivity)
   refine this.trans (div_le_div_of_nonneg_right ?_ hρ.le)
   calc _ ≤ 1 * (2 * N) := mul_le_mul h1 h3 hc0 zero_le_one
     _ = 2 * N := one_mul _

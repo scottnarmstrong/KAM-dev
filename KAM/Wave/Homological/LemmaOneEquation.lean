@@ -17,7 +17,7 @@ Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency gr
 being built.
 
 * `homRval_gen T θ y z zb`: the value of the Taylor polynomial `R` (`bpW:w4:R`);
-* `homLieN_gen`: `L_N F = (1/2π)⟨ω,F_θ⟩ - i⟨F_z,Ωz⟩₀ + i⟨F_{\bar z},Ω\bar z⟩₀` (`bpW:w4:lie`);
+* `homLieNRaw_gen`: `L_N F = (1/2π)⟨ω,F_θ⟩ - i⟨F_z,Ωz⟩₀ + i⟨F_{\bar z},Ω\bar z⟩₀` (`bpW:w4:lie`);
 * `homNhat_gen R y z zb = ⟨ω̂,y⟩ + ∑ Ω̂_j z_j \bar z_j`, `ω̂ = [b]`, `Ω̂_j = ([Q])_{jj}` (true
     coordinates
   `z_j = ẑ_j/ω_{a,p}(j+2)`);
@@ -45,12 +45,30 @@ def homRval_gen {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) 
     + homPairRep_gen ha (homPP hp hpb) (T.P θ z) z + homPairRep_gen ha (homPP hp hpb) (T.Q θ z) zb
     + homPairRep_gen ha (homPP hp hpb) (T.P' θ zb) zb
 
-/-- `L_N F = (1/2π)⟨ω,F_θ⟩ - i⟨F_z,Ωz⟩₀ + i⟨F_{\bar z},Ω\bar z⟩₀` (`bpW:w4:lie`). -/
-def homLieN_gen {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (w : Fin 2 → ℝ) (W : ℕ+ → ℝ)
+/-- INTERNAL totalized `L_N F` (uses `homPairOmegaRaw_gen`); the source-domain version is
+`homLieN_gen`. -/
+def homLieNRaw_gen {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (w : Fin 2 → ℝ) (W : ℕ+
+  → ℝ)
     (T : HomTaylor_gen a p pb s) (θ y : Fin 2 → ℂ) (z zb : HomL2) : ℂ :=
   (2 * Real.pi : ℂ)⁻¹ * (∑ l, (w l : ℂ) * homRtheta_gen ha hp hpb T l θ y z zb)
-    - Complex.I * homPairOmega_gen ha hp hpb W (homRz_gen T θ z zb) z
-    + Complex.I * homPairOmega_gen ha hp hpb W (homRzb_gen T θ z zb) zb
+    - Complex.I * homPairOmegaRaw_gen ha hp hpb W (homRz_gen T θ z zb) z
+    + Complex.I * homPairOmegaRaw_gen ha hp hpb W (homRzb_gen T θ z zb) zb
+
+/-- **`L_N F = (1/2π)⟨ω,F_θ⟩ - i⟨F_z,Ωz⟩₀ + i⟨F_{\bar z},Ω\bar z⟩₀`** (`bpW:w4:lie`) on the source
+domain: both pairings are defined under the carrier evidence `HomOmegaCarrier`
+(`homLieN_gen_eq` unfolds to the convergent pairings `homPairOmega_gen`). -/
+def homLieN_gen {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {W : ℕ+ → ℝ}
+    (_hC : HomOmegaCarrier ha hp hpb W) (w : Fin 2 → ℝ) (T : HomTaylor_gen a p pb s)
+    (θ y : Fin 2 → ℂ) (z zb : HomL2) : ℂ :=
+  homLieNRaw_gen ha hp hpb w W T θ y z zb
+
+theorem homLieN_gen_eq {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {W : ℕ+ → ℝ}
+    (hC : HomOmegaCarrier ha hp hpb W) (w : Fin 2 → ℝ) (T : HomTaylor_gen a p pb s)
+    (θ y : Fin 2 → ℂ) (z zb : HomL2) :
+    homLieN_gen ha hp hpb hC w T θ y z zb =
+      (2 * Real.pi : ℂ)⁻¹ * (∑ l, (w l : ℂ) * homRtheta_gen ha hp hpb T l θ y z zb)
+        - Complex.I * homPairOmega_gen ha hp hpb hC (homRz_gen T θ z zb) z
+        + Complex.I * homPairOmega_gen ha hp hpb hC (homRzb_gen T θ z zb) zb := rfl
 
 /-- `N̂ = ⟨ω̂,y⟩ + ∑_j Ω̂_j z_j \bar z_j` with `ω̂ = [b]`, `Ω̂_j = ([Q])_{jj}`, in true
     coordinates. -/
@@ -121,7 +139,7 @@ theorem homRval_fin_gen (T : HomTaylor_gen a p pb s) (θ y : Fin 2 → ℂ) :
     homPairRep_op_fin_gen ha hp hpb _ hz hzb, homPairRep_op_fin_gen ha hp hpb _ hzb hzb]
 
 theorem homPairOmega_Rz_gen (W : ℕ+ → ℝ) (T : HomTaylor_gen a p pb s) (θ : Fin 2 → ℂ) :
-    homPairOmega_gen ha hp hpb W (homRz_gen T θ z zb) z =
+    homPairOmegaRaw_gen ha hp hpb W (homRz_gen T θ z zb) z =
       ∑ j ∈ S, homLamDiag_gen ha (homPP hp hpb) (T.cp θ) j * (W j : ℂ) * z j
       + 2 * ∑ i ∈ S, ∑ j ∈ S, (W i : ℂ) * homSent_gen ha hp hpb (T.P θ) i j * z j * z i
       + ∑ i ∈ S, ∑ j ∈ S, (W i : ℂ) * homSent_gen ha hp hpb (T.Qt θ) i j * zb j * z i := by
@@ -138,7 +156,7 @@ theorem homPairOmega_Rz_gen (W : ℕ+ → ℝ) (T : HomTaylor_gen a p pb s) (θ 
     refine Finset.sum_congr rfl fun j _ => ?_; ring
 
 theorem homPairOmega_Rzb_gen (W : ℕ+ → ℝ) (T : HomTaylor_gen a p pb s) (θ : Fin 2 → ℂ) :
-    homPairOmega_gen ha hp hpb W (homRzb_gen T θ z zb) zb =
+    homPairOmegaRaw_gen ha hp hpb W (homRzb_gen T θ z zb) zb =
       ∑ j ∈ S, homLamDiag_gen ha (homPP hp hpb) (T.cm θ) j * (W j : ℂ) * zb j
       + ∑ i ∈ S, ∑ j ∈ S, (W i : ℂ) * homSent_gen ha hp hpb (T.Q θ) i j * z j * zb i
       + 2 * ∑ i ∈ S, ∑ j ∈ S, (W i : ℂ) * homSent_gen ha hp hpb (T.P' θ) i j * zb j * zb i := by
@@ -236,7 +254,7 @@ include ha hp hpb hr hτ hα hσ hσs hm hX hθ hz hzb
 /-- **Lemma 1 (ii): the homological equation** (`bpW:w4:lemma1` (ii)): for finitely supported
 `z, \bar z`, `L_N F + N̂ = R - â₀` on `T_{s-σ}`. -/
 theorem homLemma1_equation_gen :
-    homLieN_gen ha hp hpb w W (homSolveTaylor_gen hτ hα hσ hσs hm R) θ y z zb + homNhat_gen R y z
+    homLieNRaw_gen ha hp hpb w W (homSolveTaylor_gen hτ hα hσ hσs hm R) θ y z zb + homNhat_gen R y z
         zb =
       homRval_gen ha hp hpb R θ y z zb - homCoeff R.a0 0 := by
   set F := homSolveTaylor_gen hτ hα hσ hσs hm R with hF
@@ -305,7 +323,7 @@ theorem homLemma1_equation_gen :
     field_simp
   have hLop : (2 * Real.pi : ℂ)⁻¹ * (∑ l, (w l : ℂ) * homRtheta_gen ha hp hpb F l θ y z zb) =
       homLop w (fun l => homRtheta_gen ha hp hpb F l θ y z zb) := rfl
-  unfold homLieN_gen
+  unfold homLieNRaw_gen
   rw [homPairOmega_Rz_gen ha hp hpb hz hzb W F θ, homPairOmega_Rzb_gen ha hp hpb hz hzb W F θ, hLop,
     hNhat, homRval_fin_gen ha hp hpb hz hzb R θ y]
   simp only [homRtheta_fin_gen ha hp hpb hz hzb, homLop_add, homLop_sumK, homLop_sum1, homLop_sum2,

@@ -151,9 +151,9 @@ theorem homPairOmega_eq_clm_gen {a p pb K0 : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) 
     (hp1 : 1 ≤ p + pb) (hK0 : 0 ≤ K0) {Ω
     : ℕ+ → ℝ}
     (hΩ : ∀ j : ℕ+, |Ω j| ≤ K0 * ((j : ℝ) + 2)) (c z : HomL2) :
-    homPairOmega_gen ha hp hpb Ω c z = homPairL2 (homDiagW_gen ha hp1 hK0 hΩ c) z := by
+    homPairOmegaRaw_gen ha hp hpb Ω c z = homPairL2 (homDiagW_gen ha hp1 hK0 hΩ c) z := by
   show _ = homPairF _ z
-  unfold homPairOmega_gen homPairF
+  unfold homPairOmegaRaw_gen homPairF
   refine tsum_congr fun j => ?_
   simp only [homDiagW_gen, weightedDiagCLM_apply, homLamDiag_apply_gen]
   ring
@@ -172,13 +172,22 @@ theorem tendsto_truncLp (y : HomL2) : Tendsto (fun N : ℕ => truncLp N y) atTop
   simpa only [norm_sub_rev] using tendsto_norm_sub_truncLp y
 
 
+/-- **Carrier evidence** from the frequency bound `|Ω_j| ≤ K₀(j+2)` and `1 ≤ p + p_+`. -/
+theorem homOmegaCarrier_of_bound {a p pb K0 : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb)
+    (hp1 : 1 ≤ p + pb) (hK0 : 0 ≤ K0) {Ω : ℕ+ → ℝ}
+    (hΩ : ∀ j : ℕ+, |Ω j| ≤ K0 * ((j : ℝ) + 2)) : HomOmegaCarrier ha hp hpb Ω := fun c z => by
+  refine (homPairF_summable (homDiagW_gen ha hp1 hK0 hΩ c) z).congr fun j => ?_
+  simp only [homDiagW_gen, weightedDiagCLM_apply, homLamDiag_apply_gen]
+  ring
+
 section main
 
 variable {σ τ α K0 : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ}
 
-/-- **Lemma 1 (ii), all `(z, \bar z)`** (`bpW:w4:lemma1` (ii)): `L_N F + N̂ = R - â₀` on
-`T_{s-σ} × ℂ² × (ℓ^N_{a,p})²` (for `|Ω_j| ≤ K₀(j+2)`, `K₀ ≥ 0`). -/
-theorem homLemma1_equation_all_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hp1 : 1 ≤ p + pb) {r ε
+/-- CONDITIONAL helper for Lemma 1 (ii), all `(z, \bar z)`: assumes the gate `HomMultBounds` and
+the frequency bound. The source-premise export is `homLemma1_equation_all_gen`. -/
+theorem homLemma1_equation_all_of_gates_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hp1 : 1 ≤ p +
+  pb) {r ε
     :
     ℝ} (hr : 0 < r) (hτ
     : 0 ≤ τ)
@@ -186,11 +195,13 @@ theorem homLemma1_equation_all_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb
     (hΩ : ∀ j : ℕ+, |W j| ≤ K0 * ((j : ℝ) + 2)) (R : HomTaylor_gen a p pb s)
     (hX : HomFieldBound_gen ha hp hpb r ε R) {θ : Fin 2 → ℂ} (hθ : θ ∈ complexStrip 2 (s - σ))
     (y : Fin 2 → ℂ) (z zb : HomL2) :
-    homLieN_gen ha hp hpb w W (homSolveTaylor_gen hτ hα hσ hσs hm R) θ y z zb + homNhat_gen R y z
-        zb =
+    homLieN_gen ha hp hpb (homOmegaCarrier_of_bound ha hp hpb hp1 hK0 hΩ) w
+        (homSolveTaylor_gen hτ hα hσ hσs hm R) θ y z zb + homNhat_gen R y z zb =
       homRval_gen ha hp hpb R θ y z zb - homCoeff R.a0 0 := by
+  show homLieNRaw_gen ha hp hpb w W (homSolveTaylor_gen hτ hα hσ hσs hm R) θ y z zb +
+    homNhat_gen R y z zb = _
   set F := homSolveTaylor_gen hτ hα hσ hσs hm R with hF
-  let Ψ : HomL2 × HomL2 → ℂ := fun q => homLieN_gen ha hp hpb w W F θ y q.1 q.2 + homNhat_gen R y
+  let Ψ : HomL2 × HomL2 → ℂ := fun q => homLieNRaw_gen ha hp hpb w W F θ y q.1 q.2 + homNhat_gen R y
       q.1 q.2 -
     (homRval_gen ha hp hpb R θ y q.1 q.2 - homCoeff R.a0 0)
   have hΨ : Continuous Ψ := by
@@ -199,19 +210,19 @@ theorem homLemma1_equation_all_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb
       simpa only [homNhatTaylor_val_gen ha hp hpb R θ y] using this
     have hf : Continuous fun q : HomL2 × HomL2 => q.1 := continuous_fst
     have hs : Continuous fun q : HomL2 × HomL2 => q.2 := continuous_snd
-    have hLie : Continuous fun q : HomL2 × HomL2 => homLieN_gen ha hp hpb w W F θ y q.1 q.2 := by
-      unfold homLieN_gen
+    have hLie : Continuous fun q : HomL2 × HomL2 => homLieNRaw_gen ha hp hpb w W F θ y q.1 q.2 := by
+      unfold homLieNRaw_gen
       have h1 : Continuous fun q : HomL2 × HomL2 =>
           (2 * Real.pi : ℂ)⁻¹ * ∑ l, (w l : ℂ) * homRtheta_gen ha hp hpb F l θ y q.1 q.2 :=
         continuous_const.mul (continuous_finset_sum _ fun l _ =>
           continuous_const.mul (continuous_homRtheta_gen ha hp hpb F l θ y))
       have h2 : Continuous fun q : HomL2 × HomL2 =>
-          homPairOmega_gen ha hp hpb W (homRz_gen F θ q.1 q.2) q.1 := by
+          homPairOmegaRaw_gen ha hp hpb W (homRz_gen F θ q.1 q.2) q.1 := by
         simp only [homPairOmega_eq_clm_gen ha hp hpb hp1 hK0 hΩ]
         exact (homPairL2.continuous.comp ((homDiagW_gen ha hp1 hK0 hΩ).continuous.comp
           (continuous_homRz_gen F θ))).clm_apply hf
       have h3 : Continuous fun q : HomL2 × HomL2 =>
-          homPairOmega_gen ha hp hpb W (homRzb_gen F θ q.1 q.2) q.2 := by
+          homPairOmegaRaw_gen ha hp hpb W (homRzb_gen F θ q.1 q.2) q.2 := by
         simp only [homPairOmega_eq_clm_gen ha hp hpb hp1 hK0 hΩ]
         exact (homPairL2.continuous.comp ((homDiagW_gen ha hp1 hK0 hΩ).continuous.comp
           (continuous_homRzb_gen F θ))).clm_apply hs
@@ -230,6 +241,25 @@ theorem homLemma1_equation_all_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb
   have := tendsto_nhds_unique hlim h0
   simp only [Ψ] at this
   linear_combination this
+
+/-- **Lemma 1 (ii), all `(z, \bar z)`** (`bpW:w4:lemma1` (ii)) from the source premises
+(`HomFreqHyp`, `HomMelnikov`, positivity, `ξ ∈ Π`, and `1 ≤ p + p_+`):
+`L_N F + N̂ = R - â₀` on `T_{s-σ} × ℂ² × (ℓ^N_{a,p})²`, with the pairings of `L_N`
+defined by the carrier evidence `homOmegaCarrier_of_bound`. -/
+theorem homLemma1_equation_all_gen {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 → ℝ}
+    {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ} {M0 Mω MΩ : ℝ} (h : HomFreqHyp Par ω Ω M0 Mω MΩ)
+    (hH : HomMelnikov τ α Par ω Ω) (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hp1 : 1 ≤ p + pb)
+    {r ε : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) (hσs : σ < s)
+    {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (R : HomTaylor_gen a p pb s)
+    (hX : HomFieldBound_gen ha hp hpb r ε R) {θ : Fin 2 → ℂ} (hθ : θ ∈ complexStrip 2 (s - σ))
+    (y : Fin 2 → ℂ) (z zb : HomL2) :
+    homLieN_gen ha hp hpb
+        (homOmegaCarrier_of_bound ha hp hpb hp1 (by linarith [h.consts_nonneg.1] :
+          0 ≤ 1 + M0) (homOmega_le h hξ)) (ω ξ)
+        (homSolveTaylor_gen hτ hα hσ hσs (homMultBounds_of h hα hH hξ) R) θ y z zb
+      + homNhat_gen R y z zb = homRval_gen ha hp hpb R θ y z zb - homCoeff R.a0 0 :=
+  homLemma1_equation_all_of_gates_gen ha hp hpb hp1 hr hτ hα hσ hσs (homMultBounds_of h hα hH hξ)
+    (by linarith [h.consts_nonneg.1]) (homOmega_le h hξ) R hX hθ y z zb
 
 end main
 

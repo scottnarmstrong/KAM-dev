@@ -93,14 +93,11 @@ theorem homNOmegaCLM_apply {a p γ K0 : ℝ} {Ω : ℕ+ → ℝ} (hG : HomGuard 
   unfold homPairF
   exact tsum_congr fun j => by simp [weightedDiagCLM_apply, mul_assoc]
 
-/-- `N_Ω(ĉ-embedded, z) = ⟨c, Ωz⟩₀` (the pairing of `bpW:w4:lie`). -/
-theorem homNOmega_embed_gen {a p γ K0 : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {Ω : ℕ+ → ℝ}
-    (hG : HomGuard a p γ) (hK0 : 0 ≤ K0) (hΩ : ∀ j : ℕ+, |Ω j| ≤ K0 * ((j : ℝ) + 2))
-    (c z : HomL2) : homNOmegaCLM hG hK0 hΩ (homEmbed_gen a p pb hpb c) z =
-      homPairOmega_gen ha hp hpb Ω c z := by
-  rw [homNOmegaCLM_apply]
-  unfold homPairOmega_gen
-  refine tsum_congr fun j => ?_
+/-- Termwise form of `N_Ω(ĉ-embedded, z) = ⟨c, Ωz⟩₀`. -/
+theorem homNOmega_embed_term {a p γ : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {Ω : ℕ+ → ℝ}
+    (c z : HomL2) (j : ℕ+) :
+    homNcoef a p Ω j * homEmbed_gen a p pb hpb c j * z j =
+      homLamDiag_gen ha (homPP hp hpb) c j * (Ω j : ℂ) * z j := by
   have hw : (homWt a p j : ℂ) ≠ 0 := by exact_mod_cast (homWt_pos a p j).ne'
   have hj : ((j : ℂ) + 2) ≠ 0 := by
     have : (0 : ℝ) < (j : ℝ) + 2 := by positivity
@@ -110,6 +107,25 @@ theorem homNOmega_embed_gen {a p γ K0 : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb
       homLamD_gen]
   push_cast
   field_simp
+
+/-- `N_Ω(ĉ-embedded, z) = ⟨c, Ωz⟩₀` (the pairing of `bpW:w4:lie`). -/
+theorem homNOmega_embed_gen {a p γ K0 : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {Ω : ℕ+ → ℝ}
+    (hG : HomGuard a p γ) (hK0 : 0 ≤ K0) (hΩ : ∀ j : ℕ+, |Ω j| ≤ K0 * ((j : ℝ) + 2))
+    (c z : HomL2) : homNOmegaCLM hG hK0 hΩ (homEmbed_gen a p pb hpb c) z =
+      homPairOmegaRaw_gen ha hp hpb Ω c z := by
+  rw [homNOmegaCLM_apply]
+  unfold homPairOmegaRaw_gen
+  exact tsum_congr fun j => homNOmega_embed_term (γ := γ) ha hp hpb c z j
+
+/-- **Carrier evidence from the guard (G)**. -/
+theorem homOmegaCarrier_of_guard {a p γ K0 : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb)
+    {Ω : ℕ+ → ℝ} (hG : HomGuard a p γ) (hK0 : 0 ≤ K0)
+    (hΩ : ∀ j : ℕ+, |Ω j| ≤ K0 * ((j : ℝ) + 2)) : HomOmegaCarrier ha hp hpb Ω := fun c z => by
+  have := homPairF_summable
+    (weightedDiagCLM (homNcoef a p Ω) (norm_homNcoef_le hG hK0 hΩ) (homEmbed_gen a p pb hpb c)) z
+  refine this.congr fun j => ?_
+  simp only [weightedDiagCLM_apply]
+  exact homNOmega_embed_term (γ := γ) ha hp hpb c z j
 
 theorem homNOmega_comm {a p γ K0 : ℝ} {Ω : ℕ+ → ℝ} (hG : HomGuard a p γ) (hK0 : 0 ≤ K0)
     (hΩ : ∀ j : ℕ+, |Ω j| ≤ K0 * ((j : ℝ) + 2)) (z zb : HomL2) :
@@ -176,13 +192,15 @@ theorem homLemma_lie_iv_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : 
         ((0 : Fin 2 → ℂ), (fun i => -(2 * Real.pi : ℂ)⁻¹ * homRtheta_gen ha hp hpb T i θ y z zb),
           (-Complex.I) • homEmbed_gen a p pb hpb (homRzb_gen T θ z zb),
           Complex.I • homEmbed_gen a p pb hpb (homRz_gen T θ z zb)) =
-      -homLieN_gen ha hp hpb ω Ω T θ y z zb := by
+      -homLieN_gen ha hp hpb (homOmegaCarrier_of_guard (γ := γ) ha hp hpb hG hK0 hΩ) ω T θ y z
+        zb := by
+  show _ = -homLieNRaw_gen ha hp hpb ω Ω T θ y z zb
   rw [homDN_apply]
   simp only [homPrZ, ContinuousLinearMap.coe_comp', Function.comp_apply,
     ContinuousLinearMap.coe_snd', map_smul, smul_apply, smul_eq_mul]
   rw [homNOmega_comm hG hK0 hΩ z, homNOmega_embed_gen ha hp hpb hG hK0 hΩ,
     homNOmega_embed_gen ha hp hpb hG hK0 hΩ]
-  unfold homLieN_gen
+  unfold homLieNRaw_gen
   have : ∑ k, (ω k : ℂ) * (-(2 * Real.pi : ℂ)⁻¹ * homRtheta_gen ha hp hpb T k θ y z zb) =
       -((2 * Real.pi : ℂ)⁻¹ * ∑ k, (ω k : ℂ) * homRtheta_gen ha hp hpb T k θ y z zb) := by
     rw [Finset.mul_sum, ← Finset.sum_neg_distrib]

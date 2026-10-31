@@ -25,7 +25,8 @@ number):
 * `homLie_Omega_mem` (i): `Ωz ∈ ℓ^N_{a,p-1}` with `‖Ωz‖_{a,p-1} ≤ (1+M₀)‖z‖_{a,p}`, and
   `homLie_pairing_summable_gen` (i): the pairings converge absolutely with the bound of
   `bpW:w4:pairing`;
-* `homLieSeq`, `homWeakBracket` and `homWeakBracket_eq_neg_lieN` (ii): `⟨⟨N,F⟩⟩ = -L_N F`;
+* `homLieSeqRaw`, `homWeakBracketRaw` and `homWeakBracketRaw_eq_neg_lieSeqRaw` (ii): `⟨⟨N,F⟩⟩ =
+-L_N F`;
 * the guard (G): `HomGuard a p γ`, its verification for the wave consumer `a = p = 1`
   (`homGuard_one_one`), and (iv): `homNOmega_le_gen` (`|N_Ω(z, \bar z)| ≤ (1+M₀) γ ‖z‖ ‖\bar z‖`).
 
@@ -81,28 +82,29 @@ theorem homLie_pairing_summable_gen {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 →
         mul_le_mul_of_nonneg_left hn (homNorm_nonneg hF)
     _ = _ := by ring
 
-/-- The pairing `⟨x, x'⟩₀ = ∑_j x_j x'_j` (no conjugation). -/
-def homPair0 (x x' : ℕ+ → ℂ) : ℂ := ∑' j, x j * x' j
+/-- INTERNAL totalized pairing `∑' j, x_j x'_j` (no conjugation); it returns `0` on divergent
+inputs. Use the source-domain `homPair0` (with summability evidence). -/
+def homPair0Raw (x x' : ℕ+ → ℂ) : ℂ := ∑' j, x j * x' j
 
-theorem homPair0_comm (x x' : ℕ+ → ℂ) : homPair0 x x' = homPair0 x' x := by
-  unfold homPair0
+theorem homPair0Raw_comm (x x' : ℕ+ → ℂ) : homPair0Raw x x' = homPair0Raw x' x := by
+  unfold homPair0Raw
   exact tsum_congr fun j => mul_comm _ _
 
-/-- The expression `L_N F = (1/2π)⟨ω, F_θ⟩ - i⟨F_z, Ωz⟩₀ + i⟨F_{\bar z}, Ω\bar z⟩₀`
+/-- INTERNAL totalized form of `L_N F = (1/2π)⟨ω, F_θ⟩ - i⟨F_z, Ωz⟩₀ + i⟨F_{\bar z}, Ω\bar z⟩₀`
 (blueprint `bpW:w4:lie`), with `Fθω = (1/2π)⟨ω, F_θ⟩` and the gradients as sequences. -/
-def homLieSeq (Fθω : ℂ) (Fz Fzb Ωz Ωzb : ℕ+ → ℂ) : ℂ :=
-  Fθω - Complex.I * homPair0 Fz Ωz + Complex.I * homPair0 Fzb Ωzb
+def homLieSeqRaw (Fθω : ℂ) (Fz Fzb Ωz Ωzb : ℕ+ → ℂ) : ℂ :=
+  Fθω - Complex.I * homPair0Raw Fz Ωz + Complex.I * homPair0Raw Fzb Ωzb
 
-/-- The weak bracket `⟨⟨N,F⟩⟩ = -(1/2π)⟨ω,F_θ⟩ + ⟨Ω\bar z, Ż⟩₀ + ⟨Ωz, \dot{\bar Z}⟩₀`,
+/-- INTERNAL totalized weak bracket `⟨⟨N,F⟩⟩ = -(1/2π)⟨ω,F_θ⟩ + ⟨Ω\bar z, Ż⟩₀ + ⟨Ωz, \dot{\bar
+Z}⟩₀`,
 `(Ż, \dot{\bar Z}) = (-iF_{\bar z}, iF_z)`. -/
-def homWeakBracket (Fθω : ℂ) (Fz Fzb Ωz Ωzb : ℕ+ → ℂ) : ℂ :=
-  -Fθω + homPair0 Ωzb (fun j => -Complex.I * Fzb j) + homPair0 Ωz (fun j => Complex.I * Fz j)
+def homWeakBracketRaw (Fθω : ℂ) (Fz Fzb Ωz Ωzb : ℕ+ → ℂ) : ℂ :=
+  -Fθω + homPair0Raw Ωzb (fun j => -Complex.I * Fzb j) + homPair0Raw Ωz (fun j => Complex.I * Fz j)
 
-/-- **`⟨⟨N,F⟩⟩ = -L_N F`** (blueprint `bpW:w4:lie` (ii)), valid whenever the two pairings are
-defined (here: whenever they are summable). -/
-theorem homWeakBracket_eq_neg_lieN {Fθω : ℂ} {Fz Fzb Ωz Ωzb : ℕ+ → ℂ} :
-    homWeakBracket Fθω Fz Fzb Ωz Ωzb = -homLieSeq Fθω Fz Fzb Ωz Ωzb := by
-  unfold homWeakBracket homLieSeq homPair0
+/-- Totalized identity (no carrier evidence; use `homWeakBracket_eq_neg_lieN`). -/
+theorem homWeakBracketRaw_eq_neg_lieSeqRaw {Fθω : ℂ} {Fz Fzb Ωz Ωzb : ℕ+ → ℂ} :
+    homWeakBracketRaw Fθω Fz Fzb Ωz Ωzb = -homLieSeqRaw Fθω Fz Fzb Ωz Ωzb := by
+  unfold homWeakBracketRaw homLieSeqRaw homPair0Raw
   have e1 : (∑' j, Ωzb j * (-Complex.I * Fzb j)) = -Complex.I * ∑' j, Fzb j * Ωzb j := by
     rw [← tsum_mul_left]
     exact tsum_congr fun j => by ring
@@ -111,6 +113,36 @@ theorem homWeakBracket_eq_neg_lieN {Fθω : ℂ} {Fz Fzb Ωz Ωzb : ℕ+ → ℂ
     exact tsum_congr fun j => by ring
   rw [e1, e2]
   ring
+
+/-- **The pairing `⟨x, x'⟩₀ = ∑_j x_j x'_j`** on the source domain: it requires the summability of
+the series (`homPair0_hasSum` is the convergent-sum characterization). -/
+def homPair0 (x x' : ℕ+ → ℂ) (_h : Summable fun j => x j * x' j) : ℂ := homPair0Raw x x'
+
+theorem homPair0_hasSum (x x' : ℕ+ → ℂ) (h : Summable fun j => x j * x' j) :
+    HasSum (fun j => x j * x' j) (homPair0 x x' h) := h.hasSum
+
+/-- **`L_N F`** (blueprint `bpW:w4:lie`) on the source domain: both pairings `⟨F_z, Ωz⟩₀`,
+`⟨F_{\bar z}, Ω\bar z⟩₀` are summable. -/
+def homLieSeq (Fθω : ℂ) (Fz Fzb Ωz Ωzb : ℕ+ → ℂ) (h1 : Summable fun j => Fz j * Ωz j)
+    (h2 : Summable fun j => Fzb j * Ωzb j) : ℂ :=
+  Fθω - Complex.I * homPair0 Fz Ωz h1 + Complex.I * homPair0 Fzb Ωzb h2
+
+theorem homSummable_weak_left {Fz Ωz : ℕ+ → ℂ} (h1 : Summable fun j => Fz j * Ωz j) (c : ℂ) :
+    Summable fun j => Ωz j * (c * Fz j) :=
+  (h1.mul_left c).congr fun j => by ring
+
+/-- **The weak bracket** `⟨⟨N,F⟩⟩` on the source domain (same evidence as `homLieSeq`). -/
+def homWeakBracket (Fθω : ℂ) (Fz Fzb Ωz Ωzb : ℕ+ → ℂ) (h1 : Summable fun j => Fz j * Ωz j)
+    (h2 : Summable fun j => Fzb j * Ωzb j) : ℂ :=
+  -Fθω + homPair0 Ωzb (fun j => -Complex.I * Fzb j) (homSummable_weak_left h2 (-Complex.I))
+    + homPair0 Ωz (fun j => Complex.I * Fz j) (homSummable_weak_left h1 Complex.I)
+
+/-- **`⟨⟨N,F⟩⟩ = -L_N F`** (blueprint `bpW:w4:lie` (ii)) under exactly the hypotheses making both
+pairings defined (summability of `F_z Ωz` and `F_{\bar z} Ω\bar z`). -/
+theorem homWeakBracket_eq_neg_lieN {Fθω : ℂ} {Fz Fzb Ωz Ωzb : ℕ+ → ℂ}
+    (h1 : Summable fun j => Fz j * Ωz j) (h2 : Summable fun j => Fzb j * Ωzb j) :
+    homWeakBracket Fθω Fz Fzb Ωz Ωzb h1 h2 = -homLieSeq Fθω Fz Fzb Ωz Ωzb h1 h2 :=
+  homWeakBracketRaw_eq_neg_lieSeqRaw
 
 /-- **The guard (G)**: `(j+2)/ω_{a,p}(j+2)² ≤ γ` for all `j ≥ 1`. -/
 def HomGuard (a p γ : ℝ) : Prop := ∀ j : ℕ+, ((j : ℝ) + 2) / homWt a p j ^ 2 ≤ γ

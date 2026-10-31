@@ -90,15 +90,15 @@ abbrev homRval {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (T : HomTaylor a p s)
     (z zb : HomL2) : ℂ :=
   homRval_gen ha hp (homPlusOne_le p) T θ y z zb
 
-abbrev homLieN {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (w : Fin 2 → ℝ) (W : ℕ+ → ℝ)
+abbrev homLieNRaw {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (w : Fin 2 → ℝ) (W : ℕ+ → ℝ)
     (T : HomTaylor a p s) (θ y : Fin 2 → ℂ) (z zb : HomL2) : ℂ :=
-  homLieN_gen ha hp (homPlusOne_le p) w W T θ y z zb
+  homLieNRaw_gen ha hp (homPlusOne_le p) w W T θ y z zb
 
 abbrev homNhat {a p s : ℝ} (R : HomTaylor a p s) (y : Fin 2 → ℂ) (z zb : HomL2) : ℂ :=
   homNhat_gen R y z zb
 
-abbrev homPairOmega {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (W : ℕ+ → ℝ) (c z : HomL2) : ℂ :=
-  homPairOmega_gen ha hp (homPlusOne_le p) W c z
+abbrev homPairOmegaRaw {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (W : ℕ+ → ℝ) (c z : HomL2) : ℂ :=
+  homPairOmegaRaw_gen ha hp (homPlusOne_le p) W c z
 
 abbrev homSent {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (M : HomOp) (i j : ℕ+) : ℂ :=
   homSent_gen ha hp (homPlusOne_le p) M i j
@@ -136,7 +136,10 @@ theorem homComp_first {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε : ℝ} (
   apply homComp_first_gen (pb := p + 1) <;>
     first | assumption | exact homPlusOne_le p | linarith
 
-theorem homLemma1_lipschitz (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε εL : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ)
+/-- CONDITIONAL helper (assumes the gates `HomMultBounds`, `HomMultLip`); the source-premise
+export is `homLemma1_lipschitz`. -/
+theorem homLemma1_lipschitz_of_gates (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε εL : ℝ} (hr : 0 < r) (hτ : 0 ≤
+  τ)
     (hα : 0 < α) (hM : 0 ≤ M) (hd : 0 ≤ d) (hεL : 0 ≤ εL) (hσ : 0 < σ) (hσs : σ < s)
     (hm₁ : HomMultBounds τ α w₁ W₁) (hm₂ : HomMultBounds τ α w₂ W₂)
     (hL : HomMultLip τ α M d w₁ W₁ w₂ W₂) (R₁ R₂ : HomTaylor a p s)
@@ -144,8 +147,8 @@ theorem homLemma1_lipschitz (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε εL : ℝ} (hr :
     (hXL : HomFieldBound ha hp r (εL * d) (R₁.homSub R₂)) :
     HomFieldBound ha hp r ((7 + 10 * homKS) * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d))
       ((homSolveTaylor hτ hα hσ hσs hm₁ R₁).homSub (homSolveTaylor hτ hα hσ hσs hm₂ R₂)) := by
-  apply homLemma1_lipschitz_gen (pb := p + 1) <;> first | assumption | exact homPlusOne_le p |
-      linarith
+  apply homLemma1_lipschitz_of_gates_gen (pb := p + 1) <;>
+    first | assumption | exact homPlusOne_le p | linarith
 
 theorem homNhat_lipschitz (ha : 0 ≤ a) (hp : 0 ≤ p) {r εL : ℝ} (hr : 0 < r) (hs : 0 < s)
     (R₁ R₂ : HomTaylor a p s) (hXL : HomFieldBound ha hp r (εL * d) (R₁.homSub R₂)) :
@@ -159,15 +162,64 @@ theorem norm_homLamD_mul_le {a p K0 : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hK0 : 
   apply norm_homLamD_mul_le_gen (pb := p + 1) <;> first | assumption | exact homPlusOne_le p |
       linarith
 
-theorem homLemma1_equation_all (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ)
+/-- CONDITIONAL helper (assumes the gate `HomMultBounds`); the source-premise export is
+`homLemma1_equation_all`. -/
+theorem homLemma1_equation_all_of_gates (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε : ℝ} (hr : 0 < r)
+    (hτ : 0 ≤ τ)
     (hα : 0 < α) (hσ : 0 < σ) (hσs : σ < s) (hm : HomMultBounds τ α w W) (hK0 : 0 ≤ K0)
     (hΩ : ∀ j : ℕ+, |W j| ≤ K0 * ((j : ℝ) + 2)) (R : HomTaylor a p s)
     (hX : HomFieldBound ha hp r ε R) {θ : Fin 2 → ℂ} (hθ : θ ∈ complexStrip 2 (s - σ))
     (y : Fin 2 → ℂ) (z zb : HomL2) :
-    homLieN ha hp w W (homSolveTaylor hτ hα hσ hσs hm R) θ y z zb + homNhat R y z zb =
-      homRval ha hp R θ y z zb - homCoeff R.a0 0 := by
-  exact homLemma1_equation_all_gen ha hp (homPlusOne_le p) (by linarith) hr hτ hα hσ hσs hm hK0 hΩ
-    R hX hθ y z zb
+    homLieN_gen ha hp (homPlusOne_le p)
+        (homOmegaCarrier_of_bound ha hp (homPlusOne_le p) (by linarith) hK0 hΩ) w
+        (homSolveTaylor hτ hα hσ hσs hm R) θ y z zb + homNhat R y z zb =
+      homRval ha hp R θ y z zb - homCoeff R.a0 0 :=
+  homLemma1_equation_all_of_gates_gen ha hp (homPlusOne_le p) (by linarith) hr hτ hα hσ hσs hm
+    hK0 hΩ R hX hθ y z zb
+
+section source
+
+variable {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 → ℝ} {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ}
+  {M0 Mω MΩ : ℝ}
+
+/-- **Lemma 1 (ii), all `(z, \bar z)`, `p_+ = p+1`** from the source premises. -/
+theorem homLemma1_equation_all (h : HomFreqHyp Par ω Ω M0 Mω MΩ) (hH : HomMelnikov τ α Par ω Ω)
+    (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ)
+    (hσs : σ < s) {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (R : HomTaylor a p s)
+    (hX : HomFieldBound ha hp r ε R) {θ : Fin 2 → ℂ} (hθ : θ ∈ complexStrip 2 (s - σ))
+    (y : Fin 2 → ℂ) (z zb : HomL2) :
+    homLieN_gen ha hp (homPlusOne_le p)
+        (homOmegaCarrier_of_bound ha hp (homPlusOne_le p) (by linarith)
+          (by linarith [h.consts_nonneg.1] : 0 ≤ 1 + M0) (homOmega_le h hξ)) (ω ξ)
+        (homSolveTaylor hτ hα hσ hσs (homMultBounds_of h hα hH hξ) R) θ y z zb
+      + homNhat R y z zb = homRval ha hp R θ y z zb - homCoeff R.a0 0 :=
+  homLemma1_equation_all_gen h hH ha hp (homPlusOne_le p) (by linarith) hr hτ hα hσ hσs hξ R hX
+    hθ y z zb
+
+/-- **Lemma 1 (iii), uniform bound, `p_+ = p+1`** from the source premises. -/
+theorem homLemma1_fieldBound (h : HomFreqHyp Par ω Ω M0 Mω MΩ) (hH : HomMelnikov τ α Par ω Ω)
+    (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ)
+    (hσs : σ < s) {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (R : HomTaylor a p s)
+    (hX : HomFieldBound ha hp r ε R) :
+    HomFieldBound ha hp r ((7 + 10 * homKS) * (waveBW τ σ * ε / α))
+      (homSolveTaylor hτ hα hσ hσs (homMultBounds_of h hα hH hξ) R) :=
+  homLemma1_fieldBound_gen h hH ha hp (homPlusOne_le p) hr hτ hα hσ hσs hξ R hX
+
+/-- **Lemma 1 (iii), Lipschitz bound, `p_+ = p+1`** from the source premises. -/
+theorem homLemma1_lipschitz (h : HomFreqHyp Par ω Ω M0 Mω MΩ) (hH : HomMelnikov τ α Par ω Ω)
+    (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε εL : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α)
+    (hεL : 0 ≤ εL) (hσ : 0 < σ) (hσs : σ < s) {ξ ζ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (hζ : ζ ∈ Par)
+    (R₁ R₂ : HomTaylor a p s) (hX₁ : HomFieldBound ha hp r ε R₁)
+    (hX₂ : HomFieldBound ha hp r ε R₂)
+    (hXL : HomFieldBound ha hp r (εL * ‖ξ - ζ‖) (R₁.homSub R₂)) :
+    HomFieldBound ha hp r
+      ((7 + 10 * homKS) * (waveBW τ σ / α * (εL + 2 * (Mω + MΩ) * ε / α) * ‖ξ - ζ‖))
+      ((homSolveTaylor hτ hα hσ hσs (homMultBounds_of h hα hH hξ) R₁).homSub
+        (homSolveTaylor hτ hα hσ hσs (homMultBounds_of h hα hH hζ) R₂)) :=
+  homLemma1_lipschitz_gen h hH ha hp (homPlusOne_le p) hr hτ hα hεL hσ hσs hξ hζ R₁ R₂ hX₁ hX₂
+    hXL
+
+end source
 
 theorem homXnorm_le_of_components {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {r K E0 : ℝ}
     (hr : 0 < r) (hK : 1 ≤ K) (hE0 : 0 ≤ E0) (T : HomTaylor a p s) {θ y : Fin 2 → ℂ}
@@ -185,13 +237,15 @@ theorem homF_compBounds {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ →
   apply homF_compBounds_gen (pb := p + 1) <;>
     first | assumption | exact homPlusOne_le p | linarith
 
-theorem homLemma1_fieldBound {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ} (ha : 0 ≤ a)
+/-- CONDITIONAL helper (assumes the gate `HomMultBounds`); the source-premise export is
+`homLemma1_fieldBound`. -/
+theorem homLemma1_fieldBound_of_gates {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ} (ha : 0 ≤ a)
     (hp : 0 ≤ p) {r ε : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) (hσs : σ < s)
     (hm : HomMultBounds τ α w W) (R : HomTaylor a p s) (hX : HomFieldBound ha hp r ε R) :
     HomFieldBound ha hp r ((7 + 10 * homKS) * (waveBW τ σ * ε / α))
       (homSolveTaylor hτ hα hσ hσs hm R) := by
-  apply homLemma1_fieldBound_gen (pb := p + 1) <;> first | assumption | exact homPlusOne_le p |
-      linarith
+  apply homLemma1_fieldBound_of_gates_gen (pb := p + 1) <;>
+    first | assumption | exact homPlusOne_le p | linarith
 
 theorem homLam_comm_homTQ {a p τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p)
     (hm : HomMultBounds τ α w W) (k : Fin 2 → ℤ) :
@@ -253,7 +307,7 @@ theorem homLemma1_equation {r ε : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hr : 0 < 
     (hX : HomFieldBound ha hp r ε R) {θ : Fin 2 → ℂ} (hθ : θ ∈ complexStrip 2 (s - σ))
     (y : Fin 2 → ℂ) {S : Finset ℕ+} {z zb : HomL2} (hz : ∀ j ∉ S, z j = 0)
     (hzb : ∀ j ∉ S, zb j = 0) :
-    homLieN ha hp w W (homSolveTaylor hτ hα hσ hσs hm R) θ y z zb + homNhat R y z zb =
+    homLieNRaw ha hp w W (homSolveTaylor hτ hα hσ hσs hm R) θ y z zb + homNhat R y z zb =
       homRval ha hp R θ y z zb - homCoeff R.a0 0 :=
   homLemma1_equation_gen ha hp (homPlusOne_le p) hr hτ hα hσ hσs hm R hX hθ y hz hzb
 
@@ -301,7 +355,7 @@ theorem homLemma_lie_iv {γ K0 : ℝ} {Ω : ℕ+ → ℝ} (hG : HomGuard a p γ)
         ((0 : Fin 2 → ℂ), (fun i => -(2 * Real.pi : ℂ)⁻¹ * homRtheta ha hp T i θ y z zb),
           (-Complex.I) • homEmbed (a := a) (p := p) (homRzb T θ z zb),
           Complex.I • homEmbed (a := a) (p := p) (homRz T θ z zb)) =
-      -homLieN ha hp ω Ω T θ y z zb :=
+      -homLieNRaw ha hp ω Ω T θ y z zb :=
   homLemma_lie_iv_gen hG hK0 hΩ ω ha hp (homPlusOne_le p) T θ y z zb
 
 theorem homDiagonal_bound (a p : ℝ) (A : HomOp) (i : ℕ+) :

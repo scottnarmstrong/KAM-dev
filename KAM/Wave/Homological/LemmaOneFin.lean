@@ -16,7 +16,7 @@ import Mathlib.Tactic.Positivity
 Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
 being built.
 
-* `homPairOmega_gen ha hp hpb W c z = ∑ (D ĉ)_j Ω_j z_j`, the pairing `⟨c, Ωz⟩₀` of `L_N`
+* `homPairOmegaRaw_gen ha hp hpb W c z = ∑ (D ĉ)_j Ω_j z_j`, the pairing `⟨c, Ωz⟩₀` of `L_N`
     (`bpW:w4:lie`);
 * for `z, z'` supported in a finite set `S`, the pairings are finite sums over `S`
   (`homPairRep_fin_gen`, `homPairRep_op_fin_gen`, `homPairOmega_fin_gen`,
@@ -30,11 +30,30 @@ namespace KAM.Wave
 
 open KAM
 
-/-- `⟨c, Ωz⟩₀ = ∑_j (D ĉ)_j Ω_j z_j` in the representative model. -/
-def homPairOmega_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (W : ℕ+ → ℝ) (c z :
+/-- INTERNAL totalized `∑' j, (D ĉ)_j Ω_j z_j` (zero on divergent series); use the source-domain
+`homPairOmega_gen`, which carries `HomOmegaCarrier`. -/
+def homPairOmegaRaw_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (W : ℕ+ → ℝ) (c z :
     HomL2) :
     ℂ :=
   ∑' j, homLamDiag_gen ha (homPP hp hpb) c j * (W j : ℂ) * z j
+
+/-- **Carrier evidence** for the pairing `⟨c, Ωz⟩₀`: the series `∑_j (D ĉ)_j Ω_j z_j` converges for
+all `c, z ∈ ℓ^N_{a,p}` (true under `|Ω_j| ≤ K₀(j+2)`, `1 ≤ p + p_+`, `homOmegaCarrier_of_bound`, or
+under the guard (G), `homOmegaCarrier_of_guard`). -/
+def HomOmegaCarrier {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (W : ℕ+ → ℝ) : Prop :=
+  ∀ c z : HomL2, Summable fun j => homLamDiag_gen ha (homPP hp hpb) c j * (W j : ℂ) * z j
+
+/-- **The pairing `⟨c, Ωz⟩₀`** on the source domain (`bpW:w4:lie`): defined under the carrier
+evidence `HomOmegaCarrier`; `homPairOmega_hasSum_gen` is the convergent-sum characterization. -/
+def homPairOmega_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {W : ℕ+ → ℝ}
+    (_hC : HomOmegaCarrier ha hp hpb W) (c z : HomL2) : ℂ :=
+  homPairOmegaRaw_gen ha hp hpb W c z
+
+theorem homPairOmega_hasSum_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb)
+    {W : ℕ+ → ℝ} (hC : HomOmegaCarrier ha hp hpb W) (c z : HomL2) :
+    HasSum (fun j => homLamDiag_gen ha (homPP hp hpb) c j * (W j : ℂ) * z j)
+      (homPairOmega_gen ha hp hpb hC c z) :=
+  (hC c z).hasSum
 
 /-- The entries `S(M)_ij = D_i M̂_ij` of `ΛM`. -/
 def homSent_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (M : HomOp) (i j : ℕ+) : ℂ :=
@@ -68,7 +87,8 @@ theorem homPairRep_op_fin_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb 
 theorem homPairOmega_fin_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (W : ℕ+ → ℝ) (c :
     HomL2)
     {z : HomL2} {S : Finset ℕ+} (hz : ∀ j ∉ S, z j = 0) :
-    homPairOmega_gen ha hp hpb W c z = ∑ j ∈ S, homLamDiag_gen ha (homPP hp hpb) c j * (W j : ℂ) *
+    homPairOmegaRaw_gen ha hp hpb W c z = ∑ j ∈ S, homLamDiag_gen ha (homPP hp hpb) c j * (W j : ℂ)
+      *
         z j :=
   tsum_eq_sum fun j hj => by rw [hz j hj, mul_zero]
 
@@ -76,7 +96,7 @@ theorem homPairOmega_op_fin_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hp
     (M :
     HomOp)
     {z z' : HomL2} {S : Finset ℕ+} (hz : ∀ j ∉ S, z j = 0) (hz' : ∀ j ∉ S, z' j = 0) :
-    homPairOmega_gen ha hp hpb W (M z) z' =
+    homPairOmegaRaw_gen ha hp hpb W (M z) z' =
       ∑ i ∈ S, ∑ j ∈ S, (W i : ℂ) * homSent_gen ha hp hpb M i j * z j * z' i := by
   rw [homPairOmega_fin_gen ha hp hpb W _ hz']
   refine Finset.sum_congr rfl fun i _ => ?_

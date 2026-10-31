@@ -46,7 +46,8 @@ theorem hasFDerivAt_smoothDisp {w : F} (hw : w ∈ U) {t : ℝ} (ht : t ∈ Icc 
   have hZc : ContinuousOn (fun σ => Z (φ σ w)) (Icc (-1 : ℝ) 1) :=
     continuousOn_smooth_integrand h hZ hw
   have hmeas : ∀ x ∈ U, AEStronglyMeasurable (fun σ => Z (φ σ x)) (volume.restrict (Ι 0 t)) :=
-    fun x hx => ((continuousOn_smooth_integrand h hZ hx).mono (uIoc_subset_Icc ht)).aestronglyMeasurable
+    fun x hx => ((continuousOn_smooth_integrand h hZ hx).mono (uIoc_subset_Icc
+      ht)).aestronglyMeasurable
       measurableSet_uIoc
   have hG : ContinuousOn (fun σ => (fderiv ℂ Z (φ σ w)).comp (fderiv ℂ (φ σ) w))
       (Icc (-1 : ℝ) 1) :=
@@ -99,7 +100,8 @@ theorem norm_fderiv_smoothDisp_le {w : F} {ρ : ℝ} (hρ : 0 < ρ) (hball : bal
     (differentiableOn_smoothDisp h hZ hb ht)
     (fun _ hz => norm_smoothDisp_le h hb hz ht) hball
 
-/-- **`Dφ^t = I + ι ∘ DΨ^t`**: the derivative of the flow gains the smoothing (`bpW:w5:flow` (ii)). -/
+/-- **`Dφ^t = I + ι ∘ DΨ^t`**: the derivative of the flow gains the smoothing (`bpW:w5:flow` (ii)).
+-/
 theorem fderiv_holoFlow_smooth {w : F} (hw : w ∈ U) {t : ℝ} (ht : t ∈ Icc (-1 : ℝ) 1) :
     fderiv ℂ (holoFlow (smoothField ι Z) t) w =
       ContinuousLinearMap.id ℂ F + ι.comp (fderiv ℂ (smoothDisp ι Z t) w) := by

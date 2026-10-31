@@ -37,9 +37,10 @@ open KAM
 
 variable {a p pb s σ τ α M d : ℝ} {w₁ w₂ : Fin 2 → ℝ} {W₁ W₂ : ℕ+ → ℝ}
 
-/-- **Lemma 1 (iii), Lipschitz bound**: `|X_{F(ξ)} - X_{F(ζ)}|_r ≤ C₁ B^W_σ (ε^L + 2Mε/α) d/α`
-on `D(s-σ,r)`, `C₁ = 7 + 10K_S`, `d = |ξ-ζ|`. -/
-theorem homLemma1_lipschitz_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε εL : ℝ} (hr : 0 < r)
+/-- CONDITIONAL helper for Lemma 1 (iii), Lipschitz bound: assumes the gates `HomMultBounds`,
+`HomMultLip`. The source-premise export is `homLemma1_lipschitz_gen`. -/
+theorem homLemma1_lipschitz_of_gates_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε εL : ℝ} (hr
+  : 0 < r)
     (hτ
     : 0 ≤ τ)
     (hα : 0 < α) (hM : 0 ≤ M) (hd : 0 ≤ d) (hεL : 0 ≤ εL) (hσ : 0 < σ) (hσs : σ < s)
@@ -104,6 +105,24 @@ theorem homNhatTaylor_sub_gen (hs : 0 < s) (R₁ R₂ : HomTaylor_gen a p pb s) 
     refine homOp_ext_entries fun i j => ?_
     simp only [kamEntry_sub', kamEntry_diagCLM]
     split_ifs <;> simp
+
+/-- **Lemma 1 (iii), Lipschitz bound** from the source premises: `|X_{F(ξ)} - X_{F(ζ)}|_r ≤
+C₁ B^W_σ (ε^L + 2Mε/α) d/α` on `D(s-σ,r)`, `C₁ = 7 + 10K_S`, `M = M_ω + M_Ω`, `d = |ξ-ζ|`. -/
+theorem homLemma1_lipschitz_gen {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 → ℝ}
+    {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ} {M0 Mω MΩ : ℝ} (h : HomFreqHyp Par ω Ω M0 Mω MΩ)
+    (hH : HomMelnikov τ α Par ω Ω) (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε εL : ℝ}
+    (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α) (hεL : 0 ≤ εL) (hσ : 0 < σ) (hσs : σ < s)
+    {ξ ζ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (hζ : ζ ∈ Par) (R₁ R₂ : HomTaylor_gen a p pb s)
+    (hX₁ : HomFieldBound_gen ha hp hpb r ε R₁) (hX₂ : HomFieldBound_gen ha hp hpb r ε R₂)
+    (hXL : HomFieldBound_gen ha hp hpb r (εL * ‖ξ - ζ‖) (R₁.homSub R₂)) :
+    HomFieldBound_gen ha hp hpb r
+      ((7 + 10 * homKS) * (waveBW τ σ / α * (εL + 2 * (Mω + MΩ) * ε / α) * ‖ξ - ζ‖))
+      ((homSolveTaylor_gen hτ hα hσ hσs (homMultBounds_of h hα hH hξ) R₁).homSub
+       (homSolveTaylor_gen hτ hα hσ hσs (homMultBounds_of h hα hH hζ) R₂)) :=
+  homLemma1_lipschitz_of_gates_gen ha hp hpb hr hτ hα
+    (by linarith [h.consts_nonneg.2.1, h.consts_nonneg.2.2]) (norm_nonneg _) hεL hσ hσs
+    (homMultBounds_of h hα hH hξ) (homMultBounds_of h hα hH hζ) (homMultLip_of h hα hH hξ hζ)
+    R₁ R₂ hX₁ hX₂ hXL
 
 /-- **Lemma 1 (iv), Lipschitz bound for `N̂`**: `|X_{N̂(ξ)} - X_{N̂(ζ)}|_r ≤ 2 ε^L d`. -/
 theorem homNhat_lipschitz_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r εL : ℝ} (hr : 0 < r) (hs
