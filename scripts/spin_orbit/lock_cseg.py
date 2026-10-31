@@ -87,6 +87,18 @@ _DEC = re.compile(r"^theorem (\S+)_dec : dyadicTerms \(2 \* (\d+)\) (\S+)\.scale
 _SH = re.compile(r"^theorem (\S+) : (\S+)\.shardRange\.all (.*) = true := by$")
 
 
+def _split2(t):
+    """the two top-level parenthesised arguments `(ea) (eb)` of a string"""
+    d, cut = 0, None
+    for i, ch in enumerate(t):
+        d += ch == "("
+        d -= ch == ")"
+        if d == 0 and ch == ")":
+            cut = i + 1
+            break
+    return t[:cut].strip(), t[cut:].strip()
+
+
 def _groups(n):
     return [list(range(i, min(i + SH_GROUP, n))) for i in range(0, n, SH_GROUP)]
 
@@ -115,18 +127,36 @@ def _write_sharded(self, rel, imports, title, doc, body, heavy=False, ns=None):
             return _write_dec(self, rel, imports, title, doc, md, heavy, ns)
     text = "\n".join(body)
 
+    pre = []
+
     def sub(mm):
         ind, adv, eaeb, hpre, nm = mm.group(1), mm.group(2), " ".join(mm.group(3).split()), mm.group(5), mm.group(6)
         n = NSHARDS[adv]
         hg = "(fun _ h => nomatch h)"
         for gi in reversed(range(len(_groups(n)))):
             hg = "(List.forall_mem_cons.2 ⟨%sG%d, %s⟩)" % (nm, gi, hg)
-        ls = wrap(("checkPackedSp_of_groups %s %s %s %s (by decide +kernel) %s"
-                   % (adv, eaeb, _group_lit(n), hpre, hg)).split(" "), ind + "    ")
+        # the coverage and the group facts as theorems of their own (inline, the elaborator unfolds the shard
+        # check: maximum recursion depth, measured)
+        G = _group_lit(n)
+        pre.extend(["theorem %s_cover :" % nm] + wrap(("∀ s ∈ %s.shardRange, ∃ g ∈ %s, s ∈ g := by" % (adv, G)
+                                                        ).split(" "), "    ") + ["  decide +kernel", ""])
+        ea, eb = _split2(eaeb)
+        pre.extend(["theorem %s_groups :" % nm] + wrap(("∀ g ∈ %s, g.all (checkShardAt %s %s %s) = true :="
+                                                         % (G, adv, ea, eb)).split(" "), "    ")
+                   + wrap(hg.split(" "), "  ") + [""])
+        ls = wrap(("checkPackedSp_of_groups %s %s %s %s %s_cover %s_groups"
+                   % (adv, eaeb, G, hpre, nm, nm)).split(" "), ind + "    ")
         ls[0] = ind + ls[0].lstrip()
         return "\n".join(ls)
     text, nsub = _GRP.subn(sub, text)
-    out = text.split("\n") if nsub else body
+    if nsub:
+        out = text.split("\n")
+        # the new theorems go before the theorem that uses them
+        c = next(i for i, l in enumerate(out) if "checkPackedSp_of_groups" in l)
+        k = max(i for i in range(c) if out[i].startswith("theorem "))
+        out = out[:k] + pre + out[k:]
+    else:
+        out = body
     return _tree_write(self, rel, imports, title, doc, out, heavy=heavy, ns=ns)
 
 
@@ -458,6 +488,19 @@ class LockEmitter(CE.Emitter):
             return None
         op = self.led_ops[slot]
         return chain, slot, op[1], op[2]
+
+    def emit_product(self, k, m, cfg, key, a, b, imps):
+        """the landed `emit_product` with its two operand polynomials named once (`Prod/M{k}Arg`): every statement of
+        the product mentions two constants, so the elaborator never re-unfolds the operand lookups (a 7-fold inline
+        operand made it hit the recursion and heartbeat limits, measured on M0)."""
+        nm = self.memo_name(k)
+        body = []
+        for s_, t in (("a", a), ("b", b)):
+            body += ["/-- Operand %s of the packed product %d. -/" % (s_, k), "def %s%s : CertPoly %s :=" % (nm, s_, CE.TY)]
+            body += wrap(t.split(" "), "  ") + [""]
+        arg = self.tree.write("Prod/M%dArg" % k, self.base + list(imps), "Operands of the packed product %d" % k,
+                              "The two operand polynomials, named once.", body)
+        return CE.Emitter.emit_product(self, k, m, cfg, key, nm + "a", nm + "b", list(imps) + [arg])
 
     def emit_products(self, operand_of):
         self.prod_done = {}
