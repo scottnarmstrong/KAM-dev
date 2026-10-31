@@ -29,7 +29,7 @@ they mention (+ `SoField` for `lunar_sync_lock`) and their provider.
 LOCK-DATA (`/root/code/KAM-inp-lockdata`) builds against `KAM/SpinOrbit/Lock/{Assembly,PO/Orbit,Confine}`,
 so the landed `KAM.SpinOrbit.Lock.{IsSyncOrbit,lunarSyncOrbit,libAction,lunarOmega}` are kept unchanged.
 Phase B providers will bridge: `IsSyncOrbit` frozen ↔ landed by `soField_eq` (Iff, then funext/propext),
-hence `lunarSyncOrbit` equal; `libAction` and `lunarOmega` are syntactically identical (`rfl`).
+hence `lunarSyncOrbit` equal (existence/uniqueness/bound from the renamed `Lock.syncOrbit_*`); `libAction` and `lunarOmega` are syntactically identical (`rfl`).
 
 ## Checks
 - Build: this worktree has no `.lake/build` (brief: no new build here). Each of the 12 modules was compiled
@@ -40,15 +40,21 @@ hence `lunarSyncOrbit` equal; `libAction` and `lunarOmega` are syntactically ide
   pre-existing hashes reproduced unchanged.
 - `scripts/check_frozen_anchors.py --root . --manifest manifest/frozen-anchors.json`: `FROZEN-ANCHOR GUARD OK`.
 - `scripts/lint_sources.sh`: `check_lean_modules: PASS`, guard OK; **fails** on
-  1. `DRAFT_SORRY anchor KAM.SpinOrbit.lunarSyncOrbit_{spec,unique,bound} used outside its frozen file`:
-     a short-name match on the landed `KAM.SpinOrbit.Lock.lunarSyncOrbit_*` in `Lock/PO/Orbit.lean`
-     (136, 147, 148, 213, 215) and `Lock/Assembly.lean` (325, 327). Different declarations (Lock
-     namespace, files do not import the frozen ones). Renaming would touch LOCK-DATA's modules, so not
-     done; disappears at seal (PROVED), or rename after LOCK-DATA lands — orchestrator's call.
+  1. (fixed in the rerun) the short-name clash with the landed Lock theorems; see "Rename" below.
+     Rerun after the rename: `check_lean_modules: PASS`, `FROZEN-ANCHOR GUARD OK`, no anchor-use finding.
   2. `KAM.lean is out of date` (generated root; rule 10, not edited — needs `gen_root_imports.py`).
   3. its elaborated-hash step needs a lake build (none here); replaced by the ABI check above.
 - `#print axioms`: not applicable in Phase A (bodies are `sorry`).
 
 ## Uncertainties / errata / deviations
 - No suspected errata in the pinned source. Deviation: only the added `open Real` line.
-- The frozen theorems `lunarSyncOrbit_*` share short names with landed Lock theorems (lint item 1).
+
+## Rename of landed code (deviation, requested by the sub-orchestrator)
+To clear the lint's draft-anchor short-name check, the landed non-frozen helpers were renamed, statements
+unchanged: `KAM.SpinOrbit.Lock.lunarSyncOrbit_spec` → `KAM.SpinOrbit.Lock.syncOrbit_spec`,
+`…lunarSyncOrbit_unique` → `…syncOrbit_unique`, `…lunarSyncOrbit_bound` → `…syncOrbit_bound`
+(declarations, uses and docstrings in `KAM/SpinOrbit/Lock/PO/Orbit.lean` and `KAM/SpinOrbit/Lock/Assembly.lean`;
+no other KAM uses; no clash in KAM or Mathlib). Both modules recompiled the scratch way (capped): no output,
+4.5 s / 1.66 GB and 7.7 s / 1.73 GB. Nothing imports them except the generated root. **Note for LOCK-DATA:**
+its worktree has its own copies of these two files using the old names; the merge must take the rename.
+Phase B providers bridge from the new names.
