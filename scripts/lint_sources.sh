@@ -54,13 +54,23 @@ fi
 # Proof escapes past the kernel and metaprogramming that can add declarations, in code only (comments and strings
 # may mention them). Found missing by the guard mutation suite (I-GUARDS, 2026-10-29: 18 accepted mutations).
 # Providers may be imported only by a frozen anchor and the generated root KAM.lean (ruling 2026-10-29 15:35),
-# whose generated parts KAM/Root/*.lean count as the root (2026-10-30, owner ruling: split the root).
+# whose generated parts KAM/Root/*.lean count as the root (2026-10-30, owner ruling: split the root). The roots
+# <Lib>.lean of the certificate applications and their parts <Lib>/** count as roots too (D51,
+# scripts/build_roots.json); no module imports any root or part.
 escapes=$(lean_files | python3 -I -c '
 import sys, re, importlib.util
 spec = importlib.util.spec_from_file_location("m", sys.argv[1]); m = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(m)
 root = sys.argv[2]
 import json
+apps = [a["lib"] for a in json.load(open(root + "/scripts/build_roots.json"))["applications"]]
+def is_root(rel):
+    return (rel == "KAM.lean" or rel.startswith("KAM/Root/")
+            or any(rel == lib + ".lean" or rel.startswith(lib + "/") for lib in apps))
+def is_app_root(rel):
+    return any(rel == lib + ".lean" for lib in apps)
+app_import = re.compile(r"\s*(public\s+)?(meta\s+)?import\s+(" + "|".join(map(re.escape, apps)) + r")(\.\S+)?\s*$") \
+    if apps else None
 drafts = [(a["export"], a["export"].split(".")[-1])
           for a in json.load(open(root + "/manifest/frozen-anchors.json"))["anchors"] if a.get("state") == "DRAFT_SORRY"]
 bad = [
@@ -86,16 +96,18 @@ for f in sys.stdin.read().split():
         for pat, label in bad:
             if re.search(pat, line):
                 print(f"{rel}:{i}: {label}")
-        if drafts and not (rel.startswith("KAM/Frozen/") or rel.startswith("KAM/Provider/") or rel == "KAM.lean"
-                           or rel.startswith("KAM/Root/")):
+        if drafts and not (rel.startswith("KAM/Frozen/") or rel.startswith("KAM/Provider/") or is_root(rel)):
             for full, short in drafts:
                 if re.search(r"(?<![\w.])(" + re.escape(full) + "|" + re.escape(short) + r")(?![\w])", line):
                     print(f"{rel}:{i}: DRAFT_SORRY anchor {full} used outside its frozen file and provider")
         if re.match(r"\s*(public\s+)?(meta\s+)?import\s+KAM\.Provider\.", line) and not (
-                rel.startswith("KAM/Frozen/") or rel == "KAM.lean" or rel.startswith("KAM/Root/")):
-            print(f"{rel}:{i}: provider imported outside its frozen anchor and the generated root")
+                rel.startswith("KAM/Frozen/") or is_root(rel)):
+            print(f"{rel}:{i}: provider imported outside its frozen anchor and the generated roots")
         if re.match(r"\s*(public\s+)?(meta\s+)?import\s+KAM\.Root(\.|\s|$)", line) and rel != "KAM.lean":
             print(f"{rel}:{i}: generated root part imported outside KAM.lean")
+        mm = app_import.match(line) if app_import else None
+        if mm and not (is_app_root(rel) and rel == mm.group(3) + ".lean" and mm.group(4)):
+            print(f"{rel}:{i}: application root or part imported outside its own root")
 ' "$project_root/scripts/check_lean_modules.py" "$project_root")
 if [ -n "$escapes" ]; then
   printf '%s\n%s\n' 'forbidden proof escapes or provider imports in code:' "$escapes" >&2

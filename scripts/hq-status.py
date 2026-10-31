@@ -469,7 +469,8 @@ AREAS = [
     ('Sharp', 'Sharp explicit a-posteriori KAM: Newton engine, torsion route, step, g1_sharp, parameter boxes'),
     ('CertificateSharp', 'The sharp KAM certifier: engine-agnostic checker, rational constants, soundness'),
     ('Sharp2', 'v2 sharp a-posteriori KAM: route A, modified step (route B), l1 entry, small-divisor constants, PlasmaLean example'),
-    ('Root', 'Generated parts of the root import file KAM.lean (scripts/gen_root_imports.py)'),
+    ('Root', 'Generated parts of the core root KAM.lean (scripts/gen_root_imports.py; the application roots '
+             '`<Lib>.lean` and their parts live beside it, D51)'),
     ('Certificate', 'Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies)'),
     ('SpinOrbit', "Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs, the Moon's band "
                   'theorems, the synchronous lock in `Lock/`); its generated certificate data are the next row'),
@@ -496,7 +497,37 @@ def section_areas():
         st = [file_stats(f) for f in lean_files([p]) if not any(s in f.parents for s in subs)]
         link = f'[`KAM/{d}/`](KAM/{d})'
         out.append(f'| {link} | {desc} | {len(st)} | {sum(x[0] for x in st):,} | {sum(x[2] for x in st)} |')
-    return '\n'.join(out)
+    return '\n'.join(out + [''] + section_applications())
+
+
+def section_applications():
+    """D51: one row per certificate application (an opt-in Lake library, scripts/build_roots.json), with its
+    hand-written Lean and its generated certificate data counted apart. The area rows above count every module,
+    whichever library builds it."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location('gen_root_imports', root / 'scripts' / 'gen_root_imports.py')
+    roots = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(roots)
+    cfg = roots.load_config()
+    lib_of, _errors = roots.classify(cfg)
+    core = cfg['core']['lib']
+    out = ['**Certificate applications** (decision D51): opt-in libraries, not built by a plain `lake build` (which '
+           'builds the core library `KAM`, every core theorem); each builds with `lake build <Lib>` through the '
+           'capped driver `scripts/prebuild_heavy.py --lib <Lib>`. Modules are assigned in '
+           '[`scripts/build_roots.json`](scripts/build_roots.json).', '',
+           '| Library | Content | Modules | Hand-written lines | Generated data lines | Theorems |',
+           '|---|---|---|---|---|---|']
+    core_mods = [m for m, lib in lib_of.items() if lib == core]
+    cs = [file_stats(roots.path_of(m)) for m in core_mods]
+    out.append(f'| `{core}` (default) | The core: every module not assigned to an application | {len(cs)} | '
+               f'{sum(s[0] for s in cs):,} | — | {sum(s[2] for s in cs)} |')
+    for app in cfg['applications']:
+        files = [roots.path_of(m) for m, lib in lib_of.items() if lib == app['lib']]
+        hand = [file_stats(f) for f in files if not is_generated(f)]
+        gen = [file_stats(f) for f in files if is_generated(f)]
+        out.append(f'| [`{app["lib"]}`]({app["lib"]}.lean) | {app.get("title", "—")} | {len(files)} | '
+                   f'{sum(s[0] for s in hand):,} | {sum(s[0] for s in gen):,} | {sum(s[2] for s in hand + gen)} |')
+    return out
 
 
 def pane_state(session):

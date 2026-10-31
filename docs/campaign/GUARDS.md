@@ -15,7 +15,7 @@ measured behaviour. Last measured 2026-10-29 on branch `inp-iguards` (main at `2
 | errata | `scripts/render_errata.py --check` | `docs/ERRATA-AND-DEVIATIONS.md` matches `docs/errata/ledger.json` |
 | module system | `scripts/check_lean_modules.py` | every `.lean` file is a module (`module` first token), no symlinked `.lean`, line limit 10 000, comparator configs |
 | frozen anchors | `scripts/check_frozen_anchors.py` against `manifest/frozen-anchors.json` | manifest schema; whole-file hash of definition anchors; prefix and suffix hashes and marker order of theorem anchors; `DRAFT_SORRY` body is exactly `by sorry`; `SEALED` body is a short assembly of the provider export; one declaration per frozen file, not private, name matches export; implementation modules; definition closure hashes; the `DRAFT_SORRY` quarantine (no other module imports or names a `DRAFT_SORRY` anchor or its provider, directly or transitively); no `sorry`/`admit` anywhere except the authorized body; no `axiom` command |
-| ABI hashes | `scripts/abi_hashes.py --check` (needs the build) | sha256 of `#print` (definitions) or `#check @` (theorems) under `pp.all`, against `abi_sha256` |
+| ABI hashes | `scripts/abi_hashes.py --check` (needs the build; core anchors by default, application anchors with `--lib <Lib>`, D51) | sha256 of `#print` (definitions) or `#check @` (theorems) under `pp.all`, against `abi_sha256` |
 | kernel replay | `scripts/kernel_replay.sh` (new) | every constant is re-checked by the kernel, so a declaration added with `debug.skipKernelTC`, `addDecl` or a custom elaborator is caught |
 
 `scripts/land-branch.sh` runs `gen_root_imports`, `lake build` and `lint_sources.sh` (which includes the anchor guard and

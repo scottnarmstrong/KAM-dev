@@ -293,6 +293,15 @@ def mutations() -> list[tuple[str, str, str, bool, object]]:
         lambda t: (t.write("comparator.json", json.dumps({
             "challenge_module": "KAM.Canonical.Adjoint", "solution_module": "KAM.Canonical.Setting",
             "theorem_names": [], "permitted_axioms": ["propext"], "enable_nanoda": True})),))
+    # D51: certificate applications are opt-in libraries (scripts/build_roots.json).
+    add("k22", "new certificate-data module claimed by no application (would fall into the core)", "build roots",
+        lambda t: t.write("KAM/SpinOrbit/Data/MutK22.lean", module_file("theorem k22 : True := trivial\n")))
+    add("k23", "core module imports an application module", "build roots",
+        lambda t: t.edit(PLAIN, "public import KAM.Canonical.Setting",
+                         "public import KAM.Canonical.Setting\npublic import KAM.SpinOrbit.Data.Format"))
+    add("k24", "module imports an application root", "application root",
+        lambda t: t.edit(PLAIN, "public import KAM.Canonical.Setting",
+                         "public import KAM.Canonical.Setting\nimport KAMLunarBand"))
     return M
 
 
@@ -307,6 +316,8 @@ LAYERS = [
     (r"FROZEN-ANCHOR GUARD FAILED", "check_frozen_anchors"),
     (r"Lean files under KAM/Frozen without any manifest anchor", "lint:empty-manifest"),
     (r"ABI DRIFT", "abi_hashes"),
+    (r"build roots:", "gen_root_imports:build-roots"),
+    (r"application root or part imported", "lint:application-root"),
 ]
 
 
