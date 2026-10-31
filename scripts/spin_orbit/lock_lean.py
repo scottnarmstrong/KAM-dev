@@ -168,7 +168,10 @@ def main(gdir, root):
                "Embedding, witnesses, `π` enclosure and the two advice books.\n" + GEN, body)
     emit_cert(tree, c, g)
     emit_witness(tree, c, g)
+    only = [x for x in os.environ.get("LOCK_ONLY", "").split(",") if x]
     for rel, text in sorted(tree.files.items()):
+        if only and rel not in only:
+            continue
         os.makedirs(os.path.dirname(tree.path(rel)), exist_ok=True)
         with open(tree.path(rel), "w") as f:
             f.write(text)
