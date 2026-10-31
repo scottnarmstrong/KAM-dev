@@ -10465,6 +10465,492 @@
     "frozen_paths": [],
     "audit_paths": []
    }
+  },
+  {
+   "id": "spinorbit.lock.IsSyncOrbit.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner approval of the lock freeze 'exactly as §1' of docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md with the recommended answers of §2 (Q1-Q8) and literals 8/65, 17/1000000, 27/200000, 129/10000, 21/100, 26/1000 (D49); Moon-lock route D45; docs/DECISIONS.md D45, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@da762768 (inp) docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md revision 3 §1",
+    "range": "FREEZE-PROPOSAL-LOCK §1.1 (definitions)"
+   },
+   "contract": {
+    "id": "spinorbit.lock.IsSyncOrbit",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Defs/IsSyncOrbit.lean",
+   "export": "KAM.SpinOrbit.IsSyncOrbit",
+   "split_policy": {
+    "source_group": "spinorbit.lock.IsSyncOrbit",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D45, D49"
+   },
+   "abi_sha256": "4875c0ccc6b901683b276df2736eaf559cc23b5d23fc7ea826491a526c62198e",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoA.lean",
+     "sha256": "422dbf5d92591d780c8c66243e66f452c96149015b32b53ba9f135a91f82932e"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoCoeffPoly.lean",
+     "sha256": "f2b5e036c8593a5b6e4a9ccadd206fef5e3bea4df5526302b4918a7bc2f0e5b6"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEcc.lean",
+     "sha256": "d59bd3c3df45b160ec7219702efc19a5d1f0b63efdee004f10b13ad2fb3ab80a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEps.lean",
+     "sha256": "7b75cb0c3bcab687c9673464f71160d5293ee9b40aeaff33b4c7048b1550eb4a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoField.lean",
+     "sha256": "82d70590beec180e5151c644d7cb37b4e61f2d8e150e023a4a507386a43c497b"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoModes.lean",
+     "sha256": "0693e56af24d7c43e281cd143e70e8c3f01dd6d6b1da6ad051e261cd1b0188dc"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoV.lean",
+     "sha256": "f8ced7718e330ec3cf11774ff6eb63b690f18bb600663f25c09524c926569784"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "82c951487ed884ea70a56c2fa5d3166315ca41739666b708fd770cf0d373dcde"
+  },
+  {
+   "id": "spinorbit.lock.lunarSyncOrbit.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner approval of the lock freeze 'exactly as §1' of docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md with the recommended answers of §2 (Q1-Q8) and literals 8/65, 17/1000000, 27/200000, 129/10000, 21/100, 26/1000 (D49); Moon-lock route D45; docs/DECISIONS.md D45, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@da762768 (inp) docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md revision 3 §1",
+    "range": "FREEZE-PROPOSAL-LOCK §1.1 (definitions)"
+   },
+   "contract": {
+    "id": "spinorbit.lock.lunarSyncOrbit",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Defs/LunarSyncOrbit.lean",
+   "export": "KAM.SpinOrbit.lunarSyncOrbit",
+   "split_policy": {
+    "source_group": "spinorbit.lock.lunarSyncOrbit",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D45, D49"
+   },
+   "abi_sha256": "c8fa111bf32ac4e8c602ab55db5f42dcb51a49341d007e904265e28331bbc0a7",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/IsSyncOrbit.lean",
+     "sha256": "82c951487ed884ea70a56c2fa5d3166315ca41739666b708fd770cf0d373dcde"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoA.lean",
+     "sha256": "422dbf5d92591d780c8c66243e66f452c96149015b32b53ba9f135a91f82932e"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoCoeffPoly.lean",
+     "sha256": "f2b5e036c8593a5b6e4a9ccadd206fef5e3bea4df5526302b4918a7bc2f0e5b6"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEcc.lean",
+     "sha256": "d59bd3c3df45b160ec7219702efc19a5d1f0b63efdee004f10b13ad2fb3ab80a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEps.lean",
+     "sha256": "7b75cb0c3bcab687c9673464f71160d5293ee9b40aeaff33b4c7048b1550eb4a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoField.lean",
+     "sha256": "82d70590beec180e5151c644d7cb37b4e61f2d8e150e023a4a507386a43c497b"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoModes.lean",
+     "sha256": "0693e56af24d7c43e281cd143e70e8c3f01dd6d6b1da6ad051e261cd1b0188dc"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoV.lean",
+     "sha256": "f8ced7718e330ec3cf11774ff6eb63b690f18bb600663f25c09524c926569784"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "ae11f7e2b080fbedd4c61a889460bfeae4f18cd5c185d4bf8c935288a349be74"
+  },
+  {
+   "id": "spinorbit.lock.libAction.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner approval of the lock freeze 'exactly as §1' of docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md with the recommended answers of §2 (Q1-Q8) and literals 8/65, 17/1000000, 27/200000, 129/10000, 21/100, 26/1000 (D49); Moon-lock route D45; docs/DECISIONS.md D45, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@da762768 (inp) docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md revision 3 §1",
+    "range": "FREEZE-PROPOSAL-LOCK §1.1 (definitions)"
+   },
+   "contract": {
+    "id": "spinorbit.lock.libAction",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Defs/LibAction.lean",
+   "export": "KAM.SpinOrbit.libAction",
+   "split_policy": {
+    "source_group": "spinorbit.lock.libAction",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D45, D49"
+   },
+   "abi_sha256": "8e19531b34df70d3b455309b9c1925ab9489d4a64f874cff35bea94024bbc748",
+   "definition_closure": [],
+   "state": "SEALED",
+   "full_file_sha256": "fbc6fd4b4626cda9c9c9deb48db8f3de9e6baeec025c85fde70f75750c4d82d6"
+  },
+  {
+   "id": "spinorbit.lock.lunarOmega.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner approval of the lock freeze 'exactly as §1' of docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md with the recommended answers of §2 (Q1-Q8) and literals 8/65, 17/1000000, 27/200000, 129/10000, 21/100, 26/1000 (D49); Moon-lock route D45; docs/DECISIONS.md D45, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@da762768 (inp) docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md revision 3 §1",
+    "range": "FREEZE-PROPOSAL-LOCK §1.1 (literal 8/65, D49)"
+   },
+   "contract": {
+    "id": "spinorbit.lock.lunarOmega",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Defs/LunarOmega.lean",
+   "export": "KAM.SpinOrbit.lunarOmega",
+   "split_policy": {
+    "source_group": "spinorbit.lock.lunarOmega",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D45, D49"
+   },
+   "abi_sha256": "d03e97ff1f603076a5e777f1847e379b84e49d0e8a1a8d3063587ce34149504a",
+   "definition_closure": [],
+   "state": "SEALED",
+   "full_file_sha256": "7bf8d650c858d91bda6748094ef8f52ec58367ac551359e676a8c645fa767aa5"
+  },
+  {
+   "id": "spinorbit.lock.lunarSyncOrbit_spec.v1",
+   "kind": "theorem",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner approval of the lock freeze 'exactly as §1' of docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md with the recommended answers of §2 (Q1-Q8) and literals 8/65, 17/1000000, 27/200000, 129/10000, 21/100, 26/1000 (D49); Moon-lock route D45; docs/DECISIONS.md D45, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@da762768 (inp) docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md revision 3 §1",
+    "range": "FREEZE-PROPOSAL-LOCK §1.2 (existence; Q1)"
+   },
+   "contract": {
+    "id": "spinorbit.lock.lunarSyncOrbit_spec",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitSpec.lean",
+   "export": "KAM.SpinOrbit.lunarSyncOrbit_spec",
+   "split_policy": {
+    "source_group": "spinorbit.lock.lunarSyncOrbit_spec",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D45, D49"
+   },
+   "abi_sha256": "3da1e71aa0ff41f1bb7ea4aa392df5889b3194f634061cac6bceeb9bf62a3c88",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/IsSyncOrbit.lean",
+     "sha256": "82c951487ed884ea70a56c2fa5d3166315ca41739666b708fd770cf0d373dcde"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/LunarSyncOrbit.lean",
+     "sha256": "ae11f7e2b080fbedd4c61a889460bfeae4f18cd5c185d4bf8c935288a349be74"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoA.lean",
+     "sha256": "422dbf5d92591d780c8c66243e66f452c96149015b32b53ba9f135a91f82932e"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoCoeffPoly.lean",
+     "sha256": "f2b5e036c8593a5b6e4a9ccadd206fef5e3bea4df5526302b4918a7bc2f0e5b6"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEcc.lean",
+     "sha256": "d59bd3c3df45b160ec7219702efc19a5d1f0b63efdee004f10b13ad2fb3ab80a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEps.lean",
+     "sha256": "7b75cb0c3bcab687c9673464f71160d5293ee9b40aeaff33b4c7048b1550eb4a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoField.lean",
+     "sha256": "82d70590beec180e5151c644d7cb37b4e61f2d8e150e023a4a507386a43c497b"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoModes.lean",
+     "sha256": "0693e56af24d7c43e281cd143e70e8c3f01dd6d6b1da6ad051e261cd1b0188dc"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoV.lean",
+     "sha256": "f8ced7718e330ec3cf11774ff6eb63b690f18bb600663f25c09524c926569784"
+    }
+   ],
+   "implementation": {
+    "module": "KAM.Provider.SpinOrbit.LunarSyncOrbitSpec",
+    "export": "KAM.Provider.SpinOrbit.lunarSyncOrbit_spec"
+   },
+   "state": "DRAFT_SORRY",
+   "prefix_sha256": "af4bf409fd2773150be91c2ef24eacbe01610c61f1c983867a322b0108b7a1bb",
+   "suffix_sha256": "82fffec8a7bd503242e8ee1117e463982ec052c8e1b2de510fef566b666e802f",
+   "draft_allowlist": {
+    "frozen_paths": [],
+    "audit_paths": []
+   }
+  },
+  {
+   "id": "spinorbit.lock.lunarSyncOrbit_unique.v1",
+   "kind": "theorem",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner approval of the lock freeze 'exactly as §1' of docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md with the recommended answers of §2 (Q1-Q8) and literals 8/65, 17/1000000, 27/200000, 129/10000, 21/100, 26/1000 (D49); Moon-lock route D45; docs/DECISIONS.md D45, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@da762768 (inp) docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md revision 3 §1",
+    "range": "FREEZE-PROPOSAL-LOCK §1.2 (uniqueness among odd one-periodic orbits; Q1)"
+   },
+   "contract": {
+    "id": "spinorbit.lock.lunarSyncOrbit_unique",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitUnique.lean",
+   "export": "KAM.SpinOrbit.lunarSyncOrbit_unique",
+   "split_policy": {
+    "source_group": "spinorbit.lock.lunarSyncOrbit_unique",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D45, D49"
+   },
+   "abi_sha256": "009cd93863ea628dbbec41f73c10e9677de4a59ec8f8228aacbabf29dfe1c882",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/IsSyncOrbit.lean",
+     "sha256": "82c951487ed884ea70a56c2fa5d3166315ca41739666b708fd770cf0d373dcde"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/LunarSyncOrbit.lean",
+     "sha256": "ae11f7e2b080fbedd4c61a889460bfeae4f18cd5c185d4bf8c935288a349be74"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoA.lean",
+     "sha256": "422dbf5d92591d780c8c66243e66f452c96149015b32b53ba9f135a91f82932e"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoCoeffPoly.lean",
+     "sha256": "f2b5e036c8593a5b6e4a9ccadd206fef5e3bea4df5526302b4918a7bc2f0e5b6"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEcc.lean",
+     "sha256": "d59bd3c3df45b160ec7219702efc19a5d1f0b63efdee004f10b13ad2fb3ab80a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEps.lean",
+     "sha256": "7b75cb0c3bcab687c9673464f71160d5293ee9b40aeaff33b4c7048b1550eb4a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoField.lean",
+     "sha256": "82d70590beec180e5151c644d7cb37b4e61f2d8e150e023a4a507386a43c497b"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoModes.lean",
+     "sha256": "0693e56af24d7c43e281cd143e70e8c3f01dd6d6b1da6ad051e261cd1b0188dc"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoV.lean",
+     "sha256": "f8ced7718e330ec3cf11774ff6eb63b690f18bb600663f25c09524c926569784"
+    }
+   ],
+   "implementation": {
+    "module": "KAM.Provider.SpinOrbit.LunarSyncOrbitUnique",
+    "export": "KAM.Provider.SpinOrbit.lunarSyncOrbit_unique"
+   },
+   "state": "DRAFT_SORRY",
+   "prefix_sha256": "f5f1740e0241c630f1df0ff5c5f3e50304a8d5a16fa0fd6fbb366c060540e805",
+   "suffix_sha256": "82fffec8a7bd503242e8ee1117e463982ec052c8e1b2de510fef566b666e802f",
+   "draft_allowlist": {
+    "frozen_paths": [],
+    "audit_paths": []
+   }
+  },
+  {
+   "id": "spinorbit.lock.lunarSyncOrbit_bound.v1",
+   "kind": "theorem",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner approval of the lock freeze 'exactly as §1' of docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md with the recommended answers of §2 (Q1-Q8) and literals 8/65, 17/1000000, 27/200000, 129/10000, 21/100, 26/1000 (D49); Moon-lock route D45; docs/DECISIONS.md D45, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@da762768 (inp) docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md revision 3 §1",
+    "range": "FREEZE-PROPOSAL-LOCK §1.2 (location of psi*; Q5, D49 literals)"
+   },
+   "contract": {
+    "id": "spinorbit.lock.lunarSyncOrbit_bound",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitBound.lean",
+   "export": "KAM.SpinOrbit.lunarSyncOrbit_bound",
+   "split_policy": {
+    "source_group": "spinorbit.lock.lunarSyncOrbit_bound",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D45, D49"
+   },
+   "abi_sha256": "66204b3b1d9f70de2381676d82a181bd3f34a68f3d1f8ac186212cd27d750e0d",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/IsSyncOrbit.lean",
+     "sha256": "82c951487ed884ea70a56c2fa5d3166315ca41739666b708fd770cf0d373dcde"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/LunarSyncOrbit.lean",
+     "sha256": "ae11f7e2b080fbedd4c61a889460bfeae4f18cd5c185d4bf8c935288a349be74"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoA.lean",
+     "sha256": "422dbf5d92591d780c8c66243e66f452c96149015b32b53ba9f135a91f82932e"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoCoeffPoly.lean",
+     "sha256": "f2b5e036c8593a5b6e4a9ccadd206fef5e3bea4df5526302b4918a7bc2f0e5b6"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEcc.lean",
+     "sha256": "d59bd3c3df45b160ec7219702efc19a5d1f0b63efdee004f10b13ad2fb3ab80a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEps.lean",
+     "sha256": "7b75cb0c3bcab687c9673464f71160d5293ee9b40aeaff33b4c7048b1550eb4a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoField.lean",
+     "sha256": "82d70590beec180e5151c644d7cb37b4e61f2d8e150e023a4a507386a43c497b"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoModes.lean",
+     "sha256": "0693e56af24d7c43e281cd143e70e8c3f01dd6d6b1da6ad051e261cd1b0188dc"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoV.lean",
+     "sha256": "f8ced7718e330ec3cf11774ff6eb63b690f18bb600663f25c09524c926569784"
+    }
+   ],
+   "implementation": {
+    "module": "KAM.Provider.SpinOrbit.LunarSyncOrbitBound",
+    "export": "KAM.Provider.SpinOrbit.lunarSyncOrbit_bound"
+   },
+   "state": "DRAFT_SORRY",
+   "prefix_sha256": "6f3b80095dfc7c780d9575a7d0e9f6be173aa9b095ed63c3a4c3e4471ebd1477",
+   "suffix_sha256": "82fffec8a7bd503242e8ee1117e463982ec052c8e1b2de510fef566b666e802f",
+   "draft_allowlist": {
+    "frozen_paths": [],
+    "audit_paths": []
+   }
+  },
+  {
+   "id": "spinorbit.lock.lunar_sync_lock.v1",
+   "kind": "theorem",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-31",
+    "approval_ref": "owner approval of the lock freeze 'exactly as §1' of docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md with the recommended answers of §2 (Q1-Q8) and literals 8/65, 17/1000000, 27/200000, 129/10000, 21/100, 26/1000 (D49); Moon-lock route D45; docs/DECISIONS.md D45, D49",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@da762768 (inp) docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md revision 3 §1",
+    "range": "FREEZE-PROPOSAL-LOCK §1.2 headline (Q3, D49 literals)"
+   },
+   "contract": {
+    "id": "spinorbit.lock.lunar_sync_lock",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/SpinOrbit/Theorems/LunarSyncLock.lean",
+   "export": "KAM.SpinOrbit.lunar_sync_lock",
+   "split_policy": {
+    "source_group": "spinorbit.lock.lunar_sync_lock",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D45, D49"
+   },
+   "abi_sha256": "5ccf9ade60178773223d4deb74440bf1f7a23ba89225c542137cf525109aa4dc",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/IsSyncOrbit.lean",
+     "sha256": "82c951487ed884ea70a56c2fa5d3166315ca41739666b708fd770cf0d373dcde"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/LibAction.lean",
+     "sha256": "fbc6fd4b4626cda9c9c9deb48db8f3de9e6baeec025c85fde70f75750c4d82d6"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/LunarOmega.lean",
+     "sha256": "7bf8d650c858d91bda6748094ef8f52ec58367ac551359e676a8c645fa767aa5"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/LunarSyncOrbit.lean",
+     "sha256": "ae11f7e2b080fbedd4c61a889460bfeae4f18cd5c185d4bf8c935288a349be74"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoA.lean",
+     "sha256": "422dbf5d92591d780c8c66243e66f452c96149015b32b53ba9f135a91f82932e"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoCoeffPoly.lean",
+     "sha256": "f2b5e036c8593a5b6e4a9ccadd206fef5e3bea4df5526302b4918a7bc2f0e5b6"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEcc.lean",
+     "sha256": "d59bd3c3df45b160ec7219702efc19a5d1f0b63efdee004f10b13ad2fb3ab80a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoEps.lean",
+     "sha256": "7b75cb0c3bcab687c9673464f71160d5293ee9b40aeaff33b4c7048b1550eb4a"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoField.lean",
+     "sha256": "82d70590beec180e5151c644d7cb37b4e61f2d8e150e023a4a507386a43c497b"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoModes.lean",
+     "sha256": "0693e56af24d7c43e281cd143e70e8c3f01dd6d6b1da6ad051e261cd1b0188dc"
+    },
+    {
+     "path": "KAM/Frozen/SpinOrbit/Defs/SoV.lean",
+     "sha256": "f8ced7718e330ec3cf11774ff6eb63b690f18bb600663f25c09524c926569784"
+    }
+   ],
+   "implementation": {
+    "module": "KAM.Provider.SpinOrbit.LunarSyncLock",
+    "export": "KAM.Provider.SpinOrbit.lunar_sync_lock"
+   },
+   "state": "DRAFT_SORRY",
+   "prefix_sha256": "b782bf7de2c88b1c05cfa9cc9545310f3d779905c34358a19ea939dc877d5733",
+   "suffix_sha256": "82fffec8a7bd503242e8ee1117e463982ec052c8e1b2de510fef566b666e802f",
+   "draft_allowlist": {
+    "frozen_paths": [],
+    "audit_paths": []
+   }
   }
  ]
 }
