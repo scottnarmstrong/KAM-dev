@@ -6,6 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.SpinOrbit.Data.LockN65.Jet
+public import KAM.Certificate.Expr.Diff
 public import KAM.CertificateSharp.Kernel.SegDefs
 
 /-!
