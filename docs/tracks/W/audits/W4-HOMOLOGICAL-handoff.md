@@ -158,3 +158,12 @@ W4 is now parametrized by the smoothing exponent `p_+` (Lean: `pb`, hypotheses `
 * Checks: all W4 modules and `PPlusOne` build (rebuilt in import order after the rename) (`w_build.sh`); `w_lint.sh` exit 0;
   `#print axioms` of `homLemma1_fieldBound`, `homLemma1_lipschitz`, `homLemma1_equation_all`, `homLemma_lie_iv`,
   `homNhat_coeff_bounds`, `homSolveTaylor_isReal`, `homFreqHyp_wave`, `homLemma2`: propext, Classical.choice, Quot.sound.
+
+**Short-name renames (commit `7de5b4e0`, "W4 names: ...").** The audit launcher's short-name check now passes
+(`main_shortname_check.py` on all `KAM.Wave.Homological.*`: "no reused public short name"). Renamed:
+`IsHomComp.sub → IsHomComp.homSub` (in `TaylorSub.lean`), `conj_character_real → homConj_character_real`,
+`coth_le_one_add_inv → wave_coth_le_one_add_inv`, `HomTaylor_gen.sub → HomTaylor_gen.homSub` (and the old-name abbrev
+`HomTaylor.sub → HomTaylor.homSub`), `HomTaylor_gen.IsReal → HomTaylor_gen.isRealTaylor` (`HomTaylor.IsReal →
+HomTaylor.isRealTaylor`), `HomHadamardBound.nonneg → HomHadamardBound.homNonneg`, `HomFreqHyp.nonneg`/`HomFreqHyp1.nonneg
+→ consts_nonneg`. **The W4 audit should target this commit (`7de5b4e0`), which supersedes `82d8325d`.** The old-name
+statements are unchanged in content; only these auxiliary identifiers changed.
