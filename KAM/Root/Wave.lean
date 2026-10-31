@@ -106,7 +106,9 @@ public import KAM.Wave.KamStep.Omega
 public import KAM.Wave.KamStep.Phase
 public import KAM.Wave.KamStep.Pullback
 public import KAM.Wave.KamStep.SymplecticFlow
+public import KAM.Wave.KamStep.TaylorEst
 public import KAM.Wave.KamStep.TaylorOneVar
+public import KAM.Wave.KamStep.TaylorScale
 public import KAM.Wave.KamStep.Triangle
 public import KAM.Wave.KamSupport.FourierBanach
 public import KAM.Wave.KamSupport.FourierBessel
