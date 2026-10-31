@@ -43,6 +43,22 @@ structure HomMultBounds (τ α : ℝ) (w : Fin 2 → ℝ) (W : ℕ+ → ℝ) : P
   P' : ∀ k, HomHadamardBound (homDP' w W k) (waveA τ k / α)
   Q : ∀ k, HomHadamardBound (homDQ w W k) (waveA τ k / α)
   Qt : ∀ k, HomHadamardBound (homDQt w W k) (waveA τ k / α)
+  nz0 : ∀ k, k ≠ 0 → homDelta0 w k ≠ 0
+  nzp : ∀ k j, homDeltaPlus w W k j ≠ 0
+  nzm : ∀ k j, homDeltaMinus w W k j ≠ 0
+  nzP : ∀ k i j, homDeltaP w W k i j ≠ 0
+  nzP' : ∀ k i j, homDeltaP' w W k i j ≠ 0
+  nzQ : ∀ k i j, (k ≠ 0 ∨ i ≠ j) → homDeltaQ w W k i j ≠ 0
+
+theorem ne_zero_of_divisorBound {Par : Set (Fin 2 → ℝ)} {Mω MΩ τ α : ℝ} {k : Fin 2 → ℤ}
+    {wt : ℝ} {δ : (Fin 2 → ℝ) → ℝ} (hα : 0 < α) (hw : 0 < wt)
+    (hb : HomDivisorBound τ α Mω MΩ Par k wt δ) {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) : δ ξ ≠ 0 := by
+  intro h0
+  have h1 := hb.1 ξ hξ
+  rw [h0, abs_zero] at h1
+  have hA : 0 < waveA τ k := lt_of_lt_of_le one_pos (waveA_ge_one k)
+  have : 0 < α * wt / waveA τ k := by positivity
+  linarith
 
 theorem homMultBounds_of {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 → ℝ}
     {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ} {M0 Mω MΩ τ α : ℝ} (h : HomFreqHyp Par ω Ω M0 Mω MΩ)
@@ -50,7 +66,16 @@ theorem homMultBounds_of {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → F
     HomMultBounds τ α (ω ξ) (Ω ξ) :=
   ⟨norm_homMultA0_le h hα hH hξ, norm_homMultDp_le h hα hH hξ, norm_homMultDm_le h hα hH hξ,
     homDP_bound h hα hH hξ, homDP'_bound h hα hH hξ, homDQ_bound h hα hH hξ,
-    homDQt_bound h hα hH hξ⟩
+    homDQt_bound h hα hH hξ,
+    fun k hk => ne_zero_of_divisorBound hα one_pos (homDelta0_bound h hα hH hk) hξ,
+    fun k j => ne_zero_of_divisorBound hα (by exact_mod_cast j.pos) (homDeltaPlus_bound h hα hH k j) hξ,
+    fun k j => ne_zero_of_divisorBound hα (by exact_mod_cast j.pos) (homDeltaMinus_bound h hα hH k j) hξ,
+    fun k i j => ne_zero_of_divisorBound hα (by have := i.pos; have := j.pos; positivity)
+      (homDeltaP_bound h hα hH k i j) hξ,
+    fun k i j => ne_zero_of_divisorBound hα (by have := i.pos; have := j.pos; positivity)
+      (homDeltaP'_bound h hα hH k i j) hξ,
+    fun k i j hkij => ne_zero_of_divisorBound hα
+      (by exact_mod_cast one_le_homWeightQ i j) (homDeltaQ_bound h hα hH hkij) hξ⟩
 
 variable {τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ}
 

@@ -61,6 +61,33 @@ theorem homSolve_image_bound {s σ m mΛ κ κ' α τ : ℝ} (hτ : 0 ≤ τ) (h
   exact (homSolve_spec hτ hα hκ' hσ hσs hT' (Λ.differentiable.comp_differentiableOn hu)
     (fun i z hz => by simp only [Function.comp_apply, hp i z hz]) hmΛ).2.2.1 θ hθ
 
+/-- `Λ ∂_{θ_i} 𝒮u = ∂_{θ_i} 𝒮'(Λu)` on `T_{s-σ}` (no bound on `∂u` needed). -/
+theorem homSolve_partial_image_eq {s σ m κ α τ : ℝ} (hτ : 0 ≤ τ) (hα : 0 < α) (hκ : 1 ≤ κ)
+    (hσ : 0 < σ) (hσs : σ < s) {T : (Fin 2 → ℤ) → E →L[ℂ] E} {T' : (Fin 2 → ℤ) → G →L[ℂ] G}
+    (hT : ∀ k, ‖T k‖ ≤ κ * waveA τ k / α) (Λ : E →L[ℂ] G)
+    (hΛ : ∀ k, Λ.comp (T k) = (T' k).comp Λ) {u : (Fin 2 → ℂ) → E}
+    (hu : DifferentiableOn ℂ u (complexStrip 2 s))
+    (hp : ∀ (i : Fin 2) z, z ∈ complexStrip 2 s → u (z + Pi.single i 1) = u z)
+    (hm : ∀ z ∈ complexStrip 2 s, ‖u z‖ ≤ m) (i : Fin 2) {θ : Fin 2 → ℂ}
+    (hθ : θ ∈ complexStrip 2 (s - σ)) :
+    Λ (homPartial i (homSolve T u) θ) =
+      homPartial i (homSolve T' (fun z => Λ (u z))) θ := by
+  have hopen := isOpen_complexStrip 2 (s - σ)
+  have hFd : DifferentiableOn ℂ (homSolve T u) (complexStrip 2 (s - σ)) :=
+    (homSolve_spec hτ hα hκ hσ hσs hT hu hp hm).2.2.2.1
+  have hev : (fun z => Λ (homSolve T u z)) =ᶠ[nhds θ] homSolve T' (fun z => Λ (u z)) :=
+    Filter.eventually_of_mem (hopen.mem_nhds hθ) fun z hz =>
+      homSolve_image_eq hτ hα hκ hσ hσs hT Λ hΛ hu hp hm hz
+  have hd : DifferentiableAt ℂ (homSolve T u) θ := hFd.differentiableAt (hopen.mem_nhds hθ)
+  have h1 : Λ (homPartial i (homSolve T u) θ) =
+      homPartial i (fun z => Λ (homSolve T u z)) θ := by
+    unfold homPartial
+    have := (Λ.hasFDerivAt.comp θ hd.hasFDerivAt).fderiv
+    rw [show (fun z => Λ (homSolve T u z)) = Λ ∘ homSolve T u from rfl, this]
+    rfl
+  rw [h1]
+  unfold homPartial; rw [hev.fderiv_eq]
+
 theorem homSolve_image_partial_bound {s σ m mΛ mΛ' κ κ' α τ : ℝ} (hτ : 0 ≤ τ) (hα : 0 < α)
     (hκ : 1 ≤ κ) (hκ' : 1 ≤ κ') (hσ : 0 < σ) (hσs : σ < s) {T : (Fin 2 → ℤ) → E →L[ℂ] E}
     {T' : (Fin 2 → ℤ) → G →L[ℂ] G} (hT : ∀ k, ‖T k‖ ≤ κ * waveA τ k / α)
