@@ -7,8 +7,9 @@ L=$1; shift; mkdir -p "$L"
 cd "$(dirname "$0")/../.." || exit 2
 T=/mnt/HC_Volume_106379410/orchestrator-tools
 run() {
+  until [ "$(awk "/MemAvailable/{print \$2}" /proc/meminfo)" -ge 8388608 ]; do sleep 30; done
   m=$1; log=$L/$m.log
-  systemd-run --user --scope -q -p MemoryMax=8G -p MemorySwapMax=0 bash -c '
+  systemd-run --user --scope -q -p MemoryMax=${LOCK_MEM:-6G} -p MemorySwapMax=0 bash -c '
     cg=/sys/fs/cgroup$(cut -d: -f3 /proc/self/cgroup)
     /usr/bin/time -v nice -n 5 lake build '"$m"' ; rc=$?
     echo "MEMPEAK $(cat $cg/memory.peak 2>/dev/null || echo UNMEASURED)"
