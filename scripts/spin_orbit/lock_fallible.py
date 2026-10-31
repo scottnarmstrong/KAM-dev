@@ -31,7 +31,18 @@ def exp_values(B, n, W, cfg, pe, st, op, wit):
     out = A.certCExpReduced(B, z, zr, E[1], E[2])
     info = {}
     r = M.expWitnessRadiusOf(B, n, W, cfg.forWitness(1, k), g, E[0], out, info)
-    return dict(op="exp", k=k, a=op[1], out=out, mB=info["mB"], mEta=info["mEta"], res=info["res"], r=r)
+    # the two parts of each residual (lock_cseg splits a residual into its weighted sum and its error radius)
+    eN = M.supNormUp(B, W, E[0])
+    cw = cfg.forWitness(1, k)
+    s_j, er_j = [], []
+    for j in range(n):
+        pr = M.expResidualProduct(B, W, cw, g.poly, E[0], j)
+        merged = M.mergeErrTerms(B, M.derivItems(B, j, E[0]), pr[0])
+        s_j.append(M.sumUp(B, (M.weightTermUp(B, W, t[0], B.upAdd(A.normUp(B, t[1]), t[2])) for t in merged)))
+        er_j.append(M.errRadius(B, W, M.derivItems(B, j, g.poly)))
+        assert M.expResidualUp(B, W, cw, g.poly, E[0], eN, j) == info["res"][j]
+    return dict(op="exp", k=k, a=op[1], out=out, mB=info["mB"], mEta=info["mEta"], res=info["res"], r=r,
+                resS=s_j, resErr=er_j)
 
 
 def inv_values(B, n, W, cfg, pe, st, op, wit):

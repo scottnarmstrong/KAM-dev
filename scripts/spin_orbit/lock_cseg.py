@@ -83,6 +83,7 @@ _GRP = re.compile(r"^( *)checkPackedSp_of_groups (\S+) (.*?)\s+\[(\S+)\.shardRan
 DECSPLIT = "KAM.SpinOrbit.Data.LockN65.DecSplit"
 REMSPLIT = "KAM.SpinOrbit.Data.LockN65.RemSplit"
 PAIRCODE = "KAM.SpinOrbit.Data.LockN65.PairCode"
+EXPSPLIT = "KAM.SpinOrbit.Data.LockN65.ExpSplit"
 REM_CHUNK = 2000         # slots per remainder-bound range (maxSlotDeg over 12 260 slots: 6.17 GB, measured)
 
 
@@ -653,14 +654,30 @@ class LockEmitter(CE.Emitter):
                 mk = memos[(1, k, j)]
                 st = "expResidualUp %s %s %s.poly %s.poly (%s.poly.supNormUp %s) %d = %s" % (
                     W, cw, g, E, E, W, j, fixed(v["res"][j]))
+                memo_rw = ("rw [expResidualProduct_eq_of_polyProduct %s %s %s.poly %s.poly %d %s]"
+                           % (W, cw, g, E, j, self.memo_name(mk)))
+                stem = "Rad/%s%s%dRes%d" % (op[0].capitalize(), sub, i, j)
+                # the residual in two kernel runs (ExpSplit.lean): the weighted sum over the merged terms, and
+                # the error radius of the derivative items of g (one run was 6.0 GiB, measured)
+                ss = ("sumUp (fun t => weightTermUp %s t.1 (upAdd t.2.1.normUp t.2.2)) (mergeErrTerms (%s.poly.terms"
+                      ".filterMap (derivItem %d)) (expResidualProduct %s %s %s.poly %s.poly %d).1) = %s := by"
+                      % (W, E, j, W, cw, g, E, j, fixed(v["resS"][j])))
+                sb = ["theorem %s_res%d_s :" % (nm, j)] + wrap(ss.split(" "), "    ") + _hang(memo_rw) + \
+                    ["  decide +kernel"]
+                sm = self.tree.write(stem + "S", self.base + imps, "The exp residual %d sum at slot %d (%s)" % (j, i, chain),
+                                     "One kernel run.", [CE.Emitter.fix_long(l) for l in sb], heavy=True)
+                rr = "errRadius %s (%s.poly.terms.filterMap (derivItem %d)) = %s := by" % (W, g, j, fixed(v["resErr"][j]))
+                eb_ = ["theorem %s_res%d_r :" % (nm, j)] + wrap(rr.split(" "), "    ") + ["  decide +kernel"]
+                em = self.tree.write(stem + "R", self.base + imps, "The exp residual %d error radius at slot %d (%s)"
+                                     % (j, i, chain), "One kernel run.", [CE.Emitter.fix_long(l) for l in eb_],
+                                     heavy=True)
                 rb = ["theorem %s_res%d :" % (nm, j)] + wrap(st.split(" "), "    ")
                 rb[-1] += " := by"
-                rb += ["  unfold expResidualUp"]
-                rb += _hang("rw [expResidualProduct_eq_of_polyProduct %s %s %s.poly %s.poly %d %s]"
-                            % (W, cw, g, E, j, self.memo_name(mk)))
-                rb += ["  decide +kernel"]
-                rmods.append(self.tree.write("Rad/%s%s%dRes%d" % (op[0].capitalize(), sub, i, j), self.base + imps,
-                                             "The exp residual %d at slot %d (%s)" % (j, i, chain), "One kernel run.",
+                rb += _hang("rw [expResidualUp_eq_of_parts %s %s %s.poly %s.poly _ %d %s_res%d_s %s_res%d_r]"
+                            % (W, cw, g, E, j, nm, j, nm, j))
+                rb += _hang(memo_rw) + ["  decide +kernel"]
+                rmods.append(self.tree.write(stem, self.base + imps + [sm, em, EXPSPLIT],
+                                             "The exp residual %d at slot %d (%s)" % (j, i, chain), "Assembly.",
                                              [CE.Emitter.fix_long(l) for l in rb], heavy=True))
             imps = list(imps) + rmods
             rs = "(fun j => if j = 0 then %s else %s)" % (fixed(v["res"][0]), fixed(v["res"][1]))
