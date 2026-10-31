@@ -2054,3 +2054,12 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - LOCK-DATA: sizing done (D100×20, kp 4; error 1.08e-21 against exact threshold 10^−19.23, a margin of 1.74
     decades). Generation is passing at the final literals. The first lock kernel theorem (JetEq bridge) passed at
     3.37 GB.
+- **02:49. Heartbeat: SO-DATA3 throughput dropped; diagnosis requested.**
+  - At 02:19: lower 393/830 (heavy 167/558), upper 401/824 (heavy 179/554). Since the M11 restart, only about 16–23
+    modules per 22 min (about 80 per 30 min before), so the projection of about 05:30 is optimistic.
+  - Observed: a lane's `lake build` for one module ran 76 s with no lean child, i.e. Lake overhead or workspace-lock
+    contention between the two lanes in one worktree.
+  - SO-DATA3 is asked to measure the Lake-versus-lean split and fix it (direct `lake env lean` per module in topo
+    order under the same lock and cap, or batching), with a final `lake build` that must find everything up to date.
+  - Lock: LOCK-DATA generation at the final literals; checkInvariance passes (err 1.08e-21); energy, Gram, torsion
+    and frames running.
