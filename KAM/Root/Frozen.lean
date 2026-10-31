@@ -146,8 +146,12 @@ public import KAM.Frozen.Planetary.Theorems.SecularBoxAtCitedMasses
 public import KAM.Frozen.Planetary.Theorems.SecularBoxSafety
 public import KAM.Frozen.Russmann.Defs.RussmannCover
 public import KAM.Frozen.Russmann.Theorems.RussmannKam
+public import KAM.Frozen.SpinOrbit.Defs.IsSyncOrbit
+public import KAM.Frozen.SpinOrbit.Defs.LibAction
+public import KAM.Frozen.SpinOrbit.Defs.LunarOmega
 public import KAM.Frozen.SpinOrbit.Defs.LunarPHi
 public import KAM.Frozen.SpinOrbit.Defs.LunarPLo
+public import KAM.Frozen.SpinOrbit.Defs.LunarSyncOrbit
 public import KAM.Frozen.SpinOrbit.Defs.SoA
 public import KAM.Frozen.SpinOrbit.Defs.SoBarrier
 public import KAM.Frozen.SpinOrbit.Defs.SoCoeffPoly
