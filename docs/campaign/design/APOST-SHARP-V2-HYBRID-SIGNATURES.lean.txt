@@ -1,0 +1,785 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+import KAM.Sharp2.RouteA.Ref.G1
+import KAM.Sharp2.RouteB.G1
+import KAM.Sharp2.RouteB.Frozen
+import KAM.Sharp2.TorsionRef
+import KAM.Iso.Sharp2.RouteA.Ref.G1
+
+/-!
+# The certified first step (hybrid): signatures (probe, `sorry` bodies)
+
+Design: `docs/campaign/design/APOST-SHARP-V2-HYBRID.md`. Blueprint:
+`blueprint/parts/p2s2-hybrid-cert.tex` (labels `bp:p2s2hc:*`) and
+`blueprint-I/parts/p2s2-iso-hybrid-cert.tex` (labels `bpI:p2s2hc:*`).
+
+The hybrid restarts a proved v2 branch theorem at the new torus `K₁ = K + ΔK` and transfers its
+conclusion back to `K`. Nothing inside the engines changes; the step `ΔK` is arbitrary (soundness
+never uses that it solves the cohomological equations).
+
+* Part 1, the restart: `G1Concl`, `concl_restart` (`bp:p2s2hc:restart`), `IG1Concl`,
+  `iconcl_restart` (`bpI:p2s2hc:restart`). Proved here (short), to pin the conclusion shape.
+* Part 2, the transfer lemmas: `linNewError`, `IsStep`, `step_struct`, `invarianceError_step_le`,
+  `FrameNum`, `frames_step`, `dAB`, `torsionAB_step_sub_le`, `torsion_step_le`,
+  `torsionAverage_step`, `errDerivMat_step_le`, and the iso `energyAverage_step_le`,
+  `extTorsionAverage_step`.
+* Part 3, the theorems: the core forms with a direct new torus (`g1_hybrid_core_R`,
+  `g1_hybrid_core_B`, `iso_g1_hybrid_core_R`), the step form (`KData`, `StepNum`, `StepBounds`,
+  the transferred values, `g1_hybrid_R`, `iso_g1_hybrid_R`), and the minimum with the existing
+  routes (`NumA.restart`, `HybOkR`, `g1_v2A'_hybrid`). The isoenergetic minimum
+  (`bpI:p2s2hc:frozen`) is the same proof by cases on `iso_g1_v2A'` and `iso_g1_hybrid_R`; it is a
+  target of package H4 (design note §5), not stated here (file cap 800 lines).
+
+This file elaborates as a `.lean` probe (`nice -n 5 lake env lean`) against `sharp-v2` at
+f7bd6712; the `sorry` bodies are the Lean targets (package split in the design note, §5).
+-/
+
+set_option autoImplicit false
+
+noncomputable section
+
+open scoped Matrix.Norms.Operator
+open Matrix Filter Topology MeasureTheory KAM.Sharp.Engine
+
+namespace KAM.Sharp2.Hybrid
+
+open KAM KAM.Torus KAM.Apost KAM.Sharp KAM.Sharp2
+
+variable {n : ℕ}
+
+/-! ## Part 1. The restart -/
+
+/-- The conclusion of the frozen G1 (`G1Body` after its hypotheses) for `K`, with the closeness
+bound `D`. -/
+def G1Concl (𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))) (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ)
+    (K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (ω : Fin n → ℝ) (ρinf μ σK D : ℝ) : Prop :=
+  ∃ Kinf : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ),
+    DifferentiableOn ℂ Kinf (complexStrip n ρinf) ∧ IsPrimaryOnStrip Kinf ρinf ∧
+    IsRealOnReals Kinf ∧
+    (∀ θ ∈ complexStrip n ρinf, invarianceError h Kinf ω θ = 0) ∧
+    (∀ θ ∈ complexStrip n ρinf, Metric.ball (Kinf θ) (μ / 2) ⊆ 𝔅) ∧
+    (∀ θ ∈ complexStrip n ρinf, ‖fderiv ℂ Kinf θ‖ ≤ σK - μ / 2) ∧
+    ∀ θ ∈ complexStrip n ρinf, ‖Kinf θ - K θ‖ ≤ D
+
+/-- The closeness and the ball of the restart (`step:p2s2hc:rs-ball`). -/
+theorem restart_close {𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))}
+    {K K₁ Kinf : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {ρinf μ D₁ dinf : ℝ}
+    (hball : ∀ θ ∈ complexStrip n ρinf, Metric.ball (K θ) μ ⊆ 𝔅)
+    (hd : ∀ θ ∈ complexStrip n ρinf, ‖K₁ θ - K θ‖ ≤ dinf) (hbud : dinf + D₁ ≤ μ / 2)
+    (h7 : ∀ θ ∈ complexStrip n ρinf, ‖Kinf θ - K₁ θ‖ ≤ D₁) :
+    (∀ θ ∈ complexStrip n ρinf, ‖Kinf θ - K θ‖ ≤ dinf + D₁) ∧
+      ∀ θ ∈ complexStrip n ρinf, Metric.ball (Kinf θ) (μ / 2) ⊆ 𝔅 := by
+  have hc : ∀ θ ∈ complexStrip n ρinf, ‖Kinf θ - K θ‖ ≤ dinf + D₁ := fun θ hθ => by
+    have e : Kinf θ - K θ = (Kinf θ - K₁ θ) + (K₁ θ - K θ) := by abel
+    rw [e, add_comm dinf]
+    exact (norm_add_le _ _).trans (add_le_add (h7 θ hθ) (hd θ hθ))
+  refine ⟨hc, fun θ hθ z hz => hball θ hθ ?_⟩
+  rw [Metric.mem_ball] at hz ⊢
+  calc dist z (K θ) ≤ dist z (Kinf θ) + dist (Kinf θ) (K θ) := dist_triangle _ _ _
+    _ < μ / 2 + μ / 2 :=
+        add_lt_add_of_lt_of_le hz (by rw [dist_eq_norm]; exact (hc θ hθ).trans hbud)
+    _ = μ := by ring
+
+/-- Proposition `bp:p2s2hc:restart`: the frozen conclusion for any `K₁` near `K` transfers to
+`K`. -/
+theorem concl_restart {𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))}
+    {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {K K₁ : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    {ω : Fin n → ℝ} {ρinf μ μ₁ σK σK₁ D₁ dinf : ℝ}
+    (hball : ∀ θ ∈ complexStrip n ρinf, Metric.ball (K θ) μ ⊆ 𝔅)
+    (hd : ∀ θ ∈ complexStrip n ρinf, ‖K₁ θ - K θ‖ ≤ dinf) (hbud : dinf + D₁ ≤ μ / 2)
+    (hσ : σK₁ - μ₁ / 2 ≤ σK - μ / 2) (h1 : G1Concl 𝔅 h K₁ ω ρinf μ₁ σK₁ D₁) :
+    G1Concl 𝔅 h K ω ρinf μ σK (dinf + D₁) := by
+  obtain ⟨Kinf, h1, h2, h3, h4, -, h6, h7⟩ := h1
+  obtain ⟨hc, hb⟩ := restart_close hball hd hbud h7
+  exact ⟨Kinf, h1, h2, h3, h4, hb, fun θ hθ => (h6 θ hθ).trans hσ, hc⟩
+
+/-- The conclusion of the frozen I-G1 (`IG1Body` after its hypotheses) for `(K, s)`, with the
+closeness bounds `D` (torus) and `Dω` (frequency). -/
+def IG1Concl (D : Set ((Fin n → ℂ) × (Fin n → ℂ))) (H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ)
+    (K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (ωstar : Fin n → ℝ)
+    (s E₀ ρinf μ σK σω Dk Dω : ℝ) : Prop :=
+  ∃ (Kinf : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (sinf : ℝ),
+    1 < sinf ∧ sinf < σω ∧ DifferentiableOn ℂ Kinf (complexStrip n ρinf) ∧
+    IsPrimaryOnStrip Kinf ρinf ∧ IsRealOnReals Kinf ∧
+    (∀ θ ∈ complexStrip n ρinf, invarianceError H Kinf (sinf • ωstar) θ = 0) ∧
+    (∀ θ ∈ complexStrip n ρinf, H (Kinf θ) = (E₀ : ℂ)) ∧
+    (∀ θ ∈ complexStrip n ρinf, Metric.ball (Kinf θ) (μ / 2) ⊆ D) ∧
+    (∀ θ ∈ complexStrip n ρinf, ‖fderiv ℂ Kinf θ‖ ≤ σK - μ / 2) ∧
+    (∀ θ ∈ complexStrip n ρinf, ‖Kinf θ - K θ‖ ≤ Dk) ∧
+    ‖sinf • ωstar - s • ωstar‖ ≤ Dω
+
+/-- Proposition `bpI:p2s2hc:restart`. -/
+theorem iconcl_restart {D : Set ((Fin n → ℂ) × (Fin n → ℂ))}
+    {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {K K₁ : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    {ωstar : Fin n → ℝ} {s s₁ E₀ ρinf μ μ₁ σK σK₁ σω D₁ D₁ω dinf dω : ℝ}
+    (hball : ∀ θ ∈ complexStrip n ρinf, Metric.ball (K θ) μ ⊆ D)
+    (hd : ∀ θ ∈ complexStrip n ρinf, ‖K₁ θ - K θ‖ ≤ dinf) (hdω : ‖s₁ • ωstar - s • ωstar‖ ≤ dω)
+    (hbud : dinf + D₁ ≤ μ / 2) (hσ : σK₁ - μ₁ / 2 ≤ σK - μ / 2)
+    (h1 : IG1Concl D H K₁ ωstar s₁ E₀ ρinf μ₁ σK₁ σω D₁ D₁ω) :
+    IG1Concl D H K ωstar s E₀ ρinf μ σK σω (dinf + D₁) (dω + D₁ω) := by
+  obtain ⟨Kinf, sinf, hs1, hs2, h1, h2, h3, h4, h5, -, h7, h8, h9⟩ := h1
+  obtain ⟨hc, hb⟩ := restart_close hball hd hbud h8
+  refine ⟨Kinf, sinf, hs1, hs2, h1, h2, h3, h4, h5, hb, fun θ hθ => (h7 θ hθ).trans hσ, hc, ?_⟩
+  have e : sinf • ωstar - s • ωstar = (sinf • ωstar - s₁ • ωstar) + (s₁ • ωstar - s • ωstar) := by
+    abel
+  rw [e, add_comm dω]
+  exact (norm_add_le _ _).trans (add_le_add h9 hdω)
+
+/-! ## Part 2. The transfer lemmas -/
+
+/-- Definition `bp:p2s2hc:lin`: `Ẽ = E + DX_h(K) ΔK - DΔK ω`. At `ω = s₁ ω*` it is the
+isoenergetic `Ẽ_s` of `bpI:p2s2hc:lin`. -/
+def linNewError (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ)
+    (K ΔK : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (ω : Fin n → ℝ) (θ : Fin n → ℂ) :
+    (Fin n → ℂ) × (Fin n → ℂ) :=
+  invarianceError h K ω θ + fderiv ℂ (hamiltonianVectorFieldℂ h) (K θ) (ΔK θ) -
+    fderiv ℂ ΔK θ (fun i => (ω i : ℂ))
+
+/-- `bpI:p2s2hc:lin`: the linearised energy error `⟨H∘K⟩ - E₀ + ⟨DH(K) ΔK⟩`. -/
+def linNewEnergy (H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ)
+    (K ΔK : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (E₀ : ℝ) : ℂ :=
+  KAM.Iso.energyAverage H K - (E₀ : ℂ) +
+    ∫ θ in Set.pi Set.univ (fun _ : Fin n => Set.Icc (0 : ℝ) 1),
+      fderiv ℂ H (K (fun l => (θ l : ℂ))) (ΔK (fun l => (θ l : ℂ)))
+
+/-- A step (Assumption `bp:p2s2hc:standing`(d)): holomorphic on `T_{ρ₀}`, `1`-periodic, real. -/
+structure IsStep (ΔK : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (ρ₀ : ℝ) : Prop where
+  holo : DifferentiableOn ℂ ΔK (complexStrip n ρ₀)
+  periodic : ∀ θ ∈ complexStrip n ρ₀, ∀ k : Fin n → ℤ, ΔK (θ + fun i => (k i : ℂ)) = ΔK θ
+  real : IsRealOnReals ΔK
+
+/-- Lemma `bp:p2s2hc:struct`. -/
+theorem step_struct {𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))}
+    {K ΔK : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {ρ₀ ρ₁ μ μ₁ d₀ d₁ ℓ : ℝ}
+    (hK : DifferentiableOn ℂ K (complexStrip n ρ₀)) (hKp : IsPrimaryOnStrip K ρ₀)
+    (hKr : IsRealOnReals K) (hball : ∀ θ ∈ complexStrip n ρ₀, Metric.ball (K θ) μ ⊆ 𝔅)
+    (hDK : ∀ θ ∈ complexStrip n ρ₀, ‖fderiv ℂ K θ‖ ≤ ℓ) (hS : IsStep ΔK ρ₀) (hρ : ρ₁ ≤ ρ₀)
+    (hd0 : ∀ θ ∈ complexStrip n ρ₁, ‖ΔK θ‖ ≤ d₀)
+    (hd1 : ∀ θ ∈ complexStrip n ρ₁, ‖fderiv ℂ ΔK θ‖ ≤ d₁) (hμ : d₀ + μ₁ ≤ μ) :
+    DifferentiableOn ℂ (K + ΔK) (complexStrip n ρ₁) ∧ IsPrimaryOnStrip (K + ΔK) ρ₁ ∧
+      IsRealOnReals (K + ΔK) ∧ (∀ θ ∈ complexStrip n ρ₁, Metric.ball ((K + ΔK) θ) μ₁ ⊆ 𝔅) ∧
+      ∀ θ ∈ complexStrip n ρ₁, ‖fderiv ℂ (K + ΔK) θ‖ ≤ ℓ + d₁ := by
+  sorry
+
+/-- Lemma `bp:p2s2hc:error`: `|E₁| ≤ ℓ_E + (M₂/2) d₀²` (Taylor, `KAM.taylor_iteratedFDeriv`). -/
+theorem invarianceError_step_le {𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))}
+    {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {K ΔK : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    {ω : Fin n → ℝ} {ρ₀ ρ₁ μ M₂ d₀ ℓE : ℝ} (hopen : IsOpen 𝔅)
+    (hX : DifferentiableOn ℂ (hamiltonianVectorFieldℂ h) 𝔅)
+    (hd2 : ∀ z ∈ 𝔅, ‖iteratedFDeriv ℂ 2 (hamiltonianVectorFieldℂ h) z‖ ≤ M₂)
+    (hK : DifferentiableOn ℂ K (complexStrip n ρ₀)) (hS : IsStep ΔK ρ₀) (hρ : ρ₁ ≤ ρ₀)
+    (hball : ∀ θ ∈ complexStrip n ρ₁, Metric.ball (K θ) μ ⊆ 𝔅)
+    (hd0 : ∀ θ ∈ complexStrip n ρ₁, ‖ΔK θ‖ ≤ d₀) (hd0μ : d₀ < μ)
+    (hlin : ∀ θ ∈ complexStrip n ρ₁, ‖linNewError h K ΔK ω θ‖ ≤ ℓE) :
+    ∀ θ ∈ complexStrip n ρ₁, ‖invarianceError h (K + ΔK) ω θ‖ ≤ ℓE + M₂ / 2 * d₀ ^ 2 := by
+  sorry
+
+/-- The numbers of Lemma `bp:p2s2hc:frames`: initial values of `K` and the increments of `DΔK`. -/
+structure FrameNum where
+  ℓ : ℝ
+  ℓt : ℝ
+  β : ℝ
+  ν : ℝ
+  νt : ℝ
+  d1 : ℝ
+  d1t : ℝ
+
+namespace FrameNum
+
+variable (F : FrameNum)
+
+/-- `g = ℓᵗ d₁ + d₁ᵗ ℓ + d₁ᵗ d₁ ≥ |G₁ - G|`. -/
+def g : ℝ := F.ℓt * F.d1 + F.d1t * F.ℓ + F.d1t * F.d1
+/-- `β₁ = β/(1 - βg) ≥ |B₁|`. -/
+def β1 : ℝ := F.β / (1 - F.β * F.g)
+/-- `b = β² g/(1 - βg) ≥ |B₁ - B|`. -/
+def b : ℝ := F.β ^ 2 * F.g / (1 - F.β * F.g)
+/-- `n_Δ = β₁ d₁ + ℓ b ≥ |N₁ - N|`. -/
+def nΔ : ℝ := F.β1 * F.d1 + F.ℓ * F.b
+/-- `n_Δᵗ = β₁ d₁ᵗ + ℓᵗ b ≥ |N₁ᵀ - Nᵀ|`. -/
+def nΔt : ℝ := F.β1 * F.d1t + F.ℓt * F.b
+
+end FrameNum
+
+/-- Lemma `bp:p2s2hc:frames` (pointwise). -/
+theorem frames_step {K ΔK : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {θ : Fin n → ℂ}
+    {F : FrameNum} (hK : DifferentiableAt ℂ K θ) (hΔ : DifferentiableAt ℂ ΔK θ)
+    (hG : IsUnit (gramMatrix K θ).det) (hL : ‖tangentMat K θ‖ ≤ F.ℓ)
+    (hLt : ‖(tangentMat K θ)ᵀ‖ ≤ F.ℓt) (hB : ‖(gramMatrix K θ)⁻¹‖ ≤ F.β)
+    (hN : ‖normalMat K θ‖ ≤ F.ν) (hNt : ‖(normalMat K θ)ᵀ‖ ≤ F.νt)
+    (h1 : ‖tangentMat ΔK θ‖ ≤ F.d1) (h1t : ‖(tangentMat ΔK θ)ᵀ‖ ≤ F.d1t)
+    (hs : F.β * F.g < 1) :
+    IsUnit (gramMatrix (K + ΔK) θ).det ∧ ‖(tangentMat (K + ΔK) θ)ᵀ‖ ≤ F.ℓt + F.d1t ∧
+      ‖(gramMatrix (K + ΔK) θ)⁻¹‖ ≤ F.β1 ∧
+      ‖(gramMatrix (K + ΔK) θ)⁻¹ - (gramMatrix K θ)⁻¹‖ ≤ F.b ∧
+      ‖normalMat (K + ΔK) θ - normalMat K θ‖ ≤ F.nΔ ∧
+      ‖(normalMat (K + ΔK) θ)ᵀ - (normalMat K θ)ᵀ‖ ≤ F.nΔt ∧
+      ‖normalMat (K + ΔK) θ‖ ≤ F.ν + F.nΔ ∧ ‖(normalMat (K + ΔK) θ)ᵀ‖ ≤ F.νt + F.nΔt := by
+  sorry
+
+/-- `Δ_ab` of Lemma `bp:p2s2hc:torsion`(a). -/
+def dAB (F : FrameNum) (cTh cDTh d : ℝ) : ℝ :=
+  F.nΔt * cTh * (F.ν + F.nΔ) + F.νt * (cDTh * d) * (F.ν + F.nΔ) + F.νt * cTh * F.nΔ
+
+/-- Lemma `bp:p2s2hc:torsion`(a), the frame part (pointwise; `KAM.Sharp2.torsionAB`). -/
+theorem torsionAB_step_sub_le {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
+    {K ΔK : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {θ : Fin n → ℂ} {F : FrameNum}
+    {cTh cDTh d : ℝ} (hG : IsUnit (gramMatrix K θ).det)
+    (hG₁ : IsUnit (gramMatrix (K + ΔK) θ).det) (hN : ‖normalMat K θ‖ ≤ F.ν)
+    (hNt : ‖(normalMat K θ)ᵀ‖ ≤ F.νt) (hdN : ‖normalMat (K + ΔK) θ - normalMat K θ‖ ≤ F.nΔ)
+    (hdNt : ‖(normalMat (K + ΔK) θ)ᵀ - (normalMat K θ)ᵀ‖ ≤ F.nΔt)
+    (hc : ‖hamComm h (K θ)‖ ≤ cTh) (hc₁ : ‖hamComm h ((K + ΔK) θ)‖ ≤ cTh)
+    (hcd : ‖hamComm h ((K + ΔK) θ) - hamComm h (K θ)‖ ≤ cDTh * d) :
+    ‖torsionAB h (K + ΔK) θ - torsionAB h K θ‖ ≤ dAB F cTh cDTh d := by
+  sorry
+
+/-- Lemma `bp:p2s2hc:torsion`(c) (pointwise): the two sup forms and the increment. The local parts
+`l₀`, `l₁` come from `KAM.Sharp2.norm_torsion_sub_torsionAB_le` at `K` (frequency `ω`) and at `K₁`
+(frequency `ω₁`; `ω₁ = ω` at fixed frequency, `s₁ ω*` against `s ω*` in the iso form: the frame
+part `𝒯_ab` does not depend on the frequency). -/
+theorem torsion_step_le {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
+    {K ΔK : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {ω ω₁ : Fin n → ℝ} {θ : Fin n → ℂ}
+    {t dab l₀ l₁ a₁ : ℝ} (hT : ‖torsion h K ω θ‖ ≤ t)
+    (hab : ‖torsionAB h (K + ΔK) θ - torsionAB h K θ‖ ≤ dab)
+    (hab₁ : ‖torsionAB h (K + ΔK) θ‖ ≤ a₁)
+    (hl₀ : ‖torsion h K ω θ - torsionAB h K θ‖ ≤ l₀)
+    (hl₁ : ‖torsion h (K + ΔK) ω₁ θ - torsionAB h (K + ΔK) θ‖ ≤ l₁) :
+    ‖torsion h (K + ΔK) ω₁ θ‖ ≤ min (t + dab + l₀) a₁ + l₁ ∧
+      ‖torsion h (K + ΔK) ω₁ θ - torsion h K ω θ‖ ≤ dab + l₀ + l₁ := by
+  sorry
+
+/-- Lemma `bp:p2s2hc:torsion`(d): Neumann against the initial average (`inv_le_of_ref`). -/
+theorem torsionAverage_step {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
+    {K K₁ : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {ω : Fin n → ℝ} {m tA : ℝ}
+    (hint : ∀ i j, IntegrableOn (fun θ : Fin n → ℝ => torsion h K ω (fun l => (θ l : ℂ)) i j)
+      (Set.pi Set.univ fun _ => Set.Icc (0 : ℝ) 1))
+    (hint₁ : ∀ i j, IntegrableOn (fun θ : Fin n → ℝ => torsion h K₁ ω (fun l => (θ l : ℂ)) i j)
+      (Set.pi Set.univ fun _ => Set.Icc (0 : ℝ) 1))
+    (hd : ∀ θ : Fin n → ℝ,
+      ‖torsion h K₁ ω (fun l => (θ l : ℂ)) - torsion h K ω (fun l => (θ l : ℂ))‖ ≤ tA)
+    (hu : IsUnit (torsionAverage h K ω).det) (hm : ‖(torsionAverage h K ω)⁻¹‖ ≤ m)
+    (hm0 : 0 < m) (htA : 0 ≤ tA) (hmt : m * tA < 1) :
+    IsUnit (torsionAverage h K₁ ω).det ∧ ‖(torsionAverage h K₁ ω)⁻¹‖ ≤ m / (1 - m * tA) := by
+  sorry
+
+/-- Lemma `bp:p2s2hc:torsion`(e): Cauchy for the derivative of the new error. -/
+theorem errDerivMat_step_le {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
+    {K₁ : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {ω : Fin n → ℝ} {ρ₁ δ e₁ : ℝ}
+    (hdiff : DifferentiableOn ℂ (invarianceError h K₁ ω) (complexStrip n ρ₁))
+    (hE : ∀ θ ∈ complexStrip n ρ₁, ‖invarianceError h K₁ ω θ‖ ≤ e₁) (hδ : 0 < δ) :
+    ∀ θ ∈ complexStrip n (ρ₁ - δ), ‖errDerivMat h K₁ ω θ‖ ≤ n * δ⁻¹ * e₁ := by
+  sorry
+
+/-- Lemma `bpI:p2s2hc:errors`(b): the new energy error (Taylor for `H` at real points). -/
+theorem energyAverage_step_le {D : Set ((Fin n → ℂ) × (Fin n → ℂ))}
+    {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {K ΔK : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    {E₀ μ Mh2 d₀R ℓH : ℝ} (hopen : IsOpen D) (hH : DifferentiableOn ℂ H D)
+    (hd2 : ∀ z ∈ D, ‖iteratedFDeriv ℂ 2 H z‖ ≤ Mh2)
+    (hball : ∀ θ : Fin n → ℝ, Metric.ball (K fun l => (θ l : ℂ)) μ ⊆ D)
+    (hd0 : ∀ θ : Fin n → ℝ, ‖ΔK fun l => (θ l : ℂ)‖ ≤ d₀R) (hd0μ : d₀R < μ)
+    (hint : IntegrableOn (fun θ : Fin n → ℝ => H (K fun l => (θ l : ℂ)))
+      (Set.pi Set.univ fun _ => Set.Icc (0 : ℝ) 1))
+    (hint₁ : IntegrableOn (fun θ : Fin n → ℝ => H ((K + ΔK) fun l => (θ l : ℂ)))
+      (Set.pi Set.univ fun _ => Set.Icc (0 : ℝ) 1))
+    (hintD : IntegrableOn (fun θ : Fin n → ℝ =>
+      fderiv ℂ H (K fun l => (θ l : ℂ)) (ΔK fun l => (θ l : ℂ)))
+      (Set.pi Set.univ fun _ => Set.Icc (0 : ℝ) 1))
+    (hlin : ‖linNewEnergy H K ΔK E₀‖ ≤ ℓH) :
+    ‖KAM.Iso.energyAverage H (K + ΔK) - (E₀ : ℂ)‖ ≤ ℓH + Mh2 / 2 * d₀R ^ 2 := by
+  sorry
+
+/-- Lemma `bpI:p2s2hc:torsion`: the bordered torsion of the new torus at `s₁ ω*`, by Neumann
+against `⟨T^ext⟩` of `K` at `s ω*`; `tA` bounds the torsion increment, `y` the last-row increment
+`DH(K₁)N₁ - DH(K)N` at real points, `dω` the change of the frequency. -/
+theorem extTorsionAverage_step {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
+    {K K₁ : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {ωstar : Fin n → ℝ} {s s₁ m tA y dω : ℝ}
+    (hint : ∀ i j, IntegrableOn
+      (fun θ : Fin n → ℝ => torsion H K (s • ωstar) (fun l => (θ l : ℂ)) i j)
+      (Set.pi Set.univ fun _ => Set.Icc (0 : ℝ) 1))
+    (hint₁ : ∀ i j, IntegrableOn
+      (fun θ : Fin n → ℝ => torsion H K₁ (s₁ • ωstar) (fun l => (θ l : ℂ)) i j)
+      (Set.pi Set.univ fun _ => Set.Icc (0 : ℝ) 1))
+    (hintY : ∀ j, IntegrableOn (fun θ : Fin n → ℝ =>
+      fderiv ℂ H (K fun l => (θ l : ℂ)) (normalFrame K (fun l => (θ l : ℂ)) j))
+      (Set.pi Set.univ fun _ => Set.Icc (0 : ℝ) 1))
+    (hintY₁ : ∀ j, IntegrableOn (fun θ : Fin n → ℝ =>
+      fderiv ℂ H (K₁ fun l => (θ l : ℂ)) (normalFrame K₁ (fun l => (θ l : ℂ)) j))
+      (Set.pi Set.univ fun _ => Set.Icc (0 : ℝ) 1))
+    (hd : ∀ θ : Fin n → ℝ, ‖torsion H K₁ (s₁ • ωstar) (fun l => (θ l : ℂ)) -
+      torsion H K (s • ωstar) (fun l => (θ l : ℂ))‖ ≤ tA)
+    (hy : ∀ θ : Fin n → ℝ, ∑ j, ‖fderiv ℂ H (K₁ fun l => (θ l : ℂ))
+      (normalFrame K₁ (fun l => (θ l : ℂ)) j) -
+        fderiv ℂ H (K fun l => (θ l : ℂ)) (normalFrame K (fun l => (θ l : ℂ)) j)‖ ≤ y)
+    (hdω : ‖s₁ • ωstar - s • ωstar‖ ≤ dω)
+    (hu : IsUnit (KAM.Iso.extendedTorsionAverage H K (s • ωstar)).det)
+    (hm : ‖(KAM.Iso.extendedTorsionAverage H K (s • ωstar))⁻¹‖ ≤ m) (hm0 : 0 < m)
+    (hmt : m * max (tA + dω) y < 1) (htA : 0 ≤ tA) :
+    IsUnit (KAM.Iso.extendedTorsionAverage H K₁ (s₁ • ωstar)).det ∧
+      ‖(KAM.Iso.extendedTorsionAverage H K₁ (s₁ • ωstar))⁻¹‖ ≤
+        m / (1 - m * max (tA + dω) y) := by
+  sorry
+
+/-! ## Part 3. The theorems -/
+
+open KAM.Sharp2.RouteA
+
+/-- Core form, route A with L8′ (`bp:p2s2hc:g1` with a direct new torus): every hypothesis of
+`g1_branch_R` for `K₁` at the restart numbers `N₁` (strip `N₁.ρ`, margin `μ₁`, caps `σ₁`), the ball
+of `K` on `T_{ρ∞}`, the displacement and the two restart inequalities. -/
+theorem g1_hybrid_core_R {N₁ : NumA} (hN : N₁.Wf) (hfix : N₁.iso = false) (hΘ : N₁.Θ = 0)
+    (hτ : (N₁.n : ℝ) - 1 ≤ N₁.τ) {M σK μ σK₁ σB₁ σT₁ μ₁ γbar Xs bF bT dinf : ℝ} {I₁ : InitA}
+    (hM : 0 < M) (hμ₁ : 0 < μ₁) (hγbar : γbar = N₁.γb) (hsK : N₁.sK = σK₁ - μ₁ / 2)
+    (hOk : routeAOkR N₁ bF (N₁.capR (μ₁ / 2) bT) (initR I₁ σK₁ σB₁ μ₁) Xs)
+    (hB : Ref.Budget N₁ (σT₁ - μ₁) I₁.iH bF bT) (hXpos : 0 < Xs)
+    {𝔅 : Set ((Fin N₁.n → ℂ) × (Fin N₁.n → ℂ))} {h : (Fin N₁.n → ℂ) × (Fin N₁.n → ℂ) → ℂ}
+    {K K₁ : (Fin N₁.n → ℂ) → (Fin N₁.n → ℂ) × (Fin N₁.n → ℂ)} {ω : Fin N₁.n → ℝ} {γ e₁ : ℝ}
+    {Ω : Set (Fin N₁.n → ℝ)} (hopen : IsOpen 𝔅)
+    (htransl : ∀ z ∈ 𝔅, ∀ k : Fin N₁.n → ℤ, (z.1 + (fun i => (k i : ℂ)), z.2) ∈ 𝔅)
+    (hholo : DifferentiableOn ℂ h 𝔅)
+    (hper : ∀ z ∈ 𝔅, ∀ k : Fin N₁.n → ℤ, h (z.1 + (fun i => (k i : ℂ)), z.2) = h z)
+    (hreal : ∀ θ I : Fin N₁.n → ℝ, ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ))) ∈ 𝔅 →
+      (h ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ)))).im = 0)
+    (hbd : ∀ z ∈ 𝔅, ‖fderiv ℂ h z‖ ≤ M ∧ ‖hamiltonianVectorFieldℂ h z‖ ≤ M ∧
+      ‖fderiv ℂ (hamiltonianVectorFieldℂ h) z‖ ≤ M ∧
+      ‖iteratedFDeriv ℂ 2 (hamiltonianVectorFieldℂ h) z‖ ≤ M)
+    (hK₁ : DifferentiableOn ℂ K₁ (complexStrip N₁.n N₁.ρ)) (hKp₁ : IsPrimaryOnStrip K₁ N₁.ρ)
+    (hKr₁ : IsRealOnReals K₁)
+    (hball₁ : ∀ θ ∈ complexStrip N₁.n N₁.ρ, Metric.ball (K₁ θ) μ₁ ⊆ 𝔅)
+    (hDK₁ : ∀ θ ∈ complexStrip N₁.n N₁.ρ, ‖fderiv ℂ K₁ θ‖ ≤ σK₁ - μ₁)
+    (hG₁ : ∀ θ ∈ complexStrip N₁.n N₁.ρ, IsUnit (gramMatrix K₁ θ).det ∧
+      ∀ i, ∑ j, ‖(gramMatrix K₁ θ)⁻¹ i j‖ ≤ σB₁ - μ₁)
+    (hTu₁ : IsUnit (torsionAverage h K₁ ω).det)
+    (hTb₁ : ∀ i, ∑ j, ‖(torsionAverage h K₁ ω)⁻¹ i j‖ ≤ σT₁ - μ₁)
+    (hRef₁ : RefHypA N₁ I₁ 𝔅 h K₁ ω) (hω : ω ∈ Ω) (hCt : N₁.Cert γ Ω) (hγ : 0 < γ)
+    (hγγbar : γ ≤ γbar) (hdio : IsDiophantine γ N₁.τ ω) (he0 : 0 ≤ e₁)
+    (hE₁ : ∀ θ ∈ complexStrip N₁.n N₁.ρ, ‖invarianceError h K₁ ω θ‖ ≤ e₁)
+    (hsm : e₁ / (γ ^ 4 * delta0 3 N₁.ρ N₁.ρinf ^ (2 * (2 * N₁.τ))) < Xs)
+    (hball : ∀ θ ∈ complexStrip N₁.n N₁.ρinf, Metric.ball (K θ) μ ⊆ 𝔅)
+    (hd : ∀ θ ∈ complexStrip N₁.n N₁.ρinf, ‖K₁ θ - K θ‖ ≤ dinf)
+    (hbud : dinf + c2A N₁ Xs * e₁ / (γ ^ 2 * N₁.ρ ^ (2 * N₁.τ)) ≤ μ / 2)
+    (hσ : σK₁ - μ₁ / 2 ≤ σK - μ / 2) :
+    G1Concl 𝔅 h K ω N₁.ρinf μ σK (dinf + c2A N₁ Xs * e₁ / (γ ^ 2 * N₁.ρ ^ (2 * N₁.τ))) := by
+  sorry
+
+/-- Core form, route B: as `g1_hybrid_core_R` with `g1_branch_B` (`RefHypB`, `routeBOk`). -/
+theorem g1_hybrid_core_B {n : ℕ} {N₁ : RouteB.NumB n} (hN : N₁.Wf) (hfix : N₁.iso = false)
+    (hτ : (n : ℝ) - 1 ≤ N₁.τ) {M σK μ σK₁ σB₁ σT₁ μ₁ γbar Xs dinf : ℝ} {I₁ : RouteB.InitB}
+    (hM : 0 < M) (hμ₁ : 0 < μ₁) (hγbar : γbar = N₁.γb) (hsK : N₁.sK = σK₁ - μ₁ / 2)
+    (hI : I₁.Wf N₁ σT₁ μ₁) (hfit : N₁.Fits I₁)
+    (hOk : RouteB.routeBOk N₁ (RouteB.capB N₁ σT₁ μ₁ 0) (RouteB.initB I₁ σK₁ σB₁ μ₁) (μ₁ / 2) Xs)
+    (hXpos : 0 < Xs) {𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))}
+    {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {K K₁ : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    {ω : Fin n → ℝ} {γ e₁ : ℝ} {Ω : Set (Fin n → ℝ)} (hopen : IsOpen 𝔅)
+    (htransl : ∀ z ∈ 𝔅, ∀ k : Fin n → ℤ, (z.1 + (fun i => (k i : ℂ)), z.2) ∈ 𝔅)
+    (hholo : DifferentiableOn ℂ h 𝔅)
+    (hper : ∀ z ∈ 𝔅, ∀ k : Fin n → ℤ, h (z.1 + (fun i => (k i : ℂ)), z.2) = h z)
+    (hreal : ∀ θ I : Fin n → ℝ, ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ))) ∈ 𝔅 →
+      (h ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ)))).im = 0)
+    (hbd : ∀ z ∈ 𝔅, ‖fderiv ℂ h z‖ ≤ M ∧ ‖hamiltonianVectorFieldℂ h z‖ ≤ M ∧
+      ‖fderiv ℂ (hamiltonianVectorFieldℂ h) z‖ ≤ M ∧
+      ‖iteratedFDeriv ℂ 2 (hamiltonianVectorFieldℂ h) z‖ ≤ M)
+    (hK₁ : DifferentiableOn ℂ K₁ (complexStrip n N₁.ρ)) (hKp₁ : IsPrimaryOnStrip K₁ N₁.ρ)
+    (hKr₁ : IsRealOnReals K₁) (hball₁ : ∀ θ ∈ complexStrip n N₁.ρ, Metric.ball (K₁ θ) μ₁ ⊆ 𝔅)
+    (hDK₁ : ∀ θ ∈ complexStrip n N₁.ρ, ‖fderiv ℂ K₁ θ‖ ≤ σK₁ - μ₁)
+    (hG₁ : ∀ θ ∈ complexStrip n N₁.ρ, IsUnit (gramMatrix K₁ θ).det ∧
+      ∀ i, ∑ j, ‖(gramMatrix K₁ θ)⁻¹ i j‖ ≤ σB₁ - μ₁)
+    (hTu₁ : IsUnit (torsionAverage h K₁ ω).det)
+    (hTb₁ : ∀ i, ∑ j, ‖(torsionAverage h K₁ ω)⁻¹ i j‖ ≤ σT₁ - μ₁)
+    (hRef₁ : RouteB.RefHypB N₁ I₁ 𝔅 h K₁ N₁.ρ) (hω : ω ∈ Ω) (hCt : N₁.Cert γ Ω) (hγ : 0 < γ)
+    (hγγbar : γ ≤ γbar) (hdio : IsDiophantine γ N₁.τ ω)
+    (hE₁ : ∀ θ ∈ complexStrip n N₁.ρ, ‖invarianceError h K₁ ω θ‖ ≤ e₁)
+    (hsm : RouteB.c1B N₁ I₁ Xs * e₁ / (γ ^ 4 * N₁.ρ ^ (4 * N₁.τ)) < 1)
+    (hball : ∀ θ ∈ complexStrip n N₁.ρinf, Metric.ball (K θ) μ ⊆ 𝔅)
+    (hd : ∀ θ ∈ complexStrip n N₁.ρinf, ‖K₁ θ - K θ‖ ≤ dinf)
+    (hbud : dinf + RouteB.c2B N₁ I₁ Xs * e₁ / (γ ^ 2 * N₁.ρ ^ (2 * N₁.τ)) ≤ μ / 2)
+    (hσ : σK₁ - μ₁ / 2 ≤ σK - μ / 2) :
+    G1Concl 𝔅 h K ω N₁.ρinf μ σK
+      (dinf + RouteB.c2B N₁ I₁ Xs * e₁ / (γ ^ 2 * N₁.ρ ^ (2 * N₁.τ))) := by
+  sorry
+
+/-! ### The step form -/
+
+/-- Certified data of `K` (Assumption `bp:p2s2hc:standing`(b)): `ℓ = σ_K - μ`, `β = σ_B - μ`,
+`m = σ_T - μ`, and the refined initial values `ℓᵗ`, `ν`, `νᵗ`, `t`. -/
+structure KData where
+  ℓ : ℝ
+  ℓt : ℝ
+  β : ℝ
+  ν : ℝ
+  νt : ℝ
+  t : ℝ
+  m : ℝ
+
+/-- The step bounds of Definition `bp:p2s2hc:bounds` (numbers). -/
+structure StepNum where
+  d0 : ℝ
+  dinf : ℝ
+  d1 : ℝ
+  d1t : ℝ
+  d0R : ℝ
+  d1R : ℝ
+  d1tR : ℝ
+  lE : ℝ
+  dE0 : ℝ
+  o0 : ℝ
+  dE0R : ℝ
+  o0R : ℝ
+  o1 : ℝ
+  o1R : ℝ
+
+/-- `(S1)–(S7)`: each a bound on an explicit object; `ρT` is the torsion strip `ρ₁ - δ₀'`; `ω` is
+the frequency of `K`, `ω₁` that of `K₁` (`ω₁ = ω` at fixed frequency; `s ω*`, `s₁ ω*` in the iso
+form, where `linNewError` at `s₁ ω*` is `Ẽ_s`). -/
+structure StepBounds (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ)
+    (K ΔK : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (ω ω₁ : Fin n → ℝ) (ρ₁ ρinf ρT : ℝ)
+    (b : StepNum) : Prop where
+  d0 : ∀ θ ∈ complexStrip n ρ₁, ‖ΔK θ‖ ≤ b.d0
+  dinf : ∀ θ ∈ complexStrip n ρinf, ‖ΔK θ‖ ≤ b.dinf
+  d1 : ∀ θ ∈ complexStrip n ρ₁, ‖tangentMat ΔK θ‖ ≤ b.d1 ∧ ‖(tangentMat ΔK θ)ᵀ‖ ≤ b.d1t
+  real : ∀ θ : Fin n → ℝ, ‖ΔK fun l => (θ l : ℂ)‖ ≤ b.d0R ∧
+    ‖tangentMat ΔK (fun l => (θ l : ℂ))‖ ≤ b.d1R ∧ ‖(tangentMat ΔK (fun l => (θ l : ℂ)))ᵀ‖ ≤ b.d1tR
+  lin : ∀ θ ∈ complexStrip n ρ₁, ‖linNewError h K ΔK ω₁ θ‖ ≤ b.lE
+  loc0 : ∀ θ ∈ complexStrip n ρT, ‖errDerivMat h K ω θ‖ ≤ b.dE0 ∧ ‖lagrangeMat K θ‖ ≤ b.o0
+  loc0R : ∀ θ : Fin n → ℝ, ‖errDerivMat h K ω (fun l => (θ l : ℂ))‖ ≤ b.dE0R ∧
+    ‖lagrangeMat K (fun l => (θ l : ℂ))‖ ≤ b.o0R
+  loc1 : ∀ θ ∈ complexStrip n ρT, ‖lagrangeMat (K + ΔK) θ‖ ≤ b.o1
+  loc1R : ∀ θ : Fin n → ℝ, ‖lagrangeMat (K + ΔK) (fun l => (θ l : ℂ))‖ ≤ b.o1R
+
+namespace StepNum
+
+variable (b : StepNum) (k : KData)
+
+/-- `e₁ = ℓ_E + (M₂/2) d₀²` (Lemma `bp:p2s2hc:error`). -/
+def e1 (M2 : ℝ) : ℝ := b.lE + M2 / 2 * b.d0 ^ 2
+/-- The frame numbers on the strip. -/
+def frS : FrameNum := ⟨k.ℓ, k.ℓt, k.β, k.ν, k.νt, b.d1, b.d1t⟩
+/-- The frame numbers on the real torus. -/
+def frR : FrameNum := ⟨k.ℓ, k.ℓt, k.β, k.ν, k.νt, b.d1R, b.d1tR⟩
+/-- A bound of the matrix `W` of the local torsion part (`bp:p2s2hc:torsion`). -/
+def wB (nn M1 ℓ ℓt dE : ℝ) : ℝ := ℓt * (4 * nn * M1) * ℓ + dE * (2 * nn * ℓ + ℓt)
+/-- `λ₀`, the local part of `K`'s torsion, on the strip `T'` (`real = false`) or on `ℝⁿ`. -/
+def lam0 (nn M1 : ℝ) (real : Bool) : ℝ :=
+  let dE := if real then b.dE0R else b.dE0
+  let o := if real then b.o0R else b.o0
+  k.νt * k.β * dE + k.β ^ 3 * wB nn M1 k.ℓ k.ℓt dE * o
+/-- `λ₁`, the local part of `K₁`'s torsion, with `ε₁' = n e₁/δ` (Cauchy). -/
+def lam1 (nn M1 M2 δ : ℝ) (real : Bool) : ℝ :=
+  let F := if real then b.frR k else b.frS k
+  let dE := nn * δ⁻¹ * b.e1 M2
+  let o := if real then b.o1R else b.o1
+  (F.νt + F.nΔt) * F.β1 * dE + F.β1 ^ 3 * wB nn M1 (F.ℓ + F.d1) (F.ℓt + F.d1t) dE * o
+/-- `t₁`, the torsion bound of `K₁` on `T'` (Lemma `bp:p2s2hc:torsion`(c)). -/
+def t1 (nn M1 M2 δ cTh : ℝ) : ℝ :=
+  min (k.t + dAB (b.frS k) cTh (2 * M2) b.d0 + b.lam0 k nn M1 false)
+      (((b.frS k).νt + (b.frS k).nΔt) * cTh * ((b.frS k).ν + (b.frS k).nΔ)) +
+    b.lam1 k nn M1 M2 δ false
+/-- `t_A ≥ |⟨T₁⟩ - ⟨T⟩|` (Lemma `bp:p2s2hc:torsion`(d)). -/
+def tA (nn M1 M2 δ cTh : ℝ) : ℝ :=
+  dAB (b.frR k) cTh (2 * M2) b.d0R + b.lam0 k nn M1 true + b.lam1 k nn M1 M2 δ true
+/-- The transferred initial values of `K₁` (Definition `bp:p2s2hc:data`). -/
+def init1 (nn M1 M2 δ cTh : ℝ) : InitA :=
+  ⟨k.ℓt + b.d1t, k.ν + (b.frS k).nΔ, k.νt + (b.frS k).nΔt, b.t1 k nn M1 M2 δ cTh⟩
+/-- `σ_{K,1} = ℓ + d₁ + μ₁`. -/
+def sK1 (μ₁ : ℝ) : ℝ := k.ℓ + b.d1 + μ₁
+/-- `σ_{B,1} = β₁ + μ₁`. -/
+def sB1 (μ₁ : ℝ) : ℝ := (b.frS k).β1 + μ₁
+/-- `σ_{T,1} = m/(1 - m t_A) + μ₁`. -/
+def sT1 (nn M1 M2 δ cTh μ₁ : ℝ) : ℝ := k.m / (1 - k.m * b.tA k nn M1 M2 δ cTh) + μ₁
+
+end StepNum
+
+/-- Theorem `bp:p2s2hc:g1`, route A with L8′, the step form: frozen hypotheses and refined data of
+`K` on `T_{ρ₀}`, a step with the bounds `(S1)–(S7)`, the restart numbers `N₁` with the transferred
+initial values, and `HybOk_A'`. Conclusion: the frozen conclusion for `K` with closeness
+`d∞ + c2A N₁ X⋆ e₁/(γ² ρ₁^{2τ})`. -/
+theorem g1_hybrid_R {N₁ : NumA} (hN : N₁.Wf) (hfix : N₁.iso = false) (hΘ : N₁.Θ = 0)
+    (hτ : (N₁.n : ℝ) - 1 ≤ N₁.τ) {M σK σB σT μ μ₁ γbar ρ₀ Xs bF bT cTh : ℝ} (k : KData)
+    (b : StepNum) (hM : 0 < M) (hμ₁ : 0 < μ₁) (hγbar : γbar = N₁.γb) (hρ : N₁.ρ ≤ ρ₀)
+    (hℓ : k.ℓ = σK - μ) (hβ : k.β = σB - μ) (hm : k.m = σT - μ)
+    (hsK : N₁.sK = b.sK1 k μ₁ - μ₁ / 2)
+    (hOk : routeAOkR N₁ bF (N₁.capR (μ₁ / 2) bT)
+      (initR (b.init1 k N₁.n N₁.M1 N₁.M2 (N₁.δ 0) cTh) (b.sK1 k μ₁) (b.sB1 k μ₁) μ₁) Xs)
+    (hB : Ref.Budget N₁ (b.sT1 k N₁.n N₁.M1 N₁.M2 (N₁.δ 0) cTh μ₁ - μ₁)
+      (b.init1 k N₁.n N₁.M1 N₁.M2 (N₁.δ 0) cTh).iH bF bT) (hXpos : 0 < Xs)
+    (hm1 : b.d0 + μ₁ ≤ μ) (hm2 : b.d1 + μ₁ / 2 ≤ μ / 2) (hgS : k.β * (b.frS k).g < 1)
+    (hgR : k.β * (b.frR k).g < 1) (htA : k.m * b.tA k N₁.n N₁.M1 N₁.M2 (N₁.δ 0) cTh < 1)
+    {𝔅 : Set ((Fin N₁.n → ℂ) × (Fin N₁.n → ℂ))} {h : (Fin N₁.n → ℂ) × (Fin N₁.n → ℂ) → ℂ}
+    {K ΔK : (Fin N₁.n → ℂ) → (Fin N₁.n → ℂ) × (Fin N₁.n → ℂ)} {ω : Fin N₁.n → ℝ} {γ : ℝ}
+    {Ω : Set (Fin N₁.n → ℝ)} (hopen : IsOpen 𝔅)
+    (htransl : ∀ z ∈ 𝔅, ∀ k : Fin N₁.n → ℤ, (z.1 + (fun i => (k i : ℂ)), z.2) ∈ 𝔅)
+    (hholo : DifferentiableOn ℂ h 𝔅)
+    (hper : ∀ z ∈ 𝔅, ∀ k : Fin N₁.n → ℤ, h (z.1 + (fun i => (k i : ℂ)), z.2) = h z)
+    (hreal : ∀ θ I : Fin N₁.n → ℝ, ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ))) ∈ 𝔅 →
+      (h ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ)))).im = 0)
+    (hbd : ∀ z ∈ 𝔅, ‖fderiv ℂ h z‖ ≤ M ∧ ‖hamiltonianVectorFieldℂ h z‖ ≤ M ∧
+      ‖fderiv ℂ (hamiltonianVectorFieldℂ h) z‖ ≤ M ∧
+      ‖iteratedFDeriv ℂ 2 (hamiltonianVectorFieldℂ h) z‖ ≤ M)
+    (hdX : ∀ z ∈ 𝔅, ‖fderiv ℂ (hamiltonianVectorFieldℂ h) z‖ ≤ N₁.M1)
+    (hd2X : ∀ z ∈ 𝔅, ‖iteratedFDeriv ℂ 2 (hamiltonianVectorFieldℂ h) z‖ ≤ N₁.M2)
+    (hcTh : ∀ z ∈ 𝔅, ‖hamComm h z‖ ≤ cTh)
+    (hK : DifferentiableOn ℂ K (complexStrip N₁.n ρ₀)) (hKp : IsPrimaryOnStrip K ρ₀)
+    (hKr : IsRealOnReals K) (hball : ∀ θ ∈ complexStrip N₁.n ρ₀, Metric.ball (K θ) μ ⊆ 𝔅)
+    (hDK : ∀ θ ∈ complexStrip N₁.n ρ₀, ‖fderiv ℂ K θ‖ ≤ σK - μ)
+    (hG : ∀ θ ∈ complexStrip N₁.n ρ₀, IsUnit (gramMatrix K θ).det ∧
+      ∀ i, ∑ j, ‖(gramMatrix K θ)⁻¹ i j‖ ≤ σB - μ)
+    (hTu : IsUnit (torsionAverage h K ω).det)
+    (hTb : ∀ i, ∑ j, ‖(torsionAverage h K ω)⁻¹ i j‖ ≤ σT - μ)
+    (hLt : ∀ θ ∈ complexStrip N₁.n ρ₀, ‖(tangentMat K θ)ᵀ‖ ≤ k.ℓt)
+    (hNm : ∀ θ ∈ complexStrip N₁.n ρ₀, ‖normalMat K θ‖ ≤ k.ν)
+    (hNt : ∀ θ ∈ complexStrip N₁.n ρ₀, ‖(normalMat K θ)ᵀ‖ ≤ k.νt)
+    (hT : ∀ θ ∈ complexStrip N₁.n (N₁.ρ - N₁.δ 0), ‖torsion h K ω θ‖ ≤ k.t)
+    (hS : IsStep ΔK ρ₀) (hb : StepBounds h K ΔK ω ω N₁.ρ N₁.ρinf (N₁.ρ - N₁.δ 0) b)
+    (hω : ω ∈ Ω) (hCt : N₁.Cert γ Ω) (hγ : 0 < γ) (hγγbar : γ ≤ γbar)
+    (hdio : IsDiophantine γ N₁.τ ω)
+    (hsm : b.e1 N₁.M2 / (γ ^ 4 * delta0 3 N₁.ρ N₁.ρinf ^ (2 * (2 * N₁.τ))) < Xs)
+    (hbud : b.dinf + c2A N₁ Xs * b.e1 N₁.M2 / (γ ^ 2 * N₁.ρ ^ (2 * N₁.τ)) ≤ μ / 2) :
+    G1Concl 𝔅 h K ω N₁.ρinf μ σK
+      (b.dinf + c2A N₁ Xs * b.e1 N₁.M2 / (γ ^ 2 * N₁.ρ ^ (2 * N₁.τ))) := by
+  sorry
+
+/-! ### The minimum with the existing routes -/
+
+/-- The restart numbers of route A: the strip `ρ₁`, the caps and the small-divisor data of the
+schedule from `ρ₁` replace those of `N`; `(N.restart R).n = N.n` definitionally. -/
+structure RestartA where
+  ρ₁ : ℝ
+  sK : ℝ
+  sB : ℝ
+  sT : ℝ
+  sLt : ℝ
+  sN : ℝ
+  sNt : ℝ
+  t : ℝ
+  c : ℕ → ℝ
+  cbar : ℕ → ℝ
+  ctail : ℝ
+  kp : ℕ
+  bbar : ℕ → ℝ
+
+/-- `NumA.restart` (Definition `bp:p2s2hc:data`). -/
+def _root_.KAM.Sharp2.RouteA.NumA.restart (N : NumA) (R : RestartA) : NumA :=
+  { N with
+    ρ := R.ρ₁
+    sK := R.sK
+    sB := R.sB
+    sT := R.sT
+    sLt := R.sLt
+    sN := R.sN
+    sNt := R.sNt
+    t := R.t
+    c := R.c
+    cbar := R.cbar
+    ctail := R.ctail
+    kp := R.kp
+    bbar := R.bbar }
+
+example (N : NumA) (R : RestartA) : (N.restart R).n = N.n := rfl
+
+/-- The hybrid condition `HybOk_A'` of Definition `bp:p2s2hc:data` for `K` with the data `k`, the
+step numbers `b`, the restart `N₁ = N.restart R`, margin `μ₁`, `X⋆`, budgets `bF`, `bT`. -/
+structure HybOkR (N : NumA) (R : RestartA) (k : KData) (b : StepNum)
+    (σK σB σT μ μ₁ γ Xs bF bT cTh : ℝ) : Prop where
+  wf : (N.restart R).Wf
+  μ₁_pos : 0 < μ₁
+  ρ_le : R.ρ₁ ≤ N.ρ
+  ℓ : k.ℓ = σK - μ
+  β : k.β = σB - μ
+  m : k.m = σT - μ
+  sK : R.sK = b.sK1 k μ₁ - μ₁ / 2
+  ok : routeAOkR (N.restart R) bF ((N.restart R).capR (μ₁ / 2) bT)
+      (initR (b.init1 k N.n N.M1 N.M2 ((N.restart R).δ 0) cTh) (b.sK1 k μ₁) (b.sB1 k μ₁) μ₁) Xs
+  budget : Ref.Budget (N.restart R) (b.sT1 k N.n N.M1 N.M2 ((N.restart R).δ 0) cTh μ₁ - μ₁)
+      (b.init1 k N.n N.M1 N.M2 ((N.restart R).δ 0) cTh).iH bF bT
+  Xs_pos : 0 < Xs
+  m1 : b.d0 + μ₁ ≤ μ
+  m2 : b.d1 + μ₁ / 2 ≤ μ / 2
+  gS : k.β * (b.frS k).g < 1
+  gR : k.β * (b.frR k).g < 1
+  tA : k.m * b.tA k N.n N.M1 N.M2 ((N.restart R).δ 0) cTh < 1
+  small : b.e1 N.M2 / (γ ^ 4 * delta0 3 R.ρ₁ N.ρinf ^ (2 * (2 * N.τ))) < Xs
+  bud : b.dinf + c2A (N.restart R) Xs * b.e1 N.M2 / (γ ^ 2 * R.ρ₁ ^ (2 * N.τ)) ≤ μ / 2
+
+/-- Corollary `bp:p2s2hc:frozen`, route A with L8′: the plain branch (`g1_v2A'`'s constants at
+`N`) or the hybrid branch (`HybOkR` at `N.restart R`), by cases; the closeness is the maximum.
+Every hypothesis of `G1BodyA` is kept; the step `ΔK`, its bounds and the hybrid numbers are
+additional and are used only in the hybrid branch. -/
+theorem g1_v2A'_hybrid (N : NumA) (hN : N.Wf) (hfix : N.iso = false) (hΘ : N.Θ = 0)
+    (hτ : (N.n : ℝ) - 1 ≤ N.τ) {M σK σB σT μ γbar Xs bF bT : ℝ} (I : InitA) (hM : 0 < M)
+    (hσK : 0 < σK) (hσB : 0 < σB) (hσT : 0 < σT) (hμ : 0 < μ) (hγbar : γbar = N.γb)
+    (hsK : N.sK = σK - μ / 2) (hOk : routeAOkR N bF (N.capR (μ / 2) bT) (initR I σK σB μ) Xs)
+    (hB : Ref.Budget N (σT - μ) I.iH bF bT) (hXpos : 0 < Xs) :
+    ∀ (𝔅 : Set ((Fin N.n → ℂ) × (Fin N.n → ℂ))) (h : (Fin N.n → ℂ) × (Fin N.n → ℂ) → ℂ)
+      (K ΔK : (Fin N.n → ℂ) → (Fin N.n → ℂ) × (Fin N.n → ℂ)) (ω : Fin N.n → ℝ) (γ e : ℝ)
+      (Ω : Set (Fin N.n → ℝ)) (R : RestartA) (k : KData) (b : StepNum)
+      (μ₁ X₁ bF₁ bT₁ cTh : ℝ),
+      IsOpen 𝔅 →
+      (∀ z ∈ 𝔅, ∀ k : Fin N.n → ℤ, (z.1 + (fun i => (k i : ℂ)), z.2) ∈ 𝔅) →
+      DifferentiableOn ℂ h 𝔅 →
+      (∀ z ∈ 𝔅, ∀ k : Fin N.n → ℤ, h (z.1 + (fun i => (k i : ℂ)), z.2) = h z) →
+      (∀ θ I : Fin N.n → ℝ, ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ))) ∈ 𝔅 →
+        (h ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ)))).im = 0) →
+      (∀ z ∈ 𝔅, ‖fderiv ℂ h z‖ ≤ M ∧ ‖hamiltonianVectorFieldℂ h z‖ ≤ M ∧
+        ‖fderiv ℂ (hamiltonianVectorFieldℂ h) z‖ ≤ M ∧
+        ‖iteratedFDeriv ℂ 2 (hamiltonianVectorFieldℂ h) z‖ ≤ M) →
+      DifferentiableOn ℂ K (complexStrip N.n N.ρ) → IsPrimaryOnStrip K N.ρ → IsRealOnReals K →
+      (∀ θ ∈ complexStrip N.n N.ρ, Metric.ball (K θ) μ ⊆ 𝔅) →
+      (∀ θ ∈ complexStrip N.n N.ρ, ‖fderiv ℂ K θ‖ ≤ σK - μ) →
+      (∀ θ ∈ complexStrip N.n N.ρ, IsUnit (gramMatrix K θ).det ∧
+        ∀ i, ∑ j, ‖(gramMatrix K θ)⁻¹ i j‖ ≤ σB - μ) →
+      IsUnit (torsionAverage h K ω).det →
+      (∀ i, ∑ j, ‖(torsionAverage h K ω)⁻¹ i j‖ ≤ σT - μ) →
+      RefHypA N I 𝔅 h K ω → ω ∈ Ω → N.Cert γ Ω →
+      0 < γ → γ ≤ γbar → IsDiophantine γ N.τ ω →
+      (∀ θ ∈ complexStrip N.n N.ρ, ‖invarianceError h K ω θ‖ ≤ e) →
+      -- the hybrid data (used in the second branch only)
+      (∀ z ∈ 𝔅, ‖hamComm h z‖ ≤ cTh) → I.iLt ≤ k.ℓt → I.iN ≤ k.ν → I.iNt ≤ k.νt →
+      I.iH ≤ k.t → IsStep ΔK N.ρ →
+      StepBounds h K ΔK ω ω R.ρ₁ N.ρinf (R.ρ₁ - (N.restart R).δ 0) b →
+      (N.restart R).Cert γ Ω →
+      (min (sharpC1 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar μ N.τ N.ρ N.ρinf) (c1A N Xs) *
+          e / (γ ^ 4 * N.ρ ^ (4 * N.τ)) < 1 ∨
+        HybOkR N R k b σK σB σT μ μ₁ γ X₁ bF₁ bT₁ cTh) →
+      G1Concl 𝔅 h K ω N.ρinf μ σK
+        (max (max (sharpC2 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar N.τ N.ρ N.ρinf)
+            (c2A N Xs) * e / (γ ^ 2 * N.ρ ^ (2 * N.τ)))
+          (b.dinf + c2A (N.restart R) X₁ * b.e1 N.M2 / (γ ^ 2 * R.ρ₁ ^ (2 * N.τ)))) := by
+  sorry
+
+end KAM.Sharp2.Hybrid
+
+/-! ## The isoenergetic theorems -/
+
+namespace KAM.Iso.Sharp2.Hybrid
+
+open KAM KAM.Torus KAM.Apost KAM.Iso.Linear KAM.Iso.Apost KAM.Sharp KAM.Sharp2
+open KAM.Sharp2.RouteA KAM.Iso.Sharp2.RouteA KAM.Sharp2.RouteA.Ref KAM.Iso.Sharp2.RouteA.Ref
+open KAM.Sharp2.Hybrid
+
+/-- Core form, isoenergetic route A with L8′ (`bpI:p2s2hc:g1` with a direct new torus): every
+hypothesis of `iso_g1_branch_R` for `(K₁, s₁)` at `N₁` (margin `μ₁`, ray margin `ν₁`), the ball of
+`K`, the displacement, the frequency change and the restart inequalities. -/
+theorem iso_g1_hybrid_core_R {N₁ : NumA} (hN : N₁.Wf) (hiso : N₁.iso = true)
+    (hτ : (N₁.n : ℝ) - 1 ≤ N₁.τ) {M σK μ σK₁ σB₁ σT₁ μ₁ γbar σω ν₁ Xs Mh1 bF bT dinf dω : ℝ}
+    {I₁ : InitA} (hM : 0 < M) (hμ₁ : 0 < μ₁) (hσω : 1 < σω) (hν₁ : 0 < ν₁)
+    {ωstar : Fin N₁.n → ℝ} (hωstar : ωstar ≠ 0) (hγbar : γbar = N₁.γb)
+    (hsK : N₁.sK = σK₁ - μ₁ / 2) (hΘ : N₁.Θ = σω * ‖ωstar‖) (hHY : N₁.HY = Mh1 * N₁.sN)
+    (hOk : routeAOkRI N₁ bF (capRI N₁ (μ₁ / 2) bT (ν₁ / 2)) (initRI I₁ σK₁ σB₁ μ₁) Xs)
+    (hB : Budget N₁ (σT₁ - μ₁) I₁.iH bF bT) (hXpos : 0 < Xs)
+    {D : Set ((Fin N₁.n → ℂ) × (Fin N₁.n → ℂ))} {H : (Fin N₁.n → ℂ) × (Fin N₁.n → ℂ) → ℂ}
+    {K K₁ : (Fin N₁.n → ℂ) → (Fin N₁.n → ℂ) × (Fin N₁.n → ℂ)} {s s₁ γ e₁ E₀ : ℝ}
+    {Ω : Set (Fin N₁.n → ℝ)} (hopen : IsOpen D)
+    (htransl : ∀ z ∈ D, ∀ k : Fin N₁.n → ℤ, (z.1 + (fun i => (k i : ℂ)), z.2) ∈ D)
+    (hholo : DifferentiableOn ℂ H D)
+    (hper : ∀ z ∈ D, ∀ k : Fin N₁.n → ℤ, H (z.1 + (fun i => (k i : ℂ)), z.2) = H z)
+    (hreal : ∀ θ I : Fin N₁.n → ℝ, ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ))) ∈ D →
+      (H ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ)))).im = 0)
+    (hbd : ∀ z ∈ D, ‖fderiv ℂ H z‖ ≤ M ∧ ‖hamiltonianVectorFieldℂ H z‖ ≤ M ∧
+      ‖fderiv ℂ (hamiltonianVectorFieldℂ H) z‖ ≤ M ∧
+      ‖iteratedFDeriv ℂ 2 (hamiltonianVectorFieldℂ H) z‖ ≤ M ∧ ‖iteratedFDeriv ℂ 2 H z‖ ≤ M)
+    (hK₁ : DifferentiableOn ℂ K₁ (complexStrip N₁.n N₁.ρ)) (hKp₁ : IsPrimaryOnStrip K₁ N₁.ρ)
+    (hKr₁ : IsRealOnReals K₁)
+    (hball₁ : ∀ θ ∈ complexStrip N₁.n N₁.ρ, Metric.ball (K₁ θ) μ₁ ⊆ D)
+    (hDK₁ : ∀ θ ∈ complexStrip N₁.n N₁.ρ, ‖fderiv ℂ K₁ θ‖ ≤ σK₁ - μ₁)
+    (hG₁ : ∀ θ ∈ complexStrip N₁.n N₁.ρ, IsUnit (gramMatrix K₁ θ).det ∧
+      ∀ i, ∑ j, ‖(gramMatrix K₁ θ)⁻¹ i j‖ ≤ σB₁ - μ₁)
+    (hTu₁ : IsUnit (KAM.Iso.extendedTorsionAverage H K₁ (s₁ • ωstar)).det)
+    (hTb₁ : ∀ i, ∑ j, ‖(KAM.Iso.extendedTorsionAverage H K₁ (s₁ • ωstar))⁻¹ i j‖ ≤ σT₁ - μ₁)
+    (hs1 : 1 < s₁) (hν1 : ν₁ ≤ (s₁ - 1) * ‖ωstar‖) (hν2 : ν₁ ≤ (σω - s₁) * ‖ωstar‖)
+    (hRef₁ : RefHypIA N₁ I₁ Mh1 D H K₁ (s₁ • ωstar)) (hΩ : ∀ s' : ℝ, 1 ≤ s' → s' • ωstar ∈ Ω)
+    (hCt : N₁.Cert γ Ω) (hγ : 0 < γ) (hγγbar : γ ≤ γbar) (hdio : IsDiophantine γ N₁.τ ωstar)
+    (he0 : 0 ≤ e₁)
+    (hE₁ : ∀ θ ∈ complexStrip N₁.n N₁.ρ, ‖invarianceError H K₁ (s₁ • ωstar) θ‖ ≤ e₁)
+    (hEn₁ : ‖KAM.Iso.energyAverage H K₁ - (E₀ : ℂ)‖ ≤ e₁)
+    (hsm : e₁ / (γ ^ 4 * delta0 3 N₁.ρ N₁.ρinf ^ (2 * (2 * N₁.τ))) < Xs)
+    (hball : ∀ θ ∈ complexStrip N₁.n N₁.ρinf, Metric.ball (K θ) μ ⊆ D)
+    (hd : ∀ θ ∈ complexStrip N₁.n N₁.ρinf, ‖K₁ θ - K θ‖ ≤ dinf)
+    (hdω : ‖s₁ • ωstar - s • ωstar‖ ≤ dω)
+    (hbud : dinf + c2I N₁ Xs * e₁ / (γ ^ 2 * N₁.ρ ^ (2 * N₁.τ)) ≤ μ / 2)
+    (hσ : σK₁ - μ₁ / 2 ≤ σK - μ / 2) :
+    IG1Concl D H K ωstar s E₀ N₁.ρinf μ σK σω
+      (dinf + c2I N₁ Xs * e₁ / (γ ^ 2 * N₁.ρ ^ (2 * N₁.τ)))
+      (dω + c3I N₁ Xs * e₁ / (γ ^ 2 * N₁.ρ ^ (2 * N₁.τ))) := by
+  sorry
+
+/-- The isoenergetic hybrid numbers beyond the fixed-frequency ones (Definition
+`bpI:p2s2hc:bounds`): `ℓ_H ≥ |ε̃|`, `d_ω ≥ |Δs||ω*|`, and `Mh1 ≥ |DH|`, `Mh2 ≥ |D²H|`. -/
+structure IsoNum where
+  lH : ℝ
+  dω : ℝ
+  Mh1 : ℝ
+  Mh2 : ℝ
+
+/-- `e₁` of Lemma `bpI:p2s2hc:errors`. -/
+def IsoNum.e1 (q : IsoNum) (b : StepNum) (M2 : ℝ) : ℝ :=
+  max (b.e1 M2) (q.lH + q.Mh2 / 2 * b.d0R ^ 2)
+
+/-- `t_A^ext` of Lemma `bpI:p2s2hc:torsion`: the last row `Σ_j |DH(K₁)N₁ e_j - DH(K)N e_j|` is
+bounded through the transposes, `n (M_{h1} n_Δᵗ + M_{h2} d₀ (νᵗ + n_Δᵗ))` on `ℝⁿ`. -/
+def IsoNum.tAext (q : IsoNum) (b : StepNum) (k : KData) (nn M1 M2 δ cTh : ℝ) : ℝ :=
+  max (b.tA k nn M1 M2 δ cTh + q.dω)
+    (nn * (q.Mh1 * (b.frR k).nΔt + q.Mh2 * b.d0R * (k.νt + (b.frR k).nΔt)))
+
+/-- Theorem `bpI:p2s2hc:g1`, route A with L8′, the step form: `iso_g1_hybrid_core_R` with every
+hypothesis on `(K₁, s₁)` derived from the step bounds and the certified data of `(K, s)` by
+Lemmas `bp:p2s2hc:struct`–`bp:p2s2hc:torsion`, `bpI:p2s2hc:errors`, `bpI:p2s2hc:torsion`. The
+fields of `StepBounds` are taken at the frequency `s ω*` for `K` and `s₁ ω*` for `K₁` (so its
+`lin` is `Ẽ_s`); the iso refined data are `RefHypIA`'s for `K` on `T_{ρ₀}`. -/
+theorem iso_g1_hybrid_R {N₁ : NumA} (hN : N₁.Wf) (hiso : N₁.iso = true)
+    (hτ : (N₁.n : ℝ) - 1 ≤ N₁.τ) {M σK σB σT μ μ₁ γbar σω ν ρ₀ Xs bF bT cTh : ℝ} (k : KData)
+    (b : StepNum) (q : IsoNum) (hM : 0 < M) (hμ₁ : 0 < μ₁) (hσω : 1 < σω)
+    {ωstar : Fin N₁.n → ℝ} (hωstar : ωstar ≠ 0) (hγbar : γbar = N₁.γb) (hρ : N₁.ρ ≤ ρ₀)
+    (hℓ : k.ℓ = σK - μ) (hβ : k.β = σB - μ) (hm : k.m = σT - μ)
+    (hsK : N₁.sK = b.sK1 k μ₁ - μ₁ / 2) (hΘ : N₁.Θ = σω * ‖ωstar‖)
+    (hHY : N₁.HY = q.Mh1 * N₁.sN) (hνq : 0 < ν - q.dω)
+    (hOk : routeAOkRI N₁ bF (capRI N₁ (μ₁ / 2) bT ((ν - q.dω) / 2))
+      (initRI (b.init1 k N₁.n N₁.M1 N₁.M2 (N₁.δ 0) cTh) (b.sK1 k μ₁) (b.sB1 k μ₁) μ₁) Xs)
+    (hB : Budget N₁ (k.m / (1 - k.m * q.tAext b k N₁.n N₁.M1 N₁.M2 (N₁.δ 0) cTh))
+      (b.init1 k N₁.n N₁.M1 N₁.M2 (N₁.δ 0) cTh).iH bF bT) (hXpos : 0 < Xs)
+    (hm1 : b.d0 + μ₁ ≤ μ) (hm2 : b.d1 + μ₁ / 2 ≤ μ / 2) (hgS : k.β * (b.frS k).g < 1)
+    (hgR : k.β * (b.frR k).g < 1)
+    (htA : k.m * q.tAext b k N₁.n N₁.M1 N₁.M2 (N₁.δ 0) cTh < 1)
+    {D : Set ((Fin N₁.n → ℂ) × (Fin N₁.n → ℂ))} {H : (Fin N₁.n → ℂ) × (Fin N₁.n → ℂ) → ℂ}
+    {K ΔK : (Fin N₁.n → ℂ) → (Fin N₁.n → ℂ) × (Fin N₁.n → ℂ)} {s s₁ γ E₀ : ℝ}
+    {Ω : Set (Fin N₁.n → ℝ)} (hopen : IsOpen D)
+    (htransl : ∀ z ∈ D, ∀ k : Fin N₁.n → ℤ, (z.1 + (fun i => (k i : ℂ)), z.2) ∈ D)
+    (hholo : DifferentiableOn ℂ H D)
+    (hper : ∀ z ∈ D, ∀ k : Fin N₁.n → ℤ, H (z.1 + (fun i => (k i : ℂ)), z.2) = H z)
+    (hreal : ∀ θ I : Fin N₁.n → ℝ, ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ))) ∈ D →
+      (H ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ)))).im = 0)
+    (hbd : ∀ z ∈ D, ‖fderiv ℂ H z‖ ≤ M ∧ ‖hamiltonianVectorFieldℂ H z‖ ≤ M ∧
+      ‖fderiv ℂ (hamiltonianVectorFieldℂ H) z‖ ≤ M ∧
+      ‖iteratedFDeriv ℂ 2 (hamiltonianVectorFieldℂ H) z‖ ≤ M ∧ ‖iteratedFDeriv ℂ 2 H z‖ ≤ M)
+    (hcTh : ∀ z ∈ D, ‖hamComm H z‖ ≤ cTh)
+    (hK : DifferentiableOn ℂ K (complexStrip N₁.n ρ₀)) (hKp : IsPrimaryOnStrip K ρ₀)
+    (hKr : IsRealOnReals K) (hball : ∀ θ ∈ complexStrip N₁.n ρ₀, Metric.ball (K θ) μ ⊆ D)
+    (hDK : ∀ θ ∈ complexStrip N₁.n ρ₀, ‖fderiv ℂ K θ‖ ≤ σK - μ)
+    (hG : ∀ θ ∈ complexStrip N₁.n ρ₀, IsUnit (gramMatrix K θ).det ∧
+      ∀ i, ∑ j, ‖(gramMatrix K θ)⁻¹ i j‖ ≤ σB - μ)
+    (hTu : IsUnit (KAM.Iso.extendedTorsionAverage H K (s • ωstar)).det)
+    (hTb : ∀ i, ∑ j, ‖(KAM.Iso.extendedTorsionAverage H K (s • ωstar))⁻¹ i j‖ ≤ σT - μ)
+    (hs1 : 1 < s) (hν1 : ν ≤ (s - 1) * ‖ωstar‖) (hν2 : ν ≤ (σω - s) * ‖ωstar‖)
+    (hRef : ∀ z ∈ D, ‖fderiv ℂ (hamiltonianVectorFieldℂ H) z‖ ≤ N₁.M1 ∧
+      ‖iteratedFDeriv ℂ 2 (hamiltonianVectorFieldℂ H) z‖ ≤ N₁.M2 ∧
+      ‖fderiv ℂ H z‖ ≤ q.Mh1 ∧ ‖iteratedFDeriv ℂ 2 H z‖ ≤ q.Mh2 ∧ q.Mh2 ≤ N₁.Mh2)
+    (hLt : ∀ θ ∈ complexStrip N₁.n ρ₀, ‖(tangentMat K θ)ᵀ‖ ≤ k.ℓt)
+    (hNm : ∀ θ ∈ complexStrip N₁.n ρ₀, ‖normalMat K θ‖ ≤ k.ν)
+    (hNt : ∀ θ ∈ complexStrip N₁.n ρ₀, ‖(normalMat K θ)ᵀ‖ ≤ k.νt)
+    (hT : ∀ θ ∈ complexStrip N₁.n (N₁.ρ - N₁.δ 0), ‖torsion H K (s • ωstar) θ‖ ≤ k.t)
+    (hS : IsStep ΔK ρ₀)
+    (hb : StepBounds H K ΔK (s • ωstar) (s₁ • ωstar) N₁.ρ N₁.ρinf (N₁.ρ - N₁.δ 0) b)
+    (hlinH : ‖linNewEnergy H K ΔK E₀‖ ≤ q.lH) (hdω : ‖s₁ • ωstar - s • ωstar‖ ≤ q.dω)
+    (hΩ : ∀ s' : ℝ, 1 ≤ s' → s' • ωstar ∈ Ω) (hCt : N₁.Cert γ Ω) (hγ : 0 < γ)
+    (hγγbar : γ ≤ γbar) (hdio : IsDiophantine γ N₁.τ ωstar)
+    (hsm : q.e1 b N₁.M2 / (γ ^ 4 * delta0 3 N₁.ρ N₁.ρinf ^ (2 * (2 * N₁.τ))) < Xs)
+    (hbud : b.dinf + c2I N₁ Xs * q.e1 b N₁.M2 / (γ ^ 2 * N₁.ρ ^ (2 * N₁.τ)) ≤ μ / 2) :
+    IG1Concl D H K ωstar s E₀ N₁.ρinf μ σK σω
+      (b.dinf + c2I N₁ Xs * q.e1 b N₁.M2 / (γ ^ 2 * N₁.ρ ^ (2 * N₁.τ)))
+      (q.dω + c3I N₁ Xs * q.e1 b N₁.M2 / (γ ^ 2 * N₁.ρ ^ (2 * N₁.τ))) := by
+  sorry
+
+end KAM.Iso.Sharp2.Hybrid
+
+end

@@ -4,12 +4,16 @@
 # module's imports). An axiom report is not a kernel check: this is the gate that catches
 # declarations added with `debug.skipKernelTC` or through `addDecl` (landing-guards.md section 1).
 #
-# usage: scripts/kernel_replay.sh [--full | --fast] [--timeout MINUTES] [--mem-gb GB] [--batch N] [--log FILE]
-#   --full   (default) every module of the library: `leanchecker --fresh KAM` (the root's whole import
-#            closure, Mathlib included, in one process) plus the modules the root does not reach (the
+# usage: scripts/kernel_replay.sh [--full | --fast] [--lib LIB]... [--timeout MINUTES] [--mem-gb GB] [--batch N]
+#                                 [--log FILE]
+#   --full   (default) every core module: `leanchecker --fresh KAM` (the root's whole import closure,
+#            Mathlib included, in one process) plus the core modules the root does not reach (the
 #            DRAFT_SORRY anchors and their providers), enumerated from the source tree.
 #   --fast   only the frozen anchors, their implementation modules (manifest) and every module under
-#            KAM/Provider.
+#            KAM/Provider, of the core.
+#   --lib    also replay the modules of the certificate application LIB (D51, scripts/build_roots.json;
+#            repeatable). A plain `lake build` does not build applications, so they are left out by
+#            default; with --lib, LIB must be fully built (`lake build --no-build LIB` is checked first).
 #   --timeout  wall-clock limit (default 90); the run is stopped and fails when it is exceeded.
 #   --batch    modules per leanchecker process (default 4).
 #   --mem-gb   address-space cap for the process, `ulimit -v` (default 40; Lean mmaps the oleans).
@@ -19,16 +23,17 @@
 # wall time and peak resident memory.
 set -euo pipefail
 
-mode=full timeout_min=90 mem_gb=40 batch=4 log=""
+mode=full timeout_min=90 mem_gb=40 batch=4 log="" libs=""
 while [ $# -gt 0 ]; do
   case $1 in
     --full) mode=full ;;
     --fast) mode=fast ;;
+    --lib) libs="$libs ${2:?}"; shift ;;
     --timeout) timeout_min=${2:?}; shift ;;
     --mem-gb) mem_gb=${2:?}; shift ;;
     --batch) batch=${2:?}; shift ;;
     --log) log=${2:?}; shift ;;
-    -h|--help) sed -n '2,22p' "$0"; exit 0 ;;
+    -h|--help) sed -n '2,26p' "$0"; exit 0 ;;
     *) echo "unknown argument: $1" >&2; exit 2 ;;
   esac
   shift
@@ -40,18 +45,36 @@ toolchain_bin=/root/.elan/toolchains/leanprover--lean4---v4.35.0/bin
 export PATH="$toolchain_bin:$PATH"
 command -v leanchecker >/dev/null || { echo "KERNEL-REPLAY FAILED: leanchecker not found" >&2; exit 2; }
 [ -f .lake/build/lib/lean/KAM.olean ] || { echo "KERNEL-REPLAY FAILED: library not built (no KAM.olean)" >&2; exit 2; }
+for lib in $libs; do
+  lake build --no-build "$lib" >/dev/null 2>&1 || {
+    echo "KERNEL-REPLAY FAILED: $lib is not fully built (lake build --no-build $lib); this script never builds" >&2; exit 2; }
+done
 work=$(mktemp -d "${TMPDIR:-/tmp}/kernel-replay.XXXXXX")
 trap 'rm -rf "$work"' EXIT
 [ -n "$log" ] || log="$work/replay.log"
 
 # Expected module set (one per line), and the leanchecker arguments.
-python3 -I - "$root" "$mode" "$work" <<'PY'
-import json, sys
+python3 -I - "$root" "$mode" "$work" $libs <<'PY'
+import importlib.util, json, sys
 from pathlib import Path
 root, mode, work = Path(sys.argv[1]), sys.argv[2], Path(sys.argv[3])
+spec = importlib.util.spec_from_file_location('gen_root_imports', root / 'scripts' / 'gen_root_imports.py')
+roots = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(roots)
+config = roots.load_config()
+core = config['core']['lib']
+wanted = set(sys.argv[4:])
+unknown = wanted - set(roots.libraries(config))
+if unknown or core in wanted:
+    sys.exit('--lib takes an application library: ' + ', '.join(l for l in roots.libraries(config) if l != core))
 def mod(p: Path) -> str:
     return '.'.join(p.relative_to(root).with_suffix('').parts)
 everything = {mod(p) for p in (root / 'KAM').rglob('*.lean')}
+apps = {m for m in everything if roots.library_of(m, config) != core}
+left_out = {m for m in apps if roots.library_of(m, config) not in wanted}
+if left_out:
+    print(f'kernel replay: {len(left_out)} application modules left out (not in --lib)')
+everything -= left_out
 if mode == 'full':
     # `leanchecker --fresh KAM` replays the whole import closure of the root (Mathlib and every KAM
     # module the root reaches). Modules outside that closure (the DRAFT_SORRY anchors and their
@@ -66,7 +89,7 @@ if mode == 'full':
         seen.add(m)
         f = root / (m.replace('.', '/') + '.lean') if m != 'KAM' else root / 'KAM.lean'
         todo += imp.findall(f.read_text(encoding='utf-8'))
-    outside = everything - seen
+    outside = everything - seen   # core quarantined modules, and the modules of each --lib application
     expected = outside | {'KAM with --fresh'}
     args = sorted(outside)
 else:
@@ -77,6 +100,7 @@ else:
         impl = a.get('implementation')
         if impl and impl.get('module'):
             expected.add(impl['module'])
+    expected -= left_out
     expected |= {m for m in everything if m.startswith('KAM.Provider.')}
     missing = sorted(expected - everything)
     if missing:

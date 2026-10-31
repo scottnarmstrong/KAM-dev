@@ -1932,3 +1932,278 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     The Ham side of the lock certificate is a few CPU-minutes; LOCK-DATA's cost is now the SO-CSPLIT part.
   - Remaining LOCK-DATA dispatch gates: CAL-1/2 (running) and the measured ledger size, re-logged for owner review.
   - The landed L2/L3 worktree is removed.
+- **21:37. SO-CSPLIT calibration gates CAL-1/2: ALL 15 PASS; both data runs go.**
+  - On SO-DATA3's real lower N = 65 torus (docs/tracks/SO/studies/SO-CSPLIT-GATE.md, inp-socsplit2 c790787d):
+    - every theorem ≤ 4.05 GB cgroup peak (largest: a full 484×498 product's shards at 4.05 GB, 42 s);
+    - the jet bridge 1.08 GB;
+    - segments 1.48 GB (75k calls) and 2.79 GB (148k);
+    - decodes 1.1–1.5 GB;
+    - the torsion entry 0.66 GB;
+    - `checkEnergy base = true` from the chain in 5.5 s at 0.63 GB;
+    - the mirror bit-exact on every probed object.
+  - The per-call cost is 2–4× below the design's calibration, so the budget is B = 200k calls per theorem and
+    **1.6–2.5 CPU-h per torus** (was 3.0–4.3).
+  - **SO-DATA3** is told to finish GEN at B = 200k, emit both tori, run the serial capped kernel builds and prove
+    the final N = 65 theorems. It stops if the emitted ledger exceeds 50 MB.
+  - **LOCK-DATA** is told to dispatch: its gates are met except the measured ledger size, which is logged for owner
+    review. Above 50 MB it generates but stops before landing.
+  - **Owner item O3 implemented:** scripts/prebuild_heavy.py and land-branch.sh (bc3a68c7) build changed
+    KAM/SpinOrbit/Data/ modules serially, in import order, under the probe lock and a 10 GB cap, before the
+    parallel build. Data landings will hold the HQ lock for hours, so they get scheduled.
+- **21:49. Heartbeat: both data runs going; disk relief.**
+  - SO-DATA3 is emitting the segmented N = 65 data and running the serial kernel builds.
+  - LOCK-DATA (Opus, claude-12, worktree KAM-inp-lockdata) was dispatched by kam-inp-24. It rescales the lock
+    projection with the CAL numbers, measures the emitted ledger, and stops before landing if it exceeds 50 MB.
+  - The SO-CSPLIT designer's worktree is removed (work committed; the untracked files were copies of SO-DATA3's
+    data). The gate study inp-socsplit2 c790787d is sent to land (docs). / back to 11 GB.
+  - W: the W1-CUBIC codex-1 audit finished at 21:47 and kam-1b's waiter is armed. The W2-RECON audit finished
+    21:27.
+- **22:19. Heartbeat.**
+  - **SO-DATA3:** the serial capped kernel build of the lower N = 65 torus is running (786 modules in the closure,
+    515 heavy, each alone under the probe lock and the cap).
+  - **LOCK-DATA:** step 1c found a blocking sizing error inherited from LOCK-GEN-2. Constants were sized by grid
+    suprema on the strip, but the landed checks bound by the weighted ℓ1 model norm, 1.3–2× larger at a 73.8°
+    libration. In the mirror, `checkEmbedding` fails all three conditions. The ℓ1 rescan is running (exact mirrors,
+    reusing SO-DATA3's), and no kernel run has started.
+    - A larger support is our call. Changing N or the libration amplitude goes to the owner.
+    - The rotational data are unaffected: they were sized from exact mirrors, and `checkEmbedding` passed in the
+      kernel.
+  - **W:** kam-1b idle since 21:40 although the W1-CUBIC audit finished at 21:47. Its waiter misses Codex READY
+    markers again; nudged.
+  - **Owner question pending (asked in chat):** start an LG00 re-scope (Python/docs: re-price LG00 under v2 +
+    `HamExpr.sqrt` + SO-CSPLIT, plan P1/P2), or keep it for later? Not started.
+  - Quotas: claude-3 73 %, claude-12 68 %, claude-6 54 %, claude-4 39 %, codex-1 76 %. Disk 9.9 GB.
+- **22:31. Owner directive: "focus on finishing your subprojects… progress on W and delivering on the SO"; LG00 is
+  handled by another agent (not ours).**
+  - **SO band:** a second kernel lane (.kernel-probe-lane2.lock, MemoryMax=8G, start only with MemAvailable ≥ 6 GB)
+    so the upper torus checks in parallel with the lower. Every gate theorem measured ≤ 4.05 GB. Step 5 (the final
+    N = 65 theorems) follows at once.
+  - **W:** 4 concurrent provers (was 2), all accounts, aimed at the critical path to nlw2: W3 Birkhoff, W4
+    homological, W5/W6 KAM step and iteration, W7 measure, W8 assembly. Parametric helpers, graph published ASAP,
+    reviews not blocking provers, hourly status.
+  - **Lock:** the band has kernel priority. LOCK-DATA pushes all non-kernel work (ℓ1 rescan, sizing, generation,
+    ledger measurement) now; kernel runs take the first free lane, each theorem ≤ 8 GB.
+- **22:33. Owner: "pause W lane to focus on landing SO completely".**
+  - Track W paused: no new provers, audits or reviews. Running provers commit and stop; running audits finish and
+    are recorded only. Worktrees and branches are kept, with a resume note at .drafts/W/PAUSE-2026-10-30.md.
+  - The freed CPU, memory, accounts and codex-1 go to SO: the band's two kernel lanes, then its audit and landing;
+    LOCK-DATA's sizing, generation and kernel.
+- **22:46. Owner: "if you finish both SO tracks you can go back to W".** Order: (1) land the SO band (N = 65
+  data, final theorems, audit, landing, freeze text to the owner per D40); (2) land the SO lock (LOCK-DATA, headline,
+  audit, landing). Then resume W from .drafts/W/PAUSE-2026-10-30.md.
+  - W is paused cleanly, with all work committed: W4-HOMOLOGICAL WIP at inp-wpj 10801f8b; W1-CUBIC audit 2 PASS WITH
+    NOTES at inp-wph 8b4f8869, ready to land on resume; graph delta 7 reports at inp-wgraph 7c4a75ec, not yet
+    applied. 8 W packages on main, including W2-RECON (nlw2 clause 5).
+- **22:46. Owner: overnight mode again.**
+  - Deferred decisions are logged here "for owner review", with the recommended reversible option taken. Nothing is
+    frozen: the D40 freeze text for the band and the lock freeze proposal wait for the morning.
+  - Plan for the night:
+    - SO band: kernel lanes, then the final theorems, audit and a scheduled landing.
+    - SO lock: sizing with kp = 4 and a larger support (a smaller amplitude would be logged and paused for the
+      owner), then generation, kernel, headline, audit and landing.
+    - Then resume W from its pause note, as the owner allowed.
+- **22:49. Heartbeat: SO-DATA3 limited by disk; data build output relocated to the HC volume.**
+  - Each data module produces about 7.7 MB of build output (.olean.private 2.9 MB, C 3.0 MB, setup.json 1.5 MB), so
+    both tori need about 3.8 GB. / was at 7.7 GB and the drivers halt cleanly at 8 GB.
+  - The ir dedup of main against KAM-inp freed only 0.17 GiB. So SO-DATA3 will move
+    `.lake/build/{lib/lean,ir}/KAM/SpinOrbit/Data` to /mnt/HC_Volume_106379410/kam-data/so-data3/build-overlay/
+    behind symlinks, at a safe point between modules (regular files only, verified copy).
+  - The graph check of the band is solved by a row-chunk split (KAM/SpinOrbit/Data/CsegGraph.lean, new names, all
+    proved), so the band stays at 2.755 %.
+  - SO-DATA3 keeps two lanes (its driver has no cross-process claim, so splitting one torus would race). Its brief
+    edit of CsegSupport.lean mid-build stopped lane 1; it was restored and restarted with no loss.
+  - Lock: the exact-mirror sizing pass and the support scan are running. The clock char witness is fixed; charWit
+    (1,0) radius 1.73e-17 is under investigation.
+- **23:19. SO-DATA3's build output now lives on the HC volume; lanes restarted.**
+  - The worker could not run `rm -rf` (its safety check), so the orchestrator swapped in the symlinks. HC copies
+    re-verified identical; originals renamed aside, then symlinked. `lake build --no-build` confirmed the heavy
+    built modules are up to date through the symlinks; originals deleted.
+  - / at 9.0 GB. The driver's disk stop is lowered to 6 GB, since new data output goes to the volume.
+- **23:49. Heartbeat.**
+  - SO-DATA3: both kernel lanes are building, with output on the HC volume; / at 15 GB.
+    - The upper torus's l = 12 bite was killed at lane 2's 8 GB cap. It needs about 9.5 GB, as on the lower torus
+      under the 10 GB cap, so it is headroom, not a proof problem.
+    - The bite modules now queue in lane 1 under the 10 GB cap, so no two 10 GB runs overlap.
+    - Lower torus: the l = 12 bite, SiteB2 and Core are done.
+  - LOCK-DATA (non-kernel):
+    - the charWit(1,0) radius is down to 8.2e-23;
+    - support scan: D100×20 4.2e-22, D110×22 3.3e-24, about 2–4 orders under the threshold estimates, so no
+      amplitude or N change is expected;
+    - a ham/box scale mismatch is fixed (c = 1000001/10^6, accepted by the landed LockGraphCert);
+    - the exact sizing pass is in energy/Gram; then the threshold, the support choice, generation and the ledger.
+  - W paused. Quotas checked.
+- **00:49. Heartbeat: SO-DATA3 kernel build about one-third done on both tori.**
+  - At 00:19: lower 289/830 modules (heavy 91/558), upper 278/824 (heavy 83/554); about 30 s per heavy module and
+    7 s per light one. Projected finish about 04:15–04:35 UTC. No failures since the bite modules moved to the
+    10 GB lane.
+  - **Landing plan:** the data build output is about 7.7 MB per module (about 12–13 GB for both tori). It must not be
+    rebuilt in KAM-inp and main: that would mean hours of repeated kernel checks and more disk than / has. Their
+    `.lake/build/{lib/lean,ir}/KAM/SpinOrbit/Data` will point at the verified HC overlay of SO-DATA3's build, so the
+    landing's capped prebuild only confirms that they are up to date. To be coordinated with kam-inp at hand-off.
+    The audit's kernel replay covers the final theorem modules and a sample of the data modules; the full data
+    checks are the build itself.
+  - LOCK-DATA chose support D100×20, kp = 4, at 73.8°: threshold 10^−18.35…−20.03 against residual 4.2e-22, a margin
+    of 1.6–3.0 orders. The exact torsion values (bT/σT) come next, then generation, ledger and kernel.
+- **01:49. Heartbeat: SO-DATA3 stalled about 30 min on a heartbeat timeout; fixed by splitting, no override.**
+  - Product 11 hit the default heartbeat budget on both tori: nested decides shared one theorem's budget.
+  - Fix (bc85da41): every product and character side check is its own top-level theorem, and the product theorem
+    cites them. Default heartbeats throughout; grep confirms no maxHeartbeats or maxRecDepth anywhere in the
+    branch. The earlier b45d6dc6 likewise names large right-hand sides instead of inlining them in decide +kernel.
+  - Lanes resumed at the Seg/CharLow modules. At 01:19: lower 372/830, upper 372/824. Projected finish about
+    04:30–04:45 UTC.
+  - LOCK-DATA: sizing done (D100×20, kp 4; error 1.08e-21 against exact threshold 10^−19.23, a margin of 1.74
+    decades). Generation is passing at the final literals. The first lock kernel theorem (JetEq bridge) passed at
+    3.37 GB.
+- **02:49. Heartbeat: SO-DATA3 throughput dropped; diagnosis requested.**
+  - At 02:19: lower 393/830 (heavy 167/558), upper 401/824 (heavy 179/554). Since the M11 restart, only about 16–23
+    modules per 22 min (about 80 per 30 min before), so the projection of about 05:30 is optimistic.
+  - Observed: a lane's `lake build` for one module ran 76 s with no lean child, i.e. Lake overhead or workspace-lock
+    contention between the two lanes in one worktree.
+  - SO-DATA3 is asked to measure the Lake-versus-lean split and fix it (direct `lake env lean` per module in topo
+    order under the same lock and cap, or batching), with a final `lake build` that must find everything up to date.
+  - Lock: LOCK-DATA generation at the final literals; checkInvariance passes (err 1.08e-21); energy, Gram, torsion
+    and frames running.
+- **02:57. Memory event: earlyoom killed LOCK-DATA's python3 sos2.py at 15.5 GB RSS** (02:56 UTC; low cutoff 250,
+  D100×20). Claude Code also reaped this session's DATA3 waiter (not restarted, per its notice).
+  - The band's capped kernel lanes were unaffected. Available memory recovered to 17.6 GB.
+  - LOCK-DATA must now run Python mirrors under `systemd-run --user --scope -p MemoryMax=8G`, chunk the
+    SOS/Gram/torsion pass, and use the smallest torsion cutoff that passes exactly.
+- **03:18. Heartbeat: SO-DATA3 throughput recovered (my Lake hypothesis was wrong).**
+  - From 02:19 to 02:49 each torus did 77 modules. At 02:49: lower 470/830 (heavy 243/558), upper 478/824 (heavy
+    255/554). Projected finish about 05:10–05:25 UTC.
+  - SO-DATA3 measured no Lake bottleneck: the slow window was the M11 stop and restart. No driver change.
+  - LOCK-DATA's generate pass at the final literals finished. The SOS test is re-running under the 8 GB cap (degree
+    100×20, slack 1e-5, weighted truncation, 64-bit rounding).
+- **04:19. Heartbeat: SO-DATA3 about 75 % through the kernel build; landing pre-check passes.**
+  - At 03:49: lower 621/830 (heavy 390/558), upper 626/824 (heavy 398/554), finishing about 05:00–05:10 UTC.
+  - Pre-check: since SO-DATA3's last inp merge (2f8550f3), inp changed only KAM/Wave (5 files) and the generated
+    root, none of them a dependency of the data modules. The data builds therefore stay valid on current inp.
+  - **Landing plan:** KAM-inp and main point `.lake/build/{lib/lean,ir}/KAM/SpinOrbit/Data` at SO-DATA3's verified
+    HC overlay, so the capped prebuild only confirms that everything is up to date. **Hold any checker-side
+    landing on inp until SO-DATA3 has landed** (W is paused; LOCK-DATA adds only new data modules).
+  - Lock: fixing the graph-band slack (weighted SOS truncation, capped test). Fallback: the landed `_check` variant
+    with a wider window, logged for owner review.
+- **SO-LOCK graph window (for owner review, 2026-10-31 04:2x UTC):** the SOS bound cannot certify pLo ≥ 0.0132
+  (true min 0.013238; slack+residual ≥ ~9e-5 at affordable degree). Best certified band [0.0131608, 0.0162943]
+  (degree 112×8, weighted, 64-bit). AssemblyN65 will use the landed `lunar_sync_lock_of_barrier_check` with window
+  [13155/1000000, 163/10000] instead of the 132/10000-wired helper; `lockLiteralCheck` passes for the frozen
+  headline literals (129/10000, 21/100, 26/1000) at lo ≥ 0.013155. Headline statement unchanged; N = 65, 73.8° unchanged.
+  Reversible: a tighter SOS later restores the wired helper.
+- **05:05. SO-DATA3 DONE: the N = 65 Moon band theorems are kernel-checked through the v2 certifier.**
+  - `lunar_barriers_65_v2` and `lunar_spin_confinement_65_v2` (KAM/SpinOrbit/LunarFinalR2V2.lean) are one-line
+    applications of `lunar_barriers_of_R2V2` and `lunar_spin_confinement_of_band`, with standard axioms only.
+  - Statement: for initial spin rate p₀ in the window (0.9934, 1.0066), the unique solution satisfies
+    |p(t) − 1| ≤ 2755/100000 for all time (band [0.97245, 1.02755], rule B; window by rule W).
+  - err 1.6e-16 / 1.83e-16 (10^1.44–1.50 below the threshold); disp 5.78e-11 / 6.62e-11.
+  - Kernel: 1,100 heavy theorems, 7.47 h of kernel wall time on two lanes (4.5 h elapsed); maximum peak 9.49 GB
+    (the l = 12 bite); every family under the cap. Emitted data 21.1 MB. Nothing frozen.
+  - **For owner review:**
+    - 8 lines of CsegSupport.lean exceed 100 columns. Every segmented module imports that file, so a reformat
+      means a ~7.5 h rebuild. Exempted by an exact-line allowlist (scripts/lint-width-allow.txt, main e8972901,
+      keyed by path and line sha256), to be removed at the next data regeneration.
+    - The one overlong line of CsegGraph.lean is cheap to fix and is being fixed.
+  - Next: the codex-1 audit (the final theorems, the new lemmas, the assembly chain, a replayed sample of data
+    modules), then the landing via the HC build overlay (pre-check passed), then the D40 freeze text to the
+    owner in the morning.
+- **05:41. SO-DATA3 in its codex-1 audit** (inp-maud-sodata3; branch head 7ee5f3c3).
+  - CsegGraph.lean width fixed (cf758ff2; comment only; dependents up to date).
+  - Audit scope:
+    - the final theorems' fidelity and the literals by rules B/W;
+    - the new lemmas (`levelNCseg_flatten`, the reflections, the rfl expansions);
+    - that the assembly uses only landed bridges;
+    - axioms;
+    - replay of the final and support modules plus a ≥ 12-module sample across every data family, each alone
+      under the probe lock and the cap (a full replay of all 1,100 heavy theorems is out of scope);
+    - the width allowlist.
+  - Lock: the CHECK pass on the emitted books passes everything (7 sub-checks, hamClaim, frames, refinedCore,
+    checkSoGraph; band inside the _check window; peak 6.30 GB). Lean emission, ledger measurement and kernel are
+    next.
+- **06:01. SO-DATA3 audit 1 (codex-1): the theorems pass; FAIL only on D40 rule B's emitter tightness (F1).**
+  - `lunar_barriers_65_v2` and `lunar_spin_confinement_65_v2`: PASS WITH NOTES (faithful closed instances of the
+    v2 assembly; exact rational checks of M, the band and window literals and disp all pass).
+  - **F1, FOR OWNER REVIEW before any freeze:** D40/FREEZE-PROPOSAL-2 rule B also asks the emitted outer graph
+    bounds to lie within about 1e-6 of the computed extrema. They lie about 4.18e-4 away (lower pLo 0.9724531 against
+    grid minimum 0.97287; upper pHi 1.027544 against 1.02713), because of the SOS slack (3e-4) on the band edges.
+    - With tight bounds the band would be about 2.71 % instead of 2.755 %.
+    - Options: (a) accept 2.755 % and revise rule B's tightness clause; (b) a sharper SOS enclosure (higher degree
+      gained at most 1.5e-4, i.e. about 2.740 %, at 1.6× the terms; reaching 1e-6 needs a better method); (c) both.
+    - The theorem is correct as stated. Only the freeze literals are affected.
+  - **Decision (overnight, reversible):** land the theorems now as ordinary unfrozen theorems; the freeze waits for
+    the owner's F1 ruling.
+  - Landing: KAM-inp and main point `.lake/build/{lib/lean,ir}/KAM/SpinOrbit/Data` at SO-DATA3's verified HC
+    overlay; prebuild_heavy gained an all-up-to-date fast path (8a8d3b7d). kam-inp must stop if
+    `lake build --no-build` shows any rebuild.
+- **SO-LOCK data volume (for owner review, 2026-10-31 06:2x UTC):** LOCK-DATA emission is 131.4 MB of literal Lean
+  source (1239 files, 1.62 M lines), of which 129.4 MB are advice books (certificate proper ~2 MB); the segment
+  ledger adds more (not yet measured). Over the 50 MB flag: generation and kernel passes continue, sources/oleans
+  live on the HC volume (symlinked); **not landed without the owner's ruling** (options: land as is, land via
+  an external data artifact, or shrink advice books). Kernel so far: JetEq, disc pass HamSeg0-2 + HamBalls all
+  rc 0, peaks ≤ 3.43 GB.
+- **06:25. FOR OWNER REVIEW: the LOCK-DATA ledger is 131.4 MB, over the 50 MB flag; no lock landing without a ruling.**
+  - 1,239 files: 129.4 MB of advice books (packed-product witness data); the certificate proper is about 2 MB. The
+    data sit on the HC volume, symlinked.
+  - Options for the owner:
+    - (a) land as is (131 MB in the public repo);
+    - (b) an external data artifact;
+    - (c) shrink the advice books. LOCK-DATA is pricing the levers overnight: advice only where needed, a compact
+      encoding, the cfgLow cutoff, the support trade-off.
+  - Kernel work continues per the rule. All rc 0 so far: JetEq, the disc pass HamSeg0–2, HamBalls (peaks ≤ 3.43 GB;
+    one elaborator recursion limit fixed by literal offsets, no option raised).
+  - SO-DATA3 is merged into inp; the overlay check passed (every data module up to date, no kernel re-run). The
+    landing build onto main is running.
+- **07:25. SO-FREEZE3 Phase A (partial), 1e0e888c.**
+  - 13 frozen files, byte-identical to FREEZE-PROPOSAL-2 apart from the D46/D48 literals; 13 manifest entries;
+    guard and ABI (171) pass. Deviations: D-SOF-5 (four approved docstring lines rewrapped at one space each),
+    D-SOF-6 (`by sorry`, as the guard requires), D-SOF-7 (one manifest source group per declaration).
+  - **FOR OWNER REVIEW (cost decision, taken):** Q11 is unavoidable, since frozen and landed definitions share
+    names. Model.lean, Barrier.lean and Graph/Inverse.lean switch to the frozen definitions, which forces a
+    one-time full kernel rebuild of the 1,645 band data modules (about 7.5 h of kernel time, about 4.5 h on two
+    lanes).
+    - The rebuild is accepted. It runs into a copied overlay (kam-data/so-freeze3/build-overlay) so main's
+      landing stays valid.
+    - The same rebuild absorbs the CsegSupport line-width fix, after which the D46 allowlist entries can be
+      removed.
+  - The codex-1 identity audit of the 13 frozen files runs now (independent of Q11).
+  - LOCK-DATA was told to pause kernel runs that depend on Model, Barrier or Inverse until Q11 lands.
+- **SO-LOCK data volume update (for owner review, 2026-10-31 07:3x UTC):** after D47 (land the 131 MB as is), the full
+  census puts the lock data at about 345 MB (131 MB books + 54 MB segment ledger + ~153 MB memos + stages); B1
+  (lock-owned exp/inv/sqrt segment routes) approved by root-b8; cost ≈ 20 CPU-h kernel + ≈ 2 days literal
+  elaboration. Not covered by D47 until the owner confirms; generation/kernel only. Cuts (packed literals, lanes,
+  memos; 60°/66° amplitude for comparison only) being priced.
+- **08:21. MILESTONE: the N = 65 Moon band theorems are on main (SO-DATA3, 7adca9fc).**
+  - `KAM.SpinOrbit.lunar_barriers_65_v2` and `lunar_spin_confinement_65_v2`: for p₀ in (0.9934, 1.0066), the unique
+    global solution satisfies |p(t) − 1| ≤ 2.755 % for all t. Standard axioms; kernel-checked through the owner's
+    v2 certifier; about 1,650 data modules (21 MB).
+  - Landing: full build 12438 jobs, guard and ABI OK. prebuild_heavy reused the verified overlay with no data
+    rebuild. The first push lost a race, and the retry merged cleanly.
+  - D46–D48 are recorded in DECISIONS.md.
+  - Next for the band: SO-FREEZE3, i.e. Q11 plus a full data rebuild (running, into kam-data/so-freeze3/build-overlay),
+    then the seal and audit. Its landing needs main's and KAM-inp's Data symlinks repointed to the new overlay first.
+  - Lock: LOCK-DATA (B1 routes, B3 cost table) and LOCK-FREEZE Phase A (waits for SO-FREEZE3). The owner's ruling
+    on the 345 MB lock data is pending.
+- **Correction (decision numbering):** the owner decisions of 2026-10-31 recorded as D46, D47, D48 collided with
+  the existing D46 (2026-10-30 18:30, route B). They are renumbered **D47** (band at 2.755 %, rule B tightness
+  waived), **D48** (lock data land as is) and **D49** (freeze approvals, band and lock). Earlier log lines that
+  say D46/D47/D48 for these mean D47/D48/D49.
+- **09:24. Lock data cost cuts priced (B3); engineering approved; size to the owner.**
+  - Baseline 345 MB, 60–95 h of literal elaboration, about 20 CPU-h of kernel.
+  - (a) compact literals with a lock-owned decoder (measured ÷37 on a real advice module), (b) 6 elaboration lanes,
+    (c) no decoded memos: together about 158 MB, under 1 h of elaboration wall time, about 21–22 CPU-h of kernel,
+    margin unchanged (1.74 decades at 73.8°).
+  - (a)+(b)+(c) approved as engineering (no statement change). (d), a smaller amplitude, is not pursued.
+  - **FOR OWNER: land the lock data at about 158 MB** (D48 covered 131 MB as is).
+  - B1: SegRoutes.lean (exp/inv/sqrt routes) builds; toy probe at 0.43 GB; emitter shim lock_cseg.py.
+  - Possible mirror erratum, cost only: sofx_packed.build_real sizes the packing width by len(A) rather than the
+    shard count. Advice can then be rejected (shardFits), and the checker falls back to direct items. The lock
+    regenerates its 8 affected advices. The band data are kernel-checked and on main, so this is soundness-neutral;
+    to be checked during the band rebuild.
+- **10:49. Memory incident: earlyoom killed a band rebuild module at 10:31:58.**
+  - The lower lane's Seg.Tors.E1_1_1 got exit 143 at 5.2 GB. System memory was at 6 % with swap full: LOCK-DATA's
+    capped Python census (5.0 GB) and check (2.8 GB) ran beside the band's two kernel lanes.
+  - Not a proof failure. The lower lane is restarted; completed modules stay up to date.
+  - **New budget until SO-FREEZE3's rebuild finishes:** the lock runs at most one heavy job (≤ 6 GB, and only with
+    MemAvailable ≥ 8 GB); its 6-lane elaboration waits.
+  - Rebuild progress: about 22 % at 10:23 (361/1650 in 94 min), slower than the first run.
+  - Lock: the B3 levers are implemented. The CHECK on regenerated data passes every sub-check (inv 1.08e-21, energy
+    5.9e-23, Gram margin 7.3e-4, torsion margin 2.66e-4); the graph verdict is re-running. The owner's ruling on
+    about 158 MB is pending.

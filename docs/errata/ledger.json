@@ -2797,6 +2797,58 @@
    "status": "ADOPTED",
    "effect": "Measure conclusion retained; W6 must supply bpW:w6:freq-lip with θ ≤ θ₀",
    "evidence": "blueprint-W/parts/w7-measure.tex bpW:w7:Xzones (C4), bpW:w7:errata (c); review w7-review-1.md (confirmed unsupported, repair valid)"
+  },
+  {
+   "id": "E-VL22-2",
+   "type": "erratum",
+   "source": "VL22",
+   "location": "arXiv v2, p. 2, (7)",
+   "printed": "denominator `k₁ω̃ + k₂`",
+   "claim": "with the printed exponential convention the inverse derivative needs a factor i; differentiating (7) does not recover (6)",
+   "kind": "missing factor",
+   "evidence": "docs/explorations/next-demonstrations.md, section 'Suspected source defects' (branch ideas)",
+   "status": "CANDIDATE",
+   "checked_by": "IDEAS-NEXT study (Astra, side campaign, lemma.farm, 2026-10-30), checked in the rendered PDF pages by its writer; not yet verified by an independent refute-first reader",
+   "effect": "none on our theorems"
+  },
+  {
+   "id": "E-VL22-3",
+   "type": "erratum",
+   "source": "VL22",
+   "location": "arXiv v2, p. 3, (8) and (10)",
+   "printed": "`−ε²/2 {X}²h₂`; `−9/2 cos(6θ − 4ϕ)`",
+   "claim": "v in (3) already contains ε, so the prefactor double-counts ε when X solves (6); the two expressions in (8) disagree in sign; (10) lacks the small divisors",
+   "kind": "wrong constant / sign",
+   "evidence": "docs/explorations/next-demonstrations.md, section 'Suspected source defects' (branch ideas)",
+   "status": "CANDIDATE",
+   "checked_by": "IDEAS-NEXT study (Astra, side campaign, lemma.farm, 2026-10-30), checked in the rendered PDF pages by its writer; not yet verified by an independent refute-first reader",
+   "effect": "none on our theorems"
+  },
+  {
+   "id": "E-CVCGL05-1",
+   "type": "erratum",
+   "source": "CVCGL05",
+   "location": "arXiv v2, p. 9, (14)",
+   "printed": "`−d(1/q)/dψ`",
+   "claim": "the general formula (8), p. 7, gives half this coefficient when H₁ is action-independent",
+   "kind": "factor 2",
+   "evidence": "docs/explorations/next-demonstrations.md, section 'Suspected source defects' (branch ideas)",
+   "status": "CANDIDATE",
+   "checked_by": "IDEAS-NEXT study (Astra, side campaign, lemma.farm, 2026-10-30), checked in the rendered PDF pages by its writer; not yet verified by an independent refute-first reader",
+   "effect": "none on our theorems (our model uses (8))"
+  },
+  {
+   "id": "E-CVCGL05-2",
+   "type": "erratum",
+   "source": "CVCGL05",
+   "location": "arXiv v2, p. 11",
+   "printed": "`≈ 35ε`",
+   "claim": "with its maximum-cosine-coefficient norm, the general-(8) model at 0.35 gives about 64.55ε including the constant coefficient, or 64.33ε for the nonconstant harmonics only, not ≈ 35ε; conventions to be rechecked before this is confirmed",
+   "kind": "unreproduced constant",
+   "evidence": "docs/explorations/next-demonstrations.md, section 'Suspected source defects' (branch ideas)",
+   "status": "CANDIDATE",
+   "checked_by": "IDEAS-NEXT study (Astra, side campaign, lemma.farm, 2026-10-30), checked in the rendered PDF pages by its writer; not yet verified by an independent refute-first reader; rechecked with the norm convention made explicit by the DEMO-PLANS study (plan-magnetic-barrier.md §8), 2026-10-30",
+   "effect": "none on our theorems"
   }
  ]
 }
