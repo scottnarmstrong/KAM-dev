@@ -33,6 +33,7 @@ axioms, `w_lint.sh` exit 0; `#print axioms` of every main result listed: propext
 | `KamStep/TaylorFun.lean`, `TaylorFunSym.lean`, `TaylorFunDeriv.lean`, `TaylorField.lean` | `stepZ, stepZb` (`z=(u+iv)/√2`), `stepFun T` (the polynomial `F` of a W4 `HomTaylor_gen`), `stepPr` (weighted pairing), `stepPr_swap` (transposed matrices pair transposed), `stepFun_hasFDerivAt`, `stepField T` (`(b/2π, -F_θ/2π, F_v, -F_u)`), **`stepFun_field`**: `D(stepFun T)(w) W = ϖ_{p,p_+}(stepField T w, W)` for `θ∈T_s` | `solve` step `s-class` (field of `F`, `DF=ϖ(X_F,·)`) |
 | `KamStep/TaylorFieldDiff.lean`, `StepSympEmbed.lean` | `differentiableOn_homPartial`, `stepField_differentiableAt` (holomorphy of `X_F`), `stepSymp_embed` (`ϖ_{p,p}(ιX,W)=ϖ_{p,p_+}(X,W)`) | `solve` `s-class`, `flow-calc` `c-skew` |
 | `KamStep/StepFlowConcrete.lean`, `StepFieldBound.lean` | `stepToKCLM/stepOfKCLM`, `stepFieldS` (`Z`), `stepFS`, `stepFS_hasFDerivAt` (`DF=B(ιZ,·)`), **`stepFieldS_skew`** (`DX_F` is `B`-skew, concrete), `kamNorm_stepField` (= W4's `homXnorm_gen`), `homDomain_stepZ`, `stepFieldS_bound` (W4 `HomFieldBound_gen` ⇒ `‖Z‖≤ε` on `D(s',r)`), **`stepFlowHyp_concrete`**: `FlowHyp (ι∘Z) D(s-σ,r) D(s-2σ,r/2) M (σ/4)` | `flow` (hypotheses), `flow-calc` `c-skew` (concrete) |
+| `KamStep/StepNfun.lean`, `StepSolve.lean` | `stepToHom`, `stepNfun` (`N` on `KamPhase`), `stepNfun_hasFDerivAt`, **`stepNfun_lie`** (`DN(w)(ιX_F(w)) = -L_NF(w)`, from W4 `homLemma_lie_iv_gen`); `stepField_sub`; **`stepSolve_fam`** (`|X_F|^λ_{r,D(s-σ,r)} ≤ (3C₁B^W_σ/α)(ε+λε^L)` as a `FamBound`, from W4 `homLemma1_fieldBound_gen`/`homLemma1_lipschitz_gen`/`homLemma2`); **`stepSolve_equation`** (`R + DN·ιX_F = N̂ + â₀` on `θ∈T_{s-σ}`); `stepNhat_fam` (`|X_{N̂}|^λ ≤ 2(ε+λε^L)`); `stepSymp_comm_weights`; **`stepFun_isSmoothing`** (`stepFun T ∈ 𝒮_{p_+}(D(s',r))` with field `stepField T`) | `solve` (unmodified case, concrete), `flow-calc` (v) |
 
 ## Session 2 summary
 Landed: the abstract flow calculus (smoothing, variational equation, symplecticity, Cauchy bounds with the step
@@ -83,3 +84,15 @@ Deviation: `ι` is `stepEmbedCLM` built from W4's `homEmbed_gen` (Dirichlet labe
 The abstract flow results (`holoFlow_smooth_eq`, Cauchy bounds, `isUnit_fderiv_holoFlow`, transport, bracket) now
 apply to `X = smoothField (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb T r)` via `stepFlowHyp_concrete` and
 `stepFieldS_skew`, with `B = stepSympCLM (q:=p) (q':=p)`.
+
+## Session 4, item 3 (solve proper, UNMODIFIED case) — DONE except the Taylor identification
+`stepSolve_fam`/`stepNhat_fam`/`stepSolve_equation`/`stepFun_isSmoothing` give, for any family `R_ξ ∈ 𝒯_s` with
+`HomFieldBound` (the output of the Taylor lemma), the solve outputs of `bpW:w5:solve`. The family `F_ξ` is a parameter with
+the specification `F ξ = homSolveTaylor_gen … (R ξ)`. Not yet done: the identification of `R = Taylor polynomial of P`
+(`bpW:w5:taylor` (i),(ii): an `R : HomTaylor_gen` with `stepField R = taylorXR X_P`), and the frequency-hat bounds
+`|ω̂| ≤ 6πε`, `Ω̂` from `homNhat_coeff_bounds_gen` (available in W4, assembled in the step theorem).
+Order deviation: items 2 (w4-modified) was NOT started; the unmodified chain is being completed first because the
+core analytic argument (new-ham, pullback, step) is shared and `w4-modified` only changes the supplier of the solve outputs.
+Design note for w4-modified: `F` is `homSolve` of `R`'s `(p+1)`-representatives with the multipliers `ratio_i * d_ij`
+(`ratio_i = ω_{p_+}(i)/ω_{p+1}(i)`), cp/cm/P/P' with `ratio_i`-twisted multipliers; bounds need a modified copy of
+`LemmaOneBounds/LemmaOneLipBounds` (dQ from the operator norm, `m-act`).
