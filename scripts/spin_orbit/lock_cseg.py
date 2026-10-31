@@ -75,7 +75,11 @@ SQD = "((0, ⟨⟨[]⟩, 0, 0⟩) : ℕ × SqrtWitness %s)" % TY
 CHD = "(([], ⟨⟨[]⟩, 0, 0⟩) : CertKey × ExpWitness %s)" % TY
 
 
-SH_GROUP = 1             # shards per kernel theorem: one M0 shard 4.4 GB, three 5.9 GB; two M1 shards > 6 GB (measured)
+SH_GROUP = 4             # shards per kernel theorem for heavy products (D55, 10 GB lane; one shard 3.2–4.7 GB on literals)
+HEAVY_PAIRS = 10 ** 7    # a product part is heavy from this operand pair count on (M0 2.4e7, M1 3.2e7)
+SPLIT_AUX = False        # D55: side checks stay in the product module (each <= 3 GB, measured)
+EXP_SPLIT = False        # D55: one module per exp residual (<= 6.0 GiB, measured)
+HEAVYADV = set()         # advice names of heavy product parts
 NSHARDS = {}             # advice name (`advFull.p0.rr`) -> number of shards, filled by LockEmitter
 _GRP = re.compile(r"^( *)checkPackedSp_of_groups (\S+) (.*?)\s+\[(\S+)\.shardRange\]\s+(\(by decide \+kernel\)|\S+)\s+\(fun s hs => "
                   r"⟨\S+\.shardRange, List\.mem_singleton_self _, hs⟩\)\s+\(fun g hg => by rw "
@@ -84,7 +88,7 @@ DECSPLIT = "KAM.SpinOrbit.Data.LockN65.DecSplit"
 REMSPLIT = "KAM.SpinOrbit.Data.LockN65.RemSplit"
 PAIRCODE = "KAM.SpinOrbit.Data.LockN65.PairCode"
 EXPSPLIT = "KAM.SpinOrbit.Data.LockN65.ExpSplit"
-REM_CHUNK = 2000         # slots per remainder-bound range (maxSlotDeg over 12 260 slots: 6.17 GB, measured)
+REM_CHUNK = 4000         # slots per remainder-bound range (D55; 2000-slot ranges < 1 GB, measured)
 
 
 def _hang(text):
@@ -134,12 +138,13 @@ def _split2(t):
     return t[:cut].strip(), t[cut:].strip()
 
 
-def _groups(n):
-    return [list(range(i, min(i + SH_GROUP, n))) for i in range(0, n, SH_GROUP)]
+def _groups(n, adv=None):
+    g = SH_GROUP if (adv is None or adv in HEAVYADV) else max(n, 1)
+    return [list(range(i, min(i + g, n))) for i in range(0, n, g)]
 
 
-def _group_lit(n):
-    return "[" + ", ".join("[" + ", ".join(map(str, g)) + "]" for g in _groups(n)) + "]"
+def _group_lit(n, adv=None):
+    return "[" + ", ".join("[" + ", ".join(map(str, g)) + "]" for g in _groups(n, adv)) + "]"
 
 
 def _lock_jet_names(body, imports):
@@ -162,13 +167,13 @@ def _write_sharded(self, rel, imports, title, doc, body, heavy=False, ns=None):
     m = _SH.match(joined)
     if m and rel.endswith("Sh") and body[-1].strip() == "decide +kernel":
         nm, adv, rest = m.groups()
-        ops = _ops_module(self, rel, nm, adv, rest, imports, ns)
+        ops = _ops_module(self, rel, nm, adv, rest, imports, ns) if adv in HEAVYADV else None
         if ops is not None:
             ea_t, eb_t, nea, neb, omod = ops
             rest = "(checkShardAt %s %s %s)" % (adv, nea, neb)
             imports = list(imports) + [omod]
         mods = []
-        for gi, g in enumerate(_groups(NSHARDS[adv])):
+        for gi, g in enumerate(_groups(NSHARDS[adv], adv)):
             st = "[%s].all %s = true := by" % (", ".join(map(str, g)), rest)
             gb = ["theorem %sG%d :" % (nm, gi)] + wrap(st.split(" "), "    ") + ["  decide +kernel"]
             mods.append(_tree_write(self, "%sG%d" % (rel, gi), imports, "%s, shards %s" % (title, g), doc, gb,
@@ -182,9 +187,11 @@ def _write_sharded(self, rel, imports, title, doc, body, heavy=False, ns=None):
         # product module itself only assembles (the whole M1 module was OOM-killed at 6 GB, measured)
         body, amods = _split_aux(self, rel, body, imports, ns)
         imports = list(imports) + amods
+        if not SPLIT_AUX:
+            imports += [OPSNAMES[a][4] for a in OPSNAMES if OPSNAMES[a][2].startswith(PRODSTMT[self.mod(rel)][0] + "_")]
     if rel.endswith("Dec"):
         md = _DEC.match(" ".join(" ".join(body).split()))
-        if md:
+        if md and md.group(3) in HEAVYADV:
             return _write_dec(self, rel, imports, title, doc, md, heavy, ns)
     text = "\n".join(body)
 
@@ -194,11 +201,11 @@ def _write_sharded(self, rel, imports, title, doc, body, heavy=False, ns=None):
         ind, adv, eaeb, hpre, nm = mm.group(1), mm.group(2), " ".join(mm.group(3).split()), mm.group(5), mm.group(6)
         n = NSHARDS[adv]
         hg = "(fun _ h => nomatch h)"
-        for gi in reversed(range(len(_groups(n)))):
+        for gi in reversed(range(len(_groups(n, adv)))):
             hg = "(List.forall_mem_cons.2 ⟨%sG%d, %s⟩)" % (nm, gi, hg)
         # the coverage and the group facts as theorems of their own (inline, the elaborator unfolds the shard
         # check: maximum recursion depth, measured)
-        G = _group_lit(n)
+        G = _group_lit(n, adv)
         pre.extend(["theorem %s_cover :" % nm] + wrap(("∀ s ∈ %s.shardRange, ∃ g ∈ %s, s ∈ g := by" % (adv, G)
                                                         ).split(" "), "    ") + ["  decide +kernel", ""])
         ea, eb = _split2(eaeb)
@@ -334,6 +341,19 @@ def _split_aux(self, rel, body, imports, ns):
     keep, mods = [], []
     for b in blocks:
         m = re.match(r"^theorem (\S+A\d+) :", b[0])
+        if m and not SPLIT_AUX:
+            # D55: kept in the product module; the prefix check stated on the operand literals (0.6 GB, measured)
+            pm = re.search(r"checkPackedSpPrefix (\S+) ", " ".join(b))
+            if pm and pm.group(1) in OPSNAMES:
+                ea_t, eb_t, nea, neb, _ = OPSNAMES[pm.group(1)]
+                tail = []
+                while b and (b[-1].strip() == "" or b[-1].lstrip().startswith("/--")):
+                    tail.insert(0, b[-1])
+                    b = b[:-1]
+                st = " ".join(" ".join(b[1:-1]).split()).replace(ea_t, nea).replace(eb_t, neb)
+                b = [b[0]] + wrap(st.split(" "), "    ") + [b[-1]] + tail
+            keep.extend(b)
+            continue
         if m and b[0].startswith("theorem "):
             tail = []
             while b and (b[-1].strip() == "" or b[-1].lstrip().startswith("/--")):
@@ -670,6 +690,14 @@ class LockEmitter(CE.Emitter):
                 memo_rw = ("rw [expResidualProduct_eq_of_polyProduct %s %s %s.poly %s.poly %d %s]"
                            % (W, cw, g, E, j, self.memo_name(mk)))
                 stem = "Rad/%s%s%dRes%d" % (op[0].capitalize(), sub, i, j)
+                if not EXP_SPLIT:
+                    rb = ["theorem %s_res%d :" % (nm, j)] + wrap(st.split(" "), "    ")
+                    rb[-1] += " := by"
+                    rb += ["  unfold expResidualUp"] + _hang(memo_rw) + ["  decide +kernel"]
+                    rmods.append(self.tree.write(stem, self.base + imps, "The exp residual %d at slot %d (%s)"
+                                                 % (j, i, chain), "One kernel run.",
+                                                 [CE.Emitter.fix_long(l) for l in rb], heavy=True))
+                    continue
                 # the residual in two kernel runs (ExpSplit.lean): the weighted sum over the merged terms, and
                 # the error radius of the derivative items of g (one run was 6.0 GiB, measured)
                 ss = ("sumUp (fun t => weightTermUp %s t.1 (upAdd t.2.1.normUp t.2.2)) (mergeErrTerms (%s.poly.terms"
@@ -775,6 +803,18 @@ class LockEmitter(CE.Emitter):
         the product mentions two constants, so the elaborator never re-unfolds the operand lookups (a 7-fold inline
         operand made it hit the recursion and heartbeat limits, measured on M0)."""
         nm = self.memo_name(k)
+        advname, P = self.advRef(m["cfg"], m["fullKey"])
+        heavy = False
+        for prt in m["parts"]:
+            if not prt["empty"]:
+                adv = "%s.%s" % (advname, prt["part"])
+                rec = EAEB.get(ADVKEY[adv][:2], {}).get(prt["part"])
+                if rec and len(rec[0]) * len(rec[1]) >= HEAVY_PAIRS:
+                    HEAVYADV.add(adv)
+                    heavy = True
+        if not heavy:
+            # D55: a light product keeps the landed single-module form
+            return CE.Emitter.emit_product(self, k, m, cfg, key, a, b, imps)
         ops = [("a", a)] + ([] if b == a else [("b", b)])
         body = []
         for s_, t in ops:
@@ -783,7 +823,6 @@ class LockEmitter(CE.Emitter):
             body += ["theorem %s%s_eq :" % (nm, s_)] + wrap(("%s = %s%s := rfl" % (t, nm, s_)).split(" "), "    ") + [""]
         arg = self.tree.write("Prod/M%dArg" % k, self.base + list(imps), "Operands of the packed product %d" % k,
                               "The two operand polynomials, named once.", body)
-        advname, P = self.advRef(m["cfg"], m["fullKey"])
         rems = []
         for prt in m["parts"]:
             if not prt["empty"]:
