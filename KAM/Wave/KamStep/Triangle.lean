@@ -51,4 +51,27 @@ theorem stepTriangle {g : ℝ → V} (hg : Continuous g) :
   rw [e1, e2] at key'
   exact sub_eq_zero.mp (by simpa [sub_eq_add_neg] using key')
 
+/-- The same for `g` continuous on `[0,1]` only. -/
+theorem stepTriangle_on {g : ℝ → V} (hg : ContinuousOn g (Set.Icc 0 1)) :
+    ∫ t in (0 : ℝ)..1, ∫ τ in (0 : ℝ)..t, g τ = ∫ τ in (0 : ℝ)..1, (1 - τ) • g τ := by
+  set g' : ℝ → V := fun t => g (Set.projIcc (0 : ℝ) 1 zero_le_one t) with hg'
+  have hc : Continuous g' :=
+    hg.comp_continuous (continuous_subtype_val.comp continuous_projIcc)
+      (fun t => (Set.projIcc (0 : ℝ) 1 zero_le_one t).2)
+  have hEq : ∀ t ∈ Set.Icc (0 : ℝ) 1, g' t = g t := fun t ht => by
+    simp [hg', Set.projIcc_of_mem _ ht]
+  have h1 : ∫ t in (0 : ℝ)..1, ∫ τ in (0 : ℝ)..t, g τ =
+      ∫ t in (0 : ℝ)..1, ∫ τ in (0 : ℝ)..t, g' τ := by
+    refine integral_congr fun t ht => ?_
+    rw [Set.uIcc_of_le zero_le_one] at ht
+    refine integral_congr fun τ hτ => ?_
+    rw [Set.uIcc_of_le ht.1] at hτ
+    exact (hEq τ ⟨hτ.1, hτ.2.trans ht.2⟩).symm
+  have h2 : ∫ τ in (0 : ℝ)..1, (1 - τ) • g τ = ∫ τ in (0 : ℝ)..1, (1 - τ) • g' τ := by
+    refine integral_congr fun τ hτ => ?_
+    rw [Set.uIcc_of_le zero_le_one] at hτ
+    simp only [hEq τ hτ]
+  rw [h1, h2]
+  exact stepTriangle hc
+
 end KAM.Wave

@@ -95,6 +95,7 @@ public import KAM.Wave.KamStep.Data
 public import KAM.Wave.KamStep.Divisors
 public import KAM.Wave.KamStep.Flow
 public import KAM.Wave.KamStep.LatticeBN
+public import KAM.Wave.KamStep.NewHamExp
 public import KAM.Wave.KamStep.Omega
 public import KAM.Wave.KamStep.Phase
 public import KAM.Wave.KamStep.Pullback
