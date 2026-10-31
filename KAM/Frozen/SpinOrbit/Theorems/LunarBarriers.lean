@@ -36,7 +36,7 @@ theorem lunar_barriers :
       (∀ q φ, Bm.P q φ < Bp.P q φ) ∧
       (∀ q φ, Bm.P q φ < lunarPLo) ∧ (∀ q φ, (lunarPHi : ℝ) < Bp.P q φ) :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact KAM.Provider.SpinOrbit.lunar_barriers
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 

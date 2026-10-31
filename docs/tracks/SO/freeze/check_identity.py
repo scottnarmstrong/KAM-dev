@@ -4,7 +4,7 @@
 Approved text: FREEZE-PROPOSAL.md §1.1-§1.8 (definitions, complete blocks) and FREEZE-PROPOSAL-2.md §1.2-§1.3
 (window and theorems), with only the D47/D49 literal substitutions. From each frozen file the header lines
 added at freeze time are removed (copyright, module docstring, FROZEN_ANCHOR_PREFIX_BEGIN), the D-SOF-5 line
-splits are undone and the D-SOF-6 body `by sorry` is read as `sorry`; the result must contain the approved block
+splits are undone and the proof body (`by sorry`, D-SOF-6, or the sealing body) is read as `sorry`; the result must contain the approved block
 exactly (B and window: A's wrapper, complete file). Exit status 1 on any mismatch.
 Run from the repository root."""
 import re
@@ -27,7 +27,10 @@ def normalize(path):
     t = re.sub(r"\A/-\nCopyright.*?-/\n", "", t, flags=re.S)
     t = t.replace("-- FROZEN_ANCHOR_PREFIX_BEGIN\n", "", 1)
     t = re.sub(r"\n/-!\n# Frozen .*?-/\n", "", t, count=1, flags=re.S)
-    t = t.replace("  -- FROZEN_ANCHOR_PROOF_BEGIN\n  by sorry\n", "  -- FROZEN_ANCHOR_PROOF_BEGIN\n  sorry\n")
+    # the proof body (D-SOF-6 `by sorry`, or the sealing `by exact ...`) is outside the frozen prefix/suffix;
+    # it is read as the approved `sorry`
+    t = re.sub(r"(  -- FROZEN_ANCHOR_PROOF_BEGIN\n).*?(  -- FROZEN_ANCHOR_PROOF_END\n)", r"\1  sorry\n\2", t,
+               count=1, flags=re.S)
     return t
 SPLITS = {  # D-SOF-5: (file, first part) -> the line was split at the one space after it
     "SoCoeffPoly": ["/-- The coefficient polynomials `A_m(e)` of the model (zero outside `1 ≤ m ≤ 7`);"],

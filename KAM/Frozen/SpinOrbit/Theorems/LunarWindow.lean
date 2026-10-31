@@ -27,7 +27,7 @@ namespace KAM.SpinOrbit
 /-- The initial momentum window of `lunar_spin_confinement` is nonempty. -/
 theorem lunarPLo_lt_lunarPHi : lunarPLo < lunarPHi :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact KAM.Provider.SpinOrbit.lunarPLo_lt_lunarPHi
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 

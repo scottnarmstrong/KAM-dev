@@ -10336,7 +10336,7 @@
     "module": "KAM.Provider.SpinOrbit.LunarBarriers",
     "export": "KAM.Provider.SpinOrbit.lunar_barriers"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "916afb3874c6439113725b48bba522342ac9737c4914e2749cf7d7e68c1715c3",
    "suffix_sha256": "82fffec8a7bd503242e8ee1117e463982ec052c8e1b2de510fef566b666e802f",
    "draft_allowlist": {
@@ -10411,7 +10411,7 @@
     "module": "KAM.Provider.SpinOrbit.LunarSpinConfinement",
     "export": "KAM.Provider.SpinOrbit.lunar_spin_confinement"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "494e71d4ea5b5242b576c80da92e069a0edb04e9e7065465aa66ae3dfbedb5ab",
    "suffix_sha256": "82fffec8a7bd503242e8ee1117e463982ec052c8e1b2de510fef566b666e802f",
    "draft_allowlist": {
@@ -10458,7 +10458,7 @@
     "module": "KAM.Provider.SpinOrbit.LunarWindow",
     "export": "KAM.Provider.SpinOrbit.lunarPLo_lt_lunarPHi"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "33bf78fa53593c3afab7bb59152f183fbda5e5a1e826d3b02e670478976beb7b",
    "suffix_sha256": "82fffec8a7bd503242e8ee1117e463982ec052c8e1b2de510fef566b666e802f",
    "draft_allowlist": {

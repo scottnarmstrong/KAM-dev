@@ -4,11 +4,12 @@ Branch `inp-sofreeze3` (off `inp` 9517d71e). Freezes exactly the thirteen declar
 [`FREEZE-PROPOSAL-2.md`](FREEZE-PROPOSAL-2.md) §1 (definition texts: [`FREEZE-PROPOSAL.md`](FREEZE-PROPOSAL.md)
 §1.1–§1.8, unchanged per proposal 2 §1.1), with the final literals of D47/D49.
 
-**Status: Phase A partly done, then STOPPED before Q11** (see "Q11 and the heavy rebuild" below). The frozen files,
-provider stubs, manifest entries and ABI hashes are written and checked. The Q11 switch of the landed code to the
-frozen definitions is **not** done. Without it the branch cannot land: the generated root would import both
-`KAM.Frozen.SpinOrbit.Defs.SoEcc` and `KAM.SpinOrbit.Model`, which both declare `KAM.SpinOrbit.soEcc` (and six
-more names, plus `SoBarrier`). Phase B (sealing) needs Q11 too.
+**Status: Phase A and Phase B complete (sealed, D50).** The 13 declarations are frozen with the D47/D49
+literals (identity audit 1: PASS WITH NOTES; the notes are resolved below). The landed code uses the frozen
+definitions (Q11, below), and all SO data modules were rebuilt on top. The three theorems are sealed by
+`by exact KAM.Provider.SpinOrbit.<name> …`; their axioms are `propext`, `Classical.choice` and `Quot.sound`. The
+SEAL audit request is [`audits/SO-FREEZE3-handoff.md`](audits/SO-FREEZE3-handoff.md); the report goes to
+`audits/SO-FREEZE3-seal-audit.md`.
 
 ## Files
 
@@ -24,12 +25,13 @@ more names, plus `SoBarrier`). Phase B (sealing) needs Q11 too.
 | `KAM.SpinOrbit.SoBarrier` | `KAM/Frozen/SpinOrbit/Defs/SoBarrier.lean` | `spinorbit.d40.SoBarrier.v1` | SEALED |
 | `KAM.SpinOrbit.lunarPLo` | `KAM/Frozen/SpinOrbit/Defs/LunarPLo.lean` | `spinorbit.d40.lunarPLo.v1` | SEALED |
 | `KAM.SpinOrbit.lunarPHi` | `KAM/Frozen/SpinOrbit/Defs/LunarPHi.lean` | `spinorbit.d40.lunarPHi.v1` | SEALED |
-| `KAM.SpinOrbit.lunar_barriers` | `KAM/Frozen/SpinOrbit/Theorems/LunarBarriers.lean` | `spinorbit.d40.lunar_barriers.v1` | DRAFT_SORRY |
-| `KAM.SpinOrbit.lunar_spin_confinement` | `KAM/Frozen/SpinOrbit/Theorems/LunarSpinConfinement.lean` | `spinorbit.d40.lunar_spin_confinement.v1` | DRAFT_SORRY |
-| `KAM.SpinOrbit.lunarPLo_lt_lunarPHi` | `KAM/Frozen/SpinOrbit/Theorems/LunarWindow.lean` | `spinorbit.d40.lunarPLo_lt_lunarPHi.v1` | DRAFT_SORRY |
+| `KAM.SpinOrbit.lunar_barriers` | `KAM/Frozen/SpinOrbit/Theorems/LunarBarriers.lean` | `spinorbit.d40.lunar_barriers.v1` | SEALED (theorem) |
+| `KAM.SpinOrbit.lunar_spin_confinement` | `KAM/Frozen/SpinOrbit/Theorems/LunarSpinConfinement.lean` | `spinorbit.d40.lunar_spin_confinement.v1` | SEALED (theorem) |
+| `KAM.SpinOrbit.lunarPLo_lt_lunarPHi` | `KAM/Frozen/SpinOrbit/Theorems/LunarWindow.lean` | `spinorbit.d40.lunarPLo_lt_lunarPHi.v1` | SEALED (theorem) |
 
-Provider stubs (empty modules, quarantined): `KAM/Provider/SpinOrbit/{LunarBarriers,LunarSpinConfinement,LunarWindow}.lean`.
-Sealing bodies (Phase B): `by exact KAM.Provider.SpinOrbit.<name> …`.
+Providers (quarantined): `KAM/Provider/SpinOrbit/{LunarBarriers,LunarSpinConfinement,LunarWindow}.lean`, from the
+landed `lunar_barriers_65_v2`, `lunar_spin_confinement_65_v2` and `decide +kernel`. Sealing bodies:
+`by exact KAM.Provider.SpinOrbit.<name> …`.
 
 ## Literal substitutions (D47/D49), and nothing else
 
@@ -99,35 +101,24 @@ module line, the frozen imports in the listed order, the private provider import
   The full-file, prefix/suffix and closure hashes of the 13 entries were recomputed with the guard's own region
   rule; the other 158 entries are unchanged as JSON.
 
-## Q11 and the heavy rebuild (why Phase A stopped)
+## Q11 and the data rebuild
 
-Q11 (proposal 2 §7) makes the landed code use the frozen definitions, with no duplicates: `Model.lean` deletes
-`soEcc … soField` and imports the frozen ones, and `Barrier.lean` uses the frozen `SoBarrier` through an adapter
-`SoBarrier.isInvariantSet`. Its two constructor sites in `Graph/Inverse.lean` take the written-out invariance; the
-`SoBarrier.widen` of `LunarAssembly.lean` is unchanged.
+Q11 (proposal 2 §7) makes the landed code use the frozen definitions, with no duplicates (commit 0ed69133):
+- `Model.lean` imports the frozen `soEcc … soField` and deletes its own copies;
+- `Barrier.lean` imports the frozen `SoBarrier`, with the adapters `SoBarrier.isInvariantSet` and
+  `SoBarrier.invariant_of_isInvariantSet`;
+- the constructor sites in `Graph/Inverse.lean` and `Graph/Rot.lean` pass the written-out invariance;
+- `CsegSupport.lean` gets the 100-column fix in the same change.
 
-Every one of the 1645 SO-DATA3 data modules imports `KAM.SpinOrbit.Model` and `KAM.SpinOrbit.Barrier` **through
-public imports only**. A typical path is
-`Data.Upper.Seg.Prod.M109 → Data.CsegJet → LunarAssemblyV2 → LunarAssemblySharpGen → LunarAssemblySharp →
-LunarAssembly → Barrier → Model`. Lake 4.35 traces each module by its imports' artifacts and their *transitive
-public imports* (see `.lake/build/lib/lean/KAM/SpinOrbit/Barrier.trace`). Q11 necessarily changes the public
-`.olean` of `Model` (seven declarations move out) and of `Barrier` (the structure changes). So Lake would
-re-elaborate and kernel-check all 1645 data modules: about 7.5 h by the SO-DATA3 handoff §5. Their `.olean`
-directory `.lake/build/lib/lean/KAM/SpinOrbit/Data` is a symlink into the shared overlay
-`kam-data/so-data3/build-overlay`, which `main`'s landing also uses. A rebuild here would write into it. A
-comment-only change is cheap (cf758ff2); a change to public declarations is not. The renaming alternative of Q11
-changes `Barrier`'s interface as well, so it costs the same.
+Every SO data module reaches `Model` and `Barrier` through public imports, so Q11 forces a rebuild of all of them.
+The orchestrator accepted the one-time rebuild. It ran into a copy of the overlay, `kam-data/so-freeze3/build-overlay`,
+relinked in this worktree only, with SO-DATA3's capped two-lane driver: 1071 modules built, peak 9.45 GB, both
+lanes DONE at 13:34 UTC. One lower module was stopped by earlyoom during system-wide low memory, not by a Lean
+error; the lower lane was restarted. Details and logs are in the audit request.
 
-The brief says to stop and report if anything heavy would rebuild. Nothing in `KAM/SpinOrbit` was edited or built.
-`lake build --no-build KAM.SpinOrbit.LunarFinalR2V2` still reports `All targets up-to-date (5212 jobs)`.
+## Checks (2026-10-31, after the seal)
 
-## Checks (2026-10-31)
-
-* `inp_lake_build.sh … KAM.Frozen.SpinOrbit.Theorems.{LunarBarriers,LunarSpinConfinement,LunarWindow}`: success,
-  2112 jobs; only messages: the three `declaration uses 'sorry'` warnings of the anchors.
-* `check_frozen_anchors.py --root . --manifest manifest/frozen-anchors.json`: `FROZEN-ANCHOR GUARD OK`.
-* `abi_hashes.py . manifest/frozen-anchors.json --check`: `ABI HASHES OK (171 frozen declarations)`.
-* `check_identity.py`: all 13 `IDENTICAL`.
-* `lint_sources.sh`: check_lean_modules PASS, guard OK, ABI OK. It fails only on the eight over-long lines of
-  `KAM/SpinOrbit/Data/CsegSupport.lean`, already reported by SO-DATA3; fixing them needs the same heavy rebuild.
-  It also reports "KAM.lean is out of date", which rule 10 leaves to landing; regenerating the root needs Q11 first.
+See [`audits/SO-FREEZE3-handoff.md`](audits/SO-FREEZE3-handoff.md), "Checks run":
+- builds; `#print axioms` (standard three, for the three exports and their providers);
+- `leanchecker` replay of the 13 frozen modules and the 3 providers;
+- guard, ABI, `check_identity.py` and lint (only the generated root is out of date, left to landing).
