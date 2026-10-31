@@ -2226,3 +2226,50 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - **Still FOR OWNER:** land the lock data at about 158 MB (D48 covered 131 MB as is).
 - **14:47. Owner: D52, land the lock data at about 158 MB** ("approve"). This closes the FOR OWNER item of 09:24 and
   14:22, and the lock sub-orchestrator is told. Open: a spare audit account if codex-1 runs out.
+- **14:53. LOCK-FREEZE identity audit running (codex-1, inp-maud-lockdesign); rename at 7deabe9f.**
+  - Incident (mine): at 14:27 I removed the landed SO-FREEZE3 worktree KAM-inp-sodata3, but the LOCK-FREEZE handoff
+    compiled against its oleans. The auditor was redirected before it compiled, to KAM-inp's build at the same inp
+    commit (da762768; `lake build --no-build` reports all 5,230 jobs up to date). The sweep now keeps any worktree
+    that another live worktree's drafts or branch files name.
+  - LOCK-DATA: the first segment probe ran out of memory in its 8 GB scope (Lake elaborated several heavy
+    dependencies in parallel). It now builds one module per Lake call in topological order; PlanFull passes at
+    2.80 GB and 17 probes are running.
+- **14:56. BUILD-OPTIN (D51) ready (inp-buildoptin ade92a4f), in audit on codex-1 (inp-maud-buildoptin).**
+  - A plain `lake build` now builds the core only: 10,899 jobs, with no data module or LunarFinalR2V2. The band is
+    the opt-in library KAMLunarBand, and KAMLunarLock is ready for LOCK-DATA.
+  - No recompilation: `lake build --no-build` reports all 1,654 band modules up to date after the lakefile change.
+  - The obsolete CsegSupport width-allowlist entries are removed.
+  - Landing change: land-branch.sh stops (exit 3) instead of building stale application data; building it is now a
+    deliberate `prebuild_heavy.py --lib` step.
+  - The audit focus is that a core change making the band stale is still caught at landing.
+- **15:02. BUILD-OPTIN audit 1 (codex-1): FAIL; fixes in progress.**
+  - F1 (high): a core change in the band's import closure, or a lakefile or toolchain change, selected no application
+    at landing, so the band could go stale unnoticed. The fix checks every application with `lake build --no-build`
+    at each landing and stops (exit 3) if any data module would rebuild.
+  - F2: the generated roots now get `public section` (rule 3).
+  - F3: GUARDS.md is updated for D51.
+  - Core coverage, no-recompilation and the frozen anchors all PASS. Round 2 audit after the fixes.
+- **15:19. Heartbeat: LOCK-FREEZE Phase A identity audit PASS WITH NOTES (codex-1, 14:58).**
+  - All 8 declarations match FREEZE-PROPOSAL-LOCK §1 byte for byte, and all 179 ABI hashes reproduce. Four theorems
+    stay DRAFT_SORRY until the seal.
+  - Phase A goes to kam-inp-63 for landing (the lock sub-orchestrator was told).
+  - BUILD-OPTIN audit round 2 is running. LOCK-DATA's segment kernel probes are running. codex-1 is at 16 %.
+- **15:21. BUILD-OPTIN audit 2 PASS (codex-1; F1–F3 closed); handed to kam-inp-63 for landing at 8256d980.** Every landing now
+  checks every application (`lake build --no-build <Lib>`) and stops before any data rebuild. LOCK-FREEZE Phase A
+  (57aec394) is also with kam-inp-63; the two land independently, then LOCK-DATA.
+- **15:26. LOCK-FREEZE Phase A landed (inp 8d03a917, main e0f2376e).**
+  - Eight lock anchors are frozen: four definitions and four DRAFT_SORRY theorems (`lunar_sync_lock`,
+    `lunarSyncOrbit_{spec,unique,bound}`). The manifest has 179 entries.
+  - Full build: 12,466 jobs. The guard and the ABI check pass.
+  - The HQ shows Moon locked at 60 %.
+  - The seal (Phase B) waits for LOCK-DATA. BUILD-OPTIN is merging into inp next.
+- **15:42. MILESTONE: BUILD-OPTIN (D51) landed (main f6ca8f68).**
+  - A plain `lake build` builds the core only: 10,911 jobs, all up to date on main. The band is KAMLunarBand, with all
+    5,234 jobs up to date and no data module rebuilt. KAMLunarLock is ready for LOCK-DATA.
+  - Bootstrap: main's old land-branch.sh called the new prebuild_heavy.py without arguments, and the first attempt
+    reset cleanly. kam-inp-63 landed with the branch's script; later landings are normal.
+  - The lakefile quarantine block now lists the four LOCK-FREEZE DRAFT_SORRY anchors and their providers.
+- **15:48. Heartbeat.**
+  - LOCK-DATA is fixing its emitter's product-module split, then the full emission, the kernel passes and AssemblyN65,
+    with the overlay copy coordinated before landing. LOCK-FREEZE waits for LOCK-DATA before Phase B (the seal).
+  - Quotas: codex-1 16 %, claude-3 53 %, claude-12 53 %, claude-4 17 %. Memory: 12 GB available. Disk: 91 %.
