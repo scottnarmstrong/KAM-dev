@@ -13,7 +13,8 @@ import Mathlib.Tactic.Positivity
 # The multiplier solve commutes with linear images (blueprint-W `bpW:w4:solve` (iv),
 `bpW:w4:fourier-ops` (i))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still being built.
+Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
+being built.
 
 * `homCoeff_clm`: `(Λ f)^_k = Λ f̂_k` for a continuous linear `Λ : E → E'`;
 * `homSolve_intertwine`: if `Λ₁ T_k = T'_k Λ₀` then `Λ₁ (𝒮 u) = 𝒮' (Λ₀ u)` on `T_ρ` whenever
@@ -73,13 +74,15 @@ theorem clm_fourierSumVec_of_summable {ρ : ℝ} {a : (Fin 2 → ℤ) → E}
   rw [Λ.map_tsum (summable_character_smul ha hθ)]
   exact tsum_congr fun k => by simp only [map_smul]
 
+omit [CompleteSpace E₁] in
 /-- **Multiplier solve, (iv)**: if `Λ₁ T_k = T'_k Λ₀` for all `k`, then `Λ₁ 𝒮 u = 𝒮' (Λ₀ u)` on
 `T_ρ`, whenever `∑ ‖T_k û_k‖ e^{2π|k|₁ρ} < ∞`. -/
 theorem homSolve_intertwine {s ρ : ℝ} (hs : 0 < s) {T : (Fin 2 → ℤ) → E →L[ℂ] E'}
     {T' : (Fin 2 → ℤ) → E₀ →L[ℂ] E₁} (Λ₀ : E →L[ℂ] E₀) (Λ₁ : E' →L[ℂ] E₁)
     (hΛ : ∀ k, Λ₁.comp (T k) = (T' k).comp Λ₀) {u : (Fin 2 → ℂ) → E}
     (hu : DifferentiableOn ℂ u (complexStrip 2 s))
-    (hsum : Summable fun k => ‖T k (homCoeff u k)‖ * Real.exp (2 * Real.pi * ρ * Fourier.modeSize k))
+    (hsum : Summable fun k =>
+      ‖T k (homCoeff u k)‖ * Real.exp (2 * Real.pi * ρ * Fourier.modeSize k))
     {θ : Fin 2 → ℂ} (hθ : θ ∈ complexStrip 2 ρ) :
     Λ₁ (homSolve T u θ) = homSolve T' (fun z => Λ₀ (u z)) θ := by
   unfold homSolve
@@ -92,11 +95,13 @@ theorem homSolve_intertwine {s ρ : ℝ} (hs : 0 < s) {T : (Fin 2 → ℤ) → E
   simp only [ContinuousLinearMap.comp_apply] at this
   rw [this]
 
+omit [CompleteSpace E₁] in
 /-- **Multiplier solve, (iv)**, first part: `Λ 𝒮 u` is the solve of `u` with the multipliers
 `Λ T_k`. -/
 theorem homSolve_clm {s ρ : ℝ} (hs : 0 < s) {T : (Fin 2 → ℤ) → E →L[ℂ] E'} (Λ : E' →L[ℂ] E₁)
     {u : (Fin 2 → ℂ) → E} (hu : DifferentiableOn ℂ u (complexStrip 2 s))
-    (hsum : Summable fun k => ‖T k (homCoeff u k)‖ * Real.exp (2 * Real.pi * ρ * Fourier.modeSize k))
+    (hsum : Summable fun k =>
+      ‖T k (homCoeff u k)‖ * Real.exp (2 * Real.pi * ρ * Fourier.modeSize k))
     {θ : Fin 2 → ℂ} (hθ : θ ∈ complexStrip 2 ρ) :
     Λ (homSolve T u θ) = homSolve (fun k => Λ.comp (T k)) u θ := by
   have := homSolve_intertwine (T' := fun k => Λ.comp (T k)) hs (ContinuousLinearMap.id ℂ E) Λ

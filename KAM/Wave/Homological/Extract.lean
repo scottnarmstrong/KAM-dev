@@ -16,11 +16,13 @@ import Mathlib.Tactic.Ring
 /-!
 # Coefficient extraction by roots of unity (blueprint-W `bpW:w4:extract`)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still being built.
+Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
+being built.
 
 For a complex normed space `E` and `g(ζ,η) = ∑_{p+q ≤ 2} g_{pq} ζ^p η^q`, a bound `‖g‖ ≤ K` on the
 open polydisc `|ζ| < ρ₁`, `|η| < ρ₂` gives `‖g_{pq}‖ ≤ K ρ₁^{-p} ρ₂^{-q}`. The coefficients are the
-family `c : Fin 3 → Fin 3 → E` vanishing for `p + q > 2`. The proof averages over the fourth roots of
+family `c : Fin 3 → Fin 3 → E` vanishing for `p + q > 2`. The proof averages over the fourth roots
+of
 unity (W4-E1): `g_{pq} r₁^p r₂^q = (1/16) ∑_{u,v<4} i^{-up-vq} g(r₁ i^u, r₂ i^v)`.
 The same holds in one variable (`polyExtract_one`).
 -/
@@ -95,8 +97,9 @@ theorem sum_weighted_polyEval2 (c : Fin 3 → Fin 3 → E) (r₁ r₂ : ℝ) (p 
         rw [Finset.sum_mul_sum, Finset.mul_sum]
         refine Finset.sum_congr rfl fun u _ => ?_
         rw [Finset.mul_sum]
-      have hsum : ∀ (p' : Fin 3) (p : Fin 3), ∑ u ∈ Finset.range 4, (I ^ ((p' : ℕ) + (4 - (p : ℕ)))) ^ u =
-          if p' = p then 4 else 0 := by
+      have hsum : ∀ (p' : Fin 3) (p : Fin 3),
+          ∑ u ∈ Finset.range 4, (I ^ ((p' : ℕ) + (4 - (p : ℕ)))) ^ u =
+            if p' = p then 4 else 0 := by
         intro p' p
         rw [sum_I_pow _ (by omega) (by omega)]
         have : ((p' : ℕ) + (4 - (p : ℕ)) = 4) ↔ p' = p := by
@@ -193,7 +196,8 @@ theorem polyExtract {c : Fin 3 → Fin 3 → E} {ρ₁ ρ₂ K : ℝ} (h₁ : 0 
   rw [le_div_iff₀ (by positivity)]
   exact polyExtract_mul_le c h₁ h₂ hK p q
 
-/-- **Coefficient extraction in one variable** (blueprint `bpW:w4:extract`): `g(ζ) = ∑_{p ≤ 2} g_p ζ^p`
+/-- **Coefficient extraction in one variable** (blueprint `bpW:w4:extract`):
+`g(ζ) = ∑_{p ≤ 2} g_p ζ^p`
 with `‖g‖ ≤ K` on `|ζ| < ρ` gives `‖g_p‖ ≤ K ρ^{-p}`. -/
 theorem polyExtract_one (c : Fin 3 → E) {ρ K : ℝ} (hρ : 0 < ρ)
     (hK : ∀ ζ : ℂ, ‖ζ‖ < ρ → ‖∑ p : Fin 3, ζ ^ (p : ℕ) • c p‖ ≤ K) (p : Fin 3) :

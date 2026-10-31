@@ -12,7 +12,8 @@ import Mathlib.Tactic.Positivity
 /-!
 # The six divisors and their weights (blueprint-W `bpW:w4:divisors`)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still being built.
+Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
+being built.
 
 `HomDivisorBound` packages the two conclusions of Lemma `bpW:w4:divisors` for a divisor `δ(ξ)` with
 weight `w`: `|δ(ξ)| ≥ α w / A_k` and the Lipschitz bound for `1/δ`. It is proved for

@@ -13,7 +13,8 @@ import Mathlib.Tactic.Positivity
 /-!
 # Hadamard division of operators (blueprint-W `bpW:w4:schur`, parts (i) and (iii))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still being built.
+Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
+being built.
 
 Model. By `bpW:w4:schur`, step *Representatives*, an element `M ∈ 𝓛` (a bounded map
 `ℓ^N_{a,p} → ℓ^N_{a,p̄}`) is the same thing, with the same norm, as its weighted matrix

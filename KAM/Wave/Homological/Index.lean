@@ -14,7 +14,8 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Normal modes, P96-K index and the weighted pairing (blueprint-W `bpW:w4:index`)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still being built.
+Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
+being built.
 
 Normal sequences `z = (z_j)_{j ≥ 1}` (`ℕ+ → ℂ`, P96-K index `j`, wave index `J = j + 2`) with the
 weights `ω_{a,q}(j+2)`:
@@ -139,7 +140,8 @@ theorem norm_homPair_le {a q q' : ℝ} (ha : 0 ≤ a) (hqq' : 0 ≤ q + q') {x x
 
 
 /-- **Multipliers lower the weight by one** (blueprint `bpW:w4:lie` (i), step *Bounds*): if
-`|μ_j| ≤ M (j+2)` then `z ∈ ℓ^N_{a,q}` gives `μ z ∈ ℓ^N_{a,q-1}` with `‖μ z‖_{a,q-1} ≤ M ‖z‖_{a,q}`. -/
+`|μ_j| ≤ M (j+2)` then `z ∈ ℓ^N_{a,q}` gives `μ z ∈ ℓ^N_{a,q-1}` with
+`‖μ z‖_{a,q-1} ≤ M ‖z‖_{a,q}`. -/
 theorem homNormal_mul {a q M : ℝ} (hM : 0 ≤ M) {μ z : ℕ+ → ℂ}
     (hμ : ∀ j, ‖μ j‖ ≤ M * ((j : ℝ) + 2)) (hz : HomNormal a q z) :
     ∃ hy : HomNormal a (q - 1) (fun j => μ j * z j), homNorm hy ≤ M * homNorm hz := by

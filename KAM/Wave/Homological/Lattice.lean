@@ -15,7 +15,8 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Sharp lattice sums in `ℤ²` (blueprint-W `bpW:w4:lattice` (ii), (iii))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still being built.
+Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
+being built.
 
 With `|k|₁ = KAM.Fourier.modeSize k` and `S_q(σ) = ∑ₖ |k|₁^q e^{-2π|k|₁σ}` (real power, `0^0 = 1`):
 
@@ -60,7 +61,8 @@ theorem coth_le_one_add_inv {t : ℝ} (ht : 0 < t) :
     field_simp
     ring
   have h6 : 0 ≤ Real.exp t - (2 * t + 1) * Real.exp (-t) := by
-    have : Real.exp t - (2 * t + 1) * Real.exp (-t) = Real.exp (-t) * (Real.exp (2 * t) - (2 * t + 1)) := by
+    have : Real.exp t - (2 * t + 1) * Real.exp (-t) =
+        Real.exp (-t) * (Real.exp (2 * t) - (2 * t + 1)) := by
       rw [h2]
       nlinarith [h3]
     rw [this]
@@ -88,7 +90,8 @@ theorem waveGeom_partial_le {ε : ℝ} (hε : 0 < ε) (M : ℕ) :
   simp_rw [hterm]
   rw [← mul_sum]
   have hgeo := hasSum_geometric_of_lt_one hr0.le hr1
-  have h1 : ∑ N ∈ range M, r ^ N ≤ (1 - r)⁻¹ := sum_le_hasSum (range M) (fun _ _ => by positivity) hgeo
+  have h1 : ∑ N ∈ range M, r ^ N ≤ (1 - r)⁻¹ :=
+    sum_le_hasSum (range M) (fun _ _ => by positivity) hgeo
   have hpos : 0 < 1 - r := by linarith
   have hx : r * (ε / 2 + 1) ≤ 1 := by
     have h := Real.add_one_le_exp (ε / 2)

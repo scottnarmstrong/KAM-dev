@@ -14,7 +14,8 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The Banach-valued Fourier-multiplier solve (blueprint-W `bpW:w4:solve`, (i) and (ii))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still being built.
+Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
+being built.
 
 For complex Banach spaces `E, E'`, multipliers `T_k ∈ L(E, E')` and `u : T_s → E` holomorphic,
 `1`-periodic and bounded, `homSolve T u = ∑_k T_k û_k e^{2πi⟨k,θ⟩}` (`û_k = homCoeff u k`).
@@ -125,7 +126,8 @@ theorem homSolve_spec {s σ m κ α τ : ℝ} (hτ : 0 ≤ τ) (hα : 0 < α) (h
   obtain ⟨_, _, hnorm, hdiff, hper, hcoef⟩ := kamFourierBanach_summation hρ hsum
   exact ⟨hsum, hbd, fun θ hθ => (hnorm θ hθ).trans hbd, hdiff, hper, hcoef⟩
 
-/-- **Multiplier solve, (ii)** (blueprint `bpW:w4:solve` (ii)): the Lipschitz bound in the parameter.
+/-- **Multiplier solve, (ii)** (blueprint `bpW:w4:solve` (ii)): the Lipschitz bound in the
+parameter.
 Here `d = |ξ - ζ|`, `(T₁, u₁)` and `(T₂, u₂)` are the data at `ξ` and `ζ`. -/
 theorem homSolve_sub_le {s σ m mL κ α τ M d : ℝ} (hτ : 0 ≤ τ) (hα : 0 < α) (hκ : 1 ≤ κ)
     (hM : 0 ≤ M) (hd : 0 ≤ d) (hσ : 0 < σ) (hσs : σ < s)

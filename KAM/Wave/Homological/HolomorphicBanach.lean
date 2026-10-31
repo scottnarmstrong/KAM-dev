@@ -12,8 +12,8 @@ import Mathlib.Tactic.Positivity
 /-!
 # The derivative of a holomorphic Banach-valued map is holomorphic, without separability
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL; used by `bpW:w4:fourier-ops` (ii)); the
-dependency graph is still being built.
+Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL; used by `bpW:w4:fourier-ops` (ii));
+the dependency graph is still being built.
 
 Track K proves `differentiableOn_fderiv_of_isOpen_pi` for targets with a second countable topology
 (finite-dimensional spaces). The operator spaces `𝓛` of W4 are not separable. Here the statement is

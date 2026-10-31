@@ -13,7 +13,8 @@ import Mathlib.Tactic.Positivity
 # Reindexing the Melnikov conditions from the P96-K index to the wave index
 (blueprint-W `bpW:w4:wave` (ii), `bpW:w4:melnikov-check` (a))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still being built.
+Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
+being built.
 
 `homJapW l = max(1, |∑_j (j+2) l_j|)` is the wave-index bracket. For `1 ≤ |l| ≤ 2`:
 `homJap l ≤ homJapW l ≤ 3 homJap l` unless `∑ l_j = 0`, in which case they agree
@@ -185,7 +186,8 @@ theorem homMelnikov_of_melnikovW {τ α : ℝ} (hα : 0 < α) {Par : Set (Fin 2 
   have hA : 0 < waveA τ p.1 := by linarith [waveA_ge_one (τ := τ) p.1]
   gcongr
 
-/-- `(H_α)` implies the conditions with the wave bracket and `α/3` (blueprint `bpW:w4:wave` (ii)). -/
+/-- `(H_α)` implies the conditions with the wave bracket and `α/3` (blueprint `bpW:w4:wave`
+(ii)). -/
 theorem homMelnikovW_of_melnikov {τ α : ℝ} (hα : 0 < α) {Par : Set (Fin 2 → ℝ)}
     {ω : (Fin 2 → ℝ) → Fin 2 → ℝ} {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ}
     (h : HomMelnikov τ α Par ω Ω) : HomMelnikovW τ (α / 3) Par ω Ω := by

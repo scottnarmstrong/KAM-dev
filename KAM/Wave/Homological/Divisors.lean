@@ -13,7 +13,8 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Divisor bounds (blueprint-W `bpW:w4:divisors`)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still being built.
+Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
+being built.
 
 For `(k,l) ∈ 𝒵` the divisor `⟨k,ω⟩ + ⟨l,Ω⟩` satisfies `|δ(ξ)| ≥ α ⟨l⟩ / A_k` (`(H_α)`) and
 `|1/δ(ξ) - 1/δ(ζ)| ≤ 2 (1+|k|₁) A_k² M ⟨l⟩⁻¹ α⁻² |ξ-ζ|` (`homDivGen_bounds`). The six divisors of
@@ -166,7 +167,8 @@ theorem homDivGen_bounds {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → F
     have hMω := h.nonneg.2.1
     have hMΩ := h.nonneg.2.2
     have hl0 : (0 : ℝ) ≤ homL1 l := Nat.cast_nonneg _
-    have e1 : Fourier.modeSize k * Mω + homL1 l * MΩ ≤ 2 * (1 + Fourier.modeSize k) * (Mω + MΩ) := by
+    have e1 : Fourier.modeSize k * Mω + homL1 l * MΩ ≤
+        2 * (1 + Fourier.modeSize k) * (Mω + MΩ) := by
       nlinarith [mul_nonneg hk0 hMω, mul_nonneg hk0 hMΩ, mul_nonneg hl0 hMΩ,
         mul_nonneg (sub_nonneg.2 hl2) hMΩ]
     exact mul_le_mul_of_nonneg_right e1 hnorm

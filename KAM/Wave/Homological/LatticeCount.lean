@@ -13,7 +13,8 @@ import Mathlib.Tactic.Ring
 /-!
 # The exact count of `ℓ¹` spheres in `ℤ²` (blueprint-W `bpW:w4:lattice` (i))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still being built.
+Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
+being built.
 
 For `N ≥ 1`, exactly `4N` points `k ∈ ℤ²` satisfy `|k₁| + |k₂| = N`
 (`waveSphere_card`, `waveLattice_ncard_fiber`). The finset form `waveLattice_card_filter_le`
@@ -81,7 +82,8 @@ theorem waveSphere_card (N : ℕ) (hN : 1 ≤ N) : (waveSphere N).card = 4 * N :
     · rw [waveSphere_fiber_card_eq N a ha h]; simp [h]
     · rw [waveSphere_fiber_card_lt N a ha h]; simp [h]
   rw [sum_congr rfl hfib]
-  have h2 : (Icc (-(N : ℤ)) N).filter (fun a => a.natAbs = N) = ({-(N : ℤ), (N : ℤ)} : Finset ℤ) := by
+  have h2 : (Icc (-(N : ℤ)) N).filter (fun a => a.natAbs = N) =
+      ({-(N : ℤ), (N : ℤ)} : Finset ℤ) := by
     ext a
     simp only [mem_filter, mem_Icc, mem_insert, mem_singleton]
     omega

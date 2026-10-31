@@ -15,7 +15,8 @@ import Mathlib.Tactic.Positivity
 # Derivatives of Fourier coefficients and of the multiplier solve (blueprint-W `bpW:w4:fourier-ops`
 (ii), `bpW:w4:solve` (iii))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still being built.
+Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
+being built.
 
 * `homPartial_differentiableOn`, `homPartial_periodic`: `∂_{θ_i} f` is holomorphic and `1`-periodic;
 * `homCoeff_partial`: `(∂_{θ_i} f)^_k = 2πi k_i f̂_k` (Banach-valued, by duality with the scalar

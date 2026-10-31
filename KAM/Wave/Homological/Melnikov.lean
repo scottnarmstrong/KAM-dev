@@ -13,13 +13,15 @@ public import Mathlib.Data.PNat.Basic
 /-!
 # Frequencies, divisors and Melnikov conditions (blueprint-W `bpW:w4:melnikov`)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still being built.
+Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
+being built.
 
 Normal modes carry the P96-K index `j ≥ 1` (`ℕ+`), the wave mode being `J = j + 2`
 (blueprint `bpW:w4:index`). `ω : (Fin 2 → ℝ) → Fin 2 → ℝ` and `Ω : (Fin 2 → ℝ) → ℕ+ → ℝ` are the
 frequencies, on the parameter set `Π`. Integer vectors `l ∈ ℤ^{ℕ₊}` with finite support are
 `ℕ+ →₀ ℤ`; `homPairZ k v = ⟨k, v⟩`, `homL1 l = |l|`, `homJap l = ⟨l⟩ = max(1, |∑ j l_j|)`.
-`HomFreqHyp` is (`bpW:w4:freq`), `HomMelnikov` the conditions `(H_α)` and the six divisors with their
+`HomFreqHyp` is (`bpW:w4:freq`), `HomMelnikov` the conditions `(H_α)` and the six divisors with
+their
 weights follow Definition `bpW:w4:melnikov`.
 -/
 

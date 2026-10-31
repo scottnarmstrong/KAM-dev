@@ -14,7 +14,8 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The weak bracket with the normal form, sequence level (blueprint-W `bpW:w4:lie` (i), (ii), (iv))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still being built.
+Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
+being built.
 
 This file proves the sequence-space content of `bpW:w4:lie` for given gradients
 `F_z, F_{\bar z} ∈ ℓ^N_{a,p+1}` and a given `θ`-derivative term `Fθω = (1/2π) ⟨ω, F_θ⟩` (a complex
