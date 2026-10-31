@@ -2185,3 +2185,15 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   the existing D46 (2026-10-30 18:30, route B). They are renumbered **D47** (band at 2.755 %, rule B tightness
   waived), **D48** (lock data land as is) and **D49** (freeze approvals, band and lock). Earlier log lines that
   say D46/D47/D48 for these mean D47/D48/D49.
+- **09:24. Lock data cost cuts priced (B3); engineering approved; size to the owner.**
+  - Baseline 345 MB, 60–95 h of literal elaboration, about 20 CPU-h of kernel.
+  - (a) compact literals with a lock-owned decoder (measured ÷37 on a real advice module), (b) 6 elaboration lanes,
+    (c) no decoded memos: together about 158 MB, under 1 h of elaboration wall time, about 21–22 CPU-h of kernel,
+    margin unchanged (1.74 decades at 73.8°).
+  - (a)+(b)+(c) approved as engineering (no statement change). (d), a smaller amplitude, is not pursued.
+  - **FOR OWNER: land the lock data at about 158 MB** (D48 covered 131 MB as is).
+  - B1: SegRoutes.lean (exp/inv/sqrt routes) builds; toy probe at 0.43 GB; emitter shim lock_cseg.py.
+  - Possible mirror erratum, cost only: sofx_packed.build_real sizes the packing width by len(A) rather than the
+    shard count. Advice can then be rejected (shardFits), and the checker falls back to direct items. The lock
+    regenerates its 8 affected advices. The band data are kernel-checked and on main, so this is soundness-neutral;
+    to be checked during the band rebuild.
