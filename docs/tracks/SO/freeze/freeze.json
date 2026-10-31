@@ -1,0 +1,67 @@
+{
+ "soEcc": [
+  "definition",
+  "KAM/Frozen/SpinOrbit/Defs/SoEcc.lean",
+  "KAM.SpinOrbit"
+ ],
+ "soEps": [
+  "definition",
+  "KAM/Frozen/SpinOrbit/Defs/SoEps.lean",
+  "KAM.SpinOrbit"
+ ],
+ "soCoeffPoly": [
+  "definition",
+  "KAM/Frozen/SpinOrbit/Defs/SoCoeffPoly.lean",
+  "KAM.SpinOrbit"
+ ],
+ "soA": [
+  "definition",
+  "KAM/Frozen/SpinOrbit/Defs/SoA.lean",
+  "KAM.SpinOrbit"
+ ],
+ "soModes": [
+  "definition",
+  "KAM/Frozen/SpinOrbit/Defs/SoModes.lean",
+  "KAM.SpinOrbit"
+ ],
+ "soV": [
+  "definition",
+  "KAM/Frozen/SpinOrbit/Defs/SoV.lean",
+  "KAM.SpinOrbit"
+ ],
+ "soField": [
+  "definition",
+  "KAM/Frozen/SpinOrbit/Defs/SoField.lean",
+  "KAM.SpinOrbit"
+ ],
+ "SoBarrier": [
+  "definition",
+  "KAM/Frozen/SpinOrbit/Defs/SoBarrier.lean",
+  "KAM.SpinOrbit"
+ ],
+ "lunarPLo": [
+  "definition",
+  "KAM/Frozen/SpinOrbit/Defs/LunarPLo.lean",
+  "KAM.SpinOrbit"
+ ],
+ "lunarPHi": [
+  "definition",
+  "KAM/Frozen/SpinOrbit/Defs/LunarPHi.lean",
+  "KAM.SpinOrbit"
+ ],
+ "lunar_barriers": [
+  "theorem",
+  "KAM/Frozen/SpinOrbit/Theorems/LunarBarriers.lean",
+  "KAM.SpinOrbit"
+ ],
+ "lunar_spin_confinement": [
+  "theorem",
+  "KAM/Frozen/SpinOrbit/Theorems/LunarSpinConfinement.lean",
+  "KAM.SpinOrbit"
+ ],
+ "lunarPLo_lt_lunarPHi": [
+  "theorem",
+  "KAM/Frozen/SpinOrbit/Theorems/LunarWindow.lean",
+  "KAM.SpinOrbit"
+ ]
+}

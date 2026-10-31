@@ -27,6 +27,9 @@ public import KAM.Provider.Planetary.ProperlyDegenerateKAM
 public import KAM.Provider.Planetary.SecularBoxAtCitedMasses
 public import KAM.Provider.Planetary.SecularBoxSafety
 public import KAM.Provider.Russmann.RussmannKam
+public import KAM.Provider.SpinOrbit.LunarBarriers
+public import KAM.Provider.SpinOrbit.LunarSpinConfinement
+public import KAM.Provider.SpinOrbit.LunarWindow
 public import KAM.Provider.VolumeNotDiophantineLe
 
 /-!

@@ -13,15 +13,17 @@ public import KAM.CertificateSharp.Kernel.ProductSplit
 /-!
 # Support lemmas for the generated segmented proofs (SO-CSEG-GEN)
 
-Equations between computable terms, used by the modules that `scripts/spin_orbit/csplit_emit.py` generates:
+Equations between computable terms, used by the modules that
+`scripts/spin_orbit/csplit_emit.py` generates:
 
-* `mul_eq_of_polyProduct_cseg`: the landed `CertModel.mul` with its polynomial product memoized (the analogue
-  of `CertModel.mulN_eq_of_polyProduct` for the products of the Gram and torsion stages, which use `mul`);
-* `eq_some_of_termsBeq_cseg`: an optional term list equal to a literal, from the tail-recursive `termsBeq`
-  (the generated decode theorems; `CC` has no `DecidableEq`);
-* `matMulEntry_two_cseg`, `matMulEntry_four_cseg`, `matMulEntry_one_cseg`, `gramEntryModel_two_cseg`,
-  `gramBGModel_two_cseg`: the landed bodies at the lunar sizes with their products as closed terms (`rfl`), so
-  that a memoized product rewrites in.
+* `mul_eq_of_polyProduct_cseg`: the landed `CertModel.mul` with its polynomial product memoized
+  (the analogue of `CertModel.mulN_eq_of_polyProduct` for the products of the Gram and torsion
+  stages, which use `mul`);
+* `eq_some_of_termsBeq_cseg`: an optional term list equal to a literal, from the tail-recursive
+  `termsBeq` (the generated decode theorems; `CC` has no `DecidableEq`);
+* `matMulEntry_two_cseg`, `matMulEntry_four_cseg`, `matMulEntry_one_cseg`,
+  `gramEntryModel_two_cseg`, `gramBGModel_two_cseg`: the landed bodies at the lunar sizes with their
+  products as closed terms (`rfl`), so that a memoized product rewrites in.
 
 Nothing here is assumed about the data.
 -/
@@ -65,16 +67,16 @@ theorem matMulEntry_two_cseg (W : CertWeight) (cfg : ModelConfig α) (pe : PiEnc
     (key : ProductKey) (A B : ModelMatrix α) (i j : ℕ) :
     matMulEntry W cfg pe key 2 A B i j = CertModel.toDeg W pe 0 (modelSum W pe
       [CertModel.mul W cfg (key ++ [i, j, 0]) (modelMatrixEntry A i 0) (modelMatrixEntry B 0 j),
-        CertModel.mul W cfg (key ++ [i, j, 1]) (modelMatrixEntry A i 1) (modelMatrixEntry B 1 j)]) :=
+       CertModel.mul W cfg (key ++ [i, j, 1]) (modelMatrixEntry A i 1) (modelMatrixEntry B 1 j)]) :=
   rfl
 
 theorem matMulEntry_four_cseg (W : CertWeight) (cfg : ModelConfig α) (pe : PiEnclosure α)
     (key : ProductKey) (A B : ModelMatrix α) (i j : ℕ) :
     matMulEntry W cfg pe key 4 A B i j = CertModel.toDeg W pe 0 (modelSum W pe
       [CertModel.mul W cfg (key ++ [i, j, 0]) (modelMatrixEntry A i 0) (modelMatrixEntry B 0 j),
-        CertModel.mul W cfg (key ++ [i, j, 1]) (modelMatrixEntry A i 1) (modelMatrixEntry B 1 j),
-        CertModel.mul W cfg (key ++ [i, j, 2]) (modelMatrixEntry A i 2) (modelMatrixEntry B 2 j),
-        CertModel.mul W cfg (key ++ [i, j, 3]) (modelMatrixEntry A i 3) (modelMatrixEntry B 3 j)]) :=
+       CertModel.mul W cfg (key ++ [i, j, 1]) (modelMatrixEntry A i 1) (modelMatrixEntry B 1 j),
+       CertModel.mul W cfg (key ++ [i, j, 2]) (modelMatrixEntry A i 2) (modelMatrixEntry B 2 j),
+       CertModel.mul W cfg (key ++ [i, j, 3]) (modelMatrixEntry A i 3) (modelMatrixEntry B 3 j)]) :=
   rfl
 
 theorem gramEntryModel_two_cseg (K : CertEmbedding α) (W : CertWeight) (cfg : ModelConfig α)
