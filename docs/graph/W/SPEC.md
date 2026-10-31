@@ -473,6 +473,13 @@ SOURCE line.
   of the effective K records. All 695 nodes and 1094 coverage items are REVIEWED. GLOBAL-BRIEF.md now covers global
   review round 2 (output `reviews/GLOBAL-review-2.md`, same tag `sol-global-W`, as in the I/N precedent).
 
+- **2026-10-31, published.** Global review round 2 (`sol-global-W`, docs/graph/W/reviews/GLOBAL-review-2.md) PASS: G1–G3
+  are RESOLVED, and the root and the whole model are accepted. header.txt now carries GLOBAL_REVIEWER: sol-global-W and
+  GLOBAL_REVIEW_REF: docs/graph/W/reviews/GLOBAL-review-2.md. The full gate (`--require-reviewed
+  --require-complete-coverage --require-initial-lean-status --require-all-reachable`, with `--write-dashboard` and then
+  `--check`) exits 0. Final graph: 695 nodes, 2545 edges, 13 frozen anchors, 47 external leaves (3 K imports), 0
+  SOURCE_GAP, 1094 coverage items (385 excluded), all REVIEWED and all in the root closure of bpW:wh:nlw2.
+
 ## Wave-2 plan (proposed 2026-10-30; extraction starts on the sub-orchestrator's go)
 - **Corpus.**
   - Once W4–W8 are accepted and on inp, merge inp again.

@@ -9,8 +9,8 @@ EXTERNAL_POLICY: track-W external inputs are the labelled items of the parts' ex
 FROZEN_ANCHORS: bpW:w0:nlw#IsClassicalSolution, bpW:w0:basis#lam, bpW:w0:basis#sineMode, bpW:w0:ellap#ellWeight, bpW:w0:ellap#WaveSpace, bpW:w0:ellap#coeff, bpW:w0:reconstruction#reconU, bpW:w0:reconstruction#reconV, bpW:w0:Gq#cubicGrad, bpW:w0:periodone#linearTorus, bpW:wh:embedding#IsAnalyticTorusEmbedding, bpW:wh:dioph#IsDiophantine, bpW:wh:nlw2
 FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:674c73210fe8aeef703101ebe014dbc3e8569cb12f54a14dba1a7ff418d76aab
 WRITER: claude-suborch-W
-GLOBAL_REVIEWER: -
-GLOBAL_REVIEW_REF: -
+GLOBAL_REVIEWER: sol-global-W
+GLOBAL_REVIEW_REF: docs/graph/W/reviews/GLOBAL-review-2.md
 
 The dependency direction is `NODE -> prerequisite`. Node blocks are assembled from `docs/graph/W/packets/<slice>.nodes.md`; edit those, then re-run `scripts/depgraph_assemble.py`.
 
