@@ -168,7 +168,7 @@ HomTaylor.isRealTaylor`), `HomHadamardBound.nonneg → HomHadamardBound.homNonne
 → consts_nonneg`. **The W4 audit should target this commit (`7de5b4e0`), which supersedes `82d8325d`.** The old-name
 statements are unchanged in content; only these auxiliary identifiers changed.
 
-## Round 2 (audit fixes F1, F2; commit recorded below)
+## Round 2 (audit fixes F1, F2; commit 7155ce2c)
 
 * **F1.** The raw totalized operations are renamed internal: `homPair0Raw`, `homLieSeqRaw`, `homWeakBracketRaw`
   (+ `homWeakBracketRaw_eq_neg_lieSeqRaw`), `homPairOmegaRaw_gen`, `homLieNRaw_gen` (and the `p_+ = p+1` aliases
