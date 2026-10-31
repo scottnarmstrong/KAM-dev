@@ -46,7 +46,8 @@ theorem norm_taylorCoeff_le {g : ℂ → E} {ρ B : ℝ} (hρ : 0 < ρ)
     have hf : (0 : ℝ) < k.factorial := by exact_mod_cast Nat.factorial_pos k
     unfold taylorCoeff
     rw [norm_smul, norm_inv, Complex.norm_natCast]
-    calc (k.factorial : ℝ)⁻¹ * ‖iteratedDeriv k g 0‖ ≤ (k.factorial : ℝ)⁻¹ * (k.factorial * B / r ^ k) :=
+    calc (k.factorial : ℝ)⁻¹ * ‖iteratedDeriv k g 0‖
+        ≤ (k.factorial : ℝ)⁻¹ * (k.factorial * B / r ^ k) :=
           mul_le_mul_of_nonneg_left this (by positivity)
       _ = B / r ^ k := by field_simp
   by_contra hlt

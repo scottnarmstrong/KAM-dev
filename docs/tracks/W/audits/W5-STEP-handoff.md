@@ -19,7 +19,20 @@ axioms, `w_lint.sh` exit 0; `#print axioms` of every main result listed: propext
 | `KamStep/Pullback.lean` | abstract core of the pull-back: `stepInv_sub`, `stepPullback_diff` (`λ‖B_ξy₁-B_ζy₂‖ ≤ (9/2 Y₀+2λY_L)d`), `stepPullback_const` (`2Y₀+(9/2Y₀+2λY_L) ≤ 7(Y₀+λY_L)`), `stepCommutator_arith` (`24εM_F/(ση²)`) | `pullback` (operator core, step `p-ass`), `commutator` (arithmetic) |
 | `KamStep/SymplecticFlow.lean` | `stepSymp_const`: `B(a(t),b(t))` is constant along `a'=K a` when each `K(t)` is `B`-skew (derivative lemma `stepSymp_hasDerivWithinAt`) | `flow-calc` (ii), step `c-symp` (abstract core) |
 | `KamStep/Triangle.lean` | `stepTriangle`, `stepTriangle_on`: `∫₀¹∫₀ᵗ g = ∫₀¹(1-τ)g` | external `W5-E5` |
+| `KamStep/FlowSmooth.lean` | abstract smoothing flow (`F` carrier, `G` target of norm `p_+`, `ι : G →L F`): `φ^t w = w + ι Ψ^t w`, `‖Ψ^t‖ ≤ M|t|`, parameter dependence `‖ΔΨ‖ ≤ |t|N(1+Le^L)` | `flow` (i), step `f-flow`, `f-par` |
+| `KamStep/FlowVariational.lean` | `fderiv_holoFlow_eq` (`Dφ^t = I + ∫DX(φ^σ)Dφ^σ`), `continuousOn_fderiv_holoFlow_time` | `flow-calc` (i), steps `c-cont`, `c-var` (abstract) |
+| `KamStep/FlowSymplectic.lean` | `holoFlow_preserves_form`: `Dφ^t` preserves a bilinear form skewed by every `DX(z)` (abstract) | `flow-calc` (ii), step `c-symp` (the skewness `c-skew` for the concrete `X_F` is open) |
+| `KamStep/FlowSmoothDeriv.lean` | `Ψ^t` is `G`-holomorphic (`hasFDerivAt_smoothDisp`), Cauchy bounds `‖DΨ^t‖ ≤ M|t|/ρ`, differences, `Dφ^t = I + ι DΨ^t` | `flow` (i), (ii), step `f-der` |
+| `KamStep/FlowStepBounds.lean` | the same with `L ≤ 1/64`: `‖Ψ‖ ≤ M`, `‖ΔΨ‖ ≤ 2N`, `‖DΨ‖ ≤ M/ρ`, `‖ΔDΨ‖ ≤ 2N/ρ` (`ρ = σ/8`) | `flow` (i), (ii) (numerical form) |
+| `KamStep/FlowEquivariant.lean` | `holoFlow_translate`: `φ^t(w+a) = φ^t w + a` for translation-invariant fields (reality is `holoFlow_mem_range` of W1) | `flow` (iv), step `f-real` (abstract) |
+| `KamStep/TaylorOneVar.lean` | `norm_taylorCoeff_le`, `norm_taylor_remainder_le` (Banach-valued, one variable) | external `W5-E1` |
 | `KamStep/NewHamExp.lean` | `stepFTC`, `stepIntegral_eq`, `stepExpansion`, `stepExpansion_H`: `H(Φw) = N + N̂ + â₀ + (P-R)(Φw) + ∫₀¹((1-τ){N̂,F}+τ{R,F})` along a trajectory (scalar core) | `new-ham` (i), step `n-exp` (scalar core) |
+
+## Session 2 summary
+Landed: the abstract flow calculus (smoothing, variational equation, symplecticity, Cauchy bounds with the step
+constants, equivariance) and external W5-E1; the W4 audit fixes F1/F2 (see `W4-HOMOLOGICAL-handoff.md`, Round 2; commit
+`7155ce2c`). The flow results are abstract (`ι : G →L F`, `Z : F → G`); instantiating `F = StepPhase r`,
+`G` = the `p_+` representatives with `ι = kamEmbed` and `Z = X_F` needs the concrete `F` (open, below).
 
 ## Not done
 * `w4-modified` (i), (ii), m-act (operator estimate for `∂_θ Q_F : ℓ_p → ℓ_{p_+}`), the modified `Q`-division; only the
@@ -31,7 +44,8 @@ axioms, `w_lint.sh` exit 0; `#print axioms` of every main result listed: propext
   `flow` (ii): `|φ^t - id|^λ ≤ 2M_F` and derivative bounds (Cauchy on balls); the existence/holomorphy/Lipschitz-in-ξ
   conclusions follow from the landed lemmas applied through `stepFlowHyp` but the `p_+`-smoothing and the λ-norm
   statements are not written; reality/equivariance (iv).
-* `flow-calc`: only the abstract symplecticity core is done; continuity, the variational equation for the actual flow, skewness of `DX_F` (needs `F ∈ C²` and external E3), inverse/Neumann, transport, and the time derivative via W4 Lie (iv) are open.
+* `flow-calc`: abstract continuity, variational equation, symplecticity are done; open: skewness of `DX_F` for the concrete `F` (needs `F ∈ C²`, external E3), inverse/Neumann (`‖Dφ^t - I‖ ≤ 1/8` follows from `flowII_deriv`; `Units.oneSub` not yet applied), transport, time derivative via W4 Lie (iv).
+* `taylor`: only the one-variable Taylor fact (E1) is done; the scaling `S_t`, `T_t`, components, estimates (iii)/(iv) are open.
 * `new-ham`: only the scalar expansion core is done; the bracket field `[X_G,X_F]`, the field of `P_+` and the weak conjugacy (iii) are open. `pullback`/`commutator`: only the abstract cores/arithmetic; applying them needs the flow derivative bounds (Cauchy on balls). The step theorem `bpW:w5:step` (i)–(v). No Lean statement of `bpW:w5:step` exists.
   The arithmetic closing it is `stepEstimate_arith`; the analytic content of (i), (ii), (v) is missing.
 * Action–angle and initial perturbation were out of scope (need W3).
