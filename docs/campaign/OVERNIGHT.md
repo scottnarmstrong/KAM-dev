@@ -2296,3 +2296,8 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
 - **16:48. Heartbeat.** LOCK-DATA is re-emitting the segments with the named operands propagated to the consumers,
   then kseg6. LOCK-FREEZE waits for LOCK-DATA. Quotas: codex-1 14 %, claude-3 47 %, claude-12 52 %, claude-4 17 %.
   Memory: 15 GB available. Disk: 92 %.
+- **17:16. Owner: D53, track W resumes at reduced size beside SO-3** ("Yes").
+  - The machine has room: 8 cores at load about 2.5, and about 13 GB available at the lock's 8 GB peaks.
+  - W runs kam-1b plus 2 provers: 4 GB cap each, nice 10, pausing below 8 GB MemAvailable.
+  - codex-1 (14 %) stays with the lock. New W audits wait for codex-3 (5 Nov). **FOR OWNER:** name another audit
+    account if W should land sooner.

@@ -427,3 +427,12 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   LOCK-DATA to about 158 MB, under 1 h of elaboration and about 21–22 CPU-h of kernel, with the margin unchanged
   (1.74 decades at 73.8°). This supersedes D48's figure of 131 MB. As under D48, there is no shrinking, and the
   files must stay below GitHub's 100 MB per-file limit.
+- **D53 (2026-10-31, 17:16 UTC) Track W resumes at reduced size beside SO-3.** *(Scott: "Yes", to the orchestrator's
+  proposal of the W sub-orchestrator plus 2 capped provers, the lock keeping priority.)* This amends the pause of
+  2026-10-30, which said W returns once both SO tracks are done.
+  - **Size:** the sub-orchestrator kam-1b and at most 2 Lean provers.
+  - **Each prover:** one lean process at a time, capped at 4 GB (`systemd-run --user --scope -p MemoryMax=4G
+    -p MemorySwapMax=0`), at nice 10 (the lock runs at nice 5). Builds pause while MemAvailable is below 8 GB.
+  - **Worktrees:** reuse the existing W worktrees; put any new one on the HC volume.
+  - **Audits:** codex-1 stays reserved for the lock's remaining audits (LOCK-DATA and the seal). New W audits wait for
+    codex-3 (resets 5 Nov) unless the owner names another account. W1-CUBIC is already audited and lands now.

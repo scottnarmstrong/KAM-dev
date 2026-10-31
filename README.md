@@ -599,6 +599,8 @@ Full text: [`docs/DECISIONS.md`](docs/DECISIONS.md).
   own roots; a plain `lake build` covers every core theorem. *(Scott, 2026-10-31)*
 - **D52** The lock's certificate data land at about 158 MB (after the B3 cost levers), superseding D48's 131 MB.
   *(Scott, 2026-10-31)*
+- **D53** Track W resumes at reduced size beside the lock: its sub-orchestrator and 2 provers capped at 4 GB each, with
+  the lock keeping priority. *(Scott, 2026-10-31)*
 
 ## Owner questions
 
