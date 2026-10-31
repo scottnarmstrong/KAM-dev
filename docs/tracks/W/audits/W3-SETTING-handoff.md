@@ -51,3 +51,17 @@ Conventions. `BirkIdx = Bool × ℕ+` (sign, |l|), `BirkSpace = lp (BirkIdx → 
 - `main_shortname_check.py` on all modules: `short-name check OK (no reused public short name)`.
 - `#print axioms` of 95 main declarations: all exactly `[propext, Classical.choice, Quot.sound]`.
 - `KAM/Root/Wave.lean` regenerated with `scripts/gen_root_imports.py` (no hand edit).
+
+## F1 fix (audit 1, finding F1; note N1)
+Commit `97061ff5` ("W3 F1: ..."): `HamClass.lean` now has the general `𝔚`-valued predicate
+`IsBirkHamFieldW` (`DP(w)v = Ω(X(w), v)` with `birkOmega` directly) with `birkFieldW_eq`
+(uniqueness) and `birkFieldW_coord` (`X(w)_l = -i sgn(l) DP(w) e_{-l}` in weight-`p` coordinates).
+The former `IsBirkHamField` is renamed `IsBirkHamFieldPlus` (the `𝔚⁺`-lift `birkOmegaPlus` case);
+`IsBirkClassA` is unchanged (still built on the `𝔚⁺` pairing), `IsBirkClassA.hamField` returns the
+`Plus` predicate, and `IsBirkHamFieldPlus.toW` shows it implies the general predicate for the field
+`ι ∘ X` (`birkEmbed`). `birkField_eq`, `birkField_coord` keep their names (smoothing case); the
+only other use, `birkDiag_field` in `Forms.lean`, is updated. N1: the docstrings of
+`not_exists_birkXLam_bounded` (and the module header of `Lambda.lean`) now state exactly "no
+bounded linear operator on `𝔚` with the coordinates of `X_Λ`" (no bounded linear extension).
+Checks: all 43 `KAM.Wave.Birkhoff.*` modules of the root rebuilt (`Build completed successfully`),
+`w_lint.sh` exit 0.

@@ -22,7 +22,8 @@ being built. Package W3-SETTING, blueprint label `bpW:w3:Lambda`.
 * `hasFDerivAt_birkLambda`: `DΛ(w)v = Σ_{l≠0} λ_{|l|} w_{-l} v_l`;
 * `birkXLam`: the linear field `X_Λ(w)_l = -i λ'_l w_l`, bounded `𝔚^+ → 𝔚` with norm `≤ √(1+m)`
   (`norm_birkXLam_le`), `birkLambda_field`: `DΛ(ι y) v = Ω(X_Λ y, v)`, and
-  `not_exists_birkXLam_bounded`: `X_Λ` does not map `𝔚` into itself.
+  `not_exists_birkXLam_bounded`: there is no bounded linear operator on `𝔚` with the coordinates
+  of `X_Λ` (no bounded linear extension of `X_Λ` to `𝔚`; this is the exact strength proved).
 -/
 
 @[expose] public noncomputable section
@@ -292,8 +293,9 @@ theorem birkLambda_field (y v : BirkSpace) :
       (Complex.I * Complex.I)) * this
 
 omit ha hp in
-/-- (`bpW:w3:Lambda`) `X_Λ` does not map `𝔚` into itself: there is no bounded operator on `𝔚` with
-the coordinates `-i sgn(l) λ_{|l|} w_l`. -/
+/-- (`bpW:w3:Lambda`) There is no bounded linear operator on `𝔚` with the coordinates
+`-i sgn(l) λ_{|l|} w_l`, i.e. `X_Λ` has no bounded linear extension to `𝔚` (the exact strength
+proved; nothing is claimed about unbounded or non-linear maps). -/
 theorem not_exists_birkXLam_bounded :
     ¬ ∃ T : BirkSpace →L[ℂ] BirkSpace, ∀ (y : BirkSpace) (l : BirkIdx),
       birkCoord a p (T y) l = -Complex.I * birkSgn l * (lam m hm l.2 : ℂ) * birkCoord a p y l := by

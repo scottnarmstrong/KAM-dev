@@ -19,7 +19,7 @@ A continuous symmetric `(n+1)`-linear form `𝔓` on `𝔚` is *smoothing with c
 `𝔓(w¹, …, wⁿ, v) = Ω(∇𝔓(w¹, …, wⁿ), v)` and `‖∇𝔓(w)‖₊ ≤ c ∏ ‖wⁱ‖`. For its diagonal
 `P(w) = 𝔓(w,…,w)`:
 
-* `birkDiag_field`: `X_P(w) = d ∇𝔓(w,…,w)` is the Hamiltonian field (`IsBirkHamField` on all of
+* `birkDiag_field`: `X_P(w) = d ∇𝔓(w,…,w)` is the Hamiltonian field (`IsBirkHamFieldPlus` on all of
   `𝔚`);
 * `norm_birkDiag_le`, `norm_birkDiagField_le`, `norm_birkDiagField_sub_le`:
   `|P(w)| ≤ c ‖w‖^d`, `‖X_P(w)‖₊ ≤ d c ‖w‖^{d-1}`,
@@ -125,7 +125,7 @@ theorem birkOmegaPlus_smul (ha : 0 ≤ a) (hp : 0 ≤ p) (z : ℂ) (X v : BirkSp
 
 include hS in
 /-- (`bpW:w3:forms`) `X_P(w) = d ∇𝔓(w, …, w)` is the Hamiltonian field of `P`, on all of `𝔚`. -/
-theorem birkDiag_field : IsBirkHamField a p ha hp Set.univ (birkDiag 𝔓) (birkDiagField N) where
+theorem birkDiag_field : IsBirkHamFieldPlus a p ha hp Set.univ (birkDiag 𝔓) (birkDiagField N) where
   differentiableOn := (birkDiag_analyticOnNhd 𝔓).differentiableOn
   deriv_eq w _ v := by
     rw [fderiv_birkDiag_apply hS, hS.pairing, birkDiagField, birkOmegaPlus_smul]

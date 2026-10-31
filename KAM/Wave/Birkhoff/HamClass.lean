@@ -16,8 +16,12 @@ being built. Package W3-SETTING, blueprint label `bpW:w3:hamfield-def`.
 Both `P : 𝔚 → ℂ` and the field `X : 𝔚 → 𝔚^+` are maps on `BirkSpace` (weighted coordinates; `X` is
 read at weight `p + 1`, so `X(w) ∈ 𝔚^+`, and is paired with `v ∈ 𝔚` through `birkEmbed`):
 
-* `IsBirkHamField a p ha hp U P X`: `DP(w)v = Ω(X(w), v)` on `U`; `birkField_eq` (uniqueness),
-  `birkField_coord` (`X(w)_l = -i sgn(l) DP(w) e_{-l}`);
+* `IsBirkHamFieldW a p ha hp U P X` (the general predicate): a `𝔚`-valued field `X` with
+  `DP(w)v = Ω(X(w), v)` on `U`; `birkFieldW_eq` (uniqueness), `birkFieldW_coord`
+  (`X(w)_l = -i sgn(l) DP(w) e_{-l}`);
+* `IsBirkHamFieldPlus a p ha hp U P X`: the smoothing case, `X(w) ∈ 𝔚^+` (a point read at weight
+  `p + 1`), `DP(w)v = Ω(ι X(w), v)`; `birkField_eq`, `birkField_coord`, and
+  `IsBirkHamFieldPlus.toW` (it implies the general predicate for the field `ι ∘ X`);
 * `IsBirkClassA a p ha hp U P X`: the class `𝒜(U)` (open `ϱ`-invariant `U`, real analytic `P`, field
   `X` analytic into `𝔚^+`); `birkClassA_field_rho` (`X ∘ ϱ = ϱ ∘ X`);
 * `birkClassA_iff`: the `∃ X` form `BirkClassA`.
@@ -47,9 +51,37 @@ theorem norm_birkOmegaPlus_le (ha : 0 ≤ a) (hp : 0 ≤ p) (X v : BirkSpace) :
       _ = _ := one_mul _
   gcongr
 
-/-- (`bpW:w3:hamfield-def`) `X` is a *Hamiltonian field* of `P` on `U`:
+/-- (`bpW:w3:hamfield-def`, general case) `X : 𝔚 → 𝔚` is a *Hamiltonian field* of `P` on `U`:
 `DP(w)v = Ω(X(w), v)` for `w ∈ U`, `v ∈ 𝔚`; here `P` is complex differentiable on `U`. -/
-structure IsBirkHamField (a p : ℝ) (ha : 0 ≤ a) (hp : 0 ≤ p) (U : Set BirkSpace)
+structure IsBirkHamFieldW (a p : ℝ) (ha : 0 ≤ a) (hp : 0 ≤ p) (U : Set BirkSpace)
+    (P : BirkSpace → ℂ) (X : BirkSpace → BirkSpace) : Prop where
+  differentiableOn : DifferentiableOn ℂ P U
+  deriv_eq : ∀ w ∈ U, ∀ v, fderiv ℂ P w v = birkOmega ha hp (X w) v
+
+/-- (`bpW:w3:hamfield-def`, general case) The Hamiltonian field is unique on `U`. -/
+theorem birkFieldW_eq {ha : 0 ≤ a} {hp : 0 ≤ p} {U : Set BirkSpace} {P : BirkSpace → ℂ}
+    {X X' : BirkSpace → BirkSpace} (h : IsBirkHamFieldW a p ha hp U P X)
+    (h' : IsBirkHamFieldW a p ha hp U P X') {w : BirkSpace} (hw : w ∈ U) : X w = X' w := by
+  rw [← sub_eq_zero]
+  refine birkOmega_nondegenerate ha hp (ζ := X w - X' w) fun v => ?_
+  rw [map_sub, sub_apply, ← h.deriv_eq w hw v, ← h'.deriv_eq w hw v, sub_self]
+
+/-- (`bpW:w3:hamfield-def`, general case) `X(w)_l = -i sgn(l) DP(w) e_{-l}` in the coordinates
+of `𝔚` (weight `p`). -/
+theorem birkFieldW_coord {ha : 0 ≤ a} {hp : 0 ≤ p} {U : Set BirkSpace} {P : BirkSpace → ℂ}
+    {X : BirkSpace → BirkSpace} (h : IsBirkHamFieldW a p ha hp U P X) {w : BirkSpace} (hw : w ∈ U)
+    (l : BirkIdx) :
+    birkCoord a p (X w) l = -Complex.I * birkSgn l * fderiv ℂ P w (birkUnit a p (birkNeg l)) := by
+  rw [h.deriv_eq w hw, birkOmega_unit_neg]
+  have hs := birkSgn_mul_self l
+  rw [show -Complex.I * birkSgn l * (Complex.I * birkSgn l * birkCoord a p (X w) l) =
+      -(Complex.I * Complex.I) * (birkSgn l * birkSgn l) * birkCoord a p (X w) l by ring,
+    Complex.I_mul_I, hs]
+  ring
+
+/-- (`bpW:w3:hamfield-def`, smoothing case) `X : 𝔚 → 𝔚^+` (a map into `BirkSpace` read at weight
+`p + 1`) is a *Hamiltonian field* of `P` on `U`: `DP(w)v = Ω(ι X(w), v)`. -/
+structure IsBirkHamFieldPlus (a p : ℝ) (ha : 0 ≤ a) (hp : 0 ≤ p) (U : Set BirkSpace)
     (P : BirkSpace → ℂ) (X : BirkSpace → BirkSpace) : Prop where
   differentiableOn : DifferentiableOn ℂ P U
   deriv_eq : ∀ w ∈ U, ∀ v, fderiv ℂ P w v = birkOmegaPlus a p ha hp (X w) v
@@ -71,14 +103,20 @@ def BirkClassA (a p : ℝ) (ha : 0 ≤ a) (hp : 0 ≤ p) (U : Set BirkSpace) (P 
     Prop := ∃ X, IsBirkClassA a p ha hp U P X
 
 theorem IsBirkClassA.hamField {ha : 0 ≤ a} {hp : 0 ≤ p} {U : Set BirkSpace} {P : BirkSpace → ℂ}
-    {X : BirkSpace → BirkSpace} (h : IsBirkClassA a p ha hp U P X) : IsBirkHamField a p ha hp U P X
-        :=
+    {X : BirkSpace → BirkSpace} (h : IsBirkClassA a p ha hp U P X) :
+    IsBirkHamFieldPlus a p ha hp U P X :=
   ⟨h.analytic.differentiableOn, h.field⟩
+
+/-- The smoothing predicate implies the general one, for the field `ι ∘ X`. -/
+theorem IsBirkHamFieldPlus.toW {ha : 0 ≤ a} {hp : 0 ≤ p} {U : Set BirkSpace}
+    {P : BirkSpace → ℂ} {X : BirkSpace → BirkSpace} (h : IsBirkHamFieldPlus a p ha hp U P X) :
+    IsBirkHamFieldW a p ha hp U P (fun w => birkEmbed a (p + 1) p (by linarith) (X w)) :=
+  ⟨h.differentiableOn, h.deriv_eq⟩
 
 /-- (`bpW:w3:hamfield-def`) The Hamiltonian field is unique on `U`. -/
 theorem birkField_eq {ha : 0 ≤ a} {hp : 0 ≤ p} {U : Set BirkSpace} {P : BirkSpace → ℂ}
-    {X X' : BirkSpace → BirkSpace} (h : IsBirkHamField a p ha hp U P X)
-    (h' : IsBirkHamField a p ha hp U P X') {w : BirkSpace} (hw : w ∈ U) : X w = X' w := by
+    {X X' : BirkSpace → BirkSpace} (h : IsBirkHamFieldPlus a p ha hp U P X)
+    (h' : IsBirkHamFieldPlus a p ha hp U P X') {w : BirkSpace} (hw : w ∈ U) : X w = X' w := by
   have key : birkEmbed a (p + 1) p (by linarith) (X w) =
       birkEmbed a (p + 1) p (by linarith) (X' w) := by
     rw [← sub_eq_zero]
@@ -92,8 +130,8 @@ theorem birkField_eq {ha : 0 ≤ a} {hp : 0 ≤ p} {U : Set BirkSpace} {P : Birk
 
 /-- (`bpW:w3:hamfield-def`) `X(w)_l = -i sgn(l) DP(w) e_{-l}` in the actual coordinates. -/
 theorem birkField_coord {ha : 0 ≤ a} {hp : 0 ≤ p} {U : Set BirkSpace} {P : BirkSpace → ℂ}
-    {X : BirkSpace → BirkSpace} (h : IsBirkHamField a p ha hp U P X) {w : BirkSpace} (hw : w ∈ U)
-    (l : BirkIdx) :
+    {X : BirkSpace → BirkSpace} (h : IsBirkHamFieldPlus a p ha hp U P X) {w : BirkSpace}
+    (hw : w ∈ U) (l : BirkIdx) :
     birkCoord a (p + 1) (X w) l = -Complex.I * birkSgn l * fderiv ℂ P w (birkUnit a p (birkNeg l))
         := by
   have h1 := h.deriv_eq w hw (birkUnit a p (birkNeg l))
