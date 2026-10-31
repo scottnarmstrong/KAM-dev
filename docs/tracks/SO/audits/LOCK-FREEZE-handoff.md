@@ -34,7 +34,7 @@ hence `lunarSyncOrbit` equal (existence/uniqueness/bound from the renamed `Lock.
 ## Checks
 - Build: this worktree has no `.lake/build` (brief: no new build here). Each of the 12 modules was compiled
   with `lean -R . -o` (capped `systemd-run … MemoryMax=8G`, `nice -n 10`, project leanOptions) into the
-  scratchpad against SO-FREEZE3's built oleans (`KAM-inp-sodata3`, frozen tree identical to `inp`).
+  scratchpad against SO-FREEZE3's built oleans (then `KAM-inp-sodata3`, since removed; now `/root/code/KAM-inp/.lake/build` at inp da762768, the same frozen tree).
   Output: only `declaration uses 'sorry'` on the four theorems.
 - `scripts/abi_hashes.py --check` (LEAN_PATH overlay): `ABI HASHES OK (179 frozen declarations)`; all 171
   pre-existing hashes reproduced unchanged.
