@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-31 14:05 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 90 % · Moon locked 55 % · track W 26 %** · frozen statements proved: 23 / 24 · **367,976 lines of hand-written Lean** of an estimated ≈ 408,000 (plus 632,894 lines of generated certificate data, not counted)
+> **Last updated: 2026-10-31 14:07 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 90 % · Moon locked 55 % · track W 26 %** · frozen statements proved: 23 / 24 · **367,976 lines of hand-written Lean** of an estimated ≈ 408,000 (plus 632,894 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -292,7 +292,7 @@ Overall, everything together: 80.1 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-31 14:05 UTC from `main` at `f1340c2e` by `scripts/hq-status.py`.*
+*Generated 2026-10-31 14:07 UTC from `main` at `5f3604a2` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and its freeze and seal are in progress (SO-FREEZE3; D49, D50); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) is paused by the owner since 2026-10-31 until both SO tracks are done.
 
@@ -305,7 +305,7 @@ Overall, everything together: 80.1 %
 - **Gates:** design of the general checker ACCEPTED (Revision 7). Moon band route: the v2 certifier `checkTorusCertificateV2` (D44), refined route A, barriers at N = 65 (D38), kernel-scale fixes D34 (packed products) and D39 (log-depth traversals, dyadic ball rounding), segmented kernel proofs (SO-CSPLIT); band literal 2.755 % with window 9934/10000 … 10066/10000 (D47; rule B's tightness clause waived). Proved on main 2026-10-31 (SO-DATA3, about 1,650 generated data modules). Freeze approved with these literals (D49), seal approved (D50); SO-FREEZE3 carries them out (Q11 data rebuild, freeze, seal, seal audit).
 
 **Track W** (D30, D41; [plan](blueprint-W/PLAN.md)): PDE KAM for the cubic wave equation u_tt = u_xx − m u − u³ on [0, π] (Pöschel 1996) · **26 %**
-- Statements: frozen (12 anchors; `nlw2` draft until proved) · blueprint milestones written: 9 / 9 (W0, W1, W2, W3, W4, W5, W6, W7, W8) · proof graph: not published yet · `KAM/Wave`: 71 modules, 13,374 lines
+- Statements: frozen (12 anchors; `nlw2` draft until proved) · blueprint milestones written: 9 / 9 (W0, W1, W2, W3, W4, W5, W6, W7, W8) · proof graph: not on `main` yet · `KAM/Wave`: 71 modules, 13,374 lines
 - **Now:** **paused by the owner on 2026-10-31** until both SO tracks are done. Blueprint W0–W8 complete and independently accepted; dependency graph extracted (690 nodes, 2260 edges), in its final review rounds; 8 Lean packages on `main` (W1-SINES, W1-WEIGHTED, W1-ANALYTIC, W0-NORMAL, W1-ALGEBRA, W1-KAMSUP, W0-ANALYSIS, W2-RECON); the resume plan is with the track W sub-orchestrator.
 
 **Frozen statements proved: 23 / 24** · frozen definitions: 134
@@ -485,8 +485,8 @@ account read from each agent's running process) and their branches. Rules for ag
 | **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (final review rounds), proof campaign; PAUSED by the owner on 2026-10-31 until both SO tracks are done | — | — |
-| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | 🔄 working | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
-| **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA lock_zadv: advice book index in 200-entry chunks joined by ++ (default recursion | `inp-lockdata` | 145 (vs `inp`) |
+| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
+| **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA lock_cseg: split oversized ledger items, import the last ledger part, plan lists | `inp-lockdata` | 146 (vs `inp`) |
 | **LOCK-FREEZE** `inp-mprov-lockfreeze` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: Merge branch 'inp' into inp-lockfreeze | `inp-lockfreeze` | 2 (vs `inp`) |
 | **wgraph** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: Track W graph: delta review 7 (codex-1), reports only (track W paused) | `inp-wgraph` | 24 (vs `inp`) |
 | **wph** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: W1-CUBIC: audit 2 report (track W paused) | `inp-wph` | 13 (vs `inp`) |
@@ -498,6 +498,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-31 14:05 | `5f3604a2` | HQ: track W glance says the graph is not on main yet (as the tracks table) |
 | 2026-10-31 14:03 | `f1340c2e` | HQ: README made current (generated data counted apart, Moon band proved, live agents, D30-D51) |
 | 2026-10-31 13:53 | `2fc39e81` | D51: certificate applications are opt-in builds (owner) |
 | 2026-10-31 13:41 | `09e5d963` | HQ: SO-2 meter reads the landed final theorems; freeze item derived from the frozen file and the seal audit; D50 (owner approves sealing SO-2) |
@@ -509,7 +510,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-10-31 08:18 | `7adca9fc` | Land inp into main |
 | 2026-10-31 08:18 | `3695a18a` | Merge remote-tracking branch 'origin/main' |
 | 2026-10-31 08:16 | `e4f29dfe` | D46: accept the N = 65 band at 2.755 % (rule B tightness clause waived; owner) |
-| 2026-10-31 08:14 | `0e561d57` | Log: LOCK-DATA ledger 131.4 MB over the flag (owner ruling); SO-DATA3 landing |
 <!-- /AUTO:landed -->
 
 ## Decisions
