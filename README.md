@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-31 01:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 94.9 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **365,931 lines of Lean** of an estimated ≈ 373,000
+> **Last updated: 2026-10-31 02:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 94.9 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **365,931 lines of Lean** of an estimated ≈ 373,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -265,7 +265,7 @@ Overall, everything together: 78.1 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **365,931** (284,125 excluding blank lines and comments) · **+91,443** since 2026-10-30 01:40 UTC |
+| On `main` now | **365,931** (284,125 excluding blank lines and comments) · **+91,443** since 2026-10-30 02:00 UTC |
 | Written on agent branches, not yet landed | 5,638 |
 | Generated certificate data on agent branches (numeric literals, not counted above or below) | 639,776 |
 | **Estimated total at completion** | **≈ 373,000** |
@@ -275,7 +275,7 @@ Overall, everything together: 78.1 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-31 01:40 UTC from `main` at `935effa6` by `scripts/hq-status.py`.*
+*Generated 2026-10-31 02:00 UTC from `main` at `221e164f` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -473,6 +473,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-31 01:49 | `221e164f` | Log: heartbeat (DATA3 heartbeat-timeout stall fixed by splitting; lock sizing done) |
 | 2026-10-31 00:49 | `af1d5ef7` | Log: heartbeat (DATA3 one-third through kernel build; landing plan for data build output) |
 | 2026-10-31 00:20 | `e67b85a4` | Merge remote-tracking branch 'origin/main' |
 | 2026-10-31 00:19 | `2bb8f09e` | Land sharp-v2: hybrid producer and mirror aligned with the Lean checker (SHARP2-C8DFIX; fixes AUDIT-C8C-1 F1, F2 and a Cauchy-bound finding; R1-L8 hybrid margin +0.471) |
@@ -484,7 +485,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 22:50 | `30b8171f` | Log: heartbeat (DATA3 disk: build output to HC volume; graph check solved) |
 | 2026-10-30 22:48 | `b41ab651` | Log: overnight mode (SO band, SO lock, then W) |
 | 2026-10-30 22:46 | `54383231` | Log: owner order (both SO tracks, then W); W paused state |
-| 2026-10-30 22:33 | `29260b2a` | Log: owner pauses track W to land SO |
 <!-- /AUTO:landed -->
 
 ## Decisions
