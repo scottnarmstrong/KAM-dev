@@ -436,3 +436,7 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - **Worktrees:** reuse the existing W worktrees; put any new one on the HC volume.
   - **Audits:** codex-1 stays reserved for the lock's remaining audits (LOCK-DATA and the seal). New W audits wait for
     codex-3 (resets 5 Nov) unless the owner names another account. W1-CUBIC is already audited and lands now.
+- **D54 (2026-10-31, 19:52 UTC) Audits continue on codex-1, for every track.** *(Scott: "please continue audits on
+  codex-1 and do not complain about quota".)* This amends D53: W audits no longer wait for codex-3. The queued W
+  audits (graph delta 8 and global review, W3-SETTING with W3-DIVISOR-F, W4-HOMOLOGICAL after its p₊ refactor) and the
+  lock audits (LOCK-DATA, then the seal) all run on codex-1. Quota is not raised as an owner item.

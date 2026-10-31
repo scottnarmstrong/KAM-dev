@@ -2363,3 +2363,40 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     and kam-1b is told to wrap them in the 4 GB scope.
   - Load 8 (a transient filesystem search plus builds). Memory: 18 GB available.
   - Quotas: codex-1 12 %, claude-11 86 %, claude-12 50 %, claude-3 42 %.
+- **18:20. Track W.**
+  - Every lean/lake call now goes through a D53 cap: .drafts/W/w_lean.sh for single files, w_build.sh for builds.
+    Whole-filesystem searches are banned, and w-prover.md is updated.
+  - W4-HOMOLOGICAL part 1 is committed, including a Banach-target holomorphic-derivative lemma. Part 2 (Lemmas 1–2)
+    is next. W3-SETTING is running.
+  - The graph is ready for delta 8 and the global review once an audit account is free.
+- **18:49. Heartbeat.**
+  - LOCK-DATA tpass2: 70 of 169 pass, with no OOM since 18:20. Shards over 5.5 GB (M1ShG10–12 at 6.3–6.4 GB, under
+    the 6 GiB cap) are split by block range for the final chain.
+  - W provers active: W4 part 2 (LemmaOneLipBounds) and W3 (QuartSum).
+  - Root disk: 93 %, 11 GB free (was 13 GB at 16:00). The lock's build output is on the HC volume (5.6 GB there).
+    The largest root users are the shared Codex store (23 GB; thread_history 13 GB) and /tmp/claude-0 (4.7 GB).
+    A root-disk archive pass is due if free space falls below 8 GB.
+- **18:59. tpass2: 73 of 169 pass, then a single M1 shard (Prod.M1ShG4) was OOM-killed at 6 GB.** M1 shards run 6.3–6.4 GB. In-shard split by block range to at most 5 GB (exp shards pre-checked), then re-run from M1's shards.
+- **19:06. LOCK-DATA: the fixed cost of an M1 shard is recomputing the operand slot terms (4.17 GB, 3 min).**
+  - Fix: per product, one ShOps module fixes the slot terms as literals, checked once by `decide`. The shards then
+    cite the literals and should run at 1–2 GB each.
+  - Trust is unchanged: the literals are kernel-verified equalities. No option raised.
+- **19:18. Heartbeat. Track W is making fast progress.**
+  - W4-HOMOLOGICAL is done; only statement-free remarks remain. It is queued for audit.
+  - W3-SETTING and W3-DIVISOR-F are done and queued for audit.
+  - Provers: W5-STEP (the KAM step, stacked on W4) and W3 group 3 (Lie-series flow, symplecticity).
+  - **FOR OWNER:** the W audit queue is graph delta 8 plus the global review, W4, and W3-SETTING with W3-DIVISOR-F.
+    All wait for an audit account (codex-3 resets 5 Nov; codex-1 at 12 % is reserved for the lock).
+  - LOCK-DATA: lock_eaeb.py (capped at 6 GiB) is capturing the operand slot terms, then the re-emit and tpass. No
+    OOM since 19:00.
+- **19:47. LOCK-DATA: the operand-literal fix (ShOps) works.** Re-emitted 1,070 modules (45.7 MB), layout scan clean, lock_eaeb.py peaked at 3.25 GB. tpass3 has 43 of 46 inv-chain modules passing (max 4.71 GB). Next: Rad.InvF18, Full.S3, the exp templates, then the full chain.
+- **19:49. Heartbeat.**
+  - Both W provers were idle and waiting; kam-1b's READY-marker watcher missed them. kam-1b is now handling it.
+    - W5-STEP: partial work committed at 4c32401c. It is blocked on a design choice: W4 hard-codes p̄ = p+1, while
+      w4-general needs p₊ ∈ [p+½, p+1]. kam-1b decides between parametrizing W4 and delivering p₊ = p+1 first; the
+      step statement stays the blueprint's.
+    - W3: to continue with LieFlow4.
+  - Lock tpass3: 43 of 46 inv-chain modules pass. No OOM since 19:20.
+- **19:50. Track W: both provers unblocked.** W5-STEP takes option (a), parametrizing W4 by p₊, because W6 and W7 apply w4-general at p₊ = p+½ after the ½ smoothing loss. The existing W4 theorems stay as p₊ = p+1 corollaries with their names. The W4 audit targets the post-refactor commit. W3 continues group 3 from LieFlow4. kam-1b's watcher now also flags idle prover panes.
+- **19:52. Owner: D54, audits continue on codex-1 for every track** ("do not complain about quota"). This closes the
+  FOR OWNER items about the audit account and the codex-1 contention. W's queued audits are launched on codex-1.
