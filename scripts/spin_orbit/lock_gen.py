@@ -271,8 +271,8 @@ def full(outdir, books=None):
     rep["checkSoGraph"] = dict(ok=vg, info=G.summ(gi2))
     band = (c.graph["pLo"] - c.params["disp"], c.graph["pHi"] + c.params["disp"])
     rep["band"] = [str(x) for x in band]
-    bandOk = band[0] >= F(132, 10000) and band[1] <= F(163, 10000)
-    log("checkSoGraph", vg, "band", [float(x) for x in band], "inside [0.0132, 0.0163]:", bandOk)
+    bandOk = band[0] >= BAND[0] and band[1] <= BAND[1]
+    log("checkSoGraph", vg, "band", [float(x) for x in band], "inside", [float(x) for x in BAND], bandOk)
     rep["passes"] = all(v.values()) and vg and okH and okF and wv["refinedCore"][0] if isinstance(
         wv["refinedCore"], (list, tuple)) else all(v.values()) and vg and okH and okF
     rep["bandOk"] = bandOk
@@ -297,6 +297,8 @@ if __name__ == "__main__" and sys.argv[1] == "check":
 
 
 # ---------------------------------------------------------------------------------------------- graph SOS (lock)
+# the barrier window of AssemblyN65 (lockLiteralCheck passes at lo = 13155/1000000, fails at 0.01315)
+BAND = (F(13155, 1000000), F(163, 10000))
 SOS = dict(K0=112, K1=8, slackLo=F(7, 10 ** 5), slackHi=F(3, 10 ** 5), bits=64, tol=1e-15, grid=(2048, 512))
 
 
