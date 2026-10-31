@@ -91,7 +91,8 @@ theorem measXSet_finite : (measXSet m hm).Finite := by
   set K := measKstar m hm with hK
   set B : ℕ := ⌈N⌉₊ + ⌈J⌉₊ + 1 with hB
   -- finitely many `l`
-  have hl : {l : ℕ →₀ ℤ | IsLam l ∧ japL l < N ∧ (¬ IsLamMinus l ∨ normLab (sInf {ν | l ν ≠ 0}) < J)}.Finite := by
+  have hl : {l : ℕ →₀ ℤ | IsLam l ∧ japL l < N ∧ (¬ IsLamMinus l ∨ normLab (sInf {ν | l ν ≠ 0}) <
+      J)}.Finite := by
     have hfin := Finset.finite_toSet ((Finset.range B ×ˢ Finset.range B ×ˢ Finset.Icc (-2 : ℤ) 2 ×ˢ
         Finset.Icc (-2 : ℤ) 2).image
         (fun x : ℕ × ℕ × ℤ × ℤ => single x.1 x.2.2.1 + single x.2.1 x.2.2.2))
@@ -99,7 +100,8 @@ theorem measXSet_finite : (measXSet m hm).Finite := by
     have key : ∀ (a b : ℕ) (σ τ : ℤ), a < B → b < B → -2 ≤ σ → σ ≤ 2 → -2 ≤ τ → τ ≤ 2 →
         single a σ + single b τ ∈ (↑((Finset.range B ×ˢ Finset.range B ×ˢ Finset.Icc (-2 : ℤ) 2 ×ˢ
           Finset.Icc (-2 : ℤ) 2).image
-          (fun x : ℕ × ℕ × ℤ × ℤ => single x.1 x.2.2.1 + single x.2.1 x.2.2.2)) : Set (ℕ →₀ ℤ)) := by
+          (fun x : ℕ × ℕ × ℤ × ℤ => single x.1 x.2.2.1 + single x.2.1 x.2.2.2)) : Set (ℕ →₀ ℤ)) :=
+              by
       intro a b σ τ ha hb h1 h2 h3 h4
       refine Finset.mem_coe.2 (Finset.mem_image.2 ⟨(a, b, σ, τ), ?_, rfl⟩)
       simp only [Finset.mem_product, Finset.mem_range, Finset.mem_Icc]
@@ -294,7 +296,8 @@ theorem measCX_le {k : Fin 2 → ℤ} {l : ℕ →₀ ℤ} (hx : (k, l) ∈ meas
 def measTheta0 : ℝ :=
   (measLA m hm)⁻¹ * min (1 / 8) (measSigmaX m hm / (2 * (measKstar m hm + 2)))
 
-/-- `α₀ = (min {1/27, β_*/4, ϑ c_X / (4 K_* (K_* + 4))})^{47/44}` (blueprint `bpW:w7:constdef` (C4)). -/
+/-- `α₀ = (min {1/27, β_*/4, ϑ c_X / (4 K_* (K_* + 4))})^{47/44}` (blueprint `bpW:w7:constdef`
+    (C4)). -/
 def measAlpha0 : ℝ :=
   (min (min (1 / 27) (measBetaStar m / 4))
     (measTheta m hm * measCX m hm / (4 * measKstar m hm * (measKstar m hm + 4)))) ^ (47 / 44 : ℝ)

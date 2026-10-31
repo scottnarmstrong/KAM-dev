@@ -275,10 +275,12 @@ theorem norm_sub_le_measLA_mul (ξ ξ' : Fin 2 → ℝ) :
             abs_add_le _ _
         _ = 3 * lamTan m hm 0 ^ 2 * |d 0| + 4 * lamTan m hm 0 * lamTan m hm 1 * |d 1| := by
             rw [abs_mul, abs_mul, abs_mul, abs_mul]
-            rw [abs_of_neg (by norm_num : (-3 : ℝ) < 0), abs_of_pos (by positivity : 0 < lamTan m hm 0 ^ 2),
+            rw [abs_of_neg (by norm_num : (-3 : ℝ) < 0), abs_of_pos (by positivity : 0 < lamTan m
+                                                                          hm 0 ^ 2),
               abs_of_pos (by positivity : 0 < 4 * lamTan m hm 0), abs_of_pos hl1]
             ring
-        _ ≤ _ := by nlinarith [mul_le_mul_of_nonneg_left hd0 (by positivity : 0 ≤ 3 * lamTan m hm 0 ^ 2),
+        _ ≤ _ := by nlinarith [mul_le_mul_of_nonneg_left hd0 (by positivity : 0 ≤ 3 * lamTan m hm 0
+                                                                   ^ 2),
               mul_le_mul_of_nonneg_left hd1 (by positivity : 0 ≤ 4 * lamTan m hm 0 * lamTan m hm 1)]
     calc 8 * π / 21 * _ ≤ 8 * π / 21 * ((3 * lamTan m hm 0 ^ 2 + 4 * lamTan m hm 0 * lamTan m hm 1)
           * ‖d‖) := mul_le_mul_of_nonneg_left this (by positivity)
@@ -288,7 +290,8 @@ theorem norm_sub_le_measLA_mul (ξ ξ' : Fin 2 → ℝ) :
               lamTan m hm 1 * (4 * lamTan m hm 0 + 3 * lamTan m hm 1) := by nlinarith
           have h2 := mul_le_mul_of_nonneg_right this hdn
           have h3 := mul_le_mul_of_nonneg_left h2 (by positivity : 0 ≤ 8 * π / 21)
-          calc _ = 8 * π / 21 * ((3 * lamTan m hm 0 ^ 2 + 4 * lamTan m hm 0 * lamTan m hm 1) * ‖d‖) := by ring
+          calc _ = 8 * π / 21 * ((3 * lamTan m hm 0 ^ 2 + 4 * lamTan m hm 0 * lamTan m hm 1) * ‖d‖)
+              := by ring
             _ ≤ _ := h3
             _ = _ := by ring
   · simp only [Fin.mk_one, Fin.isValue]
@@ -300,7 +303,8 @@ theorem norm_sub_le_measLA_mul (ξ ξ' : Fin 2 → ℝ) :
         _ = 4 * lamTan m hm 0 * lamTan m hm 1 * |d 0| + 3 * lamTan m hm 1 ^ 2 * |d 1| := by
             simp only [abs_mul, abs_pow, abs_of_pos hl0, abs_of_pos hl1,
               abs_of_pos (by norm_num : (0 : ℝ) < 3), abs_of_pos (by norm_num : (0 : ℝ) < 4)]
-        _ ≤ _ := by nlinarith [mul_le_mul_of_nonneg_left hd0 (by positivity : 0 ≤ 4 * lamTan m hm 0 * lamTan m hm 1),
+        _ ≤ _ := by nlinarith [mul_le_mul_of_nonneg_left hd0 (by positivity : 0 ≤ 4 * lamTan m hm 0
+                                                                   * lamTan m hm 1),
               mul_le_mul_of_nonneg_left hd1 (by positivity : 0 ≤ 3 * lamTan m hm 1 ^ 2)]
     calc 8 * π / 21 * _ ≤ 8 * π / 21 * ((4 * lamTan m hm 0 * lamTan m hm 1 + 3 * lamTan m hm 1 ^ 2)
           * ‖d‖) := mul_le_mul_of_nonneg_left this (by positivity)

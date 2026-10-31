@@ -96,7 +96,8 @@ theorem norm_omegaTan_le {ξ : Fin 2 → ℝ} (hξ : ‖ξ‖ ≤ 1 / 2) :
     linarith
   simp only [Pi.sub_apply] at hi
   rw [Real.norm_eq_abs]
-  have hli : lamTan m hm i ≤ lamTan m hm 1 := by fin_cases i <;> simp only [Fin.zero_eta, Fin.isValue, Fin.mk_one] <;> linarith
+  have hli : lamTan m hm i ≤ lamTan m hm 1 := by fin_cases i <;> simp only [Fin.zero_eta,
+                                                   Fin.isValue, Fin.mk_one] <;> linarith
   have := abs_le.1 hi
   rw [abs_le]
   constructor <;> linarith [lamTan_pos m hm i]
@@ -137,7 +138,8 @@ theorem lamN_sub_eq {i j : ℕ} :
   have := lamN_sq' m hm j
   nlinarith
 
-theorem lamN_sub_le {i j : ℕ} (hji : j < i) : lamN m hm i - lamN m hm j ≤ normLab i - normLab j := by
+theorem lamN_sub_le {i j : ℕ} (hji : j < i) : lamN m hm i - lamN m hm j ≤ normLab i - normLab j :=
+    by
   have hi := lt_lamN m hm i
   have hj := lt_lamN m hm j
   have hd : normLab j < normLab i := by
@@ -289,7 +291,8 @@ theorem omegaNor_sub_approx {ξ : Fin 2 → ℝ} (hξ : ‖ξ‖ ≤ 1 / 2) {i j
     rw [div_le_div_iff₀ (by positivity) (by positivity)]
     have h1 : (lamN m hm i + normLab i) - (lamN m hm j + normLab j) ≤ 2 * n := by
       rw [hn]; linarith
-    have h2 : 4 * normLab i * normLab j ≤ (lamN m hm i + normLab i) * (lamN m hm j + normLab j) := by
+    have h2 : 4 * normLab i * normLab j ≤ (lamN m hm i + normLab i) * (lamN m hm j + normLab j) :=
+        by
       nlinarith
     have h4 : normLab j ≤ normLab i := by linarith
     -- m * D * (2 j²) ≤ m n * (A B)

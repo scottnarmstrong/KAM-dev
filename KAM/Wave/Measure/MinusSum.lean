@@ -60,7 +60,7 @@ theorem isLamMinus_cases {l : ℕ →₀ ℤ} (h : IsLamMinus l) :
   have : j + (i - j) = i := by omega
   rcases hσ with rfl | rfl
   · left; simp [lamMinusPlus, this]
-  · right; simp [lamMinusPlus, this, neg_add]; abel
+  · right; simp [lamMinusPlus, this]; abel
 
 section
 

@@ -37,7 +37,8 @@ theorem tendsto_frequency_limit (m : ℝ) (hm : 0 < m) {q t0 : ℝ} (hq : 0 < q)
   intro ε hε
   have hpi := Real.pi_pos
   have hNA := measNA_pos m hm
-  obtain ⟨k0, hk0⟩ := (hek.eventually (gt_mem_nhds (show (0 : ℝ) < π * ε by positivity))).exists_forall_of_atTop
+  obtain ⟨k0, hk0⟩ := (hek.eventually (gt_mem_nhds (show (0 : ℝ) < π * ε by
+      positivity))).exists_forall_of_atTop
   refine ⟨min (shellT q t0 (k0 + 1)) (π * ε / measNA m hm), lt_min (shellT_pos hq ht _)
     (by positivity), fun I hI hdist => ?_⟩
   rw [dist_zero_right] at hdist

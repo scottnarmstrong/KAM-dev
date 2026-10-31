@@ -138,18 +138,22 @@ theorem IsFreqPair.Xzone_empty (hS : MeasSetup m hm Pi α)
         _ ≤ α * measKstar m hm := mul_le_mul_of_nonneg_left hkK.le hS.alpha_pos.le
     nlinarith
   have hbound : (measKstar m hm + 4) * alphaHat α ≤ measCX m hm / 2 := by
-    have h1 : alphaHat α * (4 * measKstar m hm * (measKstar m hm + 4)) ≤ measTheta m hm * measCX m hm := by
-      have := (le_div_iff₀ (by positivity : (0 : ℝ) < 4 * measKstar m hm * (measKstar m hm + 4))).1 hαc
+    have h1 : alphaHat α * (4 * measKstar m hm * (measKstar m hm + 4)) ≤ measTheta m hm * measCX m
+        hm := by
+      have := (le_div_iff₀ (by positivity : (0 : ℝ) < 4 * measKstar m hm * (measKstar m hm + 4))).1
+                                 hαc
       exact this
     nlinarith [mul_pos hϑ hcX0]
   have hzone : a * japL l / kAk k ≤ measCX m hm / 4 := by
     have hk1' := kAk_pos k
     have : a * japL l / kAk k ≤ alphaHat α * (measKstar m hm / measTheta m hm) := by
-      calc a * japL l / kAk k ≤ a * japL l := div_le_self (by have := japL_ge_one l; positivity) hk1'
+      calc a * japL l / kAk k ≤ a * japL l := div_le_self (by have := japL_ge_one l; positivity)
+                                                                hk1'
         _ ≤ alphaHat α * (measKstar m hm / measTheta m hm) :=
             mul_le_mul ha hjK.le (by linarith [japL_ge_one l]) (by linarith [measAlphaM_pos m hm])
     refine this.trans ?_
-    have h1 : alphaHat α * (4 * measKstar m hm * (measKstar m hm + 4)) ≤ measTheta m hm * measCX m hm :=
+    have h1 : alphaHat α * (4 * measKstar m hm * (measKstar m hm + 4)) ≤ measTheta m hm * measCX m
+        hm :=
       (le_div_iff₀ (by positivity : (0 : ℝ) < 4 * measKstar m hm * (measKstar m hm + 4))).1 hαc
     rw [mul_div_assoc', div_le_iff₀ hϑ]
     nlinarith [mul_pos (by linarith : (0 : ℝ) < measKstar m hm) hcX0]
@@ -247,7 +251,8 @@ theorem IsFreqPair.Xzone_measure_le
       have c1 : ‖e‖ * kAbs k ≤ θ * ‖ξ - ξ'‖ * measKstar m hm :=
         mul_le_mul b2 hkK.le hk0 (by positivity)
       have c2 : θ * absWt l (-(1 / 2 : ℝ)) * ‖ξ - ξ'‖ ≤ θ * 2 * ‖ξ - ξ'‖ := by gcongr
-      have c3 : θ * ‖ξ - ξ'‖ * (measKstar m hm + 2) ≤ θ * (measLA m hm * |d i|) * (measKstar m hm + 2) := by
+      have c3 : θ * ‖ξ - ξ'‖ * (measKstar m hm + 2) ≤ θ * (measLA m hm * |d i|) * (measKstar m hm +
+          2) := by
         gcongr
       have c4 : θ * (measLA m hm * |d i|) * (measKstar m hm + 2) =
           θ * measLA m hm * (measKstar m hm + 2) * |d i| := by ring

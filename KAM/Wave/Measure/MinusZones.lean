@@ -36,7 +36,7 @@ theorem zoneSet_eq_genZone (D : Set (Fin 2 → ℝ)) (ω : (Fin 2 → ℝ) → F
 
 theorem genZone_mono (D : Set (Fin 2 → ℝ)) (ω : (Fin 2 → ℝ) → Fin 2 → ℝ)
     (Ω : (Fin 2 → ℝ) → ℕ → ℝ) {η η' : ℝ} (h : η ≤ η') (k : Fin 2 → ℤ) (l : ℕ →₀ ℤ) :
-    genZone D ω Ω η k l ⊆ genZone D ω Ω η' k l := fun ξ ⟨hξ, hz⟩ => ⟨hξ, hz.trans_le h⟩
+    genZone D ω Ω η k l ⊆ genZone D ω Ω η' k l := fun _ ⟨hξ, hz⟩ => ⟨hξ, hz.trans_le h⟩
 
 section
 
@@ -126,7 +126,8 @@ theorem IsFreqPair.minus_n_bound (hS : MeasSetup m hm Pi α)
     rw [show (-1 : ℤ) = -(1 : ℤ) by norm_num, this]; push_cast; ring
   set Q : Set (Fin 2 → ℝ) := {ξ ∈ D | |∑ i, (k i : ℝ) * ω ξ i + (n : ℝ)| < θQ} with hQdef
   have hsub : (⋃ (j : ℕ) (_ : (k, lj j) ∉ measXSet m hm), genZone D ω Ω (η j) k (lj j)) ⊆
-      (⋃ j ∈ Finset.range J0, ⋃ (_ : (k, lj j) ∉ measXSet m hm), genZone D ω Ω (η j) k (lj j)) ∪ Q := by
+      (⋃ j ∈ Finset.range J0, ⋃ (_ : (k, lj j) ∉ measXSet m hm), genZone D ω Ω (η j) k (lj j)) ∪ Q
+          := by
     intro ξ hξ
     simp only [Set.mem_iUnion] at hξ
     obtain ⟨j, hX, hz⟩ := hξ

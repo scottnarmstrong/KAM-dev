@@ -119,7 +119,8 @@ theorem prep_minus_n_bound (hS : MeasSetup m hm Pi α) {ρζ : ℝ} (hρ0 : 0 �
       rw [hd] at happ
       rw [hl] at hz
       simp only [hη] at hz
-      have hz' : |∑ i, ((k i : ℤ) : ℝ) * omegaTan m hm ξ i + (omegaNor m hm ξ (j + n) - omegaNor m hm ξ j)| <
+      have hz' : |∑ i, ((k i : ℤ) : ℝ) * omegaTan m hm ξ i + (omegaNor m hm ξ (j + n) - omegaNor m
+          hm ξ j)| <
           alphaHat α * ((n : ℝ) * normLab j ^ (-(1 / 4 : ℝ))) / kAk k := hz
       have h1 : normLab j ^ (-(1 / 4 : ℝ)) ≤ (J0 : ℝ) ^ (-(1 / 4 : ℝ)) :=
         Real.rpow_le_rpow_of_nonpos hJpos hlab (by norm_num)

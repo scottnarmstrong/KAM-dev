@@ -29,7 +29,8 @@ namespace KAM.Wave
 /-- The Dirichlet label `j = ν + 3` of the normal mode `ν`. -/
 def normLab (ν : ℕ) : ℝ := (ν : ℝ) + 3
 
-theorem normLab_ge (ν : ℕ) : 3 ≤ normLab ν := by unfold normLab; have := (Nat.cast_nonneg ν : (0:ℝ) ≤ ν); linarith
+theorem normLab_ge (ν : ℕ) : 3 ≤ normLab ν := by unfold normLab; have := (Nat.cast_nonneg ν : (0:ℝ)
+                                                   ≤ ν); linarith
 
 theorem normLab_pos (ν : ℕ) : 0 < normLab ν := by linarith [normLab_ge ν]
 

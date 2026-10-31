@@ -74,7 +74,8 @@ theorem IsFreqPair.largek (hS : MeasSetup m hm Pi α)
   have hzle : a * japL l / kAk k ≤ a * japL l := div_le_self (by positivity) hk1
   have htri : |linF l (Ω ξ)| ≤ |∑ i, (k i : ℝ) * ω ξ i| +
       |∑ i, (k i : ℝ) * ω ξ i + linF l (Ω ξ)| := by
-    have : linF l (Ω ξ) = (∑ i, (k i : ℝ) * ω ξ i + linF l (Ω ξ)) - ∑ i, (k i : ℝ) * ω ξ i := by ring
+    have : linF l (Ω ξ) = (∑ i, (k i : ℝ) * ω ξ i + linF l (Ω ξ)) - ∑ i, (k i : ℝ) * ω ξ i := by
+        ring
     calc |linF l (Ω ξ)| = |(∑ i, (k i : ℝ) * ω ξ i + linF l (Ω ξ)) - ∑ i, (k i : ℝ) * ω ξ i| := by
           rw [← this]
       _ ≤ _ := by

@@ -73,7 +73,8 @@ theorem IsFreqPair.minus_drift (hS : MeasSetup m hm Pi α)
   refine (abs_add_le _ _).trans (add_le_add ?_ happ)
   refine hd.trans ?_
   nlinarith [mul_le_mul_of_nonneg_left h1 e1, mul_le_mul_of_nonneg_left h2 e1,
-    mul_le_mul_of_nonneg_left h3 e2, mul_le_mul_of_nonneg_left (le_refl (normLab j ^ (-(1 / 2 : ℝ)))) e2]
+    mul_le_mul_of_nonneg_left h3 e2, mul_le_mul_of_nonneg_left (le_refl (normLab j ^ (-(1 / 2 :
+        ℝ)))) e2]
 
 /-- For fixed `k ≠ 0` and `n ≥ 1`. -/
 theorem iter_minus_n_bound (hS : MeasSetup m hm Pi α)

@@ -117,7 +117,8 @@ theorem volume_le_of_coord_slices (i : Fin 2) {S : Set (Fin 2 → ℝ)} (hS : Me
       simpa using this
   · -- swap the roles of the two coordinates
     have hsw : MeasurePreserving (Prod.swap : ℝ × ℝ → ℝ × ℝ) volume volume := by
-      have := (Measure.measurePreserving_swap (μ := (volume : Measure ℝ)) (ν := (volume : Measure ℝ)))
+      have := (Measure.measurePreserving_swap (μ := (volume : Measure ℝ)) (ν := (volume : Measure
+          ℝ)))
       simpa [Measure.volume_eq_prod] using this
     set S'' : Set (ℝ × ℝ) := Prod.swap ⁻¹' S' with hS''
     have hS''m : MeasurableSet S'' := measurable_swap hS'm

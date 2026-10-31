@@ -75,7 +75,8 @@ theorem alpha_facts {α : ℝ} (hα : 0 < α) (hα0 : α ≤ measAlpha0 m hm) :
 theorem theta_mul_LA_le {θ : ℝ} (hθ : θ ≤ measTheta0 m hm) : θ * measLA m hm ≤ 1 / 8 := by
   have hLA := measLA_pos m hm
   unfold measTheta0 at hθ
-  have h1 : θ * measLA m hm ≤ (measLA m hm)⁻¹ * min (1 / 8) (measSigmaX m hm / (2 * (measKstar m hm + 2))) *
+  have h1 : θ * measLA m hm ≤ (measLA m hm)⁻¹ * min (1 / 8) (measSigmaX m hm / (2 * (measKstar m hm
+      + 2))) *
       measLA m hm := mul_le_mul_of_nonneg_right hθ hLA.le
   have h2 : (measLA m hm)⁻¹ * min (1 / 8) (measSigmaX m hm / (2 * (measKstar m hm + 2))) *
       measLA m hm = min (1 / 8) (measSigmaX m hm / (2 * (measKstar m hm + 2))) := by
@@ -116,7 +117,8 @@ theorem normLab_inv_eq (ν : ℕ) : (normLab ν)⁻¹ = normLab ν ^ (-1 : ℝ) 
 /-- Drift of `⟨l, Ω⟩` from `⟨l, Ω⁰⟩` (blueprint `bpW:w7:sep`, step "Drift"). -/
 theorem IsFreqPair.drift_le (hP : IsFreqPair m hm Pi α D ω Ω εω ε1 ε2 θ) {ξ : Fin 2 → ℝ}
     (hξ : ξ ∈ D) (l : ℕ →₀ ℤ) :
-    |linF l (Ω ξ) - linF l (omegaNor m hm ξ)| ≤ ε1 * absWt l (-1) + ε2 * absWt l (-(1 / 2 : ℝ)) := by
+    |linF l (Ω ξ) - linF l (omegaNor m hm ξ)| ≤ ε1 * absWt l (-1) + ε2 * absWt l (-(1 / 2 : ℝ)) :=
+        by
   rw [linF_sub]
   have := abs_linF_le_absWt l (fun ν => Ω ξ ν - omegaNor m hm ξ ν)
     (fun ν => ε1 * normLab ν ^ (-1 : ℝ) + ε2 * normLab ν ^ (-(1 / 2 : ℝ) : ℝ)) (fun ν => by
@@ -175,14 +177,17 @@ theorem IsFreqPair.linF_lip (hP : IsFreqPair m hm Pi α D ω Ω εω ε1 ε2 θ)
   have hw0 := absWt_nonneg l (-(1 / 2 : ℝ))
   have e : linF l (Ω ξ) - linF l (Ω ξ') =
       (linF l (omegaNor m hm ξ) - linF l (omegaNor m hm ξ')) +
-      (l.sum fun ν v => (v : ℝ) * ((Ω ξ ν - omegaNor m hm ξ ν) - (Ω ξ' ν - omegaNor m hm ξ' ν))) := by
+      (l.sum fun ν v => (v : ℝ) * ((Ω ξ ν - omegaNor m hm ξ ν) - (Ω ξ' ν - omegaNor m hm ξ' ν))) :=
+          by
     rw [← linF_sub l (fun ν => (Ω ξ ν - omegaNor m hm ξ ν))
       (fun ν => (Ω ξ' ν - omegaNor m hm ξ' ν))]
     simp only [linF_sub']
     ring
-  have h2 : |l.sum fun ν v => (v : ℝ) * ((Ω ξ ν - omegaNor m hm ξ ν) - (Ω ξ' ν - omegaNor m hm ξ' ν))| ≤
+  have h2 : |l.sum fun ν v => (v : ℝ) * ((Ω ξ ν - omegaNor m hm ξ ν) - (Ω ξ' ν - omegaNor m hm ξ'
+      ν))| ≤
       θ * absWt l (-(1 / 2 : ℝ)) * ‖ξ - ξ'‖ := by
-    have := abs_linF_le_absWt l (fun ν => (Ω ξ ν - omegaNor m hm ξ ν) - (Ω ξ' ν - omegaNor m hm ξ' ν))
+    have := abs_linF_le_absWt l (fun ν => (Ω ξ ν - omegaNor m hm ξ ν) - (Ω ξ' ν - omegaNor m hm ξ'
+        ν))
       (fun ν => θ * normLab ν ^ (-(1 / 2 : ℝ) : ℝ) * ‖ξ - ξ'‖) (fun ν => by
         simpa using hP.h2_lip ξ hξ ξ' hξ' ν)
     refine this.trans (le_of_eq ?_)

@@ -63,7 +63,8 @@ theorem exclSet_measurableSet (hS : MeasSetup m hm Pi α) (F : AdmissibleFamily 
 equation): `volume ℰ ≤ C₇ ρ α^{32/47}`, `ρ = diam Π`. -/
 theorem exclSet_measure_le (hS : MeasSetup m hm Pi α) (F : AdmissibleFamily m hm Pi α) :
     MeasurableSet (exclSet m hm F) ∧
-      volume (exclSet m hm F) ≤ ENNReal.ofReal (measC7 m hm * Metric.diam Pi * α ^ (32 / 47 : ℝ)) := by
+      volume (exclSet m hm F) ≤ ENNReal.ofReal (measC7 m hm * Metric.diam Pi * α ^ (32 / 47 : ℝ))
+          := by
   refine ⟨(exclSet_measurableSet m hm hS F).2.2.1, ?_⟩
   obtain ⟨hc, hcA, hαhat, h27, hβ4, -⟩ := alpha_facts m hm hS.alpha_pos hS.alpha_le
   have hα := hS.alpha_pos

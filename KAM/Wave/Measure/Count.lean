@@ -143,7 +143,8 @@ theorem sum_rpow_neg_quarter_le (N : ℕ) :
       rw [e2] at this ⊢
       have hq := Real.rpow_pos_of_pos hN1 (-(1 / 4 : ℝ))
       have e3 : (1 + 3 / 4 * (-1 / ((N : ℝ) + 1))) * ((N + 1) * ((N : ℝ) + 1) ^ (-(1 / 4 : ℝ))) =
-          ((N : ℝ) + 1) * ((N : ℝ) + 1) ^ (-(1 / 4 : ℝ)) - 3 / 4 * ((N : ℝ) + 1) ^ (-(1 / 4 : ℝ)) := by
+          ((N : ℝ) + 1) * ((N : ℝ) + 1) ^ (-(1 / 4 : ℝ)) - 3 / 4 * ((N : ℝ) + 1) ^ (-(1 / 4 : ℝ))
+              := by
         field_simp; ring
       rw [e3] at this
       exact this

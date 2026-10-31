@@ -81,7 +81,8 @@ theorem measurableSet_shellSet (q t0 : ℝ) (k : ℕ) : MeasurableSet (shellSet 
 theorem volume_shellSet {q t0 : ℝ} (hq : 0 < q) (hq1 : q < 1) (ht : 0 < t0) (k : ℕ) :
     volume (shellSet q t0 k) = ENNReal.ofReal ((1 - q ^ 2) * shellT q t0 k ^ 2) := by
   have hk := shellT_pos hq ht k
-  have hk1 : shellT q t0 (k + 1) ≤ shellT q t0 k := (shellT_antitone hq hq1 ht (Nat.lt_succ_self k)).le
+  have hk1 : shellT q t0 (k + 1) ≤ shellT q t0 k := (shellT_antitone hq hq1 ht (Nat.lt_succ_self
+      k)).le
   have hsub : boxIoo 0 (shellT q t0 (k + 1)) ⊆ boxIoo 0 (shellT q t0 k) := boxIoo_subset le_rfl hk1
   unfold shellSet
   rw [measure_sdiff hsub (measurableSet_boxIoo _ _).nullMeasurableSet (by

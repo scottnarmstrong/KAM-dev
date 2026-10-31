@@ -163,7 +163,8 @@ theorem prepSet_measure_le (hS : MeasSetup m hm Pi α) {ρζ : ℝ} (hρ0 : 0 �
           · simp only [Nat.cast_zero]; positivity
           · have hl : IsLam (lamMinusPlus j n) :=
               IsLam_of_minus ⟨j + n, j, 1, by omega, Or.inl rfl, rfl⟩
-            have hz : (zoneSet Pi (omegaTan m hm) (omegaNor m hm) a k' (lamMinusPlus j n)).Nonempty :=
+            have hz : (zoneSet Pi (omegaTan m hm) (omegaNor m hm) a k' (lamMinusPlus j n)).Nonempty
+                :=
               hne.mono (prepZone_subset m hm (Pi := Pi) hα0.le k' _)
             have := hP.largek m hm hS hα0.le haβ hl hz
             have hj : japL (lamMinusPlus j n) = n := by
@@ -184,7 +185,8 @@ theorem prepSet_measure_le (hS : MeasSetup m hm Pi α) {ρζ : ℝ} (hρ0 : 0 �
       have hu : (⋃ (_ : k ≠ 0), zoneSet Pi (omegaTan m hm) (omegaNor m hm) a k 0) =
           zoneSet Pi (omegaTan m hm) (omegaNor m hm) a k 0 := by
         ext x; simp only [Set.mem_iUnion]; exact ⟨fun ⟨_, h⟩ => h, fun h => ⟨hk, h⟩⟩
-      calc volume (Yk k) ≤ volume (⋃ (_ : k ≠ 0), zoneSet Pi (omegaTan m hm) (omegaNor m hm) a k 0) +
+      calc volume (Yk k) ≤ volume (⋃ (_ : k ≠ 0), zoneSet Pi (omegaTan m hm) (omegaNor m hm) a k 0)
+          +
             volume (⋃ (l : ℕ →₀ ℤ) (_ : IsLam l ∧ ¬ IsLamMinus l ∧ (k, l) ∉ measXSet m hm),
               zoneSet Pi (omegaTan m hm) (omegaNor m hm) a k l) +
             volume (minusUnion m hm (fun k l => prepZone m hm Pi a k l) k) :=
@@ -211,7 +213,8 @@ theorem prepSet_measure_le (hS : MeasSetup m hm Pi α) {ρζ : ℝ} (hρ0 : 0 �
     refine (ENNReal.tsum_le_tsum hYbound).trans (tsum_lattice_le ?_)
     have h8 : 0 ≤ ρζ / measDA m hm * a ^ (8 / 11 : ℝ) :=
       mul_nonneg (div_nonneg hρ0 hDA.le) (Real.rpow_nonneg hα0.le _)
-    have h9 : 0 ≤ 8 + 32 * (measTheta m hm)⁻¹ ^ 3 + 16 * (3 + measAKappa m) * (measTheta m hm)⁻¹ ^ 2 := by
+    have h9 : 0 ≤ 8 + 32 * (measTheta m hm)⁻¹ ^ 3 + 16 * (3 + measAKappa m) * (measTheta m hm)⁻¹ ^
+        2 := by
       have := inv_nonneg.2 hϑ.le
       positivity
     exact mul_nonneg h8 h9

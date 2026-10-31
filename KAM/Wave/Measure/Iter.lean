@@ -14,7 +14,8 @@ public import KAM.Wave.Measure.Prep
 Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
 still being built.
 
-`volume ℰ_it ≤ ρ_ζ D_A⁻¹ (Z₃ (8 + 32ϑ⁻³ + 16 (2 + a_κ) ϑ⁻²) α̌^{2/3} + 32 Z₃ ϑ⁻¹ (ε₁ + ε₂) + 4 N_X K_*² ϑ⁻¹ σ_X⁻¹ α̌)`.
+`volume ℰ_it ≤ ρ_ζ D_A⁻¹ (Z₃ (8 + 32ϑ⁻³ + 16 (2 + a_κ) ϑ⁻²) α̌^{2/3} + 32 Z₃ ϑ⁻¹ (ε₁ + ε₂) + 4 N_X
+    K_*² ϑ⁻¹ σ_X⁻¹ α̌)`.
 -/
 
 @[expose] public noncomputable section
