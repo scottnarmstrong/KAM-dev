@@ -437,7 +437,7 @@ class LockEmitter(CE.Emitter):
         head[-1] += " := by"
         common = ["  refine ComposeCkpt.segOk_one_of (s := %s)" % spec,
                   "    (m := %s)" % meta,
-                  "    (op := %s) rfl rfl rfl (by decide +kernel) ?hop ?hres" % self.op_lit(op)]
+                  "    (op := %s) (st' := ?st) rfl rfl rfl (by decide +kernel) ?hop ?hres" % self.op_lit(op)]
         v = self.fall[chain][i]
         rad = self.emit_radius(chain, i, op, v)
         self.forced_imports[(chain, j)] = [rad]
@@ -769,7 +769,7 @@ class LockEmitter(CE.Emitter):
         self.forced_imports[(chain, j)] = [self.prod_done[k]]
         return head + ["  refine ComposeCkpt.segOk_one_of (s := %s)" % spec,
                        "    (m := %s)" % meta,
-                       "    (op := %s) rfl rfl rfl (by decide +kernel) ?hop ?hres" % self.op_lit(op),
+                       "    (op := %s) (st' := ?st) rfl rfl rfl (by decide +kernel) ?hop ?hres" % self.op_lit(op),
                        "  case hop =>",
                        "    rw [shadowStep_of_live 2 base.emb base.wit %s %s %s (by decide +kernel)," % (W, cfg, pe),
                        "      composeStep_mul_eq,",
