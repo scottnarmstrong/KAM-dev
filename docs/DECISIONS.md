@@ -406,3 +406,18 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
 - **D50 (2026-10-31, 13:50 UTC) Seal SO-2.** *(Scott: "I approve sealing SO-2".)* The frozen band statements
   (D49) are sealed by providers through the landed `lunar_barriers_65_v2` / `lunar_spin_confinement_65_v2`, after
   the Q11 rebuild of SO-FREEZE3, with a codex-1 seal audit (report docs/tracks/SO/audits/SO-FREEZE3-seal-audit.md).
+- **D51 (2026-10-31, 14:15 UTC) Certificate applications are opt-in builds.** *(Scott: "Yes", to the
+  orchestrator's proposal.)* Numerical certificates of physical systems (SO-2 band data, SO-3 lock data, LG00, and
+  future applications) can take many CPU-hours and GB, so a plain `lake build` must not compile them.
+  - The default library `KAM` builds only the import closure of its root (`roots := #[`KAM]`, no
+    `.andSubmodules` glob). `scripts/gen_root_imports.py` keeps importing every core module (so every core theorem
+    is still built by default) and excludes the certificate subtrees.
+  - Each application gets its own non-default `lean_lib` with its own root file (`KAMLunarBand`, `KAMLunarLock`,
+    and `KAMLG00` when LG00 lands), built deliberately through the serial capped driver. Module names and paths do
+    not change, so existing builds are reused (verified with `lake build --no-build` before switching).
+  - Frozen anchors sealed through heavy data (the band's `lunar_barriers` / `lunar_spin_confinement`, later the
+    lock headline) are imported by their application's root, not by `KAM.lean`. Frozen definitions stay in core.
+    The guard and manifest are unaffected; ABI and axiom checks for those anchors run with the opt-in build.
+  - Future applications start as separate Lake packages (`applications/<name>/`, requiring the core); the
+    existing ones keep their module names to avoid recompiling.
+  - This amends the earlier rule that a plain `lake build` covers every theorem: it now covers every core theorem.
