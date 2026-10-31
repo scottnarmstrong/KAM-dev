@@ -202,6 +202,10 @@ class LockEmitter(CE.Emitter):
         if op[0] not in ("exp", "inv", "sqrt"):
             if self.slots is not None and i not in self.slots:
                 return None
+            if op[0] == "mul":
+                body = self.forced_mul(chain, j, s, nm)
+                if body is not None:
+                    return body
             return CE.Emitter.forced_segment(self, chain, j, s, nm)
         if self.slots is not None and i not in self.slots:
             return None
@@ -302,6 +306,151 @@ class LockEmitter(CE.Emitter):
                                "The %s witness radius at slot %d (%s)" % (op[0], i, chain),
                                "Memoized through the lock routes (`SegRoutes`); one kernel run.",
                                [CE.Emitter.fix_long(l) for l in body], heavy=True)
+
+    # ------------------------------------------------------------------ B3 lever (c): products against the ledger
+    def led_route(self, k):
+        """(chain, slot, a, b) when memo k is a program product `[0, slot]` whose slot is in its chain's ledger (its
+        output then needs no decoded literal), else None."""
+        m = self.led["memos"][k]
+        fk = tuple(m["fullKey"])
+        if fk[0] != 0 or not m["ctx"].startswith("cfg") or os.environ.get("LOCK_LEDROUTE", "1") == "0":
+            return None
+        chain = m["ctx"].split("/")[0]
+        slot = int(m["ctx"].split("slot")[1])
+        if slot not in self.led["chains"][chain]["ledger"]:
+            return None
+        op = self.led_ops[slot]
+        return chain, slot, op[1], op[2]
+
+    def emit_products(self, operand_of):
+        self.prod_done = {}
+        self.prod_led = {}
+        memo_only = {k: v for k, v in operand_of.items() if self.led_route(k) is None}
+        items = []
+        for k in sorted(memo_only):
+            m = self.led["memos"][k]
+            terms = list(m["out"][0]) if m["out"] else []
+            items.append(("%sT" % self.memo_name(k), CE.terms_defs(self.memo_name(k) + "T", terms, named=True)[0]))
+        self.memo_data = self.tree.data("Memo", "Decoded packed products of the lock",
+                                        "The decoded output of the products not checked against the ledger.",
+                                        items, self.base) if items else []
+        for k in sorted(operand_of):
+            if k in memo_only:
+                self.emit_product(k, self.led["memos"][k], *operand_of[k])
+            else:
+                self.emit_product_led(k, self.led["memos"][k], *operand_of[k])
+
+    def emit_product_led(self, k, m, cfg, key, a, b, imps):
+        """per nonempty real part its shards (as `emit_product`); then `mulN … = (C.slotPair W slot).1`, the decodes
+        by `getD`, the result compared with the ledger model in the kernel: no decoded literal."""
+        P = CE.P
+        chain, slot, sa, sb = self.led_route(k)
+        C, W = self.ck(chain), self.W
+        nm = self.memo_name(k)
+        advname, Pm = self.advRef(m["cfg"], m["fullKey"])
+        assert Pm == P
+        parts = {p["part"]: p for p in m["parts"]}
+        ne = [p for p in CE.PART_ORDER if not parts[p]["empty"]]
+        imps = self.base + imps
+        ma = "(%s.toMants %s.toMant %d)" % (a, cfg, P)
+        mb = "(%s.toMants %s.toMant %d)" % (b, cfg, P)
+        xy = dict(rr=(".1", ".1"), ii=(".2", ".2"), ri=(".1", ".2"), ir=(".2", ".1"))
+        fpart = dict(rr="(fun v => ⟨v, ofInt 0⟩)", ii="(fun v => ⟨v, ofInt 0⟩)", ri="(fun v => ⟨ofInt 0, v⟩)",
+                     ir="(fun v => ⟨ofInt 0, v⟩)")
+        shmods, body = [], []
+        hparts, tparts, tt, pp, rems = {}, {}, {}, {}, {}
+        for p in CE.PART_ORDER:
+            advp = "%s.%s" % (advname, p)
+            X = "((%s.getD ([], []))%s)" % (ma, xy[p][0])
+            Y = "((%s.getD ([], []))%s)" % (mb, xy[p][1])
+            if p in ne:
+                ea = "(%s.la.slotTerms %s)" % (advp, X)
+                eb = "(%s.lb.slotTerms %s)" % (advp, Y)
+                sh = ["theorem %s_%s_shards :" % (nm, p)] + wrap(
+                    ("%s.shardRange.all (checkShardAt %s %s %s) = true := by" % (advp, advp, ea, eb)).split(" "),
+                    "    ") + ["  decide +kernel"]
+                shmods.append(self.tree.write("Prod/M%d%sSh" % (k, p.upper()), imps,
+                                              "Packed product %d, part %s: shards" % (k, p),
+                                              "The shard group of one packed real product (L1c (a)).", sh, heavy=True))
+                body += ["theorem %s_%s_sp :" % (nm, p)] + wrap(
+                    ("checkPackedSp %s %s %s = true :=" % (advp, ea, eb)).split(" "), "    ")
+                body += ["  checkPackedSp_of_groups %s %s %s [%s.shardRange] (by decide +kernel)" % (advp, ea, eb, advp),
+                         "    (fun s hs => ⟨%s.shardRange, List.mem_singleton_self _, hs⟩)" % advp,
+                         "    (fun g hg => by rw [List.mem_singleton.1 hg]; exact %s_%s_shards)" % (nm, p), ""]
+                hparts[p] = ("(packedRealProduct_eq_of_sparse %s %s (2 * %d) %s %s (by decide +kernel) "
+                             "(by decide +kernel) (by decide +kernel) (by decide +kernel) %s_%s_sp)"
+                             % (advp, W, P, X, Y, nm, p))
+                rems[p] = "%s.remainderBound %s (2 * %d)" % (advp, W, P)
+                pp[p] = "(%s.targetTerms, %s)" % (advp, rems[p])
+                pair = "(%s.targetTerms, %s.remainderBound %s (2 * %d)).1" % (advp, advp, W, P)
+                src = "(%s)" % pair if p != "ii" else "((%s).map fun t => (t.1, -t.2))" % pair
+                tt[p] = "((dyadicTerms (2 * %d) %s.scale %s %s).getD [])" % (P, advp, fpart[p], src)
+                tparts[p] = "(eq_some_getD_cseg [] (by decide +kernel))"
+            else:
+                xe = parts[p]["x"] == 0
+                hparts[p] = ("(packedRealProduct_eq_nil_left %s %s (2 * %d) %s (by decide +kernel))" % (advp, W, P, Y)
+                             if xe else
+                             "(packedRealProduct_eq_nil_right %s %s (2 * %d) %s (by decide +kernel))" % (advp, W, P, X))
+                rems[p] = "0"
+                pp[p] = "(([] : List (CertKey × ℤ)), (0 : ℚ))"
+                tt[p] = "([] : List (CertKey × CC %s))" % TY
+                tparts[p] = "(dyadicTerms_nil_cseg _ _ _)"
+        tl = " ++ ".join(tt[p] for p in CE.PART_ORDER)
+        rl = " + ".join(rems[p] for p in CE.PART_ORDER)
+        out = "((⟨%s⟩ : CertPoly %s), (ofRatUp (%s) : %s))" % (tl, TY, rl, TY)
+        sA, sB = "(%s.slotPair %s %d)" % (C, W, sa), "(%s.slotPair %s %d)" % (C, W, sb)
+        stmt = ("CertModel.mulN %s %s %s %s.1 %s.2 %s.1 %s.2 = (%s.slotPair %s %d).1"
+                % (W, cfg, key, sA, sA, sB, sB, C, W, slot))
+        body += ["/-- The packed product %d (%s, key %s), checked against the ledger model of slot %d. -/"
+                 % (k, m["cfg"], list(m["fullKey"]), slot)]
+        body += ["theorem %s :" % nm] + wrap(stmt.split(" "), "    ")
+        body[-1] += " := by"
+        hp = (["(polyProduct_eq_of_mulPacked", W, cfg, key, a, b, str(P)] +
+              ["%s.%s" % (advname, p) for p in CE.PART_ORDER] + [out, "(by decide +kernel)", "(by decide +kernel)",
+                                                                "rfl"])
+        hp += (["(CertPoly.mulPacked_eq_of_parts", "%s.toMant" % cfg, W, str(P)] +
+               ["%s.%s" % (advname, p) for p in CE.PART_ORDER] + [a, b,
+               "(ma := (%s.getD ([], [])))" % ma, "(mb := (%s.getD ([], [])))" % mb] +
+               ["(p%s := %s)" % (p.upper(), pp[p]) for p in CE.PART_ORDER] +
+               ["(t%s := %s)" % (p.upper(), tt[p]) for p in CE.PART_ORDER] +
+               ["(eq_some_getD_cseg ([], []) (by decide +kernel))",
+                "(eq_some_getD_cseg ([], []) (by decide +kernel))"] +
+               [hparts[p] for p in CE.PART_ORDER] + [tparts[p] for p in CE.PART_ORDER])
+        hp[-1] += "))"
+        body += wrap(["rw", "[CertModel.mulN_eq_of_polyProduct", W, cfg, key, "_", "_", "_", "_"] + hp + ["]"], "  ")
+        body += ["  exact (List.cons.inj (eq_of_rowBeqCseg (l := [_]) (l' := [_]) (by decide +kernel))).1"]
+        mod = self.tree.write("Prod/M%d" % k, imps + shmods, "Packed product %d" % k,
+                              "The product against its ledger model (B3 lever (c); no decoded literal).",
+                              [CE.Emitter.fix_long(l) for l in body], heavy=True)
+        self.prod_done[k] = mod
+        self.prod_led[k] = nm
+
+    def forced_mul(self, chain, j, s, nm):
+        """the forced `.mul` segment, rewriting with the ledger-checked product (lever (c))."""
+        i = s["start"]
+        op = self.led_ops[i]
+        k = self.memo_index(chain, (0, i))
+        if k not in self.prod_led:
+            return None
+        C, W, cfg, pe = self.ck(chain), self.W, self.cfgOf(chain), self.pe
+        spec = "(%sSegs.getD %d ⟨0, 0, [], [], []⟩)" % (C, j)
+        meta = "(%sMetas.getD %d ⟨0, 0, 0, []⟩)" % (C, j)
+        head = ["theorem %s :" % nm] + wrap(self.seg_stmt(chain, j).split(" "), "    ")
+        head[-1] += " := by"
+        self.forced_imports[(chain, j)] = [self.prod_done[k]]
+        return head + ["  refine ComposeCkpt.segOk_one_of (s := %s)" % spec,
+                       "    (m := %s)" % meta,
+                       "    (op := %s) rfl rfl rfl (by decide +kernel) ?hop ?hres" % self.op_lit(op),
+                       "  case hop =>",
+                       "    rw [shadowStep_of_live 2 base.emb base.wit %s %s %s (by decide +kernel)," % (W, cfg, pe),
+                       "      composeStep_mul_eq,",
+                       "      seed_slot_of_mem %s %s %s (a := %d) (by decide +kernel) (by decide +kernel)," % (
+                           W, meta, C, op[1]),
+                       "      seed_slot_of_mem %s %s %s (a := %d) (by decide +kernel) (by decide +kernel)," % (
+                           W, meta, C, op[2]),
+                       "      %s]" % self.prod_led[k],
+                       "  case hres =>",
+                       "    decide +kernel"]
 
     # ------------------------------------------------------------------ the parts emitted here
     def emit_charE(self):
