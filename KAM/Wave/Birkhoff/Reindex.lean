@@ -66,11 +66,35 @@ theorem birk_summable_pi {n : ℕ} {f : (Fin n → BirkIdx) → ℝ} (hf : 0 ≤
   exact (birkPiEquiv n).summable_iff.1 this
 
 /-- `Σ_{s ∈ {±}ⁿ} ∏_t h_t(s_t) = ∏_t (h_t(+) + h_t(-))`. -/
-theorem birk_sign_sum_prod {n : ℕ} (h : Fin n → Bool → ℝ) :
+theorem birk_sign_sum_prod {R : Type*} [CommSemiring R] {n : ℕ} (h : Fin n → Bool → R) :
     ∑ s : Fin n → Bool, ∏ t, h t (s t) = ∏ t, (h t true + h t false) := by
   have := Finset.prod_univ_sum (fun t : Fin n => (Finset.univ : Finset Bool)) h
   rw [Fintype.piFinset_univ] at this
   simpa [Fintype.sum_bool] using this.symm
+
+/-- Folding the signs: for a weight `G` depending only on `(|x_t|)_t`,
+`Σ_{x ∈ (ℤ∖0)ⁿ} G(|x|) ∏_t W_t(x_t) = Σ_{m ∈ (ℕ+)ⁿ} G(m) ∏_t (W_t(+m_t) + W_t(-m_t))`. -/
+theorem birk_pi_fold {n : ℕ} (G : (Fin n → ℕ+) → ℂ) (W : Fin n → BirkIdx → ℂ)
+    (hsum : Summable fun x : Fin n → BirkIdx => G (birkAbs x) * ∏ t, W t (x t)) :
+    ∑' x : Fin n → BirkIdx, G (birkAbs x) * ∏ t, W t (x t) =
+      ∑' mm : Fin n → ℕ+, G mm * ∏ t, (W t (true, mm t) + W t (false, mm t)) := by
+  rw [birk_tsum_pi hsum]
+  have hs' := (birkPiEquiv n).summable_iff
+    (f := fun x : Fin n → BirkIdx => G (birkAbs x) * ∏ t, W t (x t)) |>.2 hsum
+  have hs : ∀ s ∈ (Finset.univ : Finset (Fin n → Bool)), Summable fun mm : Fin n → ℕ+ =>
+      G mm * ∏ t, W t (s t, mm t) := fun s _ => (hs'.prod_factor s :)
+  have e1 : ∑ s : Fin n → Bool, ∑' mm : Fin n → ℕ+, G mm * ∏ t, W t (s t, mm t) =
+      ∑' mm : Fin n → ℕ+, ∑ s : Fin n → Bool, G mm * ∏ t, W t (s t, mm t) :=
+    (Summable.tsum_finsetSum hs).symm
+  have e0 : ∀ s : Fin n → Bool, ∀ mm : Fin n → ℕ+,
+      G (birkAbs (fun t => (s t, mm t))) * ∏ t, W t ((fun t => (s t, mm t)) t) =
+        G mm * ∏ t, W t (s t, mm t) := fun s mm => rfl
+  simp only [e0]
+  rw [e1]
+  refine tsum_congr fun mm => ?_
+  rw [← Finset.mul_sum]
+  congr 1
+  exact birk_sign_sum_prod (fun t b => W t (b, mm t))
 
 /-- `Fin 3 → ℕ+ ≃ ℕ+ × ℕ+ × ℕ+`. -/
 def birkTriEquiv : (Fin 3 → ℕ+) ≃ ℕ+ × ℕ+ × ℕ+ where
