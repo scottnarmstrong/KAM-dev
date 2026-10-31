@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-31 18:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 26 %** · frozen statements proved: 26 / 31 · **370,682 lines of hand-written Lean** of an estimated ≈ 429,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-10-31 18:21 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 26 %** · frozen statements proved: 26 / 31 · **370,682 lines of hand-written Lean** of an estimated ≈ 429,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -281,18 +281,18 @@ Overall, everything together: 81.0 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **370,682** (287,160 excluding blank lines and comments) · **+45,327** since 2026-10-30 17:46 UTC |
+| On `main` now (hand-written) | **370,682** (287,160 excluding blank lines and comments) · **+45,081** since 2026-10-30 18:17 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 632,896 lines in 1,649 modules |
-| Written on agent branches, not yet landed (hand-written) | 5,947 |
+| Written on agent branches, not yet landed (hand-written) | 8,941 |
 | Generated certificate data on agent branches (numeric literals; not counted in the other rows) | 4,563 |
 | **Estimated total at completion** (hand-written) | **≈ 429,000** |
-| Estimated still to write | ≈ 52,000 (37,000–67,000 over the range of track W's plan) |
+| Estimated still to write | ≈ 49,000 (34,000–64,000 over the range of track W's plan) |
 
-**How the size is estimated.** Every figure except the two rows of generated data counts hand-written Lean only: the generated certificate data under `KAM/SpinOrbit/Data/` (the barrier tori of the Moon, emitted by `scripts/spin_orbit/` and checked by the kernel) are counted apart. The estimate scales the lines written so far for the other tracks (on `main` plus the agent branches: tracks K, I, N, P and R, the sharp a-posteriori theorems and certifiers, the shared infrastructure) by the done share of the Lean work items, weighted by difficulty (track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P: 100 % done); adds track SO from its design (its lines on `main` plus the line estimates of its packages not yet landed, 0 lines; the Lean packages of part 3 are on `main`, and what it still needs is generated data); and adds track W from its planning range of 60,000–90,000 lines (graph-scaled (2026-10-31): track W's dependency graph has 690 nodes; the finished tracks average 87 lines of Lean per graph node (K 72, I 83, N 59, P 109), so 690 × 87 ≈ 60k; the high end uses track P's 109 per node plus 20 % for infinite-dimensional infrastructure (sequence spaces, parameter-Lipschitz estimates), ≈ 90k; replaces the low-confidence 34k–70k of docs/TRACKS.md; midpoint used), of which 22,804 are written. The side project LG00 is not counted: its certificate never enters this library. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv) (`lean_lines` counts every module, `generated_lines` the generated data among them).
+**How the size is estimated.** Every figure except the two rows of generated data counts hand-written Lean only: the generated certificate data under `KAM/SpinOrbit/Data/` (the barrier tori of the Moon, emitted by `scripts/spin_orbit/` and checked by the kernel) are counted apart. The estimate scales the lines written so far for the other tracks (on `main` plus the agent branches: tracks K, I, N, P and R, the sharp a-posteriori theorems and certifiers, the shared infrastructure) by the done share of the Lean work items, weighted by difficulty (track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P: 100 % done); adds track SO from its design (its lines on `main` plus the line estimates of its packages not yet landed, 0 lines; the Lean packages of part 3 are on `main`, and what it still needs is generated data); and adds track W from its planning range of 60,000–90,000 lines (graph-scaled (2026-10-31): track W's dependency graph has 690 nodes; the finished tracks average 87 lines of Lean per graph node (K 72, I 83, N 59, P 109), so 690 × 87 ≈ 60k; the high end uses track P's 109 per node plus 20 % for infinite-dimensional infrastructure (sequence spaces, parameter-Lipschitz estimates), ≈ 90k; replaces the low-confidence 34k–70k of docs/TRACKS.md; midpoint used), of which 25,798 are written. The side project LG00 is not counted: its certificate never enters this library. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv) (`lean_lines` counts every module, `generated_lines` the generated data among them).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-31 18:00 UTC from `main` at `5106ed5b` by `scripts/hq-status.py`.*
+*Generated 2026-10-31 18:21 UTC from `main` at `dafdc9a4` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) is paused by the owner since 2026-10-31 until both SO tracks are done.
 
@@ -495,10 +495,10 @@ account read from each agent's running process) and their branches. Rules for ag
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (final review rounds), proof campaign; PAUSED by the owner on 2026-10-31 until both SO tracks are done | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
-| **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA lock_cseg: forced segment radius goal one tactic per line; typed witness binder  | `inp-lockdata` | 39 (vs `inp`) |
+| **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA lock_cseg: one shard per kernel theorem (two M1 shards exceed 6 GB) | `inp-lockdata` | 41 (vs `inp`) |
 | **wgraph** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: Track W graph: delta 7 applied; 696 nodes, 2397 edges, all reachable, 0 SOURCE_GAP; 4 node | `inp-wgraph` | 25 (vs `inp`) |
-| **wpj** `inp-mprov-wpj` | prover (offload) | Claude Sonnet 5.5 | claude-11 | 🔄 proving | last commit: W4: NormalOps (ops, schur (ii) in the representative model) | `inp-wpj` | 10 (vs `inp`) |
-| **wpk** `inp-mprov-wpk` | prover (offload) | Claude Sonnet 5.5 | claude-11 | 🔄 proving | last commit: W3-SETTING: Birkhoff/QuartIdent (G(Zx), field identification), Reindex fold | `inp-wpk` | 10 (vs `inp`) |
+| **wpj** `inp-mprov-wpj` | prover (offload) | Claude Sonnet 5.5 | claude-11 | 🔄 proving | last commit: W4: LemmaOneAssembly | `inp-wpj` | 15 (vs `inp`) |
+| **wpk** `inp-mprov-wpk` | prover (offload) | Claude Sonnet 5.5 | claude-11 | 🔄 proving | last commit: W3-SETTING: lint cleanups | `inp-wpk` | 16 (vs `inp`) |
 <!-- /AUTO:workers -->
 
 ### Recent changes on `main`
@@ -506,6 +506,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-31 18:19 | `dafdc9a4` | Log: lock template fixes and shard sizing; W running (D53); codex-1 contention |
 | 2026-10-31 17:25 | `0189f0f2` | Land inp into main |
 | 2026-10-31 17:16 | `253020ea` | D53: track W resumes at reduced size beside SO-3 (owner) |
 | 2026-10-31 16:48 | `89deeab9` | Log: lock segment split to 6 GB (owner go-ahead), M0 elaboration fix, kseg5 |
@@ -517,7 +518,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-10-31 14:22 | `19e8e0e1` | Log: SO-2 complete; owner rulings D47-D51; lock next; audit quota on codex-1 |
 | 2026-10-31 14:18 | `7d85e8bc` | HQ: SO-2 sealed in the current-phase text |
 | 2026-10-31 14:15 | `1aaddfe1` | HQ: SO-2 frozen and sealed (D49, D50; ceeb106c): stage texts and Main-theorems item 12 |
-| 2026-10-31 14:13 | `45a76023` | HQ: track W size estimate from its dependency graph (690 nodes x 87-109 lines/node, +20 % infinite-dim): 60k-90k (was 34k-70k) |
 <!-- /AUTO:landed -->
 
 ## Decisions
