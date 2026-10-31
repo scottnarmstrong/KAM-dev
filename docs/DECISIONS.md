@@ -440,3 +440,17 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   codex-1 and do not complain about quota".)* This amends D53: W audits no longer wait for codex-3. The queued W
   audits (graph delta 8 and global review, W3-SETTING with W3-DIVISOR-F, W4-HOMOLOGICAL after its p₊ refactor) and the
   lock audits (LOCK-DATA, then the seal) all run on codex-1. Quota is not raised as an owner item.
+- **D55 (2026-10-31, 23:44 UTC) The lock data plan: shared literals plus a 10 GB budget for heavy modules (option
+  (c)+(b10)); lock source up to about 200 MB.** *(Scott: he chose "(c)+(b10) (Recommended)" and "Yes, up to ~200 MB"
+  from the orchestrator's costed options; .drafts/LOCK-OPTIONS.md on inp-lockdata.)*
+  - **Why:** the current 6 GiB split design needs 10,242 modules, 70–95 h and about 69 GB of build output.
+  - **The plan:**
+    - each heavy product's shared inputs are computed once as kernel-checked literals that its split modules
+      import;
+    - the heaviest modules may use up to 10 GB on the dedicated kernel lane, which waives the 8 GB-per-theorem rule
+      for these lock data modules only;
+    - a heavy lock module starts only when MemAvailable ≥ 12 GB, and track W's capped builds wait meanwhile.
+  - **Estimate:** about 2–2.5k modules, 28–38 h on one lane, about 150–165 MB of source, about 14–17 GB of build.
+  - **Size cap:** this lifts D52's figure for the lock data to about 200 MB (every file far below GitHub's 100 MB
+    per-file limit).
+  - **Unchanged:** the frozen `lunar_sync_lock`, N = 65, and the certificate.

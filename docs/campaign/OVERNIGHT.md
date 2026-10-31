@@ -2460,3 +2460,125 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   LOCK-DATA's .drafts/LOCK-OPTIONS.md: 8 vs 10 GB heavy budget, shared-literal restructuring, a smaller
   certificate (support/cut coarsening within the 1.74-decade margin; any N or amplitude change is logged with
   numbers but not switched without the owner), and combinations. Headline statement and literals unchanged.
+- **20:56. W3-SETTING with W3-DIVISOR-F landed (main 8d1de23c, inp 130b6894).** Core build 10,957 jobs; guard and ABI 177 OK; both applications up to date with 0 built. kam-1b records the W graph nodes.
+- **20:59. MILESTONE: the track W source dependency graph passes global review round 2 (codex-1) and is published.**
+  - G1–G3 resolved; root correspondence and model accepted; no new findings.
+  - 695 nodes (all REVIEWED and reachable from nlw2), 2,545 edges, 13 anchors, 0 SOURCE_GAP. The full gate exits 0.
+  - The W and K header manifest pins are being refreshed after a later freeze, with the per-anchor check. Then
+    inp-wgraph (docs only) goes to kam-inp-63.
+  - Next: the LEAN_STATUS commit for the landed W packages. The W4 audit waits on 3 short-name renames.
+- **21:08. MILESTONE: the track W graph is on main (c89e1f98, inp 052cf94c).**
+  - It includes the K amendments K-A045..A048 and both manifest re-pins. The publication gate passes for W and K on
+    the merged tree.
+  - The HQ track W meter rose from 26 % to 37 %. The W texts in campaign.json are updated (D53 resumed, graph
+    published, 11 packages on main; 102d5d68).
+  - Next: the LEAN_STATUS commit, then the W4 and W3-FLOW audits. Provers: W5-STEP and W3 group 4.
+- **21:14. Track W LEAN_STATUS commit sent to kam-inp-63 (docs only).** 213 nodes PROVED (12 of them sealed definition anchors), 14 PARTIAL with precise notes, 420 NOT_STARTED, and 48 assumed/external. PROVED only where an audit accepts the node's full source conclusion. Linter exit 0.
+- **21:18. Heartbeat.**
+  - LOCK-DATA tpass7: 120 of 172 pass, no OOM since 20:50.
+  - W: the W4 short-name clashes are renamed (plus 6 more the checker found). All W4 and KamStep modules are rebuilt
+    under w_build.sh, lint passes, and the short-name check passes, so the W4 audit can launch.
+  - The W5-STEP prover went idle at 21:18 before continuing; kam-1b's idle watcher re-arms it.
+  - W3 group 4 is running.
+  - Memory: 18 GB available. Root disk: 11 GB free. Load about 6.
+- **21:47. W4-HOMOLOGICAL audit 1 (codex-1, 7de5b4e0): FAIL on two interface findings.** All bounded and
+  source-domain results PASS; the model is faithful.
+  - F1: the raw weak pairing and bracket accept divergent inputs (the totalized tsum returns 0). Fix: carriers with
+    summability evidence.
+  - F2 (rule 6): the Lemma 1 headline exports take the intermediate divisor gates as hypotheses. Fix: the source
+    names take only source premises, proved via the existing producers, and the gate-taking versions are renamed
+    as conditional helpers. LEAN_STATUS must not mark those nodes PROVED on gate-taking versions.
+  - Round 2 after the fix commit. The W5 prover restarted fresh (its context was full).
+- **21:48. Heartbeat.**
+  - The track W LEAN_STATUS commit landed (main b5859852), and the HQ W meter is 56 %. The W4 Lemma 1 nodes were not
+    marked, since W4 has not landed.
+  - LOCK-DATA tpass7: 161 of 172 pass. The exp side checks (M203Aux*) take 1.5–3 min each at 1.8–3.8 GB; about
+    25 min remain. No OOM since 21:20.
+  - The W3 prover went idle at 21:46 after its group 4 summary; kam-1b's watcher re-arms it.
+  - Root disk: 10 GB free.
+- **21:53. Track W.**
+  - The W4 F2 fix follows rule 6: the source-facing Lemma 1 names take only source premises, and the gate-taking
+    versions become `*_of_gates` helpers that nothing cites. The landed LEAN_STATUS has no W4 entries.
+  - The W3-FLOW audit is running on codex-1 (inp-w3flow = inp plus 25 Lie* modules).
+  - W3-MAIN (group 4): all main results proved, with 3 small items being closed by a fresh prover.
+- **21:59. W3-FLOW audit 1 (codex-1): FAIL on three completeness gaps; no false theorem.** The flow, its reality, the
+  diagonal Leibniz recurrence and the bounds pass.
+  - F1: the full multilinear identification of the coefficients with the source slot recursion (only the diagonal
+    is done).
+  - F2: all-input reality.
+  - F3: joint C¹ of (t, w) ↦ Γ_t(w).
+  - The W3 prover fixes these first, then W3-MAIN's 3 items. The W4 round-2 fixes are with the W5 prover.
+- **22:08. LOCK-DATA tpass7: 171 of 172 pass.** The exp chain passes through Rad.ExpF888 (6.22 GB, 5 min 41 s, close to
+  the cap). The last module, Full.S88, hits recursion depth: `rfl` arguments make the elaborator unfold list lookups
+  to op index 870. Fix: `decide +kernel` in the Full template, no option raised, then S88 alone.
+- **22:14. MILESTONE: the LOCK-DATA template pass is complete.**
+  - Every forced template is kernel-checked, serial at 6 GB, with no OOM: S88 4.66, S2 2.66, S3 3.48 GB, after a
+    decide-based segment lookup in the new lock-owned SegDecide.lean.
+  - Margin splits come before the final chain: Rad.ExpF888 at 5.79 GiB, the Aux7 prefix at 5.77 GiB, SqrtF17Res at
+    5.53 GiB.
+  - Then the BUILD-OPTIN merge of inp, AssemblyN65 under KAMLunarLock, and the full emission and chain.
+- **22:21. Heartbeat.**
+  - LOCK-DATA: the margin splits are running (tpass9). W provers active (W4 round-2 fixes, W3-FLOW fixes).
+  - Root disk fell to 9.5 GB free, from live KPZ/Phi4project sessions, not KAM. Moved the unused Codex daemon
+    release 0.165.0 (5 homes, 2.1 GB) to the archive volume. / is now at 12 GB free.
+- **22:27. Track W: W3 (analytic Birkhoff normal form) is fully proved in Lean on inp-wpk.**
+  - Groups 1–2 are on main.
+  - Group 3 (flow): F1–F3 fixed (840a38c7); the landing branch inp-w3flow (550bc869) waits for its round-2 audit.
+  - Group 4 (W3-MAIN) is complete at 5791205c and queued for audit.
+  - The W4 round-2 audit is running on codex-1 (fixes 7155ce2c).
+  - Provers: W5-STEP, and the new W7-MEASURE (worktree on the HC volume). The codex-1 queue: W4 r2, W3-FLOW r2,
+    W3-MAIN.
+- **22:44. LOCK-DATA.**
+  - tpass9 re-checks the whole forced chain after the margin splits: 242 of 264 pass, no OOM since 21:45.
+  - Margin splits: the exp residuals are one module each, and the Aux7 prefix is 8 conjunct modules plus an assembly.
+    SqrtF17Res is kept as is at 5.53 GiB, under the 6 GiB cap.
+  - inp merged (c5f8c9ca, with BUILD-OPTIN). Next: AssemblyN65, the full emission, then the ordinary-segment chain.
+  - W4-HOMOLOGICAL is on main (inp 710c4ce0; 46 Homological modules; audit 2 PASS WITH NOTES).
+  - Owner asked for an assessment of Zohar's AMD/no-orbit-crossing statement. Recommended a design note and a
+    literature check before drafting a Lean statement.
+- **22:48. Owner: two GPT-6-Astra xhigh sessions on codex-1 for Zohar's AMD/no-orbit-crossing statement.** amd-astra1 (independent brainstorm from Zohar's message only) is running in /mnt/HC_Volume_106379410/kam-explore/amd-crossing. amd-astra2 (design-note research) follows with a prompt informed by #1. The result goes to docs/explorations as campaign-ready notes.
+- **22:49. Finding: our project already proves a planar global-Nekhoroshev version of Zohar's statement.**
+  - planetaryExponentialSafety (track P, sealed): the AMD box, low-AMD region, and exponentially long Newtonian
+    existence with confinement and pairwise separation.
+  - Zohar's version upgrades it: the sharp Laskar–Petit threshold instead of the crude annulus separation (each
+    planet given all of the AMD); the exponent 1/(2n+1) under non-resonance instead of Nekhoroshev 1977's
+    2/(6n²−3n+14); the spatial problem instead of the planar one; and "no orbit crossing".
+  - This goes into the amd-astra2 prompt.
+- **22:49. Heartbeat.**
+  - LOCK-DATA tpass9: 261 of 264 pass, no OOM since 22:20.
+  - amd-astra1 is brainstorming.
+  - W: the W5-STEP prover went idle at 22:25 after a handoff (kam-1b is handling it). W7-MEASURE is active.
+  - Root disk freed elsewhere: now 20 GB free (87 %). Memory: 17 GB available.
+- **22:53. Track W.**
+  - W4-HOMOLOGICAL is on main (4e03e651).
+  - W3-FLOW round 2: PASS WITH NOTES (F1–F3 closed). It goes to kam-inp-63 as inp-w3flow@ee1e80f1: 32 Birkhoff
+    modules plus a one-file W4 hygiene fix. That fix removes the duplicate homL1_neg in WaveReindex and imports
+    Divisors instead of Melnikov; checked.
+  - Next on codex-1: the W3-MAIN audit.
+- **23:11. AMD exploration.**
+  - amd-astra1 is done (BRAINSTORM-1.md, independent). It agrees, and adds: the LP17 §3 conjecture as prior art; the
+    exponent 1/(2(τ+1)), with τ = n − 1/2 giving 1/(2n+1); the strong (star) threshold; the moving-threshold
+    first-exit argument; and Candidate A/B.
+  - amd-astra2 is launched with BRIEF-2.md: literature, gap analysis against tracks N/P, proof plan, statements,
+    campaign plan. Owner addendum: PRACTICAL.md on explicit constants and real systems. Both theorems are asymptotic,
+    and the inner Solar System is AMD-unstable (LP17).
+- **23:16. Owner: an Astra at max effort to PROVE the asymptotic Laskar–Petit conjecture with the sharp threshold.** amd-astra3 (GPT-6-Astra max, codex-1, BRIEF-3.md) is to write a complete planar-then-spatial proof for Lean formalization (PROOF/MAIN.md, LEAN-ROADMAP.md, OPEN.md), reusing tracks N/P where possible. It runs alongside amd-astra2's research.
+- **23:19. Heartbeat.**
+  - LOCK-DATA tpass9: all 264 of 264 forced modules pass (no OOM). The worker had been idle since 22:54 and is now
+    told to proceed: AssemblyN65, the full emission, the full chain.
+  - W3-FLOW is on main (106a1521). The W3-MAIN audit is running on codex-1.
+  - The W5-STEP prover had been idle since 22:25 (kam-1b's watcher missed it); kam-1b is told to restart it.
+  - amd-astra2 (research) and amd-astra3 (proof, max) are running; amd-astra1 is closed.
+  - Root disk: 20 GB free. Memory: 16 GB available.
+- **23:20. W5-STEP prover restarted** (fresh context, claude-11): the remaining steps run in the recorded order, ending with bpW:w5:step. Watcher bug fixed: an idle flag suppressed repeat reports; idle provers are now reported on every check.
+- **23:21. FOR OWNER: the LOCK-DATA full chain in its current split form is about 50k modules and about 330 h serial.**
+  The worker is holding it.
+  - Cause: about 600 heavy products, each about 70 split modules under the 6 GiB cap, each module re-elaborating
+    shared inputs. B3's 21 CPU-h assumed unsplit modules at 8+ GB.
+  - Also infeasible as stated: about 340 GB of build output (6.75 MB per module measured; HC has 87 GB free) and
+    about 1.9 GB of source (D52 approved about 158 MB).
+  - Options being costed in .drafts/LOCK-OPTIONS.md: an 8 GB or 10 GB heavy budget, shared-literal restructuring, a
+    smaller certificate (N and cut are not in the frozen statement; the margin is 1.74 decades), and combinations.
+  - The previous SO-3 estimate (11–20 h for the chain) is withdrawn.
+- **23:44. Owner: D55, the lock plan is (c)+(b10) with the source up to about 200 MB.** LOCK-DATA proceeds with the
+  shared-literal restructuring and the 10 GB heavy lane, gated at MemAvailable ≥ 12 GB.

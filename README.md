@@ -604,6 +604,8 @@ Full text: [`docs/DECISIONS.md`](docs/DECISIONS.md).
   the lock keeping priority. *(Scott, 2026-10-31)*
 - **D54** Audits continue on codex-1 for every track (amends D53: W audits no longer wait for codex-3).
   *(Scott, 2026-10-31)*
+- **D55** The lock data use shared literal inputs and up to 10 GB per heavy module; the lock source may reach about 200 MB.
+  *(Scott, 2026-10-31)*
 
 ## Owner questions
 
