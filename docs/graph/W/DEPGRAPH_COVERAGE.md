@@ -4772,7 +4772,7 @@ DISPOSITION: NODE stepW:w4:schurrep
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w4
+REVIEWER: sol-delta7-W-w4
 
 ITEM: stepW:w4:schurdiag
 KIND: proof-region
@@ -5033,7 +5033,7 @@ DISPOSITION: NODE bpW:w4:from-w3
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w4
+REVIEWER: sol-delta7-W-w4
 
 ITEM: bpW:w4:to-w5
 KIND: claim
@@ -5391,9 +5391,9 @@ KIND: external
 SOURCE: blueprint-W/parts/w4-homological.tex#bpW:w4:ext-riesz@L53-L62
 DISPOSITION: NODE bpW:w4:ext-riesz
 REASON: mechanical inventory of a labelled unit (new external of the gap repair)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w4
 
 ITEM: bpW:w5:ext-taylor
 KIND: external
@@ -5699,7 +5699,7 @@ DISPOSITION: NODE stepW:w5:s-out
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: stepW:w5:s-class
 KIND: proof-region
@@ -5717,7 +5717,7 @@ DISPOSITION: NODE bpW:w5:flow
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: stepW:w5:f-margin
 KIND: proof-region
@@ -5735,7 +5735,7 @@ DISPOSITION: NODE stepW:w5:f-flow
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: stepW:w5:f-par
 KIND: proof-region
@@ -5744,7 +5744,7 @@ DISPOSITION: NODE stepW:w5:f-par
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: stepW:w5:f-der
 KIND: proof-region
@@ -5753,7 +5753,7 @@ DISPOSITION: NODE stepW:w5:f-der
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: stepW:w5:f-image
 KIND: proof-region
@@ -5762,7 +5762,7 @@ DISPOSITION: NODE stepW:w5:f-image
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: stepW:w5:f-real
 KIND: proof-region
@@ -5771,7 +5771,7 @@ DISPOSITION: NODE stepW:w5:f-real
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: bpW:w5:flow-calc
 KIND: lemma
@@ -5807,7 +5807,7 @@ DISPOSITION: NODE stepW:w5:c-skew
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: stepW:w5:c-symp
 KIND: proof-region
@@ -6066,27 +6066,27 @@ KIND: external
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:ext-symm@L57-L61
 DISPOSITION: NODE bpW:w5:ext-symm
 REASON: mechanical inventory of a labelled unit (new external of the gap repair)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: bpW:w5:ext-sqrt
 KIND: external
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:ext-sqrt@L62-L66
 DISPOSITION: NODE bpW:w5:ext-sqrt
 REASON: mechanical inventory of a labelled unit (new external of the gap repair)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: bpW:w5:ext-triangle
 KIND: external
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:ext-triangle@L67-L70
 DISPOSITION: NODE bpW:w5:ext-triangle
 REASON: mechanical inventory of a labelled unit (new external of the gap repair)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: bpW:w5:new-ham
 KIND: lemma
@@ -6104,7 +6104,7 @@ DISPOSITION: NODE stepW:w5:n-exp
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5b
+REVIEWER: sol-delta7-W-w5b
 
 ITEM: stepW:w5:n-br
 KIND: proof-region
@@ -6149,7 +6149,7 @@ DISPOSITION: NODE stepW:w5:p-inv
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5b
+REVIEWER: sol-delta7-W-w5b
 
 ITEM: stepW:w5:p-dy
 KIND: proof-region
@@ -6167,7 +6167,7 @@ DISPOSITION: NODE stepW:w5:p-ass
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5b
+REVIEWER: sol-delta7-W-w5b
 
 ITEM: bpW:w5:commutator
 KIND: lemma
@@ -6275,7 +6275,7 @@ DISPOSITION: NODE stepW:w5:a-hol
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5b
+REVIEWER: sol-delta7-W-w5b
 
 ITEM: stepW:w5:a-dom
 KIND: proof-region
@@ -6752,7 +6752,7 @@ DISPOSITION: NODE stepW:w6:p-div
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w6
+REVIEWER: sol-delta7-W-w6
 
 ITEM: stepW:w6:p-step
 KIND: proof-region
@@ -6815,7 +6815,7 @@ DISPOSITION: NODE bpW:w6:freq-lip
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w6
+REVIEWER: sol-delta7-W-w6
 
 ITEM: stepW:w6:fl-size
 KIND: proof-region
@@ -6842,7 +6842,7 @@ DISPOSITION: NODE stepW:w6:fl-borel
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w6
+REVIEWER: sol-delta7-W-w6
 
 ITEM: bpW:w6:exclusion
 KIND: lemma
@@ -6932,7 +6932,7 @@ DISPOSITION: NODE bpW:w6:to-w8
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w6
+REVIEWER: sol-delta7-W-w6
 
 ITEM: heading:bpW:w6
 KIND: heading
@@ -7337,7 +7337,7 @@ DISPOSITION: NODE stepW:w7:liplOmega
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w7a
+REVIEWER: sol-delta7-W-w7a
 
 ITEM: bpW:w7:constdef
 KIND: definition
@@ -8055,9 +8055,9 @@ KIND: corollary
 SOURCE: blueprint-W/parts/w7-measure.tex#bpW:w7:melnikov@L585-L596
 DISPOSITION: EXCLUDED
 REASON: outside every root closure of track W (after the W4-W6 gap repair): its only consumer was Lemma bpW:w6:prep-step(i), which now argues directly from Definition bpW:w7:zones(i) (w6-iteration.tex L233, L250-L252); the remaining citations are in the excluded Remarks bpW:w7:w6-needs (L291) and bpW:w7:interface (L787); W6 cites Lemma bpW:w7:sep and Theorem bpW:w7:measure directly
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w7b
 
 ITEM: bpW:w7:shells
 KIND: definition
@@ -8561,7 +8561,7 @@ DISPOSITION: NODE stepW:w8:sd-prep
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8a
+REVIEWER: sol-delta7-W-w8a
 
 ITEM: bpW:w8:sharp-prep
 KIND: lemma
@@ -9335,7 +9335,7 @@ DISPOSITION: NODE stepW:w8:ni-same
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8b
+REVIEWER: sol-delta7-W-w8b
 
 ITEM: stepW:w8:ni-diff
 KIND: proof-region
@@ -9344,7 +9344,7 @@ DISPOSITION: NODE stepW:w8:ni-diff
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8b
+REVIEWER: sol-delta7-W-w8b
 
 ITEM: bpW:w8:injective
 KIND: proposition
@@ -9497,7 +9497,7 @@ DISPOSITION: NODE stepW:w8:p-lim
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8b
+REVIEWER: sol-delta7-W-w8b
 
 ITEM: stepW:w8:p-emb
 KIND: proof-region

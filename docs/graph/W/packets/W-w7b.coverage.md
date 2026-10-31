@@ -192,9 +192,9 @@ KIND: corollary
 SOURCE: blueprint-W/parts/w7-measure.tex#bpW:w7:melnikov@L585-L596
 DISPOSITION: EXCLUDED
 REASON: outside every root closure of track W (after the W4-W6 gap repair): its only consumer was Lemma bpW:w6:prep-step(i), which now argues directly from Definition bpW:w7:zones(i) (w6-iteration.tex L233, L250-L252); the remaining citations are in the excluded Remarks bpW:w7:w6-needs (L291) and bpW:w7:interface (L787); W6 cites Lemma bpW:w7:sep and Theorem bpW:w7:measure directly
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w7b
 
 ITEM: bpW:w7:shells
 KIND: definition

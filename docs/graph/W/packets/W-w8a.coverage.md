@@ -131,7 +131,7 @@ DISPOSITION: NODE stepW:w8:sd-prep
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8a
+REVIEWER: sol-delta7-W-w8a
 
 ITEM: bpW:w8:sharp-prep
 KIND: lemma

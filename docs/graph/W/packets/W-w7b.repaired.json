@@ -3,18 +3,5 @@
  "added": [],
  "items": [],
  "unresolved": {},
- "passes": [
-  "stepW:w7:prep-minus-group",
-  "stepW:w7:prep-sum",
-  "stepW:w7:it-group",
-  "stepW:w7:it-j0",
-  "stepW:w7:it-sum",
-  "stepW:w7:it-X",
-  "stepW:w7:meas-cont",
-  "stepW:w7:layer",
-  "stepW:w7:upper",
-  "stepW:w7:lower",
-  "bpW:w7:exponents",
-  "bpW:w7:dioph-use"
- ]
+ "passes": []
 }

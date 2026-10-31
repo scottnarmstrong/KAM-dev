@@ -1,24 +1,11 @@
 {
- "replaced": [
-  "stepW:w8:ni-same",
-  "stepW:w8:ni-diff",
-  "stepW:w8:p-lim"
- ],
+ "replaced": [],
  "added": [],
  "items": [],
  "unresolved": {},
  "passes": [
-  "stepW:w8:in-orbit",
-  "stepW:w8:in-birk",
-  "stepW:w8:in-freq",
-  "stepW:w8:in-act",
-  "stepW:w8:in-ang",
-  "bpW:w8:nlw2-proof",
-  "stepW:w8:p-meas",
-  "stepW:w8:p-incl",
-  "stepW:w8:p-nucont",
-  "stepW:w8:p-Kcont",
-  "stepW:w8:p-dioph",
-  "stepW:w8:p-size"
+  "stepW:w8:ni-same",
+  "stepW:w8:ni-diff",
+  "stepW:w8:p-lim"
  ]
 }

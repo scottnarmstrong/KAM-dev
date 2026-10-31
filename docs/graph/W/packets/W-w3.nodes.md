@@ -2670,9 +2670,9 @@ EDGE: bpW:w3:real-restrict | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-rema
 EDGE: bpW:w1:holomorphic | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L776-L777 | the definition of holomorphy to which analyticity is applied
 EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L776-L777 | analytic maps are Frechet differentiable, hence holomorphic in the cited definition
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: new+sol-delta6-W-W-w3
+EXTRACTOR: new+sol-delta7-W-w3
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: Restored because stepW:w6:t-an cites this fact at w6-iteration.tex L374 inside a proof. Source topology only; no Lean proof status inferred.
+NOTE: Restored because stepW:w6:t-an cites this fact at w6-iteration.tex L383 inside a proof. Source topology only; no Lean proof status inferred.

@@ -56,9 +56,9 @@ EDGE: bpW:w5:flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-exp@L492-L492 | 
 EDGE: bpW:w5:flow-calc | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-exp@L492-L492 | (v)
 EDGE: bpW:w5:ext-ftc | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-exp@L492-L492 | calculus along curves
 EDGE: bpW:w5:ext-triangle | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-exp@L495-L495 | the triangular double integral applied to g(tau) = {hat N - R, F}(phi^tau w)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -202,9 +202,9 @@ EDGE: bpW:w5:flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-inv@L527-L527 | 
 EDGE: stepW:w5:f-der | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-inv@L529-L533 | the parameter bound
 EDGE: bpW:w3:ext-neumann | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-inv@L529-L533 | inverse norm bound from the one-half operator perturbation
 EDGE: bpW:w5:data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-inv@L532-L532 | (bpW:w5:small)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -260,9 +260,9 @@ EDGE: stepW:w5:p-inv | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-ass@L537-L537
 EDGE: stepW:w5:p-dy | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-ass@L539-L539 | derivative of Y
 EDGE: bpW:w5:lambda-product | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-ass@L538-L538 | lambda-norm of products
 EDGE: stepW:w5:f-par | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-ass@L540-L543 | the bound on the parameter difference of the flow is used directly
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -598,9 +598,9 @@ ROUTE_FOR: -
 EDGE: bpW:w0:periodone#linearTorus | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-hol@L665-L665 | the displayed recovered q_i,p_i are the frozen linear torus
 EDGE: bpW:w3:coords | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-hol@L665-L665 | the inverse Z coordinate map is used to recover q_i,p_i
 EDGE: bpW:w5:ext-sqrt | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-hol@L663-L663 | principal square root holomorphic on Re > 0
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

@@ -302,7 +302,7 @@ DISPOSITION: NODE stepW:w4:schurrep
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w4
+REVIEWER: sol-delta7-W-w4
 
 ITEM: stepW:w4:schurdiag
 KIND: proof-region
@@ -563,7 +563,7 @@ DISPOSITION: NODE bpW:w4:from-w3
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w4
+REVIEWER: sol-delta7-W-w4
 
 ITEM: bpW:w4:to-w5
 KIND: claim
@@ -921,6 +921,6 @@ KIND: external
 SOURCE: blueprint-W/parts/w4-homological.tex#bpW:w4:ext-riesz@L53-L62
 DISPOSITION: NODE bpW:w4:ext-riesz
 REASON: mechanical inventory of a labelled unit (new external of the gap repair)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w4

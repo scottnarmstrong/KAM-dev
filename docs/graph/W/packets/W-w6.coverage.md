@@ -230,7 +230,7 @@ DISPOSITION: NODE stepW:w6:p-div
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w6
+REVIEWER: sol-delta7-W-w6
 
 ITEM: stepW:w6:p-step
 KIND: proof-region
@@ -293,7 +293,7 @@ DISPOSITION: NODE bpW:w6:freq-lip
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w6
+REVIEWER: sol-delta7-W-w6
 
 ITEM: stepW:w6:fl-size
 KIND: proof-region
@@ -320,7 +320,7 @@ DISPOSITION: NODE stepW:w6:fl-borel
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w6
+REVIEWER: sol-delta7-W-w6
 
 ITEM: bpW:w6:exclusion
 KIND: lemma
@@ -410,7 +410,7 @@ DISPOSITION: NODE bpW:w6:to-w8
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w6
+REVIEWER: sol-delta7-W-w6
 
 ITEM: heading:bpW:w6
 KIND: heading

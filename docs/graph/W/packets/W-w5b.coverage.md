@@ -14,7 +14,7 @@ DISPOSITION: NODE stepW:w5:n-exp
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5b
+REVIEWER: sol-delta7-W-w5b
 
 ITEM: stepW:w5:n-br
 KIND: proof-region
@@ -59,7 +59,7 @@ DISPOSITION: NODE stepW:w5:p-inv
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5b
+REVIEWER: sol-delta7-W-w5b
 
 ITEM: stepW:w5:p-dy
 KIND: proof-region
@@ -77,7 +77,7 @@ DISPOSITION: NODE stepW:w5:p-ass
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5b
+REVIEWER: sol-delta7-W-w5b
 
 ITEM: bpW:w5:commutator
 KIND: lemma
@@ -185,7 +185,7 @@ DISPOSITION: NODE stepW:w5:a-hol
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5b
+REVIEWER: sol-delta7-W-w5b
 
 ITEM: stepW:w5:a-dom
 KIND: proof-region

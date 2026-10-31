@@ -8991,12 +8991,12 @@ EDGE: bpW:w3:real-restrict | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-rema
 EDGE: bpW:w1:holomorphic | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L776-L777 | the definition of holomorphy to which analyticity is applied
 EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L776-L777 | analytic maps are Frechet differentiable, hence holomorphic in the cited definition
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: new+sol-delta6-W-W-w3
+EXTRACTOR: new+sol-delta7-W-w3
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: Restored because stepW:w6:t-an cites this fact at w6-iteration.tex L374 inside a proof. Source topology only; no Lean proof status inferred.
+NOTE: Restored because stepW:w6:t-an cites this fact at w6-iteration.tex L383 inside a proof. Source topology only; no Lean proof status inferred.
 
 NODE: bpW:w4:ext-roots
 KIND: external
@@ -9782,9 +9782,9 @@ EDGE: bpW:w4:ext-riesz | blueprint-W/parts/w4-homological.tex#stepW:w4:schurrep@
 EDGE: bpW:w1:ext-lp | blueprint-W/parts/w4-homological.tex#stepW:w4:schurrep@L427-L427 | l^2_C, <Cu,w> = <u,w>_0
 EDGE: bpW:w1:schur | blueprint-W/parts/w4-homological.tex#stepW:w4:schurrep@L435-L435 | (iii) transfers
 EDGE: bpW:w4:index | blueprint-W/parts/w4-homological.tex#stepW:w4:schurrep@L434-L434 | (bpW:w4:pairing)-type Cauchy-Schwarz
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w4+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -10610,9 +10610,9 @@ EDGE: bpW:w3:omega | blueprint-W/parts/w4-homological.tex#bpW:w4:from-w3@L804-L8
 EDGE: bpW:w3:hamfield-def | blueprint-W/parts/w4-homological.tex#bpW:w4:from-w3@L805-L805 | X_P
 EDGE: bpW:w4:taylor | blueprint-W/parts/w4-homological.tex#bpW:w4:from-w3@L804-L804 | the smoothing gradients required by the Taylor class
 EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w4-homological.tex#bpW:w4:from-w3@L800-L801 | the frozen wave weights occur directly in the asserted equality of normal norms
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w4
-REVIEWER: -
+REVIEWER: sol-delta7-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -10665,9 +10665,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w4
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
@@ -11443,7 +11443,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:deriv-continuous, bpW:w1:cauchy, bpW:w4:index, bpW:w3:ext-integral, bpW:w1:ext-onevar, stepW:w5:t-est, bpW:w5:ext-symm, bpW:w5:omega
+DEPS: bpW:w1:deriv-continuous, bpW:w1:cauchy, bpW:w4:index, bpW:w3:ext-integral, bpW:w1:ext-onevar, stepW:w5:t-est, bpW:w5:ext-symm, bpW:w5:omega, bpW:w5:class
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:deriv-continuous | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L301-L301 | the derivative as a Cauchy integral
@@ -11454,8 +11454,9 @@ EDGE: bpW:w1:ext-onevar | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L300-
 EDGE: stepW:w5:t-est | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L303-L305 | the proof explicitly invokes t-est for the sharper bound on H
 EDGE: bpW:w5:ext-symm | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L305-L305 | symmetry of D^2P with K = C
 EDGE: bpW:w5:omega | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L304-L304 | DP(w) = varpi(X_P(w), .)
+EDGE: bpW:w5:class | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L304-L305 | the smoothing Hamiltonian definition supplies DP = varpi(X_P, .) on a neighbourhood and holomorphy of X_P, needed for the second-derivative symmetry application
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a+claude-suborch-W-gapfix
+EXTRACTOR: claude-suborch-W+sol-delta7-W-w5a
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -11637,9 +11638,9 @@ EDGE: bpW:w4:lattice | blueprint-W/parts/w5-kamstep.tex#stepW:w5:s-out@L369-L369
 EDGE: bpW:w4:lemma1 | blueprint-W/parts/w5-kamstep.tex#stepW:w5:s-out@L370-L370 | (ii), (iv)
 EDGE: stepW:w5:s-in | blueprint-W/parts/w5-kamstep.tex#stepW:w5:s-out@L368-L368 | the input bound
 EDGE: bpW:w4:lie | blueprint-W/parts/w5-kamstep.tex#stepW:w5:s-out@L371-L372 | (iv) derivative identification, valid under the weight guard (G) since a = p = 1
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -11702,9 +11703,9 @@ EDGE: stepW:w5:f-par | blueprint-W/parts/w5-kamstep.tex#bpW:w5:flow@L404-L404 | 
 EDGE: stepW:w5:f-der | blueprint-W/parts/w5-kamstep.tex#bpW:w5:flow@L410-L410 | proof step
 EDGE: stepW:w5:f-image | blueprint-W/parts/w5-kamstep.tex#bpW:w5:flow@L414-L414 | proof step
 EDGE: stepW:w5:f-real | blueprint-W/parts/w5-kamstep.tex#bpW:w5:flow@L416-L416 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -11761,9 +11762,9 @@ EDGE: bpW:w1:flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-flow@L400-L400 |
 EDGE: bpW:w1:cauchy | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-flow@L403-L403 | uniform derivative bound
 EDGE: bpW:w3:ext-integral | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-flow@L403-L403 | differentiation under the integral
 EDGE: stepW:w5:f-margin | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-flow@L400-L400 | hypotheses
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -11790,9 +11791,9 @@ ROUTE_FOR: -
 EDGE: bpW:w1:flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-par@L405-L405 | (iv)
 EDGE: bpW:w1:cauchy | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-par@L408-L408 | ¦DX_F¦ <= M_F/delta on B(w,delta)
 EDGE: stepW:w5:f-flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-par@L406-L406 | the integral identity
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -11821,9 +11822,9 @@ EDGE: bpW:w1:cauchy | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-der@L412-L412 
 EDGE: stepW:w5:f-flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-der@L412-L412 | the bound M_F
 EDGE: stepW:w5:f-par | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-der@L413-L413 | the bound 2 N_1
 EDGE: bpW:w5:data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-der@L413-L413 | (bpW:w5:small)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -11848,9 +11849,9 @@ DEPS: stepW:w5:f-flow
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w5:f-flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-image@L414-L414 | the increment bound
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -11877,9 +11878,9 @@ ROUTE_FOR: -
 EDGE: bpW:w1:flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-real@L416-L416 | (i), (iii)
 EDGE: bpW:w4:lemma1 | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-real@L417-L417 | (i) X_F real
 EDGE: bpW:w4:taylor | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-real@L417-L417 | 1-periodic components
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -11999,9 +12000,9 @@ ROUTE_FOR: -
 EDGE: stepW:w5:s-class | blueprint-W/parts/w5-kamstep.tex#stepW:w5:c-skew@L450-L450 | F is C^2
 EDGE: bpW:w5:omega | blueprint-W/parts/w5-kamstep.tex#stepW:w5:c-skew@L453-L453 | antisymmetry
 EDGE: bpW:w5:ext-symm | blueprint-W/parts/w5-kamstep.tex#stepW:w5:c-skew@L452-L452 | D^2F symmetric
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -12172,9 +12173,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
@@ -12198,9 +12199,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
@@ -12224,9 +12225,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
@@ -12290,9 +12291,9 @@ EDGE: bpW:w5:flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-exp@L492-L492 | 
 EDGE: bpW:w5:flow-calc | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-exp@L492-L492 | (v)
 EDGE: bpW:w5:ext-ftc | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-exp@L492-L492 | calculus along curves
 EDGE: bpW:w5:ext-triangle | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-exp@L495-L495 | the triangular double integral applied to g(tau) = {hat N - R, F}(phi^tau w)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -12436,9 +12437,9 @@ EDGE: bpW:w5:flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-inv@L527-L527 | 
 EDGE: stepW:w5:f-der | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-inv@L529-L533 | the parameter bound
 EDGE: bpW:w3:ext-neumann | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-inv@L529-L533 | inverse norm bound from the one-half operator perturbation
 EDGE: bpW:w5:data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-inv@L532-L532 | (bpW:w5:small)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -12494,9 +12495,9 @@ EDGE: stepW:w5:p-inv | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-ass@L537-L537
 EDGE: stepW:w5:p-dy | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-ass@L539-L539 | derivative of Y
 EDGE: bpW:w5:lambda-product | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-ass@L538-L538 | lambda-norm of products
 EDGE: stepW:w5:f-par | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-ass@L540-L543 | the bound on the parameter difference of the flow is used directly
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -12832,9 +12833,9 @@ ROUTE_FOR: -
 EDGE: bpW:w0:periodone#linearTorus | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-hol@L665-L665 | the displayed recovered q_i,p_i are the frozen linear torus
 EDGE: bpW:w3:coords | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-hol@L665-L665 | the inverse Z coordinate map is used to recover q_i,p_i
 EDGE: bpW:w5:ext-sqrt | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-hol@L663-L663 | principal square root holomorphic on Re > 0
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -13859,13 +13860,13 @@ CONTRACT_ID: bpW:w6:prep-step
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: W6 notation (L22-L27): m > 0, a = p = 1, tau = 24, t = 52, W5's constants c_F, c_0, C_2 (modified step: t^natural = 53, c^natural_F, c^natural_0, C^natural_2), Melnikov conditions with W7's Dirichlet weight <l>; constants of Definition bpW:w6:constants; Pi subset {¦xi¦_infty <= 1/2} Borel; 0 < alpha <= alpha_0 (W7 (C4)); hat alpha = alpha^{44/47}, check alpha = alpha^{48/47}; Xi W7's preparatory set; r > 0; a real periodic family P in S_{p+1}(D(s,r)) on Pi minus Xi with the unperturbed frequencies (omega^0,Omega^0) and eps with 0 < eps <= gamma alpha, ¦X_P¦^lambda_{r,D(s,r)} <= eps, lambda = alpha/M; eta_P = (eps/(hat alpha sigma_P^{t^natural}))^{1/3}, r_0 = eta_P r
 SOURCE_QUANTIFIERS: for all such data
-SOURCE_CONCLUSION: one step of Theorem bpW:w5:step in the modified case (beta = 1/4, p_+ = p + 1/2, level hat alpha) applies on Pi minus Xi and gives Phi_P : D_0 = D(s_0,r_0) -> D(s,r) symplectic, real, holomorphic, with (N + P) o Phi_P = N_0 + P_0 + const and the weak conjugacy, and (i) the divisor hypotheses hold (Corollary bpW:w7:melnikov(i)); (ii) the frequency shift bounds and (bpW:w5:freq) with M_omega + M_Omega <= 2M; (iii) ¦Phi_P - id¦_{p_+,r,D_0} <= M_{F,P} and Lipschitz in xi; (iv) sup ¦X_{P_0}¦_{p_+,r_0,D_0} <= eps^flat_0 = 2 C^natural_2 eps^{4/3}(hat alpha sigma_P^{t^natural})^{-1/3} <= gamma_1 check alpha; (v) ¦X_{P_0}¦^{lambda_0}_{r_0,D_0} <= eps^flat_0 with lambda_0 = check alpha/M_0
+SOURCE_CONCLUSION: one step of Theorem bpW:w5:step in the modified case (beta = 1/4, p_+ = p + 1/2, level hat alpha) applies on Pi minus Xi and gives Phi_P : D_0 = D(s_0,r_0) -> D(s,r) symplectic, real, holomorphic, with D Phi_P mapping P^{p_+} onto itself, with (N + P) o Phi_P = N_0 + P_0 + const and the weak conjugacy, and (i) for xi in Pi minus Xi and (k,l) in Z, ¦<k,omega^0> + <l,Omega^0>¦ >= hat alpha hat w(l)/A_k by Definition bpW:w7:zones(i), giving the modified bound with beta = 1/4 for difference modes and (H_hat alpha) otherwise via the Dirichlet-to-P96-K weight comparison of bpW:w4:wave(ii); (ii) the frequency shift bounds and (bpW:w5:freq) with M_omega + M_Omega <= 2M; (iii) ¦Phi_P - id¦_{p_+,r,D_0} <= M_{F,P} and Lipschitz in xi; (iv) sup ¦X_{P_0}¦_{p_+,r_0,D_0} <= eps^flat_0 = 2 C^natural_2 eps^{4/3}(hat alpha sigma_P^{t^natural})^{-1/3} <= gamma_1 check alpha; (v) ¦X_{P_0}¦^{lambda_0}_{r_0,D_0} <= eps^flat_0 with lambda_0 = check alpha/M_0
 CONSTANT_SCOPE: as in Definition bpW:w6:constants
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w6:constants, bpW:w7:constdef, bpW:w7:zones, bpW:w7:omega0, bpW:w5:class, bpW:w5:step, bpW:w5:new-ham, stepW:w6:p-data, stepW:w6:p-div, stepW:w6:p-step, stepW:w6:p-lipp, stepW:w6:p-size, stepW:w6:p-gap
+DEPS: bpW:w6:constants, bpW:w7:constdef, bpW:w7:zones, bpW:w7:omega0, bpW:w5:class, bpW:w5:step, bpW:w5:new-ham, stepW:w6:p-data, stepW:w6:p-div, stepW:w6:p-step, stepW:w6:p-lipp, stepW:w6:p-size, stepW:w6:p-gap, bpW:w4:wave
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w6:constants | blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L220-L220 | s, sigma_P, gamma, gamma_1
@@ -13881,8 +13882,9 @@ EDGE: stepW:w6:p-step | blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L255
 EDGE: stepW:w6:p-lipp | blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L260-L263 | proof step
 EDGE: stepW:w6:p-size | blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L264-L264 | proof step
 EDGE: stepW:w6:p-gap | blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L268-L268 | proof step
+EDGE: bpW:w4:wave | blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L234-L235 | (ii) the Dirichlet weights dominate the P96-K weights in the stated divisor conclusion
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+sol-review-W-W-w6+claude-suborch-W-gapfix
+EXTRACTOR: claude-suborch-W+sol-delta7-W-w6
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -13938,9 +13940,9 @@ ROUTE_FOR: -
 EDGE: bpW:w7:indexdef | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-div@L253-L253 | W7's weights hat w
 EDGE: bpW:w5:w4-modified | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-div@L253-L253 | (bpW:w5:modified)
 EDGE: bpW:w7:zones | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-div@L250-L252 | negating the removed S_kl zone inequalities supplies the divisor premise
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w6+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -13991,15 +13993,16 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w5:step, stepW:w5:f-flow, bpW:w5:flow, bpW:w5:data
+DEPS: bpW:w5:step, stepW:w5:f-flow, bpW:w5:flow, bpW:w5:data, bpW:w5:omega
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:step | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-lipp@L260-L263 | (v)
 EDGE: stepW:w5:f-flow | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-lipp@L260-L261 | the sharper sup estimate ¦phi^1 - id¦ <= M_F
 EDGE: bpW:w5:flow | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-lipp@L261-L261 | the lemma whose step is used
 EDGE: bpW:w5:data | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-lipp@L262-L262 | M_F = M_{F,P} in the modified case
+EDGE: bpW:w5:omega | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-lipp@L263-L263 | the comparison ¦.¦_{p,r} <= ¦.¦_{p_+,r} transfers the parameter Lipschitz property to the asserted norm
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+sol-review-W-W-w6+claude-suborch-W-gapfix
+EXTRACTOR: claude-suborch-W+sol-delta7-W-w6
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -14148,9 +14151,9 @@ EDGE: stepW:w6:fl-size | blueprint-W/parts/w6-iteration.tex#bpW:w6:freq-lip@L312
 EDGE: stepW:w6:fl-lip | blueprint-W/parts/w6-iteration.tex#bpW:w6:freq-lip@L315-L315 | proof step
 EDGE: stepW:w6:fl-borel | blueprint-W/parts/w6-iteration.tex#bpW:w6:freq-lip@L319-L322 | proof step
 EDGE: bpW:w6:constants | blueprint-W/parts/w6-iteration.tex#bpW:w6:freq-lip@L308-L308 | theta fixed before alpha
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w6+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -14236,9 +14239,9 @@ EDGE: bpW:w7:zones | blueprint-W/parts/w6-iteration.tex#stepW:w6:fl-borel@L319-L
 EDGE: bpW:w7:omega0 | blueprint-W/parts/w6-iteration.tex#stepW:w6:fl-borel@L320-L320 | phi_kl affine in xi
 EDGE: bpW:w7:ext-borel | blueprint-W/parts/w6-iteration.tex#stepW:w6:fl-borel@L321-L321 | countable unions of Borel sets
 EDGE: bpW:w7:indexdef | blueprint-W/parts/w6-iteration.tex#stepW:w6:fl-borel@L321-L321 | Z countable
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w6+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -14546,9 +14549,9 @@ EDGE: bpW:w7:dioph | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L399-L399 |
 EDGE: bpW:w7:limit | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L399-L399 | the limiting-frequency properties cited in the retained interface claim
 EDGE: bpW:w1:coordinatewise | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L416-L416 | conversion of the Cartesian coefficient equations to clause (4)
 EDGE: bpW:w6:applicable | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L404-L407 | the applicability result is explicitly used for every epsilon_0 in the stated interval
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w6
-REVIEWER: -
+REVIEWER: sol-delta7-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -15141,9 +15144,9 @@ ROUTE_FOR: -
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#stepW:w7:liplOmega@L202-L202 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w7:freqcoords | blueprint-W/parts/w7-measure.tex#stepW:w7:liplOmega@L202-L203 | the affine Omega^0 formula and s(zeta) from (iii)
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w7-measure.tex#stepW:w7:liplOmega@L203-L203 | j < lambda_j gives the reciprocal bound used in the coefficient sum
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w7a
-REVIEWER: -
+REVIEWER: sol-delta7-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -17655,9 +17658,9 @@ EDGE: stepW:w8:sd-init | blueprint-W/parts/w8-assembly.tex#stepW:w8:sd-prep@L171
 EDGE: bpW:w6:to-w8 | blueprint-W/parts/w8-assembly.tex#stepW:w8:sd-prep@L168-L171 | the checks conclude clause (iv), including the conditions of the W6 interface remark
 EDGE: stepW:w8:sd-size | blueprint-W/parts/w8-assembly.tex#stepW:w8:sd-prep@L171-L171 | (i) supplies eps^sharp_n <= gamma alpha_n
 EDGE: stepW:w8:sd-trim | blueprint-W/parts/w8-assembly.tex#stepW:w8:sd-prep@L168-L168 | the trimmed shell is Borel and lies in the required half-unit box
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w8a
-REVIEWER: -
+REVIEWER: sol-delta7-W-w8a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -19524,9 +19527,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:freq-shell | blueprint-W/parts/w8-assembly.tex#stepW:w8:ni-same@L508-L508 | (ii)
 EDGE: bpW:w8:patch-local | blueprint-W/parts/w8-assembly.tex#bpW:w8:nu-injective@L507-L508 | the proof preamble identifies the patched frequencies with the two shell frequencies used in this case
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w8b
-REVIEWER: -
+REVIEWER: sol-delta7-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -19554,9 +19557,9 @@ EDGE: bpW:w8:shell-data | blueprint-W/parts/w8-assembly.tex#stepW:w8:ni-diff@L51
 EDGE: bpW:w7:freqcoords | blueprint-W/parts/w8-assembly.tex#stepW:w8:ni-diff@L510-L510 | (iv)
 EDGE: bpW:w8:freq-shell | blueprint-W/parts/w8-assembly.tex#stepW:w8:ni-diff@L511-L511 | (iii)
 EDGE: bpW:w8:patch-local | blueprint-W/parts/w8-assembly.tex#bpW:w8:nu-injective@L507-L513 | the proof preamble identifies the patched frequencies with the two shell frequencies used in this case
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w8b
-REVIEWER: -
+REVIEWER: sol-delta7-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -20083,9 +20086,9 @@ EDGE: bpW:w8:patch-local | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-lim@L580
 EDGE: bpW:w8:freq-shell | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-lim@L581-L581 | (iii) e_n <= alpha_n
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-lim@L582-L582 | lam m hm (i : Nat).succPNat occurs directly
 EDGE: bpW:w8:shells | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-lim@L581-L581 | alpha_n = (2^{-n} t_0)^{95/64} tends to zero
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w8b
-REVIEWER: -
+REVIEWER: sol-delta7-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -20514,13 +20517,13 @@ Regenerated by `proof_depgraph.py`; do not hand-edit.
 * Total nodes: **696**
 * Frozen anchors: **13**
 * Versioned statement contracts: **696**
-* Total edges: **2394**
+* Total edges: **2397**
 * Root-closure nodes: **696**
 * Dependency leaves in root closure: **77**
 * Assumption boundary leaves: **1**
 * External boundary leaves: **48**
 * Alternative routes: **2**
-* Topology review queue: **31**
+* Topology review queue: **4**
 * Explicit source gaps: **0**
 * Coverage items: **1094**; excluded: **384**
 
@@ -20531,36 +20534,9 @@ Regenerated by `proof_depgraph.py`; do not hand-edit.
 ### Topology review queue
 
 * `bpW:w3:class-remark` [PROPOSED] — Regularity class used by the W6 torus proof
-* `bpW:w4:ext-riesz` [PROPOSED] — Riesz representation of bounded sesquilinear forms
-* `bpW:w4:from-w3` [PROPOSED] — From W3
-* `bpW:w5:ext-sqrt` [PROPOSED] — Principal square root
-* `bpW:w5:ext-symm` [PROPOSED] — Symmetry of second derivatives
-* `bpW:w5:ext-triangle` [PROPOSED] — A triangular double integral
-* `bpW:w5:flow` [PROPOSED] — The flow with explicit margins; P96-K (9)--(11) and Lemma~A.4
-* `bpW:w6:freq-lip` [PROPOSED] — Lipschitz frequencies; W7's (H1)--(H2)
 * `bpW:w6:prep-step` [PROPOSED] — Preparatory step; P96-K \S6
-* `bpW:w6:to-w8` [PROPOSED] — What W8 consumes from W6
-* `stepW:w4:schurrep` [PROPOSED] — Representatives
-* `stepW:w5:a-hol` [PROPOSED] — Holomorphy and reality
-* `stepW:w5:c-skew` [PROPOSED] — Skewness
-* `stepW:w5:f-der` [PROPOSED] — Derivative
-* `stepW:w5:f-flow` [PROPOSED] — Flow
-* `stepW:w5:f-image` [PROPOSED] — Image
-* `stepW:w5:f-par` [PROPOSED] — Parameters
-* `stepW:w5:f-real` [PROPOSED] — Reality and equivariance
-* `stepW:w5:n-exp` [PROPOSED] — Expansion
-* `stepW:w5:p-ass` [PROPOSED] — Assemble
-* `stepW:w5:p-inv` [PROPOSED] — Inverse in the small scale
-* `stepW:w5:s-out` [PROPOSED] — Output
 * `stepW:w5:t-comp` [PROPOSED] — Components
-* `stepW:w6:fl-borel` [PROPOSED] — Borel
-* `stepW:w6:p-div` [PROPOSED] — Divisors
 * `stepW:w6:p-lipp` [PROPOSED] — Transformation
-* `stepW:w7:liplOmega` [PROPOSED] — Lipschitz
-* `stepW:w8:ni-diff` [PROPOSED] — Different shells
-* `stepW:w8:ni-same` [PROPOSED] — Same shell
-* `stepW:w8:p-lim` [PROPOSED] — Clause (2), frequency limit
-* `stepW:w8:sd-prep` [PROPOSED] — Lemma~\ref{bpW:w6:prep-step}
 
 ### Dependency leaves in root closure
 
@@ -20597,13 +20573,13 @@ Regenerated by `proof_depgraph.py`; do not hand-edit.
 * `bpW:w4:ext-exp` [REVIEWED] — Exponential inequalities
 * `bpW:w4:ext-intparts` [REVIEWED] — Periodic integration by parts
 * `bpW:w4:ext-parallelogram` [REVIEWED] — Parallelogram law
-* `bpW:w4:ext-riesz` [PROPOSED] — Riesz representation of bounded sesquilinear forms
+* `bpW:w4:ext-riesz` [REVIEWED] — Riesz representation of bounded sesquilinear forms
 * `bpW:w4:ext-roots` [REVIEWED] — Roots of unity
 * `bpW:w5:ext-ftc` [REVIEWED] — Calculus along curves
-* `bpW:w5:ext-sqrt` [PROPOSED] — Principal square root
-* `bpW:w5:ext-symm` [PROPOSED] — Symmetry of second derivatives
+* `bpW:w5:ext-sqrt` [REVIEWED] — Principal square root
+* `bpW:w5:ext-symm` [REVIEWED] — Symmetry of second derivatives
 * `bpW:w5:ext-taylor` [REVIEWED] — Taylor series in one complex variable, Banach values
-* `bpW:w5:ext-triangle` [PROPOSED] — A triangular double integral
+* `bpW:w5:ext-triangle` [REVIEWED] — A triangular double integral
 * `bpW:w5:lambda-product` [REVIEWED] — Products
 * `bpW:w7:density-sec#data` [REVIEWED] — Positive quadrant and max-norm balls of clause (1)
 * `bpW:w7:ext-ball` [REVIEWED] — Max-norm balls
@@ -20674,13 +20650,13 @@ Regenerated by `proof_depgraph.py`; do not hand-edit.
 * `bpW:w4:ext-exp` [REVIEWED] — Exponential inequalities
 * `bpW:w4:ext-intparts` [REVIEWED] — Periodic integration by parts
 * `bpW:w4:ext-parallelogram` [REVIEWED] — Parallelogram law
-* `bpW:w4:ext-riesz` [PROPOSED] — Riesz representation of bounded sesquilinear forms
+* `bpW:w4:ext-riesz` [REVIEWED] — Riesz representation of bounded sesquilinear forms
 * `bpW:w4:ext-roots` [REVIEWED] — Roots of unity
 * `bpW:w5:ext-ftc` [REVIEWED] — Calculus along curves
-* `bpW:w5:ext-sqrt` [PROPOSED] — Principal square root
-* `bpW:w5:ext-symm` [PROPOSED] — Symmetry of second derivatives
+* `bpW:w5:ext-sqrt` [REVIEWED] — Principal square root
+* `bpW:w5:ext-symm` [REVIEWED] — Symmetry of second derivatives
 * `bpW:w5:ext-taylor` [REVIEWED] — Taylor series in one complex variable, Banach values
-* `bpW:w5:ext-triangle` [PROPOSED] — A triangular double integral
+* `bpW:w5:ext-triangle` [REVIEWED] — A triangular double integral
 * `bpW:w7:ext-ball` [REVIEWED] — Max-norm balls
 * `bpW:w7:ext-borel` [REVIEWED] — Borel sets
 * `bpW:w7:ext-diam` [REVIEWED] — Sets of small diameter on the line

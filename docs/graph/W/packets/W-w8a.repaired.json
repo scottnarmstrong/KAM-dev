@@ -1,24 +1,9 @@
 {
- "replaced": [
-  "stepW:w8:sd-prep"
- ],
+ "replaced": [],
  "added": [],
  "items": [],
  "unresolved": {},
  "passes": [
-  "stepW:w8:g-app",
-  "stepW:w8:e-tor",
-  "stepW:w8:e-om",
-  "stepW:w8:ts-real",
-  "stepW:w8:ts-per",
-  "stepW:w8:se-an",
-  "stepW:w8:se-inj",
-  "stepW:w8:se-der",
-  "stepW:w8:sc-gamma",
-  "stepW:w8:sc-close",
-  "stepW:w8:sc-size",
-  "stepW:w8:si-frozen",
-  "stepW:w8:si-cont",
-  "bpW:w8#data"
+  "stepW:w8:sd-prep"
  ]
 }

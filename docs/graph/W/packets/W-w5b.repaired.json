@@ -4,27 +4,9 @@
  "items": [],
  "unresolved": {},
  "passes": [
-  "bpW:w5:new-ham",
   "stepW:w5:n-exp",
-  "bpW:w5:pullback",
   "stepW:w5:p-inv",
   "stepW:w5:p-ass",
-  "bpW:w5:step",
-  "stepW:w5:st-con",
-  "stepW:w5:st-div",
-  "stepW:w5:a-hol",
-  "stepW:w5:a-field",
-  "bpW:w5:initial",
-  "bpW:w5:new-ham",
-  "stepW:w5:n-exp",
-  "bpW:w5:pullback",
-  "stepW:w5:p-inv",
-  "stepW:w5:p-ass",
-  "bpW:w5:step",
-  "stepW:w5:st-con",
-  "stepW:w5:st-div",
-  "stepW:w5:a-hol",
-  "stepW:w5:a-field",
-  "bpW:w5:initial"
+  "stepW:w5:a-hol"
  ]
 }

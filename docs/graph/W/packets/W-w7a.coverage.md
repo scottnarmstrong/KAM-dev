@@ -185,7 +185,7 @@ DISPOSITION: NODE stepW:w7:liplOmega
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w7a
+REVIEWER: sol-delta7-W-w7a
 
 ITEM: bpW:w7:constdef
 KIND: definition

@@ -302,7 +302,7 @@ DISPOSITION: NODE stepW:w5:s-out
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-W-w5a
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: stepW:w5:s-class
 KIND: proof-region
@@ -320,7 +320,7 @@ DISPOSITION: NODE bpW:w5:flow
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: stepW:w5:f-margin
 KIND: proof-region
@@ -338,7 +338,7 @@ DISPOSITION: NODE stepW:w5:f-flow
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: stepW:w5:f-par
 KIND: proof-region
@@ -347,7 +347,7 @@ DISPOSITION: NODE stepW:w5:f-par
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: stepW:w5:f-der
 KIND: proof-region
@@ -356,7 +356,7 @@ DISPOSITION: NODE stepW:w5:f-der
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: stepW:w5:f-image
 KIND: proof-region
@@ -365,7 +365,7 @@ DISPOSITION: NODE stepW:w5:f-image
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: stepW:w5:f-real
 KIND: proof-region
@@ -374,7 +374,7 @@ DISPOSITION: NODE stepW:w5:f-real
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: bpW:w5:flow-calc
 KIND: lemma
@@ -410,7 +410,7 @@ DISPOSITION: NODE stepW:w5:c-skew
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: stepW:w5:c-symp
 KIND: proof-region
@@ -669,24 +669,24 @@ KIND: external
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:ext-symm@L57-L61
 DISPOSITION: NODE bpW:w5:ext-symm
 REASON: mechanical inventory of a labelled unit (new external of the gap repair)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: bpW:w5:ext-sqrt
 KIND: external
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:ext-sqrt@L62-L66
 DISPOSITION: NODE bpW:w5:ext-sqrt
 REASON: mechanical inventory of a labelled unit (new external of the gap repair)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 
 ITEM: bpW:w5:ext-triangle
 KIND: external
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:ext-triangle@L67-L70
 DISPOSITION: NODE bpW:w5:ext-triangle
 REASON: mechanical inventory of a labelled unit (new external of the gap repair)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a

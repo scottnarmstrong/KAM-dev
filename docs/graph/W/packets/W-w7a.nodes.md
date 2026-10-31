@@ -555,9 +555,9 @@ ROUTE_FOR: -
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#stepW:w7:liplOmega@L202-L202 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w7:freqcoords | blueprint-W/parts/w7-measure.tex#stepW:w7:liplOmega@L202-L203 | the affine Omega^0 formula and s(zeta) from (iii)
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w7-measure.tex#stepW:w7:liplOmega@L203-L203 | j < lambda_j gives the reciprocal bound used in the coefficient sum
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w7a
-REVIEWER: -
+REVIEWER: sol-delta7-W-w7a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

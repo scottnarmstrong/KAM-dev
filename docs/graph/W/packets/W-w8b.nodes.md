@@ -606,9 +606,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:freq-shell | blueprint-W/parts/w8-assembly.tex#stepW:w8:ni-same@L508-L508 | (ii)
 EDGE: bpW:w8:patch-local | blueprint-W/parts/w8-assembly.tex#bpW:w8:nu-injective@L507-L508 | the proof preamble identifies the patched frequencies with the two shell frequencies used in this case
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w8b
-REVIEWER: -
+REVIEWER: sol-delta7-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -636,9 +636,9 @@ EDGE: bpW:w8:shell-data | blueprint-W/parts/w8-assembly.tex#stepW:w8:ni-diff@L51
 EDGE: bpW:w7:freqcoords | blueprint-W/parts/w8-assembly.tex#stepW:w8:ni-diff@L510-L510 | (iv)
 EDGE: bpW:w8:freq-shell | blueprint-W/parts/w8-assembly.tex#stepW:w8:ni-diff@L511-L511 | (iii)
 EDGE: bpW:w8:patch-local | blueprint-W/parts/w8-assembly.tex#bpW:w8:nu-injective@L507-L513 | the proof preamble identifies the patched frequencies with the two shell frequencies used in this case
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w8b
-REVIEWER: -
+REVIEWER: sol-delta7-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1165,9 +1165,9 @@ EDGE: bpW:w8:patch-local | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-lim@L580
 EDGE: bpW:w8:freq-shell | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-lim@L581-L581 | (iii) e_n <= alpha_n
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-lim@L582-L582 | lam m hm (i : Nat).succPNat occurs directly
 EDGE: bpW:w8:shells | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-lim@L581-L581 | alpha_n = (2^{-n} t_0)^{95/64} tends to zero
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w8b
-REVIEWER: -
+REVIEWER: sol-delta7-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

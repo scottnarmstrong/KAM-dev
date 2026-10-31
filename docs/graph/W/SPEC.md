@@ -437,6 +437,15 @@ SOURCE line.
   - The linter passes with `--require-all-reachable`: 696 nodes, 2394 edges, 0 SOURCE_GAP, review queue 31.
   - `GLOBAL-BRIEF.md` was written for the global reviewer `sol-global-W`.
 
+- **2026-10-31, delta 7** (tags `sol-delta7-W-<slice>`; track W resumed by owner ruling D53).
+  - Applied, marked and coverage-rested. PASS: W-w4, W-w5b, W-w7a, W-w7b, W-w8a, W-w8b.
+  - The FAIL rows came with replacement blocks, which were applied: `bpW:w3:class-remark` (stale in-text line L374 ->
+    L383), `stepW:w5:t-comp` (edge to the class definition), `bpW:w6:prep-step` (conclusion records the zones(i) bound
+    and the onto property, plus a wave(ii) edge) and `stepW:w6:p-lipp` (omega edge). These 4 nodes are PROPOSED for
+    delta 8.
+  - The corpus on inp (9c6d9128) matches the pins (CORPUS.sha256 and IMPORTS.sha256 all OK), so nothing was re-pinned.
+  - The linter passes with `--require-all-reachable`: 696 nodes, 2397 edges, 0 SOURCE_GAP, review queue 4.
+
 ## Wave-2 plan (proposed 2026-10-30; extraction starts on the sub-orchestrator's go)
 - **Corpus.**
   - Once W4–W8 are accepted and on inp, merge inp again.

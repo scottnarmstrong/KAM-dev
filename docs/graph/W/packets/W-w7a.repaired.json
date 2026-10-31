@@ -1,29 +1,9 @@
 {
- "replaced": [
-  "stepW:w7:liplOmega"
- ],
+ "replaced": [],
  "added": [],
  "items": [],
  "unresolved": {},
  "passes": [
-  "stepW:w7:norms",
-  "bpW:w7:unpert-bounds",
-  "stepW:w7:ssize",
-  "stepW:w7:plus",
-  "bpW:w7:constdef",
-  "stepW:w7:sep-concl",
-  "stepW:w7:largek-tan",
-  "stepW:w7:largek-cmp",
-  "bpW:w7:Xdef",
-  "bpW:w7:dichotomy",
-  "stepW:w7:Xfinite",
-  "stepW:w7:dich-large",
-  "stepW:w7:dich-small",
-  "bpW:w7:Xzones",
-  "stepW:w7:X-A3",
-  "stepW:w7:X-const",
-  "stepW:w7:X-slope",
-  "bpW:w7:constdef#base",
-  "bpW:w7:constdef"
+  "stepW:w7:liplOmega"
  ]
 }

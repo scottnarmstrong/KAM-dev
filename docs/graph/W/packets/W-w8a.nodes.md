@@ -401,9 +401,9 @@ EDGE: stepW:w8:sd-init | blueprint-W/parts/w8-assembly.tex#stepW:w8:sd-prep@L171
 EDGE: bpW:w6:to-w8 | blueprint-W/parts/w8-assembly.tex#stepW:w8:sd-prep@L168-L171 | the checks conclude clause (iv), including the conditions of the W6 interface remark
 EDGE: stepW:w8:sd-size | blueprint-W/parts/w8-assembly.tex#stepW:w8:sd-prep@L171-L171 | (i) supplies eps^sharp_n <= gamma alpha_n
 EDGE: stepW:w8:sd-trim | blueprint-W/parts/w8-assembly.tex#stepW:w8:sd-prep@L168-L168 | the trimmed shell is Borel and lies in the required half-unit box
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w8a
-REVIEWER: -
+REVIEWER: sol-delta7-W-w8a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

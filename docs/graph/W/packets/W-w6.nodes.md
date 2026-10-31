@@ -671,13 +671,13 @@ CONTRACT_ID: bpW:w6:prep-step
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: W6 notation (L22-L27): m > 0, a = p = 1, tau = 24, t = 52, W5's constants c_F, c_0, C_2 (modified step: t^natural = 53, c^natural_F, c^natural_0, C^natural_2), Melnikov conditions with W7's Dirichlet weight <l>; constants of Definition bpW:w6:constants; Pi subset {¦xi¦_infty <= 1/2} Borel; 0 < alpha <= alpha_0 (W7 (C4)); hat alpha = alpha^{44/47}, check alpha = alpha^{48/47}; Xi W7's preparatory set; r > 0; a real periodic family P in S_{p+1}(D(s,r)) on Pi minus Xi with the unperturbed frequencies (omega^0,Omega^0) and eps with 0 < eps <= gamma alpha, ¦X_P¦^lambda_{r,D(s,r)} <= eps, lambda = alpha/M; eta_P = (eps/(hat alpha sigma_P^{t^natural}))^{1/3}, r_0 = eta_P r
 SOURCE_QUANTIFIERS: for all such data
-SOURCE_CONCLUSION: one step of Theorem bpW:w5:step in the modified case (beta = 1/4, p_+ = p + 1/2, level hat alpha) applies on Pi minus Xi and gives Phi_P : D_0 = D(s_0,r_0) -> D(s,r) symplectic, real, holomorphic, with (N + P) o Phi_P = N_0 + P_0 + const and the weak conjugacy, and (i) the divisor hypotheses hold (Corollary bpW:w7:melnikov(i)); (ii) the frequency shift bounds and (bpW:w5:freq) with M_omega + M_Omega <= 2M; (iii) ¦Phi_P - id¦_{p_+,r,D_0} <= M_{F,P} and Lipschitz in xi; (iv) sup ¦X_{P_0}¦_{p_+,r_0,D_0} <= eps^flat_0 = 2 C^natural_2 eps^{4/3}(hat alpha sigma_P^{t^natural})^{-1/3} <= gamma_1 check alpha; (v) ¦X_{P_0}¦^{lambda_0}_{r_0,D_0} <= eps^flat_0 with lambda_0 = check alpha/M_0
+SOURCE_CONCLUSION: one step of Theorem bpW:w5:step in the modified case (beta = 1/4, p_+ = p + 1/2, level hat alpha) applies on Pi minus Xi and gives Phi_P : D_0 = D(s_0,r_0) -> D(s,r) symplectic, real, holomorphic, with D Phi_P mapping P^{p_+} onto itself, with (N + P) o Phi_P = N_0 + P_0 + const and the weak conjugacy, and (i) for xi in Pi minus Xi and (k,l) in Z, ¦<k,omega^0> + <l,Omega^0>¦ >= hat alpha hat w(l)/A_k by Definition bpW:w7:zones(i), giving the modified bound with beta = 1/4 for difference modes and (H_hat alpha) otherwise via the Dirichlet-to-P96-K weight comparison of bpW:w4:wave(ii); (ii) the frequency shift bounds and (bpW:w5:freq) with M_omega + M_Omega <= 2M; (iii) ¦Phi_P - id¦_{p_+,r,D_0} <= M_{F,P} and Lipschitz in xi; (iv) sup ¦X_{P_0}¦_{p_+,r_0,D_0} <= eps^flat_0 = 2 C^natural_2 eps^{4/3}(hat alpha sigma_P^{t^natural})^{-1/3} <= gamma_1 check alpha; (v) ¦X_{P_0}¦^{lambda_0}_{r_0,D_0} <= eps^flat_0 with lambda_0 = check alpha/M_0
 CONSTANT_SCOPE: as in Definition bpW:w6:constants
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w6:constants, bpW:w7:constdef, bpW:w7:zones, bpW:w7:omega0, bpW:w5:class, bpW:w5:step, bpW:w5:new-ham, stepW:w6:p-data, stepW:w6:p-div, stepW:w6:p-step, stepW:w6:p-lipp, stepW:w6:p-size, stepW:w6:p-gap
+DEPS: bpW:w6:constants, bpW:w7:constdef, bpW:w7:zones, bpW:w7:omega0, bpW:w5:class, bpW:w5:step, bpW:w5:new-ham, stepW:w6:p-data, stepW:w6:p-div, stepW:w6:p-step, stepW:w6:p-lipp, stepW:w6:p-size, stepW:w6:p-gap, bpW:w4:wave
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w6:constants | blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L220-L220 | s, sigma_P, gamma, gamma_1
@@ -693,8 +693,9 @@ EDGE: stepW:w6:p-step | blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L255
 EDGE: stepW:w6:p-lipp | blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L260-L263 | proof step
 EDGE: stepW:w6:p-size | blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L264-L264 | proof step
 EDGE: stepW:w6:p-gap | blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L268-L268 | proof step
+EDGE: bpW:w4:wave | blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L234-L235 | (ii) the Dirichlet weights dominate the P96-K weights in the stated divisor conclusion
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+sol-review-W-W-w6+claude-suborch-W-gapfix
+EXTRACTOR: claude-suborch-W+sol-delta7-W-w6
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -750,9 +751,9 @@ ROUTE_FOR: -
 EDGE: bpW:w7:indexdef | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-div@L253-L253 | W7's weights hat w
 EDGE: bpW:w5:w4-modified | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-div@L253-L253 | (bpW:w5:modified)
 EDGE: bpW:w7:zones | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-div@L250-L252 | negating the removed S_kl zone inequalities supplies the divisor premise
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w6+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -803,15 +804,16 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w5:step, stepW:w5:f-flow, bpW:w5:flow, bpW:w5:data
+DEPS: bpW:w5:step, stepW:w5:f-flow, bpW:w5:flow, bpW:w5:data, bpW:w5:omega
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:step | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-lipp@L260-L263 | (v)
 EDGE: stepW:w5:f-flow | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-lipp@L260-L261 | the sharper sup estimate ¦phi^1 - id¦ <= M_F
 EDGE: bpW:w5:flow | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-lipp@L261-L261 | the lemma whose step is used
 EDGE: bpW:w5:data | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-lipp@L262-L262 | M_F = M_{F,P} in the modified case
+EDGE: bpW:w5:omega | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-lipp@L263-L263 | the comparison ¦.¦_{p,r} <= ¦.¦_{p_+,r} transfers the parameter Lipschitz property to the asserted norm
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+sol-review-W-W-w6+claude-suborch-W-gapfix
+EXTRACTOR: claude-suborch-W+sol-delta7-W-w6
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -960,9 +962,9 @@ EDGE: stepW:w6:fl-size | blueprint-W/parts/w6-iteration.tex#bpW:w6:freq-lip@L312
 EDGE: stepW:w6:fl-lip | blueprint-W/parts/w6-iteration.tex#bpW:w6:freq-lip@L315-L315 | proof step
 EDGE: stepW:w6:fl-borel | blueprint-W/parts/w6-iteration.tex#bpW:w6:freq-lip@L319-L322 | proof step
 EDGE: bpW:w6:constants | blueprint-W/parts/w6-iteration.tex#bpW:w6:freq-lip@L308-L308 | theta fixed before alpha
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w6+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1048,9 +1050,9 @@ EDGE: bpW:w7:zones | blueprint-W/parts/w6-iteration.tex#stepW:w6:fl-borel@L319-L
 EDGE: bpW:w7:omega0 | blueprint-W/parts/w6-iteration.tex#stepW:w6:fl-borel@L320-L320 | phi_kl affine in xi
 EDGE: bpW:w7:ext-borel | blueprint-W/parts/w6-iteration.tex#stepW:w6:fl-borel@L321-L321 | countable unions of Borel sets
 EDGE: bpW:w7:indexdef | blueprint-W/parts/w6-iteration.tex#stepW:w6:fl-borel@L321-L321 | Z countable
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w6+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1358,9 +1360,9 @@ EDGE: bpW:w7:dioph | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L399-L399 |
 EDGE: bpW:w7:limit | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L399-L399 | the limiting-frequency properties cited in the retained interface claim
 EDGE: bpW:w1:coordinatewise | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L416-L416 | conversion of the Cartesian coefficient equations to clause (4)
 EDGE: bpW:w6:applicable | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L404-L407 | the applicability result is explicitly used for every epsilon_0 in the stated interval
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w6
-REVIEWER: -
+REVIEWER: sol-delta7-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

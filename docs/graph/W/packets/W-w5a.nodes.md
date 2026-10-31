@@ -768,7 +768,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:deriv-continuous, bpW:w1:cauchy, bpW:w4:index, bpW:w3:ext-integral, bpW:w1:ext-onevar, stepW:w5:t-est, bpW:w5:ext-symm, bpW:w5:omega
+DEPS: bpW:w1:deriv-continuous, bpW:w1:cauchy, bpW:w4:index, bpW:w3:ext-integral, bpW:w1:ext-onevar, stepW:w5:t-est, bpW:w5:ext-symm, bpW:w5:omega, bpW:w5:class
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:deriv-continuous | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L301-L301 | the derivative as a Cauchy integral
@@ -779,8 +779,9 @@ EDGE: bpW:w1:ext-onevar | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L300-
 EDGE: stepW:w5:t-est | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L303-L305 | the proof explicitly invokes t-est for the sharper bound on H
 EDGE: bpW:w5:ext-symm | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L305-L305 | symmetry of D^2P with K = C
 EDGE: bpW:w5:omega | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L304-L304 | DP(w) = varpi(X_P(w), .)
+EDGE: bpW:w5:class | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L304-L305 | the smoothing Hamiltonian definition supplies DP = varpi(X_P, .) on a neighbourhood and holomorphy of X_P, needed for the second-derivative symmetry application
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a+claude-suborch-W-gapfix
+EXTRACTOR: claude-suborch-W+sol-delta7-W-w5a
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -962,9 +963,9 @@ EDGE: bpW:w4:lattice | blueprint-W/parts/w5-kamstep.tex#stepW:w5:s-out@L369-L369
 EDGE: bpW:w4:lemma1 | blueprint-W/parts/w5-kamstep.tex#stepW:w5:s-out@L370-L370 | (ii), (iv)
 EDGE: stepW:w5:s-in | blueprint-W/parts/w5-kamstep.tex#stepW:w5:s-out@L368-L368 | the input bound
 EDGE: bpW:w4:lie | blueprint-W/parts/w5-kamstep.tex#stepW:w5:s-out@L371-L372 | (iv) derivative identification, valid under the weight guard (G) since a = p = 1
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1027,9 +1028,9 @@ EDGE: stepW:w5:f-par | blueprint-W/parts/w5-kamstep.tex#bpW:w5:flow@L404-L404 | 
 EDGE: stepW:w5:f-der | blueprint-W/parts/w5-kamstep.tex#bpW:w5:flow@L410-L410 | proof step
 EDGE: stepW:w5:f-image | blueprint-W/parts/w5-kamstep.tex#bpW:w5:flow@L414-L414 | proof step
 EDGE: stepW:w5:f-real | blueprint-W/parts/w5-kamstep.tex#bpW:w5:flow@L416-L416 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1086,9 +1087,9 @@ EDGE: bpW:w1:flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-flow@L400-L400 |
 EDGE: bpW:w1:cauchy | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-flow@L403-L403 | uniform derivative bound
 EDGE: bpW:w3:ext-integral | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-flow@L403-L403 | differentiation under the integral
 EDGE: stepW:w5:f-margin | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-flow@L400-L400 | hypotheses
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1115,9 +1116,9 @@ ROUTE_FOR: -
 EDGE: bpW:w1:flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-par@L405-L405 | (iv)
 EDGE: bpW:w1:cauchy | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-par@L408-L408 | ¦DX_F¦ <= M_F/delta on B(w,delta)
 EDGE: stepW:w5:f-flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-par@L406-L406 | the integral identity
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1146,9 +1147,9 @@ EDGE: bpW:w1:cauchy | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-der@L412-L412 
 EDGE: stepW:w5:f-flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-der@L412-L412 | the bound M_F
 EDGE: stepW:w5:f-par | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-der@L413-L413 | the bound 2 N_1
 EDGE: bpW:w5:data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-der@L413-L413 | (bpW:w5:small)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1173,9 +1174,9 @@ DEPS: stepW:w5:f-flow
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w5:f-flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-image@L414-L414 | the increment bound
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1202,9 +1203,9 @@ ROUTE_FOR: -
 EDGE: bpW:w1:flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-real@L416-L416 | (i), (iii)
 EDGE: bpW:w4:lemma1 | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-real@L417-L417 | (i) X_F real
 EDGE: bpW:w4:taylor | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-real@L417-L417 | 1-periodic components
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1324,9 +1325,9 @@ ROUTE_FOR: -
 EDGE: stepW:w5:s-class | blueprint-W/parts/w5-kamstep.tex#stepW:w5:c-skew@L450-L450 | F is C^2
 EDGE: bpW:w5:omega | blueprint-W/parts/w5-kamstep.tex#stepW:w5:c-skew@L453-L453 | antisymmetry
 EDGE: bpW:w5:ext-symm | blueprint-W/parts/w5-kamstep.tex#stepW:w5:c-skew@L452-L452 | D^2F symmetric
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1497,9 +1498,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1523,9 +1524,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1549,9 +1550,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -

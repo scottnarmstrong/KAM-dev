@@ -194,7 +194,7 @@ DISPOSITION: NODE stepW:w8:ni-same
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8b
+REVIEWER: sol-delta7-W-w8b
 
 ITEM: stepW:w8:ni-diff
 KIND: proof-region
@@ -203,7 +203,7 @@ DISPOSITION: NODE stepW:w8:ni-diff
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8b
+REVIEWER: sol-delta7-W-w8b
 
 ITEM: bpW:w8:injective
 KIND: proposition
@@ -356,7 +356,7 @@ DISPOSITION: NODE stepW:w8:p-lim
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8b
+REVIEWER: sol-delta7-W-w8b
 
 ITEM: stepW:w8:p-emb
 KIND: proof-region

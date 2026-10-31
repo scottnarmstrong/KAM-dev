@@ -782,9 +782,9 @@ EDGE: bpW:w4:ext-riesz | blueprint-W/parts/w4-homological.tex#stepW:w4:schurrep@
 EDGE: bpW:w1:ext-lp | blueprint-W/parts/w4-homological.tex#stepW:w4:schurrep@L427-L427 | l^2_C, <Cu,w> = <u,w>_0
 EDGE: bpW:w1:schur | blueprint-W/parts/w4-homological.tex#stepW:w4:schurrep@L435-L435 | (iii) transfers
 EDGE: bpW:w4:index | blueprint-W/parts/w4-homological.tex#stepW:w4:schurrep@L434-L434 | (bpW:w4:pairing)-type Cauchy-Schwarz
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w4+claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1610,9 +1610,9 @@ EDGE: bpW:w3:omega | blueprint-W/parts/w4-homological.tex#bpW:w4:from-w3@L804-L8
 EDGE: bpW:w3:hamfield-def | blueprint-W/parts/w4-homological.tex#bpW:w4:from-w3@L805-L805 | X_P
 EDGE: bpW:w4:taylor | blueprint-W/parts/w4-homological.tex#bpW:w4:from-w3@L804-L804 | the smoothing gradients required by the Taylor class
 EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w4-homological.tex#bpW:w4:from-w3@L800-L801 | the frozen wave weights occur directly in the asserted equality of normal norms
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w4
-REVIEWER: -
+REVIEWER: sol-delta7-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1665,9 +1665,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-gapfix
-REVIEWER: -
+REVIEWER: sol-delta7-W-w4
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
