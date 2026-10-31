@@ -38,7 +38,8 @@ open KAM
 
 variable {a p s : ℝ}
 
-/-- The phase space `(θ, y, z, \bar z)` of the normal-form Hamiltonian (carrier of `KAM/Wave/Seq`). -/
+/-- The phase space `(θ, y, z, \bar z)` of the normal-form Hamiltonian (carrier of `KAM/Wave/Seq`).
+    -/
 abbrev HomPhase : Type := (Fin 2 → ℂ) × (Fin 2 → ℂ) × HomL2 × HomL2
 
 /-- The embedding `ℓ^N_{a,p+1} ⊂ ℓ^N_{a,p}` on representatives: `ĉ_j ↦ ĉ_j/(j+2)`. -/
@@ -143,7 +144,8 @@ def homDN (w : HomPhase) : HomPhase →L[ℂ] ℂ :=
     (((homNOmegaCLM hG hK0 hΩ).isBoundedBilinearMap).deriv (homPrZ w)).comp homPrZ
 
 /-- **`N` is Fréchet differentiable** (`bpW:w4:lie` (iv)), with the displayed derivative. -/
-theorem homNfun_hasFDerivAt (w : HomPhase) : HasFDerivAt (homNfun hG hK0 hΩ ω) (homDN hG hK0 hΩ ω w) w := by
+theorem homNfun_hasFDerivAt (w : HomPhase) : HasFDerivAt (homNfun hG hK0 hΩ ω) (homDN hG hK0 hΩ ω
+    w) w := by
   have h1 : HasFDerivAt (fun w : HomPhase => homLomega ω (homPrY w))
       ((homLomega ω).comp homPrY) w :=
     ((homLomega ω).comp homPrY).hasFDerivAt
@@ -153,7 +155,8 @@ theorem homNfun_hasFDerivAt (w : HomPhase) : HasFDerivAt (homNfun hG hK0 hΩ ω)
 
 theorem homDN_apply (w X : HomPhase) :
     homDN hG hK0 hΩ ω w X = ∑ k, (ω k : ℂ) * X.2.1 k +
-      (homNOmegaCLM hG hK0 hΩ (homPrZ w).1 X.2.2.2 + homNOmegaCLM hG hK0 hΩ X.2.2.1 (homPrZ w).2) := by
+      (homNOmegaCLM hG hK0 hΩ (homPrZ w).1 X.2.2.2 + homNOmegaCLM hG hK0 hΩ X.2.2.1 (homPrZ w).2)
+          := by
   simp [homDN, homLomega_apply, homPrY, homPrZ, IsBoundedBilinearMap.deriv_apply]
 
 /-- **`bpW:w4:lie` (iv)**: along the Hamiltonian field `X_F` of `F = T`,

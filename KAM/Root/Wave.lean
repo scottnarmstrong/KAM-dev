@@ -59,6 +59,7 @@ public import KAM.Wave.Homological.Lattice
 public import KAM.Wave.Homological.LatticeBW
 public import KAM.Wave.Homological.LatticeCount
 public import KAM.Wave.Homological.Lemma1
+public import KAM.Wave.Homological.LemmaOneAll
 public import KAM.Wave.Homological.LemmaOneAssembly
 public import KAM.Wave.Homological.LemmaOneBounds
 public import KAM.Wave.Homological.LemmaOneEq
@@ -71,10 +72,13 @@ public import KAM.Wave.Homological.LemmaOneLipBounds
 public import KAM.Wave.Homological.LemmaOneLipDiff
 public import KAM.Wave.Homological.LemmaOneMult
 public import KAM.Wave.Homological.Lie
+public import KAM.Wave.Homological.LieDeriv
 public import KAM.Wave.Homological.Melnikov
 public import KAM.Wave.Homological.NhatTaylor
 public import KAM.Wave.Homological.NormalOps
 public import KAM.Wave.Homological.NormalPol
+public import KAM.Wave.Homological.RealF
+public import KAM.Wave.Homological.RealSolve
 public import KAM.Wave.Homological.Schur
 public import KAM.Wave.Homological.Solve
 public import KAM.Wave.Homological.SolveDeriv
