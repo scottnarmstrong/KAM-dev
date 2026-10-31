@@ -7,7 +7,7 @@ CONVENTIONS: docs/graph/W/SPEC.md "Conventions to watch": weighted coordinates (
 STANDING_ASSUMPTIONS: bpW:w0:mass
 EXTERNAL_POLICY: track-W external inputs are the labelled items of the parts' external-fact lists (bpW:w1:ext-*, bpW:w2:ext-*, bpW:w3:ext-*, bpW:w4:ext-*, bpW:w5:ext-*, bpW:w7:ext-*, bpW:w8:ext-*, all Mathlib-level; an item that only restates another external is excluded as an alias); track-K results that a W proof uses (cited by \texttt{bp:p1:...}; blueprint-W has no \Kref) are IMPORTED nodes K:<K graph node> (KIND external, LEAN_STATUS EXTERNAL, STATEMENT_SOURCE in blueprint/, NOTE IMPORTED: proved in the track-K graph, node <label>; shared Lean provider); any other unproved fact is a step node with NOTE SOURCE_GAP
 FROZEN_ANCHORS: bpW:w0:nlw#IsClassicalSolution, bpW:w0:basis#lam, bpW:w0:basis#sineMode, bpW:w0:ellap#ellWeight, bpW:w0:ellap#WaveSpace, bpW:w0:ellap#coeff, bpW:w0:reconstruction#reconU, bpW:w0:reconstruction#reconV, bpW:w0:Gq#cubicGrad, bpW:w0:periodone#linearTorus, bpW:wh:embedding#IsAnalyticTorusEmbedding, bpW:wh:dioph#IsDiophantine, bpW:wh:nlw2
-FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:674c73210fe8aeef703101ebe014dbc3e8569cb12f54a14dba1a7ff418d76aab
+FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:8859fe7f8bae7ca904585d0b72a6c23601d848c66febefdc7e5c74adb2300555
 WRITER: claude-suborch-W
 GLOBAL_REVIEWER: sol-global-W
 GLOBAL_REVIEW_REF: docs/graph/W/reviews/GLOBAL-review-2.md
