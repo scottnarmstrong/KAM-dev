@@ -98,3 +98,23 @@ injectivity of `birkEmbed`), as in the blueprint's "analytic `B_{ρ₀} → 𝔚
   `𝔚` through `ι`).
 - `waveCubicConst_pos` (new, `LieApp`): `C_* > 0` for `p ≥ 1/2`, needed for `C_F > 0`.
 - Suspected errata: none found.
+
+## Round 2 (audit fixes F1–F3) — commit `840a38c7` ("W3-FLOW audit fixes: ...")
+Audit report: `W3-FLOW-audit-1.md`. All three findings closed by new modules (generic in `T`, then
+specialised to `birkT` in `LieBirkC1`); no new hypotheses beyond the abstract ones of the Lie* theory.
+- **F1** (`LieSlot1`–`LieSlot4`): `lieMulti_slot`: for all `w : Fin (2(k+1)+1) → E`,
+  `lieMulti T (k+1) w = (1/(k+1)) • Σ_{i : Fin (2k+1)} lieMulti T k (lieContractFin T i w)`, the
+  literal source recursion (`lieContractFin` contracts slots `i,i+1,i+2` to `T(w^i,w^{i+1},w^{i+2})`).
+  `lieMulti_unique`: any family with `Ψ_0 = id` and this recursion equals `lieMulti` on all inputs.
+  Proof: `lieMulti` is read on `ℕ`-sequences (`lieMb`, `lieMulti_eq_lieMb`, locality `lieMb_congr`);
+  `lieMb_slot` is a hook-length induction (`lieSlot_term`, re-indexing
+  `sum_antidiagonalTuple_succ`); no symmetry of `T` is used. Concrete: `birkLieMulti_slot`.
+- **F2** (`LieRealMulti`): `lieMulti_rho`: `Φ_k(ρw¹,…,ρw^{2k+1}) = ρ Φ_k(w¹,…)` on all inputs, by
+  induction from `T∘ρ = ρ∘T`. Concrete: `birkLieMulti_rho` (from `birkT_rho`).
+- **F3** (`LieFlow5`; `LieFlow2` refactored: `exists_lieTermD_majorant` split out, `hasFDerivAt_lieGamma`
+  unchanged in statement): `contDiffOn_lieGamma`: `ContDiffOn ℝ 1 (fun z => lieGamma T z.1 z.2)` on
+  `{|z.1| < 2 ∧ 40 C ‖z.2‖² < 1}` (each term `C^∞`, derivative series locally uniformly dominated,
+  `continuousOn_tsum`). Concrete: `birkGamma_contDiffOn`.
+- Checks: `w_build.sh` of each module, `LieBirkC1` builds; `#print axioms` of all of the above (and
+  `hasFDerivAt_lieGamma`): `[propext, Classical.choice, Quot.sound]`; `w_lint.sh`: exit 0, no `sorry`,
+  no option override; the downstream W3-MAIN modules were rebuilt against the refactored `LieFlow2`.

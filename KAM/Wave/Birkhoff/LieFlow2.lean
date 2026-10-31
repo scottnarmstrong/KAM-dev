@@ -100,11 +100,13 @@ theorem norm_lieTermD_le (k : ℕ) (t : ℝ) (w : E) :
         rw [mul_pow, mul_pow, mul_pow, ← pow_mul]; ring
 
 include hC hT in
-/-- The joint Fréchet derivative of `(t, w) ↦ Γ_t(w)` on `|t| < 2`, `‖w‖ < ρ₀ = (40C)^{-1/2}`. -/
-theorem hasFDerivAt_lieGamma (hCp : 0 < C) (t : ℝ) (w : E) (ht : |t| < 2)
+/-- A local uniform summable majorant for the termwise derivatives `lieTermD`: around every point
+`(t, w)` with `|t| < 2`, `40 C ‖w‖² < 1` there is an open convex set `s ∋ (t,w), (0,0)` and a
+summable `u` with `‖lieTermD T k p‖ ≤ u k` on `s`. -/
+theorem exists_lieTermD_majorant (hCp : 0 < C) (t : ℝ) (w : E) (ht : |t| < 2)
     (hw : 40 * C * ‖w‖ ^ 2 < 1) :
-    HasFDerivAt (fun p : ℝ × E => lieGamma T p.1 p.2) (∑' k, lieTermD T k (t, w)) (t, w) ∧
-      Summable fun k => lieTermD T k (t, w) := by
+    ∃ (s : Set (ℝ × E)) (u : ℕ → ℝ), IsOpen s ∧ Convex ℝ s ∧ (t, w) ∈ s ∧
+      ((0 : ℝ), (0 : E)) ∈ s ∧ Summable u ∧ ∀ k : ℕ, ∀ p ∈ s, ‖lieTermD T k p‖ ≤ u k := by
   set τ : ℝ := (|t| + 2) / 2 with hτ
   have hτ1 : |t| < τ := by rw [hτ]; linarith
   have hτ2 : τ < 2 := by rw [hτ]; linarith
@@ -181,6 +183,16 @@ theorem hasFDerivAt_lieGamma (hCp : 0 < C) (t : ℝ) (w : E) (ht : |t| < 2)
             ≤ ((k + 1 : ℕ) : ℝ) * τ ^ k * a ^ (k + 1) * ρ := by gcongr
           _ = _ := by ring
     · exact mul_le_mul_of_nonneg_left (pow_le_pow_left₀ hq0n hB k) (by positivity)
+  exact ⟨s, u, hsopen, hsconv, hmem, hmem0, hus, hbound⟩
+
+include hC hT in
+/-- The joint Fréchet derivative of `(t, w) ↦ Γ_t(w)` on `|t| < 2`, `‖w‖ < ρ₀ = (40C)^{-1/2}`. -/
+theorem hasFDerivAt_lieGamma (hCp : 0 < C) (t : ℝ) (w : E) (ht : |t| < 2)
+    (hw : 40 * C * ‖w‖ ^ 2 < 1) :
+    HasFDerivAt (fun p : ℝ × E => lieGamma T p.1 p.2) (∑' k, lieTermD T k (t, w)) (t, w) ∧
+      Summable fun k => lieTermD T k (t, w) := by
+  obtain ⟨s, u, hsopen, hsconv, hmem, hmem0, hus, hbound⟩ :=
+    exists_lieTermD_majorant T hC hT hCp t w ht hw
   have hf0 : Summable fun k : ℕ =>
       (((0 : ℝ), (0 : E)).1 ^ k) • lieSeq T ((0 : ℝ), (0 : E)).2 k := by
     have := summable_lieTerm T hC hT 0 (0 : E) (by simp)

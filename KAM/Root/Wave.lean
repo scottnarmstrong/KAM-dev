@@ -41,6 +41,7 @@ public import KAM.Wave.Birkhoff.LieAnalyticPlus
 public import KAM.Wave.Birkhoff.LieApp
 public import KAM.Wave.Birkhoff.LieBirk
 public import KAM.Wave.Birkhoff.LieBirkAnalytic
+public import KAM.Wave.Birkhoff.LieBirkC1
 public import KAM.Wave.Birkhoff.LieBirkPlus
 public import KAM.Wave.Birkhoff.LieCauchy
 public import KAM.Wave.Birkhoff.LieDeriv
@@ -48,6 +49,7 @@ public import KAM.Wave.Birkhoff.LieFlow1
 public import KAM.Wave.Birkhoff.LieFlow2
 public import KAM.Wave.Birkhoff.LieFlow3
 public import KAM.Wave.Birkhoff.LieFlow4
+public import KAM.Wave.Birkhoff.LieFlow5
 public import KAM.Wave.Birkhoff.LieInv
 public import KAM.Wave.Birkhoff.LieLeibniz
 public import KAM.Wave.Birkhoff.LieMain
@@ -58,7 +60,12 @@ public import KAM.Wave.Birkhoff.LiePlus
 public import KAM.Wave.Birkhoff.LiePlusInv
 public import KAM.Wave.Birkhoff.LiePlusNum
 public import KAM.Wave.Birkhoff.LieReal
+public import KAM.Wave.Birkhoff.LieRealMulti
 public import KAM.Wave.Birkhoff.LieSeq
+public import KAM.Wave.Birkhoff.LieSlot1
+public import KAM.Wave.Birkhoff.LieSlot2
+public import KAM.Wave.Birkhoff.LieSlot3
+public import KAM.Wave.Birkhoff.LieSlot4
 public import KAM.Wave.Birkhoff.LieSympl
 public import KAM.Wave.Birkhoff.LieVar
 public import KAM.Wave.Birkhoff.Majorant
