@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Write the SO frozen files from FREEZE-PROPOSAL-2 §1 (+ proposal 1 §1.1-1.8) with D46/D48 literals."""
+"""Write the SO frozen files from FREEZE-PROPOSAL-2 §1 (+ proposal 1 §1.1-1.8) with D47/D49 literals."""
 from pathlib import Path
 import sys
 import textwrap
@@ -28,8 +28,8 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Scott Armstrong, Zohar Komargodski
 -/
 """
-APPROVAL = ("Owner-approved on 2026-10-31 (decision D40, docs/tracks/SO/FREEZE-PROPOSAL-2.md; literals D46 and\n"
-            "D48). This file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an\n"
+APPROVAL = ("Owner-approved on 2026-10-31 (decision D40, docs/tracks/SO/FREEZE-PROPOSAL-2.md; literals D47 and\n"
+            "D49). This file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an\n"
             "owner-approved versioned successor.")
 NC = "@[expose] public noncomputable section"
 PS = "@[expose] public section"

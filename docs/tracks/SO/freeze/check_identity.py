@@ -2,10 +2,11 @@
 """Self-check: each frozen SO file against the approved text, byte for byte.
 
 Approved text: FREEZE-PROPOSAL.md §1.1-§1.8 (definitions, complete blocks) and FREEZE-PROPOSAL-2.md §1.2-§1.3
-(window and theorems), with only the D46/D48 literal substitutions. From each frozen file the header lines
+(window and theorems), with only the D47/D49 literal substitutions. From each frozen file the header lines
 added at freeze time are removed (copyright, module docstring, FROZEN_ANCHOR_PREFIX_BEGIN), the D-SOF-5 line
 splits are undone and the D-SOF-6 body `by sorry` is read as `sorry`; the result must contain the approved block
-exactly. Run from the repository root."""
+exactly (B and window: A's wrapper, complete file). Exit status 1 on any mismatch.
+Run from the repository root."""
 import re
 from pathlib import Path
 P1 = Path("docs/tracks/SO/FREEZE-PROPOSAL.md").read_text()
@@ -53,11 +54,24 @@ for stem, decl in [("LunarPLo", p2[0]), ("LunarPHi", p2[1])]:
 T = "KAM/Frozen/SpinOrbit/Theorems/"
 A = sub(p2[2])
 # the approved block carries the prefix marker and a docstring placeholder; normalize() strips both kinds of line
-good = unsplit("LunarBarriers", normalize(T + "LunarBarriers.lean")) == A.replace(
-    "-- FROZEN_ANCHOR_PREFIX_BEGIN\n", "", 1).replace(
+Aexp = A.replace("-- FROZEN_ANCHOR_PREFIX_BEGIN\n", "", 1).replace(
     "/-! # Frozen theorem `KAM.SpinOrbit.lunar_barriers` (docstring as in the precedent) -/\n\n", "")
+good = unsplit("LunarBarriers", normalize(T + "LunarBarriers.lean")) == Aexp
 ok &= good; print(f"{'LunarBarriers':22s} {'IDENTICAL' if good else 'DIFFERS'} (P2 §1.3 complete block, minus the docstring placeholder)")
-for stem, blk in [("LunarSpinConfinement", p2[3]), ("LunarWindow", p2[4])]:
-    good = sub(blk) in unsplit(stem, normalize(T + stem + ".lean"))
-    ok &= good; print(f"{stem:22s} {'IDENTICAL' if good else 'DIFFERS'} (P2 §1.3 declaration block)")
+# B and window: "same wrapper as A", with the imports listed in §1.3 and their own declaration block.
+# The expected complete file is A's wrapper with A's import lines and A's declaration region (docstring
+# through FROZEN_ANCHOR_PROOF_END) replaced; the frozen file must equal it exactly (no substring test).
+A_IMPORTS = ("public import KAM.Frozen.SpinOrbit.Defs.SoBarrier\npublic import KAM.Frozen.SpinOrbit.Defs.LunarPLo\n"
+             "public import KAM.Frozen.SpinOrbit.Defs.LunarPHi\nimport KAM.Provider.SpinOrbit.LunarBarriers\n")
+i0 = Aexp.index("/-- **Theorem A")
+i1 = Aexp.index("  -- FROZEN_ANCHOR_PROOF_END\n") + len("  -- FROZEN_ANCHOR_PROOF_END\n")
+assert Aexp.count(A_IMPORTS) == 1
+for stem, blk, defs in [("LunarSpinConfinement", p2[3], ["SoField", "LunarPLo", "LunarPHi"]),
+                        ("LunarWindow", p2[4], ["LunarPLo", "LunarPHi"])]:
+    imports = "".join(f"public import KAM.Frozen.SpinOrbit.Defs.{d}\n" for d in defs)
+    imports += f"import KAM.Provider.SpinOrbit.{stem}\n"
+    exp = (Aexp[:i0] + sub(blk) + Aexp[i1:]).replace(A_IMPORTS, imports, 1)
+    good = unsplit(stem, normalize(T + stem + ".lean")) == exp
+    ok &= good; print(f"{stem:22s} {'IDENTICAL' if good else 'DIFFERS'} (A's wrapper with the §1.3 imports and declaration block)")
 print("ALL IDENTICAL" if ok else "MISMATCH")
+raise SystemExit(0 if ok else 1)

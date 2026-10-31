@@ -1,8 +1,8 @@
-# Track SO freeze (decisions D40, D46, D48): package SO-FREEZE3
+# Track SO freeze (decisions D40, D47, D49): package SO-FREEZE3
 
 Branch `inp-sofreeze3` (off `inp` 9517d71e). Freezes exactly the thirteen declarations of
 [`FREEZE-PROPOSAL-2.md`](FREEZE-PROPOSAL-2.md) §1 (definition texts: [`FREEZE-PROPOSAL.md`](FREEZE-PROPOSAL.md)
-§1.1–§1.8, unchanged per proposal 2 §1.1), with the final literals of D46/D48.
+§1.1–§1.8, unchanged per proposal 2 §1.1), with the final literals of D47/D49.
 
 **Status: Phase A partly done, then STOPPED before Q11** (see "Q11 and the heavy rebuild" below). The frozen files,
 provider stubs, manifest entries and ABI hashes are written and checked. The Q11 switch of the landed code to the
@@ -31,7 +31,7 @@ more names, plus `SoBarrier`). Phase B (sealing) needs Q11 too.
 Provider stubs (empty modules, quarantined): `KAM/Provider/SpinOrbit/{LunarBarriers,LunarSpinConfinement,LunarWindow}.lean`.
 Sealing bodies (Phase B): `by exact KAM.Provider.SpinOrbit.<name> …`.
 
-## Literal substitutions (D46/D48), and nothing else
+## Literal substitutions (D47/D49), and nothing else
 
 | Place | Proposal 2 (interim) | Frozen |
 |---|---|---|
@@ -60,7 +60,7 @@ substitutions above. Then:
 For every file:
 * the copyright block (proposal 1 §1 precedent);
 * a module docstring `# Frozen definition|structure|theorem `KAM.SpinOrbit.<name>`` with the approval paragraph
-  "Owner-approved on 2026-10-31 (decision D40, docs/tracks/SO/FREEZE-PROPOSAL-2.md; literals D46 and D48). This file
+  "Owner-approved on 2026-10-31 (decision D40, docs/tracks/SO/FREEZE-PROPOSAL-2.md; literals D47 and D49). This file
   is frozen: …". The theorem files add the sealing rule (precedent: track W). This docstring replaces the
   placeholder `/-! # Frozen theorem … (docstring as in the precedent) -/` of proposal 2 §1.3.
 
@@ -87,9 +87,17 @@ module line, the frozen imports in the listed order, the private provider import
 * **D-SOF-7 (frozen guard).** The proposal 1 §4 shape has a common `split_policy.source_group: "spinorbit.lunar"`.
   The guard rejects a shared NOT_SPLIT group without one joint anchor ("NOT_SPLIT requires one joint constitutional
   anchor"). Each entry uses its own group `spinorbit.<name>`, as track W does.
-* **Approval date.** `approved_at` and the docstrings say 2026-10-31. D40 was 2026-10-30. D46 and D48 are not
-  recorded in `docs/DECISIONS.md` on this branch (nor on `main` at 5d13118a), so their dates could not be checked.
-  If D48 is dated 2026-10-30, the date line must change before the identity audit.
+* **Approval date (closes audit 1 F1).** `approved_at` and the docstrings say 2026-10-31. `docs/DECISIONS.md` on
+  `main` (renumbering commit b17bf0c0; read at 74a963d3) records **D47 (2026-10-31, 07:00 UTC)**, the 2.755 % band
+  literal with rule B's tightness clause relaxed (line 385), and **D49 (2026-10-31, 07:10 UTC)**, the freeze
+  approvals for band and lock (line 396).
+* **Metadata change: decision renumbering (D46 → D47, D48 → D49).** These two decisions were first numbered D46 and
+  D48 on `main`; D46 clashed with the earlier D46 of 2026-10-30 (Route B), and the orchestrator renumbered them.
+  The approval paragraph of the 13 frozen module docstrings and the manifest fields `approval_ref`,
+  `source.range` and `split_policy.ruling_ref` were updated by a same-length substitution, with no rewrap. No
+  declaration text changed: `check_identity.py` still reports all 13 identical, and every ABI hash is unchanged.
+  The full-file, prefix/suffix and closure hashes of the 13 entries were recomputed with the guard's own region
+  rule; the other 158 entries are unchanged as JSON.
 
 ## Q11 and the heavy rebuild (why Phase A stopped)
 

@@ -10,8 +10,8 @@ public import Mathlib.Data.Rat.Init
 /-!
 # Frozen definition `KAM.SpinOrbit.lunarPHi`
 
-Owner-approved on 2026-10-31 (decision D40, docs/tracks/SO/FREEZE-PROPOSAL-2.md; literals D46 and
-D48). This file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an
+Owner-approved on 2026-10-31 (decision D40, docs/tracks/SO/FREEZE-PROPOSAL-2.md; literals D47 and
+D49). This file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an
 owner-approved versioned successor.
 -/
 

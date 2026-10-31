@@ -12,7 +12,7 @@ yet, and no Phase B.
 ## What to audit (IDENTITY)
 
 Each frozen declaration against FREEZE-PROPOSAL-2 §1 (definition texts: FREEZE-PROPOSAL §1.1–§1.8), with only
-the D46/D48 literal substitutions, byte for byte:
+the D47/D49 literal substitutions, byte for byte:
 
 1. The 13 files `KAM/Frozen/SpinOrbit/Defs/{SoEcc,SoEps,SoCoeffPoly,SoA,SoModes,SoV,SoField,SoBarrier,LunarPLo,LunarPHi}.lean`
    and `KAM/Frozen/SpinOrbit/Theorems/{LunarBarriers,LunarSpinConfinement,LunarWindow}.lean`.
@@ -26,7 +26,8 @@ the D46/D48 literal substitutions, byte for byte:
      too long in the approved text.
    - **D-SOF-6:** the DRAFT body is `by sorry` (guard rule) instead of §1.3's bare `sorry`.
    - **D-SOF-7:** one `source_group` per declaration (guard rule) instead of the shared `spinorbit.lunar`.
-5. The approval date written as 2026-10-31 (D46/D48 are not in `docs/DECISIONS.md`; please confirm).
+5. The approval date 2026-10-31: `docs/DECISIONS.md` on `main` records D47 (2026-10-31, 07:00 UTC, band literal)
+   and D49 (2026-10-31, 07:10 UTC, freeze approvals). This closes audit 1 F1.
 6. The manifest: 13 new entries, the other 158 unchanged. Theorem closures: B = model + window (no `SoBarrier`),
    A = B's + `SoBarrier`, window = `LunarPLo`, `LunarPHi`. Theorems DRAFT_SORRY, definitions SEALED.
    Implementation `KAM.Provider.SpinOrbit.<Stem>` / `KAM.Provider.SpinOrbit.<name>`.
@@ -34,6 +35,24 @@ the D46/D48 literal substitutions, byte for byte:
 
 Tools: `python3 docs/tracks/SO/freeze/check_identity.py` (prints `ALL IDENTICAL`); `docs/tracks/SO/freeze/gen_frozen.py`
 regenerates the files from the snippets; `freeze/cfg.json`, `freeze/freeze.json` are the manifest-tool inputs.
+
+## Metadata change after audit 1 (for the identity auditor): decision references only
+
+On `main` the two 2026-10-31 decisions were renumbered (b17bf0c0) because the first one clashed with the D46 of
+2026-10-30: band literal D46 → **D47**, freeze approvals D48 → **D49**. This commit changes **only** decision
+references:
+
+- in the 13 frozen files, the docstring approval paragraph `literals D46 and` / `D48). This file is frozen` now
+  reads `literals D47 and` / `D49). This file is frozen` (same length, no rewrap);
+- in the 13 manifest entries, `approval_ref`, `source.range` and `split_policy.ruling_ref` (`D46` → `D47`,
+  `D48` → `D49`), plus the recomputed full-file, prefix/suffix and closure hashes;
+- the generator, its config and this record.
+
+**No declaration changed.** Every ABI hash is unchanged (`ABI HASHES OK (171)`). `check_identity.py` reports all 13
+identical, and the other 158 manifest entries are unchanged as JSON. `git diff 1e0e888c -- KAM/Frozen` shows
+exactly two changed lines per file. The same commit fixes audit 1 F2: `check_identity.py` now compares B and the
+window as complete files (A's wrapper with their §1.3 imports and blocks) and exits 1 on a mismatch. Both of the
+auditor's mutations (an appended declaration, `<` → `≤`) are now rejected with exit 1.
 
 ## Checks run
 
