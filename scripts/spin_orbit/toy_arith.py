@@ -197,10 +197,53 @@ def ballStep(n, wH, centre, radius, taylorN, acc, op):
     raise ValueError(op)
 
 
+# SO-BALLDY (KAM/Certificate/Expr/BallRound.lean): the balls of `*` and `I` slots are rounded
+# outward to slpBallPrec = 320 significant bits (ballRound), and exp is ballExp (the Taylor ball and
+# every squaring rounded); const, action, char and `+` stay exact.
+SLP_BALL_PREC = 320
+
+
+def _nat_log2(n):
+    return n.bit_length() - 1 if n > 0 else 0
+
+
+def ilog2Q(q):
+    return _nat_log2(abs(q.numerator)) - _nat_log2(q.denominator)
+
+
+def ball_round(b, P=SLP_BALL_PREC):
+    (re, im), r = b
+    S = F(2) ** (P - ilog2Q(abs(re) + abs(im) + r))
+    re2 = F((re * S).numerator // (re * S).denominator) / S
+    im2 = F((im * S).numerator // (im * S).denominator) / S
+    t = (r + (re - re2) + (im - im2)) * S
+    return ((re2, im2), F(-((-t.numerator) // t.denominator)) / S)
+
+
+def ball_exp(z, zRad, s, N, P=SLP_BALL_PREC):
+    red = b_times((z, F(zRad)), b_ofRat(F(1, 2 ** s)))
+    if not certCExpSmall(red[0], red[1]):
+        return None
+    out = ball_round(certCExp(red[0], red[1], N), P)
+    for _ in range(s):
+        out = ball_round(b_times(out, out), P)
+    return out
+
+
+def ballStepG(n, wH, centre, radius, taylorN, acc, op):
+    if op[0] == "E":
+        c, r = acc[op[1]] if op[1] < len(acc) else BALL_ZERO
+        return ball_exp(c, r, cexpHalvings(c, r), taylorN)
+    b = ballStep(n, wH, centre, radius, taylorN, acc, op)
+    if b is not None and op[0] in ("*", "I"):
+        b = ball_round(b)
+    return b
+
+
 def slp_balls(n, ops, wH, centre, radius, taylorN):
     acc = []
     for op in ops:
-        b = ballStep(n, wH, centre, radius, taylorN, acc, op)
+        b = ballStepG(n, wH, centre, radius, taylorN, acc, op)
         if b is None:
             return None
         acc.append(b)

@@ -1,0 +1,8 @@
+| derivatives of H (chart: synodic regular) | model x model products | scalar x model | adds | inv | sqrt | char | Kepler |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| H only | 94 | 21 | 44 | 7 | 5 | 3 | 2 |
+| gradient, X_h(K): invariance + energy | 657 | 85 | 417 | 12 | 5 | 3 | 2 |
+| Hessian, DX_h(K): torsion stage | 4974 | 298 | 4826 | 12 | 5 | 3 | 2 |
+
+reverse mode (adjoint sweep over the same program; a generated program, needing its own soundness theorem): 252 products for the gradient
+  = value 94 (of which 34 witness checks) + adjoints: 2 per value product, 2 per inv/sqrt/char, 4 per Kepler.

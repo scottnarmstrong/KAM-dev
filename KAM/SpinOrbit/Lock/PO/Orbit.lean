@@ -15,10 +15,10 @@ Unfrozen helper code (design SO-LOCK §1.1, §1.4, §2.1).
 
 * `IsSyncOrbit ψ`: `ψ` is `C²`, one-periodic, odd and solves `ψ'' = -∂_q V(φ + ψ, φ)`.
 * `lunarSyncOrbit`: **the** synchronous orbit ψ* (chosen; canonical by uniqueness).
-* `lunarSyncOrbit_spec`: existence, from the fixed point of the contraction `syncMap`.
-* `lunarSyncOrbit_unique`: every odd one-periodic synchronous orbit is ψ* (every such orbit is a
+* `syncOrbit_spec`: existence, from the fixed point of the contraction `syncMap`.
+* `syncOrbit_unique`: every odd one-periodic synchronous orbit is ψ* (every such orbit is a
   fixed point of `syncMap`). Uniqueness among all one-periodic orbits is false (`ψ + 1/2`).
-* `lunarSyncOrbit_bound`: `|ψ*| ≤ 17/10⁶`, `|ψ*′| ≤ 27/200000`, from the rational majorants
+* `syncOrbit_bound`: `|ψ*| ≤ 17/10⁶`, `|ψ*′| ≤ 27/200000`, from the rational majorants
   `L ≤ 3377/10⁵`, `η ≤ 5355/10⁷` (design §1.4).
 -/
 
@@ -39,7 +39,7 @@ def IsSyncOrbit (ψ : ℝ → ℝ) : Prop :=
 
 open Classical in
 /-- **The** synchronous periodic orbit ψ*, named explicitly (D45 addendum): the unique odd
-one-periodic synchronous orbit (`lunarSyncOrbit_unique`; existence `lunarSyncOrbit_spec`). -/
+one-periodic synchronous orbit (`syncOrbit_unique`; existence `syncOrbit_spec`). -/
 def lunarSyncOrbit : ℝ → ℝ :=
   if h : ∃ ψ, IsSyncOrbit ψ then Classical.choose h else 0
 
@@ -133,7 +133,7 @@ theorem syncFixed_isSyncOrbit : IsSyncOrbit syncFixed := by
 theorem exists_isSyncOrbit : ∃ ψ, IsSyncOrbit ψ := ⟨_, syncFixed_isSyncOrbit⟩
 
 /-- Existence (LOCK-PO, Banach contraction). -/
-theorem lunarSyncOrbit_spec : IsSyncOrbit lunarSyncOrbit := by
+theorem syncOrbit_spec : IsSyncOrbit lunarSyncOrbit := by
   simp only [lunarSyncOrbit, exists_isSyncOrbit, ↓reduceDIte]
   exact Classical.choose_spec exists_isSyncOrbit
 
@@ -144,8 +144,8 @@ theorem IsSyncOrbit.eq_syncFixed {ψ : ℝ → ℝ} (h : IsSyncOrbit ψ) : ψ = 
   exact congrArg (fun d : poSet => (d.1 : ℝ → ℝ)) this
 
 /-- Global uniqueness: every odd one-periodic synchronous orbit is ψ*. -/
-theorem lunarSyncOrbit_unique (ψ : ℝ → ℝ) (h : IsSyncOrbit ψ) : ψ = lunarSyncOrbit :=
-  h.eq_syncFixed.trans lunarSyncOrbit_spec.eq_syncFixed.symm
+theorem syncOrbit_unique (ψ : ℝ → ℝ) (h : IsSyncOrbit ψ) : ψ = lunarSyncOrbit :=
+  h.eq_syncFixed.trans syncOrbit_spec.eq_syncFixed.symm
 
 /-! ### Location -/
 
@@ -210,9 +210,9 @@ theorem abs_le_of_syncForce_rat {u u' : ℝ → ℝ} (hu : ∀ x, HasDerivAt u (
   exact ⟨h1 x, (dirichlet_bound hu hu' hf2 hz x).2.trans (by norm_num)⟩
 
 /-- Location of ψ* (forced libration ≈ 15.5″), from the rational majorants of design §1.4. -/
-theorem lunarSyncOrbit_bound (φ : ℝ) :
+theorem syncOrbit_bound (φ : ℝ) :
     |lunarSyncOrbit φ| ≤ 17 / 1000000 ∧ |deriv lunarSyncOrbit φ| ≤ 27 / 200000 :=
-  have h := lunarSyncOrbit_spec
+  have h := syncOrbit_spec
   abs_le_of_syncForce_rat h.hasDerivAt_orbit h.hasDerivAt_deriv h.2.1 h.2.2.1 φ
 
 end KAM.SpinOrbit.Lock

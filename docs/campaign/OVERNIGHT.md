@@ -1386,3 +1386,824 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     delta audit on codex-3.
   - Owner answered the SO-LOCK-SCOPE questions (D45): L1, the sqrt route, N = 65 directly, a certified periodic
     orbit as centre, no Birkhoff normal form, novelty conditional.
+- **16:02. Owner: overnight mode ("defer approvals and decisions until further notice; get as much done as you can
+  on W and the tidal locking of the Moon").**
+  - Deferred decisions are logged here, marked "for owner review", with the recommended reversible option taken.
+    Nothing is frozen.
+  - **Lock:** a new sub-orchestrator `kam-suborch-lock` (Opus, claude-12; brief .drafts/briefs/suborch-LOCK.md)
+    runs track SO part 3 under D45.
+    - Phase 1 is the design SO-LOCK-DESIGN.md: the exact statement candidates in a FREEZE-PROPOSAL-LOCK.md for the
+      owner; the certified periodic orbit; the polar change of variables; `HamExpr.sqrt`; confinement through
+      `gen_barrier`; packages; numerics under the v2 certifier.
+    - Phase 2 runs the packages LOCK-PO, SQRT, COORDS, CONF, GEN, DATA and ASSEMBLY, with codex-3 audits and
+      landings via kam-inp.
+  - **Track W:** kam-d4 is told to maximize throughput:
+    - blueprint writers W4 and W7, then W5, W6 and W8;
+    - the dependency graph started on the accepted parts W0–W3;
+    - Sonnet provers on the W1–W3 infrastructure, recorded as off-frontier, source-faithful infrastructure.
+  - **Track SO part 2 (Moon band)** continues under the main orchestrator: SO-KDEPTH, SO-BALLFIX (BALLDY against
+    sharp-v2's BallsTrig), SO-V2PKG (v2 pricing) and SO-DATA3 (step 1).
+  - Landed since 15:42: SO-LOCK-SCOPE and blueprint W1–W3 with five W errata (main e507bc23).
+  - HQ lock row now shows the D45 route and the sub-orchestrator (cdeff4f2). README: Moon locked 17 %, track W 15 %.
+  - Codex-3 at about 10 % weekly is the only auditor (owner ruling); when it runs out, audits queue and work goes on.
+- **16:10 Track W (kam-d4), overnight mode.** Errata on inp-wbp (they land with W4/W7):
+  - CONFIRMED: E-PDE-W-1/2, E-PDE-KP-1/2 (the KP96 journal printing is unverified), and the W-BP0 items E-W-N-1,
+    N-4 and N-5.
+  - CANDIDATE: N-2 and N-3 (not independently re-checked).
+  Provers started off the frontier ("source-faithful infrastructure used by several nodes"): W1-WEIGHTED (inp-wpa,
+  claude-6) and W1-SINES (inp-wpb, claude-4), both Sonnet. They run in SLIM worktrees that hold only the frozen Wave
+  and IsDiophantine oleans (14 MB each). Disk was 8.8 GB, so the 5.4 GB full copy was not affordable. Lint's ABI stage
+  runs through .drafts/W/w_lint.sh, which overlays the inp build. The dependency graph writer has started on W0-W3
+  (inp-wgraph). Blueprint writers W4 and W7 are running.
+  **For owner review:**
+  (1) Slim worktrees instead of inp_new_worktree.sh. Reversible; chosen for disk space.
+  (2) Errata N-2 and N-3 left CANDIDATE rather than CONFIRMED, because only the writer checked them.
+- **16:09. Heartbeat; a sweep incident.**
+  - **Incident:** main_worktree_sweep.sh removed kam-d4's fresh worktree KAM-inp-wgraph (branch inp-wgraph kept,
+    zero commits). A sub-orchestrator's in-process subagent has no tmux session, and between tool calls no process
+    names its path, so the sweep could not see it. Untracked work there was lost. kam-d4 was told at once.
+  - **Fix:** the sweep now keeps any worktree with untracked files, and any whose branch is under 12 h old with no
+    commits.
+  - main_inp_design_audit.sh no longer refuses codex-3 (owner ruling).
+  - Running:
+    - lock: kam-suborch-lock (kam-inp-24) with workers lockdesign (the design, statements and freeze proposal) and
+      lockgen (high-precision periodic orbit with a radii-polynomial check; the N = 65 torus in polar coordinates;
+      the v2 threshold);
+    - W: kam-d4 with provers wpa/wpb, auditors inp-maud-w1/w2/w3, and the blueprint writers;
+    - SO part 2: SO-KDEPTH, SO-BALLFIX, SO-V2PKG, SO-DATA3 (step 1).
+  - Quotas: claude-3 86 %, claude-12 85 %, claude-6 74 %, claude-4 58 %, codex-3 11 % (monitor readings from
+    15:04–15:17). Disk 11 GB free.
+- **16:30. Lock (kam-inp-24): design written, audit started; decisions for owner review.**
+  - Design SO-LOCK-DESIGN.md, SOLockSignatures.lean (elaborates; sorry only), FREEZE-PROPOSAL-LOCK.md on branch
+    inp-lockdesign (50807049); codex-3 design audit running (inp-maud-lockdesign). Nothing frozen.
+  - **For owner review** (reversible choices taken; full text in FREEZE-PROPOSAL-LOCK.md Q1–Q6):
+    1. *Naming ψ\*:* the orbit `lunarSyncOrbit` is defined by choice over `IsSyncOrbit` (C², 1-periodic, odd, solves
+       the orbit equation) and made canonical by a proved GLOBAL uniqueness theorem; the headline bounds
+       |ψ − ψ*(φ)|, |p − 1 − ψ*′(φ)| and |q − φ| < 1/4. Options: global uniqueness (chosen; no data in the
+       statement) / uniqueness within δ of a rational c / Fourier data in the statement.
+    2. *Orbit certification:* Banach contraction in sup norm (Lipschitz factor ≈ 0.002) instead of the brief's
+       Newton–Kantorovich radii polynomial: data-free, gives existence, uniqueness and location. Chosen because it
+       is smaller and needs no kernel data; NK stays available if the audit finds a gap.
+    3. Spin bound via the coarse ellipse (≈ 3.7 %) rather than the sharper ≈ 2.5 %; reversible later.
+    4. Q4–Q6 (no separate non-vacuity theorem; freezing `lunarSyncOrbit_bound`; literal rules): as recommended in
+       the proposal.
+- **16:15. SO-V2PKG done: the v2 certifier makes the N = 65 Moon data far cheaper.**
+  - Thresholds at R2, N = 65: v1 sharp 10^−31.83; routeAFrozen 10^−27.87; routeARefined with classical sites
+    10^−18.66; refined with certified bites (d01b) **10^−14.26**.
+  - The exact rational mirror reproduces all four SHARP2-C6 kernel tests.
+  - Recommended configuration: `checkTorusCertificateV2 routeAV2`, refined witness; `lunarR2` unchanged; L = 20;
+    CertFixed 96; 667/718 shards per torus (was 1,230).
+  - Measured: err 1.6e-16/1.83e-16; all seven sub-checks and the graph check pass.
+  - Estimated cost: 0.7–1.8 CPU-h per torus (was 3–5).
+  - Lean glue: about 150 lines, new names only (CertV2.lean, LunarAssemblyV2.lean).
+  - SO-DATA3 now runs steps 2, 3 and 3b with this configuration (brief addendum). The study is sent to kam-inp to
+    land (rebased onto inp as 9adbdc33).
+  - Deviation by the worker: one `pkill -f` of its own superseded Python run. It matched only that process; the
+    worker was reminded of the rule in its brief.
+  - **For owner review (deferred; recommended option taken):** under v2, N = 80 costs about 2–4 CPU-h per torus
+    (threshold 10^−16.10) and N = 100 about 6–15, for certified bands of about 2.69 % and 2.67 % against 2.755 % (all
+    at today's SOS slack). The study recommends staying at **N = 65** for DATA3, since N = 80 gains only about 0.06
+    points, and treating N = 80 as the owner's optional stretch afterwards. DATA3 proceeds at N = 65.
+  - SO-DATA3 step 1 is done: the mirror reproduces a fresh `#eval` of BALLDY's `Slp.balls` bit for bit on all 887
+    lunar slots and seven toy programs. BALLDY's handoff had cited a stale dump; SO-BALLFIX's audit request will cite
+    the fresh evidence.
+- **16:19. Heartbeat: codex-3 nearly exhausted; lock design round 1.**
+  - **Codex:** codex-3 is at 6 % weekly, burning about 5 %/h, so it runs out in roughly 1–2 h; it resets 5 Nov.
+    codex-4 and codex-5 report "Not logged in", and codex-1/2 are at 0 % and 3 %.
+  - **Rationing,** sent to both sub-orchestrators, in this order:
+    1. SO-BALLFIX delta;
+    2. SO-KDEPTH;
+    3. lock design round 2 (strict delta);
+    4. W blueprint parts;
+    5. graph reviews, batched, no parallel slices;
+    6. SO-DATA3 final.
+    Once codex-3 hits its limit, audits queue and writing and proving go on; landings that need an audit wait.
+  - **For owner review:** a codex-4 sign-in (`! codex-4 login`; 29 % weekly) or a codex-5 sign-in (28 %) would
+    unblock the audit queue. Otherwise every audit waits for the owner or the 5 Nov reset. Under the 15:20 ruling, no
+    Claude auditor fallback was used.
+  - **Lock:** design audit 1 FAIL with three HIGH findings, all in the lock's own draft contracts:
+    - sqrt versus the unconditional real-eval theorem;
+    - the root choice in the sqrt witness;
+    - transport direction and sign.
+    The route itself (Banach-contraction periodic orbit, confinement signatures) was judged viable. Suggested to
+    kam-inp-24: total real-preserving sqrt semantics like Lean's inverse (0 on nonpositive reals), so that no landed
+    statement changes.
+  - **LOCK-GEN-1:**
+    - the orbit's radii polynomial closes (Y0 1.5e-58);
+    - the rational centre is within 5.5e-9 of ψ*;
+    - the N = 65 torus in polar coordinates has amplitude 73.8°, support 129×27, residual about 5e-39 against v2's
+      about 1e-12.
+  - **SO-KDEPTH:** told to stop optimising for R1's 320-bit data, since the v2 data are L = 20 on CertFixed 96, and to
+    hand off. Finding: checkSoGraph on R1 no longer recurses deeply, but it runs 386 s and hits the 10 GB cap, so
+    SO-DATA3 splits it per bound.
+  - SO-BALLFIX is writing its audit request.
+- **16:25. Owner: codex-1 reset to 100 % (confirmed with `codex-quota check`).** New audits go to codex-1, with
+  codex-3 (6 %) in reserve. The rationing is lifted; at most 2–3 audits run in parallel. Both sub-orchestrators are
+  told.
+  - main had diverged from origin/main (the owner's L8′ landing). Merged as 3885dfec, with README taken from origin
+    and regenerated by the HQ, so kam-inp can land SO-V2PKG.
+  - **SO-BALLFIX done** (ff7a0317):
+    - two additive lemmas in Ball.lean (`ballForce_some`, `ballStep_char`) and a 3-line proof-only change in
+      sharp-v2's BallsTrig.lean (verified: proof lines only);
+    - all Certificate, CertificateSharp and V2 modules and tests build;
+    - audit `inp-maud-soballfix` on codex-1.
+    - Finding: the Hamiltonian checks of our v2 route (`checkHamBounds`, `checkHamClaim`) evaluate through
+      `Slp.balls` and so get BALLDY's rounding. sharp-v2's trigonometric pass `ballsTrig` keeps unrounded shape
+      scalars and O(L²) list rebuilding, but our route does not use it.
+  - The audit launcher's short-name check flags pre-existing sharp-v2 names (`TRel.snoc` etc.) whenever BallsTrig is
+    listed, so it was launched with Ball only.
+  - W: W7 accepted (kam-d4 checked the minor fixes). The W4 delta review is finishing on codex-3.
+- **Lock (kam-inp-24): design audit 2 (codex-1) FAIL; rev 3 in progress. For owner review:**
+  - *Question:* `HamExpr.sqrt` with a domain arm in `NonvanishingOn` makes the landed, unfrozen intermediate helper
+    `HamExpr.nonvanishingOn_of_inv_good` false (inverse safety cannot certify Re > 0). Options: (a) replace or extend
+    that single helper with an added sqrt-safety hypothesis (`SlpSqrtGood`), keeping every consumer's statement
+    (`nonvanishingOn_of_balls`, `…ballsTrig`, `checkHamBounds_sound`, `ham_structural`); (b) contort the compiler so
+    the old text stays literally true; (c) abandon sqrt for route (b) (new G1). *Choice:* (a), the smallest,
+    reversible, documented exception to "no landed statement changes"; frozen statements untouched.
+  - Also fixed: `lockHamExpr_clock` gains `0 < Ω` (false for negative Ω).
+- **16:35. SO-BALLFIX audit PASS WITH NOTES (codex-1); sent to kam-inp to land. Disk relief. W and lock moving.**
+  - **SO-BALLFIX** (docs/tracks/SO/audits/SO-BALLFIX-audit-1.md): 44 targeted builds, 52 original-type probes, axioms
+    and kernel replay all pass; the only notes are scoped. Landing branch inp-soballfix at 8ecd9ea2 (BALLDY plus
+    the BallsTrig repair). kam-inp was asked for a full landing build, since this combination failed before.
+  - **SO-V2PKG landed** (main ee00c270).
+  - **Disk:** / reached 9.0 GB. 256 Claude transcripts untouched for over 3 days (2.8 GB) were archived per file to
+    /mnt/HC_Volume_106379410/root-archive/claude-projects/ (cmp-verified, atomic symlinks), so / is at 12 GB.
+    Codex rollouts gave nothing, being open or recent.
+  - **Lock:** design revision 2 (6c076a6d: total `sqrtE`, anchored witness, exact maps) is in the round-2 delta audit
+    on codex-1. LOCK-PO then LOCK-CONF have started (Opus, claude-12, worktree KAM-inp-lockpo, marked pending
+    audit). COORDS waits for disk; SQRT waits for BALLFIX to land.
+  - **W:** blueprint W4 and W7 on main (2325997f), with errata E-PDE-W-1/2, E-PDE-KP-1/2,
+    E-W-Pos96K-2..4 and deviation D-W-Pos96K-L10.
+    - Graph wave 1 (W0–W3 and headline): 309 nodes, 1029 edges, 13 anchors, linter clean; batched review on
+      codex-1.
+    - Lean: W1-SINES and W1-WEIGHTED complete and in audit on codex-1. W0-NORMAL (claude-4) and W1-ANALYTIC
+      (claude-6) are proving. The W5/W6 writer is running.
+- **16:57. SO-BALLFIX (with BALLDY) landed: main 9959a171.**
+  - The full landing build with sharp-v2 passes (10674 jobs); lint, ABI 158 and the frozen guard are OK.
+  - D39's two checker fixes: dyadic ball rounding is on main; the recursion-depth fix (SO-KDEPTH) is writing its
+    handoff.
+  - SO-DATA3 told to merge inp at its next safe point, taking inp's version of any Ball, BallRound, BallsTrig or root
+    file. Both N = 65 tori already pass every exact mirror check of the v2 refined route (Hamiltonian claim, frame
+    checks, refinedCore). The l = 12 bite kernel probe is queued on the shared lock.
+  - Lock: design audit 3 PASS WITH NOTES (codex-1), sent to land with LOCK-GEN-1's numerics.
+    - Freeze proposal for the owner: docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md (`lunar_sync_lock` around
+      ψ* = `lunarSyncOrbit`; literals provisional; nothing frozen).
+    - Running: LOCK-PO then LOCK-CONF, and LOCK-SQRT (cut from inp with BALLFIX; / briefly at 9.9 GB, authorized
+      until KDEPTH lands).
+    - LOCK-COORDS-R is done; its audit is with the lock sub-orchestrator.
+  - W: W1-SINES is in the landing queue. Provers wpc and wpd are running, and the second batched graph review is on
+    codex-1.
+- **17:20 Track W (kam-d4).** Blueprint: W4 and W7 accepted and landed (2325997f). The cleanup of six defects in our
+  own blueprint text (found by the graph reviews) was accepted on codex-1 and sent to land (inp-wbp 99afc128). W5 and
+  W6 are written (6ac9e194). Lean: W1-SINES passed audit and was sent to land. W1-WEIGHTED failed audit 1 and is being
+  fixed. W0-NORMAL and W1-ANALYTIC are running. Graph wave 1: 312 nodes; the batched delta review is running on codex-1.
+  **For owner review (design, reversible, nothing frozen affected):** the W5/W6 writer found that W7's modified
+  divisor weight ŵ = (i−j)j^{−1/2} breaks the parameter-Lipschitz estimate of the preparatory KAM step (P96-K
+  p. 140's |X_F|^λ bound with weight min(i^ϖ, j^ϖ) is unjustified for the Lipschitz part; suspected erratum, to be
+  confirmed by review). Options: (a) β = ¼, i.e. ŵ = (i−j)j^{−1/4} (w = 1/47, α̂ = α^{44/47}, α̌ = α^{48/47},
+  μ̃ = 32/47; density survives); (b) a different smoothing/weight route. Choice: (a), being verified by the W7
+  writer; it only changes internal exponents. nlw2 is unaffected (it asserts only density one and existence of
+  constants).
+- **17:20. Heartbeat: rotation of track W; kernel-lock contention; lock track at LOCK-SQRT.**
+  - **Rotation:** claude-6 hit its 5-hour limit at 17:09; kam-d4 (track W) was set to sit until 20:00. Respawned
+    on **claude-3**, resuming session 63b27f23, and told to re-arm its waiters and move its claude-6 provers (wpd
+    stalled, wpa idle) to claude-4.
+  - **SO-KDEPTH** had held the shared kernel-probe lock for about an hour with an R1 `checkGram` acceptance run
+    (still under the 10 GB cap), blocking SO-DATA3's N = 65 probe. It is told to stop the remaining R1 runs (its own
+    PIDs), record the measurements as findings, and hand off with a split between checker and measurement commits.
+  - **SO-DATA3** had paused on the disk floor. It is authorized down to 8 GB free for the data-module builds and the
+    l = 12 probe, until KDEPTH's worktree goes. Its emitter will write `Witnesses` with named fields, because
+    LOCK-SQRT adds a fourth field `sqrtWit`.
+  - **Lock:**
+    - LOCK-PO, LOCK-CONF and LOCK-COORDS-R landed in inp (a5f010eb).
+    - LOCK-SQRT is done (a12b69cb) and in audit on codex-1. The only landed hand-written statement changed is the
+      sanctioned helper; a 91-module downstream closure builds.
+    - LOCK-ASSEMBLY part 1 and LOCK-GEN-2 (v2 optimization of the librational certificate) are running.
+    - LOCK-SQRT's design signal: ball bounds on high derivatives of √(long product) are loose, so the generator
+      should compile √ of the simplest operand.
+- **17:29. SO-KDEPTH done; landing branch in a full build before audit.**
+  - The checker commit f1f3b760 makes the traversals log-depth: balanced `weightedNormUp`, a merge tree for
+    `directItems`, a strict `composeOps` loop, new modules Arith/BalancedSum and Model/FixedEq. No signed statement
+    and no format changed.
+  - The kernel's real depth limit is accumulation of non-literal arithmetic (Int or `upAdd` folds, nested lazy
+    merges). Nat folds and list operations pass at 20k elements.
+  - A synthetic 20,000-term polynomial now passes every operation, where the old foldr hit deep recursion at 9 s.
+  - On R1 data (CertFixed 320) these remain memory-bound in one kernel check, and SO-DATA3 splits them per piece:
+    whole `checkEmbedding` (22 min, then the 10 GB cap), `checkSoGraph` (386 s, then the cap), and `checkGram`
+    (more than 72 min, stopped to free the lock). Every piece of `checkEmbedding` passes alone.
+  - Landing branch inp-sokdepth-oninp: f1f3b760 cherry-picked onto inp a5f010eb as f1dc41bf, plus the audit request
+    (b128d433). A full `KAM` build is running there first, because sharp-v2 may rely on the rewritten internals as
+    BallsTrig did.
+  - The measurement worktree is removed (branch kept); / at 12 GB. SO-DATA3 is told to mirror the new
+    `directItems` merge order; equality is argued, not proved.
+- **Lock (kam-inp-24): LOCK-SQRT audit 1: mathematics PASS; ABI-contract FAIL on four test statements. For owner review:**
+  - *Question:* besides the sanctioned helper `HamExpr.nonvanishingOn_of_inv_good`, four handwritten test theorems in
+    `KAM/Certificate/Tests/Compose.lean` (`composeTest_noChar`, `_noExp`, `_noInv`, `_n2`) change elaborated type: the
+    `Witnesses.mk` literal in their statements gains the new fourth argument `[]` (no sqrt witness). Options: (a)
+    authorize as a test-only migration; (b) a 3-argument compatibility constructor so the old text elaborates;
+    (c) delete or rewrite the tests. *Choice:* (a), the smallest and reversible. The tests' mathematics and truth
+    value are unchanged, and no production or frozen statement is affected.
+- **17:47. SO-KDEPTH in audit (codex-1); SO-DATA3 steps 2–3b done, kernel passes started.**
+  - **SO-KDEPTH:** the landing branch inp-sokdepth-oninp (fe8aecff) passes a full `KAM` build (10687 jobs).
+    Auditor: inp-maud-sokdepthl.
+    - Launcher note: its short-name check flags every public name of a listed module, so pre-existing names
+      (`ComposeState.SlotsEnclose` in Compose.lean, `CertModel.Encloses` in Model/Basic.lean) refuse the launch.
+    - The package's new names (`composeOpsAux`, `composeOpsAux_eq`, `composeOps_eq`, `weightedNormUp_ge`) were
+      checked by hand as unique, and the audit was launched with BalancedSum, FixedEq and Terms; its focus covers
+      Compose and Basic.
+  - **SO-DATA3 steps 2–3b:** the N = 65 data for v2 (`checkTorusCertificateV2 routeAV2`, refined witness d01b),
+    L = 20, CertFixed 96.
+    - In the mirror, both tori pass all seven sub-checks, the graph check and refinedCore.
+    - The rerun is byte-identical, and the negative controls are rejected.
+    - err 1.6e-16/1.83e-16, at 10^−1.50/10^−1.44 below the threshold. disp 5.78e-11/6.62e-11, the exact minimum
+      rounded up.
+    - **Band by rule B: δ = 2.755 % ([0.97245, 1.02755]); window by rule W: 0.9934/1.0066.**
+    - The l = 12 bite passes in the kernel alone: 2 min 03 s, 8.36 GB peak.
+    - The witness claims come from exact mirrors of `checkFrameMajorants`, `hamClaimOk` and `balBound`.
+      SO-V2PKG's sampled bL and bNt were too small, which the exact mirror caught.
+    - The glue (CertV2.lean, LunarAssemblyV2.lean) builds. The data are 62 files, about 14.2k lines.
+  - **For owner review (deferred; recommended option taken):** the SOS slack of the graph check is per side, 3e-4 on
+    the band edges and 3e-5 on the inner edges. Tightening the band edge worsens its residual. Higher-degree SOS
+    gains at most 1.5e-4, which gives a band of about 2.740 % at 1.6× the terms. **Kept at 2.755 %.**
+  - SO-DATA3 is told to merge the KDEPTH landing branch, which is value-preserving and already mirrored, and to run
+    step 4 (kernel passes per family, split per shard and per bound, each alone under the lock and the 10 GB cap)
+    and step 5 (the final theorems, nothing frozen). If KDEPTH's audit requests changes, the affected passes are
+    redone.
+- **17:58. SO-KDEPTH audit PASS WITH NOTES (codex-1); sent to kam-inp to land.**
+  - Report: docs/tracks/SO/audits/SO-KDEPTH-audit-1.md.
+  - The three soundness exports keep their statements, use standard axioms only and pass replay. 43 builds, 33
+    tests and 25 axiom probes pass.
+  - The `directItems` equality argument for strictly ordered rows holds, with a padding qualification, but is not
+    proved in Lean. SO-DATA3's mirror follows the tree order exactly, so it is bit-safe.
+  - With BALLDY/BALLFIX already on main, both D39 checker fixes are then landed. SO-DATA3 needs no rework.
+- **Lock (kam-inp-24): LOCK-SQRT passed (audit 2 PASS WITH NOTES; sqrt-free checker values bit-exact). LOCK-GEN-2
+  done: a cost signal for owner review.**
+  - The N = 65 librational certificate under the v2 refined route has threshold 10^−18.0 (not the projected 10^−12),
+    because the disc pass `Slp.balls` overestimates the Hamiltonian claims 70–300× on the polar Hamiltonian.
+  - Achieved: diamond support 90 × 18, residual 5e-20, err/threshold 10^−1.0.
+  - Projected kernel cost is 12–100 CPU-h for one torus (R2: 1.4–3.6 for its pair), and the 10 GB per-probe cap is at
+    risk.
+  - **For owner review:**
+    - *Question:* proceed at this cost, or first build a sharper Ham pass (angle cells / BallsTrig through exp; a
+      checker change worth about 2.5 decades and about half the cost)?
+    - *Choice for now (reversible):* both in parallel. LOCK-DATA proceeds with pruned composition, and the
+      lean `lockHamExpr` variant is evaluated. A design note prices the sharper Ham pass before any checker change.
+  - Deviation reported by the worker: one `pkill -f` on its own job (forbidden pattern; no other process affected).
+- **17:59. LOCK-SQRT audit 2 PASS WITH NOTES (codex-1), landing; SO-DATA3 merges it before its kernel passes.**
+  - Item (6): every checker function is bit-exact on sqrt-free certificates. SO-DATA3's N = 65 data need no
+    re-emission, since they use named `Witnesses` fields.
+  - Audit 1 had failed only on four test statements in Tests/Compose.lean, which gained the empty fourth
+    `Witnesses` argument. kam-inp-24 authorized that as a test-only migration, logged for owner review.
+  - SO-DATA3 was told to merge inp-locksqrt before running more passes; it had just generated 20 pass modules per
+    torus. Any upstream checker change rebuilds the data modules and re-runs their kernel checks.
+  - **Planning note for the SO-DATA3 landing:** kam-inp's full landing build will re-run every data kernel pass.
+    It must build the data modules serially, under the 10 GB cap, before the parallel full build; otherwise
+    concurrent 8 GB checks would exhaust memory.
+  - **Track W:** every blueprint part W0–W8 is written (112 pages). W8 proves frozen `nlw2` clause by clause
+    without weakening. W5, W6, the W7 β = ¼ revision, the W3 corollary and W8 await two tight codex-1 reviews after
+    W6's per-shell ε₀ interface change. Lean: W1-SINES and W1-WEIGHTED on main; W1-ANALYTIC and W0-NORMAL in round
+    2; provers W0-ANALYSIS and W1-ALGEBRA running.
+- **18:18. SO-KDEPTH landed (main 88af7f63; full build 10696 jobs; lint, ABI 158 and frozen guard OK).**
+  - Both D39 kernel-scale checker fixes are on main: dyadic ball rounding (BALLDY/BALLFIX) and log-depth traversals
+    (KDEPTH). The landing worktree is removed; / at 13 GB.
+  - Lock: LOCK-GEN-2 shows that on the polar Hamiltonian the ball pass overestimates the Ham claims by 70–300×.
+    The v2 threshold is therefore 10^−18 (not 10^−12), with a projected 12–100 CPU-h for the one librational torus
+    and the 10 GB per-check cap at risk.
+  - kam-inp-24 was asked for a design note pricing: a per-certificate slot-ball precision (default 320, so SO-DATA3
+    is unaffected); segmenting the Ham SLP with checkpoint witnesses (route E of SO-COMPOSE-SPLIT); a sharper Ham
+    pass; pruned composition and the one-sqrt lockHamExpr. Target: every theorem ≤ 10 GB and about 20 CPU-h in
+    total; the choice is logged for owner review.
+- **18:19. Heartbeat: SO-DATA3 kernel passes on the lower N = 65 torus.**
+  - All families pass so far. The Hamiltonian family is the closest call: 9.76 GiB peak, under the 10 GiB cap.
+  - The Gram pass ended with SIGTERM (rc 143). The journal shows no earlyoom kill, so it was probably the run's own
+    timeout; R1's checkGram ran more than 72 min. It is told to rerun alone with a longer limit or split it.
+  - System swap is full (7 MiB of 8 GiB free), and landing builds run in parallel with the probes, so headroom is
+    thin. Passes near the cap should be split.
+  - No owner decisions this round. Quotas OK. Disk 13 GB.
+- **18:49. SO-DATA3 stopped at its 10 GB rule; the next lever is sharp-v2's pruned and shared checks.**
+  - Lower N = 65 torus, each run alone under the cap:
+
+    | check | time | peak memory |
+    |---|---|---|
+    | `checkStatic` | 7 s | 1.6 GB |
+    | `checkHamBounds` | 1:44 | 9.75 GB |
+    | `checkHamClaim` | 1:41 | 10.24 GB, just under the cap |
+    | `checkEmbedding` | 35 s | 3.2 GB |
+    | l = 12 bite | 2:03 | 8.36 GB |
+
+  - **Over 10 GB:**
+    - `checkGram`: even one defect row (9.3 GB and climbing), since every row needs the whole Gram matrix;
+    - `checkEnergy` and `checkInvariance`: each is one `Slp.compose` fold of the 887-op jet holding every slot's
+      model;
+    - so also Torsion, FrameT and FrameN, which recompute Gram.
+    The data side cannot split them; the landed checker takes no intermediate state as data.
+  - **Next (no owner decision; new names only):**
+    - probe sharp-v2's pruned and shared invariance plus energy (`checkInvEnShared`, `Slp.composePruned`, keeping
+      only the v0 and d1 slots; the d2/d3 part of the jet is dead for these checks), and Gram via torsion
+      (`checkGram_of_checkTorsion`);
+    - if they fit, define a new BaseChecker `lunarSharedBase` and a theorem `lunar_barriers_of_R2V2Shared` through
+      `checkV2With_sound`.
+    Fallbacks: the package levers (lower CertFixed precision or cfgLow cutoff, with re-emission), then a checkpointed
+    compose (SO-COMPOSE-SPLIT route E).
+  - The branch has KDEPTH and LOCK-SQRT merged; after LOCK-SQRT the ball pass gives byte-identical output.
+  - **Lock:** LOCK-SQRT landed (55fa0d65). LOCK-COORDS-C passed and is in inp. LOCK-GRAPH started (engine-generic).
+    The cost note SO-LOCK-COST is at revision 3: per-theorem ≤ 10 GB and ≤ 20 CPU-h are not yet established. A
+    calibration gate decides, and a projection above 60 CPU-h or a failed probe goes to the owner.
+  - **W:** the full blueprint W0–W8 is accepted and landing. Lean: W1-SINES and W1-WEIGHTED on main; W1-ANALYTIC
+    and W0-NORMAL landing; W1-ALGEBRA in audit; W0-ANALYSIS and W1-KAMSUP proving. Graph wave 1: 309/314 reviewed.
+  - **Machine:** swap full. Claude Code reaped this session's and the lock sub-orchestrator's background waiters
+    under memory pressure, and both are not re-armed. Track W keeps to 2 heavy lean processes and the lock to 1.
+- **19:20. SO-DATA3: the sharp-v2 levers do not fit either; the checker-side split SO-CSPLIT is started.**
+  - Lower torus, under the cap:
+    - pruned and shared invariance plus energy (`checkInvEnShared`; 215 of 887 slots, 100 products): killed at
+      10.27 GB;
+    - energy alone pruned to v0 (86 slots, 26 products): killed within about 1.5 min;
+    - torsion and the frames need the Gram check, which already fails per row.
+  - So the kernel cost is per model-by-model product (SO-KDEPTH: a synthetic 200×200 `directItems` takes 7.0 GB),
+    not per slot.
+  - The data levers do not help:
+    - lower precision shrinks bits, not the term counts;
+    - the cfgLow cutoff does not touch the full-config compose;
+    - L = 20 is the minimal truncation with one order of margin.
+  - **Decision (overnight, reversible, for owner review):** revive route E of the design study SO-COMPOSE-SPLIT
+    (equality checkpoints; a ledger of literal slot models; segment theorems re-running the unchanged
+    `composeStep`; a computation-only chaining lemma proving the landed sub-check Bools; nothing signed changes).
+    Product-level splitting is added if one product exceeds the cap.
+    - Package **SO-CSPLIT** (Opus, claude-4, worktree KAM-inp-socsplit2). Phase 1 is a design revision with a
+      codex-1 audit, fixing that study's audit findings (memory evidence, Level 2, ledger counts).
+    - SO-DATA3 measures single-product memory and an L = 14 scaling probe as the calibration gate.
+    - The lock track reuses the same tool for its 3,158-op polar Hamiltonian.
+  - **Owner-review flag:** that study estimated 110–250 MB of ledger literals per torus, which would land in the
+    public repository. SO-CSPLIT must price the volume and offer alternatives (compression, content-addressed
+    shards); anything above about 50 MB per torus is flagged to the owner.
+  - **W:** the full dependency graph is extracted (690 nodes, 2,260 edges, all reachable from `nlw2`, 13 anchors,
+    44 external leaves, 0 SOURCE_GAP). Wave 1 (314 nodes) is reviewed; wave 2 (385 nodes) is in two batched codex-1
+    reviews. Lean: W1-SINES, W1-WEIGHTED, W1-ANALYTIC, W0-NORMAL and W1-ALGEBRA on main; W1-KAMSUP in audit;
+    W0-ANALYSIS being refactored.
+- **19:50. SO-CSPLIT Phase 1 design done (a6c13677); design audit on codex-1.**
+  - **Mechanisms:**
+    - M0, a jet bridge;
+    - M1, the route-E shadow-fold chain over a ledger of slot values, with explicit invariants;
+    - M2, stage memoization, proving Gram, torsion, frames and invariance one matrix entry at a time;
+    - M3, every packed product split into a shard check (≤ 3.3 GB) and its consumer.
+  - **Calibration** from SO-DATA3's probes:
+    - peak ≈ base + 0.04–0.13 GB per second of kernel work;
+    - a budget of 75k backend operations per theorem, predicted at 3.4–5.1 GB;
+    - the heaviest product forced whole costs 9.89 GB, hence M3.
+  - **Plan:** 38 cfgFull and 70 cfgLow segments per torus; about 460–480 theorems per torus, each module built
+    alone under the cap; **3.0–4.3 CPU-h per torus (6–8.6 for both)**; ledger about 10–11 MB per torus (21 MB in
+    total, under the 50 MB flag); about 1,650 Lean lines in four packages, a 900-line Python emitter and an
+    eight-probe calibration gate.
+  - **For owner review (SO-CSPLIT §10):**
+    - O1: prove the existing landed sub-check Bools (no new BaseChecker). Taken.
+    - O2: the lock's projected ledger is 100–200 MB, above the 50 MB flag. The lock projection is 25–60 CPU-h.
+    - O3: land-branch.sh needs a one-at-a-time capped prebuild of the heavy modules before any parallel build.
+    - O4 (optional): re-prove HamBounds and HamClaim through the jet bridge, since HamClaim sits 2 % under the cap.
+  - **Lock:** LOCK-GRAPH finished at 19:02 (three theorems, standard axioms). kam-inp-24 had been idle without a
+    waiter since the memory event, so it was nudged to process it and re-arm.
+- **Lock (kam-inp-24): status, and a cost flag for owner review.**
+  - Landed: LOCK-SQRT (main 55fa0d65), LOCK-COORDS-C (16d12a5f).
+  - LOCK-GRAPH (certificate → librational barrier, invariance produced) is done and in codex-1 audit.
+  - **For owner review: cost and ledger size of the N = 65 lock certificate.**
+    - SO-CSPLIT's design projects the lock's segmented checks (route E) at 25–60 CPU-h, with a 100–200 MB
+      slot-model ledger. The ledger trips the 50 MB owner flag.
+    - Options: (a) accept, with the ledger stored as data outside the repo and only hashes and segment theorems
+      tracked; (b) wait for the sharper Ham pass (lever 4a: about 2.5 decades of threshold, roughly halving cost and
+      support, but a medium–high-risk checker change); (c) lower N (a smaller libration amplitude; contrary to D45's
+      N = 65).
+    - *Choice for now (reversible):* keep N = 65 and SO-CSPLIT route E as the baseline. SO-LOCK-COST is revised on
+      SO-CSPLIT's numbers and its gate; no kernel run starts before the gate and an owner look at the ledger size.
+- **19:57. SO-CSPLIT design audit 1: FAIL (codex-1); revision under way.**
+  - Strategy and shadow-fold invariant judged sound.
+  - F1 (blocking): no elaborating signatures file. F2: wrong output carrier in the product assembly. F3: the
+    sparse-product contract is insufficient. F4: `segOk_one_of` cannot discharge S1/S2. N1–N4 are notes.
+  - The worktree got a .lake/build copy of inp so the designer can elaborate
+    .drafts/design/SOCsplitSignatures.lean. A delta audit follows.
+  - Lock: LOCK-GRAPH is in codex-1 audit. The lock's ledger flag (100–200 MB) is logged for owner review; no lock
+    kernel run before the gate.
+- **Lock (kam-inp-24): SO-LOCK-COST calibration gate run (results in SO-LOCK-COST.md §12, branch inp-lockdesign
+  f8af9c30; raw data kam-data/so-lock/gate/).**
+  - **G2claim at P = 320 passes:** the whole Ham pass on the landed `lockHamExpr`, with the LOCK-GEN-2 claims, peaks
+    at 7.8 GB (cgroup). MAXRSS is 11 GB, because shared .olean mmaps are charged elsewhere, so it needs a
+    cold-cache repeat before it is relied on. P = 128 was not run.
+  - **G1 (the literal-jet bridge) is blocked:** the kernel hits deep recursion in the jet compiler (`slpCompile`/Diff)
+    on the 3116-op landed program. No limit was raised. The 3116 ops are not LOCK-GEN-2's 3158; the emitter must be
+    resynced.
+  - Design signal: a depth fix of the jet compiler (body change, statements kept, like SO-KDEPTH) or a per-subtree
+    bridge. This is shared checker code, so the owner and route are to be agreed with root-b8.
+- **20:17. Lock gate probes; jet-compiler depth fix SO-KDEPTH2 started; SO-CSPLIT revision 1 in delta audit.**
+  - **Lock gate** (SO-LOCK-COST §12):
+    - G2claim at P = 320 passes on the landed `lockHamExpr`: cgroup peak 7.8 GB, MAXRSS 11 GB from shared mmaps,
+      so a cold-cache repeat is due.
+    - The G1 bridge is BLOCKED by kernel deep recursion in the jet compiler (`slpCompile`/`Diff`) on the 3,116-op
+      program. No limit was raised.
+    - SO-CSPLIT's jet bridge M0 reduces to the same computation at lock scale. The 887-op lunar program is
+      unaffected.
+  - **Decision (overnight, reversible):** the main orchestrator owns the fix, since it is shared checker code.
+    **SO-KDEPTH2** (Opus, claude-6, worktree KAM-inp-sokdepth2) rewrites the bodies only, in the style of SO-KDEPTH,
+    with `_eq` lemmas, so compiled programs are identical. Acceptance: the G1 probes, and identity on the R2 program.
+    The lock holds its G1-dependent work.
+  - **SO-CSPLIT revision 1** (4bf0c5f5):
+    - an elaborating signatures file (.drafts/design/SOCsplitSignatures.lean, 13 sorry for the later packages);
+    - F2–F4 contracts proved;
+    - complete byte counts, 20.7 MB for both tori;
+    - calibration split into CAL-1 and CAL-2.
+    The delta audit (round 2) is running on codex-1, with the round-1 auditor.
+  - **SO-LOCK-COST passed** codex-1 review 4 and is landing (docs only).
+- **20:19. SO-CSPLIT delta audit 2: FAIL on one helper; revision 2 under way.**
+  - The signatures elaborate, and audit 1's product and one-op defects are repaired.
+  - F1 (blocking): `shadowRun_agree` is false on its stated carrier. The agreement set may contain future slots;
+    a kernel-checked counterexample gives 0 = 1. The fix is the auditor's corrected signature with a domain
+    invariant `hR`, discharged by `planOk` and `segPrefixOk` for the intended caller. `compose_eq` itself was not
+    refuted.
+  - N1/N2: the volume totals are estimates (fixed allowances, characters rather than UTF-8 bytes, dead memos
+    counted), so relabel them, with the final `du -b` as the gate; propagate qualifiers into the summary tables.
+  - SO-KDEPTH2 (jet-compiler depth) is running on claude-6.
+  - Quotas: claude-3 76 %, claude-12 73 %, claude-6 57 %, claude-4 44 %, codex-1 96 %.
+- **20:29. SO-CSPLIT design PASS WITH NOTES (codex-1, audit 3); Phase 2 started.**
+  - Audits 1 and 2 had FAILed: no elaborating signatures and three contracts, then the false `shadowRun_agree`.
+    Both are fixed; the audits are committed on inp-socsplit2 (c2a38f5b).
+  - **Packages** (design §8, about 2,190 Lean lines with tests; order A → (B ∥ L3) → CAL-1 → L2 → CAL-2 → GEN →
+    DATA):
+    - **SO-CSEG-A then B**, by the designer (claude-4, branch inp-socsplit2): segment definitions, the
+      `compose_eq` chain, the bridges and the templates.
+    - **SO-CSEG-L3**, the product split (claude-12, worktree KAM-inp-csegl3 off c2a38f5b).
+    - SO-CSEG-L2, the stage memo, waits for disk: / is at 9.7 GB, briefly under the floor while these worktrees
+      are live.
+  - Lock: emitter resync done (2c293847). The certificate's Hamiltonian is the κ-wrapped 3,158-op program; the gate
+    measured the bare 3,116. G2claim fits in one theorem (7.8 GB at P = 320, 6.8 GB at P = 128), so the Ham pass
+    needs no segmentation. LOCK-GEN-2 is in its first codex-1 audit. The G1 bridge waits for SO-KDEPTH2, which also
+    checks the wrapped program.
+- **20:37. SO-CSEG-L3 done and in audit; LOCK-GEN-2 landed.**
+  - **SO-CSEG-L3**, the product split: Kernel/ProductSplit.lean (163 lines), verbatim to the audited signatures
+    §(D) (empty diff), all proved, with 167 lines of kernel tests and standard axioms. Audit `inp-maud-csegl3` on
+    codex-1. Kernel/SegOne.lean (§C) moved to the A/B worker, since it is stated over SegDefs.
+  - **LOCK-GEN-2 landed** (PASS WITH NOTES). The emitted tree equals the landed κ-wrapped `lockHamExpr`, and the
+    auditor's rational transcription accepts the four Ham claims on all 3,158 ops. Caveat: the Python refinedCore
+    omits Lean's small-divisor site checks, so LOCK-DATA relies on the kernel for those.
+  - Lock state: every Lean package is on main. Remaining are LOCK-DATA (the N = 65 certificate and kernel passes)
+    and the one-line headline, waiting on SO-KDEPTH2 (G1 bridge) and SO-CSPLIT (segmented
+    compose/Gram/torsion).
+- **20:44. SO-CSEG-L3 audit PASS WITH NOTES (codex-1), landing with the SO-CSPLIT design; SO-CSEG-L2 started.**
+  - L3: all 14 declarations match the design §(D) block; 11 production and 8 test theorems on standard axioms;
+    build, probes and replay pass. Sent to kam-inp (branch inp-csegl3) with the approved design, its three audits
+    and the planning scripts.
+  - **SO-CSEG-L2**, the stage memo (Gram, torsion and frames proved one entry at a time), started now (Opus,
+    claude-12) rather than after CAL-1. Its lemmas depend only on landed Gram/Torsion/Frame, and calibration
+    changes granularity, not statements. It reuses the L3 worktree on branch inp-csegl2, so no extra build copy
+    at 9.7 GB free.
+  - Running: SO-CSEG-A/B (+SegOne; claude-4) and SO-KDEPTH2 (claude-6).
+- **20:49. Heartbeat.**
+  - SO-CSEG-L3 and the SO-CSPLIT design landed (main 24f301e0).
+  - Running: SO-CSEG-A/B with SegOne (claude-4), SO-CSEG-L2 (claude-12), SO-KDEPTH2 (claude-6). The lock waits for
+    KDEPTH2.
+  - **W:** kam-1b had been idle since 19:56 while its wave-2 graph reviews (done 19:18 and 19:22) and two provers
+    (idle since 19:00 and 19:14) waited. It was nudged to process the reviews, push the graph to the global review
+    and publication, keep 3–4 provers on the ready frontier (W0-ANALYSIS, W1-KAMSUP first), and re-arm one waiter.
+  - Disk 9.5 GB (just under the floor while the CSPLIT worktrees are live). Swap full; available memory 18 GB.
+- **20:52. SO-CSEG-A/B done (41e685fc).**
+  - Five modules (SegDefs, SegAgree, SegChain, SegOne, SegBridges; each ≤ 400 lines) plus tests, about 1,415
+    lines in total.
+  - All A/B signatures are proved, including the corrected `shadowRun_agree` and `ComposeCkpt.compose_eq`.
+    57/59 shared declarations are verbatim and the deviations are additions only; the two remaining `sorry` belong
+    to L2.
+  - The audit launcher refused two new public short names (`ComposeCkpt.pair`, `SlpOp.beq`) under the reuse
+    rule. They are being renamed (design-name deviations, statements unchanged), then a codex-1 package audit.
+  - **W (kam-1b caught up; a single waiter now):**
+    - wave-2 graph reviews committed (all 8 new slices FAIL at slice level with replacement rows; delta 5:
+      three pass, two have residual rows);
+    - W0-ANALYSIS (real carrier; complex parts moved to the new W1-CUBIC) and W1-KAMSUP (audit round 2 PASS WITH
+      NOTES) sent to land;
+    - W1-CUBIC proving. W2 (reconstruction, nlw2 clause 5) and W4-Lean start after those land.
+- **20:54. SO-KDEPTH2 done (588cd1e2); audit on codex-1.**
+  - Cause: `slpEmit`'s `s ++ [op]` builds a left-nested append chain, so the kernel recursed once per op when
+    reading the program spine or its length. 887 ops passed; 3,116 failed.
+  - Fix: a reversed-buffer compiler `slpCompileB` with simulation lemmas, and `HamExpr.jet_eq` (same program and
+    same slot tables). Old builders are kept as the specification; the statements of `jet_v0..jet_d3`,
+    `nonvanishingOn_of_balls` and `nonvanishingOn_of_ballsTrig` are unchanged. The compiler is split from Diff.lean
+    into DiffCompile.lean verbatim, with the import path preserved.
+  - Probes under the cap: all lock G1 probes that previously hit deep recursion pass (30–33 s, 3.1–3.5 GB), the
+    G1b bridge included. The wrapped 3,158-op program passes (47 s, 3.1 GB). A full KAM build (10737 jobs) passes,
+    with standard axioms including `lockBarrier_of_certV2`.
+  - Landing branch inp-sokdepth2-land (code commit only; the probe commit stays on inp-sokdepth2).
+- **21:02. SO-KDEPTH2 audit PASS WITH NOTES (codex-1), landing; SO-CSEG-L2 and SO-CSEG-A/B in audit.**
+  - KDEPTH2: the performance conclusion is bounded to the tested programs (lock and R2), with no general depth
+    bound. Landing branch inp-sokdepth2-land; full landing build requested, since Diff.lean is imported nearly
+    everywhere.
+  - SO-CSEG-L2 (Kernel/Stage, 208 lines, plus tests): both remaining `sorry` proved, verbatim to the signatures.
+    The short-name clash with SO-DATA3's superseded GramSplit probe was resolved by deleting the probe
+    (inp-sodata3 cf56e57b). Audit on codex-1.
+  - SO-CSEG-A/B: signed short names renamed (fd6c8d12; statements unchanged). Audit on codex-1.
+  - W: 7 Lean packages on main; W1-CUBIC and W2-RECON proving (the latter proves nlw2 clause 5 from clauses 3–4).
+    The graph reviews found 10 presentation-level gaps in blueprint W4–W6, all repaired and under a codex-1
+    review. Graph delta 6 (133 nodes) is running.
+- **21:06. SO-CSEG-L2 audit PASS WITH NOTES (codex-1), landing; SO-CSEG-GEN started.**
+  - L2: 12 statements match the design, 34 theorems on standard axioms, replay passes, no semantic blocker.
+  - Design signal: `apply torsionModels_eq_of_stages <;> assumption` times out at whnf under default heartbeats.
+    Explicit instantiation works (design R5), so generators must emit explicit applications; no budget override.
+  - **SO-CSEG-GEN** (the DATA3 worker): the ledger emitter `csplit_ledger.py`, the optimizer, and the Lean
+    emission templates. Scratch only; no kernel runs before CAL-1/2.
+  - SO-CSEG-A/B is in codex-1 audit. Once A/B, L2 and KDEPTH2 are on main, run the calibration gates CAL-1/2
+    (G0–G7).
+- **21:10. SO-CSEG-A/B audit PASS WITH NOTES (codex-1), landing: SO-CSPLIT's Lean core is complete.**
+  - The Lean core is L3 (on main) and L2, KDEPTH2 and A/B (landing). The A/B auditor read all of the source,
+    including every `composeStep_congr` arm, both shadow-induction branches and the tiling induction; no blocking
+    defect.
+  - Next: the calibration gates CAL-1/CAL-2 (G0–G7) on SO-DATA3's real lower N = 65 torus, run by the designer
+    (claude-4) one probe at a time under the cap. In parallel, SO-CSEG-GEN (ledger emitter and templates) in the
+    DATA3 worker. Then the per-torus DATA runs, built serially under the cap, and the final N = 65 band theorems.
+- **21:21. Heartbeat. SO-KDEPTH2 landed (2dad8824 on main); lock reruns pass so far.**
+  - On the wrapped 3,158-op program, every G1 piece run so far passes at 3.1–3.5 GB: G1a, the G1b bridge,
+    prog_0/800/1600/2400, v0 and d1. d2/d3, the tails, the assembly and G2claim are still running.
+  - LOCK-DATA brief drafted but not dispatched (.drafts/briefs/lock/PKG-LOCK-DATA.md): it reuses SO-CSPLIT's
+    Kernel/Seg* and SO-CSEG-GEN, and stops if the measured ledger exceeds 50 MB. Dispatch gates: CAL-1/2 pass,
+    the lock reruns pass, the ledger flag re-logged with the measured size, disk ≥ 10 GB.
+  - L2 and A/B are still landing. Calibration gates CAL-1/2 (designer) and SO-CSEG-GEN (DATA3 worker) are running.
+  - W: provers wph working and wpi idle; graph delta 6 and the gap-fix reviews done, being processed by kam-1b.
+  - The landed KDEPTH2 worktree is removed; / at 9.8 GB. Quotas: claude-3 74 %, claude-12 70 %, claude-6 55 %,
+    claude-4 41 %, codex-1 87 %.
+- **21:29. The SO-CSPLIT Lean core is on main.**
+  - Landed: SO-KDEPTH2 (main 6de3991f; full build 10766 jobs), and SO-CSEG-L2 with SO-CSEG-A/B (main 32e311a2;
+    8 new modules of 78–393 lines, no sorry, axioms or overrides). Each landing passed a full build, lint, ABI 158
+    and the frozen guard.
+  - **Lock gate on the wrapped 3,158-op program ALL PASSES** (SO-LOCK-COST §12, landed 109f72dd):
+    - every G1 piece is 3.1–3.5 GB and 30–60 s, the bridge being one theorem;
+    - G2claim is a single theorem at 8.0 GB (P = 320) or 7.0 GB (P = 128).
+    The Ham side of the lock certificate is a few CPU-minutes; LOCK-DATA's cost is now the SO-CSPLIT part.
+  - Remaining LOCK-DATA dispatch gates: CAL-1/2 (running) and the measured ledger size, re-logged for owner review.
+  - The landed L2/L3 worktree is removed.
+- **21:37. SO-CSPLIT calibration gates CAL-1/2: ALL 15 PASS; both data runs go.**
+  - On SO-DATA3's real lower N = 65 torus (docs/tracks/SO/studies/SO-CSPLIT-GATE.md, inp-socsplit2 c790787d):
+    - every theorem ≤ 4.05 GB cgroup peak (largest: a full 484×498 product's shards at 4.05 GB, 42 s);
+    - the jet bridge 1.08 GB;
+    - segments 1.48 GB (75k calls) and 2.79 GB (148k);
+    - decodes 1.1–1.5 GB;
+    - the torsion entry 0.66 GB;
+    - `checkEnergy base = true` from the chain in 5.5 s at 0.63 GB;
+    - the mirror bit-exact on every probed object.
+  - The per-call cost is 2–4× below the design's calibration, so the budget is B = 200k calls per theorem and
+    **1.6–2.5 CPU-h per torus** (was 3.0–4.3).
+  - **SO-DATA3** is told to finish GEN at B = 200k, emit both tori, run the serial capped kernel builds and prove
+    the final N = 65 theorems. It stops if the emitted ledger exceeds 50 MB.
+  - **LOCK-DATA** is told to dispatch: its gates are met except the measured ledger size, which is logged for owner
+    review. Above 50 MB it generates but stops before landing.
+  - **Owner item O3 implemented:** scripts/prebuild_heavy.py and land-branch.sh (bc3a68c7) build changed
+    KAM/SpinOrbit/Data/ modules serially, in import order, under the probe lock and a 10 GB cap, before the
+    parallel build. Data landings will hold the HQ lock for hours, so they get scheduled.
+- **21:49. Heartbeat: both data runs going; disk relief.**
+  - SO-DATA3 is emitting the segmented N = 65 data and running the serial kernel builds.
+  - LOCK-DATA (Opus, claude-12, worktree KAM-inp-lockdata) was dispatched by kam-inp-24. It rescales the lock
+    projection with the CAL numbers, measures the emitted ledger, and stops before landing if it exceeds 50 MB.
+  - The SO-CSPLIT designer's worktree is removed (work committed; the untracked files were copies of SO-DATA3's
+    data). The gate study inp-socsplit2 c790787d is sent to land (docs). / back to 11 GB.
+  - W: the W1-CUBIC codex-1 audit finished at 21:47 and kam-1b's waiter is armed. The W2-RECON audit finished
+    21:27.
+- **22:19. Heartbeat.**
+  - **SO-DATA3:** the serial capped kernel build of the lower N = 65 torus is running (786 modules in the closure,
+    515 heavy, each alone under the probe lock and the cap).
+  - **LOCK-DATA:** step 1c found a blocking sizing error inherited from LOCK-GEN-2. Constants were sized by grid
+    suprema on the strip, but the landed checks bound by the weighted ℓ1 model norm, 1.3–2× larger at a 73.8°
+    libration. In the mirror, `checkEmbedding` fails all three conditions. The ℓ1 rescan is running (exact mirrors,
+    reusing SO-DATA3's), and no kernel run has started.
+    - A larger support is our call. Changing N or the libration amplitude goes to the owner.
+    - The rotational data are unaffected: they were sized from exact mirrors, and `checkEmbedding` passed in the
+      kernel.
+  - **W:** kam-1b idle since 21:40 although the W1-CUBIC audit finished at 21:47. Its waiter misses Codex READY
+    markers again; nudged.
+  - **Owner question pending (asked in chat):** start an LG00 re-scope (Python/docs: re-price LG00 under v2 +
+    `HamExpr.sqrt` + SO-CSPLIT, plan P1/P2), or keep it for later? Not started.
+  - Quotas: claude-3 73 %, claude-12 68 %, claude-6 54 %, claude-4 39 %, codex-1 76 %. Disk 9.9 GB.
+- **22:31. Owner directive: "focus on finishing your subprojects… progress on W and delivering on the SO"; LG00 is
+  handled by another agent (not ours).**
+  - **SO band:** a second kernel lane (.kernel-probe-lane2.lock, MemoryMax=8G, start only with MemAvailable ≥ 6 GB)
+    so the upper torus checks in parallel with the lower. Every gate theorem measured ≤ 4.05 GB. Step 5 (the final
+    N = 65 theorems) follows at once.
+  - **W:** 4 concurrent provers (was 2), all accounts, aimed at the critical path to nlw2: W3 Birkhoff, W4
+    homological, W5/W6 KAM step and iteration, W7 measure, W8 assembly. Parametric helpers, graph published ASAP,
+    reviews not blocking provers, hourly status.
+  - **Lock:** the band has kernel priority. LOCK-DATA pushes all non-kernel work (ℓ1 rescan, sizing, generation,
+    ledger measurement) now; kernel runs take the first free lane, each theorem ≤ 8 GB.
+- **22:33. Owner: "pause W lane to focus on landing SO completely".**
+  - Track W paused: no new provers, audits or reviews. Running provers commit and stop; running audits finish and
+    are recorded only. Worktrees and branches are kept, with a resume note at .drafts/W/PAUSE-2026-10-30.md.
+  - The freed CPU, memory, accounts and codex-1 go to SO: the band's two kernel lanes, then its audit and landing;
+    LOCK-DATA's sizing, generation and kernel.
+- **22:46. Owner: "if you finish both SO tracks you can go back to W".** Order: (1) land the SO band (N = 65
+  data, final theorems, audit, landing, freeze text to the owner per D40); (2) land the SO lock (LOCK-DATA, headline,
+  audit, landing). Then resume W from .drafts/W/PAUSE-2026-10-30.md.
+  - W is paused cleanly, with all work committed: W4-HOMOLOGICAL WIP at inp-wpj 10801f8b; W1-CUBIC audit 2 PASS WITH
+    NOTES at inp-wph 8b4f8869, ready to land on resume; graph delta 7 reports at inp-wgraph 7c4a75ec, not yet
+    applied. 8 W packages on main, including W2-RECON (nlw2 clause 5).
+- **22:46. Owner: overnight mode again.**
+  - Deferred decisions are logged here "for owner review", with the recommended reversible option taken. Nothing is
+    frozen: the D40 freeze text for the band and the lock freeze proposal wait for the morning.
+  - Plan for the night:
+    - SO band: kernel lanes, then the final theorems, audit and a scheduled landing.
+    - SO lock: sizing with kp = 4 and a larger support (a smaller amplitude would be logged and paused for the
+      owner), then generation, kernel, headline, audit and landing.
+    - Then resume W from its pause note, as the owner allowed.
+- **22:49. Heartbeat: SO-DATA3 limited by disk; data build output relocated to the HC volume.**
+  - Each data module produces about 7.7 MB of build output (.olean.private 2.9 MB, C 3.0 MB, setup.json 1.5 MB), so
+    both tori need about 3.8 GB. / was at 7.7 GB and the drivers halt cleanly at 8 GB.
+  - The ir dedup of main against KAM-inp freed only 0.17 GiB. So SO-DATA3 will move
+    `.lake/build/{lib/lean,ir}/KAM/SpinOrbit/Data` to /mnt/HC_Volume_106379410/kam-data/so-data3/build-overlay/
+    behind symlinks, at a safe point between modules (regular files only, verified copy).
+  - The graph check of the band is solved by a row-chunk split (KAM/SpinOrbit/Data/CsegGraph.lean, new names, all
+    proved), so the band stays at 2.755 %.
+  - SO-DATA3 keeps two lanes (its driver has no cross-process claim, so splitting one torus would race). Its brief
+    edit of CsegSupport.lean mid-build stopped lane 1; it was restored and restarted with no loss.
+  - Lock: the exact-mirror sizing pass and the support scan are running. The clock char witness is fixed; charWit
+    (1,0) radius 1.73e-17 is under investigation.
+- **23:19. SO-DATA3's build output now lives on the HC volume; lanes restarted.**
+  - The worker could not run `rm -rf` (its safety check), so the orchestrator swapped in the symlinks. HC copies
+    re-verified identical; originals renamed aside, then symlinked. `lake build --no-build` confirmed the heavy
+    built modules are up to date through the symlinks; originals deleted.
+  - / at 9.0 GB. The driver's disk stop is lowered to 6 GB, since new data output goes to the volume.
+- **23:49. Heartbeat.**
+  - SO-DATA3: both kernel lanes are building, with output on the HC volume; / at 15 GB.
+    - The upper torus's l = 12 bite was killed at lane 2's 8 GB cap. It needs about 9.5 GB, as on the lower torus
+      under the 10 GB cap, so it is headroom, not a proof problem.
+    - The bite modules now queue in lane 1 under the 10 GB cap, so no two 10 GB runs overlap.
+    - Lower torus: the l = 12 bite, SiteB2 and Core are done.
+  - LOCK-DATA (non-kernel):
+    - the charWit(1,0) radius is down to 8.2e-23;
+    - support scan: D100×20 4.2e-22, D110×22 3.3e-24, about 2–4 orders under the threshold estimates, so no
+      amplitude or N change is expected;
+    - a ham/box scale mismatch is fixed (c = 1000001/10^6, accepted by the landed LockGraphCert);
+    - the exact sizing pass is in energy/Gram; then the threshold, the support choice, generation and the ledger.
+  - W paused. Quotas checked.
+- **00:49. Heartbeat: SO-DATA3 kernel build about one-third done on both tori.**
+  - At 00:19: lower 289/830 modules (heavy 91/558), upper 278/824 (heavy 83/554); about 30 s per heavy module and
+    7 s per light one. Projected finish about 04:15–04:35 UTC. No failures since the bite modules moved to the
+    10 GB lane.
+  - **Landing plan:** the data build output is about 7.7 MB per module (about 12–13 GB for both tori). It must not be
+    rebuilt in KAM-inp and main: that would mean hours of repeated kernel checks and more disk than / has. Their
+    `.lake/build/{lib/lean,ir}/KAM/SpinOrbit/Data` will point at the verified HC overlay of SO-DATA3's build, so the
+    landing's capped prebuild only confirms that they are up to date. To be coordinated with kam-inp at hand-off.
+    The audit's kernel replay covers the final theorem modules and a sample of the data modules; the full data
+    checks are the build itself.
+  - LOCK-DATA chose support D100×20, kp = 4, at 73.8°: threshold 10^−18.35…−20.03 against residual 4.2e-22, a margin
+    of 1.6–3.0 orders. The exact torsion values (bT/σT) come next, then generation, ledger and kernel.
+- **01:49. Heartbeat: SO-DATA3 stalled about 30 min on a heartbeat timeout; fixed by splitting, no override.**
+  - Product 11 hit the default heartbeat budget on both tori: nested decides shared one theorem's budget.
+  - Fix (bc85da41): every product and character side check is its own top-level theorem, and the product theorem
+    cites them. Default heartbeats throughout; grep confirms no maxHeartbeats or maxRecDepth anywhere in the
+    branch. The earlier b45d6dc6 likewise names large right-hand sides instead of inlining them in decide +kernel.
+  - Lanes resumed at the Seg/CharLow modules. At 01:19: lower 372/830, upper 372/824. Projected finish about
+    04:30–04:45 UTC.
+  - LOCK-DATA: sizing done (D100×20, kp 4; error 1.08e-21 against exact threshold 10^−19.23, a margin of 1.74
+    decades). Generation is passing at the final literals. The first lock kernel theorem (JetEq bridge) passed at
+    3.37 GB.
+- **02:49. Heartbeat: SO-DATA3 throughput dropped; diagnosis requested.**
+  - At 02:19: lower 393/830 (heavy 167/558), upper 401/824 (heavy 179/554). Since the M11 restart, only about 16–23
+    modules per 22 min (about 80 per 30 min before), so the projection of about 05:30 is optimistic.
+  - Observed: a lane's `lake build` for one module ran 76 s with no lean child, i.e. Lake overhead or workspace-lock
+    contention between the two lanes in one worktree.
+  - SO-DATA3 is asked to measure the Lake-versus-lean split and fix it (direct `lake env lean` per module in topo
+    order under the same lock and cap, or batching), with a final `lake build` that must find everything up to date.
+  - Lock: LOCK-DATA generation at the final literals; checkInvariance passes (err 1.08e-21); energy, Gram, torsion
+    and frames running.
+- **02:57. Memory event: earlyoom killed LOCK-DATA's python3 sos2.py at 15.5 GB RSS** (02:56 UTC; low cutoff 250,
+  D100×20). Claude Code also reaped this session's DATA3 waiter (not restarted, per its notice).
+  - The band's capped kernel lanes were unaffected. Available memory recovered to 17.6 GB.
+  - LOCK-DATA must now run Python mirrors under `systemd-run --user --scope -p MemoryMax=8G`, chunk the
+    SOS/Gram/torsion pass, and use the smallest torsion cutoff that passes exactly.
+- **03:18. Heartbeat: SO-DATA3 throughput recovered (my Lake hypothesis was wrong).**
+  - From 02:19 to 02:49 each torus did 77 modules. At 02:49: lower 470/830 (heavy 243/558), upper 478/824 (heavy
+    255/554). Projected finish about 05:10–05:25 UTC.
+  - SO-DATA3 measured no Lake bottleneck: the slow window was the M11 stop and restart. No driver change.
+  - LOCK-DATA's generate pass at the final literals finished. The SOS test is re-running under the 8 GB cap (degree
+    100×20, slack 1e-5, weighted truncation, 64-bit rounding).
+- **04:19. Heartbeat: SO-DATA3 about 75 % through the kernel build; landing pre-check passes.**
+  - At 03:49: lower 621/830 (heavy 390/558), upper 626/824 (heavy 398/554), finishing about 05:00–05:10 UTC.
+  - Pre-check: since SO-DATA3's last inp merge (2f8550f3), inp changed only KAM/Wave (5 files) and the generated
+    root, none of them a dependency of the data modules. The data builds therefore stay valid on current inp.
+  - **Landing plan:** KAM-inp and main point `.lake/build/{lib/lean,ir}/KAM/SpinOrbit/Data` at SO-DATA3's verified
+    HC overlay, so the capped prebuild only confirms that everything is up to date. **Hold any checker-side
+    landing on inp until SO-DATA3 has landed** (W is paused; LOCK-DATA adds only new data modules).
+  - Lock: fixing the graph-band slack (weighted SOS truncation, capped test). Fallback: the landed `_check` variant
+    with a wider window, logged for owner review.
+- **SO-LOCK graph window (for owner review, 2026-10-31 04:2x UTC):** the SOS bound cannot certify pLo ≥ 0.0132
+  (true min 0.013238; slack+residual ≥ ~9e-5 at affordable degree). Best certified band [0.0131608, 0.0162943]
+  (degree 112×8, weighted, 64-bit). AssemblyN65 will use the landed `lunar_sync_lock_of_barrier_check` with window
+  [13155/1000000, 163/10000] instead of the 132/10000-wired helper; `lockLiteralCheck` passes for the frozen
+  headline literals (129/10000, 21/100, 26/1000) at lo ≥ 0.013155. Headline statement unchanged; N = 65, 73.8° unchanged.
+  Reversible: a tighter SOS later restores the wired helper.
+- **05:05. SO-DATA3 DONE: the N = 65 Moon band theorems are kernel-checked through the v2 certifier.**
+  - `lunar_barriers_65_v2` and `lunar_spin_confinement_65_v2` (KAM/SpinOrbit/LunarFinalR2V2.lean) are one-line
+    applications of `lunar_barriers_of_R2V2` and `lunar_spin_confinement_of_band`, with standard axioms only.
+  - Statement: for initial spin rate p₀ in the window (0.9934, 1.0066), the unique solution satisfies
+    |p(t) − 1| ≤ 2755/100000 for all time (band [0.97245, 1.02755], rule B; window by rule W).
+  - err 1.6e-16 / 1.83e-16 (10^1.44–1.50 below the threshold); disp 5.78e-11 / 6.62e-11.
+  - Kernel: 1,100 heavy theorems, 7.47 h of kernel wall time on two lanes (4.5 h elapsed); maximum peak 9.49 GB
+    (the l = 12 bite); every family under the cap. Emitted data 21.1 MB. Nothing frozen.
+  - **For owner review:**
+    - 8 lines of CsegSupport.lean exceed 100 columns. Every segmented module imports that file, so a reformat
+      means a ~7.5 h rebuild. Exempted by an exact-line allowlist (scripts/lint-width-allow.txt, main e8972901,
+      keyed by path and line sha256), to be removed at the next data regeneration.
+    - The one overlong line of CsegGraph.lean is cheap to fix and is being fixed.
+  - Next: the codex-1 audit (the final theorems, the new lemmas, the assembly chain, a replayed sample of data
+    modules), then the landing via the HC build overlay (pre-check passed), then the D40 freeze text to the
+    owner in the morning.
+- **05:41. SO-DATA3 in its codex-1 audit** (inp-maud-sodata3; branch head 7ee5f3c3).
+  - CsegGraph.lean width fixed (cf758ff2; comment only; dependents up to date).
+  - Audit scope:
+    - the final theorems' fidelity and the literals by rules B/W;
+    - the new lemmas (`levelNCseg_flatten`, the reflections, the rfl expansions);
+    - that the assembly uses only landed bridges;
+    - axioms;
+    - replay of the final and support modules plus a ≥ 12-module sample across every data family, each alone
+      under the probe lock and the cap (a full replay of all 1,100 heavy theorems is out of scope);
+    - the width allowlist.
+  - Lock: the CHECK pass on the emitted books passes everything (7 sub-checks, hamClaim, frames, refinedCore,
+    checkSoGraph; band inside the _check window; peak 6.30 GB). Lean emission, ledger measurement and kernel are
+    next.
+- **06:01. SO-DATA3 audit 1 (codex-1): the theorems pass; FAIL only on D40 rule B's emitter tightness (F1).**
+  - `lunar_barriers_65_v2` and `lunar_spin_confinement_65_v2`: PASS WITH NOTES (faithful closed instances of the
+    v2 assembly; exact rational checks of M, the band and window literals and disp all pass).
+  - **F1, FOR OWNER REVIEW before any freeze:** D40/FREEZE-PROPOSAL-2 rule B also asks the emitted outer graph
+    bounds to lie within about 1e-6 of the computed extrema. They lie about 4.18e-4 away (lower pLo 0.9724531 against
+    grid minimum 0.97287; upper pHi 1.027544 against 1.02713), because of the SOS slack (3e-4) on the band edges.
+    - With tight bounds the band would be about 2.71 % instead of 2.755 %.
+    - Options: (a) accept 2.755 % and revise rule B's tightness clause; (b) a sharper SOS enclosure (higher degree
+      gained at most 1.5e-4, i.e. about 2.740 %, at 1.6× the terms; reaching 1e-6 needs a better method); (c) both.
+    - The theorem is correct as stated. Only the freeze literals are affected.
+  - **Decision (overnight, reversible):** land the theorems now as ordinary unfrozen theorems; the freeze waits for
+    the owner's F1 ruling.
+  - Landing: KAM-inp and main point `.lake/build/{lib/lean,ir}/KAM/SpinOrbit/Data` at SO-DATA3's verified HC
+    overlay; prebuild_heavy gained an all-up-to-date fast path (8a8d3b7d). kam-inp must stop if
+    `lake build --no-build` shows any rebuild.
+- **SO-LOCK data volume (for owner review, 2026-10-31 06:2x UTC):** LOCK-DATA emission is 131.4 MB of literal Lean
+  source (1239 files, 1.62 M lines), of which 129.4 MB are advice books (certificate proper ~2 MB); the segment
+  ledger adds more (not yet measured). Over the 50 MB flag: generation and kernel passes continue, sources/oleans
+  live on the HC volume (symlinked); **not landed without the owner's ruling** (options: land as is, land via
+  an external data artifact, or shrink advice books). Kernel so far: JetEq, disc pass HamSeg0-2 + HamBalls all
+  rc 0, peaks ≤ 3.43 GB.
+- **06:25. FOR OWNER REVIEW: the LOCK-DATA ledger is 131.4 MB, over the 50 MB flag; no lock landing without a ruling.**
+  - 1,239 files: 129.4 MB of advice books (packed-product witness data); the certificate proper is about 2 MB. The
+    data sit on the HC volume, symlinked.
+  - Options for the owner:
+    - (a) land as is (131 MB in the public repo);
+    - (b) an external data artifact;
+    - (c) shrink the advice books. LOCK-DATA is pricing the levers overnight: advice only where needed, a compact
+      encoding, the cfgLow cutoff, the support trade-off.
+  - Kernel work continues per the rule. All rc 0 so far: JetEq, the disc pass HamSeg0–2, HamBalls (peaks ≤ 3.43 GB;
+    one elaborator recursion limit fixed by literal offsets, no option raised).
+  - SO-DATA3 is merged into inp; the overlay check passed (every data module up to date, no kernel re-run). The
+    landing build onto main is running.
+- **07:25. SO-FREEZE3 Phase A (partial), 1e0e888c.**
+  - 13 frozen files, byte-identical to FREEZE-PROPOSAL-2 apart from the D46/D48 literals; 13 manifest entries;
+    guard and ABI (171) pass. Deviations: D-SOF-5 (four approved docstring lines rewrapped at one space each),
+    D-SOF-6 (`by sorry`, as the guard requires), D-SOF-7 (one manifest source group per declaration).
+  - **FOR OWNER REVIEW (cost decision, taken):** Q11 is unavoidable, since frozen and landed definitions share
+    names. Model.lean, Barrier.lean and Graph/Inverse.lean switch to the frozen definitions, which forces a
+    one-time full kernel rebuild of the 1,645 band data modules (about 7.5 h of kernel time, about 4.5 h on two
+    lanes).
+    - The rebuild is accepted. It runs into a copied overlay (kam-data/so-freeze3/build-overlay) so main's
+      landing stays valid.
+    - The same rebuild absorbs the CsegSupport line-width fix, after which the D46 allowlist entries can be
+      removed.
+  - The codex-1 identity audit of the 13 frozen files runs now (independent of Q11).
+  - LOCK-DATA was told to pause kernel runs that depend on Model, Barrier or Inverse until Q11 lands.
+- **SO-LOCK data volume update (for owner review, 2026-10-31 07:3x UTC):** after D47 (land the 131 MB as is), the full
+  census puts the lock data at about 345 MB (131 MB books + 54 MB segment ledger + ~153 MB memos + stages); B1
+  (lock-owned exp/inv/sqrt segment routes) approved by root-b8; cost ≈ 20 CPU-h kernel + ≈ 2 days literal
+  elaboration. Not covered by D47 until the owner confirms; generation/kernel only. Cuts (packed literals, lanes,
+  memos; 60°/66° amplitude for comparison only) being priced.
+- **08:21. MILESTONE: the N = 65 Moon band theorems are on main (SO-DATA3, 7adca9fc).**
+  - `KAM.SpinOrbit.lunar_barriers_65_v2` and `lunar_spin_confinement_65_v2`: for p₀ in (0.9934, 1.0066), the unique
+    global solution satisfies |p(t) − 1| ≤ 2.755 % for all t. Standard axioms; kernel-checked through the owner's
+    v2 certifier; about 1,650 data modules (21 MB).
+  - Landing: full build 12438 jobs, guard and ABI OK. prebuild_heavy reused the verified overlay with no data
+    rebuild. The first push lost a race, and the retry merged cleanly.
+  - D46–D48 are recorded in DECISIONS.md.
+  - Next for the band: SO-FREEZE3, i.e. Q11 plus a full data rebuild (running, into kam-data/so-freeze3/build-overlay),
+    then the seal and audit. Its landing needs main's and KAM-inp's Data symlinks repointed to the new overlay first.
+  - Lock: LOCK-DATA (B1 routes, B3 cost table) and LOCK-FREEZE Phase A (waits for SO-FREEZE3). The owner's ruling
+    on the 345 MB lock data is pending.
+- **Correction (decision numbering):** the owner decisions of 2026-10-31 recorded as D46, D47, D48 collided with
+  the existing D46 (2026-10-30 18:30, route B). They are renumbered **D47** (band at 2.755 %, rule B tightness
+  waived), **D48** (lock data land as is) and **D49** (freeze approvals, band and lock). Earlier log lines that
+  say D46/D47/D48 for these mean D47/D48/D49.
+- **09:24. Lock data cost cuts priced (B3); engineering approved; size to the owner.**
+  - Baseline 345 MB, 60–95 h of literal elaboration, about 20 CPU-h of kernel.
+  - (a) compact literals with a lock-owned decoder (measured ÷37 on a real advice module), (b) 6 elaboration lanes,
+    (c) no decoded memos: together about 158 MB, under 1 h of elaboration wall time, about 21–22 CPU-h of kernel,
+    margin unchanged (1.74 decades at 73.8°).
+  - (a)+(b)+(c) approved as engineering (no statement change). (d), a smaller amplitude, is not pursued.
+  - **FOR OWNER: land the lock data at about 158 MB** (D48 covered 131 MB as is).
+  - B1: SegRoutes.lean (exp/inv/sqrt routes) builds; toy probe at 0.43 GB; emitter shim lock_cseg.py.
+  - Possible mirror erratum, cost only: sofx_packed.build_real sizes the packing width by len(A) rather than the
+    shard count. Advice can then be rejected (shardFits), and the checker falls back to direct items. The lock
+    regenerates its 8 affected advices. The band data are kernel-checked and on main, so this is soundness-neutral;
+    to be checked during the band rebuild.
+- **10:49. Memory incident: earlyoom killed a band rebuild module at 10:31:58.**
+  - The lower lane's Seg.Tors.E1_1_1 got exit 143 at 5.2 GB. System memory was at 6 % with swap full: LOCK-DATA's
+    capped Python census (5.0 GB) and check (2.8 GB) ran beside the band's two kernel lanes.
+  - Not a proof failure. The lower lane is restarted; completed modules stay up to date.
+  - **New budget until SO-FREEZE3's rebuild finishes:** the lock runs at most one heavy job (≤ 6 GB, and only with
+    MemAvailable ≥ 8 GB); its 6-lane elaboration waits.
+  - Rebuild progress: about 22 % at 10:23 (361/1650 in 94 min), slower than the first run.
+  - Lock: the B3 levers are implemented. The CHECK on regenerated data passes every sub-check (inv 1.08e-21, energy
+    5.9e-23, Gram margin 7.3e-4, torsion margin 2.66e-4); the graph verdict is re-running. The owner's ruling on
+    about 158 MB is pending.

@@ -7,26 +7,27 @@ module
 
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
 public import Mathlib.Analysis.SpecialFunctions.Complex.Analytic
+public import KAM.Frozen.SpinOrbit.Defs.SoField
 
 /-!
 # The exact lunar spin-orbit model
 
 Unfrozen helper code.
 
-* `soEccQ`, `soEpsQ` (rational) and `soEcc = 549/10000`, `soEps = 69/200000` (real): the exact
-  constants of the lunar model.
-* `soCoeffPoly e m`: the polynomial `A_m(e)` (`A_m = 0` outside `1 ≤ m ≤ 7`),
-  over any field; `soA m = A_m(soEcc)`; `soAQ m` is the exact rational value
-  (`soA_eq_ratCast`).
-* `soV q φ = -ε Σ_{m=1}^7 A_m cos (2π (2q - mφ))` and its entire complex extension `soVC`
+The model itself is frozen (decision D40): `soEcc`, `soEps`, `soCoeffPoly`, `soA`, `soModes`, `soV`
+and `soField` are defined in `KAM/Frozen/SpinOrbit/Defs/` and imported here. This file adds:
+
+* `soEccQ`, `soEpsQ`: the exact rational constants (`soEcc_eq_ratCast`, `soEps_eq_ratCast`);
+  `soAQ m` is the exact rational value of `soA m` (`soA_eq_ratCast`).
+* the entire complex extension `soVC` of `soV`
   (`soVC_differentiable`, `soVC_differentiable_pi`, `soVC_analyticOnNhd_q`); `soVC_ofReal`
   (real on reals), 1-periodicity in `q` and in `φ` (`soV_periodic_q`, `soV_periodic_φ`,
   integer shifts `soVC_add_int`).
 * the explicit partial derivatives `soVq = ∂_q V = 4π ε Σ A_m sin(·)`,
   `soVφ = ∂_φ V = -2π ε Σ m A_m sin(·)` with `HasDerivAt` statements (real and complex, also in
   composed form `hasDerivAt_soVC_comp`);
-* the physical vector field `soField (q, p, φ) = (p, -∂_q V, 1)` (the derivative is `deriv`, the
-  explicit form is `soField_eq`) and the notion of solution `IsSoSolution`.
+* the explicit form `soField_eq` of the physical vector field `soField (q, p, φ) = (p, -∂_q V, 1)`
+  and the notion of solution `IsSoSolution`.
 
 The complexification of every real-analytic statement uses the same coefficients; `soVC` is not
 an independent model.
@@ -46,12 +47,6 @@ def soEccQ : ℚ := 549 / 10000
 /-- The asphericity parameter `ε_* = 69/200000` (rational). -/
 def soEpsQ : ℚ := 69 / 200000
 
-/-- The eccentricity `e_* = 549/10000`. -/
-def soEcc : ℝ := 549 / 10000
-
-/-- The asphericity parameter `ε_* = 69/200000`. -/
-def soEps : ℝ := 69 / 200000
-
 theorem soEcc_eq_ratCast : soEcc = (soEccQ : ℝ) := by
   unfold soEcc soEccQ; push_cast; norm_num
 
@@ -59,20 +54,6 @@ theorem soEps_eq_ratCast : soEps = (soEpsQ : ℝ) := by
   unfold soEps soEpsQ; push_cast; norm_num
 
 theorem soEps_pos : 0 < soEps := by unfold soEps; norm_num
-
-/-- The coefficient polynomials `A_m(e)` of the model (zero outside `1 ≤ m ≤ 7`). -/
-def soCoeffPoly {R : Type*} [Field R] (e : R) : ℕ → R
-  | 1 => -e / 4 + e ^ 3 / 32
-  | 2 => 1 / 2 - 5 * e ^ 2 / 4 + 13 * e ^ 4 / 32
-  | 3 => 7 * e / 4 - 123 * e ^ 3 / 32
-  | 4 => 17 * e ^ 2 / 4 - 115 * e ^ 4 / 12
-  | 5 => 845 * e ^ 3 / 96 - 32525 * e ^ 5 / 1536
-  | 6 => 533 * e ^ 4 / 32
-  | 7 => 228347 * e ^ 5 / 7680
-  | _ => 0
-
-/-- `A_m(e_*)` as a real number. -/
-def soA (m : ℕ) : ℝ := soCoeffPoly soEcc m
 
 /-- `A_m(e_*)` as an exact rational number. -/
 def soAQ (m : ℕ) : ℚ := soCoeffPoly soEccQ m
@@ -91,14 +72,7 @@ theorem soA_eq_ratCast (m : ℕ) : soA m = (soAQ m : ℝ) := by
   | 7 => simp [soCoeffPoly]
   | k + 8 => simp [soCoeffPoly]
 
-/-- The index set of the seven modes. -/
-def soModes : Finset ℕ := Finset.Icc 1 7
-
 /-! ### The potential -/
-
-/-- The period-one potential `V(q, φ) = -ε Σ_{m=1}^7 A_m(e) cos (2π (2q - mφ))`. -/
-def soV (q φ : ℝ) : ℝ :=
-  -soEps * ∑ m ∈ soModes, soA m * Real.cos (2 * π * (2 * q - m * φ))
 
 /-- The entire complex extension of `soV` (same coefficients). -/
 def soVC (q φ : ℂ) : ℂ :=
@@ -238,11 +212,6 @@ theorem deriv_soV_φ (q φ : ℝ) : deriv (fun y => soV q y) φ = soVφ q φ :=
   (hasDerivAt_soV_φ q φ).deriv
 
 /-! ### The physical vector field -/
-
-/-- The physical vector field on `(q, p, φ)`: `q̇ = p`, `ṗ = -∂_q V`, `φ̇ = 1`
-(period-one units). -/
-def soField (x : ℝ × ℝ × ℝ) : ℝ × ℝ × ℝ :=
-  (x.2.1, -deriv (fun s => soV s x.2.2) x.1, 1)
 
 /-- The explicit form: `ṗ = -4π ε Σ A_m sin (2π (2q - mφ))`. -/
 theorem soField_eq (x : ℝ × ℝ × ℝ) :

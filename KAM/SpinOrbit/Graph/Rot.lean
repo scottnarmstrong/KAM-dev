@@ -211,7 +211,8 @@ theorem soBarrier_of_exact_rotTorus {Kinf : (Fin 2 → ℂ) → (Fin 2 → ℂ) 
       rw [hv] at h
       exact h)
   refine ⟨⟨T.soGraphFun, T.continuous_soGraphFun, fun q φ => ?_, fun q φ => ?_,
-    T.soGraph_invariant, fun q φ => hlo _ _, fun q φ => hhi _ _⟩⟩
+    SoBarrier.invariant_of_isInvariantSet T.soGraph_invariant, fun q φ => hlo _ _,
+    fun q φ => hhi _ _⟩⟩
   · unfold SoGraph.Torus.soGraphFun
     rw [T.soGraphInv_add_one]
     exact T.perP₀ _ _

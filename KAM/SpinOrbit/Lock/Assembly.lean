@@ -322,9 +322,9 @@ theorem lunar_sync_lock_of_barrier_check {Ω : ℚ} {cs : List ℚ} {lo hi Iin R
   set R := (((17 / 1000000 : ℚ) : ℝ) + lockCentreAbs cs)
   set R' := (((27 / 200000 : ℚ) : ℝ) + 2 * π * lockCentreDAbs cs)
   have hψ0 : ∀ φ, |ψ φ| ≤ ((17 / 1000000 : ℚ) : ℝ) := fun φ => by
-    push_cast; exact (lunarSyncOrbit_bound φ).1
+    push_cast; exact (syncOrbit_bound φ).1
   have hψ1 : ∀ φ, |deriv ψ φ| ≤ ((27 / 200000 : ℚ) : ℝ) := fun φ => by
-    push_cast; exact (lunarSyncOrbit_bound φ).2
+    push_cast; exact (syncOrbit_bound φ).2
   have hr : ∀ φ, |ψ φ - c φ| ≤ R := fun φ =>
     (abs_sub _ _).trans (add_le_add (hψ0 φ) (abs_lockCentre_le cs φ))
   have hr' : ∀ φ, |deriv ψ φ - deriv c φ| ≤ R' := fun φ =>

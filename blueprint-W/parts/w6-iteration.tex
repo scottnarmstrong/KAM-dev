@@ -230,7 +230,7 @@ $\Phi_P:D_0=D(s_0,r_0)\to D(s,r)$, symplectic with $D\Phi_P$ onto $\Pc^{p_+}$, w
 conjugacy of Lemma~\ref{bpW:w5:new-ham}(iii), and:
 \begin{enumerate}[label=(\roman*)]
 \item the divisor hypotheses hold: for $\xi\in\Pi\setminus\Xi$ and $(k,l)\in Z$,
-  $\abs{\langle k,\omega^0\rangle+\langle l,\Omega^0\rangle}\ge\hat\alpha\hat w(l)/A_k$ (Corollary~\ref{bpW:w7:melnikov}(i)), which is
+  $\abs{\langle k,\omega^0\rangle+\langle l,\Omega^0\rangle}\ge\hat\alpha\hat w(l)/A_k$ (since $\xi\notin S_{kl}$, Definition~\ref{bpW:w7:zones}(i)), which is
   \eqref{bpW:w5:modified} with $\beta=\frac14$ for $l=\pm(e_I-e_J)$ and $(\mathrm H_{\hat\alpha})$ otherwise (Dirichlet weights dominate
   P96-K's, Lemma~\ref{bpW:w4:wave}(ii));
 \item the shift: $\omega_0=\omega^0+\hat\omega_P$, $\Omega_{0,J}=\Omega^0_J+\hat\Omega_{P,J}$ with $\abs{\hat\omega_P}+\lambda\abs{\hat\omega_P}^{\mathcal L}\le6\pi\epsilon$ and
@@ -247,7 +247,9 @@ conjugacy of Lemma~\ref{bpW:w5:new-ham}(iii), and:
 \proofstep{Data}\label{stepW:w6:p-data} $\sigma_P\le\min(\frac14,s/6)$; $q_P=\epsilon/(\hat\alpha\sigma_P^{t^\natural})\le\gamma\alpha/(\hat\alpha\sigma_P^{t^\natural})\le\gamma/\sigma_P^{t^\natural}\le(c^\natural_0)^{-3}$
 ($\alpha\le\hat\alpha$), so \eqref{bpW:w5:small} holds with $\eta_P\le\frac18$; $\lambda=\alpha/M\le\hat\alpha/M$. The frequencies satisfy
 \eqref{bpW:w4:freq} on $\Pi$ (Lemma~\ref{bpW:w4:wave}).
-\proofstep{Divisors}\label{stepW:w6:p-div} (i): the zones $S_{kl}$ are removed, and W7's Dirichlet weights: for $l=\pm(e_I-e_J)$,
+\proofstep{Divisors}\label{stepW:w6:p-div} (i): $\Xi=\bigcup_{(k,l)\in Z}S_{kl}$, so for $\xi\in\Pi\setminus\Xi$ and every $(k,l)\in Z$
+the defining inequality of $S_{kl}$ fails, which is the displayed bound; this uses only the unperturbed frequencies and
+Definition~\ref{bpW:w7:zones}(i), no admissible family. For W7's Dirichlet weights: for $l=\pm(e_I-e_J)$,
 $\hat w=\abs{I-J}\min(I,J)^{-1/4}$, which is \eqref{bpW:w5:modified} with $\beta=\frac14$ (W5 uses $\min(i,j)+2=\min(I,J)$); for other $l$,
 $\hat w=\jap l\ge$ P96-K's weight. $p+1-p_+=\frac12\ge2\beta$.
 \proofstep{Step}\label{stepW:w6:p-step} Theorem~\ref{bpW:w5:step} in the modified case, with both parts of
@@ -255,8 +257,10 @@ Lemma~\ref{bpW:w5:w4-modified} ($2\beta\le p+1-p_+$). The frequency shifts are
 $\hat\omega=[b]$, $\hat\Omega_j=[Q]_{jj}$ of $R$, which is the Taylor polynomial of $P$ with $p+1$ smoothing, so their $\lambda$-bounds use
 only Lemma~\ref{bpW:w5:taylor} and Theorem~\ref{bpW:w4:lemma1}(iv) with $\bar p-p=1$; no divisor enters. $M_0$: the Lipschitz constants grow
 by $(6\pi+3)\epsilon/\lambda\le22\gamma M\le M$.
-\proofstep{Transformation}\label{stepW:w6:p-lipp} (iii) is Theorem~\ref{bpW:w5:step}(v) (sup part, and Lipschitz in
-$\abs\cdot_{p_+,r}\ge\abs\cdot_{p,r}$).
+\proofstep{Transformation}\label{stepW:w6:p-lipp} (iii): the sup bound is the sharper estimate of Step~\ref{stepW:w5:f-flow}
+of Lemma~\ref{bpW:w5:flow}, $\abs{\phi^1-\mathrm{id}}_{p_+,r}\le M_F$ on $U\supset D_0$ (not the $\lambda$-bound $2M_F$ of
+Theorem~\ref{bpW:w5:step}(v)), with $M_F=M_{F,P}$ in the modified case (Definition~\ref{bpW:w5:data}); the Lipschitz property is the
+Lipschitz part of Theorem~\ref{bpW:w5:step}(v), and $\abs\cdot_{p,r}\le\abs\cdot_{p_+,r}$.
 \proofstep{Size}\label{stepW:w6:p-size} By \eqref{bpW:w5:newerror} (modified case: $C^\natural_2$, $t^\natural$) with $\eta_P^3=q_P$:
 $\sup\abs{X_{P_0}}\le2C^\natural_2\epsilon\eta_P=2C^\natural_2\epsilon^{4/3}(\hat\alpha\sigma_P^{t^\natural})^{-1/3}$,
 and with $\epsilon\le\gamma\alpha$: $\le2C^\natural_2\gamma^{4/3}\sigma_P^{-t^\natural/3}\alpha^{4/3}\hat\alpha^{-1/3}=2C^\natural_2\gamma^{4/3}\sigma_P^{-t^\natural/3}\check\alpha\le\gamma_1\check\alpha$,
@@ -300,7 +304,9 @@ $(D_\nu,\omega_\nu,\Omega_\nu,K_\nu)_{\nu\ge0}$ is admissible for $(\Pi,\alpha)$
 Definition~\ref{bpW:w7:family}, with
 \begin{gather*}\varepsilon_\omega=6\pi\gamma\alpha+8\pi\epsilon_0,\quad\varepsilon_1=3\gamma\alpha,\quad\varepsilon_2=4\epsilon_0,\\
 \theta=425(1+M)\max(\gamma,\gamma_1)\le\theta_0,\end{gather*}
-all $\le\alpha$. Lipschitz constants are with respect to $\abs\cdot_\infty$ on $\R^2$, as in W7.
+where the three constants $\varepsilon_\omega,\varepsilon_1,\varepsilon_2$ are $\le\alpha$, and $\theta\le\theta_0$; $\theta$ depends on
+$m$ only and is fixed before $\alpha$ (Definition~\ref{bpW:w6:constants}). Lipschitz constants are with respect to $\abs\cdot_\infty$ on
+$\R^2$, as in W7.
 \end{lemma}
 \begin{proof}
 \proofstep{Sizes}\label{stepW:w6:fl-size} $\omega_\nu-\omega^0=\hat\omega_P+(\omega_\nu-\omega_0)$: $\le6\pi\epsilon+8\pi\epsilon_0$ (Lemma~\ref{bpW:w6:prep-step}(ii),
@@ -310,7 +316,10 @@ $\epsilon_0\le\gamma_1\check\alpha$, $\check\alpha\le\alpha$, $6\pi\gamma\le\fra
 $J\abs{\hat\Omega_{P,J}}^{\mathcal L}\le3\gamma M$, so $J^{1/2}$ times it is $\le3\gamma M$; $(J)^{1/2}\abs{\Omega_{\nu,J}-\Omega_{0,J}}^{\mathcal L}\le16\epsilon_0/\lambda_0\le32\gamma_1M$.
 The totals are $\le(6\pi+128\pi)\max(\gamma,\gamma_1)M<425\max(\gamma,\gamma_1)M$ for $\omega$ and $\le35\max(\gamma,\gamma_1)M$ for $\Omega$,
 using $J^{-1}\le J^{-1/2}$; and $425(1+M)\max(\gamma,\gamma_1)\le\theta_0$ by Definition~\ref{bpW:w6:constants}.
-\proofstep{Borel}\label{stepW:w6:fl-borel} Proposition~\ref{bpW:w6:convergence}(i); $\Pi\setminus\Xi$ is Borel (Lemma~\ref{bpW:w7:measurable}).
+\proofstep{Borel}\label{stepW:w6:fl-borel} $\Pi\setminus\Xi$ is Borel directly: each $S_{kl}=\{\xi\in\Pi:\abs{\phi_{kl}(\xi)}<\hat\alpha\hat w(l)/A_k\}$
+with $\phi_{kl}=\langle k,\omega^0\rangle+\langle l,\Omega^0\rangle$ affine in $\xi$ (finitely many $j$ with $l_j\ne0$), hence $S_{kl}=\Pi\cap U_{kl}$
+with $U_{kl}$ open, and $Z$ is countable (\ref{bpW:w7:ext-borel}); no admissible family is used. Then
+Proposition~\ref{bpW:w6:convergence}(i) gives the Borel sets $D_\nu=\Pi_{\nu-1}$.
 \end{proof}
 \source{P96-K Theorem~A, p.~122 (``$\abs{\omega_\nu-\omega}+\frac\alpha M\abs{\omega_\nu-\omega}^{\mathcal L}\le c\epsilon$''), Corollary~C, p.~123
 (smaller $\gamma$); W7 Remark~\ref{bpW:w7:w6-needs}.}
