@@ -2068,3 +2068,9 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - The band's capped kernel lanes were unaffected. Available memory recovered to 17.6 GB.
   - LOCK-DATA must now run Python mirrors under `systemd-run --user --scope -p MemoryMax=8G`, chunk the
     SOS/Gram/torsion pass, and use the smallest torsion cutoff that passes exactly.
+- **03:18. Heartbeat: SO-DATA3 throughput recovered (my Lake hypothesis was wrong).**
+  - From 02:19 to 02:49 each torus did 77 modules. At 02:49: lower 470/830 (heavy 243/558), upper 478/824 (heavy
+    255/554). Projected finish about 05:10–05:25 UTC.
+  - SO-DATA3 measured no Lake bottleneck: the slow window was the M11 stop and restart. No driver change.
+  - LOCK-DATA's generate pass at the final literals finished. The SOS test is re-running under the 8 GB cap (degree
+    100×20, slack 1e-5, weighted truncation, 64-bit rounding).
