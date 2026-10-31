@@ -86,23 +86,43 @@ def mem_available():
     return 0
 
 
-def up_to_date(m):
-    """lake's own verdict (a stale import makes a module stale even if its source is unchanged)."""
+OK_RUNS = {}
+
+
+def load_ok(logdir):
+    """modules whose LAST driver run succeeded (both lanes' tables)."""
+    for tsv in ("kbuild.tsv", "kbuild_lane2.tsv"):
+        p = os.path.join(logdir, tsv)
+        if os.path.exists(p):
+            for l in open(p):
+                r = l.rstrip("\n").split("\t")
+                if len(r) >= 3:
+                    OK_RUNS[r[0]] = r[2] == "0"
+
+
+def up_to_date(m, logdir=None):
+    """fast path: the module's last driver run succeeded after its source last changed (its log is newer than
+    the source); otherwise lake's own verdict (a stale import makes a module stale even if its source is
+    unchanged). The final `lake build` re-checks everything."""
     o = olean_of(m)
     if not os.path.exists(o):
         return False
+    log = os.path.join(logdir, m + ".log") if logdir else None
+    if OK_RUNS.get(m) and log and os.path.exists(log) and os.path.getmtime(log) >= os.path.getmtime(path_of(m)):
+        return True
     return subprocess.call(["lake", "build", "--no-build", m], cwd=WT, stdout=subprocess.DEVNULL,
                            stderr=subprocess.DEVNULL) == 0
 
 
 def main(logdir, roots):
     os.makedirs(logdir, exist_ok=True)
+    load_ok(logdir)
     heavy = heavy_set()
     order = topo(roots)
     tsv = open(os.path.join(logdir, os.environ.get("CSPLIT_TSV", "kbuild.tsv")), "a")
     print(len(order), "modules,", sum(1 for m in order if m in heavy), "heavy", flush=True)
     for m in order:
-        if up_to_date(m):
+        if up_to_date(m, logdir):
             continue
         while m in heavy and MINAVAIL and mem_available() < MINAVAIL:
             time.sleep(30)
