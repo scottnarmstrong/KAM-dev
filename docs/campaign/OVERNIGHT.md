@@ -2118,3 +2118,18 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - Lock: the CHECK pass on the emitted books passes everything (7 sub-checks, hamClaim, frames, refinedCore,
     checkSoGraph; band inside the _check window; peak 6.30 GB). Lean emission, ledger measurement and kernel are
     next.
+- **06:01. SO-DATA3 audit 1 (codex-1): the theorems pass; FAIL only on D40 rule B's emitter tightness (F1).**
+  - `lunar_barriers_65_v2` and `lunar_spin_confinement_65_v2`: PASS WITH NOTES (faithful closed instances of the
+    v2 assembly; exact rational checks of M, the band and window literals and disp all pass).
+  - **F1, FOR OWNER REVIEW before any freeze:** D40/FREEZE-PROPOSAL-2 rule B also asks the emitted outer graph
+    bounds to lie within about 1e-6 of the computed extrema. They lie about 4.18e-4 away (lower pLo 0.9724531 against
+    grid minimum 0.97287; upper pHi 1.027544 against 1.02713), because of the SOS slack (3e-4) on the band edges.
+    - With tight bounds the band would be about 2.71 % instead of 2.755 %.
+    - Options: (a) accept 2.755 % and revise rule B's tightness clause; (b) a sharper SOS enclosure (higher degree
+      gained at most 1.5e-4, i.e. about 2.740 %, at 1.6× the terms; reaching 1e-6 needs a better method); (c) both.
+    - The theorem is correct as stated. Only the freeze literals are affected.
+  - **Decision (overnight, reversible):** land the theorems now as ordinary unfrozen theorems; the freeze waits for
+    the owner's F1 ruling.
+  - Landing: KAM-inp and main point `.lake/build/{lib/lean,ir}/KAM/SpinOrbit/Data` at SO-DATA3's verified HC
+    overlay; prebuild_heavy gained an all-up-to-date fast path (8a8d3b7d). kam-inp must stop if
+    `lake build --no-build` shows any rebuild.
