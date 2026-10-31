@@ -194,10 +194,9 @@ def _write_sharded(self, rel, imports, title, doc, body, heavy=False, ns=None):
             # the prefix and the goal rewritten from the operand terms to their literals (computed once, in the
             # operand module), then the grouped check against the literals
             eqs = ", ".join(["%s_eq" % nea] + ([] if neb == nea else ["%s_eq" % neb]))
-            ls = ["by"] + ["  have h :"] + wrap(("checkPackedSpPrefix %s %s %s = true := %s" % (adv, ea, eb, hpre)
-                                                 ).split(" "), "      ")
-            ls += ["  rw [%s] at h ⊢" % eqs]
-            ls += _hang("exact checkPackedSp_of_groups %s %s %s %s h %s_cover %s_groups" % (adv, nea, neb, G, nm, nm))
+            ls = ["by", "  rw [%s]" % eqs]
+            ls += _hang("exact checkPackedSp_of_groups %s %s %s %s %s %s_cover %s_groups" % (adv, nea, neb, G, hpre,
+                                                                                             nm, nm))
             return "\n".join(ind + l for l in ls)
         pre.extend(["theorem %s_groups :" % nm] + wrap(("∀ g ∈ %s, g.all (checkShardAt %s %s %s) = true :="
                                                          % (G, adv, ea, eb)).split(" "), "    ")
@@ -306,7 +305,15 @@ def _split_aux(self, rel, body, imports, ns):
             while b and (b[-1].strip() == "" or b[-1].lstrip().startswith("/--")):
                 tail.insert(0, b[-1])
                 b = b[:-1]
-            mods.append(_tree_write(self, "%sAux%s" % (rel, m.group(1).rsplit("A", 1)[1]), imports,
+            pm = re.search(r"checkPackedSpPrefix (\S+) ", " ".join(b))
+            if pm and pm.group(1) in OPSNAMES:
+                ea_t, eb_t, nea, neb, omod = OPSNAMES[pm.group(1)]
+                st = " ".join(" ".join(b[1:-1]).split()).replace(ea_t, nea).replace(eb_t, neb)
+                b = [b[0]] + wrap(st.split(" "), "    ") + [b[-1]]
+                imports_b = list(imports) + [omod]
+            else:
+                imports_b = imports
+            mods.append(_tree_write(self, "%sAux%s" % (rel, m.group(1).rsplit("A", 1)[1]), imports_b,
                                     "Side check %s" % m.group(1), "One kernel run.", b, heavy=True, ns=ns))
             keep.extend([""] + tail)
         else:
