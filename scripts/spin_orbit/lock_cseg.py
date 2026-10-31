@@ -34,6 +34,7 @@ CE.TY = "LockBackend"
 CE.P = 112
 TY = CE.TY
 wrap, fixed, nat_list = CE.wrap, CE.fixed, CE.nat_list
+PLAN_CHUNK = 150         # entries per plan-list chunk
 TERMS_PER_DEF = 900       # about one hex line per term: a definition stays under the file's line cap
 
 
@@ -69,6 +70,28 @@ EXPD = "(⟨⟨[]⟩, 0, 0⟩ : ExpWitness %s)" % TY
 INVD = "(⟨[]⟩ : CertPoly %s)" % TY
 SQD = "((0, ⟨⟨[]⟩, 0, 0⟩) : ℕ × SqrtWitness %s)" % TY
 CHD = "(([], ⟨⟨[]⟩, 0, 0⟩) : CertKey × ExpWitness %s)" % TY
+
+
+def _split_items(items):
+    """items whose lines exceed the file budget, cut at every blank line between definitions (`data` re-packs
+    them) into pieces under the same name (the files chain-import, so the last piece's module brings every earlier piece)."""
+    for nm, lines in items:
+        if len(lines) <= CE.MAXLINES:
+            yield nm, lines
+            continue
+        cur = []
+        for l in lines:
+            cur.append(l)
+            if l == "":
+                yield nm, cur
+                cur = []
+        if cur:
+            yield nm, cur
+
+
+_tree_data = CE.Tree.data
+CE.Tree.data = lambda self, stem, title, doc, items, imports: _tree_data(self, stem, title, doc,
+                                                                         list(_split_items(items)), imports)
 
 
 class LockEmitter(CE.Emitter):
@@ -453,6 +476,55 @@ class LockEmitter(CE.Emitter):
                        "    decide +kernel"]
 
     # ------------------------------------------------------------------ the parts emitted here
+    def emit_plans(self):
+        """`csplit_emit.Emitter.emit_plans` with each list (segments, metadata, ledger) cut into chunks of
+        PLAN_CHUNK entries, written as data parts and joined by `++` (the cfgLow plan is ~3000 lines; same values,
+        same names)."""
+        self.plan_mods = {}
+        for chain in ("cfgFull", "cfgLow"):
+            p, ck = self.plan[chain], self.ck(chain)
+            segs = []
+            for s in p["segs"]:
+                one = ["⟨%d, %d, %s, %s, %s⟩" % (s["start"], s["stop"], nat_list(s["live"]), nat_list(s["imports"]),
+                                                nat_list(s["exports"]))]
+                segs.append(wrap(one, "  ") if len(one[0]) < 96 else self.long_spec(s, False))
+            for e in segs:
+                if not e[-1].endswith("⟩"):       # long_spec closes with "⟩]"
+                    e[-1] = e[-1][:-1]
+            bounds = [s["start"] for s in p["segs"]] + [p["segs"][-1]["stop"]]
+            metas = [wrap(self.meta_lit(chain, b).split(" "), "  ") for b in bounds]
+            led = sorted(self.led["chains"][chain]["ledger"])
+            ledl = [["  (%d, (%s, %sN))" % (i, self.slotName(chain, i), self.slotName(chain, i))] for i in led]
+            items, joins = [], {}
+            for tag, ty, ents in (("Segs", "List SegSpec", segs),
+                                  ("Metas", "List (ComposeMeta %s)" % CE.TY, metas),
+                                  ("Ledger", "List (ℕ × (CertModel %s × %s))" % (CE.TY, CE.TY), ledl)):
+                names = []
+                for c0 in range(0, len(ents), PLAN_CHUNK):
+                    ch = ents[c0:c0 + PLAN_CHUNK]
+                    nm = "%s%s.c%d" % (ck, tag, c0 // PLAN_CHUNK)
+                    lines = ["def %s : %s := [" % (nm, ty)]
+                    for j, e in enumerate(ch):
+                        lines += e[:-1] + [e[-1] + ("," if j + 1 < len(ch) else "]")]
+                    items.append((nm, lines + [""]))
+                    names.append(nm)
+                joins[tag] = (ty, names)
+            stem = "Plan%s" % ("Full" if chain == "cfgFull" else "Low")
+            parts = self.tree.data(stem + "Part", "The %s plan of the %s chain (lists)" % (self.w, chain),
+                                   "Chunks of the segments, boundary metadata and ledger (untrusted data).", items,
+                                   self.base + self.ledger_mods[chain])
+            body = []
+            for tag, doc in (("Segs", "The segments"), ("Metas", "The boundary metadata"), ("Ledger", "The ledger")):
+                ty, names = joins[tag]
+                body += ["/-- %s of the %s chain. -/" % (doc, chain), "def %s%s : %s :=" % (ck, tag, ty)]
+                body += ["  " + " ++\n    ".join(names), ""]
+            body += ["/-- The checkpointed %s composition. -/" % chain,
+                     "def %s : ComposeCkpt %s := ⟨%sSegs, %sMetas, %sLedger⟩" % (ck, CE.TY, ck, ck, ck)]
+            self.plan_mods[chain] = self.tree.write(stem, self.base + parts[-1:],
+                                                    "The %s plan of the %s chain" % (self.w, chain),
+                                                    "Segments, boundary metadata and ledger (untrusted data; "
+                                                    "`planOk`/`segOk` check them).", body)
+
     def emit_charE(self):
         """`charE`: the terms of the character witness of the forced character slot (the lunar emitter's name)."""
         c = self.led["char"]["cfgFull"]["cidx"]
@@ -465,6 +537,8 @@ class LockEmitter(CE.Emitter):
         self.led_ops = [tuple(o) for o in self.led["ops"]]
         self.emit_charE()
         self.emit_ledger()
+        # the ledger parts chain-import, so the last part brings the whole ledger (the plan file stays under the cap)
+        self.ledger_mods = {k: v[-1:] for k, v in self.ledger_mods.items()}
         self.emit_plans()
         self.ops_map = self.operands()
         self.emit_products(self.ops_map)
