@@ -53,6 +53,48 @@ namespace KAM.SpinOrbit.Data.Lower
 open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2 KAM.SpinOrbit
 open KAM.SpinOrbit.Data CertArith
 
+theorem lowerM18A0 :
+    ((((⟨0, gramInvPoly base.gramInv 0 1, ofInt 0⟩ : CertModel SoBackendV2).poly.toMants
+      base.cfgLow.toMant 96).getD ([], [])).1).isEmpty = false := by
+  decide +kernel
+
+theorem lowerM18A1 :
+    ((((modelMatrixEntry lowerGm 1 1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).1).isEmpty
+      = false := by
+  decide +kernel
+
+theorem lowerM18A2 :
+    advLow.p12.rr.la.allSlots ((((⟨0, gramInvPoly base.gramInv 0 1, ofInt 0⟩ : CertModel
+      SoBackendV2).poly.toMants base.cfgLow.toMant 96).getD ([], [])).1) = true := by
+  decide +kernel
+
+theorem lowerM18A3 :
+    advLow.p12.rr.lb.allSlots ((((modelMatrixEntry lowerGm 1 1).poly.toMants base.cfgLow.toMant
+      96).getD ([], [])).1) = true := by
+  decide +kernel
+
+theorem lowerM18A4 :
+    ((((⟨0, gramInvPoly base.gramInv 0 1, ofInt 0⟩ : CertModel SoBackendV2).poly.toMants
+      base.cfgLow.toMant 96).getD ([], [])).2).isEmpty = true := by
+  decide +kernel
+
+theorem lowerM18A5 :
+    ((((modelMatrixEntry lowerGm 1 1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).2).isEmpty
+      = true := by
+  decide +kernel
+
+theorem lowerM18A6 :
+    ((((⟨0, gramInvPoly base.gramInv 0 1, ofInt 0⟩ : CertModel SoBackendV2).poly.toMants
+      base.cfgLow.toMant 96).getD ([], [])).2).isEmpty = true := by
+  decide +kernel
+
+theorem lowerM18A7 :
+    checkPackedSpPrefix advLow.p12.rr (advLow.p12.rr.la.slotTerms ((((⟨0, gramInvPoly base.gramInv
+      0 1, ofInt 0⟩ : CertModel SoBackendV2).poly.toMants base.cfgLow.toMant 96).getD ([], [])).1))
+      (advLow.p12.rr.lb.slotTerms ((((modelMatrixEntry lowerGm 1 1).poly.toMants base.cfgLow.toMant
+      96).getD ([], [])).1)) = true := by
+  decide +kernel
+
 theorem lowerM18_sp :
     checkPackedSp advLow.p12.rr (advLow.p12.rr.la.slotTerms ((((⟨0, gramInvPoly base.gramInv 0 1,
       ofInt 0⟩ : CertModel SoBackendV2).poly.toMants base.cfgLow.toMant 96).getD ([], [])).1))
@@ -61,9 +103,26 @@ theorem lowerM18_sp :
   checkPackedSp_of_groups advLow.p12.rr (advLow.p12.rr.la.slotTerms ((((⟨0, gramInvPoly
     base.gramInv 0 1, ofInt 0⟩ : CertModel SoBackendV2).poly.toMants base.cfgLow.toMant 96).getD
     ([], [])).1)) (advLow.p12.rr.lb.slotTerms ((((modelMatrixEntry lowerGm 1 1).poly.toMants
-    base.cfgLow.toMant 96).getD ([], [])).1)) [advLow.p12.rr.shardRange] (by decide +kernel)
+    base.cfgLow.toMant 96).getD ([], [])).1)) [advLow.p12.rr.shardRange] lowerM18A7
     (fun s hs => ⟨advLow.p12.rr.shardRange, List.mem_singleton_self _, hs⟩)
     (fun g hg => by rw [List.mem_singleton.1 hg]; exact lowerM18_shards)
+
+theorem lowerM18A8 :
+    (⟨0, gramInvPoly base.gramInv 0 1, ofInt 0⟩ : CertModel SoBackendV2).poly.isConst = false := by
+  decide +kernel
+
+theorem lowerM18A9 :
+    (modelMatrixEntry lowerGm 1 1).poly.isConst = false := by
+  decide +kernel
+
+theorem lowerM18A10 :
+    (((⟨0, gramInvPoly base.gramInv 0 1, ofInt 0⟩ : CertModel SoBackendV2).poly.toMants
+      base.cfgLow.toMant 96)).isSome = true := by
+  decide +kernel
+
+theorem lowerM18A11 :
+    (((modelMatrixEntry lowerGm 1 1).poly.toMants base.cfgLow.toMant 96)).isSome = true := by
+  decide +kernel
 
 /-- The packed product 18 (cfgLow, key [3, 1, 0, 1, 1]). -/
 theorem lowerM18 :
@@ -78,7 +137,7 @@ theorem lowerM18 :
     (modelMatrixEntry lowerGm 1 1).poly 96 advLow.p12.rr advLow.p12.ii advLow.p12.ri advLow.p12.ir
     ((⟨lowerM18T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (advLow.p12.rr.remainderBound
       base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2))
-    (by decide +kernel) (by decide +kernel) rfl
+    lowerM18A8 lowerM18A9 rfl
     (CertPoly.mulPacked_eq_of_parts base.cfgLow.toMant base.weight 96 advLow.p12.rr advLow.p12.ii
       advLow.p12.ri advLow.p12.ir
       (⟨0, gramInvPoly base.gramInv 0 1, ofInt 0⟩ : CertModel SoBackendV2).poly
@@ -92,20 +151,19 @@ theorem lowerM18 :
       (tII := ([] : List (CertKey × CC SoBackendV2)))
       (tRI := ([] : List (CertKey × CC SoBackendV2)))
       (tIR := ([] : List (CertKey × CC SoBackendV2)))
-      (eq_some_getD_cseg ([], []) (by decide +kernel))
-      (eq_some_getD_cseg ([], []) (by decide +kernel))
+      (eq_some_getD_cseg ([], []) lowerM18A10)
+      (eq_some_getD_cseg ([], []) lowerM18A11)
       (packedRealProduct_eq_of_sparse advLow.p12.rr base.weight (2 * 96) ((((⟨0, gramInvPoly
         base.gramInv 0 1, ofInt 0⟩ : CertModel SoBackendV2).poly.toMants base.cfgLow.toMant
         96).getD ([], [])).1) ((((modelMatrixEntry lowerGm 1 1).poly.toMants base.cfgLow.toMant
-        96).getD ([], [])).1) (by decide +kernel) (by decide +kernel) (by decide +kernel) (by
-        decide +kernel) lowerM18_sp)
+        96).getD ([], [])).1) lowerM18A0 lowerM18A1 lowerM18A2 lowerM18A3 lowerM18_sp)
       (packedRealProduct_eq_nil_left advLow.p12.ii base.weight (2 * 96) ((((modelMatrixEntry
-        lowerGm 1 1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).2) (by decide +kernel))
+        lowerGm 1 1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).2) lowerM18A4)
       (packedRealProduct_eq_nil_right advLow.p12.ri base.weight (2 * 96) ((((⟨0, gramInvPoly
         base.gramInv 0 1, ofInt 0⟩ : CertModel SoBackendV2).poly.toMants base.cfgLow.toMant
-        96).getD ([], [])).1) (by decide +kernel))
+        96).getD ([], [])).1) lowerM18A5)
       (packedRealProduct_eq_nil_left advLow.p12.ir base.weight (2 * 96) ((((modelMatrixEntry
-        lowerGm 1 1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).1) (by decide +kernel))
+        lowerGm 1 1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).1) lowerM18A6)
       lowerM18_dec
       (dyadicTerms_nil_cseg _ _ _)
       (dyadicTerms_nil_cseg _ _ _)

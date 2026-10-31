@@ -53,6 +53,48 @@ namespace KAM.SpinOrbit.Data.Upper
 open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2 KAM.SpinOrbit
 open KAM.SpinOrbit.Data CertArith
 
+theorem upperM0A0 :
+    ((((upperFullCkpt.slotPair base.weight 8).1.poly.toMants base.cfgFull.toMant 96).getD ([],
+      [])).1).isEmpty = false := by
+  decide +kernel
+
+theorem upperM0A1 :
+    ((((upperFullCkpt.slotPair base.weight 5).1.poly.toMants base.cfgFull.toMant 96).getD ([],
+      [])).1).isEmpty = false := by
+  decide +kernel
+
+theorem upperM0A2 :
+    advFull.p0.rr.la.allSlots ((((upperFullCkpt.slotPair base.weight 8).1.poly.toMants
+      base.cfgFull.toMant 96).getD ([], [])).1) = true := by
+  decide +kernel
+
+theorem upperM0A3 :
+    advFull.p0.rr.lb.allSlots ((((upperFullCkpt.slotPair base.weight 5).1.poly.toMants
+      base.cfgFull.toMant 96).getD ([], [])).1) = true := by
+  decide +kernel
+
+theorem upperM0A4 :
+    ((((upperFullCkpt.slotPair base.weight 8).1.poly.toMants base.cfgFull.toMant 96).getD ([],
+      [])).2).isEmpty = true := by
+  decide +kernel
+
+theorem upperM0A5 :
+    ((((upperFullCkpt.slotPair base.weight 5).1.poly.toMants base.cfgFull.toMant 96).getD ([],
+      [])).2).isEmpty = true := by
+  decide +kernel
+
+theorem upperM0A6 :
+    ((((upperFullCkpt.slotPair base.weight 8).1.poly.toMants base.cfgFull.toMant 96).getD ([],
+      [])).2).isEmpty = true := by
+  decide +kernel
+
+theorem upperM0A7 :
+    checkPackedSpPrefix advFull.p0.rr (advFull.p0.rr.la.slotTerms ((((upperFullCkpt.slotPair
+      base.weight 8).1.poly.toMants base.cfgFull.toMant 96).getD ([], [])).1))
+      (advFull.p0.rr.lb.slotTerms ((((upperFullCkpt.slotPair base.weight 5).1.poly.toMants
+      base.cfgFull.toMant 96).getD ([], [])).1)) = true := by
+  decide +kernel
+
 theorem upperM0_sp :
     checkPackedSp advFull.p0.rr (advFull.p0.rr.la.slotTerms ((((upperFullCkpt.slotPair base.weight
       8).1.poly.toMants base.cfgFull.toMant 96).getD ([], [])).1)) (advFull.p0.rr.lb.slotTerms
@@ -61,9 +103,27 @@ theorem upperM0_sp :
   checkPackedSp_of_groups advFull.p0.rr (advFull.p0.rr.la.slotTerms ((((upperFullCkpt.slotPair
     base.weight 8).1.poly.toMants base.cfgFull.toMant 96).getD ([], [])).1))
     (advFull.p0.rr.lb.slotTerms ((((upperFullCkpt.slotPair base.weight 5).1.poly.toMants
-    base.cfgFull.toMant 96).getD ([], [])).1)) [advFull.p0.rr.shardRange] (by decide +kernel)
+    base.cfgFull.toMant 96).getD ([], [])).1)) [advFull.p0.rr.shardRange] upperM0A7
     (fun s hs => ⟨advFull.p0.rr.shardRange, List.mem_singleton_self _, hs⟩)
     (fun g hg => by rw [List.mem_singleton.1 hg]; exact upperM0_shards)
+
+theorem upperM0A8 :
+    (upperFullCkpt.slotPair base.weight 8).1.poly.isConst = false := by
+  decide +kernel
+
+theorem upperM0A9 :
+    (upperFullCkpt.slotPair base.weight 5).1.poly.isConst = false := by
+  decide +kernel
+
+theorem upperM0A10 :
+    (((upperFullCkpt.slotPair base.weight 8).1.poly.toMants base.cfgFull.toMant 96)).isSome = true
+      := by
+  decide +kernel
+
+theorem upperM0A11 :
+    (((upperFullCkpt.slotPair base.weight 5).1.poly.toMants base.cfgFull.toMant 96)).isSome = true
+      := by
+  decide +kernel
 
 /-- The packed product 0 (cfgFull, key [0, 10]). -/
 theorem upperM0 :
@@ -81,7 +141,7 @@ theorem upperM0 :
     advFull.p0.rr advFull.p0.ii advFull.p0.ri advFull.p0.ir
     ((⟨upperM0T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (advFull.p0.rr.remainderBound
       base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2))
-    (by decide +kernel) (by decide +kernel) rfl
+    upperM0A8 upperM0A9 rfl
     (CertPoly.mulPacked_eq_of_parts base.cfgFull.toMant base.weight 96 advFull.p0.rr advFull.p0.ii
       advFull.p0.ri advFull.p0.ir (upperFullCkpt.slotPair base.weight 8).1.poly
       (upperFullCkpt.slotPair base.weight 5).1.poly
@@ -95,22 +155,18 @@ theorem upperM0 :
       (tII := ([] : List (CertKey × CC SoBackendV2)))
       (tRI := ([] : List (CertKey × CC SoBackendV2)))
       (tIR := ([] : List (CertKey × CC SoBackendV2)))
-      (eq_some_getD_cseg ([], []) (by decide +kernel))
-      (eq_some_getD_cseg ([], []) (by decide +kernel))
+      (eq_some_getD_cseg ([], []) upperM0A10)
+      (eq_some_getD_cseg ([], []) upperM0A11)
       (packedRealProduct_eq_of_sparse advFull.p0.rr base.weight (2 * 96) ((((upperFullCkpt.slotPair
         base.weight 8).1.poly.toMants base.cfgFull.toMant 96).getD ([], [])).1)
         ((((upperFullCkpt.slotPair base.weight 5).1.poly.toMants base.cfgFull.toMant 96).getD ([],
-        [])).1) (by decide +kernel) (by decide +kernel) (by decide +kernel) (by decide +kernel)
-        upperM0_sp)
+        [])).1) upperM0A0 upperM0A1 upperM0A2 upperM0A3 upperM0_sp)
       (packedRealProduct_eq_nil_left advFull.p0.ii base.weight (2 * 96) ((((upperFullCkpt.slotPair
-        base.weight 5).1.poly.toMants base.cfgFull.toMant 96).getD ([], [])).2) (by
-        decide +kernel))
+        base.weight 5).1.poly.toMants base.cfgFull.toMant 96).getD ([], [])).2) upperM0A4)
       (packedRealProduct_eq_nil_right advFull.p0.ri base.weight (2 * 96) ((((upperFullCkpt.slotPair
-        base.weight 8).1.poly.toMants base.cfgFull.toMant 96).getD ([], [])).1) (by
-        decide +kernel))
+        base.weight 8).1.poly.toMants base.cfgFull.toMant 96).getD ([], [])).1) upperM0A5)
       (packedRealProduct_eq_nil_left advFull.p0.ir base.weight (2 * 96) ((((upperFullCkpt.slotPair
-        base.weight 5).1.poly.toMants base.cfgFull.toMant 96).getD ([], [])).1) (by
-        decide +kernel))
+        base.weight 5).1.poly.toMants base.cfgFull.toMant 96).getD ([], [])).1) upperM0A6)
       upperM0_dec
       (dyadicTerms_nil_cseg _ _ _)
       (dyadicTerms_nil_cseg _ _ _)

@@ -52,6 +52,55 @@ namespace KAM.SpinOrbit.Data.Lower
 open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2 KAM.SpinOrbit
 open KAM.SpinOrbit.Data CertArith
 
+theorem lowerM5A0 :
+    ((((itemsPoly ((charPhaseModel 2 base.emb base.weight base.piEnc [2, 0]).poly.terms.filterMap
+      (derivItem 1))).toMants (base.cfgLow.forWitness 1 (base.wit.expWit.length + 0)).toMant
+      96).getD ([], [])).1).isEmpty = true := by
+  decide +kernel
+
+theorem lowerM5A1 :
+    ((((⟨charE⟩ : CertPoly SoBackendV2).negP.toMants (base.cfgLow.forWitness 1
+      (base.wit.expWit.length + 0)).toMant 96).getD ([], [])).2).isEmpty = true := by
+  decide +kernel
+
+theorem lowerM5A2 :
+    ((((itemsPoly ((charPhaseModel 2 base.emb base.weight base.piEnc [2, 0]).poly.terms.filterMap
+      (derivItem 1))).toMants (base.cfgLow.forWitness 1 (base.wit.expWit.length + 0)).toMant
+      96).getD ([], [])).1).isEmpty = true := by
+  decide +kernel
+
+theorem lowerM5A3 :
+    ((((itemsPoly ((charPhaseModel 2 base.emb base.weight base.piEnc [2, 0]).poly.terms.filterMap
+      (derivItem 1))).toMants (base.cfgLow.forWitness 1 (base.wit.expWit.length + 0)).toMant
+      96).getD ([], [])).2).isEmpty = false := by
+  decide +kernel
+
+theorem lowerM5A4 :
+    ((((⟨charE⟩ : CertPoly SoBackendV2).negP.toMants (base.cfgLow.forWitness 1
+      (base.wit.expWit.length + 0)).toMant 96).getD ([], [])).1).isEmpty = false := by
+  decide +kernel
+
+theorem lowerM5A5 :
+    advLow.p19.ir.la.allSlots ((((itemsPoly ((charPhaseModel 2 base.emb base.weight base.piEnc [2,
+      0]).poly.terms.filterMap (derivItem 1))).toMants (base.cfgLow.forWitness 1
+      (base.wit.expWit.length + 0)).toMant 96).getD ([], [])).2) = true := by
+  decide +kernel
+
+theorem lowerM5A6 :
+    advLow.p19.ir.lb.allSlots ((((⟨charE⟩ : CertPoly SoBackendV2).negP.toMants
+      (base.cfgLow.forWitness 1 (base.wit.expWit.length + 0)).toMant 96).getD ([], [])).1) = true
+      := by
+  decide +kernel
+
+theorem lowerM5A7 :
+    checkPackedSpPrefix advLow.p19.ir (advLow.p19.ir.la.slotTerms ((((itemsPoly ((charPhaseModel 2
+      base.emb base.weight base.piEnc [2, 0]).poly.terms.filterMap (derivItem 1))).toMants
+      (base.cfgLow.forWitness 1 (base.wit.expWit.length + 0)).toMant 96).getD ([], [])).2))
+      (advLow.p19.ir.lb.slotTerms ((((⟨charE⟩ : CertPoly SoBackendV2).negP.toMants
+      (base.cfgLow.forWitness 1 (base.wit.expWit.length + 0)).toMant 96).getD ([], [])).1)) = true
+      := by
+  decide +kernel
+
 theorem lowerM5_sp :
     checkPackedSp advLow.p19.ir (advLow.p19.ir.la.slotTerms ((((itemsPoly ((charPhaseModel 2
       base.emb base.weight base.piEnc [2, 0]).poly.terms.filterMap (derivItem 1))).toMants
@@ -64,9 +113,29 @@ theorem lowerM5_sp :
     (base.cfgLow.forWitness 1 (base.wit.expWit.length + 0)).toMant 96).getD ([], [])).2))
     (advLow.p19.ir.lb.slotTerms ((((⟨charE⟩ : CertPoly SoBackendV2).negP.toMants
     (base.cfgLow.forWitness 1 (base.wit.expWit.length + 0)).toMant 96).getD ([], [])).1))
-    [advLow.p19.ir.shardRange] (by decide +kernel)
+    [advLow.p19.ir.shardRange] lowerM5A7
     (fun s hs => ⟨advLow.p19.ir.shardRange, List.mem_singleton_self _, hs⟩)
     (fun g hg => by rw [List.mem_singleton.1 hg]; exact lowerM5_shards)
+
+theorem lowerM5A8 :
+    (itemsPoly ((charPhaseModel 2 base.emb base.weight base.piEnc [2, 0]).poly.terms.filterMap
+      (derivItem 1))).isConst = false := by
+  decide +kernel
+
+theorem lowerM5A9 :
+    (⟨charE⟩ : CertPoly SoBackendV2).negP.isConst = false := by
+  decide +kernel
+
+theorem lowerM5A10 :
+    (((itemsPoly ((charPhaseModel 2 base.emb base.weight base.piEnc [2, 0]).poly.terms.filterMap
+      (derivItem 1))).toMants (base.cfgLow.forWitness 1 (base.wit.expWit.length + 0)).toMant
+      96)).isSome = true := by
+  decide +kernel
+
+theorem lowerM5A11 :
+    (((⟨charE⟩ : CertPoly SoBackendV2).negP.toMants (base.cfgLow.forWitness 1
+      (base.wit.expWit.length + 0)).toMant 96)).isSome = true := by
+  decide +kernel
 
 /-- The packed product 5 (cfgLow, key [1, 0, 1]). -/
 theorem lowerM5 :
@@ -84,7 +153,7 @@ theorem lowerM5 :
     advLow.p19.ir
     ((⟨[] ++ [] ++ [] ++ lowerM5T⟩ : CertPoly SoBackendV2), (ofRatUp (0 + 0 + 0 +
       advLow.p19.ir.remainderBound base.weight (2 * 96)) : SoBackendV2))
-    (by decide +kernel) (by decide +kernel) rfl
+    lowerM5A8 lowerM5A9 rfl
     (CertPoly.mulPacked_eq_of_parts (base.cfgLow.forWitness 1 (base.wit.expWit.length + 0)).toMant
       base.weight 96 advLow.p19.rr advLow.p19.ii advLow.p19.ri advLow.p19.ir
       (itemsPoly ((charPhaseModel 2 base.emb base.weight base.piEnc [2, 0]).poly.terms.filterMap
@@ -101,24 +170,24 @@ theorem lowerM5 :
       (tRR := ([] : List (CertKey × CC SoBackendV2)))
       (tII := ([] : List (CertKey × CC SoBackendV2)))
       (tRI := ([] : List (CertKey × CC SoBackendV2))) (tIR := lowerM5T)
-      (eq_some_getD_cseg ([], []) (by decide +kernel))
-      (eq_some_getD_cseg ([], []) (by decide +kernel))
+      (eq_some_getD_cseg ([], []) lowerM5A10)
+      (eq_some_getD_cseg ([], []) lowerM5A11)
       (packedRealProduct_eq_nil_left advLow.p19.rr base.weight (2 * 96) ((((⟨charE⟩ : CertPoly
         SoBackendV2).negP.toMants (base.cfgLow.forWitness 1 (base.wit.expWit.length + 0)).toMant
-        96).getD ([], [])).1) (by decide +kernel))
+        96).getD ([], [])).1) lowerM5A0)
       (packedRealProduct_eq_nil_right advLow.p19.ii base.weight (2 * 96) ((((itemsPoly
         ((charPhaseModel 2 base.emb base.weight base.piEnc [2, 0]).poly.terms.filterMap (derivItem
         1))).toMants (base.cfgLow.forWitness 1 (base.wit.expWit.length + 0)).toMant 96).getD ([],
-        [])).2) (by decide +kernel))
+        [])).2) lowerM5A1)
       (packedRealProduct_eq_nil_left advLow.p19.ri base.weight (2 * 96) ((((⟨charE⟩ : CertPoly
         SoBackendV2).negP.toMants (base.cfgLow.forWitness 1 (base.wit.expWit.length + 0)).toMant
-        96).getD ([], [])).2) (by decide +kernel))
+        96).getD ([], [])).2) lowerM5A2)
       (packedRealProduct_eq_of_sparse advLow.p19.ir base.weight (2 * 96) ((((itemsPoly
         ((charPhaseModel 2 base.emb base.weight base.piEnc [2, 0]).poly.terms.filterMap (derivItem
         1))).toMants (base.cfgLow.forWitness 1 (base.wit.expWit.length + 0)).toMant 96).getD ([],
         [])).2) ((((⟨charE⟩ : CertPoly SoBackendV2).negP.toMants (base.cfgLow.forWitness 1
-        (base.wit.expWit.length + 0)).toMant 96).getD ([], [])).1) (by decide +kernel) (by
-        decide +kernel) (by decide +kernel) (by decide +kernel) lowerM5_sp)
+        (base.wit.expWit.length + 0)).toMant 96).getD ([], [])).1) lowerM5A3 lowerM5A4 lowerM5A5
+        lowerM5A6 lowerM5_sp)
       (dyadicTerms_nil_cseg _ _ _)
       (dyadicTerms_nil_cseg _ _ _)
       (dyadicTerms_nil_cseg _ _ _)

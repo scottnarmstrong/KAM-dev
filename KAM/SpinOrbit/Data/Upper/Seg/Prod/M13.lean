@@ -52,6 +52,48 @@ namespace KAM.SpinOrbit.Data.Upper
 open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2 KAM.SpinOrbit
 open KAM.SpinOrbit.Data CertArith
 
+theorem upperM13A0 :
+    ((((dkActionModel 2 base.emb base.weight base.piEnc 0 1).poly.toMants base.cfgLow.toMant
+      96).getD ([], [])).1).isEmpty = true := by
+  decide +kernel
+
+theorem upperM13A1 :
+    ((((dkActionModel 2 base.emb base.weight base.piEnc 0 1).poly.toMants base.cfgLow.toMant
+      96).getD ([], [])).2).isEmpty = false := by
+  decide +kernel
+
+theorem upperM13A2 :
+    ((((dkActionModel 2 base.emb base.weight base.piEnc 0 1).poly.toMants base.cfgLow.toMant
+      96).getD ([], [])).2).isEmpty = false := by
+  decide +kernel
+
+theorem upperM13A3 :
+    advLow.p7.ii.la.allSlots ((((dkActionModel 2 base.emb base.weight base.piEnc 0 1).poly.toMants
+      base.cfgLow.toMant 96).getD ([], [])).2) = true := by
+  decide +kernel
+
+theorem upperM13A4 :
+    advLow.p7.ii.lb.allSlots ((((dkActionModel 2 base.emb base.weight base.piEnc 0 1).poly.toMants
+      base.cfgLow.toMant 96).getD ([], [])).2) = true := by
+  decide +kernel
+
+theorem upperM13A5 :
+    ((((dkActionModel 2 base.emb base.weight base.piEnc 0 1).poly.toMants base.cfgLow.toMant
+      96).getD ([], [])).1).isEmpty = true := by
+  decide +kernel
+
+theorem upperM13A6 :
+    ((((dkActionModel 2 base.emb base.weight base.piEnc 0 1).poly.toMants base.cfgLow.toMant
+      96).getD ([], [])).1).isEmpty = true := by
+  decide +kernel
+
+theorem upperM13A7 :
+    checkPackedSpPrefix advLow.p7.ii (advLow.p7.ii.la.slotTerms ((((dkActionModel 2 base.emb
+      base.weight base.piEnc 0 1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).2))
+      (advLow.p7.ii.lb.slotTerms ((((dkActionModel 2 base.emb base.weight base.piEnc 0
+      1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).2)) = true := by
+  decide +kernel
+
 theorem upperM13_sp :
     checkPackedSp advLow.p7.ii (advLow.p7.ii.la.slotTerms ((((dkActionModel 2 base.emb base.weight
       base.piEnc 0 1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).2))
@@ -60,10 +102,27 @@ theorem upperM13_sp :
   checkPackedSp_of_groups advLow.p7.ii (advLow.p7.ii.la.slotTerms ((((dkActionModel 2 base.emb
     base.weight base.piEnc 0 1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).2))
     (advLow.p7.ii.lb.slotTerms ((((dkActionModel 2 base.emb base.weight base.piEnc 0
-    1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).2)) [advLow.p7.ii.shardRange] (by
-    decide +kernel)
+    1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).2)) [advLow.p7.ii.shardRange] upperM13A7
     (fun s hs => ⟨advLow.p7.ii.shardRange, List.mem_singleton_self _, hs⟩)
     (fun g hg => by rw [List.mem_singleton.1 hg]; exact upperM13_shards)
+
+theorem upperM13A8 :
+    (dkActionModel 2 base.emb base.weight base.piEnc 0 1).poly.isConst = false := by
+  decide +kernel
+
+theorem upperM13A9 :
+    (dkActionModel 2 base.emb base.weight base.piEnc 0 1).poly.isConst = false := by
+  decide +kernel
+
+theorem upperM13A10 :
+    (((dkActionModel 2 base.emb base.weight base.piEnc 0 1).poly.toMants base.cfgLow.toMant
+      96)).isSome = true := by
+  decide +kernel
+
+theorem upperM13A11 :
+    (((dkActionModel 2 base.emb base.weight base.piEnc 0 1).poly.toMants base.cfgLow.toMant
+      96)).isSome = true := by
+  decide +kernel
 
 /-- The packed product 13 (cfgLow, key [3, 0, 1, 1, 2]). -/
 theorem upperM13 :
@@ -79,7 +138,7 @@ theorem upperM13 :
     advLow.p7.ri advLow.p7.ir
     ((⟨[] ++ upperM13T ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (0 +
       advLow.p7.ii.remainderBound base.weight (2 * 96) + 0 + 0) : SoBackendV2))
-    (by decide +kernel) (by decide +kernel) rfl
+    upperM13A8 upperM13A9 rfl
     (CertPoly.mulPacked_eq_of_parts base.cfgLow.toMant base.weight 96 advLow.p7.rr advLow.p7.ii
       advLow.p7.ri advLow.p7.ir (dkActionModel 2 base.emb base.weight base.piEnc 0 1).poly
       (dkActionModel 2 base.emb base.weight base.piEnc 0 1).poly
@@ -93,22 +152,21 @@ theorem upperM13 :
       (tRR := ([] : List (CertKey × CC SoBackendV2))) (tII := upperM13T)
       (tRI := ([] : List (CertKey × CC SoBackendV2)))
       (tIR := ([] : List (CertKey × CC SoBackendV2)))
-      (eq_some_getD_cseg ([], []) (by decide +kernel))
-      (eq_some_getD_cseg ([], []) (by decide +kernel))
+      (eq_some_getD_cseg ([], []) upperM13A10)
+      (eq_some_getD_cseg ([], []) upperM13A11)
       (packedRealProduct_eq_nil_left advLow.p7.rr base.weight (2 * 96) ((((dkActionModel 2 base.emb
-        base.weight base.piEnc 0 1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).1) (by
-        decide +kernel))
+        base.weight base.piEnc 0 1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).1)
+        upperM13A0)
       (packedRealProduct_eq_of_sparse advLow.p7.ii base.weight (2 * 96) ((((dkActionModel 2
         base.emb base.weight base.piEnc 0 1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).2)
         ((((dkActionModel 2 base.emb base.weight base.piEnc 0 1).poly.toMants base.cfgLow.toMant
-        96).getD ([], [])).2) (by decide +kernel) (by decide +kernel) (by decide +kernel) (by
-        decide +kernel) upperM13_sp)
+        96).getD ([], [])).2) upperM13A1 upperM13A2 upperM13A3 upperM13A4 upperM13_sp)
       (packedRealProduct_eq_nil_left advLow.p7.ri base.weight (2 * 96) ((((dkActionModel 2 base.emb
-        base.weight base.piEnc 0 1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).2) (by
-        decide +kernel))
+        base.weight base.piEnc 0 1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).2)
+        upperM13A5)
       (packedRealProduct_eq_nil_right advLow.p7.ir base.weight (2 * 96) ((((dkActionModel 2
         base.emb base.weight base.piEnc 0 1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).2)
-        (by decide +kernel))
+        upperM13A6)
       (dyadicTerms_nil_cseg _ _ _)
       upperM13_dec
       (dyadicTerms_nil_cseg _ _ _)

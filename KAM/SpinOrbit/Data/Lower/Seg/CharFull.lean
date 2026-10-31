@@ -47,6 +47,27 @@ theorem lower_resFull1 :
     (⟨⟨charE⟩, 0, 70⟩ : ExpWitness SoBackendV2).poly 1 lowerM2]
   decide +kernel
 
+theorem lower_pinFull :
+    (certCExpReduced (expPinBall (charPhaseModel 2 base.emb base.weight base.piEnc [2, 0])).1
+      (expPinBall (charPhaseModel 2 base.emb base.weight base.piEnc [2, 0])).2 (⟨⟨charE⟩, 0, 70⟩ :
+      ExpWitness SoBackendV2).pinHalvings (⟨⟨charE⟩, 0, 70⟩ : ExpWitness SoBackendV2).pinOrder).map
+      (fun x => ccBeq x.1 (⟨(⟨0x1000000000000000000000000⟩ : SoBackendV2), (⟨0⟩ : SoBackendV2)⟩ :
+      CC SoBackendV2) && decide (x.2 = (⟨363⟩ : SoBackendV2))) = some true := by
+  decide +kernel
+
+theorem lower_mBFull :
+    expm1Up (base.cfgFull.forWitness 1 (base.wit.expWit.length + 0)).halvings
+      (base.cfgFull.forWitness 1 (base.wit.expWit.length + 0)).taylorN ((charPhaseModel 2 base.emb
+      base.weight base.piEnc [2, 0]).poly.supNormUp base.weight) = some
+      (⟨0x12e1bd0bd3be7644d31c8ede9⟩ : SoBackendV2) := by
+  decide +kernel
+
+theorem lower_mEtaFull :
+    expm1Up (base.cfgFull.forWitness 1 (base.wit.expWit.length + 0)).halvings
+      (base.cfgFull.forWitness 1 (base.wit.expWit.length + 0)).taylorN (charPhaseModel 2 base.emb
+      base.weight base.piEnc [2, 0]).rad = some (⟨126975⟩ : SoBackendV2) := by
+  decide +kernel
+
 theorem lower_radFull :
     expWitnessRadius 2 base.weight (base.cfgFull.forWitness 1 (base.wit.expWit.length + 0))
       (charPhaseModel 2 base.emb base.weight base.piEnc [2, 0]) (⟨⟨charE⟩, 0, 70⟩ : ExpWitness
@@ -54,14 +75,14 @@ theorem lower_radFull :
   rw [expWitnessRadius_eq_of_pin 2 base.weight (base.cfgFull.forWitness 1 (base.wit.expWit.length +
     0)) (charPhaseModel 2 base.emb base.weight base.piEnc [2, 0]) (⟨⟨charE⟩, 0, 70⟩ : ExpWitness
     SoBackendV2) (out := ((⟨(⟨0x1000000000000000000000000⟩ : SoBackendV2), (⟨0⟩ : SoBackendV2)⟩ :
-    CC SoBackendV2), (⟨363⟩ : SoBackendV2))) (eq_some_pair_cseg (by decide +kernel)),
+    CC SoBackendV2), (⟨363⟩ : SoBackendV2))) (eq_some_pair_cseg lower_pinFull),
     expWitnessRadiusOf_eq_of_residuals 2 base.weight (base.cfgFull.forWitness 1
       (base.wit.expWit.length + 0)) (charPhaseModel 2 base.emb base.weight base.piEnc [2, 0])
       (⟨⟨charE⟩, 0, 70⟩ : ExpWitness SoBackendV2).poly ((⟨(⟨0x1000000000000000000000000⟩ :
       SoBackendV2), (⟨0⟩ : SoBackendV2)⟩ : CC SoBackendV2), (⟨363⟩ : SoBackendV2)) (mB :=
       (⟨0x12e1bd0bd3be7644d31c8ede9⟩ : SoBackendV2)) (mη := (⟨126975⟩ : SoBackendV2)) (rs := (fun j
-      => if j = 0 then (⟨37447814980942⟩ : SoBackendV2) else (⟨4113663522798⟩ : SoBackendV2))) (by
-      decide +kernel) (by decide +kernel)
+      => if j = 0 then (⟨37447814980942⟩ : SoBackendV2) else (⟨4113663522798⟩ : SoBackendV2)))
+      lower_mBFull lower_mEtaFull
       (fun j => match j with
         | ⟨0, _⟩ => lower_resFull0
         | ⟨1, _⟩ => lower_resFull1

@@ -53,6 +53,48 @@ namespace KAM.SpinOrbit.Data.Lower
 open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2 KAM.SpinOrbit
 open KAM.SpinOrbit.Data CertArith
 
+theorem lowerM58A0 :
+    ((((modelMatrixEntry (modelMatTranspose (2 + 2) 2 lowerTL) 1 3).poly.toMants base.cfgLow.toMant
+      96).getD ([], [])).1).isEmpty = true := by
+  decide +kernel
+
+theorem lowerM58A1 :
+    ((((modelMatrixEntry lowerTDL 3 1).poly.toMants base.cfgLow.toMant 96).getD ([],
+      [])).2).isEmpty = true := by
+  decide +kernel
+
+theorem lowerM58A2 :
+    ((((modelMatrixEntry (modelMatTranspose (2 + 2) 2 lowerTL) 1 3).poly.toMants base.cfgLow.toMant
+      96).getD ([], [])).1).isEmpty = true := by
+  decide +kernel
+
+theorem lowerM58A3 :
+    ((((modelMatrixEntry (modelMatTranspose (2 + 2) 2 lowerTL) 1 3).poly.toMants base.cfgLow.toMant
+      96).getD ([], [])).2).isEmpty = false := by
+  decide +kernel
+
+theorem lowerM58A4 :
+    ((((modelMatrixEntry lowerTDL 3 1).poly.toMants base.cfgLow.toMant 96).getD ([],
+      [])).1).isEmpty = false := by
+  decide +kernel
+
+theorem lowerM58A5 :
+    advLow.p55.ir.la.allSlots ((((modelMatrixEntry (modelMatTranspose (2 + 2) 2 lowerTL) 1
+      3).poly.toMants base.cfgLow.toMant 96).getD ([], [])).2) = true := by
+  decide +kernel
+
+theorem lowerM58A6 :
+    advLow.p55.ir.lb.allSlots ((((modelMatrixEntry lowerTDL 3 1).poly.toMants base.cfgLow.toMant
+      96).getD ([], [])).1) = true := by
+  decide +kernel
+
+theorem lowerM58A7 :
+    checkPackedSpPrefix advLow.p55.ir (advLow.p55.ir.la.slotTerms ((((modelMatrixEntry
+      (modelMatTranspose (2 + 2) 2 lowerTL) 1 3).poly.toMants base.cfgLow.toMant 96).getD ([],
+      [])).2)) (advLow.p55.ir.lb.slotTerms ((((modelMatrixEntry lowerTDL 3 1).poly.toMants
+      base.cfgLow.toMant 96).getD ([], [])).1)) = true := by
+  decide +kernel
+
 theorem lowerM58_sp :
     checkPackedSp advLow.p55.ir (advLow.p55.ir.la.slotTerms ((((modelMatrixEntry (modelMatTranspose
       (2 + 2) 2 lowerTL) 1 3).poly.toMants base.cfgLow.toMant 96).getD ([], [])).2))
@@ -61,9 +103,26 @@ theorem lowerM58_sp :
   checkPackedSp_of_groups advLow.p55.ir (advLow.p55.ir.la.slotTerms ((((modelMatrixEntry
     (modelMatTranspose (2 + 2) 2 lowerTL) 1 3).poly.toMants base.cfgLow.toMant 96).getD ([],
     [])).2)) (advLow.p55.ir.lb.slotTerms ((((modelMatrixEntry lowerTDL 3 1).poly.toMants
-    base.cfgLow.toMant 96).getD ([], [])).1)) [advLow.p55.ir.shardRange] (by decide +kernel)
+    base.cfgLow.toMant 96).getD ([], [])).1)) [advLow.p55.ir.shardRange] lowerM58A7
     (fun s hs => ⟨advLow.p55.ir.shardRange, List.mem_singleton_self _, hs⟩)
     (fun g hg => by rw [List.mem_singleton.1 hg]; exact lowerM58_shards)
+
+theorem lowerM58A8 :
+    (modelMatrixEntry (modelMatTranspose (2 + 2) 2 lowerTL) 1 3).poly.isConst = false := by
+  decide +kernel
+
+theorem lowerM58A9 :
+    (modelMatrixEntry lowerTDL 3 1).poly.isConst = false := by
+  decide +kernel
+
+theorem lowerM58A10 :
+    (((modelMatrixEntry (modelMatTranspose (2 + 2) 2 lowerTL) 1 3).poly.toMants base.cfgLow.toMant
+      96)).isSome = true := by
+  decide +kernel
+
+theorem lowerM58A11 :
+    (((modelMatrixEntry lowerTDL 3 1).poly.toMants base.cfgLow.toMant 96)).isSome = true := by
+  decide +kernel
 
 /-- The packed product 58 (cfgLow, key [4, 2, 1, 1, 3]). -/
 theorem lowerM58 :
@@ -78,7 +137,7 @@ theorem lowerM58 :
     (modelMatrixEntry lowerTDL 3 1).poly 96 advLow.p55.rr advLow.p55.ii advLow.p55.ri advLow.p55.ir
     ((⟨[] ++ [] ++ [] ++ lowerM58T⟩ : CertPoly SoBackendV2), (ofRatUp (0 + 0 + 0 +
       advLow.p55.ir.remainderBound base.weight (2 * 96)) : SoBackendV2))
-    (by decide +kernel) (by decide +kernel) rfl
+    lowerM58A8 lowerM58A9 rfl
     (CertPoly.mulPacked_eq_of_parts base.cfgLow.toMant base.weight 96 advLow.p55.rr advLow.p55.ii
       advLow.p55.ri advLow.p55.ir (modelMatrixEntry (modelMatTranspose (2 + 2) 2 lowerTL) 1 3).poly
       (modelMatrixEntry lowerTDL 3 1).poly
@@ -91,20 +150,19 @@ theorem lowerM58 :
       (tRR := ([] : List (CertKey × CC SoBackendV2)))
       (tII := ([] : List (CertKey × CC SoBackendV2)))
       (tRI := ([] : List (CertKey × CC SoBackendV2))) (tIR := lowerM58T)
-      (eq_some_getD_cseg ([], []) (by decide +kernel))
-      (eq_some_getD_cseg ([], []) (by decide +kernel))
+      (eq_some_getD_cseg ([], []) lowerM58A10)
+      (eq_some_getD_cseg ([], []) lowerM58A11)
       (packedRealProduct_eq_nil_left advLow.p55.rr base.weight (2 * 96) ((((modelMatrixEntry
-        lowerTDL 3 1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).1) (by decide +kernel))
+        lowerTDL 3 1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).1) lowerM58A0)
       (packedRealProduct_eq_nil_right advLow.p55.ii base.weight (2 * 96) ((((modelMatrixEntry
         (modelMatTranspose (2 + 2) 2 lowerTL) 1 3).poly.toMants base.cfgLow.toMant 96).getD ([],
-        [])).2) (by decide +kernel))
+        [])).2) lowerM58A1)
       (packedRealProduct_eq_nil_left advLow.p55.ri base.weight (2 * 96) ((((modelMatrixEntry
-        lowerTDL 3 1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).2) (by decide +kernel))
+        lowerTDL 3 1).poly.toMants base.cfgLow.toMant 96).getD ([], [])).2) lowerM58A2)
       (packedRealProduct_eq_of_sparse advLow.p55.ir base.weight (2 * 96) ((((modelMatrixEntry
         (modelMatTranspose (2 + 2) 2 lowerTL) 1 3).poly.toMants base.cfgLow.toMant 96).getD ([],
         [])).2) ((((modelMatrixEntry lowerTDL 3 1).poly.toMants base.cfgLow.toMant 96).getD ([],
-        [])).1) (by decide +kernel) (by decide +kernel) (by decide +kernel) (by decide +kernel)
-        lowerM58_sp)
+        [])).1) lowerM58A3 lowerM58A4 lowerM58A5 lowerM58A6 lowerM58_sp)
       (dyadicTerms_nil_cseg _ _ _)
       (dyadicTerms_nil_cseg _ _ _)
       (dyadicTerms_nil_cseg _ _ _)

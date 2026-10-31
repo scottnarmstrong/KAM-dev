@@ -461,23 +461,37 @@ class Emitter:
             dec += ["  eq_some_of_termsBeq_cseg (by decide +kernel)"]
             self.tree.write("Prod/M%dDec" % k, imps, "Packed product %d: decode" % k,
                             "The decode of one packed product (L1c (b)).", dec, heavy=True)
-        # assembly
-        body = []
+        # assembly. Every Boolean side check is its OWN theorem (a statement of closed terms, its own
+        # heartbeat budget): nested `decide`s inside one declaration share one budget (design signal)
+        body, auxn = [], [0]
+
+        def aux(stmt):
+            nmA = "%sA%d" % (nm, auxn[0])
+            auxn[0] += 1
+            body.extend(["theorem %s :" % nmA] + wrap((stmt + " := by").split(" "), "    ") + ["  decide +kernel", ""])
+            return nmA
         hparts, tparts, rems = {}, {}, {}
         for p in PART_ORDER:
             advp = "%s.%s" % (advname, p)
             X = "((%s.getD ([], []))%s)" % (ma, xy[p][0])
             Y = "((%s.getD ([], []))%s)" % (mb, xy[p][1])
             if p in ne:
-                hparts[p] = ("(packedRealProduct_eq_of_sparse %s %s (2 * %d) %s %s (by decide +kernel) "
-                             "(by decide +kernel) (by decide +kernel) (by decide +kernel) %s_sp)" % (advp, self.W, P, X, Y, nm))
+                hx = aux("%s.isEmpty = false" % X)
+                hy = aux("%s.isEmpty = false" % Y)
+                hla = aux("%s.la.allSlots %s = true" % (advp, X))
+                hlb = aux("%s.lb.allSlots %s = true" % (advp, Y))
+                hparts[p] = ("(packedRealProduct_eq_of_sparse %s %s (2 * %d) %s %s %s %s %s %s %s_sp)"
+                             % (advp, self.W, P, X, Y, hx, hy, hla, hlb, nm))
                 tparts[p] = "%s_dec" % nm
                 rems[p] = "%s.remainderBound %s (2 * %d)" % (advp, self.W, P)
             else:
                 xe = parts[p]["x"] == 0
-                hparts[p] = ("(packedRealProduct_eq_nil_left %s %s (2 * %d) %s (by decide +kernel))" % (advp, self.W, P, Y)
-                             if xe else
-                             "(packedRealProduct_eq_nil_right %s %s (2 * %d) %s (by decide +kernel))" % (advp, self.W, P, X))
+                if xe:
+                    hparts[p] = ("(packedRealProduct_eq_nil_left %s %s (2 * %d) %s %s)"
+                                 % (advp, self.W, P, Y, aux("%s.isEmpty = true" % X)))
+                else:
+                    hparts[p] = ("(packedRealProduct_eq_nil_right %s %s (2 * %d) %s %s)"
+                                 % (advp, self.W, P, X, aux("%s.isEmpty = true" % Y)))
                 tparts[p] = "rfl"
                 rems[p] = "0"
         tl = " ++ ".join(tname if p in ne else "[]" for p in PART_ORDER)
@@ -489,10 +503,15 @@ class Emitter:
             Y = "((%s.getD ([], []))%s)" % (mb, xy[p][1])
             ea = "(%s.la.slotTerms %s)" % (adv, X)
             eb = "(%s.lb.slotTerms %s)" % (adv, Y)
+            hpre = aux("checkPackedSpPrefix %s %s %s = true" % (adv, ea, eb))
             body += ["theorem %s_sp :" % nm] + wrap(("checkPackedSp %s %s %s = true :=" % (adv, ea, eb)).split(" "), "    ")
-            body += ["  checkPackedSp_of_groups %s %s %s [%s.shardRange] (by decide +kernel)" % (adv, ea, eb, adv),
+            body += ["  checkPackedSp_of_groups %s %s %s [%s.shardRange] %s" % (adv, ea, eb, adv, hpre),
                      "    (fun s hs => ⟨%s.shardRange, List.mem_singleton_self _, hs⟩)" % adv,
                      "    (fun g hg => by rw [List.mem_singleton.1 hg]; exact %s_shards)" % nm, ""]
+        hca = aux("%s.isConst = false" % a)
+        hcb = aux("%s.isConst = false" % b)
+        hma = aux("(%s).isSome = true" % ma)
+        hmb = aux("(%s).isSome = true" % mb)
         out = "((⟨%s⟩ : CertPoly %s), (ofRatUp (%s) : %s))" % (tl, TY, rl, TY)
         self.memo_out[k] = "(%s.1.toErrTerms, %s.2)" % (out, out)
         stmt = "CertModel.polyProduct %s %s %s %s %s = some (%s.1.toErrTerms, %s.2)" % (self.W, cfg, key, a, b, out, out)
@@ -504,15 +523,13 @@ class Emitter:
               for p in PART_ORDER}
         tt = {p: (tname if p in ne else "([] : List (CertKey × CC %s))" % TY) for p in PART_ORDER}
         body += wrap(["polyProduct_eq_of_mulPacked", self.W, cfg, key, a, b, str(P)] +
-                     ["%s.%s" % (advname, p) for p in PART_ORDER] + [out, "(by decide +kernel)", "(by decide +kernel)",
-                                                                    "rfl"], "  ")
+                     ["%s.%s" % (advname, p) for p in PART_ORDER] + [out, hca, hcb, "rfl"], "  ")
         body += wrap(["(CertPoly.mulPacked_eq_of_parts", "%s.toMant" % cfg, self.W, str(P)] +
                      ["%s.%s" % (advname, p) for p in PART_ORDER] + [a, b,
                      "(ma := (%s.getD ([], [])))" % ma, "(mb := (%s.getD ([], [])))" % mb] +
                      ["(p%s := %s)" % (p.upper(), pp[p]) for p in PART_ORDER] +
                      ["(t%s := %s)" % (p.upper(), tt[p]) for p in PART_ORDER], "    ")
-        body += ["      (eq_some_getD_cseg ([], []) (by decide +kernel))",
-                 "      (eq_some_getD_cseg ([], []) (by decide +kernel))"]
+        body += ["      (eq_some_getD_cseg ([], []) %s)" % hma, "      (eq_some_getD_cseg ([], []) %s)" % hmb]
         for p in PART_ORDER:
             body += ["      " + hparts[p]]
         for p in PART_ORDER:
@@ -929,14 +946,23 @@ class Emitter:
                               % (W, cfgw, g, EW, j, self.memo_name(k))).split(" "), "  ")
                 body += ["  decide +kernel", ""]
             rs = "(fun j => if j = 0 then %s else %s)" % (fixed(c["res"][0]), fixed(c["res"][1]))
+            # each side check its own theorem (own heartbeat budget, a statement of closed terms)
+            pin = ("(certCExpReduced (expPinBall %s).1 (expPinBall %s).2 %s.pinHalvings %s.pinOrder).map "
+                   "(fun x => ccBeq x.1 (⟨%s, %s⟩ : CC %s) && decide (x.2 = %s)) = some true"
+                   % (g, g, EW, EW, fixed(cre), fixed(cim), TY, fixed(crad)))
+            hB = "expm1Up %s.halvings %s.taylorN (%s.poly.supNormUp %s) = some %s" % (cfgw, cfgw, g, W, fixed(c["mB"]))
+            hE = "expm1Up %s.halvings %s.taylorN %s.rad = some %s" % (cfgw, cfgw, g, fixed(c["mEta"]))
+            for nmA, stA in (("pin", pin), ("mB", hB), ("mEta", hE)):
+                body += ["theorem %s_%s%s :" % (t, nmA, sub)] + wrap((stA + " := by").split(" "), "    ")
+                body += ["  decide +kernel", ""]
             st = "expWitnessRadius 2 %s %s %s %s = some %s" % (W, cfgw, g, EW, fixed(c["r"]))
             body += ["theorem %s_rad%s :" % (t, sub)] + wrap(st.split(" "), "    ")
             body[-1] += " := by"
-            body += wrap(("rw [expWitnessRadius_eq_of_pin 2 %s %s %s %s (out := %s) (eq_some_pair_cseg (by decide +kernel)),"
-                          % (W, cfgw, g, EW, out)).split(" "), "  ")
+            body += wrap(("rw [expWitnessRadius_eq_of_pin 2 %s %s %s %s (out := %s) (eq_some_pair_cseg %s_pin%s),"
+                          % (W, cfgw, g, EW, out, t, sub)).split(" "), "  ")
             body += wrap(("expWitnessRadiusOf_eq_of_residuals 2 %s %s %s %s.poly %s (mB := %s) (mη := %s) (rs := %s)"
-                          " (by decide +kernel) (by decide +kernel)" % (W, cfgw, g, EW, out, fixed(c["mB"]),
-                                                                        fixed(c["mEta"]), rs)).split(" "), "    ")
+                          " %s_mB%s %s_mEta%s" % (W, cfgw, g, EW, out, fixed(c["mB"]), fixed(c["mEta"]), rs,
+                                                  t, sub, t, sub)).split(" "), "    ")
             body += ["      (fun j => match j with",
                      "        | ⟨0, _⟩ => %s_res%s0" % (t, sub), "        | ⟨1, _⟩ => %s_res%s1" % (t, sub),
                      "        | ⟨j + 2, h⟩ => absurd h (by omega))]", "  decide +kernel", ""]
