@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-31 13:43 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 96.0 % · SO checker 100 % · SO Moon 90 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **1,000,870 lines of Lean** of an estimated ≈ 1,007,000
+> **Last updated: 2026-10-31 14:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 96.0 % · SO checker 100 % · SO Moon 90 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **1,000,870 lines of Lean** of an estimated ≈ 1,007,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -265,8 +265,8 @@ Overall, everything together: 79.8 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **1,000,870** (866,999 excluding blank lines and comments) · **+713,638** since 2026-10-30 13:40 UTC |
-| Written on agent branches, not yet landed | 5,807 |
+| On `main` now | **1,000,870** (866,999 excluding blank lines and comments) · **+713,638** since 2026-10-30 14:00 UTC |
+| Written on agent branches, not yet landed | 5,908 |
 | Generated certificate data on agent branches (numeric literals, not counted above or below) | 4,264 |
 | **Estimated total at completion** | **≈ 1,007,000** |
 | Estimated still to write | ≈ 0 |
@@ -275,7 +275,7 @@ Overall, everything together: 79.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-31 13:43 UTC from `main` at `09e5d963` by `scripts/hq-status.py`.*
+*Generated 2026-10-31 14:00 UTC from `main` at `2fc39e81` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -285,7 +285,7 @@ Overall, everything together: 79.8 %
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3 % of its orbital rate for all time (target about 2.7 % at N = 65, D38). `KAM/SpinOrbit` and the data generator: 1686 modules · 639,688 lines. **Packages landed: 24 / 26**.
 - **Part 3, the Moon locked in synchronous rotation forever** (D42, D45): one librational invariant torus around a certified synchronous periodic orbit confines the spin (a stronger result than the spin-rate band; route: polar coordinates, the landed certifier, one new primitive `HamExpr.sqrt`; N = 65) · **50 %** · stages reached: scoping study, design, Lean proof modules · the lock sub-orchestrator is running (2 package workers)
 - Design estimate for parts 1 and 2: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-PACKFIX, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-DION, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-SHARPLINK, SO-GEN, SO-GEN2, SO-DATA-PY, SO-DATA, SO-GEN3, SO-EMITFIX, SO-R1, SO-LUNAR, SO-LUNAR-A, SO-R2.
-- **Now:** proving SO-DATA3 · in audit —
+- **Now:** proving — · in audit SO-DATA3
 - **Gates:** design of the general checker ACCEPTED (Revision 7). Lunar route (2026-10-30): sharp certifier checkTorusCertificateSharp (D36, threshold about 1e-25), barriers at N = 65, band about 2.71 % (D38; floor 2.62 %), kernel-cheap packed products (D34, SO-PACKFIX). SO-GEN3 sizes the data: about 40 digits and 1-2k terms per torus (R1 had 88 digits and 8.5k terms). Final data wait for the next certifier version (same format).
 
 **Track W** (D30, D41; [plan](blueprint-W/PLAN.md)): PDE KAM for the cubic wave equation u_tt = u_xx − m u − u³ on [0, π] (Pöschel 1996) · **26 %**
@@ -460,9 +460,9 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **lockdata** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: LOCK-DATA lock_zadv: advice parts import only the parts they reference (no import chain) | `inp-lockdata` | 144 (vs `inp`) |
+| **lockdata** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: LOCK-DATA lock_zadv: advice book index in 200-entry chunks joined by ++ (default recursion | `inp-lockdata` | 145 (vs `inp`) |
 | **lockfreeze** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: LOCK-FREEZE: cite D49 (freeze approval) and D45 (route) after renumbering | `inp-lockfreeze` | 2 (vs `inp`) |
-| **sofreeze3** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: SO-FREEZE3 Phase A (Q11): landed spin-orbit code uses the frozen D40 definitions; CsegSupp | `inp-sofreeze3` | 3 (vs `inp`) |
+| **sofreeze3** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: SO-FREEZE3 Phase B: seal lunar_barriers, lunar_spin_confinement, lunarPLo_lt_lunarPHi (D50 | `inp-sofreeze3` | 4 (vs `inp`) |
 | **wgraph** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Track W graph: delta review 7 (codex-1), reports only (track W paused) | `inp-wgraph` | 24 (vs `inp`) |
 | **wph** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: W1-CUBIC: audit 2 report (track W paused) | `inp-wph` | 13 (vs `inp`) |
 | **wpj** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: W4-HOMOLOGICAL WIP: solve (i)(ii)(iv), linear images, wave frequencies, divisors (all file | `inp-wpj` | 2 (vs `inp`) |
@@ -475,6 +475,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-31 13:53 | `2fc39e81` | D51: certificate applications are opt-in builds (owner) |
 | 2026-10-31 13:41 | `09e5d963` | HQ: SO-2 meter reads the landed final theorems; freeze item derived from the frozen file and the seal audit; D50 (owner approves sealing SO-2) |
 | 2026-10-31 10:49 | `b42d4fb9` | Log: memory incident (earlyoom killed a band rebuild module); lock memory budget |
 | 2026-10-31 09:24 | `648ec216` | Log: lock data cost cuts (345 -> ~158 MB, <1 h elaboration); owner ruling on size pending |
@@ -486,7 +487,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-31 08:16 | `e4f29dfe` | D46: accept the N = 65 band at 2.755 % (rule B tightness clause waived; owner) |
 | 2026-10-31 08:14 | `0e561d57` | Log: LOCK-DATA ledger 131.4 MB over the flag (owner ruling); SO-DATA3 landing |
 | 2026-10-31 08:12 | `f8dfe09c` | OVERNIGHT: SO-LOCK data volume 131 MB (owner review) |
-| 2026-10-31 06:02 | `1eb49a73` | Log: SO-DATA3 audit (theorems pass; F1 rule-B tightness for owner); landing via build overlay |
 <!-- /AUTO:landed -->
 
 ## Decisions
