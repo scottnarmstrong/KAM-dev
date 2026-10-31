@@ -1,15 +1,10 @@
 {
- "replaced": [
-  "bpW:w6:prep-step",
-  "stepW:w6:p-lipp"
- ],
+ "replaced": [],
  "added": [],
  "items": [],
  "unresolved": {},
  "passes": [
-  "stepW:w6:p-div",
-  "bpW:w6:freq-lip",
-  "stepW:w6:fl-borel",
-  "bpW:w6:to-w8"
+  "bpW:w6:prep-step",
+  "stepW:w6:p-lipp"
  ]
 }

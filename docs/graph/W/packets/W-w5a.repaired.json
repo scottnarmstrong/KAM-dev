@@ -1,24 +1,9 @@
 {
- "replaced": [
-  "stepW:w5:t-comp"
- ],
+ "replaced": [],
  "added": [],
  "items": [],
  "unresolved": {},
  "passes": [
-  "stepW:w5:s-out",
-  "bpW:w5:flow",
-  "stepW:w5:f-flow",
-  "stepW:w5:f-par",
-  "stepW:w5:f-der",
-  "stepW:w5:f-image",
-  "stepW:w5:f-real",
-  "stepW:w5:c-skew",
-  "bpW:w5:ext-symm",
-  "bpW:w5:ext-sqrt",
-  "bpW:w5:ext-triangle",
-  "bpW:w5:ext-symm",
-  "bpW:w5:ext-sqrt",
-  "bpW:w5:ext-triangle"
+  "stepW:w5:t-comp"
  ]
 }

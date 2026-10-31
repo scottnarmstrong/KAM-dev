@@ -725,7 +725,7 @@ DISPOSITION: NODE bpW:w3:class-remark
 REASON: the regularity claim is directly cited inside stepW:w6:t-an; retained with dependencies on its W3 suppliers
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-w2+sol-delta5-W-w3
-REVIEWER: sol-delta6-W-W-w3
+REVIEWER: sol-delta8-W-W-w3
 
 ITEM: bpW:w3:gamma-real
 KIND: corollary

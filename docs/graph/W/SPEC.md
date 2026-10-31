@@ -446,6 +446,11 @@ SOURCE line.
   - The corpus on inp (9c6d9128) matches the pins (CORPUS.sha256 and IMPORTS.sha256 all OK), so nothing was re-pinned.
   - The linter passes with `--require-all-reachable`: 696 nodes, 2397 edges, 0 SOURCE_GAP, review queue 4.
 
+- **2026-10-31, delta 8** (tags `sol-delta8-W-W-<slice>`, as written in the files): W-w3, W-w5a and W-w6 PASS and are
+  marked. All 696 nodes and 1094 coverage items are REVIEWED; 0 SOURCE_GAP. The gate with `--require-reviewed` now fails
+  only on the placeholders `GLOBAL_REVIEWER` and `GLOBAL_REVIEW_REF`, which await the global review `sol-global-W`
+  (GLOBAL-BRIEF.md).
+
 ## Wave-2 plan (proposed 2026-10-30; extraction starts on the sub-orchestrator's go)
 - **Corpus.**
   - Once W4–W8 are accepted and on inp, merge inp again.

@@ -128,6 +128,9 @@ Linter, from the worktree root:
 python3 -I scripts/proof_depgraph.py --db docs/graph/W/DEPGRAPH.md --manifest docs/graph/W/DEPGRAPH_COVERAGE.md \
   --source-root . --require-reviewed --require-complete-coverage --require-initial-lean-status --require-all-reachable
 ```
+Every node and coverage item is REVIEWED. The only expected failures of this command are the two header lines
+`GLOBAL_REVIEWER` and `GLOBAL_REVIEW_REF`, which the orchestrator fills in after your review; any other failure is a
+finding.
 
 ## Output
 Write `docs/graph/W/reviews/GLOBAL-review.md` with:

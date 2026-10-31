@@ -248,7 +248,7 @@ DISPOSITION: NODE stepW:w5:t-comp
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta8-W-W-w5a
 
 ITEM: stepW:w5:t-field
 KIND: proof-region

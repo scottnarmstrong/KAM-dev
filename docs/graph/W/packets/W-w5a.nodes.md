@@ -780,9 +780,9 @@ EDGE: stepW:w5:t-est | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L303-L30
 EDGE: bpW:w5:ext-symm | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L305-L305 | symmetry of D^2P with K = C
 EDGE: bpW:w5:omega | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L304-L304 | DP(w) = varpi(X_P(w), .)
 EDGE: bpW:w5:class | blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L304-L305 | the smoothing Hamiltonian definition supplies DP = varpi(X_P, .) on a neighbourhood and holomorphy of X_P, needed for the second-derivative symmetry application
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta7-W-w5a
-REVIEWER: -
+REVIEWER: sol-delta8-W-W-w5a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

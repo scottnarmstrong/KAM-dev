@@ -1,9 +1,9 @@
 {
- "replaced": [
-  "bpW:w3:class-remark"
- ],
+ "replaced": [],
  "added": [],
  "items": [],
  "unresolved": {},
- "passes": []
+ "passes": [
+  "bpW:w3:class-remark"
+ ]
 }

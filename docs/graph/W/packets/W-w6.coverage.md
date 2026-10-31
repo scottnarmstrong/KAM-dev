@@ -212,7 +212,7 @@ DISPOSITION: NODE bpW:w6:prep-step
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w6
+REVIEWER: sol-delta8-W-W-w6
 
 ITEM: stepW:w6:p-data
 KIND: proof-region
@@ -248,7 +248,7 @@ DISPOSITION: NODE stepW:w6:p-lipp
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w6
+REVIEWER: sol-delta8-W-W-w6
 
 ITEM: stepW:w6:p-size
 KIND: proof-region

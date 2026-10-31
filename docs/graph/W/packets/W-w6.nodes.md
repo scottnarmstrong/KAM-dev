@@ -694,9 +694,9 @@ EDGE: stepW:w6:p-lipp | blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L260
 EDGE: stepW:w6:p-size | blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L264-L264 | proof step
 EDGE: stepW:w6:p-gap | blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L268-L268 | proof step
 EDGE: bpW:w4:wave | blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L234-L235 | (ii) the Dirichlet weights dominate the P96-K weights in the stated divisor conclusion
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta7-W-w6
-REVIEWER: -
+REVIEWER: sol-delta8-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -812,9 +812,9 @@ EDGE: stepW:w5:f-flow | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-lipp@L260-
 EDGE: bpW:w5:flow | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-lipp@L261-L261 | the lemma whose step is used
 EDGE: bpW:w5:data | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-lipp@L262-L262 | M_F = M_{F,P} in the modified case
 EDGE: bpW:w5:omega | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-lipp@L263-L263 | the comparison ¦.¦_{p,r} <= ¦.¦_{p_+,r} transfers the parameter Lipschitz property to the asserted norm
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta7-W-w6
-REVIEWER: -
+REVIEWER: sol-delta8-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

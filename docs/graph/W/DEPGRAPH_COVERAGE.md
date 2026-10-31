@@ -3926,7 +3926,7 @@ DISPOSITION: NODE bpW:w3:class-remark
 REASON: the regularity claim is directly cited inside stepW:w6:t-an; retained with dependencies on its W3 suppliers
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-w2+sol-delta5-W-w3
-REVIEWER: sol-delta6-W-W-w3
+REVIEWER: sol-delta8-W-W-w3
 
 ITEM: bpW:w3:gamma-real
 KIND: corollary
@@ -5645,7 +5645,7 @@ DISPOSITION: NODE stepW:w5:t-comp
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w5a
+REVIEWER: sol-delta8-W-W-w5a
 
 ITEM: stepW:w5:t-field
 KIND: proof-region
@@ -6734,7 +6734,7 @@ DISPOSITION: NODE bpW:w6:prep-step
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w6
+REVIEWER: sol-delta8-W-W-w6
 
 ITEM: stepW:w6:p-data
 KIND: proof-region
@@ -6770,7 +6770,7 @@ DISPOSITION: NODE stepW:w6:p-lipp
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta6-W-W-w6
+REVIEWER: sol-delta8-W-W-w6
 
 ITEM: stepW:w6:p-size
 KIND: proof-region

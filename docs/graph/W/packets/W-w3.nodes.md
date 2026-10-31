@@ -2669,9 +2669,9 @@ EDGE: bpW:w3:Yseries | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L77
 EDGE: bpW:w3:real-restrict | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L774-L774 | real restrictions are analytic
 EDGE: bpW:w1:holomorphic | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L776-L777 | the definition of holomorphy to which analyticity is applied
 EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L776-L777 | analytic maps are Frechet differentiable, hence holomorphic in the cited definition
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-delta7-W-w3
-REVIEWER: -
+REVIEWER: sol-delta8-W-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
