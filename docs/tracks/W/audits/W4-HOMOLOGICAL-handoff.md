@@ -1,84 +1,111 @@
-# Handoff: W4-HOMOLOGICAL (branch `inp-wpj`), PARTIAL
+# Handoff: W4-HOMOLOGICAL (branch `inp-wpj`)
 
 Blueprint: `blueprint-W/parts/w4-homological.tex` (current `inp` version, with the accepted W4-E5 Riesz gap
-repair). Status: **part 1 delivered except the items listed under "Not done"; part 2 is NOT delivered**
-(Lemma 1 and Lemma 2 are not proved). Everything below compiles under the gate, has no `sorry`, no new
-axiom, no heartbeat override; all files are under 400 lines.
+repair). Status: **Lemma 1 (i)–(iv) and Lemma 2 are proved in the representative model below, with the
+deviations listed**; not done: the guarded Fréchet derivative of `N` (Lie (iv)), the extension of the equation
+(ii) from finitely supported to all `(z, \bar z)`, reality in (i), and the remarks `from-w3`/`to-w5` (no
+statements). Everything compiles under the gate, has no `sorry`, no new axiom, no heartbeat override, all
+files are under 700 lines, no line over 100 characters.
+
+## Model (read first)
+
+* **Normal spaces.** `HomL2 = ℓ²_ℂ` (index `j ≥ 1`) is the common model of every `ℓ^N_{a,q}`: a normal vector
+  `z` is represented by `ẑ_j = ω_{a,q}(j+2) z_j`. The variables `z, \bar z ∈ ℓ^N_{a,p}` are given by their
+  representatives; the gradients `c^±` (in `ℓ^N_{a,p+1}`) by their representatives. `HomL2`/`HomOp` are
+  `abbrev`s in `Schur.lean`.
+* **𝓛 and 𝓑.** `HomOp = HomL2 →L HomL2` is the model of `𝓛` by weighted matrices (blueprint step
+  *Representatives* of `bpW:w4:schur`: same norm). `Λ : 𝓛 → 𝓑` is `homLamCLM` (`ΛM = D M̂`, `D_j =
+  1/(ω_{a,p}(j+2) ω_{a,p+1}(j+2))`), `‖M‖_bil = ‖ΛM‖`, dual norm `‖c‖_* = ‖D ĉ‖` (`homDualNorm`). The
+  Hadamard map on `𝓑` (`schur` (ii)) is the Hadamard map on `HomOp`, and it commutes with `Λ`
+  (`homHadamardOp_lam`), so no Riesz transfer is needed in this model. Matrix entries of the represented
+  operator: `homNormalEntry`.
+* **Taylor class.** `HomTaylor a p s` (components `a0, b, cp, cm, P, P', Q, Qt`, holomorphic, `1`-periodic and
+  bounded on `T_s`; `P, P'` symmetric and `Qt` the entrywise transpose of `Q`, on `T_s`), the value `homRval`,
+  the gradients `homRz, homRzb, homRu, homRv, homRy, homRtheta`, the norm `homXnorm r` (`|X_R|_r`) and the
+  domain `HomDomain s r` (`‖u‖+‖v‖ < r`).
 
 ## Files (all `KAM/Wave/Homological/`, namespace `KAM.Wave`)
 
-| file | blueprint label | main declarations |
+Part 1 (previous session): `LatticeCount`, `Lattice`, `LatticeBW` (`lattice`), `Melnikov`, `Divisors`,
+`DivisorsConcrete` (`melnikov`, `divisors`), `Wave` (`wave` (i)), `Solve`, `SolveLinear` (`solve` (i),(ii),(iv),
+`fourier-ops` (i)).
+
+Part 1 (this session): `SolveDeriv`, `HolomorphicBanach` (`solve` (iii), `fourier-ops` (ii): the derivative of a
+holomorphic *Banach-valued* map is holomorphic, without separability; track K only has the second countable
+case), `WaveReindex` (`wave` (ii)), `Extract` (`extract`), `Schur` (`schur` (i),(iii)), `Index` (pairing,
+multipliers), `Lie` (`lie` (i),(ii) and the guard (G) at sequence level).
+
+Part 2:
+
+| file | content | main declarations |
 |---|---|---|
-| `LatticeCount`, `Lattice`, `LatticeBW` | `bpW:w4:lattice` (i)-(iv) | `waveSphere_card`; `waveS_zero_value`, `waveS_zero_le`, `waveS_le`; `waveA`, `waveBW`, `waveBWconst` (= `b_W`), `waveSum_A_le_waveBW`, `waveBW_le` |
-| `Melnikov` | `bpW:w4:melnikov` (definitions) | `homPairZ`, `homL1`, `homJap`, `homZ`, `HomFreqHyp`, `HomMelnikov`, the six divisors, `homWeightQ` |
-| `Divisors`, `DivisorsConcrete` | `bpW:w4:divisors` | `homDivGen_bounds`, `homDelta0_bound`, `homDeltaPlus/Minus/P/P'/Q_bound`, `homWeightQ_ge_abs`, `homWeightP_ge_abs` |
-| `Wave` | `bpW:w4:wave` (i) | `homFreqHyp_wave` (`M_ω`, `M_Ω`, `M₀` as in the blueprint) |
-| `WaveReindex` | `bpW:w4:wave` (ii), `melnikov-check` (a) | `homJapW`, `homJapW_reindex`, `homJap_le_japW_le`, `homMelnikov_of_melnikovW`, `homMelnikovW_of_melnikov` |
-| `Solve` | `bpW:w4:solve` (i), (ii) | `homCoeff`, `homSolve`, `homSolve_spec`, `homSolve_sub_le` |
-| `SolveLinear` | `bpW:w4:solve` (iv), `bpW:w4:fourier-ops` (i) | `homCoeff_clm`, `homSolve_intertwine`, `homSolve_clm` |
-| `HolomorphicBanach` | support for `fourier-ops` (ii) | `differentiableOn_fderiv_of_isOpen_pi_banach` |
-| `SolveDeriv` | `bpW:w4:fourier-ops` (ii), `bpW:w4:solve` (iii) | `homPartial_differentiableOn`, `homPartial_periodic`, `homCoeff_partial`, `fderiv_fourierSumVec_single`, `homSolve_partial` |
-| `Schur` | `bpW:w4:schur` (i), (iii) | `homHadamardCLM`, `norm_homHadamardCLM_le`, `homHadamard_entry`, `homHadamard_transpose_entry`, `norm_homHadamardOp_diag_le`, `homNormalEntry`, `homDiagonal_bound` |
-| `Index` | `bpW:w4:index` (pairing (eq. pairing)) | `HomNormal`, `homNorm`, `homPair_le`, `norm_homPair_le`, `homNormal_mul` |
-| `Extract` | `bpW:w4:extract` | `polyExtract` (two variables), `polyExtract_one`, `polyExtract_mul_le` |
-| `Lie` | `bpW:w4:lie` (i), (ii), (iv) at sequence level | `homOmega_le`, `homLie_Omega_mem`, `homLie_pairing_summable`, `homWeakBracket_eq_neg_lieN`, `HomGuard`, `homGuard_one_one`, `homNOmega_le` |
+| `NormalOps` | `ops`, `schur` (ii) | `homLamCLM`, `norm_homLamCLM_apply_le`, `homHadamardOp_lam`, `norm_homLam_hadamard_le`, `homDualNorm`, `norm_le_of_pairing_le` |
+| `NormalPol` | polarization | `homPairL2`, `homPairL2_symm_of_entries`, `norm_le_of_quadratic` |
+| `Taylor` | `taylor` | `HomTaylor`, `homRz`, `homRtheta`, `homXnorm`, `HomDomain`, `homNorm_le_uv` (`bpW:w4:zu`) |
+| `ComponentsBasic`, `ComponentsFirst`, `AngleSupport`, `ComponentsAngle`, `ComponentsAngleQ` | `components` | `homComp_first` (i), `homComp_angle` (ii) |
+| `CohEq` | scalar cohomological equation | `homCohEq_scalar` |
+| `LemmaOneMult`, `LemmaOneF` | division operators, `F ∈ 𝒯_{s-σ}` | `HomMultBounds`, `homMultBounds_of`, `homSolveTaylor` |
+| `SolveImage`, `SolveImageSub` | image bounds of the solve | `homSolve_image_partial_bound`, `homSolve_image_sub_bound`, … |
+| `LemmaOneAssembly`, `LemmaOneBounds` | `lemma1` (iii) | `homXnorm_le_of_components`, `homF_compBounds`, `homLemma1_fieldBound` |
+| `LemmaOneFin`, `LemmaOneEq`, `LemmaOneEqFam`, `LemmaOneEquation` | `lemma1` (ii) | `homEq_a … homEq_Q`, `homLemma1_equation` |
+| `NhatTaylor` | `lemma1` (i),(iv) | `homNhatTaylor`, `homNhatTaylor_val`, `homNhat_coeff_bounds`, `homNhat_fieldBound`, `homLemma1_zero_modes` |
+| `TaylorSub`, `LemmaOneLip`, `LemmaOneLipDiff`, `LemmaOneLipBounds` | Lipschitz in `ξ` | `HomTaylor.sub`, `HomMultLip`, `homMultLip_of`, `homF_sub_compBounds` |
+| `Lemma1` | assembly, `lemma2` | `homLemma1_lipschitz`, `homNhat_lipschitz`, `homLemma2` |
 
-`KAM/Root/Wave.lean` was regenerated by `scripts/gen_root_imports.py`.
+Blueprint Lemma 1: (i) `homSolveTaylor` + `homLemma1_zero_modes`; (ii) `homLemma1_equation`; (iii)
+`homLemma1_fieldBound`, `homLemma1_lipschitz`; (iv) `homNhat_coeff_bounds`, `homNhat_fieldBound`,
+`homNhat_lipschitz`. Lemma 2 and bound (4): `homLemma2` (with `homKS_lt_29`: `3C₁ < 108`) and `waveBW_le`.
 
-## Approach and deviations (read before audit)
+## Deviations and caveats (read before audit)
 
-* `fourier-ops` (ii): the Banach-valued derivative of a holomorphic map is holomorphic. Track K only has this
-  for second countable targets (`differentiableOn_fderiv_of_isOpen_pi`, also used inside `analyticOnNhd_of_differentiableOn`),
-  but the operator space `𝓛` is not separable. `HolomorphicBanach.lean` extends it to every complex Banach space:
-  near a point, the image of a compact ball is separable, the map is corestricted to the closed span, and track
-  K's result is applied there. The coefficient identity `homCoeff_partial` is proved by duality with
-  `SeparatingDual` and a copy of track K's scalar `torusCoeff_fderiv` (`homScalar_torusCoeff_fderiv`, copied to avoid
-  importing `KAM.Strip.Cohomological`, which pulls in the Diophantine library).
-* `solve` (iii) (`homSolve_partial`) takes, as in the blueprint, `f` bounded by `m` and `∂_{θ_i} f` bounded by `m'`;
-  holomorphy and periodicity of `∂_{θ_i} f` are derived (`fourier-ops` (ii)).
-* `schur`: the space `𝓛` is modelled by its **weighted matrices** `HomOp := ℓ²_ℂ →L ℓ²_ℂ` (blueprint, step
-  *Representatives*: same norm, matrix `(μ_i M_ij ν_j)`); `homNormalEntry a p A i j` returns the entry `M_ij` of the
-  represented operator. The transposition identity `H_d(M)^T = H_{d^T}(M^T)` is stated entrywise
-  (`homHadamard_transpose_entry`), since the transpose need not lie in `𝓛` a priori.
-* `index`: `HomNormal a q z` is `ℓ^N_{a,q}` as a predicate on sequences `ℕ+ → ℂ` (`j = P96-K index`, weight
-  `ω_{a,q}(j+2)`); there is no bundled normed-space type, in line with W1's transport convention (no new normed type).
-* `extract`: `polyExtract_mul_le` holds for all `(p,q) ∈ Fin 3²`; `polyExtract` is the blueprint form (`p+q ≤ 2`).
-* `lie`: only the sequence-level content. Gradients and the `θ`-derivative term enter as given data; `(iii)` and the
-  Fréchet derivative in `(iv)` are not done because they need the Taylor class `𝒯_s` and a Banach model of `ℓ^N`.
-  `homGuard_one_one` proves (G) for `a = p = 1` with `γ = e^{-6}/3` (the "iff" characterisation of (G) is not formalized).
+* **Equation (ii) for finitely supported `z, \bar z`** (`∀ j ∉ S, z j = 0`, `S` finite). The blueprint states it for
+  all `z` and extends by density; the density step (continuity of both sides, `truncLp`) is not formalized.
+  `L_N F` is `homLieN` (with `homPairOmega` for `⟨F_z, Ωz⟩₀`), `N̂` is `homNhat` (true coordinates), and the
+  statement is `L_N F + N̂ = R − â₀`.
+* **Lipschitz statements** are stated for the *difference* Taylor Hamiltonian `F(ξ).sub F(ζ)`: the hypothesis
+  `|X_{R(ξ)} − X_{R(ζ)}|_r ≤ ε^L d` is `HomFieldBound … (εL * d) (R₁.sub R₂)`; the fields are linear in the
+  components, so `X_{R₁.sub R₂} = X_{R₁} − X_{R₂}`. The parameter dependence enters through
+  `HomMultBounds` at `ξ` and `ζ` and `HomMultLip` (derived from `(H_α)`, `homMultLip_of`).
+* **Reality** in (i) (`F` and `N̂` real if `R` real) is not formalized (the class has no reality predicate).
+* `N̂`'s field is the field of the Taylor Hamiltonian `homNhatTaylor R` (constant components), identified with the
+  blueprint `N̂` by `homNhatTaylor_val`.
+* The Hadamard maps are used with the weighted-matrix model; `P`, `Q^T` etc. keep the entrywise relations
+  (`symP`, `transQ`) as fields of `HomTaylor`, on `T_s` only (not on all of `ℂ²`).
+* In `Lie.lean`, items (iii) and the Fréchet derivative of (iv) (the identity `DN·X_F = −L_N F` under (G)) are
+  not stated separately; (iii) is used inside `homLemma1_equation` through the entrywise equations.
 
-## Not done (and why)
+## Not done
 
-* `bpW:w4:schur` (ii) (Hadamard map on bilinear forms; needs the Riesz transfer W4-E5), `schur` weights remark.
-* `bpW:w4:ops`, `bpW:w4:taylor` (definitions of `𝓛`, `𝓑`, the dual norm, the class `𝒯_s`, `|X_R|_r`, `D(s,r)`): they
-  need a normed-space model of `ℓ^N_{a,q}`; not started.
-* `bpW:w4:lie` (iii), Fréchet derivative part of (iv); `bpW:w4:components`; `bpW:w4:lemma1`; `bpW:w4:lemma2`
-  (Corollary, depends on Lemma 1). Out of time; all depend on the two items above.
-* `bpW:w4:k0` (not in the package list, superseded in the blueprint by W7).
+* `bpW:w4:lie` (iv) Fréchet derivative of `N` under the guard (needs a Banach model of `ℓ^N`), and the "iff"
+  characterisation of (G).
+* Extension of (ii) to all `(z, \bar z)`; reality; `bpW:w4:from-w3`, `bpW:w4:to-w5` (remarks about interfaces, no
+  formal statements); `bpW:w4:k0` (superseded by W7); the `weights` remark (no statement).
 
 ## Checks
 
-* Gate builds: every module above built with `/root/code/KAM-inp/.drafts/W/w_build.sh /root/code/KAM-inp-wpj <Module>` in
-  import order, last lines `Build completed successfully` for each (final run after the lint reformatting; no warnings).
-* `w_lint.sh /root/code/KAM-inp-wpj`: exit 0; tail: `check_lean_modules: PASS (3573 Lean files, 0 comparator
-  configurations)`, `FROZEN-ANCHOR GUARD OK`, `ABI HASHES OK (177 frozen declarations of KAM; ...)`.
-* `#print axioms` of every main declaration listed above (all of `homSolve_spec`, `homSolve_sub_le`, `homSolve_partial`,
-  `homCoeff_partial`, `homCoeff_clm`, `homSolve_intertwine`, `differentiableOn_fderiv_of_isOpen_pi_banach`,
-  `homFreqHyp_wave`, `homJapW_reindex`, `homMelnikov_of_melnikovW`, `homMelnikovW_of_melnikov`, `polyExtract`,
-  `polyExtract_one`, `norm_homHadamardCLM_le`, `homHadamard_entry`, `norm_homHadamardOp_diag_le`, `homDiagonal_bound`,
-  `norm_homPair_le`, `homNormal_mul`, `homWeakBracket_eq_neg_lieN`, `homGuard_one_one`, `homNOmega_le`,
-  `homLie_pairing_summable`, `waveBW_summable`, `waveBW_le`, `waveSphere_card`, `homDeltaQ_bound`):
-  `[propext, Classical.choice, Quot.sound]`.
+* Every module built with `/root/code/KAM-inp/.drafts/W/w_build.sh /root/code/KAM-inp-wpj <Module>` in import order
+  (final run after the line wrapping; last line `Build completed successfully`); single-file checks with
+  `w_lean.sh`.
+* `w_lint.sh /root/code/KAM-inp-wpj`: exit 0; tail `check_lean_modules: PASS (3598 Lean files, 0 comparator
+  configurations)`, `FROZEN-ANCHOR GUARD OK`, `ABI HASHES OK (177 frozen declarations of KAM; ...)`. `KAM/Root/Wave.lean`
+  regenerated by `scripts/gen_root_imports.py`.
+* `#print axioms`: `[propext, Classical.choice, Quot.sound]` for `homLemma1_equation`, `homLemma1_fieldBound`,
+  `homLemma1_lipschitz`, `homNhat_fieldBound`, `homNhat_lipschitz`, `homNhat_coeff_bounds`,
+  `homLemma1_zero_modes`, `homLemma2`, `homComp_first`, `homComp_angle`, `homMultLip_of`, `homMultBounds_of`,
+  `homCohEq_scalar`, `norm_le_of_quadratic`, `homF_compBounds`, `homXnorm_le_of_components`, `homSolveTaylor`,
+  `homNhatTaylor_val`, `homEq_Q`, and for all part-1 declarations listed in the earlier handoff.
 
 ## Suspected errata / blueprint observations
 
-* None new in the blueprint statements proved. Observation: `bpW:w4:fourier-ops` (ii) as written ("derivative of a complex
-  differentiable map is complex differentiable ... one variable") needs a several-variable argument (Hartogs/Osgood type);
-  it is supplied via the track-K Cauchy-integral lemma plus the separable reduction above.
-* Track K (`KAM/Strip/Regularity`, `AnalyticSeries`, `Averages`) assumes `[SecondCountableTopology]` on the target; this
-  does not cover non-separable operator spaces. Not an error, but any W consumer with operator-valued targets must
-  use `differentiableOn_fderiv_of_isOpen_pi_banach` (or an equivalent) rather than the K lemmas.
+* `lemma1` proof, step *Assembly*: the constant is `C₁ = 7 + 10K_S`; `3C₁ < 108` needs `K_S < 2.9`
+  (`K_S < 2.82` as in the blueprint; `homKS_lt_29` proves `< 2.9`).
+* `components` (ii): the bilinear bounds are not bounds on the operator norms of `∂_θ P`; the proof must (and does)
+  pass through `Λ` (`D ∂P̂`), with the symmetry of `Λ∂P̂` coming from the entry symmetry of `P`.
+* Track K `[SecondCountableTopology]` hypotheses (Regularity, Averages, AnalyticSeries) do not cover non-separable
+  operator targets; see `HolomorphicBanach`.
 
 ## Design signals
 
-None: no module needed more than a few seconds of elaboration; no heartbeat or memory problem.
+No heartbeat failures in final code. One elaboration trap: passing `fun hm k => lemma (hm.Q k)` with `hm`'s type left to
+unification (field-notation on a metavariable) made `homLipField_dQ` time out; stating the commutation facts as named
+lemmas (`homLam_comm_homTQ`, …) fixed it.
