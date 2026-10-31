@@ -36,7 +36,8 @@ theorem stepSymp_hasDerivWithinAt (B : E →L[ℂ] E →L[ℂ] ℂ) {a b : ℝ �
   letI : NormedSpace ℝ E := NormedSpace.complexToReal
   set L : E →L[ℝ] (E →L[ℝ] ℂ) :=
     (ContinuousLinearMap.restrictScalarsL ℂ E ℂ ℝ ℝ).comp (B.restrictScalars ℝ) with hL
-  have hc : HasDerivWithinAt (fun u => L (a u)) (L a') s t := HasFDerivAt.comp_hasDerivWithinAt t (L.hasFDerivAt (x := a t)) ha
+  have hc : HasDerivWithinAt (fun u => L (a u)) (L a') s t := HasFDerivAt.comp_hasDerivWithinAt t
+      (L.hasFDerivAt (x := a t)) ha
   have hb' : HasDerivWithinAt b b' s t := hb
   have := hc.clm_apply hb'
   simpa [hL] using this
