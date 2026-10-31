@@ -403,3 +403,6 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - **Lock:** freeze FREEZE-PROPOSAL-LOCK §1 exactly (`IsSyncOrbit`, `lunarSyncOrbit`, `libAction`,
     `lunarOmega = 8/65`, `lunarSyncOrbit_spec`, `_unique`, `_bound`, and `lunar_sync_lock` with 129/10000, 21/100,
     26/1000). It is sealed after LOCK-DATA lands.
+- **D50 (2026-10-31, 13:50 UTC) Seal SO-2.** *(Scott: "I approve sealing SO-2".)* The frozen band statements
+  (D49) are sealed by providers through the landed `lunar_barriers_65_v2` / `lunar_spin_confinement_65_v2`, after
+  the Q11 rebuild of SO-FREEZE3, with a codex-1 seal audit (report docs/tracks/SO/audits/SO-FREEZE3-seal-audit.md).

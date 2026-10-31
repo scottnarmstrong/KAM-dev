@@ -396,7 +396,7 @@
     "SO-LUNAR": [
      400,
      [
-      "KAM/SpinOrbit/LunarConfinement.lean"
+      "KAM/SpinOrbit/LunarFinalR2V2.lean"
      ]
     ],
     "SO-LUNAR-A": [
@@ -418,8 +418,21 @@
    "id": "SO2.FREEZE",
    "title": "Owner approval of the final statement, freeze, and seal",
    "difficulty": "M",
-   "done": 0.0,
-   "note": "the final statement is approved by the owner before freezing"
+   "note": "the final statement is approved by the owner before freezing",
+   "so_packages": {
+    "SO-FREEZE3 (freeze)": [
+     100,
+     [
+      "KAM/Frozen/SpinOrbit/Theorems/LunarSpinConfinement.lean"
+     ]
+    ],
+    "SO-FREEZE3 (seal)": [
+     100,
+     [
+      "docs/tracks/SO/audits/SO-FREEZE3-seal-audit.md"
+     ]
+    ]
+   }
   }
  ]
 }
