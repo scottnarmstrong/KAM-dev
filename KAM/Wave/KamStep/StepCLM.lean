@@ -7,6 +7,7 @@ module
 
 public import KAM.Wave.KamStep.Omega
 public import KAM.Wave.KamStep.Flow
+public import KAM.Wave.Homological.LieDeriv
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 
@@ -98,28 +99,43 @@ theorem stepSympCLM_antisymm (ha : 0 ≤ a) (hq : 0 ≤ q + q) (r : ℝ) [Fact (
     (W W' : StepPhase r) : stepSympCLM ha hq r W W' = -stepSympCLM ha hq r W' W := by
   simpa using stepSymp_antisymm ha hq (StepPhase.toK W) (StepPhase.toK W')
 
-/-- The inclusion `𝒫^{a,p_+} → 𝒫^{a,p}` of representatives (`p ≤ p_+`), as a continuous linear map
-on `StepPhase r` of norm `≤ 1`. -/
-def stepEmbedCLM (a p pp : ℝ) (hp : p ≤ pp) (r : ℝ) [Fact (0 < r)] :
+/-- The inclusion `𝒫^{a,p_+} → 𝒫^{a,p}` on `KamPhase` (Dirichlet labels `j+2` of W4,
+`homEmbed_gen`): the identity on `(θ,y)` and the diagonal operator `ω_{a,p}(J)/ω_{a,p_+}(J)` on
+the normal components. -/
+def kamHomEmbed (a p pb : ℝ) (hpb : p ≤ pb) : KamPhase →L[ℂ] KamPhase :=
+  (ContinuousLinearMap.id ℂ (Fin 2 → ℂ)).prodMap ((ContinuousLinearMap.id ℂ (Fin 2 → ℂ)).prodMap
+    ((homEmbed_gen a p pb hpb).prodMap (homEmbed_gen a p pb hpb)))
+
+theorem kamHomEmbed_apply (a p pb : ℝ) (hpb : p ≤ pb) (W : KamPhase) :
+    kamHomEmbed a p pb hpb W =
+      (W.1, W.2.1, homEmbed_gen a p pb hpb W.2.2.1, homEmbed_gen a p pb hpb W.2.2.2) := rfl
+
+theorem kamNorm_kamHomEmbed_le (a p pb : ℝ) (hpb : p ≤ pb) {r : ℝ} (hr : 0 < r) (W : KamPhase) :
+    kamNorm r (kamHomEmbed a p pb hpb W) ≤ kamNorm r W := by
+  have hN : ∀ y : HomL2, ‖homEmbed_gen a p pb hpb y‖ ≤ ‖y‖ := fun y =>
+    ((homEmbed_gen a p pb hpb).le_opNorm y).trans
+      (mul_le_of_le_one_left (norm_nonneg y) (norm_diagCLM_le _ _))
+  rw [kamHomEmbed_apply]
+  unfold kamNorm
+  simp only
+  gcongr <;> exact hN _
+
+/-- The inclusion `𝒫^{a,p_+} → 𝒫^{a,p}` as a continuous linear map on `StepPhase r` of norm
+`≤ 1`. -/
+def stepEmbedCLM (a p pb : ℝ) (hpb : p ≤ pb) (r : ℝ) [Fact (0 < r)] :
     StepPhase r →L[ℂ] StepPhase r :=
   LinearMap.mkContinuous
-    { toFun := fun W => kamEmbed a pp p hp (StepPhase.toK W)
-      map_add' := fun W W' => by
-        show kamEmbed a pp p hp (StepPhase.toK W + StepPhase.toK W') = _
-        simp only [kamEmbed, Prod.fst_add, Prod.snd_add, map_add]; rfl
-      map_smul' := fun c W => by
-        show kamEmbed a pp p hp (c • StepPhase.toK W) = c • kamEmbed a pp p hp (StepPhase.toK W)
-        simp only [kamEmbed, Prod.smul_fst, Prod.smul_snd, map_smul]; rfl } 1 fun W => by
-    have := kamNorm_embed_le a pp p hp (Fact.out : 0 < r) (StepPhase.toK W)
+    { toFun := fun W => kamHomEmbed a p pb hpb (StepPhase.toK W)
+      map_add' := fun W W' => (kamHomEmbed a p pb hpb).map_add (StepPhase.toK W) (StepPhase.toK W')
+      map_smul' := fun c W => (kamHomEmbed a p pb hpb).map_smul c (StepPhase.toK W) } 1 fun W => by
     rw [one_mul]
-    exact this
+    exact kamNorm_kamHomEmbed_le a p pb hpb (Fact.out : 0 < r) (StepPhase.toK W)
 
-@[simp] theorem stepEmbedCLM_apply (a p pp : ℝ) (hp : p ≤ pp) (r : ℝ) [Fact (0 < r)]
-    (W : StepPhase r) :
-    StepPhase.toK (stepEmbedCLM a p pp hp r W) = kamEmbed a pp p hp (StepPhase.toK W) := rfl
+theorem stepEmbedCLM_apply (a p pb : ℝ) (hpb : p ≤ pb) (r : ℝ) [Fact (0 < r)] (W : StepPhase r) :
+    StepPhase.toK (stepEmbedCLM a p pb hpb r W) = kamHomEmbed a p pb hpb (StepPhase.toK W) := rfl
 
-theorem norm_stepEmbedCLM_apply_le (a p pp : ℝ) (hp : p ≤ pp) (r : ℝ) [Fact (0 < r)]
-    (W : StepPhase r) : ‖stepEmbedCLM a p pp hp r W‖ ≤ ‖W‖ :=
-  kamNorm_embed_le a pp p hp (Fact.out : 0 < r) (StepPhase.toK W)
+theorem norm_stepEmbedCLM_apply_le (a p pb : ℝ) (hpb : p ≤ pb) (r : ℝ) [Fact (0 < r)]
+    (W : StepPhase r) : ‖stepEmbedCLM a p pb hpb r W‖ ≤ ‖W‖ :=
+  kamNorm_kamHomEmbed_le a p pb hpb (Fact.out : 0 < r) (StepPhase.toK W)
 
 end KAM.Wave

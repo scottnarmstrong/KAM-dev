@@ -29,7 +29,10 @@ axioms, `w_lint.sh` exit 0; `#print axioms` of every main result listed: propext
 | `KamStep/TaylorScale.lean`, `TaylorEst.lean` | `S_t`, `T_t` (`scaleS`, `scaleT`), `scaleS_mem`, `kamNorm_scaleT_le`; `taylorXR` (sum of the Taylor coefficients of `t ↦ T_t X(S_t w)`), `taylorXR_bound` (`≤ 3ε`), `taylorXR_remainder` and `taylorXR_remainder_128` (`|X-X_R|_{ηr} ≤ 128ηε` on `D(s,4ηr)`) for any field `X` holomorphic on `D(s,r)` with `|X|_r ≤ ε` | `taylor` (iii), (iv), steps `t-disc`, `t-est` (the identification of `taylorXR` with the field of the Taylor polynomial `R`, parts (i), (ii), is open) |
 | `KamStep/FlowInverse.lean`, `FlowTransport.lean`, `FlowTime.lean`, `FlowSkew.lean` | `isUnit_fderiv_holoFlow` (`‖Dφ^t-I‖ ≤ 1/8`, Neumann), `hasFDerivAt_comp_hamiltonian` (transport: field of `G∘φ` is `A⁻¹ X_G∘φ`), `hasDerivWithinAt_comp_holoFlow` (time derivative), `skew_of_hamiltonian` (`DX_F` is `B`-skew from symmetry of `D²F`, external E3), `hasFDerivAt_bracket` (`D{G,F} = B([X_G,X_F],·)`) | `flow-calc` (iii)–(v), step `c-skew`, `new-ham` step `n-br` (all abstract in `F`, `B`) |
 | `KamStep/NewHamExp.lean` | `stepFTC`, `stepIntegral_eq`, `stepExpansion`, `stepExpansion_H`: `H(Φw) = N + N̂ + â₀ + (P-R)(Φw) + ∫₀¹((1-τ){N̂,F}+τ{R,F})` along a trajectory (scalar core) | `new-ham` (i), step `n-exp` (scalar core) |
-| `KamStep/StepCLM.lean` | `stepSympCLM` (`ϖ` as `StepPhase r →L StepPhase r →L ℂ`, `‖·‖ ≤ (4π+1) r²`, antisymmetric for `q=q'`), `stepEmbedCLM` (`kamEmbed` as a CLM, `‖ι W‖ ≤ ‖W‖`): the concrete `B` and `ι` for the abstract flow calculus | `omega`, `flow` (instantiation data) |
+| `KamStep/StepCLM.lean` | `stepSympCLM` (`ϖ` as `StepPhase r →L StepPhase r →L ℂ`, `‖·‖ ≤ (4π+1) r²`, antisymmetric for `q=q'`), `stepEmbedCLM` (`homEmbed_gen` on the normal components, `‖ι W‖ ≤ ‖W‖`): the concrete `B` and `ι` for the abstract flow calculus | `omega`, `flow` (instantiation data) |
+| `KamStep/TaylorFun.lean`, `TaylorFunSym.lean`, `TaylorFunDeriv.lean`, `TaylorField.lean` | `stepZ, stepZb` (`z=(u+iv)/√2`), `stepFun T` (the polynomial `F` of a W4 `HomTaylor_gen`), `stepPr` (weighted pairing), `stepPr_swap` (transposed matrices pair transposed), `stepFun_hasFDerivAt`, `stepField T` (`(b/2π, -F_θ/2π, F_v, -F_u)`), **`stepFun_field`**: `D(stepFun T)(w) W = ϖ_{p,p_+}(stepField T w, W)` for `θ∈T_s` | `solve` step `s-class` (field of `F`, `DF=ϖ(X_F,·)`) |
+| `KamStep/TaylorFieldDiff.lean`, `StepSympEmbed.lean` | `differentiableOn_homPartial`, `stepField_differentiableAt` (holomorphy of `X_F`), `stepSymp_embed` (`ϖ_{p,p}(ιX,W)=ϖ_{p,p_+}(X,W)`) | `solve` `s-class`, `flow-calc` `c-skew` |
+| `KamStep/StepFlowConcrete.lean`, `StepFieldBound.lean` | `stepToKCLM/stepOfKCLM`, `stepFieldS` (`Z`), `stepFS`, `stepFS_hasFDerivAt` (`DF=B(ιZ,·)`), **`stepFieldS_skew`** (`DX_F` is `B`-skew, concrete), `kamNorm_stepField` (= W4's `homXnorm_gen`), `homDomain_stepZ`, `stepFieldS_bound` (W4 `HomFieldBound_gen` ⇒ `‖Z‖≤ε` on `D(s',r)`), **`stepFlowHyp_concrete`**: `FlowHyp (ι∘Z) D(s-σ,r) D(s-2σ,r/2) M (σ/4)` | `flow` (hypotheses), `flow-calc` `c-skew` (concrete) |
 
 ## Session 2 summary
 Landed: the abstract flow calculus (smoothing, variational equation, symplecticity, Cauchy bounds with the step
@@ -73,3 +76,10 @@ one carrier serves both). Still needed for step 1 (instantiation): a function `t
 `homRu_gen`, `homRv_gen`), with `DF·W = ϖ(X_F, W)` and holomorphy of `X_F` into the `p_+` target; only then do the
 abstract flow results specialise. Steps 2-6 of the order above are untouched; `bpW:w5:step` is NOT proved and
 `.drafts/READY-W5-STEP` was deliberately NOT written (not done, not blocked).
+
+## Session 4, item 1 (concrete instantiation on `StepPhase r`) — DONE
+Deviation: `ι` is `stepEmbedCLM` built from W4's `homEmbed_gen` (Dirichlet labels `j+2`), NOT W1's `kamEmbed`
+(label `j`): the W1 embedding would not satisfy `ϖ_{p,p}(ιX,W)=ϖ_{p,p_+}(X,W)`. `StepPhase r` carries both `F` and `G`.
+The abstract flow results (`holoFlow_smooth_eq`, Cauchy bounds, `isUnit_fderiv_holoFlow`, transport, bracket) now
+apply to `X = smoothField (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb T r)` via `stepFlowHyp_concrete` and
+`stepFieldS_skew`, with `B = stepSympCLM (q:=p) (q':=p)`.
