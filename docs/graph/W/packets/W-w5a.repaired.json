@@ -1,0 +1,32 @@
+{
+ "replaced": [],
+ "added": [],
+ "items": [],
+ "unresolved": {},
+ "passes": [
+  "bpW:w5:omega",
+  "stepW:w5:ombd",
+  "stepW:w5:omnd",
+  "stepW:w5:omnorm",
+  "bpW:w5:class",
+  "stepW:w5:g-tail",
+  "stepW:w5:g-div",
+  "stepW:w5:g-diag",
+  "stepW:w5:g-rest",
+  "bpW:w5:w4-modified",
+  "stepW:w5:m-sup",
+  "stepW:w5:m-other",
+  "stepW:w5:m-lip",
+  "stepW:w5:m-act",
+  "stepW:w5:m-ass",
+  "stepW:w5:m-const",
+  "bpW:w5:taylor",
+  "stepW:w5:t-scale",
+  "stepW:w5:t-disc",
+  "stepW:w5:t-poly",
+  "stepW:w5:t-comp",
+  "stepW:w5:t-field",
+  "stepW:w5:t-est",
+  "bpW:w5:data"
+ ]
+}
