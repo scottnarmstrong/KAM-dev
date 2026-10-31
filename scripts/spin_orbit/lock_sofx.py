@@ -97,8 +97,12 @@ def build(err, disp, cfgFull, cfgLow, expHalvings=12, expOrder=30, gramInv=None,
     p = d["params"]
     kappa = F(p["kappa"])
     c.kappa = kappa
+    # the Hamiltonian's time scale is c = kappa * s (lock_v2.lock_package; SO-R2's pattern: ham at c, box at
+    # kappa = c / s), so that X_H's clock component c matches DK (s omega*) with omega*_1 = kappa exactly
+    c.hamScale = F(p["c"])
+    assert c.hamScale == kappa * F(p["s"])
     c.params = params_of(p, err, disp)
-    c.jet = jet(kappa)
+    c.jet = jet(c.hamScale)
     c.jetOps = c.jet["prog"]
     assert len(c.jetOps) == int(d["ham"]["program_length"]), len(c.jetOps)
     c.expHalvings, c.expOrder = expHalvings, expOrder
