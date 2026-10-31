@@ -2083,3 +2083,9 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     landing on inp until SO-DATA3 has landed** (W is paused; LOCK-DATA adds only new data modules).
   - Lock: fixing the graph-band slack (weighted SOS truncation, capped test). Fallback: the landed `_check` variant
     with a wider window, logged for owner review.
+- **SO-LOCK graph window (for owner review, 2026-10-31 04:2x UTC):** the SOS bound cannot certify pLo ≥ 0.0132
+  (true min 0.013238; slack+residual ≥ ~9e-5 at affordable degree). Best certified band [0.0131608, 0.0162943]
+  (degree 112×8, weighted, 64-bit). AssemblyN65 will use the landed  with window
+  [13155/1000000, 163/10000] instead of the 132/10000-wired helper;  passes for the frozen
+  headline literals (129/10000, 21/100, 26/1000) at lo ≥ 0.013155. Headline statement unchanged; N = 65, 73.8° unchanged.
+  Reversible: a tighter SOS later restores the wired helper.
