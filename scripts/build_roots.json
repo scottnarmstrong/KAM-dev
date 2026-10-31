@@ -1,0 +1,38 @@
+{
+  "_doc": [
+    "Which root builds each module (owner decision D51). Read by scripts/gen_root_imports.py, which writes the roots and checks this mapping, and by the scripts that need to know a module's library (abi_hashes.py, kernel_replay.sh, prebuild_heavy.py, land-branch.sh, hq-status.py).",
+    "Every module under KAM/ belongs to exactly one library: the core library KAM (built by a plain `lake build`), or one certificate application listed below (an opt-in Lake library, built only by `lake build <lib>` through the serial capped driver).",
+    "A module belongs to an application when its name equals one of the application's prefixes or extends it by further name components; otherwise it is core. Rules checked by `scripts/gen_root_imports.py --check`: no module matches two applications; every module under an application_only prefix belongs to some application; a core module imports only core modules; an application module imports only core modules, its own modules and those of the applications it requires."
+  ],
+  "core": {"lib": "KAM", "root": "KAM", "parts": "KAM.Root"},
+  "application_only": ["KAM.SpinOrbit.Data"],
+  "applications": [
+    {
+      "lib": "KAMLunarBand",
+      "title": "SO-2: the Moon's spin-orbit band (N = 65 barrier tori)",
+      "track": "SO",
+      "requires": [],
+      "prefixes": [
+        "KAM.SpinOrbit.Data.Upper",
+        "KAM.SpinOrbit.Data.Lower",
+        "KAM.SpinOrbit.Data.CsegGraph",
+        "KAM.SpinOrbit.Data.CsegJet",
+        "KAM.SpinOrbit.Data.CsegJetEq",
+        "KAM.SpinOrbit.Data.CsegSupport",
+        "KAM.SpinOrbit.Data.Format",
+        "KAM.SpinOrbit.LunarFinalR2V2",
+        "KAM.Frozen.SpinOrbit.Theorems.LunarBarriers",
+        "KAM.Frozen.SpinOrbit.Theorems.LunarSpinConfinement",
+        "KAM.Provider.SpinOrbit.LunarBarriers",
+        "KAM.Provider.SpinOrbit.LunarSpinConfinement"
+      ]
+    },
+    {
+      "lib": "KAMLunarLock",
+      "title": "SO-3: the Moon locked in synchronous rotation (N = 65 librational torus)",
+      "track": "SO",
+      "requires": [],
+      "prefixes": ["KAM.SpinOrbit.Data.LockN65"]
+    }
+  ]
+}
