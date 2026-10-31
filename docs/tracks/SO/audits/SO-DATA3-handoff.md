@@ -171,3 +171,18 @@ theorem lunar_spin_confinement_65_v2 (q₀ p₀ φ₀ : ℝ)
 3. The generated assembly uses only landed bridges: `compose_eq`, the Stage lemmas, the ProductSplit lemmas,
    `checkTorusCertificateV2_refined_of` and `landedBase_check_of`.
 4. Axioms; kernel replay of a sample of modules; the line-width decision.
+
+## Orchestrator notes for the auditor
+- **Replay scope.** `lake env leanchecker <Module>` replays only the listed modules' declarations. Replay
+  `KAM.SpinOrbit.LunarFinalR2V2`, `KAM.SpinOrbit.LunarAssemblyV2`, `KAM.SpinOrbit.Graph.CertV2`,
+  `KAM.SpinOrbit.Data.CsegSupport` and `KAM.SpinOrbit.Data.CsegGraph`. Also replay a SAMPLE of at least 12 heavy
+  data modules spread across the families of §4, at least one per family: a segment, a shard, a decode, an
+  assembly, a torsion entry, a Gram entry, a graph chunk, the l = 12 bite, the Passes modules. Run each replay ALONE
+  under `flock /mnt/HC_Volume_106379410/orchestrator-tools/.kernel-probe.lock systemd-run --user --scope -p MemoryMax=10G -p MemorySwapMax=0`.
+  The full data set was kernel-checked by the build itself (logs in kam-data/so-cseg/kbuild/). A complete replay
+  of all 1,100 heavy theorems is out of scope (about 7.5 h).
+- **Line widths.** The 8 overlong lines of CsegSupport.lean are exempted on main by the exact-line allowlist
+  scripts/lint-width-allow.txt (e8972901; path plus line sha256), logged for owner review. CsegGraph.lean is fixed
+  (cf758ff2). Check that the allowlist covers exactly those 8 lines.
+- **Build output.** The data modules' build output is symlinked to the HC volume
+  (kam-data/so-data3/build-overlay), so `lake build --no-build <module>` confirms they are up to date.
