@@ -231,13 +231,33 @@ def _load_eaeb(path):
             EAEB[(k[0], tuple(k[1]))] = rec
 
 
-def _pairs_def(name, xs):
-    flat = [int(v) for s_, v_ in xs for v in (s_, v_)]
-    cs = LZ.chunks(flat)
-    out = ["def %s : List (ℕ × ℤ) := pairsOf (zdecs [" % name]
-    for i, (n, b) in enumerate(cs):
-        out.append("  (%d, 0x%x)" % (n, int.from_bytes(b, "little")) + ("," if i + 1 < len(cs) else "])"))
-    return out + [""]
+PAIR_LINES = 1000          # hex lines per literal chunk definition
+
+
+def _pairs_items(name, xs):
+    """`name := name.c0 ++ …`, each chunk `pairsOf (zdecs […])` of whole pairs (data items for `Tree.data`)"""
+    cs = LZ.chunks([int(v) for s_, v_ in xs for v in (s_, v_)])
+    groups, cur, cnt = [], [], 0
+    for n, b in cs:
+        cur.append((n, b))
+        cnt += n
+        if len(cur) >= PAIR_LINES and cnt % 2 == 0:
+            groups.append(cur)
+            cur, cnt = [], 0
+    if cur:
+        groups.append(cur)
+    items, names = [], []
+    for gi, g in enumerate(groups):
+        cn = "%s.c%d" % (name, gi)
+        ls = ["def %s : List (ℕ × ℤ) := pairsOf (zdecs [" % cn]
+        for i, (n, b) in enumerate(g):
+            ls.append("  (%d, 0x%x)" % (n, int.from_bytes(b, "little")) + ("," if i + 1 < len(g) else "])"))
+        items.append((cn, ls + [""]))
+        names.append(cn)
+    if not names:
+        names = ["([] : List (ℕ × ℤ))"]
+    items.append((name, ["def %s : List (ℕ × ℤ) :=" % name] + wrap(" ++ ".join(names).split(" "), "  ") + [""]))
+    return items
 
 
 def _ops_module(self, rel, nm, adv, rest, imports, ns):
@@ -252,11 +272,14 @@ def _ops_module(self, rel, nm, adv, rest, imports, ns):
     ea_t, eb_t = _split2(inner)
     nea = "%sEA" % nm
     neb = nea if (eb_t == ea_t.replace(".la.", ".lb.") and False) else "%sEB" % nm
-    body = _pairs_def(nea, ea_l) + _pairs_def(neb, eb_l)
+    data = self.data(rel + "OpsD", "Operand slot terms of %s (data)" % adv,
+                     "Literals (`pairsOf` over `zdecs`).", _pairs_items(nea, ea_l) + _pairs_items(neb, eb_l),
+                     list(imports) + [PAIRCODE])
+    body = []
     for n_, t_ in ((nea, ea_t), (neb, eb_t)):
         body += ["theorem %s_eq :" % n_] + wrap(("%s = %s := by" % (t_, n_)).split(" "), "    ") + \
             ["  decide +kernel", ""]
-    omod = _tree_write(self, rel + "Ops", list(imports) + [PAIRCODE], "Operand slot terms of %s" % adv,
+    omod = _tree_write(self, rel + "Ops", list(imports) + [PAIRCODE] + data[-1:], "Operand slot terms of %s" % adv,
                        "Computed once (`decide`); the shard checks use the literals.", body, heavy=True, ns=ns)
     OPSNAMES[adv] = (ea_t, eb_t, nea, neb, omod)
     return OPSNAMES[adv]
