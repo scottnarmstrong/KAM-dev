@@ -20,6 +20,7 @@ forced one-op segments cover `.mul` and the character slot.  The lock's program 
         [--slots S1,S2,...]      # only the forced segments at these slots (and their products): small probes
 """
 import os
+from fractions import Fraction
 import pickle
 import re
 import sys
@@ -80,6 +81,37 @@ _GRP = re.compile(r"^( *)checkPackedSp_of_groups (\S+) (.*?)\s+\[(\S+)\.shardRan
                   r"⟨\S+\.shardRange, List\.mem_singleton_self _, hs⟩\)\s+\(fun g hg => by rw "
                   r"\[List\.mem_singleton\.1 hg\]; exact (\S+)\)", re.M | re.S)
 DECSPLIT = "KAM.SpinOrbit.Data.LockN65.DecSplit"
+REMSPLIT = "KAM.SpinOrbit.Data.LockN65.RemSplit"
+REM_CHUNK = 2000         # slots per remainder-bound range (maxSlotDeg over 12 260 slots: 6.17 GB, measured)
+
+
+def _hang(text):
+    """a tactic line: two-space first line, six-space continuation"""
+    ls = wrap(text.split(" "), "      ")
+    ls[0] = "  " + ls[0].lstrip()
+    return ls
+
+
+def natlit(n):
+    """a natural-number literal: plain when short, else `natOfChunks [0x…, …]` (256-bit digits)"""
+    if n < 1 << 256:
+        return "%d" % n
+    ds = []
+    while n:
+        ds.append(n & ((1 << 256) - 1))
+        n >>= 256
+    return "(natOfChunks [%s])" % ", ".join("0x%x" % d for d in reversed(ds))
+
+
+def _weight_w():
+    """`base.weight.w` of the lock (Params.lean literal)."""
+    t = open(os.path.join(HERE, "../../KAM/SpinOrbit/Data/LockN65/Params.lean")).read()
+    m = re.search(r"def weight : CertWeight :=\s*⟨\(([^)]*)\),\s*\(([^)]*)\)", t)
+    a, b = m.group(2).split("/")
+    return Fraction(int(a), int(b))
+
+
+WEIGHT_W = _weight_w()
 PRODSTMT = {}            # product module -> (theorem, [(operand term, name)])
 ADVOBJ = {}              # advice name -> the part object (sofx_packed mirror)
 _DEC = re.compile(r"^theorem (\S+)_dec : dyadicTerms \(2 \* (\d+)\) (\S+)\.scale (\(fun v => ⟨[^⟩]*⟩\)) "
@@ -163,7 +195,7 @@ def _write_sharded(self, rel, imports, title, doc, body, heavy=False, ns=None):
     return _tree_write(self, rel, imports, title, doc, out, heavy=heavy, ns=ns)
 
 
-def _orig_stmt(body, nm, ops):
+def _orig_stmt(body, nm, ops, rems=()):
     """the product theorem `nm` stated with the original operand terms (what its consumers state), proved by
     rewriting them to the named operands (`…_eq`, syntactic) and the proof against the names."""
     lines = "\n".join(body).split("\n")
@@ -172,9 +204,11 @@ def _orig_stmt(body, nm, ops):
     stmt = " ".join(" ".join(lines[i + 1:j + 1]).split())[:-2].strip()
     for t, n in ops:
         stmt = re.sub(r"(?<![\w.])%s(?![\w.])" % re.escape(n), "(%s)" % t, stmt)
+    for _, _, lit, term in rems:
+        stmt = stmt.replace(term, "(%s)" % lit)
     proof = lines[j + 1:]
     end = next((t for t, l in enumerate(proof) if l.strip() == ""), len(proof))
-    rw = "rw [%s]" % ", ".join("%s_eq" % n for _, n in ops)
+    rw = "rw [%s]" % ", ".join(["← %s" % r[1] for r in rems] + ["%s_eq" % n for _, n in ops])
     new = (["theorem %s :" % nm] + wrap((stmt + " := by").split(" "), "    ") + ["  " + rw]
            + ["  exact" + proof[0][1:]] + ["  " + l for l in proof[1:end]] + proof[end:])
     return lines[:i] + new
@@ -483,21 +517,33 @@ class LockEmitter(CE.Emitter):
         else:
             cw, g, S = self.cfgw(chain, 3, v["slot"]), self.g_exp(chain, v["a"]), self.sqrt_wit(v["slot"])
             mk = memos[(3, v["slot"])]
+            St = S.replace("fun e =>", "fun (e : ℕ × SqrtWitness %s) =>" % CE.TY)
+            # three kernel runs, each its own module (one run OOM-killed at 6 GB, measured): the side checks,
+            # the residual bound, and the radius from both
+            ok = ("(decide (0 ≤ %s.margin ∧ %s.margin < %s.anchor) && ble ((sqrtAnchorDiff 2 %s %s).supBound %s)"
+                  " (ofRatDown %s.margin) && blt ((sqrtRadicandDiff 2 %s %s %s).supBound %s) (ofRatDown (%s.anchor *"
+                  " %s.anchor))) = true" % (St, St, St, W, St, W, St, W, g, St, W, St, St))
+            okb = ["theorem %s_ok :" % nm] + wrap((ok + " := by").split(" "), "    ") + ["  decide +kernel"]
+            okm = self.tree.write("Rad/%s%s%dOk" % (op[0].capitalize(), sub, i), self.base + imps,
+                                  "The sqrt witness side checks at slot %d (%s)" % (i, chain), "One kernel run.",
+                                  [CE.Emitter.fix_long(l) for l in okb], heavy=True)
+            rb = ["theorem %s_res :" % nm] + wrap(("(sqrtResidual 2 %s %s %s %s).supBound %s = %s := by"
+                                                   % (W, cw, g, St, W, fixed(v["e"]))).split(" "), "    ")
+            rb += ["  unfold sqrtResidual SqrtWitness.model"]
+            # one tactic per line (a wrapped `…; decide` can put a tactic left of the block's column)
+            rw = wrap(("rw [mul_eq_of_polyProduct_cseg %s %s [3] ⟨0, %s.poly, ofInt 0⟩ ⟨0, %s.poly, ofInt 0⟩ %s]"
+                       % (W, cw, St, St, self.memo_name(mk))).split(" "), "      ")
+            rw[0] = "  " + rw[0].lstrip()
+            rb += rw + ["  decide +kernel"]
+            resm = self.tree.write("Rad/%s%s%dRes" % (op[0].capitalize(), sub, i), self.base + imps,
+                                   "The sqrt residual bound at slot %d (%s)" % (i, chain), "One kernel run.",
+                                   [CE.Emitter.fix_long(l) for l in rb], heavy=True)
+            imps = list(imps) + [okm, resm]
             st = "sqrtWitnessRadius 2 %s %s %s %s = some %s" % (W, cw, g, S, fixed(v["r"]))
             body += ["theorem %s :" % nm] + wrap(st.split(" "), "    ")
             body[-1] += " := by"
-            body += wrap(("rw [sqrtWitnessRadius_eq_of_residual 2 %s %s %s %s (e := %s) (by decide +kernel)"
-                          % (W, cw, g, S, fixed(v["e"]))).split(" "), "  ")
-            # the witness lookup with a typed binder (an untyped `fun e => e.1 == 17` is elaborated with a
-            # metavariable there, and `.model.poly` then fails to match the product's `.poly`), and the models
-            # unfolded to the anonymous constructor the product statement's operand is the `.poly` of
-            St = S.replace("fun e =>", "fun (e : ℕ × SqrtWitness %s) =>" % CE.TY)
-            # one tactic per line (a wrapped `…; decide` can put a tactic left of the block's column)
-            body += ["    (by", "      unfold sqrtResidual SqrtWitness.model"]
-            rw = wrap(("rw [mul_eq_of_polyProduct_cseg %s %s [3] ⟨0, %s.poly, ofInt 0⟩ ⟨0, %s.poly, ofInt 0⟩ %s]"
-                       % (W, cw, St, St, self.memo_name(mk))).split(" "), "          ")
-            rw[0] = "      " + rw[0].lstrip()
-            body += rw + ["      decide +kernel)]"]
+            body += wrap(("rw [sqrtWitnessRadius_eq_of_residual 2 %s %s %s %s %s_ok %s_res]"
+                          % (W, cw, g, S, nm, nm)).split(" "), "  ")
             body += ["  decide +kernel", ""]
         return self.tree.write("Rad/%s%s%d" % (op[0].capitalize(), sub, i), self.base + imps,
                                "The %s witness radius at slot %d (%s)" % (op[0], i, chain),
@@ -532,9 +578,73 @@ class LockEmitter(CE.Emitter):
             body += ["theorem %s%s_eq :" % (nm, s_)] + wrap(("%s = %s%s := rfl" % (t, nm, s_)).split(" "), "    ") + [""]
         arg = self.tree.write("Prod/M%dArg" % k, self.base + list(imps), "Operands of the packed product %d" % k,
                               "The two operand polynomials, named once.", body)
-        PRODSTMT[self.tree.mod("Prod/M%d" % k)] = (nm, [(t, nm + s_) for s_, t in ops])
+        advname, P = self.advRef(m["cfg"], m["fullKey"])
+        rems = []
+        for prt in m["parts"]:
+            if not prt["empty"]:
+                rems.append(self.emit_rem(k, "%s.%s" % (advname, prt["part"]), P, imps))
+        PRODSTMT[self.tree.mod("Prod/M%d" % k)] = (nm, [(t, nm + s_) for s_, t in ops], rems)
         return CE.Emitter.emit_product(self, k, m, cfg, key, nm + "a", nm + ("a" if b == a else "b"),
-                                       list(imps) + [arg])
+                                       list(imps) + [arg] + [r[0] for r in rems])
+
+    def emit_rem(self, k, adv, P, imps):
+        """`adv.remainderBound W (2 * P)` as a literal, from the slot ranges (RemSplit.lean): per range one module
+        for the largest slot degree and one for the slot sum, and an assembly module.  Returns (module, theorem,
+        the literal's text, the term it replaces)."""
+        po = ADVOBJ[adv]
+        degs = SP.slotDegs(po)
+        box = SP.InBox(po)
+        n = len(degs)
+        cuts = list(range(0, n, REM_CHUNK)) + [n]
+        M = max(degs) if degs else 0
+        num, den = WEIGHT_W.numerator, WEIGHT_W.denominator
+        hi_in, hi_out = 1 << po.scale, 1 << (po.outLog + 1)
+        tag = "%s%s" % (self.memo_name(k), adv.rsplit(".", 1)[1].upper())
+        Ms, Ns, mods = [], [], []
+        f = ("(fun i => %s.slotErr i * base.weight.w.num.toNat ^ %s.slotDeg i * base.weight.w.den ^ (%d - %s.slotDeg"
+             " i))" % (adv, adv, M, adv))
+        for j in range(len(cuts) - 1):
+            a, b = cuts[j], cuts[j + 1]
+            Ms.append(max(degs[a:b]))
+            Ns.append(sum((hi_in if box(i) else hi_out) * num ** degs[i] * den ** (M - degs[i]) for i in range(a, b)))
+            body = ["theorem %s_remM%d :" % (tag, j)] + wrap(("packRangeMax %s.slotDeg (%d - %d) %d (%d - %d) = %d := by"
+                                                               % (adv, b, a, a, b, a, Ms[-1])).split(" "), "    ")
+            body += ["  decide +kernel", "", "/-- The slot sum of the range. -/", "def %s_remN%d : ℕ :=" % (tag, j)]
+            body += wrap(natlit(Ns[-1]).split(" "), "  ") + ["", "theorem %s_remS%d :" % (tag, j)]
+            body += wrap(("packRangeSum %s (%d - %d) %d (%d - %d) = %s_remN%d := by" % (f, b, a, a, b, a, tag, j)
+                          ).split(" "), "    ") + ["  decide +kernel"]
+            mods.append(self.tree.write("Prod/%sRem%d" % (tag[len(self.t):], j), self.base + list(imps) + [REMSPLIT],
+                                        "Remainder bound of %s, slots %d to %d" % (adv, a, b),
+                                        "One kernel run per theorem (RemSplit.lean).",
+                                        [CE.Emitter.fix_long(l) for l in body], heavy=True))
+        ps = "[%s]" % ", ".join(map(str, cuts[1:]))
+        Mf, Nf = ".nil", ".nil"
+        for j in reversed(range(len(Ms))):
+            Mf = "(.cons %s_remM%d %s)" % (tag, j, Mf)
+            Nf = "(.cons %s_remS%d %s)" % (tag, j, Nf)
+        cp = "(cutPairs [%s])" % ", ".join(map(str, cuts))
+        lit = "(([%s].sum : ℕ) : ℚ) / ((base.weight.w.den ^ %d * 2 ^ (2 * %d) : ℕ) : ℚ)" % (
+            ", ".join("%s_remN%d" % (tag, j) for j in range(len(Ns))), M, P)
+        body = ["theorem %s_len : %s.prodLen = %d := by" % (tag, adv, n), "  decide +kernel", ""]
+        body += ["theorem %s_maxF :" % tag] + wrap(("List.Forall₂ (fun p M => packRangeMax %s.slotDeg (p.2 - p.1) p.1"
+                                                     " (p.2 - p.1) = M) %s [%s] :=" % (adv, cp, ", ".join(map(str, Ms)))
+                                                     ).split(" "), "    ") + wrap(Mf.split(" "), "  ") + [""]
+        body += ["theorem %s_max : %s.maxSlotDeg = %d := by" % (tag, adv, M)]
+        body += _hang("rw [maxSlotDeg_eq_of_cuts %s %d %s_len %s (by decide +kernel) (by decide +kernel) %s_maxF]"
+                      % (adv, n, tag, ps, tag))
+        body += ["  decide +kernel", ""]
+        body += ["theorem %s_sumF :" % tag] + wrap(("List.Forall₂ (fun p N => packRangeSum %s (p.2 - p.1) p.1 (p.2 - p.1)"
+                                                     " = N) %s [%s] :=" % (f, cp, ", ".join("%s_remN%d" % (tag, j) for j in range(len(Ns))))).split(" "),
+                                                    "    ") + wrap(Nf.split(" "), "  ") + [""]
+        body += ["theorem %s_rb :" % tag] + wrap(("%s.remainderBound base.weight (2 * %d) = %s := by" % (adv, P, lit)
+                                                  ).split(" "), "    ")
+        body += _hang("rw [remainderBound_eq_of_cuts %s base.weight (2 * %d) %d %d %s_len %s_max %s (by decide +kernel)"
+                      " (by decide +kernel) %s_sumF]" % (adv, P, n, M, tag, tag, ps, tag))
+        mod = self.tree.write("Prod/%sRem" % tag[len(self.t):], self.base + list(imps) + [REMSPLIT] + mods,
+                              "Remainder bound of %s" % adv, "Assembled from the slot ranges (RemSplit.lean).",
+                              [CE.Emitter.fix_long(l) for l in body], heavy=False)
+        return (mod, "%s_rb" % tag, lit, "%s.remainderBound base.weight (2 * %d)" % (adv, P))
+
 
     def emit_products(self, operand_of):
         self.prod_done = {}
