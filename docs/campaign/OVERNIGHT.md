@@ -2139,3 +2139,29 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   live on the HC volume (symlinked); **not landed without the owner's ruling** (options: land as is, land via
   an external data artifact, or shrink advice books). Kernel so far: JetEq, disc pass HamSeg0-2 + HamBalls all
   rc 0, peaks ≤ 3.43 GB.
+- **06:25. FOR OWNER REVIEW: the LOCK-DATA ledger is 131.4 MB, over the 50 MB flag; no lock landing without a ruling.**
+  - 1,239 files: 129.4 MB of advice books (packed-product witness data); the certificate proper is about 2 MB. The
+    data sit on the HC volume, symlinked.
+  - Options for the owner:
+    - (a) land as is (131 MB in the public repo);
+    - (b) an external data artifact;
+    - (c) shrink the advice books. LOCK-DATA is pricing the levers overnight: advice only where needed, a compact
+      encoding, the cfgLow cutoff, the support trade-off.
+  - Kernel work continues per the rule. All rc 0 so far: JetEq, the disc pass HamSeg0–2, HamBalls (peaks ≤ 3.43 GB;
+    one elaborator recursion limit fixed by literal offsets, no option raised).
+  - SO-DATA3 is merged into inp; the overlay check passed (every data module up to date, no kernel re-run). The
+    landing build onto main is running.
+- **07:25. SO-FREEZE3 Phase A (partial), 1e0e888c.**
+  - 13 frozen files, byte-identical to FREEZE-PROPOSAL-2 apart from the D46/D48 literals; 13 manifest entries;
+    guard and ABI (171) pass. Deviations: D-SOF-5 (four approved docstring lines rewrapped at one space each),
+    D-SOF-6 (`by sorry`, as the guard requires), D-SOF-7 (one manifest source group per declaration).
+  - **FOR OWNER REVIEW (cost decision, taken):** Q11 is unavoidable, since frozen and landed definitions share
+    names. Model.lean, Barrier.lean and Graph/Inverse.lean switch to the frozen definitions, which forces a
+    one-time full kernel rebuild of the 1,645 band data modules (about 7.5 h of kernel time, about 4.5 h on two
+    lanes).
+    - The rebuild is accepted. It runs into a copied overlay (kam-data/so-freeze3/build-overlay) so main's
+      landing stays valid.
+    - The same rebuild absorbs the CsegSupport line-width fix, after which the D46 allowlist entries can be
+      removed.
+  - The codex-1 identity audit of the 13 frozen files runs now (independent of Q11).
+  - LOCK-DATA was told to pause kernel runs that depend on Model, Barrier or Inverse until Q11 lands.
