@@ -270,9 +270,9 @@
  },
  "size_plan": {
   "W": {
-   "low": 34000,
-   "high": 70000,
-   "source": "[`docs/TRACKS.md`](docs/TRACKS.md), low confidence"
+   "low": 60000,
+   "high": 90000,
+   "source": "graph-scaled (2026-10-31): track W's dependency graph has 690 nodes; the finished tracks average 87 lines of Lean per graph node (K 72, I 83, N 59, P 109), so 690 × 87 ≈ 60k; the high end uses track P's 109 per node plus 20 % for infinite-dimensional infrastructure (sequence spaces, parameter-Lipschitz estimates), ≈ 90k; replaces the low-confidence 34k–70k of docs/TRACKS.md"
   }
  }
 }
