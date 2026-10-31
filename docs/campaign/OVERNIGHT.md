@@ -2032,3 +2032,15 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     - a ham/box scale mismatch is fixed (c = 1000001/10^6, accepted by the landed LockGraphCert);
     - the exact sizing pass is in energy/Gram; then the threshold, the support choice, generation and the ledger.
   - W paused. Quotas checked.
+- **00:49. Heartbeat: SO-DATA3 kernel build about one-third done on both tori.**
+  - At 00:19: lower 289/830 modules (heavy 91/558), upper 278/824 (heavy 83/554); about 30 s per heavy module and
+    7 s per light one. Projected finish about 04:15–04:35 UTC. No failures since the bite modules moved to the
+    10 GB lane.
+  - **Landing plan:** the data build output is about 7.7 MB per module (about 12–13 GB for both tori). It must not be
+    rebuilt in KAM-inp and main: that would mean hours of repeated kernel checks and more disk than / has. Their
+    `.lake/build/{lib/lean,ir}/KAM/SpinOrbit/Data` will point at the verified HC overlay of SO-DATA3's build, so the
+    landing's capped prebuild only confirms that they are up to date. To be coordinated with kam-inp at hand-off.
+    The audit's kernel replay covers the final theorem modules and a sample of the data modules; the full data
+    checks are the build itself.
+  - LOCK-DATA chose support D100×20, kp = 4, at 73.8°: threshold 10^−18.35…−20.03 against residual 4.2e-22, a margin
+    of 1.6–3.0 orders. The exact torsion values (bT/σT) come next, then generation, ledger and kernel.
