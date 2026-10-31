@@ -1,0 +1,20 @@
+{
+ "approval": {
+  "approved_by": "Scott Armstrong",
+  "approved_at": "2026-10-31",
+  "approval_ref": "owner replies 'Approve all recommendations' (D40, 2026-10-30, on docs/tracks/SO/FREEZE-PROPOSAL-2.md Q1-Q11), the 2.755 % literal with rule B's tightness clause waived (D47) and 'yes freeze these numbers' (D49); docs/DECISIONS.md D40, D47, D49",
+  "approval_version": "1"
+ },
+ "revision": "KAM@9517d71e (inp) docs/tracks/SO/FREEZE-PROPOSAL-2.md §1 (definition texts §1.1-§1.8 of docs/tracks/SO/FREEZE-PROPOSAL.md), literals of D47/D49; Celletti, Stability and Chaos in Celestial Mechanics (2010), eq. (7.55)",
+ "default_range": "FREEZE-PROPOSAL-2 §1.1 (model definitions, unchanged from FREEZE-PROPOSAL §1.1-§1.8); Celletti (7.55), e = 0.0549, eps = 3.45e-4",
+ "ranges": {
+  "SoBarrier": "FREEZE-PROPOSAL-2 §1.1 (FREEZE-PROPOSAL §1.8; invariance written out, D-SOF-1)",
+  "lunarPLo": "FREEZE-PROPOSAL-2 §1.2, rule W; literal 9934/10000 (D47/D49); constant window O1 (D-SOF-2)",
+  "lunarPHi": "FREEZE-PROPOSAL-2 §1.2, rule W; literal 10066/10000 (D47/D49); constant window O1 (D-SOF-2)",
+  "lunar_barriers": "FREEZE-PROPOSAL-2 §1.3 Theorem A, band [97245/100000, 102755/100000] (D47/D49); D-SOF-3",
+  "lunar_spin_confinement": "FREEZE-PROPOSAL-2 §1.3 Theorem B, bound 2755/100000 (D47/D49); D-SOF-3, D-SOF-4",
+  "lunarPLo_lt_lunarPHi": "FREEZE-PROPOSAL-2 §1.3 non-vacuity of the window (Q1, R4)"
+ },
+ "track": "SpinOrbit",
+ "id_prefix": "spinorbit.d40"
+}

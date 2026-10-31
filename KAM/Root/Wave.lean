@@ -63,6 +63,11 @@ public import KAM.Wave.Normal.ResonantPart
 public import KAM.Wave.Recon.ReconAnalytic
 public import KAM.Wave.Recon.SineCompleteness
 public import KAM.Wave.Recon.SineFeature
+public import KAM.Wave.Recon2.Curve
+public import KAM.Wave.Recon2.Force
+public import KAM.Wave.Recon2.Functionals
+public import KAM.Wave.Recon2.Main
+public import KAM.Wave.Recon2.Orbit
 public import KAM.Wave.Seq.Coordinatewise
 public import KAM.Wave.Seq.Diag
 public import KAM.Wave.Seq.Embed
