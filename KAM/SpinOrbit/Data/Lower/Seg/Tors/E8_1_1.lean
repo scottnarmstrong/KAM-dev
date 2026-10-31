@@ -28,6 +28,119 @@ namespace KAM.SpinOrbit.Data.Lower
 open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2 KAM.SpinOrbit
 open KAM.SpinOrbit.Data CertArith
 
+/-- The right side of `lower_T8_1_1` after its rewrites. -/
+def lower_T8_1_1Rhs : CertModel SoBackendV2 :=
+  CertModel.toDeg base.weight base.piEnc 0 (modelSum base.weight base.piEnc [(⟨(modelMatrixEntry
+    (modelMatTranspose (2 + 2) 2 (modelMatOmega 2 2 lowerN0)) 1 0).deg + (modelMatrixEntry
+    (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerXN1 (modelMatNeg (2 + 2)
+    2 (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerDN1 lowerDN2))))) 0
+    1).deg, truncPoly base.cfgLow.cutoff (((⟨[] ++ lowerM119T ++ [] ++ []⟩ : CertPoly SoBackendV2),
+    (ofRatUp (0 + advLow.p116.ii.remainderBound base.weight (2 * 96) + 0 + 0) :
+    SoBackendV2)).1.toErrTerms, ((⟨[] ++ lowerM119T ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp
+    (0 + advLow.p116.ii.remainderBound base.weight (2 * 96) + 0 + 0) : SoBackendV2)).2).1, upAdd
+    (upAdd (((⟨[] ++ lowerM119T ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (0 +
+    advLow.p116.ii.remainderBound base.weight (2 * 96) + 0 + 0) : SoBackendV2)).1.toErrTerms, ((⟨[]
+    ++ lowerM119T ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (0 + advLow.p116.ii.remainderBound
+    base.weight (2 * 96) + 0 + 0) : SoBackendV2)).2).2 (errRadius base.weight ((((⟨[] ++ lowerM119T
+    ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (0 + advLow.p116.ii.remainderBound base.weight
+    (2 * 96) + 0 + 0) : SoBackendV2)).1.toErrTerms, ((⟨[] ++ lowerM119T ++ [] ++ []⟩ : CertPoly
+    SoBackendV2), (ofRatUp (0 + advLow.p116.ii.remainderBound base.weight (2 * 96) + 0 + 0) :
+    SoBackendV2)).2).1.map (truncErr base.cfgLow.cutoff)))) (upAdd (upAdd (crossUp
+    ((modelMatrixEntry (modelMatTranspose (2 + 2) 2 (modelMatOmega 2 2 lowerN0)) 1
+    0).poly.supNormUp base.weight) (modelMatrixEntry (modelMatOmega 2 2 (modelMatAdd base.weight
+    base.piEnc (2 + 2) 2 lowerXN1 (modelMatNeg (2 + 2) 2 (modelMatOmega 2 2 (modelMatAdd
+    base.weight base.piEnc (2 + 2) 2 lowerDN1 lowerDN2))))) 0 1).rad) (crossUp ((modelMatrixEntry
+    (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerXN1 (modelMatNeg (2 + 2)
+    2 (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerDN1 lowerDN2))))) 0
+    1).poly.supNormUp base.weight) (modelMatrixEntry (modelMatTranspose (2 + 2) 2 (modelMatOmega 2
+    2 lowerN0)) 1 0).rad)) (upMul (modelMatrixEntry (modelMatTranspose (2 + 2) 2 (modelMatOmega 2 2
+    lowerN0)) 1 0).rad (modelMatrixEntry (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2
+    + 2) 2 lowerXN1 (modelMatNeg (2 + 2) 2 (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc
+    (2 + 2) 2 lowerDN1 lowerDN2))))) 0 1).rad))⟩ : CertModel SoBackendV2), (⟨(modelMatrixEntry
+    (modelMatTranspose (2 + 2) 2 (modelMatOmega 2 2 lowerN0)) 1 1).deg + (modelMatrixEntry
+    (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerXN1 (modelMatNeg (2 + 2)
+    2 (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerDN1 lowerDN2))))) 1
+    1).deg, truncPoly base.cfgLow.cutoff (((⟨[] ++ lowerM120T ++ [] ++ []⟩ : CertPoly SoBackendV2),
+    (ofRatUp (0 + advLow.p117.ii.remainderBound base.weight (2 * 96) + 0 + 0) :
+    SoBackendV2)).1.toErrTerms, ((⟨[] ++ lowerM120T ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp
+    (0 + advLow.p117.ii.remainderBound base.weight (2 * 96) + 0 + 0) : SoBackendV2)).2).1, upAdd
+    (upAdd (((⟨[] ++ lowerM120T ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (0 +
+    advLow.p117.ii.remainderBound base.weight (2 * 96) + 0 + 0) : SoBackendV2)).1.toErrTerms, ((⟨[]
+    ++ lowerM120T ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (0 + advLow.p117.ii.remainderBound
+    base.weight (2 * 96) + 0 + 0) : SoBackendV2)).2).2 (errRadius base.weight ((((⟨[] ++ lowerM120T
+    ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (0 + advLow.p117.ii.remainderBound base.weight
+    (2 * 96) + 0 + 0) : SoBackendV2)).1.toErrTerms, ((⟨[] ++ lowerM120T ++ [] ++ []⟩ : CertPoly
+    SoBackendV2), (ofRatUp (0 + advLow.p117.ii.remainderBound base.weight (2 * 96) + 0 + 0) :
+    SoBackendV2)).2).1.map (truncErr base.cfgLow.cutoff)))) (upAdd (upAdd (crossUp
+    ((modelMatrixEntry (modelMatTranspose (2 + 2) 2 (modelMatOmega 2 2 lowerN0)) 1
+    1).poly.supNormUp base.weight) (modelMatrixEntry (modelMatOmega 2 2 (modelMatAdd base.weight
+    base.piEnc (2 + 2) 2 lowerXN1 (modelMatNeg (2 + 2) 2 (modelMatOmega 2 2 (modelMatAdd
+    base.weight base.piEnc (2 + 2) 2 lowerDN1 lowerDN2))))) 1 1).rad) (crossUp ((modelMatrixEntry
+    (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerXN1 (modelMatNeg (2 + 2)
+    2 (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerDN1 lowerDN2))))) 1
+    1).poly.supNormUp base.weight) (modelMatrixEntry (modelMatTranspose (2 + 2) 2 (modelMatOmega 2
+    2 lowerN0)) 1 1).rad)) (upMul (modelMatrixEntry (modelMatTranspose (2 + 2) 2 (modelMatOmega 2 2
+    lowerN0)) 1 1).rad (modelMatrixEntry (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2
+    + 2) 2 lowerXN1 (modelMatNeg (2 + 2) 2 (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc
+    (2 + 2) 2 lowerDN1 lowerDN2))))) 1 1).rad))⟩ : CertModel SoBackendV2), (⟨(modelMatrixEntry
+    (modelMatTranspose (2 + 2) 2 (modelMatOmega 2 2 lowerN0)) 1 2).deg + (modelMatrixEntry
+    (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerXN1 (modelMatNeg (2 + 2)
+    2 (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerDN1 lowerDN2))))) 2
+    1).deg, truncPoly base.cfgLow.cutoff (((⟨lowerM121T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2),
+    (ofRatUp (advLow.p118.rr.remainderBound base.weight (2 * 96) + 0 + 0 + 0) :
+    SoBackendV2)).1.toErrTerms, ((⟨lowerM121T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp
+    (advLow.p118.rr.remainderBound base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2)).2).1, upAdd
+    (upAdd (((⟨lowerM121T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp
+    (advLow.p118.rr.remainderBound base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2)).1.toErrTerms,
+    ((⟨lowerM121T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp
+    (advLow.p118.rr.remainderBound base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2)).2).2
+    (errRadius base.weight ((((⟨lowerM121T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp
+    (advLow.p118.rr.remainderBound base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2)).1.toErrTerms,
+    ((⟨lowerM121T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp
+    (advLow.p118.rr.remainderBound base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2)).2).1.map
+    (truncErr base.cfgLow.cutoff)))) (upAdd (upAdd (crossUp ((modelMatrixEntry (modelMatTranspose
+    (2 + 2) 2 (modelMatOmega 2 2 lowerN0)) 1 2).poly.supNormUp base.weight) (modelMatrixEntry
+    (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerXN1 (modelMatNeg (2 + 2)
+    2 (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerDN1 lowerDN2))))) 2
+    1).rad) (crossUp ((modelMatrixEntry (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 +
+    2) 2 lowerXN1 (modelMatNeg (2 + 2) 2 (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2
+    + 2) 2 lowerDN1 lowerDN2))))) 2 1).poly.supNormUp base.weight) (modelMatrixEntry
+    (modelMatTranspose (2 + 2) 2 (modelMatOmega 2 2 lowerN0)) 1 2).rad)) (upMul (modelMatrixEntry
+    (modelMatTranspose (2 + 2) 2 (modelMatOmega 2 2 lowerN0)) 1 2).rad (modelMatrixEntry
+    (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerXN1 (modelMatNeg (2 + 2)
+    2 (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerDN1 lowerDN2))))) 2
+    1).rad))⟩ : CertModel SoBackendV2), (⟨(modelMatrixEntry (modelMatTranspose (2 + 2) 2
+    (modelMatOmega 2 2 lowerN0)) 1 3).deg + (modelMatrixEntry (modelMatOmega 2 2 (modelMatAdd
+    base.weight base.piEnc (2 + 2) 2 lowerXN1 (modelMatNeg (2 + 2) 2 (modelMatOmega 2 2
+    (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerDN1 lowerDN2))))) 3 1).deg, truncPoly
+    base.cfgLow.cutoff (((⟨lowerM122T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp
+    (advLow.p119.rr.remainderBound base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2)).1.toErrTerms,
+    ((⟨lowerM122T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp
+    (advLow.p119.rr.remainderBound base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2)).2).1, upAdd
+    (upAdd (((⟨lowerM122T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp
+    (advLow.p119.rr.remainderBound base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2)).1.toErrTerms,
+    ((⟨lowerM122T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp
+    (advLow.p119.rr.remainderBound base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2)).2).2
+    (errRadius base.weight ((((⟨lowerM122T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp
+    (advLow.p119.rr.remainderBound base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2)).1.toErrTerms,
+    ((⟨lowerM122T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp
+    (advLow.p119.rr.remainderBound base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2)).2).1.map
+    (truncErr base.cfgLow.cutoff)))) (upAdd (upAdd (crossUp ((modelMatrixEntry (modelMatTranspose
+    (2 + 2) 2 (modelMatOmega 2 2 lowerN0)) 1 3).poly.supNormUp base.weight) (modelMatrixEntry
+    (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerXN1 (modelMatNeg (2 + 2)
+    2 (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerDN1 lowerDN2))))) 3
+    1).rad) (crossUp ((modelMatrixEntry (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 +
+    2) 2 lowerXN1 (modelMatNeg (2 + 2) 2 (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2
+    + 2) 2 lowerDN1 lowerDN2))))) 3 1).poly.supNormUp base.weight) (modelMatrixEntry
+    (modelMatTranspose (2 + 2) 2 (modelMatOmega 2 2 lowerN0)) 1 3).rad)) (upMul (modelMatrixEntry
+    (modelMatTranspose (2 + 2) 2 (modelMatOmega 2 2 lowerN0)) 1 3).rad (modelMatrixEntry
+    (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerXN1 (modelMatNeg (2 + 2)
+    2 (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerDN1 lowerDN2))))) 3
+    1).rad))⟩ : CertModel SoBackendV2)])
+
+theorem lower_T8_1_1_beq : CertModel.segBeq lower_T8_1_1Rhs lowerTb_1_1 = true := by
+  decide +kernel
+
 theorem lower_T8_1_1 :
     matMulEntry base.weight base.cfgLow base.piEnc [4, 8] 4 (modelMatTranspose (2 + 2) 2
       (modelMatOmega 2 2 lowerN0)) (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2
@@ -57,6 +170,6 @@ theorem lower_T8_1_1 :
       (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerXN1 (modelMatNeg (2 +
       2) 2 (modelMatOmega 2 2 (modelMatAdd base.weight base.piEnc (2 + 2) 2 lowerDN1 lowerDN2)))))
       3 1) lowerM122]
-  exact CertModel.eq_of_segBeq (by decide +kernel)
+  exact CertModel.eq_of_segBeq lower_T8_1_1_beq
 
 end KAM.SpinOrbit.Data.Lower

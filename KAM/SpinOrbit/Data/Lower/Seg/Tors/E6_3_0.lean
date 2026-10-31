@@ -26,6 +26,47 @@ namespace KAM.SpinOrbit.Data.Lower
 open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2 KAM.SpinOrbit
 open KAM.SpinOrbit.Data CertArith
 
+/-- The right side of `lower_T6_3_0` after its rewrites. -/
+def lower_T6_3_0Rhs : CertModel SoBackendV2 :=
+  CertModel.toDeg base.weight base.piEnc 0 (modelSum base.weight base.piEnc [(⟨(modelMatrixEntry
+    lowerTL 3 0).deg + (modelMatrixEntry (modelMatNeg 2 2 lowerDGi1) 0 0).deg, truncPoly
+    base.cfgLow.cutoff (((⟨[] ++ lowerM95T ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (0 +
+    advLow.p92.ii.remainderBound base.weight (2 * 96) + 0 + 0) : SoBackendV2)).1.toErrTerms, ((⟨[]
+    ++ lowerM95T ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (0 + advLow.p92.ii.remainderBound
+    base.weight (2 * 96) + 0 + 0) : SoBackendV2)).2).1, upAdd (upAdd (((⟨[] ++ lowerM95T ++ [] ++
+    []⟩ : CertPoly SoBackendV2), (ofRatUp (0 + advLow.p92.ii.remainderBound base.weight (2 * 96) +
+    0 + 0) : SoBackendV2)).1.toErrTerms, ((⟨[] ++ lowerM95T ++ [] ++ []⟩ : CertPoly SoBackendV2),
+    (ofRatUp (0 + advLow.p92.ii.remainderBound base.weight (2 * 96) + 0 + 0) : SoBackendV2)).2).2
+    (errRadius base.weight ((((⟨[] ++ lowerM95T ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (0 +
+    advLow.p92.ii.remainderBound base.weight (2 * 96) + 0 + 0) : SoBackendV2)).1.toErrTerms, ((⟨[]
+    ++ lowerM95T ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (0 + advLow.p92.ii.remainderBound
+    base.weight (2 * 96) + 0 + 0) : SoBackendV2)).2).1.map (truncErr base.cfgLow.cutoff)))) (upAdd
+    (upAdd (crossUp ((modelMatrixEntry lowerTL 3 0).poly.supNormUp base.weight) (modelMatrixEntry
+    (modelMatNeg 2 2 lowerDGi1) 0 0).rad) (crossUp ((modelMatrixEntry (modelMatNeg 2 2 lowerDGi1) 0
+    0).poly.supNormUp base.weight) (modelMatrixEntry lowerTL 3 0).rad)) (upMul (modelMatrixEntry
+    lowerTL 3 0).rad (modelMatrixEntry (modelMatNeg 2 2 lowerDGi1) 0 0).rad))⟩ : CertModel
+    SoBackendV2), (⟨(modelMatrixEntry lowerTL 3 1).deg + (modelMatrixEntry (modelMatNeg 2 2
+    lowerDGi1) 1 0).deg, truncPoly base.cfgLow.cutoff (((⟨[] ++ lowerM96T ++ [] ++ []⟩ : CertPoly
+    SoBackendV2), (ofRatUp (0 + advLow.p93.ii.remainderBound base.weight (2 * 96) + 0 + 0) :
+    SoBackendV2)).1.toErrTerms, ((⟨[] ++ lowerM96T ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp
+    (0 + advLow.p93.ii.remainderBound base.weight (2 * 96) + 0 + 0) : SoBackendV2)).2).1, upAdd
+    (upAdd (((⟨[] ++ lowerM96T ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (0 +
+    advLow.p93.ii.remainderBound base.weight (2 * 96) + 0 + 0) : SoBackendV2)).1.toErrTerms, ((⟨[]
+    ++ lowerM96T ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (0 + advLow.p93.ii.remainderBound
+    base.weight (2 * 96) + 0 + 0) : SoBackendV2)).2).2 (errRadius base.weight ((((⟨[] ++ lowerM96T
+    ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (0 + advLow.p93.ii.remainderBound base.weight (2
+    * 96) + 0 + 0) : SoBackendV2)).1.toErrTerms, ((⟨[] ++ lowerM96T ++ [] ++ []⟩ : CertPoly
+    SoBackendV2), (ofRatUp (0 + advLow.p93.ii.remainderBound base.weight (2 * 96) + 0 + 0) :
+    SoBackendV2)).2).1.map (truncErr base.cfgLow.cutoff)))) (upAdd (upAdd (crossUp
+    ((modelMatrixEntry lowerTL 3 1).poly.supNormUp base.weight) (modelMatrixEntry (modelMatNeg 2 2
+    lowerDGi1) 1 0).rad) (crossUp ((modelMatrixEntry (modelMatNeg 2 2 lowerDGi1) 1
+    0).poly.supNormUp base.weight) (modelMatrixEntry lowerTL 3 1).rad)) (upMul (modelMatrixEntry
+    lowerTL 3 1).rad (modelMatrixEntry (modelMatNeg 2 2 lowerDGi1) 1 0).rad))⟩ : CertModel
+    SoBackendV2)])
+
+theorem lower_T6_3_0_beq : CertModel.segBeq lower_T6_3_0Rhs lowerDN2_3_0 = true := by
+  decide +kernel
+
 theorem lower_T6_3_0 :
     matMulEntry base.weight base.cfgLow base.piEnc [4, 6] 2 lowerTL (modelMatNeg 2 2 lowerDGi1) 3 0
       = lowerDN2_3_0 := by
@@ -35,6 +76,6 @@ theorem lower_T6_3_0 :
       lowerTL 3 0) (modelMatrixEntry (modelMatNeg 2 2 lowerDGi1) 0 0) lowerM95,
     mul_eq_of_polyProduct_cseg base.weight base.cfgLow ([4, 6] ++ [3, 0, 1]) (modelMatrixEntry
       lowerTL 3 1) (modelMatrixEntry (modelMatNeg 2 2 lowerDGi1) 1 0) lowerM96]
-  exact CertModel.eq_of_segBeq (by decide +kernel)
+  exact CertModel.eq_of_segBeq lower_T6_3_0_beq
 
 end KAM.SpinOrbit.Data.Lower

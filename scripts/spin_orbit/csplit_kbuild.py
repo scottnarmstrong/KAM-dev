@@ -8,7 +8,7 @@ in a `heavy_modules.txt` (the generator's list, plus `KAM.SpinOrbit.Data.CsegJet
 built ALONE under the kernel-probe lock with `MemoryMax=10G`, `MemorySwapMax=0` (`lake build M`; its imports are
 already built, so only M is elaborated); every other module goes through the compile gate. A module that lake reports
 up to date (`lake build --no-build`) is skipped. One line per module is appended to LOGDIR/kbuild.tsv:
-module, kind, rc, wall seconds, max RSS (kB).  Stops at the first failure (rc != 0) or when / has < 8 GB free.
+module, kind, rc, wall seconds, max RSS (kB).  Stops at the first failure (rc != 0) or when / has < 6 GB free.
 """
 import os
 import re
@@ -18,9 +18,15 @@ import sys
 import time
 
 WT = "/root/code/KAM-inp-sodata3"
-LOCK = "/mnt/HC_Volume_106379410/orchestrator-tools/.kernel-probe.lock"
+LOCK = os.environ.get("CSPLIT_LOCK", "/mnt/HC_Volume_106379410/orchestrator-tools/.kernel-probe.lock")
+MEMMAX = os.environ.get("CSPLIT_MEMMAX", "10G")
+MINAVAIL = int(os.environ.get("CSPLIT_MINAVAIL_GB", "0")) * 10 ** 9   # lane 2: wait while MemAvailable is lower
+# modules measured above a lane's cap (the l = 12 bite: 9.5 GB) run under the SHARED probe lock at 10G, i.e.
+# serialized with lane 1, never beside another capped run
+BIG = [x for x in os.environ.get("CSPLIT_BIG", "").split(",") if x]
+SHARED_LOCK = "/mnt/HC_Volume_106379410/orchestrator-tools/.kernel-probe.lock"
 GATE = "/mnt/HC_Volume_106379410/orchestrator-tools/inp_lake_build.sh"
-FLOOR = 8 * 10 ** 9
+FLOOR = 6 * 10 ** 9
 
 
 def path_of(m):
@@ -73,6 +79,13 @@ def heavy_set():
     return h
 
 
+def mem_available():
+    for l in open("/proc/meminfo"):
+        if l.startswith("MemAvailable:"):
+            return int(l.split()[1]) * 1024
+    return 0
+
+
 def up_to_date(m):
     """lake's own verdict (a stale import makes a module stale even if its source is unchanged)."""
     o = olean_of(m)
@@ -86,19 +99,23 @@ def main(logdir, roots):
     os.makedirs(logdir, exist_ok=True)
     heavy = heavy_set()
     order = topo(roots)
-    tsv = open(os.path.join(logdir, "kbuild.tsv"), "a")
+    tsv = open(os.path.join(logdir, os.environ.get("CSPLIT_TSV", "kbuild.tsv")), "a")
     print(len(order), "modules,", sum(1 for m in order if m in heavy), "heavy", flush=True)
     for m in order:
         if up_to_date(m):
             continue
+        while m in heavy and MINAVAIL and mem_available() < MINAVAIL:
+            time.sleep(30)
         if shutil.disk_usage("/").free < FLOOR:
-            print("STOP: / below 8 GB", flush=True)
+            print("STOP: / below 6 GB", flush=True)
             return 2
         log = os.path.join(logdir, m + ".log")
         t0 = time.time()
         if m in heavy:
             kind = "heavy"
-            cmd = ["flock", LOCK, "systemd-run", "--user", "--scope", "-p", "MemoryMax=10G", "-p",
+            big = any(m.endswith(b) for b in BIG)
+            cmd = ["flock", SHARED_LOCK if big else LOCK, "systemd-run", "--user", "--scope", "-p",
+                   "MemoryMax=" + ("10G" if big else MEMMAX), "-p",
                    "MemorySwapMax=0", "/usr/bin/time", "-v", "nice", "-n", "5", "lake", "build", m]
         else:
             kind = "light"

@@ -24,11 +24,25 @@ namespace KAM.SpinOrbit.Data.Lower
 open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2 KAM.SpinOrbit
 open KAM.SpinOrbit.Data CertArith
 
+/-- The right side of `lower_T7_1_0` after its rewrites. -/
+def lower_T7_1_0Rhs : CertModel SoBackendV2 :=
+  CertModel.toDeg base.weight base.piEnc 0 (modelSum base.weight base.piEnc [(CertModel.mul
+    base.weight base.cfgLow ([4, 7] ++ [1, 0, 0]) (modelMatrixEntry (dxhModels 2 lowerMS) 1 0)
+    (modelMatrixEntry (modelMatOmega 2 2 lowerN0) 0 0)), (CertModel.mul base.weight base.cfgLow
+    ([4, 7] ++ [1, 0, 1]) (modelMatrixEntry (dxhModels 2 lowerMS) 1 1) (modelMatrixEntry
+    (modelMatOmega 2 2 lowerN0) 1 0)), (CertModel.mul base.weight base.cfgLow ([4, 7] ++ [1, 0, 2])
+    (modelMatrixEntry (dxhModels 2 lowerMS) 1 2) (modelMatrixEntry (modelMatOmega 2 2 lowerN0) 2
+    0)), (CertModel.mul base.weight base.cfgLow ([4, 7] ++ [1, 0, 3]) (modelMatrixEntry (dxhModels
+    2 lowerMS) 1 3) (modelMatrixEntry (modelMatOmega 2 2 lowerN0) 3 0))])
+
+theorem lower_T7_1_0_beq : CertModel.segBeq lower_T7_1_0Rhs lowerXN1_1_0 = true := by
+  decide +kernel
+
 theorem lower_T7_1_0 :
     matMulEntry base.weight base.cfgLow base.piEnc [4, 7] 4 (dxhModels 2 lowerMS) (modelMatOmega 2
       2 lowerN0) 1 0 = lowerXN1_1_0 := by
   rw [matMulEntry_four_cseg base.weight base.cfgLow base.piEnc [4, 7] (dxhModels 2 lowerMS)
       (modelMatOmega 2 2 lowerN0) 1 0]
-  exact CertModel.eq_of_segBeq (by decide +kernel)
+  exact CertModel.eq_of_segBeq lower_T7_1_0_beq
 
 end KAM.SpinOrbit.Data.Lower

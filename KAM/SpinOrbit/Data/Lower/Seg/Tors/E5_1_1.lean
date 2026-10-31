@@ -24,10 +24,20 @@ namespace KAM.SpinOrbit.Data.Lower
 open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2 KAM.SpinOrbit
 open KAM.SpinOrbit.Data CertArith
 
+/-- The right side of `lower_T5_1_1` after its rewrites. -/
+def lower_T5_1_1Rhs : CertModel SoBackendV2 :=
+  CertModel.toDeg base.weight base.piEnc 0 (modelSum base.weight base.piEnc [(CertModel.mul
+    base.weight base.cfgLow ([4, 5] ++ [1, 1, 0]) (modelMatrixEntry lowerTDL 1 0) (modelMatrixEntry
+    lowerTGi 0 1)), (CertModel.mul base.weight base.cfgLow ([4, 5] ++ [1, 1, 1]) (modelMatrixEntry
+    lowerTDL 1 1) (modelMatrixEntry lowerTGi 1 1))])
+
+theorem lower_T5_1_1_beq : CertModel.segBeq lower_T5_1_1Rhs lowerDN1_1_1 = true := by
+  decide +kernel
+
 theorem lower_T5_1_1 :
     matMulEntry base.weight base.cfgLow base.piEnc [4, 5] 2 lowerTDL lowerTGi 1 1 = lowerDN1_1_1 :=
         by
   rw [matMulEntry_two_cseg base.weight base.cfgLow base.piEnc [4, 5] lowerTDL lowerTGi 1 1]
-  exact CertModel.eq_of_segBeq (by decide +kernel)
+  exact CertModel.eq_of_segBeq lower_T5_1_1_beq
 
 end KAM.SpinOrbit.Data.Lower

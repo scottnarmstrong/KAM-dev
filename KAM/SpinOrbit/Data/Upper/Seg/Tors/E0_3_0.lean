@@ -26,6 +26,45 @@ namespace KAM.SpinOrbit.Data.Upper
 open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2 KAM.SpinOrbit
 open KAM.SpinOrbit.Data CertArith
 
+/-- The right side of `upper_T0_3_0` after its rewrites. -/
+def upper_T0_3_0Rhs : CertModel SoBackendV2 :=
+  CertModel.toDeg base.weight base.piEnc 0 (modelSum base.weight base.piEnc [(⟨(modelMatrixEntry
+    upperTL 3 0).deg + (modelMatrixEntry upperTGi 0 0).deg, truncPoly base.cfgLow.cutoff (((⟨[] ++
+    [] ++ [] ++ upperM31T⟩ : CertPoly SoBackendV2), (ofRatUp (0 + 0 + 0 +
+    advLow.p28.ir.remainderBound base.weight (2 * 96)) : SoBackendV2)).1.toErrTerms, ((⟨[] ++ [] ++
+    [] ++ upperM31T⟩ : CertPoly SoBackendV2), (ofRatUp (0 + 0 + 0 + advLow.p28.ir.remainderBound
+    base.weight (2 * 96)) : SoBackendV2)).2).1, upAdd (upAdd (((⟨[] ++ [] ++ [] ++ upperM31T⟩ :
+    CertPoly SoBackendV2), (ofRatUp (0 + 0 + 0 + advLow.p28.ir.remainderBound base.weight (2 * 96))
+    : SoBackendV2)).1.toErrTerms, ((⟨[] ++ [] ++ [] ++ upperM31T⟩ : CertPoly SoBackendV2), (ofRatUp
+    (0 + 0 + 0 + advLow.p28.ir.remainderBound base.weight (2 * 96)) : SoBackendV2)).2).2 (errRadius
+    base.weight ((((⟨[] ++ [] ++ [] ++ upperM31T⟩ : CertPoly SoBackendV2), (ofRatUp (0 + 0 + 0 +
+    advLow.p28.ir.remainderBound base.weight (2 * 96)) : SoBackendV2)).1.toErrTerms, ((⟨[] ++ [] ++
+    [] ++ upperM31T⟩ : CertPoly SoBackendV2), (ofRatUp (0 + 0 + 0 + advLow.p28.ir.remainderBound
+    base.weight (2 * 96)) : SoBackendV2)).2).1.map (truncErr base.cfgLow.cutoff)))) (upAdd (upAdd
+    (crossUp ((modelMatrixEntry upperTL 3 0).poly.supNormUp base.weight) (modelMatrixEntry upperTGi
+    0 0).rad) (crossUp ((modelMatrixEntry upperTGi 0 0).poly.supNormUp base.weight)
+    (modelMatrixEntry upperTL 3 0).rad)) (upMul (modelMatrixEntry upperTL 3 0).rad
+    (modelMatrixEntry upperTGi 0 0).rad))⟩ : CertModel SoBackendV2), (⟨(modelMatrixEntry upperTL 3
+    1).deg + (modelMatrixEntry upperTGi 1 0).deg, truncPoly base.cfgLow.cutoff (((⟨[] ++ [] ++ []
+    ++ upperM32T⟩ : CertPoly SoBackendV2), (ofRatUp (0 + 0 + 0 + advLow.p29.ir.remainderBound
+    base.weight (2 * 96)) : SoBackendV2)).1.toErrTerms, ((⟨[] ++ [] ++ [] ++ upperM32T⟩ : CertPoly
+    SoBackendV2), (ofRatUp (0 + 0 + 0 + advLow.p29.ir.remainderBound base.weight (2 * 96)) :
+    SoBackendV2)).2).1, upAdd (upAdd (((⟨[] ++ [] ++ [] ++ upperM32T⟩ : CertPoly SoBackendV2),
+    (ofRatUp (0 + 0 + 0 + advLow.p29.ir.remainderBound base.weight (2 * 96)) :
+    SoBackendV2)).1.toErrTerms, ((⟨[] ++ [] ++ [] ++ upperM32T⟩ : CertPoly SoBackendV2), (ofRatUp
+    (0 + 0 + 0 + advLow.p29.ir.remainderBound base.weight (2 * 96)) : SoBackendV2)).2).2 (errRadius
+    base.weight ((((⟨[] ++ [] ++ [] ++ upperM32T⟩ : CertPoly SoBackendV2), (ofRatUp (0 + 0 + 0 +
+    advLow.p29.ir.remainderBound base.weight (2 * 96)) : SoBackendV2)).1.toErrTerms, ((⟨[] ++ [] ++
+    [] ++ upperM32T⟩ : CertPoly SoBackendV2), (ofRatUp (0 + 0 + 0 + advLow.p29.ir.remainderBound
+    base.weight (2 * 96)) : SoBackendV2)).2).1.map (truncErr base.cfgLow.cutoff)))) (upAdd (upAdd
+    (crossUp ((modelMatrixEntry upperTL 3 1).poly.supNormUp base.weight) (modelMatrixEntry upperTGi
+    1 0).rad) (crossUp ((modelMatrixEntry upperTGi 1 0).poly.supNormUp base.weight)
+    (modelMatrixEntry upperTL 3 1).rad)) (upMul (modelMatrixEntry upperTL 3 1).rad
+    (modelMatrixEntry upperTGi 1 0).rad))⟩ : CertModel SoBackendV2)])
+
+theorem upper_T0_3_0_beq : CertModel.segBeq upper_T0_3_0Rhs upperN0_3_0 = true := by
+  decide +kernel
+
 theorem upper_T0_3_0 :
     matMulEntry base.weight base.cfgLow base.piEnc [4, 0] 2 upperTL upperTGi 3 0 = upperN0_3_0 := by
   rw [matMulEntry_two_cseg base.weight base.cfgLow base.piEnc [4, 0] upperTL upperTGi 3 0,
@@ -33,6 +72,6 @@ theorem upper_T0_3_0 :
       upperTL 3 0) (modelMatrixEntry upperTGi 0 0) upperM31,
     mul_eq_of_polyProduct_cseg base.weight base.cfgLow ([4, 0] ++ [3, 0, 1]) (modelMatrixEntry
       upperTL 3 1) (modelMatrixEntry upperTGi 1 0) upperM32]
-  exact CertModel.eq_of_segBeq (by decide +kernel)
+  exact CertModel.eq_of_segBeq upper_T0_3_0_beq
 
 end KAM.SpinOrbit.Data.Upper

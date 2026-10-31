@@ -24,11 +24,25 @@ namespace KAM.SpinOrbit.Data.Upper
 open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2 KAM.SpinOrbit
 open KAM.SpinOrbit.Data CertArith
 
+/-- The right side of `upper_T7_0_1` after its rewrites. -/
+def upper_T7_0_1Rhs : CertModel SoBackendV2 :=
+  CertModel.toDeg base.weight base.piEnc 0 (modelSum base.weight base.piEnc [(CertModel.mul
+    base.weight base.cfgLow ([4, 7] ++ [0, 1, 0]) (modelMatrixEntry (dxhModels 2 upperMS) 0 0)
+    (modelMatrixEntry (modelMatOmega 2 2 upperN0) 0 1)), (CertModel.mul base.weight base.cfgLow
+    ([4, 7] ++ [0, 1, 1]) (modelMatrixEntry (dxhModels 2 upperMS) 0 1) (modelMatrixEntry
+    (modelMatOmega 2 2 upperN0) 1 1)), (CertModel.mul base.weight base.cfgLow ([4, 7] ++ [0, 1, 2])
+    (modelMatrixEntry (dxhModels 2 upperMS) 0 2) (modelMatrixEntry (modelMatOmega 2 2 upperN0) 2
+    1)), (CertModel.mul base.weight base.cfgLow ([4, 7] ++ [0, 1, 3]) (modelMatrixEntry (dxhModels
+    2 upperMS) 0 3) (modelMatrixEntry (modelMatOmega 2 2 upperN0) 3 1))])
+
+theorem upper_T7_0_1_beq : CertModel.segBeq upper_T7_0_1Rhs upperXN1_0_1 = true := by
+  decide +kernel
+
 theorem upper_T7_0_1 :
     matMulEntry base.weight base.cfgLow base.piEnc [4, 7] 4 (dxhModels 2 upperMS) (modelMatOmega 2
       2 upperN0) 0 1 = upperXN1_0_1 := by
   rw [matMulEntry_four_cseg base.weight base.cfgLow base.piEnc [4, 7] (dxhModels 2 upperMS)
       (modelMatOmega 2 2 upperN0) 0 1]
-  exact CertModel.eq_of_segBeq (by decide +kernel)
+  exact CertModel.eq_of_segBeq upper_T7_0_1_beq
 
 end KAM.SpinOrbit.Data.Upper

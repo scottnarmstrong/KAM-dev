@@ -24,9 +24,19 @@ namespace KAM.SpinOrbit.Data.Upper
 open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2 KAM.SpinOrbit
 open KAM.SpinOrbit.Data CertArith
 
+/-- The right side of `upper_T0_1_0` after its rewrites. -/
+def upper_T0_1_0Rhs : CertModel SoBackendV2 :=
+  CertModel.toDeg base.weight base.piEnc 0 (modelSum base.weight base.piEnc [(CertModel.mul
+    base.weight base.cfgLow ([4, 0] ++ [1, 0, 0]) (modelMatrixEntry upperTL 1 0) (modelMatrixEntry
+    upperTGi 0 0)), (CertModel.mul base.weight base.cfgLow ([4, 0] ++ [1, 0, 1]) (modelMatrixEntry
+    upperTL 1 1) (modelMatrixEntry upperTGi 1 0))])
+
+theorem upper_T0_1_0_beq : CertModel.segBeq upper_T0_1_0Rhs upperN0_1_0 = true := by
+  decide +kernel
+
 theorem upper_T0_1_0 :
     matMulEntry base.weight base.cfgLow base.piEnc [4, 0] 2 upperTL upperTGi 1 0 = upperN0_1_0 := by
   rw [matMulEntry_two_cseg base.weight base.cfgLow base.piEnc [4, 0] upperTL upperTGi 1 0]
-  exact CertModel.eq_of_segBeq (by decide +kernel)
+  exact CertModel.eq_of_segBeq upper_T0_1_0_beq
 
 end KAM.SpinOrbit.Data.Upper

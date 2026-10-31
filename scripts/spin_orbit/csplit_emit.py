@@ -410,6 +410,7 @@ class Emitter:
     def emit_products(self, operand_of):
         """`operand_of(memo)` gives (cfg term, key term, a term, b term, extra imports)."""
         self.prod_done = {}
+        self.memo_out = {}
         items = []
         for k, m in enumerate(self.led["memos"]):
             if k not in operand_of:
@@ -493,6 +494,7 @@ class Emitter:
                      "    (fun s hs => ⟨%s.shardRange, List.mem_singleton_self _, hs⟩)" % adv,
                      "    (fun g hg => by rw [List.mem_singleton.1 hg]; exact %s_shards)" % nm, ""]
         out = "((⟨%s⟩ : CertPoly %s), (ofRatUp (%s) : %s))" % (tl, TY, rl, TY)
+        self.memo_out[k] = "(%s.1.toErrTerms, %s.2)" % (out, out)
         stmt = "CertModel.polyProduct %s %s %s %s %s = some (%s.1.toErrTerms, %s.2)" % (self.W, cfg, key, a, b, out, out)
         body += ["/-- The packed product %d (%s, key %s). -/" % (k, cfgname, list(m["fullKey"]))]
         body += ["theorem %s :" % nm] + wrap(stmt.split(" "), "    ")
@@ -730,8 +732,16 @@ class Emitter:
                 f = lambda x: ("(dkAngleModel 2 base.emb %s %s %d %d)" % (W, pe, r, x) if r < 2 else
                                "(dkActionModel 2 base.emb %s %s %d %d)" % (W, pe, r - 2, x))
                 rws.append(self.mul_rw(k, cfg, "[3, 0, %d, %d, %d]" % (a, b, r), f(a), f(b)))
-            body = self.rw_eq("%s_GE%d%d" % (t, a, b), "gramEntryModel 2 base.emb %s %s %s %d %d = %sGE%d%d"
-                              % (W, cfg, pe, a, b, t, a, b), rws)
+            memo = {m["fullKey"][4]: k for k, m in self.memos_for(lambda m: m["ctx"] == "gram/entries" and
+                                                                   m["fullKey"][2:4] == (a, b))}
+            prods = []
+            for r in range(4):
+                f = lambda x, r=r: ("(dkAngleModel 2 base.emb %s %s %d %d)" % (W, pe, r, x) if r < 2 else
+                                    "(dkActionModel 2 base.emb %s %s %d %d)" % (W, pe, r - 2, x))
+                prods.append(self.prod_text(memo.get(r), cfg, "[3, 0, %d, %d, %d]" % (a, b, r), f(a), f(b)))
+            rhs = "modelSum %s %s [%s]" % (W, pe, ", ".join(prods))
+            body = self.entry_eq("%s_GE%d%d" % (t, a, b), "gramEntryModel 2 base.emb %s %s %s %d %d = %sGE%d%d"
+                                 % (W, cfg, pe, a, b, t, a, b), rws, rhs)
             mods.append(self.tree.write("Gram/E%d%d" % (a, b), self.base + [self.stage_mod] + self.memo_imports(rws),
                                         "Gram entry (%d, %d)" % (a, b), "One Gram entry (M2).", body, heavy=True))
         for i in range(2):
@@ -740,10 +750,15 @@ class Emitter:
                 for k, m in self.memos_for(lambda m: m["ctx"] == "gram/bg%d%d" % (i, j)):
                     kk = m["fullKey"][4]
                     rws.append(self.mul_rw(k, cfg, "[3, 1, %d, %d, %d]" % (i, j, kk),
-                                           "⟨0, gramInvPoly base.gramInv %d %d, ofInt 0⟩" % (i, kk),
+                                           "(⟨0, gramInvPoly base.gramInv %d %d, ofInt 0⟩ : CertModel %s)" % (i, kk, TY),
                                            "(modelMatrixEntry %sGm %d %d)" % (t, kk, j)))
-                body = self.rw_eq("%s_BG%d%d" % (t, i, j), "gramBGModel 2 base.gramInv %sGm %s %s %s %d %d = %sBG%d%d"
-                                  % (t, W, cfg, pe, i, j, t, i, j), rws)
+                memo = {m["fullKey"][4]: k for k, m in self.memos_for(lambda m: m["ctx"] == "gram/bg%d%d" % (i, j))}
+                prods = [self.prod_text(memo.get(kk), cfg, "[3, 1, %d, %d, %d]" % (i, j, kk),
+                                        "(⟨0, gramInvPoly base.gramInv %d %d, ofInt 0⟩ : CertModel %s)" % (i, kk, TY),
+                                        "(modelMatrixEntry %sGm %d %d)" % (t, kk, j)) for kk in range(2)]
+                rhs = "CertModel.toDeg %s %s 0 (modelSum %s %s [%s])" % (W, pe, W, pe, ", ".join(prods))
+                body = self.entry_eq("%s_BG%d%d" % (t, i, j), "gramBGModel 2 base.gramInv %sGm %s %s %s %d %d = %sBG%d%d"
+                                     % (t, W, cfg, pe, i, j, t, i, j), rws, rhs)
                 mods.append(self.tree.write("Gram/BG%d%d" % (i, j), self.base + [self.stage_mod] + self.memo_imports(rws),
                                             "Gram BG entry (%d, %d)" % (i, j), "One BG entry (M2).", body, heavy=True))
         d0, d1 = self.led["gram"]["rows"]
@@ -779,6 +794,34 @@ class Emitter:
                 if r.endswith(" " + self.memo_name(k)):
                     out.append(self.prod_done[k])
         return out
+
+    def prod_text(self, k, cfg, key, A, B):
+        """a product of an entry, as it stands after the rewrites: the memoized `mul` (the right side of
+        `mul_eq_of_polyProduct_cseg`, with the memo's output pair) or the landed `mul`."""
+        W = self.W
+        if k is None:
+            return "(CertModel.mul %s %s %s %s %s)" % (W, cfg, key, A, B)
+        o = self.memo_out[k]
+        return ("(⟨%s.deg + %s.deg, truncPoly %s.cutoff %s.1, upAdd (upAdd %s.2 (errRadius %s (%s.1.map "
+                "(truncErr %s.cutoff)))) (upAdd (upAdd (crossUp (%s.poly.supNormUp %s) %s.rad) (crossUp "
+                "(%s.poly.supNormUp %s) %s.rad)) (upMul %s.rad %s.rad))⟩ : CertModel %s)"
+                % (A, B, cfg, o, o, W, o, cfg, A, W, B, B, W, A, A, B, TY))
+
+    def entry_eq(self, name, stmt, rws, rhs):
+        """the entry theorem: `name_beq` decides `segBeq` on the NAMED right side `nameRhs` (a statement of
+        constants: a large inline term in a `decide` fails), `name` rewrites and closes by `exact`."""
+        body = ["/-- The right side of `%s` after its rewrites. -/" % name,
+                "def %sRhs : CertModel %s :=" % (name, TY)] + wrap(rhs.split(" "), "  ")
+        lit = stmt.split(" = ")[-1]
+        body += ["", "theorem %s_beq : CertModel.segBeq %sRhs %s = true := by" % (name, name, lit),
+                 "  decide +kernel", ""]
+        body += ["theorem %s :" % name] + wrap(stmt.split(" "), "    ")
+        body[-1] += " := by"
+        body += ["  rw [" + rws[0] + ("," if len(rws) > 1 else "]")]
+        for i, r in enumerate(rws[1:]):
+            body += wrap((r + ("," if i + 2 < len(rws) else "]")).split(" "), "    ")
+        body += ["  exact CertModel.eq_of_segBeq %s_beq" % name]
+        return body
 
     def rw_eq(self, name, stmt, rws):
         body = ["theorem %s :" % name] + wrap(stmt.split(" "), "    ")
@@ -816,8 +859,14 @@ class Emitter:
                         rws.append(self.mul_rw(k, cfg, "([4, %d] ++ [%d, %d, %d])" % (s, i, j, kk),
                                                "(modelMatrixEntry %s %d %d)" % (A, i, kk),
                                                "(modelMatrixEntry %s %d %d)" % (B_, kk, j)))
-                    body = self.rw_eq("%s_T%d_%d_%d" % (t, s, i, j), "matMulEntry %s %s %s [4, %d] %d %s %s %d %d = %s%s_%d_%d"
-                                      % (W, cfg, pe, s, mm, A, B_, i, j, t, out, i, j), rws)
+                    memo = {m["fullKey"][4]: k for k, m in self.memos_for(
+                        lambda m: m["ctx"] == "torsion/%d" % s and tuple(m["fullKey"][2:4]) == (i, j))}
+                    prods = [self.prod_text(memo.get(kk), cfg, "([4, %d] ++ [%d, %d, %d])" % (s, i, j, kk),
+                                            "(modelMatrixEntry %s %d %d)" % (A, i, kk),
+                                            "(modelMatrixEntry %s %d %d)" % (B_, kk, j)) for kk in range(mm)]
+                    rhs = "CertModel.toDeg %s %s 0 (modelSum %s %s [%s])" % (W, pe, W, pe, ", ".join(prods))
+                    body = self.entry_eq("%s_T%d_%d_%d" % (t, s, i, j), "matMulEntry %s %s %s [4, %d] %d %s %s %d %d = %s%s_%d_%d"
+                                         % (W, cfg, pe, s, mm, A, B_, i, j, t, out, i, j), rws, rhs)
                     ent_mods.append(self.tree.write("Tors/E%d_%d_%d" % (s, i, j),
                                                     self.base + [self.stage_mod] + self.memo_imports(rws),
                                                     "Torsion stage [4,%d] entry (%d, %d)" % (s, i, j),

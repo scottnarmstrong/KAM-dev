@@ -26,6 +26,45 @@ namespace KAM.SpinOrbit.Data.Upper
 open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2 KAM.SpinOrbit
 open KAM.SpinOrbit.Data CertArith
 
+/-- The right side of `upper_T4_0_1` after its rewrites. -/
+def upper_T4_0_1Rhs : CertModel SoBackendV2 :=
+  CertModel.toDeg base.weight base.piEnc 0 (modelSum base.weight base.piEnc [(⟨(modelMatrixEntry
+    upperDGi0 0 0).deg + (modelMatrixEntry upperTGi 0 1).deg, truncPoly base.cfgLow.cutoff (((⟨[]
+    ++ [] ++ [] ++ upperM69T⟩ : CertPoly SoBackendV2), (ofRatUp (0 + 0 + 0 +
+    advLow.p66.ir.remainderBound base.weight (2 * 96)) : SoBackendV2)).1.toErrTerms, ((⟨[] ++ [] ++
+    [] ++ upperM69T⟩ : CertPoly SoBackendV2), (ofRatUp (0 + 0 + 0 + advLow.p66.ir.remainderBound
+    base.weight (2 * 96)) : SoBackendV2)).2).1, upAdd (upAdd (((⟨[] ++ [] ++ [] ++ upperM69T⟩ :
+    CertPoly SoBackendV2), (ofRatUp (0 + 0 + 0 + advLow.p66.ir.remainderBound base.weight (2 * 96))
+    : SoBackendV2)).1.toErrTerms, ((⟨[] ++ [] ++ [] ++ upperM69T⟩ : CertPoly SoBackendV2), (ofRatUp
+    (0 + 0 + 0 + advLow.p66.ir.remainderBound base.weight (2 * 96)) : SoBackendV2)).2).2 (errRadius
+    base.weight ((((⟨[] ++ [] ++ [] ++ upperM69T⟩ : CertPoly SoBackendV2), (ofRatUp (0 + 0 + 0 +
+    advLow.p66.ir.remainderBound base.weight (2 * 96)) : SoBackendV2)).1.toErrTerms, ((⟨[] ++ [] ++
+    [] ++ upperM69T⟩ : CertPoly SoBackendV2), (ofRatUp (0 + 0 + 0 + advLow.p66.ir.remainderBound
+    base.weight (2 * 96)) : SoBackendV2)).2).1.map (truncErr base.cfgLow.cutoff)))) (upAdd (upAdd
+    (crossUp ((modelMatrixEntry upperDGi0 0 0).poly.supNormUp base.weight) (modelMatrixEntry
+    upperTGi 0 1).rad) (crossUp ((modelMatrixEntry upperTGi 0 1).poly.supNormUp base.weight)
+    (modelMatrixEntry upperDGi0 0 0).rad)) (upMul (modelMatrixEntry upperDGi0 0 0).rad
+    (modelMatrixEntry upperTGi 0 1).rad))⟩ : CertModel SoBackendV2), (⟨(modelMatrixEntry upperDGi0
+    0 1).deg + (modelMatrixEntry upperTGi 1 1).deg, truncPoly base.cfgLow.cutoff (((⟨[] ++ [] ++ []
+    ++ upperM70T⟩ : CertPoly SoBackendV2), (ofRatUp (0 + 0 + 0 + advLow.p67.ir.remainderBound
+    base.weight (2 * 96)) : SoBackendV2)).1.toErrTerms, ((⟨[] ++ [] ++ [] ++ upperM70T⟩ : CertPoly
+    SoBackendV2), (ofRatUp (0 + 0 + 0 + advLow.p67.ir.remainderBound base.weight (2 * 96)) :
+    SoBackendV2)).2).1, upAdd (upAdd (((⟨[] ++ [] ++ [] ++ upperM70T⟩ : CertPoly SoBackendV2),
+    (ofRatUp (0 + 0 + 0 + advLow.p67.ir.remainderBound base.weight (2 * 96)) :
+    SoBackendV2)).1.toErrTerms, ((⟨[] ++ [] ++ [] ++ upperM70T⟩ : CertPoly SoBackendV2), (ofRatUp
+    (0 + 0 + 0 + advLow.p67.ir.remainderBound base.weight (2 * 96)) : SoBackendV2)).2).2 (errRadius
+    base.weight ((((⟨[] ++ [] ++ [] ++ upperM70T⟩ : CertPoly SoBackendV2), (ofRatUp (0 + 0 + 0 +
+    advLow.p67.ir.remainderBound base.weight (2 * 96)) : SoBackendV2)).1.toErrTerms, ((⟨[] ++ [] ++
+    [] ++ upperM70T⟩ : CertPoly SoBackendV2), (ofRatUp (0 + 0 + 0 + advLow.p67.ir.remainderBound
+    base.weight (2 * 96)) : SoBackendV2)).2).1.map (truncErr base.cfgLow.cutoff)))) (upAdd (upAdd
+    (crossUp ((modelMatrixEntry upperDGi0 0 1).poly.supNormUp base.weight) (modelMatrixEntry
+    upperTGi 1 1).rad) (crossUp ((modelMatrixEntry upperTGi 1 1).poly.supNormUp base.weight)
+    (modelMatrixEntry upperDGi0 0 1).rad)) (upMul (modelMatrixEntry upperDGi0 0 1).rad
+    (modelMatrixEntry upperTGi 1 1).rad))⟩ : CertModel SoBackendV2)])
+
+theorem upper_T4_0_1_beq : CertModel.segBeq upper_T4_0_1Rhs upperDGi1_0_1 = true := by
+  decide +kernel
+
 theorem upper_T4_0_1 :
     matMulEntry base.weight base.cfgLow base.piEnc [4, 4] 2 upperDGi0 upperTGi 0 1 = upperDGi1_0_1
         := by
@@ -34,6 +73,6 @@ theorem upper_T4_0_1 :
       upperDGi0 0 0) (modelMatrixEntry upperTGi 0 1) upperM69,
     mul_eq_of_polyProduct_cseg base.weight base.cfgLow ([4, 4] ++ [0, 1, 1]) (modelMatrixEntry
       upperDGi0 0 1) (modelMatrixEntry upperTGi 1 1) upperM70]
-  exact CertModel.eq_of_segBeq (by decide +kernel)
+  exact CertModel.eq_of_segBeq upper_T4_0_1_beq
 
 end KAM.SpinOrbit.Data.Upper

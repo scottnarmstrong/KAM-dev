@@ -26,13 +26,55 @@ namespace KAM.SpinOrbit.Data.Lower
 open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2 KAM.SpinOrbit
 open KAM.SpinOrbit.Data CertArith
 
+/-- The right side of `lower_BG00` after its rewrites. -/
+def lower_BG00Rhs : CertModel SoBackendV2 :=
+  CertModel.toDeg base.weight base.piEnc 0 (modelSum base.weight base.piEnc [(⟨(⟨0, gramInvPoly
+    base.gramInv 0 0, ofInt 0⟩ : CertModel SoBackendV2).deg + (modelMatrixEntry lowerGm 0 0).deg,
+    truncPoly base.cfgLow.cutoff (((⟨lowerM15T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp
+    (advLow.p9.rr.remainderBound base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2)).1.toErrTerms,
+    ((⟨lowerM15T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (advLow.p9.rr.remainderBound
+    base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2)).2).1, upAdd (upAdd (((⟨lowerM15T ++ [] ++ []
+    ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (advLow.p9.rr.remainderBound base.weight (2 * 96) + 0
+    + 0 + 0) : SoBackendV2)).1.toErrTerms, ((⟨lowerM15T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2),
+    (ofRatUp (advLow.p9.rr.remainderBound base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2)).2).2
+    (errRadius base.weight ((((⟨lowerM15T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp
+    (advLow.p9.rr.remainderBound base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2)).1.toErrTerms,
+    ((⟨lowerM15T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (advLow.p9.rr.remainderBound
+    base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2)).2).1.map (truncErr base.cfgLow.cutoff))))
+    (upAdd (upAdd (crossUp ((⟨0, gramInvPoly base.gramInv 0 0, ofInt 0⟩ : CertModel
+    SoBackendV2).poly.supNormUp base.weight) (modelMatrixEntry lowerGm 0 0).rad) (crossUp
+    ((modelMatrixEntry lowerGm 0 0).poly.supNormUp base.weight) (⟨0, gramInvPoly base.gramInv 0 0,
+    ofInt 0⟩ : CertModel SoBackendV2).rad)) (upMul (⟨0, gramInvPoly base.gramInv 0 0, ofInt 0⟩ :
+    CertModel SoBackendV2).rad (modelMatrixEntry lowerGm 0 0).rad))⟩ : CertModel SoBackendV2),
+    (⟨(⟨0, gramInvPoly base.gramInv 0 1, ofInt 0⟩ : CertModel SoBackendV2).deg + (modelMatrixEntry
+    lowerGm 1 0).deg, truncPoly base.cfgLow.cutoff (((⟨lowerM16T ++ [] ++ [] ++ []⟩ : CertPoly
+    SoBackendV2), (ofRatUp (advLow.p10.rr.remainderBound base.weight (2 * 96) + 0 + 0 + 0) :
+    SoBackendV2)).1.toErrTerms, ((⟨lowerM16T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp
+    (advLow.p10.rr.remainderBound base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2)).2).1, upAdd
+    (upAdd (((⟨lowerM16T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp
+    (advLow.p10.rr.remainderBound base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2)).1.toErrTerms,
+    ((⟨lowerM16T ++ [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (advLow.p10.rr.remainderBound
+    base.weight (2 * 96) + 0 + 0 + 0) : SoBackendV2)).2).2 (errRadius base.weight ((((⟨lowerM16T ++
+    [] ++ [] ++ []⟩ : CertPoly SoBackendV2), (ofRatUp (advLow.p10.rr.remainderBound base.weight (2
+    * 96) + 0 + 0 + 0) : SoBackendV2)).1.toErrTerms, ((⟨lowerM16T ++ [] ++ [] ++ []⟩ : CertPoly
+    SoBackendV2), (ofRatUp (advLow.p10.rr.remainderBound base.weight (2 * 96) + 0 + 0 + 0) :
+    SoBackendV2)).2).1.map (truncErr base.cfgLow.cutoff)))) (upAdd (upAdd (crossUp ((⟨0,
+    gramInvPoly base.gramInv 0 1, ofInt 0⟩ : CertModel SoBackendV2).poly.supNormUp base.weight)
+    (modelMatrixEntry lowerGm 1 0).rad) (crossUp ((modelMatrixEntry lowerGm 1 0).poly.supNormUp
+    base.weight) (⟨0, gramInvPoly base.gramInv 0 1, ofInt 0⟩ : CertModel SoBackendV2).rad)) (upMul
+    (⟨0, gramInvPoly base.gramInv 0 1, ofInt 0⟩ : CertModel SoBackendV2).rad (modelMatrixEntry
+    lowerGm 1 0).rad))⟩ : CertModel SoBackendV2)])
+
+theorem lower_BG00_beq : CertModel.segBeq lower_BG00Rhs lowerBG00 = true := by
+  decide +kernel
+
 theorem lower_BG00 :
     gramBGModel 2 base.gramInv lowerGm base.weight base.cfgLow base.piEnc 0 0 = lowerBG00 := by
   rw [gramBGModel_two_cseg base.gramInv lowerGm base.weight base.cfgLow base.piEnc 0 0,
-    mul_eq_of_polyProduct_cseg base.weight base.cfgLow [3, 1, 0, 0, 0] ⟨0, gramInvPoly base.gramInv
-      0 0, ofInt 0⟩ (modelMatrixEntry lowerGm 0 0) lowerM15,
-    mul_eq_of_polyProduct_cseg base.weight base.cfgLow [3, 1, 0, 0, 1] ⟨0, gramInvPoly base.gramInv
-      0 1, ofInt 0⟩ (modelMatrixEntry lowerGm 1 0) lowerM16]
-  exact CertModel.eq_of_segBeq (by decide +kernel)
+    mul_eq_of_polyProduct_cseg base.weight base.cfgLow [3, 1, 0, 0, 0] (⟨0, gramInvPoly
+      base.gramInv 0 0, ofInt 0⟩ : CertModel SoBackendV2) (modelMatrixEntry lowerGm 0 0) lowerM15,
+    mul_eq_of_polyProduct_cseg base.weight base.cfgLow [3, 1, 0, 0, 1] (⟨0, gramInvPoly
+      base.gramInv 0 1, ofInt 0⟩ : CertModel SoBackendV2) (modelMatrixEntry lowerGm 1 0) lowerM16]
+  exact CertModel.eq_of_segBeq lower_BG00_beq
 
 end KAM.SpinOrbit.Data.Lower
