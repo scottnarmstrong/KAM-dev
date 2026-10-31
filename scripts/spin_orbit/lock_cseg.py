@@ -174,7 +174,7 @@ def _orig_stmt(body, nm, ops):
         stmt = re.sub(r"(?<![\w.])%s(?![\w.])" % re.escape(n), "(%s)" % t, stmt)
     proof = lines[j + 1:]
     end = next((t for t, l in enumerate(proof) if l.strip() == ""), len(proof))
-    rw = "rw [%s]" % ", ".join("← %s_eq" % n for _, n in ops)
+    rw = "rw [%s]" % ", ".join("%s_eq" % n for _, n in ops)
     new = (["theorem %s :" % nm] + wrap((stmt + " := by").split(" "), "    ") + ["  " + rw]
            + ["  exact" + proof[0][1:]] + ["  " + l for l in proof[1:end]] + proof[end:])
     return lines[:i] + new
