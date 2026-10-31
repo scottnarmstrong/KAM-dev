@@ -421,3 +421,9 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - Future applications start as separate Lake packages (`applications/<name>/`, requiring the core); the
     existing ones keep their module names to avoid recompiling.
   - This amends the earlier rule that a plain `lake build` covers every theorem: it now covers every core theorem.
+- **D52 (2026-10-31, 14:47 UTC) The lock data land at about 158 MB.** *(Scott: "approve", to the orchestrator's
+  request to land the lock data at about 158 MB.)* The B3 cost levers, approved as engineering with no statement
+  change, are: compact literals with a lock-owned decoder, six elaboration lanes and no decoded memos. They bring
+  LOCK-DATA to about 158 MB, under 1 h of elaboration and about 21–22 CPU-h of kernel, with the margin unchanged
+  (1.74 decades at 73.8°). This supersedes D48's figure of 131 MB. As under D48, there is no shrinking, and the
+  files must stay below GitHub's 100 MB per-file limit.

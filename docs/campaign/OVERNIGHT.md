@@ -2224,3 +2224,5 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     LOCK-FREEZE identity, BUILD-OPTIN, LOCK-DATA, LOCK-FREEZE seal. **FOR OWNER:** if codex-1 runs out, name another
     audit account; no Claude fallback.
   - **Still FOR OWNER:** land the lock data at about 158 MB (D48 covered 131 MB as is).
+- **14:47. Owner: D52, land the lock data at about 158 MB** ("approve"). This closes the FOR OWNER item of 09:24 and
+  14:22, and the lock sub-orchestrator is told. Open: a spare audit account if codex-1 runs out.

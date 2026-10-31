@@ -591,6 +591,8 @@ Full text: [`docs/DECISIONS.md`](docs/DECISIONS.md).
   `lunar_spin_confinement_65_v2`, after a seal audit. *(Scott, 2026-10-31)*
 - **D51** Certificate applications (the Moon's band and lock data, LG00, later ones) are opt-in builds with their
   own roots; a plain `lake build` covers every core theorem. *(Scott, 2026-10-31)*
+- **D52** The lock's certificate data land at about 158 MB (after the B3 cost levers), superseding D48's 131 MB.
+  *(Scott, 2026-10-31)*
 
 ## Owner questions
 
