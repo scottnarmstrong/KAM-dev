@@ -80,6 +80,7 @@ _GRP = re.compile(r"^( *)checkPackedSp_of_groups (\S+) (.*?)\s+\[(\S+)\.shardRan
                   r"⟨\S+\.shardRange, List\.mem_singleton_self _, hs⟩\)\s+\(fun g hg => by rw "
                   r"\[List\.mem_singleton\.1 hg\]; exact (\S+)\)", re.M | re.S)
 DECSPLIT = "KAM.SpinOrbit.Data.LockN65.DecSplit"
+PRODSTMT = {}            # product module -> (theorem, [(operand term, name)])
 ADVOBJ = {}              # advice name -> the part object (sofx_packed mirror)
 _DEC = re.compile(r"^theorem (\S+)_dec : dyadicTerms \(2 \* (\d+)\) (\S+)\.scale (\(fun v => ⟨[^⟩]*⟩\)) "
                   r"(\(\(\S+\.targetTerms, .*\)\.1\)) = some (\S+) := eq_some_of_termsBeq_cseg "
@@ -121,6 +122,8 @@ def _write_sharded(self, rel, imports, title, doc, body, heavy=False, ns=None):
             mods.append(_tree_write(self, "%sG%d" % (rel, gi), imports, "%s, shards %s" % (title, g), doc, gb,
                                     heavy=heavy, ns=ns))
         return _tree_write(self, rel, mods, title, doc + " (facade over the shard-group modules)", [], ns=ns)
+    if self.mod(rel) in PRODSTMT:
+        body = _orig_stmt(body, *PRODSTMT[self.mod(rel)])
     if rel.endswith("Dec"):
         md = _DEC.match(" ".join(" ".join(body).split()))
         if md:
@@ -158,6 +161,23 @@ def _write_sharded(self, rel, imports, title, doc, body, heavy=False, ns=None):
     else:
         out = body
     return _tree_write(self, rel, imports, title, doc, out, heavy=heavy, ns=ns)
+
+
+def _orig_stmt(body, nm, ops):
+    """the product theorem `nm` stated with the original operand terms (what its consumers state), proved by
+    rewriting them to the named operands (`…_eq`, syntactic) and the proof against the names."""
+    lines = "\n".join(body).split("\n")
+    i = lines.index("theorem %s :" % nm)
+    j = next(t for t in range(i, len(lines)) if lines[t].rstrip().endswith(":="))
+    stmt = " ".join(" ".join(lines[i + 1:j + 1]).split())[:-2].strip()
+    for t, n in ops:
+        stmt = re.sub(r"(?<![\w.])%s(?![\w.])" % re.escape(n), "(%s)" % t, stmt)
+    proof = lines[j + 1:]
+    end = next((t for t, l in enumerate(proof) if l.strip() == ""), len(proof))
+    rw = "rw [%s]" % ", ".join("← %s_eq" % n for _, n in ops)
+    new = (["theorem %s :" % nm] + wrap((stmt + " := by").split(" "), "    ") + ["  " + rw]
+           + ["  exact" + proof[0][1:]] + ["  " + l for l in proof[1:end]] + proof[end:])
+    return lines[:i] + new
 
 
 def _write_dec(self, rel, imports, title, doc, md, heavy, ns):
@@ -494,13 +514,17 @@ class LockEmitter(CE.Emitter):
         the product mentions two constants, so the elaborator never re-unfolds the operand lookups (a 7-fold inline
         operand made it hit the recursion and heartbeat limits, measured on M0)."""
         nm = self.memo_name(k)
+        ops = [("a", a)] + ([] if b == a else [("b", b)])
         body = []
-        for s_, t in (("a", a), ("b", b)):
+        for s_, t in ops:
             body += ["/-- Operand %s of the packed product %d. -/" % (s_, k), "def %s%s : CertPoly %s :=" % (nm, s_, CE.TY)]
             body += wrap(t.split(" "), "  ") + [""]
+            body += ["theorem %s%s_eq :" % (nm, s_)] + wrap(("%s = %s%s := rfl" % (t, nm, s_)).split(" "), "    ") + [""]
         arg = self.tree.write("Prod/M%dArg" % k, self.base + list(imps), "Operands of the packed product %d" % k,
                               "The two operand polynomials, named once.", body)
-        return CE.Emitter.emit_product(self, k, m, cfg, key, nm + "a", nm + "b", list(imps) + [arg])
+        PRODSTMT[self.tree.mod("Prod/M%d" % k)] = (nm, [(t, nm + s_) for s_, t in ops])
+        return CE.Emitter.emit_product(self, k, m, cfg, key, nm + "a", nm + ("a" if b == a else "b"),
+                                       list(imps) + [arg])
 
     def emit_products(self, operand_of):
         self.prod_done = {}
