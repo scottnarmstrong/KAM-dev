@@ -162,6 +162,10 @@ def _write_sharded(self, rel, imports, title, doc, body, heavy=False, ns=None):
         return _tree_write(self, rel, mods, title, doc + " (facade over the shard-group modules)", [], ns=ns)
     if self.mod(rel) in PRODSTMT:
         body = _orig_stmt(body, *PRODSTMT[self.mod(rel)])
+        # the side checks `…A<n>` (each a `decide` over the operands, ~4 GB each on M1) one module each, so the
+        # product module itself only assembles (the whole M1 module was OOM-killed at 6 GB, measured)
+        body, amods = _split_aux(self, rel, body, imports, ns)
+        imports = list(imports) + amods
     if rel.endswith("Dec"):
         md = _DEC.match(" ".join(" ".join(body).split()))
         if md:
@@ -283,6 +287,29 @@ def _ops_module(self, rel, nm, adv, rest, imports, ns):
                        "Computed once (`decide`); the shard checks use the literals.", body, heavy=True, ns=ns)
     OPSNAMES[adv] = (ea_t, eb_t, nea, neb, omod)
     return OPSNAMES[adv]
+
+
+def _split_aux(self, rel, body, imports, ns):
+    lines = "\n".join(body).split("\n")
+    blocks, cur = [], []
+    for l in lines:
+        if l.startswith("theorem ") and cur:
+            blocks.append(cur)
+            cur = []
+        cur.append(l)
+    blocks.append(cur)
+    keep, mods = [], []
+    for b in blocks:
+        m = re.match(r"^theorem (\S+A\d+) :", b[0])
+        if m and b[0].startswith("theorem "):
+            while b and b[-1].strip() == "":
+                b = b[:-1]
+            mods.append(_tree_write(self, "%sAux%s" % (rel, m.group(1).rsplit("A", 1)[1]), imports,
+                                    "Side check %s" % m.group(1), "One kernel run.", b, heavy=True, ns=ns))
+            keep.append("")
+        else:
+            keep.extend(b)
+    return keep, mods
 
 
 def _orig_stmt(body, nm, ops, rems=()):
