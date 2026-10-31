@@ -75,7 +75,7 @@ SQD = "((0, ⟨⟨[]⟩, 0, 0⟩) : ℕ × SqrtWitness %s)" % TY
 CHD = "(([], ⟨⟨[]⟩, 0, 0⟩) : CertKey × ExpWitness %s)" % TY
 
 
-SH_GROUP = 2             # shards per kernel theorem: one M0 shard 4.4 GB, three 5.9 GB (measured); all 13 > 8 GB
+SH_GROUP = 1             # shards per kernel theorem: one M0 shard 4.4 GB, three 5.9 GB; two M1 shards > 6 GB (measured)
 NSHARDS = {}             # advice name (`advFull.p0.rr`) -> number of shards, filled by LockEmitter
 _GRP = re.compile(r"^( *)checkPackedSp_of_groups (\S+) (.*?)\s+\[(\S+)\.shardRange\]\s+(\(by decide \+kernel\)|\S+)\s+\(fun s hs => "
                   r"⟨\S+\.shardRange, List\.mem_singleton_self _, hs⟩\)\s+\(fun g hg => by rw "
