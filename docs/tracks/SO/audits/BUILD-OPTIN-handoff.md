@@ -33,10 +33,12 @@ main `45a76023` before any change (see Deviations).
   root does not reach" pass would otherwise have replayed all 1,654 band modules.)
 - **scripts/prebuild_heavy.py** (rewritten, per library): `--lib LIB` builds an application serially (stale
   frontier from `lake build --no-build`, one module at a time under the kernel-probe lock and a 10 GB scope, then
-  the root); `--since BEFORE` confirms each application changed since BEFORE with `--no-build` and builds only its
-  root, exit 3 if a heavy module would rebuild.
-- **scripts/land-branch.sh**: stages every generated path; runs `prebuild_heavy.py --since`; builds the default
-  target (core). **scripts/hq-update.sh**: stages and auto-settles conflicts in the application roots too.
+  the root); `--check-all` (after audit 1, F1) checks every application at every landing with `lake build
+  --no-build <Lib>`, builds stale light modules one at a time under the cap, and exits 3 if a certificate-data
+  module would rebuild.
+- **scripts/land-branch.sh**: stages every generated path; builds the default target (core); then runs
+  `prebuild_heavy.py --check-all`. **scripts/hq-update.sh**: stages and auto-settles conflicts in the application
+  roots too.
 - **scripts/lint_sources.sh**: application roots and parts count as roots for the provider and DRAFT_SORRY rules;
   no module except its own root may import an application root or part.
 - **scripts/hq-status.py**: a per-library table (modules, hand-written lines, generated-data lines, theorems).
@@ -87,5 +89,20 @@ All logs are in /root/code/KAM-inp-buildoptin/.drafts/build-optin-logs/ (not com
 3. **Mapping completeness.** A new module that is not under `KAM.SpinOrbit.Data` and imports no application
    module defaults to core by design. Certificate data placed elsewhere would be built by `lake build` unless an
    application claims it.
-4. **land-branch now stops** (exit 3) instead of building changed heavy data. Building them is now a deliberate
+4. **land-branch now stops** (exit 3) instead of building stale heavy data. Building them is now a deliberate
    `prebuild_heavy.py --lib`. This follows the brief; it changes the landing procedure.
+
+## Audit 1 findings (FAIL) and fixes
+
+- **F1 (HIGH), landing selection.** `--since BEFORE` (selection by changed application files) is replaced by
+  `--check-all`, run after the core `lake build`: every application is checked at every landing. Dry demonstration
+  (real `check_all`, `subprocess.run` mocked to answer Lake's `--no-build`; log `f1-demo.log`): data changed → exit 3,
+  nothing built; core `Model.lean` changed → exit 3; `projectLeanOptions` changed → exit 3; `build_roots.json`
+  changed (only regenerated parts stale) → the 3 parts built capped, exit 0; core-only landing → exit 0, nothing
+  built; LunarFinalR2V2 stale → built capped, exit 0. Unmocked run on this tree: exit 0, nothing built; after the F2
+  regeneration it built exactly the 7 band root files and `KAMLunarLock`, one at a time, and no data.
+- **F2 (LOW), rule 3.** `gen_root_imports.py` appends `public section` to every generated root and part (core and
+  applications). Regenerated; `--check` 0; `lake build` built only the 26 core root files (no Data line in the log);
+  `lake build --no-build KAMLunarBand` → `All targets up-to-date (5234 jobs).`
+- **F3 (LOW), GUARDS.md.** Root-import row (mapping and its checks, application roots), kernel-replay row (core by
+  default, `--lib`), the landing paragraph (the application check), and the kernel_replay usage (`--lib`).

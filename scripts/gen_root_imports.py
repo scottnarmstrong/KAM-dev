@@ -33,7 +33,8 @@ The imports are split into parts so that no generated file exceeds the 1500-line
 per top-level area `KAM.<Area>` (`KAM.Root.<Area>` for the core, `<Lib>.<Area>` for an application),
 and an area with more than `LIMIT` modules is split further by its next name component (with `Top`
 for the modules directly under the area). The grouping follows the module names, so adding a
-module changes only its own part.
+module changes only its own part. Every generated file has the module layout of AGENTS.md rule 3
+(copyright, `module`, imports, module docstring, `public section`).
 """
 from __future__ import annotations
 
@@ -87,6 +88,9 @@ def app_doc(lib: str, title: str) -> str:
     body = textwrap.fill(APP_DOC.format(lib=lib, title=title), width=100, break_long_words=False,
                          break_on_hyphens=False)
     return f"\n/-!\n# {lib}\n\n{body}\n-/\n"
+
+# Every generated file ends with `public section`, as AGENTS.md rule 3 asks of every module.
+SECTION = "\npublic section\n"
 
 PART_DOC = """
 /-!
@@ -303,10 +307,10 @@ def render(lib_of: dict[str, str], cfg: dict) -> dict[Path, str]:
             if lib != core:
                 what += f" that belong to `{lib}`"
             imports = "".join(f"public import {m}\n" for m in group)
-            files[path_of(name)] = HEADER + "\n" + imports + PART_DOC.format(name=name, root=lib, area=what)
+            files[path_of(name)] = HEADER + "\n" + imports + PART_DOC.format(name=name, root=lib, area=what) + SECTION
         imports = "".join(f"public import {name}\n" for name in sorted(ps))
         doc = DOC if lib == core else app_doc(lib, titles[lib])
-        files[ROOT / f"{lib}.lean"] = HEADER + ("\n" + imports if imports else "") + doc
+        files[ROOT / f"{lib}.lean"] = HEADER + ("\n" + imports if imports else "") + doc + SECTION
     files[LAKEFILE] = render_lakefile(lib_of, cfg)
     return files
 

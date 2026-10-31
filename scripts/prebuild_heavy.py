@@ -4,7 +4,7 @@ Lake build its heavy modules in parallel.
 
 usage:
   scripts/prebuild_heavy.py --lib LIB [--dry-run]   build application LIB serially
-  scripts/prebuild_heavy.py --since BEFORE          confirm every application changed since BEFORE
+  scripts/prebuild_heavy.py --check-all             landing check of every application
 
 The applications and their modules are declared in scripts/build_roots.json. Their certificate data
 carry kernel checks of several GB each (`decide +kernel` over the data); Lake would build them in
@@ -17,10 +17,16 @@ built one at a time, each with `flock .kernel-probe.lock systemd-run --user --sc
 the first of them is built alone, and this repeats until nothing is stale; then the root. With
 `--dry-run`, only the first round of stale modules is printed. Exit status 1 on the first failure.
 
-`--since BEFORE` (scripts/land-branch.sh): for each application with a module changed since the
-commit BEFORE, confirm that every module of the application is up to date, then build its root and
-parts. It never builds an application module: if one is stale, it prints them and exits 3, so the
-landing stops before any heavy rebuild (run `--lib LIB` deliberately, then land again).
+`--check-all` (scripts/land-branch.sh, after the core `lake build`): every application is checked,
+whatever the landing changed (BUILD-OPTIN audit 1, F1: a change to a core module in an application's
+import closure, to lakefile.lean, the toolchain, the Lake manifest or scripts/build_roots.json makes
+an application stale without touching its files). For each application, `lake build --no-build LIB`
+names the stale modules whose imports are built. If none, it is up to date. If any of them is heavy
+(under an `application_only` prefix of scripts/build_roots.json: certificate data), the check stops
+with exit 3, naming the application and the stale data modules: build it deliberately with
+`--lib LIB`, then land again. Otherwise (generated root and parts, LunarFinalR2V2 and other light
+modules) the first is built alone under the cap and the check repeats. A landing that leaves every
+application up to date builds nothing.
 """
 from __future__ import annotations
 
@@ -84,21 +90,26 @@ def build_lib(lib: str, cfg: dict, dry: bool) -> None:
         capped_build(lib)
 
 
-def confirm_since(before: str, cfg: dict) -> int:
-    out = subprocess.run(['git', 'diff', '--name-only', before, 'HEAD', '--', 'KAM'], cwd=ROOT,
-                         capture_output=True, text=True, check=True).stdout.split()
-    core = cfg['core']['lib']
-    libs = sorted({roots.library_of(p[:-len('.lean')].replace('/', '.'), cfg) for p in out if p.endswith('.lean')}
-                  - {core})
-    print(f'prebuild_heavy: applications changed since {before[:8]}: {", ".join(libs) or "none"}', flush=True)
-    for lib in libs:
-        todo = stale(members(lib, cfg))
-        if todo:
-            print(f'prebuild_heavy: {lib}: heavy modules would rebuild (stale: {" ".join(todo[:20])}); '
-                  f'run scripts/prebuild_heavy.py --lib {lib} deliberately, then land again', flush=True)
-            return 3
-        print(f'prebuild_heavy: {lib}: every module up to date (lake build --no-build)', flush=True)
-        capped_build(lib)
+def heavy(module: str, cfg: dict) -> bool:
+    return any(roots.extends(module, p) for p in cfg.get('application_only', []))
+
+
+def check_all(cfg: dict) -> int:
+    for app in cfg['applications']:
+        lib, built, seen = app['lib'], 0, set()
+        while todo := stale([lib]):
+            data = [m for m in todo if heavy(m, cfg)]
+            if data:
+                print(f'prebuild_heavy: {lib}: heavy modules would rebuild (stale data: {" ".join(data[:20])}); '
+                      f'run scripts/prebuild_heavy.py --lib {lib} deliberately, then land again', flush=True)
+                return 3
+            if todo[0] in seen:
+                print(f'prebuild_heavy: {lib}: {todo[0]} still stale after building it', flush=True)
+                return 1
+            seen.add(todo[0])
+            capped_build(todo[0])
+            built += 1
+        print(f'prebuild_heavy: {lib}: up to date ({built} light modules built)', flush=True)
     return 0
 
 
@@ -106,12 +117,12 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--lib', help='application library to build serially')
-    group.add_argument('--since', metavar='BEFORE', help='confirm the applications changed since BEFORE')
+    group.add_argument('--check-all', action='store_true', help='landing check of every application')
     parser.add_argument('--dry-run', action='store_true')
     args = parser.parse_args()
     cfg = roots.load_config()
-    if args.since:
-        return confirm_since(args.since, cfg)
+    if args.check_all:
+        return check_all(cfg)
     apps = [a['lib'] for a in cfg['applications']]
     if args.lib not in apps:
         print(f'unknown application {args.lib}; known: {", ".join(apps)}', file=sys.stderr)

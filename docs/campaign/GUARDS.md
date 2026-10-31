@@ -11,21 +11,31 @@ measured behaviour. Last measured 2026-10-29 on branch `inp-iguards` (main at `2
 | layer | script | checks |
 |---|---|---|
 | source lint | `scripts/lint_sources.sh` (also `lake lint`) | outside `KAM/Frozen`: `sorry`, `admit`, `axiom`, `unsafe`, `opaque`; `set_option maxHeartbeats / maxRecDepth / synthInstance.maxHeartbeats` anywhere on a line; `EuclideanSpace` in code (comments masked); lines over 100 characters; files over 1500 lines |
-| root imports | `scripts/gen_root_imports.py --check` | `KAM.lean` equals the generated import list (every module except `DRAFT_SORRY` anchors and their providers) |
+| root imports | `scripts/gen_root_imports.py --check` | every module belongs to exactly one library of `scripts/build_roots.json` (D51: the core `KAM` or one certificate application); no module under `KAM.SpinOrbit.Data` is left to the core; no core module imports an application module; the lakefile's libraries match the mapping; `KAM.lean` (every core module except `DRAFT_SORRY` anchors and their providers, which the lakefile globs instead), each application root `<Lib>.lean`, their parts and the lakefile block equal the generated text |
 | errata | `scripts/render_errata.py --check` | `docs/ERRATA-AND-DEVIATIONS.md` matches `docs/errata/ledger.json` |
 | module system | `scripts/check_lean_modules.py` | every `.lean` file is a module (`module` first token), no symlinked `.lean`, line limit 10 000, comparator configs |
 | frozen anchors | `scripts/check_frozen_anchors.py` against `manifest/frozen-anchors.json` | manifest schema; whole-file hash of definition anchors; prefix and suffix hashes and marker order of theorem anchors; `DRAFT_SORRY` body is exactly `by sorry`; `SEALED` body is a short assembly of the provider export; one declaration per frozen file, not private, name matches export; implementation modules; definition closure hashes; the `DRAFT_SORRY` quarantine (no other module imports or names a `DRAFT_SORRY` anchor or its provider, directly or transitively); no `sorry`/`admit` anywhere except the authorized body; no `axiom` command |
 | ABI hashes | `scripts/abi_hashes.py --check` (needs the build; core anchors by default, application anchors with `--lib <Lib>`, D51) | sha256 of `#print` (definitions) or `#check @` (theorems) under `pp.all`, against `abi_sha256` |
-| kernel replay | `scripts/kernel_replay.sh` (new) | every constant is re-checked by the kernel, so a declaration added with `debug.skipKernelTC`, `addDecl` or a custom elaborator is caught |
+| kernel replay | `scripts/kernel_replay.sh` (new) | every constant of the core is re-checked by the kernel (application modules too with `--lib <Lib>`, D51), so a declaration added with `debug.skipKernelTC`, `addDecl` or a custom elaborator is caught |
 
-`scripts/land-branch.sh` runs `gen_root_imports`, `lake build` and `lint_sources.sh` (which includes the anchor guard and
-the ABI hashes); the kernel replay and the mutation suite are not yet part of it.
+`scripts/land-branch.sh` runs `gen_root_imports`, `lake build` (the core library), the application check
+`scripts/prebuild_heavy.py --check-all` and `lint_sources.sh` (which includes the anchor guard and the core ABI hashes);
+the kernel replay and the mutation suite are not yet part of it. The application check (D51; BUILD-OPTIN audit 1, F1)
+runs `lake build --no-build <Lib>` for every application at every landing, whatever the landing changed: an up-to-date
+application passes; stale light modules (generated roots and parts, assemblies) are built one at a time under the
+kernel-probe lock and a 10 GB cap and the check repeats; a stale certificate-data module (under `KAM.SpinOrbit.Data`)
+stops the landing with exit 3, to be rebuilt deliberately with `scripts/prebuild_heavy.py --lib <Lib>`.
 
 ## `scripts/kernel_replay.sh`
 
 ```
-scripts/kernel_replay.sh [--full | --fast] [--timeout MIN=90] [--mem-gb GB=40] [--batch N=4] [--log FILE]
+scripts/kernel_replay.sh [--full | --fast] [--lib LIB]... [--timeout MIN=90] [--mem-gb GB=40] [--batch N=4] [--log FILE]
 ```
+
+By default the replay covers the core library (`--full`: the closure of `KAM.lean` plus the quarantined
+`DRAFT_SORRY` anchors and providers; `--fast`: the core's frozen anchors, implementation modules and providers) and
+reports how many application modules it left out. `--lib <Lib>` adds the modules of that certificate application;
+the application must be fully built (`lake build --no-build <Lib>` is checked first; the script never builds).
 
 Tool choice. `leanchecker` (ships with the toolchain) runs `Lean.Kernel.Environment.replay` over the olean contents:
 it needs no export step and is the tool the guard reference prescribes. It uses the same C++ kernel as the build, so it

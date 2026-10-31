@@ -75,8 +75,8 @@ data module, so they stay where they are and become **opt-in libraries** of the 
 | `scripts/check_frozen_anchors.py` | every frozen file and the manifest (file-based) | (same) |
 | `scripts/abi_hashes.py --check` | core anchors; application anchors listed as "checked by file hash only" | `--lib <Lib>` (or `all`); refuses unless `lake build --no-build <Lib>` passes |
 | `scripts/kernel_replay.sh` | core modules; application modules left out (counted) | `--lib <Lib>`; refuses unless built |
-| `scripts/prebuild_heavy.py` | — | `--lib <Lib>` builds serially; `--since BEFORE` confirms changed applications |
-| `scripts/land-branch.sh` | builds the core | for each application whose modules changed: confirms with `lake build --no-build` and builds its root; stops (exit 3) if a heavy module would rebuild |
+| `scripts/prebuild_heavy.py` | — | `--lib <Lib>` builds serially; `--check-all` is the landing check of every application |
+| `scripts/land-branch.sh` | builds the core | then checks every application, whatever changed (`lake build --no-build <Lib>`): builds stale light modules (roots, parts, assemblies) one at a time under the cap; stops (exit 3) if a certificate-data module would rebuild |
 | `scripts/hq-status.py` | — | one row per library: modules, hand-written lines, generated-data lines |
 
 The lint, the guard and the root check cover every library, because they read files, not builds. Only the checks
