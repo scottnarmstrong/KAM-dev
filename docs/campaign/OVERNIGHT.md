@@ -2197,3 +2197,13 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     shard count. Advice can then be rejected (shardFits), and the checker falls back to direct items. The lock
     regenerates its 8 affected advices. The band data are kernel-checked and on main, so this is soundness-neutral;
     to be checked during the band rebuild.
+- **10:49. Memory incident: earlyoom killed a band rebuild module at 10:31:58.**
+  - The lower lane's Seg.Tors.E1_1_1 got exit 143 at 5.2 GB. System memory was at 6 % with swap full: LOCK-DATA's
+    capped Python census (5.0 GB) and check (2.8 GB) ran beside the band's two kernel lanes.
+  - Not a proof failure. The lower lane is restarted; completed modules stay up to date.
+  - **New budget until SO-FREEZE3's rebuild finishes:** the lock runs at most one heavy job (≤ 6 GB, and only with
+    MemAvailable ≥ 8 GB); its 6-lane elaboration waits.
+  - Rebuild progress: about 22 % at 10:23 (361/1650 in 94 min), slower than the first run.
+  - Lock: the B3 levers are implemented. The CHECK on regenerated data passes every sub-check (inv 1.08e-21, energy
+    5.9e-23, Gram margin 7.3e-4, torsion margin 2.66e-4); the graph verdict is re-running. The owner's ruling on
+    about 158 MB is pending.
