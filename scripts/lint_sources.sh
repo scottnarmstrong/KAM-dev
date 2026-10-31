@@ -109,11 +109,23 @@ import sys
 from pathlib import Path
 
 root = Path(sys.argv[1])
+# Exact overlong lines exempted by scripts/lint-width-allow.txt (path TAB sha256-of-line TAB line-number).
+import hashlib
+allow = set()
+allow_file = root / 'scripts' / 'lint-width-allow.txt'
+if allow_file.exists():
+    for row in allow_file.read_text(encoding='utf-8').splitlines():
+        if row and not row.startswith('#'):
+            rel, digest = row.split('\t')[:2]
+            allow.add((rel, digest))
 for path in sorted(root.rglob('*.lean')):
     if path.name == 'lakefile.lean' or {'.lake', '.drafts'} & set(path.relative_to(root).parts):
         continue
     for line_number, line in enumerate(path.read_text(encoding='utf-8').splitlines(), 1):
         if len(line) > 100 and not re.search(r'https?://|^(public\s+)?(meta\s+)?import\s', line):
+            rel = str(path.relative_to(root))
+            if (rel, hashlib.sha256(line.encode()).hexdigest()) in allow:
+                continue
             print(f'{path}:{line_number}:{len(line)}')
 PY
 )
