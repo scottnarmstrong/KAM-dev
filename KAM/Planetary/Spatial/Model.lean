@@ -18,10 +18,10 @@ surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 * `spatialHamiltonian ν μ z = Σ_i (|p_i|²/(2ν_i) − ν_i/|q_i|)
   + μ (|Σ_i p_i|²/2 − Σ_{i<j} ν_iν_j/|q_i − q_j|)`
-  (MAIN (1), literally; no totalization).
+  (MAIN (1), literally; Lean division totalizes it at collisions, where it is never used).
 * `SpatialNoCollision q`: `q_i ≠ 0` and `q_i ≠ q_j` (positive Euclidean lengths).
 * `IsSpatialMovingSolutionOn ν μ J z`: the frozen differentiability-guarded Hamiltonian ODE on the
-  full action domain together with collision exclusion, the pattern of the frozen planar
+  phase space together with collision exclusion, the pattern of the frozen planar
   `IsMovingSolutionOn`; `SpatialMovingUniqueOn` is the pattern of the frozen `MovingUniqueOn`.
 * force kernels `spatialGKernel`, `spatialFKernel`.
 
