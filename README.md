@@ -1041,7 +1041,7 @@ against the pinned PDF.
 | `blueprint/`, `blueprint-I/`, `blueprint-N/`, `blueprint-P/` | the blueprints of tracks K, I, N, P: every proof step written out against the pinned sources |
 | `blueprint-W/` | track W's plan and blueprint, milestones W0–W8 |
 | `papers/LP/` | the paper on track LP's results (`main.pdf`; three independent audits) |
-| `docs/graph/` | source-level dependency graphs of tracks K, I, N, P, W (and LP after its freeze); each node carries its Lean status |
+| `docs/graph/` | source-level dependency graphs of tracks K, I, N, P, W and LP; each node carries its Lean status |
 | `docs/tracks/` | per-track statements, rulings, Lean designs, studies and audits: I, LP, N, P, R, SO, W |
 | `docs/campaign/` | `campaign.json` (phase, agents, proof map), `progress.json`, `progress-INP.json` and `progress-SO.json` (work items), `history.csv`, `OVERNIGHT.md` (decisions taken overnight), `design/` (Lean designs: track K's parts 2–4, the sharp a-posteriori theorems and certifiers, track SO's plan) |
 | `docs/campaign/side/` | status of the side projects (`lg00-status.json`, maintained by the LG00 orchestrator) |
