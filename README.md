@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-01 08:37 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 65 % · track LP 87 %** · frozen statements proved: 26 / 31 · **440,646 lines of hand-written Lean** of an estimated ≈ 499,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-01 08:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 65 % · track LP 87 %** · frozen statements proved: 26 / 31 · **440,646 lines of hand-written Lean** of an estimated ≈ 499,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -284,9 +284,9 @@ Overall, everything together: 88.8 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **440,646** (338,404 excluding blank lines and comments) · **+74,715** since 2026-10-31 06:00 UTC |
+| On `main` now (hand-written) | **440,646** (338,404 excluding blank lines and comments) · **+72,670** since 2026-10-31 08:40 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 632,896 lines in 1,649 modules |
-| Written on agent branches, not yet landed (hand-written) | 58,513 |
+| Written on agent branches, not yet landed (hand-written) | 58,516 |
 | Generated certificate data on agent branches (numeric literals; not counted in the other rows) | 5,129 |
 | **Estimated total at completion** (hand-written) | **≈ 499,000** |
 | Estimated still to write | ≈ 0 (0–12,000 over the range of track W's plan) |
@@ -295,7 +295,7 @@ Overall, everything together: 88.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 08:37 UTC from `main` at `9e4d252a` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 08:40 UTC from `main` at `7609810e` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -505,13 +505,13 @@ account read from each agent's running process) and their branches. Rules for ag
 | **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
-| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | 🔄 working | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
+| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA lock_mlane: dry-run schedule (LOCK_DRY=1) and missing-source report | `inp-lockdata` | 55 (vs `inp`) |
-| **lp** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP: LP3-SRC brief; LP3-PS and LP3-SP-SAFE handoffs synced | `inp-lp` | 4 (vs `inp`) |
+| **lp** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP progress: W4D landed; W4E PASS WITH NOTES, landing requested; LP3-SP-SAFE proved; LP3-S | `inp-lp` | 13 (vs `inp`) |
 | **lp-freeze7** `inp-mprov-lp-freeze7` | prover (offload) | Claude Opus 5.5 | claude-11 | 🔄 proving | last commit: Merge branch 'inp-lp' into inp-lp-freeze7 | `inp-lp-freeze7` | 8 (vs `inp`) |
 | **lp-lp3src** `inp-mprov-lp-lp3src` | prover (offload) | Claude Sonnet 5.5 | claude-12 | 🔄 proving | last commit: Merge branch 'inp-lp' into inp-lp-lp3src | `inp-lp-lp3src` | 25 (vs `inp`) |
-| **lp-w4e** `inp-maud-lp-w4e` | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: LP-W4E: audit 1 PASS WITH NOTES (codex-2) | `inp-lp-w4e` | 7 (vs `inp`) |
-| **lp-w5a** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: LP-W5A: combined LP3 KEP+COVERPERT+CELL+DRIFT audit handoff | `inp-lp-w5a` | 10 (vs `inp`) |
+| **lp-w4e** `inp-maud-lp-w4e` | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP-W4E: notes N2 (R4.6) docstrings fixed: Elements.lean:35 canonical axis, Model.lean:21-2 | `inp-lp-w4e` | 8 (vs `inp`) |
+| **lp-w5a** `inp-maud-lp-w5a` | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: LP-W5A: combined LP3 KEP+COVERPERT+CELL+DRIFT audit handoff | `inp-lp-w5a` | 10 (vs `inp`) |
 | **w5aa** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: W5 round 2: audit-scope handoff (STEP-A/B round 2 tight deltas, W5-AA round 1) | `inp-w5aa` | 190 (vs `inp`) |
 | **w5r** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: W5-REAL: handoff (audit focus, statements, checks) | `inp-w5r` | 164 (vs `inp`) |
 | **w6aud** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: W6: audit 1 (FAIL: F1 iter-lemma transformation clause ambient norms, F2 D2 J-weight shift | `inp-w6aud` | 208 (vs `inp`) |
