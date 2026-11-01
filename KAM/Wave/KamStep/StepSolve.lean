@@ -88,6 +88,50 @@ section Fam
 variable {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 → ℝ} {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ}
   {M0 Mω MΩ τ α : ℝ}
 
+/-- The explicit constants in `stepSolve_fam`. -/
+theorem stepSolve_fam_explicit (h : HomFreqHyp Par ω Ω M0 Mω MΩ) (hH : HomMelnikov τ α Par ω Ω)
+    (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε εL lam σ : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ)
+    (hα : 0 < α) (hσ : 0 < σ) (hσ1 : σ ≤ 1) (hσs : σ < s) (hM : 0 < Mω + MΩ) (hlam0 : 0 ≤ lam)
+    (hlam : lam ≤ α / (Mω + MΩ)) (hε : 0 ≤ ε) (hεL : 0 ≤ εL)
+    (R : (Fin 2 → ℝ) → HomTaylor_gen a p pb s)
+    (F : (Fin 2 → ℝ) → HomTaylor_gen a p pb (s - σ))
+    (hF : ∀ ξ (hξ : ξ ∈ Par),
+      F ξ = homSolveTaylor_gen hτ hα hσ hσs (homMultBounds_of h hα hH hξ) (R ξ))
+    (hR : ∀ ξ ∈ Par, HomFieldBound_gen ha hp hpb r ε (R ξ))
+    (hRL : ∀ ξ ∈ Par, ∀ ζ ∈ Par,
+      HomFieldBound_gen ha hp hpb r (εL * ‖ξ - ζ‖) ((R ξ).homSub (R ζ))) :
+    (7 + 10 * homKS) * (waveBW τ σ * ε / α) +
+        lam * ((7 + 10 * homKS) * (waveBW τ σ / α * (εL + 2 * (Mω + MΩ) * ε / α))) ≤
+        3 * (7 + 10 * homKS) * waveBW τ σ / α * (ε + lam * εL) ∧
+      (∀ ξ ∈ Par, ∀ w ∈ kamDomain (s - σ) r, kamNorm r (stepField ha hp hpb (F ξ) w) ≤
+        (7 + 10 * homKS) * (waveBW τ σ * ε / α)) ∧
+      (∀ ξ ∈ Par, ∀ ζ ∈ Par, ∀ w ∈ kamDomain (s - σ) r,
+        kamNorm r (stepField ha hp hpb (F ξ) w - stepField ha hp hpb (F ζ) w) ≤
+          (7 + 10 * homKS) * (waveBW τ σ / α * (εL + 2 * (Mω + MΩ) * ε / α)) * ‖ξ - ζ‖) := by
+  have hB := waveBW_nonneg τ σ
+  have hK1 := one_le_homKS
+  have hC : 0 ≤ (7 + 10 * homKS) * waveBW τ σ / α := by positivity
+  refine ⟨?_, ?_, ?_⟩
+  · have := (homLemma2 (α := α) (M := Mω + MΩ) (lam := lam) (σ := σ) (ε := ε) (εL := εL) hτ hα hM
+      hlam0 hlam hσ hσ1 hε hεL).2.1
+    unfold homLamNorm at this
+    exact this
+  · intro ξ hξ w hw
+    have hb := homLemma1_fieldBound_gen h hH ha hp hpb hr hτ hα hσ hσs hξ (R ξ) (hR ξ hξ)
+    rw [← hF ξ hξ] at hb
+    have hw' := homDomain_stepZ hw
+    rw [kamNorm_stepField ha hp hpb _ hr]
+    exact hb _ _ _ _ hw'
+  · intro ξ hξ ζ hζ w hw
+    have hb := homLemma1_lipschitz_gen h hH ha hp hpb hr hτ hα hεL hσ hσs hξ hζ (R ξ) (R ζ)
+      (hR ξ hξ) (hR ζ hζ) (hRL ξ hξ ζ hζ)
+    rw [← hF ξ hξ, ← hF ζ hζ] at hb
+    have hθ : w.1 ∈ complexStrip 2 (s - σ) := fun i => hw.1 i
+    rw [← stepField_sub ha hp hpb _ _ hθ, kamNorm_stepField ha hp hpb _ hr]
+    have := hb _ _ _ _ (homDomain_stepZ hw)
+    refine this.trans (le_of_eq ?_)
+    ring
+
 /-- **The `λ`-bound for `X_F`** (`bpW:w5:solve`, field part, via W4 `homLemma1_fieldBound_gen`,
 `homLemma1_lipschitz_gen`, `homLemma2`): for the family `F_ξ` of solutions of the homological
 equation for a family `R_ξ` with `|X_{R_ξ}| ≤ ε` and `|X_{R_ξ} - X_{R_ζ}| ≤ ε^L |ξ-ζ|`,
