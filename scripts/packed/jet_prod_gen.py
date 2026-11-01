@@ -335,7 +335,10 @@ def main():
     mods.append(base + ".Book")
     # the ledger, in parts of at most `--led-nodes` nodes (in key order of first export)
     per = int(opt("led-nodes", "12"))
-    keys = list(node_of)
+    # the wanted slots first: a consumer's read of a wanted slot then stops at the head of the ledger
+    # (V2-PACKED-CONS-LOOKUP); every other key in order of first export
+    wk = [("slot", j) for j in wanted]
+    keys = wk + [k for k in node_of if k not in set(wk)]
     parts = [keys[i:i + per] for i in range(0, len(keys), per)]
     cand_items = sorted(cands.items())
     led_names = []
