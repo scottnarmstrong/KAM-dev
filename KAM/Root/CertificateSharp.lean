@@ -73,6 +73,7 @@ public import KAM.CertificateSharp.Packed.JetWit
 public import KAM.CertificateSharp.Packed.Norm
 public import KAM.CertificateSharp.Packed.Product
 public import KAM.CertificateSharp.Packed.Round
+public import KAM.CertificateSharp.Packed.RouteSharp
 public import KAM.CertificateSharp.Packed.Slots
 public import KAM.CertificateSharp.Packed.Stage
 public import KAM.CertificateSharp.Packed.StageZ
