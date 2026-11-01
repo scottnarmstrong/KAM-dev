@@ -10,6 +10,16 @@ public import KAM.Planetary.Newtonian.HamiltonNodes
 public import KAM.Planetary.StrongAMD.Geometry
 public import KAM.Planetary.StrongAMD.Continuation
 public import KAM.Planetary.StrongAMD.Osculating.Estimates
+public import KAM.Frozen.Planetary.StrongAMD.Defs.KeplerApo
+public import KAM.Frozen.Planetary.StrongAMD.Defs.KeplerPeri
+public import KAM.Frozen.Planetary.StrongAMD.Defs.OscApo
+public import KAM.Frozen.Planetary.StrongAMD.Defs.OscAxis
+public import KAM.Frozen.Planetary.StrongAMD.Defs.OscEcc
+public import KAM.Frozen.Planetary.StrongAMD.Defs.OscEccVector
+public import KAM.Frozen.Planetary.StrongAMD.Defs.OscEnergy
+public import KAM.Frozen.Planetary.StrongAMD.Defs.OscParam
+public import KAM.Frozen.Planetary.StrongAMD.Defs.OscPeri
+public import KAM.Frozen.Planetary.StrongAMD.Defs.OscVelocity
 
 /-!
 # Actual-velocity osculating elements: definitions, velocity identification, tangency
@@ -37,48 +47,6 @@ namespace KAM.Planetary.StrongAMD
 open KAM.Kepler KAM.Planetary
 
 variable {n : ℕ}
-
-/-- The actual heliocentric velocity `V_i = p_i/ν_i + μ ∑_j p_j` (`LP:MAIN (10)`, `L16`). -/
-def oscVelocity (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 2)) (i : Fin n) : Fin 2 → ℝ :=
-  (1 / ν i) • bodyVector z.2 i + μ • ∑ j, bodyVector z.2 j
-
-/-- The gravitational parameter `k_i = 1 + μ ν_i`. -/
-def oscParam (ν : Fin n → ℝ) (μ : ℝ) (i : Fin n) : ℝ := 1 + μ * ν i
-
-/-- `E_i^osc = |V_i|²/2 - k_i/|q_i|` (`LP:MAIN L16 (42)`). -/
-def oscEnergy (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 2)) (i : Fin n) : ℝ :=
-  planeSq (oscVelocity ν μ z i) / 2 - oscParam ν μ i / planeLength (bodyVector z.1 i)
-
-/-- `a_i^osc = -k_i/(2 E_i^osc)` (`LP:MAIN L16 (42)`). -/
-def oscAxis (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 2)) (i : Fin n) : ℝ :=
-  -oscParam ν μ i / (2 * oscEnergy ν μ z i)
-
-/-- `𝐞_i^osc = ((|V_i|² - k_i/|q_i|) q_i - (q_i·V_i) V_i)/k_i` (`LP:MAIN L16 (42)`). -/
-def oscEccVector (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 2)) (i : Fin n) : Fin 2 → ℝ :=
-  (1 / oscParam ν μ i) •
-    ((planeSq (oscVelocity ν μ z i) - oscParam ν μ i / planeLength (bodyVector z.1 i)) •
-        bodyVector z.1 i -
-      planeDot (bodyVector z.1 i) (oscVelocity ν μ z i) • oscVelocity ν μ z i)
-
-/-- `e_i^osc = |𝐞_i^osc|` (`LP:MAIN L16 (42)`). -/
-def oscEcc (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 2)) (i : Fin n) : ℝ :=
-  planeLength (oscEccVector ν μ z i)
-
-/-- Osculating perihelion `a^osc (1 - e^osc)`. -/
-def oscPeri (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 2)) (i : Fin n) : ℝ :=
-  oscAxis ν μ z i * (1 - oscEcc ν μ z i)
-
-/-- Osculating aphelion `a^osc (1 + e^osc)`. -/
-def oscApo (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 2)) (i : Fin n) : ℝ :=
-  oscAxis ν μ z i * (1 + oscEcc ν μ z i)
-
-/-- Canonical perihelion `a_i (1 - e_i)` (`a_i = keplerAxis`, `e_i = |keplerEccVector|`). -/
-def keplerPeri (ν : Fin n → ℝ) (z : Phase (n * 2)) (i : Fin n) : ℝ :=
-  keplerAxis ν z i * (1 - planeLength (keplerEccVector ν z i))
-
-/-- Canonical aphelion `a_i (1 + e_i)`. -/
-def keplerApo (ν : Fin n → ℝ) (z : Phase (n * 2)) (i : Fin n) : ℝ :=
-  keplerAxis ν z i * (1 + planeLength (keplerEccVector ν z i))
 
 /-! ### The actual velocity is the `q`-block of the moving field -/
 

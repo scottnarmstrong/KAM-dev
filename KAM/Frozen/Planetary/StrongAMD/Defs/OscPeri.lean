@@ -1,0 +1,35 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import KAM.Frozen.Planetary.Defs.Phase
+public import KAM.Frozen.Planetary.StrongAMD.Defs.OscAxis
+public import KAM.Frozen.Planetary.StrongAMD.Defs.OscEcc
+
+/-!
+# Frozen definition `KAM.Planetary.StrongAMD.oscPeri`
+
+Track LP, `LP:MAIN L16 (43) (521–525)` (MAIN as amended by AMENDMENTS). Owner-approved on
+2026-11-01 (decision D62; docs/tracks/LP/FREEZE-PROPOSAL.md draft 7, under the rulings
+of D59). This file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an
+owner-approved versioned successor.
+
+Freeze role (D59, OD-11 (b)): an internal total helper in the definition closure. It is certified as
+the source object only on its carrier, through the source-facing definitions and predicates that use
+it; its values off that carrier carry no source meaning.
+-/
+
+@[expose] public noncomputable section
+
+namespace KAM.Planetary.StrongAMD
+
+/-- Osculating perihelion `a^osc (1 - e^osc)`. -/
+def oscPeri {n : ℕ} (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 2)) (i : Fin n) : ℝ :=
+  oscAxis ν μ z i * (1 - oscEcc ν μ z i)
+
+end KAM.Planetary.StrongAMD
+
+end

@@ -1,0 +1,34 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import KAM.Frozen.Planetary.Spatial.Defs.BodyVector3
+public import KAM.Frozen.Planetary.Spatial.Defs.SpaceLength
+
+/-!
+# Frozen definition `KAM.Planetary.Spatial.SpatialNoCollision`
+
+Track LP, `LP:MAIN §1 (1) (24), d = 3` (MAIN as amended by AMENDMENTS). Owner-approved on
+<APPROVAL-DATE> (decision <DECISION>; docs/tracks/LP/FREEZE-PROPOSAL.md draft 7, under the rulings
+of D59). This file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an
+owner-approved versioned successor.
+
+Freeze role (D59, OD-11 (b)): a literal formula or predicate of the source, faithful on its whole
+carrier.
+-/
+
+@[expose] public noncomputable section
+
+namespace KAM.Planetary.Spatial
+
+/-- The open physical domain of `H_μ`: no planet at the star and no two planets together. -/
+def SpatialNoCollision {n : ℕ} (q : Fin (n * 3) → ℝ) : Prop :=
+  (∀ i, 0 < spaceLength (bodyVector3 q i)) ∧
+  (∀ i j, i ≠ j → 0 < spaceLength (bodyVector3 q i - bodyVector3 q j))
+
+end KAM.Planetary.Spatial
+
+end

@@ -7,6 +7,10 @@ module
 
 public import Mathlib
 public import KAM.Planetary.Spatial.Field
+public import KAM.Frozen.Planetary.Spatial.Defs.IsSpatialNewtonSolutionOn
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialBarycentricPositions
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialBarycentricVelocities
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialMasses
 
 /-!
 # Newtonian reconstruction of spatial moving solutions (MAIN Lemma 1, `d = 3`)
@@ -28,30 +32,6 @@ namespace KAM.Planetary.Spatial
 open KAM KAM.Planetary
 
 variable {n : ℕ}
-
-/-- Barycentric positions (star first, then the planets) from heliocentric `q`, with `m₀ = 1`. -/
-def spatialBarycentricPositions (ν : Fin n → ℝ) (μ : ℝ) (q : Fin (n * 3) → ℝ) :
-    Fin (n + 1) → (Fin 3 → ℝ) :=
-  let x0 := (-μ / (1 + μ * ∑ i, ν i)) • ∑ i, ν i • bodyVector3 q i
-  Fin.cons x0 (fun i => x0 + bodyVector3 q i)
-
-/-- Barycentric velocities: actual planet momenta are `μ p`, total momentum zero. -/
-def spatialBarycentricVelocities (ν : Fin n → ℝ) (μ : ℝ) (p : Fin (n * 3) → ℝ) :
-    Fin (n + 1) → (Fin 3 → ℝ) :=
-  Fin.cons ((-μ) • ∑ i, bodyVector3 p i) (fun i => (1 / ν i) • bodyVector3 p i)
-
-/-- The masses `(1, μ ν_1, …, μ ν_n)`. -/
-def spatialMasses (ν : Fin n → ℝ) (μ : ℝ) : Fin (n + 1) → ℝ :=
-  Fin.cons 1 (fun i => μ * ν i)
-
-/-- Finite-interval Newton equations in dimension three, with Euclidean lengths (`G = 1`). -/
-def IsSpatialNewtonSolutionOn {N : ℕ} (mass : Fin N → ℝ) (J : Set ℝ)
-    (Q V : ℝ → Fin N → (Fin 3 → ℝ)) : Prop :=
-  (∀ t ∈ J, ∀ i j, i ≠ j → 0 < spaceLength (Q t j - Q t i)) ∧
-  (∀ t ∈ J, ∀ i, HasDerivAt (fun s => Q s i) (V t i) t) ∧
-  (∀ t ∈ J, ∀ i, HasDerivAt (fun s => V s i)
-    (∑ j ∈ Finset.univ.filter (fun j => j ≠ i),
-      (mass j / spaceLength (Q t j - Q t i) ^ 3) • (Q t j - Q t i)) t)
 
 section Barycentric
 

@@ -1,0 +1,42 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import KAM.Frozen.Planetary.Defs.Phase
+public import KAM.Frozen.Planetary.Spatial.Defs.BodyVector3
+public import KAM.Frozen.Planetary.Spatial.Defs.SpaceLength
+public import KAM.Frozen.Planetary.Spatial.Defs.SpaceSq
+
+/-!
+# Frozen definition `KAM.Planetary.Spatial.spatialHamiltonian`
+
+Track LP, `LP:MAIN §1 (1) (17–24), d = 3` (MAIN as amended by AMENDMENTS). Owner-approved on
+<APPROVAL-DATE> (decision <DECISION>; docs/tracks/LP/FREEZE-PROPOSAL.md draft 7, under the rulings
+of D59). This file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an
+owner-approved versioned successor.
+
+Freeze role (D59, OD-11 (b)): an internal total helper in the definition closure. It is certified as
+the source object only on its carrier, through the source-facing definitions and predicates that use
+it; its values off that carrier carry no source meaning. Lean's `x / 0 = 0` totalizes it at
+collisions; it is consumed only through `IsSpatialMovingSolutionOn`, whose collision guard and
+differentiability on the open collision-free domain make that predicate faithful (review 4, R4.8).
+-/
+
+@[expose] public noncomputable section
+
+namespace KAM.Planetary.Spatial
+
+/-- The exact spatial Hamiltonian `H_μ` (`LP:MAIN §1 (1)`, `d = 3`): positions `q_i` and scaled
+canonical momenta `p_i` in `Phase (n * 3)`, masses `m_i = μ ν_i`, central Kepler parameter one. -/
+def spatialHamiltonian {n : ℕ} (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 3)) : ℝ :=
+  (∑ i, (spaceSq (bodyVector3 z.2 i) / (2 * ν i) - ν i / spaceLength (bodyVector3 z.1 i))) +
+    μ * (spaceSq (∑ i, bodyVector3 z.2 i) / 2 -
+      ∑ i, ∑ j ∈ Finset.univ.filter (fun j => i < j),
+        ν i * ν j / spaceLength (bodyVector3 z.1 i - bodyVector3 z.1 j))
+
+end KAM.Planetary.Spatial
+
+end
