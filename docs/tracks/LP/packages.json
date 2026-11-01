@@ -178,6 +178,33 @@
    "source": "MAIN L17 for n bodies; fixed-plane deficit"
   },
   {
+   "id": "LP-SP-CONF",
+   "wave": 4,
+   "weight": 0.6,
+   "modules": [
+    "KAM/Planetary/Spatial/Confinement.lean"
+   ],
+   "source": "MAIN L14, d=3 (conditional first exit)"
+  },
+  {
+   "id": "LP-SP-TUBE",
+   "wave": 4,
+   "weight": 0.4,
+   "modules": [
+    "KAM/Planetary/Spatial/ComplexTube.lean"
+   ],
+   "source": "N12: tube for Phase (n+m)"
+  },
+  {
+   "id": "LP-SP-ADAPT",
+   "wave": 4,
+   "weight": 0.7,
+   "modules": [
+    "KAM/Planetary/Spatial/NonresonantAdapter.lean"
+   ],
+   "source": "MAIN L13 adapter for Phase (n+m)"
+  },
+  {
    "id": "LP-SP-DOM",
    "wave": 4,
    "weight": 1.5,
