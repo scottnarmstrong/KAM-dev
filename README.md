@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-01 04:26 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 65 % · track LP 48 %** · frozen statements proved: 26 / 31 · **424,229 lines of hand-written Lean** of an estimated ≈ 485,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-01 04:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 65 % · track LP 48 %** · frozen statements proved: 26 / 31 · **424,229 lines of hand-written Lean** of an estimated ≈ 487,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -284,18 +284,18 @@ Overall, everything together: 86.8 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **424,229** (326,689 excluding blank lines and comments) · **+58,298** since 2026-10-31 04:21 UTC |
+| On `main` now (hand-written) | **424,229** (326,689 excluding blank lines and comments) · **+58,298** since 2026-10-31 04:40 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 632,896 lines in 1,649 modules |
-| Written on agent branches, not yet landed (hand-written) | 46,563 |
+| Written on agent branches, not yet landed (hand-written) | 48,912 |
 | Generated certificate data on agent branches (numeric literals; not counted in the other rows) | 5,129 |
-| **Estimated total at completion** (hand-written) | **≈ 485,000** |
-| Estimated still to write | ≈ 14,000 (5,000–35,000 over the range of track W's plan) |
+| **Estimated total at completion** (hand-written) | **≈ 487,000** |
+| Estimated still to write | ≈ 14,000 (5,000–34,000 over the range of track W's plan) |
 
-**How the size is estimated.** Every figure except the two rows of generated data counts hand-written Lean only: the generated certificate data under `KAM/SpinOrbit/Data/` (the barrier tori of the Moon, emitted by `scripts/spin_orbit/` and checked by the kernel) are counted apart. The estimate scales the lines written so far for the other tracks (on `main` plus the agent branches: tracks K, I, N, P and R, the sharp a-posteriori theorems and certifiers, the shared infrastructure) by the done share of the Lean work items, weighted by difficulty (track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P: 100 % done); adds track SO from its design (its lines on `main` plus the line estimates of its packages not yet landed, 0 lines; the Lean packages of part 3 are on `main`, and what it still needs is generated data); and adds track W from its planning range of 78,000–106,000 lines (graph-scaled (2026-10-31): track W's dependency graph has 690 nodes; the finished tracks average 87 lines of Lean per graph node (K 72, I 83, N 59, P 109), so 690 × 87 ≈ 60k; the high end uses track P's 109 per node plus 20 % for infinite-dimensional infrastructure (sequence spaces, parameter-Lipschitz estimates), ≈ 90k; replaces the low-confidence 34k–70k of docs/TRACKS.md; raised to its measured rate, 92,000 lines for the whole graph at its lines on `main` per resolved node; midpoint used), of which 89,447 are written; and adds track LP from its planning range of 12,000–25,000 lines (the Lean roadmap of the audited proof; midpoint used), of which 7,065 are written. The side project LG00 is not counted: its certificate never enters this library. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv) (`lean_lines` counts every module, `generated_lines` the generated data among them).
+**How the size is estimated.** Every figure except the two rows of generated data counts hand-written Lean only: the generated certificate data under `KAM/SpinOrbit/Data/` (the barrier tori of the Moon, emitted by `scripts/spin_orbit/` and checked by the kernel) are counted apart. The estimate scales the lines written so far for the other tracks (on `main` plus the agent branches: tracks K, I, N, P and R, the sharp a-posteriori theorems and certifiers, the shared infrastructure) by the done share of the Lean work items, weighted by difficulty (track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P: 100 % done); adds track SO from its design (its lines on `main` plus the line estimates of its packages not yet landed, 0 lines; the Lean packages of part 3 are on `main`, and what it still needs is generated data); and adds track W from its planning range of 78,000–106,000 lines (graph-scaled (2026-10-31): track W's dependency graph has 690 nodes; the finished tracks average 87 lines of Lean per graph node (K 72, I 83, N 59, P 109), so 690 × 87 ≈ 60k; the high end uses track P's 109 per node plus 20 % for infinite-dimensional infrastructure (sequence spaces, parameter-Lipschitz estimates), ≈ 90k; replaces the low-confidence 34k–70k of docs/TRACKS.md; raised to its measured rate, 92,000 lines for the whole graph at its lines on `main` per resolved node; midpoint used), of which 90,146 are written; and adds track LP from its planning range of 12,000–25,000 lines (the Lean roadmap of the audited proof; midpoint used), of which 7,065 are written. The side project LG00 is not counted: its certificate never enters this library. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv) (`lean_lines` counts every module, `generated_lines` the generated data among them).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 04:26 UTC from `main` at `9bd8b629` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 04:40 UTC from `main` at `dc13419c` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -506,15 +506,15 @@ account read from each agent's running process) and their branches. Rules for ag
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | 🔄 working | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA lock_mlane: dry-run schedule (LOCK_DRY=1) and missing-source report | `inp-lockdata` | 55 (vs `inp`) |
-| **lp** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP progress: W3C landed | `inp-lp` | 4 (vs `inp`) |
+| **lp** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP progress: SP-GEO proved; SP-OSC launched | `inp-lp` | 6 (vs `inp`) |
 | **lp-psaud** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: LP-PS: orchestrator audit section added to the handoff | `inp-lp-psaud` | 4 (vs `inp`) |
-| **lp-spchart** `inp-mprov-lp-spchart` | prover (offload) | Claude Sonnet 5.5 | claude-12 | 🔄 proving | last commit: LP-SP-CHART: definitions, elements (45), analyticity, rotation derivative algebra (items 1 | `inp-lp-spchart` | 5 (vs `inp`) |
-| **lp-spgeo** `inp-mprov-lp-spgeo` | prover (offload) | Claude Sonnet 5.5 | claude-11 | 🔄 proving | last commit: LP-SP-GEO: spatial barrier G0, G2, G3, N11 (Geometry) | `inp-lp-spgeo` | 11 (vs `inp`) |
-| **w4c** `inp-maud-wpl` | prover (offload) | Claude Opus 5.5 | — | 🔍 in audit | last commit: Merge branch 'inp' into inp-w4c | `inp-w4c` | 6 (vs `inp`) |
+| **lp-spchart** `inp-mprov-lp-spchart` | prover (offload) | Claude Sonnet 5.5 | claude-12 | 🔄 proving | last commit: LP-SP-CHART: image, injectivity mod 2pi, local diffeo, facade, root imports (item 3) | `inp-lp-spchart` | 7 (vs `inp`) |
+| **lp-sposc** `inp-mprov-lp-sposc` | prover (offload) | Claude Sonnet 5.5 | claude-11 | 🔄 proving | last commit: LP-SP-OSC: Fin 3 specific elements, tangency, perturbation estimates, pointwise core | `inp-lp-sposc` | 16 (vs `inp`) |
+| **w4c** `inp-maud-wpl` | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: Merge branch 'inp' into inp-w4c | `inp-w4c` | 6 (vs `inp`) |
 | **w5r** `inp-mprov-wpq` | prover (offload) | Claude Opus 5.5 | claude-11 | 🔄 proving | last commit: W5-REAL: handoff (audit focus, statements, checks) | `inp-w5r` | 170 (vs `inp`) |
 | **wpj** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: Merge inp into inp-wpj (W5 audit base) | `inp-wpj` | 161 (vs `inp`) |
 | **wpk** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: W3-MAIN: real-coordinate identities (X_K^R gradient form, Gbar closed form, H(Gamma^R x)); | `inp-wpk` | 87 (vs `inp`) |
-| **wpr** `inp-mprov-wpr` | prover (offload) | Claude Opus 5.5 | claude-11 | 🔄 proving | last commit: W6-ITER step 0: re-prove ShellGeom inclusions for the infDist shellInner; handoff skeleton | `inp-wpr` | 175 (vs `inp`) |
+| **wpr** `inp-mprov-wpr` | prover (offload) | Claude Opus 5.5 | claude-11 | 🔄 proving | last commit: W6-ITER: iter-lemma (stage hypotheses, W5 step at stage nu, stage nu+1 except reality of P | `inp-wpr` | 176 (vs `inp`) |
 <!-- /AUTO:workers -->
 
 ### Recent changes on `main`
