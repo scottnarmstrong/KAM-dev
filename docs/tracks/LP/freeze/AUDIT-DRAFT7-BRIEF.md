@@ -87,6 +87,16 @@ oleans are built there.
    run from the worktree, one at a time. Also independently confirm `#print axioms` of the five closing anchor
    theorems.
 
+## Emphasis (root-b8, for this audit)
+
+- Compare all 5 anchors with MAIN and AMENDMENTS.
+- Check every one of the 88 definition bodies on its whole carrier, plus the 34 characterizations.
+- Check the LP0 restatement through `sourceStrongAMD`.
+- Confirm that the closure inventory, frozen versus internal, is **complete**: no declaration an anchor depends on is
+  left unfrozen or unlisted.
+- Confirm that the 127 file texts are **exactly** what would be frozen, byte for byte the declarations that the
+  verification closes.
+
 ## Report
 
 Write `docs/tracks/LP/freeze/STATEMENT-AUDIT-DRAFT7-1.md` with:
