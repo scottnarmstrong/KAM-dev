@@ -22,6 +22,7 @@ so nothing is recomputed here:
 
 | Branch | Toy | Passing theorem reused |
 |---|---|---|
+| `.old` | `toyCert2` | `toyCert2_passes` (the original landed certifier) |
 | `.sharp` | `toyCert2` | `toyCert2_sharpV2_passes` |
 | `.aFrozen` | `toyCert2` | `toyCert2_v2_passes` |
 | `.aRefined` | `toyCert2` | `toyCert2_refined_passes` |
@@ -49,6 +50,9 @@ bounds (`toyCert2_routeMax_corner_passes`, `cornerBase.check` decided here).
 namespace KAM.CertificateSharp.V2
 
 open KAM KAM.Certificate KAM.CertificateSharp
+
+theorem toyCert2_routeMax_old : checkTorusCertificateV2 routeMax toyCert2 .old = true :=
+  (checkTorusCertificateV2_routeMax_old toyCert2).trans toyCert2_passes
 
 theorem toyCert2_routeMax_sharp : checkTorusCertificateV2 routeMax toyCert2 .sharp = true :=
   (checkV2With_routeMax_sharp landedBase toyCert2).trans toyCert2_sharpV2_passes

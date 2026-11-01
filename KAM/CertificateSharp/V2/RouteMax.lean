@@ -25,6 +25,7 @@ test, and every row of the table below is a theorem by `rfl`, at **every** base 
 
 | Constructor | Engine | Witness |
 |---|---|---|
+| `.old` | `EngineV2.ofEngine oldEngine` (the original `checkTorusCertificate`) | none |
 | `.sharp` | `sharpV2` (the landed certifier) | none |
 | `.aFrozen w` | `routeAFrozen` | `FrozenWit` |
 | `.aRefined w` | `routeARefined` | `RefinedWit` |
@@ -95,6 +96,8 @@ def PackedBooks.base (b : PackedBooks) : BaseChecker :=
 
 /-- The witness of `routeMax`: the constructor names the route (module docstring). -/
 inductive RouteMaxWit where
+  /-- The original landed engine (`checkSmallness`, `g1_explicit`). -/
+  | old
   /-- The landed sharp engine. -/
   | sharp
   /-- Route A at the frozen data. -/
@@ -131,6 +134,7 @@ inductive RouteMaxWit where
 /-- The test of `routeMax`: the test of the engine the constructor names. -/
 noncomputable def routeMaxTest {n : ℕ} {α : Type} [CertArith α] (c : TorusCertificate n α) :
     RouteMaxWit → Bool
+  | .old => (EngineV2.ofEngine oldEngine).test c ()
   | .sharp => sharpV2.test c ()
   | .aFrozen w => routeAFrozen.test c w
   | .aRefined w => routeARefined.test c w
@@ -155,6 +159,7 @@ noncomputable def routeMax : EngineV2 where
   sound := by
     intro n α _ _ c w ωstar hω hdio B h
     cases w with
+    | old => exact (EngineV2.ofEngine oldEngine).sound c () hω hdio B h
     | sharp => exact sharpV2.sound c () hω hdio B h
     | aFrozen w => exact routeAFrozen.sound c w hω hdio B h
     | aRefined w => exact routeARefined.sound c w hω hdio B h
@@ -187,6 +192,13 @@ theorem checkTorusCertificateV2_routeMax_sound [LawfulCertArith α] {c : TorusCe
 section Branches
 
 variable (B : BaseChecker) (c : TorusCertificate n α)
+
+/-- **Never worse than the original landed certifier** `checkTorusCertificate`. -/
+theorem checkTorusCertificateV2_routeMax_old :
+    checkTorusCertificateV2 routeMax c .old = checkTorusCertificate c := rfl
+
+theorem checkV2With_routeMax_old :
+    checkV2With B routeMax c .old = checkV2With B (EngineV2.ofEngine oldEngine) c () := rfl
 
 /-- **v2 is never worse than the landed certifier**, at `routeMax`. -/
 theorem checkTorusCertificateV2_routeMax_sharp :
