@@ -2674,3 +2674,100 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - The free slot runs the W3-MAIN fix (F1–F3). Provers: W5-STEP, W3-MAIN-FIX.
 - **00:55. Owner: D57, audits on codex-2 (usage credits).** kam-lp and kam-1b are told; the launchers accept codex-2.
   OD-10 is resolved.
+- **00:56. LP-DICT proved (712 lines, standard axioms). The early Lemma 13 interface test passed in Lean:** the planar chart field maps exactly onto KAM.Nekhoroshev.nonresonant's realWfield in physical time (θ = λ/2π, I = Λ, slow scale ℓ, c = 2π/ℓ²), with no convention mismatch; the riskiest interface the auditor named is de-risked. DICT is in a join round, then its audit on codex-2 after BAR1.
+- **01:00. LP-BAR1 (THR+MOM) audit (codex-1): PASS WITH NOTES, nothing blocking.** Notes applied, including a real wrapper bug: lp_build.sh exited 1 after successful builds, and W's w_build.sh has the same line (kam-1b told). Landing requested as inp-lp@4873f67b (8 StrongAMD modules). The codex-2 slot passed to W7-MEASURE while DICT finishes its join round.
+- **01:13. The v2-certifier review (cbae9a98) against SO-3.**
+  - Assessment: the fixes do not reduce SO-3's cost. F1, F3 and F4 are Python tooling; F2 is route B only, and the
+    lock uses route A (routeAV2/routeARefined).
+  - Of the improvements, only #3 (producer-side search minimizing replay cost at a fixed margin) could yield a cheaper
+    lock certificate, and only through a regenerated certificate. It is a later optional study.
+  - Risk raised: Frame/Majorants.lean and V2/SmallDivQ.lean are in the import closure of all 1,650 band data modules
+    and of the lock assembly. The other agent confirms the fixes landed as new modules (MajorantsLN, RouteBLN,
+    RouteAllLN; main 8665c67b) with the core files byte-identical. It now forbids edits to existing core files, and
+    its land-side.sh refuses such branches.
+  - Verified on main: those files were last changed 30 Oct; KAMLunarBand is up to date (5,234 jobs); the core build is
+    complete at 11,047 jobs (3 light new modules built).
+- **01:15. Track LP:** THR and MOM are on main (f1fe1d30). GEOMOD (748 lines) and DICT (632 lines) are proved and combined as audit LP-W1B (inp-lp-w1b@d927990e), queued on codex-2 behind W7-MEASURE. Wave 2 has started: LP-NRS (scale and horizon, claude-12) and LP-DOM (Lemma 8 analytic domain through tube, claude-11). Next: LP-NRR, then wave 3.
+- **01:19. Heartbeat.**
+  - Provers working: LP-DOM, LP-NRS, W5-STEP, W3-MAIN-FIX. The LP lean processes are capped at 4 GB (checked).
+  - Load about 11 from the 4 provers plus KPZ activity (git pack-objects, lar scripts) and Codex. No OOM since 01:00.
+    Memory: 16 GB available.
+  - Quotas: claude-11 66 %, claude-12 39 %, claude-3 32 %, claude-6 10 %.
+- **01:26. LP-W1B (GEOMOD+DICT) audit on codex-2: PASS WITH NOTES, nothing blocking.** Note D1 is carried to LP-CONF: the one-centre drift helper is conditional, and Lemma 14 must supply the chart lift and memberships from the first-exit argument, never an assumed drift. Landing inp-lp@9124ae66 (6 StrongAMD modules) completes wave 1 (Lemmas 2–7) on main.
+- **01:34. Track W.**
+  - The W7-MEASURE audit is running on codex-2, after LP-W1B, with 4 short names renamed first.
+  - W3-MAIN-FIX is done (inp-w3main@6d809163):
+    - F1: weak transport with C_* exactly;
+    - F2: the Yseries source exports;
+    - F3: a domain-restricted public API, with the global helpers renamed *Ext;
+    - N1: the real power series.
+    Its round-2 audit is queued after W7.
+  - W5-STEP has 55 more commits (Taylor, the new-Hamiltonian engine, pull-back estimates).
+  - A second prover, W5-MODIFIED (claude-11, slim worktree wpq), takes bpW:w5:w4-modified only.
+  - The w_build.sh exit-code bug is fixed.
+- **01:42. W7-MEASURE audit 1 (codex-2): FAIL on 2 findings.** The main measure theorem exclSet_measure_le and the density, Diophantine and limit implications pass. F1 is a real transcription bug: shellInner used a pointwise margin, where the source has dist_∞(I, R²∖R_k) > a, which made it a stronger premise (counterexample given). It will be redefined with infDist, and W8-PREP's ShellGeom (7 uses) re-checked. F2: missing exports (freqcoords inverse and bijection, counts). The fix is queued for the next W slot. W3-MAIN round 2 is next on codex-2 if LP has nothing ready.
+- **01:45. Track LP:** wave 1 (Lemmas 2–7) is complete on main (22c7517e). LP-DOM (Lemma 8, 601 lines) and LP-NRS (scale, 301 lines) are proved and in combined audit LP-W2A on codex-2. LP-NRR (Lemma 13, ExtNFHyp per centre giving the stopped drift) is on claude-11; LP-OSC (Lemma 16) is on claude-12. kam-inp-63 is told that D57 makes codex-2 audits valid.
+- **01:48. Heartbeat.**
+  - LP provers: LP-NRR and LP-CONF (LP-OSC has finished); W provers: W5-STEP and W5-MODIFIED; the W suborch is active.
+  - No OOM since 01:20. Load about 7–9. Memory: 17 GB available. Disks: / 17 GB free, HC 66 GB free.
+  - Quotas: claude-11 66 %, claude-12 39 %, claude-3 32 %.
+- **01:49. The LP-W2A audit prompt was stuck unsubmitted in the Codex input box** (a long paste needs an extra Enter). root-b8 submitted it; it is now running. kam-lp is told to verify the 'Working' spinner after every launch (the known tmux-submission failure).
+- **02:01. LP-W2A (DOM, Lemma 8; NRS, scale) audit on codex-2: PASS WITH NOTES; landing inp-lp@d144c7b9 (6 modules).** DOM proves only the parts of Lemma 8 the Lean route consumes; the Lemma 8 graph node is to be PARTIAL unless the derivative and denominator clauses are added. NRR must choose ρ strictly inside r_*. Next LP audit: LP-OSC (Lemma 16).
+- **02:02. LP-CONF (Lemma 14) proved:** strongFirstExit_of_stopped_drift, 267 lines, standard axioms. It gives existence, uniqueness, drift ≤ r/2, the AMD margin δ/2 and the barrier state on [−T, T]; its only extra premise, the stopped drift hstop, is an internal helper premise that LP-PS discharges via NRR. A strict-inequality strengthening round is underway. CONF will be audited with OSC as LP-W3A on codex-2 after W3-MAIN round 2. The Lemma 8 PARTIAL rule is in PROGRESS (a7aa700e).
+- **02:14. Track W: W3-MAIN round 2 (codex-2): PASS WITH NOTES** (F1–F3 closed, N1 supplied). It is landing as
+  inp-w3main@f07140a5 (33 Birkhoff modules), so all of W3 is audited.
+  - W5-STEP's context filled after clause (v) and it restarted fresh (02:05). Remaining: reality of R, weak conjugacy,
+    periodicity and equivariance, symplecticity, then the step theorem.
+  - W5-MODIFIED is working. The W7 fix waits for a slot.
+- **02:18. Heartbeat.**
+  - Load about 17 from overlapping bursts: the landing core build of W3-MAIN in KAM-inp (parallel lean), two
+    frozen-anchor guard runs from provers' lint (minutes each), the LP-OSC audit's kernel replay, and KPZ activity
+    (a git pack and a 20-minute python job).
+  - No OOM since 01:50. Memory: 17 GB available.
+  - Provers working: LP-NRR, LP-CONF, W5-STEP, W5-MODIFIED.
+  - Quotas: claude-11 62 %, claude-12 36 %, claude-3 31 %, claude-6 9 %.
+- **02:22. Track LP: LP-NRR (Lemma 13) proved** (762 lines, standard axioms): lp_stopped_drift gives ‖Λ(z u) − I⁰‖ ≤ D₀√μ/2 for |t| ≤ T₀ exp(c μ^(−1/(2(τ+1)))), with every ExtNFHyp field built per centre and ρ strictly inside r_*. Every planar lemma is now proved. Running: LP-LIFT (the chart lift discharging hstop) and LP-DOMX (the remaining Lemma 8 clauses). Audits queued: OSC (running), W3B (CONF+NRR), then LIFT and DOMX. Next: LP-PS, the planar theorem LP1.
+- **02:22. Track W: W5-MODIFIED done in 45 min** (inp-wpq@1d8e2579): bpW:w5:w4-modified (i)–(iii) complete, 12 new files each under 600 lines, standard axioms; only generality deviations. It merges into W5-STEP at the next commit boundary, and its audit is batched with W5-STEP's. The freed slot runs W7-FIX (shellInner via infDist plus the exports).
+- **02:25. LP FREEZE-PROPOSAL draft 1** (inp-lp daac5b3e): exact elaborated text of LP0 planar_strongAMD_barrier (already proved as strongBarrier_physical on main) and LP1 planar_strongAMD_exponentialSafety (Thm 15 + L16), with OD-1 |L|, OD-2 the carrier variant, and OD-3 recommending dropping max ν = 1. An independent statement-fidelity review on codex-2 is requested before the owner sees it (draft 2).
+- **02:37. Track W: W3-MAIN landed (main 71c73243, with LP-W2A). All of W3 and W4 are on main.** The LEAN_STATUS recording for the W3/W4 graph nodes is running under the binding rule: PROVED only for source conclusions that passed their final audit, PARTIAL otherwise; the structural gate must exit 0.
+- **02:49. Track W graph LEAN_STATUS for W3 and W4** (inp-wgraph@0aaf2bb3, docs only, to kam-inp-63): PROVED 213 → 305, PARTIAL 14 → 22, NOT_STARTED 420 → 320; all W3 nodes PROVED. The 8 new PARTIALs are W4 clauses not exported (the lie (iii) general-F rule, lemma1 (i) and (ii) composition and exports, lemma2's λ-weighted norms, steps, w4-general). A W4-COMPLETE package is queued after W7-FIX. Gate exit 0. W7-FIX: F1 (infDist), F2.1 and F2.2 committed.
+- **02:50. Heartbeat.**
+  - LP-OSC (Lemma 16) merged into inp (e0262014; audit PASS WITH NOTES), and the landing to main is in progress (the
+    HQ lock is held by land-branch).
+  - Working: the LP-W3B audit (CONF+NRR), LP-PS (the LP1 assembly), LP-DOMX, W5-STEP, W7-FIX.
+  - No OOM since 02:20. Load about 14. Memory: 16 GB available. Disks: / 16 GB free (90 %), HC 67 GB free.
+- **02:51. Track LP: LP-LIFT done** (510 lines, standard axioms): the chart lift on the stopped interval, with the three D1 premises derived from CONF's strict conditions (no assumed drift). Every LP1 ingredient is proved. LP-PS is assembling lp1_planar_strongAMD_safety (proposal text minus max ν = 1), the normalized corollary, LP0 and the τ = n − 1/2 corollary. Audits: W3B running, then the statement review, LIFT, DOMX, PS.
+- **03:17. MILESTONE (track W): the W5 KAM step theorem is proved for the non-modified case** (KAM.Wave.stepTheorem, inp-wpj@4bb365eb; all five clauses; standard axioms). Before audit (rule 6, root-b8): the extra premise ε₀ > 0 must be discharged or moved to a distinctly named helper; 5σ < s versus σ ≤ s/6 is to be compared as a hypothesis. The node stays PARTIAL until reality, DΦ(𝒫^{p₊}) and the Riesz X_N are exported. The modified case is next; the W5 audit will be split into two codex-2 runs.
+- **03:18. Heartbeat.**
+  - LP-W3B (CONF Lemma 14 + NRR Lemma 13) audit PASS WITH NOTES; both landed (main 56adb6f3). LP-OSC landed earlier.
+  - HQ meters: track W 65 % (graph LEAN_STATUS for W3 and W4), track LP 34 %.
+  - Working: LP-PS (the LP1 assembly), an LP thr2 package, kam-lp, kam-1b, W5-STEP (modified case), and the wpq prover.
+  - No OOM since 02:50. Load about 10. Memory: 16 GB available.
+  - Quotas: claude-11 59 %, claude-12 34 %, claude-3 29 %, claude-6 7 %.
+- **03:19. LP freeze proposal: statement review 1 (codex-2) returned draft 1 for revision.** No false statement and no
+  conclusion-shaped premise. Findings:
+  - F1: LP0 exported only the distance projection of Lemma 5;
+  - F2: LP1 lacked Lemma 16's summed element estimate and ellipse-validity clauses;
+  - F3: the cross threshold lacked a 2 ≤ n guard;
+  - F4: the total formulas need source subtypes (new FOR OWNER OD-11; root-b8 recommends (b) source subtypes);
+  - F5: keep max ν = 1 (OD-3 revised).
+  - Draft 2 (448cd5d9) is elaborated with the fixes. A delta review is queued before the owner sees it.
+  - LP-THR2 (F3 repair) is running. LP-DOMX is proved (lemma8_complete; Lemma 8 can be PROVED); LIFT + DOMX are queued
+    as audit LP-W3C.
+- **03:26. Track W: rule-6 points on stepTheorem are being addressed.** The ε₀ > 0 version becomes the helper stepTheorem_of_eps0_pos; the source-facing stepTheorem is proved without the premise (via ε₀' = ε/2 when ε₀ = 0), and the same applies to the modified case. 5σ < s is weaker than the blueprint's σ ≤ s/6 (given σ > 0), so it is allowed, and the comparison is recorded. The step node stays PARTIAL until reality, DΦ(𝒫^{p₊}) and X_N are exported. W7 round 2 is running on codex-2 (spinner confirmed).
+- **03:36. Track W: W7-MEASURE round 2 (codex-2): PASS** (F1 shellInner via infDist with consumers reproved; F2 exports). Landing as inp-w7land@4a8adcb5 (28 modules). After it lands, W6-PREP/W8-PREP (inp-wpn) rebases onto it, adopting the renames and the new shellInner, and W8's ShellGeom (7 uses) is re-checked. Provers: W5-STEP (modified case plus the ε₀ fix), W4-COMPLETE. codex-2 is back with LP for W3C.
+- **03:39. MILESTONE (track LP): the planar strong-AMD exponential safety theorem is proved end to end in Lean**
+  (LP-PS, inp-lp-ps@74ebebb1, 779 lines; the forbidden-construct scan of the 17 changed Lean files is clean).
+  - lp1_planar_strongAMD_safety (general), _normalized (the freeze-proposal draft-2 text verbatim) and _halfInteger
+    (exponent 1/(2n+1)), plus lp0_planar_barrier (full Lemma 5). Standard axioms.
+  - Remaining: audits LP-W3C, then the delta review, then LP-PS; landings; the owner's freeze decisions OD-1..OD-11.
+  - Wave 4 (spatial) has started: LP-SP-MODEL on claude-11; the rotation algebra next.
+- **03:39. Track W: W4-COMPLETE done** (inp-w4c@6532d124): the four PARTIAL W4 clauses are exported (lie (iii) general F,
+  lemma1 (i) unconditional, lemma1 (ii), lemma2 λ-weighted). Its audit follows LP's queue. W5-REAL (claude-11) adds
+  the step's missing clauses (reality, DΦ(𝒫^{p₊}), Riesz X_N). W5-STEP is on the modified case with the conditional
+  helper pattern.
+- **03:48. Heartbeat.**
+  - Working: the LP-W3C audit (LIFT+DOMX) on codex-2; LP-SP-MODEL and LP-SP-ROT (the spatial wave); W5-STEP; W5-REAL.
+  - HQ meters: track W 65 %, track LP 42 %.
+  - No OOM since 03:20. Memory: 15 GB available. Disks: / 15 GB free (90 %), HC 67 GB free.
+  - Quotas: claude-11 59 %, claude-12 34 %, claude-3 29 %, claude-6 7 %.
