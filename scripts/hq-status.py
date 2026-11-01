@@ -923,8 +923,12 @@ def _lp_frac(waves):
     return lw / tw if tw else 0.0
 
 
+LP_FROZEN_DIRS = ('KAM/Frozen/Planetary/StrongAMD/', 'KAM/Frozen/Planetary/Spatial/')
+
+
 def _lp_anchors():
-    return [a for a in manifest['anchors'] if a['kind'] == 'theorem' and a['id'].split('.')[0] == 'lp']
+    """Track LP's frozen theorems, found by path (their manifest ids are `planetary.d59.*`, D62)."""
+    return [a for a in manifest['anchors'] if a['kind'] == 'theorem' and a.get('path', '').startswith(LP_FROZEN_DIRS)]
 
 
 # Stages of track LP, weighted by effort; every test reads the repository (planned 12k–25k new Lean lines: planar
