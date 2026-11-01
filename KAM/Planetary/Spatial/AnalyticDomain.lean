@@ -11,6 +11,7 @@ public import KAM.Planetary.Spatial.AnalyticDomain.Safety
 public import KAM.Planetary.Spatial.AnalyticDomain.Extension
 public import KAM.Planetary.Spatial.AnalyticDomain.Containment
 public import KAM.Planetary.Spatial.AnalyticDomain.Alignment
+public import KAM.Planetary.Spatial.AnalyticDomain.Bounds
 
 /-!
 # The spatial whole-sublevel complex domain (facade)

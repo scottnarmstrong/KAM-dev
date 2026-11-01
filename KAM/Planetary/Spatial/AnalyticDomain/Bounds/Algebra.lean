@@ -19,7 +19,7 @@ Twins of LP-DOMX's `Bounds.Algebra` for bodies with `Fin 3` blocks:
 
 * `cBody3`, `cDot3`: body block of a complex coordinate vector and the bilinear `v · v = ∑ v_k²`;
 * `cDot3_cpow_ofReal`: on real vectors the principal root is `spaceLength`;
-* `re_cDot3_ge`: coordinatewise perturbation estimate `Re (w · w) ≥ |u|² − (2ε² + 4Qε)`;
+* `re_cDot3_ge`: coordinatewise perturbation estimate `Re (w · w) ≥ |u|² − 3ε(ε + 2Q)`;
 * `differentiableOn_inv_sqrt_cDot3`: holomorphy of the reciprocal principal root.
 
 The scalar estimate `norm_inv_sqrt_le` is dimension-free and reused from LP-DOMX.
