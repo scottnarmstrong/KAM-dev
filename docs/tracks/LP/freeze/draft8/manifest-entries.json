@@ -1,0 +1,773 @@
+{
+ "_comment": "LP-FREEZE8 manifest entry drafts (NOT manifest/frozen-anchors.json): the LP3 delta (draft 8) on top of docs/tracks/LP/freeze/draft7/manifest-entries.json, same schema and conventions. Fields marked \"TBD at freeze\" are computed by scripts/abi_hashes.py and sha256 at freeze time; author_approval is filled from the owner decision approving the exact text. definition_closure lists the complete transitive closure of frozen definition files imported (including the core KAM/Frozen/Defs files); the paths under KAM/Frozen/Planetary/StrongAMD/ and KAM/Frozen/Planetary/Spatial/ are draft-7 files.",
+ "entries": [
+  {
+   "id": "planetary.d59.planar_strongAMD_exponentialSafety_noArith.v1",
+   "kind": "theorem",
+   "author_approval": "PENDING (D59 approves rulings only)",
+   "source": {
+    "revision": "KAM-inp@ced282aa docs/tracks/LP/source/MAIN.md (sha256 68e9167f04e4a04689ea163c74e02ffcaea657b252726080abdbe37bdba48c1b) as amended by docs/tracks/LP/source/AMENDMENTS.md (sha256 c887d1e27354a3db7fb8a20d8bf3e33a9ef95ff3173f925ba5ebfab192651881), with the LP3 proof plan docs/tracks/LP/lp3/LP3-PLAN.md (sha256 1b58b7048fb3de47e1cadfee0e904085551227a28949a564ea2dc13085ab06ba); exact text docs/tracks/LP/FREEZE-PROPOSAL-DRAFT8.md draft 8",
+    "range": "MAIN T15 (502–506) with §1 (6)–(9) (69–93) without (5), L14 (468–500), L16 (508–529); N8, N10; drift supplier L12–L13 (381–467) replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)"
+   },
+   "contract": {
+    "id": "planetary.d59.planar_strongAMD_exponentialSafety_noArith",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean",
+   "export": "KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith",
+   "split_policy": {
+    "source_group": "planetary.d59.planar_strongAMD_exponentialSafety_noArith",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D59"
+   },
+   "abi_sha256": "TBD at freeze",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Defs/ActionNbhd.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/ComplexStrip.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/DotC.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/FrequencyMap.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/GramMatrix.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/HamiltonianVectorFieldC.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/InvarianceError.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsDiophantine.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsPrimaryOnStrip.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsRealOnReals.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/NormalFrame.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/OmegaZero.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/RealHamiltonian.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/SymplecticForm.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/Torsion.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/TorsionAverage.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Iso/Defs/IsHamiltonianSolutionOn.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/ActualMasses.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/Assemble.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/BarycentricPositions.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/BarycentricVelocities.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/BodyVector.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/Fast.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/IsMovingSolutionOn.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/IsNewtonSolutionOn.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/KeplerAction.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/KeplerAxis.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/KeplerEccVector.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/KeplerEnergy.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/MovingHamiltonian.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/MovingUniqueOn.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/NoCollision.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/OscillatorAction.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PairBounds.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/Phase.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlaneCross.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlaneDot.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlaneLength.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlaneSq.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlanetaryDriftExponent.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlanetaryTimeExponent.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/SecularAverage.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/Slow.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/TotalMomentum.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/AdjIdx.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/AdjIdxUpperIdx.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/Chamber.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/EccDeficit.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/KeplerApo.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/KeplerPeri.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OrderedActions.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OrderedCrossThreshold.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OrderedPairThreshold.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OrderedStrongThreshold.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OscApo.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OscAxis.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OscEcc.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OscEccVector.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OscEnergy.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OscParam.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OscPeri.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OscVelocity.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/PairFeasible.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/PairObjective.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/PairThreshold.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceCanonicalPhase.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceKeplerApo.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceKeplerPeri.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscApo.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscAxis.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEcc.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEccVector.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEnergy.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscPeri.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceOsculatingPhase.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceStrongAMD.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/StrongAMD.lean",
+     "sha256": "TBD at freeze"
+    }
+   ],
+   "implementation": {
+    "module": "KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyNoArith",
+    "export": "KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith"
+   },
+   "state": "DRAFT_SORRY",
+   "prefix_sha256": "TBD at freeze",
+   "suffix_sha256": "TBD at freeze",
+   "draft_allowlist": {
+    "frozen_paths": [],
+    "audit_paths": []
+   }
+  },
+  {
+   "id": "planetary.d59.spatial_strongAMD_exponentialSafety_noArith.v1",
+   "kind": "theorem",
+   "author_approval": "PENDING (D59 approves rulings only)",
+   "source": {
+    "revision": "KAM-inp@ced282aa docs/tracks/LP/source/MAIN.md (sha256 68e9167f04e4a04689ea163c74e02ffcaea657b252726080abdbe37bdba48c1b) as amended by docs/tracks/LP/source/AMENDMENTS.md (sha256 c887d1e27354a3db7fb8a20d8bf3e33a9ef95ff3173f925ba5ebfab192651881), with the LP3 proof plan docs/tracks/LP/lp3/LP3-PLAN.md (sha256 1b58b7048fb3de47e1cadfee0e904085551227a28949a564ea2dc13085ab06ba); exact text docs/tracks/LP/FREEZE-PROPOSAL-DRAFT8.md draft 8",
+    "range": "MAIN T19 (599–603) with §1 (6)–(9) (69–93) without (5), L14 (468–500), L16 (508–529), d = 3; drift supplier L12–L13 (381–467) replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)"
+   },
+   "contract": {
+    "id": "planetary.d59.spatial_strongAMD_exponentialSafety_noArith",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean",
+   "export": "KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith",
+   "split_policy": {
+    "source_group": "planetary.d59.spatial_strongAMD_exponentialSafety_noArith",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D59"
+   },
+   "abi_sha256": "TBD at freeze",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Defs/ActionNbhd.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/ComplexStrip.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/DotC.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/FrequencyMap.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/GramMatrix.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/HamiltonianVectorFieldC.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/InvarianceError.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsDiophantine.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsPrimaryOnStrip.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsRealOnReals.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/NormalFrame.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/OmegaZero.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/RealHamiltonian.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/SymplecticForm.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/Torsion.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Defs/TorsionAverage.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Iso/Defs/IsHamiltonianSolutionOn.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/ActualMasses.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/Assemble.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/BarycentricPositions.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/BarycentricVelocities.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/BodyVector.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/Fast.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/MovingHamiltonian.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/NoCollision.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/OscillatorAction.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PairBounds.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/Phase.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlaneDot.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlaneLength.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlaneSq.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlanetaryDriftExponent.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlanetaryTimeExponent.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/SecularAverage.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/Slow.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/AngularMomentum3.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/BodyVector3.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/IsSpatialMovingSolutionOn.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/IsSpatialNewtonSolutionOn.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpaceCross.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpaceDot.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpaceLength.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpaceSq.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialBarycentricPositions.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialBarycentricVelocities.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialElliptic.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialHamiltonian.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerAction.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerApo.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerAxis.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerEccVector.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerEnergy.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerPeri.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialMasses.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialMovingUniqueOn.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialNegativeEnergy.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialNoCollision.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialOscApo.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialOscAxis.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEcc.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEccVector.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEnergy.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialOscParam.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialOscPeri.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialOscPhase.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialOscVelocity.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceAngularMomentum.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricPositions.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricVelocities.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceCanonicalPhase.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerAction.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerApo.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerAxis.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerEccVector.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerPeri.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscApo.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscAxis.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEcc.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEccVector.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEnergy.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscPeri.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOsculatingPhase.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceStrongAMD.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/AdjIdx.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/AdjIdxUpperIdx.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/Chamber.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/EccDeficit.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OrderedActions.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OrderedCrossThreshold.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OrderedPairThreshold.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OrderedStrongThreshold.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/PairFeasible.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/PairObjective.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/PairThreshold.lean",
+     "sha256": "TBD at freeze"
+    }
+   ],
+   "implementation": {
+    "module": "KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyNoArith",
+    "export": "KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith"
+   },
+   "state": "DRAFT_SORRY",
+   "prefix_sha256": "TBD at freeze",
+   "suffix_sha256": "TBD at freeze",
+   "draft_allowlist": {
+    "frozen_paths": [],
+    "audit_paths": []
+   }
+  }
+ ]
+}
