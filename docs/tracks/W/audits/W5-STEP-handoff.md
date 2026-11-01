@@ -124,3 +124,12 @@ is regenerated at landing.
 `differentiableOn_fderiv_of_holomorphic` (the derivative of a holomorphic map on a Banach space is holomorphic; proved by
 slice analyticity in finitely many variables plus Cauchy remainder estimates; no such lemma existed in W1/Mathlib).
 Open for `taylor`: reality (`P` real ⇒ `R` real; needed only for the reality clauses of the step theorem).
+
+## Design plan for new-ham (ii),(iii) + pullback/commutator application (recorded before implementation)
+Setting: `F = G = StepPhase r`, `ι = stepEmbedCLM`, `Z = stepFieldS T`, `X = smoothField ι Z`, `Dφ^t(w) = I + ι∘DΨ^t(w)`
+(`fderiv_holoFlow_smooth`). Transport is formulated through `N_t(w) := DΨ^t(w)∘ι : G →L G` (`‖N‖ ≤ 1/8`-type bounds, holomorphic in `w`
+by `differentiableOn_fderiv_of_holomorphic`): the field of `Gf∘φ^t` is `y` with `(1+N_t(w)) y = Zg(φ^t w)` (then `A⁻¹(ιZg)=ιy`).
+Estimates need no inverse series: `‖y‖_{ηr} ≤ 2‖u‖_{ηr}` from `‖N y‖_{ηr} ≤ ½‖y‖_{ηr}` (`kamNorm_le_ratio_sq`, monotonicity of
+`kamNorm` in the radius), and for two parameters `(1+N_ζ)(y_ξ-y_ζ) = u_ξ-u_ζ-(N_ξ-N_ζ)y_ξ`. P_+ := (P-R)∘Φ + ∫₀¹{R(t),F}∘φ^t dt as a function;
+its field is `y_1(P-R)` plus the `t`-integral of `y_t([X_{R(t)},X_F])`, differentiation under the integral as in `hasFDerivAt_smoothDisp`.
+The bracket field uses `hasFDerivAt_bracket` with `DZ` (G-valued) so the bracket lies in the `p_+` target.
