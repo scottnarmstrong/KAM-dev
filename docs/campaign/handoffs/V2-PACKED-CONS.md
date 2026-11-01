@@ -391,9 +391,12 @@ kamx-pk-gen's T′ table books Data at 326 modules and 3,673 CPU-s, 36 % of the 
 - **The bridge after the reboot:**
   - **T′:** nothing to do.
   - **T″:** built (22:25 UTC); nothing to do.
-  - **If kamx-pk-gen rebuilds the integration PK oleans** (its planned re-wrap of `RouteSharpJ`/`JetFront` lines,
-    same declarations): rerun both trees' commands below, refresh the pins in `…/V2-PACKED-CONS-BRIDGE/{TP,TPP}/`,
-    commit, and send kamx-conf (`lg00-conf-13`) the new olean hashes.
+  - **kamx-pk-gen's re-wrap** of `RouteSharpJ`/`JetFront` (int `e9d941830`, 22:4x UTC) rewrote no package olean:
+    Lake keeps downstream traces on the public interface. Checked against the pins: both `MainJ` and T″'s
+    `HamBounds` oleans are byte-identical, so the bridge's hashes stand.
+  - kamx-conf's `lg00_confinement` is built against them (FINAL OK, 22:26 UTC, standard axioms).
+  - **If the integration PK oleans ever change:** rerun both trees' commands below, refresh the pins in
+    `…/V2-PACKED-CONS-BRIDGE/{TP,TPP}/`, commit, and send kamx-conf (`lg00-conf-13`) the new olean hashes.
     ```
     cd /home/scott/KAM-dev-worktrees/v2-packed-cons
     python3 -I scripts/packed/cons_bridge_gen.py --tree=TP && scripts/packed/cons_bridge_build.sh TP 4G
