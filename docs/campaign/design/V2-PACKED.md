@@ -963,7 +963,7 @@ terms. A production proof establishes each shared conjunct once and assembles wi
 certifies kamx-packed's copies (`LG00P.<T>.lg00Cert`, …). LG00's statements are about LG00's own constants. Every
 field they read is equal in the copy and the original by `rfl`, so LG00's statement, verbatim, is proved by
 `:= LG00P.<T>.pk_kamTorus` (definitional unfolding; AUDIT-V2-PACKED-JETROUTE-1): `LG00.<T>.lg00_kamTorus_packed` and
-`lg00_kamTorusStatement_packed`. T′ is built: 2.3 CPU-s, standard axioms. A Boolean check such as `checkHamBounds`
+`lg00_kamTorusStatement_packed`. Both tori are built: T′ 2.3 CPU-s, T″ 1.95 CPU-s, standard axioms. A Boolean check such as `checkHamBounds`
 goes through a congruence lemma instead, since unfolding it makes the kernel evaluate it.
 
 **The jet's load bound.** The consumers pass their books' bounds to `jetCheck` (`rb.bA`, `ib.bJ`); a chain theorem

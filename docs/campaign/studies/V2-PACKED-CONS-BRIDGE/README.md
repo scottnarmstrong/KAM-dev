@@ -76,12 +76,30 @@ built on this path.
   chains, `LG00P.lg00Ham_jet` with the 6.07 GB solo exception, T′'s `Xfer` with LG00's Hamiltonian bounds) are
   kamx-pk-gen's and kamx-packed's, as audited there.
 
-## T″ (`TPP/`)
+## T″ (`TPP/`): built and checked
 
-- **`LG00B.TPP.Fields`** is built against LG00's `LG00.TPP.Data.Cert`, which kamx-pk-gen reused into `kam-lg00`
-  (hardlinks of `lg00-app`'s build: the same inodes, sha256 prefix `3edd1ba2231e1d69`).
-- **`LG00B.TPP.Main` and `Check`** wait for kamx-pk-gen's `LG00P.TPP.PK.MainJ` (`LG00P.TPP.pk_kamTorus`) and
-  `LG00P.TPP.Balls.HamBounds`. When built, kamx-conf is told; its `build_final.sh` starts on the note.
+Built at 22:25 UTC on kamx-pk-gen's `LG00P.TPP.PK.MainJ` (built 22:23; its closure has no `LG00.*` module: T″'s
+packed route proves the ball bounds on the copy) and `LG00P.TPP.Balls.HamBounds`.
+
+| module | CPU-s | wall | elaboration | kernel | peak |
+|---|---:|---:|---:|---:|---:|
+| `LG00B.TPP.Fields` | 1.33 | 1.41 | 8 ms | 1 ms | 0.36 GB |
+| `LG00B.TPP.Main` | 1.95 | 1.92 | 450 ms | 19 ms | 0.33 GB |
+| `LG00B.TPP.Check` | 1.59 | 1.58 | 7 ms | 0.2 ms | 0.32 GB |
+
+- **Axioms** (`TPP/logs/LG00B.TPP.Check.out`): `propext`, `Classical.choice`, `Quot.sound` for
+  `LG00.TPP.lg00_kamTorus_packed`, `lg00_kamTorusStatement_packed`, `lg00_certifiedTorus_packed` and
+  `lg00_hamBounds_packed`.
+- **The statements are LG00's.** `LG00B.TPP.Check` elaborates `lg00-app`'s `TPP/Main.lean` statements
+  (`lg00_kamTorus`, `lg00_kamTorusStatement : LG00TorusStatement lg00Cert lg00OmegaStarPP lg00WindowTPP`) against
+  the theorems.
+- **Inputs.** LG00's `LG00.TPP.Data.Cert` comes from `kam-lg00`: kamx-pk-gen's hardlinks of `lg00-app`'s build, the
+  same inodes, sha256 prefix `3edd1ba2231e1d69`.
+- **The bounds bridge** was probed before `MainJ` existed (`TPP/probes/DefBPP`: 1.37 CPU-s, standard axioms).
+- **Pins:** `TPP/sha256.txt` (`Main.olean` `826a8b9078ca67d8…`, `MainJ.olean` `6228edcbef26777f…`).
+- **kamx-conf** is notified; its `LG00.Confinement.Theorem1` imports `LG00B.TP.Main` and `LG00B.TPP.Main`.
+- **If kamx-pk-gen rebuilds** the integration PK oleans (a planned line re-wrap, same declarations), rebuild both
+  trees' bridges (`cons_bridge_build.sh TP`, `… TPP`) and send kamx-conf the new hashes.
 
 ## Reproduce
 
