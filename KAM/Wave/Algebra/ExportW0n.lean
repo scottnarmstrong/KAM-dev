@@ -31,8 +31,8 @@ namespace KAM.Wave
 
 /-- **Step `stepW:w0n:weight`** of `bpW:w0n:algebra`: for `a ≥ 0`, `s ≥ 1`, `i, l ∈ ℤ` and
 `w_l = ⟨l⟩^s e^{a|l|}`: `e^{a|l|} ≤ e^{a|i|} e^{a|l-i|}`, `⟨l⟩ ≤ ⟨i⟩ + ⟨l-i⟩`, and
-`w_l ≤ 2^{s-1}(w_i e^{a|l-i|} + e^{a|i|} w_{l-i}) = 2^{s-1}(w_i w_{l-i}/⟨l-i⟩^s + w_i w_{l-i}/⟨i⟩^s)`.
--/
+`w_l ≤ 2^{s-1}(w_i e^{a|l-i|} + e^{a|i|} w_{l-i})`
+`= 2^{s-1}(w_i w_{l-i}/⟨l-i⟩^s + w_i w_{l-i}/⟨i⟩^s)`. -/
 theorem wave_weight_step {a s : ℝ} (ha : 0 ≤ a) (hs : 1 ≤ s) (l i : ℤ) :
     Real.exp (a * |(l : ℝ)|) ≤ Real.exp (a * |(i : ℝ)|) * Real.exp (a * |((l - i : ℤ) : ℝ)|) ∧
     waveJap l ≤ waveJap i + waveJap (l - i) ∧
