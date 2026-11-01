@@ -257,27 +257,45 @@ class Emitter:
 
     def meta_lit(self, chain, b):
         L, nE, nI, cache = self.led["chains"][chain]["metas"][b]
+        return "⟨%d, %d, %d, %s⟩" % (L, nE, nI, self.cache_lit(cache))
+
+    def cache_lit(self, cache):
+        """a compose cache literal: every polynomial is a character witness `charEm` or its reflection."""
         ents = []
-        E = self.charE()
         for k, (poly, r) in cache:
-            poly = [(tuple(a), tuple(b)) for a, b in poly]
+            ents.append("(%s, %s, %s)" % (nat_list(k), self.poly_term(poly), fixed(r)))
+        return "[%s]" % ", ".join(ents)
+
+    def poly_term(self, poly):
+        poly = [(tuple(a), tuple(b)) for a, b in poly]
+        for nm, E in self.charEs().values():
             if poly == E:
-                pt = "(⟨charE⟩ : CertPoly %s)" % TY
-            elif poly == self.reflected(E):
-                pt = "(⟨charE⟩ : CertPoly %s).reflectSorted" % TY
-            else:
-                raise SystemExit("cache polynomial is neither the character witness nor its reflection")
-            ents.append("(%s, %s, %s)" % (nat_list(k), pt, fixed(r)))
-        return "⟨%d, %d, %d, [%s]⟩" % (L, nE, nI, ", ".join(ents))
+                return "(⟨%s⟩ : CertPoly %s)" % (nm, TY)
+            if poly == self.reflected(E):
+                return "(⟨%s⟩ : CertPoly %s).reflectSorted" % (nm, TY)
+        raise SystemExit("cache polynomial is neither a character witness nor its reflection")
 
     @staticmethod
     def reflected(E):
         """`CertPoly.reflectSorted`: the conjugate reflection (key negated, conjugated coefficient), reversed."""
         return [(tuple(-x for x in k), (re, -im)) for k, (re, im) in reversed(E)]
 
-    def charE(self):
-        cw = self.cert["wit"]["charWit"]
-        return [((int(k[0]), int(k[1])), (int(c[0]), int(c[1]))) for k, c in cw[0][1]["poly"]]
+    def charEs(self):
+        """normalized key -> (Lean name, witness polynomial), e.g. (2, 0) -> charE2."""
+        out = {}
+        for k, w in self.cert["wit"]["charWit"]:
+            out[tuple(int(x) for x in k)] = ("charE%d" % int(k[0]),
+                                             [((int(a[0]), int(a[1])), (int(c[0]), int(c[1]))) for a, c in w["poly"]])
+        return out
+
+    def charRec(self, chain, slot=None, cidx=None):
+        for c in self.led["char"][chain]:
+            if (slot is not None and c["slot"] == slot) or (cidx is not None and c["cidx"] == cidx):
+                return c
+        raise SystemExit("no character record %s slot %s cidx %s" % (chain, slot, cidx))
+
+    def charName(self, c):
+        return self.charEs()[tuple(c["k2"])][0]
 
     def emit_plans(self):
         self.plan_mods = {}
@@ -375,11 +393,11 @@ class Emitter:
                   "    decide +kernel"]
             return head + common + pf
         if op[0] == "char":
-            self.forced_imports[(chain, j)] = [self.char_mod[chain]]
+            self.forced_imports[(chain, j)] = [self.char_mod[(chain, i)]]
             pf = ["  case hop =>",
                   "    rw [shadowStep_of_live 2 base.emb base.wit %s %s %s (by decide +kernel)," % (W, cfg, self.pe),
-                  "      composeStep_char_eq 2 base.emb base.wit %s %s %s %s %s %s_char%s]" % (
-                      W, cfg, self.pe, seed, nat_list(op[1]), self.t, "Full" if chain == "cfgFull" else "Low"),
+                  "      composeStep_char_eq 2 base.emb base.wit %s %s %s %s %s %s_char%s%d]" % (
+                      W, cfg, self.pe, seed, nat_list(op[1]), self.t, "Full" if chain == "cfgFull" else "Low", i),
                   "  case hres =>",
                   "    decide +kernel"]
             return head + common + pf
@@ -638,13 +656,14 @@ class Emitter:
                     a, b = self.led_ops[slot][1], self.led_ops[slot][2]
                     out[k] = (cfg, key, "(%s.slotPair %s %d).1.poly" % (C, W, a),
                               "(%s.slotPair %s %d).1.poly" % (C, W, b), [self.plan_mods[chain]])
-                else:                                 # the character witness residuals [1, j]
-                    c = ch[chain]
+                else:                                 # the character witness residuals [1, j] (witness fk[1])
+                    c = self.charRec(chain, slot=slot)
+                    assert c["cidx"] == fk[1], (fk, c["cidx"])
                     cfgw = "(%s.forWitness 1 (base.wit.expWit.length + %d))" % (cfg, c["cidx"])
                     j = fk[2]
                     g = "(charPhaseModel 2 base.emb %s %s %s)" % (W, pe, nat_list(c["k2"]))
                     out[k] = (cfgw, "[1, %d]" % j, "(itemsPoly (%s.poly.terms.filterMap (derivItem %d)))" % (g, j),
-                              "(⟨charE⟩ : CertPoly %s).negP" % TY, [])
+                              "(⟨%s⟩ : CertPoly %s).negP" % (self.charName(c), TY), [])
             elif ctx.startswith("gram"):
                 cfg = "base.cfgLow"
                 if fk[1] == 0:
@@ -922,64 +941,75 @@ class Emitter:
 
     # ------------------------------------------------------------------ the character slot (L1b)
     def emit_char(self):
+        """MAG-2b: one module per witness-resolving character slot (keys (2, 0), (3, 0) in each chain); the second
+        starts from the cache the first left (`charSlot … cache k`, `cache` the literal of the ledger)."""
         self.char_mod = {}
         for chain in ("cfgFull", "cfgLow"):
-            c = self.led["char"][chain]
-            t, W, pe, cfg = self.t, self.W, self.pe, self.cfgOf(chain)
-            sub = "Full" if chain == "cfgFull" else "Low"
-            cfgw = "(%s.forWitness 1 (base.wit.expWit.length + %d))" % (cfg, c["cidx"])
-            k2 = nat_list(c["k2"])
-            g = "(charPhaseModel 2 base.emb %s %s %s)" % (W, pe, k2)
-            EW = "(⟨⟨charE⟩, %d, %d⟩ : ExpWitness %s)" % (c["pinHalvings"], c["pinOrder"], TY)
-            (cre, cim), crad = c["out"]
-            out = "((⟨%s, %s⟩ : CC %s), %s)" % (fixed(cre), fixed(cim), TY, fixed(crad))
-            body, imps = [], []
-            for j in range(2):
-                k = next(k for k, m in self.memos_for(lambda m: m["ctx"] == "%s/slot%d" % (chain, c["slot"]) and
-                                                      m["fullKey"][2] == j))
-                imps.append(self.prod_done[k])
-                st = "expResidualUp %s %s %s.poly %s.poly (%s.poly.supNormUp %s) %d = %s" % (
-                    W, cfgw, g, EW, EW, W, j, fixed(c["res"][j]))
-                body += ["theorem %s_res%s%d :" % (t, sub, j)] + wrap(st.split(" "), "    ")
-                body[-1] += " := by"
-                body += ["  unfold expResidualUp"]
-                body += wrap(("rw [expResidualProduct_eq_of_polyProduct %s %s %s.poly %s.poly %d %s]"
-                              % (W, cfgw, g, EW, j, self.memo_name(k))).split(" "), "  ")
-                body += ["  decide +kernel", ""]
-            rs = "(fun j => if j = 0 then %s else %s)" % (fixed(c["res"][0]), fixed(c["res"][1]))
-            # each side check its own theorem (own heartbeat budget, a statement of closed terms)
-            pin = ("(certCExpReduced (expPinBall %s).1 (expPinBall %s).2 %s.pinHalvings %s.pinOrder).map "
-                   "(fun x => ccBeq x.1 (⟨%s, %s⟩ : CC %s) && decide (x.2 = %s)) = some true"
-                   % (g, g, EW, EW, fixed(cre), fixed(cim), TY, fixed(crad)))
-            hB = "expm1Up %s.halvings %s.taylorN (%s.poly.supNormUp %s) = some %s" % (cfgw, cfgw, g, W, fixed(c["mB"]))
-            hE = "expm1Up %s.halvings %s.taylorN %s.rad = some %s" % (cfgw, cfgw, g, fixed(c["mEta"]))
-            for nmA, stA in (("pin", pin), ("mB", hB), ("mEta", hE)):
-                body += ["theorem %s_%s%s :" % (t, nmA, sub)] + wrap((stA + " := by").split(" "), "    ")
-                body += ["  decide +kernel", ""]
-            st = "expWitnessRadius 2 %s %s %s %s = some %s" % (W, cfgw, g, EW, fixed(c["r"]))
-            body += ["theorem %s_rad%s :" % (t, sub)] + wrap(st.split(" "), "    ")
+            for c in self.led["char"][chain]:
+                self.emit_char_one(chain, c)
+
+    def emit_char_one(self, chain, c):
+        t, W, pe, cfg = self.t, self.W, self.pe, self.cfgOf(chain)
+        sub = "Full" if chain == "cfgFull" else "Low"
+        sl = c["slot"]
+        tag = "%s%d" % (sub, sl)
+        En = self.charName(c)
+        cfgw = "(%s.forWitness 1 (base.wit.expWit.length + %d))" % (cfg, c["cidx"])
+        k2 = nat_list(c["k2"])
+        g = "(charPhaseModel 2 base.emb %s %s %s)" % (W, pe, k2)
+        EW = "(⟨⟨%s⟩, %d, %d⟩ : ExpWitness %s)" % (En, c["pinHalvings"], c["pinOrder"], TY)
+        (cre, cim), crad = c["out"]
+        out = "((⟨%s, %s⟩ : CC %s), %s)" % (fixed(cre), fixed(cim), TY, fixed(crad))
+        body, imps = [], []
+        for j in range(2):
+            k = next(k for k, m in self.memos_for(lambda m: m["ctx"] == "%s/slot%d" % (chain, sl) and
+                                                  m["fullKey"][2] == j))
+            imps.append(self.prod_done[k])
+            st = "expResidualUp %s %s %s.poly %s.poly (%s.poly.supNormUp %s) %d = %s" % (
+                W, cfgw, g, EW, EW, W, j, fixed(c["res"][j]))
+            body += ["theorem %s_res%s_%d :" % (t, tag, j)] + wrap(st.split(" "), "    ")
             body[-1] += " := by"
-            body += wrap(("rw [expWitnessRadius_eq_of_pin 2 %s %s %s %s (out := %s) (eq_some_pair_cseg %s_pin%s),"
-                          % (W, cfgw, g, EW, out, t, sub)).split(" "), "  ")
-            body += wrap(("expWitnessRadiusOf_eq_of_residuals 2 %s %s %s %s.poly %s (mB := %s) (mη := %s) (rs := %s)"
-                          " %s_mB%s %s_mEta%s" % (W, cfgw, g, EW, out, fixed(c["mB"]), fixed(c["mEta"]), rs,
-                                                  t, sub, t, sub)).split(" "), "    ")
-            body += ["      (fun j => match j with",
-                     "        | ⟨0, _⟩ => %s_res%s0" % (t, sub), "        | ⟨1, _⟩ => %s_res%s1" % (t, sub),
-                     "        | ⟨j + 2, h⟩ => absurd h (by omega))]", "  decide +kernel", ""]
-            res = "(shiftModel %s (padKey 2 %s) (⟨charE⟩ : CertPoly %s) %s, [(%s, (⟨charE⟩ : CertPoly %s), %s)])" % (
-                W, nat_list(c["opKey"]), TY, fixed(c["r"]), k2, TY, fixed(c["r"]))
-            st = "charSlot 2 base.emb base.wit %s %s %s [] %s = some %s" % (W, cfg, pe, nat_list(c["opKey"]), res)
-            body += ["theorem %s_char%s :" % (t, sub)] + wrap(st.split(" "), "    ")
-            body[-1] += " := by"
-            body += ["  unfold charSlot charEntry"]
-            body += wrap(("rw [charResolve_eq_of_radius 2 base.emb base.wit %s %s %s [] (base.emb.normKey 2 %s) "
-                          "(c := %d) (E := %s) (r := %s) (by decide +kernel) rfl %s_rad%s]"
-                          % (W, cfg, pe, nat_list(c["opKey"]), c["cidx"], EW, fixed(c["r"]), t, sub)).split(" "), "  ")
-            body += ["  rfl"]
-            self.char_mod[chain] = self.tree.write("Char%s" % sub, self.base + imps, "The character slot (%s)" % chain,
-                                                   "The one-op character segment's step (L1b, SO-CSPLIT §3.5).",
-                                                   body, heavy=True)
+            body += ["  unfold expResidualUp"]
+            body += wrap(("rw [expResidualProduct_eq_of_polyProduct %s %s %s.poly %s.poly %d %s]"
+                          % (W, cfgw, g, EW, j, self.memo_name(k))).split(" "), "  ")
+            body += ["  decide +kernel", ""]
+        rs = "(fun j => if j = 0 then %s else %s)" % (fixed(c["res"][0]), fixed(c["res"][1]))
+        pin = ("(certCExpReduced (expPinBall %s).1 (expPinBall %s).2 %s.pinHalvings %s.pinOrder).map "
+               "(fun x => ccBeq x.1 (⟨%s, %s⟩ : CC %s) && decide (x.2 = %s)) = some true"
+               % (g, g, EW, EW, fixed(cre), fixed(cim), TY, fixed(crad)))
+        hB = "expm1Up %s.halvings %s.taylorN (%s.poly.supNormUp %s) = some %s" % (cfgw, cfgw, g, W, fixed(c["mB"]))
+        hE = "expm1Up %s.halvings %s.taylorN %s.rad = some %s" % (cfgw, cfgw, g, fixed(c["mEta"]))
+        for nmA, stA in (("pin", pin), ("mB", hB), ("mEta", hE)):
+            body += ["theorem %s_%s%s :" % (t, nmA, tag)] + wrap((stA + " := by").split(" "), "    ")
+            body += ["  decide +kernel", ""]
+        st = "expWitnessRadius 2 %s %s %s %s = some %s" % (W, cfgw, g, EW, fixed(c["r"]))
+        body += ["theorem %s_rad%s :" % (t, tag)] + wrap(st.split(" "), "    ")
+        body[-1] += " := by"
+        body += wrap(("rw [expWitnessRadius_eq_of_pin 2 %s %s %s %s (out := %s) (eq_some_pair_cseg %s_pin%s),"
+                      % (W, cfgw, g, EW, out, t, tag)).split(" "), "  ")
+        body += wrap(("expWitnessRadiusOf_eq_of_residuals 2 %s %s %s %s.poly %s (mB := %s) (mη := %s) (rs := %s)"
+                      " %s_mB%s %s_mEta%s" % (W, cfgw, g, EW, out, fixed(c["mB"]), fixed(c["mEta"]), rs,
+                                              t, tag, t, tag)).split(" "), "    ")
+        body += ["      (fun j => match j with",
+                 "        | ⟨0, _⟩ => %s_res%s_0" % (t, tag), "        | ⟨1, _⟩ => %s_res%s_1" % (t, tag),
+                 "        | ⟨j + 2, h⟩ => absurd h (by omega))]", "  decide +kernel", ""]
+        cache = [(tuple(k), (poly, r)) for k, poly, r in c["cache"]]
+        cl = self.cache_lit(cache)
+        Et = "(⟨%s⟩ : CertPoly %s)" % (En, TY)
+        newc = "(%s, %s, %s) :: %s" % (k2, Et, fixed(c["r"]), cl)
+        res = "(shiftModel %s (padKey 2 %s) %s %s, %s)" % (W, nat_list(c["opKey"]), Et, fixed(c["r"]), newc)
+        st = "charSlot 2 base.emb base.wit %s %s %s %s %s = some %s" % (W, cfg, pe, cl, nat_list(c["opKey"]), res)
+        body += ["theorem %s_char%s :" % (t, tag)] + wrap(st.split(" "), "    ")
+        body[-1] += " := by"
+        body += ["  unfold charSlot charEntry"]
+        body += wrap(("rw [charResolve_eq_of_radius 2 base.emb base.wit %s %s %s %s (base.emb.normKey 2 %s) "
+                      "(c := %d) (E := %s) (r := %s) (by decide +kernel) rfl %s_rad%s]"
+                      % (W, cfg, pe, cl, nat_list(c["opKey"]), c["cidx"], EW, fixed(c["r"]), t, tag)).split(" "), "  ")
+        body += ["  rfl"]
+        self.char_mod[(chain, sl)] = self.tree.write("Char%s" % tag, self.base + imps,
+                                                     "The character slot %d (%s)" % (sl, chain),
+                                                     "A one-op character segment's step (L1b, SO-CSPLIT §3.5).",
+                                                     body, heavy=True)
 
     # ------------------------------------------------------------------ chains and the landed Bools
     def emit_chain(self):
