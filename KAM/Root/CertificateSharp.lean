@@ -95,9 +95,13 @@ public import KAM.CertificateSharp.V2.RouteBRefined
 public import KAM.CertificateSharp.V2.SmallDivQ
 public import KAM.CertificateSharp.V2.StepBQ
 public import KAM.CertificateSharp.V2.Tests.Forced.Format
+public import KAM.CertificateSharp.V2.Tests.Forced.Lemmas
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyBase
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyChecks
+public import KAM.CertificateSharp.V2.Tests.Forced.TinyClaim
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyData
+public import KAM.CertificateSharp.V2.Tests.Forced.TinyFreq
+public import KAM.CertificateSharp.V2.Tests.Forced.TinyRouteA
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyStages
 public import KAM.CertificateSharp.V2.Tests.FrameFacts
 public import KAM.CertificateSharp.V2.Tests.Frozen
