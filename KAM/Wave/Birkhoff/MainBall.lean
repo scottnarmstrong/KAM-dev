@@ -62,7 +62,7 @@ section ClassA
 variable {a p : ℝ} {ha : 0 ≤ a} {hp : 0 ≤ p} {U : Set BirkSpace}
 
 /-- `IsBirkClassA` only depends on the values on `U`. -/
-theorem IsBirkClassA.congr {P P' : BirkSpace → ℂ} {X X' : BirkSpace → BirkSpace}
+theorem IsBirkClassA.of_eqOn {P P' : BirkSpace → ℂ} {X X' : BirkSpace → BirkSpace}
     (h : IsBirkClassA a p ha hp U P X) (hP : Set.EqOn P P' U) (hX : Set.EqOn X X' U) :
     IsBirkClassA a p ha hp U P' X' where
   isOpen := h.isOpen
@@ -78,7 +78,7 @@ theorem IsBirkClassA.congr {P P' : BirkSpace → ℂ} {X X' : BirkSpace → Birk
 theorem IsBirkClassA.isBirkClassAOn {P : BirkSpace → ℂ} {X : BirkSpace → BirkSpace}
     (h : IsBirkClassA a p ha hp U P X) :
     IsBirkClassAOn a p ha hp U (U.domRestrict P) (U.domRestrict X) :=
-  fun _ _ hP hX => h.congr hP.eqOn_restrict hX.eqOn_restrict
+  fun _ _ hP hX => h.of_eqOn hP.eqOn_restrict hX.eqOn_restrict
 
 end ClassA
 

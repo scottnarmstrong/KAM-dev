@@ -161,7 +161,7 @@ them `…Ext_…` or `…_aux`) and documented as internal:
   `birkTransportQP (Ψ) (hΨ : ∀ θ, ι (Ψ θ) ∈ birkBall1 m p) (θ)` (:55).
 - Analytic / Fréchet statements of maps on a set are stated for every extension:
   `IsBirkExtension f g := ∀ x : U, g x = f x` (`MainBall:35`); `IsBirkClassAOn U P X` (:56): every
-  extension of `(P, X)` is in `𝒜(U)`; `IsBirkClassA.congr` (:65).
+  extension of `(P, X)` is in `𝒜(U)`; `IsBirkClassA.of_eqOn` (:65).
 - Restated main theorems (same names as before, now about the restricted objects; `w : birkBall1 m p`
   unless noted): `birkInvData` (`w : birkBall0`, :150), `birkPsi_embed` (:132), `birkXi_embed` (:137),
   `birkK_eq` (:173), `norm_birkK1_le`/`norm_birkK2_le` (`≤ 5C_*C_F‖w‖⁶`, :177/:182),
