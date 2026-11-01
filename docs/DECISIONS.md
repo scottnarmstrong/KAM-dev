@@ -469,3 +469,7 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - **Running:** sub-orchestrator kam-lp (session kam-inp-c2) with at most 2 provers capped at 4 GB. LP has top
     priority for prover slots and the codex-1 audit queue.
   - **Overnight mode:** nothing is frozen. The exact statements wait in a freeze proposal for the owner's approval.
+- **D57 (2026-11-01, 00:55 UTC) Audits run on codex-2.** *(Scott: "codex-2 has some usage credits, use that for the
+  audits, ok?")* codex-2 is logged in. Its weekly plan reads 0 %, but it has usage credits. It carries the LP and W
+  audits from now on: Sol medium, default tier, one audit at a time machine-wide, LP first. codex-1 finishes the audit
+  already running on it. This resolves LP's OD-10 (audit capacity after codex-1 ran low).
