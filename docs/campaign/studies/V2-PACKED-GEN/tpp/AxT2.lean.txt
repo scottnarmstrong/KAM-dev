@@ -1,0 +1,9 @@
+import LG00P.TPP.PK.MainJ
+open LG00P.TPP
+#print axioms pk_kamTorus
+#print axioms pk_kamTorusStatement
+#print axioms pk_checkJ
+#print axioms pkHamBounds
+#print axioms pkHamClaim
+#print axioms pkBaseJ
+#print axioms pkEngineJ
