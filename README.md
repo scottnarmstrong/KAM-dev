@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-01 02:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 56 % · track LP 27 %** · frozen statements proved: 26 / 31 · **396,762 lines of hand-written Lean** of an estimated ≈ 473,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-01 02:01 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 56 % · track LP 27 %** · frozen statements proved: 26 / 31 · **396,762 lines of hand-written Lean** of an estimated ≈ 473,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -286,7 +286,7 @@ Overall, everything together: 84.3 %
 |---|---|
 | On `main` now (hand-written) | **396,762** (306,469 excluding blank lines and comments) · **+30,831** since 2026-10-31 02:00 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 632,896 lines in 1,649 modules |
-| Written on agent branches, not yet landed (hand-written) | 43,948 |
+| Written on agent branches, not yet landed (hand-written) | 44,229 |
 | Generated certificate data on agent branches (numeric literals; not counted in the other rows) | 5,129 |
 | **Estimated total at completion** (hand-written) | **≈ 473,000** |
 | Estimated still to write | ≈ 32,000 (11,000–53,000 over the range of track W's plan) |
@@ -295,7 +295,7 @@ Overall, everything together: 84.3 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 02:00 UTC from `main` at `aaf1f3b0` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 02:01 UTC from `main` at `eb86596e` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -313,7 +313,7 @@ Overall, everything together: 84.3 %
 
 **Track LP** (D56; [exploration, audited proof and plan](docs/explorations/amd-crossing/README.md)): chaotic but collision-free planetary systems. Below the sharp Laskar–Petit AMD threshold the exact (1+n)-body problem has no orbit crossing for a time exp(c μ^(−1/(2(τ+1)))), with no hypothesis on its (possibly chaotic) secular dynamics · **27 %**
 - Stages: audited paper proof, source, spec and plan, planar Lean packages 42 % · planar packages on `main`: 5 / 11 · spatial: 0 / 4 · `KAM/Planetary/StrongAMD` and `Spatial`: 14 modules, 2,722 lines
-- **Now:** Wave 1 (the sharp AMD barrier, MAIN Lemmas 2–7) is complete on `main` and audited. Wave 2: LP-DOM (Lemma 8, the uniform analytic domain; 601 lines) and LP-NRS (the scale choice; 301 lines) are proved and in audit on codex-2; LP-NRR (Lemma 13, the normal-form engine's hypotheses per centre, giving the stopped drift ‖Λ(t) − Λ(0)‖ ≤ D₀√μ/2 up to T₀ exp(c μ^(−a))) is proving. Wave 3 has started: LP-OSC (Lemma 16, osculating ellipses) is proving; next LP-CONF (Lemma 14, first exit) and LP-PS (the planar theorem). Nothing frozen until the owner approves the exact statements.
+- **Now:** Wave 1 (MAIN Lemmas 2–7) is on `main`. Wave 2: LP-DOM (Lemma 8, the uniform analytic domain) and LP-NRS (the scale choice) passed their audit (LP-W2A, PASS WITH NOTES) and are landing; LP-NRR (Lemma 13, the normal-form engine per centre, giving the stopped drift) is proving. Wave 3: LP-OSC (Lemma 16, osculating ellipses) is proved and queued for audit; LP-CONF (Lemma 14, first exit) is proving; then LP-PS, the planar theorem. Nothing frozen until the owner approves the exact statements.
 
 **Frozen statements proved: 26 / 31** · frozen definitions: 148
 
@@ -506,14 +506,12 @@ account read from each agent's running process) and their branches. Rules for ag
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | 🔄 working | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA lock_mlane: dry-run schedule (LOCK_DRY=1) and missing-source report | `inp-lockdata` | 55 (vs `inp`) |
-| **lp** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP progress: OSC proved; CONF launched; LP-LIFT planned | `inp-lp` | 6 (vs `inp`) |
-| **lp-conf** `inp-mprov-lp-conf` | prover (offload) | Claude Sonnet 5.5 | claude-12 | 🔄 proving | last commit: LP: LP-CONF brief (MAIN L14 first exit, conditional on hstop) | `inp-lp-conf` | 5 (vs `inp`) |
-| **lp-nrr** `inp-mprov-lp-nrr` | prover (offload) | Claude Sonnet 5.5 | claude-11 | 🔄 proving | last commit: LP-NRR: period-one Kepler data and nonresonance (items 1-2) | `inp-lp-nrr` | 7 (vs `inp`) |
-| **lp-w2a** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP-W2A: combined DOM+NRS audit handoff | `inp-lp-w2a` | 7 (vs `inp`) |
-| **w3main** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: W3-MAIN-FIX: rename IsBirkClassA.congr -> IsBirkClassA.of_eqOn (reused short name) | `inp-w3main` | 9 (vs `inp`) |
+| **lp-conf** `inp-mprov-lp-conf` | prover (offload) | Claude Sonnet 5.5 | claude-12 | 🔄 proving | last commit: LP-CONF: conditional sharp first exit (MAIN L14) with explicit stopped drift | `inp-lp-conf` | 1 (vs `inp`) |
+| **lp-nrr** `inp-mprov-lp-nrr` | prover (offload) | Claude Sonnet 5.5 | claude-11 | 🔄 proving | last commit: LP-NRR: period-one Kepler data and nonresonance (items 1-2) | `inp-lp-nrr` | 1 (vs `inp`) |
+| **w3main** `inp-maud-wpka` | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: W3-MAIN-FIX: rename IsBirkClassA.congr -> IsBirkClassA.of_eqOn (reused short name) | `inp-w3main` | 9 (vs `inp`) |
 | **w7land** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: W7-MEASURE: audit 1 (FAIL: F1 shellInner pointwise margin vs infDist, F2 missing freqcoord | `inp-w7land` | 32 (vs `inp`) |
 | **wpj** `inp-mprov-wpj` | prover (offload) | Claude Sonnet 5.5 | claude-11 | 🔄 proving | last commit: W5: handoff (clause v) | `inp-wpj` | 143 (vs `inp`) |
-| **wpk** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: W3-MAIN: real-coordinate identities (X_K^R gradient form, Gbar closed form, H(Gamma^R x)); | `inp-wpk` | 87 (vs `inp`) |
+| **wpk** `inp-maud-wpk` | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: W3-MAIN: real-coordinate identities (X_K^R gradient form, Gbar closed form, H(Gamma^R x)); | `inp-wpk` | 87 (vs `inp`) |
 | **wpq** `inp-mprov-wpq` | prover (offload) | Claude Opus 5.5 | claude-11 | 🔄 proving | last commit: W5-MODIFIED: modified-divisor solve, field bound (i), Lipschitz bound and lambda-form (ii) | `inp-wpq` | 127 (vs `inp`) |
 <!-- /AUTO:workers -->
 
@@ -522,6 +520,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-01 02:01 | `eb86596e` | HQ: track LP status (L8 + scale audited, landing; NRR, CONF proving; OSC proved) |
 | 2026-11-01 01:45 | `e60893f7` | Merge remote-tracking branch 'origin/main' |
 | 2026-11-01 01:45 | `b9af26f2` | HQ: track LP status (wave 1 on main; wave 2 in audit; NRR and OSC proving) |
 | 2026-11-01 01:31 | `22c7517e` | Land inp into main |
@@ -533,7 +532,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-01 00:58 | `ac143010` | Merge remote-tracking branch 'origin/main' |
 | 2026-11-01 00:56 | `8665c67b` | Land v2-fixes: confirmed v2 certifier fixes F1-F4 (F2 additive: routeBRefinedLN, routeV2AllLN) and the structured route-B study |
 | 2026-11-01 00:34 | `499ebd95` | HQ: track LP status (THR and MOM proved; combined audit next; DICT proving) |
-| 2026-11-01 00:29 | `af98d3c4` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
