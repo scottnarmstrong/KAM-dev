@@ -95,8 +95,9 @@ The general-mass versions, which have no `max ν = 1`, are proved too and stay o
    - frozen definition names equal the implementation names, so no proved theorem changes at freeze time.
 10. **What is frozen:** exactly the Lean-computed closure of the anchors and characterizations, plus three listed source
    quantities (`sourceOscVelocity`, `sourceOscParam`, `spatialSourceOscVelocity`). That is 89 new definitions and
-   34 characterization theorems, so 128 new frozen files with the 5 anchors. 20 already-frozen definitions are reused
-   unchanged, now including `KAM.IsDiophantine`. 19 already-frozen definitions are reused unchanged.
+   34 characterization theorems, so 128 new frozen files with the 5 anchors. 22 already-frozen definitions in the
+   closure (verification §1) are reused unchanged, including `KAM.IsDiophantine`; 20 of them are referenced directly in
+   the texts.
 11. **Not frozen:** P-EXP-SAFE and every existing frozen file are untouched (OD-6).
 
 ## What the owner approves
