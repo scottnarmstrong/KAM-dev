@@ -21,7 +21,8 @@ def hd11964LeanOptions : Array LeanOption := #[
   ⟨`linter.deprecated, true⟩
 ]
 
-/-- The HD 11964 application: the root `HD11964.lean` and its import closure (modules `HD11964.*`). -/
+/-- The HD 11964 application: the root `HD11964.lean` and its import closure (modules
+`HD11964.*`). -/
 @[default_target]
 lean_lib «HD11964» where
   leanOptions := hd11964LeanOptions

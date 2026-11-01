@@ -22,8 +22,15 @@ modulo rotation (`KAM.Application.LambdaDrift.bracket_bound_of_rotation`).
 
 `noCrossing_of_regionBounds` is **conditional on the certificate's per-region bounds** (the outputs
 of the cell checks and the cover of phase 2, part B): the bracket bound `|dF_i (X_H)| ≤ η_i` and the
-range `lo_i ≤ F_i - Λ_i ≤ hi_i` on `R(d)`, with decided drift data `D` (`D.ok = true`, `D.r = 1/250`).
-It is not the headline: the headline discharges these hypotheses by the kernel-checked certificate.
+range `lo_i ≤ F_i - Λ_i ≤ hi_i` on `R(d)`, with decided drift data `D` (`D.ok = true`, decided by
+`decide +kernel`; `D.r = 1/250`). It is not the headline: the headline discharges these hypotheses
+by the kernel-checked certificate. The separations `dStar`, `dPair` are LP0's existential
+constants: positive, not explicit.
+
+`initial_of_chart` shows the initial set is not empty: every chart state with actions in
+`[Λlo, Λhi]` and chart AMD at most `1/100` (every phase, every perihelion, eccentricities up to the
+AMD bound, so the nominal elements of design §1 too) satisfies the hypotheses on `z₀`;
+`initialSet_nonempty` is the circular coplanar instance.
 -/
 
 @[expose] public noncomputable section
@@ -61,6 +68,58 @@ theorem chartRot_mem_region (θ : ℝ) {d : ℝ} {w : Phase (2 + 2)} (hw : w ∈
   refine ⟨chartRot_mem_chartSafe nu θ hs, ?_, ?_⟩
   · rw [fast_chartRot]; exact hΛ
   · rw [chartAMD_chartRot]; exact hA
+
+/-- **The initial set covers every chart state of the box.** For a chart point with actions in
+`[Λlo, Λhi]` and chart AMD `ΣΓ ≤ 1/100`, its image `z₀ = Ψ w` is physical, has Kepler actions in
+`[Λlo, Λhi]`, strong AMD at most `1/100` and positive angular momentum. -/
+theorem initial_of_chart {w : Phase (2 + 2)} (hΛ : ∀ i, lamLo i ≤ fast w.2 i ∧ fast w.2 i ≤ lamHi i)
+    (hA : chartAMD w ≤ cBar) :
+    IsPhysicalState nu (poincareProd nu 1 w) ∧
+      (∀ i, lamLo i ≤ keplerAction nu (poincareProd nu 1 w) i ∧
+        keplerAction nu (poincareProd nu 1 w) i ≤ lamHi i) ∧
+      strongAMD nu (poincareProd nu 1 w) ≤ cBar ∧ 0 < totalMomentum (poincareProd nu 1 w) := by
+  have hlo : ∀ i, cBar < lamLo i := by
+    intro i; fin_cases i <;> norm_num [lamLo, cBar]
+  have hpos : ∀ i, 0 < fast w.2 i := fun i =>
+    lt_of_lt_of_le (lt_trans (by norm_num [cBar]) (hlo i)) (hΛ i).1
+  have hdom : w ∈ poincareProdDom 2 := by
+    intro i
+    have hΓ : poincareGamma (planetBlock w i) = lpGamma w i := by
+      simp [poincareGamma, lpGamma, planetBlock, slow]
+    have h0 : (planetBlock w i).2 0 = fast w.2 i := by simp [planetBlock]
+    have hle : lpGamma w i ≤ chartAMD w := by
+      rw [chartAMD_eq_sum_lpGamma]
+      exact Finset.single_le_sum (f := lpGamma w) (fun j _ => by unfold lpGamma; positivity)
+        (Finset.mem_univ i)
+    have hc : cBar < fast w.2 i := lt_of_lt_of_le (hlo i) (hΛ i).1
+    refine ⟨by rw [h0]; exact hpos i, ?_⟩
+    rw [hΓ, h0]
+    linarith
+  have hpro := (sec_domain_chart_facts nu_pos hdom).1
+  refine ⟨fun i => ⟨(hpro i).2.1, (hpro i).2.2.1⟩, fun i => ?_, ?_, ?_⟩
+  · rw [lpChart_action nu_pos hdom i]
+    exact hΛ i
+  · rw [lpChart_strongAMD nu_pos hdom]
+    exact hA
+  · unfold totalMomentum
+    exact Finset.sum_pos (fun i _ => (hpro i).2.2.2) Finset.univ_nonempty
+
+/-- **The initial set is not empty**: the circular coplanar state with actions `Λlo` and zero
+phases satisfies every hypothesis on `z₀` of `noCrossing_of_regionBounds`. -/
+theorem initialSet_nonempty :
+    ∃ z₀ : Phase (2 * 2), IsPhysicalState nu z₀ ∧
+      (∀ i, lamLo i ≤ keplerAction nu z₀ i ∧ keplerAction nu z₀ i ≤ lamHi i) ∧
+      strongAMD nu z₀ ≤ cBar ∧ 0 < totalMomentum z₀ := by
+  let w₀ : Phase (2 + 2) :=
+    assemble lamLo (0 : Fin 2 → ℝ) (0 : Fin 2 → ℝ) (0 : Fin 2 → ℝ)
+  have h1 : fast w₀.2 = lamLo := funext fun j => Fin.append_left _ _ j
+  have h2 : chartAMD w₀ = 0 := by simp [w₀, chartAMD, assemble, slow]
+  refine ⟨poincareProd nu 1 w₀, initial_of_chart (fun i => ?_) ?_⟩
+  · rw [h1]
+    refine ⟨le_rfl, ?_⟩
+    fin_cases i <;> norm_num [lamLo, lamHi]
+  · rw [h2]
+    norm_num [cBar]
 
 /-- **HD 11964: no orbit crossing, given the certificate's bounds on `R(d)`** (conditional on the
 per-region bounds of the certificate; not the headline).
