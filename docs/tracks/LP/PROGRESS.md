@@ -18,6 +18,10 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 
 ## Packages (roadmap §3 rows)
 
+Prover slots: 3 (root-b8 05:2x: W runs one; machine total 4; drop to 2 if W asks). Worktrees: thr (audits), mom, geomod,
+src (4th, created 05:30 for the third slot).
+
+
 | Package | MAIN | Wave | Branch / worktree | Account | State |
 |---|---|---|---|---|---|
 | LP-THR Threshold | L4 | 1 | `inp-lp-thr` / `/mnt/HC_Volume_106379410/kam-lp/KAM-inp-lp-thr` | claude-6 | **LANDED** main f1fe1d30 (inp c2cd35af); audit LP-BAR1-1 PASS WITH NOTES |
@@ -40,6 +44,7 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 | LP-SP-OSC osculating d=3 | L16 (d=3) | 4 | `inp-lp-sposc` | claude-11 | proved 4d0e6cc1 (1,040 lines; F2 + OD-11(b) built in); audit queued (W4) |
 | LP-SP-CONF spatial first exit (conditional) | L14 (d=3) | 4 | `inp-lp-spconf` | claude-11 | proved c5168c68 (333 lines); audit queued (W4) |
 | LP-SP-TUBE tube for Phase (n+m) (N12) | L18 infra | 4 | `inp-lp-sptube` / mom worktree | claude-11 | running |
+| LP-SRC OD-11 (b) source carriers + LP1 restatement | freeze prep | — | `inp-lp-src` / src worktree (4th) | claude-6 | running |
 | LP-SP-PROD n-body spatial product chart | L17 (n bodies), (47) | 4 | `inp-lp-spprod` / geomod worktree | claude-12 | running (tmux inp-mprov-lp-spprod) |
 | LP-SP-DOM / SP-SAFE (+ spatial NRR/LIFT/CONF twins) | L18, T19 | 4 | — | — | after SP-PROD |
 
@@ -92,3 +97,4 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 - 2026-11-01 04:53 UTC: LP-SP-CHART proved (MAIN L17, one body, incl. symplecticity by direct derivative computation). LP-SP-PROD (n-body product chart) launched on claude-12.
 - 2026-11-01 04:58 UTC: LP-SP-OSC proved. LP-SP-CONF launched on claude-11.
 - 2026-11-01 05:10 UTC: LP-SP-CONF proved. LP-PS audit launched on codex-2 (W4-COMPLETE had ended 04:30 without a ping). LP-SP-TUBE (N12 re-typing of tube) launched on claude-11.
+- 2026-11-01 05:20 UTC: third prover slot granted (root-b8). LP-SRC (OD-11 (b) concrete text, proved) launched on claude-6 in a 4th worktree. LP-PS audit running.
