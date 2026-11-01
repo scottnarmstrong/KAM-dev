@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-01 00:33 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 56 % · track LP 10 %** · frozen statements proved: 26 / 31 · **389,564 lines of hand-written Lean** of an estimated ≈ 469,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-01 00:34 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 56 % · track LP 10 %** · frozen statements proved: 26 / 31 · **389,564 lines of hand-written Lean** of an estimated ≈ 468,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -286,16 +286,16 @@ Overall, everything together: 83.5 %
 |---|---|
 | On `main` now (hand-written) | **389,564** (301,422 excluding blank lines and comments) · **+23,633** since 2026-10-31 00:20 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 632,896 lines in 1,649 modules |
-| Written on agent branches, not yet landed (hand-written) | 38,995 |
+| Written on agent branches, not yet landed (hand-written) | 38,310 |
 | Generated certificate data on agent branches (numeric literals; not counted in the other rows) | 5,129 |
-| **Estimated total at completion** (hand-written) | **≈ 469,000** |
+| **Estimated total at completion** (hand-written) | **≈ 468,000** |
 | Estimated still to write | ≈ 40,000 (19,000–61,000 over the range of track W's plan) |
 
 **How the size is estimated.** Every figure except the two rows of generated data counts hand-written Lean only: the generated certificate data under `KAM/SpinOrbit/Data/` (the barrier tori of the Moon, emitted by `scripts/spin_orbit/` and checked by the kernel) are counted apart. The estimate scales the lines written so far for the other tracks (on `main` plus the agent branches: tracks K, I, N, P and R, the sharp a-posteriori theorems and certifiers, the shared infrastructure) by the done share of the Lean work items, weighted by difficulty (track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P: 100 % done); adds track SO from its design (its lines on `main` plus the line estimates of its packages not yet landed, 0 lines; the Lean packages of part 3 are on `main`, and what it still needs is generated data); and adds track W from its planning range of 81,000–109,000 lines (graph-scaled (2026-10-31): track W's dependency graph has 690 nodes; the finished tracks average 87 lines of Lean per graph node (K 72, I 83, N 59, P 109), so 690 × 87 ≈ 60k; the high end uses track P's 109 per node plus 20 % for infinite-dimensional infrastructure (sequence spaces, parameter-Lipschitz estimates), ≈ 90k; replaces the low-confidence 34k–70k of docs/TRACKS.md; raised to its measured rate, 95,000 lines for the whole graph at its lines on `main` per resolved node; midpoint used), of which 73,279 are written; and adds track LP from its planning range of 12,000–25,000 lines (the Lean roadmap of the audited proof; midpoint used), of which 0 are written. The side project LG00 is not counted: its certificate never enters this library. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv) (`lean_lines` counts every module, `generated_lines` the generated data among them).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 00:33 UTC from `main` at `af98d3c4` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 00:34 UTC from `main` at `499ebd95` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -313,7 +313,7 @@ Overall, everything together: 83.5 %
 
 **Track LP** (D56; [exploration, audited proof and plan](docs/explorations/amd-crossing/README.md)): chaotic but collision-free planetary systems. Below the sharp Laskar–Petit AMD threshold the exact (1+n)-body problem has no orbit crossing for a time exp(c μ^(−1/(2(τ+1)))), with no hypothesis on its (possibly chaotic) secular dynamics · **10 %**
 - Stages: audited paper proof, source, spec and plan · planar packages on `main`: 0 / 11 · spatial: 0 / 4 · `KAM/Planetary/StrongAMD` and `Spatial`: 0 modules, 0 lines
-- **Now:** Wave 1 (the sharp AMD barrier): LP-THR (Laskar–Petit pair and strong thresholds, attained minimum, continuity) and LP-MOM (planar angular momentum and the AMD identity, no prograde premise) proving; LP-DICT (the planar chart dictionary plus an early test of the nonresonant normal-form adapter) next. 15 packages planned over waves 1–4 (about 23k lines); the track docs and package list are landing on `main`. Sub-orchestrator kam-lp, 2 provers capped at 4 GB; nothing frozen until the owner approves the exact statements.
+- **Now:** Wave 1 (the sharp AMD barrier): LP-THR (Lemma 4: Laskar–Petit pair and strong thresholds, attained minimum, continuity; 666 lines) and LP-MOM (Lemmas 2–3 planar with no prograde premise, the |L| AMD identity and the reflection bridge; 677 lines) are proved, standard axioms; their combined audit is next on codex-1. LP-DICT (the planar chart dictionary, Lemma 7, plus an early one-centre test of the nonresonant normal-form adapter, Lemma 13) is proving. Track docs and package list on `main` (af98d3c4). Nothing frozen until the owner approves the exact statements.
 
 **Frozen statements proved: 26 / 31** · frozen definitions: 148
 
@@ -346,7 +346,7 @@ by a separate agent on its own branch:
 | **P** | Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun | 7 / 7 | 1363 / 1363 nodes resolved | **complete**: all seven frozen theorems sealed (the last, planetaryExponentialSafety, on 2026-10-29); every graph node resolved (two conventions accepted by owner ruling D31) |
 | **R** | Rüssmann's KAM theorem under weak non-degeneracy: invariant tori fill all but κ of phase space | 1 / 1 | — | **complete**: Rüssmann's theorem frozen (strong form Q1(d)) and sealed on 2026-10-30 (D35); proved through track P's quantitative weak-non-degeneracy theorem, without a separate graph |
 | **W** | PDE KAM: two-frequency quasi-periodic solutions of the cubic wave equation u_tt = u_xx − m u − u³ on [0, π], every m > 0 (Pöschel 1996) | 0 / 1 | 261 / 695 nodes resolved | Resumed at reduced size beside SO-3 (D53). Statements frozen (D41: twelve declarations; `nlw2` awaits its proof); blueprint W0–W8 complete and independently accepted; source dependency graph published (695 nodes, 2545 edges, global review PASS); 11 Lean packages on main (W1-SINES, W1-WEIGHTED, W1-ANALYTIC, W0-NORMAL, W1-ALGEBRA, W1-KAMSUP, W0-ANALYSIS, W2-RECON, W1-CUBIC, W3-SETTING, W3-DIVISOR-F) |
-| **LP** | Chaotic but collision-free: below the sharp Laskar–Petit AMD threshold the exact spatial (1+n)-body problem has no orbit crossing for exp(c μ^(−1/(2(τ+1)))), whatever its secular dynamics (D56) | 0 / 0 | not on `main` yet | Launched 2026-11-01 (D56), top priority. Paper proof (planar Theorem 15, spatial Theorem 19) passed an independent refute-first audit with notes (docs/explorations/amd-crossing/A10); source pinned on the LP branch; wave 1 (the sharp barrier: thresholds, geometry, continuity, angular momentum, planar chart) in progress; nothing frozen yet (freeze proposal and owner decisions await the owner) |
+| **LP** | Chaotic but collision-free: below the sharp Laskar–Petit AMD threshold the exact spatial (1+n)-body problem has no orbit crossing for exp(c μ^(−1/(2(τ+1)))), whatever its secular dynamics (D56) | 0 / 0 | not on `main` yet | Launched 2026-11-01 (D56), top priority. Audited paper proof (A10: PASS WITH NOTES); source, spec, owner decisions and the 15-package plan on `main`; wave 1: THR and MOM proved (combined audit next), DICT proving; nothing frozen yet (freeze proposal and owner decisions await the owner) |
 | **SO-1** | Track SO, part 1: a general Lean certificate checker turning numerical KAM tori into theorems | — (ordinary theorems) | — | **complete**: the checker and its soundness theorem (`checkTorusCertificate_sound`, through the sealed isoenergetic theorem), the sharp certifier (D36), the toy certificates, and the kernel-scale fixes SO-PACKFIX (D34), SO-BALLDY/SO-BALLFIX and SO-KDEPTH (D39), SO-KDEPTH2 (log-depth jet compiler) and SO-CSPLIT's segmented-proof core; the Moon uses the v2 certifier `checkTorusCertificateV2` (D44) |
 | **SO-2** | Track SO, part 2: the Moon's spin rate stays within 2.755 % of its orbital rate for all time (N = 65; proved 2026-10-31) | 3 / 3 | — | **proved** on main since 2026-10-31 08:18 (SO-DATA3, `7adca9fc`): `lunar_barriers_65_v2` and `lunar_spin_confinement_65_v2`, band 2.755 % (D47), window 0.9934 < p₀ < 1.0066, kernel-checked through the v2 certifier with standard axioms only; frozen (D49) and SEALED (D50) on main since 2026-10-31 14:10 (SO-FREEZE3, `ceeb106c`; seal audit PASS WITH NOTES): `KAM.SpinOrbit.lunar_barriers`, `lunar_spin_confinement`, `lunarPLo_lt_lunarPHi` |
 | **SO-3** | Track SO, part 3: the Moon locked in synchronous rotation forever (one librational torus around a certified synchronous orbit; D42, D45) | 0 / 4 | — | every Lean package on main (LOCK-PO, LOCK-CONF, LOCK-COORDS-R/C, LOCK-SQRT, assembly part 1, LOCK-GRAPH); freeze of `lunar_sync_lock` approved (D49); the N = 65 librational certificate (73.8°) passes every check in the exact mirror; kernel runs and data emission in progress (about 158 MB after compaction; owner ruling on the size pending); then the headline, a one-line application, and the seal |
@@ -504,8 +504,8 @@ account read from each agent's running process) and their branches. Rules for ag
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA lock_mlane: dry-run schedule (LOCK_DRY=1) and missing-source report | `inp-lockdata` | 55 (vs `inp`) |
-| **lp** `inp-mprov-lp` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP: OD-10 for owner, three options (audit capacity) | `inp-lp` | 2 (vs `inp`) |
-| **lp-dict** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP: OD-10 for owner, three options (audit capacity) | `inp-lp-dict` | 2 (vs `inp`) |
+| **lp** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP progress: THR, MOM done; DICT launched | `inp-lp` | 3 (vs `inp`) |
+| **lp-dict** `inp-mprov-lp-dict` | prover (offload) | Claude Sonnet 5.5 | claude-12 | 🔄 proving | last commit: LP: OD-10 for owner, three options (audit capacity) | `inp-lp-dict` | 2 (vs `inp`) |
 | **lp-thr** `inp-mprov-lp-thr` | prover (offload) | Claude Sonnet 5.5 | claude-6 | 🔄 proving | last commit: LP-THR: attained, continuous, sharp thresholds (MAIN Lemma 4) with carrier API | `inp-lp-thr` | 1 (vs `inp`) |
 | **w3main** | prover (offload) | Claude Opus 5.5 | — | ❌ audit failed, parked | last commit: W3-MAIN: audit 1 (FAIL: F1 cubic constant 2C_*, F2 Yseries exports, F3 unrestricted carrie | `inp-w3main` | 2 (vs `inp`) |
 | **wpj** `inp-mprov-wpj` | prover (offload) | Claude Sonnet 5.5 | claude-11 | 🔄 proving | last commit: W5: bounds of the Hessian blocks of the Taylor polynomial (Cauchy in normal directions) | `inp-wpj` | 82 (vs `inp`) |
@@ -518,6 +518,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-01 00:34 | `499ebd95` | HQ: track LP status (THR and MOM proved; combined audit next; DICT proving) |
 | 2026-11-01 00:29 | `af98d3c4` | Land inp into main |
 | 2026-11-01 00:26 | `046d643f` | HQ: track LP status (wave 1 proving; 15 packages planned) |
 | 2026-11-01 00:24 | `bc3be874` | HQ: track W size estimate follows its measured lines per resolved graph node once 100 nodes are resolved (95k at 136 lines/node; plan 60k-90k was low) |
@@ -529,7 +530,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-10-31 23:44 | `6ad44ef7` | D55: lock data plan (c)+(b10), lock source up to ~200 MB (owner) |
 | 2026-10-31 23:21 | `2235c896` | OVERNIGHT: SO-LOCK full-chain cost projection (owner review) |
 | 2026-10-31 22:58 | `106a1521` | Land inp into main |
-| 2026-10-31 22:40 | `4e03e651` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
