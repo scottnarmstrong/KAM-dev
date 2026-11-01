@@ -136,7 +136,8 @@ def sampled(n, J, ops, rhoH, centre, radius, N=SAMPLES):
     rows3 = [sum(np.abs(v[J["d3"][sw(a)][sw(b)][e]] + eps(a, b) * v[J["d3"][a][b][e]]) for b in range(m) for e in range(m))
              for a in range(m)]
     hess = [sum(np.abs(v[J["d2"][a][b]]) for b in range(m)) for a in range(m)]
-    return float(np.max(rows)), float(np.max(rows3)), float(np.max(hess))
+    grad = sum(np.abs(v[J["d1"][a]]) for a in range(m))
+    return float(np.max(rows)), float(np.max(rows3)), float(np.max(hess)), float(np.max(grad))
 
 
 # ------------------------------------------------------------------------------------------- the data
@@ -256,7 +257,7 @@ def float_constants(N):
     N.k = k
 
 
-def run_inputs(pkg, sites, kp, RB, T2, theta=F(1, 16), ts=F(1, 10)):
+def run_inputs(pkg, sites, kp, RB, T2, theta=F(1, 16), ts=F(1, 10), exact=False):
     """`NumB`, `InitB`, caps of `RunBWit.num` at the claim R: free caps +5 %, least Fits weights, iso."""
     R, p = pkg["R"], pkg["p"]
     mu = p["mu"]
@@ -276,7 +277,8 @@ def run_inputs(pkg, sites, kp, RB, T2, theta=F(1, 16), ts=F(1, 10)):
     N.lam0, N.ePer0 = I["iNt"] / pb, 1 / pb
     N.lamW0 = 1 / pb
     sig["ν"] = p["nu"]
-    float_constants(N)
+    if not exact:
+        float_constants(N)
     return N, I, sig
 
 
