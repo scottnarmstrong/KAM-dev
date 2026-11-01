@@ -212,7 +212,8 @@ theorem spatialStrongAMD_nonneg {ν : Fin n → ℝ} {z : Phase (n * 3)}
 
 /-- Lemma 3: `C < Λ_k` for some `k` forces `L ≠ 0` (`LP:MAIN L3 (130–139)`). -/
 theorem angularMomentum3_ne_zero_of_strongAMD_lt {ν : Fin n → ℝ} {z : Phase (n * 3)}
-    (hz : SpatialNegativeEnergy ν z) {k : Fin n} (hk : spatialStrongAMD ν z < spatialKeplerAction ν z k) :
+    (hz : SpatialNegativeEnergy ν z) {k : Fin n}
+    (hk : spatialStrongAMD ν z < spatialKeplerAction ν z k) :
     angularMomentum3 z ≠ 0 := by
   intro h0
   have : spatialStrongAMD ν z = ∑ i, spatialKeplerAction ν z i := by

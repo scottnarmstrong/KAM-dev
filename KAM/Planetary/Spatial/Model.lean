@@ -16,7 +16,8 @@ public import KAM.Frozen.Iso.Defs.IsHamiltonianSolutionOn
 Package LP-SP-MODEL, `LP:MAIN §1 (1) (17–25)` with `d = 3`; track LP, non-frozen; the statement
 surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
-* `spatialHamiltonian ν μ z = Σ_i (|p_i|²/(2ν_i) − ν_i/|q_i|) + μ (|Σ_i p_i|²/2 − Σ_{i<j} ν_iν_j/|q_i − q_j|)`
+* `spatialHamiltonian ν μ z = Σ_i (|p_i|²/(2ν_i) − ν_i/|q_i|)
+  + μ (|Σ_i p_i|²/2 − Σ_{i<j} ν_iν_j/|q_i − q_j|)`
   (MAIN (1), literally; no totalization).
 * `SpatialNoCollision q`: `q_i ≠ 0` and `q_i ≠ q_j` (positive Euclidean lengths).
 * `IsSpatialMovingSolutionOn ν μ J z`: the frozen differentiability-guarded Hamiltonian ODE on the

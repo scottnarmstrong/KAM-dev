@@ -117,7 +117,8 @@ private theorem smul_accel3 (c : ℝ) (ν : Fin n → ℝ) (i : Fin n) (hmi : ν
 
 private theorem spaceLength_pos_barycentric {q : Fin (n * 3) → ℝ} (hq : SpatialNoCollision q)
     (i j : Fin (n + 1)) (hij : i ≠ j) :
-    0 < spaceLength (spatialBarycentricPositions ν μ q j - spatialBarycentricPositions ν μ q i) := by
+    0 < spaceLength (spatialBarycentricPositions ν μ q j -
+      spatialBarycentricPositions ν μ q i) := by
   induction j using Fin.cases with
   | zero =>
     induction i using Fin.cases with
