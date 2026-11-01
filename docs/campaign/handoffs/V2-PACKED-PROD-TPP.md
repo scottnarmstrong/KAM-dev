@@ -50,6 +50,10 @@ The theorems:
 - **Handed over.** kamx-pk-gen was told at each step, by direct message: Low `Book`/`Data` at 21:48, Low
   `ChainCert` at 21:56, the Full mirror at 21:56, Full `Book`/`Data` at 22:11, Full `ChainCert` at 22:21. It
   hard-links the built modules into its package and never rebuilds them.
+- **Used end to end** (kamx-pk-gen's report, not re-checked here). `LG00P.TPP.PK.MainJ` passed at 22:23:02 UTC on
+  these chains, with LG00's T″ statement verbatim and standard axioms. The whole torus took 592 modules and
+  6,288 CPU-s, 17.1× below run18's complete T′. kamx-pk-gen's runner marks `LG00P.TPP.Jet.*` as foreign and never
+  built them.
 
 | T″ (packed, one theorem per chain) | modules | CPU-s | largest charge |
 |---|---:|---:|---:|
