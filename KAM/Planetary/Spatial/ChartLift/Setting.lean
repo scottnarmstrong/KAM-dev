@@ -21,10 +21,10 @@ The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 The spatial mirror of track P's `chartSafe`, `liftChartHam`, `liftQ`, `liftPhysicalDeriv`,
 `liftField_periodic`, on `Phase (n + (n + n))` (`n` fast, `2n` slow canonical pairs):
 
-* `spatialChartSafe ν`: the open collision-free part of the chart domain (44);
-* `spatialPulledHam ν μ = H_μ ∘ Ψ` (analytic on `spatialChartSafe`), `spatialChartHam ν μ =
+* `spLiftChartSafe ν`: the open collision-free part of the chart domain (44);
+* `spatialPulledHam ν μ = H_μ ∘ Ψ` (analytic on `spLiftChartSafe`), `spLiftChartHam ν μ =
   spatialHProd ν + μ · fSpatial ν ∘ Ψ` (the SP-PROD split; equal to `spatialPulledHam` on the
-  domain, `spatialChartHam_eq_pulled`);
+  domain, `spLiftChartHam_eq_pulled`);
 * `spatialLiftPhysicalDeriv`: a chart-field solution projects to a physical solution;
 * `spatialLiftQ`: the compact set of zero-angle chart points over the closed action box with
   `ΣΓ + Z ≤ c`, with the periodic uniform data of `uniformDataNM`.
@@ -43,7 +43,7 @@ def spatialChartAMD (w : Phase (n + (n + n))) : ℝ :=
   ∑ k, ((slow w.1 k) ^ 2 + (slow w.2 k) ^ 2) / 2
 
 /-- The collision-free part of the product chart domain. -/
-def spatialChartSafe (ν : Fin n → ℝ) : Set (Phase (n + (n + n))) :=
+def spLiftChartSafe (ν : Fin n → ℝ) : Set (Phase (n + (n + n))) :=
   spatialPoincareProdDom n ∩ spatialPoincareProd ν ⁻¹' spatialCollisionFreeDomain n
 
 /-- The pulled-back moving Hamiltonian `w ↦ H_μ (Ψ w)` for the spatial product chart. -/
@@ -51,48 +51,48 @@ def spatialPulledHam (ν : Fin n → ℝ) (μ : ℝ) : Phase (n + (n + n)) → �
   fun w => spatialHamiltonian ν μ (spatialPoincareProd ν w)
 
 /-- The chart Hamiltonian `spatialHProd ν + μ · fSpatial ν ∘ Ψ` (SP-PROD item 4). -/
-def spatialChartHam (ν : Fin n → ℝ) (μ : ℝ) : Phase (n + (n + n)) → ℝ :=
+def spLiftChartHam (ν : Fin n → ℝ) (μ : ℝ) : Phase (n + (n + n)) → ℝ :=
   fun w => spatialHProd ν w + μ * fSpatial ν (spatialPoincareProd ν w)
 
-theorem spatialChartHam_eq_pulled {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (μ : ℝ)
+theorem spLiftChartHam_eq_pulled {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (μ : ℝ)
     {w : Phase (n + (n + n))} (hw : w ∈ spatialPoincareProdDom n) :
-    spatialChartHam ν μ w = spatialPulledHam ν μ w :=
+    spLiftChartHam ν μ w = spatialPulledHam ν μ w :=
   (spatialHamiltonian_spatialPoincareProd hν μ hw).symm
 
-theorem isOpen_spatialChartSafe {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) :
-    IsOpen (spatialChartSafe ν) :=
+theorem isOpen_spLiftChartSafe {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) :
+    IsOpen (spLiftChartSafe ν) :=
   isOpen_spatialPoincareProd_preimage hν
 
-theorem spatialChartSafe_subset_dom (ν : Fin n → ℝ) : spatialChartSafe ν ⊆ spatialPoincareProdDom n :=
+theorem spLiftChartSafe_subset_dom (ν : Fin n → ℝ) : spLiftChartSafe ν ⊆ spatialPoincareProdDom n :=
   inter_subset_left
 
 theorem analyticOnNhd_spatialPulledHam {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (μ : ℝ) :
-    AnalyticOnNhd ℝ (spatialPulledHam ν μ) (spatialChartSafe ν) :=
+    AnalyticOnNhd ℝ (spatialPulledHam ν μ) (spLiftChartSafe ν) :=
   analyticOnNhd_spatialHamiltonian_spatialPoincareProd hν μ
 
 /-- The chart Hamiltonian field and the pulled-back field agree on the open set
-`spatialChartSafe`. -/
-theorem spatialChartHam_field_eq {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (μ : ℝ)
-    {w : Phase (n + (n + n))} (hw : w ∈ spatialChartSafe ν) :
-    hamiltonianVectorField (spatialChartHam ν μ) w =
+`spLiftChartSafe`. -/
+theorem spLiftChartHam_field_eq {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (μ : ℝ)
+    {w : Phase (n + (n + n))} (hw : w ∈ spLiftChartSafe ν) :
+    hamiltonianVectorField (spLiftChartHam ν μ) w =
       hamiltonianVectorField (spatialPulledHam ν μ) w := by
-  have hev : spatialChartHam ν μ =ᶠ[nhds w] spatialPulledHam ν μ :=
-    Filter.eventuallyEq_of_mem ((isOpen_spatialChartSafe hν).mem_nhds hw) fun y hy =>
-      spatialChartHam_eq_pulled hν μ (spatialChartSafe_subset_dom ν hy)
+  have hev : spLiftChartHam ν μ =ᶠ[nhds w] spatialPulledHam ν μ :=
+    Filter.eventuallyEq_of_mem ((isOpen_spLiftChartSafe hν).mem_nhds hw) fun y hy =>
+      spLiftChartHam_eq_pulled hν μ (spLiftChartSafe_subset_dom ν hy)
   simp only [hamiltonianVectorField, hev.fderiv_eq]
 
 theorem differentiableAt_spatialChartHam {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (μ : ℝ)
-    {w : Phase (n + (n + n))} (hw : w ∈ spatialChartSafe ν) :
-    DifferentiableAt ℝ (spatialChartHam ν μ) w := by
-  have hev : spatialChartHam ν μ =ᶠ[nhds w] spatialPulledHam ν μ :=
-    Filter.eventuallyEq_of_mem ((isOpen_spatialChartSafe hν).mem_nhds hw) fun y hy =>
-      spatialChartHam_eq_pulled hν μ (spatialChartSafe_subset_dom ν hy)
+    {w : Phase (n + (n + n))} (hw : w ∈ spLiftChartSafe ν) :
+    DifferentiableAt ℝ (spLiftChartHam ν μ) w := by
+  have hev : spLiftChartHam ν μ =ᶠ[nhds w] spatialPulledHam ν μ :=
+    Filter.eventuallyEq_of_mem ((isOpen_spLiftChartSafe hν).mem_nhds hw) fun y hy =>
+      spLiftChartHam_eq_pulled hν μ (spLiftChartSafe_subset_dom ν hy)
   exact ((analyticOnNhd_spatialPulledHam hν μ) w hw).differentiableAt.congr_of_eventuallyEq hev
 
 theorem contDiffOn_spatialLiftField {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (μ : ℝ) :
-    ContDiffOn ℝ 1 (hamiltonianVectorField (spatialPulledHam ν μ)) (spatialChartSafe ν) :=
-  ham_smooth_c1 (isOpen_spatialChartSafe hν)
-    ((analyticOnNhd_spatialPulledHam hν μ).contDiffOn (isOpen_spatialChartSafe hν).uniqueDiffOn)
+    ContDiffOn ℝ 1 (hamiltonianVectorField (spatialPulledHam ν μ)) (spLiftChartSafe ν) :=
+  ham_smooth_c1 (isOpen_spLiftChartSafe hν)
+    ((analyticOnNhd_spatialPulledHam hν μ).contDiffOn (isOpen_spLiftChartSafe hν).uniqueDiffOn)
 
 /-! ### The chart as an equal-dimension chart, and projection of chart solutions -/
 
@@ -170,11 +170,11 @@ theorem spatialFastShift_neg (k : Fin n → ℤ) :
   · refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;> simp [fastShift, Fin.append_left]
   · simp [fastShift]
 
-theorem spatialChartSafe_shift_iff {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (k : Fin n → ℤ)
+theorem spLiftChartSafe_shift_iff {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (k : Fin n → ℤ)
     (w : Phase (n + (n + n))) :
-    w ∈ spatialChartSafe ν ↔ w + fastShift (a := n) (b := n + n) k ∈ spatialChartSafe ν := by
-  have key : ∀ (k : Fin n → ℤ) (w : Phase (n + (n + n))), w ∈ spatialChartSafe ν →
-      w + fastShift (a := n) (b := n + n) k ∈ spatialChartSafe ν := by
+    w ∈ spLiftChartSafe ν ↔ w + fastShift (a := n) (b := n + n) k ∈ spLiftChartSafe ν := by
+  have key : ∀ (k : Fin n → ℤ) (w : Phase (n + (n + n))), w ∈ spLiftChartSafe ν →
+      w + fastShift (a := n) (b := n + n) k ∈ spLiftChartSafe ν := by
     intro k w hw
     obtain ⟨h1, h2⟩ := spatialPoincareProd_lattice hν hw.1 k
     exact ⟨h1, by
@@ -188,11 +188,11 @@ theorem spatialChartSafe_shift_iff {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) 
   rwa [spatialFastShift_neg, add_neg_cancel_right] at this
 
 theorem spatialLiftField_periodic {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (μ : ℝ) (k : Fin n → ℤ) :
-    ∀ w ∈ spatialChartSafe ν, hamiltonianVectorField (spatialPulledHam ν μ)
+    ∀ w ∈ spLiftChartSafe ν, hamiltonianVectorField (spatialPulledHam ν μ)
       (w + fastShift (a := n) (b := n + n) k) =
         hamiltonianVectorField (spatialPulledHam ν μ) w := by
   intro x hx
-  have hH : ∀ y ∈ spatialChartSafe ν, spatialPulledHam ν μ
+  have hH : ∀ y ∈ spLiftChartSafe ν, spatialPulledHam ν μ
       (y + fastShift (a := n) (b := n + n) k) = spatialPulledHam ν μ y := by
     intro y hy
     simp only [spatialPulledHam]
@@ -201,7 +201,7 @@ theorem spatialLiftField_periodic {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (
     rw [this]
   have hev : (fun y => spatialPulledHam ν μ (y + fastShift (a := n) (b := n + n) k)) =ᶠ[nhds x]
       spatialPulledHam ν μ :=
-    Filter.eventuallyEq_of_mem ((isOpen_spatialChartSafe hν).mem_nhds hx) hH
+    Filter.eventuallyEq_of_mem ((isOpen_spLiftChartSafe hν).mem_nhds hx) hH
   have hf : fderiv ℝ (spatialPulledHam ν μ) (x + fastShift (a := n) (b := n + n) k) =
       fderiv ℝ (spatialPulledHam ν μ) x := by
     rw [← hev.fderiv_eq, fderiv_comp_add_right]

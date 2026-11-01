@@ -26,7 +26,7 @@ and satisfies the whole-ball bound `C ≤ B(I⁰) - δ/4` (MAIN (47)).
   alignment `L(z₀) = |L(z₀)| e₃`); no drift or confinement conclusion.
 * `SpatialStoppedOn`: the strict stopped conditions, literally the antecedent of LP-SP-CONF's
   `hstop`.
-* `spatialSecularBall`: the ball (47) in physical slow coordinates `Phase (n + n)`.
+* `spLiftSecularBall`: the ball (47) in physical slow coordinates `Phase (n + n)`.
 -/
 
 @[expose] public noncomputable section
@@ -40,7 +40,7 @@ variable {n : ℕ}
 /-- The ball (47), in physical slow coordinates
 `(q, p) ∈ Phase (n + n)` (`2n` slow pairs): `Σ_k (q_k² + p_k²)/2 ≤ B(I⁰) - δ/4`
 (`LP:MAIN L18 (47)`). -/
-def spatialSecularBall (ν : Fin n → ℝ) (δ : ℝ) (I0 : Fin n → ℝ) : Set (Phase (n + n)) :=
+def spLiftSecularBall (ν : Fin n → ℝ) (δ : ℝ) (I0 : Fin n → ℝ) : Set (Phase (n + n)) :=
   {y | ∑ k, (y.1 k ^ 2 + y.2 k ^ 2) / 2 ≤ strongThreshold ν I0 - δ / 4}
 
 /-- The data of MAIN Lemma 14 for `d = 3` (`LP:MAIN L14 (468–500)`, `LP:MAIN L18 (595–597)`, N2):
@@ -75,14 +75,14 @@ namespace SpatialLiftData
 
 variable {ν : Fin n → ℝ} {U : Set (Fin n → ℝ)} {z₀ : Phase (n * 3)} {δ r : ℝ}
 
-theorem n_mul_r_pos (hd : SpatialLiftData ν U z₀ δ r) : 0 < (n : ℝ) * r := by
+theorem spLift_n_mul_r_pos (hd : SpatialLiftData ν U z₀ δ r) : 0 < (n : ℝ) * r := by
   have : (0 : ℝ) < n := by
     have := hd.two_le
     exact_mod_cast (by omega : 0 < n)
   exact mul_pos this hd.r_pos
 
 /-- Within the `r`-ball the threshold moves by at most `δ/4 - n r` (the budget). -/
-theorem abs_threshold_sub_le (hd : SpatialLiftData ν U z₀ δ r) {I : Fin n → ℝ}
+theorem spLift_abs_threshold_sub_le (hd : SpatialLiftData ν U z₀ δ r) {I : Fin n → ℝ}
     (hI : ‖I - spatialActionVector ν z₀‖ ≤ r) :
     |strongThreshold ν I - strongThreshold ν (spatialActionVector ν z₀)| ≤ δ / 4 - n * r := by
   have h0 : spatialActionVector ν z₀ ∈ U := hd.ball _ (by simpa using hd.r_pos.le)
@@ -91,20 +91,20 @@ theorem abs_threshold_sub_le (hd : SpatialLiftData ν U z₀ δ r) {I : Fin n �
   linarith [hd.budget]
 
 /-- The AMD level of the whole ball: `B(I⁰) - δ/4 ≤ B(I) - n r` for `‖I - I⁰‖ ≤ r`. -/
-theorem threshold_ball_le (hd : SpatialLiftData ν U z₀ δ r) {I : Fin n → ℝ}
+theorem spLift_threshold_ball_le (hd : SpatialLiftData ν U z₀ δ r) {I : Fin n → ℝ}
     (hI : ‖I - spatialActionVector ν z₀‖ ≤ r) :
     strongThreshold ν (spatialActionVector ν z₀) - δ / 4 ≤ strongThreshold ν I - n * r := by
-  have := (abs_le.1 (hd.abs_threshold_sub_le hI)).1
+  have := (abs_le.1 (hd.spLift_abs_threshold_sub_le hI)).1
   linarith
 
 /-- (`LP:MAIN L14 (480)`) Whole-ball bound on the stopped interval:
 `C(z u) < B(Λ) - δ/2 ≤ B(I⁰) + Ω(r) - δ/2 ≤ B(I⁰) - δ/4`. -/
-theorem strongAMD_le_of_stopped (hd : SpatialLiftData ν U z₀ δ r) {z : ℝ → Phase (n * 3)}
+theorem spLift_strongAMD_le_of_stopped (hd : SpatialLiftData ν U z₀ δ r) {z : ℝ → Phase (n * 3)}
     {t : ℝ} (hs : SpatialStoppedOn ν z₀ δ r z t) {u : ℝ} (hu : u ∈ uIcc 0 t) :
     spatialStrongAMD ν (z u) ≤ strongThreshold ν (spatialActionVector ν z₀) - δ / 4 := by
   obtain ⟨-, hr, hC⟩ := hs u hu
-  have := (abs_le.1 (hd.abs_threshold_sub_le hr.le)).2
-  linarith [hd.n_mul_r_pos]
+  have := (abs_le.1 (hd.spLift_abs_threshold_sub_le hr.le)).2
+  linarith [hd.spLift_n_mul_r_pos]
 
 /-- The alignment of a state with `e₃` is `L = |L| e₃`; an aligned nonzero `L` has unit direction
 `e₃`. -/
@@ -120,7 +120,7 @@ part.**  On the stopped interval every state is a barrier state with margin `δ/
 momentum is `|L| e₃` (conservation of `L` plus the alignment of `z₀`), its projections satisfy
 `L_i · e₃ ≥ δ/2` (`proj_margin` with `m = δ/2`), and it lies in the image region of the product
 chart. -/
-theorem prograde_of_stopped (hd : SpatialLiftData ν U z₀ δ r) {μ : ℝ} {J : Set ℝ}
+theorem spLift_prograde_of_stopped (hd : SpatialLiftData ν U z₀ δ r) {μ : ℝ} {J : Set ℝ}
     (hJ : J.OrdConnected) (h0 : (0 : ℝ) ∈ J) {z : ℝ → Phase (n * 3)}
     (hz : IsSpatialMovingSolutionOn ν μ J z) (hz0 : z 0 = z₀) {t : ℝ} (ht : t ∈ J)
     (hs : SpatialStoppedOn ν z₀ δ r z t) :

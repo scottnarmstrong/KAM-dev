@@ -37,13 +37,13 @@ open KAM KAM.Planetary KAM.Planetary.StrongAMD KAM.ODE Set
 variable {n : ℕ}
 
 /-- The chart action of a point of the product domain is the Kepler action vector of its image. -/
-theorem spatialActionVector_spatialPoincareProd {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i)
+theorem spLiftActionVector_spatialPoincareProd {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i)
     {w : Phase (n + (n + n))} (hw : w ∈ spatialPoincareProdDom n) :
     spatialActionVector ν (spatialPoincareProd ν w) = fast w.2 := by
   funext i
   exact spatialKeplerAction_spatialPoincareProd hν hw i
 
-/-- With the alignment `L = |L| e₃` the chart deficit is the strong AMD (MAIN (47), L18 line 595). -/
+/-- With the alignment `L = |L| e₃` the chart deficit is the strong AMD (MAIN (47), L18 l. 595). -/
 theorem spatialChartAMD_eq_of_aligned {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i)
     {w : Phase (n + (n + n))} (hw : w ∈ spatialPoincareProdDom n)
     (hL : angularMomentum3 (spatialPoincareProd ν w) =
@@ -88,14 +88,14 @@ theorem zeroAngle_mem_spatialLiftQ {w : Phase (n + (n + n))}
   · rw [spatialChartAMD_zeroAngle]; exact hamd
 
 /-- `hQW` of `uniformDataNM`: a point whose zero-angle point is in `spatialLiftQ` is in
-`spatialChartSafe`.  The action is in the `r`-ball (so in `U ⊆ 𝒬`), `Γ_i + Z_i ≤ Σ(Γ + Z) ≤
+`spLiftChartSafe`.  The action is in the `r`-ball (so in `U ⊆ 𝒬`), `Γ_i + Z_i ≤ Σ(Γ + Z) ≤
 B(Λ) - n r < Λ_i` puts it in the chart domain, and `Ψ w` is a barrier state with margin `n r`
 (its strong AMD is at most the fixed-plane deficit), hence collision-free. -/
 theorem mem_spatialChartSafe_of_liftQ (hd : SpatialLiftData ν U z₀ δ r) {w : Phase (n + (n + n))}
     (hw : (assemble (fast w.2) 0 (slow w.2) (slow w.1) : Phase (n + (n + n))) ∈
       spatialLiftQ (spatialActionVector ν z₀) r
         (strongThreshold ν (spatialActionVector ν z₀) - δ / 4)) :
-    w ∈ spatialChartSafe ν := by
+    w ∈ spLiftChartSafe ν := by
   have hν := hd.pos_mass
   obtain ⟨-, hb, hA⟩ := hw
   have h2 : fast (assemble (fast w.2) 0 (slow w.2) (slow w.1) :
@@ -106,7 +106,7 @@ theorem mem_spatialChartSafe_of_liftQ (hd : SpatialLiftData ν U z₀ δ r) {w :
   have hact : ‖fast w.2 - spatialActionVector ν z₀‖ ≤ r := norm_of_lower_upper' hd.r_pos.le hb
   have hU : fast w.2 ∈ U := hd.ball _ hact
   have hamd : spatialChartAMD w ≤ strongThreshold ν (fast w.2) - n * r := by
-    have := hd.threshold_ball_le hact
+    have := hd.spLift_threshold_ball_le hact
     linarith
   have hdom : w ∈ spatialPoincareProdDom n := by
     intro i
@@ -120,11 +120,11 @@ theorem mem_spatialChartSafe_of_liftQ (hd : SpatialLiftData ν U z₀ δ r) {w :
     refine ⟨by rw [h0]; exact hIpos, ?_⟩
     show spatialGammaBody w i + spatialZBody w i < (spatialBlock w i).2 0
     rw [h0]
-    linarith [hd.n_mul_r_pos]
+    linarith [hd.spLift_n_mul_r_pos]
   obtain ⟨K, -, hKsub, hbar⟩ := exists_spatialBarrierCompact hν hd.two_le hd.compact
-    hd.subset_chamber (m := n * r) hd.n_mul_r_pos
+    hd.subset_chamber (m := n * r) hd.spLift_n_mul_r_pos
   have hact' : spatialActionVector ν (spatialPoincareProd ν w) = fast w.2 :=
-    spatialActionVector_spatialPoincareProd hν hdom
+    spLiftActionVector_spatialPoincareProd hν hdom
   have hneg : SpatialNegativeEnergy ν (spatialPoincareProd ν w) := by
     intro i
     have hIpos : 0 < (spatialBlock w i).2 0 := (hdom i).1
@@ -157,30 +157,30 @@ theorem mem_spatialChartSafe_of_liftQ (hd : SpatialLiftData ν U z₀ δ r) {w :
 the stopped interval.**  Let `z` be a spatial moving solution on the order-connected `J ∋ 0` with
 `z 0 = z₀` (aligned: `L(z₀) = |L(z₀)| e₃`), `t ∈ J`, and the strict stopped conditions on
 `uIcc 0 t`.  Then there are a chart curve `w` and an open interval `I ⊇ uIcc 0 t` on which `w`
-stays in the collision-free chart domain `spatialChartSafe ν` and solves the chart field of
-`spatialChartHam ν μ = spatialHProd ν + μ · fSpatial ν ∘ Ψ` (two-sided derivatives), with
+stays in the collision-free chart domain `spLiftChartSafe ν` and solves the chart field of
+`spLiftChartHam ν μ = spatialHProd ν + μ · fSpatial ν ∘ Ψ` (two-sided derivatives), with
 `Ψ (w u) = z u` on `uIcc 0 t` and fast actions of `w 0` equal to `Λ z₀`. -/
 theorem spatialChartLift_of_stopped (hd : SpatialLiftData ν U z₀ δ r) {μ : ℝ} {J : Set ℝ}
     (hJ : J.OrdConnected) (h0 : (0 : ℝ) ∈ J) {z : ℝ → Phase (n * 3)}
     (hz : IsSpatialMovingSolutionOn ν μ J z) (hz0 : z 0 = z₀) {t : ℝ} (ht : t ∈ J)
     (hs : SpatialStoppedOn ν z₀ δ r z t) :
     ∃ (w : ℝ → Phase (n + (n + n))) (I : Set ℝ), IsOpen I ∧ I.OrdConnected ∧ uIcc 0 t ⊆ I ∧
-      (∀ u ∈ I, w u ∈ spatialChartSafe ν ∧
-        HasDerivAt w (hamiltonianVectorField (spatialChartHam ν μ) (w u)) u) ∧
+      (∀ u ∈ I, w u ∈ spLiftChartSafe ν ∧
+        HasDerivAt w (hamiltonianVectorField (spLiftChartHam ν μ) (w u)) u) ∧
       (∀ u ∈ uIcc 0 t, spatialPoincareProd ν (w u) = z u) ∧
       fast (w 0).2 = spatialActionVector ν z₀ := by
   have hν := hd.pos_mass
-  have hW := isOpen_spatialChartSafe hν
+  have hW := isOpen_spLiftChartSafe hν
   have hF := contDiffOn_spatialLiftField hν μ
   have hK0 : (0 : ℝ) ∈ uIcc 0 t := left_mem_uIcc
   have hKJ : uIcc (0 : ℝ) t ⊆ J := hJ.uIcc_subset h0 ht
   have huI : ∀ s : ℝ, s ∈ uIcc (0 : ℝ) t ↔ min 0 t ≤ s ∧ s ≤ max 0 t := fun s => Iff.rfl
   -- initial chart point
-  have hpro := hd.prograde_of_stopped hJ h0 hz hz0 ht hs
+  have hpro := hd.spLift_prograde_of_stopped hJ h0 hz hz0 ht hs
   obtain ⟨w0, hw0dom, hw0⟩ : ∃ w0 ∈ spatialPoincareProdDom n, spatialPoincareProd ν w0 = z 0 := by
     have := (spatialPoincareProd_image hν).symm.subset (hpro 0 hK0).2.2.2
     exact this
-  have hw0W : w0 ∈ spatialChartSafe ν := by
+  have hw0W : w0 ∈ spLiftChartSafe ν := by
     refine ⟨hw0dom, ?_⟩
     show spatialPoincareProd ν w0 ∈ spatialCollisionFreeDomain n
     rw [hw0]; exact hz.2 0 h0
@@ -191,7 +191,7 @@ theorem spatialChartLift_of_stopped (hd : SpatialLiftData ν U z₀ δ r) {μ : 
   have hx : IsSolutionIn (spatialMovingField ν μ) (spatialCollisionFreeDomain n) (eIoo Tm Tp)
       (spatialPoincareProd ν ∘ y) :=
     fun s hsT => ⟨(hy.isSolution s hsT).1.2, spatialLiftPhysicalDeriv hν μ
-      (spatialChartSafe_subset_dom _ (hy.isSolution s hsT).1)
+      (spLiftChartSafe_subset_dom _ (hy.isSolution s hsT).1)
       (((analyticOnNhd_spatialPulledHam hν μ) _ (hy.isSolution s hsT).1).differentiableAt)
       (hy.isSolution s hsT).2⟩
   have hzs := ((hiff J z).1 hz).mono hKJ
@@ -204,7 +204,7 @@ theorem spatialChartLift_of_stopped (hd : SpatialLiftData ν U z₀ δ r) {μ : 
   obtain ⟨delta, M, L, hU, -⟩ := uniformDataNM
     (Q := spatialLiftQ (spatialActionVector ν z₀) r
       (strongThreshold ν (spatialActionVector ν z₀) - δ / 4)) hW hF
-    (spatialChartSafe_shift_iff hν) (fun k w hw => spatialLiftField_periodic hν μ k w hw)
+    (spLiftChartSafe_shift_iff hν) (fun k w hw => spatialLiftField_periodic hν μ k w hw)
     (spatialLiftQ_isCompact _ _ _) (fun w hw => hw.1)
     (fun w hw => hd.mem_spatialChartSafe_of_liftQ hw)
   have hmemΦ : ∀ s ∈ eIoo Tm Tp, s ∈ uIcc (0 : ℝ) t →
@@ -212,17 +212,17 @@ theorem spatialChartLift_of_stopped (hd : SpatialLiftData ν U z₀ δ r) {μ : 
         spatialLiftQ (spatialActionVector ν z₀) r
           (strongThreshold ν (spatialActionVector ν z₀) - δ / 4)} := by
     intro s hsT hsK
-    have hyW := spatialChartSafe_subset_dom _ (hy.isSolution s hsT).1
+    have hyW := spLiftChartSafe_subset_dom _ (hy.isSolution s hsT).1
     have hp := hproj s hsT hsK
     refine SpatialLiftData.zeroAngle_mem_spatialLiftQ ?_ ?_
     · have : fast (y s).2 = spatialActionVector ν (z s) := by
-        rw [← hp]; exact (spatialActionVector_spatialPoincareProd hν hyW).symm
+        rw [← hp]; exact (spLiftActionVector_spatialPoincareProd hν hyW).symm
       rw [this]
       exact (hs s hsK).2.1.le
     · have hal := (hpro s hsK).2.1
       rw [← hp] at hal
       rw [spatialChartAMD_eq_of_aligned hν hyW hal, hp]
-      exact hd.strongAMD_le_of_stopped hs hsK
+      exact hd.spLift_strongAMD_le_of_stopped hs hsK
   have hTp : ((max 0 t : ℝ) : EReal) < Tp := by
     by_contra hle
     rw [not_lt] at hle
@@ -245,10 +245,10 @@ theorem spatialChartLift_of_stopped (hd : SpatialLiftData ν U z₀ δ r) {μ : 
   refine ⟨y, eIoo Tm Tp, isOpen_eIoo _ _, ordConnected_eIoo _ _, hsub,
     fun s hsT => ⟨(hy.isSolution s hsT).1, ?_⟩,
     fun s hsK => hproj s (hsub hsK) hsK, ?_⟩
-  · rw [spatialChartHam_field_eq hν μ (hy.isSolution s hsT).1]
+  · rw [spLiftChartHam_field_eq hν μ (hy.isSolution s hsT).1]
     exact (hy.isSolution s hsT).2
-  · have hyW0 := spatialChartSafe_subset_dom _ (hy.isSolution 0 (zero_mem_eIoo hy)).1
-    rw [← spatialActionVector_spatialPoincareProd hν hyW0, hproj 0 (zero_mem_eIoo hy) hK0, hz0]
+  · have hyW0 := spLiftChartSafe_subset_dom _ (hy.isSolution 0 (zero_mem_eIoo hy)).1
+    rw [← spLiftActionVector_spatialPoincareProd hν hyW0, hproj 0 (zero_mem_eIoo hy) hK0, hz0]
 
 end SpatialLiftData
 
