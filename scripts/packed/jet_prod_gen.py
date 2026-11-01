@@ -267,6 +267,9 @@ def order_cert(blocks):
     return cert
 
 
+CH = 32                                                 # blocks per chunk of the block list
+
+
 HEAD = """/-
 Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
@@ -353,8 +356,13 @@ def main():
     body = []
     for i, b in enumerate(blocks):
         body.append("def kb%s_%d : KBlock :=\n  %s\n" % (C_, i, b.lit))
-    body.append("def blocks%s : List KBlock :=\n  [%s]\n" % (C_, ", ".join("kb%s_%d" % (C_, i)
-                                                                         for i in range(len(blocks)))))
+    # the block list in chunks of at most CH blocks (every list and proof of the chain stays shallow)
+    nch = (len(blocks) + CH - 1) // CH
+    for c in range(nch):
+        body.append("def blocks%s_%d : List KBlock :=\n  [%s]\n" % (C_, c, ", ".join(
+            "kb%s_%d" % (C_, i) for i in range(c * CH, min(len(blocks), (c + 1) * CH)))))
+    body.append("def blocks%s : List KBlock :=\n  %s\n" % (C_, " ++ ".join("blocks%s_%d" % (C_, c)
+                                                                           for c in range(nch))))
     body.append("def cert%s : List (List ℕ) :=\n  [%s]\n" % (C_, ", ".join("[%s]" % ", ".join(map(str, r))
                                                                          for r in cert)))
     body.append("def led%s : JLedger :=\n  %s\n" % (C_, " ++\n    ".join(led_names)))
@@ -374,18 +382,25 @@ def main():
     wl = "torsionSlots 2 lg00Jet" if STAGE == "Low" else "lg00Jet.v0 :: d1Slots 2 lg00Jet"
     wlc = "torsionSlots 2 lg00Cert.ham.jet" if STAGE == "Low" else \
         "lg00Cert.ham.jet.v0 :: d1Slots 2 lg00Cert.ham.jet"
-    hok = ",\n    ".join("blk%s_%d" % (C_, i) for i in range(len(blocks)))
-    chain = ("/-- The wanted slots of the %s chain. -/\ndef wanted%s : List ℕ := %s\n\n"
+    P_ = ("(kb.toT (jd%s.L.look (α := LGF))).ok 2 lg00Cert.weight lg00Cert.piEnc\n      lg00Cert.%s jb%s "
+          "lg00Cert.emb lg00Jet.prog = true" % (C_, CFG, C_))
+    chunks_txt = []
+    for c in range(nch):
+        ids = range(c * CH, min(len(blocks), (c + 1) * CH))
+        chunks_txt.append("/-- The blocks of chunk %d. -/\ntheorem chunk%s_%d :\n    ∀ kb ∈ blocks%s_%d, %s := by\n"
+                          "  simp only [blocks%s_%d, List.forall_mem_cons]\n  exact ⟨%s,\n    List.forall_mem_nil _⟩\n"
+                          % (c, C_, c, C_, c, P_, C_, c, ",\n    ".join("blk%s_%d" % (C_, i) for i in ids)))
+    chain = ("/-- The wanted slots of the %s chain. -/\ndef wanted%s : List ℕ := %s\n\n%s\n"
              "/-- **The %s chain, one theorem**: the keyed chain at LG00's program and embedding. -/\n"
              "theorem jet%s_check :\n    jetCheck 2 lg00Cert.weight lg00Cert.piEnc lg00Cert.%s lg00Cert.emb "
              "lg00Jet.prog\n      jd%s b%s wanted%s = true := by\n"
              "  refine jetCheck_of (by decide +kernel) ?_ (by decide +kernel) (by decide +kernel)\n"
              "    (by decide +kernel)\n"
-             "  show ∀ kb ∈ blocks%s, (kb.toT (jd%s.L.look (α := LGF))).ok 2 lg00Cert.weight lg00Cert.piEnc\n"
-             "    lg00Cert.%s jb%s lg00Cert.emb lg00Jet.prog = true\n"
-             "  simp only [blocks%s, List.forall_mem_cons, List.forall_mem_nil, and_true]\n"
+             "  show ∀ kb ∈ blocks%s, %s\n"
+             "  simp only [blocks%s, List.forall_mem_append, and_assoc]\n"
              "  exact ⟨%s⟩\n"
-             % (C_, C_, wl, C_, C_, CFG, C_, C_, C_, C_, C_, CFG, C_, C_, hok))
+             % (C_, C_, wl, "\n".join(chunks_txt), C_, C_, CFG, C_, C_, C_, C_, P_, C_,
+                ", ".join("chunk%s_%d" % (C_, c) for c in range(nch))))
     write(out, base + ".Chain", ["%s.B%d" % (base, i) for i in range(len(blocks))],
           "The %s chain as one theorem" % C_, "`jetCheck_of` over the %d block theorems, the order certificate "
           "(decided on keys) and the wanted slots." % len(blocks), chain, src)
