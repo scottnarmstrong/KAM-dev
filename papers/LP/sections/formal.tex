@@ -43,8 +43,9 @@ counterparts of lemmas. The declaration names are internal identifiers, listed v
 \texttt{KAM.Planetary.StrongAMD} (planar), \texttt{KAM.Planetary.Spatial} (spatial) and \texttt{KAM.Nekhoroshev}.
 For Theorems~\ref{thm:barrier}--\ref{thm:spatial} and Corollary~\ref{cor:half}, the row marked \emph{frozen}
 gives the frozen statement: a separate file, fixed by the authors and protected against change, whose one-line
-proof applies short adapter theorems built on the implementation theorems listed above it. The frozen statements take $\max_i\nu_i=1$ and
-the \texttt{\_source} form of the AMD and the elements. Paths are relative to \texttt{KAM/Planetary/}, those of
+proof applies short adapter theorems built on the implementation theorems listed above it. The frozen statements take the \texttt{\_source}
+form of the AMD and the elements; those of Theorems~\ref{thm:planar}, \ref{thm:spatial} and
+Corollary~\ref{cor:half} also take $\max_i\nu_i=1$. Paths are relative to \texttt{KAM/Planetary/}, those of
 the frozen statements to \texttt{KAM/Frozen/Planetary/}, except in the last row of Table~\ref{tab:lean-main}.
 
 \begin{table}[htb]
@@ -120,7 +121,8 @@ following implementation declarations, checked at commit \texttt{74d77b43}:
 \item \texttt{lp3\_planar\_strongAMD\_safety}, \texttt{lp3\_spatial\_strongAMD\_safety}\\ and their
   \texttt{\_normalized} and \texttt{\_source} versions.
 \end{itemize}
-Each integration of new code into the repository replays the proofs in the Lean kernel. The statements of
+Some files imported by the implementation declarations changed between these two commits; the
+implementation check predates the pinned commit. Each integration of new code into the repository replays the proofs in the Lean kernel. The statements of
 Theorems~\ref{thm:barrier}--\ref{thm:spatial} and Corollary~\ref{cor:half} are frozen; Theorem~\ref{thm:resonant}
 is proved, and the freezing of its statement is pending.
 
