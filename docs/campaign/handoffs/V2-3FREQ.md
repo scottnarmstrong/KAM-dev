@@ -53,6 +53,42 @@ Branch `v2-3freq`, worktree `/home/scott/KAM-dev-worktrees/v2-3freq`, from `orig
   sites), `toy3_threshold_classical_fails` (the same with classical sites fails), and
   `toy3_threshold_classical` (classical passes at `5·10⁻¹⁴`).
 
+## Part B (owner question 1 answered: yes): route B on T3 at `ρ = 1`
+
+`KAM/CertificateSharp/V2/Tests/Fiber3ToyB.lean` (new). `toyB3` is T3 on the strip `ρ = 1`,
+`ρ∞ = 1/100`, with the strip weight `540 ≥ e^{2π}`, exactly as `toyB` is T2's. Every other datum is
+T3's: `n = 3`, `τ = 2`, `cubicFreq`, and the landed sub-checks pass.
+
+- **Sites.** Route B's schedule (`a = 2`, `kp = 2`) has six sites, all fibered. Each is decided by
+  the kernel on its own and assembled with `NumBQ.sitesOkG_of`:
+
+  | Bite | Fibres | Certified `c` | Classical `c` | Factor |
+  |---|---:|---|---|---:|
+  | `δ₀ = 33/200` | 220 | `3.60·10⁻³` | `0.0499` | 14 |
+  | split `11/100` | 544 | `3.21·10⁻³` | `0.0475` | 15 |
+  | full `1` | 12 | `4.91·10⁻⁴` | `0.0783` | 160 |
+  | `δ₁ = 33/400` | 1,012 | `3.04·10⁻³` | `0.0462` | 15 |
+  | split `11/200` | 2,244 | `2.89·10⁻³` | `0.0449` | 16 |
+  | full `101/200` | 24 | `2.82·10⁻³` | `0.0630` | 22 |
+
+- **Torus.** `toyB3_refinedBG_passes` is the whole v2 certifier with `routeBRefinedG`, assembled
+  from its parts (`checkTorusCertificateV2_routeBRefinedG_of`, `refinedBCoreG_of`).
+  `toyB3_refinedBG_torus : CertifiedTorus toyB3 cubicFreq`.
+- **Threshold.** The largest `X⋆` of route B's Newton conditions, by `#eval` of the same Lean
+  tests, is `10^−15.85` with fibered sites against `10^−17.02` with classical ones. The accepted
+  invariance errors are `1.2·10⁻²²` and `8.1·10⁻²⁴`: **1.17 orders**. The kernel decides:
+  - `toyB3_threshold_fibered`: err `5·10⁻²³`, `X⋆ = 1.4·10⁻¹⁶` passes with fibered sites;
+  - `toyB3_threshold_classical_fails`: the same err fails with classical sites at their best
+    `X⋆ = 9·10⁻¹⁸`;
+  - `toyB3_threshold_classical`: classical passes at `5·10⁻²⁴`.
+- **New lemmas** in this branch's own `Fiber/RouteBG.lean`: `NumBQ.sitesOkG_of`, `refinedBCoreG_of`
+  and `checkTorusCertificateV2_routeBRefinedG_of`. They are generic. The last one avoids a `show` on
+  the concrete certificate, which hit the default recursion depth. No limit was raised.
+- **Cost.** The module builds in 23 s, peak RSS 2.77 GB; the largest single site is 2,244 fibres.
+- **Axioms.** `[propext, Classical.choice, Quot.sound]` for all of the above.
+- **Deferred to Scott, not started** (orchestrator, recorded): owner question 2 (bulk bound for
+  far-from-resonance fibres) and owner question 3 (clock index as witness data).
+
 ## SJS planar frequencies (estimate, `docs/explorations/sjs-plan.md`)
 
 Inputs:
@@ -216,14 +252,12 @@ All of the following give `[propext, Classical.choice, Quot.sound]`:
 
 ## Owner questions
 
-1. **Route B with three frequencies.** It needs a positive example with `ρ ≤ 1`. T3 (`ρ = 9`) only
-   exercises route A. Toy B (n = 2) exercises `routeBRefinedG` through `ofRefined`. Should a T3
-   variant with `ρ ≤ 1` be built (a new toy certificate)?
-2. **SJS scale.** Is a bulk bound for far fibres (`|x + p| ≥ η`, summed per shell
+1. **Route B with three frequencies.** Answered: yes. Done in Part B (`toyB3`).
+2. **SJS scale (deferred to Scott).** Is a bulk bound for far fibres (`|x + p| ≥ η`, summed per shell
    `|k'|₁ = s` analytically) wanted? It would turn `3·10⁶–6·10⁷` walked fibres into about `10⁴`
    near-resonant ones (the plan's count), at the price of a near-resonance enumeration certificate
    (e.g. continued-fraction / three-distance data for `ω'`).
-3. **Clock choice.** The checker fibres over coordinate 2. For SJS, should applications reorder the
+3. **Clock choice (deferred to Scott).** The checker fibres over coordinate 2. For SJS, should applications reorder the
    frequency vector so the fast coordinate is last (assumed in the estimate), or should the clock
    index become witness data?
 
@@ -256,3 +290,5 @@ All of the following give `[propext, Classical.choice, Quot.sound]`:
   and 4× the memory.
 
 V2-3FREQ DONE
+
+V2-3FREQ-B DONE

@@ -103,6 +103,7 @@ public import KAM.CertificateSharp.V2.SmallDivQ
 public import KAM.CertificateSharp.V2.StepBQ
 public import KAM.CertificateSharp.V2.Tests.Fiber3RouteB
 public import KAM.CertificateSharp.V2.Tests.Fiber3Toy
+public import KAM.CertificateSharp.V2.Tests.Fiber3ToyB
 public import KAM.CertificateSharp.V2.Tests.Fiber3XLang
 public import KAM.CertificateSharp.V2.Tests.FrameFacts
 public import KAM.CertificateSharp.V2.Tests.Frozen

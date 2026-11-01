@@ -47,6 +47,21 @@ def sitesOkG (J : ℕ) (box : FreqBox) (κ γ : ℚ) (sites : BSitesG) : Bool :=
 
 variable {Q n}
 
+/-- Sharding: `sitesOkG` from its stages, each site a kernel computation of its own. -/
+theorem sitesOkG_of {J : ℕ} {box : FreqBox} {κ γ : ℚ} {sites : BSitesG}
+    (h : ∀ s < Q.kp,
+      siteOkG n Q.τ J box κ γ (Q.δ s) (Q.c.getD s Q.ctail)
+          (sites.getD s (.classical, .classical, .classical)).1 = true ∧
+        siteOkG n Q.τ J box κ γ (Q.split * Q.δ s) (Q.c'.getD s Q.ctail)
+          (sites.getD s (.classical, .classical, .classical)).2.1 = true ∧
+        siteOkG n Q.τ J box κ γ (Q.bfull s) (Q.cbar.getD s Q.cbtail)
+          (sites.getD s (.classical, .classical, .classical)).2.2 = true) :
+    Q.sitesOkG n J box κ γ sites = true := by
+  simp only [sitesOkG, Bool.and_eq_true, List.all_eq_true, List.mem_range]
+  intro s hs
+  obtain ⟨h1, h2, h3⟩ := h s hs
+  exact ⟨⟨h1, h2⟩, h3⟩
+
 /-- **The certificates on the ray**, from the general prefix sites and the classical tail. -/
 theorem cert_rayG (hN : (Q.toNum n).Wf) {J : ℕ} {box : FreqBox} {κ γ : ℚ} {sites : BSitesG}
     (hs : Q.sitesOkG n J box κ γ sites = true) (ht : Q.tailOk n J = true) (hγ : 0 < γ)
@@ -97,6 +112,20 @@ def refinedBCoreG (n : ℕ) (p : CertParams) (box : FreqBox) (w : RefinedBWitG) 
       (p.μ / 2) w.core.Xs &&
     Q.sitesOkG n w.core.J box w.κ p.γ w.sites && Q.tailOk n w.core.J &&
     finalB Q n p box w.R.bL w.R.bNt w.core.Xs
+
+/-- Sharding: `refinedBCoreG` from its parts, each a kernel computation of its own. -/
+theorem refinedBCoreG_of {n : ℕ} {p : CertParams} {box : FreqBox} {w : RefinedBWitG}
+    (h0 : 0 < w.core.Xs) (h1 : (w.num p box).wfOk n = true)
+    (h2 : (w.num p box).fitsOk w.R.bL w.R.bNt = true)
+    (h3 : (w.num p box).initOk w.R.bL w.R.bN w.R.bNt p.σT p.μ = true)
+    (h4 : (w.num p box).okB n ((w.num p box).capBQ p.σT p.μ p.nuRay)
+      (NumBQ.initBQ w.R.bL w.R.bN w.R.bNt p.σK p.σB p.μ) (p.μ / 2) w.core.Xs = true)
+    (h5 : (w.num p box).sitesOkG n w.core.J box w.κ p.γ w.sites = true)
+    (h6 : (w.num p box).tailOk n w.core.J = true)
+    (h7 : finalB (w.num p box) n p box w.R.bL w.R.bNt w.core.Xs = true) :
+    refinedBCoreG n p box w = true := by
+  simp only [refinedBCoreG, Bool.and_eq_true, decide_eq_true_eq]
+  exact ⟨⟨⟨⟨⟨⟨⟨h0, h1⟩, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩
 
 /-- A witness of `routeBRefined` as a witness of `routeBRefinedG`. -/
 def RefinedBWitG.ofRefined (w : RefinedBWit) : RefinedBWitG where
@@ -224,6 +253,17 @@ theorem checkTorusCertificateV2_routeV2G_sharp (c : TorusCertificate n α) :
     checkTorusCertificateV2 routeV2G c (Sum.inl (Sum.inl (Sum.inl ()))) =
       checkTorusCertificateSharp c :=
   rfl
+
+omit [LawfulCertArith α] in
+/-- Sharding: the whole certifier at `routeBRefinedG` from the landed sub-checks, the disc pass, the
+frame majorants and the numerical core, each a kernel computation of its own. -/
+theorem checkTorusCertificateV2_routeBRefinedG_of {c : TorusCertificate n α} {w : RefinedBWitG}
+    (hb : landedBase.check c = true) (hH : checkHamClaim c w.R = true)
+    (hF : checkFrameMajorants c (w.R.frame c.freqBox) = true)
+    (hc : refinedBCoreG n c.params c.freqBox w = true) :
+    checkTorusCertificateV2 routeBRefinedG c w = true := by
+  simp only [checkTorusCertificateV2, checkV2With, routeBRefinedG, refinedBTestG, Bool.and_eq_true]
+  exact ⟨hb, ⟨hH, hF⟩, hc⟩
 
 omit [LawfulCertArith α] in
 /-- A refined route-B witness passes the new engine exactly when it passes `routeBRefined`. -/
