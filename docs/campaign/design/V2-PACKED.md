@@ -776,12 +776,18 @@ fit one process:
 - 169 blocks, one process each:
   - 88 segments (at most 8 heavy steps and 15 imports + exports);
   - 5 action blocks;
-  - the staged exponentials (4 `tstart`, 28 `tstep`, 4 `texp`; Taylor degrees 17 and 22);
-  - 12 power blocks, 24 character blocks (2 keys each), 2 `inv` and 2 `sqrt`.
+  - the staged exponentials (4 `tstart`, 28 `tstep` of at most 3 Taylor steps, 78 in all, 4 `texp`; Taylor
+    degrees 17 and 22);
+  - 12 power blocks (at most 2 powers each, 20 in all), 24 character blocks (2 keys each), 2 `inv` and 2
+    `sqrt`.
 
 **What is checked.** As for Low (§12.11): each block is a separate theorem over probe-local data.
 - The LG00 instance of `jChainT_slot` is not built: `hfirst`, `hng`, `jBookOk`, `checkWeight` and
   `checkPiEnclosure` are not discharged in Lean.
+- The per-block theorems do not check the degree or power labels of their imports (a `texp` fed a lower-degree
+  sum, or a `pows` fed a lower power, passes its own check). Only the block order `hfirst` ties the labels, so
+  it is load-bearing. AUDIT-V2-PACKED-JET-FULL-1 checked it as data: all 892 imports equal an earlier export,
+  key and literal node alike.
 - The probe program is the first 7,736 of the 7,816 operations of `lg00Jet.prog`.
 
 | | landed Full stage (run20e) | packed |

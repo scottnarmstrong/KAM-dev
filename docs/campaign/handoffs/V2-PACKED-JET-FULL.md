@@ -24,8 +24,10 @@ yet one theorem; see "What is not proved" below.
     constants, 78 box-by-box products and 487 reduces in place;
   - 5 action blocks (20 action slots, 4 each);
   - 4 staged exponentials `exp(±i 2π angleAt_j)`, Taylor degrees 17 (`j = 0`) and 22 (`j = 1`): 4 `tstart`,
-    28 `tstep` (3 Taylor steps each) and 4 `texp` blocks;
-  - 12 power blocks (`m = 2..6`, 2 powers each, each from the previous power);
+    28 `tstep` (at most 3 Taylor steps each, 78 in all: 24 blocks of 3, 2 of 2 and 2 of 1) and 4 `texp`
+    blocks;
+  - 12 power blocks (`m = 2..6`, at most 2 powers each, each from the previous power: 8 blocks export 2
+    powers and 4 export 1, 20 in all);
   - 24 character blocks (2 keys each: 48 keys, 120 character slots);
   - 2 `inv` and 2 `sqrt` blocks.
 - **No given blocks.** The chain theorem `jChainT_slot` has no hypotheses beyond the block checks, the block
@@ -54,8 +56,14 @@ Notes on the figures:
 ## What is not proved (as for Low; AUDIT-V2-PACKED-JET-1 M1)
 
 - **The LG00 instance of `jChainT_slot` is not built.** Its hypotheses are not discharged in Lean for LG00:
-  - `hfirst` (the block order) and `hng` (no given block). Both hold as data (the plan's order; no block is
-    given), not as a Lean proof.
+  - `hfirst` (the block order) and `hng` (no given block). Both hold as data, not as a Lean proof. The audit
+    (AUDIT-V2-PACKED-JET-FULL-1) checked `hfirst` as data: all 892 imports equal an earlier export, key and
+    literal node alike, in plan order; no key is exported twice; no block is given.
+  - **The block order is load-bearing.** The per-block theorems do not check the degree or power labels of
+    their imports: a `texp` fed the partial sum of degree 2 under the key `sum 3`, or a `pows` fed the square
+    as the power 3, passes its own check (audit probe). Only `hfirst`, through the ledger keys, ties the
+    labels. So the 169 per-block theorems alone establish no slot enclosure; they do so within
+    `jChainT_slot`, as at Low.
   - `jBookOk`: checked inside each segment only.
   - `checkWeight gW` and `checkPiEnclosure lgPe`: they appear in no probe.
 - **The probe program is a prefix.** `lgProg` is the first 7,736 of the 7,816 operations of `lg00Jet.prog`
