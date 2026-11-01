@@ -21,7 +21,9 @@ Then `lake build --no-build <roots>` (from the package directory) lists the reus
 this core: LG00's run built them against `lg00-app`'s core, which differs from `main` only in files no data module
 imports (`V2/SiteSign.lean`, `V2/SiteShard.lean`: the `Final` and `Main` modules of each torus are stale).
 
-Usage: python3 -I scripts/packed/gen_pkg.py [--pkg DIR] [--lg00 DIR] [--check] ROOT_MODULE...
+`--like PKG [--core DIR]`: mirror another scratch package's configuration (kamx-packed's `kam-lg00p`) on the core at
+DIR instead of LG00's, and `--lg00 PKG` reuses that package's modules: the jet route's integration package.
+Usage: python3 -I scripts/packed/gen_pkg.py [--pkg DIR] [--lg00 DIR] [--like PKG] [--core DIR] [--check] ROOT_MODULE...
 """
 import json
 import os
@@ -59,8 +61,11 @@ def src_path(root, m):
     return os.path.join(root, *m.split(".")) + ".lean"
 
 
+LOCAL = ("LG00", "LG00P")              # the package-local module roots (everything else is the core or Mathlib)
+
+
 def closure(lg00, roots):
-    """The LG00 modules imported (transitively) by the roots, and the core modules they import."""
+    """The package-local modules imported (transitively) by the roots, and the core modules they import."""
     seen, core, stack = set(), set(), list(roots)
     while stack:
         m = stack.pop()
@@ -68,11 +73,30 @@ def closure(lg00, roots):
             continue
         seen.add(m)
         for d in IMP.findall(open(src_path(lg00, m), encoding="utf-8").read()):
-            if d.split(".")[0] == "LG00":
+            if d.split(".")[0] in LOCAL and os.path.exists(src_path(lg00, d)):
                 stack.append(d)
-            else:
+            elif d.split(".")[0] not in LOCAL:
                 core.add(d)
     return seen, core
+
+
+def write_config_like(pkg, like, core):
+    """The configuration of another scratch package (kamx-packed's `kam-lg00p`, V2-PACKED-PROD), its core path
+    replaced: same package name, libraries and options, so that package's built modules keep their Lake traces."""
+    os.makedirs(os.path.join(pkg, ".lake"), exist_ok=True)
+    rel = os.path.relpath(core, pkg)
+    lf = open(os.path.join(like, "lakefile.lean"), encoding="utf-8").read()
+    lf = re.sub(r'require kam from "[^"]*"', 'require kam from "%s"' % rel, lf, count=1)
+    open(os.path.join(pkg, "lakefile.lean"), "w", encoding="utf-8").write(lf)
+    shutil.copyfile(os.path.join(core, "lean-toolchain"), os.path.join(pkg, "lean-toolchain"))
+    man = json.load(open(os.path.join(like, "lake-manifest.json")))
+    for p in man["packages"]:
+        if p["name"] == "kam":
+            p["dir"] = rel
+    json.dump(man, open(os.path.join(pkg, "lake-manifest.json"), "w"), indent=1)
+    link = os.path.join(pkg, ".lake", "packages")
+    if not os.path.islink(link):
+        os.symlink(os.path.relpath(os.path.join(core, ".lake", "packages"), os.path.join(pkg, ".lake")), link)
 
 
 def write_config(pkg, lg00):
@@ -159,9 +183,21 @@ def main():
         i = args.index("--lg00")
         lg00 = os.path.abspath(args[i + 1])
         del args[i:i + 2]
+    like = core = None
+    if "--like" in args:                         # mirror another scratch package's configuration
+        i = args.index("--like")
+        like = os.path.abspath(args[i + 1])
+        del args[i:i + 2]
+    if "--core" in args:
+        i = args.index("--core")
+        core = os.path.abspath(args[i + 1])
+        del args[i:i + 2]
     do_check = "--check" in args
     roots = [a for a in args if not a.startswith("--")]
-    write_config(pkg, lg00)
+    if like:
+        write_config_like(pkg, like, core or CORE)
+    else:
+        write_config(pkg, lg00)
     mods, core = closure(lg00, roots)
     print("roots %s: %d LG00 modules, %d core imports" % (roots, len(mods), len(core)))
     print("sources copied %d, artifacts hardlinked %d, copied %d" % reuse(pkg, lg00, mods))

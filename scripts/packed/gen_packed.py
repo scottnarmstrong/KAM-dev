@@ -656,7 +656,8 @@ def emit_j(E, SJ, jet):
     c = "lg00Cert"
     W, Bi, cfg, box, sv = c + ".weight", c + ".gramInv", c + ".cfgLow", c + ".freqBox", c + ".params.s"
     J, jsL, jsF = c + ".ham.jet", "(jetSlots (α := LGF) jdLow)", "(jetSlots (α := LGF) jdFull)"
-    low, full = jet["low"], jet["full"]
+    low, full = jet["low"], jet["full"]                  # the chain theorems (`…ChainCert`)
+    lowd, fulld = jet["low_data"], jet["full_data"]      # the chain data (`jdLow`, `jdFull`) only
     imp = [data["G"], data["T"], data["R"], E.lg("Data.Cert"), "KAM.CertificateSharp.Packed.RouteSharpJ"]
     # the torsion on the jet
     d2 = []
@@ -699,7 +700,7 @@ def emit_j(E, SJ, jet):
     for nm in ("DN", "XN"):
         es = []
         for i, j in itertools.product(range(2 * n), range(n)):
-            es.append(E.write("TorsJ.St%s_%d_%d" % (nm, i, j), imp + ([low] if nm == "XN" else []),
+            es.append(E.write("TorsJ.St%s_%d_%d" % (nm, i, j), imp + ([lowd] if nm == "XN" else []),
                               "the node %s, entry (%d, %d)" % (nm, i, j),
                               "One entry of the node `%s` against the exact product of its inputs (`stageOk`)." % nm,
                               thm("pkTrSt%s_%d_%d" % (nm, i, j),
@@ -716,13 +717,13 @@ def emit_j(E, SJ, jet):
                          "the node %s" % nm, "`%s` from its eight entries." % full_[nm].split()[0], body)
     st["T"] = E.write("TorsJ.T", imp, "the averages of T", "`trTCheck`.",
                       thm("pkTrT", "trTCheck (α := LGF) 2 pkRBook pkRMemo = true"))
-    st["Y"] = E.write("TorsJ.Y", imp + [low], "the averages of Y", "`trYCheckJ` (`DH` from the jet).",
+    st["Y"] = E.write("TorsJ.Y", imp + [lowd], "the averages of Y", "`trYCheckJ` (`DH` from the jet).",
                       thm("pkTrY", "trYCheckJ 2 %s %s pkRBook pkRMemo = true" % (J, jsL)))
     sig = "(%s.params.σT - %s.params.μ)" % (c, c)
     st["F"] = E.write("TorsJ.Final", imp, "the averaged test", "The landed averaged test on the tables (`tabFinal`).",
                       thm("pkTrFinal", "tabFinal 2 %s pkRBook.P (trCentre 2 %s %s pkRMemo) (trRad 2 %s %s pkRMemo) "
                           "%s.torsInv %s = true" % (cfg, box, sv, box, sv, c, sig)))
-    core = E.write("TorsJ.Core", list(st.values()) + [low], "the torsion core on the jet",
+    core = E.write("TorsJ.Core", list(st.values()) + [lowd], "the torsion core on the jet",
                    "`torsRCoreJ` of the certificate from its thirteen parts.",
                    "theorem pkTorsCoreJ :\n%s\n  torsRCoreJ_of pkTrLay pkTrNorm pkTrPack pkTrStN pkTrStDL pkTrStDG "
                    "pkTrStC pkTrStDGi\n    pkTrStDN pkTrStXN pkTrT pkTrY pkTrFinal\n" % swrap(
@@ -753,14 +754,14 @@ def emit_j(E, SJ, jet):
     ib = E.write("Data.IBook", [E.fmt, "KAM.CertificateSharp.Packed.RouteSharpJ"], "the invariance book",
                  "`pkIBook`: the Full chain's box and width, its largest wanted load, the loads and norm offsets.",
                  i_book(SJ["D"], jet["wfull"], jet["bfull"]))
-    iimp = [ib, data["G"], E.lg("Data.Cert"), full]
+    iimp = [ib, data["G"], E.lg("Data.Cert"), fulld]
     guard = E.write("InvJ.Guard", iimp, "the invariance guard", "`ivGuard`.",
                     thm("pkIvGuard", "ivGuard 2 %s %s %s pkIBook pkGMemo = true" % (W, box, sv)))
     rows = [E.write("InvJ.Row%d" % a, iimp, "invariance row %d" % a, "`ivRowOk`: the packed weighted norm of the "
                     "invariance array plus its radius is at most `err`.",
                     thm("pkIvRow%d" % a, "ivRowOk 2 %s %s %s %s %s pkIBook pkGMemo %s.params.err %d = true"
                         % (W, box, sv, J, jsF, c, a))) for a in range(2 * n)]
-    fullok = E.write("InvJ.FullOk", iimp, "the jet's Full chain at the invariance",
+    fullok = E.write("InvJ.FullOk", iimp + [full], "the jet's Full chain at the invariance",
                      "`jetFullOk`: the box and scale (checked), and the chain theorem `jetFull_check_cert`.",
                      "theorem pkFullOk : jetFullOk pkIBook jdFull lg00Cert = true := by\n"
                      "  simp only [jetFullOk, Bool.and_eq_true]\n"
@@ -771,9 +772,11 @@ def emit_j(E, SJ, jet):
                   "  refine checkInvarianceJ_of pkGram rfl pkFullOk pkIvGuard fun a ha => ?_\n"
                   "  have ha' : a < 4 := ha\n  interval_cases a\n%s\n" % "\n".join(
                       "  · exact pkIvRow%d" % a for a in range(4)))
-    en = E.write("EnJ", [fullok], "the packed energy on the jet", "`checkEnergyJ`: the zero mode of the `v0` node.",
-                 thm("pkEnGuard", "enGuard 2 pkIBook = true") + "\n" +
-                 thm("pkEnOk", "enOk 2 %s %s pkIBook %s.params.E0 %s.params.err = true" % (J, jsF, c, c)) + "\n" +
+    enp = E.write("EnJ.Parts", iimp, "the energy's guard and value", "`enGuard`, `enOk` (the zero mode of the "
+                  "`v0` node, minus `E0`, plus its radius, at most `err`).",
+                  thm("pkEnGuard", "enGuard 2 pkIBook = true") + "\n" +
+                  thm("pkEnOk", "enOk 2 %s %s pkIBook %s.params.E0 %s.params.err = true" % (J, jsF, c, c)))
+    en = E.write("EnJ", [enp, fullok], "the packed energy on the jet", "`checkEnergyJ` from its parts.",
                  "theorem pkCheckEnJ : checkEnergyJ pkIBook jdFull lg00Cert = true :=\n"
                  "  checkEnergyJ_of pkFullOk pkEnGuard pkEnOk\n")
     bk = "pkGBook pkGMemo pkRBook pkTMemo pkRMemo"
@@ -841,7 +844,8 @@ def main():
         assert all(fr["ok"].values()), fr["ok"]
         v0, d1, _ = GC.ham_jet(cert)
         fn, wf = GC.jet_nodes(fullc, [v0] + d1, 48)
-        jet = dict(low=E.lg("Jet.Low.ChainCert"), full=E.lg("Jet.Full.ChainCert"), wfull=wf,
+        jet = dict(low=E.lg("Jet.Low.ChainCert"), full=E.lg("Jet.Full.ChainCert"), low_data=E.lg("Jet.Low.Data"),
+                   full_data=E.lg("Jet.Full.Data"), wfull=wf,
                    bfull=max(v[3] for v in fn.values()))
         ie = GC.inv_energy(SJ, fullc)
         assert all(r["ok"] for r in ie["rows"]) and ie["energy"]["ok"], ie

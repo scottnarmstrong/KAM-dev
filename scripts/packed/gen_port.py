@@ -84,6 +84,10 @@ def main():
         txt = PG.rename(src, pre)
         if m == "LG00.%s.Data.Cert" % tree:
             txt = PG.cert_text(txt, pre, tree)
+        if m == "LG00.%s.Final.Freq" % tree:    # LG00's defect (handoff, errata): the `open` of an absent namespace
+            old = "public import %s.Confinement.Main\n" % pre
+            if old in txt and "KAM.CertificateSharp.V2.RouteARefinedS" not in txt:
+                txt = txt.replace(old, old + "public import KAM.CertificateSharp.V2.RouteARefinedS\n", 1)
         name = pre + m[len("LG00"):]
         dst = os.path.join(out, *name.split(".")) + ".lean"
         os.makedirs(os.path.dirname(dst), exist_ok=True)
