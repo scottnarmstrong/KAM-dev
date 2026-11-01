@@ -546,3 +546,16 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - **Then seal** the frozen lock anchors (LOCK-FREEZE Phase B). The seal needs no further go, but only after the full
     chain passes, the landing checks pass (`prebuild_heavy.py --check-all`, KAMLunarLock up to date) and a dedicated
     seal audit passes (as D50 and D61).
+- **D64 (2026-11-01, 14:20 UTC) Freeze and seal track LP's LP3 statements, draft 8.** *(Scott: "approve draft 8", after
+  reviewing the exact text on the review page; all three file hashes re-checked against the approval commit.)*
+  - **The approval object:** branch `inp-lp-freeze8r` at `6c168945`: `docs/tracks/LP/FREEZE-PROPOSAL-DRAFT8.md`, plus,
+    under `docs/tracks/LP/freeze/draft8/`, the two anchor texts and `manifest-entries.json`, byte for byte.
+  - **The anchors:**
+    - `KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith`;
+    - `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith`.
+
+    They are the sharp strong-AMD safety with no Diophantine hypothesis, with Nekhoroshev exponents a_n, b_n (track P's
+    frozen `planetaryTimeExponent` / `planetaryDriftExponent`). There are no new definitions.
+  - **Install:** in one pass, already sealed, as D62. The approval date and this decision number fill the placeholders;
+    the providers are staged and Expr-checked; then 2 SEALED manifest entries and 2 MANIFEST-CHANGES rows. A dedicated
+    seal audit and the landing (kernel replay, `#print axioms`) follow, with no further go needed.
