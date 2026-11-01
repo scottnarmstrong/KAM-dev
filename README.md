@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-01 08:51 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 65 % · track LP 90 %** · frozen statements proved: 26 / 31 · **442,107 lines of hand-written Lean** of an estimated ≈ 500,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-01 08:52 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 65 % · track LP 90 %** · frozen statements proved: 26 / 31 · **442,107 lines of hand-written Lean** of an estimated ≈ 500,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -295,7 +295,7 @@ Overall, everything together: 88.9 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 08:51 UTC from `main` at `125fe25b` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 08:52 UTC from `main` at `07be8a67` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -502,16 +502,16 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:workers -->
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
-| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | 🔄 working | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
+| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | 🔄 working | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA lock_mlane: dry-run schedule (LOCK_DRY=1) and missing-source report | `inp-lockdata` | 55 (vs `inp`) |
-| **lp** `inp-mprov-lp` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP progress: stamps corrected to commit times (root-b8); W4E landed (LP2 on main) | `inp-lp` | 2 (vs `inp`) |
+| **lp** `inp-mprov-lp` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP progress: auditor sessions closed; second slot released to W | `inp-lp` | 3 (vs `inp`) |
 | **lp-freeze7** `inp-mprov-lp-freeze7` | prover (offload) | Claude Opus 5.5 | claude-11 | 🔄 proving | last commit: Merge branch 'inp-lp' into inp-lp-freeze7 | `inp-lp-freeze7` | 0 (vs `inp`) |
 | **lp-w5b** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: LP-W5B: combined LP3 SP-COVER+SP-DRIFT audit handoff | `inp-lp-w5b` | 5 (vs `inp`) |
 | **lp-w5c** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: LP-W5C: combined LP3 PS+SP-SAFE+SRC audit handoff | `inp-lp-w5c` | 9 (vs `inp`) |
-| **w5aa** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: W5 round 2: audit-scope handoff (STEP-A/B round 2 tight deltas, W5-AA round 1) | `inp-w5aa` | 190 (vs `inp`) |
+| **w5aa** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: W5: make WaveStepHyp.Conclusion and StepHypMod.Conclusion protected (short-name hygiene) | `inp-w5aa` | 191 (vs `inp`) |
 | **w5r** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: W5-REAL: handoff (audit focus, statements, checks) | `inp-w5r` | 164 (vs `inp`) |
 | **w6t** `inp-mprov-wpj` | prover (offload) | Claude Opus 5.5 | claude-11 | 🔄 proving | last commit: W6-TORI (W6-AUDIT1-FIX F1): iter-lemma transformation clause in the p+ norms via W5's smoo | `inp-w6t` | 234 (vs `inp`) |
 | **w8a** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Merge branch 'inp' into inp-w8a | `inp-w8a` | 216 (vs `inp`) |
@@ -524,6 +524,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-01 08:52 | `07be8a67` | Overnight log 08:40–08:53 |
 | 2026-11-01 08:51 | `743a9b36` | D60: parallel W audits on codex-1 and codex-2 |
 | 2026-11-01 08:45 | `3114e48a` | Land inp into main |
 | 2026-11-01 08:31 | `9e4d252a` | Land inp into main |
@@ -535,7 +536,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-01 07:17 | `99481851` | Land v2-packed-b3: packed torsion (exact B3 reference + rounded/truncated B3b; checkTorsionR_sound proves the landed statement; additive), LG00 stage gates, jet design (section 12); audit AUDIT-V2-PACKED-B3-1 PASS WITH CHANGES, fixes applied |
 | 2026-11-01 07:16 | `56e4a2c4` | D58: sealed frozen theorems may be imported by implementation modules (rule 9 clarification) |
 | 2026-11-01 07:00 | `73dd9149` | Land inp into main |
-| 2026-11-01 06:45 | `f3c62804` | HQ: track LP: spatial theorem LP2 proved end to end; all headline theorems proved |
 <!-- /AUTO:landed -->
 
 ## Decisions
