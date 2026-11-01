@@ -14,14 +14,14 @@ Diophantine frequencies, as soon as f is small enough.
 ## Main theorems
 
 Every frozen theorem below is proved and sealed. That covers the 22 of the original project, Rüssmann's theorem
-(track R), track W's PDE KAM theorem `KAM.Wave.nlw2` (sealed 2026-11-01) and track SO's frozen lunar band; only the
+(track R), track W's PDE KAM theorem `KAM.Wave.nlw2` (sealed 2026-11-01), track LP's five safety statements (sealed
+2026-11-01) and track SO's frozen lunar band; only the
 four statements of the Moon's synchronous lock (track SO, part 3) are still in progress. Each frozen statement was
 approved by the owner and frozen before its proof was assembled. The proofs are complete and use only the standard
 axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
-- **Track LP** (items 8–9, the sharp Laskar–Petit safety theorems): every theorem is proved and audited on `main`.
-  The owner approved the exact statements of item 8 and its corollaries (D62), and their freeze and seal are
-  landing.
+- **Track LP** (items 8–9, the sharp Laskar–Petit safety theorems): item 8 and its corollaries are frozen and
+  sealed (D62). Item 9 is proved and audited, and its statements are to be frozen next.
 - **Items 13–15** are track SO's certified numerical tori, among them the Moon's spin-rate band.
 
 The plain-language versions simplify; the linked Lean statements are exact. The full list of frozen statements, with
@@ -108,17 +108,19 @@ sources, is in [docs/STATEMENTS.md](docs/STATEMENTS.md).
 
    There is no hypothesis on the secular dynamics, which may be chaotic, and no prograde or small-inclination
    assumption. The static core is the sharp barrier: every state below the threshold has orbits in ordered,
-   separated annuli. Statements approved for freezing (D62):
-   [`planar_strongAMD_barrier`](KAM/Planetary/StrongAMD/PlanarSafety/Main.lean#L255) ·
-   planar [`…_exponentialSafety`](KAM/Planetary/StrongAMD/PlanarSafety/Source.lean#L132) ·
-   spatial [`…_exponentialSafety`](KAM/Planetary/Spatial/SpatialSafety/Source.lean#L145) (proved implementation
-   theorems; frozen anchors landing). Paper: [papers/LP/main.pdf](papers/LP/main.pdf).
+   separated annuli. Frozen and sealed (D62, 2026-11-01):
+   [`KAM.Planetary.StrongAMD.planar_strongAMD_barrier`](KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDBarrier.lean#L47) ·
+   planar [`planar_strongAMD_exponentialSafety`](KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafety.lean#L61)
+   ([τ = n − ½](KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyHalfInteger.lean#L63)) ·
+   spatial [`KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety`](KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafety.lean#L63)
+   ([τ = n − ½](KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyHalfInteger.lean#L64)).
+   Paper: [papers/LP/main.pdf](papers/LP/main.pdf).
 9. **The same threshold with no arithmetic condition** (track LP). Without the Diophantine hypothesis the same holds
    with Nekhoroshev's exponents: semi-major axes drift by O(μ^(3/(6n²−3n+14))) for
    |t| ≤ T₀·exp(c·μ^(−2/(6n²−3n+14))). This is close to Nekhoroshev 1977, Theorem 12.3 (item 11). What it adds is
    the sharp per-state AMD threshold in place of a box of semi-major axes, and the annulus and osculating
-   conclusions. Proved through the sealed item 7, applied cell by cell. Ordinary theorems; their statements are
-   to be frozen next.
+   conclusions. Proved through the sealed item 7, applied cell by cell. Ordinary theorems for now; their statements
+   are the next freeze (draft 8).
    [`lp3_planar_strongAMD_safety_source`](KAM/Planetary/StrongAMD/Nek/PlanarSafety/Source.lean#L130) ·
    [`lp3_spatial_strongAMD_safety_source`](KAM/Planetary/Spatial/Nek/SpatialSafety/Source.lean#L139)
 
