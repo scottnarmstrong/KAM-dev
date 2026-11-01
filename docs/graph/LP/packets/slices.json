@@ -1,5 +1,5 @@
 {
- "_note": "Slices of the track-LP graph (SPEC §9). Waves 1-3 extracted and assembled (LP-GRAPH-W1, LP-GRAPH-W2 under D65): counts are actual. Wave additions to the anchor/external/m1/amend slices live in their own packets <slice>-w2/-w3 (listed under 'packets'); packets/slices-assembled.txt is the assembly order. LP3 pending.",
+ "_note": "Slices of the track-LP graph (SPEC §9). Waves 1-4 extracted and assembled (LP-GRAPH-W1, LP-GRAPH-W2 under D65): counts are actual. Wave additions to the anchor/external/m1/amend slices live in their own packets <slice>-w2/-w3 (listed under 'packets'); packets/slices-assembled.txt is the assembly order. LP3 (wave 4) extracted after the D64 landing.",
  "LP-adef-pl": {
   "part": "anchors",
   "lines": [
@@ -15,6 +15,10 @@
    "LP-adef-pl-w2": {
     "nodes": 7,
     "coverage": 7
+   },
+   "LP-adef-pl-w4": {
+    "nodes": 2,
+    "coverage": 2
    }
   }
  },
@@ -49,6 +53,10 @@
    "LP-athm-w3": {
     "nodes": 22,
     "coverage": 22
+   },
+   "LP-athm-w4": {
+    "nodes": 2,
+    "coverage": 2
    }
   }
  },
@@ -180,7 +188,7 @@
    1,
    1000000000
   ],
-  "nodes": 1,
+  "nodes": 2,
   "coverage": 1,
   "what": "writer-owned candidate imported nodes: N:bpN:p0:partial, N:bpN:p11:nonresonant, N:bpN:p11:s-nf#data, P:bpP:p14:h-data, P:bpP:p14:perturbation",
   "wave": 2,
@@ -192,10 +200,10 @@
    1,
    258
   ],
-  "nodes": 17,
+  "nodes": 1,
   "coverage": 22,
   "wave": 4,
-  "status": "pending: the draft-8 (D64) LP3 anchors are not on main yet; not extracted"
+  "status": "extracted and assembled (wave 4, D64 landed; D65 minimal model from LP3-PLAN.md)"
  },
  "LP3-b": {
   "part": "LP3-PLAN",
@@ -203,10 +211,10 @@
    259,
    506
   ],
-  "nodes": 14,
+  "nodes": 3,
   "coverage": 18,
   "wave": 4,
-  "status": "pending: the draft-8 (D64) LP3 anchors are not on main yet; not extracted"
+  "status": "extracted and assembled (wave 4, D64 landed; D65 minimal model from LP3-PLAN.md)"
  },
  "LP-ext": {
   "part": "externals",

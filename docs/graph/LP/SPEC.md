@@ -422,3 +422,15 @@ Status after wave-1 extraction (2026-11-01; all PROPOSED, extractor `kam-lp`):
   - Result: 292 nodes, 1040 edges, 39 roots, 145 anchors, 11 externals (10 closed-list + 1 import), 2 routes,
     4 SOURCE_GAP, 394 coverage items (40 excluded), every node in a root closure; lint exit 0
     (`reports/W2-lint.txt`); LEAN_STATUS applied (`LEAN_STATUS.md`): 145 PROVED, 11 EXTERNAL, 136 NOT_STARTED.
+- 2026-11-01, **wave 4 (LP3, D64 landed at main 61c6d5a7), streamlined (D65)**: `inp` (b5f029f5, with D64) merged into
+  `inp-lp-graph` (no conflict). LP3-PLAN.md is pinned in CORPUS.sha256 (hash = the §2 candidate pin) and is the LP3
+  source; the Q1 source note is not written (D65 minimal model, orchestrator ruling). Anchors bound mechanically from
+  the manifest (binding rows, wave 4): LP3-1 `lpM:T15#planar_strongAMD_exponentialSafety_noArith`, LP3-2
+  `lpM:T19#spatial_strongAMD_exponentialSafety_noArith` (roots), and the reused exponent definitions
+  `lp3:s1.1#planetaryTimeExponent`, `lp3:s1.1#planetaryDriftExponent` (Q6). Import `N:bpN:p0:partial`
+  (partialConvex_nekhoroshev). Four LP3 step nodes: `lp3:s2.3` (fixed data and premise discharge, §2.2-§2.3),
+  `lp3:s2.4` (planar drift supplier in the hstop shape, §2.4 with §3's sharp sublevel), `lp3:s2.5` (spatial),
+  `lp3:s3#first-exit` (Lemma 14's route-independent steps with the LP3 supplier; LP3 drops (5), so it does not use
+  `lpM:L14` or `lpM:T15#apply-L14`). The 40 LP3-PLAN inventory items are coverage (packets LP3-a, LP3-b). Result:
+  301 nodes, 1161 edges, 41 roots, 149 anchors, 12 externals, 438 coverage items (47 excluded); lint exit 0;
+  LEAN_STATUS PROVED 153, BYPASSED 136, EXTERNAL 12.

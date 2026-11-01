@@ -14,7 +14,7 @@ python3 /root/.claude/skills/build-proof-dependency-graph/scripts/proof_depgraph
   --require-all-reachable --write-dashboard   # then the same with --check
 ```
 
-Totals after the sync: BYPASSED 132, EXTERNAL 11, PROVED 149 of 292 nodes. Resolved in the HQ sense (PROVED, BYPASSED, EXTERNAL, ASSUMED): 292.
+Totals after the sync: BYPASSED 136, EXTERNAL 12, PROVED 153 of 301 nodes. Resolved in the HQ sense (PROVED, BYPASSED, EXTERNAL, ASSUMED): 301.
 
 Every theorem anchor of LP (LP0 … LP2-H and the 34 characterizations) is SEALED (D62), so track LP's proof is complete in the sense of `scripts/hq-status.py` `track_sealed`. The ordinary nodes below stay NOT_STARTED here: their status needs a Lean reference that this source-level sync must not infer. As for track W after its seal, they are D27 BYPASS candidates (the sealed root makes them unnecessary) or get PROVED from the landed LP modules' audits; that decision belongs to the orchestrator.
 
@@ -202,6 +202,7 @@ Every theorem anchor of LP (LP0 … LP2-H and the 34 characterizations) is SEALE
 | LP-m5 | `lpM:L16#mu0-choice` | step | - | BYPASSED | - |
 | LP-m5 | `lpM:L16#half-gaps` | step | - | BYPASSED | - |
 | LP-imports | `N:bpN:p11:nonresonant` | external | - | EXTERNAL | - |
+| LP-imports | `N:bpN:p0:partial` | external | - | EXTERNAL | - |
 | LP-ext-w2 | `lpM:ext-holomorphic-limit` | external | - | EXTERNAL | - |
 | LP-ext-w2 | `lpM:ext-identity-theorem` | external | - | EXTERNAL | - |
 | LP-ext-w2 | `lpM:ext-compact-cover` | external | - | EXTERNAL | - |
@@ -312,3 +313,11 @@ Every theorem anchor of LP (LP0 … LP2-H and the 34 characterizations) is SEALE
 | LP-athm-w3 | `lpM:L16#spatialSourceOscApo_ge_length` | lemma | SEALED | PROVED | `KAM.Planetary.Spatial.spatialSourceOscApo_ge_length (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscApoGeLength.lean)` |
 | LP-athm-w3 | `lpM:T19#spatial_strongAMD_exponentialSafety` | theorem | SEALED | PROVED | `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety (KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafety.lean)` |
 | LP-athm-w3 | `lpM:T19#spatial_strongAMD_exponentialSafety_halfInteger` | corollary | SEALED | PROVED | `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger (KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyHalfInteger.lean)` |
+| LP-adef-pl-w4 | `lp3:s1.1#planetaryTimeExponent` | definition | SEALED | PROVED | `KAM.Planetary.planetaryTimeExponent (KAM/Frozen/Planetary/Defs/PlanetaryTimeExponent.lean)` |
+| LP-adef-pl-w4 | `lp3:s1.1#planetaryDriftExponent` | definition | SEALED | PROVED | `KAM.Planetary.planetaryDriftExponent (KAM/Frozen/Planetary/Defs/PlanetaryDriftExponent.lean)` |
+| LP-athm-w4 | `lpM:T15#planar_strongAMD_exponentialSafety_noArith` | theorem | SEALED | PROVED | `KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith (KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean)` |
+| LP-athm-w4 | `lpM:T19#spatial_strongAMD_exponentialSafety_noArith` | theorem | SEALED | PROVED | `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith (KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean)` |
+| LP3-a | `lp3:s2.3` | step | - | BYPASSED | - |
+| LP3-b | `lp3:s2.4` | lemma | - | BYPASSED | - |
+| LP3-b | `lp3:s2.5` | step | - | BYPASSED | - |
+| LP3-b | `lp3:s3#first-exit` | step | - | BYPASSED | - |

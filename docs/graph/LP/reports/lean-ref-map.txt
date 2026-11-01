@@ -191,3 +191,37 @@ BYPASSED: 132 (every ordinary node without a LEAN_REF, including the 2 route nod
 
 PROVED 149 (145 anchors; lpM:L8 unique match; lpM:L1#velocity, lpM:L2, lpM:L5 d-generic pairs), BYPASSED 132, EXTERNAL 11, NOT_STARTED 0
 proof_depgraph.py --require-complete-coverage --require-all-reachable --write-dashboard: rc 0; --check: rc 0
+
+# Step C (2026-11-01T14:58Z, main 67f6fd6986c077cffb531c942b96ff908d315a5c): wave 4 (LP3, D64) and the same rules
+
+declarations scanned on main: 716 (with docstrings, public); ordinary nodes: 140
+PROVED: 4; NOT_STARTED: 136
+import closure: 224 KAM modules; identical to main in /root/code/KAM-inp (HEAD, clean)
+
+The four LP3 step nodes (lp3:s2.3, lp3:s2.4, lp3:s2.5, lp3:s3#first-exit) have LP3-PLAN locators, not MAIN ones, so no docstring citation matches them ('no MAIN locator'); the two LP3 anchors and the two reused exponent definitions are anchors (PROVED when their LEAN_REF resolves on main). The step A/B proposals are unchanged:
+
+| lpM:L1#velocity | display | PROVED | KAM.Planetary.StrongAMD.oscVelocity_eq_movingField ; KAM.Planetary.Spatial.spatialOscVelocity_eq_hamiltonianVectorField | d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a)) | KAM.Planetary.Spatial.spatialOscVelocity_eq_hamiltonianVectorField, KAM.Planetary.StrongAMD.oscVelocity_eq_movingField |
+| lpM:L2 | lemma | PROVED | KAM.Planetary.StrongAMD.orbital_identities ; KAM.Planetary.Spatial.spatial_orbital_identities | d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a)) | KAM.Planetary.Spatial.spatial_orbital_identities, KAM.Planetary.StrongAMD.orbital_identities |
+| lpM:L5 | lemma | PROVED | KAM.Planetary.StrongAMD.barrier_osc_data ; KAM.Planetary.Spatial.spatialBarrier_osc_data | d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a)) | KAM.Planetary.Spatial.spatialBarrier_osc_data, KAM.Planetary.StrongAMD.barrier_osc_data |
+| lpM:L8 | lemma | PROVED | KAM.Planetary.StrongAMD.lemma8_complete | unique docstring match | KAM.Planetary.StrongAMD.lemma8_complete |
+
+### #print axioms output of step C (one scratch file, one process)
+
+```
+'KAM.Planetary.Spatial.spatialBarrier_osc_data' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.Spatial.spatialOscVelocity_eq_hamiltonianVectorField' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'KAM.Planetary.Spatial.spatial_orbital_identities' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.StrongAMD.barrier_osc_data' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.StrongAMD.lemma8_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.StrongAMD.orbital_identities' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.StrongAMD.oscVelocity_eq_movingField' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+D27 BYPASS: 136 (the 132 of step B + the 4 LP3 steps), blocked 0
+
+## Final LEAN_STATUS and structural lint (waves 1-4)
+
+301 nodes: PROVED 153 (149 anchors + lpM:L8, lpM:L1#velocity, lpM:L2, lpM:L5), BYPASSED 136, EXTERNAL 12 (10 closed-list + N:bpN:p11:nonresonant + N:bpN:p0:partial), NOT_STARTED 0
+proof_depgraph.py --require-complete-coverage --require-all-reachable --write-dashboard: rc 0; --check: rc 0

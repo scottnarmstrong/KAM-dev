@@ -1,6 +1,6 @@
 # Proof-source coverage manifest
 
-CORPUS: docs/tracks/LP/source/{MAIN,AMENDMENTS}.md pinned by SHA-256 in docs/graph/LP/CORPUS.sha256 (MAIN 68e9167f...48c1b, 679 lines; AMENDMENTS c887d1e2...51881, 26 lines; N1 fixed in place, N2-N12 override the MAIN lines they cite); branch inp-lp-graph off inp after the D62 freeze (main f46b94fb); waves 1-3; streamlined review (D65): one global review, no per-slice reviews; LEAN_STATUS set mechanically from LEAN_REFs that resolve on main
+CORPUS: docs/tracks/LP/source/{MAIN,AMENDMENTS}.md pinned by SHA-256 in docs/graph/LP/CORPUS.sha256 (MAIN 68e9167f...48c1b, 679 lines; AMENDMENTS c887d1e2...51881, 26 lines; N1 fixed in place, N2-N12 override the MAIN lines they cite); wave 4: docs/tracks/LP/lp3/LP3-PLAN.md (1b58b704...ba06ba, 506 lines), the LP3 source under D65 (no separate LP3 source note); branch inp-lp-graph off inp after the D62 freeze (main f46b94fb); waves 1-4; streamlined review (D65): one global review, no per-slice reviews; LEAN_STATUS set mechanically from LEAN_REFs that resolve on main
 
 ## Inventory
 
@@ -3550,6 +3550,402 @@ KIND: lemma
 SOURCE: docs/tracks/LP/source/MAIN.md#s1@L93-L93
 DISPOSITION: NODE lpM:T19#spatial_strongAMD_exponentialSafety_halfInteger
 REASON: frozen anchor planetary.d59.spatial_strongAMD_exponentialSafety_halfInteger.v1 (LP2-H)
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s1.1#planetaryTimeExponent
+KIND: definition
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s1.1@L69-L70
+DISPOSITION: NODE lp3:s1.1#planetaryTimeExponent
+REASON: frozen anchor planetary.d25.planetaryTimeExponent.v1 (reused definition (Q6))
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s1.1#planetaryDriftExponent
+KIND: definition
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s1.1@L69-L70
+DISPOSITION: NODE lp3:s1.1#planetaryDriftExponent
+REASON: frozen anchor planetary.d25.planetaryDriftExponent.v1 (reused definition (Q6))
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lpM:T15#planar_strongAMD_exponentialSafety_noArith
+KIND: lemma
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s1.2@L85-L126
+DISPOSITION: NODE lpM:T15#planar_strongAMD_exponentialSafety_noArith
+REASON: frozen anchor planetary.d59.planar_strongAMD_exponentialSafety_noArith.v1 (LP3-1)
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lpM:T19#spatial_strongAMD_exponentialSafety_noArith
+KIND: lemma
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s1.3@L128-L134
+DISPOSITION: NODE lpM:T19#spatial_strongAMD_exponentialSafety_noArith
+REASON: frozen anchor planetary.d59.spatial_strongAMD_exponentialSafety_noArith.v1 (LP3-2)
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:h:status
+KIND: heading
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#status@L1-L16
+DISPOSITION: EXCLUDED
+REASON: ANCHORS: none; SLICE: LP3-a; status, source and label legend; administrative; D65 minimal model: excluded as in the inventory
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:review-note
+KIND: claim
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#review-note@L20-L25
+DISPOSITION: NODE lpM:T15#planar_strongAMD_exponentialSafety_noArith, lpM:T19#spatial_strongAMD_exponentialSafety_noArith
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-a; review-1 notes; C5 fixes the headline mu_0 as a minimum with the LP1/LP2 osculating and separation limits; D65 minimal model: mapped to lpM:T15#planar_strongAMD_exponentialSafety_noArith, lpM:T19#spatial_strongAMD_exponentialSafety_noArith
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s0
+KIND: claim
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s0@L27-L59
+DISPOSITION: EXCLUDED
+REASON: ANCHORS: none; SLICE: LP3-a; summary of §2-§5; D65 minimal model: excluded as in the inventory
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s1.1#exponents
+KIND: definition
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s1.1@L63-L83
+DISPOSITION: NODE lp3:s1.1#planetaryTimeExponent, lp3:s1.1#planetaryDriftExponent
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-a; a_n, b_n: already-frozen track-P/N exponent definitions; bind after the draft-8 freeze; D65 minimal model: mapped to lp3:s1.1#planetaryTimeExponent, lp3:s1.1#planetaryDriftExponent
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:LP3-1
+KIND: theorem
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s1.2@L85-L126
+DISPOSITION: NODE lpM:T15#planar_strongAMD_exponentialSafety_noArith
+REASON: ANCHORS: LP3-1; SLICE: LP3-a; planar target; proposed anchor node of LP3-1 (draft 8); D65 minimal model: mapped to lpM:T15#planar_strongAMD_exponentialSafety_noArith
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:LP3-2
+KIND: theorem
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s1.3@L128-L134
+DISPOSITION: NODE lpM:T19#spatial_strongAMD_exponentialSafety_noArith
+REASON: ANCHORS: LP3-2; SLICE: LP3-a; spatial target; proposed anchor node of LP3-2 (draft 8); D65 minimal model: mapped to lpM:T19#spatial_strongAMD_exponentialSafety_noArith
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s1.4
+KIND: claim
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s1.4@L136-L150
+DISPOSITION: EXCLUDED
+REASON: ANCHORS: none; SLICE: LP3-a; comparison table; no obligation; D65 minimal model: excluded as in the inventory
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.1
+KIND: citation
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.1@L154-L175
+DISPOSITION: NODE N:bpN:p0:partial
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-a; the sealed partialConvex_nekhoroshev read exactly: candidate IMPORT N:bpN:p0:partial (and the N definition anchors it uses, if a step consumes them separately); D65 minimal model: mapped to N:bpN:p0:partial
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.2#F1
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#F1@L181-L183
+DISPOSITION: NODE lp3:s2.3
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-a; shared tube r_g, U, Omega_B(4r_g) <= delta/16 (MAIN L8, N2); D65 minimal model: mapped to lp3:s2.3
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.2#F2
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#F2@L184-L187
+DISPOSITION: NODE lp3:s2.3
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-a; uniform holomorphic extension fc, bound M, B_0 (MAIN L8); D65 minimal model: mapped to lp3:s2.3
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.2#F3
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#F3@L188-L189
+DISPOSITION: NODE lp3:s2.3
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-a; widths rs, s, b, eta, rho; D65 minimal model: mapped to lp3:s2.3
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.2#F4
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#F4@L190-L193
+DISPOSITION: NODE lp3:s2.3
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-a; finite cover of L_delta by centres in L_delta; empty case; D65 minimal model: mapped to lp3:s2.3
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.2#F5
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#F5@L194-L197
+DISPOSITION: NODE lp3:s2.3
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-a; cells G_j, G'_j, A_j, D_j; D65 minimal model: mapped to lp3:s2.3
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.2#F6
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#F6@L198-L199
+DISPOSITION: NODE lp3:s2.3
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-a; Kepler constants a_min, I_max, g, m, Mc; D65 minimal model: mapped to lp3:s2.3
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.2#F7
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#F7@L200-L201
+DISPOSITION: NODE lp3:s2.3
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-a; slow erosion gap eps_D > 0; D65 minimal model: mapped to lp3:s2.3
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.3#collar
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.3@L207-L207
+DISPOSITION: NODE lp3:s2.3
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-a; collar premise; D65 minimal model: mapped to lp3:s2.3
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.3#kepler-data
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.3@L208-L214
+DISPOSITION: NODE lp3:s2.3
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-a; holomorphy, C^2, reality, Hessian bound on the cell; adapted from track P (candidate IMPORT P:bpP:p14:h-data); D65 minimal model: mapped to lp3:s2.3
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.3#definiteness
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.3@L215-L218
+DISPOSITION: NODE lp3:s2.3
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-a; HasDefiniteFastPart with sigma = -1; negation for -h; D65 minimal model: mapped to lp3:s2.3
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.3#perturbation
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.3@L219-L235
+DISPOSITION: NODE lp3:s2.3
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-a; P = fc/B_0, cell containment, the four perturbation clauses (candidate IMPORT P:bpP:p14:perturbation); D65 minimal model: mapped to lp3:s2.3
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.3#hamiltonian-identity
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.3@L236-L246
+DISPOSITION: NODE lp3:s2.3
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-a; N-Hamiltonian equals the chart Hamiltonian on the open set V_j; equal fields; D65 minimal model: mapped to lp3:s2.3
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.3#thresholds
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.3@L248-L255
+DISPOSITION: NODE lp3:s2.3
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-a; nu_0, mu_0, r(mu), T(mu), c, T_0 over the finite cover; D65 minimal model: mapped to lp3:s2.3
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.3#time-check
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.3@L257-L257
+DISPOSITION: NODE lp3:s2.3
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-a; T(mu) <= the frozen horizon; D65 minimal model: mapped to lp3:s2.3
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.4
+KIND: lemma
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.4@L259-L265
+DISPOSITION: NODE lp3:s2.4
+REASON: ANCHORS: LP3-1; SLICE: LP3-b; the drift supplier in the exact stopped (hstop) shape, planar; D65 minimal model: mapped to lp3:s2.4
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.4#lift
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.4@L269-L274
+DISPOSITION: NODE lp3:s2.4
+REASON: ANCHORS: LP3-1; SLICE: LP3-b; chart lift of the stopped orbit (MAIN L7/L14 dictionary); D65 minimal model: mapped to lp3:s2.4
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.4#cell
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.4@L275-L275
+DISPOSITION: NODE lp3:s2.4
+REASON: ANCHORS: LP3-1; SLICE: LP3-b; choice of the cell of I^0; D65 minimal model: mapped to lp3:s2.4
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.4#fast-premises
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.4@L276-L277
+DISPOSITION: NODE lp3:s2.4
+REASON: ANCHORS: LP3-1; SLICE: LP3-b; innerCore and G_j membership; D65 minimal model: mapped to lp3:s2.4
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.4#sharp-slow-bound
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.4@L278-L287
+DISPOSITION: NODE lp3:s2.4
+REASON: ANCHORS: LP3-1; SLICE: LP3-b; C < B(c_j) - 3delta/8 (the curvature step; uses the L6 modulus twice); D65 minimal model: mapped to lp3:s2.4
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.4#slow-premise
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.4@L288-L289
+DISPOSITION: NODE lp3:s2.4
+REASON: ANCHORS: LP3-1; SLICE: LP3-b; slow erosion; D65 minimal model: mapped to lp3:s2.4
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.4#solution-premise
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.4@L290-L293
+DISPOSITION: NODE lp3:s2.4
+REASON: ANCHORS: LP3-1; SLICE: LP3-b; the lift solves the N-field on [0,t]; D65 minimal model: mapped to lp3:s2.4
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.4#forward
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.4@L294-L295
+DISPOSITION: NODE lp3:s2.4
+REASON: ANCHORS: LP3-1; SLICE: LP3-b; apply the imported theorem: drift <= r/2; D65 minimal model: mapped to lp3:s2.4
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.4#backward
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.4@L296-L300
+DISPOSITION: NODE lp3:s2.4
+REASON: ANCHORS: LP3-1; SLICE: LP3-b; reversed curve with (-h, -P); D65 minimal model: mapped to lp3:s2.4
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.4#uniformity
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.4@L302-L303
+DISPOSITION: NODE lp3:s2.4
+REASON: ANCHORS: LP3-1; SLICE: LP3-b; constants depend only on (n, nu, A, delta); D65 minimal model: mapped to lp3:s2.4
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s2.5
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.5@L305-L328
+DISPOSITION: NODE lp3:s2.5
+REASON: ANCHORS: LP3-2; SLICE: LP3-b; spatial version (k = 2n): slow ball, extension, chart Hamiltonian, lift, erosion constant; MAIN L17/L18; D65 minimal model: mapped to lp3:s2.5
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s3#sublevel
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s3@L333-L351
+DISPOSITION: NODE lp3:s2.4
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-b; no AMDBox; why D may be the sharp ball; ordered levels with fixed gaps (MAIN L5, L8); D65 minimal model: mapped to lp3:s2.4
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s3#first-exit
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s3@L352-L362
+DISPOSITION: NODE lp3:s3#first-exit
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-b; application of MAIN L14 with r = (B_0 mu)^{b_n} and hstop from §2.4; D65 minimal model: mapped to lp3:s3#first-exit
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s3#assembly
+KIND: proof-region
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L370
+DISPOSITION: NODE lpM:T15#planar_strongAMD_exponentialSafety_noArith, lpM:T19#spatial_strongAMD_exponentialSafety_noArith
+REASON: ANCHORS: LP3-1,LP3-2; SLICE: LP3-b; assembly as in T15/T19 with the drift supplier swapped; A_Lambda = B_0^{b_n}/2; D65 minimal model: mapped to lpM:T15#planar_strongAMD_exponentialSafety_noArith, lpM:T19#spatial_strongAMD_exponentialSafety_noArith
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s4
+KIND: claim
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s4@L373-L422
+DISPOSITION: EXCLUDED
+REASON: ANCHORS: none; SLICE: LP3-b; provider chain and import policy (D58, OD-13); governance; D65 minimal model: excluded as in the inventory
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s5
+KIND: claim
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s5@L424-L462
+DISPOSITION: EXCLUDED
+REASON: ANCHORS: none; SLICE: LP3-b; Lean package list; planning; D65 minimal model: excluded as in the inventory
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s6
+KIND: claim
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s6@L464-L489
+DISPOSITION: EXCLUDED
+REASON: ANCHORS: none; SLICE: LP3-b; risk register; its mathematical content is in §2-§3; D65 minimal model: excluded as in the inventory
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+
+ITEM: lp3:s7
+KIND: claim
+SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s7@L491-L506
+DISPOSITION: EXCLUDED
+REASON: ANCHORS: none; SLICE: LP3-b; sketch remarks and errata candidates (A4); errata ledger, not graph; D65 minimal model: excluded as in the inventory
 COVERAGE_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -

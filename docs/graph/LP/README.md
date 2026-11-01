@@ -22,6 +22,13 @@ for review batch R1 (`REVIEW-BRIEF.md`, `reviews/R1-packets.md`). The wave's LEA
 `LEAN_STATUS-W1.md` (sync tool `tools/lp_depgraph_lean_sync.py`, applied after publication). The text below is the
 pre-freeze preparation record.
 
+## Status after wave 4 (2026-11-01, D64 landed; D65)
+
+The full graph (LP0-LP3: 41 roots) is assembled: 301 nodes, 1161 edges, 149 anchors, 12 externals (2 imports from
+track N), 2 routes, 4 SOURCE_GAP steps, 438 coverage items (47 excluded); structural lint exit 0. LEAN_STATUS
+(mechanical, D65/D27): PROVED 153 (149 anchors + 4 ordinary nodes by docstring match), BYPASSED 136, EXTERNAL 12,
+NOT_STARTED 0 (`LEAN_STATUS.md`, `reports/lean-ref-map.txt`). ONE global review (codex-2) is pending.
+
 ## Status after LP-GRAPH-W2 (2026-11-01, streamlined under D65)
 
 Waves 1-3 (LP0, LP1, LP1-H, LP2, LP2-H and the 34 characterizations) are extracted and assembled: 292 nodes, 1040

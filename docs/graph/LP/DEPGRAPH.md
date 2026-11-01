@@ -1,13 +1,13 @@
 # Proof dependency database - track LP
 
 GRAPH_VERSION: 4
-ROOTS: lpM:L4#orderedPairThreshold_isLeast, lpM:L4#orderedPairThreshold_existsUnique_value, lpM:L4#orderedCrossThreshold_isLeast, lpM:L4#orderedStrongThreshold_isLeast, lpM:L3#sourceStrongAMD_nonneg, lpM:L3#sum_action_mul_eccDeficit_le_sourceStrongAMD, lpM:L2#sourceKepler_axis_pos, lpM:L2#sourceKepler_ecc_le_one, lpM:L2#sourceKeplerPeri_le_planeLength, lpM:L2#planeLength_le_sourceKeplerApo, lpM:L16#sourceOscAxis_pos, lpM:L16#sourceOscPeri_pos, lpM:L16#sourceOscPeri_le_planeLength, lpM:L16#planeLength_le_sourceOscApo, lpM:L2#spatialSourceKeplerAxis_pos, lpM:L2#spatialSourceKeplerAction_pos, lpM:L2#spatialSourceKeplerAction_sq, lpM:L2#spatialSourceKeplerEcc_sq, lpM:L2#spatialSourceKeplerEcc_nonneg, lpM:L2#spatialSourceKeplerEcc_le_one, lpM:L2#spatialSourcePlanetAngularMomentum_length, lpM:L2#spatialSourcePlanetAngularMomentum_length_le, lpM:L2#spatialSourceKeplerPeri_le_length, lpM:L2#spatialSourceKeplerApo_ge_length, lpM:L3#spatialSourceStrongAMD_nonneg, lpM:L3#spatialSourceAction_mul_eccDeficit_le, lpM:L16#spatialSourceOscParam_pos, lpM:L16#spatialSourceOscEnergy_neg, lpM:L16#spatialSourceOscEcc_lt_one, lpM:L16#spatialSourceOscEcc_nonneg, lpM:L16#spatialSourceOscAxis_pos, lpM:L16#spatialSourceOscPeri_pos, lpM:L16#spatialSourceOscPeri_le_length, lpM:L16#spatialSourceOscApo_ge_length, lpM:L5#planar_strongAMD_barrier, lpM:T15#planar_strongAMD_exponentialSafety, lpM:T15#planar_strongAMD_exponentialSafety_halfInteger, lpM:T19#spatial_strongAMD_exponentialSafety, lpM:T19#spatial_strongAMD_exponentialSafety_halfInteger
-CORPUS: docs/tracks/LP/source/{MAIN,AMENDMENTS}.md pinned by SHA-256 in docs/graph/LP/CORPUS.sha256 (MAIN 68e9167f...48c1b, 679 lines; AMENDMENTS c887d1e2...51881, 26 lines; N1 fixed in place, N2-N12 override the MAIN lines they cite); branch inp-lp-graph off inp after the D62 freeze (main f46b94fb); waves 1-3; streamlined review (D65): one global review, no per-slice reviews; LEAN_STATUS set mechanically from LEAN_REFs that resolve on main
+ROOTS: lpM:L4#orderedPairThreshold_isLeast, lpM:L4#orderedPairThreshold_existsUnique_value, lpM:L4#orderedCrossThreshold_isLeast, lpM:L4#orderedStrongThreshold_isLeast, lpM:L3#sourceStrongAMD_nonneg, lpM:L3#sum_action_mul_eccDeficit_le_sourceStrongAMD, lpM:L2#sourceKepler_axis_pos, lpM:L2#sourceKepler_ecc_le_one, lpM:L2#sourceKeplerPeri_le_planeLength, lpM:L2#planeLength_le_sourceKeplerApo, lpM:L16#sourceOscAxis_pos, lpM:L16#sourceOscPeri_pos, lpM:L16#sourceOscPeri_le_planeLength, lpM:L16#planeLength_le_sourceOscApo, lpM:L2#spatialSourceKeplerAxis_pos, lpM:L2#spatialSourceKeplerAction_pos, lpM:L2#spatialSourceKeplerAction_sq, lpM:L2#spatialSourceKeplerEcc_sq, lpM:L2#spatialSourceKeplerEcc_nonneg, lpM:L2#spatialSourceKeplerEcc_le_one, lpM:L2#spatialSourcePlanetAngularMomentum_length, lpM:L2#spatialSourcePlanetAngularMomentum_length_le, lpM:L2#spatialSourceKeplerPeri_le_length, lpM:L2#spatialSourceKeplerApo_ge_length, lpM:L3#spatialSourceStrongAMD_nonneg, lpM:L3#spatialSourceAction_mul_eccDeficit_le, lpM:L16#spatialSourceOscParam_pos, lpM:L16#spatialSourceOscEnergy_neg, lpM:L16#spatialSourceOscEcc_lt_one, lpM:L16#spatialSourceOscEcc_nonneg, lpM:L16#spatialSourceOscAxis_pos, lpM:L16#spatialSourceOscPeri_pos, lpM:L16#spatialSourceOscPeri_le_length, lpM:L16#spatialSourceOscApo_ge_length, lpM:L5#planar_strongAMD_barrier, lpM:T15#planar_strongAMD_exponentialSafety, lpM:T15#planar_strongAMD_exponentialSafety_halfInteger, lpM:T19#spatial_strongAMD_exponentialSafety, lpM:T19#spatial_strongAMD_exponentialSafety_halfInteger, lpM:T15#planar_strongAMD_exponentialSafety_noArith, lpM:T19#spatial_strongAMD_exponentialSafety_noArith
+CORPUS: docs/tracks/LP/source/{MAIN,AMENDMENTS}.md pinned by SHA-256 in docs/graph/LP/CORPUS.sha256 (MAIN 68e9167f...48c1b, 679 lines; AMENDMENTS c887d1e2...51881, 26 lines; N1 fixed in place, N2-N12 override the MAIN lines they cite); wave 4: docs/tracks/LP/lp3/LP3-PLAN.md (1b58b704...ba06ba, 506 lines), the LP3 source under D65 (no separate LP3 source note); branch inp-lp-graph off inp after the D62 freeze (main f46b94fb); waves 1-4; streamlined review (D65): one global review, no per-slice reviews; LEAN_STATUS set mechanically from LEAN_REFs that resolve on main
 CONVENTIONS: docs/graph/LP/SPEC.md §4: Euclidean ¦·¦ (planeLength, spaceLength) vs max norm on actions; period 2π angles (L13 converts to period one); G = 1, star mass 1, masses μν_i, max ν = 1, physical AMD μC; C = ΣI - ¦L¦ orientation-free (N8, OD-1); thresholds on the chamber carrier OrderedActions (n ≥ 2) with attained-minimum characterizations; C(0) ≤ B(I^0) - δ, conclusion C(t) ≤ B(I(t)) - δ/2; frozen keplerEnergy is ν_i E_i; MAIN lemmas are d-generic (d ∈ {2,3}) and dimension-specific frozen carriers attach at the anchors (SPEC §5 dimension rule); constants depend only on (d, n, ν, 𝒜, δ, γ, τ), L5's d_⋆, d_pair only on (n, ν, U, m), chosen before μ and the state
 STANDING_ASSUMPTIONS: -
 EXTERNAL_POLICY: a closed list of Mathlib-level externals lpM:ext-* fixed in SPEC §3 (KIND external, LEAN_STATUS EXTERNAL, located at the first appeal in MAIN); cross-track results that a proof uses are IMPORTED nodes N:<node> / P:<node> (KIND external, source fields copied from that track's graph, NOTE IMPORTED), never read through implementation files; any other unproved fact is a step node with NOTE SOURCE_GAP
-FROZEN_ANCHORS: lpM:s1:thresholds#actionAxis, lpM:s1:chamber#chamber, lpM:s1:thresholds#eccDeficit, lpM:s1:thresholds#pairFeasible, lpM:s1:thresholds#pairObjective, lpM:s1:thresholds#pairThreshold, lpM:s1:thresholds#AdjIdx, lpM:s1:thresholds#AdjIdx.upperIdx, lpM:s1:chamber#OrderedActions, lpM:s1:thresholds#orderedPairThreshold, lpM:s1:thresholds#orderedCrossThreshold, lpM:s1:thresholds#orderedStrongThreshold, lpM:s1:elements#strongAMD, lpM:s1:elements#keplerPeri, lpM:s1:elements#keplerApo, lpM:L16:defs#oscVelocity, lpM:L16:defs#oscParam, lpM:L16:defs#oscEnergy, lpM:L16:defs#oscAxis, lpM:L16:defs#oscEccVector, lpM:L16:defs#oscEcc, lpM:L16:defs#oscPeri, lpM:L16:defs#oscApo, lpM:s1:elements#SourceCanonicalPhase, lpM:L16:defs#SourceOsculatingPhase, lpM:s1:elements#sourceStrongAMD, lpM:s1:elements#sourceKeplerPeri, lpM:s1:elements#sourceKeplerApo, lpM:L16:defs#sourceOscEnergy, lpM:L16:defs#sourceOscAxis, lpM:L16:defs#sourceOscEccVector, lpM:L16:defs#sourceOscEcc, lpM:L16:defs#sourceOscPeri, lpM:L16:defs#sourceOscApo, lpM:s1:data#spaceDot, lpM:s1:data#spaceSq, lpM:s1:data#spaceLength, lpM:s1:elements#spaceCross, lpM:s1:model#bodyVector3, lpM:s1:elements#planetAngularMomentum3, lpM:s1:elements#angularMomentum3, lpM:s1:model#spatialHamiltonian, lpM:s1:model#SpatialNoCollision, lpM:s1:model#IsSpatialMovingSolutionOn, lpM:s1:model#SpatialMovingUniqueOn, lpM:L1#spatialBarycentricPositions, lpM:L1#spatialBarycentricVelocities, lpM:s1:model#spatialMasses, lpM:L1#IsSpatialNewtonSolutionOn, lpM:s1:elements#spatialKeplerEnergy, lpM:s1:elements#spatialKeplerAxis, lpM:s1:elements#spatialKeplerAction, lpM:s1:elements#spatialKeplerEccVector, lpM:s1:elements#SpatialNegativeEnergy, lpM:s1:elements#SpatialElliptic, lpM:s1:elements#spatialKeplerPeri, lpM:s1:elements#spatialKeplerApo, lpM:L16:defs#spatialOscVelocity, lpM:L16:defs#spatialOscParam, lpM:L16:defs#spatialOscEnergy, lpM:L16:defs#spatialOscAxis, lpM:L16:defs#spatialOscEccVector, lpM:L16:defs#spatialOscEcc, lpM:L16:defs#spatialOscPeri, lpM:L16:defs#spatialOscApo, lpM:L16:defs#SpatialOscPhase, lpM:s1:elements#SpatialSourceCanonicalPhase, lpM:L16:defs#SpatialSourceOsculatingPhase, lpM:s1:elements#spatialSourceKeplerAxis, lpM:s1:elements#spatialSourceKeplerAction, lpM:s1:elements#spatialSourceKeplerEccVector, lpM:s1:elements#spatialSourceKeplerEcc, lpM:s1:elements#spatialSourcePlanetAngularMomentum, lpM:s1:elements#spatialSourceAngularMomentum, lpM:s1:elements#spatialSourceStrongAMD, lpM:s1:elements#spatialSourceKeplerPeri, lpM:s1:elements#spatialSourceKeplerApo, lpM:L16:defs#spatialSourceOscParam, lpM:L16:defs#spatialSourceOscEnergy, lpM:L16:defs#spatialSourceOscAxis, lpM:L16:defs#spatialSourceOscEccVector, lpM:L16:defs#spatialSourceOscEcc, lpM:L16:defs#spatialSourceOscPeri, lpM:L16:defs#spatialSourceOscApo, lpM:L1#spatialSourceBarycentricPositions, lpM:L1#spatialSourceBarycentricVelocities, lpM:L4#orderedPairThreshold_isLeast, lpM:L4#orderedPairThreshold_existsUnique_value, lpM:L4#orderedCrossThreshold_isLeast, lpM:L4#orderedStrongThreshold_isLeast, lpM:L3#sourceStrongAMD_nonneg, lpM:L3#sum_action_mul_eccDeficit_le_sourceStrongAMD, lpM:L2#sourceKepler_axis_pos, lpM:L2#sourceKepler_ecc_le_one, lpM:L2#sourceKeplerPeri_le_planeLength, lpM:L2#planeLength_le_sourceKeplerApo, lpM:L16#sourceOscAxis_pos, lpM:L16#sourceOscPeri_pos, lpM:L16#sourceOscPeri_le_planeLength, lpM:L16#planeLength_le_sourceOscApo, lpM:L2#spatialSourceKeplerAxis_pos, lpM:L2#spatialSourceKeplerAction_pos, lpM:L2#spatialSourceKeplerAction_sq, lpM:L2#spatialSourceKeplerEcc_sq, lpM:L2#spatialSourceKeplerEcc_nonneg, lpM:L2#spatialSourceKeplerEcc_le_one, lpM:L2#spatialSourcePlanetAngularMomentum_length, lpM:L2#spatialSourcePlanetAngularMomentum_length_le, lpM:L2#spatialSourceKeplerPeri_le_length, lpM:L2#spatialSourceKeplerApo_ge_length, lpM:L3#spatialSourceStrongAMD_nonneg, lpM:L3#spatialSourceAction_mul_eccDeficit_le, lpM:L16#spatialSourceOscParam_pos, lpM:L16#spatialSourceOscEnergy_neg, lpM:L16#spatialSourceOscEcc_lt_one, lpM:L16#spatialSourceOscEcc_nonneg, lpM:L16#spatialSourceOscAxis_pos, lpM:L16#spatialSourceOscPeri_pos, lpM:L16#spatialSourceOscPeri_le_length, lpM:L16#spatialSourceOscApo_ge_length, lpM:L5#planar_strongAMD_barrier, lpM:T15#planar_strongAMD_exponentialSafety, lpM:T15#planar_strongAMD_exponentialSafety_halfInteger, lpM:T19#spatial_strongAMD_exponentialSafety, lpM:T19#spatial_strongAMD_exponentialSafety_halfInteger, lpM:s1:model#IsHamiltonianSolutionOn, lpM:s1:dioph#IsDiophantine, lpM:s1:model#NoCollision, lpM:s1:model#Phase, lpM:s1:model#actualMasses, lpM:L1#barycentricPositions, lpM:L1#barycentricVelocities, lpM:s1:model#bodyVector, lpM:s1:model#IsMovingSolutionOn, lpM:L1#IsNewtonSolutionOn, lpM:s1:model#MovingUniqueOn, lpM:s1:elements#keplerAction, lpM:s1:elements#keplerAxis, lpM:s1:elements#keplerEccVector, lpM:s1:elements#keplerEnergy, lpM:s1:elements#planeCross, lpM:s1:elements#totalMomentum, lpM:s1:data#planeDot, lpM:s1:data#planeLength, lpM:s1:data#planeSq
-FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:cee8ce3436601b48a03b0c8417b299470c6b6a64ac2ecc080d6b0a27675cded8
+FROZEN_ANCHORS: lpM:s1:thresholds#actionAxis, lpM:s1:chamber#chamber, lpM:s1:thresholds#eccDeficit, lpM:s1:thresholds#pairFeasible, lpM:s1:thresholds#pairObjective, lpM:s1:thresholds#pairThreshold, lpM:s1:thresholds#AdjIdx, lpM:s1:thresholds#AdjIdx.upperIdx, lpM:s1:chamber#OrderedActions, lpM:s1:thresholds#orderedPairThreshold, lpM:s1:thresholds#orderedCrossThreshold, lpM:s1:thresholds#orderedStrongThreshold, lpM:s1:elements#strongAMD, lpM:s1:elements#keplerPeri, lpM:s1:elements#keplerApo, lpM:L16:defs#oscVelocity, lpM:L16:defs#oscParam, lpM:L16:defs#oscEnergy, lpM:L16:defs#oscAxis, lpM:L16:defs#oscEccVector, lpM:L16:defs#oscEcc, lpM:L16:defs#oscPeri, lpM:L16:defs#oscApo, lpM:s1:elements#SourceCanonicalPhase, lpM:L16:defs#SourceOsculatingPhase, lpM:s1:elements#sourceStrongAMD, lpM:s1:elements#sourceKeplerPeri, lpM:s1:elements#sourceKeplerApo, lpM:L16:defs#sourceOscEnergy, lpM:L16:defs#sourceOscAxis, lpM:L16:defs#sourceOscEccVector, lpM:L16:defs#sourceOscEcc, lpM:L16:defs#sourceOscPeri, lpM:L16:defs#sourceOscApo, lpM:s1:data#spaceDot, lpM:s1:data#spaceSq, lpM:s1:data#spaceLength, lpM:s1:elements#spaceCross, lpM:s1:model#bodyVector3, lpM:s1:elements#planetAngularMomentum3, lpM:s1:elements#angularMomentum3, lpM:s1:model#spatialHamiltonian, lpM:s1:model#SpatialNoCollision, lpM:s1:model#IsSpatialMovingSolutionOn, lpM:s1:model#SpatialMovingUniqueOn, lpM:L1#spatialBarycentricPositions, lpM:L1#spatialBarycentricVelocities, lpM:s1:model#spatialMasses, lpM:L1#IsSpatialNewtonSolutionOn, lpM:s1:elements#spatialKeplerEnergy, lpM:s1:elements#spatialKeplerAxis, lpM:s1:elements#spatialKeplerAction, lpM:s1:elements#spatialKeplerEccVector, lpM:s1:elements#SpatialNegativeEnergy, lpM:s1:elements#SpatialElliptic, lpM:s1:elements#spatialKeplerPeri, lpM:s1:elements#spatialKeplerApo, lpM:L16:defs#spatialOscVelocity, lpM:L16:defs#spatialOscParam, lpM:L16:defs#spatialOscEnergy, lpM:L16:defs#spatialOscAxis, lpM:L16:defs#spatialOscEccVector, lpM:L16:defs#spatialOscEcc, lpM:L16:defs#spatialOscPeri, lpM:L16:defs#spatialOscApo, lpM:L16:defs#SpatialOscPhase, lpM:s1:elements#SpatialSourceCanonicalPhase, lpM:L16:defs#SpatialSourceOsculatingPhase, lpM:s1:elements#spatialSourceKeplerAxis, lpM:s1:elements#spatialSourceKeplerAction, lpM:s1:elements#spatialSourceKeplerEccVector, lpM:s1:elements#spatialSourceKeplerEcc, lpM:s1:elements#spatialSourcePlanetAngularMomentum, lpM:s1:elements#spatialSourceAngularMomentum, lpM:s1:elements#spatialSourceStrongAMD, lpM:s1:elements#spatialSourceKeplerPeri, lpM:s1:elements#spatialSourceKeplerApo, lpM:L16:defs#spatialSourceOscParam, lpM:L16:defs#spatialSourceOscEnergy, lpM:L16:defs#spatialSourceOscAxis, lpM:L16:defs#spatialSourceOscEccVector, lpM:L16:defs#spatialSourceOscEcc, lpM:L16:defs#spatialSourceOscPeri, lpM:L16:defs#spatialSourceOscApo, lpM:L1#spatialSourceBarycentricPositions, lpM:L1#spatialSourceBarycentricVelocities, lpM:L4#orderedPairThreshold_isLeast, lpM:L4#orderedPairThreshold_existsUnique_value, lpM:L4#orderedCrossThreshold_isLeast, lpM:L4#orderedStrongThreshold_isLeast, lpM:L3#sourceStrongAMD_nonneg, lpM:L3#sum_action_mul_eccDeficit_le_sourceStrongAMD, lpM:L2#sourceKepler_axis_pos, lpM:L2#sourceKepler_ecc_le_one, lpM:L2#sourceKeplerPeri_le_planeLength, lpM:L2#planeLength_le_sourceKeplerApo, lpM:L16#sourceOscAxis_pos, lpM:L16#sourceOscPeri_pos, lpM:L16#sourceOscPeri_le_planeLength, lpM:L16#planeLength_le_sourceOscApo, lpM:L2#spatialSourceKeplerAxis_pos, lpM:L2#spatialSourceKeplerAction_pos, lpM:L2#spatialSourceKeplerAction_sq, lpM:L2#spatialSourceKeplerEcc_sq, lpM:L2#spatialSourceKeplerEcc_nonneg, lpM:L2#spatialSourceKeplerEcc_le_one, lpM:L2#spatialSourcePlanetAngularMomentum_length, lpM:L2#spatialSourcePlanetAngularMomentum_length_le, lpM:L2#spatialSourceKeplerPeri_le_length, lpM:L2#spatialSourceKeplerApo_ge_length, lpM:L3#spatialSourceStrongAMD_nonneg, lpM:L3#spatialSourceAction_mul_eccDeficit_le, lpM:L16#spatialSourceOscParam_pos, lpM:L16#spatialSourceOscEnergy_neg, lpM:L16#spatialSourceOscEcc_lt_one, lpM:L16#spatialSourceOscEcc_nonneg, lpM:L16#spatialSourceOscAxis_pos, lpM:L16#spatialSourceOscPeri_pos, lpM:L16#spatialSourceOscPeri_le_length, lpM:L16#spatialSourceOscApo_ge_length, lpM:L5#planar_strongAMD_barrier, lpM:T15#planar_strongAMD_exponentialSafety, lpM:T15#planar_strongAMD_exponentialSafety_halfInteger, lpM:T19#spatial_strongAMD_exponentialSafety, lpM:T19#spatial_strongAMD_exponentialSafety_halfInteger, lpM:s1:model#IsHamiltonianSolutionOn, lpM:s1:dioph#IsDiophantine, lpM:s1:model#NoCollision, lpM:s1:model#Phase, lpM:s1:model#actualMasses, lpM:L1#barycentricPositions, lpM:L1#barycentricVelocities, lpM:s1:model#bodyVector, lpM:s1:model#IsMovingSolutionOn, lpM:L1#IsNewtonSolutionOn, lpM:s1:model#MovingUniqueOn, lpM:s1:elements#keplerAction, lpM:s1:elements#keplerAxis, lpM:s1:elements#keplerEccVector, lpM:s1:elements#keplerEnergy, lpM:s1:elements#planeCross, lpM:s1:elements#totalMomentum, lpM:s1:data#planeDot, lpM:s1:data#planeLength, lpM:s1:data#planeSq, lpM:T15#planar_strongAMD_exponentialSafety_noArith, lpM:T19#spatial_strongAMD_exponentialSafety_noArith, lp3:s1.1#planetaryTimeExponent, lp3:s1.1#planetaryDriftExponent
+FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:e518662231ee06f71209863433e49b20b957c4ba2a9dcc7120c4824095a48375
 WRITER: kam-lp
 GLOBAL_REVIEWER: -
 GLOBAL_REVIEW_REF: -
@@ -5354,6 +5354,32 @@ LEAN_REF: -
 LEAN_NOTE: -
 NOTE: IMPORTED: proved in the track-N graph, node bpN:p11:nonresonant (there KIND proposition, contract bpN:p11:nonresonant v1); Lean theorem KAM.Nekhoroshev.nonresonant cited by MAIN L433 (never read here)
 
+NODE: N:bpN:p0:partial
+KIND: external
+TITLE: [N] N-PARTIAL-CONVEX: partialConvex_nekhoroshev (sealed, root of graph N)
+STATEMENT_SOURCE: blueprint-N/parts/p0-conventions.tex#bpN:p0:partial@L319-L335
+PROOF_SOURCE: -
+CONTRACT_ID: N:bpN:p0:partial
+CONTRACT_VERSION: 1
+SOURCE_HYPOTHESES: a Lean frozen statement; n ≥ 2, k ≥ 1, G, G' ⊂ ℝⁿ open and convex, D ⊂ Ph_k open, ρ, g, m, M_ℂ ∈ ℝ with ρ > 0, M_ℂ > 0, B̄(I,ρ) ⊂ G' for every I ∈ G (closed max-norm ball); h : ℂⁿ → ℂ complex differentiable and complex C² on G'_ρ, Im h(I) = 0 for real I ∈ G'_ρ, ‖D²h(z)‖ ≤ M_ℂ on G'_ρ, HasDefiniteFastPart G' ρ g m h; then for μ ∈ (0,μ₀), P with IsPartialPerturbation G' D ρ P, C > 0, z : ℝ → Ph_{n+k}: (Z1) IsSolutionOn H_μ {𝖨 : fast(𝖨) ∈ G} [0,C] z with H_μ = Re h(fast 𝖨) + μ Re P(cx(φ,𝖨)) (degenerateHamiltonian (realPart h) (Re P ∘ cx) μ); (Z2) fast(z(0)_2) ∈ core(G, μ^{b_n}); t ∈ [0, min(C, μ^{−1} exp(μ^{−a_n}))] with (slow z(u)_1, slow z(u)_2) ∈ core(D, μ^{b_n}) for all u ∈ [0,t]
+SOURCE_QUANTIFIERS: n, k; G, G', D, ρ, g, m, M_ℂ, h (with their hypotheses); then ∃ μ₀ > 0; then ∀ μ ∈ (0,μ₀), P, C > 0, z (with Z1, Z2); then ∀ t ∈ [0, min(C, μ^{−1} exp(μ^{−a_n}))] with slow confinement on [0,t]
+SOURCE_CONCLUSION: ¦fast(z(t)_2) − fast(z(0)_2)¦ ≤ ½ μ^{b_n}
+CONSTANT_SCOPE: μ₀ > 0 depends only on (n, k, G, G', D, ρ, g, m, M_ℂ, h) and is chosen before μ, P, C, z, t; a_n = 2/(6n² − 3n + 14), b_n = 3/(6n² − 3n + 14); slow confinement is tested only on [0,t]; the initial erosion core(G, μ^{b_n}) is used only as fast(z(0)_2) ∈ G
+FROZEN_FILE: -
+FROZEN_DECL: -
+FROZEN_ANCHOR_ID: -
+FROZEN_ABI_SHA256: -
+DEPS: -
+ROUTES: -
+ROUTE_FOR: -
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+LEAN_STATUS: EXTERNAL
+LEAN_REF: -
+LEAN_NOTE: -
+NOTE: IMPORTED: proved in the track-N graph, node bpN:p0:partial (there KIND theorem, the frozen root nekhoroshev.d25.partialConvex_nekhoroshev v1, sealed, D58); consumed by LP3 (wave 4)
+
 NODE: lpM:ext-holomorphic-limit
 KIND: external
 TITLE: uniform limits of holomorphic maps are holomorphic
@@ -8656,23 +8682,352 @@ LEAN_REF: KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger 
 LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger
 NOTE: Anchor LP2-H: the half-integer corollary (MAIN §1 L93) of LP2
 
+NODE: lp3:s1.1#planetaryTimeExponent
+KIND: definition
+TITLE: planetaryTimeExponent (reused)
+STATEMENT_SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s1.1@L69-L70
+PROOF_SOURCE: -
+CONTRACT_ID: planetary.d25.planetaryTimeExponent
+CONTRACT_VERSION: 1
+SOURCE_HYPOTHESES: n : ℕ (typing data)
+SOURCE_QUANTIFIERS: for every n
+SOURCE_CONCLUSION: a_n = 2/(6n² - 3n + 14) (Nek77 (12.4), n counts planets, not total canonical pairs.)
+CONSTANT_SCOPE: none
+FROZEN_FILE: KAM/Frozen/Planetary/Defs/PlanetaryTimeExponent.lean
+FROZEN_DECL: KAM.Planetary.planetaryTimeExponent
+FROZEN_ANCHOR_ID: planetary.d25.planetaryTimeExponent.v1
+FROZEN_ABI_SHA256: d50f6181d0c0f28b50322ce65b1a9831d2ecd43ad5c2c9e3941105da2d0eb152
+DEPS: -
+ROUTES: -
+ROUTE_FOR: -
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.planetaryTimeExponent (KAM/Frozen/Planetary/Defs/PlanetaryTimeExponent.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
+NOTE: reused frozen definition planetary.d25.planetaryTimeExponent.v1, bound as an LP anchor node (Q6); equal to the track-N partial exponents (LP3-PLAN §1.1)
+
+NODE: lp3:s1.1#planetaryDriftExponent
+KIND: definition
+TITLE: planetaryDriftExponent (reused)
+STATEMENT_SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s1.1@L69-L70
+PROOF_SOURCE: -
+CONTRACT_ID: planetary.d25.planetaryDriftExponent
+CONTRACT_VERSION: 1
+SOURCE_HYPOTHESES: n : ℕ (typing data)
+SOURCE_QUANTIFIERS: for every n
+SOURCE_CONCLUSION: b_n = 3/(6n² - 3n + 14) (Nek77 (12.5). No optimized exponent is asserted.)
+CONSTANT_SCOPE: none
+FROZEN_FILE: KAM/Frozen/Planetary/Defs/PlanetaryDriftExponent.lean
+FROZEN_DECL: KAM.Planetary.planetaryDriftExponent
+FROZEN_ANCHOR_ID: planetary.d25.planetaryDriftExponent.v1
+FROZEN_ABI_SHA256: 96a0f584827900cd21aa60ad82436d7ab45e5e9ea813426b73f55a4ebc50fb97
+DEPS: lp3:s1.1#planetaryTimeExponent
+ROUTES: -
+ROUTE_FOR: -
+EDGE: lp3:s1.1#planetaryTimeExponent | docs/tracks/LP/lp3/LP3-PLAN.md#s1.1@L69-L69 | the declaration uses planetaryTimeExponent
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.planetaryDriftExponent (KAM/Frozen/Planetary/Defs/PlanetaryDriftExponent.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
+NOTE: reused frozen definition planetary.d25.planetaryDriftExponent.v1, bound as an LP anchor node (Q6); equal to the track-N partial exponents (LP3-PLAN §1.1)
+
+NODE: lpM:T15#planar_strongAMD_exponentialSafety_noArith
+KIND: theorem
+TITLE: LP3-1: planar strong-AMD exponential safety without arithmetic hypothesis
+STATEMENT_SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s1.2@L85-L126
+PROOF_SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L370
+CONTRACT_ID: planetary.d59.planar_strongAMD_exponentialSafety_noArith
+CONTRACT_VERSION: 1
+SOURCE_HYPOTHESES: n ≥ 2; ν_i > 0, ∃ i ν_i = 1, ν_i ≤ 1; 𝒜 compact with 0 < a_i and a_i < a_j for i < j on 𝒜; δ > 0 (no Diophantine hypothesis, no γ, τ); planar (d = 2)
+SOURCE_QUANTIFIERS: ∃ μ_0, c, T_0, A_Λ, A_a, d_⋆, d_pair, A_osc, A_elem > 0 (with A_osc μ_0 ≤ d_⋆/2 and 2A_osc μ_0 ≤ d_pair/2); then ∀ 0 < μ ≤ μ_0, ∀ phase z_0 with ¦q_i¦ > 0, E_i < 0, a(z_0) ∈ 𝒜, Λ(z_0) ∈ Q (typing binder) and C(z_0) ≤ B(Λ(z_0)) - δ; with T = T_0 exp(cμ^{-a_n}): ∃ z, and ∀ t ∈ [-T, T]
+SOURCE_CONCLUSION: as LP1/LP2 (the moving solution, uniqueness, Newtonian reconstruction, ellipticity, Λ(t) ∈ Q, C(t) ≤ B(Λ(t)) - δ/2, (9), star and pair distances, osculating clauses and half gaps) with the drifts ‖Λ(t) - Λ(0)‖ ≤ A_Λ μ^{b_n}, ‖a(t) - a(0)‖ ≤ A_a μ^{b_n}, ¦C(t) - C(0)¦ ≤ nA_Λ μ^{b_n}; a_n = planetaryTimeExponent n, b_n = planetaryDriftExponent n
+CONSTANT_SCOPE: the constants depend only on (n, ν, 𝒜, δ) and are chosen before μ and z_0
+FROZEN_FILE: KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean
+FROZEN_DECL: KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith
+FROZEN_ANCHOR_ID: planetary.d59.planar_strongAMD_exponentialSafety_noArith.v1
+FROZEN_ABI_SHA256: b29ff03f40dc5f47b2ba0fae11d168ed7e2b83919b143d9d51cba0f1795d16f4
+DEPS: lp3:s3#first-exit, lpM:L1, lpM:L16, lpM:L16#mu0-choice, lpM:L16#half-gaps, lp3:s2.4, lpM:T15#orientation, lpM:T15#chart-cover, lpM:L8, lpM:L16#sourceOscAxis_pos, lpM:L16#sourceOscPeri_le_planeLength, lpM:L16#planeLength_le_sourceOscApo, lpM:s1:model#actualMasses, lpM:L1#barycentricPositions, lpM:L1#barycentricVelocities, lpM:s1:model#bodyVector, lpM:s1:model#IsMovingSolutionOn, lpM:L1#IsNewtonSolutionOn, lpM:s1:elements#keplerAction, lpM:s1:elements#keplerAxis, lpM:s1:elements#keplerEccVector, lpM:s1:elements#keplerEnergy, lpM:s1:model#MovingUniqueOn, lpM:s1:model#Phase, lpM:s1:data#planeLength, lp3:s1.1#planetaryDriftExponent, lp3:s1.1#planetaryTimeExponent, lpM:s1:thresholds#AdjIdx, lpM:s1:thresholds#AdjIdx.upperIdx, lpM:s1:chamber#chamber, lpM:s1:thresholds#orderedStrongThreshold, lpM:L16:defs#oscEcc, lpM:L16:defs#oscEnergy, lpM:s1:elements#SourceCanonicalPhase, lpM:s1:elements#sourceKeplerApo, lpM:s1:elements#sourceKeplerPeri, lpM:L16:defs#sourceOscApo, lpM:L16:defs#sourceOscAxis, lpM:L16:defs#sourceOscEcc, lpM:L16:defs#sourceOscEccVector, lpM:L16:defs#sourceOscEnergy, lpM:L16:defs#sourceOscPeri, lpM:L16:defs#SourceOsculatingPhase, lpM:s1:elements#sourceStrongAMD
+ROUTES: -
+ROUTE_FOR: -
+EDGE: lp3:s3#first-exit | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | the stopped first exit with the LP3 drift supplier
+EDGE: lpM:L1 | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | Newtonian reconstruction (Lemma 1)
+EDGE: lpM:L16 | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | Lemma 16: the osculating elements on Lemma 5's compact set (m = δ/2)
+EDGE: lpM:L16#mu0-choice | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | A_osc μ_0 ≤ d_⋆/2, 2A_osc μ_0 ≤ d_pair/2 (N10)
+EDGE: lpM:L16#half-gaps | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | the osculating half gaps
+EDGE: lp3:s2.4 | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L359-L359 | hstop: the planar drift supplier (§2.4)
+EDGE: lpM:T15#orientation | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L366-L366 | the orientation reduction (reused verbatim)
+EDGE: lpM:T15#chart-cover | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L366-L366 | the Lemma 7 charts cover; C = ¦z¦²/2 in the prograde region
+EDGE: lpM:L8 | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | the planar analytic domain (m = n)
+EDGE: lpM:L16#sourceOscAxis_pos | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | a^osc > 0
+EDGE: lpM:L16#sourceOscPeri_le_planeLength | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | a^osc(1 - e^osc) ≤ ¦q_i¦
+EDGE: lpM:L16#planeLength_le_sourceOscApo | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | ¦q_i¦ ≤ a^osc(1 + e^osc)
+EDGE: lpM:s1:model#actualMasses | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses actualMasses
+EDGE: lpM:L1#barycentricPositions | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses barycentricPositions
+EDGE: lpM:L1#barycentricVelocities | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses barycentricVelocities
+EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses bodyVector
+EDGE: lpM:s1:model#IsMovingSolutionOn | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses IsMovingSolutionOn
+EDGE: lpM:L1#IsNewtonSolutionOn | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses IsNewtonSolutionOn
+EDGE: lpM:s1:elements#keplerAction | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses keplerAction
+EDGE: lpM:s1:elements#keplerAxis | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses keplerAxis
+EDGE: lpM:s1:elements#keplerEccVector | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses keplerEccVector
+EDGE: lpM:s1:elements#keplerEnergy | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses keplerEnergy
+EDGE: lpM:s1:model#MovingUniqueOn | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses MovingUniqueOn
+EDGE: lpM:s1:model#Phase | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses Phase
+EDGE: lpM:s1:data#planeLength | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses planeLength
+EDGE: lp3:s1.1#planetaryDriftExponent | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses planetaryDriftExponent
+EDGE: lp3:s1.1#planetaryTimeExponent | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses planetaryTimeExponent
+EDGE: lpM:s1:thresholds#AdjIdx | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses AdjIdx
+EDGE: lpM:s1:thresholds#AdjIdx.upperIdx | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses AdjIdx.upperIdx
+EDGE: lpM:s1:chamber#chamber | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses chamber
+EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses orderedStrongThreshold
+EDGE: lpM:L16:defs#oscEcc | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses oscEcc
+EDGE: lpM:L16:defs#oscEnergy | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses oscEnergy
+EDGE: lpM:s1:elements#SourceCanonicalPhase | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses SourceCanonicalPhase
+EDGE: lpM:s1:elements#sourceKeplerApo | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses sourceKeplerApo
+EDGE: lpM:s1:elements#sourceKeplerPeri | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses sourceKeplerPeri
+EDGE: lpM:L16:defs#sourceOscApo | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses sourceOscApo
+EDGE: lpM:L16:defs#sourceOscAxis | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses sourceOscAxis
+EDGE: lpM:L16:defs#sourceOscEcc | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses sourceOscEcc
+EDGE: lpM:L16:defs#sourceOscEccVector | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses sourceOscEccVector
+EDGE: lpM:L16:defs#sourceOscEnergy | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses sourceOscEnergy
+EDGE: lpM:L16:defs#sourceOscPeri | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses sourceOscPeri
+EDGE: lpM:L16:defs#SourceOsculatingPhase | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses SourceOsculatingPhase
+EDGE: lpM:s1:elements#sourceStrongAMD | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses sourceStrongAMD
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith (KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith
+NOTE: Anchor LP3-1 (D64). MAIN T15 without (5), the drift supplier Lemmas 12/13 replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1-§3); the source is LP3-PLAN (D65 minimal model; no separate LP3 source note)
+
+NODE: lpM:T19#spatial_strongAMD_exponentialSafety_noArith
+KIND: theorem
+TITLE: LP3-2: spatial strong-AMD exponential safety without arithmetic hypothesis
+STATEMENT_SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s1.3@L128-L134
+PROOF_SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L370
+CONTRACT_ID: planetary.d59.spatial_strongAMD_exponentialSafety_noArith
+CONTRACT_VERSION: 1
+SOURCE_HYPOTHESES: n ≥ 2; ν_i > 0, ∃ i ν_i = 1, ν_i ≤ 1; 𝒜 compact with 0 < a_i and a_i < a_j for i < j on 𝒜; δ > 0 (no Diophantine hypothesis, no γ, τ); spatial (d = 3)
+SOURCE_QUANTIFIERS: ∃ μ_0, c, T_0, A_Λ, A_a, d_⋆, d_pair, A_osc, A_elem > 0 (with A_osc μ_0 ≤ d_⋆/2 and 2A_osc μ_0 ≤ d_pair/2); then ∀ 0 < μ ≤ μ_0, ∀ phase z_0 with ¦q_i¦ > 0, E_i < 0, a(z_0) ∈ 𝒜, Λ(z_0) ∈ Q (typing binder) and C(z_0) ≤ B(Λ(z_0)) - δ; with T = T_0 exp(cμ^{-a_n}): ∃ z, and ∀ t ∈ [-T, T]
+SOURCE_CONCLUSION: as LP1/LP2 (the moving solution, uniqueness, Newtonian reconstruction, ellipticity, Λ(t) ∈ Q, C(t) ≤ B(Λ(t)) - δ/2, (9), star and pair distances, osculating clauses and half gaps) with the drifts ‖Λ(t) - Λ(0)‖ ≤ A_Λ μ^{b_n}, ‖a(t) - a(0)‖ ≤ A_a μ^{b_n}, ¦C(t) - C(0)¦ ≤ nA_Λ μ^{b_n}; a_n = planetaryTimeExponent n, b_n = planetaryDriftExponent n
+CONSTANT_SCOPE: the constants depend only on (n, ν, 𝒜, δ) and are chosen before μ and z_0
+FROZEN_FILE: KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean
+FROZEN_DECL: KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith
+FROZEN_ANCHOR_ID: planetary.d59.spatial_strongAMD_exponentialSafety_noArith.v1
+FROZEN_ABI_SHA256: 387059c68796b425889eee542afbb9b3989ebf833cec9afaae08be7faa931966
+DEPS: lp3:s3#first-exit, lpM:L1, lpM:L16, lpM:L16#mu0-choice, lpM:L16#half-gaps, lp3:s2.5, lpM:T19#align, lpM:L17#deficit-identity, lpM:L18#rotation-invariance, lpM:L16#spatialSourceOscAxis_pos, lpM:L16#spatialSourceOscPeri_le_length, lpM:L16#spatialSourceOscApo_ge_length, lpM:L16#spatialSourceOscEnergy_neg, lpM:L16#spatialSourceOscEcc_lt_one, lpM:s1:model#Phase, lp3:s1.1#planetaryDriftExponent, lp3:s1.1#planetaryTimeExponent, lpM:s1:model#bodyVector3, lpM:s1:model#IsSpatialMovingSolutionOn, lpM:L1#IsSpatialNewtonSolutionOn, lpM:s1:data#spaceLength, lpM:s1:elements#spatialKeplerEnergy, lpM:s1:model#spatialMasses, lpM:s1:model#SpatialMovingUniqueOn, lpM:L16:defs#spatialOscEcc, lpM:L16:defs#spatialOscEnergy, lpM:L1#spatialSourceBarycentricPositions, lpM:L1#spatialSourceBarycentricVelocities, lpM:s1:elements#SpatialSourceCanonicalPhase, lpM:s1:elements#spatialSourceKeplerAction, lpM:s1:elements#spatialSourceKeplerApo, lpM:s1:elements#spatialSourceKeplerAxis, lpM:s1:elements#spatialSourceKeplerEccVector, lpM:s1:elements#spatialSourceKeplerPeri, lpM:L16:defs#spatialSourceOscApo, lpM:L16:defs#spatialSourceOscAxis, lpM:L16:defs#spatialSourceOscEcc, lpM:L16:defs#spatialSourceOscEccVector, lpM:L16:defs#spatialSourceOscEnergy, lpM:L16:defs#spatialSourceOscPeri, lpM:L16:defs#SpatialSourceOsculatingPhase, lpM:s1:elements#spatialSourceStrongAMD, lpM:s1:thresholds#AdjIdx, lpM:s1:thresholds#AdjIdx.upperIdx, lpM:s1:chamber#chamber, lpM:s1:thresholds#orderedStrongThreshold
+ROUTES: -
+ROUTE_FOR: -
+EDGE: lp3:s3#first-exit | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | the stopped first exit with the LP3 drift supplier
+EDGE: lpM:L1 | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | Newtonian reconstruction (Lemma 1)
+EDGE: lpM:L16 | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | Lemma 16: the osculating elements on Lemma 5's compact set (m = δ/2)
+EDGE: lpM:L16#mu0-choice | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | A_osc μ_0 ≤ d_⋆/2, 2A_osc μ_0 ≤ d_pair/2 (N10)
+EDGE: lpM:L16#half-gaps | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | the osculating half gaps
+EDGE: lp3:s2.5 | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L359-L359 | hstop: the spatial drift supplier (§2.5)
+EDGE: lpM:T19#align | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L366-L366 | the spatial rotation reduction (reused verbatim)
+EDGE: lpM:L17#deficit-identity | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L366-L366 | C_{e_3} = ¦z¦²/2
+EDGE: lpM:L18#rotation-invariance | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L366-L366 | back to the original frame
+EDGE: lpM:L16#spatialSourceOscAxis_pos | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | a^osc > 0
+EDGE: lpM:L16#spatialSourceOscPeri_le_length | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | a^osc(1 - e^osc) ≤ ¦q_i¦
+EDGE: lpM:L16#spatialSourceOscApo_ge_length | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | ¦q_i¦ ≤ a^osc(1 + e^osc)
+EDGE: lpM:L16#spatialSourceOscEnergy_neg | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | E^osc < 0
+EDGE: lpM:L16#spatialSourceOscEcc_lt_one | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | e^osc < 1
+EDGE: lpM:s1:model#Phase | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses Phase
+EDGE: lp3:s1.1#planetaryDriftExponent | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses planetaryDriftExponent
+EDGE: lp3:s1.1#planetaryTimeExponent | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses planetaryTimeExponent
+EDGE: lpM:s1:model#bodyVector3 | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses bodyVector3
+EDGE: lpM:s1:model#IsSpatialMovingSolutionOn | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses IsSpatialMovingSolutionOn
+EDGE: lpM:L1#IsSpatialNewtonSolutionOn | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses IsSpatialNewtonSolutionOn
+EDGE: lpM:s1:data#spaceLength | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spaceLength
+EDGE: lpM:s1:elements#spatialKeplerEnergy | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialKeplerEnergy
+EDGE: lpM:s1:model#spatialMasses | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialMasses
+EDGE: lpM:s1:model#SpatialMovingUniqueOn | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses SpatialMovingUniqueOn
+EDGE: lpM:L16:defs#spatialOscEcc | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialOscEcc
+EDGE: lpM:L16:defs#spatialOscEnergy | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialOscEnergy
+EDGE: lpM:L1#spatialSourceBarycentricPositions | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceBarycentricPositions
+EDGE: lpM:L1#spatialSourceBarycentricVelocities | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceBarycentricVelocities
+EDGE: lpM:s1:elements#SpatialSourceCanonicalPhase | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses SpatialSourceCanonicalPhase
+EDGE: lpM:s1:elements#spatialSourceKeplerAction | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceKeplerAction
+EDGE: lpM:s1:elements#spatialSourceKeplerApo | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceKeplerApo
+EDGE: lpM:s1:elements#spatialSourceKeplerAxis | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceKeplerAxis
+EDGE: lpM:s1:elements#spatialSourceKeplerEccVector | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceKeplerEccVector
+EDGE: lpM:s1:elements#spatialSourceKeplerPeri | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceKeplerPeri
+EDGE: lpM:L16:defs#spatialSourceOscApo | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceOscApo
+EDGE: lpM:L16:defs#spatialSourceOscAxis | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceOscAxis
+EDGE: lpM:L16:defs#spatialSourceOscEcc | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceOscEcc
+EDGE: lpM:L16:defs#spatialSourceOscEccVector | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceOscEccVector
+EDGE: lpM:L16:defs#spatialSourceOscEnergy | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceOscEnergy
+EDGE: lpM:L16:defs#spatialSourceOscPeri | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceOscPeri
+EDGE: lpM:L16:defs#SpatialSourceOsculatingPhase | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses SpatialSourceOsculatingPhase
+EDGE: lpM:s1:elements#spatialSourceStrongAMD | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceStrongAMD
+EDGE: lpM:s1:thresholds#AdjIdx | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses AdjIdx
+EDGE: lpM:s1:thresholds#AdjIdx.upperIdx | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses AdjIdx.upperIdx
+EDGE: lpM:s1:chamber#chamber | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses chamber
+EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses orderedStrongThreshold
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith (KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith
+NOTE: Anchor LP3-2 (D64). MAIN T19 without (5), drift supplier replaced as in LP3-1 (LP3-PLAN §2.5, §3)
+
+NODE: lp3:s2.3
+KIND: step
+TITLE: fixed data F1-F7 and the cell-by-cell discharge of the premises of partialConvex_nekhoroshev
+STATEMENT_SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.2@L177-L201
+PROOF_SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.3@L203-L257
+CONTRACT_ID: lp3:s2.3
+CONTRACT_VERSION: 1
+SOURCE_HYPOTHESES: the data n ≥ 2, ν_i > 0 with max ν = 1, 𝒜 compact and ordered, δ > 0 (no γ, τ, no (5)); planar (the spatial version is §2.5)
+SOURCE_QUANTIFIERS: fixed before μ and the initial state
+SOURCE_CONCLUSION: the shared tube (U, r_g, Ω_B(4r_g) ≤ δ/16), the uniform holomorphic extension of the chart and perturbation, widths, a finite cover of 𝓛_δ by centres c_j with fast cells G_j ⊂ G'_j and slow sets D_j = {¦y¦²/2 < B(c_j) - 5δ/16}, the Kepler constants and the slow erosion gap are fixed; on every cell the premises of partialConvex_nekhoroshev hold (holomorphic, C², real, bounded Hessian, definite fast part of the Kepler h, partial perturbation P = fc/B_0, the Hamiltonian identity with the chart Hamiltonian); thresholds ν_0, μ_0, r(μ) = (B_0μ)^{b_n}, T(μ) ≤ the frozen horizon T_0 exp(cμ^{-a_n})
+CONSTANT_SCOPE: all constants and the cover depend only on (n, ν, 𝒜, δ)
+FROZEN_FILE: -
+FROZEN_DECL: -
+FROZEN_ANCHOR_ID: -
+FROZEN_ABI_SHA256: -
+DEPS: N:bpN:p0:partial, lpM:L8#shared-tube, lpM:L8, lpM:L5, lpM:s1:fast, lpM:ext-compact-cover, lpM:s1:thresholds#orderedStrongThreshold, lp3:s1.1#planetaryTimeExponent, lp3:s1.1#planetaryDriftExponent
+ROUTES: -
+ROUTE_FOR: -
+EDGE: N:bpN:p0:partial | docs/tracks/LP/lp3/LP3-PLAN.md#s2.3@L154-L154 | the premises of the imported theorem are read from its frozen interface (§2.1)
+EDGE: lpM:L8#shared-tube | docs/tracks/LP/lp3/LP3-PLAN.md#s2.3@L181-L181 | F1: the shared tube U, r_g and Ω_B(4r_g) ≤ δ/16 (N2)
+EDGE: lpM:L8 | docs/tracks/LP/lp3/LP3-PLAN.md#s2.3@L184-L184 | F2/F3: the uniform holomorphic extension, bounds and widths of Lemma 8
+EDGE: lpM:L5 | docs/tracks/LP/lp3/LP3-PLAN.md#s2.3@L198-L198 | F6: the Kepler constants of the safe compact set
+EDGE: lpM:s1:fast | docs/tracks/LP/lp3/LP3-PLAN.md#s2.3@L215-L215 | the Kepler fast part h and its definite Hessian (∂ω_i/∂I_i = -3ν_i³/I_i⁴)
+EDGE: lpM:ext-compact-cover | docs/tracks/LP/lp3/LP3-PLAN.md#s2.3@L190-L190 | F4: a finite cover of the compact 𝓛_δ by centres
+EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/lp3/LP3-PLAN.md#s2.3@L194-L194 | F5: the slow levels B(c_j) - 5δ/16
+EDGE: lp3:s1.1#planetaryTimeExponent | docs/tracks/LP/lp3/LP3-PLAN.md#s2.3@L248-L248 | the time exponent a_n = 2/(6n² - 3n + 14)
+EDGE: lp3:s1.1#planetaryDriftExponent | docs/tracks/LP/lp3/LP3-PLAN.md#s2.3@L248-L248 | the drift exponent b_n = 3/(6n² - 3n + 14)
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
+NOTE: LP3-PLAN §2.2-§2.3 (F1-F7 and the discharge cells) folded into one step (D65 minimal model)
+
+NODE: lp3:s2.4
+KIND: lemma
+TITLE: the LP3 drift supplier in the exact hstop shape (planar): drift <= r/2 on stopped orbits
+STATEMENT_SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.4@L261-L265
+PROOF_SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.4@L267-L303
+CONTRACT_ID: lp3:s2.4
+CONTRACT_VERSION: 1
+SOURCE_HYPOTHESES: the data n ≥ 2, ν_i > 0 with max ν = 1, 𝒜 compact and ordered, δ > 0 (no γ, τ, no (5)); planar; 0 < μ ≤ μ_0; r = r(μ) = (B_0μ)^{b_n}
+SOURCE_QUANTIFIERS: for every 0 < μ ≤ μ_0, every stopped orbit (a moving solution z on an order-connected J ∋ 0 with z(0) = z_0, stopped on [0, t]) and every t ∈ J with ¦t¦ ≤ T(μ)
+SOURCE_CONCLUSION: ‖Λ(z(t)) - Λ(z_0)‖ ≤ r/2 (the stopped-drift premise of the first exit), forward and backward in time
+CONSTANT_SCOPE: μ_0, T(μ) and the cover depend only on (n, ν, 𝒜, δ)
+FROZEN_FILE: -
+FROZEN_DECL: -
+FROZEN_ANCHOR_ID: -
+FROZEN_ABI_SHA256: -
+DEPS: lp3:s2.3, N:bpN:p0:partial, lpM:L7, lpM:L14#stopped-membership, lpM:L6#shared-U
+ROUTES: -
+ROUTE_FOR: -
+EDGE: lp3:s2.3 | docs/tracks/LP/lp3/LP3-PLAN.md#s2.4@L275-L275 | the cell of I^0 and the discharged premises
+EDGE: N:bpN:p0:partial | docs/tracks/LP/lp3/LP3-PLAN.md#s2.4@L294-L294 | the imported theorem gives the fast drift ≤ μ^{b_n}/2 = r/2
+EDGE: lpM:L7 | docs/tracks/LP/lp3/LP3-PLAN.md#s2.4@L269-L269 | the chart lift of the stopped orbit (Lemma 7's chart)
+EDGE: lpM:L14#stopped-membership | docs/tracks/LP/lp3/LP3-PLAN.md#s2.4@L278-L278 | stopped states satisfy C < B(c_j) - 3δ/8 (the sharp sublevel, §3)
+EDGE: lpM:L6#shared-U | docs/tracks/LP/lp3/LP3-PLAN.md#s2.4@L278-L278 | within a cell B varies by at most Ω_B(4r_g) ≤ δ/16
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
+NOTE: LP3-PLAN §2.4 with §3 'how the whole sharp sublevel enters' (L333-L351); uniformity L302-L303
+
+NODE: lp3:s2.5
+KIND: step
+TITLE: spatial version of the drift supplier (k = 2n slow pairs, Lemma 17 chart)
+STATEMENT_SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.5@L305-L328
+PROOF_SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s2.5@L305-L328
+CONTRACT_ID: lp3:s2.5
+CONTRACT_VERSION: 1
+SOURCE_HYPOTHESES: the data n ≥ 2, ν_i > 0 with max ν = 1, 𝒜 compact and ordered, δ > 0 (no γ, τ, no (5)); spatial; 0 < μ ≤ μ_0; r = (B_0μ)^{b_n}
+SOURCE_QUANTIFIERS: as in lp3:s2.4
+SOURCE_CONCLUSION: the conclusion of lp3:s2.4 for the spatial chart: ‖Λ(z(t)) - Λ(z_0)‖ ≤ r/2 on stopped spatial orbits
+CONSTANT_SCOPE: as in lp3:s2.4
+FROZEN_FILE: -
+FROZEN_DECL: -
+FROZEN_ANCHOR_ID: -
+FROZEN_ABI_SHA256: -
+DEPS: lp3:s2.4, N:bpN:p0:partial, lpM:L17, lpM:L18
+ROUTES: -
+ROUTE_FOR: -
+EDGE: lp3:s2.4 | docs/tracks/LP/lp3/LP3-PLAN.md#s2.5@L305-L305 | the planar argument with k = 2n
+EDGE: N:bpN:p0:partial | docs/tracks/LP/lp3/LP3-PLAN.md#s2.5@L305-L305 | the imported theorem with k = 2n slow pairs
+EDGE: lpM:L17 | docs/tracks/LP/lp3/LP3-PLAN.md#s2.5@L305-L305 | the spatial chart
+EDGE: lpM:L18 | docs/tracks/LP/lp3/LP3-PLAN.md#s2.5@L305-L305 | the spatial whole-sublevel domain
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
+NOTE: -
+
+NODE: lp3:s3#first-exit
+KIND: step
+TITLE: the stopped first exit (Lemma 14's argument) with r = (B_0 mu)^{b_n}, T = T(mu) and the LP3 drift supplier
+STATEMENT_SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s3@L352-L362
+PROOF_SOURCE: docs/tracks/LP/lp3/LP3-PLAN.md#s3@L352-L362
+CONTRACT_ID: lp3:s3#first-exit
+CONTRACT_VERSION: 1
+SOURCE_HYPOTHESES: the data n ≥ 2, ν_i > 0 with max ν = 1, 𝒜 compact and ordered, δ > 0 (no γ, τ, no (5)); the chart premises of Lemma 14 (any dimension); a stopped-drift supplier in the hstop shape (premise, supplied by lp3:s2.4 in the plane and lp3:s2.5 in space)
+SOURCE_QUANTIFIERS: for every 0 < μ ≤ μ_0 and every initial state with q_i ≠ 0, E_i < 0, a(0) ∈ 𝒜, C(0) ≤ B(I^0) - δ
+SOURCE_CONCLUSION: with U the shared tube, r = (B_0μ)^{b_n}, T = T(μ), the budget nr + Ω_B(r) ≤ δ/4 and hstop the supplier, the unique maximal solution exists on [-T, T]; the action bound improves from < r to ≤ r/2 and the AMD margin to 3δ/4; on [-T, T] the state is elliptic, I(t) ∈ Q, C(t) ≤ B(I(t)) - δ/2, the drifts are ≤ A_Λ μ^{b_n}, A_a μ^{b_n}, nA_Λ μ^{b_n}, and (9) and the star and pair distances hold with Lemma 5's constants (m = δ/2)
+CONSTANT_SCOPE: the constants depend only on (n, ν, 𝒜, δ) and precede μ and the state
+FROZEN_FILE: -
+FROZEN_DECL: -
+FROZEN_ANCHOR_ID: -
+FROZEN_ABI_SHA256: -
+DEPS: lpM:L14#centers, lpM:L14#choices, lpM:L14#maximal-solution, lpM:L14#stopped-membership, lpM:L3#dynamic, lpM:L6#moving-threshold, lpM:L6, lpM:L5, lpM:L5#perihelion, lpM:L5#pair-distances, lpM:s1:thresholds#actionAxis, lp3:s2.3
+ROUTES: -
+ROUTE_FOR: -
+EDGE: lpM:L14#centers | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L352-L352 | the admissible centres lie in 𝓛_δ
+EDGE: lpM:L14#choices | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L357-L357 | U and the budget (39) with r = (B_0μ)^{b_n}
+EDGE: lpM:L14#maximal-solution | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L352-L352 | the unique maximal solution
+EDGE: lpM:L14#stopped-membership | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L359-L359 | the stopped interval in the whole ball
+EDGE: lpM:L3#dynamic | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L362-L362 | the identity of (13)
+EDGE: lpM:L6#moving-threshold | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L362-L362 | (17) with the improved radius r/2
+EDGE: lpM:L6 | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L352-L352 | continuation through a finite maximal endpoint
+EDGE: lpM:L5 | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L352-L352 | Lemma 5 with m = δ/2: the compact safe set and (9)
+EDGE: lpM:L5#perihelion | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L352-L352 | d_⋆ (41)
+EDGE: lpM:L5#pair-distances | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L352-L352 | star and pair distances
+EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L364-L364 | the action-to-axis estimate
+EDGE: lp3:s2.3 | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L355-L355 | r(μ), T(μ) and the budget radius
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: kam-lp
+REVIEWER: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
+NOTE: LP3 drops (5), so this is not lpM:L14 (whose source hypotheses include (5) and whose improvement step owns the L12/L13 routes): Lemma 14's route-independent steps are reused with the LP3 drift supplier
+
 <!-- BEGIN PROOF DEPGRAPH GENERATED -->
 Regenerated by `proof_depgraph.py`; do not hand-edit.
 
 ### Dashboard
 
-* Total nodes: **292**
-* Frozen anchors: **145**
-* Versioned statement contracts: **292**
-* Total edges: **1040**
-* Root-closure nodes: **292**
-* Dependency leaves in root closure: **31**
+* Total nodes: **301**
+* Frozen anchors: **149**
+* Versioned statement contracts: **301**
+* Total edges: **1161**
+* Root-closure nodes: **301**
+* Dependency leaves in root closure: **33**
 * Assumption boundary leaves: **0**
-* External boundary leaves: **11**
+* External boundary leaves: **12**
 * Alternative routes: **2**
-* Topology review queue: **220**
+* Topology review queue: **229**
 * Explicit source gaps: **4**
-* Coverage items: **394**; excluded: **40**
+* Coverage items: **438**; excluded: **47**
 
 ### Roots
 
@@ -8715,10 +9070,19 @@ Regenerated by `proof_depgraph.py`; do not hand-edit.
 * `lpM:T15#planar_strongAMD_exponentialSafety_halfInteger` [PROPOSED; frozen] — contract `planetary.d59.planar_strongAMD_exponentialSafety_halfInteger@1`
 * `lpM:T19#spatial_strongAMD_exponentialSafety` [PROPOSED; frozen] — contract `planetary.d59.spatial_strongAMD_exponentialSafety@1`
 * `lpM:T19#spatial_strongAMD_exponentialSafety_halfInteger` [PROPOSED; frozen] — contract `planetary.d59.spatial_strongAMD_exponentialSafety_halfInteger@1`
+* `lpM:T15#planar_strongAMD_exponentialSafety_noArith` [PROPOSED; frozen] — contract `planetary.d59.planar_strongAMD_exponentialSafety_noArith@1`
+* `lpM:T19#spatial_strongAMD_exponentialSafety_noArith` [PROPOSED; frozen] — contract `planetary.d59.spatial_strongAMD_exponentialSafety_noArith@1`
 
 ### Topology review queue
 
+* `N:bpN:p0:partial` [PROPOSED] — [N] N-PARTIAL-CONVEX: partialConvex_nekhoroshev (sealed, root of graph N)
 * `N:bpN:p11:nonresonant` [PROPOSED] — [N] Nonresonant stability in the extended phase space (KAM.Nekhoroshev.nonresonant)
+* `lp3:s1.1#planetaryDriftExponent` [PROPOSED] — planetaryDriftExponent (reused)
+* `lp3:s1.1#planetaryTimeExponent` [PROPOSED] — planetaryTimeExponent (reused)
+* `lp3:s2.3` [PROPOSED] — fixed data F1-F7 and the cell-by-cell discharge of the premises of partialConvex_nekhoroshev
+* `lp3:s2.4` [PROPOSED] — the LP3 drift supplier in the exact hstop shape (planar): drift <= r/2 on stopped orbits
+* `lp3:s2.5` [PROPOSED] — spatial version of the drift supplier (k = 2n slow pairs, Lemma 17 chart)
+* `lp3:s3#first-exit` [PROPOSED] — the stopped first exit (Lemma 14's argument) with r = (B_0 mu)^{b_n}, T = T(mu) and the LP3 drift supplier
 * `lpM:L1#IsNewtonSolutionOn` [PROPOSED] — finite-interval Newton equations with masses m_j
 * `lpM:L1#IsSpatialNewtonSolutionOn` [PROPOSED] — IsSpatialNewtonSolutionOn (spatial, d = 3)
 * `lpM:L1#barycentricPositions` [PROPOSED] — barycentric positions x_0 = -mu sum nu_i q_i/M, x_i = x_0 + q_i
@@ -8877,6 +9241,7 @@ Regenerated by `proof_depgraph.py`; do not hand-edit.
 * `lpM:T15#osculating` [PROPOSED] — Lemma 16 on the Lemma 5 compact set (m = delta/2) gives the osculating conclusion
 * `lpM:T15#planar_strongAMD_exponentialSafety` [PROPOSED] — LP1: planar strong-AMD exponential safety (Theorem 15 with Lemma 16)
 * `lpM:T15#planar_strongAMD_exponentialSafety_halfInteger` [PROPOSED] — LP1-H: LP1 at tau = n - 1/2 (exponent 1/(2n+1))
+* `lpM:T15#planar_strongAMD_exponentialSafety_noArith` [PROPOSED] — LP3-1: planar strong-AMD exponential safety without arithmetic hypothesis
 * `lpM:T15#reconstruction` [PROPOSED] — Lemma 1 reconstructs the exact Newtonian motion (masses 1, mu nu_i)
 * `lpM:T19` [PROPOSED] — Theorem 19: spatial nonresonant exponential safety (the §1 conclusion for d = 3)
 * `lpM:T19#align` [PROPOSED] — Lemma 18 aligns the frame, gives the ball (47) and the collar; Lemma 17 symplectic chart; (1), (4) exact
@@ -8885,6 +9250,7 @@ Regenerated by `proof_depgraph.py`; do not hand-edit.
 * `lpM:T19#reconstruction` [PROPOSED] — Lemma 1 reconstructs the exact Newtonian solution (d = 3)
 * `lpM:T19#spatial_strongAMD_exponentialSafety` [PROPOSED] — LP2: spatial strong-AMD exponential safety (Theorem 19 with Lemma 16)
 * `lpM:T19#spatial_strongAMD_exponentialSafety_halfInteger` [PROPOSED] — LP2-H: LP2 at tau = n - 1/2 (exponent 1/(2n+1))
+* `lpM:T19#spatial_strongAMD_exponentialSafety_noArith` [PROPOSED] — LP3-2: spatial strong-AMD exponential safety without arithmetic hypothesis
 * `lpM:T19#unrotate` [PROPOSED] — the inverse fixed rotation returns to the original frame without changing any inequality
 * `lpM:ext-cauchy-estimates` [PROPOSED] — Cauchy's integral formula and estimates; holomorphic square root on a half plane
 * `lpM:ext-compact-cover` [PROPOSED] — finite subcover of a compact set
@@ -8941,7 +9307,9 @@ Regenerated by `proof_depgraph.py`; do not hand-edit.
 
 ### Dependency leaves in root closure
 
+* `N:bpN:p0:partial` [PROPOSED] — [N] N-PARTIAL-CONVEX: partialConvex_nekhoroshev (sealed, root of graph N)
 * `N:bpN:p11:nonresonant` [PROPOSED] — [N] Nonresonant stability in the extended phase space (KAM.Nekhoroshev.nonresonant)
+* `lp3:s1.1#planetaryTimeExponent` [PROPOSED] — planetaryTimeExponent (reused)
 * `lpM:L16:defs#oscParam` [REVIEWED] — gravitational parameter k_i = 1 + mu nu_i
 * `lpM:L16:defs#spatialOscParam` [PROPOSED] — spatialOscParam (spatial, d = 3)
 * `lpM:L9#domains` [PROPOSED] — the complex domains D_rho (23): action, angle-strip and slow max-norm tube
@@ -8979,6 +9347,7 @@ Regenerated by `proof_depgraph.py`; do not hand-edit.
 
 ### External boundary leaves
 
+* `N:bpN:p0:partial` [PROPOSED] — [N] N-PARTIAL-CONVEX: partialConvex_nekhoroshev (sealed, root of graph N)
 * `N:bpN:p11:nonresonant` [PROPOSED] — [N] Nonresonant stability in the extended phase space (KAM.Nekhoroshev.nonresonant)
 * `lpM:ext-cauchy-estimates` [PROPOSED] — Cauchy's integral formula and estimates; holomorphic square root on a half plane
 * `lpM:ext-compact-cover` [PROPOSED] — finite subcover of a compact set

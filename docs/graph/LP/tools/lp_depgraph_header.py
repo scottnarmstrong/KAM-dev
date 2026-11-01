@@ -28,7 +28,8 @@ H = {
     "ROOTS": ", ".join(roots),
     "CORPUS": "docs/tracks/LP/source/{MAIN,AMENDMENTS}.md pinned by SHA-256 in docs/graph/LP/CORPUS.sha256 (MAIN "
               "68e9167f...48c1b, 679 lines; AMENDMENTS c887d1e2...51881, 26 lines; N1 fixed in place, N2-N12 override "
-              "the MAIN lines they cite); branch inp-lp-graph off inp after the D62 freeze (main f46b94fb); waves 1-"
+              "the MAIN lines they cite)" + ("; wave 4: docs/tracks/LP/lp3/LP3-PLAN.md (1b58b704...ba06ba, 506 lines), the "
+              "LP3 source under D65 (no separate LP3 source note)" if a.wave >= 4 else "") + "; branch inp-lp-graph off inp after the D62 freeze (main f46b94fb); waves 1-"
               + str(a.wave) + "; streamlined review (D65): one global review, no per-slice reviews; LEAN_STATUS set "
               "mechanically from LEAN_REFs that resolve on main",
     "CONVENTIONS": "docs/graph/LP/SPEC.md §4: Euclidean ¦·¦ (planeLength, spaceLength) vs max norm on actions; period "
