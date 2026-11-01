@@ -237,6 +237,9 @@ def build(tag, spec=None, work=None, lean=True, log=print):
     t0 = time.time()
     c = FC.generate(spec, log=lambda *a: None)
     log(tag, "generated in %.1fs, base passes in the mirror: %s" % (time.time() - t0, c.report["passes_base"]))
+    if not c.report["passes_base"]:          # V2-PUBLIC #3: name the failing landed sub-checks and their margins
+        import forced_diag as DG
+        DG.emit(DG.base_lines(c.report))
     assert c.report["passes_base"], c.report["checks"]
     st = FS.stages(c)
     c.stages = st

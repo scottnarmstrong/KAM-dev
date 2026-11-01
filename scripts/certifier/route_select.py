@@ -191,12 +191,15 @@ def thresholds(prof, rho, kps=(1, 2, 3), with_B=True, log=print):
     if with_B:
         out["B.frozen"] = dict(route_B(prof, p, box, True), kind="exact")
         out["B.refined.classical"] = dict(route_B(prof, p, box, False), kind="exact")
-    best_ref = max((v for k, v in out.items() if k.startswith("A.refined") and "estar" in v),
-                   key=lambda v: v["estar"])
-    out["A.L8'"] = dict(estar=best_ref["estar"] * L8_FACTOR, kind="estimate", sites=best_ref.get("sites", []),
-                        binding=[], disp_coef=None)
-    out["l1-entry"] = dict(estar=best_ref["estar"] * F(10 ** L1_DELTA).limit_denominator(10 ** 6), kind="design",
-                           sites=best_ref.get("sites", []), binding=[], disp_coef=None)
+    refs = [v for k, v in out.items() if k.startswith("A.refined") and "estar" in v]
+    if not refs:        # V2-PUBLIC #3: the estimates scale the best refined threshold; say why they are missing
+        log("  rho %-7s no A.refined route produced a threshold (errors below): A.L8' and l1-entry skipped" % rho)
+    else:
+        best_ref = max(refs, key=lambda v: v["estar"])
+        out["A.L8'"] = dict(estar=best_ref["estar"] * L8_FACTOR, kind="estimate", sites=best_ref.get("sites", []),
+                            binding=[], disp_coef=None)
+        out["l1-entry"] = dict(estar=best_ref["estar"] * F(10 ** L1_DELTA).limit_denominator(10 ** 6),
+                               kind="design", sites=best_ref.get("sites", []), binding=[], disp_coef=None)
     if prof.get("A_meas"):
         d0 = min(F(1), (p["rho"] - p["rhoInf"]) / 6)
         p1 = dict(p, rho=p["rho"] - 3 * d0)
@@ -396,6 +399,42 @@ def verdict(best, hand):
         best["cost_h"], hand["cost_h"], r)
 
 
+def why_none(rep, site_l_max, only=None):
+    """V2-PUBLIC #3: why no exact-mirror candidate (or, with only=["sharp"], no baseline fallback) is admissible,
+    route by route (printed only in that case): the threshold the mirror could not compute, else the first
+    admissibility test that every candidate of the route fails (margin > margin_rule, certified sites
+    l <= site_l_max, the profile's precision rule)."""
+    m = rep["margin_rule"]
+    out = ["no admissible %s (margin > %.1f decades, certified sites l <= %d, precision rule):" % (
+        "exact candidate" if only is None else "candidate of route " + ", ".join(only), m, site_l_max)]
+    for rho, t in rep["thresholds"].items():
+        for route, v in t.items():
+            if v.get("error") and (only is None or route in only):
+                out.append("FAIL route=%s check=threshold: the mirror failed at rho %s: %s" % (route, rho,
+                                                                                             v["error"]))
+    by = {}
+    for c in rep["candidates"]:
+        if c["kind"].startswith("exact") and (only is None or c["route"] in only):
+            by.setdefault(c["route"], []).append(c)
+    for route in sorted(by):
+        cs = by[route]
+        ok_m = [c for c in cs if c["margin_exact"] > m]
+        ok_s = [c for c in ok_m if c["sites_ok"]]
+        if not ok_m:
+            b = max(cs, key=lambda c: c["margin_exact"])
+            out.append("FAIL route=%s check=margin: best log10(e*/err) %.2f at rho %s, L %d, P %d (%s err), short "
+                       "of %.1f by %.2f decades" % (route, b["margin_exact"], b["rho"], b["L"], b["P"],
+                                                    b["err_source"], m, m - b["margin_exact"]))
+        elif not ok_s:
+            out.append("FAIL route=%s check=sites: every candidate with the margin needs a certified site with "
+                       "l > %d (l = %s)" % (route, site_l_max, sorted({x for c in ok_m for x in c["sites"]})))
+        else:
+            b = min(ok_s, key=lambda c: c["P"])
+            out.append("FAIL route=%s check=precision: every candidate with the margin fails the profile's "
+                       "precision rule (e.g. L %d, P %d, log10 err %.2f)" % (route, b["L"], b["P"], b["log10_err"]))
+    return out
+
+
 def table(rep, top=12):
     rows = sorted([c for c in rep["candidates"] if c["margin_exact"] > rep["margin_rule"] and c["sites_ok"] and
                    c["precision_ok"]], key=lambda c: c["cost_h"])[:top]
@@ -434,6 +473,9 @@ def main():
             rep["baseline_fallback"] and rep["baseline_fallback"]["err_source"], pick(rep["baseline_fallback"])))
         print("hand choice: %s" % pick(rep["hand"]))
         print("verdict: %s" % rep["verdict"])
+        if rep["best_exact"] is None or rep["baseline_fallback"] is None:
+            print("\n".join(why_none(rep, load_profile(nm)["site_l_max"],
+                                      None if rep["best_exact"] is None else ["sharp"])))
         for k, v in rep["constrained"].items():
             print("constrained (%s): %s -> %s" % (k, v["choice"], v["verdict"]))
         for k, v in rep["sensitivity"].items():
