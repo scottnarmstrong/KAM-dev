@@ -282,6 +282,6 @@
   }
  },
  "lp": {
-  "now": "ALL HEADLINE THEOREMS PROVED IN LEAN. Planar LP1 and LP0 on `main` and audited; SPATIAL LP2 `lp2_spatial_strongAMD_safety` proved end to end (the exact spatial (1+n)-body problem below the sharp Laskar–Petit threshold: no orbit crossing, no collision, for |t| ≤ T₀ exp(c μ^(−1/(2(τ+1)))); no prograde, inclination, angular-momentum, alignment or secular premise), standard axioms, audits pending. The freeze package (draft 4, with LP2) awaits the owner's rulings OD-1…OD-11. Stretch: LP3 (the sharp threshold with no arithmetic hypothesis, via Nekhoroshev 1977) entering its design phase."
+  "now": "All headline theorems proved in Lean: LP0 and LP1 (planar) on `main`, audited; LP2 (spatial) proved, its audits rolling (the spatial chart, Lemma 17, passed; the domain, drift and lift in audit; the assembly next). Freeze proposal draft 6, including LP2 and both OD-11 options proved, five independent statement reviews; awaits the owner's rulings. Stretch LP3 (sharp threshold, NO Diophantine hypothesis, Nekhoroshev 1977 exponents): plan reviewed; the Kepler data, the finite sharp cover, the per-cell application of the sealed partial-convexity theorem and the spatial cover are proved; the planar and spatial drift suppliers are proving, then the assemblies."
  }
 }
