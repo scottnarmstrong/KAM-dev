@@ -213,6 +213,31 @@ attempts (generator bugs, fixed: below) is not counted. Remaining for the B3b ro
 tree's `Low` chain (`pkComposeLow`, `pkCheckTorsion`, `pkFrames`, `pkEngine`, `pkBase`, `pk_check`, `pk_kamTorus`),
 emitted; it runs when LG00's run18 has finished T′'s `Low` chain (2,062 / 2,484 at 15:38 UTC).
 
+**The B3b route end to end on LG00's real T′ certificate: PROVED** (logs `runC`, `runD`, 2026-11-01 16:43–17:23 UTC,
+after run18 finished T′'s `Low` chain). `LG00Packed.TP.Main` proves `pk_kamTorus` (LG00's `lg00_kamTorus`
+statement, verbatim) and `pk_kamTorusStatement` (`LG00TorusStatement lg00Cert lg00OmegaStar lg00WindowTP`) from
+`pk_check : checkV2With (torsRBase …) (routeARefinedPackedS …) lg00Cert lg00RW = true`, through
+`checkV2With_packedS_sound`: `pkCheckGram`, `pkCheckTorsion` (with the tree's landed `cfgLow` composition,
+`pkComposeLow`), `pkFrames`, `pkEngine` (`lg00_hamClaim`, the packed frames, `lg00_refinedCore`), `pkBase` (the
+tree's landed static, Hamiltonian, embedding, invariance and energy facts). 4,695 modules pass, every process
+≤ 2.81 GB.
+
+| part | modules built | CPU-s | largest charge |
+|---|---:|---:|---:|
+| packed data (shared) | 34 | 323.7 | 1.02 GB |
+| B2 Gram stage | 10 | 157.8 | 2.08 GB |
+| B3b torsion stage | 66 | 751.7 | 2.81 GB |
+| packed frame tests (from the A gate) | 3 | 34.7 | 2.18 GB |
+| assembly (`Compose`, `Tors`, `Frames`, `Engine`, `Base`, `Check`) and `Main` | 7 | 61.2 | 2.08 GB |
+| LG00's landed inputs not yet built by run18 (disc pass, confinement checks, identity, `Final.Freq` patched) | 16 | 104.7 | 1.90 GB |
+| LG00's sharp sites and witness (rebuilt against this core, in the A gate) | 37 | 848.1 | 2.68 GB |
+| reused from LG00's run18 (data, balls, Full and Low chains, static, embedding, invariance) | 4,519 | 0 | — |
+
+The packed part (data, Gram, torsion, frames, assembly) is 1,329 CPU-s. It replaces LG00's landed Gram, Torsion,
+frame and `Final.Torsion`/`Final.Frames` modules for T′ (run18 is building them now; on the first certificate
+they cost 14,138 CPU-s, V2-PACKED-FRAMES). This route keeps the landed `Low` and `Full` chains; the jet route
+replaces them.
+
 **Run harness** (`run_packed.py LOGDIR CAP TARGET…`).
 - The module list: the targets' import closure inside the package, dependencies first.
 - Reuse: staleness predicted from the import graph (no artifacts, a stale import, or a core import whose source
