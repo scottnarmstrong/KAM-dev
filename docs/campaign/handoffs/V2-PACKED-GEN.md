@@ -126,6 +126,19 @@ modules) are rebuilt, as V2-SITES-SIGN's landing note predicted.
   the jet's radii are tighter), and the frames at T′'s claims: `|Lᵀ|` 1.3620 / 1.37, `|N|` 1.1992 / 1.21,
   `|Nᵀ|` 1.4397 / 1.45, `sup |T|` 117.5007 / 118.
 
+**The jet route for T′, emitted** (`gen_packed.py --prefix LG00P --stages jet --jet-low … --jet-full …`, on
+kamx-packed's T′ mirror caches `.lake/v2-packed-prod/tp/{low,full}_mirror.pkl` of `v2-packed`, read only):
+103 modules plus the shared format, every one under the line caps. Book agreement: Low 392 bits (jet) = 392
+(torsion), Full 400 bits; `bLow = bFull = 2^140`; `pkIBook` = Full box (half-width 48, stride 193, width 400),
+`lI = 273`, `normOk` asserted by the generator. The generator mirrors the consumers' tests before emitting (`gen_cert.inv_energy`): the four `ivRowOk` values are
+1.25415, 7.19172, 0.146282, 0.0820981 (×10⁻¹⁶) against `err = 7.2·10⁻¹⁶`, just below the landed `checkInvariance`
+rows of T′'s generator (1.25427, 7.19210, 0.146446, 0.0824246 ×10⁻¹⁶; margin 8.3·10⁻¹⁹ against the landed
+7.9·10⁻¹⁹), and `enOk` 5.7·10⁻²³ (landed 3.5·10⁻²¹). Row 1 is tight by construction: the generator sets `err` just
+above the torus's defect. Not built: it needs the two branches' Lean in the core and
+kamx-packed's chain modules in the package (stage C). The emitted names follow V2-PACKED-PROD-API §3
+(`LG00P.TP.Jet.<C>.ChainCert`: `jdLow`, `bLow`, `jetLow_check_cert`, …); if kamx-packed renames them, only
+`emit_j`'s import and name strings change.
+
 **T″ the same way.** `gen_cert.py …/LG00/TPP` (no change to any script): T″'s own parameters, box
 (`s = 886058956738442102019008342433694847/886058070680308099785085113265000000`), zero modes and claims are read
 from its tree. The B3b mirror passes (torsion margin 0.00118) and the frames at T″'s claims: `|Lᵀ|` 1.3513 / 1.36,

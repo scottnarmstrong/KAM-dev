@@ -309,6 +309,38 @@ def compute_j(cert, low_cache, hb=25, quiet=False):
                 jet=dict(v0=v0, d1=d1, d2=d2, wanted=wanted, bA=bA, width=wj))
 
 
+def inv_energy(S, full_cache, hb=48):
+    """The mirror of the jet route's invariance and energy tests (kamx-pk-cons, `JetConsInv.lean`,
+    `JetConsEnergy.lean`): per coordinate `a`, `ivRowOk` = the packed weighted norm of
+    `X_a = (X_H ∘ K)_a 2^P - Σ_l DK_{al} fc_l` (scale `2^(2P)`; `X_H` from the Full chain's `d1` nodes, sign `-`
+    on `a ≥ n`) plus `r_jet + Σ_l pmulRad(nb_K, r_K, |fc_l|/2^P, fr_l)` is at most `err`; `enOk` = the zero mode of
+    the `v0` node minus `E0`, plus its radius, is at most `err`. Returns the values and verdicts."""
+    D, ctx = S["D"], S["ctx"]
+    B = ctx.B
+    cert = D["cert"]
+    v0, d1, _ = ham_jet(cert)
+    nodes, _ = jet_nodes(full_cache, [v0] + d1, hb)
+    box, s, K = D["box"], D["s"], S["K"]
+    err, E0 = cert.params["err"], cert.params["E0"]
+    fc = [T.C_round(s * box[l][0] * 2 ** P) for l in range(n)]
+    fr = [abs(s) * box[l][1] + abs(s * box[l][0] - F(fc[l], 2 ** P)) for l in range(n)]
+    swap = lambda a: a + n if a < n else a - n
+    rows = []
+    for a in range(2 * n):
+        p, r, _, _ = nodes[d1[swap(a)]]
+        x = R.cscale(p if a < n else R.cscale(p, -1), 2 ** P)
+        for l in range(n):
+            x = R.cadd(x, R.cscale(K[(a, l)][0], -fc[l]))
+        rad = B.upAdd(r, M.sumUp(B, [ctx.pmulRad(K[(a, l)][2], K[(a, l)][1], B.ofRatUp(F(abs(fc[l]), 2 ** P)),
+                                                 B.ofRatUp(fr[l])) for l in range(n)]))
+        tot = B.upAdd(ctx.pnorm(x, 2 * P), rad)
+        rows.append(dict(value=float(F(tot, 2 ** P)), ok=B.ble(tot, B.ofRatDown(err))))
+    p0, r0, _, _ = nodes[v0]
+    re0, im0 = p0.get((0, 0), (0, 0))
+    ev = B.upAdd(B.ofRatUp(abs(F(re0, 2 ** P) - E0) + abs(F(im0, 2 ** P))), r0)
+    return dict(err=float(err), rows=rows, energy=dict(value=float(F(ev, 2 ** P)), ok=B.ble(ev, B.ofRatDown(err))))
+
+
 def frames(S):
     """The mirror of the three packed frame tests at the tree's claims: sums, verdicts, edges."""
     cert = S["D"]["cert"]

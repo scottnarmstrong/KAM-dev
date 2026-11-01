@@ -842,8 +842,11 @@ def main():
         fn, wf = GC.jet_nodes(fullc, [v0] + d1, 48)
         jet = dict(low=E.lg("Jet.Low.ChainCert"), full=E.lg("Jet.Full.ChainCert"), wfull=wf,
                    bfull=max(v[3] for v in fn.values()))
+        ie = GC.inv_energy(SJ, fullc)
+        assert all(r["ok"] for r in ie["rows"]) and ie["energy"]["ok"], ie
         emit_j(E, SJ, jet)
         S = SJ
+        info.update(invariance_energy=ie)
         info.update(jet=dict(width_low=SJ["jet"]["width"], width_torsion=SJ["rb"]["width"],
                              bA_bits=SJ["jet"]["bA"].bit_length(), width_full=wf,
                              bfull_bits=jet["bfull"].bit_length()))
