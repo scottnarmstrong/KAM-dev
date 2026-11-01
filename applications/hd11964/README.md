@@ -82,6 +82,8 @@ report is [`docs/explorations/hd11964-pilot.md`](../../docs/explorations/hd11964
 | `scripts/hiprec.py` | the mass-scaling test, and the long-double rerun that did not finish in time (`hiprec-*.json`) |
 | `scripts/census.py` | the census of jet products per cell, the input of the cost estimate (`product-census.json`) |
 | `scripts/slow_radius.py` | analyticity radii of c's chart in the slow variables, the input of the cell count (`slow-radius.json`) |
+| `scripts/prod2.py` | phase 2: the order-2 producer in the exact form of the Lean identity (float64): the five terms `T1..T5` and `F − Λ` on kamx-hd-layer's worst cell, the identity check against the exact-gradient rate, the phase-1 cross-check (`validation/prod2-cell-f64.json`) |
+| `scripts/prod2_hp.py` | phase 2: the generators `χ₁`, `χ₂` at 2^-184 fixed point (exact sliced DFT), written as 2^-160 integers (gzipped JSON, `~/kam-data/hd11964/prod2/`, not in git); `load_box` expands them for the cell check |
 | `validation/` | `gate-N4.jsonl` (all samples), `ladder.json`, `rigor-N3.json`, `checks.json`, `threshold.json`, `kscan-N3-s1.0.json`, `conv-N4-ec044.json`, `hiprec-N4-s0.85-f1.0-352x64-nolong.json`, `product-census.json`, `slow-radius.json` |
 
 ## How to regenerate
@@ -102,6 +104,8 @@ $CAP python3 -I applications/hd11964/scripts/conv.py 1.0 0.5 224x64,320x64,224x9
 $CAP python3 -I applications/hd11964/scripts/hiprec.py 4 0.85 352 64 nolong 1.0471975511965976  # mass scaling, φ = π/3 (5 min)
 $CAP python3 -I applications/hd11964/scripts/census.py                 # product census (minutes)
 python3 -I applications/hd11964/scripts/slow_radius.py                 # slow radii (seconds)
+$CAP python3 -I applications/hd11964/scripts/prod2.py applications/hd11964/validation/prod2-cell-f64.json   # 1 min
+$CAP python3 -I applications/hd11964/scripts/prod2_hp.py --out=$HOME/kam-data/hd11964/prod2/generators-cell-ec06.json.gz --check
 ```
 
 ## Version history
