@@ -6,6 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.Wave.Birkhoff.MainTori
+public import KAM.Wave.Birkhoff.MainQuartSum
 
 /-!
 # Weak invariance is transported: regularity (blueprint-W `bpW:w3:transport-tori-weak`)
@@ -99,23 +100,24 @@ variable {ha : 0 ≤ a} {hp : 1 / 2 ≤ p}
 include hm hp in
 theorem norm_birkRestField_le (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) :
     ‖birkRestField m hm ha hp w‖ ≤
-      2 * waveCubicConst p * ‖w‖ ^ 3 + 66 * waveCubicConst p * birkCF m p * ‖w‖ ^ 5 := by
+      waveCubicConst p * ‖w‖ ^ 3 + 66 * waveCubicConst p * birkCF m p * ‖w‖ ^ 5 := by
   have hι : ∀ v : BirkSpace, ‖birkEmbed a (p + 1) p (by linarith) v‖ ≤ ‖v‖ := fun v => by
     refine ((birkEmbed a (p + 1) p (by linarith)).le_opNorm v).trans ?_
     calc ‖birkEmbed a (p + 1) p (by linarith)‖ * ‖v‖ ≤ 1 * ‖v‖ :=
           mul_le_mul_of_nonneg_right (norm_birkEmbed_le a (p + 1) p (by linarith)) (norm_nonneg v)
       _ = ‖v‖ := one_mul _
-  have h1 := norm_birkQuartX_le m hm ha hp (birkCoefBar_isCoef m hm) w
-  have h2 := norm_birkQuartX_le m hm ha hp (birkCoefNor_isCoef m hm) w
+  have h12 := norm_birkHamBarX_add_birkHamNorX_le m hm ha hp w
   have h3 := norm_birkXK_le (ha := ha) (hm := hm) (hp := hp) w hw
-  unfold birkRestField
-  refine (norm_add_le _ _).trans ((add_le_add ((norm_add_le _ _).trans (add_le_add
-    ((hι _).trans h1) ((hι _).trans h2))) ((hι _).trans h3)).trans (le_of_eq ?_))
-  ring
+  have e : birkRestField m hm ha hp w = birkEmbed a (p + 1) p (by linarith)
+      (birkHamBarX m hm ha hp w + birkHamNorX m hm ha hp w) +
+      birkEmbed a (p + 1) p (by linarith) (birkXK m hm ha hp w) := by
+    unfold birkRestField; rw [map_add]
+  rw [e]
+  exact (norm_add_le _ _).trans (add_le_add ((hι _).trans h12) ((hι _).trans h3))
 
 include hm hp in
 /-- (`bpW:w3:transport-tori-weak`) Weak invariance is transported: the weak equation in
-`𝔚_{a,p-1}` forces `Ψ(θ) ∈ 𝔚⁺` (with `‖Ψ‖₊ ≤ ‖DΨ ν‖ + 2C_*‖Ψ‖³ + C'_K‖Ψ‖⁵`), and then
+`𝔚_{a,p-1}` forces `Ψ(θ) ∈ 𝔚⁺` (with `‖Ψ‖₊ ≤ ‖DΨ ν‖ + C_*‖Ψ‖³ + C'_K‖Ψ‖⁵`), and then
 `D(Γ∘Ψ)ν = X_H(Γ∘Ψ)`. -/
 theorem birk_transport_tori_weak (ν : Fin 2 → ℝ) (Ψ D : (Fin 2 → ℝ) → BirkSpace)
     (hΨ : ∀ θ, 160 * birkCF m p * ‖Ψ θ‖ ^ 2 < 1)
@@ -125,7 +127,7 @@ theorem birk_transport_tori_weak (ν : Fin 2 → ℝ) (Ψ D : (Fin 2 → ℝ) �
         (birkRestField m hm ha hp (Ψ θ)))
     (θ : Fin 2 → ℝ) :
     ∃ y z : BirkSpace, birkEmbed a (p + 1) p (by linarith) y = Ψ θ ∧
-      ‖y‖ ≤ ‖D θ‖ + 2 * waveCubicConst p * ‖Ψ θ‖ ^ 3 +
+      ‖y‖ ≤ ‖D θ‖ + waveCubicConst p * ‖Ψ θ‖ ^ 3 +
         66 * waveCubicConst p * birkCF m p * ‖Ψ θ‖ ^ 5 ∧
       birkEmbed a (p + 1) p (by linarith) z = birkGamma m hm ha hp 1 (Ψ θ) ∧
       HasDerivAt (fun t : ℝ => birkGamma m hm ha hp 1 (Ψ (θ + t • ν)))

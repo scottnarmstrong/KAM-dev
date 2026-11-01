@@ -36,7 +36,7 @@ theorem birk_transport_tori_weak_real (hapos : 0 < a) (ν : Fin 2 → ℝ)
         (birkRestField m hm hapos.le hp (Ψ θ)))
     (θ : Fin 2 → ℝ) :
     (∃ y : BirkSpace, birkEmbed a (p + 1) p (by linarith) y = Ψ θ ∧
-      ‖y‖ ≤ ‖D θ‖ + 2 * waveCubicConst p * ‖Ψ θ‖ ^ 3 +
+      ‖y‖ ≤ ‖D θ‖ + waveCubicConst p * ‖Ψ θ‖ ^ 3 +
         66 * waveCubicConst p * birkCF m p * ‖Ψ θ‖ ^ 5) ∧
     birkZR (birkPi (birkGamma m hm hapos.le hp 1 (Ψ θ))) =
         birkGamma m hm hapos.le hp 1 (Ψ θ) ∧
