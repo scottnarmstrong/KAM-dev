@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-01 14:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.6 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 66 / 70 · **504,757 lines of hand-written Lean** of an estimated ≈ 507,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-01 14:21 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.6 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 66 / 70 · **504,757 lines of hand-written Lean** of an estimated ≈ 507,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -352,7 +352,7 @@ Overall, everything together: 97.0 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 14:20 UTC from `main` at `7b81f9b9` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 14:21 UTC from `main` at `14fe69d6` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -565,12 +565,12 @@ account read from each agent's running process) and their branches. Rules for ag
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-5 | 🔄 proving | last commit: LOCK-DATA: Pass.HamBounds/HamClaim from the kernel-checked jet, ball pass and HamOk (HamBr | `inp-lockdata` | 57 (vs `inp`) |
 | **LOCK-FREEZE** `inp-mprov-lockfreeze` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-FREEZE Phase B prep: frozen<->landed bridges and providers for lunarSyncOrbit_{spec,u | `inp-lockfreeze` | 1 (vs `inp`) |
-| **lp** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP: LP-GRAPH-R1APPLY brief | `inp-lp` | 13 (vs `inp`) |
+| **lp** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP progress: graph R1 reviews applied (5/8 slices); R1APPLY and W2 running | `inp-lp` | 14 (vs `inp`) |
 | **lp-freeze7** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP-FREEZE7R: handoff (parts A-C; superseded by LP-FREEZE-EXEC) | `inp-lp-freeze7` | 1 (vs `inp`) |
 | **lp-freeze8** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP-FREEZE7R part C: WIP | `inp-lp-freeze8` | 4 (vs `inp`) |
 | **lp-freeze8r** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP draft 8: statement audit 1 PASS WITH NOTES (codex-2; BLOCKING 0); C1 prose fix applied  | `inp-lp-freeze8r` | 13 (vs `inp`) |
 | **lp-fz7r-audit** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP: draft-7 r1 delta statement audit 2 (codex-2): PASS WITH NOTES (BLOCKING 0; R1-R3 small | `inp-lp-fz7r-audit` | 1 (vs `inp`) |
-| **lp-graph** `inp-mprov-lp-graph` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP: LP-GRAPH-R1APPLY brief | `inp-lp-graph` | 15 (vs `inp`) |
+| **lp-graph** `inp-mprov-lp-graph` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP graph W2: wave-2 skeleton packets (LP-m3, LP-m4a, LP-m4b, LP-m5, LP-imports) and dry ru | `inp-lp-graph` | 16 (vs `inp`) |
 | **lp-providers** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP-FREEZE7R part B: stage the 39 draft-7 r1 providers (quarantined; not in roots), staging | `inp-lp-providers` | 1 (vs `inp`) |
 <!-- /AUTO:workers -->
 
@@ -579,6 +579,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-01 14:21 | `14fe69d6` | D64: owner approves LP freeze draft 8 (LP3, 6c168945), installed sealed in one pass |
 | 2026-11-01 14:07 | `7b81f9b9` | Land v2-packed-jet: packed jet evaluator, LG00 Low chain (60 blocks, 35.6x) and Full chain (169 blocks, 8.4x) measured block by block; AUDIT-V2-PACKED-JET-1 and AUDIT-V2-PACKED-JET-FULL-1 PASS WITH CHANGES, fixes applied |
 | 2026-11-01 13:55 | `7485d897` | LG00 side status: T′ re-run at 69%, T″ queued, confinement assembly proved |
 | 2026-11-01 13:51 | `7921092d` | HQ: measure graph-sync lag from the landing that brought the sync to main (--first-parent) |
@@ -590,7 +591,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-01 13:41 | `57b045dd` | Land paper-lp: LP paper after the freeze (§A.3, frozen-anchor table, axioms checked at f46b94fb; 24 pp) |
 | 2026-11-01 13:23 | `f46b94fb` | Land inp into main |
 | 2026-11-01 13:03 | `c51ef333` | Land v2-bulk run types: tent and crossing runs for the three-frequency bulk walk, acceptance-only cost cuts, Bulk2RouteB (additive); audit AUDIT-V2-BULK-RUNS-1 PASS WITH CHANGES, fixes applied (P = 128 at all bites) |
-| 2026-11-01 12:49 | `aab1bd32` | Land v2-consol: combined engine routeMax (17 branches, every landed engine recovered by rfl; packed base via checkTorusCertificateMax), fibred and sign-tolerant sites in route B variants, regression gaps (l1/hybrid opt-in, rotation, packed toy MicroP), measured cost calibration, sjs path fix; audit AUDIT-V2-CONSOL-1 PASS |
 <!-- /AUTO:landed -->
 
 ## Decisions
