@@ -645,6 +645,49 @@ def i_book(D, wfull, bfull, hb=48):
     return txt
 
 
+def emit_front(E, jet):
+    """The chains with their wanted nodes in front of the ledger (`JetFront.lean`): `jdLowW`, `jdFullW`, and the
+    check that every front entry is the ledger's own (one lookup per entry, five entries per module)."""
+    v0, d1, d2 = GC.ham_jet(E.cert)
+    sets = dict(Low=d1 + [x for row in d2 for x in row], Full=[v0] + d1)
+    lit = lambda C, js: T.wrap("[" + ", ".join("(slotK %d, n%s_s%d)" % (j, C, j) for j in js) + "]")
+    body = ("def frontLow : JLedger :=\n%s\n\ndef frontFull : JLedger :=\n%s\n\n"
+            "/-- The `cfgLow` chain with its wanted nodes in front of the ledger. -/\n"
+            "def jdLowW : JetData := jdLow.withFront frontLow\n\n"
+            "/-- The `cfgFull` chain with its wanted nodes in front of the ledger. -/\n"
+            "def jdFullW : JetData := jdFull.withFront frontFull\n") % (lit("Low", sets["Low"]), lit("Full", sets["Full"]))
+    dmod = E.write("Data.Front", [jet["low_data"], jet["full_data"], "KAM.CertificateSharp.Packed.JetFront"],
+                   "the chains with their wanted nodes in front",
+                   "`frontLow`, `frontFull` (kamx-packed's own wanted nodes, by name) and `jdLowW`, `jdFullW`.", body)
+    out = dict(data=dmod)
+    for C in ("Low", "Full"):
+        js, parts = sets[C], []
+        for t in range(0, len(js), 5):
+            parts.append(E.write("Front.%s%d" % (C, t // 5), [dmod], "front entries of the %s chain" % C,
+                                 "Each front entry is the ledger's own (one ledger lookup each).",
+                                 "\n".join(thm("pkFront%s_%d" % (C, j), "lookOk jd%s (slotK %d) n%s_s%d = true"
+                                                % (C, j, C, j)) for j in js[t:t + 5])))
+        body = ("theorem pkFront%sOk : frontOk jd%s front%s = true := by\n"
+                "  simp only [frontOk, front%s, List.all_cons, List.all_nil, %s, Bool.and_self]\n") % (
+            C, C, C, C, ", ".join("pkFront%s_%d" % (C, j) for j in js))
+        out[C.lower()] = E.write("Front.%s" % C, parts, "the front of the %s chain" % C,
+                                 "`frontOk` from its entries.", swrapl(body))
+    return out
+
+
+def swrapl(txt, width=100):
+    """Wrap the over-long lines of a proof body at commas (continuation indented by 4 more)."""
+    out = []
+    for line in txt.split("\n"):
+        while len(line) > width:
+            k = line.rfind(", ", 0, width - 1)
+            ind = len(line) - len(line.lstrip()) + 4
+            out.append(line[:k + 1])
+            line = " " * ind + line[k + 2:]
+        out.append(line)
+    return "\n".join(out)
+
+
 def emit_j(E, SJ, jet):
     """The jet route (V2-PACKED-PROD-API, kamx-pk-cons' consumers): the torsion, invariance, energy and frames on
     the jet's chains, `jetBase`, the packed sharp-site engine on the jet's torsion (`RouteSharpJ`), the certifier,
@@ -653,12 +696,13 @@ def emit_j(E, SJ, jet):
     import re
     data = emit_data(E, SJ, jet=True)
     gram = emit_gram(E, data)
+    front = emit_front(E, jet)
     c = "lg00Cert"
     W, Bi, cfg, box, sv = c + ".weight", c + ".gramInv", c + ".cfgLow", c + ".freqBox", c + ".params.s"
-    J, jsL, jsF = c + ".ham.jet", "(jetSlots (α := LGF) jdLow)", "(jetSlots (α := LGF) jdFull)"
+    J, jsL, jsF = c + ".ham.jet", "(jetSlots (α := LGF) jdLowW)", "(jetSlots (α := LGF) jdFullW)"
     low, full = jet["low"], jet["full"]                  # the chain theorems (`…ChainCert`)
-    lowd, fulld = jet["low_data"], jet["full_data"]      # the chain data (`jdLow`, `jdFull`) only
-    imp = [data["G"], data["T"], data["R"], E.lg("Data.Cert"), "KAM.CertificateSharp.Packed.RouteSharpJ"]
+    lowd, fulld = jet["low_data"], jet["full_data"]      # the chain data (`jdLowW`, `jdFullW`) only
+    imp = [data["G"], data["T"], data["R"], E.lg("Data.Cert"), "KAM.CertificateSharp.Packed.RouteSharpJ", front["data"]]
     # the torsion on the jet
     d2 = []
     for r, j, l in itertools.product(range(2 * n), range(n), range(n)):
@@ -673,12 +717,13 @@ def emit_j(E, SJ, jet):
         "\n".join("  · exact pkTorsD2_%d_%d_%d" % ix for ix in itertools.product(range(4), range(2), range(2))))
     d2all = E.write("TorsJ.D2All", d2 + ["Mathlib.Tactic.IntervalCases"], "the D²K entries",
                     "`ptD2All` from its 16 entries.", body)
-    lowok = E.write("TorsJ.LowOk", imp + [low], "the jet's Low chain at the torsion",
+    lowok = E.write("TorsJ.LowOk", imp + [low, front["low"]], "the jet's Low chain at the torsion",
                     "`jetLowOk`: the jet's box and scale are the torsion's (`layoutEq`, checked), and the chain "
                     "theorem of kamx-packed (`jetLow_check_cert`) at the load `pkRBook.bA = bLow`.",
-                    "theorem pkLowOk : jetLowOk pkRBook jdLow lg00Cert = true := by\n"
+                    "theorem pkLowOk : jetLowOk pkRBook jdLowW lg00Cert = true := by\n"
                     "  simp only [jetLowOk, Bool.and_eq_true]\n"
-                    "  exact ⟨⟨by decide +kernel, by decide +kernel⟩, jetLow_check_cert⟩\n")
+                    "  exact ⟨⟨by decide +kernel, by decide +kernel⟩,\n"
+                    "    (jetCheck_withFront pkFrontLowOk _ _).trans jetLow_check_cert⟩\n")
     st = {}
     st["Lay"] = E.write("TorsJ.Lay", imp, "the layouts and loads", "`trLayOk`, `trNormOk`.",
                         thm("pkTrLay", "trLayOk 2 pkRBook = true") + "\n" +
@@ -731,10 +776,10 @@ def emit_j(E, SJ, jet):
                        % (Bi, W, cfg, box, sv, J, jsL, c, sig)))
     tors = E.write("TorsJ", [gram, d2all, lowok, core], "the packed torsion on the jet",
                    "`checkTorsionJ` of the certificate.",
-                   "theorem pkCheckTorsionJ :\n    checkTorsionJ pkGBook pkGMemo pkRBook pkTMemo pkRMemo jdLow lg00Cert "
+                   "theorem pkCheckTorsionJ :\n    checkTorsionJ pkGBook pkGMemo pkRBook pkTMemo pkRMemo jdLowW lg00Cert "
                    "= true :=\n  checkTorsionJ_of pkGram pkEps_eq rfl pkLowOk pkD2All pkTorsCoreJ\n")
     # the frames on the jet's torsion
-    fimp = [data["G"], data["R"], E.lg("Final.Wit"), "KAM.CertificateSharp.Packed.RouteSharpJ"]
+    fimp = [data["G"], data["R"], E.lg("Final.Wit"), "KAM.CertificateSharp.Packed.RouteSharpJ", front["data"]]
     cl = "lg00RW.base.R."
     fL = E.write("FramesJ.L", fimp, "`|Lᵀ| ≤ bL`", "`trFrameLOk` at the claim.",
                  thm("pkFrameL", "trFrameLOk (α := LGF) 2 %s pkRBook pkGMemo %sbL = true" % (W, cl)))
@@ -746,7 +791,7 @@ def emit_j(E, SJ, jet):
     frames = E.write("FramesJ", [fL, fN, fT, tors, E.lg("Final.Wit")], "the packed frames on the jet's torsion",
                      "`checkFrameMajorantsRJ` at the route witness's claims.",
                      thm("pkFrameOm", om) + "\n"
-                     "theorem pkFramesJ :\n    checkFrameMajorantsRJ pkGBook pkGMemo pkRBook pkTMemo pkRMemo jdLow "
+                     "theorem pkFramesJ :\n    checkFrameMajorantsRJ pkGBook pkGMemo pkRBook pkTMemo pkRMemo jdLowW "
                      "lg00Cert\n      (lg00RW.base.R.frame lg00Cert.freqBox) = true :=\n"
                      "  checkFrameMajorantsRJ_of pkGram pkEps_eq rfl pkLowOk pkD2All pkTrLay pkTrNorm pkTrPack pkTrStN\n"
                      "    pkTrStDL pkTrStDG pkTrStC pkTrStDGi pkTrStDN pkTrStXN pkFrameL pkFrameN pkFrameT pkFrameOm\n")
@@ -754,21 +799,22 @@ def emit_j(E, SJ, jet):
     ib = E.write("Data.IBook", [E.fmt, "KAM.CertificateSharp.Packed.RouteSharpJ"], "the invariance book",
                  "`pkIBook`: the Full chain's box and width, its largest wanted load, the loads and norm offsets.",
                  i_book(SJ["D"], jet["wfull"], jet["bfull"]))
-    iimp = [ib, data["G"], E.lg("Data.Cert"), fulld]
+    iimp = [ib, data["G"], E.lg("Data.Cert"), fulld, front["data"]]
     guard = E.write("InvJ.Guard", iimp, "the invariance guard", "`ivGuard`.",
                     thm("pkIvGuard", "ivGuard 2 %s %s %s pkIBook pkGMemo = true" % (W, box, sv)))
     rows = [E.write("InvJ.Row%d" % a, iimp, "invariance row %d" % a, "`ivRowOk`: the packed weighted norm of the "
                     "invariance array plus its radius is at most `err`.",
                     thm("pkIvRow%d" % a, "ivRowOk 2 %s %s %s %s %s pkIBook pkGMemo %s.params.err %d = true"
                         % (W, box, sv, J, jsF, c, a))) for a in range(2 * n)]
-    fullok = E.write("InvJ.FullOk", iimp + [full], "the jet's Full chain at the invariance",
+    fullok = E.write("InvJ.FullOk", iimp + [full, front["full"]], "the jet's Full chain at the invariance",
                      "`jetFullOk`: the box and scale (checked), and the chain theorem `jetFull_check_cert`.",
-                     "theorem pkFullOk : jetFullOk pkIBook jdFull lg00Cert = true := by\n"
+                     "theorem pkFullOk : jetFullOk pkIBook jdFullW lg00Cert = true := by\n"
                      "  simp only [jetFullOk, Bool.and_eq_true]\n"
-                     "  exact ⟨⟨by decide +kernel, by decide +kernel⟩, jetFull_check_cert⟩\n")
+                     "  exact ⟨⟨by decide +kernel, by decide +kernel⟩,\n"
+                     "    (jetCheck_withFront pkFrontFullOk _ _).trans jetFull_check_cert⟩\n")
     inv = E.write("InvJ", [gram, guard, fullok] + rows + ["Mathlib.Tactic.IntervalCases"],
                   "the packed invariance on the jet", "`checkInvarianceJ` of the certificate.",
-                  "theorem pkCheckInvJ : checkInvarianceJ pkGBook pkGMemo pkIBook jdFull lg00Cert = true := by\n"
+                  "theorem pkCheckInvJ : checkInvarianceJ pkGBook pkGMemo pkIBook jdFullW lg00Cert = true := by\n"
                   "  refine checkInvarianceJ_of pkGram rfl pkFullOk pkIvGuard fun a ha => ?_\n"
                   "  have ha' : a < 4 := ha\n  interval_cases a\n%s\n" % "\n".join(
                       "  · exact pkIvRow%d" % a for a in range(4)))
@@ -777,26 +823,26 @@ def emit_j(E, SJ, jet):
                   thm("pkEnGuard", "enGuard 2 pkIBook = true") + "\n" +
                   thm("pkEnOk", "enOk 2 %s %s pkIBook %s.params.E0 %s.params.err = true" % (J, jsF, c, c)))
     en = E.write("EnJ", [enp, fullok], "the packed energy on the jet", "`checkEnergyJ` from its parts.",
-                 "theorem pkCheckEnJ : checkEnergyJ pkIBook jdFull lg00Cert = true :=\n"
+                 "theorem pkCheckEnJ : checkEnergyJ pkIBook jdFullW lg00Cert = true :=\n"
                  "  checkEnergyJ_of pkFullOk pkEnGuard pkEnOk\n")
     bk = "pkGBook pkGMemo pkRBook pkTMemo pkRMemo"
     base = E.write("Asm.BaseJ", [tors, inv, en, E.lg("Final.Static"), E.lg("Final.Embedding"),
                                  E.lg("Balls.HamBounds")], "the jet base checker",
                    "`jetBase`: the landed static, Hamiltonian and embedding checks (the tree's facts, on the copy) "
                    "with the packed Gram, torsion, invariance and energy on the jet.",
-                   "theorem pkBaseJ :\n    (jetBase %s jdLow pkIBook jdFull).check lg00Cert = true :=\n"
+                   "theorem pkBaseJ :\n    (jetBase %s jdLowW pkIBook jdFullW).check lg00Cert = true :=\n"
                    "  jetBase_check_of lg00_checkStatic lg00_hamBounds lg00_checkEmbedding pkGram pkCheckTorsionJ\n"
                    "    pkCheckInvJ pkCheckEnJ\n" % bk)
     eng = E.write("Asm.EngineJ", [frames, E.lg("Final.HamClaim"), E.lg("Final.RefinedCore")],
                   "the packed sharp-site engine on the jet", "The test of `routeARefinedPackedSJ`.",
-                  "theorem pkEngineJ :\n    refinedTestSWith (framesRJ %s jdLow) lg00Cert lg00RW =\n      true :=\n"
-                  "  refinedTestPackedSJ_of %s jdLow\n    lg00_hamClaim pkFramesJ lg00_refinedCore\n" % (bk, bk))
+                  "theorem pkEngineJ :\n    refinedTestSWith (framesRJ %s jdLowW) lg00Cert lg00RW =\n      true :=\n"
+                  "  refinedTestPackedSJ_of %s jdLowW\n    lg00_hamClaim pkFramesJ lg00_refinedCore\n" % (bk, bk))
     chk = E.write("Asm.CheckJ", [eng, base], "the v2 certifier on the jet route",
                   "The certifier with `jetBase` and the packed sharp-site engine on the jet passes.",
                   "/-- **The v2 certifier passes on `lg00Cert` through the jet route.** -/\n"
-                  "theorem pk_checkJ :\n    checkV2With (jetBase %s jdLow pkIBook jdFull)\n"
-                  "      (routeARefinedPackedSJ %s jdLow) lg00Cert lg00RW =\n      true :=\n"
-                  "  checkV2With_jetSharp_of %s jdLow pkBaseJ pkEngineJ\n" % (bk, bk, bk))
+                  "theorem pk_checkJ :\n    checkV2With (jetBase %s jdLowW pkIBook jdFullW)\n"
+                  "      (routeARefinedPackedSJ %s jdLowW) lg00Cert lg00RW =\n      true :=\n"
+                  "  checkV2With_jetSharp_of %s jdLowW pkBaseJ pkEngineJ\n" % (bk, bk, bk))
     main_src = open(os.path.join(E.cert_root, "Main.lean"), encoding="utf-8").read()
     ren = lambda x: re.sub(r"\bLG00\b", E.pre, x)
     stt = ren(re.search(r"theorem lg00_kamTorus :\n(.*?) := by\n", main_src, re.S).group(1))
@@ -807,7 +853,7 @@ def emit_j(E, SJ, jet):
             "theorem pk_kamTorus :\n%s := by\n"
             "  refine ⟨lg00Ham_identity, by decide +kernel, ?_⟩\n"
             "  obtain ⟨Kinf, sinf, h⟩ := (lg00_certifiedTorus_iff lg00Cert lg00OmegaStar).mp\n"
-            "    (checkV2With_jetSharp_sound %s jdLow pk_checkJ\n      lg00_freqEncloses lg00_diophantine)\n"
+            "    (checkV2With_jetSharp_sound %s jdLowW pk_checkJ\n      lg00_freqEncloses lg00_diophantine)\n"
             "  exact ⟨Kinf, sinf, h, lg00_window h.2.2.2.2.2.2.2.2.2.2⟩\n") % (opens, stt, bk)
     body += stmt_form(main_src, ren)
     return E.write("MainJ", [chk, E.lg("Final.Freq"), E.sh("Physical.HamIdentity")],
@@ -834,6 +880,7 @@ def main():
     cert = GC.Cert(cert_root)
     assert cert.ns == "LG00.%s" % tree, cert.ns
     E = Emit(pkg, tree, cert_root, prefix)
+    E.cert = cert
     emit_format(E)
     info = dict(tree=tree, prefix=prefix, cert=cert_root, stages=stages)
     if "jet" in stages:
