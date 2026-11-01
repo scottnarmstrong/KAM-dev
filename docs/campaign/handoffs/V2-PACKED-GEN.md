@@ -3,8 +3,10 @@
 Brief: `/home/scott/kam-tools/briefs/V2-PACKED-GEN.md` (kamx-pk-gen). Branch `v2-packed-gen`, from `v2-packed-jet`
 `34d30126`, fast-forwarded to `origin/main` `7b81f9b9` (the landing of `v2-packed-jet`). Local commits only.
 
-Status (2026-11-01, 21:40 UTC): (A) landed on main (`3a5716f7`); (B) built; the T′ jet route proved end to end on
-the local integration branch (stage C, ahead of the landings at the orchestrator's instruction).
+Status (2026-11-01, 22:00 UTC): (A) landed on main (`3a5716f7`); (B) built; the T′ jet route proved end to end on
+the local integration branch (stage C, ahead of the landings at the orchestrator's instruction); (D) the Data
+stage diagnosed and cut (T′ without LG00's data: 6,370 CPU-s, 16.9×); (E) T″ by the packed route: in progress
+(owner decision: LG00 goes by the packed route), waiting on kamx-packed's T″ chains.
 
 ## Result
 
@@ -28,7 +30,12 @@ the local integration branch (stage C, ahead of the landings at the orchestrator
     modules); its mirrors pass (torsion on the jet's nodes, frames, invariance, energy), and the book widths agree.
 - **(C) the T′ jet route PROVED end to end** on the integration branch, ahead of the landings (orchestrator's
   instruction): `pk_kamTorus` through `jetBase` + `routeARefinedPackedSJ`, standard axioms; whole torus 881 modules,
-  10,207 CPU-s (2.84 CPU-h) against run18's 107,577 (29.88 CPU-h): 10.5× (table in (B)).
+  9,611 CPU-s (2.67 CPU-h; 10,207 before removing the double booking found by kamx-pk-cons) against run18's 107,577
+  (29.88 CPU-h): 11.2× (table in (B)).
+- **(D) the Data stage** (36 % of the route) was LG00's advice, which the route never reads, pulled in by the import
+  of LG00's Hamiltonian results. With the copy proving them itself (LG00's 6 GB ball chunk split in two, 3.62 GB),
+  T′'s route is 592 modules, 6,370 CPU-s (1.77 CPU-h): **16.9×** against run18, Data 46 modules / 295 CPU-s.
+- **(E) T″ by the packed route:** see (E).
 - **Found on the way:** LG00's generated `Final.Freq` (T′, T″) does not elaborate (errata below); LG00's run18 will
   hit it at `TP.Main`. One-line fix verified.
 
@@ -256,12 +263,21 @@ Whole torus, the packed jet route against LG00's run18 (T′ complete there; rea
 | Data | 275 | 3378 | 0.96 GB | 326 | 3673 | 1.22 GB | 0.9× |
 | Balls | 75 | 372 | 6.00 GB | 75 | 372 | 6.00 GB | 1.0× |
 | Gram | 80 | 1529 | 2.07 GB | 10 | 76 | 2.01 GB | 20.0× |
-| Torsion | 628 | 13162 | 2.53 GB | 48 | 991 | 3.06 GB | 13.3× |
+| Torsion | 628 | 13162 | 2.53 GB | 48 | 443 | 3.06 GB | 29.7× |
 | Low | 2484 | 55813 | 6.32 GB | 110 | 1467 | 3.76 GB | 38.0× |
-| Full | 1637 | 32255 | 5.27 GB | 206 | 2737 | 3.55 GB | 11.8× |
-| Final | 61 | 1055 | 3.42 GB | 105 | 884 | 6.07 GB | 1.2× |
+| Full | 1637 | 32255 | 5.27 GB | 206 | 2701 | 3.55 GB | 11.9× |
+| Final | 61 | 1055 | 3.42 GB | 105 | 871 | 6.07 GB | 1.2× |
 | Main | 1 | 12 | 1.12 GB | 1 | 7 | 0.57 GB | 1.7× |
-| **total** | **5241** | **107577** (29.88 CPU-h) | | **881** | **10207** (2.84 CPU-h) | | **10.5×** |
+| **total** | **5241** | **107577** (29.88 CPU-h) | | **881** | **9611** (2.67 CPU-h) | | **11.2×** |
+
+**Corrected 2026-11-01 22:00 UTC (no double booking; V2-PACKED-CONS-PERF, kamx-pk-cons).** The first version of
+this table (10,207 CPU-s, 10.5×; Torsion 991, Full 2,737, Final 884) booked to six rows the 123 dependencies their
+`lake build` rebuilt (596.7 s of Lake job time: `TorsJ` 91 modules / 385.0 s, `TorsJ.Core` 16 / 162.8 s, `InvJ` 9 /
+24.3 s, `FramesJ` 3 / 12.8 s, `InvJ.FullOk` 3 / 9.7 s, `EnJ` 1 / 2.1 s), each of which also has its own row:
+`run_compare.py` now subtracts, from a row, the Lake time of the other modules its build compiled when those have
+their own row (`double booking removed: 6 rows, 596.7 s`), and `run_packed.py` records such modules apart
+(`extra.tsv`, `EXTRA`) so a ledger can no longer book them. Corrected, the two torsion assemblies take 3.2 s
+(`TorsJ.Core`) and 15.9 s (`TorsJ`).
 
 Notes on the table.
 - **Packed column = the import closure of `MainJ`**, each module at the cost of the run that built it: my `runJ`
@@ -276,7 +292,8 @@ Notes on the table.
   `LG00P.JetBridge` (the orchestrator's solo exception) and the 6.00 GB LG00's own `Balls.T38` (reused).
 - **Kernel time:** not separable on this package (kamx-packed's library options carry no profiler, and my modules
   there use them so their traces hold); CPU-s are comparable column to column.
-- **The two slow assemblies** (`TorsJ.Core` 166 s, `TorsJ` 401 s) are inside the Torsion row.
+- **The two "slow" assemblies** (`TorsJ.Core` 166 s, `TorsJ` 401 s in the first version) were the double booking
+  above, not Lean.
 
 **T″ the same way.** `gen_cert.py …/LG00/TPP` (no change to any script): T″'s own parameters, box
 (`s = 886058956738442102019008342433694847/886058070680308099785085113265000000`), zero modes and claims are read
@@ -341,6 +358,87 @@ replaces them.
   (`built`/`reused`), kernel s (the module's own `type checking took` lines: Lake replays the logs of the imports,
   so only the module's section is read), cap. Resumable: passed modules are skipped. A failed module's dependants
   are skipped. `--summary LOGDIR` prints the totals per stage.
+- Since 2026-11-01 22:00 UTC (T″, owner's allowance of 2 Lean processes): `--jobs N` (a module starts when its
+  imports have passed, each process alone in its capped scope, 5 s between starts), `--anon-gb G` (start only while
+  user anon < G GB), `RUN_DEADLINE` (epoch: no start after it), `--never-build PREFIX` (another agent's modules:
+  stale ones are not built here, their dependants wait), an import whose source is not there yet blocks its
+  importers (`BLOCKED`, retried by a later pass), and a module's row never includes another module (`EXTRA`,
+  `extra.tsv`, two more columns: their count and Lake's seconds).
+
+## (D) The Data stage: why it cost 36 %, and the fix (GEN-DATA)
+
+**Why.** Not a per-module fixed cost (the 20 cheapest LG00 modules take 2.9 s median, the import base) and not
+duplicated literals: it is LG00's advice, which the packed route never reads (kamx-packed's copy has none). In
+run18, T′'s data are 275 modules, 3,378 CPU-s:
+
+| group | modules | CPU-s | source | median per module | peak |
+|---|---:|---:|---:|---:|---:|
+| `Data.A*` (advice of the landed compositions) | 254 | 3,295 | 31.6 MB | 13.3 s | 0.96 GB |
+| `Data.W*` (witnesses) | 9 | 38 | 0.9 MB | 4.2 s | 0.53 GB |
+| `Data.B*` | 8 | 34 | 0.5 MB | 4.3 s | 0.52 GB |
+| `E`, `Leaves`, `Cert`, `DCoeffs` | 4 | 11 | — | 3.0 s | 0.48 GB |
+
+The advice costs ≈ 156 CPU-s per MB of literal, linearly (least squares over the 254 modules: −6.4 s + 155.9 s/MB):
+elaboration of the literals, not a fixed cost. It was in the route's closure only because `Xfer` imported LG00's
+`Balls.HamBounds` and `Final.HamClaim`, which import LG00's `Data.Cert`, which imports every data module. Splitting
+the advice into fewer, larger modules would not help (cost ∝ size); packing it would, but the route needs none of it.
+
+**Fix (measured on T′, log `runH`, 2026-11-01 21:30–21:36 UTC).** The copy proves the two Hamiltonian results
+itself: they read only the Hamiltonian and its domain, which the copy has.
+- `gen_port.py --ham-port --split-balls=38` ports LG00's ball pass and disc pass onto the copy and splits LG00's
+  6 GB ball chunk `Balls.T38` (one `decide` over 200 ball operations) at the boundary of its two stored halves
+  (`lg00BN38_1`, `lg00BN38_0`): `T38a` (80 operations, 20.5 CPU-s, 2.94 GB), `T38b` (120 operations, 31.6 CPU-s,
+  3.62 GB) and `T38` (`lg00Balls38`, the unchanged statement, by `ballsRev_step` and `List.take_append_drop`:
+  5.2 CPU-s, 0.59 GB). No new data: the halves are LG00's literals.
+- `gen_packed.py --ham-ported` emits `XferH` (`pkHamBounds := lg00_hamBounds`, `pkHamClaim := lg00_hamClaim`, the
+  copy's) and the assembly `Asm.{BaseJH,EngineJH,CheckJH}`, `MainJH` beside the audited `MainJ` (unchanged, still
+  built; the other 587 modules are shared and byte-identical).
+- `LG00P.TP.PK.MainJH` proves `pk_kamTorus` with the same statement; its closure contains no LG00 data.
+
+| stage | LG00 run: modules | CPU-s | peak | packed route (`MainJH`): modules | CPU-s | peak | ratio |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Data | 275 | 3378 | 0.96 GB | 46 | 295 | 1.22 GB | 11.5× |
+| Balls | 75 | 372 | 6.00 GB | 77 | 511 | 3.62 GB | 0.7× |
+| Gram | 80 | 1529 | 2.07 GB | 10 | 76 | 2.01 GB | 20.0× |
+| Torsion | 628 | 13162 | 2.53 GB | 48 | 443 | 3.06 GB | 29.7× |
+| Low | 2484 | 55813 | 6.32 GB | 110 | 1467 | 3.76 GB | 38.0× |
+| Full | 1637 | 32255 | 5.27 GB | 206 | 2701 | 3.55 GB | 11.9× |
+| Final | 61 | 1055 | 3.42 GB | 94 | 871 | 6.07 GB | 1.2× |
+| Main | 1 | 12 | 1.12 GB | 1 | 6 | 0.53 GB | 2.0× |
+| **total** | **5241** | **107577** (29.88 CPU-h) | | **592** | **6370** (1.77 CPU-h) | | **16.9×** |
+
+Every module of the closure has a ledger row (none unknown). The ported balls cost 511 CPU-s against LG00's 372 for
+the same proofs (each module ≈ 1.3× its LG00 twin on this package; the split chunk 57 s against 36 s at 6 GB), but
+no process of the route exceeds 4 GB except kamx-packed's `LG00P.JetBridge` (6.07 GB, their solo exception). The
+Data row that remains: the copy's certificate and Hamiltonian (`Cert`, `DCoeffs`, `E0`, `W8`, `Ham`, `Coeffs0/1`,
+formats: 9 modules) and the packed data and ledger fronts (37 modules). The closure of `MainJH` contains no `LG00.*`
+module at all. Receipts:
+`docs/campaign/studies/V2-PACKED-GEN/data/` (`runH` ledger, both tables, the emitted `XferH` and `T38*`).
+
+## (E) T″ by the packed route (owner decision, 2026-11-01 ~21:35 UTC)
+
+The orchestrator relayed the owner's decision: LG00 goes by the packed route; run18 stopped. Target: `pk_kamTorus`
+for T″ (LG00's `LG00.TPP.lg00_kamTorus` statement, verbatim, about the copy), in `LG00P.TPP.PK.MainJ` (the name
+kamx-pk-cons' bridge reads).
+
+**Route.** As T′'s `MainJH` (no LG00 data): kamx-packed's T″ copy `LG00P.TPP.Data.Cert` (hardlinked; its source
+byte-identical to `prod_cert_gen.cert_text` of LG00's T″ certificate) and their T″ chains `LG00P.TPP.Jet.{Low,Full}`
+(hardlinked once built, never built here: `--never-build LG00P.TPP.Jet.`); LG00's chain-free proof ported
+(`gen_port.py --tree=TPP --ham-port --split-balls=38`: 170 modules; T″'s `Balls.T38` is also 6.0 GB in run18 and is
+split the same way, at 80 operations); the packed modules emitted by `gen_packed.py --tree TPP --stages jet
+--ham-ported --asm-suffix ''`.
+- `gen_packed.py` read T′'s frequency name into the final proof; T″'s is `lg00OmegaStarPP` (taken from the tree's
+  `Main.lean` now; T′'s modules re-emit byte-identical).
+- The jet-fed torsion mirror on T″ (from kamx-packed's `tpp/low_mirror.pkl`, 134 s): final test passes (margin
+  0.00132), frames `L`, `N`, `T` pass, widths 392 / 392, `bA` 141 bits.
+
+**Driver:** `scripts/packed/run_tpp_jet.sh LOGDIR` (waits for the chain-free run and kamx-packed's full mirror,
+emits, then pass after pass mirrors kamx-packed's built T″ chain modules and builds whatever is ready, 2 Lean
+processes under 4 GB, anon < 18 GB, no start after 04:30 UTC; ends when `LG00P.TPP.PK.MainJ` passes). Log
+`~/kam-data/v2-packed-gen/runT2` (ledger), `runT2.out` (chain-free run), `runT2.jet.out` (driver).
+
+**State at 22:00 UTC:** chain-free part building (125 modules to build, 45 reused); kamx-packed: T″ low mirror done,
+full mirror due ≈ 22:12, Low chain ≈ 22:00–22:30, Full ≈ 22:45.
 
 ## Checks and their output
 
@@ -371,47 +469,49 @@ replaces them.
 
 ## Resume after reboot (lemma.farm reboots 05:00 UTC Mon 2 Nov; `/tmp` is wiped)
 
-**State.** Everything is committed:
+**State.** Committed:
 - `v2-packed-gen` (landable): `RouteSharp`, `TorsRAsm`, `CertCongr`, the scripts, this handoff, the receipts under
   `docs/campaign/studies/V2-PACKED-GEN/`.
 - `v2-packed-gen-int` (never landed): this branch merged with `v2-packed-cons` `4b2cf9af` and `v2-packed-prod`
   `0bb4def23`, plus `JetFront` and `RouteSharpJ`.
-- The scratch packages and their builds live under `/home` and survive:
-  - `/home/scott/KAM-dev-worktrees/v2-packed-gen/.lake/lg00-packed` (`kam-lg00`: LG00's T′ modules reused, the A
-    gate, the B3b route);
-  - `/home/scott/KAM-dev-worktrees/v2-packed-gen-int/.lake/lg00p` (`kam-lg00p`: kamx-packed's copy and chains reused,
-    the jet route; requires the first).
-- The run ledgers and logs (`runA` … `runJ`) are copied to `~/kam-data/v2-packed-gen/`.
 
-Nothing of mine runs in the background.
+Built, under `/home` (survives):
+- `/home/scott/KAM-dev-worktrees/v2-packed-gen/.lake/lg00-packed` (`kam-lg00`: LG00's T′ modules reused, the A gate,
+  the B3b route);
+- `/home/scott/KAM-dev-worktrees/v2-packed-gen-int/.lake/lg00p` (`kam-lg00p`: kamx-packed's copy and chains reused;
+  the T′ jet route `LG00P.TP.PK.MainJ`, its no-LG00-data twin `MainJH`, and T″ as far as it got).
 
-**Next steps** (none started):
-1. T″'s jet route, once kamx-packed's T″ chains and mirror caches exist (`.lake/v2-packed-prod/tpp`).
-2. Profile the two slow assemblies (`TorsJ.Core`, `TorsJ`).
-3. Land `CertCongr` with this branch, and `JetFront` and `RouteSharpJ` after `v2-packed-prod` and `v2-packed-cons`.
+Ledgers and logs: `~/kam-data/v2-packed-gen/` (`runA` … `runJ`, `runH`; T″: `runT2`, `runT2.out`,
+`runT2.jet.out`). The T″ driver writes there directly. Background at 22:00 UTC: the T″ chain-free run
+(`run_packed.py … runT2`) and the T″ driver (`run_tpp_jet.sh`); both stop starting Lean processes at 04:30 UTC and
+die with the reboot.
+
+**Next step.** If `runT2.jet.out` has `T'' PROVED`: print the axioms (below) and the T″ table. Otherwise rerun the
+driver: it is resumable (the ledger skips passed modules; emission is skipped once `packed_LG00P_TPP.json` exists).
 
 **Exact commands.**
 ```
-# re-check that the proved results are built (Lake only, no Lean process):
-cd /home/scott/KAM-dev-worktrees/v2-packed-gen-int/.lake/lg00p && lake build --no-build LG00P.TP.PK.MainJ
-cd /home/scott/KAM-dev-worktrees/v2-packed-gen/.lake/lg00-packed && lake build --no-build LG00Packed.TP.Main
-# the totals and the whole-torus table, from the saved ledgers:
+# re-check the proved results (Lake only, no Lean process):
+cd /home/scott/KAM-dev-worktrees/v2-packed-gen-int/.lake/lg00p
+lake build --no-build LG00P.TP.PK.MainJ LG00P.TP.PK.MainJH LG00P.TPP.PK.MainJ
+# resume T'' (one driver; 2 Lean processes, 4 GB each, anon < 18 GB; set RUN_DEADLINE to an epoch to stop starts):
+cd ~/kam-data/v2-packed-gen && nohup bash /home/scott/KAM-dev-worktrees/v2-packed-gen/scripts/packed/run_tpp_jet.sh \
+  /home/scott/kam-data/v2-packed-gen/runT2 > runT2.jet.out 2>&1 &
+# axioms (one Lean process, 4 GB):
+cd /home/scott/KAM-dev-worktrees/v2-packed-gen-int/.lake/lg00p
+systemd-run --user --scope -q -p MemoryMax=4G -p MemorySwapMax=0 nice -n 5 lake env lean ~/kam-data/v2-packed-gen/axj/AxT2.lean
+# the whole-torus tables, from the saved ledgers:
 cd /home/scott/KAM-dev-worktrees/v2-packed-gen
-python3 -I scripts/packed/run_packed.py --summary ~/kam-data/v2-packed-gen/runJ
-python3 -I scripts/packed/run_compare.py LG00P.TP.PK.MainJ --tree TP \
+K=~/kam-data/v2-packed-gen; P=../v2-packed/.lake/v2-packed-prod
+python3 -I scripts/packed/run_compare.py LG00P.TP.PK.MainJH --tree TP \
   --pkg ../v2-packed-gen-int/.lake/lg00p --pkg .lake/lg00-packed \
-  --ledger ~/kam-data/v2-packed-gen/runJ/ledger.tsv \
-  --ledger ../v2-packed/.lake/v2-packed-prod/low_summary.json \
-  --ledger ../v2-packed/.lake/v2-packed-prod/full_summary.json \
-  --ledger ~/kam-data/v2-packed-gen/runC/ledger.tsv --ledger ~/kam-data/v2-packed-gen/runA/ledger.tsv \
+  --ledger $K/runH/ledger.tsv --ledger $K/runJ/ledger.tsv --ledger $P/low_summary.json \
+  --ledger $P/full_summary.json --ledger $K/runC/ledger.tsv --ledger $K/runA/ledger.tsv \
   --lg00-ledger docs/campaign/studies/V2-PACKED-GEN/jet-e2e/run18_ledger_snapshot.tsv
-# a tree's jet route from scratch (from the integration worktree; one Lean process at a time, 4 GB):
-cd /home/scott/KAM-dev-worktrees/v2-packed-gen-int
-JET_LOW_CACHE=<tree's low_mirror.pkl> JET_FULL_CACHE=<tree's full_mirror.pkl> \
-  bash scripts/packed/run_tree.sh TP jet ~/kam-data/v2-packed-gen/runJ2
 ```
+(for T″: target `LG00P.TPP.PK.MainJ`, `--tree TPP`, `--ledger $K/runT2/ledger.tsv` and kamx-packed's T″ summaries.)
 After the reboot, check the user memory gate (`grep '^anon ' /sys/fs/cgroup/user.slice/user-1004.slice/memory.stat`)
-before any Lean process. `run_tree.sh` first builds stale core modules one at a time (`run_core_frontier.sh`).
+before any Lean process.
 
 ## Owner questions (overnight mode: none blocked the work)
 

@@ -626,13 +626,19 @@ def emit_assembly(E, data, gram, tors, frames, tms, sharp_engine="routeARefinedP
             "proved from `pk_check` and `checkV2With_packedS_sound`). -/\n"
             "theorem pk_kamTorus :\n%s := by\n"
             "  refine ⟨lg00Ham_identity, by decide +kernel, ?_⟩\n"
-            "  obtain ⟨Kinf, sinf, h⟩ := (lg00_certifiedTorus_iff lg00Cert lg00OmegaStar).mp\n"
+            "  obtain ⟨Kinf, sinf, h⟩ := (lg00_certifiedTorus_iff lg00Cert %s).mp\n"
             "    (checkV2With_packedS_sound %s pk_check lg00_freqEncloses\n      lg00_diophantine)\n"
-            "  exact ⟨Kinf, sinf, h, lg00_window h.2.2.2.2.2.2.2.2.2.2⟩\n") % (opens, st, bk)
+            "  exact ⟨Kinf, sinf, h, lg00_window h.2.2.2.2.2.2.2.2.2.2⟩\n") % (opens, st, omega_of(main_src), bk)
     body += stmt_form(main_src, ren)
     return E.write("Main", [chk, E.lg("Final.Freq"), E.sh("Physical.HamIdentity")],
                    "the torus theorem through the packed route",
                    "`pk_kamTorus`: the statement of the tree's `Main.lean`, from the packed route.", body)
+
+
+def omega_of(main_src):
+    """The tree's frequency (`lg00OmegaStar` for T′, `lg00OmegaStarPP` for T″), as the tree's `Main.lean` uses it."""
+    import re
+    return re.search(r"lg00_certifiedTorus_iff lg00Cert (\w+)\)\.mp", main_src).group(1)
 
 
 def stmt_form(main_src, ren):
@@ -859,11 +865,11 @@ def emit_j(E, SJ, jet):
     lg = "LG00.%s" % E.tree
     # with the copy's own Hamiltonian results, the assembly is emitted beside the other one (`…H` modules), which
     # stays as built
-    sfx = "H" if jet.get("ham_ported") else ""
+    sfx = jet.get("suffix", "H" if jet.get("ham_ported") else "")
     if jet.get("ham_ported"):
         # the copy's own proofs (`gen_port.py --ham-port --split-balls=…`): no LG00 data in the closure (LG00's
         # `Balls.HamBounds` and `Final.HamClaim` import its `Data.Cert`, hence all its advice)
-        xfer = E.write("XferH", [E.lg("Balls.HamBounds"), E.lg("Final.HamClaim")],
+        xfer = E.write("Xfer" + sfx, [E.lg("Balls.HamBounds"), E.lg("Final.HamClaim")],
                        "the Hamiltonian results on the copy",
                        "`pkHamBounds`, `pkHamClaim`: the copy's `lg00_hamBounds` and `lg00_hamClaim` (LG00's proofs "
                        "ported to the packed copy of the certificate and re-checked there; no LG00 data imported).",
@@ -908,9 +914,9 @@ def emit_j(E, SJ, jet):
             "packed route's certificate; proved from `pk_checkJ`). -/\n"
             "theorem pk_kamTorus :\n%s := by\n"
             "  refine ⟨lg00Ham_identity, by decide +kernel, ?_⟩\n"
-            "  obtain ⟨Kinf, sinf, h⟩ := (lg00_certifiedTorus_iff lg00Cert lg00OmegaStar).mp\n"
+            "  obtain ⟨Kinf, sinf, h⟩ := (lg00_certifiedTorus_iff lg00Cert %s).mp\n"
             "    (checkV2With_jetSharp_sound %s jdLowW pk_checkJ\n      lg00_freqEncloses lg00_diophantine)\n"
-            "  exact ⟨Kinf, sinf, h, lg00_window h.2.2.2.2.2.2.2.2.2.2⟩\n") % (opens, stt, bk)
+            "  exact ⟨Kinf, sinf, h, lg00_window h.2.2.2.2.2.2.2.2.2.2⟩\n") % (opens, stt, omega_of(main_src), bk)
     body += stmt_form(main_src, ren)
     return E.write("MainJ" + sfx, [chk, E.lg("Final.Freq"), E.sh("Physical.HamIdentity")],
                    "the torus theorem through the jet route",
@@ -934,6 +940,7 @@ def main():
     stages = opt("--stages", "frames,sharp").split(",")
     lowc, fullc = opt("--jet-low", None), opt("--jet-full", None)
     ham_ported = "--ham-ported" in args     # the copy proves its own Hamiltonian results (`gen_port.py --ham-port`)
+    suffix = opt("--asm-suffix", "H" if ham_ported else "")    # of the assembly modules (T′: `…H` beside the others)
     cert = GC.Cert(cert_root)
     assert cert.ns == "LG00.%s" % tree, cert.ns
     E = Emit(pkg, tree, cert_root, prefix)
@@ -949,7 +956,7 @@ def main():
         v0, d1, _ = GC.ham_jet(cert)
         fn, wf = GC.jet_nodes(fullc, [v0] + d1, 48)
         jet = dict(low=E.lg("Jet.Low.ChainCert"), full=E.lg("Jet.Full.ChainCert"), low_data=E.lg("Jet.Low.Data"),
-                   full_data=E.lg("Jet.Full.Data"), wfull=wf, ham_ported=ham_ported,
+                   full_data=E.lg("Jet.Full.Data"), wfull=wf, ham_ported=ham_ported, suffix=suffix,
                    bfull=max(v[3] for v in fn.values()))
         ie = GC.inv_energy(SJ, fullc)
         assert all(r["ok"] for r in ie["rows"]) and ie["energy"]["ok"], ie

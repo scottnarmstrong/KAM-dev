@@ -19,7 +19,7 @@ passed, only while the user's anon memory is below `--anon-gb` GB, default 20). 
 modules: if Lake builds any besides it, they are listed in LOGDIR/extra.tsv (two more ledger columns: their count and
 Lake's seconds) and reported (`EXTRA`).
 Usage: python3 -I scripts/packed/run_packed.py LOGDIR CAP TARGET_MODULE... [--pkg DIR] [--dry] [--jobs N]
-       [--anon-gb G]
+       [--anon-gb G] [--never-build PREFIX,...]
        python3 -I scripts/packed/run_packed.py --summary LOGDIR      (totals per stage)
 """
 import os
@@ -59,6 +59,9 @@ def src(pkg, m):
     return os.path.join(pkg, *m.split(".")) + ".lean"
 
 
+MISSING = {}                                # module -> its package imports with no source (not yet emitted)
+
+
 def order(pkg, targets):
     """The targets and their package imports, dependencies first."""
     seen, out = set(), []
@@ -70,6 +73,8 @@ def order(pkg, targets):
         for d in IMP.findall(open(src(pkg, m), encoding="utf-8").read()):
             if d.split(".")[0] in LOCAL and os.path.exists(src(pkg, d)):
                 visit(d)
+            elif d.split(".")[0] in LOCAL:
+                MISSING.setdefault(m, []).append(d)
         out.append(m)
     sys.setrecursionlimit(100000)
     for t in targets:
@@ -225,6 +230,11 @@ def main():
         i = args.index("--anon-gb")
         anon_max = int(args[i + 1]) * 10 ** 9
         del args[i:i + 2]
+    never = ()
+    if "--never-build" in args:              # module-name prefixes of modules this run must not build
+        i = args.index("--never-build")
+        never = tuple(args[i + 1].split(","))
+        del args[i:i + 2]
     last = 0.0
     dry = "--dry" in args
     args = [a for a in args if a != "--dry"]
@@ -235,6 +245,9 @@ def main():
     deps = {m: [d for d in IMP.findall(open(src(pkg, m), encoding="utf-8").read()) if d in set(mods)]
             for m in mods}
     done, failed = set(), set()
+    for m, ds in sorted(MISSING.items()):    # an import not emitted yet (another agent's): retried by a later pass
+        failed.add(m)
+        print("BLOCKED (import not there yet) %s <- %s" % (m, ds[0]), flush=True)
     if os.path.exists(ledger):
         for l in open(ledger):
             f = l.rstrip("\n").split("\t")
@@ -263,13 +276,19 @@ def main():
     fresh = [m for m in todo if m not in stale]
     if fresh and not no_build(pkg, fresh):     # the prediction is checked by Lake; bisect if it was wrong
         stale |= stale_set(pkg, fresh)
+    for m in sorted(stale):
+        if never and m.startswith(never):     # another agent's modules: reused when built, never built here
+            failed.add(m)
+            print("FOREIGN stale, not built here: %s" % m, flush=True)
     print("%d to do, %d stale (to build), %d up to date (reused)" % (len(todo), len(stale), len(todo) - len(stale)),
           flush=True)
     for m in todo:
+        if m in failed:
+            continue
         if m not in stale:
             open(ledger, "a").write("\t".join([m, "0", "0", "0", "0", "0", "0", "reused", "0", cap]) + "\n")
             done.add(m)
-    pending = [m for m in mods if m not in done]
+    pending = [m for m in mods if m not in done and m not in failed]
     running = {}
     while pending or running:
         for m in list(running):               # reap
