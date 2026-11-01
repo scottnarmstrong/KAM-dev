@@ -606,6 +606,8 @@ Full text: [`docs/DECISIONS.md`](docs/DECISIONS.md).
   *(Scott, 2026-10-31)*
 - **D55** The lock data use shared literal inputs and up to 10 GB per heavy module; the lock source may reach about 200 MB.
   *(Scott, 2026-10-31)*
+- **D56** Track LP launched: strong-AMD exponential safety (the Laskar–Petit conjecture), planar then spatial, top
+  priority; the paper proof passed an independent audit. *(Scott, 2026-11-01)*
 
 ## Owner questions
 

@@ -2582,3 +2582,34 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - The previous SO-3 estimate (11–20 h for the chain) is withdrawn.
 - **23:44. Owner: D55, the lock plan is (c)+(b10) with the source up to about 200 MB.** LOCK-DATA proceeds with the
   shared-literal restructuring and the 10 GB heavy lane, gated at MemAvailable ≥ 12 GB.
+- **23:46. Owner: run the lock's full chain on a larger machine.**
+  - Plan: .drafts/briefs/offload-main/LOCK-REMOTE.md. Recommended a Hetzner CCX53 (32 vCPU, 128 GB) in nbg1, about
+    3–4 h with 11–12 lanes, transferring the identical core and package builds and returning the lock outputs to
+    the HC overlay, then `--no-build` verification and a sampled local kernel replay.
+  - Dedicated key: /root/.ssh/kam_build_ed25519. **FOR OWNER:** a machine with that key, or a Hetzner API token.
+  - LOCK-DATA prepares here only: the (c) restructuring, the templates, Passes/AssemblyN65, a multi-lane driver.
+  - AMD exploration: amd-astra2 (6 research files) and amd-astra3 (a proof claimed complete, planar Thm 15 and
+    spatial Thm 19, OPEN = None, UNAUDITED) are done. A subagent is drafting the docs/explorations notes.
+- **23:50. Heartbeat.**
+  - LOCK-DATA is sizing the Pass modules: three capped kills (23:38 at 6 GB; 23:46 and 23:49 at 8 GB) show some Pass
+    modules need the D55 10 GB budget or a split. All three stayed inside their own scopes.
+  - W: the W3-MAIN audit is running on codex-1; the W5-STEP and W8-PREP provers are active.
+  - AMD: the Opus proof audit and the exploration-notes synthesis are running as subagents. The draft launch plan is
+    LAUNCH-PLAN-DRAFT.md.
+  - Owner asked about Hetzner billing: it is hourly and stops only on delete.
+- **23:55. Owner directives (overnight mode again).**
+  - (1) No more large jobs. The owner takes SO-3 in the morning; LOCK-DATA and kam-inp-24 hold all heavy kernel runs
+    and do light preparation only.
+  - (2) If the Opus proof audit passes, launch the campaign for the new theorem (the strong-AMD exponential safety
+    theorem): the strongest version.
+  - (3) Defer all further approvals and decisions; log them here as FOR OWNER.
+  - CPUs are reserved for track W and the new track.
+- **23:56. LOCK-DATA idle for the night** (no lean/lake jobs; 125-module template pass not started; Pass sizing stopped by its own PIDs; FrameL/HamClaim/HamBounds need the 10 GB lane or splits). The morning note is in KAM-inp-lockdata/.drafts/PROGRESS.md; the frozen commit waits on the D55 re-emission (about 45 min of capped Python, held). lock_mlane.py dry run: 1,544 modules, 334 levels.
+- **00:06. Exploration notes on main (a90e48ad):** docs/explorations/amd-crossing/ (an 829-line overview plus appendices A1–A9; the proof is marked unaudited) and the index entry. The cross-report inconsistencies (the δ bound, prograde premise, open-risk lemmas 8/17/18, spatial chart domain, cutoff floor) are forwarded to the running Opus proof audit.
+- **00:07. Owner: LP is top priority.** Sub-orchestrator kam-lp (tmux kam-suborch-lp, Opus 5.5 on claude-12) is launched with suborch-LP.md. It does setup and wave 1 (elementary sharp barrier: threshold, geometry, modulus/continuation, planar momentum, planar chart dictionary) now; waves 2+ wait for the Opus proof audit. LP audits go ahead of W's on codex-1; W keeps its 2 provers.
+- **00:11. Track W: W8-PREP is partly done (inp-wpm@a7fc63d1) and queued for audit behind LP.** The constants record W8UpstreamConsts is data only (gam, gam1, cF, cFnat with positivity). The generic and record-based results stay PARTIAL until W6-PREP instantiates them with the landed definitions; the source-facing versions are the instantiations. W6-PREP has started. Provers: W5-STEP, W6-PREP.
+- **00:12. LP proof audit (Opus 5.5, refute-first): PASS WITH NOTES, no blocking issue.**
+  - All lemmas pass, including the whole-sublevel analytic domain (8, 18), the spatial chart (17) and Lemma 13, which
+    matches KAM.Nekhoroshev.nonresonant line by line. The exponent was re-derived.
+  - 12 notes (N1–N12) to apply before any freeze.
+  - D56: the campaign is GO for all waves under the overnight rules.
