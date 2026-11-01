@@ -16,8 +16,8 @@ Source: [`source/MAIN.md`](source/MAIN.md) as amended by [`source/AMENDMENTS.md`
 
 | Anchor | Lean name | MAIN | Lean proof status (2026-11-01 overnight) |
 |---|---|---|---|
-| LP0 | `planar_strongAMD_barrier` | L5 in full (with L2–L4) | all parts proved in GEOMOD (landed): `DeficitBarrier`, `strongBarrier_physical`, `exists_barrierCompact`; the anchor assembles them (LP-PS `lp0_planar_barrier`) |
-| LP1 | `planar_strongAMD_exponentialSafety` | Theorem 15 (+ L16) | all ingredients proved or in progress: L2–L8 audited, L13 (`lp_stopped_drift`), L14 (`strongFirstExit_of_stopped_drift`), L16 (`osculating_barrier`) proved; chart lift (LP-LIFT) and the assembly (LP-PS) pending |
+| LP0 | `planar_strongAMD_barrier` | L5 in full (with L2–L4) | **proved (draft-2 text, exactly)** by LP-PS `lp0_planar_barrier` from GEOMOD (landed); same verification file |
+| LP1 | `planar_strongAMD_exponentialSafety` | Theorem 15 (+ L16) | **proved (draft-2 text, exactly)** by LP-PS `lp1_planar_strongAMD_safety_normalized` (branch `inp-lp-ps` 74ebebb1; audit pending). Verification: `freeze/verification-draft-2.lean.txt` states the draft-2 LP0 and LP1 verbatim and closes them by the proved theorems; capped `lp_lean`, exit 0, axioms `[propext, Classical.choice, Quot.sound]` |
 | LP2 | `spatial_strongAMD_exponentialSafety` | Theorem 19 | not drafted yet (wave 4: spatial chart L17 is the largest package); proposed later, same shape as LP1 |
 | LP-cor | `planar_strongAMD_exponentialSafety_halfInteger` | §1 (τ = n − 1/2) | corollary, exponent `1/(2n+1)` (`scaleExponent_planar`, NRS) |
 
