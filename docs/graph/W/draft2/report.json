@@ -1,0 +1,40 @@
+{
+ "skipped": [],
+ "unresolved": [],
+ "frozen_unresolved": [],
+ "source_dropped": 0,
+ "cycles": [
+  "bpW:w0:twosided -> bpW:w1:twosided-transport -> bpW:w0:twosided",
+  "bpW:w0:H -> bpW:w0n:gradient -> bpW:w0:H",
+  "bpW:w0n:gradient -> bpW:w0:Gq#cubicGrad -> bpW:w0n:gradient",
+  "bpW:w0n:gradient -> bpW:w0:Gq#cubicGrad -> bpW:w0n:cubic-bound -> stepW:w0n:analytic -> bpW:w0n:gradient",
+  "bpW:w0:Gq#cubicGrad -> bpW:w0n:cubic-bound -> bpW:w0:Gq#cubicGrad",
+  "bpW:w0n:gradient -> bpW:w0:Gq#cubicGrad -> bpW:w0n:cubic-bound -> bpW:w0n:gradient",
+  "bpW:w0:H -> bpW:w1:gradient-identity -> bpW:w0:H",
+  "bpW:w4:index -> bpW:w4:lie -> stepW:w4:liebd -> bpW:w4:index",
+  "bpW:w4:index -> bpW:w4:lie -> stepW:w4:liecoef -> bpW:w4:taylor -> bpW:w4:index",
+  "bpW:w4:index -> bpW:w4:lie -> bpW:w4:index",
+  "bpW:w3:interface -> bpW:w6:tori -> stepW:w6:t-hol -> bpW:w6:convergence -> stepW:w6:c-ind -> bpW:w6:iter-lemma -> stepW:w6:il-small -> bpW:w5:data -> bpW:w7:choices -> bpW:w5:w4-modified -> stepW:w5:m-lip -> stepW:w4:lip -> bpW:w4:components -> stepW:w4:testpts -> bpW:w4:index -> bpW:w4:weights -> bpW:w3:interface",
+  "bpW:w4:components -> stepW:w4:testpts -> bpW:w4:index -> bpW:w4:weights -> bpW:w4:lemma1 -> stepW:w4:equation -> bpW:w4:components",
+  "bpW:w4:components -> stepW:w4:testpts -> bpW:w4:index -> bpW:w4:weights -> bpW:w4:lemma1 -> stepW:w4:Fcomp -> bpW:w4:components",
+  "bpW:w4:index -> bpW:w4:weights -> bpW:w4:lemma1 -> stepW:w4:Fcomp -> bpW:w4:index",
+  "bpW:w4:index -> bpW:w4:weights -> bpW:w4:lemma1 -> stepW:w4:assembly -> bpW:w4:index",
+  "stepW:w4:lip -> bpW:w4:components -> stepW:w4:testpts -> bpW:w4:index -> bpW:w4:weights -> bpW:w4:lemma1 -> stepW:w4:lip",
+  "bpW:w4:index -> bpW:w4:weights -> bpW:w4:lemma1 -> bpW:w4:index",
+  "bpW:w5:data -> bpW:w7:choices -> bpW:w6:prep-step -> stepW:w6:p-data -> bpW:w5:data",
+  "bpW:w5:data -> bpW:w7:choices -> bpW:w6:prep-step -> stepW:w6:p-step -> bpW:w5:step -> stepW:w5:st-con -> bpW:w5:flow -> stepW:w5:f-der -> bpW:w5:data",
+  "bpW:w5:data -> bpW:w7:choices -> bpW:w6:prep-step -> stepW:w6:p-step -> bpW:w5:step -> stepW:w5:st-con -> bpW:w5:flow -> bpW:w5:data",
+  "bpW:w5:data -> bpW:w7:choices -> bpW:w6:prep-step -> stepW:w6:p-step -> bpW:w5:step -> bpW:w5:data",
+  "bpW:w3:interface -> bpW:w6:tori -> stepW:w6:t-hol -> bpW:w6:convergence -> stepW:w6:c-ind -> bpW:w6:iter-lemma -> stepW:w6:il-small -> bpW:w5:data -> bpW:w7:choices -> bpW:w6:prep-step -> bpW:w5:initial -> stepW:w5:i-g -> bpW:w5:action-angle -> bpW:w4:from-w3 -> bpW:w3:interface",
+  "bpW:w5:initial -> stepW:w5:i-g -> bpW:w5:action-angle -> bpW:w5:initial",
+  "bpW:w6:iter-lemma -> bpW:w6:k0 -> bpW:w6:iter-lemma"
+ ],
+ "unlabelled": [
+  "blueprint-W/parts/w0-normalization.tex:L410 unlabelled remark ''",
+  "blueprint-W/parts/w3-birkhoff.tex:L387 unlabelled remark ''",
+  "blueprint-W/parts/w3-birkhoff.tex:L453 unlabelled remark ''",
+  "blueprint-W/parts/w3-birkhoff.tex:L573 unlabelled remark ''"
+ ],
+ "aliases": {},
+ "missing_proof_owner": []
+}

@@ -1,0 +1,17 @@
+{
+ "skipped": [],
+ "unresolved": [],
+ "frozen_unresolved": [],
+ "source_dropped": 0,
+ "cycles": [
+  "bpW:w0:Gq#cubicGrad -> bpW:w0n:gradient -> bpW:w0:Gq#cubicGrad"
+ ],
+ "unlabelled": [
+  "blueprint-W/parts/w0-normalization.tex:L408 unlabelled remark ''",
+  "blueprint-W/parts/w3-birkhoff.tex:L377 unlabelled remark ''",
+  "blueprint-W/parts/w3-birkhoff.tex:L443 unlabelled remark ''",
+  "blueprint-W/parts/w3-birkhoff.tex:L563 unlabelled remark ''"
+ ],
+ "aliases": {},
+ "missing_proof_owner": []
+}

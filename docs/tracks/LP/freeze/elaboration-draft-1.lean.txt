@@ -1,0 +1,80 @@
+/- Transient elaboration of the PROPOSED track-LP anchors (not repository code; `.drafts/` is outside the
+library and the lint). The `sorry`s are proof placeholders only: the statements are what the owner reviews. -/
+import KAM.Planetary.StrongAMD.Threshold
+import KAM.Planetary.StrongAMD.Momentum
+import KAM.Planetary.StrongAMD.Osculating
+import KAM.Frozen.Planetary.Defs.MovingUniqueOn
+import KAM.Frozen.Planetary.Defs.IsNewtonSolutionOn
+import KAM.Frozen.Planetary.Defs.ActualMasses
+import KAM.Frozen.Planetary.Defs.BarycentricPositions
+import KAM.Frozen.Planetary.Defs.BarycentricVelocities
+import KAM.Fourier.Derivative
+
+open KAM.Planetary
+
+namespace KAM.Planetary.StrongAMD.Proposal
+
+variable {n : ℕ}
+
+/-- Planar eccentricity `e_i = |𝐞_i|`. -/
+noncomputable abbrev ecc (ν : Fin n → ℝ) (z : Phase (n * 2)) (i : Fin n) : ℝ :=
+  planeLength (keplerEccVector ν z i)
+
+/-- **LP0 (planar sharp barrier, MAIN L5).** Carrier variant (OD-2 recommendation). -/
+theorem planar_strongAMD_barrier (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀ i, 0 < ν i)
+    (U : Set (Fin n → ℝ)) (hU : IsCompact U) (hUch : U ⊆ chamber ν) (m : ℝ) (hm : 0 < m) :
+    ∃ dStar dPair : ℝ, 0 < dStar ∧ 0 < dPair ∧
+      ∀ z : Phase (n * 2),
+        (∀ i, 0 < planeLength (bodyVector z.1 i) ∧ keplerEnergy ν z i < 0) →
+        ∀ hΛ : (fun i => keplerAction ν z i) ∈ U,
+        strongAMD ν z ≤ orderedStrongThreshold hn ⟨_, hUch hΛ⟩ - m →
+        (∀ i, dStar ≤ keplerAxis ν z i * (1 - ecc ν z i)) ∧
+        (∀ a : AdjIdx n, dPair ≤ keplerAxis ν z a.upperIdx * (1 - ecc ν z a.upperIdx) -
+            keplerAxis ν z a.1 * (1 + ecc ν z a.1)) ∧
+        (∀ i, dStar ≤ planeLength (bodyVector z.1 i)) ∧
+        (∀ i j, i ≠ j → dPair ≤ planeLength (bodyVector z.1 i - bodyVector z.1 j)) := by
+  sorry
+
+/-- **LP1 (planar strong-AMD exponential safety, MAIN Theorem 15).** Carrier variant (OD-2). -/
+theorem planar_strongAMD_exponentialSafety (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀ i, 0 < ν i)
+    (hνmax : ∃ i, ν i = 1) (hνle : ∀ i, ν i ≤ 1)
+    (A : Set (Fin n → ℝ)) (hA : IsCompact A)
+    (hAord : ∀ a ∈ A, (∀ i, 0 < a i) ∧ ∀ i j, i < j → a i < a j)
+    (δ γ τ : ℝ) (hδ : 0 < δ) (hγ : 0 < γ) (hτ : (n : ℝ) - 1 < τ) :
+    ∃ μ₀ c T₀ AΛ Aa dStar dPair Aosc : ℝ,
+      0 < μ₀ ∧ 0 < c ∧ 0 < T₀ ∧ 0 < AΛ ∧ 0 < Aa ∧ 0 < dStar ∧ 0 < dPair ∧ 0 < Aosc ∧
+      ∀ μ : ℝ, 0 < μ → μ ≤ μ₀ →
+      ∀ z₀ : Phase (n * 2),
+        (∀ i, 0 < planeLength (bodyVector z₀.1 i) ∧ keplerEnergy ν z₀ i < 0) →
+        (fun i => keplerAxis ν z₀ i) ∈ A →
+        (∀ k : Fin n → ℤ, k ≠ 0 →
+          γ * (KAM.Fourier.modeSize k : ℝ) ^ (-τ) ≤
+            |∑ i, (k i : ℝ) * (ν i ^ 3 / keplerAction ν z₀ i ^ 3)|) →
+        ∀ hch : (fun i => keplerAction ν z₀ i) ∈ chamber ν,
+        strongAMD ν z₀ ≤ orderedStrongThreshold hn ⟨_, hch⟩ - δ →
+        let T := T₀ * Real.exp (c * μ ^ (-(1 / (2 * (τ + 1)))))
+        ∃ z : ℝ → Phase (n * 2), z 0 = z₀ ∧
+          IsMovingSolutionOn ν μ (Set.Icc (-T) T) z ∧
+          MovingUniqueOn ν μ (Set.Icc (-T) T) z ∧
+          IsNewtonSolutionOn (actualMasses 1 ν μ) (Set.Icc (-T) T)
+            (fun t => barycentricPositions 1 ν μ (z t).1)
+            (fun t => barycentricVelocities 1 ν μ (z t).2) ∧
+          ∀ t ∈ Set.Icc (-T) T,
+            (∀ i, 0 < planeLength (bodyVector (z t).1 i) ∧ keplerEnergy ν (z t) i < 0) ∧
+            (∃ hcht : (fun i => keplerAction ν (z t) i) ∈ chamber ν,
+              strongAMD ν (z t) ≤ orderedStrongThreshold hn ⟨_, hcht⟩ - δ / 2) ∧
+            ‖(fun i => keplerAction ν (z t) i) - fun i => keplerAction ν z₀ i‖ ≤ AΛ * Real.sqrt μ ∧
+            ‖(fun i => keplerAxis ν (z t) i) - fun i => keplerAxis ν z₀ i‖ ≤ Aa * Real.sqrt μ ∧
+            |strongAMD ν (z t) - strongAMD ν z₀| ≤ n * AΛ * Real.sqrt μ ∧
+            (∀ i, dStar ≤ keplerAxis ν (z t) i * (1 - ecc ν (z t) i)) ∧
+            (∀ a : AdjIdx n, dPair ≤ keplerAxis ν (z t) a.upperIdx * (1 - ecc ν (z t) a.upperIdx) -
+                keplerAxis ν (z t) a.1 * (1 + ecc ν (z t) a.1)) ∧
+            (∀ i, dStar ≤ planeLength (bodyVector (z t).1 i)) ∧
+            (∀ i j, i ≠ j → dPair ≤ planeLength (bodyVector (z t).1 i - bodyVector (z t).1 j)) ∧
+            (∀ i, |oscPeri ν μ (z t) i - keplerPeri ν (z t) i| ≤ Aosc * μ ∧
+                  |oscApo ν μ (z t) i - keplerApo ν (z t) i| ≤ Aosc * μ) ∧
+            (∀ i, dStar / 2 ≤ oscPeri ν μ (z t) i) ∧
+            (∀ a : AdjIdx n, dPair / 2 ≤ oscPeri ν μ (z t) a.upperIdx - oscApo ν μ (z t) a.1) := by
+  sorry
+
+end KAM.Planetary.StrongAMD.Proposal
