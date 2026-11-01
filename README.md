@@ -295,7 +295,7 @@ Overall, everything together: 88.9 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 08:51 UTC from `main` at `743a9b36` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 08:51 UTC from `main` at `125fe25b` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -507,14 +507,14 @@ account read from each agent's running process) and their branches. Rules for ag
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | 🔄 working | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA lock_mlane: dry-run schedule (LOCK_DRY=1) and missing-source report | `inp-lockdata` | 55 (vs `inp`) |
-| **lp** `inp-mprov-lp` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP: combined audit package pointers (LP-W5B, LP-W5C) | `inp-lp` | 1 (vs `inp`) |
+| **lp** `inp-mprov-lp` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP progress: stamps corrected to commit times (root-b8); W4E landed (LP2 on main) | `inp-lp` | 2 (vs `inp`) |
 | **lp-freeze7** `inp-mprov-lp-freeze7` | prover (offload) | Claude Opus 5.5 | claude-11 | 🔄 proving | last commit: Merge branch 'inp-lp' into inp-lp-freeze7 | `inp-lp-freeze7` | 0 (vs `inp`) |
 | **lp-w5b** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: LP-W5B: combined LP3 SP-COVER+SP-DRIFT audit handoff | `inp-lp-w5b` | 5 (vs `inp`) |
 | **lp-w5c** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: LP-W5C: combined LP3 PS+SP-SAFE+SRC audit handoff | `inp-lp-w5c` | 9 (vs `inp`) |
 | **w5aa** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: W5 round 2: audit-scope handoff (STEP-A/B round 2 tight deltas, W5-AA round 1) | `inp-w5aa` | 190 (vs `inp`) |
 | **w5r** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: W5-REAL: handoff (audit focus, statements, checks) | `inp-w5r` | 164 (vs `inp`) |
-| **w6aud** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: W6: audit 1 (FAIL: F1 iter-lemma transformation clause ambient norms, F2 D2 J-weight shift | `inp-w6aud` | 208 (vs `inp`) |
 | **w6t** `inp-mprov-wpj` | prover (offload) | Claude Opus 5.5 | claude-11 | 🔄 proving | last commit: W6-TORI (W6-AUDIT1-FIX F1): iter-lemma transformation clause in the p+ norms via W5's smoo | `inp-w6t` | 234 (vs `inp`) |
+| **w8a** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Merge branch 'inp' into inp-w8a | `inp-w8a` | 216 (vs `inp`) |
 | **w8f** `inp-mprov-wpr` | prover (offload) | Claude Opus 5.5 | claude-11 | 🔄 proving | last commit: W8-FINAL: bpW:w8:torus-shape (ShellTorus): source shell bundle w8HW from W5 initial, Birkh | `inp-w8f` | 245 (vs `inp`) |
 | **wpk** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: W3-MAIN: real-coordinate identities (X_K^R gradient form, Gbar closed form, H(Gamma^R x)); | `inp-wpk` | 87 (vs `inp`) |
 <!-- /AUTO:workers -->
