@@ -10,7 +10,8 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 
 /-!
-# The Hamiltonian of a W4 Taylor polynomial on `KamPhase` (blueprint-W `bpW:w5:solve`, step `s-class`)
+# The Hamiltonian of a W4 Taylor polynomial on `KamPhase` (blueprint-W `bpW:w5:solve`, step
+`s-class`)
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 

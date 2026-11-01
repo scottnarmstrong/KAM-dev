@@ -55,7 +55,8 @@ theorem stepFun_field (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : HomTay
   obtain ⟨D, hD, hDW⟩ := stepFun_hasFDerivAt ha (homPP hp hpb) T hw
   refine ⟨D, hD, fun W => ?_⟩
   rw [hDW]
-  have hP : ∀ x y, stepPr ha (homPP hp hpb) (T.P w.1 x) y = stepPr ha (homPP hp hpb) (T.P w.1 y) x :=
+  have hP : ∀ x y, stepPr ha (homPP hp hpb) (T.P w.1 x) y = stepPr ha (homPP hp hpb) (T.P w.1 y) x
+      :=
     fun x y => stepPr_swap ha hp hpb (fun i j => T.symP w.1 hw i j) x y
   have hP' : ∀ x y, stepPr ha (homPP hp hpb) (T.P' w.1 x) y =
       stepPr ha (homPP hp hpb) (T.P' w.1 y) x :=
