@@ -26,7 +26,8 @@ slow pairs), with the body-wise slot convention of LP-SP-CHART:
 
 So the `i`-th body block is the point `((λ_i, ξ_i, v_i), (I_i, η_i, u_i))` of `Phase 3`
 (`spatialBlock`), and the slow part `slow w : Fin (n + n) → ℝ` is exactly the slow pair of
-`Nekhoroshev.PartialBlock n (n + n)` (`fastAction`, `slowPair` of `KAM/Nekhoroshev/Partial/Setting`).
+`Nekhoroshev.PartialBlock n (n + n)` (`fastAction`, `slowPair` of
+`KAM/Nekhoroshev/Partial/Setting`).
 `spatialPoincareProd ν w : Phase (n * 3)` applies the one-body chart `spatialPoincare (ν i)` to
 each block (body-major ordering of the `3n` Cartesian coordinates, `bodyVector3`).
 

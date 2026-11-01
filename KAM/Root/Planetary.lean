@@ -653,6 +653,11 @@ public import KAM.Planetary.Spatial.Model
 public import KAM.Planetary.Spatial.Momentum
 public import KAM.Planetary.Spatial.Newton
 public import KAM.Planetary.Spatial.Orbital
+public import KAM.Planetary.Spatial.Product.Chart
+public import KAM.Planetary.Spatial.Product.Deficit
+public import KAM.Planetary.Spatial.Product.Defs
+public import KAM.Planetary.Spatial.Product.Split
+public import KAM.Planetary.Spatial.Product
 public import KAM.Planetary.Spatial.Rotation
 public import KAM.Planetary.Spatial.Rotation46
 public import KAM.Planetary.Spatial.RotationAlgebra
