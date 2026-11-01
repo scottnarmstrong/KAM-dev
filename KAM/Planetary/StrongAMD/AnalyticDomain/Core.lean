@@ -86,7 +86,7 @@ structure IsSharedTube (ν : Fin n → ℝ) (L : Set (Fin n → ℝ)) (δ r : �
   modulus : strongThresholdModulus ν (cthickening (4 * r) (strongLevelSet ν L δ)) (4 * r) ≤
     δ / 16
 
-theorem strongThresholdModulus_mono_set (hν : ∀ i, 0 < ν i) (hn : 2 ≤ n)
+theorem strongThresholdModulus_mono_set {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (hn : 2 ≤ n)
     {U V : Set (Fin n → ℝ)} (hUV : U ⊆ V) (hVc : IsCompact V) (hVch : V ⊆ chamber ν) (r : ℝ) :
     strongThresholdModulus ν U r ≤ strongThresholdModulus ν V r := by
   refine Real.sSup_le ?_ (strongThresholdModulus_nonneg ν V r)
@@ -140,7 +140,7 @@ section Core
 variable {ν : Fin n → ℝ} {L : Set (Fin n → ℝ)} {δ r : ℝ}
 
 theorem continuous_fast_snd : Continuous fun w : Phase (n + n) => fast w.2 :=
-  continuous_pi fun i => (continuous_apply _).comp continuous_snd
+  continuous_pi fun _ => (continuous_apply _).comp continuous_snd
 
 theorem continuous_chartAMD : Continuous fun w : Phase (n + n) => chartAMD w := by
   unfold chartAMD
@@ -211,7 +211,7 @@ theorem isCompact_strongCore (hν : ∀ i, 0 < ν i) (hn : 2 ≤ n) (hL : IsComp
     convert h1.inter (hang.inter hd) using 1
     ext p
     simp only [hT, mem_inter_iff, mem_preimage, mem_prod, mem_univ, true_and, mem_Iic,
-      mem_setOf_eq]
+      mem_ofPred_eq]
     constructor
     · rintro ⟨a, b, c, d⟩
       exact ⟨⟨a, by linarith⟩, b, c⟩
