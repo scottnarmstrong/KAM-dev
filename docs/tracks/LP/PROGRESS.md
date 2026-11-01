@@ -27,9 +27,9 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 | LP-DICT PlanarDictionary + one-centre L13 adapter test | L7, L13 (interface) | 1–2 | `inp-lp-dict` / mom worktree (link `/root/code/KAM-inp-lp-dict`) | claude-12 | audit LP-W1B-1 PASS WITH NOTES (codex-2); landing requested (inp-lp 7198d469) |
 | LP-DOM AnalyticDomain planar | L8 | 2 | `inp-lp-dom` / mom worktree (link `/root/code/KAM-inp-lp-dom`) | claude-11 | running (tmux inp-mprov-lp-dom) |
 | LP-NRR NonresonantReuse | L13 | 2 | — | — | after wave 1 slots |
-| LP-NRS NonresonantScale | L12/(37) | 2 | `inp-lp-nrs` / thr worktree (link `/root/code/KAM-inp-lp-nrs`) | claude-12 | running (tmux inp-mprov-lp-nrs) |
+| LP-NRS NonresonantScale | L12/(37) | 2 | `inp-lp-nrs` / thr worktree (link `/root/code/KAM-inp-lp-nrs`) | claude-12 | proved 91da0b27 (301 lines; zBall is ℓ¹); audit queued (codex-2, after W7; maybe with DOM) |
 | LP-CONF Confinement | L14 | 3 | — | — | |
-| LP-OSC Osculating | L16 | 3 | — | — | |
+| LP-OSC Osculating | L16 | 3 | `inp-lp-osc` / geomod worktree (link `/root/code/KAM-inp-lp-osc`) | claude-12 | running (tmux inp-mprov-lp-osc) |
 | LP-PS PlanarSafety (LP1) | T15 | 3 | — | — | |
 | LP-SP* Spatial | L1–3, L17–19 | 4 | — | — | |
 
@@ -52,3 +52,4 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 - 2026-11-01 01:00 UTC: LP-BAR1 (THR+MOM) audit 1 PASS WITH NOTES (docs/tracks/LP/audits/LP-BAR1-audit-1.md); notes 4 and 6 applied, lp_build.sh exit-code bug fixed (note 5); merged into inp-lp; landing requested. LP-DICT proved: the L13 interface has no convention mismatch. codex-2 slot passed to W7-MEASURE (DICT not ready yet).
 - 2026-11-01 01:14 UTC: THR+MOM LANDED (main f1fe1d30). DICT and GEOMOD proved; combined audit LP-W1B (branch inp-lp-w1b @d927990e, geomod worktree) queued on codex-2 behind W7-MEASURE. Wave 2 started: LP-NRS (claude-12, thr worktree) and LP-DOM (claude-11, mom worktree).
 - 2026-11-01 01:26 UTC: LP-W1B (GEOMOD+DICT) audit 1 PASS WITH NOTES (codex-2); doc notes applied; merged into inp-lp (7198d469); landing requested. codex-2 handed to W7-MEASURE.
+- 2026-11-01 01:28 UTC: LP-NRS proved (audit queued). LP-OSC (L16) launched on claude-12 in the geomod worktree.
