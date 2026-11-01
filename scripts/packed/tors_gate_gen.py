@@ -17,10 +17,14 @@ Probes (into $V2P_GATE_DIR, default .lake/v2-packed-gate; each with the data it 
   TorsD2_r_j_l   (16) `ptD2Ok … r j l = true`: the landed `d2kModel` against the memo;
   TorsA_a_b      (16) `ptAOk … lg00TMs a b = true`: the landed `DX_H ∘ K` entry at degree 0;
   TorsD1_a        (4) `ptD1Ok … lg00TMs a = true`: the landed `DH ∘ K` entry at degree 0;
-  TorsCore            `torsPackedCore … = true` (with `eps` from the packed Gram core);
-  TorsCoreNeg         the core with `σT - μ` replaced by 1/100 is `false`;
-  TorsCoreMut         the core with the memo's entry A(0, 2) doubled is `false`;
-  TorsAMut_0_2        the entry A(0, 2) against a memo with one mantissa + 1 is `false`.
+  TorsEps, TorsGramVal  the packed Gram core returns the mirror's `(δ, β)` (`gram_core`, bit-exact) and
+                      `gramInvRadius` of it is the literal `eps`;
+  TorsLay, TorsPack, TorsFinal  the three parts of `torsPackedCore … eps … = true` (layouts and loads; the
+                      packing of every memo entry; the chain and the averaged test);
+  TorsFinalNeg        the averaged test with `σT - μ` replaced by 1/100 is `false`;
+  TorsFinalMut        the averaged test with the memo's entry A(0, 2) doubled is `false`;
+  TorsAMut_0_2        the entry A(0, 2) against a memo with one mantissa + 1 is `false`;
+  TorsNode*           one entry of one node of the chain (K, its norm, N, DL, DG, DG^-1, X_N, T): the profile.
 `python3 -I scripts/packed/tors_gate_gen.py --toy` prints the toy book of `TorsTests.lean`.
 Usage: python3 -I scripts/packed/tors_gate_gen.py [LG00_CERT_DIR]
 """
@@ -127,6 +131,78 @@ def toy():
     print("-- width %d, stride %d, LT dense %d" % (bk["width"], bk["s0"], bk["dense"]["LT"]))
 
 
+
+# ---------------------------------------------------------------------------------------------- the Gram core
+def pdict(re_, im_):
+    d = {}
+    for k, v in re_:
+        d[tuple(k)] = (d.get(tuple(k), (0, 0))[0] + v, d.get(tuple(k), (0, 0))[1])
+    for k, v in im_:
+        d[tuple(k)] = (d.get(tuple(k), (0, 0))[0], d.get(tuple(k), (0, 0))[1] + v)
+    return d
+
+
+def pmul(a, b):
+    out = {}
+    for ka, (ar, ai) in a.items():
+        for kb, (br, bi) in b.items():
+            k = (ka[0] + kb[0], ka[1] + kb[1])
+            r, i = out.get(k, (0, 0))
+            out[k] = (r + ar * br - ai * bi, i + ar * bi + ai * br)
+    return out
+
+
+def padd(a, b):
+    out = dict(a)
+    for k, (r, i) in b.items():
+        r0, i0 = out.get(k, (0, 0))
+        out[k] = (r0 + r, i0 + i)
+    return out
+
+
+def wnorm(a, w, q):
+    """`pcNorm`: the packed weighted norm is exactly Σ (|re| + |im|) ⌈w^|k0| 2^q⌉ ⌈w^|k1| 2^q⌉ (no carry)."""
+    return sum((abs(r) + abs(i)) * G.wceil(w, q, abs(k[0])) * G.wceil(w, q, abs(k[1])) for k, (r, i) in a.items())
+
+
+def gram_core(B, nn, PP, q, w, gm, Bpolys, sig):
+    """Bit-exact mirror of `gramPackedCore` (Gram.lean): `(δ, β)` or None."""
+    K = {k: pdict(e[0], e[1]) for k, e in gm.items()}
+    Bm = {}
+    for i in range(nn):
+        for k in range(nn):
+            mt = SP.toMants(B, PP, C.gramInvPoly(Bpolys, i, k))
+            Bm[(i, k)] = pdict(mt[0], mt[1])
+    Kn = {k: B.ofRatUp(F(wnorm(v, w, q), 2 ** (PP + 2 * q))) for k, v in K.items()}
+    Kr = {k: B.ofRatUp(gm[k][2]) for k in gm}
+    Bn = {k: B.ofRatUp(F(wnorm(v, w, q), 2 ** (PP + 2 * q))) for k, v in Bm.items()}
+    Gp = {}
+    for k in range(nn):
+        for j in range(nn):
+            acc = {}
+            for r in range(2 * nn):
+                acc = padd(acc, pmul(K[(r, k)], K[(r, j)]))
+            Gp[(k, j)] = acc
+    Gr = {(k, j): M.sumUp(B, [B.upAdd(B.upAdd(B.upMul(Kn[(r, k)], Kr[(r, j)]), B.upMul(Kn[(r, j)], Kr[(r, k)])),
+                                      B.upMul(Kr[(r, k)], Kr[(r, j)])) for r in range(2 * nn)])
+          for k in range(nn) for j in range(nn)}
+    Dn = {}
+    for i in range(nn):
+        for j in range(nn):
+            acc = {}
+            for k in range(nn):
+                acc = padd(acc, pmul(Bm[(i, k)], Gp[(k, j)]))
+            d = {kk: (-r, -im) for kk, (r, im) in acc.items()}
+            if i == j:
+                r0, i0 = d.get((0, 0), (0, 0))
+                d[(0, 0)] = (r0 + 2 ** (3 * PP), i0)
+            Dn[(i, j)] = B.upAdd(B.ofRatUp(F(wnorm(d, w, q), 2 ** (3 * PP + 2 * q))),
+                                 M.sumUp(B, [B.upMul(Bn[(i, k)], Gr[(k, j)]) for k in range(nn)]))
+    dRows = [M.sumUp(B, [Dn[(i, j)] for j in range(nn)]) for i in range(nn)]
+    bRows = [M.sumUp(B, [Bn[(i, k)] for k in range(nn)]) for i in range(nn)]
+    d, b = C.maxCandidate(B, dRows), C.maxCandidate(B, bRows)
+    return (d, b) if C.gramBoundsOk(B, dRows, bRows, d, b, sig) else None
+
 # ---------------------------------------------------------------------------------------------- the data
 def grab_any(dirpath, pattern, name):
     for fn in sorted(os.listdir(dirpath)):
@@ -173,8 +249,16 @@ def main():
     tms_defs += G.grab(os.path.join(tors, "D0.lean"), "lg00TMs") + "\n"
     assert "lg00TMs" in d0
     # the numbers of the certificate
-    rat = lambda txt: F(int(re.search(r"\(\(\((-?\d+)\) : ℤ\) : ℚ\)", txt).group(1)),
-                        int(re.search(r"\(\(\((\d+)\) : ℕ\) : ℚ\)", txt).group(1)))
+    def arith(expr):
+        expr = re.sub(r"\s+", "", expr).replace("^", "**")
+        assert re.fullmatch(r"[0-9+\-*()]+", expr), expr
+        return int(eval(expr, {"__builtins__": {}}))  # digits and + - * ( ) only
+
+    def rat(txt):
+        flat = re.sub(r"\s+", " ", txt)
+        num = re.search(r":= \(\((.*?) : ℤ\) : ℚ\)", flat).group(1)
+        den = re.search(r"/ \(\((.*?) : ℕ\) : ℚ\)", flat).group(1)
+        return F(arith(num), arith(den))
     lgD1, lgD2 = rat(d1t), rat(d2t)
     box = [(lgD1, lgD2), (F(-12961718757584703, 312500312500000), F(0))]
     assert "-12961718757584703 / 312500312500000" in boxt
@@ -223,14 +307,20 @@ def main():
     bk = tors_book(n, P, Q, w, L1, LB, LA, 2 ** 136, 2 ** 132, p2(mx(d2)), p2(mx(ax + d1)),
                    p2(max(abs(v) for v in fc)))
     assert mx(gm.values()) <= 2 ** 136
+    Bpolys = [[half(grams[0]), half(grams[1])], [half(grams[2]), half(grams[3])]]
+    db = gram_core(B, n, P, Q, w, gm, Bpolys, sigB_mu)
+    assert db is not None, "the packed Gram core fails"
+    eps = C.gramInvRadius(B, db)
+    assert eps is not None
     write_probes(bk, gm, d2, ax, d1, texts, comps, grams, d4, d1t, d2t, emb, ginv, pi, tinv, boxt, tms_defs,
-                 sigB_mu, sigT_mu, s)
+                 sigB_mu, sigT_mu, s, db, eps)
     try:
         commit = subprocess.run(["git", "-C", CERT, "rev-parse", "HEAD"], capture_output=True, text=True,
                                 check=True).stdout.strip()
     except (OSError, subprocess.CalledProcessError):
         commit = "unknown"
-    meta = dict(lg00_cert_commit=commit, stride=bk["s0"], width=bk["width"],
+    meta = dict(lg00_cert_commit=commit, gram_delta=str(F(db[0], 2 ** P)), gram_beta=str(F(db[1], 2 ** P)),
+                eps=str(F(eps, 2 ** P)), stride=bk["s0"], width=bk["width"],
                 layouts={k: [list(v[0]), list(v[1])] for k, v in bk["lays"].items()}, dense=bk["dense"],
                 loads_log2={k: v.bit_length() for k, v in bk["loads"].items()}, l=bk["ls"],
                 bounds_log2={k: v.bit_length() - 1 for k, v in bk["b"].items()},
@@ -271,7 +361,7 @@ def qlit(q):
 
 
 def write_probes(bk, gm, d2, ax, d1, texts, comps, grams, d4, d1t, d2t, emb, ginv, pi, tinv, boxt, tms_defs,
-                 sigB_mu, sigT_mu, s):
+                 sigB_mu, sigT_mu, s, db, eps):
     fmt = ("abbrev lgP : ℕ := 128\n\nabbrev LGF : Type := CertFixed lgP\n\n"
            "def dz (n : ℕ) : ℤ := if n % 2 = 0 then Int.ofNat (n / 2) else Int.negSucc (n / 2)\n\n"
            "abbrev tm (k₀ k₁ re im : ℕ) : CertKey × CC LGF := ([dz k₀, dz k₁], ⟨⟨dz re⟩, ⟨dz im⟩⟩)\n\n"
@@ -348,23 +438,44 @@ open KAM KAM.Certificate KAM.CertificateSharp.Packed
     gram_data = "".join(texts[nm] + "\n" for nm in grams) + ginv + "\n" + gb + "\n" + gmemo
     emb_data = "".join(texts[nm] + "\n" for nm in comps) + emb + "\n"
     sig_t = "((21 / 100 : ℚ) - 1 / 100000)"
-    eps = ("noncomputable def tEps : LGF :=\n  ((gramPackedCore 2 lg00GramInv gW gCfg gBook gMemo\n"
-           "    ((73 / 50 : ℚ) - 1 / 100000)).bind gramInvRadius).getD ⟨0⟩\n\n")
-    core_data = d4 + "\n" + d1t + "\n" + d2t + "\n" + fmt + pi + "\n" + boxt + "\n" + tinv + "\n" + gram_data + eps + \
+    epsd = ("noncomputable def tDB : LGF × LGF := (⟨%d⟩, ⟨%d⟩)\n\n"
+            "noncomputable def tEps : LGF := ⟨%d⟩\n\n") % (db[0], db[1], eps)
+    core_data = d4 + "\n" + d1t + "\n" + d2t + "\n" + fmt + pi + "\n" + boxt + "\n" + tinv + "\n" + gram_data + epsd + \
         tbook + "\n"
-    core = ("torsPackedCore 2 lg00GramInv gW gCfg lg00Box (1000001 / 1000000 : ℚ) tBook gMemo tMemo tEps\n"
-            "      lg00TorsInv %s = %s")
+    fin = ("ptFinal 2 lg00GramInv gW gCfg lg00Box (1000001 / 1000000 : ℚ) tBook gMemo tMemo tEps\n"
+           "      lg00TorsInv %s = %s")
     probes = {}
     probes["TorsData"] = ("Data-only control (all data of the core).", core_data + memo(), "True")
-    probes["TorsCore"] = ("The core of the packed torsion check of the LG00 certificate (everything but the "
-                          "boundary entries); `eps` from the packed Gram core.", core_data + memo(),
-                          core % (sig_t, "true"))
-    probes["TorsCoreNeg"] = ("Negative control: the core with the bound 1/100 is false.", core_data + memo(),
-                             core % ("(1 / 100 : ℚ)", "false"))
+    probes["TorsEps"] = ("The radius of G^-1: `gramInvRadius` of the packed Gram core's (δ, β) (generator mirror).",
+                         core_data, "(gramInvRadius tDB).map (fun e => e.m) = some tEps.m")
+    probes["TorsGramVal"] = ("The packed Gram core of the LG00 certificate returns the mirror's (δ, β).", core_data,
+                             "(gramPackedCore 2 lg00GramInv gW gCfg gBook gMemo\n      ((73 / 50 : ℚ) - 1 / 100000)).map"
+                             " (fun p => (p.1.m, p.2.m)) = some (tDB.1.m, tDB.2.m)")
+    probes["TorsLay"] = ("The layout and load guards of the core (`ptLayOk`, `ptNormOk`).", core_data + memo(),
+                         "(ptLayOk 2 tBook && ptNormOk 2 gW lg00Box (1000001 / 1000000 : ℚ) tBook) = true")
+    probes["TorsPack"] = ("The packing guard of the core (`ptPackOk`: every memo entry and the witness B).",
+                          core_data + memo(), "ptPackOk 2 lg00GramInv gCfg tBook gMemo tMemo = true")
+    probes["TorsFinal"] = ("The packed chain and the averaged test of the core (`ptFinal`).", core_data + memo(),
+                           fin % (sig_t, "true"))
+    probes["TorsFinalNeg"] = ("Negative control: the averaged test with the bound 1/100 is false.",
+                              core_data + memo(), fin % ("(1 / 100 : ℚ)", "false"))
+    # one entry of each node of the chain (memory and the kernel numeral cap, node by node)
+    ga = "2 lg00GramInv gW gCfg tBook gMemo tEps"
+    fa = "2 lg00GramInv gW gCfg lg00Box (1000001 / 1000000 : ℚ) tBook gMemo tMemo tEps"
+    nodes = {"K": "((ptK (α := LGF) gW tBook gMemo).x 0 0).re",
+             "Kn": None, "N": "((ptN %s).x 0 0).re" % ga,
+             "DL": "((ptDL (α := LGF) 2 gW lg00Box (1000001 / 1000000 : ℚ) tBook tMemo).x 0 0).re",
+             "DG": "((ptDG (α := LGF) 2 gW lg00Box (1000001 / 1000000 : ℚ) tBook gMemo tMemo).x 0 0).re",
+             "DGi": "((ptDGi %s).x 0 0).re" % fa, "XN": "((ptXN %s).x 0 0).re" % fa,
+             "T": "((ptT %s).x 0 0).re" % fa}
+    for nm, ex in nodes.items():
+        st = ("((ptK (α := LGF) gW tBook gMemo).nb 0 0).m % 7 < 7" if ex is None else ex + " % 7 < 7")
+        probes["TorsNode" + nm] = ("Chain profile: one entry of the node %s (forced through `%% 7`)." % nm,
+                                   core_data + memo(), st)
     dbl = (([(k, 2 * v) for k, v in ax[2][0]], [(k, 2 * v) for k, v in ax[2][1]], ax[2][2]))
-    probes["TorsCoreMut"] = ("Negative control (data): the core with the memo's entry A(0, 2) doubled is false.",
-                             core_data + edef("tax_dbl", dbl) + memo(sub={"tax_2": "tax_dbl"}),
-                             core % (sig_t, "false"))
+    probes["TorsFinalMut"] = ("Negative control (data): the averaged test with the memo's entry A(0, 2) doubled is "
+                              "false.", core_data + edef("tax_dbl", dbl) + memo(sub={"tax_2": "tax_dbl"}),
+                              fin % (sig_t, "false"))
     base = d4 + "\n" + fmt + pi + "\n" + tbook + "\n"
     for r in range(2 * n):
         for j in range(n):

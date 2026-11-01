@@ -161,7 +161,8 @@ theorem torsPacked_sound (hn : 1 ≤ n) {e : HamExpr n} {D : Set ((Fin n → ℂ
     unfold qC ptDigit
     push_cast
     ring
-  have hent' : ∀ x y, ‖A x y - Cm x y‖ ≤ val (ptRad n Binv W cfg box s tb mm tm eps (ι x) (ι y)) := by
+  have hent' : ∀ x y,
+      ‖A x y - Cm x y‖ ≤ val (ptRad n Binv W cfg box s tb mm tm eps (ι x) (ι y)) := by
     intro x y
     have hA' : A x y = torusAverage (fun v : Fin n → ℝ =>
         KAM.Iso.extendedTorsion e.eval (K.eval n) ((s : ℝ) • ω) (fun i => (v i : ℂ)) x y) := rfl

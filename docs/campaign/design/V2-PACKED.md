@@ -341,3 +341,25 @@ on the standard axioms.
   - With `gramPackedBase` the net change is therefore +73 s.
   - The saving appears only with a packed torsion stage (B3) that takes the Gram result from the packed
     check.
+
+## 10. B3, the torsion stage (branch `v2-packed-b3`; details in `docs/campaign/handoffs/V2-PACKED-B3.md`)
+
+The packed torsion check is built and proved end to end (`checkTorsionPacked_sound`: the landed
+`checkTorsion_sound_of` conclusion; `torsPackedBase`: packed Gram and torsion, landed `CertifiedTorus`, with no
+landed Gram certificate). It is **exact**: packed models (`PEnc`, `PMat`) with exact products, radii through
+`‖a‖ s + r ‖b‖ + r s`, and averages read from the zero-key slot.
+
+**At LG00 size the exact chain does not fit the kernel.**
+- The windows grow additively, up to 263 × 315 for `T`, at 1,168-bit slots: numbers of up to 97 Mbit.
+- The kernel refuses `Nat.pow` results above 16.8 Mbit (`LEAN_NAT_MAX_SIZE`).
+- It also keeps every intermediate of a declaration: one entry of `DG⁻¹` takes 4.1 GB.
+
+The boundary (36 entries, 218 CPU-s), the guards and the Gram link pass on LG00's data.
+
+**The design consequence (B3b, proposed).** The packed chain must be bounded like the landed one:
+- round each node back to scale `2^P` (`gmpRound`), with the exact residual's packed norm in the radius;
+- truncate each node to the `ℓ∞` box of half-width 24, with the tail's packed norm in the radius;
+- decide the final test entry by entry, handing over centres and radii as small literals.
+
+Every number then stays ≤ 3.5 Mbit, and each process is estimated at ≤ 2 GB. "Exact, no rounding" (§9) works
+for the Gram stage because its windows stay small; it does not carry over to deep chains.

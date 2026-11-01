@@ -53,7 +53,8 @@ theorem two_abs_packSum_lt {w : ℕ} :
       mul_le_mul_of_nonneg_left (by omega) hpos.le
     nlinarith
 
-/-- The balanced residue of a packed integer modulo `2^(w k)` is the packing of its first `k` slots. -/
+/-- The balanced residue of a packed integer modulo `2^(w k)` is the packing of its first `k`
+slots. -/
 theorem bmod_packSum {w : ℕ} {d : List ℤ} (hd : ∀ c ∈ d, 2 * |c| < 2 ^ w) {k : ℕ}
     (hk : k ≤ d.length) : (packSum w d).bmod (2 ^ (w * k)) = packSum w (d.take k) := by
   have hsplit := packSum_append w (d.take k) (d.drop k)

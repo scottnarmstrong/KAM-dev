@@ -97,8 +97,9 @@ def aDGi : ℕ := n * mulLoad tb.LC tb.LB (tb.aC n) tb.bB
 def aDN : ℕ :=
   mulLoad tb.LDLB tb.LU1 (n * mulLoad tb.LDL tb.LB (tb.aDL n) tb.bB) (2 ^ (3 * tb.P)) +
     n * mulLoad tb.L1 tb.LDGi tb.bK (tb.aDGi n)
-def aXN : ℕ := mulLoad tb.LAN tb.LU2 ((n + n) * mulLoad tb.LA tb.LN tb.bA (tb.aN n)) (2 ^ (3 * tb.P)) +
-  tb.aDN n
+def aXN : ℕ :=
+  mulLoad tb.LAN tb.LU2 ((n + n) * mulLoad tb.LA tb.LN tb.bA (tb.aN n)) (2 ^ (3 * tb.P)) +
+    tb.aDN n
 def aT : ℕ := (n + n) * mulLoad tb.LN tb.LDN (tb.aN n) (tb.aXN n)
 def aY : ℕ := (n + n) * mulLoad tb.LA tb.LN tb.bA (tb.aN n)
 
@@ -164,18 +165,21 @@ def ptEntries (ms : List (CertModel α)) : Bool :=
 def ptK : PMat α :=
   ⟨fun r a => ⟨packOf tb.L1 (mm.reAt r a), packOf tb.L1 (mm.imAt r a)⟩,
     fun r a => ofRatUp (mm.radAt r a),
-    fun r a => pnorm W tb.q tb.lK tb.L1 tb.P ⟨packOf tb.L1 (mm.reAt r a), packOf tb.L1 (mm.imAt r a)⟩⟩
+    fun r a => pnorm W tb.q tb.lK tb.L1 tb.P
+      ⟨packOf tb.L1 (mm.reAt r a), packOf tb.L1 (mm.imAt r a)⟩⟩
 
 /-- `G⁻¹` as the witness `B` on `LB` with the radius `eps`. -/
 def ptB (eps : α) : PMat α :=
   ⟨fun i k => pcOfPoly cfg.toMant tb.P tb.LB (gramInvPoly Binv i k), fun _ _ => eps,
-    fun i k => pnorm W tb.q tb.lB tb.LB tb.P (pcOfPoly cfg.toMant tb.P tb.LB (gramInvPoly Binv i k))⟩
+    fun i k => pnorm W tb.q tb.lB tb.LB tb.P
+      (pcOfPoly cfg.toMant tb.P tb.LB (gramInvPoly Binv i k))⟩
 
 /-- `∂_l L` on `L1` (the torsion memo). -/
 def ptD2 (l : ℕ) : PMat α :=
   ⟨fun r j => memoPC tb.L1 (tm.d2.getD (d2Idx n r j l) ([], [], 0)),
     fun r j => ofRatUp (tm.d2.getD (d2Idx n r j l) ([], [], 0)).2.2,
-    fun r j => pnorm W tb.q tb.lD tb.L1 tb.P (memoPC tb.L1 (tm.d2.getD (d2Idx n r j l) ([], [], 0)))⟩
+    fun r j => pnorm W tb.q tb.lD tb.L1 tb.P
+      (memoPC tb.L1 (tm.d2.getD (d2Idx n r j l) ([], [], 0)))⟩
 
 /-- The mantissa of the frequency coordinate `(s ω)_l` (the box centre, rounded). -/
 def ptFc (l : ℕ) : ℤ := ratRound (s * (box.getD l (0, 0)).1 * 2 ^ tb.P)
@@ -199,11 +203,13 @@ def ptDL : PMat α :=
 def ptA : PMat α :=
   ⟨fun a b => memoPC tb.LA (tm.ax.getD (a * (n + n) + b) ([], [], 0)),
     fun a b => ofRatUp (tm.ax.getD (a * (n + n) + b) ([], [], 0)).2.2,
-    fun a b => pnorm W tb.q tb.lA tb.LA tb.P (memoPC tb.LA (tm.ax.getD (a * (n + n) + b) ([], [], 0)))⟩
+    fun a b => pnorm W tb.q tb.lA tb.LA tb.P
+      (memoPC tb.LA (tm.ax.getD (a * (n + n) + b) ([], [], 0)))⟩
 
 /-- `DH ∘ K` (one row) on `LA` (the torsion memo). -/
 def ptD1 : PMat α :=
-  ⟨fun _ a => memoPC tb.LA (tm.d1.getD a ([], [], 0)), fun _ a => ofRatUp (tm.d1.getD a ([], [], 0)).2.2,
+  ⟨fun _ a => memoPC tb.LA (tm.d1.getD a ([], [], 0)),
+    fun _ a => ofRatUp (tm.d1.getD a ([], [], 0)).2.2,
     fun _ a => pnorm W tb.q tb.lA tb.LA tb.P (memoPC tb.LA (tm.d1.getD a ([], [], 0)))⟩
 
 /-! ### The chain -/
