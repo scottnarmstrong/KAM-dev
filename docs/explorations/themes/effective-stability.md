@@ -173,4 +173,24 @@ agree on every coefficient and exponent.
   with a measured shard required first. Spatial SJSU has four fully reduced secular degrees of freedom and needs a
   separate model and feasibility study. LP0 supplies AMD geometry, not a billion-year averaging-error bound.
 
+## SJSU phase 0: the degree-18 model rebuilt
+
+**[sjsu-model-recovery.md](../sjsu-model-recovery.md)** · 1 November 2026 · reconstruction and validation ·
+status: **measured**, dataset public (`applications/sjsu/`, data under CC BY 4.0), no new Lean result
+
+The degree-18 planar secular SJSU Hamiltonian was regenerated from the SLG13/GLS17 recipe, strictly at order two in
+the masses (SJSU18-O2, 7,941 coefficients); an independent audit rebuilt it byte for byte.
+
+- **Measured.** Quadratic coefficients within 7.7·10⁻⁴ of the printed ones; linear secular frequencies within
+  5.8·10⁻⁴ of Table 2; secular frequencies of a 3-Myr planar N-body run from the mapped Table 1 point within 1.6%,
+  0.35% and 0.05%. The printed quartic's Jupiter–Saturn terms differ by 5–8% (unexplained); its three-planet terms
+  appear only at third order in the masses. Coefficients of degree 12 and above depend by 22–69% on choices the
+  papers leave open.
+- **Readings.** n* includes the first-order frequency correction; a* is the 1-Myr N-body average; Table 1 holds
+  Poincaré elements.
+- **Source issues.** Confirmed: the printed quartic's rotation-breaking component (about 10⁻⁸; SJSU-E1), Table 2's
+  initial data matching neither the mapped Table 1 point nor the N-body flow (SJSU-E2), the degree of the generating
+  functions (9 vs 6) and a "5λ₅" typo. Plausible: a factor ½ in eq. (12).
+- **Owner decisions (1 Nov).** Phase 1 certifies SJSU18-O2 as published, at the mapped Table 1 point.
+
 [← Back to the catalogue](../README.md)
