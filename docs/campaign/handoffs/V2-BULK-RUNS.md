@@ -20,13 +20,15 @@ evaluation of the fibered sum, and the certified constant matches `walkB`'s (2.3
 Each run type has its own soundness theorem: `tentK_spec` and `apK_spec`. The extended walk is sound
 whatever its cut points and acceptance rules (`hnode_spec`, `walkB2_sound`).
 
-**Caveat: kernel cost tracks value computations, not nodes.**
-- Each node that ends up split may compute up to three values, one each for the plain, tent and
-  crossing tolerance tests. Each value costs about three binary powers of `P`-bit numbers.
+**Caveat: kernel cost tracks value computations, not nodes** (this section describes the walk
+before V2-BULK-CUTS; see the CUTS section below).
+- Before the cuts, each node that ends up split could compute up to three values, one each for the
+  plain, tent and crossing tolerance tests. The cuts remove the tent and crossing ones. Each value
+  costs about three binary powers of `P`-bit numbers.
 - The values drop only 28 % at the first bite (20,425 against 28,212) and 2.1× at the third
   (164,699 against 345,363).
-- Kernel probes give about 50 s for the first bite in 4–5 shards, against about 1 min (projected)
-  for `walkB`. The densest 512-row block now fits one 4 GB shard (3.8 GB); under `walkB` it did not
+- Extrapolated from two probed blocks (of six): about 50 s for the first bite in 4–5 shards,
+  against about 1 min (projected) for `walkB`. The densest 512-row block now fits one 4 GB shard (3.8 GB); under `walkB` it did not
   fit.
 - Possible savings are listed below as owner question 1.
 
@@ -36,11 +38,11 @@ Each module was rebuilt alone after removing its own build artifacts.
 
 | File | Lines | Build | Peak |
 |---|---:|---:|---:|
-| `KAM/CertificateSharp/V2/Fiber/BulkRuns.lean` | 1,119 | 8.0 s | 1.67 GB |
-| `KAM/CertificateSharp/V2/Fiber/Bulk2.lean` | 555 | 2.9 s | 1.44 GB |
+| `KAM/CertificateSharp/V2/Fiber/BulkRuns.lean` | 1,120 | 8.0 s | 1.67 GB |
+| `KAM/CertificateSharp/V2/Fiber/Bulk2.lean` | 570 | 2.9 s | 1.44 GB |
 | `KAM/CertificateSharp/V2/Fiber/Bulk2Site.lean` | 157 | 1.7 s | 1.45 GB |
 | `KAM/CertificateSharp/V2/Fiber/RouteBK.lean` | 268 | 2.5 s | 1.55 GB |
-| `KAM/CertificateSharp/V2/Tests/Bulk2Toy.lean` | 68 | 4.4 s | 1.80 GB |
+| `KAM/CertificateSharp/V2/Tests/Bulk2Toy.lean` | 69 | 4.4 s | 1.80 GB |
 | `KAM/CertificateSharp/V2/Tests/Bulk2RouteB.lean` | 105 | 1.6 s | 1.36 GB |
 | `KAM/CertificateSharp/V2/Tests/Bulk2XLang.lean` (generated, 31 values) | 228 | 3.9 s | 1.63 GB |
 | `scripts/certifier/fiber3_bulk2.py` (exact mirror, producer, SJS counts) | | | |
@@ -48,7 +50,7 @@ Each module was rebuilt alone after removing its own build artifacts.
 | `docs/campaign/design/V2-3FREQ.md` §8; this handoff | | | |
 | `docs/campaign/handoffs/V2-3FREQ.md`: dated correction note (commit `3dcc07aa`) | | | |
 
-All Lean files are modules, at most 1,119 lines and at most 100 columns, with no `sorry` and no
+All Lean files are modules, at most 1,120 lines and at most 100 columns, with no `sorry` and no
 option overrides.
 
 ## Approach (details in design §8)
@@ -96,7 +98,7 @@ option overrides.
   - `bulk2SiteOk` on both sides of the exact bound and constant;
   - three SJS rows at `P = 128`.
 - **Toy (`Tests/Bulk2Toy.lean`).** On the toy of `Tests/BulkToy.lean`:
-  - at `b = 1/64` (42,924 fibres), `walkB2` visits 916 nodes against `walkB`'s 1,546 and certifies
+  - at `b = 1/64` (42,924 fibres), `walkB2` visits 924 nodes against `walkB`'s 1,546 and certifies
     `c = 1.648·10⁻⁴`, the same as `walkB`, against the classical 0.0429;
   - at `b = 1/32`, 334 nodes against 452, and a constant 1 % low is rejected.
 - **Repository checks.**
@@ -184,37 +186,42 @@ unchanged.
   run (`tentK`). Soundness of the three branches is `run3_spec`.
 - **Crossing runs** are accepted by quality alone, with no tolerance fallback, so a rejected crossing
   run costs no value. `apK` lost its `tol` argument.
-- **Precision.** The producer uses `P = 64` at the first two SJS bites and `P = 128` at the third.
+- **Precision.** The producer first used `P = 64` at the first two SJS bites. Since
+  V2-BULK-RUNS-FIX it uses `P = 128` at all bites (audit E1): `P = 64` raised `N` and gave about 2 %
+  more nodes and values, with no kernel-time gain.
 - **Tests regenerated.** `Bulk2XLang` has 31 values. The accepted approaching crossing run is now
   taken from the `b = 1/64` toy walk, because the `1/32` toy's only one had been accepted by the
   dropped tolerance. The `Bulk2Toy` witnesses and the `Bulk2RouteB` sites are unchanged and pass.
 - **Builds.** All seven run-type modules rebuilt alone: 2.5–7.4 s, at most 1.76 GB, no warnings in
   the new files.
 
-**Exact mirror (`fiber3_bulk2.py sjs`, 8 GB cap):**
+**Exact mirror (`fiber3_bulk2.py sjs`, 8 GB cap), at `P = 128`, so the same `N` before and after
+the cuts:**
 
-| SJS bite | `P` | nodes | values | before the cuts (`P = 128`) | over float sum | `c` |
-|---|---:|---:|---:|---|---:|---|
-| `2.65·10⁻³` | 64 | 15,619 | **16,221** | 13,719 / 20,425 | +0.40 % | `2.357·10⁻⁷` (unchanged) |
-| `1.325·10⁻³` | 64 | 46,340 | **47,928** | 38,028 / 56,265 | +0.22 % | unchanged |
-| `6.6·10⁻⁴` | 128 | 144,083 | **147,868** | 122,921 / 164,699 | +0.31 % | unchanged |
+| SJS bite | `N` | fibres | nodes | values | before the cuts (nodes / values) | over float sum | `c` |
+|---|---:|---:|---:|---:|---|---:|---|
+| `2.65·10⁻³` | 1,298 | 3,372,204 | 15,299 | **15,903** | 13,719 / 20,425 | +0.40 % | `2.357·10⁻⁷` (unchanged) |
+| `1.325·10⁻³` | 2,647 | 14,018,512 | 45,364 | **46,954** | 38,028 / 56,265 | +0.22 % | unchanged |
+| `6.6·10⁻⁴` | 5,387 | 58,050,312 | 144,083 | **147,868** | 122,921 / 164,699 | +0.31 % | unchanged |
 
-Values, which drive kernel cost, fall 21 %, 15 % and 10 %. Nodes rise, because the light-crossing
-branch (crossing fibre plus two crossing runs) relied on the tolerance fallback and no longer fires;
-those crossings take the `±s` single fibres instead.
+Values, which drive kernel cost, fall 22 %, 17 % and 10 %. At the same `N`, nodes rise: the
+light-crossing branch (crossing fibre plus two crossing runs) relied on the tolerance fallback and no
+longer fires, so those crossings take the `±s` single fibres instead. The first commit of the cuts
+reported `P = 64` figures at the first two bites (`N` = 1,318 and 2,688, so 3.1 % more fibres at the
+first bite): 15,619 / 16,221 and 46,340 / 47,928.
 
 **Kernel probes** (first bite, temporary shard modules, deleted, 4 GB cap):
 
 | 512-row block | `P` | nodes | values | build | peak |
 |---|---:|---:|---:|---:|---:|
-| densest | 64 | 7,519 | 8,098 | 15 s | 3.41 GB |
+| densest | 64 (`N = 1,318`) | 7,519 | 8,098 | 15 s | 3.41 GB |
 | densest | 128 | 7,465 | 8,042 | 15 s | 3.41 GB |
-| typical | 64 | 2,338 | 2,341 | 14 s | 1.99 GB |
+| typical | 64 (`N = 1,318`) | 2,338 | 2,341 | 14 s | 1.99 GB |
 
 Before the cuts the densest block took 19 s and 3.81 GB (12,942 values). `P = 64` against `P = 128`
-made no measurable difference on that block. Estimate for the whole first bite, from the six block
-counts: about 40 s of kernel time in 4 shards, against about 50 s before the cuts and about 1 min
-(projected) for `walkB`.
+made no measurable difference on that block. Extrapolated from the two probed blocks (of six), the
+whole first bite is about 40 s of kernel time in 4 shards. That compares with about 50 s before the
+cuts (also extrapolated) and about 1 min (projected) for `walkB`.
 
 **Checks.**
 - `#print axioms` of `apK_spec`, `run3_spec`, `hnode_spec`, `walkB2_sound`,
@@ -231,3 +238,21 @@ which addresses the third bite's 76,726 single fibres. It waits until an SJS cer
 scheduled.
 
 V2-BULK-CUTS DONE
+
+## V2-BULK-RUNS-FIX (audit AUDIT-V2-BULK-RUNS-1: PASS WITH CHANGES, Lean sound)
+
+- **D1.** Pre-cut statements are marked as such: the crossing run's tolerance acceptance and the
+  three tolerance values per split node (design §8, and this handoff's caveat), each with a pointer
+  to the CUTS subsection.
+- **D2.** The whole-bite kernel times (about 50 s before the cuts, about 40 s after) are labelled as
+  extrapolations from two probed blocks of six.
+- **D3.** The CUTS tables state `N` and fibres and compare at equal `N` (`P = 128`). The probe rows
+  at `P = 64` carry `N = 1,318`. Stale numbers are fixed: the toy's 924 nodes, and the line counts of
+  `Bulk2.lean` (570), `BulkRuns.lean` (1,120) and `Bulk2Toy.lean` (69).
+- **E1 (orchestrator decision).** The producer (`scripts/certifier/fiber3_bulk2.py`, `sjs`) uses
+  `P = 128` at all bites. A rerun gives 15,299 / 15,903, 45,364 / 46,954 and 144,083 / 147,868 nodes
+  / values, matching the audit's own run.
+- No Lean file changes. The cross-language module still matches
+  (`fiber3_bulk2_xlang.py --check`), because its SJS rows already used `P = 128`.
+
+V2-BULK-RUNS-FIX DONE

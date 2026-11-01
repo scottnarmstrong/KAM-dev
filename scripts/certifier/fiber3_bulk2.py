@@ -383,7 +383,7 @@ def sjs(args):
                 continue
             Sp = S * float(f3.clockC(box)) ** 2
             t0 = time.time()
-            P = 128 if b < F(1, 1000) else 64      # P = 64 at the first two bites, 128 at the third
+            P = 128     # at all bites (audit AUDIT-V2-BULK-RUNS-1, E1: P = 64 gave a larger N and no gain)
             w, c, sv, st = produce_bulk2_site(box, gamma, b, 2, S_est=Sp, P=P)
             dt = time.time() - t0
             full = fb.sd_sum_fiber_np((float(cb[0][0]), float(cb[1][0])), float(2 * b), w["N"])

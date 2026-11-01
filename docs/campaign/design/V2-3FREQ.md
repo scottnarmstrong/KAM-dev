@@ -328,7 +328,9 @@ The mass map (float) shows how much each part matters:
   - Approaching (`d < 0`): the weights are at most the largest, and
     `Σ_{k<n} (F₁+ke')⁻² ≤ n/((F₁−e'/2)(F₁+(n−½)e'))`.
   - Acceptance: the near end must be at least `s|d|` from the crossing; when approaching, the
-    weights must also vary by at most `rn/rd`. A value at most `tol` is accepted too.
+    weights must also vary by at most `rn/rd`. Before V2-BULK-CUTS a value at most `tol` was also
+    accepted; since the cuts a crossing run is accepted by its quality alone (CUTS subsection
+    below).
 - *Weights at any length*: `gsumK n = ⌈2^P(2^P − powDownK n)/(2^P − e)⌉ ≥ 2^P Σ_{j<n} x^j`. This
   needs no table and needs `e < 2^P`. `blkK_spec_gen` is `blkK_spec` at the run's own length.
 
@@ -362,17 +364,18 @@ sum, as in §7.
 | `6.6·10⁻⁴` | `5.8·10⁷` | 653,691 / 345,363 | **122,921** / 164,699 | +0.31 % | |
 
 **Kernel cost tracks value computations, not nodes.** A value costs about three binary powers of
-`P`-bit numbers. `walkB2` evaluates more values per node than `walkB` does, because a node that ends
-up split may compute plain, tent and crossing values for their tolerance tests. Kernel probes at the
-first bite (temporary shard modules, not committed; base about 1.5 GB):
+`P`-bit numbers. Before V2-BULK-CUTS, `walkB2` evaluated more values per node than `walkB` does,
+because a node that ends up split could compute plain, tent and crossing values for their tolerance
+tests; the cuts (subsection below) remove the tent and crossing ones. Kernel probes at the first
+bite, before the cuts (temporary shard modules, not committed; base about 1.5 GB):
 
 | 512-row block | `walkB2` nodes, values | build, peak | `walkB` nodes, build, peak |
 |---|---|---|---|
 | typical | 1,860, 2,259 | 11 s, 2.0 GB | 8,033, 13 s, 3.05 GB |
 | densest | 7,311, 12,942 | 19 s, 3.8 GB | 21,249, over 4 GB (killed) |
 
-At the first bite, the estimate for the whole `walkB2` walk is about 50 s of kernel time in 4–5
-shards. That is a modest gain over `walkB` (about 1 min projected, 4 shards). At the third bite the
+At the first bite, extrapolated from the two probed blocks (of six), the whole `walkB2` walk
+before the cuts is about 50 s of kernel time in 4–5 shards. That is a modest gain over `walkB` (about 1 min projected, 4 shards). At the third bite the
 values drop 2.1× (`walkB2` 164,699 against `walkB` 345,363). Possible further savings are listed in
 the handoff.
 
@@ -383,26 +386,29 @@ so soundness is unchanged (`run3_spec`):
   cannot pass.
 - A crossing run is accepted by its quality alone, and its value is computed only when it is
   accepted.
-- `P = 64` at the first two SJS bites, `P = 128` at the third.
+- `P = 128` at all bites (audit AUDIT-V2-BULK-RUNS-1, E1). `P = 64` was tried at the first two
+  bites. It raised `N` (1,318 against 1,298 and 2,688 against 2,647, so 3.1 % more fibres at the
+  first bite) and gave about 2 % more nodes and values, with no kernel-time gain.
 
-Exact mirror (values in parentheses, before the cuts):
+Exact mirror at `P = 128`, so the same `N` before and after the cuts (before-cut figures in
+parentheses):
 
-| SJS bite | `P` | nodes | values |
-|---|---:|---:|---:|
-| `2.65·10⁻³` | 64 | 15,619 | 16,221 (20,425) |
-| `1.33·10⁻³` | 64 | 46,340 | 47,928 (56,265) |
-| `6.6·10⁻⁴` | 128 | 144,083 | 147,868 (164,699) |
+| SJS bite | `N` | fibres | nodes | values |
+|---|---:|---:|---:|---:|
+| `2.65·10⁻³` | 1,298 | 3,372,204 | 15,299 (13,719) | 15,903 (20,425) |
+| `1.33·10⁻³` | 2,647 | 14,018,512 | 45,364 (38,028) | 46,954 (56,265) |
+| `6.6·10⁻⁴` | 5,387 | 58,050,312 | 144,083 (122,921) | 147,868 (164,699) |
 
-The bounds and constants are unchanged. The light-crossing branch no longer fires, so nodes rise
-while values fall.
+The bounds and constants are unchanged. At the same `N`, nodes rise while values fall. The reason
+is that the light-crossing branch relied on the tolerance fallback and no longer fires.
 
 Kernel probes on the densest 512-row block of the first bite:
 
 | | nodes | values | build | peak |
 |---|---:|---:|---:|---:|
 | before the cuts (`P = 128`) | 7,311 | 12,942 | 19 s | 3.81 GB |
-| with the cuts, `P = 64` | 7,519 | 8,098 | 15 s | 3.41 GB |
-| with the cuts, `P = 128` | | | 15 s | 3.41 GB |
+| with the cuts, `P = 64` (`N = 1,318`) | 7,519 | 8,098 | 15 s | 3.41 GB |
+| with the cuts, `P = 128` | 7,465 | 8,042 | 15 s | 3.41 GB |
 
-`P` made no measurable difference there. The whole first bite is now about 40 s of kernel time in 4
-shards; `walkB`'s is about 1 min (projected).
+`P` made no measurable difference there. Extrapolated from the two probed blocks (of six), the whole
+first bite is about 40 s of kernel time in 4 shards. `walkB`'s is about 1 min (projected).
