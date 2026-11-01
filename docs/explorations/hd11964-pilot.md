@@ -218,9 +218,12 @@ with `Cmax = 0.013` and `e_c ≤ 0.635`, below the Laplace limit; the rates ther
 
   Hence orders 0–3 are reliable to a few per cent, and order 4 is an upper estimate. A certificate does not
   inherit this: its models carry ≥ 128-bit coefficients, and the tail term is bounded separately (design §6.2).
-- **80-bit long double** (`validation/hiprec-N4-s0.0-f0.0-48x48.json`). This is the same computation with
-  explicit long-double DFTs at circular orbits, where the true remainder is tiny and resolved on 48 × 48.
-  HIPREC_RESULT
+- **80-bit long double: did not complete.** `hiprec.py` reruns a centre with explicit long-double DFTs (numpy
+  has no long-double FFT), which cost about 10³ times the float64 `rfft2`. The order-4 run at circular orbits on
+  48 × 48 (`hiprec.py 4 0.0 48 48 long 0.0 0.0`) hit its 5,400 s limit. An order-3 run on 64 × 48 was stopped
+  by hand: its float64 leg took 4.8 s. No long-double value exists, so the order-4 precision question rests on
+  tests 1–3 above. The order 0–3 values, which set the 10³ and 10⁶ yr rungs, do not depend on it. The 10⁹ yr
+  rung uses the order-4 upper estimate.
 
 ### 5.4 Rigorous-design estimate
 
@@ -287,9 +290,9 @@ Design §7 answers the orchestrator's addendum. In short:
 - **Deviations from the brief.**
   - *Order and steps.* The brief's "K ≈ 73, 3 steps" was taken as the starting point. The gate runs a plain Lie
     series to order 4 with the slow variables, because frozen-slow Newton steps overstate the gain (§6).
-  - *High precision.* The sweep is float64. The high-precision leg reruns sample centres in 80-bit long double
-    with explicit DFTs and compares (§5.3); a 30-digit rerun was not done. The geometry and threshold checks
-    are exact rationals and 40-digit mpmath.
+  - *High precision.* The sweep is float64. The high-precision leg is a mass-scaling test and grid refinement
+    (§5.3). The 80-bit long-double rerun did not finish within its time limit, and a 30-digit rerun was not
+    attempted. The geometry and threshold checks use exact rationals and 40-digit mpmath.
   - *Region.* The certificate region is built on the certified drift `d`, not on the helper's `r` (design §3).
     This keeps `e_c ≤ 0.61`, below the Laplace limit.
   - *Addition:* the "Kernel engine" section (orchestrator addendum).

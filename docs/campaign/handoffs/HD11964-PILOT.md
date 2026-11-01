@@ -40,7 +40,7 @@ Worker HD11964-PILOT, branch `hd11964` (worktree `/home/scott/KAM-dev-worktrees/
      - a cutoff scan;
      - ℓ¹/sup loss factors;
      - grid convergence;
-     - long-double reruns and mass scaling.
+     - mass scaling (the long-double rerun did not finish).
 4. **Design.**
    - The headline shape. The bridge `stoppedDrift_of_approxIntegrals`, built on LP-LIFT and a nested first exit.
    - The certificate checks, with the exact Lie-remainder identity, so that no `O(μ)` cancellation happens in
@@ -73,7 +73,9 @@ All commands were run from the repository root.
   - `rigor.py 3 0.0,0.5,0.85,1.0`: ℓ¹/sup 1.01–1.66 at every order.
   - `conv.py` at `e_c = 0.44` and `hiprec.py 4 0.85 352 64 nolong`: μ-scaling ratios 2.0 / 4.0 / 8.0 /
     15.8–16.0 / 2.0–2.9 for orders 0–4; order 4 is float64-limited.
-  - `hiprec.py 4 0.0 48 48 long 0.0 0.0`: HIPREC_SHORT
+  - `hiprec.py 4 0.0 48 48 long 0.0 0.0`: killed by its `timeout 5400` (exit 143), with no output. Explicit
+    long-double DFTs are about 10³ times slower than `rfft2`. An order-3 long run on 64 × 48 was stopped by
+    hand. No long-double comparison exists.
 - **`scripts/lint_sources.sh`**. Every file-based check passes:
   - `check_lean_modules: PASS (4397 Lean files)`, the 25 frozen-anchor tests OK, `FROZEN-ANCHOR GUARD OK`;
   - `gen_root_imports.py --check` and `render_errata.py --check` pass.
@@ -135,8 +137,8 @@ The conservative option was taken in each case; nothing blocked.
   corresponds to order 4 for 10⁹ yr. Its own §5.5 caveat 1 anticipated this.
 - **Deviations.**
   - The gate runs order 4, not 3. Frozen-slow Newton steps do not transfer.
-  - The high-precision leg is 80-bit long double at sample centres, plus a mass-scaling test, not a full
-    30-digit rerun.
+  - The high-precision leg is a mass-scaling test plus grid refinement. The 80-bit long-double rerun did not
+    finish, and a 30-digit rerun was not attempted.
   - The certificate region is built on the certified drift `d`, not on the helper's `r`. This keeps `e_c` below
     the Laplace limit.
   - The lint's ABI-hash step could not run in this worktree: 164 of 307 frozen modules have no `.olean` in its
