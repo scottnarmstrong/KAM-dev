@@ -126,13 +126,13 @@ theorem w6Compose_main (hI : W6IterHyp d S0) (ν : ℕ) :
       rw [a1, map_add, ← add_assoc, ← eK]
     · rw [hΦd.fderiv, hΨd.fderiv, a5, eDK]
       refine ContinuousLinearMap.ext fun W => ?_
-      simp only [ContinuousLinearMap.comp_apply, ContinuousLinearMap.add_apply,
+      simp only [ContinuousLinearMap.comp_apply, add_apply,
         ContinuousLinearMap.id_apply, map_add]
       abel
     · rw [hΨd.fderiv]
-      simp only [ContinuousLinearMap.add_apply, ContinuousLinearMap.comp_apply]
+      simp only [add_apply, ContinuousLinearMap.comp_apply]
       rw [eDK]
-      simp only [ContinuousLinearMap.add_apply, ContinuousLinearMap.comp_apply,
+      simp only [add_apply, ContinuousLinearMap.comp_apply,
         ContinuousLinearMap.id_apply]
       have hrν := W6SeqData.w6r_pos hd.1 ν
       have hrν1 := W6SeqData.w6r_pos hd.1 (ν + 1)
@@ -253,7 +253,7 @@ theorem w6Compose_ops (hI : W6IterHyp d S0) (ν : ℕ) :
   obtain ⟨hs, hon⟩ := hSO ν ξ hξ w hw
   refine ⟨fun W => ?_, fun W' => ?_, hs, hon⟩
   · rw [a5]
-    simp only [ContinuousLinearMap.add_apply, ContinuousLinearMap.id_apply,
+    simp only [add_apply, ContinuousLinearMap.id_apply,
       ContinuousLinearMap.comp_apply]
     have h1 := kamNorm_add_le hr0 W (w6Iota (fderiv ℂ (w6PsiC d S0 ν ξ) w W))
     have h2 := kamNorm_w6Iota_le hr0 (fderiv ℂ (w6PsiC d S0 ν ξ) w W)
@@ -263,7 +263,7 @@ theorem w6Compose_ops (hI : W6IterHyp d S0) (ν : ℕ) :
     nlinarith
   · refine ⟨W' + fderiv ℂ (w6PsiC d S0 ν ξ) w (w6Iota W'), ?_, ?_⟩
     · rw [a5]
-      simp only [ContinuousLinearMap.add_apply, ContinuousLinearMap.id_apply,
+      simp only [add_apply, ContinuousLinearMap.id_apply,
         ContinuousLinearMap.comp_apply, map_add]
     · have h1 := kamNorm_add_le hr0 W' (fderiv ℂ (w6PsiC d S0 ν ξ) w (w6Iota W'))
       have h3 := a6 (w6Iota W')
