@@ -140,6 +140,29 @@ theorem norm_stepGfam_le {t : ℝ} (ht : t ∈ Icc (0 : ℝ) 1) {z : StepPhase r
   nlinarith [ht.1, ht.2, norm_nonneg (stepBrG ha hp hpb (homNhatTaylor_gen T) FT z),
     norm_nonneg (stepBrG ha hp hpb T FT z)]
 
+theorem norm_stepGfam_sub_le {t t' : ℝ} {z : StepPhase r}
+    (hz : z ∈ stepDomain r (s - 2 * σ) (r / 2)) :
+    ‖stepGfam ha hp hpb T FT t z - stepGfam ha hp hpb T FT t' z‖ ≤
+      3 * ((4 * Real.pi + 1) * r ^ 2 * (e₁ * Mf)) * |t - t'| := by
+  have h1 := norm_stepBrG_le (TG := homNhatTaylor_gen T) (FT := FT) ha hp hpb hσ hσs hTn hF hz
+  have h2 := norm_stepBrG_le (TG := T) (FT := FT) ha hp hpb hσ hσs hT hF hz
+  have e : stepGfam ha hp hpb T FT t z - stepGfam ha hp hpb T FT t' z =
+      ((t - t' : ℝ) : ℂ) * (stepBrG ha hp hpb T FT z - stepBrG ha hp hpb (homNhatTaylor_gen T) FT z) := by
+    unfold stepGfam
+    push_cast
+    ring
+  rw [e, norm_mul, Complex.norm_real, Real.norm_eq_abs]
+  have hc : 0 ≤ (4 * Real.pi + 1) * r ^ 2 * (e₁ * Mf) := by positivity
+  have : ‖stepBrG ha hp hpb T FT z - stepBrG ha hp hpb (homNhatTaylor_gen T) FT z‖ ≤
+      3 * ((4 * Real.pi + 1) * r ^ 2 * (e₁ * Mf)) := by
+    refine (norm_sub_le _ _).trans ?_
+    have h1' : ‖stepBrG ha hp hpb (homNhatTaylor_gen T) FT z‖ ≤
+        2 * ((4 * Real.pi + 1) * r ^ 2 * (e₁ * Mf)) := by
+      refine h1.trans (le_of_eq ?_); ring
+    linarith
+  rw [mul_comm]
+  exact (mul_le_mul_of_nonneg_right this (abs_nonneg _)).trans_eq (by ring)
+
 end bounds
 
 end fam
