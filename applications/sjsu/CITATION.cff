@@ -1,0 +1,61 @@
+cff-version: 1.2.0
+message: >-
+  If you use the SJSU18 secular-model dataset, please cite it as below, together with the
+  papers whose recipe it reconstructs (references).
+type: dataset
+title: "SJSU18: a reconstructed degree-18 planar secular Hamiltonian of the Sun-Jupiter-Saturn-Uranus system"
+version: 0.1.0
+date-released: 2026-11-01
+license: CC-BY-4.0
+authors:
+  - family-names: Armstrong
+    given-names: Scott
+    affiliation: "CNRS, Sorbonne Université, Courant Institute"
+  - family-names: Komargodski
+    given-names: Zohar
+repository-code: "https://github.com/"  # KAM-dev repository URL to be filled in by the owner
+keywords:
+  - celestial mechanics
+  - secular Hamiltonian
+  - planetary three-body problem
+  - Sun-Jupiter-Saturn-Uranus
+  - Poincare variables
+  - Lie series
+abstract: >-
+  Machine-readable polynomial secular Hamiltonian (degree 18 in the secular Poincare
+  variables) of the planar Sun-Jupiter-Saturn-Uranus system, regenerated from the recipe of
+  Sansottera, Locatelli and Giorgilli (2013), with the generator scripts, the averaged
+  reference semi-major axes, and validation tables against the published coefficients.
+  Funded by the European Research Council (ERC), grant agreement No. 101200828.
+references:
+  - type: article
+    authors:
+      - family-names: Sansottera
+        given-names: Marco
+      - family-names: Locatelli
+        given-names: Ugo
+      - family-names: Giorgilli
+        given-names: Antonio
+    title: "On the stability of the secular evolution of the planar Sun-Jupiter-Saturn-Uranus system"
+    journal: "Mathematics and Computers in Simulation"
+    volume: 88
+    start: 1
+    end: 14
+    year: 2013
+    doi: 10.1016/j.matcom.2010.11.018
+  - type: article
+    authors:
+      - family-names: Giorgilli
+        given-names: Antonio
+      - family-names: Locatelli
+        given-names: Ugo
+      - family-names: Sansottera
+        given-names: Marco
+    title: "Secular dynamics of a planar model of the Sun-Jupiter-Saturn-Uranus system; effective stability into the light of Kolmogorov and Nekhoroshev theories"
+    journal: "Regular and Chaotic Dynamics"
+    volume: 22
+    issue: 1
+    start: 54
+    end: 77
+    year: 2017
+    doi: 10.1134/S156035471701004X

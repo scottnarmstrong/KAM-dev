@@ -1,0 +1,28 @@
+{
+ "astar": [
+  "5.202374655793598",
+  "9.554443730484715",
+  "19.21504720877541"
+ ],
+ "definition": "time average over 0 <= t <= 1e6 yr of the Poincare semi-major axes a_j (from r_j and r~_j/beta_j with mu_j = G(m0+m_j)) along the planar SJSU N-body flow from SLG13 Table 1 read as Poincare elements; WH democratic-heliocentric map, Yoshida 4th order, dt = 0.5 yr, float64 (scripts/nbody.py)",
+ "window_dependence_rel_1e6_vs_3e5": [
+  1.045270799511184e-07,
+  6.246400655111827e-07,
+  1.2067869664878182e-07
+ ],
+ "measured_mean_motions_1e5yr": [
+  "0.529729552251872",
+  "0.21331472466855675",
+  "0.07480247261428478"
+ ],
+ "measured_2n1_minus_5n2": -0.007114518839039796,
+ "measured_3n1_minus_5n2_minus_7n3": -0.001002274887161203,
+ "heliocentric_osculating_average_1e6yr": [
+  "5.202373898178882",
+  "9.554508224463024",
+  "19.215289768248685"
+ ],
+ "max_rel_energy_error": 9.510379439525707e-08,
+ "command": "python3 -I applications/sjsu/scripts/nbody.py --years 1e6 --dt 0.5 --ic poincare",
+ "status": "measured (floating point); SLG13 do not print their a*_j nor the integration length"
+}

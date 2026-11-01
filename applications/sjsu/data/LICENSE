@@ -1,0 +1,18 @@
+The data files in this directory (applications/sjsu/data/) and the validation tables in
+applications/sjsu/validation/ are licensed under the Creative Commons Attribution 4.0
+International License (CC BY 4.0).
+
+  SPDX-License-Identifier: CC-BY-4.0
+  Full legal code: https://creativecommons.org/licenses/by/4.0/legalcode
+  Human-readable summary: https://creativecommons.org/licenses/by/4.0/
+
+You are free to share and adapt the material for any purpose, provided you give appropriate
+credit (see applications/sjsu/CITATION.cff), provide a link to the license, and indicate if
+changes were made.
+
+The scripts that generate these files (applications/sjsu/scripts/) are part of the KAM-dev
+repository and are licensed under the Apache License 2.0 (see the repository's LICENSE file).
+
+The model is a reconstruction from the published recipe of M. Sansottera, U. Locatelli and
+A. Giorgilli (Math. Comput. Simul. 88 (2013) 1-14) and A. Giorgilli, U. Locatelli and
+M. Sansottera (Regul. Chaotic Dyn. 22 (2017) 54-77); please cite those papers as well.
