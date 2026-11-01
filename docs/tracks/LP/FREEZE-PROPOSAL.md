@@ -28,7 +28,7 @@ Source: [`source/MAIN.md`](source/MAIN.md) as amended by [`source/AMENDMENTS.md`
 |---|---|---|---|
 | LP0 | `planar_strongAMD_barrier` | L5 in full (with L2–L4) | **proved (draft-2 text, exactly)** by LP-PS `lp0_planar_barrier` from GEOMOD (landed); same verification file |
 | LP1 | `planar_strongAMD_exponentialSafety` | Theorem 15 (+ L16) | **proved (draft-2 text, exactly)** by LP-PS `lp1_planar_strongAMD_safety_normalized` (branch `inp-lp-ps` 74ebebb1; audit pending). Verification: `freeze/verification-draft-2.lean.txt` states the draft-2 LP0 and LP1 verbatim and closes them by the proved theorems; capped `lp_lean`, exit 0, axioms `[propext, Classical.choice, Quot.sound]` |
-| LP2 | `spatial_strongAMD_exponentialSafety` | Theorem 19 (+ L16, d = 3) | **proved** by LP-SP-SAFE `lp2_spatial_strongAMD_safety_normalized` (branch `inp-lp-spsafe` c9553935; audit pending); axioms `[propext, Classical.choice, Quot.sound]` (orchestrator re-check); text §3c, not yet statement-reviewed |
+| LP2 | `spatial_strongAMD_exponentialSafety` | Theorem 19 (+ L16, d = 3) | **proved** by LP-SP-SAFE `lp2_spatial_strongAMD_safety_normalized` (branch `inp-lp-spsafe` c9553935; audit pending); axioms `[propext, Classical.choice, Quot.sound]` (orchestrator re-check); text §3c, statement review 4 PASS for fidelity; under OD-11 (b) the anchor surface is the §3d text (review 5 PASS WITH NOTES) |
 | LP-cor | `planar_strongAMD_exponentialSafety_halfInteger` | §1 (τ = n − 1/2) | corollary, exponent `1/(2n+1)` (`scaleExponent_planar`, NRS) |
 
 Definitions entering the statements (all non-frozen today). **Which of them would be frozen as source objects, and in
@@ -306,7 +306,7 @@ The exact spatial twin of §3 (LP1): `Phase (n * 3)`, Euclidean `spaceLength`, t
 spatial objects; **no** prograde, inclination, nonzero-total-angular-momentum, alignment or secular premise (MAIN
 Theorem 19; roadmap §2): the frame alignment with `L` is done inside the proof by a rotation. Proved by LP-SP-SAFE
 (full module: `freeze/lp2-SpatialSafety-Main.lean.txt`). Under OD-11 (b) the spatial physical quantities would be
-restated through source carriers (package LP-SP-SRC, in progress; audit LP-W4A-1 note N1).
+restated through source carriers (packages LP-SP-SRC, LP-SP-SRCB, LP-SP-SRCB2, proved; §3d; audit LP-W4A-1 note N1).
 
 ```lean
 theorem spatial_strongAMD_exponentialSafety (hn : 2 ≤ n) (ν : Fin n → ℝ)
@@ -365,7 +365,7 @@ theorem spatial_strongAMD_exponentialSafety (hn : 2 ≤ n) (ν : Fin n → ℝ)
               spatialOscPeri ν μ (z t) a.upperIdx - spatialOscApo ν μ (z t) a.1)
 ```
 
-## 3d. LP2 under OD-11 option (b): exact text through the spatial source carriers (draft 6: R4.1 (A) applied; delta re-review pending)
+## 3d. LP2 under OD-11 option (b): exact text through the spatial source carriers (draft 6: R4.1 (A) applied; delta review 5 PASS WITH NOTES)
 
 *Review 4, R4.1 (BLOCKING) is resolved by (A): every canonical element at `z₀` and `z t` now goes through `spatialSource*`.
 The text below is the review's replacement text, elaborated without any change and proved (package LP-SP-SRCB2, branch
@@ -376,9 +376,10 @@ Package LP-SP-SRC (part A: `KAM/Planetary/Spatial/SourceCarrier.lean`, the spati
 definitions with characterizations, answering audit LP-W4A-1 note N1) and LP-SP-SRCB (part B: LP2 restated through
 them, **proved** from `lp2_spatial_strongAMD_safety_normalized`; branch `inp-lp-spsrcb` 6e84c27a, restated by
 LP-SP-SRCB2 1f078521; axioms standard).
-Full files: `freeze/odb-Spatial-SourceCarrier.lean.txt`, `freeze/odb-Spatial-SpatialSafety-Source.lean.txt`. Same
-shape as §3b relative to §3: a typing binder `h₀`, the source AMD in the hypothesis, existential subtype proofs in
-the conclusion.
+Full files: `freeze/odb-Spatial-SourceCarrier.lean.txt`, `freeze/odb-Spatial-SpatialSafety-Source.lean.txt`. Relative
+to §3b, §3d also restricts the canonical axis, action and eccentricity vector (premises and conclusions) to the source
+carrier, places `h₀` before the axes premise, and merges the per-time witnesses into one `∃ hs` (review 5, R5.3; the
+planar §3b keeps the frozen raw helpers, R5.4).
 
 ```lean
 theorem lp2_spatial_strongAMD_safety_source (hn : 2 ≤ n) (ν : Fin n → ℝ)
@@ -527,9 +528,14 @@ theorem lp2_spatial_strongAMD_safety_source (hn : 2 ≤ n) (ν : Fin n → ℝ)
   - `spatialSourceOsc{Velocity,Param,Energy,Axis,EccVector,Ecc,Peri,Apo}`.
 
   The total formulas stay **internal implementation helpers in the definition closure** and are not certified as
-  MAIN's objects off their carriers: `spatialKeplerEnergy` (used only inside the carrier predicate),
-  `spatialKeplerAxis/Action/EccVector`, `spatialStrongAMD`, `spatialStrongAMDOn`, `spatialKeplerPeri/Apo` and
-  `spatialOsc*`. The same holds for `spatialHamiltonian`, which is totalized at collisions and consumed only through
+  MAIN's objects off their carriers: `spatialKeplerEnergy`, `spatialKeplerAxis/Action/EccVector`, `spatialStrongAMD`,
+  `spatialStrongAMDOn`, `spatialKeplerPeri/Apo` and `spatialOsc*`. In the anchor text, only `spatialKeplerEnergy`,
+  `spatialOscEnergy` and `spatialOscEcc` occur directly. Each occurs only as a sign condition inside a guarded
+  predicate:
+  - `spatialKeplerEnergy` in the physical premise and the canonical carrier predicate (`h₀`, `hs`);
+  - `spatialOscEnergy` and `spatialOscEcc` in the osculating carrier predicate (`ho`).
+
+  These predicates are false whenever `|q_i| = 0` and literal otherwise (review 5, R5.1). The same holds for `spatialHamiltonian`, which is totalized at collisions and consumed only through
   `IsSpatialMovingSolutionOn`, whose collision guard and `DifferentiableAt` on an open domain make the predicate
   faithful (R4.8). This bullet presupposes R4.1 (A); under R4.1 (B), `spatialKeplerAxis/Action/EccVector` move to
   the frozen list with the recorded ruling.
