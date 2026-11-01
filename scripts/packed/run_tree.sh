@@ -8,8 +8,9 @@
 #          b3b    the B3b route on LG00's real certificate (`torsRBase` + `routeARefinedPackedS`), with the tree's
 #                 landed `cfgLow` composition (its `Low` chain, reused from LG00's run) and the tree's statement;
 #          jet    the production route on kamx-packed's certificate copy (`jetBase` + `routeARefinedPackedSJ`):
-#                 needs the landed jet API (V2-PACKED-PROD) and consumers (V2-PACKED-CONS) in the core, and
-#                 kamx-packed's chain inputs JET_LOW_JSON, JET_LOW_CACHE, JET_FULL_JSON, JET_FULL_CACHE (env).
+#                 run from the integration worktree (its core has the jet API, the consumers, RouteSharpJ,
+#                 JetFront); needs kamx-packed's built package (PROD_PKG) and mirror caches JET_LOW_CACHE,
+#                 JET_FULL_CACHE (env), and a kam-lg00 package with LG00's built modules (LG00_PKG).
 #   CAP    the memory cap per Lean process (default 4G)
 # Environment: PKG (default <core>/.lake/lg00-packed), LG00_APP (default lg00-app's applications/lg00).
 # Every Python step runs under the 8 GB cap (py_capped.sh); every Lean process alone under CAP (run_packed.py).
@@ -35,18 +36,26 @@ case $route in
     targets="LG00Packed.$tree.Main"
     ;;
   jet)
-    pg=${PROD_GEN:-$here/prod_cert_gen.py}
-    jg=${JET_PROD_GEN:-$here/jet_prod_gen.py}
-    $py "$here/gen_pkg.py" --pkg "$pkg"
-    $py "$pg" "$pkg" --app="$app" --tree="$tree" --prefix=LG00P
+    # The integration recipe (handoff, "The T' jet route PROVED"): a package mirroring kamx-packed's `kam-lg00p`
+    # (their certificate copy and chains reused read only), which requires a `kam-lg00` package holding LG00's own
+    # built modules (the Hamiltonian bounds and the disc pass are imported, not re-proved), the port of LG00's
+    # chain-free proof, and the packed modules. The core at $core must contain v2-packed-prod's and v2-packed-cons'
+    # Lean, RouteSharpJ and JetFront (the integration branch v2-packed-gen-int).
+    pkg=${PKG:-$core/.lake/lg00p}
+    theirs=${PROD_PKG:-/home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/pkg}
+    lg00pkg=${LG00_PKG:-/home/scott/KAM-dev-worktrees/v2-packed-gen/.lake/lg00-packed}
+    pg=${PROD_GEN:-/home/scott/KAM-dev-worktrees/v2-packed/scripts/packed/prod_cert_gen.py}
+    mods=$(cd "$theirs" && find LG00P -name '*.lean' | sed 's|\.lean$||; s|/|.|g' | tr '\n' ' ')
+    $py "$here/gen_pkg.py" --pkg "$pkg" --like "$theirs" --core "$core" --lg00 "$theirs" $mods
+    $py "$here/gen_pkg.py" --pkg "$lg00pkg" "LG00.$tree.Balls.HamBounds" "LG00.$tree.Final.HamClaim"
+    $py "$here/gen_pkg.py" --pkg "$pkg" --keep-config --require-lg00 "$lg00pkg"
     $py "$here/gen_port.py" "$pkg" --app="$app" --tree="$tree" --prefix=LG00P --prod-gen="$pg"
-    $py "$jg" "$JET_LOW_JSON" "$JET_LOW_CACHE" "$pkg" --stage=Low --prefix=LG00P --tree="$tree"
-    $py "$jg" "$JET_FULL_JSON" "$JET_FULL_CACHE" "$pkg" --stage=Full --prefix=LG00P --tree="$tree"
     $py "$here/gen_packed.py" --tree "$tree" --prefix LG00P --pkg "$pkg" --stages jet \
       --jet-low "$JET_LOW_CACHE" --jet-full "$JET_FULL_CACHE"
     targets="LG00P.$tree.PK.MainJ"
     ;;
   *) echo "unknown route $route"; exit 2;;
 esac
+CORE_DIR=$core bash "$here/run_core_frontier.sh" KAM.CertificateSharp.Packed.RouteSharp
 python3 -I "$here/run_packed.py" "$logdir" "$cap" $targets --pkg "$pkg"
 python3 -I "$here/run_packed.py" --summary "$logdir"

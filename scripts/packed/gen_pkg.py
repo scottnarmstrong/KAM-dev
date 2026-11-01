@@ -24,7 +24,9 @@ imports (`V2/SiteSign.lean`, `V2/SiteShard.lean`: the `Final` and `Main` modules
 `--like PKG [--core DIR]`: mirror another scratch package's configuration (kamx-packed's `kam-lg00p`) on the core at
 DIR instead of LG00's, and `--lg00 PKG` reuses that package's modules: the jet route's integration package.
 `--keep-config` reuses modules from another source into an existing package (no configuration written);
-`--add-lg00-lib` appends LG00's library with LG00's options (LG00's own modules imported read only).
+`--add-lg00-lib` appends LG00's library with LG00's options (LG00's own modules imported read only);
+`--require-lg00 DIR` requires the package at DIR (named `kam-lg00`, holding LG00's built modules) instead: the
+package name enters every Lake trace, so LG00's artifacts are reused only under LG00's package name.
 Usage: python3 -I scripts/packed/gen_pkg.py [--pkg DIR] [--lg00 DIR] [--like PKG] [--core DIR] [--keep-config]
        [--add-lg00-lib] [--check] ROOT_MODULE...
 """
@@ -92,6 +94,24 @@ def add_lg00_lib(pkg, lg00_app):
     lf += ("\n/-- LG00's modules, imported read only (V2-PACKED-GEN): LG00's own Lean options. -/\n%s\n\n"
            "lean_lib «LG00» where\n  leanOptions := lg00LeanOptions\n" % opts)
     open(lf_path, "w", encoding="utf-8").write(lf)
+
+
+def require_lg00(pkg, dep):
+    """`require «kam-lg00» from DEP` (a package holding LG00's built modules under LG00's own package name, so their
+    traces hold: the package name enters every trace), with its manifest entry."""
+    lf_path = os.path.join(pkg, "lakefile.lean")
+    lf = open(lf_path, encoding="utf-8").read()
+    rel = os.path.relpath(os.path.abspath(dep), pkg)
+    if "require «kam-lg00»" not in lf:
+        lf = re.sub(r'(require kam from "[^"]*")', r'\1\n\n/-- LG00\'s own modules, read only (V2-PACKED-GEN). -/\n'
+                    r'require «kam-lg00» from "%s"' % rel, lf, count=1)
+        open(lf_path, "w", encoding="utf-8").write(lf)
+    man = json.load(open(os.path.join(pkg, "lake-manifest.json")))
+    if not any(p["name"] in ("«kam-lg00»", "kam-lg00") for p in man["packages"]):
+        man["packages"].insert(1, {"type": "path", "scope": "", "name": "«kam-lg00»",
+                                   "manifestFile": "lake-manifest.json", "inherited": False, "dir": rel,
+                                   "configFile": "lakefile.lean"})
+        json.dump(man, open(os.path.join(pkg, "lake-manifest.json"), "w"), indent=1)
 
 
 def write_config_like(pkg, like, core):
@@ -230,6 +250,10 @@ def main():
         write_config(pkg, lg00)
     if add_lib:
         add_lg00_lib(pkg, LG00)
+    if "--require-lg00" in args:
+        i = args.index("--require-lg00")
+        require_lg00(pkg, args[i + 1])
+        roots = [r for r in roots if r != args[i + 1]]
     mods, core = closure(lg00, roots)
     print("roots %s: %d LG00 modules, %d core imports" % (roots, len(mods), len(core)))
     print("sources copied %d, artifacts hardlinked %d, copied %d" % reuse(pkg, lg00, mods))
