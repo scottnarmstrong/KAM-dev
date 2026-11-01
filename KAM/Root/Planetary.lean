@@ -634,6 +634,16 @@ public import KAM.Planetary.SecularSpectrum.LocalAnalytic
 public import KAM.Planetary.SecularSpectrum.Norms
 public import KAM.Planetary.SecularSpectrum.Transport
 public import KAM.Planetary.SecularSpectrum.TwoPlanets
+public import KAM.Planetary.Spatial.Chart.Analytic
+public import KAM.Planetary.Spatial.Chart.Defs
+public import KAM.Planetary.Spatial.Chart.Diffeo
+public import KAM.Planetary.Spatial.Chart.Elements
+public import KAM.Planetary.Spatial.Chart.Image
+public import KAM.Planetary.Spatial.Chart.Inverse
+public import KAM.Planetary.Spatial.Chart.LineDeriv
+public import KAM.Planetary.Spatial.Chart.RotAlgebra
+public import KAM.Planetary.Spatial.Chart.Symplectic
+public import KAM.Planetary.Spatial.Chart
 public import KAM.Planetary.Spatial.Rotation46
 public import KAM.Planetary.StrongAMD.AnalyticDomain.Containment
 public import KAM.Planetary.StrongAMD.AnalyticDomain.Core

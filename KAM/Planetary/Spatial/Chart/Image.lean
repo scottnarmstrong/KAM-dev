@@ -44,8 +44,15 @@ theorem spatialPoincare_mem_region (hν : 0 < ν) {w : Phase 3} (hw : w ∈ spat
     rw [neg_div]; exact neg_neg_of_pos (div_pos h3 this)
   · rw [spatialPoincare_cross_dot_e₃ hν hw]
     have := hw.2
-    unfold spatialZ at this
-    linarith [spatialZ_nonneg w]
+    linarith
+
+lemma dotProduct_e₃_eq (x : Fin 3 → ℝ) : x ⬝ᵥ e₃ = x 2 := by
+  simp [e₃, dotProduct, Fin.sum_univ_three]
+
+lemma spatial_planeSq_nonneg (v : Fin 2 → ℝ) : 0 ≤ planeSq v :=
+  Finset.sum_nonneg fun _ _ => sq_nonneg _
+
+lemma spatial_planeLength_nonneg (v : Fin 2 → ℝ) : 0 ≤ planeLength v := Real.sqrt_nonneg _
 
 section RightInverse
 
@@ -80,11 +87,11 @@ theorem spatialPoincareInv_chart (hν : 0 < ν) (hz : z ∈ spatialRegion ν) :
       Matrix.mulVec_mulVec, hRo, Matrix.one_mulVec]
   have hq2 : q' 2 = 0 := by
     have h := dot_self_cross q' p'
-    rw [hcr, dotProduct_smul, dotProduct_e₃] at h
+    rw [hcr, dotProduct_smul, dotProduct_e₃_eq] at h
     simpa [hG.ne'] using h
   have hp2 : p' 2 = 0 := by
     have h := dot_cross_self q' p'
-    rw [hcr, dotProduct_smul, dotProduct_e₃] at h
+    rw [hcr, dotProduct_smul, dotProduct_e₃_eq] at h
     simpa [hG.ne'] using h
   have hcz : q' 0 * p' 1 - q' 1 * p' 0 = G := by
     have h := congrFun hcr 2
@@ -106,14 +113,14 @@ theorem spatialPoincareInv_chart (hν : 0 < ν) (hz : z ∈ spatialRegion ν) :
     rw [← h1, hq', hp', spatialEnergy_mulVec hRoT]
     exact hE
   have hlen : 0 < planeLength (spatialStatePlanar z).1 := by
-    rcases (planeLength_nonneg (spatialStatePlanar z).1).lt_or_eq with h | h
+    rcases (spatial_planeLength_nonneg (spatialStatePlanar z).1).lt_or_eq with h | h
     · exact h
     · exfalso
       have h0 : planeLength (spatialStatePlanar z).1 = 0 := h.symm
       unfold energyMK at hEzp
       rw [h0, div_zero, sub_zero] at hEzp
       have : 0 ≤ planeSq (spatialStatePlanar z).2 / (2 * ν) := by
-        have := planeSq_nonneg (spatialStatePlanar z).2
+        have := spatial_planeSq_nonneg (spatialStatePlanar z).2
         positivity
       linarith
   have hcrz : 0 < planeCross (spatialStatePlanar z).1 (spatialStatePlanar z).2 := by
@@ -132,9 +139,9 @@ theorem spatialPoincareInv_chart (hν : 0 < ν) (hz : z ∈ spatialRegion ν) :
   rw [hchart'] at hel
   have hGw : w'.2 0 - poincareGamma w' = G := by
     rw [← hel]
-    show _ = planeCross (spatialStatePlanar z).1 (spatialStatePlanar z).2
+    show planeCross (spatialStatePlanar z).1 (spatialStatePlanar z).2 = G
     rw [hzp]
-    show _ = ![q' 0, q' 1] 0 * ![p' 0, p' 1] 1 - ![q' 0, q' 1] 1 * ![p' 0, p' 1] 0
+    show ![q' 0, q' 1] 0 * ![p' 0, p' 1] 1 - ![q' 0, q' 1] 1 * ![p' 0, p' 1] 0 = G
     simp only [Matrix.cons_val_zero, Matrix.cons_val_one]
     rw [hcz]
   have hang : spatialAngMom (spatialPoincareInv ν z) = G := by
@@ -155,6 +162,7 @@ theorem spatialPoincareInv_chart (hν : 0 < ν) (hz : z ∈ spatialRegion ν) :
   have hR : spatialRot (spatialPoincareInv ν z) = incRotation u v G := by
     unfold spatialRot
     rw [hang, hwdef]
+    rfl
   unfold spatialPoincare
   rw [hpl, hchart', hR, hzp]
   simp only [hq'e, hp'e]
@@ -194,11 +202,10 @@ theorem spatialPoincare_eq_iff (hν : 0 < ν) {w w' : Phase 3} (hw : w ∈ spati
       fin_cases i
       · have := congrFun e1 0
         simp at this ⊢
-        push_cast
         linarith
       · simpa using (congrFun e1 1).symm
       · simpa using (congrFun e1 2).symm
-    · exact e2
+    · exact e2.symm
   · rintro ⟨k, h1, h2⟩
     have : w' = spatialShift k w := Prod.ext h1 h2
     rw [this, spatialPoincare_periodic hν hw k]

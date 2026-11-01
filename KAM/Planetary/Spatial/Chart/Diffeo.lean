@@ -20,6 +20,7 @@ inverse is analytic, as for the planar chart (`poincare_localDiffeo`).
 @[expose] public noncomputable section
 
 open Matrix
+open scoped ContDiff
 
 namespace KAM.Planetary.Spatial
 
