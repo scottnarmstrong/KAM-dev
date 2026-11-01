@@ -112,8 +112,8 @@ Lemma & Lean declarations (file and line)\\
 \subsection{Axioms and status}
 
 \texttt{\#print axioms} reports exactly \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound} for
-the five frozen statements of Table~\ref{tab:lean-main}, checked at commit \texttt{f46b94fb}, and for each of the
-following implementation declarations, checked at commit \texttt{74d77b43}:
+the five frozen statements of Table~\ref{tab:lean-main} and for each of the following implementation
+declarations, checked at commit \texttt{f46b94fb}:
 \begin{itemize}
 \item \texttt{lp0\_planar\_barrier};
 \item \texttt{lp1\_planar\_strongAMD\_safety}, \texttt{lp2\_spatial\_strongAMD\_safety}\\ and their
@@ -121,8 +121,7 @@ following implementation declarations, checked at commit \texttt{74d77b43}:
 \item \texttt{lp3\_planar\_strongAMD\_safety}, \texttt{lp3\_spatial\_strongAMD\_safety}\\ and their
   \texttt{\_normalized} and \texttt{\_source} versions.
 \end{itemize}
-Some files imported by the implementation declarations changed between these two commits; the
-implementation check predates the pinned commit. Each integration of new code into the repository replays the proofs in the Lean kernel. The statements of
+Each integration of new code into the repository replays the proofs in the Lean kernel. The statements of
 Theorems~\ref{thm:barrier}--\ref{thm:spatial} and Corollary~\ref{cor:half} are frozen; Theorem~\ref{thm:resonant}
 is proved, and the freezing of its statement is pending.
 
