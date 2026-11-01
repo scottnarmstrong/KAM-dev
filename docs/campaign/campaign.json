@@ -184,7 +184,7 @@
   "W": "Resumed at reduced size beside SO-3 (D53). Statements frozen (D41: twelve declarations; `nlw2` awaits its proof); blueprint W0–W8 complete and independently accepted; source dependency graph published (695 nodes, 2545 edges, global review PASS); 11 Lean packages on main (W1-SINES, W1-WEIGHTED, W1-ANALYTIC, W0-NORMAL, W1-ALGEBRA, W1-KAMSUP, W0-ANALYSIS, W2-RECON, W1-CUBIC, W3-SETTING, W3-DIVISOR-F)",
   "R": "**complete**: Rüssmann's theorem frozen (strong form Q1(d)) and sealed on 2026-10-30 (D35); proved through track P's quantitative weak-non-degeneracy theorem, without a separate graph",
   "SO-3": "every Lean package on main (LOCK-PO, LOCK-CONF, LOCK-COORDS-R/C, LOCK-SQRT, assembly part 1, LOCK-GRAPH); freeze of `lunar_sync_lock` approved (D49); the N = 65 librational certificate (73.8°) passes every check in the exact mirror; kernel runs and data emission in progress (about 158 MB after compaction; owner ruling on the size pending); then the headline, a one-line application, and the seal",
-  "LP": "Launched 2026-11-01 (D56), top priority. Audited paper proof (A10); every planar lemma proved in Lean (Lemmas 2–8 audited); planar theorem assembly next; nothing frozen yet (freeze proposal and owner decisions await the owner)"
+  "LP": "Launched 2026-11-01 (D56), top priority. Audited paper proof (A10); PLANAR THEOREM PROVED end to end (final audits pending); spatial wave started; nothing frozen yet (freeze proposal and owner decisions await the owner)"
  },
  "so": {
   "goal": "a general Lean certificate checker that turns numerical KAM tori into theorems (complete); first client: the Moon's spin rate stays within 2.755 % of its orbital rate for all time (N = 65; D38, D47), PROVED through the v2 certifier (D44) and on main since 2026-10-31; frozen and sealed (D49, D50) (D49, D50). Next: the Moon locked in synchronous rotation forever (part 3; D42, D45).",
@@ -282,6 +282,6 @@
   }
  },
  "lp": {
-  "now": "Planar theorem LP1 being assembled end to end (LP-PS). Every ingredient is proved in Lean: MAIN Lemmas 2–8 (audited; 2–8 on `main`), 13 (the stopped drift through the existing normal-form engine), 14 (first exit), 16 (osculating ellipses) and the chart lift (LP-LIFT), which discharges the drift premise from the first-exit conditions. Audits rolling on codex-2 (CONF+NRR now; then the independent statement review of the freeze text, LIFT, DOMX, PS). Freeze proposal draft for the owner's morning review; nothing frozen yet. Then the spatial wave."
+  "now": "PLANAR THEOREM PROVED END TO END in Lean (audits pending): `lp1_planar_strongAMD_safety` — below the sharp Laskar–Petit threshold the exact planar (1+n)-body problem has no orbit crossing and no collision for |t| ≤ T₀ exp(c μ^(−1/(2(τ+1)))), with O(√μ) drift and osculating-ellipse bounds, no secular hypothesis — plus the normalized freeze-proposal text verbatim, the τ = n − 1/2 corollary (exponent 1/(2n+1)) and LP0 (the full barrier, Lemma 5); standard axioms only. Remaining for the planar part: the final audits (LIFT/DOMX, the freeze-proposal delta review, the assembly), landings, and the owner's freeze decisions. Wave 4 (spatial) has started: the 3-dimensional model and then the spatial Poincaré chart."
  }
 }
