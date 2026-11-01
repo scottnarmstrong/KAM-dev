@@ -151,7 +151,7 @@ theorem IsFreqPair.minus_n_bound (hS : MeasSetup m hm Pi α)
           obtain ⟨x, hx⟩ := hne
           refine ⟨x, genZone_mono D ω Ω ?_ k (lj j) hx⟩
           rw [hjapL]; exact hη_le j
-        have hd := hP.dichotomy m hm hS ha0.le haβ (IsLam_of_minus (hminus j)) hX hne'
+        have hd := hP.zone_dichotomy m hm hS ha0.le haβ (IsLam_of_minus (hminus j)) hX hne'
         exact (hP.zone_bound_gen m hm hk hd.2.2 (hη_pos j) hρζ).2
       · rw [Set.not_nonempty_iff_eq_empty.1 hne]; simp
     · have e : (⋃ (_ : (k, lj j) ∉ measXSet m hm), genZone D ω Ω (η j) k (lj j)) = ∅ := by

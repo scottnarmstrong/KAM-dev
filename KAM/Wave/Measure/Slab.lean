@@ -16,7 +16,7 @@ Off the frontier: source-faithful infrastructure used by several nodes. The depe
 still being built.
 
 `volume_le_of_coord_slices` is Tonelli along a coordinate line: a measurable `S ⊆ ℝ²` of diameter
-`≤ ρ` whose lines in direction `e_i` have diameter `≤ d` has measure `≤ d ρ`. `slab_measure_le`
+`≤ ρ` whose lines in direction `e_i` have diameter `≤ d` has measure `≤ d ρ`. `measSlab_measure_le`
 is blueprint Lemma `bpW:w7:slab`: if `|φ| < η` on `S` and `φ` grows at least like `σ |t|` along
 the coordinate lines, then `volume S ≤ 2 η ρ / σ`.
 `measurableSet_abs_lt_of_continuousOn` is the Borel statement of `bpW:w7:ext-borel`.
@@ -143,7 +143,7 @@ theorem volume_le_of_coord_slices (i : Fin 2) {S : Set (Fin 2 → ℝ)} (hS : Me
 /-- **Slicing lemma** (blueprint `bpW:w7:slab`): a measurable `S ⊆ ℝ²` of diameter `≤ ρ` on which
 `|φ| < η` and `|φ ζ - φ ζ'| ≥ σ |ζ_i - ζ'_i|` for points on a common line `e_i` has measure at most
 `2 η ρ / σ`. -/
-theorem slab_measure_le (i : Fin 2) {S : Set (Fin 2 → ℝ)} (hS : MeasurableSet S) {ρ σ η : ℝ}
+theorem measSlab_measure_le (i : Fin 2) {S : Set (Fin 2 → ℝ)} (hS : MeasurableSet S) {ρ σ η : ℝ}
     (hσ : 0 < σ) (hη : 0 ≤ η) (φ : (Fin 2 → ℝ) → ℝ)
     (hdiam : ∀ x ∈ S, ∀ y ∈ S, dist x y ≤ ρ) (hsmall : ∀ x ∈ S, |φ x| < η)
     (hgrow : ∀ x ∈ S, ∀ y ∈ S, (∀ j, j ≠ i → x j = y j) → σ * |x i - y i| ≤ |φ x - φ y|) :

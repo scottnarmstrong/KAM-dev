@@ -202,7 +202,7 @@ theorem melnikov_sep (hS : MeasSetup m hm Pi α) {D : Set (Fin 2 → ℝ)}
     (hl : IsLam l) :
     2 * measBetaStar m * japL l ≤ |linF l (Ω ξ)| ∧
       alphaHat α * japL l ≤ 2 * measBetaStar m * japL l := by
-  refine ⟨hP.sep m hm hS hξ hl, ?_⟩
+  refine ⟨hP.normal_sep m hm hS hξ hl, ?_⟩
   obtain ⟨-, -, -, -, hβ4, -⟩ := alpha_facts m hm hS.alpha_pos hS.alpha_le
   have := measBetaStar_pos hm
   have hj := japL_ge_one l

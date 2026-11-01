@@ -13,9 +13,9 @@ All modules are under `KAM/Wave/Measure/`, namespace `KAM.Wave`. Every blueprint
 | `unpert-bounds` | `UnpertBounds` | `abs_measS_le`, `norm_omegaTan_le` (i); `three_betaStar_japL_le` (ii); `omegaNor_sub_approx` (iii); `abs_linF_omegaNor_sub_le` (iv) |
 | `constdef`, `Xdef`, Xzones#consts | `Consts` | `measW`, `measTheta`, `measCLam`, `measKstar`, `measJstar`, `measXSet`, `measXSet_finite`, `measNX`, `measSigmaX(_pos/_le)`, `measCX(_pos/_le)`, `measTheta0`, `measAlpha0`, `measZ3`, `measCP`, `measCI`, `measC7`, `alphaHat`, `alphaCheck` |
 | `zones`, `family` | `Family` | `MeasSetup`, `IsFreqPair` ((H1),(H2)), `AdmissibleFamily`, `zoneSet`, `prepZone`, `InZ`, `prepSet` (Ξ), `iterSet`, `exclSet` (ℰ), `isFreqPair_unpert` |
-| `slab`, `ext-borel` | `Slab` | `slab_measure_le`, `volume_le_of_coord_slices`, `measurableSet_abs_lt_of_continuousOn` |
+| `slab`, `ext-borel` | `Slab` | `measSlab_measure_le`, `volume_le_of_coord_slices`, `measurableSet_abs_lt_of_continuousOn` |
 | `zone` | `Pair`, `ZoneBound` | `IsFreqPair.zone_measure_le`, `measure_abs_lt_le_of_growth`, `IsFreqPair.linF_lip`, `IsFreqPair.drift_le` |
-| `sep`, `largek`, `dichotomy` | `SepLarge` | `IsFreqPair.sep`, `zoneSet_zero_empty`, `IsFreqPair.largek`, `IsFreqPair.dichotomy` |
+| `sep`, `largek`, `dichotomy` | `SepLarge` | `IsFreqPair.normal_sep`, `zoneSet_zero_empty`, `IsFreqPair.largek`, `IsFreqPair.zone_dichotomy` |
 | `Xzones` | `Xzones` | `IsFreqPair.Xzone_empty`, `IsFreqPair.Xzone_measure_le` |
 | `count` | `Count`, `ZetaSum` | (i) `lamPlusFin`, `card_lamPlusFin_le`, `mem_lamPlusFin`; (ii) `tsum_Kprev_le`; (iii) `tsum_lattice_le` (with `encard_l1Sphere_le`, exact count `≤ 4N`) |
 | `prep` | `ZoneSums`, `MinusZones`, `MinusSum`, `PrepMinus`, `Prep` | `IsFreqPair.plus_bound`, `IsFreqPair.X_bound`, `IsFreqPair.minus_n_bound`, `minus_assembly`, `prep_minus_n_bound`, `prepSet_measure_le` |

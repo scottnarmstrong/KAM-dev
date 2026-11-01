@@ -102,7 +102,7 @@ theorem IsFreqPair.plus_bound (hS : MeasSetup m hm Pi α)
     simp only [Set.mem_iUnion] at hξ ⊢
     obtain ⟨l, hcond, hξl⟩ := hξ
     have hne : (zoneSet D ω Ω a k l).Nonempty := ⟨ξ, hξl⟩
-    have hd := hP.dichotomy m hm hS ha0.le haβ hcond.1 hcond.2.2 hne
+    have hd := hP.zone_dichotomy m hm hS ha0.le haβ hcond.1 hcond.2.2 hne
     exact ⟨l, mem_lamPlusFin hcond.1 hcond.2.1 hd.2.1, hcond, hξl⟩
   have hterm : ∀ l ∈ lamPlusFin N, volume (⋃ (_ : IsLam l ∧ ¬ IsLamMinus l ∧
       (k, l) ∉ measXSet m hm), zoneSet D ω Ω a k l) ≤ ENNReal.ofReal c := by
@@ -113,7 +113,7 @@ theorem IsFreqPair.plus_bound (hS : MeasSetup m hm Pi α)
         ext x; simp only [Set.mem_iUnion]; exact ⟨fun ⟨_, h⟩ => h, fun h => ⟨hcond, h⟩⟩
       rw [e]
       by_cases hne : (zoneSet D ω Ω a k l).Nonempty
-      · have hd := hP.dichotomy m hm hS ha0.le haβ hcond.1 hcond.2.2 hne
+      · have hd := hP.zone_dichotomy m hm hS ha0.le haβ hcond.1 hcond.2.2 hne
         have hz := (hP.zone_bound_lam m hm hk hd.2.2 ha0 hρζ).2
         refine hz.trans (ENNReal.ofReal_le_ofReal ?_)
         have hj := japL_ge_one l

@@ -28,7 +28,7 @@ variable {Pi : Set (Fin 2 → ℝ)} {α : ℝ} {D : Set (Fin 2 → ℝ)}
   {ω : (Fin 2 → ℝ) → Fin 2 → ℝ} {Ω : (Fin 2 → ℝ) → ℕ → ℝ} {εω ε1 ε2 θ : ℝ}
 
 /-- **Normal separation** (blueprint `bpW:w7:sep`): `|⟨l, Ω'⟩| ≥ 2 β_* ⟨l⟩` on `Λ`. -/
-theorem IsFreqPair.sep (hS : MeasSetup m hm Pi α)
+theorem IsFreqPair.normal_sep (hS : MeasSetup m hm Pi α)
     (hP : IsFreqPair m hm Pi α D ω Ω εω ε1 ε2 θ) {ξ : Fin 2 → ℝ} (hξ : ξ ∈ D) {l : ℕ →₀ ℤ}
     (hl : IsLam l) : 2 * measBetaStar m * japL l ≤ |linF l (Ω ξ)| := by
   have h0 := three_betaStar_japL_le m hm (hS.sub ξ (hP.sub hξ)) hl
@@ -49,7 +49,7 @@ theorem zoneSet_zero_empty (hS : MeasSetup m hm Pi α)
   ext ξ
   simp only [zoneSet, Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_and, not_lt]
   intro hξ
-  have := hP.sep m hm hS hξ hl
+  have := hP.normal_sep m hm hS hξ hl
   simp only [_root_.Pi.zero_apply, Int.cast_zero, zero_mul, Finset.sum_const_zero, zero_add]
   have hk : kAk (0 : Fin 2 → ℤ) = 1 := by simp [kAk, kAbs]
   rw [hk, div_one]
@@ -62,7 +62,7 @@ theorem IsFreqPair.largek (hS : MeasSetup m hm Pi α)
     {k : Fin 2 → ℤ} {l : ℕ →₀ ℤ} (hl : IsLam l) (hne : (zoneSet D ω Ω a k l).Nonempty) :
     measTheta m hm * japL l ≤ kAbs k := by
   obtain ⟨ξ, hξ, hz⟩ := hne
-  have hsep := hP.sep m hm hS hξ hl
+  have hsep := hP.normal_sep m hm hS hξ hl
   obtain ⟨-, -, hαhat, h27, -, -⟩ := alpha_facts m hm hS.alpha_pos hS.alpha_le
   have hW := hP.norm_omega_le m hm hS.sub (hαhat.trans h27) hξ
   have hsum := abs_sum_k_mul_le k (ω ξ)
@@ -96,7 +96,7 @@ theorem prepZone_subset {Pi : Set (Fin 2 → ℝ)} {a : ℝ} (ha : 0 ≤ a) (k :
   have := kAk_pos k
   exact div_le_div_of_nonneg_right (mul_le_mul_of_nonneg_left (hatW_le_japL l) ha) (by linarith)
 
-theorem IsFreqPair.dichotomy (hS : MeasSetup m hm Pi α)
+theorem IsFreqPair.zone_dichotomy (hS : MeasSetup m hm Pi α)
     (hP : IsFreqPair m hm Pi α D ω Ω εω ε1 ε2 θ) {a : ℝ} (ha0 : 0 ≤ a) (ha : a ≤ measBetaStar m)
     {k : Fin 2 → ℤ} {l : ℕ →₀ ℤ} (hl : IsLam l) (hX : (k, l) ∉ measXSet m hm)
     (hne : (zoneSet D ω Ω a k l).Nonempty) :
