@@ -149,4 +149,28 @@ the full planar SJS problem is needed for three. On the observed inner Solar Sys
 - **Also.** Ready briefs D-P0 (model charter, to be written as `program-d-model-charter.md`, which does not exist yet)
   and D-P1 (finite partial-convex gate); six owner decisions.
 
+## SJSU scope: recover the model, then test a complete bracket certificate
+
+**[sjsu-effective-stability.md](../sjsu-effective-stability.md)** · 1 November 2026 · scope and reproducible prototype ·
+status: **scouted**, no new Lean result
+
+The report recommends checking finite approximate integrals against the entire original secular Hamiltonian, then
+using first exit and continuation. A five-billion-year action tube is a conditional research target. The full
+degree-18 coefficient set, averaged reference actions and near-torus maps remain missing; the experiment uses the
+separate 78-term quadratic/quartic polynomial printed in SLG13 Appendix A. Two independently parsed PDF versions
+agree on every coefficient and exponent.
+
+- **Measured, floating.** Cartesian normal forms through degree 10 take about 14 CPU-s and 50 MiB RSS. The best
+  tested sufficient confinement ratio at nominal amplitudes is 34,419 yr; higher-order boundary tests fail there.
+  At 30% amplitudes the degree-ten ratio reaches 3.84·10¹⁰ yr, but that region excludes the nominal point. A second
+  source-data interpretation gives the same negative nominal result. No interval enclosure or lifetime is proved.
+- **Source issues.** The printed literal polynomial has an exactly nonzero bracket with the standard quadratic AMD,
+  exceeding last-digit rounding, and the printed initial radii disagree with their formula and Table 2. Exact AMD
+  conservation and planar reduction from three degrees to two therefore require verification for the selected model.
+- **Plan and cost, estimated.** Recover the model, build a small original-field checker, and require a complete
+  time-versus-region budget before freezing the long-time instance. Roughly 6–12 weeks after data recovery if that
+  numerical gate succeeds; quartic kernel pilot 1–15 CPU-h, full-model estimate 10–1,000 CPU-h conditional on sparsity,
+  with a measured shard required first. Spatial SJSU has four fully reduced secular degrees of freedom and needs a
+  separate model and feasibility study. LP0 supplies AMD geometry, not a billion-year averaging-error bound.
+
 [← Back to the catalogue](../README.md)

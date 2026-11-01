@@ -65,7 +65,7 @@ One entry per document, with summary, numbers, outcome and disagreements, is on 
 | [Realistic KAM, the Moon and spin–orbit](themes/moon-and-spin-orbit.md) | 3 | 27–30 Oct |
 | [Applications of the certifier and the next demonstrations](themes/applications-and-demonstrations.md) | 4 | 30 Oct |
 | [Sun–Jupiter–Saturn](themes/sun-jupiter-saturn.md), with the status of the running LG00 campaign | 3 | 30 Oct |
-| [Effective stability and planetary lifetimes: ambition and programs A–D](themes/effective-stability.md) | 5 | 30 Oct |
+| [Effective stability and planetary lifetimes: ambition and programs A–D](themes/effective-stability.md) | 6 | 30 Oct–1 Nov |
 | [PDE KAM](themes/pde-kam.md) | 1 | 28 Oct |
 
 Overview, in date order within each theme:
@@ -92,6 +92,7 @@ Overview, in date order within each theme:
 | [program-b-plan](program-b-plan.md) | 30 Oct | [effective stability](themes/effective-stability.md) | proposed | Finite normal-form confinement near a torus or an elliptic equilibrium |
 | [program-c-plan](program-c-plan.md) | 30 Oct | [effective stability](themes/effective-stability.md) | proposed | First-exit confinement from approximate integrals of the original field |
 | [program-d-plan](program-d-plan.md) | 30 Oct | [effective stability](themes/effective-stability.md) | proposed | A 5-Gyr secular SJSU action bound; the existing stopped estimate fails a real-mass test |
+| [sjsu-effective-stability](sjsu-effective-stability.md) | 1 Nov | [effective stability](themes/effective-stability.md) | scouted | 78-term quartic normal-form pilot through degree 10; nominal sufficient ratio only 34,419 yr; full-model recovery and validated bounds required before a Gyr claim |
 | [pde-kam-and-leapfrogging](pde-kam-and-leapfrogging.md) | 28 Oct | [PDE KAM](themes/pde-kam.md) | adopted (D30), running | Two-frequency solutions of the cubic Dirichlet wave equation; became track W |
 
 ## Reading paths

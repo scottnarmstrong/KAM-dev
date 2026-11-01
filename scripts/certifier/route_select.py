@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """V2-TOOLS #3: producer-side route and parameter selection by predicted total kernel cost (untrusted tooling).
 
-    python3 -I scripts/certifier/route_select.py PROFILE [--margin M] [--beta B] [--pi P] [--json OUT]
+    python3 -I scripts/certifier/route_select.py PROFILE [--margin M] [--beta B] [--pi P] [--l1-design] [--json OUT]
     python3 -I scripts/certifier/route_select.py --validate [--write-fixtures]   # lunar65 and lg00 vs hand choices
 
 `routeV2All` is unchanged: the trusted interface dispatches whatever witness the producer emits.  This tool decides
@@ -17,7 +17,8 @@ which witness to emit.  For a model and candidate torus family (a PROFILE: scrip
   A.refined.cert[d01b]  certified δ₀, δ₁ and every b site (SO-V2PKG's d01b)  exact mirror
   B.frozen, B.refined   forced_witness.solve_B (route_b_lean_mirror)         exact mirror
   A.L8'                 refined e*/2 (the forced toy's passing X* ratio)      estimate
-  l1-entry              refined e* × 10^0.75 (thresholds_v2 at R1, iso)      design estimate
+  l1-entry              refined e* × 10^0.288 (the forced toy's kernel-      estimate (default); with
+                        checked gain); --l1-design: × 10^0.75 (R1 design)    --l1-design: design estimate
   hybrid                sqrt(e1*/A_meas), e1* the refined e* at ρ - 3δ₀       design estimate (needs A_meas)
 
 Where the profile carries re-measured thresholds (lunar: SO-V2PKG §4.6, the d01b row re-measured per ρ with
@@ -29,15 +30,23 @@ L; each candidate says whether its err is measured, interpolated or extrapolated
 10^4 · 2^-P (unmeasured model); the profile's precision rule (LG00: 2^-P <= 10^-(L+12), LG00-CERT.md:204; lunar:
 2^-P <= 10^-4 err, one data point of SO-V2PKG §4.1) removes the too-coarse precisions.  The predicted cost is
 
-    C = C_ref (S(L)/S_ref)^β (P/P_ref)^π · (1 + extra_route) + Σ_sites c(l),   c(l) = c_8 · 2^{1.29 (l - 8)} s,
+    C = C_ref (S(L)/S_ref)^β (P/P_ref)^π · (1 + extra_route) + direct_route + Σ_sites c(l),
+    c(l) = c_8 · 2^{1.29 (l - 8)} s,
 
 C_ref the measured cost of the hand choice (lunar: SO-CSPLIT-GATE; LG00: the run20e ledger).  **π is not measured**
 (no ledger holds two precisions at one support): the default π = 1 is an assumption, and β is fitted on LG00's L = 8
 pilot (CertFixed 96) against its L = 20 ledger (CertFixed 128) with the precision ratio (128/96)^π divided out
 (β = 0.775 at π = 1; 0.933 at π = 0); both pairs are reported.  extra_route is 0 for sharp/frozen/refined (frames,
-claim and core are 0.7 % of LG00's run once the stages are shared), 0.5 for the l1 entry and 1.0 for the hybrid
-(unmeasured guesses, a known limitation deferred to the owner).  A candidate is admissible when its unrounded margin
-log10(e*/err) exceeds the requested margin strictly, its certified sites have l <= l_max, and its precision obeys
+claim and core are 0.7 % of LG00's run once the stages are shared) and for L8' (measured on the forced toy, within
+the noise); for the l1 entry and the hybrid it is MEASURED on the forced toy `Tiny` (V2-CONSOL: kernel CPU of the
+route's additional checks over the refined-A test, as a fraction of the landed checks plus the refined-A test, sites
+excluded, stages memoized and shared; fixtures/route-select/forced_costs.json, written by
+scripts/certifier/forced/forced_costs.py), replacing V2-TOOLS's unmeasured guesses 0.5 and 1.0.  direct_route is the
+hybrid's direct products (the Lagrange matrices of hybOmegaOk and the products DX_H ΔK, which use the direct product
+whatever the advice): their CPU measured at the toy's support, scaled as (S/S_toy)^2 (P/96)^π times 2, an ESTIMATE.
+A toy measurement extrapolates to an application only as far as the operations measured; `cost_terms()` labels every
+term measured or estimated with its source, and the run prints them.  A candidate is admissible when its unrounded
+margin log10(e*/err) exceeds the requested margin strictly, its certified sites have l <= l_max, and its precision obeys
 the rule.  The tool returns the cheapest admissible candidate (exact mirrors preferred at equal cost) and the
 cheapest admissible sharp candidate as the baseline fallback; that fallback's err is a prediction (for LG00 at
 L >= 24 from LG00-PREP's table, whose sharp margin was never observed).  Certified sites at a strip other than the
@@ -65,10 +74,82 @@ import route_b_lean_mirror as RB     # noqa: E402
 import forced_witness as FW          # noqa: E402
 
 TH, J, KP_FROZEN = F(1, 8), 20, 5
-L1_DELTA = 0.75          # thresholds_v2 --l1 at R1 (iso): A7 -10.95, A7 + l1 entry -10.20
+FORCED_FIX = os.path.join(HERE, "fixtures", "forced-toy")
+
+
+def l1_delta_toy():
+    """The l1 entry's kernel-checked threshold gain on the forced toy `Tiny` (V2-CONSOL), in decades: log10 of the
+    l1 run's e* (strip rho' = 1/10, X* = 1830, its own certified sites; kernel-tests/CertificateSharp/V2/
+    ForcedL1Hybrid.lean, `l1_torus`) over the best refined route's e* (refined A at rho = 1/8, X* = 382, certified
+    sites; ForcedRoutes.lean), from fixtures/forced-toy/Tiny_l1.json and Tiny_witness.json: +0.288.  On the toy the
+    ray budget binds, not the entry.  The conservative default (orchestrator ruling, V2-CONSOL-FIX)."""
+    with open(os.path.join(FORCED_FIX, "Tiny_l1.json")) as fh:
+        a = F(json.load(fh)["estar"])
+    with open(os.path.join(FORCED_FIX, "Tiny_witness.json")) as fh:
+        b = F(json.load(fh)["refinedA"]["estar"])
+    return math.log10(a / b)
+
+
+L1_MODELS = {
+    "toy": dict(delta=l1_delta_toy(), kind="estimate",
+                source="kernel-checked gain on the forced toy Tiny, log10(e*_l1 / e*_refinedA) "
+                       "(fixtures/forced-toy/Tiny_l1.json, Tiny_witness.json); the default"),
+    "design": dict(delta=0.75, kind="design",
+                   source="thresholds_v2 --l1 at R1 (iso): A7 -10.95, A7 + l1 entry -10.20; a design estimate, "
+                          "selected by --l1-design"),
+}
+L1 = dict(L1_MODELS["toy"])     # the l1-entry threshold model in use (main() switches it on --l1-design)
 L8_FACTOR = F(1, 2)      # forced toy Tiny: L8' was found passing at X* = 191 against refined A's 382 (both
 #                          kernel-checked, kernel-tests/.../ForcedRoutes.lean); the ratio of the maxima is not checked
-EXTRA = {"l1-entry": 0.5, "hybrid": 1.0}
+COSTS = os.path.join(FIX, "forced_costs.json")      # the forced toy's measured route costs (forced_costs.py)
+
+
+def cost_terms():
+    """Every term of the predicted kernel cost, with its kind ('measured' or 'estimated') and its source.  The route
+    extras are fractions of the base cost C (the landed checks plus the refined-A test, sites excluded):
+    C_route = C (1 + extra) + direct (+ the sites).  The l1-entry and hybrid extras are measured on the forced toy
+    `Tiny` (support 5 u half-terms, CertFixed 96, direct products): a toy figure extrapolates to an application only
+    as far as the operations measured.  The l1 entry adds l1Up sums of memoized models (linear in their terms) and a
+    rational core (support-free), scaled here with the base; the hybrid adds, besides such checks, the Lagrange
+    matrices `Mᵀ Ω₀ M` and the products `DX_H ΔK` with the direct product (`Hybrid.directCfg`, no packed advice),
+    quadratic in the support while the packed base grows as S^β: that part (`direct`) is scaled quadratically from
+    the toy, an estimate."""
+    with open(COSTS) as fh:
+        m = json.load(fh)
+    r, toy = m["ratios"], m["toy"]
+    src = "forced toy Tiny, scripts/certifier/fixtures/route-select/forced_costs.json (forced_costs.py; " \
+          "kernel-tests/CertificateSharp/V2/ForcedL1Hybrid.lean)"
+    return {
+        "C_ref": dict(kind="measured", source="the profile's cost_ref (lunar: SO-CSPLIT-GATE; LG00: run20e ledger)"),
+        "beta": dict(kind="measured (fit)", source="LG00's L = 8 pilot against its L = 20 ledger, precision ratio "
+                     "(128/96)^pi divided out (fit_beta)"),
+        "pi": dict(value=1.0, kind="estimated", source="assumption: no ledger holds two precisions at one support"),
+        "extra[sharp, A.frozen, A.refined.*, B.*]": dict(value=0.0, kind="measured", source="ledger_fit.json: "
+                                                         "frames, claim and core 0.7 % of LG00's run20e"),
+        "extra[A.L8']": dict(value=0.0, kind="measured", source=src + ": (refinedCoreR - refinedCore)/C = %+.4f, "
+                             "within the noise; set to 0" % r["extra_L8"]),
+        "extra[l1-entry]": dict(value=r["extra_l1"], kind="measured", source=src + ": (L1 - Rcore)/C, the guards, "
+                                "the residuals of checkL1L/N/T/E on memoized stages and l1Core, less refinedCore; "
+                                "C = %.1f s (toy)" % r["D_s"], previous="0.5, an unmeasured guess (V2-TOOLS)"),
+        "extra[hybrid]": dict(value=r["extra_hyb"], kind="measured", source=src + ": (hyb - omega - Rcore)/C, "
+                              "transferOk, the step norms, the Cauchy bound, hybCompOk's residual on the memoized "
+                              "compositions, refinedCoreR at the restart, less refinedCore",
+                              previous="1.0, an unmeasured guess (V2-TOOLS), the whole extra"),
+        "direct[hybrid]": dict(value_s=r["omega_s"], factor=2.0, S_toy=toy["support_u_half_terms"], P_toy=toy["P"],
+                               exponent=2.0, kind="estimated",
+                               source=src + ": hybOmegaOk's CPU at the toy (%d direct coefficient pairs) is measured; "
+                               "the quadratic scaling in the support and the factor 2 (the products DX_H ΔK at a step "
+                               "of the torus's support, about as many pairs as the Lagrange matrices) are assumptions"
+                               % toy["omega_direct_pairs"]),
+        "c(l)": dict(kind="measured / estimated", source="the profile's site_cost_s (SHARP2-C6: l = 8..12, measured); "
+                     "other l: 2.4 · 2^(1.29 (l - 8)) s (estimated)"),
+        "err floor": dict(kind="estimated", source="1e4 · 2^-P, calibrated on the forced toy's P = 40 point only"),
+    }
+
+
+TERMS = cost_terms()
+EXTRA = {"l1-entry": TERMS["extra[l1-entry]"]["value"], "hybrid": TERMS["extra[hybrid]"]["value"]}
+DIRECT = {"hybrid": TERMS["direct[hybrid]"]}
 
 
 def lg(x):
@@ -191,12 +272,15 @@ def thresholds(prof, rho, kps=(1, 2, 3), with_B=True, log=print):
     if with_B:
         out["B.frozen"] = dict(route_B(prof, p, box, True), kind="exact")
         out["B.refined.classical"] = dict(route_B(prof, p, box, False), kind="exact")
-    best_ref = max((v for k, v in out.items() if k.startswith("A.refined") and "estar" in v),
-                   key=lambda v: v["estar"])
-    out["A.L8'"] = dict(estar=best_ref["estar"] * L8_FACTOR, kind="estimate", sites=best_ref.get("sites", []),
-                        binding=[], disp_coef=None)
-    out["l1-entry"] = dict(estar=best_ref["estar"] * F(10 ** L1_DELTA).limit_denominator(10 ** 6), kind="design",
-                           sites=best_ref.get("sites", []), binding=[], disp_coef=None)
+    refs = [v for k, v in out.items() if k.startswith("A.refined") and "estar" in v]
+    if not refs:        # V2-PUBLIC #3: the estimates scale the best refined threshold; say why they are missing
+        log("  rho %-7s no A.refined route produced a threshold (errors below): A.L8' and l1-entry skipped" % rho)
+    else:
+        best_ref = max(refs, key=lambda v: v["estar"])
+        out["A.L8'"] = dict(estar=best_ref["estar"] * L8_FACTOR, kind="estimate", sites=best_ref.get("sites", []),
+                            binding=[], disp_coef=None)
+        out["l1-entry"] = dict(estar=best_ref["estar"] * F(10 ** L1["delta"]).limit_denominator(10 ** 6),
+                               kind=L1["kind"], sites=best_ref.get("sites", []), binding=[], disp_coef=None)
     if prof.get("A_meas"):
         d0 = min(F(1), (p["rho"] - p["rhoInf"]) / 6)
         p1 = dict(p, rho=p["rho"] - 3 * d0)
@@ -272,6 +356,10 @@ def cost_h(prof, route, L, P, sites, beta, pi):
     S_ref = support_at(prof, prof["cost_ref"]["L"])
     base = float(F(prof["cost_ref"]["cpu_h"])) * (support_at(prof, L) / S_ref) ** beta * (P / prof["P_ref"]) ** pi
     base *= 1 + EXTRA.get(route, 0.0)
+    d = DIRECT.get(route)
+    if d:                     # the hybrid's direct products: the toy's CPU, scaled quadratically (estimated)
+        base += d["value_s"] * d["factor"] * (support_at(prof, L) / d["S_toy"]) ** d["exponent"] * \
+            (P / d["P_toy"]) ** pi / 3600
     return base + sum(site_cost(prof, s["l"]) for s in sites if s.get("certified")) / 3600
 
 
@@ -396,6 +484,42 @@ def verdict(best, hand):
         best["cost_h"], hand["cost_h"], r)
 
 
+def why_none(rep, site_l_max, only=None):
+    """V2-PUBLIC #3: why no exact-mirror candidate (or, with only=["sharp"], no baseline fallback) is admissible,
+    route by route (printed only in that case): the threshold the mirror could not compute, else the first
+    admissibility test that every candidate of the route fails (margin > margin_rule, certified sites
+    l <= site_l_max, the profile's precision rule)."""
+    m = rep["margin_rule"]
+    out = ["no admissible %s (margin > %.1f decades, certified sites l <= %d, precision rule):" % (
+        "exact candidate" if only is None else "candidate of route " + ", ".join(only), m, site_l_max)]
+    for rho, t in rep["thresholds"].items():
+        for route, v in t.items():
+            if v.get("error") and (only is None or route in only):
+                out.append("FAIL route=%s check=threshold: the mirror failed at rho %s: %s" % (route, rho,
+                                                                                             v["error"]))
+    by = {}
+    for c in rep["candidates"]:
+        if c["kind"].startswith("exact") and (only is None or c["route"] in only):
+            by.setdefault(c["route"], []).append(c)
+    for route in sorted(by):
+        cs = by[route]
+        ok_m = [c for c in cs if c["margin_exact"] > m]
+        ok_s = [c for c in ok_m if c["sites_ok"]]
+        if not ok_m:
+            b = max(cs, key=lambda c: c["margin_exact"])
+            out.append("FAIL route=%s check=margin: best log10(e*/err) %.2f at rho %s, L %d, P %d (%s err), short "
+                       "of %.1f by %.2f decades" % (route, b["margin_exact"], b["rho"], b["L"], b["P"],
+                                                    b["err_source"], m, m - b["margin_exact"]))
+        elif not ok_s:
+            out.append("FAIL route=%s check=sites: every candidate with the margin needs a certified site with "
+                       "l > %d (l = %s)" % (route, site_l_max, sorted({x for c in ok_m for x in c["sites"]})))
+        else:
+            b = min(ok_s, key=lambda c: c["P"])
+            out.append("FAIL route=%s check=precision: every candidate with the margin fails the profile's "
+                       "precision rule (e.g. L %d, P %d, log10 err %.2f)" % (route, b["L"], b["P"], b["log10_err"]))
+    return out
+
+
 def table(rep, top=12):
     rows = sorted([c for c in rep["candidates"] if c["margin_exact"] > rep["margin_rule"] and c["sites_ok"] and
                    c["precision_ok"]], key=lambda c: c["cost_h"])[:top]
@@ -420,8 +544,17 @@ def main():
     ap.add_argument("--json", default=None, help="write the report here (nothing is written otherwise)")
     ap.add_argument("--write-fixtures", action="store_true",
                     help="with --validate: overwrite scripts/certifier/fixtures/route-select/validation.json")
+    ap.add_argument("--l1-design", action="store_true",
+                    help="l1-entry threshold: the R1 design estimate (+0.75 decades over the best refined route) "
+                         "instead of the forced toy's kernel-checked gain (+0.288, the default)")
     a = ap.parse_args()
+    L1.update(L1_MODELS["design" if a.l1_design else "toy"])
+    TERMS["threshold[l1-entry]"] = dict(value=round(L1["delta"], 4), kind=L1["kind"], source=L1["source"])
     names = ["lunar65", "lg00"] if a.validate else [a.profile]
+    print("cost terms (kind, source):")
+    for k, v in TERMS.items():
+        val = v.get("value", v.get("value_s"))
+        print("  %-42s %-10s %-20s %s" % (k, "" if val is None else val, v["kind"], v["source"]))
     reps = []
     for nm in names:
         rep = run_profile(nm, a.margin, a.beta, a.pi, with_B=not a.no_B)
@@ -434,6 +567,9 @@ def main():
             rep["baseline_fallback"] and rep["baseline_fallback"]["err_source"], pick(rep["baseline_fallback"])))
         print("hand choice: %s" % pick(rep["hand"]))
         print("verdict: %s" % rep["verdict"])
+        if rep["best_exact"] is None or rep["baseline_fallback"] is None:
+            print("\n".join(why_none(rep, load_profile(nm)["site_l_max"],
+                                      None if rep["best_exact"] is None else ["sharp"])))
         for k, v in rep["constrained"].items():
             print("constrained (%s): %s -> %s" % (k, v["choice"], v["verdict"]))
         for k, v in rep["sensitivity"].items():

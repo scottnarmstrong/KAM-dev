@@ -151,7 +151,8 @@ six block counts; only two blocks were run.
    - try `tentK` only when the plain shape fails, and `apK` only when it holds, since their
      structural checks are complementary: about one value fewer per split node;
    - compute each run's crossing-run value only after its quality test;
-   - use `P = 64` at the first two bites (`P = 128` is needed only at the third).
+   - use `P = 64` at the first two bites (`P = 128` is needed only at the third). This was done in
+     V2-BULK-CUTS and reverted by audit E1 (V2-BULK-RUNS-FIX): `P = 128` at all bites.
 
    Dropping the tolerance tests outright was tried in the mirror and does not help (more nodes, as
    many values). Wanted?
@@ -161,10 +162,11 @@ six block counts; only two blocks were run.
 
 ## Suspected errata and deviations
 
-- **The crossing cut's single fibres dominate at the third bite** (65,476 of 122,921 nodes). The
-  light-crossing branch (crossing fibre plus two crossing runs) is taken only when both side runs
-  are accepted. Most crossings at that bite are too heavy for the tolerance. A weight-dependent
-  half-width is a possible refinement.
+- **The crossing cut's single fibres dominate at the third bite** (65,476 of 122,921 nodes before
+  V2-BULK-CUTS; 76,726 of 144,083 after). Before the cuts, the light-crossing branch (crossing fibre
+  plus two crossing runs) was taken only when both side runs were accepted, and most crossings at
+  that bite were too heavy for the tolerance. Since the cuts it no longer fires. A weight-dependent
+  half-width is the recorded, deferred refinement (CUTS section).
 - `if_pos`/`if_neg` and `Int.ofNat_eq_coe` are deprecated in this Mathlib. The new files use
   `↓reduceIte` and `Int.ofNat_eq_natCast`.
 
