@@ -433,13 +433,14 @@ def emit_tms(E, D):
     import re
     cert = D["cert"]
     d0 = os.path.join(cert.tors, "D0.lean")
+    nodoc = lambda t: re.sub(r"\n/--(?:(?!-/).)*-/\s*$", "\n", t, flags=re.S)   # a next definition's docstring
     defs = []
     for i in range(20):
         mdef = G.grab(d0, "lg00TMs_%d" % i)
         lst = re.search(r"⟨(lg00TMs_\d+t_\d+)⟩", GC.flat(mdef)).group(1)
         ttext = T.grab_any(cert.tors, r"V\d+\.lean", lst)
-        defs.append((lst, re.sub(r"\blg00TMs", "pkTMs", ttext.replace("noncomputable def", "def"))))
-        defs.append(("m%d" % i, re.sub(r"\blg00TMs", "pkTMs", mdef.replace("noncomputable def", "def"))))
+        defs.append((lst, re.sub(r"\blg00TMs", "pkTMs", nodoc(ttext).replace("noncomputable def", "def"))))
+        defs.append(("m%d" % i, re.sub(r"\blg00TMs", "pkTMs", nodoc(mdef).replace("noncomputable def", "def"))))
     top = re.sub(r"\blg00TMs", "pkTMs", G.grab(d0, "lg00TMs").replace("noncomputable def", "def"))
     parts = E.chunks("Data.TMs", [E.fmt], "the jet slot models of the torsion",
                      "The models of the `2n` first and `(2n)²` second derivatives of `H` along `K` at `cfgLow`, as "
