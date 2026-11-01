@@ -157,8 +157,9 @@ theorem firstExitCore_closed {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (hn : 
 
 /-- **Conditional confinement helper (not the public theorem)** (`LP:MAIN L14 (468–500)`, N2, N6):
 the topological first-exit argument of MAIN Lemma 14, with the stopped drift as the explicit
-hypothesis `hstop` (MAIN's stopped conditions (40) in closed form, improving the action drift to
-`r / 2`).  Package LP-PS discharges `hstop` from Lemma 13 through the chart lift.
+hypothesis `hstop` (MAIN's stopped conditions (40) in strict, open form, both the action drift
+`< r` and the margin `> δ / 2`, improving the drift to `r / 2`).
+Package LP-PS discharges `hstop` from Lemma 13 through the chart lift.
 
 Given the budget `n r + Ω_B(r) ≤ δ / 4` and an initial physical state `z₀` whose closed `r`-action
 ball lies in the shared compact `U` and whose strong AMD is `≤ B(Λ z₀) - δ`, there is a moving
@@ -175,8 +176,8 @@ theorem strongFirstExit_of_stopped_drift {ν : Fin n → ℝ} (hν : ∀ i, 0 < 
     (hstop : ∀ J : Set ℝ, J.OrdConnected → (0 : ℝ) ∈ J → ∀ z : ℝ → Phase (n * 2),
       IsMovingSolutionOn ν μ J z → z 0 = z₀ → ∀ t ∈ J, |t| ≤ T →
         (∀ u ∈ Set.uIcc 0 t, IsPhysicalState ν (z u) ∧
-          ‖actionVector ν (z u) - actionVector ν z₀‖ ≤ r ∧
-          strongAMD ν (z u) ≤ strongThreshold ν (actionVector ν (z u)) - δ / 2) →
+          ‖actionVector ν (z u) - actionVector ν z₀‖ < r ∧
+          strongAMD ν (z u) < strongThreshold ν (actionVector ν (z u)) - δ / 2) →
         ‖actionVector ν (z t) - actionVector ν z₀‖ ≤ r / 2) :
     ∃ z : ℝ → Phase (n * 2), z 0 = z₀ ∧ IsMovingSolutionOn ν μ (Icc (-T) T) z ∧
       MovingUniqueOn ν μ (Icc (-T) T) z ∧
@@ -208,7 +209,7 @@ theorem strongFirstExit_of_stopped_drift {ν : Fin n → ℝ} (hν : ∀ i, 0 < 
       z s ∈ firstExitCore ν (actionVector ν z₀) δ r := by
     intro s hs hV
     have hdrift := hstop J hJ h0 z hmovJ hz.init s hs (abs_le.2 hs.2) fun u hu =>
-      ⟨(hV u hu).1, (hV u hu).2.1.le, (hV u hu).2.2.le⟩
+      hV u hu
     have h17 := strongAMD_le_of_tube hν hn hUc hUch hJ hmovJ h0 hs (δ := δ) (r := r / 2)
       (by rw [hz.init]; exact hC₀) (by rw [hz.init]; exact hdrift) (by rw [hz.init]; exact hU0)
       (hball _ (hdrift.trans (by linarith)))

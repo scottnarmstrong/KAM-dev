@@ -15,15 +15,15 @@
 (hC₀ : strongAMD ν z₀ ≤ strongThreshold ν (actionVector ν z₀) - δ)
 (hstop : ∀ J, J.OrdConnected → 0 ∈ J → ∀ z, IsMovingSolutionOn ν μ J z → z 0 = z₀ →
    ∀ t ∈ J, |t| ≤ T →
-   (∀ u ∈ uIcc 0 t, IsPhysicalState ν (z u) ∧ ‖Λ(z u) - Λ z₀‖ ≤ r ∧
-       strongAMD ν (z u) ≤ strongThreshold ν (Λ(z u)) - δ/2) →
+   (∀ u ∈ uIcc 0 t, IsPhysicalState ν (z u) ∧ ‖Λ(z u) - Λ z₀‖ < r ∧
+       strongAMD ν (z u) < strongThreshold ν (Λ(z u)) - δ/2) →
    ‖Λ(z t) - Λ z₀‖ ≤ r/2) :
 ∃ z, z 0 = z₀ ∧ IsMovingSolutionOn ν μ (Icc (-T) T) z ∧ MovingUniqueOn ν μ (Icc (-T) T) z ∧
   ∀ t ∈ Icc (-T) T, IsPhysicalState ν (z t) ∧ ‖Λ(z t) - Λ z₀‖ ≤ r/2 ∧
     strongAMD ν (z t) ≤ strongThreshold ν (Λ(z t)) - δ/2 ∧ BarrierState ν U (δ/2) (z t)
 ```
 (`Λ = actionVector ν`; full elaborated signature obtained with `#check`.) The only extra premise is
-`hstop`, exactly as the brief writes it (non-strict form sufficed). Supporting (public) lemmas:
+`hstop`, in the STRICT form (review round 1): drift `< r` and margin `< B - δ/2` (both strict come for free, since `hstop` is applied only inside the open `firstExitTube`). This is a weaker requirement on `hstop` than the briefed non-strict form, so the theorem is stronger. Supporting (public) lemmas:
 `firstExitTube`, `firstExitCore` (sets), `firstExitCore_subset_tube`, `isOpen_firstExitTube`,
 `firstExitCore_closed`, `continuousAt_{actionVector,strongAMD,keplerEnergy',strongGap}`,
 `continuous_totalMomentum'`, `movingSolutionOn_mono`.
