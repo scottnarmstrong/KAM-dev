@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-01 17:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.6 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 68 / 72 · **505,574 lines of hand-written Lean** of an estimated ≈ 508,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-01 17:48 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.6 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 68 / 72 · **505,574 lines of hand-written Lean** of an estimated ≈ 508,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -350,7 +350,7 @@ Overall, everything together: 97.0 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 17:40 UTC from `main` at `eb4b61c0` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 17:48 UTC from `main` at `362d7391` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -574,6 +574,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-01 17:48 | `362d7391` | Overnight log: magnetic statement presented; lock M1900 |
 | 2026-11-01 16:24 | `914ed2bc` | Explorations catalogue: SJSU phase 0 wording |
 | 2026-11-01 16:24 | `288847db` | Explorations catalogue: SJSU phase 0 (model recovery, public dataset) |
 | 2026-11-01 16:21 | `abe5cf5e` | Land sjsu-p0: SJSU18-O2, a reconstructed degree-18 planar secular Sun-Jupiter-Saturn-Uranus Hamiltonian (public data, CC BY 4.0) with generator scripts, validation tables and recovery report; AUDIT-SJSU-P0-1 PASS WITH CHANGES, fixes applied |
@@ -585,7 +586,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-01 15:03 | `24b7919c` | Land paper-lp: §A.4 approval sentence neutral |
 | 2026-11-01 15:02 | `7e8eb360` | Land paper-lp: §A.4 wording (owner request) |
 | 2026-11-01 15:00 | `ba0257cc` | Land paper-lp: author line Claude Opus 5.5 (owner request) |
-| 2026-11-01 14:57 | `ff4ffda3` | Land paper-lp: Theorem E frozen and sealed (D64); seven frozen statements; 24 pp |
 <!-- /AUTO:landed -->
 
 ## Decisions
