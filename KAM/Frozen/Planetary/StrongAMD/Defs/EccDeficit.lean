@@ -1,0 +1,34 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import Mathlib.Analysis.Real.Sqrt
+
+/-!
+# Frozen definition `KAM.Planetary.StrongAMD.eccDeficit`
+
+Track LP, `LP:MAIN §1 (45–46)` (MAIN as amended by AMENDMENTS). Owner-approved on 2026-11-01
+(decision D62; docs/tracks/LP/FREEZE-PROPOSAL.md draft 7, under the rulings of D59). This
+file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an owner-approved
+versioned successor.
+
+Freeze role (D59, OD-11 (b)): an internal total algebraic helper in the definition closure.
+No source-object meaning is asserted off the source domain. Source-facing uses must supply
+positive masses; barycentric reconstruction also supplies positive μ. The eccentricity-deficit
+expression is interpreted only on [0,1]. Source-facing restrictions and guarded predicates,
+rather than this total helper alone, carry the physical meaning.
+-/
+
+@[expose] public noncomputable section
+
+namespace KAM.Planetary.StrongAMD
+
+/-- The eccentricity deficit `D(u) = 1 - √(1 - u²)` (used on `u ∈ [0,1]`). -/
+def eccDeficit (u : ℝ) : ℝ := 1 - Real.sqrt (1 - u ^ 2)
+
+end KAM.Planetary.StrongAMD
+
+end

@@ -1,0 +1,2 @@
+abi_hashes.py on the 128 new entries, run 1 vs run 2: identical (cmp)
+ABI HASHES OK (305 frozen declarations of KAM; checked by file hash only, not built by this run: KAMLunarBand: KAM.SpinOrbit.lunar_barriers, KAM.SpinOrbit.lunar_spin_confinement (--lib KAMLunarBand))

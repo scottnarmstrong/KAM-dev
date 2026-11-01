@@ -1,0 +1,40 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+-- FROZEN_ANCHOR_PREFIX_BEGIN
+module
+
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceCanonicalPhase
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceKeplerEcc
+import KAM.Provider.Planetary.Spatial.SpatialSourceKeplerEccNonneg
+
+/-!
+# Frozen theorem `KAM.Planetary.Spatial.spatialSourceKeplerEcc_nonneg`
+
+Track LP characterization theorem of `spatialSourceKeplerEcc` (`LP:MAIN L2 (110–128)`), frozen with
+its definition as one semantic unit (D59, OD-11 (b)). Owner-approved on <APPROVAL-DATE> (decision
+<DECISION>; docs/tracks/LP/FREEZE-PROPOSAL.md draft 7, under the rulings of D59). This file is
+frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an owner-approved versioned
+successor. Only the proof body between the markers may change, and only to `by exact
+KAM.Provider.Planetary.Spatial.spatialSourceKeplerEcc_nonneg z i` when the provider
+`KAM.Provider.Planetary.Spatial.SpatialSourceKeplerEccNonneg` is complete (sealing).
+-/
+
+@[expose] public section
+
+namespace KAM.Planetary.Spatial
+
+/-- `0 ≤ e_i`. -/
+theorem spatialSourceKeplerEcc_nonneg {n : ℕ} {ν : Fin n → ℝ} (z : SpatialSourceCanonicalPhase n ν)
+    (i : Fin n) : 0 ≤ spatialSourceKeplerEcc z i :=
+  -- FROZEN_ANCHOR_PROOF_BEGIN
+  by sorry
+  -- FROZEN_ANCHOR_PROOF_END
+-- FROZEN_ANCHOR_SUFFIX_BEGIN
+
+end KAM.Planetary.Spatial
+
+end
+-- FROZEN_ANCHOR_SUFFIX_END
