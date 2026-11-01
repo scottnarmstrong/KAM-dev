@@ -7,6 +7,8 @@ module
 
 public import KAM.Wave.KamStep.StepPlus
 public import KAM.Wave.KamStep.PullbackAbstract
+public import KAM.Wave.KamStep.FlowStepBounds
+public import KAM.Wave.KamStep.NewHamTransport
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 
@@ -52,5 +54,55 @@ theorem stepNu_mono {y : StepPhase r} (hη0 : 0 < η) (hη1 : η ≤ 1) :
     have e : (r / (η * r)) ^ 2 = η⁻¹ ^ 2 := by field_simp
     rw [e] at this
     exact this
+
+section N
+
+variable {ι : StepPhase r →L[ℂ] StepPhase r} {Z Z' : StepPhase r → StepPhase r}
+  {V U : Set (StepPhase r)} {δ : ℝ}
+
+theorem stepNu_transNop_le (hη0 : 0 < η) (hη1 : η ≤ 1) (hι : ∀ g, ‖ι g‖ ≤ ‖g‖)
+    (h : FlowHyp (smoothField ι Z) V U M δ) (hZ : DifferentiableOn ℂ Z V)
+    (hb : ∀ z ∈ V, ‖Z z‖ ≤ M) {w : StepPhase r} {ρ' : ℝ} (hρ' : 0 < ρ') (hball : ball w ρ' ⊆ U)
+    {t : ℝ} (ht : t ∈ Icc (-1 : ℝ) 1) (y : StepPhase r) :
+    stepNu (η * r) (transNop ι Z t w y) ≤ η⁻¹ ^ 2 * (M / ρ') * stepNu (η * r) y := by
+  have h1 := flowII_deriv h hZ hb hρ' hball ht
+  have hy := (stepNu_mono (y := y) hη0 hη1).1
+  have hw := (stepNu_mono (y := transNop ι Z t w y) hη0 hη1).2
+  have h2 : ‖transNop ι Z t w y‖ ≤ M / ρ' * ‖y‖ := by
+    unfold transNop
+    simp only [ContinuousLinearMap.comp_apply]
+    exact ((fderiv ℂ (smoothDisp ι Z t) w).le_opNorm _).trans
+      (mul_le_mul h1 (hι y) (norm_nonneg _) (by have := h.M_pos; positivity))
+  calc _ ≤ η⁻¹ ^ 2 * ‖transNop ι Z t w y‖ := hw
+    _ ≤ η⁻¹ ^ 2 * (M / ρ' * ‖y‖) := by gcongr
+    _ ≤ η⁻¹ ^ 2 * (M / ρ' * stepNu (η * r) y) :=
+        mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left hy
+          (by have := h.M_pos; positivity)) (by positivity)
+    _ = _ := by ring
+
+theorem stepNu_transNop_sub_le (hη0 : 0 < η) (hη1 : η ≤ 1) (hι : ∀ g, ‖ι g‖ ≤ ‖g‖)
+    (h : FlowHyp (smoothField ι Z) V U M δ) (h' : FlowHyp (smoothField ι Z') V U M δ)
+    (hZ : DifferentiableOn ℂ Z V) (hb : ∀ z ∈ V, ‖Z z‖ ≤ M) (hZ' : DifferentiableOn ℂ Z' V)
+    (hb' : ∀ z ∈ V, ‖Z' z‖ ≤ M) (hL : M / δ ≤ 1 / 64) {N₁ : ℝ} (hN₁ : 0 ≤ N₁)
+    (hZZ : ∀ z ∈ V, ‖Z z - Z' z‖ ≤ N₁) {w : StepPhase r} {ρ' : ℝ} (hρ' : 0 < ρ')
+    (hball : ball w ρ' ⊆ U) {t : ℝ} (ht : t ∈ Icc (-1 : ℝ) 1) (y : StepPhase r) :
+    stepNu (η * r) (transNop ι Z t w y - transNop ι Z' t w y) ≤
+      η⁻¹ ^ 2 * (2 * N₁ / ρ') * stepNu (η * r) y := by
+  have h1 := flowII_deriv_sub h h' hZ hb hZ' hb' hι hL hN₁ hZZ hρ' hball ht
+  have hy := (stepNu_mono (y := y) hη0 hη1).1
+  have hw := (stepNu_mono (y := transNop ι Z t w y - transNop ι Z' t w y) hη0 hη1).2
+  have h2 : ‖transNop ι Z t w y - transNop ι Z' t w y‖ ≤ 2 * N₁ / ρ' * ‖y‖ := by
+    unfold transNop
+    simp only [ContinuousLinearMap.comp_apply]
+    rw [← sub_apply]
+    exact ((fderiv ℂ (smoothDisp ι Z t) w - fderiv ℂ (smoothDisp ι Z' t) w).le_opNorm _).trans
+      (mul_le_mul h1 (hι y) (norm_nonneg _) (by positivity))
+  calc _ ≤ η⁻¹ ^ 2 * ‖transNop ι Z t w y - transNop ι Z' t w y‖ := hw
+    _ ≤ η⁻¹ ^ 2 * (2 * N₁ / ρ' * ‖y‖) := by gcongr
+    _ ≤ η⁻¹ ^ 2 * (2 * N₁ / ρ' * stepNu (η * r) y) :=
+        mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left hy (by positivity)) (by positivity)
+    _ = _ := by ring
+
+end N
 
 end KAM.Wave
