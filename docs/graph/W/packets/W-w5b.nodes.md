@@ -29,9 +29,9 @@ EDGE: stepW:w5:n-conj | blueprint-W/parts/w5-kamstep.tex#bpW:w5:new-ham@L506-L50
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: sol-delta6-W-W-w5b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.stepExpansion_H, KAM.Wave.stepNewHam_flow_H, KAM.Wave.stepNewHam_concrete, KAM.Wave.stepPplusS, KAM.Wave.stepXplusS, KAM.Wave.stepPlus_isSmoothing, KAM.Wave.stepPplusS_periodic, KAM.Wave.Pplus_real_of_FT_real, KAM.Wave.stepWeakConj, KAM.Wave.stepXN, KAM.Wave.stepDN_eq_symp_XN, KAM.Wave.stepNfun_add_Nhat (KAM/Wave/KamStep/NewHamExp.lean, KAM/Wave/KamStep/NewHamFlow.lean, KAM/Wave/KamStep/NewHamConcrete.lean, KAM/Wave/KamStep/StepPlusAssemble.lean, KAM/Wave/KamStep/StepPeriodicFlow.lean, KAM/Wave/KamStep/RealStep.lean, KAM/Wave/KamStep/NewHamConj.lean, KAM/Wave/KamStep/RealNField.lean, KAM/Wave/KamStep/StepNplus.lean)
+LEAN_NOTE: W5-STEP-B audit 1 PASS (new-ham (i)-(iii): scalar expansion, smoothing field of P_+ with the transport/commutator formula, field-form weak conjugacy with the affine X_N in p-1 representatives); reality and periodicity of P_+ in the W5-REAL chain
 NOTE: -
 
 NODE: stepW:w5:n-exp
@@ -59,9 +59,9 @@ EDGE: bpW:w5:ext-triangle | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-exp@L495
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b+claude-suborch-W-gapfix
 REVIEWER: sol-delta7-W-w5b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.stepExpansion_H, KAM.Wave.stepNewHam_flow_H, KAM.Wave.stepNewHam_concrete (KAM/Wave/KamStep/NewHamExp.lean, KAM/Wave/KamStep/NewHamFlow.lean, KAM/Wave/KamStep/NewHamConcrete.lean)
+LEAN_NOTE: step of PROVED parent bpW:w5:new-ham; W5-STEP-B audit 1 PASS
 NOTE: -
 
 NODE: stepW:w5:n-br
@@ -86,9 +86,9 @@ EDGE: stepW:w5:c-skew | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-br@L501-L501
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.hasFDerivAt_bracket, KAM.Wave.stepBrG, KAM.Wave.stepBrZ, KAM.Wave.stepBrG_hasFDerivAt (KAM/Wave/KamStep/FlowSkew.lean, KAM/Wave/KamStep/StepBracket.lean)
+LEAN_NOTE: step of PROVED parent bpW:w5:new-ham; W5-STEP-B audit 1 PASS
 NOTE: -
 
 NODE: stepW:w5:n-field
@@ -115,9 +115,9 @@ EDGE: bpW:w3:ext-integral | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-field@L5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.stepPlus_isSmoothing, KAM.Wave.newHam_integral_smoothing, KAM.Wave.hasFDerivAt_comp_flow_smooth, KAM.Wave.Pplus_real_of_FT_real (KAM/Wave/KamStep/StepPlusAssemble.lean, KAM/Wave/KamStep/NewHamIntegral.lean, KAM/Wave/KamStep/NewHamTransport.lean, KAM/Wave/KamStep/RealStep.lean)
+LEAN_NOTE: step of PROVED parent bpW:w5:new-ham; W5-STEP-B audit 1 PASS
 NOTE: -
 
 NODE: stepW:w5:n-conj
@@ -144,9 +144,9 @@ EDGE: stepW:w5:n-exp | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-conj@L506-L50
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.stepWeakConj, KAM.Wave.stepXN, KAM.Wave.stepDN_eq_symp_XN (KAM/Wave/KamStep/NewHamConj.lean, KAM/Wave/KamStep/RealNField.lean)
+LEAN_NOTE: step of PROVED parent bpW:w5:new-ham; W5-STEP-B audit 1 PASS
 NOTE: -
 
 NODE: bpW:w5:pullback
@@ -174,9 +174,9 @@ EDGE: stepW:w5:p-ass | blueprint-W/parts/w5-kamstep.tex#bpW:w5:pullback@L537-L53
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: sol-delta6-W-W-w5b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.stepPullback_bounds, KAM.Wave.stepPullback_const, KAM.Wave.stepPullback_diff, KAM.Wave.stepPullback_sup, KAM.Wave.stepPullback_sub, KAM.Wave.stepNu_transNop_le, KAM.Wave.stepNu_transNop_sub_le (KAM/Wave/KamStep/StepPullbackBound.lean, KAM/Wave/KamStep/Pullback.lean, KAM/Wave/KamStep/PullbackNu.lean)
+LEAN_NOTE: W5-STEP-A audit 1 PASS, supplier scope (conditional algebraic helpers whose transport equation is discharged by consumers via transSolve_spec), W5-STEP-B audit 1: assembly in StepPlus*/StepPullbackBound without defect; missing: no standalone statement |(phi^t)^* Y|^lambda <= 7 |Y|^lambda for a general Y; the factor 7 is combined only inside the X_(P_+) bound (stepXplus_pair_bound, stepPlus_famBound)
 NOTE: -
 
 NODE: stepW:w5:p-inv
@@ -205,9 +205,9 @@ EDGE: bpW:w5:data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-inv@L532-L532 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b+claude-suborch-W-gapfix
 REVIEWER: sol-delta7-W-w5b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.stepNu_transNop_le, KAM.Wave.stepNu_transNop_sub_le, KAM.Wave.seminorm_solve_le (KAM/Wave/KamStep/PullbackNu.lean, KAM/Wave/KamStep/PullbackAbstract.lean)
+LEAN_NOTE: step of PARTIAL parent bpW:w5:pullback; W5-STEP-A audit 1 PASS (inverse-free estimates on target representatives)
 NOTE: -
 
 NODE: stepW:w5:p-dy
@@ -233,9 +233,9 @@ EDGE: bpW:w1:cauchy | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-dy@L536-L536 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.kamNorm_lipschitz_small (KAM/Wave/KamStep/StepLip.lean)
+LEAN_NOTE: step of PARTIAL parent bpW:w5:pullback; Cauchy estimate at scale eta r (W5-STEP-B audit 1 scoped module StepLip)
 NOTE: -
 
 NODE: stepW:w5:p-ass
@@ -263,9 +263,9 @@ EDGE: stepW:w5:f-par | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-ass@L540-L543
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b+claude-suborch-W-gapfix
 REVIEWER: sol-delta7-W-w5b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.stepPullback_bounds, KAM.Wave.stepPullback_diff, KAM.Wave.stepPullback_const (KAM/Wave/KamStep/StepPullbackBound.lean, KAM/Wave/KamStep/Pullback.lean)
+LEAN_NOTE: step of PARTIAL parent bpW:w5:pullback; W5-STEP-A audit 1 PASS, supplier scope: conditional helpers plus the arithmetic 7; not exported as a standalone lambda-norm bound
 NOTE: -
 
 NODE: bpW:w5:commutator
@@ -293,9 +293,9 @@ EDGE: stepW:w5:k-bd | blueprint-W/parts/w5-kamstep.tex#bpW:w5:commutator@L556-L5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.hasFDerivAt_bracket, KAM.Wave.stepBrZ, KAM.Wave.stepBrZ_norm_le, KAM.Wave.stepBrZ_sub_norm_le, KAM.Wave.stepFieldS_cauchy, KAM.Wave.stepCommutator_arith (KAM/Wave/KamStep/FlowSkew.lean, KAM/Wave/KamStep/StepBracket.lean, KAM/Wave/KamStep/Pullback.lean)
+LEAN_NOTE: W5-STEP-A audit 1 PASS, supplier scope (bracket sign DX_G X_F - DX_F X_G, arithmetic 24 eps M_F/(sigma eta^2)), W5-STEP-B audit 1: assembly without defect; missing: the bound |[X_R(t),X_F]|^lambda_(eta r, D(s-3sigma,4 eta r)) <= 24 eps M_F/(sigma eta^2) is not a standalone export (combined only inside stepXplus_pair_bound)
 NOTE: -
 
 NODE: stepW:w5:k-cauchy
@@ -321,9 +321,9 @@ EDGE: bpW:w1:cauchy | blueprint-W/parts/w5-kamstep.tex#stepW:w5:k-cauchy@L555-L5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.stepFieldS_cauchy, KAM.Wave.stepBrZ_norm_le, KAM.Wave.stepBrZ_sub_norm_le (KAM/Wave/KamStep/StepBracket.lean)
+LEAN_NOTE: step of PARTIAL parent bpW:w5:commutator; Cauchy bounds for the concrete fields and parameter differences (W5-STEP-B audit 1 scoped module StepBracket)
 NOTE: -
 
 NODE: stepW:w5:k-bd
@@ -352,9 +352,9 @@ EDGE: bpW:w5:omega | blueprint-W/parts/w5-kamstep.tex#stepW:w5:k-bd@L559-L559 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.stepCommutator_arith, KAM.Wave.stepBrZ_norm_le (KAM/Wave/KamStep/Pullback.lean, KAM/Wave/KamStep/StepBracket.lean)
+LEAN_NOTE: step of PARTIAL parent bpW:w5:commutator; arithmetic exported, the commutator lambda-bound itself only inside the X_(P_+) assembly
 NOTE: -
 
 NODE: bpW:w5:step
@@ -388,9 +388,9 @@ EDGE: stepW:w5:st-div | blueprint-W/parts/w5-kamstep.tex#bpW:w5:step@L599-L599 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: sol-delta6-W-W-w5b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.stepTheorem, KAM.Wave.stepTheoremMod, KAM.Wave.StepHypSrc, KAM.Wave.StepHypModSrc, KAM.Wave.stepFlow_bounds_smooth, KAM.Wave.stepDivisorsW, KAM.Wave.stepFreqHyp, KAM.Wave.stepDivisors (KAM/Wave/KamStep/StepTheoremSrc.lean, KAM/Wave/KamStep/StepPsi.lean, KAM/Wave/KamStep/StepDivisorsW.lean, KAM/Wave/KamStep/Divisors.lean)
+LEAN_NOTE: W5-STEP-B audit 1 FAIL (F1: clause (v) in ambient norms; F2: Dirichlet-weight version of (iv) missing), W5-R2A audit 2 PASS WITH NOTES (both closed: target-norm clause (v) via the smoothing displacement Psi, homJapW divisor clause, holomorphy of Phi and the full Z^2 law appended); all other clauses (reality, D Phi onto P^{p_+}, field-form weak conjugacy, frequency corrections, modified case) W5-STEP-B audit 1 PASS; (iv) conditional on the old Melnikov condition as in the source ('whenever the same holds'); clause (iii) uses (j+2)^(p_+-p)
 NOTE: -
 
 NODE: stepW:w5:st-con
@@ -419,9 +419,9 @@ EDGE: bpW:w5:new-ham | blueprint-W/parts/w5-kamstep.tex#stepW:w5:st-con@L591-L59
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: sol-delta6-W-W-w5b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.stepTheorem, KAM.Wave.stepTheoremMod, KAM.Wave.stepNewHam_concrete, KAM.Wave.stepFlow_symplectic (KAM/Wave/KamStep/StepTheoremSrc.lean, KAM/Wave/KamStep/NewHamConcrete.lean, KAM/Wave/KamStep/StepSymplectic.lean)
+LEAN_NOTE: step of PROVED parent bpW:w5:step; W5-STEP-B audit 1 PASS
 NOTE: -
 
 NODE: stepW:w5:st-1
@@ -447,9 +447,9 @@ EDGE: bpW:w5:pullback | blueprint-W/parts/w5-kamstep.tex#stepW:w5:st-1@L594-L594
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.stepXplus_pair_bound, KAM.Wave.stepXplus_arith, KAM.Wave.stepPlus_famBound (KAM/Wave/KamStep/StepPlusBound.lean, KAM/Wave/KamStep/StepPlusArith.lean, KAM/Wave/KamStep/StepPlusFam.lean)
+LEAN_NOTE: step of PROVED parent bpW:w5:step; W5-STEP-B audit 1 PASS (896 eta eps)
 NOTE: -
 
 NODE: stepW:w5:st-2
@@ -475,9 +475,9 @@ EDGE: bpW:w5:pullback | blueprint-W/parts/w5-kamstep.tex#stepW:w5:st-2@L595-L595
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.stepXplus_pair_bound, KAM.Wave.stepXplus_arith, KAM.Wave.stepCommutator_arith, KAM.Wave.stepEstimate_arith (KAM/Wave/KamStep/StepPlusBound.lean, KAM/Wave/KamStep/StepPlusArith.lean, KAM/Wave/KamStep/Pullback.lean, KAM/Wave/KamStep/Data.lean)
+LEAN_NOTE: step of PROVED parent bpW:w5:step; W5-STEP-B audit 1 PASS (168 c_F eps^2/(alpha sigma^t eta^2))
 NOTE: -
 
 NODE: stepW:w5:st-freq
@@ -502,9 +502,9 @@ EDGE: bpW:w5:solve | blueprint-W/parts/w5-kamstep.tex#stepW:w5:st-freq@L597-L597
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.stepOmegaHat_bound, KAM.Wave.stepOmegaTail_bound, KAM.Wave.stepOmegaHat_sub, KAM.Wave.stepOmegaTail_sub, KAM.Wave.stepFreqHyp (KAM/Wave/KamStep/StepFreqBound.lean, KAM/Wave/KamStep/Divisors.lean)
+LEAN_NOTE: step of PROVED parent bpW:w5:step; W5-STEP-A audit 1 PASS (freq), W5-STEP-B audit 1 PASS (iii)
 NOTE: -
 
 NODE: stepW:w5:st-div
@@ -529,9 +529,9 @@ EDGE: stepW:w5:st-freq | blueprint-W/parts/w5-kamstep.tex#stepW:w5:st-div@L599-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: sol-delta6-W-W-w5b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.stepDivisors, KAM.Wave.stepDivisorsW (KAM/Wave/KamStep/Divisors.lean, KAM/Wave/KamStep/StepDivisorsW.lean)
+LEAN_NOTE: step of PROVED parent bpW:w5:step; W5-STEP-A audit 1 PASS, W5-R2A audit 2 PASS (Dirichlet-weight version)
 NOTE: -
 
 NODE: bpW:w5:action-angle
@@ -947,7 +947,7 @@ EDGE: bpW:w4:taylor | blueprint-W/parts/w5-kamstep.tex#bpW:w5:newham-sec@L472-L4
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.hasFDerivAt_bracket, KAM.Wave.stepBrG, KAM.Wave.stepBrZ (KAM/Wave/KamStep/FlowSkew.lean, KAM/Wave/KamStep/StepBracket.lean)
+LEAN_NOTE: definition formalized by W5-STEP (bracket function stepBrG = DG.X_F and field stepBrZ with the sign DX_G X_F - DX_F X_G); W5-STEP-A audit 1 PASS (hasFDerivAt_bracket), W5-STEP-B audit 1 PASS; (mapping inferred)
 NOTE: Unlabelled prose L471-L472 fixing notation used by Lemmas bpW:w5:new-ham and bpW:w5:commutator.

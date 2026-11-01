@@ -991,9 +991,9 @@ EDGE: stepW:w4:lieder | blueprint-W/parts/w4-homological.tex#bpW:w4:lie@L550-L55
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w4
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.homOmega_le, KAM.Wave.homLie_Omega_mem, KAM.Wave.homLie_pairing_summable, KAM.Wave.homPair0, KAM.Wave.homPair0_hasSum, KAM.Wave.homLieSeq, KAM.Wave.homWeakBracket, KAM.Wave.homWeakBracket_eq_neg_lieN, KAM.Wave.HomOmegaCarrier, KAM.Wave.homLieN_gen, KAM.Wave.homLieN_gen_eq, KAM.Wave.homWeakBracketN_gen, KAM.Wave.homWeakBracketN_eq_neg_lieN_gen, KAM.Wave.homLieComp, KAM.Wave.homTrueCoord, KAM.Wave.homCoeff_homLieComp, KAM.Wave.homLieN_fin_expansion_gen, KAM.Wave.homLemma_lie_iii_gen, KAM.Wave.homLemma_lie_iii, KAM.Wave.homOmegaCarrier_of_guard, KAM.Wave.HomGuard, KAM.Wave.homNOmegaCLM, KAM.Wave.homNOmega_le_gen, KAM.Wave.homNfun, KAM.Wave.homDN, KAM.Wave.homNfun_hasFDerivAt, KAM.Wave.homLemma_lie_iv_gen, KAM.Wave.homHamField_gen, KAM.Wave.homDN_hamField_gen (KAM/Wave/Homological/Lie.lean, KAM/Wave/Homological/PPlusOne.lean, KAM/Wave/Homological/LemmaOneFin.lean, KAM/Wave/Homological/LemmaOneEquation.lean, KAM/Wave/Homological/CompleteEquation.lean, KAM/Wave/Homological/CompleteLie.lean, KAM/Wave/Homological/CompleteLieExpand.lean, KAM/Wave/Homological/LieDeriv.lean)
-LEAN_NOTE: W4-HOMOLOGICAL audit 1 FAIL (F1: unrestricted pairing carriers), audit 2 PASS WITH NOTES (F1 closed: evidence-bearing homPair0, homLieSeq, homWeakBracket, homLieN_gen); (iii) for general F closed by W4-COMPLETE (W4-COMPLETE audit 1 PASS: homLemma_lie_iii, finite expansion with the seven coefficient rules, no gate); (ii) also for Taylor Hamiltonians (homWeakBracketN_eq_neg_lieN_gen); (iv) with the source-domain L_N via homDN_hamField_gen; missing: the (i) clause that L_N F and <<N,F>> are continuous in (z, zbar) and polynomials of degree <= 2 is not exported (continuity used only inside homLemma1_equation_all; outside the W4-COMPLETE scope per its audit)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.homOmega_le, KAM.Wave.homLie_Omega_mem, KAM.Wave.homLie_pairing_summable, KAM.Wave.homPair0, KAM.Wave.homPair0_hasSum, KAM.Wave.homLieSeq, KAM.Wave.homWeakBracket, KAM.Wave.homWeakBracket_eq_neg_lieN, KAM.Wave.HomOmegaCarrier, KAM.Wave.homLieN_gen, KAM.Wave.homLieN_gen_eq, KAM.Wave.homWeakBracketN_gen, KAM.Wave.homWeakBracketN_eq_neg_lieN_gen, KAM.Wave.IsHomContQuadPoly, KAM.Wave.HomPolyDom, KAM.Wave.homLemma_lie_i_contPoly, KAM.Wave.homLemma_lie_i_contPoly_gen, KAM.Wave.homLieComp, KAM.Wave.homTrueCoord, KAM.Wave.homCoeff_homLieComp, KAM.Wave.homLieN_fin_expansion_gen, KAM.Wave.homLemma_lie_iii_gen, KAM.Wave.homLemma_lie_iii, KAM.Wave.homOmegaCarrier_of_guard, KAM.Wave.HomGuard, KAM.Wave.homNOmegaCLM, KAM.Wave.homNOmega_le_gen, KAM.Wave.homNfun, KAM.Wave.homDN, KAM.Wave.homNfun_hasFDerivAt, KAM.Wave.homLemma_lie_iv_gen, KAM.Wave.homHamField_gen, KAM.Wave.homDN_hamField_gen (KAM/Wave/Homological/Lie.lean, KAM/Wave/Homological/PPlusOne.lean, KAM/Wave/Homological/LemmaOneFin.lean, KAM/Wave/Homological/LemmaOneEquation.lean, KAM/Wave/Homological/CompleteEquation.lean, KAM/Wave/Homological/CompleteLieCont.lean, KAM/Wave/Homological/CompleteLie.lean, KAM/Wave/Homological/CompleteLieExpand.lean, KAM/Wave/Homological/LieDeriv.lean)
+LEAN_NOTE: W4-HOMOLOGICAL audit 1 FAIL (F1: unrestricted pairing carriers), audit 2 PASS WITH NOTES (F1 closed); (iii) for general F by W4-COMPLETE (audit 1 PASS: homLemma_lie_iii); (i) continuity and degree <= 2 by W4-LIECONT (W4-LIECONT audit 1 PASS WITH NOTES: homLemma_lie_i_contPoly, L_N F and <<N,F>> continuous polynomials of degree <= 2 in (y, z, zbar) for each theta, from HomFreqHyp and xi in Pi; the general-p_+ form needs 1 <= p + p_+); (ii) homWeakBracket_eq_neg_lieN, homWeakBracketN_eq_neg_lieN_gen; (iv) homLemma_lie_iv_gen, homDN_hamField_gen
 NOTE: -
 
 NODE: stepW:w4:liebd
@@ -1018,9 +1018,9 @@ EDGE: bpW:w4:index | blueprint-W/parts/w4-homological.tex#stepW:w4:liebd@L535-L5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w4
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.homOmega_le, KAM.Wave.homLie_Omega_mem, KAM.Wave.homLie_pairing_summable (KAM/Wave/Homological/Lie.lean, KAM/Wave/Homological/PPlusOne.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w4:lie; W4-HOMOLOGICAL audit 1 PASS ON SOURCE DOMAIN for the bounds (|Omega_j| <= (1+M_0)(j+2), pairing bounds with q = p-1, q' = p+1); missing: continuity of L_N F and <<N,F>> in (z, zbar), the same clause missing from bpW:w4:lie (i), is not exported (only continuous_homPairRep_*_gen helpers, and continuity used inside homLemma1_equation_all)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.homOmega_le, KAM.Wave.homLie_Omega_mem, KAM.Wave.homLie_pairing_summable, KAM.Wave.homLemma_lie_i_contPoly (KAM/Wave/Homological/Lie.lean, KAM/Wave/Homological/PPlusOne.lean, KAM/Wave/Homological/CompleteLieCont.lean)
+LEAN_NOTE: step of PROVED parent bpW:w4:lie; W4-HOMOLOGICAL audit 1 PASS ON SOURCE DOMAIN for the bounds; continuity in (z, zbar) by homLemma_lie_i_contPoly (W4-LIECONT audit 1 PASS WITH NOTES)
 NOTE: -
 
 NODE: stepW:w4:liebr
