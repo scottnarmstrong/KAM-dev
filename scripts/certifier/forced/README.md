@@ -22,14 +22,23 @@ reports and witnesses in `scripts/certifier/fixtures/forced-toy/`.
 | `forced_sweep.py` | mirror sweep of frequency separation, twist, support, precision, perturbation, time scale |
 | `forced_xlang.py` | cross-language agreement (31 comparisons; exit status 0 iff all agree) |
 | `forced_layout.py` | lays the generated full modules out: a cheap default-build subset and the opt-in `kernel-tests/CertificateSharp/V2/ForcedRoutes.lean` |
+| `forced_rot.py` | (V2-CONSOL) the rotated normalization `MicroRot` of `Micro` (`shearMap = soRotMap`): exact transform of `Micro`'s data, the mirror computes the rest; writes `MicroRot{Data,Stages,ChecksA,ChecksB,Gram,Torsion1,Torsion2,Torsion3,Base,Routes}.lean` and `fixtures/forced-toy/MicroRot.json` (the transformation theorems are in the hand-written `MicroRotFreq`, `MicroRotTransform`, `MicroRotLunar`, `MicroRotMut`) |
+| `../../packed/forced_packed_gen.py` | (V2-CONSOL) the packed books and memos of `Micro` (`MicroP.cert`: `Micro.cert` with `CertFixed.toMant 96` in `cfgLow`) and a refined route-A witness; writes `MicroPackedData.lean` and `fixtures/forced-toy/Micro_packed.json` (the proofs are in `PackedLemmas`, `MicroPacked{Gram,Compose,Tors,Claim,Frames,Controls}`, `MicroPacked`) |
+| `forced_l1.py` | (V2-CONSOL) the ℓ¹ entry of `Tiny`: the claim from the mirror's models, an exact port of `okL1` (`RouteAL1Q`/`Run`), the Γ∞ witnesses, the X⋆ search |
+| `forced_hybrid.py` | (V2-CONSOL) the hybrid restart of `Tiny`: the Newton step, a port of the step checks on the sofx mirror, the transfer and the restart |
+| `forced_l1hyb.py TAG` | (V2-CONSOL) writes `<TAG>L1HybData.lean` and the fixtures `<TAG>_l1.json`, `<TAG>_hybrid.json` (byte-identical from scratch) |
+| `forced_costs.py` | (V2-CONSOL) the measured cost terms of `route_select.py` (`fixtures/route-select/forced_costs.json`); its Lean calls go through `FORCED_LEAN_PREFIX` (a lock and memory-gate wrapper) |
 
 Layout (orchestrator ruling, V2-TOOLS-FIX: default modules of a few seconds each):
 * default build: `Format`, `Lemmas`; `Micro` (the passing certificate: `MicroChecksA/B`, `MicroGram`,
   `MicroTorsion1/2/3`, `MicroBase`, `MicroRoutes` — sharp, frozen A, frozen B); `Tiny`'s mutations
   (`TinyWitness`, `TinyGram`, ten `TinyMut*` modules); the data modules `<T>Data`, `<T>Stages`, `<T>Freq` that
-  the opt-in test imports;
+  the opt-in test imports; (V2-CONSOL) `MicroRot` (the rotated normalization, same layout as `Micro`, with
+  `MicroRotTransform` and the drift mutations `MicroRotMut`) and `MicroP` (the packed route, `MicroPacked*`); `Tiny`'s ℓ¹ entry and hybrid restart in part (`TinyL1Core`,
+  `TinyL1Claim`, `TinyHybCore`, `TinyHybStep`, `TinyHybOmega`; the data `TinyL1HybData`);
 * opt-in: `kernel-tests/CertificateSharp/V2/ForcedRoutes.lean` (`Tiny`'s routes A, L8′, B and tori, `mut_frameT`,
-  the `TinyC2` chain, the time-normalization tori).
+  the `TinyC2` chain, the time-normalization tori); `kernel-tests/CertificateSharp/V2/ForcedL1Hybrid.lean`
+  (V2-CONSOL: `Tiny` through the ℓ¹ entry and the hybrid restart, with their tori).
 
 Reproduce (from the repository root; `FORCED_WORK` holds the pickles):
 

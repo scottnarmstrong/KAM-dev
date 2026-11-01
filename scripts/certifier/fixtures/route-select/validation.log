@@ -1,3 +1,14 @@
+cost terms (kind, source):
+  C_ref                                                 measured             the profile's cost_ref (lunar: SO-CSPLIT-GATE; LG00: run20e ledger)
+  beta                                                  measured (fit)       LG00's L = 8 pilot against its L = 20 ledger, precision ratio (128/96)^pi divided out (fit_beta)
+  pi                                         1.0        estimated            assumption: no ledger holds two precisions at one support
+  extra[sharp, A.frozen, A.refined.*, B.*]   0.0        measured             ledger_fit.json: frames, claim and core 0.7 % of LG00's run20e
+  extra[A.L8']                               0.0        measured             forced toy Tiny, scripts/certifier/fixtures/route-select/forced_costs.json (forced_costs.py; kernel-tests/CertificateSharp/V2/ForcedL1Hybrid.lean): (refinedCoreR - refinedCore)/C = -0.0059, within the noise; set to 0
+  extra[l1-entry]                            0.0188     measured             forced toy Tiny, scripts/certifier/fixtures/route-select/forced_costs.json (forced_costs.py; kernel-tests/CertificateSharp/V2/ForcedL1Hybrid.lean): (L1 - Rcore)/C, the guards, the residuals of checkL1L/N/T/E on memoized stages and l1Core, less refinedCore; C = 46.3 s (toy)
+  extra[hybrid]                              0.0487     measured             forced toy Tiny, scripts/certifier/fixtures/route-select/forced_costs.json (forced_costs.py; kernel-tests/CertificateSharp/V2/ForcedL1Hybrid.lean): (hyb - omega - Rcore)/C, transferOk, the step norms, the Cauchy bound, hybCompOk's residual on the memoized compositions, refinedCoreR at the restart, less refinedCore
+  direct[hybrid]                             5.26       estimated            forced toy Tiny, scripts/certifier/fixtures/route-select/forced_costs.json (forced_costs.py; kernel-tests/CertificateSharp/V2/ForcedL1Hybrid.lean): hybOmegaOk's CPU at the toy (2208 direct coefficient pairs) is measured; the quadratic scaling in the support and the factor 2 (the products DX_H ΔK at a step of the torus's support, about as many pairs as the Lagrange matrices) are assumptions
+  c(l)                                                  measured / estimated the profile's site_cost_s (SHARP2-C6: l = 8..12, measured); other l: 2.4 · 2^(1.29 (l - 8)) s (estimated)
+  err floor                                             estimated            1e4 · 2^-P, calibrated on the forced toy's P = 40 point only
 beta fitted on the LG00 ledger (packed products), precision ratio divided out at pi = 1.0 (unmeasured): 0.775 {'torsion': 0.75, 'gram': 0.8, 'pi': 1.0}
 profile lunar65: lunar spin-orbit band, N = 65, lower torus (package R2)
   rho 1/280   sharp                    log10 e*  -31.71  exact+shifted
@@ -53,6 +64,9 @@ profile lunar65: lunar spin-orbit band, N = 65, lower torus (package R2)
 
 | route | kind | ρ | L | P | log10 e* | log10 err (source) | margin | support | cost (CPU-h) | sites l |
 |---|---|---|---:|---:|---:|---|---:|---:|---:|---|
+| l1-entry | design+shifted | 1/140 | 19 | 96 | -13.51 | -14.81 (interpolated) | 1.300 | 219 | 1.871 | 11,8,12,9,10 |
+| l1-entry | design+shifted | 1/100 | 19 | 96 | -13.06 | -14.59 (interpolated) | 1.531 | 219 | 1.871 | 11,8,12,9,10 (not balCheck-verified) |
+| l1-entry | design+shifted | 1/70 | 19 | 96 | -12.73 | -14.41 (interpolated) | 1.685 | 219 | 1.872 | 10,7,11,8,12,9 (not balCheck-verified) |
 | A.refined.cert[kp=2] | exact+shifted | 1/70 | 20 | 96 | -13.60 | -15.40 (interpolated) | 1.794 | 251 | 2.013 | 10,7,11,8 (not balCheck-verified) |
 | A.refined.cert[d01b] | exact+remeasured | 1/70 | 20 | 96 | -13.48 | -15.40 (interpolated) | 1.918 | 251 | 2.015 | 10,7,11,8,9 (not balCheck-verified) |
 | A.refined.cert[kp=2] | exact+shifted | 1/140 | 20 | 96 | -14.47 | -15.80 (measured) | 1.325 | 251 | 2.036 | 11,8,12,9 |
@@ -62,12 +76,9 @@ profile lunar65: lunar spin-orbit band, N = 65, lower torus (package R2)
 | A.L8' | estimate+shifted | 1/140 | 20 | 96 | -14.56 | -15.80 (measured) | 1.235 | 251 | 2.039 | 11,8,12,9,10 |
 | A.refined.cert[kp=3] | exact+shifted | 1/100 | 20 | 96 | -13.81 | -15.58 (interpolated) | 1.767 | 251 | 2.039 | 11,8,12,9,10 (not balCheck-verified) |
 | A.refined.cert[d01b] | exact+remeasured | 1/100 | 20 | 96 | -13.81 | -15.58 (interpolated) | 1.767 | 251 | 2.039 | 11,8,12,9,10 (not balCheck-verified) |
-| A.L8' | estimate+shifted | 1/100 | 20 | 96 | -14.11 | -15.58 (interpolated) | 1.466 | 251 | 2.039 | 11,8,12,9,10 (not balCheck-verified) |
-| A.refined.cert[kp=3] | exact+shifted | 1/70 | 20 | 96 | -13.48 | -15.40 (interpolated) | 1.921 | 251 | 2.039 | 10,7,11,8,12,9 (not balCheck-verified) |
-| A.L8' | estimate+shifted | 1/70 | 20 | 96 | -13.78 | -15.40 (interpolated) | 1.620 | 251 | 2.039 | 10,7,11,8,12,9 (not balCheck-verified) |
 
 best (exact mirrors): {'route': 'A.refined.cert[kp=2]', 'rho': '1/70', 'L': 20, 'P': 96, 'margin': 1.79, 'cost_h': 2.013, 'kind': 'exact+shifted', 'err_source': 'interpolated', 'sites_verified': False}
-best (incl. estimates): {'route': 'A.refined.cert[kp=2]', 'rho': '1/70', 'L': 20, 'P': 96, 'margin': 1.79, 'cost_h': 2.013, 'kind': 'exact+shifted', 'err_source': 'interpolated', 'sites_verified': False}
+best (incl. estimates): {'route': 'l1-entry', 'rho': '1/100', 'L': 19, 'P': 96, 'margin': 1.53, 'cost_h': 1.871, 'kind': 'design+shifted', 'err_source': 'interpolated', 'sites_verified': False}
 baseline fallback (landed sharp; err interpolated, not observed): {'route': 'sharp', 'rho': '1/70', 'L': 38, 'P': 128, 'margin': 1.48, 'cost_h': 7.935, 'kind': 'exact+shifted', 'err_source': 'interpolated', 'sites_verified': False}
 hand choice: {'route': 'A.refined.cert[d01b]', 'rho': '1/140', 'L': 20, 'P': 96, 'margin': 1.54, 'cost_h': 2.039, 'kind': 'exact+remeasured', 'err_source': 'measured', 'sites_verified': True}
 verdict: differs: predicted cost 2.013 CPU-h against the hand choice's 2.039 (ratio 0.99)
@@ -94,17 +105,17 @@ profile lg00: LG00: Locatelli–Giorgilli secular Sun–Jupiter–Saturn torus (
 | route | kind | ρ | L | P | log10 e* | log10 err (source) | margin | support | cost (CPU-h) | sites l |
 |---|---|---|---:|---:|---:|---|---:|---:|---:|---|
 | A.refined.classical | exact | 29/5000 | 19 | 128 | -15.10 | -16.12 (interpolated) | 1.019 | 613 | 27.686 | - |
+| l1-entry | design | 29/5000 | 19 | 128 | -14.35 | -16.12 (interpolated) | 1.769 | 613 | 28.206 | - |
 | A.refined.classical | exact | 29/5000 | 20 | 128 | -15.10 | -17.09 (measured) | 1.994 | 683 | 30.110 | - |
 | A.L8' | estimate | 29/5000 | 20 | 128 | -15.40 | -17.09 (measured) | 1.693 | 683 | 30.110 | - |
+| l1-entry | design | 29/5000 | 20 | 128 | -14.35 | -17.09 (measured) | 2.744 | 683 | 30.676 | - |
 | A.refined.classical | exact | 29/5000 | 21 | 128 | -15.10 | -17.96 (measured) | 2.861 | 749 | 32.331 | - |
 | A.L8' | estimate | 29/5000 | 21 | 128 | -15.40 | -17.96 (measured) | 2.560 | 749 | 32.331 | - |
+| l1-entry | design | 29/5000 | 21 | 128 | -14.35 | -17.96 (measured) | 3.611 | 749 | 32.938 | - |
 | A.refined.classical | exact | 29/5000 | 19 | 160 | -15.10 | -16.12 (interpolated) | 1.019 | 613 | 34.607 | - |
 | A.refined.classical | exact | 29/5000 | 22 | 128 | -15.10 | -18.92 (extrapolated) | 3.826 | 821 | 34.715 | - |
 | B.refined.classical | exact | 29/5000 | 22 | 128 | -17.81 | -18.92 (extrapolated) | 1.110 | 821 | 34.715 | - |
 | A.L8' | estimate | 29/5000 | 22 | 128 | -15.40 | -18.92 (extrapolated) | 3.525 | 821 | 34.715 | - |
-| A.refined.classical | exact | 29/5000 | 23 | 128 | -15.10 | -19.89 (extrapolated) | 4.791 | 900 | 37.275 | - |
-| B.refined.classical | exact | 29/5000 | 23 | 128 | -17.81 | -19.89 (extrapolated) | 2.075 | 900 | 37.275 | - |
-| A.L8' | estimate | 29/5000 | 23 | 128 | -15.40 | -19.89 (extrapolated) | 4.490 | 900 | 37.275 | - |
 
 best (exact mirrors): {'route': 'A.refined.classical', 'rho': '29/5000', 'L': 19, 'P': 128, 'margin': 1.02, 'cost_h': 27.686, 'kind': 'exact', 'err_source': 'interpolated', 'sites_verified': True}
 best (incl. estimates): {'route': 'A.refined.classical', 'rho': '29/5000', 'L': 19, 'P': 128, 'margin': 1.02, 'cost_h': 27.686, 'kind': 'exact', 'err_source': 'interpolated', 'sites_verified': True}

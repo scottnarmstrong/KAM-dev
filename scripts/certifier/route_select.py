@@ -29,15 +29,23 @@ L; each candidate says whether its err is measured, interpolated or extrapolated
 10^4 · 2^-P (unmeasured model); the profile's precision rule (LG00: 2^-P <= 10^-(L+12), LG00-CERT.md:204; lunar:
 2^-P <= 10^-4 err, one data point of SO-V2PKG §4.1) removes the too-coarse precisions.  The predicted cost is
 
-    C = C_ref (S(L)/S_ref)^β (P/P_ref)^π · (1 + extra_route) + Σ_sites c(l),   c(l) = c_8 · 2^{1.29 (l - 8)} s,
+    C = C_ref (S(L)/S_ref)^β (P/P_ref)^π · (1 + extra_route) + direct_route + Σ_sites c(l),
+    c(l) = c_8 · 2^{1.29 (l - 8)} s,
 
 C_ref the measured cost of the hand choice (lunar: SO-CSPLIT-GATE; LG00: the run20e ledger).  **π is not measured**
 (no ledger holds two precisions at one support): the default π = 1 is an assumption, and β is fitted on LG00's L = 8
 pilot (CertFixed 96) against its L = 20 ledger (CertFixed 128) with the precision ratio (128/96)^π divided out
 (β = 0.775 at π = 1; 0.933 at π = 0); both pairs are reported.  extra_route is 0 for sharp/frozen/refined (frames,
-claim and core are 0.7 % of LG00's run once the stages are shared), 0.5 for the l1 entry and 1.0 for the hybrid
-(unmeasured guesses, a known limitation deferred to the owner).  A candidate is admissible when its unrounded margin
-log10(e*/err) exceeds the requested margin strictly, its certified sites have l <= l_max, and its precision obeys
+claim and core are 0.7 % of LG00's run once the stages are shared) and for L8' (measured on the forced toy, within
+the noise); for the l1 entry and the hybrid it is MEASURED on the forced toy `Tiny` (V2-CONSOL: kernel CPU of the
+route's additional checks over the refined-A test, as a fraction of the landed checks plus the refined-A test, sites
+excluded, stages memoized and shared; fixtures/route-select/forced_costs.json, written by
+scripts/certifier/forced/forced_costs.py), replacing V2-TOOLS's unmeasured guesses 0.5 and 1.0.  direct_route is the
+hybrid's direct products (the Lagrange matrices of hybOmegaOk and the products DX_H ΔK, which use the direct product
+whatever the advice): their CPU measured at the toy's support, scaled as (S/S_toy)^2 (P/96)^π times 2, an ESTIMATE.
+A toy measurement extrapolates to an application only as far as the operations measured; `cost_terms()` labels every
+term measured or estimated with its source, and the run prints them.  A candidate is admissible when its unrounded
+margin log10(e*/err) exceeds the requested margin strictly, its certified sites have l <= l_max, and its precision obeys
 the rule.  The tool returns the cheapest admissible candidate (exact mirrors preferred at equal cost) and the
 cheapest admissible sharp candidate as the baseline fallback; that fallback's err is a prediction (for LG00 at
 L >= 24 from LG00-PREP's table, whose sharp margin was never observed).  Certified sites at a strip other than the
@@ -68,7 +76,55 @@ TH, J, KP_FROZEN = F(1, 8), 20, 5
 L1_DELTA = 0.75          # thresholds_v2 --l1 at R1 (iso): A7 -10.95, A7 + l1 entry -10.20
 L8_FACTOR = F(1, 2)      # forced toy Tiny: L8' was found passing at X* = 191 against refined A's 382 (both
 #                          kernel-checked, kernel-tests/.../ForcedRoutes.lean); the ratio of the maxima is not checked
-EXTRA = {"l1-entry": 0.5, "hybrid": 1.0}
+COSTS = os.path.join(FIX, "forced_costs.json")      # the forced toy's measured route costs (forced_costs.py)
+
+
+def cost_terms():
+    """Every term of the predicted kernel cost, with its kind ('measured' or 'estimated') and its source.  The route
+    extras are fractions of the base cost C (the landed checks plus the refined-A test, sites excluded):
+    C_route = C (1 + extra) + direct (+ the sites).  The l1-entry and hybrid extras are measured on the forced toy
+    `Tiny` (support 5 u half-terms, CertFixed 96, direct products): a toy figure extrapolates to an application only
+    as far as the operations measured.  The l1 entry adds l1Up sums of memoized models (linear in their terms) and a
+    rational core (support-free), scaled here with the base; the hybrid adds, besides such checks, the Lagrange
+    matrices `Mᵀ Ω₀ M` and the products `DX_H ΔK` with the direct product (`Hybrid.directCfg`, no packed advice),
+    quadratic in the support while the packed base grows as S^β: that part (`direct`) is scaled quadratically from
+    the toy, an estimate."""
+    with open(COSTS) as fh:
+        m = json.load(fh)
+    r, toy = m["ratios"], m["toy"]
+    src = "forced toy Tiny, scripts/certifier/fixtures/route-select/forced_costs.json (forced_costs.py; " \
+          "kernel-tests/CertificateSharp/V2/ForcedL1Hybrid.lean)"
+    return {
+        "C_ref": dict(kind="measured", source="the profile's cost_ref (lunar: SO-CSPLIT-GATE; LG00: run20e ledger)"),
+        "beta": dict(kind="measured (fit)", source="LG00's L = 8 pilot against its L = 20 ledger, precision ratio "
+                     "(128/96)^pi divided out (fit_beta)"),
+        "pi": dict(value=1.0, kind="estimated", source="assumption: no ledger holds two precisions at one support"),
+        "extra[sharp, A.frozen, A.refined.*, B.*]": dict(value=0.0, kind="measured", source="ledger_fit.json: "
+                                                         "frames, claim and core 0.7 % of LG00's run20e"),
+        "extra[A.L8']": dict(value=0.0, kind="measured", source=src + ": (refinedCoreR - refinedCore)/C = %+.4f, "
+                             "within the noise; set to 0" % r["extra_L8"]),
+        "extra[l1-entry]": dict(value=r["extra_l1"], kind="measured", source=src + ": (L1 - Rcore)/C, the guards, "
+                                "the residuals of checkL1L/N/T/E on memoized stages and l1Core, less refinedCore; "
+                                "C = %.1f s (toy)" % r["D_s"], previous="0.5, an unmeasured guess (V2-TOOLS)"),
+        "extra[hybrid]": dict(value=r["extra_hyb"], kind="measured", source=src + ": (hyb - omega - Rcore)/C, "
+                              "transferOk, the step norms, the Cauchy bound, hybCompOk's residual on the memoized "
+                              "compositions, refinedCoreR at the restart, less refinedCore",
+                              previous="1.0, an unmeasured guess (V2-TOOLS), the whole extra"),
+        "direct[hybrid]": dict(value_s=r["omega_s"], factor=2.0, S_toy=toy["support_u_half_terms"], P_toy=toy["P"],
+                               exponent=2.0, kind="estimated",
+                               source=src + ": hybOmegaOk's CPU at the toy (%d direct coefficient pairs) is measured; "
+                               "the quadratic scaling in the support and the factor 2 (the products DX_H ΔK at a step "
+                               "of the torus's support, about as many pairs as the Lagrange matrices) are assumptions"
+                               % toy["omega_direct_pairs"]),
+        "c(l)": dict(kind="measured / estimated", source="the profile's site_cost_s (SHARP2-C6: l = 8..12, measured); "
+                     "other l: 2.4 · 2^(1.29 (l - 8)) s (estimated)"),
+        "err floor": dict(kind="estimated", source="1e4 · 2^-P, calibrated on the forced toy's P = 40 point only"),
+    }
+
+
+TERMS = cost_terms()
+EXTRA = {"l1-entry": TERMS["extra[l1-entry]"]["value"], "hybrid": TERMS["extra[hybrid]"]["value"]}
+DIRECT = {"hybrid": TERMS["direct[hybrid]"]}
 
 
 def lg(x):
@@ -272,6 +328,10 @@ def cost_h(prof, route, L, P, sites, beta, pi):
     S_ref = support_at(prof, prof["cost_ref"]["L"])
     base = float(F(prof["cost_ref"]["cpu_h"])) * (support_at(prof, L) / S_ref) ** beta * (P / prof["P_ref"]) ** pi
     base *= 1 + EXTRA.get(route, 0.0)
+    d = DIRECT.get(route)
+    if d:                     # the hybrid's direct products: the toy's CPU, scaled quadratically (estimated)
+        base += d["value_s"] * d["factor"] * (support_at(prof, L) / d["S_toy"]) ** d["exponent"] * \
+            (P / d["P_toy"]) ** pi / 3600
     return base + sum(site_cost(prof, s["l"]) for s in sites if s.get("certified")) / 3600
 
 
@@ -422,6 +482,10 @@ def main():
                     help="with --validate: overwrite scripts/certifier/fixtures/route-select/validation.json")
     a = ap.parse_args()
     names = ["lunar65", "lg00"] if a.validate else [a.profile]
+    print("cost terms (kind, source):")
+    for k, v in TERMS.items():
+        val = v.get("value", v.get("value_s"))
+        print("  %-42s %-10s %-20s %s" % (k, "" if val is None else val, v["kind"], v["source"]))
     reps = []
     for nm in names:
         rep = run_profile(nm, a.margin, a.beta, a.pi, with_B=not a.no_B)

@@ -12,10 +12,10 @@ public import KAM.CertificateSharp.V2.Tests.Forced.MicroPacked
 
 The forced toy `Micro` with the production decoder in `cfgLow` (`MicroP.cert`,
 `Tests/Forced/MicroPackedData.lean`) passes the certifier with every route and every base at the
-packed base `.torsR` and the packed route `.aPacked` (`MicroP.packed_passes`); this module restates
-it at `routeMax`'s names, and its engine-level form: the branch `.aPacked` of `routeMax` runs the test
-of `Packed.routeARefinedPacked` (`checkV2With_routeMax_aPacked`, `rfl`). The other branches are in
-`Tests/RouteMax.lean`.
+packed base `.torsR` and the packed route `.aPacked` (`MicroP.packed_passes`). This module restates
+it at `routeMax`'s names and as the packed certifier of `Packed.checkV2With_packed_sound`: the
+branch `.aPacked` of `routeMax` runs the test of `Packed.routeARefinedPacked`
+(`checkV2With_routeMax_aPacked`, `rfl`). The other branches are in `Tests/RouteMax.lean`.
 -/
 
 @[expose] public section
