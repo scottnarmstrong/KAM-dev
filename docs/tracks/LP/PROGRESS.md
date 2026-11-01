@@ -42,27 +42,29 @@ src (4th, created 05:30 for the third slot).
 | LP-PS PlanarSafety (LP1) | T15 | 3 | `inp-lp-ps` / geomod worktree (link `/root/code/KAM-inp-lp-ps`) | claude-12 | **PROVED** 74ebebb1 (779 lines): `lp1_planar_strongAMD_safety` (general), `…_normalized` (= draft-2 LP1 verbatim, verified), `…_halfInteger`, `lp0_planar_barrier` (= draft-2 LP0); axioms standard; audit LP-PS-1 **PASS WITH NOTES** (all five main statements PASS); **LANDED** main 0772a7d5 (inp ff50f80f) |
 | LP-SP-MODEL Spatial model + L1–L3 (d=3) + rotations | L1–L3 | 4 | `inp-lp-spmodel` / mom worktree (link `/root/code/KAM-inp-lp-spmodel`) | claude-11 | **LANDED** W4A (main b2308bac); audit LP-W4A-1 PASS WITH NOTES |
 | LP-SP-ROT rotation algebra (46) | L17 | 4 | `inp-lp-sprot` | claude-12 | **LANDED** W4A (main b2308bac); audit LP-W4A-1 PASS WITH NOTES |
-| LP-SP-CHART spatial chart, one body | L17 | 4 | `inp-lp-spchart` / geomod worktree (link `/root/code/KAM-inp-lp-spchart`) | claude-12 | audit LP-W4C-1 **PASS WITH NOTES** (codex-2); merged into inp-lp; **landing requested** |
+| LP-SP-CHART spatial chart, one body | L17 | 4 | `inp-lp-spchart` / geomod worktree (link `/root/code/KAM-inp-lp-spchart`) | claude-12 | **LANDED** W4C (main d54ba2cb); audit LP-W4C-1 PASS WITH NOTES; 89 theorems standard axioms (lander) |
 | LP-SP-GEO spatial barrier + continuation | L5–L6 (d=3) | 4 | `inp-lp-spgeo` / mom worktree (link `/root/code/KAM-inp-lp-spgeo`) | claude-11 | **LANDED** W4B (main 73dd9149); audit LP-W4B-1 PASS WITH NOTES |
 | LP-SP-OSC osculating d=3 | L16 (d=3) | 4 | `inp-lp-sposc` | claude-11 | **LANDED** W4B (main 73dd9149); audit LP-W4B-1 PASS WITH NOTES |
 | LP-SP-CONF spatial first exit (conditional) | L14 (d=3) | 4 | `inp-lp-spconf` | claude-11 | **LANDED** W4B (main 73dd9149); audit LP-W4B-1 PASS WITH NOTES |
 | LP-SP-TUBE tube for Phase (n+m) (N12) | L18 infra | 4 | `inp-lp-sptube` | claude-11 | **LANDED** W4B (main 73dd9149); audit LP-W4B-1 PASS WITH NOTES |
 | LP-SP-ADAPT L13 adapter for Phase (n+m) | L13 infra | 4 | `inp-lp-spadapt` | claude-11 | **LANDED** W4B (main 73dd9149); audit LP-W4B-1 PASS WITH NOTES |
-| LP-SP-LIFT spatial chart lift + D1 premises | L14/L18 (d=3) | 4 | `inp-lp-splift` | claude-11 | staged as LP-W4D (`inp-lp-w4d`, handoff 4f02ec3b); codex-2 queue after W4C |
+| LP-SP-LIFT spatial chart lift + D1 premises | L14/L18 (d=3) | 4 | `inp-lp-splift` | claude-11 | audit LP-W4D-1 **PASS WITH NOTES** (codex-2; 94 theorems, standard axioms); N1 fixed; merged into inp-lp; **landing requested** |
 | LP-SP-SAFE spatial theorem LP2 | T19 | 4 | `inp-lp-spsafe` / mom worktree | claude-11 | **PROVED** c9553935 (938 lines); statement review 4 PASS for fidelity (§3c); audit queued (W4E) |
 | LP-SRC OD-11 (b) source carriers + LP1 restatement | freeze prep | — | `inp-lp-src` / src worktree (4th) | claude-6 | **LANDED** W4B (main 73dd9149); audit LP-W4B-1 PASS WITH NOTES |
-| LP-SP-PROD n-body spatial product chart | L17 (n bodies), (47) | 4 | `inp-lp-spprod` | claude-12 | audit LP-W4C-1 **PASS WITH NOTES** (codex-2); merged into inp-lp; **landing requested** |
-| LP-SP-DOM spatial analytic domain | L18 | 4 | `inp-lp-spdom` | claude-12 | staged as LP-W4D (`inp-lp-w4d`, handoff 4f02ec3b); codex-2 queue after W4C |
-| LP-SP-NRR spatial L13 (2n slow pairs) | L13, T19 | 4 | `inp-lp-spnrr` | claude-12 | staged as LP-W4D (`inp-lp-w4d`, handoff 4f02ec3b); codex-2 queue after W4C |
-| LP-SP-DOMX L18 remaining clauses | L18 | 4 | `inp-lp-spdomx` | claude-12 | staged as LP-W4D (`inp-lp-w4d`, handoff 4f02ec3b); codex-2 queue after W4C |
+| LP-SP-PROD n-body spatial product chart | L17 (n bodies), (47) | 4 | `inp-lp-spprod` | claude-12 | **LANDED** W4C (main d54ba2cb); audit LP-W4C-1 PASS WITH NOTES; 89 theorems standard axioms (lander) |
+| LP-SP-DOM spatial analytic domain | L18 | 4 | `inp-lp-spdom` | claude-12 | audit LP-W4D-1 **PASS WITH NOTES** (codex-2; 94 theorems, standard axioms); N1 fixed; merged into inp-lp; **landing requested** |
+| LP-SP-NRR spatial L13 (2n slow pairs) | L13, T19 | 4 | `inp-lp-spnrr` | claude-12 | audit LP-W4D-1 **PASS WITH NOTES** (codex-2; 94 theorems, standard axioms); N1 fixed; merged into inp-lp; **landing requested** |
+| LP-SP-DOMX L18 remaining clauses | L18 | 4 | `inp-lp-spdomx` | claude-12 | audit LP-W4D-1 **PASS WITH NOTES** (codex-2; 94 theorems, standard axioms); N1 fixed; merged into inp-lp; **landing requested** |
 | LP-SP-SRC spatial source carriers (W4A N1) | freeze prep | 4 | `inp-lp-spsrc` | claude-12 | part A 14a1b9e0, part B 6e84c27a; review 4 R4.1 BLOCKING (§3d used total helpers) → LP-SP-SRCB2 running; audit queued (W4E) |
 | LP-SP-SRCB2 LP2 (b) through `spatialSource*` (R4.1 (A)) | freeze prep | 4 | `inp-lp-spsrcb2` / mom worktree | claude-11 | **PROVED** 1f078521 (R4.1 (A) verbatim); review 5 PASS WITH NOTES; audit queued (W4E) |
 | LP3-KEP Kepler fast Hamiltonian | LP3 plan | LP3 | `inp-lp-lp3kep` / mom worktree | claude-11 | **PROVED** 50aaa4e0 (253 lines: `lp3_kepler_data`; axioms standard); audit queued |
 | LP3-COVERPERT finite cover + normalized perturbation | LP3 plan | LP3 | `inp-lp-lp3cp` / geomod worktree | claude-12 | **PROVED** bc848662 (590 lines; Cover + Perturbation incl. `−P`); audit queued |
 | LP3-CELL generic cellwise application (k slow pairs), ± time | LP3 plan §5 option | LP3 | `inp-lp-lp3cell` / geomod worktree | claude-11 | **PROVED** 4d6256d1 (≈230 lines: `cell_threshold_uniform`, `isSolutionOn_reverse_neg`, `cell_drift_two_sided`, `kepler_cell_drift`; axioms standard, sealed anchor complete); audit queued |
-| LP3-DRIFT planar `hstop` supplier (no Diophantine premise) | LP3 plan §2.4 | LP3 | `inp-lp-lp3drift` / geomod worktree | claude-11 | **RUNNING** (09:1x) |
+| LP3-DRIFT planar `hstop` supplier (no Diophantine premise) | LP3 plan §2.4 | LP3 | `inp-lp-lp3drift` / geomod worktree | claude-11 | **PROVED** 92d0a5fe (373 lines: `lp_stopped_drift_nek{,_hstop}`; axioms standard); audit queued |
+| LP3-PS planar theorem LP3-1 (no arithmetic hypothesis) | LP3 plan §1.2 | LP3 | `inp-lp-lp3ps` / geomod worktree | claude-11 | **RUNNING** (10:0x) |
 | LP3-SP-COVER spatial cover + perturbation | LP3 plan | LP3 | `inp-lp-lp3spcov` / mom worktree | claude-12 | **PROVED** b8994a7c (434 lines; planar cells reused verbatim; `exists_spatialNekPerturbation`); audit queued |
-| LP3-SP-DRIFT spatial `hstop` supplier | LP3 plan §2.5 | LP3 | `inp-lp-lp3spdrift` / mom worktree | claude-12 | **RUNNING** (09:2x) |
+| LP3-SP-DRIFT spatial `hstop` supplier | LP3 plan §2.5 | LP3 | `inp-lp-lp3spdrift` / mom worktree | claude-12 | **PROVED** 01622857 (460 lines: `spatial_stopped_drift_nek`, exact `hstop`; uses CELL `cell_drift_two_sided`, not `kepler_cell_drift` (collar too small)); audit queued |
+| LP3-SP-SAFE spatial theorem LP3-2 (no arithmetic hypothesis) | LP3 plan §1.3 | LP3 | `inp-lp-lp3spsafe` / mom worktree | claude-12 | **RUNNING** (09:5x) |
 
 ## Audit queue (codex-2, one at a time machine-wide; W interleaves when LP has a gap)
 
@@ -145,3 +147,7 @@ src (4th, created 05:30 for the third slot).
 - 2026-11-01 09:1x UTC: LP3-CELL PROVED (generic cellwise application, ± time; Kepler instance). LP3-DRIFT launched (claude-11).
 - 2026-11-01 09:2x UTC: LP3-SP-COVER PROVED. LP3-SP-DRIFT launched (claude-12), in parallel with the planar LP3-DRIFT. W4D fully staged (lint, short-name OK); waits for the W4C audit (LP lane).
 - 2026-11-01 09:3x UTC: LP-W4C audit 1 PASS WITH NOTES (CHART: N1 administrative, N2 disclosed `Complex.arg` inverse representation; PROD: PASS). Merged into inp-lp; landing requested from kam-inp-63. LP-W4D audit launched (LP lane).
+- 2026-11-01 09:4x UTC: LP-W4C LANDED (main d54ba2cb; lander: 89 theorems, standard axioms).
+- 2026-11-01 09:5x UTC: LP3-SP-DRIFT PROVED. LP3-SP-SAFE (LP3-2 assembly) launched on claude-12.
+- 2026-11-01 10:0x UTC: LP3-DRIFT PROVED. LP3-PS (LP3-1 assembly) launched on claude-11. Both LP3 headline assemblies now running.
+- 2026-11-01 10:2x UTC: LP-W4D audit 1 PASS WITH NOTES (DOM, DOMX, LIFT with notes; NRR PASS). N1 (docstring coefficient in Bounds/Algebra.lean:22) fixed; N2 (duplicate secular ball) is joined in W4E's Bridge. Merged; landing requested. LP-W4E audit launched (LP lane).
