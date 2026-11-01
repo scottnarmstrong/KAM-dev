@@ -11,6 +11,9 @@ statement) is reused verbatim on the copy: this script copies the closure of tho
 (read only), renamed `LG00` -> `<P>`, with the certificate text of `prod_cert_gen.cert_text`. The closure must not
 reach the landed chains or the advice and witness data; it fails closed if it does.
 
+The LG00 modules kamx-packed's `prod_cert_gen.py` lists in `KEEP` (if it defines it) are imported from LG00's
+application, not copied (orchestrator, 2026-11-01: the packed packages import `LG00.JetBridge`, whose `lg00Ham_jet`
+is proved and built in LG00's application, instead of re-proving it); the renaming is `prod_cert_gen.rename`'s.
 Usage: python3 -I scripts/packed/gen_port.py OUT_PKG [--app=APP_ROOT] [--tree=TP] [--prefix=LG00P]
        [--prod-gen=PATH_TO_prod_cert_gen.py]
 Prints the ported module list (and writes OUT_PKG/ported_<P>_<T>.json).
@@ -40,14 +43,16 @@ def load_prod_gen(path):
     return mod
 
 
-def closure(app, tree):
-    """The LG00 modules of the chain-free part; fails if it reaches a landed chain or the advice/witness data."""
+def closure(app, tree, keep=()):
+    """The LG00 modules of the chain-free part; fails if it reaches a landed chain or the advice/witness data.
+    Modules in `keep` (LG00's own, imported rather than copied: e.g. `LG00.JetBridge`, whose `lg00Ham_jet` is
+    proved and built in LG00's application) are neither copied nor traversed; `gen_pkg.py` reuses them."""
     roots = ["LG00.%s.%s" % (tree, r) for r in TREE_ROOTS] + ["LG00.%s" % r for r in SHARED_ROOTS]
     banned = re.compile(r"^LG00\.%s\.(Low|Full|Gram|Torsion)\." % tree)
     seen, stack = set(), list(roots)
     while stack:
         m = stack.pop()
-        if m in seen:
+        if m in seen or m in keep:
             continue
         seen.add(m)
         if m == "LG00.%s.Data.Cert" % tree:
@@ -71,7 +76,8 @@ def main():
     if not os.path.exists(pg):
         pg = "/home/scott/KAM-dev-worktrees/v2-packed/scripts/packed/prod_cert_gen.py"   # kamx-packed's branch
     PG = load_prod_gen(pg)
-    mods = closure(app, tree)
+    keep = set(getattr(PG, "KEEP", ()))       # kamx-packed's choice of the LG00 modules imported, not copied
+    mods = closure(app, tree, keep)
     written = []
     for m in mods:
         src = open(os.path.join(app, *m.split(".")) + ".lean", encoding="utf-8").read()
@@ -84,7 +90,7 @@ def main():
         if not os.path.exists(dst) or open(dst, encoding="utf-8").read() != txt:
             open(dst, "w", encoding="utf-8").write(txt)
         written.append(name)
-    json.dump(dict(app=app, tree=tree, prefix=pre, prod_cert_gen=pg, modules=written),
+    json.dump(dict(app=app, tree=tree, prefix=pre, prod_cert_gen=pg, modules=written, kept=sorted(keep)),
               open(os.path.join(out, "ported_%s_%s.json" % (pre, tree)), "w"), indent=1)
     print("\n".join(written))
     print("%d modules ported" % len(written), file=sys.stderr)

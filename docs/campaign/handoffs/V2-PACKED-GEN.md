@@ -110,6 +110,12 @@ modules) are rebuilt, as V2-SITES-SIGN's landing note predicted.
 | `run_packed.py` | the run harness (below). |
 | `run_tree.sh` | one torus through a route: `gate`, `b3b` (LG00's real certificate) or `jet` (the copy). |
 
+**`LG00.JetBridge` is imported, never re-proved** (orchestrator, 2026-11-01). On LG00's real certificate the
+package reuses LG00's built `LG00.JetBridge` (`lg00Ham_jet`) by hardlink: the same inode as `lg00-app`'s olean
+(built 02:57), `lake build --no-build LG00.JetBridge`: `All targets up-to-date`. No solo high-memory build was run
+(no exception). On the certificate copy, `gen_port.py` follows kamx-packed's `prod_cert_gen.py`: the modules it
+lists in `KEEP` are imported from LG00 and neither copied nor traversed (kamx-packed owns that fix).
+
 **Prerequisites not on this branch.** `gen_port.py` and the `jet` route of `run_tree.sh` need kamx-packed's
 `scripts/packed/prod_cert_gen.py` and `jet_prod_gen.py` (branch `v2-packed-prod`, `0d5f39d9`; `gen_port.py` falls back
 to `v2-packed`'s worktree copy, `run_tree.sh` takes `PROD_GEN`/`JET_PROD_GEN`), and the `jet` route's Lean needs
