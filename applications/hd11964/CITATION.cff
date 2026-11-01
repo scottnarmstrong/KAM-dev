@@ -1,0 +1,46 @@
+cff-version: 1.2.0
+message: >-
+  If you use the HD 11964 pilot data or validation tables, please cite them as below, together
+  with the orbital solution they pin (references).
+type: dataset
+title: "HD11964-PILOT: pinned planar three-body model of HD 11964 and its drift-certificate gate"
+version: 0.1.0
+date-released: 2026-11-01
+license: CC-BY-4.0
+authors:
+  - family-names: Armstrong
+    given-names: Scott
+    affiliation: "CNRS, Sorbonne Université, Courant Institute"
+  - family-names: Komargodski
+    given-names: Zohar
+repository-code: "https://github.com/"  # KAM-dev repository URL to be filled in by the owner
+keywords:
+  - celestial mechanics
+  - planetary three-body problem
+  - angular momentum deficit
+  - normal forms
+  - computer-assisted proof
+  - HD 11964
+abstract: >-
+  Pinned inputs (exact rationals with catalogue provenance) of a planar Newtonian model of the
+  HD 11964 system (star, planets c and b, minimum masses, coplanar), and the numerical gate of a
+  planned Lean certificate of a no-orbit-crossing time: a fast-angle Lie normal form with the slow
+  variables, and its drift rate measured against the original Hamiltonian over the whole AMD ball.
+  Funded by the European Research Council (ERC), grant agreement No. 101200828.
+references:
+  - type: article
+    authors:
+      - family-names: Rosenthal
+        given-names: Lee J.
+      - name: "et al."
+    title: "The California Legacy Survey. I. A Catalog of 178 Planets from Precision Radial Velocity Monitoring of 719 Nearby Stars over Three Decades"
+    journal: "The Astrophysical Journal Supplement Series"
+    volume: 255
+    issue: 1
+    start: 8
+    year: 2021
+    doi: 10.3847/1538-4365/abe23c
+  - type: database
+    title: "NASA Exoplanet Archive, Planetary Systems table"
+    url: "https://exoplanetarchive.ipac.caltech.edu/"
+    date-accessed: 2026-11-01

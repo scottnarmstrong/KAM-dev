@@ -1,0 +1,62 @@
+{
+  "dataset": "HD11964-PILOT pinned inputs",
+  "version": "0.1.0",
+  "date": "2026-11-01",
+  "license": "CC-BY-4.0 (this file); the archive extract next to it is NASA Exoplanet Archive data, see LICENSE",
+  "status": "nominal catalogue values, NOT enclosures; every decimal below is an exact rational input of the model",
+  "source": {
+    "fit": "Rosenthal et al. 2021, ApJS 255, 8 (California Legacy Survey I), doi:10.3847/1538-4365/abe23c",
+    "retrieved_from": "NASA Exoplanet Archive, Planetary Systems table (ps), rows with pl_refname = ROSENTHAL_ET_AL__2021 for hostname 'HD 11964', TAP sync query on 2026-11-01",
+    "extract": "nasa-exoplanet-archive-ps-20261101.csv",
+    "extract_sha256": "9a38aa177f01f320e713a940826a1ccda883a05df52f78c5bb42eec73a2daae7",
+    "cross_check": "docs/explorations/amd-crossing/A7-practical.md section 5 (periods 37.9196, 1935.0 d; m sin i 24.3, 201 Earth masses; e .106, .101; a .2315, 3.185 AU) agree to the digits shown there",
+    "not_retrieved": "the CDS catalogue J/ApJS/255/8 did not answer on 2026-11-01; the archive row is the pin"
+  },
+  "constants": {
+    "msun_over_mearth": {"value": "332946.0487", "source": "IAU 2015 Resolution B3 nominal GM_sun / GM_earth (the LP-QUANT convention, scripts/lp_quant/systems.py)"},
+    "days_per_year": {"value": "365.25", "source": "Julian year"}
+  },
+  "star": {
+    "name": "HD 11964",
+    "mass_msun": {"value": "1.151343", "err": "0.032532", "source": "archive st_mass of the Rosenthal et al. 2021 rows"}
+  },
+  "planets": [
+    {
+      "name": "HD 11964 c",
+      "index": 0,
+      "role": "inner",
+      "period_days": {"value": "37.9196", "err_plus": "0.0083", "err_minus": "0.0083"},
+      "ecc": {"value": "0.106", "err_plus": "0.088", "err_minus": "0.071"},
+      "omega_star_deg": {"value": "-30", "err": "86", "note": "argument of periastron of the STELLAR reflex orbit (RV convention); the planet's is omega + 180 deg"},
+      "K_ms": {"value": "4.26"},
+      "msini_mearth": {"value": "24.34565598", "err": "1.97053612"},
+      "a_au_catalogue": {"value": "0.2315"},
+      "tc_bjd": {"value": "2455199.94", "note": "time of inferior conjunction"}
+    },
+    {
+      "name": "HD 11964 b",
+      "index": 1,
+      "role": "outer",
+      "period_days": {"value": "1935.0", "err_plus": "9.4", "err_minus": "9.0"},
+      "ecc": {"value": "0.101", "err_plus": "0.044", "err_minus": "0.046"},
+      "omega_star_deg": {"value": "26", "err": "19", "note": "stellar argument of periastron (RV convention)"},
+      "K_ms": {"value": "9.42"},
+      "msini_mearth": {"value": "200.54972482", "err": "8.58136699"},
+      "a_au_catalogue": {"value": "3.185"},
+      "tc_bjd": {"value": "2455803.0", "note": "time of inferior conjunction"}
+    }
+  ],
+  "model": {
+    "name": "planar Newtonian three-body problem (star + HD 11964 c + HD 11964 b), LP normalization",
+    "hamiltonian": "KAM.Planetary.movingHamiltonian 1 1 nu mu (frozen), heliocentric positions, rescaled barycentric momenta, G = 1, star mass 1",
+    "masses": "planet masses = m sin i (edge-on, coplanar orbits assumed: sin i = 1, zero mutual inclination); m_i / M_star = mu * nu_i, mu = largest ratio",
+    "mu": "msini_b / (msun_over_mearth * mass_msun) = 200.54972482 / (332946.0487 * 1.151343), an exact rational",
+    "nu": ["24.34565598 / 200.54972482", "1"],
+    "length_unit": "AU (the axes below follow from the periods by Kepler's third law with G M_star = 1)",
+    "time_unit": "sqrt(AU^3 / (G M_star)) = 1 yr / (2 pi sqrt(M_star / M_sun)) with G M_sun = 4 pi^2 AU^3 / yr^2 (Gaussian convention)",
+    "axes": "a_i = (M_star * (P_i / days_per_year)^2)^(1/3) AU, read as the LP canonical axis a_i = (Lambda_i / nu_i)^2 of the nominal state",
+    "epoch_bjd": "2455500.0",
+    "phases": "mean anomaly at the epoch from tc (radvel convention: true anomaly f = pi/2 - omega_star at tc); planet periastron omega_p = omega_star + pi; common node, so varpi_i = omega_p,i in the orbital plane",
+    "orientation": "prograde (positive total angular momentum)"
+  }
+}
