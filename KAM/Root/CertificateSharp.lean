@@ -60,9 +60,16 @@ public import KAM.CertificateSharp.Packed.Frames
 public import KAM.CertificateSharp.Packed.Gram
 public import KAM.CertificateSharp.Packed.GramBase
 public import KAM.CertificateSharp.Packed.GramTests
+public import KAM.CertificateSharp.Packed.JetBase
 public import KAM.CertificateSharp.Packed.JetChain
 public import KAM.CertificateSharp.Packed.JetChar
 public import KAM.CertificateSharp.Packed.JetCheck
+public import KAM.CertificateSharp.Packed.JetConsEnergy
+public import KAM.CertificateSharp.Packed.JetConsFrames
+public import KAM.CertificateSharp.Packed.JetConsInv
+public import KAM.CertificateSharp.Packed.JetConsTests
+public import KAM.CertificateSharp.Packed.JetConsTors
+public import KAM.CertificateSharp.Packed.JetConsTorsSound
 public import KAM.CertificateSharp.Packed.JetIngest
 public import KAM.CertificateSharp.Packed.JetKeyed
 public import KAM.CertificateSharp.Packed.JetKeyedTests
