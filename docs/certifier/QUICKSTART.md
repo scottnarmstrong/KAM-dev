@@ -116,7 +116,7 @@ Expected output (abridged; the table lists the 12 cheapest admissible candidates
   rho 1/8     B.frozen                 log10 e*  -12.39  exact
   rho 1/8     B.refined.classical      log10 e*  -10.49  exact
   rho 1/8     A.L8'                    log10 e*   -8.50  estimate
-  rho 1/8     l1-entry                 log10 e*   -7.45  design
+  rho 1/8     l1-entry                 log10 e*   -7.91  estimate
 
 | route | kind | ρ | L | P | log10 e* | log10 err (source) | margin | support | cost (CPU-h) | sites l |
 | sharp | exact | 1/8 | 15 | 96 | -17.60 | -18.63 (measured) | 1.032 | 1308 | 0.000 | - |
@@ -132,7 +132,9 @@ What each diagnostic means:
 * **Threshold lines** `rho … <route> log10 e* … <kind>`: the largest invariance error each route accepts
   at this model's constants. `exact` means the exact rational mirror of the Lean test. `estimate` and
   `design` are scaled guesses for routes without a mirror; they are never chosen over an exact route at
-  equal cost. A route whose mirror fails prints its error in place of `log10 e*`.
+  equal cost. The `l1-entry` row scales the best refined threshold by the forced toy's kernel-checked
+  gain (`+0.29` decades, `estimate`); `--l1-design` uses the R1 design estimate (`+0.75`, `design`)
+  instead. A route whose mirror fails prints its error in place of `log10 e*`.
 * **Table**: every candidate (route, strip `ρ`, truncation `L`, precision `P`) that is admissible.
   `margin = log10(e*/err)` must exceed the profile's `margin_rule` (1 decade). The err source is
   `measured` at a profiled `L`, otherwise `interpolated` or `extrapolated`. `support` is the size, `cost`

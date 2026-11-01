@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """V2-TOOLS #3: producer-side route and parameter selection by predicted total kernel cost (untrusted tooling).
 
-    python3 -I scripts/certifier/route_select.py PROFILE [--margin M] [--beta B] [--pi P] [--json OUT]
+    python3 -I scripts/certifier/route_select.py PROFILE [--margin M] [--beta B] [--pi P] [--l1-design] [--json OUT]
     python3 -I scripts/certifier/route_select.py --validate [--write-fixtures]   # lunar65 and lg00 vs hand choices
 
 `routeV2All` is unchanged: the trusted interface dispatches whatever witness the producer emits.  This tool decides
@@ -17,7 +17,8 @@ which witness to emit.  For a model and candidate torus family (a PROFILE: scrip
   A.refined.cert[d01b]  certified δ₀, δ₁ and every b site (SO-V2PKG's d01b)  exact mirror
   B.frozen, B.refined   forced_witness.solve_B (route_b_lean_mirror)         exact mirror
   A.L8'                 refined e*/2 (the forced toy's passing X* ratio)      estimate
-  l1-entry              refined e* × 10^0.75 (thresholds_v2 at R1, iso)      design estimate
+  l1-entry              refined e* × 10^0.288 (the forced toy's kernel-      estimate (default); with
+                        checked gain); --l1-design: × 10^0.75 (R1 design)    --l1-design: design estimate
   hybrid                sqrt(e1*/A_meas), e1* the refined e* at ρ - 3δ₀       design estimate (needs A_meas)
 
 Where the profile carries re-measured thresholds (lunar: SO-V2PKG §4.6, the d01b row re-measured per ρ with
@@ -73,7 +74,31 @@ import route_b_lean_mirror as RB     # noqa: E402
 import forced_witness as FW          # noqa: E402
 
 TH, J, KP_FROZEN = F(1, 8), 20, 5
-L1_DELTA = 0.75          # thresholds_v2 --l1 at R1 (iso): A7 -10.95, A7 + l1 entry -10.20
+FORCED_FIX = os.path.join(HERE, "fixtures", "forced-toy")
+
+
+def l1_delta_toy():
+    """The l1 entry's kernel-checked threshold gain on the forced toy `Tiny` (V2-CONSOL), in decades: log10 of the
+    l1 run's e* (strip rho' = 1/10, X* = 1830, its own certified sites; kernel-tests/CertificateSharp/V2/
+    ForcedL1Hybrid.lean, `l1_torus`) over the best refined route's e* (refined A at rho = 1/8, X* = 382, certified
+    sites; ForcedRoutes.lean), from fixtures/forced-toy/Tiny_l1.json and Tiny_witness.json: +0.288.  On the toy the
+    ray budget binds, not the entry.  The conservative default (orchestrator ruling, V2-CONSOL-FIX)."""
+    with open(os.path.join(FORCED_FIX, "Tiny_l1.json")) as fh:
+        a = F(json.load(fh)["estar"])
+    with open(os.path.join(FORCED_FIX, "Tiny_witness.json")) as fh:
+        b = F(json.load(fh)["refinedA"]["estar"])
+    return math.log10(a / b)
+
+
+L1_MODELS = {
+    "toy": dict(delta=l1_delta_toy(), kind="estimate",
+                source="kernel-checked gain on the forced toy Tiny, log10(e*_l1 / e*_refinedA) "
+                       "(fixtures/forced-toy/Tiny_l1.json, Tiny_witness.json); the default"),
+    "design": dict(delta=0.75, kind="design",
+                   source="thresholds_v2 --l1 at R1 (iso): A7 -10.95, A7 + l1 entry -10.20; a design estimate, "
+                          "selected by --l1-design"),
+}
+L1 = dict(L1_MODELS["toy"])     # the l1-entry threshold model in use (main() switches it on --l1-design)
 L8_FACTOR = F(1, 2)      # forced toy Tiny: L8' was found passing at X* = 191 against refined A's 382 (both
 #                          kernel-checked, kernel-tests/.../ForcedRoutes.lean); the ratio of the maxima is not checked
 COSTS = os.path.join(FIX, "forced_costs.json")      # the forced toy's measured route costs (forced_costs.py)
@@ -254,8 +279,8 @@ def thresholds(prof, rho, kps=(1, 2, 3), with_B=True, log=print):
         best_ref = max(refs, key=lambda v: v["estar"])
         out["A.L8'"] = dict(estar=best_ref["estar"] * L8_FACTOR, kind="estimate", sites=best_ref.get("sites", []),
                             binding=[], disp_coef=None)
-        out["l1-entry"] = dict(estar=best_ref["estar"] * F(10 ** L1_DELTA).limit_denominator(10 ** 6),
-                               kind="design", sites=best_ref.get("sites", []), binding=[], disp_coef=None)
+        out["l1-entry"] = dict(estar=best_ref["estar"] * F(10 ** L1["delta"]).limit_denominator(10 ** 6),
+                               kind=L1["kind"], sites=best_ref.get("sites", []), binding=[], disp_coef=None)
     if prof.get("A_meas"):
         d0 = min(F(1), (p["rho"] - p["rhoInf"]) / 6)
         p1 = dict(p, rho=p["rho"] - 3 * d0)
@@ -519,7 +544,12 @@ def main():
     ap.add_argument("--json", default=None, help="write the report here (nothing is written otherwise)")
     ap.add_argument("--write-fixtures", action="store_true",
                     help="with --validate: overwrite scripts/certifier/fixtures/route-select/validation.json")
+    ap.add_argument("--l1-design", action="store_true",
+                    help="l1-entry threshold: the R1 design estimate (+0.75 decades over the best refined route) "
+                         "instead of the forced toy's kernel-checked gain (+0.288, the default)")
     a = ap.parse_args()
+    L1.update(L1_MODELS["design" if a.l1_design else "toy"])
+    TERMS["threshold[l1-entry]"] = dict(value=round(L1["delta"], 4), kind=L1["kind"], source=L1["source"])
     names = ["lunar65", "lg00"] if a.validate else [a.profile]
     print("cost terms (kind, source):")
     for k, v in TERMS.items():

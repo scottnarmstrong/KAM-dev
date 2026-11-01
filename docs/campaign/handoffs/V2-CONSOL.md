@@ -94,8 +94,8 @@ nothing was created in the Moon track's directories. Existing Python changed: `s
 - **Hybrid restart**: a two-term Newton step (the `(2,2)` modes the base torus pruned) brings the error to
   `e₁ = 5.36·10⁻¹⁵`; the restart reruns the L8′ witness (its sites reused), margin 5.8 decades against the base's 2.9.
   `hyb_zeroStep_rejects`: without the step the claimed linearized error fails.
-- Default build: `TinyL1HybData`, `TinyL1Core`, `TinyL1Claim`, `TinyHybCore`, `TinyHybStep`, `TinyHybOmega` (14
-  rejections among them). Opt-in: `kernel-tests/CertificateSharp/V2/ForcedL1Hybrid.lean` (base, torsion stages, frames,
+- Default build: `TinyL1HybData`, `TinyL1Core`, `TinyL1Claim`, `TinyHybCore`, `TinyHybStep` (14 rejections among
+  them); `hyb_omega` (the old `TinyHybOmega`) moved to the opt-in file in V2-CONSOL-FIX. Opt-in: `kernel-tests/CertificateSharp/V2/ForcedL1Hybrid.lean` (base, torsion stages, frames,
   `checkL1T`/`checkL1Claim`, certified sites, `l1_torus`, `hybrid_torus`), checked by `lake env lean` on an identical
   scratch copy: rc 0, 51 s CPU, 62 s wall, 3.58 GB. README row added.
 - Producers (new): `scripts/certifier/forced/forced_l1.py`, `forced_hybrid.py`, `forced_l1hyb.py` (regenerates the data
@@ -178,7 +178,7 @@ moved since (V2-FIXES etc.). I did not regenerate the committed results.
 - Builds: every new module by `lake build` under the team lock, one Lean process at a time. After the merge,
   `lake build --no-build` of all top-level new targets (`Tests.RouteMax`, `Tests.RouteMaxPacked`, `MicroRotMut`,
   `MicroRotTransform`, `MicroRotLunar`, `MicroRotRoutes`, `MicroPackedControls`, `TinyL1Core`, `TinyL1Claim`,
-  `TinyHybCore`, `TinyHybStep`, `TinyHybOmega`): all up to date (the last edited one, `Tests.RouteMaxPacked`, rebuilt:
+  `TinyHybCore`, `TinyHybStep`, then also `TinyHybOmega`, since moved opt-in): all up to date (the last edited one, `Tests.RouteMaxPacked`, rebuilt:
   4.9 s, 1.5 GB). `KAM.Root.CertificateSharp` itself was not built: its closure contains existing modules this worktree's
   seed never built (`Corner.Certifier`, `Step0.Coh`, `Tests.BallsTrig`, `Tests.Margin`, `Certificate.Tests.Toy2d`).
 - My modules (`lake env lean`, wall / peak RSS): `RouteMax` 2.4 s / 1.82 GB, `Fiber.RouteBGS` 2.9 s / 1.82 GB,
@@ -247,8 +247,8 @@ following is `[propext, Classical.choice, Quot.sound]`.
 - **Budgets under load** (machine load 25–45): `MicroPackedCompose` 11 s wall (7.2 s in-module); `TinyHybStep` 11 s
   and `TinyHybOmega` 20 s `lake build` wall at load ≈ 45, re-measured by `lake env lean` at load 28 as 9.1 s CPU /
   2.29 GB and 7.5 s CPU / 2.64 GB (the existing default `TinyMutSqrt` measured alongside: 7.6 s / 2.47 GB).
-  `TinyHybOmega`'s 2.64 GB is slightly above the ~2.5 GB guideline; it is the direct `hybOmegaOk`. Moving it opt-in is a
-  one-line change in `ForcedL1Hybrid.lean`'s imports if the orchestrator prefers.
+  `TinyHybOmega`'s 2.64 GB is slightly above the ~2.5 GB guideline; it is the direct `hybOmegaOk`. **Moved opt-in in
+  V2-CONSOL-FIX** (orchestrator's decision).
 - **Before the orchestrator's note** the sub-agents ran `lake env lean` probes outside the shared lock (only
   `lake build` was locked), so at times more than one Lean process of the team ran; all under the 4 GB scope.
 - `torus_back` transports invariance, energy and the displacement on the strip `ρ∞/2`, not the primary/real/ball
@@ -263,3 +263,70 @@ following is `[propext, Classical.choice, Quot.sound]`.
 None.
 
 V2-CONSOL DONE
+
+## V2-CONSOL-FIX (the orchestrator's decisions of 2026-11-01)
+
+| Decision | Done |
+|---|---|
+| Move `TinyHybOmega` opt-in | `KAM/CertificateSharp/V2/Tests/Forced/TinyHybOmega.lean` deleted (a module of this branch, never landed); its one theorem `hyb_omega` is now in `kernel-tests/CertificateSharp/V2/ForcedL1Hybrid.lean`; root regenerated; `TinyHybStep`'s docstring and both READMEs updated |
+| (1) No producer decoder change | `MicroP` kept; **follow-up recorded**: when the landing guard allows a data-module change, let the forced producer emit `CertFixed.toMant 96` in `cfgLow`, so the toys take the packed route as emitted and `MicroP` can go |
+| (2) ℓ¹ threshold model | `route_select.py`: default = the toy's kernel-checked gain, `--l1-design` = the R1 design estimate |
+| (3) Packed products for the hybrid | **deferred to the packed track** (recorded): the Lagrange matrices of `hybOmegaOk` and the products `DX_H ΔK` use the direct product (`Hybrid.directCfg`); `route_select`'s `direct[hybrid]` term (estimated) stands until then |
+| (4) Regenerate the SJS results | done, with the diff below |
+
+**ℓ¹ threshold (2).**
+- `l1_delta_toy()` computes the gain from the fixtures: log10(e*_ℓ¹ / e*_refinedA), where
+  - e*_ℓ¹ = 1.3427·10⁻⁸ (`fixtures/forced-toy/Tiny_l1.json`; strip ρ′ = 1/10, X⋆ = 1830, `l1_torus`);
+  - e*_refinedA = 6.9125·10⁻⁹ (`Tiny_witness.json`; ρ = 1/8, X⋆ = 382, the best refined route, certified sites);
+  - so the gain is **+0.288 decades**.
+- Its kind is `estimate`, because for an application it is an extrapolation from the toy; the run prints it as the cost
+  term `threshold[l1-entry]`.
+- `--l1-design` selects +0.75 (kind `design`). With that flag the `--validate` output equals the previous
+  `validation.log` except for that printed line, and the JSON is byte-identical to the previous `validation.json`.
+- Default `--validate` (fixtures regenerated, rc 0, reproduced byte for byte by a second run):
+  - every ℓ¹ threshold is 0.462 decades lower;
+  - lunar65's "best (incl. estimates)" is still `l1-entry` at ρ = 1/100, L = 19, 1.871 CPU-h, now at margin 1.07
+    (was 1.53);
+  - the ρ = 1/140 ℓ¹ row left the lunar table and an `A.L8'` row entered it;
+  - LG00's ℓ¹ rows keep their places at margins 1.31, 2.28, 3.15 (were 1.77, 2.74, 3.61);
+  - best exact, sharp fallback, hand choices, verdicts, constrained choices, sensitivity and every other threshold are
+    unchanged.
+- `docs/certifier/QUICKSTART.md`: its example line now reads `l1-entry log10 e* -7.91 estimate` (was `-7.45 design`),
+  measured by running steps 2–3 (`forced_profile.py Quick …`, then `route_select.py forced_quick --beta 1`) in scratch;
+  the generated `forced_quick.json` was removed. One sentence explains the two models. Nothing else in that
+  example changes (the best, fallback and verdict lines are as printed there).
+
+**SJS results (4).**
+- `scripts/sjs/results/sjs_thresholds.{json,log}` were regenerated by
+  `python3 -I scripts/sjs/sjs_thresholds.py --json scripts/sjs/results/sjs_thresholds.json`, the log being its stdout
+  (stderr empty).
+- Against the committed files, which came from the since-deleted `sharp-plus` worktree's mirror copy:
+  - route B with classical c_R rises by **+0.752 decades at τ = 2** (FH γ −53.151 → −52.399; numerical −51.072 →
+    −50.321) and **+0.899 at τ = 3** (−57.490 → −56.591; −55.411 → −54.513);
+  - route B with v1's c_R and every frequency-specific column move by +0.000 to +0.026; v0 and v1 are unchanged;
+  - the binding list of the 10-stage tail run reads `sum Tab` where it read `tail cond8, sum Tinv`.
+- I did not isolate the cause. The in-tree mirror changed since that copy (among others V2-FIXES F4: the classical
+  constants now receive the run's own `n`), and only the classical column moves materially.
+- Docs that quote the old figures:
+  - `docs/explorations/sjs-feasibility.md`: a dated note was added under its table, with the corrected ladder steps at
+    τ = 2, numerical γ: Rüssmann → classical 4.8 orders (was 4), classical → frequency-specific 1.9 (was 2.6). The
+    frequency-specific figures and the conclusions drawn from them are unchanged.
+  - The historical handoffs `SJS-FEAS.md` (its classical range −51.1…−57.5 becomes −50.3…−56.6) and `V2-3FREQ.md`
+    (classical `10^−53.15`, `10^−51.07`, so its "gain 3.4 / 2.6 orders" becomes 2.7 / 1.9): left as written.
+
+**Checks.**
+- `lake build KAM.CertificateSharp.V2.Tests.Forced.TinyHybStep` (under the lock, through `leanrun.sh`): built; 39 s
+  in-module at load ≈ 38 for a docstring-only change. The module content is unchanged, so this is load, not data.
+- Opt-in `ForcedL1Hybrid.lean` with `hyb_omega` added, `lake env lean` on an identical scratch copy (under the lock,
+  `LEAN_NUM_THREADS=1`): rc 0, no output, **67 s wall, 59 s user, 3.58 GB peak**, the same peak as before.
+  - The committed file differs from that copy only by one re-wrapped comment line.
+- `gen_root_imports.py --check`: exit 0. `route_select.py --validate`: rc 0, `validation.log` reproduced.
+- `scripts/lint_sources.sh` (under the lock): exit 1 **from the ABI step only** (`check_lean_modules: PASS (4206 Lean
+  files, 0 comparator configurations)`, the 25 unit tests `OK`, `FROZEN-ANCHOR GUARD OK`; `abi_hashes.py` stops at the
+  missing `KAM/Frozen/Planetary/Theorems/FixedSunPlanetaryKAM.olean`, as before; the landing build should run it).
+- `python3 -I scripts/ci_checks.py --group mirror`: `10 checks, 0 failed, 81.3s` (route-select, forced-regen and
+  forced-profile among them).
+- Python ran under the orchestrator's new cap (`systemd-run --user --scope -p MemoryMax=8G -p MemorySwapMax=0 nice -n 10`,
+  anon gate 20 GB, through a wrapper); every Lean process ran under the team lock (anon gate 22 GB, 4 GB scope).
+
+V2-CONSOL-FIX DONE

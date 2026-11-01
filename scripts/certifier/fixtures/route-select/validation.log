@@ -9,6 +9,7 @@ cost terms (kind, source):
   direct[hybrid]                             5.26       estimated            forced toy Tiny, scripts/certifier/fixtures/route-select/forced_costs.json (forced_costs.py; kernel-tests/CertificateSharp/V2/ForcedL1Hybrid.lean): hybOmegaOk's CPU at the toy (2208 direct coefficient pairs) is measured; the quadratic scaling in the support and the factor 2 (the products DX_H ΔK at a step of the torus's support, about as many pairs as the Lagrange matrices) are assumptions
   c(l)                                                  measured / estimated the profile's site_cost_s (SHARP2-C6: l = 8..12, measured); other l: 2.4 · 2^(1.29 (l - 8)) s (estimated)
   err floor                                             estimated            1e4 · 2^-P, calibrated on the forced toy's P = 40 point only
+  threshold[l1-entry]                        0.2884     estimate             kernel-checked gain on the forced toy Tiny, log10(e*_l1 / e*_refinedA) (fixtures/forced-toy/Tiny_l1.json, Tiny_witness.json); the default
 beta fitted on the LG00 ledger (packed products), precision ratio divided out at pi = 1.0 (unmeasured): 0.775 {'torsion': 0.75, 'gram': 0.8, 'pi': 1.0}
 profile lunar65: lunar spin-orbit band, N = 65, lower torus (package R2)
   rho 1/280   sharp                    log10 e*  -31.71  exact+shifted
@@ -21,7 +22,7 @@ profile lunar65: lunar spin-orbit band, N = 65, lower torus (package R2)
   rho 1/280   B.frozen                 log10 e*  -25.22  exact+shifted
   rho 1/280   B.refined.classical      log10 e*  -18.09  exact+shifted
   rho 1/280   A.L8'                    log10 e*  -15.64  estimate+shifted
-  rho 1/280   l1-entry                 log10 e*  -14.59  design+shifted
+  rho 1/280   l1-entry                 log10 e*  -15.05  estimate+shifted
   rho 1/280   hybrid                   log10 e*   -7.36  design+shifted
   rho 1/140   sharp                    log10 e*  -31.82  exact+shifted
   rho 1/140   A.frozen                 log10 e*  -27.87  exact+shifted
@@ -33,7 +34,7 @@ profile lunar65: lunar spin-orbit band, N = 65, lower torus (package R2)
   rho 1/140   B.frozen                 log10 e*  -25.64  exact+shifted
   rho 1/140   B.refined.classical      log10 e*  -18.51  exact+shifted
   rho 1/140   A.L8'                    log10 e*  -14.56  estimate+shifted
-  rho 1/140   l1-entry                 log10 e*  -13.51  design+shifted
+  rho 1/140   l1-entry                 log10 e*  -13.97  estimate+shifted
   rho 1/140   hybrid                   log10 e*   -6.76  design+shifted
   rho 1/100   sharp                    log10 e*  -31.26  exact+shifted
   rho 1/100   A.frozen                 log10 e*  -27.31  exact+shifted
@@ -45,7 +46,7 @@ profile lunar65: lunar spin-orbit band, N = 65, lower torus (package R2)
   rho 1/100   B.frozen                 log10 e*  -25.22  exact+shifted
   rho 1/100   B.refined.classical      log10 e*  -18.09  exact+shifted
   rho 1/100   A.L8'                    log10 e*  -14.11  estimate+shifted
-  rho 1/100   l1-entry                 log10 e*  -13.06  design+shifted
+  rho 1/100   l1-entry                 log10 e*  -13.52  estimate+shifted
   rho 1/100   hybrid                   log10 e*   -6.50  design+shifted
   rho 1/70    sharp                    log10 e*  -30.69  exact+shifted
   rho 1/70    A.frozen                 log10 e*  -26.75  exact+shifted
@@ -57,16 +58,15 @@ profile lunar65: lunar spin-orbit band, N = 65, lower torus (package R2)
   rho 1/70    B.frozen                 log10 e*  -24.81  exact+shifted
   rho 1/70    B.refined.classical      log10 e*  -17.68  exact+shifted
   rho 1/70    A.L8'                    log10 e*  -13.78  estimate+shifted
-  rho 1/70    l1-entry                 log10 e*  -12.73  design+shifted
+  rho 1/70    l1-entry                 log10 e*  -13.19  estimate+shifted
   rho 1/70    hybrid                   log10 e*   -5.63  design+shifted
 
 ## lunar65 (margin >= 1.0 decades, beta 0.78)
 
 | route | kind | ρ | L | P | log10 e* | log10 err (source) | margin | support | cost (CPU-h) | sites l |
 |---|---|---|---:|---:|---:|---|---:|---:|---:|---|
-| l1-entry | design+shifted | 1/140 | 19 | 96 | -13.51 | -14.81 (interpolated) | 1.300 | 219 | 1.871 | 11,8,12,9,10 |
-| l1-entry | design+shifted | 1/100 | 19 | 96 | -13.06 | -14.59 (interpolated) | 1.531 | 219 | 1.871 | 11,8,12,9,10 (not balCheck-verified) |
-| l1-entry | design+shifted | 1/70 | 19 | 96 | -12.73 | -14.41 (interpolated) | 1.685 | 219 | 1.872 | 10,7,11,8,12,9 (not balCheck-verified) |
+| l1-entry | estimate+shifted | 1/100 | 19 | 96 | -13.52 | -14.59 (interpolated) | 1.069 | 219 | 1.871 | 11,8,12,9,10 (not balCheck-verified) |
+| l1-entry | estimate+shifted | 1/70 | 19 | 96 | -13.19 | -14.41 (interpolated) | 1.223 | 219 | 1.872 | 10,7,11,8,12,9 (not balCheck-verified) |
 | A.refined.cert[kp=2] | exact+shifted | 1/70 | 20 | 96 | -13.60 | -15.40 (interpolated) | 1.794 | 251 | 2.013 | 10,7,11,8 (not balCheck-verified) |
 | A.refined.cert[d01b] | exact+remeasured | 1/70 | 20 | 96 | -13.48 | -15.40 (interpolated) | 1.918 | 251 | 2.015 | 10,7,11,8,9 (not balCheck-verified) |
 | A.refined.cert[kp=2] | exact+shifted | 1/140 | 20 | 96 | -14.47 | -15.80 (measured) | 1.325 | 251 | 2.036 | 11,8,12,9 |
@@ -76,9 +76,10 @@ profile lunar65: lunar spin-orbit band, N = 65, lower torus (package R2)
 | A.L8' | estimate+shifted | 1/140 | 20 | 96 | -14.56 | -15.80 (measured) | 1.235 | 251 | 2.039 | 11,8,12,9,10 |
 | A.refined.cert[kp=3] | exact+shifted | 1/100 | 20 | 96 | -13.81 | -15.58 (interpolated) | 1.767 | 251 | 2.039 | 11,8,12,9,10 (not balCheck-verified) |
 | A.refined.cert[d01b] | exact+remeasured | 1/100 | 20 | 96 | -13.81 | -15.58 (interpolated) | 1.767 | 251 | 2.039 | 11,8,12,9,10 (not balCheck-verified) |
+| A.L8' | estimate+shifted | 1/100 | 20 | 96 | -14.11 | -15.58 (interpolated) | 1.466 | 251 | 2.039 | 11,8,12,9,10 (not balCheck-verified) |
 
 best (exact mirrors): {'route': 'A.refined.cert[kp=2]', 'rho': '1/70', 'L': 20, 'P': 96, 'margin': 1.79, 'cost_h': 2.013, 'kind': 'exact+shifted', 'err_source': 'interpolated', 'sites_verified': False}
-best (incl. estimates): {'route': 'l1-entry', 'rho': '1/100', 'L': 19, 'P': 96, 'margin': 1.53, 'cost_h': 1.871, 'kind': 'design+shifted', 'err_source': 'interpolated', 'sites_verified': False}
+best (incl. estimates): {'route': 'l1-entry', 'rho': '1/100', 'L': 19, 'P': 96, 'margin': 1.07, 'cost_h': 1.871, 'kind': 'estimate+shifted', 'err_source': 'interpolated', 'sites_verified': False}
 baseline fallback (landed sharp; err interpolated, not observed): {'route': 'sharp', 'rho': '1/70', 'L': 38, 'P': 128, 'margin': 1.48, 'cost_h': 7.935, 'kind': 'exact+shifted', 'err_source': 'interpolated', 'sites_verified': False}
 hand choice: {'route': 'A.refined.cert[d01b]', 'rho': '1/140', 'L': 20, 'P': 96, 'margin': 1.54, 'cost_h': 2.039, 'kind': 'exact+remeasured', 'err_source': 'measured', 'sites_verified': True}
 verdict: differs: predicted cost 2.013 CPU-h against the hand choice's 2.039 (ratio 0.99)
@@ -98,20 +99,20 @@ profile lg00: LG00: Locatelli–Giorgilli secular Sun–Jupiter–Saturn torus (
   rho 29/5000 B.frozen                 log10 e*  -25.96  exact
   rho 29/5000 B.refined.classical      log10 e*  -17.81  exact
   rho 29/5000 A.L8'                    log10 e*  -15.40  estimate
-  rho 29/5000 l1-entry                 log10 e*  -14.35  design
+  rho 29/5000 l1-entry                 log10 e*  -14.81  estimate
 
 ## lg00 (margin >= 1.0 decades, beta 0.78)
 
 | route | kind | ρ | L | P | log10 e* | log10 err (source) | margin | support | cost (CPU-h) | sites l |
 |---|---|---|---:|---:|---:|---|---:|---:|---:|---|
 | A.refined.classical | exact | 29/5000 | 19 | 128 | -15.10 | -16.12 (interpolated) | 1.019 | 613 | 27.686 | - |
-| l1-entry | design | 29/5000 | 19 | 128 | -14.35 | -16.12 (interpolated) | 1.769 | 613 | 28.206 | - |
+| l1-entry | estimate | 29/5000 | 19 | 128 | -14.81 | -16.12 (interpolated) | 1.308 | 613 | 28.206 | - |
 | A.refined.classical | exact | 29/5000 | 20 | 128 | -15.10 | -17.09 (measured) | 1.994 | 683 | 30.110 | - |
 | A.L8' | estimate | 29/5000 | 20 | 128 | -15.40 | -17.09 (measured) | 1.693 | 683 | 30.110 | - |
-| l1-entry | design | 29/5000 | 20 | 128 | -14.35 | -17.09 (measured) | 2.744 | 683 | 30.676 | - |
+| l1-entry | estimate | 29/5000 | 20 | 128 | -14.81 | -17.09 (measured) | 2.282 | 683 | 30.676 | - |
 | A.refined.classical | exact | 29/5000 | 21 | 128 | -15.10 | -17.96 (measured) | 2.861 | 749 | 32.331 | - |
 | A.L8' | estimate | 29/5000 | 21 | 128 | -15.40 | -17.96 (measured) | 2.560 | 749 | 32.331 | - |
-| l1-entry | design | 29/5000 | 21 | 128 | -14.35 | -17.96 (measured) | 3.611 | 749 | 32.938 | - |
+| l1-entry | estimate | 29/5000 | 21 | 128 | -14.81 | -17.96 (measured) | 3.149 | 749 | 32.938 | - |
 | A.refined.classical | exact | 29/5000 | 19 | 160 | -15.10 | -16.12 (interpolated) | 1.019 | 613 | 34.607 | - |
 | A.refined.classical | exact | 29/5000 | 22 | 128 | -15.10 | -18.92 (extrapolated) | 3.826 | 821 | 34.715 | - |
 | B.refined.classical | exact | 29/5000 | 22 | 128 | -17.81 | -18.92 (extrapolated) | 1.110 | 821 | 34.715 | - |

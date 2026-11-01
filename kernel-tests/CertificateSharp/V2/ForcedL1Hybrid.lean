@@ -9,10 +9,10 @@ public import KAM.CertificateSharp.V2.Tests.Forced.TinyFreq
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyL1Core
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyHybCore
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyHybStep
-public import KAM.CertificateSharp.V2.Tests.Forced.TinyHybOmega
 public import KAM.CertificateSharp.V2.Tests.Forced.Lemmas
 public import KAM.CertificateSharp.Kernel.Stage
 public import KAM.CertificateSharp.Hybrid.Iso
+public import KAM.CertificateSharp.Hybrid.Claims
 
 /-!
 # The forced toy `Tiny` through the ℓ¹ entry and the hybrid restart (opt-in, not in the library)
@@ -21,14 +21,16 @@ Not built by anything (`kernel-tests/README.md`); the file stands for
 `KAM.CertificateSharp.V2.Tests.ForcedL1Hybrid`. It imports only library modules: the data and
 witnesses of `KAM/CertificateSharp/V2/Tests/Forced/` (`TinyL1HybData`), the cheap parts that the
 default build decides (`TinyL1Core`, `TinyL1Claim`: the rational core and the ℓ¹ checks of `L`,
-`N`, `E`; `TinyHybCore`, `TinyHybStep`, `TinyHybOmega`: the rational checks of the hybrid and the
-step's model checks; with their rejections) and the bridges `Kernel/StageL1.lean`,
+`N`, `E`; `TinyHybCore`, `TinyHybStep`: the rational checks of the hybrid and the step's model
+checks; with their rejections) and the bridges `Kernel/StageL1.lean`,
 `Kernel/StageHyb.lean`. It runs directly:
 `nice -n 10 lake env lean kernel-tests/CertificateSharp/V2/ForcedL1Hybrid.lean`.
 
 The base certificate is `Tiny.cert` (`TorusCertificate 2 (CertFixed 96)`, `err = 4.1·10⁻¹²`), whose
 landed sub-checks are re-decided here exactly as in `ForcedRoutes.lean` (`base_ok`). This file adds
-what is heavy: the torsion stages, the frames, the certified sites, and the assembly.
+what is heavy: the torsion stages, the frames, the certified sites, the Lagrange matrices of the
+hybrid step (`hyb_omega`, moved here from the default build by the orchestrator's V2-CONSOL ruling)
+and the assembly.
 
 * **Route A with the ℓ¹ entry** (`L1.routeAL1`, witness `l1Wit`): the ℓ¹ claim `checkL1Claim` is
   computed from the certificate's own models through the memoized stages (`Kernel/StageL1.lean`:
@@ -190,6 +192,11 @@ theorem l1_torus : CertifiedTorus cert ωstar :=
   checkTorusCertificateV2_sound routeV2All l1_passes freq dio
 
 /-! ### The hybrid restart -/
+
+/-- `(S6)`, `(S7)` of `Hybrid.hybStepOk` at the Newton step: `‖Ω_K‖` and `‖Ω_{K + ΔK}‖` (`Mᵀ Ω₀ M`
+for `M = DK`, `D(K + ΔK)`) against the claims `o0`, `o1`, `o0R`, `o1R`, by the direct products of
+the derivative models (about 7.5 s of kernel CPU and 2.6 GB alone). -/
+theorem hyb_omega : Hybrid.hybOmegaOk cert hybWit.step = true := by decide +kernel
 
 theorem hyb_step : Hybrid.hybStepOk cert hybWit.step hybWit.p1.rho hybWit.p1.rhoInf
     (hybWit.ρT 2 cert.freqBox) = true :=

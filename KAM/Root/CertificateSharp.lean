@@ -189,7 +189,6 @@ public import KAM.CertificateSharp.V2.Tests.Forced.TinyData
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyFreq
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyGram
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyHybCore
-public import KAM.CertificateSharp.V2.Tests.Forced.TinyHybOmega
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyHybStep
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyL1Claim
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyL1Core

@@ -37,7 +37,7 @@ Layout (orchestrator ruling, V2-TOOLS-FIX: default modules of a few seconds each
   (`TinyWitness`, `TinyGram`, ten `TinyMut*` modules); the data modules `<T>Data`, `<T>Stages`, `<T>Freq` that
   the opt-in test imports; (V2-CONSOL) `MicroRot` (the rotated normalization, same layout as `Micro`, with
   `MicroRotTransform` and the drift mutations `MicroRotMut`) and `MicroP` (the packed route, `MicroPacked*`); `Tiny`'s ℓ¹ entry and hybrid restart in part (`TinyL1Core`,
-  `TinyL1Claim`, `TinyHybCore`, `TinyHybStep`, `TinyHybOmega`; the data `TinyL1HybData`);
+  `TinyL1Claim`, `TinyHybCore`, `TinyHybStep`; the data `TinyL1HybData`);
 * opt-in: `kernel-tests/CertificateSharp/V2/ForcedRoutes.lean` (`Tiny`'s routes A, L8′, B and tori, `mut_frameT`,
   the `TinyC2` chain, the time-normalization tori); `kernel-tests/CertificateSharp/V2/ForcedL1Hybrid.lean`
   (V2-CONSOL: `Tiny` through the ℓ¹ entry and the hybrid restart, with their tori).

@@ -20,7 +20,8 @@ Rejection: `hyb_zeroStep_rejects`. Without the step (`ΔK̂ = 0`) the linearised
 error `4.1·10⁻¹²`, far above the claim `ℓ_E = 5.36·10⁻¹⁵`: the Newton cancellation on the
 coefficients is what the restart certifies; `hyb_lE_tight`, the claim `ℓ_E` lowered by `10⁻³`
 (the claim is the mirror's value rounded up by at most `3·10⁻⁴`: the port of `linModel` and the
-kernel agree, from both sides). `‖Ω‖` (`(S6)`, `(S7)`) is in `TinyHybOmega`.
+kernel agree, from both sides). `‖Ω‖` (`(S6)`, `(S7)`, `hyb_omega`) is in the opt-in
+`kernel-tests/CertificateSharp/V2/ForcedL1Hybrid.lean`.
 -/
 
 @[expose] public section
