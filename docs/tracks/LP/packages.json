@@ -60,6 +60,15 @@
    "source": "MAIN L8: whole-sublevel planar analytic domain"
   },
   {
+   "id": "LP-DOMX",
+   "wave": 2,
+   "weight": 0.8,
+   "modules": [
+    "KAM/Planetary/StrongAMD/AnalyticDomain/Bounds.lean"
+   ],
+   "source": "MAIN L8 remaining clauses (chart/momenta/derivative bounds, denominators)"
+  },
+  {
    "id": "LP-NRR",
    "wave": 2,
    "weight": 1.2,
@@ -76,6 +85,15 @@
     "KAM/Planetary/StrongAMD/NonresonantScale.lean"
    ],
    "source": "MAIN L12/(37): scale choice and exponential horizon"
+  },
+  {
+   "id": "LP-LIFT",
+   "wave": 3,
+   "weight": 1.0,
+   "modules": [
+    "KAM/Planetary/StrongAMD/ChartLift.lean"
+   ],
+   "source": "MAIN L14 (chart lift of the physical orbit in the sharp region; discharges the D1 premises of the L13 adapter)"
   },
   {
    "id": "LP-CONF",

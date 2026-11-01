@@ -1,0 +1,9 @@
+parsing took 2.34ms
+Command exited with non-zero status 137
+wall_s 329.41
+user_s 255.35
+sys_s 14.09
+maxrss_kb 5244132
+exit 137
+cgroup_sampled_peak_bytes 4292407296
+oom_kill 1

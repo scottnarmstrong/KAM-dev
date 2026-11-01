@@ -282,9 +282,9 @@ EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#bpW:w5:w4-general@L138-L138
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a
 REVIEWER: sol-delta6-W-W-w5a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.HomTaylor_gen, KAM.Wave.HomFreqHyp, KAM.Wave.homFreqHyp_wave, KAM.Wave.homLie_pairing_summable_gen, KAM.Wave.homLemma_lie_iv_gen, KAM.Wave.homLemma1_fieldBound_gen, KAM.Wave.homLemma1_lipschitz_gen, KAM.Wave.homLemma1_equation_all_gen, KAM.Wave.homNhat_coeff_bounds_gen, KAM.Wave.homNhat_fieldBound_gen, KAM.Wave.homNhat_lipschitz_gen, KAM.Wave.homDiagonal_bound_gen (KAM/Wave/Homological/Taylor.lean, KAM/Wave/Homological/Melnikov.lean, KAM/Wave/Homological/Wave.lean, KAM/Wave/Homological/Lie.lean, KAM/Wave/Homological/LieDeriv.lean, KAM/Wave/Homological/LemmaOneBounds.lean, KAM/Wave/Homological/Lemma1.lean, KAM/Wave/Homological/LemmaOneAll.lean, KAM/Wave/Homological/NhatTaylor.lean, KAM/Wave/Homological/Schur.lean)
+LEAN_NOTE: formalized by the W4-HOMOLOGICAL p_plus refactor (handoff section 'p_plus refactor (bpW:w5:w4-general)'); W4-HOMOLOGICAL audit 1 PASS WITH NOTES (p_plus specialization), audit 2 PASS WITH NOTES; _gen statements for p <= p_+ with (bpW:w5:freq) = HomFreqHyp; the all-vector equation and the pairing estimate also need 1 <= p + p_+ (holds at a = p = 1); inherits the gaps of PARTIAL bpW:w4:lie ((iii)), bpW:w4:lemma1 ((i), second and third forms of (ii)) and bpW:w4:lemma2 (weighted field norms)
 NOTE: -
 
 NODE: stepW:w5:g-pair
