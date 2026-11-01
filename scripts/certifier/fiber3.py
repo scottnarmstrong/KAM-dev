@@ -3,15 +3,16 @@
 
 Untrusted tooling.  Transcribes over Fraction, with the Lean names:
 
-  KAM/CertificateSharp/V2/Fiber/TailTau.lean   SdsData.expLow, cLoT, tailBoundT
-  KAM/CertificateSharp/V2/Fiber/Enum2.lean     mode2, rowA, rowW, cell2, row2, fib2Sum (balFold)
-  KAM/CertificateSharp/V2/Fiber/Site3.lean     clockC, clockR, clockBox2, fibData, fibBound, fibSumOk,
-                                               fiberSiteOk
+  KAM/CertificateSharp/V2/Fiber/TailTau.lean   expLowQ, cLoQ, tailQ
+  KAM/CertificateSharp/V2/Fiber/Enum2.lean     ceilDiv, mulUp, sqMulUp, powUp, nearP, mode3, rowA, rowW, cell2,
+                                               row2, walk2 (balFold)
+  KAM/CertificateSharp/V2/Fiber/Site3.lean     clockC, clockR, clockRad, clockBox2, dboxOk, fibGamma, fibBound,
+                                               fibSumOk, fiberSiteOk
   KAM/CertificateSharp/Freq/CubicNorm.lean     cubicH, cubicW, polyAbsUp, cubicDioOk
 
-The walk is mirrored cell by cell (same order, same rounding: each mode term is rounded UP to the
-fixed point 2^-P).  `fiber_site_ok` returns the Lean Bool; `produce_site` picks a witness
-(N, l, J, P, E1, B) and the smallest short constant c it certifies.
+The walk is mirrored cell by cell (same order, same integer rounding: every quotient rounded UP).
+`fiberSiteOk` returns the Lean Bool; `produce_site` picks a witness (N, l, J, P, e, D, B) and the
+smallest short constant c it certifies; `lean_fibwit` prints the FibWit literal.
 
 Float helpers (`sd_sum_float`, `classical_c_float`, `sjs_estimate`) are estimates only.
 
@@ -40,39 +41,61 @@ def ceil_q(q):
 
 
 # ----------------------------------------------------------------------------- TailTau.lean
-class SdsData:
-    """KAM.CertificateSharp.SdsData: box (list of (c, r)), gamma, delta, N, J, E1."""
+def expLowQ(delta, J):
+    x = F(628, 100) * delta
+    return sum(x ** i / math.factorial(i) for i in range(J + 1))
 
-    def __init__(self, box, gamma, delta, N, J, E1):
-        self.box, self.gamma, self.delta, self.N, self.J, self.E1 = box, gamma, delta, N, J, E1
 
-    def expLow(self):
-        x = F(628, 100) * self.delta
-        return sum(x ** i / math.factorial(i) for i in range(self.J + 1))
+def cLoQ(delta, tau, N):
+    return F(628, 100) * delta - F(2 * tau) / (N + 1)
 
-    def cLoT(self, tau):
-        return F(628, 100) * self.delta - F(2 * tau) / (self.N + 1)
 
-    def tailBoundT(self, tau):
-        c = self.cLoT(tau)
-        return (2 * (1 + F(2) ** tau) * (1 / self.gamma ** 2 if self.gamma != 0 else F(0))
-                * (F(63, 10) * self.delta) * ((F(self.N) + 1) ** (2 * tau) * self.E1 ** (self.N + 1))
-                * (1 + (1 / c if c != 0 else F(0))))
+def inv(q):
+    return F(0) if q == 0 else 1 / F(q)
+
+
+def tailQ(gamma, delta, tau, N, Ep):
+    return (2 * (1 + F(2) ** tau) * inv(gamma ** 2) * (F(63, 10) * delta)
+            * ((F(N) + 1) ** (2 * tau) * Ep) * (1 + inv(cLoQ(delta, tau, N))))
 
 
 # ----------------------------------------------------------------------------- Enum2.lean
-def mode2(B, E1, P, a, b):
-    """The rounded term of the mode (a, b), or None."""
-    c0, c1, r0, r1 = B
-    x = a * c0 + b * c1
-    p = floor_q(-x + HALF)
-    y = abs(x + p)
-    rad = abs(a) * r0 + abs(b) * r1
-    if 0 < y - rad and y + rad <= HALF:
+def ceilDiv(A, B):
+    return (A + B - 1) // B
+
+
+def mulUp(P, a, b):
+    return ceilDiv(a * b, 2 ** P)
+
+
+def sqMulUp(e, P, r, h):
+    return mulUp(P, h, h) if r == 0 else mulUp(P, mulUp(P, h, h), e)
+
+
+def powUp(e, P, f, j):
+    if f == 0 or j == 0:
+        return 2 ** P
+    return sqMulUp(e, P, j % 2, powUp(e, P, f - 1, j // 2))
+
+
+def nearP(q, X):
+    return (2 ** q - 2 * X) // 2 ** (q + 1)
+
+
+def mode3(D, e, P, a, b):
+    """The rounded term (times 2^P) of the mode (a, b), or None.  D = (q, C0, C1, R0, R1)."""
+    q, C0, C1, R0, R1 = D
+    X = a * C0 + b * C1
+    p = nearP(q, X)
+    Y = abs(X + p * 2 ** q)
+    Rd = abs(a) * R0 + abs(b) * R1
+    if Rd < Y and 2 * (Y + Rd) <= 2 ** q:
         s = abs(a) + abs(b)
-        inv_p = F(0) if p == 0 else 1 / ((abs(p) - HALF) ** 2)
-        t = E1 ** (s + abs(p)) * (1 / (y - rad) ** 2) + E1 ** s * (inv_p + E1 * FIBER_C0Q)
-        return max(0, ceil_q(t * F(2) ** P))
+        Es = powUp(e, P, 64, s)
+        t = ceilDiv(powUp(e, P, 64, s + abs(p)) * 2 ** (2 * q), (Y - Rd) ** 2)
+        t += 0 if p == 0 else ceilDiv(Es * 4, (2 * abs(p) - 1) ** 2)
+        t += ceilDiv(Es * powUp(e, P, 64, 1) * 14615, 2 ** P * 2000)
+        return t
     return None
 
 
@@ -84,38 +107,38 @@ def rowW(N, i):
     return max(0, N - abs(rowA(N, i)))
 
 
-def cell2(B, E1, P, N, i, j):
+def cell2(M, N, i, j):
     w = rowW(N, i)
     if 2 * w < j:
         return 0
     if rowA(N, i) == 0 and j - w == 0:
         return 0
-    return mode2(B, E1, P, rowA(N, i), j - w)
+    return M(rowA(N, i), j - w)
 
 
-def fib2Sum(B, E1, P, N, l):
-    """The walk: sum over rows i < 2^l and columns j < 2^l (None if a mode fails)."""
+def walk2(M, N, l):
+    """The walk: rows i < 2^l and columns j < 2^l (None if a mode fails)."""
     tot = 0
     for i in range(2 ** l):
         if 2 * N < i:
             continue
         for j in range(2 ** l):
-            v = cell2(B, E1, P, N, i, j)
+            v = cell2(M, N, i, j)
             if v is None:
                 return None
             tot += v
     return tot
 
 
-def fib2Sum_fast(B, E1, P, N):
-    """Same value as fib2Sum (only the diamond's cells are nonzero)."""
+def walk2_fast(M, N):
+    """Same value as walk2 (only the diamond's cells are nonzero)."""
     tot = 0
     for a in range(-N, N + 1):
         w = N - abs(a)
         for b in range(-w, w + 1):
             if a == 0 and b == 0:
                 continue
-            v = mode2(B, E1, P, a, b)
+            v = M(a, b)
             if v is None:
                 return None
             tot += v
@@ -135,25 +158,40 @@ def clockR(box):
     return getD(box, 2)[1]
 
 
+def clockRad(box, i):
+    return ((getD(box, i)[1] * clockC(box) + abs(getD(box, i)[0]) * clockR(box))
+            * inv((clockC(box) - clockR(box)) * clockC(box)))
+
+
 def clockBox2(box):
-    kc, kr = clockC(box), clockR(box)
-    (a0, s0), (a1, s1) = getD(box, 0), getD(box, 1)
-    den = (kc - kr) * kc
-    return (a0 / kc, a1 / kc, (s0 * kc + abs(a0) * kr) / den, (s1 * kc + abs(a1) * kr) / den)
+    return [(getD(box, 0)[0] * inv(clockC(box)), clockRad(box, 0)),
+            (getD(box, 1)[0] * inv(clockC(box)), clockRad(box, 1))]
 
 
-def fibData(box, gamma, b, w):
-    B = clockBox2(box)
-    return SdsData([(B[0], B[2]), (B[1], B[3])], gamma / (clockC(box) + clockR(box)), 2 * b,
-                   w["N"], w["J"], w["E1"])
+def dboxOk(box, D):
+    q, C0, C1, R0, R1 = D
+    cb = clockBox2(box)
+    return (abs(F(C0, 2 ** q) - cb[0][0]) + cb[0][1] <= F(R0, 2 ** q)
+            and abs(F(C1, 2 ** q) - cb[1][0]) + cb[1][1] <= F(R1, 2 ** q))
+
+
+def fibGamma(box, gamma):
+    return gamma * inv(clockC(box) + clockR(box))
 
 
 def fibBound(box, gamma, b, tau, w, s):
-    return w["E1"] * PI2_3 + F(s, 2 ** w["P"]) + fibData(box, gamma, b, w).tailBoundT(tau)
+    P = w["P"]
+    return (F(powUp(w["e"], P, 64, 1), 2 ** P) * F(99225, 30000) + F(s, 2 ** P)
+            + tailQ(fibGamma(box, gamma), 2 * b, tau, w["N"], F(powUp(w["e"], P, 64, w["N"] + 1), 2 ** P)))
+
+
+def fibWalk(w, fast=True):
+    M = lambda a, b: mode3(w["D"], w["e"], w["P"], a, b)
+    return walk2_fast(M, w["N"]) if fast else walk2(M, w["N"], w["l"])
 
 
 def fiberSiteOk(n, tau, box, gamma, b, c, w, fast=True, detail=False):
-    """The Lean Bool (short-circuit order of the conjunction)."""
+    """The Lean Bool (in the order of the conjunction)."""
     def no(why):
         return (False, why) if detail else False
     if n != 3:
@@ -162,21 +200,21 @@ def fiberSiteOk(n, tau, box, gamma, b, c, w, fast=True, detail=False):
         return no("c, b, gamma")
     if not 0 < clockC(box) - clockR(box):
         return no("clock")
-    d = fibData(box, gamma, b, w)
-    if not 0 < d.cLoT(tau):
-        return no("cLoT")
-    if not 1 <= w["E1"] * d.expLow():
-        return no("E1")
+    if not dboxOk(box, w["D"]):
+        return no("dbox")
+    if not 0 < cLoQ(2 * b, tau, w["N"]):
+        return no("cLoQ")
+    if not (w["e"] <= 2 ** w["P"] and 2 ** w["P"] <= w["e"] * expLowQ(2 * b, w["J"])):
+        return no("e")
     if not 2 * w["N"] + 1 <= 2 ** w["l"]:
         return no("l")
-    B = clockBox2(box)
-    s = fib2Sum_fast(B, w["E1"], w["P"], w["N"]) if fast else fib2Sum(B, w["E1"], w["P"], w["N"], w["l"])
+    s = fibWalk(w, fast)
     if s is None:
         return no("mode")
     if not fibBound(box, gamma, b, tau, w, s) <= w["B"]:
         return no("bound")
     kl = clockC(box) - clockR(box)
-    if not F(2) ** n * w["B"] * (1 / kl ** 2) * (gamma * b ** tau) ** 2 <= (2 * F(31415, 10000) * c) ** 2:
+    if not F(2) ** n * w["B"] * inv(kl ** 2) * (gamma * b ** tau) ** 2 <= (2 * F(31415, 10000) * c) ** 2:
         return no("constant")
     return (True, s) if detail else True
 
@@ -190,52 +228,60 @@ def up(x, sig=4):
     return F(ceil_q(x / q)) * q
 
 
-def e1_for(delta, J, digits=12):
-    """A short E1 with 1 <= E1 * expLow (E1 >= e^{-2 pi delta})."""
-    x = F(628, 100) * delta
-    low = sum(x ** i / math.factorial(i) for i in range(J + 1))
-    q = F(10) ** -digits
-    e1 = F(ceil_q((1 / low) / q)) * q
-    assert e1 * low >= 1
-    return e1
+def dbox_for(box, q):
+    """The dyadic box (q, C0, C1, R0, R1) containing clockBox2(box)."""
+    cb = clockBox2(box)
+    C = [round(c * 2 ** q) for c, _ in cb]
+    R = [ceil_q((abs(F(C[i], 2 ** q) - cb[i][0]) + cb[i][1]) * 2 ** q) for i in range(2)]
+    return (q, C[0], C[1], R[0], R[1])
 
 
-def produce_site(box, gamma, b, tau, n=3, tail_frac=F(1, 1000), P=64, J=None, digits=12, Nmax=4000):
-    """Pick (N, l, J, P, E1, B) and the smallest 4-digit c; returns (w, c, s)."""
+def produce_site(box, gamma, b, tau, n=3, tail_frac=F(1, 1000), P=64, q=64, J=None, Nmax=40000):
+    """Pick (N, l, J, P, e, D, B) and the smallest 4-digit c; returns (w, c, s)."""
     delta = 2 * b
     if J is None:
         J = max(8, int(3 * float(F(628, 100) * delta)) + 8)
-    E1 = e1_for(delta, J, digits)
-    Bx = clockBox2(box)
-    # tail target: a fraction of the float sum
-    S_est = sd_sum_fiber_float(Bx, float(delta), 64)
+    e = ceil_q(F(2) ** P / expLowQ(delta, J))
+    cb = clockBox2(box)
+    S_est = sd_sum_fiber_float((cb[0][0], cb[1][0]), float(delta), 64)
+    gp = fibGamma(box, gamma)
     N = max(2, math.ceil(tau / (3.14 * float(delta))))
     while True:
-        d = SdsData([], gamma / (clockC(box) + clockR(box)), delta, N, J, E1)
-        if d.cLoT(tau) > 0 and float(d.tailBoundT(tau)) <= float(tail_frac) * S_est:
-            break
+        if cLoQ(delta, tau, N) > 0:
+            Ep = F(powUp(e, P, 64, N + 1), 2 ** P)
+            if float(tailQ(gp, delta, tau, N, Ep)) <= float(tail_frac) * S_est:
+                break
         N += max(1, N // 8)
         if N > Nmax:
             raise ValueError("N too large")
-    l = (2 * N + 1 - 1).bit_length()
-    w = {"N": N, "l": l, "J": J, "P": P, "E1": E1, "B": F(0)}
-    s = fib2Sum_fast(Bx, E1, P, N)
+    l = (2 * N).bit_length()
+    w = {"N": N, "l": l, "J": J, "P": P, "e": e, "D": dbox_for(box, q), "B": F(0)}
+    s = fibWalk(w)
     if s is None:
         raise ValueError("a mode fails")
     w["B"] = up(fibBound(box, gamma, b, tau, w, s), 6)
     kl = clockC(box) - clockR(box)
     rhs = F(2) ** n * w["B"] / kl ** 2 * (gamma * b ** tau) ** 2
     c = up(math.sqrt(float(rhs)) / (2 * 3.1415), 4)
-    while not (F(2) ** n * w["B"] / kl ** 2 * (gamma * b ** tau) ** 2 <= (2 * F(31415, 10000) * c) ** 2):
+    while not (rhs <= (2 * F(31415, 10000) * c) ** 2):
         c = up(float(c) * 1.0001, 4)
     assert fiberSiteOk(n, tau, box, gamma, b, c, w)
     return w, c, s
 
 
+def lean_fibwit(w):
+    """The FibWit literal."""
+    q, C0, C1, R0, R1 = w["D"]
+    B = w["B"]
+    return ("{ N := %d, l := %d, J := %d, P := %d, e := %d,\n    D := { q := %d, C0 := %d, C1 := %d, R0 := %d, "
+            "R1 := %d },\n    B := %d / %d }" % (w["N"], w["l"], w["J"], w["P"], w["e"], q, C0, C1, R0, R1,
+                                                B.numerator, B.denominator))
+
+
 # ----------------------------------------------------------------------------- floats
-def sd_sum_fiber_float(Bx, delta, N):
+def sd_sum_fiber_float(cs, delta, N):
     """Float estimate of S((omega', 1), delta) by the fibered bound (no rounding, no tail)."""
-    c0, c1 = float(Bx[0]), float(Bx[1])
+    c0, c1 = float(cs[0]), float(cs[1])
     E = math.exp(-2 * math.pi * delta)
     tot = E * math.pi ** 2 / 3
     for a in range(-N, N + 1):
@@ -349,7 +395,7 @@ def main(argv):
             dt = time.time() - t0
             S = sd_sum_float(omega, float(b), 30)
             csharp = (2 * math.pi) ** -1 * 2 ** 1.5 * math.sqrt(S) * float(gamma) * float(b) ** tau
-            print(f"b={b}: N={w['N']} l={w['l']} J={w['J']} P={w['P']} E1={w['E1']} B={float(w['B']):.6g}"
+            print(f"b={b}: N={w['N']} l={w['l']} J={w['J']} P={w['P']} e={w['e']} B={float(w['B']):.6g}"
                   f" c={c} (={float(c):.4g}) exact-S c={csharp:.4g} classical={classical_c_float(3, 2, float(b)):.4g}"
                   f" modes={2 * w['N'] * (w['N'] + 1)} python {dt:.2f}s")
     elif what == "cubic":

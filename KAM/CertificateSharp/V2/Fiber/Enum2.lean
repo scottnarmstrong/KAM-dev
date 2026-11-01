@@ -41,6 +41,14 @@ namespace KAM.CertificateSharp.Fiber
 
 open KAM KAM.Certificate KAM.CertificateSharp
 
+/-- `2^P` as a shift: the kernel evaluates `Nat.shiftLeft` on literals directly, while `2 ^ P`
+goes through Mathlib's `Monoid.npow` instance (about `0.2 ms` per occurrence in the kernel). -/
+def pow2 (P : ℕ) : ℕ := Nat.shiftLeft 1 P
+
+theorem pow2_eq (P : ℕ) : pow2 P = 2 ^ P := by
+  show 1 <<< P = 2 ^ P
+  rw [Nat.shiftLeft_eq, one_mul]
+
 /-! ### The balanced walk -/
 
 /-- `∑_{i < 2^l} f (a + i)` by bisection; `none` if a term is `none`. -/
@@ -50,7 +58,7 @@ def balFold (f : ℕ → Option ℕ) : ℕ → ℕ → Option ℕ
     match balFold f l a with
     | none => none
     | some x =>
-      match balFold f l (a + 2 ^ l) with
+      match balFold f l (a + pow2 l) with
       | none => none
       | some y => some (x + y)
 
@@ -68,6 +76,7 @@ theorem balFold_eq_some {f : ℕ → Option ℕ} {l a s : ℕ} (h : balFold f l 
     rcases h1 : balFold f l a with _ | x
     · rw [h1] at h; simp at h
     rw [h1] at h
+    rw [pow2_eq] at h
     rcases h2 : balFold f l (a + 2 ^ l) with _ | y
     · rw [h2] at h; simp at h
     rw [h2] at h
@@ -216,13 +225,13 @@ theorem div_le_ceilDiv (A : ℕ) {B : ℕ} (hB : 0 < B) : (A : ℝ) / B ≤ (cei
   exact_mod_cast h
 
 /-- `⌈a b / 2^P⌉`. -/
-def mulUp (P a b : ℕ) : ℕ := ceilDiv (a * b) (2 ^ P)
+def mulUp (P a b : ℕ) : ℕ := ceilDiv (a * b) (pow2 P)
 
 theorem mulUp_ge (P a b : ℕ) :
     ((a : ℝ) / 2 ^ P) * ((b : ℝ) / 2 ^ P) ≤ (mulUp P a b : ℝ) / 2 ^ P := by
   have h := div_le_ceilDiv (a * b) (by positivity : 0 < 2 ^ P)
   have h2 : (0 : ℝ) < 2 ^ P := by positivity
-  rw [mulUp]
+  rw [mulUp, pow2_eq]
   calc ((a : ℝ) / 2 ^ P) * ((b : ℝ) / 2 ^ P) = ((a * b : ℕ) : ℝ) / ((2 ^ P : ℕ) : ℝ) / 2 ^ P := by
         push_cast; field_simp
     _ ≤ _ := div_le_div_of_nonneg_right h h2.le
@@ -233,8 +242,8 @@ def sqMulUp (e P r h : ℕ) : ℕ := if r = 0 then mulUp P h h else mulUp P (mul
 /-- `2^P (e/2^P)^j` rounded up, by binary powering (`f` bits of fuel; `2^P` when it runs out,
 which is an upper bound once `e ≤ 2^P`). -/
 def powUp (e P : ℕ) : ℕ → ℕ → ℕ
-  | 0, _ => 2 ^ P
-  | f + 1, j => if j = 0 then 2 ^ P else sqMulUp e P (j % 2) (powUp e P f (j / 2))
+  | 0, _ => pow2 P
+  | f + 1, j => if j = 0 then pow2 P else sqMulUp e P (j % 2) (powUp e P f (j / 2))
 
 theorem powUp_ge {e P : ℕ} (he : e ≤ 2 ^ P) (f j : ℕ) :
     ((e : ℝ) / 2 ^ P) ^ j ≤ (powUp e P f j : ℝ) / 2 ^ P := by
@@ -242,7 +251,7 @@ theorem powUp_ge {e P : ℕ} (he : e ≤ 2 ^ P) (f j : ℕ) :
   have hx0 : (0 : ℝ) ≤ (e : ℝ) / 2 ^ P := by positivity
   have hx1 : (e : ℝ) / 2 ^ P ≤ 1 := by
     rw [div_le_one h2]; exact_mod_cast he
-  have hone : ((2 ^ P : ℕ) : ℝ) / 2 ^ P = 1 := by push_cast; exact div_self h2.ne'
+  have hone : ((pow2 P : ℕ) : ℝ) / 2 ^ P = 1 := by rw [pow2_eq]; push_cast; exact div_self h2.ne'
   induction f generalizing j with
   | zero =>
     simp only [powUp]
@@ -289,20 +298,73 @@ def DBox2.toBox (D : DBox2) : FreqBox :=
   [((D.C0 : ℚ) / 2 ^ D.q, (D.R0 : ℚ) / 2 ^ D.q), ((D.C1 : ℚ) / 2 ^ D.q, (D.R1 : ℚ) / 2 ^ D.q)]
 
 /-- `⌊(2^q - 2X)/2^{q+1}⌋`, the nearest integer to `-X/2^q`. -/
-def nearP (q : ℕ) (X : ℤ) : ℤ := (2 ^ q - 2 * X) / 2 ^ (q + 1)
+def nearP (q : ℕ) (X : ℤ) : ℤ := ((pow2 q : ℕ) - 2 * X) / ((pow2 (q + 1) : ℕ) : ℤ)
 
 /-- The rounded term of the mode `(a, b)` (times `2^P`), or `none` if its test fails. -/
 def mode3 (D : DBox2) (e P : ℕ) (a b : ℤ) : Option ℕ :=
   let X : ℤ := a * D.C0 + b * D.C1
   let p : ℤ := nearP D.q X
-  let Y : ℕ := (X + p * 2 ^ D.q).natAbs
+  let Y : ℕ := (X + p * ((pow2 D.q : ℕ) : ℤ)).natAbs
   let Rd : ℕ := a.natAbs * D.R0 + b.natAbs * D.R1
-  if Rd < Y ∧ 2 * (Y + Rd) ≤ 2 ^ D.q then
+  if Rd < Y ∧ 2 * (Y + Rd) ≤ pow2 D.q then
     let Es : ℕ := powUp e P 64 (a.natAbs + b.natAbs)
-    some (ceilDiv (powUp e P 64 (a.natAbs + b.natAbs + p.natAbs) * 2 ^ (2 * D.q)) ((Y - Rd) ^ 2) +
-      (if p = 0 then 0 else ceilDiv (Es * 4) ((2 * p.natAbs - 1) ^ 2)) +
-      ceilDiv (Es * powUp e P 64 1 * 14615) (2 ^ P * 2000))
+    some (ceilDiv (powUp e P 64 (a.natAbs + b.natAbs + p.natAbs) * pow2 (2 * D.q))
+        ((Y - Rd) * (Y - Rd)) +
+      (if p = 0 then 0 else ceilDiv (Es * 4) ((2 * p.natAbs - 1) * (2 * p.natAbs - 1))) +
+      ceilDiv (Es * powUp e P 64 1 * 14615) (pow2 P * 2000))
   else none
+
+/-! ### The kernel's forms
+
+`mode3K` and `powUpK` are `mode3` and `powUp` written with the core operations (`Nat.add`,
+`Nat.mul`, `Nat.shiftRight`, `Int.mul`, …) and `Bool` tests (`Nat.blt`, `Nat.ble`, `cond`). The
+kernel evaluates them about `2.5×` faster and with `1.5×` less cache than the `Decidable`/instance
+forms (measured on 420 modes: `0.39 s` against `1.0 s`); `mode3K_eq` and `powUpK_eq` identify them. -/
+
+/-- `mulUp`, with core operations. -/
+def mulUpK (P a b : ℕ) : ℕ := Nat.shiftRight (Nat.sub (Nat.add (Nat.mul a b) (pow2 P)) 1) P
+
+/-- `sqMulUp`, with core operations. -/
+def sqMulUpK (e P r h : ℕ) : ℕ := cond (Nat.beq r 0) (mulUpK P h h) (mulUpK P (mulUpK P h h) e)
+
+/-- `powUp`, with core operations. -/
+def powUpK (e P : ℕ) : ℕ → ℕ → ℕ
+  | 0, _ => pow2 P
+  | f + 1, j => cond (Nat.beq j 0) (pow2 P) (sqMulUpK e P (Nat.mod j 2) (powUpK e P f (Nat.div j 2)))
+
+/-- `mode3`, with core operations. -/
+def mode3K (D : DBox2) (e P : ℕ) (a b : ℤ) : Option ℕ :=
+  let X : ℤ := Int.add (Int.mul a D.C0) (Int.mul b D.C1)
+  let p : ℤ := nearP D.q X
+  let pa : ℕ := Int.natAbs p
+  let Y : ℕ := Int.natAbs (Int.add X (Int.mul p (Int.ofNat (pow2 D.q))))
+  let Rd : ℕ := Nat.add (Nat.mul (Int.natAbs a) D.R0) (Nat.mul (Int.natAbs b) D.R1)
+  let s : ℕ := Nat.add (Int.natAbs a) (Int.natAbs b)
+  let Es : ℕ := powUpK e P 64 s
+  cond (Nat.blt Rd Y && Nat.ble (Nat.mul 2 (Nat.add Y Rd)) (pow2 D.q))
+    (some (Nat.add (Nat.add
+      (ceilDiv (Nat.mul (powUpK e P 64 (Nat.add s pa)) (pow2 (Nat.mul 2 D.q)))
+        (Nat.mul (Nat.sub Y Rd) (Nat.sub Y Rd)))
+      (cond (Nat.beq pa 0) 0
+        (ceilDiv (Nat.mul Es 4) (Nat.mul (Nat.sub (Nat.mul 2 pa) 1) (Nat.sub (Nat.mul 2 pa) 1)))))
+      (ceilDiv (Nat.mul (Nat.mul Es (powUpK e P 64 1)) 14615) (Nat.mul (pow2 P) 2000))))
+    none
+
+theorem mulUpK_eq (P a b : ℕ) : mulUpK P a b = mulUp P a b := by
+  show (a * b + pow2 P - 1) >>> P = (a * b + pow2 P - 1) / pow2 P
+  rw [Nat.shiftRight_eq_div_pow, pow2_eq]
+
+theorem powUpK_eq (e P : ℕ) : ∀ f j, powUpK e P f j = powUp e P f j
+  | 0, _ => rfl
+  | f + 1, j => by
+    simp only [powUpK, powUp, sqMulUpK, sqMulUp, mulUpK_eq, powUpK_eq e P f, Bool.cond_eq_ite,
+      Nat.beq_eq]
+    rfl
+
+theorem mode3K_eq (D : DBox2) (e P : ℕ) (a b : ℤ) : mode3K D e P a b = mode3 D e P a b := by
+  simp only [mode3K, mode3, powUpK_eq, Bool.cond_eq_ite, Bool.and_eq_true, Nat.blt_eq,
+    Nat.ble_eq, Nat.beq_eq, Int.natAbs_eq_zero]
+  rfl
 
 section Modes
 
@@ -313,7 +375,7 @@ def modeP (k : Fin 2 → ℤ) : ℤ := nearP D.q (k 0 * D.C0 + k 1 * D.C1)
 
 /-- The lower bound `L = (Y - Rd)/2^q` of the mode `k`. -/
 noncomputable def modeL (k : Fin 2 → ℤ) : ℝ :=
-  (((k 0 * D.C0 + k 1 * D.C1 + modeP D k * 2 ^ D.q).natAbs -
+  (((k 0 * D.C0 + k 1 * D.C1 + modeP D k * ((pow2 D.q : ℕ) : ℤ)).natAbs -
     ((k 0).natAbs * D.R0 + (k 1).natAbs * D.R1) : ℕ) : ℝ) / 2 ^ D.q
 
 /-- The weights `E_j = powUp e P 64 j / 2^P`. -/
@@ -348,7 +410,7 @@ theorem mode3_spec {ω' : Fin 2 → ℝ} (hω : FreqEncloses 2 D.toBox ω') {k :
       modeL D k ≤ |Diophantine.frequencyDot ω' k + modeP D k| ∧
       modeTerm D e P k ≤ (u : ℝ) / 2 ^ P := by
   unfold mode3 at h
-  simp only at h
+  simp only [pow2_eq, Nat.cast_pow, Nat.cast_ofNat, ← sq] at h
   split at h
   case isFalse => exact absurd h (by simp)
   rename_i hc
@@ -379,7 +441,7 @@ theorem mode3_spec {ω' : Fin 2 → ℝ} (hω : FreqEncloses 2 D.toBox ω') {k :
   have hhalf' : 2 * ((Y : ℝ) + Rd) ≤ 2 ^ D.q := by exact_mod_cast hhalf
   have hlt' : (Rd : ℝ) < Y := by exact_mod_cast hlt
   have hL : modeL D k = ((Y : ℝ) - Rd) / 2 ^ D.q := by
-    simp only [modeL, hpP]
+    simp only [modeL, hpP, pow2_eq, Nat.cast_pow, Nat.cast_ofNat]
     rw [Nat.cast_sub hlt.le]
   have hdist : |Diophantine.frequencyDot ω' k + p| ≤ 1 / 2 := by
     have : (Y : ℝ) / 2 ^ D.q + (Rd : ℝ) / 2 ^ D.q ≤ 1 / 2 := by
