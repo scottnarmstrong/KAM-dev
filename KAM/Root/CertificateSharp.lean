@@ -86,9 +86,11 @@ public import KAM.CertificateSharp.V2.RouteARefinedEngine
 public import KAM.CertificateSharp.V2.RouteARefinedRef
 public import KAM.CertificateSharp.V2.RouteARefinedRefEngine
 public import KAM.CertificateSharp.V2.RouteAll
+public import KAM.CertificateSharp.V2.RouteAllE
 public import KAM.CertificateSharp.V2.RouteAllLN
 public import KAM.CertificateSharp.V2.RouteBCert
 public import KAM.CertificateSharp.V2.RouteBCore
+public import KAM.CertificateSharp.V2.RouteBE
 public import KAM.CertificateSharp.V2.RouteBEngine
 public import KAM.CertificateSharp.V2.RouteBFrozen
 public import KAM.CertificateSharp.V2.RouteBLN
@@ -103,6 +105,7 @@ public import KAM.CertificateSharp.V2.Tests.L1Toy
 public import KAM.CertificateSharp.V2.Tests.Refined
 public import KAM.CertificateSharp.V2.Tests.RefinedRef
 public import KAM.CertificateSharp.V2.Tests.RouteAll
+public import KAM.CertificateSharp.V2.Tests.RouteBE
 public import KAM.CertificateSharp.V2.Tests.RouteBLN
 public import KAM.CertificateSharp.V2.Tests.RouteBToy
 public import KAM.CertificateSharp.V2.Tests.TrigCombined
