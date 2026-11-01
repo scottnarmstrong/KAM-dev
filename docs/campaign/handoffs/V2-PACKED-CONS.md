@@ -256,6 +256,9 @@ those of T′:
     the same `look`);
   - a literal wanted-slot table with a transfer lemma would remove the ledger import from the 14 consumer processes
     (≈ 24 s per torus, minus one checking process).
+- **Follow-up (kamx-packed, 2026-11-01):** `v2-packed-prod` `2796f8c8` makes `jet_prod_gen.py` list the wanted slots'
+  entries first in `led<C>` (no Lean change). The T′ instance already built (`3a84cc28`) keeps the old order, so the
+  2.5 % above stands for it; future emissions read the wanted slots from the head of the ledger.
 
 ## Uncertainties and open points
 
@@ -263,7 +266,9 @@ those of T′:
   of the `_of` lemmas, and `jetBase`'s Boolean from them (`jetBase_check_of`).
 - **Ledger lookups: measured** (V2-PACKED-CONS-LOOKUP, above). The searches cost 2.5 % of the consumers' kernel
   time; no wanted-slot table is needed.
-- **Invariance margin on T′:** 8.3·10⁻¹⁹ on coordinate 1, i.e. 0.1 % of err. It passes in the kernel, but a
+- **Invariance margin on T′:** 8.3·10⁻¹⁹ on coordinate 1, i.e. 0.1 % of err (the kernel brackets the bound at
+  err − 8.275·10⁻¹⁹; kamx-packed's 7.9·10⁻¹⁹ is the landed generator's float estimate for `checkInvariance`, not a
+  packed figure, on the same cfgFull nodes). It passes in the kernel, but a
   different box, precision or rounding could tip it; the energy and torsion margins are wide.
 - **The frames' tight-bound probe** (`FRTJ`) and the claim probe (`FRTJClaim`) are the same test at two bounds;
   production needs the claim only.

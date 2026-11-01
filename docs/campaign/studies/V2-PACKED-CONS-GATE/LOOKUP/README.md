@@ -66,3 +66,7 @@ are unchanged. Two options remain, for production if wanted:
   and consumer read the same total `look`. This cuts each walk from about 1,110 entries to at most 20.
 - A literal wanted-slot table with a transfer lemma (one process checks the table against the ledger) would also
   remove the ledger import from the 14 consumer processes: about 24 s per torus, minus one checking process.
+
+**Follow-up.** kamx-packed's `v2-packed-prod` `2796f8c8` lists the wanted slots' entries first in `led<C>`
+(`jet_prod_gen.py`, no Lean change). The T′ ledgers measured here (`3a84cc28`) keep the old order; future
+emissions read the wanted slots from the head of the ledger.
