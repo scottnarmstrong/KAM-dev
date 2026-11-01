@@ -3057,3 +3057,34 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - Docs only, no lake. Honesty rules: an asymptotic form of the informal conjecture, not its resolution; novelty
     unverified (Niederman 1996 not inspected).
 - **09:03. kam-paper launched** (tmux kam-paper-lp, claude-5 at 100 % after its weekly reset; session name kam-paper-lp-bb). It acknowledged the brief and is planning (outline plus claims ledger first). claude-2 is also back at 100 %.
+- **09:05. SO-LOCK (kam-inp-24):** still held; no lock processes; Phase B held. Ready for the owner's SO-3 takeover (LOCK-REMOTE needs a machine or a Hetzner token).
+- **09:05. LP paper plan ready** (paper-lp 2fb39347, papers/LP/NOTES.md): 7 sections plus a formalization appendix, target ≤ 23 pages. Theorems A–E = LP0, LP1, LP2, the τ = n − 1/2 corollary, LP3. The ledger pins main a994efdf and LP3 inp-lp-lp3src 402de5f7. 3 Opus writers launched. root-b8: cite the public KAM-dev repository at a pinned commit.
+- **09:15. Track W. Unlanded about 33k lines.**
+  - W5 round 2: part A (the STEP deltas) PASS WITH NOTES. W5-AA round 1 (action-angle and initial) FAIL on F1: four
+    exported series definitions accept parameters where their series diverge (whole-carrier definition audit). The
+    theorems pass. root-b8: repair F1 now and re-audit those modules; then W5 lands.
+  - Process bug: the parallel auditors shared one checkout (wpja5b is a symlink to wpja5), and part A advanced HEAD
+    during part B. Ruling: every parallel audit gets its own worktree.
+  - W8 audit running (codex-1, at 4 % weekly). W6 round 2 queued. W8-FINAL proving (40 min). W4-LIECONT is the third
+    prover.
+- **09:17. Track W. Unlanded about 33k lines; landing W5 now without action-angle and initial** (inp-w5land@13dfa3c7,
+  18.6k lines, sent to kam-inp-63). No module imports the 11 held-back files.
+  - W5-AA-FIX (claude-5, worktree wps, branch inp-w5aafix) restricts the four series definitions to their carriers;
+    a tight round 2 follows.
+  - The shared-HEAD bug was a docs-only commit (459f6658); no Lean changed during either audit. The symlink is
+    removed.
+  - Running: the W8 audit (codex-1), W6 round 2 (codex-2), W8-FINAL (claude-11), W4-LIECONT (claude-2) and
+    W5-AA-FIX (claude-5). HC volume at 90 %; kam-1b is retiring finished worktrees.
+- **09:19. Heartbeat. Unlanded W: about 33k lines** (the W5 landing, 18.6k lines, is with kam-inp-63).
+  - LP: W5B landed (main 4916704e, the LP3 spatial suppliers); the W5C audit (the LP3 assemblies) is running;
+    LP-FREEZE7 has run 47 min.
+  - W: W6 round 2 (codex-2) and the W8 audit (codex-1) are running. W8-FINAL has run 43 min. W5-AA-FIX started.
+    W4-LIECONT is done (inp-w4lc c8b76873, bpW:w4:lie (i)); kam-1b audits it.
+  - Paper: writer A done (abstract, introduction, results). **Finding:** Nekhoroshev 1977, Theorem 12.3 (pp. 55–56),
+    already proves exponentially long collision-free motion in the planetary problem with the same exponents as
+    LP3. LP3's addition is the sharp per-state AMD threshold (instead of a box of semi-major axes), the ordered annuli
+    and the osculating conclusions. The paper says so plainly. Writers B and C are drafting. root-b8 approved a
+    blocked but safe scratch-cleanup prompt in the paper session.
+  - No OOM. Load about 19. Memory: 16 GB available. Disks: / 17 GB free, HC 39 GB free (90 %).
+  - Quotas: claude-2 100 %, claude-5 97 %, claude-11 40 %, claude-3 21 %, claude-12 21 %, claude-4 7 % (root-b8).
+    codex-1 4 %, codex-2 on credits.
