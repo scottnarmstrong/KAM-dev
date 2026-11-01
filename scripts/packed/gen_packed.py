@@ -123,6 +123,17 @@ def qlit(q):
     return T.qlit(F(q))
 
 
+def qlines(q, ind):
+    """A rational literal, its numerator and denominator on separate lines when long."""
+    q = F(q)
+    one = "(%d / %d : ℚ)" % (q.numerator, q.denominator)
+    if ind + len(one) <= 98:
+        return one
+    num, den = str(q.numerator), str(q.denominator)
+    assert ind + len(num) + 3 <= 100 and ind + 2 + len(den) + 5 <= 100, "rational too long for one line"
+    return "(%s /\n%s%s : ℚ)" % (num, " " * (ind + 2), den)
+
+
 def swrap(st, first=4, cont=6, width=100):
     """A statement over several lines (continuation lines indented by `cont`)."""
     out, cur, ind = [], "", first
@@ -137,7 +148,7 @@ def swrap(st, first=4, cont=6, width=100):
 
 
 def thm(name, st):
-    return "theorem %s :\n%s := by\n  decide +kernel\n" % (name, swrap(st))
+    return "theorem %s :\n%s\n  decide +kernel\n" % (name, swrap(st + " := by"))
 
 
 def ldef(name, typ, val):
@@ -231,7 +242,7 @@ def emit_data(E, S):
             names[kind].append(nm)
             defs.append((nm, ldef(nm + "_re", "List (CertKey × ℤ)", zlist(e[0])) + "\n" +
                          ldef(nm + "_im", "List (CertKey × ℤ)", zlist(e[1])) + "\n" +
-                         "def %s : MemoEntry := (%s_re, %s_im, %s)\n" % (nm, nm, nm, qlit(e[2]))))
+                         "def %s : MemoEntry :=\n  (%s_re, %s_im,\n    %s)\n" % (nm, nm, nm, qlit(e[2]))))
     parts = E.chunks("Data.TMemo", [fmt], "the torsion boundary memo",
                      "The memoized boundary entries of the rounded packed torsion stage (B3b): `D²K`, `DX_H ∘ K`, "
                      "`DH ∘ K`, checked entry by entry against the landed models (`ptD2Ok`, `ptAOk`, `ptD1Ok`).",
@@ -250,7 +261,7 @@ def emit_data(E, S):
                 e = "pkR%s_%d_%d" % (nm, i, j)
                 defs.append((e, ldef(e + "_re", "List (CertKey × ℤ)", zlist(re_)) + "\n" +
                              ldef(e + "_im", "List (CertKey × ℤ)", zlist(im_)) + "\n" +
-                             "def %s : NodeEntry := (%s_re, %s_im, %s, %s)\n" % (
+                             "def %s : NodeEntry :=\n  (%s_re, %s_im,\n    %s,\n    %s)\n" % (
                                  e, e, e, qlit(F(mats[(i, j)][1], 2 ** P)), qlit(F(mats[(i, j)][2], 2 ** P)))))
     parts = E.chunks("Data.RMemo", [fmt], "the rounded node memo",
                      "The memoized nodes `N`, `D L`, `DG`, `C`, `D(G⁻¹)`, `DN`, `X_N` of the rounded packed torsion "
@@ -259,12 +270,21 @@ def emit_data(E, S):
                                             + "]" for i in range(SHAPE[nm][0])) + "]")
     CT, RT, CY, RY = S["CT"], S["RT"], S["CY"], S["RY"]
     body = R.lean_rbook("pkRBook", rb).replace("noncomputable def", "def") + "\n"
+    for i in range(n):
+        for j in range(n):
+            body += "def pkCT_%d_%d : ℚ × ℚ :=\n  (%s,\n    %s)\n\n" % (i, j, qlines(CT[i][j][0], 4),
+                                                              qlines(CT[i][j][1], 4))
+            body += "def pkRT_%d_%d : ℚ :=\n  %s\n\n" % (i, j, qlines(RT[i][j], 2))
+    for j in range(n):
+        body += "def pkCY_%d : ℚ × ℚ :=\n  (%s,\n    %s)\n\n" % (j, qlines(CY[j][0], 4), qlines(CY[j][1], 4))
+        body += "def pkRY_%d : ℚ :=\n  %s\n\n" % (j, qlines(RY[j], 2))
     body += "def pkRMemo : PRMemo where\n" + "".join("  %s :=\n%s\n" % (nm, tab(nm)) for nm in NODES)
-    body += "  CT :=\n%s\n" % T.wrap("[" + ", ".join("[" + ", ".join(R.qpair(c) for c in row) + "]" for row in CT)
-                                     + "]")
-    body += "  RT :=\n%s\n" % T.wrap("[" + ", ".join("[" + ", ".join(qlit(r) for r in row) + "]" for row in RT) + "]")
-    body += "  CY :=\n%s\n" % T.wrap("[" + ", ".join(R.qpair(c) for c in CY) + "]")
-    body += "  RY :=\n%s\n" % T.wrap("[" + ", ".join(qlit(r) for r in RY) + "]")
+    body += "  CT := %s\n" % ("[" + ", ".join("[" + ", ".join("pkCT_%d_%d" % (i, j) for j in range(n)) + "]"
+                                             for i in range(n)) + "]")
+    body += "  RT := %s\n" % ("[" + ", ".join("[" + ", ".join("pkRT_%d_%d" % (i, j) for j in range(n)) + "]"
+                                             for i in range(n)) + "]")
+    body += "  CY := %s\n" % ("[" + ", ".join("pkCY_%d" % j for j in range(n)) + "]")
+    body += "  RY := %s\n" % ("[" + ", ".join("pkRY_%d" % j for j in range(n)) + "]")
     out["R"] = E.write("Data.Nodes", parts, "the rounded node memo, its book and tables",
                        "`pkRBook` and `pkRMemo` (B3b): the box of half-width 25, its window, the loads, the nodes, "
                        "the averages of `T` and `Y`.", body)
@@ -334,26 +354,26 @@ def emit_gram(E, data):
         for a in range(n):
             ents.append(E.write("Gram.E%d_%d" % (r, a), imp, "Gram entry (%d, %d)" % (r, a),
                                 "One boundary entry of the packed Gram stage: the landed `dkModel` against the memo.",
-                                "theorem pkGramE_%d_%d : pgEntryOk %s %d %d = true := by\n  decide +kernel\n" % (
-                                    r, a, args, r, a)))
+                                thm("pkGramE_%d_%d" % (r, a), "pgEntryOk %s %d %d = true" % (args, r, a))))
     sig = "(lg00Cert.params.σB - lg00Cert.params.μ)"
     core = E.write("Gram.Core", imp, "the Gram core", "The core of the packed Gram check (`gramPackedCore`): it "
                    "returns the mirror's `(δ, β)`.",
-                   "theorem pkGramCore :\n    gramPackedCore 2 lg00Cert.gramInv lg00Cert.weight lg00Cert.cfgLow pkGBook "
-                   "pkGMemo\n      %s = some pkGDB := by\n  decide +kernel\n\n"
-                   "theorem pkEps_eq : gramInvRadius pkGDB = some pkEps := by\n  decide +kernel\n" % sig)
+                   thm("pkGramCore", "gramPackedCore 2 lg00Cert.gramInv lg00Cert.weight lg00Cert.cfgLow pkGBook "
+                       "pkGMemo %s = some pkGDB" % sig) + "\n" +
+                   thm("pkEps_eq", "gramInvRadius pkGDB = some pkEps"))
     hs = "\n".join("  · exact pkGramE_%d_%d" % (r, a) for r in range(2 * n) for a in range(n))
-    body = ("theorem pkGramEntries : pgEntries %s = true := by\n"
-            "  refine pgEntries_of fun r hr a ha => ?_\n"
+    body = ("theorem pkGramEntries :\n%s\n"
+            "  refine pgEntries_of (h := fun r hr a ha => ?_)\n"
             "  have hr' : r < 4 := hr\n  have ha' : a < 2 := ha\n"
             "  interval_cases r <;> interval_cases a\n%s\n\n"
             "/-- The packed Gram check of the certificate returns the core's `(δ, β)`. -/\n"
             "theorem pkGram :\n    gramPackedCheck 2 lg00Cert.emb lg00Cert.gramInv lg00Cert.weight lg00Cert.cfgLow "
             "lg00Cert.piEnc\n      pkGBook pkGMemo %s = some pkGDB := by\n"
-            "  rw [gramPackedCheck_eq_core _ _ _ _ _ _ _ pkGramEntries]\n  exact pkGramCore\n\n"
+            "  rw [gramPackedCheck_eq_core (h := pkGramEntries)]\n  exact pkGramCore\n\n"
             "/-- **The packed Gram sub-check passes** (B2). -/\n"
             "theorem pkCheckGram : checkGramPacked pkGBook pkGMemo lg00Cert = true := by\n"
-            "  simp only [checkGramPacked, pkGram, Option.isSome_some]\n") % (args, hs, sig)
+            "  simp only [checkGramPacked, pkGram, Option.isSome_some]\n") % (
+        swrap("pgEntries %s = true := by" % args), hs, sig)
     return E.write("Gram", ents + [core, "Mathlib.Tactic.IntervalCases"], "the packed Gram stage (B2)",
                    "`checkGramPacked pkGBook pkGMemo lg00Cert = true` from its entries and its core.", body)
 
@@ -377,6 +397,121 @@ def cached_compute(cert, pkg, tree):
     S = GC.compute(cert)
     pickle.dump(S, open(path, "wb"))
     return S
+
+
+def emit_tms(E, D):
+    """The 20 jet slot models read by the torsion (the landed `cfgLow` composition), copied from the tree's
+    `Torsion/{D0, V*}.lean` and renamed `pkTMs*` (re-proved equal to the composition by `--stages assembly`)."""
+    import re
+    cert = D["cert"]
+    d0 = os.path.join(cert.tors, "D0.lean")
+    defs = []
+    for i in range(20):
+        mdef = G.grab(d0, "lg00TMs_%d" % i)
+        lst = re.search(r"⟨(lg00TMs_\d+t_\d+)⟩", GC.flat(mdef)).group(1)
+        ttext = T.grab_any(cert.tors, r"V\d+\.lean", lst)
+        defs.append((lst, re.sub(r"\blg00TMs", "pkTMs", ttext.replace("noncomputable def", "def"))))
+        defs.append(("m%d" % i, re.sub(r"\blg00TMs", "pkTMs", mdef.replace("noncomputable def", "def"))))
+    top = re.sub(r"\blg00TMs", "pkTMs", G.grab(d0, "lg00TMs").replace("noncomputable def", "def"))
+    parts = E.chunks("Data.TMs", ["LG00Packed.Format"], "the jet slot models of the torsion",
+                     "The models of the `2n` first and `(2n)²` second derivatives of `H` along `K` at `cfgLow`, as "
+                     "the tree's landed composition returns them (`Torsion/D0.lean`).", defs)
+    return E.write("Data.TMsAll", parts, "the jet slot models of the torsion", "`pkTMs`.", top)
+
+
+def emit_tors(E, data, tms):
+    """The rounded packed torsion stage (B3b) without its composition: entries, guards, stages, tables."""
+    imp = [data["G"], data["T"], data["R"], "LG00.%s.Data.Cert" % E.tree]
+    c = "lg00Cert"
+    W, Bi, cfg, box, sv = c + ".weight", c + ".gramInv", c + ".cfgLow", c + ".freqBox", c + ".params.s"
+    mods = {}
+    ents = []
+    for r in range(2 * n):
+        for j in range(n):
+            for l in range(n):
+                ents.append(E.write("Tors.ED2_%d_%d_%d" % (r, j, l), imp, "torsion entry D²K (%d, %d, %d)" % (r, j, l),
+                                    "One boundary entry: the landed `d2kModel` against the memo.",
+                                    thm("pkTorsD2_%d_%d_%d" % (r, j, l),
+                                        "ptD2Ok 2 %s.emb %s %s %s.piEnc pkRBook.toT pkTMemo %d %d %d = true"
+                                        % (c, W, cfg, c, r, j, l))))
+    for a in range(2 * n):
+        for b in range(2 * n):
+            ents.append(E.write("Tors.EA_%d_%d" % (a, b), imp + [tms], "torsion entry DX_H ∘ K (%d, %d)" % (a, b),
+                                "One boundary entry: the landed `DX_H ∘ K` entry at degree 0 against the memo.",
+                                thm("pkTorsA_%d_%d" % (a, b), "ptAOk 2 %s %s %s.piEnc pkRBook.toT pkTMemo pkTMs %d %d "
+                                    "= true" % (W, cfg, c, a, b))))
+        ents.append(E.write("Tors.ED1_%d" % a, imp + [tms], "torsion entry DH ∘ K (%d)" % a,
+                            "One boundary entry: the landed `DH ∘ K` entry at degree 0 against the memo.",
+                            thm("pkTorsD1_%d" % a, "ptD1Ok 2 %s %s %s.piEnc pkRBook.toT pkTMemo pkTMs %d = true"
+                                % (W, cfg, c, a))))
+    import itertools
+    body = ("theorem pkTorsEntries :\n%s := by\n"
+            "  refine ptEntries_of (fun r hr j hj l hl => ?_) (fun a ha b hb => ?_) (fun a ha => ?_)\n"
+            "  · have hr' : r < 4 := hr\n    have hj' : j < 2 := hj\n    have hl' : l < 2 := hl\n"
+            "    interval_cases r <;> interval_cases j <;> interval_cases l\n%s\n"
+            "  · have ha' : a < 4 := ha\n    have hb' : b < 4 := hb\n"
+            "    interval_cases a <;> interval_cases b\n%s\n"
+            "  · have ha' : a < 4 := ha\n    interval_cases a\n%s\n") % (
+        swrap("ptEntries 2 %s.emb %s %s %s.piEnc pkRBook.toT pkTMemo pkTMs = true := by" % (c, W, cfg, c)),
+        "\n".join("    · exact pkTorsD2_%d_%d_%d" % ix for ix in itertools.product(range(4), range(2), range(2))),
+        "\n".join("    · exact pkTorsA_%d_%d" % ix for ix in itertools.product(range(4), range(4))),
+        "\n".join("    · exact pkTorsD1_%d" % a for a in range(4)))
+    mods["E"] = E.write("Tors.Entries", ents + ["KAM.CertificateSharp.Packed.TorsRAsm", "Mathlib.Tactic.IntervalCases"],
+                        "the torsion boundary entries", "`ptEntries` of the certificate from its 36 entries.", body)
+    st = {}
+    st["Lay"] = E.write("Tors.Lay", imp, "the layouts and loads", "`trLayOk`, `trNormOk`.",
+                        thm("pkTrLay", "trLayOk 2 pkRBook = true") + "\n" +
+                        thm("pkTrNorm", "trNormOk 2 %s %s %s pkRBook = true" % (W, box, sv)))
+    st["Pack"] = E.write("Tors.Pack", imp, "the packing of the boundary", "`ptPackOk`.",
+                         thm("pkTrPack", "ptPackOk 2 %s %s pkRBook.toT pkGMemo pkTMemo = true" % (Bi, cfg)))
+    stmts = dict(N="trStN 2 %s %s %s pkRBook pkGMemo pkRMemo pkEps" % (Bi, W, cfg),
+                 DL="trStDL (α := LGF) 2 %s %s %s pkRBook pkTMemo pkRMemo" % (W, box, sv),
+                 DG="trStDG (α := LGF) 2 %s pkRBook pkGMemo pkRMemo" % W,
+                 C="trStC 2 %s %s %s pkRBook pkRMemo pkEps" % (Bi, W, cfg),
+                 DGi="trStDGi 2 %s %s %s pkRBook pkRMemo pkEps" % (Bi, W, cfg))
+    for nm, stt in stmts.items():
+        st[nm] = E.write("Tors.St%s" % nm, imp, "the node %s" % nm, "The node `%s` against the exact product of "
+                         "its memoized inputs on the window (`stageAll`)." % nm, thm("pkTrSt%s" % nm, stt + " = true"))
+    mats = dict(DN="trMDN 2 %s %s %s pkRBook pkGMemo pkRMemo pkEps" % (Bi, W, cfg),
+                XN="trMXN (α := LGF) 2 %s pkRBook pkTMemo pkRMemo" % W)
+    full = dict(DN="trStDN 2 %s %s %s pkRBook pkGMemo pkRMemo pkEps" % (Bi, W, cfg),
+                XN="trStXN (α := LGF) 2 %s pkRBook pkTMemo pkRMemo" % W)
+    for nm in ("DN", "XN"):
+        es = []
+        for i in range(2 * n):
+            for j in range(n):
+                es.append(E.write("Tors.St%s_%d_%d" % (nm, i, j), imp, "the node %s, entry (%d, %d)" % (nm, i, j),
+                                  "One entry of the node `%s` against the exact product of its inputs (`stageOk`)."
+                                  % nm, thm("pkTrSt%s_%d_%d" % (nm, i, j),
+                                            "stageOk 2 %s pkRBook.q pkRBook.lW pkRBook.lR pkRBook.Lw pkRBook.Lb "
+                                            "pkRBook.Lu pkRBook.bR (2 * pkRBook.P) pkRBook.P ((%s).x %d %d) "
+                                            "((%s).r %d %d) (nodeAt pkRMemo.%s %d %d) = true"
+                                            % (W, mats[nm], i, j, mats[nm], i, j, nm, i, j))))
+        body = ("theorem pkTrSt%s :\n%s\n  refine stageAll_of fun i hi j hj => ?_\n"
+                "  have hi' : i < 4 := hi\n  have hj' : j < 2 := hj\n"
+                "  interval_cases i <;> interval_cases j\n%s\n") % (
+            nm, swrap(full[nm] + " = true := by"),
+            "\n".join("  · exact pkTrSt%s_%d_%d" % (nm, i, j) for i in range(4) for j in range(2)))
+        st[nm] = E.write("Tors.St%s" % nm, es + ["KAM.CertificateSharp.Packed.TorsRAsm",
+                                                 "Mathlib.Tactic.IntervalCases"],
+                         "the node %s" % nm, "`%s` from its eight entries." % full[nm].split()[0], body)
+    st["T"] = E.write("Tors.T", imp, "the averages of T", "`trTCheck`.",
+                      thm("pkTrT", "trTCheck (α := LGF) 2 pkRBook pkRMemo = true"))
+    st["Y"] = E.write("Tors.Y", imp, "the averages of Y", "`trYCheck`.",
+                      thm("pkTrY", "trYCheck (α := LGF) 2 %s pkRBook pkTMemo pkRMemo = true" % W))
+    sig = "(%s.params.σT - %s.params.μ)" % (c, c)
+    st["F"] = E.write("Tors.Final", imp, "the averaged test", "The landed averaged test on the tables (`tabFinal`).",
+                      thm("pkTrFinal", "tabFinal 2 %s pkRBook.P (trCentre 2 %s %s pkRMemo) (trRad 2 %s %s pkRMemo) "
+                          "%s.torsInv %s = true" % (cfg, box, sv, box, sv, c, sig)))
+    body = ("/-- **The core of the rounded packed torsion check** (B3b) of the certificate. -/\n"
+            "theorem pkTorsCore :\n%s\n"
+            "  torsRCore_of pkTrLay pkTrNorm pkTrPack pkTrStN pkTrStDL pkTrStDG pkTrStC pkTrStDGi pkTrStDN\n"
+            "    pkTrStXN pkTrT pkTrY pkTrFinal\n") % swrap(
+        "torsRCore 2 %s %s %s %s %s pkRBook pkGMemo pkTMemo pkRMemo pkEps %s.torsInv %s = true"
+        % (Bi, W, cfg, box, sv, c, sig) + " :=")
+    mods["C"] = E.write("Tors.Core", list(st.values()) + ["KAM.CertificateSharp.Packed.TorsRAsm"],
+                        "the torsion core", "`torsRCore` of the certificate from its thirteen parts.", body)
+    return mods
 
 
 def main():
@@ -407,6 +542,9 @@ def main():
             emit_sharp(E, fm)
     if "gram" in stages:
         emit_gram(E, data)
+    if "tors" in stages:
+        tms = emit_tms(E, S["D"])
+        emit_tors(E, data, tms)
     lst = E.list_file()
     info = dict(tree=tree, cert=cert_root, stages=stages, modules=len(E.mods),
                 claims={k: str(v) for k, v in fr["claims"].items()},
