@@ -80,11 +80,13 @@ Main theorems (all `decide +kernel` at default limits, no heartbeat or recursion
   data makes the elaborator evaluate the certifier (recursion limit). `Forced/Lemmas.lean` states
   `checkV2_eq` and one `*_test` lemma per engine, each `rfl` over variables, applied explicitly.
 
-### Mutations (24 rejections, 2 controls)
+### Mutations (25 rejections, 2 controls)
 
-Ten default-build modules `TinyMut*` (23 rejections and the 2 controls, 1.4–6.9 s each) and `mut_frameT` in
-the opt-in `ForcedRoutes.lean`; each decides only the check that must reject. The 19 the mirror covers are
-rejected by the mirror too (`Tiny_mutations.json`, which records each mutation's module).
+Ten default-build modules `TinyMut*` (24 rejections and the 2 controls, 1.4–6.9 s each) and `mut_frameT` in
+the opt-in `ForcedRoutes.lean`. Each changes one input and decides that **the rejecting sub-check decides
+false** (not `checkTorusCertificateV2` itself; the step from one to the other is a Boolean conjunction, which the
+audit proved for two representatives). The 20 the mirror covers are rejected by the mirror too
+(`Tiny_mutations.json`, which records each mutation's module).
 
 | Family | Mutation → rejecting check |
 |---|---|
@@ -92,7 +94,7 @@ rejected by the mirror too (`Tiny_mutations.json`, which records each mutation's
 | residual claims | `err/2` → invariance; `E0 + 2 err` → `checkEnergy` |
 | frame bounds | `bL`, `bN`, `bT` × 0.99 → `checkFrameL/N/T` (N, T through the stages); `dx` × 0.99 → `checkHamClaim` |
 | ray room | `nuRay = 10⁻⁵` → `checkStatic`; `disp = 1` → `finalOkA`, the final clause of route A (room of the ray) |
-| schedules | `θ = 1`, `10 X⋆` → `refinedCore`; route B `a = 1` → `refinedBCore` |
+| schedules | `10 X⋆` → `refinedCore` (`okB`); route B `10 X⋆` → `refinedBCore` (`okB`, quantitative); the domain guards `θ = 1` → `refinedCore` (`wfOk`) and route B `a = 1` → `refinedBCore` (`1 < a`, `δ₀ = 0`) |
 | denominator separation | box radius 1/20 (fibers reach the resonance) → `sitesOk`; site bound `B/2` → `siteOk`; `10⁻⁹/(p − p_c)` (ball contains 0) → `checkHamBounds`, control `10⁻⁹/(p + 1)` passes |
 | square-root domains | `10⁻⁹ √(p − p_c)` (operand reaches Re ≤ 0) → `checkHamBounds`, control `√(p + 1)` passes |
 | advice | first full-stage key removed → energy (crude `p²`); first low-stage key removed → `checkGram` |
@@ -128,10 +130,18 @@ residual claims (8.2·10⁻¹² against 4.1·10⁻¹²; σT halves, M doubles). 
 
 ### Cross-language agreement
 
-`python3 -I scripts/certifier/forced/forced_xlang.py`: `ALL AGREE (31 comparisons)` — jet programs (length,
-v0, d1, d2) of the three Hamiltonians against `HamExpr.jet`, `sharpTest`, the claim at R and just below the
-disc-pass `dx`, the route cores at 1, 10 and 1/2 times each witness's `X⋆`, and byte-identical regeneration of
-the stage literals. In the kernel: every stage literal (above).
+`python3 -I scripts/certifier/forced/forced_xlang.py`: `ALL AGREE (52 comparisons)` (V2-TOOLS-FIX2, two-sided):
+* the whole jet program of each Hamiltonian, operation by operation, and the slot tables v0, d1, d2, d3;
+* `sharpTest`;
+* each disc-pass sum (dh, dx, d2x, d2h): the claim exactly at the mirror's value passes, 10⁻¹² below fails;
+* every route core of every witness (refined A, frozen A, refined B, frozen B) at the witness's `X⋆` and on both
+  sides of the mirror's `X⋆` boundary, located by exact bisection to a relative width 10⁻⁵;
+* byte-identical regeneration of the stage literals.
+
+Perturbation trials (in memory): a mirror optimistic by ×1.5 or by ×1.001 in `refinedCore`, and a pessimistic one
+(×2/3), are each detected. The first version compared only jet lengths and slot indices and probed at 1, 10 and
+1/2 × `X⋆`, so it could not catch an optimistic mirror (AUDIT-V2-TOOLS-1). In the kernel: every stage literal
+(above). The script writes `xlang.json` only with `--write-fixture`.
 
 ### Checks and measurements
 
@@ -189,54 +199,64 @@ at every ρ of the profile:
 | sharp (the baseline, landed) | `sharp_q.sharp` | exact mirror |
 | A frozen | `v2_r2.max_Xs('frozen')` | exact mirror |
 | A refined, classical sites | `v2_r2.max_Xs('refined')` | exact mirror |
-| A refined, certified sites (kp = 1, 2, 3) | the same, `c = c_freq × 1.01` where `clockOk` applies and the cut-off `l ≤ 12` | exact mirror (the Lean `balCheck` is the check) |
+| A refined, certified sites (kp = 1, 2, 3; and SO-V2PKG's d01b) | the same, `c = c_freq × 1.01` where `clockOk` applies and the cut-off `l ≤ 12` | exact mirror (the Lean `balCheck` is the check; sites at a strip other than the package's are flagged "not balCheck-verified") |
 | B frozen, B refined | `forced_witness.solve_B` on `route_b_lean_mirror` | exact mirror |
-| A with L8′ | refined `e*/2` (the forced toy's kernel-checked ratio) | estimate |
+| A with L8′ | refined `e*/2` (on the forced toy L8′ was found passing at half of route A's `X⋆`; the ratio of the maxima is not checked) | estimate |
 | ℓ¹ entry | refined `e* × 10^0.75` (`thresholds_v2 --l1` at R1, iso) | design estimate |
 | hybrid restart | `sqrt(e₁*/A_meas)`, `e₁*` the refined threshold at `ρ − 3δ₀` | design estimate (needs the model's `A_meas`) |
 
-then scans L and the precision P (achieved err: log-linear in L from the measured table, the ρ factor, a floor
-`10⁴ · 2^-P`), and reports per candidate: required vs achieved residual, margin, displacement (`disp_coef ·
+Where SO-V2PKG §4.6 re-measured the lunar package at another strip (σK, σB and the frame claims re-enclosed), the
+d01b route takes the re-measured threshold and every other route at that strip the same shift. It then scans L
+and the precision P (predicted err, log-linear in L from the profile's table, each candidate labelled measured,
+interpolated or extrapolated; the ρ factor; a floor `10⁴ · 2^-P`, an unmeasured model), removes the precisions
+the profile's precision rule forbids (LG00: `2^-P ≤ 10^-(L+12)`, LG00-CERT.md:204, which forced `CertFixed 128`
+at L = 20; lunar: `2^-P ≤ 10^-4 err`, one data point of SO-V2PKG §4.1), and reports per candidate: required vs achieved residual, margin, displacement (`disp_coef ·
 err`), binding budget (the failing clause at `1.1 X⋆`), support, precision, the certified cut-offs, and the
 predicted kernel cost
 
 `C = C_ref (S(L)/S_ref)^β (P/P_ref)^π (1 + extra) + Σ c(l)`,
 
 with `C_ref` the measured cost of the hand choice (lunar 2.0 CPU-h per torus, SO-CSPLIT-GATE's 1.6–2.5; LG00
-30.11 CPU-h, the run20e ledger), **β = 0.93 fitted** on LG00's L = 8 pilot against its L = 20 ledger (torsion
-stages 0.91, Gram 0.96: packed products are about linear in the support; the forced toy's direct route is
-quadratic instead), π = 1, `extra` 0 for sharp/frozen/refined (frames, claim and core are 0.7 % of the LG00 run
+30.11 CPU-h, the run20e ledger). **π is not measured** (no ledger holds two precisions at one support): the
+default π = 1 is an assumption. β is fitted on LG00's L = 8 pilot (`CertFixed 96`) against its L = 20 ledger
+(`CertFixed 128`) with the precision ratio `(128/96)^π` divided out: **β = 0.775 at π = 1** (torsion 0.75, Gram
+0.80), 0.933 at π = 0; both pairs are reported (packed products are sublinear to linear in the support; the
+forced toy's direct route is quadratic instead). `extra` 0 for sharp/frozen/refined (frames, claim and core are 0.7 % of the LG00 run
 once the stages are shared, `ledger_fit.json`), 0.5 for the ℓ¹ entry and 1.0 for the hybrid (unmeasured), and
 `c(l)` the measured certified-bite costs (SHARP2-C6: l = 8..12: 2.4, 6.1, 10.8, 34.3, 85.2 s; l ≥ 13 is
-infeasible, above 10 GB at R1). It returns the cheapest candidate above the requested margin (exact mirrors
-preferred at equal cost), and always the cheapest passing baseline (the landed sharp route) as fallback.
+infeasible, above 10 GB at R1). A candidate is admissible when its **unrounded** margin exceeds the requested
+one strictly, its certified sites have `l ≤ 12` and its precision obeys the rule. The tool returns the cheapest
+admissible candidate (exact mirrors preferred at equal cost) and the cheapest admissible sharp candidate as the
+baseline fallback, whose err is a prediction.
 
-### Validation (`python3 -I scripts/certifier/route_select.py --validate`, 12 s)
+### Validation (`python3 -I scripts/certifier/route_select.py --validate`, 10 s)
+
+Corrected after AUDIT-V2-TOOLS-1 (C1–C3; V2-TOOLS-FIX2). The first version's headline gains (lunar 0.88×, LG00
+0.68×) are **withdrawn**: the lunar pick cleared the 1-decade rule only after rounding (1.0046) and fails against
+SO-V2PKG's re-measured ρ = 1/70 threshold (margin 0.93); the LG00 pick used `CertFixed 96`, which LG00-CERT.md:204
+rules out at these L, and a cost linear in precision that nothing measured.
 
 The exact mirrors reproduce every hand-measured threshold at the hand points: lunar R2 sharp −31.83, frozen A
 −27.87, refined A d01b −14.26 (SO-V2PKG: −31.83, −27.87, −14.26); LG00 sharp −32.04, frozen A −27.98, refined A
 classical −15.10 (LG00-CERT: the same three).
 
-| | hand choice | tool, constrained to the hand's ρ, P and realized margin | tool, unconstrained (margin ≥ 1 decade) | sharp fallback |
+| | hand choice | tool, constrained to the hand's ρ, P and realized margin | tool, unconstrained (unrounded margin > 1 decade) | sharp fallback (err predicted, never observed) |
 |---|---|---|---|---|
-| lunar65 | refined A, certified kp = 3, ρ = 1/140, L = 20, P = 96: 2.04 CPU-h | **reproduces it** | same route at ρ = 1/70, L = 19: **1.80 CPU-h (0.88×)** | ρ = 1/70, L = 38, P = 128: 9.9 CPU-h |
-| lg00 | refined A, classical sites, L = 20, P = 128: 30.1 CPU-h | **reproduces it** | L = 19, P = 96: **20.4 CPU-h (0.68×)** | L = 37, P = 128: 98 CPU-h |
+| lunar65 | refined A, d01b sites, ρ = 1/140, L = 20, P = 96: 2.04 CPU-h | **reproduces it** (kp = 3 certifies the same five sites) | refined A, kp = 2, ρ = 1/70, L = 20, P = 96: 2.01 CPU-h, **0.99× (about 1 %)**, on sites not checked by `balCheck` and an interpolated err | ρ = 1/70, L = 38, P = 128: 7.9 CPU-h |
+| lg00 | refined A, classical sites, L = 20, P = 128: 30.1 CPU-h | **reproduces it** | the same route at L = 19, P = 128: 27.7 CPU-h, **0.92×** (0.90× at π = 0), margin 1.02 on an err interpolated at an L that was never run | L = 37, P = 192 (the precision rule): 121 CPU-h, err from LG00-PREP's predicted table |
 
 Readings:
-* **lunar65.** The improvement is the wider strip, which SO-V2PKG §4.6 itself identified ("a wider strip gains
-  0.7–1.1 orders, about one digit of L") and declined because it needs a new parameter package (re-enclosed
-  majorants, new boxes and frozen-adjacent pre-checks). The tool holds σK, σB and the refined claim at their R2
-  values across ρ (SO-V2PKG bumped them by 1–2 %), so the 0.88 is an upper estimate of the gain. At the hand's ρ
-  and margin 1 it picks kp = 2 instead of 3 at equal cost (one fewer b-site, about 11 s). The choice is the same
-  for every β in 0.75–2.
-* **lg00.** Two levers: L = 19 already gives one decade (the hand run took L = 20 after L = 18 had none, a
-  2-decade margin), and P = 96 instead of 128 (the precision floor is a model, calibrated on the forced toy only;
-  LG00's large time scale `κ = 160000` may have motivated 128 bits: an owner question below). LG00's clock
-  coordinate is negative (`−41.48`), so `clockOk` rejects certified sites as oriented: classical sites are forced,
-  which the tool detects.
-* **Estimates.** On lunar65 the hybrid design estimate (L = 14) is second at 1.86 CPU-h, behind the exact choice,
-  with its extra cost guessed at one more composition pass; it is the candidate most worth a measured trial
-  (`routeV2Hyb` exists). It is never preferred over an exact-mirror candidate of equal cost.
+* **lunar65.** With the re-measured thresholds the 1/70 strip buys about 1 %, and only if its five new certified
+  sites pass `balCheck` and the err at 1/70 (SO-V2PKG's "≈ 8e-16") holds: not worth a new package, which
+  confirms SO-V2PKG's decision to stay at R2. At the hand's ρ and margin 1 the tool picks kp = 2 instead of 3 at
+  equal cost (one fewer b site, about 11 s); at the realized margin it reproduces d01b. The choice is the same for
+  every (π, β) pair reported.
+* **lg00.** The one lever left is L = 19, which nobody ran; its interpolated err gives a margin of 1.02, at the
+  edge of the rule, so the 0.92× is conditional on measuring err at L = 19. The precision rule forbids 96 bits
+  (it answers the earlier owner question). LG00's clock coordinate is negative (`−41.48`), so `clockOk` rejects
+  certified sites as oriented: classical sites are forced, which the tool detects.
+* **Estimates.** Design estimates (ℓ¹ entry, hybrid) and the L8′ estimate are labelled and never chosen over an
+  exact-mirror candidate of equal cost; none is the choice in either profile.
 
 ### Not covered (#3)
 
@@ -254,9 +274,7 @@ measured trial each would calibrate them (orchestrator: recorded as a known limi
 
 ### Owner questions (#3)
 
-1. LG00 at `CertFixed 96`: is there a reason (time scale, jet constants) for 128 bits that the precision-floor
-   model does not see? The tool's 0.68 depends on it (0.90 at P = 128, L = 19).
-2. Lunar at ρ = 1/70, L = 19 (0.88×): worth a new package for the next lunar run, or keep R2 as SO-V2PKG decided?
+1. Worth measuring LG00's err at L = 19 (one dry run of the producer) to settle the conditional 0.92×?
 
 ## Owner questions (#6)
 
@@ -281,6 +299,24 @@ a cheap subset (the mutation checks and one passing certificate, a few seconds e
 * Re-checked: every default module built (numbers above), the opt-in file elaborated on a scratch copy without
   error, `forced_xlang.py`: `ALL AGREE (31 comparisons)`, axioms as above, `forced_routes.py` gained `--B`,
   `--R XS BF BT` and `--frozen` so the README's pipeline regenerates every route module.
+
+## V2-TOOLS-FIX2 (AUDIT-V2-TOOLS-1: PASS WITH CHANGES, Lean side all PASS)
+
+* `origin/main` merged (`8ad51247`); the conflict in `KAM/Root/CertificateSharp.lean` resolved by regenerating
+  the roots (`gen_root_imports.py`, `--check` clean). Main added files only, none in the forced modules' closure.
+* `route_select.py`:
+  * C1: strict comparison of unrounded margins; SO-V2PKG §4.6's re-measured thresholds anchor the lunar strips (a
+    d01b route computed by the tool, the other routes shifted alike); sites off the package strip are flagged. The
+    lunar result is about 1 % (0.99×), not 0.88×.
+  * C2: per-profile precision rules (LG00-CERT.md:204 for LG00); the precision grid extends to 320 bits; π is
+    marked unmeasured. The LG00 result is a conditional 0.92× at `CertFixed 128`, not 0.68×; its sharp fallback is
+    at 192 bits.
+  * C3: β refitted with the precision ratio divided out (0.775 at π = 1; 0.933 at π = 0), both reported.
+  * Minor: the L8′ comment, err sources (measured, interpolated, extrapolated), the fallback labelled as predicted,
+    the measured LG00 point at L = 21 added, and no fixture written unless `--write-fixtures` (or `--json`).
+* `forced_xlang.py`: two-sided probes and the full jet comparison (52 comparisons, above); docstring corrected.
+* Recommended mutation added: `mut_XsB` (route B at `10 X⋆`, rejected by `okB`; `TinyMutCores`, 1.4 s); the
+  domain-guard mutations `θ = 1` and `a = 1` are labelled as such.
 
 ## Suspected errata and deviations
 

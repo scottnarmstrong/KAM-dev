@@ -164,7 +164,7 @@ def catalogue(tag, c, W, WB):
         "cert.freqBox refinedWit.core.Xs",
         mirror=dict(ok=safe(V.refinedCore, 2, dict(p, disp=F(1)), c.freqBox, w)))
     # -- schedules
-    add("mut_theta", "schedules", "route A with `θ = 1`",
+    add("mut_theta", "schedules", "route A with `θ = 1` (a domain guard: `θ < 1`)",
         "refinedCore 2 cert.params cert.freqBox { refinedWit with core := { refinedWit.core with th := 1 } }",
         mirror=dict(ok=safe(V.refinedCore, 2, p, c.freqBox, dict(w, th=F(1))), note="mirror: 1 - θ = 0"))
     add("mut_Xs", "schedules", "route A with ten times the passing `X⋆`",
@@ -172,8 +172,11 @@ def catalogue(tag, c, W, WB):
         "refinedWit.core.Xs * 10 } }",
         mirror=dict(ok=safe(V.refinedCore, 2, p, c.freqBox, dict(w, Xs=w["Xs"] * 10))))
     if WB is not None:
-        add("mut_scheduleB", "schedules", "route B with the schedule ratio `a = 1`",
+        add("mut_scheduleB", "schedules", "route B with the schedule ratio `a = 1` (a domain guard: `1 < a`)",
             "refinedBCore 2 cert.params cert.freqBox { refinedBWit with core := { refinedBWit.core with a := 1 } }")
+        add("mut_XsB", "schedules", "route B with ten times the passing `X⋆` (a quantitative budget: `okB`)",
+            "refinedBCore 2 cert.params cert.freqBox { refinedBWit with core := { refinedBWit.core with Xs := "
+            "refinedBWit.core.Xs * 10 } }")
     # -- denominator separation
     add("mut_boxFiber", "denominator separation",
         "the frequency box widened to radius `1/20`: the fibers reach the resonance, the sites fail",

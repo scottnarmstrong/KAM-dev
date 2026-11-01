@@ -3,7 +3,10 @@
  "A_meas_source": "not measured for LG00",
  "P_grid": [
   96,
-  128
+  128,
+  160,
+  192,
+  256
  ],
  "P_ref": 128,
  "R": {
@@ -36,11 +39,17 @@
   "12": "2.6e-10",
   "18": "7.2e-16",
   "20": "8.1e-18",
+  "21": "1.1e-18",
   "24": "1.4e-21",
   "30": "1.9e-27",
   "36": "2.7e-33",
   "40": "3.3e-37"
  },
+ "err_L_measured": [
+  "18",
+  "20",
+  "21"
+ ],
  "hand": {
   "L": 20,
   "P": 128,
@@ -115,10 +124,16 @@
   "tau": "1"
  },
  "pilot_L8": {
+  "P": 96,
   "gram_s": 248,
-  "source": "LG00-CERT.md, status (2)",
+  "source": "LG00-CERT.md, status (2); the pilot was CertFixed 96 (LG00-CERT.md:211), the L = 20 ledger CertFixed 128",
   "support": 110,
   "torsion_s": 2311
+ },
+ "precision_rule": {
+  "kind": "abs_budget",
+  "offset": 12,
+  "source": "LG00-CERT.md:204: the cfgFull packed-product rounding budget 10^-(L+12) must stay above 2^-P (the L = 20 data needed CertFixed 128, LG00-CERT.md:155)"
  },
  "provenance": {
   "box": "lg00_gen.freq_box(160000/s)",

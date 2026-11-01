@@ -58,12 +58,20 @@ def lunar65():
         # emitter e at L = 20 against rho (SO-V2PKG §4.6), as factors of the rho = 1/140 value
         err_rho_factor={"1/280": str(F(18, 32)), "1/140": "1", "1/100": str(F(53, 32)), "1/70": str(F(80, 32))},
         support_L={"14": 108, "16": 146, "18": 191, "20": 251, "22": 305, "26": 439, "40": 1180},
-        P_grid=[96, 128], P_ref=96,
+        err_L_measured=["14", "16", "18", "20", "22", "26", "40"],
+        # SO-V2PKG §4.6: the d01b threshold re-measured per strip (σK, σB bumped 1-2 %, frame claims re-measured)
+        remeasured=dict(policy="d01b", log10_estar={"1/280": "-15.34", "1/140": "-14.26", "1/100": "-13.81",
+                                                    "1/70": "-13.48"}, source="SO-V2PKG.md §4.6"),
+        # one data point (SO-V2PKG §4.1): cfgFull packed budget 1e-20 at err 1.6e-16, CertFixed 96
+        precision_rule=dict(kind="rel_err", factor="1e-4",
+                            source="heuristic from SO-V2PKG §4.1 (budget 1e-20 at err 1.6e-16, CertFixed 96): "
+                                   "2^-P <= 1e-4 err"),
+        P_grid=[96, 128, 160, 192, 256, 320], P_ref=96,
         cost_ref=dict(cpu_h="2.0", range="1.6-2.5", L=20, P=96, source="SO-CSPLIT-GATE.md (v2 at L = 20)"),
         site_cost_s={"8": 2.4, "9": 6.1, "10": 10.8, "11": 34.3, "12": 85.2},
         site_l_rule=dict(delta="2.4", b="1.8", source="SO-V2PKG §2.2: 2^l · bite ≈ 2.4 (δ sites), 1.8 (b sites)"),
         site_l_max=12, A_meas="7.28e-4", A_meas_source="thresholds_v2.A_MEAS_R1 (step0_actual.py, R1 package)",
-        hand=dict(route="A.refined.certified", kp=3, L=20, rho="1/140", P=96, margin=1.53,
+        hand=dict(route="A.refined.cert[d01b]", kp=3, L=20, rho="1/140", P=96, margin=1.53,
                   note="d01b: certified δ0, δ1 and b0..b2 (l = 8..12); SO-V2PKG §2, §3"),
         margin_rule=1.0)
     return prof
@@ -95,10 +103,15 @@ def lg00(path):
         R=dict(dh=F("82.7"), dx=F(249), d2x=F(5170), d2h=F(559), bL=F("1.37"), bN=F("1.21"), bNt=F("1.45"),
                bT=F(118)),
         rho_fixed=True, rho_grid=[str(p["rho"])],
-        err_L={"12": "2.6e-10", "18": "7.2e-16", "20": "8.1e-18", "24": "1.4e-21", "30": "1.9e-27", "36": "2.7e-33",
-               "40": "3.3e-37"},
+        err_L={"12": "2.6e-10", "18": "7.2e-16", "20": "8.1e-18", "21": "1.1e-18", "24": "1.4e-21", "30": "1.9e-27",
+               "36": "2.7e-33", "40": "3.3e-37"},
+        # measured on the fixed torus (LG00-CERT): L = 18, 20, 21; the others are LG00-PREP's predicted table
+        err_L_measured=["18", "20", "21"],
+        precision_rule=dict(kind="abs_budget", offset=12,
+                            source="LG00-CERT.md:204: the cfgFull packed-product rounding budget 10^-(L+12) must stay "
+                                   "above 2^-P (the L = 20 data needed CertFixed 128, LG00-CERT.md:155)"),
         support_L={"8": 110, "12": 250, "18": 550, "20": 683, "24": 986, "30": 1556, "36": 2306, "40": 2840},
-        P_grid=[96, 128], P_ref=128,
+        P_grid=[96, 128, 160, 192, 256], P_ref=128,
         cost_ref=dict(cpu_h=str(round(total, 2)), L=20, P=128, source="LG00-CERT run20e ledger (passing set)"),
         site_cost_s={"8": 2.4, "9": 6.1, "10": 10.8, "11": 34.3, "12": 85.2},
         site_l_rule=dict(delta="2.4", b="1.8", source="SO-V2PKG §2.2 rule, transferred"),
@@ -108,7 +121,8 @@ def lg00(path):
         margin_rule=1.0, ledger=fit, ledger_total_cpu_h=round(total, 2),
         # the L = 8 pilot (LG00-CERT handoff, status (2)): torsion 64 modules 2311 s; Gram packed 8 modules,
         # 22-40 s each (31 s taken); support 110 at L = 8, 683 at L = 20
-        pilot_L8=dict(support=110, torsion_s=2311, gram_s=248, source="LG00-CERT.md, status (2)"),
+        pilot_L8=dict(support=110, torsion_s=2311, gram_s=248, P=96, source="LG00-CERT.md, status (2); the pilot "
+                      "was CertFixed 96 (LG00-CERT.md:211), the L = 20 ledger CertFixed 128"),
         provenance=dict(report="lg00-cert scripts/sjs/lg00/results/lg00_dryrun_sqrt_L20.json",
                         box="lg00_gen.freq_box(160000/s)", claim="LG00-CERT.md §Route and threshold",
                         err_table="docs/explorations/lg00-prep.md §5 and LG00-CERT.md (fixed torus)"))

@@ -18,7 +18,7 @@ reports and witnesses in `scripts/certifier/fixtures/forced-toy/`.
 | `forced_lean.py` | compiled-Lean `#eval` oracle (ℚ-level checks only: the `CertFixed` instance is noncomputable) |
 | `forced_witness.py` | refined claim R (mirror), certified small-divisor sites (Lean `balCheck` search), route A/B/frozen witnesses (`v2_q`, `v2_r2`, `route_b_lean_mirror`) |
 | `forced_routes.py TAG [--B / --R XS BF BT / --frozen]` | `<TAG>Freq/Claim/RouteA.lean`; route B; L8′; the sharp and frozen routes |
-| `forced_mutations.py TAG` | 24 mutations with mirror verdicts, `<TAG>Mutations(Inv).lean` |
+| `forced_mutations.py TAG` | 25 mutations with mirror verdicts (laid out into the `TinyMut*` modules by `forced_layout.py`) |
 | `forced_sweep.py` | mirror sweep of frequency separation, twist, support, precision, perturbation, time scale |
 | `forced_xlang.py` | cross-language agreement (31 comparisons; exit status 0 iff all agree) |
 | `forced_layout.py` | lays the generated full modules out: a cheap default-build subset and the opt-in `kernel-tests/CertificateSharp/V2/ForcedRoutes.lean` |

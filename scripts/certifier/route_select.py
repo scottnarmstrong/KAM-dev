@@ -2,7 +2,7 @@
 """V2-TOOLS #3: producer-side route and parameter selection by predicted total kernel cost (untrusted tooling).
 
     python3 -I scripts/certifier/route_select.py PROFILE [--margin M] [--beta B] [--pi P] [--json OUT]
-    python3 -I scripts/certifier/route_select.py --validate        # lunar65 and lg00 against their hand choices
+    python3 -I scripts/certifier/route_select.py --validate [--write-fixtures]   # lunar65 and lg00 vs hand choices
 
 `routeV2All` is unchanged: the trusted interface dispatches whatever witness the producer emits.  This tool decides
 which witness to emit.  For a model and candidate torus family (a PROFILE: scripts/certifier/fixtures/route-select/
@@ -12,28 +12,36 @@ which witness to emit.  For a model and candidate torus family (a PROFILE: scrip
   sharp (baseline)      sharp_q.sharp (the landed sharp engine)              exact mirror
   A.frozen              v2_r2.max_Xs('frozen')                               exact mirror
   A.refined.classical   v2_r2.max_Xs('refined'), classical sites            exact mirror
-  A.refined.cert[kp]    the same, certified sites (c = c_freq × 1.01) where   exact mirror (sites: float c, the
+  A.refined.cert[kp]    the same, certified sites (c = c_freq × 1.01) where   exact mirror (sites: float c; the
                         the clock test applies and the cut-off l <= l_max    Lean balCheck is the check)
+  A.refined.cert[d01b]  certified δ₀, δ₁ and every b site (SO-V2PKG's d01b)  exact mirror
   B.frozen, B.refined   forced_witness.solve_B (route_b_lean_mirror)         exact mirror
-  A.L8'                 refined e*/2 (the forced toy's exact ratio)          estimate
+  A.L8'                 refined e*/2 (the forced toy's passing X* ratio)      estimate
   l1-entry              refined e* × 10^0.75 (thresholds_v2 at R1, iso)      design estimate
   hybrid                sqrt(e1*/A_meas), e1* the refined e* at ρ - 3δ₀       design estimate (needs A_meas)
 
-then scans the truncation L and the precision P: achieved err(L, ρ, P) from the profile's measured table
-(log-linear in L, the ρ factor, a precision floor 10^4 · 2^-P), margin log10(e*/err), the support S(L), and the
-predicted kernel cost
+Where the profile carries re-measured thresholds (lunar: SO-V2PKG §4.6, the d01b row re-measured per ρ with
+σK, σB and the frame claims re-enclosed), the d01b route takes the re-measured value and every other route at that ρ
+the same shift (kind "+remeasured" / "+shifted"); otherwise σK, σB and the claim are held at the package's values.
+
+It then scans the truncation L and the precision P: predicted err(L, ρ, P) from the profile's table (log-linear in
+L; each candidate says whether its err is measured, interpolated or extrapolated), the ρ factor, a precision floor
+10^4 · 2^-P (unmeasured model); the profile's precision rule (LG00: 2^-P <= 10^-(L+12), LG00-CERT.md:204; lunar:
+2^-P <= 10^-4 err, one data point of SO-V2PKG §4.1) removes the too-coarse precisions.  The predicted cost is
 
     C = C_ref (S(L)/S_ref)^β (P/P_ref)^π · (1 + extra_route) + Σ_sites c(l),   c(l) = c_8 · 2^{1.29 (l - 8)} s,
 
-C_ref the measured cost of the hand choice (lunar: SO-CSPLIT-GATE; LG00: the run20e ledger), β fitted on LG00's
-L = 8 pilot against its L = 20 ledger (packed products: torsion stages 0.91, Gram 0.96; the direct route of the
-forced toy is quadratic instead), π = 1, extra_route 0 for sharp/frozen/refined (the ledger: frames, claim and core are 0.7 %
-of LG00's run once the stages are shared), 0.5 for the l1 entry and 1.0 for the hybrid (unmeasured estimates:
-another stage pass, another composition pass).  It returns the cheapest candidate whose margin is at least the
-requested one and whose sites are feasible (l <= l_max: l = 13 bites exceeded 10 GB at R1), and always the cheapest
-passing baseline (the landed sharp route) as fallback.  Diagnostics per candidate: required vs achieved residual,
-displacement coefficient, binding budget, support, precision, predicted cost, margin, kind.  Estimates are reported
-as such and are never chosen over an exact-mirror candidate of equal cost.
+C_ref the measured cost of the hand choice (lunar: SO-CSPLIT-GATE; LG00: the run20e ledger).  **π is not measured**
+(no ledger holds two precisions at one support): the default π = 1 is an assumption, and β is fitted on LG00's L = 8
+pilot (CertFixed 96) against its L = 20 ledger (CertFixed 128) with the precision ratio (128/96)^π divided out
+(β = 0.775 at π = 1; 0.933 at π = 0); both pairs are reported.  extra_route is 0 for sharp/frozen/refined (frames,
+claim and core are 0.7 % of LG00's run once the stages are shared), 0.5 for the l1 entry and 1.0 for the hybrid
+(unmeasured guesses, a known limitation deferred to the owner).  A candidate is admissible when its unrounded margin
+log10(e*/err) exceeds the requested margin strictly, its certified sites have l <= l_max, and its precision obeys
+the rule.  The tool returns the cheapest admissible candidate (exact mirrors preferred at equal cost) and the
+cheapest admissible sharp candidate as the baseline fallback; that fallback's err is a prediction (for LG00 at
+L >= 24 from LG00-PREP's table, whose sharp margin was never observed).  Certified sites at a strip other than the
+package's are flagged "not balCheck-verified".
 """
 import argparse
 import json
@@ -58,7 +66,8 @@ import forced_witness as FW          # noqa: E402
 
 TH, J, KP_FROZEN = F(1, 8), 20, 5
 L1_DELTA = 0.75          # thresholds_v2 --l1 at R1 (iso): A7 -10.95, A7 + l1 entry -10.20
-L8_FACTOR = F(1, 2)      # forced toy Tiny: X*(L8') = X*(refined A) / 2 (kernel-checked, TinyRouteR)
+L8_FACTOR = F(1, 2)      # forced toy Tiny: L8' was found passing at X* = 191 against refined A's 382 (both
+#                          kernel-checked, kernel-tests/.../ForcedRoutes.lean); the ratio of the maxima is not checked
 EXTRA = {"l1-entry": 0.5, "hybrid": 1.0}
 
 
@@ -107,7 +116,7 @@ def site_cost(prof, l):
 
 
 # ---------------------------------------------------------------------------------------------- thresholds
-def route_A(prof, p, box, branch, kp, certify):
+def route_A(prof, p, box, branch, kp, certify, policy=None):
     """(e*, Xs, binding at 1.1 X*, displacement coefficient C/(γ²ρ²), site list [(kind, s, l, certified)])."""
     R = prof["R"]
     Q0 = V.Num(n=2, tau=1, rho=p["rho"], rhoInf=p["rhoInf"], kp=kp)
@@ -116,7 +125,7 @@ def route_A(prof, p, box, branch, kp, certify):
         sites = {}
         for s in range(kp):
             for kind, bite in (("d", Q0.delta(s)), ("b", Q0.b(s))):
-                if certify:
+                if certify and not (policy == "d01b" and kind == "d" and s >= 2):
                     c, l, cert = site(prof, p, box, bite, kind)
                 else:
                     c, l, cert = V.classical_c(2, 1, J, bite), 0, False
@@ -175,6 +184,10 @@ def thresholds(prof, rho, kps=(1, 2, 3), with_B=True, log=print):
     for kp in kps:
         if clock_ok(box):
             out["A.refined.cert[kp=%d]" % kp] = dict(route_A(prof, p, box, "refined", kp, True), kind="exact")
+    rm = prof.get("remeasured")
+    if rm and clock_ok(box):
+        out["A.refined.cert[d01b]"] = dict(route_A(prof, p, box, "refined", 3, True, policy=rm["policy"]),
+                                           kind="exact")
     if with_B:
         out["B.frozen"] = dict(route_B(prof, p, box, True), kind="exact")
         out["B.refined.classical"] = dict(route_B(prof, p, box, False), kind="exact")
@@ -191,6 +204,15 @@ def thresholds(prof, rho, kps=(1, 2, 3), with_B=True, log=print):
         if "estar" in e1:
             out["hybrid"] = dict(estar=F(math.sqrt(float(e1["estar"]) / float(F(prof["A_meas"])))),
                                  kind="design", sites=e1["sites"], binding=[], disp_coef=None)
+    if rm and rho in rm["log10_estar"] and "estar" in out.get("A.refined.cert[d01b]", {}):
+        # SO-V2PKG §4.6 re-measured the package at this strip (σK, σB, frame claims): the d01b route takes the
+        # re-measured threshold, every other route the same shift (the re-measurement acts on shared data)
+        delta = float(rm["log10_estar"][rho]) - lg(out["A.refined.cert[d01b]"]["estar"])
+        for k, v in out.items():
+            if "estar" in v:
+                v["estar"] = v["estar"] * F(10 ** delta).limit_denominator(10 ** 12)
+                v["remeasure_shift"] = round(delta, 3)
+                v["kind"] = v["kind"] + "+remeasured" if k == "A.refined.cert[d01b]" else v["kind"] + "+shifted"
     for k, v in out.items():
         if "estar" in v:
             log("  rho %-7s %-24s log10 e* %7.2f  %s" % (rho, k, lg(v["estar"]), v["kind"]))
@@ -214,10 +236,32 @@ def interp_log(table, x):
 
 
 def err_at(prof, L, rho, P):
+    """predicted err: log-linear in L from the measured/predicted table, the ρ factor, and a precision floor
+    1e4 · 2^-P (an unmeasured model, calibrated on the forced toy's P = 40 point only)."""
     e = interp_log(prof["err_L"], L)
     if not prof["rho_fixed"]:
         e *= float(F(prof["err_rho_factor"][rho]))
     return max(e, 1e4 * 2.0 ** -P)
+
+
+def err_source(prof, L, rho):
+    meas = set(prof.get("err_L_measured", []))
+    pkg = prof["rho_fixed"] or rho == prof["hand"]["rho"]
+    if str(L) in meas and pkg:
+        return "measured"
+    lo, hi = min(int(k) for k in meas), max(int(k) for k in meas)
+    return "interpolated" if lo <= L <= hi else "extrapolated"
+
+
+def precision_ok(prof, L, e, P):
+    """the profile's precision rule: LG00 2^-P <= 10^-(L+12) (LG00-CERT.md:204); lunar 2^-P <= 1e-4 err (one data
+    point, SO-V2PKG §4.1)."""
+    r = prof.get("precision_rule")
+    if r is None:
+        return True
+    if r["kind"] == "abs_budget":
+        return 2.0 ** -P <= 10.0 ** -(L + r["offset"])
+    return 2.0 ** -P <= float(F(r["factor"])) * e
 
 
 def support_at(prof, L):
@@ -244,9 +288,12 @@ def candidates(prof, th_by_rho, beta=2.0, pi=1.0):
             for L in Ls:
                 for P in prof["P_grid"]:
                     e = err_at(prof, L, rho, P)
+                    m = lg(r["estar"]) - math.log10(e)
                     out.append(dict(route=route, kind=r["kind"], rho=rho, L=L, P=P, log10_estar=round(lg(r["estar"]),
-                                    2), log10_err=round(math.log10(e), 2), margin=round(lg(r["estar"]) - math.log10(e),
-                                    2), support=round(support_at(prof, L)), cost_h=round(cost_h(prof, route, L, P,
+                                    2), log10_err=round(math.log10(e), 2), margin=round(m, 2), margin_exact=m,
+                                    err_source=err_source(prof, L, rho), precision_ok=precision_ok(prof, L, e, P),
+                                    sites_verified=(rho == prof["hand"]["rho"]),
+                                    support=round(support_at(prof, L)), cost_h=round(cost_h(prof, route, L, P,
                                     r.get("sites", []), beta, pi), 3), sites_ok=feasible_sites,
                                     sites=[s["l"] for s in r.get("sites", []) if s.get("certified")],
                                     binding=r.get("binding", []), displacement=(float(r["disp_coef"]) * e
@@ -255,8 +302,9 @@ def candidates(prof, th_by_rho, beta=2.0, pi=1.0):
 
 
 def select(cands, margin, exact_only=False):
-    ok = [c for c in cands if c["margin"] >= margin and c["sites_ok"] and (c["kind"] == "exact" or not exact_only)]
-    rank = lambda c: (c["cost_h"], 0 if c["kind"] == "exact" else 1, -c["margin"])
+    ok = [c for c in cands if c["margin_exact"] > margin and c["sites_ok"] and c["precision_ok"] and
+          (c["kind"].startswith("exact") or not exact_only)]
+    rank = lambda c: (c["cost_h"], 0 if c["kind"].startswith("exact") else 1, -c["margin_exact"])
     best = min(ok, key=rank) if ok else None
     base = [c for c in ok if c["route"] == "sharp"]
     fallback = min(base, key=rank) if base else None
@@ -272,22 +320,26 @@ def hand_candidate(prof, cands):
     return pool[0] if pool else None
 
 
-def fit_beta():
-    """the support exponent of the packed kernel cost, from LG00's L = 8 pilot against its L = 20 ledger (torsion
-    stages and Gram): beta = mean of log(cost ratio) / log(support ratio)."""
+def fit_beta(pi):
+    """the support exponent of the packed kernel cost, from LG00's L = 8 pilot (CertFixed 96) against its L = 20
+    ledger (CertFixed 128), torsion stages and Gram, with the precision ratio (128/96)^pi divided out:
+    beta = mean of [log(cost ratio) - pi log(128/96)] / log(support ratio).  pi itself is not measured (no ledger
+    holds two precisions at one support), so beta and pi are reported as a pair."""
     prof = load_profile("lg00")
     pl, led = prof["pilot_L8"], prof["ledger"]
     sr = math.log(prof["support_L"]["20"] / pl["support"])
-    bt = math.log(led["Torsion"]["cpu_h"] * 3600 / pl["torsion_s"]) / sr
-    bg = math.log(led["Gram"]["cpu_h"] * 3600 / pl["gram_s"]) / sr
-    return (bt + bg) / 2, dict(torsion=round(bt, 3), gram=round(bg, 3))
+    pr = pi * math.log(prof["cost_ref"]["P"] / pl["P"])
+    bt = (math.log(led["Torsion"]["cpu_h"] * 3600 / pl["torsion_s"]) - pr) / sr
+    bg = (math.log(led["Gram"]["cpu_h"] * 3600 / pl["gram_s"]) - pr) / sr
+    return (bt + bg) / 2, dict(torsion=round(bt, 3), gram=round(bg, 3), pi=pi)
 
 
 def run_profile(name, margin=None, beta=None, pi=1.0, with_B=True, log=print):
     prof = load_profile(name)
     if beta is None:
-        beta, parts = fit_beta()
-        log("beta fitted on the LG00 ledger (packed products): %.3f %s" % (beta, parts))
+        beta, parts = fit_beta(pi)
+        log("beta fitted on the LG00 ledger (packed products), precision ratio divided out at pi = %.1f "
+            "(unmeasured): %.3f %s" % (pi, beta, parts))
     margin = prof["margin_rule"] if margin is None else margin
     log("profile %s: %s" % (name, prof["title"]))
     th = {rho: thresholds(prof, rho, with_B=with_B, log=log) for rho in prof["rho_grid"]}
@@ -296,16 +348,18 @@ def run_profile(name, margin=None, beta=None, pi=1.0, with_B=True, log=print):
     best_exact, _ = select(cands, margin, exact_only=True)
     hand = hand_candidate(prof, cands)
     sens = {}
-    for b in (0.75, 1.0, 1.5, 2.0):
-        c2 = candidates(prof, th, b, pi)
-        bb, _ = select(c2, margin, exact_only=True)
-        hh = hand_candidate(prof, c2)
-        sens["beta=%.1f" % b] = dict(choice=pick(bb), hand_cost_h=hh and hh["cost_h"],
-                                     ratio=(bb["cost_h"] / hh["cost_h"]) if (bb and hh) else None)
+    for pv in (0.0, 1.0):
+        bv, _ = fit_beta(pv)
+        for b in sorted({round(bv, 3), 1.5, 2.0}):
+            c2 = candidates(prof, th, b, pv)
+            bb, _ = select(c2, margin, exact_only=True)
+            hh = hand_candidate(prof, c2)
+            sens["pi=%.0f beta=%.3f" % (pv, b)] = dict(choice=pick(bb), hand_cost_h=hh and hh["cost_h"],
+                                                     ratio=(bb["cost_h"] / hh["cost_h"]) if (bb and hh) else None)
     h = prof["hand"]
     same_pkg = [c for c in cands if c["rho"] == h["rho"] and c["P"] == h["P"]]
     cons1, _ = select(same_pkg, margin, exact_only=True)
-    cons2, _ = select(same_pkg, h["margin"] - 0.05, exact_only=True)
+    cons2, _ = select(same_pkg, h["margin"] - 0.02, exact_only=True)
     constrained = {"hand's ρ and P, margin %.1f" % margin: dict(choice=pick(cons1), verdict=verdict(cons1, hand)),
                    "hand's ρ and P, the hand's realized margin %.2f" % h["margin"]: dict(choice=pick(cons2),
                                                                                         verdict=verdict(cons2, hand))}
@@ -323,7 +377,8 @@ def run_profile(name, margin=None, beta=None, pi=1.0, with_B=True, log=print):
 
 
 def pick(c):
-    return None if c is None else {k: c[k] for k in ("route", "rho", "L", "P", "margin", "cost_h", "kind")}
+    keys = ("route", "rho", "L", "P", "margin", "cost_h", "kind", "err_source", "sites_verified")
+    return None if c is None else {k: c[k] for k in keys if k in c}
 
 
 def verdict(best, hand):
@@ -332,20 +387,25 @@ def verdict(best, hand):
     same = all(best[k] == hand[k] for k in ("route", "rho", "L", "P"))
     if same:
         return "reproduces the hand choice"
+    # the same configuration under another name (at ρ = 1/140, kp = 3 and d01b certify the same five sites)
+    if all(best[k] == hand[k] for k in ("rho", "L", "P", "log10_estar", "sites")):
+        return "reproduces the hand choice (route %s, the same sites and threshold as %s)" % (best["route"],
+                                                                                           hand["route"])
     r = best["cost_h"] / hand["cost_h"] if hand["cost_h"] else None
     return "differs: predicted cost %.3f CPU-h against the hand choice's %.3f (ratio %.2f)" % (
         best["cost_h"], hand["cost_h"], r)
 
 
 def table(rep, top=12):
-    rows = sorted([c for c in rep["candidates"] if c["margin"] >= rep["margin_rule"] and c["sites_ok"]],
-                  key=lambda c: c["cost_h"])[:top]
-    out = ["| route | kind | ρ | L | P | log10 e* | log10 err | margin | support | cost (CPU-h) | sites l |",
-           "|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|"]
+    rows = sorted([c for c in rep["candidates"] if c["margin_exact"] > rep["margin_rule"] and c["sites_ok"] and
+                   c["precision_ok"]], key=lambda c: c["cost_h"])[:top]
+    out = ["| route | kind | ρ | L | P | log10 e* | log10 err (source) | margin | support | cost (CPU-h) | sites l |",
+           "|---|---|---|---:|---:|---:|---|---:|---:|---:|---|"]
     for c in rows:
-        out.append("| %s | %s | %s | %d | %d | %.2f | %.2f | %.2f | %d | %.3f | %s |" % (
-            c["route"], c["kind"], c["rho"], c["L"], c["P"], c["log10_estar"], c["log10_err"], c["margin"],
-            c["support"], c["cost_h"], ",".join(map(str, c["sites"])) or "-"))
+        out.append("| %s | %s | %s | %d | %d | %.2f | %.2f (%s) | %.3f | %d | %.3f | %s%s |" % (
+            c["route"], c["kind"], c["rho"], c["L"], c["P"], c["log10_estar"], c["log10_err"], c["err_source"],
+            c["margin_exact"], c["support"], c["cost_h"], ",".join(map(str, c["sites"])) or "-",
+            "" if c["sites_verified"] or not c["sites"] else " (not balCheck-verified)"))
     return "\n".join(out)
 
 
@@ -357,7 +417,9 @@ def main():
     ap.add_argument("--pi", type=float, default=1.0)
     ap.add_argument("--no-B", action="store_true")
     ap.add_argument("--validate", action="store_true")
-    ap.add_argument("--json", default=None)
+    ap.add_argument("--json", default=None, help="write the report here (nothing is written otherwise)")
+    ap.add_argument("--write-fixtures", action="store_true",
+                    help="with --validate: overwrite scripts/certifier/fixtures/route-select/validation.json")
     a = ap.parse_args()
     names = ["lunar65", "lg00"] if a.validate else [a.profile]
     reps = []
@@ -368,16 +430,22 @@ def main():
         print(table(rep))
         print("\nbest (exact mirrors): %s" % pick(rep["best_exact"]))
         print("best (incl. estimates): %s" % pick(rep["best"]))
-        print("baseline fallback (landed sharp): %s" % pick(rep["baseline_fallback"]))
+        print("baseline fallback (landed sharp; err %s, not observed): %s" % (
+            rep["baseline_fallback"] and rep["baseline_fallback"]["err_source"], pick(rep["baseline_fallback"])))
         print("hand choice: %s" % pick(rep["hand"]))
         print("verdict: %s" % rep["verdict"])
         for k, v in rep["constrained"].items():
             print("constrained (%s): %s -> %s" % (k, v["choice"], v["verdict"]))
-        print("sensitivity (beta): %s" % json.dumps(rep["sensitivity"], default=str))
-    out = a.json or os.path.join(FIX, "validation.json" if a.validate else "%s_selection.json" % names[0])
+        for k, v in rep["sensitivity"].items():
+            print("sensitivity %s: %s ratio %s" % (k, v["choice"] and (v["choice"]["route"], v["choice"]["rho"],
+                                                                    v["choice"]["L"], v["choice"]["P"]),
+                                                 v["ratio"] and round(v["ratio"], 3)))
+    out = a.json or (os.path.join(FIX, "validation.json") if (a.validate and a.write_fixtures) else None)
+    if out is None:
+        return
     for rep in reps:          # keep the feasible candidates, cheapest first (the full scan is recomputed in seconds)
-        rep["candidates"] = sorted([c for c in rep["candidates"] if c["margin"] >= rep["margin_rule"] and
-                                    c["sites_ok"]], key=lambda c: c["cost_h"])[:40]
+        rep["candidates"] = sorted([c for c in rep["candidates"] if c["margin_exact"] > rep["margin_rule"] and
+                                    c["sites_ok"] and c["precision_ok"]], key=lambda c: c["cost_h"])[:40]
     with open(out, "w") as fh:
         json.dump(reps, fh, indent=1, default=str)
 

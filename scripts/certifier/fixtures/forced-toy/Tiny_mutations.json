@@ -131,7 +131,7 @@
  {
   "name": "mut_theta",
   "family": "schedules",
-  "doc": "route A with `\u03b8 = 1`",
+  "doc": "route A with `\u03b8 = 1` (a domain guard: `\u03b8 < 1`)",
   "check": "refinedCore 2 cert.params cert.freqBox { refinedWit with core := { refinedWit.core with th := 1 } }",
   "mirror": {
    "ok": false,
@@ -152,7 +152,7 @@
  {
   "name": "mut_scheduleB",
   "family": "schedules",
-  "doc": "route B with the schedule ratio `a = 1`",
+  "doc": "route B with the schedule ratio `a = 1` (a domain guard: `1 < a`)",
   "check": "refinedBCore 2 cert.params cert.freqBox { refinedBWit with core := { refinedBWit.core with a := 1 } }",
   "mirror": null,
   "module": "TinyMutCores"
@@ -248,5 +248,15 @@
    "ok": false
   },
   "module": "TinyMutConvB"
+ },
+ {
+  "name": "mut_XsB",
+  "family": "schedules",
+  "doc": "route B with ten times the passing `X\u22c6` (a quantitative budget: `okB`)",
+  "check": "refinedBCore 2 cert.params cert.freqBox { refinedBWit with core := { refinedBWit.core with Xs := refinedBWit.core.Xs * 10 } }",
+  "mirror": {
+   "ok": false
+  },
+  "module": "TinyMutCores"
  }
 ]

@@ -29,7 +29,7 @@ theorem mut_dispRoom : finalOkA (refinedWit.num 2 { cert.params with disp := 1 }
     { cert.params with disp := 1 } cert.freqBox refinedWit.core.Xs = false := by
   decide +kernel
 
-/-- Rejected: route A with `θ = 1` (schedules). -/
+/-- Rejected: route A with `θ = 1` (schedules; a domain guard: `wfOk` needs `θ < 1`). -/
 theorem mut_theta : refinedCore 2 cert.params cert.freqBox { refinedWit with core := {
     refinedWit.core with th := 1 } } = false := by
   decide +kernel
@@ -39,9 +39,15 @@ theorem mut_Xs : refinedCore 2 cert.params cert.freqBox { refinedWit with core :
     with Xs := refinedWit.core.Xs * 10 } } = false := by
   decide +kernel
 
-/-- Rejected: route B with the schedule ratio `a = 1` (schedules). -/
+/-- Rejected: route B with the schedule ratio `a = 1` (schedules; a domain guard: `1 < a`,
+and `δ₀ = 0`). -/
 theorem mut_scheduleB : refinedBCore 2 cert.params cert.freqBox { refinedBWit with core := {
     refinedBWit.core with a := 1 } } = false := by
+  decide +kernel
+
+/-- Rejected: route B with ten times the passing `X⋆` (schedules; a quantitative budget: `okB`). -/
+theorem mut_XsB : refinedBCore 2 cert.params cert.freqBox { refinedBWit with core := {
+    refinedBWit.core with Xs := refinedBWit.core.Xs * 10 } } = false := by
   decide +kernel
 
 end KAM.CertificateSharp.V2.Forced.Tiny

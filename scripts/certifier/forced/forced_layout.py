@@ -99,7 +99,7 @@ MUTS = [
     ("MutClaims", "frame bounds and ray room: `bL`, `bN` below the measured rows, the claim `dx`, `nuRay`",
      ["mut_frameL", "mut_frameN", "mut_hamClaim", "mut_nuRay"]),
     ("MutCores", "ray room and schedules on the route cores: `disp = 1`, `θ = 1`, `10 X⋆`, route B `a = 1`",
-     ["mut_dispRoom", "mut_theta", "mut_Xs", "mut_scheduleB"]),
+     ["mut_dispRoom", "mut_theta", "mut_Xs", "mut_scheduleB", "mut_XsB"]),
     ("MutSites", "small-divisor separation: a box reaching the resonance fibers, a site bound halved",
      ["boxWide", "mut_boxFiber", "mut_siteBound"]),
     ("MutDenominator", "a Hamiltonian denominator whose ball contains `0`, and its separated control",
