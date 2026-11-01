@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-01 13:50 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.6 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 66 / 70 · **501,582 lines of hand-written Lean** of an estimated ≈ 504,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-01 13:51 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.6 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 66 / 70 · **501,582 lines of hand-written Lean** of an estimated ≈ 504,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -352,7 +352,7 @@ Overall, everything together: 96.3 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 13:50 UTC from `main` at `f1ccc89e` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 13:51 UTC from `main` at `7921092d` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -366,7 +366,6 @@ Overall, everything together: 96.3 %
 
 **Track W** (D30, D41; [plan](blueprint-W/PLAN.md)): PDE KAM for the cubic wave equation u_tt = u_xx − m u − u³ on [0, π] (Pöschel 1996) · **100 %**
 - Statements: frozen (12 anchors; `nlw2` sealed) · blueprint milestones written: 9 / 9 (W0, W1, W2, W3, W4, W5, W6, W7, W8) · proof graph: 695 / 695 nodes resolved · `KAM/Wave`: 456 modules, 84,252 lines
-- ⚠️ **graph sync overdue**: 55 Lean lines landed in `KAM/Wave` since the proof graph was last synced (12:49 UTC 01 Nov); the meter counts only recorded nodes, so it undercounts until the sync lands.
 - **Now:** The frozen headline `KAM.Wave.nlw2` is PROVED on a branch (W8-FINAL; standard axioms; types checked equal), not yet sealed. On `main`: W1–W4 and W7; W5 (the KAM step) is landing. Audits run in parallel on two Codex accounts (D60): W6 (iteration and tori), W8 (assembly), the W8-FINAL delta, and W5's action-angle part after a definition-carrier fix. Then a dedicated seal audit and the owner's go for the seal.
 
 **Track LP** (D56; [exploration, audited proof and plan](docs/explorations/amd-crossing/README.md)): chaotic but collision-free planetary systems. Below the sharp Laskar–Petit AMD threshold the exact (1+n)-body problem has no orbit crossing for a time exp(c μ^(−1/(2(τ+1)))), with no hypothesis on its (possibly chaotic) secular dynamics · **100 %**
@@ -563,7 +562,7 @@ account read from each agent's running process) and their branches. Rules for ag
 | **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | 🔄 working | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
-| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | 🔄 working | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
+| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-5 | 🔄 proving | last commit: LOCK-DATA: Pass.HamBounds/HamClaim from the kernel-checked jet, ball pass and HamOk (HamBr | `inp-lockdata` | 57 (vs `inp`) |
 | **LOCK-FREEZE** `inp-mprov-lockfreeze` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-FREEZE Phase B prep: frozen<->landed bridges and providers for lunarSyncOrbit_{spec,u | `inp-lockfreeze` | 1 (vs `inp`) |
 | **lp** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP progress: graph wave 1 and draft 8 running in parallel | `inp-lp` | 8 (vs `inp`) |
@@ -580,6 +579,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-01 13:51 | `7921092d` | HQ: measure graph-sync lag from the landing that brought the sync to main (--first-parent) |
 | 2026-11-01 13:46 | `f1ccc89e` | Land inp into main |
 | 2026-11-01 13:46 | `f6301ad5` | Merge remote-tracking branch 'origin/main' |
 | 2026-11-01 13:43 | `9643461e` | Overnight log: LP frozen and sealed on main, W resolved, SO-3 relaunched, README |
@@ -591,7 +591,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-01 12:49 | `aab1bd32` | Land v2-consol: combined engine routeMax (17 branches, every landed engine recovered by rfl; packed base via checkTorusCertificateMax), fibred and sign-tolerant sites in route B variants, regression gaps (l1/hybrid opt-in, rotation, packed toy MicroP), measured cost calibration, sjs path fix; audit AUDIT-V2-CONSOL-1 PASS |
 | 2026-11-01 12:30 | `4dbc74c9` | Land v2-bulk (audited part, a5567900): run-bounded bulk bound for three-frequency sharp sites (bulkSiteOk, RouteH; additive), SJS counts; audit AUDIT-V2-BULK-1 PASS WITH CHANGES, fixes applied |
 | 2026-11-01 11:57 | `b0907965` | Land v2-public: reproducible certifier workflow (#8): pinned producer environment (core + optional scipy), QUICKSTART and RECEIPT, named failure diagnostics, manual-only CI with SHA-pinned actions, Micro.real_torus; audit AUDIT-V2-PUBLIC-1 PASS WITH CHANGES, fixes and owner decisions applied |
-| 2026-11-01 11:44 | `426ef72b` | Land v2-graphbridge: bridges from both graph adapters (IsAngleGraph, IsAnalyticAngleGraph) to the core confinement's GraphTorus, sheared clock test, contract fixes; audit AUDIT-V2-GRAPHBRIDGE-1 PASS |
 <!-- /AUTO:landed -->
 
 ## Decisions
