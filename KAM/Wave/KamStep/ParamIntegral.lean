@@ -120,4 +120,98 @@ theorem norm_integral_sub_riemann_le {f : ℝ → F} {L : ℝ} (hL : 0 ≤ L)
   field_simp
   exact le_rfl
 
+section smoothing
+
+variable {E G : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
+  [NormedAddCommGroup G] [NormedSpace ℂ G] [CompleteSpace G]
+
+/-- Riemann sums `(1/n) ∑_{i<n} f(i/n)` of a family. -/
+noncomputable def riemannSum {β : Type*} [AddCommMonoid β] [Module ℝ β] (f : ℝ → β) (n : ℕ) : β :=
+  (1 / (n : ℝ)) • ∑ i ∈ Finset.range n, f (i / n)
+
+theorem tendstoUniformlyOn_riemann {α : Type*} {S : Set α} {f : ℝ → α → G} {L : ℝ} (hL : 0 ≤ L)
+    (hf : ∀ w ∈ S, ∀ t ∈ Icc (0 : ℝ) 1, ∀ t' ∈ Icc (0 : ℝ) 1, ‖f t w - f t' w‖ ≤ L * |t - t'|) :
+    TendstoUniformlyOn (fun n (w : α) => riemannSum (fun t => f t w) n)
+      (fun w => ∫ t in (0 : ℝ)..1, f t w) atTop S := by
+  rw [Metric.tendstoUniformlyOn_iff]
+  intro ε hε
+  obtain ⟨N, hN⟩ := exists_nat_gt (L / ε)
+  filter_upwards [eventually_ge_atTop (N + 1)] with n hn w hw
+  have hn0 : 0 < n := by omega
+  have h := norm_integral_sub_riemann_le hL (hf w hw) n hn0
+  rw [dist_eq_norm]
+  unfold riemannSum
+  refine h.trans_lt ?_
+  have hnN : (N : ℝ) + 1 ≤ n := by exact_mod_cast hn
+  rw [div_lt_iff₀ (by positivity)]
+  have : L < ε * N := by rwa [div_lt_iff₀ hε, mul_comm] at hN
+  nlinarith
+
+theorem riemannSum_add {β : Type*} [AddCommGroup β] [Module ℝ β] (f g : ℝ → β) (n : ℕ) :
+    riemannSum (fun t => f t + g t) n = riemannSum f n + riemannSum g n := by
+  simp [riemannSum, Finset.sum_add_distrib, smul_add]
+
+/-- **Integral of a holomorphic smoothing family** (`n-field`). -/
+theorem smoothing_integral {U : Set E} (hU : IsOpen U) (Lop : G →L[ℂ] (E →L[ℂ] ℂ))
+    {P : ℝ → E → ℂ} {Y : ℝ → E → G} {Lp Ly : ℝ} (hLp : 0 ≤ Lp) (hLy : 0 ≤ Ly)
+    (hP : ∀ t ∈ Icc (0 : ℝ) 1, ∀ w ∈ U, HasFDerivAt (P t) (Lop (Y t w)) w)
+    (hY : ∀ t ∈ Icc (0 : ℝ) 1, DifferentiableOn ℂ (Y t) U)
+    (hPL : ∀ w ∈ U, ∀ t ∈ Icc (0 : ℝ) 1, ∀ t' ∈ Icc (0 : ℝ) 1, ‖P t w - P t' w‖ ≤ Lp * |t - t'|)
+    (hYL : ∀ w ∈ U, ∀ t ∈ Icc (0 : ℝ) 1, ∀ t' ∈ Icc (0 : ℝ) 1, ‖Y t w - Y t' w‖ ≤ Ly * |t - t'|) :
+    DifferentiableOn ℂ (fun w => ∫ t in (0 : ℝ)..1, P t w) U ∧
+      DifferentiableOn ℂ (fun w => ∫ t in (0 : ℝ)..1, Y t w) U ∧
+      ∀ w ∈ U, HasFDerivAt (fun w => ∫ t in (0 : ℝ)..1, P t w)
+        (Lop (∫ t in (0 : ℝ)..1, Y t w)) w := by
+  set fn : ℕ → E → ℂ := fun n w => riemannSum (fun t => P t w) n with hfn
+  set Yn : ℕ → E → G := fun n w => riemannSum (fun t => Y t w) n with hYn
+  have hPu := tendstoUniformlyOn_riemann (S := U) (f := P) hLp hPL
+  have hYu := tendstoUniformlyOn_riemann (S := U) (f := Y) hLy hYL
+  -- differentiability of the sums
+  have hfd : ∀ n, ∀ w ∈ U, HasFDerivAt (fn n) (Lop (Yn n w)) w := by
+    intro n w hw
+    have h : ∀ i ∈ Finset.range n, HasFDerivAt (fun w => P ((i : ℝ) / n) w)
+        (Lop (Y ((i : ℝ) / n) w)) w := by
+      intro i hi
+      have hin : (i : ℝ) / n ∈ Icc (0 : ℝ) 1 := by
+        have hi' := Finset.mem_range.mp hi
+        have hn0 : (0 : ℝ) < n := by exact_mod_cast (by omega : 0 < n)
+        exact ⟨by positivity, by rw [div_le_one hn0]; exact_mod_cast hi'.le⟩
+      exact hP _ hin w hw
+    have hs := HasFDerivAt.sum h
+    have hs2 := hs.const_smul ((1 : ℝ) / n)
+    have e1 : fn n = ((1 : ℝ) / n) • ∑ i ∈ Finset.range n, fun w => P ((i : ℝ) / n) w := by
+      funext w; simp [hfn, riemannSum, Finset.sum_apply]
+    have e2 : Lop (Yn n w) = ((1 : ℝ) / n) • ∑ i ∈ Finset.range n, Lop (Y ((i : ℝ) / n) w) := by
+      simp [hYn, riemannSum, map_sum, ContinuousLinearMap.map_smul_of_tower]
+    rw [e1, e2]; exact hs2
+  have hdiffn : ∀ n, DifferentiableOn ℂ (fn n) U := fun n w hw =>
+    (hfd n w hw).differentiableAt.differentiableWithinAt
+  have hYdn : ∀ n, DifferentiableOn ℂ (Yn n) U := by
+    intro n
+    have hsum : DifferentiableOn ℂ (fun w => ∑ i ∈ Finset.range n, Y ((i : ℝ) / n) w) U := by
+      refine DifferentiableOn.fun_sum fun i hi => hY _ ?_
+      have hi' := Finset.mem_range.mp hi
+      have hn0 : (0 : ℝ) < n := by exact_mod_cast (by omega : 0 < n)
+      exact ⟨by positivity, by rw [div_le_one hn0]; exact_mod_cast hi'.le⟩
+    show DifferentiableOn ℂ (fun w => ((1 : ℝ) / n) • ∑ i ∈ Finset.range n, Y ((i : ℝ) / n) w) U
+    exact hsum.const_smul _
+  obtain ⟨hgd, hder⟩ := holomorphic_of_tendstoUniformlyOn hU hdiffn hPu
+  obtain ⟨hYd, -⟩ := holomorphic_of_tendstoUniformlyOn hU hYdn hYu
+  refine ⟨hgd, hYd, fun w hw => ?_⟩
+  obtain ⟨ε, hε, hball⟩ := Metric.isOpen_iff.mp hU w hw
+  have hδ : 0 < ε / 2 := by positivity
+  have hsub : ball w (2 * (ε / 2)) ⊆ U := by
+    have : 2 * (ε / 2) = ε := by ring
+    rw [this]; exact hball
+  have h1 := (hder hδ hsub).tendsto_at (mem_ball_self hδ)
+  have h2 : Tendsto (fun n => fderiv ℂ (fn n) w) atTop (𝓝 (Lop (∫ t in (0 : ℝ)..1, Y t w))) := by
+    have : ∀ n, fderiv ℂ (fn n) w = Lop (Yn n w) := fun n => (hfd n w hw).fderiv
+    simp only [this]
+    exact (Lop.continuous.tendsto _).comp (hYu.tendsto_at hw)
+  have := tendsto_nhds_unique h1 h2
+  rw [← this]
+  exact (hgd.differentiableAt (hU.mem_nhds hw)).hasFDerivAt
+
+end smoothing
+
 end KAM.Wave
