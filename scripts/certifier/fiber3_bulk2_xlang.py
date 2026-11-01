@@ -70,8 +70,8 @@ def record_calls(w):
         return v
 
     def ap(*args, **kw):
-        v = o_ap(*args[:13])
-        rec["ap"].append((args[:13], v))
+        v = o_ap(*args[:12])
+        rec["ap"].append((args[:12], v))
         return v
 
     def cut(*args, **kw):
@@ -107,18 +107,22 @@ def cases():
         out.append((f"tent_{tag}", f"tentK xD xe {P} {g} {acc} {zl(a)} {zl(sg)} {lo} {i0} {i1} = {opt(v)}"))
     # crossing runs: receding and approaching, accepted; and one rejected
     def slope(args):
-        D_, e_, P_, g, s0, rn, rd, tol, a, sg, lo, i0, i1 = args
+        D_, e_, P_, g, s0, rn, rd, a, sg, lo, i0, i1 = args
         p = f3.nearP(D_[0], fb.colX(D_, a, sg, lo, i0))
         return b2.sgnZ(fb.colZ(D_, a, sg, p, lo, i0)) * sg * D_[2] - D_[4]
     picks = {}
-    for args, v in rec["ap"]:
-        if v is not None:
-            picks.setdefault("rec" if slope(args) >= 0 else "app", (args, v))
-        else:
-            picks.setdefault("rej", (args, v))
-    for tag, (args, v) in sorted(picks.items()):
-        D_, e_, P_, g, s0, rn, rd, tol, a, sg, lo, i0, i1 = args
-        out.append((f"ap_{tag}", f"apK xD xe {P} {g} {s0} {rn} {rd} {tol} {zl(a)} {zl(sg)} {lo} {i0} {i1} = "
+    w64, c64, s64, st64 = b2.produce_bulk2_site(box, gam, F(1, 64), 2)
+    assert w64["D"] == D
+    defs += f"def xe64 : ℕ := {w64['e']}\n\n"
+    for ename, recs in (("xe", rec["ap"]), ("xe64", record_calls(w64)["ap"])):
+        for args, v in recs:
+            if v is not None:
+                picks.setdefault("rec" if slope(args) >= 0 else "app", (ename, args, v))
+            else:
+                picks.setdefault("rej", (ename, args, v))
+    for tag, (ename, args, v) in sorted(picks.items()):
+        D_, e_, P_, g, s0, rn, rd, a, sg, lo, i0, i1 = args
+        out.append((f"ap_{tag}", f"apK xD {ename} {P} {g} {s0} {rn} {rd} {zl(a)} {zl(sg)} {lo} {i0} {i1} = "
                     f"{opt(v)}"))
     hit = next(((a_, v) for a_, v in rec["cut"] if v is not None), None)
     if hit is not None:

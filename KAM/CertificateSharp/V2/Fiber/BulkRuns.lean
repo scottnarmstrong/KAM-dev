@@ -34,9 +34,10 @@ test and cost the bisection `O(log M)` nodes each:
   - `d < 0` (approaching), with `e' = -d`, `F₁ > e'/2`: the weights are at most the largest, and
     `Σ_{k<n} (F₁ + k e')⁻² ≤ n / ((F₁ - e'/2)(F₁ + (n - 1/2) e'))` (`approach_sum_le`).
 
-Both are checked from the run's endpoints only, as `blkK`. A run's geometric weight sum is
-`gsumK n ≥ 2^P Σ_{j<n} x^j` (`gsumK_ge`, from `powDownK`, at the run's own length, no table), and
-`blkK_spec_gen` is `blkK_spec` at that length.
+Both are checked from the run's endpoints only, as `blkK`. A crossing run is accepted by its
+quality alone (no tolerance fallback), so a rejected one costs no value. A run's geometric weight
+sum is `gsumK n ≥ 2^P Σ_{j<n} x^j` (`gsumK_ge`, from `powDownK`, at the run's own length, no
+table), and `blkK_spec_gen` is `blkK_spec` at that length.
 -/
 
 @[expose] public section
@@ -893,8 +894,8 @@ theorem app_first_le {q F1 ea n Wp J : ℕ} (he : e ≤ 2 ^ P) (hea : ea < 2 * F
 `Rd < |Z|` and `2(|Z| + Rd) ≤ 2^q` at both ends (as `blkK`); `F = sZ - Rd` has the integer slope
 `d = s σ C₁ - R₁`. Receding (`d ≥ 0`, `d < 2F₀`) or approaching (`d < 0`, `-d < 2F₁`) closed form,
 accepted if the near end is at least `s₀|d|` from the crossing (approaching: and the weights vary by
-at most `rn/rd`), or if the value is at most `tol`. -/
-def apK (D : DBox2) (e P g s0 rn rd tol : ℕ) (a sg : ℤ) (lo i0 i1 : ℕ) : Option ℕ :=
+at most `rn/rd`). There is no tolerance fallback: the value is computed only for an accepted run. -/
+def apK (D : DBox2) (e P g s0 rn rd : ℕ) (a sg : ℤ) (lo i0 i1 : ℕ) : Option ℕ :=
   let p : ℤ := nearP D.q (colX D a sg lo i0)
   let Z0 : ℤ := colZ D a sg p lo i0
   let Z1 : ℤ := colZ D a sg p lo i1
@@ -922,7 +923,7 @@ def apK (D : DBox2) (e P g s0 rn rd tol : ℕ) (a sg : ℤ) (lo i0 i1 : ℕ) : O
          (let v : ℕ := Nat.add (ceilDiv (Nat.mul (Nat.mul Wp Q4)
              (Nat.sub (Nat.mul (pow2 P) w2) (Nat.mul (powDownK e P 64 n) u2)))
              (Nat.mul (Nat.mul den u2) w2)) cst
-          cond (Nat.ble (Nat.mul s0 dn) F0 || Nat.ble v tol) (some v) none)
+          cond (Nat.ble (Nat.mul s0 dn) F0) (some v) none)
          none
      | Int.negSucc k =>
        let ea : ℕ := Nat.add k 1
@@ -930,21 +931,21 @@ def apK (D : DBox2) (e P g s0 rn rd tol : ℕ) (a sg : ℤ) (lo i0 i1 : ℕ) : O
          (let v : ℕ := Nat.add (ceilDiv (Nat.mul (Nat.mul Wp Q4) n)
              (Nat.mul (Nat.sub (Nat.mul 2 F1) ea)
                (Nat.add (Nat.mul 2 F1) (Nat.mul (Nat.sub (Nat.mul 2 n) 1) ea)))) cst
-          cond ((Nat.ble (Nat.mul s0 ea) F1 &&
-              Nat.ble (Nat.mul rd (pow2 P)) (Nat.mul rn (powUpK e P 64 (Nat.sub n 1)))) ||
-              Nat.ble v tol) (some v) none)
+          cond (Nat.ble (Nat.mul s0 ea) F1 &&
+              Nat.ble (Nat.mul rd (pow2 P)) (Nat.mul rn (powUpK e P 64 (Nat.sub n 1))))
+            (some v) none)
          none)
     none
 
 /-- **Soundness of the crossing check.** -/
 theorem apK_spec {ω' : Fin 2 → ℝ} (hω : FreqEncloses 2 D.toBox ω') (he : e < 2 ^ P)
-    {g s0 rn rd tol : ℕ} {a sg : ℤ} {lo i0 i1 v : ℕ}
+    {g s0 rn rd : ℕ} {a sg : ℤ} {lo i0 i1 v : ℕ}
     (hg : ∑ j ∈ Finset.range (i1 - i0 + 1), ((e : ℝ) / 2 ^ P) ^ j ≤ (g : ℝ) / 2 ^ P)
-    (hsg : sg = 1 ∨ sg = -1) (h : apK D e P g s0 rn rd tol a sg lo i0 i1 = some v) :
+    (hsg : sg = 1 ∨ sg = -1) (h : apK D e P g s0 rn rd a sg lo i0 i1 = some v) :
     BCov ω' ((e : ℝ) / 2 ^ P) (runSet a sg lo i0 (i1 - i0 + 1)) ((v : ℝ) / 2 ^ P) := by
   unfold apK at h
   set p : ℤ := nearP D.q (colX D a sg lo i0) with hp
-  simp only [Bool.cond_eq_ite, Bool.and_eq_true, Bool.or_eq_true, Nat.blt_eq, Nat.ble_eq,
+  simp only [Bool.cond_eq_ite, Bool.and_eq_true, Nat.blt_eq, Nat.ble_eq,
     Nat.add_eq, Nat.mul_eq, Nat.sub_eq, pow2_eq] at h
   split at h
   case isFalse => exact absurd h (by simp)

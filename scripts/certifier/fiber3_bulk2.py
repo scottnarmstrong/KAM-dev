@@ -3,8 +3,8 @@
 
 Untrusted tooling.  Transcribes over int/Fraction, with the Lean names of
 
-  KAM/CertificateSharp/V2/Fiber/BulkRuns.lean   valK, tentK, apK, crossCut, singles, hnode, rowB2,
-                                                walkB2
+  KAM/CertificateSharp/V2/Fiber/BulkRuns.lean   powDownK, gsumK, valK, tentK, apK
+  KAM/CertificateSharp/V2/Fiber/Bulk2.lean      plainShape, crossCut, singles, sideAP, hnode, rowB2, walkB2
   KAM/CertificateSharp/V2/Fiber/Bulk2Site.lean  bulk2SiteOk
 
 and reuses `fiber3_bulk.py` (blkK, accOk, gTab, ...) and `fiber3.py` (powUp, mulUp, ceilDiv, nearP,
@@ -96,8 +96,9 @@ def sgnZ(z):
     return 1 if z >= 0 else -1
 
 
-def apK(D, e, P, g, s, rn, rd, tol, a, sg, lo, i0, i1, st=None):
-    """A run of constant p on one side of a crossing, with per-fibre lower bounds F(i)/2^q affine."""
+def apK(D, e, P, g, s, rn, rd, a, sg, lo, i0, i1, st=None):
+    """A run of constant p on one side of a crossing, with per-fibre lower bounds F(i)/2^q affine.
+    Accepted by its quality alone; the value is computed only for an accepted run (kernel laziness)."""
     if i1 <= i0:
         return None
     q, C0, C1, Rc0, Rc1 = D
@@ -113,36 +114,44 @@ def apK(D, e, P, g, s, rn, rd, tol, a, sg, lo, i0, i1, st=None):
     dF = sgnZ(Z0) * sg * C1 - Rc1
     j0 = abs(a) + lo + i0
     pa = abs(p)
-    Wp = powUp(e, P, 64, j0 + pa)
     if dF >= 0:                       # receding: F grows with i, as the weights decay
         dn = dF
-        if not dn < 2 * F0:
-            return None
         u2 = 2 * F0 - dn
         Dp = 2 ** P - e
-        m = powDown(e, P, 64, n)
         den = 2 * dn * 2 ** P + Dp * u2
-        if not 0 < den:
+        if not (dn < 2 * F0 and 0 < den):
             return None
+        if not s * dn <= F0:
+            return None
+        m = powDown(e, P, 64, n)
         num = 2 ** P * (u2 + 2 * n * dn) - m * u2
-        first = ceilDiv(Wp * 2 ** (2 * q + 2) * num, den * u2 * (u2 + 2 * n * dn))
-        good = s * dn <= F0
+        first = ceilDiv(powUp(e, P, 64, j0 + pa) * 2 ** (2 * q + 2) * num, den * u2 * (u2 + 2 * n * dn))
     else:                             # approaching: F decays with i, toward a crossing
         ea = -dF
         if not ea < 2 * F1:
             return None
-        first = ceilDiv(Wp * 2 ** (2 * q + 2) * n, (2 * F1 - ea) * (2 * F1 + (2 * n - 1) * ea))
-        good = s * ea <= F1 and rd * 2 ** P <= rn * powUp(e, P, 64, n - 1)
+        if not (s * ea <= F1 and rd * 2 ** P <= rn * powUp(e, P, 64, n - 1)):
+            return None
+        first = ceilDiv(powUp(e, P, 64, j0 + pa) * 2 ** (2 * q + 2) * n,
+                        (2 * F1 - ea) * (2 * F1 + (2 * n - 1) * ea))
     Ws = mulUp(P, powUp(e, P, 64, j0), g)
     v = first + (0 if pa == 0 else ceilDiv(Ws * 4, (2 * pa - 1) * (2 * pa - 1)))
     v += ceilDiv(Ws * powUp(e, P, 64, 1) * 14615, 2 ** P * 2000)
     if st is not None:
         st.vals += 1
-    if not (good or v <= tol):
-        return None
-    if st is not None:
         st.aps += 1
     return v
+
+
+def plainShape(D, a, sg, lo, i0, i1):
+    """The shape test shared by plain and crossing runs."""
+    q = D[0]
+    Q = 2 ** q
+    p = nearP(q, fb.colX(D, a, sg, lo, i0))
+    Z0, Z1 = fb.colZ(D, a, sg, p, lo, i0), fb.colZ(D, a, sg, p, lo, i1)
+    Y0, Y1 = abs(Z0), abs(Z1)
+    R0, R1 = fb.colR(D, a, lo, i0), fb.colR(D, a, lo, i1)
+    return fb.sameSign(Z0, Z1) and R0 < Y0 and R1 < Y1 and 2 * (Y0 + R0) <= Q and 2 * (Y1 + R1) <= Q
 
 
 def crossCut(D, a, sg, lo, s, i0, i1):
@@ -200,7 +209,7 @@ def sideAP(D, e, P, W, a, sg, lo, i0, n, st=None):
         return 0
     if n == 1:
         return fb.blkK(D, e, P, 2 ** P, fb.acc_true, a, sg, lo, i0, i0, st)
-    return apK(D, e, P, gsumK(e, P, n), W["s"], W["rn"], W["rd"], W["tol"], a, sg, lo, i0, i0 + n - 1, st)
+    return apK(D, e, P, gsumK(e, P, n), W["s"], W["rn"], W["rd"], a, sg, lo, i0, i0 + n - 1, st)
 
 
 def hnode(D, e, P, W, a, sg, lo, fuel, i0, n, st=None):
@@ -213,13 +222,12 @@ def hnode(D, e, P, W, a, sg, lo, fuel, i0, n, st=None):
         return fb.blkK(D, e, P, 2 ** P, fb.acc_true, a, sg, lo, i0, i0, st)
     acc = fb.accOk(W["rn"], W["rd"], W["tol"])
     g = gsumK(e, P, n)
-    v = fb.blkK(D, e, P, g, acc, a, sg, lo, i0, i1, st)
-    if v is not None:
-        return v
-    v = tentK(D, e, P, g, acc, a, sg, lo, i0, i1, st)
-    if v is not None:
-        return v
-    v = apK(D, e, P, g, W["s"], W["rn"], W["rd"], W["tol"], a, sg, lo, i0, i1, st)
+    if plainShape(D, a, sg, lo, i0, i1):
+        v = fb.blkK(D, e, P, g, acc, a, sg, lo, i0, i1, st)
+        if v is None:
+            v = apK(D, e, P, g, W["s"], W["rn"], W["rd"], a, sg, lo, i0, i1, st)
+    else:
+        v = tentK(D, e, P, g, acc, a, sg, lo, i0, i1, st)
     if v is not None:
         return v
     if fuel == 0:
@@ -375,13 +383,14 @@ def sjs(args):
                 continue
             Sp = S * float(f3.clockC(box)) ** 2
             t0 = time.time()
-            w, c, sv, st = produce_bulk2_site(box, gamma, b, 2, S_est=Sp, P=128)
+            P = 128 if b < F(1, 1000) else 64      # P = 64 at the first two bites, 128 at the third
+            w, c, sv, st = produce_bulk2_site(box, gamma, b, 2, S_est=Sp, P=P)
             dt = time.time() - t0
             full = fb.sd_sum_fiber_np((float(cb[0][0]), float(cb[1][0])), float(2 * b), w["N"])
             infl = float(F(sv, 2 ** w["P"])) / full - 1
             fib = 2 * w['N'] * (w['N'] + 1)
-            print(f"gamma={gname} b={float(b):.4g}: N={w['N']} fibres={fib:,} c={c} (+{100 * infl:.3f}% over the "
-                  f"walk) {st} [{dt:.0f}s]", flush=True)
+            print(f"gamma={gname} b={float(b):.4g} P={P}: N={w['N']} fibres={fib:,} c={c} (+{100 * infl:.3f}% over "
+                  f"the float sum) {st} [{dt:.0f}s]", flush=True)
 
 
 if __name__ == "__main__":

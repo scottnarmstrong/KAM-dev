@@ -33,6 +33,8 @@ def xD : DBox2 where
 
 def xe : ℕ := 12458310147371035356
 
+def xe64 : ℕ := 15159658930070367826
+
 def xBox : FreqBox :=
   [
     (2599210498948731647672106072782283505703 /
@@ -151,17 +153,15 @@ theorem xl_tent_rej :
   decide +kernel
 
 theorem xl_ap_app :
-    apK xD xe 64 56065630305702714009 2 5 4 328855130085325568 (-50) (-1) 1 0 10
-      = some 1641878037515347 := by
+    apK xD xe64 64 33606403003779919447 2 5 4 (-50) (-1) 1 7 8 = some 19695162110986550440 := by
   decide +kernel
 
 theorem xl_ap_rec :
-    apK xD xe 64 56823262172260469330 2 5 4 328855130085325568 (-23) 1 0 0 42
-      = some 1355639238684423234 := by
+    apK xD xe 64 56823262172260469330 2 5 4 (-23) 1 0 0 42 = some 1355639238684423234 := by
   decide +kernel
 
 theorem xl_ap_rej :
-    apK xD xe 64 56665642618233498789 2 5 4 328855130085325568 (-50) (-1) 1 0 14 = none := by
+    apK xD xe 64 56065630305702714009 2 5 4 (-50) (-1) 1 0 10 = none := by
   decide +kernel
 
 theorem xl_cut :
@@ -215,7 +215,7 @@ theorem xl_sjs_row_5 :
 
 theorem xl_sjs_row_m400 :
     rowB2 sD se 128 5 4 169164056156203523876981724517719080960 2 64 1298 (-400)
-      = some 79283275874688326025117032319382108172 := by
+      = some 160887299735159753147603604636243389181 := by
   decide +kernel
 
 theorem xl_sjs_row_900 :

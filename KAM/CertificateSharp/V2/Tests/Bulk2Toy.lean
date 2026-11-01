@@ -15,9 +15,10 @@ The frequency, box and Diophantine premise are those of `Tests/BulkToy.lean`:
 `bkFreq = (θ - 1, 3θ² + 24θ - 35, 1)`, `θ = ∛2`, `γ = 77/250000`.
 
 * **The site at `b = 1/64`** (`N = 146`, `42 924` fibres): the extended walk (`Fiber/Bulk2.lean`)
-  visits `916` nodes (`87` single fibres, `641` plain runs, `12` tent runs, `56` crossing runs,
-  `12` crossing cuts), against `1 546` for `walkB`. It certifies `c = 1.648·10⁻⁴`, the constant
-  `walkB` certifies at this bite, against the classical `c♮(3, 2, 1/64) = 0.0429`
+  visits `924` nodes (`87` single fibres, `649` plain runs, `12` tent runs, `48` crossing runs,
+  `12` crossing cuts) and computes `972` values, against `1 546` nodes for `walkB`. It certifies
+  `c = 1.648·10⁻⁴`, the constant `walkB` certifies at this bite, against the classical
+  `c♮(3, 2, 1/64) = 0.0429`
   (`bk2Site64_ok`, `bk2Site64_sdConst`).
 * **The site at `b = 1/32`** (`N = 65`): `334` nodes against `452`, `c = 5.727·10⁻⁴`; a constant
   `1 %` below is rejected (`bk2Site32_rejects`).

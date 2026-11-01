@@ -20,8 +20,9 @@ half-row by half-row, with the run checks of `Fiber/BulkRuns.lean`. A node `[i�
 half-row (`hnode`) is, in order:
 
 1. a single fibre (`n = 1`, `blkK` with weight `1`);
-2. a plain run (`blkK`), a tent run (`tentK`) or a crossing run (`apK`), each at the run's own
-   geometric sum `gsumK n` (no dyadic table);
+2. if the node has the plain shape (`plainShape`: `p` constant, one sign), a plain run (`blkK`) or
+   else a crossing run (`apK`); otherwise a tent run (`tentK`); each at the run's own geometric sum
+   `gsumK n` (no dyadic table). The dispatch spends no value on a run type that cannot pass;
 3. if the centre line crosses an integer in the node (`crossCut`: the crossing index `i_c`,
    computed by one division), either the crossing fibre alone with one crossing run on each side
    (light crossings), or the cut `[i₀, i_c - s₀)`, the single fibres `[i_c - s₀, i_c + s₀]` and
@@ -46,6 +47,16 @@ open KAM KAM.Certificate KAM.CertificateSharp
 def oadd : Option ℕ → Option ℕ → Option ℕ
   | some u, some w => some (Nat.add u w)
   | _, _ => none
+
+/-- The first of two options that is `some` (the second is evaluated only if the first is
+`none`). -/
+def ofirst : Option ℕ → Option ℕ → Option ℕ
+  | some v, _ => some v
+  | none, w => w
+
+theorem ofirst_eq_some {u w : Option ℕ} {v : ℕ} (h : ofirst u w = some v) :
+    u = some v ∨ w = some v := by
+  cases u <;> simp_all [ofirst]
 
 theorem oadd_eq_some {u w : Option ℕ} {v : ℕ} (h : oadd u w = some v) :
     ∃ a b : ℕ, u = some a ∧ w = some b ∧ v = a + b := by
@@ -118,7 +129,20 @@ def singles (a sg : ℤ) (lo : ℕ) : ℕ → ℕ → Option ℕ
 def sideAP (a sg : ℤ) (lo i0 : ℕ) : ℕ → Option ℕ
   | 0 => some 0
   | 1 => blkK D e P (pow2 P) (fun _ _ _ => true) a sg lo i0 i0
-  | m + 2 => apK D e P (gsumK e P (m + 2)) s0 rn rd tol a sg lo i0 (Nat.add (Nat.add i0 m) 1)
+  | m + 2 => apK D e P (gsumK e P (m + 2)) s0 rn rd a sg lo i0 (Nat.add (Nat.add i0 m) 1)
+
+/-- The shape test shared by plain and crossing runs (`blkK`, `apK`): `p = nearP(X(i₀))`, one sign,
+`Rd < |Z|` and `2(|Z| + Rd) ≤ 2^q` at both ends. A tent run is tried only when it fails. -/
+def plainShape (a sg : ℤ) (lo i0 i1 : ℕ) : Bool :=
+  let p : ℤ := nearP D.q (colX D a sg lo i0)
+  let Z0 : ℤ := colZ D a sg p lo i0
+  let Z1 : ℤ := colZ D a sg p lo i1
+  let Y0 : ℕ := Int.natAbs Z0
+  let Y1 : ℕ := Int.natAbs Z1
+  let R0 : ℕ := colR D a lo i0
+  let R1 : ℕ := colR D a lo i1
+  sameSign Z0 Z1 && Nat.blt R0 Y0 && Nat.blt R1 Y1 &&
+    Nat.ble (Nat.mul 2 (Nat.add Y0 R0)) (pow2 D.q) && Nat.ble (Nat.mul 2 (Nat.add Y1 R1)) (pow2 D.q)
 
 /-- The cut around the integer crossed by the centre line of `[i₀, i₁]`: `(c₀, c₁, i_c)`, or
 `none` if there is no crossing. -/
@@ -140,13 +164,10 @@ def hnode (a sg : ℤ) (lo : ℕ) : ℕ → ℕ → ℕ → Option ℕ
   | _, _, 0 => some 0
   | fuel, i0, n + 1 =>
     cond (Nat.beq n 0) (blkK D e P (pow2 P) (fun _ _ _ => true) a sg lo i0 i0)
-      (match blkK D e P (gsumK e P (Nat.add n 1)) (accOk rn rd tol) a sg lo i0 (Nat.add i0 n) with
-      | some v => some v
-      | none =>
-      match tentK D e P (gsumK e P (Nat.add n 1)) (accOk rn rd tol) a sg lo i0 (Nat.add i0 n) with
-      | some v => some v
-      | none =>
-      match apK D e P (gsumK e P (Nat.add n 1)) s0 rn rd tol a sg lo i0 (Nat.add i0 n) with
+      (match cond (plainShape D a sg lo i0 (Nat.add i0 n))
+          (ofirst (blkK D e P (gsumK e P (Nat.add n 1)) (accOk rn rd tol) a sg lo i0 (Nat.add i0 n))
+            (apK D e P (gsumK e P (Nat.add n 1)) s0 rn rd a sg lo i0 (Nat.add i0 n)))
+          (tentK D e P (gsumK e P (Nat.add n 1)) (accOk rn rd tol) a sg lo i0 (Nat.add i0 n)) with
       | some v => some v
       | none =>
       match fuel with
@@ -154,9 +175,9 @@ def hnode (a sg : ℤ) (lo : ℕ) : ℕ → ℕ → ℕ → Option ℕ
       | f + 1 =>
         match crossCut D s0 a sg lo i0 (Nat.add i0 n) with
         | some (c0, c1, ic) =>
-          match oadd (oadd (sideAP D e P rn rd tol s0 a sg lo i0 (Nat.sub ic i0))
+          match oadd (oadd (sideAP D e P rn rd s0 a sg lo i0 (Nat.sub ic i0))
               (blkK D e P (pow2 P) (fun _ _ _ => true) a sg lo ic ic))
-              (sideAP D e P rn rd tol s0 a sg lo (Nat.add ic 1) (Nat.sub (Nat.add i0 n) ic)) with
+              (sideAP D e P rn rd s0 a sg lo (Nat.add ic 1) (Nat.sub (Nat.add i0 n) ic)) with
           | some v => some v
           | none => oadd (oadd (hnode a sg lo f i0 (Nat.sub c0 i0))
               (singles D e P a sg lo c0 (Nat.sub c1 c0)))
@@ -219,7 +240,7 @@ theorem singles_spec (hω : FreqEncloses 2 D.toBox ω') (he : e ≤ 2 ^ P) {a sg
 
 theorem sideAP_spec (hω : FreqEncloses 2 D.toBox ω') (he : e < 2 ^ P) {a sg : ℤ}
     (hsg : sg = 1 ∨ sg = -1) {lo i0 : ℕ} :
-    ∀ {m v : ℕ}, sideAP D e P rn rd tol s0 a sg lo i0 m = some v →
+    ∀ {m v : ℕ}, sideAP D e P rn rd s0 a sg lo i0 m = some v →
       BCov ω' ((e : ℝ) / 2 ^ P) (runSet a sg lo i0 m) ((v : ℝ) / 2 ^ P)
   | 0, v, h => by
     simp only [sideAP, Option.some.injEq] at h
@@ -250,6 +271,28 @@ theorem crossCut_spec {a sg : ℤ} {lo i0 i1 c0 c1 ic : ℕ} (hi : i0 ≤ i1)
     · exact min_le_right _ _
     · omega
 
+/-- The run checks of a node (`n + 1` fibres): the plain or crossing run if the node has the plain
+shape, else the tent run. -/
+theorem run3_spec (hω : FreqEncloses 2 D.toBox ω') (he : e < 2 ^ P) {a sg : ℤ}
+    (hsg : sg = 1 ∨ sg = -1) {lo i0 n v : ℕ}
+    (h : (if plainShape D a sg lo i0 (i0 + n) = true then
+      ofirst (blkK D e P (gsumK e P (n + 1)) (accOk rn rd tol) a sg lo i0 (i0 + n))
+        (apK D e P (gsumK e P (n + 1)) s0 rn rd a sg lo i0 (i0 + n))
+      else tentK D e P (gsumK e P (n + 1)) (accOk rn rd tol) a sg lo i0 (i0 + n)) = some v) :
+    BCov ω' ((e : ℝ) / 2 ^ P) (runSet a sg lo i0 (n + 1)) ((v : ℝ) / 2 ^ P) := by
+  have hg' : ∑ j ∈ Finset.range (i0 + n - i0 + 1), ((e : ℝ) / 2 ^ P) ^ j ≤
+      (gsumK e P (n + 1) : ℝ) / 2 ^ P := by
+    rw [show i0 + n - i0 + 1 = n + 1 by omega]; exact gsumK_ge he _
+  have hlen : i0 + n - i0 + 1 = n + 1 := by omega
+  split_ifs at h
+  · rcases ofirst_eq_some h with hb | ha
+    · have := blkK_spec_gen hω he.le hg' hsg (by omega) hb
+      rwa [hlen] at this
+    · have := apK_spec hω he hg' hsg ha
+      rwa [hlen] at this
+  · have := tentK_spec hω he.le hg' hsg (by omega) h
+    rwa [hlen] at this
+
 /-- **Soundness of a node.** -/
 theorem hnode_spec (hω : FreqEncloses 2 D.toBox ω') (he : e < 2 ^ P) {a sg : ℤ}
     (hsg : sg = 1 ∨ sg = -1) {lo : ℕ} :
@@ -265,28 +308,14 @@ theorem hnode_spec (hω : FreqEncloses 2 D.toBox ω') (he : e < 2 ^ P) {a sg : �
       subst h; rw [runSet_zero]; exact BCov.empty (by simp)
     | succ n =>
       simp only [hnode, Bool.cond_eq_ite, Nat.beq_eq, Nat.add_eq] at h
-      split_ifs at h with hn0
-      · subst hn0; exact single_spec hω he.le hsg h
-      · have hg := gsumK_ge (P := P) he (n + 1)
-        have hg' : ∑ j ∈ Finset.range (i0 + n - i0 + 1), ((e : ℝ) / 2 ^ P) ^ j ≤
-            (gsumK e P (n + 1) : ℝ) / 2 ^ P := by rwa [show i0 + n - i0 + 1 = n + 1 by omega]
-        have hlen : i0 + n - i0 + 1 = n + 1 := by omega
+      by_cases hn0 : n = 0
+      · subst hn0; simp only [↓reduceIte] at h; exact single_spec hω he.le hsg h
+      · simp only [hn0, ↓reduceIte] at h
         split at h
         · rename_i v' hv'
           simp only [Option.some.injEq] at h; subst h
-          have := blkK_spec_gen hω he.le hg' hsg (by omega) hv'
-          rwa [hlen] at this
-        · split at h
-          · rename_i v' hv'
-            simp only [Option.some.injEq] at h; subst h
-            have := tentK_spec hω he.le hg' hsg (by omega) hv'
-            rwa [hlen] at this
-          · split at h
-            · rename_i v' hv'
-              simp only [Option.some.injEq] at h; subst h
-              have := apK_spec hω he hg' hsg hv'
-              rwa [hlen] at this
-            · exact absurd h (by simp)
+          exact run3_spec hω he hsg hv'
+        · exact absurd h (by simp)
   | succ f ih =>
     intro i0 n v h
     cases n with
@@ -295,27 +324,13 @@ theorem hnode_spec (hω : FreqEncloses 2 D.toBox ω') (he : e < 2 ^ P) {a sg : �
       subst h; rw [runSet_zero]; exact BCov.empty (by simp)
     | succ n =>
       simp only [hnode, Bool.cond_eq_ite, Nat.beq_eq, Nat.add_eq, Nat.sub_eq] at h
-      split_ifs at h with hn0
-      · subst hn0; exact single_spec hω he.le hsg h
-      · have hg' : ∑ j ∈ Finset.range (i0 + n - i0 + 1), ((e : ℝ) / 2 ^ P) ^ j ≤
-            (gsumK e P (n + 1) : ℝ) / 2 ^ P := by
-          rw [show i0 + n - i0 + 1 = n + 1 by omega]; exact gsumK_ge he _
-        have hlen : i0 + n - i0 + 1 = n + 1 := by omega
+      by_cases hn0 : n = 0
+      · subst hn0; simp only [↓reduceIte] at h; exact single_spec hω he.le hsg h
+      · simp only [hn0, ↓reduceIte] at h
         split at h
         · rename_i v' hv'
           simp only [Option.some.injEq] at h; subst h
-          have := blkK_spec_gen hω he.le hg' hsg (by omega) hv'
-          rwa [hlen] at this
-        split at h
-        · rename_i v' hv'
-          simp only [Option.some.injEq] at h; subst h
-          have := tentK_spec hω he.le hg' hsg (by omega) hv'
-          rwa [hlen] at this
-        split at h
-        · rename_i v' hv'
-          simp only [Option.some.injEq] at h; subst h
-          have := apK_spec hω he hg' hsg hv'
-          rwa [hlen] at this
+          exact run3_spec hω he hsg hv'
         split at h
         · -- a crossing cut
           rename_i c0 c1 ic hcut
