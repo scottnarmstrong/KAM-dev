@@ -42,13 +42,34 @@ def load_ledger(path):
     return rows
 
 
+def lake_secs(t):
+    return sum(float(v) * {"ms": 0.001, "s": 1, "m": 60, "h": 3600}[u] for v, u in re.findall(r"([0-9.]+)(ms|s|m|h)", t))
+
+
+def extras(path, rows):
+    """The other modules a ledger row's `lake build` compiled (V2-PACKED-CONS-PERF: such rows booked rebuilt
+    dependencies to the row's module): {module: [(other, Lake's seconds)]}, from the per-module logs beside a TSV
+    ledger."""
+    out = {}
+    if path.endswith(".json"):
+        return out
+    for m, r in rows.items():
+        log = os.path.join(os.path.dirname(path), m + ".log")
+        if r["reused"] or not os.path.exists(log):
+            continue
+        ex = [(x, lake_secs(t)) for x, t in re.findall(r"Built (\S+)(?: \(([^)]*)\))?", open(log).read()) if x != m]
+        if ex:
+            out[m] = ex
+    return out
+
+
 def stage(m, tree):
     p = m.split(".")
     if p[0] == "LG00P" and len(p) > 2 and p[2] == "PK":
         x = p[3] if len(p) > 3 else ""
         return {"TorsJ": "Torsion", "Gram": "Gram", "FramesJ": "Final", "InvJ": "Full", "EnJ": "Full",
                 "Front": "Data", "Data": "Data", "HamJet": "Final", "Xfer": "Final", "Asm": "Final",
-                "MainJ": "Main"}.get(x, "Final")
+                "MainJ": "Main", "XferH": "Final", "MainJH": "Main"}.get(x, "Final")
     if len(p) > 3 and p[1] == tree and p[2] == "Jet":
         return {"Low": "Low", "Full": "Full"}[p[3]]
     if len(p) > 2 and p[1] == tree:
@@ -63,6 +84,18 @@ def main():
     pkgs = opts("--pkg")
     ledgers = [load_ledger(p) for p in opts("--ledger")]
     lg00 = load_ledger(opts("--lg00-ledger")[0])
+    # no double booking: a row loses the Lake time of the other modules its build compiled, when those have their own
+    # row (a single pass builds each module once)
+    own = {m for L in ledgers for m, r in L.items() if not r["reused"]}
+    nfix, sfix = 0, 0.0
+    for p, L in zip(opts("--ledger"), ledgers):
+        for m, ex in extras(p, L).items():
+            cut = min(sum(t for x, t in ex if x in own), L[m]["cpu"])
+            if cut > 0:
+                L[m] = dict(L[m], cpu=L[m]["cpu"] - cut)
+                nfix += 1
+                sfix += cut
+    print("double booking removed: %d rows, %.1f s (other modules their builds compiled)" % (nfix, sfix))
 
     def src(m):
         for p in pkgs:

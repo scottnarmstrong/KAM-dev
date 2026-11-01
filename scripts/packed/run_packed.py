@@ -14,7 +14,12 @@ Ledger (LOGDIR/ledger.tsv, one row per module, appended): module, user s, sys s,
 bytes, exit, kind (`built` | `reused`), kernel s (the sum of the profiler's `type checking took` lines: the
 `LG00Packed` modules only), cap. Resumable: a module whose last row has exit 0 is skipped. A failed module's
 dependants are not started; the run goes on with the others and stops when nothing is left.
-Usage: python3 -I scripts/packed/run_packed.py LOGDIR CAP TARGET_MODULE... [--pkg DIR] [--dry]
+With `--jobs N`, up to N modules build at once (each in its own capped scope; a module starts when its imports have
+passed, only while the user's anon memory is below `--anon-gb` GB, default 20). A module's row never includes other
+modules: if Lake builds any besides it, they are listed in LOGDIR/extra.tsv (two more ledger columns: their count and
+Lake's seconds) and reported (`EXTRA`).
+Usage: python3 -I scripts/packed/run_packed.py LOGDIR CAP TARGET_MODULE... [--pkg DIR] [--dry] [--jobs N]
+       [--anon-gb G]
        python3 -I scripts/packed/run_packed.py --summary LOGDIR      (totals per stage)
 """
 import os
@@ -31,6 +36,8 @@ CG = "/sys/fs/cgroup/user.slice/user-%d.slice/memory.stat" % os.getuid()
 LG00_CORE = "/home/scott/KAM-dev-worktrees/lg00-app"     # the core LG00's reused artifacts were built against
 ANON_MAX = 20 * 10 ** 9
 MIN_DISK = 30
+DEADLINE = float(os.environ.get("RUN_DEADLINE", "inf"))   # epoch seconds: no Lean process starts after it
+STAGGER = 5                                 # seconds between two starts (the anon gate sees the first one)
 IMP = re.compile(r"^public import (\S+)", re.M)
 LOCAL = ("LG00", "LG00Packed", "LG00P")     # the package-local module roots
 
@@ -143,6 +150,11 @@ def row(m, log, kind, cap):
                       g(r"^exit (\S+)"), kind, "%.2f" % kern, cap])
 
 
+def lake_secs(t):
+    """Lake's job time (`450ms`, `33s`, `1m 32s`) in seconds (0 if absent)."""
+    return sum(float(v) * {"ms": 0.001, "s": 1, "m": 60, "h": 3600}[u] for v, u in re.findall(r"([0-9.]+)(ms|s|m|h)", t))
+
+
 def stage_of(m):
     """The stage of a module, for the summary: the packed modules by their first component after the tree, the
     LG00 modules by theirs (`Data`, `Final`, `Balls`, …), with the `Final` sites and the refined core apart."""
@@ -204,6 +216,16 @@ def main():
         i = args.index("--pkg")
         pkg = os.path.abspath(args[i + 1])
         del args[i:i + 2]
+    jobs, anon_max = 1, ANON_MAX
+    if "--jobs" in args:                     # concurrent Lean processes (each alone in its capped scope)
+        i = args.index("--jobs")
+        jobs = int(args[i + 1])
+        del args[i:i + 2]
+    if "--anon-gb" in args:                  # start a process only while the user's anon memory is below this
+        i = args.index("--anon-gb")
+        anon_max = int(args[i + 1]) * 10 ** 9
+        del args[i:i + 2]
+    last = 0.0
     dry = "--dry" in args
     args = [a for a in args if a != "--dry"]
     logdir, cap, targets = os.path.abspath(args[0]), args[1], args[2:]
@@ -247,29 +269,61 @@ def main():
         if m not in stale:
             open(ledger, "a").write("\t".join([m, "0", "0", "0", "0", "0", "0", "reused", "0", cap]) + "\n")
             done.add(m)
-    for m in mods:
-        if m in done:
+    pending = [m for m in mods if m not in done]
+    running = {}
+    while pending or running:
+        for m in list(running):               # reap
+            if running[m].poll() is None:
+                continue
+            del running[m]
+            log = os.path.join(logdir, m + ".log")
+            out = open(log).read() if os.path.exists(log) else ""
+            built = re.search(r"Built %s\b" % re.escape(m), out)
+            # a build of `m` must compile `m` alone (its imports are built first): any other module Lake built is
+            # recorded apart and never booked to `m` (V2-PACKED-CONS-PERF: such rows double-counted 123 modules)
+            extra = [(x, lake_secs(t)) for x, t in re.findall(r"Built (\S+)(?: \(([^)]*)\))?", out) if x != m]
+            r = row(m, log, "built" if built else "reused", cap) + "\t%d\t%.1f" % (
+                len(extra), sum(t for _, t in extra))
+            open(ledger, "a").write(r + "\n")
+            if extra:
+                with open(os.path.join(logdir, "extra.tsv"), "a") as fx:
+                    fx.writelines("%s\t%s\t%s\n" % (m, x, t) for x, t in extra)
+                print("EXTRA %s built %d other modules: %s" % (m, len(extra), " ".join(x for x, _ in extra)[:300]),
+                      flush=True)
+            print(r, flush=True)
+            (done if r.split("\t")[6] == "0" else failed).add(m)
+        nxt = None
+        for m in list(pending):
+            if any(d in failed for d in deps[m]):
+                pending.remove(m)
+                failed.add(m)
+                print("SKIP (a dependency failed) %s" % m, flush=True)
+            elif nxt is None and all(d in done for d in deps[m]):
+                nxt = m
+        if nxt is None and not running and pending:
+            print("STOP: nothing can start (%s …)" % pending[0], flush=True)
+            break
+        if nxt is not None and time.time() > DEADLINE:
+            print("STOP: deadline (no Lean process starts after %s UTC)" % time.strftime(
+                "%H:%M", time.gmtime(DEADLINE)), flush=True)
+            for p in running.values():
+                p.wait()
+            pending, nxt = [], None
             continue
-        if any(d in failed for d in deps[m]):
-            failed.add(m)
-            print("SKIP (a dependency failed) %s" % m, flush=True)
+        if nxt is None or len(running) >= jobs or anon() > anon_max or time.time() - last < STAGGER:
+            if pending or running:
+                time.sleep(1)
             continue
-        while anon() > ANON_MAX:
-            time.sleep(30)
         if free_gb() < MIN_DISK:
             print("V2-PACKED-GEN BLOCKED disk (%d GB free)" % free_gb(), flush=True)
+            for p in running.values():
+                p.wait()
             return 3
-        log = os.path.join(logdir, m + ".log")
-        subprocess.run(["systemd-run", "--user", "--scope", "-q", "-p", "MemoryMax=%s" % cap, "-p",
-                        "MemorySwapMax=0", "bash", "-c", PROBE, "_", m, log], cwd=pkg)
-        built = re.search(r"Built %s\b" % re.escape(m), open(log).read()) if os.path.exists(log) else None
-        r = row(m, log, "built" if built else "reused", cap)
-        open(ledger, "a").write(r + "\n")
-        print(r, flush=True)
-        if r.split("\t")[6] == "0":
-            done.add(m)
-        else:
-            failed.add(m)
+        pending.remove(nxt)
+        running[nxt] = subprocess.Popen(
+            ["systemd-run", "--user", "--scope", "-q", "-p", "MemoryMax=%s" % cap, "-p", "MemorySwapMax=0", "bash",
+             "-c", PROBE, "_", nxt, os.path.join(logdir, nxt + ".log")], cwd=pkg)
+        last = time.time()
     print("DONE: %d passed, %d failed %s" % (len(done & set(mods)), len(failed), sorted(failed)[:10]), flush=True)
     return 1 if failed else 0
 

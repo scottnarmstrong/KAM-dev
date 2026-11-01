@@ -857,30 +857,43 @@ def emit_j(E, SJ, jet):
     # the Hamiltonian bounds and the disc pass: LG00's own proofs (orchestrator, 2026-11-01), carried over to the
     # copy by `CertCongr` (the two checks read only the Hamiltonian and its domain, which the copy shares)
     lg = "LG00.%s" % E.tree
-    xfer = E.write("Xfer", [E.lg("Data.Cert"), E.lg("Final.Wit"), lg + ".Balls.HamBounds", lg + ".Final.HamClaim",
-                            "KAM.CertificateSharp.Packed.CertCongr"], "LG00's Hamiltonian results on the copy",
-                   "`pkHamBounds`, `pkHamClaim`: LG00's own `lg00_hamBounds` and `lg00_hamClaim` (imported read "
-                   "only), carried over to the packed copy of the certificate, which has the same Hamiltonian, "
-                   "domain and order.",
-                   ("theorem pkHamBounds : checkHamBounds lg00Cert = true :=\n"
-                    "  (checkHamBounds_congr (c := lg00Cert) (c' := %s.lg00Cert) rfl rfl rfl rfl rfl rfl).trans\n"
-                    "    %s.lg00_hamBounds\n\n"
-                    "theorem pkHamClaim : checkHamClaim lg00Cert lg00RW.base.R = true :=\n"
-                    "  (checkHamClaim_congr (c := lg00Cert) (c' := %s.lg00Cert) (R := lg00RW.base.R)\n"
-                    "    (R' := %s.lg00RW.base.R) rfl rfl rfl rfl rfl rfl).trans %s.lg00_hamClaim\n") % (
-                       lg, lg, lg, lg, lg))
-    base = E.write("Asm.BaseJ", [tors, inv, en, E.lg("Final.Static"), E.lg("Final.Embedding"), xfer],
+    # with the copy's own Hamiltonian results, the assembly is emitted beside the other one (`…H` modules), which
+    # stays as built
+    sfx = "H" if jet.get("ham_ported") else ""
+    if jet.get("ham_ported"):
+        # the copy's own proofs (`gen_port.py --ham-port --split-balls=…`): no LG00 data in the closure (LG00's
+        # `Balls.HamBounds` and `Final.HamClaim` import its `Data.Cert`, hence all its advice)
+        xfer = E.write("XferH", [E.lg("Balls.HamBounds"), E.lg("Final.HamClaim")],
+                       "the Hamiltonian results on the copy",
+                       "`pkHamBounds`, `pkHamClaim`: the copy's `lg00_hamBounds` and `lg00_hamClaim` (LG00's proofs "
+                       "ported to the packed copy of the certificate and re-checked there; no LG00 data imported).",
+                       "theorem pkHamBounds : checkHamBounds lg00Cert = true :=\n  lg00_hamBounds\n\n"
+                       "theorem pkHamClaim : checkHamClaim lg00Cert lg00RW.base.R = true :=\n  lg00_hamClaim\n")
+    else:
+        xfer = E.write("Xfer", [E.lg("Data.Cert"), E.lg("Final.Wit"), lg + ".Balls.HamBounds", lg + ".Final.HamClaim",
+                                "KAM.CertificateSharp.Packed.CertCongr"], "LG00's Hamiltonian results on the copy",
+                       "`pkHamBounds`, `pkHamClaim`: LG00's own `lg00_hamBounds` and `lg00_hamClaim` (imported read "
+                       "only), carried over to the packed copy of the certificate, which has the same Hamiltonian, "
+                       "domain and order.",
+                       ("theorem pkHamBounds : checkHamBounds lg00Cert = true :=\n"
+                        "  (checkHamBounds_congr (c := lg00Cert) (c' := %s.lg00Cert) rfl rfl rfl rfl rfl rfl).trans\n"
+                        "    %s.lg00_hamBounds\n\n"
+                        "theorem pkHamClaim : checkHamClaim lg00Cert lg00RW.base.R = true :=\n"
+                        "  (checkHamClaim_congr (c := lg00Cert) (c' := %s.lg00Cert) (R := lg00RW.base.R)\n"
+                        "    (R' := %s.lg00RW.base.R) rfl rfl rfl rfl rfl rfl).trans %s.lg00_hamClaim\n") % (
+                           lg, lg, lg, lg, lg))
+    base = E.write("Asm.BaseJ" + sfx, [tors, inv, en, E.lg("Final.Static"), E.lg("Final.Embedding"), xfer],
                    "the jet base checker",
                    "`jetBase`: the landed static, Hamiltonian and embedding checks (the tree's facts, on the copy) "
                    "with the packed Gram, torsion, invariance and energy on the jet.",
                    "theorem pkBaseJ :\n    (jetBase %s jdLowW pkIBook jdFullW).check lg00Cert = true :=\n"
                    "  jetBase_check_of lg00_checkStatic pkHamBounds lg00_checkEmbedding pkGram pkCheckTorsionJ\n"
                    "    pkCheckInvJ pkCheckEnJ\n" % bk)
-    eng = E.write("Asm.EngineJ", [frames, xfer, E.lg("Final.RefinedCore")],
+    eng = E.write("Asm.EngineJ" + sfx, [frames, xfer, E.lg("Final.RefinedCore")],
                   "the packed sharp-site engine on the jet", "The test of `routeARefinedPackedSJ`.",
                   "theorem pkEngineJ :\n    refinedTestSWith (framesRJ %s jdLowW) lg00Cert lg00RW =\n      true :=\n"
                   "  refinedTestPackedSJ_of %s jdLowW\n    pkHamClaim pkFramesJ lg00_refinedCore\n" % (bk, bk))
-    chk = E.write("Asm.CheckJ", [eng, base], "the v2 certifier on the jet route",
+    chk = E.write("Asm.CheckJ" + sfx, [eng, base], "the v2 certifier on the jet route",
                   "The certifier with `jetBase` and the packed sharp-site engine on the jet passes.",
                   "/-- **The v2 certifier passes on `lg00Cert` through the jet route.** -/\n"
                   "theorem pk_checkJ :\n    checkV2With (jetBase %s jdLowW pkIBook jdFullW)\n"
@@ -899,7 +912,7 @@ def emit_j(E, SJ, jet):
             "    (checkV2With_jetSharp_sound %s jdLowW pk_checkJ\n      lg00_freqEncloses lg00_diophantine)\n"
             "  exact ⟨Kinf, sinf, h, lg00_window h.2.2.2.2.2.2.2.2.2.2⟩\n") % (opens, stt, bk)
     body += stmt_form(main_src, ren)
-    return E.write("MainJ", [chk, E.lg("Final.Freq"), E.sh("Physical.HamIdentity")],
+    return E.write("MainJ" + sfx, [chk, E.lg("Final.Freq"), E.sh("Physical.HamIdentity")],
                    "the torus theorem through the jet route",
                    "`pk_kamTorus`: the statement of the tree's `Main.lean`, from the jet route.", body)
 
@@ -920,6 +933,7 @@ def main():
     pkg = opt("--pkg", GP.PKG)
     stages = opt("--stages", "frames,sharp").split(",")
     lowc, fullc = opt("--jet-low", None), opt("--jet-full", None)
+    ham_ported = "--ham-ported" in args     # the copy proves its own Hamiltonian results (`gen_port.py --ham-port`)
     cert = GC.Cert(cert_root)
     assert cert.ns == "LG00.%s" % tree, cert.ns
     E = Emit(pkg, tree, cert_root, prefix)
@@ -935,7 +949,7 @@ def main():
         v0, d1, _ = GC.ham_jet(cert)
         fn, wf = GC.jet_nodes(fullc, [v0] + d1, 48)
         jet = dict(low=E.lg("Jet.Low.ChainCert"), full=E.lg("Jet.Full.ChainCert"), low_data=E.lg("Jet.Low.Data"),
-                   full_data=E.lg("Jet.Full.Data"), wfull=wf,
+                   full_data=E.lg("Jet.Full.Data"), wfull=wf, ham_ported=ham_ported,
                    bfull=max(v[3] for v in fn.values()))
         ie = GC.inv_energy(SJ, fullc)
         assert all(r["ok"] for r in ie["rows"]) and ie["energy"]["ok"], ie
