@@ -236,6 +236,79 @@ def compute(cert, hb=25, quiet=False):
     return dict(D=D, ctx=ctx, rb=rb, memos=memos, K=K, Tm=Tm, CT=CT, RT=RT, CY=CY, RY=RY, info=info)
 
 
+def ham_jet(cert):
+    """The jet's slot indices `v0`, `d1`, `d2` (`LG00/Jet.lean` of the certificate's package)."""
+    path = os.path.join(os.path.dirname(cert.root), "Jet.lean")
+    txt = flat(open(path, encoding="utf-8").read())
+    v0 = int(re.search(r"v0 := (\d+)", txt).group(1))
+    d1 = [int(x) for x in re.search(r"d1 := \[([\d, ]*)\]", txt).group(1).split(", ")]
+    d2s = re.search(r"d2 := \[(\[[\d, ]*\](?:, \[[\d, ]*\])*)\]", txt).group(1)
+    d2 = [[int(x) for x in row.split(", ")] for row in re.findall(r"\[([\d, ]*)\]", d2s)]
+    return v0, d1, d2
+
+
+def jet_nodes(cache, slots, hb):
+    """The wanted nodes of a packed jet chain from kamx-packed's mirror cache (`jet_low_gen.py --mirror-only
+    --cache`): slot -> (poly {key: (re, im)} at scale 2^P on the box, radius and norm-bound mantissas, load), and
+    the chain's slot width."""
+    import pickle
+    import jet_gate_gen as JG
+    ck = pickle.load(open(cache, "rb"))
+    assert ck["H"] == hb, (ck["H"], hb)
+    bk, S = ck["bk"], ck["S"]
+    L = JG.Lay((-hb, -hb), (2 * hb + 1, 2 * hb + 1), 4 * hb + 1, bk.w)
+    out = {}
+    for j in slots:
+        nd = S[j]
+        assert not nd.u and nd.e == P, (j, nd.u, nd.e)
+        out[j] = (R.join(JG.unpack(L, nd.x[0]), JG.unpack(L, nd.x[1])), nd.r, nd.nb, nd.A)
+    return out, bk.w
+
+
+def compute_j(cert, low_cache, hb=25, quiet=False):
+    """The rounded packed torsion chain on the jet's torsion (`checkTorsionJ`, kamx-pk-cons): `DX_H ∘ K` and `DH ∘ K`
+    are the jet's wanted nodes (`trAJ`, `trD1J`: the sign `-` on the rows `a ≥ n`), the book's `bA` is the jet's
+    largest wanted load (`jetLowOk` reads `jetCheck … rb.bA`), its width at least the jet's (`layoutEq`)."""
+    D = load(cert)
+    w = D["w"]
+    v0, d1, d2 = ham_jet(cert)
+    swap = lambda a: a + n if a < n else a - n
+    dxh = lambda a, b: d2[swap(a)][b]
+    wanted = d1 + [x for row in d2 for x in row]
+    nodes, wj = jet_nodes(low_cache, wanted, hb)
+    ctx = R.Ctx(w, Q, P)
+    geo = R.Geo(hb, 4 * hb + 1)
+    K, Bm, D2, Fl, _, _ = R.inputs(ctx, D, P)
+    Am = {}
+    for a in range(2 * n):
+        for b in range(2 * n):
+            p, r, nb, _ = nodes[dxh(a, b)]
+            Am[(a, b)] = (p if a < n else R.cscale(p, -1), r, nb)
+    D1 = {(0, a): nodes[d1[a]][:3] for a in range(2 * n)}
+    memos, Tm, Ym, _ = R.chain(ctx, geo, K, Bm, D2, Fl, Am, D1, n, P)
+    mx = max(abs(x) for m in memos.values() for p in m[0].values() for v in p.values() for x in v)
+    CT = [[R.centre(Tm[(i, j)][0], 2 * P) for j in range(n)] for i in range(n)]
+    RT = [[F(Tm[(i, j)][1], 2 ** P) for j in range(n)] for i in range(n)]
+    CY = [R.centre(Ym[(0, j)][0], 2 * P) for j in range(n)]
+    RY = [F(Ym[(0, j)][1], 2 ** P) for j in range(n)]
+    S = R.parse_cc_matrix(D["tinv"], n + 1)
+    ok, info = R.final_mirror(ctx, D, CT, RT, CY, RY, S, D["sigT_mu"], P)
+    if not quiet:
+        print("J: node terms", {k: sum(len(v) for v in m[0].values()) for k, m in memos.items()},
+              "max mantissa bits", mx.bit_length())
+        print("J: final (mirror)", ok, info)
+    assert ok, "the mirror of the final torsion test fails (jet's torsion)"
+    bA = max(nodes[j][3] for j in wanted)
+    bk = D["bk"]["b"]
+    rb = R.r_book(P, Q, w, hb, dict(bK=2 ** 136, bB=2 ** 132, bD=bk["bD"], bA=bA, bF=bk["bF"],
+                                     bR=2 ** max(1, mx.bit_length())))
+    if rb["width"] < wj:
+        rb["width"] = wj
+    assert all(nodes[j][3] <= rb["b"]["bA"] for j in wanted)
+    return dict(D=D, ctx=ctx, rb=rb, memos=memos, K=K, Tm=Tm, CT=CT, RT=RT, CY=CY, RY=RY, info=info,
+                jet=dict(v0=v0, d1=d1, d2=d2, wanted=wanted, bA=bA, width=wj))
+
+
 def frames(S):
     """The mirror of the three packed frame tests at the tree's claims: sums, verdicts, edges."""
     cert = S["D"]["cert"]

@@ -219,8 +219,10 @@ def emit_format(E):
                    "The packed memo terms `tz`; shared by every tree.", body, ns=E.pre, modname=E.fmt)
 
 
-def emit_data(E, S):
-    """The shared data modules of the Gram and torsion stages. Returns the names of the umbrella modules."""
+def emit_data(E, S, jet=False):
+    """The shared data modules of the Gram and torsion stages. Returns the names of the umbrella modules.
+    `jet`: the torsion reads `DX_H ∘ K` and `DH ∘ K` from the jet (`checkTorsionJ`), so the boundary memo keeps
+    only the `D²K` entries (`ax`, `d1` empty: `ptPackOk` reads them through `getD`, the empty entry packs)."""
     D, rb, memos = S["D"], S["rb"], S["memos"]
     fmt = E.fmt
     out = {}
@@ -250,7 +252,7 @@ def emit_data(E, S):
     names = {}
     for kind in ("d2", "ax", "d1"):
         names[kind] = []
-        for i, e in enumerate(D[kind]):
+        for i, e in enumerate(D[kind] if kind == "d2" or not jet else []):
             nm = "pkT%s_%d" % (kind, i)
             names[kind].append(nm)
             defs.append((nm, ldef(nm + "_re", "List (CertKey × ℤ)", zlist(e[0])) + "\n" +
@@ -598,6 +600,191 @@ def emit_assembly(E, data, gram, tors, frames, tms, sharp_engine="routeARefinedP
                    "`pk_kamTorus`: the statement of the tree's `Main.lean`, from the packed route.", body)
 
 
+def i_book(D, wfull, bfull, hb=48):
+    """`PIBook` of the invariance and energy on the jet (kamx-pk-cons, `JetConsInv.lean`): the Full chain's box and
+    width, its largest wanted load `bJ`, the Gram memo's bound, the frequency mantissas' bound (Lean formulas)."""
+    s0 = 4 * hb + 1
+    Lb = ((-hb, -hb), (2 * hb + 1, 2 * hb + 1))
+    bK = 2 ** 136
+    bF = D["bk"]["b"]["bF"]
+    aI = 2 * 1 * bfull * 2 ** P + n * 2 * 1 * bK * bF          # mulLoad Lb LU0 (min dense = 1)
+    lK, lI = bK.bit_length(), aI.bit_length()
+    for l, B_ in ((lK, bK), (lI, aI)):
+        r, c = G.maxes(D["w"], Q, Lb[0], Lb[1], s0)
+        assert B_ < 2 ** l and l + 2 <= wfull and Lb[1][0] * s0 * 2 ** l * r * c < 2 ** wfull, "normOk fails"
+    lay = lambda L: "⟨[%d, %d], [%d, %d], [%d, 1], %d, 1⟩" % (L[0][0], L[0][1], L[1][0], L[1][1], s0, wfull)
+    txt = ("def pkIBook : PIBook where\n  P := %d\n  Lb := %s\n  LU0 := %s\n  bJ := %d\n  bK := 2 ^ %d\n"
+           "  bF := %s\n  q := %d\n  lK := %d\n  lI := %d\n" % (
+               P, lay(Lb), lay(((0, 0), (1, 1))), bfull, bK.bit_length() - 1, T.pow2(bF), Q, lK, lI))
+    return txt
+
+
+def emit_j(E, SJ, jet):
+    """The jet route (V2-PACKED-PROD-API, kamx-pk-cons' consumers): the torsion, invariance, energy and frames on
+    the jet's chains, `jetBase`, the packed sharp-site engine on the jet's torsion (`RouteSharpJ`), the certifier,
+    the tree's statement. `jet`: the chain modules and names of kamx-packed's `jet_prod_gen.py` (`<P>.<T>.Jet.<C>`)."""
+    import itertools
+    import re
+    data = emit_data(E, SJ, jet=True)
+    gram = emit_gram(E, data)
+    c = "lg00Cert"
+    W, Bi, cfg, box, sv = c + ".weight", c + ".gramInv", c + ".cfgLow", c + ".freqBox", c + ".params.s"
+    J, jsL, jsF = c + ".ham.jet", "(jetSlots (α := LGF) jdLow)", "(jetSlots (α := LGF) jdFull)"
+    low, full = jet["low"], jet["full"]
+    imp = [data["G"], data["T"], data["R"], E.lg("Data.Cert"), "KAM.CertificateSharp.Packed.RouteSharpJ"]
+    # the torsion on the jet
+    d2 = []
+    for r, j, l in itertools.product(range(2 * n), range(n), range(n)):
+        d2.append(E.write("TorsJ.ED2_%d_%d_%d" % (r, j, l), imp, "torsion entry D²K (%d, %d, %d)" % (r, j, l),
+                          "One boundary entry: the landed `d2kModel` against the memo.",
+                          thm("pkTorsD2_%d_%d_%d" % (r, j, l), "ptD2Ok 2 %s.emb %s %s %s.piEnc pkRBook.toT pkTMemo "
+                              "%d %d %d = true" % (c, W, cfg, c, r, j, l))))
+    body = ("theorem pkD2All :\n%s\n  refine ptD2All_of fun r hr j hj l hl => ?_\n"
+            "  have hr' : r < 4 := hr\n  have hj' : j < 2 := hj\n  have hl' : l < 2 := hl\n"
+            "  interval_cases r <;> interval_cases j <;> interval_cases l\n%s\n") % (
+        swrap("ptD2All 2 %s.emb %s %s %s.piEnc pkRBook.toT pkTMemo = true := by" % (c, W, cfg, c)),
+        "\n".join("  · exact pkTorsD2_%d_%d_%d" % ix for ix in itertools.product(range(4), range(2), range(2))))
+    d2all = E.write("TorsJ.D2All", d2 + ["Mathlib.Tactic.IntervalCases"], "the D²K entries",
+                    "`ptD2All` from its 16 entries.", body)
+    lowok = E.write("TorsJ.LowOk", imp + [low], "the jet's Low chain at the torsion",
+                    "`jetLowOk`: the jet's box and scale are the torsion's (`layoutEq`, checked), and the chain "
+                    "theorem of kamx-packed (`jetLow_check_cert`) at the load `pkRBook.bA = bLow`.",
+                    "theorem pkLowOk : jetLowOk pkRBook jdLow lg00Cert = true := by\n"
+                    "  simp only [jetLowOk, Bool.and_eq_true]\n"
+                    "  exact ⟨⟨by decide +kernel, by decide +kernel⟩, jetLow_check_cert⟩\n")
+    st = {}
+    st["Lay"] = E.write("TorsJ.Lay", imp, "the layouts and loads", "`trLayOk`, `trNormOk`.",
+                        thm("pkTrLay", "trLayOk 2 pkRBook = true") + "\n" +
+                        thm("pkTrNorm", "trNormOk 2 %s %s %s pkRBook = true" % (W, box, sv)))
+    st["Pack"] = E.write("TorsJ.Pack", imp, "the packing of the boundary", "`ptPackOk`.",
+                         thm("pkTrPack", "ptPackOk 2 %s %s pkRBook.toT pkGMemo pkTMemo = true" % (Bi, cfg)))
+    stmts = dict(N="trStN 2 %s %s %s pkRBook pkGMemo pkRMemo pkEps" % (Bi, W, cfg),
+                 DL="trStDL (α := LGF) 2 %s %s %s pkRBook pkTMemo pkRMemo" % (W, box, sv),
+                 DG="trStDG (α := LGF) 2 %s pkRBook pkGMemo pkRMemo" % W,
+                 C="trStC 2 %s %s %s pkRBook pkRMemo pkEps" % (Bi, W, cfg),
+                 DGi="trStDGi 2 %s %s %s pkRBook pkRMemo pkEps" % (Bi, W, cfg))
+    for nm, stt in stmts.items():
+        st[nm] = E.write("TorsJ.St%s" % nm, imp, "the node %s" % nm, "The node `%s` against the exact product of "
+                         "its memoized inputs on the window (`stageAll`)." % nm, thm("pkTrSt%s" % nm, stt + " = true"))
+    mats = dict(DN="trMDN 2 %s %s %s pkRBook pkGMemo pkRMemo pkEps" % (Bi, W, cfg),
+                XN="trMXNJ 2 %s %s pkRBook pkRMemo" % (J, jsL))
+    full_ = dict(DN="trStDN 2 %s %s %s pkRBook pkGMemo pkRMemo pkEps" % (Bi, W, cfg),
+                 XN="trStXNJ 2 %s %s %s pkRBook pkRMemo" % (J, jsL, W))
+    for nm in ("DN", "XN"):
+        es = []
+        for i, j in itertools.product(range(2 * n), range(n)):
+            es.append(E.write("TorsJ.St%s_%d_%d" % (nm, i, j), imp + ([low] if nm == "XN" else []),
+                              "the node %s, entry (%d, %d)" % (nm, i, j),
+                              "One entry of the node `%s` against the exact product of its inputs (`stageOk`)." % nm,
+                              thm("pkTrSt%s_%d_%d" % (nm, i, j),
+                                  "stageOk 2 %s pkRBook.q pkRBook.lW pkRBook.lR pkRBook.Lw pkRBook.Lb pkRBook.Lu "
+                                  "pkRBook.bR (2 * pkRBook.P) pkRBook.P ((%s).x %d %d) ((%s).r %d %d) "
+                                  "(nodeAt pkRMemo.%s %d %d) = true" % (W, mats[nm], i, j, mats[nm], i, j, nm, i, j))))
+        body = ("theorem pkTrSt%s :\n%s\n  refine stageAll_of fun i hi j hj => ?_\n"
+                "  have hi' : i < 4 := hi\n  have hj' : j < 2 := hj\n"
+                "  interval_cases i <;> interval_cases j\n%s\n") % (
+            nm, swrap(full_[nm] + " = true := by"),
+            "\n".join("  · exact pkTrSt%s_%d_%d" % (nm, i, j) for i in range(4) for j in range(2)))
+        st[nm] = E.write("TorsJ.St%s" % nm, es + ["KAM.CertificateSharp.Packed.TorsRAsm",
+                                                  "Mathlib.Tactic.IntervalCases"],
+                         "the node %s" % nm, "`%s` from its eight entries." % full_[nm].split()[0], body)
+    st["T"] = E.write("TorsJ.T", imp, "the averages of T", "`trTCheck`.",
+                      thm("pkTrT", "trTCheck (α := LGF) 2 pkRBook pkRMemo = true"))
+    st["Y"] = E.write("TorsJ.Y", imp + [low], "the averages of Y", "`trYCheckJ` (`DH` from the jet).",
+                      thm("pkTrY", "trYCheckJ 2 %s %s pkRBook pkRMemo = true" % (J, jsL)))
+    sig = "(%s.params.σT - %s.params.μ)" % (c, c)
+    st["F"] = E.write("TorsJ.Final", imp, "the averaged test", "The landed averaged test on the tables (`tabFinal`).",
+                      thm("pkTrFinal", "tabFinal 2 %s pkRBook.P (trCentre 2 %s %s pkRMemo) (trRad 2 %s %s pkRMemo) "
+                          "%s.torsInv %s = true" % (cfg, box, sv, box, sv, c, sig)))
+    core = E.write("TorsJ.Core", list(st.values()) + [low], "the torsion core on the jet",
+                   "`torsRCoreJ` of the certificate from its thirteen parts.",
+                   "theorem pkTorsCoreJ :\n%s\n  torsRCoreJ_of pkTrLay pkTrNorm pkTrPack pkTrStN pkTrStDL pkTrStDG "
+                   "pkTrStC pkTrStDGi\n    pkTrStDN pkTrStXN pkTrT pkTrY pkTrFinal\n" % swrap(
+                       "torsRCoreJ 2 %s %s %s %s %s %s %s pkRBook pkGMemo pkTMemo pkRMemo pkEps %s.torsInv %s = true :="
+                       % (Bi, W, cfg, box, sv, J, jsL, c, sig)))
+    tors = E.write("TorsJ", [gram, d2all, lowok, core], "the packed torsion on the jet",
+                   "`checkTorsionJ` of the certificate.",
+                   "theorem pkCheckTorsionJ :\n    checkTorsionJ pkGBook pkGMemo pkRBook pkTMemo pkRMemo jdLow lg00Cert "
+                   "= true :=\n  checkTorsionJ_of pkGram pkEps_eq rfl pkLowOk pkD2All pkTorsCoreJ\n")
+    # the frames on the jet's torsion
+    fimp = [data["G"], data["R"], E.lg("Final.Wit"), "KAM.CertificateSharp.Packed.RouteSharpJ"]
+    cl = "lg00RW.base.R."
+    fL = E.write("FramesJ.L", fimp, "`|Lᵀ| ≤ bL`", "`trFrameLOk` at the claim.",
+                 thm("pkFrameL", "trFrameLOk (α := LGF) 2 %s pkRBook pkGMemo %sbL = true" % (W, cl)))
+    fN = E.write("FramesJ.N", fimp, "`|N| ≤ bN`, `|Nᵀ| ≤ bNt`", "`trFrameNOk` at the claims.",
+                 thm("pkFrameN", "trFrameNOk (α := LGF) 2 pkRBook pkRMemo %sbN %sbNt = true" % (cl, cl)))
+    fT = E.write("FramesJ.T", fimp, "`sup |T| ≤ bT`", "`trFrameTOk` at the claim (`T` from the jet's `X_N`).",
+                 thm("pkFrameT", "trFrameTOk (α := LGF) 2 %s pkRBook pkRMemo %sbT = true" % (W, cl)))
+    om = "checkFrameOmega lg00Cert (lg00RW.base.R.frame lg00Cert.freqBox).bOm = true"
+    frames = E.write("FramesJ", [fL, fN, fT, tors, E.lg("Final.Wit")], "the packed frames on the jet's torsion",
+                     "`checkFrameMajorantsRJ` at the route witness's claims.",
+                     thm("pkFrameOm", om) + "\n"
+                     "theorem pkFramesJ :\n    checkFrameMajorantsRJ pkGBook pkGMemo pkRBook pkTMemo pkRMemo jdLow "
+                     "lg00Cert\n      (lg00RW.base.R.frame lg00Cert.freqBox) = true :=\n"
+                     "  checkFrameMajorantsRJ_of pkGram pkEps_eq rfl pkLowOk pkD2All pkTrLay pkTrNorm pkTrPack pkTrStN\n"
+                     "    pkTrStDL pkTrStDG pkTrStC pkTrStDGi pkTrStDN pkTrStXN pkFrameL pkFrameN pkFrameT pkFrameOm\n")
+    # the invariance and the energy on the Full chain
+    ib = E.write("Data.IBook", [E.fmt, "KAM.CertificateSharp.Packed.RouteSharpJ"], "the invariance book",
+                 "`pkIBook`: the Full chain's box and width, its largest wanted load, the loads and norm offsets.",
+                 i_book(SJ["D"], jet["wfull"], jet["bfull"]))
+    iimp = [ib, data["G"], E.lg("Data.Cert"), full]
+    guard = E.write("InvJ.Guard", iimp, "the invariance guard", "`ivGuard`.",
+                    thm("pkIvGuard", "ivGuard 2 %s %s %s pkIBook pkGMemo = true" % (W, box, sv)))
+    rows = [E.write("InvJ.Row%d" % a, iimp, "invariance row %d" % a, "`ivRowOk`: the packed weighted norm of the "
+                    "invariance array plus its radius is at most `err`.",
+                    thm("pkIvRow%d" % a, "ivRowOk 2 %s %s %s %s %s pkIBook pkGMemo %s.params.err %d = true"
+                        % (W, box, sv, J, jsF, c, a))) for a in range(2 * n)]
+    fullok = E.write("InvJ.FullOk", iimp, "the jet's Full chain at the invariance",
+                     "`jetFullOk`: the box and scale (checked), and the chain theorem `jetFull_check_cert`.",
+                     "theorem pkFullOk : jetFullOk pkIBook jdFull lg00Cert = true := by\n"
+                     "  simp only [jetFullOk, Bool.and_eq_true]\n"
+                     "  exact ⟨⟨by decide +kernel, by decide +kernel⟩, jetFull_check_cert⟩\n")
+    inv = E.write("InvJ", [gram, guard, fullok] + rows + ["Mathlib.Tactic.IntervalCases"],
+                  "the packed invariance on the jet", "`checkInvarianceJ` of the certificate.",
+                  "theorem pkCheckInvJ : checkInvarianceJ pkGBook pkGMemo pkIBook jdFull lg00Cert = true := by\n"
+                  "  refine checkInvarianceJ_of pkGram rfl pkFullOk pkIvGuard fun a ha => ?_\n"
+                  "  have ha' : a < 4 := ha\n  interval_cases a\n%s\n" % "\n".join(
+                      "  · exact pkIvRow%d" % a for a in range(4)))
+    en = E.write("EnJ", [fullok], "the packed energy on the jet", "`checkEnergyJ`: the zero mode of the `v0` node.",
+                 thm("pkEnGuard", "enGuard 2 pkIBook = true") + "\n" +
+                 thm("pkEnOk", "enOk 2 %s %s pkIBook %s.params.E0 %s.params.err = true" % (J, jsF, c, c)) + "\n" +
+                 "theorem pkCheckEnJ : checkEnergyJ pkIBook jdFull lg00Cert = true :=\n"
+                 "  checkEnergyJ_of pkFullOk pkEnGuard pkEnOk\n")
+    bk = "pkGBook pkGMemo pkRBook pkTMemo pkRMemo"
+    base = E.write("Asm.BaseJ", [tors, inv, en, E.lg("Final.Static"), E.lg("Final.Embedding"),
+                                 E.lg("Balls.HamBounds")], "the jet base checker",
+                   "`jetBase`: the landed static, Hamiltonian and embedding checks (the tree's facts, on the copy) "
+                   "with the packed Gram, torsion, invariance and energy on the jet.",
+                   "theorem pkBaseJ : (jetBase %s jdLow pkIBook jdFull).check lg00Cert = true :=\n"
+                   "  jetBase_check_of lg00_checkStatic lg00_hamBounds lg00_checkEmbedding pkGram pkCheckTorsionJ\n"
+                   "    pkCheckInvJ pkCheckEnJ\n" % bk)
+    eng = E.write("Asm.EngineJ", [frames, E.lg("Final.HamClaim"), E.lg("Final.RefinedCore")],
+                  "the packed sharp-site engine on the jet", "The test of `routeARefinedPackedSJ`.",
+                  "theorem pkEngineJ :\n    refinedTestSWith (framesRJ %s jdLow) lg00Cert lg00RW = true :=\n"
+                  "  refinedTestPackedSJ_of %s jdLow lg00_hamClaim pkFramesJ lg00_refinedCore\n" % (bk, bk))
+    chk = E.write("Asm.CheckJ", [eng, base], "the v2 certifier on the jet route",
+                  "The certifier with `jetBase` and the packed sharp-site engine on the jet passes.",
+                  "/-- **The v2 certifier passes on `lg00Cert` through the jet route.** -/\n"
+                  "theorem pk_checkJ :\n    checkV2With (jetBase %s jdLow pkIBook jdFull)\n"
+                  "      (routeARefinedPackedSJ %s jdLow) lg00Cert lg00RW = true :=\n"
+                  "  checkV2With_jetSharp_of %s jdLow pkBaseJ pkEngineJ\n" % (bk, bk, bk))
+    main_src = open(os.path.join(E.cert_root, "Main.lean"), encoding="utf-8").read()
+    ren = lambda x: re.sub(r"\bLG00\b", E.pre, x)
+    stt = ren(re.search(r"theorem lg00_kamTorus :\n(.*?) := by\n", main_src, re.S).group(1))
+    opens = ren(re.search(r"^open .*$", main_src, re.M).group(0))
+    body = ("%s KAM.CertificateSharp.Packed\n\n"
+            "/-- **The tree's torus theorem through the jet route** (`lg00_kamTorus`'s statement, on the\n"
+            "packed route's certificate; proved from `pk_checkJ`). -/\n"
+            "theorem pk_kamTorus :\n%s := by\n"
+            "  refine ⟨lg00Ham_identity, by decide +kernel, ?_⟩\n"
+            "  obtain ⟨Kinf, sinf, h⟩ := (lg00_certifiedTorus_iff lg00Cert lg00OmegaStar).mp\n"
+            "    (checkV2With_jetSharp_sound %s jdLow pk_checkJ lg00_freqEncloses lg00_diophantine)\n"
+            "  exact ⟨Kinf, sinf, h, lg00_window h.2.2.2.2.2.2.2.2.2.2⟩\n") % (opens, stt, bk)
+    return E.write("MainJ", [chk, E.lg("Final.Freq"), E.sh("Physical.HamIdentity")],
+                   "the torus theorem through the jet route",
+                   "`pk_kamTorus`: the statement of the tree's `Main.lean`, from the jet route.", body)
+
+
 def main():
     args = sys.argv[1:]
 
@@ -613,39 +800,57 @@ def main():
     cert_root = opt("--cert", os.path.join(GP.LG00, "LG00", tree))
     pkg = opt("--pkg", GP.PKG)
     stages = opt("--stages", "frames,sharp").split(",")
+    lowc, fullc = opt("--jet-low", None), opt("--jet-full", None)
     cert = GC.Cert(cert_root)
     assert cert.ns == "LG00.%s" % tree, cert.ns
-    S = cached_compute(cert, pkg, tree)
-    fr = GC.frames(S)
-    assert all(fr["ok"].values()), fr["ok"]
     E = Emit(pkg, tree, cert_root, prefix)
     emit_format(E)
-    data = emit_data(E, S)
-    if "frames" in stages or "sharp" in stages:
-        fm, gate = emit_frames(E, S, data, fr)
-        if "sharp" in stages:
-            emit_sharp(E, fm)
-    gram = tors = tms = None
-    if "gram" in stages or "assembly" in stages:
-        gram = emit_gram(E, data)
-    if "tors" in stages or "assembly" in stages:
-        tms = emit_tms(E, S["D"])
-        tors = emit_tors(E, data, tms)
-    if "assembly" in stages:
-        assert prefix == "LG00", "the torsRBase assembly reads the tree's landed Low chain (LG00's real data only)"
-        emit_assembly(E, data, gram, tors, fm, tms)
+    info = dict(tree=tree, prefix=prefix, cert=cert_root, stages=stages)
+    if "jet" in stages:
+        # the jet route (exclusive: its data modules carry the jet-fed torsion memos)
+        assert lowc and fullc, "--jet-low and --jet-full: kamx-packed's mirror caches of the two chains"
+        SJ = GC.compute_j(cert, lowc)
+        fr = GC.frames(SJ)
+        assert all(fr["ok"].values()), fr["ok"]
+        v0, d1, _ = GC.ham_jet(cert)
+        fn, wf = GC.jet_nodes(fullc, [v0] + d1, 48)
+        jet = dict(low=E.lg("Jet.Low.ChainCert"), full=E.lg("Jet.Full.ChainCert"), wfull=wf,
+                   bfull=max(v[3] for v in fn.values()))
+        emit_j(E, SJ, jet)
+        S = SJ
+        info.update(jet=dict(width_low=SJ["jet"]["width"], width_torsion=SJ["rb"]["width"],
+                             bA_bits=SJ["jet"]["bA"].bit_length(), width_full=wf,
+                             bfull_bits=jet["bfull"].bit_length()))
+        assert SJ["rb"]["width"] == SJ["jet"]["width"], "regenerate the Low chain at --width=%d" % SJ["rb"]["width"]
+    else:
+        S = cached_compute(cert, pkg, tree)
+        fr = GC.frames(S)
+        assert all(fr["ok"].values()), fr["ok"]
+        data = emit_data(E, S)
+        fm = None
+        if "frames" in stages or "sharp" in stages or "assembly" in stages:
+            fm, gate = emit_frames(E, S, data, fr)
+            if "sharp" in stages:
+                emit_sharp(E, fm)
+        gram = tors = tms = None
+        if "gram" in stages or "assembly" in stages:
+            gram = emit_gram(E, data)
+        if "tors" in stages or "assembly" in stages:
+            tms = emit_tms(E, S["D"])
+            tors = emit_tors(E, data, tms)
+        if "assembly" in stages:
+            assert prefix == "LG00", "the torsRBase assembly reads the tree's landed Low chain (LG00's data only)"
+            emit_assembly(E, data, gram, tors, fm, tms)
+        info.update(gram_book={k: (v if not isinstance(v, int) or v < 2 ** 63 else v.bit_length())
+                               for k, v in S["gbook"].items()})
     lst = E.list_file()
-    info = dict(tree=tree, cert=cert_root, stages=stages, modules=len(E.mods),
-                claims={k: str(v) for k, v in fr["claims"].items()},
-                edges={k: str(v) for k, v in fr["edges"].items()}, edges_float={k: float(v) for k, v in
-                                                                                fr["edges"].items()},
-                gram_book={k: (v if not isinstance(v, int) or v < 2 ** 63 else v.bit_length())
-                           for k, v in S["gbook"].items()},
-                torsion_final=S["info"])
-    json.dump(info, open(os.path.join(pkg, "packed_%s.json" % tree), "w"), indent=1)
+    info.update(modules=len(E.mods), claims={k: str(v) for k, v in fr["claims"].items()},
+                edges={k: str(v) for k, v in fr["edges"].items()},
+                edges_float={k: float(v) for k, v in fr["edges"].items()}, torsion_final=S["info"],
+                torsion_width=S["rb"]["width"])
+    json.dump(info, open(os.path.join(pkg, "packed_%s_%s.json" % (prefix, tree)), "w"), indent=1, default=str)
     print(json.dumps(info, indent=1, default=str))
     print("module list:", lst)
-
 
 if __name__ == "__main__":
     main()
