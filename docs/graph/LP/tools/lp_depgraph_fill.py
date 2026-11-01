@@ -38,6 +38,8 @@ def loc(spec):
     """'L5:164-170' -> MAIN locator; 'A:N11:20-20' -> AMENDMENTS locator; '-' stays."""
     if spec in ("-", None):
         return "-"
+    if "#" in spec and "@" in spec:  # a complete locator (imported nodes: blueprint-N/..., wave 2)
+        return spec
     parts = spec.split(":")
     path = AMEND if parts[0] == "A" else MAIN
     if parts[0] == "A":

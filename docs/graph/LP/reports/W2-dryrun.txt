@@ -1,0 +1,16 @@
+# wave-2 dry run, 2026-11-01T14:21Z, branch inp-lp-graph
+# python3 -I docs/graph/LP/tools/lp_depgraph_preextract.py --wave 2 --root .
+# then inp_depgraph_slice_check.py docs/graph/LP/packets <slice> --root . --structural
+LP-m3: 16 nodes, 0 edges, 27 coverage items, 5 problems, 16 TODO records (not counted: --structural)
+  coverage lpM:L7#ext-holomorphic-limit: unknown node lpM:ext-holomorphic-limit
+  coverage lpM:L7#ext-identity: unknown node lpM:ext-identity-theorem
+  coverage lpM:L8#ext-identity: unknown node lpM:ext-identity-theorem
+  coverage lpM:L8#ext-compact-cover: unknown node lpM:ext-compact-cover
+  coverage lpM:L8#ext-cauchy: unknown node lpM:ext-cauchy-estimates
+LP-m4a: 21 nodes, 0 edges, 35 coverage items, 2 problems, 21 TODO records (not counted: --structural)
+  coverage lpM:L9#ext-fourier-contour: unknown node lpM:ext-fourier-contour
+  coverage lpM:L9#ext-cauchy: unknown node lpM:ext-cauchy-estimates
+LP-m4b: 13 nodes, 0 edges, 21 coverage items, 0 problems, 13 TODO records (not counted: --structural)
+LP-m5: 25 nodes, 0 edges, 32 coverage items, 0 problems, 25 TODO records (not counted: --structural)
+LP-imports: 0 nodes, 0 edges, 0 coverage items, 0 problems, 0 TODO records (not counted: --structural)
+# the unknown-node problems are the five wave-2 externals, rendered in the writer-owned packet LP-ext-w2 at extraction
