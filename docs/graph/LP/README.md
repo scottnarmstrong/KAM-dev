@@ -10,6 +10,18 @@ The layout follows the precedent graphs `docs/graph/{K,I,N,P,W}/`. In particular
 roles and slice conventions. Nothing here was committed (the orchestrator commits). No Lean or Lake was run, no Lean
 file was read, and nothing under `KAM/` or `manifest/` was touched.
 
+
+## Post-freeze status (2026-11-01, package LP-GRAPH-W1, writer `kam-lp`)
+
+The anchors are frozen and sealed (D62, main `f46b94fb`). README steps 1–3 are done (pins OK; `packets/anchor-map.tsv`,
+`packets/anchor-binding.tsv`; SPEC §1/§8/§10 settled; `header.txt`). Q7's pre-extractor is
+`tools/lp_depgraph_preextract.py` (dry run `reports/W1-dryrun.txt`). **Wave 1 (the LP0 closure)** is extracted from
+`specs/*.py` (`tools/lp_depgraph_fill.py`) and assembled: 109 nodes, 317 edges, 11 roots (LP0 + 10 characterizations),
+59 anchors, 1 SOURCE_GAP, 153 coverage items; lint exit 0 (`reports/W1-lint.txt`). All records are PROPOSED and wait
+for review batch R1 (`REVIEW-BRIEF.md`, `reviews/R1-packets.md`). The wave's LEAN_STATUS against the sealed anchors is
+`LEAN_STATUS-W1.md` (sync tool `tools/lp_depgraph_lean_sync.py`, applied after publication). The text below is the
+pre-freeze preparation record.
+
 ## What is done
 
 | File | Content |
