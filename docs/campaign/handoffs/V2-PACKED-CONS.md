@@ -119,14 +119,15 @@ The jet chains themselves (`jetCheck` at `cfgLow` and `cfgFull`) are kamx-packed
 | invariance | `Final.InvRow0..3`, `Final.Invariance`: 5 modules, 52.8 CPU-s, ≤ 1.97 GB | 6 processes, 41.4 CPU-s, ≤ 1.07 GB |
 | energy | `Final.EnergyRes`: 4.5 CPU-s | 2 processes, 9.7 CPU-s |
 | their composition input | `TP.Full.*` (cfgFull `Slp.compose`): 1,637 modules, 32,255 CPU-s | the packed cfgFull chain (kamx-packed) |
-| torsion | `TP.Torsion.*`: 628 modules, not yet run in run18 (on lg00-cert's data, run20e: 637 modules, 12,126 CPU-s) | 43 processes, 868.3 CPU-s (+ 127 CPU-s of shared data, once) |
-| its composition input | `TP.Low.*` (cfgLow `Slp.compose`): 2,484 modules; the 2,062 run so far took 45,670 CPU-s | the packed cfgLow chain (kamx-packed) |
+| torsion | `TP.Torsion.*`: 628 modules, 13,162 CPU-s | 43 processes, 868.3 CPU-s (+ 127 CPU-s of shared data, once) |
+| its composition input | `TP.Low.*` (cfgLow `Slp.compose`): 2,484 modules, 55,813 CPU-s | the packed cfgLow chain (kamx-packed) |
 
-- The consumers' own cost is of the order of the landed consumers' (invariance, energy) or ≈ 10× below
-  (torsion: 868 CPU-s, ≈ 1,150 CPU-s with the shared Gram link and the shared data, against 12,126 CPU-s; a
-  cross-torus comparison). **The saving that matters is that no landed
-  composition is needed:** the consumers read the packed chains, so the 4,121 landed `Low` and `Full` modules can go once kamx-packed's chain theorems are in place (on
-  T′, 77,925 CPU-s for the 3,699 of them run so far; 422 `Low` modules are still to run).
+- The consumers' own cost is of the order of the landed consumers' (invariance, energy) or ≈ 15× below (torsion:
+  868 CPU-s against run18's 13,162; ≈ 11× with the shared Gram link and the shared data, ≈ 1,150 CPU-s). The figures
+  are run18's final ones (T′ complete; AUDIT-V2-PACKED-PROD-1 C3).
+- **The saving that matters is that no landed composition is needed.** The consumers read the packed chains, and
+  kamx-packed's chain theorems are proved (§12.13), so the 4,121 landed `Low` and `Full` modules go: on T′,
+  88,068 CPU-s in run18 (`Low` 2,484 / 55,813, `Full` 1,637 / 32,255).
 - Against B3b's torsion (lg00-cert: 64 processes, 1,292 CPU-s with per-probe data), the J torsion drops the 20
   `DX_H`/`DH` boundary probes and per-probe data elaboration.
 
@@ -139,7 +140,7 @@ those of T′:
 - the jet chain conjunct is not decided;
 - T″'s `TPP/Data` is untracked in lg00-app, so the receipts pin it by the sha256 of the copied sources.
 
-**All 98 modules decide as stated**, one process each under 4 GB, largest 2.77 GB.
+**All 99 modules pass as stated** (97, plus 2 data-only controls), one process each under 4 GB, largest 2.77 GB.
 
 | group (T″) | processes | CPU | kernel | max charge |
 |---|---:|---:|---:|---:|

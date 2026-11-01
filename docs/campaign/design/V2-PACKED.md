@@ -979,8 +979,7 @@ data elaborated once:
 - frames `sup |T| ≤ 118` on the jet's torsion: 1 process, 30.2 CPU-s (sup |T| = 117.50).
 One-ulp controls decide `false` on the radii and bounds; at torsion, one ulp of a jet radius is absorbed by the
 outward rounding of the propagated radius (2²⁰ ulp is rejected). The landed consumers' composition inputs (T′:
-4,121 `Low`/`Full` modules; 77,925 CPU-s for the 3,699 run so far) are no longer needed once the packed chains
-are proved.
+4,121 `Low`/`Full` modules, 88,068 CPU-s in run18) are no longer needed: the packed chains are proved (§12.13).
 
 **Gate (LG00 T″, `…/V2-PACKED-CONS-GATE/TPP/`).** The same probes at T″'s claims, every one decided as stated:
 - torsion: 43 processes, 408 CPU-s, ≤ 2.77 GB; margin 1.32·10⁻³;
