@@ -68,6 +68,9 @@ src (4th, created 05:30 for the third slot).
   first-derivative and denominator clauses (the Lean route consumes only the scalar class and the sup bound), so
   the L8 node is PARTIAL, with a LEAN_NOTE naming the proved clauses and why the rest is not needed downstream. The
   alternative: add the two clauses later (cheap, from the same tube) and mark it PROVED then.
+- **LP2 freeze surface (audit LP-W4A-1, N1):** the spatial Kepler elements (`spatialKeplerAxis`, `…Action`, `…EccVector`, …)
+  are public total helpers; the LP2 proposal must expose them through source subtypes (OD-11 (b)), never freeze the
+  unrestricted helpers as physical quantities.
 - **Spatial L18 (SP-DOM):** like planar DOM, the derivative and denominator clauses of L8/L18 are not separately
   exported; the L18 node is PARTIAL until a spatial DOMX-style supplement (cheap, same tube) is proved.
 - **For LP-NRR (from audit LP-W2A-1):** choose `ρ` strictly inside `r_*` when feeding `lp_scale_choice`, so the
@@ -110,3 +113,4 @@ src (4th, created 05:30 for the third slot).
 - 2026-11-01 05:40 UTC: LP-SRC proved: OD-11 (b) is concrete and proved (FREEZE-PROPOSAL draft 3 §3b). Delta review 3 launched on codex-2 (prioritized over W4A for the owner's morning). LP-SP-ADAPT proved (no convention mismatch for m ≠ n). LP-SP-LIFT launched on claude-11. W4A branch built in the thr worktree (waiting for codex-2).
 - 2026-11-01 05:48 UTC: delta review 3 PASS (OD-11 (b) resolves F4); freeze package has no open technical blocker (owner decisions remain). LP-W4A (SP-MODEL+SP-ROT) audit launched on codex-2. LP-SP-DOM proved. LP-SP-NRR launched on claude-12.
 - 2026-11-01 05:49 UTC: **LP-PS LANDED (main 0772a7d5): the planar theorem LP1 and LP0 are on main**, audited; kam-inp-63 independently confirmed standard axioms on main's build for lp1_planar_strongAMD_safety{,_normalized,_halfInteger} and lp0_planar_barrier. LP-SP-NRR launched on claude-12.
+- 2026-11-01 06:06 UTC: LP-W4A (SP-MODEL + SP-ROT) audit 1 PASS WITH NOTES; N2 applied, N1 carried to the LP2 proposal; merged into inp-lp; landing requested.
