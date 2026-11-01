@@ -473,3 +473,9 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   audits, ok?")* codex-2 is logged in. Its weekly plan reads 0 %, but it has usage credits. It carries the LP and W
   audits from now on: Sol medium, default tier, one audit at a time machine-wide, LP first. codex-1 finishes the audit
   already running on it. This resolves LP's OD-10 (audit capacity after codex-1 ran low).
+- **D58 (2026-11-01, 07:16 UTC; orchestrator) Sealed frozen theorems may be imported by implementation modules.** AGENTS.md
+  rule 9 quarantines only PROVIDERS and DRAFT_SORRY anchors. A SEALED frozen theorem is the audited source-facing
+  interface, and any implementation module may import and apply it. That is the preferred way to consume it; its
+  provider is never imported directly.
+  - Precedent: KAM/Planetary/Exponential/Stopped.lean imports the sealed `KAM.Nekhoroshev.partialConvex_nekhoroshev`.
+  - Track LP's LP3 (the sharp threshold without arithmetic hypothesis) uses the same theorem (LP OD-13).
