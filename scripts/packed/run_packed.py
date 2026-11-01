@@ -108,8 +108,9 @@ def predict_stale(pkg, mods, deps, lg00_core):
     for m in mods:                            # dependency order
         olean = os.path.join(pkg, ".lake", "build", "lib", "lean", *m.split(".")) + ".olean"
         imps = IMP.findall(open(src(pkg, m), encoding="utf-8").read())
-        if not os.path.exists(olean) or any(d in stale for d in deps[m]) or \
-                any(core_changed(d) for d in imps if d.split(".")[0] not in ("LG00", "LG00Packed", "LG00P")):
+        ours = m.split(".")[0] in ("LG00Packed", "LG00P")     # built here, against this core
+        if not os.path.exists(olean) or any(d in stale for d in deps[m]) or (not ours and any(
+                core_changed(d) for d in imps if d.split(".")[0] not in ("LG00", "LG00Packed", "LG00P"))):
             stale.add(m)
     return stale
 

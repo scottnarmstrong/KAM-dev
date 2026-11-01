@@ -371,7 +371,7 @@ def emit_gram(E, data):
                                 "One boundary entry of the packed Gram stage: the landed `dkModel` against the memo.",
                                 thm("pkGramE_%d_%d" % (r, a), "pgEntryOk %s %d %d = true" % (args, r, a))))
     sig = "(lg00Cert.params.σB - lg00Cert.params.μ)"
-    core = E.write("Gram.Core", imp, "the Gram core", "The core of the packed Gram check (`gramPackedCore`): it "
+    core = E.write("Gram.Core", imp + ["KAM.CertificateSharp.Kernel.SegDefs"], "the Gram core", "The core of the packed Gram check (`gramPackedCore`): it "
                    "returns the mirror's `(δ, β)`.",
                    thm("pkGramCore", "gramPackedCore 2 lg00Cert.gramInv lg00Cert.weight lg00Cert.cfgLow pkGBook "
                        "pkGMemo %s = some pkGDB" % sig) + "\n" +
@@ -391,6 +391,19 @@ def emit_gram(E, data):
         swrap("pgEntries %s = true := by" % args), hs, sig)
     return E.write("Gram", ents + [core, "Mathlib.Tactic.IntervalCases"], "the packed Gram stage (B2)",
                    "`checkGramPacked pkGBook pkGMemo lg00Cert = true` from its entries and its core.", body)
+
+
+def cached(f, pkg, tag, cert):
+    """A computation cached in the package by a tag (pickled)."""
+    import pickle
+    path = os.path.join(pkg, "cache_%s.pkl" % tag)
+    if os.path.exists(path):
+        S = pickle.load(open(path, "rb"))
+        S["D"]["cert"] = cert
+        return S
+    S = f()
+    pickle.dump(S, open(path, "wb"))
+    return S
 
 
 def cached_compute(cert, pkg, tree):
@@ -564,8 +577,8 @@ def emit_assembly(E, data, gram, tors, frames, tms, sharp_engine="routeARefinedP
     eng = E.write("Asm.Engine", [fr, E.lg("Final.HamClaim"), E.lg("Final.RefinedCore")],
                   "the packed sharp-site engine", "The test of `routeARefinedPackedS` on the certificate and its "
                   "route witness: the landed disc pass, the packed frames, the certified sharp sites.",
-                  "theorem pkEngine : refinedTestPackedS %s lg00Cert lg00RW = true :=\n"
-                  "  refinedTestPackedS_of %s lg00_hamClaim pkFrames lg00_refinedCore\n" % (bk, bk))
+                  "theorem pkEngine :\n    refinedTestPackedS %s lg00Cert lg00RW = true :=\n"
+                  "  refinedTestPackedS_of %s\n    lg00_hamClaim pkFrames lg00_refinedCore\n" % (bk, bk))
     base = E.write("Asm.Base", [gram, ctors, E.lg("Final.Static"), E.lg("Final.Embedding"),
                                 E.lg("Final.Invariance"), E.lg("Balls.HamBounds")],
                    "the packed base checker", "`torsRBase`: the landed static, Hamiltonian, embedding, invariance and "
@@ -593,11 +606,22 @@ def emit_assembly(E, data, gram, tors, frames, tms, sharp_engine="routeARefinedP
             "theorem pk_kamTorus :\n%s := by\n"
             "  refine ⟨lg00Ham_identity, by decide +kernel, ?_⟩\n"
             "  obtain ⟨Kinf, sinf, h⟩ := (lg00_certifiedTorus_iff lg00Cert lg00OmegaStar).mp\n"
-            "    (checkV2With_packedS_sound %s pk_check lg00_freqEncloses lg00_diophantine)\n"
+            "    (checkV2With_packedS_sound %s pk_check lg00_freqEncloses\n      lg00_diophantine)\n"
             "  exact ⟨Kinf, sinf, h, lg00_window h.2.2.2.2.2.2.2.2.2.2⟩\n") % (opens, st, bk)
+    body += stmt_form(main_src, ren)
     return E.write("Main", [chk, E.lg("Final.Freq"), E.sh("Physical.HamIdentity")],
                    "the torus theorem through the packed route",
                    "`pk_kamTorus`: the statement of the tree's `Main.lean`, from the packed route.", body)
+
+
+def stmt_form(main_src, ren):
+    """`pk_kamTorusStatement`: the confinement form of the tree's `Main.lean` (`lg00_kamTorusStatement`)."""
+    import re
+    m = re.search(r"theorem lg00_kamTorusStatement : (.*?) :=\n  ⟨lg00_kamTorus\.1, lg00_kamTorus\.2\.2⟩", main_src,
+                  re.S)
+    assert m, "the tree's Main.lean has no lg00_kamTorusStatement of the expected form"
+    return ("\n/-- `pk_kamTorus` in the form of LG00-CONF's assembly (`lg00_kamTorusStatement`'s statement). -/\n"
+            "theorem pk_kamTorusStatement : %s :=\n  ⟨pk_kamTorus.1, pk_kamTorus.2.2⟩\n" % ren(m.group(1)))
 
 
 def i_book(D, wfull, bfull, hb=48):
@@ -755,18 +779,18 @@ def emit_j(E, SJ, jet):
                                  E.lg("Balls.HamBounds")], "the jet base checker",
                    "`jetBase`: the landed static, Hamiltonian and embedding checks (the tree's facts, on the copy) "
                    "with the packed Gram, torsion, invariance and energy on the jet.",
-                   "theorem pkBaseJ : (jetBase %s jdLow pkIBook jdFull).check lg00Cert = true :=\n"
+                   "theorem pkBaseJ :\n    (jetBase %s jdLow pkIBook jdFull).check lg00Cert = true :=\n"
                    "  jetBase_check_of lg00_checkStatic lg00_hamBounds lg00_checkEmbedding pkGram pkCheckTorsionJ\n"
                    "    pkCheckInvJ pkCheckEnJ\n" % bk)
     eng = E.write("Asm.EngineJ", [frames, E.lg("Final.HamClaim"), E.lg("Final.RefinedCore")],
                   "the packed sharp-site engine on the jet", "The test of `routeARefinedPackedSJ`.",
-                  "theorem pkEngineJ :\n    refinedTestSWith (framesRJ %s jdLow) lg00Cert lg00RW = true :=\n"
-                  "  refinedTestPackedSJ_of %s jdLow lg00_hamClaim pkFramesJ lg00_refinedCore\n" % (bk, bk))
+                  "theorem pkEngineJ :\n    refinedTestSWith (framesRJ %s jdLow) lg00Cert lg00RW =\n      true :=\n"
+                  "  refinedTestPackedSJ_of %s jdLow\n    lg00_hamClaim pkFramesJ lg00_refinedCore\n" % (bk, bk))
     chk = E.write("Asm.CheckJ", [eng, base], "the v2 certifier on the jet route",
                   "The certifier with `jetBase` and the packed sharp-site engine on the jet passes.",
                   "/-- **The v2 certifier passes on `lg00Cert` through the jet route.** -/\n"
                   "theorem pk_checkJ :\n    checkV2With (jetBase %s jdLow pkIBook jdFull)\n"
-                  "      (routeARefinedPackedSJ %s jdLow) lg00Cert lg00RW = true :=\n"
+                  "      (routeARefinedPackedSJ %s jdLow) lg00Cert lg00RW =\n      true :=\n"
                   "  checkV2With_jetSharp_of %s jdLow pkBaseJ pkEngineJ\n" % (bk, bk, bk))
     main_src = open(os.path.join(E.cert_root, "Main.lean"), encoding="utf-8").read()
     ren = lambda x: re.sub(r"\bLG00\b", E.pre, x)
@@ -778,8 +802,9 @@ def emit_j(E, SJ, jet):
             "theorem pk_kamTorus :\n%s := by\n"
             "  refine ⟨lg00Ham_identity, by decide +kernel, ?_⟩\n"
             "  obtain ⟨Kinf, sinf, h⟩ := (lg00_certifiedTorus_iff lg00Cert lg00OmegaStar).mp\n"
-            "    (checkV2With_jetSharp_sound %s jdLow pk_checkJ lg00_freqEncloses lg00_diophantine)\n"
+            "    (checkV2With_jetSharp_sound %s jdLow pk_checkJ\n      lg00_freqEncloses lg00_diophantine)\n"
             "  exact ⟨Kinf, sinf, h, lg00_window h.2.2.2.2.2.2.2.2.2.2⟩\n") % (opens, stt, bk)
+    body += stmt_form(main_src, ren)
     return E.write("MainJ", [chk, E.lg("Final.Freq"), E.sh("Physical.HamIdentity")],
                    "the torus theorem through the jet route",
                    "`pk_kamTorus`: the statement of the tree's `Main.lean`, from the jet route.", body)
@@ -809,7 +834,7 @@ def main():
     if "jet" in stages:
         # the jet route (exclusive: its data modules carry the jet-fed torsion memos)
         assert lowc and fullc, "--jet-low and --jet-full: kamx-packed's mirror caches of the two chains"
-        SJ = GC.compute_j(cert, lowc)
+        SJ = cached(lambda: GC.compute_j(cert, lowc), pkg, "J_%s_%d" % (tree, os.path.getsize(lowc)), cert)
         fr = GC.frames(SJ)
         assert all(fr["ok"].values()), fr["ok"]
         v0, d1, _ = GC.ham_jet(cert)
