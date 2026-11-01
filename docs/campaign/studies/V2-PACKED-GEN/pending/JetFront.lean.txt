@@ -10,14 +10,15 @@ public import KAM.CertificateSharp.Packed.JetCheck
 /-!
 # A jet ledger with its wanted nodes in front
 
-The consumers of the packed jet (`checkTorsionJ`, `checkInvarianceJ`, `checkEnergyJ`) read the wanted nodes of a
-chain through `List.lookup` in the chain's whole ledger (`JetData.led`; about 3,800 nodes for LG00's `cfgLow`
-chain). In the kernel each read walks the ledger, and a consumer stage that reads several wanted nodes does not
-fit 4 GB. `JetData.withFront jd front` is the same chain with `front` (some of its own entries) prepended to the
-ledger: a lookup of a front key stops in the front, every other lookup is unchanged.
+The consumers of the packed jet (`checkTorsionJ`, `checkInvarianceJ`, `checkEnergyJ`) read the
+wanted nodes of a chain through `List.lookup` in the chain's whole ledger (`JetData.led`; about
+3,800 nodes for LG00's `cfgLow` chain). In the kernel each read walks the ledger, and a consumer
+stage that reads several wanted nodes does not fit 4 GB. `JetData.withFront jd front` is the same
+chain with `front` (some of its own entries) prepended to the ledger: a lookup of a front key stops
+in the front, every other lookup is unchanged.
 
-* `lookup_withFront`: if every front entry is the ledger's own (`frontOk`, decided entry by entry with `lookOk`),
-  then the two ledgers have the same lookups;
+* `lookup_withFront`: if every front entry is the ledger's own (`frontOk`, decided entry by entry
+  with `lookOk`), then the two ledgers have the same lookups;
 * `jetCheck_withFront`: the chain check is unchanged, so the chain theorem of `jd` gives the one of
   `jd.withFront front`, and the consumers can be stated at `jd.withFront front`.
 
@@ -74,7 +75,8 @@ theorem look_withFront {α : Type} [CertArith α] {jd : JetData} {front : JLedge
 theorem jetCheck_withFront {n : ℕ} {α : Type} [CertArith α] {W : CertWeight}
     {pe : PiEnclosure α} {cfg : ModelConfig α} {K : CertEmbedding α} {p : Slp} {jd : JetData}
     {front : JLedger} (h : frontOk jd front = true) (B : ℕ) (wanted : List ℕ) :
-    jetCheck n W pe cfg K p (jd.withFront front) B wanted = jetCheck n W pe cfg K p jd B wanted := by
+    jetCheck n W pe cfg K p (jd.withFront front) B wanted =
+      jetCheck n W pe cfg K p jd B wanted := by
   have hw : jetWantedOk (jd.withFront front) B = jetWantedOk jd B := by
     funext i
     simp only [jetWantedOk, JetData.led, JetData.withFront, lookup_withFront h]

@@ -36,8 +36,8 @@ stage diagnosed and cut (T′ without LG00's data: 6,370 CPU-s, 16.9×); (E) T�
   of LG00's Hamiltonian results. With the copy proving them itself (LG00's 6 GB ball chunk split in two, 3.62 GB),
   T′'s route is 592 modules, 6,370 CPU-s (1.77 CPU-h): **16.9×** against run18, Data 46 modules / 295 CPU-s.
 - **(E) T″ by the packed route:** see (E).
-- **Found on the way:** LG00's generated `Final.Freq` (T′, T″) does not elaborate (errata below); LG00's run18 will
-  hit it at `TP.Main`. One-line fix verified.
+- **Found on the way:** LG00's generated `Final.Freq` (T′, T″) did not elaborate (errata below); fixed on `lg00-app`
+  at ≈ 16:05 UTC by kamx-certside (generator `769510ff`, both trees re-emitted).
 
 ## (A) The packed sharp-site engine
 
@@ -63,8 +63,10 @@ stage diagnosed and cut (T′ without LG00's data: 6,370 CPU-s, 16.9×); (E) T�
 **The jet route needs no new engine.** `RouteSharpJ.lean` (`framesRJ`, `routeARefinedPackedSJ :=
 routeARefinedSWith (framesRJ …)`, `checkV2With_jetSharp_sound`, and the assembly lemmas `ptD2All_of`,
 `torsRCoreJ_of`) instantiates the engine at kamx-pk-cons' `checkFrameMajorantsRJ`. It imports their modules, so it
-is not on this branch: it is compile-checked on the local integration branch `v2-packed-gen-int` (this branch
-merged with `v2-packed-prod` `0d5f39d9` and `v2-packed-cons` `75deebd9`; never to be landed) and is to be added
+is not on this branch: it is compile-checked on the local integration branch `v2-packed-gen-int` (never to be
+landed; its merges, in order: `v2-packed-prod` `0d5f39d9`, `v2-packed-cons` `75deebd9` (the first compile), then
+`v2-packed-cons` `4b2cf9af`, `v2-packed-prod` `6ddf90d0` and `0bb4def23`: the routes were proved at the last two,
+with this branch merged in after each of its commits) and is to be added
 after both land (text below, "Pending module"). kamx-pk-cons' `routeARefinedPackedJ` is the classical-site engine;
 LG00's tori need the sharp sites: with classical sites T″ fails (0.98× at L = 20; "classical fails" at T″'s
 L = 18; route/cost table of the LG00-T2 handoff, `git show lg00-app:docs/campaign/handoffs/LG00-T2.md`).
@@ -169,7 +171,8 @@ to `v2-packed`'s worktree copy, `run_tree.sh` takes `PROD_GEN`/`JET_PROD_GEN`), 
   the jet's nodes; the torsion (`checkTorsionJ`: `ptD2All`, `jetLowOk`, `torsRCoreJ` in 13 parts), the frames
   (`checkFrameMajorantsRJ`), the invariance (`pkIBook`, `ivGuard`, four `ivRowOk`, `jetFullOk`), the energy,
   `jetBase`, the engine `routeARefinedPackedSJ`, `pk_checkJ`, `pk_kamTorus`. Generated against kamx-pk-cons'
-  committed API (`v2-packed-cons` `75deebd9`) and kamx-packed's (`v2-packed-prod` `0d5f39d9`, API note §3: the
+  committed API (`v2-packed-cons` `75deebd9`, now `4b2cf9af`) and kamx-packed's (`v2-packed-prod` `0d5f39d9`, now
+  `0bb4def23`; API note §3: the
   chain theorems `jetLow_check_cert`, `jetFull_check_cert`, `jdLow`, `jdFull`, `bLow`, `bFull` in
   `LG00P.<T>.Jet.<C>.ChainCert`).
 
@@ -240,9 +243,13 @@ also saves the ported balls' 360 CPU-s and the disc pass.
   across, given one checked lookup per front entry (`frontOk`, 25 lookups, ≤ 0.54 GB). It bounds every consumer
   lookup by 20 or 5 entries (AUDIT/CONS L2). Whether it is necessary is unmeasured: it did not by itself fix the
   `X_N` entries (the cause was the jet above).
-- **Two slow assemblies:** `TorsJ.Core` (166 CPU-s) and `TorsJ` (401 CPU-s), against 4.3 and 7.3 s for the same
-  assemblies on the landed-model route. Proof terms are the same lemma applications; something in the unification
-  of `jetSlots jdLowW` or the rewrite unfolds a large definition. Under the cap; to profile.
+- **Two "slow" assemblies:** `TorsJ.Core` (166 CPU-s) and `TorsJ` (401 CPU-s) in `runJ`. Resolved: they were
+  stale-import rebuilds booked to them (V2-PACKED-CONS-PERF, AUDIT-V2-PACKED-JETROUTE-1 C3: ≈ 1.7 CPU-s each built
+  alone); see the corrected table.
+- **Lines over 100 characters (AUDIT-V2-PACKED-JETROUTE-1 C2):** `RouteSharpJ.lean` (2 lines) and `JetFront.lean`
+  (6) had them. Fixed in the landable text (`pending/*.lean.txt`: docstrings re-wrapped, two statements broken,
+  no term changed; every line ≤ 100). The integration branch keeps the built text until T″ is proved: an edit
+  there invalidates every built module of both routes (Lake traces cascade).
 
 **The T′ jet route PROVED end to end (integration, `runJ` pass 5, 2026-11-01).** `LG00P.TP.PK.MainJ` proves
 `pk_kamTorus` (`lg00_kamTorus`'s statement, verbatim, about the packed route's certificate copy
@@ -270,14 +277,19 @@ Whole torus, the packed jet route against LG00's run18 (T′ complete there; rea
 | Main | 1 | 12 | 1.12 GB | 1 | 7 | 0.57 GB | 1.7× |
 | **total** | **5241** | **107577** (29.88 CPU-h) | | **881** | **9611** (2.67 CPU-h) | | **11.2×** |
 
-**Corrected 2026-11-01 22:00 UTC (no double booking; V2-PACKED-CONS-PERF, kamx-pk-cons).** The first version of
+**Corrected 2026-11-01 22:00 UTC (no double booking; V2-PACKED-CONS-PERF, kamx-pk-cons; AUDIT-V2-PACKED-JETROUTE-1
+C3).** The first version of
 this table (10,207 CPU-s, 10.5×; Torsion 991, Full 2,737, Final 884) booked to six rows the 123 dependencies their
 `lake build` rebuilt (596.7 s of Lake job time: `TorsJ` 91 modules / 385.0 s, `TorsJ.Core` 16 / 162.8 s, `InvJ` 9 /
 24.3 s, `FramesJ` 3 / 12.8 s, `InvJ.FullOk` 3 / 9.7 s, `EnJ` 1 / 2.1 s), each of which also has its own row:
 `run_compare.py` now subtracts, from a row, the Lake time of the other modules its build compiled when those have
 their own row (`double booking removed: 6 rows, 596.7 s`), and `run_packed.py` records such modules apart
-(`extra.tsv`, `EXTRA`) so a ledger can no longer book them. Corrected, the two torsion assemblies take 3.2 s
-(`TorsJ.Core`) and 15.9 s (`TorsJ`).
+(`extra.tsv`, `EXTRA`) so a ledger can no longer book them. The two torsion assemblies were stale-import rebuilds,
+not slow Lean: the audit measures ≈ 1.7 CPU-s each built alone (the ledger subtraction leaves 3.2 s and 15.9 s: it
+subtracts Lake's per-job times, not the rebuilt jobs' CPU).
+- **Shared modules, like for like (audit C3).** The LG00 column has no row for LG00's 51 shared modules (`Ham`,
+  `Jet`, `JetOps*`, formats, …: built before run18), while the packed column counts kamx-packed's 40 copies of
+  them (`LG00P.Ham`, …, 241 CPU-s). Excluding those copies too: ≈ 11.5× (9,370 CPU-s).
 
 Notes on the table.
 - **Packed column = the import closure of `MainJ`**, each module at the cost of the run that built it: my `runJ`
@@ -293,7 +305,7 @@ Notes on the table.
 - **Kernel time:** not separable on this package (kamx-packed's library options carry no profiler, and my modules
   there use them so their traces hold); CPU-s are comparable column to column.
 - **The two "slow" assemblies** (`TorsJ.Core` 166 s, `TorsJ` 401 s in the first version) were the double booking
-  above, not Lean.
+  above (stale-import rebuilds), not Lean.
 
 **T″ the same way.** `gen_cert.py …/LG00/TPP` (no change to any script): T″'s own parameters, box
 (`s = 886058956738442102019008342433694847/886058070680308099785085113265000000`), zero modes and claims are read
@@ -453,8 +465,9 @@ integration workspace `lake build --no-build LG00.TPP.Data.Cert`: `All targets u
   `✔ Built KAM.CertificateSharp.Packed.RouteSharp (1.0s)`, `✔ Built KAM.CertificateSharp.Packed.TorsRAsm (3.8s)`,
   `Build completed successfully`; no warning in `Packed/`. (They rebuilt `V2/SiteSign`, `V2/SiteShard`,
   `Packed/Frames`, `V2/RouteARefinedS`: stale in the seeded build, unchanged sources.)
-- **Integration** (`v2-packed-gen-int`: this branch + `v2-packed-prod` `0d5f39d9` + `v2-packed-cons` `75deebd9`, both
-  merges clean): their modules and `RouteSharpJ` built one at a time, `✔ Built
+- **Integration** (`v2-packed-gen-int`, first compile: this branch + `v2-packed-prod` `0d5f39d9` + `v2-packed-cons`
+  `75deebd9`, both merges clean; the routes at `4b2cf9af` + `0bb4def23`): their modules and `RouteSharpJ` built one at
+  a time, `✔ Built
   KAM.CertificateSharp.Packed.RouteSharpJ (7.6s)`. My first draft re-declared `torsRCoreJ_of` (kamx-pk-cons has it,
   same arguments); removed.
 - **`#print axioms`**, each `[propext, Classical.choice, Quot.sound]`: `routeARefinedPackedS`, `routeV2AllPackedS`,
@@ -538,7 +551,8 @@ before any Lean process.
 ## Suspected errata and deviations
 
 - **Defect in LG00's generated `LG00.TP.Final.Freq` (and `LG00.TPP.Final.Freq`), on `lg00-app` (untracked, generated
-  03:37).** Line 23, `open KAM KAM.Certificate LG00 LG00.Confinement KAM.CertificateSharp.V2`: the module's import
+  03:37). FIXED upstream** at ≈ 16:05 UTC by kamx-certside (generator `769510ff`, both trees re-emitted); the entry
+  is kept for the record (`gen_pkg.py`'s `PATCHES` is then a no-op: it applies only when the old text is there). Line 23, `open KAM KAM.Certificate LG00 LG00.Confinement KAM.CertificateSharp.V2`: the module's import
   closure (532 modules: `LG00.TP.Data.Cert`, `LG00.Model`, `LG00.Window`, `LG00.Confinement.Main`) contains no
   `KAM.CertificateSharp.V2` module, so the `open` fails (`unknown namespace KAM.CertificateSharp.V2`) and with it
   every later name (`FreqEncloses`, `IsDiophantine`, `lg00WindowTP`): 6 errors. The closure is byte-identical to
