@@ -1,0 +1,7 @@
+wall_s 17.04
+user_s 19.24
+sys_s 2.53
+maxrss_kb 2060196
+exit 0
+cgroup_sampled_peak_bytes 1119113216
+oom_kill 0

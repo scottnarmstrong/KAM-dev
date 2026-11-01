@@ -1,0 +1,20 @@
+⚠ [2840/2846] Replayed KAM.Certificate.Arith.PiHigh
+warning: KAM/Certificate/Arith/PiHigh.lean:218:8: This simp argument is unused:
+  Nat.succ_eq_add_one
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [div_eq_mul_inv]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [2959/3063] Replayed KAM.Certificate.Expr.Basic
+warning: KAM/Certificate/Expr/Basic.lean:93:5: Variable name `hS` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hS
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+✖ [3377/3377] Building LG00P.TP.Jet.Low.B58 (20s)
+trace: .> LEAN_PATH=/home/scott/KAM-dev-worktrees/v2-packed/.lake/packages/Cli/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/packages/batteries/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/packages/Qq/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/packages/aesop/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/packages/proofwidgets/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/packages/importGraph/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/packages/plausible/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/packages/mathlib/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/pkg/.lake/build/lib/lean /home/scott/.elan/toolchains/leanprover--lean4---v4.35.0/bin/lean /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/pkg/LG00P/TP/Jet/Low/B58.lean -o /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/pkg/.lake/build/lib/lean/LG00P/TP/Jet/Low/B58.olean -i /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/pkg/.lake/build/lib/lean/LG00P/TP/Jet/Low/B58.ilean -c /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/pkg/.lake/build/ir/LG00P/TP/Jet/Low/B58.c --setup /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/pkg/.lake/build/ir/LG00P/TP/Jet/Low/B58.setup.json --json
+error: Lean exited with code 137
+Some required targets logged failures:
+- LG00P.TP.Jet.Low.B58

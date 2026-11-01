@@ -1,0 +1,43 @@
+full mirror complete; 21:56:15
+emitted: 1250 lines of module list; 21:56:20
+=== pass 1 21:56:22: sources copied 111, artifacts hardlinked 440, copied 1320
+225 to do, 115 stale (to build), 110 up to date (reused)
+DONE: 322 passed, 73 failed ['LG00P.TPP.PK.Asm.BaseJ', 'LG00P.TPP.PK.Asm.CheckJ', 'LG00P.TPP.PK.Asm.EngineJ', 'LG00P.TPP.PK.Data.Front', 'LG00P.TPP.PK.EnJ', 'LG00P.TPP.PK.EnJ.Parts', 'LG00P.TPP.PK.FramesJ', 'LG00P.TPP.PK.FramesJ.L', 'LG00P.TPP.PK.FramesJ.N', 'LG00P.TPP.PK.FramesJ.T']
+  waiting on kamx-packed: 73
+=== pass 2 22:00:38: sources copied 5, artifacts hardlinked 0, copied 0
+73 to do, 73 stale (to build), 0 up to date (reused)
+DONE: 322 passed, 73 failed ['LG00P.TPP.PK.Asm.BaseJ', 'LG00P.TPP.PK.Asm.CheckJ', 'LG00P.TPP.PK.Asm.EngineJ', 'LG00P.TPP.PK.Data.Front', 'LG00P.TPP.PK.EnJ', 'LG00P.TPP.PK.EnJ.Parts', 'LG00P.TPP.PK.FramesJ', 'LG00P.TPP.PK.FramesJ.L', 'LG00P.TPP.PK.FramesJ.N', 'LG00P.TPP.PK.FramesJ.T']
+  waiting on kamx-packed: 73
+=== pass 3 22:02:44: sources copied 2, artifacts hardlinked 0, copied 0
+73 to do, 73 stale (to build), 0 up to date (reused)
+DONE: 322 passed, 73 failed ['LG00P.TPP.PK.Asm.BaseJ', 'LG00P.TPP.PK.Asm.CheckJ', 'LG00P.TPP.PK.Asm.EngineJ', 'LG00P.TPP.PK.Data.Front', 'LG00P.TPP.PK.EnJ', 'LG00P.TPP.PK.EnJ.Parts', 'LG00P.TPP.PK.FramesJ', 'LG00P.TPP.PK.FramesJ.L', 'LG00P.TPP.PK.FramesJ.N', 'LG00P.TPP.PK.FramesJ.T']
+  waiting on kamx-packed: 73
+=== pass 4 22:04:48: sources copied 4, artifacts hardlinked 0, copied 0
+73 to do, 73 stale (to build), 0 up to date (reused)
+DONE: 322 passed, 73 failed ['LG00P.TPP.PK.Asm.BaseJ', 'LG00P.TPP.PK.Asm.CheckJ', 'LG00P.TPP.PK.Asm.EngineJ', 'LG00P.TPP.PK.Data.Front', 'LG00P.TPP.PK.EnJ', 'LG00P.TPP.PK.EnJ.Parts', 'LG00P.TPP.PK.FramesJ', 'LG00P.TPP.PK.FramesJ.L', 'LG00P.TPP.PK.FramesJ.N', 'LG00P.TPP.PK.FramesJ.T']
+  waiting on kamx-packed: 73
+=== pass 5 22:06:53: sources copied 4, artifacts hardlinked 0, copied 0
+73 to do, 73 stale (to build), 0 up to date (reused)
+DONE: 322 passed, 73 failed ['LG00P.TPP.PK.Asm.BaseJ', 'LG00P.TPP.PK.Asm.CheckJ', 'LG00P.TPP.PK.Asm.EngineJ', 'LG00P.TPP.PK.Data.Front', 'LG00P.TPP.PK.EnJ', 'LG00P.TPP.PK.EnJ.Parts', 'LG00P.TPP.PK.FramesJ', 'LG00P.TPP.PK.FramesJ.L', 'LG00P.TPP.PK.FramesJ.N', 'LG00P.TPP.PK.FramesJ.T']
+  waiting on kamx-packed: 73
+=== pass 6 22:08:59: sources copied 181, artifacts hardlinked 16, copied 51
+270 to do, 266 stale (to build), 4 up to date (reused)
+DONE: 326 passed, 266 failed ['LG00P.TPP.Jet.Full.B0', 'LG00P.TPP.Jet.Full.B1', 'LG00P.TPP.Jet.Full.B10', 'LG00P.TPP.Jet.Full.B100', 'LG00P.TPP.Jet.Full.B101', 'LG00P.TPP.Jet.Full.B102', 'LG00P.TPP.Jet.Full.B103', 'LG00P.TPP.Jet.Full.B104', 'LG00P.TPP.Jet.Full.B105', 'LG00P.TPP.Jet.Full.B106']
+  waiting on kamx-packed: 266
+=== pass 7 22:11:11: sources copied 0, artifacts hardlinked 64, copied 191
+266 to do, 250 stale (to build), 16 up to date (reused)
+DONE: 409 passed, 183 failed ['LG00P.TPP.Jet.Full.B0', 'LG00P.TPP.Jet.Full.B1', 'LG00P.TPP.Jet.Full.B10', 'LG00P.TPP.Jet.Full.B100', 'LG00P.TPP.Jet.Full.B101', 'LG00P.TPP.Jet.Full.B102', 'LG00P.TPP.Jet.Full.B103', 'LG00P.TPP.Jet.Full.B104', 'LG00P.TPP.Jet.Full.B105', 'LG00P.TPP.Jet.Full.B106']
+  waiting on kamx-packed: 183
+=== pass 8 22:17:24: sources copied 0, artifacts hardlinked 468, copied 1395
+183 to do, 67 stale (to build), 116 up to date (reused)
+DONE: 525 passed, 67 failed ['LG00P.TPP.Jet.Full.B116', 'LG00P.TPP.Jet.Full.B117', 'LG00P.TPP.Jet.Full.B118', 'LG00P.TPP.Jet.Full.B119', 'LG00P.TPP.Jet.Full.B120', 'LG00P.TPP.Jet.Full.B121', 'LG00P.TPP.Jet.Full.B122', 'LG00P.TPP.Jet.Full.B123', 'LG00P.TPP.Jet.Full.B124', 'LG00P.TPP.Jet.Full.B125']
+  waiting on kamx-packed: 67
+=== pass 9 22:20:13: sources copied 0, artifacts hardlinked 200, copied 609
+67 to do, 16 stale (to build), 51 up to date (reused)
+DONE: 576 passed, 16 failed ['LG00P.TPP.Jet.Full.B167', 'LG00P.TPP.Jet.Full.B168', 'LG00P.TPP.Jet.Full.B169', 'LG00P.TPP.Jet.Full.B170', 'LG00P.TPP.Jet.Full.B171', 'LG00P.TPP.Jet.Full.B172', 'LG00P.TPP.Jet.Full.B173', 'LG00P.TPP.Jet.Full.B174', 'LG00P.TPP.Jet.Full.Chain', 'LG00P.TPP.Jet.Full.ChainCert']
+  waiting on kamx-packed: 16
+=== pass 10 22:22:24: sources copied 0, artifacts hardlinked 40, copied 118
+16 to do, 6 stale (to build), 10 up to date (reused)
+DONE: 592 passed, 0 failed []
+  waiting on kamx-packed: 0
+T'' PROVED: LG00P.TPP.PK.MainJ passed; 22:23:02

@@ -1,0 +1,18 @@
+| module | what | CPU-s pass 1 | CPU-s pass 2 | elaboration | kernel | peak |
+|---|---|---:|---:|---:|---:|---:|
+| `Floor` | floor: empty module importing LG00.Format | 1.84 | 1.19 | 2 ms | 0 ms | 0.28 GB |
+| `A0` | A0 original (117 KB, 28 lists) | 12.74 | 7.03 | 3300 ms | 22 ms | 0.59 GB |
+| `A0P` | A0 packed | 2.48 | — | 241 ms | 4 ms | 0.31 GB |
+| `Pk0` | A0 packed, plan module 0 | 1.57 | 1.44 | 125 ms | 3 ms | 0.30 GB |
+| `A100` | A100 original (126 KB, 44 lists) | 18.26 | 9.90 | 5110 ms | 26 ms | 0.76 GB |
+| `A100P` | A100 packed | 1.75 | 1.28 | 38 ms | 2 ms | 0.28 GB |
+| `A253` | A253 original (72 KB, 25 lists) | 10.28 | — | 5310 ms | 52 ms | 0.57 GB |
+| `A253P` | A253 packed | 1.73 | — | 33 ms | 2 ms | 0.28 GB |
+| `MP` | A0+A100+A253 packed, one module | 2.35 | — | 234 ms | 9 ms | 0.31 GB |
+| `Pk50` | A72 packed, plan module 50 | 1.49 | — | 122 ms | 3 ms | 0.30 GB |
+| `Pk103` | A250-A253 packed, plan module 103 | 1.82 | 1.67 | 170 ms | 7 ms | 0.30 GB |
+| `A0Eq` | A0: packed = original, decide +kernel | 12.10 | — | 28 ms | 10.4 s | 0.52 GB |
+| `A100Eq` | A100: packed = original | 12.69 | — | 74 ms | 11.1 s | 0.55 GB |
+| `A253Eq` | A253: packed = original | 7.98 | — | 23 ms | 6.5 s | 0.47 GB |
+| `A100Sum` | A100 original: every value forced | 5.02 | — | 96 ms | 3.2 s | 0.52 GB |
+| `A100PSum` | A100 packed: every value forced | 10.96 | — | 82 ms | 9.2 s | 0.57 GB |

@@ -1,0 +1,7 @@
+'LG00P.TPP.pk_kamTorus' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LG00P.TPP.pk_kamTorusStatement' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LG00P.TPP.pk_checkJ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LG00P.TPP.pkHamBounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LG00P.TPP.pkHamClaim' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LG00P.TPP.pkBaseJ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LG00P.TPP.pkEngineJ' depends on axioms: [propext, Classical.choice, Quot.sound]
