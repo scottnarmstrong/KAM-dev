@@ -646,6 +646,12 @@ public import KAM.Planetary.StrongAMD.Modulus
 public import KAM.Planetary.StrongAMD.Momentum
 public import KAM.Planetary.StrongAMD.NonresonantAdapter
 public import KAM.Planetary.StrongAMD.NonresonantAdapterRescale
+public import KAM.Planetary.StrongAMD.NonresonantReuse.Drift
+public import KAM.Planetary.StrongAMD.NonresonantReuse.Hyp
+public import KAM.Planetary.StrongAMD.NonresonantReuse.Kepler
+public import KAM.Planetary.StrongAMD.NonresonantReuse.Pert
+public import KAM.Planetary.StrongAMD.NonresonantReuse.PertClass
+public import KAM.Planetary.StrongAMD.NonresonantReuse
 public import KAM.Planetary.StrongAMD.NonresonantScale
 public import KAM.Planetary.StrongAMD.Orbital
 public import KAM.Planetary.StrongAMD.Osculating.Basic
