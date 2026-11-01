@@ -56,10 +56,16 @@ public import KAM.CertificateSharp.Packed.Norm
 public import KAM.CertificateSharp.Packed.Product
 public import KAM.CertificateSharp.Packed.Round
 public import KAM.CertificateSharp.Packed.Slots
+public import KAM.CertificateSharp.Packed.Stage
+public import KAM.CertificateSharp.Packed.TabFinal
 public import KAM.CertificateSharp.Packed.Tests
 public import KAM.CertificateSharp.Packed.Tors
 public import KAM.CertificateSharp.Packed.TorsBase
 public import KAM.CertificateSharp.Packed.TorsChain
+public import KAM.CertificateSharp.Packed.TorsR
+public import KAM.CertificateSharp.Packed.TorsRBase
+public import KAM.CertificateSharp.Packed.TorsRChain
+public import KAM.CertificateSharp.Packed.TorsRSound
 public import KAM.CertificateSharp.Packed.TorsSound
 public import KAM.CertificateSharp.Packed.TorsTests
 public import KAM.CertificateSharp.Sharp
