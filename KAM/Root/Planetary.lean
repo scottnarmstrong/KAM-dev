@@ -639,6 +639,10 @@ public import KAM.Planetary.StrongAMD.AnalyticDomain.Core
 public import KAM.Planetary.StrongAMD.AnalyticDomain.Extension
 public import KAM.Planetary.StrongAMD.AnalyticDomain.Safety
 public import KAM.Planetary.StrongAMD.AnalyticDomain
+public import KAM.Planetary.StrongAMD.ChartLift.Lift
+public import KAM.Planetary.StrongAMD.ChartLift.Premises
+public import KAM.Planetary.StrongAMD.ChartLift.Stopped
+public import KAM.Planetary.StrongAMD.ChartLift
 public import KAM.Planetary.StrongAMD.Continuation
 public import KAM.Planetary.StrongAMD.Geometry
 public import KAM.Planetary.StrongAMD.Modulus
