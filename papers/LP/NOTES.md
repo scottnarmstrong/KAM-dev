@@ -186,3 +186,4 @@ Reader: a mathematician in Hamiltonian dynamics / celestial mechanics, checking 
 - Corollary D kept as a separate statement (the brief asks for it; house style would fold it).
 - Once the statement texts are approved, delete the last sentence of §A.3.
 - 10:23 EXPO round 3 PASS WITH NOTES; all notes applied; final build 23 pp clean.
+- 10:30 root-b8: landed on main as 82e22386 (owner: 'Land on main now'). Standing by for owner edits on paper-lp; on statement freeze: delete last sentence of §A.3 and re-pin.
