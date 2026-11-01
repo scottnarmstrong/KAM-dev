@@ -20,10 +20,12 @@ still being built. Blueprint label `bpW:w6:prep-step` (milestone W6), clause (i)
 
 For `ξ ∈ Π ∖ Ξ` (W7's preparatory set `prepSet`, Definition `bpW:w7:zones` (i)) and every
 `(k, l) ∈ Z`, the defining inequality of `S_{kl}` fails:
-`|⟨k, ω⁰⟩ + ⟨l, Ω⁰⟩| ≥ α̂ ŵ(l)/A_k` (`w6_prep_divisors`). This uses only the unperturbed frequencies.
+`|⟨k, ω⁰⟩ + ⟨l, Ω⁰⟩| ≥ α̂ ŵ(l)/A_k` (`w6_prep_divisors`). This uses only the unperturbed
+frequencies.
 With W7's Dirichlet weights it gives W5's modified conditions `(bpW:w5:modified)` with `β = 1/4`
 for the wave frequencies `(waveFreqTan, waveFreqNor)` (`w6_homMelnikovMod_of_prep`): for
-`l = ±(e_I - e_J)` the weight is `|I - J| min(I, J)^{-1/4}` (W5's `min(i, j) + 2 = min(I, J)`), for the
+`l = ±(e_I - e_J)` the weight is `|I - J| min(I, J)^{-1/4}` (W5's `min(i, j) + 2 = min(I, J)`), for
+the
 other `l` it is `⟨l⟩`, which dominates W4's weights.
 -/
 

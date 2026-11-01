@@ -246,7 +246,7 @@ theorem waveConv_parts (H : W6PrepHyp m hm Pi α r ε P X) {ε₀ : ℝ}
     have : 0 ≤ α / w6M m hm * c₁ := mul_nonneg hlam.le hc1
     linarith
   · rw [waveSeq_lam_zero]
-    exact (H.size.2.2.2.1).mono_lam subset_rfl subset_rfl le_rfl hlo
+    exact (H.w6size.2.2.2.1).mono_lam subset_rfl subset_rfl le_rfl hlo
 
 /-- **Applicability** (blueprint `bpW:w6:applicable`; conditional helper on W5's reality clause
 `W6StepRealMod`, not the label): the hypotheses of Proposition `bpW:w6:convergence` hold for the
@@ -254,11 +254,11 @@ wave iteration (Definition `bpW:w6:wave-iteration`, `β₀ = β_*`), for every s
 `ε₀ ∈ [ε^♭_0, γ₁ α̌]`. -/
 theorem w6Applicable_of_stepRealMod (hRm : W6StepRealMod) (H : W6PrepHyp m hm Pi α r ε P X)
     {ε₀ : ℝ} (hlo : w6EpsFlat α ε ≤ ε₀) (hhi : ε₀ ≤ w6Gamma1 m hm * alphaCheck α) :
-    W6ConvHyp (w6WaveSeq m hm α r ε ε₀) (Pi \ prepSet m hm Pi α) H.om0 H.Om0 H.P0 H.X0
+    W6ConvHyp (w6WaveSeq m hm α r ε ε₀) (Pi \ prepSet m hm Pi α) H.om0 H.Om0 H.w6P0 H.X0
       (measBetaStar m) := by
   have := H.factR
   obtain ⟨hv, hs, hf, hb, h8, hk, hfb⟩ := H.waveConv_parts hlo hhi
-  obtain ⟨hsm, hper, -⟩ := H.size
+  obtain ⟨hsm, hper, -⟩ := H.w6size
   exact ⟨hv, hs, hf, hb, h8, hk, hsm, hper, fun ξ hξ w hw hwr =>
     hRm _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ H.stepHyp.hyp ξ hξ (StepPhase.ofK w) hw hwr, hfb⟩
 

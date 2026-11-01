@@ -113,7 +113,7 @@ theorem w6Seq_succ_eq (ν : ℕ) :
         W6Stage.OmN hC.valid hC.small (w6Seq_stage_of_stepReal hR hC ν),
         W6Stage.PN hC.valid hC.small (w6Seq_stage_of_stepReal hR hC ν),
         W6Stage.XN hC.valid hC.small (w6Seq_stage_of_stepReal hR hC ν)⟩ :=
-  (w6Seq_succ d _ ν).trans (W6State.next_eq hC.valid hC.small (w6Seq_stage_of_stepReal hR hC ν))
+  (w6Seq_succ d _ ν).trans (W6State.w6next_eq hC.valid hC.small (w6Seq_stage_of_stepReal hR hC ν))
 
 /-- The increments of `ω` along the iteration (Lemma `bpW:w6:iter-lemma`), on `Π_ν`. -/
 theorem w6Seq_om_inc (ν : ℕ) :

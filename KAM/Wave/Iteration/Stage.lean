@@ -20,7 +20,8 @@ Fixed: `a = p = 1`, `p_+ = p + 1/2 = 3/2`, `τ = 24`, W4's guard constant `γ_G 
 (`homGuard_one_one`). For the data `d` of Definition `bpW:w6:sequences`:
 
 * `W6StageCore d ν Π ω Ω P X`: the hypotheses of Lemma `bpW:w6:iter-lemma` at stage `ν`, except the
-  reality of `P`: frequencies satisfying `(bpW:w5:freq)` on `Π` with `M_ω + M_Ω ≤ M_ν`, the conditions
+  reality of `P`: frequencies satisfying `(bpW:w5:freq)` on `Π` with `M_ω + M_Ω ≤ M_ν`, the
+  conditions
   `(bpW:w6:melnikov)` at level `α_ν` on `Π` (W7 index, Dirichlet weight), a periodic family
   `P ∈ 𝒮_{p_+}(D_ν)` on `Π` with `|X_P|^{λ_ν}_{r_ν, D_ν} ≤ ε_ν`;
 * `W6Stage`: the same with `P` real (all hypotheses of the lemma at stage `ν`);
@@ -43,9 +44,9 @@ namespace W6SeqData
 
 variable {d : W6SeqData}
 
-theorem r_pos (hd : d.Valid) : ∀ ν, 0 < d.r ν
+theorem w6r_pos (hd : d.Valid) : ∀ ν, 0 < d.r ν
   | 0 => hd.r0_pos
-  | ν + 1 => mul_pos (eta_pos hd ν) (r_pos hd ν)
+  | ν + 1 => mul_pos (eta_pos hd ν) (w6r_pos hd ν)
 
 theorem s_pos (hd : d.Valid) (ν : ℕ) : 0 < d.s ν := by
   have h := sInf_le_s hd ν
@@ -60,7 +61,7 @@ theorem five_sigma_lt (hd : d.Valid) (ν : ℕ) : 5 * d.sigma ν < d.s ν := by
 
 end W6SeqData
 
-theorem HomFreqHyp.mono {Par Par' : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 → ℝ}
+theorem HomFreqHyp.w6mono {Par Par' : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 → ℝ}
     {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ} {M0 Mω MΩ Mω' : ℝ} (h : HomFreqHyp Par ω Ω M0 Mω MΩ)
     (hPar : Par' ⊆ Par) (hM : Mω ≤ Mω') : HomFreqHyp Par' ω Ω M0 Mω' MΩ where
   consts_nonneg := ⟨h.consts_nonneg.1, h.consts_nonneg.2.1.trans hM, h.consts_nonneg.2.2⟩
@@ -110,34 +111,34 @@ variable {d : W6SeqData} {ν : ℕ} {Pi : Set (Fin 2 → ℝ)} {ω : (Fin 2 → 
   {X : (Fin 2 → ℝ) → KamPhase → KamPhase}
 
 /-- The tail constant `M₀` of `(bpW:w5:freq)` at stage `ν` (a choice). -/
-def T (h : W6Stage d ν Pi ω Ω P X) : ℝ := h.freq.choose
+def w6StageTail (h : W6Stage d ν Pi ω Ω P X) : ℝ := h.freq.choose
 
 /-- The constant `M_Ω` at stage `ν` (a choice); `M_ω` is replaced by `M_ν - M_Ω`. -/
 def MO (h : W6Stage d ν Pi ω Ω P X) : ℝ := h.freq.choose_spec.choose_spec.choose
 
 /-- The sup part `ε₀` of the bound `ε_ν` (a choice). -/
-def e0 (h : W6Stage d ν Pi ω Ω P X) : ℝ := h.bound.choose
+def w6StageE0 (h : W6Stage d ν Pi ω Ω P X) : ℝ := h.bound.choose
 
 /-- The Lipschitz part `ε₁` of the bound `ε_ν` (a choice). -/
-def e1 (h : W6Stage d ν Pi ω Ω P X) : ℝ := h.bound.choose_spec.choose
+def w6StageE1 (h : W6Stage d ν Pi ω Ω P X) : ℝ := h.bound.choose_spec.choose
 
 theorem freq_spec (h : W6Stage d ν Pi ω Ω P X) :
-    HomFreqHyp Pi ω Ω h.T (d.M ν - h.MO) h.MO := by
+    HomFreqHyp Pi ω Ω h.w6StageTail (d.M ν - h.MO) h.MO := by
   obtain ⟨hf, hle⟩ := h.freq.choose_spec.choose_spec.choose_spec
-  exact hf.mono subset_rfl (by unfold MO; linarith)
+  exact hf.w6mono subset_rfl (by unfold MO; linarith)
 
 theorem bound_spec (h : W6Stage d ν Pi ω Ω P X) :
-    0 ≤ h.e0 ∧ 0 ≤ h.e1 ∧ h.e0 + d.lam ν * h.e1 ≤ d.eps ν ∧
-      (∀ ξ ∈ Pi, ∀ w ∈ d.dom ν, kamNorm (d.r ν) (X ξ w) ≤ h.e0) ∧
+    0 ≤ h.w6StageE0 ∧ 0 ≤ h.w6StageE1 ∧ h.w6StageE0 + d.lam ν * h.w6StageE1 ≤ d.eps ν ∧
+      (∀ ξ ∈ Pi, ∀ w ∈ d.dom ν, kamNorm (d.r ν) (X ξ w) ≤ h.w6StageE0) ∧
       (∀ ξ ∈ Pi, ∀ ζ ∈ Pi, ∀ w ∈ d.dom ν,
-        kamNorm (d.r ν) (X ξ w - X ζ w) ≤ h.e1 * ‖ξ - ζ‖) :=
+        kamNorm (d.r ν) (X ξ w - X ζ w) ≤ h.w6StageE1 * ‖ξ - ζ‖) :=
   h.bound.choose_spec.choose_spec
 
 /-- **W5's step applies at stage `ν`** (blueprint `bpW:w6:iter-lemma`, step `il-small`). -/
 theorem stepHyp (hd : d.Valid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
     (h : W6Stage d ν Pi ω Ω P X) :
     StepHypSrc 1 1 (3 / 2) (d.s ν) (d.r ν) (d.sigma ν) (d.eta ν) w6Tau (d.alpha ν) (d.lam ν)
-      (d.eps ν) h.e0 h.e1 w6GamG h.T (d.M ν - h.MO) h.MO Pi ω Ω P X := by
+      (d.eps ν) h.w6StageE0 h.w6StageE1 w6GamG h.w6StageTail (d.M ν - h.MO) h.MO Pi ω Ω P X := by
   obtain ⟨b0, b1, bs, bb, bl⟩ := h.bound_spec
   have hM := W6SeqData.M_pos hd ν
   exact
@@ -150,7 +151,7 @@ theorem stepHyp (hd : d.Valid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0
     hτ := by rw [w6Tau_eq]; norm_num
     hα := W6SeqData.alpha_pos hd ν
     hs := W6SeqData.s_pos hd ν
-    hr := W6SeqData.r_pos hd ν
+    hr := W6SeqData.w6r_pos hd ν
     hσ := W6SeqData.sigma_pos hd ν
     hσ1 := (W6SeqData.sigma_le_quarter hd ν).trans (by norm_num)
     hσs := W6SeqData.five_sigma_lt hd ν
@@ -174,7 +175,7 @@ theorem stepHyp (hd : d.Valid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0
     hε := bs
     small := W6SeqData.eps_le_small hd hsmall ν }
 
-theorem factRPos (hd : d.Valid) (ν : ℕ) : Fact (0 < d.r ν) := ⟨W6SeqData.r_pos hd ν⟩
+theorem factRPos (hd : d.Valid) (ν : ℕ) : Fact (0 < d.r ν) := ⟨W6SeqData.w6r_pos hd ν⟩
 
 /-- `ω_{ν+1}` (on `Π_ν`). -/
 def omN (hd : d.Valid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)

@@ -52,7 +52,7 @@ namespace W6State
 variable {d : W6SeqData}
 
 /-- The hypotheses of `bpW:w6:iter-lemma` at stage `ν` for the state `S`. -/
-def Stage (d : W6SeqData) (ν : ℕ) (S : W6State) : Prop := W6Stage d ν S.Pi S.om S.Om S.P S.X
+def w6Stage (d : W6SeqData) (ν : ℕ) (S : W6State) : Prop := W6Stage d ν S.Pi S.om S.Om S.P S.X
 
 /-- The standing conditions on the data `d`: `Valid` and `ε₀ ≤ γ₀ α₀ σ₀^t`. -/
 def Std (d : W6SeqData) : Prop := d.Valid ∧ d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T
@@ -60,7 +60,7 @@ def Std (d : W6SeqData) : Prop := d.Valid ∧ d.eps0 ≤ w6Gamma0 * d.al0 * d.si
 /-- One step of the iteration: the outputs of Lemma `bpW:w6:iter-lemma` at stage `ν`. -/
 def next (d : W6SeqData) (ν : ℕ) (S : W6State) : W6State :=
   open Classical in
-  if h : Std d ∧ S.Stage d ν then
+  if h : Std d ∧ S.w6Stage d ν then
     ⟨W6Stage.PiN h.1.1 h.1.2 h.2, W6Stage.omN h.1.1 h.1.2 h.2, W6Stage.OmN h.1.1 h.1.2 h.2,
       W6Stage.PN h.1.1 h.1.2 h.2, W6Stage.XN h.1.1 h.1.2 h.2⟩
   else S
@@ -69,17 +69,17 @@ def next (d : W6SeqData) (ν : ℕ) (S : W6State) : W6State :=
 def phi (d : W6SeqData) (ν : ℕ) (S : W6State) (ξ : Fin 2 → ℝ) :
     StepPhase (d.r ν) → StepPhase (d.r ν) :=
   open Classical in
-  if h : Std d ∧ S.Stage d ν then W6Stage.PhiN h.1.1 h.1.2 h.2 ξ else id
+  if h : Std d ∧ S.w6Stage d ν then W6Stage.PhiN h.1.1 h.1.2 h.2 ξ else id
 
-theorem next_eq {S : W6State} {ν : ℕ} (hd : d.Valid)
-    (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T) (h : S.Stage d ν) :
+theorem w6next_eq {S : W6State} {ν : ℕ} (hd : d.Valid)
+    (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T) (h : S.w6Stage d ν) :
     S.next d ν = ⟨W6Stage.PiN hd hsmall h, W6Stage.omN hd hsmall h, W6Stage.OmN hd hsmall h,
       W6Stage.PN hd hsmall h, W6Stage.XN hd hsmall h⟩ := by
   unfold next
   rw [dite_eq_left ⟨⟨hd, hsmall⟩, h⟩]
 
 theorem phi_eq {S : W6State} {ν : ℕ} (hd : d.Valid)
-    (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T) (h : S.Stage d ν) :
+    (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T) (h : S.w6Stage d ν) :
     S.phi d ν = W6Stage.PhiN hd hsmall h := by
   funext ξ
   unfold phi
@@ -150,7 +150,7 @@ theorem w6Seq_Pi_subset (S0 : W6State) (ν : ℕ) : (w6Seq d S0 ν).Pi ⊆ S0.Pi
 /-- The `k = 0` conditions at stage `ν` along the iteration, from Lemma `bpW:w6:k0`, given the
 hypotheses of the stages `μ < ν`. -/
 theorem w6Seq_k0 (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) (ν : ℕ)
-    (hst : ∀ μ < ν, (w6Seq d (w6Start d Pm ω0 Ω0 P0 X0) μ).Stage d μ) :
+    (hst : ∀ μ < ν, (w6Seq d (w6Start d Pm ω0 Ω0 P0 X0) μ).w6Stage d μ) :
     W6Mel0 (d.alpha ν) (w6Seq d (w6Start d Pm ω0 Ω0 P0 X0) ν).Pi
       (fun ξ => w6Om7 ((w6Seq d (w6Start d Pm ω0 Ω0 P0 X0) ν).Om ξ)) := by
   set S := w6Seq d (w6Start d Pm ω0 Ω0 P0 X0)
@@ -158,7 +158,7 @@ theorem w6Seq_k0 (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) (ν : ℕ)
       |w6Om7 ((S (μ + 1)).Om ξ) j - w6Om7 ((S μ).Om ξ) j| ≤ 3 * d.eps μ := by
     intro μ hμ ξ hξ j
     have hs := hst μ hμ
-    have e : S (μ + 1) = _ := (w6Seq_succ d _ μ).trans (W6State.next_eq hC.valid hC.small hs)
+    have e : S (μ + 1) = _ := (w6Seq_succ d _ μ).trans (W6State.w6next_eq hC.valid hC.small hs)
     obtain ⟨c₀, c₁, h0, h1, hcs, hcb, -⟩ := W6Stage.OmN_inc hC.valid hC.small hs
     rw [e]
     have := hcb ξ hξ j
@@ -175,13 +175,13 @@ theorem w6Seq_k0 (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) (ν : ℕ)
 /-- **Stage `0`** (step `c-ind` at `ν = 0`): the hypotheses of `bpW:w6:iter-lemma` hold for
 `w6Start` (for `k ≠ 0` by the removal, for `k = 0` by Lemma `bpW:w6:k0`). -/
 theorem w6Start_stage (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) :
-    (w6Start d Pm ω0 Ω0 P0 X0).Stage d 0 := by
+    (w6Start d Pm ω0 Ω0 P0 X0).w6Stage d 0 := by
   have hsub : w6Pi0 d Pm ω0 Ω0 ⊆ Pm := w6Pi0_subset
   have hk0 := w6Seq_k0 hC 0 (fun μ hμ => absurd hμ (Nat.not_lt_zero μ))
   refine ⟨⟨?_, ?_, fun ξ hξ => hC.smooth ξ (hsub hξ), fun ξ hξ => hC.per ξ (hsub hξ), ?_⟩,
     fun ξ hξ => hC.real ξ (hsub hξ)⟩
   · obtain ⟨T, Mω, MΩ, hf, hle⟩ := hC.freq
-    exact ⟨T, Mω, MΩ, hf.mono hsub le_rfl, by rw [W6SeqData.M_zero]; exact hle⟩
+    exact ⟨T, Mω, MΩ, hf.w6mono hsub le_rfl, by rw [W6SeqData.M_zero]; exact hle⟩
   · intro ξ hξ k l hkl
     by_cases hk : k = 0
     · subst hk
@@ -211,8 +211,8 @@ theorem w6Start_stage (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) :
 /-- **Induction** (step `c-ind`; conditional helper, not the label): if W5's reality clause
 `W6StepReal` holds, the hypotheses of `bpW:w6:iter-lemma` hold at every stage of the iteration. -/
 theorem w6Seq_stage_of_stepReal (hR : W6StepReal) (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) (ν : ℕ) :
-    (w6Seq d (w6Start d Pm ω0 Ω0 P0 X0) ν).Stage d ν := by
-  suffices H : ∀ ν, ∀ μ ≤ ν, (w6Seq d (w6Start d Pm ω0 Ω0 P0 X0) μ).Stage d μ from H ν ν le_rfl
+    (w6Seq d (w6Start d Pm ω0 Ω0 P0 X0) ν).w6Stage d ν := by
+  suffices H : ∀ ν, ∀ μ ≤ ν, (w6Seq d (w6Start d Pm ω0 Ω0 P0 X0) μ).w6Stage d μ from H ν ν le_rfl
   intro ν
   induction ν with
   | zero =>
@@ -227,7 +227,7 @@ theorem w6Seq_stage_of_stepReal (hR : W6StepReal) (hC : W6ConvHyp d Pm ω0 Ω0 P
       have hs := ih ν le_rfl
       have hk0 := w6Seq_k0 hC (ν + 1) fun μ hμ => ih μ (Nat.lt_succ_iff.1 hμ)
       have e := (w6Seq_succ d (w6Start d Pm ω0 Ω0 P0 X0) ν).trans
-        (W6State.next_eq hC.valid hC.small hs)
+        (W6State.w6next_eq hC.valid hC.small hs)
       rw [e] at hk0 ⊢
       exact W6Stage.next_stage_of_stepReal hC.valid hC.small hs hR hk0
 

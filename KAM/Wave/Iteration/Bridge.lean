@@ -21,7 +21,8 @@ uses W4's index set `𝒵`, P96-K's bracket and `A_k`. By Lemma `bpW:w4:wave` (i
 latter at the same level.
 
 W7 indexes normal modes by `n : ℕ` (Dirichlet label `n + 3`), W5 by `j : ℕ+` (label `j + 2`); the
-two are matched by `j = n + 1` (`Equiv.pnatEquivNat`). For `Ω : ℕ+ → ℝ`, `w6Om7 Ω n = Ω (n + 1)`, and
+two are matched by `j = n + 1` (`Equiv.pnatEquivNat`). For `Ω : ℕ+ → ℝ`,
+`w6Om7 Ω n = Ω (n + 1)`, and
 for `l : ℕ+ →₀ ℤ`, `w6L7 l = l ∘ (· + 1)⁻¹`.
 
 * `W6Mel a Par ω Ω`: the conditions `(bpW:w6:melnikov)` at level `a` on `Par` (W7 index);

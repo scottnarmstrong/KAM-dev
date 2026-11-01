@@ -92,19 +92,20 @@ variable {m : ℝ} {hm : 0 < m} {Pi : Set (Fin 2 → ℝ)} {α r ε : ℝ}
   {P : (Fin 2 → ℝ) → KamPhase → ℂ} {X : (Fin 2 → ℝ) → KamPhase → KamPhase}
 
 /-- The sup part of `ε` (a choice). -/
-def e0 (H : W6PrepHyp m hm Pi α r ε P X) : ℝ := H.bound.choose
+def w6PrepE0 (H : W6PrepHyp m hm Pi α r ε P X) : ℝ := H.bound.choose
 
 /-- The Lipschitz part of `ε` (a choice). -/
-def e1 (H : W6PrepHyp m hm Pi α r ε P X) : ℝ := H.bound.choose_spec.choose
+def w6PrepE1 (H : W6PrepHyp m hm Pi α r ε P X) : ℝ := H.bound.choose_spec.choose
 
 /-- `M₀` of `(bpW:w5:freq)` for the wave frequencies on `Π`. -/
-def T (m : ℝ) (hm : 0 < m) : ℝ := m / 2 + 3 / (2 * π) * w6BB m hm
+def w6PrepTail (m : ℝ) (hm : 0 < m) : ℝ := m / 2 + 3 / (2 * π) * w6BB m hm
 
 /-- **W5's step applies in the modified case** (blueprint `bpW:w6:prep-step`, steps `p-data`,
 `p-div`): on `Π ∖ Ξ` with `s = 1/8`, `σ_P`, `η_P`, level `α̂`, `β = 1/4`, `p_+ = 3/2`. -/
 theorem stepHyp (H : W6PrepHyp m hm Pi α r ε P X) :
     StepHypModSrc 1 1 (3 / 2) w6S r w6SigmaP (w6EtaP α ε) w6Tau (alphaHat α) (1 / 4)
-      (α / w6M m hm) ε H.e0 H.e1 w6GamG (T m hm) (waveMomega m hm) (waveMOmega m hm)
+      (α / w6M m hm) ε H.w6PrepE0 H.w6PrepE1 w6GamG (w6PrepTail m hm) (waveMomega m hm)
+      (waveMOmega m hm)
       (Pi \ prepSet m hm Pi α) (waveFreqTan m hm) (waveFreqNor m hm) P X := by
   obtain ⟨b0, b1, bs, bb, bl⟩ := H.bound.choose_spec.choose_spec
   have hM := w6M_pos m hm
@@ -159,7 +160,7 @@ def PhiP (H : W6PrepHyp m hm Pi α r ε P X) (ξ : Fin 2 → ℝ) : StepPhase r 
   H.stepHyp.hyp.core.Phi ξ
 
 /-- `P_0`. -/
-def P0 (H : W6PrepHyp m hm Pi α r ε P X) : (Fin 2 → ℝ) → KamPhase → ℂ :=
+def w6P0 (H : W6PrepHyp m hm Pi α r ε P X) : (Fin 2 → ℝ) → KamPhase → ℂ :=
   haveI := H.factR
   fun ξ w => H.stepHyp.hyp.core.Pplus ξ (StepPhase.ofK (r := r) w)
 
@@ -234,11 +235,11 @@ theorem phiP_bounds (H : W6PrepHyp m hm Pi α r ε P X) :
 /-- **(iv), (v)** (`bpW:w6:prep-step` (iv), (v)): `P_0 ∈ 𝒮_{p_+}(D_0)`, periodic, and
 `|X_{P_0}|^{λ_0}_{r_0, D_0} ≤ ε^♭_0 = 2C^♮_2 ε^{4/3}(α̂σ_P^{t^♮})^{-1/3} ≤ γ₁ α̌`
 (`λ_0 = α̌/M_0`, `r_0 = η_P r`, `D_0 = D(s_0, r_0)`); the same with `λ = α/M`. -/
-theorem size (H : W6PrepHyp m hm Pi α r ε P X) :
+theorem w6size (H : W6PrepHyp m hm Pi α r ε P X) :
     (∀ ξ ∈ Pi \ prepSet m hm Pi α, IsSmoothing (a := 1) (p := 1) (pb := 3 / 2) zero_le_one
-      (by norm_num) (kamDomain w6S0 (w6EtaP α ε * r)) (H.P0 ξ) (H.X0 ξ)) ∧
+      (by norm_num) (kamDomain w6S0 (w6EtaP α ε * r)) (H.w6P0 ξ) (H.X0 ξ)) ∧
     (∀ ξ ∈ Pi \ prepSet m hm Pi α, ∀ i, ∀ w ∈ kamDomain w6S0 (w6EtaP α ε * r),
-      H.P0 ξ (w + stepTau i) = H.P0 ξ w) ∧
+      H.w6P0 ξ (w + stepTau i) = H.w6P0 ξ w) ∧
     FamBound (Pi \ prepSet m hm Pi α) (kamDomain w6S0 (w6EtaP α ε * r)) (w6EtaP α ε * r)
       (α / w6M m hm) (w6EpsFlat α ε) H.X0 ∧
     FamBound (Pi \ prepSet m hm Pi α) (kamDomain w6S0 (w6EtaP α ε * r)) (w6EtaP α ε * r)

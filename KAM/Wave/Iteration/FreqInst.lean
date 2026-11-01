@@ -46,7 +46,7 @@ variable {m : ℝ} {hm : 0 < m} {Pi : Set (Fin 2 → ℝ)} {α r ε : ℝ}
 /-- The wave iteration (Definition `bpW:w6:wave-iteration`). -/
 def waveSeq (H : W6PrepHyp m hm Pi α r ε P X) (ε₀ : ℝ) : ℕ → W6State :=
   w6Seq (w6WaveSeq m hm α r ε ε₀)
-    (w6Start (w6WaveSeq m hm α r ε ε₀) (Pi \ prepSet m hm Pi α) H.om0 H.Om0 H.P0 H.X0)
+    (w6Start (w6WaveSeq m hm α r ε ε₀) (Pi \ prepSet m hm Pi α) H.om0 H.Om0 H.w6P0 H.X0)
 
 /-- `D_ν = Π_{ν-1}` of the wave iteration (`Π_{-1} = Π ∖ Ξ`). -/
 def waveD (H : W6PrepHyp m hm Pi α r ε P X) (ε₀ : ℝ) (ν : ℕ) : Set (Fin 2 → ℝ) :=
@@ -83,7 +83,7 @@ theorem waveD_meas (ν : ℕ) : MeasurableSet (H.waveD ε₀ ν) := by
 
 include hR hRm hS hlo hhi in
 /-- **(H1)–(H2) at every stage** (`bpW:w6:freq-lip`, steps `fl-size`, `fl-lip`, `fl-borel`). -/
-theorem wavePair (ν : ℕ) :
+theorem w6wavePair (ν : ℕ) :
     IsFreqPair m hm Pi α (H.waveD ε₀ ν) (H.waveSeq ε₀ ν).om
       (fun ξ => w6Om7 ((H.waveSeq ε₀ ν).Om ξ))
       (6 * π * w6Gamma m hm * α + 8 * π * ε₀) 0 (3 * w6Gamma m hm * α + 4 * ε₀)
@@ -142,12 +142,12 @@ def w6WaveFamily_of_stepReal : AdmissibleFamily m hm Pi α :=
   w6AdmissibleFamilyOfPairs (w6WaveSeq m hm α r ε ε₀)
     (w6WaveSeq_valid H.hα H.hα0 H.hr H.hε (lt_of_lt_of_le (w6EpsFlat_pos H.hα H.hε) hlo))
     (H.waveD ε₀) (fun ν => (H.waveSeq ε₀ ν).om) (fun ν ξ => w6Om7 ((H.waveSeq ε₀ ν).Om ξ))
-    _ _ _ _ (H.wavePair hR hRm hS hlo hhi)
+    _ _ _ _ (H.w6wavePair hR hRm hS hlo hhi)
 
 /-- `Π_* = ⋂_ν Π_ν` of the wave iteration. -/
 def wavePiStar (H : W6PrepHyp m hm Pi α r ε P X) (ε₀ : ℝ) : Set (Fin 2 → ℝ) :=
   w6PiStarIt (w6WaveSeq m hm α r ε ε₀)
-    (w6Start (w6WaveSeq m hm α r ε ε₀) (Pi \ prepSet m hm Pi α) H.om0 H.Om0 H.P0 H.X0)
+    (w6Start (w6WaveSeq m hm α r ε ε₀) (Pi \ prepSet m hm Pi α) H.om0 H.Om0 H.w6P0 H.X0)
 
 include hR hRm hS hlo hhi in
 /-- **Exclusion** (`bpW:w6:exclusion`; conditional helper on `W6StepReal`, `W6StepRealMod`):
@@ -171,16 +171,16 @@ theorem w6FinalFreq_of_stepReal :
     (∀ ξ ∈ H.wavePiStar ε₀, ∀ k : Fin 2 → ℤ, k ≠ 0 →
       alphaCheck α / (2 * kAk k) ≤
         |∑ i, (k i : ℝ) * w6OmStar (w6WaveSeq m hm α r ε ε₀) (w6Start (w6WaveSeq m hm α r ε ε₀)
-          (Pi \ prepSet m hm Pi α) H.om0 H.Om0 H.P0 H.X0) ξ i|) ∧
+          (Pi \ prepSet m hm Pi α) H.om0 H.Om0 H.w6P0 H.X0) ξ i|) ∧
     (∀ ξ ∈ H.wavePiStar ε₀,
       ‖w6OmStar (w6WaveSeq m hm α r ε ε₀) (w6Start (w6WaveSeq m hm α r ε ε₀)
-          (Pi \ prepSet m hm Pi α) H.om0 H.Om0 H.P0 H.X0) ξ - omegaTan m hm ξ‖ ≤
+          (Pi \ prepSet m hm Pi α) H.om0 H.Om0 H.w6P0 H.X0) ξ - omegaTan m hm ξ‖ ≤
         6 * π * w6Gamma m hm * α + 8 * π * ε₀) ∧
     (∀ ξ ∈ H.wavePiStar ε₀, ∀ ζ ∈ H.wavePiStar ε₀,
       ‖w6OmStar (w6WaveSeq m hm α r ε ε₀) (w6Start (w6WaveSeq m hm α r ε ε₀)
-          (Pi \ prepSet m hm Pi α) H.om0 H.Om0 H.P0 H.X0) ξ -
+          (Pi \ prepSet m hm Pi α) H.om0 H.Om0 H.w6P0 H.X0) ξ -
         w6OmStar (w6WaveSeq m hm α r ε ε₀) (w6Start (w6WaveSeq m hm α r ε ε₀)
-          (Pi \ prepSet m hm Pi α) H.om0 H.Om0 H.P0 H.X0) ζ‖ ≤
+          (Pi \ prepSet m hm Pi α) H.om0 H.Om0 H.w6P0 H.X0) ζ‖ ≤
         (measNA m hm + w6Theta m hm) * ‖ξ - ζ‖) := by
   have hC := H.w6Applicable_of_stepRealMod hRm hlo hhi
   have hd := hC.valid

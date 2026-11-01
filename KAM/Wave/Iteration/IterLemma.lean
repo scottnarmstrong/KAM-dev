@@ -161,8 +161,8 @@ theorem phiN_mapsTo :
   have h1 := (stepTheorem (h.stepHyp hd hsmall)).1 ξ hξ w hw
   refine ⟨h1, kamDomain_mono ?_ ?_ ?_ h1⟩
   · linarith [W6SeqData.sigma_pos hd ν]
-  · have := W6SeqData.eta_pos hd ν; have := W6SeqData.r_pos hd ν; positivity
-  · have := W6SeqData.eta_le hd hsmall ν; have := W6SeqData.r_pos hd ν; nlinarith
+  · have := W6SeqData.eta_pos hd ν; have := W6SeqData.w6r_pos hd ν; positivity
+  · have := W6SeqData.eta_le hd hsmall ν; have := W6SeqData.w6r_pos hd ν; nlinarith
 
 /-- **Frequencies, `ω`** (`bpW:w6:iter-lemma`, `bpW:w5:step` (iii)):
 `|ω_{ν+1} - ω_ν| + λ_ν |ω_{ν+1} - ω_ν|^ℒ ≤ 6π ε_ν` on `Π_ν`. -/
@@ -244,8 +244,8 @@ theorem next_core
   have hε := W6SeqData.eps_pos hd ν
   refine ⟨?_, ?_, fun ξ hξ => c6 ξ (hsub hξ), fun ξ hξ i w hw => c7 ξ (hsub hξ) i w hw, ?_⟩
   · -- `(bpW:w5:freq)` with `M_ω + M_Ω ≤ M_{ν+1}` (step `il-lip`)
-    refine ⟨h.T + 3 * d.eps ν, d.M ν - h.MO + 6 * π * d.eps ν / d.lam ν,
-      h.MO + 3 * d.eps ν / d.lam ν, (c11 hlam).mono hsub le_rfl, ?_⟩
+    refine ⟨h.w6StageTail + 3 * d.eps ν, d.M ν - h.MO + 6 * π * d.eps ν / d.lam ν,
+      h.MO + 3 * d.eps ν / d.lam ν, (c11 hlam).w6mono hsub le_rfl, ?_⟩
     have h1 := W6SeqData.lip_growth_le hd hsmall ν
     have h2 := W6SeqData.M_growth_le hd ν
     have e : d.M ν - h.MO + 6 * π * d.eps ν / d.lam ν + (h.MO + 3 * d.eps ν / d.lam ν) =
