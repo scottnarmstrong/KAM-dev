@@ -363,3 +363,22 @@ The boundary (36 entries, 218 CPU-s), the guards and the Gram link pass on LG00'
 
 Every number then stays ≤ 3.5 Mbit, and each process is estimated at ≤ 2 GB. "Exact, no rounding" (§9) works
 for the Gram stage because its windows stay small; it does not carry over to deep chains.
+
+## 11. B3b, the rounded and truncated torsion stage (branch `v2-packed-b3`; `docs/campaign/handoffs/V2-PACKED-B3B.md`)
+
+The B3 design consequence, built.
+- Every node of the torsion chain is an untrusted memo on one box: the ℓ∞ box of half-width 25, which contains
+  the landed `cfgLow` truncation. It is held at scale `2^128`.
+- The kernel checks each node entry by its exact residual against the exact product of the memoized inputs on
+  one window (`stageOk`). The rounding and truncation errors therefore enter the radius and are never assumed.
+- The averages of `T` and `Y` are checked against small tables, and the landed test runs on the tables.
+
+Every number stays ≤ 3.67 Mbit (360-bit slots on a 101 × 101 window), and every process ≤ 3.19 GB.
+
+**Gate on LG00's data:** 64 processes, 1,292 CPU-s (269 s kernel), against the landed Torsion stage's 637
+modules and 12,126 CPU-s. Together with B2's packed Gram stage, the two stages cost 1,365 CPU-s against 13,561
+(≈ 9.9×); the jet compositions (`Low`, `Full`) are unchanged.
+
+**The memo-and-residual pattern** (a node verified by `packRepOk` and the packed norm of its exact residual) needs
+no digit lemma about the rounding or the truncation. It applies to any chain of packed products, including a
+packed jet evaluator.

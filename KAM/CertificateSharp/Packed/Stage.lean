@@ -57,7 +57,8 @@ def stageOk (n : ℕ) (W : CertWeight) (q lr ln : ℕ) (Ls Ld Lu : PackLayout) (
     ble (pnorm W q ln Ld (e - s) (nodePC Ld t) : α) (ofRatUp t.2.2.2)
 
 /-- A memoized node matrix. -/
-def nodeAt (tab : List (List NodeEntry)) (i j : ℕ) : NodeEntry := (tab.getD i []).getD j ([], [], 0, 0)
+def nodeAt (tab : List (List NodeEntry)) (i j : ℕ) : NodeEntry :=
+  (tab.getD i []).getD j ([], [], 0, 0)
 
 /-- The packed model matrix of a memoized node. -/
 def nodeMat (Ld : PackLayout) (tab : List (List NodeEntry)) : PMat α :=
@@ -103,7 +104,8 @@ theorem PEnc.stage {W : CertWeight} {sw Nw : ℕ} (hW : checkWeight W sw Nw = tr
   have hpos : (0 : ℝ) < 2 ^ (e - s) := by positivity
   refine ⟨G, hG, fun θ hθ => ⟨?_, ?_⟩⟩
   · have h1 := (hb θ hθ).1
-    have h2 := norm_le_ofRatUp (α := α) hR hokr hW hθ e (g := (F θ - G θ * ((2 ^ s : ℤ) : ℂ)) / 2 ^ e)
+    have h2 := norm_le_ofRatUp (α := α) hR hokr hW hθ e
+      (g := (F θ - G θ * ((2 ^ s : ℤ) : ℂ)) / 2 ^ e)
       (by rw [div_mul_cancel₀ _ (pow_ne_zero _ two_ne_zero)]; ring)
     have hre := LawfulCertArith.ble_sound _ _ hrad
     have hu' := LawfulCertArith.upAdd_ge r (pnorm W q lr Ls e (nodeRes n Ld Lu s x t) : α)
@@ -120,7 +122,8 @@ theorem PEnc.stage {W : CertWeight} {sw Nw : ℕ} (hW : checkWeight W sw Nw = tr
     have h2' : ‖(F θ - G θ * ((2 ^ s : ℤ) : ℂ)) / 2 ^ e‖ ≤
         val (pnorm W q lr Ls e (nodeRes n Ld Lu s x t) : α) := h2
     linarith
-  · have h3 := norm_le_ofRatUp (α := α) hG hokn hW hθ (e - s) (g := G θ / 2 ^ (e - s)) (by field_simp)
+  · have h3 := norm_le_ofRatUp (α := α) hG hokn hW hθ (e - s) (g := G θ / 2 ^ (e - s))
+      (by field_simp)
     exact h3.trans (LawfulCertArith.ble_sound _ _ hnb)
 
 /-- **A memoized node matrix** from the exact one: every entry checked by `stageOk`. -/

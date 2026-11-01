@@ -6,6 +6,10 @@ only), end to end on LG00's data with its gate measurement. The Python-computed 
 entry by entry in Lean, are approved. Rules: `V2-COMMON-RULES.md`, AGENTS.md. Branch `v2-packed-b3` is local
 only; it is based on `v2-packed-b2` after V2-PACKED-B2-FIX (`0608588b`).
 
+> **Superseded for LG00 by V2-PACKED-B3B** (`docs/campaign/handoffs/V2-PACKED-B3B.md`). The orchestrator approved
+> B3b (rounded and truncated packed torsion), and it passes the full LG00 gate. The exact B3 path below remains
+> sound and tested, but does not fit LG00.
+
 ## Result in one paragraph
 
 **The Lean is complete and sound end to end**, on the standard axioms:

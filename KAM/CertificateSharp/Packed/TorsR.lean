@@ -27,8 +27,8 @@ do:
   against small tables of exact centres and radii (`trTCheck`, `trYCheck`), and the landed test runs
   on the tables (`tabFinal`).
 
-Every conjunct of the core (`torsRCore`) is a separate small computation: the gate decides each in its
-own process.
+Every conjunct of the core (`torsRCore`) is a separate small computation: the gate decides each in
+its own process.
 -/
 
 @[expose] public noncomputable section
@@ -122,7 +122,8 @@ variable {α : Type} [CertArith α] (n : ℕ) (Binv : List (List (CertPoly α)))
 
 /-- `D L = Σ_l (s ω)_l ∂_l L` on `win Lb LU0`, scale `2^(2P)` (exact, from the boundary). -/
 def trDL0 : PMat α :=
-  ⟨fun r j => pcSumN (fun l => pcMul ((ptD2 (α := α) n W rb.toT tm l).x r j) (ptF n box s rb.toT l)) n,
+  ⟨fun r j => pcSumN
+      (fun l => pcMul ((ptD2 (α := α) n W rb.toT tm l).x r j) (ptF n box s rb.toT l)) n,
     fun r j => sumUp (fun l => pmulRad ((ptD2 (α := α) n W rb.toT tm l).nb r j)
       ((ptD2 (α := α) n W rb.toT tm l).r r j) (ofRatUp (|(ptFc box s rb.toT l : ℚ)| / 2 ^ rb.P))
       (ofRatUp (ptFr box s rb.toT l))) (List.range n),
@@ -171,7 +172,8 @@ def trStXN : Bool := trStage n W rb (n + n) n (trMXN (α := α) n W rb tm rm) rm
 /-- The averages of `T` against the tables. -/
 def trTCheck : Bool :=
   (List.range n).all fun i => (List.range n).all fun j =>
-    decide (ptDigit n rb.Lw (2 * rb.P) ((trT (α := α) n rb rm).x i j) = (rm.CT.getD i []).getD j (0, 0)) &&
+    decide (ptDigit n rb.Lw (2 * rb.P) ((trT (α := α) n rb rm).x i j) =
+        (rm.CT.getD i []).getD j (0, 0)) &&
       ble ((trT (α := α) n rb rm).r i j) (ofRatDown ((rm.RT.getD i []).getD j 0))
 
 /-- The averages of `Y` against the tables. -/

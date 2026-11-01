@@ -222,10 +222,8 @@ def parse_cc_terms(text):
     return out
 
 
-def main():
-    if "--toy" in sys.argv:
-        toy()
-        return
+def load():
+    """LG00's data, the memos (bit-exact mirror), the book and the Gram core's `(δ, β)` and `eps`."""
     data = os.path.join(CERT, "Data")
     tors = os.path.join(CERT, "Torsion")
     comps = ["lg00Angle0_0", "lg00Angle1_0", "lg00Action0_0", "lg00Action1_0"]
@@ -312,8 +310,18 @@ def main():
     assert db is not None, "the packed Gram core fails"
     eps = C.gramInvRadius(B, db)
     assert eps is not None
-    write_probes(bk, gm, d2, ax, d1, texts, comps, grams, d4, d1t, d2t, emb, ginv, pi, tinv, boxt, tms_defs,
-                 sigB_mu, sigT_mu, s, db, eps)
+    return dict(locals())
+
+
+def main():
+    if "--toy" in sys.argv:
+        toy()
+        return
+    D = load()
+    bk, gm, d2, ax, d1, db, eps = D["bk"], D["gm"], D["d2"], D["ax"], D["d1"], D["db"], D["eps"]
+    write_probes(bk, gm, d2, ax, d1, D["texts"], D["comps"], D["grams"], D["d4"], D["d1t"], D["d2t"], D["emb"],
+                 D["ginv"], D["pi"], D["tinv"], D["boxt"], D["tms_defs"], D["sigB_mu"], D["sigT_mu"], D["s"], db,
+                 eps)
     try:
         commit = subprocess.run(["git", "-C", CERT, "rev-parse", "HEAD"], capture_output=True, text=True,
                                 check=True).stdout.strip()
