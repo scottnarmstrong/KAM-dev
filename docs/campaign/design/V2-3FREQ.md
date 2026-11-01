@@ -54,11 +54,20 @@ There are `2N(N+1)` modes. The kernel walks them on the diamond `|a| + |b| ≤ N
 balanced bisection, so the recursion depth is `2l`. One pass both checks a mode and returns its
 rounded term (`Option ℕ`; `none` = a failed mode).
 
-**Outward fixed point.** Each `t(k')` is replaced by the natural number `⌈t(k') 2^P⌉`, so the sum
-is a sum of naturals. Exact rational accumulation (the n = 2 `balBound`) would grow the
-denominator as the lcm of all `L²` numerators: harmless for `2N ≈ 10³` terms, prohibitive for
-`2N² ≈ 10⁵`. The rounding cost is at most `#modes · 2^{-P}`, checked in the claimed bound. Upper
-rounding is the only direction ever used.
+**Integer fixed point (as built).** The walk runs on naturals only. The witness gives a dyadic box
+`DBox2` (`ω'_i ∈ [C_i ± R_i]/2^q`), checked once to contain the interval-divided certificate box
+(`dboxOk`). With it, `X = a C₀ + b C₁`, `p = ⌊(2^q - 2X)/2^{q+1}⌋`, `Y = |X + p 2^q|` and
+`Rd = |a| R₀ + |b| R₁` are integers, and the mode test is `Rd < Y`, `2(Y + Rd) ≤ 2^q`. The weights
+are `E_j = powUp(e, j)/2^P ≥ (e/2^P)^j ≥ e^{-2πδj}`, by binary powering with each product rounded
+up. `e ≥ 2^P/expLow` is checked once. Each of the three quotients of a mode term is rounded up
+(`ceilDiv`). Nothing about `p` is assumed: soundness uses only the checked inequalities.
+
+Exact rational accumulation (the n = 2 `balBound`) would grow the denominator as the lcm of all `L²`
+numerators. Measured on the T3 box, it costs 6.5 ms and 0.8 MB of kernel cache per fibre.
+
+The kernel evaluates `mode3K`/`powUpK`, which use core operations (`Nat.shiftLeft` for `2^P`,
+`Nat.blt`, `cond`, `Int.mul`). They are proved equal to the readable `mode3`/`powUp` by `rfl` plus
+`simp`. Mathlib's `Monoid.npow` path for `2 ^ P` alone costs 0.2 ms per occurrence in the kernel.
 
 **Tail, any `τ ∈ ℕ`.** `KAM.sdTail_le` with `E' = E₁^{N+1}` gives the rational
 
@@ -114,18 +123,21 @@ On the landed example `(∛2/2, ∛4/2, 1/2)`, `W̄ = 2∛2 ≈ 2.52` gives `γ 
 
 | Module | Content |
 |---|---|
-| `KAM.CertificateSharp.V2.Fiber.TailTau` | `SdsData.cLoT`, `SdsData.tailBoundT` (rational `T̂`, any `τ : ℕ`), `sds_tail_leT`; `fiberTermM`; `smallDivisorSum_snoc_le_fiberT` (any `m`, `τ`, with the mode facts as hypotheses) |
-| `KAM.CertificateSharp.V2.Fiber.Enum2` | `balFold` (balanced `Option ℕ` sum), `cell2`, `fib2Sum` (diamond walk), `modeBox_two_le` (coverage), `smallDivisorSum_snoc2_le` |
-| `KAM.CertificateSharp.V2.Fiber.Site3` | `FibWit`, `clockFiberBox`, `fiberSiteOk`, `sdConst_ray_of_fiberSiteOk`; `SiteWitG` (`classical`, `bite`, `fiber`), `siteOkG`, `sdConst_of_siteOkG` |
-| `KAM.CertificateSharp.V2.Fiber.RouteAG` | `RefinedWitG`, `sitesOkG`, `refinedCoreG`, `refinedCoreG_sound`, `routeARefinedG : EngineV2` |
-| `KAM.CertificateSharp.Freq.CubicNorm` | independence, norm/cofactor identity, `cubicDioOk`, `isDiophantine_of_cubicDioOk`; `isDiophantine_smulT`, `isDiophantine_intMat` |
+| `KAM.CertificateSharp.V2.Fiber.TailTau` | `expLowQ`, `cLoQ`, `tailQ` (rational `T̂`, any `τ : ℕ`, any `E' ≥ e^{-2πδ(N+1)}`), `sdTail_le_tailQ` |
+| `KAM.CertificateSharp.V2.Fiber.Enum2` | `balFold`, `cell2`, `row2`, `walk2` (diamond walk, generic in the mode function), `walk2_sound` (injection of `modeBox 2 N`); `pow2`, `ceilDiv`, `mulUp`, `powUp`, `powUp_ge`; `DBox2`, `mode3`, `mode3_spec`; kernel forms `mode3K`, `powUpK` with `mode3K_eq`, `powUpK_eq`; `smallDivisorSum_snoc2_le_walk` |
+| `KAM.CertificateSharp.V2.Fiber.Site3` | `sdConst_ray_of_sdSum_le` (any `n`, `τ`); `abs_div_sub_div_le`; `FibWit`, `clockBox2`, `dboxOk`, `fibBound`, `fiberSiteOk`, `clock_reduce`, `sdConst_ray_of_fiberSiteOk`; `SiteWitG` (`classical`, `bite`, `fiber`), `siteOkG`, `sdConst_of_siteOkG` |
+| `KAM.CertificateSharp.V2.Fiber.RouteAG` | `RefinedWitG`, `sitesOkG`, `refinedCoreG`, `refinedCoreG_sound`, `routeARefinedG`, `routeAV2G`; `RefinedWitG.ofRefined`, `refinedCoreG_ofRefined` (never worse) |
+| `KAM.CertificateSharp.V2.Fiber.RouteBG` | `NumBQ.sitesOkG`, `NumBQ.cert_rayG`, `RefinedBWitG`, `refinedBCoreG`, `refinedBCoreG_sound`, `routeBRefinedG`, `routeV2G`; `refinedBCoreG_ofRefined` |
+| `KAM.CertificateSharp.V2.Fiber.Shard` | `balFold_succ_of`, `row2_of_le`, `fiberPreOk`, `fiberSiteOk_of` (a site from a walk proved by shards) |
+| `KAM.CertificateSharp.Freq.CubicNorm` | `noIntRootIn`, `noRatRoot_of`, `cubic_indep`, `cubN`, `cubY`, `beta_mul_cof`, `cubN_ne_zero`, `cubicH`, `cubicW`, `polyAbsUp`, `cubicDioOk`, `isDiophantine_of_cubicDioOk`; `isDiophantine_smulT`, `isDiophantine_mono` |
+| `KAM.CertificateSharp.V2.Tests.Fiber3RouteB` | Toy B (route B, `n = 2`) through `routeBRefinedG` via `ofRefined` |
 | `KAM.CertificateSharp.V2.Tests.Fiber3Toy` | T3 (`toyCert3`, `n = 3`, `τ = 2`) through `routeARefinedG` with fiber sites; Diophantine premise from `cubicDioOk` |
 | `KAM.CertificateSharp.V2.Tests.Fiber3XLang` | Exact equalities produced by the Python mirror, checked by `decide +kernel` |
 
 **Site checker.**
 
 ```
-structure FibWit where N l J P : ℕ; E1 B : ℚ
+structure FibWit where N l J P e : ℕ; D : DBox2; B : ℚ
 def fiberSiteOk (n τ : ℕ) (box : FreqBox) (γ b c : ℚ) (w : FibWit) : Bool
 theorem sdConst_ray_of_fiberSiteOk (hτ : 1 ≤ τ) (hγ : 0 < γ) (h : fiberSiteOk n τ box γ b c w)
     (hω : FreqEncloses n box ωstar) (hdio : IsDiophantine γ τ ωstar) :
@@ -140,10 +152,10 @@ theorem sdConst_of_siteOkG … : SDConst n τ γ b c (ray ωstar)   -- same shap
 per site. `sdConst_of_siteOkG` produces exactly that, so the engine variant changes only the site
 step. `refinedCoreG_sound` copies `refinedCore_sound` (`V2/RouteARefined.lean`) with `sitesOkG`.
 `routeARefinedG` copies `routeARefined`'s test and soundness. `siteOkG` contains `siteOk`
-(`.bite w` ↦ `siteOk … (some w)`, `.classical` ↦ `siteOk … none`), so every existing route-A
-refined witness has an image. The route-B variant (`NumBQ.sitesOk`, three sites per stage) is the
-same substitution. It is left for a follow-up, because route B's engine file is shared with
-running work (§7).
+(`.bite w` ↦ `siteOk … (some w)`, `.classical` ↦ `siteOk … none`), so every existing refined
+witness has an image with the same verdict (`refinedCoreG_ofRefined`, `refinedBCoreG_ofRefined`).
+The route-B variant (`NumBQ.sitesOk`, three sites per stage) is the same substitution, in a new
+module.
 
 ## 4. Cost model
 
@@ -152,14 +164,19 @@ running work (§7).
 - **Cut-off:** `c_lo > 0` needs `N + 1 > τ/(3.14 δ) = τ/(6.28 b)`. In practice `T̂` must also be
   small next to `S`. That takes `2πδ(N+1)` of about `2τ ln(N+1) + ln(γ'^{-2}/S) + O(1)`, so
   `N ≈ (25–40)/(2πδ)` for the bites below.
-- **Arithmetic per mode:** a floor of a rational of the box's denominator size, two squares, one
-  `E₁^j` with `j ≤ N(1 + |ω'|) + 1`, and one ceiling at `2^P`. `E₁` is a short rational (10–30
-  digits), so `E₁^j` has `≈ 10 j` digits. The accumulator is a natural below `2^{P + log₂ B + 20}`.
-- **Bites of the example (T3, `ρ = 9`):** `b ∈ {1, ½}`; `N = 8–12`, `l = 5`, about 200 fibres per
-  site. The default build carries it.
-- **SJS (sjs-plan §1.2, §5.3):** `δ = 2.65·10⁻³` and `5.3·10⁻⁴` give about `9·10³` and `2.3·10⁵`
-  fibres per site (plan's count, rechecked in §6 of the handoff). That is a heavy kernel check,
-  opt-in under `kernel-tests/`, priced by the measured per-mode cost.
+- **Arithmetic per mode:** integers of `q + log₂ N` bits (`q = 64` on T3), two binary powers of
+  `O(log j)` products of `P`-bit naturals (`P = 64`), three rounded quotients. The accumulator is a
+  natural below `2^{P + log₂ S + 25}`.
+- **Measured (kernel, `walk2 (mode3K …)`, T3 box, import base 3.39 GB):** 420 fibres 0.49 s,
+  1,012 fibres 1.13 s, 1,860 fibres 2.50 s. That is about **1.2 ms and 215 KB of kernel cache per
+  fibre** within one declaration, so about 2,500 fibres per declaration under the 4 GB cap and
+  about 30,000 under the 10 GB guard. Larger walks are sharded (`Fiber/Shard.lean`).
+- **Bites of the example (T3, `ρ = 9`):** `b ∈ {1, ½}`; `N = 2, 3`; 12 and 24 fibres; 0.04 s and
+  0.07 s per site. The default build carries it.
+- **SJS:** see the handoff. At the first-stage bite `b = 2.65·10⁻³` the proved tail needs
+  `N ≈ 1,200–1,300`, i.e. `3·10⁶` fibres, about 1 h of kernel CPU in about 1,400 shards (4 GB cap).
+  At `b = 6.6·10⁻⁴` it needs `N ≈ 5,000`, about `5·10⁷` fibres and 16–20 h. These are opt-in
+  application builds, never in the default build.
 
 ## 5. Python mirror
 
@@ -172,5 +189,6 @@ same rounding, same enumeration order), a producer (choose `N`, `l`, `J`, `E₁`
 ## 6. Out of scope
 
 General `n ≥ 4` enumeration (the fiber theorem is general; only the walk is `m = 2`);
-higher-degree number fields; the route-B variant (§3); producer-side route selection
-(improvement #3).
+higher-degree number fields; a positive three-frequency example for route B (route B needs
+`ρ ≤ 1`, and T3 has `ρ = 9`); producer-side route selection (improvement #3); a bulk bound
+for far-from-resonance fibres, which would cut the SJS walks by orders of magnitude (§4).
