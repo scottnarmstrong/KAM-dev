@@ -645,6 +645,8 @@ public import KAM.Planetary.Spatial.Chart.LineDeriv
 public import KAM.Planetary.Spatial.Chart.RotAlgebra
 public import KAM.Planetary.Spatial.Chart.Symplectic
 public import KAM.Planetary.Spatial.Chart
+public import KAM.Planetary.Spatial.ComplexTube
+public import KAM.Planetary.Spatial.Confinement
 public import KAM.Planetary.Spatial.Continuation
 public import KAM.Planetary.Spatial.Elements
 public import KAM.Planetary.Spatial.Field
@@ -652,7 +654,13 @@ public import KAM.Planetary.Spatial.Geometry
 public import KAM.Planetary.Spatial.Model
 public import KAM.Planetary.Spatial.Momentum
 public import KAM.Planetary.Spatial.Newton
+public import KAM.Planetary.Spatial.NonresonantAdapter
+public import KAM.Planetary.Spatial.NonresonantAdapterRescale
 public import KAM.Planetary.Spatial.Orbital
+public import KAM.Planetary.Spatial.Osculating.Basic
+public import KAM.Planetary.Spatial.Osculating.Core
+public import KAM.Planetary.Spatial.Osculating.Estimates
+public import KAM.Planetary.Spatial.Osculating
 public import KAM.Planetary.Spatial.Product.Chart
 public import KAM.Planetary.Spatial.Product.Deficit
 public import KAM.Planetary.Spatial.Product.Defs
@@ -703,8 +711,10 @@ public import KAM.Planetary.StrongAMD.PlanarSafety.Constants
 public import KAM.Planetary.StrongAMD.PlanarSafety.Main
 public import KAM.Planetary.StrongAMD.PlanarSafety.Orientation
 public import KAM.Planetary.StrongAMD.PlanarSafety.Prograde
+public import KAM.Planetary.StrongAMD.PlanarSafety.Source
 public import KAM.Planetary.StrongAMD.PlanarSafety
 public import KAM.Planetary.StrongAMD.Reflection
+public import KAM.Planetary.StrongAMD.SourceCarrier
 public import KAM.Planetary.StrongAMD.Threshold.Continuity
 public import KAM.Planetary.StrongAMD.Threshold.Defs
 public import KAM.Planetary.StrongAMD.Threshold.Pair

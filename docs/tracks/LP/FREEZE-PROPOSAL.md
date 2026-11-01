@@ -1,4 +1,4 @@
-# Track LP: freeze proposal (DRAFT 3, for the owner's morning review)
+# Track LP: freeze proposal (DRAFT 4, for the owner's morning review)
 
 Status: 2026-11-01, overnight. **Nothing is frozen.** This file proposes the exact Lean text of the LP anchors.
 **Draft 2** applies the independent refute-first statement review
@@ -28,7 +28,7 @@ Source: [`source/MAIN.md`](source/MAIN.md) as amended by [`source/AMENDMENTS.md`
 |---|---|---|---|
 | LP0 | `planar_strongAMD_barrier` | L5 in full (with L2–L4) | **proved (draft-2 text, exactly)** by LP-PS `lp0_planar_barrier` from GEOMOD (landed); same verification file |
 | LP1 | `planar_strongAMD_exponentialSafety` | Theorem 15 (+ L16) | **proved (draft-2 text, exactly)** by LP-PS `lp1_planar_strongAMD_safety_normalized` (branch `inp-lp-ps` 74ebebb1; audit pending). Verification: `freeze/verification-draft-2.lean.txt` states the draft-2 LP0 and LP1 verbatim and closes them by the proved theorems; capped `lp_lean`, exit 0, axioms `[propext, Classical.choice, Quot.sound]` |
-| LP2 | `spatial_strongAMD_exponentialSafety` | Theorem 19 | not drafted yet (wave 4: spatial chart L17 is the largest package); proposed later, same shape as LP1 |
+| LP2 | `spatial_strongAMD_exponentialSafety` | Theorem 19 (+ L16, d = 3) | **proved** by LP-SP-SAFE `lp2_spatial_strongAMD_safety_normalized` (branch `inp-lp-spsafe` c9553935; audit pending); axioms `[propext, Classical.choice, Quot.sound]` (orchestrator re-check); text §3c, not yet statement-reviewed |
 | LP-cor | `planar_strongAMD_exponentialSafety_halfInteger` | §1 (τ = n − 1/2) | corollary, exponent `1/(2n+1)` (`scaleExponent_planar`, NRS) |
 
 Definitions entering the statements (all non-frozen today). **Which of them would be frozen as source objects, and in
@@ -295,6 +295,72 @@ premise and `hν`); the initial AMD hypothesis through `sourceStrongAMD ⟨z₀,
 margin/drift clauses as `∃ hs, … sourceStrongAMD ⟨z t, hs⟩ …` and the whole osculating block under `∃ hs ho, …`
 with `sourceOsc*` / `sourceKeplerPeri/Apo` (mirroring `∃ hcht` for the thresholds). The frozen planar repository
 definitions (`keplerAxis`, `keplerEccVector`, `keplerAction`, …) stay as in §3.
+
+## 3c. LP2: spatial strong-AMD exponential safety (exact text; draft 4 addition, review pending)
+
+The exact spatial twin of §3 (LP1): `Phase (n * 3)`, Euclidean `spaceLength`, the vector angular momentum in
+`spatialStrongAMD`, the spatial Newtonian reconstruction and osculating elements. Premises are those of LP1 with the
+spatial objects; **no** prograde, inclination, nonzero-total-angular-momentum, alignment or secular premise (MAIN
+Theorem 19; roadmap §2): the frame alignment with `L` is done inside the proof by a rotation. Proved by LP-SP-SAFE
+(full module: `freeze/lp2-SpatialSafety-Main.lean.txt`). Under OD-11 (b) the spatial physical quantities would be
+restated through source carriers (package LP-SP-SRC, in progress; audit LP-W4A-1 note N1).
+
+```lean
+theorem lp2_spatial_strongAMD_safety_normalized (hn : 2 ≤ n) (ν : Fin n → ℝ)
+    (hν : ∀ i, 0 < ν i) (_hνmax : ∃ i, ν i = 1) (_hνle : ∀ i, ν i ≤ 1)
+    (A : Set (Fin n → ℝ)) (hA : IsCompact A)
+    (hAord : ∀ a ∈ A, (∀ i, 0 < a i) ∧ ∀ i j, i < j → a i < a j)
+    (δ γ τ : ℝ) (hδ : 0 < δ) (hγ : 0 < γ) (hτ : (n : ℝ) - 1 < τ) :
+    ∃ μ₀ c T₀ AΛ Aa dStar dPair Aosc Aelem : ℝ,
+      0 < μ₀ ∧ 0 < c ∧ 0 < T₀ ∧ 0 < AΛ ∧ 0 < Aa ∧ 0 < dStar ∧ 0 < dPair ∧ 0 < Aosc ∧
+      0 < Aelem ∧ Aosc * μ₀ ≤ dStar / 2 ∧ 2 * (Aosc * μ₀) ≤ dPair / 2 ∧
+      ∀ μ : ℝ, 0 < μ → μ ≤ μ₀ →
+      ∀ z₀ : Phase (n * 3),
+        (∀ i, 0 < spaceLength (bodyVector3 z₀.1 i) ∧ spatialKeplerEnergy ν z₀ i < 0) →
+        (fun i => spatialKeplerAxis ν z₀ i) ∈ A →
+        (∀ k : Fin n → ℤ, k ≠ 0 →
+          γ * (KAM.Fourier.modeSize k : ℝ) ^ (-τ) ≤
+            |∑ i, (k i : ℝ) * (ν i ^ 3 / spatialKeplerAction ν z₀ i ^ 3)|) →
+        ∀ hch : (fun i => spatialKeplerAction ν z₀ i) ∈ chamber ν,
+        spatialStrongAMD ν z₀ ≤ orderedStrongThreshold hn ⟨_, hch⟩ - δ →
+        let T := T₀ * Real.exp (c * μ ^ (-(1 / (2 * (τ + 1)))))
+        ∃ z : ℝ → Phase (n * 3), z 0 = z₀ ∧
+          IsSpatialMovingSolutionOn ν μ (Set.Icc (-T) T) z ∧
+          SpatialMovingUniqueOn ν μ (Set.Icc (-T) T) z ∧
+          IsSpatialNewtonSolutionOn (spatialMasses ν μ) (Set.Icc (-T) T)
+            (fun t => spatialBarycentricPositions ν μ (z t).1)
+            (fun t => spatialBarycentricVelocities ν μ (z t).2) ∧
+          ∀ t ∈ Set.Icc (-T) T,
+            (∀ i, 0 < spaceLength (bodyVector3 (z t).1 i) ∧ spatialKeplerEnergy ν (z t) i < 0) ∧
+            (∃ hcht : (fun i => spatialKeplerAction ν (z t) i) ∈ chamber ν,
+              spatialStrongAMD ν (z t) ≤ orderedStrongThreshold hn ⟨_, hcht⟩ - δ / 2) ∧
+            ‖(fun i => spatialKeplerAction ν (z t) i) - fun i => spatialKeplerAction ν z₀ i‖ ≤
+              AΛ * Real.sqrt μ ∧
+            ‖(fun i => spatialKeplerAxis ν (z t) i) - fun i => spatialKeplerAxis ν z₀ i‖ ≤
+              Aa * Real.sqrt μ ∧
+            |spatialStrongAMD ν (z t) - spatialStrongAMD ν z₀| ≤ n * AΛ * Real.sqrt μ ∧
+            (∀ i, dStar ≤ spatialKeplerAxis ν (z t) i *
+              (1 - spaceLength (spatialKeplerEccVector ν (z t) i))) ∧
+            (∀ a : AdjIdx n, dPair ≤ spatialKeplerAxis ν (z t) a.upperIdx *
+                (1 - spaceLength (spatialKeplerEccVector ν (z t) a.upperIdx)) -
+                spatialKeplerAxis ν (z t) a.1 *
+                  (1 + spaceLength (spatialKeplerEccVector ν (z t) a.1))) ∧
+            (∀ i, dStar ≤ spaceLength (bodyVector3 (z t).1 i)) ∧
+            (∀ i j, i ≠ j →
+              dPair ≤ spaceLength (bodyVector3 (z t).1 i - bodyVector3 (z t).1 j)) ∧
+            (∀ i, spatialOscEnergy ν μ (z t) i < 0 ∧ 0 < spatialOscAxis ν μ (z t) i ∧
+                  spatialOscEcc ν μ (z t) i < 1 ∧
+                  spatialOscPeri ν μ (z t) i ≤ spaceLength (bodyVector3 (z t).1 i) ∧
+                  spaceLength (bodyVector3 (z t).1 i) ≤ spatialOscApo ν μ (z t) i ∧
+                  |spatialOscAxis ν μ (z t) i - spatialKeplerAxis ν (z t) i| +
+                    spaceLength (spatialOscEccVector ν μ (z t) i -
+                      spatialKeplerEccVector ν (z t) i) ≤ Aelem * μ) ∧
+            (∀ i, |spatialOscPeri ν μ (z t) i - spatialKeplerPeri ν (z t) i| ≤ Aosc * μ ∧
+                  |spatialOscApo ν μ (z t) i - spatialKeplerApo ν (z t) i| ≤ Aosc * μ) ∧
+            (∀ i, dStar / 2 ≤ spatialOscPeri ν μ (z t) i) ∧
+            (∀ a : AdjIdx n, dPair / 2 ≤
+              spatialOscPeri ν μ (z t) a.upperIdx - spatialOscApo ν μ (z t) a.1)
+```
 
 ## 4. Choices embedded in the text (owner decisions)
 

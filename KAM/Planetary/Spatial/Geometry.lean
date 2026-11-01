@@ -24,6 +24,8 @@ The threshold side is dimension-free and reused from the planar package: `strong
 * G2 `spatialStrongBarrier_physical`: the physical form, with the projection margin `m ≤ L_i · L̂`.
 * G3 `exists_spatialBarrierCompact`: all barrier states lie in one compact collision-free set.
 * `spatialPerihelionFloor_le` (N11).
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
