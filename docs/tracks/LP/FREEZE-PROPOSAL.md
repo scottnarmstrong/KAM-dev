@@ -1,4 +1,4 @@
-# Track LP: freeze proposal (DRAFT 2, reviewed, for the owner's morning review)
+# Track LP: freeze proposal (DRAFT 2, reviewed twice, for the owner's morning review)
 
 Status: 2026-11-01, overnight. **Nothing is frozen.** This file proposes the exact Lean text of the LP anchors.
 **Draft 2** applies the independent refute-first statement review
@@ -6,7 +6,13 @@ Status: 2026-11-01, overnight. **Nothing is frozen.** This file proposes the exa
 draft 1: no false statement and no conclusion-shaped premise, but source-scope omissions F1–F2 and definition-carrier
 issues F3–F4). The texts below are the reviewer's replacements, elaborated transiently against the current LP code
 (`freeze/elaboration-draft-2.lean.txt`, proof placeholders only, outside the library; capped `lp_lean.sh`, exit 0).
-Draft 1 is kept in `freeze/elaboration-draft-1.lean.txt` for comparison. Approval objects are
+Draft 1 is kept in `freeze/elaboration-draft-1.lean.txt` for comparison.
+
+**Review status.** Delta review [`freeze/STATEMENT-REVIEW-2.md`](freeze/STATEMENT-REVIEW-2.md) (codex-2): **PASS for the
+draft-2 theorem types** (F1, F2, F5 resolved; F3 repaired in LP-THR2, landing; no conclusion-shaped input; sorry-free
+producers independently verified). **Freeze package NOT READY** only because of the open owner decision **OD-11**
+(F4: how the new physical formulas are frozen; orchestrator recommendation (b), source subtypes). After the owner
+rules on OD-1…OD-11, the exact final anchor and definition text is generated and re-reviewed before any freeze. Approval objects are
 these exact texts; the decisions they depend on are in [`OWNER-DECISIONS.md`](OWNER-DECISIONS.md) (OD-1…OD-9).
 
 Source: [`source/MAIN.md`](source/MAIN.md) as amended by [`source/AMENDMENTS.md`](source/AMENDMENTS.md)
@@ -21,7 +27,9 @@ Source: [`source/MAIN.md`](source/MAIN.md) as amended by [`source/AMENDMENTS.md`
 | LP2 | `spatial_strongAMD_exponentialSafety` | Theorem 19 | not drafted yet (wave 4: spatial chart L17 is the largest package); proposed later, same shape as LP1 |
 | LP-cor | `planar_strongAMD_exponentialSafety_halfInteger` | §1 (τ = n − 1/2) | corollary, exponent `1/(2n+1)` (`scaleExponent_planar`, NRS) |
 
-Definitions entering the statements (all non-frozen today; freezing an anchor freezes them with it):
+Definitions entering the statements (all non-frozen today). **Which of them would be frozen as source objects, and in
+what form, is governed by §4b (definition freeze inventory) and owner decision OD-11, not by this list**: the list
+below is the definition closure the elaborated texts reference, including internal total helpers:
 `chamber`, `actionAxis`, `eccDeficit`, `pairFeasible`, `pairObjective`, `pairThreshold` (+ characterization),
 `AdjIdx`, `AdjIdx.upperIdx`, `crossThreshold`, `starThreshold`, `strongThreshold`, `OrderedActions`,
 `orderedPairThreshold`, `orderedCrossThreshold`, `orderedStrongThreshold` (THR); `strongAMD` (MOM);
