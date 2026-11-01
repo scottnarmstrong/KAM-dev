@@ -306,6 +306,9 @@ def main(tag):
     W["err"] = p["err"]
     W["N"] = c.toy.N
     ok = FW.check_in_lean(tag, FW.lean_refined_wit(W))
+    if not all(FL.parse_bool(o) for o in ok):        # V2-PUBLIC #3: which check of route A refined fails
+        import forced_diag as DG
+        DG.emit(DG.refinedA_lines(W, [FL.parse_bool(o) for o in ok]))
     assert all(FL.parse_bool(o) for o in ok), ok
     WR = FW.refined_R(tag, W)
     print("L8'", WR and (str(WR["bF"]), str(WR["bT"])))
@@ -549,7 +552,11 @@ def main_B(tag):
     W = json.load(open(path))
     R = {k: F(v) for k, v in W["refinedA"]["R"].items()}
     B = FW.route_B(c, tag, R)
-    assert FW.check_B_in_lean(tag, B)
+    if B is None or not FW.check_B_in_lean(tag, B):   # V2-PUBLIC #3: name the failing clause of route B
+        import forced_diag as DG
+        DG.emit(DG.frozenB_lines(c, B, frozen=False)[1] + (
+            [] if B is None else ["FAIL route=B.refined check=refinedBCore (compiled Lean): false"]))
+        raise SystemExit(1)
     B["err"] = c.params["err"]
     write(tag, "RouteB", routeB_module(tag, B))
     W["refinedB"] = FW.jsonable({k: v for k, v in B.items() if k != "I"})
@@ -561,9 +568,20 @@ def main_frozen(tag):
     import forced_witness as FW
     import sharp_q as SQ
     c = FW.load(tag)
-    A = FW.frozen_A(c)
-    A["err"], A["esharp"] = c.params["err"], SQ.sharp(dict(c.params))["threshold"]
+    try:
+        A = FW.frozen_A(c)
+    except AssertionError:          # a frozenCore clause fails: reported below with the other routes
+        A = None
     B = FW.route_B(c, tag, None, frozen=True)
+    p = dict(c.params)
+    if A is None or B is None or not SQ.sharpTest(p) or not p["err"] < B["estar"]:
+        # V2-PUBLIC #3: the module proves all three routes, so stop before writing one the kernel rejects
+        import forced_diag as DG
+        lines = DG.sharp_lines(p)[1] + DG.frozenA_lines(c)[1] + DG.frozenB_lines(c, B)[1]
+        DG.emit(lines + ["forced_routes: %s --frozen proves the sharp, frozen-A and frozen-B routes in one module "
+                         "and needs all three; nothing written" % tag])
+        raise SystemExit(1)
+    A["err"], A["esharp"] = c.params["err"], SQ.sharp(dict(c.params))["threshold"]
     write(tag, "Freq", freq_module(tag, c))
     write(tag, "Routes", frozen_module(tag, A, B))
     path = os.path.join(ROOT, "scripts", "certifier", "fixtures", "forced-toy", "%s_witness.json" % tag)
