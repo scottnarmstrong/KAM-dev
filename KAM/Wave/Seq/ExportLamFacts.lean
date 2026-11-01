@@ -21,9 +21,9 @@ The paragraph after Definition `bpW:w0:basis` (`w0-conventions.tex:45-47`) recor
 
 * `j < λ_j < j + √m` (`lamBasis_bounds`) and `j/λ_j < 1` (`lamBasis_div_lt_one`);
 * `j ↦ λ_j` is strictly increasing (`lamBasis_strictMono`);
-* `f` is strictly convex on `ℝ` (`lamFun_strictConvexOn`), with `f'(s) = s/f(s)` (`lamFun_hasDerivAt`,
-  `lamFun_deriv`), `0 < f'(s) < 1` for `s > 0` (`lamFun_deriv_pos_lt_one`) and `f'` strictly
-  increasing (`lamFun_deriv_strictMono`);
+* `f` is strictly convex on `ℝ` (`lamFun_strictConvexOn`), with `f'(s) = s/f(s)`
+  (`lamFun_hasDerivAt`, `lamFun_deriv`), `0 < f'(s) < 1` for `s > 0` (`lamFun_deriv_pos_lt_one`)
+  and `f'` strictly increasing (`lamFun_deriv_strictMono`);
 * `λ_{j+1} - λ_j = (2j+1)/(λ_{j+1} + λ_j) < 1` (`lamBasis_succ_sub`).
 
 `lamBasis_facts` bundles the paragraph. Here `f = lamFun m`, and `λ_j = f(j)` (`lam_eq_lamFun`).

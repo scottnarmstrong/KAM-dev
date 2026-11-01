@@ -61,7 +61,8 @@ variable {a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ M₀ M₁ cF t
 
 omit [Fact (0 < r)] in
 /-- `U + τ_k = U` for `k ∈ ℤ²`. -/
-theorem stepDomain_U_add_int {w : StepPhase r} (hw : w ∈ stepDomain r (s - 2 * σ) (r / 2)) (k : Fin 2 → ℤ) :
+theorem stepDomain_U_add_int {w : StepPhase r} (hw : w ∈ stepDomain r (s - 2 * σ) (r / 2))
+    (k : Fin 2 → ℤ) :
     w + (k 0 • stepTauS r 0 + k 1 • stepTauS r 1) ∈ stepDomain r (s - 2 * σ) (r / 2) := by
   have hlaw := fun i : Fin 2 => shift_int_law (D := stepDomain r (s - 2 * σ) (r / 2))
     (f := id) (τ := stepTauS r i) (fun w hw => stepDomain_add_tauS hw i)
