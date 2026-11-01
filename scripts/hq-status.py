@@ -1113,6 +1113,13 @@ def size_parts(rows):
     wave = loc([root / 'KAM' / 'Wave'])[0] + _unlanded()[2].get('Wave', 0)
     plan = campaign.get('size_plan', {}).get('W', {})
     lo, hi = plan.get('low', 0), plan.get('high', 0)
+    # 2026-11-01: once 100 of track W's graph nodes are resolved, its own measured rate (hand-written lines on `main`
+    # per resolved node) scales to the whole graph; the planning range is raised to it when lower (±15 %).
+    gw = graph_counts('W')
+    w_rate = None
+    if gw and gw[0] >= 100:
+        w_rate = loc([root / 'KAM' / 'Wave'])[0] * gw[1] / gw[0]
+        lo, hi = max(lo, 0.85 * w_rate), max(hi, 1.15 * w_rate)
     lpw = loc([root / 'KAM' / 'Planetary' / 'StrongAMD', root / 'KAM' / 'Planetary' / 'Spatial'])[0]
     lplan = campaign.get('size_plan', {}).get('LP', {})
     llo, lhi = lplan.get('low', 0), lplan.get('high', 0)
@@ -1122,7 +1129,7 @@ def size_parts(rows):
     est, est_lo, est_hi = (fixed + max(x, wave) + max(y, lpw)
                            for x, y in (((lo + hi) / 2, (llo + lhi) / 2), (lo, llo), (hi, lhi)))
     return dict(total=total, code=code, unl=unl, est=est, est_lo=est_lo, est_hi=est_hi, so_left=so_left, wave=wave,
-                lpw=lpw, llo=llo, lhi=lhi, lo=lo, hi=hi, source=plan.get('source', ''), share=lean_done / lean_all if lean_all else 0.0,
+                lpw=lpw, llo=llo, lhi=lhi, w_rate=w_rate, lo=lo, hi=hi, source=plan.get('source', ''), share=lean_done / lean_all if lean_all else 0.0,
                 rate_based=lean_done >= 8)
 
 
@@ -1142,7 +1149,10 @@ def section_size(rows):
            f'proof items of tracks I, N and P: {100 * z["share"]:.0f} % done); adds track SO from its design (its '
            f'lines on `main` plus the line estimates of its packages not yet landed, {z["so_left"]:,} lines; the Lean '
            f'packages of part 3 are on `main`, and what it still needs is generated data); and adds track W from its '
-           f'planning range of {z["lo"]:,}–{z["hi"]:,} lines ({z["source"]}; midpoint used), of which '
+           f'planning range of {round(z["lo"], -3):,.0f}–{round(z["hi"], -3):,.0f} lines ({z["source"]}' +
+           (f'; raised to its measured rate, {round(z["w_rate"], -3):,.0f} lines for the whole graph at its lines on '
+            f'`main` per resolved node' if z.get('w_rate') and z['w_rate'] * 1.15 > campaign['size_plan']['W']['high']
+            else '') + f'; midpoint used), of which '
            f'{z["wave"]:,} are written; and adds track LP from its planning range of {z["llo"]:,}–{z["lhi"]:,} lines '
            f'(the Lean roadmap of the audited proof; midpoint used), of which {z["lpw"]:,} are written. The side project LG00 is not counted: its certificate never enters this '
            f'library' if z['rate_based'] else
