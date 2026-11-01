@@ -43,7 +43,8 @@ theorem lpKeplerLip_nonneg {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (Imin : 
     have := hν i
     positivity
 
-/-- Points within `ρ ≤ I_min/2` of a centre with coordinates `≥ I_min` have real part `≥ I_min/2`. -/
+/-- Points within `ρ ≤ I_min/2` of a centre with coordinates `≥ I_min` have real part
+`≥ I_min/2`. -/
 theorem lp_re_ge_of_mem_polyNbhd {I0 : Fin n → ℝ} {Imin ρ : ℝ} (hI : ∀ i, Imin ≤ I0 i)
     (hρ : ρ ≤ Imin / 2) {z : Fin n → ℂ}
     (hz : z ∈ polyNbhd {KAM.realInclusion n I0} ρ) (i : Fin n) : Imin / 2 ≤ (z i).re := by
@@ -101,7 +102,8 @@ theorem lpKepler_freq {ν : Fin n → ℝ} {z : Fin n → ℂ} (hz : ∀ i, z i 
 
 /-- Item 1, the frequency at the centre: `freq lpKepler I⁰ = ω(I⁰)/(2π)`. -/
 theorem lpKepler_freq_real {ν : Fin n → ℝ} {I0 : Fin n → ℝ} (hI : ∀ i, I0 i ≠ 0) (i : Fin n) :
-    freq (lpKepler ν) (KAM.realInclusion n I0) i = ((ν i ^ 3 / I0 i ^ 3 / (2 * Real.pi) : ℝ) : ℂ) := by
+    freq (lpKepler ν) (KAM.realInclusion n I0) i =
+      ((ν i ^ 3 / I0 i ^ 3 / (2 * Real.pi) : ℝ) : ℂ) := by
   rw [lpKepler_freq (fun j => by simpa using hI j)]
   simp
 
