@@ -295,7 +295,7 @@ Overall, everything together: 88.9 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 09:45 UTC from `main` at `09edee9e` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 09:45 UTC from `main` at `56e376fb` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -502,7 +502,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:workers -->
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
-| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | 🔄 working | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
+| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | 🔄 working | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
@@ -513,7 +513,7 @@ account read from each agent's running process) and their branches. Rules for ag
 | **w6land** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: W6 landing branch: W8-PREP Assembly modules held back for the W8 landing | `inp-w6land` | 49 (vs `inp`) |
 | **w8a** | prover (offload) | Claude Opus 5.5 | — | ❌ audit failed, parked | last commit: W8: audit 1 (FAIL: F1 w6-general constants (D4) and tori conjunct, F2 Kshell generic total | `inp-w8a` | 48 (vs `inp`) |
 | **w8adapt** `inp-mprov-wpq` | prover (offload) | Claude Opus 5.5 | claude-5 | 🔄 proving | last commit: Merge branch 'inp-w5aafix' into inp-w8adapt | `inp-w8adapt` | 70 (vs `inp`) |
-| **wprov** `inp-maud-wpr` | prover (offload) | Claude Opus 5.5 | — | 🔍 in audit | last commit: Restore W5 action-angle/initial modules dropped by the inp merge (W5 landed without them;  | `inp-wprov` | 67 (vs `inp`) |
+| **wprov** `inp-maud-wpr` | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: Restore W5 action-angle/initial modules dropped by the inp merge (W5 landed without them;  | `inp-wprov` | 67 (vs `inp`) |
 <!-- /AUTO:workers -->
 
 ### Recent changes on `main`
@@ -521,6 +521,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-01 09:45 | `56e376fb` | Overnight log: LP3 audited, nlw2 proved, D61, draft-7 audit |
 | 2026-11-01 09:44 | `e815d5b5` | D61: owner approves sealing W-NLW2 once its gates pass |
 | 2026-11-01 09:32 | `246bc1ce` | Land inp into main |
 | 2026-11-01 09:27 | `a7d8a923` | HQ: W status (nlw2 proved, seal staged) |
@@ -532,7 +533,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-01 08:52 | `07be8a67` | Overnight log 08:40–08:53 |
 | 2026-11-01 08:51 | `743a9b36` | D60: parallel W audits on codex-1 and codex-2 |
 | 2026-11-01 08:45 | `3114e48a` | Land inp into main |
-| 2026-11-01 08:31 | `9e4d252a` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
