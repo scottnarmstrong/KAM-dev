@@ -6,6 +6,9 @@ Status: the core adapters below are proved in Lean (`KAM/Application/`, default 
 axioms only); the SO-2/SO-3/LG00 instances are described as recipes with exact Lean names and are
 **not** re-proved here (their files are read-only in this wave, and the SO lock coordinates and
 LG00 modules are not built in this worktree). No application certificate is claimed by this note.
+Revised by V2-ADAPT-FIX after AUDIT-V2-ADAPT-1: torus invariance (`Invariance`), the real-torus
+checks (`checkAngleGraphReal`, `checkActionRangeReal`), `IsFieldTransport.const_mul` (SO-3 clock),
+dot-notation names, and the probes (`Tests/Probes`).
 
 ## 1. What a certified application must supply
 
@@ -18,8 +21,8 @@ system. Each row names what must be written down and the Lean object that carrie
 | **Coordinates** | Chart, valid domain, symplectic identity or justified time change | the chart `Ψ : ℝⁿ × ℝⁿ → E`, its open model domain `O`, and the transport identity `IsFieldTransport Ψ Hc F κ O` (`DΨ X_{Hc} = κ F ∘ Ψ` on `O`; `κ` the clock); from a conformally symplectic chart by `isFieldTransport_of_isChart` |
 | **Approximation** | Fourier/model truncation and rigorous remainder budgets | the certificate's exact Hamiltonian expression `c.ham` (`c.H = c.ham.eval`) and the identity `Hc = Re c.H` on `O` (`hHc`); a truncated or approximate model is a *different* exact model, and its relation to the physical one is a separate theorem |
 | **Frequency** | Exact target, enclosure and infinite Diophantine witness | `ωstar : Fin n → ℝ` exact; `FreqEncloses n c.freqBox ωstar`; `IsDiophantine γ τ ωstar` (proved, e.g. quadratic/cubic constructions); the torus frequency is `s∞ ωstar`, `CertifiedTorusAt.isDiophantine`, `abs_sub_mul_norm_le` |
-| **Certificate** | Candidate, route, witness, checked margins and replay receipts | `c : TorusCertificate n α`, a certifier (landed `checkTorusCertificate`, v2 `checkTorusCertificateV2 E`, hybrid …) whose soundness gives `CertifiedTorus c ωstar`; the adapter checks `checkStatic`, `checkHamBounds`, `checkAngleGraph c δ`, `checkActionRange c i ctr r` |
-| **Physical output** | Observable bounds, initial set, quantifiers, time interval | `IsPhysicalFlowTorus F ν (Ψ ∘ k)` (every orbit on the torus, all real times), energy level `H_phys = E₀/a`, `IsAngleGraph` (graph over the angles), observable enclosures (`observable_bounds`, `abs_action_sub_ctr_le`, `forall_orbit`) |
+| **Certificate** | Candidate, route, witness, checked margins and replay receipts | `c : TorusCertificate n α`, a certifier (landed `checkTorusCertificate`, v2 `checkTorusCertificateV2 E`, hybrid …) whose soundness gives `CertifiedTorus c ωstar`; the adapter checks `checkStatic`, `checkHamBounds`, `checkAngleGraphReal c δ` (or the conservative strip `checkAngleGraph c δ`), `checkActionRangeReal c i ctr r` (or `checkActionRange`) |
+| **Physical output** | Observable bounds, initial set, quantifiers, time interval | `IsPhysicalFlowTorus F ν (Ψ ∘ k)` (every torus line `τ ↦ L(θ + τν)` solves `ż = F z` for all real `τ`) and its invariance (`IsPhysicalFlowTorus.mem_range_of_solution`, `isInvariantSet`: every solution meeting the torus stays on it, `F` of class `C¹` near the torus), energy level `H_phys = E₀/a`, `IsAngleGraph` (graph over the angles), observable enclosures (`observable_bounds`, `abs_action_sub_ctr_le_real`, `IsPhysicalFlowTorus.forall_solution`) |
 
 The hub is **`CertifiedTorusAt c ω* K∞ s∞`** (`KAM/Application/Certified.lean`): the body of
 `CertifiedTorus` with the exact torus `K∞` and the scalar `s∞` named
@@ -35,16 +38,18 @@ Module map (all core, additive, under 350 lines each):
 
 | Module | Content |
 |---|---|
-| `Graph` | pure: `DerivNearId f L` (`‖Df - 1‖ ≤ L`), bi-Lipschitz, bijective (contraction), `toHomeomorph`, analytic inverse; `torusAngle`, `torusGraph`, `IsAngleGraph`, `isAngleGraph_of_derivNearId` |
+| `Graph` | pure: `DerivNearId f L` (`‖Df - 1‖ ≤ L`), bi-Lipschitz, bijective (contraction), `toHomeomorph`, analytic inverse; `torusAngle`, `torusGraph`, `IsAngleGraph` (with `angleHomeomorph`, `continuous_graph`, `apply_invFun`, …), `isAngleGraph_of_derivNearId` |
 | `RealTorus` | pure: `realHam h = Re h ∘ ι`, `IsRealHolo D h`, `IsRealModelTorus H ω E k`, `isRealModelTorus_realRestriction`, `IsRealModelTorus.congr`, `isDiophantine_mul_smul` |
 | `Certified` | `CertifiedTorusAt`, `certifiedTorus_iff`, `isRealHolo_of_{differentiableOn,nonvanishing,checkHamBounds}`, `CertifiedTorusAt.isRealModelTorus`, `norm_realRestriction_sub_le`, `isDiophantine`, `abs_sub_mul_norm_le` |
-| `GraphCert` | `norm_fderiv_sub_le_of_real` (Cauchy at real points), `derivNearId_torusAngle_realRestriction`, `AngleNearId c δ`, `CertifiedTorusAt.isAngleGraph`, `CertifiedTorus.exists_realGraph` |
-| `GraphCheck` | `angleRowUp`, `checkAngleGraph`, `checkAngleGraph_sound`, `CertifiedTorus.exists_realGraph_of_checks` |
-| `Transport` | pure: `IsFieldTransport`, `IsPhysicalFlowTorus`, `hasDerivAt_comp` (orbits), `IsRealModelTorus.isPhysicalFlowTorus` (tori), `analyticOnNhd_comp`, `comp_add_int`, `injective_mod_comp`, `injective_fderiv_comp`, `level_comp`, `energy_comp`, `hamiltonianVectorField_const_mul` |
-| `TransportChart` | `isFieldTransport_of_isChart` (from `KAM.Planetary.IsChart`; imports all of Mathlib, hence separate) |
+| `GraphCert` | `norm_fderiv_sub_le_of_real` (Cauchy at real points), `derivNearId_torusAngle_realRestriction`, `AngleNearId c δ`, `CertifiedTorusAt.isAngleGraph`, `KAM.Certificate.CertifiedTorus.exists_realGraph` (`hT.exists_realGraph`; alias `KAM.Application.CertifiedTorus.exists_realGraph`) |
+| `GraphCheck` | real torus: `angleDerivModel`, `angleRowUpReal`, `checkAngleGraphReal`, `checkAngleGraphReal_sound`; strip: `angleRowUp`, `checkAngleGraph`, `checkAngleGraph_sound`; `KAM.Certificate.CertifiedTorus.exists_realGraph_of_checks` (either check; alias in `KAM.Application`) |
+| `Transport` | pure: `IsFieldTransport`, `IsPhysicalFlowTorus`, `hasDerivAt_comp` (orbits), `IsRealModelTorus.isPhysicalFlowTorus` (tori), `analyticOnNhd_comp`, `comp_add_int`, `injective_mod_comp`, `injective_fderiv_comp`, `level_comp`, `energy_comp`, `hamiltonianVectorField_const_mul`, `IsFieldTransport.const_mul` (clock rescaling), `IsRealModelTorus.isPhysicalFlowTorus_self` |
+| `Invariance` | `IsPhysicalFlowTorus.eqOn_line`, `mem_range_of_solution`, `isInvariantSet`, `forall_solution` (ODE uniqueness, `KAM.ODE.gen_uniqueness`, `F` of class `C¹` on an open set containing the torus) |
+| `TransportChart` | `isFieldTransport_of_isChart`, `KAM.Planetary.IsChart.injective_fderiv` (from `KAM.Planetary.IsChart`; imports all of Mathlib, hence separate) |
 | `Physical` | `CertifiedTorusAt.physical`, `CertifiedTorusAt.physical_energy` (the generic `lg00_physical_orbits`) |
-| `Observables` | `abs_sub_le_of_convex`, `forall_orbit`, `CertifiedTorusAt.observable_bounds`, `abs_angle_sub_le`, `abs_action_sub_le`, `norm_fderiv_realRestriction_sub_le`, `norm_physFreq_sub_le`, `checkActionRange`, `abs_action_sub_ctr_le`, `realInclusion₂_realRestriction_K_mem_D` |
-| `Tests/Toy2` | the whole chain on the toy T2 (`toyCert2_physical`) |
+| `Observables` | `abs_sub_le_of_convex`, `forall_orbit` (along torus lines only), `CertifiedTorusAt.observable_bounds`, `abs_angle_sub_le`, `abs_action_sub_le`, `norm_fderiv_realRestriction_sub_le`, `norm_physFreq_sub_le`, `checkActionRangeReal`/`checkActionRange` with `abs_action_sub_ctr_le_real`/`abs_action_sub_ctr_le`, `realInclusion₂_realRestriction_K_mem_D` |
+| `Tests/Toy2` | the whole chain on the toy T2 through the `2π` chart (`toyCert2_physical`, via `CertifiedTorusAt.physical`) |
+| `Tests/Probes` | negative cases of every check, nonzero angle data (real vs strip), `physical`/`physical_energy`/`const_mul`/`observable_bounds` on T2 (no chart layer) |
 
 ### 2.1 Graph/embedding adapter — the checkable condition
 
@@ -55,10 +60,19 @@ condition is exactly
   every row `i`: `Σ_j |∂_j U_i(x)| ≤ δ` on the real torus (max-norm operator norm);
 * **the margin** `δ + disp/ρ∞ < 1`.
 
-`checkAngleGraph c δ` (`δ : ℚ`) checks both with the strip models already used by
-`checkEmbedding`: `decide (0 ≤ δ)`, `decide (δ ρ∞ + disp < ρ∞)` (exact rationals), and for each
-`i < n`, `ble (Σ_j sup_{T_ρ} |∂_j U_i|)↑ (δ)↓`. The sup over `T_ρ` dominates the real torus, so the
-check is sound (`checkAngleGraph_sound`) and slightly conservative.
+Two `Bool` checks, both `decide (0 ≤ δ)`, `decide (δ ρ∞ + disp < ρ∞)` (exact rationals) and, for
+each `i < n`, `ble (row bound)↑ (δ)↓` (`δ : ℚ`):
+
+* **`checkAngleGraphReal c δ` (use this one)**: the row bound is `Σ_j sup_{x ∈ ℝⁿ} |∂_j U_i(x)|`
+  from the derivative models before their conversion to degree `0` (`angleDerivModel`, i.e.
+  `CertModel.ofDeriv`), summed with the weight `w = 1` (`CertModel.norm_le_supBound_real`): for
+  `U_i = (2π)^d Σ_k c_k e^{2πi k·θ}` it is `(2π)^{d+1} Σ_j Σ_k |k_j| |c_k|` (upper rational bound of
+  `2π`; radius from coefficient rounding only, `0` on `ℚ`). Sound by `checkAngleGraphReal_sound`.
+* `checkAngleGraph c δ` (strip, kept for compatibility): the row bound is the sup over the strip
+  `T_ρ` of the degree-`0` models used by `checkEmbedding`; each mode carries about `e^{2π|k|ρ}`, and
+  the degree conversion adds a radius measured in that weight. On T2 (`ρ = 9`) a single mode of
+  amplitude `10⁻²⁰` fails it at `δ = 0.99` while the real check passes at `2 · 10⁻¹⁹`
+  (`Tests/Probes`). Sound (`checkAngleGraph_sound`) but **very** conservative for large `ρ`.
 
 Why the margin: `‖K∞ - K‖ ≤ disp` on `T_{ρ∞}` gives, by Cauchy on the polydiscs of radius `< ρ∞`
 around real points, `‖DK∞(ι x) - DK(ι x)‖ ≤ disp/ρ∞` (`norm_fderiv_sub_le_of_real`), so the angle
@@ -75,9 +89,10 @@ Then `A` is a bi-Lipschitz bijection of `ℝⁿ` commuting with `ℤⁿ` (a lift
 The fully checked form:
 
 ```lean
-theorem CertifiedTorus.exists_realGraph_of_checks {c : TorusCertificate n α}
+theorem KAM.Certificate.CertifiedTorus.exists_realGraph_of_checks {c : TorusCertificate n α}
     {ωstar : Fin n → ℝ} (hT : CertifiedTorus c ωstar) (hs : checkStatic c = true)
-    (hh : checkHamBounds c = true) {δ : ℚ} (hg : checkAngleGraph c δ = true) :
+    (hh : checkHamBounds c = true) {δ : ℚ}
+    (hg : checkAngleGraphReal c δ = true ∨ checkAngleGraph c δ = true) :
     ∃ (Kinf : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (sinf : ℝ),
       CertifiedTorusAt c ωstar Kinf sinf ∧
       IsRealModelTorus (realHam c.H) (sinf • ωstar) c.params.E0 (realRestriction Kinf) ∧
@@ -99,7 +114,17 @@ torus (`IsRealModelTorus.congr`), e.g. a closed-form physical expression.
 * energy levels: `Hc = a · H_phys ∘ Ψ` on `O` gives `H_phys ∘ Ψ ∘ k = E/a`;
 * lattice: `Ψ(p + (m, 0)) = Ψ p + T m` gives `(Ψ ∘ k)(θ + m) = (Ψ ∘ k) θ + T m` (`T = 0`: periodic);
 * injectivity modulo `ℤⁿ` (chart injective modulo the angle lattice on `O`) and immersion
-  (`DΨ` injective on `O`); analyticity (analytic chart).
+  (`DΨ` injective on `O`); analyticity (analytic chart);
+* clock rescaling: `IsFieldTransport.const_mul`: `IsFieldTransport Ψ Hc F κ O` gives
+  `IsFieldTransport Ψ (r · Hc) F (r κ) O` for `r ≠ 0` (a certificate Hamiltonian `κ · H`).
+
+**Invariance** (`Invariance`). `IsPhysicalFlowTorus F ν L` only says that the torus lines are
+solutions. If `F` is `C¹` on an open `W ⊇ range L` (hence locally Lipschitz there), a solution `y`
+of `ż = F z` in `W` on an interval `J` with `y t₀ = L θ₀` satisfies `y t = L(θ₀ + (t - t₀) ν)` for
+all `t ∈ J` (`eqOn_line`, by `KAM.ODE.gen_uniqueness`); so `range L` is invariant
+(`mem_range_of_solution`, `isInvariantSet`) and every bound valid on the torus holds along every
+solution that meets it (`forall_solution`). In model coordinates use
+`IsRealModelTorus.isPhysicalFlowTorus_self` (`F = X_H`, `C¹` where `H` is `C²`).
 
 From geometry: `isFieldTransport_of_isChart`: a core `c`-chart (`KAM.Planetary.IsChart c Ψ O`:
 analytic, `Ω(DΨ u, DΨ v) = c Ω(u, v)`) and `Hc = a · H ∘ Ψ` on the open `O` give
@@ -132,11 +157,14 @@ From an enclosure of the certificate's own real torus `Re K ∘ ι` (numerical d
   `g` take `f = g ∘ Ψ`;
 * coordinates: `abs_angle_sub_le`, `abs_action_sub_le` (shift `≤ disp`); derivatives:
   `norm_fderiv_realRestriction_sub_le` (shift `≤ disp/ρ∞`);
-* checked action range: `checkActionRange c i ctr r` (strip model of `A_i - ctr`, as in
-  `checkEmbedding`) gives `|k_I(θ)_i - ctr| ≤ r + disp` (`abs_action_sub_ctr_le`);
+* checked action range: `checkActionRangeReal c i ctr r` (the model of `A_i - ctr` of
+  `checkEmbedding`, summed at the real points with weight `1`) gives `|k_I(θ)_i - ctr| ≤ r + disp`
+  (`abs_action_sub_ctr_le_real`); the strip version `checkActionRange` (weight `W`) is conservative
+  (`abs_action_sub_ctr_le`);
 * frequency: `‖κ⁻¹ s∞ ω* - κ⁻¹ s ω*‖ ≤ disp/|κ|` (`norm_physFreq_sub_le`);
-* time: orbits on the torus stay on it, so each bound holds along them for all `τ ∈ ℝ`
-  (`forall_orbit`).
+* time: a bound at every torus point holds along every torus line for all `τ ∈ ℝ` (`forall_orbit`,
+  a restatement), and along every solution that meets the torus, at every time of its interval,
+  when `F` is `C¹` near the torus (`IsPhysicalFlowTorus.forall_solution`).
 
 These bound observables **on the torus**. In dimension `n ≥ 3` one torus does not enclose a region of
 its energy surface: bounds for uncertain initial conditions need families of tori, extra geometry
@@ -178,7 +206,11 @@ nothing in SO-2 needs to change for the adapters to exist.
 | Certificate | `LockGraphCert` (graph cert + `Ω`, `κ`, `cs`), `lockBarrier_of_certV2`, data `KAMLunarLock` |
 | Physical output | `LockBarrier`, frozen `lunar_sync_lock` (draft) |
 
-The transport identity is exactly `lock_conjugacy` (`KAM/SpinOrbit/Lock/Coords/Conjugacy.lean`):
+The transport identity of the unscaled lock Hamiltonian is exactly `lock_conjugacy`
+(`KAM/SpinOrbit/Lock/Coords/Conjugacy.lean`), at clock `1`. The certificate Hamiltonian is the
+time-scaled `κ · lockHamExpr Ω cs` (`KAM/SpinOrbit/Lock/Graph.lean`), so the model Hamiltonian of
+the contract (`hHc : Hc = realHam c.H` on `O`) is `Hc = κ · lockHamiltonianR Ω c` and the clock is
+**`κ`**, by `IsFieldTransport.const_mul`:
 
 ```lean
 -- recipe (not compiled here: KAM.SpinOrbit.Lock.* is not built in this worktree)
@@ -188,7 +220,18 @@ theorem lock_isFieldTransport {Ω : ℝ} (hΩ : 0 < Ω) (c : ℝ → ℝ) (hc : 
   fun z hz => ⟨differentiableAt_lockToPhysicalR hΩ hd0 hd1 z hz, by
     rw [one_smul]; exact lock_conjugacy hΩ c hc z hz⟩
   -- hd0, hd1 from `contDiff_succ_iff_deriv` as in `lock_conjugacy`
+
+-- the certificate's clock: `Hc = κ · lockHamiltonianR Ω c`, physical frequency `(κ · 1)⁻¹ s∞ ω*`
+theorem lock_isFieldTransport_scaled {Ω κ : ℝ} (hΩ : 0 < Ω) (hκ : κ ≠ 0) (c : ℝ → ℝ)
+    (hc : ContDiff ℝ 3 c) :
+    IsFieldTransport (lockToPhysicalR Ω c) (fun z => κ * lockHamiltonianR Ω c z) soField
+      (κ * 1) {z | 0 < z.2 0} :=
+  (lock_isFieldTransport hΩ c hc).const_mul hκ
 ```
+
+`hHc` (`κ · lockHamiltonianR Ω (lockCentre cs) = realHam c.H` on `{z | 0 < z.2 0}`) is the real
+form of the lock package's evaluation identity for `lockHamExpr` (the one behind
+`hamiltonianVectorFieldℂ_lockHamExpr_ofRealPt`).
 
 The lock's angle inversion (`LockAngle`, monotone `α` in `θ₀`) is again the clock-triangular graph
 condition.
@@ -218,9 +261,11 @@ Recipe for `lg00_physical_orbits` from the adapters (in the LG00 package):
   `T = 0`) the rest.
 
 For the confinement (LG00-CONF), the certificate-side facts of the graph adapter for each of T′, T″
-are `checkAngleGraph c δ = true` (choose `δ ≥ max_i Σ_j sup |∂_j U_i|` with `δ ρ∞ + disp < ρ∞`) and,
-for explicit action bounds, `checkActionRange c i ctr r = true`; both are small kernel computations
-on the emitted certificate data.
+are `checkAngleGraphReal c δ = true` (choose `δ ≥ max_i (2π)^{d+1} Σ_j Σ_k |k_j||c_k|`, the real
+row sums of the emitted `U`, with `δ ρ∞ + disp < ρ∞`) and, for explicit action bounds,
+`checkActionRangeReal c i ctr r = true`; both are small kernel computations on the emitted
+certificate data. The strip versions (`checkAngleGraph`, `checkActionRange`) weight each mode by
+about `e^{2π|k|ρ}` and may fail where the real criterion holds.
 
 ## 4. Gaps and next steps
 
@@ -228,9 +273,13 @@ on the emitted certificate data.
   SO-2/SO-3 (and, in general, invertibility of `DA` everywhere: Hadamard's global inverse theorem,
   since `A - id` is periodic hence `A` proper) would cover more certificates; neither is in Mathlib
   in the needed form.
-* **Real-point sup bounds.** `checkAngleGraph` bounds `|∂_j U_i|` on the whole strip `T_ρ`; a check
-  on the real torus only (`CertModel.norm_le_supBound_real` exists in the hybrid layer) would be
-  sharper.
+* **Real-point sup bounds (done).** `checkAngleGraphReal` and `checkActionRangeReal` bound at the
+  real points with weight `1`. What remains conservative: the row bound is `Σ_j sup_x |∂_j U_i|`
+  (not `sup_x Σ_j`), and on fixed-point backends the coefficient-rounding radius is still measured
+  in the strip weight (ulp-sized).
+* **Invariance needs `C¹`.** `IsPhysicalFlowTorus.mem_range_of_solution` assumes `F` of class `C¹`
+  on an open set containing the torus (the core uniqueness lemma); a merely locally Lipschitz `F`
+  would need a Lipschitz variant of `KAM.ODE.gen_uniqueness`.
 * **Isotropy.** The frozen planetary `IsPhysicalTorus` also asks the torus to be Lagrangian; the
   adapters do not prove isotropy of the certified torus (true for Diophantine invariant tori; not
   needed by the current applications).

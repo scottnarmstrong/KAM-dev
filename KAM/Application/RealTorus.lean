@@ -154,7 +154,8 @@ theorem isRealModelTorus_realRestriction (hh : IsRealHolo D h) (hρ : 0 < ρ)
 
 end Exact
 
-/-- An orbit on a real model torus stays on it: its points are values of `k`. -/
+/-- The points of a torus line are values of `k` (a restatement; for arbitrary solutions meeting
+the torus see `IsPhysicalFlowTorus.mem_range_of_solution`). -/
 theorem IsRealModelTorus.mem_range {H : (Fin n → ℝ) × (Fin n → ℝ) → ℝ} {ω : Fin n → ℝ} {E : ℝ}
     {k : (Fin n → ℝ) → (Fin n → ℝ) × (Fin n → ℝ)} (_hk : IsRealModelTorus H ω E k)
     (θ : Fin n → ℝ) (t : ℝ) : k (θ + t • ω) ∈ range k :=

@@ -52,7 +52,7 @@ def IsFieldTransport (Ψ : (Fin n → ℝ) × (Fin n → ℝ) → E) (Hc : (Fin 
     (F : E → E) (κ : ℝ) (O : Set ((Fin n → ℝ) × (Fin n → ℝ))) : Prop :=
   ∀ p ∈ O, DifferentiableAt ℝ Ψ p ∧ fderiv ℝ Ψ p (hamiltonianVectorField Hc p) = κ • F (Ψ p)
 
-/-- **A physical invariant torus** `L : ℝⁿ → E` of the vector field `F` at the frequency `ν`: every
+/-- **A physical flow torus** `L : ℝⁿ → E` of the vector field `F` at the frequency `ν`: every
 line `τ ↦ L(θ + τ ν)` is a solution of `ż = F(z)` for all real times. -/
 def IsPhysicalFlowTorus (F : E → E) (ν : Fin n → ℝ) (L : (Fin n → ℝ) → E) : Prop :=
   ∀ θ τ, HasDerivAt (fun u : ℝ => L (θ + u • ν)) (F (L (θ + τ • ν))) τ
@@ -87,8 +87,9 @@ theorem IsFieldTransport.hasDerivAt_comp (hΨ : IsFieldTransport Ψ Hc F κ O) (
   rw [map_smul, (hΨ _ hyO).2, smul_smul, inv_mul_cancel₀ hκ, one_smul] at h2
   exact h2
 
-/-- **Invariant tori**: a real model torus `k` of `Hc` at `ω` lying in `O` gives the physical
-invariant torus `Ψ ∘ k` of `F` at the physical frequency `κ⁻¹ ω`. -/
+/-- **Tori**: a real model torus `k` of `Hc` at `ω` lying in `O` gives the physical
+flow torus `Ψ ∘ k` of `F` at the physical frequency `κ⁻¹ ω` (invariance of its image:
+`KAM/Application/Invariance.lean`). -/
 theorem IsRealModelTorus.isPhysicalFlowTorus {ω : Fin n → ℝ} {E₀ : ℝ}
     {k : (Fin n → ℝ) → (Fin n → ℝ) × (Fin n → ℝ)} (hk : IsRealModelTorus Hc ω E₀ k)
     (hΨ : IsFieldTransport Ψ Hc F κ O) (hκ : κ ≠ 0) (hkO : ∀ θ, k θ ∈ O) :

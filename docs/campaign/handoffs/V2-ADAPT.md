@@ -1,5 +1,8 @@
 # Handoff V2-ADAPT: reusable model-to-physical-conclusion adapters (improvement #7)
 
+**Superseded in part by [V2-ADAPT-FIX](V2-ADAPT-FIX.md)** (AUDIT-V2-ADAPT-1 changes: invariance,
+real-torus checks, probes, SO-3 clock, names).
+
 Worker: V2-ADAPT. Branch `v2-adapt` (from `origin/main` `f80bdf6e`), worktree
 `/home/scott/KAM-dev-worktrees/v2-adapt`. Brief: `/home/scott/kam-tools/briefs/V2-ADAPT.md`.
 Design note: [`docs/campaign/design/APPLICATION-CONTRACT.md`](../design/APPLICATION-CONTRACT.md).
@@ -49,7 +52,9 @@ New core modules (additive; no existing file edited except the generated root):
 * **Observables (item 3).** Enclosures of the certificate's own real torus transfer by the mean
   value inequality on a convex set (`Λ disp`), coordinates by `disp`, derivatives by `disp/ρ∞`,
   the physical frequency by `disp/|κ|`; `checkActionRange` checks an action interval from the strip
-  model used by `checkEmbedding`. Orbits on the torus stay on it (`forall_orbit`).
+  model used by `checkEmbedding`. A bound at every torus point holds along every torus line
+  (`forall_orbit`, a restatement); invariance of the torus under arbitrary solutions is proved in
+  V2-ADAPT-FIX (`KAM/Application/Invariance.lean`).
 * **Contract (item 4).** `APPLICATION-CONTRACT.md`: the improvements-doc §7 table with the Lean
   carrier of each row, the module map, exact statements, and the SO-2, SO-3 and LG00 instances
   (recipes with exact Lean names).
@@ -141,6 +146,7 @@ test peaked at 3.0 GB (5.7 s wall). No heartbeat or other override anywhere.
   compiled, because `KAM.SpinOrbit.Lock.*` (and some frozen `KAM.Frozen.SpinOrbit.Defs.*`) are not
   built in this worktree and LG00 is on another branch (`KAM/LG00Cert/**` is owned by
   kamx-certside); (b) `checkAngleGraph` bounds `|∂_j U_i|` on the whole strip `T_ρ` (sound,
-  slightly conservative; a real-torus sup would be sharper); (c) the brief's "homeomorphism of 𝕋ⁿ"
+  very conservative for large `ρ`, about `e^{2π|k|ρ}` per mode — corrected statement after
+  AUDIT-V2-ADAPT-1; V2-ADAPT-FIX adds the real-torus `checkAngleGraphReal`); (c) the brief's "homeomorphism of 𝕋ⁿ"
   is stated, as in the frozen planetary predicates, as a homeomorphism of `ℝⁿ` commuting with `ℤⁿ`
   plus injectivity modulo `ℤⁿ`, not with a quotient type.

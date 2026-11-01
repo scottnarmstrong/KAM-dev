@@ -17,7 +17,8 @@ The assembly of the adapters (improvement #7), the generic form of LG00's `lg00_
   real points of `c.D`), a real model Hamiltonian `Hc` agreeing with `Re c.H` on `O` (e.g. a
   closed-form physical expression), and a chart with the transport identity
   `DΨ X_{Hc} = κ F ∘ Ψ` on `O` give: the real torus lies in `O`, it is a real model torus of `Hc`,
-  and `Ψ ∘ k` is a physical invariant torus of `F` at the physical frequency `κ⁻¹ s∞ ω*`.
+  and `Ψ ∘ k` is a physical flow torus of `F` (its lines solve `ż = F z`) at the physical frequency
+  `κ⁻¹ s∞ ω*`; its image is invariant when `F` is `C¹` near it (`KAM/Application/Invariance.lean`).
 * `CertifiedTorusAt.physical_energy`: with `Hc = a · H_phys ∘ Ψ` on `O`, the physical torus lies on
   the physical level `H_phys = E₀ / a`.
 
