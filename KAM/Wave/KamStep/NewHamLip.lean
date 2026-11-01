@@ -86,4 +86,53 @@ theorem norm_fderiv_smoothDisp_time_sub_le (hL : 0 ≤ M / δ) {w : F} (hw : w �
   have : |σ| ≤ 1 := abs_le.mpr ⟨hσ'.1, hσ'.2⟩
   exact mul_le_mul h1' (h2'.trans (Real.exp_le_exp.mpr (by nlinarith))) (norm_nonneg _) hL
 
+/-- The transported field at time `t`. -/
+noncomputable def yfam (ι : G →L[ℂ] F) (Z : F → G) (Zg : ℝ → F → G) (t : ℝ) (w : F) : G :=
+  transSolve (transNop ι Z t w) (Zg t (holoFlow (smoothField ι Z) t w))
+
+/-- **`‖y‖ ≤ ‖u‖/(1-q)`**. -/
+theorem norm_transSolve_le {N : G →L[ℂ] G} {q : ℝ} (hq : q < 1) (hN : ‖N‖ ≤ q) (u : G) :
+    ‖transSolve N u‖ ≤ ‖u‖ / (1 - q) := by
+  have hN1 : ‖N‖ < 1 := lt_of_le_of_lt hN hq
+  have hs := transSolve_spec hN1 u
+  set y := transSolve N u
+  have h1 : ‖y‖ ≤ ‖u‖ + q * ‖y‖ := by
+    have : y = u - N y := by rw [← hs]; abel
+    calc ‖y‖ = ‖u - N y‖ := by rw [← this]
+      _ ≤ ‖u‖ + ‖N y‖ := norm_sub_le _ _
+      _ ≤ ‖u‖ + q * ‖y‖ := by
+        have := (N.le_opNorm y).trans (mul_le_mul_of_nonneg_right hN (norm_nonneg y))
+        linarith
+  rw [le_div_iff₀ (by linarith)]
+  nlinarith
+
+omit [CompleteSpace F] in
+theorem norm_transSolve_sub_le {N N' : G →L[ℂ] G} {q : ℝ} (hq : q < 1) (hN : ‖N‖ ≤ q)
+    (hN' : ‖N'‖ ≤ q) (u u' : G) :
+    ‖transSolve N u - transSolve N' u'‖ ≤
+      (‖u - u'‖ + ‖N - N'‖ * ‖transSolve N u‖) / (1 - q) := by
+  have hN1 : ‖N‖ < 1 := lt_of_le_of_lt hN hq
+  have hN1' : ‖N'‖ < 1 := lt_of_le_of_lt hN' hq
+  have hs := transSolve_spec hN1 u
+  have hs' := transSolve_spec hN1' u'
+  set y := transSolve N u
+  set y' := transSolve N' u'
+  have e : (y - y') + N' (y - y') = (u - u') - (N - N') y := by
+    rw [map_sub, ContinuousLinearMap.sub_apply]
+    have h1 : y + N y = u := hs
+    have h2 : y' + N' y' = u' := hs'
+    rw [← h1, ← h2]
+    abel
+  have h1 : ‖y - y'‖ ≤ ‖(u - u') - (N - N') y‖ + q * ‖y - y'‖ := by
+    have : y - y' = ((u - u') - (N - N') y) - N' (y - y') := by rw [← e]; abel
+    calc ‖y - y'‖ = ‖((u - u') - (N - N') y) - N' (y - y')‖ := by rw [← this]
+      _ ≤ ‖(u - u') - (N - N') y‖ + ‖N' (y - y')‖ := norm_sub_le _ _
+      _ ≤ ‖(u - u') - (N - N') y‖ + q * ‖y - y'‖ := by
+        have := (N'.le_opNorm (y - y')).trans (mul_le_mul_of_nonneg_right hN' (norm_nonneg _))
+        linarith
+  have h2 : ‖(u - u') - (N - N') y‖ ≤ ‖u - u'‖ + ‖N - N'‖ * ‖y‖ :=
+    (norm_sub_le _ _).trans (add_le_add_right ((N - N').le_opNorm y) _)
+  rw [le_div_iff₀ (by linarith)]
+  nlinarith [norm_nonneg (y - y')]
+
 end KAM.Wave
