@@ -205,9 +205,9 @@ EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#L
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.lemma8_complete (KAM/Planetary/StrongAMD/AnalyticDomain/Bounds.lean)
+LEAN_NOTE: mechanical docstring match on main (D65; tools/lp_depgraph_lean_refmap.py, reports/lean-ref-map.txt): unique LP:MAIN citation; #print axioms [propext, Classical.choice, Quot.sound]
 NOTE: planar (d = 2) lemma; the spatial analogue is Lemma 18 (wave 3). Lemmas 12-14 take its conclusion (with m = n slow pairs here) as a premise; Theorem 15 discharges it (lpM:T15#apply-L14). AMENDED: N2, N3 (AMENDMENTS.md L11, L12).
 
 NODE: lpM:L8#empty-case
