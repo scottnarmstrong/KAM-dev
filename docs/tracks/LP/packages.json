@@ -78,6 +78,15 @@
    "source": "MAIN L12/(37): scale choice and exponential horizon"
   },
   {
+   "id": "LP-LIFT",
+   "wave": 3,
+   "weight": 1.0,
+   "modules": [
+    "KAM/Planetary/StrongAMD/ChartLift.lean"
+   ],
+   "source": "MAIN L14 (chart lift of the physical orbit in the sharp region; discharges the D1 premises of the L13 adapter)"
+  },
+  {
    "id": "LP-CONF",
    "wave": 3,
    "weight": 1.5,

@@ -28,8 +28,9 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 | LP-DOM AnalyticDomain planar | L8 | 2 | `inp-lp-dom` / mom worktree (link `/root/code/KAM-inp-lp-dom`) | claude-11 | proved d66fa68b (D0–D6, 601 lines); audit LP-W2A (with NRS) running on codex-2 |
 | LP-NRR NonresonantReuse | L13 | 2 | `inp-lp-nrr` / mom worktree (link `/root/code/KAM-inp-lp-nrr`) | claude-11 | running (tmux inp-mprov-lp-nrr) |
 | LP-NRS NonresonantScale | L12/(37) | 2 | `inp-lp-nrs` / thr worktree (link `/root/code/KAM-inp-lp-nrs`) | claude-12 | proved 91da0b27 (301 lines); audit LP-W2A (with DOM) running on codex-2 |
-| LP-CONF Confinement | L14 | 3 | — | — | |
-| LP-OSC Osculating | L16 | 3 | `inp-lp-osc` / geomod worktree (link `/root/code/KAM-inp-lp-osc`) | claude-12 | running (tmux inp-mprov-lp-osc) |
+| LP-CONF Confinement (first exit, conditional on hstop) | L14 | 3 | `inp-lp-conf` / geomod worktree (link `/root/code/KAM-inp-lp-conf`) | claude-12 | running (tmux inp-mprov-lp-conf) |
+| LP-LIFT Chart lift + D1 discharge | L14 | 3 | — | — | after NRR (needs its interface) |
+| LP-OSC Osculating | L16 | 3 | `inp-lp-osc` (geomod worktree) | claude-12 | proved 8dc64ef0 (1006 lines); audit queued (after W2A, W3-MAIN r2) |
 | LP-PS PlanarSafety (LP1) | T15 | 3 | — | — | |
 | LP-SP* Spatial | L1–3, L17–19 | 4 | — | — | |
 
@@ -54,3 +55,4 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 - 2026-11-01 01:26 UTC: LP-W1B (GEOMOD+DICT) audit 1 PASS WITH NOTES (codex-2); doc notes applied; merged into inp-lp (7198d469); landing requested. codex-2 handed to W7-MEASURE.
 - 2026-11-01 01:28 UTC: LP-NRS proved (audit queued). LP-OSC (L16) launched on claude-12 in the geomod worktree.
 - 2026-11-01 01:45 UTC: LP-W1B LANDED (main 22c7517e): wave 1 (MAIN L2–L7) complete on main. LP-DOM proved; LP-NRR (L13 ExtNFHyp + stopped drift) launched on claude-11; combined audit LP-W2A (DOM+NRS) launched on codex-2 (W7 ended; W3-MAIN r2 next).
+- 2026-11-01 01:47 UTC: LP-OSC proved (audit queued). LP-CONF (L14 first exit with explicit hstop) launched on claude-12. New package LP-LIFT (chart lift; discharges D1) added to packages.json.
