@@ -24,15 +24,6 @@ public import KAM.Wave.Analytic.HoloAnalytic
 public import KAM.Wave.Analytic.Separable
 public import KAM.Wave.Analytic.TorusAnalytic
 public import KAM.Wave.Analytic.UniformLimit
-public import KAM.Wave.Assembly.Consts
-public import KAM.Wave.Assembly.Ext
-public import KAM.Wave.Assembly.NuInj
-public import KAM.Wave.Assembly.Patch
-public import KAM.Wave.Assembly.ShellData
-public import KAM.Wave.Assembly.ShellGeom
-public import KAM.Wave.Assembly.Unique
-public import KAM.Wave.Assembly.UpstreamW6
-public import KAM.Wave.Assembly.Winding
 public import KAM.Wave.Birkhoff.BlockMap
 public import KAM.Wave.Birkhoff.Coords
 public import KAM.Wave.Birkhoff.Divisor
