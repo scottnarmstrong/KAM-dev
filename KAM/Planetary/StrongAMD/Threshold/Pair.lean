@@ -199,4 +199,19 @@ theorem pairThreshold_lt {ν I : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (hI : I 
   rw [h0, mul_zero, zero_add] at hfe
   nlinarith
 
+/-- The ordered pair threshold is the attained minimum of the objective over the feasible set
+(carrier-level characterization; `LP:MAIN L4`). -/
+theorem orderedPairThreshold_isLeast {ν : Fin n → ℝ} (I : OrderedActions ν) (i j : Fin n)
+    (hij : i < j) :
+    IsLeast (pairObjective I.1 i j '' pairFeasible ν I.1 i j) (orderedPairThreshold I i j hij) :=
+  pairThreshold_isLeast ν I.1 i j
+
+/-- The value of the ordered pair threshold is the unique least value. -/
+theorem orderedPairThreshold_existsUnique_value {ν : Fin n → ℝ} (I : OrderedActions ν)
+    (i j : Fin n) (hij : i < j) :
+    ∃! b : ℝ, IsLeast (pairObjective I.1 i j '' pairFeasible ν I.1 i j) b := by
+  refine ⟨orderedPairThreshold I i j hij, pairThreshold_isLeast ν I.1 i j, ?_⟩
+  intro b hb
+  exact hb.unique (pairThreshold_isLeast ν I.1 i j)
+
 end KAM.Planetary.StrongAMD
