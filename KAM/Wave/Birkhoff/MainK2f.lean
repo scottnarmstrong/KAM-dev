@@ -13,7 +13,7 @@ public import KAM.Wave.Birkhoff.MainK2e
 Package W3-MAIN, blueprint label `bpW:w3:main`.
 
 `norm_birkY_le`: `‖V_s - V_0‖ ≤ 44 s C_* C_F ‖w‖⁵` for `0 ≤ s ≤ 1` (`V_s = DΓ_s⁻¹ X_{Z'}(Γ_s w)`),
-`norm_birkXK2_le`: `‖X_{K₂}(w)‖₊ ≤ 22 C_* C_F ‖w‖⁵`.
+`norm_birkXK2Ext_le`: `‖X_{K₂}(w)‖₊ ≤ 22 C_* C_F ‖w‖⁵`.
 -/
 
 @[expose] public noncomputable section
@@ -102,9 +102,9 @@ theorem norm_birkY_le (s : ℝ) (hs0 : 0 ≤ s) (hs1 : s ≤ 1) (w : BirkSpace)
   nlinarith [t1, t2]
 
 include hm hp in
-theorem birkXK2_eq_Q (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) :
+theorem birkXK2Ext_eq_Q (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) :
     (∑' k : ℕ, ((1 : ℝ) ^ k) • uqF m hm ha hp w k) - (1 : ℝ) • birkVn m hm ha hp 0 (fun _ => w) =
-      birkXK2 m hm ha hp w := by
+      birkXK2Ext m hm ha hp w := by
   have hsu : Summable fun k : ℕ => uqF m hm ha hp w k := by
     refine (summable_nat_add_iff 1).1 ?_
     have hs1 := summable_birkVn (ha := ha) (hm := hm) (hp := hp) 1 (by norm_num) w hw
@@ -127,8 +127,8 @@ theorem birkXK2_eq_Q (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) :
 
 include hm hp in
 /-- (`bpW:w3:main`, Step XK2) `‖X_{K₂}(w)‖₊ ≤ 22 C_* C_F ‖w‖⁵`. -/
-theorem norm_birkXK2_le (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) :
-    ‖birkXK2 m hm ha hp w‖ ≤ 22 * waveCubicConst p * birkCF m p * ‖w‖ ^ 5 := by
+theorem norm_birkXK2Ext_le (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) :
+    ‖birkXK2Ext m hm ha hp w‖ ≤ 22 * waveCubicConst p * birkCF m p * ‖w‖ ^ 5 := by
   have hCs := waveCubicConst_nonneg p
   have hCF := (birkCF_pos m hm hp).le
   set M : ℝ := waveCubicConst p * birkCF m p * ‖w‖ ^ 5 with hM
@@ -165,9 +165,9 @@ theorem norm_birkXK2_le (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1
       calc _ ≤ 44 * s * waveCubicConst p * birkCF m p * ‖w‖ ^ 5 := this
         _ = 44 * M * s := by rw [hM]; ring)
   have h1 := hbound (x := 1) ⟨zero_le_one, le_rfl⟩
-  have e : X2 1 = birkXK2 m hm ha hp w := birkXK2_eq_Q (ha := ha) (hm := hm) (hp := hp) w hw
+  have e : X2 1 = birkXK2Ext m hm ha hp w := birkXK2Ext_eq_Q (ha := ha) (hm := hm) (hp := hp) w hw
   rw [e] at h1
-  calc ‖birkXK2 m hm ha hp w‖ ≤ 22 * M * 1 ^ 2 := h1
+  calc ‖birkXK2Ext m hm ha hp w‖ ≤ 22 * M * 1 ^ 2 := h1
     _ = 22 * waveCubicConst p * birkCF m p * ‖w‖ ^ 5 := by rw [hM]; ring
 
 end KAM.Wave

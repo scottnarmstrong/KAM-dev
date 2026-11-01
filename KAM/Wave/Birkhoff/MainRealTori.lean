@@ -16,9 +16,9 @@ Off-frontier, source-faithful infrastructure used by several nodes; the dependen
 being built. Package W3-MAIN, blueprint label `bpW:w3:transport-tori`.
 
 For a real torus `Ψ` (`ϱ Ψ = Ψ`), `(Q,P) = 𝒵⁻¹ Γ ∘ Ψ = Π Γ ∘ Ψ`
-(`birkTransportQP`) satisfies the coefficient system of `bpW:w0:coeffsys` along `ν`:
+(`birkTransportQPExt`) satisfies the coefficient system of `bpW:w0:coeffsys` along `ν`:
 `D_ν Q_j = λ_j P_j`, `D_ν P_j = -λ_j Q_j - 𝒢(Q)_j` with `𝒢 = waveCubic`
-(`birk_transport_tori_real`), for `a > 0`.  The coefficients are `coeffW a p` of the weighted
+(`birk_transport_tori_real_aux`), for `a > 0`.  The coefficients are `coeffW a p` of the weighted
 coordinates.
 -/
 
@@ -28,8 +28,9 @@ namespace KAM.Wave
 
 variable {m : ℝ} {hm : 0 < m} {a p : ℝ} {ha : 0 ≤ a} {hp : 1 / 2 ≤ p}
 
-/-- `(Q,P) = 𝒵⁻¹ Γ ∘ Ψ` (the real coordinates of the transported torus point `Γ(ι Ψ θ)`). -/
-def birkTransportQP (m : ℝ) (hm : 0 < m) (ha : 0 ≤ a) (hp : 1 / 2 ≤ p)
+/-- Internal totalized helper (meaningful when `ι Ψ` takes values in `B_{ρ₁}`; public object
+`birkTransportQP`): `(Q,P) = 𝒵⁻¹ Γ ∘ Ψ` (real coordinates of `Γ(ι Ψ θ)`). -/
+def birkTransportQPExt (m : ℝ) (hm : 0 < m) (ha : 0 ≤ a) (hp : 1 / 2 ≤ p)
     (Ψ : (Fin 2 → ℝ) → BirkSpace) (θ : Fin 2 → ℝ) : BirkReal :=
   birkPi (birkGamma m hm ha hp 1 (birkEmbed a (p + 1) p (by linarith) (Ψ θ)))
 
@@ -136,7 +137,7 @@ include hm hp in
 /-- (`bpW:w3:transport-tori`, real form) For real `Ψ` (`ϱ Ψ = Ψ`) and `a > 0`:
 `(Q,P) = 𝒵⁻¹ Γ ∘ Ψ` satisfies `𝒵 (Q,P) = Γ ∘ Ψ` and the coefficient system
 `D_ν Q_j = λ_j P_j`, `D_ν P_j = -λ_j Q_j - 𝒢(Q)_j` (coefficients `coeffW a p`). -/
-theorem birk_transport_tori_real (hapos : 0 < a) (ν : Fin 2 → ℝ) (Ψ : (Fin 2 → ℝ) → BirkSpace)
+theorem birk_transport_tori_real_aux (hapos : 0 < a) (ν : Fin 2 → ℝ) (Ψ : (Fin 2 → ℝ) → BirkSpace)
     (hρ : ∀ θ, birkRho (Ψ θ) = Ψ θ)
     (hΨ : ∀ θ, 160 * birkCF m p * ‖birkEmbed a (p + 1) p (by linarith) (Ψ θ)‖ ^ 2 < 1)
     (hder : ∀ θ : Fin 2 → ℝ, HasDerivAt
@@ -147,46 +148,47 @@ theorem birk_transport_tori_real (hapos : 0 < a) (ν : Fin 2 → ℝ) (Ψ : (Fin
         birkEmbed a (p + 1) p (by linarith)
           (birkHamNorX m hm hapos.le hp (birkEmbed a (p + 1) p (by linarith) (Ψ θ))) +
         birkEmbed a (p + 1) p (by linarith)
-          (birkXK m hm hapos.le hp (birkEmbed a (p + 1) p (by linarith) (Ψ θ)))) 0)
+          (birkXKExt m hm hapos.le hp (birkEmbed a (p + 1) p (by linarith) (Ψ θ)))) 0)
     (θ : Fin 2 → ℝ) :
-    birkZR (birkTransportQP m hm hapos.le hp Ψ θ) =
+    birkZR (birkTransportQPExt m hm hapos.le hp Ψ θ) =
         birkGamma m hm hapos.le hp 1 (birkEmbed a (p + 1) p (by linarith) (Ψ θ)) ∧
       ∀ j : ℕ+,
         HasDerivAt (fun t : ℝ => coeffW (K := ℝ) a p
-            (birkTransportQP m hm hapos.le hp Ψ (θ + t • ν)).1 j)
-          (lam m hm j * coeffW (K := ℝ) a p (birkTransportQP m hm hapos.le hp Ψ θ).2 j) 0 ∧
+            (birkTransportQPExt m hm hapos.le hp Ψ (θ + t • ν)).1 j)
+          (lam m hm j * coeffW (K := ℝ) a p (birkTransportQPExt m hm hapos.le hp Ψ θ).2 j) 0 ∧
         HasDerivAt (fun t : ℝ => coeffW (K := ℝ) a p
-            (birkTransportQP m hm hapos.le hp Ψ (θ + t • ν)).2 j)
-          (-(lam m hm j * coeffW (K := ℝ) a p (birkTransportQP m hm hapos.le hp Ψ θ).1 j) -
-            waveCubic m hm (coeffW (K := ℝ) a p (birkTransportQP m hm hapos.le hp Ψ θ).1) j) 0 := by
-  obtain ⟨z, hz, hd⟩ := birk_transport_tori (ha := hapos.le) (hm := hm) (hp := hp) ν Ψ hΨ hder θ
+            (birkTransportQPExt m hm hapos.le hp Ψ (θ + t • ν)).2 j)
+          (-(lam m hm j * coeffW (K := ℝ) a p (birkTransportQPExt m hm hapos.le hp Ψ θ).1 j) -
+            waveCubic m hm (coeffW (K := ℝ) a p
+              (birkTransportQPExt m hm hapos.le hp Ψ θ).1) j) 0 := by
+  obtain ⟨z, hz, hd⟩ := birk_transport_tori_aux (ha := hapos.le) (hm := hm) (hp := hp) ν Ψ hΨ hder θ
   set u := birkGamma m hm hapos.le hp 1 (birkEmbed a (p + 1) p (by linarith) (Ψ θ)) with hu
   have hρu : birkRho u = u := by
     refine birkGamma_one_fixed (ha := hapos.le) (hm := hm) (hp := hp) _ ?_ (hΨ θ)
     rw [birkRho_birkEmbed, hρ]
-  have hx : birkZR (birkTransportQP m hm hapos.le hp Ψ θ) = u := birkZR_birkPi u hρu
+  have hx : birkZR (birkTransportQPExt m hm hapos.le hp Ψ θ) = u := birkZR_birkPi u hρu
   refine ⟨hx, fun j => ?_⟩
   have haux := birkTransport_coeff_aux (m := m) (hm := hm) (a := a) (p := p) (ha := hapos.le)
-    (hp := hp) (birkTransportQP m hm hapos.le hp Ψ θ) z (hz.trans hx.symm) j
+    (hp := hp) (birkTransportQPExt m hm hapos.le hp Ψ θ) z (hz.trans hx.symm) j
   rw [hx] at haux
   have hd' : HasDerivAt (fun t : ℝ => birkGamma m hm hapos.le hp 1
         (birkEmbed a (p + 1) p (by linarith) (Ψ (θ + t • ν))))
       (birkXLam m hm z + birkEmbed a (p + 1) p (by linarith)
         (birkQuartX m hm hapos.le hp (birkCoefAll_isCoef m hm) u)) 0 := hd
   have hcub := waveCubic_coeffW_eq_waveTriSeq (m := m) (hm := hm) hapos hp
-    (birkTransportQP m hm hapos.le hp Ψ θ).1 j
+    (birkTransportQPExt m hm hapos.le hp Ψ θ).1 j
   constructor
   · have L1 := ((coeffWCLM (K := ℝ) a p j).comp
       ((ContinuousLinearMap.fst ℝ (lp (fun _ : ℕ+ => ℝ) 2) (lp (fun _ : ℕ+ => ℝ) 2)).comp
         birkPi)).hasFDerivAt.comp_hasDerivAt (0 : ℝ) hd'
     convert L1 using 1
-    · funext t; simp [birkTransportQP]
+    · funext t; simp [birkTransportQPExt]
     · simpa using haux.1.symm
   · have L1 := ((coeffWCLM (K := ℝ) a p j).comp
       ((ContinuousLinearMap.snd ℝ (lp (fun _ : ℕ+ => ℝ) 2) (lp (fun _ : ℕ+ => ℝ) 2)).comp
         birkPi)).hasFDerivAt.comp_hasDerivAt (0 : ℝ) hd'
     convert L1 using 1
-    · funext t; simp [birkTransportQP]
+    · funext t; simp [birkTransportQPExt]
     · rw [hcub]
       simpa using haux.2.symm
 

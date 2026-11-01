@@ -12,7 +12,7 @@ public import KAM.Wave.Birkhoff.MainK2d
 
 Package W3-MAIN, blueprint label `bpW:w3:main`.
 
-`birkK2_field`: `DK₂(w) u = Ω(X_{K₂}(w), u)` with `X_{K₂} = birkXK2 = Σ_{n ≥ 1} V_n/(n+1)`.
+`birkK2Ext_field`: `DK₂(w) u = Ω(X_{K₂}(w), u)` with `X_{K₂} = birkXK2Ext = Σ_{n ≥ 1} V_n/(n+1)`.
 Proof: `g(s) = DΛ(Γ_s w)(DΓ_s u) - DΛ(w)u - s DZ'(w)u - Ω(Q(s) - s V_0, u)` has derivative `0`
 on `(-2,2)` (flow and variational equations, derivative of the homological identity,
 symplecticity, `DΓ_s(ι V_s) = ι X_{Z'}(Γ_s)`), and `g(0) = 0`.
@@ -25,9 +25,9 @@ namespace KAM.Wave
 variable {m : ℝ} {hm : 0 < m} {a p : ℝ} {ha : 0 ≤ a} {hp : 1 / 2 ≤ p}
 
 include hm hp in
-theorem birkK2_field (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) (u : BirkSpace) :
-    fderiv ℂ (birkK2 m hm ha hp) w u =
-      birkOmegaPlus a p ha (by linarith) (birkXK2 m hm ha hp w) u := by
+theorem birkK2Ext_field (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) (u : BirkSpace) :
+    fderiv ℂ (birkK2Ext m hm ha hp) w u =
+      birkOmegaPlus a p ha (by linarith) (birkXK2Ext m hm ha hp w) u := by
   have hw40 : 40 * birkCF m p * ‖w‖ ^ 2 < 1 := by
     have : 0 ≤ birkCF m p * ‖w‖ ^ 2 := mul_nonneg (birkCF_pos m hm hp).le (sq_nonneg _)
     nlinarith
@@ -99,7 +99,7 @@ theorem birkK2_field (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) (
       rw [abs_of_nonneg (by positivity)]
       exact div_le_one_of_le₀ (by linarith [(Nat.cast_nonneg n : (0 : ℝ) ≤ n)]) (by positivity)
     exact mul_le_of_le_one_left (norm_nonneg _) this
-  have hQ1 : Q 1 - (1 : ℝ) • v 0 = birkXK2 m hm ha hp w := by
+  have hQ1 : Q 1 - (1 : ℝ) • v 0 = birkXK2Ext m hm ha hp w := by
     have : Q 1 = ∑' n : ℕ, ((1 : ℂ) / ((n : ℂ) + 1)) • v n := by
       simp only [hQ, one_pow, one_smul]
       rw [hsu.tsum_eq_zero_add]
@@ -126,10 +126,10 @@ theorem birkK2_field (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) (
     have h3 := (hcomp.differentiableAt.hasFDerivAt.restrictScalars ℝ).unique hR
     have := DFunLike.congr_fun h3 u
     simpa using this
-  have hK2 : fderiv ℂ (birkK2 m hm ha hp) w u =
+  have hK2 : fderiv ℂ (birkK2Ext m hm ha hp) w u =
       fderiv ℂ (birkLambda m hm ha hp) (birkGamma m hm ha hp 1 w) (birkGammaD m hm ha hp 1 w u) -
         fderiv ℂ (birkLambda m hm ha hp) w u - c := by
-    unfold birkK2
+    unfold birkK2Ext
     rw [fderiv_fun_sub (f := fun y => birkLambda m hm ha hp (birkGamma m hm ha hp 1 y) -
         birkLambda m hm ha hp y) (g := birkHamZ m hm ha hp)
       (hcomp.differentiableAt.sub (hΛa w).differentiableAt) (hZa w).differentiableAt,
@@ -143,7 +143,7 @@ theorem birkK2_field (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) (
         Ω (ι (Q 1 - (1 : ℝ) • v 0)) u = 0 := hg1
   rw [hQ1] at hg1'
   simp only [Complex.ofReal_one, one_mul] at hg1'
-  show _ = Ω (ι (birkXK2 m hm ha hp w)) u
+  show _ = Ω (ι (birkXK2Ext m hm ha hp w)) u
   linear_combination hg1'
 
 end KAM.Wave

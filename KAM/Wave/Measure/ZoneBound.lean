@@ -139,7 +139,7 @@ theorem measure_abs_lt_le_of_growth {D : Set (Fin 2 → ℝ)} (hD : MeasurableSe
   have hφ' : ∀ ξ, φ (omegaTan m hm ξ) = F ξ := fun ξ => by
     simp only [hφ]
     rw [Function.leftInverse_invFun (omegaTan_injective m hm)]
-  have hslab := slab_measure_le i hSmeas (ρ := ρζ) (σ := σ) (η := η) hσ hη.le φ
+  have hslab := measSlab_measure_le i hSmeas (ρ := ρζ) (σ := σ) (η := η) hσ hη.le φ
     (by
       rintro _ ⟨x, hx, rfl⟩ _ ⟨y, hy, rfl⟩
       rw [dist_eq_norm]

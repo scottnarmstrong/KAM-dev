@@ -25,11 +25,11 @@ open Real MeasureTheory Set
 namespace KAM.Wave
 
 /-- The `ℓ¹` sphere `{k ∈ ℤ² : |k₁| + |k₂| = N}`. -/
-def l1Sphere (N : ℕ) : Set (Fin 2 → ℤ) := {k | (k 0).natAbs + (k 1).natAbs = N}
+def waveL1Sphere (N : ℕ) : Set (Fin 2 → ℤ) := {k | (k 0).natAbs + (k 1).natAbs = N}
 
-theorem kAbs_eq_of_mem_l1Sphere {N : ℕ} {k : Fin 2 → ℤ} (hk : k ∈ l1Sphere N) :
+theorem kAbs_eq_of_mem_l1Sphere {N : ℕ} {k : Fin 2 → ℤ} (hk : k ∈ waveL1Sphere N) :
     kAbs k = N := by
-  simp only [l1Sphere, mem_ofPred_eq] at hk
+  simp only [waveL1Sphere, mem_ofPred_eq] at hk
   simp only [kAbs, Fin.sum_univ_two]
   rw [← hk]; push_cast
   have h : ∀ z : ℤ, ((z.natAbs : ℕ) : ℝ) = |(z : ℝ)| := fun z => by
@@ -37,7 +37,7 @@ theorem kAbs_eq_of_mem_l1Sphere {N : ℕ} {k : Fin 2 → ℤ} (hk : k ∈ l1Sphe
   rw [h, h]
 
 /-- `#{k : |k| = N} ≤ 4 N`. -/
-theorem encard_l1Sphere_le {N : ℕ} (hN : 1 ≤ N) : (l1Sphere N).encard ≤ 4 * N := by
+theorem encard_l1Sphere_le {N : ℕ} (hN : 1 ≤ N) : (waveL1Sphere N).encard ≤ 4 * N := by
   set f0 : ℕ → (Fin 2 → ℤ) := fun t => ![(t : ℤ), (N : ℤ) - t]
   set f1 : ℕ → (Fin 2 → ℤ) := fun t => ![-((N : ℤ) - t), (t : ℤ)]
   set f2 : ℕ → (Fin 2 → ℤ) := fun t => ![-(t : ℤ), -((N : ℤ) - t)]
@@ -45,9 +45,9 @@ theorem encard_l1Sphere_le {N : ℕ} (hN : 1 ≤ N) : (l1Sphere N).encard ≤ 4 
   set T : Finset (Fin 2 → ℤ) :=
     (Finset.range N).image f0 ∪ (Finset.range N).image f1 ∪ (Finset.range N).image f2 ∪
       (Finset.range N).image f3 with hT
-  have hsub : l1Sphere N ⊆ (T : Set (Fin 2 → ℤ)) := by
+  have hsub : waveL1Sphere N ⊆ (T : Set (Fin 2 → ℤ)) := by
     intro k hk
-    simp only [l1Sphere, mem_ofPred_eq] at hk
+    simp only [waveL1Sphere, mem_ofPred_eq] at hk
     simp only [hT, Finset.coe_union, Finset.coe_image, Finset.coe_range, mem_union, mem_image,
       mem_Iio]
     have hk0 : k = ![k 0, k 1] := by ext i; fin_cases i <;> simp
@@ -70,7 +70,7 @@ theorem encard_l1Sphere_le {N : ℕ} (hN : 1 ≤ N) : (l1Sphere N).encard ≤ 4 
           refine ⟨(-(k 1)).toNat, by omega, ?_⟩
           rw [hk0]; simp only [f3]
           ext i; fin_cases i <;> simp <;> omega
-  calc (l1Sphere N).encard ≤ (T : Set (Fin 2 → ℤ)).encard := Set.encard_le_encard hsub
+  calc (waveL1Sphere N).encard ≤ (T : Set (Fin 2 → ℤ)).encard := Set.encard_le_encard hsub
     _ = (T.card : ℕ∞) := Set.encard_coe_eq_coe_finsetCard T
     _ ≤ 4 * N := by
         have : T.card ≤ 4 * N := by
@@ -94,7 +94,7 @@ theorem tsum_lattice_le {c : ℝ} (hc : 0 ≤ c) :
       ENNReal.ofReal (c * (2 * π ^ 2 / 3)) := by
   set F : (Fin 2 → ℤ) → ENNReal := fun k => if k = 0 then 0 else ENNReal.ofReal (c / kAbs k ^ 3)
     with hF
-  have hsupp : Function.support F ⊆ ⋃ n : ℕ, l1Sphere (n + 1) := by
+  have hsupp : Function.support F ⊆ ⋃ n : ℕ, waveL1Sphere (n + 1) := by
     intro k hk
     have hk0 : k ≠ 0 := fun h => hk (by simp [hF, h])
     simp only [mem_iUnion]
@@ -105,33 +105,33 @@ theorem tsum_lattice_le {c : ℝ} (hc : 0 ≤ c) :
       have h0 : k 0 = 0 := by omega
       have h1 : k 1 = 0 := by omega
       ext i; fin_cases i <;> simp [h0, h1]
-    simp only [l1Sphere, mem_ofPred_eq]
+    simp only [waveL1Sphere, mem_ofPred_eq]
     omega
   rw [← tsum_subtype_eq_of_support_subset hsupp]
-  refine (ENNReal.tsum_iUnion_le_tsum F (fun n : ℕ => l1Sphere (n + 1))).trans ?_
-  have hterm : ∀ n : ℕ, ∑' x : l1Sphere (n + 1), F x ≤
+  refine (ENNReal.tsum_iUnion_le_tsum F (fun n : ℕ => waveL1Sphere (n + 1))).trans ?_
+  have hterm : ∀ n : ℕ, ∑' x : waveL1Sphere (n + 1), F x ≤
       ENNReal.ofReal (4 * c / ((n : ℝ) + 1) ^ 2) := by
     intro n
-    have hconst : ∀ x : l1Sphere (n + 1), F x = ENNReal.ofReal (c / ((n : ℝ) + 1) ^ 3) := by
+    have hconst : ∀ x : waveL1Sphere (n + 1), F x = ENNReal.ofReal (c / ((n : ℝ) + 1) ^ 3) := by
       intro x
       have hx0 : (x : Fin 2 → ℤ) ≠ 0 := by
         intro h
         have := x.2
-        simp only [l1Sphere, mem_ofPred_eq] at this
+        simp only [waveL1Sphere, mem_ofPred_eq] at this
         rw [h] at this; simp at this
       simp only [hF, hx0, ↓reduceIte]
       rw [kAbs_eq_of_mem_l1Sphere x.2]; push_cast; rfl
     simp_rw [hconst]
     rw [ENNReal.tsum_set_const]
     have h4 := encard_l1Sphere_le (N := n + 1) (by omega)
-    have : ((l1Sphere (n + 1)).encard : ENNReal) ≤ ENNReal.ofReal (4 * ((n : ℝ) + 1)) := by
-      have h5 : ((l1Sphere (n + 1)).encard : ENNReal) ≤ ((4 * (n + 1) : ℕ∞) : ENNReal) := by
+    have : ((waveL1Sphere (n + 1)).encard : ENNReal) ≤ ENNReal.ofReal (4 * ((n : ℝ) + 1)) := by
+      have h5 : ((waveL1Sphere (n + 1)).encard : ENNReal) ≤ ((4 * (n + 1) : ℕ∞) : ENNReal) := by
         exact_mod_cast h4
       refine h5.trans (le_of_eq ?_)
       rw [ENNReal.ofReal_mul (by norm_num)]
       simp
       norm_cast
-    calc ((l1Sphere (n + 1)).encard : ENNReal) * ENNReal.ofReal (c / ((n : ℝ) + 1) ^ 3)
+    calc ((waveL1Sphere (n + 1)).encard : ENNReal) * ENNReal.ofReal (c / ((n : ℝ) + 1) ^ 3)
         ≤ ENNReal.ofReal (4 * ((n : ℝ) + 1)) * ENNReal.ofReal (c / ((n : ℝ) + 1) ^ 3) :=
           mul_le_mul_of_nonneg_right this zero_le
       _ = ENNReal.ofReal (4 * c / ((n : ℝ) + 1) ^ 2) := by

@@ -6,6 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.Wave.Birkhoff.MainTori
+public import KAM.Wave.Birkhoff.MainQuartSum
 
 /-!
 # Weak invariance is transported: regularity (blueprint-W `bpW:w3:transport-tori-weak`)
@@ -88,44 +89,46 @@ theorem birkEmbed_birkXLamInv (R Ψ : BirkSpace)
   rw [mul_left_comm, h1, inv_mul_cancel_left₀ hμ]
 
 variable (m hm) in
-/-- The right-hand side `X_Ḡ + X_{G^{nor}} + X_K` (embedded in `𝔚`). -/
-def birkRestField (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (w : BirkSpace) : BirkSpace :=
+/-- Internal totalized helper (meaningful on `B_{ρ₁}`; public object `birkRestField`):
+the right-hand side `X_Ḡ + X_{G^{nor}} + X_K` (embedded in `𝔚`). -/
+def birkRestFieldExt (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (w : BirkSpace) : BirkSpace :=
   birkEmbed a (p + 1) p (by linarith) (birkHamBarX m hm ha hp w) +
     birkEmbed a (p + 1) p (by linarith) (birkHamNorX m hm ha hp w) +
-    birkEmbed a (p + 1) p (by linarith) (birkXK m hm ha hp w)
+    birkEmbed a (p + 1) p (by linarith) (birkXKExt m hm ha hp w)
 
 variable {ha : 0 ≤ a} {hp : 1 / 2 ≤ p}
 
 include hm hp in
-theorem norm_birkRestField_le (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) :
-    ‖birkRestField m hm ha hp w‖ ≤
-      2 * waveCubicConst p * ‖w‖ ^ 3 + 66 * waveCubicConst p * birkCF m p * ‖w‖ ^ 5 := by
+theorem norm_birkRestFieldExt_le (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) :
+    ‖birkRestFieldExt m hm ha hp w‖ ≤
+      waveCubicConst p * ‖w‖ ^ 3 + 66 * waveCubicConst p * birkCF m p * ‖w‖ ^ 5 := by
   have hι : ∀ v : BirkSpace, ‖birkEmbed a (p + 1) p (by linarith) v‖ ≤ ‖v‖ := fun v => by
     refine ((birkEmbed a (p + 1) p (by linarith)).le_opNorm v).trans ?_
     calc ‖birkEmbed a (p + 1) p (by linarith)‖ * ‖v‖ ≤ 1 * ‖v‖ :=
           mul_le_mul_of_nonneg_right (norm_birkEmbed_le a (p + 1) p (by linarith)) (norm_nonneg v)
       _ = ‖v‖ := one_mul _
-  have h1 := norm_birkQuartX_le m hm ha hp (birkCoefBar_isCoef m hm) w
-  have h2 := norm_birkQuartX_le m hm ha hp (birkCoefNor_isCoef m hm) w
-  have h3 := norm_birkXK_le (ha := ha) (hm := hm) (hp := hp) w hw
-  unfold birkRestField
-  refine (norm_add_le _ _).trans ((add_le_add ((norm_add_le _ _).trans (add_le_add
-    ((hι _).trans h1) ((hι _).trans h2))) ((hι _).trans h3)).trans (le_of_eq ?_))
-  ring
+  have h12 := norm_birkHamBarX_add_birkHamNorX_le m hm ha hp w
+  have h3 := norm_birkXKExt_le (ha := ha) (hm := hm) (hp := hp) w hw
+  have e : birkRestFieldExt m hm ha hp w = birkEmbed a (p + 1) p (by linarith)
+      (birkHamBarX m hm ha hp w + birkHamNorX m hm ha hp w) +
+      birkEmbed a (p + 1) p (by linarith) (birkXKExt m hm ha hp w) := by
+    unfold birkRestFieldExt; rw [map_add]
+  rw [e]
+  exact (norm_add_le _ _).trans (add_le_add ((hι _).trans h12) ((hι _).trans h3))
 
 include hm hp in
 /-- (`bpW:w3:transport-tori-weak`) Weak invariance is transported: the weak equation in
-`𝔚_{a,p-1}` forces `Ψ(θ) ∈ 𝔚⁺` (with `‖Ψ‖₊ ≤ ‖DΨ ν‖ + 2C_*‖Ψ‖³ + C'_K‖Ψ‖⁵`), and then
+`𝔚_{a,p-1}` forces `Ψ(θ) ∈ 𝔚⁺` (with `‖Ψ‖₊ ≤ ‖DΨ ν‖ + C_*‖Ψ‖³ + C'_K‖Ψ‖⁵`), and then
 `D(Γ∘Ψ)ν = X_H(Γ∘Ψ)`. -/
-theorem birk_transport_tori_weak (ν : Fin 2 → ℝ) (Ψ D : (Fin 2 → ℝ) → BirkSpace)
+theorem birk_transport_tori_weak_aux (ν : Fin 2 → ℝ) (Ψ D : (Fin 2 → ℝ) → BirkSpace)
     (hΨ : ∀ θ, 160 * birkCF m p * ‖Ψ θ‖ ^ 2 < 1)
     (hder : ∀ θ : Fin 2 → ℝ, HasDerivAt (fun t : ℝ => Ψ (θ + t • ν)) (D θ) 0)
     (heq : ∀ θ, birkEmbed a p (p - 1) (by linarith) (D θ) =
       birkXLam m hm (Ψ θ) + birkEmbed a p (p - 1) (by linarith)
-        (birkRestField m hm ha hp (Ψ θ)))
+        (birkRestFieldExt m hm ha hp (Ψ θ)))
     (θ : Fin 2 → ℝ) :
     ∃ y z : BirkSpace, birkEmbed a (p + 1) p (by linarith) y = Ψ θ ∧
-      ‖y‖ ≤ ‖D θ‖ + 2 * waveCubicConst p * ‖Ψ θ‖ ^ 3 +
+      ‖y‖ ≤ ‖D θ‖ + waveCubicConst p * ‖Ψ θ‖ ^ 3 +
         66 * waveCubicConst p * birkCF m p * ‖Ψ θ‖ ^ 5 ∧
       birkEmbed a (p + 1) p (by linarith) z = birkGamma m hm ha hp 1 (Ψ θ) ∧
       HasDerivAt (fun t : ℝ => birkGamma m hm ha hp 1 (Ψ (θ + t • ν)))
@@ -133,25 +136,25 @@ theorem birk_transport_tori_weak (ν : Fin 2 → ℝ) (Ψ D : (Fin 2 → ℝ) �
           (birkHamGX m hm ha hp (birkGamma m hm ha hp 1 (Ψ θ)))) 0 := by
   -- the `𝔚⁺`-regularity at every point
   have hreg : ∀ θ', ∃ y : BirkSpace, birkEmbed a (p + 1) p (by linarith) y = Ψ θ' ∧
-      birkXLam m hm y = D θ' - birkRestField m hm ha hp (Ψ θ') := fun θ' => by
-    set R := D θ' - birkRestField m hm ha hp (Ψ θ') with hR
+      birkXLam m hm y = D θ' - birkRestFieldExt m hm ha hp (Ψ θ') := fun θ' => by
+    set R := D θ' - birkRestFieldExt m hm ha hp (Ψ θ') with hR
     have h0 : birkEmbed a p (p - 1) (by linarith) R = birkXLam m hm (Ψ θ') := by
       rw [hR, map_sub, heq θ']; abel
     exact ⟨birkXLamInv m hm R, birkEmbed_birkXLamInv R (Ψ θ') h0,
       birkXLam_birkXLamInv m hm R⟩
   choose Y hY1 hY2 using hreg
-  obtain ⟨z, hz, hd⟩ := birk_transport_tori (ha := ha) (hm := hm) (hp := hp) ν Y
+  obtain ⟨z, hz, hd⟩ := birk_transport_tori_aux (ha := ha) (hm := hm) (hp := hp) ν Y
     (fun θ' => by rw [hY1 θ']; exact hΨ θ') (fun θ' => by
       have h1 : (fun t : ℝ => birkEmbed a (p + 1) p (by linarith) (Y (θ' + t • ν))) =
           fun t : ℝ => Ψ (θ' + t • ν) := funext fun t => hY1 _
       rw [h1]
       refine (hder θ').congr_deriv ?_
       have h2 := hY2 θ'
-      rw [h2, hY1 θ']; unfold birkRestField; abel) θ
+      rw [h2, hY1 θ']; unfold birkRestFieldExt; abel) θ
   refine ⟨Y θ, z, hY1 θ, ?_, ?_, ?_⟩
-  · have hR := norm_birkRestField_le (ha := ha) (hm := hm) (hp := hp) (Ψ θ) (hΨ θ)
-    have hy : ‖Y θ‖ ≤ ‖D θ - birkRestField m hm ha hp (Ψ θ)‖ := by
-      have h4 : Y θ = birkXLamInv m hm (D θ - birkRestField m hm ha hp (Ψ θ)) := by
+  · have hR := norm_birkRestFieldExt_le (ha := ha) (hm := hm) (hp := hp) (Ψ θ) (hΨ θ)
+    have hy : ‖Y θ‖ ≤ ‖D θ - birkRestFieldExt m hm ha hp (Ψ θ)‖ := by
+      have h4 : Y θ = birkXLamInv m hm (D θ - birkRestFieldExt m hm ha hp (Ψ θ)) := by
         rw [← hY2 θ, birkXLamInv_birkXLam]
       rw [h4]; exact norm_birkXLamInv_le m hm _
     refine hy.trans ((norm_sub_le _ _).trans ?_)

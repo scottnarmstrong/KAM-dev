@@ -13,11 +13,11 @@ public import KAM.Wave.Birkhoff.MainRealTori
 Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
 being built. Package W3-MAIN, blueprint labels `bpW:w3:main`, `bpW:w3:gamma-real`.
 
-* `birkK_real_fderiv`: `D K^ℝ(x) h = ω_ℝ(Π ι X_K(𝒵x), h)`; in coefficients
-  (`birkK_real_gradient`): `X_K^ℝ = (∂_p K^ℝ, -∂_q K^ℝ)`, i.e.
+* `birkKExt_real_fderiv`: `D K^ℝ(x) h = ω_ℝ(Π ι X_K(𝒵x), h)`; in coefficients
+  (`birkKExt_real_gradient`): `X_K^ℝ = (∂_p K^ℝ, -∂_q K^ℝ)`, i.e.
   `D K^ℝ(x) h = Σ_j [(X_K^ℝ)^q_j h^p_j - (X_K^ℝ)^p_j h^q_j]`;
 * `birkGbarR`, `birkHamBar_birkZR`: `Ḡ(𝒵x) = ½ ⟨A I, I⟩ + ⟨B I, Z⟩`, `I_j = (q_j² + p_j²)/2`;
-* `birkLambda_birkZR`, `birkH_gammaR`: `H(Γ^ℝ x) = Λ(x) + Ḡ(x) + G^{nor}(x) + K(𝒵x)`.
+* `birkLambda_birkZR`, `birkH_gammaR_aux`: `H(Γ^ℝ x) = Λ(x) + Ḡ(x) + G^{nor}(x) + K(𝒵x)`.
 -/
 
 @[expose] public noncomputable section
@@ -29,16 +29,16 @@ variable {m : ℝ} {hm : 0 < m} {a p : ℝ} {ha : 0 ≤ a} {hp : 1 / 2 ≤ p}
 include hm hp in
 /-- (`bpW:w3:main` (ii)) `D K^ℝ(x) h = ω_ℝ(X_K^ℝ(x), h)` with `X_K^ℝ = Π ι X_K(𝒵 x)` the real
 restriction of the field (read at weight `p`), `ω_ℝ = Σ dq ∧ dp`. -/
-theorem birkK_real_fderiv (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^ 2 < 1) (h : BirkReal) :
-    fderiv ℝ (fun y : BirkReal => (birkK m hm ha hp (birkZR y)).re) x h =
+theorem birkKExt_real_fderiv (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^ 2 < 1) (h : BirkReal) :
+    fderiv ℝ (fun y : BirkReal => (birkKExt m hm ha hp (birkZR y)).re) x h =
       birkOmegaR a p
-        (birkPi (birkEmbed a (p + 1) p (by linarith) (birkXK m hm ha hp (birkZR x)))) h := by
-  have hcls := birkK_isClassA (ha := ha) (hm := hm) (hp := hp)
+        (birkPi (birkEmbed a (p + 1) p (by linarith) (birkXKExt m hm ha hp (birkZR x)))) h := by
+  have hcls := birkKExt_isClassA (ha := ha) (hm := hm) (hp := hp)
   have hw := birkZR_dom (hm := hm) (hp := hp) x hx
-  have hKd : DifferentiableAt ℂ (birkK m hm ha hp) (birkZR x) :=
+  have hKd : DifferentiableAt ℂ (birkKExt m hm ha hp) (birkZR x) :=
     (hcls.analytic _ hw).differentiableAt
-  have hd : HasFDerivAt (fun y : BirkReal => (birkK m hm ha hp (birkZR y)).re)
-      (Complex.reCLM.comp (((fderiv ℂ (birkK m hm ha hp) (birkZR x)).restrictScalars ℝ).comp
+  have hd : HasFDerivAt (fun y : BirkReal => (birkKExt m hm ha hp (birkZR y)).re)
+      (Complex.reCLM.comp (((fderiv ℂ (birkKExt m hm ha hp) (birkZR x)).restrictScalars ℝ).comp
         birkZR)) x :=
     Complex.reCLM.hasFDerivAt.comp x
       ((hKd.hasFDerivAt.restrictScalars ℝ).comp x birkZR.hasFDerivAt)
@@ -46,8 +46,8 @@ theorem birkK_real_fderiv (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^ 2 < 
   simp only [ContinuousLinearMap.comp_apply, ContinuousLinearMap.coe_restrictScalars',
     Complex.reCLM_apply]
   rw [hcls.field _ hw, birkOmegaPlus_eq]
-  have hρ : birkRho (birkEmbed a (p + 1) p (by linarith) (birkXK m hm ha hp (birkZR x))) =
-      birkEmbed a (p + 1) p (by linarith) (birkXK m hm ha hp (birkZR x)) := by
+  have hρ : birkRho (birkEmbed a (p + 1) p (by linarith) (birkXKExt m hm ha hp (birkZR x))) =
+      birkEmbed a (p + 1) p (by linarith) (birkXKExt m hm ha hp (birkZR x)) := by
     rw [birkRho_birkEmbed, ← hcls.field_rho hw, birkRho_birkZR]
   have hz := birkZR_birkPi _ hρ
   conv_lhs => rw [← hz]
@@ -69,13 +69,13 @@ include hm hp in
 `D K^ℝ(x) h = Σ_j [(X_K^ℝ)^q_j h^p_j - (X_K^ℝ)^p_j h^q_j]` where `(X_K^ℝ)^q, (X_K^ℝ)^p` are the
 actual coefficients (weight `p + 1`) of `Π X_K(𝒵x)` and `h^q, h^p` those of `h` (weight `p`):
 `∂_{p_j} K^ℝ = (X_K^ℝ)^q_j`, `∂_{q_j} K^ℝ = -(X_K^ℝ)^p_j`. -/
-theorem birkK_real_gradient (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^ 2 < 1) (h : BirkReal) :
-    fderiv ℝ (fun y : BirkReal => (birkK m hm ha hp (birkZR y)).re) x h =
-      ∑' j : ℕ+, (coeffW (K := ℝ) a (p + 1) (birkPi (birkXK m hm ha hp (birkZR x))).1 j *
+theorem birkKExt_real_gradient (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^ 2 < 1) (h : BirkReal) :
+    fderiv ℝ (fun y : BirkReal => (birkKExt m hm ha hp (birkZR y)).re) x h =
+      ∑' j : ℕ+, (coeffW (K := ℝ) a (p + 1) (birkPi (birkXKExt m hm ha hp (birkZR x))).1 j *
           coeffW (K := ℝ) a p h.2 j -
-        coeffW (K := ℝ) a (p + 1) (birkPi (birkXK m hm ha hp (birkZR x))).2 j *
+        coeffW (K := ℝ) a (p + 1) (birkPi (birkXKExt m hm ha hp (birkZR x))).2 j *
           coeffW (K := ℝ) a p h.1 j) := by
-  rw [birkK_real_fderiv (ha := ha) (hm := hm) (hp := hp) x hx h, birkOmegaR]
+  rw [birkKExt_real_fderiv (ha := ha) (hm := hm) (hp := hp) x hx h, birkOmegaR]
   refine tsum_congr fun j => ?_
   rw [coeffW_birkPi_embed_fst, coeffW_birkPi_embed_snd]
 
@@ -121,20 +121,20 @@ include hm hp in
 `(Λ + G)(𝒵 y) = Λ(𝒵 x) + Ḡ(𝒵 x) + G^{nor}(𝒵 x) + K(𝒵 x)` (the real form of
 `H(Γ^ℝ x) = Λ(x) + Ḡ(x) + G^{nor}(x) + K(𝒵x)`, `H = Λ + G`), with `Λ`, `Ḡ` as in
 `birkLambda_birkZR`, `birkHamBar_birkZR`. -/
-theorem birkH_gammaR (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^ 2 < 1) :
-    birkLambda m hm ha hp (birkZR (birkGammaR m hm ha hp x)) +
-        birkHamG m hm ha hp (birkZR (birkGammaR m hm ha hp x)) =
+theorem birkH_gammaR_aux (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^ 2 < 1) :
+    birkLambda m hm ha hp (birkZR (birkGammaRExt m hm ha hp x)) +
+        birkHamG m hm ha hp (birkZR (birkGammaRExt m hm ha hp x)) =
       ((∑' j : ℕ+, lam m hm j * birkActionR a p x j : ℝ) : ℂ) +
         ((birkGbarR m hm a p x : ℝ) : ℂ) + birkHamNor m hm ha hp (birkZR x) +
-        birkK m hm ha hp (birkZR x) := by
+        birkKExt m hm ha hp (birkZR x) := by
   have hw160 := birkZR_dom (hm := hm) (hp := hp) x hx
   have hfix := birkGamma_one_fixed (ha := ha) (hm := hm) (hp := hp) (birkZR x)
     (birkRho_birkZR x) hw160
-  have hz : birkZR (birkGammaR m hm ha hp x) = birkGamma m hm ha hp 1 (birkZR x) :=
+  have hz : birkZR (birkGammaRExt m hm ha hp x) = birkGamma m hm ha hp 1 (birkZR x) :=
     birkZR_birkPi _ hfix
   rw [hz, ← birkLambda_birkZR (ha := ha) (hm := hm) (hp := hp), ← birkHamBar_birkZR
     (ha := ha) (hm := hm) (hp := hp)]
-  unfold birkK
+  unfold birkKExt
   ring
 
 end KAM.Wave

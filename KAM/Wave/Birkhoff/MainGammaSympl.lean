@@ -12,8 +12,8 @@ public import KAM.Wave.Birkhoff.MainGamma
 
 Package W3-MAIN, blueprint label `bpW:w3:gamma-real`.
 
-`birkGammaD_rho`: `ϱ DΓ(w) v = DΓ(ϱ w)(ϱ v)`. `birkGammaR_hasFDerivAt`: the real derivative of
-`Γ^ℝ` is `Π DΓ(𝒵 x) 𝒵`. `birkGammaR_symplectic`: `ω(DΓ^ℝ ξ, DΓ^ℝ η) = ω(ξ, η)` for
+`birkGammaD_rho`: `ϱ DΓ(w) v = DΓ(ϱ w)(ϱ v)`. `birkGammaRExt_hasFDerivAt`: the real derivative of
+`Γ^ℝ` is `Π DΓ(𝒵 x) 𝒵`. `birkGammaRExt_symplectic`: `ω(DΓ^ℝ ξ, DΓ^ℝ η) = ω(ξ, η)` for
 `ω(x, x') = Σ_j (q_j p'_j - p_j q'_j)` (the form `Σ dq_j ∧ dp_j`).
 -/
 
@@ -65,8 +65,8 @@ theorem birkOmega_birkZR (ha : 0 ≤ a) (hp : 0 ≤ p) (x x' : BirkReal) :
   exact birkOmega_birkZ_real ha hp x x'
 
 include hm hp in
-theorem birkGammaR_hasFDerivAt (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^ 2 < 1) :
-    HasFDerivAt (birkGammaR m hm ha hp)
+theorem birkGammaRExt_hasFDerivAt (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^ 2 < 1) :
+    HasFDerivAt (birkGammaRExt m hm ha hp)
       ((birkPi.comp ((birkGammaD m hm ha hp 1 (birkZR x)).restrictScalars ℝ)).comp birkZR) x := by
   have hw160 := birkZR_dom (hm := hm) (hp := hp) x hx
   have hw40 : 40 * birkCF m p * ‖birkZR x‖ ^ 2 < 1 := by
@@ -80,7 +80,7 @@ theorem birkGammaR_hasFDerivAt (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^
 
 include hm hp in
 /-- (`bpW:w3:gamma-real` (iii)) `Γ^ℝ` is symplectic for `Σ dq_j ∧ dp_j`. -/
-theorem birkGammaR_symplectic (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^ 2 < 1)
+theorem birkGammaRExt_symplectic (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^ 2 < 1)
     (ξ η : BirkReal) :
     birkOmegaR a p
         (((birkPi.comp ((birkGammaD m hm ha hp 1 (birkZR x)).restrictScalars ℝ)).comp birkZR) ξ)

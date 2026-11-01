@@ -12,7 +12,7 @@ public import KAM.Wave.Birkhoff.MainGammaSympl
 
 Package W3-MAIN, blueprint label `bpW:w3:transport-tori`.
 
-`birk_transport_tori`: let `Ψ` take values in `B_{ρ₁} ∩ 𝔚⁺` (`Ψ θ` read at weight `p+1`) with
+`birk_transport_tori_aux`: let `Ψ` take values in `B_{ρ₁} ∩ 𝔚⁺` (`Ψ θ` read at weight `p+1`) with
 `∂_t ι Ψ(θ + tν)|_{t=0} = X_Λ(Ψθ) + X_Ḡ + X_{G^{nor}} + X_K` (all in `𝔚`). Then `Γ(ι Ψ θ) = ι z`
 with `z ∈ 𝔚⁺` and `∂_t Γ(ι Ψ(θ + tν))|_{t=0} = X_Λ(z) + X_G(Γ(ι Ψ θ)) = X_H(Γ ∘ Ψ(θ))`.
 -/
@@ -24,7 +24,7 @@ namespace KAM.Wave
 variable {m : ℝ} {hm : 0 < m} {a p : ℝ} {ha : 0 ≤ a} {hp : 1 / 2 ≤ p}
 
 include hm hp in
-theorem birk_transport_tori (ν : Fin 2 → ℝ) (Ψ : (Fin 2 → ℝ) → BirkSpace)
+theorem birk_transport_tori_aux (ν : Fin 2 → ℝ) (Ψ : (Fin 2 → ℝ) → BirkSpace)
     (hΨ : ∀ θ, 160 * birkCF m p * ‖birkEmbed a (p + 1) p (by linarith) (Ψ θ)‖ ^ 2 < 1)
     (hder : ∀ θ : Fin 2 → ℝ, HasDerivAt
       (fun t : ℝ => birkEmbed a (p + 1) p (by linarith) (Ψ (θ + t • ν)))
@@ -34,7 +34,7 @@ theorem birk_transport_tori (ν : Fin 2 → ℝ) (Ψ : (Fin 2 → ℝ) → BirkS
         birkEmbed a (p + 1) p (by linarith)
           (birkHamNorX m hm ha hp (birkEmbed a (p + 1) p (by linarith) (Ψ θ))) +
         birkEmbed a (p + 1) p (by linarith)
-          (birkXK m hm ha hp (birkEmbed a (p + 1) p (by linarith) (Ψ θ)))) 0)
+          (birkXKExt m hm ha hp (birkEmbed a (p + 1) p (by linarith) (Ψ θ)))) 0)
     (θ : Fin 2 → ℝ) :
     ∃ z : BirkSpace, birkEmbed a (p + 1) p (by linarith) z =
         birkGamma m hm ha hp 1 (birkEmbed a (p + 1) p (by linarith) (Ψ θ)) ∧
@@ -43,7 +43,7 @@ theorem birk_transport_tori (ν : Fin 2 → ℝ) (Ψ : (Fin 2 → ℝ) → BirkS
         (birkXLam m hm z + birkEmbed a (p + 1) p (by linarith)
           (birkHamGX m hm ha hp
             (birkGamma m hm ha hp 1 (birkEmbed a (p + 1) p (by linarith) (Ψ θ))))) 0 := by
-  obtain ⟨z, hz, hconj⟩ := birk_conjugacy (ha := ha) (hm := hm) (hp := hp) (Ψ θ) (hΨ θ)
+  obtain ⟨z, hz, hconj⟩ := birk_conjugacy_aux (ha := ha) (hm := hm) (hp := hp) (Ψ θ) (hΨ θ)
   refine ⟨z, hz, ?_⟩
   set w := birkEmbed a (p + 1) p (by linarith) (Ψ θ) with hw
   have hw40 : 40 * birkCF m p * ‖w‖ ^ 2 < 1 := by
