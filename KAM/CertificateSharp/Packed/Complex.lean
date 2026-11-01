@@ -140,7 +140,7 @@ theorem PCRep.unitSub {L : PackLayout} (hw : layoutWf L = true) {n : ℕ} {p : �
   have hk0 : certKeyFun n (keyOf L p) = 0 := by
     rw [hkey]
     funext j
-    simp [certKeyFun, List.getD_eq_getElem?_getD, List.getElem?_replicate]
+    simp [certKeyFun, List.getD_eq_getElem?_getD]
   refine ⟨zadd (zunit L p c) (dr.map Neg.neg), di.map Neg.neg,
     by simpa [pcUnitSub, sub_eq_add_neg] using re,
     by simpa [pcUnitSub] using ni.mono (Nat.le_add_left A c.natAbs), fun θ => ?_⟩

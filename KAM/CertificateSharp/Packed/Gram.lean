@@ -179,6 +179,7 @@ theorem dkModel_encloses {n : ℕ} (K : CertEmbedding α) {W : CertWeight} {s N 
     refine (dkActionModel_encloses hW hpe K ⟨r - n, h'⟩ a).of_eq_fun fun θ => ?_
     simp [dkFun, h, h']
 
+omit [LawfulCertArith α] in
 /-- The Gram entry as a sum over the `2n` rows of `DK`. -/
 theorem gramMatrix_eq_dkFun {n : ℕ} (K : CertEmbedding α) (θ : Fin n → ℂ) (k j : Fin n) :
     gramMatrix (K.eval n) θ k j =
@@ -193,6 +194,7 @@ theorem gramMatrix_eq_dkFun {n : ℕ} (K : CertEmbedding α) (θ : Fin n → ℂ
     refine Finset.sum_congr rfl fun i _ => ?_
     simp [dkFun, i.isLt]
 
+omit [LawfulCertArith α] in
 /-- At degree `0` an enclosure is a plain sup bound. -/
 theorem encloses_deg0 {n : ℕ} {ρ : ℝ} {m : CertModel α} {f : (Fin n → ℂ) → ℂ}
     (h : m.Encloses n ρ f) (hd : m.deg = 0) {θ : Fin n → ℂ} (hθ : θ ∈ complexStrip n ρ) :
@@ -215,6 +217,7 @@ theorem norm_le_ofRatUp {n : ℕ} {L : PackLayout} {A : ℕ} {x : PC} {F : (Fin 
   calc ‖g‖ * (2 ^ e * 2 ^ (2 * q)) = ‖g‖ * 2 ^ e * 2 ^ (2 * q) := by ring
     _ ≤ _ := h1
 
+omit [LawfulCertArith α] in
 theorem pgGuard_spec {n : ℕ} {K : CertEmbedding α} {Binv : List (List (CertPoly α))}
     {W : CertWeight} {cfg : ModelConfig α} {pe : PiEnclosure α} {bk : PGramBook}
     (h : pgGuard n K Binv W cfg pe bk = true) :
