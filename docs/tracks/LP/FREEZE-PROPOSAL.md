@@ -8,8 +8,11 @@ issues F3–F4). The texts below are the reviewer's replacements, elaborated tra
 (`freeze/elaboration-draft-2.lean.txt`, proof placeholders only, outside the library; capped `lp_lean.sh`, exit 0).
 Draft 1 is kept in `freeze/elaboration-draft-1.lean.txt` for comparison.
 
-**Review status.** Draft 3 adds only §3b (the OD-11 (b) text, proved); its delta review is
-`freeze/STATEMENT-REVIEW-3.md` (pending at the time of writing). Delta review [`freeze/STATEMENT-REVIEW-2.md`](freeze/STATEMENT-REVIEW-2.md) (codex-2): **PASS for the
+**Review status.** Draft 3 adds only §3b (the OD-11 (b) text, proved); its delta review
+[`freeze/STATEMENT-REVIEW-3.md`](freeze/STATEMENT-REVIEW-3.md) is **PASS** (F4 resolved for the source-facing
+definitions on their whole carriers; §3b faithful to draft-2 LP1). **With option (b), the freeze package has no open
+technical blocker**: what remains is the owner's decisions OD-1…OD-11. (Code blocks show statements only; the proofs
+are the LP-PS / LP-SRC theorems, see §1.) Delta review [`freeze/STATEMENT-REVIEW-2.md`](freeze/STATEMENT-REVIEW-2.md) (codex-2): **PASS for the
 draft-2 theorem types** (F1, F2, F5 resolved; F3 repaired in LP-THR2, landing; no conclusion-shaped input; sorry-free
 producers independently verified). **Freeze package NOT READY** only because of the open owner decision **OD-11**
 (F4: how the new physical formulas are frozen; orchestrator recommendation (b), source subtypes). After the owner
@@ -65,8 +68,7 @@ theorem planar_strongAMD_barrier (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀ 
         (∀ i j, i ≠ j → dPair ≤ planeLength (bodyVector z.1 i - bodyVector z.1 j)) ∧
         z ∈ K ∧
         (∀ i, m ≤ |planeCross (bodyVector z.1 i) (bodyVector z.2 i)| ∧
-          0 < planeCross (bodyVector z.1 i) (bodyVector z.2 i) * totalMomentum z) := by
-  sorry
+          0 < planeCross (bodyVector z.1 i) (bodyVector z.2 i) * totalMomentum z)
 ```
 
 Reading: for fixed positive masses, a compact action set `U` inside the ordered chamber and a margin `m > 0`,
@@ -125,8 +127,7 @@ theorem planar_strongAMD_exponentialSafety (hn : 2 ≤ n) (ν : Fin n → ℝ) (
             (∀ i, |oscPeri ν μ (z t) i - keplerPeri ν (z t) i| ≤ Aosc * μ ∧
                   |oscApo ν μ (z t) i - keplerApo ν (z t) i| ≤ Aosc * μ) ∧
             (∀ i, dStar / 2 ≤ oscPeri ν μ (z t) i) ∧
-            (∀ a : AdjIdx n, dPair / 2 ≤ oscPeri ν μ (z t) a.upperIdx - oscApo ν μ (z t) a.1) := by
-  sorry
+            (∀ a : AdjIdx n, dPair / 2 ≤ oscPeri ν μ (z t) a.upperIdx - oscApo ν μ (z t) a.1)
 ```
 
 Reading (MAIN §1 (6)–(9) and Theorem 15): constants `μ₀, c, T₀, A_Λ, A_a, d⋆, d_pair, A_osc` are chosen
