@@ -360,7 +360,7 @@ def cubicDioOk(p0, p1, p2, tc, tr, A, D, gamma):
         return False
     det = (A[0][0] * (A[1][1] * A[2][2] - A[1][2] * A[2][1]) - A[0][1] * (A[1][0] * A[2][2] - A[1][2] * A[2][0])
            + A[0][2] * (A[1][0] * A[2][1] - A[1][1] * A[2][0]))
-    if det == 0 or not (0 < D and 0 < gamma and 0 <= tr):
+    if det == 0 or not (0 < D and 0 < gamma):
         return False
     W = cubicW(A, p0, p1, p2)
     Wb = max(polyAbsUp(W[0][i][j], W[1][i][j], W[2][i][j], tc, tr) for i in range(3) for j in range(3))
