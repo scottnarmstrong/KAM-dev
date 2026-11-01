@@ -25,7 +25,9 @@ For the data `d` of Definition `bpW:w6:sequences` with `ε₀ ≤ γ₀ α₀ σ
 * `Φ_{ν+1}` maps `D_{ν+1}` into `D(s_ν - 4σ_ν, 2η_ν r_ν) ⊆ D_ν`;
 * given the conditions with `k = 0` at stage `ν+1` on `Π_{ν+1}` (`W6Mel0`, supplied by `bpW:w6:k0`),
   all hypotheses of stage `ν+1` hold (`W6Stage`; `W6StageCore` without the reality of `P_{ν+1}`);
-* `|Φ_{ν+1} - id|^{λ_ν} ≤ 2 M_{F,ν}`, `|DΦ_{ν+1} - I|^{λ_ν} ≤ 16 M_{F,ν}/σ_ν ≤ 2^{-ν-2}`;
+* `Φ_{ν+1} = id + ι Ψ_{ν+1}`, `|Φ_{ν+1} - id|^{λ_ν}_{p_+} = |Ψ_{ν+1}|^{λ_ν} ≤ 2 M_{F,ν}`,
+  `|DΦ_{ν+1} - I|^{λ_ν}_{p→p_+} = |DΨ_{ν+1}|^{λ_ν} ≤ 16 M_{F,ν}/σ_ν ≤ 2^{-ν-2}` (W5's smoothing
+  displacement `Ψ_{ν+1}`, `W6Stage.PsiN`);
 * `|ω_{ν+1} - ω_ν| + λ_ν |ω_{ν+1} - ω_ν|^ℒ ≤ 6πε_ν`,
   `sup_j (j+2)^{1/2} (|Ω_{ν+1,j} - Ω_{ν,j}| + λ_ν |·|^ℒ) ≤ 3ε_ν` (W7 index, `normLab j = j + 3`).
 
@@ -144,6 +146,8 @@ variable {d : W6SeqData} {ν : ℕ} {Pi : Set (Fin 2 → ℝ)} {ω : (Fin 2 → 
   (h : W6Stage d ν Pi ω Ω P X)
 
 
+theorem w6_iter_one_le_three_halves : (1 : ℝ) ≤ 3 / 2 := by norm_num
+
 /-- `ε²/(α σ^t η²) = ε η` for `η = (ε/(α σ^t))^{1/3}` (step `il-err`). -/
 theorem w6_newerror_eq (hd : d.SeqValid) (ν : ℕ) :
     d.eps ν ^ 2 / (d.alpha ν * d.sigma ν ^ w6T * d.etaNu ν ^ 2) = d.etaNu ν * d.eps ν := by
@@ -217,9 +221,19 @@ theorem OmN_inc_abs : ∀ ξ ∈ Pi, ∀ n : ℕ,
   have ha := abs_nonneg (w6Om7 (h.OmN hd hsmall ξ) n - w6Om7 (Ω ξ) n)
   nlinarith
 
-/-- **Transformations** (step `il-tr`; `bpW:w5:step` (v)): with `M_{F,ν} = c_F q_ν σ_ν`,
-`|Φ_{ν+1} - id|^{λ_ν} ≤ 2M_{F,ν}` and `|DΦ_{ν+1} - I|^{λ_ν} ≤ 16 M_{F,ν}/σ_ν ≤ 2^{-ν-2}` on
-`D_{ν+1}`, `ξ ∈ Π_ν` (norm `|·|_{r_ν}`). -/
+/-- `Ψ_{ν+1}` (on `Π_ν`): W5's smoothing displacement of `Φ_{ν+1}` (`StepCore.Psi`), with values
+in the `p_+`-representatives (`p_+ = 3/2`): `Φ_{ν+1} = id + ι Ψ_{ν+1}` on `D_{ν+1}`. -/
+def PsiN (ξ : Fin 2 → ℝ) : StepPhase (d.rNu ν) → StepPhase (d.rNu ν) :=
+  haveI := factRPos hd ν
+  (h.stageStepHyp hd hsmall).hyp.core.Psi ξ
+
+/-- **Transformations** (step `il-tr`; `bpW:w5:step` (v) in the `p_+` norms, W5-STEP-B-FIX):
+with `M_{F,ν} = c_F q_ν σ_ν`, on `D_{ν+1}`, `ξ, ζ ∈ Π_ν`: `Φ_{ν+1} = id + ι Ψ_{ν+1}`,
+`DΦ_{ν+1} = I + ι ∘ DΨ_{ν+1}` (`ι = 𝒫^{p_+} → 𝒫`), and
+`|Φ_{ν+1} - id|^{λ_ν}_{p_+,r_ν} = |Ψ_{ν+1}|^{λ_ν}_{r_ν} ≤ 2M_{F,ν}`,
+`|DΦ_{ν+1} - I|^{λ_ν}_{p→p_+,r_ν} = |DΨ_{ν+1}|^{λ_ν} ≤ 16 M_{F,ν}/σ_ν ≤ 2^{-ν-2}`, each `λ`-norm as
+a sup bound plus `λ_ν` times a parameter-Lipschitz bound (norms of `StepPhase r_ν` on the
+`p_+`-representatives, operator norm `p → p_+`). -/
 theorem phiN_bounds :
     ∃ A₀ A₁ B₀ B₁ : ℝ, 0 ≤ A₀ ∧ 0 ≤ A₁ ∧ 0 ≤ B₀ ∧ 0 ≤ B₁ ∧
       A₀ + d.lam ν * A₁ ≤ 2 * stepMF w6CF w6T (d.alpha ν) (d.sigma ν) (d.eps ν) ∧
@@ -227,14 +241,21 @@ theorem phiN_bounds :
       16 * stepMF w6CF w6T (d.alpha ν) (d.sigma ν) (d.eps ν) / d.sigma ν ≤ 1 / 2 ^ (ν + 2) ∧
       ∀ ξ ∈ Pi, ∀ ζ ∈ Pi, ∀ w ∈ stepDomain (d.rNu ν) (d.s (ν + 1)) (d.rNu (ν + 1)),
         have := factRPos hd ν
-        ‖h.PhiN hd hsmall ξ w - w‖ ≤ A₀ ∧
-        ‖(h.PhiN hd hsmall ξ w - w) - (h.PhiN hd hsmall ζ w - w)‖ ≤ A₁ * ‖ξ - ζ‖ ∧
-        ‖fderiv ℂ (h.PhiN hd hsmall ξ) w - ContinuousLinearMap.id ℂ _‖ ≤ B₀ ∧
-        ‖fderiv ℂ (h.PhiN hd hsmall ξ) w - fderiv ℂ (h.PhiN hd hsmall ζ) w‖ ≤ B₁ * ‖ξ - ζ‖ := by
+        h.PhiN hd hsmall ξ w =
+          w + stepEmbedCLM 1 1 (3 / 2) w6_iter_one_le_three_halves (d.rNu ν)
+            (h.PsiN hd hsmall ξ w) ∧
+        fderiv ℂ (h.PhiN hd hsmall ξ) w = ContinuousLinearMap.id ℂ _ +
+          (stepEmbedCLM 1 1 (3 / 2) w6_iter_one_le_three_halves (d.rNu ν)).comp
+            (fderiv ℂ (h.PsiN hd hsmall ξ) w) ∧
+        ‖h.PsiN hd hsmall ξ w‖ ≤ A₀ ∧
+        ‖h.PsiN hd hsmall ξ w - h.PsiN hd hsmall ζ w‖ ≤ A₁ * ‖ξ - ζ‖ ∧
+        ‖fderiv ℂ (h.PsiN hd hsmall ξ) w‖ ≤ B₀ ∧
+        ‖fderiv ℂ (h.PsiN hd hsmall ξ) w - fderiv ℂ (h.PsiN hd hsmall ζ) w‖ ≤ B₁ * ‖ξ - ζ‖ := by
   have := factRPos hd ν
-  obtain ⟨A₀, A₁, B₀, B₁, a0, a1, b0, b1, ha, hb, hall⟩ :=
-    (stepTheorem_clauses (h.stageStepHyp hd hsmall)).2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2
-  exact ⟨A₀, A₁, B₀, B₁, a0, a1, b0, b1, ha, hb, W6SeqData.transf_arith hd hsmall ν, hall⟩
+  set G := (h.stageStepHyp hd hsmall).hyp.core
+  obtain ⟨A₀, A₁, B₀, B₁, a0, a1, b0, b1, ha, hb, hall⟩ := G.smooth_clause_v
+  exact ⟨A₀, A₁, B₀, B₁, a0, a1, b0, b1, ha, hb, W6SeqData.transf_arith hd hsmall ν,
+    fun ξ hξ ζ hζ w hw => ⟨G.phi_eq_add_Psi hξ hw, G.fderiv_phi_eq hξ hw, hall ξ hξ ζ hζ w hw⟩⟩
 
 /-- **Stage `ν+1`** (`bpW:w6:iter-lemma`): given the conditions with `k = 0` at stage `ν+1` on
 `Π_{ν+1}` (supplied by `bpW:w6:k0`), all hypotheses of the lemma hold at stage `ν+1`, except the
@@ -343,10 +364,16 @@ theorem w6IterLemma :
       16 * stepMF w6CF w6T (d.alpha ν) (d.sigma ν) (d.eps ν) / d.sigma ν ≤ 1 / 2 ^ (ν + 2) ∧
       ∀ ξ ∈ Pi, ∀ ζ ∈ Pi, ∀ w ∈ stepDomain (d.rNu ν) (d.s (ν + 1)) (d.rNu (ν + 1)),
         haveI := factRPos hd ν
-        ‖h.PhiN hd hsmall ξ w - w‖ ≤ A₀ ∧
-        ‖(h.PhiN hd hsmall ξ w - w) - (h.PhiN hd hsmall ζ w - w)‖ ≤ A₁ * ‖ξ - ζ‖ ∧
-        ‖fderiv ℂ (h.PhiN hd hsmall ξ) w - ContinuousLinearMap.id ℂ _‖ ≤ B₀ ∧
-        ‖fderiv ℂ (h.PhiN hd hsmall ξ) w - fderiv ℂ (h.PhiN hd hsmall ζ) w‖ ≤ B₁ * ‖ξ - ζ‖) ∧
+        h.PhiN hd hsmall ξ w =
+          w + stepEmbedCLM 1 1 (3 / 2) w6_iter_one_le_three_halves (d.rNu ν)
+            (h.PsiN hd hsmall ξ w) ∧
+        fderiv ℂ (h.PhiN hd hsmall ξ) w = ContinuousLinearMap.id ℂ _ +
+          (stepEmbedCLM 1 1 (3 / 2) w6_iter_one_le_three_halves (d.rNu ν)).comp
+            (fderiv ℂ (h.PsiN hd hsmall ξ) w) ∧
+        ‖h.PsiN hd hsmall ξ w‖ ≤ A₀ ∧
+        ‖h.PsiN hd hsmall ξ w - h.PsiN hd hsmall ζ w‖ ≤ A₁ * ‖ξ - ζ‖ ∧
+        ‖fderiv ℂ (h.PsiN hd hsmall ξ) w‖ ≤ B₀ ∧
+        ‖fderiv ℂ (h.PsiN hd hsmall ξ) w - fderiv ℂ (h.PsiN hd hsmall ζ) w‖ ≤ B₁ * ‖ξ - ζ‖) ∧
     (∃ b₀ b₁ : ℝ, 0 ≤ b₀ ∧ 0 ≤ b₁ ∧ b₀ + d.lam ν * b₁ ≤ 6 * π * d.eps ν ∧
       (∀ ξ ∈ Pi, ‖h.omN hd hsmall ξ - ω ξ‖ ≤ b₀) ∧
       ∀ ξ ∈ Pi, ∀ ζ ∈ Pi,
