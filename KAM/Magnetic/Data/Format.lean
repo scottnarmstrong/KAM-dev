@@ -10,9 +10,9 @@ public import KAM.Magnetic.Params
 /-!
 # Magnetic data format
 
-The term constructor of the generated magnetic data over `MagBackend`, the run-length decoder of advice windows
-and the chunked naturals (copies of `KAM.SpinOrbit.Data.Format`'s helpers, so that the magnetic application does
-not require the lunar band's library).
+The term constructor of the generated magnetic data over `MagBackend`, the run-length decoder of
+advice windows and the chunked naturals (copies of `KAM.SpinOrbit.Data.Format`'s helpers, so that
+the magnetic application does not require the lunar band's library).
 -/
 
 @[expose] public section
