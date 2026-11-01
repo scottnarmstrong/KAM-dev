@@ -20,8 +20,8 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 
 | Package | MAIN | Wave | Branch / worktree | Account | State |
 |---|---|---|---|---|---|
-| LP-THR Threshold | L4 | 1 | `inp-lp-thr` / `/mnt/HC_Volume_106379410/kam-lp/KAM-inp-lp-thr` | claude-6 | launched 11-01 |
-| LP-MOM Orbital+Momentum (planar) | L2–L3 | 1 | `inp-lp-mom` / `/mnt/HC_Volume_106379410/kam-lp/KAM-inp-lp-mom` | claude-12 | launched 11-01 |
+| LP-THR Threshold | L4 | 1 | `inp-lp-thr` / `/mnt/HC_Volume_106379410/kam-lp/KAM-inp-lp-thr` | claude-6 | running (00:16, tmux inp-mprov-lp-thr, Sonnet 5.5) |
+| LP-MOM Orbital+Momentum (planar) | L2–L3 | 1 | `inp-lp-mom` / `/mnt/HC_Volume_106379410/kam-lp/KAM-inp-lp-mom` | claude-12 | running (00:16, tmux inp-mprov-lp-mom, Sonnet 5.5) |
 | LP-GEO Geometry | L5 | 1 | — | — | needs THR + MOM |
 | LP-MOD Modulus+Continuation | L6 | 1 | — | — | needs THR (+ GEO for continuation) |
 | LP-DICT PlanarDictionary | L7 | 1 | — | — | queued (independent) |
@@ -37,3 +37,4 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 
 - 2026-11-01 00:40 UTC: setup (worktree, source pin, SPEC, OWNER-DECISIONS OD-1…OD-8, wrappers).
 - 2026-11-01 00:50 UTC: audit PASS WITH NOTES; report copied, N1–N12 applied; OD-8 closed, OD-9 added.
+- 2026-11-01 00:15 UTC: LP-THR (claude-6) and LP-MOM (claude-12) provers launched; build snapshot verified up to date (no rebuild).
