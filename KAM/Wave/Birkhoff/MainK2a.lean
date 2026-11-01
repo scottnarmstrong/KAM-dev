@@ -14,8 +14,8 @@ public import KAM.Wave.Birkhoff.YSeries4
 Package W3-MAIN, blueprint labels `bpW:w3:main`, `bpW:w3:Yseries`.
 
 `birkNz`: the cubic `X_{Z'} = 4∇𝔷 : 𝔚³ → 𝔚⁺`; `birkV n = V_n` the coefficients of `YSeries`
-for `ι = birkEmbed`, `S = birkS`, `N = birkNz`; `birkXK2 = Σ_{n ≥ 1} V_n(w,…,w)/(n+1)`
-(the series for `∫₀¹ Y dt`), analytic on `B_{ρ₁}` (`birkXK2_analyticAt`).
+for `ι = birkEmbed`, `S = birkS`, `N = birkNz`; `birkXK2Ext = Σ_{n ≥ 1} V_n(w,…,w)/(n+1)`
+(the series for `∫₀¹ Y dt`), analytic on `B_{ρ₁}` (`birkXK2Ext_analyticAt`).
 -/
 
 @[expose] public noncomputable section
@@ -48,8 +48,9 @@ abbrev birkVn (n : ℕ) :
     ContinuousMultilinearMap ℂ (fun _ : Fin (2 * n + 3) => BirkSpace) BirkSpace :=
   lieV (birkEmbed a (p + 1) p (by linarith)) (birkS m hm ha hp) (birkNz m hm ha hp) n
 
-/-- `X_{K₂}(w) = Σ_{n ≥ 1} V_n(w,…,w)/(n+1)`. -/
-def birkXK2 (w : BirkSpace) : BirkSpace :=
+/-- Internal totalized helper (a bare `tsum`, convergent on `B_{ρ₁}`; public object `birkXK2`):
+`X_{K₂}(w) = Σ_{n ≥ 1} V_n(w,…,w)/(n+1)`. -/
+def birkXK2Ext (w : BirkSpace) : BirkSpace :=
   ∑' n : ℕ, ((1 : ℂ) / ((n : ℂ) + 1)) • birkVn m hm ha hp n (fun _ => w) -
     birkVn m hm ha hp 0 (fun _ => w)
 
@@ -72,8 +73,8 @@ theorem exists_rho1 (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) :
   nlinarith [mul_pos hCp hr2p]
 
 include hm hp in
-theorem birkXK2_analyticAt (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) :
-    AnalyticAt ℂ (birkXK2 m hm ha hp) w := by
+theorem birkXK2Ext_analyticAt (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) :
+    AnalyticAt ℂ (birkXK2Ext m hm ha hp) w := by
   have hCp := birkCF_pos m hm hp
   have hSn : ‖birkS m hm ha hp‖ ≤ birkCF m p :=
     ContinuousMultilinearMap.opNorm_le_bound hCp.le (norm_birkS_le m hm ha hp)
@@ -98,7 +99,7 @@ theorem birkXK2_analyticAt (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 
     rw [tsum_eq_single 0 (fun n hn => by simp [hn])]
     simp
   rw [e] at h2
-  unfold birkXK2
+  unfold birkXK2Ext
   exact h1.sub h2
 
 end KAM.Wave

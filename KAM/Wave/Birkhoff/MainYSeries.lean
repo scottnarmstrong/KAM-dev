@@ -26,7 +26,7 @@ radius `ρ₁`):
   extension of `w ↦ ∫₀¹ Y(t,w) dt` from `B_{ρ₁}` has the power series `q` on `B_{ρ₁}` and is
   analytic there;
 * `birkYInt_rho`: `∫₀¹ Y(t,ϱw) dt = ϱ ∫₀¹ Y(t,w) dt`;
-* `birkYInt_eq_birkXK2`: `∫₀¹ Y(t,w) dt = X_{K₂}(w)` (the series used in `bpW:w3:main`).
+* `birkYInt_eq_birkXK2Ext`: `∫₀¹ Y(t,w) dt = X_{K₂}(w)` (the series used in `bpW:w3:main`).
 -/
 
 @[expose] public noncomputable section
@@ -139,7 +139,8 @@ include hm hp in
 theorem tsum_norm_birkYj_le :
     ∑' j : ℕ, ‖birkYj m hm ha hp j‖ * birkRho1 m p ^ (2 * j + 3) ≤
       4 * waveCubicConst p * birkRho1 m p ^ 3 := by
-  refine (Summable.tsum_le_tsum (norm_birkYj_le (hm := hm) (hp := hp)) (summable_norm_birkYj (hm := hm) (hp := hp))
+  refine (Summable.tsum_le_tsum (norm_birkYj_le (hm := hm) (hp := hp))
+    (summable_norm_birkYj (hm := hm) (hp := hp))
     (summable_geometric_two.mul_left _)).trans (le_of_eq ?_)
   rw [tsum_mul_left, tsum_geometric_two]; ring
 
@@ -316,16 +317,17 @@ theorem analyticOnNhd_birkYInt (f : BirkSpace → BirkSpace)
   intro y hy
   refine (hasFPowerSeriesOnBall_birkYInt (hm := hm) (hp := hp) f hf).analyticAt_of_mem ?_
   rw [Metric.mem_eball, edist_zero_right, ← ofReal_norm]
-  exact (ENNReal.ofReal_lt_ofReal_iff (birkRho1_pos (hm := hm) (hp := hp))).2 (norm_lt_birkRho1 (hm := hm) (hp := hp) hy)
+  exact (ENNReal.ofReal_lt_ofReal_iff (birkRho1_pos (hm := hm) (hp := hp))).2
+    (norm_lt_birkRho1 (hm := hm) (hp := hp) hy)
 
 end PowerSeries
 
 section XK2
 
 /-- `X_{K₂}(w) = Σ_j Y_j(w,…,w)/(j+1)` on `B_{ρ₁}`. -/
-theorem birkXK2_hasSum (w : birkBall1 m p) :
+theorem birkXK2Ext_hasSum (w : birkBall1 m p) :
     HasSum (fun j : ℕ => (1 / ((j : ℝ) + 1)) • birkYj m hm ha hp j (fun _ => (w : BirkSpace)))
-      (birkXK2 m hm ha hp w) := by
+      (birkXK2Ext m hm ha hp w) := by
   have hs1 := summable_birkVn (ha := ha) (hm := hm) (hp := hp) 1 (by norm_num) w w.2
   have hs : Summable fun n : ℕ =>
       ‖((1 : ℂ) / ((n : ℂ) + 1)) • birkVn m hm ha hp n (fun _ => (w : BirkSpace))‖ := by
@@ -340,7 +342,7 @@ theorem birkXK2_hasSum (w : birkBall1 m p) :
     exact div_le_one_of_le₀ (by linarith [(Nat.cast_nonneg n : (0 : ℝ) ≤ n)]) (by positivity)
   have h := hs.of_norm.hasSum.sub (hasSum_ite_eq 0 (birkVn m hm ha hp 0
     (fun _ => (w : BirkSpace))))
-  unfold birkXK2
+  unfold birkXK2Ext
   convert h using 1
   funext j
   rw [← birkYSeries_coef_eq]
@@ -349,14 +351,14 @@ theorem birkXK2_hasSum (w : birkBall1 m p) :
   · simp [hj]
 
 /-- (`bpW:w3:Yseries`, `bpW:w3:main` Step XK2) `∫₀¹ Y(t,w) dt = X_{K₂}(w)` on `B_{ρ₁}`. -/
-theorem birkYInt_eq_birkXK2 (w : birkBall1 m p) :
-    birkYInt m hm ha hp w = birkXK2 m hm ha hp w :=
-  (birkYInt_hasSum w).unique (birkXK2_hasSum w)
+theorem birkYInt_eq_birkXK2Ext (w : birkBall1 m p) :
+    birkYInt m hm ha hp w = birkXK2Ext m hm ha hp w :=
+  (birkYInt_hasSum w).unique (birkXK2Ext_hasSum w)
 
 include hm hp in
 /-- (`bpW:w3:main` (i)) `K₂` is real on `B_{ρ₁}`. -/
-theorem birkK2_rho (w : BirkSpace) (hw : w ∈ birkBall1 m p) :
-    birkK2 m hm ha hp (birkRho w) = starRingEnd ℂ (birkK2 m hm ha hp w) := by
+theorem birkK2Ext_rho (w : BirkSpace) (hw : w ∈ birkBall1 m p) :
+    birkK2Ext m hm ha hp (birkRho w) = starRingEnd ℂ (birkK2Ext m hm ha hp w) := by
   have hq : 2 * |(1 : ℝ)| * birkCF m p * ‖w‖ ^ 2 ≤ 1 / 10 := by
     have hw' : 160 * birkCF m p * ‖w‖ ^ 2 < 1 := hw
     rw [abs_one]
@@ -364,7 +366,7 @@ theorem birkK2_rho (w : BirkSpace) (hw : w ∈ birkBall1 m p) :
     nlinarith
   have hΓ : birkGamma m hm ha hp 1 (birkRho w) = birkRho (birkGamma m hm ha hp 1 w) :=
     birkGamma_rho (ha := ha) (hm := hm) (hp := hp) 1 w hq
-  unfold birkK2
+  unfold birkK2Ext
   rw [hΓ, birkLambda_rho m hm ha hp, birkLambda_rho m hm ha hp]
   have e := birkQuartP_rho m hm ha hp (birkCoefZ_isCoef m hm)
   unfold birkHamZ
@@ -373,11 +375,12 @@ theorem birkK2_rho (w : BirkSpace) (hw : w ∈ birkBall1 m p) :
 
 include hm hp in
 /-- `K₂ ∈ 𝒜(B_{ρ₁})` with field `X_{K₂}`. -/
-theorem birkK2_isClassA :
-    IsBirkClassA a p ha (by linarith) (birkBall1 m p) (birkK2 m hm ha hp) (birkXK2 m hm ha hp) where
+theorem birkK2Ext_isClassA :
+    IsBirkClassA a p ha (by linarith) (birkBall1 m p) (birkK2Ext m hm ha hp)
+      (birkXK2Ext m hm ha hp) where
   isOpen := isOpen_birkBall1 m p
   rho_mem _ hw := birkRho_mem_birkBall1 m hw
-  real w hw := birkK2_rho (hm := hm) (hp := hp) w hw
+  real w hw := birkK2Ext_rho (hm := hm) (hp := hp) w hw
   analytic w hw := by
     have hw40 := birkBall1_subset_birkBall0 m hm hp hw
     have hΓa : AnalyticAt ℂ (birkGamma m hm ha hp 1) w :=
@@ -386,18 +389,18 @@ theorem birkK2_isClassA :
       (birkLambda_analyticOnNhd (m := m) (hm := hm) (ha := ha) (hp := hp)) y (Set.mem_univ _)
     have hZa : ∀ y, AnalyticAt ℂ (birkHamZ m hm ha hp) y := fun y =>
       (birkHamZ_isClassA m hm ha hp).analytic y (Set.mem_univ _)
-    unfold birkK2
+    unfold birkK2Ext
     exact (((hΛa _).comp hΓa).sub (hΛa w)).sub (hZa w)
-  field w hw v := birkK2_field (ha := ha) (hm := hm) (hp := hp) w hw v
-  analytic_field w hw := birkXK2_analyticAt (ha := ha) (hm := hm) (hp := hp) w hw
+  field w hw v := birkK2Ext_field (ha := ha) (hm := hm) (hp := hp) w hw v
+  analytic_field w hw := birkXK2Ext_analyticAt (ha := ha) (hm := hm) (hp := hp) w hw
 
 include hm hp in
 /-- (`bpW:w3:Yseries`) Reality: `∫₀¹ Y(t,ϱw) dt = ϱ ∫₀¹ Y(t,w) dt`. -/
 theorem birkYInt_rho (w : birkBall1 m p) :
     birkYInt m hm ha hp ⟨birkRho w, birkRho_mem_birkBall1 m w.2⟩ =
       birkRho (birkYInt m hm ha hp w) := by
-  rw [birkYInt_eq_birkXK2, birkYInt_eq_birkXK2]
-  exact (birkK2_isClassA (hm := hm) (hp := hp)).field_rho w.2
+  rw [birkYInt_eq_birkXK2Ext, birkYInt_eq_birkXK2Ext]
+  exact (birkK2Ext_isClassA (hm := hm) (hp := hp)).field_rho w.2
 
 end XK2
 

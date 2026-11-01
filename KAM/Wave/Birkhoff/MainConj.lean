@@ -41,7 +41,7 @@ theorem fderiv_comp_birkGamma {P : BirkSpace → ℂ} (w : BirkSpace)
 
 include hm hp in
 /-- (`bpW:w3:main` (iv)) The conjugacy identity. -/
-theorem birk_conjugacy (y : BirkSpace)
+theorem birk_conjugacy_aux (y : BirkSpace)
     (hy : 160 * birkCF m p * ‖birkEmbed a (p + 1) p (by linarith) y‖ ^ 2 < 1) :
     ∃ z : BirkSpace, birkEmbed a (p + 1) p (by linarith) z =
         birkGamma m hm ha hp 1 (birkEmbed a (p + 1) p (by linarith) y) ∧
@@ -51,7 +51,7 @@ theorem birk_conjugacy (y : BirkSpace)
           birkEmbed a (p + 1) p (by linarith)
             (birkHamNorX m hm ha hp (birkEmbed a (p + 1) p (by linarith) y)) +
           birkEmbed a (p + 1) p (by linarith)
-            (birkXK m hm ha hp (birkEmbed a (p + 1) p (by linarith) y))) =
+            (birkXKExt m hm ha hp (birkEmbed a (p + 1) p (by linarith) y))) =
         birkXLam m hm z + birkEmbed a (p + 1) p (by linarith)
           (birkHamGX m hm ha hp
             (birkGamma m hm ha hp 1 (birkEmbed a (p + 1) p (by linarith) y))) := by
@@ -60,13 +60,13 @@ theorem birk_conjugacy (y : BirkSpace)
   have hw40 : 40 * birkCF m p * ‖w‖ ^ 2 < 1 := by
     have : 0 ≤ birkCF m p * ‖w‖ ^ 2 := mul_nonneg (birkCF_pos m hm hp).le (sq_nonneg _)
     nlinarith
-  have hzz : ι (y + birkPsi m hm ha hp w) = birkGamma m hm ha hp 1 w := by
-    rw [map_add, birkPsi_embed (ha := ha) (hm := hm) (hp := hp) w hw40]; abel
-  refine ⟨y + birkPsi m hm ha hp w, hzz, ?_⟩
-  set z := y + birkPsi m hm ha hp w with hz
+  have hzz : ι (y + birkPsiExt m hm ha hp w) = birkGamma m hm ha hp 1 w := by
+    rw [map_add, birkPsiExt_embed (ha := ha) (hm := hm) (hp := hp) w hw40]; abel
+  refine ⟨y + birkPsiExt m hm ha hp w, hzz, ?_⟩
+  set z := y + birkPsiExt m hm ha hp w with hz
   set Γw := birkGamma m hm ha hp 1 w with hΓw
   set A := birkGammaD m hm ha hp 1 w with hA
-  obtain ⟨B, hAB, hBA, -⟩ := birkInvData (ha := ha) (hm := hm) (hp := hp) w hw40
+  obtain ⟨B, hAB, hBA, -⟩ := birkInvDataExt (ha := ha) (hm := hm) (hp := hp) w hw40
   set Ω := birkOmega ha (by linarith : (0 : ℝ) ≤ p) with hΩ
   have hsymp := fun ξ η' => birkGammaD_symplectic (ha := ha) (hm := hm) (hp := hp) 1 w ξ η'
     (by norm_num) hw40
@@ -82,7 +82,7 @@ theorem birk_conjugacy (y : BirkSpace)
   have hNa : ∀ y', AnalyticAt ℂ (birkHamNor m hm ha hp) y' := fun y' =>
     (birkQuart_isClassA m hm ha hp (birkCoefNor_isCoef m hm)).analytic y' (Set.mem_univ _)
   -- the derivative of `K`
-  have hDK : ∀ η' : BirkSpace, fderiv ℂ (birkK m hm ha hp) w η' =
+  have hDK : ∀ η' : BirkSpace, fderiv ℂ (birkKExt m hm ha hp) w η' =
       fderiv ℂ (birkLambda m hm ha hp) Γw (A η') + fderiv ℂ (birkHamG m hm ha hp) Γw (A η') -
         fderiv ℂ (birkLambda m hm ha hp) w η' - fderiv ℂ (birkHamBar m hm ha hp) w η' -
           fderiv ℂ (birkHamNor m hm ha hp) w η' := fun η' => by
@@ -94,7 +94,7 @@ theorem birk_conjugacy (y : BirkSpace)
       (hΛa _).comp hΓa
     have d2 : AnalyticAt ℂ (fun w' => birkHamG m hm ha hp (birkGamma m hm ha hp 1 w')) w :=
       (hGa _).comp hΓa
-    unfold birkK
+    unfold birkKExt
     rw [fderiv_fun_sub (f := fun y' => birkLambda m hm ha hp (birkGamma m hm ha hp 1 y') +
         birkHamG m hm ha hp (birkGamma m hm ha hp 1 y') - birkLambda m hm ha hp y' -
         birkHamBar m hm ha hp y') (g := birkHamNor m hm ha hp)
@@ -122,13 +122,14 @@ theorem birk_conjugacy (y : BirkSpace)
   have fN : ∀ η', fderiv ℂ (birkHamNor m hm ha hp) w η' = Ω (ι (birkHamNorX m hm ha hp w)) η' :=
     fun η' => (birkQuart_isClassA m hm ha hp (birkCoefNor_isCoef m hm)).field w
       (Set.mem_univ _) η'
-  have fK : ∀ η', fderiv ℂ (birkK m hm ha hp) w η' = Ω (ι (birkXK m hm ha hp w)) η' := fun η' =>
-    birkK_field (ha := ha) (hm := hm) (hp := hp) w (by
+  have fK : ∀ η', fderiv ℂ (birkKExt m hm ha hp) w η' =
+      Ω (ι (birkXKExt m hm ha hp w)) η' := fun η' =>
+    birkKExt_field (ha := ha) (hm := hm) (hp := hp) w (by
       have : 0 ≤ birkCF m p * ‖w‖ ^ 2 := mul_nonneg (birkCF_pos m hm hp).le (sq_nonneg _)
       exact hy) η'
   -- nondegeneracy
   set Xtot := birkXLam m hm y + ι (birkHamBarX m hm ha hp w) + ι (birkHamNorX m hm ha hp w) +
-    ι (birkXK m hm ha hp w) with hXtot
+    ι (birkXKExt m hm ha hp w) with hXtot
   have key : ∀ η', Ω (A Xtot) (A η') =
       Ω (birkXLam m hm z + ι (birkHamGX m hm ha hp Γw)) (A η') := by
     intro η'

@@ -69,6 +69,8 @@ public import KAM.Wave.Birkhoff.LieSlot3
 public import KAM.Wave.Birkhoff.LieSlot4
 public import KAM.Wave.Birkhoff.LieSympl
 public import KAM.Wave.Birkhoff.LieVar
+public import KAM.Wave.Birkhoff.MainBall
+public import KAM.Wave.Birkhoff.MainBallReal
 public import KAM.Wave.Birkhoff.MainConj
 public import KAM.Wave.Birkhoff.MainFrozenForm
 public import KAM.Wave.Birkhoff.MainGamma
@@ -83,6 +85,7 @@ public import KAM.Wave.Birkhoff.MainK2e
 public import KAM.Wave.Birkhoff.MainK2f
 public import KAM.Wave.Birkhoff.MainK3
 public import KAM.Wave.Birkhoff.MainQuart
+public import KAM.Wave.Birkhoff.MainQuartSum
 public import KAM.Wave.Birkhoff.MainReal
 public import KAM.Wave.Birkhoff.MainRealId
 public import KAM.Wave.Birkhoff.MainRealK
@@ -90,6 +93,8 @@ public import KAM.Wave.Birkhoff.MainRealTori
 public import KAM.Wave.Birkhoff.MainRealWeak
 public import KAM.Wave.Birkhoff.MainTori
 public import KAM.Wave.Birkhoff.MainWeak
+public import KAM.Wave.Birkhoff.MainYInt
+public import KAM.Wave.Birkhoff.MainYSeries
 public import KAM.Wave.Birkhoff.Majorant
 public import KAM.Wave.Birkhoff.Omega
 public import KAM.Wave.Birkhoff.QuartBar

@@ -14,7 +14,8 @@ Off-frontier, source-faithful infrastructure used by several nodes; the dependen
 being built. Package W3-MAIN, blueprint label `bpW:w3:Yseries` (definition `bpW:w3:Ydef`).
 
 Domains (public carriers are restricted to them):
-* `birkBall0 m p = B_{ρ₀} = {w | 40 C_F ‖w‖² < 1}`, `birkBall1 m p = B_{ρ₁} = {w | 160 C_F ‖w‖² < 1}`;
+* `birkBall0 m p = B_{ρ₀} = {w | 40 C_F ‖w‖² < 1}`,
+  `birkBall1 m p = B_{ρ₁} = {w | 160 C_F ‖w‖² < 1}`;
 * `birkGammaDPlus t w` (`t ∈ (-2,2)`, `w ∈ B_{ρ₀}`): `DΓ_t(w)` as an operator on `𝔚⁺`, characterized
   by `ι ∘ DΓ_t(w)|_{𝔚⁺} = DΓ_t(w) ∘ ι` (`birkGammaDPlus_embed`), invertible
   (`birkGammaDPlus_mul_inv`, `birkGammaDPlusInv_mul`) with inverse `birkGammaDPlusInv t w` of

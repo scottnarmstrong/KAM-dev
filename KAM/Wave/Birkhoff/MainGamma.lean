@@ -12,10 +12,10 @@ public import KAM.Wave.Birkhoff.MainReal
 
 Package W3-MAIN, blueprint label `bpW:w3:gamma-real`.
 
-`birkGammaR x = Π Γ(𝒵 x)` on `{x ∈ E | 320 C_F ‖x‖² < 1}` (the ball `‖x‖ < r₁ = ρ₁/√2`):
-real analytic (`birkGammaR_analyticOnNhd`), `‖Γ^ℝ x‖ ≤ (10/9)√2‖x‖` and
-`𝒵 Γ^ℝ x = 𝒵 x + ι 𝒵 ψ` with `‖ψ‖_{E_{a,p+1}} ≤ 6√2 C_F ‖x‖³` (`birkGammaR_sub`), injective
-(`birkGammaR_injOn`) with the inverse `Π Γ_{-1} 𝒵`, `Γ^ℝ(B_{r₁}) ⊃ B_{r₁/2}`.
+`birkGammaRExt x = Π Γ(𝒵 x)` on `{x ∈ E | 320 C_F ‖x‖² < 1}` (the ball `‖x‖ < r₁ = ρ₁/√2`):
+real analytic (`birkGammaRExt_analyticOnNhd`), `‖Γ^ℝ x‖ ≤ (10/9)√2‖x‖` and
+`𝒵 Γ^ℝ x = 𝒵 x + ι 𝒵 ψ` with `‖ψ‖_{E_{a,p+1}} ≤ 6√2 C_F ‖x‖³` (`birkGammaRExt_sub`), injective
+(`birkGammaRExt_injOn`) with the inverse `Π Γ_{-1} 𝒵`, `Γ^ℝ(B_{r₁}) ⊃ B_{r₁/2}`.
 -/
 
 @[expose] public noncomputable section
@@ -24,8 +24,9 @@ namespace KAM.Wave
 
 variable (m : ℝ) (hm : 0 < m) {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p)
 
-/-- `Γ^ℝ = Π ∘ Γ ∘ 𝒵`. -/
-def birkGammaR (x : BirkReal) : BirkReal := birkPi (birkGamma m hm ha hp 1 (birkZR x))
+/-- Internal totalized helper (meaningful on `{320 C_F ‖x‖² < 1}`; public object `birkGammaR`
+on that ball, `MainBallReal`): `Γ^ℝ = Π ∘ Γ ∘ 𝒵`. -/
+def birkGammaRExt (x : BirkReal) : BirkReal := birkPi (birkGamma m hm ha hp 1 (birkZR x))
 
 variable {m hm ha hp}
 
@@ -43,8 +44,8 @@ theorem birkZR_dom (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^ 2 < 1) :
 
 include hm hp in
 /-- (`bpW:w3:gamma-real` (i)) `Γ^ℝ` is real analytic. -/
-theorem birkGammaR_analyticOnNhd :
-    AnalyticOnNhd ℝ (birkGammaR m hm ha hp) {x : BirkReal | 320 * birkCF m p * ‖x‖ ^ 2 < 1} := by
+theorem birkGammaRExt_analyticOnNhd :
+    AnalyticOnNhd ℝ (birkGammaRExt m hm ha hp) {x : BirkReal | 320 * birkCF m p * ‖x‖ ^ 2 < 1} := by
   have h := (real_restrict (U := {w : BirkSpace | 160 * birkCF m p * ‖w‖ ^ 2 < 1})
     (f := birkGamma m hm ha hp 1)
     (fun w hw => birkGamma_analyticOnNhd (ha := ha) (hm := hm) (hp := hp) 1 (by norm_num) w (by
@@ -76,11 +77,11 @@ theorem birkGamma_one_fixed (w : BirkSpace) (hw : birkRho w = w)
 
 include hm hp in
 /-- (`bpW:w3:gamma-real` (ii)) The estimates for `Γ^ℝ`. -/
-theorem birkGammaR_sub (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^ 2 < 1) :
-    ∃ ψR : BirkReal, birkZR (birkGammaR m hm ha hp x) =
+theorem birkGammaRExt_sub (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^ 2 < 1) :
+    ∃ ψR : BirkReal, birkZR (birkGammaRExt m hm ha hp x) =
         birkZR x + birkEmbed a (p + 1) p (by linarith) (birkZR ψR) ∧
       ‖ψR‖ ≤ 6 * Real.sqrt 2 * birkCF m p * ‖x‖ ^ 3 ∧
-      ‖birkGammaR m hm ha hp x‖ ≤ 10 / 9 * Real.sqrt 2 * ‖x‖ := by
+      ‖birkGammaRExt m hm ha hp x‖ ≤ 10 / 9 * Real.sqrt 2 * ‖x‖ := by
   have hCp := birkCF_pos m hm hp
   set w := birkZR x with hw
   have hw160 := birkZR_dom (hm := hm) (hp := hp) x hx
@@ -95,7 +96,7 @@ theorem birkGammaR_sub (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^ 2 < 1) 
     refine birkEmbed_injective a (p + 1) p (by linarith) ?_
     rw [← birkRho_birkEmbed, hψ, map_sub, hΓρ, hwρ]
   have hZψ : birkZR (birkPi ψ) = ψ := birkZR_birkPi ψ hψρ
-  have hZΓ : birkZR (birkGammaR m hm ha hp x) = birkGamma m hm ha hp 1 w :=
+  have hZΓ : birkZR (birkGammaRExt m hm ha hp x) = birkGamma m hm ha hp 1 w :=
     birkZR_birkPi _ hΓρ
   refine ⟨birkPi ψ, ?_, ?_, ?_⟩
   · rw [hZΓ, hZψ, hψ]; abel
@@ -119,10 +120,10 @@ theorem birkGammaR_sub (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^ 2 < 1) 
 
 include hm hp in
 /-- (`bpW:w3:gamma-real` (iii)) The inverse of `Γ^ℝ` is `Π Γ_{-1} 𝒵`. -/
-theorem birkGammaR_inv (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^ 2 < 1) :
-    birkPi (birkGamma m hm ha hp (-1) (birkZR (birkGammaR m hm ha hp x))) = x := by
+theorem birkGammaRExt_inv (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^ 2 < 1) :
+    birkPi (birkGamma m hm ha hp (-1) (birkZR (birkGammaRExt m hm ha hp x))) = x := by
   have hw160 := birkZR_dom (hm := hm) (hp := hp) x hx
-  have hZΓ : birkZR (birkGammaR m hm ha hp x) = birkGamma m hm ha hp 1 (birkZR x) :=
+  have hZΓ : birkZR (birkGammaRExt m hm ha hp x) = birkGamma m hm ha hp 1 (birkZR x) :=
     birkZR_birkPi _ (birkGamma_one_fixed (ha := ha) (hm := hm) (hp := hp) _
       (birkRho_birkZR x) hw160)
   rw [hZΓ, birkGamma_neg_birkGamma (ha := ha) (hm := hm) (hp := hp) 1 (birkZR x) (by norm_num)
@@ -130,16 +131,16 @@ theorem birkGammaR_inv (x : BirkReal) (hx : 320 * birkCF m p * ‖x‖ ^ 2 < 1) 
 
 include hm hp in
 /-- (`bpW:w3:gamma-real` (iii)) `Γ^ℝ` is injective. -/
-theorem birkGammaR_injOn :
-    Set.InjOn (birkGammaR m hm ha hp) {x : BirkReal | 320 * birkCF m p * ‖x‖ ^ 2 < 1} := by
+theorem birkGammaRExt_injOn :
+    Set.InjOn (birkGammaRExt m hm ha hp) {x : BirkReal | 320 * birkCF m p * ‖x‖ ^ 2 < 1} := by
   intro x hx x' hx' h
-  rw [← birkGammaR_inv (ha := ha) (hm := hm) (hp := hp) x hx,
-    ← birkGammaR_inv (ha := ha) (hm := hm) (hp := hp) x' hx', h]
+  rw [← birkGammaRExt_inv (ha := ha) (hm := hm) (hp := hp) x hx,
+    ← birkGammaRExt_inv (ha := ha) (hm := hm) (hp := hp) x' hx', h]
 
 include hm hp in
 /-- (`bpW:w3:gamma-real` (iii)) `Γ^ℝ(B_{r₁}) ⊃ B_{r₁/2}`. -/
-theorem birkGammaR_surj (y : BirkReal) (hy : 1280 * birkCF m p * ‖y‖ ^ 2 < 1) :
-    ∃ x : BirkReal, 320 * birkCF m p * ‖x‖ ^ 2 < 1 ∧ birkGammaR m hm ha hp x = y := by
+theorem birkGammaRExt_surj (y : BirkReal) (hy : 1280 * birkCF m p * ‖y‖ ^ 2 < 1) :
+    ∃ x : BirkReal, 320 * birkCF m p * ‖x‖ ^ 2 < 1 ∧ birkGammaRExt m hm ha hp x = y := by
   have hCp := birkCF_pos m hm hp
   have hZ2 := norm_birkZR_sq_le y
   have hv := mul_le_mul_of_nonneg_left hZ2 (by positivity : (0 : ℝ) ≤ 160 * birkCF m p)
@@ -162,7 +163,7 @@ theorem birkGammaR_surj (y : BirkReal) (hy : 1280 * birkCF m p * ‖y‖ ^ 2 < 1
     rw [h3] at h2
     have h4 := mul_le_mul_of_nonneg_left h2 (by positivity : (0 : ℝ) ≤ 320 * birkCF m p)
     nlinarith
-  · unfold birkGammaR
+  · unfold birkGammaRExt
     rw [hZP, hwdef]
     have h5 := birkGamma_neg_birkGamma (ha := ha) (hm := hm) (hp := hp) (-1) v
       (by norm_num) hv160

@@ -13,9 +13,9 @@ public import KAM.Wave.Birkhoff.LieBirkAnalytic
 
 Package W3-MAIN, blueprint label `bpW:w3:main`.
 
-`birkK = H ∘ Γ - Λ - Ḡ - G^{nor}` on `B_{ρ₁}` (`Γ = Γ_1`, `H = Λ + G`), `K = K₁ + K₂` with
-`K₁ = G ∘ Γ - G` and `K₂ = Λ ∘ Γ - Λ - Z'`; `norm_birkK1_le`, `norm_birkK2_le` (each
-`≤ 5 C_* C_F ‖w‖⁶`), `norm_birkK_le` (`|K| ≤ 10 C_* C_F ‖w‖⁶`), analyticity and reality.
+`birkKExt = H ∘ Γ - Λ - Ḡ - G^{nor}` on `B_{ρ₁}` (`Γ = Γ_1`, `H = Λ + G`), `K = K₁ + K₂` with
+`K₁ = G ∘ Γ - G` and `K₂ = Λ ∘ Γ - Λ - Z'`; `norm_birkK1Ext_le`, `norm_birkK2Ext_le` (each
+`≤ 5 C_* C_F ‖w‖⁶`), `norm_birkKExt_le` (`|K| ≤ 10 C_* C_F ‖w‖⁶`), analyticity and reality.
 -/
 
 @[expose] public noncomputable section
@@ -67,25 +67,27 @@ section K
 
 variable (m hm ha hp)
 
-/-- `K₁ = G ∘ Γ - G`. -/
-def birkK1 (w : BirkSpace) : ℂ :=
+/-- Internal totalized helper (meaningful on `B_{ρ₁}`; public object `birkK1`): `K₁ = G ∘ Γ - G`. -/
+def birkK1Ext (w : BirkSpace) : ℂ :=
   birkHamG m hm ha hp (birkGamma m hm ha hp 1 w) - birkHamG m hm ha hp w
 
-/-- `K₂ = Λ ∘ Γ - Λ - Z'`. -/
-def birkK2 (w : BirkSpace) : ℂ :=
+/-- Internal totalized helper (meaningful on `B_{ρ₁}`; public object `birkK2`):
+`K₂ = Λ ∘ Γ - Λ - Z'`. -/
+def birkK2Ext (w : BirkSpace) : ℂ :=
   birkLambda m hm ha hp (birkGamma m hm ha hp 1 w) - birkLambda m hm ha hp w -
     birkHamZ m hm ha hp w
 
-/-- `K = H ∘ Γ - Λ - Ḡ - G^{nor}` with `H = Λ + G`. -/
-def birkK (w : BirkSpace) : ℂ :=
+/-- Internal totalized helper (meaningful on `B_{ρ₁}`; public object `birkK`):
+`K = H ∘ Γ - Λ - Ḡ - G^{nor}` with `H = Λ + G`. -/
+def birkKExt (w : BirkSpace) : ℂ :=
   (birkLambda m hm ha hp (birkGamma m hm ha hp 1 w) +
       birkHamG m hm ha hp (birkGamma m hm ha hp 1 w))
     - birkLambda m hm ha hp w - birkHamBar m hm ha hp w - birkHamNor m hm ha hp w
 
 include ha hp in
-theorem birkK_eq (w : BirkSpace) :
-    birkK m hm ha hp w = birkK1 m hm ha hp w + birkK2 m hm ha hp w := by
-  unfold birkK birkK1 birkK2
+theorem birkKExt_eq (w : BirkSpace) :
+    birkKExt m hm ha hp w = birkK1Ext m hm ha hp w + birkK2Ext m hm ha hp w := by
+  unfold birkKExt birkK1Ext birkK2Ext
   rw [birkHamZ_eq m hm ha hp w, birkHamG_eq m hm ha hp w]
   ring
 
@@ -150,11 +152,11 @@ theorem norm_quart_comp_sub_le {P : BirkSpace → ℂ} {X : BirkSpace → BirkSp
 
 include hm hp in
 /-- (`bpW:w3:main` (i)) `|K₁(w)| ≤ 5 C_* C_F ‖w‖⁶`. -/
-theorem norm_birkK1_le (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) :
-    ‖birkK1 m hm ha hp w‖ ≤ 5 * waveCubicConst p * birkCF m p * ‖w‖ ^ 6 := by
+theorem norm_birkK1Ext_le (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) :
+    ‖birkK1Ext m hm ha hp w‖ ≤ 5 * waveCubicConst p * birkCF m p * ‖w‖ ^ 6 := by
   have := norm_quart_comp_sub_le (ha := ha) (hm := hm) (hp := hp)
     (birkHamG_isClassA m hm ha hp) (norm_birkHamGX_le m hm ha hp) 1 zero_le_one le_rfl w hw
-  simpa [birkK1, birkGamma] using this
+  simpa [birkK1Ext, birkGamma] using this
 
 include hm hp in
 /-- `∂_t Λ(Γ_t w) = Z'(Γ_t w)` (flow equation and homological identity). -/
@@ -176,8 +178,8 @@ theorem hasDerivAt_birkLambda_gamma (s : ℝ) (w : BirkSpace) (hs : |s| < 2)
 
 include hm hp in
 /-- (`bpW:w3:main` (i)) `|K₂(w)| ≤ 5 C_* C_F ‖w‖⁶`. -/
-theorem norm_birkK2_le (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) :
-    ‖birkK2 m hm ha hp w‖ ≤ 5 * waveCubicConst p * birkCF m p * ‖w‖ ^ 6 := by
+theorem norm_birkK2Ext_le (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) :
+    ‖birkK2Ext m hm ha hp w‖ ≤ 5 * waveCubicConst p * birkCF m p * ‖w‖ ^ 6 := by
   have hw40 : 40 * birkCF m p * ‖w‖ ^ 2 < 1 := by
     have : 0 ≤ birkCF m p * ‖w‖ ^ 2 := mul_nonneg (birkCF_pos m hm hp).le (sq_nonneg _)
     nlinarith
@@ -202,24 +204,24 @@ theorem norm_birkK2_le (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1)
     nlinarith [ht.2]
   have := norm_image_sub_le_of_norm_deriv_le_segment' hder hbd 1 ⟨zero_le_one, le_rfl⟩
   have e0 : h 0 = 0 := by simp [hh, birkGamma, lieGamma_zero]
-  have e1 : h 1 = birkK2 m hm ha hp w := by simp [hh, birkK2, birkGamma]
+  have e1 : h 1 = birkK2Ext m hm ha hp w := by simp [hh, birkK2Ext, birkGamma]
   rw [e0, e1] at this
   simpa using this
 
 include hm hp in
 /-- (`bpW:w3:main` (i)) `|K(w)| ≤ C_K ‖w‖⁶`, `C_K = 10 C_* C_F`. -/
-theorem norm_birkK_le (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) :
-    ‖birkK m hm ha hp w‖ ≤ 10 * waveCubicConst p * birkCF m p * ‖w‖ ^ 6 := by
-  rw [birkK_eq m hm ha hp w]
+theorem norm_birkKExt_le (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) :
+    ‖birkKExt m hm ha hp w‖ ≤ 10 * waveCubicConst p * birkCF m p * ‖w‖ ^ 6 := by
+  rw [birkKExt_eq m hm ha hp w]
   refine (norm_add_le _ _).trans ?_
-  have h1 := norm_birkK1_le (ha := ha) (hm := hm) (hp := hp) w hw
-  have h2 := norm_birkK2_le (ha := ha) (hm := hm) (hp := hp) w hw
+  have h1 := norm_birkK1Ext_le (ha := ha) (hm := hm) (hp := hp) w hw
+  have h2 := norm_birkK2Ext_le (ha := ha) (hm := hm) (hp := hp) w hw
   linarith
 
 include hm hp in
 /-- (`bpW:w3:main` (i)) `K` is analytic on `B_{ρ₀}` (in particular on `B_{ρ₁}`). -/
-theorem birkK_analyticOnNhd :
-    AnalyticOnNhd ℂ (birkK m hm ha hp) {w | 40 * birkCF m p * ‖w‖ ^ 2 < 1} := by
+theorem birkKExt_analyticOnNhd :
+    AnalyticOnNhd ℂ (birkKExt m hm ha hp) {w | 40 * birkCF m p * ‖w‖ ^ 2 < 1} := by
   intro w hw
   have hΓ := birkGamma_analyticOnNhd (ha := ha) (hm := hm) (hp := hp) 1 (by norm_num) w hw
   have hΛ := fun y => (birkLambda_analyticOnNhd (m := m) (hm := hm) (ha := ha) (hp := hp)) y
@@ -230,20 +232,20 @@ theorem birkK_analyticOnNhd :
   have hN := fun y => (birkQuart_isClassA m hm ha hp (birkCoefNor_isCoef m hm)).analytic y
     (Set.mem_univ _)
   have hΓ' : AnalyticAt ℂ (birkGamma m hm ha hp 1) w := hΓ
-  unfold birkK
+  unfold birkKExt
   exact ((((hΛ _).comp hΓ').add ((hG _).comp hΓ')).sub (hΛ w)).sub (hB w) |>.sub (hN w)
 
 include hm hp in
 /-- (`bpW:w3:main` (i)) `K` is real. -/
-theorem birkK_rho (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) :
-    birkK m hm ha hp (birkRho w) = conj (birkK m hm ha hp w) := by
+theorem birkKExt_rho (w : BirkSpace) (hw : 160 * birkCF m p * ‖w‖ ^ 2 < 1) :
+    birkKExt m hm ha hp (birkRho w) = conj (birkKExt m hm ha hp w) := by
   have hq : 2 * |(1 : ℝ)| * birkCF m p * ‖w‖ ^ 2 ≤ 1 / 10 := by
     rw [abs_one]
     have : 0 ≤ birkCF m p * ‖w‖ ^ 2 := mul_nonneg (birkCF_pos m hm hp).le (sq_nonneg _)
     nlinarith
   have hΓ : birkGamma m hm ha hp 1 (birkRho w) = birkRho (birkGamma m hm ha hp 1 w) :=
     birkGamma_rho (ha := ha) (hm := hm) (hp := hp) 1 w hq
-  unfold birkK
+  unfold birkKExt
   rw [hΓ, birkLambda_rho m hm ha hp, birkLambda_rho m hm ha hp]
   have e1 := birkQuartP_rho m hm ha hp (birkCoefAll_isCoef m hm)
   have e2 := birkQuartP_rho m hm ha hp (birkCoefBar_isCoef m hm)

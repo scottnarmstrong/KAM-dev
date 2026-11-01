@@ -15,11 +15,11 @@ Off-frontier, source-faithful infrastructure used by several nodes; the dependen
 being built. Package W3-MAIN, blueprint labels `bpW:w3:transport-tori`,
 `bpW:w3:transport-tori-weak`.
 
-At `(a,p) = (1,1)` the real transport (`birk_transport_tori_real`) says that the frozen
+At `(a,p) = (1,1)` the real transport (`birk_transport_tori_real_aux`) says that the frozen
 coordinatewise system of clause (4) holds along `ν` for `Kmap θ = (Q,P) = Π Γ ι Ψ θ ∈ E_{1,1}`
-(`birk_transport_tori_frozen_coord`), and, when `ι Ψ` is differentiable at `θ`, that
-`ι̂ (DKmap(θ) ν) = X^w(Kmap θ)` (`birk_transport_tori_frozen`, via
-`frozen_invariance_iff_waveXw`); the weak version is `birk_transport_tori_weak_frozen`.
+(`birk_transport_tori_frozen_coord_aux`), and, when `ι Ψ` is differentiable at `θ`, that
+`ι̂ (DKmap(θ) ν) = X^w(Kmap θ)` (`birk_transport_tori_frozen_aux`, via
+`frozen_invariance_iff_waveXw`); the weak version is `birk_transport_tori_weak_frozen_aux`.
 -/
 
 @[expose] public noncomputable section
@@ -29,7 +29,7 @@ namespace KAM.Wave
 variable {m : ℝ} {hm : 0 < m}
 
 /-- The frozen coordinatewise form of the system at `(a,p) = (1,1)`. -/
-theorem birk_transport_tori_frozen_coord (hp : (1 / 2 : ℝ) ≤ 1) (ν : Fin 2 → ℝ)
+theorem birk_transport_tori_frozen_coord_aux (hp : (1 / 2 : ℝ) ≤ 1) (ν : Fin 2 → ℝ)
     (Ψ : (Fin 2 → ℝ) → BirkSpace) (hρ : ∀ θ, birkRho (Ψ θ) = Ψ θ)
     (hΨ : ∀ θ, 160 * birkCF m 1 * ‖birkEmbed 1 (1 + 1) 1 (by linarith) (Ψ θ)‖ ^ 2 < 1)
     (hder : ∀ θ : Fin 2 → ℝ, HasDerivAt
@@ -40,14 +40,14 @@ theorem birk_transport_tori_frozen_coord (hp : (1 / 2 : ℝ) ≤ 1) (ν : Fin 2 
         birkEmbed 1 (1 + 1) 1 (by linarith)
           (birkHamNorX m hm zero_le_one hp (birkEmbed 1 (1 + 1) 1 (by linarith) (Ψ θ))) +
         birkEmbed 1 (1 + 1) 1 (by linarith)
-          (birkXK m hm zero_le_one hp (birkEmbed 1 (1 + 1) 1 (by linarith) (Ψ θ)))) 0)
+          (birkXKExt m hm zero_le_one hp (birkEmbed 1 (1 + 1) 1 (by linarith) (Ψ θ)))) 0)
     (θ : Fin 2 → ℝ) (j : ℕ+) :
-    HasDerivAt (fun t : ℝ => coeff (birkTransportQP m hm zero_le_one hp Ψ (θ + t • ν)).1 j)
-        (lam m hm j * coeff (birkTransportQP m hm zero_le_one hp Ψ θ).2 j) 0 ∧
-      HasDerivAt (fun t : ℝ => coeff (birkTransportQP m hm zero_le_one hp Ψ (θ + t • ν)).2 j)
-        (-(lam m hm j * coeff (birkTransportQP m hm zero_le_one hp Ψ θ).1 j) -
-          cubicGrad m hm (birkTransportQP m hm zero_le_one hp Ψ θ).1 j) 0 := by
-  have h := (birk_transport_tori_real (a := 1) (p := 1) (hm := hm) (hp := hp) one_pos ν Ψ hρ hΨ
+    HasDerivAt (fun t : ℝ => coeff (birkTransportQPExt m hm zero_le_one hp Ψ (θ + t • ν)).1 j)
+        (lam m hm j * coeff (birkTransportQPExt m hm zero_le_one hp Ψ θ).2 j) 0 ∧
+      HasDerivAt (fun t : ℝ => coeff (birkTransportQPExt m hm zero_le_one hp Ψ (θ + t • ν)).2 j)
+        (-(lam m hm j * coeff (birkTransportQPExt m hm zero_le_one hp Ψ θ).1 j) -
+          cubicGrad m hm (birkTransportQPExt m hm zero_le_one hp Ψ θ).1 j) 0 := by
+  have h := (birk_transport_tori_real_aux (a := 1) (p := 1) (hm := hm) (hp := hp) one_pos ν Ψ hρ hΨ
     hder θ).2 j
   simp only [coeffW_one_one] at h
   rw [cubicGrad_eq_waveCubic]
@@ -70,7 +70,7 @@ theorem birkGamma_differentiableAt_one {a p : ℝ} {ha : 0 ≤ a} {hp : 1 / 2 �
 include hm in
 /-- (`bpW:w3:transport-tori`, frozen form) If moreover `ι Ψ` is differentiable at `θ`, then
 `ι̂ (DKmap(θ) ν) = X^w(Kmap θ)` for `Kmap θ = (Q,P) = Π Γ ι Ψ θ`. -/
-theorem birk_transport_tori_frozen (hp : (1 / 2 : ℝ) ≤ 1) (ν : Fin 2 → ℝ)
+theorem birk_transport_tori_frozen_aux (hp : (1 / 2 : ℝ) ≤ 1) (ν : Fin 2 → ℝ)
     (Ψ : (Fin 2 → ℝ) → BirkSpace) (hρ : ∀ θ, birkRho (Ψ θ) = Ψ θ)
     (hΨ : ∀ θ, 160 * birkCF m 1 * ‖birkEmbed 1 (1 + 1) 1 (by linarith) (Ψ θ)‖ ^ 2 < 1)
     (hder : ∀ θ : Fin 2 → ℝ, HasDerivAt
@@ -81,30 +81,30 @@ theorem birk_transport_tori_frozen (hp : (1 / 2 : ℝ) ≤ 1) (ν : Fin 2 → �
         birkEmbed 1 (1 + 1) 1 (by linarith)
           (birkHamNorX m hm zero_le_one hp (birkEmbed 1 (1 + 1) 1 (by linarith) (Ψ θ))) +
         birkEmbed 1 (1 + 1) 1 (by linarith)
-          (birkXK m hm zero_le_one hp (birkEmbed 1 (1 + 1) 1 (by linarith) (Ψ θ)))) 0)
+          (birkXKExt m hm zero_le_one hp (birkEmbed 1 (1 + 1) 1 (by linarith) (Ψ θ)))) 0)
     (θ : Fin 2 → ℝ)
     (hdiff : DifferentiableAt ℝ (fun θ' => birkEmbed 1 (1 + 1) 1 (by linarith) (Ψ θ')) θ) :
     (embedCLM 1 1 1 0 le_rfl zero_le_one
-        (fderiv ℝ (birkTransportQP m hm zero_le_one hp Ψ) θ ν).1,
+        (fderiv ℝ (birkTransportQPExt m hm zero_le_one hp Ψ) θ ν).1,
       embedCLM 1 1 1 0 le_rfl zero_le_one
-        (fderiv ℝ (birkTransportQP m hm zero_le_one hp Ψ) θ ν).2) =
-      waveXw m hm (birkTransportQP m hm zero_le_one hp Ψ θ) := by
-  have hK : DifferentiableAt ℝ (birkTransportQP m hm zero_le_one hp Ψ) θ :=
+        (fderiv ℝ (birkTransportQPExt m hm zero_le_one hp Ψ) θ ν).2) =
+      waveXw m hm (birkTransportQPExt m hm zero_le_one hp Ψ θ) := by
+  have hK : DifferentiableAt ℝ (birkTransportQPExt m hm zero_le_one hp Ψ) θ :=
     (birkPi.differentiableAt).comp θ
       ((birkGamma_differentiableAt_one (hm := hm) (ha := zero_le_one) (hp := hp) _ (hΨ θ)).comp
         θ hdiff)
   exact (frozen_invariance_iff_waveXw (m := m) hm hK).1
-    (fun j => birk_transport_tori_frozen_coord hp ν Ψ hρ hΨ hder θ j)
+    (fun j => birk_transport_tori_frozen_coord_aux hp ν Ψ hρ hΨ hder θ j)
 
 include hm in
 /-- (`bpW:w3:transport-tori-weak`, frozen form, coordinatewise) -/
-theorem birk_transport_tori_weak_frozen_coord (hp : (1 / 2 : ℝ) ≤ 1) (ν : Fin 2 → ℝ)
+theorem birk_transport_tori_weak_frozen_coord_aux (hp : (1 / 2 : ℝ) ≤ 1) (ν : Fin 2 → ℝ)
     (Ψ D : (Fin 2 → ℝ) → BirkSpace) (hρ : ∀ θ, birkRho (Ψ θ) = Ψ θ)
     (hΨ : ∀ θ, 160 * birkCF m 1 * ‖Ψ θ‖ ^ 2 < 1)
     (hder : ∀ θ : Fin 2 → ℝ, HasDerivAt (fun t : ℝ => Ψ (θ + t • ν)) (D θ) 0)
     (heq : ∀ θ, birkEmbed 1 1 (1 - 1) (by linarith) (D θ) =
       birkXLam m hm (Ψ θ) + birkEmbed 1 1 (1 - 1) (by linarith)
-        (birkRestField m hm zero_le_one hp (Ψ θ)))
+        (birkRestFieldExt m hm zero_le_one hp (Ψ θ)))
     (θ : Fin 2 → ℝ) (j : ℕ+) :
     HasDerivAt (fun t : ℝ => coeff
         (birkPi (birkGamma m hm zero_le_one hp 1 (Ψ (θ + t • ν)))).1 j)
@@ -113,7 +113,7 @@ theorem birk_transport_tori_weak_frozen_coord (hp : (1 / 2 : ℝ) ≤ 1) (ν : F
         (birkPi (birkGamma m hm zero_le_one hp 1 (Ψ (θ + t • ν)))).2 j)
         (-(lam m hm j * coeff (birkPi (birkGamma m hm zero_le_one hp 1 (Ψ θ))).1 j) -
           cubicGrad m hm (birkPi (birkGamma m hm zero_le_one hp 1 (Ψ θ))).1 j) 0 := by
-  have h := (birk_transport_tori_weak_real (a := 1) (p := 1) (hm := hm) (hp := hp) one_pos ν Ψ D
+  have h := (birk_transport_tori_weak_real_aux (a := 1) (p := 1) (hm := hm) (hp := hp) one_pos ν Ψ D
     hρ hΨ hder heq θ).2.2 j
   simp only [coeffW_one_one] at h
   rw [cubicGrad_eq_waveCubic]
@@ -122,13 +122,13 @@ theorem birk_transport_tori_weak_frozen_coord (hp : (1 / 2 : ℝ) ≤ 1) (ν : F
 include hm in
 /-- (`bpW:w3:transport-tori-weak`, frozen form) If `Ψ` is differentiable at `θ`:
 `ι̂ (DKmap(θ) ν) = X^w(Kmap θ)` for `Kmap θ = Π Γ Ψ θ`. -/
-theorem birk_transport_tori_weak_frozen (hp : (1 / 2 : ℝ) ≤ 1) (ν : Fin 2 → ℝ)
+theorem birk_transport_tori_weak_frozen_aux (hp : (1 / 2 : ℝ) ≤ 1) (ν : Fin 2 → ℝ)
     (Ψ D : (Fin 2 → ℝ) → BirkSpace) (hρ : ∀ θ, birkRho (Ψ θ) = Ψ θ)
     (hΨ : ∀ θ, 160 * birkCF m 1 * ‖Ψ θ‖ ^ 2 < 1)
     (hder : ∀ θ : Fin 2 → ℝ, HasDerivAt (fun t : ℝ => Ψ (θ + t • ν)) (D θ) 0)
     (heq : ∀ θ, birkEmbed 1 1 (1 - 1) (by linarith) (D θ) =
       birkXLam m hm (Ψ θ) + birkEmbed 1 1 (1 - 1) (by linarith)
-        (birkRestField m hm zero_le_one hp (Ψ θ)))
+        (birkRestFieldExt m hm zero_le_one hp (Ψ θ)))
     (θ : Fin 2 → ℝ) (hdiff : DifferentiableAt ℝ Ψ θ) :
     (embedCLM 1 1 1 0 le_rfl zero_le_one
         (fderiv ℝ (fun θ' => birkPi (birkGamma m hm zero_le_one hp 1 (Ψ θ'))) θ ν).1,
@@ -140,7 +140,7 @@ theorem birk_transport_tori_weak_frozen (hp : (1 / 2 : ℝ) ≤ 1) (ν : Fin 2 �
       ((birkGamma_differentiableAt_one (hm := hm) (ha := zero_le_one) (hp := hp) _ (hΨ θ)).comp
         θ hdiff)
   exact (frozen_invariance_iff_waveXw (m := m) hm hK).1
-    (fun j => birk_transport_tori_weak_frozen_coord hp ν Ψ D hρ hΨ hder heq θ j)
+    (fun j => birk_transport_tori_weak_frozen_coord_aux hp ν Ψ D hρ hΨ hder heq θ j)
 
 end KAM.Wave
 
