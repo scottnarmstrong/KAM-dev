@@ -1,0 +1,4 @@
+linting took 122ms
+interpretation of _private.Mathlib.Tactic.Linter.Header.0.Mathlib.Linter.Style.Header.headerLinter._lam_1._boxed took 116ms
+elaboration took 127ms
+type checking took 209ms
