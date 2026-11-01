@@ -186,3 +186,11 @@ Reader: a mathematician in Hamiltonian dynamics / celestial mechanics, checking 
 - Corollary D kept as a separate statement (the brief asks for it; house style would fold it).
 - Once the statement texts are approved, delete the last sentence of §A.3.
 - 10:23 EXPO round 3 PASS WITH NOTES; all notes applied; final build 23 pp clean.
+- 10:30 root-b8: landed on main as 82e22386 (owner: 'Land on main now'). Standing by for owner edits on paper-lp; on statement freeze: delete last sentence of §A.3 and re-pin.
+
+## 12. Statement freeze (D62, main f46b94fb), 2026-11-01
+
+- 13:28 root-b8: LP statements frozen and sealed at f46b94fb (5 anchors). Edits on paper-lp (326ce718): last sentence of §A.3 removed; frozen rows added to Table 2; tables, intro and refs.bib re-pinned to f46b94fb (all cited declaration lines and the LP source notes unchanged since 74d77b43). Theorem E: "proved; statement freeze pending".
+- root-b8 correction: its first report of the anchor axioms was unchecked; it then ran `#print axioms` on the 5 sealed anchors (integration build 2264fd4e, LP/frozen/provider/manifest files byte-identical to f46b94fb): propext, Classical.choice, Quot.sound, no sorry. Cited as "checked at f46b94fb".
+- 13:31 fresh fidelity re-check of the changed lines: PASS WITH NOTES. F1 (normalization sentence wrongly covered the barrier anchor) fixed. F2 (implementation axioms checked at 74d77b43, but imported files changed before f46b94fb) disclosed in §A.3; lp3 check at f46b94fb requested from root-b8. F3 (adapter chain) no change. 24 pp, clean build.
+- 13:33 root-b8 ran `#print axioms` on all 15 implementation declarations at f46b94fb (integration build, trees identical): standard three, no sorry. §A.3 now cites f46b94fb for all; "predates" sentence dropped. No re-audit (root-b8 ruling: one-sentence change). 24 pp, clean.
