@@ -181,11 +181,14 @@ Large packed literals are written as balanced trees of `natJoin` over short hexa
 the elaborator's numeral parser is quadratic in the digit count, and source lines are short. -/
 def natJoin (k a b : ℕ) : ℕ := a + (b <<< k)
 
-/-- The ramp `Σ_{i<n} (i+1) 2^(b i)` in closed form (kernel GMP: powers, one exact division). The
-chunks of a packed literal are XOR-ed with it, so that no two partial results of its `natJoin` tree
-share their low 64 bits: the kernel hashes a natural literal by its low 64 bits
-(`instHashableNat`), and its caches degrade on many big literals with equal low limbs (V2-PACKED
-gate: 4,096 chunks with zero low limbs, 20.8 s against 37 ms for random chunks). -/
+/-- The ramp `Σ_{i<n} (i+1) 2^(b i)` in closed form (kernel GMP: powers and one exact division;
+`natRamp_eq`). The chunks of a packed literal are XOR-ed with it and unmasked by one more XOR
+(`natUnmask`). Partial results of the `natJoin` tree with different lowest chunks then get different
+low 64 bits; the partial results of one left spine (at most the tree depth of them) still share
+theirs, which is harmless. This matters because the kernel hashes a natural literal by its low 64
+bits (`instHashableNat`), and its caches degrade on many big literals with equal low limbs
+(V2-PACKED gate: 4,096 chunks with zero low limbs, 20.8 s against 37 ms for random chunks). The
+mask does not affect soundness: a data definition denotes what the kernel computes. -/
 def natRamp (b n : ℕ) : ℕ :=
   (n * 2 ^ (b * (n + 1)) + 1 - (n + 1) * 2 ^ (b * n)) / (2 ^ b - 1) ^ 2
 
@@ -288,5 +291,37 @@ theorem unpackSlots_packSum {w : ℕ} (hw : 0 < w) {cs : List ℤ} (hc : SlotsBo
   simp only [Function.comp_apply, id, Int.toNat_of_nonneg (hnn c hcm)]
   push_cast
   ring
+
+/-! ### The literal mask -/
+
+/-- Unmasking a literal: XOR with the same mask is the identity. -/
+theorem natUnmask (a r : ℕ) : (a ^^^ r) ^^^ r = a := by
+  rw [Nat.xor_assoc, Nat.xor_self, Nat.xor_zero]
+
+/-- **The closed form of the ramp**: `natRamp b n` packs the slots `1, 2, …, n` at width `b`. -/
+theorem natRamp_eq {b : ℕ} (hb : 0 < b) (n : ℕ) :
+    natRamp b n = natPack b ((List.range n).map (· + 1)) := by
+  set x : ℕ := 2 ^ b with hx
+  have hx2 : 2 ≤ x := by
+    rw [hx]
+    calc 2 = 2 ^ 1 := by norm_num
+      _ ≤ 2 ^ b := Nat.pow_le_pow_right (by norm_num) hb
+  have key : ∀ m : ℕ, (x - 1) ^ 2 * natPack b ((List.range m).map (· + 1)) + (m + 1) * x ^ m =
+      m * x ^ (m + 1) + 1 := by
+    intro m
+    induction m with
+    | zero => simp [natPack_nil]
+    | succ m ih =>
+      have hS : natPack b ((List.range (m + 1)).map (· + 1)) =
+          natPack b ((List.range m).map (· + 1)) + x ^ m * (m + 1) := by
+        rw [List.range_succ, List.map_append, natPack_append, List.length_map, List.length_range]
+        simp [natPack_cons, natPack_nil, hx, ← pow_mul]
+      rw [hS]
+      zify [show 1 ≤ x by omega] at ih ⊢
+      linear_combination ih
+  unfold natRamp
+  rw [pow_mul, pow_mul, ← hx]
+  rw [Nat.sub_eq_of_eq_add (key n).symm,
+    Nat.mul_div_cancel_left _ (pow_pos (by omega : 0 < x - 1) 2)]
 
 end KAM.Certificate

@@ -32,7 +32,10 @@ No frozen statement, landed definition or certificate changes. Every new Lean fi
 - **Bridges (additive).**
   - **B1, product contract.** `gmpRealProduct_sound` states exactly `packedRealProduct_sound`'s proposition.
     `CertPoly.mulGmp_sound` states exactly `CertPoly.mulPacked_sound`'s, which is what
-    `CertModel.polyProduct_sound` and hence `CertModel.Encloses.mul` consume.
+    `CertModel.polyProduct_sound` and hence `CertModel.Encloses.mul` consume. This is a product-level
+    bridge, **not a drop-in**: the landed `CertModel.polyProduct` is hard-wired to `CertPoly.mulPacked`
+    through the closed `ProductAdvice` type (`direct` | `packed`), so a checker can use `mulGmp` only
+    through a parallel `polyProduct`/`mul`/evaluator/`BaseChecker` chain, i.e. through B2.
   - **B2, certifier (plan).** A packed `BaseChecker` (`packedBase`) whose `sound` yields the landed
     `BaseFacts`. The landed `checkV2With_sound packedBase E` then gives the landed `CertifiedTorus c ωstar`
     unchanged, and every application consumer applies verbatim.
@@ -88,7 +91,7 @@ one division and one multiplication: kernel GMP, no loop.
 | add / subtract | `Z_a ± Z_b` (same layout, exponent) | `2(B_a + B_b) < 2^w` | `B_a + B_b` |
 | scalar `m ∈ ℤ` | `m · Z` | `2 |m| B < 2^w` | `|m| B` |
 | product (Kronecker) | `Z_a · Z_b` on `compat` layouts | `2 min(N_a, N_b) B_a B_b < 2^w` | `min(N_a,N_b) B_a B_b` |
-| round by `s` bits | `R = ((Y − (Y &&& M_s)) >>> s) − periodic(2^{l−s})`, `Y = (Z + periodic(2^l + 2^{s−1})).toNat` | `B ≤ 2^l`, `1 ≤ s ≤ l`, `l + 2 ≤ w` | `B/2^s + 1` |
+| round by `s` bits | `R = ((Y − (Y &&& M_s)) >>> s) − periodic(2^{l−s})`, `Y = (Z + periodic(2^l + 2^{s−1})).toNat` | `B ≤ 2^l`, `1 ≤ s ≤ l`, `l + 2 ≤ w` | `2^l` (`roundSlot_abs_le`) |
 | load check `|d_i| < 2^l` | `Y = (Z + periodic(2^l)).toNat < 2^{wN}` and `Y &&& M_{l+1} = Y` | `l + 2 ≤ w` | `2^l` |
 | box mask (truncation to a sub-box) | `Y &&& Mbox`, `Mbox = Π_axes` 1-D interval masks (one product per axis) | as load check | unchanged |
 | absolute value | sign masks: `S = (Y >>> l) &&& periodic 1`; `|d| = (Y &&& S(2^{l+1}−1)) − S 2^l + (1−S) 2^l − (Y &&& (1−S)(2^{l+1}−1))`, digit-wise | as load check | `B` |
@@ -147,13 +150,15 @@ one division and one multiplication: kernel GMP, no loop.
 suffice"). Assume `compat` layouts and `L.dense x = some d_a`, `packSum w d_a = Z_a` (likewise for `b`), with
 `|d_a| ≤ B_a` and `|d_b| ≤ B_b`. Then:
 - **pack:** `Z_a Z_b = packSum w (listConv d_a d_b)` (landed `packSum_listConv`);
-- **unpack:** `unpackSlots w N (Z_a Z_b) = listConv d_a d_b`, `N = |d_a| + |d_b| − 1`, provided
-  `2 min(N_a, N_b) B_a B_b < 2^w`. This uses `abs_conv_entry_le` and `packSum_injective` (landed) and the new
-  balanced unpacking `unpackSlots_packSum`;
+- **unpack** (`unpack_mul_eq_conv`): `unpackSlots w N (Z_a Z_b) = listConv d_a d_b`,
+  `N = |d_a| + |d_b| − 1`, provided `2 min(N_a, N_b) max|d_a| max|d_b| < 2^w` (the landed `convFits`). It
+  follows from `packSum_listConv`, `slotsBounded_listConv` (landed) and the balanced unpacking
+  `unpackSlots_packSum`;
 - **meaning:** the product's Fourier meaning is the landed `PackLayout.intEval_mul_of_compat`.
 
 **Rounding** (`gmpRound_spec`). Under the rounding guard, `gmpRound w N l s (packSum w d) = packSum w r` with
-`r_i = (d_i + 2^{s−1}) / 2^s` (floor), `|d_i − 2^s r_i| ≤ 2^{s−1}` and `|r_i| ≤ B/2^s + 1`. The proof is
+`r_i = (d_i + 2^{s−1}) / 2^s` (floor), `|d_i − 2^s r_i| ≤ 2^{s−1}` (`round_err`) and `|r_i| ≤ 2^l`
+(`roundSlot_abs_le`; a tighter `B/2^s + 1` holds but is not proved). The proof is
 digit-wise:
 - `natPack_land_mask`: `natPack w e &&& periodic w N (2^t − 1) = natPack w (e mod 2^t)` for digits
   `e_i < 2^w`, from `testBit_two_pow_mul_add` and `and_two_pow_sub_one_eq_mod`;
@@ -179,7 +184,10 @@ The prototype supplies the first two links for the packed route, **with identica
 - `CertPoly.mulGmp dec W P g_rr g_ii g_ri g_ir a b : Option (CertPoly α × α)`: the landed `mulPacked`
   assembly with the four gmp real products, and `CertPoly.mulGmp_sound`, the `mulPacked_sound` proposition.
 
-A consumer proof written against the landed contracts therefore applies verbatim to the packed route.
+A consumer proof written against the landed contracts therefore applies verbatim to the packed route **once
+the consumer definitions are duplicated**: the landed `CertModel.polyProduct` calls `CertPoly.mulPacked`
+through the closed `ProductAdvice` and cannot call `mulGmp`. That duplication (`polyProduct`, `mul`, the
+evaluator, a `BaseChecker`) is B2's size.
 
 **B2 (plan, not prototyped).** The certifier is already parametric in its sub-checks:
 `checkV2With (B : BaseChecker) (E : EngineV2)`, `checkV2With_sound` (`KAM/CertificateSharp/V2/Engine.lean`).
@@ -256,7 +264,16 @@ proof of `intSlotsBound`.
 - landed advice from the landed mirror: 3 shards of 3,136-slot blocks.
 
 The packed route rounds by `2^164`, and its a-priori remainder 2^-71.2 is no larger than the landed 2^-70.5.
-Each forced theorem ran alone under a 4 GB charged cap. The table gives kernel time and charged peak.
+Each forced theorem ran alone under a 4 GB charged cap. The table gives kernel time and the peak
+**cgroup charge** (sampled `memory.current`); max RSS runs ≈ 1.2–1.3 GB higher, from mmapped oleans
+already charged elsewhere (e.g. `G8kPall` 4.9 GB RSS against 3.67 GB charged). "Under 4 GB" means the
+charge.
+
+The column *bridged* says whether a soundness theorem covers the forced check. Only the list-in/list-out
+route is bridged (`gmpRealProduct_sound`, `CertPoly.mulGmp_sound`). The GMP-resident rows are **unbridged**:
+no theorem yet gives a packed integer a Fourier meaning without a term list (`PRep` needs `L.dense x`), the
+inputs' `loadOk` checks are not in the measured `Pcore` (cheap, but required), and nothing consumes `gR`.
+They need B2.
 
 | route | what is forced | kernel | charged |
 |---|---|---:|---:|
@@ -270,9 +287,9 @@ Each forced theorem ran alone under a 4 GB charged cap. The table gives kernel t
 | packed, list boundary | `packRepOk` + `packOf`, both factors | 3.0 s | 1.1 GB |
 | packed, list boundary | read-back `GmpSpec.terms` | 12.4 s | 3.2 GB |
 | packed | a-priori remainder `GmpSpec.rem` | 0.004 s | 0.38 GB |
-| **packed, lists in and out** | `gmpRealProduct = some (T', e')` | **14.9 s, 1 process** | 3.7 GB |
-| **GMP-resident** | guard, product, rounding, equality with the packed output (3 literals ingested) | **0.18 s** | 0.60 GB |
-| GMP-resident | literal ingestion alone | 0.24 s | 0.59 GB |
+| **packed, lists in and out** (bridged) | `gmpRealProduct = some (T', e')` | **14.9 s, 1 process** | 3.7 GB |
+| **GMP-resident** (unbridged) | guard, product, rounding, equality with the packed output (3 literals ingested) | **0.18 s** (audit re-run: 0.30 s) | 0.60 GB |
+| GMP-resident (unbridged) | literal ingestion alone | 0.24 s | 0.59 GB |
 
 Controls: import 1.25 s user and 0.40 GB; landed data elaboration 7.7 s and 0.66 GB; packed literals 5.8 s and
 0.54 GB.
@@ -281,14 +298,16 @@ Controls: import 1.25 s user and 0.40 GB; landed data elaboration 7.7 s and 0.66
 5,024-slot blocks):
 - GMP-resident with literals: 0.65 s and 0.90 GB.
 - One landed shard, and the landed remainder alone: each **OOM at 4 GB**. LG00 ran them under 5.9 GiB.
-- **Compute without literals** (`C19kCompute`: operands built in the kernel, product, rounding, load check):
-  23 ms for one product, 183 ms for ten, +4–5 MB each.
+- **Compute without literals** (`C19kCompute`, unbridged: operands built in the kernel, product, rounding,
+  load check): 23 ms for one product (audit re-run: 20 ms), 183 ms for ten, +4–5 MB each.
 
 **Speedups on the same product.**
-- **Drop-in (lists in and out):** 4.7× kernel time, and one process instead of seven. The boundary decode
-  (12.4 s) is now the cost.
-- **GMP-resident with literal I/O:** about 380×.
-- **Compute only:** ≥ 3,000×. The 19 k-slot compute time bounds the 8 k-slot one.
+- **Lists in and out (bridged, not a drop-in):** 4.7× kernel time, and one process instead of seven. The
+  boundary decode (12.4 s) is now the cost. This is an **upper estimate**: G8k's landed advice covers the
+  whole window (`outLog 0`, scale 167), so its landed decode (≈ 16 s of the ≈ 70 s) is larger than for
+  LG00's typical advice. Using it in a checker needs the parallel chain of B2.
+- **GMP-resident with literal I/O (unbridged):** about 235–380× (0.18–0.30 s across runs).
+- **Compute only (unbridged):** ≥ 3,000×. The 19 k-slot compute time bounds the 8 k-slot one.
 - **Precision:** the packed route matched the landed remainder with 3 fewer bits of rounding shift.
 
 **Output size** (source bytes).

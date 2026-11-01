@@ -28,25 +28,56 @@ tightened rule of 2026-11-01: no existing `KAM/**.lean` edited, renamed or delet
   - advice-free round-to-nearest of every slot;
   - the strip contract **in the landed `packedRealProduct_sound` shape**;
   - the complex product **with the landed `CertPoly.mulPacked_sound` conclusion** (bridge B1).
-- **Gate (step 4).** One LG00-sized product (8,134 product slots), under the same 4 GB charged cap:
+- **Gate (step 4).** One LG00-sized product (8,134 product slots), under the same 4 GB cap on the cgroup
+  charge (max RSS runs ≈ 1.2–1.3 GB higher):
 
-  | route | kernel time | processes under the cap |
-  |---|---|---|
-  | landed | ≈ 70 s; the one-piece decode and the whole product are OOM-killed at 4 GB | ≥ 7 |
-  | packed, lists in and out | 14.9 s, **4.7×** | 1 |
-  | GMP-resident, literal I/O included | 0.18 s, **≈ 380×** | 1 (0.60 GB) |
-  | GMP-resident compute | ≤ 23 ms, **≥ 3,000×** | — |
+  | route | kernel time | processes under the cap | soundness theorem |
+  |---|---|---|---|
+  | landed | ≈ 70 s; the one-piece decode and the whole product are OOM-killed at 4 GB | ≥ 7 | landed |
+  | packed, lists in and out | 14.9 s, **4.7×** (upper estimate) | 1 | **bridged** (B1) |
+  | GMP-resident, literal I/O included | 0.18–0.30 s, ≈ 235–380× | 1 (0.60 GB) | **unbridged** |
+  | GMP-resident compute | 20–23 ms, ≥ 3,000× | — | **unbridged** |
 
   At LG00's largest size (19,311 slots) a single landed shard does not fit in 4 GB; the GMP-resident product
-  takes 0.65 s and 0.90 GB with literals, 23 ms without.
+  takes 0.65 s and 0.90 GB with literals, 23 ms without (unbridged).
+- **What is and is not covered by a theorem (audit AUDIT-V2-PACKED-1, M1/M2).**
+  - Only the lists-in/lists-out route is bridged, by `gmpRealProduct_sound` and `CertPoly.mulGmp_sound`.
+  - The GMP-resident rows measure checks that **no soundness theorem covers yet**. They require B2: a packed
+    meaning of packed inputs and outputs (today `PRep` needs a term list `x` with `L.dense x = some d`),
+    the inputs' `loadOk` checks (cheap, but not in the measured `Pcore`), and a packed consumer of the
+    output.
+  - The bridged route is **not a drop-in** either. The landed `CertModel.polyProduct` is hard-wired to
+    `CertPoly.mulPacked` through the closed `ProductAdvice` (`direct` | `packed`), and both files are
+    off-limits. Using `mulGmp` in a checker needs a parallel `polyProduct`/`mul`/evaluator/`BaseChecker`
+    chain, which is B2's size.
+  - Its 4.7× is an **upper estimate**: G8k's landed advice covers the whole window (`outLog 0`), which makes
+    the landed decode (≈ 16 s of the ≈ 70 s) larger than for LG00's typical advice.
+
+## V2-PACKED-FIX (audit AUDIT-V2-PACKED-1: PASS WITH CHANGES)
+
+- **M1/M2 (wording).** The gate rows and the LG00 lines now say which checks a soundness theorem covers
+  (only lists in/out, B1) and which are unbridged (the GMP-resident rows: they need B2). B1 is stated to be
+  **not a drop-in** (the landed `CertModel.polyProduct` is hard-wired to `mulPacked`), and its 4.7× an upper
+  estimate. The same changes are in design §0, §4 and §8.
+- **L1.** New `natUnmask : (a ^^^ r) ^^^ r = a` and `natRamp_eq : natRamp b n = natPack b ((range n).map
+  (· + 1))` (`0 < b`), in `Round.lean`. The `natRamp` docstring now says that only distinct left spines get
+  distinct low limbs (one spine's partial results share theirs; harmless) and that the mask does not affect
+  soundness. A kernel test checks the unmask on a joined literal.
+- **L2.** New `unpack_mul_eq_conv` (`Product.lean`): under the landed `convFits`,
+  `unpackSlots w |conv| (packSum w a * packSum w b) = listConv a b`. This is the brief's unrounded
+  "unpack ∘ packed product = coefficientwise product". The design's unproved `B/2^s + 1` load is replaced by
+  the proved `2^l` (`roundSlot_abs_le`).
+- **L3.** `G8k.json`/`G19k.json` regenerated: data fields identical, `probe_bytes` refreshed.
+- **L4.** Memory figures are labelled as cgroup charge (max RSS ≈ 1.2–1.3 GB higher).
+- **INFO.** Timings are given as ranges with the audit's re-run (`G8kPcore` 0.18–0.30 s).
 
 ## Files
 
 | file | content |
 |---|---|
 | `KAM/Certificate/Packed/Digits.lean` (new) | `natPack`, `periodic` (closed form), `land_split`, `natPack_land_mask`, `natPack_clear_shift`, `natPack_injective`, `natPack_digits`, `packSum_add_periodic` |
-| `KAM/Certificate/Packed/Round.lean` (new) | `digitShift`, `gmpRound`, `roundSlot`, `round_err`, `roundSlot_abs_le`, `gmpRound_spec`; `loadOk`, `loadOk_sound`; `natJoin`, `natRamp` (literal ingestion); `natDigitsSh`, `unpackSlots`, `unpackSlots_packSum` |
-| `KAM/Certificate/Packed/Product.lean` (new) | `PRep`, `packOf`, `packRepOk`, `packRepOk_sound`; `GmpSpec` (`guard`, `round`, `terms`, `degCap`, `rem`), `GmpSpec.round_spec`, `intEval_gmpTerms`, `GmpSpec.round_sound`; `gmpRealProduct`, `gmpRealProduct_sound` |
+| `KAM/Certificate/Packed/Round.lean` (new) | `digitShift`, `gmpRound`, `roundSlot`, `round_err`, `roundSlot_abs_le`, `gmpRound_spec`; `loadOk`, `loadOk_sound`; `natJoin`, `natRamp`, `natUnmask`, `natRamp_eq` (literal ingestion); `natDigitsSh`, `unpackSlots`, `unpackSlots_packSum` |
+| `KAM/Certificate/Packed/Product.lean` (new) | `PRep`, `packOf`, `packRepOk`, `packRepOk_sound`; `GmpSpec` (`guard`, `round`, `terms`, `degCap`, `rem`), `GmpSpec.round_spec`, `unpack_mul_eq_conv`, `intEval_gmpTerms`, `GmpSpec.round_sound`; `gmpRealProduct`, `gmpRealProduct_sound` |
 | `KAM/Certificate/Packed/Bridge.lean` (new) | `CertPoly.mulGmp`, `CertPoly.mulGmp_sound` |
 | `KAM/Certificate/Packed/Tests.lean` (new) | small `decide +kernel` tests (default build, about 1 s) |
 | `KAM/Root/Certificate.lean` | generated by `scripts/gen_root_imports.py` (+5 imports) |
@@ -90,7 +121,8 @@ edited, renamed or deleted. LG00 data were read in place on `lg00-cert`; nothing
   `[propext, Classical.choice, Quot.sound]` for each of: `gmpRound_spec`, `loadOk_sound`,
   `unpackSlots_packSum`, `GmpSpec.round_spec`, `GmpSpec.round_sound`, `gmpRealProduct_sound`,
   `CertPoly.mulGmp_sound`, `packRepOk_sound`, `natPack_land_mask`, `natPack_clear_shift`,
-  `intEval_gmpTerms`.
+  `intEval_gmpTerms`, and (V2-PACKED-FIX) `natRamp_eq`, `unpack_mul_eq_conv`; `natUnmask` uses only
+  `[propext, Quot.sound]`.
 - **`scripts/lint_sources.sh`** exits 1:
   - no line over 100 characters, no file over 1,500 lines;
   - `check_lean_modules: PASS (3666 Lean files…)`, `FROZEN-ANCHOR GUARD OK`;
@@ -108,8 +140,11 @@ Full table: design §8. Receipts are in `docs/campaign/studies/V2-PACKED-GATE/`.
 
 **Method.** Each forced `decide +kernel` theorem is alone in one Lean process under
 `systemd-run --scope -p MemoryMax=4G -p MemorySwapMax=0`, `LEAN_NUM_THREADS=1`, `nice -n 5`. Kernel time is
-the profiler's `type checking took …` of the theorem; the charged peak is `memory.current` sampled every 0.2 s
-(this kernel has no `memory.peak`). The machine load was about 20 on 16 cores, so timings are ±30 %.
+the profiler's `type checking took …` of the theorem. Memory figures are the **cgroup charge**
+(`memory.current` sampled every 0.2 s; this kernel has no `memory.peak`), not RSS: max RSS runs ≈ 1.2–1.3 GB
+higher, from mmapped oleans already charged elsewhere. The machine load was about 20 on 16 cores, so
+timings are ±30 %; the audit's re-run measured `G8kPcore` at 297 ms (184 ms here) and `C19kCompute` at
+20 ms (23 ms here).
 
 **G8k** (41 × 51 by 43 × 48 boxes, 8,134 product slots, width 263):
 
@@ -161,14 +196,17 @@ share their low 64 bits degrade the kernel's caches:
 ## What it means
 
 **One LG00 torus** (26.4 user-h, 30.1 CPU-h, 5,183 modules):
-- **Products, GMP-resident** (measured rates). 4.1 M product slots cost:
+- **Products, GMP-resident** (measured rates of **unbridged** checks; they become a certificate cost only
+  once B2 supplies the packed meaning, the input `loadOk` checks and a packed consumer). 4.1 M product slots
+  cost:
   - ≤ 5 s at the measured compute rate (≤ 1.2 µs per product slot);
   - ≤ 140 s if every product's operands and result were literals (34 µs per slot, G19k).
 
-  Products therefore fall from ≈ 12.6 h to ≤ 0.04 h.
-- **Products, drop-in.** A list-in/list-out packed product inside a list-based model algebra measured 4.7×
-  on products. LG00 would go from 26.4 h to about 16.5 h (1.6×), with about 7× fewer product processes. The
-  boundary decode then dominates.
+  With B2, products would fall from ≈ 12.6 h to ≤ 0.04 h.
+- **Products, lists in and out (bridged, not a drop-in).** It measured 4.7× on products, an upper
+  estimate. Using it at all needs a parallel model-algebra chain (`polyProduct`/`mul`/evaluator/
+  `BaseChecker`), which is B2's size. Inside such a chain LG00 would go from 26.4 h to about 16.5 h at best
+  (≤ 1.6×), with about 7× fewer product processes; the boundary decode then dominates.
 - **The rest is untouched by the product alone:** 8.2 h of model segments, 2 h of imports, 2.4 h of literals.
 
   With B2 (packed models throughout; **projection, not measured**), each model operation is a few GMP

@@ -176,6 +176,13 @@ theorem GmpSpec.round_spec {g : GmpSpec} (hg : g.guard = true) {x y : List (Cert
   rw [GmpSpec.round, hprod, ← hlen]
   exact gmpRound_spec hs hsl hlw rfl hbound
 
+/-- **Unpack ∘ packed product = convolution** (unrounded): when the guard bits suffice (the landed
+`convFits`), the slots read back from the product of two packings are the exact convolution. -/
+theorem unpack_mul_eq_conv {w : ℕ} (hw : 0 < w) {a b : List ℤ} (h : convFits w a b = true) :
+    unpackSlots w (listConv a b).length (packSum w a * packSum w b) = listConv a b := by
+  rw [← packSum_listConv]
+  exact unpackSlots_packSum hw (slotsBounded_listConv h)
+
 /-! ### Reading the rounded product back -/
 
 /-- The keyed nonzero entry of an indexed product slot (the landed product key). -/
