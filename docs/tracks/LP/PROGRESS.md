@@ -62,7 +62,8 @@ src (4th, created 05:30 for the third slot).
 | LP3-CELL generic cellwise application (k slow pairs), ± time | LP3 plan §5 option | LP3 | `inp-lp-lp3cell` / geomod worktree | claude-11 | **PROVED** 4d6256d1 (≈230 lines: `cell_threshold_uniform`, `isSolutionOn_reverse_neg`, `cell_drift_two_sided`, `kepler_cell_drift`; axioms standard, sealed anchor complete); audit queued |
 | LP3-DRIFT planar `hstop` supplier (no Diophantine premise) | LP3 plan §2.4 | LP3 | `inp-lp-lp3drift` / geomod worktree | claude-11 | **RUNNING** (09:1x) |
 | LP3-SP-COVER spatial cover + perturbation | LP3 plan | LP3 | `inp-lp-lp3spcov` / mom worktree | claude-12 | **PROVED** b8994a7c (434 lines; planar cells reused verbatim; `exists_spatialNekPerturbation`); audit queued |
-| LP3-SP-DRIFT spatial `hstop` supplier | LP3 plan §2.5 | LP3 | `inp-lp-lp3spdrift` / mom worktree | claude-12 | **RUNNING** (09:2x) |
+| LP3-SP-DRIFT spatial `hstop` supplier | LP3 plan §2.5 | LP3 | `inp-lp-lp3spdrift` / mom worktree | claude-12 | **PROVED** 01622857 (460 lines: `spatial_stopped_drift_nek`, exact `hstop`; uses CELL `cell_drift_two_sided`, not `kepler_cell_drift` (collar too small)); audit queued |
+| LP3-SP-SAFE spatial theorem LP3-2 (no arithmetic hypothesis) | LP3 plan §1.3 | LP3 | `inp-lp-lp3spsafe` / mom worktree | claude-12 | **RUNNING** (09:5x) |
 
 ## Audit queue (codex-2, one at a time machine-wide; W interleaves when LP has a gap)
 
@@ -146,3 +147,4 @@ src (4th, created 05:30 for the third slot).
 - 2026-11-01 09:2x UTC: LP3-SP-COVER PROVED. LP3-SP-DRIFT launched (claude-12), in parallel with the planar LP3-DRIFT. W4D fully staged (lint, short-name OK); waits for the W4C audit (LP lane).
 - 2026-11-01 09:3x UTC: LP-W4C audit 1 PASS WITH NOTES (CHART: N1 administrative, N2 disclosed `Complex.arg` inverse representation; PROD: PASS). Merged into inp-lp; landing requested from kam-inp-63. LP-W4D audit launched (LP lane).
 - 2026-11-01 09:4x UTC: LP-W4C LANDED (main d54ba2cb; lander: 89 theorems, standard axioms).
+- 2026-11-01 09:5x UTC: LP3-SP-DRIFT PROVED. LP3-SP-SAFE (LP3-2 assembly) launched on claude-12.
