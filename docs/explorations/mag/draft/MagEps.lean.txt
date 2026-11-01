@@ -5,7 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import Mathlib.Data.Real.Basic
+public import Mathlib.Data.Real.Sqrt
 
 /-!
 # Proposed frozen definition `KAM.Magnetic.magEps` (MAG-PILOT draft, not frozen)

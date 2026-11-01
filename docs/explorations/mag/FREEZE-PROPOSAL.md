@@ -17,11 +17,13 @@ lines never cross. A field line below the surface stays below it forever, in bot
 holds for lines on the surface and lines above it. In particular, field lines starting at flux below 0.32 never
 reach flux 0.39, and conversely. Field lines exist for all time and are unique.
 
-This is **one separating surface**. It is not a bounded slab, and it is not confinement on both sides.
+The surface is the flux component of an analytic invariant torus. On it, the field lines wind with the fixed
+irrational rotation number α = (7913 − √5)/13618 (one poloidal turn per 1/α toroidal turns), at energy zero, and
+the torus extends holomorphically to a complex strip of width 3·10⁻⁶. This is **one separating surface**. It is not a bounded slab, and it is not confinement on both sides.
 
 ## Proposed Lean text
 
-There are five one-declaration files under the proposed `KAM/Frozen/Magnetic/` (the drafts are in
+There are seven one-declaration files under the proposed `KAM/Frozen/Magnetic/` (the drafts are in
 [`draft/`](draft/)). They mirror the sealed lunar band: the product state `ℝ × ℝ × ℝ`, the field written with
 `deriv`, and raw `HasDerivAt` solutions, as in `soField` and `lunar_spin_confinement`.
 
@@ -39,11 +41,29 @@ def magV (q φ : ℝ) : ℝ :=
 def magField (x : ℝ × ℝ × ℝ) : ℝ × ℝ × ℝ :=
   (deriv magH0 x.2.1, -deriv (fun s => magV s x.2.2) x.1, 1)
 
+def magAlpha : ℝ := (7913 - Real.sqrt 5) / 13618
+
+-- angles z.1 = (q, φ), actions z.2 = (p, J); Complex.cos, π = (Real.pi : ℂ)
+def magHamC (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) : ℂ :=
+  z.2 1 + (z.2 0 - 3 / 4 * z.2 0 ^ 2 + 1 / 3 * z.2 0 ^ 3 - 1 / 16 * z.2 0 ^ 4) +
+    ((magEps : ℂ) * (cos (2 * π * (2 * z.1 0 - z.1 1)) + cos (2 * π * (3 * z.1 0 - 2 * z.1 1))) +
+      1427 / 3200 * (magEps : ℂ) ^ 2 *
+        (32000 / 2777 * cos (2 * π * (2 * z.1 0 - z.1 1)) -
+          96000 / 7669 * cos (2 * π * (3 * z.1 0 - 2 * z.1 1))) ^ 2)
+
 theorem magnetic_barrier :
     ∃ P : ℝ → ℝ → ℝ,
       AnalyticOnNhd ℝ (fun x : ℝ × ℝ => P x.1 x.2) Set.univ ∧
       (∀ q φ, P (q + 1) φ = P q φ) ∧ (∀ q φ, P q (φ + 1) = P q φ) ∧
       (∀ q φ, 8 / 25 ≤ P q φ ∧ P q φ ≤ 39 / 100) ∧
+      (∃ K : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ),
+        DifferentiableOn ℂ K (complexStrip 2 (3 / 1000000)) ∧
+        IsPrimaryOnStrip K (3 / 1000000) ∧ IsRealOnReals K ∧
+        (∀ θ ∈ complexStrip 2 (3 / 1000000), invarianceError magHamC K ![magAlpha, 1] θ = 0) ∧
+        (∀ θ ∈ complexStrip 2 (3 / 1000000), magHamC (K θ) = 0) ∧
+        ∀ θ : Fin 2 → ℝ,
+          (K (fun i => (θ i : ℂ))).1 1 = θ 1 ∧
+          (K (fun i => (θ i : ℂ))).2 0 = (P ((K (fun i => (θ i : ℂ))).1 0).re (θ 1) : ℂ)) ∧
       ∀ x₀ : ℝ × ℝ × ℝ, ∃ z : ℝ → ℝ × ℝ × ℝ,
         z 0 = x₀ ∧ (∀ t, HasDerivAt z (magField (z t)) t) ∧
         (∀ (I : Set ℝ) (y : ℝ → ℝ × ℝ × ℝ), I.OrdConnected → (0 : ℝ) ∈ I → y 0 = x₀ →
@@ -54,7 +74,8 @@ theorem magnetic_barrier :
           (P x₀.1 x₀.2.2 < x₀.2.1 → P (z t).1 (z t).2.2 < (z t).2.1)
 ```
 
-**Elaboration.** All five declarations were concatenated into one scratch file with only Mathlib imports and run
+**Elaboration.** All seven declarations were concatenated into one scratch file, with Mathlib and the frozen
+`IsPrimaryOnStrip`, `IsRealOnReals` and `InvarianceError` imports, and run
 under `lake env lean` on main's toolchain, in an 8 GB scope. It elaborated with no errors. The only warning is the
 expected `sorry`, and `#print axioms` lists `[propext, sorryAx, Classical.choice, Quot.sound]`. The per-file module
 chain was not built: no frozen files are created before approval.
@@ -70,17 +91,20 @@ chain was not built: no frozen files are created before approval.
 
 1. **Model:** the general-(8) quadratic control (plan §1.1, §8 IDEA-CH-1) at ε = 3/2500, with the constant term
    kept and energy zero. The literal `1427/3200` is −h″(7/20)/2.
-2. **Flux bounds:** 8/25 ≤ P ≤ 39/100, which leaves about 0.008 of room around the measured [0.3280, 0.3857] for
-   the graph-transfer losses. The window p₀ < 8/25 and p₀ > 39/100 follows as a corollary and is not stated.
+2. **Flux bounds:** 8/25 ≤ P ≤ 39/100. Exact slack around the measured [0.32798, 0.38566] is 0.00798 below and
+   0.00434 above. The graph-transfer budget (displacement ≤ 10⁻⁷ per flux endpoint) is budgeted against the smaller,
+   upper slack. The window p₀ < 8/25 and p₀ > 39/100 follows as a corollary and is not stated.
 3. **Scope:** all real lifts and the global polynomial extension of h (plan §8 deviation). The time variable is the
    toroidal angle in turns.
 4. **State type:** `ℝ × ℝ × ℝ`, following the sealed lunar band. The plan wrote `Fin 3 → ℝ`, and AGENTS rule 7
    lists `Fin n → ℝ`. Choosing the lunar form lets the generic SO graph and barrier glue be reused unchanged; the
    alternative is a `Fin 3 → ℝ` restatement.
-5. **Omitted from the public statement:** the torus, its frequency (α, 1) with α = (7913 − √5)/13618, and the strip
-   width `complexStrip 2 (3/1000000)`. Plan §2.3 calls these "the stronger torus statement". They would be added as
-   a conjunct (rotation on the graph with frequency α) only if the owner wants them. The certificate still uses
-   them internally.
+5. **Torus conjuncts (plan §1.2, restored after audit MAG-SA-1):** the same `P` is the flux component of `K∞`.
+   `K∞` is holomorphic on `complexStrip 2 (3/1000000)`, primary, real on reals, has zero invariance error at
+   frequency `![magAlpha, 1]` (exactly; s∞ = 1 after the clock normalization), has energy zero for the extended
+   `magHamC`, has clock `(K∞ θ).1 1 = θ 1` on real θ, and satisfies `p = P(q, φ)` on its real image. The strip
+   width 3·10⁻⁶ needs approval. The literals `magHamC` and `magV` must agree on reals; this is a proof obligation,
+   not an assumption.
 6. **Uniqueness form:** local solutions on any order-connected I ∋ 0 with two-sided `HasDerivAt`. This is
    `KAM.ODE.IsSolutionIn F univ I y` unfolded (`isSolutionIn_univ_iff`), so the frozen file needs no non-frozen
    import.
