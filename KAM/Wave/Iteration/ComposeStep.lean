@@ -26,7 +26,7 @@ choice of an equivalent norm) and estimated with the norms `kamNorm r_μ`.
 * `hasFDerivAt_stepK`, `hasFDerivAt_stepMix`: transfer of derivatives between `StepPhase r` and
   `KamPhase`;
 * `w6Iota = ι : 𝒫^{p_+} → 𝒫` (`p = 1`, `p_+ = 3/2`, `kamHomEmbed`);
-* `W6State.psi`: the smoothing displacement `Ψ_{ν+1}` of the step (`Φ_{ν+1} = id + ι Ψ_{ν+1}`);
+* `W6State.stepPsiN`: the smoothing displacement `Ψ_{ν+1}` of the step (`Φ_{ν+1} = id + ι Ψ_{ν+1}`);
 * `w6PhiK`, `w6PsiK`: `Φ_{ν+1}`, `Ψ_{ν+1}` along the iteration started at `S₀`, on `KamPhase`;
 * `w6StepK_smooth`, `w6StepK_clauses`: their properties at stage `ν` (W5's `stepTheorem` and
   `StepHypSrc.phi_smooth`, transported to `KamPhase`).
@@ -106,7 +106,7 @@ variable {d : W6SeqData}
 
 /-- `Ψ_{ν+1}`: the smoothing displacement of `Φ_{ν+1}` (`0` if the hypotheses of stage `ν` fail).
 -/
-def psi (d : W6SeqData) (ν : ℕ) (S : W6State) (ξ : Fin 2 → ℝ) :
+def stepPsiN (d : W6SeqData) (ν : ℕ) (S : W6State) (ξ : Fin 2 → ℝ) :
     StepPhase (d.rNu ν) → StepPhase (d.rNu ν) :=
   open Classical in
   if h : Std d ∧ S.w6Stage d ν then
@@ -114,12 +114,12 @@ def psi (d : W6SeqData) (ν : ℕ) (S : W6State) (ξ : Fin 2 → ℝ) :
     (W6Stage.stageStepHyp h.1.1 h.1.2 h.2).hyp.core.stepPsi ξ
   else fun _ => 0
 
-theorem psi_eq {S : W6State} {ν : ℕ} (hd : Std d) (h : S.w6Stage d ν) :
-    S.psi d ν = fun ξ =>
+theorem stepPsiN_eq {S : W6State} {ν : ℕ} (hd : Std d) (h : S.w6Stage d ν) :
+    S.stepPsiN d ν = fun ξ =>
       haveI := W6Stage.factRPos hd.1 ν
       (W6Stage.stageStepHyp hd.1 hd.2 h).hyp.core.stepPsi ξ := by
   funext ξ
-  unfold psi
+  unfold stepPsiN
   rw [dite_eq_left ⟨hd, h⟩]
 
 end W6State
@@ -130,7 +130,7 @@ def w6PhiK (d : W6SeqData) (S0 : W6State) (ν : ℕ) (ξ : Fin 2 → ℝ) (w : K
 
 /-- `Ψ_{ν+1}` along the iteration started at `S₀`, on `KamPhase` (`p_+`-representatives). -/
 def w6PsiK (d : W6SeqData) (S0 : W6State) (ν : ℕ) (ξ : Fin 2 → ℝ) (w : KamPhase) : KamPhase :=
-  StepPhase.toK ((w6Seq d S0 ν).psi d ν ξ (StepPhase.ofK w))
+  StepPhase.toK ((w6Seq d S0 ν).stepPsiN d ν ξ (StepPhase.ofK w))
 
 /-- The open neighbourhood `D(s_ν - 2σ_ν, r_ν/2)` of `D_{ν+1}` on which `Φ_{ν+1}` is holomorphic. -/
 def w6Ubig (d : W6SeqData) (ν : ℕ) : Set KamPhase :=
@@ -164,7 +164,7 @@ theorem w6PsiK_eq (hd : W6State.Std d) (hs : (w6Seq d S0 ν).w6Stage d ν) :
       StepPhase.toK ((W6Stage.stageStepHyp hd.1 hd.2 hs).hyp.core.stepPsi ξ
         (StepPhase.ofK w)) := by
   unfold w6PsiK
-  rw [W6State.psi_eq hd hs]
+  rw [W6State.stepPsiN_eq hd hs]
 
 /-- **The factor `Φ_{ν+1}` on `KamPhase`** (steps `il-tr`, `c-dom`): for `ξ ∈ Π_ν`, `Φ_{ν+1}` and
 `Ψ_{ν+1}` are holomorphic on `U_ν = D(s_ν - 2σ_ν, r_ν/2) ⊇ D_{ν+1}`, and on `D_{ν+1}`:
