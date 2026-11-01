@@ -23,9 +23,10 @@ Branch `v2-energy`, based on `origin/main` at `ac143010`. Not pushed, not merged
 
 ## Files
 
-No existing `.lean` file is edited. `git diff --diff-filter=MDR --name-only origin/main HEAD -- '*.lean'` lists only the
-generated roots `KAM/Root/CertificateSharp.lean` and `KAM/Root/Iso.lean`, so the rule tightened mid-task is met. Nothing
-imports the new modules except the new engines and tests.
+No existing `.lean` file is edited. `git diff --diff-filter=MDR --name-only origin/main...HEAD -- '*.lean'` (three dots:
+main has moved on since `ac143010`, and a two-dot diff also lists main's new work) gives only the generated roots
+`KAM/Root/CertificateSharp.lean` and `KAM/Root/Iso.lean`, so the rule tightened mid-task is met. Nothing imports the new
+modules except the new engines and tests.
 
 **Theorem side** (`KAM/Iso/Sharp2/`):
 
