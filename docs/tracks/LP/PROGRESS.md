@@ -21,7 +21,7 @@ subagents for paper-level reviews only.
 
 ## Packages (roadmap §3 rows)
 
-Prover slots: 2 (root-b8: the third slot returned to W). Worktrees: thr (audits), mom, geomod,
+Prover slots: 1 (root-b8: the second slot went to W once LP3's proofs were done; ask back only if draft-7 repairs would stall draft 8). Worktrees: thr (audits), mom, geomod,
 src (4th, created 05:30 for the third slot).
 
 
@@ -161,3 +161,4 @@ Note (08:5x UTC, root-b8): log and table stamps written between about 06:00 and 
 2–3 hours ahead; they are now the commit times of the lines (git blame). Entries before 06:00 are unchanged. From
 now on every stamp is taken from `date -u +%H:%M`.
 - 2026-11-01 08:52 UTC: LP-W4E LANDED (main 3114e48a, per root-b8): **LP2 on main**. W5A landing pending confirmation. W5B/W5C staging (builds running); the LP lane takes the draft-7 statement audit first when LP-FREEZE7 is ready, otherwise W5B then W5C.
+- 2026-11-01 08:52 UTC: closed finished auditor sessions w4c/w4d/w4e/w5a (reports committed); policy: close each auditor once its verdict is recorded. LP's second prover slot released to W (root-b8); LP keeps one slot (LP-FREEZE7, then draft 8).
