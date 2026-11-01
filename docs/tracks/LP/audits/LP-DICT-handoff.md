@@ -1,7 +1,7 @@
 # LP-DICT handoff (track LP, non-frozen)
 
 ## Files (new)
-- `KAM/Planetary/StrongAMD/PlanarDictionary.lean` (231 lines): Part A, MAIN L7.
+- `KAM/Planetary/StrongAMD/PlanarDictionary.lean` (219 lines): Part A, MAIN L7.
 - `KAM/Planetary/StrongAMD/NonresonantAdapterRescale.lean` (246): Part B items 5–6.
 - `KAM/Planetary/StrongAMD/NonresonantAdapter.lean` (164): Part B items 7–9 (imports `Exponential/Lift.lean`,
   `Partial/Nonresonant.lean`; no frozen theorem anchor, no provider).
