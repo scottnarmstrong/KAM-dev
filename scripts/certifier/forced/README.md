@@ -23,7 +23,7 @@ reports and witnesses in `scripts/certifier/fixtures/forced-toy/`.
 | `forced_xlang.py` | cross-language agreement (52 comparisons for Tiny, Micro, TinyC2; exit status 0 iff all agree) |
 | `forced_layout.py` | lays the generated full modules out: a cheap default-build subset and the opt-in `kernel-tests/CertificateSharp/V2/ForcedRoutes.lean` |
 | `forced_profile.py TAG [--spec JSON\|@FILE]` | the `route_select.py` profile `forced_<tag>` of a model spec: err and product pairs against the truncation `L = prune_digits` (mirror only, no Lean) |
-| `forced_diag.py` | the named failure lines (`FAIL route=… check=…`) printed by `forced_build.py`, `forced_routes.py` and `route_select.py` on a failure path only |
+| `forced_diag.py [--xlang TAG]` | the named failure lines (`FAIL route=… check=…`) printed by `forced_build.py`, `forced_routes.py` and `route_select.py` on a failure path only; the exact mirror of every clause of `frozenBCore` (`finalBF` included) that `forced_routes.py --frozen` checks before writing; `--xlang` compares that mirror with the compiled Lean on `<TAG>Routes` |
 
 Layout (orchestrator ruling, V2-TOOLS-FIX: default modules of a few seconds each):
 * default build: `Format`, `Lemmas`; `Micro` (the passing certificate: `MicroChecksA/B`, `MicroGram`,

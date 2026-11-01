@@ -193,7 +193,7 @@ def thresholds(prof, rho, kps=(1, 2, 3), with_B=True, log=print):
         out["B.refined.classical"] = dict(route_B(prof, p, box, False), kind="exact")
     refs = [v for k, v in out.items() if k.startswith("A.refined") and "estar" in v]
     if not refs:        # V2-PUBLIC #3: the estimates scale the best refined threshold; say why they are missing
-        log("  rho %-7s no A.refined route produced a threshold (errors above): A.L8' and l1-entry skipped" % rho)
+        log("  rho %-7s no A.refined route produced a threshold (errors below): A.L8' and l1-entry skipped" % rho)
     else:
         best_ref = max(refs, key=lambda v: v["estar"])
         out["A.L8'"] = dict(estar=best_ref["estar"] * L8_FACTOR, kind="estimate", sites=best_ref.get("sites", []),

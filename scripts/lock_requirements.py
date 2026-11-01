@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""Rewrite the hashes of scripts/requirements.txt from PyPI (the pinned versions are the input).
+"""Rewrite the hashes of the producer tools' requirement files from PyPI (the pinned versions are the input).
 
     python3 -I scripts/lock_requirements.py            # rewrite the --hash lines for the pinned versions
     python3 -I scripts/lock_requirements.py --check    # exit 1 if a hash list differs from PyPI's
 
-scripts/requirements.txt is the one manifest of the producer tools' third-party packages: every package pinned
-with `==` and every file PyPI publishes for that version listed with its sha256, so `pip install
+scripts/requirements.txt is the manifest of the producer tools' third-party packages (numpy, mpmath);
+scripts/requirements-scipy.txt adds the optional scipy (it includes the core file with `-r`).  Every package is
+pinned with `==` and every file PyPI publishes for that version is listed with its sha256, so `pip install
 --require-hashes` installs exactly these artifacts on any platform PyPI serves.  To move a pin, edit its version
-line and run this script; nothing else in the file changes.  It needs network access to pypi.org.
+line and run this script; nothing else in the files changes.  It needs network access to pypi.org.
 """
 import json
 import os
@@ -16,7 +17,7 @@ import sys
 import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-REQ = os.path.join(HERE, "requirements.txt")
+REQS = [os.path.join(HERE, f) for f in ("requirements.txt", "requirements-scipy.txt")]
 PIN = re.compile(r"^([A-Za-z0-9_.-]+)==([A-Za-z0-9_.+-]+)")
 
 
@@ -48,19 +49,22 @@ def render(lines):
 
 
 def main():
-    with open(REQ, encoding="utf-8") as fh:
-        cur = fh.read().splitlines()
-    new = render(cur)
-    if "--check" in sys.argv:
-        if new != cur:
-            print("lock_requirements: scripts/requirements.txt differs from PyPI's hashes for its pins")
-            return 1
-        print("lock_requirements: scripts/requirements.txt matches PyPI")
-        return 0
-    with open(REQ, "w", encoding="utf-8") as fh:
-        fh.write("\n".join(new) + "\n")
-    print("wrote scripts/requirements.txt")
-    return 0
+    bad = 0
+    for req in REQS:
+        name = "scripts/" + os.path.basename(req)
+        with open(req, encoding="utf-8") as fh:
+            cur = fh.read().splitlines()
+        new = render(cur)
+        if "--check" in sys.argv:
+            ok = new == cur
+            bad += not ok
+            print("lock_requirements: %s %s" % (name, "matches PyPI" if ok else
+                                                "differs from PyPI's hashes for its pins"))
+            continue
+        with open(req, "w", encoding="utf-8") as fh:
+            fh.write("\n".join(new) + "\n")
+        print("wrote", name)
+    return 1 if bad else 0
 
 
 if __name__ == "__main__":

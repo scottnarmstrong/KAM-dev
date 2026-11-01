@@ -1,5 +1,10 @@
 # Handoff V2-PUBLIC: a reproducible public workflow for the v2 certifier (improvement #8)
 
+**Superseded in part by [V2-PUBLIC-FIX](V2-PUBLIC-FIX.md)** (AUDIT-V2-PUBLIC-1 and the owner's decisions:
+the complete route-B pre-check, the clause-by-clause diagnostics, `Micro.real_torus` with the torus location,
+SHA-pinned actions and a checksummed elan, and scipy split into `scripts/requirements-scipy.txt`). Rows
+corrected in place are marked *(FIX)*.
+
 Worker: V2-PUBLIC. Branch `v2-public` (from `origin/main` `01d36418`), worktree
 `/home/scott/KAM-dev-worktrees/v2-public`. Brief: `/home/scott/kam-tools/briefs/V2-PUBLIC.md`. Source:
 [CERTIFIER-V2-IMPROVEMENTS §8](../design/CERTIFIER-V2-IMPROVEMENTS.md#8-provide-a-reproducible-public-workflow).
@@ -28,7 +33,7 @@ New:
 
 | File | Content |
 |---|---|
-| `scripts/requirements.txt` | the one manifest: `numpy==2.5.3`, `mpmath==1.3.0`, `scipy==1.18.1`, each with every sha256 PyPI publishes (129 hashes) |
+| `scripts/requirements.txt` | the core manifest *(FIX)*: `numpy==2.5.3`, `mpmath==1.3.0`, each with every sha256 PyPI publishes (68 hashes); `scripts/requirements-scipy.txt` adds the optional `scipy==1.18.1` (61 hashes) |
 | `scripts/lock_requirements.py` | rewrites / `--check`s those hashes from PyPI for the pinned versions |
 | `scripts/setup_python_env.sh` | one-command setup: venv (default `.venv/`, git-ignored), `pip install --require-hashes --only-binary=:all:`, prints versions |
 | `scripts/certifier/forced/forced_profile.py` | the `route_select.py` profile `forced_<tag>` of a forced-toy model spec (err and product pairs against `L = prune_digits`, mirror only) |
@@ -46,7 +51,7 @@ Existing files changed (all additive; outputs on success unchanged, checked belo
 | File | Change |
 |---|---|
 | `scripts/certifier/forced/forced_build.py` | +3: on a failing landed base, FAIL lines before the existing assert |
-| `scripts/certifier/forced/forced_routes.py` | `--frozen`: pre-checks sharp, frozen A and frozen B and, if any fails, prints the three verdicts and exits 1 before writing. Before, a failing A or B crashed with a traceback, and a failing sharp route wrote a module the kernel rejects. Refined A: FAIL lines before the existing assert. `--B`: FAIL lines and exit 1 (before: an assert, or a `TypeError` on `None`) |
+| `scripts/certifier/forced/forced_routes.py` | `--frozen` *(FIX)*: evaluates every clause of `sharpTest`, `frozenCore` and `frozenBCore` (with `finalBF`) in the exact mirrors and, if one fails, prints a line per clause and exits 1 before writing. Before, a failing A or B crashed with a traceback, and a failing sharp route wrote a module the kernel rejects. Refined A: FAIL lines before the existing assert. `--B`: FAIL lines and exit 1 (before: an assert, or a `TypeError` on `None`) |
 | `scripts/certifier/route_select.py` | `why_none`: a route-by-route explanation when no exact candidate or no sharp fallback is admissible; a guard printing why A.L8′ and l1-entry are skipped when no refined A threshold exists (before: `ValueError` from `max()`) |
 | `scripts/certifier/forced/README.md` | rows for the two new scripts, a quickstart pointer, xlang count 31 → 52 (stale) |
 | `.gitignore` | `/.venv/` |
@@ -61,8 +66,11 @@ file owned by kamx-v2fix, kamx-conf or kamx-certside.
 1. **Dependencies.** An AST scan of the producer tools' transitive import closure
    (`scripts/certifier`, `…/forced`, `scripts/apost_sharp`, `scripts/packed`, and the 20
    `scripts/spin_orbit` modules they import; 89 files) finds three third-party packages. **numpy** and
-   **mpmath** are used directly. **scipy** is reached only lazily: `lunar_oracle.py` and
-   `measure_residual.py` call `rot_build.recompute_E`, which uses `hpsolve`, then `dsolve` (GMRES). Two
+   **mpmath** are used directly. **scipy** *(FIX: corrected)* is imported only by
+   `scripts/spin_orbit/dsolve.py` (GMRES), which `hpsolve` imports; among the producer tools it is reached
+   only through `rot_build.recompute_E`, which `rot_build.build` runs when `newE=True`. No producer tool in
+   scope passes `newE` (only `scripts/spin_orbit/rot_scan.py` does), so none of them needs scipy at run
+   time; `lunar_oracle.py` and `measure_residual.py` import `rot_build` but build with `newE=False`. Two
    lazily imported modules, `lg00_gen` and `lg00_chart` (`structured_b.py`, `route_profiles.py`), live
    only in the lg00 worktrees. I chose `requirements.txt` with every PyPI hash: one file, installable
    with stock pip (`--require-hashes`) on any platform PyPI serves, and no lock tool to install.
@@ -169,19 +177,16 @@ Findings from the measurements:
 
 ## Owner questions
 
-1. **CI triggers.** The workflow runs on `workflow_dispatch` only. Enable `pull_request`, or `push` with a
-   `paths:` filter (`scripts/**`, `docs/certifier/**`, `KAM/CertificateSharp/**`) that skips the HQ
-   status commits? The `mirror` and `lint` jobs cost about 2 + 2 minutes per run.
-2. **Public mirror.** Where will the public repository live, and should `.github/workflows/`,
-   `docs/certifier/` and the producer scripts be in the public sync? The quickstart uses no clone URL;
-   it starts at "the repository root of a fresh checkout".
-3. **Supply chain.** Actions are pinned by major tag (`checkout@v4`, `setup-python@v5`, `cache@v4`), and
-   elan comes from the installer on its `master` branch. Pin them by commit SHA instead?
+1. **CI triggers.** *Decided: manual only (`workflow_dispatch`).*
+2. *(Removed: KAM-dev itself is the public repository, and the workflow lives in it. The quickstart now
+   starts from `git clone https://github.com/scottnarmstrong/KAM-dev.git`.)*
+3. **Supply chain.** *Decided (V2-PUBLIC-FIX): actions pinned by full commit SHA, checkout without
+   persisted credentials, elan v4.2.4 from its release tarball checked against its sha256.*
 4. **Lean fixtures job.** It needs about 1235 CPU-s of KAM build, the Mathlib clone and cache, and a
    `.lake/build` cache keyed on the Lean sources. Is that acceptable as an opt-in job, and on which runner
    size? The standard 4-vCPU/16-GB runner fits: at most 2.5 GB per Lean process.
-5. **scipy.** Keep it in the one manifest (current choice, as the brief asks), or move it to an optional
-   file for the lunar oracle only, saving 35 MB per install?
+5. **scipy.** *Decided (V2-PUBLIC-FIX): split out into `scripts/requirements-scipy.txt`
+   (`setup_python_env.sh --with-scipy`); the core and the quickstart need only numpy and mpmath.*
 6. **Python range.** The pins need Python ≥ 3.12, and setup warns off 3.13. Pin 3.13 strictly?
 7. **The `Quick` example.** Check it in as a fixture (6 modules, about 28 s in the default build), or
    keep it generated by the user as now? `Micro` and `Micro.real_torus` are the checked-in analogue.

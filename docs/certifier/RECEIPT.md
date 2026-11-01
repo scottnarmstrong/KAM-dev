@@ -71,8 +71,9 @@ this page.
   error of `K∞` at frequency `s∞ ω*` is zero; `H ∘ K∞ = E₀`; `K∞` stays `μ/2` inside the domain with
   `‖DK∞‖ ≤ σK − μ/2`; `‖K∞ − K‖ ≤ disp` on the strip; and `‖s∞ ω* − s ω*‖ ≤ disp`.
 * The physical theorems attached to the same torus, by name: real model torus
-  (`CertifiedTorusAt.isRealModelTorus`), flow torus and invariance (`IsPhysicalFlowTorus`,
-  `isInvariantSet`), graph over the angles, and observable bounds.
+  (`CertifiedTorusAt.isRealModelTorus`), its location next to the certificate's real torus
+  (`CertifiedTorusAt.norm_realRestriction_sub_le`: `‖k θ − Re K(ιθ)‖ ≤ disp`), flow torus and invariance
+  (`IsPhysicalFlowTorus`, `isInvariantSet`), graph over the angles, and observable bounds.
 
 ### 6. Axioms and guards
 
@@ -126,10 +127,10 @@ checked-in analogue is `Micro` (`MicroRoutes.lean`, `MicroReading.lean`).
 | Field | Value |
 |---|---|
 | Application | forced-pendulum toy `Quick`: an invariant torus of a periodically forced pendulum with two interacting modes |
-| Repository | KAM, branch `v2-public`; producer at `39110bc34d8387113a9b4450ff19e08407f111ee` (unchanged up to the commit of this page) |
+| Repository | KAM-dev (github.com/scottnarmstrong/KAM-dev), branch `v2-public`; certificate producer at `39110bc34d8387113a9b4450ff19e08407f111ee` (its output is unchanged up to the commit of this page) |
 | Toolchain | `leanprover/lean4:v4.35.0`; Mathlib `v4.35.0` (`56a005855ea17e0b0958f73ec801ae140b0a1679`) |
 | Library | core `KAM` (modules `KAM.CertificateSharp.V2.Tests.Forced.Quick*`, generated locally, not in the root) |
-| Producer | `scripts/requirements.txt` (numpy 2.5.3, mpmath 1.3.0, scipy 1.18.1; Python 3.13.13); spec `docs/certifier/examples/quick.json` |
+| Producer | `scripts/requirements.txt` (numpy 2.5.3, mpmath 1.3.0; Python 3.13.13); spec `docs/certifier/examples/quick.json` |
 | Date | 1 November 2026 |
 
 ### 1. Model
@@ -178,9 +179,10 @@ checked-in analogue is `Micro` (`MicroRoutes.lean`, `MicroReading.lean`).
   statement.
 * Unfolded as in section 5 of the template, with `σω = 2`, `ρ∞ = 1/800`, `μ = 1/100`, `σK = 103/100`.
 * The real reading `Quick.real_torus` (QUICKSTART step 6, the pattern of the checked-in
-  `Micro.real_torus`) gives an analytic real torus of `realHam cert.H` on `H = 0`, whose lines solve
-  Hamilton's equations, at a frequency `s∞ ω*` that is `(s∞ κ/12, 1)`-Diophantine, with
-  `|s∞ − s| ‖ω*‖ ≤ 10⁻³`.
+  `Micro.real_torus`) gives an analytic real torus `k` of `realHam cert.H` on `H = 0`, whose lines solve
+  Hamilton's equations. It lies within `10⁻³` of the certificate's real torus at every real angle
+  (`‖k θ − realRestriction cert.K θ‖ ≤ disp`). Its frequency `s∞ ω*` has `1 < s∞ < 2` and
+  `|s∞ − s| ‖ω*‖ ≤ 10⁻³`, and is `(s∞ κ/12, 1)`-Diophantine.
 
 ### 6. Axioms and guards
 

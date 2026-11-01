@@ -574,9 +574,10 @@ def main_frozen(tag):
         A = None
     B = FW.route_B(c, tag, None, frozen=True)
     p = dict(c.params)
-    if A is None or B is None or not SQ.sharpTest(p) or not p["err"] < B["estar"]:
-        # V2-PUBLIC #3: the module proves all three routes, so stop before writing one the kernel rejects
-        import forced_diag as DG
+    import forced_diag as DG
+    # V2-PUBLIC #3: the module proves all three routes; every clause of sharpTest, frozenCore (frozen_A asserts
+    # it) and frozenBCore (finalBF included) is checked in the exact mirror before anything is written
+    if A is None or B is None or not SQ.sharpTest(p) or not DG.frozenB_lines(c, B)[0]:
         lines = DG.sharp_lines(p)[1] + DG.frozenA_lines(c)[1] + DG.frozenB_lines(c, B)[1]
         DG.emit(lines + ["forced_routes: %s --frozen proves the sharp, frozen-A and frozen-B routes in one module "
                          "and needs all three; nothing written" % tag])

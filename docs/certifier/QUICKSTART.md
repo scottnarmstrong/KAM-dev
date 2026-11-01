@@ -15,19 +15,24 @@ the kernel accepts, under the axioms it prints (step 6).
 
 | What | Command | Cost |
 |---|---|---|
+| The repository (public) | `git clone https://github.com/scottnarmstrong/KAM-dev.git && cd KAM-dev` | not measured here |
 | Lean toolchain manager | `curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \| sh -s -- -y --default-toolchain none` | not measured here; the toolchain named in `lean-toolchain` is fetched on first use |
-| Pinned Python tools (≥ 3.12, tested 3.13) | `scripts/setup_python_env.sh && . .venv/bin/activate` | measured: 6 s with a warm pip cache; 52.5 MB of wheels (Linux x86-64); 225 MB on disk |
+| Pinned Python tools (≥ 3.12, tested 3.13) | `scripts/setup_python_env.sh && . .venv/bin/activate` | measured: a few seconds with a warm pip cache; 17.2 MB of wheels (Linux x86-64); 86 MB on disk |
 | Mathlib build cache | `lake exe cache get` | not measured here (the cache was present); clones the dependencies, then downloads Mathlib's build, 6.7 GB unpacked |
 | The checker and a reference certificate | `nice -n 5 lake build KAM.CertificateSharp.V2.Tests.Forced.MicroReading` | measured per module: 421 KAM modules from scratch, 1150 CPU-s in total, 166–177 s critical path; about 3 min on 16 threads and 5–6 min on 4 cores (simulated from per-module times); at most 2.5 GB per Lean process |
 
 `scripts/setup_python_env.sh` creates `.venv/` (git-ignored) and installs exactly the files listed in
-`scripts/requirements.txt`: numpy 2.5.3, mpmath 1.3.0 and scipy 1.18.1, each with every sha256 PyPI
-publishes for it (`--require-hashes`, wheels only). Expected last lines:
+`scripts/requirements.txt`: numpy 2.5.3 and mpmath 1.3.0, each with every sha256 PyPI publishes for it
+(`--require-hashes`, wheels only). Expected last lines:
 
 ```
-python 3.13.13, numpy 2.5.3, mpmath 1.3.0, scipy 1.18.1
+python 3.13.13, numpy 2.5.3, mpmath 1.3.0
 environment ready: .../.venv (activate with: . .../.venv/bin/activate)
 ```
+
+The quickstart needs nothing more. `scripts/setup_python_env.sh --with-scipy` installs
+`scripts/requirements-scipy.txt` instead: the same pins plus scipy 1.18.1, needed only by
+`scripts/spin_orbit/dsolve.py` (the spin-orbit double-precision solver).
 
 The last setup command compiles the part of the library that the certifier needs and checks the reference
 toy `Micro` in the kernel (`Micro.sharp_torus`, `Micro.real_torus`). A plain `lake build` would compile the
@@ -187,17 +192,24 @@ sub-check) under `KAM/CertificateSharp/V2/Tests/Forced/`. It also writes the rep
 frozen routes A and B, and writes `QuickFreq` (the frequency enclosure `freq` and the Diophantine premise
 `dio`) and `QuickRoutes` (the three routes and their certified tori).
 
-**When a step fails**, it names the route, the check and the shortfall, and writes nothing that the kernel
-would reject. For example, `forced_routes.py Tiny --frozen` (Tiny's err is above all three thresholds)
-prints:
+**When a step fails**, it names the route, the check and the shortfall. Before writing anything,
+`forced_routes.py --frozen` evaluates every clause of the three route tests in their exact mirrors:
+`sharpTest`, `frozenCore` (route A), and `frozenBCore` with its final comparisons `finalBF` (route B). If
+one fails it writes nothing. The mirrors are untrusted; their agreement with the Lean checker is tested in
+CI (`forced_xlang.py`, and `forced_diag.py --xlang Micro` for route B). For example,
+`forced_routes.py Tiny --frozen` (Tiny's err is above all three thresholds) prints one line per clause,
+here with its PASS lines omitted:
 
 ```
 FAIL route=sharp check=sharpTest.smallness: err 4.1e-12, threshold e* 2.84e-18, log10(err/e*) +6.16
-PASS route=sharp check=sharpTest.displacement: disp 0.001, needed 0.000237 (= 5.79e+07 err)
-FAIL route=A.frozen check=frozenCore.final: X* 0.0467, err 4.1e-12, threshold e* 8.45e-13, log10(err/e*) +0.69
+FAIL route=A.frozen check=frozenCore.final.smallness: X* 0.0467, err 4.1e-12, threshold e* 8.45e-13, log10(err/e*) +0.69
 FAIL route=B.frozen check=finalB.smallness: X* 2.53e-05, err 4.1e-12, threshold e* 5.44e-13, log10(err/e*) +0.88
 forced_routes: Tiny --frozen proves the sharp, frozen-A and frozen-B routes in one module and needs all three; nothing written
 ```
+
+The other clauses print as, for example,
+`PASS route=B.frozen check=finalB.displacement: max(c2Q, c3Q) err <= disp γ²ρ^2τ: disp 0.001, needed 1.11e-06`
+and `PASS route=A.frozen check=frozenCore.final.sigma_omega: disp 0.001 < (σω - s) |box|_lo 1`.
 
 A certificate that fails a landed sub-check in `forced_build.py` prints one line per sub-check before the
 assertion, for example
@@ -229,7 +241,7 @@ scripts/gen_root_imports.py`. Delete them afterwards, or add them to the library
 ## 6. Read the result
 
 Write this to a scratch file outside the repository, for example `/tmp/QuickReading.lean`, and run
-`lake env lean /tmp/QuickReading.lean` (3.5 s, 3.6 GB):
+`lake env lean /tmp/QuickReading.lean` (3.5–6.7 s, 3.6 GB):
 
 ```lean
 import KAM.CertificateSharp.V2.Tests.Forced.QuickRoutes
@@ -243,12 +255,15 @@ open KAM KAM.Certificate KAM.Application KAM.CertificateSharp.V2.Forced
 /-- The real reading of `Quick.sharp_torus` (the pattern of `Micro.real_torus`, MicroReading.lean). -/
 theorem Quick.real_torus : ∃ (k : (Fin 2 → ℝ) → (Fin 2 → ℝ) × (Fin 2 → ℝ)) (sinf : ℝ),
     IsRealModelTorus (realHam Quick.cert.H) (sinf • Quick.ωstar) (Quick.cert.params.E0 : ℝ) k ∧
+    (∀ θ, ‖k θ - realRestriction Quick.cert.K θ‖ ≤ (Quick.cert.params.disp : ℝ)) ∧
+    1 < sinf ∧ sinf < (Quick.cert.params.σω : ℝ) ∧
     |sinf - (Quick.cert.params.s : ℝ)| * ‖Quick.ωstar‖ ≤ (Quick.cert.params.disp : ℝ) ∧
     IsDiophantine (sinf * (Quick.cert.params.γ : ℝ)) (Quick.cert.params.tau : ℝ)
       (sinf • Quick.ωstar) := by
   obtain ⟨Kinf, sinf, hT⟩ := (certifiedTorus_iff Quick.cert Quick.ωstar).1 Quick.sharp_torus
-  exact ⟨_, sinf, hT.isRealModelTorus Quick.static_ok
-    (isRealHolo_of_checkHamBounds Quick.static_ok Quick.hamBounds_ok), hT.abs_sub_mul_norm_le,
+  exact ⟨realRestriction Kinf, sinf, hT.isRealModelTorus Quick.static_ok
+    (isRealHolo_of_checkHamBounds Quick.static_ok Quick.hamBounds_ok),
+    hT.norm_realRestriction_sub_le Quick.static_ok, hT.1, hT.2.1, hT.abs_sub_mul_norm_le,
     hT.isDiophantine Quick.dio⟩
 
 #print axioms Quick.real_torus
@@ -281,8 +296,10 @@ strip, and `‖s∞ ω* − s ω*‖ ≤ 10⁻³`. Here `ω* = κ (ν₋(10) −
 **What it says about the model.** `Quick.real_torus` reads it in the real coordinates `(θ, I) ∈ ℝ² × ℝ²`
 through the application adapters (`KAM/Application/`). There is an analytic map `k` with
 `k(θ + m) = k(θ) + (m, 0)` for integer `m`. Each line `t ↦ k(θ + t s∞ ω*)` solves Hamilton's equations of
-`H = J + p²/2 + 3·10⁻¹² cos 2πθ₀ + 10⁻¹² cos 2π(θ₀ + θ₁)`, and `H ∘ k = 0`. The frequency `s∞ ω*` is
-Diophantine with constants `(s∞ κ/12, 1)`. For the forced pendulum
+`H = J + p²/2 + 3·10⁻¹² cos 2πθ₀ + 10⁻¹² cos 2π(θ₀ + θ₁)`, and `H ∘ k = 0`. The torus is located:
+`‖k(θ) − Re K(θ)‖ ≤ disp = 10⁻³` at every real angle, where `K` is the certificate's own numerical torus
+(`realRestriction cert.K`, the data in `QuickData`). The frequency `s∞ ω*` has `1 < s∞ < 2` and
+`|s∞ − s| ‖ω*‖ ≤ 10⁻³`, and it is Diophantine with constants `(s∞ κ/12, 1)`. For the forced pendulum
 `θ₀'' = 2π [3·10⁻¹² sin 2πθ₀ + 10⁻¹² sin 2π(θ₀ + t)]`, this is an invariant two-dimensional torus in the
 extended phase space `(θ₀ mod 1, p, t mod 1)`, filled by quasi-periodic solutions (`J` is fixed by
 `H = 0`). Further adapters give the invariance of the image (`IsPhysicalFlowTorus.isInvariantSet`,
@@ -330,12 +347,14 @@ validity.
 
 ## 9. Continuous integration
 
-`.github/workflows/certifier-ci.yml` runs only on demand (`workflow_dispatch`). It has three jobs, and
-each job is one command that runs the same way locally (`python3 -I scripts/ci_checks.py --list` names
-the checks):
+`.github/workflows/certifier-ci.yml` runs only on demand (`workflow_dispatch`, the owner's decision). Its
+actions are pinned by full commit SHA, `checkout` keeps no credentials, elan is a fixed release (v4.2.4)
+whose tarball is checked against its sha256 before it runs, and the Python packages are installed with
+`--require-hashes`. It has three jobs, and each job is one command that runs the same way locally
+(`python3 -I scripts/ci_checks.py --list` names the checks):
 
 | Job | Command | Measured here |
 |---|---|---|
-| `mirror` | `python3 -I scripts/ci_checks.py --group mirror` | 83–89 s: route-B and route-B-constant mirrors, hybrid numbers, the v2 adapter, the three-frequency mirror against its Lean literals, `route_select --validate` against its fixtures, forced-toy regeneration, the `forced_micro` profile, and the failure diagnostics |
-| `lint` | `python3 -I scripts/ci_checks.py --group lint` | 113–120 s: `scripts/lint_sources.sh` without its Lean-dependent ABI-hash step, and a check that every third-party import of the producer tools is pinned with hashes |
-| `lean-fixtures` (opt-in) | `lake build` of `Tests/Forced/*` and `Fiber3XLang`, then `--group lean` | step 0's cost plus the Mathlib cache; `forced_xlang` (52 comparisons with the compiled checker) 25 s |
+| `mirror` | `python3 -I scripts/ci_checks.py --group mirror` | 83–124 s (core packages only): route-B and route-B-constant mirrors, hybrid numbers, the v2 adapter, the three-frequency mirror against its Lean literals, `route_select --validate` against its fixtures, forced-toy regeneration, the `forced_micro` profile, and the failure diagnostics |
+| `lint` | `python3 -I scripts/ci_checks.py --group lint` | 113–144 s: `scripts/lint_sources.sh` without its Lean-dependent ABI-hash step, and a check that every third-party import of the producer tools is pinned with hashes (scipy only in the optional file, imported only by `dsolve.py`) |
+| `lean-fixtures` (opt-in) | `lake build` of `Tests/Forced/*` and `Fiber3XLang`, then `--group lean` | step 0's cost plus the Mathlib cache; `forced_xlang` (52 comparisons with the compiled checker) 26 s; `forced_diag.py --xlang Micro` (the route-B pre-check's mirror: `c1Q`, `c2Q`, `c3Q` exactly, `frozenBCore`, and `finalBF`/`finalB` on both sides of each displacement threshold; 10 comparisons) 5 s |

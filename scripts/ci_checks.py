@@ -10,11 +10,12 @@ Groups (the jobs of .github/workflows/certifier-ci.yml; the same command runs th
           frozen anchors, which need the built frozen modules) stubbed out, as guard_mutation_suite.py does, and
           the pin check of scripts/requirements.txt;
   lean    after `lake build` of the light Lean fixtures: the compiled-Lean half of the forced-toy
-          cross-language comparisons (forced_xlang.py).
+          cross-language comparisons (forced_xlang.py) and of the route-B diagnostics mirror
+          (forced_diag.py --xlang Micro).
 Every check prints PASS or FAIL with its wall time; a failing check prints the tail of its output.  The exit
-status is 1 if any check failed.  Checks that regenerate files work in a temporary copy of the inputs they read
-(scripts/ and KAM/Sharp2/), never in the checkout; --keep DIR keeps that copy (and FORCED_WORK, if unset, is
-DIR/work, so the pickles are reusable).
+status is 1 if any check failed.  No check writes into the checkout: checks that regenerate files work in a
+temporary copy of the inputs they read (scripts/ and KAM/Sharp2/), and the stubbed lint runs from memory
+(`sh -c`); --keep DIR keeps that copy (and FORCED_WORK, if unset, is DIR/work, so the pickles are reusable).
 """
 import argparse
 import ast
@@ -34,6 +35,7 @@ FIXF = "scripts/certifier/fixtures/forced-toy"
 FIXR = "scripts/certifier/fixtures/route-select"
 TIMING_KEYS = {"check_seconds", "seconds", "producer_seconds"}
 OUT_OF_TREE = {"lg00_gen", "lg00_chart"}      # LG00 producer modules of the lg00 worktrees, imported lazily
+OPTIONAL = {"scipy": {"scripts/spin_orbit/dsolve.py"}}   # scripts/requirements-scipy.txt: package -> its importers
 PRODUCER_DIRS = ["scripts/certifier", "scripts/certifier/forced", "scripts/apost_sharp", "scripts/packed"]
 
 
@@ -167,13 +169,9 @@ def lint_files(ctx):
     stub, n = re.subn(r'^(\s*)python3 -I "\$project_root/scripts/abi_hashes\.py".*$', r"\1true", text, flags=re.M)
     if n != 1:
         return False, "cannot stub the ABI step: scripts/lint_sources.sh changed shape (%d matches)" % n
-    tmp = os.path.join(ROOT, "scripts", ".ci_lint_sources_noabi.sh")   # beside the original: it finds the root
-    try:
-        with open(tmp, "w", encoding="utf-8") as fh:
-            fh.write(stub)
-        rc, out, err = run(["sh", tmp])
-    finally:
-        os.remove(tmp)
+    # run the stubbed text with $0 set to the original path, from which lint_sources.sh finds the root: nothing is
+    # written into the checkout, and concurrent runs do not collide
+    rc, out, err = run(["sh", "-c", stub, src])
     return rc == 0, out + err
 
 
@@ -205,36 +203,69 @@ def third_party(paths):
     return found, unresolved, len(seen)
 
 
+def pins_of(name):
+    """{package: version} and the set of packages with at least one sha256, of scripts/<name>."""
+    txt = open(os.path.join(ROOT, "scripts", name), encoding="utf-8").read()
+    pins = dict(re.findall(r"^([A-Za-z0-9_.-]+)==(\S+) \\$", txt, flags=re.M))
+    blocks = re.split(r"^(?=[A-Za-z0-9_.-]+==)", txt, flags=re.M)[1:]
+    return pins, {b.split("==")[0] for b in blocks if "--hash=sha256:" in b}, txt
+
+
 def requirements_pins(ctx):
-    """every third-party module imported (transitively) by the producer tools is pinned in scripts/requirements.txt
-    with `==` and at least one sha256 (offline; scripts/lock_requirements.py --check compares with PyPI)."""
+    """every third-party module imported (transitively) by the producer tools is pinned with `==` and at least one
+    sha256: in scripts/requirements.txt, or, for the optional packages, in scripts/requirements-scipy.txt (which
+    includes the core file) and imported only by the modules named in OPTIONAL (offline;
+    scripts/lock_requirements.py --check compares the hashes with PyPI)."""
     roots = [os.path.join(ROOT, d, f) for d in PRODUCER_DIRS for f in sorted(os.listdir(os.path.join(ROOT, d)))
              if f.endswith(".py")]
     found, unresolved, n = third_party(roots)
-    txt = open(os.path.join(ROOT, "scripts", "requirements.txt"), encoding="utf-8").read()
-    pins = dict(re.findall(r"^([A-Za-z0-9_.-]+)==(\S+) \\$", txt, flags=re.M))
-    blocks = re.split(r"^(?=[A-Za-z0-9_.-]+==)", txt, flags=re.M)[1:]
-    hashed = {b.split("==")[0] for b in blocks if "--hash=sha256:" in b}
-    missing = sorted(m for m in found if m not in pins)
-    unhashed = sorted(m for m in pins if m not in hashed)
-    msg = "%d producer modules scanned; third-party: %s; pinned: %s; out-of-tree local modules (lazy): %s" % (
-        n, sorted(found), pins, sorted(unresolved))
+    core, core_h, _ = pins_of("requirements.txt")
+    opt, opt_h, opt_txt = pins_of("requirements-scipy.txt")
+    missing = sorted(m for m in found if m not in core and m not in opt)
+    unhashed = sorted(m for m in core if m not in core_h) + sorted(m for m in opt if m not in opt_h)
+    stray = {m: sorted(set(found[m]) - OPTIONAL.get(m, set())) for m in found if m in opt and m not in core}
+    stray = {m: v for m, v in stray.items() if v}
+    unexpected = sorted(m for m in opt if m in core or m not in OPTIONAL)
+    included = re.search(r"^-r requirements\.txt$", opt_txt, flags=re.M) is not None
+    msg = ("%d producer modules scanned; third-party: %s; core pins: %s; optional pins: %s; out-of-tree local "
+           "modules (lazy): %s" % (n, sorted(found), core, opt, sorted(unresolved)))
     if missing:
         msg += "\nNOT PINNED: %s" % {m: sorted(found[m])[:3] for m in missing}
     if unhashed:
         msg += "\nNO HASH: %s" % unhashed
-    return not missing and not unhashed, msg
+    if stray:
+        msg += "\nOPTIONAL PACKAGE IMPORTED ELSEWHERE (pin it in the core file or extend OPTIONAL): %s" % stray
+    if unexpected:
+        msg += "\nOPTIONAL FILE PINS %s (in the core file too, or not in OPTIONAL)" % unexpected
+    if not included:
+        msg += "\nscripts/requirements-scipy.txt does not include `-r requirements.txt`"
+    return not (missing or unhashed or stray or unexpected) and included, msg
 
 
 # ---------------------------------------------------------------------------------------------- lean
-def forced_xlang(ctx):
+def pickles(ctx):
+    """the producer pickles of Tiny, Micro, TinyC2 in ctx['work'] (forced-regen makes them when missing)."""
     for t in ("Tiny", "Micro", "TinyC2"):
         if not os.path.exists(os.path.join(ctx["work"], "forced_%s.pkl" % t)):
             ok, msg = forced_regen(ctx)
-            if not ok:
-                return False, "forced-regen (for the pickles) failed:\n" + msg
-            break
+            return ok, "" if ok else "forced-regen (for the pickles) failed:\n" + msg
+    return True, ""
+
+
+def forced_xlang(ctx):
+    ok, msg = pickles(ctx)
+    if not ok:
+        return False, msg
     rc, out, err = py("scripts/certifier/forced/forced_xlang.py", env=dict(FORCED_WORK=ctx["work"]), timeout=3600)
+    return rc == 0, out[-3000:] + err[-2000:]
+
+
+def routeB_xlang(ctx):
+    ok, msg = pickles(ctx)
+    if not ok:
+        return False, msg
+    rc, out, err = py("scripts/certifier/forced/forced_diag.py", "--xlang", "Micro",
+                      env=dict(FORCED_WORK=ctx["work"]), timeout=1800)
     return rc == 0, out[-3000:] + err[-2000:]
 
 
@@ -260,6 +291,8 @@ CHECKS = [
      requirements_pins),
     ("forced-xlang", "lean", "forced-toy mirror against the compiled Lean checker (needs the built fixtures)",
      forced_xlang),
+    ("routeB-xlang", "lean", "the --frozen pre-check's route-B mirror (c1Q-c3Q, finalB/F two-sided) against Lean",
+     routeB_xlang),
 ]
 
 
