@@ -17,7 +17,8 @@ import Mathlib.Tactic.Positivity
 Off-frontier, source-faithful infrastructure (W5-AA); the dependency graph is still being built.
 Blueprint label `bpW:w5:action-angle` (v) (the field of `Q̃`).
 
-With `c_j = 3/(2πλ_{j+2})` (`aaCoefC`) and `S(w) = Σ_j c_j z_j \bar z_j` (`aaSfun`, a bounded quadratic
+With `c_j = 3/(2πλ_{j+2})` (`aaCoefC`) and `S(w) = Σ_j c_j z_j \bar z_j` (`aaSfun`, a bounded
+quadratic
 form `½(B(u,u) + B(v,v))`, `aaBq`), `Q̃ = ½⟨Ay,y⟩ + ⟨b,y⟩ S` (`aaQt_eq`). Its field, in
 `p_+ = p+1`-representatives (`aaXQt`), is
 `X_{Q̃} = ((Ay + b S)/(2π), 0, ⟨b,y⟩ β v, -⟨b,y⟩ β u)` with `β_j = c_j (j+2)` the weight-`(p+1)`

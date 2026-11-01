@@ -22,7 +22,8 @@ Blueprint label `bpW:w5:action-angle` (v), step `a-field`.
 `aaDerInv a (p+1)`). Main results:
 
 * `hasFDerivAt_comp_aaMap`: the chain rule `D(G ∘ 𝒜_ξ)(w) W = ϖ_{p+1,p}(D𝒜_ξ(w)⁻¹ X_G(𝒜_ξ w), W)`
-  for `G` with `DG(w') v = Ω(ι X_G(w'), v)` (step `a-field`, via `aaDer_symp` with `(q,q') = (p+1,p)`);
+  for `G` with `DG(w') v = Ω(ι X_G(w'), v)` (step `a-field`, via `aaDer_symp` with
+  `(q,q') = (p+1,p)`);
 * `aaP_isSmoothing_of` (helper on an arbitrary open `V` on which `𝒜_ξ` is defined and maps into
   `B_{ρ₁}`) and the source-facing **`aaP_isSmoothing`** (`a = p = 1`, `P_ξ ∈ 𝒮_{p+1}(D(s,r))` under
   the hypotheses of (ii) and `c_A(t+r²) < ρ₁²`), with field `aaXP`;
@@ -211,7 +212,8 @@ theorem aaP_isSmoothing {s r t : ℝ} (hs : s ≤ 1 / 8) (hr : 0 < r) (ht : 0 < 
     IsSmoothing (p := 1) (pb := 1 + 1) (zero_le_one' ℝ) (by norm_num) (kamDomain s r)
       (aaPfun m hm (zero_le_one' ℝ) (by norm_num : (1 : ℝ) / 2 ≤ 1) ξ)
       (aaXP m hm (zero_le_one' ℝ) (by norm_num : (1 : ℝ) / 2 ≤ 1) ξ) :=
-  aaP_isSmoothing_of (zero_le_one' ℝ) (by norm_num : (1 : ℝ) / 2 ≤ 1) ξ (kamDomain_isOpen s r) fun w hw =>
+  aaP_isSmoothing_of (zero_le_one' ℝ) (by norm_num : (1 : ℝ) / 2 ≤ 1) ξ (kamDomain_isOpen s r)
+    fun w hw =>
     ⟨fun i => lt_trans (by positivity) ((aaMap_domain hs hr ht ξ hξ hre hw).1 i),
       aaMap_mem_birkBall1 m hm hs hr ht hρ₁ ξ hξ hre hw⟩
 

@@ -12,7 +12,8 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 
 /-!
-# The initial perturbation: the size of `X_P` (blueprint-W `bpW:w5:initial`, steps `i-q`, `i-g`, `i-k`)
+# The initial perturbation: the size of `X_P`
+(blueprint-W `bpW:w5:initial`, steps `i-q`, `i-g`, `i-k`)
 
 Off-frontier, source-faithful infrastructure (W5-AA); the dependency graph is still being built.
 Blueprint label `bpW:w5:initial`, steps `i-q`, `i-g`, `i-k`.

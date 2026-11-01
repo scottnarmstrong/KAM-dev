@@ -22,7 +22,8 @@ Blueprint label `bpW:w5:initial` (KP96 §7, Step 3), steps `i-par`, `i-freq`.
   defined and in `B_{ρ₁}` (step `i-par`: `X_{Q̃}` does not depend on `ζ`; the explicit formula).
 * `aaXP_lipschitz`: the Lipschitz constant `4ε_in/ρ_ξ` (Cauchy estimate `lipschitz_of_margin` on
   the `ρ_ξ`-polydisc for `|ξ - ξ'| < ρ_ξ/2`, the trivial bound `2ε_in` otherwise).
-* **`initialPerturbation`**: the proposition (`a = p = 1`): `P_ξ ∈ 𝒮_{p+1}(D(s,r))` is a real periodic
+* **`initialPerturbation`**: the proposition (`a = p = 1`): `P_ξ ∈ 𝒮_{p+1}(D(s,r))` is a real
+  periodic
   family on `Π`, `|X_P|^λ_{r,D(s,r)} ≤ ε_in(1 + 4λ/ρ_ξ)` for every `λ ≥ 0` (as `FamBound`), the
   frequencies `ω⁰, Ω⁰_{j+2}` satisfy `bpW:w4:freq` with the constants of `bpW:w4:wave`, and
   `|ω⁰(ξ) - ω⁰(ξ')| ≤ N_A |ξ - ξ'|`.

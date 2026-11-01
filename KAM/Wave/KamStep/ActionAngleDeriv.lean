@@ -232,7 +232,8 @@ abbrev aaEv (l : BirkIdx) : BirkSpace →L[ℂ] ℂ := lp.evalCLM ℂ (fun _ : B
 
 theorem aaEv_apply (l : BirkIdx) (V : BirkSpace) : aaEv l V = V l := rfl
 
-/-- The `Θ_i`-functional `W ↦ (W_{-i} E_{+,i} - W_i E_{-,i})/(4πi s_i)` (actual coordinates at `q`). -/
+/-- The `Θ_i`-functional `W ↦ (W_{-i} E_{+,i} - W_i E_{-,i})/(4πi s_i)` (actual coordinates at
+`q`). -/
 def aaInvTheta (a q : ℝ) (ξ : Fin 2 → ℂ) (w : KamPhase) (i : Fin 2) : BirkSpace →L[ℂ] ℂ :=
   (aaE w true i / (4 * Real.pi * I * aaS ξ w i * ellWeight a q (modeIdx i))) •
       aaEv (false, modeIdx i) -

@@ -15,7 +15,8 @@ import Mathlib.Tactic.Positivity
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
-`stepTheorem_of_eps0_pos`: under `WaveStepHyp` (step data and the smallness condition) there are the objects
+`stepTheorem_of_eps0_pos`: under `WaveStepHyp` (step data and the smallness condition) there are the
+objects
 `Φ = WaveStepHyp.Phi`, `P_+ = WaveStepHyp.Pplus`, `X_+ = WaveStepHyp.Xplus`,
 `ω_+ = WaveStepHyp.omegaPlus`,
 `Ω_+ = WaveStepHyp.OmegaPlus`, `â₀ = WaveStepHyp.a0` with the clauses

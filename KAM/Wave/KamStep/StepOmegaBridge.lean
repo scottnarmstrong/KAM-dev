@@ -11,7 +11,8 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 
 /-!
-# The new frequencies of the modified step through the `p+1` Taylor family (blueprint-W `bpW:w5:step`)
+# The new frequencies of the modified step through the `p+1` Taylor family
+(blueprint-W `bpW:w5:step`)
 
 Off-frontier, source-faithful infrastructure (W5-STEP-B-FIX, ruling D2 of `W5-STEP-B-audit-1.md`);
 the dependency graph is still being built.

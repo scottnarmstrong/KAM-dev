@@ -52,7 +52,8 @@ theorem continuousOn_jointOfLocLip {F G : Type*} [NormedAddCommGroup F] [NormedA
   refine ⟨min δ₁ (min ρ (ε / (2 * (C + 1)))), by positivity, ?_⟩
   rintro ⟨t, w⟩ ⟨ht, _⟩ hd
   rw [Prod.dist_eq] at hd
-  have hdt : dist t t₀ < δ₁ := lt_of_le_of_lt (le_max_left _ _) (lt_of_lt_of_le hd (min_le_left _ _))
+  have hdt : dist t t₀ < δ₁ :=
+    lt_of_le_of_lt (le_max_left _ _) (lt_of_lt_of_le hd (min_le_left _ _))
   have hdw : dist w w₀ < min ρ (ε / (2 * (C + 1))) :=
     lt_of_le_of_lt (le_max_right _ _) (lt_of_lt_of_le hd (min_le_right _ _))
   have hwρ : w ∈ ball w₀ ρ := lt_of_lt_of_le hdw (min_le_left _ _)

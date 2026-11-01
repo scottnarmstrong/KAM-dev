@@ -21,7 +21,8 @@ Off-frontier, source-faithful infrastructure (W5-AA); the dependency graph is st
 Blueprint label `bpW:w5:action-angle` (i).
 
 For `ξ ∈ ℂ²` and `w = (θ, y, u, v) ∈ 𝒫` (`KamPhase`, normal components in `p`-representatives with
-the Dirichlet labels `j + 2`) with `Re(ξ_i + y_i) > 0`, `𝒜_ξ(w) ∈ 𝔚 = 𝔚_{a,p}` (`BirkSpace`, weighted
+the Dirichlet labels `j + 2`) with `Re(ξ_i + y_i) > 0`, `𝒜_ξ(w) ∈ 𝔚 = 𝔚_{a,p}` (`BirkSpace`,
+weighted
 coordinates at `(a,p)`) is
 `𝒜_ξ(w)_{±i} = √(ξ_i + y_i) e^{∓2πiθ_i}` (`i = 1, 2`), `𝒜_ξ(w)_{±J} = (u_{J-2} ± i v_{J-2})/√2`
 (`J ≥ 3`), `√` the principal branch (`aaSqrt`, external fact `bpW:w5:ext-sqrt`).
@@ -155,7 +156,8 @@ theorem aaNormal_apply (w : KamPhase) (l : BirkIdx) :
     aaNormal w l = (aaShiftFun w.2.2.1 l.2 + birkSgn l * I * aaShiftFun w.2.2.2 l.2) / birkSqrt2 :=
   rfl
 
-/-- The actual tangential coordinate `𝒜_ξ(w)_{±i} = √(ξ_i + y_i) e^{∓2πiθ_i}` (`b = true` is `+i`). -/
+/-- The actual tangential coordinate `𝒜_ξ(w)_{±i} = √(ξ_i + y_i) e^{∓2πiθ_i}`
+(`b = true` is `+i`). -/
 def aaTanCoord (ξ : Fin 2 → ℂ) (w : KamPhase) (b : Bool) (i : Fin 2) : ℂ :=
   aaSqrt (ξ i + w.2.1 i) * cexp (-(birkSgn (b, modeIdx i)) * (2 * Real.pi * I * w.1 i))
 
@@ -379,7 +381,8 @@ theorem aaMap_linearTorus (ξ : Fin 2 → ℝ) (hξ : ∀ i, 0 < ξ i) (θ : Fin
       ((Real.cos (2 * Real.pi * θ i) : ℂ) - birkSgn (b, modeIdx i) * I *
         Real.sin (2 * Real.pi * θ i)) := fun b i =>
     aaTanCoord_eq_trig _ _ b i (hξ i).le (by simp) rfl
-  have hsq : ∀ i : Fin 2, ((Real.sqrt (2 * ξ i) : ℝ) : ℂ) = birkSqrt2 * Real.sqrt (ξ i) := fun i => by
+  have hsq : ∀ i : Fin 2, ((Real.sqrt (2 * ξ i) : ℝ) : ℂ) = birkSqrt2 * Real.sqrt (ξ i) :=
+      fun i => by
     rw [Real.sqrt_mul (by norm_num), birkSqrt2]; push_cast; ring
   refine Prod.ext (lp.ext (funext fun J => ?_)) (lp.ext (funext fun J => ?_))
   · rw [birkZinv_fst_apply, birkReal_apply, complexifyLp_apply]

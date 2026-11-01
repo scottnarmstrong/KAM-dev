@@ -175,7 +175,8 @@ theorem aaConjugacy {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (ξ : Fin 2 �
     set bd : ℂ := aaBdot m hm w.2.1 with hbd
     have hZU : (aaXN m hm ξ w + kamHomEmbed a (p - 1) (p + 1) (by linarith)
         (aaXP m hm ha hp ξ w)).2.2.1 j = aaXNcoef m hm ξ j * w.2.2.2 j +
-          κ * (bd * aaCoefE m hm j * w.2.2.2 j + (V (true, j + 2) + V (false, j + 2)) / birkSqrt2) := by
+          κ * (bd * aaCoefE m hm j * w.2.2.2 j +
+            (V (true, j + 2) + V (false, j + 2)) / birkSqrt2) := by
       simp only [aaXN, aaXP, aaXQt, kamHomEmbed_apply, Prod.snd_add, Prod.fst_add, lp.coeFn_add,
         Pi.add_apply, homEmbed_gen, weightedDiagCLM_apply, aaXNdiag, aaDiagE, lp.coeFn_smul,
         Pi.smul_apply, smul_eq_mul, homEmbedCoef_gen, map_add, ← hV, aaDerInv_u, ← hbd, ← hκ]

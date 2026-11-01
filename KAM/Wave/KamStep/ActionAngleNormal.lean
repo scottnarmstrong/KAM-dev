@@ -275,7 +275,8 @@ theorem aaMap_normalForm {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (ξ : Fin
     congr 1
     rw [hS, ← tsum_mul_left]
     exact tsum_congr fun j => by ring
-  have hK : aaKext m hm ha hp (aaMap a p ξ w) = birkK m hm ha hp ⟨aaMap a p ξ w, h⟩ := by simp [aaKext, h]
+  have hK : aaKext m hm ha hp (aaMap a p ξ w) = birkK m hm ha hp ⟨aaMap a p ξ w, h⟩ := by
+    simp [aaKext, h]
   unfold aaPfun
   rw [hΛ, hG, hN, hQ, hK]
   simp only [aaEnergy, aaOmega0, aaBdot, Fin.sum_univ_two, lamTan_eq_lam]

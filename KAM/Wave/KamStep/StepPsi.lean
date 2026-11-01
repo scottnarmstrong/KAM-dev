@@ -73,7 +73,8 @@ theorem kamDomain_sub_tau {s r : ℝ} {w : KamPhase} (hw : w ∈ kamDomain s r) 
   show |((w - stepTau i).1 j).im| < s
   rw [this]; exact h1 j
 
-theorem stepDomain_sub_tauS {ρ S r' : ℝ} {w : StepPhase ρ} (hw : w ∈ stepDomain ρ S r') (k : Fin 2) :
+theorem stepDomain_sub_tauS {ρ S r' : ℝ} {w : StepPhase ρ} (hw : w ∈ stepDomain ρ S r')
+    (k : Fin 2) :
     w - stepTauS ρ k ∈ stepDomain ρ S r' := kamDomain_sub_tau hw k
 
 /-! ### The concrete bounds in the `p_+` norms -/
