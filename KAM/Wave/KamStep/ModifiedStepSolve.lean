@@ -117,13 +117,13 @@ theorem stepSolveMod_equation (h : HomFreqHyp Par ω Ω M0 Mω MΩ)
     {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (R : HomTaylor_gen a p (p + 1) s)
     (hX : HomFieldBound_gen ha hp (homModPP1 p) r ε R) {w : KamPhase}
     (hw : w.1 ∈ complexStrip 2 (s - σ)) :
-    stepFun ha (homPP hp (homModPP1 p)) R w +
+    waveStepFun ha (homPP hp (homModPP1 p)) R w +
         ((homDN hG (by linarith [h.consts_nonneg.1] : 0 ≤ 1 + M0) (homOmega_le h hξ) (ω ξ)
             (stepToHom w)).comp stepToHom)
           (kamHomEmbed a p pb hpb (stepField ha hp hpb
             (homModSolveTaylor hτ hα hσ hσs (homMod_pb_le hβ0 hβ)
               (homModMultBounds_of hα hβ0 hβ hH hξ) R) w)) =
-      stepFun ha (homPP hp (homModPP1 p)) (homNhatTaylor_gen R) w + homCoeff R.a0 0 := by
+      waveStepFun ha (homPP hp (homModPP1 p)) (homNhatTaylor_gen R) w + homCoeff R.a0 0 := by
   rw [stepNfun_lie hG (by linarith [h.consts_nonneg.1] : 0 ≤ 1 + M0) (homOmega_le h hξ) (ω ξ)
     ha hp hpb]
   have heq := homModLemma_equation_all h hH hβ0 hβ ha hp hpb hp1 hr hτ hα hσ hσs hξ R hX hw w.2.1

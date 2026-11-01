@@ -20,8 +20,9 @@ still being built. Blueprint labels `bpW:w6:freq-lip`, `bpW:w6:exclusion`, `bpW:
 For the data of Lemma `bpW:w6:prep-step` (`H : W6PrepHyp …`, `MeasSetup`) and a starting size
 `ε₀ ∈ [ε^♭_0, γ₁ α̌]`, the wave iteration is `w6Seq` started at `w6Start` with the prep-step outputs
 (Definition `bpW:w6:wave-iteration`). All results here are **conditional helpers** on W5's reality
-clauses `W6StepReal` (unmodified step) and `W6StepRealMod` (modified step), which are not in this
-base; they are not the labels:
+clauses `W6StepReal` (unmodified step) and `W6StepRealMod` (modified step); these clauses hold
+(`w6StepReal_holds`, `w6StepRealMod_holds`), and the unconditional label statements are in
+`KAM.Wave.Iteration.ConvSource` (`w6WaveFamily`, `w6Exclusion`, `w6FinalFreq`):
 
 * `w6WaveFamily_of_stepReal`: the admissible family `(D_ν, ω_ν, Ω_ν, K_ν)` with `D_ν = Π_{ν-1}`
   (`bpW:w6:freq-lip`), constants `ε_ω = 6πγα + 8πε₀`, `ε₁ = 0`, `ε₂ = 3γα + 4ε₀`, `θ` (deviation:

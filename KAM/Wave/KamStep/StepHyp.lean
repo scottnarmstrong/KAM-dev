@@ -14,10 +14,10 @@ import Mathlib.Tactic.Positivity
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
-`StepHyp`: step data and the smallness condition. `ε₀, ε₁` are the two bounds that make up
+`WaveStepHyp`: step data and the smallness condition. `ε₀, ε₁` are the two bounds that make up
 `|X_P|^λ ≤ ε` read as a conjunction (`ε₀ + λ ε₁ ≤ ε`); `ε₀ > 0` (it can always be arranged by
 enlarging `ε₀` when `X_P ≢ 0`, and `ε₀ := ε/2`, `ε₁ := 0` when `X_P = 0`).
-`StepHyp.setup`: the field bounds of `R_ξ = stepTaylorFam` and `F_ξ = stepFTfam`.
+`WaveStepHyp.setup`: the field bounds of `R_ξ = stepTaylorFam` and `F_ξ = stepFTfam`.
 -/
 
 @[expose] public noncomputable section
@@ -27,7 +27,7 @@ namespace KAM.Wave
 open KAM
 
 /-- Step data (non-modified case) and the smallness condition `ε ≤ α σ^t η²/c₀`. -/
-structure StepHyp (a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ : ℝ) (Par : Set (Fin 2 → ℝ))
+structure WaveStepHyp (a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ : ℝ) (Par : Set (Fin 2 → ℝ))
     (ω : (Fin 2 → ℝ) → Fin 2 → ℝ) (Ω : (Fin 2 → ℝ) → ℕ+ → ℝ)
     (P : (Fin 2 → ℝ) → KamPhase → ℂ) (X : (Fin 2 → ℝ) → KamPhase → KamPhase) : Prop where
   ha : 0 ≤ a
@@ -64,9 +64,9 @@ variable {a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ : ℝ} {Par : 
   {ω : (Fin 2 → ℝ) → Fin 2 → ℝ} {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ}
   {P : (Fin 2 → ℝ) → KamPhase → ℂ} {X : (Fin 2 → ℝ) → KamPhase → KamPhase}
 
-namespace StepHyp
+namespace WaveStepHyp
 
-variable (H : StepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
+variable (H : WaveStepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
 include H
 
 theorem ε_pos : 0 < ε := by
@@ -82,7 +82,7 @@ theorem mf_small : stepMF (stepCF τ) (stepExpT τ) α σ ε ≤ σ * η ^ 2 / 1
   stepMF_le_of_small (stepCF_pos H.hτ) H.hα H.hσ H.small
 
 /-- The Taylor family `R_ξ`. -/
-def R : (Fin 2 → ℝ) → HomTaylor_gen a p pb s :=
+protected def R : (Fin 2 → ℝ) → HomTaylor_gen a p pb s :=
   stepTaylorFam H.ha H.hp H.hpb H.hs H.hr Par P X H.hP H.hper H.hb
 
 /-- The solution family `F_ξ`. -/
@@ -160,8 +160,8 @@ theorem M_sum : stepM₀ τ σ α ε₀ + lam * stepM₁ τ σ α ε₀ ε₁ M�
     exact mul_le_mul_of_nonneg_left (by nlinarith [H.hε]) hC
   exact (show stepM₀ τ σ α ε₀ + lam * stepM₁ τ σ α ε₀ ε₁ Mω MΩ ≤ _ from hex).trans (h1.trans hsb)
 
-/-- A `StepHyp` is a `StepCore` (`F` solved with unmodified divisors). -/
-theorem core : StepCore a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ (stepM₀ τ σ α ε₀)
+/-- A `WaveStepHyp` is a `StepCore` (`F` solved with unmodified divisors). -/
+protected theorem core : StepCore a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ (stepM₀ τ σ α ε₀)
     (stepM₁ τ σ α ε₀ ε₁ Mω MΩ) (stepCF τ) (stepExpT τ) Par ω Ω P X H.FT where
   ha := H.ha
   hp := H.hp
@@ -202,6 +202,6 @@ theorem core : StepCore a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ 
     exact stepSolve_equation H.freq H.mel H.ha H.hp H.hpb H.hp1 H.hG H.hr H.hτ H.hα H.hσ H.hσs' hξ
       (H.R ξ) (H.R_field ξ hξ) hw
 
-end StepHyp
+end WaveStepHyp
 
 end KAM.Wave

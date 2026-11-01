@@ -14,8 +14,9 @@ import Mathlib.Tactic.Positivity
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
-`stepField T w = (b/2π, -(1/2π)F_θ, F_v, -F_u)` is the field of `stepFun T` in the weighted
-representatives of `ℓ^N_{a,p_+}`; `stepFun_field` shows `D(stepFun T)(w) W = ϖ(stepField T w, W)`.
+`stepField T w = (b/2π, -(1/2π)F_θ, F_v, -F_u)` is the field of `waveStepFun T` in the weighted
+representatives of `ℓ^N_{a,p_+}`; `stepFun_field` shows
+`D(waveStepFun T)(w) W = ϖ(stepField T w, W)`.
 -/
 
 @[expose] public noncomputable section
@@ -46,11 +47,11 @@ theorem stepPr_uv (ha : 0 ≤ a) (hpp : 0 ≤ p + pb) (T : HomTaylor_gen a p pb 
   ring
 
 /-- **`DF = ϖ(X_F, ·)`** for the polynomial of a Taylor polynomial (`bpW:w5:solve` step `s-class`):
-`stepFun T` is Fréchet differentiable at every point with `θ ∈ T_s`, and its derivative is the
+`waveStepFun T` is Fréchet differentiable at every point with `θ ∈ T_s`, and its derivative is the
 symplectic pairing with `stepField T`. -/
 theorem stepFun_field (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : HomTaylor_gen a p pb s)
     {w : KamPhase} (hw : w.1 ∈ KAM.complexStrip 2 s) :
-    ∃ D : KamPhase →L[ℂ] ℂ, HasFDerivAt (stepFun ha (homPP hp hpb) T) D w ∧ ∀ W : KamPhase,
+    ∃ D : KamPhase →L[ℂ] ℂ, HasFDerivAt (waveStepFun ha (homPP hp hpb) T) D w ∧ ∀ W : KamPhase,
       D W = stepSymp (q := p) (q' := pb) ha (homPP hp hpb) (stepField ha hp hpb T w) W := by
   obtain ⟨D, hD, hDW⟩ := stepFun_hasFDerivAt ha (homPP hp hpb) T hw
   refine ⟨D, hD, fun W => ?_⟩

@@ -24,7 +24,8 @@ For the iteration `S_ν = w6Seq d (w6Start …) ν` of Proposition `bpW:w6:conve
 
 * `w6_uniform_limit`: sequences with increments `≤ C 4^{-n}` converge uniformly, with tail
   `≤ (4/3) C 4^{-n}` (no W5 input);
-* the conditional helpers (hypothesis `W6StepReal`, W5's reality clause; not the label):
+* the conditional helpers (hypothesis `W6StepReal`, W5's reality clause; not the label; the
+  unconditional statements are in `KAM.Wave.Iteration.ConvSource`):
   `w6Seq_Pi_eq_of_stepReal` and `w6ConvParams_of_stepReal` (clause (i): `Π_ν` is W6-PREP's
   `w6PiSeq` of the output frequencies, `Π_{-1} ∖ Π_* = ⋃_ν ⋃_{|k| > K_{ν-1}} R^ν_{kl}`), and
   `w6ConvFreq_of_stepReal` (clause (ii): uniform convergence on `Π_*`, `|ω_* - ω_0| ≤ 8πε₀`,

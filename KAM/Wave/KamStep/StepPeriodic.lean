@@ -16,7 +16,7 @@ import Mathlib.Tactic.Positivity
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
-For `T ∈ 𝒯_s`: `stepFun T` and `stepField T` are invariant under the angle translations
+For `T ∈ 𝒯_s`: `waveStepFun T` and `stepField T` are invariant under the angle translations
 `stepTau k` (components `1`-periodic, hence so are their `θ`-derivatives).
 -/
 
@@ -61,13 +61,13 @@ theorem stepField_add_tau (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : Ho
     fun i => homPartial_periodic T.comp_Q.2.1 i k hw,
     fun i => homPartial_periodic T.comp_Qt.2.1 i k hw]
 
-/-- `stepFun T` is periodic in the angles. -/
+/-- `waveStepFun T` is periodic in the angles. -/
 theorem stepFun_add_tau (ha : 0 ≤ a) (hpp : 0 ≤ p + pb) (T : HomTaylor_gen a p pb s)
     {w : KamPhase} (hw : w.1 ∈ complexStrip 2 s) (k : Fin 2) :
-    stepFun ha hpp T (w + stepTau k) = stepFun ha hpp T w := by
+    waveStepFun ha hpp T (w + stepTau k) = waveStepFun ha hpp T w := by
   have h1 : (w + stepTau k).1 = w.1 + Pi.single k 1 := by simp [stepTau]
   have h2 : (w + stepTau k).2.1 = w.2.1 := by simp [stepTau]
-  simp only [stepFun, h1, h2, stepZ_add_tau, stepZb_add_tau, T.comp_a0.2.1 k _ hw,
+  simp only [waveStepFun, h1, h2, stepZ_add_tau, stepZb_add_tau, T.comp_a0.2.1 k _ hw,
     T.comp_b.2.1 k _ hw, T.comp_cp.2.1 k _ hw, T.comp_cm.2.1 k _ hw, T.comp_P.2.1 k _ hw,
     T.comp_P'.2.1 k _ hw, T.comp_Q.2.1 k _ hw]
 

@@ -31,12 +31,12 @@ namespace KAM.Wave
 
 /-- The coordinate vectors of `ℂ²`. -/
 noncomputable abbrev e0 : Fin 2 → ℂ := Pi.single 0 1
-noncomputable abbrev e1 : Fin 2 → ℂ := Pi.single 1 1
+noncomputable abbrev tcE1 : Fin 2 → ℂ := Pi.single 1 1
 
 variable {S : Set (Fin 2 → ℂ)} {Φ : (Fin 2 → ℂ) → ℂ}
 
 /-- Mixed partials of an analytic function commute. -/
-theorem mixed_symm {G : (Fin 2 → ℂ) → ℂ} (hS : IsOpen S) (hG : AnalyticOnNhd ℂ G S)
+theorem taylorMixed_symm {G : (Fin 2 → ℂ) → ℂ} (hS : IsOpen S) (hG : AnalyticOnNhd ℂ G S)
     (v w : Fin 2 → ℂ) {q : Fin 2 → ℂ} (hq : q ∈ S) :
     fderiv ℂ (fun y => fderiv ℂ G y v) q w = fderiv ℂ (fun y => fderiv ℂ G y w) q v := by
   have h1 := hG.fderiv_of_isOpen hS q hq
@@ -52,7 +52,7 @@ theorem mixed_symm {G : (Fin 2 → ℂ) → ℂ} (hS : IsOpen S) (hG : AnalyticO
   rw [e v, e w]
   simpa using hsym w v
 
-theorem hasDerivAt_line {G : (Fin 2 → ℂ) → ℂ} {q v : Fin 2 → ℂ} {t : ℂ}
+theorem taylorHasDerivAt_line {G : (Fin 2 → ℂ) → ℂ} {q v : Fin 2 → ℂ} {t : ℂ}
     (hG : DifferentiableAt ℂ G (q + t • v)) :
     HasDerivAt (fun s : ℂ => G (q + s • v)) (fderiv ℂ G (q + t • v) v) t := by
   have h1 : HasDerivAt (fun s : ℂ => q + s • v) v t := by
@@ -66,47 +66,47 @@ theorem analyticOnNhd_partial {G : (Fin 2 → ℂ) → ℂ} (hS : IsOpen S) (hG 
 
 theorem hasDerivAt_taylorCoeff_zero (hS : IsOpen S) (hΦ : AnalyticOnNhd ℂ Φ S) (h0 : (0 : Fin 2 →
     ℂ) ∈ S) :
-    HasDerivAt (fun ε : ℂ => taylorCoeff (fun t : ℂ => Φ (t • e0 + ε • e1)) 0)
-      (taylorCoeff (fun t : ℂ => fderiv ℂ Φ (t • e0) e1) 0) 0 := by
-  have h := hasDerivAt_line (G := Φ) (q := 0) (v := e1) (t := 0) (by simpa using (hΦ 0
+    HasDerivAt (fun ε : ℂ => taylorCoeff (fun t : ℂ => Φ (t • e0 + ε • tcE1)) 0)
+      (taylorCoeff (fun t : ℂ => fderiv ℂ Φ (t • e0) tcE1) 0) 0 := by
+  have h := taylorHasDerivAt_line (G := Φ) (q := 0) (v := tcE1) (t := 0) (by simpa using (hΦ 0
       h0).differentiableAt)
   simpa [taylorCoeff] using h
 
 theorem line_eventually_mem (hS : IsOpen S) (h0 : (0 : Fin 2 → ℂ) ∈ S) :
-    ∀ᶠ ε in 𝓝 (0 : ℂ), ε • e1 ∈ S := by
-  have hc : ContinuousAt (fun ε : ℂ => ε • e1) 0 := (continuous_id.smul
+    ∀ᶠ ε in 𝓝 (0 : ℂ), ε • tcE1 ∈ S := by
+  have hc : ContinuousAt (fun ε : ℂ => ε • tcE1) 0 := (continuous_id.smul
       continuous_const).continuousAt
   exact hc.eventually (hS.mem_nhds (by simpa using h0))
 
 theorem hasDerivAt_taylorCoeff_one (hS : IsOpen S) (hΦ : AnalyticOnNhd ℂ Φ S)
     (h0 : (0 : Fin 2 → ℂ) ∈ S) :
-    HasDerivAt (fun ε : ℂ => taylorCoeff (fun t : ℂ => Φ (t • e0 + ε • e1)) 1)
-      (taylorCoeff (fun t : ℂ => fderiv ℂ Φ (t • e0) e1) 1) 0 := by
+    HasDerivAt (fun ε : ℂ => taylorCoeff (fun t : ℂ => Φ (t • e0 + ε • tcE1)) 1)
+      (taylorCoeff (fun t : ℂ => fderiv ℂ Φ (t • e0) tcE1) 1) 0 := by
   have hD1 := analyticOnNhd_partial hS hΦ e0
-  have hD2 := analyticOnNhd_partial hS hΦ e1
+  have hD2 := analyticOnNhd_partial hS hΦ tcE1
   -- α₁(ε) = ∂₀Φ(ε e₁)
-  have hα : ∀ᶠ ε in 𝓝 (0 : ℂ), taylorCoeff (fun t : ℂ => Φ (t • e0 + ε • e1)) 1 =
-      fderiv ℂ Φ (ε • e1) e0 := by
+  have hα : ∀ᶠ ε in 𝓝 (0 : ℂ), taylorCoeff (fun t : ℂ => Φ (t • e0 + ε • tcE1)) 1 =
+      fderiv ℂ Φ (ε • tcE1) e0 := by
     filter_upwards [line_eventually_mem hS h0] with ε hε
     rw [taylorCoeff_one]
-    have := hasDerivAt_line (G := Φ) (q := ε • e1) (v := e0) (t := 0)
+    have := taylorHasDerivAt_line (G := Φ) (q := ε • tcE1) (v := e0) (t := 0)
       (by simpa using (hΦ _ hε).differentiableAt)
-    have e : (fun t : ℂ => Φ (t • e0 + ε • e1)) = fun s : ℂ => Φ (ε • e1 + s • e0) := by
+    have e : (fun t : ℂ => Φ (t • e0 + ε • tcE1)) = fun s : ℂ => Φ (ε • tcE1 + s • e0) := by
       funext t; rw [add_comm]
     rw [e]
     simpa using this.deriv
-  have h1 : HasDerivAt (fun ε : ℂ => fderiv ℂ Φ (ε • e1) e0) (fderiv ℂ (fun y => fderiv ℂ Φ y e0) 0
-      e1) 0 := by
-    have := hasDerivAt_line (G := fun y => fderiv ℂ Φ y e0) (q := 0) (v := e1) (t := 0)
+  have h1 : HasDerivAt (fun ε : ℂ => fderiv ℂ Φ (ε • tcE1) e0)
+      (fderiv ℂ (fun y => fderiv ℂ Φ y e0) 0 tcE1) 0 := by
+    have := taylorHasDerivAt_line (G := fun y => fderiv ℂ Φ y e0) (q := 0) (v := tcE1) (t := 0)
       (by simpa using (hD1 0 h0).differentiableAt)
     simpa using this
-  have hβ : taylorCoeff (fun t : ℂ => fderiv ℂ Φ (t • e0) e1) 1 =
-      fderiv ℂ (fun y => fderiv ℂ Φ y e1) 0 e0 := by
+  have hβ : taylorCoeff (fun t : ℂ => fderiv ℂ Φ (t • e0) tcE1) 1 =
+      fderiv ℂ (fun y => fderiv ℂ Φ y tcE1) 0 e0 := by
     rw [taylorCoeff_one]
-    have := hasDerivAt_line (G := fun y => fderiv ℂ Φ y e1) (q := 0) (v := e0) (t := 0)
+    have := taylorHasDerivAt_line (G := fun y => fderiv ℂ Φ y tcE1) (q := 0) (v := e0) (t := 0)
       (by simpa using (hD2 0 h0).differentiableAt)
     simpa using this.deriv
-  rw [hβ, ← mixed_symm hS hΦ e0 e1 h0]
+  rw [hβ, ← taylorMixed_symm hS hΦ e0 tcE1 h0]
   exact h1.congr_of_eventuallyEq hα
 
 theorem line0_eventually_mem (hS : IsOpen S) (h0 : (0 : Fin 2 → ℂ) ∈ S) :
@@ -120,68 +120,68 @@ theorem taylorCoeff_two {g : ℂ → ℂ} : taylorCoeff g 2 = (2 : ℂ)⁻¹ * d
 
 theorem hasDerivAt_taylorCoeff_two (hS : IsOpen S) (hΦ : AnalyticOnNhd ℂ Φ S)
     (h0 : (0 : Fin 2 → ℂ) ∈ S) :
-    HasDerivAt (fun ε : ℂ => taylorCoeff (fun t : ℂ => Φ (t • e0 + ε • e1)) 2)
-      (taylorCoeff (fun t : ℂ => fderiv ℂ Φ (t • e0) e1) 2) 0 := by
+    HasDerivAt (fun ε : ℂ => taylorCoeff (fun t : ℂ => Φ (t • e0 + ε • tcE1)) 2)
+      (taylorCoeff (fun t : ℂ => fderiv ℂ Φ (t • e0) tcE1) 2) 0 := by
   have hD1 := analyticOnNhd_partial hS hΦ e0
-  have hD2 := analyticOnNhd_partial hS hΦ e1
+  have hD2 := analyticOnNhd_partial hS hΦ tcE1
   have hF1 : AnalyticOnNhd ℂ (fun y => fderiv ℂ (fun z => fderiv ℂ Φ z e0) y e0) S :=
     analyticOnNhd_partial hS hD1 e0
   -- α₂(ε) = ½ ∂₀∂₀Φ(ε e₁)
-  have hα : ∀ᶠ ε in 𝓝 (0 : ℂ), taylorCoeff (fun t : ℂ => Φ (t • e0 + ε • e1)) 2 =
-      (2 : ℂ)⁻¹ * fderiv ℂ (fun z => fderiv ℂ Φ z e0) (ε • e1) e0 := by
+  have hα : ∀ᶠ ε in 𝓝 (0 : ℂ), taylorCoeff (fun t : ℂ => Φ (t • e0 + ε • tcE1)) 2 =
+      (2 : ℂ)⁻¹ * fderiv ℂ (fun z => fderiv ℂ Φ z e0) (ε • tcE1) e0 := by
     filter_upwards [line_eventually_mem hS h0] with ε hε
     rw [taylorCoeff_two]
     congr 1
-    have hin : ∀ᶠ t in 𝓝 (0 : ℂ), t • e0 + ε • e1 ∈ S := by
-      have hc : ContinuousAt (fun t : ℂ => t • e0 + ε • e1) 0 :=
+    have hin : ∀ᶠ t in 𝓝 (0 : ℂ), t • e0 + ε • tcE1 ∈ S := by
+      have hc : ContinuousAt (fun t : ℂ => t • e0 + ε • tcE1) 0 :=
         ((continuous_id.smul continuous_const).add continuous_const).continuousAt
       exact hc.eventually (hS.mem_nhds (by simpa using hε))
-    have hd1 : (deriv fun t : ℂ => Φ (t • e0 + ε • e1)) =ᶠ[𝓝 0]
-        fun t : ℂ => fderiv ℂ Φ (t • e0 + ε • e1) e0 := by
+    have hd1 : (deriv fun t : ℂ => Φ (t • e0 + ε • tcE1)) =ᶠ[𝓝 0]
+        fun t : ℂ => fderiv ℂ Φ (t • e0 + ε • tcE1) e0 := by
       filter_upwards [hin] with t ht
-      have := hasDerivAt_line (G := Φ) (q := ε • e1) (v := e0) (t := t)
+      have := taylorHasDerivAt_line (G := Φ) (q := ε • tcE1) (v := e0) (t := t)
         (by rw [add_comm]; exact (hΦ _ ht).differentiableAt)
-      have e : (fun t : ℂ => Φ (t • e0 + ε • e1)) = fun s : ℂ => Φ (ε • e1 + s • e0) := by
+      have e : (fun t : ℂ => Φ (t • e0 + ε • tcE1)) = fun s : ℂ => Φ (ε • tcE1 + s • e0) := by
         funext t; rw [add_comm]
       rw [e, this.deriv, add_comm]
     rw [hd1.deriv_eq]
-    have := hasDerivAt_line (G := fun z => fderiv ℂ Φ z e0) (q := ε • e1) (v := e0) (t := 0)
+    have := taylorHasDerivAt_line (G := fun z => fderiv ℂ Φ z e0) (q := ε • tcE1) (v := e0) (t := 0)
       (by simpa using (hD1 _ hε).differentiableAt)
-    have e : (fun t : ℂ => fderiv ℂ Φ (t • e0 + ε • e1) e0) =
-        fun s : ℂ => fderiv ℂ Φ (ε • e1 + s • e0) e0 := by
+    have e : (fun t : ℂ => fderiv ℂ Φ (t • e0 + ε • tcE1) e0) =
+        fun s : ℂ => fderiv ℂ Φ (ε • tcE1 + s • e0) e0 := by
       funext t; rw [add_comm]
     rw [e]
     simpa using this.deriv
   have h1 : HasDerivAt (fun ε : ℂ => (2 : ℂ)⁻¹ *
-      fderiv ℂ (fun z => fderiv ℂ Φ z e0) (ε • e1) e0)
-      ((2 : ℂ)⁻¹ * fderiv ℂ (fun y => fderiv ℂ (fun z => fderiv ℂ Φ z e0) y e0) 0 e1) 0 := by
-    have := hasDerivAt_line (G := fun y => fderiv ℂ (fun z => fderiv ℂ Φ z e0) y e0) (q := 0)
-      (v := e1) (t := 0) (by simpa using (hF1 0 h0).differentiableAt)
+      fderiv ℂ (fun z => fderiv ℂ Φ z e0) (ε • tcE1) e0)
+      ((2 : ℂ)⁻¹ * fderiv ℂ (fun y => fderiv ℂ (fun z => fderiv ℂ Φ z e0) y e0) 0 tcE1) 0 := by
+    have := taylorHasDerivAt_line (G := fun y => fderiv ℂ (fun z => fderiv ℂ Φ z e0) y e0) (q := 0)
+      (v := tcE1) (t := 0) (by simpa using (hF1 0 h0).differentiableAt)
     simpa using this.const_mul (2 : ℂ)⁻¹
   -- β₂
-  have hβ : taylorCoeff (fun t : ℂ => fderiv ℂ Φ (t • e0) e1) 2 =
-      (2 : ℂ)⁻¹ * fderiv ℂ (fun y => fderiv ℂ (fun z => fderiv ℂ Φ z e1) y e0) 0 e0 := by
+  have hβ : taylorCoeff (fun t : ℂ => fderiv ℂ Φ (t • e0) tcE1) 2 =
+      (2 : ℂ)⁻¹ * fderiv ℂ (fun y => fderiv ℂ (fun z => fderiv ℂ Φ z tcE1) y e0) 0 e0 := by
     rw [taylorCoeff_two]
     congr 1
-    have hd1 : (deriv fun t : ℂ => fderiv ℂ Φ (t • e0) e1) =ᶠ[𝓝 0]
-        fun t : ℂ => fderiv ℂ (fun z => fderiv ℂ Φ z e1) (t • e0) e0 := by
+    have hd1 : (deriv fun t : ℂ => fderiv ℂ Φ (t • e0) tcE1) =ᶠ[𝓝 0]
+        fun t : ℂ => fderiv ℂ (fun z => fderiv ℂ Φ z tcE1) (t • e0) e0 := by
       filter_upwards [line0_eventually_mem hS h0] with t ht
-      have := hasDerivAt_line (G := fun z => fderiv ℂ Φ z e1) (q := 0) (v := e0) (t := t)
+      have := taylorHasDerivAt_line (G := fun z => fderiv ℂ Φ z tcE1) (q := 0) (v := e0) (t := t)
         (by simpa using (hD2 _ ht).differentiableAt)
       simpa using this.deriv
     rw [hd1.deriv_eq]
-    have hF2 : AnalyticOnNhd ℂ (fun y => fderiv ℂ (fun z => fderiv ℂ Φ z e1) y e0) S :=
+    have hF2 : AnalyticOnNhd ℂ (fun y => fderiv ℂ (fun z => fderiv ℂ Φ z tcE1) y e0) S :=
       analyticOnNhd_partial hS hD2 e0
-    have := hasDerivAt_line (G := fun y => fderiv ℂ (fun z => fderiv ℂ Φ z e1) y e0) (q := 0)
-      (v := e0) (t := 0) (by simpa using (hF2 0 h0).differentiableAt)
+    have := taylorHasDerivAt_line (G := fun y => fderiv ℂ (fun z => fderiv ℂ Φ z tcE1) y e0)
+      (q := 0) (v := e0) (t := 0) (by simpa using (hF2 0 h0).differentiableAt)
     simpa using this.deriv
   -- symmetric identifications
-  have hM : (fun y => fderiv ℂ (fun z => fderiv ℂ Φ z e1) y e0) =ᶠ[𝓝 (0 : Fin 2 → ℂ)]
-      fun y => fderiv ℂ (fun z => fderiv ℂ Φ z e0) y e1 := by
+  have hM : (fun y => fderiv ℂ (fun z => fderiv ℂ Φ z tcE1) y e0) =ᶠ[𝓝 (0 : Fin 2 → ℂ)]
+      fun y => fderiv ℂ (fun z => fderiv ℂ Φ z e0) y tcE1 := by
     filter_upwards [hS.mem_nhds h0] with y hy
-    exact mixed_symm hS hΦ e1 e0 hy
+    exact taylorMixed_symm hS hΦ tcE1 e0 hy
   rw [hβ, hM.fderiv_eq]
-  have hsym := mixed_symm hS hD1 e0 e1 h0
+  have hsym := taylorMixed_symm hS hD1 e0 tcE1 h0
   rw [← hsym]
   exact h1.congr_of_eventuallyEq hα
 
@@ -189,8 +189,8 @@ theorem hasDerivAt_taylorCoeff_two (hS : IsOpen S) (hΦ : AnalyticOnNhd ℂ Φ S
 theorem hasDerivAt_taylorSum_param (hS : IsOpen S) (hΦ : AnalyticOnNhd ℂ Φ S)
     (h0 : (0 : Fin 2 → ℂ) ∈ S) :
     HasDerivAt (fun ε : ℂ => ∑ k ∈ Finset.range 3,
-        taylorCoeff (fun t : ℂ => Φ (t • e0 + ε • e1)) k)
-      (∑ k ∈ Finset.range 3, taylorCoeff (fun t : ℂ => fderiv ℂ Φ (t • e0) e1) k) 0 := by
+        taylorCoeff (fun t : ℂ => Φ (t • e0 + ε • tcE1)) k)
+      (∑ k ∈ Finset.range 3, taylorCoeff (fun t : ℂ => fderiv ℂ Φ (t • e0) tcE1) k) 0 := by
   simp only [Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty, zero_add]
   exact ((hasDerivAt_taylorCoeff_zero hS hΦ h0).add (hasDerivAt_taylorCoeff_one hS hΦ h0)).add
     (hasDerivAt_taylorCoeff_two hS hΦ h0)

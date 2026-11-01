@@ -24,14 +24,15 @@ For the data `d` of Definition `bpW:w6:sequences` with `ε₀ ≤ γ₀ α₀ σ
 * `q_ν ≤ γ₀ 2^{-ν}`, `q_{ν+1} ≤ q_ν/4`;
 * `Φ_{ν+1}` maps `D_{ν+1}` into `D(s_ν - 4σ_ν, 2η_ν r_ν) ⊆ D_ν`;
 * given the conditions with `k = 0` at stage `ν+1` on `Π_{ν+1}` (`W6Mel0`, supplied by `bpW:w6:k0`),
-  all hypotheses of stage `ν+1` hold except the reality of `P_{ν+1}` (`W6StageCore`);
+  all hypotheses of stage `ν+1` hold (`W6Stage`; `W6StageCore` without the reality of `P_{ν+1}`);
 * `|Φ_{ν+1} - id|^{λ_ν} ≤ 2 M_{F,ν}`, `|DΦ_{ν+1} - I|^{λ_ν} ≤ 16 M_{F,ν}/σ_ν ≤ 2^{-ν-2}`;
 * `|ω_{ν+1} - ω_ν| + λ_ν |ω_{ν+1} - ω_ν|^ℒ ≤ 6πε_ν`,
   `sup_j (j+2)^{1/2} (|Ω_{ν+1,j} - Ω_{ν,j}| + λ_ν |·|^ℒ) ≤ 3ε_ν` (W7 index, `normLab j = j + 3`).
 
-The reality of `P_{ν+1}` is W5's clause `bpW:w5:step` (ii) (reality), which is not in this base
-(`stepTheorem_reality`, branch inp-w5r). `W6StepReal` is that clause for the data used here, and
-`w6IterLemma_stage_of_stepReal` (conditional helper) gives the full stage `ν+1` from it.
+The reality of `P_{ν+1}` is W5's clause `bpW:w5:step` (ii) (reality). `W6StepReal` is that clause
+for the data used here; it holds (`w6StepReal_holds`, from `stepTheorem_reality_of_eps0_pos`), and
+`next_stage` gives the full stage `ν+1` (the conditional helper `next_stage_of_stepReal` takes
+`W6StepReal` as a hypothesis).
 -/
 
 @[expose] public noncomputable section
@@ -45,16 +46,20 @@ def W6Mel0 (a : ℝ) (Par : Set (Fin 2 → ℝ)) (Ω : (Fin 2 → ℝ) → ℕ �
   ∀ ξ ∈ Par, ∀ l : ℕ →₀ ℤ, IsLam l → a * japL l / kAk 0 ≤ |linF l (Ω ξ)|
 
 /-- W5's reality clause for `P_+` (blueprint `bpW:w5:step` (ii)), for `a = p = 1`, `p_+ = 3/2`,
-`τ = 24`, `γ_G = w6GamG` (proved in branch inp-w5r as `stepTheorem_reality`; a hypothesis of the
-conditional helpers only). -/
+`τ = 24`, `γ_G = w6GamG`; it holds, `w6StepReal_holds`. -/
 def W6StepReal : Prop :=
   ∀ (s r σ η α lam ε ε₀ ε₁ M0 Mω MΩ : ℝ) (Par : Set (Fin 2 → ℝ)) (ω : (Fin 2 → ℝ) → Fin 2 → ℝ)
     (Ω : (Fin 2 → ℝ) → ℕ+ → ℝ) (P : (Fin 2 → ℝ) → KamPhase → ℂ)
     (X : (Fin 2 → ℝ) → KamPhase → KamPhase)
-    (H : StepHyp 1 1 (3 / 2) s r σ η w6Tau α lam ε ε₀ ε₁ w6GamG M0 Mω MΩ Par ω Ω P X)
+    (H : WaveStepHyp 1 1 (3 / 2) s r σ η w6Tau α lam ε ε₀ ε₁ w6GamG M0 Mω MΩ Par ω Ω P X)
     [Fact (0 < r)],
     ∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r), StepReal (StepPhase.toK w) →
       (H.core.Pplus ξ w).im = 0
+
+/-- `W6StepReal` holds: it is the `P_+` part of W5's reality clause
+(`stepTheorem_reality_of_eps0_pos`, which is stated for `WaveStepHyp`, as `W6StepReal` is). -/
+theorem w6StepReal_holds : W6StepReal :=
+  fun _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ H _ => (stepTheorem_reality_of_eps0_pos H).2
 
 /-- The divisor estimate of step `il-div`: a Melnikov bound at level `a` survives perturbations
 `|ω' - ω| ≤ 6πε`, `|Ω'_j - Ω_j| ≤ 3ε` at level `a'` for `|k| ≤ K` if `24π K^{τ+1} ε ≤ a - a'`. -/
@@ -172,7 +177,7 @@ theorem omN_inc :
       ∀ ξ ∈ Pi, ∀ ζ ∈ Pi,
         ‖(h.omN hd hsmall ξ - ω ξ) - (h.omN hd hsmall ζ - ω ζ)‖ ≤ b₁ * ‖ξ - ζ‖ := by
   have := factRPos hd ν
-  exact (stepTheorem (h.stepHyp hd hsmall)).2.2.2.2.2.2.2.2.1
+  exact (stepTheorem (h.stepHyp hd hsmall)).2.2.2.2.2.2.2.2.2.2.2.2.1
 
 theorem normLab_eq_succPNat (n : ℕ) : normLab n = ((n.succPNat : ℕ+) : ℝ) + 2 := by
   unfold normLab
@@ -189,7 +194,8 @@ theorem OmN_inc :
         |(w6Om7 (h.OmN hd hsmall ξ) n - w6Om7 (Ω ξ) n) -
           (w6Om7 (h.OmN hd hsmall ζ) n - w6Om7 (Ω ζ) n)| ≤ c₁ * ‖ξ - ζ‖ := by
   have := factRPos hd ν
-  obtain ⟨c₀, c₁, h0, h1, hs, hb, hl⟩ := (stepTheorem (h.stepHyp hd hsmall)).2.2.2.2.2.2.2.2.2.1
+  obtain ⟨c₀, c₁, h0, h1, hs, hb, hl⟩ :=
+    (stepTheorem (h.stepHyp hd hsmall)).2.2.2.2.2.2.2.2.2.2.2.2.2.1
   have e : ((3 / 2 : ℝ) - 1) = 1 / 2 := by norm_num
   refine ⟨c₀, c₁, h0, h1, hs, fun ξ hξ n => ?_, fun ξ hξ ζ hζ n => ?_⟩
   · have := hb ξ hξ n.succPNat
@@ -227,7 +233,7 @@ theorem phiN_bounds :
         ‖fderiv ℂ (h.PhiN hd hsmall ξ) w - fderiv ℂ (h.PhiN hd hsmall ζ) w‖ ≤ B₁ * ‖ξ - ζ‖ := by
   have := factRPos hd ν
   obtain ⟨A₀, A₁, B₀, B₁, a0, a1, b0, b1, ha, hb, hall⟩ :=
-    (stepTheorem (h.stepHyp hd hsmall)).2.2.2.2.2.2.2.2.2.2.2.2
+    (stepTheorem (h.stepHyp hd hsmall)).2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2
   exact ⟨A₀, A₁, B₀, B₁, a0, a1, b0, b1, ha, hb, W6SeqData.transf_arith hd hsmall ν, hall⟩
 
 /-- **Stage `ν+1`** (`bpW:w6:iter-lemma`): given the conditions with `k = 0` at stage `ν+1` on
@@ -238,7 +244,8 @@ theorem next_core
     W6StageCore d (ν + 1) (h.PiN hd hsmall) (h.omN hd hsmall) (h.OmN hd hsmall)
       (h.PN hd hsmall) (h.XN hd hsmall) := by
   have := factRPos hd ν
-  obtain ⟨-, -, -, -, -, c6, c7, c8, -, -, c11, -, -⟩ := stepTheorem (h.stepHyp hd hsmall)
+  obtain ⟨-, -, -, -, -, -, -, -, c6, c7, -, c8, -, -, c11, -, -⟩ :=
+    stepTheorem (h.stepHyp hd hsmall)
   have hsub := h.PiN_subset hd hsmall
   have hlam := W6SeqData.lam_pos hd ν
   have hε := W6SeqData.eps_pos hd ν
@@ -307,10 +314,19 @@ theorem next_stage_of_stepReal (hR : W6StepReal)
   exact hR _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ (h.stepHyp hd hsmall).hyp ξ
     (h.PiN_subset hd hsmall hξ) (StepPhase.ofK w) hw hwr
 
+/-- **Stage `ν+1`** (`bpW:w6:iter-lemma`): given the conditions with `k = 0` at stage `ν+1` on
+`Π_{ν+1}` (supplied by `bpW:w6:k0`), all hypotheses of the lemma hold at stage `ν+1`, including the
+reality of `P_{ν+1}` (W5's reality clause, `w6StepReal_holds`). -/
+theorem next_stage
+    (hk0 : W6Mel0 (d.alpha (ν + 1)) (h.PiN hd hsmall) (fun ξ => w6Om7 (h.OmN hd hsmall ξ))) :
+    W6Stage d (ν + 1) (h.PiN hd hsmall) (h.omN hd hsmall) (h.OmN hd hsmall)
+      (h.PN hd hsmall) (h.XN hd hsmall) :=
+  h.next_stage_of_stepReal hd hsmall w6StepReal_holds hk0
+
 /-- **Iterative lemma** (blueprint `bpW:w6:iter-lemma`). At stage `ν`, with `ε₀ ≤ γ₀ α₀ σ₀^t`:
 `q_ν ≤ γ₀ 2^{-ν}`, `q_{ν+1} ≤ q_ν/4`; W5's step applies (`W6Stage.stepHyp`) and gives
 `Φ_{ν+1} : D_{ν+1} → D_ν`; given the conditions with `k = 0` at stage `ν+1`, all hypotheses hold at
-stage `ν+1` except the reality of `P_{ν+1}` (pending W5's reality clause); and the bounds on
+stage `ν+1` (`W6Stage`, including the reality of `P_{ν+1}`); and the bounds on
 `Φ_{ν+1} - id`, `DΦ_{ν+1} - I`, `ω_{ν+1} - ω_ν`, `Ω_{ν+1} - Ω_ν`. -/
 theorem w6IterLemma :
     (d.q ν ≤ w6Gamma0 / 2 ^ ν ∧ d.q (ν + 1) ≤ d.q ν / 4) ∧
@@ -319,7 +335,7 @@ theorem w6IterLemma :
         (2 * d.eta ν * d.r ν) ∧
       StepPhase.toK (h.PhiN hd hsmall ξ w) ∈ d.dom ν) ∧
     (W6Mel0 (d.alpha (ν + 1)) (h.PiN hd hsmall) (fun ξ => w6Om7 (h.OmN hd hsmall ξ)) →
-      W6StageCore d (ν + 1) (h.PiN hd hsmall) (h.omN hd hsmall) (h.OmN hd hsmall)
+      W6Stage d (ν + 1) (h.PiN hd hsmall) (h.omN hd hsmall) (h.OmN hd hsmall)
         (h.PN hd hsmall) (h.XN hd hsmall)) ∧
     (∃ A₀ A₁ B₀ B₁ : ℝ, 0 ≤ A₀ ∧ 0 ≤ A₁ ∧ 0 ≤ B₀ ∧ 0 ≤ B₁ ∧
       A₀ + d.lam ν * A₁ ≤ 2 * stepMF w6CF w6T (d.alpha ν) (d.sigma ν) (d.eps ν) ∧
@@ -341,7 +357,7 @@ theorem w6IterLemma :
       ∀ ξ ∈ Pi, ∀ ζ ∈ Pi, ∀ n : ℕ, normLab n ^ (1 / 2 : ℝ) *
         |(w6Om7 (h.OmN hd hsmall ξ) n - w6Om7 (Ω ξ) n) -
           (w6Om7 (h.OmN hd hsmall ζ) n - w6Om7 (Ω ζ) n)| ≤ c₁ * ‖ξ - ζ‖) :=
-  ⟨W6SeqData.w6Iter_q_bounds hd hsmall ν, h.phiN_mapsTo hd hsmall, h.next_core hd hsmall,
+  ⟨W6SeqData.w6Iter_q_bounds hd hsmall ν, h.phiN_mapsTo hd hsmall, h.next_stage hd hsmall,
     h.phiN_bounds hd hsmall, h.omN_inc hd hsmall, h.OmN_inc hd hsmall⟩
 
 end W6Stage

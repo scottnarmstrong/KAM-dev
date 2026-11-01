@@ -21,11 +21,10 @@ still being built. Blueprint label `bpW:w6:convergence` (milestone W6), step `c-
   otherwise; `w6Seq d S₀ ν` is the iteration started at `S₀`; `W6State.phi d ν S` is `Φ_{ν+1}`.
 * `W6ConvHyp`: the hypotheses of Proposition `bpW:w6:convergence` on `Π_{-1}`; `w6Start` is the
   stage-`0` state, with `Π_0 = Π_{-1} ∖ ⋃_{(k,l) ∈ Z, k ≠ 0} R^0_{kl}`.
-* `w6Seq_stage_of_stepReal` (conditional helper; not the label): if W5's reality clause
-  `W6StepReal` holds, the hypotheses of stage `ν` hold for every `ν` (step `c-ind`: the iterative
-  lemma with Lemma `bpW:w6:k0`).
-* Unconditional: `w6Seq_Pi_antitone`, and `w6Seq_Pi_eq` (`Π_ν` is W6-PREP's `w6PiSeq` of the output
-  frequencies, as long as the stages hold).
+* `w6Seq_stage`: the hypotheses of stage `ν` hold for every `ν` (step `c-ind`: the iterative
+  lemma with Lemma `bpW:w6:k0`); conditional helper `w6Seq_stage_of_stepReal` (hypothesis
+  `W6StepReal`, discharged by `w6StepReal_holds`).
+* `w6Seq_Pi_antitone`.
 -/
 
 @[expose] public noncomputable section
@@ -230,6 +229,12 @@ theorem w6Seq_stage_of_stepReal (hR : W6StepReal) (hC : W6ConvHyp d Pm ω0 Ω0 P
         (W6State.w6next_eq hC.valid hC.small hs)
       rw [e] at hk0 ⊢
       exact W6Stage.next_stage_of_stepReal hC.valid hC.small hs hR hk0
+
+/-- **Induction** (step `c-ind` of `bpW:w6:convergence`): the hypotheses of `bpW:w6:iter-lemma`
+hold at every stage of the iteration (W5's reality clause discharged, `w6StepReal_holds`). -/
+theorem w6Seq_stage (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) (ν : ℕ) :
+    (w6Seq d (w6Start d Pm ω0 Ω0 P0 X0) ν).w6Stage d ν :=
+  w6Seq_stage_of_stepReal w6StepReal_holds hC ν
 
 end conv
 

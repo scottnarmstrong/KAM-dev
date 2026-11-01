@@ -40,8 +40,8 @@ open Real
 namespace KAM.Wave
 
 /-- W5's reality clause for `P_+` in the modified case (blueprint `bpW:w5:step` (ii)), for the data
-of the preparatory step (`a = p = 1`, `p_+ = 3/2`, `τ = 24`, `β = 1/4`, `γ_G = w6GamG`); proved in
-branch inp-w5r as `stepTheoremMod_reality`. -/
+of the preparatory step (`a = p = 1`, `p_+ = 3/2`, `τ = 24`, `β = 1/4`, `γ_G = w6GamG`); it holds,
+`w6StepRealMod_holds`. -/
 def W6StepRealMod : Prop :=
   ∀ (s r σ η α lam ε ε₀ ε₁ M0 Mω MΩ : ℝ) (Par : Set (Fin 2 → ℝ)) (ω : (Fin 2 → ℝ) → Fin 2 → ℝ)
     (Ω : (Fin 2 → ℝ) → ℕ+ → ℝ) (P : (Fin 2 → ℝ) → KamPhase → ℂ)
@@ -50,6 +50,11 @@ def W6StepRealMod : Prop :=
     [Fact (0 < r)],
     ∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r), StepReal (StepPhase.toK w) →
       (H.core.Pplus ξ w).im = 0
+
+/-- `W6StepRealMod` holds: it is the `P_+` part of W5's reality clause, modified case
+(`stepTheoremMod_reality_of_eps0_pos`, stated for `StepHypMod`, as `W6StepRealMod` is). -/
+theorem w6StepRealMod_holds : W6StepRealMod :=
+  fun _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ H _ => (stepTheoremMod_reality_of_eps0_pos H).2
 
 section
 
@@ -261,6 +266,16 @@ theorem w6Applicable_of_stepRealMod (hRm : W6StepRealMod) (H : W6PrepHyp m hm Pi
   obtain ⟨hsm, hper, -⟩ := H.w6size
   exact ⟨hv, hs, hf, hb, h8, hk, hsm, hper, fun ξ hξ w hw hwr =>
     hRm _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ H.stepHyp.hyp ξ hξ (StepPhase.ofK w) hw hwr, hfb⟩
+
+/-- **Applicability** (blueprint `bpW:w6:applicable`): the hypotheses of Proposition
+`bpW:w6:convergence` hold for the wave iteration (Definition `bpW:w6:wave-iteration`,
+`β₀ = β_*`), for every starting size `ε₀ ∈ [ε^♭_0, γ₁ α̌]` (W5's reality clause discharged,
+`w6StepRealMod_holds`). -/
+theorem w6Applicable (H : W6PrepHyp m hm Pi α r ε P X)
+    {ε₀ : ℝ} (hlo : w6EpsFlat α ε ≤ ε₀) (hhi : ε₀ ≤ w6Gamma1 m hm * alphaCheck α) :
+    W6ConvHyp (w6WaveSeq m hm α r ε ε₀) (Pi \ prepSet m hm Pi α) H.om0 H.Om0 H.w6P0 H.X0
+      (measBetaStar m) :=
+  w6Applicable_of_stepRealMod w6StepRealMod_holds H hlo hhi
 
 end W6PrepHyp
 

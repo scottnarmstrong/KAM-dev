@@ -16,7 +16,7 @@ import Mathlib.Tactic.Positivity
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
 For `T : HomTaylor_gen a p pb s` (W4's class `𝒯_s`) we define the polynomial
-`stepFun T : KamPhase → ℂ` in the coordinates `(θ, y, u, v)` of `bpW:w1:kam-space`, through
+`waveStepFun T : KamPhase → ℂ` in the coordinates `(θ, y, u, v)` of `bpW:w1:kam-space`, through
 `z = (u + i v)/√2`, `z̄ = (u - i v)/√2` (`stepZ`, `stepZb`), and prove that it is Fréchet
 differentiable on `θ ∈ T_s`.
 -/
@@ -63,7 +63,7 @@ abbrev stepPr (ha : 0 ≤ a) (hpp : 0 ≤ p + pb) : HomL2 →L[ℂ] HomL2 →L[�
 
 /-- **The polynomial `F` of a W4 Taylor polynomial** (`𝒯_s`) on `KamPhase`:
 `F = a₀ + ⟨b,y⟩ + ⟨c⁺,z⟩ + ⟨c⁻,z̄⟩ + ⟨Pz,z⟩ + ⟨Qz,z̄⟩ + ⟨P'z̄,z̄⟩`, `z = (u+iv)/√2`. -/
-def stepFun (ha : 0 ≤ a) (hpp : 0 ≤ p + pb) (T : HomTaylor_gen a p pb s) (w : KamPhase) : ℂ :=
+def waveStepFun (ha : 0 ≤ a) (hpp : 0 ≤ p + pb) (T : HomTaylor_gen a p pb s) (w : KamPhase) : ℂ :=
   T.a0 w.1 + ∑ k, T.b w.1 k * w.2.1 k
     + stepPr ha hpp (T.cp w.1) (stepZ w) + stepPr ha hpp (T.cm w.1) (stepZb w)
     + stepPr ha hpp (T.P w.1 (stepZ w)) (stepZ w) + stepPr ha hpp (T.Q w.1 (stepZ w)) (stepZb w)

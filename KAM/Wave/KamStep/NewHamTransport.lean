@@ -64,7 +64,7 @@ section solve
 
 variable {N : G →L[ℂ] G}
 
-theorem isUnit_one_add (hN : ‖N‖ < 1) : IsUnit ((1 : G →L[ℂ] G) + N) := by
+theorem newHam_isUnit_one_add (hN : ‖N‖ < 1) : IsUnit ((1 : G →L[ℂ] G) + N) := by
   have hlt : ‖-N‖ < 1 := by rwa [norm_neg]
   have := (Units.oneSub (-N) hlt).isUnit
   rwa [Units.val_oneSub, sub_neg_eq_add] at this
@@ -73,7 +73,7 @@ theorem isUnit_one_add (hN : ‖N‖ < 1) : IsUnit ((1 : G →L[ℂ] G) + N) := 
 noncomputable def transSolve (N : G →L[ℂ] G) : G →L[ℂ] G := Ring.inverse ((1 : G →L[ℂ] G) + N)
 
 theorem transSolve_spec (hN : ‖N‖ < 1) (u : G) : transSolve N u + N (transSolve N u) = u := by
-  have h := Ring.mul_inverse_cancel _ (isUnit_one_add hN)
+  have h := Ring.mul_inverse_cancel _ (newHam_isUnit_one_add hN)
   have := congrArg (fun L : G →L[ℂ] G => L u) h
   simpa [transSolve] using this
 
@@ -102,7 +102,7 @@ theorem differentiableAt_transSolve_apply {N : F → (G →L[ℂ] G)} {u : F →
     DifferentiableAt ℂ (fun z => transSolve (N z) (u z)) w := by
   have h1 : DifferentiableAt ℂ (fun z => (1 : G →L[ℂ] G) + N z) w := hN.const_add _
   have h2 : DifferentiableAt ℂ (Ring.inverse : (G →L[ℂ] G) → (G →L[ℂ] G))
-      ((1 : G →L[ℂ] G) + N w) := differentiableAt_inverse (isUnit_one_add hlt)
+      ((1 : G →L[ℂ] G) + N w) := differentiableAt_inverse (newHam_isUnit_one_add hlt)
   exact (h2.comp w h1).clm_apply hu
 
 end solve

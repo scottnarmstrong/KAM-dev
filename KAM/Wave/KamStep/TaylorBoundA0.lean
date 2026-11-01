@@ -30,23 +30,24 @@ open KAM
 variable {a p pb s r : ℝ} {P : KamPhase → ℂ} {X : KamPhase → KamPhase}
 
 /-- The real points of the angle slice. -/
-def realPt (x : Fin 2 → ℝ) : Fin 2 → ℂ := fun i => (x i : ℂ)
+def taylorRealPt (x : Fin 2 → ℝ) : Fin 2 → ℂ := fun i => (x i : ℂ)
 
-theorem realPt_mem_strip (hs : 0 < s) (x : Fin 2 → ℝ) : realPt x ∈ complexStrip 2 s := fun i => by
-  simpa [realPt] using hs
+theorem realPt_mem_strip (hs : 0 < s) (x : Fin 2 → ℝ) : taylorRealPt x ∈ complexStrip 2 s :=
+    fun i => by
+  simpa [taylorRealPt] using hs
 
 theorem tA0_real_bound (ha : 0 ≤ a) (hqq : 0 ≤ pb + p) (hs : 0 < s) (hr : 0 < r)
     (hP : IsSmoothing (p := p) ha hqq (kamDomain s r) P X)
     (hper : ∀ i, ∀ w ∈ kamDomain s r, P (w + stepTau i) = P w) :
-    ∃ M0 : ℝ, ∀ x : Fin 2 → ℝ, ‖tA0 P (realPt x)‖ ≤ M0 := by
-  set Q : (Fin 2 → ℝ) → ℂ := fun x => tA0 P (realPt x) with hQ
+    ∃ M0 : ℝ, ∀ x : Fin 2 → ℝ, ‖tA0 P (taylorRealPt x)‖ ≤ M0 := by
+  set Q : (Fin 2 → ℝ) → ℂ := fun x => tA0 P (taylorRealPt x) with hQ
   have hcont : Continuous Q := by
-    have h1 : Continuous fun x : Fin 2 → ℝ => stepW0L (realPt x) := by
-      unfold realPt; exact stepW0L.continuous.comp (by fun_prop)
+    have h1 : Continuous fun x : Fin 2 → ℝ => stepW0L (taylorRealPt x) := by
+      unfold taylorRealPt; exact stepW0L.continuous.comp (by fun_prop)
     exact hP.holoP.continuousOn.comp_continuous h1 (fun x => stepW0L_mem hr (realPt_mem_strip hs x))
   have hper1 : ∀ i y, Q (y + Pi.single i 1) = Q y := fun i y => by
-    have : realPt (y + Pi.single i 1) = realPt y + Pi.single i 1 := by
-      funext j; by_cases h : j = i <;> simp [realPt, Pi.single_apply, h]
+    have : taylorRealPt (y + Pi.single i 1) = taylorRealPt y + Pi.single i 1 := by
+      funext j; by_cases h : j = i <;> simp [taylorRealPt, Pi.single_apply, h]
     simp only [hQ]
     rw [this]
     exact tA0_periodic ha hqq hr hP hper i (realPt_mem_strip hs y)
@@ -75,7 +76,7 @@ theorem tA0_real_bound (ha : 0 ≤ a) (hqq : 0 ≤ pb + p) (hs : 0 < s) (hr : 0 
   rw [hx1, hx2]
   exact hM0 x2 hmem
 
-theorem convex_complexStrip (s : ℝ) : Convex ℝ (complexStrip 2 s) := by
+theorem taylorConvex_complexStrip (s : ℝ) : Convex ℝ (complexStrip 2 s) := by
   intro θ hθ θ' hθ' c d hc hd hcd i
   have h1 := hθ i
   have h2 := hθ' i
@@ -148,18 +149,19 @@ theorem tA0_bounded (ha : 0 ≤ a) (hqq : 0 ≤ pb + p) (hs : 0 < s) (hr : 0 < r
     rw [hd'.fderiv_restrictScalars ℝ]
     refine ContinuousLinearMap.opNorm_le_bound _ (by positivity) fun h => ?_
     exact ((fderiv ℂ (tA0 P) θ').le_opNorm h).trans (mul_le_mul_of_nonneg_right hc (norm_nonneg _))
-  have hseg := (convex_complexStrip s).norm_image_sub_le_of_norm_fderiv_le hdiff hbd
+  have hseg := (taylorConvex_complexStrip s).norm_image_sub_le_of_norm_fderiv_le hdiff hbd
     (realPt_mem_strip hs x) hθ
-  have hdist : ‖θ - realPt x‖ ≤ s := by
+  have hdist : ‖θ - taylorRealPt x‖ ≤ s := by
     refine (pi_norm_le_iff_of_nonneg hs.le).2 fun i => ?_
-    have : θ i - realPt x i = (θ i).im * Complex.I := by
-      simp [realPt, hx]; apply Complex.ext <;> simp
-    show ‖θ i - realPt x i‖ ≤ s
+    have : θ i - taylorRealPt x i = (θ i).im * Complex.I := by
+      simp [taylorRealPt, hx]; apply Complex.ext <;> simp
+    show ‖θ i - taylorRealPt x i‖ ≤ s
     rw [this, norm_mul, Complex.norm_I, mul_one, Complex.norm_real, Real.norm_eq_abs]
     exact (hθ i).le
   have h1 := hM0 x
-  calc ‖tA0 P θ‖ ≤ ‖tA0 P (realPt x)‖ + ‖tA0 P θ - tA0 P (realPt x)‖ := norm_le_insert' _ _
-    _ ≤ M0 + 4 * Real.pi * r ^ 2 * ε * ‖θ - realPt x‖ :=
+  calc ‖tA0 P θ‖ ≤ ‖tA0 P (taylorRealPt x)‖ + ‖tA0 P θ - tA0 P (taylorRealPt x)‖ :=
+        norm_le_insert' _ _
+    _ ≤ M0 + 4 * Real.pi * r ^ 2 * ε * ‖θ - taylorRealPt x‖ :=
         add_le_add h1 hseg
     _ ≤ M0 + 4 * Real.pi * r ^ 2 * ε * s := by
         have : 0 ≤ 4 * Real.pi * r ^ 2 * ε := by positivity

@@ -20,7 +20,7 @@ For a W4 Taylor polynomial `T` the abstract flow calculus applies with `F = G = 
 `Z = stepFieldS T` (the field in the `p_+`-representatives), `ι = stepEmbedCLM` (so that the flow
 field is `X = ι ∘ Z`), `B = stepSympCLM` with `q = q' = p`:
 * `stepFieldS_differentiableOn`: `Z` is holomorphic on `D(s', r)`, `s' ≤ s`;
-* `stepFieldS_hasFDerivAt_ham`: `DF = B(X, ·)` for `F = stepFun ∘ toK`;
+* `stepFieldS_hasFDerivAt_ham`: `DF = B(X, ·)` for `F = waveStepFun ∘ toK`;
 * `stepFieldS_skew`: `DX(z)` is `B`-skew (`bpW:w5:flow-calc` step `c-skew`, concrete).
 -/
 
@@ -75,7 +75,7 @@ theorem stepFieldS_differentiableAt (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ p
 /-- The Hamiltonian `F` as a function on `StepPhase r`. -/
 def stepFS (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : HomTaylor_gen a p pb s) (r : ℝ) :
     StepPhase r → ℂ :=
-  fun W => stepFun ha (homPP hp hpb) T (StepPhase.toK W)
+  fun W => waveStepFun ha (homPP hp hpb) T (StepPhase.toK W)
 
 /-- **`DF = B(X, ·)`** on `StepPhase r`, with `X = ι Z` and `B = ϖ_{p,p}`. -/
 theorem stepFS_hasFDerivAt (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : HomTaylor_gen a p pb s)

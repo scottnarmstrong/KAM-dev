@@ -181,13 +181,13 @@ theorem stepSymp_quadratic (A : KamPhase →L[ℂ] KamPhase)
 
 end pieces
 
-/-- **`R = stepFun T`** (`bpW:w5:taylor` (i), last claim): the value of the Taylor polynomial of
+/-- **`R = waveStepFun T`** (`bpW:w5:taylor` (i), last claim): the value of the Taylor polynomial of
 `P` is the polynomial of the element `T = stepTaylorOf … ∈ 𝒯_s`. -/
 theorem stepFun_taylorOf_eq (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hs : 0 < s) (hr : 0 < r)
     (hP : IsSmoothing (p := p) ha (by linarith : 0 ≤ pb + p) (kamDomain s r) P X)
     (hper : ∀ i, ∀ w ∈ kamDomain s r, P (w + stepTau i) = P w) {ε : ℝ}
     (hb : ∀ z ∈ kamDomain s r, kamNorm r (X z) ≤ ε) {w : KamPhase} (hw : w ∈ kamDomain s r) :
-    stepFun ha (homPP hp hpb) (stepTaylorOf ha hp hpb hs hr hP hper hb) w = taylorRv P w := by
+    waveStepFun ha (homPP hp hpb) (stepTaylorOf ha hp hpb hs hr hP hper hb) w = taylorRv P w := by
   rw [taylorRv_eq ha _ hr hP hw]
   have hw0 : stepW0L w.1 ∈ kamDomain s r := stepW0L_mem hr (fun i => hw.1 i)
   set Y := X (stepW0L w.1) with hY
@@ -198,7 +198,7 @@ theorem stepFun_taylorOf_eq (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hs :
   rw [cw, cw, cw]
   rw [stepSymp_linear ha hp hpb, stepSymp_ypart ha hp hpb,
     stepSymp_quadratic ha hp hpb A (stepDX_symm_pp ha hp hpb hP hw0)]
-  unfold stepFun
+  unfold waveStepFun
   simp only [stepTaylorOf, tA0, tB, tCp, tCm, tP, tP', tQ, tQt]
   simp only [map_smul, smul_apply, smul_eq_mul, hY]
   rw [Finset.mul_sum]
@@ -225,11 +225,11 @@ theorem stepField_taylorOf_eq (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hs
       (stepField ha hp hpb T w) W =
       stepSymp (q := p) (q' := pb) ha (homPP hp hpb) (taylorXR X w) W := by
     intro W
-    -- the derivative of ε ↦ stepFun T (w + εW) at 0
+    -- the derivative of ε ↦ waveStepFun T (w + εW) at 0
     have hline : HasDerivAt (fun ε : ℂ => w + ε • W) W 0 := by
       simpa using ((hasDerivAt_id (0 : ℂ)).smul_const W).const_add w
-    have h1 : HasDerivAt (fun ε : ℂ => stepFun ha (homPP hp hpb) T (w + ε • W)) (D W) 0 := by
-      have : HasFDerivAt (stepFun ha (homPP hp hpb) T) D (w + (0 : ℂ) • W) := by simpa using hD
+    have h1 : HasDerivAt (fun ε : ℂ => waveStepFun ha (homPP hp hpb) T (w + ε • W)) (D W) 0 := by
+      have : HasFDerivAt (waveStepFun ha (homPP hp hpb) T) D (w + (0 : ℂ) • W) := by simpa using hD
       exact this.comp_hasDerivAt 0 hline
     have hS0 : scaleS 0 w ∈ kamDomain s r := by
       have : scaleS 0 w = stepW0L w.1 := by simp [scaleS, stepW0L_apply]

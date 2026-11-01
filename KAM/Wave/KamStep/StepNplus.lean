@@ -57,7 +57,7 @@ theorem stepNfun_add_Nhat {γ K K' K'' : ℝ} {Ω : ℕ+ → ℝ} (hG : HomGuard
     (hΩ'' : ∀ j : ℕ+, |Ω j + stepOmegaTail T j| ≤ K'' * ((j : ℝ) + 2)) (ω : Fin 2 → ℝ)
     (hb : ∀ k, (homCoeff T.b 0 k).im = 0)
     (hQ : ∀ j, (homNormalEntry_gen a p pb (homCoeff T.Q 0) j j).im = 0) (w : KamPhase) :
-    stepNfun hG hK hΩ ω w + stepFun ha (homPP hp hpb) (homNhatTaylor_gen T) w =
+    stepNfun hG hK hΩ ω w + waveStepFun ha (homPP hp hpb) (homNhatTaylor_gen T) w =
       stepNfun hG hK'' (Ω := fun j => Ω j + stepOmegaTail T j) hΩ''
         (fun k => ω k + stepOmegaHat T k) w := by
   have hN : ∀ z zb : HomL2, homNhat_gen T w.2.1 z zb =

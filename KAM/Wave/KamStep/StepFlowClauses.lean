@@ -67,7 +67,7 @@ theorem flow_pair {ξ ζ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (hζ : ζ ∈ Par) 
     (H.Dplus_sub_small hw)
 
 /-- `Φ(D_+) ⊆ D(s-4σ, 2ηr)`. -/
-theorem phi_mem {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {w : StepPhase r}
+protected theorem phi_mem {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {w : StepPhase r}
     (hw : w ∈ stepDomain r (s - 5 * σ) (η * r)) :
     StepPhase.toK (H.Phi ξ w) ∈ kamDomain (s - 4 * σ) (2 * η * r) := by
   have h := (H.flow_pair hξ hξ hw).1
