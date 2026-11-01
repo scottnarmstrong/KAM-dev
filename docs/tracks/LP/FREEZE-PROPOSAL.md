@@ -365,17 +365,17 @@ theorem spatial_strongAMD_exponentialSafety (hn : 2 ≤ n) (ν : Fin n → ℝ)
               spatialOscPeri ν μ (z t) a.upperIdx - spatialOscApo ν μ (z t) a.1)
 ```
 
-## 3d. LP2 under OD-11 option (b): exact text through the spatial source carriers (draft 5 addition; review 4: R4.1 BLOCKING)
+## 3d. LP2 under OD-11 option (b): exact text through the spatial source carriers (draft 6: R4.1 (A) applied; delta re-review pending)
 
-*Review 4, R4.1 (BLOCKING): the text below still applies the unfrozen total `spatialKeplerAxis/Action/EccVector` to
-`z₀` and `z t`. Resolution (A), adopted: restate through `spatialSource*` (exact text in
-`freeze/STATEMENT-REVIEW-4.md`, R4.1); package LP-SP-SRCB2 elaborates and proves it, then this section is replaced by
-the elaborated text and re-reviewed. Resolution (B) (an owner carve-out freezing the three helpers) is recorded as an
-alternative under OD-11.*
+*Review 4, R4.1 (BLOCKING) is resolved by (A): every canonical element at `z₀` and `z t` now goes through `spatialSource*`.
+The text below is the review's replacement text, elaborated without any change and proved (package LP-SP-SRCB2, branch
+`inp-lp-spsrcb2` 1f078521; axioms standard; no `spatialKeplerAxis/Action/EccVector` in either type). The `_general`
+sibling is the same text without `hνmax`, `hνle`. Resolution (B) remains recorded under OD-11, not recommended.*
 
 Package LP-SP-SRC (part A: `KAM/Planetary/Spatial/SourceCarrier.lean`, the spatial source carriers and source-facing
 definitions with characterizations, answering audit LP-W4A-1 note N1) and LP-SP-SRCB (part B: LP2 restated through
-them, **proved** from `lp2_spatial_strongAMD_safety_normalized`; branch `inp-lp-spsrcb` 6e84c27a; axioms standard).
+them, **proved** from `lp2_spatial_strongAMD_safety_normalized`; branch `inp-lp-spsrcb` 6e84c27a, restated by
+LP-SP-SRCB2 1f078521; axioms standard).
 Full files: `freeze/odb-Spatial-SourceCarrier.lean.txt`, `freeze/odb-Spatial-SpatialSafety-Source.lean.txt`. Same
 shape as §3b relative to §3: a typing binder `h₀`, the source AMD in the hypothesis, existential subtype proofs in
 the conclusion.
@@ -392,13 +392,15 @@ theorem lp2_spatial_strongAMD_safety_source (hn : 2 ≤ n) (ν : Fin n → ℝ)
       ∀ μ : ℝ, 0 < μ → μ ≤ μ₀ →
       ∀ z₀ : Phase (n * 3),
         (∀ i, 0 < spaceLength (bodyVector3 z₀.1 i) ∧ spatialKeplerEnergy ν z₀ i < 0) →
-        (fun i => spatialKeplerAxis ν z₀ i) ∈ A →
-        (∀ k : Fin n → ℤ, k ≠ 0 →
-          γ * (KAM.Fourier.modeSize k : ℝ) ^ (-τ) ≤
-            |∑ i, (k i : ℝ) * (ν i ^ 3 / spatialKeplerAction ν z₀ i ^ 3)|) →
-        ∀ hch : (fun i => spatialKeplerAction ν z₀ i) ∈ chamber ν,
         ∀ h₀ : ∀ i, 0 < ν i ∧ 0 < spaceLength (bodyVector3 z₀.1 i) ∧
           spatialKeplerEnergy ν z₀ i < 0,
+        (fun i => spatialSourceKeplerAxis (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i) ∈ A →
+        (∀ k : Fin n → ℤ, k ≠ 0 →
+          γ * (KAM.Fourier.modeSize k : ℝ) ^ (-τ) ≤
+            |∑ i, (k i : ℝ) * (ν i ^ 3 /
+              spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i ^ 3)|) →
+        ∀ hch : (fun i => spatialSourceKeplerAction
+            (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i) ∈ chamber ν,
         spatialSourceStrongAMD (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) ≤
           orderedStrongThreshold hn ⟨_, hch⟩ - δ →
         let T := T₀ * Real.exp (c * μ ^ (-(1 / (2 * (τ + 1)))))
@@ -409,33 +411,30 @@ theorem lp2_spatial_strongAMD_safety_source (hn : 2 ≤ n) (ν : Fin n → ℝ)
             (fun t => spatialBarycentricPositions ν μ (z t).1)
             (fun t => spatialBarycentricVelocities ν μ (z t).2) ∧
           ∀ t ∈ Set.Icc (-T) T,
-            (∀ i, 0 < spaceLength (bodyVector3 (z t).1 i) ∧ spatialKeplerEnergy ν (z t) i < 0) ∧
-            (∃ hcht : (fun i => spatialKeplerAction ν (z t) i) ∈ chamber ν,
-              ∃ hs : ∀ i, 0 < ν i ∧ 0 < spaceLength (bodyVector3 (z t).1 i) ∧
+            ∃ hs : ∀ i, 0 < ν i ∧ 0 < spaceLength (bodyVector3 (z t).1 i) ∧
                 spatialKeplerEnergy ν (z t) i < 0,
-              spatialSourceStrongAMD (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) ≤
-                orderedStrongThreshold hn ⟨_, hcht⟩ - δ / 2) ∧
-            ‖(fun i => spatialKeplerAction ν (z t) i) - fun i => spatialKeplerAction ν z₀ i‖ ≤
+            ∃ hcht : (fun i => spatialSourceKeplerAction
+                (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) i) ∈ chamber ν,
+            spatialSourceStrongAMD (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) ≤
+                orderedStrongThreshold hn ⟨_, hcht⟩ - δ / 2 ∧
+            ‖(fun i => spatialSourceKeplerAction (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) i) -
+                fun i => spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i‖ ≤
               AΛ * Real.sqrt μ ∧
-            ‖(fun i => spatialKeplerAxis ν (z t) i) - fun i => spatialKeplerAxis ν z₀ i‖ ≤
+            ‖(fun i => spatialSourceKeplerAxis (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) i) -
+                fun i => spatialSourceKeplerAxis (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i‖ ≤
               Aa * Real.sqrt μ ∧
-            (∃ hs : ∀ i, 0 < ν i ∧ 0 < spaceLength (bodyVector3 (z t).1 i) ∧
-                spatialKeplerEnergy ν (z t) i < 0,
-              |spatialSourceStrongAMD (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) -
-                  spatialSourceStrongAMD (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν)| ≤
-                n * AΛ * Real.sqrt μ) ∧
-            (∀ i, dStar ≤ spatialKeplerAxis ν (z t) i *
-              (1 - spaceLength (spatialKeplerEccVector ν (z t) i))) ∧
-            (∀ a : AdjIdx n, dPair ≤ spatialKeplerAxis ν (z t) a.upperIdx *
-                (1 - spaceLength (spatialKeplerEccVector ν (z t) a.upperIdx)) -
-                spatialKeplerAxis ν (z t) a.1 *
-                  (1 + spaceLength (spatialKeplerEccVector ν (z t) a.1))) ∧
+            |spatialSourceStrongAMD (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) -
+                spatialSourceStrongAMD (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν)| ≤
+              n * AΛ * Real.sqrt μ ∧
+            (∀ i, dStar ≤
+                spatialSourceKeplerPeri (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) i) ∧
+            (∀ a : AdjIdx n, dPair ≤
+                spatialSourceKeplerPeri (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) a.upperIdx -
+                  spatialSourceKeplerApo (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) a.1) ∧
             (∀ i, dStar ≤ spaceLength (bodyVector3 (z t).1 i)) ∧
             (∀ i j, i ≠ j →
               dPair ≤ spaceLength (bodyVector3 (z t).1 i - bodyVector3 (z t).1 j)) ∧
-            (∃ hs : ∀ i, 0 < ν i ∧ 0 < spaceLength (bodyVector3 (z t).1 i) ∧
-                spatialKeplerEnergy ν (z t) i < 0,
-             ∃ ho : (∀ i, 0 < ν i) ∧ 0 < μ ∧
+            ∃ ho : (∀ i, 0 < ν i) ∧ 0 < μ ∧
                 ∀ i, 0 < spaceLength (bodyVector3 (z t).1 i) ∧
                   spatialOscEnergy ν μ (z t) i < 0 ∧ spatialOscEcc ν μ (z t) i < 1,
               (∀ i, spatialSourceOscEnergy (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ) i < 0 ∧
@@ -446,10 +445,11 @@ theorem lp2_spatial_strongAMD_safety_source (hn : 2 ≤ n) (ν : Fin n → ℝ)
                   spaceLength (bodyVector3 (z t).1 i) ≤
                     spatialSourceOscApo (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ) i ∧
                   |spatialSourceOscAxis (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ) i -
-                      spatialKeplerAxis ν (z t) i| +
+                      spatialSourceKeplerAxis (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) i| +
                     spaceLength (spatialSourceOscEccVector
                         (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ) i -
-                      spatialKeplerEccVector ν (z t) i) ≤ Aelem * μ) ∧
+                      spatialSourceKeplerEccVector
+                        (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) i) ≤ Aelem * μ) ∧
               (∀ i, |spatialSourceOscPeri (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ) i -
                       spatialSourceKeplerPeri (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) i| ≤
                     Aosc * μ ∧
@@ -461,7 +461,7 @@ theorem lp2_spatial_strongAMD_safety_source (hn : 2 ≤ n) (ν : Fin n → ℝ)
               (∀ a : AdjIdx n, dPair / 2 ≤
                   spatialSourceOscPeri (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ)
                       a.upperIdx -
-                    spatialSourceOscApo (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ) a.1))
+                    spatialSourceOscApo (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ) a.1)
 ```
 
 ## 4. Choices embedded in the text (owner decisions)
