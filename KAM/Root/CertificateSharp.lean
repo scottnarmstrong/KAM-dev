@@ -106,6 +106,7 @@ public import KAM.CertificateSharp.V2.Tests.Refined
 public import KAM.CertificateSharp.V2.Tests.RefinedRef
 public import KAM.CertificateSharp.V2.Tests.RouteAll
 public import KAM.CertificateSharp.V2.Tests.RouteBE
+public import KAM.CertificateSharp.V2.Tests.RouteBEMirror
 public import KAM.CertificateSharp.V2.Tests.RouteBLN
 public import KAM.CertificateSharp.V2.Tests.RouteBToy
 public import KAM.CertificateSharp.V2.Tests.TrigCombined
