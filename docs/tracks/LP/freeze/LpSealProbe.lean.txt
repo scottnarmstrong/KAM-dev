@@ -1,0 +1,421 @@
+import KAM.Frozen.Planetary.StrongAMD.Defs.ActionAxis
+import KAM.Frozen.Planetary.StrongAMD.Defs.Chamber
+import KAM.Frozen.Planetary.StrongAMD.Defs.EccDeficit
+import KAM.Frozen.Planetary.StrongAMD.Defs.PairFeasible
+import KAM.Frozen.Planetary.StrongAMD.Defs.PairObjective
+import KAM.Frozen.Planetary.StrongAMD.Defs.PairThreshold
+import KAM.Frozen.Planetary.StrongAMD.Defs.AdjIdx
+import KAM.Frozen.Planetary.StrongAMD.Defs.AdjIdxUpperIdx
+import KAM.Frozen.Planetary.StrongAMD.Defs.OrderedActions
+import KAM.Frozen.Planetary.StrongAMD.Defs.OrderedPairThreshold
+import KAM.Frozen.Planetary.StrongAMD.Defs.OrderedCrossThreshold
+import KAM.Frozen.Planetary.StrongAMD.Defs.OrderedStrongThreshold
+import KAM.Frozen.Planetary.StrongAMD.Defs.StrongAMD
+import KAM.Frozen.Planetary.StrongAMD.Defs.KeplerPeri
+import KAM.Frozen.Planetary.StrongAMD.Defs.KeplerApo
+import KAM.Frozen.Planetary.StrongAMD.Defs.OscVelocity
+import KAM.Frozen.Planetary.StrongAMD.Defs.OscParam
+import KAM.Frozen.Planetary.StrongAMD.Defs.OscEnergy
+import KAM.Frozen.Planetary.StrongAMD.Defs.OscAxis
+import KAM.Frozen.Planetary.StrongAMD.Defs.OscEccVector
+import KAM.Frozen.Planetary.StrongAMD.Defs.OscEcc
+import KAM.Frozen.Planetary.StrongAMD.Defs.OscPeri
+import KAM.Frozen.Planetary.StrongAMD.Defs.OscApo
+import KAM.Frozen.Planetary.StrongAMD.Defs.SourceCanonicalPhase
+import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOsculatingPhase
+import KAM.Frozen.Planetary.StrongAMD.Defs.SourceStrongAMD
+import KAM.Frozen.Planetary.StrongAMD.Defs.SourceKeplerPeri
+import KAM.Frozen.Planetary.StrongAMD.Defs.SourceKeplerApo
+import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscVelocity
+import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscParam
+import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscEnergy
+import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscAxis
+import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscEccVector
+import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscEcc
+import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscPeri
+import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscApo
+import KAM.Frozen.Planetary.Spatial.Defs.SpaceDot
+import KAM.Frozen.Planetary.Spatial.Defs.SpaceSq
+import KAM.Frozen.Planetary.Spatial.Defs.SpaceLength
+import KAM.Frozen.Planetary.Spatial.Defs.SpaceCross
+import KAM.Frozen.Planetary.Spatial.Defs.BodyVector3
+import KAM.Frozen.Planetary.Spatial.Defs.PlanetAngularMomentum3
+import KAM.Frozen.Planetary.Spatial.Defs.AngularMomentum3
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialHamiltonian
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialNoCollision
+import KAM.Frozen.Planetary.Spatial.Defs.IsSpatialMovingSolutionOn
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialMovingUniqueOn
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialBarycentricPositions
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialBarycentricVelocities
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialMasses
+import KAM.Frozen.Planetary.Spatial.Defs.IsSpatialNewtonSolutionOn
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialKeplerEnergy
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialKeplerAxis
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialKeplerAction
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialKeplerEccVector
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialNegativeEnergy
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialElliptic
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialKeplerPeri
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialKeplerApo
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscVelocity
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscParam
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscEnergy
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscAxis
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscEccVector
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscEcc
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscPeri
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscApo
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscPhase
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceCanonicalPhase
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceOsculatingPhase
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceKeplerAxis
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceKeplerAction
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceKeplerEccVector
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceKeplerEcc
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourcePlanetAngularMomentum
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceAngularMomentum
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceStrongAMD
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceKeplerPeri
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceKeplerApo
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceOscVelocity
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceOscParam
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceOscEnergy
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceOscAxis
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceOscEccVector
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceOscEcc
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceOscPeri
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceOscApo
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceBarycentricPositions
+import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceBarycentricVelocities
+import KAM.Frozen.Planetary.StrongAMD.Theorems.OrderedPairThresholdIsLeast
+import KAM.Frozen.Planetary.StrongAMD.Theorems.OrderedPairThresholdExistsUniqueValue
+import KAM.Frozen.Planetary.StrongAMD.Theorems.OrderedCrossThresholdIsLeast
+import KAM.Frozen.Planetary.StrongAMD.Theorems.OrderedStrongThresholdIsLeast
+import KAM.Frozen.Planetary.StrongAMD.Theorems.SourceStrongAMDNonneg
+import KAM.Frozen.Planetary.StrongAMD.Theorems.SumActionMulEccDeficitLeSourceStrongAMD
+import KAM.Frozen.Planetary.StrongAMD.Theorems.SourceKeplerAxisPos
+import KAM.Frozen.Planetary.StrongAMD.Theorems.SourceKeplerEccLeOne
+import KAM.Frozen.Planetary.StrongAMD.Theorems.SourceKeplerPeriLePlaneLength
+import KAM.Frozen.Planetary.StrongAMD.Theorems.PlaneLengthLeSourceKeplerApo
+import KAM.Frozen.Planetary.StrongAMD.Theorems.SourceOscAxisPos
+import KAM.Frozen.Planetary.StrongAMD.Theorems.SourceOscPeriPos
+import KAM.Frozen.Planetary.StrongAMD.Theorems.SourceOscPeriLePlaneLength
+import KAM.Frozen.Planetary.StrongAMD.Theorems.PlaneLengthLeSourceOscApo
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceKeplerAxisPos
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceKeplerActionPos
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceKeplerActionSq
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceKeplerEccSq
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceKeplerEccNonneg
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceKeplerEccLeOne
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourcePlanetAngularMomentumLength
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourcePlanetAngularMomentumLengthLe
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceKeplerPeriLeLength
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceKeplerApoGeLength
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceStrongAMDNonneg
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceActionMulEccDeficitLe
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceOscParamPos
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceOscEnergyNeg
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceOscEccLtOne
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceOscEccNonneg
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceOscAxisPos
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceOscPeriPos
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceOscPeriLeLength
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceOscApoGeLength
+import KAM.Frozen.Planetary.StrongAMD.Theorems.PlanarStrongAMDBarrier
+import KAM.Frozen.Planetary.StrongAMD.Theorems.PlanarStrongAMDExponentialSafety
+import KAM.Frozen.Planetary.StrongAMD.Theorems.PlanarStrongAMDExponentialSafetyHalfInteger
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialStrongAMDExponentialSafety
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialStrongAMDExponentialSafetyHalfInteger
+
+open Lean Meta Elab Command
+/-- `#typeEqv a b`: whether the elaborated types of `a` and `b` are alpha-equivalent (`Expr.eqv`). -/
+elab "#typeEqv " a:ident b:ident : command => do
+  let env ← getEnv
+  let some ca := env.find? a.getId | throwError "unknown {a.getId}"
+  let some cb := env.find? b.getId | throwError "unknown {b.getId}"
+  logInfo m!"TYPECHECK {a.getId} {b.getId}: {if ca.type.eqv cb.type then "TYPE_EQV" else "TYPE_NOT_EQV"}"
+
+example : type_of% @KAM.Planetary.StrongAMD.orderedPairThreshold_isLeast := @KAM.Provider.Planetary.StrongAMD.orderedPairThreshold_isLeast
+#typeEqv KAM.Planetary.StrongAMD.orderedPairThreshold_isLeast KAM.Provider.Planetary.StrongAMD.orderedPairThreshold_isLeast
+#print axioms KAM.Planetary.StrongAMD.orderedPairThreshold_isLeast
+#print axioms KAM.Provider.Planetary.StrongAMD.orderedPairThreshold_isLeast
+
+example : type_of% @KAM.Planetary.StrongAMD.orderedPairThreshold_existsUnique_value := @KAM.Provider.Planetary.StrongAMD.orderedPairThreshold_existsUnique_value
+#typeEqv KAM.Planetary.StrongAMD.orderedPairThreshold_existsUnique_value KAM.Provider.Planetary.StrongAMD.orderedPairThreshold_existsUnique_value
+#print axioms KAM.Planetary.StrongAMD.orderedPairThreshold_existsUnique_value
+#print axioms KAM.Provider.Planetary.StrongAMD.orderedPairThreshold_existsUnique_value
+
+example : type_of% @KAM.Planetary.StrongAMD.orderedCrossThreshold_isLeast := @KAM.Provider.Planetary.StrongAMD.orderedCrossThreshold_isLeast
+#typeEqv KAM.Planetary.StrongAMD.orderedCrossThreshold_isLeast KAM.Provider.Planetary.StrongAMD.orderedCrossThreshold_isLeast
+#print axioms KAM.Planetary.StrongAMD.orderedCrossThreshold_isLeast
+#print axioms KAM.Provider.Planetary.StrongAMD.orderedCrossThreshold_isLeast
+
+example : type_of% @KAM.Planetary.StrongAMD.orderedStrongThreshold_isLeast := @KAM.Provider.Planetary.StrongAMD.orderedStrongThreshold_isLeast
+#typeEqv KAM.Planetary.StrongAMD.orderedStrongThreshold_isLeast KAM.Provider.Planetary.StrongAMD.orderedStrongThreshold_isLeast
+#print axioms KAM.Planetary.StrongAMD.orderedStrongThreshold_isLeast
+#print axioms KAM.Provider.Planetary.StrongAMD.orderedStrongThreshold_isLeast
+
+example : type_of% @KAM.Planetary.StrongAMD.sourceStrongAMD_nonneg := @KAM.Provider.Planetary.StrongAMD.sourceStrongAMD_nonneg
+#typeEqv KAM.Planetary.StrongAMD.sourceStrongAMD_nonneg KAM.Provider.Planetary.StrongAMD.sourceStrongAMD_nonneg
+#print axioms KAM.Planetary.StrongAMD.sourceStrongAMD_nonneg
+#print axioms KAM.Provider.Planetary.StrongAMD.sourceStrongAMD_nonneg
+
+example : type_of% @KAM.Planetary.StrongAMD.sum_action_mul_eccDeficit_le_sourceStrongAMD := @KAM.Provider.Planetary.StrongAMD.sum_action_mul_eccDeficit_le_sourceStrongAMD
+#typeEqv KAM.Planetary.StrongAMD.sum_action_mul_eccDeficit_le_sourceStrongAMD KAM.Provider.Planetary.StrongAMD.sum_action_mul_eccDeficit_le_sourceStrongAMD
+#print axioms KAM.Planetary.StrongAMD.sum_action_mul_eccDeficit_le_sourceStrongAMD
+#print axioms KAM.Provider.Planetary.StrongAMD.sum_action_mul_eccDeficit_le_sourceStrongAMD
+
+example : type_of% @KAM.Planetary.StrongAMD.sourceKepler_axis_pos := @KAM.Provider.Planetary.StrongAMD.sourceKepler_axis_pos
+#typeEqv KAM.Planetary.StrongAMD.sourceKepler_axis_pos KAM.Provider.Planetary.StrongAMD.sourceKepler_axis_pos
+#print axioms KAM.Planetary.StrongAMD.sourceKepler_axis_pos
+#print axioms KAM.Provider.Planetary.StrongAMD.sourceKepler_axis_pos
+
+example : type_of% @KAM.Planetary.StrongAMD.sourceKepler_ecc_le_one := @KAM.Provider.Planetary.StrongAMD.sourceKepler_ecc_le_one
+#typeEqv KAM.Planetary.StrongAMD.sourceKepler_ecc_le_one KAM.Provider.Planetary.StrongAMD.sourceKepler_ecc_le_one
+#print axioms KAM.Planetary.StrongAMD.sourceKepler_ecc_le_one
+#print axioms KAM.Provider.Planetary.StrongAMD.sourceKepler_ecc_le_one
+
+example : type_of% @KAM.Planetary.StrongAMD.sourceKeplerPeri_le_planeLength := @KAM.Provider.Planetary.StrongAMD.sourceKeplerPeri_le_planeLength
+#typeEqv KAM.Planetary.StrongAMD.sourceKeplerPeri_le_planeLength KAM.Provider.Planetary.StrongAMD.sourceKeplerPeri_le_planeLength
+#print axioms KAM.Planetary.StrongAMD.sourceKeplerPeri_le_planeLength
+#print axioms KAM.Provider.Planetary.StrongAMD.sourceKeplerPeri_le_planeLength
+
+example : type_of% @KAM.Planetary.StrongAMD.planeLength_le_sourceKeplerApo := @KAM.Provider.Planetary.StrongAMD.planeLength_le_sourceKeplerApo
+#typeEqv KAM.Planetary.StrongAMD.planeLength_le_sourceKeplerApo KAM.Provider.Planetary.StrongAMD.planeLength_le_sourceKeplerApo
+#print axioms KAM.Planetary.StrongAMD.planeLength_le_sourceKeplerApo
+#print axioms KAM.Provider.Planetary.StrongAMD.planeLength_le_sourceKeplerApo
+
+example : type_of% @KAM.Planetary.StrongAMD.sourceOscAxis_pos := @KAM.Provider.Planetary.StrongAMD.sourceOscAxis_pos
+#typeEqv KAM.Planetary.StrongAMD.sourceOscAxis_pos KAM.Provider.Planetary.StrongAMD.sourceOscAxis_pos
+#print axioms KAM.Planetary.StrongAMD.sourceOscAxis_pos
+#print axioms KAM.Provider.Planetary.StrongAMD.sourceOscAxis_pos
+
+example : type_of% @KAM.Planetary.StrongAMD.sourceOscPeri_pos := @KAM.Provider.Planetary.StrongAMD.sourceOscPeri_pos
+#typeEqv KAM.Planetary.StrongAMD.sourceOscPeri_pos KAM.Provider.Planetary.StrongAMD.sourceOscPeri_pos
+#print axioms KAM.Planetary.StrongAMD.sourceOscPeri_pos
+#print axioms KAM.Provider.Planetary.StrongAMD.sourceOscPeri_pos
+
+example : type_of% @KAM.Planetary.StrongAMD.sourceOscPeri_le_planeLength := @KAM.Provider.Planetary.StrongAMD.sourceOscPeri_le_planeLength
+#typeEqv KAM.Planetary.StrongAMD.sourceOscPeri_le_planeLength KAM.Provider.Planetary.StrongAMD.sourceOscPeri_le_planeLength
+#print axioms KAM.Planetary.StrongAMD.sourceOscPeri_le_planeLength
+#print axioms KAM.Provider.Planetary.StrongAMD.sourceOscPeri_le_planeLength
+
+example : type_of% @KAM.Planetary.StrongAMD.planeLength_le_sourceOscApo := @KAM.Provider.Planetary.StrongAMD.planeLength_le_sourceOscApo
+#typeEqv KAM.Planetary.StrongAMD.planeLength_le_sourceOscApo KAM.Provider.Planetary.StrongAMD.planeLength_le_sourceOscApo
+#print axioms KAM.Planetary.StrongAMD.planeLength_le_sourceOscApo
+#print axioms KAM.Provider.Planetary.StrongAMD.planeLength_le_sourceOscApo
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourceKeplerAxis_pos := @KAM.Provider.Planetary.Spatial.spatialSourceKeplerAxis_pos
+#typeEqv KAM.Planetary.Spatial.spatialSourceKeplerAxis_pos KAM.Provider.Planetary.Spatial.spatialSourceKeplerAxis_pos
+#print axioms KAM.Planetary.Spatial.spatialSourceKeplerAxis_pos
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourceKeplerAxis_pos
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourceKeplerAction_pos := @KAM.Provider.Planetary.Spatial.spatialSourceKeplerAction_pos
+#typeEqv KAM.Planetary.Spatial.spatialSourceKeplerAction_pos KAM.Provider.Planetary.Spatial.spatialSourceKeplerAction_pos
+#print axioms KAM.Planetary.Spatial.spatialSourceKeplerAction_pos
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourceKeplerAction_pos
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourceKeplerAction_sq := @KAM.Provider.Planetary.Spatial.spatialSourceKeplerAction_sq
+#typeEqv KAM.Planetary.Spatial.spatialSourceKeplerAction_sq KAM.Provider.Planetary.Spatial.spatialSourceKeplerAction_sq
+#print axioms KAM.Planetary.Spatial.spatialSourceKeplerAction_sq
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourceKeplerAction_sq
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourceKeplerEcc_sq := @KAM.Provider.Planetary.Spatial.spatialSourceKeplerEcc_sq
+#typeEqv KAM.Planetary.Spatial.spatialSourceKeplerEcc_sq KAM.Provider.Planetary.Spatial.spatialSourceKeplerEcc_sq
+#print axioms KAM.Planetary.Spatial.spatialSourceKeplerEcc_sq
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourceKeplerEcc_sq
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourceKeplerEcc_nonneg := @KAM.Provider.Planetary.Spatial.spatialSourceKeplerEcc_nonneg
+#typeEqv KAM.Planetary.Spatial.spatialSourceKeplerEcc_nonneg KAM.Provider.Planetary.Spatial.spatialSourceKeplerEcc_nonneg
+#print axioms KAM.Planetary.Spatial.spatialSourceKeplerEcc_nonneg
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourceKeplerEcc_nonneg
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourceKeplerEcc_le_one := @KAM.Provider.Planetary.Spatial.spatialSourceKeplerEcc_le_one
+#typeEqv KAM.Planetary.Spatial.spatialSourceKeplerEcc_le_one KAM.Provider.Planetary.Spatial.spatialSourceKeplerEcc_le_one
+#print axioms KAM.Planetary.Spatial.spatialSourceKeplerEcc_le_one
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourceKeplerEcc_le_one
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length := @KAM.Provider.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length
+#typeEqv KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length KAM.Provider.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length
+#print axioms KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length_le := @KAM.Provider.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length_le
+#typeEqv KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length_le KAM.Provider.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length_le
+#print axioms KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length_le
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length_le
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourceKeplerPeri_le_length := @KAM.Provider.Planetary.Spatial.spatialSourceKeplerPeri_le_length
+#typeEqv KAM.Planetary.Spatial.spatialSourceKeplerPeri_le_length KAM.Provider.Planetary.Spatial.spatialSourceKeplerPeri_le_length
+#print axioms KAM.Planetary.Spatial.spatialSourceKeplerPeri_le_length
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourceKeplerPeri_le_length
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourceKeplerApo_ge_length := @KAM.Provider.Planetary.Spatial.spatialSourceKeplerApo_ge_length
+#typeEqv KAM.Planetary.Spatial.spatialSourceKeplerApo_ge_length KAM.Provider.Planetary.Spatial.spatialSourceKeplerApo_ge_length
+#print axioms KAM.Planetary.Spatial.spatialSourceKeplerApo_ge_length
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourceKeplerApo_ge_length
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourceStrongAMD_nonneg := @KAM.Provider.Planetary.Spatial.spatialSourceStrongAMD_nonneg
+#typeEqv KAM.Planetary.Spatial.spatialSourceStrongAMD_nonneg KAM.Provider.Planetary.Spatial.spatialSourceStrongAMD_nonneg
+#print axioms KAM.Planetary.Spatial.spatialSourceStrongAMD_nonneg
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourceStrongAMD_nonneg
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourceAction_mul_eccDeficit_le := @KAM.Provider.Planetary.Spatial.spatialSourceAction_mul_eccDeficit_le
+#typeEqv KAM.Planetary.Spatial.spatialSourceAction_mul_eccDeficit_le KAM.Provider.Planetary.Spatial.spatialSourceAction_mul_eccDeficit_le
+#print axioms KAM.Planetary.Spatial.spatialSourceAction_mul_eccDeficit_le
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourceAction_mul_eccDeficit_le
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourceOscParam_pos := @KAM.Provider.Planetary.Spatial.spatialSourceOscParam_pos
+#typeEqv KAM.Planetary.Spatial.spatialSourceOscParam_pos KAM.Provider.Planetary.Spatial.spatialSourceOscParam_pos
+#print axioms KAM.Planetary.Spatial.spatialSourceOscParam_pos
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourceOscParam_pos
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourceOscEnergy_neg := @KAM.Provider.Planetary.Spatial.spatialSourceOscEnergy_neg
+#typeEqv KAM.Planetary.Spatial.spatialSourceOscEnergy_neg KAM.Provider.Planetary.Spatial.spatialSourceOscEnergy_neg
+#print axioms KAM.Planetary.Spatial.spatialSourceOscEnergy_neg
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourceOscEnergy_neg
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourceOscEcc_lt_one := @KAM.Provider.Planetary.Spatial.spatialSourceOscEcc_lt_one
+#typeEqv KAM.Planetary.Spatial.spatialSourceOscEcc_lt_one KAM.Provider.Planetary.Spatial.spatialSourceOscEcc_lt_one
+#print axioms KAM.Planetary.Spatial.spatialSourceOscEcc_lt_one
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourceOscEcc_lt_one
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourceOscEcc_nonneg := @KAM.Provider.Planetary.Spatial.spatialSourceOscEcc_nonneg
+#typeEqv KAM.Planetary.Spatial.spatialSourceOscEcc_nonneg KAM.Provider.Planetary.Spatial.spatialSourceOscEcc_nonneg
+#print axioms KAM.Planetary.Spatial.spatialSourceOscEcc_nonneg
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourceOscEcc_nonneg
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourceOscAxis_pos := @KAM.Provider.Planetary.Spatial.spatialSourceOscAxis_pos
+#typeEqv KAM.Planetary.Spatial.spatialSourceOscAxis_pos KAM.Provider.Planetary.Spatial.spatialSourceOscAxis_pos
+#print axioms KAM.Planetary.Spatial.spatialSourceOscAxis_pos
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourceOscAxis_pos
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourceOscPeri_pos := @KAM.Provider.Planetary.Spatial.spatialSourceOscPeri_pos
+#typeEqv KAM.Planetary.Spatial.spatialSourceOscPeri_pos KAM.Provider.Planetary.Spatial.spatialSourceOscPeri_pos
+#print axioms KAM.Planetary.Spatial.spatialSourceOscPeri_pos
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourceOscPeri_pos
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourceOscPeri_le_length := @KAM.Provider.Planetary.Spatial.spatialSourceOscPeri_le_length
+#typeEqv KAM.Planetary.Spatial.spatialSourceOscPeri_le_length KAM.Provider.Planetary.Spatial.spatialSourceOscPeri_le_length
+#print axioms KAM.Planetary.Spatial.spatialSourceOscPeri_le_length
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourceOscPeri_le_length
+
+example : type_of% @KAM.Planetary.Spatial.spatialSourceOscApo_ge_length := @KAM.Provider.Planetary.Spatial.spatialSourceOscApo_ge_length
+#typeEqv KAM.Planetary.Spatial.spatialSourceOscApo_ge_length KAM.Provider.Planetary.Spatial.spatialSourceOscApo_ge_length
+#print axioms KAM.Planetary.Spatial.spatialSourceOscApo_ge_length
+#print axioms KAM.Provider.Planetary.Spatial.spatialSourceOscApo_ge_length
+
+example : type_of% @KAM.Planetary.StrongAMD.planar_strongAMD_barrier := @KAM.Provider.Planetary.StrongAMD.planar_strongAMD_barrier
+#typeEqv KAM.Planetary.StrongAMD.planar_strongAMD_barrier KAM.Provider.Planetary.StrongAMD.planar_strongAMD_barrier
+#print axioms KAM.Planetary.StrongAMD.planar_strongAMD_barrier
+#print axioms KAM.Provider.Planetary.StrongAMD.planar_strongAMD_barrier
+
+example : type_of% @KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety := @KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety
+#typeEqv KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety
+#print axioms KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety
+#print axioms KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety
+
+example : type_of% @KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_halfInteger := @KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_halfInteger
+#typeEqv KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_halfInteger KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_halfInteger
+#print axioms KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_halfInteger
+#print axioms KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_halfInteger
+
+example : type_of% @KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety := @KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety
+#typeEqv KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety
+#print axioms KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety
+#print axioms KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety
+
+example : type_of% @KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger := @KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger
+#typeEqv KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger
+#print axioms KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger
+#print axioms KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger
+
+#print axioms KAM.Planetary.StrongAMD.actionAxis
+#print axioms KAM.Planetary.StrongAMD.chamber
+#print axioms KAM.Planetary.StrongAMD.eccDeficit
+#print axioms KAM.Planetary.StrongAMD.pairFeasible
+#print axioms KAM.Planetary.StrongAMD.pairObjective
+#print axioms KAM.Planetary.StrongAMD.pairThreshold
+#print axioms KAM.Planetary.StrongAMD.AdjIdx
+#print axioms KAM.Planetary.StrongAMD.AdjIdx.upperIdx
+#print axioms KAM.Planetary.StrongAMD.OrderedActions
+#print axioms KAM.Planetary.StrongAMD.orderedPairThreshold
+#print axioms KAM.Planetary.StrongAMD.orderedCrossThreshold
+#print axioms KAM.Planetary.StrongAMD.orderedStrongThreshold
+#print axioms KAM.Planetary.StrongAMD.strongAMD
+#print axioms KAM.Planetary.StrongAMD.keplerPeri
+#print axioms KAM.Planetary.StrongAMD.keplerApo
+#print axioms KAM.Planetary.StrongAMD.oscVelocity
+#print axioms KAM.Planetary.StrongAMD.oscParam
+#print axioms KAM.Planetary.StrongAMD.oscEnergy
+#print axioms KAM.Planetary.StrongAMD.oscAxis
+#print axioms KAM.Planetary.StrongAMD.oscEccVector
+#print axioms KAM.Planetary.StrongAMD.oscEcc
+#print axioms KAM.Planetary.StrongAMD.oscPeri
+#print axioms KAM.Planetary.StrongAMD.oscApo
+#print axioms KAM.Planetary.StrongAMD.SourceCanonicalPhase
+#print axioms KAM.Planetary.StrongAMD.SourceOsculatingPhase
+#print axioms KAM.Planetary.StrongAMD.sourceStrongAMD
+#print axioms KAM.Planetary.StrongAMD.sourceKeplerPeri
+#print axioms KAM.Planetary.StrongAMD.sourceKeplerApo
+#print axioms KAM.Planetary.StrongAMD.sourceOscVelocity
+#print axioms KAM.Planetary.StrongAMD.sourceOscParam
+#print axioms KAM.Planetary.StrongAMD.sourceOscEnergy
+#print axioms KAM.Planetary.StrongAMD.sourceOscAxis
+#print axioms KAM.Planetary.StrongAMD.sourceOscEccVector
+#print axioms KAM.Planetary.StrongAMD.sourceOscEcc
+#print axioms KAM.Planetary.StrongAMD.sourceOscPeri
+#print axioms KAM.Planetary.StrongAMD.sourceOscApo
+#print axioms KAM.Planetary.Spatial.spaceDot
+#print axioms KAM.Planetary.Spatial.spaceSq
+#print axioms KAM.Planetary.Spatial.spaceLength
+#print axioms KAM.Planetary.Spatial.spaceCross
+#print axioms KAM.Planetary.Spatial.bodyVector3
+#print axioms KAM.Planetary.Spatial.planetAngularMomentum3
+#print axioms KAM.Planetary.Spatial.angularMomentum3
+#print axioms KAM.Planetary.Spatial.spatialHamiltonian
+#print axioms KAM.Planetary.Spatial.SpatialNoCollision
+#print axioms KAM.Planetary.Spatial.IsSpatialMovingSolutionOn
+#print axioms KAM.Planetary.Spatial.SpatialMovingUniqueOn
+#print axioms KAM.Planetary.Spatial.spatialBarycentricPositions
+#print axioms KAM.Planetary.Spatial.spatialBarycentricVelocities
+#print axioms KAM.Planetary.Spatial.spatialMasses
+#print axioms KAM.Planetary.Spatial.IsSpatialNewtonSolutionOn
+#print axioms KAM.Planetary.Spatial.spatialKeplerEnergy
+#print axioms KAM.Planetary.Spatial.spatialKeplerAxis
+#print axioms KAM.Planetary.Spatial.spatialKeplerAction
+#print axioms KAM.Planetary.Spatial.spatialKeplerEccVector
+#print axioms KAM.Planetary.Spatial.SpatialNegativeEnergy
+#print axioms KAM.Planetary.Spatial.SpatialElliptic
+#print axioms KAM.Planetary.Spatial.spatialKeplerPeri
+#print axioms KAM.Planetary.Spatial.spatialKeplerApo
+#print axioms KAM.Planetary.Spatial.spatialOscVelocity
+#print axioms KAM.Planetary.Spatial.spatialOscParam
+#print axioms KAM.Planetary.Spatial.spatialOscEnergy
+#print axioms KAM.Planetary.Spatial.spatialOscAxis
+#print axioms KAM.Planetary.Spatial.spatialOscEccVector
+#print axioms KAM.Planetary.Spatial.spatialOscEcc
+#print axioms KAM.Planetary.Spatial.spatialOscPeri
+#print axioms KAM.Planetary.Spatial.spatialOscApo
+#print axioms KAM.Planetary.Spatial.SpatialOscPhase
+#print axioms KAM.Planetary.Spatial.SpatialSourceCanonicalPhase
+#print axioms KAM.Planetary.Spatial.SpatialSourceOsculatingPhase
+#print axioms KAM.Planetary.Spatial.spatialSourceKeplerAxis
+#print axioms KAM.Planetary.Spatial.spatialSourceKeplerAction
+#print axioms KAM.Planetary.Spatial.spatialSourceKeplerEccVector
+#print axioms KAM.Planetary.Spatial.spatialSourceKeplerEcc
+#print axioms KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum
+#print axioms KAM.Planetary.Spatial.spatialSourceAngularMomentum
+#print axioms KAM.Planetary.Spatial.spatialSourceStrongAMD
+#print axioms KAM.Planetary.Spatial.spatialSourceKeplerPeri
+#print axioms KAM.Planetary.Spatial.spatialSourceKeplerApo
+#print axioms KAM.Planetary.Spatial.spatialSourceOscVelocity
+#print axioms KAM.Planetary.Spatial.spatialSourceOscParam
+#print axioms KAM.Planetary.Spatial.spatialSourceOscEnergy
+#print axioms KAM.Planetary.Spatial.spatialSourceOscAxis
+#print axioms KAM.Planetary.Spatial.spatialSourceOscEccVector
+#print axioms KAM.Planetary.Spatial.spatialSourceOscEcc
+#print axioms KAM.Planetary.Spatial.spatialSourceOscPeri
+#print axioms KAM.Planetary.Spatial.spatialSourceOscApo
+#print axioms KAM.Planetary.Spatial.spatialSourceBarycentricPositions
+#print axioms KAM.Planetary.Spatial.spatialSourceBarycentricVelocities

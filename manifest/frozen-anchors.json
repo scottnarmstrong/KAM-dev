@@ -10976,7 +10976,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "d5ad8dc786c2a14554e8b89eccde6e39a603a7940c907e614204e6c5dc95a4dd",
    "definition_closure": [],
    "state": "SEALED",
    "full_file_sha256": "360f6832934321aec167ec8dfacd05de4c9e60f87dfb8afc58deb17ae694bffe"
@@ -11005,7 +11005,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "9cc5ec65df5dfe2ee99959839aaf121fe0f58cc2d4b429a8925f1829a1e2eaab",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean",
@@ -11039,7 +11039,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "8e801ff76c90860eaf3a26128931dd910e823ec8f547c6113357245ceb6f6803",
    "definition_closure": [],
    "state": "SEALED",
    "full_file_sha256": "b69e269f180d6df9d5c8b0cb322d19d058af6c288cbc52ba06b946e577be7ea6"
@@ -11068,7 +11068,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "6d14a6a1abecfcb4a34314f3f30bf0c70cf69b47d42ec1c16db1a849b6e46c13",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean",
@@ -11102,7 +11102,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "024b20f3a47742f053ef4842fe6ec5003382d90645687d560e2fef18668f9852",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/StrongAMD/Defs/EccDeficit.lean",
@@ -11136,7 +11136,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "293566de81d28fcd969f94618cf2952a3c801b57dfe816185f24d4683c5ca9ab",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean",
@@ -11182,7 +11182,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "b5f634e0a44da0960607f622f84d116b7dd00f4f67d0b6a33981693330d37301",
    "definition_closure": [],
    "state": "SEALED",
    "full_file_sha256": "779da8f257faab41b72d71a8f4489e745fe5dfc6eee2b64bbc2be8185db8befa"
@@ -11211,7 +11211,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "d0e461d2d5c54b8bff9e3430b24cc47d88ccc2b58a3900301eca01219b00e531",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/StrongAMD/Defs/AdjIdx.lean",
@@ -11245,7 +11245,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "562bb6e2ed2dba05140b630c2dc06f46b4b857fff09c6d433396b40577b47162",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean",
@@ -11283,7 +11283,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "4ec867fd80f0445d0f0b348cb82b625a2f111fe869b7cc48e292f5b0c0740c48",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean",
@@ -11341,7 +11341,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "86b2da3d81eda68ba8bb775b7dc712dc3d0a90147c26c7c031f97ed9087d8183",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean",
@@ -11411,7 +11411,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "04abc34ad0f0932d9db56255430732564b704f27505f05989c65917a8b1d453a",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean",
@@ -11485,7 +11485,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "302f70fe20850c0973d1ef0d3af71b6405869abf58fce9ff70e41ea440313c00",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -11671,7 +11671,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "e3e8ad61d7eee3e71d1b06a9d2c03eee76068f5808fdb35bf0e1990d94fb3d9d",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -11849,7 +11849,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "43024b250cebf92740dcc172da23740ac0cd9b049b3e4611c09f94c72eb22fa3",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -12027,7 +12027,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "f4c4af24e85b0746619d6c176a830284c2ae2a197fa78f649f3dfaaab612d07a",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -12077,7 +12077,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "83c4392908734d61f8fbd748fc137b446a86b7bcc30ee7789f27a1497c40a8f4",
    "definition_closure": [],
    "state": "SEALED",
    "full_file_sha256": "752684dc7327e7c53606d86d17a539dd1125ad3224edeb223b79aff0ce08d0aa"
@@ -12106,7 +12106,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "e574ac411b3164af465f8009be12e45aadba8c85e2e11c49fa9a4cac4d72e80d",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -12172,7 +12172,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "c199a483d7944c4f262ce5f1e072bdf5a71fb7fba240a12dd34dd562a108d3e3",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -12242,7 +12242,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "2de2060de127f5bfd0a729634c68176364d2766abac76391d70ecf413c106b8d",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -12312,7 +12312,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "3a1f4067cf962b0b97d5e16f2f1c8238a81dafe48934ae548b647fe414d67b97",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -12386,7 +12386,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "a9c308e0c85c730b9da744665e3b162b42f981c8922590c1800b280789684eb3",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -12472,7 +12472,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "3b761db8cb87d3381bb119ebb1f48a9f7a887a94b384efe432416d006b1c808e",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -12558,7 +12558,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "2b1d4f563d8a7e7e1be25be909f06c3e8463e515ca822939290e47557f8b183e",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -12728,7 +12728,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "a95826fff22c5725fbc68ed4ad44927739fe644b9276f988f80e7c5d258983a1",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -12810,7 +12810,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "f3f9ec60c7a6fa9c1692e70e8b59bd59a0a8de8937d6a7d024de2939c388a940",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -13004,7 +13004,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "0ec040b0e5ac579dcf6f87c8133828c620b4e9267a4b01393332f1d6c4532537",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -13190,7 +13190,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "0c8b3de0105c5c7a55c38b9a7090f961ac41ceb6fb90e12f140ca905c694680b",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -13376,7 +13376,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "d258d9a9606eaa563fe0236af8462a70887af4e1aa8cd4d66d5bcc26a1a0de59",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -13462,7 +13462,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "5a70f7aae97bf0d1eaff664dc304453c7f382487d72d581975032ace8c7020f2",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -13548,7 +13548,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "5823351c9783e599ebbc32d4c6ea8142d0585020866fb25b967d8d80cf197061",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -13634,7 +13634,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "382df895c542e5710ba0718ab5d364fbeb642b5fdb33884337e2d19f4c364cfa",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -13724,7 +13724,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "265d073f6f1a73cbf3eaf8d7eceb4166ca791fb3d486b1c5571c28a5f2706e96",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -13810,7 +13810,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "8854f8abb708a7cdf33c58cec2421335bc9bf496eeb25c9b548550faa39aa60b",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -13896,7 +13896,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "71b54296120eb7553308212e58a570d934543caee092b70f4c01e47769713126",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -13990,7 +13990,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "5c37f6767d386c77834ead460c3160898a39eaac536ccb2f1561b0ceee223fa3",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -14084,7 +14084,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "4551abaaa4755d552dd5bab7eac43b0405360fabfc32ef52b3d98fda3049a324",
    "definition_closure": [],
    "state": "SEALED",
    "full_file_sha256": "bc5271b1e224d2490ef63f9f50dba9b146c89d95d60ec747b55e86a6184b5244"
@@ -14113,7 +14113,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "bcae08a71ff40c78513831da5ca7c3ca114dc45666dafcf71956999cc38f1cfd",
    "definition_closure": [],
    "state": "SEALED",
    "full_file_sha256": "036b6b0f268de37f82f58be6f7f728149f32c0e7ba110a09ce4c7914b8a65378"
@@ -14142,7 +14142,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "70ce223ee332d660b3e6917f1766402e3c9336962a2f8c5c59b4dc57511cbe03",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/Spatial/Defs/SpaceSq.lean",
@@ -14176,7 +14176,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "87bc64bdb88d2ae2e38e01091904aa638633c9f8cb56ebb79f2759351e9f9c89",
    "definition_closure": [],
    "state": "SEALED",
    "full_file_sha256": "146889f96049c376b9665ace1bc2a7bddeb1da89c56a1ac4fc23c6d1ab0fcc98"
@@ -14205,7 +14205,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "b5de44382a31d04a5940a23b52e58abda7a369f2ea78bbea0e5aff75c91a860c",
    "definition_closure": [],
    "state": "SEALED",
    "full_file_sha256": "613dd4026cade58a93cc39d83c8d72ae40bd7e2f63ec4d76e4b1870b42501547"
@@ -14234,7 +14234,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "e03d68e8041e465fb213075e42c6fbbc65755b88d5d79c7da8b41b4130e3d079",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -14288,7 +14288,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "ecc6c04d768f5c59f00a205d5a712118a800b6f0be7c82789cbfdb83d46040b7",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -14342,7 +14342,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "b4614c6f0dba469b5409ef80174b3d0f5043fbb6fca3f6158fc225da6d76e7e0",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -14400,7 +14400,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "cca4510b4e971c550607d55d4583b5b1dfbcf2c1cd25f20cbee2f803a18a8ba4",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/Spatial/Defs/BodyVector3.lean",
@@ -14442,7 +14442,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "6499ca1d550e8d07037e70c29dff5e48c33dc6c9f7e978637c8c24b09f8fb5e5",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -14568,7 +14568,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "ca45020ff13ad89b7ed4e3077306848600850bc604bc4f07eadc4bd043d62d31",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -14698,7 +14698,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "b5ef0dbc1e597050da5bb1fcca1a9608e9730cdb090fb893239f686c8d069f61",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/Spatial/Defs/BodyVector3.lean",
@@ -14732,7 +14732,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "cc092f40cafa08fca2fadf837a911b0cb22cf2dec98cae504beb31b40ea620ab",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/Spatial/Defs/BodyVector3.lean",
@@ -14766,7 +14766,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "aca567c2ed9ffb877daf85b2616eaa757cd2274656175e2de1d601f7886ff1ad",
    "definition_closure": [],
    "state": "SEALED",
    "full_file_sha256": "16296d6f09add1f57896c81f12309c0a3787c40c39636f9c2fa6418e5fbd6636"
@@ -14795,7 +14795,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "e0c5f38f79b55a20c71405151c0cde2c1c4a1cb3aaed11a4f685048977fb282d",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/Spatial/Defs/SpaceLength.lean",
@@ -14833,7 +14833,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "c302a0603f146706db847d139cc2d8b2222c86a91adacde2a7325699d8b894a1",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -14891,7 +14891,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "54bc0be144da1d819d43ee79ea7ad6aa9988e2b0852aced684e006af8bb9e96c",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -14953,7 +14953,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "d60e5dfcf1d7572d8fcf00135d5b846dd640a5bbb35057b9db282ef49ee7f2bd",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -15019,7 +15019,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "1bb4b8de6655df78aa778f7210f66704c5ced8b411bb6cbc5b5dc96195503017",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -15081,7 +15081,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "28c34d877b59da45e883d96289365dbd2a6ede92b5b660372666e1ae5efc18d7",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -15143,7 +15143,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "fec96f298327ab83e94caa4f136616dc8c2a7db23c675039543320c8e120853b",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -15209,7 +15209,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "cea64bbc7890c8a63c7b7c163c3314f979815bd8feece862103919a771ab394c",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -15283,7 +15283,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "087f10dfe3d4707ae053044dc986422b593ed76bc17ac18922db4faa4a6e5289",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -15357,7 +15357,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "c5c4e1fac529168f8c43646d947206434b2525754db216fb2bafe5766d04ba35",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -15407,7 +15407,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "874d4be03742a7a5e7a10fbdb31a55a42e93db6be29cf92f5e6df89e9f94b8be",
    "definition_closure": [],
    "state": "SEALED",
    "full_file_sha256": "fe68086595072cd8fa585341617dc182354e4d0e53c133dd92e7d411ab58bb87"
@@ -15436,7 +15436,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "1c3f1059f7aab9156865ebab07de7d8efada5b3ed5d9ea145891ada687adeb61",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -15502,7 +15502,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "be13a432a32f06eaf7bf8e65c1dc9d063c2d35c806b93a362f96952437312439",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -15572,7 +15572,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "322e50eedad1837dd96e547926abc70730d48c48ac3ae6b98891357042b75e84",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -15642,7 +15642,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "c01dad3160ba00498e7091749a0dcd3bca75e959f5c61d545518f7497ee54b55",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -15716,7 +15716,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "f607bde6f14125867faf6530601b3735a0ce944d9b8b547a85b040814db5c2d1",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -15802,7 +15802,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "4169a2ca2838fccbe5e583252d933a154f84da08f26d48250d740df2555d87e6",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -15888,7 +15888,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "55de99be412cc3aa6d71e52e3b46f9157294990b777c1ffa3662c9440a3794c2",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -15970,7 +15970,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "b2abbd09007c6b34051abd4fd40f13363f3f2b72a883d30af4f7c02919a30758",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -16040,7 +16040,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "9363a6265245b1e5a17f1b1bfa0b9c1185326f524c8baf505f27fe25c1226828",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -16126,7 +16126,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "2d8e5041c2666c4ea07cf34d4b57420b868bcb362ef63a95b5b787235082651c",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -16204,7 +16204,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "5dfa254c39d05876472ccc2036741976e8bcde824b39509d0e78e411d66018d5",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -16286,7 +16286,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "19466c1f4e528379a1f780425e508e4e093bad6bbb8a7a9acfc0ac7beec3c53f",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -16368,7 +16368,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "b0194453d629f3233d0b241b7bf74a2620c04a7e188a990c81e14757cd15e57d",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -16454,7 +16454,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "c9ae99ca6bc813fa278608faf90c10a9b03650c5643209dd52adb4d6f6639a3f",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -16536,7 +16536,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "7cd0696d5f64ceaaee58528d1ceb008f044ec2bc8034b1c5bb0c77cfa51c1059",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -16618,7 +16618,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "db40ab8154db4af09586f1dbea057be06d210e1746fdf2cc59d5948eb87e50be",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -16716,7 +16716,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "0f954b44e61d475642b9b5755a284bd6d892d0f791c1c888ad5bb4d86a38a85e",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -16802,7 +16802,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "93cec71a28e2b1385b1e9368c131383f103a8a4938d79fcd7f9d9dd31435e86d",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -16888,7 +16888,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "4d3fc7c860342b026e6d7f7e5228d9af42b9fd9b0dc6195b624e822e0d4b53c0",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -16974,7 +16974,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "7cc4a890e34e51a19e4dcccaae46a2d6a33ddc268c8a7507be53017527f05ff0",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -17060,7 +17060,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "78032793e3980fd9a80aa47db770fb1122a90526656d29a4f206ad8711a0b9c6",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -17146,7 +17146,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "8132682794d8795bbe9d0dccb709f454e4b8339bde4202b30ffbaf93ae44d776",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -17236,7 +17236,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "a76d9ddaef222ec0aec2eb470849d8d481a47f3dcac07dad89bd6fd7d16f015a",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -17322,7 +17322,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "7c2c4107f425ba9a7a8b7590b02f9811ad0ff3d84a8197d5c4ba448d967d77b9",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -17408,7 +17408,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "d0f2beb1b8b01df0732f4f00cd0c0937a69348dc3248329ced5cd939c5bd8f9d",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -17502,7 +17502,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "d66fd59c0696142631e582a3970f20f5277f01aba2f2db01ea806949b960c8d8",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -17596,7 +17596,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "7bc0dbad04af66325815929350cf51358ced2ce7cc9394b923cb84e82da21b32",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/Spatial/Defs/BodyVector3.lean",
@@ -17634,7 +17634,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "625b6a1a24052b3d6c8ff36714206c239543f7b4b3fdb85842d11fdb66ee66ab",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/Spatial/Defs/BodyVector3.lean",
@@ -17672,7 +17672,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "8a4a9ca0b3a8ed72192667f31315ee47a6a945981fb6759f349269d14a9eef70",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean",
@@ -17743,7 +17743,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "c6d8eb9bce1d8bad0dda3f050fbd47464f6ca6045e4aecd1555d8a56614e7cb0",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean",
@@ -17806,7 +17806,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "960caadb1ee1979d1eb596770b57f164b0868885d328250141f799c83ecd0a4f",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean",
@@ -17889,7 +17889,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "1dd51f606407a4de87aca3abfe2c61e14660ecc796ed2289ff3ec904e07eff41",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean",
@@ -17976,7 +17976,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "d9af681d12072e83d8f9f986a13815ef93e6397132728dc72f32e916ef3df3ad",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -18183,7 +18183,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "62bf6dccb8d42f5cf06341752baa424e5e0b7fd00ee59a66ef4d867e34577b38",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -18398,7 +18398,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "7731886247386b82082b66054cd1af471037b5eb5a3aa17365e4d098032b4174",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -18585,7 +18585,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "2ede1e6266422e98b0ba3d414f6b7e2417c45d2f436166e975ee776e48fe8b3f",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -18772,7 +18772,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "79bcc85c4a9986ce41a1c5048ae42d81d204f3a14dbb942750f5e224be142111",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -18971,7 +18971,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "bc651b06061a57764696ecf57cb3e675ed1c4b578f682984948d8cee15d4d6ae",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -19170,7 +19170,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "5d18a64bd0fce6435020af9cb258359eeb057b5be6b9ee9e829ad11a3249b87c",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -19273,7 +19273,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "0c5150d43260c99afa47b998ab7a3e9f499a514e1becaf0f34eb92d66e77bf59",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -19380,7 +19380,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "1ce0a7aed32a3f144a29bed616e0d29c34606699a68fd2123a048048ffc3f040",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -19487,7 +19487,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "fffced58bd764c2961e056add565ae5347a7c06a8215969009b92f957225f8f3",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -19594,7 +19594,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "c473fbddfb2da335b627a6e34dae5eb2013d50c912a601e2700271611738f6de",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -19685,7 +19685,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "0b19b3858aac95d3274a9b1fb596545adf71161567d87d387b316a6d16c33269",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -19780,7 +19780,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "d57d7de1afd13132b9cbb2fb396ba5e23492418758b2e34a499dba10ed67c8ab",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -19879,7 +19879,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "7c5b493f48a3e2ce6b74f0f11714adc2a0f3ee300381f0060aa789d5bb6c4558",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -20002,7 +20002,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "26d964de20b3d56a50241c95f4b417f3d6825fe3d0e324616c2d4d941115b974",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -20101,7 +20101,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "43c82cd83205dbd5a55345bd116cd00b1f3e4d4a865545a6c96f02b887ffe426",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -20200,7 +20200,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "f6e9113ab208e30a3a2469cf64d5ccf4d3d6c11e900d75ecaa1cef164ceed8fd",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -20323,7 +20323,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "2d950df835a3f9ae44e6f4c05773881cd203df43080a359b47e707f7a1fe785f",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -20430,7 +20430,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "ab638195e8eae674077c06a78ac384ef3c34d38b87ceda9bbe1ae46468fc925a",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -20533,7 +20533,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "686e73b0b457426b316776af53db5f711e46c8b9b9c5642bad9b9480cdb8e2e6",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -20636,7 +20636,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "6d9389729156647f75b9ad2458784dc0e7560c2158efa002c9c21f01705778fd",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -20747,7 +20747,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "3bcbb6495450f26b39bc3c82017a9acc587b71a13a08b259b49b0a58a3460534",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -20874,7 +20874,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "6acaa4099fabe01d3477bcadec3bb8f89e454983d437d299f8bbd96abfaae3f4",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -20977,7 +20977,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "2361214739322a443c11e55d2ac6581a4bd6323822478fed43ca89583698bea9",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -21080,7 +21080,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "5c0b552b09cf9a3239d0d2e632f55a635354c80cd68ab4889dd2ef974ad11ed7",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -21183,7 +21183,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "4b620ed7bef0718a24625ea9f2c7dd0b68977e41aff8645646cc09b982741b17",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -21286,7 +21286,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "e2a68783cebe55f3388defeb40ed9632ca90c375a75edb8466da6439919823e1",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -21393,7 +21393,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "a757086991b433764db2d8127482c0e8268c7764364f1090858354add5ea14df",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -21504,7 +21504,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "bc95e8ef9395be519563edde8996304cd2a61e8738af6d0e2110b2aa3cfcd043",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -21615,7 +21615,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "bf21b051b14b444c3d627dfe57c84ded7c73481f4cb387ab34179cc1e28ce82c",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
@@ -21726,7 +21726,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "4816775b095a255429f67a3b8521c9cb64a8bd3fecdd99496d070ee7352497f7",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -21985,7 +21985,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "a70e0b6a009377d9cb3c49a23bcec64e175853c0eb2cb59d5a456d29df729591",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -22332,7 +22332,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "50df22c53395dc90c388a4d62811762b288e72721e54c799949456bb67897574",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -22679,7 +22679,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "9d34c2a7b12a0614bfb923fbfffc0c67809cc2097021af4eddfbcb0c5995e7a8",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -23034,7 +23034,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D62"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "19e891f2585d908488b799d192ba8ab04ef0bc73374739a9e998330fad54f00b",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
