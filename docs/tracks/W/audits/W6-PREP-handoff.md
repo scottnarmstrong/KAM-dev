@@ -17,3 +17,4 @@ still being built. Modules under `KAM/Wave/Iteration/`, namespace `KAM.Wave`.
 | W8 D1 | done | `Assembly/UpstreamW6` | `w8Upstream m hm : W8UpstreamConsts` (`γ`, `γ₁`, `c_F = stepCF 24`, `c^♮_F = stepCFn 24`), `w8SigmaP_eq_w6`, `w8Sigma0_eq_w6`, `w8M_eq_w6` |
 | `convergence` (i) | done (generic in the frequencies) | `Params` | `w6Removed`, `w6PiSeq`, `w6PiStar`, `w6Convergence_params` (`Π_{-1}∖Π_* = ⋃ R^ν_{kl}`), `w6Zone_subset`, `w6PiSeq_measurableSet` (Borel), `w6PiSeq_antitone` |
 | `exclusion` | done (generic family, D2-style) | `Params` | `w6_exclusion`, `w6_exclusion_seq` (levels `α_ν` with `α₀ = α̌`, thresholds `K_ν`) |
+| `convergence` (ii)–(iv) | W5-free arithmetic only | `ConvArith` | `freq_sum_le`, `freq_lip_sum_le` (step `c-freq`), `ePhi`, `ePhi_eq`, `cauchy_sum_le`, `cauchy_tail_le`, `two_two_MF_eq` (step `c-cauchy`), `w6prod_le_two` (step `c-op`), `sum_inv_pow_Ico_le` |
