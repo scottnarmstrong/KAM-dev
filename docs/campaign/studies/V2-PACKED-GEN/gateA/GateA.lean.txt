@@ -25,12 +25,13 @@ namespace LG00.TP
 open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.Packed KAM.CertificateSharp.V2
   CertArith
 
-/-- **The A gate** (V2-PACKED-SHARP): the numerical parts of `refinedTestPackedS` specific to the
-packed sharp-site engine, decided on the tree's data: the packed frame tests at the route witness's
-claims and `refinedCoreS` (the certified sharp sites). With `checkHamClaim` and the conjuncts the
-frame checks share with `checkTorsionR` (decided once, by the base checker's stages), they give
-`refinedTestPackedS … lg00Cert lg00RW = true` through `refinedTestPackedS_of` and
-`checkFrameMajorantsR_of`. -/
+/-- **The A gate** (V2-PACKED-SHARP): the final packed frame sums at the route witness's claims
+and `refinedCoreS` (the certified sharp sites), decided on the tree's data. It establishes neither
+`refinedTestPackedS … lg00Cert lg00RW = true` nor the frame bounds (`FrameMajorants`): the sums run
+on memos (`pkRBook`, `pkGMemo`, `pkRMemo`) verified only by the stage conjuncts the packed frames
+share with `checkTorsionR` (`gramPackedCheck`, `ptPackOk`, `trStN`, …), which are left, with
+`checkHamClaim` and `checkFrameOmega`, to the B3b route (`refinedTestPackedS_of`,
+`checkFrameMajorantsR_of`). -/
 theorem pkGateA :
     trFrameLOk (α := LGF) 2 lg00Cert.weight pkRBook pkGMemo lg00RW.base.R.bL = true ∧
     trFrameNOk (α := LGF) 2 pkRBook pkRMemo lg00RW.base.R.bN lg00RW.base.R.bNt = true ∧

@@ -36,19 +36,25 @@ routeARefinedSWith (framesRJ …)`, `checkV2With_jetSharp_sound`, and the assemb
 is not on this branch: it is compile-checked on the local integration branch `v2-packed-gen-int` (this branch
 merged with `v2-packed-prod` `0d5f39d9` and `v2-packed-cons` `75deebd9`; never to be landed) and is to be added
 after both land (text below, "Pending module"). kamx-pk-cons' `routeARefinedPackedJ` is the classical-site engine;
-LG00's tori need the sharp sites (classical sites: T″ fails, 0.98×).
+LG00's tori need the sharp sites: with classical sites T″ fails (0.98× at L = 20; "classical fails" at T″'s
+L = 18; route/cost table of the LG00-T2 handoff, `git show lg00-app:docs/campaign/handoffs/LG00-T2.md`).
 
-**Gate (T′'s data, production form): PASS.** `run_tree.sh TP gate` (log `runA`, 2026-11-01 14:41–15:40 UTC):
-353 modules, all passed, every process under the 4 GiB cap (largest charge 2.68 GB). The modules prove facts
-about LG00's own `LG00.TP.lg00Cert` and `lg00RW` (not copies): T′'s 279 data modules are reused from LG00's run18
-(no rebuild), everything else is built here.
+**Gate (T′'s data, production form): the gate's own modules pass.** `run_tree.sh TP gate` (log `runA`,
+2026-11-01 14:35–15:04 UTC): 353 modules, all passed, every process under the 4 GiB cap (largest charge 2.68 GB).
+The modules prove facts about LG00's own `LG00.TP.lg00Cert` and `lg00RW` (not copies): T′'s 275 data modules and 5
+shared LG00 modules (280) are reused from LG00's run18 (no rebuild), everything else is built here.
 - `pkGateA` (`LG00Packed.TP.GateA`): `trFrameLOk … lg00Cert.weight pkRBook pkGMemo lg00RW.base.R.bL = true ∧
   trFrameNOk … = true ∧ trFrameTOk … = true ∧ refinedCoreS 2 lg00Cert.params lg00Cert.freqBox lg00RW = true`,
   from `pkFrameL/N/T` (T′'s packed Gram memo and rounded node memo, generated) and LG00's own
   `lg00_refinedCore` (T′'s `Final` site modules, rebuilt against this core: the certified sharp sites).
-  With `checkHamClaim` and the conjuncts the packed frames share with `checkTorsionR` (decided once, by the base
-  checker's stages), `refinedTestPackedS_of` and `checkFrameMajorantsR_of` give
-  `refinedTestPackedS … lg00Cert lg00RW = true`; that assembly is the B3b route below.
+  **Gate A establishes neither `refinedTestPackedS … lg00Cert lg00RW = true` nor T′'s frame bounds
+  (`FrameMajorants`).** It decides only the final frame sums (`trFrameLOk`, `trFrameNOk`, `trFrameTOk`) and
+  `refinedCoreS`. The sums run on memos (`pkRBook`, `pkGMemo`, `pkRMemo`) that gate A does not verify: their
+  verification is the stage conjuncts the packed frames share with `checkTorsionR` (`gramPackedCheck`,
+  `gramInvRadius`, the composition, `ptEntries`, `trLayOk`, `trNormOk`, `ptPackOk`, the seven `trSt*`). Those, with
+  `checkHamClaim` and `checkFrameOmega` (true by construction for `RefClaim.frame`: `bOm = freqNormUp box`), are
+  left to the B3b route below, whose assembly (`refinedTestPackedS_of`, `checkFrameMajorantsR_of`) gives
+  `refinedTestPackedS … lg00Cert lg00RW = true`.
 - **One-ulp attacks.** For each frame bound, the test at the largest packed sum (exact mirror) decides `true` and
   one ulp (2⁻¹²⁸) below it decides `false`: `|Lᵀ|`, `|N|`, `|Nᵀ|`, `sup |T|` (8 modules, all as predicted).
 
@@ -61,10 +67,18 @@ about LG00's own `LG00.TP.lg00Cert` and `lg00RW` (not copies): T′'s 279 data m
 | attacks (8) | 8 | 121.0 | 69.1 | 2.36 GB |
 | reused (T′ data, shared LG00 modules) | 280 | 0 | — | — |
 
-Kernel times are the profiler's (`LG00Packed` modules only; LG00's library has no profiler). `FrameT`'s kernel
-time is 16.6 s against 8.9 s for the first certificate's standalone probe (V2-PACKED-FRAMES); the run shared the
-machine with LG00's three workers (user anon at the 20 GB gate, 4.6 s of system time), and the profiler measures
-wall time. Not investigated further.
+Kernel times are the profiler's (`LG00Packed` modules only; LG00's library has no profiler), read from each
+module's own log section (the receipt's ledger is recomputed so: see `gateA/NOTES.md`). `FrameT`'s kernel time is
+16.6 s against 8.9 s for the first certificate's standalone probe (V2-PACKED-FRAMES), but its CPU is lower: 20.4
+CPU-s against 22.1 (user 15.7 s). The profiler measures wall time, and the run shared the machine with LG00's three
+workers (user anon at the 20 GB gate, 4.6 s of system time).
+
+**AUDIT-V2-PACKED-SHARP-1: PASS WITH CHANGES** (Lean sound, axioms standard; changes to receipts and this handoff
+only). F1: the receipt ledger's kernel column is recomputed from the logs by the committed parser (GateA 19.82 s →
+0, the replayed imports' lines; harness versions recorded in `gateA/NOTES.md`). F2: the run window is 14:35–15:04
+UTC. F3: what gate A does not establish is stated above and in `pkGateA`'s docstring (module rebuilt; statement and
+proof unchanged). F4: the T″ classical-site figure now cites the LG00-T2 handoff. Nits: 280 reused modules; the
+`v2-packed-prod` prerequisites of `gen_port.py` and `run_tree.sh`'s jet route are listed under (B).
 
 ## (B) The whole-torus packed pipeline
 
@@ -80,8 +94,8 @@ wall time. Not investigated further.
   and `.ir` hardlinked (Lake replaces them, never rewrites them in place), everything else (`.trace`, `.hash`,
   `.ilean`, `.c`) copied, so nothing this package's Lake does can touch `lg00-app`'s files;
 - `lake-manifest.json` is LG00's with the core's path; `.lake/packages` is a symlink to the core's packages.
-Measured: T′'s 279 data modules are reused against this branch's core with no rebuild
-(`lake build --no-build LG00.TP.Data.Cert`: `All targets up-to-date (3539 jobs)`). Only the modules importing
+Measured: the 279 modules of `LG00.TP.Data.Cert`'s closure (275 data, 4 shared) are reused against this branch's
+core with no rebuild (`lake build --no-build LG00.TP.Data.Cert`: `All targets up-to-date (3539 jobs)`). Only the modules importing
 `V2/SiteSign.lean` or `V2/SiteShard.lean` (changed on `main` after `lg00-app`'s pin: T′'s `Final` site and witness
 modules) are rebuilt, as V2-SITES-SIGN's landing note predicted.
 
@@ -94,6 +108,13 @@ modules) are rebuilt, as V2-SITES-SIGN's landing note predicted.
 | `gen_port.py` | the chain-free part of LG00's proof (static, Hamiltonian balls and bounds, embedding, disc pass, sharp sites, frequency facts, Hamiltonian identity, model, window, confinement form) copied onto kamx-packed's certificate copy, renamed `LG00 → LG00P` with `prod_cert_gen.cert_text`; fails closed if the closure reaches a landed chain or the advice/witness data (T′: 168 modules). |
 | `gen_packed.py` | the packed modules of a tree (below), `--prefix LG00` (real certificate) or `LG00P` (the copy). |
 | `run_packed.py` | the run harness (below). |
+| `run_tree.sh` | one torus through a route: `gate`, `b3b` (LG00's real certificate) or `jet` (the copy). |
+
+**Prerequisites not on this branch.** `gen_port.py` and the `jet` route of `run_tree.sh` need kamx-packed's
+`scripts/packed/prod_cert_gen.py` and `jet_prod_gen.py` (branch `v2-packed-prod`, `0d5f39d9`; `gen_port.py` falls back
+to `v2-packed`'s worktree copy, `run_tree.sh` takes `PROD_GEN`/`JET_PROD_GEN`), and the `jet` route's Lean needs
+`v2-packed-prod`'s `JetKeyed`/`JetCheck` and `v2-packed-cons`' consumers in the core, plus `RouteSharpJ.lean`
+(on `v2-packed-gen-int` only: this branch carries no Lean that needs unlanded APIs).
 
 **`gen_packed.py` stages.** Every module is a Lean module (copyright, `module`, `public import`, docstring,
 `@[expose] public noncomputable section`), lines ≤ 100 characters, ≤ 1,400 lines (data split into parts).
