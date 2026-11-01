@@ -2,30 +2,6 @@
  "_comment": "LP-FREEZE7 manifest entry drafts (NOT manifest/frozen-anchors.json). Each entry follows the schema of manifest/frozen-anchors.json; fields marked \"TBD at freeze\" are computed by scripts/abi_hashes.py and sha256 at freeze time; author_approval is filled from the owner decision approving the exact text. definition_closure lists the complete transitive closure of frozen definition files imported (including the core KAM/Frozen/Defs files).",
  "entries": [
   {
-   "id": "fourier.d59.modeSize.v1",
-   "kind": "definition",
-   "author_approval": "PENDING (D59 approves rulings only)",
-   "source": {
-    "revision": "KAM-inp@701c239b docs/tracks/LP/source/MAIN.md (sha256 68e9167f04e4a04689ea163c74e02ffcaea657b252726080abdbe37bdba48c1b) as amended by docs/tracks/LP/source/AMENDMENTS.md (sha256 c887d1e27354a3db7fb8a20d8bf3e33a9ef95ff3173f925ba5ebfab192651881); exact text docs/tracks/LP/FREEZE-PROPOSAL.md draft 7",
-    "range": "MAIN §1 (5) (60–63)"
-   },
-   "contract": {
-    "id": "fourier.d59.modeSize",
-    "version": "1"
-   },
-   "path": "KAM/Frozen/Fourier/Defs/ModeSize.lean",
-   "export": "KAM.Fourier.modeSize",
-   "split_policy": {
-    "source_group": "fourier.d59.modeSize",
-    "mode": "NOT_SPLIT",
-    "ruling_ref": "docs/DECISIONS.md D59"
-   },
-   "abi_sha256": "TBD at freeze",
-   "definition_closure": [],
-   "state": "SEALED",
-   "full_file_sha256": "TBD at freeze"
-  },
-  {
    "id": "planetary.d59.actionAxis.v1",
    "kind": "definition",
    "author_approval": "PENDING (D59 approves rulings only)",
@@ -6211,6 +6187,72 @@
    "full_file_sha256": "TBD at freeze"
   },
   {
+   "id": "planetary.d59.spatialSourceBarycentricPositions.v1",
+   "kind": "definition",
+   "author_approval": "PENDING (D59 approves rulings only)",
+   "source": {
+    "revision": "KAM-inp@701c239b docs/tracks/LP/source/MAIN.md (sha256 68e9167f04e4a04689ea163c74e02ffcaea657b252726080abdbe37bdba48c1b) as amended by docs/tracks/LP/source/AMENDMENTS.md (sha256 c887d1e27354a3db7fb8a20d8bf3e33a9ef95ff3173f925ba5ebfab192651881); exact text docs/tracks/LP/FREEZE-PROPOSAL.md draft 7",
+    "range": "MAIN L1 (100–108), d = 3"
+   },
+   "contract": {
+    "id": "planetary.d59.spatialSourceBarycentricPositions",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricPositions.lean",
+   "export": "KAM.Planetary.Spatial.spatialSourceBarycentricPositions",
+   "split_policy": {
+    "source_group": "planetary.d59.spatialSourceBarycentricPositions",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D59"
+   },
+   "abi_sha256": "TBD at freeze",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/BodyVector3.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialBarycentricPositions.lean",
+     "sha256": "TBD at freeze"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "TBD at freeze"
+  },
+  {
+   "id": "planetary.d59.spatialSourceBarycentricVelocities.v1",
+   "kind": "definition",
+   "author_approval": "PENDING (D59 approves rulings only)",
+   "source": {
+    "revision": "KAM-inp@701c239b docs/tracks/LP/source/MAIN.md (sha256 68e9167f04e4a04689ea163c74e02ffcaea657b252726080abdbe37bdba48c1b) as amended by docs/tracks/LP/source/AMENDMENTS.md (sha256 c887d1e27354a3db7fb8a20d8bf3e33a9ef95ff3173f925ba5ebfab192651881); exact text docs/tracks/LP/FREEZE-PROPOSAL.md draft 7",
+    "range": "MAIN L1 (100–108), d = 3"
+   },
+   "contract": {
+    "id": "planetary.d59.spatialSourceBarycentricVelocities",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricVelocities.lean",
+   "export": "KAM.Planetary.Spatial.spatialSourceBarycentricVelocities",
+   "split_policy": {
+    "source_group": "planetary.d59.spatialSourceBarycentricVelocities",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D59"
+   },
+   "abi_sha256": "TBD at freeze",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/BodyVector3.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialBarycentricVelocities.lean",
+     "sha256": "TBD at freeze"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "TBD at freeze"
+  },
+  {
    "id": "planetary.d59.orderedPairThreshold_isLeast.v1",
    "kind": "theorem",
    "author_approval": "PENDING (D59 approves rulings only)",
@@ -10438,10 +10480,6 @@
      "sha256": "TBD at freeze"
     },
     {
-     "path": "KAM/Frozen/Fourier/Defs/ModeSize.lean",
-     "sha256": "TBD at freeze"
-    },
-    {
      "path": "KAM/Frozen/Iso/Defs/IsHamiltonianSolutionOn.lean",
      "sha256": "TBD at freeze"
     },
@@ -10781,10 +10819,6 @@
     },
     {
      "path": "KAM/Frozen/Defs/TorsionAverage.lean",
-     "sha256": "TBD at freeze"
-    },
-    {
-     "path": "KAM/Frozen/Fourier/Defs/ModeSize.lean",
      "sha256": "TBD at freeze"
     },
     {
@@ -11130,10 +11164,6 @@
      "sha256": "TBD at freeze"
     },
     {
-     "path": "KAM/Frozen/Fourier/Defs/ModeSize.lean",
-     "sha256": "TBD at freeze"
-    },
-    {
      "path": "KAM/Frozen/Iso/Defs/IsHamiltonianSolutionOn.lean",
      "sha256": "TBD at freeze"
     },
@@ -11267,6 +11297,14 @@
     },
     {
      "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceAngularMomentum.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricPositions.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricVelocities.lean",
      "sha256": "TBD at freeze"
     },
     {
@@ -11476,10 +11514,6 @@
      "sha256": "TBD at freeze"
     },
     {
-     "path": "KAM/Frozen/Fourier/Defs/ModeSize.lean",
-     "sha256": "TBD at freeze"
-    },
-    {
      "path": "KAM/Frozen/Iso/Defs/IsHamiltonianSolutionOn.lean",
      "sha256": "TBD at freeze"
     },
@@ -11613,6 +11647,14 @@
     },
     {
      "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceAngularMomentum.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricPositions.lean",
+     "sha256": "TBD at freeze"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricVelocities.lean",
      "sha256": "TBD at freeze"
     },
     {

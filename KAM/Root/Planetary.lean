@@ -692,6 +692,7 @@ public import KAM.Planetary.Spatial.Rotation
 public import KAM.Planetary.Spatial.Rotation46
 public import KAM.Planetary.Spatial.RotationAlgebra
 public import KAM.Planetary.Spatial.RotationSolution
+public import KAM.Planetary.Spatial.SourceBarycentric
 public import KAM.Planetary.Spatial.SourceCarrier
 public import KAM.Planetary.Spatial.SpatialSafety.Aligned
 public import KAM.Planetary.Spatial.SpatialSafety.Bridge
@@ -720,6 +721,7 @@ public import KAM.Planetary.StrongAMD.ChartLift.Stopped
 public import KAM.Planetary.StrongAMD.ChartLift
 public import KAM.Planetary.StrongAMD.Confinement
 public import KAM.Planetary.StrongAMD.Continuation
+public import KAM.Planetary.StrongAMD.DiophantineBridge
 public import KAM.Planetary.StrongAMD.Geometry
 public import KAM.Planetary.StrongAMD.Modulus
 public import KAM.Planetary.StrongAMD.Momentum
@@ -744,6 +746,7 @@ public import KAM.Planetary.StrongAMD.PlanarSafety.Orientation
 public import KAM.Planetary.StrongAMD.PlanarSafety.Prograde
 public import KAM.Planetary.StrongAMD.PlanarSafety.Source
 public import KAM.Planetary.StrongAMD.PlanarSafety.SourceCorollary
+public import KAM.Planetary.StrongAMD.PlanarSafety.SourceDiophantine
 public import KAM.Planetary.StrongAMD.PlanarSafety.SourceThreshold
 public import KAM.Planetary.StrongAMD.PlanarSafety
 public import KAM.Planetary.StrongAMD.Reflection

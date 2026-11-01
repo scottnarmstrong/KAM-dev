@@ -1,0 +1,862 @@
+LP-FREEZE7R verification of FREEZE-PROPOSAL draft 7 revision 1 (track LP). Generated 2026-11-01 10:14 UTC
+Worktree /root/code/KAM-inp-lp-freeze7, branch inp-lp-freeze7; audited draft 7 = 809aa0dd (statement audit
+docs/tracks/LP/freeze/STATEMENT-AUDIT-DRAFT7-1.md); revision 1 applies its F1, F2, N2. Every lean run: scripts: .drafts/freeze7/{gen.py, extract_anchors.py, mk_checks.py, mk_bc.py, mk_manifest.py}; wrapper: /root/code/KAM-inp/.drafts/LP/lp_lean.sh /root/code/KAM-inp-lp-freeze7 <file>
+All scratch files are under .drafts/freeze7/ (gitignored); each is < 1500 lines.
+
+====================================================================================================
+0. Draft file identities (sha256 of docs/tracks/LP/freeze/draft7/<frozen path>.txt)
+====================================================================================================
+45562cb9d9dbac3e230b519f306050e3dbef1f191812cc5f0613006eb4515def  KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean.txt
+41813632236e667231f339ee6f3c631777463265e4641cb04dd847ee666eb9b9  KAM/Frozen/Planetary/StrongAMD/Defs/Chamber.lean.txt
+9db41fee9c0ca4bf899eb4c3db7fee34dd836385ce2b928975341abccb4e968e  KAM/Frozen/Planetary/StrongAMD/Defs/EccDeficit.lean.txt
+719ed9291a50a21c105e0b7c6a50ea6133282b94ec3592570c72c986ecb1b97f  KAM/Frozen/Planetary/StrongAMD/Defs/PairFeasible.lean.txt
+4bb4e1a3735f79913d43e7e1363a17c9b81001caf195dce1411acb38db4e1663  KAM/Frozen/Planetary/StrongAMD/Defs/PairObjective.lean.txt
+d43801ab244a2c23c1dab370811f111bc2af0a8b5643adeb7363a79585811191  KAM/Frozen/Planetary/StrongAMD/Defs/PairThreshold.lean.txt
+81778d63da9fa4922e502ab05b7bfedb8cf33bb1f11e75865e667850db3467a5  KAM/Frozen/Planetary/StrongAMD/Defs/AdjIdx.lean.txt
+34cfa5827c8eab8b0b84bf0dca08ef5f0b8d8d12c997e5e055a8de8fd020553d  KAM/Frozen/Planetary/StrongAMD/Defs/AdjIdxUpperIdx.lean.txt
+44b7db16e8e16c8712e2787c7053fde74b1e76d07f9e3ab2202aecef11932681  KAM/Frozen/Planetary/StrongAMD/Defs/OrderedActions.lean.txt
+72663f2d80b49453bf650010b737f0de146335dfe5016d6f44a90011fa209c3c  KAM/Frozen/Planetary/StrongAMD/Defs/OrderedPairThreshold.lean.txt
+eae8820d0d4fce8450d79d2fa41ee800aaf0a2066e737045a33c8de3fdc268da  KAM/Frozen/Planetary/StrongAMD/Defs/OrderedCrossThreshold.lean.txt
+67d751fb8c60e02f039c93006b49cf43504686faec89d08aa91ce2abec2e008a  KAM/Frozen/Planetary/StrongAMD/Defs/OrderedStrongThreshold.lean.txt
+3ee732a67ba755553517a917f8776853f70178c9e9e461ba74e637e4393c741a  KAM/Frozen/Planetary/StrongAMD/Defs/StrongAMD.lean.txt
+d593032eab9cf449c5f08ae56a193d140f7a339de54af22547a53dfca0a2d161  KAM/Frozen/Planetary/StrongAMD/Defs/KeplerPeri.lean.txt
+e7f21727f94d1197f6ba569e1b2606696a8deb96ba128a22d9972ebf1bdd91e6  KAM/Frozen/Planetary/StrongAMD/Defs/KeplerApo.lean.txt
+316093ef96f5d09b04c982b2e8b202c82234e9a5b7258cbb5a42a255c8e79255  KAM/Frozen/Planetary/StrongAMD/Defs/OscVelocity.lean.txt
+b34e8c78d2875371ad8c562454fa547ee18b994004cdb865bd16a4f6f5d85844  KAM/Frozen/Planetary/StrongAMD/Defs/OscParam.lean.txt
+baa3597969c17e876de5b3e9182b732cbac16b7bc59f9dfa34d65f9a69e64cd8  KAM/Frozen/Planetary/StrongAMD/Defs/OscEnergy.lean.txt
+75e0f2753d65458396efaeefdcf06cc8c7ef3d43dadc273846bc05cf0f9927c4  KAM/Frozen/Planetary/StrongAMD/Defs/OscAxis.lean.txt
+0e3ddba0208fd9ea495daf3c2211833540d213ff98cbf6d4995642c1e1654949  KAM/Frozen/Planetary/StrongAMD/Defs/OscEccVector.lean.txt
+69b2cb9ed88c7aea95cfc22b7a0a0f953981af5d4667179efa6fd45bd1db8fd7  KAM/Frozen/Planetary/StrongAMD/Defs/OscEcc.lean.txt
+9d95bcdf1757d48cd08e6abf370c644ca7fea3676bed48df0d914c461337d47d  KAM/Frozen/Planetary/StrongAMD/Defs/OscPeri.lean.txt
+38955b313364a7d5836b1d19406db623a9e3730daa03abb85e92f7358168e9b4  KAM/Frozen/Planetary/StrongAMD/Defs/OscApo.lean.txt
+b712f070cda9f5b92ccdb6f9e8ce9ceb73837193c8dd6a221a1ab9f0865ff043  KAM/Frozen/Planetary/StrongAMD/Defs/SourceCanonicalPhase.lean.txt
+09218bca19bdf92fc3cf19d851dfe1e30db008e50f45aeeb7551c7f1194a62ba  KAM/Frozen/Planetary/StrongAMD/Defs/SourceOsculatingPhase.lean.txt
+9956baf8aa1783affa72564695369a831f53b7566542f84db61855220f66930c  KAM/Frozen/Planetary/StrongAMD/Defs/SourceStrongAMD.lean.txt
+7fde2f9beb8e137ae7ac89ac2964c002f0a4016153f529f85d7ce5aa3021f810  KAM/Frozen/Planetary/StrongAMD/Defs/SourceKeplerPeri.lean.txt
+0475743e9a88e2b52ae930ed8ac699c12598699d2cdd550f4de04d32b679f90b  KAM/Frozen/Planetary/StrongAMD/Defs/SourceKeplerApo.lean.txt
+e04103f3c46bc282569848da90ac5287f4be4de90162017618ca2ddf7f60a117  KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscVelocity.lean.txt
+861a34708ff2cd30e06fe5baa51506b1d774d2108f3ac4d6a930d1ec81c3dafc  KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscParam.lean.txt
+62b704deeff396924899b15ad13b4c1e49152854c44fcb60523449ccf19e5dc2  KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEnergy.lean.txt
+a74e9aa6d585b00867f827f953c72c211f7f101de0fbe721863060fd3206093b  KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscAxis.lean.txt
+3af0158aee2f588b94d2e7078771656ec8817af656ec99178497b10b3f6beff7  KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEccVector.lean.txt
+aa8bf762593f8d2cf911d62f1a8365fa6469bd26cd331fe5934b617e1ceaeb94  KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEcc.lean.txt
+080d479e9ea6d29a92c57514dd5a227e4802fb8d40c1ae0c8f22ff6037345d40  KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscPeri.lean.txt
+4b61d86c089c97e1883749c05875835ec50a1b4c46af0bb2a43409609234477c  KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscApo.lean.txt
+bd3bb69cbf4c494cbd89c7d1b6d836217df2c2aba8d90e2fb8d7e26b37d96ef1  KAM/Frozen/Planetary/Spatial/Defs/SpaceDot.lean.txt
+a3c7f33aff9603838eb4cb4dce50216277464d6040b74b9afd2cedc50a8f145b  KAM/Frozen/Planetary/Spatial/Defs/SpaceSq.lean.txt
+759126ff46a6e06fa3a40ad3f5ee29d2f678e6f602d3c5edea04d93de659b380  KAM/Frozen/Planetary/Spatial/Defs/SpaceLength.lean.txt
+f19b76568450526d90497584b58408adb0d56abd3783cd0ebabd4cd1525f30ce  KAM/Frozen/Planetary/Spatial/Defs/SpaceCross.lean.txt
+4d5d6e98955db3ce546956191be69af7345d1f5b57526c5e8e6621f11a024b55  KAM/Frozen/Planetary/Spatial/Defs/BodyVector3.lean.txt
+26d75a20f126a739bb24ea7e5c8b25edec8da17b96f2d97c143dc11188e1bc0e  KAM/Frozen/Planetary/Spatial/Defs/PlanetAngularMomentum3.lean.txt
+ceb02a9b4ae97844f516fa97ae8c2068847eefa4a1e283fca1284250a8b9eb08  KAM/Frozen/Planetary/Spatial/Defs/AngularMomentum3.lean.txt
+bdb765fd2ecf72e8c44f06c394362a3637efcb9163c091b0e5958d67df87df24  KAM/Frozen/Planetary/Spatial/Defs/SpatialHamiltonian.lean.txt
+691a8eacb3d09d04a90af69a351b2388966ffe2a675481d1f8b30c93e4793e62  KAM/Frozen/Planetary/Spatial/Defs/SpatialNoCollision.lean.txt
+5c837d440459fee2408c8cf4f0c6df09146a1f771538e6eeac727c7fbc1dde08  KAM/Frozen/Planetary/Spatial/Defs/IsSpatialMovingSolutionOn.lean.txt
+0b7d6132b67f9a7ac3135e7d64987308b8de4a8a5a068bf49525c5ebb994ea6a  KAM/Frozen/Planetary/Spatial/Defs/SpatialMovingUniqueOn.lean.txt
+26ae35fc1dbeaab2c3e006c392c9751acd95ec9fbfff3352bcc8914f8b038240  KAM/Frozen/Planetary/Spatial/Defs/SpatialBarycentricPositions.lean.txt
+112cb4515465de509948f8c7e2026546402d5f166f0c07505f2f8700cc491d2f  KAM/Frozen/Planetary/Spatial/Defs/SpatialBarycentricVelocities.lean.txt
+760a36f1ed5df6fc1b670429baa9974752c966213a79cacfc260d8e01571cd81  KAM/Frozen/Planetary/Spatial/Defs/SpatialMasses.lean.txt
+fbfff5ba4f0c9309bd47ae2e3d9986cf95049bee98a55ab59063932dcac405de  KAM/Frozen/Planetary/Spatial/Defs/IsSpatialNewtonSolutionOn.lean.txt
+2f4d1a498b1ef2e55d5e53f05d3348d8837e97c65bc6da1419401f82ab67b3bf  KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerEnergy.lean.txt
+92a851c479df688500388129201c019d4a9e011aa02924597cab43b5e66fe778  KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerAxis.lean.txt
+a3cae2838e26f49003f8184b962944b5b914824b63943b51ec0b20092638a8b3  KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerAction.lean.txt
+6c31b6f62065d67b8764e88c38dc014a1463778c5eb602c8cb13198e65d01386  KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerEccVector.lean.txt
+5303eede186c637e51a53e55f4d2d3bc32c6d3730662a32d4af64a34e721d9b3  KAM/Frozen/Planetary/Spatial/Defs/SpatialNegativeEnergy.lean.txt
+392a8c7a5ec27d25f46229355f826e6db8d58e300f9ea2fdd7f85d638730ce14  KAM/Frozen/Planetary/Spatial/Defs/SpatialElliptic.lean.txt
+b6e18b290f0baa2084e90fad6182b12814b42406d60a6ca5d901a11d2400222c  KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerPeri.lean.txt
+2ad30856785136b0568595a55fd117de1d7ca6ee289ad756ed991e16858cb910  KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerApo.lean.txt
+2a9e3d53efffd30527db96e614098389e6a5551f83aa6c95c9fe97b6f834c9ab  KAM/Frozen/Planetary/Spatial/Defs/SpatialOscVelocity.lean.txt
+ef4ca8bec55febfdae8562bf3f1a029781ac9fbec202493097091319298bd372  KAM/Frozen/Planetary/Spatial/Defs/SpatialOscParam.lean.txt
+f1f2469d6e6b30004773215e675aad46a1b32730d5c67d792eba89006e489096  KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEnergy.lean.txt
+3831fd08ab7e14c56f37df37f03f7b8bbb5f9bc4c38b57b67c6d00fb7b1039b1  KAM/Frozen/Planetary/Spatial/Defs/SpatialOscAxis.lean.txt
+5b496a73ce06b3e0c77c0035040dc3e3d953767d94b14f4ebe48bd30abc257a3  KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEccVector.lean.txt
+d8cea5d7d0bd42e219825dc04a64cd55e52d63599898e44770d00d3be65e67f5  KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEcc.lean.txt
+f5070777ea9d17603c236dddc2556e680065c693eaaab092a8065a1fcd468e12  KAM/Frozen/Planetary/Spatial/Defs/SpatialOscPeri.lean.txt
+5d5444f8f942757001fe53d4270a85cdf7d3197c47873a7aa7b16d71c52b1f96  KAM/Frozen/Planetary/Spatial/Defs/SpatialOscApo.lean.txt
+906de901c5b0c0596a0e34c0f05966f02644475d5206363c57c7828eee1e071b  KAM/Frozen/Planetary/Spatial/Defs/SpatialOscPhase.lean.txt
+94e7885cce423029b8c47198acf0258bd8b0349529ad8e7fbe8a2b402f1d5ee7  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceCanonicalPhase.lean.txt
+9b6ee0efebbca9e99eb0c706af00239e7e7ffa49eef7bb208c7bb7587b8877af  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOsculatingPhase.lean.txt
+7a84d098a6f218e2f6f96ca21eb7fdb803b265b4334f1a132ee5c3874a1e5408  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerAxis.lean.txt
+bf80fa1b7c8f27d2bbc23137e3d3ff919aedc445c042ed47024848b0669b3025  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerAction.lean.txt
+156b8998ee409908a4ae7bd849f5dd6a08202b049f3a006a6ca3243173b05d24  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerEccVector.lean.txt
+e63353bc2af09853743b6f69bb86a987e980fba0143ae78ed74a14dba50a3c60  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerEcc.lean.txt
+a74eacd5be976c9f41fb4f6068526f65046de9ea006f9d76f36d00bdddde4e2a  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourcePlanetAngularMomentum.lean.txt
+704addb3cba46c595072146aa8776b4cb43f0fb055f4a7c27bb61f137e51d294  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceAngularMomentum.lean.txt
+0286bd24cc47a22e4877ef20b1079b3008b57027d06fc31646bbab56a85fe7e1  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceStrongAMD.lean.txt
+8eaeeb3786b44d1d4266a1e0c28110ac6023ff9db5fb86a4ed1fc73b55dc7176  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerPeri.lean.txt
+023f08f1c32ed3480baa791c51597dfb370e1c852eee6f5311670e55573f9e3a  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerApo.lean.txt
+371b2197fc7c1c42afa419cfe3e59b55201081583024fb92c6f264a6695c02e4  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscVelocity.lean.txt
+6d54b525ac031b064496e0778af1399773bb4b14c82721923d83f69f427ae7f9  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscParam.lean.txt
+ca350350a2c7c5ce3c413b1f260ecb23e226b5dd933774528f5bedc188babd08  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEnergy.lean.txt
+62fdc7ad7d8e8183578fdc560cc23f88d101d8c1c35fc28d8fb4913adc2cbf0d  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscAxis.lean.txt
+0599a23fd0f75b43aa99865409ee8cdc14b64083287d2e352132ce41b6170f0e  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEccVector.lean.txt
+7d8ad4f616107348a2eec97db898e72bd6aba5dca26c7f24b926a5a3afc61c71  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEcc.lean.txt
+5d5001830983bae49e16811ebb1c50f75f09eecc437fcee99325e190c81c8d39  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscPeri.lean.txt
+58b9678a950a95cce2ac488a662d0cf6bccfb53979da4c3f333216654ea10a7b  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscApo.lean.txt
+ef84c1c6f66a7182e1b36eac3a3531437095cbf5c149e8875efc92f6cd851e13  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricPositions.lean.txt
+798a12f844155f2fdc13c2f4bbef8e7136ad18f79fe954ce0b1468640d732edd  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricVelocities.lean.txt
+5f40bbea12803f06ffe169be59be73c2bc32b7cdabe9a3196298a987b132b6b1  KAM/Frozen/Planetary/StrongAMD/Theorems/OrderedPairThresholdIsLeast.lean.txt
+4de6b22ce92b696e4042a540264252c153b2de442262a959dcf4fe2d7c64f84d  KAM/Frozen/Planetary/StrongAMD/Theorems/OrderedPairThresholdExistsUniqueValue.lean.txt
+6538efcf4ccc8ab8763b7015f8974805318b9ec09d9207b69d827c00cec39ddc  KAM/Frozen/Planetary/StrongAMD/Theorems/OrderedCrossThresholdIsLeast.lean.txt
+0aa28696820e65f3d0873707d004da8c4c85cf2d324bdbdd217a3f4a0104f748  KAM/Frozen/Planetary/StrongAMD/Theorems/OrderedStrongThresholdIsLeast.lean.txt
+989a7fdeceb8fa6d17d21d46a128d2113086777664b10aab8df319148e4ef3ed  KAM/Frozen/Planetary/StrongAMD/Theorems/SourceStrongAMDNonneg.lean.txt
+2b11cb1f7fc921f21a55a58e40ac3ce04ee0db52c25111f70b8365f75cc45142  KAM/Frozen/Planetary/StrongAMD/Theorems/SumActionMulEccDeficitLeSourceStrongAMD.lean.txt
+c9adf8bb75e938d2ff3a85dffb4a4e645a1ce9d9e3ab11fafba762ff0ab79a8c  KAM/Frozen/Planetary/StrongAMD/Theorems/SourceKeplerAxisPos.lean.txt
+750b90f6cba58c9896e73062a45725e47458b649b1d07ed5909becbc63c7a1d0  KAM/Frozen/Planetary/StrongAMD/Theorems/SourceKeplerEccLeOne.lean.txt
+b49de10535edb47e9953aaf7d145c3d45ee16aff0e8614e92d46c19b0ff06405  KAM/Frozen/Planetary/StrongAMD/Theorems/SourceKeplerPeriLePlaneLength.lean.txt
+bd187c6c070a54c65c0bbee046b8144b910980f5d670dc89eacbb2dd277fc625  KAM/Frozen/Planetary/StrongAMD/Theorems/PlaneLengthLeSourceKeplerApo.lean.txt
+9423ec80104154276eb92596ed5e14f08850c3ff475d5d97dd68417582240460  KAM/Frozen/Planetary/StrongAMD/Theorems/SourceOscAxisPos.lean.txt
+4a81394364fb18d36a4bfaeff2930d2e51d3b7c83fa47a2ddd272aef7f3066eb  KAM/Frozen/Planetary/StrongAMD/Theorems/SourceOscPeriPos.lean.txt
+8d75dcdd136d700f03483f21b3264844fd17d7baa8f6398e8478d5e7860d92d8  KAM/Frozen/Planetary/StrongAMD/Theorems/SourceOscPeriLePlaneLength.lean.txt
+005d08f143826e71a199235a8fbb9011072bea3814235471489362b4c0dbdc7f  KAM/Frozen/Planetary/StrongAMD/Theorems/PlaneLengthLeSourceOscApo.lean.txt
+c9754af8064003b6288a4e8f4ca77b657eb7279250faa1bca3cbaceb63645d85  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerAxisPos.lean.txt
+3c728238075e405a45e33892d3d9b447cc43316da5d913f58e955d92575b18ef  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerActionPos.lean.txt
+51caf9c54f6b8fcc4b93e1a836aa524d9add2f835c8226b2d6fd606c2f089d1b  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerActionSq.lean.txt
+fa190719f835861588da78d3e29c82b28693e0f752c59715325a81f3c556377c  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerEccSq.lean.txt
+3c9a6bdb379d5be56b9c51260f0f58c5ed2f5473746bce87e67c20dff1eb1b77  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerEccNonneg.lean.txt
+722ea6cada0b45f469c2e080c1b9c07e180178e460e97b19f545ffc2ad6ec8c6  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerEccLeOne.lean.txt
+309c4b8a3b4f8351970311558ed69e37fe9a9f57727a9ed738b2dd2e55b02e9c  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourcePlanetAngularMomentumLength.lean.txt
+459b7d96c427103a75859deed4291e38aed0a65a73a3a9df30c4c72512fb3e2a  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourcePlanetAngularMomentumLengthLe.lean.txt
+18a4c8e82155d4becf36b7a039ebd56cab1c0bafe83e5d0820cc54cc0b1f7841  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerPeriLeLength.lean.txt
+f60239ae12cdfb8366d73cb2dedfb0cae2a144047bdc6bd0f76d17a0c37aa391  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerApoGeLength.lean.txt
+8895f41419db699592c840a6fabca6555cd6c0018b9f4454e07d7f3a03e41128  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceStrongAMDNonneg.lean.txt
+eb784b11a4e504e9a1691eaa1ddad604aa4e5545f6a2abd7102b76683f8ef9cd  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceActionMulEccDeficitLe.lean.txt
+cfeecc6a32ce7ec4c0dc32c62fdf4dbf8f2452710814b61cadb32fbdf7bcb05a  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscParamPos.lean.txt
+28dbff3e5c08c36346d171149652cf145966a37d483b4150b89d2c202bbda34d  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscEnergyNeg.lean.txt
+84cc1c749c0794cf924a7888d39d54981be1819f4579542c68525ed28ca75ff9  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscEccLtOne.lean.txt
+eff3bd0adbd20e96a6ad7bb60192dc751c8c2e5a3605f38bf646e3c55b46c849  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscEccNonneg.lean.txt
+871b6828cd44b93946d7d531cd503ce1f4cc2341324f1118608a4241fccbab4d  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscAxisPos.lean.txt
+9fe05eb9ba9b5c4c443f3491a3cebb5b7d94bcea4715796ac1be053211ae8a48  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscPeriPos.lean.txt
+acf0fb738a0107ef07696872590a1388ea69b09e58548cdde3f0b7ab4f3531de  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscPeriLeLength.lean.txt
+b9b7163305bbd97ea5f688adfdbd57bb4dcd118e5ec9cf2fc40e541b7bffb631  KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscApoGeLength.lean.txt
+9225cd300094fd5a8c94b1169357408faeebd479e492798c1735e9e59575dc47  KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDBarrier.lean.txt
+905551e7500bdd04536a665cccecf27fa97c84a1b517c74fffb45e7d86470da6  KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafety.lean.txt
+12200cc6d69d94039471ca13b620d971ad6e27be4de7d5c76945462104a90ad4  KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyHalfInteger.lean.txt
+ac0c594150fe8b6718b733cbfee22ef9cae063a0c6f13bd4f9830a84c70ce051  KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafety.lean.txt
+b7d723783f413a4c7b6ae7b44bdd0228300df7cefb6a44eed9ad27227bfc5e2b  KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyHalfInteger.lean.txt
+46b7dec753a746bfc5bbfb8058190c77c0bcc219748ee6ca65f68463ec7a9e33  manifest-entries.json
+
+====================================================================================================
+1. Closure (Lean meta computation; .drafts/freeze7/closure.lean)
+====================================================================================================
+Command: lp_lean.sh /root/code/KAM-inp-lp-freeze7 .drafts/freeze7/closure.lean
+Roots: the implementation theorems that close the 5 anchors and the 34 characterization theorems. Listed:
+every KAM.* constant reachable through their TYPES and then through types and values of definitions
+(theorems contribute their type only), with its defining module. Output (exit 0):
+  def KAM.hamiltonianVectorField @ KAM.Frozen.Defs.HamiltonianVectorField
+  def KAM.IsDiophantine @ KAM.Frozen.Defs.IsDiophantine
+  def KAM.Iso.IsHamiltonianSolutionOn @ KAM.Frozen.Iso.Defs.IsHamiltonianSolutionOn
+  thm KAM.Iso.IsHamiltonianSolutionOn._proof_1 @ KAM.Frozen.Iso.Defs.IsHamiltonianSolutionOn
+  def KAM.Planetary.actualMasses @ KAM.Frozen.Planetary.Defs.ActualMasses
+  def KAM.Planetary.barycentricPositions @ KAM.Frozen.Planetary.Defs.BarycentricPositions
+  def KAM.Planetary.barycentricVelocities @ KAM.Frozen.Planetary.Defs.BarycentricVelocities
+  def KAM.Planetary.bodyVector @ KAM.Frozen.Planetary.Defs.BodyVector
+  def KAM.Planetary.IsMovingSolutionOn @ KAM.Frozen.Planetary.Defs.IsMovingSolutionOn
+  def KAM.Planetary.IsNewtonSolutionOn @ KAM.Frozen.Planetary.Defs.IsNewtonSolutionOn
+  thm KAM.Planetary.IsNewtonSolutionOn._proof_1 @ KAM.Frozen.Planetary.Defs.IsNewtonSolutionOn
+  def KAM.Planetary.keplerAction @ KAM.Frozen.Planetary.Defs.KeplerAction
+  def KAM.Planetary.keplerAxis @ KAM.Frozen.Planetary.Defs.KeplerAxis
+  thm KAM.Planetary.keplerAxis._proof_1 @ KAM.Frozen.Planetary.Defs.KeplerAxis
+  def KAM.Planetary.keplerEccVector @ KAM.Frozen.Planetary.Defs.KeplerEccVector
+  def KAM.Planetary.keplerEnergy @ KAM.Frozen.Planetary.Defs.KeplerEnergy
+  thm KAM.Planetary.keplerEnergy._proof_1 @ KAM.Frozen.Planetary.Defs.KeplerEnergy
+  def KAM.Planetary.movingHamiltonian @ KAM.Frozen.Planetary.Defs.MovingHamiltonian
+  thm KAM.Planetary.movingHamiltonian._proof_1 @ KAM.Frozen.Planetary.Defs.MovingHamiltonian
+  def KAM.Planetary.MovingUniqueOn @ KAM.Frozen.Planetary.Defs.MovingUniqueOn
+  def KAM.Planetary.NoCollision @ KAM.Frozen.Planetary.Defs.NoCollision
+  def KAM.Planetary.Phase @ KAM.Frozen.Planetary.Defs.Phase
+  def KAM.Planetary.planeCross @ KAM.Frozen.Planetary.Defs.PlaneCross
+  thm KAM.Planetary.planeCross._proof_1 @ KAM.Frozen.Planetary.Defs.PlaneCross
+  def KAM.Planetary.planeDot @ KAM.Frozen.Planetary.Defs.PlaneDot
+  def KAM.Planetary.planeLength @ KAM.Frozen.Planetary.Defs.PlaneLength
+  def KAM.Planetary.planeSq @ KAM.Frozen.Planetary.Defs.PlaneSq
+  def KAM.Planetary.totalMomentum @ KAM.Frozen.Planetary.Defs.TotalMomentum
+  def KAM.Planetary.Spatial.SpatialElliptic @ KAM.Planetary.Spatial.Elements
+  def KAM.Planetary.Spatial.SpatialNegativeEnergy @ KAM.Planetary.Spatial.Elements
+  def KAM.Planetary.Spatial.angularMomentum3 @ KAM.Planetary.Spatial.Elements
+  def KAM.Planetary.Spatial.planetAngularMomentum3 @ KAM.Planetary.Spatial.Elements
+  def KAM.Planetary.Spatial.spatialKeplerAction @ KAM.Planetary.Spatial.Elements
+  def KAM.Planetary.Spatial.spatialKeplerAxis @ KAM.Planetary.Spatial.Elements
+  def KAM.Planetary.Spatial.spatialKeplerEccVector @ KAM.Planetary.Spatial.Elements
+  def KAM.Planetary.Spatial.spatialKeplerEnergy @ KAM.Planetary.Spatial.Elements
+  thm KAM.Planetary.Spatial.spatialKeplerEnergy._proof_1 @ KAM.Planetary.Spatial.Elements
+  def KAM.Planetary.Spatial.IsSpatialMovingSolutionOn @ KAM.Planetary.Spatial.Model
+  def KAM.Planetary.Spatial.SpatialMovingUniqueOn @ KAM.Planetary.Spatial.Model
+  def KAM.Planetary.Spatial.SpatialNoCollision @ KAM.Planetary.Spatial.Model
+  def KAM.Planetary.Spatial.spatialHamiltonian @ KAM.Planetary.Spatial.Model
+  thm KAM.Planetary.Spatial.spatialHamiltonian._proof_1 @ KAM.Planetary.Spatial.Model
+  def KAM.Planetary.Spatial.IsSpatialNewtonSolutionOn @ KAM.Planetary.Spatial.Newton
+  thm KAM.Planetary.Spatial.IsSpatialNewtonSolutionOn._proof_1 @ KAM.Planetary.Spatial.Newton
+  def KAM.Planetary.Spatial.spatialBarycentricPositions @ KAM.Planetary.Spatial.Newton
+  def KAM.Planetary.Spatial.spatialBarycentricVelocities @ KAM.Planetary.Spatial.Newton
+  def KAM.Planetary.Spatial.spatialMasses @ KAM.Planetary.Spatial.Newton
+  def KAM.Planetary.Spatial.SpatialOscPhase @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialKeplerApo @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialKeplerPeri @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialOscApo @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialOscAxis @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialOscEcc @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialOscEccVector @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialOscEnergy @ KAM.Planetary.Spatial.Osculating.Basic
+  thm KAM.Planetary.Spatial.spatialOscEnergy._proof_1 @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialOscParam @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialOscPeri @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialOscVelocity @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialSourceKeplerApo @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialSourceKeplerPeri @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialSourceOscApo @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialSourceOscAxis @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialSourceOscEcc @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialSourceOscEccVector @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialSourceOscEnergy @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialSourceOscParam @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialSourceOscPeri @ KAM.Planetary.Spatial.Osculating.Basic
+  def KAM.Planetary.Spatial.spatialSourceBarycentricPositions @ KAM.Planetary.Spatial.SourceBarycentric
+  def KAM.Planetary.Spatial.spatialSourceBarycentricVelocities @ KAM.Planetary.Spatial.SourceBarycentric
+  def KAM.Planetary.Spatial.SpatialSourceCanonicalPhase @ KAM.Planetary.Spatial.SourceCarrier
+  def KAM.Planetary.Spatial.SpatialSourceOsculatingPhase @ KAM.Planetary.Spatial.SourceCarrier
+  def KAM.Planetary.Spatial.spatialSourceAngularMomentum @ KAM.Planetary.Spatial.SourceCarrier
+  def KAM.Planetary.Spatial.spatialSourceKeplerAction @ KAM.Planetary.Spatial.SourceCarrier
+  def KAM.Planetary.Spatial.spatialSourceKeplerAxis @ KAM.Planetary.Spatial.SourceCarrier
+  def KAM.Planetary.Spatial.spatialSourceKeplerEcc @ KAM.Planetary.Spatial.SourceCarrier
+  def KAM.Planetary.Spatial.spatialSourceKeplerEccVector @ KAM.Planetary.Spatial.SourceCarrier
+  def KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum @ KAM.Planetary.Spatial.SourceCarrier
+  def KAM.Planetary.Spatial.spatialSourceStrongAMD @ KAM.Planetary.Spatial.SourceCarrier
+  def KAM.Planetary.Spatial.bodyVector3 @ KAM.Planetary.Spatial.Vector
+  def KAM.Planetary.Spatial.spaceCross @ KAM.Planetary.Spatial.Vector
+  thm KAM.Planetary.Spatial.spaceCross._proof_1 @ KAM.Planetary.Spatial.Vector
+  def KAM.Planetary.Spatial.spaceDot @ KAM.Planetary.Spatial.Vector
+  def KAM.Planetary.Spatial.spaceLength @ KAM.Planetary.Spatial.Vector
+  def KAM.Planetary.Spatial.spaceSq @ KAM.Planetary.Spatial.Vector
+  def KAM.Planetary.StrongAMD.strongAMD @ KAM.Planetary.StrongAMD.Momentum
+  def KAM.Planetary.StrongAMD.keplerApo @ KAM.Planetary.StrongAMD.Osculating.Basic
+  def KAM.Planetary.StrongAMD.keplerPeri @ KAM.Planetary.StrongAMD.Osculating.Basic
+  def KAM.Planetary.StrongAMD.oscApo @ KAM.Planetary.StrongAMD.Osculating.Basic
+  def KAM.Planetary.StrongAMD.oscAxis @ KAM.Planetary.StrongAMD.Osculating.Basic
+  def KAM.Planetary.StrongAMD.oscEcc @ KAM.Planetary.StrongAMD.Osculating.Basic
+  def KAM.Planetary.StrongAMD.oscEccVector @ KAM.Planetary.StrongAMD.Osculating.Basic
+  def KAM.Planetary.StrongAMD.oscEnergy @ KAM.Planetary.StrongAMD.Osculating.Basic
+  thm KAM.Planetary.StrongAMD.oscEnergy._proof_1 @ KAM.Planetary.StrongAMD.Osculating.Basic
+  def KAM.Planetary.StrongAMD.oscParam @ KAM.Planetary.StrongAMD.Osculating.Basic
+  def KAM.Planetary.StrongAMD.oscPeri @ KAM.Planetary.StrongAMD.Osculating.Basic
+  def KAM.Planetary.StrongAMD.oscVelocity @ KAM.Planetary.StrongAMD.Osculating.Basic
+  def KAM.Planetary.StrongAMD.SourceCanonicalPhase @ KAM.Planetary.StrongAMD.SourceCarrier
+  def KAM.Planetary.StrongAMD.SourceOsculatingPhase @ KAM.Planetary.StrongAMD.SourceCarrier
+  def KAM.Planetary.StrongAMD.sourceKeplerApo @ KAM.Planetary.StrongAMD.SourceCarrier
+  def KAM.Planetary.StrongAMD.sourceKeplerPeri @ KAM.Planetary.StrongAMD.SourceCarrier
+  def KAM.Planetary.StrongAMD.sourceOscApo @ KAM.Planetary.StrongAMD.SourceCarrier
+  def KAM.Planetary.StrongAMD.sourceOscAxis @ KAM.Planetary.StrongAMD.SourceCarrier
+  def KAM.Planetary.StrongAMD.sourceOscEcc @ KAM.Planetary.StrongAMD.SourceCarrier
+  def KAM.Planetary.StrongAMD.sourceOscEccVector @ KAM.Planetary.StrongAMD.SourceCarrier
+  def KAM.Planetary.StrongAMD.sourceOscEnergy @ KAM.Planetary.StrongAMD.SourceCarrier
+  def KAM.Planetary.StrongAMD.sourceOscPeri @ KAM.Planetary.StrongAMD.SourceCarrier
+  def KAM.Planetary.StrongAMD.sourceStrongAMD @ KAM.Planetary.StrongAMD.SourceCarrier
+  def KAM.Planetary.StrongAMD.AdjIdx @ KAM.Planetary.StrongAMD.Threshold.Defs
+  thm KAM.Planetary.StrongAMD.AdjIdx.lt_upperIdx @ KAM.Planetary.StrongAMD.Threshold.Defs
+  def KAM.Planetary.StrongAMD.AdjIdx.upperIdx @ KAM.Planetary.StrongAMD.Threshold.Defs
+  thm KAM.Planetary.StrongAMD.AdjIdx.upperIdx._proof_1 @ KAM.Planetary.StrongAMD.Threshold.Defs
+  def KAM.Planetary.StrongAMD.OrderedActions @ KAM.Planetary.StrongAMD.Threshold.Defs
+  def KAM.Planetary.StrongAMD.actionAxis @ KAM.Planetary.StrongAMD.Threshold.Defs
+  def KAM.Planetary.StrongAMD.chamber @ KAM.Planetary.StrongAMD.Threshold.Defs
+  def KAM.Planetary.StrongAMD.eccDeficit @ KAM.Planetary.StrongAMD.Threshold.Defs
+  def KAM.Planetary.StrongAMD.orderedCrossThreshold @ KAM.Planetary.StrongAMD.Threshold.Defs
+  def KAM.Planetary.StrongAMD.orderedPairThreshold @ KAM.Planetary.StrongAMD.Threshold.Defs
+  def KAM.Planetary.StrongAMD.orderedStrongThreshold @ KAM.Planetary.StrongAMD.Threshold.Defs
+  def KAM.Planetary.StrongAMD.pairFeasible @ KAM.Planetary.StrongAMD.Threshold.Defs
+  def KAM.Planetary.StrongAMD.pairObjective @ KAM.Planetary.StrongAMD.Threshold.Defs
+  def KAM.Planetary.StrongAMD.pairThreshold @ KAM.Planetary.StrongAMD.Threshold.Defs
+
+====================================================================================================
+2. Check (a): every draft text elaborates in its simulated module environment
+====================================================================================================
+For each of the 128 draft files: a scratch module (.drafts/freeze7/a/<module>.lean) whose imports are exactly
+the union of the non-draft (Mathlib and already-frozen) imports of the file and of its transitive draft
+dependencies, followed by those dependencies (module docstrings removed) in import order and the file under
+test verbatim after its import block. The provider import of a theorem file is dropped (the provider does not
+exist yet). Command per file: lp_lean.sh /root/code/KAM-inp-lp-freeze7 .drafts/freeze7/a/<module>.lean
+LIMITATION (statement audit of draft 7, N1): this check is a simulation. It drops the provider import of every
+theorem file and inlines the draft dependencies into one scratch file, so it does not exercise the real
+provider/import graph nor module-system visibility across real frozen module boundaries. Part B of LP-FREEZE7R
+(staged providers, providers-staging.txt) exercises the provider side partly; a real-module build of the frozen
+files with their providers remains a freeze/seal gate.
+Files run: 128; exit 0: 128; nonzero: 0
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_AngularMomentum3  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_BodyVector3  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_IsSpatialMovingSolutionOn  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_IsSpatialNewtonSolutionOn  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_PlanetAngularMomentum3  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpaceCross  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpaceDot  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpaceLength  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpaceSq  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialBarycentricPositions  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialBarycentricVelocities  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialElliptic  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialHamiltonian  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialKeplerAction  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialKeplerApo  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialKeplerAxis  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialKeplerEccVector  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialKeplerEnergy  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialKeplerPeri  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialMasses  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialMovingUniqueOn  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialNegativeEnergy  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialNoCollision  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialOscApo  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialOscAxis  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialOscEcc  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialOscEccVector  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialOscEnergy  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialOscParam  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialOscPeri  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialOscPhase  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialOscVelocity  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceAngularMomentum  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceBarycentricPositions  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceBarycentricVelocities  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceCanonicalPhase  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceKeplerAction  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceKeplerApo  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceKeplerAxis  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceKeplerEcc  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceKeplerEccVector  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceKeplerPeri  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceOscApo  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceOscAxis  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceOscEcc  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceOscEccVector  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceOscEnergy  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceOscParam  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceOscPeri  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceOsculatingPhase  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceOscVelocity  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourcePlanetAngularMomentum  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceStrongAMD  
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourceActionMulEccDeficitLe  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourceKeplerActionPos  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourceKeplerActionSq  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourceKeplerApoGeLength  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourceKeplerAxisPos  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourceKeplerEccLeOne  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourceKeplerEccNonneg  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourceKeplerEccSq  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourceKeplerPeriLeLength  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourceOscApoGeLength  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourceOscAxisPos  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourceOscEccLtOne  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourceOscEccNonneg  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourceOscEnergyNeg  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourceOscParamPos  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourceOscPeriLeLength  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourceOscPeriPos  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourcePlanetAngularMomentumLength  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourcePlanetAngularMomentumLengthLe  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialSourceStrongAMDNonneg  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialStrongAMDExponentialSafetyHalfInteger  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Theorems_SpatialStrongAMDExponentialSafety  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_ActionAxis  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_AdjIdx  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_AdjIdxUpperIdx  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_Chamber  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_EccDeficit  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_KeplerApo  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_KeplerPeri  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_OrderedActions  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_OrderedCrossThreshold  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_OrderedPairThreshold  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_OrderedStrongThreshold  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_OscApo  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_OscAxis  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_OscEcc  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_OscEccVector  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_OscEnergy  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_OscParam  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_OscPeri  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_OscVelocity  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_PairFeasible  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_PairObjective  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_PairThreshold  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_SourceCanonicalPhase  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_SourceKeplerApo  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_SourceKeplerPeri  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_SourceOscApo  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_SourceOscAxis  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_SourceOscEcc  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_SourceOscEccVector  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_SourceOscEnergy  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_SourceOscParam  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_SourceOscPeri  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_SourceOsculatingPhase  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_SourceOscVelocity  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_SourceStrongAMD  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Defs_StrongAMD  
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_OrderedCrossThresholdIsLeast  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_OrderedPairThresholdExistsUniqueValue  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_OrderedPairThresholdIsLeast  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_OrderedStrongThresholdIsLeast  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_PlanarStrongAMDBarrier  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_PlanarStrongAMDExponentialSafetyHalfInteger  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_PlanarStrongAMDExponentialSafety  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_PlaneLengthLeSourceKeplerApo  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_PlaneLengthLeSourceOscApo  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_SourceKeplerAxisPos  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_SourceKeplerEccLeOne  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_SourceKeplerPeriLePlaneLength  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_SourceOscAxisPos  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_SourceOscPeriLePlaneLength  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_SourceOscPeriPos  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_SourceStrongAMDNonneg  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_SumActionMulEccDeficitLeSourceStrongAMD  [1 "declaration uses sorry" warning(s)]
+
+====================================================================================================
+3. Check (b): draft definition bodies equal the implementation definitions
+====================================================================================================
+Command: lp_lean.sh /root/code/KAM-inp-lp-freeze7 .drafts/freeze7/b_bodies_equal.lean   (exit 0)
+For each of the 89 definitions: the draft text (docstring + declaration, verbatim) in namespace
+<ns>.Draft7_<name>, where its identifiers resolve to the implementation definitions (the post-rebase
+environment), then `example : @<impl> = @<draft> := rfl` and `#sameDecl` (Expr.eqv of types and values,
+reducibility status). Every `rfl` elaborated (no error below).
+Output:
+  KAM.Planetary.StrongAMD.actionAxis vs KAM.Planetary.StrongAMD.Draft7_actionAxis.actionAxis: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.chamber vs KAM.Planetary.StrongAMD.Draft7_chamber.chamber: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.eccDeficit vs KAM.Planetary.StrongAMD.Draft7_eccDeficit.eccDeficit: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.pairFeasible vs KAM.Planetary.StrongAMD.Draft7_pairFeasible.pairFeasible: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.pairObjective vs KAM.Planetary.StrongAMD.Draft7_pairObjective.pairObjective: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.pairThreshold vs KAM.Planetary.StrongAMD.Draft7_pairThreshold.pairThreshold: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.AdjIdx vs KAM.Planetary.StrongAMD.Draft7_AdjIdx.AdjIdx: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.AdjIdx.upperIdx vs KAM.Planetary.StrongAMD.Draft7_AdjIdx_upperIdx.AdjIdx.upperIdx: TYPE_EQV VALUE_NOT_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.OrderedActions vs KAM.Planetary.StrongAMD.Draft7_OrderedActions.OrderedActions: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.orderedPairThreshold vs KAM.Planetary.StrongAMD.Draft7_orderedPairThreshold.orderedPairThreshold: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.orderedCrossThreshold vs KAM.Planetary.StrongAMD.Draft7_orderedCrossThreshold.orderedCrossThreshold: TYPE_EQV VALUE_NOT_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.orderedStrongThreshold vs KAM.Planetary.StrongAMD.Draft7_orderedStrongThreshold.orderedStrongThreshold: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.strongAMD vs KAM.Planetary.StrongAMD.Draft7_strongAMD.strongAMD: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.keplerPeri vs KAM.Planetary.StrongAMD.Draft7_keplerPeri.keplerPeri: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.keplerApo vs KAM.Planetary.StrongAMD.Draft7_keplerApo.keplerApo: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.oscVelocity vs KAM.Planetary.StrongAMD.Draft7_oscVelocity.oscVelocity: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.oscParam vs KAM.Planetary.StrongAMD.Draft7_oscParam.oscParam: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.oscEnergy vs KAM.Planetary.StrongAMD.Draft7_oscEnergy.oscEnergy: TYPE_EQV VALUE_NOT_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.oscAxis vs KAM.Planetary.StrongAMD.Draft7_oscAxis.oscAxis: TYPE_EQV VALUE_NOT_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.oscEccVector vs KAM.Planetary.StrongAMD.Draft7_oscEccVector.oscEccVector: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.oscEcc vs KAM.Planetary.StrongAMD.Draft7_oscEcc.oscEcc: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.oscPeri vs KAM.Planetary.StrongAMD.Draft7_oscPeri.oscPeri: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.oscApo vs KAM.Planetary.StrongAMD.Draft7_oscApo.oscApo: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.SourceCanonicalPhase vs KAM.Planetary.StrongAMD.Draft7_SourceCanonicalPhase.SourceCanonicalPhase: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.SourceOsculatingPhase vs KAM.Planetary.StrongAMD.Draft7_SourceOsculatingPhase.SourceOsculatingPhase: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.sourceStrongAMD vs KAM.Planetary.StrongAMD.Draft7_sourceStrongAMD.sourceStrongAMD: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.sourceKeplerPeri vs KAM.Planetary.StrongAMD.Draft7_sourceKeplerPeri.sourceKeplerPeri: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.sourceKeplerApo vs KAM.Planetary.StrongAMD.Draft7_sourceKeplerApo.sourceKeplerApo: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.sourceOscVelocity vs KAM.Planetary.StrongAMD.Draft7_sourceOscVelocity.sourceOscVelocity: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.sourceOscParam vs KAM.Planetary.StrongAMD.Draft7_sourceOscParam.sourceOscParam: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.sourceOscEnergy vs KAM.Planetary.StrongAMD.Draft7_sourceOscEnergy.sourceOscEnergy: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.sourceOscAxis vs KAM.Planetary.StrongAMD.Draft7_sourceOscAxis.sourceOscAxis: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.sourceOscEccVector vs KAM.Planetary.StrongAMD.Draft7_sourceOscEccVector.sourceOscEccVector: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.sourceOscEcc vs KAM.Planetary.StrongAMD.Draft7_sourceOscEcc.sourceOscEcc: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.sourceOscPeri vs KAM.Planetary.StrongAMD.Draft7_sourceOscPeri.sourceOscPeri: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.StrongAMD.sourceOscApo vs KAM.Planetary.StrongAMD.Draft7_sourceOscApo.sourceOscApo: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spaceDot vs KAM.Planetary.Spatial.Draft7_spaceDot.spaceDot: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spaceSq vs KAM.Planetary.Spatial.Draft7_spaceSq.spaceSq: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spaceLength vs KAM.Planetary.Spatial.Draft7_spaceLength.spaceLength: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spaceCross vs KAM.Planetary.Spatial.Draft7_spaceCross.spaceCross: TYPE_EQV VALUE_NOT_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.bodyVector3 vs KAM.Planetary.Spatial.Draft7_bodyVector3.bodyVector3: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.planetAngularMomentum3 vs KAM.Planetary.Spatial.Draft7_planetAngularMomentum3.planetAngularMomentum3: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.angularMomentum3 vs KAM.Planetary.Spatial.Draft7_angularMomentum3.angularMomentum3: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialHamiltonian vs KAM.Planetary.Spatial.Draft7_spatialHamiltonian.spatialHamiltonian: TYPE_EQV VALUE_NOT_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.SpatialNoCollision vs KAM.Planetary.Spatial.Draft7_SpatialNoCollision.SpatialNoCollision: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.IsSpatialMovingSolutionOn vs KAM.Planetary.Spatial.Draft7_IsSpatialMovingSolutionOn.IsSpatialMovingSolutionOn: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.SpatialMovingUniqueOn vs KAM.Planetary.Spatial.Draft7_SpatialMovingUniqueOn.SpatialMovingUniqueOn: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialBarycentricPositions vs KAM.Planetary.Spatial.Draft7_spatialBarycentricPositions.spatialBarycentricPositions: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialBarycentricVelocities vs KAM.Planetary.Spatial.Draft7_spatialBarycentricVelocities.spatialBarycentricVelocities: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialMasses vs KAM.Planetary.Spatial.Draft7_spatialMasses.spatialMasses: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.IsSpatialNewtonSolutionOn vs KAM.Planetary.Spatial.Draft7_IsSpatialNewtonSolutionOn.IsSpatialNewtonSolutionOn: TYPE_EQV VALUE_NOT_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialKeplerEnergy vs KAM.Planetary.Spatial.Draft7_spatialKeplerEnergy.spatialKeplerEnergy: TYPE_EQV VALUE_NOT_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialKeplerAxis vs KAM.Planetary.Spatial.Draft7_spatialKeplerAxis.spatialKeplerAxis: TYPE_EQV VALUE_NOT_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialKeplerAction vs KAM.Planetary.Spatial.Draft7_spatialKeplerAction.spatialKeplerAction: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialKeplerEccVector vs KAM.Planetary.Spatial.Draft7_spatialKeplerEccVector.spatialKeplerEccVector: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.SpatialNegativeEnergy vs KAM.Planetary.Spatial.Draft7_SpatialNegativeEnergy.SpatialNegativeEnergy: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.SpatialElliptic vs KAM.Planetary.Spatial.Draft7_SpatialElliptic.SpatialElliptic: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialKeplerPeri vs KAM.Planetary.Spatial.Draft7_spatialKeplerPeri.spatialKeplerPeri: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialKeplerApo vs KAM.Planetary.Spatial.Draft7_spatialKeplerApo.spatialKeplerApo: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialOscVelocity vs KAM.Planetary.Spatial.Draft7_spatialOscVelocity.spatialOscVelocity: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialOscParam vs KAM.Planetary.Spatial.Draft7_spatialOscParam.spatialOscParam: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialOscEnergy vs KAM.Planetary.Spatial.Draft7_spatialOscEnergy.spatialOscEnergy: TYPE_EQV VALUE_NOT_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialOscAxis vs KAM.Planetary.Spatial.Draft7_spatialOscAxis.spatialOscAxis: TYPE_EQV VALUE_NOT_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialOscEccVector vs KAM.Planetary.Spatial.Draft7_spatialOscEccVector.spatialOscEccVector: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialOscEcc vs KAM.Planetary.Spatial.Draft7_spatialOscEcc.spatialOscEcc: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialOscPeri vs KAM.Planetary.Spatial.Draft7_spatialOscPeri.spatialOscPeri: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialOscApo vs KAM.Planetary.Spatial.Draft7_spatialOscApo.spatialOscApo: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.SpatialOscPhase vs KAM.Planetary.Spatial.Draft7_SpatialOscPhase.SpatialOscPhase: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.SpatialSourceCanonicalPhase vs KAM.Planetary.Spatial.Draft7_SpatialSourceCanonicalPhase.SpatialSourceCanonicalPhase: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.SpatialSourceOsculatingPhase vs KAM.Planetary.Spatial.Draft7_SpatialSourceOsculatingPhase.SpatialSourceOsculatingPhase: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialSourceKeplerAxis vs KAM.Planetary.Spatial.Draft7_spatialSourceKeplerAxis.spatialSourceKeplerAxis: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialSourceKeplerAction vs KAM.Planetary.Spatial.Draft7_spatialSourceKeplerAction.spatialSourceKeplerAction: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialSourceKeplerEccVector vs KAM.Planetary.Spatial.Draft7_spatialSourceKeplerEccVector.spatialSourceKeplerEccVector: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialSourceKeplerEcc vs KAM.Planetary.Spatial.Draft7_spatialSourceKeplerEcc.spatialSourceKeplerEcc: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum vs KAM.Planetary.Spatial.Draft7_spatialSourcePlanetAngularMomentum.spatialSourcePlanetAngularMomentum: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialSourceAngularMomentum vs KAM.Planetary.Spatial.Draft7_spatialSourceAngularMomentum.spatialSourceAngularMomentum: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialSourceStrongAMD vs KAM.Planetary.Spatial.Draft7_spatialSourceStrongAMD.spatialSourceStrongAMD: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialSourceKeplerPeri vs KAM.Planetary.Spatial.Draft7_spatialSourceKeplerPeri.spatialSourceKeplerPeri: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialSourceKeplerApo vs KAM.Planetary.Spatial.Draft7_spatialSourceKeplerApo.spatialSourceKeplerApo: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialSourceOscVelocity vs KAM.Planetary.Spatial.Draft7_spatialSourceOscVelocity.spatialSourceOscVelocity: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialSourceOscParam vs KAM.Planetary.Spatial.Draft7_spatialSourceOscParam.spatialSourceOscParam: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialSourceOscEnergy vs KAM.Planetary.Spatial.Draft7_spatialSourceOscEnergy.spatialSourceOscEnergy: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialSourceOscAxis vs KAM.Planetary.Spatial.Draft7_spatialSourceOscAxis.spatialSourceOscAxis: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialSourceOscEccVector vs KAM.Planetary.Spatial.Draft7_spatialSourceOscEccVector.spatialSourceOscEccVector: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialSourceOscEcc vs KAM.Planetary.Spatial.Draft7_spatialSourceOscEcc.spatialSourceOscEcc: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialSourceOscPeri vs KAM.Planetary.Spatial.Draft7_spatialSourceOscPeri.spatialSourceOscPeri: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialSourceOscApo vs KAM.Planetary.Spatial.Draft7_spatialSourceOscApo.spatialSourceOscApo: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialSourceBarycentricPositions vs KAM.Planetary.Spatial.Draft7_spatialSourceBarycentricPositions.spatialSourceBarycentricPositions: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+  KAM.Planetary.Spatial.spatialSourceBarycentricVelocities vs KAM.Planetary.Spatial.Draft7_spatialSourceBarycentricVelocities.spatialSourceBarycentricVelocities: TYPE_EQV VALUE_EQV REDUCIBILITY_SAME
+
+====================================================================================================
+4. Check (c): every draft theorem verbatim, closed by the proved theorem; axioms
+====================================================================================================
+Command: lp_lean.sh /root/code/KAM-inp-lp-freeze7 .drafts/freeze7/c_verification.lean   (exit 0)
+For each of the 39 theorems (5 anchors, 34 characterizations): the draft statement verbatim in namespace
+<ns>.Draft7Check (identifiers resolve to the implementation), closed by `by exact _root_.<implementation
+theorem> <explicit binders>`, then `#print axioms` and `#sameDecl` (Expr.eqv of the elaborated types).
+Output:
+  'KAM.Planetary.StrongAMD.Draft7Check.orderedPairThreshold_isLeast' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.StrongAMD.Draft7Check.orderedPairThreshold_isLeast vs KAM.Planetary.StrongAMD.orderedPairThreshold_isLeast: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.StrongAMD.Draft7Check.orderedPairThreshold_existsUnique_value' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.StrongAMD.Draft7Check.orderedPairThreshold_existsUnique_value vs KAM.Planetary.StrongAMD.orderedPairThreshold_existsUnique_value: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.StrongAMD.Draft7Check.orderedCrossThreshold_isLeast' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.StrongAMD.Draft7Check.orderedCrossThreshold_isLeast vs KAM.Planetary.StrongAMD.orderedCrossThreshold_isLeast: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.StrongAMD.Draft7Check.orderedStrongThreshold_isLeast' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.StrongAMD.Draft7Check.orderedStrongThreshold_isLeast vs KAM.Planetary.StrongAMD.orderedStrongThreshold_isLeast: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.StrongAMD.Draft7Check.sourceStrongAMD_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+  KAM.Planetary.StrongAMD.Draft7Check.sourceStrongAMD_nonneg vs KAM.Planetary.StrongAMD.sourceStrongAMD_nonneg: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.StrongAMD.Draft7Check.sum_action_mul_eccDeficit_le_sourceStrongAMD' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.StrongAMD.Draft7Check.sum_action_mul_eccDeficit_le_sourceStrongAMD vs KAM.Planetary.StrongAMD.sum_action_mul_eccDeficit_le_sourceStrongAMD: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.StrongAMD.Draft7Check.sourceKepler_axis_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+  KAM.Planetary.StrongAMD.Draft7Check.sourceKepler_axis_pos vs KAM.Planetary.StrongAMD.sourceKepler_axis_pos: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.StrongAMD.Draft7Check.sourceKepler_ecc_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+  KAM.Planetary.StrongAMD.Draft7Check.sourceKepler_ecc_le_one vs KAM.Planetary.StrongAMD.sourceKepler_ecc_le_one: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.StrongAMD.Draft7Check.sourceKeplerPeri_le_planeLength' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.StrongAMD.Draft7Check.sourceKeplerPeri_le_planeLength vs KAM.Planetary.StrongAMD.sourceKeplerPeri_le_planeLength: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.StrongAMD.Draft7Check.planeLength_le_sourceKeplerApo' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.StrongAMD.Draft7Check.planeLength_le_sourceKeplerApo vs KAM.Planetary.StrongAMD.planeLength_le_sourceKeplerApo: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.StrongAMD.Draft7Check.sourceOscAxis_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+  KAM.Planetary.StrongAMD.Draft7Check.sourceOscAxis_pos vs KAM.Planetary.StrongAMD.sourceOscAxis_pos: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.StrongAMD.Draft7Check.sourceOscPeri_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+  KAM.Planetary.StrongAMD.Draft7Check.sourceOscPeri_pos vs KAM.Planetary.StrongAMD.sourceOscPeri_pos: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.StrongAMD.Draft7Check.sourceOscPeri_le_planeLength' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.StrongAMD.Draft7Check.sourceOscPeri_le_planeLength vs KAM.Planetary.StrongAMD.sourceOscPeri_le_planeLength: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.StrongAMD.Draft7Check.planeLength_le_sourceOscApo' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.StrongAMD.Draft7Check.planeLength_le_sourceOscApo vs KAM.Planetary.StrongAMD.planeLength_le_sourceOscApo: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourceKeplerAxis_pos' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourceKeplerAxis_pos vs KAM.Planetary.Spatial.spatialSourceKeplerAxis_pos: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourceKeplerAction_pos' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourceKeplerAction_pos vs KAM.Planetary.Spatial.spatialSourceKeplerAction_pos: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourceKeplerAction_sq' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourceKeplerAction_sq vs KAM.Planetary.Spatial.spatialSourceKeplerAction_sq: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourceKeplerEcc_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourceKeplerEcc_sq vs KAM.Planetary.Spatial.spatialSourceKeplerEcc_sq: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourceKeplerEcc_nonneg' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourceKeplerEcc_nonneg vs KAM.Planetary.Spatial.spatialSourceKeplerEcc_nonneg: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourceKeplerEcc_le_one' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourceKeplerEcc_le_one vs KAM.Planetary.Spatial.spatialSourceKeplerEcc_le_one: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourcePlanetAngularMomentum_length' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourcePlanetAngularMomentum_length vs KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourcePlanetAngularMomentum_length_le' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourcePlanetAngularMomentum_length_le vs KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length_le: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourceKeplerPeri_le_length' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourceKeplerPeri_le_length vs KAM.Planetary.Spatial.spatialSourceKeplerPeri_le_length: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourceKeplerApo_ge_length' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourceKeplerApo_ge_length vs KAM.Planetary.Spatial.spatialSourceKeplerApo_ge_length: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourceStrongAMD_nonneg' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourceStrongAMD_nonneg vs KAM.Planetary.Spatial.spatialSourceStrongAMD_nonneg: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourceAction_mul_eccDeficit_le' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourceAction_mul_eccDeficit_le vs KAM.Planetary.Spatial.spatialSourceAction_mul_eccDeficit_le: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourceOscParam_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourceOscParam_pos vs KAM.Planetary.Spatial.spatialSourceOscParam_pos: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourceOscEnergy_neg' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourceOscEnergy_neg vs KAM.Planetary.Spatial.spatialSourceOscEnergy_neg: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourceOscEcc_lt_one' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourceOscEcc_lt_one vs KAM.Planetary.Spatial.spatialSourceOscEcc_lt_one: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourceOscEcc_nonneg' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourceOscEcc_nonneg vs KAM.Planetary.Spatial.spatialSourceOscEcc_nonneg: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourceOscAxis_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourceOscAxis_pos vs KAM.Planetary.Spatial.spatialSourceOscAxis_pos: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourceOscPeri_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourceOscPeri_pos vs KAM.Planetary.Spatial.spatialSourceOscPeri_pos: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourceOscPeri_le_length' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourceOscPeri_le_length vs KAM.Planetary.Spatial.spatialSourceOscPeri_le_length: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatialSourceOscApo_ge_length' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatialSourceOscApo_ge_length vs KAM.Planetary.Spatial.spatialSourceOscApo_ge_length: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.StrongAMD.Draft7Check.planar_strongAMD_barrier' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.StrongAMD.Draft7Check.planar_strongAMD_barrier vs KAM.Planetary.StrongAMD.lp0_planar_barrier_source: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.StrongAMD.Draft7Check.planar_strongAMD_exponentialSafety' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.StrongAMD.Draft7Check.planar_strongAMD_exponentialSafety vs KAM.Planetary.StrongAMD.lp1_planar_strongAMD_safety_source_isDiophantine: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.StrongAMD.Draft7Check.planar_strongAMD_exponentialSafety_halfInteger' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.StrongAMD.Draft7Check.planar_strongAMD_exponentialSafety_halfInteger vs KAM.Planetary.StrongAMD.lp1_planar_strongAMD_safety_source_isDiophantine_halfInteger: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatial_strongAMD_exponentialSafety' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatial_strongAMD_exponentialSafety vs KAM.Planetary.Spatial.lp2_spatial_strongAMD_safety_source_isDiophantine: TYPE_EQV THEOREM REDUCIBILITY_SAME
+  'KAM.Planetary.Spatial.Draft7Check.spatial_strongAMD_exponentialSafety_halfInteger' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  KAM.Planetary.Spatial.Draft7Check.spatial_strongAMD_exponentialSafety_halfInteger vs KAM.Planetary.Spatial.lp2_spatial_strongAMD_safety_source_isDiophantine_halfInteger: TYPE_EQV THEOREM REDUCIBILITY_SAME
+
+====================================================================================================
+5. Check (b2): the definitions whose values are rfl-equal but not alpha-equivalent
+====================================================================================================
+Command: lp_lean.sh /root/code/KAM-inp-lp-freeze7 .drafts/freeze7/b2_value_diff.lean   (exit 0)
+For each of the 11 VALUE_NOT_EQV definitions of check (b): constants occurring only in the implementation value /
+only in the draft value (draft namespace identified with the implementation namespace). The only differences are
+auxiliary proof constants (<decl>._proof_k) and, for orderedCrossThreshold, the intended replacement of
+AdjIdx.lt_upperIdx by an inlined proof. Values agree up to proofs; rfl holds (§3).
+  KAM.Planetary.StrongAMD.AdjIdx.upperIdx: only in implementation value []; only in draft value []
+  KAM.Planetary.StrongAMD.orderedCrossThreshold: only in implementation value [KAM.Planetary.StrongAMD.AdjIdx.lt_upperIdx]; only in draft value [KAM.Planetary.StrongAMD.orderedCrossThreshold._proof_1]
+  KAM.Planetary.StrongAMD.oscEnergy: only in implementation value []; only in draft value []
+  KAM.Planetary.StrongAMD.oscAxis: only in implementation value [KAM.Planetary.StrongAMD.oscEnergy._proof_1]; only in draft value [KAM.Planetary.StrongAMD.Draft7_oscEnergy.oscEnergy._proof_1]
+  KAM.Planetary.Spatial.spaceCross: only in implementation value []; only in draft value []
+  KAM.Planetary.Spatial.spatialHamiltonian: only in implementation value [KAM.Planetary.Spatial.spatialHamiltonian._proof_1]; only in draft value [KAM.Planetary.StrongAMD.Draft7_oscEnergy.oscEnergy._proof_1]
+  KAM.Planetary.Spatial.IsSpatialNewtonSolutionOn: only in implementation value []; only in draft value []
+  KAM.Planetary.Spatial.spatialKeplerEnergy: only in implementation value [KAM.Planetary.Spatial.spatialKeplerEnergy._proof_1]; only in draft value [KAM.Planetary.StrongAMD.Draft7_oscEnergy.oscEnergy._proof_1]
+  KAM.Planetary.Spatial.spatialKeplerAxis: only in implementation value [KAM.Planetary.Spatial.spatialKeplerEnergy._proof_1]; only in draft value [KAM.Planetary.StrongAMD.Draft7_oscEnergy.oscEnergy._proof_1]
+  KAM.Planetary.Spatial.spatialOscEnergy: only in implementation value [KAM.Planetary.Spatial.spatialOscEnergy._proof_1]; only in draft value [KAM.Planetary.StrongAMD.Draft7_oscEnergy.oscEnergy._proof_1]
+  KAM.Planetary.Spatial.spatialOscAxis: only in implementation value [KAM.Planetary.Spatial.spatialOscEnergy._proof_1]; only in draft value [KAM.Planetary.StrongAMD.Draft7_oscEnergy.oscEnergy._proof_1]
+
+====================================================================================================
+6. Text changes: the corollaries vs LP1 / LP2, and revision 1 vs draft 7
+====================================================================================================
+Command: diff .drafts/freeze7/spec/LP1.stmt .drafts/freeze7/spec/LP1H.stmt   (exit 1)
+  1c1
+  < theorem planar_strongAMD_exponentialSafety {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
+  ---
+  > theorem planar_strongAMD_exponentialSafety_halfInteger {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
+  5c5
+  <     (δ γ τ : ℝ) (hδ : 0 < δ) (hγ : 0 < γ) (hτ : (n : ℝ) - 1 < τ) :
+  ---
+  >     (δ γ : ℝ) (hδ : 0 < δ) (hγ : 0 < γ) :
+  13c13
+  <         KAM.IsDiophantine γ τ (fun i => ν i ^ 3 / keplerAction ν z₀ i ^ 3) →
+  ---
+  >         KAM.IsDiophantine γ ((n : ℝ) - 1 / 2) (fun i => ν i ^ 3 / keplerAction ν z₀ i ^ 3) →
+  19c19
+  <         let T := T₀ * Real.exp (c * μ ^ (-(1 / (2 * (τ + 1)))))
+  ---
+  >         let T := T₀ * Real.exp (c * μ ^ (-(1 / (2 * (n : ℝ) + 1))))
+Command: diff .drafts/freeze7/spec/LP2.stmt .drafts/freeze7/spec/LP2H.stmt   (exit 1)
+  1c1
+  < theorem spatial_strongAMD_exponentialSafety {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
+  ---
+  > theorem spatial_strongAMD_exponentialSafety_halfInteger {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
+  5c5
+  <     (δ γ τ : ℝ) (hδ : 0 < δ) (hγ : 0 < γ) (hτ : (n : ℝ) - 1 < τ) :
+  ---
+  >     (δ γ : ℝ) (hδ : 0 < δ) (hγ : 0 < γ) :
+  15c15
+  <         KAM.IsDiophantine γ τ (fun i => ν i ^ 3 /
+  ---
+  >         KAM.IsDiophantine γ ((n : ℝ) - 1 / 2) (fun i => ν i ^ 3 /
+  21c21
+  <         let T := T₀ * Real.exp (c * μ ^ (-(1 / (2 * (τ + 1)))))
+  ---
+  >         let T := T₀ * Real.exp (c * μ ^ (-(1 / (2 * (n : ℝ) + 1))))
+Command: diff .drafts/freeze7/spec.draft7/LP2.stmt .drafts/freeze7/spec/LP2.stmt   (exit 1)
+  9c9
+  <       ∀ μ : ℝ, 0 < μ → μ ≤ μ₀ →
+  ---
+  >       ∀ μ : ℝ, ∀ hμ : 0 < μ, μ ≤ μ₀ →
+  15,18c15,16
+  <         (∀ k : Fin n → ℤ, k ≠ 0 →
+  <           γ * (KAM.Fourier.modeSize k : ℝ) ^ (-τ) ≤
+  <             |∑ i, (k i : ℝ) * (ν i ^ 3 /
+  <               spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i ^ 3)|) →
+  ---
+  >         KAM.IsDiophantine γ τ (fun i => ν i ^ 3 /
+  >             spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i ^ 3) →
+  28,29c26,27
+  <             (fun t => spatialBarycentricPositions ν μ (z t).1)
+  <             (fun t => spatialBarycentricVelocities ν μ (z t).2) ∧
+  ---
+  >             (fun t => spatialSourceBarycentricPositions ν μ hν hμ (z t).1)
+  >             (fun t => spatialSourceBarycentricVelocities ν μ hν hμ (z t).2) ∧
+Command: diff .drafts/freeze7/spec.draft7/LP2H.stmt .drafts/freeze7/spec/LP2H.stmt   (exit 1)
+  9c9
+  <       ∀ μ : ℝ, 0 < μ → μ ≤ μ₀ →
+  ---
+  >       ∀ μ : ℝ, ∀ hμ : 0 < μ, μ ≤ μ₀ →
+  15,18c15,16
+  <         (∀ k : Fin n → ℤ, k ≠ 0 →
+  <           γ * (KAM.Fourier.modeSize k : ℝ) ^ (-((n : ℝ) - 1 / 2)) ≤
+  <             |∑ i, (k i : ℝ) * (ν i ^ 3 /
+  <               spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i ^ 3)|) →
+  ---
+  >         KAM.IsDiophantine γ ((n : ℝ) - 1 / 2) (fun i => ν i ^ 3 /
+  >             spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i ^ 3) →
+  28,29c26,27
+  <             (fun t => spatialBarycentricPositions ν μ (z t).1)
+  <             (fun t => spatialBarycentricVelocities ν μ (z t).2) ∧
+  ---
+  >             (fun t => spatialSourceBarycentricPositions ν μ hν hμ (z t).1)
+  >             (fun t => spatialSourceBarycentricVelocities ν μ hν hμ (z t).2) ∧
+Command: diff .drafts/freeze7/spec.draft7/LP0.stmt .drafts/freeze7/spec/LP0.stmt   (exit 0)
+Command: diff .drafts/freeze7/spec.draft7/LP1.stmt .drafts/freeze7/spec/LP1.stmt   (exit 1)
+  13,15c13
+  <         (∀ k : Fin n → ℤ, k ≠ 0 →
+  <           γ * (KAM.Fourier.modeSize k : ℝ) ^ (-τ) ≤
+  <             |∑ i, (k i : ℝ) * (ν i ^ 3 / keplerAction ν z₀ i ^ 3)|) →
+  ---
+  >         KAM.IsDiophantine γ τ (fun i => ν i ^ 3 / keplerAction ν z₀ i ^ 3) →
+Command: diff .drafts/freeze7/spec.draft7/LP1H.stmt .drafts/freeze7/spec/LP1H.stmt   (exit 1)
+  13,15c13
+  <         (∀ k : Fin n → ℤ, k ≠ 0 →
+  <           γ * (KAM.Fourier.modeSize k : ℝ) ^ (-((n : ℝ) - 1 / 2)) ≤
+  <             |∑ i, (k i : ℝ) * (ν i ^ 3 / keplerAction ν z₀ i ^ 3)|) →
+  ---
+  >         KAM.IsDiophantine γ ((n : ℝ) - 1 / 2) (fun i => ν i ^ 3 / keplerAction ν z₀ i ^ 3) →
+(spec.draft7/ is the anchor-statement set of the audited draft 7, saved before regeneration. LP0
+is unchanged; LP1, LP1-H differ by the Diophantine premise (orchestrator scope addition); LP2, LP2-H by the F1
+replacements and the same Diophantine premise change.)
+
+====================================================================================================
+7. New and changed implementation modules (revision 1): build, axioms, lint, short names
+====================================================================================================
+Command: /root/code/KAM-inp/.drafts/LP/lp_build.sh /root/code/KAM-inp-lp-freeze7 KAM.Planetary.StrongAMD.DiophantineBridge KAM.Planetary.Spatial.SourceBarycentric KAM.Planetary.StrongAMD.PlanarSafety.SourceDiophantine KAM.Planetary.Spatial.SpatialSafety.SourceCorollary
+  [lp_build] slot 1: KAM.Planetary.StrongAMD.DiophantineBridge (10:00:56)
+  Build completed successfully (9049 jobs).
+  [lp_build] slot 1: KAM.Planetary.Spatial.SourceBarycentric (10:01:08)
+  Build completed successfully (9070 jobs).
+  [lp_build] slot 1: KAM.Planetary.StrongAMD.PlanarSafety.SourceDiophantine (10:01:18)
+  Build completed successfully (9318 jobs).
+  [lp_build] slot 1: KAM.Planetary.Spatial.SpatialSafety.SourceCorollary (10:01:33)
+  Build completed successfully (9368 jobs).
+  rc=0
+  warnings/errors in the four revision-1 files: 0 (the other warnings in the log are replayed from
+  pre-existing modules outside this package)
+Command: lp_lean.sh /root/code/KAM-inp-lp-freeze7 .drafts/freeze7/ax_freeze7r.lean   (exit 0)
+  'KAM.Planetary.StrongAMD.isDiophantine_iff_forall_modeSize' depends on axioms: [propext, Classical.choice, Quot.sound]
+  'KAM.Planetary.Spatial.spatialSourceBarycentricPositions_def' depends on axioms: [propext, Classical.choice, Quot.sound]
+  'KAM.Planetary.Spatial.spatialSourceBarycentricVelocities_def' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  'KAM.Planetary.StrongAMD.lp1_planar_strongAMD_safety_source_isDiophantine' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  'KAM.Planetary.StrongAMD.lp1_planar_strongAMD_safety_source_isDiophantine_halfInteger' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  'KAM.Planetary.Spatial.lp2_spatial_strongAMD_safety_source_isDiophantine' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  'KAM.Planetary.Spatial.lp2_spatial_strongAMD_safety_source_isDiophantine_halfInteger' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+Command: lp_lean.sh /root/code/KAM-inp-lp-freeze7 .drafts/freeze7/ax_freeze7.lean   (exit 0)
+  'KAM.Planetary.StrongAMD.lp0_planar_barrier_source' depends on axioms: [propext, Classical.choice, Quot.sound]
+  'KAM.Planetary.StrongAMD.lp1_planar_strongAMD_safety_source_halfInteger' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  'KAM.Planetary.Spatial.lp2_spatial_strongAMD_safety_source_halfInteger' depends on axioms: [propext,
+   Classical.choice,
+   Quot.sound]
+  'KAM.Planetary.StrongAMD.orderedCrossThreshold_isLeast' depends on axioms: [propext, Classical.choice, Quot.sound]
+  'KAM.Planetary.StrongAMD.orderedStrongThreshold_isLeast' depends on axioms: [propext, Classical.choice, Quot.sound]
+Command: /root/code/KAM-inp/.drafts/LP/lp_lint.sh /root/code/KAM-inp-lp-freeze7   (exit 1); tail:
+  check_lean_modules: PASS (3780 Lean files, 0 comparator configurations)
+  FROZEN-ANCHOR GUARD OK
+  ABI HASHES OK (177 frozen declarations of KAM; checked by file hash only, not built by this run: KAMLunarBand: KAM.SpinOrbit.lunar_barriers, KAM.SpinOrbit.lunar_spin_confinement (--lib KAMLunarBand))
+Command: python3 scripts/gen_root_imports.py   (KAM/Root/Planetary.lean: +3 imports: StrongAMD.DiophantineBridge, StrongAMD.PlanarSafety.SourceDiophantine, Spatial.SourceBarycentric)
+Command: python3 /mnt/HC_Volume_106379410/orchestrator-tools/main_shortname_check.py /root/code/KAM-inp-lp-freeze7 KAM.Planetary.StrongAMD.DiophantineBridge KAM.Planetary.Spatial.SourceBarycentric KAM.Planetary.StrongAMD.PlanarSafety.SourceDiophantine KAM.Planetary.Spatial.SpatialSafety.SourceCorollary   (exit 0)
+  short-name check OK (no reused public short name)
+Command: git diff 809aa0dd -- KAM/Frozen manifest KAM.lean README.md   (empty)
+
+====================================================================================================
+9. Hash diff of every draft file against the audited draft 7 (809aa0dd)
+====================================================================================================
+Command: git ls-tree -r --name-only 809aa0dd -- docs/tracks/LP/freeze/draft7; sha256 of `git show 809aa0dd:<path>`
+versus sha256 of the working file, for every path in either set.
+Files at 809aa0dd: 128; now: 129; unchanged: 118; changed: 9; new: 2; removed: 1
+CHANGED (old sha256 -> new sha256):
+  docs/tracks/LP/freeze/draft7/KAM/Frozen/Planetary/Spatial/Defs/SpatialBarycentricPositions.lean.txt
+    0bf78e79a9dcfabeb7c602dec5facd676a0c5f3a0c9bfa94610cf9d03e83400d -> 26ae35fc1dbeaab2c3e006c392c9751acd95ec9fbfff3352bcc8914f8b038240
+  docs/tracks/LP/freeze/draft7/KAM/Frozen/Planetary/Spatial/Defs/SpatialBarycentricVelocities.lean.txt
+    9d422b038586e7249b44eb40b38e02c5e1f8e00f4f2e5049be761a4ec290d614 -> 112cb4515465de509948f8c7e2026546402d5f166f0c07505f2f8700cc491d2f
+  docs/tracks/LP/freeze/draft7/KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafety.lean.txt
+    a3997ed85f3a78d31f60008a778974e0f4f5d783e584f2c0399ded289fb47f67 -> ac0c594150fe8b6718b733cbfee22ef9cae063a0c6f13bd4f9830a84c70ce051
+  docs/tracks/LP/freeze/draft7/KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyHalfInteger.lean.txt
+    94f7090f2302370b85f4bd13d4f1c4caf50a62ea5b764e25da1af94f164011e0 -> b7d723783f413a4c7b6ae7b44bdd0228300df7cefb6a44eed9ad27227bfc5e2b
+  docs/tracks/LP/freeze/draft7/KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean.txt
+    f7635f6b87cf2c5c8d90677c2fb5d0bf43c813bc88a146af20c41ec20f585c98 -> 45562cb9d9dbac3e230b519f306050e3dbef1f191812cc5f0613006eb4515def
+  docs/tracks/LP/freeze/draft7/KAM/Frozen/Planetary/StrongAMD/Defs/EccDeficit.lean.txt
+    b42314abcc67aecaea2818bef8f7e662bc13257a8813574b83a6c9cb9a980ae7 -> 9db41fee9c0ca4bf899eb4c3db7fee34dd836385ce2b928975341abccb4e968e
+  docs/tracks/LP/freeze/draft7/KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafety.lean.txt
+    cd4d821f1a5082b42846092f8b3eba722f11214c4d53209d4a8118b6d80cd6f2 -> 905551e7500bdd04536a665cccecf27fa97c84a1b517c74fffb45e7d86470da6
+  docs/tracks/LP/freeze/draft7/KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyHalfInteger.lean.txt
+    11089b354e640fbb972e118f90fd254252abf1e1486175d9fbe78b21268eb639 -> 12200cc6d69d94039471ca13b620d971ad6e27be4de7d5c76945462104a90ad4
+  docs/tracks/LP/freeze/draft7/manifest-entries.json
+    e377d75815a225b3102c2314594ae7e446d63802b16c3730e3e1c0c2fce97730 -> 46b7dec753a746bfc5bbfb8058190c77c0bcc219748ee6ca65f68463ec7a9e33
+NEW:
+  docs/tracks/LP/freeze/draft7/KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricPositions.lean.txt
+    ef84c1c6f66a7182e1b36eac3a3531437095cbf5c149e8875efc92f6cd851e13
+  docs/tracks/LP/freeze/draft7/KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricVelocities.lean.txt
+    798a12f844155f2fdc13c2f4bbef8e7136ad18f79fe954ce0b1468640d732edd
+REMOVED: docs/tracks/LP/freeze/draft7/KAM/Frozen/Fourier/Defs/ModeSize.lean.txt
+All other 118 files are byte-identical to 809aa0dd.
+manifest-entries.json, entry by entry: new ids: planetary.d59.spatialSourceBarycentricPositions.v1, planetary.d59.spatialSourceBarycentricVelocities.v1
+  removed ids: fourier.d59.modeSize.v1
+  changed entry planetary.d59.planar_strongAMD_exponentialSafety.v1: fields ['definition_closure']  (added []; removed ['KAM/Frozen/Fourier/Defs/ModeSize.lean'])
+  changed entry planetary.d59.planar_strongAMD_exponentialSafety_halfInteger.v1: fields ['definition_closure']  (added []; removed ['KAM/Frozen/Fourier/Defs/ModeSize.lean'])
+  changed entry planetary.d59.spatial_strongAMD_exponentialSafety.v1: fields ['definition_closure']  (added ['KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricPositions.lean', 'KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricVelocities.lean']; removed ['KAM/Frozen/Fourier/Defs/ModeSize.lean'])
+  changed entry planetary.d59.spatial_strongAMD_exponentialSafety_halfInteger.v1: fields ['definition_closure']  (added ['KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricPositions.lean', 'KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricVelocities.lean']; removed ['KAM/Frozen/Fourier/Defs/ModeSize.lean'])
+  unchanged entries: 122; top-level _comment unchanged

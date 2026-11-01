@@ -1,0 +1,38 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialBarycentricVelocities
+
+/-!
+# Frozen definition `KAM.Planetary.Spatial.spatialSourceBarycentricVelocities`
+
+Track LP, `LP:MAIN L1 (100–108), d = 3` (MAIN as amended by AMENDMENTS). Owner-approved on
+<APPROVAL-DATE> (decision <DECISION>; docs/tracks/LP/FREEZE-PROPOSAL.md draft 7, under the rulings
+of D59). This file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an
+owner-approved versioned successor.
+
+Freeze role (D59, OD-11 (b)): a source-facing definition on its carrier, frozen as one semantic unit
+with its characterization theorems (draft 7, §4). Its source domain is given by the proof arguments
+`_hν : ∀ i, 0 < ν i` and `_hμ : 0 < μ` (the source premises of MAIN L1: positive masses and positive
+μ), which exclude the zero-denominator inputs of the internal total helper
+`spatialBarycentricVelocities`, to which it is definitionally equal (statement audit of draft 7,
+F1). CHARACTERIZATION: N/A_LITERAL; MAIN L1 (100–106) gives the reconstruction by this explicit
+formula, and no barycentric identity is frozen for it, as for the already-frozen planar
+`KAM.Planetary.barycentricVelocities`.
+-/
+
+@[expose] public noncomputable section
+
+namespace KAM.Planetary.Spatial
+
+def spatialSourceBarycentricVelocities {n : ℕ} (ν : Fin n → ℝ) (μ : ℝ)
+    (_hν : ∀ i, 0 < ν i) (_hμ : 0 < μ) (p : Fin (n * 3) → ℝ) :
+    Fin (n + 1) → (Fin 3 → ℝ) := spatialBarycentricVelocities ν μ p
+
+end KAM.Planetary.Spatial
+
+end

@@ -15,8 +15,11 @@ Track LP, `LP:MAIN §1 (41–46)` (MAIN as amended by AMENDMENTS). Owner-approve
 file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an owner-approved
 versioned successor.
 
-Freeze role (D59, OD-11 (b)): a literal formula or predicate of the source, faithful on its whole
-carrier.
+Freeze role (D59, OD-11 (b)): an internal total algebraic helper in the definition closure.
+No source-object meaning is asserted off the source domain. Source-facing uses must supply
+positive masses; barycentric reconstruction also supplies positive μ. The eccentricity-deficit
+expression is interpreted only on [0,1]. Source-facing restrictions and guarded predicates,
+rather than this total helper alone, carry the physical meaning.
 -/
 
 @[expose] public noncomputable section

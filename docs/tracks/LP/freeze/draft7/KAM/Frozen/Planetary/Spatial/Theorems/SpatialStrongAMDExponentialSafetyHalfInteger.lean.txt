@@ -6,19 +6,19 @@ Authors: Scott Armstrong, Zohar Komargodski
 -- FROZEN_ANCHOR_PREFIX_BEGIN
 module
 
-public import KAM.Frozen.Fourier.Defs.ModeSize
+public import KAM.Frozen.Defs.IsDiophantine
 public import KAM.Frozen.Planetary.Defs.Phase
 public import KAM.Frozen.Planetary.Spatial.Defs.BodyVector3
 public import KAM.Frozen.Planetary.Spatial.Defs.IsSpatialMovingSolutionOn
 public import KAM.Frozen.Planetary.Spatial.Defs.IsSpatialNewtonSolutionOn
 public import KAM.Frozen.Planetary.Spatial.Defs.SpaceLength
-public import KAM.Frozen.Planetary.Spatial.Defs.SpatialBarycentricPositions
-public import KAM.Frozen.Planetary.Spatial.Defs.SpatialBarycentricVelocities
 public import KAM.Frozen.Planetary.Spatial.Defs.SpatialKeplerEnergy
 public import KAM.Frozen.Planetary.Spatial.Defs.SpatialMasses
 public import KAM.Frozen.Planetary.Spatial.Defs.SpatialMovingUniqueOn
 public import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscEcc
 public import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscEnergy
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceBarycentricPositions
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceBarycentricVelocities
 public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceCanonicalPhase
 public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceKeplerAction
 public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceKeplerApo
@@ -69,16 +69,14 @@ theorem spatial_strongAMD_exponentialSafety_halfInteger {n : ℕ} (hn : 2 ≤ n)
     ∃ μ₀ c T₀ AΛ Aa dStar dPair Aosc Aelem : ℝ,
       0 < μ₀ ∧ 0 < c ∧ 0 < T₀ ∧ 0 < AΛ ∧ 0 < Aa ∧ 0 < dStar ∧ 0 < dPair ∧ 0 < Aosc ∧
       0 < Aelem ∧ Aosc * μ₀ ≤ dStar / 2 ∧ 2 * (Aosc * μ₀) ≤ dPair / 2 ∧
-      ∀ μ : ℝ, 0 < μ → μ ≤ μ₀ →
+      ∀ μ : ℝ, ∀ hμ : 0 < μ, μ ≤ μ₀ →
       ∀ z₀ : Phase (n * 3),
         (∀ i, 0 < spaceLength (bodyVector3 z₀.1 i) ∧ spatialKeplerEnergy ν z₀ i < 0) →
         ∀ h₀ : ∀ i, 0 < ν i ∧ 0 < spaceLength (bodyVector3 z₀.1 i) ∧
           spatialKeplerEnergy ν z₀ i < 0,
         (fun i => spatialSourceKeplerAxis (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i) ∈ A →
-        (∀ k : Fin n → ℤ, k ≠ 0 →
-          γ * (KAM.Fourier.modeSize k : ℝ) ^ (-((n : ℝ) - 1 / 2)) ≤
-            |∑ i, (k i : ℝ) * (ν i ^ 3 /
-              spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i ^ 3)|) →
+        KAM.IsDiophantine γ ((n : ℝ) - 1 / 2) (fun i => ν i ^ 3 /
+            spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i ^ 3) →
         ∀ hch : (fun i => spatialSourceKeplerAction
             (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i) ∈ chamber ν,
         spatialSourceStrongAMD (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) ≤
@@ -88,8 +86,8 @@ theorem spatial_strongAMD_exponentialSafety_halfInteger {n : ℕ} (hn : 2 ≤ n)
           IsSpatialMovingSolutionOn ν μ (Set.Icc (-T) T) z ∧
           SpatialMovingUniqueOn ν μ (Set.Icc (-T) T) z ∧
           IsSpatialNewtonSolutionOn (spatialMasses ν μ) (Set.Icc (-T) T)
-            (fun t => spatialBarycentricPositions ν μ (z t).1)
-            (fun t => spatialBarycentricVelocities ν μ (z t).2) ∧
+            (fun t => spatialSourceBarycentricPositions ν μ hν hμ (z t).1)
+            (fun t => spatialSourceBarycentricVelocities ν μ hν hμ (z t).2) ∧
           ∀ t ∈ Set.Icc (-T) T,
             ∃ hs : ∀ i, 0 < ν i ∧ 0 < spaceLength (bodyVector3 (z t).1 i) ∧
                 spatialKeplerEnergy ν (z t) i < 0,

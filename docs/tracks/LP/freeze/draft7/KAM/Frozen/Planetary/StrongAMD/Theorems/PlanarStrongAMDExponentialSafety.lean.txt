@@ -6,7 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -- FROZEN_ANCHOR_PREFIX_BEGIN
 module
 
-public import KAM.Frozen.Fourier.Defs.ModeSize
+public import KAM.Frozen.Defs.IsDiophantine
 public import KAM.Frozen.Planetary.Defs.ActualMasses
 public import KAM.Frozen.Planetary.Defs.BarycentricPositions
 public import KAM.Frozen.Planetary.Defs.BarycentricVelocities
@@ -70,9 +70,7 @@ theorem planar_strongAMD_exponentialSafety {n : ℕ} (hn : 2 ≤ n) (ν : Fin n 
       ∀ z₀ : Phase (n * 2),
         (∀ i, 0 < planeLength (bodyVector z₀.1 i) ∧ keplerEnergy ν z₀ i < 0) →
         (fun i => keplerAxis ν z₀ i) ∈ A →
-        (∀ k : Fin n → ℤ, k ≠ 0 →
-          γ * (KAM.Fourier.modeSize k : ℝ) ^ (-τ) ≤
-            |∑ i, (k i : ℝ) * (ν i ^ 3 / keplerAction ν z₀ i ^ 3)|) →
+        KAM.IsDiophantine γ τ (fun i => ν i ^ 3 / keplerAction ν z₀ i ^ 3) →
         ∀ hch : (fun i => keplerAction ν z₀ i) ∈ chamber ν,
         ∀ h₀ : (∀ i, 0 < ν i) ∧
           ∀ i, 0 < planeLength (bodyVector z₀.1 i) ∧ keplerEnergy ν z₀ i < 0,

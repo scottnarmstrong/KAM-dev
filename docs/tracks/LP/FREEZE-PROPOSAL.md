@@ -1,6 +1,9 @@
-# Track LP: freeze proposal (DRAFT 7, the approval object)
+# Track LP: freeze proposal (DRAFT 7, REVISION 1, the approval object)
 
-Status: 2026-11-01. **Nothing is frozen.** This draft is the exact freeze text of the LP anchors under the rulings
+Status: 2026-11-01, draft 7 revision 1 (draft 7 with findings F1, F2 and N2 of its statement audit
+[`freeze/STATEMENT-AUDIT-DRAFT7-1.md`](freeze/STATEMENT-AUDIT-DRAFT7-1.md) applied with the auditor's exact texts, and
+the Diophantine premise of LP1, LP1-H, LP2, LP2-H written through the already-frozen `KAM.IsDiophantine` so that
+`KAM.Fourier.modeSize` is not frozen (orchestrator scope addition; Appendix A); package LP-FREEZE7R). **Nothing is frozen.** This draft is the exact freeze text of the LP anchors under the rulings
 the owner approved in D59 (OD-1…OD-6, OD-9, OD-11 option (b), with OD-2 and review 4 resolution (A)). D59 approves
 the rulings, not the freeze: this text goes to an independent statement audit and then to the owner for approval of
 the exact text, before anything enters `KAM/Frozen/` or `manifest/`. The body below has exactly one text per item;
@@ -9,38 +12,44 @@ earlier drafts, alternatives that were not chosen, and the review history are in
 Source: [`source/MAIN.md`](source/MAIN.md) (sha256 `68e9167f…48c1b`) as amended by
 [`source/AMENDMENTS.md`](source/AMENDMENTS.md) (sha256 `c887d1e2…51881`); cited as `LP:MAIN <item> (<lines>)`.
 
-**What is approved, exactly.** The approval object is the set of 127 frozen file texts under
+**What is approved, exactly.** The approval object is the set of 128 frozen file texts under
 [`freeze/draft7/`](freeze/draft7/) (one public declaration per file, path `freeze/draft7/<frozen path>.txt`), together
 with the manifest entry drafts [`freeze/draft7/manifest-entries.json`](freeze/draft7/manifest-entries.json). Every Lean
 code block in this document is a byte-identical excerpt of those files (generated from the same records and
-re-checked by script). The only bytes that change at freeze are the two placeholders `<APPROVAL-DATE>` and
-`<DECISION>` in each module docstring, filled from the owner decision that approves this text, and the
-`TBD at freeze` hash fields of the manifest entries.
+re-checked by script).
+At freeze, fill `<APPROVAL-DATE>` and `<DECISION>` in each module docstring, fill the manifest's
+`author_approval`, extend each `split_policy.ruling_ref` with the exact-text approval decision,
+and compute every `TBD at freeze` hash; all other approved declaration bytes remain unchanged.
 
-**Counts.** 5 theorem anchors (LP0, LP1, LP1-H, LP2, LP2-H), 88 new definitions and
-34 characterization theorems: 127 new frozen files. 19 already-frozen definitions are referenced
+**Counts.** 5 theorem anchors (LP0, LP1, LP1-H, LP2, LP2-H), 89 new definitions and
+34 characterization theorems: 128 new frozen files. 20 already-frozen definitions are referenced
 directly and reused unchanged.
 
-**Verification** (details in [`freeze/verification-draft-7.txt`](freeze/verification-draft-7.txt)):
-- **Closure** (Lean meta computation from the proved theorems): exactly the 85 new definitions of §4.2 that are in
-  an anchor or characterization closure, plus the reused frozen ones of §4.1.
-- **(a) Text elaborates:** each of the 127 files, in a scratch module whose imports are exactly the Mathlib and
-  already-frozen imports of the file and of its draft dependencies (dependencies inlined in import order): 127/127
+**Verification** (details in [`freeze/verification-draft-7r1.txt`](freeze/verification-draft-7r1.txt); the draft-7
+record [`freeze/verification-draft-7.txt`](freeze/verification-draft-7.txt) is kept as audited):
+- **Closure** (Lean meta computation from the proved theorems): exactly the 86 new definitions of §4.2 that are in
+  an anchor or characterization closure, plus 22 reused frozen ones (§4.1).
+- **(a) Text elaborates:** each of the 128 files, in a scratch module whose imports are exactly the Mathlib and
+  already-frozen imports of the file and of its draft dependencies (dependencies inlined in import order): 128/128
   exit 0; the only messages are the 39 expected "declaration uses `sorry`" warnings, one per theorem file.
-- **(b) Bodies equal:** for all 88 definitions, the draft text read against the implementation names is `rfl`-equal
-  to the implementation definition; all 88 types are alpha-equivalent with the same reducibility; 77 values are
+  Limitation (statement audit of draft 7, N1): this is a simulation; it drops the provider imports and inlines the
+  dependencies, so it does not exercise the real provider/import graph or real frozen module boundaries (the staged
+  providers of LP-FREEZE7R part B exercise the provider side partly; a real-module build stays a freeze/seal gate).
+- **(b) Bodies equal:** for all 89 definitions, the draft text read against the implementation names is `rfl`-equal
+  to the implementation definition; all 89 types are alpha-equivalent with the same reducibility; 78 values are
   alpha-equivalent and the other 11 differ only in auxiliary proof constants (and, for `orderedCrossThreshold`, the
   inlined proof of `i < i + 1`).
 - **(c) Verification:** all 39 theorems (5 anchors, 34 characterizations), stated verbatim, close by `exact` of the
   proved implementation theorem; their elaborated types are alpha-equivalent to the implementation statements; `#print
   axioms` gives exactly `[propext, Classical.choice, Quot.sound]` for all 39.
+- **Revision 1 vs the audited draft 7 (809aa0dd):** hash diff of every draft file in the verification file, §9.
 
 ## 1. The rulings in the text (D59)
 
 | Ruling | Where it shows in the text |
 |---|---|
 | **OD-1** `C = ΣΛ − |L|`, no prograde premise | `strongAMD` (planar, `|totalMomentum|`) and `spatialSourceStrongAMD` (Euclidean `|L|`); no anchor has a sign, prograde, inclination or `L ≠ 0` premise. |
-| **OD-2 + OD-11 (b)** source carriers | Thresholds only through `orderedStrongThreshold hn ⟨I, h⟩` on `OrderedActions ν` (with `2 ≤ n`); the strong AMD only through `sourceStrongAMD` / `spatialSourceStrongAMD`; canonical annulus radii and osculating elements only through `source*` / `spatialSource*` on `SourceCanonicalPhase`, `SourceOsculatingPhase`, `SpatialSourceCanonicalPhase`, `SpatialSourceOsculatingPhase`. Each carrier membership is a typing binder (`h₀`, `h`) or an existential output (`∃ hs`, `∃ ho`, `∃ hcht`). The total formulas are internal helpers in the definition closure (§4). The spatial anchors use the review-4 resolution (A) text. |
+| **OD-2 + OD-11 (b)** source carriers | Thresholds only through `orderedStrongThreshold hn ⟨I, h⟩` on `OrderedActions ν` (with `2 ≤ n`); the strong AMD only through `sourceStrongAMD` / `spatialSourceStrongAMD`; canonical annulus radii and osculating elements only through `source*` / `spatialSource*` on `SourceCanonicalPhase`, `SourceOsculatingPhase`, `SpatialSourceCanonicalPhase`, `SpatialSourceOsculatingPhase`. the spatial Newtonian reconstruction only through `spatialSourceBarycentricPositions/Velocities ν μ hν hμ` (statement audit of draft 7, F1). Each carrier membership is a typing binder (`h₀`, `h`, and the named source premise `hμ : 0 < μ` in LP2, LP2-H) or an existential output (`∃ hs`, `∃ ho`, `∃ hcht`). The total formulas are internal helpers in the definition closure (§4). The spatial anchors use the review-4 resolution (A) text. |
 | **OD-3** `max ν = 1` kept | LP1, LP1-H, LP2, LP2-H carry `hνmax : ∃ i, ν i = 1` and `hνle : ∀ i, ν i ≤ 1`. LP0 has no `μ` and is stated for arbitrary positive `ν` (statement review 1, F5). The general-mass versions (`lp1_planar_strongAMD_safety_source_general`, `lp2_spatial_strongAMD_safety_source_general`) stay ordinary theorems. |
 | **OD-4** `τ > n − 1` free, plus `τ = n − 1/2` | LP1, LP2 have `hτ : (n : ℝ) - 1 < τ` and horizon `T₀ exp (c μ^(−1/(2(τ+1))))`; LP1-H, LP2-H fix `τ = n − 1/2` and state the exponent explicitly as `μ ^ (-(1 / (2 * (n : ℝ) + 1)))`. |
 | **OD-5 + OD-9** crossing notion | Canonical annuli (`dStar ≤` perihelion, adjacent gap `≥ dPair`), all star and all pair distances, and the actual-velocity osculating annuli with half gaps `dStar / 2`, `dPair / 2`; the N10 inequalities `Aosc * μ₀ ≤ dStar / 2`, `2 * (Aosc * μ₀) ≤ dPair / 2` are displayed outputs; the order in which `μ₀` is chosen is internal to the proof. |
@@ -51,10 +60,10 @@ directly and reused unchanged.
 | Id | Lean name | Frozen path | Provider (module; export) | Closed by (implementation theorem; module) | MAIN |
 |---|---|---|---|---|---|
 | LP0 | `KAM.Planetary.StrongAMD.planar_strongAMD_barrier` | `KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDBarrier.lean` | `KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDBarrier`; `KAM.Provider.Planetary.StrongAMD.planar_strongAMD_barrier` | `KAM.Planetary.StrongAMD.lp0_planar_barrier_source`; `KAM.Planetary.StrongAMD.PlanarSafety.SourceCorollary` | L5 (162–166), with L2–L4 (110–160); N11 |
-| LP1 | `KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety` | `KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafety.lean` | `KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafety`; `KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety` | `KAM.Planetary.StrongAMD.lp1_planar_strongAMD_safety_source`; `KAM.Planetary.StrongAMD.PlanarSafety.Source` | T15 (502–506) with §1 (6)–(9) (69–93), L16 (508–529); N8, N10 |
-| LP1-H | `KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_halfInteger` | `KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyHalfInteger.lean` | `KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyHalfInteger`; `KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_halfInteger` | `KAM.Planetary.StrongAMD.lp1_planar_strongAMD_safety_source_halfInteger`; `KAM.Planetary.StrongAMD.PlanarSafety.SourceCorollary` | §1 (93) (τ = n − 1/2), T15 (502–506), L16 (508–529) |
-| LP2 | `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety` | `KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafety.lean` | `KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafety`; `KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety` | `KAM.Planetary.Spatial.lp2_spatial_strongAMD_safety_source`; `KAM.Planetary.Spatial.SpatialSafety.Source` | T19 (599–603) with §1 (6)–(9) (69–93), L16 (508–529), d = 3 |
-| LP2-H | `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger` | `KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyHalfInteger.lean` | `KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyHalfInteger`; `KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger` | `KAM.Planetary.Spatial.lp2_spatial_strongAMD_safety_source_halfInteger`; `KAM.Planetary.Spatial.SpatialSafety.SourceCorollary` | §1 (93) (τ = n − 1/2), T19 (599–603), L16 (508–529), d = 3 |
+| LP1 | `KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety` | `KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafety.lean` | `KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafety`; `KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety` | `KAM.Planetary.StrongAMD.lp1_planar_strongAMD_safety_source_isDiophantine`; `KAM.Planetary.StrongAMD.PlanarSafety.SourceDiophantine` | T15 (502–506) with §1 (6)–(9) (69–93), L16 (508–529); N8, N10 |
+| LP1-H | `KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_halfInteger` | `KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyHalfInteger.lean` | `KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyHalfInteger`; `KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_halfInteger` | `KAM.Planetary.StrongAMD.lp1_planar_strongAMD_safety_source_isDiophantine_halfInteger`; `KAM.Planetary.StrongAMD.PlanarSafety.SourceDiophantine` | §1 (93) (τ = n − 1/2), T15 (502–506), L16 (508–529) |
+| LP2 | `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety` | `KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafety.lean` | `KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafety`; `KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety` | `KAM.Planetary.Spatial.lp2_spatial_strongAMD_safety_source_isDiophantine`; `KAM.Planetary.Spatial.SpatialSafety.SourceCorollary` | T19 (599–603) with §1 (6)–(9) (69–93), L16 (508–529), d = 3 |
+| LP2-H | `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger` | `KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyHalfInteger.lean` | `KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyHalfInteger`; `KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger` | `KAM.Planetary.Spatial.lp2_spatial_strongAMD_safety_source_isDiophantine_halfInteger`; `KAM.Planetary.Spatial.SpatialSafety.SourceCorollary` | §1 (93) (τ = n − 1/2), T19 (599–603), L16 (508–529), d = 3 |
 
 Namespaces and paths follow the repository rule that the frozen path and the provider path mirror the namespace
 (`KAM.X.Y.name` in `KAM/Frozen/X/Y/{Defs,Theorems}/Name.lean`, provider `KAM.Provider.X.Y.name` in
@@ -67,7 +76,7 @@ together with the identity `2((n − 1/2) + 1) = 2n + 1`: it adds no mathematica
 recommend freezing both as anchors, because OD-4 rules the corollary in and the headline exponent `1/(2n+1)` (D56) is
 otherwise only implicit in the frozen record. Dropping them would lose nothing provable. Their texts are drafted in
 any case (§3.3, §3.5). "Zohar's headline form" is used: the horizon is written with the explicit exponent
-`μ ^ (-(1 / (2 * (n : ℝ) + 1)))`, not through `scaleExponent`, and the Diophantine exponent is `-((n : ℝ) - 1 / 2)`.
+`μ ^ (-(1 / (2 * (n : ℝ) + 1)))`, not through `scaleExponent`, and the Diophantine premise is `KAM.IsDiophantine γ ((n : ℝ) - 1 / 2) ω`.
 
 ## 3. Anchor texts (exact)
 
@@ -121,8 +130,9 @@ AMD `≤ B(Λ) − m` has perihelia `≥ d⋆`, adjacent annulus gaps `≥ d_pai
 conclusion). This is MAIN L5 in full (statement review 1, F1). Under OD-11 (b) the strong AMD of the physical
 state is `sourceStrongAMD ⟨z, h⟩` with the typing binder `h` placed after `hΛ`, exactly as §3.2 does for LP1; the
 canonical radii use the frozen planar `keplerAxis`, `keplerEccVector` (inherited conventions; review 5, R5.4). The
-deficit-list clause applies the literal threshold-unit formulas `actionAxis`, `eccDeficit` to an abstract `I ∈ U`
-(`⊆` chamber) and `e ∈ [0,1]ⁿ`, never to a physical state.
+deficit-list clause applies the internal total algebraic helpers `actionAxis`, `eccDeficit` (§4.4; statement audit of
+draft 7, F2) to an abstract `I ∈ U` (`⊆` chamber, with the standing positive masses `hν`) and `e ∈ [0,1]ⁿ`, never to
+a physical state: exactly the guarded source domain on which the helpers are interpreted.
 
 ### 3.2 LP1: planar strong-AMD exponential safety (`LP:MAIN T15 (502–506)`, §1 (6)–(9), L16)
 
@@ -143,9 +153,7 @@ theorem planar_strongAMD_exponentialSafety {n : ℕ} (hn : 2 ≤ n) (ν : Fin n 
       ∀ z₀ : Phase (n * 2),
         (∀ i, 0 < planeLength (bodyVector z₀.1 i) ∧ keplerEnergy ν z₀ i < 0) →
         (fun i => keplerAxis ν z₀ i) ∈ A →
-        (∀ k : Fin n → ℤ, k ≠ 0 →
-          γ * (KAM.Fourier.modeSize k : ℝ) ^ (-τ) ≤
-            |∑ i, (k i : ℝ) * (ν i ^ 3 / keplerAction ν z₀ i ^ 3)|) →
+        KAM.IsDiophantine γ τ (fun i => ν i ^ 3 / keplerAction ν z₀ i ^ 3) →
         ∀ hch : (fun i => keplerAction ν z₀ i) ∈ chamber ν,
         ∀ h₀ : (∀ i, 0 < ν i) ∧
           ∀ i, 0 < planeLength (bodyVector z₀.1 i) ∧ keplerEnergy ν z₀ i < 0,
@@ -210,10 +218,16 @@ theorem planar_strongAMD_exponentialSafety {n : ℕ} (hn : 2 ≤ n) (ν : Fin n 
 ```
 
 This is the §3b text of draft 6 (delta review 3: PASS) with the anchor name of §1 and the binder names `hνmax`,
-`hνle` (review 4, R4.2). Reading (MAIN §1 (6)–(9), T15, L16, N10): the constants `μ₀, c, T₀, A_Λ, A_a, d⋆,
+`hνle` (review 4, R4.2), and (revision 1) the Diophantine premise `KAM.IsDiophantine γ τ (fun i => ν i ^ 3 /
+keplerAction ν z₀ i ^ 3)` in place of draft 7's `∀ k : Fin n → ℤ, k ≠ 0 → γ * (KAM.Fourier.modeSize k : ℝ) ^ (-τ) ≤
+|∑ i, (k i : ℝ) * (ν i ^ 3 / keplerAction ν z₀ i ^ 3)|`: literally the same proposition (`modeSize k` is
+`Σ_i |k_i|` and `s ^ (-τ) = (s ^ τ)⁻¹` for `s ≥ 0`), proved as the implementation lemma
+`KAM.Planetary.StrongAMD.isDiophantine_iff_forall_modeSize` (`KAM/Planetary/StrongAMD/DiophantineBridge.lean`, an iff
+for every `γ, τ, ω`, no premise). The closing theorem `lp1_planar_strongAMD_safety_source_isDiophantine` rewrites by
+it and applies `lp1_planar_strongAMD_safety_source`. Reading (MAIN §1 (6)–(9), T15, L16, N10): the constants `μ₀, c, T₀, A_Λ, A_a, d⋆,
 d_pair, A_osc, A_elem` are chosen before `μ` and the initial state; for every `0 < μ ≤ μ₀` and every initial state
 with nonzero positions, negative energies, axes in `A`, the Diophantine condition (5) on `ω_i = ν_i³/Λ_i³` with the
-ℓ¹ mode size, and strong AMD `≤ B(Λ) − δ`, the unique moving solution exists on `[−T, T]`,
+ℓ¹ mode size (the frozen `KAM.IsDiophantine γ τ ω`, D20: `γ / (Σ_i |k_i|)^τ ≤ |k·ω|` for `k ≠ 0`), and strong AMD `≤ B(Λ) − δ`, the unique moving solution exists on `[−T, T]`,
 `T = T₀ exp(c μ^(−1/(2(τ+1))))`, reconstructs the Newtonian `(1+n)`-body motion, and along it: ellipticity, chamber
 membership with AMD `≤ B − δ/2`, `O(√μ)` action and axis drift, AMD drift `≤ n A_Λ √μ`, canonical perihelia and
 adjacent gaps, all star and pair distances, and valid actual-velocity osculating ellipses through the current
@@ -239,9 +253,7 @@ theorem planar_strongAMD_exponentialSafety_halfInteger {n : ℕ} (hn : 2 ≤ n) 
       ∀ z₀ : Phase (n * 2),
         (∀ i, 0 < planeLength (bodyVector z₀.1 i) ∧ keplerEnergy ν z₀ i < 0) →
         (fun i => keplerAxis ν z₀ i) ∈ A →
-        (∀ k : Fin n → ℤ, k ≠ 0 →
-          γ * (KAM.Fourier.modeSize k : ℝ) ^ (-((n : ℝ) - 1 / 2)) ≤
-            |∑ i, (k i : ℝ) * (ν i ^ 3 / keplerAction ν z₀ i ^ 3)|) →
+        KAM.IsDiophantine γ ((n : ℝ) - 1 / 2) (fun i => ν i ^ 3 / keplerAction ν z₀ i ^ 3) →
         ∀ hch : (fun i => keplerAction ν z₀ i) ∈ chamber ν,
         ∀ h₀ : (∀ i, 0 < ν i) ∧
           ∀ i, 0 < planeLength (bodyVector z₀.1 i) ∧ keplerEnergy ν z₀ i < 0,
@@ -305,8 +317,8 @@ theorem planar_strongAMD_exponentialSafety_halfInteger {n : ℕ} (hn : 2 ≤ n) 
   -- FROZEN_ANCHOR_PROOF_END
 ```
 
-Exactly the LP1 text with the binders `τ`, `hτ` removed, `-τ` replaced by `-((n : ℝ) - 1 / 2)` in the Diophantine
-condition, and `-(1 / (2 * (τ + 1)))` replaced by `-(1 / (2 * (n : ℝ) + 1))` in the horizon (four textual changes;
+Exactly the LP1 text with the binders `τ`, `hτ` removed, `τ` replaced by `((n : ℝ) - 1 / 2)` in
+`KAM.IsDiophantine γ τ …`, and `-(1 / (2 * (τ + 1)))` replaced by `-(1 / (2 * (n : ℝ) + 1))` in the horizon (four textual changes;
 see `diff` in the verification file).
 
 ### 3.4 LP2: spatial strong-AMD exponential safety (`LP:MAIN T19 (599–603)`, `d = 3`)
@@ -326,16 +338,14 @@ theorem spatial_strongAMD_exponentialSafety {n : ℕ} (hn : 2 ≤ n) (ν : Fin n
     ∃ μ₀ c T₀ AΛ Aa dStar dPair Aosc Aelem : ℝ,
       0 < μ₀ ∧ 0 < c ∧ 0 < T₀ ∧ 0 < AΛ ∧ 0 < Aa ∧ 0 < dStar ∧ 0 < dPair ∧ 0 < Aosc ∧
       0 < Aelem ∧ Aosc * μ₀ ≤ dStar / 2 ∧ 2 * (Aosc * μ₀) ≤ dPair / 2 ∧
-      ∀ μ : ℝ, 0 < μ → μ ≤ μ₀ →
+      ∀ μ : ℝ, ∀ hμ : 0 < μ, μ ≤ μ₀ →
       ∀ z₀ : Phase (n * 3),
         (∀ i, 0 < spaceLength (bodyVector3 z₀.1 i) ∧ spatialKeplerEnergy ν z₀ i < 0) →
         ∀ h₀ : ∀ i, 0 < ν i ∧ 0 < spaceLength (bodyVector3 z₀.1 i) ∧
           spatialKeplerEnergy ν z₀ i < 0,
         (fun i => spatialSourceKeplerAxis (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i) ∈ A →
-        (∀ k : Fin n → ℤ, k ≠ 0 →
-          γ * (KAM.Fourier.modeSize k : ℝ) ^ (-τ) ≤
-            |∑ i, (k i : ℝ) * (ν i ^ 3 /
-              spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i ^ 3)|) →
+        KAM.IsDiophantine γ τ (fun i => ν i ^ 3 /
+            spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i ^ 3) →
         ∀ hch : (fun i => spatialSourceKeplerAction
             (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i) ∈ chamber ν,
         spatialSourceStrongAMD (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) ≤
@@ -345,8 +355,8 @@ theorem spatial_strongAMD_exponentialSafety {n : ℕ} (hn : 2 ≤ n) (ν : Fin n
           IsSpatialMovingSolutionOn ν μ (Set.Icc (-T) T) z ∧
           SpatialMovingUniqueOn ν μ (Set.Icc (-T) T) z ∧
           IsSpatialNewtonSolutionOn (spatialMasses ν μ) (Set.Icc (-T) T)
-            (fun t => spatialBarycentricPositions ν μ (z t).1)
-            (fun t => spatialBarycentricVelocities ν μ (z t).2) ∧
+            (fun t => spatialSourceBarycentricPositions ν μ hν hμ (z t).1)
+            (fun t => spatialSourceBarycentricVelocities ν μ hν hμ (z t).2) ∧
           ∀ t ∈ Set.Icc (-T) T,
             ∃ hs : ∀ i, 0 < ν i ∧ 0 < spaceLength (bodyVector3 (z t).1 i) ∧
                 spatialKeplerEnergy ν (z t) i < 0,
@@ -409,7 +419,16 @@ of §1. Premises are those of LP1 with the spatial objects; **no** prograde, inc
 alignment or secular premise (MAIN T19; the frame alignment with `L` is a proof step). Every canonical element at
 `z₀` and `z t` (axis, action, eccentricity vector, strong AMD, perihelion, aphelion) is a `spatialSource*`
 restriction; the only raw total helpers in the text are `spatialKeplerEnergy`, `spatialOscEnergy` and
-`spatialOscEcc`, each only as a sign condition inside a guarded predicate (§4.4).
+`spatialOscEcc`, each only as a sign condition inside a guarded predicate (§4.4). Revision 1 (statement audit of
+draft 7, F1, the auditor's exact replacement): the positivity of `μ` is the named binder `∀ hμ : 0 < μ` (it was the
+anonymous `0 < μ →`; same proposition, no new premise), and the Newtonian reconstruction is
+`spatialSourceBarycentricPositions ν μ hν hμ (z t).1` and `spatialSourceBarycentricVelocities ν μ hν hμ (z t).2`,
+whose source-premise proof arguments remove the zero-denominator cases of the raw maps. With the Diophantine premise
+written as `KAM.IsDiophantine γ τ (fun i => ν i ^ 3 / spatialSourceKeplerAction ⟨z₀, h₀⟩ i ^ 3)` (as in LP1, §3.2;
+orchestrator scope addition), these are the only changes to the draft-7 LP2 text (and, identically, to LP2-H). The
+closing implementation theorem `lp2_spatial_strongAMD_safety_source_isDiophantine` restates
+`lp2_spatial_strongAMD_safety_source`: it rewrites by `isDiophantine_iff_forall_modeSize` and applies the original
+(the source maps are definitionally the raw maps).
 
 ### 3.5 LP2-H: the spatial corollary at `τ = n − 1/2` (`LP:MAIN §1 (93)`, T19)
 
@@ -428,16 +447,14 @@ theorem spatial_strongAMD_exponentialSafety_halfInteger {n : ℕ} (hn : 2 ≤ n)
     ∃ μ₀ c T₀ AΛ Aa dStar dPair Aosc Aelem : ℝ,
       0 < μ₀ ∧ 0 < c ∧ 0 < T₀ ∧ 0 < AΛ ∧ 0 < Aa ∧ 0 < dStar ∧ 0 < dPair ∧ 0 < Aosc ∧
       0 < Aelem ∧ Aosc * μ₀ ≤ dStar / 2 ∧ 2 * (Aosc * μ₀) ≤ dPair / 2 ∧
-      ∀ μ : ℝ, 0 < μ → μ ≤ μ₀ →
+      ∀ μ : ℝ, ∀ hμ : 0 < μ, μ ≤ μ₀ →
       ∀ z₀ : Phase (n * 3),
         (∀ i, 0 < spaceLength (bodyVector3 z₀.1 i) ∧ spatialKeplerEnergy ν z₀ i < 0) →
         ∀ h₀ : ∀ i, 0 < ν i ∧ 0 < spaceLength (bodyVector3 z₀.1 i) ∧
           spatialKeplerEnergy ν z₀ i < 0,
         (fun i => spatialSourceKeplerAxis (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i) ∈ A →
-        (∀ k : Fin n → ℤ, k ≠ 0 →
-          γ * (KAM.Fourier.modeSize k : ℝ) ^ (-((n : ℝ) - 1 / 2)) ≤
-            |∑ i, (k i : ℝ) * (ν i ^ 3 /
-              spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i ^ 3)|) →
+        KAM.IsDiophantine γ ((n : ℝ) - 1 / 2) (fun i => ν i ^ 3 /
+            spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i ^ 3) →
         ∀ hch : (fun i => spatialSourceKeplerAction
             (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i) ∈ chamber ν,
         spatialSourceStrongAMD (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) ≤
@@ -447,8 +464,8 @@ theorem spatial_strongAMD_exponentialSafety_halfInteger {n : ℕ} (hn : 2 ≤ n)
           IsSpatialMovingSolutionOn ν μ (Set.Icc (-T) T) z ∧
           SpatialMovingUniqueOn ν μ (Set.Icc (-T) T) z ∧
           IsSpatialNewtonSolutionOn (spatialMasses ν μ) (Set.Icc (-T) T)
-            (fun t => spatialBarycentricPositions ν μ (z t).1)
-            (fun t => spatialBarycentricVelocities ν μ (z t).2) ∧
+            (fun t => spatialSourceBarycentricPositions ν μ hν hμ (z t).1)
+            (fun t => spatialSourceBarycentricVelocities ν μ hν hμ (z t).2) ∧
           ∀ t ∈ Set.Icc (-T) T,
             ∃ hs : ∀ i, 0 < ν i ∧ 0 < spaceLength (bodyVector3 (z t).1 i) ∧
                 spatialKeplerEnergy ν (z t) i < 0,
@@ -516,6 +533,7 @@ Directly referenced by the draft texts:
 
 - `KAM.Planetary.IsMovingSolutionOn` — `KAM/Frozen/Planetary/Defs/IsMovingSolutionOn.lean`
 - `KAM.Planetary.IsNewtonSolutionOn` — `KAM/Frozen/Planetary/Defs/IsNewtonSolutionOn.lean`
+- `KAM.IsDiophantine` — `KAM/Frozen/Defs/IsDiophantine.lean`
 - `KAM.Iso.IsHamiltonianSolutionOn` — `KAM/Frozen/Iso/Defs/IsHamiltonianSolutionOn.lean`
 - `KAM.Planetary.MovingUniqueOn` — `KAM/Frozen/Planetary/Defs/MovingUniqueOn.lean`
 - `KAM.Planetary.NoCollision` — `KAM/Frozen/Planetary/Defs/NoCollision.lean`
@@ -535,7 +553,7 @@ Directly referenced by the draft texts:
 - `KAM.Planetary.totalMomentum` — `KAM/Frozen/Planetary/Defs/TotalMomentum.lean`
 
 Through them the semantic closure also contains the frozen `KAM.Planetary.movingHamiltonian` and
-`KAM.hamiltonianVectorField` (21 already-frozen definitions in all; verification §1).
+`KAM.hamiltonianVectorField` (22 already-frozen definitions in all, `KAM.IsDiophantine` included since revision 1; verification §1).
 
 These planar repository definitions are inherited conventions (D20/D25). In particular `keplerAxis`, `keplerAction`,
 `keplerEccVector` and `keplerEnergy` are frozen total formulas whose physical meaning holds under their guards; the
@@ -552,96 +570,111 @@ source-facing definition or a literal predicate unfolds to it, certified as MAIN
 
 | # | Lean name | Role | Frozen path | Defined today in | Characterizations |
 |---|---|---|---|---|---|
-| 1 | `KAM.Fourier.modeSize` | literal | `KAM/Frozen/Fourier/Defs/ModeSize.lean` | `KAM.Fourier.Derivative` | — |
-| 2 | `KAM.Planetary.StrongAMD.actionAxis` | literal | `KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | — |
-| 3 | `KAM.Planetary.StrongAMD.chamber` | literal | `KAM/Frozen/Planetary/StrongAMD/Defs/Chamber.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | — |
-| 4 | `KAM.Planetary.StrongAMD.eccDeficit` | literal | `KAM/Frozen/Planetary/StrongAMD/Defs/EccDeficit.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | — |
-| 5 | `KAM.Planetary.StrongAMD.pairFeasible` | literal | `KAM/Frozen/Planetary/StrongAMD/Defs/PairFeasible.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | — |
-| 6 | `KAM.Planetary.StrongAMD.pairObjective` | literal | `KAM/Frozen/Planetary/StrongAMD/Defs/PairObjective.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | — |
-| 7 | `KAM.Planetary.StrongAMD.pairThreshold` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/PairThreshold.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | `orderedPairThreshold_isLeast`, `orderedPairThreshold_existsUnique_value` |
-| 8 | `KAM.Planetary.StrongAMD.AdjIdx` | literal | `KAM/Frozen/Planetary/StrongAMD/Defs/AdjIdx.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | — |
-| 9 | `KAM.Planetary.StrongAMD.AdjIdx.upperIdx` | literal | `KAM/Frozen/Planetary/StrongAMD/Defs/AdjIdxUpperIdx.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | — |
-| 10 | `KAM.Planetary.StrongAMD.OrderedActions` | carrier | `KAM/Frozen/Planetary/StrongAMD/Defs/OrderedActions.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | — |
-| 11 | `KAM.Planetary.StrongAMD.orderedPairThreshold` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/OrderedPairThreshold.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | `orderedPairThreshold_isLeast`, `orderedPairThreshold_existsUnique_value` |
-| 12 | `KAM.Planetary.StrongAMD.orderedCrossThreshold` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/OrderedCrossThreshold.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | `orderedCrossThreshold_isLeast` |
-| 13 | `KAM.Planetary.StrongAMD.orderedStrongThreshold` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/OrderedStrongThreshold.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | `orderedStrongThreshold_isLeast` |
-| 14 | `KAM.Planetary.StrongAMD.strongAMD` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/StrongAMD.lean` | `KAM.Planetary.StrongAMD.Momentum` | — |
-| 15 | `KAM.Planetary.StrongAMD.keplerPeri` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/KeplerPeri.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
-| 16 | `KAM.Planetary.StrongAMD.keplerApo` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/KeplerApo.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
-| 17 | `KAM.Planetary.StrongAMD.oscVelocity` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/OscVelocity.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
-| 18 | `KAM.Planetary.StrongAMD.oscParam` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/OscParam.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
-| 19 | `KAM.Planetary.StrongAMD.oscEnergy` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/OscEnergy.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
-| 20 | `KAM.Planetary.StrongAMD.oscAxis` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/OscAxis.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
-| 21 | `KAM.Planetary.StrongAMD.oscEccVector` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/OscEccVector.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
-| 22 | `KAM.Planetary.StrongAMD.oscEcc` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/OscEcc.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
-| 23 | `KAM.Planetary.StrongAMD.oscPeri` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/OscPeri.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
-| 24 | `KAM.Planetary.StrongAMD.oscApo` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/OscApo.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
-| 25 | `KAM.Planetary.StrongAMD.SourceCanonicalPhase` | carrier | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceCanonicalPhase.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | `sourceKepler_axis_pos`, `sourceKepler_ecc_le_one` |
-| 26 | `KAM.Planetary.StrongAMD.SourceOsculatingPhase` | carrier | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceOsculatingPhase.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | — |
-| 27 | `KAM.Planetary.StrongAMD.sourceStrongAMD` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceStrongAMD.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | `sourceStrongAMD_nonneg`, `sum_action_mul_eccDeficit_le_sourceStrongAMD` |
-| 28 | `KAM.Planetary.StrongAMD.sourceKeplerPeri` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceKeplerPeri.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | `sourceKeplerPeri_le_planeLength` |
-| 29 | `KAM.Planetary.StrongAMD.sourceKeplerApo` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceKeplerApo.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | `planeLength_le_sourceKeplerApo` |
-| 30 | `KAM.Planetary.StrongAMD.sourceOscVelocity` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscVelocity.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | — |
-| 31 | `KAM.Planetary.StrongAMD.sourceOscParam` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscParam.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | — |
-| 32 | `KAM.Planetary.StrongAMD.sourceOscEnergy` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEnergy.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | — |
-| 33 | `KAM.Planetary.StrongAMD.sourceOscAxis` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscAxis.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | `sourceOscAxis_pos` |
-| 34 | `KAM.Planetary.StrongAMD.sourceOscEccVector` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEccVector.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | — |
-| 35 | `KAM.Planetary.StrongAMD.sourceOscEcc` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEcc.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | — |
-| 36 | `KAM.Planetary.StrongAMD.sourceOscPeri` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscPeri.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | `sourceOscPeri_pos`, `sourceOscPeri_le_planeLength` |
-| 37 | `KAM.Planetary.StrongAMD.sourceOscApo` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscApo.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | `planeLength_le_sourceOscApo` |
-| 38 | `KAM.Planetary.Spatial.spaceDot` | literal | `KAM/Frozen/Planetary/Spatial/Defs/SpaceDot.lean` | `KAM.Planetary.Spatial.Vector` | — |
-| 39 | `KAM.Planetary.Spatial.spaceSq` | literal | `KAM/Frozen/Planetary/Spatial/Defs/SpaceSq.lean` | `KAM.Planetary.Spatial.Vector` | — |
-| 40 | `KAM.Planetary.Spatial.spaceLength` | literal | `KAM/Frozen/Planetary/Spatial/Defs/SpaceLength.lean` | `KAM.Planetary.Spatial.Vector` | — |
-| 41 | `KAM.Planetary.Spatial.spaceCross` | literal | `KAM/Frozen/Planetary/Spatial/Defs/SpaceCross.lean` | `KAM.Planetary.Spatial.Vector` | — |
-| 42 | `KAM.Planetary.Spatial.bodyVector3` | literal | `KAM/Frozen/Planetary/Spatial/Defs/BodyVector3.lean` | `KAM.Planetary.Spatial.Vector` | — |
-| 43 | `KAM.Planetary.Spatial.planetAngularMomentum3` | literal | `KAM/Frozen/Planetary/Spatial/Defs/PlanetAngularMomentum3.lean` | `KAM.Planetary.Spatial.Elements` | — |
-| 44 | `KAM.Planetary.Spatial.angularMomentum3` | literal | `KAM/Frozen/Planetary/Spatial/Defs/AngularMomentum3.lean` | `KAM.Planetary.Spatial.Elements` | — |
-| 45 | `KAM.Planetary.Spatial.spatialHamiltonian` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialHamiltonian.lean` | `KAM.Planetary.Spatial.Model` | — |
-| 46 | `KAM.Planetary.Spatial.SpatialNoCollision` | literal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialNoCollision.lean` | `KAM.Planetary.Spatial.Model` | — |
-| 47 | `KAM.Planetary.Spatial.IsSpatialMovingSolutionOn` | literal | `KAM/Frozen/Planetary/Spatial/Defs/IsSpatialMovingSolutionOn.lean` | `KAM.Planetary.Spatial.Model` | — |
-| 48 | `KAM.Planetary.Spatial.SpatialMovingUniqueOn` | literal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialMovingUniqueOn.lean` | `KAM.Planetary.Spatial.Model` | — |
-| 49 | `KAM.Planetary.Spatial.spatialBarycentricPositions` | literal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialBarycentricPositions.lean` | `KAM.Planetary.Spatial.Newton` | — |
-| 50 | `KAM.Planetary.Spatial.spatialBarycentricVelocities` | literal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialBarycentricVelocities.lean` | `KAM.Planetary.Spatial.Newton` | — |
-| 51 | `KAM.Planetary.Spatial.spatialMasses` | literal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialMasses.lean` | `KAM.Planetary.Spatial.Newton` | — |
-| 52 | `KAM.Planetary.Spatial.IsSpatialNewtonSolutionOn` | literal | `KAM/Frozen/Planetary/Spatial/Defs/IsSpatialNewtonSolutionOn.lean` | `KAM.Planetary.Spatial.Newton` | — |
-| 53 | `KAM.Planetary.Spatial.spatialKeplerEnergy` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerEnergy.lean` | `KAM.Planetary.Spatial.Elements` | — |
-| 54 | `KAM.Planetary.Spatial.spatialKeplerAxis` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerAxis.lean` | `KAM.Planetary.Spatial.Elements` | — |
-| 55 | `KAM.Planetary.Spatial.spatialKeplerAction` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerAction.lean` | `KAM.Planetary.Spatial.Elements` | — |
-| 56 | `KAM.Planetary.Spatial.spatialKeplerEccVector` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerEccVector.lean` | `KAM.Planetary.Spatial.Elements` | — |
-| 57 | `KAM.Planetary.Spatial.SpatialNegativeEnergy` | carrier | `KAM/Frozen/Planetary/Spatial/Defs/SpatialNegativeEnergy.lean` | `KAM.Planetary.Spatial.Elements` | — |
-| 58 | `KAM.Planetary.Spatial.SpatialElliptic` | carrier | `KAM/Frozen/Planetary/Spatial/Defs/SpatialElliptic.lean` | `KAM.Planetary.Spatial.Elements` | — |
-| 59 | `KAM.Planetary.Spatial.spatialKeplerPeri` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerPeri.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
-| 60 | `KAM.Planetary.Spatial.spatialKeplerApo` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerApo.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
-| 61 | `KAM.Planetary.Spatial.spatialOscVelocity` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialOscVelocity.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
-| 62 | `KAM.Planetary.Spatial.spatialOscParam` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialOscParam.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
-| 63 | `KAM.Planetary.Spatial.spatialOscEnergy` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEnergy.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
-| 64 | `KAM.Planetary.Spatial.spatialOscAxis` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialOscAxis.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
-| 65 | `KAM.Planetary.Spatial.spatialOscEccVector` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEccVector.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
-| 66 | `KAM.Planetary.Spatial.spatialOscEcc` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEcc.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
-| 67 | `KAM.Planetary.Spatial.spatialOscPeri` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialOscPeri.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
-| 68 | `KAM.Planetary.Spatial.spatialOscApo` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialOscApo.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
-| 69 | `KAM.Planetary.Spatial.SpatialOscPhase` | carrier | `KAM/Frozen/Planetary/Spatial/Defs/SpatialOscPhase.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
-| 70 | `KAM.Planetary.Spatial.SpatialSourceCanonicalPhase` | carrier | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceCanonicalPhase.lean` | `KAM.Planetary.Spatial.SourceCarrier` | — |
-| 71 | `KAM.Planetary.Spatial.SpatialSourceOsculatingPhase` | carrier | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOsculatingPhase.lean` | `KAM.Planetary.Spatial.SourceCarrier` | — |
-| 72 | `KAM.Planetary.Spatial.spatialSourceKeplerAxis` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerAxis.lean` | `KAM.Planetary.Spatial.SourceCarrier` | `spatialSourceKeplerAxis_pos` |
-| 73 | `KAM.Planetary.Spatial.spatialSourceKeplerAction` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerAction.lean` | `KAM.Planetary.Spatial.SourceCarrier` | `spatialSourceKeplerAction_pos`, `spatialSourceKeplerAction_sq` |
-| 74 | `KAM.Planetary.Spatial.spatialSourceKeplerEccVector` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerEccVector.lean` | `KAM.Planetary.Spatial.SourceCarrier` | — |
-| 75 | `KAM.Planetary.Spatial.spatialSourceKeplerEcc` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerEcc.lean` | `KAM.Planetary.Spatial.SourceCarrier` | `spatialSourceKeplerEcc_sq`, `spatialSourceKeplerEcc_nonneg`, `spatialSourceKeplerEcc_le_one` |
-| 76 | `KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourcePlanetAngularMomentum.lean` | `KAM.Planetary.Spatial.SourceCarrier` | `spatialSourceKeplerEcc_sq`, `spatialSourcePlanetAngularMomentum_length`, `spatialSourcePlanetAngularMomentum_length_le` |
-| 77 | `KAM.Planetary.Spatial.spatialSourceAngularMomentum` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceAngularMomentum.lean` | `KAM.Planetary.Spatial.SourceCarrier` | — |
-| 78 | `KAM.Planetary.Spatial.spatialSourceStrongAMD` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceStrongAMD.lean` | `KAM.Planetary.Spatial.SourceCarrier` | `spatialSourceStrongAMD_nonneg`, `spatialSourceAction_mul_eccDeficit_le` |
-| 79 | `KAM.Planetary.Spatial.spatialSourceKeplerPeri` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerPeri.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | `spatialSourceKeplerPeri_le_length` |
-| 80 | `KAM.Planetary.Spatial.spatialSourceKeplerApo` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerApo.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | `spatialSourceKeplerApo_ge_length` |
-| 81 | `KAM.Planetary.Spatial.spatialSourceOscVelocity` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscVelocity.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
-| 82 | `KAM.Planetary.Spatial.spatialSourceOscParam` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscParam.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | `spatialSourceOscParam_pos` |
-| 83 | `KAM.Planetary.Spatial.spatialSourceOscEnergy` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEnergy.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | `spatialSourceOscEnergy_neg` |
-| 84 | `KAM.Planetary.Spatial.spatialSourceOscAxis` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscAxis.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | `spatialSourceOscAxis_pos` |
-| 85 | `KAM.Planetary.Spatial.spatialSourceOscEccVector` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEccVector.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
-| 86 | `KAM.Planetary.Spatial.spatialSourceOscEcc` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEcc.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | `spatialSourceOscEcc_lt_one`, `spatialSourceOscEcc_nonneg` |
-| 87 | `KAM.Planetary.Spatial.spatialSourceOscPeri` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscPeri.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | `spatialSourceOscPeri_pos`, `spatialSourceOscPeri_le_length` |
-| 88 | `KAM.Planetary.Spatial.spatialSourceOscApo` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscApo.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | `spatialSourceOscApo_ge_length` |
+| 1 | `KAM.Planetary.StrongAMD.actionAxis` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | — |
+| 2 | `KAM.Planetary.StrongAMD.chamber` | literal | `KAM/Frozen/Planetary/StrongAMD/Defs/Chamber.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | — |
+| 3 | `KAM.Planetary.StrongAMD.eccDeficit` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/EccDeficit.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | — |
+| 4 | `KAM.Planetary.StrongAMD.pairFeasible` | literal | `KAM/Frozen/Planetary/StrongAMD/Defs/PairFeasible.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | — |
+| 5 | `KAM.Planetary.StrongAMD.pairObjective` | literal | `KAM/Frozen/Planetary/StrongAMD/Defs/PairObjective.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | — |
+| 6 | `KAM.Planetary.StrongAMD.pairThreshold` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/PairThreshold.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | `orderedPairThreshold_isLeast`, `orderedPairThreshold_existsUnique_value` |
+| 7 | `KAM.Planetary.StrongAMD.AdjIdx` | literal | `KAM/Frozen/Planetary/StrongAMD/Defs/AdjIdx.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | — |
+| 8 | `KAM.Planetary.StrongAMD.AdjIdx.upperIdx` | literal | `KAM/Frozen/Planetary/StrongAMD/Defs/AdjIdxUpperIdx.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | — |
+| 9 | `KAM.Planetary.StrongAMD.OrderedActions` | carrier | `KAM/Frozen/Planetary/StrongAMD/Defs/OrderedActions.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | — |
+| 10 | `KAM.Planetary.StrongAMD.orderedPairThreshold` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/OrderedPairThreshold.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | `orderedPairThreshold_isLeast`, `orderedPairThreshold_existsUnique_value` |
+| 11 | `KAM.Planetary.StrongAMD.orderedCrossThreshold` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/OrderedCrossThreshold.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | `orderedCrossThreshold_isLeast` |
+| 12 | `KAM.Planetary.StrongAMD.orderedStrongThreshold` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/OrderedStrongThreshold.lean` | `KAM.Planetary.StrongAMD.Threshold.Defs` | `orderedStrongThreshold_isLeast` |
+| 13 | `KAM.Planetary.StrongAMD.strongAMD` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/StrongAMD.lean` | `KAM.Planetary.StrongAMD.Momentum` | — |
+| 14 | `KAM.Planetary.StrongAMD.keplerPeri` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/KeplerPeri.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
+| 15 | `KAM.Planetary.StrongAMD.keplerApo` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/KeplerApo.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
+| 16 | `KAM.Planetary.StrongAMD.oscVelocity` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/OscVelocity.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
+| 17 | `KAM.Planetary.StrongAMD.oscParam` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/OscParam.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
+| 18 | `KAM.Planetary.StrongAMD.oscEnergy` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/OscEnergy.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
+| 19 | `KAM.Planetary.StrongAMD.oscAxis` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/OscAxis.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
+| 20 | `KAM.Planetary.StrongAMD.oscEccVector` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/OscEccVector.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
+| 21 | `KAM.Planetary.StrongAMD.oscEcc` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/OscEcc.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
+| 22 | `KAM.Planetary.StrongAMD.oscPeri` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/OscPeri.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
+| 23 | `KAM.Planetary.StrongAMD.oscApo` | internal | `KAM/Frozen/Planetary/StrongAMD/Defs/OscApo.lean` | `KAM.Planetary.StrongAMD.Osculating.Basic` | — |
+| 24 | `KAM.Planetary.StrongAMD.SourceCanonicalPhase` | carrier | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceCanonicalPhase.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | `sourceKepler_axis_pos`, `sourceKepler_ecc_le_one` |
+| 25 | `KAM.Planetary.StrongAMD.SourceOsculatingPhase` | carrier | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceOsculatingPhase.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | — |
+| 26 | `KAM.Planetary.StrongAMD.sourceStrongAMD` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceStrongAMD.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | `sourceStrongAMD_nonneg`, `sum_action_mul_eccDeficit_le_sourceStrongAMD` |
+| 27 | `KAM.Planetary.StrongAMD.sourceKeplerPeri` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceKeplerPeri.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | `sourceKeplerPeri_le_planeLength` |
+| 28 | `KAM.Planetary.StrongAMD.sourceKeplerApo` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceKeplerApo.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | `planeLength_le_sourceKeplerApo` |
+| 29 | `KAM.Planetary.StrongAMD.sourceOscVelocity` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscVelocity.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | — |
+| 30 | `KAM.Planetary.StrongAMD.sourceOscParam` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscParam.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | — |
+| 31 | `KAM.Planetary.StrongAMD.sourceOscEnergy` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEnergy.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | — |
+| 32 | `KAM.Planetary.StrongAMD.sourceOscAxis` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscAxis.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | `sourceOscAxis_pos` |
+| 33 | `KAM.Planetary.StrongAMD.sourceOscEccVector` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEccVector.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | — |
+| 34 | `KAM.Planetary.StrongAMD.sourceOscEcc` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEcc.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | — |
+| 35 | `KAM.Planetary.StrongAMD.sourceOscPeri` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscPeri.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | `sourceOscPeri_pos`, `sourceOscPeri_le_planeLength` |
+| 36 | `KAM.Planetary.StrongAMD.sourceOscApo` | source | `KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscApo.lean` | `KAM.Planetary.StrongAMD.SourceCarrier` | `planeLength_le_sourceOscApo` |
+| 37 | `KAM.Planetary.Spatial.spaceDot` | literal | `KAM/Frozen/Planetary/Spatial/Defs/SpaceDot.lean` | `KAM.Planetary.Spatial.Vector` | — |
+| 38 | `KAM.Planetary.Spatial.spaceSq` | literal | `KAM/Frozen/Planetary/Spatial/Defs/SpaceSq.lean` | `KAM.Planetary.Spatial.Vector` | — |
+| 39 | `KAM.Planetary.Spatial.spaceLength` | literal | `KAM/Frozen/Planetary/Spatial/Defs/SpaceLength.lean` | `KAM.Planetary.Spatial.Vector` | — |
+| 40 | `KAM.Planetary.Spatial.spaceCross` | literal | `KAM/Frozen/Planetary/Spatial/Defs/SpaceCross.lean` | `KAM.Planetary.Spatial.Vector` | — |
+| 41 | `KAM.Planetary.Spatial.bodyVector3` | literal | `KAM/Frozen/Planetary/Spatial/Defs/BodyVector3.lean` | `KAM.Planetary.Spatial.Vector` | — |
+| 42 | `KAM.Planetary.Spatial.planetAngularMomentum3` | literal | `KAM/Frozen/Planetary/Spatial/Defs/PlanetAngularMomentum3.lean` | `KAM.Planetary.Spatial.Elements` | — |
+| 43 | `KAM.Planetary.Spatial.angularMomentum3` | literal | `KAM/Frozen/Planetary/Spatial/Defs/AngularMomentum3.lean` | `KAM.Planetary.Spatial.Elements` | — |
+| 44 | `KAM.Planetary.Spatial.spatialHamiltonian` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialHamiltonian.lean` | `KAM.Planetary.Spatial.Model` | — |
+| 45 | `KAM.Planetary.Spatial.SpatialNoCollision` | literal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialNoCollision.lean` | `KAM.Planetary.Spatial.Model` | — |
+| 46 | `KAM.Planetary.Spatial.IsSpatialMovingSolutionOn` | literal | `KAM/Frozen/Planetary/Spatial/Defs/IsSpatialMovingSolutionOn.lean` | `KAM.Planetary.Spatial.Model` | — |
+| 47 | `KAM.Planetary.Spatial.SpatialMovingUniqueOn` | literal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialMovingUniqueOn.lean` | `KAM.Planetary.Spatial.Model` | — |
+| 48 | `KAM.Planetary.Spatial.spatialBarycentricPositions` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialBarycentricPositions.lean` | `KAM.Planetary.Spatial.Newton` | — |
+| 49 | `KAM.Planetary.Spatial.spatialBarycentricVelocities` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialBarycentricVelocities.lean` | `KAM.Planetary.Spatial.Newton` | — |
+| 50 | `KAM.Planetary.Spatial.spatialMasses` | literal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialMasses.lean` | `KAM.Planetary.Spatial.Newton` | — |
+| 51 | `KAM.Planetary.Spatial.IsSpatialNewtonSolutionOn` | literal | `KAM/Frozen/Planetary/Spatial/Defs/IsSpatialNewtonSolutionOn.lean` | `KAM.Planetary.Spatial.Newton` | — |
+| 52 | `KAM.Planetary.Spatial.spatialKeplerEnergy` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerEnergy.lean` | `KAM.Planetary.Spatial.Elements` | — |
+| 53 | `KAM.Planetary.Spatial.spatialKeplerAxis` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerAxis.lean` | `KAM.Planetary.Spatial.Elements` | — |
+| 54 | `KAM.Planetary.Spatial.spatialKeplerAction` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerAction.lean` | `KAM.Planetary.Spatial.Elements` | — |
+| 55 | `KAM.Planetary.Spatial.spatialKeplerEccVector` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerEccVector.lean` | `KAM.Planetary.Spatial.Elements` | — |
+| 56 | `KAM.Planetary.Spatial.SpatialNegativeEnergy` | carrier | `KAM/Frozen/Planetary/Spatial/Defs/SpatialNegativeEnergy.lean` | `KAM.Planetary.Spatial.Elements` | — |
+| 57 | `KAM.Planetary.Spatial.SpatialElliptic` | carrier | `KAM/Frozen/Planetary/Spatial/Defs/SpatialElliptic.lean` | `KAM.Planetary.Spatial.Elements` | — |
+| 58 | `KAM.Planetary.Spatial.spatialKeplerPeri` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerPeri.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
+| 59 | `KAM.Planetary.Spatial.spatialKeplerApo` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerApo.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
+| 60 | `KAM.Planetary.Spatial.spatialOscVelocity` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialOscVelocity.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
+| 61 | `KAM.Planetary.Spatial.spatialOscParam` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialOscParam.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
+| 62 | `KAM.Planetary.Spatial.spatialOscEnergy` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEnergy.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
+| 63 | `KAM.Planetary.Spatial.spatialOscAxis` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialOscAxis.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
+| 64 | `KAM.Planetary.Spatial.spatialOscEccVector` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEccVector.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
+| 65 | `KAM.Planetary.Spatial.spatialOscEcc` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEcc.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
+| 66 | `KAM.Planetary.Spatial.spatialOscPeri` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialOscPeri.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
+| 67 | `KAM.Planetary.Spatial.spatialOscApo` | internal | `KAM/Frozen/Planetary/Spatial/Defs/SpatialOscApo.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
+| 68 | `KAM.Planetary.Spatial.SpatialOscPhase` | carrier | `KAM/Frozen/Planetary/Spatial/Defs/SpatialOscPhase.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
+| 69 | `KAM.Planetary.Spatial.SpatialSourceCanonicalPhase` | carrier | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceCanonicalPhase.lean` | `KAM.Planetary.Spatial.SourceCarrier` | — |
+| 70 | `KAM.Planetary.Spatial.SpatialSourceOsculatingPhase` | carrier | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOsculatingPhase.lean` | `KAM.Planetary.Spatial.SourceCarrier` | — |
+| 71 | `KAM.Planetary.Spatial.spatialSourceKeplerAxis` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerAxis.lean` | `KAM.Planetary.Spatial.SourceCarrier` | `spatialSourceKeplerAxis_pos` |
+| 72 | `KAM.Planetary.Spatial.spatialSourceKeplerAction` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerAction.lean` | `KAM.Planetary.Spatial.SourceCarrier` | `spatialSourceKeplerAction_pos`, `spatialSourceKeplerAction_sq` |
+| 73 | `KAM.Planetary.Spatial.spatialSourceKeplerEccVector` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerEccVector.lean` | `KAM.Planetary.Spatial.SourceCarrier` | — |
+| 74 | `KAM.Planetary.Spatial.spatialSourceKeplerEcc` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerEcc.lean` | `KAM.Planetary.Spatial.SourceCarrier` | `spatialSourceKeplerEcc_sq`, `spatialSourceKeplerEcc_nonneg`, `spatialSourceKeplerEcc_le_one` |
+| 75 | `KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourcePlanetAngularMomentum.lean` | `KAM.Planetary.Spatial.SourceCarrier` | `spatialSourceKeplerEcc_sq`, `spatialSourcePlanetAngularMomentum_length`, `spatialSourcePlanetAngularMomentum_length_le` |
+| 76 | `KAM.Planetary.Spatial.spatialSourceAngularMomentum` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceAngularMomentum.lean` | `KAM.Planetary.Spatial.SourceCarrier` | — |
+| 77 | `KAM.Planetary.Spatial.spatialSourceStrongAMD` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceStrongAMD.lean` | `KAM.Planetary.Spatial.SourceCarrier` | `spatialSourceStrongAMD_nonneg`, `spatialSourceAction_mul_eccDeficit_le` |
+| 78 | `KAM.Planetary.Spatial.spatialSourceKeplerPeri` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerPeri.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | `spatialSourceKeplerPeri_le_length` |
+| 79 | `KAM.Planetary.Spatial.spatialSourceKeplerApo` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerApo.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | `spatialSourceKeplerApo_ge_length` |
+| 80 | `KAM.Planetary.Spatial.spatialSourceOscVelocity` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscVelocity.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
+| 81 | `KAM.Planetary.Spatial.spatialSourceOscParam` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscParam.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | `spatialSourceOscParam_pos` |
+| 82 | `KAM.Planetary.Spatial.spatialSourceOscEnergy` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEnergy.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | `spatialSourceOscEnergy_neg` |
+| 83 | `KAM.Planetary.Spatial.spatialSourceOscAxis` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscAxis.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | `spatialSourceOscAxis_pos` |
+| 84 | `KAM.Planetary.Spatial.spatialSourceOscEccVector` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEccVector.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | — |
+| 85 | `KAM.Planetary.Spatial.spatialSourceOscEcc` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEcc.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | `spatialSourceOscEcc_lt_one`, `spatialSourceOscEcc_nonneg` |
+| 86 | `KAM.Planetary.Spatial.spatialSourceOscPeri` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscPeri.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | `spatialSourceOscPeri_pos`, `spatialSourceOscPeri_le_length` |
+| 87 | `KAM.Planetary.Spatial.spatialSourceOscApo` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscApo.lean` | `KAM.Planetary.Spatial.Osculating.Basic` | `spatialSourceOscApo_ge_length` |
+| 88 | `KAM.Planetary.Spatial.spatialSourceBarycentricPositions` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricPositions.lean` | `KAM.Planetary.Spatial.SourceBarycentric` | — |
+| 89 | `KAM.Planetary.Spatial.spatialSourceBarycentricVelocities` | source | `KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricVelocities.lean` | `KAM.Planetary.Spatial.SourceBarycentric` | — |
 
 Notes.
+- **Revision 1 (statement audit of draft 7, F1, F2).** `actionAxis`, `eccDeficit`, `spatialBarycentricPositions` and
+  `spatialBarycentricVelocities` change role from literal to **internal**; their module docstrings carry the
+  auditor's exact role paragraph and their bodies are unchanged. Two new source-facing definitions,
+  `spatialSourceBarycentricPositions` and `spatialSourceBarycentricVelocities` (the auditor's exact declaration text,
+  without docstrings; implementation in `KAM/Planetary/Spatial/SourceBarycentric.lean`, same names), take the source
+  premises `_hν : ∀ i, 0 < ν i`, `_hμ : 0 < μ` as proof arguments and are definitionally the raw maps; LP2 and LP2-H
+  use them. **Characterization: `N/A_LITERAL`**, for two reasons: the implementation proves no barycentric identity
+  (zero mass-weighted position sum, `p_i = ν_i V_i`) for these maps (`KAM/Planetary/Spatial/Newton.lean` has only the
+  relative-position and coordinate equations `…_succ_sub_zero`, `…_succ_sub_succ`, `…_zero`, `…_succ`, which are
+  literal unfoldings, not identities of the reconstruction), and MAIN L1 (100–106) gives the reconstruction by these
+  explicit formulas. This matches draft 7's treatment of the already-frozen planar `KAM.Planetary.barycentricPositions`,
+  `barycentricVelocities` (§4.1: inherited D20 total formulas, no characterization). The asymmetry that remains is
+  recorded, not changed: the planar anchors LP1, LP1-H still apply the inherited planar maps directly (with
+  `m₀ = 1` and positive `ν`, `μ` from the premises), as they do `keplerAxis` and the other inherited formulas (§4.1).
 - **Not in the closure, therefore not frozen.** The raw total thresholds `crossThreshold`, `starThreshold`,
   `strongThreshold` (the carrier definitions do not unfold to them; they occur only in the implementation's `rfl`
   equations `orderedCrossThreshold_eq`, `orderedStrongThreshold_eq`), and the spatial `spatialStrongAMD`,
@@ -663,13 +696,6 @@ Notes.
   Every other docstring is the implementation's.
 
 ### 4.3 Definition texts (exact)
-
-**ℓ¹ mode size** (namespace `KAM.Fourier`; files `ModeSize.lean`):
-
-```lean
-/-- The ℓ¹ size of an integer Fourier index, as a real number. -/
-def modeSize {n : ℕ} (k : Fin n → ℤ) : ℝ := ∑ j, |(k j : ℝ)|
-```
 
 **Thresholds (MAIN §1 (3), L4)** (namespace `KAM.Planetary.StrongAMD`; files `ActionAxis.lean`, `Chamber.lean`, `EccDeficit.lean`, `PairFeasible.lean`, `PairObjective.lean`, `PairThreshold.lean`, `AdjIdx.lean`, `AdjIdxUpperIdx.lean`, `OrderedActions.lean`, `OrderedPairThreshold.lean`, `OrderedCrossThreshold.lean`, `OrderedStrongThreshold.lean`):
 
@@ -1013,7 +1039,7 @@ abbrev SpatialOscPhase (n : ℕ) (ν : Fin n → ℝ) (μ : ℝ) :=
       spatialOscEcc ν μ z i < 1}
 ```
 
-**Spatial source carriers and source-facing definitions** (namespace `KAM.Planetary.Spatial`; files `SpatialSourceCanonicalPhase.lean`, `SpatialSourceOsculatingPhase.lean`, `SpatialSourceKeplerAxis.lean`, `SpatialSourceKeplerAction.lean`, `SpatialSourceKeplerEccVector.lean`, `SpatialSourceKeplerEcc.lean`, `SpatialSourcePlanetAngularMomentum.lean`, `SpatialSourceAngularMomentum.lean`, `SpatialSourceStrongAMD.lean`, `SpatialSourceKeplerPeri.lean`, `SpatialSourceKeplerApo.lean`, `SpatialSourceOscVelocity.lean`, `SpatialSourceOscParam.lean`, `SpatialSourceOscEnergy.lean`, `SpatialSourceOscAxis.lean`, `SpatialSourceOscEccVector.lean`, `SpatialSourceOscEcc.lean`, `SpatialSourceOscPeri.lean`, `SpatialSourceOscApo.lean`):
+**Spatial source carriers and source-facing definitions** (namespace `KAM.Planetary.Spatial`; files `SpatialSourceCanonicalPhase.lean`, `SpatialSourceOsculatingPhase.lean`, `SpatialSourceKeplerAxis.lean`, `SpatialSourceKeplerAction.lean`, `SpatialSourceKeplerEccVector.lean`, `SpatialSourceKeplerEcc.lean`, `SpatialSourcePlanetAngularMomentum.lean`, `SpatialSourceAngularMomentum.lean`, `SpatialSourceStrongAMD.lean`, `SpatialSourceKeplerPeri.lean`, `SpatialSourceKeplerApo.lean`, `SpatialSourceOscVelocity.lean`, `SpatialSourceOscParam.lean`, `SpatialSourceOscEnergy.lean`, `SpatialSourceOscAxis.lean`, `SpatialSourceOscEccVector.lean`, `SpatialSourceOscEcc.lean`, `SpatialSourceOscPeri.lean`, `SpatialSourceOscApo.lean`, `SpatialSourceBarycentricPositions.lean`, `SpatialSourceBarycentricVelocities.lean`):
 
 ```lean
 /-- The canonical source carrier (`LP:MAIN §1 (2)`): phase points with positive masses, no planet
@@ -1097,20 +1123,36 @@ def spatialSourceOscPeri {n : ℕ} {ν : Fin n → ℝ} {μ : ℝ} (z : SpatialO
 def spatialSourceOscApo {n : ℕ} {ν : Fin n → ℝ} {μ : ℝ} (z : SpatialOscPhase n ν μ)
     (i : Fin n) : ℝ :=
   spatialOscApo ν μ z.1 i
+
+def spatialSourceBarycentricPositions {n : ℕ} (ν : Fin n → ℝ) (μ : ℝ)
+    (_hν : ∀ i, 0 < ν i) (_hμ : 0 < μ) (q : Fin (n * 3) → ℝ) :
+    Fin (n + 1) → (Fin 3 → ℝ) := spatialBarycentricPositions ν μ q
+
+def spatialSourceBarycentricVelocities {n : ℕ} (ν : Fin n → ℝ) (μ : ℝ)
+    (_hν : ∀ i, 0 < ν i) (_hμ : 0 < μ) (p : Fin (n * 3) → ℝ) :
+    Fin (n + 1) → (Fin 3 → ℝ) := spatialBarycentricVelocities ν μ p
 ```
 
 ### 4.4 Raw total helpers that occur in anchor texts (review 5, R5.1)
 
 The total formulas stay **internal implementation helpers in the definition closure** and are not certified as
 MAIN's objects off their carriers: `strongAMD`, `keplerPeri/Apo`, `oscVelocity/oscParam/oscEnergy/oscAxis/
-oscEccVector/oscEcc/oscPeri/oscApo`, `pairThreshold`, `spatialKeplerEnergy`, `spatialKeplerAxis/Action/EccVector`,
-`spatialKeplerPeri/Apo`, `spatialHamiltonian` and `spatialOsc*`. In the anchor texts only the following occur
-directly, each only as a sign condition inside a guarded predicate:
+oscEccVector/oscEcc/oscPeri/oscApo`, `pairThreshold`, `actionAxis`, `eccDeficit`, `spatialKeplerEnergy`,
+`spatialKeplerAxis/Action/EccVector`, `spatialKeplerPeri/Apo`, `spatialHamiltonian`, `spatialOsc*`,
+`spatialBarycentricPositions` and `spatialBarycentricVelocities`. The last four (statement audit of draft 7, F1, F2)
+are internal total algebraic helpers: no source-object meaning is asserted off the source domain; source-facing
+uses supply positive masses, the barycentric reconstruction also positive `μ` (through
+`spatialSourceBarycentricPositions/Velocities`), and the eccentricity deficit is interpreted only on `[0,1]`. In the
+anchor texts only the following occur directly, each only as a sign condition inside a guarded predicate, except
+the threshold helpers of LP0, which occur on the guarded source domain:
 
 - planar: `keplerEnergy` (frozen) in the physical premise and in `h₀`, `h`, `hs`; `oscEnergy` and `oscEcc` in the
-  osculating carrier predicate (`ho`);
+  osculating carrier predicate (`ho`); in LP0 only, `actionAxis ν I i` and `eccDeficit (e i)` in the abstract
+  deficit-list clause, for `I ∈ U` (`U ⊆ chamber ν`, positive actions, standing `hν : ∀ i, 0 < ν i`) and
+  `e ∈ [0,1]ⁿ` (the premises `0 ≤ e i`, `e i ≤ 1`), i.e. on their source domain;
 - spatial: `spatialKeplerEnergy` in the physical premise and the canonical carrier predicate (`h₀`, `hs`);
-  `spatialOscEnergy` and `spatialOscEcc` in the osculating carrier predicate (`ho`).
+  `spatialOscEnergy` and `spatialOscEcc` in the osculating carrier predicate (`ho`). The raw barycentric maps no
+  longer occur in any anchor text (F1).
 
 These predicates are false whenever `|q_i| = 0` (Lean's `x / 0 = 0` sends the energies to `|p|²/(2ν) ≥ 0`,
 resp. `|V|²/2 ≥ 0`) and literal otherwise. `spatialHamiltonian` (and the frozen planar `movingHamiltonian`) is
@@ -1166,9 +1208,10 @@ exists; the provider imports only the implementation, never another provider).
 is `orderedPairThreshold_isLeast` with `orderedPairThreshold_existsUnique_value` (statement review 1, F3). The
 literal restrictions without a listed characterization (`sourceOscEnergy`, `sourceOscEccVector`, `sourceOscEcc`,
 `sourceOscVelocity`, `sourceOscParam`, `spatialSourceKeplerEccVector`, `spatialSourceAngularMomentum`,
-`spatialSourceOscVelocity`, `spatialSourceOscEccVector`) are literal formulas on their carriers
-(`CHARACTERIZATION: N/A_LITERAL`); their carriers' own conditions (`E^osc < 0`, `e^osc < 1`) are the carrier
-definitions themselves.
+`spatialSourceOscVelocity`, `spatialSourceOscEccVector`, and in revision 1 `spatialSourceBarycentricPositions`,
+`spatialSourceBarycentricVelocities`) are literal formulas on their carriers (`CHARACTERIZATION: N/A_LITERAL`); their
+carriers' own conditions (`E^osc < 0`, `e^osc < 1`; for the barycentric maps, the source premises `0 < ν_i`,
+`0 < μ`) are the carrier definitions themselves. No new characterization theorem is added by revision 1 (§4.2 notes).
 
 ### 5.1 Characterization texts (exact)
 
@@ -1346,11 +1389,10 @@ theorem spatialSourceOscApo_ge_length {n : ℕ} {ν : Fin n → ℝ} {μ : ℝ}
 
 ## 6. Manifest entry drafts
 
-[`freeze/draft7/manifest-entries.json`](freeze/draft7/manifest-entries.json) has one entry per file (127),
+[`freeze/draft7/manifest-entries.json`](freeze/draft7/manifest-entries.json) has one entry per file (128),
 in the schema of `manifest/frozen-anchors.json`:
 
-- `id` `<group>.v1` and `contract` `{id: <group>, version: "1"}` with `<group> = planetary.d59.<name>`
-  (`fourier.d59.modeSize` for the ℓ¹ mode size);
+- `id` `<group>.v1` and `contract` `{id: <group>, version: "1"}` with `<group> = planetary.d59.<name>`;
 - `kind`, `path`, `export` as in §2, §4, §5;
 - `source.revision` = `KAM-inp@701c239b docs/tracks/LP/source/MAIN.md (sha256 …) as amended by
   docs/tracks/LP/source/AMENDMENTS.md (sha256 …); exact text docs/tracks/LP/FREEZE-PROPOSAL.md draft 7`;
@@ -1372,7 +1414,6 @@ statement changes. For each implementation module: delete the listed `def`/`abbr
 
 | Implementation module | Definitions deleted (now frozen, same names) | Frozen files to `public import` |
 |---|---|---|
-| `KAM.Fourier.Derivative` | `modeSize` | `KAM.Frozen.Fourier.Defs.{ModeSize}` |
 | `KAM.Planetary.StrongAMD.Threshold.Defs` | `actionAxis`, `chamber`, `eccDeficit`, `pairFeasible`, `pairObjective`, `pairThreshold`, `AdjIdx`, `AdjIdx.upperIdx`, `OrderedActions`, `orderedPairThreshold`, `orderedCrossThreshold`, `orderedStrongThreshold` | `KAM.Frozen.Planetary.StrongAMD.Defs.{ActionAxis, Chamber, EccDeficit, PairFeasible, PairObjective, PairThreshold, AdjIdx, AdjIdxUpperIdx, OrderedActions, OrderedPairThreshold, OrderedCrossThreshold, OrderedStrongThreshold}` |
 | `KAM.Planetary.StrongAMD.Momentum` | `strongAMD` | `KAM.Frozen.Planetary.StrongAMD.Defs.{StrongAMD}` |
 | `KAM.Planetary.StrongAMD.Osculating.Basic` | `keplerPeri`, `keplerApo`, `oscVelocity`, `oscParam`, `oscEnergy`, `oscAxis`, `oscEccVector`, `oscEcc`, `oscPeri`, `oscApo` | `KAM.Frozen.Planetary.StrongAMD.Defs.{KeplerPeri, KeplerApo, OscVelocity, OscParam, OscEnergy, OscAxis, OscEccVector, OscEcc, OscPeri, OscApo}` |
@@ -1383,14 +1424,13 @@ statement changes. For each implementation module: delete the listed `def`/`abbr
 | `KAM.Planetary.Spatial.Newton` | `spatialBarycentricPositions`, `spatialBarycentricVelocities`, `spatialMasses`, `IsSpatialNewtonSolutionOn` | `KAM.Frozen.Planetary.Spatial.Defs.{SpatialBarycentricPositions, SpatialBarycentricVelocities, SpatialMasses, IsSpatialNewtonSolutionOn}` |
 | `KAM.Planetary.Spatial.Osculating.Basic` | `spatialKeplerPeri`, `spatialKeplerApo`, `spatialOscVelocity`, `spatialOscParam`, `spatialOscEnergy`, `spatialOscAxis`, `spatialOscEccVector`, `spatialOscEcc`, `spatialOscPeri`, `spatialOscApo`, `SpatialOscPhase`, `spatialSourceKeplerPeri`, `spatialSourceKeplerApo`, `spatialSourceOscVelocity`, `spatialSourceOscParam`, `spatialSourceOscEnergy`, `spatialSourceOscAxis`, `spatialSourceOscEccVector`, `spatialSourceOscEcc`, `spatialSourceOscPeri`, `spatialSourceOscApo` | `KAM.Frozen.Planetary.Spatial.Defs.{SpatialKeplerPeri, SpatialKeplerApo, SpatialOscVelocity, SpatialOscParam, SpatialOscEnergy, SpatialOscAxis, SpatialOscEccVector, SpatialOscEcc, SpatialOscPeri, SpatialOscApo, SpatialOscPhase, SpatialSourceKeplerPeri, SpatialSourceKeplerApo, SpatialSourceOscVelocity, SpatialSourceOscParam, SpatialSourceOscEnergy, SpatialSourceOscAxis, SpatialSourceOscEccVector, SpatialSourceOscEcc, SpatialSourceOscPeri, SpatialSourceOscApo}` |
 | `KAM.Planetary.Spatial.SourceCarrier` | `SpatialSourceCanonicalPhase`, `SpatialSourceOsculatingPhase`, `spatialSourceKeplerAxis`, `spatialSourceKeplerAction`, `spatialSourceKeplerEccVector`, `spatialSourceKeplerEcc`, `spatialSourcePlanetAngularMomentum`, `spatialSourceAngularMomentum`, `spatialSourceStrongAMD` | `KAM.Frozen.Planetary.Spatial.Defs.{SpatialSourceCanonicalPhase, SpatialSourceOsculatingPhase, SpatialSourceKeplerAxis, SpatialSourceKeplerAction, SpatialSourceKeplerEccVector, SpatialSourceKeplerEcc, SpatialSourcePlanetAngularMomentum, SpatialSourceAngularMomentum, SpatialSourceStrongAMD}` |
+| `KAM.Planetary.Spatial.SourceBarycentric` | `spatialSourceBarycentricPositions`, `spatialSourceBarycentricVelocities` | `KAM.Frozen.Planetary.Spatial.Defs.{SpatialSourceBarycentricPositions, SpatialSourceBarycentricVelocities}` |
 
 Specific points (flagged):
 
-1. **`KAM.Fourier.modeSize` lives in the shared `KAM/Fourier/Derivative.lean`** (not an LP file; AGENTS and the
-   common brief forbid track provers from editing `KAM/Fourier`). The freeze commit must delete its two-line `def`
-   there and add `public import KAM.Frozen.Fourier.Defs.ModeSize`; this needs the orchestrator (a shared-module
-   edit). Same name, same type, same body (check (b): `rfl` and alpha-equivalent value), so every consumer in every
-   track compiles unchanged.
+1. **No shared-module edit.** Revision 1 no longer freezes `KAM.Fourier.modeSize` (the anchors use the
+   already-frozen `KAM.IsDiophantine`), so the shared `KAM/Fourier/Derivative.lean` is not touched at freeze
+   (draft 7's rebase point 1 is withdrawn; Appendix A).
 2. **`orderedCrossThreshold`**: the frozen body inlines `(Nat.lt_succ_self a.1.val)` for `a.lt_upperIdx`; the
    theorem `AdjIdx.lt_upperIdx` stays in `Threshold/Defs.lean`, and `orderedCrossThreshold_eq` stays `rfl`.
 3. **Characterization lemmas.** The 32 existing characterization lemmas (`Threshold/Pair.lean`: 2,
@@ -1403,10 +1443,16 @@ Specific points (flagged):
    `orderedCrossThreshold_isLeast`); after sealing, any module may import the sealed frozen theorem instead (D58).
    `PlanarSafety/SourceThreshold.lean` is then empty and is deleted.
 4. **Anchor providers** are one-line: `KAM.Provider.Planetary.StrongAMD.planar_strongAMD_barrier := lp0_planar_barrier_source …`
-   and so on (table in §2); they import `PlanarSafety/SourceCorollary.lean`, `PlanarSafety/Source.lean`,
-   `Spatial/SpatialSafety/Source.lean`, `Spatial/SpatialSafety/SourceCorollary.lean`. No implementation theorem is
-   renamed.
-5. **Sealing order.** Freeze commit: all 127 files, definitions SEALED, the 39 theorems DRAFT_SORRY with
+   and so on (table in §2); they import `PlanarSafety/SourceCorollary.lean`, `PlanarSafety/SourceDiophantine.lean`,
+   `Spatial/SpatialSafety/SourceCorollary.lean`. No implementation theorem is renamed. The spatial anchors close by
+   the revision-1 restatements `lp2_spatial_strongAMD_safety_source_isDiophantine` and `…_isDiophantine_halfInteger`
+   (`Spatial/SpatialSafety/SourceCorollary.lean`), and LP1, LP1-H by `lp1_planar_strongAMD_safety_source_isDiophantine`
+   and `…_isDiophantine_halfInteger` (`PlanarSafety/SourceDiophantine.lean`); each is `simp only` by the bridge
+   `isDiophantine_iff_forall_modeSize` (`StrongAMD/DiophantineBridge.lean`) and `exact` of the unchanged original.
+7. **Revision 1 (F1).** `KAM/Planetary/Spatial/SourceBarycentric.lean` loses its two `def`s at freeze and
+   `public import`s their frozen files; its two `rfl` equations `…_def` stay. The raw maps stay frozen internal
+   helpers; no ordinary LP theorem type changes (the applied source maps unfold to the raw maps).
+5. **Sealing order.** Freeze commit: all 128 files, definitions SEALED, the 39 theorems DRAFT_SORRY with
    stub providers (D20/D25 pattern). Seal commit right after: all providers filled (every proof exists), bodies
    `by exact …`; the semantic-unit rule requires sorry-free characterizations before the units are relied on.
 6. **No rename is needed** for any definition. No frozen name clashes with an existing frozen name or a Mathlib short
@@ -1418,7 +1464,9 @@ Specific points (flagged):
 **Drafts.** Draft 1 (02:40) gave LP0/LP1 with total helpers; review 1 (RETURN FOR REVISION: F1 full L5, F2 full L16
 outputs, F3 threshold carriers, F4 total physical formulas) led to draft 2 (review 2: PASS for the theorem types);
 draft 3 added LP1 under OD-11 (b) (review 3: PASS); drafts 4–5 added LP2 (review 4: PASS for fidelity, R4.1 BLOCKING
-for (b)); draft 6 applied R4.1 resolution (A) (review 5: PASS WITH NOTES). The draft-6 file is in git history
+for (b)); draft 6 applied R4.1 resolution (A) (review 5: PASS WITH NOTES); draft 7 was the first exact-text approval object
+(statement audit of draft 7, round 1, at 809aa0dd: RETURN FOR REVISION, F1, F2 BLOCKING; N2 CHANGE-RECOMMENDED;
+N1, N3, N4 notes); this revision 1 applies F1, F2 and N2 with the auditor's exact texts. The draft-6 file is in git history
 (`git show 701c239b:docs/tracks/LP/FREEZE-PROPOSAL.md`); its texts §2, §3, §3c (total-helper forms) are superseded
 by §3 here.
 
@@ -1428,15 +1476,26 @@ by §3 here.
 - Review 4, R4.1 resolution (B): freezing `spatialKeplerAxis/Action/EccVector` as total formulas under the planar
   inherited convention.
 - OD-3: dropping `max ν = 1` (the general versions stay ordinary theorems).
-- Diophantine condition through the frozen `KAM.IsDiophantine γ τ ω` (`γ / |k|₁^τ ≤ |k·ω|`) instead of
-  `γ * modeSize k ^ (-τ) ≤ |k·ω|`: equivalent pointwise (`modeSize k ≥ 0`, `Real.rpow_neg`) and it would avoid
-  freezing `KAM.Fourier.modeSize` (rebase point 1); not chosen, because the reviewed text (reviews 1–5) uses
-  `modeSize`.
+- Diophantine condition as `∀ k ≠ 0, γ * modeSize k ^ (-τ) ≤ |k·ω|` with a newly frozen `KAM.Fourier.modeSize`
+  (reviews 1–5, draft 7). **Replaced in revision 1** (orchestrator scope addition, 2026-11-01) by the already-frozen
+  `KAM.IsDiophantine γ τ ω` (D20; `γ / (Σ_i |k_i|)^τ ≤ |k·ω|` for `k ≠ 0`). Reason: freezing `modeSize` would force
+  the freeze to rebase the shared `KAM/Fourier/Derivative.lean`, i.e. a rebuild of about 2,830 core modules and all
+  lunar certificate data (runbook option C). The two premises are literally equivalent for every `γ`, `τ`, `ω`
+  (`isDiophantine_iff_forall_modeSize`: same ℓ¹ size, `Real.rpow_neg` on `Σ_i |k_i| ≥ 0`); no premise is added or
+  weakened. In LP1-H, LP2-H, `τ := (n : ℝ) - 1 / 2` inside `KAM.IsDiophantine`. `modeSize` leaves the frozen set,
+  the closure, the manifest drafts and the rebase plan; the four anchor files change in that premise and their
+  imports only (verification §6, §9).
 
 **Review notes and their disposition.**
 
 | Note | Disposition in draft 7 |
 |---|---|
+| Audit 7-1 F1 (spatial barycentric maps) | Applied (revision 1): new `spatialSourceBarycentricPositions/Velocities` (auditor's exact text), LP2/LP2-H binder `∀ hμ : 0 < μ` and source maps, raw maps internal with the auditor's role paragraph; characterization `N/A_LITERAL` (§4.2 notes). |
+| Audit 7-1 F2 (`actionAxis`, `eccDeficit`) | Applied (revision 1): role internal with the auditor's exact role paragraph; formulas and LP0 unchanged; §4.4 inventory. |
+| Audit 7-1 N1 (simulated check (a)) | Limitation stated in the verification summary and file: check (a) drops the provider imports and inlines dependencies; it does not exercise the real provider/import graph or real frozen module boundaries. Part B of LP-FREEZE7R (staged providers) exercises the provider side partly; the real-module build remains a freeze/seal gate. |
+| Audit 7-1 N2 (freeze-time bytes) | Applied (revision 1): the auditor's exact sentence in the preamble. |
+| Orchestrator scope addition (modeSize) | Applied (revision 1): `KAM.IsDiophantine` in LP1, LP1-H, LP2, LP2-H; `modeSize` not frozen (Alternatives above). |
+| Audit 7-1 N3, N4 | Notes; unchanged (N3: radial incidence only, §3, R4.5; N4: semantic units admitted only after seal, §7 point 5). |
 | R4.2 anchor names | Applied: §2 names are the anchor surface for all five anchors. |
 | R4.3 spatial §4b bullet | Applied (§4), with the closure corrections of §4.2 notes. |
 | R4.4 / R5.4 `h₀`/`hs` shapes | Kept: planar `(∀ i, 0 < ν i) ∧ ∀ i, …` with `h₀` after `hch`; spatial `∀ i, 0 < ν i ∧ …` with `h₀` after the physical premise and one `∃ hs`. Logically equivalent; the planar text keeps the frozen raw canonical helpers. |
