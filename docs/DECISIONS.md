@@ -566,3 +566,11 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - **Checks:** the structural lint (coverage, edges, cycles, reachability) and ONE independent global review, instead
     of per-slice reviews.
   - **Labelling:** the graph header says so.
+- **D66 (2026-11-01, 14:55 UTC) Magnetic field-line barrier: run the ε = 0.0012 fallback pilot.** *(Scott: "I would
+  approve an ε = 0.0012 pilot as the fallback, can we launch that?")*
+  - **The model:** the plan of `docs/explorations/plan-magnetic-barrier.md`, with ε = 3/2500 instead of 3/1000. At
+    3/1000 the multiprecision solves stalled more than six orders short of the 10⁻²⁵ gate.
+  - **Phase 1 (worker kam-mag, branch `mag-pilot`):** the numerical gate only. Reconstruct the producer from the plan,
+    reusing `scripts/spin_orbit/hp*.py` and the v2 route scripts, and report the verdict.
+  - **Phase 2:** the exact Lean statement goes to the owner for approval before any certificate emission or kernel
+    run.

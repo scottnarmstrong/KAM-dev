@@ -690,6 +690,7 @@ Full text: [`docs/DECISIONS.md`](docs/DECISIONS.md).
 - **D63** Relaunch SO-3 (the lunar lock) and seal it once its full kernel chain and a seal audit pass. *(Scott, 2026-11-01)*
 - **D64** Freeze and seal track LP's two LP3 statements (draft 8: no Diophantine hypothesis), installed sealed in one
   pass after a seal audit. *(Scott, 2026-11-01)*
+- **D66** Magnetic field-line barrier: run the ε = 0.0012 fallback pilot (numerical gate first). *(Scott, 2026-11-01)*
 
 ## Owner questions
 
