@@ -177,6 +177,10 @@ module.
   `N ≈ 1,200–1,300`, i.e. `3·10⁶` fibres, about 1 h of kernel CPU in about 1,400 shards (4 GB cap).
   At `b = 6.6·10⁻⁴` it needs `N ≈ 5,000`, about `5·10⁷` fibres and 16–20 h. These are opt-in
   application builds, never in the default build.
+- **Correction (1 November 2026, V2-BULK).** The 3.39 GB base above was measured on a non-module
+  scratch file. As a `lake build` module the base is about 1.5–1.6 GB, so about 11,000 fibres fit per
+  4 GB shard. The SJS shard counts become about 307, 1,275 and 5,278, not about 1,400 at the first
+  bite (handoff V2-BULK, suspected errata; §7).
 
 ## 5. Python mirror
 
@@ -192,3 +196,100 @@ General `n ≥ 4` enumeration (the fiber theorem is general; only the walk is `m
 higher-degree number fields; a positive three-frequency example for route B (route B needs
 `ρ ≤ 1`, and T3 has `ρ = 9`); producer-side route selection (improvement #3); a bulk bound
 for far-from-resonance fibres, which would cut the SJS walks by orders of magnitude (§4).
+
+## 7. V2-BULK: a bulk bound for the fibres far from resonance
+
+Date: 1 November 2026. Branch `v2-bulk` from `origin/main` at `01d36418` (owner question 2 of the
+V2-3FREQ handoff, approved). Additive: new modules only. `SmallDivQ.lean` and the landed `Fiber/*`
+modules stay byte-identical.
+
+**Problem.** `walk2` evaluates every fibre `k' = (a, b)` with `0 < |a| + |b| ≤ N`, which is
+`2N(N + 1)` fibres. For the SJS frequencies (§4) that is `3·10⁶–6·10⁷` fibres. Yet at the first
+bite, only `6.9·10³` fibres have `|x + p| < 10⁻³`, and the others carry `1.8 %` of `S`
+(mirror sweep, `ω' = (0.40288, −2.2037·10⁻⁴)`, `δ = 5.3·10⁻³`, `N = 1310`).
+
+**Structure used.** Along a row `a` (fixed), `x_b = aω'₀ + bω'₁` is an arithmetic progression of
+step `ω'₁`. The application orders coordinates so that `|ω'₁|` is small (for SJS it is the secular
+frequency over the fast clock). A run of consecutive `b` on which `p` is constant and `x_b + p` keeps
+one sign has `|x_b + p|` affine in `b`. The weights `e^{-2πδ(|a|+|b|)}` are geometric in `|b|`.
+Both facts make a whole run summable from its two endpoints.
+
+**The bound (any run, no Diophantine input).** Take a run `b = σ(lo + i)`, `i₀ ≤ i ≤ i₁`, with
+`σ = ±1` and `|b| = lo + i`. Put `p = nearP(X(i₀))`, `Z(i) = X(i) + p·2^q` and
+`Rd(i) = |a|R₀ + (lo + i)R₁`, all integers. Let `s` be the sign of `Z(i₀)`, `F = sZ − Rd` and
+`G = sZ + Rd`. Both are affine in `i`. The check `F(i₀), F(i₁) > 0` and `2G(i₀), 2G(i₁) ≤ 2^q`
+then gives, for every `i` in the run:
+
+  `Λ/2^q ≤ |x_b + p| ≤ 1/2`, where `Λ = min(F(i₀), F(i₁))`.
+
+This holds because an affine function on an interval lies above the smaller endpoint value. With
+`x = e/2^P ≥ e^{-2πδ}` and `Σ_{j<2^t} x^j ≤ G_t/2^P` (a checked table, `G_{t+1} ≥ G_t(1 + x^{2^t})`),
+the run's terms sum to at most
+
+  `x^{|a|+lo+i₀}·(x^{|p|}·Λ⁻²·2^{2q} + [p ≠ 0](|p| − ½)⁻² + x·C₀)·G_t/2^P`.
+
+That is one `mode3`-shaped rounded value with the weights replaced by `mulUp(powUp(j₀), G_t)`. A
+single fibre is the case `i₀ = i₁`, `t = 0`, which is exactly `mode3`. Nothing about `p` or the
+choice of runs is assumed: soundness uses only the checked endpoint inequalities.
+
+**The walk.** Row `a = i − N` (bisection over `i < 2^l`, as in `walk2`) is split into two half-rows,
+`b = lo + i ≥ 0` (`lo = 1` when `a = 0`) and `b = −(1 + i)`. Each half-row is bisected over
+`i < 2^l`. A node `[i₀, i₀ + 2^t)` (clipped at `N − |a|`) is accepted as a run if the check passes
+and either
+- `rd·max(G(i₀), G(i₁)) ≤ rn·Λ`, so `|x + p|` varies by at most `rn/rd` and the loss is at most
+  `(rn/rd)²`; or
+- the run's value is at most `tol`.
+
+Otherwise the node splits. A leaf (`t = 0`) must pass the check. The acceptance rule only affects cost
+and tightness, never soundness. Near a crossing of an integer (a near-resonance) the walk ends
+in single fibres, evaluated as by `mode3`. Elsewhere it takes long runs.
+
+**Soundness glue.** `BCov S v` says that some per-fibre choice `(p_k, L_k)` on the finite mode set `S`
+satisfies the fibered theorem's hypotheses, with summands summing to at most `v` (base `x`). It is
+closed under disjoint unions (choices glued with `if k ∈ S`), subsets (terms are nonnegative) and
+finite disjoint unions. The walk gives `BCov (modeBox 2 N) (s/2^P)`, and
+`smallDivisorSum_snoc_le_fiber` with `E_j = x^j` finishes, as in `smallDivisorSum_snoc2_le_walk`.
+The output has the same form: `E₁·3.3075 + s/2^P + tailQ`.
+
+**Counts (exact mirror) and kernel projections (as built).**
+- The node counts are from the exact mirror `scripts/certifier/fiber3_bulk.py` (node by node,
+  `rn/rd = 5/4`, `tol = 10⁻⁹ S`, `P = 128`).
+- No SJS walk, bulk or plain, was run in the kernel. Both kernel columns (minutes and 4 GB shards)
+  are **projections** from the per-node law below (bulk) and the per-fibre law (plain walk).
+- "Bulk minus plain-walk sum" is relative to a **floating-point** evaluation of the fibered sum
+  (`sd_sum_fiber_np`: no rounding, no tail, true exponential), not to the exact landed walk. It also
+  contains the fixed-point bias `e/2^P ≥ e^{−6.28δ}` that the landed walk shares.
+
+| SJS bite (cubic γ) | `N` | plain-walk fibres | bulk nodes (values) | bulk minus float sum | kernel (projected): bulk / plain walk | 4 GB shards (projected): bulk / plain walk |
+|---|---:|---:|---:|---:|---:|---:|
+| `2.65·10⁻³` | 1,298 | `3.4·10⁶` | 44,568 (28,212) | +0.46 % | 1.0 min / 1.1 h | 4 / 307 |
+| `1.33·10⁻³` | 2,647 | `1.4·10⁷` | 168,464 (94,579) | +0.22 % | 3.9 min / 4.7 h | 13 / 1,275 |
+| `6.6·10⁻⁴` | 5,387 | `5.8·10⁷` | 653,691 (345,363) | +0.31 % | 15 min / 19 h | 51 / 5,278 |
+
+Kernel laws, from `lake build` of shard modules importing `Fiber/BulkSite`:
+
+- The base is 1.6 GB.
+- The bulk walk costs 1.4 ms and about 180 KB of kernel cache per node. The 8,033-node probe took
+  13 s and 3.05 GB.
+- The plain walk costs 1.2 ms and 215 KB per fibre (V2-3FREQ).
+
+**Interfaces (as built, new modules).**
+
+| Module | Content |
+|---|---|
+| `Fiber/Bulk.lean` | `termX`, `BCov`, `BCov.union`/`subset`/`biUnion`; `gTabOk`, `gTabOk0`, `gTabOk0_spec`; `run_point`; `minN`, `maxN`, `sameSign`, `colX`/`colZ`/`colR`, `blkValK`, `blkK`, `blkValK_ge`, `blkK_spec`; `accOk`, `hrow`, `loP`, `rowB`, `walkB`, `hrSet`, `rowSet`, `hrow_spec`, `rowB_spec`, `walkB_sound`; `smallDivisorSum_snoc2_le_bulk` |
+| `Fiber/BulkSite.lean` | `BulkWit`, `bulkSumOk`, `bulkSiteOk`, `sdConst_ray_of_snocBound`, `sdConst_ray_of_bulkSiteOk`; `bulkPreOk`, `bulkSiteOk_of` (shards); `SiteWitH` (`g`, `bulk`), `siteOkH`, `sdConst_of_siteOkH`, `siteOkH_g`, `siteOkH_bulk_of` |
+| `Fiber/RouteH.lean` | `routeARefinedH`, `routeBRefinedH`; `RefinedWitH.ofG`, `RefinedBWitH.ofG` (same verdict); `routeV2H = routeV2G.orElse (routeARefinedH.orElse routeBRefinedH)` |
+| `Tests/BulkToy.lean` | `bkFreq = (θ − 1, 3θ² + 24θ − 35, 1)`, `θ = ∛2`; premise, enclosure, one bulk site (452 nodes for 8,580 fibres), also from two shards |
+| `Tests/BulkRouteB.lean` | `toyB3` through `routeBRefinedH` with two `.bulk` sites; `CertifiedTorus toyB3 cubicFreq` |
+| `Tests/BulkXLang.lean` | 28 values of the mirror decided by the kernel (generated by `fiber3_bulk_xlang.py`) |
+
+**Out of scope.** These are recorded in the handoff as owner questions:
+
+- *A run across a half-integer crossing* (`p` changes inside the run). The float model puts its saving
+  at a third of the nodes.
+- *A one-sided integral bound for the run next to an integer crossing* (`Σ_j (F₀ + j d)⁻² ≤ F₀⁻² +
+  1/(d(F₀ + d/2))`). It would make each crossing `O(1)` nodes instead of `O(log_{rn/rd})`, which is
+  the route to about `10⁴` nodes at the first SJS bite.
+
+The clock choice (owner question 3) stays with the application.

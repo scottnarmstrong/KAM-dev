@@ -124,6 +124,21 @@ T3's: `n = 3`, `τ = 2`, `cubicFreq`, and the landed sub-checks pass.
 
 ## SJS planar frequencies (estimate, `docs/explorations/sjs-plan.md`)
 
+> **Correction (1 November 2026, V2-BULK; see `docs/campaign/handoffs/V2-BULK.md`).** Two figures in
+> this section are wrong.
+>
+> 1. **Shard counts, last column, too high by about 4×.** They assumed 2,500 fibres per 4 GB
+>    declaration on a 3.39 GB import base. That base was measured on a non-module scratch file,
+>    which loads all private data. A `lake build` module importing `Fiber/Site3` or `Fiber/Shard`
+>    has a base of about 1.5–1.6 GB, so about 11,000 fibres fit per 4 GB shard (215 KB per fibre).
+>    The corrected 4 GB shard counts are about 307, 1,275 and 5,278 for the three cubic-γ rows, and
+>    256 for the FH row. The CPU column is unaffected.
+> 2. **`N` at the third bite (`6.6·10⁻⁴`).** `N = 5,422` came from the float tail. With the landed
+>    fixed point at `P = 64`, `powUp` cannot go below `2⁻⁶⁴`, and that bite needs
+>    `E^{N+1} ≈ 3·10⁻²⁰ < 2⁻⁶⁴`, so witnesses there need `P ≥ 70`. With `P = 128` the exact `N` is
+>    5,387, and the first two rows become 1,298 and 2,647. Both points also apply to
+>    `docs/campaign/design/V2-3FREQ.md` §4.
+
 Inputs:
 
 - `ω = (0.0839549, 0.0338240, −1.85008·10⁻⁵)/2π` (period-1).
