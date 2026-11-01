@@ -17,4 +17,6 @@ Package LP-PS (MAIN Theorem 15 with Lemma 16), track LP, non-frozen.  Re-exports
 `Orientation` (reflection transport of the conclusion), `Constants` (budget radius, axis estimate),
 `Prograde` (the theorem for `L > 0`), `Main` (`lp1_planar_strongAMD_safety`, its corollaries and
 `lp0_planar_barrier`).
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/

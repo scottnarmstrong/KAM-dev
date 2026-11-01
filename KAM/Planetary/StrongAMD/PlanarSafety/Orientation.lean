@@ -23,6 +23,8 @@ solution-level conclusion without the Newtonian reconstruction.  The orientation
 `PlanarSafeSol … (reflectPhase z₀) z' → PlanarSafeSol … z₀ (reflectPhase ∘ z')`.
 Only invariances are proved here: of `oscVelocity`, `oscEccVector`, `oscPeri`, `oscApo` and of the
 moving uniqueness predicate.
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
