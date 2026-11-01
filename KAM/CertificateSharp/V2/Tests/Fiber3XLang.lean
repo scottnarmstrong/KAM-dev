@@ -5,7 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.CertificateSharp.V2.Fiber.Site3
+public import KAM.CertificateSharp.V2.Fiber.Shard
 public import KAM.CertificateSharp.Freq.CubicNorm
 
 /-!
@@ -148,6 +148,18 @@ theorem xl_mode_wide :
 theorem xl_walk_t3 :
     walk2 (mode3K xD xe 64) 7 4 = some 9963506458319161756 := by
   decide +kernel
+
+theorem xl_shard_lo :
+    balFold (row2 (mode3K xD xe 64) 7 4) 3 0 = some 5615051464188665581 := by
+  decide +kernel
+
+theorem xl_shard_hi :
+    balFold (row2 (mode3K xD xe 64) 7 4) 3 (0 + pow2 3) = some 4348454994130496175 := by
+  decide +kernel
+
+theorem xl_shard_walk :
+    walk2 (mode3K xD xe 64) 7 4 = some (5615051464188665581 + 4348454994130496175) :=
+  balFold_succ_of xl_shard_lo xl_shard_hi
 
 theorem xl_walk_clock :
     walk2 (mode3K xD2 798426701374636497 64) 7 4 = some 18266388425585659688 := by

@@ -96,6 +96,18 @@ def cases():
     defs += dbox_def("xDw", Dw)
     out.append(("mode_wide", f"mode3K xDw xe {P} 3 (-2) = {opt(m.mode3(Dw, e, P, 3, -2))}"))
     out.append(("walk_t3", f"walk2 (mode3K xD xe {P}) {w['N']} {w['l']} = {opt(s)}"))
+    # sharding: the two halves of the row bisection, then the parent by `balFold_succ_of`
+    N, l = w["N"], w["l"]
+    M = lambda a, b: m.mode3(D, e, P, a, b)
+    rows = [0 if 2 * N < i else sum(m.cell2(M, N, i, j) for j in range(2 ** l)) for i in range(2 ** l)]
+    half = 2 ** (l - 1)
+    lo, hi = sum(rows[:half]), sum(rows[half:])
+    assert lo + hi == s
+    f = f"(row2 (mode3K xD xe {P}) {N} {l})"
+    out.append(("shard_lo", f"balFold {f} {l - 1} 0 = some {lo}"))
+    out.append(("shard_hi", f"balFold {f} {l - 1} (0 + pow2 {l - 1}) = some {hi}"))
+    out.append(("shard_walk", f"walk2 (mode3K xD xe {P}) {N} {l} = some ({lo} + {hi})",
+                "balFold_succ_of xl_shard_lo xl_shard_hi"))
     # the enclosed clock: site verdicts at the exact bound
     pb = plastic_box()
     gam = F(1, 10)
@@ -140,7 +152,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.CertificateSharp.V2.Fiber.Site3
+public import KAM.CertificateSharp.V2.Fiber.Shard
 public import KAM.CertificateSharp.Freq.CubicNorm
 
 /-!
@@ -164,7 +176,8 @@ open KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2 KAM.Certificat
 
 def render():
     defs, cs, g = cases()
-    body = "".join(f"theorem xl_{tag} :\n    {stmt} := by\n  decide +kernel\n\n" for tag, stmt in cs)
+    body = "".join(f"theorem xl_{c[0]} :\n    {c[1]} :=\n  {c[2]}\n\n" if len(c) == 3 else
+                   f"theorem xl_{c[0]} :\n    {c[1]} := by\n  decide +kernel\n\n" for c in cs)
     text = HEADER.replace("{gamma:.6f}", f"{g:.6f}") + defs + body
     text += "end KAM.CertificateSharp.V2.XLang3\n\nend\n"
     assert max(len(line) for line in text.splitlines()) <= 100, "a line exceeds 100 characters"

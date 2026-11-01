@@ -68,6 +68,7 @@ public import KAM.CertificateSharp.V2.Engine
 public import KAM.CertificateSharp.V2.Fiber.Enum2
 public import KAM.CertificateSharp.V2.Fiber.RouteAG
 public import KAM.CertificateSharp.V2.Fiber.RouteBG
+public import KAM.CertificateSharp.V2.Fiber.Shard
 public import KAM.CertificateSharp.V2.Fiber.Site3
 public import KAM.CertificateSharp.V2.Fiber.TailTau
 public import KAM.CertificateSharp.V2.HamClaim
