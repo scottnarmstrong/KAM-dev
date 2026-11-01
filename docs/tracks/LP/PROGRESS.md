@@ -41,6 +41,14 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
   `lpRescale b.lam (w u) ∈ b.realDom b.rB` along `J` (outer localization), and (iii) the stopped slow membership
   up to the queried time. All three come from the first-exit argument, never from an assumed drift.
 
+- **Graph / LEAN_STATUS bookkeeping (root-b8, 2026-11-01):** once the owner freezes and the source graph exists, a
+  source node counts PROVED only where Lean proves its FULL source conclusion. LP-DOM omits MAIN L8's
+  first-derivative and denominator clauses (the Lean route consumes only the scalar class and the sup bound), so
+  the L8 node is PARTIAL, with a LEAN_NOTE naming the proved clauses and why the rest is not needed downstream. The
+  alternative: add the two clauses later (cheap, from the same tube) and mark it PROVED then.
+- **For LP-NRR (from audit LP-W2A-1):** choose `ρ` strictly inside `r_*` when feeding `lp_scale_choice`, so the
+  strict `D₀√μ < r_*` of N6 holds.
+
 ## Log
 
 - 2026-11-01 00:40 UTC: setup (worktree, source pin, SPEC, OWNER-DECISIONS OD-1…OD-8, wrappers).
