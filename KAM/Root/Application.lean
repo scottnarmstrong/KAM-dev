@@ -8,7 +8,11 @@ module
 public import KAM.Application.Certified
 public import KAM.Application.Graph
 public import KAM.Application.GraphCert
+public import KAM.Application.GraphCheck
+public import KAM.Application.Observables
 public import KAM.Application.RealTorus
+public import KAM.Application.Transport
+public import KAM.Application.TransportChart
 
 /-!
 # Root part `KAM.Root.Application`
