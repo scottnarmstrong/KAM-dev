@@ -5,7 +5,7 @@ the capped build wrappers and the handoff format).
 
 ## Source
 
-`docs/tracks/LP/source/MAIN.md`: definitions §1 lines 51–64 (chamber `𝒬`, `a_i(I)`, `D`, (3)), Lemma 4 lines
+`docs/tracks/LP/source/MAIN.md`: definitions §1 lines 41–55 (chamber `𝒬`, `a_i(I)`, `D`, (3)), Lemma 4 lines
 141–160. Conventions and intended names: `docs/tracks/LP/SPEC.md` §2. Roadmap §1 (definitions table and the
 characterization rule) and §3 row 4.
 
