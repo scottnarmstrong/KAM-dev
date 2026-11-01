@@ -14,7 +14,7 @@ public import KAM.CertificateSharp.V2.SmallDivQ
 box chosen by the witness:
 
 * **Sign.** `sdConst_ray_of_neg`: a small-divisor constant on the ray of `-ω*` is one on the ray of
-  `ω*`, because `cohR (-ω) g = -cohR ω g` (`cohR_neg`). So a test run on the reflected box
+  `ω*`, because `cohR (-ω) g = -cohR ω g` (`cohR_neg_freq`). So a test run on the reflected box
   `negBox box`, whatever the test, serves `ω*`. The statement is about `SDConst` and not about one
   checker: it applies to `siteOk` and to any other site test with the same conclusion.
 * **Short box.** `siteOk` adds the terms of `balBound` as exact rationals, whose size follows the
@@ -73,7 +73,7 @@ theorem solve_neg {n : ℕ} (ω : Fin n → ℝ) (a : (Fin n → ℤ) → ℂ) (
   · rw [flowMultiplier_neg, div_neg]
 
 /-- `𝓡_{-ω} g = -𝓡_ω g`. -/
-theorem cohR_neg {n p : ℕ} (ω : Fin n → ℝ) (g : (Fin n → ℂ) → Fin p → ℂ) (θ : Fin n → ℂ) :
+theorem cohR_neg_freq {n p : ℕ} (ω : Fin n → ℝ) (g : (Fin n → ℂ) → Fin p → ℂ) (θ : Fin n → ℂ) :
     cohR (-ω) g θ = -cohR ω g θ := by
   funext i
   simp only [cohR, cohSolution, Pi.neg_apply, solve_neg, neg_mul, tsum_neg]
@@ -89,7 +89,7 @@ theorem sdConst_ray_of_neg {n : ℕ} {κ γ δ c : ℝ} {ωstar : Fin n → ℝ}
   delta_pos := h.delta_pos
   sol := fun ω hω r hr p g H hg hp hb ha θ hθ => by
     have := h.sol (-ω) (neg_mem_ray hω) hr g H hg hp hb ha θ hθ
-    rwa [cohR_neg, norm_neg] at this
+    rwa [cohR_neg_freq, norm_neg] at this
   apriori := fun ω hω r hr p q u H hu hp ha hb θ hθ => by
     refine h.apriori (-ω) (neg_mem_ray hω) hr u H hu hp ha (fun θ' hθ' => ?_) θ hθ
     have e : (fun l => (((-ω) l : ℝ) : ℂ)) = -fun l => ((ω l : ℝ) : ℂ) := by
@@ -99,7 +99,7 @@ theorem sdConst_ray_of_neg {n : ℕ} {κ γ δ c : ℝ} {ωstar : Fin n → ℝ}
     exact hb θ' hθ'
   real := fun ω hω r hr p g H hg hp hb ha θ => by
     have := h.real (-ω) (neg_mem_ray hω) hr g H hg hp hb ha θ
-    rwa [cohR_neg, norm_neg] at this
+    rwa [cohR_neg_freq, norm_neg] at this
 
 /-! ### The box of a site -/
 

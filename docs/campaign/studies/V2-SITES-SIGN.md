@@ -8,6 +8,9 @@ nice -n 10 python3 -B -I scripts/certifier/lg00_sites.py   [--tpp] --json OUT   
 nice -n 10 python3 -B -I scripts/certifier/lg00_margins.py [--tpp] --json OUT     # the table below
 ```
 
+Both read only the committed files in `v2-sites-data/`, which include the exact certificate boxes (`box_tp.json`,
+`box_tpp.json`). With the LG00 worktrees hidden they regenerate `sites_*.json` and `margins_*.json` byte for byte.
+
 ## Result
 
 Margin is `e*/err`. "`refinedCore`" is the exact-rational mirror of the whole numerical test at a concrete witness, at the
@@ -40,11 +43,12 @@ LG00 should pass these numbers through its own confinement mirror.
 
 ## Projected kernel cost
 
-**Sites, measured.** Every site of both tori passes in the kernel under a 4 GB cap:
+**Sites, measured.** Every site of both tori passes in the kernel, each direct site or block in a process of its own, under
+a 4 GB cap:
 
 | Torus | Sites | Blocks | Kernel CPU, net of imports | Slowest process |
 |---|---:|---:|---:|---:|
-| T′ | 8 | 4 direct, 24 blocks | 292 s | 16 s |
+| T′ | 8 | 4 direct, 32 blocks | 292 s | 16 s |
 | T″ | 8 | 4 direct, 32 blocks | 331 s | 16.5 s |
 
 **Certificates, projected.** This scales LG00's L = 20 ledger (30.11 CPU-h, 5,183 modules) by support, using LG00's own
@@ -75,8 +79,11 @@ since T″ at L = 21 does not reach 10× classically. The sites add about 0.17 C
   on real sites, long and short boxes cost the same (`l = 10`: 13.71 s and 5.19 GB against 13.76 s and 5.14 GB). The cost is
   the kernel's cache, about 0.86 MB per mode, which matches kamx-3freq's 0.8 MB per fibre for exact rationals. The witness box
   stays because it carries the reflection, and it keeps the literals short.
-- **Sharding is what fits the cap.** A whole `l = 11` bite is killed at the 4 GB cap, and lunar's `l = 12` took 123 s and about
-  9 GB. In blocks of `2⁹` fibres, no block exceeds the cap, even at `l = 13`.
+- **Sharding is what fits the cap, one module at a time.** A whole `l = 11` bite is killed at the 4 GB cap, and lunar's `l = 12`
+  took 123 s and about 9 GB. In blocks of `2⁹` fibres, no single block exceeds the cap, even at `l = 13`. Kernel memory
+  accumulates across the blocks of one process, however: in the audit, all 16 `δ₃` blocks of T′ together were killed at
+  4 GB (RSS 5.6 GB at the kill), blocks 8–15 alone were killed too, and `δ₂`'s 8 blocks peaked at 4.33 GB RSS. So at most
+  about 4 blocks belong in one module, and the late `δ₃` blocks one per module.
 - **`kp = 4` was needed.** My first estimate put T′ at 11.8× at L = 17; the real dry run gave 8.5× at `kp = 3`. One more certified
   stage gives 14.7×. `kp = 5` adds little (16.2×) and needs `l = 14`.
 - **Certified constants are close to the float ones:** on T′ they are within 1.4 % of `c_freq`.
@@ -85,7 +92,8 @@ since T″ at L = 21 does not reach 10× classically. The sites add about 0.17 C
 
 - **`refinedCore` here is the mirror.** The site constants are kernel-checked and the mirror matches Lean on the checked
   quantities, but no complete T′ or T″ certificate has run through `routeARefinedS` yet. That is kamx-certside's run.
-- **The whole opt-in files were not run.** Under the rule against building `kernel-tests/`, each block ran alone in a scratch
-  copy, and the assembly was checked with the blocks stubbed.
+- **The whole opt-in files do not fit 4 GB in one process, and were not run as such.** Under the rule against building
+  `kernel-tests/`, each block ran alone in a scratch copy, and the assembly was checked with the blocks stubbed. The audit
+  re-ran all 32 blocks of T′, with `δ₁`, `b₃` and `δ₂` assembled for real, and spot-checked T″. T″'s `δ₃` was not run grouped.
 - **Margins assume the claim of the dry runs** (`dh`, `dx`, `d2x`, `d2h`, frame bounds), which do not change with L.
 - **The saving is a projection** by support, and it ignores any lower precision a smaller L might allow.

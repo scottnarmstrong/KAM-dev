@@ -22,7 +22,8 @@ a lunar bite needed 8–9 GB. The walk is a bisection, so it splits into blocks 
 
 The test itself is unchanged: this is a way of proving `biteOk`, so a certificate that uses it
 passes `siteOk` as it stands. The bounds `u` replace the exact accumulator, so the memory of one
-block does not depend on the total.
+block does not depend on the total. Kernel memory does accumulate across the blocks of one process
+(16 blocks of `2⁹` fibres exceed 4 GB), so about 4 blocks per module is the limit.
 -/
 
 @[expose] public section

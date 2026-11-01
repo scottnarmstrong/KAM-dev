@@ -6,8 +6,8 @@ short reflected box of `routeARefinedS` with the exact mirror (bite_sign.py): th
 `balBound` and the constant c, all rationals, nothing float.  Then the exact route-A mirror (v2_r2.max_Xs) gives the
 threshold with those constants, for every choice of the certified sites.
 
-Reads docs/campaign/studies/v2-sites-data/dry_<torus>_L20.json (LG00-T2's dry runs) and the box from the LG00 worktree.
---tpp selects T'' (Gamma'', the generator's LG00_GAMMA=2); --kp N the longest prefix (default 4).
+Reads only committed data: docs/campaign/studies/v2-sites-data/dry_<torus>_L20.json (LG00-T2's dry runs) and box_<torus>.json
+(the exact certificate box, exported once from `lg00_gen.freq_box`).  --tpp selects T''; --kp N the longest prefix (default 4).
 
 Usage: python3 -B -I scripts/certifier/lg00_sites.py [--tpp] [--kp N] [--json OUT]
 """
@@ -23,21 +23,19 @@ import bite_sign as BS            # noqa: E402
 import structured_b as SB         # noqa: E402
 
 TORUS = "tpp" if "--tpp" in sys.argv else "tp"
-if TORUS == "tpp":
-    os.environ["LG00_GAMMA"] = "2"
-TP = os.path.join(ROOT, "docs/campaign/studies/v2-sites-data/dry_%s_L20.json" % TORUS)
+DATA = os.path.join(ROOT, "docs/campaign/studies/v2-sites-data")
+TP = os.path.join(DATA, "dry_%s_L20.json" % TORUS)
 Q_BITS = 48                       # the short box: centre and radius at 2^-48
 J = 8
 KP = int(sys.argv[sys.argv.index("--kp") + 1]) if "--kp" in sys.argv else 4
 
 
 def package(path=TP):
-    """T' parameters and claim of a dry run, on the box of `lg00_gen.freq_box`."""
-    B = SB.lg00_bounds()
+    """Parameters and claim of a dry run, on the committed exact box of the torus."""
     rep = json.load(open(path))
     q = {k: F(v) for k, v in rep["params"].items()}
-    B = dict(B, claim={k: F(v) for k, v in rep["claim"].items()}, params=rep["params"])
-    pkg = SB.lg00_pkg(B)
+    box = [(F(a), F(b)) for a, b in json.load(open(os.path.join(DATA, "box_%s.json" % TORUS)))["box"]]
+    pkg = SB.lg00_pkg(dict(box=box, claim={k: F(v) for k, v in rep["claim"].items()}, params=rep["params"]))
     pkg["p"] = dict(q, tau=1, kappa=F(160000))
     return pkg
 
