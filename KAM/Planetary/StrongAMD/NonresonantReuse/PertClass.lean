@@ -11,6 +11,7 @@ public import KAM.Planetary.StrongAMD.NonresonantReuse.Pert
 /-!
 # The perturbation is in the engine's class (package LP-NRR, item 3, second half)
 
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 Package LP-NRR, MAIN Lemma 13 (`LP:MAIN L13 (441–458)`), N6, track LP, non-frozen.
 
 * `lpPert_extClass`: `ext_class b b.rB t (lpPert μ b.lam fc)` (holomorphy and period-one

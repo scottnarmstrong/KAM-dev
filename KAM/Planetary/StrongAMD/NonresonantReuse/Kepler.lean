@@ -12,6 +12,7 @@ public import KAM.Planetary.StrongAMD.NonresonantScale
 /-!
 # Period-one Kepler data (package LP-NRR, item 1)
 
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 Package LP-NRR, MAIN Lemma 13 (`LP:MAIN L13 (429–464)`), track LP, non-frozen.
 
 `lpKepler ν I = planetaryKeplerC ν I / (2π)` is the Kepler part in the period-one convention.
