@@ -179,7 +179,7 @@ agree on every coefficient and exponent.
 status: **measured**, dataset public (`applications/sjsu/`, data under CC BY 4.0), no new Lean result
 
 The degree-18 planar secular SJSU Hamiltonian was regenerated from the SLG13/GLS17 recipe, strictly at order two in
-the masses (SJSU18-O2, 7,941 coefficients); an independent audit rebuilt it byte for byte.
+the masses (SJSU18-O2, 7,941 coefficients); an independent audit rebuilt it with every coefficient identical.
 
 - **Measured.** Quadratic coefficients within 7.7·10⁻⁴ of the printed ones; linear secular frequencies within
   5.8·10⁻⁴ of Table 2; secular frequencies of a 3-Myr planar N-body run from the mapped Table 1 point within 1.6%,
