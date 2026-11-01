@@ -413,7 +413,7 @@ The decimal model masses of Figueras--Haro, arXiv:2403.10152v1 §4 p. 6: μ=0.00
 
 ### nlw2
 
-[`KAM.Wave.nlw2`](../KAM/Frozen/Wave/Theorems/Nlw2.lean#L43) · ⬜ not yet
+[`KAM.Wave.nlw2`](../KAM/Frozen/Wave/Theorems/Nlw2.lean#L43) · 🟩 proved, sealing pending
 
 **W-NLW2.** For every `m > 0` the cubic Dirichlet wave equation `u_tt = u_xx - m u - u³` has a density-one (in the actions, at `0`) Borel family of small analytic invariant 2-tori with Diophantine frequencies, carrying exact classical PDE solutions, pairwise disjoint and embedded.
 
