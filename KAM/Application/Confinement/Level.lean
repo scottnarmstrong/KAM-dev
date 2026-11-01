@@ -18,10 +18,10 @@ public import Mathlib.Analysis.Normed.Ring.Lemmas
 
 A chart of a Hamiltonian system with phase points `(θ, a)` (angles `θ`, actions `a`), an action box
 `ℝⁿ × [α, β]` (`boxSet α β`, any `n`, `m`), and, in two degrees of freedom (`Phase = ℝ² × ℝ²`), a
-function `H` (the Hamiltonian in the chart) with `∂H/∂a₂ ≤ -m < 0` on the box. Typical charts:
-action–angle charts of a two-degree-of-freedom system (e.g. LG00's secular Sun–Jupiter–Saturn
-model), or the extended phase space `(θ, t; p, E)` of a periodically forced one-degree-of-freedom
-system (e.g. the Moon's spin), where `H̃ = H(θ, t, p) + E` and `∂H̃/∂E = 1`.
+function `H` (the Hamiltonian in the chart) with `∂H/∂a₂ ≤ -m < 0` on the box. The typical chart is
+an action–angle chart of a two-degree-of-freedom system (e.g. LG00's secular Sun–Jupiter–Saturn
+model); other conventions (the action solved for, the sign of its derivative) are reached by
+relabelling the actions or replacing `H` with `-H`.
 
 * `eq_of_energy_eq`: on the box, a point of a level set of `H` is determined by its angle and its
   first action `a₁` (the level set is a graph `a₂ = f(θ, a₁)`).

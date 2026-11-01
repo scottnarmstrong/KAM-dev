@@ -14,9 +14,12 @@ public import Mathlib.Analysis.ODE.ExistUnique
   and bounded has a solution through every point, defined for all times. Mathlib's
   Picard–Lindelöf theorem gives a solution on every `[-(n+1), n+1]`; the solutions agree on their
   common intervals (`ODE_solution_unique_of_mem_Icc`) and glue.
+* `eq_of_lipschitzOnWith_of_mem_open`: uniqueness, for a field Lipschitz only on a region, of a
+  global solution that stays in an open subset of the region.
 * `clampBox α β`: the coordinatewise clamp of `Fin m → ℝ` to the box `[α, β]`; it is 1-Lipschitz
   for the sup norm, maps into the box, and is the identity on it. Composing a field with it turns a
-  field that is Lipschitz and bounded on `ℝⁿ × [α, β]` into a globally Lipschitz bounded field.
+  field that is Lipschitz and bounded on `ℝⁿ × [α, β]` into a globally Lipschitz bounded field
+  (`lipschitzWith_clamped`).
 
 Used for vector fields known to be well behaved only on a region (e.g. a Hamiltonian field in an
 action–angle chart, on an action box): solve the clamped field globally, then show that the
@@ -96,6 +99,31 @@ theorem exists_global_solution {W : E → E} {K : ℝ≥0} (hW : LipschitzWith K
   rw [he]
   exact h
 
+omit [CompleteSpace E] in
+/-- **Uniqueness from a Lipschitz region**: if `V` is Lipschitz on `S` and a global solution `w`
+stays in an open set `O ⊆ S`, then every global solution `w'` with `w' 0 = w 0` is `w` (local
+uniqueness where both lie in `O`; the agreement set is clopen in `ℝ`). -/
+theorem eq_of_lipschitzOnWith_of_mem_open {V : E → E} {K : ℝ≥0} {S O : Set E}
+    (hV : LipschitzOnWith K V S) (hO : IsOpen O) (hOS : O ⊆ S) {w w' : ℝ → E}
+    (hw : ∀ t, HasDerivAt w (V (w t)) t) (hwO : ∀ t, w t ∈ O)
+    (hw' : ∀ t, HasDerivAt w' (V (w' t)) t) (h0 : w' 0 = w 0) : w' = w := by
+  have hc : Continuous w := continuous_iff_continuousAt.2 fun t => (hw t).continuousAt
+  have hc' : Continuous w' := continuous_iff_continuousAt.2 fun t => (hw' t).continuousAt
+  have hopen : IsOpen {t | w' t = w t} := by
+    rw [isOpen_iff_mem_nhds]
+    intro t ht
+    have hwU : ∀ᶠ s in 𝓝 t, w s ∈ O := hc.continuousAt.preimage_mem_nhds (hO.mem_nhds (hwO t))
+    have hw'U : ∀ᶠ s in 𝓝 t, w' s ∈ O := by
+      have : O ∈ 𝓝 (w' t) := by rw [show w' t = w t from ht]; exact hO.mem_nhds (hwO t)
+      exact hc'.continuousAt.preimage_mem_nhds this
+    exact ODE_solution_unique_of_eventually (v := fun _ => V) (s := fun _ => S) (K := K)
+      (Eventually.of_forall fun _ => hV) (hw'U.mono fun s hs => ⟨hw' s, hOS hs⟩)
+      (hwU.mono fun s hs => ⟨hw s, hOS hs⟩) ht
+  have huniv := IsClopen.eq_univ ⟨isClosed_eq hc' hc, hopen⟩ ⟨0, h0⟩
+  funext t
+  have : t ∈ {t | w' t = w t} := huniv ▸ mem_univ t
+  exact this
+
 end ODE
 
 section Clamp
@@ -126,6 +154,19 @@ theorem lipschitzWith_clampBox (α β : Fin m → ℝ) : LipschitzWith 1 (clampB
     refine (abs_min_sub_min_le_max _ _ _ _).trans ?_
     simp
   exact h1.trans (h2.trans (dist_le_pi_dist a b j))
+
+/-- **The clamped field**: a map Lipschitz on the action box `ℝⁿ × [α, β]`, composed with the clamp
+of the actions, is globally Lipschitz with the same constant. -/
+theorem lipschitzWith_clamped {n : ℕ} {F : Type*} [PseudoMetricSpace F]
+    {V : (Fin n → ℝ) × (Fin m → ℝ) → F} {K : ℝ≥0} {α β : Fin m → ℝ} (hαβ : α ≤ β)
+    (hV : LipschitzOnWith K V {p | p.2 ∈ Icc α β}) :
+    LipschitzWith K fun p : (Fin n → ℝ) × (Fin m → ℝ) => V (p.1, clampBox α β p.2) := by
+  refine LipschitzWith.of_dist_le_mul fun p q => ?_
+  refine (hV.dist_le_mul _ (clampBox_mem hαβ p.2) _ (clampBox_mem hαβ q.2)).trans
+    (mul_le_mul_of_nonneg_left ?_ K.coe_nonneg)
+  rw [Prod.dist_eq, Prod.dist_eq]
+  refine max_le_max le_rfl ?_
+  simpa using (lipschitzWith_clampBox α β).dist_le_mul p.2 q.2
 
 end Clamp
 
