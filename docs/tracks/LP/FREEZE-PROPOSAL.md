@@ -1,4 +1,4 @@
-# Track LP: freeze proposal (DRAFT 4, for the owner's morning review)
+# Track LP: freeze proposal (DRAFT 6, for the owner's morning review)
 
 Status: 2026-11-01, overnight. **Nothing is frozen.** This file proposes the exact Lean text of the LP anchors.
 **Draft 2** applies the independent refute-first statement review
@@ -28,7 +28,7 @@ Source: [`source/MAIN.md`](source/MAIN.md) as amended by [`source/AMENDMENTS.md`
 |---|---|---|---|
 | LP0 | `planar_strongAMD_barrier` | L5 in full (with L2–L4) | **proved (draft-2 text, exactly)** by LP-PS `lp0_planar_barrier` from GEOMOD (landed); same verification file |
 | LP1 | `planar_strongAMD_exponentialSafety` | Theorem 15 (+ L16) | **proved (draft-2 text, exactly)** by LP-PS `lp1_planar_strongAMD_safety_normalized` (branch `inp-lp-ps` 74ebebb1; audit pending). Verification: `freeze/verification-draft-2.lean.txt` states the draft-2 LP0 and LP1 verbatim and closes them by the proved theorems; capped `lp_lean`, exit 0, axioms `[propext, Classical.choice, Quot.sound]` |
-| LP2 | `spatial_strongAMD_exponentialSafety` | Theorem 19 (+ L16, d = 3) | **proved** by LP-SP-SAFE `lp2_spatial_strongAMD_safety_normalized` (branch `inp-lp-spsafe` c9553935; audit pending); axioms `[propext, Classical.choice, Quot.sound]` (orchestrator re-check); text §3c, not yet statement-reviewed |
+| LP2 | `spatial_strongAMD_exponentialSafety` | Theorem 19 (+ L16, d = 3) | **proved** by LP-SP-SAFE `lp2_spatial_strongAMD_safety_normalized` (branch `inp-lp-spsafe` c9553935; audit pending); axioms `[propext, Classical.choice, Quot.sound]` (orchestrator re-check); text §3c, statement review 4 PASS for fidelity; under OD-11 (b) the anchor surface is the §3d text (review 5 PASS WITH NOTES) |
 | LP-cor | `planar_strongAMD_exponentialSafety_halfInteger` | §1 (τ = n − 1/2) | corollary, exponent `1/(2n+1)` (`scaleExponent_planar`, NRS) |
 
 Definitions entering the statements (all non-frozen today). **Which of them would be frozen as source objects, and in
@@ -296,18 +296,21 @@ margin/drift clauses as `∃ hs, … sourceStrongAMD ⟨z t, hs⟩ …` and the 
 with `sourceOsc*` / `sourceKeplerPeri/Apo` (mirroring `∃ hcht` for the thresholds). The frozen planar repository
 definitions (`keplerAxis`, `keplerEccVector`, `keplerAction`, …) stay as in §3.
 
-## 3c. LP2: spatial strong-AMD exponential safety (exact text; draft 4 addition, review pending)
+## 3c. LP2: spatial strong-AMD exponential safety (exact text; draft 4 addition; review 4 PASS for fidelity)
+
+*Review 4 (R4.2, applied in draft 6): the anchor name and binder names below are the anchor surface; the producer
+`lp2_spatial_strongAMD_safety_normalized` (binders `_hνmax`, `_hνle`) closes it by `exact`.*
 
 The exact spatial twin of §3 (LP1): `Phase (n * 3)`, Euclidean `spaceLength`, the vector angular momentum in
 `spatialStrongAMD`, the spatial Newtonian reconstruction and osculating elements. Premises are those of LP1 with the
 spatial objects; **no** prograde, inclination, nonzero-total-angular-momentum, alignment or secular premise (MAIN
 Theorem 19; roadmap §2): the frame alignment with `L` is done inside the proof by a rotation. Proved by LP-SP-SAFE
 (full module: `freeze/lp2-SpatialSafety-Main.lean.txt`). Under OD-11 (b) the spatial physical quantities would be
-restated through source carriers (package LP-SP-SRC, in progress; audit LP-W4A-1 note N1).
+restated through source carriers (packages LP-SP-SRC, LP-SP-SRCB, LP-SP-SRCB2, proved; §3d; audit LP-W4A-1 note N1).
 
 ```lean
-theorem lp2_spatial_strongAMD_safety_normalized (hn : 2 ≤ n) (ν : Fin n → ℝ)
-    (hν : ∀ i, 0 < ν i) (_hνmax : ∃ i, ν i = 1) (_hνle : ∀ i, ν i ≤ 1)
+theorem spatial_strongAMD_exponentialSafety (hn : 2 ≤ n) (ν : Fin n → ℝ)
+    (hν : ∀ i, 0 < ν i) (hνmax : ∃ i, ν i = 1) (hνle : ∀ i, ν i ≤ 1)
     (A : Set (Fin n → ℝ)) (hA : IsCompact A)
     (hAord : ∀ a ∈ A, (∀ i, 0 < a i) ∧ ∀ i j, i < j → a i < a j)
     (δ γ τ : ℝ) (hδ : 0 < δ) (hγ : 0 < γ) (hτ : (n : ℝ) - 1 < τ) :
@@ -362,6 +365,106 @@ theorem lp2_spatial_strongAMD_safety_normalized (hn : 2 ≤ n) (ν : Fin n → �
               spatialOscPeri ν μ (z t) a.upperIdx - spatialOscApo ν μ (z t) a.1)
 ```
 
+## 3d. LP2 under OD-11 option (b): exact text through the spatial source carriers (draft 6: R4.1 (A) applied; delta review 5 PASS WITH NOTES)
+
+*Review 4, R4.1 (BLOCKING) is resolved by (A): every canonical element at `z₀` and `z t` now goes through `spatialSource*`.
+The text below is the review's replacement text, elaborated without any change and proved (package LP-SP-SRCB2, branch
+`inp-lp-spsrcb2` 1f078521; axioms standard; no `spatialKeplerAxis/Action/EccVector` in either type). The `_general`
+sibling is the same text without `hνmax`, `hνle`. Resolution (B) remains recorded under OD-11, not recommended.*
+
+Package LP-SP-SRC (part A: `KAM/Planetary/Spatial/SourceCarrier.lean`, the spatial source carriers and source-facing
+definitions with characterizations, answering audit LP-W4A-1 note N1) and LP-SP-SRCB (part B: LP2 restated through
+them, **proved** from `lp2_spatial_strongAMD_safety_normalized`; branch `inp-lp-spsrcb` 6e84c27a, restated by
+LP-SP-SRCB2 1f078521; axioms standard).
+Full files: `freeze/odb-Spatial-SourceCarrier.lean.txt`, `freeze/odb-Spatial-SpatialSafety-Source.lean.txt`. Relative
+to §3b, §3d also restricts the canonical axis, action and eccentricity vector (premises and conclusions) to the source
+carrier, places `h₀` before the axes premise, and merges the per-time witnesses into one `∃ hs` (review 5, R5.3; the
+planar §3b keeps the frozen raw helpers, R5.4).
+
+```lean
+theorem lp2_spatial_strongAMD_safety_source (hn : 2 ≤ n) (ν : Fin n → ℝ)
+    (hν : ∀ i, 0 < ν i) (hνmax : ∃ i, ν i = 1) (hνle : ∀ i, ν i ≤ 1)
+    (A : Set (Fin n → ℝ)) (hA : IsCompact A)
+    (hAord : ∀ a ∈ A, (∀ i, 0 < a i) ∧ ∀ i j, i < j → a i < a j)
+    (δ γ τ : ℝ) (hδ : 0 < δ) (hγ : 0 < γ) (hτ : (n : ℝ) - 1 < τ) :
+    ∃ μ₀ c T₀ AΛ Aa dStar dPair Aosc Aelem : ℝ,
+      0 < μ₀ ∧ 0 < c ∧ 0 < T₀ ∧ 0 < AΛ ∧ 0 < Aa ∧ 0 < dStar ∧ 0 < dPair ∧ 0 < Aosc ∧
+      0 < Aelem ∧ Aosc * μ₀ ≤ dStar / 2 ∧ 2 * (Aosc * μ₀) ≤ dPair / 2 ∧
+      ∀ μ : ℝ, 0 < μ → μ ≤ μ₀ →
+      ∀ z₀ : Phase (n * 3),
+        (∀ i, 0 < spaceLength (bodyVector3 z₀.1 i) ∧ spatialKeplerEnergy ν z₀ i < 0) →
+        ∀ h₀ : ∀ i, 0 < ν i ∧ 0 < spaceLength (bodyVector3 z₀.1 i) ∧
+          spatialKeplerEnergy ν z₀ i < 0,
+        (fun i => spatialSourceKeplerAxis (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i) ∈ A →
+        (∀ k : Fin n → ℤ, k ≠ 0 →
+          γ * (KAM.Fourier.modeSize k : ℝ) ^ (-τ) ≤
+            |∑ i, (k i : ℝ) * (ν i ^ 3 /
+              spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i ^ 3)|) →
+        ∀ hch : (fun i => spatialSourceKeplerAction
+            (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i) ∈ chamber ν,
+        spatialSourceStrongAMD (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) ≤
+          orderedStrongThreshold hn ⟨_, hch⟩ - δ →
+        let T := T₀ * Real.exp (c * μ ^ (-(1 / (2 * (τ + 1)))))
+        ∃ z : ℝ → Phase (n * 3), z 0 = z₀ ∧
+          IsSpatialMovingSolutionOn ν μ (Set.Icc (-T) T) z ∧
+          SpatialMovingUniqueOn ν μ (Set.Icc (-T) T) z ∧
+          IsSpatialNewtonSolutionOn (spatialMasses ν μ) (Set.Icc (-T) T)
+            (fun t => spatialBarycentricPositions ν μ (z t).1)
+            (fun t => spatialBarycentricVelocities ν μ (z t).2) ∧
+          ∀ t ∈ Set.Icc (-T) T,
+            ∃ hs : ∀ i, 0 < ν i ∧ 0 < spaceLength (bodyVector3 (z t).1 i) ∧
+                spatialKeplerEnergy ν (z t) i < 0,
+            ∃ hcht : (fun i => spatialSourceKeplerAction
+                (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) i) ∈ chamber ν,
+            spatialSourceStrongAMD (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) ≤
+                orderedStrongThreshold hn ⟨_, hcht⟩ - δ / 2 ∧
+            ‖(fun i => spatialSourceKeplerAction (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) i) -
+                fun i => spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i‖ ≤
+              AΛ * Real.sqrt μ ∧
+            ‖(fun i => spatialSourceKeplerAxis (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) i) -
+                fun i => spatialSourceKeplerAxis (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i‖ ≤
+              Aa * Real.sqrt μ ∧
+            |spatialSourceStrongAMD (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) -
+                spatialSourceStrongAMD (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν)| ≤
+              n * AΛ * Real.sqrt μ ∧
+            (∀ i, dStar ≤
+                spatialSourceKeplerPeri (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) i) ∧
+            (∀ a : AdjIdx n, dPair ≤
+                spatialSourceKeplerPeri (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) a.upperIdx -
+                  spatialSourceKeplerApo (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) a.1) ∧
+            (∀ i, dStar ≤ spaceLength (bodyVector3 (z t).1 i)) ∧
+            (∀ i j, i ≠ j →
+              dPair ≤ spaceLength (bodyVector3 (z t).1 i - bodyVector3 (z t).1 j)) ∧
+            ∃ ho : (∀ i, 0 < ν i) ∧ 0 < μ ∧
+                ∀ i, 0 < spaceLength (bodyVector3 (z t).1 i) ∧
+                  spatialOscEnergy ν μ (z t) i < 0 ∧ spatialOscEcc ν μ (z t) i < 1,
+              (∀ i, spatialSourceOscEnergy (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ) i < 0 ∧
+                  0 < spatialSourceOscAxis (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ) i ∧
+                  spatialSourceOscEcc (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ) i < 1 ∧
+                  spatialSourceOscPeri (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ) i ≤
+                    spaceLength (bodyVector3 (z t).1 i) ∧
+                  spaceLength (bodyVector3 (z t).1 i) ≤
+                    spatialSourceOscApo (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ) i ∧
+                  |spatialSourceOscAxis (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ) i -
+                      spatialSourceKeplerAxis (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) i| +
+                    spaceLength (spatialSourceOscEccVector
+                        (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ) i -
+                      spatialSourceKeplerEccVector
+                        (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) i) ≤ Aelem * μ) ∧
+              (∀ i, |spatialSourceOscPeri (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ) i -
+                      spatialSourceKeplerPeri (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) i| ≤
+                    Aosc * μ ∧
+                  |spatialSourceOscApo (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ) i -
+                      spatialSourceKeplerApo (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) i| ≤
+                    Aosc * μ) ∧
+              (∀ i, dStar / 2 ≤
+                  spatialSourceOscPeri (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ) i) ∧
+              (∀ a : AdjIdx n, dPair / 2 ≤
+                  spatialSourceOscPeri (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ)
+                      a.upperIdx -
+                    spatialSourceOscApo (⟨z t, ho⟩ : SpatialSourceOsculatingPhase n ν μ) a.1)
+```
+
 ## 4. Choices embedded in the text (owner decisions)
 
 1. **AMD convention (OD-1, audit N8).** `strongAMD = ΣΛ − |L|` (orientation-free, MAIN (2)); no prograde premise.
@@ -408,6 +511,34 @@ theorem lp2_spatial_strongAMD_safety_normalized (hn : 2 ≤ n) (ν : Fin n → �
   off-carrier junk values). Under (b), the anchors' occurrences of these formulas are restated through the source
   restrictions (the guards `oscEnergy < 0`, `oscEcc < 1` and negative canonical energy, which LP1 exports, supply
   the subtype proofs); the exact restated text is generated once the owner rules, and re-reviewed.
+
+- **Spatial (LP2; OD-11 (b); review 4, R4.3).** The following are frozen **as literal formulas and predicates**,
+  faithful on their whole carriers:
+  - `spaceDot`, `spaceSq`, `spaceLength`, `spaceCross`, `bodyVector3`, `planetAngularMomentum3`, `angularMomentum3`;
+  - `SpatialNoCollision`, `IsSpatialMovingSolutionOn`, `SpatialMovingUniqueOn`;
+  - `spatialMasses`, `spatialBarycentricPositions`, `spatialBarycentricVelocities`, `IsSpatialNewtonSolutionOn`;
+  - the carrier predicate `SpatialNegativeEnergy` and the subtypes `SpatialElliptic` (= `SpatialSourceCanonicalPhase`)
+    and `SpatialOscPhase` (= `SpatialSourceOsculatingPhase`).
+
+  The following are frozen **as one semantic unit with their `rfl` equations and the SourceCarrier
+  characterizations**:
+  - `spatialSourceKeplerAxis`, `spatialSourceKeplerAction`, `spatialSourceKeplerEccVector`, `spatialSourceKeplerEcc`;
+  - `spatialSourcePlanetAngularMomentum`, `spatialSourceAngularMomentum`, `spatialSourceStrongAMD`;
+  - `spatialSourceKeplerPeri/Apo`;
+  - `spatialSourceOsc{Velocity,Param,Energy,Axis,EccVector,Ecc,Peri,Apo}`.
+
+  The total formulas stay **internal implementation helpers in the definition closure** and are not certified as
+  MAIN's objects off their carriers: `spatialKeplerEnergy`, `spatialKeplerAxis/Action/EccVector`, `spatialStrongAMD`,
+  `spatialStrongAMDOn`, `spatialKeplerPeri/Apo` and `spatialOsc*`. In the anchor text, only `spatialKeplerEnergy`,
+  `spatialOscEnergy` and `spatialOscEcc` occur directly. Each occurs only as a sign condition inside a guarded
+  predicate:
+  - `spatialKeplerEnergy` in the physical premise and the canonical carrier predicate (`h₀`, `hs`);
+  - `spatialOscEnergy` and `spatialOscEcc` in the osculating carrier predicate (`ho`).
+
+  These predicates are false whenever `|q_i| = 0` and literal otherwise (review 5, R5.1). The same holds for `spatialHamiltonian`, which is totalized at collisions and consumed only through
+  `IsSpatialMovingSolutionOn`, whose collision guard and `DifferentiableAt` on an open domain make the predicate
+  faithful (R4.8). This bullet presupposes R4.1 (A); under R4.1 (B), `spatialKeplerAxis/Action/EccVector` move to
+  the frozen list with the recorded ruling.
 
 ## 5. What a freeze would require next
 
