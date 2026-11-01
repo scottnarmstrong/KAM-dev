@@ -112,4 +112,71 @@ theorem taylorRv_eq {w : KamPhase} (hw : w ∈ kamDomain s r) :
 
 end value
 
+theorem c1_decomp (w : KamPhase) :
+    ((0 : Fin 2 → ℂ), (0 : Fin 2 → ℂ), w.2.2.1, w.2.2.2) =
+      stepIotaZ (stepZ w) + stepIotaZb (stepZb w) := by
+  obtain ⟨θ, y, u, v⟩ := w
+  rw [stepZ_apply, stepZb_apply, stepIotaZ_apply, stepIotaZb_apply]
+  have h2 := homSqrt2_inv_sq
+  refine Prod.ext (by simp) (Prod.ext (by simp) (Prod.ext ?_ ?_))
+  · show u = _
+    ext j
+    simp only [lp.coeFn_smul, lp.coeFn_add, Pi.smul_apply, Pi.add_apply, smul_eq_mul,
+      lp.coeFn_sub, Pi.sub_apply, Prod.fst_add, Prod.snd_add]
+    linear_combination (-2 * (u j : ℂ)) * h2
+  · show v = _
+    ext j
+    simp only [lp.coeFn_smul, lp.coeFn_add, Pi.smul_apply, Pi.add_apply, smul_eq_mul,
+      lp.coeFn_sub, Pi.sub_apply, Prod.fst_add, Prod.snd_add]
+    linear_combination (-2 * (v j : ℂ)) * h2 + ((homSqrt2⁻¹ * homSqrt2⁻¹) * (v j : ℂ) * 2) * Complex.I_sq
+
+theorem stepZ_c1 (w : KamPhase) : stepZ ((0 : Fin 2 → ℂ), (0 : Fin 2 → ℂ), w.2.2.1, w.2.2.2) = stepZ w := by
+  simp [stepZ]
+
+theorem stepZb_c1 (w : KamPhase) :
+    stepZb ((0 : Fin 2 → ℂ), (0 : Fin 2 → ℂ), w.2.2.1, w.2.2.2) = stepZb w := by
+  simp [stepZb]
+
+section pieces
+
+variable (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb)
+
+/-- Linear part. -/
+theorem stepSymp_linear (Y : KamPhase) (w : KamPhase) :
+    stepSymp (q := p) (q' := pb) ha (homPP hp hpb) Y (0, 0, w.2.2.1, w.2.2.2) =
+      Complex.I * (stepPr ha (homPP hp hpb) (stepZ Y) (stepZb w) -
+        stepPr ha (homPP hp hpb) (stepZb Y) (stepZ w)) := by
+  rw [stepSymp_z, stepZ_c1, stepZb_c1]
+  simp
+
+/-- The `y`-part. -/
+theorem stepSymp_ypart (Y : KamPhase) (w : KamPhase) :
+    stepSymp (q := p) (q' := pb) ha (homPP hp hpb) Y (0, w.2.1, 0, 0) =
+      2 * Real.pi * ∑ i, Y.1 i * w.2.1 i := by
+  rw [stepSymp_z]
+  have h1 : stepZ ((0 : Fin 2 → ℂ), w.2.1, (0 : HomL2), (0 : HomL2)) = 0 := by simp [stepZ]
+  have h2 : stepZb ((0 : Fin 2 → ℂ), w.2.1, (0 : HomL2), (0 : HomL2)) = 0 := by simp [stepZb]
+  rw [h1, h2]
+  simp
+
+/-- The quadratic part. -/
+theorem stepSymp_quadratic (A : KamPhase →L[ℂ] KamPhase)
+    (hA : ∀ u v, stepSymp (q := p) (q' := pb) ha (homPP hp hpb) (A u) v =
+      stepSymp (q := p) (q' := pb) ha (homPP hp hpb) (A v) u) (w : KamPhase) :
+    stepSymp (q := p) (q' := pb) ha (homPP hp hpb) (A (0, 0, w.2.2.1, w.2.2.2))
+        (0, 0, w.2.2.1, w.2.2.2) =
+      2 * (stepPr ha (homPP hp hpb) (blockP A (stepZ w)) (stepZ w) +
+        stepPr ha (homPP hp hpb) (blockQ A (stepZ w)) (stepZb w) +
+        stepPr ha (homPP hp hpb) (blockP' A (stepZb w)) (stepZb w)) := by
+  rw [c1_decomp, map_add]
+  simp only [stepSymp_add_left, stepSymp_add_right]
+  have e1 := stepPr_blockP ha (homPP hp hpb) A (stepZ w) (stepZ w)
+  have e2 := stepPr_blockQ ha (homPP hp hpb) A (stepZ w) (stepZb w)
+  have e3 := stepPr_blockQt ha (homPP hp hpb) A (stepZb w) (stepZ w)
+  have e4 := stepPr_blockP' ha (homPP hp hpb) A (stepZb w) (stepZb w)
+  have hs := hA (stepIotaZb (stepZb w)) (stepIotaZ (stepZ w))
+  linear_combination (-2 : ℂ) * e1 - 2 * e4 - 2 * e2 + hs
+
+end pieces
+
 end KAM.Wave
