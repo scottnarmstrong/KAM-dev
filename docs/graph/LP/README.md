@@ -22,6 +22,15 @@ for review batch R1 (`REVIEW-BRIEF.md`, `reviews/R1-packets.md`). The wave's LEA
 `LEAN_STATUS-W1.md` (sync tool `tools/lp_depgraph_lean_sync.py`, applied after publication). The text below is the
 pre-freeze preparation record.
 
+## Status after LP-GRAPH-W2 (2026-11-01, streamlined under D65)
+
+Waves 1-3 (LP0, LP1, LP1-H, LP2, LP2-H and the 34 characterizations) are extracted and assembled: 292 nodes, 1040
+edges, 39 roots, 145 anchors, 2 routes (L12/L13 at `lpM:L14#improvement`), 4 SOURCE_GAP steps, 394 coverage items.
+The skill linter passes on structure (`--require-complete-coverage --require-all-reachable`, `reports/W2-lint.txt`);
+`--require-reviewed` is dropped by D65, which replaces per-slice reviews by ONE global review (pending). LEAN_STATUS is
+applied mechanically (`LEAN_STATUS.md`, `tools/lp_depgraph_lean_sync.py`). LP3 (wave 4) is pending until the D64
+anchors are on main. Assembly order: `packets/slices-assembled.txt`. SPEC change log has the details.
+
 ## What is done
 
 | File | Content |

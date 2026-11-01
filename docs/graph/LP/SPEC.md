@@ -395,3 +395,30 @@ Status after wave-1 extraction (2026-11-01; all PROPOSED, extractor `kam-lp`):
     72 nodes in the root closure, 153 coverage items (26 excluded), 13 deferred items, 1 SOURCE_GAP
     (`lpM:L3#deficit-zero-L`: the frozen deficit characterization covers L = 0, which MAIN does not argue). The
     linter (`--require-complete-coverage --require-initial-lean-status`, `--check`) exits 0; `reports/W1-lint.txt`.
+- 2026-11-01, **waves 2 and 3, streamlined (D65)** (package LP-GRAPH-W2, writer and extractor `kam-lp`):
+  - Owner ruling D65: a fully proved track's graph is a provenance record. No per-slice or delta reviews (the R1
+    verdicts already applied stay), one extraction pass for waves 2-3 (and 4 when the LP3 anchors are on main), LEAN_STATUS
+    set mechanically from LEAN_REFs that resolve on main, structural lint (coverage, edges, cycles, reachability)
+    without `--require-reviewed`, then ONE independent global review. The header CORPUS line says so. §8's per-slice
+    review batches R2/R3 are cancelled.
+  - Packets: the wave additions to the reviewed wave-1 slices are separate packets `LP-athm-w2`, `LP-athm-w3`,
+    `LP-adef-pl-w2`, `LP-ext-w2`, and the formerly deferred coverage items are `LP-m1-w2`, `LP-amend-w2` (the
+    `*.deferred-coverage.md` files are superseded and not assembled). Assembly order: `packets/slices-assembled.txt`.
+  - §6 routes: the drift suppliers are route nodes `lpM:L14#route-L12` and `lpM:L14#route-L13`, owned by
+    `lpM:L14#improvement` (the step consuming the drift at L487/L500), a refinement of the proposal "lpM:L14 owns
+    them". Lemma 14 is d-generic and conditional; T15/T19 discharge its chart premises (`#apply-L14`).
+  - Q5 applied: (35) and its proof region excluded, `lpA:N4` excluded. The Cauchy bounds on DΦ (L379) are excluded as
+    unconsumed ("not used to infer invertibility").
+  - New SOURCE_GAP steps: `lpM:L10#lie-flow-identification`, `lpM:L10#flow-existence` (N5: sketched; route L12 only)
+    and `lpM:L14#maximal-solution` (the unique maximal solution from Lemma 6's local existence; §1 L78).
+  - Externals: the remaining five of the closed list rendered (`LP-ext-w2`). Imports: only `N:bpN:p11:nonresonant`
+    (Lemma 13); `N:bpN:p0:partial` and the P imports serve LP3 only and stay unrendered; IMPORTS.sha256 unchanged.
+  - Wave 3 anchors are bound mechanically (`specs/_lp_anchor_util.py`): a definition's DEPS (and a theorem's
+    statement-symbol edges) are the bound frozen definitions its file imports and names in its declaration.
+  - Three frozen carrier definitions have no consumer in any root statement or source proof and are not graph
+    nodes: `sourceOscVelocity`, `sourceOscParam`, `spatialSourceOscVelocity` (items EXCLUDED, "outside every root
+    closure"; removed from FROZEN_ANCHORS by `tools/lp_depgraph_header.py`). `lpM:L3` is consumed whole by
+    `lpM:L18#alignment`.
+  - Result: 292 nodes, 1040 edges, 39 roots, 145 anchors, 11 externals (10 closed-list + 1 import), 2 routes,
+    4 SOURCE_GAP, 394 coverage items (40 excluded), every node in a root closure; lint exit 0
+    (`reports/W2-lint.txt`); LEAN_STATUS applied (`LEAN_STATUS.md`): 145 PROVED, 11 EXTERNAL, 136 NOT_STARTED.
