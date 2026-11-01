@@ -7,6 +7,8 @@ module
 
 public import Mathlib
 public import KAM.Planetary.Spatial.Newton
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceBarycentricPositions
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceBarycentricVelocities
 
 /-!
 # Source-facing spatial barycentric reconstruction maps (OD-11 (b))
@@ -28,14 +30,6 @@ formulas (`CHARACTERIZATION: N/A_LITERAL`).
 @[expose] public noncomputable section
 
 namespace KAM.Planetary.Spatial
-
-def spatialSourceBarycentricPositions {n : ℕ} (ν : Fin n → ℝ) (μ : ℝ)
-    (_hν : ∀ i, 0 < ν i) (_hμ : 0 < μ) (q : Fin (n * 3) → ℝ) :
-    Fin (n + 1) → (Fin 3 → ℝ) := spatialBarycentricPositions ν μ q
-
-def spatialSourceBarycentricVelocities {n : ℕ} (ν : Fin n → ℝ) (μ : ℝ)
-    (_hν : ∀ i, 0 < ν i) (_hμ : 0 < μ) (p : Fin (n * 3) → ℝ) :
-    Fin (n + 1) → (Fin 3 → ℝ) := spatialBarycentricVelocities ν μ p
 
 theorem spatialSourceBarycentricPositions_def {n : ℕ} (ν : Fin n → ℝ) (μ : ℝ)
     (hν : ∀ i, 0 < ν i) (hμ : 0 < μ) (q : Fin (n * 3) → ℝ) :

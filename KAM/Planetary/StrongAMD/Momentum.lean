@@ -10,6 +10,7 @@ public import KAM.Planetary.StrongAMD.Orbital
 public import KAM.Planetary.AMD.AngularMomentum
 public import KAM.Frozen.Planetary.Defs.TotalMomentum
 public import KAM.Frozen.Planetary.Defs.PhysicalAMD
+public import KAM.Frozen.Planetary.StrongAMD.Defs.StrongAMD
 
 /-!
 # The strong AMD and exact angular momentum, planar
@@ -35,11 +36,6 @@ open KAM.Planetary
 open scoped BigOperators
 
 variable {n : ℕ}
-
-/-- The strong AMD `C = Σ_i Λ_i - |L|` (`LP:MAIN §1 (2)`), with `|L|` the absolute value of the
-total angular momentum. -/
-def strongAMD (ν : Fin n → ℝ) (z : Phase (n * 2)) : ℝ :=
-  (∑ i, keplerAction ν z i) - |totalMomentum z|
 
 private theorem abs_cross_le_action {ν : Fin n → ℝ} {z : Phase (n * 2)}
     (hz : ∀ i, 0 < ν i ∧ 0 < planeLength (bodyVector z.1 i) ∧ keplerEnergy ν z i < 0) (i : Fin n) :

@@ -10,6 +10,19 @@ public import KAM.Planetary.StrongAMD.Momentum
 public import KAM.Planetary.StrongAMD.Orbital
 public import KAM.Planetary.StrongAMD.Osculating.Basic
 public import KAM.Planetary.StrongAMD.Threshold.Defs
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceCanonicalPhase
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceKeplerApo
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceKeplerPeri
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscApo
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscAxis
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscEcc
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscEccVector
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscEnergy
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscParam
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscPeri
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscVelocity
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOsculatingPhase
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceStrongAMD
 
 /-!
 # Source carriers for the strong AMD and the osculating ellipses (OD-11 option (b))
@@ -40,62 +53,6 @@ namespace KAM.Planetary.StrongAMD
 open KAM.Planetary
 
 variable {n : ℕ}
-
-/-- Source canonical phases (`LP:MAIN §1 (31–37)`): positive masses, and every planet at a
-nonzero position with negative Kepler energy. -/
-abbrev SourceCanonicalPhase (n : ℕ) (ν : Fin n → ℝ) :=
-  {z : Phase (n * 2) // (∀ i, 0 < ν i) ∧
-    ∀ i, 0 < planeLength (bodyVector z.1 i) ∧ keplerEnergy ν z i < 0}
-
-/-- Source osculating phases (`LP:MAIN L16 (510–525)`): positive masses and `μ`, nonzero
-positions, and nondegenerate actual-velocity ellipses (`E^osc < 0`, `e^osc < 1`). -/
-abbrev SourceOsculatingPhase (n : ℕ) (ν : Fin n → ℝ) (μ : ℝ) :=
-  {z : Phase (n * 2) // (∀ i, 0 < ν i) ∧ 0 < μ ∧
-    ∀ i, 0 < planeLength (bodyVector z.1 i) ∧
-      oscEnergy ν μ z i < 0 ∧ oscEcc ν μ z i < 1}
-
-/-- The strong AMD on source canonical phases. -/
-def sourceStrongAMD {ν : Fin n → ℝ} (z : SourceCanonicalPhase n ν) : ℝ := strongAMD ν z.1
-
-/-- Canonical perihelion on source canonical phases. -/
-def sourceKeplerPeri {ν : Fin n → ℝ} (z : SourceCanonicalPhase n ν) (i : Fin n) : ℝ :=
-  keplerPeri ν z.1 i
-
-/-- Canonical aphelion on source canonical phases. -/
-def sourceKeplerApo {ν : Fin n → ℝ} (z : SourceCanonicalPhase n ν) (i : Fin n) : ℝ :=
-  keplerApo ν z.1 i
-
-/-- Actual heliocentric velocity on source osculating phases. -/
-def sourceOscVelocity {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ) (i : Fin n) :
-    Fin 2 → ℝ := oscVelocity ν μ z.1 i
-
-/-- Gravitational parameter `1 + μ ν_i` on source osculating phases. -/
-def sourceOscParam {ν : Fin n → ℝ} {μ : ℝ} (_z : SourceOsculatingPhase n ν μ) (i : Fin n) : ℝ :=
-  oscParam ν μ i
-
-/-- Osculating energy on source osculating phases. -/
-def sourceOscEnergy {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ) (i : Fin n) : ℝ :=
-  oscEnergy ν μ z.1 i
-
-/-- Osculating semi-major axis on source osculating phases. -/
-def sourceOscAxis {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ) (i : Fin n) : ℝ :=
-  oscAxis ν μ z.1 i
-
-/-- Osculating eccentricity vector on source osculating phases. -/
-def sourceOscEccVector {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ) (i : Fin n) :
-    Fin 2 → ℝ := oscEccVector ν μ z.1 i
-
-/-- Osculating eccentricity on source osculating phases. -/
-def sourceOscEcc {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ) (i : Fin n) : ℝ :=
-  oscEcc ν μ z.1 i
-
-/-- Osculating perihelion on source osculating phases. -/
-def sourceOscPeri {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ) (i : Fin n) : ℝ :=
-  oscPeri ν μ z.1 i
-
-/-- Osculating aphelion on source osculating phases. -/
-def sourceOscApo {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ) (i : Fin n) : ℝ :=
-  oscApo ν μ z.1 i
 
 /-! ### Defining equations -/
 

@@ -9,6 +9,27 @@ public import Mathlib
 public import KAM.Planetary.Spatial.Field
 public import KAM.Planetary.Spatial.Elements
 public import KAM.Planetary.Spatial.Osculating.Estimates
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialKeplerApo
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialKeplerPeri
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscApo
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscAxis
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscEcc
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscEccVector
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscEnergy
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscParam
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscPeri
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscPhase
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialOscVelocity
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceKeplerApo
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceKeplerPeri
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceOscApo
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceOscAxis
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceOscEcc
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceOscEccVector
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceOscEnergy
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceOscParam
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceOscPeri
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceOscVelocity
 
 /-!
 # Actual-velocity osculating elements in dimension three: definitions, velocity, tangency
@@ -39,50 +60,6 @@ namespace KAM.Planetary.Spatial
 open KAM KAM.Planetary
 
 variable {n : ℕ}
-
-/-- The actual heliocentric velocity `V_i = p_i/ν_i + μ ∑_j p_j` (`LP:MAIN (10)`, `L16`, `d = 3`).
--/
-def spatialOscVelocity (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 3)) (i : Fin n) : Fin 3 → ℝ :=
-  (1 / ν i) • bodyVector3 z.2 i + μ • ∑ j, bodyVector3 z.2 j
-
-/-- The gravitational parameter `k_i = 1 + μ ν_i`. -/
-def spatialOscParam (ν : Fin n → ℝ) (μ : ℝ) (i : Fin n) : ℝ := 1 + μ * ν i
-
-/-- `E_i^osc = |V_i|²/2 - k_i/|q_i|` (`LP:MAIN L16 (42)`). -/
-def spatialOscEnergy (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 3)) (i : Fin n) : ℝ :=
-  spaceSq (spatialOscVelocity ν μ z i) / 2 -
-    spatialOscParam ν μ i / spaceLength (bodyVector3 z.1 i)
-
-/-- `a_i^osc = -k_i/(2 E_i^osc)` (`LP:MAIN L16 (42)`). -/
-def spatialOscAxis (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 3)) (i : Fin n) : ℝ :=
-  -spatialOscParam ν μ i / (2 * spatialOscEnergy ν μ z i)
-
-/-- `𝐞_i^osc = ((|V_i|² - k_i/|q_i|) q_i - (q_i·V_i) V_i)/k_i` (`LP:MAIN L16 (42)`). -/
-def spatialOscEccVector (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 3)) (i : Fin n) : Fin 3 → ℝ :=
-  (1 / spatialOscParam ν μ i) •
-    ((spaceSq (spatialOscVelocity ν μ z i) -
-        spatialOscParam ν μ i / spaceLength (bodyVector3 z.1 i)) • bodyVector3 z.1 i -
-      spaceDot (bodyVector3 z.1 i) (spatialOscVelocity ν μ z i) • spatialOscVelocity ν μ z i)
-
-/-- `e_i^osc = |𝐞_i^osc|` (`LP:MAIN L16 (42)`), Euclidean length. -/
-def spatialOscEcc (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 3)) (i : Fin n) : ℝ :=
-  spaceLength (spatialOscEccVector ν μ z i)
-
-/-- Osculating perihelion `a^osc (1 - e^osc)`. -/
-def spatialOscPeri (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 3)) (i : Fin n) : ℝ :=
-  spatialOscAxis ν μ z i * (1 - spatialOscEcc ν μ z i)
-
-/-- Osculating aphelion `a^osc (1 + e^osc)`. -/
-def spatialOscApo (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 3)) (i : Fin n) : ℝ :=
-  spatialOscAxis ν μ z i * (1 + spatialOscEcc ν μ z i)
-
-/-- Canonical perihelion `a_i (1 - e_i)`. -/
-def spatialKeplerPeri (ν : Fin n → ℝ) (z : Phase (n * 3)) (i : Fin n) : ℝ :=
-  spatialKeplerAxis ν z i * (1 - spaceLength (spatialKeplerEccVector ν z i))
-
-/-- Canonical aphelion `a_i (1 + e_i)`. -/
-def spatialKeplerApo (ν : Fin n → ℝ) (z : Phase (n * 3)) (i : Fin n) : ℝ :=
-  spatialKeplerAxis ν z i * (1 + spaceLength (spatialKeplerEccVector ν z i))
 
 /-! ### The actual velocity is the `q`-block of the spatial moving field -/
 
@@ -156,54 +133,6 @@ theorem spatialOsc_tangency (ν : Fin n → ℝ) {μ : ℝ} (hμ : 0 ≤ μ) {z 
   spatialSpecAxis_tangency (by unfold spatialOscParam; nlinarith [mul_nonneg hμ hν.le]) hq hE
 
 /-! ### The valid osculating carrier (OD-11 (b)) -/
-
-/-- Valid actual-velocity osculating states (`LP:MAIN L16`, nondegenerate ellipses): positive
-masses,
-`μ > 0`, and for every planet `|q_i| > 0`, `E_i^osc < 0`, `e_i^osc < 1`. -/
-abbrev SpatialOscPhase (n : ℕ) (ν : Fin n → ℝ) (μ : ℝ) :=
-  {z : Phase (n * 3) // (∀ i, 0 < ν i) ∧ 0 < μ ∧
-    ∀ i, 0 < spaceLength (bodyVector3 z.1 i) ∧ spatialOscEnergy ν μ z i < 0 ∧
-      spatialOscEcc ν μ z i < 1}
-
-/-- `V_i` on the valid osculating carrier. -/
-def spatialSourceOscVelocity {ν : Fin n → ℝ} {μ : ℝ} (z : SpatialOscPhase n ν μ) (i : Fin n) :
-    Fin 3 → ℝ := spatialOscVelocity ν μ z.1 i
-
-/-- `k_i` on the valid osculating carrier. -/
-def spatialSourceOscParam {ν : Fin n → ℝ} {μ : ℝ} (_z : SpatialOscPhase n ν μ) (i : Fin n) : ℝ :=
-  spatialOscParam ν μ i
-
-/-- `E_i^osc` on the valid osculating carrier. -/
-def spatialSourceOscEnergy {ν : Fin n → ℝ} {μ : ℝ} (z : SpatialOscPhase n ν μ) (i : Fin n) : ℝ :=
-  spatialOscEnergy ν μ z.1 i
-
-/-- `a_i^osc` on the valid osculating carrier. -/
-def spatialSourceOscAxis {ν : Fin n → ℝ} {μ : ℝ} (z : SpatialOscPhase n ν μ) (i : Fin n) : ℝ :=
-  spatialOscAxis ν μ z.1 i
-
-/-- `𝐞_i^osc` on the valid osculating carrier. -/
-def spatialSourceOscEccVector {ν : Fin n → ℝ} {μ : ℝ} (z : SpatialOscPhase n ν μ) (i : Fin n) :
-    Fin 3 → ℝ := spatialOscEccVector ν μ z.1 i
-
-/-- `e_i^osc` on the valid osculating carrier. -/
-def spatialSourceOscEcc {ν : Fin n → ℝ} {μ : ℝ} (z : SpatialOscPhase n ν μ) (i : Fin n) : ℝ :=
-  spatialOscEcc ν μ z.1 i
-
-/-- `a^osc (1 - e^osc)` on the valid osculating carrier. -/
-def spatialSourceOscPeri {ν : Fin n → ℝ} {μ : ℝ} (z : SpatialOscPhase n ν μ) (i : Fin n) : ℝ :=
-  spatialOscPeri ν μ z.1 i
-
-/-- `a^osc (1 + e^osc)` on the valid osculating carrier. -/
-def spatialSourceOscApo {ν : Fin n → ℝ} {μ : ℝ} (z : SpatialOscPhase n ν μ) (i : Fin n) : ℝ :=
-  spatialOscApo ν μ z.1 i
-
-/-- `a (1 - e)` on the canonical negative-energy carrier. -/
-def spatialSourceKeplerPeri {ν : Fin n → ℝ} (z : SpatialElliptic ν) (i : Fin n) : ℝ :=
-  spatialKeplerPeri ν z.1 i
-
-/-- `a (1 + e)` on the canonical negative-energy carrier. -/
-def spatialSourceKeplerApo {ν : Fin n → ℝ} (z : SpatialElliptic ν) (i : Fin n) : ℝ :=
-  spatialKeplerApo ν z.1 i
 
 /-! Defining equations of the carrier versions. -/
 

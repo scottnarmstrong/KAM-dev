@@ -9,6 +9,15 @@ public import Mathlib
 public import KAM.Planetary.Spatial.Orbital
 public import KAM.Planetary.Spatial.Momentum
 public import KAM.Planetary.Spatial.Osculating.Basic
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceAngularMomentum
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceCanonicalPhase
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceKeplerAction
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceKeplerAxis
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceKeplerEcc
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceKeplerEccVector
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceOsculatingPhase
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourcePlanetAngularMomentum
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceStrongAMD
 
 /-!
 # Spatial source carriers and source-facing physical quantities (OD-11 (b))
@@ -45,14 +54,6 @@ variable {n : ℕ}
 
 /-! ### Carriers -/
 
-/-- The canonical source carrier (`LP:MAIN §1 (2)`): phase points with positive masses, no planet
-at the star and negative Kepler energy of every planet.  This is SP-MODEL's `SpatialElliptic ν`. -/
-abbrev SpatialSourceCanonicalPhase (n : ℕ) (ν : Fin n → ℝ) : Type := SpatialElliptic ν
-
-/-- The osculating source carrier (`LP:MAIN L16`): SP-OSC's `SpatialOscPhase n ν μ`. -/
-abbrev SpatialSourceOsculatingPhase (n : ℕ) (ν : Fin n → ℝ) (μ : ℝ) : Type :=
-  SpatialOscPhase n ν μ
-
 /-- Membership in the canonical carrier is `SpatialNegativeEnergy`. -/
 theorem spatialSourceCanonicalPhase_property {ν : Fin n → ℝ}
     (z : SpatialSourceCanonicalPhase n ν) : SpatialNegativeEnergy ν z.1 := z.2
@@ -66,34 +67,6 @@ theorem spatialSourceOsculatingPhase_property {ν : Fin n → ℝ} {μ : ℝ}
         spatialOscEcc ν μ z.1 i < 1 := z.2
 
 /-! ### Canonical source definitions -/
-
-/-- `a_i` on the canonical carrier. -/
-def spatialSourceKeplerAxis {ν : Fin n → ℝ} (z : SpatialSourceCanonicalPhase n ν) (i : Fin n) :
-    ℝ := spatialKeplerAxis ν z.1 i
-
-/-- `Λ_i = ν_i √a_i` on the canonical carrier. -/
-def spatialSourceKeplerAction {ν : Fin n → ℝ} (z : SpatialSourceCanonicalPhase n ν)
-    (i : Fin n) : ℝ := spatialKeplerAction ν z.1 i
-
-/-- The eccentricity vector `𝐞_i` on the canonical carrier. -/
-def spatialSourceKeplerEccVector {ν : Fin n → ℝ} (z : SpatialSourceCanonicalPhase n ν)
-    (i : Fin n) : Fin 3 → ℝ := spatialKeplerEccVector ν z.1 i
-
-/-- The eccentricity `e_i = |𝐞_i|` on the canonical carrier. -/
-def spatialSourceKeplerEcc {ν : Fin n → ℝ} (z : SpatialSourceCanonicalPhase n ν) (i : Fin n) :
-    ℝ := spaceLength (spatialSourceKeplerEccVector z i)
-
-/-- The individual angular momentum `L_i = q_i × p_i` on the canonical carrier. -/
-def spatialSourcePlanetAngularMomentum {ν : Fin n → ℝ} (z : SpatialSourceCanonicalPhase n ν)
-    (i : Fin n) : Fin 3 → ℝ := planetAngularMomentum3 z.1 i
-
-/-- The total angular momentum `L = Σ_i q_i × p_i` on the canonical carrier. -/
-def spatialSourceAngularMomentum {ν : Fin n → ℝ} (z : SpatialSourceCanonicalPhase n ν) :
-    Fin 3 → ℝ := angularMomentum3 z.1
-
-/-- The strong AMD `C = Σ_i Λ_i − |L|` on the canonical carrier. -/
-def spatialSourceStrongAMD {ν : Fin n → ℝ} (z : SpatialSourceCanonicalPhase n ν) : ℝ :=
-  (∑ i, spatialSourceKeplerAction z i) - spaceLength (spatialSourceAngularMomentum z)
 
 /-! ### Defining equations (`rfl`) -/
 
