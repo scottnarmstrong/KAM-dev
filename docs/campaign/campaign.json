@@ -282,6 +282,6 @@
   }
  },
  "lp": {
-  "now": "PLANAR THEOREM PROVED END TO END in Lean (audits pending): `lp1_planar_strongAMD_safety` — below the sharp Laskar–Petit threshold the exact planar (1+n)-body problem has no orbit crossing and no collision for |t| ≤ T₀ exp(c μ^(−1/(2(τ+1)))), with O(√μ) drift and osculating-ellipse bounds, no secular hypothesis — plus the normalized freeze-proposal text verbatim, the τ = n − 1/2 corollary (exponent 1/(2n+1)) and LP0 (the full barrier, Lemma 5); standard axioms only. Remaining for the planar part: the final audits (LIFT/DOMX, the freeze-proposal delta review, the assembly), landings, and the owner's freeze decisions. Wave 4 (spatial) has started: the 3-dimensional model and then the spatial Poincaré chart."
+  "now": "PLANAR THEOREM PROVED END TO END in Lean: `lp1_planar_strongAMD_safety` (no orbit crossing or collision below the sharp Laskar–Petit threshold for |t| ≤ T₀ exp(c μ^(−1/(2(τ+1)))), no secular hypothesis), the τ = n − 1/2 corollary (exponent 1/(2n+1)) and LP0 (the full barrier). Every component audited except the final assembly (its audit is next on codex-2). The freeze proposal (exact Lean text of LP0/LP1) passed two independent statement reviews and waits only for the owner's decisions (OD-1…OD-11; OD-11, source subtypes, recommended). Wave 4 (spatial): the rotation algebra is proved; the spatial chart (Lemma 17) and model are proving."
  }
 }
