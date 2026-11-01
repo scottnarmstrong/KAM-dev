@@ -686,9 +686,9 @@ EDGE: stepW:w7:shell-size | blueprint-W/parts/w7-measure.tex#bpW:w7:shell-geom@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7b
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.measurableSet_shellSet, KAM.Wave.shellSet_disjoint, KAM.Wave.boxIoo_subset_iUnion_shell, KAM.Wave.volume_shellSet, KAM.Wave.volume_shell_diff_inner_le, KAM.Wave.shellSet_norm_ge, KAM.Wave.shellSet_dist_le, KAM.Wave.volume_box_diff_le (KAM/Wave/Measure/Shells.lean, KAM/Wave/Measure/Density.lean)
-LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: the reverse inclusion union R_(k+l) subset (0,t_k)^2 is proved and used inline in volume_box_diff_le (Measure/Density.lean:89-93), hence by density_one_of_shells, w8_density and nlw2_proof (finding SHELL); exported: disjointness, Borel, Leb(R_l), (ii), (iii) and the forward inclusion boxIoo_subset_iUnion_shell (W7-MEASURE audit 2 PASS); missing: the union equality as a named statement; candidate PROVED with the corrected reference (audit finding SHELL)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.shellGeom (KAM/Wave/Measure/ExportShells.lean)
+LEAN_NOTE: W-GRAPH-CLOSE audit 1 (maud-wpj-1, inp-wgclose a82197a3) PROVED-OK: disjointness, Borel, union equal to the open box, exact volume, boundary-layer constant 7, lower max-norm bound and diameter; only t_0 > 0 needed (strengthening of 0 < t_0 <= 1/2); supersedes the BYPASS-audit-1 KEEP (finding SHELL)
 NOTE: -
 
 NODE: stepW:w7:partition
@@ -713,9 +713,9 @@ EDGE: bpW:w7:ext-ball | blueprint-W/parts/w7-measure.tex#stepW:w7:partition@L624
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7b
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.shellSet_disjoint, KAM.Wave.boxIoo_subset_iUnion_shell, KAM.Wave.volume_shellSet, KAM.Wave.volume_box_diff_le (KAM/Wave/Measure/Shells.lean, KAM/Wave/Measure/Density.lean)
-LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: same as parent: the reverse inclusion is proved inline at Measure/Density.lean:89-93 inside volume_box_diff_le (finding SHELL); exported: disjointness, forward inclusion, Leb(R_l); candidate PROVED with the corrected reference (audit finding SHELL)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.shellSet_partition, KAM.Wave.shellGeom (KAM/Wave/Measure/ExportShells.lean)
+LEAN_NOTE: W-GRAPH-CLOSE audit 1 (maud-wpj-1, inp-wgclose a82197a3) PROVED-OK: unique shell index l >= k, exact half-open max characterization and volume difference; shellGeom covers the Borel/disjoint/union assertions of (i); supersedes the BYPASS-audit-1 KEEP (finding SHELL)
 NOTE: -
 
 NODE: stepW:w7:layer

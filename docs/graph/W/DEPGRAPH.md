@@ -495,9 +495,9 @@ EDGE: bpW:w0:mass | blueprint-W/parts/w0-conventions.tex#bpW:w0:basis@L46-L46 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0c
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.lam_pnat_pos, KAM.Wave.lam_gt, KAM.Wave.lam_div_pnat_le, KAM.Wave.lam_sub_pnat_pos, KAM.Wave.lam_sub_pnat_le, KAM.Wave.lam_le, KAM.Wave.lam_facts, KAM.Wave.lamExt_convex, KAM.Wave.birkL_second_diff, KAM.Wave.birkDelta_mono (KAM/Wave/Seq/Tails.lean, KAM/Wave/Seq/Diag.lean, KAM/Wave/Recon/ReconAnalytic.lean, KAM/Wave/Normal/Nondegeneracy.lean, KAM/Wave/Normal/NonresAux.lean, KAM/Wave/Birkhoff/DivisorReal.lean)
-LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: no PROVED consumer needs the full strict convexity / derivative statement (finding L); proved physical-frequency pieces: lam_pnat_pos, lam_gt, lam_div_pnat_le, lam_sub_pnat_pos, lam_sub_pnat_le (increments), lam_le (only lam_j <= (1+m) j, not lam_j < j + sqrt m), lam_facts (two tangential modes only: positivity, lamTan 0 < lamTan 1, gap < 1), non-strict convexity lamExt_convex (W0 nonresonance route); strict convexity not formalized: the divisor proof uses discrete second differences instead (birkL_second_diff, birkDelta_mono); missing: the packaged claim for all j (j < lambda_j < j + sqrt m, strict monotonicity, increment < 1 as one statement) and strict convexity of sqrt(s^2+m); finding L: the earlier refs lam_pos, lam_ge, lam_succ_le were W6SeqData declarations about the iteration weight, removed
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.lamBasis_facts (KAM/Wave/Seq/ExportLamFacts.lean)
+LEAN_NOTE: W-GRAPH-CLOSE audit 1 (maud-wpj-1, inp-wgclose a82197a3) PROVED-OK: all bounds for j : PNat, strict increase, strict convexity on all of R, derivative via HasDerivAt, 0 < f' < 1 on positive arguments, f' strictly increasing, exact successive-difference identity and bound; supersedes the BYPASS-audit-1 KEEP (finding L)
 NOTE: Unlabelled prose (L45-L47) stating facts that later proofs consume (SPEC section-data rule); justification is elementary and inline.
 
 NODE: bpW:w0:ellap#spaces
@@ -729,9 +729,9 @@ EDGE: stepW:w0n:young | blueprint-W/parts/w0-normalization.tex#bpW:w0n:algebra@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.wave_algebra, KAM.Wave.waveAlgConst_three_halves_sq, KAM.Wave.waveCubicConst_one (KAM/Wave/Algebra/Algebra.lean, KAM/Wave/Normal/Analysis/CubicHeadline.lean)
-LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: the identity K_(3/2)^2 = 8(1+2 zeta(3)) is proved by waveAlgConst_three_halves_sq (Normal/Analysis/CubicHeadline.lean:46-58) and used by waveCubicConst_one (finding A); exported: the algebra inequality and absolute convergence wave_algebra (W1-ALGEBRA audit 1 PASS WITH NOTES); candidate PROVED with the corrected reference (audit finding A)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.wave_algebra_w0n (KAM/Wave/Algebra/ExportW0n.lean)
+LEAN_NOTE: W-GRAPH-CLOSE audit 1 (maud-wpj-1, inp-wgclose a82197a3) PROVED-OK: absolute summability, membership and norm bound with waveAlgConst s, plus the exact K_(3/2)^2 identity (equivalent older mapping: wave_algebra, waveAlgConst_three_halves_sq); supersedes the BYPASS-audit-1 KEEP (finding A)
 NOTE: -
 
 NODE: stepW:w0n:weight
@@ -756,9 +756,9 @@ EDGE: bpW:w0:twosided | blueprint-W/parts/w0-normalization.tex#stepW:w0n:weight@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: KAM.Wave.wave_weight_ineq, KAM.Wave.waveJap_sub_le, KAM.Wave.wave_algebra (KAM/Wave/Algebra/Algebra.lean)
-LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: the step is a separate theorem wave_weight_ineq (Algebra/Algebra.lean:48-74, exponential triangle inequality plus waveJap_sub_le), invoked by wave_algebra at line 102; after unfolding waveTwoWeight it is the W0 weight inequality (finding A); candidate PROVED with the corrected reference (audit finding A)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.wave_weight_step (KAM/Wave/Algebra/ExportW0n.lean)
+LEAN_NOTE: W-GRAPH-CLOSE audit 1 (maud-wpj-1, inp-wgclose a82197a3) PROVED-OK: all three packet conclusions with the intermediate exponential-weight inequality; integer indices, max 1 |l| bracket, hypotheses and constants match; supersedes the BYPASS-audit-1 KEEP (finding A)
 NOTE: -
 
 NODE: stepW:w0n:young
@@ -11687,8 +11687,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5a
 LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.stepFun_field, KAM.Wave.stepField_differentiableAt, KAM.Wave.stepFun_isSmoothing, KAM.Wave.stepSolve_fam, KAM.Wave.stepSolve_bound, KAM.Wave.stepSolve_bound_mod, KAM.Wave.stepSolveMod_fam, KAM.Wave.stepSolve_equation, KAM.Wave.stepSolveMod_equation, KAM.Wave.stepNhat_fam, KAM.Wave.WaveStepHyp.FT_isRealTaylor, KAM.Wave.StepHypMod.FT_isRealTaylor, KAM.Wave.stepTheorem, KAM.Wave.stepTheoremMod (KAM/Wave/KamStep/TaylorField.lean, KAM/Wave/KamStep/TaylorFieldDiff.lean, KAM/Wave/KamStep/StepSolve.lean, KAM/Wave/KamStep/Data.lean, KAM/Wave/KamStep/ModifiedStepSolve.lean, KAM/Wave/KamStep/RealStep.lean, KAM/Wave/KamStep/StepTheoremSrc.lean)
-LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: the component route (solve, bounds, equation, smoothing, frequency corrections) is viable but the cited KAM.Wave.FT_isRealTaylor did not exist; the reality proofs are WaveStepHyp.FT_isRealTaylor and StepHypMod.FT_isRealTaylor (KamStep/RealStep.lean:138,159), reference corrected (finding S); W5-STEP-A audit 1 PASS WITH NOTES, W5-STEP-B audit 1 PASS; missing: no single export of the lemma (clauses assembled inside stepTheorem / stepTheoremMod), hat N in S_(p_+)(P) shown only on D(s',r) (stepFun_isSmoothing); candidate BYPASSED with the corrected reference (audit finding S)
+LEAN_REF: KAM.Wave.stepSolveLemma, KAM.Wave.stepSolveLemmaMod (KAM/Wave/KamStep/ExportSolve.lean)
+LEAN_NOTE: W-GRAPH-CLOSE audit 1 (maud-wpj-1, inp-wgclose a82197a3) NOT (F1), retained PARTIAL record: stepSolveLemma covers the non-modified case; stepSolveLemmaMod states hat N in S_(p_+)(P) only; missing: the modified-case clause hat N in S_(p+1)(P) ('indeed p'', p' = p+1, w5-kamstep.tex:335-336, 355-356), an explicit source-facing export identifying the same hat N; fix in progress
 NOTE: -
 
 NODE: stepW:w5:s-in
@@ -11810,9 +11810,9 @@ EDGE: stepW:w5:f-real | blueprint-W/parts/w5-kamstep.tex#bpW:w5:flow@L416-L416 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
 REVIEWER: sol-delta7-W-w5a
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.stepFlowHyp, KAM.Wave.stepFlowHyp_concrete, KAM.Wave.stepDomain_margin, KAM.Wave.stepMF_margins, KAM.Wave.holoFlow_smooth_eq, KAM.Wave.differentiableOn_smoothDisp, KAM.Wave.norm_smoothDisp_le, KAM.Wave.flowII_disp, KAM.Wave.flowII_disp_sub, KAM.Wave.flowII_deriv, KAM.Wave.flowII_deriv_sub, KAM.Wave.stepFlow_bounds_smooth, KAM.Wave.stepXplusB_time_bounds, KAM.Wave.stepFlow_real, KAM.Wave.stepFlow_translate (KAM/Wave/KamStep/Flow.lean, KAM/Wave/KamStep/StepFieldBound.lean, KAM/Wave/KamStep/Data.lean, KAM/Wave/KamStep/FlowSmooth.lean, KAM/Wave/KamStep/FlowSmoothDeriv.lean, KAM/Wave/KamStep/FlowStepBounds.lean, KAM/Wave/KamStep/StepPsi.lean, KAM/Wave/KamStep/StepPlusBound.lean, KAM/Wave/KamStep/RealFlowPicard.lean, KAM/Wave/KamStep/StepPeriodicFlow.lean)
-LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: the proof closure uses the flow at arbitrary t, not only Phi = phi^1 (finding FLOW): flowII_deriv at variable t in FlowCalcOnto.lean:112 (all-time target inverse for c-inv), flowII_disp_sub at variable t in StepPullbackBound.lean:138, stepPullback_bounds at variable t in stepXplusB_time_bounds; exported: the W1 flow hypotheses (stepFlowHyp_concrete), (iii), the abstract per-t estimates flowII_* (FlowHyp, instantiated through stepFlowHyp_concrete), reality for real X_F (stepFlow_real), unit-shift equivariance; missing as concrete statements for every t in [-1,1]: the lambda forms of (i), (ii) (assembled only for Phi in stepFlow_bounds_smooth) and unconditional reality
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.stepFlowLemma, KAM.Wave.stepFlowLemmaMod (KAM/Wave/KamStep/ExportFlow.lean)
+LEAN_NOTE: W-GRAPH-CLOSE audit 1 (maud-wpj-1, inp-wgclose a82197a3) PROVED-OK: both regimes, every t in [-1,1], concrete FlowHyp, all four clauses (smoothing displacement, derivative bounds and <= eta^2, nested image domains, reality, all integer translations); supersedes the D27 BYPASS-audit-1 KEEP (finding FLOW)
 NOTE: -
 
 NODE: stepW:w5:f-margin
@@ -11869,9 +11869,9 @@ EDGE: stepW:w5:f-margin | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-flow@L400-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
 REVIEWER: sol-delta7-W-w5a
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.holoFlow_smooth_eq, KAM.Wave.differentiableOn_smoothDisp, KAM.Wave.norm_smoothDisp_le, KAM.Wave.smoothDisp, KAM.Wave.flowII_disp, KAM.Wave.stepFlowHyp_concrete (KAM/Wave/KamStep/FlowSmooth.lean, KAM/Wave/KamStep/FlowSmoothDeriv.lean, KAM/Wave/KamStep/FlowStepBounds.lean, KAM/Wave/KamStep/StepFieldBound.lean)
-LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: norm_smoothDisp_le (FlowSmooth.lean:84-94) proves exactly |smoothDisp t w| <= M |t| under the abstract flow hypothesis, used at all t by flowII_disp (FlowStepBounds.lean:43) and FlowSmoothDeriv.lean:101 (finding DISPLACEMENT); stepImage_mem is a generic increment lemma, not a time-one theorem; exported: the abstract all-t displacement bound and holomorphy (instantiable by stepFlowHyp_concrete); candidate PROVED with the corrected reference (audit finding DISPLACEMENT)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.stepFlow_fFlow, KAM.Wave.stepFlowMod_fFlow (KAM/Wave/KamStep/ExportFlow.lean)
+LEAN_NOTE: W-GRAPH-CLOSE audit 1 (maud-wpj-1, inp-wgclose a82197a3) PROVED-OK: all-time image inclusion, integral identity for the embedded field, holomorphic smoothing lift with |Psi^t| <= |t| M_F; supersedes the BYPASS-audit-1 KEEP (finding DISPLACEMENT)
 NOTE: -
 
 NODE: stepW:w5:f-par
@@ -11898,9 +11898,9 @@ EDGE: stepW:w5:f-flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-par@L406-L40
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
 REVIEWER: sol-delta7-W-w5a
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.flowII_disp_sub, KAM.Wave.stepXplusB_time_bounds (KAM/Wave/KamStep/FlowStepBounds.lean, KAM/Wave/KamStep/StepPlusBound.lean)
-LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: flowII_disp_sub is applied at arbitrary t in StepPullbackBound.lean:138 and integrated in StepPlusBound (finding FLOW); exported: the abstract per-t estimate flowII_disp_sub; missing: the lambda form |phi^t - id|^lambda <= 2 M_F as a concrete statement for every t
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.stepFlow_fPar, KAM.Wave.stepFlowMod_fPar (KAM/Wave/KamStep/ExportFlow.lean)
+LEAN_NOTE: W-GRAPH-CLOSE audit 1 (maud-wpj-1, inp-wgclose a82197a3) PROVED-OK: uniform sup/Lipschitz witnesses with total <= 2 M_F for every permitted t and all parameter pairs (norm of w5-kamstep.tex:114-118); supersedes the BYPASS-audit-1 KEEP (finding FLOW)
 NOTE: -
 
 NODE: stepW:w5:f-der
@@ -11929,9 +11929,9 @@ EDGE: bpW:w5:data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-der@L413-L413 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
 REVIEWER: sol-delta7-W-w5a
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.flowII_deriv, KAM.Wave.flowII_deriv_sub, KAM.Wave.stepMF_margins (KAM/Wave/KamStep/FlowStepBounds.lean, KAM/Wave/KamStep/Data.lean)
-LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: flowII_deriv is applied with ht for arbitrary t in FlowCalcOnto.lean:112 (all-time target inverse for the PROVED c-inv) (finding FLOW); exported: the abstract per-t estimates flowII_deriv, flowII_deriv_sub and the margins stepMF_margins; missing: the lambda form 16 M_F/sigma as a concrete statement for every t
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.stepFlow_fDer, KAM.Wave.stepFlowMod_fDer (KAM/Wave/KamStep/ExportFlow.lean)
+LEAN_NOTE: W-GRAPH-CLOSE audit 1 (maud-wpj-1, inp-wgclose a82197a3) PROVED-OK: on D(s-3sigma,r/4), derivative decomposition through the smoothing inclusion, 8 M_F/sigma, parameter total 16 M_F/sigma <= eta^2 (sigma/8 margin); supersedes the BYPASS-audit-1 KEEP (finding FLOW)
 NOTE: -
 
 NODE: stepW:w5:f-image
@@ -16887,9 +16887,9 @@ EDGE: stepW:w7:shell-size | blueprint-W/parts/w7-measure.tex#bpW:w7:shell-geom@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7b
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.measurableSet_shellSet, KAM.Wave.shellSet_disjoint, KAM.Wave.boxIoo_subset_iUnion_shell, KAM.Wave.volume_shellSet, KAM.Wave.volume_shell_diff_inner_le, KAM.Wave.shellSet_norm_ge, KAM.Wave.shellSet_dist_le, KAM.Wave.volume_box_diff_le (KAM/Wave/Measure/Shells.lean, KAM/Wave/Measure/Density.lean)
-LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: the reverse inclusion union R_(k+l) subset (0,t_k)^2 is proved and used inline in volume_box_diff_le (Measure/Density.lean:89-93), hence by density_one_of_shells, w8_density and nlw2_proof (finding SHELL); exported: disjointness, Borel, Leb(R_l), (ii), (iii) and the forward inclusion boxIoo_subset_iUnion_shell (W7-MEASURE audit 2 PASS); missing: the union equality as a named statement; candidate PROVED with the corrected reference (audit finding SHELL)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.shellGeom (KAM/Wave/Measure/ExportShells.lean)
+LEAN_NOTE: W-GRAPH-CLOSE audit 1 (maud-wpj-1, inp-wgclose a82197a3) PROVED-OK: disjointness, Borel, union equal to the open box, exact volume, boundary-layer constant 7, lower max-norm bound and diameter; only t_0 > 0 needed (strengthening of 0 < t_0 <= 1/2); supersedes the BYPASS-audit-1 KEEP (finding SHELL)
 NOTE: -
 
 NODE: stepW:w7:partition
@@ -16914,9 +16914,9 @@ EDGE: bpW:w7:ext-ball | blueprint-W/parts/w7-measure.tex#stepW:w7:partition@L624
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7b
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.shellSet_disjoint, KAM.Wave.boxIoo_subset_iUnion_shell, KAM.Wave.volume_shellSet, KAM.Wave.volume_box_diff_le (KAM/Wave/Measure/Shells.lean, KAM/Wave/Measure/Density.lean)
-LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: same as parent: the reverse inclusion is proved inline at Measure/Density.lean:89-93 inside volume_box_diff_le (finding SHELL); exported: disjointness, forward inclusion, Leb(R_l); candidate PROVED with the corrected reference (audit finding SHELL)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.shellSet_partition, KAM.Wave.shellGeom (KAM/Wave/Measure/ExportShells.lean)
+LEAN_NOTE: W-GRAPH-CLOSE audit 1 (maud-wpj-1, inp-wgclose a82197a3) PROVED-OK: unique shell index l >= k, exact half-open max characterization and volume difference; shellGeom covers the Borel/disjoint/union assertions of (i); supersedes the BYPASS-audit-1 KEEP (finding SHELL)
 NOTE: -
 
 NODE: stepW:w7:layer
