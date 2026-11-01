@@ -25,6 +25,8 @@ helper `hstop`) every physical point is prograde and a barrier state with margin
 * `LiftData`: the source data (standing assumptions, the budget, the initial state, the orientation
   `0 < L(z₀)`); no drift or confinement conclusion.
 * `StoppedOn`: the strict stopped conditions, literally the antecedent of LP-CONF's `hstop`.
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

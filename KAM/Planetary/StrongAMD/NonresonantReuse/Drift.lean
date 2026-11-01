@@ -12,6 +12,7 @@ public import KAM.Planetary.StrongAMD.NonresonantReuse.Hyp
 /-!
 # The stopped drift (package LP-NRR, item 6; MAIN Lemma 13)
 
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 Package LP-NRR, MAIN Lemma 13 (`LP:MAIN L13 (429–464)`), amendment N6, track LP, non-frozen.
 
 `lp_stopped_drift` is the conclusion of Lemma 13: constants `μ₀, c, T₀` and the fixed widths
