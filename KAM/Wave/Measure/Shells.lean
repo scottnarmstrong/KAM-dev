@@ -17,9 +17,10 @@ still being built.
 
 `t_k = q^k t₀`, the shell `R_k = (0, t_k)² ∖ (0, t_{k+1})²` and the inner shell
 `U_{-a} R_k = {I ∈ R_k : dist_∞ (I, ℝ² ∖ R_k) > a}`, where `dist_∞ (I, ℝ² ∖ R_k)` is
-`Metric.infDist I (R_k)ᶜ` for the sup-norm metric of `Fin 2 → ℝ`. We prove (i) the shells are pairwise
-disjoint Borel sets covering `(0, t_k)²` with `volume R_l = (1 - q²) t_l²`, (ii) the boundary-layer
-estimate `volume (R_k ∖ U_{-a} R_k) ≤ 7 a t_k`, (iii) `R_k ⊆ {|I|_∞ ≥ t_{k+1}}` of diameter `≤ t_k`.
+`Metric.infDist I (R_k)ᶜ` for the sup-norm metric of `Fin 2 → ℝ`. We prove (i) the shells are
+pairwise disjoint Borel sets covering `(0, t_k)²` with `volume R_l = (1 - q²) t_l²`, (ii) the
+boundary-layer estimate `volume (R_k ∖ U_{-a} R_k) ≤ 7 a t_k`, (iii) `R_k ⊆ {|I|_∞ ≥ t_{k+1}}` of
+diameter `≤ t_k`.
 -/
 
 @[expose] public section
