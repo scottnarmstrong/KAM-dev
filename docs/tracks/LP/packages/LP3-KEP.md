@@ -5,7 +5,7 @@ capped wrappers, handoff; module docstrings carry the SPEC §4 sentence). Base: 
 `docs/tracks/LP/lp3/LP3-PLAN.md`; its LP3-KEP row, line 424). Started ahead of the plan review on root-b8's direction:
 these lemmas are needed by any partial-convexity route, whatever the review says.
 
-## Import ruling (root-b8, 2026-11-01; overrides the common prover brief's ban on frozen theorem anchors)
+## Import ruling (D58 in docs/DECISIONS.md, main 56e4a2c4; root-b8, 2026-11-01; overrides the common prover brief's ban on frozen theorem anchors)
 
 LP modules MAY import the **sealed** frozen anchor `KAM.Frozen.Nekhoroshev.Theorems.PartialConvexNekhoroshev` (AGENTS
 rule 9 quarantines only providers and DRAFT_SORRY anchors; precedent: track P's `Exponential/Stopped.lean:9`). Never
