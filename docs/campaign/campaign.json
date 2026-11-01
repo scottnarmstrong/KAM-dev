@@ -282,6 +282,6 @@
   }
  },
  "lp": {
-  "now": "All headline theorems proved in Lean: LP0 and LP1 (planar) on `main`, audited; LP2 (spatial) proved, its spatial audits on main except the last batch (W4E, the assembly and source restatements). The owner approved the freeze rulings (D59: |L| AMD, source carriers for every frozen definition, `max ν = 1` kept, τ free). Freeze proposal draft 7 (the exact final anchor and definition files) is being generated, then an independent statement audit, then the owner's approval of the exact text, the freeze, the source graph and the seals. Stretch LP3 (sharp threshold, NO Diophantine hypothesis, Nekhoroshev 1977 exponents): every supplier proved; the planar and spatial assemblies are proving."
+  "now": "Every headline theorem is proved and audited: LP0, LP1 (planar) and LP2 (spatial) with the sharp strong Laskar–Petit threshold and exponent 1/(2(τ+1)) (1/(2n+1) at τ = n − 1/2), on `main`; LP3 (the same threshold with NO Diophantine hypothesis, Nekhoroshev 1977 exponents), audited, landing. The owner approved the freeze rulings (D59). Freeze proposal draft 7 (the exact files: 5 anchors, 88 definitions, 34 characterizations, 127 files; all verified against the proved theorems) is in its independent statement audit; draft 8 (the LP3 anchors) is being written. Then the owner's approval of the exact text, the freeze, the source graph and the seals. A short paper on the results is being written."
  }
 }
