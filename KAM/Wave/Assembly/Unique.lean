@@ -192,6 +192,26 @@ theorem isAnalyticCoeffSolution_unique {m : ℝ} {hm : 0 < m} {Y Y' : ℝ → Wa
   rw [norm_eq_zero, hD₂def, sub_eq_zero] at h2
   exact Prod.ext h1 h2
 
+/-- Step `stepW:w8:in-orbit` of `bpW:w8:injective` (W6-free part): two real-analytic maps
+`K, K' : ℝ² → WaveSpace` satisfying the invariance `bpW:w2:inv` (frozen clause (4)) with
+frequencies `ν, ν'` that meet, `K θ = K' θ'`, carry the same orbit:
+`K (θ + t ν) = K' (θ' + t ν')` for all `t` (Lemma `bpW:w2:orbit` and `bpW:w8:unique`). -/
+theorem w8_orbit_eq_of_meet {m : ℝ} (hm : 0 < m) {K K' : (Fin 2 → ℝ) → WaveSpace}
+    {ν ν' : Fin 2 → ℝ} (hK : AnalyticOnNhd ℝ K Set.univ) (hK' : AnalyticOnNhd ℝ K' Set.univ)
+    (hinv : ∀ (θ : Fin 2 → ℝ) (j : ℕ+),
+      HasDerivAt (fun t : ℝ => coeff (K (θ + t • ν)).1 j) (lam m hm j * coeff (K θ).2 j) 0 ∧
+      HasDerivAt (fun t : ℝ => coeff (K (θ + t • ν)).2 j)
+        (-(lam m hm j * coeff (K θ).1 j) - cubicGrad m hm (K θ).1 j) 0)
+    (hinv' : ∀ (θ : Fin 2 → ℝ) (j : ℕ+),
+      HasDerivAt (fun t : ℝ => coeff (K' (θ + t • ν')).1 j) (lam m hm j * coeff (K' θ).2 j) 0 ∧
+      HasDerivAt (fun t : ℝ => coeff (K' (θ + t • ν')).2 j)
+        (-(lam m hm j * coeff (K' θ).1 j) - cubicGrad m hm (K' θ).1 j) 0)
+    {θ θ' : Fin 2 → ℝ} (hmeet : K θ = K' θ') (t : ℝ) :
+    K (θ + t • ν) = K' (θ' + t • ν') := by
+  have h := isAnalyticCoeffSolution_unique (isAnalyticCoeffSolution_orbit hm hK hinv θ)
+    (isAnalyticCoeffSolution_orbit hm hK' hinv' θ') (by simpa using hmeet)
+  exact congrFun h t
+
 end KAM.Wave
 
 end
