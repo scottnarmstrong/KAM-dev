@@ -224,16 +224,37 @@ those of T′:
     `jetFullOk_of` the invariance and energy one.
   The consumers' generator sets `rb.bA = ib.bJ =` the largest wanted load (2¹⁴⁰ on T′), so the side condition is an
   equality in practice. No change on `v2-packed-prod`.
-- **L2** (ledger lookups) stays an open point (below): unmeasured. The remedy, if needed, is a `JSlotsEnc` transfer
-  to a small wanted-slot table.
+- **L2** (ledger lookups): measured afterwards on the real ledgers (V2-PACKED-CONS-LOOKUP, next section).
+
+## V2-PACKED-CONS-LOOKUP: the jet-slot reads on kamx-packed's real ledgers (`…/V2-PACKED-CONS-GATE/LOOKUP/`)
+
+- **The ledgers.** kamx-packed's T′ ledgers are copied read-only and built here: cfgLow 31 modules, 553 CPU-s;
+  cfgFull 20, 780 CPU-s; ≤ 1.42 GB.
+  - They hold **1,129 and 706 entries** (block exports only; the "about 3,800" estimated before was the live-slot
+    count).
+  - The wanted slots come last, so every read walks the whole ledger (a left-nested `++` of 29 and 18 parts).
+- **Method.** A/B twins of the consumer probes that read jet slots: X_N(0,0), Y, invariance row 1, energy. They
+  read the whole ledger (R) or the gate's wanted-only one (W), and are measured in the same session. Every twin
+  decides `true`: the real ledger's wanted nodes are the gate's.
+- **Result.**
+  - The searches add ≈ 16 s of kernel time to torsion (2.5 % of 662 s), ≈ 0.2 s to invariance (1.5 %) and 0.36 s
+    to energy (its kernel time is 1 s): **2.5 % of the consumers' kernel time** in all.
+  - With the import of the whole ledgers' oleans (+1.74 s user per process), the CPU delta is ≈ 29 s, 3.2 % of the
+    consumers' CPU. It is 15–17 % for the two small consumers, invariance and energy, but that is the import, not
+    the reads.
+- **Decision.** Under the ~10 % threshold, so no wanted-slot table and the consumers are unchanged.
+- **Options for production:**
+  - kamx-packed's generator can list the wanted slots' entries first (no Lean change; producer and consumer read
+    the same `look`);
+  - a literal wanted-slot table with a transfer lemma would remove the ledger import from the 14 consumer processes
+    (≈ 24 s per torus, minus one checking process).
 
 ## Uncertainties and open points
 
 - **Production assembly unmeasured.** The gate decides each conjunct separately. Not built for T′: the instances
   of the `_of` lemmas, and `jetBase`'s Boolean from them (`jetBase_check_of`).
-- **Ledger lookups.** In the gate, `jetSlots` reads a ledger of only the wanted nodes (20 and 5 entries). In
-  production it reads kamx-packed's whole ledger (about 3,800 `cfgLow` nodes), one `List.lookup` per slot read.
-  Unmeasured; expected small against the stages (each lookup is key comparisons only).
+- **Ledger lookups: measured** (V2-PACKED-CONS-LOOKUP, above). The searches cost 2.5 % of the consumers' kernel
+  time; no wanted-slot table is needed.
 - **Invariance margin on T′:** 8.3·10⁻¹⁹ on coordinate 1, i.e. 0.1 % of err. It passes in the kernel, but a
   different box, precision or rounding could tip it; the energy and torsion margins are wide.
 - **The frames' tight-bound probe** (`FRTJ`) and the claim probe (`FRTJClaim`) are the same test at two bounds;
