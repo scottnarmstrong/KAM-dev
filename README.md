@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-01 00:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 56 % · track LP 10 %** · frozen statements proved: 26 / 31 · **389,564 lines of hand-written Lean** of an estimated ≈ 469,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-01 00:55 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 56 % · track LP 10 %** · frozen statements proved: 26 / 31 · **389,564 lines of hand-written Lean** of an estimated ≈ 470,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -286,16 +286,16 @@ Overall, everything together: 83.5 %
 |---|---|
 | On `main` now (hand-written) | **389,564** (301,422 excluding blank lines and comments) · **+23,633** since 2026-10-31 00:40 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 632,896 lines in 1,649 modules |
-| Written on agent branches, not yet landed (hand-written) | 40,082 |
+| Written on agent branches, not yet landed (hand-written) | 37,764 |
 | Generated certificate data on agent branches (numeric literals; not counted in the other rows) | 5,129 |
-| **Estimated total at completion** (hand-written) | **≈ 469,000** |
-| Estimated still to write | ≈ 39,000 (19,000–60,000 over the range of track W's plan) |
+| **Estimated total at completion** (hand-written) | **≈ 470,000** |
+| Estimated still to write | ≈ 43,000 (22,000–63,000 over the range of track W's plan) |
 
-**How the size is estimated.** Every figure except the two rows of generated data counts hand-written Lean only: the generated certificate data under `KAM/SpinOrbit/Data/` (the barrier tori of the Moon, emitted by `scripts/spin_orbit/` and checked by the kernel) are counted apart. The estimate scales the lines written so far for the other tracks (on `main` plus the agent branches: tracks K, I, N, P and R, the sharp a-posteriori theorems and certifiers, the shared infrastructure) by the done share of the Lean work items, weighted by difficulty (track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P: 100 % done); adds track SO from its design (its lines on `main` plus the line estimates of its packages not yet landed, 0 lines; the Lean packages of part 3 are on `main`, and what it still needs is generated data); and adds track W from its planning range of 81,000–109,000 lines (graph-scaled (2026-10-31): track W's dependency graph has 690 nodes; the finished tracks average 87 lines of Lean per graph node (K 72, I 83, N 59, P 109), so 690 × 87 ≈ 60k; the high end uses track P's 109 per node plus 20 % for infinite-dimensional infrastructure (sequence spaces, parameter-Lipschitz estimates), ≈ 90k; replaces the low-confidence 34k–70k of docs/TRACKS.md; raised to its measured rate, 95,000 lines for the whole graph at its lines on `main` per resolved node; midpoint used), of which 74,116 are written; and adds track LP from its planning range of 12,000–25,000 lines (the Lean roadmap of the audited proof; midpoint used), of which 0 are written. The side project LG00 is not counted: its certificate never enters this library. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv) (`lean_lines` counts every module, `generated_lines` the generated data among them).
+**How the size is estimated.** Every figure except the two rows of generated data counts hand-written Lean only: the generated certificate data under `KAM/SpinOrbit/Data/` (the barrier tori of the Moon, emitted by `scripts/spin_orbit/` and checked by the kernel) are counted apart. The estimate scales the lines written so far for the other tracks (on `main` plus the agent branches: tracks K, I, N, P and R, the sharp a-posteriori theorems and certifiers, the shared infrastructure) by the done share of the Lean work items, weighted by difficulty (track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P: 100 % done); adds track SO from its design (its lines on `main` plus the line estimates of its packages not yet landed, 0 lines; the Lean packages of part 3 are on `main`, and what it still needs is generated data); and adds track W from its planning range of 81,000–109,000 lines (graph-scaled (2026-10-31): track W's dependency graph has 690 nodes; the finished tracks average 87 lines of Lean per graph node (K 72, I 83, N 59, P 109), so 690 × 87 ≈ 60k; the high end uses track P's 109 per node plus 20 % for infinite-dimensional infrastructure (sequence spaces, parameter-Lipschitz estimates), ≈ 90k; replaces the low-confidence 34k–70k of docs/TRACKS.md; raised to its measured rate, 95,000 lines for the whole graph at its lines on `main` per resolved node; midpoint used), of which 70,881 are written; and adds track LP from its planning range of 12,000–25,000 lines (the Lean roadmap of the audited proof; midpoint used), of which 0 are written. The side project LG00 is not counted: its certificate never enters this library. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv) (`lean_lines` counts every module, `generated_lines` the generated data among them).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 00:40 UTC from `main` at `b50b650c` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 00:55 UTC from `main` at `59f7905d` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -501,16 +501,17 @@ account read from each agent's running process) and their branches. Rules for ag
 |---|---|---|---|---|---|---|---|
 | **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
-| **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
+| **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | 🔄 working | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA lock_mlane: dry-run schedule (LOCK_DRY=1) and missing-source report | `inp-lockdata` | 55 (vs `inp`) |
-| **lp** `inp-mprov-lp` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP progress: THR, MOM done; DICT launched | `inp-lp` | 3 (vs `inp`) |
-| **lp-bar1** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: Merge inp-lp-mom (LP-MOM) into inp-lp-bar1 for the combined THR+MOM audit | `inp-lp-bar1` | 7 (vs `inp`) |
-| **lp-dict** `inp-mprov-lp-dict` | prover (offload) | Claude Sonnet 5.5 | claude-12 | 🔄 proving | last commit: LP-DICT: Part A planar chart dictionary (MAIN L7) | `inp-lp-dict` | 3 (vs `inp`) |
-| **w3main** | prover (offload) | Claude Opus 5.5 | — | ❌ audit failed, parked | last commit: W3-MAIN: audit 1 (FAIL: F1 cubic constant 2C_*, F2 Yseries exports, F3 unrestricted carrie | `inp-w3main` | 2 (vs `inp`) |
-| **wpj** `inp-mprov-wpj` | prover (offload) | Claude Sonnet 5.5 | claude-11 | 🔄 proving | last commit: W5: explicit value of the Taylor polynomial R | `inp-wpj` | 86 (vs `inp`) |
-| **wpk** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: W3-MAIN: real-coordinate identities (X_K^R gradient form, Gbar closed form, H(Gamma^R x)); | `inp-wpk` | 87 (vs `inp`) |
-| **wpn** `inp-mprov-wpl` | prover (offload) | Claude Opus 5.5 | claude-11 | 🔄 proving | last commit: W6-PREP: applicable k=0 clause (conditional), Pi minus Xi Borel, regenerated KAM/Root/Wave | `inp-wpn` | 115 (vs `inp`) |
+| **lp** `inp-maud-lp` | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP: OD-10 resolved (owner: audits on codex-2) | `inp-lp` | 6 (vs `inp`) |
+| **lp-bar1** `inp-maud-lp-thr` | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP-BAR1: combined THR+MOM audit handoff | `inp-lp-bar1` | 8 (vs `inp`) |
+| **lp-dict** `inp-mprov-lp-dict` | prover (offload) | Claude Sonnet 5.5 | claude-12 | 🔄 proving | last commit: LP-DICT: Part B adapter (rescaling, field conversion, one-centre composition), handoff | `inp-lp-dict` | 4 (vs `inp`) |
+| **lp-geomod** `inp-mprov-lp-geomod` | prover (offload) | Claude Sonnet 5.5 | claude-11 | 🔄 proving | last commit: LP-GEO: uniform strong barrier (MAIN L5): deficit form, physical form, compactness | `inp-lp-geomod` | 10 (vs `inp`) |
+| **w3main** `inp-mprov-wpka` | prover (offload) | Claude Opus 5.5 | claude-11 | 🔄 proving | last commit: W3-MAIN: audit 1 (FAIL: F1 cubic constant 2C_*, F2 Yseries exports, F3 unrestricted carrie | `inp-w3main` | 2 (vs `inp`) |
+| **w7land** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Merge branch 'inp' into inp-w7land | `inp-w7land` | 30 (vs `inp`) |
+| **wpj** `inp-mprov-wpj` | prover (offload) | Claude Sonnet 5.5 | claude-11 | 🔄 proving | last commit: W5: time-Lipschitz bounds of the flow quantities | `inp-wpj` | 97 (vs `inp`) |
+| **wpk** `inp-mprov-wpk` | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: W3-MAIN: real-coordinate identities (X_K^R gradient form, Gbar closed form, H(Gamma^R x)); | `inp-wpk` | 87 (vs `inp`) |
 <!-- /AUTO:workers -->
 
 ### Recent changes on `main`
@@ -518,6 +519,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-01 00:55 | `59f7905d` | D57: audits run on codex-2 (owner) |
 | 2026-11-01 00:34 | `499ebd95` | HQ: track LP status (THR and MOM proved; combined audit next; DICT proving) |
 | 2026-11-01 00:29 | `af98d3c4` | Land inp into main |
 | 2026-11-01 00:26 | `046d643f` | HQ: track LP status (wave 1 proving; 15 packages planned) |
@@ -529,7 +531,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-10-31 23:51 | `ceec8de1` | LG00 status: torus in Γ′ certified (lg00_kamTorus proved, standard axioms); stages for exact-energy T′, T″ and confinement added |
 | 2026-10-31 23:44 | `6ad44ef7` | D55: lock data plan (c)+(b10), lock source up to ~200 MB (owner) |
 | 2026-10-31 23:21 | `2235c896` | OVERNIGHT: SO-LOCK full-chain cost projection (owner review) |
-| 2026-10-31 22:58 | `106a1521` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
