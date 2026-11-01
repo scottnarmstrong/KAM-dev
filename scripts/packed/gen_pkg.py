@@ -36,6 +36,12 @@ LG00 = "/home/scott/KAM-dev-worktrees/lg00-app/applications/lg00"
 PKG = os.path.join(CORE, ".lake", "lg00-packed")
 IMP = re.compile(r"^public import (\S+)", re.M)
 LINK_EXT = (".olean", ".olean.server", ".olean.private", ".ir")
+# Workarounds for defects in LG00's generated sources, applied to the COPIES only (reported to the orchestrator;
+# LG00's files are never written). `LG00.<T>.Final.Freq` opens `KAM.CertificateSharp.V2` but its import closure has
+# no V2 module, so the `open` fails ("unknown namespace") and every name after it with it.
+_FREQ = ("public import LG00.Confinement.Main\n",
+         "public import LG00.Confinement.Main\npublic import KAM.CertificateSharp.V2.RouteARefinedS\n")
+PATCHES = {"LG00.TP.Final.Freq": _FREQ, "LG00.TPP.Final.Freq": _FREQ}
 PACKED_LIB = """
 /-- The packed modules of V2-PACKED-GEN (`scripts/packed/gen_packed.py`): LG00's Lean options plus the profiler,
 so the run harness reads each module's kernel time (`type checking took`). -/
@@ -98,9 +104,16 @@ def reuse(pkg, lg00, mods):
         rel = os.path.join(*m.split("."))
         dst = src_path(pkg, m)
         os.makedirs(os.path.dirname(dst), exist_ok=True)
-        if not os.path.exists(dst) or open(dst, "rb").read() != open(src_path(lg00, m), "rb").read():
-            shutil.copyfile(src_path(lg00, m), dst)
+        text = open(src_path(lg00, m), encoding="utf-8").read()
+        if m in PATCHES:
+            old, new = PATCHES[m]
+            if old in text and new not in text:
+                text = text.replace(old, new, 1)
+        if not os.path.exists(dst) or open(dst, encoding="utf-8").read() != text:
+            open(dst, "w", encoding="utf-8").write(text)
             nsrc += 1
+        if m in PATCHES:
+            continue                      # a patched copy is rebuilt here: never reuse LG00's artifacts for it
         for sub in (os.path.join("lib", "lean"), "ir"):
             sdir = os.path.join(lg00, ".lake", "build", sub, os.path.dirname(rel))
             ddir = os.path.join(pkg, ".lake", "build", sub, os.path.dirname(rel))

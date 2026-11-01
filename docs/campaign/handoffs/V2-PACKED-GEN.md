@@ -238,4 +238,13 @@ TODO
 
 ## Suspected errata and deviations
 
-TODO
+- **Defect in LG00's generated `LG00.TP.Final.Freq` (and `LG00.TPP.Final.Freq`), on `lg00-app` (untracked, generated
+  03:37).** Line 23, `open KAM KAM.Certificate LG00 LG00.Confinement KAM.CertificateSharp.V2`: the module's import
+  closure (532 modules: `LG00.TP.Data.Cert`, `LG00.Model`, `LG00.Window`, `LG00.Confinement.Main`) contains no
+  `KAM.CertificateSharp.V2` module, so the `open` fails (`unknown namespace KAM.CertificateSharp.V2`) and with it
+  every later name (`FreqEncloses`, `IsDiophantine`, `lg00WindowTP`): 6 errors. The closure is byte-identical to
+  `lg00-app`'s (checked file by file), so **LG00's run18 will fail the same way at `TP.Final.Freq` and hence
+  `TP.Main`** (it has not built them yet). Fix, verified here (`✔ Built LG00.TP.Final.Freq`): add
+  `public import KAM.CertificateSharp.V2.RouteARefinedS` after `public import LG00.Confinement.Main` (or drop
+  `KAM.CertificateSharp.V2` from the `open`). `gen_pkg.py` applies this to its copies only (`PATCHES`).
+- **Deviations:** none in the core. The packed modules live in a scratch package, not on `lg00-app`.
