@@ -828,6 +828,49 @@ decides `= false`.
   4.1e-20).
 - The norm bounds agree to 6e-8 relative.
 
+### 12.13 The production chain: one theorem per chain (V2-PACKED-PROD; `docs/campaign/handoffs/V2-PACKED-PROD.md`)
+
+**Built** (`Packed/JetKeyed.lean`, `JetCheck.lean`; API and data format in `V2-PACKED-PROD-API.md`):
+- **One ledger, key-only blocks, an order certificate.** Every node is read from one `α`-free ledger by its key
+  (`JLed`, `JLedger.look`). A block is given by its keys (`KBlock`; `toT` reads its nodes), so the block order is a
+  statement about keys. `orderOk` names an earlier exporter for every import and is decided on keys; `JNode`
+  needs no decidable equality.
+- **The contract.** `jetCheck` and `jetPacked_sound` (§12.2): every wanted slot's node is a `PEnc` of the slot's
+  function on the box. `jetCheck_of` assembles the chain from separate block theorems. `slpVal_take` is the prefix
+  lemma.
+- **The shared data.**
+  - A copy of LG00's certificate without advice and witnesses. `CertifiedTorus` reads neither, so the copy states
+    the same proposition. The copy is a different constant, tied to LG00's certificate by source text (renamed
+    byte-identical modules plus a documented diff), not by a Lean theorem in this package. The definitional
+    bridge to LG00's own constants is kamx-pk-cons's `LG00B.<T>.Main` (V2-PACKED-CONS-BRIDGE).
+  - A ledger of every node once, the key-only blocks, one theorem per block, and one chain theorem per chain.
+
+**Measured on LG00's T′** (`lg00-app` `8210d92e` for the shared modules; T′'s data and generator state pinned by
+sha256 in the receipts; landed figures from LG00's run18):
+
+| chain | landed | packed, one theorem | ratio | largest charge |
+|---|---:|---:|---:|---:|
+| Low (77 blocks, 1,129 nodes) | 55,812.7 CPU-s | 1,467.2 CPU-s | 38.0× | 3.76 GB |
+| Full (175 blocks, 706 nodes) | 32,255.4 CPU-s | 2,647.8 CPU-s | 12.2× | 3.55 GB |
+
+- The shared certificate data costs 94.6 CPU-s; the jet bridge `lg00Ham.jet = lg00Jet` costs 39.2 CPU-s at
+  6.07 GB (above 4 GiB, by exception).
+- The ledger's literal elaboration (0.5–1.1 s a node) is now the largest cost after the kernel.
+- The Full radii (≤ 1.05e-21) are about 750 times below T′'s invariance margin (7.9e-19).
+- run18's T′ is complete. Its composition is 4,121 `Low`/`Full` modules and 88,068.1 CPU-s, and its torsion
+  (`LG00.TP.Torsion.*`) is 628 modules and 13,162.4 CPU-s (final ledger, last run per module). Both chains are
+  now proved by the packed route, so the landed composition is no longer needed for LG00.
+
+**T″ (V2-PACKED-PROD-TPP; `docs/campaign/handoffs/V2-PACKED-PROD-TPP.md`).** Owner decision of 1 Nov: run18 is
+stopped and T″ is proved only by the packed route. Its two chains were built with the same emitter and plans, and
+the jet bridge was reused:
+- `LG00P.TPP.jetLow_check`: 110 modules, 1,789.3 CPU-s;
+- `LG00P.TPP.jetFull_check`: 197 modules, 2,149.4 CPU-s;
+- the `_cert` versions likewise; every process under 4 GiB, three at a time.
+
+run18 has 1,177 of T″'s Full modules, at 26,940.1 CPU-s, and no Low row. A complete landed T″ Full stage is
+estimated at about 44,960 CPU-s, about 20.9× the packed chain.
+
 ## 13. Packed frames and the packed route-A-refined engine (branch `v2-packed-frames`; `docs/campaign/handoffs/V2-PACKED-FRAMES.md`)
 
 Route A refined tests `checkHamClaim && checkFrameMajorants && refinedCore`. The landed `checkFrameMajorants`

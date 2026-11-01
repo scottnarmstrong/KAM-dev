@@ -1,0 +1,49 @@
+⚠ [2840/2919] Replayed KAM.Certificate.Arith.PiHigh
+warning: KAM/Certificate/Arith/PiHigh.lean:218:8: This simp argument is unused:
+  Nat.succ_eq_add_one
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [div_eq_mul_inv]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [2959/3131] Replayed KAM.Certificate.Expr.Basic
+warning: KAM/Certificate/Expr/Basic.lean:93:5: Variable name `hS` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hS
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+✖ [3409/3409] Building LG00P.TP.Jet.Low.Chain (12s)
+trace: .> LEAN_PATH=/home/scott/KAM-dev-worktrees/v2-packed/.lake/packages/Cli/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/packages/batteries/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/packages/Qq/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/packages/aesop/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/packages/proofwidgets/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/packages/importGraph/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/packages/plausible/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/packages/mathlib/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/build/lib/lean:/home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/pkg/.lake/build/lib/lean /home/scott/.elan/toolchains/leanprover--lean4---v4.35.0/bin/lean /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/pkg/LG00P/TP/Jet/Low/Chain.lean -o /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/pkg/.lake/build/lib/lean/LG00P/TP/Jet/Low/Chain.olean -i /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/pkg/.lake/build/lib/lean/LG00P/TP/Jet/Low/Chain.ilean -c /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/pkg/.lake/build/ir/LG00P/TP/Jet/Low/Chain.c --setup /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/pkg/.lake/build/ir/LG00P/TP/Jet/Low/Chain.setup.json --json
+error: LG00P/TP/Jet/Low/Chain.lean:189:4: Application type mismatch: The argument
+  blkLow_76
+has type
+  JBlockT.ok 2 lg00Cert.weight lg00Cert.piEnc lg00Cert.cfgLow jbLow lg00Cert.emb lg00Jet.prog
+      (KBlock.toT jdLow.L.look kbLow_76) =
+    true
+but is expected to have type
+  JBlockT.ok 2 lg00Cert.weight lg00Cert.piEnc lg00Cert.cfgLow jbLow lg00Cert.emb lg00Jet.prog
+        (KBlock.toT jdLow.L.look kbLow_76) =
+      true ∧
+    ∀ x ∈ [],
+      JBlockT.ok 2 lg00Cert.weight lg00Cert.piEnc lg00Cert.cfgLow jbLow lg00Cert.emb lg00Jet.prog
+          (KBlock.toT jdLow.L.look x) =
+        true
+in the application
+  ⟨blkLow_75, blkLow_76⟩
+warning: LG00P/TP/Jet/Low/Chain.lean:112:46: This simp argument is unused:
+  List.forall_mem_nil
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [blocksLow, List.forall_mem_cons, and_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: LG00P/TP/Jet/Low/Chain.lean:112:67: This simp argument is unused:
+  and_true
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [blocksLow, List.forall_mem_cons, List.forall_mem_nil]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+Some required targets logged failures:
+- LG00P.TP.Jet.Low.Chain

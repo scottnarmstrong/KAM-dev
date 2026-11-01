@@ -62,7 +62,10 @@ public import KAM.CertificateSharp.Packed.GramBase
 public import KAM.CertificateSharp.Packed.GramTests
 public import KAM.CertificateSharp.Packed.JetChain
 public import KAM.CertificateSharp.Packed.JetChar
+public import KAM.CertificateSharp.Packed.JetCheck
 public import KAM.CertificateSharp.Packed.JetIngest
+public import KAM.CertificateSharp.Packed.JetKeyed
+public import KAM.CertificateSharp.Packed.JetKeyedTests
 public import KAM.CertificateSharp.Packed.JetLeaf
 public import KAM.CertificateSharp.Packed.JetNode
 public import KAM.CertificateSharp.Packed.JetSeg
