@@ -172,3 +172,14 @@ Taylor elements is `stepTaylorFam` (`stepTaylorOf` on `Π`, `zeroTaylor` off it)
 `T_{s-σ}` in the form of `stepSolve_equation`, `Mf ≤ σ/1024`. `N_+ = N + N̂` stays a sum of functions (identification with
 `ω+ω̂, Ω+Ω̂` is part of clause (iii), pending).
 Pending: weak conjugacy (iii), reality/periodicity of `P_+`, clauses (iii)–(v) of the step theorem, `bpW:w5:step` statement.
+
+## Session 4, frequency corrections (StepFreqBound) — DONE; state and plan for the remainder
+`stepOmegaHat R = Re[b]`, `stepOmegaTail R j = Re[Q]_{jj}`; `stepOmegaHat_bound` (`‖ω̂‖ ≤ 2πε`), `stepOmegaTail_bound`
+(`(j+2)^{p_+-p}|Ω̂_j| ≤ ε`), and `stepOmegaHat_sub`, `stepOmegaTail_sub` (linearity, for the ξ-Lipschitz parts via `homSub`).
+Feeding `stepFreqHyp`/`stepDivisors` (Divisors.lean) needs: `ε := 3ε₀` for `R_ξ` (`stepTaylor_fieldBound`), `3ε₁‖ξ-ζ‖`
+for `R_ξ - R_ζ` (`stepTaylor_subFieldBound`).
+Remaining, in order: (a) reality of `R = stepTaylorOf` from `P` real (define "real point" of `KamPhase`: `Θ,Y ∈ ℝ²`, `u,v` real;
+`isRealTaylor`), needed to identify `N + N̂` with `N_{ω+ω̂,Ω+Ω̂}` (entries real) and for the reality clauses; (b) weak conjugacy
+(iii) of new-ham (`D(N∘Φ)W = ϖ(X_N(Φw), DΦ W)`, pairing `p-1` with `p_+`); (c) periodicity of `P_+`, translation equivariance
+`holoFlow_translate`; (d) clause (v): `‖Φ-id‖ ≤ 2M_F`, `‖DΦ-I‖ ≤ 16M_F/σ` as λ-bounds, symplecticity, inverse;
+(e) the Lean statement and assembly of `bpW:w5:step` (non-modified case); modified case after `inp-wpq` merges `w4-modified`.
