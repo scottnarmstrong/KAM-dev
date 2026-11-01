@@ -216,4 +216,55 @@ theorem stepXplusB_time_bounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (h
     hd hw (t := t) ⟨by linarith [ht.1], ht.2⟩ hy₁ hy₂
   exact hpb'
 
+
+/-- `t ↦ y_t(w)` is Lipschitz (in the norm of `StepPhase r`). -/
+theorem stepYfam_time_lip (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 < σ) (hσ1 : σ ≤ 1)
+    (hσs : 5 * σ < s) (hη0 : 0 < η) (hη : η ≤ 1 / 8) {T : HomTaylor_gen a p pb s}
+    {FT : HomTaylor_gen a p pb (s - σ)} (he₁ : 0 ≤ e₁)
+    (hT : HomFieldBound_gen ha hp hpb r e₁ T)
+    (hTn : HomFieldBound_gen ha hp hpb r (2 * e₁) (homNhatTaylor_gen T))
+    (hF : HomFieldBound_gen ha hp hpb r Mf FT) (hM0 : 0 < Mf) (hMσ : Mf ≤ σ / 1024)
+    {w : StepPhase r} (hw : w ∈ stepDomain r (s - 5 * σ) (η * r)) :
+    ∃ L : ℝ, 0 ≤ L ∧ ∀ t ∈ Icc (0 : ℝ) 1, ∀ t' ∈ Icc (0 : ℝ) 1,
+      ‖yfam (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb FT r) (stepZgfam ha hp hpb T FT) t w -
+        yfam (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb FT r) (stepZgfam ha hp hpb T FT) t' w‖
+          ≤ L * |t - t'| := by
+  have hr : 0 < r := Fact.out
+  have hMδ : Mf < σ / 4 := by linarith
+  have ctx := StepCtx.mk' ha hp hpb hσ hσ1 (by linarith : 2 * σ < s) hF hM0 hMδ
+  have hU'sub : stepDomain r (s - 5 * σ) (η * r) ⊆ stepDomain r (s - 3 * σ) (r / 4) :=
+    stepDomain_mono' (by linarith) (by positivity) (by nlinarith)
+  have hU'U : stepDomain r (s - 5 * σ) (η * r) ⊆ stepDomain r (s - 2 * σ) (r / 2) :=
+    hU'sub.trans (stepDomain_mono' (by linarith) (by positivity) (by linarith))
+  have hι : ∀ g, ‖stepEmbedCLM a p pb hpb r g‖ ≤ ‖g‖ := norm_stepEmbedCLM_apply_le a p pb hpb r
+  have hL : 0 ≤ Mf / (σ / 4) := by positivity
+  have hball : ∀ z ∈ ball w (σ / 16), ball z (σ / 16) ⊆ stepDomain r (s - 2 * σ) (r / 2) := by
+    intro z hz y hy
+    have hm := stepDomain_U_margin hσ hσ1 (by linarith : 3 * σ < s) (hU'sub hw)
+    refine hm ?_
+    rw [mem_ball] at hz hy ⊢
+    have := dist_triangle y z w
+    linarith
+  have hN : ∀ t ∈ Icc (0 : ℝ) 1, ‖transNop (stepEmbedCLM a p pb hpb r)
+      (stepFieldS ha hp hpb FT r) t w‖ ≤ 1 / 128 := fun t ht =>
+    stepN_le' ha hp hpb hσ hσ1 (by linarith : 3 * σ < s) hF hM0 hMσ (hU'sub hw)
+      ⟨by linarith [ht.1], ht.2⟩
+  have hY0 : 0 ≤ 8 * e₁ * Mf / σ := by positivity
+  have hdiff : ∀ t ∈ Icc (0 : ℝ) 1, DifferentiableOn ℂ (stepZgfam ha hp hpb T FT t)
+      (stepDomain r (s - 2 * σ) (r / 2)) := fun t ht =>
+    stepZgfam_differentiableOn hσ hσ1 (by linarith : 2 * σ < s) he₁ hM0.le hT hTn hF t
+  have hnb : ∀ t ∈ Icc (0 : ℝ) 1, ∀ z ∈ stepDomain r (s - 2 * σ) (r / 2),
+      ‖stepZgfam ha hp hpb T FT t z‖ ≤ 8 * e₁ * Mf / σ := fun t ht z hz =>
+    norm_stepZgfam_le hσ hσ1 (by linarith : 2 * σ < s) he₁ hM0.le hT hTn hF ht hz
+  have hnt : ∀ t ∈ Icc (0 : ℝ) 1, ∀ t' ∈ Icc (0 : ℝ) 1, ∀ z ∈ stepDomain r (s - 2 * σ) (r / 2),
+      ‖stepZgfam ha hp hpb T FT t z - stepZgfam ha hp hpb T FT t' z‖ ≤ 12 * e₁ * Mf / σ * |t - t'| :=
+    fun t ht t' ht' z hz => norm_stepZgfam_sub_le hσ hσ1 (by linarith : 2 * σ < s) he₁ hM0.le
+      hT hTn hF hz
+  refine ⟨((8 * e₁ * Mf / σ) / (σ / 16) * Mf + 12 * e₁ * Mf / σ +
+    Mf / (σ / 4) * Real.exp (Mf / (σ / 4)) * ((8 * e₁ * Mf / σ) / (1 - 1 / 128))) / (1 - 1 / 128),
+    by positivity, fun t ht t' ht' => ?_⟩
+  exact norm_yfam_time_sub_le ctx.flow ctx.holo ctx.bound hι hL (stepDomain_isOpen _ _ _)
+    (by positivity : 0 < σ / 16) (by linarith) (by norm_num) hY0 (by positivity) hdiff hnb hnt
+    (hU'U hw) (hball) hN ht ht'
+
 end KAM.Wave
