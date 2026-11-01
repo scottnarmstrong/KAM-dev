@@ -144,7 +144,7 @@ structure IsNekCover (ν : Fin n → ℝ) (L : Set (Fin n → ℝ)) (δ rg R : �
   covers : ∀ I0 ∈ strongLevelSet ν L δ, ∃ c ∈ s, ‖I0 - c‖ < nekEta rg R / 2
 
 /-- (F4) A finite sharp cover exists (compactness of `𝓛_δ`). -/
-theorem exists_isNekCover (hν : ∀ i, 0 < ν i) (hn : 2 ≤ n) {L : Set (Fin n → ℝ)}
+theorem exists_isNekCover {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (hn : 2 ≤ n) {L : Set (Fin n → ℝ)}
     (hL : IsCompact L) (hLch : L ⊆ chamber ν) {δ rg R : ℝ} (hrg : 0 < rg) (hR : 0 < R) :
     ∃ s : Finset (Fin n → ℝ), IsNekCover ν L δ rg R s := by
   have hc := isCompact_strongLevelSet hν hn hL hLch δ
