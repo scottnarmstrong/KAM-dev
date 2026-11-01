@@ -670,6 +670,11 @@ public import KAM.Planetary.Spatial.Field
 public import KAM.Planetary.Spatial.Geometry
 public import KAM.Planetary.Spatial.Model
 public import KAM.Planetary.Spatial.Momentum
+public import KAM.Planetary.Spatial.Nek.Cover
+public import KAM.Planetary.Spatial.Nek.Drift.Kepler
+public import KAM.Planetary.Spatial.Nek.Drift.Slow
+public import KAM.Planetary.Spatial.Nek.Drift
+public import KAM.Planetary.Spatial.Nek.Perturbation
 public import KAM.Planetary.Spatial.Newton
 public import KAM.Planetary.Spatial.NonresonantAdapter
 public import KAM.Planetary.Spatial.NonresonantAdapterRescale
