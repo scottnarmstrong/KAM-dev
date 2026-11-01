@@ -24,16 +24,18 @@ is written in this phase; every Lean name below is proposed. The numbers come fr
   point), against `Λ_c ≤ 0.0625`. A two-line monotone lower bound on the pair threshold certifies this, checked
   in exact rationals (`validation/threshold.json`); no contact problem has to be solved. The margin is
   `δ = 0.0483` (normalized), `C/B = 0.162`.
-- **Gate (measured, sampled).** Whole AMD ball, `e_c` up to 0.61. The drift rate falls about 10³ per order:
-  `≈ 5·10⁻⁴, 4·10⁻⁷, 4·10⁻¹⁰, 3·10⁻¹³, 5·10⁻¹⁵` at orders 0–4 (worst sampled point). With margin 2 the rungs
-  are: 10³ yr at order 2, 10⁶ yr at order 3, 10⁹ yr at order 4 (that last rung only on the sampled sup; see the
-  report for the rigorous-design factor).
+- **Gate (measured, sampled).** Whole AMD ball, `e_c` up to 0.612. The worst sampled drift rate falls by
+  ≈ 10³ per order:
+  - orders 0–3: `5.4·10⁻⁴, 4.2·10⁻⁷, 3.7·10⁻¹⁰, 3.3·10⁻¹³`;
+  - order 4: ≤ 7·10⁻¹⁵, a float64-limited upper estimate; extrapolated ≈ 3·10⁻¹⁶.
+  With margin 2 the rungs close at order 2 (10³ yr), order 3 (10⁶ yr) and order 4 (10⁹ yr). The 10⁹ yr rung
+  also closes with a ×5 rigorous-design factor on the extrapolated order-4 rate, or with `d = 1.5·10⁻³`.
 - **Cost (estimated).** The kernel cost is set by the order and by a cover of the slow region by 50–200 cells.
   With the packed engine:
   - 10³ yr (order 2): about 10²–3·10² CPU-h;
   - 10⁶ yr (order 3): about 10³ CPU-h;
   - 10⁹ yr (order 4): 10³–10⁴ CPU-h before pruning.
-  Without the packed layer only order 1 (about 10² yr) is within reach. Section 9 gives the derivation.
+  Without the packed layer only order 1 (about 10² yr) is within reach. Section 7 gives the derivation.
 
 ## 1. Model, data and what is claimed
 
@@ -402,7 +404,8 @@ the Moon track are untouched.
 ## 11. Risks
 
 - **Sampled, not certified.** The gate's sup is over 48 centres × full fast-angle grids. The rigorous-design
-  factor (report §5) is estimated at 3–10×. The 10⁹ yr rung at order 4 has margin ≈ 1 after it.
+  factor (report §5.4) is estimated at 1.5–5×, of which 1.7× is measured. The 10⁹ yr rung at order 4 then has
+  margin 1.8–3.2, depending on the true order-4 rate, which float64 does not resolve.
 - **Region edge.** The rates grow with `e_c`, about 5× from `e_c = 0` to 0.61 at order 2. A larger `Cbar`, or
   the 1σ eccentricities (`C = 0.020`, `e_c` up to 0.76), crosses the Laplace limit and lengthens the tails
   quickly. Owner question 1.

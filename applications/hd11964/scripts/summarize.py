@@ -81,6 +81,25 @@ def main():
             print(f'| {k} | {v["eta"][0]:.2e} | {v["eta"][1]:.2e} | {v["osc"][0]:.2e} | {v["osc"][1]:.2e} | '
                   f'{v["Tmax_years"]:.2e} | ' + " | ".join(cells) + " |")
     print("\nworst samples:", {k: v["worst"] for k, v in res["sampled"].items()})
+    by_share(rows, head["N"])
+
+
+def by_share(rows, N):
+    """Worst rate over perihelion angles on the AMD sphere, by share s = Gamma_c / Cmax (centre actions)."""
+    groups = {}
+    for r in rows:
+        t = r["tag"]
+        if t.startswith("sphere") or t.startswith("fine"):
+            sh = float(t.split("s=")[1].split()[0])
+            groups.setdefault((sh, t.startswith("fine")), []).append(r)
+    print("\n| s | e_c | e_b | grid | " + " | ".join(f"order {k}" for k in range(N + 1)) + " | range F_b - Lam_b |")
+    print("|---:|---:|---:|---|" + "---:|" * (N + 1) + "---:|")
+    for (sh, fine), rs in sorted(groups.items()):
+        e = rs[0]["e"]
+        g = f'{rs[0]["N1"]}x{rs[0]["N2"]}' + (" (fine)" if fine else "")
+        cells = [f'{max(max(r["orders"][str(k)]["rate"]) for r in rs):.1e}' for k in range(N + 1)]
+        osc = max(r["orders"][str(N)]["Gmax"][1] - r["orders"][str(N)]["Gmin"][1] for r in rs)
+        print(f"| {sh} | {e[0]:.3f} | {e[1]:.3f} | {g} | " + " | ".join(cells) + f" | {osc:.1e} |")
 
 
 if __name__ == "__main__":

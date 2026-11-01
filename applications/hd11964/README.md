@@ -78,7 +78,7 @@ CAP="systemd-run --user --scope -p MemoryMax=8G -p MemorySwapMax=0 nice -n 10"
 python3 -I applications/hd11964/scripts/hd11964_model.py              # nominal state, geometry (seconds)
 OMP_NUM_THREADS=1 python3 -I applications/hd11964/scripts/checks.py   # self-checks (about 5 min)
 $CAP python3 -I applications/hd11964/scripts/gate.py --N 4 --procs 2 \
-    --out applications/hd11964/validation/gate-N4.jsonl               # the sweep (about 2.5 h, <= 2 GB per process)
+    --out applications/hd11964/validation/gate-N4.jsonl               # the sweep (2.6 CPU-h, <= 3 GB per process)
 $CAP python3 -I applications/hd11964/scripts/rigor.py 3 0.0,0.5,0.85,1.0
 python3 -I applications/hd11964/scripts/summarize.py 5 1.45            # the ladder
 ```

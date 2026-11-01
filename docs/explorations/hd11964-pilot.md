@@ -25,16 +25,19 @@ throughout.
 - **Drift rates** (*measured*). A fast-angle Lie normal form with the slow variables (not frozen) brings
   `sup |{F_i, H}|` over the whole AMD ball (`e_c` up to 0.61) from 5·10⁻⁴ down by about 10³ per order. The
   rates are measured against the exact gradient of the original Newtonian Hamiltonian.
-- **Ladder** (margin ≥ 2; `d = 10⁻³`; region `Γ_c + Γ_b ≤ 0.012`):
+- **Ladder** (margin ≥ 2; `d = 10⁻³`; region `Γ_c + Γ_b ≤ 0.012`; §5.2):
 
-  | horizon | order needed (sampled sup) | order needed (×5 rigorous-design factor) |
+  | horizon | order needed, sampled sup (margin) | with the ×5 rigorous-design factor (margin) |
   |---|---:|---:|
-  | 10³ yr | 2 | 2 |
-  | 10⁶ yr | 3 | 3 |
-  | 10⁹ yr | 4 (margin ≈ 4.5) | 4 (margin ≈ 2.7) |
+  | 10³ yr | 2 (4.7) | 2 (3.3) |
+  | 10⁶ yr | 3 (4.7) | 3 (3.2) |
+  | 10⁹ yr | 4 (3.8) | 4 (≈ 3.2 on the extrapolated order-4 rate; 1.8 on the float64 floor, closed by `d = 1.5·10⁻³`) |
 
-  The largest `T` that closes at margin 2 is ≈ 2·10¹⁰ yr at order 4 on the sampled sup, and ≈ 3·10⁹ yr with
-  the rigorous-design factor.
+  The largest `T` that closes at margin 2:
+  - order 2: 1.9·10⁵ yr;
+  - order 3: 2.1·10⁸ yr;
+  - order 4: ≥ 5.9·10⁹ yr on the sampled sup. Order 4 is float64-limited (§5.3); its measured values are upper
+    estimates.
 - **What limits it.**
   1. **The order**, i.e. the kernel cost. Each order gains ≈ 10³ in `T` and costs ≈ 7× more products per cell.
   2. **The oscillation of `Λ_b` itself** (`F_b − Λ_b` ranges over 2.1·10⁻⁴). LP's Kepler split leaves the
@@ -136,11 +139,57 @@ is grid sampling).
 
 ### 5.1 Drift rate by order and by inner eccentricity (*measured*, worst over perihelion angles, `Λ = Λ̂`)
 
-TABLE_BY_SHARE
+Centre actions `Λ = Λ̂`; on the AMD sphere `Γ_c + Γ_b = 0.012`, with `s = Γ_c/0.012`. Each entry is the worst over
+the two planets and the six perihelion angles.
+
+| s | e_c | e_b | grid | order 0 | order 1 | order 2 | order 3 | order 4 (upper estimate, §5.3) | range of F_b − Λ_b |
+|---:|---:|---:|---|---:|---:|---:|---:|---:|---:|
+| 0 | 0.000 | 0.116 | 64×80 | 1.0e-04 | 5.6e-08 | 3.8e-11 | 1.6e-14 | 9.9e-17 | 2.1e-04 |
+| 0.15 | 0.246 | 0.107 | 128×80 | 1.4e-04 | 6.5e-08 | 4.5e-11 | 2.6e-14 | 3.7e-16 | 2.0e-04 |
+| 0.3 | 0.346 | 0.097 | 160×64 | 1.9e-04 | 9.3e-08 | 5.9e-11 | 3.7e-14 | 6.6e-16 | 1.8e-04 |
+| 0.5 | 0.441 | 0.082 | 224×64 | 2.6e-04 | 1.5e-07 | 1.1e-10 | 7.5e-14 | 1.9e-15 | 1.6e-04 |
+| 0.7 | 0.517 | 0.063 | 288×64 | 3.5e-04 | 2.3e-07 | 1.8e-10 | 1.4e-13 | 1.5e-15 | 1.3e-04 |
+| 0.85 | 0.565 | 0.045 | 352×64 | 4.3e-04 | 3.1e-07 | 2.6e-10 | 2.2e-13 | 2.2e-15 | 1.0e-04 |
+| 0.85, fine | 0.565 | 0.045 | 528×96 | 4.3e-04 | 3.1e-07 | 2.5e-10 | 2.1e-13 | 7.0e-15 | 9.4e-05 |
+| 1 | 0.607 | 0.000 | 432×64 | 5.1e-04 | 4.0e-07 | 3.5e-10 | 3.1e-13 | 6.7e-16 | 2.7e-05 |
+| 1, fine | 0.607 | 0.000 | 640×96 | 5.1e-04 | 4.0e-07 | 3.5e-10 | 3.1e-13 | 1.9e-15 | 2.7e-05 |
+
+- **The corners of the action box** change the rates by ≤ 5 %. The worst sampled point at orders 0–3 is the
+  low-`Λ_c` corner at `s = 1` (`e_c = 0.612`): `5.4·10⁻⁴, 4.2·10⁻⁷, 3.7·10⁻¹⁰, 3.25·10⁻¹³`.
+- **The interior** (half the AMD, or none) is lower everywhere. At circular orbits the rates are
+  `7.3·10⁻⁵, 2.9·10⁻⁸, 1.8·10⁻¹¹, 4.2·10⁻¹⁵`.
+- **Per order**, the gain is a factor 1,100–2,400, close to `1/(2μ) = 956` at high `e_c` and larger at low
+  `e_c`.
+- **The range of `F_b − Λ_b`** is the reduced-mass oscillation of LP's split. It grows with `e_b` and is
+  largest at `s = 0` (`2.1·10⁻⁴`). The range of `F_c − Λ_c` is ≤ 3.5·10⁻⁵.
 
 ### 5.2 The ladder
 
-TABLE_LADDER
+Sampled sup over all 48 centres (*measured*). Region `R(10⁻³)`; margin `= d / max_i(η_i T + osc_i)`.
+
+| order | η_c | η_b | osc_c | osc_b | largest T at margin 2 | 10³ yr | 10⁶ yr | 10⁹ yr |
+|---:|---:|---:|---:|---:|---:|---|---|---|
+| 0 | 5.35e-04 | 1.55e-04 | 0 | 0 | 0.14 yr | no | no | no |
+| 1 | 4.20e-07 | 6.66e-08 | 3.45e-05 | 2.10e-04 | 1.6·10² yr | no (0.35) | no | no |
+| 2 | 3.70e-10 | 7.41e-11 | 3.45e-05 | 2.10e-04 | 1.9·10⁵ yr | **yes (4.7)** | no (0.39) | no |
+| 3 | 3.25e-13 | 9.80e-14 | 3.45e-05 | 2.10e-04 | 2.1·10⁸ yr | yes (4.8) | **yes (4.7)** | no (0.45) |
+| 4 | ≤ 4.8e-15 | ≤ 7.3e-15 | 3.45e-05 | 2.10e-04 | ≥ 5.9·10⁹ yr | yes (4.8) | yes (4.8) | **yes (3.8)** |
+
+The same with the rigorous-design factors of §5.4 (η × 5, osc × 1.45; *estimated*):
+
+| order | largest T at margin 2 | 10³ yr | 10⁶ yr | 10⁹ yr |
+|---:|---:|---|---|---|
+| 1 | 32 yr | no | no | no |
+| 2 | 3.6·10⁴ yr | **yes (3.3)** | no | no |
+| 3 | 4.1·10⁷ yr | yes (3.3) | **yes (3.2)** | no |
+| 4, floor values | 7.9·10⁸ yr | yes | yes | no (1.8) |
+| 4, extrapolated true rate | ≈ 2·10¹⁰ yr | yes | yes | **yes (≈ 3.2)** |
+
+**Order 4, read with §5.3.** Its sampled values are float64- and truncation-limited upper estimates, not
+order-5 remainders. Extrapolating the measured per-order gain gives true order-4 rates near
+`η_3 (η_3/η_2) ≈ 2.9·10⁻¹⁶` (c) and `1.3·10⁻¹⁶` (b). With them, 10⁹ yr closes with the ×5 factor at margin ≈ 3.2.
+On the floor values alone it needs `d = 1.5·10⁻³`, which is still `≤ r/2`. That gives margin ≈ 2.7 on a region
+with `Cmax = 0.013` and `e_c ≤ 0.635`, below the Laplace limit; the rates there are estimated ≤ 1.3× higher.
 
 - `η_i` is the sampled sup of `|{F_i, H}|` over all 48 centres.
 - `osc_i` is the range of `F_i − Λ_i` over all centres.
@@ -151,7 +200,27 @@ TABLE_LADDER
 
 ### 5.3 Convergence and precision
 
-CONVERGENCE
+- **Fourier cutoff** (`validation/kscan-N3-s1.0.json`, `e_c = 0.61`). Solving only `|k_c| ≤ K`, the rate
+  saturates at `K ≈ 40` (order 1), `≈ 73` (order 2) and `≈ 90` (order 3). The sweep's grids (`K_c` = 144 there)
+  are past saturation for orders ≤ 3.
+- **Grid refinement** (fine centres, ×1.5 cutoffs). Orders 0–3 agree to ≤ 4 % at `s = 0.85` and to ≤ 0.3 %
+  at `s = 1`.
+- **Order 4 is not resolved by float64.** Three tests show it.
+  1. At `e_c = 0.44`, `e_b = 0` (`validation/conv-N4-ec044.json`): raising the inner cutoff from 74 to 106 drops
+     b's order-4 rate from 1.8·10⁻¹⁵ to 3.8·10⁻¹⁷. That is truncation at the coarse grid. c stays at
+     2–3·10⁻¹⁶.
+  2. At the fine centres (cutoffs 176–213) order 4 **rises** (2.2→7.0·10⁻¹⁵ at `s = 0.85`, 0.7→1.9·10⁻¹⁵ at
+     `s = 1`), while order 3 agrees to 3 digits. Rounding in the highest modes, amplified by four nested
+     spectral derivatives (about `(K/ω)⁴`), sets a floor of 10⁻¹⁵–10⁻¹⁴.
+  3. **Mass scaling** (`validation/hiprec-N4-s0.85-…-nolong.json`). With `μ/2` the order-`N` residual must scale
+     by `2^{N+1}`. Measured: 2.0, 4.0, 8.0, 15.8–16.0 for orders 0–3, i.e. genuine. Order 4 gives 2.0–2.9
+     instead of 32: dominated by `∝ μ` terms, that is the floor and the unsolved tail.
+
+  Hence orders 0–3 are reliable to a few per cent, and order 4 is an upper estimate. A certificate does not
+  inherit this: its models carry ≥ 128-bit coefficients, and the tail term is bounded separately (design §6.2).
+- **80-bit long double** (`validation/hiprec-N4-s0.0-f0.0-48x48.json`). This is the same computation with
+  explicit long-double DFTs at circular orbits, where the true remainder is tiny and resolved on 48 × 48.
+  HIPREC_RESULT
 
 ### 5.4 Rigorous-design estimate
 
@@ -233,4 +302,4 @@ Design §7 answers the orchestrator's addendum. In short:
 ## 10. Reproduce
 
 See [`applications/hd11964/README.md`](../../applications/hd11964/README.md#how-to-regenerate). numpy and mpmath
-only. Peak charge ≤ 2 GB per gate process (measured at 432 × 64, order 4).
+only. Peak RSS per gate process: 1.7 GB at 432 × 64 and about 3 GB at the fine 640 × 96 grids (order 4).
