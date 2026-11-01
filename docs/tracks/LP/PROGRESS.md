@@ -41,3 +41,4 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 - 2026-11-01 00:19 UTC: quota (root-b8 00:20): claude-6 12 %, claude-12 41 %, claude-11 70 %. Next LP provers on claude-12 / claude-11; LP-THR restarts from its last commit/handoff on claude-11 or claude-12 at once if claude-6 hits its limit.
 - 2026-11-01 00:34 UTC: LP-THR and LP-MOM done; docs landed on main af98d3c4 (inp e77a963c). LP-DICT launched on claude-12 in the reused mom worktree. THR+MOM to be audited together on codex-1 (last quota; kam-1b agreed).
 - 2026-11-01 00:45 UTC: combined audit LP-BAR1 (THR+MOM, branch inp-lp-bar1 @96fafe66) launching on codex-1; LP-GEOMOD (L5+L6) launched on claude-11 in a third worktree (the thr worktree is pinned by the audit).
+- 2026-11-01 00:55 UTC: OD-10 resolved by the owner: audits move to codex-2 (LP-BAR1 finishes on codex-1).
