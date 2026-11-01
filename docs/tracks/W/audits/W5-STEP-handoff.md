@@ -164,3 +164,11 @@ this session does NOT touch it. The step theorem is proved first for the non-mod
 `stepDplus ε₀ ε₁ M₀ M₁ η σ · d` for `ν_{ηr}(X_+)`), with `stepSplus + λ·stepDplus ≤ 896ηε + 168εM_F/(ση²)`.
 `ZeroTaylor.lean`: `zeroTaylor` (the element `0 ∈ 𝒯_s`, value of parameter families outside `Π`).
 Next: package with the F-family data (`FamBound`), concretize new-ham (i), (iii), then clauses (iii)-(v) of the step theorem.
+
+## Session 4, `stepPlus_famBound` (StepPlusFam) and new-ham (i) concrete (NewHamConcrete) — DONE
+`stepPlus_famBound`: `FamBound` of `X_+` on `D(s-5σ,ηr)` at scale `ηr` with constant `896ηε + 168εM_F/(ση²)`; the family of
+Taylor elements is `stepTaylorFam` (`stepTaylorOf` on `Π`, `zeroTaylor` off it). `stepNewHam_concrete`: for `w ∈ D(s-5σ,ηr)`,
+`N(Φw)+P(Φw) = N w + N̂ w + â₀ + P_+(w)` with `P_+ = stepPplusS`-integrand form; hypotheses: the homological equation on the strip
+`T_{s-σ}` in the form of `stepSolve_equation`, `Mf ≤ σ/1024`. `N_+ = N + N̂` stays a sum of functions (identification with
+`ω+ω̂, Ω+Ω̂` is part of clause (iii), pending).
+Pending: weak conjugacy (iii), reality/periodicity of `P_+`, clauses (iii)–(v) of the step theorem, `bpW:w5:step` statement.
