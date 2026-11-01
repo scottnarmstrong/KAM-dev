@@ -3088,3 +3088,32 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - No OOM. Load about 19. Memory: 16 GB available. Disks: / 17 GB free, HC 39 GB free (90 %).
   - Quotas: claude-2 100 %, claude-5 97 %, claude-11 40 %, claude-3 21 %, claude-12 21 %, claude-4 7 % (root-b8).
     codex-1 4 %, codex-2 on credits.
+- **09:26. MILESTONE (track LP): LP3 proved and audited.** LP-W5C-1 (codex-2, fe922018): LP3-PS, LP3-SP-SAFE and
+  LP3-SRC all PASS, combined PASS WITH NOTES.
+  - The auditor compared the 8 LP3 types with LP1/LP2. The only differences: the Diophantine premise removed, the time
+    exponent 2/(6n²−3n+14), and drift μ^(3/(6n²−3n+14)). The 14 new theorems have standard axioms.
+  - W5B is on main (4916704e). The W5C landing is requested, and it puts all of LP3 on main.
+  - Draft 8 (the LP3 anchors) started: LP-FREEZE8, Opus on claude-11, two anchors in source-carrier form. The draft-7
+    statement audit (inp-maud-lp-fz7) is running.
+- **09:27. MILESTONE (track W): the frozen KAM.Wave.nlw2 is PROVED, not yet sealed.** W8-FINAL (inp-w8f@dc3a9d5c)
+  proves it as KAM.Wave.nlw2_proof (Assembly/Nlw2Proof.lean, frozen definitions only).
+  - The provider KAM.Provider.Wave.nlw2 is staged (inp-wprov@16141d21).
+  - kam-1b's check: Expr-equal types; the seal body type-checks; standard axioms for all three; lint and the
+    frozen-anchor guard are OK.
+  - root-b8 spot check of the branch diff against main: no sorry, admit, axiom, opaque, unsafe or heartbeat or
+    recursion overrides; largest new W file 824 lines.
+  - **FOR OWNER:** the seal edit (.drafts/W/SEAL-NLW2-STAGED.md). Gates first: W6 round 2, W8, the W8-FINAL delta,
+    W5-AA after its F1 fix, then a dedicated seal audit. W4-LIECONT is done and in audit.
+- **09:36. D61: the owner approved the W-NLW2 seal**, to be executed when its gates pass (audits W6 r2, W8, the
+  W8-FINAL delta, W5-AA after F1; re-checks on the final merge; a dedicated seal audit). kam-1b is driving the gates in
+  parallel. LP: the owner said "get everything sealed and audited", and kam-lp is pre-staging providers, the runbook and
+  graph preparation, so the freeze and seals follow the exact-text approval within the hour.
+- **09:36. LP draft-7 statement audit (codex-2, 809aa0dd): RETURN FOR REVISION.**
+  - The five anchor types pass against MAIN/AMENDMENTS, the 34 characterizations are genuine, and the 127 hashes
+    match.
+  - F1 BLOCKING: the total spatialBarycentricPositions/Velocities (division by zero at zero total mass) are used as
+    physical reconstruction in LP2/LP2-H. Fix: source versions taking (hν), (hμ : 0 < μ), definitionally equal; the
+    anchors bind ∀ hμ. No new premise.
+  - F2: wording of four role paragraphs. N2: one sentence.
+  - LP-FREEZE7R (the second LP slot, on claude-2) applies the fixes and re-verifies; a delta re-audit follows. Draft 8
+    adopts the F1 convention.
