@@ -15,10 +15,10 @@ import Mathlib.Tactic.Positivity
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
-(ii) `P_+` is a smoothing Hamiltonian on `D_+` (`StepHyp.Pplus_smoothing`), periodic
-(`StepHyp.Pplus_periodic`), with the `λ`-bound `C₂(ε²/(α σ^t η²) + η ε)` for `X_{P_+}`
-(`StepHyp.Xplus_fam`). (iii) The frequency corrections (`StepHyp.freq_*`); (iv) the divisors
-(`StepHyp.divisors`).
+(ii) `P_+` is a smoothing Hamiltonian on `D_+` (`StepCore.Pplus_smoothing`), periodic
+(`StepCore.Pplus_periodic`), with the `λ`-bound `C₂(ε²/(α σ^t η²) + η ε)` for `X_{P_+}`
+(`StepCore.Xplus_fam`). (iii) The frequency corrections (`StepCore.freq_*`); (iv) the divisors
+(`StepCore.divisors`).
 -/
 
 @[expose] public noncomputable section
@@ -29,13 +29,15 @@ namespace KAM.Wave
 
 open KAM
 
-variable {a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ : ℝ} {Par : Set (Fin 2 → ℝ)}
+variable {a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ M₀ M₁ cF tF : ℝ}
+  {Par : Set (Fin 2 → ℝ)}
   {ω : (Fin 2 → ℝ) → Fin 2 → ℝ} {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ}
   {P : (Fin 2 → ℝ) → KamPhase → ℂ} {X : (Fin 2 → ℝ) → KamPhase → KamPhase}
+  {FT : (Fin 2 → ℝ) → HomTaylor_gen a p pb (s - σ)}
 
-namespace StepHyp
+namespace StepCore
 
-variable (H : StepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X) [Fact (0 < r)]
+variable (H : StepCore a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ M₀ M₁ cF tF Par ω Ω P X FT) [Fact (0 < r)]
 
 include H
 
@@ -44,7 +46,7 @@ theorem Pplus_smoothing {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) :
     IsSmoothing (p := p) H.ha H.pb_pos (kamDomain (s - 5 * σ) (η * r))
       (fun w : KamPhase => H.Pplus ξ (StepPhase.ofK (r := r) w))
       (fun w : KamPhase => StepPhase.toK (H.Xplus ξ (StepPhase.ofK (r := r) w))) :=
-  stepPlus_isSmoothing H.ha H.hp H.hpb H.hσ H.hσ1 H.hσs H.hη0 H.hη (H.hP ξ hξ) (H.R ξ) (H.FT ξ)
+  stepPlus_isSmoothing H.ha H.hp H.hpb H.hσ H.hσ1 H.hσs H.hη0 H.hη (H.hP ξ hξ) (H.R ξ) (FT ξ)
     (e₁ := 3 * ε₀) (by linarith [H.hε₀]) (H.R_field ξ hξ)
     (homNhat_fieldBound_gen H.ha H.hp H.hpb H.hr H.hs (H.R ξ) (H.R_field ξ hξ))
     (H.F_field ξ hξ) H.M₀_pos H.mf_le_sigma
@@ -54,26 +56,25 @@ theorem Pplus_periodic {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (i : Fin 2) {w : 
     (hw : w ∈ kamDomain (s - 5 * σ) (η * r)) :
     H.Pplus ξ (StepPhase.ofK (r := r) (w + stepTau i)) = H.Pplus ξ (StepPhase.ofK (r := r) w) := by
   have h := stepPplusS_periodic (r := r) H.ha H.hp H.hpb H.hσ H.hσ1 H.hσs H.hη0 H.hη
-    (H.hper ξ hξ) (H.R ξ) (H.FT ξ) (H.F_field ξ hξ) H.M₀_pos H.mf_le_sigma
+    (H.hper ξ hξ) (H.R ξ) (FT ξ) (H.F_field ξ hξ) H.M₀_pos H.mf_le_sigma
     (w := StepPhase.ofK (r := r) w) hw i
   exact h
 
 /-- **The bound of the new error** (`bpW:w5:step` (ii), `(6)`). -/
 theorem Xplus_fam :
     FamBound Par (kamDomain (s - 5 * σ) (η * r)) (η * r) lam
-      (stepC2 τ * (ε ^ 2 / (α * σ ^ stepExpT τ * η ^ 2) + η * ε))
+      ((896 + 168 * cF) * (ε ^ 2 / (α * σ ^ tF * η ^ 2) + η * ε))
       (fun ξ w => StepPhase.toK (H.Xplus ξ (StepPhase.ofK (r := r) w))) := by
-  have hMs : 16 * stepMF (stepCF τ) (stepExpT τ) α σ ε ≤ σ * η ^ 2 := by
+  have hMs : 16 * stepMF (cF) (tF) α σ ε ≤ σ * η ^ 2 := by
     have := H.mf_small; linarith
   have h := stepPlus_famBound (r := r) H.ha H.hp H.hpb H.hs H.hσ H.hσ1 H.hσs H.hη0 H.hη
     (Par := Par) (P := P) (X := X) (lam := lam) (ε := ε) (ε₀ := ε₀) (ε₁ := ε₁)
-    (M₀ := stepM₀ τ σ α ε₀) (M₁ := stepM₁ τ σ α ε₀ ε₁ Mω MΩ)
-    (MF := stepMF (stepCF τ) (stepExpT τ) α σ ε) H.hlam0 H.hP H.hper H.hε₀.le H.hε₁
-    H.M₀_pos H.M₁_nonneg H.hb H.hdiff H.hε H.M_sum (H.FT) H.F_field H.F_sub hMs
+    (M₀ := M₀) (M₁ := M₁)
+    (MF := stepMF (cF) (tF) α σ ε) H.hlam0 H.hP H.hper H.hε₀.le H.hε₁
+    H.M₀_pos H.M₁_nonneg H.hb H.hdiff H.hε H.M_sum (FT) H.F_field H.F_sub hMs
   refine FamBound.famMono h (fun w hw => hw) ?_
-  have := stepEstimate_arith (c := stepCF τ) (t := stepExpT τ) H.hα H.hσ H.hη0
-    (stepCF_pos H.hτ).le H.ε_pos.le
-  unfold stepC2
+  have := stepEstimate_arith (c := cF) (t := tF) H.hα H.hσ H.hη0
+    H.hc.le H.ε_pos.le
   have e : (7 * 24 : ℝ) = 168 := by norm_num
   rw [e] at this
   exact this
@@ -127,13 +128,13 @@ theorem freq_hyp (hl : 0 < lam) :
     rw [le_div_iff₀ hl]; nlinarith
 
 /-- **The divisors after the step** (`bpW:w5:step` (iv)). -/
-theorem divisors {K α' : ℝ} (hK : 1 ≤ K)
+theorem divisors (hH : HomMelnikov τ α Par ω Ω) {K α' : ℝ} (hK : 1 ≤ K)
     (hα' : 6 * Real.pi * (1 + K) * (1 + K ^ τ) * ε ≤ α - α') {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par)
     {k : Fin 2 → ℤ} {l : ℕ+ →₀ ℤ} (hkl : (k, l) ∈ homZ) (hkK : Fourier.modeSize k ≤ K) :
     α' * (homJap l : ℝ) / waveA τ k ≤
       |homPairZ k (H.omegaPlus ξ) + homPairL l (H.OmegaPlus ξ)| := by
   have hpi := Real.pi_pos
-  refine stepDivisors (ω' := H.omegaPlus) (Ω' := H.OmegaPlus) H.hτ H.ε_pos.le hK H.mel
+  refine stepDivisors (ω' := H.omegaPlus) (Ω' := H.OmegaPlus) H.hτ H.ε_pos.le hK hH
     (fun ξ hξ => (H.freq_sup hξ).trans (by nlinarith [H.ε₀_le])) (fun ξ hξ j => ?_) hα' hξ hkl hkK
   rw [H.OmegaPlus_sub]
   have h := stepOmegaTail_bound H.ha H.hp H.hpb H.hr H.hs (H.R ξ) (H.R_field ξ hξ) j
@@ -145,6 +146,6 @@ theorem divisors {K α' : ℝ} (hK : 1 ≤ K)
     _ ≤ 3 * ε₀ := h
     _ ≤ 3 * ε := by linarith [H.ε₀_le]
 
-end StepHyp
+end StepCore
 
 end KAM.Wave

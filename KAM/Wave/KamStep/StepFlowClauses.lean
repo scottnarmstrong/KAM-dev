@@ -14,10 +14,10 @@ import Mathlib.Tactic.Positivity
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
-For `w ∈ D_+ = D(s-5σ, ηr)` and `ξ ∈ Π`: `Φ w ∈ D(s-4σ, 2ηr)` (`StepHyp.phi_mem`), the weak
-conjugacy (`StepHyp.weakConj`), symplecticity (`StepHyp.phi_symplectic`), translation
-equivariance (`StepHyp.phi_translate`) and the `λ`-bounds of the transformation
-(`StepHyp.phi_bounds`).
+For `w ∈ D_+ = D(s-5σ, ηr)` and `ξ ∈ Π`: `Φ w ∈ D(s-4σ, 2ηr)` (`StepCore.phi_mem`), the weak
+conjugacy (`StepCore.weakConj`), symplecticity (`StepCore.phi_symplectic`), translation
+equivariance (`StepCore.phi_translate`) and the `λ`-bounds of the transformation
+(`StepCore.phi_bounds`).
 -/
 
 @[expose] public noncomputable section
@@ -28,17 +28,19 @@ namespace KAM.Wave
 
 open KAM
 
-variable {a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ : ℝ} {Par : Set (Fin 2 → ℝ)}
+variable {a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ M₀ M₁ cF tF : ℝ}
+  {Par : Set (Fin 2 → ℝ)}
   {ω : (Fin 2 → ℝ) → Fin 2 → ℝ} {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ}
   {P : (Fin 2 → ℝ) → KamPhase → ℂ} {X : (Fin 2 → ℝ) → KamPhase → KamPhase}
+  {FT : (Fin 2 → ℝ) → HomTaylor_gen a p pb (s - σ)}
 
-namespace StepHyp
+namespace StepCore
 
-variable (H : StepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X) [Fact (0 < r)]
+variable (H : StepCore a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ M₀ M₁ cF tF Par ω Ω P X FT) [Fact (0 < r)]
 
 include H
 
-theorem mf_lt : stepM₀ τ σ α ε₀ < σ / 4 := by
+theorem mf_lt : M₀ < σ / 4 := by
   have := H.mf_le_sigma
   linarith [H.hσ]
 
@@ -53,12 +55,12 @@ theorem Dplus_sub_U : stepDomain r (s - 5 * σ) (η * r) ⊆ stepDomain r (s - 2
 /-- The four bounds of the transformation (`stepFlow_bounds` for the pair `ξ, ζ`). -/
 theorem flow_pair {ξ ζ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (hζ : ζ ∈ Par) {w : StepPhase r}
     (hw : w ∈ stepDomain r (s - 5 * σ) (η * r)) :
-    ‖H.Phi ξ w - w‖ ≤ stepM₀ τ σ α ε₀ ∧
-      ‖(H.Phi ξ w - w) - (H.Phi ζ w - w)‖ ≤ 2 * (stepM₁ τ σ α ε₀ ε₁ Mω MΩ * ‖ξ - ζ‖) ∧
-      ‖fderiv ℂ (H.Phi ξ) w - ContinuousLinearMap.id ℂ _‖ ≤ 8 * stepM₀ τ σ α ε₀ / σ ∧
+    ‖H.Phi ξ w - w‖ ≤ M₀ ∧
+      ‖(H.Phi ξ w - w) - (H.Phi ζ w - w)‖ ≤ 2 * (M₁ * ‖ξ - ζ‖) ∧
+      ‖fderiv ℂ (H.Phi ξ) w - ContinuousLinearMap.id ℂ _‖ ≤ 8 * M₀ / σ ∧
       ‖fderiv ℂ (H.Phi ξ) w - fderiv ℂ (H.Phi ζ) w‖ ≤
-        16 * (stepM₁ τ σ α ε₀ ε₁ Mω MΩ * ‖ξ - ζ‖) / σ := by
-  have hN : 0 ≤ stepM₁ τ σ α ε₀ ε₁ Mω MΩ * ‖ξ - ζ‖ := mul_nonneg H.M₁_nonneg (norm_nonneg _)
+        16 * (M₁ * ‖ξ - ζ‖) / σ := by
+  have hN : 0 ≤ M₁ * ‖ξ - ζ‖ := mul_nonneg H.M₁_nonneg (norm_nonneg _)
   exact stepFlow_bounds H.ha H.hp H.hpb H.hσ H.hσ1 (by linarith [H.hσs, H.hσ])
     (H.F_field ξ hξ) (H.F_field ζ hζ) (H.F_sub ξ hξ ζ hζ) H.M₀_pos H.mf_le_sigma hN
     (H.Dplus_sub_small hw)
@@ -68,7 +70,7 @@ theorem phi_mem {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {w : StepPhase r}
     (hw : w ∈ stepDomain r (s - 5 * σ) (η * r)) :
     StepPhase.toK (H.Phi ξ w) ∈ kamDomain (s - 4 * σ) (2 * η * r) := by
   have h := (H.flow_pair hξ hξ hw).1
-  have hmf : stepM₀ τ σ α ε₀ ≤ σ * η ^ 2 / 16 := by
+  have hmf : M₀ ≤ σ * η ^ 2 / 16 := by
     have := H.mf_small
     have h2 := H.M_sum
     have := mul_nonneg H.hlam0 H.M₁_nonneg
@@ -96,10 +98,10 @@ theorem weakConj {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {w : StepPhase r}
       stepSympCLM (q := p) (q' := p) H.ha H.two_p r
         (stepEmbedCLM a p pb H.hpb r (H.Xplus ξ w)) W := by
   have he := stepWeakConj (r := r) (σ := σ) (η := η) H.hG H.hK0 (homOmega_le H.freq hξ) (ω ξ)
-    H.ha H.hp H.hpb H.hσ H.hσ1 H.hσs H.hη0 H.hη (H.hP ξ hξ) (H.R ξ) (H.FT ξ)
+    H.ha H.hp H.hpb H.hσ H.hσ1 H.hσs H.hη0 H.hη (H.hP ξ hξ) (H.R ξ) (FT ξ)
     (e₁ := 3 * ε₀) (by linarith [H.hε₀]) (H.R_field ξ hξ)
     (homNhat_fieldBound_gen H.ha H.hp H.hpb H.hr H.hs (H.R ξ) (H.R_field ξ hξ))
-    (H.F_field ξ hξ) H.M₀_pos H.mf_le_sigma (H.a0 ξ) (fun w hw => H.equation hξ hw) hw W
+    (H.F_field ξ hξ) H.M₀_pos H.mf_le_sigma (H.a0 ξ) (fun w hw => H.equation ξ hξ w hw) hw W
   exact he
 
 /-- **Symplecticity of `Φ`**. -/
@@ -108,16 +110,16 @@ theorem phi_symplectic {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {w : StepPhase r}
     stepSympCLM (q := p) (q' := p) H.ha H.two_p r (fderiv ℂ (H.Phi ξ) w W)
         (fderiv ℂ (H.Phi ξ) w W') =
       stepSympCLM (q := p) (q' := p) H.ha H.two_p r W W' :=
-  stepFlow_symplectic H.ha H.hp H.hpb H.hσ H.hσ1 (by linarith [H.hσs, H.hσ]) (H.FT ξ)
+  stepFlow_symplectic H.ha H.hp H.hpb H.hσ H.hσ1 (by linarith [H.hσs, H.hσ]) (FT ξ)
     (H.F_field ξ hξ) H.M₀_pos H.mf_lt (H.Dplus_sub_U hw) ⟨by norm_num, le_rfl⟩ W W'
 
 /-- **Translation equivariance of `Φ`**. -/
 theorem phi_translate {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {w : StepPhase r}
     (hw : w ∈ stepDomain r (s - 5 * σ) (η * r)) (k : Fin 2) :
     H.Phi ξ (w + stepTauS r k) = H.Phi ξ w + stepTauS r k :=
-  stepFlow_translate H.ha H.hp H.hpb H.hσ H.hσ1 (by linarith [H.hσs, H.hσ]) (H.FT ξ)
+  stepFlow_translate H.ha H.hp H.hpb H.hσ H.hσ1 (by linarith [H.hσs, H.hσ]) (FT ξ)
     (H.F_field ξ hξ) H.M₀_pos H.mf_lt (H.Dplus_sub_U hw) k ⟨by norm_num, le_rfl⟩
 
-end StepHyp
+end StepCore
 
 end KAM.Wave

@@ -5,8 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.Wave.KamStep.StepSetup
-public import KAM.Wave.KamStep.TaylorReal
+public import KAM.Wave.KamStep.StepCore
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 
@@ -105,16 +104,12 @@ theorem FT_eq {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) :
     H.FT ξ = homSolveTaylor_gen H.hτ H.hα H.hσ H.hσs' (homMultBounds_of H.freq H.hα H.mel hξ)
       (H.R ξ) := stepFTfam_of_mem H.freq H.mel H.hτ H.hα H.hσ H.hσs' H.R hξ
 
-theorem R_field : ∀ ξ ∈ Par, HomFieldBound_gen H.ha H.hp H.hpb r (3 * ε₀) (H.R ξ) := fun ξ hξ => by
-  rw [H.R_eq hξ]
-  exact stepTaylor_fieldBound H.ha H.hp H.hpb H.hs H.hr (H.hP ξ hξ) (H.hper ξ hξ) (H.hb ξ hξ)
+theorem R_field : ∀ ξ ∈ Par, HomFieldBound_gen H.ha H.hp H.hpb r (3 * ε₀) (H.R ξ) :=
+  stepTaylorFam_field H.ha H.hp H.hpb H.hs H.hr H.hP H.hper H.hb
 
 theorem R_sub : ∀ ξ ∈ Par, ∀ ζ ∈ Par,
     HomFieldBound_gen H.ha H.hp H.hpb r (3 * ε₁ * ‖ξ - ζ‖) ((H.R ξ).homSub (H.R ζ)) :=
-  fun ξ hξ ζ hζ => by
-  rw [H.R_eq hξ, H.R_eq hζ, show 3 * ε₁ * ‖ξ - ζ‖ = 3 * (ε₁ * ‖ξ - ζ‖) by ring]
-  exact stepTaylor_subFieldBound H.ha H.hp H.hpb H.hs H.hr (H.hP ξ hξ) (H.hP ζ hζ)
-    (H.hper ξ hξ) (H.hper ζ hζ) (H.hb ξ hξ) (H.hb ζ hζ) (H.hdiff ξ hξ ζ hζ)
+  stepTaylorFam_sub H.ha H.hp H.hpb H.hs H.hr H.hP H.hper H.hb H.hdiff
 
 theorem F_field : ∀ ξ ∈ Par, HomFieldBound_gen H.ha H.hp H.hpb r (stepM₀ τ σ α ε₀) (H.FT ξ) := fun
     ξ hξ => by
@@ -170,6 +165,48 @@ theorem M_sum : stepM₀ τ σ α ε₀ + lam * stepM₁ τ σ α ε₀ ε₁ M�
     rw [e]
     exact mul_le_mul_of_nonneg_left (by nlinarith [H.hε]) hC
   exact (show stepM₀ τ σ α ε₀ + lam * stepM₁ τ σ α ε₀ ε₁ Mω MΩ ≤ _ from hex).trans (h1.trans hsb)
+
+/-- A `StepHyp` is a `StepCore` (`F` solved with unmodified divisors). -/
+theorem core : StepCore a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ (stepM₀ τ σ α ε₀)
+    (stepM₁ τ σ α ε₀ ε₁ Mω MΩ) (stepCF τ) (stepExpT τ) Par ω Ω P X H.FT where
+  ha := H.ha
+  hp := H.hp
+  hpb := H.hpb
+  hp1 := H.hp1
+  hpp := H.hpp
+  hG := H.hG
+  hτ := H.hτ
+  hα := H.hα
+  hs := H.hs
+  hr := H.hr
+  hσ := H.hσ
+  hσ1 := H.hσ1
+  hσs := H.hσs
+  hη0 := H.hη0
+  hη := H.hη
+  freq := H.freq
+  hM := H.hM
+  hlam0 := H.hlam0
+  hlam := H.hlam
+  hP := H.hP
+  hper := H.hper
+  hreal := H.hreal
+  hε₀ := H.hε₀
+  hε₁ := H.hε₁
+  hb := H.hb
+  hdiff := H.hdiff
+  hε := H.hε
+  hc := stepCF_pos H.hτ
+  small := H.small
+  M₀_pos := H.M₀_pos
+  M₁_nonneg := H.M₁_nonneg
+  M_sum := H.M_sum
+  F_field := H.F_field
+  F_sub := H.F_sub
+  equation := fun ξ hξ w hw => by
+    rw [H.FT_eq hξ]
+    exact stepSolve_equation H.freq H.mel H.ha H.hp H.hpb H.hp1 H.hG H.hr H.hτ H.hα H.hσ H.hσs' hξ
+      (H.R ξ) (H.R_field ξ hξ) hw
 
 end StepHyp
 

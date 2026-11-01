@@ -5,7 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.Wave.KamStep.StepHyp
+public import KAM.Wave.KamStep.StepCore
 public import KAM.Wave.KamStep.StepNplus
 public import KAM.Wave.KamStep.NewHamConj
 public import KAM.Wave.KamStep.StepPeriodicFlow
@@ -19,9 +19,9 @@ import Mathlib.Tactic.Positivity
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
-The objects of the step: `StepHyp.Phi` (`Φ = φ¹`), `StepHyp.Pplus`, `StepHyp.Xplus`,
-`StepHyp.omegaPlus`, `StepHyp.OmegaPlus` (`ω_+ = ω + ω̂`, `Ω_+ = Ω + Ω̂`), `StepHyp.a0`.
-`StepHyp.conj_eq`: `N(Φ w) + P(Φ w) = N_+(w) + P_+(w) + â₀`.
+The objects of the step: `StepCore.Phi` (`Φ = φ¹`), `StepCore.Pplus`, `StepCore.Xplus`,
+`StepCore.omegaPlus`, `StepCore.OmegaPlus` (`ω_+ = ω + ω̂`, `Ω_+ = Ω + Ω̂`), `StepCore.a0`.
+`StepCore.conj_eq`: `N(Φ w) + P(Φ w) = N_+(w) + P_+(w) + â₀`.
 -/
 
 @[expose] public noncomputable section
@@ -30,13 +30,15 @@ namespace KAM.Wave
 
 open KAM
 
-variable {a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ : ℝ} {Par : Set (Fin 2 → ℝ)}
+variable {a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ M₀ M₁ cF tF : ℝ}
+  {Par : Set (Fin 2 → ℝ)}
   {ω : (Fin 2 → ℝ) → Fin 2 → ℝ} {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ}
   {P : (Fin 2 → ℝ) → KamPhase → ℂ} {X : (Fin 2 → ℝ) → KamPhase → KamPhase}
+  {FT : (Fin 2 → ℝ) → HomTaylor_gen a p pb (s - σ)}
 
-namespace StepHyp
+namespace StepCore
 
-variable (H : StepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
+variable (H : StepCore a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ M₀ M₁ cF tF Par ω Ω P X FT)
 
 /-- `ω_+ = ω + ω̂`. -/
 def omegaPlus (ξ : Fin 2 → ℝ) : Fin 2 → ℝ := fun k => ω ξ k + stepOmegaHat (H.R ξ) k
@@ -51,15 +53,15 @@ variable [Fact (0 < r)]
 
 /-- The transformation `Φ = φ¹` of the flow of `X_F`. -/
 def Phi (ξ : Fin 2 → ℝ) : StepPhase r → StepPhase r :=
-  holoFlow (smoothField (stepEmbedCLM a p pb H.hpb r) (stepFieldS H.ha H.hp H.hpb (H.FT ξ) r)) 1
+  holoFlow (smoothField (stepEmbedCLM a p pb H.hpb r) (stepFieldS H.ha H.hp H.hpb (FT ξ) r)) 1
 
 /-- The new Hamiltonian `P_+`. -/
 def Pplus (ξ : Fin 2 → ℝ) : StepPhase r → ℂ :=
-  stepPplusS H.ha H.hp H.hpb (P ξ) (H.R ξ) (H.FT ξ)
+  stepPplusS H.ha H.hp H.hpb (P ξ) (H.R ξ) (FT ξ)
 
 /-- The field of `P_+`. -/
 def Xplus (ξ : Fin 2 → ℝ) : StepPhase r → StepPhase r :=
-  stepXplusS H.ha H.hp H.hpb (X ξ) (H.R ξ) (H.FT ξ)
+  stepXplusS H.ha H.hp H.hpb (X ξ) (H.R ξ) (FT ξ)
 
 include H
 
@@ -96,20 +98,11 @@ theorem omegaPlus_bound {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (j : ℕ+) :
     _ ≤ (1 + M0 + 3 * ε) * ((j : ℝ) + 2) := by
       nlinarith [H.ε₀_le, mul_le_mul_of_nonneg_right H.ε₀_le hj]
 
-theorem mf_le_sigma : stepM₀ τ σ α ε₀ ≤ σ / 1024 := by
+theorem mf_le_sigma : M₀ ≤ σ / 1024 := by
   have h1 := (stepMF_margins H.hσ H.hη0 H.hη H.mf_small).1
   have := mul_nonneg H.hlam0 (H.M₁_nonneg)
   have := H.M_sum
   linarith
-
-theorem equation {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {w : KamPhase} (hw : w.1 ∈ complexStrip 2 (s - σ)) :
-    stepFun H.ha (homPP H.hp H.hpb) (H.R ξ) w +
-        ((homDN H.hG H.hK0 (homOmega_le H.freq hξ) (ω ξ) (stepToHom w)).comp stepToHom)
-          (kamHomEmbed a p pb H.hpb (stepField H.ha H.hp H.hpb (H.FT ξ) w)) =
-      stepFun H.ha (homPP H.hp H.hpb) (homNhatTaylor_gen (H.R ξ)) w + H.a0 ξ := by
-  rw [H.FT_eq hξ]
-  exact stepSolve_equation H.freq H.mel H.ha H.hp H.hpb H.hp1 H.hG H.hr H.hτ H.hα H.hσ H.hσs' hξ
-    (H.R ξ) (H.R_field ξ hξ) hw
 
 theorem nplus_eq {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (w : KamPhase) :
     stepNfun H.hG H.hK0 (homOmega_le H.freq hξ) (ω ξ) w +
@@ -138,16 +131,16 @@ theorem conj_eq {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {w : StepPhase r}
   have hPd : DifferentiableOn ℂ (stepPS (P ξ) r) (stepDomain r (s - σ) r) :=
     ((H.hP ξ hξ).holoP.comp (stepToKCLM r).differentiable.differentiableOn
       (fun z hz => hD z hz)).mono (fun z hz => hz)
-  have hMf : stepM₀ τ σ α ε₀ ≤ σ / 1024 := H.mf_le_sigma
+  have hMf : M₀ ≤ σ / 1024 := H.mf_le_sigma
   have key := stepNewHam_concrete (r := r) (σ := σ) (η := η) H.hG H.hK0 (homOmega_le H.freq hξ)
-    (ω ξ) H.ha H.hp H.hpb H.hσ H.hσ1 H.hσs H.hη0 H.hη (P ξ) (H.R ξ) (H.FT ξ)
+    (ω ξ) H.ha H.hp H.hpb H.hσ H.hσ1 H.hσs H.hη0 H.hη (P ξ) (H.R ξ) (FT ξ)
     (H.F_field ξ hξ) H.M₀_pos hMf (H.a0 ξ) hPd
-    (fun w hw => H.equation hξ hw) hw
+    (fun w hw => H.equation ξ hξ w hw) hw
   have hn := H.nplus_eq hξ (StepPhase.toK w)
   unfold Phi Pplus stepPplusS
   unfold stepFS stepPS at key ⊢
   linear_combination key + hn
 
-end StepHyp
+end StepCore
 
 end KAM.Wave
