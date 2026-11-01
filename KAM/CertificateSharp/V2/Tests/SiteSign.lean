@@ -16,7 +16,7 @@ public import KAM.CertificateSharp.V2.Tests.Refined
 torsion and its inverse change sign. It is a certificate in its own right, and every sub-check of
 the base runs on it.
 
-* the landed `routeARefined` rejects it, in `clockOk`: a last coordinate `-1/2` is not `κ = 1/2 > 0`;
+* the landed `routeARefined` rejects it, in `clockOk`: a last coordinate `-1/2` is not `κ = 1/2`;
 * `routeARefinedS` accepts it, on the reflected box and on a short box containing that box;
 * a box that does not contain the certificate's box is rejected, and so is the wrong sign;
 * the toy torus at `-(ν₋/2, 1/2)`;
