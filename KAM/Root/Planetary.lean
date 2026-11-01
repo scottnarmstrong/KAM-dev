@@ -663,6 +663,11 @@ public import KAM.Planetary.StrongAMD.Osculating.Core
 public import KAM.Planetary.StrongAMD.Osculating.Estimates
 public import KAM.Planetary.StrongAMD.Osculating
 public import KAM.Planetary.StrongAMD.PlanarDictionary
+public import KAM.Planetary.StrongAMD.PlanarSafety.Constants
+public import KAM.Planetary.StrongAMD.PlanarSafety.Main
+public import KAM.Planetary.StrongAMD.PlanarSafety.Orientation
+public import KAM.Planetary.StrongAMD.PlanarSafety.Prograde
+public import KAM.Planetary.StrongAMD.PlanarSafety
 public import KAM.Planetary.StrongAMD.Reflection
 public import KAM.Planetary.StrongAMD.Threshold.Continuity
 public import KAM.Planetary.StrongAMD.Threshold.Defs

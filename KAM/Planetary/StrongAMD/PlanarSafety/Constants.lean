@@ -57,8 +57,10 @@ theorem keplerAxis_eq_action_sq {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {z 
   have := hν i
   rw [h3]; field_simp
 
-/-- The action-to-axis estimate (MAIN line 497): `|a_i - a_i⁰| ≤ |Λ_i - Λ_i⁰| (|Λ_i| + |Λ_i⁰|)/ν_i²`. -/
-theorem norm_axis_sub_le {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {C ρ : ℝ} (hC0 : 0 ≤ C) {z z' : Phase (n * 2)}
+/-- The action-to-axis estimate (MAIN line 497):
+`|a_i - a_i⁰| ≤ |Λ_i - Λ_i⁰| (|Λ_i| + |Λ_i⁰|)/ν_i²`. -/
+theorem norm_axis_sub_le {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {C ρ : ℝ} (hC0 : 0 ≤ C)
+    {z z' : Phase (n * 2)}
     (hz : ∀ i, 0 < planeLength (bodyVector z.1 i) ∧ keplerEnergy ν z i < 0)
     (hz' : ∀ i, 0 < planeLength (bodyVector z'.1 i) ∧ keplerEnergy ν z' i < 0)
     (hC : ∀ i, |keplerAction ν z i| ≤ C) (hC' : ∀ i, |keplerAction ν z' i| ≤ C)

@@ -121,7 +121,7 @@ def PlanarSafeSol (ν : Fin n → ℝ) (μ T : ℝ) (hn : 2 ≤ n) (δ AΛ Aa dS
   z 0 = z₀ ∧ IsMovingSolutionOn ν μ (Icc (-T) T) z ∧ MovingUniqueOn ν μ (Icc (-T) T) z ∧
     ∀ t ∈ Icc (-T) T, PlanarSafeState ν μ hn δ AΛ Aa dStar dPair Aosc z₀ (z t)
 
-theorem PlanarSafeState.reflect {ν : Fin n → ℝ} {μ : ℝ} {hn : 2 ≤ n} {δ AΛ Aa dStar dPair Aosc : ℝ}
+theorem PlanarSafeState.of_reflectPhase {ν : Fin n → ℝ} {μ : ℝ} {hn : 2 ≤ n} {δ AΛ Aa dStar dPair Aosc : ℝ}
     {z₀ zt : Phase (n * 2)}
     (h : PlanarSafeState ν μ hn δ AΛ Aa dStar dPair Aosc (reflectPhase z₀) (reflectPhase zt)) :
     PlanarSafeState ν μ hn δ AΛ Aa dStar dPair Aosc z₀ zt := by
@@ -141,7 +141,7 @@ theorem PlanarSafeState.reflect {ν : Fin n → ℝ} {μ : ℝ} {hn : 2 ≤ n} {
   exact h2'
 
 /-- Orientation reversal transports the solution-level conclusion. -/
-theorem PlanarSafeSol.reflect {ν : Fin n → ℝ} {μ T : ℝ} {hn : 2 ≤ n}
+theorem PlanarSafeSol.of_reflectPhase {ν : Fin n → ℝ} {μ T : ℝ} {hn : 2 ≤ n}
     {δ AΛ Aa dStar dPair Aosc : ℝ} {z₀ : Phase (n * 2)} {z' : ℝ → Phase (n * 2)}
     (h : PlanarSafeSol ν μ T hn δ AΛ Aa dStar dPair Aosc (reflectPhase z₀) z') :
     PlanarSafeSol ν μ T hn δ AΛ Aa dStar dPair Aosc z₀ (fun t => reflectPhase (z' t)) := by
@@ -156,7 +156,7 @@ theorem PlanarSafeSol.reflect {ν : Fin n → ℝ} {μ T : ℝ} {hn : 2 ≤ n}
     have h2 := congrArg reflectPhase this
     simpa [reflectPhase_reflectPhase] using h2
   · have := hst t ht
-    refine PlanarSafeState.reflect ?_
+    refine PlanarSafeState.of_reflectPhase ?_
     simpa [reflectPhase_reflectPhase] using this
 
 end KAM.Planetary.StrongAMD
