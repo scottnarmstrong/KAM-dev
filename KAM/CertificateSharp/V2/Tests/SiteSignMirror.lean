@@ -58,6 +58,10 @@ theorem toy_bite_of_shards :
   · exact toy_shard0
   · exact toy_shard1
 
+/-- The site, from the blocks. -/
+theorem toy_site : siteOk 2 1 2 toyCert2.freqBox (1 / 2) (1 / 42) 1 (1 / 5000) (some toyW) = true :=
+  siteOk_some_of (by decide +kernel) toy_bite_of_shards
+
 /-- The last coordinate of T′, reflected. -/
 def lgκ : ℚ := (12961718757584703 / 312500312500000 : ℚ)
 

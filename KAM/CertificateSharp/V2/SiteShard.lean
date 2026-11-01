@@ -17,7 +17,8 @@ a lunar bite needed 8–9 GB. The walk is a bisection, so it splits into blocks 
 * `shardOk d l₀ a u`: the fibre tests of one block, and a short rational bound `u` of its sum;
 * `balAll_of_shards`, `balSum_le_of_shards`: the blocks give the whole walk;
 * `biteOk_of_shards`: `biteOk … = true` from the blocks, each a kernel computation of its own, and
-  a final rational comparison.
+  a final rational comparison;
+* `siteOk_some_of`: `siteOk … (some w) = true` from `clockOk` and `biteOk`.
 
 The test itself is unchanged: this is a way of proving `biteOk`, so a certificate that uses it
 passes `siteOk` as it stands. The bounds `u` replace the exact accumulator, so the memory of one
@@ -103,6 +104,12 @@ theorem biteOk_of_shards {box : FreqBox} {κ γ b c : ℚ} {w : BiteWit} {l₀ M
     linarith
   simp only [biteOk, Bool.and_eq_true, decide_eq_true_eq]
   exact ⟨⟨⟨⟨hc, hb⟩, hcheck⟩, hbound⟩, hnum⟩
+
+/-- `siteOk` at a certified site from `biteOk`, however that was proved. -/
+theorem siteOk_some_of {J : ℕ} {box : FreqBox} {κ γ b c : ℚ} {w : BiteWit}
+    (hκ : clockOk box κ = true) (h : biteOk box κ γ b c w = true) :
+    siteOk 2 1 J box κ γ b c (some w) = true := by
+  simp [siteOk, hκ, h]
 
 end KAM.CertificateSharp.V2
 
