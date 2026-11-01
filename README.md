@@ -14,14 +14,13 @@ Diophantine frequencies, as soon as f is small enough.
 ## Main theorems
 
 Every frozen theorem below is proved and sealed. That covers the 22 of the original project, Rüssmann's theorem
-(track R), track W's PDE KAM theorem `KAM.Wave.nlw2` (sealed 2026-11-01), track LP's five safety statements (sealed
+(track R), track W's PDE KAM theorem `KAM.Wave.nlw2` (sealed 2026-11-01), track LP's seven safety statements (sealed
 2026-11-01) and track SO's frozen lunar band; only the
 four statements of the Moon's synchronous lock (track SO, part 3) are still in progress. Each frozen statement was
 approved by the owner and frozen before its proof was assembled. The proofs are complete and use only the standard
 axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
-- **Track LP** (items 8–9, the sharp Laskar–Petit safety theorems): item 8 and its corollaries are frozen and
-  sealed (D62). Item 9 is proved and audited, and its statements are to be frozen next.
+- **Track LP** (items 8–9, the sharp Laskar–Petit safety theorems): all frozen and sealed (D62, D64).
 - **Items 13–15** are track SO's certified numerical tori, among them the Moon's spin-rate band.
 
 The plain-language versions simplify; the linked Lean statements are exact. The full list of frozen statements, with
@@ -119,10 +118,9 @@ sources, is in [docs/STATEMENTS.md](docs/STATEMENTS.md).
    with Nekhoroshev's exponents: semi-major axes drift by O(μ^(3/(6n²−3n+14))) for
    |t| ≤ T₀·exp(c·μ^(−2/(6n²−3n+14))). This is close to Nekhoroshev 1977, Theorem 12.3 (item 11). What it adds is
    the sharp per-state AMD threshold in place of a box of semi-major axes, and the annulus and osculating
-   conclusions. Proved through the sealed item 7, applied cell by cell. Ordinary theorems for now; their statements
-   are the next freeze (draft 8).
-   [`lp3_planar_strongAMD_safety_source`](KAM/Planetary/StrongAMD/Nek/PlanarSafety/Source.lean#L130) ·
-   [`lp3_spatial_strongAMD_safety_source`](KAM/Planetary/Spatial/Nek/SpatialSafety/Source.lean#L139)
+   conclusions. Proved through the sealed item 7, applied cell by cell. Frozen and sealed (D64, 2026-11-01).
+   [`KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith`](KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean#L68) ·
+   [`KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith`](KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean#L69)
 
 **Planetary systems (track P).**
 
