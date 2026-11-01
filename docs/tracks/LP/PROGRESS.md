@@ -26,11 +26,12 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 | LP-MOD Modulus+Continuation | L6 | 1 | (with GEO) | claude-11 | **LANDED** main 22c7517e |
 | LP-DICT PlanarDictionary + one-centre L13 adapter test | L7, L13 (interface) | 1–2 | `inp-lp-dict` / mom worktree (link `/root/code/KAM-inp-lp-dict`) | claude-12 | audit LP-W1B-1 PASS WITH NOTES (codex-2); **LANDED** main 22c7517e (inp 96ef6d94) |
 | LP-DOM AnalyticDomain planar | L8 | 2 | `inp-lp-dom` / mom worktree (link `/root/code/KAM-inp-lp-dom`) | claude-11 | audit LP-W2A-1 PASS WITH NOTES (codex-2); landing requested (inp-lp 5ecf87ad) |
-| LP-NRR NonresonantReuse | L13 | 2 | `inp-lp-nrr` / mom worktree (link `/root/code/KAM-inp-lp-nrr`) | claude-11 | running (tmux inp-mprov-lp-nrr) |
+| LP-NRR NonresonantReuse | L13 | 2 | `inp-lp-nrr` / mom worktree (link `/root/code/KAM-inp-lp-nrr`) | claude-11 | proved 15304d89 (items 1–6, 762 lines: `lp_stopped_drift`); audit queued (with CONF, after OSC) |
 | LP-NRS NonresonantScale | L12/(37) | 2 | `inp-lp-nrs` / thr worktree (link `/root/code/KAM-inp-lp-nrs`) | claude-12 | audit LP-W2A-1 PASS WITH NOTES (codex-2); landing requested (inp-lp 5ecf87ad) |
-| LP-CONF Confinement (first exit, conditional on hstop) | L14 | 3 | `inp-lp-conf` / geomod worktree (link `/root/code/KAM-inp-lp-conf`) | claude-12 | running (tmux inp-mprov-lp-conf) |
-| LP-LIFT Chart lift + D1 discharge | L14 | 3 | — | — | after NRR (needs its interface) |
-| LP-OSC Osculating | L16 | 3 | `inp-lp-osc` (geomod worktree) | claude-12 | proved 8dc64ef0 (1006 lines); audit queued (after W2A, W3-MAIN r2) |
+| LP-CONF Confinement (first exit, conditional on hstop) | L14 | 3 | `inp-lp-conf` / geomod worktree (link `/root/code/KAM-inp-lp-conf`) | claude-12 | proved d62be160 (strict hstop, 267 lines); audit queued (with NRR, after OSC) |
+| LP-LIFT Chart lift + D1 discharge | L14 | 3 | `inp-lp-lift` / geomod worktree (link `/root/code/KAM-inp-lp-lift`) | claude-12 | running (tmux inp-mprov-lp-lift) |
+| LP-DOMX L8 remaining clauses (PROVED bookkeeping) | L8 | 2 | `inp-lp-domx` / mom worktree (link `/root/code/KAM-inp-lp-domx`) | claude-11 | running (tmux inp-mprov-lp-domx) |
+| LP-OSC Osculating | L16 | 3 | `inp-lp-osc` (geomod worktree) | claude-12 | proved 8dc64ef0 (1006 lines); audit LP-OSC-1 running on codex-2 |
 | LP-PS PlanarSafety (LP1) | T15 | 3 | — | — | |
 | LP-SP* Spatial | L1–3, L17–19 | 4 | — | — | |
 
@@ -65,3 +66,4 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 - 2026-11-01 01:45 UTC: LP-W1B LANDED (main 22c7517e): wave 1 (MAIN L2–L7) complete on main. LP-DOM proved; LP-NRR (L13 ExtNFHyp + stopped drift) launched on claude-11; combined audit LP-W2A (DOM+NRS) launched on codex-2 (W7 ended; W3-MAIN r2 next).
 - 2026-11-01 01:47 UTC: LP-OSC proved (audit queued). LP-CONF (L14 first exit with explicit hstop) launched on claude-12. New package LP-LIFT (chart lift; discharges D1) added to packages.json.
 - 2026-11-01 02:01 UTC: LP-W2A (DOM+NRS) audit 1 PASS WITH NOTES (codex-2; it started late: the prompt sat unsubmitted until root-b8 pressed Enter; lp_audit.sh now verifies the spinner). Doc notes applied; merged into inp-lp; landing requested. NRS note forwarded to NRR: choose ρ strictly inside r_* (N6 strict). codex-2 handed to W3-MAIN r2; LP-OSC next.
+- 2026-11-01 02:22 UTC: LP-NRR proved (L13 stopped drift, 762 lines). LP-CONF strict round done. LP-OSC audit launched on codex-2 (W3-MAIN r2 PASS WITH NOTES freed it). LP-LIFT (claude-12) and LP-DOMX (claude-11) launched. Next audit: CONF+NRR (LP-W3B).
