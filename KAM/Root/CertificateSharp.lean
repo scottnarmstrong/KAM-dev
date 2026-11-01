@@ -72,6 +72,7 @@ public import KAM.CertificateSharp.Packed.JetConsLoad
 public import KAM.CertificateSharp.Packed.JetConsTests
 public import KAM.CertificateSharp.Packed.JetConsTors
 public import KAM.CertificateSharp.Packed.JetConsTorsSound
+public import KAM.CertificateSharp.Packed.JetFront
 public import KAM.CertificateSharp.Packed.JetIngest
 public import KAM.CertificateSharp.Packed.JetKeyed
 public import KAM.CertificateSharp.Packed.JetKeyedTests
@@ -86,6 +87,7 @@ public import KAM.CertificateSharp.Packed.Norm
 public import KAM.CertificateSharp.Packed.Product
 public import KAM.CertificateSharp.Packed.Round
 public import KAM.CertificateSharp.Packed.RouteSharp
+public import KAM.CertificateSharp.Packed.RouteSharpJ
 public import KAM.CertificateSharp.Packed.Slots
 public import KAM.CertificateSharp.Packed.Stage
 public import KAM.CertificateSharp.Packed.StageZ
