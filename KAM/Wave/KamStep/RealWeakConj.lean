@@ -19,8 +19,8 @@ For `w ∈ D_+` and `W ∈ 𝒫^{p_+}`:
 `ϖ(X_H(Φ w), DΦ(w) W) = ϖ(X_{N_+}(w) + X_{P_+}(w), W)`, with `X_H = X_N + X_P`, `X_N` the unbounded
 field of `N` (`stepXN`, values in `𝒫^{p-1}`) and `ϖ = ϖ_{p-1,p_+}` on `𝒫^{p-1} × 𝒫^{p_+}`. In the
 representative model `W = ι W'` and `DΦ(w)(ι W') = ι W''` (`W', W''` in the `p_+`-representatives;
-`W''` exists by `StepCore.dPhi_smooth_mapsTo` and is unique by `stepEmbedCLM_injective`); the bounded
-fields `X_P`, `X_{P_+}` (`p_+`-representatives) enter through `ι_{p_+→p-1}`.
+`W''` exists by `StepCore.dPhi_smooth_mapsTo` and is unique by `stepEmbedCLM_injective`); the
+bounded fields `X_P`, `X_{P_+}` (`p_+`-representatives) enter through `ι_{p_+→p-1}`.
 
 * `StepCore.dNplus_eq`: `DN_+(w) = DN(w) + DN̂(w)` with `DN̂(w) V = ϖ_{p,p}(ι X_{N̂}(w), V)`.
 * `StepCore.weakConj_field`: the identity, from the derivative form `StepCore.weakConj`, the Riesz

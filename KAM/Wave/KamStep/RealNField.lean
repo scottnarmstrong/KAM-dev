@@ -10,7 +10,7 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 
 /-!
-# The unbounded field `X_N` and the Riesz representation of `DN` (blueprint-W `bpW:w5:new-ham` (iii))
+# The field `X_N` and the Riesz representation of `DN` (blueprint-W `bpW:w5:new-ham` (iii))
 
 Off-frontier, source-faithful infrastructure (W5-REAL, item 3); the dependency graph is still being
 built.

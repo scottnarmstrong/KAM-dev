@@ -229,6 +229,13 @@ public import KAM.Wave.KamStep.Pullback
 public import KAM.Wave.KamStep.PullbackAbstract
 public import KAM.Wave.KamStep.PullbackNu
 public import KAM.Wave.KamStep.RealCalc
+public import KAM.Wave.KamStep.RealFlowPicard
+public import KAM.Wave.KamStep.RealNField
+public import KAM.Wave.KamStep.RealSmoothOnto
+public import KAM.Wave.KamStep.RealStep
+public import KAM.Wave.KamStep.RealTaylorFun
+public import KAM.Wave.KamStep.RealTaylorOf
+public import KAM.Wave.KamStep.RealWeakConj
 public import KAM.Wave.KamStep.StepBracket
 public import KAM.Wave.KamStep.StepCLM
 public import KAM.Wave.KamStep.StepClauses

@@ -17,15 +17,15 @@ Off-frontier, source-faithful infrastructure (W5-REAL, item 1); the dependency g
 built.
 
 `stepTaylorOf_isRealTaylor`: for a smoothing pair `(P, X)` on `D(s,r)` with `P` real at real points,
-the Taylor polynomial `R = stepTaylorOf …` is real in the sense of W4 (`HomTaylor_gen.isRealTaylor`):
-at real `θ`, `a(θ), b(θ)` are real, `c^- = \overline{c^+}`, `P' = \overline P`,
-`Q^T = \overline Q` (true matrix entries). The landed `TaylorReal` gives `a`, `b` and `Q_{jj}`; here
-the remaining components:
+the Taylor polynomial `R = stepTaylorOf …` is real in the sense of W4
+(`HomTaylor_gen.isRealTaylor`): at real `θ`, `a(θ), b(θ)` are real, `c^- = \overline{c^+}`,
+`P' = \overline P`, `Q^T = \overline Q` (true matrix entries). The landed `TaylorReal` gives `a`,
+`b` and `Q_{jj}`; here the remaining components:
 
-* `stepX_w0_u_real`, `stepX_w0_v_real`: the normal components of `X(θ,0,0,0)` are real (test
-  `ϖ(X, ·)` against the real coordinate directions);
+* `stepX_w0_normal_real`: the normal components of `X(θ,0,0,0)` are real (test `ϖ(X, ·)` against
+  the real coordinate directions, `stepNormal_real_of_symp`);
 * `tCm_eq_conj_tCp`: `c^- = \overline{c^+}`;
-* `stepSymp_iota_conj`: for a bilinear form real on real vectors, the values on the complex
+* `stepBilin_iota_conj`: for a bilinear form real on real vectors, the values on the complex
   directions `ι_z e_j`, `ι_{\bar z} e_j` are exchanged by conjugation; hence
   `tP'_entry_eq_conj`, `tQt_entry_eq_conj`.
 -/

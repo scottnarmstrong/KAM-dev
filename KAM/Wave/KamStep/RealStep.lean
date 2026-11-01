@@ -18,16 +18,17 @@ import Mathlib.Tactic.Positivity
 Off-frontier, source-faithful infrastructure (W5-REAL, item 1); the dependency graph is still being
 built.
 
-* `stepTheorem_reality` (`StepHyp`, non-modified case): `Φ` maps real points of `D_+` to real points,
-  and `P_+` is real at the real points of `D_+`.
+* `stepTheorem_reality` (`StepHyp`, non-modified case): `Φ` maps real points of `D_+` to real
+  points, and `P_+` is real at the real points of `D_+`.
 * `stepTheoremMod_reality` (`StepHypMod`, modified case): the same.
 * `kamDomain_star_mem`: the domains `D(s,r)` are invariant under complex conjugation of all
   coordinates (the other half of "`P_+` is real", `bpW:w5:class`).
 
-Route. `R` is real (`stepTaylorOf_isRealTaylor`), so `F` is real by W4 (`homLemma1Complete_real_gen`;
-modified case `homModSolveTaylor_isReal`); hence `X_F` is real at real points (`stepField_real`) and
-its flow is real (`stepFlow_real`). For `P_+` use `H ∘ Φ = N_+ + P_+ + â₀` (`StepCore.conj_eq`):
-`N`, `N_+` (real frequencies) and `P` are real at real points, `Φ w` is real and `â₀ = [a]` is real.
+Route. `R` is real (`stepTaylorOf_isRealTaylor`), so `F` is real by W4
+(`homLemma1Complete_real_gen`; modified case `homModSolveTaylor_isReal`); hence `X_F` is real at
+real points (`stepField_real`) and its flow is real (`stepFlow_real`). For `P_+` use
+`H ∘ Φ = N_+ + P_+ + â₀` (`StepCore.conj_eq`): `N`, `N_+` (real frequencies) and `P` are real at
+real points, `Φ w` is real and `â₀ = [a]` is real.
 
 The `StepCore` statements `StepCore.phi_real_of_FT_real`, `StepCore.Pplus_real_of_FT_real` are
 conditional helpers: they assume that the abstract solution family `FT` is real, which `StepCore`
