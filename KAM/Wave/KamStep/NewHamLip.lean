@@ -136,14 +136,18 @@ theorem norm_transSolve_sub_le {N N' : G →L[ℂ] G} {q : ℝ} (hq : q < 1) (hN
   rw [le_div_iff₀ (by linarith)]
   nlinarith [norm_nonneg (y - y')]
 
-/-- **The transported field is Lipschitz in time** (uniformly in `w`). -/
+/-- **The transported field is Lipschitz in time** (uniformly in `w`); the family `Zg` is only
+controlled on an open set `V₂ ⊆ V` containing the trajectory of `w` and the balls `B(z, δ)` of its
+points. -/
 theorem norm_yfam_time_sub_le (hι : ∀ g, ‖ι g‖ ≤ ‖g‖) (hL : 0 ≤ M / δ) {Zg : ℝ → F → G}
+    {V₂ : Set F} (hV₂ : IsOpen V₂)
     {q Y0 Lt : ℝ} (hq : q < 1) (hY0 : 0 ≤ Y0) (hLt : 0 ≤ Lt)
-    (hZg : ∀ t ∈ Icc (0 : ℝ) 1, DifferentiableOn ℂ (Zg t) V)
-    (hZgb : ∀ t ∈ Icc (0 : ℝ) 1, ∀ z ∈ V, ‖Zg t z‖ ≤ Y0)
-    (hZgt : ∀ t ∈ Icc (0 : ℝ) 1, ∀ t' ∈ Icc (0 : ℝ) 1, ∀ z ∈ V,
+    (hZg : ∀ t ∈ Icc (0 : ℝ) 1, DifferentiableOn ℂ (Zg t) V₂)
+    (hZgb : ∀ t ∈ Icc (0 : ℝ) 1, ∀ z ∈ V₂, ‖Zg t z‖ ≤ Y0)
+    (hZgt : ∀ t ∈ Icc (0 : ℝ) 1, ∀ t' ∈ Icc (0 : ℝ) 1, ∀ z ∈ V₂,
       ‖Zg t z - Zg t' z‖ ≤ Lt * |t - t'|)
-    {w : F} (hw : w ∈ U) (hN : ∀ t ∈ Icc (0 : ℝ) 1, ‖transNop ι Z t w‖ ≤ q)
+    {w : F} (hw : w ∈ U) (hballV₂ : ∀ z ∈ ball w δ, ball z δ ⊆ V₂)
+    (hN : ∀ t ∈ Icc (0 : ℝ) 1, ‖transNop ι Z t w‖ ≤ q)
     {t t' : ℝ} (ht : t ∈ Icc (0 : ℝ) 1) (ht' : t' ∈ Icc (0 : ℝ) 1) :
     ‖yfam ι Z Zg t w - yfam ι Z Zg t' w‖ ≤
       ((Y0 / δ * M + Lt) + M / δ * Real.exp (M / δ) * (Y0 / (1 - q))) / (1 - q) * |t - t'| := by
@@ -152,11 +156,12 @@ theorem norm_yfam_time_sub_le (hι : ∀ g, ‖ι g‖ ≤ ‖g‖) (hL : 0 ≤ 
   have hδ := h.delta_pos
   set φ := holoFlow (smoothField ι Z) with hφ
   have hflow := norm_flow_time_sub_le h hZ hb hι hw htI htI'
-  have hmemt : φ t w ∈ V := h.mem_V_of_ball hw (holoFlow_mem_ball h hw htI)
-  have hmemt' : φ t' w ∈ V := h.mem_V_of_ball hw (holoFlow_mem_ball h hw htI')
+  have hmemt : φ t w ∈ V₂ :=
+    hballV₂ _ (holoFlow_mem_ball h hw htI) (mem_ball_self hδ)
+  have hmemt' : φ t' w ∈ V₂ :=
+    hballV₂ _ (holoFlow_mem_ball h hw htI') (mem_ball_self hδ)
   have hlip : ∀ x ∈ ball w δ, ∀ y ∈ ball w δ, ‖Zg t x - Zg t y‖ ≤ Y0 / δ * ‖x - y‖ :=
-    lipschitz_of_margin hδ hY0 h.isOpen_V (hZg t ht) (hZgb t ht) (convex_ball w δ)
-      (fun z hz => h.ball_subset_V hw hz)
+    lipschitz_of_margin hδ hY0 hV₂ (hZg t ht) (hZgb t ht) (convex_ball w δ) hballV₂
   have hu : ‖Zg t (φ t w) - Zg t' (φ t' w)‖ ≤ (Y0 / δ * M + Lt) * |t - t'| := by
     calc ‖Zg t (φ t w) - Zg t' (φ t' w)‖
         = ‖(Zg t (φ t w) - Zg t (φ t' w)) + (Zg t (φ t' w) - Zg t' (φ t' w))‖ := by

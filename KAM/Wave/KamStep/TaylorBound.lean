@@ -200,4 +200,35 @@ theorem norm_tQt_le : ‖tQt X θ‖ ≤ 2 * ε := by
 
 end blocks
 
+theorem norm_tB_le (hr : 0 < r) {ε : ℝ} (hb : ∀ z ∈ kamDomain s r, kamNorm r (X z) ≤ ε)
+    {θ : Fin 2 → ℂ} (hθ : θ ∈ complexStrip 2 s) : ‖tB X θ‖ ≤ 2 * Real.pi * ε := by
+  have hz := hb _ (stepW0L_mem hr hθ)
+  have h1 : ‖(X (stepW0L θ)).1‖ ≤ ε := by
+    unfold kamNorm at hz
+    have : 0 ≤ ‖(X (stepW0L θ)).2.1‖ / r ^ 2 := by positivity
+    have : 0 ≤ ‖(X (stepW0L θ)).2.2.1‖ / r := by positivity
+    have : 0 ≤ ‖(X (stepW0L θ)).2.2.2‖ / r := by positivity
+    linarith
+  have e : tB X θ = ((2 * Real.pi : ℂ)) • (X (stepW0L θ)).1 := by
+    funext i; simp [tB]
+  rw [e, norm_smul]
+  have : ‖(2 * Real.pi : ℂ)‖ = 2 * Real.pi := by
+    rw [norm_mul]; simp [abs_of_pos Real.pi_pos]
+  rw [this]
+  exact mul_le_mul_of_nonneg_left h1 (by positivity)
+
+theorem norm_tCp_le (hr : 0 < r) {ε : ℝ} (hb : ∀ z ∈ kamDomain s r, kamNorm r (X z) ≤ ε)
+    {θ : Fin 2 → ℂ} (hθ : θ ∈ complexStrip 2 s) : ‖tCp X θ‖ ≤ r * ε := by
+  have h := norm_normal_le_kamNorm hr (hb _ (stepW0L_mem hr hθ))
+  unfold tCp
+  rw [norm_smul, norm_neg, Complex.norm_I, one_mul]
+  exact (norm_stepZb_le _).trans h
+
+theorem norm_tCm_le (hr : 0 < r) {ε : ℝ} (hb : ∀ z ∈ kamDomain s r, kamNorm r (X z) ≤ ε)
+    {θ : Fin 2 → ℂ} (hθ : θ ∈ complexStrip 2 s) : ‖tCm X θ‖ ≤ r * ε := by
+  have h := norm_normal_le_kamNorm hr (hb _ (stepW0L_mem hr hθ))
+  unfold tCm
+  rw [norm_smul, Complex.norm_I, one_mul]
+  exact (norm_stepZ_le _).trans h
+
 end KAM.Wave

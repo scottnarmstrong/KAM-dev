@@ -42,17 +42,20 @@ theorem newHam_integral_smoothing (h : FlowHyp (smoothField ι Z) V U M δ)
     (B : F →L[ℂ] F →L[ℂ] ℂ)
     (hskew : ∀ z ∈ V, ∀ x y, B (fderiv ℂ (smoothField ι Z) z x) y +
       B x (fderiv ℂ (smoothField ι Z) z y) = 0)
-    {U' : Set F} (hU' : IsOpen U') (hU'U : U' ⊆ U) {q : ℝ} (hq : q < 1)
+    {V₂ : Set F} (hV₂ : IsOpen V₂)
+    {U' : Set F} (hU' : IsOpen U') (hU'U : U' ⊆ U)
+    (hballV₂ : ∀ w ∈ U', ∀ z ∈ ball w δ, ball z δ ⊆ V₂) (hV₂V : V₂ ⊆ V) {q : ℝ} (hq : q < 1)
     (hN : ∀ w ∈ U', ∀ t ∈ Icc (0 : ℝ) 1, ‖transNop ι Z t w‖ ≤ q)
     {g : ℝ → F → ℂ} {Zg : ℝ → F → G} {Y0 Lt Gb Lg : ℝ} (hY0 : 0 ≤ Y0) (hLt : 0 ≤ Lt)
     (hGb : 0 ≤ Gb) (hLg : 0 ≤ Lg)
-    (hg : ∀ t ∈ Icc (0 : ℝ) 1, ∀ z ∈ V, HasFDerivAt (g t) (B (ι (Zg t z))) z)
-    (hZg : ∀ t ∈ Icc (0 : ℝ) 1, DifferentiableOn ℂ (Zg t) V)
-    (hZgb : ∀ t ∈ Icc (0 : ℝ) 1, ∀ z ∈ V, ‖Zg t z‖ ≤ Y0)
-    (hZgt : ∀ t ∈ Icc (0 : ℝ) 1, ∀ t' ∈ Icc (0 : ℝ) 1, ∀ z ∈ V,
+    (hg : ∀ t ∈ Icc (0 : ℝ) 1, ∀ z ∈ V₂, HasFDerivAt (g t) (B (ι (Zg t z))) z)
+    (hZg : ∀ t ∈ Icc (0 : ℝ) 1, DifferentiableOn ℂ (Zg t) V₂)
+    (hZgb : ∀ t ∈ Icc (0 : ℝ) 1, ∀ z ∈ V₂, ‖Zg t z‖ ≤ Y0)
+    (hZgt : ∀ t ∈ Icc (0 : ℝ) 1, ∀ t' ∈ Icc (0 : ℝ) 1, ∀ z ∈ V₂,
       ‖Zg t z - Zg t' z‖ ≤ Lt * |t - t'|)
-    (hgb : ∀ t ∈ Icc (0 : ℝ) 1, ∀ z ∈ V, ‖g t z‖ ≤ Gb)
-    (hgt : ∀ t ∈ Icc (0 : ℝ) 1, ∀ t' ∈ Icc (0 : ℝ) 1, ∀ z ∈ V, ‖g t z - g t' z‖ ≤ Lg * |t - t'|) :
+    (hgb : ∀ t ∈ Icc (0 : ℝ) 1, ∀ z ∈ V₂, ‖g t z‖ ≤ Gb)
+    (hgt : ∀ t ∈ Icc (0 : ℝ) 1, ∀ t' ∈ Icc (0 : ℝ) 1, ∀ z ∈ V₂,
+      ‖g t z - g t' z‖ ≤ Lg * |t - t'|) :
     DifferentiableOn ℂ (fun w => ∫ t in (0 : ℝ)..1, g t (holoFlow (smoothField ι Z) t w)) U' ∧
       DifferentiableOn ℂ (fun w => ∫ t in (0 : ℝ)..1, yfam ι Z Zg t w) U' ∧
       ∀ w ∈ U', HasFDerivAt (fun w => ∫ t in (0 : ℝ)..1, g t (holoFlow (smoothField ι Z) t w))
@@ -71,8 +74,8 @@ theorem newHam_integral_smoothing (h : FlowHyp (smoothField ι Z) V U M δ)
   · -- derivative of the transported function
     intro t ht w hw
     have hwU := hU'U hw
-    have hφmem : holoFlow (smoothField ι Z) t w ∈ V :=
-      h.mem_V_of_ball hwU (holoFlow_mem_ball h hwU (hI t ht))
+    have hφmem : holoFlow (smoothField ι Z) t w ∈ V₂ :=
+      hballV₂ w hw _ (holoFlow_mem_ball h hwU (hI t ht)) (mem_ball_self h.delta_pos)
     refine hasFDerivAt_comp_flow_smooth h hZ hb B hskew hwU (hI t ht) (Gf := g t) (Zg := Zg t)
       (hg t ht _ hφmem) ?_
     exact transSolve_spec (hq1 w hw t ht) _
@@ -84,22 +87,22 @@ theorem newHam_integral_smoothing (h : FlowHyp (smoothField ι Z) V U M δ)
       (differentiableOn_transNop h hZ hb (hI t ht)).differentiableAt (h.isOpen_U.mem_nhds hwU)
     have hφd : DifferentiableAt ℂ (holoFlow (smoothField ι Z) t) w :=
       ((holomorphicOn_holoFlow h (hI t ht)).differentiableAt (h.isOpen_U.mem_nhds hwU))
-    have hφmem : holoFlow (smoothField ι Z) t w ∈ V :=
-      h.mem_V_of_ball hwU (holoFlow_mem_ball h hwU (hI t ht))
+    have hφmem : holoFlow (smoothField ι Z) t w ∈ V₂ :=
+      hballV₂ w hw _ (holoFlow_mem_ball h hwU (hI t ht)) (mem_ball_self h.delta_pos)
     have hZd : DifferentiableAt ℂ (Zg t) (holoFlow (smoothField ι Z) t w) :=
-      (hZg t ht).differentiableAt (h.isOpen_V.mem_nhds hφmem)
+      (hZg t ht).differentiableAt (hV₂.mem_nhds hφmem)
     exact (differentiableAt_transSolve_apply hNd (hZd.comp w hφd) (hq1 w hw t ht)).differentiableWithinAt
   · -- Lipschitz in t of the scalar family
     intro w hw t ht t' ht'
     have hwU := hU'U hw
     have hδ := h.delta_pos
-    have hgd : DifferentiableOn ℂ (g t) V := fun z hz =>
+    have hgd : DifferentiableOn ℂ (g t) V₂ := fun z hz =>
       (hg t ht z hz).differentiableAt.differentiableWithinAt
-    have hlip := lipschitz_of_margin hδ hGb h.isOpen_V hgd (hgb t ht) (convex_ball w δ)
-      (fun z hz => h.ball_subset_V hwU hz)
+    have hlip := lipschitz_of_margin hδ hGb hV₂ hgd (hgb t ht) (convex_ball w δ)
+      (hballV₂ w hw)
     have hflow := norm_flow_time_sub_le h hZ hb hι hwU (hI t ht) (hI t' ht')
-    have hmem' : holoFlow (smoothField ι Z) t' w ∈ V :=
-      h.mem_V_of_ball hwU (holoFlow_mem_ball h hwU (hI t' ht'))
+    have hmem' : holoFlow (smoothField ι Z) t' w ∈ V₂ :=
+      hballV₂ w hw _ (holoFlow_mem_ball h hwU (hI t' ht')) (mem_ball_self h.delta_pos)
     show ‖g t (holoFlow (smoothField ι Z) t w) - g t' (holoFlow (smoothField ι Z) t' w)‖ ≤ _
     calc _ = ‖(g t (holoFlow (smoothField ι Z) t w) - g t (holoFlow (smoothField ι Z) t' w)) +
           (g t (holoFlow (smoothField ι Z) t' w) - g t' (holoFlow (smoothField ι Z) t' w))‖ := by
@@ -112,6 +115,7 @@ theorem newHam_integral_smoothing (h : FlowHyp (smoothField ι Z) V U M δ)
       _ ≤ Gb / δ * (M * |t - t'|) + Lg * |t - t'| := by gcongr
       _ = _ := by ring
   · intro w hw t ht t' ht'
-    exact norm_yfam_time_sub_le h hZ hb hι hL hq hY0 hLt hZg hZgb hZgt (hU'U hw) (hN w hw) ht ht'
+    exact norm_yfam_time_sub_le h hZ hb hι hL hV₂ hq hY0 hLt hZg hZgb hZgt (hU'U hw)
+      (hballV₂ w hw) (hN w hw) ht ht'
 
 end KAM.Wave
