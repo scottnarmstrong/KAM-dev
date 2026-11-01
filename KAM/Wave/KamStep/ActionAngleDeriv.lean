@@ -57,7 +57,7 @@ theorem aaE_mul (w : KamPhase) (i : Fin 2) : aaE w true i * aaE w false i = 1 :=
 theorem aaE_ne_zero (w : KamPhase) (b : Bool) (i : Fin 2) : aaE w b i ≠ 0 := Complex.exp_ne_zero _
 
 theorem aaS_ne_zero {ξ : Fin 2 → ℂ} {w : KamPhase} {i : Fin 2} (h : 0 < (ξ i + w.2.1 i).re) :
-    aaS ξ w i ≠ 0 := aaSqrt_ne_zero (ne_zero_of_re_pos h)
+    aaS ξ w i ≠ 0 := aaSqrt_ne_zero (aa_ne_zero_of_re_pos h)
 
 theorem aaS_mul_self (ξ : Fin 2 → ℂ) (w : KamPhase) (i : Fin 2) :
     aaS ξ w i * aaS ξ w i = ξ i + w.2.1 i := aaSqrt_mul_self _
@@ -143,9 +143,9 @@ theorem hasFDerivAt_aaS {ξ : Fin 2 → ℂ} {w : KamPhase} {i : Fin 2}
       (ContinuousLinearMap.snd ℂ (Fin 2 → ℂ) ((Fin 2 → ℂ) × HomL2 × HomL2)))
   have hlin : HasFDerivAt (fun w : KamPhase => ξ i + w.2.1 i) L w :=
     (L.hasFDerivAt).const_add (ξ i)
-  have hz := ne_zero_of_re_pos h
+  have hz := aa_ne_zero_of_re_pos h
   have hd := (Complex.hasStrictDerivAt_cpow_const (c := (2⁻¹ : ℂ))
-    (mem_slitPlane_of_re_pos h)).hasDerivAt
+    (aa_mem_slitPlane_of_re_pos h)).hasDerivAt
   have hc := hd.comp_hasFDerivAt w hlin
   have hs := aaS_ne_zero h
   have hss := aaS_mul_self ξ w i

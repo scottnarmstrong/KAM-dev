@@ -54,9 +54,9 @@ theorem aaSqrt_mul_self (ζ : ℂ) : aaSqrt ζ * aaSqrt ζ = ζ := by rw [← sq
 theorem aaSqrt_ne_zero {ζ : ℂ} (h : ζ ≠ 0) : aaSqrt ζ ≠ 0 := fun h0 =>
   h (by rw [← aaSqrt_sq ζ, h0]; ring)
 
-theorem ne_zero_of_re_pos {ζ : ℂ} (h : 0 < ζ.re) : ζ ≠ 0 := fun h0 => by simp [h0] at h
+theorem aa_ne_zero_of_re_pos {ζ : ℂ} (h : 0 < ζ.re) : ζ ≠ 0 := fun h0 => by simp [h0] at h
 
-theorem mem_slitPlane_of_re_pos {ζ : ℂ} (h : 0 < ζ.re) : ζ ∈ slitPlane :=
+theorem aa_mem_slitPlane_of_re_pos {ζ : ℂ} (h : 0 < ζ.re) : ζ ∈ slitPlane :=
   Complex.mem_slitPlane_iff.2 (Or.inl h)
 
 /-- `√x` of a real `x ≥ 0` is the real square root. -/
@@ -68,7 +68,7 @@ theorem aaSqrt_ofReal {x : ℝ} (hx : 0 ≤ x) : aaSqrt (x : ℂ) = ((Real.sqrt 
 theorem differentiableAt_aaSqrt_comp {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
     {g : E → ℂ} {x : E} (hg : DifferentiableAt ℂ g x) (h : 0 < (g x).re) :
     DifferentiableAt ℂ (fun x => aaSqrt (g x)) x :=
-  hg.cpow_const (mem_slitPlane_of_re_pos h)
+  hg.cpow_const (aa_mem_slitPlane_of_re_pos h)
 
 /-! ### The index shift `j ↦ j + 2` -/
 
