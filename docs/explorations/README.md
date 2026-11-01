@@ -50,6 +50,9 @@ MP, multiprecision; CPU-h, kernel CPU-hours; Dn, decision n in [`docs/DECISIONS.
    See also the [confirmed v2 fixes](../campaign/design/CERTIFIER-V2-FIXES.md) and
    [v2 improvements](../campaign/design/CERTIFIER-V2-IMPROVEMENTS.md). The review identifies no fundamental defect
    in SO-2/SO-3; the fixes document distinguishes their campaign-reported progress from this review's own checks.
+8. [**amd-crossing/**](amd-crossing/README.md): a co-author's proposal that planets can be chaotic yet never cross
+   orbits for exp(cμ^(−1/(2n+1))), worked out as a sharp strong-AMD, nonresonant, spatial upgrade of P-EXP-SAFE; a
+   claimed paper proof awaits an independent audit, and the full Solar System fails the AMD premise.
 
 ## The catalogue
 
@@ -72,6 +75,7 @@ Overview, in date order within each theme:
 | [almost-every-shorter-times](almost-every-shorter-times.md) | 27 Oct | [planetary](themes/planetary-and-almost-every.md) | done in part (D22, D28) | Averaging gives mean error O(√ε), hence exception O(√ε/η); not "O(√ε) off O(√ε)" |
 | [almost-every-round2](almost-every-round2.md) | 27 Oct | [planetary](themes/planetary-and-almost-every.md) | done, corrected | Exponential-time safety for every low-AMD initial condition; secular SJS box safe forever |
 | [almost-every-round3-refutation](almost-every-round3-refutation.md) | 27 Oct | [planetary](themes/planetary-and-almost-every.md) | audit; done (D25) | Round 2 confirmed with corrections; exponent 1/(2n) unverified; it is Nekhoroshev 1977 Thm 12.3 |
+| [amd-crossing](amd-crossing/README.md) | 31 Oct | [planetary](themes/planetary-and-almost-every.md) | proposed; paper proof claimed, unaudited | Chaotic but collision-free: strong-AMD threshold plus nonresonant exponential safety upgrades P-EXP-SAFE; the full Solar System fails the premise |
 | [realistic-kam-and-finite-size](realistic-kam-and-finite-size.md) | 27 Oct | [Moon](themes/moon-and-spin-orbit.md) | partly adopted (C2 → SO) | A-posteriori KAM plus a computer proof is the realistic form; finite size surveyed |
 | [lunar-spin-orbit-certificate-proposal](lunar-spin-orbit-certificate-proposal.md) | 29 Oct | [Moon](themes/moon-and-spin-orbit.md) | adopted (D30), running | Two certified barriers confine the Moon's spin rate; became track SO |
 | [lunar-band-2p8-2p9](lunar-band-2p8-2p9.md) | 30 Oct | [Moon](themes/moon-and-spin-orbit.md) | adopted (D37), overtaken (D38) | Move the barriers toward the separatrix floor 2.62 % |
