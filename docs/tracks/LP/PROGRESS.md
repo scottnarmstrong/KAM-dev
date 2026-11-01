@@ -46,7 +46,8 @@ src (4th, created 05:30 for the third slot).
 | LP-SP-TUBE tube for Phase (n+m) (N12) | L18 infra | 4 | `inp-lp-sptube` | claude-11 | proved 14d8799a (201 lines); audit queued (W4) |
 | LP-SP-ADAPT L13 adapter for Phase (n+m) | L13 infra | 4 | `inp-lp-spadapt` / mom worktree | claude-11 | running |
 | LP-SRC OD-11 (b) source carriers + LP1 restatement | freeze prep | — | `inp-lp-src` / src worktree (4th) | claude-6 | running |
-| LP-SP-PROD n-body spatial product chart | L17 (n bodies), (47) | 4 | `inp-lp-spprod` / geomod worktree | claude-12 | running (tmux inp-mprov-lp-spprod) |
+| LP-SP-PROD n-body spatial product chart | L17 (n bodies), (47) | 4 | `inp-lp-spprod` | claude-12 | proved e2a64cdc (767 lines); audit queued (W4) |
+| LP-SP-DOM spatial analytic domain | L18 | 4 | `inp-lp-spdom` / geomod worktree | claude-12 | running |
 | LP-SP-DOM / SP-SAFE (+ spatial NRR/LIFT/CONF twins) | L18, T19 | 4 | — | — | after SP-PROD |
 
 ## Audit queue (codex-2, one at a time machine-wide; W interleaves when LP has a gap)
@@ -100,3 +101,4 @@ src (4th, created 05:30 for the third slot).
 - 2026-11-01 05:10 UTC: LP-SP-CONF proved. LP-PS audit launched on codex-2 (W4-COMPLETE had ended 04:30 without a ping). LP-SP-TUBE (N12 re-typing of tube) launched on claude-11.
 - 2026-11-01 05:20 UTC: third prover slot granted (root-b8). LP-SRC (OD-11 (b) concrete text, proved) launched on claude-6 in a 4th worktree. LP-PS audit running.
 - 2026-11-01 05:22 UTC: LP-SP-TUBE proved. SP-PROD chose layout Phase (n + (n + n)). LP-SP-ADAPT (L13 adapter for Phase (n+m)) launched on claude-11.
+- 2026-11-01 05:23 UTC: LP-SP-PROD proved (767 lines). LP-SP-DOM (L18) launched on claude-12.
