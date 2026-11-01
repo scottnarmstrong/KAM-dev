@@ -559,3 +559,10 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - **Install:** in one pass, already sealed, as D62. The approval date and this decision number fill the placeholders;
     the providers are staged and Expr-checked; then 2 SEALED manifest entries and 2 MANIFEST-CHANGES rows. A dedicated
     seal audit and the landing (kernel replay, `#print axioms`) follow, with no further go needed.
+- **D65 (2026-11-01, 14:25 UTC) Streamlined dependency graph for a fully proved track (LP).** *(Scott: "streamline the
+  approval for the LP graph since it is fucking around 100% proved. save tokens".)*
+  - When every anchor of a track is already proved, audited and sealed, its source graph is a provenance record.
+  - **Extraction:** one pass by one extractor. LEAN_STATUS is set mechanically from LEAN_REFs that resolve on `main`.
+  - **Checks:** the structural lint (coverage, edges, cycles, reachability) and ONE independent global review, instead
+    of per-slice reviews.
+  - **Labelling:** the graph header says so.
