@@ -515,3 +515,21 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
     - a dedicated seal audit (codex) of the provider and the anchor body.
   - **Procedure:** as D26/D50. Everything lands on `main` (W5, W6, W8 with the provider, action-angle/initial), then
     the seal commit lands with its MANIFEST-CHANGES.md row.
+- **D62 (2026-11-01, 10:50 UTC) Freeze and seal track LP's statements, draft 7 revision 1.** *(Scott: "approve draft 7",
+  after reviewing the exact text: the review page of all 128 files, each sha256-checked against the verification
+  record.)*
+  - **The approval object:** branch `inp-lp-freeze7` at `de343000`: `docs/tracks/LP/FREEZE-PROPOSAL.md` and the 128
+    files under `docs/tracks/LP/freeze/draft7/`, byte for byte. That is 5 anchors, 34 characterization theorems and 89
+    definitions.
+    - The anchors are LP0 `planar_strongAMD_barrier`, LP1 `planar_strongAMD_exponentialSafety` and LP1-H `…_halfInteger`
+      (in `KAM.Planetary.StrongAMD`), and LP2 `spatial_strongAMD_exponentialSafety` and LP2-H `…_halfInteger` (in
+      `KAM.Planetary.Spatial`).
+    - Both τ = n − 1/2 corollaries are frozen as anchors.
+    - The text includes option C: the Diophantine premise is the frozen `KAM.IsDiophantine` with ω_i = ν_i³/Λ_i³.
+  - **Only change at freeze time:** the approval date and this decision number fill the docstring placeholders.
+  - **Under the LP runbook (`docs/tracks/LP/freeze/RUNBOOK.md`):**
+    - **Freeze:** the anchors start as DRAFT_SORRY, with manifest entries and the frozen-anchor guard.
+    - **Graph:** the source dependency graph is built.
+    - **Seals:** each sealed body is a one-line `by exact` to its provider. The seals need no further go, but only
+      after a dedicated seal audit passes (as D61). Each seal gets a MANIFEST-CHANGES row citing D62.
+  - **Not covered:** draft 8 (the LP3 anchors) needs its own approval.

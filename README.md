@@ -629,6 +629,8 @@ Full text: [`docs/DECISIONS.md`](docs/DECISIONS.md).
   *(Scott, 2026-11-01)*
 - **D60** Track W audits run in parallel, up to 3 sessions on codex-1 and codex-2. *(Scott, 2026-11-01)*
 - **D61** Seal W-NLW2 (`KAM.Wave.nlw2`) as soon as its audits and a seal audit pass. *(Scott, 2026-11-01)*
+- **D62** Freeze track LP's statements as approved (draft 7 r1: LP0–LP2 and the 1/(2n+1) corollaries, 128 files), then
+  seal them after a seal audit. *(Scott, 2026-11-01)*
 
 ## Owner questions
 
