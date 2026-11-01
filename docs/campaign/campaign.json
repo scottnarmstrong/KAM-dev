@@ -282,6 +282,6 @@
   }
  },
  "lp": {
-  "now": "Sub-orchestrator kam-lp (tmux kam-suborch-lp) with 2 provers capped at 4 GB: LP-THR (Laskar–Petit pair and strong thresholds, attained minimum, continuity) and LP-MOM (planar angular momentum and the AMD identity, no prograde premise). Next: geometry, continuity modulus, the planar chart, then an early test of the nonresonant normal-form adapter. Upgrades track P's planar `planetaryExponentialSafety` (crude AMD box, Nekhoroshev 1977 exponent) to the sharp threshold, the nonresonant exponent and the spatial problem."
+  "now": "Wave 1 (the sharp AMD barrier): LP-THR (Laskar–Petit pair and strong thresholds, attained minimum, continuity) and LP-MOM (planar angular momentum and the AMD identity, no prograde premise) proving; LP-DICT (the planar chart dictionary plus an early test of the nonresonant normal-form adapter) next. 15 packages planned over waves 1–4 (about 23k lines); the track docs and package list are landing on `main`. Sub-orchestrator kam-lp, 2 provers capped at 4 GB; nothing frozen until the owner approves the exact statements."
  }
 }
