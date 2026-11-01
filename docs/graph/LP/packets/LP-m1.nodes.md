@@ -19,9 +19,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-m1
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: hypothesis package (SPEC §3): not a global standing assumption; a result that assumes part of it names that part in SOURCE_HYPOTHESES and depends on this node
 
 NODE: lpM:s1:model
@@ -46,9 +46,9 @@ EDGE: lpM:s1:data | docs/tracks/LP/source/MAIN.md#s1@L17-L17 | the data ν, n, d
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-m1
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:s1:elements
@@ -74,9 +74,9 @@ EDGE: lpM:s1:data | docs/tracks/LP/source/MAIN.md#s1@L28-L28 | the Euclidean len
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-m1
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: d-generic source definition (d ∈ {2,3}); the planar frozen realizations are the anchors lpM:s1:elements#* (LP-adef-pl), the spatial ones come in wave 3 (SPEC §5, dimension rule). AMENDED: N8 (AMENDMENTS.md L17): C = ΣI - ¦L¦ is the frozen convention (OD-1).
 
 NODE: lpM:s1:fast
@@ -102,9 +102,9 @@ EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#s1@L60-L60 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-m1
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:s1:dioph
@@ -130,9 +130,9 @@ EDGE: lpM:s1:data | docs/tracks/LP/source/MAIN.md#s1@L64-L64 | γ and τ are fix
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-m1
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:s1:half-integer
@@ -157,7 +157,7 @@ EDGE: lpM:s1:data | docs/tracks/LP/source/MAIN.md#s1@L93-L93 | admissibility is 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-m1
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: arithmetic step of the half-integer corollary anchors LP1-H and LP2-H (waves 2 and 3); the exponent a = 1/(2(τ+1)) is defined in (7)

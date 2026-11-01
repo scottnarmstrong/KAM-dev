@@ -25,9 +25,9 @@ EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L7@L200-L200 | energy, ang
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L7#kepler-equation
@@ -52,9 +52,9 @@ EDGE: lpM:ext-holomorphic-limit | docs/tracks/LP/source/MAIN.md#L7@L211-L211 | u
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: the convergence of the iterates of a contraction is elementary (geometric series); only the holomorphy of the limit is an external input
 
 NODE: lpM:L7#chart-formula
@@ -79,9 +79,9 @@ EDGE: lpM:L7#kepler-equation | docs/tracks/LP/source/MAIN.md#L7@L219-L219 | F so
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L7#rotated-form
@@ -107,9 +107,9 @@ EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L7@L226-L226 | energy, ang
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L7#symplectic
@@ -136,9 +136,9 @@ EDGE: lpM:ext-identity-theorem | docs/tracks/LP/source/MAIN.md#L7@L238-L238 | th
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: AMENDED: N1 (AMENDMENTS.md L10), fixed in place at MAIN L238: Γ d(-ϖ) = (x dy - y dx)/2
 
 NODE: lpM:L7#inverse
@@ -166,9 +166,9 @@ EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L7@L242-L242 | the eccentr
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L8
@@ -234,9 +234,9 @@ EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#L
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L8#shared-tube
@@ -264,9 +264,9 @@ EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#L
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: AMENDED: N2 (AMENDMENTS.md L11): this U is the one compact set shared with Lemmas 6 and 14; it contains the closed 4r_g-tube about 𝓛_δ
 
 NODE: lpM:L8#real-margin
@@ -295,9 +295,9 @@ EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#L
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L8#compact-real-set
@@ -324,9 +324,9 @@ EDGE: lpM:L7 | docs/tracks/LP/source/MAIN.md#L8@L261-L261 | the chart is real an
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: AMENDED: N3 (AMENDMENTS.md L12): the projection K' over I^0 ∈ 𝓛_δ of this closed set, with r_* ≤ 4r_g
 
 NODE: lpM:L8#newton-extension
@@ -354,9 +354,9 @@ EDGE: lpM:ext-holomorphic-limit | docs/tracks/LP/source/MAIN.md#L8@L263-L263 | t
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L8#gluing
@@ -384,9 +384,9 @@ EDGE: lpM:ext-compact-cover | docs/tracks/LP/source/MAIN.md#L8@L265-L265 | a fin
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L8#denominators
@@ -414,9 +414,9 @@ EDGE: lpM:ext-cauchy-estimates | docs/tracks/LP/source/MAIN.md#L8@L271-L271 | th
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L8#widths
@@ -444,9 +444,9 @@ EDGE: lpM:L8#shared-tube | docs/tracks/LP/source/AMENDMENTS.md#N3@L12-L12 | N3: 
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: AMENDED: N3 (AMENDMENTS.md L12): r_* ≤ 4r_g is stated explicitly
 
 NODE: lpM:L8#exact-split
@@ -473,7 +473,7 @@ EDGE: lpM:s1:model | docs/tracks/LP/source/MAIN.md#L8@L271-L271 | the splitting 
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -

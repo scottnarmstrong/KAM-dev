@@ -1,2 +1,5 @@
 node	declaration	file	match
+lpM:L1#velocity	KAM.Planetary.StrongAMD.oscVelocity_eq_movingField ; KAM.Planetary.Spatial.spatialOscVelocity_eq_hamiltonianVectorField	KAM/Planetary/StrongAMD/Osculating/Basic.lean ; KAM/Planetary/Spatial/Osculating/Basic.lean	d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a))
+lpM:L2	KAM.Planetary.StrongAMD.orbital_identities ; KAM.Planetary.Spatial.spatial_orbital_identities	KAM/Planetary/StrongAMD/Orbital.lean ; KAM/Planetary/Spatial/Orbital.lean	d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a))
+lpM:L5	KAM.Planetary.StrongAMD.barrier_osc_data ; KAM.Planetary.Spatial.spatialBarrier_osc_data	KAM/Planetary/StrongAMD/Osculating.lean ; KAM/Planetary/Spatial/Osculating.lean	d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a))
 lpM:L8	KAM.Planetary.StrongAMD.lemma8_complete	KAM/Planetary/StrongAMD/AnalyticDomain/Bounds.lean	unique docstring match

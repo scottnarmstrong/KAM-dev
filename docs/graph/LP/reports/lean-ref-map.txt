@@ -149,9 +149,45 @@ import closure: 145 KAM modules; identical to main in /root/code/KAM-inp (HEAD, 
 'KAM.Planetary.StrongAMD.lemma8_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
 ```
 
-## Re-sync and structural lint (2026-11-01T14:43Z)
+# Step B (2026-11-01T14:46Z, main d547b92674d7b1e5b0f013d1c5b17f8882a61b14): rule (a) d-generic pairs, rule (b) D27 BYPASS
 
-lp_depgraph_lean_sync.py --apply --force: PROVED 146 (145 anchors + lpM:L8), EXTERNAL 11, NOT_STARTED 135
+## (a) Pair rule: the regenerated map (all rules of step A plus rule (a))
+
+declarations scanned on main: 714 (with docstrings, public); ordinary nodes: 136
+PROVED: 4; NOT_STARTED: 132
+import closure: 224 KAM modules; identical to main in /root/code/KAM-inp (HEAD, clean)
+
+Rows changed by rule (a):
+
+| node | kind | status | LEAN_REF | reason | candidates |
+|---|---|---|---|---|---|
+| lpM:L1#velocity | display | PROVED | KAM.Planetary.StrongAMD.oscVelocity_eq_movingField ; KAM.Planetary.Spatial.spatialOscVelocity_eq_hamiltonianVectorField | d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a)) | KAM.Planetary.Spatial.spatialOscVelocity_eq_hamiltonianVectorField, KAM.Planetary.StrongAMD.oscVelocity_eq_movingField |
+| lpM:L2 | lemma | PROVED | KAM.Planetary.StrongAMD.orbital_identities ; KAM.Planetary.Spatial.spatial_orbital_identities | d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a)) | KAM.Planetary.Spatial.spatial_orbital_identities, KAM.Planetary.StrongAMD.orbital_identities |
+| lpM:L5 | lemma | PROVED | KAM.Planetary.StrongAMD.barrier_osc_data ; KAM.Planetary.Spatial.spatialBarrier_osc_data | d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a)) | KAM.Planetary.Spatial.spatialBarrier_osc_data, KAM.Planetary.StrongAMD.barrier_osc_data |
+| lpM:L5#empty-case | step | NOT_STARTED | - | d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a)), but KAM.Planetary.StrongAMD.exists_barrierCompact ; KAM.Planetary.Spatial.exists_spatialBarrierCompact is also the match of lpM:L5#perihelion, lpM:L5#perihelion (its citation is coarser than this node) | KAM.Planetary.Spatial.exists_spatialBarrierCompact, KAM.Planetary.StrongAMD.exists_barrierCompact |
+| lpM:L5#perihelion | step | NOT_STARTED | - | d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a)), but KAM.Planetary.StrongAMD.exists_barrierCompact ; KAM.Planetary.Spatial.exists_spatialBarrierCompact is also the match of lpM:L5#empty-case, lpM:L5#empty-case (its citation is coarser than this node) | KAM.Planetary.Spatial.exists_spatialBarrierCompact, KAM.Planetary.StrongAMD.exists_barrierCompact |
+
+### #print axioms output of step B (one scratch file, one process)
+
+```
+'KAM.Planetary.Spatial.spatialBarrier_osc_data' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.Spatial.spatialOscVelocity_eq_hamiltonianVectorField' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'KAM.Planetary.Spatial.spatial_orbital_identities' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.StrongAMD.barrier_osc_data' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.StrongAMD.lemma8_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.StrongAMD.orbital_identities' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.StrongAMD.oscVelocity_eq_movingField' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+## (b) D27 BYPASS
+
+Rule: every ordinary node still without a LEAN_REF, all of whose consumers are PROVED or themselves BYPASSED (greatest fixed point over DEPS and ROUTES of the assembled packets, route nodes included), gets LEAN_STATUS BYPASSED, LEAN_REF -, LEAN_NOTE 'D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED' (W precedent format).
+
+BYPASSED: 132 (every ordinary node without a LEAN_REF, including the 2 route nodes); blocked (a consumer not PROVED): 0 (reports/bypass-blocked.txt is empty)
+
+## Final LEAN_STATUS and structural lint
+
+PROVED 149 (145 anchors; lpM:L8 unique match; lpM:L1#velocity, lpM:L2, lpM:L5 d-generic pairs), BYPASSED 132, EXTERNAL 11, NOT_STARTED 0
 proof_depgraph.py --require-complete-coverage --require-all-reachable --write-dashboard: rc 0; --check: rc 0
-
-NOT_STARTED reasons (135): 93 no declaration on main cites the node's MAIN item; 35 several matching declarations (every d-generic lemma has a planar and a spatial realization); 5 the unique match is shared with another node (coarser citation); 2 route nodes

@@ -22,9 +22,9 @@ EDGE: lpM:s1:model | docs/tracks/LP/source/MAIN.md#L1@L99-L99 | the statement co
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-m2a
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L1#reduction
@@ -49,9 +49,9 @@ EDGE: lpM:s1:model | docs/tracks/LP/source/MAIN.md#L1@L102-L102 | the result is 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-m2a
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L1#velocity
@@ -76,9 +76,9 @@ EDGE: lpM:s1:model | docs/tracks/LP/source/MAIN.md#L1@L106-L106 | Hamilton's equ
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-m2a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.oscVelocity_eq_movingField ; KAM.Planetary.Spatial.spatialOscVelocity_eq_hamiltonianVectorField
+LEAN_NOTE: d-generic: planar and spatial realizations (mechanical docstring match, D65)
 NOTE: display (10), refined into its own node because Lemma 3 (recoil term) and Lemma 16 (V_i) consume it independently of the reconstruction (SPEC §5, displays)
 
 NODE: lpM:L1#reconstruction
@@ -105,9 +105,9 @@ EDGE: lpM:s1:model | docs/tracks/LP/source/MAIN.md#L1@L108-L108 | the equations 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-m2a
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L2
@@ -134,9 +134,9 @@ EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L2@L112-L112 | definitions
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-m2a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.orbital_identities ; KAM.Planetary.Spatial.spatial_orbital_identities
+LEAN_NOTE: d-generic: planar and spatial realizations (mechanical docstring match, D65)
 NOTE: -
 
 NODE: lpM:L2#ecc-identity
@@ -161,9 +161,9 @@ EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L2@L124-L124 | the eccentr
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-m2a
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L2#radial-bounds
@@ -189,9 +189,9 @@ EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L2@L124-L124 | the energy 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-m2a
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L3
@@ -219,9 +219,9 @@ EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#L3@L135-L135 
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: Q3 split (ruling root-b8): the conjunction of lpM:L3#static (consumed by Lemma 5, hence LP0, which thus does not reach Lemma 1) and lpM:L3#dynamic (consumed by Lemma 6 and the dynamic anchors)
 
 NODE: lpM:L3#static
@@ -250,9 +250,9 @@ EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#L3@L135-L135 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-m2a
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: Q3 split: no dynamics is used; this is the part of Lemma 3 that Lemma 5 (and LP0) consumes
 
 NODE: lpM:L3#dynamic
@@ -278,9 +278,9 @@ EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | C = Σ I_i 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-m2a
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: Q3 split: the dynamic clauses of Lemma 3 (consumed by Lemma 6 and the dynamic anchors)
 
 NODE: lpM:L3#conservation
@@ -308,9 +308,9 @@ EDGE: lpM:ext-ftc | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | the fundamental
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-m2a
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L3#amd-nonneg
@@ -336,9 +336,9 @@ EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | C = Σ I_i 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-m2a
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L3#L-nonzero
@@ -363,9 +363,9 @@ EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | C = Σ I_i 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-m2a
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L3#projections
@@ -391,9 +391,9 @@ EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | Σ_i H_i = 
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: The local L ≠ 0 case is explicit, as needed by the nonzero-L deficit argument. The C < B_⋆ and C ≤ B_⋆ - m clauses are conditional conclusions. Do not apply lpM:L3#L-nonzero here: its premise C < B_⋆ is absent in the general nonzero-L case; lpM:L3#static obtains L ≠ 0 separately before using this step.
 
 NODE: lpM:L3#deficit
@@ -420,9 +420,9 @@ EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#L3@L139-L139 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-m2a
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: the argument uses only L ≠ 0 (to define L̂); MAIN applies it on orbits with C < B_⋆
 
 NODE: lpM:L3#deficit-zero-L
@@ -449,9 +449,9 @@ EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | C = Σ I_i 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-m2a
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: SOURCE_GAP: MAIN states and proves the inequality of (13) only on orbits with C < B_⋆ (hence L ≠ 0, via H_i); the frozen characterization sum_action_mul_eccDeficit_le_sourceStrongAMD asserts it on every source canonical phase, and the case L = 0 is not argued in MAIN (it is immediate from D ≤ 1 on [0,1])
 
 NODE: lpM:L3#planar-orientation
@@ -477,9 +477,9 @@ EDGE: lpM:L3#L-nonzero | docs/tracks/LP/source/MAIN.md#L3@L137-L137 | C < B_⋆ 
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: consumed by Theorem 15's orientation step (wave 2; N8, OD-1)
 
 NODE: lpM:L4
@@ -512,9 +512,9 @@ EDGE: lpM:s1:data | docs/tracks/LP/source/MAIN.md#L4@L143-L143 | the inherited n
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: Q4 split (ruling root-b8): the statement clauses on radial contact and the Laskar-Petit identification (L143) and on geometric sharpness (L147) are not part of this record; no proof consumes them (N9). Their items lpM:L4#stmt-contact-lp and lpM:L4#stmt-sharpness and the supporting prose L158 and L160 are EXCLUDED
 
 NODE: lpM:L4#feasible-compact
@@ -545,9 +545,9 @@ EDGE: lpM:s1:data | docs/tracks/LP/source/MAIN.md#L4@L149-L156 | the inherited n
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L4#contact-reduction
@@ -577,9 +577,9 @@ EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#L4@L149-L156 
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L4#contact-param
@@ -609,9 +609,9 @@ EDGE: lpM:s1:thresholds#orderedPairThreshold | docs/tracks/LP/source/MAIN.md#L4@
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L4#continuity
@@ -644,9 +644,9 @@ EDGE: lpM:s1:thresholds#pairObjective | docs/tracks/LP/source/MAIN.md#L4@L154-L1
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L4#positivity
@@ -680,9 +680,9 @@ EDGE: lpM:s1:thresholds#pairObjective | docs/tracks/LP/source/MAIN.md#L4@L156-L1
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -
 
 NODE: lpM:L4#competitor
@@ -715,7 +715,7 @@ EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#L4@L149-L156 
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED
 NOTE: -

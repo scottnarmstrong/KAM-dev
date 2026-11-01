@@ -20,8 +20,10 @@ No inference beyond the docstring citations:
      lines all lie within the node's proof range (its statement range when it has none; tolerance 2);
    - a display node: a citation of a display number whose coverage item lpM:eq<N> maps to exactly this node;
    - route nodes are not matched (alternative wrappers; no declaration is expected).
-3. A node is proposed when exactly one declaration matches it and that declaration matches no other node, or when its own TITLE/SOURCE_CONCLUSION names one of
-   the matching declarations. It is PROVED only if, in addition, the declaration exists on main by name (step 1) and
+3. A node is proposed when exactly one declaration matches it and that declaration matches no other node; or (step
+   B, rule (a)) when it is d-generic (its MAIN unit is not L7, L8, T15, L17, L18, T19) and its matches are exactly one
+   KAM.Planetary.StrongAMD.* and one KAM.Planetary.Spatial.* declaration, neither matching another node (LEAN_REF
+   '<planar> ; <spatial>'); or when its own TITLE/SOURCE_CONCLUSION names one of the matching declarations. It is PROVED only if, in addition, the declaration exists on main by name (step 1) and
    `#print axioms` gives exactly {propext, Classical.choice, Quot.sound}: one scratch file, one process, through the
    LP wrapper in the build worktree. The build worktree's tree must equal main's on the whole transitive KAM import
    closure of the scratch file (checked blob by blob), so its build answers for main.
@@ -41,6 +43,8 @@ STD = {"propext", "Classical.choice", "Quot.sound"}
 DECL = re.compile(r"/--(.*?)-/\s*(?:@\[[^\]]*\]\s*)*((?:(?:private|protected|noncomputable|nonrec|partial|unsafe)\s+)*)"
                   r"(theorem|lemma|def|abbrev|structure|instance|irreducible_def)\s+([^\s(:{\[]+)", re.S)
 UNIT = {"L15": "T15", "L19": "T19", "§1": "s1"}
+DIM_UNITS = {"L7", "L8", "T15", "L17", "L18", "T19"}  # planar-only and spatial-only MAIN units; all others are d-generic
+PAIR = "d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a))"
 
 
 def git(root, *args):
@@ -187,10 +191,15 @@ def main():
             if hit:
                 cand.append(d["name"])
         named = [c for c in cand if c.split(".")[-1] in (n.get("TITLE", "") + " " + n.get("SOURCE_CONCLUSION", ""))]
+        pl = [c for c in cand if c.startswith("KAM.Planetary.StrongAMD.")]
+        sp = [c for c in cand if c.startswith("KAM.Planetary.Spatial.")]
+        dgeneric = unit not in DIM_UNITS
         if len(cand) == 1:
             rows.append((nid, kind, cand, cand[0], "unique docstring match"))
         elif named:
             rows.append((nid, kind, cand, named[0], "the node's own statement names the declaration"))
+        elif dgeneric and len(cand) == 2 and len(pl) == 1 and len(sp) == 1:
+            rows.append((nid, kind, cand, pl[0] + " ; " + sp[0], PAIR))
         elif cand:
             rows.append((nid, kind, cand, None, f"{len(cand)} matching declarations: not unique"))
         else:
@@ -198,12 +207,15 @@ def main():
     # declaration-side uniqueness: a declaration proposed for several nodes cites none of them exactly
     used = defaultdict(list)
     for r in rows:
-        if r[3]:
-            used[r[3]].append(r[0])
-    rows = [(nid, kind, cand, None, f"{why}, but {prop} is also the match of {', '.join(x for x in used[prop] if x != nid)}"
-             " (its citation is coarser than this node)") if prop and len(used[prop]) > 1 else (nid, kind, cand, prop, why)
+        for c in (r[3].split(" ; ") if r[3] else []):
+            used[c].append(r[0])
+
+    def shared(prop, nid):
+        return [x for c in prop.split(" ; ") for x in used[c] if x != nid]
+    rows = [(nid, kind, cand, None, f"{why}, but {prop} is also the match of {', '.join(shared(prop, nid))}"
+             " (its citation is coarser than this node)") if prop and shared(prop, nid) else (nid, kind, cand, prop, why)
             for nid, kind, cand, prop, why in rows]
-    proposed = sorted({r[3] for r in rows if r[3]})
+    proposed = sorted({c for r in rows if r[3] for c in r[3].split(" ; ")})
     axioms, axlog, closure_ok, closure_note = {}, "", True, ""
     if proposed and not a.no_axioms:
         mods = sorted({by_name[p]["module"] for p in proposed})
@@ -240,18 +252,19 @@ def main():
     for nid, kind, cand, prop, why in rows:
         status, reason = "NOT_STARTED", why
         if prop:
-            ax = axioms.get(prop)
-            if prop not in by_name:
-                reason = why + "; declaration not found on main"
+            parts = prop.split(" ; ")
+            bad = [c for c in parts if c not in by_name]
+            axbad = [c for c in parts if axioms.get(c) != STD]
+            if bad:
+                reason = why + f"; declaration not found on main: {bad}"
             elif not closure_ok:
                 reason = why + "; axioms not checked: " + closure_note
-            elif ax is None:
-                reason = why + "; no #print axioms output"
-            elif ax != STD:
-                reason = why + f"; axioms {sorted(ax)} are not exactly [propext, Classical.choice, Quot.sound]"
+            elif axbad:
+                reason = why + "; axioms not exactly [propext, Classical.choice, Quot.sound] (or missing) for " + \
+                    ", ".join(f"{c} {sorted(axioms[c]) if c in axioms else 'no output'}" for c in axbad)
             else:
                 status = "PROVED"
-                tsv.append((nid, prop, by_name[prop]["file"], why))
+                tsv.append((nid, prop, " ; ".join(by_name[c]["file"] for c in parts), why))
         out.append((nid, kind, status, prop or "-", reason, ", ".join(cand[:6]) + (" …" if len(cand) > 6 else "")))
     head = git(root, "rev-parse", "main").strip()
     lines = [f"# Track LP graph: mechanical LEAN_REF map of the ordinary nodes (D65), main {head}", "",

@@ -9,7 +9,10 @@ manifest is read from `main` (`git show main:manifest/frozen-anchors.json`), and
 LEAN_REF resolves on main: the frozen file at `main:<path>` declares the export's short name, the manifest state on
 main is SEALED, and (theorems) the provider module file exists on main. All slices of packets/slices-assembled.txt are
 synced. Ordinary nodes listed in packets/lean-ref-map.tsv (written by lp_depgraph_lean_refmap.py: unique docstring
-citation, declaration on main, standard axioms) are set PROVED with that LEAN_REF. `--apply --force` is the D65 path (the publication gate is replaced by one global review).
+citation, declaration on main, standard axioms) are set PROVED with that LEAN_REF. Step B (D27, D65): every remaining ordinary node with a consumer, all of whose consumers are PROVED or
+themselves BYPASSED (greatest fixed point on the DEPS/ROUTES of all packets), gets LEAN_STATUS BYPASSED, LEAN_REF -,
+and the D27 route-substitution note (W precedent format, 'previous status NOT_STARTED'); the others stay NOT_STARTED
+and are listed in reports/bypass-blocked.txt with their non-PROVED consumers. `--apply --force` is the D65 path (the publication gate is replaced by one global review).
 
 This is Lean-orchestration bookkeeping, not source extraction: it runs only after the graph is published (the review
 gate requires the initial Lean fields, so `--apply` refuses while header.txt has `GLOBAL_REVIEWER: -`, unless
@@ -71,25 +74,34 @@ def main():
     SLICES = (g / "packets/slices-assembled.txt").read_text().split()
     refmap = {}
     if (g / "packets/lean-ref-map.tsv").exists():
-        refmap = {r["node"]: (r["declaration"], r["file"])
+        refmap = {r["node"]: (r["declaration"], r["file"], r["match"])
                   for r in csv.DictReader(open(g / "packets/lean-ref-map.tsv"), delimiter="\t")}
     bind = {r["node"]: r for r in csv.DictReader(open(g / "packets/anchor-binding.tsv"), delimiter="\t")}
     published = not re.search(r"^GLOBAL_REVIEWER: -$", (g / "header.txt").read_text(), re.M)
     if a.apply and not published and not a.force:
         raise SystemExit("graph not published (header GLOBAL_REVIEWER: -); the review gate needs the initial Lean "
                          "fields. Apply after publication, or pass --force deliberately.")
-    rows, changed = [], 0
+    BYPASS_NOTE = ("D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the "
+                   "implementation route; this source step is not separately formalized; confirmed by the D65 global "
+                   "review; previous status NOT_STARTED")
+    # pass 1: anchors (manifest on main) and ordinary nodes of the mechanical docstring map
+    parsed, status, consumers, ordinary_free = [], {}, {}, []
     for sl in SLICES:
         p = g / "packets" / f"{sl}.nodes.md"
         if not p.exists() or not p.read_text().strip():
+            parsed.append((sl, p, []))
             continue
-        out = []
+        items = []
         for b in blocks(p.read_text()):
             nid, kind = field(b, "NODE"), field(b, "KIND")
+            for t in [x.strip() for k in ("DEPS", "ROUTES") for x in (field(b, k) or "-").split(",")]:
+                if t and t != "-":
+                    consumers.setdefault(t, set()).add(nid)
             r = bind.get(nid)
-            new = None
+            new, state = None, "-"
             if r:
                 e = man[r["manifest_id"]]
+                state = e.get("state")
                 if e.get("state") == "SEALED" and resolves(root, e):
                     ref = f"{e['export']} ({e['path']})"
                     if e["kind"] == "definition":
@@ -98,24 +110,48 @@ def main():
                         note = (f"sealed frozen theorem (manifest SEALED, D62); proof by exact "
                                 f"{e.get('implementation', {}).get('export', '?')}")
                     new = ("PROVED", ref, note)
-                rows.append((sl, nid, kind, e.get("state"), new[0] if new else field(b, "LEAN_STATUS"),
-                             new[1] if new else "-"))
             elif nid in refmap:
-                d, f = refmap[nid]
-                new = ("PROVED", f"{d} ({f})", "mechanical docstring match on main (D65; tools/lp_depgraph_lean_refmap.py, "
-                       "reports/lean-ref-map.txt): unique LP:MAIN citation; #print axioms [propext, Classical.choice, "
-                       "Quot.sound]")
-                rows.append((sl, nid, kind, "-", new[0], new[1]))
-            else:
-                rows.append((sl, nid, kind, "-", field(b, "LEAN_STATUS"), "-"))
+                d, f, match = refmap[nid]
+                if " ; " in d:
+                    new = ("PROVED", d, "d-generic: planar and spatial realizations (mechanical docstring match, D65)")
+                else:
+                    new = ("PROVED", f"{d} ({f})", "mechanical docstring match on main (D65; "
+                           "tools/lp_depgraph_lean_refmap.py, reports/lean-ref-map.txt): unique LP:MAIN citation; "
+                           "#print axioms [propext, Classical.choice, Quot.sound]")
+            elif kind not in ("external", "assumption"):
+                ordinary_free.append(nid)
+            status[nid] = new[0] if new else ("NOT_STARTED" if nid in ordinary_free else field(b, "LEAN_STATUS"))
+            items.append([b, nid, kind, state, new])
+        parsed.append((sl, p, items))
+    # pass 2 (D27, step B rule (b)): greatest set of ordinary nodes without a LEAN_REF all of whose consumers are
+    # PROVED or themselves in the set; every consumer path of such a node ends in PROVED roots
+    byp = {x for x in ordinary_free if consumers.get(x)}
+    while True:
+        drop = {x for x in byp if any(status.get(c) != "PROVED" and c not in byp for c in consumers[x])}
+        if not drop:
+            break
+        byp -= drop
+    blocked = sorted(set(ordinary_free) - byp)
+    rows, changed = [], 0
+    for sl, p, items in parsed:
+        out = []
+        for b, nid, kind, state, new in items:
+            if nid in byp:
+                new = ("BYPASSED", "-", BYPASS_NOTE)
+            elif nid in ordinary_free:
+                new = ("NOT_STARTED", "-", "-")
+            rows.append((sl, nid, kind, state, new[0] if new else field(b, "LEAN_STATUS"), new[1] if new else "-"))
             if new and a.apply:
                 b = re.sub(r"^LEAN_STATUS: .*$", f"LEAN_STATUS: {new[0]}", b, flags=re.M)
                 b = re.sub(r"^LEAN_REF: .*$", f"LEAN_REF: {new[1]}", b, flags=re.M)
                 b = re.sub(r"^LEAN_NOTE: .*$", f"LEAN_NOTE: {new[2]}", b, flags=re.M)
                 changed += 1
             out.append(b.strip("\n"))
-        if a.apply:
+        if a.apply and items:
             p.write_text("\n\n".join(out) + "\n")
+    (g / "reports/bypass-blocked.txt").write_text(
+        "".join(f"{x}\t{', '.join(sorted(c for c in consumers.get(x, ()) if status.get(c) != 'PROVED' and c not in byp)) or 'no consumer'}\n"
+                for x in blocked))
     from collections import Counter
     c = Counter(r[4] for r in rows)
     lines = ["# Track LP graph: LEAN_STATUS (mechanical, D65)", "",
@@ -149,7 +185,8 @@ def main():
     lines += [f"| {r[0]} | `{r[1]}` | {r[2]} | {r[3]} | {r[4]} | {('`' + r[5] + '`') if r[5] != '-' else '-'} |"
               for r in rows]
     (root / a.report).write_text("\n".join(lines) + "\n")
-    print(f"wrote {a.report}: {dict(c)}" + (f"; applied to {changed} anchor nodes" if a.apply else "; not applied"))
+    print(f"wrote {a.report}: {dict(c)}" + (f"; applied to {changed} nodes" if a.apply else "; not applied")
+          + f"; BYPASSED {len(byp)}, blocked {len(blocked)} (reports/bypass-blocked.txt)")
 
 
 if __name__ == "__main__":
