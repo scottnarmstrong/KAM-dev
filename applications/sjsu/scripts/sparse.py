@@ -150,11 +150,12 @@ class SP:
         return SP.concat(bk, parts).consolidate()
 
 
-def bracket(A: SP, B: SP, targets=None, maxdeg=18, maxL=1, Lmask=None):
+def bracket_ref(A: SP, B: SP, targets=None, maxdeg=18, maxL=1, Lmask=None, kcap=None):
     """{A, B} truncated to total degree <= maxdeg, L-degree <= maxL.
 
     targets: None (all result harmonics) or an iterable of harmonic tuples to keep.
     Lmask: optional set of result L-indices to keep (e.g. {0} for L = 0).
+    kcap: optional cap on the result's trigonometric degree |k1|+|k2|+|k3| (targets=None only).
     """
     bk = A.bk
     I = bk.cplx(0, 1)
@@ -165,9 +166,22 @@ def bracket(A: SP, B: SP, targets=None, maxdeg=18, maxL=1, Lmask=None):
     degA = A.degree()
     degB = B.degree()
     out = []
+    pending = [0]
+    acc = [SP.empty(bk)]
+
+    def flush():
+        if out:
+            acc[0] = SP.concat(bk, [acc[0]] + out).consolidate()
+            out.clear()
+            pending[0] = 0
+
     for kA, ia in gA.items():
         if targets is None:
-            pairs = [(kB, ib) for kB, ib in gB.items()]
+            if kcap is None:
+                pairs = [(kB, ib) for kB, ib in gB.items()]
+            else:
+                pairs = [(kB, ib) for kB, ib in gB.items()
+                         if abs(kA[0] + kB[0]) + abs(kA[1] + kB[1]) + abs(kA[2] + kB[2]) <= kcap]
         else:
             pairs = []
             for t in targets:
@@ -210,6 +224,7 @@ def bracket(A: SP, B: SP, targets=None, maxdeg=18, maxL=1, Lmask=None):
                 fac = f1[c]
                 coef = prod[r, c] * _int_factor(bk, fac, I)
                 out.append(SP(bk, np.tile(kres, (len(r), 1)), Esum[r, c], LA[r], coef))
+                pending[0] += len(r)
             # term2: - d_L_j A * d_lambda_j B: j = LA-1, factor -i kB_j, result L = LB
             f2 = np.where(LA > 0, kB_arr[np.maximum(LA - 1, 0)], 0)  # per row
             m2 = (f2[:, None] != 0) & (dsum <= maxdeg)
@@ -222,6 +237,7 @@ def bracket(A: SP, B: SP, targets=None, maxdeg=18, maxL=1, Lmask=None):
                 fac = -f2[r]
                 coef = prod[r, c] * _int_factor(bk, fac, I)
                 out.append(SP(bk, np.tile(kres, (len(r), 1)), Esum[r, c], LB[c], coef))
+                pending[0] += len(r)
             # ---- (z, zbar) part: -i (pA qB - qA pB) z^{EA+EB - e_p - e_q}
             Lres = LAm + LBm  # valid only when at most one is nonzero
             both = (LAm > 0) & (LBm > 0)
@@ -248,7 +264,135 @@ def bracket(A: SP, B: SP, targets=None, maxdeg=18, maxL=1, Lmask=None):
                 Er[:, 2 * j + 1] -= 1
                 coef = prod[r, c] * _int_factor(bk, -fac[r, c], I)
                 out.append(SP(bk, np.tile(kres, (len(r), 1)), Er, Lres[r, c], coef))
-    return SP.concat(bk, out).consolidate()
+                pending[0] += len(r)
+            if pending[0] > 3_000_000:
+                flush()
+    flush()
+    return acc[0]
+
+
+def bracket(A: SP, B: SP, targets=None, maxdeg=18, maxL=1, Lmask=None, kcap=None, chunk=600_000):
+    """{A, B} truncated to total degree <= maxdeg, L-degree <= maxL (vectorized form).
+
+    targets: None (all result harmonics, optionally |k| <= kcap) or an iterable of harmonic
+    tuples to keep.  Lmask: optional set of result L-indices to keep.  Work is organised per
+    harmonic group of A against all admissible terms of B at once, in column chunks of at most
+    `chunk` products, and the result is consolidated every few million raw terms (bounded memory).
+    """
+    bk = A.bk
+    I = bk.cplx(0, 1)
+    if len(A) == 0 or len(B) == 0:
+        return SP.empty(bk)
+    gA = A.harmonic_groups()
+    gB = B.harmonic_groups()
+    Bkeys = list(gB.keys())
+    Barr = np.array(Bkeys, dtype=np.int64)
+    if targets is not None:
+        tset = {tuple(t) for t in targets}
+        tcode = np.array(sorted(((t[0] + _KOFF) * 128 + (t[1] + _KOFF)) * 128 + (t[2] + _KOFF) for t in tset), dtype=np.int64)
+    degA = A.degree().astype(np.int64)
+    degB = B.degree().astype(np.int64)
+    Lm = None if Lmask is None else np.array(sorted(Lmask), dtype=np.int64)
+    out = []
+    pending = [0]
+    acc = [SP.empty(bk)]
+
+    def flush():
+        if out:
+            acc[0] = SP.concat(bk, [acc[0]] + out).consolidate()
+            out.clear()
+            pending[0] = 0
+
+    for kA, ia in gA.items():
+        kA_arr = np.array(kA, dtype=np.int64)
+        sums = Barr + kA_arr
+        if targets is None:
+            ok = np.ones(len(Barr), dtype=bool) if kcap is None else (np.abs(sums).sum(1) <= kcap)
+        else:
+            code = ((sums[:, 0] + _KOFF) * 128 + (sums[:, 1] + _KOFF)) * 128 + (sums[:, 2] + _KOFF)
+            ok = np.isin(code, tcode)
+        gsel = np.nonzero(ok)[0]
+        if len(gsel) == 0:
+            continue
+        ib_all = np.concatenate([gB[Bkeys[g]] for g in gsel])
+        dA = degA[ia]
+        ib_all = ib_all[degB[ib_all] + dA.min() - 2 <= maxdeg]
+        if len(ib_all) == 0:
+            continue
+        cA = A.C[ia]
+        EA = A.E[ia].astype(np.int16)
+        LA = A.L[ia].astype(np.int64)
+        ncol = max(1, chunk // len(ia))
+        for start in range(0, len(ib_all), ncol):
+            ib = ib_all[start:start + ncol]
+            cB = B.C[ib]
+            EB = B.E[ib].astype(np.int16)
+            LB = B.L[ib].astype(np.int64)
+            KB = B.K[ib].astype(np.int64)
+            Kres = KB + kA_arr                       # per column
+            dB = degB[ib]
+            prod = np.multiply.outer(cA, cB)
+            dsum = dA[:, None] + dB[None, :]
+            LAm = np.broadcast_to(LA[:, None], prod.shape)
+            LBm = np.broadcast_to(LB[None, :], prod.shape)
+            # ---- (L, lambda) part, term 1: d_lambda_j A d_L_j B, j = LB-1, factor i kA_j, L = LA
+            f1 = np.where(LB > 0, kA_arr[np.maximum(LB - 1, 0)], 0)
+            m1 = (f1[None, :] != 0) & (dsum <= maxdeg)
+            if maxL < 1:
+                m1 &= (LAm == 0)
+            if Lm is not None:
+                m1 &= np.isin(LAm, Lm)
+            if m1.any():
+                r, c = np.nonzero(m1)
+                coef = prod[r, c] * _int_factor(bk, f1[c], I)
+                Er = (EA[r] + EB[c]).astype(np.int16)
+                out.append(SP(bk, Kres[c], Er, LA[r], coef))
+                pending[0] += len(r)
+            # ---- term 2: - d_L_j A d_lambda_j B, j = LA-1, factor -i kB_j, L = LB
+            if (LA > 0).any():
+                f2 = np.where(LA[:, None] > 0, KB[:, np.maximum(LA - 1, 0)].T, 0)
+                m2 = (f2 != 0) & (dsum <= maxdeg)
+                if maxL < 1:
+                    m2 &= (LBm == 0)
+                if Lm is not None:
+                    m2 &= np.isin(LBm, Lm)
+                if m2.any():
+                    r, c = np.nonzero(m2)
+                    coef = prod[r, c] * _int_factor(bk, -f2[r, c], I)
+                    Er = (EA[r] + EB[c]).astype(np.int16)
+                    out.append(SP(bk, Kres[c], Er, LB[c], coef))
+                    pending[0] += len(r)
+            # ---- (z, zbar) part: -i (pA qB - qA pB) z^{EA+EB - e_p - e_q}
+            Lres = LAm + LBm
+            both = (LAm > 0) & (LBm > 0)
+            base = (dsum - 2 <= maxdeg)
+            if maxL < 1:
+                base &= (Lres == 0)
+            if maxL <= 1:
+                base &= ~both
+            if Lm is not None:
+                base &= np.isin(Lres, Lm)
+            if base.any():
+                for j in range(3):
+                    pA = EA[:, 2 * j].astype(np.int64)
+                    qA = EA[:, 2 * j + 1].astype(np.int64)
+                    pB = EB[:, 2 * j].astype(np.int64)
+                    qB = EB[:, 2 * j + 1].astype(np.int64)
+                    fac = pA[:, None] * qB[None, :] - qA[:, None] * pB[None, :]
+                    m3 = base & (fac != 0)
+                    if not m3.any():
+                        continue
+                    r, c = np.nonzero(m3)
+                    Er = (EA[r] + EB[c]).astype(np.int16)
+                    Er[:, 2 * j] -= 1
+                    Er[:, 2 * j + 1] -= 1
+                    coef = prod[r, c] * _int_factor(bk, -fac[r, c], I)
+                    out.append(SP(bk, Kres[c], Er, Lres[r, c], coef))
+                    pending[0] += len(r)
+            if pending[0] > 3_000_000:
+                flush()
+    flush()
+    return acc[0]
 
 
 def _int_factor(bk, ints, I):

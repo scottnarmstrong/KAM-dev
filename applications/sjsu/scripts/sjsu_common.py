@@ -23,8 +23,16 @@ from fractions import Fraction
 for _name in ('OPENBLAS_NUM_THREADS', 'OMP_NUM_THREADS', 'MKL_NUM_THREADS'):
     os.environ.setdefault(_name, '1')
 
+import resource
+
 import mpmath
 import numpy as np
+
+
+def limit_memory(gib: float = 7.5):
+    """Cap the address space (brief: RSS under 8 GB per process)."""
+    lim = int(gib * 1024 ** 3)
+    resource.setrlimit(resource.RLIMIT_AS, (lim, lim))
 
 # ---------------------------------------------------------------- source data
 # SLG13 Table 1 (= GLS17 Table 1), exact decimal strings as printed.
