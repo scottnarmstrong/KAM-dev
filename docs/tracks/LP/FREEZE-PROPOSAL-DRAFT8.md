@@ -1,15 +1,20 @@
-# Track LP: freeze proposal, DRAFT 8 (the LP3 delta on top of draft 7)
+# Track LP: freeze proposal, DRAFT 8 (the LP3 delta on top of the D62 freeze)
 
-Status: 2026-11-01. **Nothing is frozen.** Draft 8 is a **delta document**: it adds the two LP3 anchors to
-[FREEZE-PROPOSAL.md](FREEZE-PROPOSAL.md) (draft 7; its statement audit 1 returned RETURN FOR REVISION, and revision 1
-is in progress in package LP-FREEZE7R) and changes no draft-7 text. It follows draft 7's conventions exactly (file form, paths, namespaces, provider names, manifest fields,
-verification method, docstring template; draft-7 handoff, choices 1–12). Like draft 7, it is written under the rulings
-the owner approved in D59; LP3 itself was started under D56's strongest-version mandate (OD-12) and consumes the sealed
-`KAM.Nekhoroshev.partialConvex_nekhoroshev` under D58 (OD-13). root-b8 (2026-11-01): "LP3 is not in draft 7. … when
-LP3-PS and LP3-SP-SAFE are proved and audited, propose its anchors as a separate delta (draft 8)." Both are proved, and
-the package audit LP-W5C-1 passed with all three components PASS ([audit](audits/LP-W5C-audit-1.md)). This text goes to
-an independent statement audit and then to the owner for approval of the exact text, before anything enters
-`KAM/Frozen/` or `manifest/`.
+Status: 2026-11-01. **Draft 8 is not approved; nothing of it is frozen.** Draft 7 revision 1 is frozen and sealed on
+`main` (`f46b94fb`, decision D62; record [FREEZE.md](FREEZE.md)): 89 definitions, 34 characterization theorems and 5
+anchors (LP0, LP1, LP1-H, LP2, LP2-H). Draft 8 is a **delta document**: it adds the two LP3 anchors and changes no
+frozen file. This revision (package LP-FREEZE8R) **regenerates draft 8 against the frozen definitions**: every text is
+derived from the frozen LP1 / LP2 files themselves, every import is a real frozen definition module, and every check
+runs against the real modules (no stand-in, no simulated environment). The two anchor texts come out byte-identical to
+the first draft-8 run (LP-FREEZE8); only the manifest entries' `source.revision` changes (the regeneration base).
+Draft 8 follows draft 7's conventions exactly (file form, paths, namespaces, provider names, manifest fields,
+docstring template). Like draft 7 it is written under the rulings of D59; LP3 itself was started under D56's
+strongest-version mandate (OD-12) and consumes the sealed `KAM.Nekhoroshev.partialConvex_nekhoroshev` under D58
+(OD-13). root-b8 (2026-11-01): "LP3 is not in draft 7. … when LP3-PS and LP3-SP-SAFE are proved and audited, propose
+its anchors as a separate delta (draft 8)." Both are proved, and the package audit LP-W5C-1 passed with all three
+components PASS ([audit](audits/LP-W5C-audit-1.md)). This text goes to its independent statement audit
+([AUDIT-DRAFT8-BRIEF.md](freeze/AUDIT-DRAFT8-BRIEF.md)) and then to the owner for approval of the exact text, before
+anything enters `KAM/Frozen/` or `manifest/`. D62: "Not covered: draft 8 (the LP3 anchors) needs its own approval."
 
 Source: [`source/MAIN.md`](source/MAIN.md) (sha256 `68e9167f…48c1b`) as amended by
 [`source/AMENDMENTS.md`](source/AMENDMENTS.md) (sha256 `c887d1e2…51881`), cited as `LP:MAIN <item> (<lines>)`, with
@@ -21,48 +26,47 @@ sealed partial-convexity Nekhoroshev theorem (LP3-PLAN §0, §2; LP-W5C-1).
 **What is approved, exactly.** The approval object of draft 8 is the set of 2 frozen file texts under
 [`freeze/draft8/`](freeze/draft8/) (path `freeze/draft8/<frozen path>.txt`), together with the manifest entry drafts
 [`freeze/draft8/manifest-entries.json`](freeze/draft8/manifest-entries.json). Every Lean code block in §3 is a
-byte-identical excerpt of those files (generated from the same records and re-checked by script). At freeze, fill
-`<APPROVAL-DATE>` and `<DECISION>` in each module docstring, fill the manifest's `author_approval`, extend each
-`split_policy.ruling_ref` with the exact-text approval decision, and compute every `TBD at freeze` hash; all other
-approved declaration bytes remain unchanged. (This is the sentence of the draft-7 audit's N2, adopted here too.)
+byte-identical excerpt of those files (re-checked by script). At freeze, fill `<APPROVAL-DATE>` and `<DECISION>` in each
+module docstring, fill the manifest's `author_approval`, extend each `split_policy.ruling_ref` with the exact-text
+approval decision, and compute every `TBD at freeze` hash; all other approved declaration bytes remain unchanged.
+Draft 8 is installed **already sealed, in one pass**, like D62 (§6).
 
-**Counts.** 2 theorem anchors (LP3-1, LP3-2); **0 new definitions; 0 new characterization theorems**. The
-anchors reference 42 draft-7 (revision 1) definitions (unchanged) and 15 already-frozen definitions,
-of which two are new to the LP freeze: the track-P exponents `KAM.Planetary.planetaryTimeExponent` and
-`KAM.Planetary.planetaryDriftExponent` (frozen under D25). Draft 8 adds 2 files to the set of draft 7 revision 1
-(127 draft-7 files plus the two r1 source barycentric definition files and whatever else r1 adds).
+**Counts.** 2 theorem anchors (LP3-1, LP3-2); **0 new definitions; 0 new characterization theorems**. The two texts
+import 57 frozen definition files directly (distinct): 42 D62 LP definitions (LP3-1: 17, LP3-2:
+29) and 15 earlier frozen definitions, of which two are new to the LP texts: the track-P exponents
+`KAM.Planetary.planetaryTimeExponent` and `KAM.Planetary.planetaryDriftExponent` (frozen under D25). Each text imports
+the frozen LP1 / LP2 file's definition modules minus `KAM.Frozen.Defs.IsDiophantine`, plus the two exponent files.
 
-**Dependency on draft 7, revision 1.** The draft-7 statement audit
-(`freeze/STATEMENT-AUDIT-DRAFT7-1.md`, on `inp-lp-freeze7`) returned RETURN FOR REVISION; draft 7 is being revised by
-package LP-FREEZE7R. Per the orchestrator (kam-lp update, 2026-11-01), draft 8 applies the **same F1 convention** to
-LP3-2 exactly: the spatial anchor binds `∀ μ : ℝ, ∀ hμ : 0 < μ, μ ≤ μ₀ →` and reconstructs through the new source-facing
-maps `spatialSourceBarycentricPositions ν μ hν hμ (z t).1`, `spatialSourceBarycentricVelocities ν μ hν hμ (z t).2`.
-These two definitions are **draft-7 revision-1 definitions** (frozen paths
-`KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentric{Positions,Velocities}.lean`), not draft-8 ones. The planar
-barycentric maps are the already-frozen `barycentricPositions`, `barycentricVelocities` and are unchanged; LP3-1 is
-unaffected. The F2 role changes (`actionAxis`, `eccDeficit`, the raw spatial barycentric maps become internal helpers)
-touch draft-7 files only; draft-8 texts do not mention those names directly. Every definition the draft-8 texts use
-is therefore already frozen or a draft-7 (r1) file, and draft 8 can be frozen only together with draft 7 r1 or after
-it. The checks below use the auditor's exact declaration text of the two r1 definitions as stand-ins; when the r1 files
-exist, draft 8 is regenerated by the same scripts (`.drafts/freeze8/gen8.py`) and re-verified.
+**Derived from the frozen LP1 / LP2.** LP3-1 is the frozen
+`KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafety.lean` statement (LP1), and LP3-2 the frozen
+`KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafety.lean` statement (LP2, with its F1 form:
+`∀ hμ : 0 < μ` and the source-facing barycentric maps), each with exactly the three LP3 changes of LP3-PLAN §1.2 and the
+new name. The generator reads the frozen files (git blob equal on this tree, `main` and `f46b94fb`; prefix and suffix
+hashes equal to their SEALED manifest entries, computed with the guard's own split and digest), applies the three
+changes by asserted substitutions, and checks the result against the proved implementation statements
+`lp3_{planar,spatial}_strongAMD_safety_source` (whitespace-normalized equality). The token-level difference from LP1 /
+LP2 is listed in the verification record (§1) and is exactly: the name; `γ τ`, `hγ`, `hτ` and the Diophantine premise
+removed; the time exponent; `Real.sqrt μ` → `μ ^ planetaryDriftExponent n` three times.
 
-**Verification** (details in [`freeze/verification-draft-8.txt`](freeze/verification-draft-8.txt)):
-- **Closure** (Lean meta computation): from the two anchors as elaborated in check (c), 104 definitions = 81 draft-7
-  (r1) definitions (including the two r1 maps `spatialSourceBarycentric{Positions,Velocities}`, as stand-ins) + 23
-  already-frozen ones (draft 7's 21 + `planetaryTimeExponent`, `planetaryDriftExponent`); from the closing
-  implementation theorems, 102 = 79 + 23. **0 new definitions** either way.
-- **(a) Text elaborates:** each of the 2 files, in a scratch module whose imports are exactly the Mathlib and
-  already-frozen imports of the file and of its draft dependencies, with the **draft-7** dependency texts (plus the two
-  r1 stand-ins for LP3-2) inlined in import order: 2/2 exit 0; the only message is the expected
-  "declaration uses `sorry`" warning, one per file.
-- **(b) Bodies equal:** not applicable (no new definition; the exponents are the frozen constants themselves).
-- **(c) Verification:** both anchors, stated verbatim, close by `exact` of the proved implementation theorem
-  (`lp3_planar_strongAMD_safety_source`, `lp3_spatial_strongAMD_safety_source`). LP3-1's elaborated type is
-  alpha-equivalent to the implementation statement; LP3-2's is alpha-equivalent after delta-expanding the two r1
-  source barycentric maps (definitionally the raw maps). `#print axioms` gives exactly
-  `[propext, Classical.choice, Quot.sound]` for both.
-- **Derivation:** LP3-1 equals the draft-7 LP1 text, and LP3-2 the draft-7 LP2 text with the r1 F1 change, with
-  exactly the three LP3 changes and the new name (whitespace-normalized equality asserted by the generator).
+**Verification** (commands and full outputs in [`freeze/verification-draft-8.txt`](freeze/verification-draft-8.txt)):
+- **(a) Text elaborates:** each file with only its provider import removed, i.e. importing exactly its frozen
+  definition modules (real oleans): 2/2 exit 0; and each file byte for byte (its staged provider is built): 2/2 exit 0.
+  The only message is the expected "declaration uses `sorry`" warning, one per file.
+- **(b) Bodies equal:** not applicable (no new definition).
+- **(c) Verification:** both anchors, stated verbatim in their real namespaces, close by `exact` of the proved
+  implementation theorem. LP3-1's elaborated type is Expr-equal to `lp3_planar_strongAMD_safety_source`'s; LP3-2's is
+  Expr-equal to `lp3_spatial_strongAMD_safety_source`'s after delta-expanding exactly the two frozen source barycentric
+  maps (the implementation uses the raw maps, which they are by `rfl`; frozen LP2's provider instead applies a
+  restated source-map theorem, `lp2_spatial_strongAMD_safety_source_isDiophantine`). `#print axioms`:
+  exactly `[propext, Classical.choice, Quot.sound]` for both.
+- **Closure:** Lean's constant closure of the two anchors has 104 definitions = 81 D62 LP definitions + 23
+  earlier frozen ones; of the closing implementation theorems 102 = 79 + 23. **Every member is frozen; 0 new
+  definitions.**
+- **Seal (one pass):** a dry run of the D62 install scripts on a scratch export of the committed tree
+  (`lp_freeze_install.py --sealed`, `lp_manifest_add.py`, the frozen-anchor guard, the root generator) passes; the
+  sealed files differ from the draft texts only in the two placeholders and the body; each sealed file elaborates with no
+  message; anchor and provider types are Expr-equal (`#sameDecl`, `#typeEqv`, `example : type_of% @X := @Pv`); axioms
+  of both anchors and both providers are exactly `[propext, Classical.choice, Quot.sound]`.
 
 ## 1. The rulings in the text
 
@@ -73,7 +77,7 @@ exist, draft 8 is regenerated by the same scripts (`.drafts/freeze8/gen8.py`) an
 | **D59, OD-3** `max ν = 1` kept | `hνmax : ∃ i, ν i = 1`, `hνle : ∀ i, ν i ≤ 1`, as in LP1/LP2. They are unused by the proof; the general-mass versions `lp3_planar_strongAMD_safety_source_general`, `lp3_spatial_strongAMD_safety_source_general` stay ordinary theorems. |
 | **D59, OD-4** τ free, plus τ = n − 1/2 | Not applicable: LP3 has no `γ`, `τ` and no Diophantine premise, so there is no `τ`-corollary (no LP3-H). |
 | **D59, OD-5 + OD-9** crossing notion | As LP1/LP2, unchanged: canonical annuli, star and all pair distances, actual-velocity osculating annuli with half gaps; the N10 inequalities `Aosc * μ₀ ≤ dStar / 2`, `2 * (Aosc * μ₀) ≤ dPair / 2` are displayed outputs. |
-| **Draft-7 audit F1** (r1 convention) | LP3-2 binds `∀ hμ : 0 < μ` and uses `spatialSourceBarycentricPositions ν μ hν hμ`, `spatialSourceBarycentricVelocities ν μ hν hμ` (exactly the LP2 r1 change). These proof arguments add no premise. LP3-1 uses the frozen planar maps, unchanged. |
+| **Draft-7 audit F1** (frozen LP2 form, D62) | LP3-2 binds `∀ hμ : 0 < μ` and uses the frozen `spatialSourceBarycentricPositions ν μ hν hμ`, `spatialSourceBarycentricVelocities ν μ hν hμ`, exactly as the frozen LP2. These proof arguments add no premise. LP3-1 uses the frozen planar maps, as the frozen LP1. |
 | **D59, OD-6** new anchors only | Both anchors are new; `KAM.Planetary.planetaryExponentialSafety` (P-EXP-SAFE) and every existing frozen file are untouched. |
 | **D56 / OD-12** strongest version | LP3 is the stretch goal "sharp threshold without arithmetic hypothesis". |
 | **D58 / OD-13** sealed-anchor import | The closing theorems import the **sealed** frozen `KAM.Frozen.Nekhoroshev.Theorems.PartialConvexNekhoroshev` (never its provider). The anchor texts themselves do not mention it. |
@@ -207,12 +211,14 @@ motion, and along it: ellipticity, chamber membership with strong AMD `≤ B −
 valid actual-velocity osculating ellipses through the current position with L16's element error `≤ A_elem μ`,
 endpoint errors `≤ A_osc μ` and half gaps.
 
-The text is the draft-7 LP1 text (§3.2 of draft 7) with exactly the three LP3 changes of LP3-PLAN §1.2 and the anchor
-name (unified diff; whitespace-normalized equality is asserted by the generator):
+The text is the frozen LP1 statement (D62) with exactly the three LP3 changes of LP3-PLAN §1.2 and the anchor
+name (unified diff against the frozen file's statement; the substitutions are asserted by the generator, and the
+result equals the proved implementation statement up to whitespace; the two drift lines are re-broken to stay
+within 100 columns):
 
 ```diff
---- draft7 LP1 (spec/LP1.stmt)
-+++ draft8 LP3 (spec/LP3_1.stmt)
+--- frozen KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafety.lean
++++ draft 8 KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean
 @@ -1,2 +1,2 @@
 -theorem planar_strongAMD_exponentialSafety {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
 +theorem planar_strongAMD_exponentialSafety_noArith {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
@@ -222,18 +228,16 @@ name (unified diff; whitespace-normalized equality is asserted by the generator)
 -    (δ γ τ : ℝ) (hδ : 0 < δ) (hγ : 0 < γ) (hτ : (n : ℝ) - 1 < τ) :
 +    (δ : ℝ) (hδ : 0 < δ) :
      ∃ μ₀ c T₀ AΛ Aa dStar dPair Aosc Aelem : ℝ,
-@@ -12,5 +12,2 @@
+@@ -12,3 +12,2 @@
          (fun i => keplerAxis ν z₀ i) ∈ A →
--        (∀ k : Fin n → ℤ, k ≠ 0 →
--          γ * (KAM.Fourier.modeSize k : ℝ) ^ (-τ) ≤
--            |∑ i, (k i : ℝ) * (ν i ^ 3 / keplerAction ν z₀ i ^ 3)|) →
+-        KAM.IsDiophantine γ τ (fun i => ν i ^ 3 / keplerAction ν z₀ i ^ 3) →
          ∀ hch : (fun i => keplerAction ν z₀ i) ∈ chamber ν,
-@@ -20,3 +17,3 @@
+@@ -18,3 +17,3 @@
            orderedStrongThreshold hn ⟨_, hch⟩ - δ →
 -        let T := T₀ * Real.exp (c * μ ^ (-(1 / (2 * (τ + 1)))))
 +        let T := T₀ * Real.exp (c * μ ^ (-planetaryTimeExponent n))
          ∃ z : ℝ → Phase (n * 2), z 0 = z₀ ∧
-@@ -34,4 +31,6 @@
+@@ -32,4 +31,6 @@
                  orderedStrongThreshold hn ⟨_, hcht⟩ - δ / 2) ∧
 -            ‖(fun i => keplerAction ν (z t) i) - fun i => keplerAction ν z₀ i‖ ≤ AΛ * Real.sqrt μ ∧
 -            ‖(fun i => keplerAxis ν (z t) i) - fun i => keplerAxis ν z₀ i‖ ≤ Aa * Real.sqrt μ ∧
@@ -242,7 +246,7 @@ name (unified diff; whitespace-normalized equality is asserted by the generator)
 +            ‖(fun i => keplerAxis ν (z t) i) - fun i => keplerAxis ν z₀ i‖ ≤
 +              Aa * μ ^ planetaryDriftExponent n ∧
              (∃ hs : (∀ i, 0 < ν i) ∧
-@@ -40,3 +39,3 @@
+@@ -38,3 +39,3 @@
                    sourceStrongAMD (⟨z₀, h₀⟩ : SourceCanonicalPhase n ν)| ≤
 -                n * AΛ * Real.sqrt μ) ∧
 +                n * AΛ * μ ^ planetaryDriftExponent n) ∧
@@ -342,7 +346,7 @@ theorem spatial_strongAMD_exponentialSafety_noArith {n : ℕ} (hn : 2 ≤ n) (ν
   -- FROZEN_ANCHOR_PROOF_END
 ```
 
-Reading: LP3-1 in dimension three, with LP2's review-4 resolution (A) form and the draft-7 r1 (F1) source-facing
+Reading: LP3-1 in dimension three, with LP2's review-4 resolution (A) form and the frozen (D62, F1) source-facing
 barycentric maps (their `hν`, `hμ` arguments are the anchor's own premise `hν` and the bound `hμ : 0 < μ`): every canonical element at `z₀` and `z t`
 (axis, action, eccentricity vector, strong AMD, perihelion, aphelion) is a `spatialSource*` restriction, `h₀` follows
 the physical premise. No prograde, inclination, nonzero-total-angular-momentum, alignment, secular or arithmetic
@@ -351,13 +355,13 @@ only; LP3-PLAN §1.3, `LP:MAIN T19 (603)`). The only raw total helpers in the te
 `spatialKeplerEnergy`, `spatialOscEnergy`, `spatialOscEcc`, each only as a sign condition inside a guarded predicate
 (draft 7 §4.4).
 
-The text is the draft-7 LP2 text (§3.4 of draft 7) with the draft-7 r1 F1 change (the `hμ` binder and the two
-source barycentric maps; three textual changes) and exactly the same three LP3 changes. The diff below is against the
-audited draft-7 LP2, so it shows both:
+The text is the frozen LP2 statement (D62, which already carries the F1 form: the `hμ` binder and the two source
+barycentric maps) with exactly the same three LP3 changes and the anchor name (unified diff against the frozen
+file's statement; same assertions as for LP3-1):
 
 ```diff
---- draft7 LP2 (spec/LP2.stmt)
-+++ draft8 LP3 (spec/LP3_2.stmt)
+--- frozen KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafety.lean
++++ draft 8 KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean
 @@ -1,2 +1,2 @@
 -theorem spatial_strongAMD_exponentialSafety {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
 +theorem spatial_strongAMD_exponentialSafety_noArith {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
@@ -367,31 +371,17 @@ audited draft-7 LP2, so it shows both:
 -    (δ γ τ : ℝ) (hδ : 0 < δ) (hγ : 0 < γ) (hτ : (n : ℝ) - 1 < τ) :
 +    (δ : ℝ) (hδ : 0 < δ) :
      ∃ μ₀ c T₀ AΛ Aa dStar dPair Aosc Aelem : ℝ,
-@@ -8,3 +8,3 @@
-       0 < Aelem ∧ Aosc * μ₀ ≤ dStar / 2 ∧ 2 * (Aosc * μ₀) ≤ dPair / 2 ∧
--      ∀ μ : ℝ, 0 < μ → μ ≤ μ₀ →
-+      ∀ μ : ℝ, ∀ hμ : 0 < μ, μ ≤ μ₀ →
-       ∀ z₀ : Phase (n * 3),
-@@ -14,6 +14,2 @@
+@@ -14,4 +14,2 @@
          (fun i => spatialSourceKeplerAxis (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i) ∈ A →
--        (∀ k : Fin n → ℤ, k ≠ 0 →
--          γ * (KAM.Fourier.modeSize k : ℝ) ^ (-τ) ≤
--            |∑ i, (k i : ℝ) * (ν i ^ 3 /
--              spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i ^ 3)|) →
+-        KAM.IsDiophantine γ τ (fun i => ν i ^ 3 /
+-            spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i ^ 3) →
          ∀ hch : (fun i => spatialSourceKeplerAction
-@@ -22,3 +18,3 @@
+@@ -20,3 +18,3 @@
            orderedStrongThreshold hn ⟨_, hch⟩ - δ →
 -        let T := T₀ * Real.exp (c * μ ^ (-(1 / (2 * (τ + 1)))))
 +        let T := T₀ * Real.exp (c * μ ^ (-planetaryTimeExponent n))
          ∃ z : ℝ → Phase (n * 3), z 0 = z₀ ∧
-@@ -27,4 +23,4 @@
-           IsSpatialNewtonSolutionOn (spatialMasses ν μ) (Set.Icc (-T) T)
--            (fun t => spatialBarycentricPositions ν μ (z t).1)
--            (fun t => spatialBarycentricVelocities ν μ (z t).2) ∧
-+            (fun t => spatialSourceBarycentricPositions ν μ hν hμ (z t).1)
-+            (fun t => spatialSourceBarycentricVelocities ν μ hν hμ (z t).2) ∧
-           ∀ t ∈ Set.Icc (-T) T,
-@@ -38,9 +34,9 @@
+@@ -36,9 +34,9 @@
                  fun i => spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i‖ ≤
 -              AΛ * Real.sqrt μ ∧
 +              AΛ * μ ^ planetaryDriftExponent n ∧
@@ -408,9 +398,9 @@ audited draft-7 LP2, so it shows both:
 
 ### 3.3 What is weaker and what is stronger than LP1 / LP2 (LP3-PLAN §1.4)
 
-| | LP1 / LP2 (draft 7) | LP3-1 / LP3-2 (draft 8) |
+| | LP1 / LP2 (frozen, D62) | LP3-1 / LP3-2 (draft 8) |
 |---|---|---|
-| arithmetic premise | Diophantine `(γ, τ)` at `ω(Λ(z₀))`: `γ · modeSize(k)^(−τ) ≤ |Σ kᵢ νᵢ³/Λᵢ³|` (`LP:MAIN (5)`) | **none**: every initial state of the sharp sublevel, resonant ones included (**stronger**) |
+| arithmetic premise | Diophantine `(γ, τ)` at `ω(Λ(z₀))`: the frozen `KAM.IsDiophantine γ τ ω`, `ωᵢ = νᵢ³/Λᵢ³` (option C; `LP:MAIN (5)`) | **none**: every initial state of the sharp sublevel, resonant ones included (**stronger**) |
 | data and constants depend on | `(n, ν, A, δ, γ, τ)` | `(n, ν, A, δ)`: uniform over the whole compact sublevel (**stronger**) |
 | time | `T₀ exp(c μ^(−1/(2(τ+1))))`; best `1/(2n+1)` at `τ = n − 1/2` (LP1-H, LP2-H) | `T₀ exp(c μ^(−a_n))`, `a_n = 2/(6n² − 3n + 14)` (**weaker**) |
 | action / axis / AMD drift | `A_Λ √μ`, `A_a √μ`, `n A_Λ √μ` | `A_Λ μ^(b_n)`, `A_a μ^(b_n)`, `n A_Λ μ^(b_n)`, `b_n = 3/(6n² − 3n + 14) < 1/2` (**weaker**) |
@@ -425,20 +415,16 @@ conclusions LP3 does not.
 ## 4. Definition closure delta
 
 **New definitions: none. New characterization theorems: none.** Lean's constant closure of the two anchors as
-elaborated in check (c) (verification §1; the two r1 definitions as stand-ins) consists of draft-7 (r1) definitions
-and already-frozen definitions only:
+elaborated in check (c) (verification §5), against the live manifest:
 
-- roots: the anchors as elaborated in check (c) (Draft8Check);
-- draft-7 r1 definitions (F1) in the closure: `KAM.Planetary.Spatial.spatialSourceBarycentricPositions`, `KAM.Planetary.Spatial.spatialSourceBarycentricVelocities`;
-- closure size: 104 definitions (23 already frozen, 81 draft-7 new definitions, 0 other);
-- **new definitions for draft 8 (closure members that are neither frozen nor draft-7): 0** (none);
-- already-frozen definitions in the LP3 closure but not in the draft-7 closure: `KAM.Planetary.planetaryDriftExponent`, `KAM.Planetary.planetaryTimeExponent`;
-- draft-7 definitions in the LP3 closure: 81 of the 85 draft-7 closure members; not in the LP3 closure: `KAM.Fourier.modeSize`, `KAM.Planetary.Spatial.SpatialSourceOsculatingPhase`, `KAM.Planetary.Spatial.planetAngularMomentum3`, `KAM.Planetary.Spatial.spatialSourceKeplerEcc`, `KAM.Planetary.Spatial.spatialSourceOscParam`, `KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum`;
-- already-frozen definitions of the draft-7 closure not in the LP3 closure: none.
+- closure size: 104 definitions = 81 D62 LP frozen definitions + 23 earlier frozen definitions;
+  **0 definitions that are not frozen**;
+- of the closing implementation theorems: 102 = 79 + 23, 0 not frozen;
+- earlier frozen definitions in the closure: `KAM.Iso.IsHamiltonianSolutionOn`, `KAM.Planetary.IsMovingSolutionOn`, `KAM.Planetary.IsNewtonSolutionOn`, `KAM.Planetary.MovingUniqueOn`, `KAM.Planetary.NoCollision`, `KAM.Planetary.Phase`, `KAM.Planetary.actualMasses`, `KAM.Planetary.barycentricPositions`, `KAM.Planetary.barycentricVelocities`, `KAM.Planetary.bodyVector`, `KAM.Planetary.keplerAction`, `KAM.Planetary.keplerAxis`, `KAM.Planetary.keplerEccVector`, `KAM.Planetary.keplerEnergy`, `KAM.Planetary.movingHamiltonian`, `KAM.Planetary.planeCross`, `KAM.Planetary.planeDot`, `KAM.Planetary.planeLength`, `KAM.Planetary.planeSq`, `KAM.Planetary.planetaryDriftExponent`, `KAM.Planetary.planetaryTimeExponent`, `KAM.Planetary.totalMomentum`, `KAM.hamiltonianVectorField`.
 
 ### 4.1 Already-frozen definitions newly referenced (reused unchanged; no new file)
 
-Directly referenced by the draft-8 texts and not referenced by draft 7:
+Directly referenced by the draft-8 texts and not by the frozen LP1 / LP2:
 
 - `KAM.Planetary.planetaryDriftExponent` — `KAM/Frozen/Planetary/Defs/PlanetaryDriftExponent.lean`
 - `KAM.Planetary.planetaryTimeExponent` — `KAM/Frozen/Planetary/Defs/PlanetaryTimeExponent.lean`
@@ -457,26 +443,29 @@ So `planetaryTimeExponent n = 2/(6n² − 3n + 14)` and `planetaryDriftExponent 
 = 3/(6n² − 3n + 14)`, with `n : ℕ` the number of planets (the number of fast actions), cast to `ℝ`. Both are
 literal closed formulas; no carrier or characterization is needed (for `n ≥ 2` the denominator is `≥ 32`).
 
-All other directly referenced already-frozen definitions are in draft 7 §4.1 (13 of its 19 entries; not
-referenced directly by the draft-8 texts: `KAM.Iso.IsHamiltonianSolutionOn`, `NoCollision`, `planeCross`, `planeDot`, `planeSq`, `totalMomentum`); `KAM.Fourier.modeSize` (a draft-7 new definition) is
-**not** used by LP3.
+No longer referenced: `KAM.IsDiophantine` (the frozen LP1 / LP2 import `KAM.Frozen.Defs.IsDiophantine`; LP3 has no
+arithmetic premise). The other directly imported earlier frozen definition files are those of LP1 / LP2: LP3-1
+`ActualMasses`, `BarycentricPositions`, `BarycentricVelocities`, `BodyVector`, `IsMovingSolutionOn`, `IsNewtonSolutionOn`, `KeplerAction`, `KeplerAxis`, `KeplerEccVector`, `KeplerEnergy`, `MovingUniqueOn`, `Phase`, `PlaneLength`;
+LP3-2 `Phase`.
 
-### 4.2 Draft-7 definitions used
+### 4.2 D62 LP definitions used
 
-The draft-8 texts import (LP3-1: 17, LP3-2: 29) draft-7 definition files directly (the same set as the corresponding LP1 /
-LP2 anchor minus `KAM/Frozen/Fourier/Defs/ModeSize.lean`; for LP3-2 the raw `SpatialBarycentric{Positions,Velocities}`
-imports are replaced by the r1 `SpatialSourceBarycentric{Positions,Velocities}` files; verification §0). They are frozen by draft 7, with the
-roles, characterization theorems and the rebase plan given there (draft 7 §4, §5, §7); draft 8 adds nothing to them.
+The texts import 42 distinct D62 LP definition files directly (LP3-1: 17, LP3-2: 29), exactly those the frozen LP1 /
+LP2 import (verification §1, whole-file diffs). They are frozen and sealed with their characterization theorems under
+D62; draft 8 adds nothing to them and changes none.
+
+- LP3-1: `AdjIdx`, `AdjIdxUpperIdx`, `Chamber`, `OrderedStrongThreshold`, `OscEcc`, `OscEnergy`, `SourceCanonicalPhase`, `SourceKeplerApo`, `SourceKeplerPeri`, `SourceOscApo`, `SourceOscAxis`, `SourceOscEcc`, `SourceOscEccVector`, `SourceOscEnergy`, `SourceOscPeri`, `SourceOsculatingPhase`, `SourceStrongAMD`.
+- LP3-2: `BodyVector3`, `IsSpatialMovingSolutionOn`, `IsSpatialNewtonSolutionOn`, `SpaceLength`, `SpatialKeplerEnergy`, `SpatialMasses`, `SpatialMovingUniqueOn`, `SpatialOscEcc`, `SpatialOscEnergy`, `SpatialSourceBarycentricPositions`, `SpatialSourceBarycentricVelocities`, `SpatialSourceCanonicalPhase`, `SpatialSourceKeplerAction`, `SpatialSourceKeplerApo`, `SpatialSourceKeplerAxis`, `SpatialSourceKeplerEccVector`, `SpatialSourceKeplerPeri`, `SpatialSourceOscApo`, `SpatialSourceOscAxis`, `SpatialSourceOscEcc`, `SpatialSourceOscEccVector`, `SpatialSourceOscEnergy`, `SpatialSourceOscPeri`, `SpatialSourceOsculatingPhase`, `SpatialSourceStrongAMD`, `AdjIdx`, `AdjIdxUpperIdx`, `Chamber`, `OrderedStrongThreshold`.
 
 ### 4.3 Frozen import closure (manifest `definition_closure`)
 
 Following draft-7 convention 8, `definition_closure` lists the complete transitive closure of frozen definition files
-imported. For LP3-1 it is LP1's closure minus `ModeSize.lean` plus the two exponent files
-(79 files). For LP3-2 it is LP2's closure minus `ModeSize.lean` plus 19 files (96 files):
-the two exponent files, the two r1 source barycentric files, and the planar track-P files that the frozen `PlanetaryTimeExponent.lean` imports
-(`MovingHamiltonian`, `PairBounds`, `SecularAverage`, `Fast`, `Slow`, `OscillatorAction`, … and their imports). Those
-are file-import dependencies only, not semantic ones: beyond draft 7 r1, the Lean constant closure (§4 above) adds
-exactly the two exponents.
+imported, computed with the D62 install's own closure (`lp_manifest_add.closure`) over the real frozen files. For
+LP3-1 it is LP1's manifest closure plus the two exponent files (79 files; `IsDiophantine.lean` stays, through the
+track-P files). For LP3-2 it is LP2's manifest closure plus 17 files (96 files): the two exponent files and the planar
+track-P files that the frozen `PlanetaryTimeExponent.lean` imports (`MovingHamiltonian`, `PairBounds`,
+`SecularAverage`, `Fast`, `Slow`, `OscillatorAction`, … and their imports). Those are file-import dependencies only, not
+semantic ones: the Lean constant closure (§4 above) adds exactly the two exponents to that of LP1 / LP2.
 
 ## 5. Manifest entry drafts
 
@@ -486,39 +475,62 @@ and conventions of draft 7 §6:
 - `id` `planetary.d59.<name>.v1`, `contract` `{id: planetary.d59.<name>, version: "1"}`;
 - `kind` `theorem`, `path`, `export` as in §2; `implementation` = the provider module and export;
   `state: "DRAFT_SORRY"`, `prefix_sha256`, `suffix_sha256`, `abi_sha256` `"TBD at freeze"`, empty `draft_allowlist`;
-- `source.revision` = `KAM-inp@ced282aa docs/tracks/LP/source/MAIN.md (sha256 …) as amended by
+- `source.revision` = `KAM-inp@2bbacd66 docs/tracks/LP/source/MAIN.md (sha256 …) as amended by
   docs/tracks/LP/source/AMENDMENTS.md (sha256 …), with the LP3 proof plan docs/tracks/LP/lp3/LP3-PLAN.md (sha256 …);
-  exact text docs/tracks/LP/FREEZE-PROPOSAL-DRAFT8.md draft 8`; `source.range` = the MAIN items and lines of §2;
-- `split_policy` `NOT_SPLIT`, one source group per entry, `ruling_ref` `docs/DECISIONS.md D59` (to be extended by the
-  decision that approves the exact text);
+  exact text docs/tracks/LP/FREEZE-PROPOSAL-DRAFT8.md draft 8` (the regeneration base; the first run had `ced282aa`,
+  same three hashes); `source.range` = the MAIN items and lines of §2;
+- `split_policy` `NOT_SPLIT`, one source group per entry, `ruling_ref` `docs/DECISIONS.md D59` (extended at freeze by
+  the decision that approves the exact text, from the approval record);
 - `definition_closure` as in §4.3, `sha256: "TBD at freeze"`;
-- `author_approval: "PENDING (D59 approves rulings only)"`.
+- `author_approval: "PENDING (D59 approves rulings only)"`; `state` becomes `SEALED` at install (approval record).
 
-## 6. Rebase and sealing plan (freeze time)
+## 6. One-pass install (frozen and sealed together, like D62)
 
-1. **No implementation change is needed.** There is no new definition, so no implementation module loses a definition;
-   no LP theorem is renamed; no characterization proof moves.
-2. **Providers** (one line each): `KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith :=
-   KAM.Planetary.StrongAMD.lp3_planar_strongAMD_safety_source …` in
-   `KAM/Provider/Planetary/StrongAMD/PlanarStrongAMDExponentialSafetyNoArith.lean` (imports
-   `KAM.Planetary.StrongAMD.Nek.PlanarSafety.Source`), and
-   `KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith :=
-   KAM.Planetary.Spatial.lp3_spatial_strongAMD_safety_source …` in
-   `KAM/Provider/Planetary/Spatial/SpatialStrongAMDExponentialSafetyNoArith.lean` (imports
-   `KAM.Planetary.Spatial.Nek.SpatialSafety.Source` and LP-FREEZE7R's implementation module
-   `KAM.Planetary.Spatial.SourceBarycentric` that defines the two r1 maps). The spatial provider closes by the
-   same `lp3_spatial_strongAMD_safety_source`: the r1 maps are definitionally the raw ones, so no restated
-   implementation theorem is needed. Both providers are staged on this branch
-   ([providers-staging-draft8.txt](freeze/providers-staging-draft8.txt)).
-3. **Import chain.** Frozen LP3 anchor → (private import) its provider → the LP3 implementation → the **sealed**
-   frozen `KAM.Frozen.Nekhoroshev.Theorems.PartialConvexNekhoroshev` → (private import) its provider. This is the
-   D58 pattern (precedent: track P's `KAM/Planetary/Exponential/Stopped.lean`); no module imports a provider other than
-   its own anchor, and no implementation module imports a DRAFT_SORRY anchor.
-4. **Order.** Draft 8 after (or in the same freeze commit as) draft 7, because the anchors import draft-7 definition
-   files. Freeze commit: both files DRAFT_SORRY with stub providers (D20/D25 pattern); seal commit right after (both
-   proofs exist); `by exact …` bodies as in each file's docstring.
-5. **Axioms** after sealing: those of the closing theorems, exactly `[propext, Classical.choice, Quot.sound]`
-   (verification §3).
+There is no new definition, so **no implementation module changes** (no rebase, no moved proof, no renamed theorem),
+and both proofs exist. Draft 8 is therefore installed already sealed in one commit, with D62's scripts unchanged,
+after the owner's exact-text approval (decision `<DECISION>` on `<APPROVAL-DATE>`) and the dedicated seal audit.
+
+**Exact files of the install** (4 Lean files and the manifest; nothing else under `KAM/Frozen/`, `KAM/Provider/` or
+`manifest/`):
+
+| # | File | Kind | Content |
+|---|---|---|---|
+| 1 | `KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean` | frozen anchor LP3-1 (new) | the approved `.txt` with the two placeholders filled and the sealed body `by exact KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith hn ν hν hνmax hνle A hA hAord δ hδ` (wrapped at 100 columns, 6-space continuation) |
+| 2 | `KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean` | frozen anchor LP3-2 (new) | the same, with `KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith` |
+| 3 | `KAM/Provider/Planetary/StrongAMD/PlanarStrongAMDExponentialSafetyNoArith.lean` | provider (staged on this branch) | `KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith`: the anchor's exact type, proved by `lp3_planar_strongAMD_safety_source …`; imports `KAM.Planetary.StrongAMD.Nek.PlanarSafety.Source` |
+| 4 | `KAM/Provider/Planetary/Spatial/SpatialStrongAMDExponentialSafetyNoArith.lean` | provider (staged on this branch) | `KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith`, by `lp3_spatial_strongAMD_safety_source …`; imports `KAM.Planetary.Spatial.Nek.SpatialSafety.Source`, `KAM.Planetary.Spatial.SourceBarycentric` |
+| 5 | `manifest/frozen-anchors.json` | 2 new entries, state `SEALED` | below; the 307 existing entries JSON-equal |
+
+Generated, not hand-edited: `KAM/Root/Frozen.lean` (+2 lines, the two anchors) and `KAM/Root/Provider.lean` (+2 lines,
+the two providers), by `scripts/gen_root_imports.py`; `docs/MANIFEST-CHANGES.md` gets 2 rows citing the approval
+decision (`lp_manifest_changes_rows.py`).
+
+**Manifest entries** (from the dry run; `prefix_sha256` depends on the filled date and decision, so its dry-run value
+is not final; `abi_sha256` from `scripts/abi_hashes.py` at install):
+
+| Id | Entry | Path | Provider (implementation.module) | `definition_closure` files |
+|---|---|---|---|---|
+| LP3-1 | `planetary.d59.planar_strongAMD_exponentialSafety_noArith.v1` | `KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean` | `KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyNoArith` | 79 |
+| LP3-2 | `planetary.d59.spatial_strongAMD_exponentialSafety_noArith.v1` | `KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean` | `KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyNoArith` | 96 |
+
+**Commands** (the D62 sequence, FREEZE.md §Method 3, 6, 7; `A8` = the approved commit of this draft, `DATE`, `DEC` the
+approval; an approval record `approval-<DEC>.json` as `approval-D62.json`):
+
+1. `python3 docs/tracks/LP/freeze/lp_freeze_install.py --root . --approved $A8:docs/tracks/LP/freeze/draft8 --date
+   $DATE --decision $DEC --kind theorem --sealed` (asserts: only the two placeholders and the body change; the sealed
+   body equals the sealing string of the file's own docstring; ≤ 3 lines, ≤ 240 bytes, ≤ 100 columns).
+2. `python3 docs/tracks/LP/freeze/lp_manifest_add.py --root . --approved $A8:docs/tracks/LP/freeze/draft8 --approval
+   docs/tracks/LP/freeze/approval-$DEC.json` (hashes with the guard's code; closure cross-checked; existing entries
+   JSON-equal), then `abi_hashes.py` on the 2 new entries (twice, identical) and `lp_manifest_add.py --abi`.
+3. `python3 scripts/gen_root_imports.py`; `lp_manifest_changes_rows.py` (2 rows).
+4. Checks: `lp_build.sh` of the two frozen modules (the providers are already built); `check_frozen_anchors.py`;
+   `abi_hashes.py --check`; the probe `lp_axioms.py --probe` / `--verify` (Expr-equal types, standard axioms); kernel
+   replay of the 4 modules; `lp_lint.sh` exit 0 (the staged-provider root deviation disappears with the entries).
+
+**Dry run** of steps 1–3 against this commit's draft (verification §6): passes. Import chain after the install: frozen
+LP3 anchor → (private import) its provider → the LP3 implementation → the **sealed** frozen
+`KAM.Frozen.Nekhoroshev.Theorems.PartialConvexNekhoroshev` → (private import) its provider (D58 pattern); no other
+module imports either provider.
 
 ## 7. Notes
 
@@ -527,10 +539,10 @@ and conventions of draft 7 §6:
   and `lp3_spatial_strongAMD_safety{,_normalized}` (they use the total helpers, superseded by OD-11 (b) as LP1/LP2's
   were).
 - **MAIN tags.** The implementation docstrings of the LP3 Source modules cite `LP:MAIN L15 (502–506)`; MAIN's item at
-  502–506 is Theorem 15, so the anchors write `T15`, as draft 7 does (implementation docstring nit, not frozen).
-- **Draft-7 generator drift (for the draft-7 audit; draft-7 texts unaffected).** Since draft 7 was generated,
-  `inp-lp` corrected two implementation docstrings outside the frozen texts (`spatialKeplerAxis` in
-  `KAM/Planetary/Spatial/Elements.lean`, R4.6; the module docstring of `KAM/Planetary/Spatial/Model.lean`). Draft 7's
-  `gen.py` asserts the old `spatialKeplerAxis` docstring and therefore no longer runs unchanged on this tree; draft 8
-  reads the draft-7 records from the recorded `records.json`, checked byte-identical to the committed draft-7 files
-  (verification §0). Draft 7's frozen docstring of `spatialKeplerAxis` already carries the corrected meaning.
+  502–506 is Theorem 15, so the anchors write `T15`, as the frozen LP1 does (implementation docstring nit, not frozen).
+- **Staged providers before the install.** `scripts/gen_root_imports.py` quarantines only providers of DRAFT_SORRY
+  anchors, so while the two providers are staged without manifest entries, `lp_lint.sh` reports
+  `KAM/Root/Provider.lean` out of date; the roots are deliberately not regenerated (AGENTS rule 9). The install's
+  manifest entries resolve it (verification §7).
+- **Provider docstrings** still name package LP-FREEZE8 and say "The statement surface is proposed in
+  docs/tracks/LP/FREEZE-PROPOSAL.md" (SPEC §4 sentence); they are byte-identical to the first run (not frozen files).

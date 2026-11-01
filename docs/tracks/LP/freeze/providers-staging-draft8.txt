@@ -1,3 +1,7 @@
+SUPERSEDED (LP-FREEZE8R, 2026-11-01): this is the record of the first draft-8 run, which checked the spatial provider
+against a transient stand-in of KAM.Planetary.Spatial.SourceBarycentric. On inp-lp-freeze8r both providers (unchanged,
+byte-identical) build against the real D62 modules and are re-checked: docs/tracks/LP/freeze/verification-draft-8.txt §6.
+
 LP-FREEZE8 provider staging for the draft-8 anchors LP3-1, LP3-2 (orchestrator update 2, 2026-11-01). Generated 2026-11-01 09:51 UTC
 Worktree /root/code/KAM-inp-lp-freeze8, branch inp-lp-freeze8, on top of e877f867 (draft-8 texts).
 Generator: .drafts/freeze8/mk_providers8.py (provider text = the draft-8 anchor's exact type text from the same
