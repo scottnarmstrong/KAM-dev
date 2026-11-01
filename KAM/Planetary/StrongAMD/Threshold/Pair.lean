@@ -70,7 +70,8 @@ theorem isCompact_pairFeasible (ν I : Fin n → ℝ) (i j : Fin n) :
   have hc : IsClosed (pairFeasible ν I i j) := by
     unfold pairFeasible
     refine IsClosed.inter (isClosed_Icc.preimage continuous_fst) (IsClosed.inter
-      (isClosed_Icc.preimage continuous_snd) (isClosed_le (continuous_const.mul (continuous_const.sub continuous_snd))
+      (isClosed_Icc.preimage continuous_snd)
+      (isClosed_le (continuous_const.mul (continuous_const.sub continuous_snd))
         (continuous_const.mul (continuous_const.add continuous_fst))))
   refine IsCompact.of_isClosed_subset
     ((isCompact_Icc (a := (0 : ℝ)) (b := 1)).prod (isCompact_Icc (a := (0 : ℝ)) (b := 1))) hc ?_
@@ -185,7 +186,8 @@ theorem pairThreshold_lt {ν I : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (hI : I 
   have hj := hI.1 j
   have hq : actionAxis ν I i / actionAxis ν I j < 1 := (div_lt_one hb).2 hab
   have hq0 : 0 < actionAxis ν I i / actionAxis ν I j := div_pos ha hb
-  have hfe := pairThreshold_le_of_feasible ν I i j (u := 0) (v := 1 - actionAxis ν I i / actionAxis ν I j)
+  have hfe := pairThreshold_le_of_feasible ν I i j (u := 0)
+    (v := 1 - actionAxis ν I i / actionAxis ν I j)
     ⟨le_rfl, zero_le_one⟩ ⟨by linarith, by linarith⟩
     (by
       have : actionAxis ν I j * (1 - (1 - actionAxis ν I i / actionAxis ν I j))

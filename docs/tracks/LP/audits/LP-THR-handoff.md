@@ -6,8 +6,8 @@
 
 ## Items (all 1–8 proved) and declarations
 Definitions (Defs): `actionAxis`, `chamber`, `eccDeficit`, `pairFeasible`, `pairObjective`,
-`pairThreshold` (literal `sInf`), `AdjIdx n := {i : Fin n // i.val+1<n}`, `AdjIdx.succ`,
-`crossThreshold := ⨅ a : AdjIdx n, pairThreshold ν I a.1 a.succ`, `starThreshold := ⨅ i, I i`,
+`pairThreshold` (literal `sInf`), `AdjIdx n := {i : Fin n // i.val+1<n}`, `AdjIdx.upperIdx`,
+`crossThreshold := ⨅ a : AdjIdx n, pairThreshold ν I a.1 a.upperIdx`, `starThreshold := ⨅ i, I i`,
 `strongThreshold := min cross star`. OD-2 carrier API: `OrderedActions ν := {I // I ∈ chamber ν}`,
 `orderedPairThreshold I i j hij`, `orderedCrossThreshold`, `orderedStrongThreshold (hn : 2 ≤ n) I`, with
 one-line `rfl` lemmas `orderedPairThreshold_eq`, `orderedStrongThreshold_eq`.
@@ -32,7 +32,7 @@ Interior-optimizer / geometric realization / Laskar–Petit identification (expl
 
 ## Checks
 `lp_build.sh` of Defs, Pair, Continuity, Strong, Threshold: all "Build completed successfully", no warnings
-in my files. `lp_lint.sh`: exit 0 (FROZEN-ANCHOR GUARD OK, ABI HASHES OK). `#print axioms` (via `lp_lean.sh`
+in my files. `lp_lint.sh`: exit 0 on rerun after round-1 fixes (real exit status; the first run failed on two >100-char lines and a stale KAM.lean, both fixed) (FROZEN-ANCHOR GUARD OK, ABI HASHES OK). `#print axioms` (via `lp_lean.sh`
 on `.drafts/ax.lean`) of isCompact_pairFeasible, pairFeasible_nonempty, exists_pairThreshold_attained,
 pairThreshold_isLeast, exists_contact_minimizer, pairThreshold_isLeast_contact, pairThreshold_eq_sInf_contact,
 pairThreshold_pos, pairThreshold_lt, continuousOn_pairThreshold, isOpen_chamber, continuousOn_strongThreshold,
@@ -48,3 +48,8 @@ continuous_orderedStrongThreshold: all exactly `[propext, Classical.choice, Quot
 ## Source defects / deviations / design signals
 No errata found in Lemma 4. Deviation: added `hν` (positivity of ν) which MAIN assumes ("positive masses"). No
 heartbeat or size problems; every file builds in < 10 s.
+
+## Review round 1
+Renamed `AdjIdx.succ`/`lt_succ` to `AdjIdx.upperIdx`/`lt_upperIdx`; `main_shortname_check.py` on all five Threshold
+modules: "short-name check OK", rc 0. Docstring refs corrected (§1 lines 43/45/47–53). Rebuilt all five modules
+with `lp_build.sh` (no warnings); `lp_lint.sh` rc 0; `gen_root_imports.py` output committed.

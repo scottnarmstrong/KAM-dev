@@ -56,16 +56,16 @@ theorem exists_starThreshold_eq (hn : 1 ≤ n) (I : Fin n → ℝ) : ∃ i, star
   exact exists_iInf_eq_of_finite _
 
 theorem crossThreshold_le (ν I : Fin n → ℝ) (a : AdjIdx n) :
-    crossThreshold ν I ≤ pairThreshold ν I a.1 a.succ :=
-  iInf_le_of_finite (fun a : AdjIdx n => pairThreshold ν I a.1 a.succ) a
+    crossThreshold ν I ≤ pairThreshold ν I a.1 a.upperIdx :=
+  iInf_le_of_finite (fun a : AdjIdx n => pairThreshold ν I a.1 a.upperIdx) a
 
 theorem nonempty_adjIdx (hn : 2 ≤ n) : Nonempty (AdjIdx n) :=
   ⟨⟨⟨0, by omega⟩, by show 0 + 1 < n; omega⟩⟩
 
 theorem exists_crossThreshold_eq (hn : 2 ≤ n) (ν I : Fin n → ℝ) :
-    ∃ a : AdjIdx n, crossThreshold ν I = pairThreshold ν I a.1 a.succ := by
+    ∃ a : AdjIdx n, crossThreshold ν I = pairThreshold ν I a.1 a.upperIdx := by
   have := nonempty_adjIdx hn
-  exact exists_iInf_eq_of_finite (fun a : AdjIdx n => pairThreshold ν I a.1 a.succ)
+  exact exists_iInf_eq_of_finite (fun a : AdjIdx n => pairThreshold ν I a.1 a.upperIdx)
 
 theorem strongThreshold_le_cross (ν I : Fin n → ℝ) :
     strongThreshold ν I ≤ crossThreshold ν I := min_le_left _ _
@@ -74,7 +74,7 @@ theorem strongThreshold_le_star (ν I : Fin n → ℝ) :
     strongThreshold ν I ≤ starThreshold I := min_le_right _ _
 
 theorem strongThreshold_le_pair (ν I : Fin n → ℝ) (a : AdjIdx n) :
-    strongThreshold ν I ≤ pairThreshold ν I a.1 a.succ :=
+    strongThreshold ν I ≤ pairThreshold ν I a.1 a.upperIdx :=
   (strongThreshold_le_cross ν I).trans (crossThreshold_le ν I a)
 
 theorem strongThreshold_le_action (ν I : Fin n → ℝ) (i : Fin n) :
@@ -83,7 +83,7 @@ theorem strongThreshold_le_action (ν I : Fin n → ℝ) (i : Fin n) :
 
 /-- The strong threshold equals one of its members. -/
 theorem strongThreshold_eq_member (hn : 2 ≤ n) (ν I : Fin n → ℝ) :
-    (∃ a : AdjIdx n, strongThreshold ν I = pairThreshold ν I a.1 a.succ) ∨
+    (∃ a : AdjIdx n, strongThreshold ν I = pairThreshold ν I a.1 a.upperIdx) ∨
       ∃ i : Fin n, strongThreshold ν I = I i := by
   rcases min_choice (crossThreshold ν I) (starThreshold I) with h | h
   · obtain ⟨a, ha⟩ := exists_crossThreshold_eq hn ν I
@@ -94,7 +94,7 @@ theorem strongThreshold_eq_member (hn : 2 ≤ n) (ν I : Fin n → ℝ) :
 theorem crossThreshold_pos {ν I : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (hI : I ∈ chamber ν)
     (hn : 2 ≤ n) : 0 < crossThreshold ν I := by
   obtain ⟨a, ha⟩ := exists_crossThreshold_eq hn ν I
-  rw [ha]; exact pairThreshold_pos hν hI a.lt_succ
+  rw [ha]; exact pairThreshold_pos hν hI a.lt_upperIdx
 
 theorem starThreshold_pos {ν I : Fin n → ℝ} (hI : I ∈ chamber ν) (hn : 1 ≤ n) :
     0 < starThreshold I := by
@@ -108,8 +108,8 @@ theorem strongThreshold_pos {ν I : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (hI :
 theorem continuousOn_crossThreshold {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (hn : 2 ≤ n) :
     ContinuousOn (crossThreshold ν) (chamber ν) := by
   have := nonempty_adjIdx hn
-  exact continuousOn_iInf_of_finite (f := fun (a : AdjIdx n) I => pairThreshold ν I a.1 a.succ)
-    fun a => continuousOn_pairThreshold hν a.lt_succ
+  exact continuousOn_iInf_of_finite (f := fun (a : AdjIdx n) I => pairThreshold ν I a.1 a.upperIdx)
+    fun a => continuousOn_pairThreshold hν a.lt_upperIdx
 
 theorem continuousOn_starThreshold (hn : 1 ≤ n) :
     ContinuousOn (starThreshold (n := n)) Set.univ := by
@@ -136,8 +136,8 @@ theorem strongThreshold_eq_min_first {ν I : Fin n → ℝ} (hν : ∀ i, 0 < ν
     · have : i = ⟨0, by omega⟩ := Fin.ext h0
       rw [this]; exact min_le_right _ _
     · let a : AdjIdx n := ⟨⟨i.val - 1, by omega⟩, by show i.val - 1 + 1 < n; omega⟩
-      have hs : a.succ = i := Fin.ext (by show i.val - 1 + 1 = i.val; omega)
-      have h1 := pairThreshold_lt hν hI a.lt_succ
+      have hs : a.upperIdx = i := Fin.ext (by show i.val - 1 + 1 = i.val; omega)
+      have h1 := pairThreshold_lt hν hI a.lt_upperIdx
       rw [hs] at h1
       have h2 := crossThreshold_le ν I a
       rw [hs] at h2
