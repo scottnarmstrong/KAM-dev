@@ -28,6 +28,17 @@ mp.mp.dps = 50
 TP = 2 * mp.pi
 
 
+def check_finite(**scalars):
+    """ValueError unless every named input is a finite real number."""
+    for name, v in scalars.items():
+        try:
+            x = float(v)
+        except (TypeError, ValueError, OverflowError):
+            raise ValueError("%s must be a finite real number, got %r" % (name, v)) from None
+        if not math.isfinite(x):
+            raise ValueError("%s must be finite, got %r" % (name, v))
+
+
 # ------------------------------------------------------------------------------------------------ frequencies
 def lunar_alpha(which, frame):
     """alpha with omega = (alpha, 1): theta frame alpha = nu, rotated frame alpha = nu - 1; and its minimal
@@ -52,6 +63,7 @@ def conj(alpha, P):
 
 def dioph_inf(alpha, P, K0=None):
     """(gamma*, argmin k, K0 used, tail bound at K0): exact infimum of |k|_1 |k1 alpha + k2| for tau = 1."""
+    check_finite(alpha=alpha)
     A = abs(P[0]); Delta = abs(alpha - conj(alpha, P))
     best = (mp.inf, None)
     # enumerate k1 = 0 (|k2| >= 1 gives |k|_1 |k2| >= 1) and 1 <= k1 < K0 (k -> -k symmetry)
@@ -77,6 +89,7 @@ def S_bound(alpha, delta, K=None, gstar=None):
     for |l - l0| <= 60 (l0 = floor(-k1 alpha)) plus 2 q^{|k1|} sum_{j > 60} j^-2 <= 2 q^{|k1|}/60 beyond (there
     |k1 alpha + l| >= j - 1 and q^|l| <= 1); rows |k1| > K by the Diophantine tail
     sum_{m > K} 4 m (m/gamma*)^2 q^m (|k.omega| >= gamma*/|k|_1)."""
+    check_finite(alpha=alpha, delta=delta)
     K = K or int(mp.ceil(40 / (TP * delta)))           # e^{-2 pi delta K} <= e^-40
     q = mp.e ** (-TP * delta)
     tot = 2 * mp.polylog(2, q)
@@ -95,6 +108,7 @@ def S_bound(alpha, delta, K=None, gstar=None):
 
 def S_generic(gamma, tau, delta, scale=1):
     """gamma^-2 sum_{k != 0} |k|_1^{2 tau} e^{-2 pi delta |k|_1}, n = 2 (#{|k|_1 = m} = 4 m)."""
+    check_finite(gamma=gamma, tau=tau, delta=delta, scale=scale)
     q = mp.e ** (-TP * delta)
     s = mp.nsum(lambda m: 4 * m * m ** (2 * tau) * q ** m, [1, mp.inf])
     return s / (gamma * scale) ** 2
@@ -112,7 +126,9 @@ def cohConstP(n, tau):
 
 
 def gamma_spec(alpha, delta, n=2, gstar=None):
-    """(2 pi)^-1 2^{n/2} S(omega, 2 delta)^{1/2} (omega = (alpha, 1), unscaled)."""
+    """(2 pi)^-1 2^{n/2} S(omega, 2 delta)^{1/2} (omega = (alpha, 1), unscaled).  n = 2 only: `S_bound` is a two-dimensional sum."""
+    if n != 2:
+        raise ValueError("two-frequency routine: n must be 2, got %r (no higher-dimensional implementation)" % (n,))
     S, K = S_bound(alpha, 2 * delta, gstar=gstar)
     return (2 * mp.pi) ** -1 * mp.mpf(2) ** (mp.mpf(n) / 2) * mp.sqrt(S), S, K
 

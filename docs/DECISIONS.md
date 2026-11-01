@@ -454,3 +454,22 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - **Size cap:** this lifts D52's figure for the lock data to about 200 MB (every file far below GitHub's 100 MB
     per-file limit).
   - **Unchanged:** the frozen `lunar_sync_lock`, N = 65, and the certificate.
+- **D56 (2026-11-01, 00:12 UTC) Track LP launched: strong-AMD exponential safety (the Laskar–Petit conjecture,
+  asymptotic form).** *(Scott: "if the audit passes, I want you to launch the campaign … prove the strongest, most
+  badass version of the theorem you can"; "make LP your top priority".)*
+  - **Proof and audit:** the source proof (docs/explorations/amd-crossing/A8) passed an independent refute-first
+    audit, PASS WITH NOTES, with no blocking issue (A10).
+  - **Target, strongest version:** the exact spatial Newtonian (1+n)-body problem below the sharp strong
+    Laskar–Petit threshold, with no secular hypothesis:
+    - time exp(c μ^(−1/(2(τ+1)))), with τ = n − 1/2 giving 1/(2n+1);
+    - O(√μ) action drift;
+    - no orbit crossing or collision, including for the osculating ellipses.
+  - **Order:** the planar theorem first, then the spatial one. A resonance-tolerant sharp-threshold variant is a
+    stretch goal.
+  - **Running:** sub-orchestrator kam-lp (session kam-inp-c2) with at most 2 provers capped at 4 GB. LP has top
+    priority for prover slots and the codex-1 audit queue.
+  - **Overnight mode:** nothing is frozen. The exact statements wait in a freeze proposal for the owner's approval.
+- **D57 (2026-11-01, 00:55 UTC) Audits run on codex-2.** *(Scott: "codex-2 has some usage credits, use that for the
+  audits, ok?")* codex-2 is logged in. Its weekly plan reads 0 %, but it has usage credits. It carries the LP and W
+  audits from now on: Sol medium, default tier, one audit at a time machine-wide, LP first. codex-1 finishes the audit
+  already running on it. This resolves LP's OD-10 (audit capacity after codex-1 ran low).

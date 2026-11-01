@@ -7,6 +7,7 @@ module
 
 public import KAM.Root.Analysis
 public import KAM.Root.Apost
+public import KAM.Root.Application
 public import KAM.Root.Canonical
 public import KAM.Root.Certificate
 public import KAM.Root.CertificateSharp

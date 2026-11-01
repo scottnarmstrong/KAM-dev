@@ -2,8 +2,16 @@
 
 Date: 31 October 2026. Reviewed source revision:
 `bbf13193ed4dd15dfe141e2f7cd9902b48b818ea`.
-Status: findings and proposed repairs; the repairs below have not been applied.
+Status: findings F1, F3 and F4 are repaired and F2 is repaired by an additive engine, on branch `v2-fixes`
+(table below, handoff [V2-FIXES](../handoffs/V2-FIXES.md)). The sections below keep the findings as reviewed.
 Companion: [improvements](CERTIFIER-V2-IMPROVEMENTS.md).
+
+| Fix | State | Commit | Where |
+|---|---|---|---|
+| F1 | applied | `41767c75` | `scripts/apost_sharp/check_modconstb_v2.py` |
+| F2 | applied as an additive engine: `routeBRefined` and every existing module are unchanged | `d552c3c7`, `d4643f72` | `Frame/MajorantsLN.lean`, `V2/RouteBLN.lean`, `V2/RouteAllLN.lean`, `V2/Tests/RouteBLN.lean` |
+| F3 | applied | `07b2a566` | `scripts/certifier/v2_adapter.py`, regression `scripts/certifier/check_v2_adapter.py` |
+| F4 | applied | `07b2a566` | the two-frequency routines, regression `scripts/apost_sharp/check_smalldiv_shapes.py` |
 
 The review found no soundness defect in the inspected v2 interfaces. It found
 three concrete test/tooling/checker issues and one unsupported-input trap in

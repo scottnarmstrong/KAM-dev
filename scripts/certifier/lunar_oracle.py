@@ -376,6 +376,8 @@ def dioph_gamma(A, om, K=400):
     """Numerical inf_{k != 0} |k|_1 |k . A om| (tau = 1); exact for the lunar frequencies up to K (the infimum is
     attained at small k; scripts/certifier/smalldiv.py certifies the tail)."""
     w = np.asarray(A, float) @ np.asarray(om, float)
+    if w.shape != (2,) or not np.isfinite(w).all():
+        raise ValueError("dioph_gamma: finite two-frequency input required, got A om = %r" % (w,))
     best = math.inf
     for k1 in range(0, K + 1):
         if abs(w[1]) > 1e-12:
