@@ -306,3 +306,85 @@ def main(tag):
 
 if __name__ == "__main__":
     main(sys.argv[1])
+
+
+def bsite(t):
+    return "(%s,\n      %s,\n      %s)" % tuple(bite(x) for x in t)
+
+
+def runB_items(W):
+    caps = W["caps"]
+    cl, cpl, cbl, ctail, cbtail = W["consts"]
+    return (["Xs := %s" % q(W["Xs"]), "kp := %d" % W["kp"], "a := 2", "ybar := 1 / 2", "θ := 1 / 16",
+             "θξ := 1 / 8", "θΩ := 1 / 8", "q := 1 / 8", "θN := 1 / 8", "θω := 1 / 8", "ts := 1 / 10",
+             "bF := %s" % q(caps["bF"]), "selfcons := false", "lam0 := %s" % q(caps["lam0"]),
+             "lamW0 := %s" % q(caps["lamW0"]), "ePer0 := %s" % q(caps["ePer0"]),
+             "c := [%s]" % ", ".join(q(x) for x in cl), "c' := [%s]" % ", ".join(q(x) for x in cpl),
+             "cbar := [%s]" % ", ".join(q(x) for x in cbl), "ctail := %s" % q(ctail), "cbtail := %s" % q(cbtail)]
+            + ["%s := %s" % (k, q(caps[k])) for k in ("sB", "sT", "sLt", "sN", "sNt")] + ["J := %d" % W["J"]])
+
+
+def routeB_module(tag, W):
+    T = tag
+    core = FE.wrap("    { ", runB_items(W), indent="      ", close=" }")
+    sites = ",\n     ".join(bsite(t) for t in W["sites"])
+    return lines_ok(FE.HEADER + """public import %(mod)s%(T)sClaim
+public import %(mod)s%(T)sFreq
+public import %(mod)sLemmas
+
+/-!
+# Route B on the forced toy `%(T)s`, in the kernel
+
+`refinedBWit`: route B at the refined data (`iso_g1_branch_B`), with the claim `Rclaim` of
+`%(T)sClaim` and certified small-divisor sites at the three bites of each prefix stage (`δ_s`, the
+split bite, `min r_s 1`); `X⋆ = %(Xs)s`, threshold `γ⁴ρ⁴ / c₁ ≈ %(estar).2e` against
+`err = %(err)s`. `refinedB_passes` is the whole v2 certifier at `routeV2All` with the
+witness of `routeBRefined`, and `refinedB_torus` the certified torus.
+-/
+
+@[expose] public section
+
+namespace KAM.CertificateSharp.V2.Forced.%(T)s
+
+open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2
+
+/-- The refined route-B witness of `%(T)s`. -/
+def refinedBWit : RefinedBWit where
+  core :=
+%(core)s
+  R := Rclaim
+  κ := %(kap)s
+  sites :=
+    [%(sites)s]
+
+theorem refinedB_sites : (refinedBWit.num cert.params cert.freqBox).sitesOk 2 refinedBWit.core.J
+    cert.freqBox refinedBWit.κ cert.params.γ refinedBWit.sites = true := by decide +kernel
+
+theorem refinedB_core : refinedBCore 2 cert.params cert.freqBox refinedBWit = true :=
+  refinedBCore_of (by decide +kernel) (by decide +kernel) (by decide +kernel) (by decide +kernel)
+    (by decide +kernel) refinedB_sites (by decide +kernel) (by decide +kernel)
+
+/-- **The forced toy through `routeV2All`**, at the witness of `routeBRefined`. -/
+theorem refinedB_passes : checkTorusCertificateV2 routeV2All cert
+    (Sum.inr (Sum.inr (Sum.inr refinedBWit))) = true := by
+  rw [checkTorusCertificateV2_routeV2All_bRefined]
+  refine (checkV2_eq routeBRefined cert refinedBWit).trans ?_
+  rw [base_ok, Bool.true_and]
+  refine (routeBRefined_test cert refinedBWit).trans ?_
+  have h1 : checkHamClaim cert refinedBWit.R = true := hamClaim_ok
+  have h2 : checkFrameMajorants cert (refinedBWit.R.frame cert.freqBox) = true := frame_ok
+  show (checkHamClaim cert refinedBWit.R &&
+    checkFrameMajorants cert (refinedBWit.R.frame cert.freqBox) &&
+    refinedBCore 2 cert.params cert.freqBox refinedBWit) = true
+  rw [h1, h2, refinedB_core]
+  rfl
+
+/-- **The certified torus of `%(T)s` through route B.** -/
+theorem refinedB_torus : CertifiedTorus cert ωstar :=
+  checkTorusCertificateV2_sound routeV2All refinedB_passes freq dio
+
+end KAM.CertificateSharp.V2.Forced.%(T)s
+
+end
+""" % dict(mod=MOD, T=T, Xs=q(W["Xs"]), estar=float(W["estar"]), err=q(W["err"]), core=core, kap=q(W["kappa"]),
+           sites=sites))

@@ -207,3 +207,144 @@ def jsonable(x):
     if isinstance(x, (list, tuple)):
         return [jsonable(v) for v in x]
     return x
+
+
+# ---------------------------------------------------------------------------------------------- route B
+import route_b_lean_mirror as RB    # noqa: E402
+
+
+def rnd_up(x, sig=9):
+    return up_rel(F(x), F(0), sig)
+
+
+def b_bites(p, kp, a=F(2)):
+    d0 = min(F(1), (p["rho"] - p["rhoInf"]) * (a - 1) / (3 * a))
+    dl = lambda s: d0 / a ** s
+    r = lambda s: p["rho"] - 3 * d0 * (1 - (1 / a) ** s) / (1 - 1 / a)
+    bfull = lambda s: min(r(s), F(1))
+    return d0, dl, (lambda s: dl(s) / 2), bfull
+
+
+def numB(p, box, R, consts, caps, kp, frozen):
+    """`RunBWit.num` (RouteBCore.lean) as the mirror's NumB: M1, M2, Mh2 = R.dx, R.d2x, R.d2h (refined) or the
+    one-size M (frozen); cTh = 2 M1, cDTh = 2 M2, sK = σK - μ/2, iso, Θ = σω |box|, y0 = M sN."""
+    M1, M2, Mh2 = (p["M"], p["M"], p["M"]) if frozen else (R["dx"], R["d2x"], R["d2h"])
+    cl, cpl, cbl, ctail, cbtail = consts
+    return RB.NumB(n=2, τ=F(1), ρ=p["rho"], ρinf=p["rhoInf"], γb=p["gbar"], M1=M1, M2=M2, cTh=2 * M1, cDTh=2 * M2,
+                   sK=p["sK"] - p["mu"] / 2, sLt=caps["sLt"], sB=caps["sB"], sN=caps["sN"], sNt=caps["sNt"],
+                   sT=caps["sT"], ts=F(1, 10), bF=caps["bF"], θ=F(1, 16), θξ=F(1, 8), θΩ=F(1, 8), q=F(1, 8),
+                   θN=F(1, 8), θω=F(1, 8), a=F(2), ybar=F(1, 2), kp=kp, c=lambda s: cl[s] if s < kp else ctail,
+                   c_=lambda s: cpl[s] if s < kp else ctail, cbar=lambda s: cbl[s] if s < kp else cbtail,
+                   ctail=ctail, cbtail=cbtail, lam0=caps["lam0"], lamW0=caps["lamW0"], ePer0=caps["ePer0"],
+                   iso=True, Θ=p["som"] * V.boxNormUp(box), y0=p["M"] * caps["sN"], Mh2=Mh2)
+
+
+def solve_B(p, box, R, I, consts, kp, Xs, frozen, iters=80):
+    """caps = init + sums (the J3 fixed point), lam0/lamW0/ePer0 the least Fits values, bF = max B_loc x;
+    returns (N, caps, fails) with the exact routeBOk failures at the final caps."""
+    m = 1 + F(1, 10 ** 4)
+    sp = p["sT"] - p["mu"]
+    caps = dict(sLt=I["iLt"] * m, sB=(p["sB"] - p["mu"]) * m, sN=I["iN"] * m, sNt=I["iNt"] * m, sT=sp * 2,
+                lam0=F(1), lamW0=F(1), ePer0=F(1), bF=F(1, 10 ** 30))
+    m0 = RB.initB(I, p["sK"], p["sB"], p["mu"])
+    for _ in range(iters):
+        N = numB(p, box, R, consts, caps, kp, frozen)
+        pb = RB.pbar(N, I)
+        x = N.xS(Xs, kp)
+        tot = [m0[i] + sum(N.rate(s)[i] * N.wt(s)[i] * x[s] for s in range(kp))
+               + N.rate(kp)[i] * N.wt(kp)[i] * x[kp] / (1 - N.ybar) for i in range(7)]
+        den = 1 / sp - tot[5] * m - 2 * caps["bF"]
+        if den <= 0 or any(float(t) > 1e6 for t in tot):
+            return None, caps, ["diverge"]
+        new = dict(sLt=rnd_up(max(tot[1] * m, I["iLt"] * m)), sB=rnd_up(tot[2] * m), sN=rnd_up(max(tot[3] * m,
+                   I["iN"] * m)), sNt=rnd_up(max(tot[4] * m, I["iNt"] * m)), sT=rnd_up(1 / den),
+                   lam0=rnd_up(I["iNt"] / pb), lamW0=rnd_up(1 / pb), ePer0=rnd_up(1 / pb),
+                   bF=rnd_up(max(max(N.Bloc(s) * x[s] for s in range(kp + 1)), F(1, 10 ** 30)), 3))
+        if new == caps:
+            break
+        caps = new
+    N = numB(p, box, R, consts, caps, kp, frozen)
+    σ = RB.capB(N, p["sT"], p["mu"], p["nu"])
+    fails = RB.routeBOk(N, σ, m0, p["mu"] / 2, Xs) + RB.wf_fails(N, I, p["sT"], p["mu"])
+    return N, caps, fails
+
+
+def route_B(c, tag, R, frozen=False, kp=2, J=20, log=print):
+    """The route-B witness (refined: RefinedBWit with R and certified sites; frozen: RunBWit with classical
+    constants and the default initial values)."""
+    p = params_of(c)
+    box = c.freqBox
+    kappa = box[1][0]
+    d0, dl, sp, bfull = b_bites(p, kp)
+    if frozen:
+        sites = {}
+        I = dict(iLt=p["sK"] - p["mu"], iN=None, iNt=None)       # defaultIB, filled below from the Lean definition
+    else:
+        bites = sorted({dl(s) for s in range(kp)} | {sp(s) for s in range(kp)} | {bfull(s) for s in range(kp)})
+        sites = site_search(tag, bites, kappa, p["gamma"])
+        I = dict(iLt=R["bL"], iN=R["bN"], iNt=R["bNt"])
+    cst = lambda b: sites[b]["c"] if b in sites else V.classical_c(2, 1, J, b)
+    consts = ([cst(dl(s)) for s in range(kp)], [cst(sp(s)) for s in range(kp)], [cst(bfull(s)) for s in range(kp)],
+              V.classical_c(2, 1, J, dl(kp)), V.classical_c(2, 1, J, bfull(kp)))
+    if frozen:
+        I = default_IB(p)
+    lo, hi, best = -30.0, 8.0, None
+    for _ in range(40):
+        mid = (lo + hi) / 2
+        Xs = up_rel(F(10 ** mid), F(0), 3)
+        N, caps, fails = solve_B(p, box, R, I, consts, kp, Xs, frozen)
+        if not fails:
+            lo, best = mid, (Xs, caps)
+        else:
+            hi = mid
+    if best is None:
+        return None
+    Xs, caps = best
+    N, caps, fails = solve_B(p, box, R, I, consts, kp, Xs, frozen)
+    assert not fails
+    g = p["gamma"]
+    c1 = RB.c1B(N, I, Xs)
+    estar = g ** 4 * p["rho"] ** 4 / c1
+    log("route B %s: Xs %s, threshold e* %.3e, err %.3e" % ("frozen" if frozen else "refined", Xs, float(estar),
+                                                            float(p["err"])))
+    return dict(Xs=Xs, caps=caps, consts=consts, sites=[(sites.get(dl(s)), sites.get(sp(s)), sites.get(bfull(s)))
+                                                        for s in range(kp)], kp=kp, J=J, kappa=kappa, R=R,
+                estar=estar, frozen=frozen, I=I)
+
+
+def default_IB(p):
+    """`defaultIB n p` of RouteBCore.lean (the frozen route's initial values)."""
+    raise NotImplementedError
+
+
+def lean_runB(W):
+    q = FL.lq
+    caps = W["caps"]
+    cl, cpl, cbl, ctail, cbtail = W["consts"]
+    return ("{ Xs := %s, kp := %d, a := 2, ybar := 1 / 2, θ := 1 / 16, θξ := 1 / 8, θΩ := 1 / 8, q := 1 / 8, "
+            "θN := 1 / 8, θω := 1 / 8, ts := 1 / 10, bF := %s, selfcons := false, lam0 := %s, lamW0 := %s, "
+            "ePer0 := %s, c := [%s], c' := [%s], cbar := [%s], ctail := %s, cbtail := %s, sB := %s, sT := %s, "
+            "sLt := %s, sN := %s, sNt := %s, J := %d }") % (
+        q(W["Xs"]), W["kp"], q(caps["bF"]), q(caps["lam0"]), q(caps["lamW0"]), q(caps["ePer0"]),
+        ", ".join(q(x) for x in cl), ", ".join(q(x) for x in cpl), ", ".join(q(x) for x in cbl), q(ctail),
+        q(cbtail), q(caps["sB"]), q(caps["sT"]), q(caps["sLt"]), q(caps["sN"]), q(caps["sNt"]), W["J"])
+
+
+def lean_refinedB(W):
+    q = FL.lq
+    R = W["R"]
+    Rs = "{ dh := %s, dx := %s, d2x := %s, d2h := %s, bL := %s, bN := %s, bNt := %s, bT := %s }" % tuple(
+        q(R[k]) for k in ("dh", "dx", "d2x", "d2h", "bL", "bN", "bNt", "bT"))
+    sites = ", ".join("(%s, %s, %s)" % tuple(lean_bite(x) for x in t) for t in W["sites"])
+    return "({ core := %s, R := %s, κ := %s, sites := [%s] } : KAM.CertificateSharp.V2.RefinedBWit)" % (
+        lean_runB(W), Rs, q(W["kappa"]), sites)
+
+
+def check_B_in_lean(tag, W):
+    if W["frozen"]:
+        e = "KAM.CertificateSharp.V2.frozenBCore 2 %s.cert.params %s.cert.freqBox (%s : KAM.CertificateSharp.V2.RunBWit)" % (
+            tag, tag, lean_runB(W))
+    else:
+        e = "KAM.CertificateSharp.V2.refinedBCore 2 %s.cert.params %s.cert.freqBox %s" % (tag, tag, lean_refinedB(W))
+    return FL.parse_bool(FL.lean_eval([MOD + tag + "Data", "KAM.CertificateSharp.V2.RouteAll"],
+                                      ["KAM.CertificateSharp.V2.Forced"], [e])[0])

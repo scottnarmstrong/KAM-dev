@@ -37,6 +37,10 @@ MOD = "KAM.CertificateSharp.V2.Tests.Forced."
 SPECS = {
     "Tiny": dict(modes=[[[1, 0], "1/10000000"], [[1, 1], "1/5000000"]], prune_digits=13, char_tol="1/100000000",
                  gramTol=None, cutLow=4, L0=4, L1=3, machin=[6, 3]),
+    # near-integrable control: residual small enough for the sharp and the frozen routes
+    "Micro": dict(modes=[[[1, 0], "1/1000000000000"], [[1, 1], "1/500000000000"]], prune_digits=27,
+                  char_tol="1/100000000000000000", gramTol=None, cutLow=4, L0=4, L1=3, machin=[8, 3],
+                  sqrt5_digits=45),
 }
 
 
