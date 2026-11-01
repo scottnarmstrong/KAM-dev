@@ -53,6 +53,7 @@ public import KAM.CertificateSharp.LinearShear
 public import KAM.CertificateSharp.Packed.Avg
 public import KAM.CertificateSharp.Packed.Box
 public import KAM.CertificateSharp.Packed.Bridge
+public import KAM.CertificateSharp.Packed.CertCongr
 public import KAM.CertificateSharp.Packed.Complex
 public import KAM.CertificateSharp.Packed.Digits
 public import KAM.CertificateSharp.Packed.Enc
