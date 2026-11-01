@@ -42,8 +42,9 @@ theorem planar_safety_of_prograde (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀
     (A : Set (Fin n → ℝ)) (hA : IsCompact A)
     (hAord : ∀ a ∈ A, (∀ i, 0 < a i) ∧ ∀ i j, i < j → a i < a j)
     (δ γ τ : ℝ) (hδ : 0 < δ) (hγ : 0 < γ) (hτ : (n : ℝ) - 1 < τ) :
-    ∃ μ₀ c T₀ AΛ Aa dStar dPair Aosc : ℝ,
+    ∃ μ₀ c T₀ AΛ Aa dStar dPair Aosc Aelem : ℝ,
       0 < μ₀ ∧ 0 < c ∧ 0 < T₀ ∧ 0 < AΛ ∧ 0 < Aa ∧ 0 < dStar ∧ 0 < dPair ∧ 0 < Aosc ∧
+      0 < Aelem ∧ Aosc * μ₀ ≤ dStar / 2 ∧ 2 * (Aosc * μ₀) ≤ dPair / 2 ∧
       ∀ μ : ℝ, 0 < μ → μ ≤ μ₀ →
       ∀ z₀ : Phase (n * 2),
         (∀ i, 0 < planeLength (bodyVector z₀.1 i) ∧ keplerEnergy ν z₀ i < 0) →
@@ -55,7 +56,8 @@ theorem planar_safety_of_prograde (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀
         ∀ hch : (fun i => keplerAction ν z₀ i) ∈ chamber ν,
         strongAMD ν z₀ ≤ orderedStrongThreshold hn ⟨_, hch⟩ - δ →
         ∃ z : ℝ → Phase (n * 2), PlanarSafeSol ν μ
-          (T₀ * Real.exp (c * μ ^ (-(1 / (2 * (τ + 1)))))) hn δ AΛ Aa dStar dPair Aosc z₀ z := by
+          (T₀ * Real.exp (c * μ ^ (-(1 / (2 * (τ + 1)))))) hn δ AΛ Aa dStar dPair Aosc Aelem
+          z₀ z := by
   have hn0 : (2 : ℝ) ≤ n := by exact_mod_cast hn
   have hτ0 : 0 < τ := by linarith
   have hAo : PositiveStrictlyOrdered A := hAord
@@ -68,7 +70,7 @@ theorem planar_safety_of_prograde (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀
     lp_stopped_drift hν hn hL hLch hδ (γ := γ) (τ := τ) (D₀ := 1) hγ hτ0 one_pos
   obtain ⟨dS1, dP1, R1, P1, c1, hdS1, hdP1, -, -, -, -, hgeo⟩ :=
     strongBarrier_physical hν hn hUc hUch (half_pos hδ)
-  obtain ⟨dS2, dP2, c2, hdS2, hdP2, -, μ2, A2, Aosc, hμ2, -, hAosc, -, -, hosc⟩ :=
+  obtain ⟨dS2, dP2, c2, hdS2, hdP2, hc2, μ2, A2, Aosc, hμ2, hA2, hAosc, hAm1, hAm2, hosc⟩ :=
     osculating_barrier hν hn hUc hUch (half_pos hδ)
   obtain ⟨r1, hr1, hbud⟩ := exists_budget_radius hν hn hUc hUch hδ
   obtain ⟨C, hC⟩ := hUc.isBounded.exists_norm_le
@@ -76,13 +78,33 @@ theorem planar_safety_of_prograde (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀
   have hr20 : 0 < r2 := lt_min hr1 hg.pos
   set S : ℝ := ∑ k, 1 / ν k ^ 2 with hS
   have hS0 : 0 ≤ S := Finset.sum_nonneg fun k _ => by have := hν k; positivity
-  refine ⟨min (min μ1 μ2) (r2 ^ 2), c, T₀, 1 / 2, (max C 0 + 1) * (S + 1), min dS1 dS2,
-    min dP1 dP2, Aosc, lt_min (lt_min hμ1 hμ2) (by positivity), hc, hT₀, by norm_num, by positivity,
-    lt_min hdS1 hdS2, lt_min hdP1 hdP2, hAosc, ?_⟩
+  set μ₀ : ℝ := min (min (min μ1 μ2) (r2 ^ 2)) (min (dS1 / (2 * Aosc)) (dP1 / (4 * Aosc)))
+    with hμ₀
+  have hμ₀pos : 0 < μ₀ :=
+    lt_min (lt_min (lt_min hμ1 hμ2) (by positivity)) (lt_min (by positivity) (by positivity))
+  have hμ₀2 : μ₀ ≤ μ2 := ((min_le_left _ _).trans (min_le_left _ _)).trans (min_le_right _ _)
+  have hS1 : Aosc * μ₀ ≤ dS1 / 2 :=
+    calc Aosc * μ₀ ≤ Aosc * (dS1 / (2 * Aosc)) :=
+          mul_le_mul_of_nonneg_left ((min_le_right _ _).trans (min_le_left _ _)) hAosc.le
+      _ = dS1 / 2 := by field_simp
+  have hP1 : 2 * (Aosc * μ₀) ≤ dP1 / 2 :=
+    calc 2 * (Aosc * μ₀) ≤ 2 * (Aosc * (dP1 / (4 * Aosc))) :=
+          mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left
+            ((min_le_right _ _).trans (min_le_right _ _)) hAosc.le) (by norm_num)
+      _ = dP1 / 2 := by field_simp; ring
+  have hS2 : Aosc * μ₀ ≤ dS2 / 2 := (mul_le_mul_of_nonneg_left hμ₀2 hAosc.le).trans hAm1
+  have hP2 : 2 * (Aosc * μ₀) ≤ dP2 / 2 :=
+    (mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left hμ₀2 hAosc.le) (by norm_num)).trans hAm2
+  refine ⟨μ₀, c, T₀, 1 / 2, (max C 0 + 1) * (S + 1), min dS1 dS2,
+    min dP1 dP2, Aosc, A2, hμ₀pos, hc, hT₀, by norm_num, by positivity,
+    lt_min hdS1 hdS2, lt_min hdP1 hdP2, hAosc, hA2, ?_, ?_, ?_⟩
+  · rcases min_choice dS1 dS2 with h | h <;> rw [h] <;> assumption
+  · rcases min_choice dP1 dP2 with h | h <;> rw [h] <;> assumption
   intro μ hμ hμμ₀ z₀ hphys hAz hdio hL0 hch hC0
-  have hμ1' : μ ≤ μ1 := hμμ₀.trans ((min_le_left _ _).trans (min_le_left _ _))
-  have hμ2' : μ ≤ μ2 := hμμ₀.trans ((min_le_left _ _).trans (min_le_right _ _))
-  have hμr : μ ≤ r2 ^ 2 := hμμ₀.trans (min_le_right _ _)
+  have hμ1' : μ ≤ μ1 := hμμ₀.trans
+    ((min_le_left _ _).trans ((min_le_left _ _).trans (min_le_left _ _)))
+  have hμ2' : μ ≤ μ2 := hμμ₀.trans ((hμ₀2))
+  have hμr : μ ≤ r2 ^ 2 := hμμ₀.trans ((min_le_left _ _).trans (min_le_right _ _))
   have hsq : Real.sqrt μ ≤ r2 := by
     have := Real.sqrt_le_sqrt hμr
     rwa [Real.sqrt_sq hr20.le] at this
@@ -128,7 +150,7 @@ theorem planar_safety_of_prograde (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀
   have hgeo' := hgeo (z t) hbar
   have hosc' := hosc μ hμ hμ2' (z t) hbar
   have hΛt := hbar.2.1
-  refine ⟨hphysT, ⟨hUch hΛt, hamd⟩, hdr', ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  refine ⟨hphysT, ⟨hUch hΛt, hamd⟩, hdr', ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · -- axes (MAIN line 497)
     have hCm : ∀ I ∈ sharedTube ν (strongLSet ν A) δ rg, ∀ i, |I i| ≤ max C 0 := fun I hI i =>
       ((norm_le_pi_norm I i).trans (hC I hI)).trans (le_max_left _ _)
@@ -158,6 +180,11 @@ theorem planar_safety_of_prograde (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀
   · exact fun a => (min_le_left _ _).trans (hgeo'.2.1 a)
   · exact fun i => (min_le_left _ _).trans (hgeo'.2.2.1 i)
   · exact fun i j hij => (min_le_left _ _).trans (hgeo'.2.2.2.1 i j hij)
+  · exact fun i => by
+      obtain ⟨hE, hax, hper, hapo, hecc, hsum, -, -⟩ := hosc'.2.1 i
+      have hνi := hν i
+      have hcν : 0 < c2 / ν i := by positivity
+      exact ⟨by linarith, hax, hecc, hper, hapo, hsum⟩
   · exact fun i => by
       obtain ⟨-, -, -, -, -, -, hp, ha⟩ := hosc'.2.1 i
       exact ⟨hp, ha⟩
