@@ -42,7 +42,7 @@ src (4th, created 05:30 for the third slot).
 | LP-PS PlanarSafety (LP1) | T15 | 3 | `inp-lp-ps` / geomod worktree (link `/root/code/KAM-inp-lp-ps`) | claude-12 | **PROVED** 74ebebb1 (779 lines): `lp1_planar_strongAMD_safety` (general), `…_normalized` (= draft-2 LP1 verbatim, verified), `…_halfInteger`, `lp0_planar_barrier` (= draft-2 LP0); axioms standard; audit LP-PS-1 **PASS WITH NOTES** (all five main statements PASS); **LANDED** main 0772a7d5 (inp ff50f80f) |
 | LP-SP-MODEL Spatial model + L1–L3 (d=3) + rotations | L1–L3 | 4 | `inp-lp-spmodel` / mom worktree (link `/root/code/KAM-inp-lp-spmodel`) | claude-11 | **LANDED** W4A (main b2308bac); audit LP-W4A-1 PASS WITH NOTES |
 | LP-SP-ROT rotation algebra (46) | L17 | 4 | `inp-lp-sprot` | claude-12 | **LANDED** W4A (main b2308bac); audit LP-W4A-1 PASS WITH NOTES |
-| LP-SP-CHART spatial chart, one body | L17 | 4 | `inp-lp-spchart` / geomod worktree (link `/root/code/KAM-inp-lp-spchart`) | claude-12 | **AUDIT RUNNING** LP-W4C-1 (codex-2, 08:2x; branch `inp-lp-w4c`) |
+| LP-SP-CHART spatial chart, one body | L17 | 4 | `inp-lp-spchart` / geomod worktree (link `/root/code/KAM-inp-lp-spchart`) | claude-12 | audit LP-W4C-1 **PASS WITH NOTES** (codex-2); merged into inp-lp; **landing requested** |
 | LP-SP-GEO spatial barrier + continuation | L5–L6 (d=3) | 4 | `inp-lp-spgeo` / mom worktree (link `/root/code/KAM-inp-lp-spgeo`) | claude-11 | **LANDED** W4B (main 73dd9149); audit LP-W4B-1 PASS WITH NOTES |
 | LP-SP-OSC osculating d=3 | L16 (d=3) | 4 | `inp-lp-sposc` | claude-11 | **LANDED** W4B (main 73dd9149); audit LP-W4B-1 PASS WITH NOTES |
 | LP-SP-CONF spatial first exit (conditional) | L14 (d=3) | 4 | `inp-lp-spconf` | claude-11 | **LANDED** W4B (main 73dd9149); audit LP-W4B-1 PASS WITH NOTES |
@@ -51,7 +51,7 @@ src (4th, created 05:30 for the third slot).
 | LP-SP-LIFT spatial chart lift + D1 premises | L14/L18 (d=3) | 4 | `inp-lp-splift` | claude-11 | staged as LP-W4D (`inp-lp-w4d`, handoff 4f02ec3b); codex-2 queue after W4C |
 | LP-SP-SAFE spatial theorem LP2 | T19 | 4 | `inp-lp-spsafe` / mom worktree | claude-11 | **PROVED** c9553935 (938 lines); statement review 4 PASS for fidelity (§3c); audit queued (W4E) |
 | LP-SRC OD-11 (b) source carriers + LP1 restatement | freeze prep | — | `inp-lp-src` / src worktree (4th) | claude-6 | **LANDED** W4B (main 73dd9149); audit LP-W4B-1 PASS WITH NOTES |
-| LP-SP-PROD n-body spatial product chart | L17 (n bodies), (47) | 4 | `inp-lp-spprod` | claude-12 | **AUDIT RUNNING** LP-W4C-1 (codex-2, 08:2x; branch `inp-lp-w4c`) |
+| LP-SP-PROD n-body spatial product chart | L17 (n bodies), (47) | 4 | `inp-lp-spprod` | claude-12 | audit LP-W4C-1 **PASS WITH NOTES** (codex-2); merged into inp-lp; **landing requested** |
 | LP-SP-DOM spatial analytic domain | L18 | 4 | `inp-lp-spdom` | claude-12 | staged as LP-W4D (`inp-lp-w4d`, handoff 4f02ec3b); codex-2 queue after W4C |
 | LP-SP-NRR spatial L13 (2n slow pairs) | L13, T19 | 4 | `inp-lp-spnrr` | claude-12 | staged as LP-W4D (`inp-lp-w4d`, handoff 4f02ec3b); codex-2 queue after W4C |
 | LP-SP-DOMX L18 remaining clauses | L18 | 4 | `inp-lp-spdomx` | claude-12 | staged as LP-W4D (`inp-lp-w4d`, handoff 4f02ec3b); codex-2 queue after W4C |
@@ -144,3 +144,4 @@ src (4th, created 05:30 for the third slot).
 - 2026-11-01 09:0x UTC: LP-SP-SRCB2 PROVED (R4.1 (A) text verbatim; axioms standard); statement review 5 PASS WITH NOTES (R5.1/R5.3 applied; R4.6 docstring fixes in Elements.lean:35 and Model.lean:21 to be folded into the W4E notes round). LP3-COVERPERT PROVED (590 lines). LP3-CELL (claude-11) and LP3-SP-COVER (claude-12) launched. LP-W4C auditing on codex-2; W4D built.
 - 2026-11-01 09:1x UTC: LP3-CELL PROVED (generic cellwise application, ± time; Kepler instance). LP3-DRIFT launched (claude-11).
 - 2026-11-01 09:2x UTC: LP3-SP-COVER PROVED. LP3-SP-DRIFT launched (claude-12), in parallel with the planar LP3-DRIFT. W4D fully staged (lint, short-name OK); waits for the W4C audit (LP lane).
+- 2026-11-01 09:3x UTC: LP-W4C audit 1 PASS WITH NOTES (CHART: N1 administrative, N2 disclosed `Complex.arg` inverse representation; PROD: PASS). Merged into inp-lp; landing requested from kam-inp-63. LP-W4D audit launched (LP lane).
