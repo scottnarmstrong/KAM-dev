@@ -22,7 +22,8 @@ Package LP-PS, MAIN Theorem 15 with Lemma 16 (`LP:MAIN L15 (502–506)`, `L14 (4
 `L16 (508–529)`), track LP, non-frozen.
 
 * `lp1_planar_strongAMD_safety`: the statement LP1 of `docs/tracks/LP/FREEZE-PROPOSAL.md` (draft 2,
-  §3) without the premises `hνmax`, `hνle` (the general version; the anchor keeps them, OD-3).  Orientation: the total momentum
+  §3) without the premises `hνmax`, `hνle` (the general version; the anchor keeps them, OD-3).
+  Orientation: the total momentum
   is nonzero (MOM), and the case `L < 0` is reduced to `L > 0` by the reflection of
   `PlanarSafety/Orientation`.
 * `lp1_planar_strongAMD_safety_normalized`: the corollary with `hνmax`, `hνle`.
