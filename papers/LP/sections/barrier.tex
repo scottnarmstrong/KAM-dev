@@ -1,7 +1,7 @@
-\section{The sharp barrier}
+\section{The strong barrier}
 \label{sec:barrier}
 
-This section is elementary and contains no small parameter. We show that exact conservation of the total angular momentum turns the strong condition $C\le B(\Lambda)-m$ into a bound on the eccentricities that keeps every perihelion and every pair of adjacent radial annuli uniformly apart, and that the threshold $B$ is exactly the least deficit at which this fails. Throughout, $d\in\{2,3\}$, and in the plane $q\times p$ is the oriented scalar determinant.
+This section is elementary and contains no small parameter. The inequality $C\ge\sum_i\Lambda_i\Dfn(e_i)$ turns the strong condition $C\le B(\Lambda)-m$ into a bound on the eccentricities that keeps every perihelion and every pair of adjacent radial annuli uniformly apart, and $B$ is the least deficit at which two annuli can touch. Conservation of $L$ then makes $C$ move only with the actions (Lemma~\ref{lem:moving}). Throughout, $d\in\{2,3\}$, and in the plane $q\times p$ is the oriented scalar determinant.
 
 \begin{lemma}[Normalization]
 \label{lem:normalization}
@@ -9,26 +9,22 @@ For every $d\in\{2,3\}$ and all $\nu_i,\mu>0$, the Hamiltonian \eqref{eq:H} is t
 \end{lemma}
 
 \begin{proof}
-In barycentric coordinates put $P_i=\mu p_i$ and $P_0=-\sum_iP_i$. With $q_i=x_i-x_0$ we have $\sum_{i=0}^nP_i\cdot dx_i=\sum_{i=1}^nP_i\cdot dq_i$; the kinetic energy becomes $\sum_i\abs{P_i}^2/(2\mu\nu_i)+\nf12\abs{\sum_iP_i}^2$ and the potential $-\sum_i\mu\nu_i/\abs{q_i}-\sum_{i<j}\mu^2\nu_i\nu_j/\abs{q_i-q_j}$. The symplectic form and the Hamiltonian both acquire the factor $\mu$, which cancels and gives \eqref{eq:H}. Conversely, with $M=1+\mu\sum_i\nu_i$ put $x_0=-\mu\sum_i\nu_iq_i/M$ and $x_i=x_0+q_i$. Hamilton's equation $\dot q_i=p_i/\nu_i+\mu\sum_jp_j$ gives $\dot x_0=-\mu\sum_jp_j$ and $\dot x_i=p_i/\nu_i$, and the equations for $\dot p_i$ are Newton's equations after multiplying the planet momenta by~$\mu$.
+In barycentric coordinates put $P_i=\mu p_i$, $P_0=-\sum_iP_i$ and $q_i=x_i-x_0$, so that $\sum_{i=0}^nP_i\cdot dx_i=\sum_{i=1}^nP_i\cdot dq_i$. The kinetic energy is $\sum_i\abs{P_i}^2/(2\mu\nu_i)+\frac12\abs{\sum_iP_i}^2$ and the potential $-\sum_i\mu\nu_i/\abs{q_i}-\sum_{i<j}\mu^2\nu_i\nu_j/\abs{q_i-q_j}$; the symplectic form and the Hamiltonian both acquire the factor $\mu$, which cancels and gives \eqref{eq:H}. Conversely, put $x_0=-\mu\sum_i\nu_iq_i/(1+\mu\sum_i\nu_i)$ and $x_i=x_0+q_i$; Hamilton's equations give $\dot x_0=-\mu\sum_jp_j$, $\dot x_i=p_i/\nu_i$, and Newton's equations for the momenta $\mu p_i$.
 \end{proof}
 
 \begin{lemma}[Orbital identities]
 \label{lem:orbital}
-Let $\nu>0$, $q\ne0$, $v=p/\nu$ and $E=\abs{v}^2/2-1/\abs{q}<0$, and define $a,\Lambda,\ev,e$ as in \eqref{eq:elements}. Then
+Let $k>0$, $q\ne0$, $v\in\R^d$ with $E=\abs{v}^2/2-k/\abs{q}<0$, and put $a=-k/(2E)$, $\ev=\big((\abs v^2-k/\abs q)q-(q\cdot v)v\big)/k$ and $e=\abs\ev$. Then, including the radial case $e=1$,
 \begin{equation}
 \label{eq:orb}
-e^2=1+2E\abs{q\times v}^2=1-\frac{\abs{q\times v}^2}{a}\le1,
-\qquad \abs{q\times p}=\Lambda\sqrt{1-e^2},
+e^2=1+\frac{2E\abs{q\times v}^2}{k^2}=1-\frac{\abs{q\times v}^2}{ka}\le1,\qquad
+a(1-e)\le\abs{q}\le a(1+e),\qquad \abs{v}^2=k\Big(\frac{2}{\abs{q}}-\frac1a\Big).
 \end{equation}
-\begin{equation}
-\label{eq:orb2}
-a(1-e)\le\abs{q}\le a(1+e),\qquad \abs{p}^2=\nu^2\Big(\frac{2}{\abs{q}}-\frac1a\Big),
-\end{equation}
-including the radial case $e=1$.
+For $k=1$ and $v=p/\nu$ these are the elements \eqref{eq:elements}, and $\abs{q\times p}=\Lambda\sqrt{1-e^2}$.
 \end{lemma}
 
 \begin{proof}
-Expanding $\abs{(\abs{v}^2-\nf{1}{\abs q})q-(q\cdot v)v}^2$ and using $\abs{q\times v}^2=\abs q^2\abs v^2-(q\cdot v)^2$ gives the first identity in \eqref{eq:orb}; substitute $2E=-1/a$ for the rest. With $r=\abs q$, the energy identity and the radial/tangential decomposition of $v$ give $(q\cdot v)^2=2r-r^2/a-\abs{q\times v}^2\ge0$. Inserting $\abs{q\times v}^2=a(1-e^2)$ and completing the square gives $(r-a)^2\le a^2e^2$. The last identity in \eqref{eq:orb2} is the definition of $E$.
+Expanding $k^2e^2$ and using $\abs{q\times v}^2=\abs q^2\abs v^2-(q\cdot v)^2$ gives the first identity; substitute $2E=-k/a$ for the second. With $r=\abs q$, the energy identity gives $(q\cdot v)^2=2kr-kr^2/a-\abs{q\times v}^2\ge0$; inserting $\abs{q\times v}^2=ka(1-e^2)$ and completing the square gives $(r-a)^2\le a^2e^2$. The last identity is the definition of $E$, and $\abs{q\times p}=\nu\abs{q\times v}=\nu\sqrt{a(1-e^2)}$ for $k=1$.
 \end{proof}
 
 \begin{lemma}[Angular momentum and the AMD identity]
@@ -42,7 +38,7 @@ If $C\le\Bst(\Lambda)-m$ with $m>0$, then $H_i\ge m$ for every $i$. In the plane
 \end{lemma}
 
 \begin{proof}
-Differentiate $\sum_iq_i\times p_i$. The kinetic contributions are $(p_i/\nu_i)\times p_i=0$ and $\mu(\sum_jp_j)\times(\sum_ip_i)=0$; the central forces have zero torque, and the two forces of a pair contribute a multiple of $(q_i-q_j)\times(q_i-q_j)=0$. Hence $\dot L=0$. By \eqref{eq:orb}, $\abs L\le\sum_i\abs{L_i}=\sum_i\Lambda_i\sqrt{1-e_i^2}$, which gives $C\ge\sum_i\Lambda_i\Dfn(e_i)\ge0$. If $L=0$, then $C=\sum_i\Lambda_i\ge\Bst$. Otherwise $\abs L=\sum_iH_i$ gives the second identity in \eqref{eq:amd}, and constancy of $\abs L$ gives the first. Since each $\Lambda_i-H_i\ge\Lambda_i-\abs{L_i}\ge0$, we get $H_i\ge\Lambda_i-C$, which is positive if $C<\Bst$ and at least $m$ if $C\le\Bst-m$.
+In $\frac{d}{dt}\sum_iq_i\times p_i$ the kinetic terms $(p_i/\nu_i)\times p_i$ and $\mu(\sum_jp_j)\times(\sum_ip_i)$ vanish, central forces have zero torque, and the two forces of a pair give a multiple of $(q_i-q_j)\times(q_i-q_j)=0$; so $\dot L=0$. By \eqref{eq:orb}, $\abs L\le\sum_i\abs{L_i}=\sum_i\Lambda_i\sqrt{1-e_i^2}$, which gives $C\ge\sum_i\Lambda_i\Dfn(e_i)\ge0$. If $L=0$, then $C=\sum_i\Lambda_i\ge\Bst$. Otherwise $\abs L=\sum_iH_i$ gives the second identity in \eqref{eq:amd}, and constancy of $\abs L$ gives the first. Since each $\Lambda_i-H_i\ge\Lambda_i-\abs{L_i}\ge0$, we get $H_i\ge\Lambda_i-C$, which is positive if $C<\Bst$ and at least $m$ if $C\le\Bst-m$.
 \end{proof}
 
 \begin{lemma}[The thresholds]
@@ -61,12 +57,12 @@ Fix $i<j$, so $0<\alpha<1$. The feasible set $\{(u,v)\in[0,1]^2:\alpha u+v\ge1-\
 \label{eq:contact}
 u=\bar u_\alpha t,\qquad v=1-\alpha-\alpha\bar u_\alpha t,\qquad t\in[0,1],\qquad \bar u_\alpha=\min\Big(1,\frac{1-\alpha}{\alpha}\Big).
 \end{equation}
-The resulting cost $F(\Lambda,t)$ is jointly continuous, hence uniformly continuous on $K\times[0,1]$ for every compact $K\subset\Ach$, and $\abs{\min_tF(\Lambda,t)-\min_tF(\Lambda',t)}\le\sup_t\abs{F(\Lambda,t)-F(\Lambda',t)}$ proves continuity of $B_{ij}$. A zero cost forces $u=v=0$, which is not feasible. Finite minima of positive continuous functions are positive and continuous. The competitor $(0,1-\alpha)$ gives $B_{ij}\le\Lambda_j\Dfn(1-\alpha)<\Lambda_j$. In particular $\Lambda_i>B_{i-1,i}\ge\Bcross$ for $i\ge2$, which gives the second identity in \eqref{eq:Bsharp}.
+The resulting cost $F(\Lambda,t)$ is continuous, and $\abs{\min_tF(\Lambda,t)-\min_tF(\Lambda',t)}\le\sup_t\abs{F(\Lambda,t)-F(\Lambda',t)}$ with uniform continuity on compact sets proves continuity of $B_{ij}$, hence of $B$. A zero cost forces $u=v=0$, which is not feasible. The competitor $(0,1-\alpha)$ gives $B_{ij}\le\Lambda_j\Dfn(1-\alpha)<\Lambda_j$. In particular $\Lambda_i>B_{i-1,i}\ge\Bcross$ for $i\ge2$, which gives the second identity in \eqref{eq:Bsharp}.
 
-Finally $\Lambda_i/\Lambda_j=(\nu_i/\nu_j)\sqrt\alpha$, so $B_{ij}/\Lambda_j$ is the minimum of $(\nu_i/\nu_j)\sqrt\alpha\,\Dfn(u)+\Dfn(v)$ on the contact line $\alpha u+v=1-\alpha$, $u,v\in[0,1]$. This is exactly the minimization of the relative AMD under the collision condition that defines $C_c(\alpha,\gamma)$ in~\cite[\S\S3.1--3.2]{LP17}, with mass ratio $\gamma=\nu_i/\nu_j$.
+Finally $\Lambda_i/\Lambda_j=(\nu_i/\nu_j)\sqrt\alpha$, so $B_{ij}/\Lambda_j$ is the minimum of $(\nu_i/\nu_j)\sqrt\alpha\,\Dfn(u)+\Dfn(v)$ on the contact line $\alpha u+v=1-\alpha$, $u,v\in[0,1]$. This is the minimization of the relative AMD under the collision condition that defines $C_c$ in~\cite[\S\S3.1--3.2]{LP17}, with mass ratio $\nu_i/\nu_j$.
 \end{proof}
 
-The threshold is geometrically sharp: the minimizers of $B_{ij}$ are nondegenerate eccentricities, two coplanar prograde ellipses with these eccentricities, opposite perihelion directions, and the inner aphelion and outer perihelion on one ray touch with combined AMD $B_{ij}$, and a radial orbit has deficit $\Lambda_i$, approached by prograde ellipses as $e_i\uparrow1$. This is sharpness of the geometric condition only, not a claim that motion above the threshold must collide.
+The threshold is geometrically sharp. If $(u,v)$ minimizes $B_{ij}$, two coplanar prograde ellipses with eccentricities $u,v$ and opposite perihelion directions touch, the inner aphelion meeting the outer perihelion, and their combined deficit is $B_{ij}$; a radial orbit has deficit $\Lambda_i$ and is the limit of prograde ellipses as $e_i\uparrow1$. This is not a claim that motion above the threshold must collide.
 
 \begin{lemma}[Uniform barrier]
 \label{lem:uniform}
@@ -79,23 +75,21 @@ Every state with $q_i\ne0$, $E_i<0$, $\Lambda\in U$ and $C\le B(\Lambda)-m$ sati
 \end{lemma}
 
 \begin{proof}
-Let $K_m=\{(\Lambda,e)\in U\times[0,1]^n:\sum_i\Lambda_i\Dfn(e_i)\le B(\Lambda)-m\}$, which is compact by Lemma~\ref{lem:threshold}. If an adjacent separation in \eqref{eq:barrier} were nonpositive at a point of $K_m$, then $(e_i,e_{i+1})$ would be feasible for $B_{i,i+1}$ and $\sum_k\Lambda_k\Dfn(e_k)\ge B_{i,i+1}(\Lambda)\ge B(\Lambda)$, a contradiction. The separations are continuous, so if $K_m\neq\emptyset$ their minimum over $K_m$ is a positive number $\dpair$ (if $K_m=\emptyset$ all assertions are vacuous). Put
+Let $K_m=\{(\Lambda,e)\in U\times[0,1]^n:\sum_i\Lambda_i\Dfn(e_i)\le B(\Lambda)-m\}$, which is compact by Lemma~\ref{lem:threshold}. If an adjacent separation in \eqref{eq:barrier} were nonpositive at a point of $K_m$, then $(e_i,e_{i+1})$ would be feasible for $B_{i,i+1}$ and $\sum_k\Lambda_k\Dfn(e_k)\ge B_{i,i+1}(\Lambda)\ge B(\Lambda)$, a contradiction. So the minimum $\dpair$ of the continuous separations over $K_m$ is positive (if $K_m=\emptyset$ all is vacuous). Put
 \begin{equation}
 \label{eq:dstar}
 \Lambda_{\max}=\max_{\Lambda\in U,\,i}\Lambda_i,\qquad a_{\min}=\min_{\Lambda\in U,\,i}a_i(\Lambda),\qquad a_{\max}=\max_{\Lambda\in U,\,i}a_i(\Lambda),\qquad \dstar=\frac{a_{\min}m^2}{2\Lambda_{\max}^2}.
 \end{equation}
-Since $B\le\Bst\le\Lambda_i$, the deficit bound gives $\Lambda_i\Dfn(e_i)\le\Lambda_i-m$, that is $\sqrt{1-e_i^2}\ge m/\Lambda_{\max}$, and $1-e_i\ge(1-e_i^2)/2$ gives the first bound in \eqref{eq:barrier}.
+As $B\le\Bst\le\Lambda_i$, the deficit bound gives $\Lambda_i\Dfn(e_i)\le\Lambda_i-m$, i.e.\ $\sqrt{1-e_i^2}\ge m/\Lambda_{\max}$; with $1-e_i\ge(1-e_i^2)/2$ this gives the first bound in \eqref{eq:barrier}.
 
-For a physical state, Lemma~\ref{lem:amd} gives $\sum_i\Lambda_i\Dfn(e_i)\le C\le B(\Lambda)-m$, so \eqref{eq:barrier} holds, and $H_i\ge m$ because $B\le\Bst$. By \eqref{eq:orb2}, $\dstar\le\abs{q_i}\le2a_{\max}$, and summing the adjacent separations between the annuli gives $\abs{q_i-q_j}\ge\abs{q_j}-\abs{q_i}\ge\dpair$ for $i<j$. Next, \eqref{eq:orb2} gives $\abs{p_i}\le\nu_i\sqrt{2/\dstar}$, and $E_i\le-1/(2a_{\max})$. The closed bounded set defined by these inequalities lies in the nonsingular region, and the conditions $\Lambda\in U$, $C\le B(\Lambda)-m$ are closed there; so the set of such states is compact.
+For a physical state, Lemma~\ref{lem:amd} gives $\sum_i\Lambda_i\Dfn(e_i)\le C\le B(\Lambda)-m$, so \eqref{eq:barrier} holds, and $H_i\ge m$ because $B\le\Bst$. By \eqref{eq:orb}, $\dstar\le\abs{q_i}\le2a_{\max}$, $\abs{p_i}\le\nu_i\sqrt{2/\dstar}$ and $E_i\le-1/(2a_{\max})$, and summing adjacent separations gives $\abs{q_i-q_j}\ge\abs{q_j}-\abs{q_i}\ge\dpair$ for $i<j$. These inequalities define a compact set inside the nonsingular region, on which $\Lambda\in U$ and $C\le B(\Lambda)-m$ are closed conditions.
 \end{proof}
 
-Theorem~\ref{thm:barrier} is Lemma~\ref{lem:uniform}: in the plane, with the orientation $L>0$ of Lemma~\ref{lem:amd}, $H_i=L_i=\abs{L_i}\ge m$.
-
-The next lemma converts the conservation law into a margin that moves with the actions. It is the only place where the drift of the actions is compared with the threshold.
+Theorem~\ref{thm:barrier} is Lemma~\ref{lem:uniform}: in the plane, with the orientation $L>0$ of Lemma~\ref{lem:amd}, $H_i=L_i=\abs{L_i}\ge m$. The next lemma, the only place where conservation of $L$ enters, converts action drift into margin drift.
 
 \begin{lemma}[Moving threshold and continuation]
 \label{lem:moving}
-Let $\Lset\subset\Ach$ be compact and $\delta>0$. There exist $r_g>0$ and a compact set $U\subset\Ach$ containing the closed $\nrm{\cdot}$-neighbourhood of radius $4r_g$ of $\Lset$ such that the modulus
+Let $\Lset\subset\Ach$ be compact and $\delta>0$. There exist a radius $r_g>0$ and a compact $U\subset\Ach$ containing the closed $\nrm{\cdot}$-neighbourhood of radius $4r_g$ of $\Lset$ such that the modulus
 \[
 \Omega_B(r)=\sup\{\abs{B(\Lambda)-B(\Lambda')}:\Lambda,\Lambda'\in U,\ \nrm{\Lambda-\Lambda'}\le r\}
 \]
@@ -104,11 +98,9 @@ satisfies $\Omega_B(r)\to0$ as $r\downarrow0$ and $\Omega_B(4r_g)\le\delta/16$. 
 \label{eq:moving}
 C(t)\le B(\Lambda(t))-\delta+nr+\Omega_B(r).
 \end{equation}
-If $nr+\Omega_B(r)\le\delta/2$, the solution cannot reach the end of its maximal interval of existence at a finite time while these action and ellipticity conditions hold, forwards or backwards in time.
+If $nr+\Omega_B(r)\le\delta/2$, the maximal solution cannot end, forwards or backwards, at a finite time while these conditions hold.
 \end{lemma}
 
 \begin{proof}
-Take any $r_0>0$ with the closed $2r_0$-neighbourhood $U$ of $\Lset$ inside $\Ach$. By Lemma~\ref{lem:threshold}, $B$ is uniformly continuous on $U$, so $\Omega_B(r)\to0$, and we choose $4r_g\le r_0$ with $\Omega_B(4r_g)\le\delta/16$. Lemma~\ref{lem:amd} gives $C(t)=C(0)+\sum_i(\Lambda_i(t)-\Lambda_i^0)\le B(\Lambda^0)-\delta+nr$, and $B(\Lambda^0)\le B(\Lambda(t))+\Omega_B(r)$ gives \eqref{eq:moving}. If $nr+\Omega_B(r)\le\delta/2$, then $C(t)\le B(\Lambda(t))-\delta/2$, and Lemma~\ref{lem:uniform} with $m=\delta/2$ keeps the state in a fixed compact subset of the domain of the smooth vector field of \eqref{eq:H}. A maximal solution of a locally Lipschitz autonomous equation leaves every compact subset of its domain at a finite endpoint, so such an endpoint cannot occur while the conditions hold. For backward time replace the vector field by its negative.
+Take $\rho>0$ with the closed $2\rho$-neighbourhood $U$ of $\Lset$ inside $\Ach$. By Lemma~\ref{lem:threshold}, $B$ is uniformly continuous on $U$, so $\Omega_B(r)\to0$; choose $4r_g\le\rho$ with $\Omega_B(4r_g)\le\delta/16$. Lemma~\ref{lem:amd} gives $C(t)=C(0)+\sum_i(\Lambda_i(t)-\Lambda_i^0)\le B(\Lambda^0)-\delta+nr$, and $B(\Lambda^0)\le B(\Lambda(t))+\Omega_B(r)$ gives \eqref{eq:moving}. If $nr+\Omega_B(r)\le\delta/2$, then $C(t)\le B(\Lambda(t))-\delta/2$, and Lemma~\ref{lem:uniform} with $m=\delta/2$ keeps the state in a fixed compact subset of the domain of the analytic vector field of \eqref{eq:H}, which a maximal solution must leave at a finite endpoint, in either time direction.
 \end{proof}
-
-A single compact set $U$ and a single modulus $\Omega_B$ serve for the rest of the paper: they are fixed by Lemma~\ref{lem:moving} with $\Lset$ replaced by the set $\Lset_\delta$ of Section~\ref{sec:planar}.

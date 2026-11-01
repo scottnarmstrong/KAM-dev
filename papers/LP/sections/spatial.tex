@@ -43,8 +43,7 @@ by $\Omega$ about $\mathbf N$. A varying rotation adds $(q\times p)\cdot\boldsym
 $\boldsymbol\theta$ is the infinitesimal rotation vector, and the line of nodes is orthogonal to $q\times p$, so
 $p\cdot dq=\Lambda\,d\lambda+\Gamma\,d(-\varpi)+Z\,d(-\Omega)+d(\cdot)$, with
 $\Gamma\,d(-\varpi)=\frac12(x\,dy-y\,dx)$ and $Z\,d(-\Omega)=\frac12(u\,dv-v\,du)$. This gives the form on a dense
-set, and analyticity extends it. The inverse is explicit: $q\times p$ determines $\Lambda-\Gamma$, $u$, $v$, hence
-$R$, and Lemma~\ref{lem:chart} inverts the planar part \cite{KAMnotes}.
+set, and analyticity extends it. For the inverse, $q\times p$ determines $u$, $v$, hence $R$ \cite{KAMnotes}.
 \end{proof}
 
 \subsection{The spatial domain}
@@ -68,15 +67,13 @@ $\Omega_B(4r_g)\le\delta/16$ and $B\le\Bst$,
 Hence $\Lambda_i-\Gamma_i$, $L_i\cdot\mathbf N\ge3\delta/16$ and $\abs{t_i}^2<\nf12$ with fixed margins. Moreover
 $\Lambda_i\Dfn(e_i)=\Lambda_i-\abs{L_i}\le\Lambda_i-L_i\cdot\mathbf N$, so by \eqref{eq:fixeddeficit}
 $\sum_i\Lambda_i\Dfn(e_i)\le C_{\mathbf N}=\frac12\abs z^2\le B(\Lambda)-3\delta/16$. Thus Lemma~\ref{lem:uniform}
-applies, with $m=3\delta/16$, at every point of the ball, also where $L$ is not parallel to $\mathbf N$: alignment is
-not a restriction on the analytic domain. The rest of the proof of Lemma~\ref{lem:domain} applies verbatim in $6n$
-coordinates (compactness, holomorphic extension of \eqref{eq:sprot} and Lemma~\ref{lem:chart} with these margins,
-gluing, and the bilinear denominators $(q_i-q_j)\cdot(q_i-q_j)$). Scalar products and potentials are invariant under
-a simultaneous rotation of all positions and momenta, so the constants do not depend on $\mathbf N$.
+applies, with $m=3\delta/16$, at every point of the ball, also where $L$ is not parallel to $\mathbf N$. The rest
+of the proof of Lemma~\ref{lem:domain} applies verbatim in $6n$ coordinates, and rotation invariance of scalar
+products and potentials makes the constants independent of $\mathbf N$.
 
 For a state allowed by \eqref{eq:hyp}, $L\ne0$ by Lemma~\ref{lem:amd}. Fix $\mathcal R\in SO(3)$ with
-$\mathcal RL=\abs L\mathbf N$; the map $(q,p)\mapsto(\mathcal Rq,\mathcal Rp)$ is symplectic and preserves
-$H_\mu$ and all elements, and one rotation is used per solution. Along the solution $L$ is conserved, so
+$\mathcal RL=\abs L\mathbf N$; $(q,p)\mapsto(\mathcal Rq,\mathcal Rp)$ is symplectic and preserves $H_\mu$ and all
+elements. Along the solution $L$ is conserved, so
 $C_{\mathbf N}=C$, and $L_i\cdot\mathbf N>0$ by Lemma~\ref{lem:amd} while $C<\Bst(\Lambda)$.
 \end{proof}
 
@@ -87,9 +84,6 @@ After the rotation of Lemma~\ref{lem:spdomain}, the product chart is symplectic,
 $\frac12\abs z^2=C$ along the solution. Lemmas~\ref{lem:fourier}--\ref{lem:scaling} hold verbatim with $n_s=2n$,
 which changes only constants, not exponents; all small divisors are $k\cdot\omega(\Lambda^0)$, $k\in\Z^n$.
 Lemmas~\ref{lem:exit}, \ref{lem:uniform} (dimension-free), \ref{lem:osc} and~\ref{lem:normalization} give all
-conclusions, and undoing the rotation changes no inequality.
-\end{proof}
-
-\begin{proof}[Proof of Corollary~\ref{cor:half}]
-$\tau=n-\nf12>n-1$ is admissible in Theorems~\ref{thm:planar} and~\ref{thm:spatial}, and $2(\tau+1)=2n+1$.
+conclusions, and undoing the rotation changes no inequality. Corollary~\ref{cor:half} follows, since
+$\tau=n-\nf12>n-1$ and $2(\tau+1)=2n+1$.
 \end{proof}

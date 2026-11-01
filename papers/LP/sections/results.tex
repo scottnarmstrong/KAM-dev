@@ -2,11 +2,11 @@
 
 \subsection{The model}
 
-We use units in which the gravitational constant and the mass of the star are equal to one. Fix $n\geq 2$ and $\nu_1,\ldots,\nu_n>0$; the planets have masses $m_i=\mu\nu_i$, where $\mu>0$ is small. The space dimension is $d\in\{2,3\}$. Let $q_i\in\R^d$ be the heliocentric position of the $i$-th planet and $p_i\in\R^d$ its momentum, scaled so that the physical momentum is $\mu p_i$. With the symplectic form $\sum_i dp_i\wedge dq_i$, the motion is governed by
+We use units in which the gravitational constant and the mass of the star are equal to one. Fix $n\geq 2$ and $\nu_1,\ldots,\nu_n>0$; the planets have masses $\mu\nu_1,\ldots,\mu\nu_n$, where $\mu>0$ is small. The space dimension is $d\in\{2,3\}$. Let $q_i\in\R^d$ be the heliocentric position of the $i$-th planet and $p_i\in\R^d$ its momentum, scaled so that the physical momentum is $\mu p_i$. With the symplectic form $\sum_i dp_i\wedge dq_i$, the motion is governed by
 \begin{equation}\label{eq:H}
 H_\mu=\sum_{i=1}^n\Big(\frac{\abs{p_i}^2}{2\nu_i}-\frac{\nu_i}{\abs{q_i}}\Big)+\mu f\,, \qquad f=\frac12\Big|\sum_{i=1}^n p_i\Big|^2-\sum_{1\leq i<j\leq n}\frac{\nu_i\nu_j}{\abs{q_i-q_j}}\,,
 \end{equation}
-on the set where $q_i\neq0$ and $q_i\neq q_j$ for $i\neq j$, in physical time. This is the translation reduction of the Newtonian $(1+n)$-body problem at zero total momentum, divided by~$\mu$. A solution of~\eqref{eq:H} determines a solution of Newton's equations with masses $(1,\mu\nu_1,\ldots,\mu\nu_n)$ in barycentric coordinates, its \emph{barycentric reconstruction} (Lemma~\ref{lem:normalization}).
+on the set where $q_i\neq0$ and $q_i\neq q_j$ for $i\neq j$, in physical time. It is the translation reduction of the Newtonian $(1+n)$-body problem divided by~$\mu$, and each solution has a \emph{barycentric reconstruction} solving Newton's equations with masses $(1,\mu\nu_1,\ldots,\mu\nu_n)$ (Lemma~\ref{lem:normalization}).
 
 \paragraph{Elements and the AMD.} For each planet let $v_i=\nf{p_i}{\nu_i}$, $E_i=\nf{\abs{v_i}^2}{2}-\nf{1}{\abs{q_i}}$ and $\ev_i=(\abs{v_i}^2-\nf{1}{\abs{q_i}})q_i-(q_i\cdot v_i)v_i$ be the canonical velocity, the specific energy and the eccentricity vector. When $E_i<0$, the semi-major axis, the Delaunay action, the eccentricity, the angular momenta and the (normalized) angular momentum deficit are
 \begin{equation}\label{eq:elements}
@@ -25,7 +25,7 @@ B_{ij}(\Lambda)&=\min\big\{\Lambda_i\Dfn(u)+\Lambda_j\Dfn(v):\ u,v\in[0,1],\ a_i
 \Bcross(\Lambda)&=\min_{1\leq i<n}B_{i,i+1}(\Lambda)\,,\qquad \Bst(\Lambda)=\min_{1\leq i\leq n}\Lambda_i\,,\qquad B(\Lambda)=\min\big(\Bcross(\Lambda),\Bst(\Lambda)\big)\,.
 \end{aligned}
 \end{equation}
-The minima are attained and $B$ is positive and continuous on~$\Ach$ (Lemma~\ref{lem:threshold}). Thus $B_{ij}(\Lambda)$ is the least eccentricity deficit for which the annuli of planets $i$ and~$j$ touch, and $\Lambda_i$ is the deficit of a radial orbit. Since $C\geq\sum_i\Lambda_i\Dfn(e_i)$ (Lemma~\ref{lem:amd}), the inequality $C<B(\Lambda)$ excludes contact of adjacent annuli and $e_i=1$. After division by $\Lambda_j$, $B_{ij}$ is the critical AMD of~\cite[\S3.2]{LP17}, and $C<B(\Lambda)$ is the strong AMD-stability of~\cite[\S5.3]{LP17} (Lemma~\ref{lem:threshold}).
+The minima are attained and $B$ is positive and continuous on~$\Ach$ (Lemma~\ref{lem:threshold}). Here $B_{ij}(\Lambda)$ is the least deficit for which the annuli of planets $i$ and~$j$ touch, and $\Lambda_i$ that of a radial orbit. Since $C\geq\sum_i\Lambda_i\Dfn(e_i)$ (Lemma~\ref{lem:amd}), the inequality $C<B(\Lambda)$ excludes contact of adjacent annuli and $e_i=1$. After division by $\Lambda_j$, $B_{ij}$ is the critical AMD of~\cite[\S3.2]{LP17}, and $C<B(\Lambda)$ is the strong AMD-stability of~\cite[\S5 and \S5.3]{LP17} (Lemma~\ref{lem:threshold}).
 
 \paragraph{Frequencies and data.} The Kepler Hamiltonian and its mean motions are
 \begin{equation}\label{eq:freq}
@@ -53,11 +53,11 @@ and $r_i^{\osc,\pm}=a_i^\osc(1\pm e_i^\osc)$. When $E_i^\osc<0$ they describe th
 
 \subsection{Results}
 
-\begin{theorem}[Sharp barrier]\label{thm:barrier}
+\begin{theorem}[Strong AMD barrier]\label{thm:barrier}
 Let $d=2$, $n\geq2$, $\nu\in(0,\infty)^n$, let $U\subset\Ach$ be compact and $m>0$. There exist $\dstar,\dpair>0$ and a compact set $K$ of states with $q_i\neq0$, $q_i\neq q_j$ $(i\neq j)$ and $E_i<0$ for all~$i$, such that:
 \begin{enumerate}[label=(\roman*)]
 \item if $\Lambda\in U$, $e\in[0,1]^n$ and $\sum_i\Lambda_i\Dfn(e_i)\leq B(\Lambda)-m$, then $a_i(\Lambda)(1-e_i)\geq\dstar$ for $1\leq i\leq n$ and $a_{i+1}(\Lambda)(1-e_{i+1})-a_i(\Lambda)(1+e_i)\geq\dpair$ for $1\leq i<n$;
-\item every state with $q_i\neq0$ and $E_i<0$ for all~$i$, $\Lambda\in U$ and $C\leq B(\Lambda)-m$ belongs to~$K$ and satisfies $r_i^-\geq\dstar$, $r_{l+1}^--r_l^+\geq\dpair$, $\abs{q_i}\geq\dstar$, $\abs{q_i-q_j}\geq\dpair$, $\abs{L_i}\geq m$ and $L_iL>0$, for all $i\neq j$ and $1\leq l<n$.
+\item every state with $q_i\neq0$ and $E_i<0$ for all~$i$, $\Lambda\in U$ and $C\leq B(\Lambda)-m$ belongs to~$K$ and satisfies $r_i^-\geq\dstar$, $\abs{q_i}\geq\dstar$, $\abs{q_i-q_j}\geq\dpair$, $\abs{L_i}\geq m$ and $L_iL>0$ for all $i\neq j$, and $r_{i+1}^--r_i^+\geq\dpair$ for $i<n$.
 \end{enumerate}
 \end{theorem}
 
@@ -66,14 +66,14 @@ Let $d=2$, $n\geq 2$, $\nu\in(0,\infty)^n$, $\Aset$ and $\delta$ as above, $\gam
 \begin{enumerate}[label=(\roman*)]
 \item \emph{Well-posedness.} There is a solution of~\eqref{eq:H} on $[-T,T]$ with the given initial state. Every solution with the same initial state on an open interval containing~$0$ agrees with it on the common part of~$[-T,T]$. Its barycentric reconstruction solves Newton's equations with masses $(1,\mu\nu_1,\ldots,\mu\nu_n)$ on $[-T,T]$.
 \end{enumerate}
-Moreover, for every $t\in[-T,T]$, every $i\neq j$ and every $1\leq l<n$, with all elements evaluated at time~$t$:
+Moreover, for every $t\in[-T,T]$ and all $i\neq j$, with all elements evaluated at time~$t$ and the inequalities involving $i+1$ required for $i<n$:
 \begin{enumerate}[label=(\roman*),resume]
 \item \emph{AMD margin.} $q_i\neq0$, $E_i<0$, $\Lambda(t)\in\Ach$ and $C(t)\leq B(\Lambda(t))-\nf{\delta}{2}$.
 \item \emph{Drift.} $\nrm{\Lambda(t)-\Lambda(0)}\leq A_\Lambda\sqrt\mu$, $\ \nrm{a(t)-a(0)}\leq A_a\sqrt\mu\ $ and $\ \abs{C(t)-C(0)}\leq nA_\Lambda\sqrt\mu$.
-\item \emph{Separation.} $r_i^-\geq\dstar$, $\ r_{l+1}^--r_l^+\geq\dpair$, $\ \abs{q_i}\geq\dstar\ $ and $\ \abs{q_i-q_j}\geq\dpair$.
+\item \emph{Separation.} $r_i^-\geq\dstar$, $\ r_{i+1}^--r_i^+\geq\dpair$, $\ \abs{q_i}\geq\dstar\ $ and $\ \abs{q_i-q_j}\geq\dpair$.
 \item \emph{Osculating orbits.} $E_i^\osc<0$, $a_i^\osc>0$, $e_i^\osc<1$, $r_i^{\osc,-}\leq\abs{q_i}\leq r_i^{\osc,+}$, and
 \begin{equation*}
-\abs{a_i^\osc-a_i}+\abs{\ev_i^\osc-\ev_i}\leq\Ael\mu\,,\quad \abs{r_i^{\osc,\pm}-r_i^\pm}\leq\Aosc\mu\,,\quad r_i^{\osc,-}\geq\frac{\dstar}{2}\,,\quad r_{l+1}^{\osc,-}-r_l^{\osc,+}\geq\frac{\dpair}{2}\,.
+\abs{a_i^\osc-a_i}+\abs{\ev_i^\osc-\ev_i}\leq\Ael\mu\,,\quad \abs{r_i^{\osc,\pm}-r_i^\pm}\leq\Aosc\mu\,,\quad r_i^{\osc,-}\geq\frac{\dstar}{2}\,,\quad r_{i+1}^{\osc,-}-r_i^{\osc,+}\geq\frac{\dpair}{2}\,.
 \end{equation*}
 \end{enumerate}
 \end{theorem}
@@ -92,12 +92,8 @@ Let $d\in\{2,3\}$, $n\geq 2$, $\nu\in(0,\infty)^n$, $\Aset$ and $\delta$ as abov
 
 \subsection{Comments}
 
-\paragraph{Constants.} All constants are chosen from the data, before $\mu$ and the initial state, and are uniform over all phases, eccentricities, inclinations and orientations allowed by~\eqref{eq:hyp}. The bounds on $\Aosc\mu_0$ make the osculating separations in~(v) consequences of~(iv). The masses are not normalized; the proofs may assume $\max_i\nu_i=1$, since with $M=\max_i\nu_i$ the substitution $(\mu,\nu,p)\mapsto(M\mu,\nf{\nu}{M},\nf{p}{M})$ preserves the masses, the motion, the axes and the frequencies, and divides $\Lambda$, $C$ and $B$ by~$M$.
+\paragraph{Constants.} All constants are chosen from the data, before $\mu$ and the initial state, and are uniform over all phases, eccentricities, inclinations and orientations allowed by~\eqref{eq:hyp}. The proofs may assume $\max_i\nu_i=1$: with $M=\max_i\nu_i$, the substitution $(\mu,\nu,p)\mapsto(M\mu,\nf{\nu}{M},\nf{p}{M})$ preserves the masses, the motion, the axes and the frequencies, and divides $\Lambda$, $C$, $B$ by~$M$. The theorems concern the limit $\mu\to0$ with $\nu$, $\Aset$, $\delta$ fixed, and assume nothing about secular stability. Theorems~\ref{thm:planar} and~\ref{thm:resonant} do not imply each other (Table~\ref{tab:comparison}).
 
-\paragraph{What is not claimed.} The theorems concern the limit $\mu\to0$ with fixed $\delta$, $\Aset$ and mass ratios, with non-explicit constants; nothing is asserted about any actual planetary system. No secular stability is assumed or proved: the eccentricities and inclinations may evolve chaotically inside $\{C\leq B(\Lambda)-\nf\delta2\}$.
+\paragraph{No orbit crossing.} By~(iv), the entire annuli $\{r_i^-\leq\abs{x}\leq r_i^+\}$ stay ordered and $\dpair$-apart, and $\dstar$ from the star; this is stronger than separation of the positions. By~(v) the same holds for the osculating ellipses with half the distances.
 
-\paragraph{No orbit crossing.} Conclusion~(iv) says that the entire annuli $\{r_i^-\leq\abs{x}\leq r_i^+\}$ stay strictly ordered, at distance at least~$\dpair$ from each other and $\dstar$ from the star. This is stronger than separation of the current positions. Conclusion~(v) gives the same for the ellipses determined by the actual positions and velocities, with half the distances.
-
-\paragraph{Theorems~\ref{thm:planar} and~\ref{thm:resonant}.} Neither implies the other: Theorem~\ref{thm:planar} excludes resonant frequencies, while Theorem~\ref{thm:resonant} gives the larger drift $\mu^{\bE{}}$ ($\bE{}<\nf12$) and, if $2(\tau+1)\aE{}<1$, a shorter time. For $n=2$, $\tau=\nf32$ the time exponents are $\nf15$ and~$\nf1{16}$.
-
-\paragraph{Space.} Theorem~\ref{thm:spatial} makes no hypothesis on inclinations or on the orientation of the orbits; admissible states may be circular or coplanar, and $C<\Bst$ already forces $L\neq0$ and $L_i\cdot L>0$ (Lemma~\ref{lem:amd}). The proof of Theorem~\ref{thm:barrier} (Section~\ref{sec:barrier}) does not use the dimension; for $d=3$ it gives the same conclusions with $\abs{L_i}\geq m$ and $L_iL>0$ replaced by $L_i\cdot L\geq m\abs{L}$, and this version enters the proof of Theorem~\ref{thm:spatial}.
+\paragraph{Space.} Theorem~\ref{thm:spatial} assumes nothing on inclinations or orientations; $C<\Bst$ already forces $L\neq0$ and $L_i\cdot L>0$ (Lemma~\ref{lem:amd}). The proof of Theorem~\ref{thm:barrier} does not use the dimension; for $d=3$ it gives the same conclusions with $L_i\cdot L\geq m\abs{L}$ in place of $\abs{L_i}\geq m$, $L_iL>0$, as used for Theorem~\ref{thm:spatial}.

@@ -3,7 +3,7 @@
 
 By Section~\ref{sec:barrier}, Theorem~\ref{thm:planar} reduces to the actions: if $\Lambda(t)$ stays within $O(\sqrt\mu)$ of $\Lambda^0$ for $\abs t\le T_\mu$, then \eqref{eq:moving} keeps the AMD $\delta/2$ below the moving threshold, and Lemma~\ref{lem:uniform} gives every separation. We control the actions by averaging over the fast angles, with three features.
 
-First, we average about the \emph{linear} Hamiltonian $h_0=h(\Lambda^0)+\omega(\Lambda^0)\cdot(\Lambda-\Lambda^0)$ with the initial Kepler frequencies; the Kepler nonlinearity $h-h_0$ is part of the perturbation on an action tube of radius $r$. Its vector field has size $r$, that of $\mu f$ has size $\mu/r$ in the action directions, and $r=\sqrt\mu$ balances the two. Second, the secular variables $z=(x_i,y_i)_i$ are carried along as canonical variables, with no assumption on their dynamics; the averaged Hamiltonian is never analysed. Third, the slow domain is the entire ball of secular states allowed by the AMD margin; all its configurations are collision free with a fixed margin, so it is one analytic domain with fixed complex widths. Since the AMD equals $\nf12\abs z^2$, the orbit cannot leave the ball before its actions drift or its margin is lost, and a first-exit argument closes the bootstrap.
+First, we average about the \emph{linear} Hamiltonian $h_0=h(\Lambda^0)+\omega(\Lambda^0)\cdot(\Lambda-\Lambda^0)$ with the initial Kepler frequencies; the Kepler nonlinearity $h-h_0$ is part of the perturbation on an action tube of radius $r$. Its vector field has size $r$, that of $\mu f$ has size $\mu/r$ in the action directions, and $r=\sqrt\mu$ balances the two. Second, the secular variables $z=(x_i,y_i)_i$ are carried along as canonical variables, with no assumption on their dynamics; the averaged Hamiltonian is never analysed. Third, the slow domain is the entire ball of secular states allowed by the AMD margin; all its configurations are collision free with a fixed margin, so it is one analytic domain with fixed complex widths. Since the AMD equals $\tfrac12\abs z^2$, the orbit cannot leave the ball before its actions drift or its margin is lost, and a first-exit argument closes the bootstrap.
 
 \subsection{The chart and its analytic domain}
 
@@ -41,7 +41,7 @@ For $n$ planets we use the product chart, with $z=(x_i,y_i)_{i\le n}\in\R^{2n}$.
 \label{eq:Cz}
 C=\sum_i\Lambda_i-\sum_iL_i=\sum_i\Gamma_i=\tfrac12\abs z^2.
 \end{equation}
-Let $\Lset=\{(\nu_i\sqrt{a_i})_i:a\in\Aset\}\subset\Ach$ and $\Lset_\delta=\{\Lambda^0\in\Lset:B(\Lambda^0)\ge\delta\}$. Since $C\ge0$, every initial state satisfying \eqref{eq:hyp} has $\Lambda^0\in\Lset_\delta$. We fix $r_g$, $U$, $\Omega_B$ by Lemma~\ref{lem:moving} applied to $\Lset_\delta$. For complex arguments, $\abs z^2$ and $\Gamma_i$ are bilinear sums of squares, and distances are in the maximum norm.
+Let $\Lset=\{(\nu_i\sqrt{a_i})_i:a\in\Aset\}\subset\Ach$ and $\Lset_\delta=\{\Lambda^0\in\Lset:B(\Lambda^0)\ge\delta\}$. Since $C\ge0$, every initial state satisfying \eqref{eq:hyp} has $\Lambda^0\in\Lset_\delta$. We fix $r_g$, $U$, $\Omega_B$ by Lemma~\ref{lem:moving} applied to $\Lset_\delta$: $4r_g$ is a fixed action radius over which $B$ varies by at most $\delta/16$, and $U$ contains all actions within $4r_g$ of $\Lset_\delta$. For complex arguments, $\abs z^2$ and $\Gamma_i$ are bilinear sums of squares, and distances are in the maximum norm.
 
 \begin{lemma}[Analytic domain of the whole sublevel ball]
 \label{lem:domain}
@@ -55,7 +55,7 @@ the product chart and $f$ are holomorphic, $2\pi$-periodic in $\lambda$ and real
 \label{eq:domain}
 \nrm{\Lambda-\Lambda^0}<r_*,\qquad \nrm{\operatorname{Im}\lambda}<4s,\qquad \operatorname{dist}_\infty\big(z,\mathcal Z_0(\Lambda^0)\big)<4b,
 \end{equation}
-and on a slightly smaller domain of the same form the chart, the momenta, $f$ and their first derivatives are bounded by $M$. Every denominator $\abs{q_i}$, $\abs{q_i-q_j}$ of $f$ has a single holomorphic branch there, with modulus bounded below by a positive constant depending only on $(n,\nu,\Aset,\delta)$.
+and on a slightly smaller domain of the same form the chart, the momenta, $f$ and their first derivatives are bounded by $M$. Every Newtonian denominator $\abs{q_i}$, $\abs{q_i-q_j}$ has a single holomorphic branch there, with modulus bounded below by a positive constant depending only on $(n,\nu,\Aset,\delta)$.
 \end{lemma}
 
 \begin{proof}
@@ -65,20 +65,20 @@ We may assume $\Lset_\delta\neq\emptyset$; it is compact.
 \[
 \sum_i\Gamma_i=\tfrac12\abs z^2\le B(\Lambda^0)-\frac\delta4\le B(\Lambda)-\frac{3\delta}{16}.
 \]
-Since $B(\Lambda)\le\Lambda_i$, we get $\Gamma_i\le\Lambda_i-3\delta/16$: the point lies in the chart domain with a fixed margin, and $e_i\le e_*<1$ for a fixed $e_*$. At every phase $\lambda$ the physical state has all $L_i>0$ and, by \eqref{eq:Cz}, $C\le B(\Lambda)-3\delta/16$, so Lemma~\ref{lem:uniform} with $m=3\delta/16$ gives $d\le\abs{q_i},\abs{q_i-q_j}\le Q$ with fixed $d,Q>0$. The set $K'$ of all such $(\Lambda,\lambda,z)$, over $\Lambda^0\in\Lset_\delta$ and $\lambda$ in a closed period cell, is compact.
+Since $B(\Lambda)\le\Lambda_i$, we get $\Gamma_i\le\Lambda_i-3\delta/16$: the point lies in the chart domain with a fixed margin, and $e_i\le e_*<1$ for a fixed $e_*$. At every phase $\lambda$ the physical state has all $L_i>0$ and, by \eqref{eq:Cz}, $C\le B(\Lambda)-3\delta/16$, so Lemma~\ref{lem:uniform} with $m=3\delta/16$ gives $d_0\le\abs{q_i},\abs{q_i-q_j}\le Q$ with fixed $d_0,Q>0$. The set $K'$ of all such $(\Lambda,\lambda,z)$, over $\Lambda^0\in\Lset_\delta$ and $\lambda$ in a closed period cell, is compact.
 
-\emph{Step 2: a uniform complex neighbourhood.} Since $D_F\ge1-e_*$, the Newton map for \eqref{eq:kepeq} contracts a complex disk of fixed radius about each real root, giving a bounded holomorphic branch of $F$; the radicands and $1+\beta$ stay away from zero. By the identity theorem, local extensions agree on overlaps, and a finite subcover of $K'$ gives one complex neighbourhood on which the chart is single valued and periodic. For a denominator, if the complex vector $w$ lies within distance $\eta$ of a real $w_0$ with $d\le\abs{w_0}\le Q$, then
+\emph{Step 2: a uniform complex neighbourhood.} Since $D_F\ge1-e_*$, the Newton map for \eqref{eq:kepeq} contracts a complex disk of fixed radius about each real root, giving a bounded holomorphic branch of $F$; the radicands and $1+\beta$ stay away from zero. By the identity theorem, local extensions agree on overlaps, and a finite subcover of $K'$ gives one complex neighbourhood on which the chart is single valued and periodic. For a denominator, if the complex vector $w$ lies within Euclidean distance $\eta$ of a real $w_0$ with $d_0\le\abs{w_0}\le Q$, then
 \[
-\abs{w\cdot w-\abs{w_0}^2}\le2Q\eta+\eta^2\le d^2/2
+\abs{w\cdot w-\abs{w_0}^2}\le2Q\eta+\eta^2\le d_0^2/2
 \]
-for small fixed $\eta$, so $\operatorname{Re}(w\cdot w)\ge d^2/2$, the root with positive real part is holomorphic, and its reciprocal is at most $\sqrt2/d$. Cauchy's estimates bound first derivatives. Finally choose $r_*\le4r_g$ and $s,b$ so small that \eqref{eq:domain}, which lies within distance $\max(r_*,4s,4b)$ of $K'$, and a slight enlargement of it lie in this neighbourhood.
+for small fixed $\eta$, so $\operatorname{Re}(w\cdot w)\ge d_0^2/2$, the root with positive real part is holomorphic, and its reciprocal is at most $\sqrt2/d_0$. Cauchy's estimates bound first derivatives. Finally choose $r_*\le4r_g$ and $s,b$ so small that \eqref{eq:domain}, which lies within distance $\max(r_*,4s,4b)$ of $K'$, and a slight enlargement of it lie in this neighbourhood.
 \end{proof}
 
 Thus the slow domain is the \emph{entire} ball \eqref{eq:ball}, with complex widths independent of $\Lambda^0$ and $\mu$. The proof uses only the safety of every real point of the ball, compactness and the bilinear bound on the denominators, so it applies verbatim to any analytic chart with the identity \eqref{eq:Cz}.
 
 \subsection{Exponential averaging with evolving slow variables}
 
-The next three lemmas are standard Nekhoroshev-type estimates, in the form of Pöschel's Normal Form Lemma~\cite[p.~192]{Pos93} (see also~\cite{Nek77}); we do not claim them as new. We use a norm on Hamiltonian vector fields, a linear unperturbed Hamiltonian, and $n_s$ slow pairs near an arbitrary compact set; the slow variables enter only through Cauchy estimates, which need nothing of the shape of that set. Proofs are in~\cite{KAMnotes}.
+The next three lemmas are standard normal-form estimates of Nekhoroshev and Pöschel type, close to Pöschel's Normal Form Lemma~\cite[p.~192]{Pos93} (see also~\cite{Nek77}); we do not claim them as new, and we only sketch their proofs. Complete proofs, with all constants, are in the supplementary proof notes~\cite{KAMnotes}. We use a norm on Hamiltonian vector fields, a linear unperturbed Hamiltonian, and $n_s$ slow pairs near an arbitrary compact set; the slow variables enter only through Cauchy estimates, which need nothing of the shape of that set.
 
 Fix $n\ge1$, $n_s\ge0$, a nonempty compact $S\subset\R^{2n_s}$, $\Lambda^0\in\R^n$ and widths $r,s,b>0$, use the symplectic form $d\Lambda\wedge d\lambda+\sum dx\wedge dy$, and put $\mathsf D=2n+2n_s$. For $1\le\rho\le4$ let
 \begin{equation}
@@ -89,7 +89,7 @@ For a $\lambda$-periodic holomorphic vector field $V$ with scaled components $\w
 
 \begin{lemma}[Fourier and commutator estimates]
 \label{lem:fourier}
-For $0<\sigma<\rho-1$ the norm decreases under restriction, the $\lambda$-average and its complement have norm at most one, and
+For $0<\sigma<\rho-1$ the norm decreases under restriction, the projections $V\mapsto\langle V\rangle$ and $V\mapsto V-\langle V\rangle$ onto the $\lambda$-average and its complement do not increase $\norm\cdot_\rho$, and
 \begin{equation}
 \label{eq:comm}
 \norm{[V,W]}_{\rho-\sigma}\le\frac{2\mathsf D}{\sigma}\norm V_\rho\norm W_\rho.
@@ -161,7 +161,7 @@ along every transformed solution in $\mathcal D_2$. With $T_\mu=\exp(c\mu^{-\var
 \begin{proof}
 Shrink $s,b$ so that $f$ and its first derivatives are bounded by $M$ on $\mathcal D_4$, and take $\mu_1$ so small that $4r<r_*$ and $r\le1$. On $\mathcal D_4$, the scaled field of $h-h_0$ has only angle components $(\omega(\Lambda)-\omega(\Lambda^0))/s$, of size at most $4L_\omega r/s$, while those of $X_{\mu f}$ are $\mu\partial_\lambda f/r$, $\mu\partial_\Lambda f/s$ and $\mu J\partial_zf/b$, of size at most $M\mu(1/r+1/s+1/b)$. The total $4L_\omega r/s+M\mu/r+O(\mu)$ is of order $\sqrt\mu$ at the balancing choice $r=\sqrt\mu$. Lemma~\ref{lem:fourier} converts this into $\norm{X_{H_\mu-h_0}}_3\le M_1\sqrt\mu$, losing only the fixed strip between $\mathcal D_4$ and $\mathcal D_3$.
 
-Condition \eqref{eq:nfcond} now reads $A_\gamma M_1\sqrt\mu\,N^{\tau+1}\le q_{\mathsf D}$, so the admissible order is $N\asymp\mu^{-1/(2(\tau+1))}$. Precisely, choose $\kappa$ with $A_\gamma M_1\kappa^{\tau+1}\le q_{\mathsf D}/2$; since $\vartheta(\tau+1)=\nf12$, we get $A_\gamma\epsilon N^{\tau+1}\le A_\gamma M_1\sqrt\mu\,\kappa^{\tau+1}\mu^{-1/2}\le q_{\mathsf D}/2$. Decrease $\mu_1$ so that $\kappa\mu^{-\vartheta}\ge2$, hence $N\ge\kappa\mu^{-\vartheta}/2$, and $\epsilon\le\nf18$. Lemma~\ref{lem:nf} gives $\Phi$; with $Y'=h_0-h+Y$ we obtain \eqref{eq:Jdot}, since $d\tilde\Lambda/dt=-\partial_{\tilde\lambda}R$ has scaled size at most $\norm{X_R}_2\le\epsilon2^{-N}$. Only the divisors $k\cdot\omega(\Lambda^0)$ were inverted; no arithmetic condition is imposed at later times.
+Condition \eqref{eq:nfcond} now reads $A_\gamma M_1\sqrt\mu\,N^{\tau+1}\le q_{\mathsf D}$, so the admissible order is $N\asymp\mu^{-1/(2(\tau+1))}$. Precisely, choose $\kappa$ with $A_\gamma M_1\kappa^{\tau+1}\le q_{\mathsf D}/2$; since $\vartheta(\tau+1)=\nf12$, we get $A_\gamma\epsilon N^{\tau+1}\le A_\gamma M_1\sqrt\mu\,\kappa^{\tau+1}\mu^{-1/2}\le q_{\mathsf D}/2$. Decrease $\mu_1$ so that $\kappa\mu^{-\vartheta}\ge2$, hence $N\ge\kappa\mu^{-\vartheta}/2$, and $\epsilon\le\tfrac18$. Lemma~\ref{lem:nf} gives $\Phi$; with $Y'=h_0-h+Y$ we obtain \eqref{eq:Jdot}, since $d\tilde\Lambda/dt=-\partial_{\tilde\lambda}R$ has scaled size at most $\norm{X_R}_2\le\epsilon2^{-N}$. Only the divisors $k\cdot\omega(\Lambda^0)$ were inverted; no arithmetic condition is imposed at later times.
 
 Set $c=(\log2)\kappa/4$, so $T_\mu=2^{\kappa\mu^{-\vartheta}/4}\le2^{N/2}$. As $\Phi$ is symplectic, $\Phi^{-1}$ maps a solution in $\mathcal D_1$ to a transformed solution in $\mathcal D_2$; adding the displacements of $\Phi^{-1}$ at time $0$ and of $\Phi$ at time $t$ to the drift \eqref{eq:Jdot}, for $\abs t\le T_\mu$,
 \[
@@ -170,59 +170,74 @@ Set $c=(\log2)\kappa/4$, so $T_\mu=2^{\kappa\mu^{-\vartheta}/4}\le2^{N/2}$. As $
 \]
 \end{proof}
 
-\begin{remark}[Finite-cutoff normal form]
-\label{rem:engine}
-The formal proof replaces Lemmas~\ref{lem:fourier}--\ref{lem:scaling} by a finite-cutoff normal form of Pöschel type~\cite[p.~192]{Pos93} available in the formal library~\cite{KAMrepo}, fed with the data of Lemma~\ref{lem:domain}: slow set the whole ball \eqref{eq:ball}, fixed widths, cutoff $K\asymp\mu^{-\vartheta}$, nonresonance constant $\gamma K^{-\tau}/(2\pi)$, action radius $r=D_0\sqrt\mu$. Its smallness conditions hold since $\vartheta(\tau+1)=\nf12$, and it gives action drift at most $r/2$ up to a time $\ge\exp(c_1\mu^{-\vartheta})$ while the secular coordinates stay in the ball, which is the membership proved in Lemma~\ref{lem:exit}. With $r/2$ in place of $r/4$, \eqref{eq:stop} still gives the margin $3\delta/4$ there.
-\end{remark}
-
 \subsection{First exit and the proof of Theorem~\ref{thm:planar}}
 
-The first-exit lemma is stated for an abstract chart, so that it also serves the spatial problem. A state is \emph{prograde} if $q_i\ne0$, $E_i<0$ and all $H_i>0$ (Lemma~\ref{lem:amd}).
-
-\begin{lemma}[First exit]
-\label{lem:exit}
-Assume the prograde states carry a real analytic symplectic chart $(\Lambda,\lambda,z)$, $z\in\R^{2n_s}$, a diffeomorphism modulo the angle lattice, in which $H_\mu=h(\Lambda)+\mu f$ and $C=\nf12\abs z^2$, and for which the conclusions of Lemmas~\ref{lem:domain} and~\ref{lem:scaling} hold. Then there are $\mu_0,c,T_0,A_\Lambda,A_a,\dstar,\dpair>0$, depending only on $(n,\nu,\Aset,\delta,\gamma,\tau)$ and the chart, such that for $0<\mu\le\mu_0$ and every initial state satisfying \eqref{eq:hyp}, the maximal solution of \eqref{eq:H} exists on $[-T_\mu,T_\mu]$, with $T_\mu$ as in \eqref{eq:time}; on this interval it is prograde, $\Lambda(t)\in\Ach$, $C(t)\le B(\Lambda(t))-\delta/2$, $\nrm{\Lambda(t)-\Lambda^0}\le A_\Lambda\sqrt\mu$, $\nrm{a(t)-a(0)}\le A_a\sqrt\mu$, $\abs{C(t)-C(0)}\le nA_\Lambda\sqrt\mu$, and \eqref{eq:barrier}, $\abs{q_i}\ge\dstar$ and $\abs{q_i-q_j}\ge\dpair$ ($i\ne j$) hold.
-\end{lemma}
-
-\begin{proof}
-\emph{Constants.} Take $U$, $\Omega_B$, $r_g$ as fixed above and $\mu_1,c$ from Lemma~\ref{lem:scaling}. Choose $\mu_0\le\mu_1$, before $\mu$ and the initial state, so that for $0<\mu\le\mu_0$, $r=\sqrt\mu\le r_g$ and
-\begin{equation}
-\label{eq:stop}
-nr+\Omega_B(r)\le\delta/4,\qquad \Omega_B(r)\le\delta/16.
-\end{equation}
-
-\emph{Stopped interval.} By Lemma~\ref{lem:amd}, $C(0)\le B(\Lambda^0)-\delta<\Bst(\Lambda^0)$ makes the initial state prograde, and $\Lambda^0\in\Lset_\delta$. Let $\mathcal J$ be the open interval of times containing $0$ on which the solution exists, is prograde, and satisfies the stopped conditions
-\begin{equation}
-\label{eq:stopped}
-\nrm{\Lambda(t)-\Lambda^0}<r,\qquad C(t)<B(\Lambda(t))-\delta/2.
-\end{equation}
-For $t\in\mathcal J$, the identity $C=\nf12\abs z^2$ gives
-\[
-\tfrac12\abs{z(t)}^2=C(t)<B(\Lambda(t))-\frac\delta2\le B(\Lambda^0)+\Omega_B(r)-\frac\delta2\le B(\Lambda^0)-\frac{7\delta}{16},
-\]
-so $z(t)\in\mathcal Z_0(\Lambda^0)$ and the point lies in $\mathcal D_1$; this uses the whole ball \eqref{eq:ball} and only \eqref{eq:stopped}.
-
-\emph{Improvement.} Lemma~\ref{lem:scaling} on $\mathcal J\cap[-T_\mu,T_\mu]$ gives $\nrm{\Lambda(t)-\Lambda^0}\le r/4$, and then \eqref{eq:moving} with $r/4$ and \eqref{eq:stop} give $C(t)\le B(\Lambda(t))-3\delta/4$.
-
-\emph{Exit.} Suppose $t_*=\sup\mathcal J\le T_\mu$. If the maximal solution ends at $t_*$, this contradicts Lemma~\ref{lem:moving}, as $nr+\Omega_B(r)\le\delta/2$. Otherwise, since $E_i=-\nu_i^2/(2\Lambda_i^2)\le-c_U<0$ on $\mathcal J$, by continuity the state at $t_*$ is elliptic, satisfies $\nrm{\Lambda-\Lambda^0}\le r/4$ and $C\le B(\Lambda)-3\delta/4$, and is prograde as $H_i\ge3\delta/4$ (Lemma~\ref{lem:amd}); the open conditions then hold near $t_*$, a contradiction. Backward time is identical. Thus $[-T_\mu,T_\mu]\subset\mathcal J$; uniqueness holds because \eqref{eq:H} is analytic. We may take $A_\Lambda=1$, $T_0=1$, and $\abs{C(t)-C(0)}\le n\nrm{\Lambda(t)-\Lambda^0}$ by \eqref{eq:amd}. Since $\abs{a_i(\Lambda)-a_i(\Lambda^0)}=\abs{\Lambda_i-\Lambda^0_i}\abs{\Lambda_i+\Lambda^0_i}/\nu_i^2$, $A_a=2\Lambda_{\max}/\min_i\nu_i^2$ works. The separations come from Lemma~\ref{lem:uniform} with $m=\delta/2$; by \eqref{eq:dstar}, $\dstar=a_{\min}\delta^2/(8\Lambda_{\max}^2)$.
-\end{proof}
-
-\begin{proof}[Proof of Theorem~\ref{thm:planar}]
-Here $\Lambda^0\in\Lset\subset\Ach$. By Lemma~\ref{lem:amd}, $L\ne0$; a reflection of the plane, applied to positions and momenta, is symplectic and leaves \eqref{eq:H} and all constants unchanged, so we may assume $L>0$, which is conserved. Prograde states then have all $L_i>0$, the product chart of Lemma~\ref{lem:chart} covers them, and \eqref{eq:Cz} gives $C=\nf12\abs z^2$. Lemmas~\ref{lem:domain}--\ref{lem:scaling} and~\ref{lem:exit} give all conclusions except the osculating ones, with nothing assumed about the averaged Hamiltonian $Y'$. Lemma~\ref{lem:normalization} reconstructs the Newtonian motion, and Lemma~\ref{lem:osc}, on the compact set of Lemma~\ref{lem:uniform} with $m=\delta/2$, gives the osculating conclusions once $\mu_0\le\mu_2$, $\Aosc\mu_0\le\dstar/2$ and $2\Aosc\mu_0\le\dpair/2$.
-\end{proof}
-
-The velocity-osculating elements $E_i^\osc,a_i^\osc,\ev_i^\osc,e_i^\osc$ of Section~\ref{sec:results} use the heliocentric velocity $V_i=\dot q_i=p_i/\nu_i+\mu\sum_jp_j$ and the parameter $k_i=1+\mu\nu_i$.
+We first compare the canonical elements with the velocity-osculating elements of Section~\ref{sec:results}; no small divisors enter here.
 
 \begin{lemma}[Osculating elements]
 \label{lem:osc}
-Let $K$ be the compact set of Lemma~\ref{lem:uniform} for a compact $U\subset\Ach$ and $m>0$, in dimension $d\in\{2,3\}$. There are $\mu_2,\Ael,\Aosc>0$, depending only on $K$ and $\nu$, such that for $0<\mu\le\mu_2$ and every state in $K$: $E_i^\osc<0$, $a_i^\osc>0$, $e_i^\osc<1$, $a_i^\osc(1-e_i^\osc)\le\abs{q_i}\le a_i^\osc(1+e_i^\osc)$, and
+Let $d\in\{2,3\}$, let $U\subset\Ach$ be compact, $m>0$, and let $K$ be the compact set of states of Lemma~\ref{lem:uniform}. There are $\mu_2,\Ael,\Aosc>0$, depending only on $(n,\nu,U,m)$, such that for $0<\mu\le\mu_2$ and every state in $K$ we have $E_i^\osc<0$, $a_i^\osc>0$, $e_i^\osc<1$, $r_i^{\osc,-}\le\abs{q_i}\le r_i^{\osc,+}$ and
 \begin{equation}
 \label{eq:oscest}
-\abs{a_i^\osc-a_i}+\abs{\ev_i^\osc-\ev_i}\le\Ael\mu,\qquad \abs{a_i^\osc(1\pm e_i^\osc)-a_i(1\pm e_i)}\le\Aosc\mu.
+\abs{a_i^\osc-a_i}+\abs{\ev_i^\osc-\ev_i}\le\Ael\mu,\qquad \abs{r_i^{\osc,\pm}-r_i^\pm}\le\Aosc\mu.
 \end{equation}
-If also $\Aosc\mu\le\dstar/2$ and $2\Aosc\mu\le\dpair/2$, then $a_i^\osc(1-e_i^\osc)\ge\dstar/2$ and $a_{i+1}^\osc(1-e_{i+1}^\osc)-a_i^\osc(1+e_i^\osc)\ge\dpair/2$.
+If moreover $\Aosc\mu\le\dstar/2$ and $2\Aosc\mu\le\dpair/2$, with $\dstar,\dpair$ from Lemma~\ref{lem:uniform}, then
+\[
+r_i^{\osc,-}\ge\dstar/2,\qquad r_{i+1}^{\osc,-}-r_i^{\osc,+}\ge\dpair/2.
+\]
 \end{lemma}
 
 \begin{proof}[Sketch]
-On $K$, $\abs{p_i}\le P$, $\abs{q_i}\ge\dstar$, $E_i\le-1/(2a_{\max})$ and $e_i\le e_*<1$. Then $\abs{V_i-v_i}\le nP\mu$ and $\abs{k_i-1}\le\mu$, and expanding the definitions gives $\abs{E_i^\osc-E_i}+\abs{\ev_i^\osc-\ev_i}\le A_0\mu$. For small $\mu$, $E_i^\osc\le-1/(4a_{\max})$ bounds $\abs{a_i^\osc-a_i}$, and $\abs{e_i^\osc-e_i}\le\abs{\ev_i^\osc-\ev_i}$ (also at circular orbits) gives $e_i^\osc<1$ and \eqref{eq:oscest}. These are the elements of the two-body orbit with parameter $k_i$ through $q_i$ with velocity $V_i$, so Lemma~\ref{lem:orbital} with parameter $k_i$ bounds $\abs{q_i}$. The last claim follows from \eqref{eq:barrier} and \eqref{eq:oscest}.
+On $K$, $\abs{p_i}\le\bar p$, $\abs{q_i}\ge\dstar$, $E_i\le-1/(2a_{\max})$ and $e_i\le e_*<1$, by the proof of Lemma~\ref{lem:uniform}. Then $\abs{V_i-v_i}\le n\bar p\mu$ and $\abs{k_i-1}\le\mu$, and expanding the definitions gives $\abs{E_i^\osc-E_i}+\abs{\ev_i^\osc-\ev_i}\le A_0\mu$. For small $\mu$, $E_i^\osc\le-1/(4a_{\max})$ bounds $\abs{a_i^\osc-a_i}$, and $\abs{e_i^\osc-e_i}\le\abs{\ev_i^\osc-\ev_i}$ (also at circular orbits) gives $e_i^\osc<1$ and \eqref{eq:oscest}. Lemma~\ref{lem:orbital} with $k=k_i$ and $v=V_i$ bounds $\abs{q_i}$, and the last claim follows from \eqref{eq:barrier} and \eqref{eq:oscest}.
+\end{proof}
+
+The first-exit lemma uses the normal form only through one explicit stopped drift estimate, so that it also serves the spatial and resonant problems. A state is \emph{prograde} if $q_i\ne0$, $E_i<0$ and all $H_i>0$ (Lemma~\ref{lem:amd}). Recall that $U$, $r_g$, $\Omega_B$ are fixed by Lemma~\ref{lem:moving} applied to $\Lset_\delta$, and that $\Lambda_{\max}$, $a_{\min}$ are given by \eqref{eq:dstar} on this $U$.
+
+\begin{lemma}[First exit]
+\label{lem:exit}
+Let $d\in\{2,3\}$, $T>0$ and $0<r\le r_g$ with
+\begin{equation}
+\label{eq:stop}
+nr+\Omega_B(r)\le\delta/4.
+\end{equation}
+Consider a solution of \eqref{eq:H} with admissible initial state, $\Lambda^0=\Lambda(0)\in\Lset$ and $C(0)\le B(\Lambda^0)-\delta$, and assume the \emph{stopped drift estimate}:
+\begin{itemize}
+\item[(SD)] if $\abs t\le T$ and, for every $u$ between $0$ and $t$, the solution exists at time $u$, is prograde, and satisfies
+\begin{equation}
+\label{eq:stopped}
+\nrm{\Lambda(u)-\Lambda^0}<r,\qquad C(u)<B(\Lambda(u))-\delta/2,
+\end{equation}
+then $\nrm{\Lambda(t)-\Lambda^0}\le r/2$.
+\end{itemize}
+Then the maximal solution exists on $[-T,T]$, and for $\abs t\le T$ it is prograde and
+\begin{gather*}
+\Lambda(t)\in U,\qquad \nrm{\Lambda(t)-\Lambda^0}\le\frac r2,\qquad \nrm{a(t)-a(0)}\le\frac{\Lambda_{\max}}{\min_i\nu_i^2}\,r,\\
+\abs{C(t)-C(0)}\le\frac{nr}2,\qquad C(t)\le B(\Lambda(t))-\frac{3\delta}4,\\
+r_i^-\ge\dstar,\qquad r_{i+1}^--r_i^+\ge\dpair,\qquad \abs{q_i}\ge\dstar,\qquad \abs{q_i-q_j}\ge\dpair\quad(i\ne j),
+\end{gather*}
+where $\dstar=a_{\min}\delta^2/(8\Lambda_{\max}^2)$ and $\dpair$ are the constants of Lemma~\ref{lem:uniform} for $U$ and $m=\delta/2$.
+\end{lemma}
+
+\begin{proof}
+Since $C(0)\ge0$, $\Lambda^0\in\Lset_\delta$, and $C(0)\le B(\Lambda^0)-\delta<\Bst(\Lambda^0)$ makes the initial state prograde (Lemma~\ref{lem:amd}). The conditions in \eqref{eq:stopped} and prograde are open, so they hold on an open interval $\mathcal J\ni0$, the largest on which the solution exists and satisfies them.
+
+\emph{Improvement.} For $t\in\mathcal J\cap[-T,T]$, (SD) gives $\nrm{\Lambda(t)-\Lambda^0}\le r/2$, and \eqref{eq:moving} with $r/2$ and \eqref{eq:stop} give $C(t)\le B(\Lambda(t))-3\delta/4$.
+
+\emph{Exit.} Suppose $t_*=\sup\mathcal J\le T$. If the maximal solution ends at $t_*$, this contradicts Lemma~\ref{lem:moving}, as $nr+\Omega_B(r)\le\delta/2$. Otherwise, on $\mathcal J$ the actions lie in $U$, so $E_i=-\nu_i^2/(2\Lambda_i^2)\le-\min_{\Lambda\in U,i}\nu_i^2/(2\Lambda_i^2)<0$. By continuity the state at $t_*$ is elliptic, has $\nrm{\Lambda-\Lambda^0}\le r/2$ and $C\le B(\Lambda)-3\delta/4$, and is prograde because $H_i\ge\Lambda_i-C\ge3\delta/4$ (Lemma~\ref{lem:amd}). The open conditions then hold near $t_*$, a contradiction. Backward time is identical, so $[-T,T]\subset\mathcal J$.
+
+\emph{Conclusions.} The bound $\abs{C(t)-C(0)}\le n\nrm{\Lambda(t)-\Lambda^0}$ is \eqref{eq:amd}, and $\abs{a_i(\Lambda)-a_i(\Lambda^0)}=\abs{\Lambda_i-\Lambda^0_i}\abs{\Lambda_i+\Lambda^0_i}/\nu_i^2$ gives the axis bound. The separations are Lemma~\ref{lem:uniform} with $m=\delta/2$, and \eqref{eq:dstar} gives $\dstar$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:planar}]
+\emph{Orientation and chart.} Here $\Lambda^0\in\Lset\subset\Ach$. By Lemma~\ref{lem:amd}, $L\ne0$; a reflection of the plane, applied to positions and momenta, is symplectic and leaves \eqref{eq:H} and all constants unchanged, so we may assume $L>0$, which is conserved. Prograde states then have all $L_i>0$, the product chart of Lemma~\ref{lem:chart} covers them, and \eqref{eq:Cz} gives $C=\tfrac12\abs z^2$.
+
+\emph{Constants.} Take $\mu_1,c$ from Lemma~\ref{lem:scaling} and $\mu_2,\Ael,\Aosc$ from Lemma~\ref{lem:osc} for $U$ and $m=\delta/2$. Choose $\mu_0\le\min(\mu_1,\mu_2)$ such that $r=\sqrt\mu$ satisfies $r\le r_g$, \eqref{eq:stop} and $\Omega_B(r)\le\delta/16$ for $0<\mu\le\mu_0$, and such that $\Aosc\mu_0\le\dstar/2$ and $2\Aosc\mu_0\le\dpair/2$. These choices precede $\mu$ and the initial state. Fix $0<\mu\le\mu_0$, $r=\sqrt\mu$ and $T=T_\mu$ with $T_0=1$.
+
+\emph{The stopped drift estimate.} Let $\abs t\le T$ and suppose \eqref{eq:stopped} holds, with the state prograde, for all $u$ between $0$ and $t$. Then
+\[
+\tfrac12\abs{z(u)}^2=C(u)<B(\Lambda(u))-\frac\delta2\le B(\Lambda^0)+\Omega_B(r)-\frac\delta2\le B(\Lambda^0)-\frac{7\delta}{16},
+\]
+so $z(u)\in\mathcal Z_0(\Lambda^0)$, and the orbit between $0$ and $t$ lies in the real points of $\mathcal D_1$. This uses the whole ball \eqref{eq:ball} and only \eqref{eq:stopped}. Lemma~\ref{lem:scaling} gives $\nrm{\Lambda(t)-\Lambda^0}\le r/4\le r/2$, which is (SD).
+
+\emph{Conclusions.} Lemma~\ref{lem:exit} gives existence on $[-T,T]$, the AMD margin $\delta/2$, the drift bounds with $A_\Lambda=1$ and $A_a=\Lambda_{\max}/\min_i\nu_i^2$, and the separations; uniqueness holds because \eqref{eq:H} is analytic. Lemma~\ref{lem:osc} gives the osculating conclusions, and Lemma~\ref{lem:normalization} the Newtonian reconstruction. Nothing is assumed about the averaged Hamiltonian $Y'$.
 \end{proof}
