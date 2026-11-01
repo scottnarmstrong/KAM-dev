@@ -634,6 +634,12 @@ public import KAM.Planetary.SecularSpectrum.LocalAnalytic
 public import KAM.Planetary.SecularSpectrum.Norms
 public import KAM.Planetary.SecularSpectrum.Transport
 public import KAM.Planetary.SecularSpectrum.TwoPlanets
+public import KAM.Planetary.StrongAMD.AnalyticDomain.Bounds.Algebra
+public import KAM.Planetary.StrongAMD.AnalyticDomain.Bounds.Cauchy
+public import KAM.Planetary.StrongAMD.AnalyticDomain.Bounds.Chart
+public import KAM.Planetary.StrongAMD.AnalyticDomain.Bounds.Denominator
+public import KAM.Planetary.StrongAMD.AnalyticDomain.Bounds.TubeBound
+public import KAM.Planetary.StrongAMD.AnalyticDomain.Bounds
 public import KAM.Planetary.StrongAMD.AnalyticDomain.Containment
 public import KAM.Planetary.StrongAMD.AnalyticDomain.Core
 public import KAM.Planetary.StrongAMD.AnalyticDomain.Extension
