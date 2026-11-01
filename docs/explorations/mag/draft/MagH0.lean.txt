@@ -1,0 +1,26 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import Mathlib.Data.Real.Basic
+
+/-!
+# Proposed frozen definition `KAM.Magnetic.magH0` (MAG-PILOT draft, not frozen)
+-/
+
+@[expose] public noncomputable section
+
+namespace KAM.Magnetic
+
+/-- The integrable part `h(p) = p - (3/4) p² + (1/3) p³ - (1/16) p⁴` (safety-factor profile of
+Chandre et al. and Valvo–Locatelli; `p` is the flux variable, defined on all of `ℝ` as a
+polynomial). -/
+def magH0 (p : ℝ) : ℝ :=
+  p - 3 / 4 * p ^ 2 + 1 / 3 * p ^ 3 - 1 / 16 * p ^ 4
+
+end KAM.Magnetic
+
+end
