@@ -317,3 +317,22 @@ Controls: import 1.25 s user and 0.40 GB; landed data elaboration 7.7 s and 0.66
 - In a GMP-resident pipeline, intermediates are never literals.
 
 The handoff draws the consequences for one LG00 torus and for SJS.
+
+## 9. B2, first stage (built on branch `v2-packed-b2`; details in `docs/campaign/handoffs/V2-PACKED-B2.md`)
+
+The Gram stage is now packed end to end. It is the first B2 stage, and it reaches the landed `CertifiedTorus`
+on the standard axioms.
+
+- **Modules.** `Slots` (slot semantics, exact products on window layouts), `Norm` (the packed weighted ℓ¹ norm
+  and its strip bound), `Complex` (packed complex arrays), `Gram` (`gramPackedCheck_sound`: the landed
+  `gramCheck_sound` conclusion), `GramBase` (`gramPackedBase : BaseChecker`, `checkV2With_gramPacked_sound`).
+- **Changes against §2–§4.**
+  - The Gram products are exact, at scale `2^(3P)`, with no rounding or read-back. Their meaning is slot
+    data (`SRep`), not term lists.
+  - The defect is bounded by one packed norm product, not by a decoded remainder.
+  - The DK boundary is the landed per-coefficient models, memoized and re-checked one entry per
+    declaration. Building the DK entries packed from `K` (the derivative ramps of §2) is not done yet.
+- **Gate (LG00's data).** 9 processes, ≈ 73 CPU-s, ≤ 2.23 GB charged, against the landed stage's 89 modules,
+  1,425 CPU-s, 2.28 GB: ≈ 19.5×. The packed arithmetic is ≈ 2.7 s of it; the boundary is 23 s.
+- **Open.** The landed `checkTorsion` still recomputes the landed Gram certificate, so the work leaves the
+  pipeline only with a packed torsion stage.
