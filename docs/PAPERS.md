@@ -125,7 +125,7 @@ J. Laskar and A. C. Petit, AMD-stability and the classification of planetary sys
 
 Links: [arXiv:1703.07125v2](https://arxiv.org/abs/1703.07125v2) · [doi:10.1051/0004-6361/201630022](https://doi.org/10.1051/0004-6361/201630022)
 
-**Used for.** D25 AMD and heliocentric Hamiltonian. Exact publisher title/author/volume match verified.
+**Used for.** D25 AMD and heliocentric Hamiltonian. Exact publisher title/author/volume match verified. The pinned PDF is the arXiv v2 (1703.07125v2), not the publisher's PDF (identical bytes to the LP exploration copy LP17-arxiv-v2.pdf); track LP checked the §3 conjecture clause in both versions (identical; docs/explorations/amd-crossing/A2-literature.md §1). Cite page numbers by version.
 
 **Cited by the frozen theorems** `KAM.Planetary.amdConfinement`, `KAM.Planetary.planetaryExponentialSafety`, `KAM.Planetary.secularBoxSafety`, `KAM.Planetary.secularBoxAtCitedMasses`.
 
