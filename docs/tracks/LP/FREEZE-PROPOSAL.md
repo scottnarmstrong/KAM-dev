@@ -1139,7 +1139,7 @@ The total formulas stay **internal implementation helpers in the definition clos
 MAIN's objects off their carriers: `strongAMD`, `keplerPeri/Apo`, `oscVelocity/oscParam/oscEnergy/oscAxis/
 oscEccVector/oscEcc/oscPeri/oscApo`, `pairThreshold`, `actionAxis`, `eccDeficit`, `spatialKeplerEnergy`,
 `spatialKeplerAxis/Action/EccVector`, `spatialKeplerPeri/Apo`, `spatialHamiltonian`, `spatialOsc*`,
-`spatialBarycentricPositions` and `spatialBarycentricVelocities`. The last four (statement audit of draft 7, F1, F2)
+`spatialBarycentricPositions` and `spatialBarycentricVelocities`. The four helpers `actionAxis`, `eccDeficit`, `spatialBarycentricPositions` and `spatialBarycentricVelocities` (statement audit of draft 7, F1, F2)
 are internal total algebraic helpers: no source-object meaning is asserted off the source domain; source-facing
 uses supply positive masses, the barycentric reconstruction also positive `μ` (through
 `spatialSourceBarycentricPositions/Velocities`), and the eccentricity deficit is interpreted only on `[0,1]`. In the

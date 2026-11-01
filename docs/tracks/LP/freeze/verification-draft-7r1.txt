@@ -1,4 +1,4 @@
-LP-FREEZE7R verification of FREEZE-PROPOSAL draft 7 revision 1 (track LP). Generated 2026-11-01 10:14 UTC
+LP-FREEZE7R verification of FREEZE-PROPOSAL draft 7 revision 1 (track LP). Generated 2026-11-01 10:34 UTC
 Worktree /root/code/KAM-inp-lp-freeze7, branch inp-lp-freeze7; audited draft 7 = 809aa0dd (statement audit
 docs/tracks/LP/freeze/STATEMENT-AUDIT-DRAFT7-1.md); revision 1 applies its F1, F2, N2. Every lean run: scripts: .drafts/freeze7/{gen.py, extract_anchors.py, mk_checks.py, mk_bc.py, mk_manifest.py}; wrapper: /root/code/KAM-inp/.drafts/LP/lp_lean.sh /root/code/KAM-inp-lp-freeze7 <file>
 All scratch files are under .drafts/freeze7/ (gitignored); each is < 1500 lines.
@@ -93,8 +93,8 @@ ca350350a2c7c5ce3c413b1f260ecb23e226b5dd933774528f5bedc188babd08  KAM/Frozen/Pla
 7d8ad4f616107348a2eec97db898e72bd6aba5dca26c7f24b926a5a3afc61c71  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEcc.lean.txt
 5d5001830983bae49e16811ebb1c50f75f09eecc437fcee99325e190c81c8d39  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscPeri.lean.txt
 58b9678a950a95cce2ac488a662d0cf6bccfb53979da4c3f333216654ea10a7b  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscApo.lean.txt
-ef84c1c6f66a7182e1b36eac3a3531437095cbf5c149e8875efc92f6cd851e13  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricPositions.lean.txt
-798a12f844155f2fdc13c2f4bbef8e7136ad18f79fe954ce0b1468640d732edd  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricVelocities.lean.txt
+4eedae89b53f87bd561848ff5abba7aa7b303e78abe5726f18cebe9fda8276a7  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricPositions.lean.txt
+66131bbe66cced31d9adeace23acd18bc17d32d8b9fb3a2d24c369cdccadac33  KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricVelocities.lean.txt
 5f40bbea12803f06ffe169be59be73c2bc32b7cdabe9a3196298a987b132b6b1  KAM/Frozen/Planetary/StrongAMD/Theorems/OrderedPairThresholdIsLeast.lean.txt
 4de6b22ce92b696e4042a540264252c153b2de442262a959dcf4fe2d7c64f84d  KAM/Frozen/Planetary/StrongAMD/Theorems/OrderedPairThresholdExistsUniqueValue.lean.txt
 6538efcf4ccc8ab8763b7015f8974805318b9ec09d9207b69d827c00cec39ddc  KAM/Frozen/Planetary/StrongAMD/Theorems/OrderedCrossThresholdIsLeast.lean.txt
@@ -313,8 +313,6 @@ Files run: 128; exit 0: 128; nonzero: 0
   exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialOscPhase  
   exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialOscVelocity  
   exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceAngularMomentum  
-  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceBarycentricPositions  
-  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceBarycentricVelocities  
   exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceCanonicalPhase  
   exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceKeplerAction  
   exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceKeplerApo  
@@ -408,6 +406,8 @@ Files run: 128; exit 0: 128; nonzero: 0
   exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_SourceOscPeriPos  [1 "declaration uses sorry" warning(s)]
   exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_SourceStrongAMDNonneg  [1 "declaration uses sorry" warning(s)]
   exit 0  KAM_Frozen_Planetary_StrongAMD_Theorems_SumActionMulEccDeficitLeSourceStrongAMD  [1 "declaration uses sorry" warning(s)]
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceBarycentricPositions  
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceBarycentricVelocities  
 
 ====================================================================================================
 3. Check (b): draft definition bodies equal the implementation definitions
@@ -848,9 +848,9 @@ CHANGED (old sha256 -> new sha256):
     e377d75815a225b3102c2314594ae7e446d63802b16c3730e3e1c0c2fce97730 -> 46b7dec753a746bfc5bbfb8058190c77c0bcc219748ee6ca65f68463ec7a9e33
 NEW:
   docs/tracks/LP/freeze/draft7/KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricPositions.lean.txt
-    ef84c1c6f66a7182e1b36eac3a3531437095cbf5c149e8875efc92f6cd851e13
+    4eedae89b53f87bd561848ff5abba7aa7b303e78abe5726f18cebe9fda8276a7
   docs/tracks/LP/freeze/draft7/KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricVelocities.lean.txt
-    798a12f844155f2fdc13c2f4bbef8e7136ad18f79fe954ce0b1468640d732edd
+    66131bbe66cced31d9adeace23acd18bc17d32d8b9fb3a2d24c369cdccadac33
 REMOVED: docs/tracks/LP/freeze/draft7/KAM/Frozen/Fourier/Defs/ModeSize.lean.txt
 All other 118 files are byte-identical to 809aa0dd.
 manifest-entries.json, entry by entry: new ids: planetary.d59.spatialSourceBarycentricPositions.v1, planetary.d59.spatialSourceBarycentricVelocities.v1
@@ -860,3 +860,37 @@ manifest-entries.json, entry by entry: new ids: planetary.d59.spatialSourceBaryc
   changed entry planetary.d59.spatial_strongAMD_exponentialSafety.v1: fields ['definition_closure']  (added ['KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricPositions.lean', 'KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricVelocities.lean']; removed ['KAM/Frozen/Fourier/Defs/ModeSize.lean'])
   changed entry planetary.d59.spatial_strongAMD_exponentialSafety_halfInteger.v1: fields ['definition_closure']  (added ['KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricPositions.lean', 'KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricVelocities.lean']; removed ['KAM/Frozen/Fourier/Defs/ModeSize.lean'])
   unchanged entries: 122; top-level _comment unchanged
+
+====================================================================================================
+10. Addendum: statement audit of draft 7 round 2 (STATEMENT-AUDIT-DRAFT7-2.md, PASS WITH NOTES) notes R1-R3 applied
+====================================================================================================
+R1: KAM/Planetary/StrongAMD/PlanarSafety/SourceDiophantine.lean line 21 (101 columns, module docstring) replaced by
+    the auditor's exact two-line block. R2: the first two role lines of SpatialSourceBarycentric{Positions,Velocities}
+    replaced by the auditor's exact two lines (generator gen.py R2_LINES; the rest of the paragraph unchanged).
+R3: proposal §4.4 "The last four (...)" replaced by the auditor's exact phrase (proposal_template.md).
+Command: lp_build.sh /root/code/KAM-inp-lp-freeze7 KAM.Planetary.StrongAMD.PlanarSafety.SourceDiophantine
+  [lp_build] slot 1: KAM.Planetary.StrongAMD.PlanarSafety.SourceDiophantine (10:31:17)
+  Build completed successfully (9318 jobs).
+  rc=0
+Check (a) rerun for the two changed draft files (lp_lean.sh .drafts/freeze7/a/<module>.lean):
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceBarycentricPositions  output: ''
+  exit 0  KAM_Frozen_Planetary_Spatial_Defs_SpatialSourceBarycentricVelocities  output: ''
+Proposal-excerpt identity (mk_proposal.py asserts every Lean code block is a byte-identical excerpt of its draft file): OK
+Command: lp_lint.sh /root/code/KAM-inp-lp-freeze7   (exit 0); tail:
+  check_lean_modules: PASS (3783 Lean files, 0 comparator configurations)
+  FROZEN-ANCHOR GUARD OK
+  ABI HASHES OK (177 frozen declarations of KAM; checked by file hash only, not built by this run: KAMLunarBand: KAM.SpinOrbit.lunar_barriers, KAM.SpinOrbit.lunar_spin_confinement (--lib KAMLunarBand))
+All 128 draft-file hashes are recomputed in section 0. Files of this package changed versus 05155acf and versus the
+audited HEAD c9c2b904 (paths: docs/tracks/LP/freeze/draft7, docs/tracks/LP/FREEZE-PROPOSAL.md and the four
+LP-FREEZE7R implementation modules; the verification file itself is not listed):
+  vs 05155acf: 4 files
+    KAM/Planetary/StrongAMD/PlanarSafety/SourceDiophantine.lean  9f04effaa209f2b9d9c3fe5b366b3c0257eef46e76ed0ab7d5a39aced03c43e6 -> 130718172d434d6216e48b270b8fee222aa58b58e60e9181e1529624660b5431
+    docs/tracks/LP/FREEZE-PROPOSAL.md  ec063ea37e417a25704eed616fa079492bc68c87a98e3b7d4b2894265cbaec94 -> eff4463d4471c71e71e44a5887e4bd9279a291c12c31df1b3000177c45bbb723
+    docs/tracks/LP/freeze/draft7/KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricPositions.lean.txt  ef84c1c6f66a7182e1b36eac3a3531437095cbf5c149e8875efc92f6cd851e13 -> 4eedae89b53f87bd561848ff5abba7aa7b303e78abe5726f18cebe9fda8276a7
+    docs/tracks/LP/freeze/draft7/KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricVelocities.lean.txt  798a12f844155f2fdc13c2f4bbef8e7136ad18f79fe954ce0b1468640d732edd -> 66131bbe66cced31d9adeace23acd18bc17d32d8b9fb3a2d24c369cdccadac33
+  vs c9c2b904: 4 files
+    KAM/Planetary/StrongAMD/PlanarSafety/SourceDiophantine.lean  9f04effaa209f2b9d9c3fe5b366b3c0257eef46e76ed0ab7d5a39aced03c43e6 -> 130718172d434d6216e48b270b8fee222aa58b58e60e9181e1529624660b5431
+    docs/tracks/LP/FREEZE-PROPOSAL.md  ec063ea37e417a25704eed616fa079492bc68c87a98e3b7d4b2894265cbaec94 -> eff4463d4471c71e71e44a5887e4bd9279a291c12c31df1b3000177c45bbb723
+    docs/tracks/LP/freeze/draft7/KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricPositions.lean.txt  ef84c1c6f66a7182e1b36eac3a3531437095cbf5c149e8875efc92f6cd851e13 -> 4eedae89b53f87bd561848ff5abba7aa7b303e78abe5726f18cebe9fda8276a7
+    docs/tracks/LP/freeze/draft7/KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricVelocities.lean.txt  798a12f844155f2fdc13c2f4bbef8e7136ad18f79fe954ce0b1468640d732edd -> 66131bbe66cced31d9adeace23acd18bc17d32d8b9fb3a2d24c369cdccadac33
+All other draft7/ files and the manifest entry drafts are byte-identical to both bases.

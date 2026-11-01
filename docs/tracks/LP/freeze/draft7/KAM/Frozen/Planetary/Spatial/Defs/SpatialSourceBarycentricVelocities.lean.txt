@@ -15,8 +15,8 @@ Track LP, `LP:MAIN L1 (100–108), d = 3` (MAIN as amended by AMENDMENTS). Owner
 of D59). This file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an
 owner-approved versioned successor.
 
-Freeze role (D59, OD-11 (b)): a source-facing definition on its carrier, frozen as one semantic unit
-with its characterization theorems (draft 7, §4). Its source domain is given by the proof arguments
+Freeze role (D59, OD-11 (b)): a source-facing literal formula on its carrier
+(CHARACTERIZATION: N/A_LITERAL; draft 7, §4). Its source domain is given by the proof arguments
 `_hν : ∀ i, 0 < ν i` and `_hμ : 0 < μ` (the source premises of MAIN L1: positive masses and positive
 μ), which exclude the zero-denominator inputs of the internal total helper
 `spatialBarycentricVelocities`, to which it is definitionally equal (statement audit of draft 7,

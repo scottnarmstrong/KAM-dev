@@ -18,7 +18,8 @@ Package LP-FREEZE7R (orchestrator scope addition), `LP:MAIN T15 (502–506)`, `�
 The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 `lp1_planar_strongAMD_safety_source_isDiophantine` and its `τ = n - 1/2` form are the statements
-of `lp1_planar_strongAMD_safety_source` and `lp1_planar_strongAMD_safety_source_halfInteger` with the
+of `lp1_planar_strongAMD_safety_source` and
+`lp1_planar_strongAMD_safety_source_halfInteger` with the
 Diophantine premise written as the frozen `KAM.IsDiophantine γ τ (fun i => ν i ^ 3 / Λ_i ^ 3)`
 (D20) instead of `∀ k ≠ 0, γ * modeSize k ^ (-τ) ≤ |k · ω|`; the two premises are literally
 equivalent (`isDiophantine_iff_forall_modeSize`), so nothing is added or weakened. They are the
