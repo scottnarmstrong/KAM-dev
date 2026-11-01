@@ -236,6 +236,47 @@ also saves the ported balls' 360 CPU-s and the disc pass.
   assemblies on the landed-model route. Proof terms are the same lemma applications; something in the unification
   of `jetSlots jdLowW` or the rewrite unfolds a large definition. Under the cap; to profile.
 
+**The T′ jet route PROVED end to end (integration, `runJ` pass 5, 2026-11-01).** `LG00P.TP.PK.MainJ` proves
+`pk_kamTorus` (`lg00_kamTorus`'s statement, verbatim, about the packed route's certificate copy
+`LG00P.TP.lg00Cert`) and `pk_kamTorusStatement`, from `pk_checkJ : checkV2With (jetBase … jdLowW pkIBook jdFullW)
+(routeARefinedPackedSJ … jdLowW) lg00Cert lg00RW = true` through `checkV2With_jetSharp_sound`; standard axioms
+(`propext`, `Classical.choice`, `Quot.sound`) for `pk_kamTorus`, `pk_kamTorusStatement`, `pk_checkJ`, `pkBaseJ`,
+`pkEngineJ`, `pkHamBounds`, `pkHamClaim`. No landed `Slp.compose` anywhere in the route.
+- **The Hamiltonian bounds and the disc pass are LG00's own proofs** (orchestrator's decision): the integration package
+  requires my scratch package `kam-lg00` (Lake `require`, so LG00's artifacts keep their traces: the package name
+  enters every trace, checked), and `Xfer` carries `LG00.TP.lg00_hamBounds` and `LG00.TP.lg00_hamClaim` over to the
+  copy with `checkHamBounds_congr`/`checkHamClaim_congr` (`CertCongr.lean`, on this branch) and `rfl` field
+  equalities: 5.7 CPU-s, 0.61 GB. `Balls.T38` is not rebuilt.
+
+Whole torus, the packed jet route against LG00's run18 (T′ complete there; read only):
+
+| stage | LG00 run: modules | CPU-s | peak | packed route: modules | CPU-s | peak | ratio |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Data | 275 | 3378 | 0.96 GB | 326 | 3673 | 1.22 GB | 0.9× |
+| Balls | 75 | 372 | 6.00 GB | 75 | 372 | 6.00 GB | 1.0× |
+| Gram | 80 | 1529 | 2.07 GB | 10 | 76 | 2.01 GB | 20.0× |
+| Torsion | 628 | 13162 | 2.53 GB | 48 | 991 | 3.06 GB | 13.3× |
+| Low | 2484 | 55813 | 6.32 GB | 110 | 1467 | 3.76 GB | 38.0× |
+| Full | 1637 | 32255 | 5.27 GB | 206 | 2737 | 3.55 GB | 11.8× |
+| Final | 61 | 1055 | 3.42 GB | 105 | 884 | 6.07 GB | 1.2× |
+| Main | 1 | 12 | 1.12 GB | 1 | 7 | 0.57 GB | 1.7× |
+| **total** | **5241** | **107577** (29.88 CPU-h) | | **881** | **10207** (2.84 CPU-h) | | **10.5×** |
+
+Notes on the table.
+- **Packed column = the import closure of `MainJ`**, each module at the cost of the run that built it: my `runJ`
+  (the packed modules and the ported chain-free proof), kamx-packed's summaries (certificate copy, `LG00P.JetBridge`,
+  both chains), and run18 for LG00's own modules the route imports (its data, via the Hamiltonian results; its balls
+  and disc pass). 16 shared LG00 modules (`Ham`, `Jet`, `JetOps*`, `JetBridge`, formats) have no row in any ledger
+  (built before run18) and are counted in neither column.
+- **Data** includes LG00's real data (279 modules, 3,378 CPU-s): the route imports `LG00.TP.Balls.HamBounds`, whose
+  closure is the real certificate. A copy importing LG00's own data modules directly (rather than renamed copies)
+  would drop the duplication; the data are reused, not rebuilt, either way.
+- **Peaks:** every module built here stays under 4 GB (largest 3.06 GB, `TorsJ`). The 6.07 GB is kamx-packed's
+  `LG00P.JetBridge` (the orchestrator's solo exception) and the 6.00 GB LG00's own `Balls.T38` (reused).
+- **Kernel time:** not separable on this package (kamx-packed's library options carry no profiler, and my modules
+  there use them so their traces hold); CPU-s are comparable column to column.
+- **The two slow assemblies** (`TorsJ.Core` 166 s, `TorsJ` 401 s) are inside the Torsion row.
+
 **T″ the same way.** `gen_cert.py …/LG00/TPP` (no change to any script): T″'s own parameters, box
 (`s = 886058956738442102019008342433694847/886058070680308099785085113265000000`), zero modes and claims are read
 from its tree. The B3b mirror passes (torsion margin 0.00118) and the frames at T″'s claims: `|Lᵀ|` 1.3513 / 1.36,
