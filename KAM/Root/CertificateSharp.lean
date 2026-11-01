@@ -147,6 +147,7 @@ public import KAM.CertificateSharp.V2.Tests.Forced.MicroChecksB
 public import KAM.CertificateSharp.V2.Tests.Forced.MicroData
 public import KAM.CertificateSharp.V2.Tests.Forced.MicroFreq
 public import KAM.CertificateSharp.V2.Tests.Forced.MicroGram
+public import KAM.CertificateSharp.V2.Tests.Forced.MicroReading
 public import KAM.CertificateSharp.V2.Tests.Forced.MicroRoutes
 public import KAM.CertificateSharp.V2.Tests.Forced.MicroStages
 public import KAM.CertificateSharp.V2.Tests.Forced.MicroTorsion1
