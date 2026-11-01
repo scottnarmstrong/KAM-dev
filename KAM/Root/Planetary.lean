@@ -768,7 +768,6 @@ public import KAM.Planetary.StrongAMD.PlanarSafety.Prograde
 public import KAM.Planetary.StrongAMD.PlanarSafety.Source
 public import KAM.Planetary.StrongAMD.PlanarSafety.SourceCorollary
 public import KAM.Planetary.StrongAMD.PlanarSafety.SourceDiophantine
-public import KAM.Planetary.StrongAMD.PlanarSafety.SourceThreshold
 public import KAM.Planetary.StrongAMD.PlanarSafety
 public import KAM.Planetary.StrongAMD.Reflection
 public import KAM.Planetary.StrongAMD.SourceCarrier
