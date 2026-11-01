@@ -137,6 +137,11 @@ public import KAM.Wave.Cubic.TriProps
 public import KAM.Wave.Cubic.TriSeq
 public import KAM.Wave.Homological.AngleSupport
 public import KAM.Wave.Homological.CohEq
+public import KAM.Wave.Homological.CompleteEquation
+public import KAM.Wave.Homological.CompleteLemma2
+public import KAM.Wave.Homological.CompleteLie
+public import KAM.Wave.Homological.CompleteLieExpand
+public import KAM.Wave.Homological.CompleteZeroReal
 public import KAM.Wave.Homological.ComponentsAngle
 public import KAM.Wave.Homological.ComponentsAngleQ
 public import KAM.Wave.Homological.ComponentsBasic
