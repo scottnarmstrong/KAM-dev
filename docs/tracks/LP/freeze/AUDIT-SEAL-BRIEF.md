@@ -19,6 +19,14 @@ verdict, and state the final HEAD you certify. The author's records are
 `docs/tracks/LP/audits/LP-FREEZE-EXEC-handoff.md` (it may still be in progress), `docs/tracks/LP/FREEZE.md` and the
 `docs/MANIFEST-CHANGES.md` rows.
 
+**Staging (parallel run).**
+1. Start with every check that needs no Lean build: authority, identity, manifest fields and hashes via the guard's
+   code, seal-body text, rebase signature diffs, quarantine and roots, and records.
+2. The Lean checks (Expr-equality probe, `#print axioms`, leanchecker) need the new modules built. The author is
+   building them now in their own worktree. When the build is green, the orchestrator copies the built `.lake/build`
+   into your worktree and tells you in this pane. Do not build the whole branch yourself. A capped single-file probe
+   with `lake env lean` is fine once the build is in place.
+
 **Procedure reference:** `docs/tracks/LP/freeze/RUNBOOK.md` §2 (commits A–D) and **§6** (your ten checks). Read both,
 and the rulings at the end of the runbook. The precedents §6 cites are SO-FREEZE3 seal audit, P14-SEAL and
 AUDIT-RUSSMANN-SEAL-1.
