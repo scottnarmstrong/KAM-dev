@@ -218,7 +218,8 @@ theorem chain_gap {P A : Fin n → ℝ} {dP : ℝ} (hdP : 0 ≤ dP) (hPA : ∀ k
       set k : Fin n := ⟨j.val - 1, hk⟩
       have h1 := ih i k (by show j.val - 1 = i.val + d + 1; omega)
       have h2 := hgap ⟨k, by show j.val - 1 + 1 < n; have := j.2; omega⟩
-      have hkj : AdjIdx.upperIdx (⟨k, by show j.val - 1 + 1 < n; have := j.2; omega⟩ : AdjIdx n) = j :=
+      have hkj : AdjIdx.upperIdx
+          (⟨k, by show j.val - 1 + 1 < n; have := j.2; omega⟩ : AdjIdx n) = j :=
         Fin.ext (by show j.val - 1 + 1 = j.val; omega)
       rw [hkj] at h2
       have := hPA k
@@ -417,7 +418,7 @@ theorem barrierCompact_isCompact {dS dP R P : ℝ} (hR : 0 ≤ R) (hP : 0 ≤ P)
   exact Metric.isCompact_of_isClosed_isBounded hcl hbd
 
 theorem barrierCompact_subset {dS dP R P : ℝ} (hdS : 0 < dS) (hdP : 0 < dP) :
-    barrierCompact n dS dP R P ⊆ collisionFreeDomain n := fun z hz =>
+    barrierCompact n dS dP R P ⊆ collisionFreeDomain n := fun _ hz =>
   ⟨fun i => hdS.trans_le (hz.1 i).1, fun i j hij => hdP.trans_le (hz.2 i j hij)⟩
 
 /-- G3 (`LP:MAIN L5 (172)`): all barrier states lie in one compact subset of the nonsingular

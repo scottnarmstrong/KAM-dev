@@ -634,6 +634,9 @@ public import KAM.Planetary.SecularSpectrum.LocalAnalytic
 public import KAM.Planetary.SecularSpectrum.Norms
 public import KAM.Planetary.SecularSpectrum.Transport
 public import KAM.Planetary.SecularSpectrum.TwoPlanets
+public import KAM.Planetary.StrongAMD.Continuation
+public import KAM.Planetary.StrongAMD.Geometry
+public import KAM.Planetary.StrongAMD.Modulus
 public import KAM.Planetary.StrongAMD.Momentum
 public import KAM.Planetary.StrongAMD.Orbital
 public import KAM.Planetary.StrongAMD.Reflection
