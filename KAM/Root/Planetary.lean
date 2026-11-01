@@ -634,6 +634,7 @@ public import KAM.Planetary.SecularSpectrum.LocalAnalytic
 public import KAM.Planetary.SecularSpectrum.Norms
 public import KAM.Planetary.SecularSpectrum.Transport
 public import KAM.Planetary.SecularSpectrum.TwoPlanets
+public import KAM.Planetary.Spatial.Rotation46
 public import KAM.Planetary.StrongAMD.AnalyticDomain.Containment
 public import KAM.Planetary.StrongAMD.AnalyticDomain.Core
 public import KAM.Planetary.StrongAMD.AnalyticDomain.Extension
