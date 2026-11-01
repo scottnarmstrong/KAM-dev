@@ -1149,9 +1149,9 @@ EDGE: stepW:w6:t-an | blueprint-W/parts/w6-iteration.tex#bpW:w6:tori@L383-L383 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w6
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.W6PrepHyp.w6TorusKam, KAM.Wave.W6PrepHyp.w6ToriKam, KAM.Wave.W6PrepHyp.prepK_props (KAM/Wave/Iteration/ToriPrep.lean, KAM/Wave/Iteration/SmoothSrc.lean)
-LEAN_NOTE: KAM-coordinate part only: W6PrepHyp.w6ToriKam (ToriPrep/SmoothSrc; W6 audit 1 PASS WITH NOTES conditional, W6 audit 2 PASS unconditional) for any preparatory Hamiltonian satisfying the source assumptions; the action-angle composition (Tori, ToriBk, ToriBridge, incl. the input H_in = w6InP) is not on main; missing: (i)-(v) in Birkhoff coordinates (holomorphy into B_rho_1 and normal part in W^(p+1/2), continuity and nu_* Lipschitz, invariance for X_H', closeness, real analyticity)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.w6InP, KAM.Wave.w6InX, KAM.Wave.w6PrepHyp_initial, KAM.Wave.W6PrepHyp.w6TorusBk, KAM.Wave.W6PrepHyp.w6NuStar, KAM.Wave.W6PrepHyp.w6TorusBk_hol, KAM.Wave.W6PrepHyp.w6TorusBk_cont, KAM.Wave.W6PrepHyp.w6NuStar_lipschitz, KAM.Wave.W6PrepHyp.w6TorusBk_invariance_strip, KAM.Wave.W6PrepHyp.w6TorusBk_close, KAM.Wave.W6PrepHyp.w6TorusBk_analytic, KAM.Wave.W6PrepHyp.w6Tori (KAM/Wave/Iteration/ToriBk.lean, KAM/Wave/Iteration/Tori.lean)
+LEAN_NOTE: W6 audit 2 PASS WITH NOTES (full tori audit): W6PrepHyp.w6Tori assembles (i)-(v) for the actual input H_in = N_xi + P_xi (w6InP, w6InX from bpW:w5:action-angle) for every eps_0 in [eps^flat_0, gamma_1 check alpha]; extra hypotheses are the action-angle (ii) domain data on Pi and c_A(t + r^2) < rho_1^2 (the source's 'if'); (iii) proved on all of T_(s_0/2) with Psi in B_(rho_1) as typing data of X_K; (v) in weighted coordinates (WaveSpace)
 NOTE: -
 
 NODE: stepW:w6:t-hol
@@ -1178,9 +1178,9 @@ EDGE: bpW:w6:prep-step | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-hol@L373-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w6
 REVIEWER: sol-delta6-W-W-w6
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.W6PrepHyp.w6ToriKam (KAM/Wave/Iteration/SmoothSrc.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w6:tori; KAM-coordinate part only: W6PrepHyp.w6ToriKam (ToriPrep/SmoothSrc; W6 audit 1 PASS WITH NOTES conditional, W6 audit 2 PASS unconditional) for any preparatory Hamiltonian satisfying the source assumptions; the action-angle composition (Tori, ToriBk, ToriBridge, incl. the input H_in = w6InP) is not on main; holomorphy, periodicity, reality and the p_+ normal part are proved for Phi_P o Phi_* only
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.W6PrepHyp.w6TorusBk_hol, KAM.Wave.W6PrepHyp.w6ToriKam (KAM/Wave/Iteration/ToriBk.lean, KAM/Wave/Iteration/SmoothSrc.lean)
+LEAN_NOTE: step of PROVED parent bpW:w6:tori; W6 audit 2 PASS WITH NOTES (full tori audit)
 NOTE: -
 
 NODE: stepW:w6:t-cont
@@ -1208,9 +1208,9 @@ EDGE: bpW:w5:action-angle | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-cont@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w6
 REVIEWER: sol-delta6-W-W-w6
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.W6PrepHyp.w6ToriKam (KAM/Wave/Iteration/SmoothSrc.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w6:tori; KAM-coordinate part only: W6PrepHyp.w6ToriKam (ToriPrep/SmoothSrc; W6 audit 1 PASS WITH NOTES conditional, W6 audit 2 PASS unconditional) for any preparatory Hamiltonian satisfying the source assumptions; the action-angle composition (Tori, ToriBk, ToriBridge, incl. the input H_in = w6InP) is not on main; joint continuity proved for Phi_P o Phi_*; nu_* Lipschitz (from final-freq) not composed into the torus statement
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.W6PrepHyp.w6TorusBk_cont, KAM.Wave.W6PrepHyp.w6NuStar_lipschitz (KAM/Wave/Iteration/ToriBk.lean, KAM/Wave/Iteration/Tori.lean)
+LEAN_NOTE: step of PROVED parent bpW:w6:tori; W6 audit 2 PASS WITH NOTES (full tori audit) (continuity on Pi_* x R^2; nu_* Lipschitz with K = (N_A+theta)/2pi from w6FinalFreq)
 NOTE: -
 
 NODE: stepW:w6:t-prep
@@ -1237,9 +1237,9 @@ EDGE: bpW:w6:strong | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-prep@L378-L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w6
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.W6PrepHyp.w6ToriKam (KAM/Wave/Iteration/SmoothSrc.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w6:tori; KAM-coordinate part only: W6PrepHyp.w6ToriKam (ToriPrep/SmoothSrc; W6 audit 1 PASS WITH NOTES conditional, W6 audit 2 PASS unconditional) for any preparatory Hamiltonian satisfying the source assumptions; the action-angle composition (Tori, ToriBk, ToriBridge, incl. the input H_in = w6InP) is not on main; invariance X_N + iota X' = d_theta(Phi_P o Phi_*) nu_* proved for a generic preparatory Hamiltonian, not instantiated at H_in
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.W6PrepHyp.w6ToriKam, KAM.Wave.W6PrepHyp.prepK_props, KAM.Wave.w6PrepHyp_initial (KAM/Wave/Iteration/SmoothSrc.lean, KAM/Wave/Iteration/ToriBk.lean)
+LEAN_NOTE: step of PROVED parent bpW:w6:tori; W6 audit 2 PASS WITH NOTES (full tori audit): invariance in KAM coordinates (w6ToriKam, last clause) specialized to H_in = w6InP via w6PrepHyp_initial
 NOTE: -
 
 NODE: stepW:w6:t-bk
@@ -1265,9 +1265,9 @@ EDGE: stepW:w6:t-prep | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-bk@L380-L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w6
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.W6PrepHyp.w6TorusBk_invariance_strip, KAM.Wave.aaConjugacy, KAM.Wave.aaXN_ofReal_eq_stepXN, KAM.Wave.kamHomEmbed_stepRhoK, KAM.Wave.birkEmbed_aaDer, KAM.Wave.hasFDerivAt_aaMap (KAM/Wave/Iteration/Tori.lean, KAM/Wave/KamStep/ActionAngleConj.lean, KAM/Wave/Iteration/ToriBridge.lean, KAM/Wave/KamStep/ActionAngleDeriv.lean)
+LEAN_NOTE: step of PROVED parent bpW:w6:tori; W6 audit 2 PASS WITH NOTES (full tori audit)
 NOTE: -
 
 NODE: stepW:w6:t-close
@@ -1293,9 +1293,9 @@ EDGE: bpW:w6:convergence | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-close@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w6
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.W6PrepHyp.w6ToriKam (KAM/Wave/Iteration/SmoothSrc.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w6:tori; KAM-coordinate part only: W6PrepHyp.w6ToriKam (ToriPrep/SmoothSrc; W6 audit 1 PASS WITH NOTES conditional, W6 audit 2 PASS unconditional) for any preparatory Hamiltonian satisfying the source assumptions; the action-angle composition (Tori, ToriBk, ToriBridge, incl. the input H_in = w6InP) is not on main; |Phi_P Phi_* theta - iota theta|_(p_+,r) <= e_tor = M_F,P + e_Phi in KAM coordinates only
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.W6PrepHyp.w6TorusBk_close (KAM/Wave/Iteration/ToriBk.lean)
+LEAN_NOTE: step of PROVED parent bpW:w6:tori; W6 audit 2 PASS WITH NOTES (full tori audit) (exact component bounds with e_tor and the coordinate formula)
 NOTE: -
 
 NODE: stepW:w6:t-an
@@ -1323,9 +1323,9 @@ EDGE: bpW:w3:class-remark | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-an@L38
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta5-W-w3
 REVIEWER: sol-delta6-W-W-w6
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.W6PrepHyp.w6TorusBk_analytic (KAM/Wave/Iteration/Tori.lean)
+LEAN_NOTE: step of PROVED parent bpW:w6:tori; W6 audit 2 PASS WITH NOTES (full tori audit) (Gamma transport, proved reality, W1 torus analyticity)
 NOTE: The cited regularity remark is retained as bpW:w3:class-remark (delta 5). The flow edge remains a direct use for analyticity and reality.
 
 NODE: bpW:w6:to-w8
@@ -1363,9 +1363,9 @@ EDGE: bpW:w6:applicable | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L404-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w6
 REVIEWER: sol-delta7-W-w6
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.w6EpsFlat_div, KAM.Wave.w6MFP_eq, KAM.Wave.w6MFP_le, KAM.Wave.w6WaveSeq_ePhi, KAM.Wave.w6Etor_sharp_le, KAM.Wave.W6PrepHyp.w6ExclusionJ, KAM.Wave.W6PrepHyp.w6FinalFreq, KAM.Wave.W6PrepHyp.w6ToriKam (KAM/Wave/Iteration/WaveData.lean, KAM/Wave/Iteration/FreqLipJ.lean, KAM/Wave/Iteration/ConvSource.lean, KAM/Wave/Iteration/SmoothSrc.lean)
-LEAN_NOTE: W6 audit 1 (git show inp-w6aud:docs/tracks/W/audits/W6-audit-1.md) PASS (starting size: eps^flat_0/check alpha, M_F,P and the e_tor bound for eps_0 = eps^flat_0), W6 audit 2 PASS (exclusion, final frequencies for every eps_0 in the interval); missing: (a)-(c) of bpW:w6:tori in Birkhoff coordinates and the link to bpW:w3:transport-tori-weak (modules Tori, ToriBk, ToriBridge not on main); only the KAM-coordinate interface w6ToriKam is landed
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.w6EpsFlat_div, KAM.Wave.w6MFP_eq, KAM.Wave.w6MFP_le, KAM.Wave.w6WaveSeq_ePhi, KAM.Wave.w6Etor_sharp_le, KAM.Wave.W6PrepHyp.w6ExclusionJ, KAM.Wave.W6PrepHyp.w6FinalFreq, KAM.Wave.W6PrepHyp.w6Tori, KAM.Wave.w8_shellInv_of_birk, KAM.Wave.w8_shellInv (KAM/Wave/Iteration/WaveData.lean, KAM/Wave/Iteration/FreqLipJ.lean, KAM/Wave/Iteration/ConvSource.lean, KAM/Wave/Iteration/Tori.lean, KAM/Wave/Assembly/ShellInv.lean, KAM/Wave/Assembly/ShellFamily.lean)
+LEAN_NOTE: W6 audit 1 (git show inp-w6aud:docs/tracks/W/audits/W6-audit-1.md) PASS (starting size: eps^flat_0/check alpha, M_F,P and the e_tor bound for eps_0 = eps^flat_0), W6 audit 2 PASS (exclusion, final frequencies, tori (i)-(v) via W6PrepHyp.w6Tori for every eps_0 in the interval); the link 'tori (i), (iii) on R^2 is the hypothesis of bpW:w3:transport-tori-weak' is used in W8 by w8_shellInv_of_birk (conditional helper, inputs supplied at the source instance) and w8_shellInv (W8 audit 2 PASS)
 NOTE: Remark kept as a node: its starting-size computation (e_tor bound) and the return-trip statement are facts W8 may consume; its 'what W8 must still supply' list is administrative.
 
 NODE: bpW:w6#data
