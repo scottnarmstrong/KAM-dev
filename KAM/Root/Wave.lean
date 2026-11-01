@@ -140,6 +140,7 @@ public import KAM.Wave.Homological.CohEq
 public import KAM.Wave.Homological.CompleteEquation
 public import KAM.Wave.Homological.CompleteLemma2
 public import KAM.Wave.Homological.CompleteLie
+public import KAM.Wave.Homological.CompleteLieCont
 public import KAM.Wave.Homological.CompleteLieExpand
 public import KAM.Wave.Homological.CompleteZeroReal
 public import KAM.Wave.Homological.ComponentsAngle
