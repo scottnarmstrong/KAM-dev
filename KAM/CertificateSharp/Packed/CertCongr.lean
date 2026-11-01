@@ -10,11 +10,11 @@ public import KAM.CertificateSharp.V2.HamClaim
 /-!
 # The Hamiltonian checks depend only on the Hamiltonian and its domain
 
-`checkHamBounds` and the disc pass `checkHamClaim` read a certificate only through its Hamiltonian, the weight
-and centre and radius of its domain, its exponential order (and, for the bounds, `params.M`). So two
-certificates that agree on these fields pass them together: a copy of a certificate that drops data these
-checks do not read (the packed route's copy has no advice and no witnesses) inherits them from the original's
-proofs instead of re-proving them.
+`checkHamBounds` and the disc pass `checkHamClaim` read a certificate only through its Hamiltonian,
+the weight and centre and radius of its domain, its exponential order (and, for the bounds,
+`params.M`). So two certificates that agree on these fields pass them together: a copy of a
+certificate that drops data these checks do not read (the packed route's copy has no advice and no
+witnesses) inherits them from the original's proofs instead of re-proving them.
 
 * `checkHamBounds_congr`, `checkHamClaim_congr`.
 -/
