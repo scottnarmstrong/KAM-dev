@@ -139,8 +139,32 @@ theorem aaSfun_eq {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (w : KamPhase) :
   have h0 : (homWt a p j : ℂ) ≠ 0 := Complex.ofReal_ne_zero.2 (homWt_pos a p j).ne'
   field_simp
 
+/-- On its carrier, the normal series `Σ_j c_j z_j \bar z_j` converges absolutely. -/
+theorem summable_aaCoefC_aaZZ {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (w : KamPhase) :
+    Summable fun j : ℕ+ => aaCoefC m hm j * aaZZ a p w j := by
+  have hu : Summable fun j : ℕ+ => aaCoefD m hm a p j * w.2.2.1 j * w.2.2.1 j := by
+    refine Summable.of_norm_bounded (homL2_pair_le w.2.2.1 w.2.2.1).1 fun j => ?_
+    rw [mul_assoc, norm_mul]
+    exact mul_le_of_le_one_left (norm_nonneg _) (norm_aaCoefD_le ha hp j)
+  have hv : Summable fun j : ℕ+ => aaCoefD m hm a p j * w.2.2.2 j * w.2.2.2 j := by
+    refine Summable.of_norm_bounded (homL2_pair_le w.2.2.2 w.2.2.2).1 fun j => ?_
+    rw [mul_assoc, norm_mul]
+    exact mul_le_of_le_one_left (norm_nonneg _) (norm_aaCoefD_le ha hp j)
+  refine ((hu.add hv).div_const 2).congr fun j => ?_
+  rw [aaZZ_eq, aaCoefD]
+  have h0 : (homWt a p j : ℂ) ≠ 0 := Complex.ofReal_ne_zero.2 (homWt_pos a p j).ne'
+  field_simp
+
+/-- (`bpW:w5:action-angle` (iv)–(v), well-definedness of `Q̃`) On the carrier `0 ≤ a`, `0 ≤ p` of
+`aaQt`, its normal series `Σ_j 3⟨b,y⟩/(2πλ_{j+2}) z_j \bar z_j` converges absolutely. -/
+theorem summable_aaQt {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (w : KamPhase) :
+    Summable fun j : ℕ+ =>
+      3 * aaBdot m hm w.2.1 / (2 * Real.pi * lam m hm (j + 2)) * aaZZ a p w j :=
+  ((summable_aaCoefC_aaZZ ha hp w).mul_left (aaBdot m hm w.2.1)).congr fun j => by
+    rw [aaCoefC]; ring
+
 theorem aaQt_eq {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (w : KamPhase) :
-    aaQt m hm a p w = 1 / 2 * ∑ i : Fin 2, ∑ i' : Fin 2, (actionA m hm i i' : ℂ) *
+    aaQt m hm ha hp w = 1 / 2 * ∑ i : Fin 2, ∑ i' : Fin 2, (actionA m hm i i' : ℂ) *
       (w.2.1 i * w.2.1 i') + aaBdot m hm w.2.1 * aaSfun m hm ha hp w := by
   unfold aaQt
   congr 1
@@ -208,8 +232,8 @@ theorem stepPairCLM_aaDiagE {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hqq : 0 �
 
 /-- **`DQ̃(w) W = ϖ_{p+1,p}(X_{Q̃}(w), W)`** (`bpW:w5:action-angle` (v), step `a-field`). -/
 theorem aaQt_hasFDerivAt {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (w : KamPhase) :
-    HasFDerivAt (aaQt m hm a p) (fderiv ℂ (aaQt m hm a p) w) w ∧
-      ∀ W, fderiv ℂ (aaQt m hm a p) w W =
+    HasFDerivAt (aaQt m hm ha hp) (fderiv ℂ (aaQt m hm ha hp) w) w ∧
+      ∀ W, fderiv ℂ (aaQt m hm ha hp) w W =
         stepSymp (q := p + 1) (q' := p) ha (by linarith) (aaXQt m hm ha hp w) W := by
   have hY : ∀ i : Fin 2, HasFDerivAt (fun w : KamPhase => w.2.1 i)
       ((ContinuousLinearMap.proj i).comp aaPrY) w := fun i =>
@@ -222,7 +246,7 @@ theorem aaQt_hasFDerivAt {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (w : KamPhase
   have hSd : HasFDerivAt (aaSfun m hm ha hp) (fderiv ℂ (aaSfun m hm ha hp) w) w :=
     (hasFDerivAt_aaSfun ha hp w).differentiableAt.hasFDerivAt
   have hQ0 := hF1.add (hF2.mul hSd)
-  have hQ : HasFDerivAt (aaQt m hm a p) _ w := hQ0.congr_of_eventuallyEq
+  have hQ : HasFDerivAt (aaQt m hm ha hp) _ w := hQ0.congr_of_eventuallyEq
     (Filter.Eventually.of_forall fun w' => by
       rw [aaQt_eq ha hp w', aaBdot]
       simp [div_eq_mul_inv])

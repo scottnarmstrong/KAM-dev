@@ -26,8 +26,9 @@ Write `s_i = √(ξ_i + y_i)`, `E_{±,i} = e^{∓2πiθ_i}` (`aaS`, `aaE`). For 
   `Θ_i = (W_{-i} E_{+,i} - W_i E_{-,i})/(4πi s_i)`, `Y_i = s_i (W_i E_{-,i} + W_{-i} E_{+,i})`,
   `U = (Ŵ_+ + Ŵ_-)/√2`, `V = (Ŵ_+ - Ŵ_-)/(i√2)` (actual coordinates `W_l` at weight `q`);
   `aaDerInv_aaDer`, `aaDer_aaDerInv`: `D𝒜_ξ(w)` is a linear bijection `𝒫^q → 𝔚^q` for every `q`.
-* `birkOmegaMix a q q'`: the form `Ω(W, W') = i Σ_l sgn(l) W_l W'_{-l}` for `W ∈ 𝔚^q`, `W' ∈ 𝔚^{q'}`
-  (`= birkOmega` for `q = q'`, `birkOmegaMix_eq_birkOmega`), and `aaDer_symp`:
+* `birkOmegaMix ha hqq'` (`ActionAngleSymp`; carrier `0 ≤ a`, `0 ≤ q + q'`): the form
+  `Ω(W, W') = i Σ_l sgn(l) W_l W'_{-l}` for `W ∈ 𝔚^q`, `W' ∈ 𝔚^{q'}`
+  (`= birkOmega` for `q = q'`, `birkOmega_eq_birkOmegaMix`), and `aaDer_symp`:
   `Ω(D𝒜 W, D𝒜 W') = ϖ(W, W')` for `W ∈ 𝒫^q`, `W' ∈ 𝒫^{q'}`, `q + q' ≥ 0`.
 -/
 

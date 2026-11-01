@@ -105,11 +105,13 @@ theorem aaDerTanL_aaDerInv (a q : ℝ) {ξ : Fin 2 → ℂ} {w : KamPhase}
   rw [birkCoord_aaDer_tan] at h
   exact h
 
-theorem aaGbarR_aaMap (a p : ℝ) (ha : 0 ≤ a) (hp : 0 ≤ p) (ξ : Fin 2 → ℂ) (w : KamPhase)
+theorem aaGbarR_aaMap (a p : ℝ) (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (ξ : Fin 2 → ℂ) (w : KamPhase)
     (i : Fin 2) :
-    aaGbarR m hm a p (aaMap a p ξ w) i = aaSfun m hm ha hp w / (lamTan m hm i : ℂ) := by
+    aaGbarR m hm ha hp (aaMap a p ξ w) i =
+      aaSfun m hm ha (le_trans one_half_pos.le hp) w / (lamTan m hm i : ℂ) := by
   unfold aaGbarR
-  rw [tsum_ite_three, ← aaSfun_eq ha hp, div_eq_mul_inv, ← tsum_mul_right]
+  rw [tsum_ite_three, ← aaSfun_eq ha (le_trans one_half_pos.le hp), div_eq_mul_inv,
+    ← tsum_mul_right]
   refine tsum_congr fun j => ?_
   rw [birkAction_aaMap_nor, birkActionB, aaCoefC, lamTan_eq_lam]
   have hl := (lam_pnat_pos hm (j + 2)).ne'
@@ -143,7 +145,7 @@ theorem aaConjugacy {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (ξ : Fin 2 �
   · -- tangential coordinates
     rw [birkCoord_aaDer_tan, map_add (aaDerTanL ξ w b i), aaDerTanL_kamHomEmbed, aaXP,
       map_add (aaDerTanL ξ w b i), aaDerTanL_aaDerInv a (p + 1) hw, birkCoord_birkHamBarX_tan,
-      aaGbarR_aaMap a p ha hp0]
+      aaGbarR_aaMap a p ha hp]
     simp only [aaDerTanL_apply, aaXN, aaXQt, Prod.snd_zero, Pi.zero_apply, Prod.fst_add,
       Prod.snd_add, Pi.add_apply, zero_div, zero_add, birkCoord_aaMap_tan, aaTanCoord_eq]
     have hI : ∀ i', birkAction a p (aaMap a p ξ w) (modeIdx i') = ξ i' + w.2.1 i' := fun i' =>
