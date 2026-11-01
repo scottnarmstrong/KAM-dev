@@ -57,10 +57,10 @@ src (4th, created 05:30 for the third slot).
 | LP-SP-DOMX L18 remaining clauses | L18 | 4 | `inp-lp-spdomx` | claude-12 | **LANDED** W4D (main 9e4d252a); audit LP-W4D-1 PASS WITH NOTES; 94 theorems standard (lander) |
 | LP-SP-SRC spatial source carriers (W4A N1) | freeze prep | 4 | `inp-lp-spsrc` | claude-12 | **LANDED** W4E (main 3114e48a; LP2 on main); audit LP-W4E-1 PASS WITH NOTES |
 | LP-SP-SRCB2 LP2 (b) through `spatialSource*` (R4.1 (A)) | freeze prep | 4 | `inp-lp-spsrcb2` / mom worktree | claude-11 | **LANDED** W4E (main 3114e48a; LP2 on main); audit LP-W4E-1 PASS WITH NOTES |
-| LP3-KEP Kepler fast Hamiltonian | LP3 plan | LP3 | `inp-lp-lp3kep` / mom worktree | claude-11 | audit LP-W5A-1 **PASS WITH NOTES** (codex-2); merged; **landing requested** |
-| LP3-COVERPERT finite cover + normalized perturbation | LP3 plan | LP3 | `inp-lp-lp3cp` / geomod worktree | claude-12 | audit LP-W5A-1 **PASS WITH NOTES** (codex-2); merged; **landing requested** |
-| LP3-CELL generic cellwise application (k slow pairs), ± time | LP3 plan §5 option | LP3 | `inp-lp-lp3cell` / geomod worktree | claude-11 | audit LP-W5A-1 **PASS WITH NOTES** (codex-2); merged; **landing requested** |
-| LP3-DRIFT planar `hstop` supplier (no Diophantine premise) | LP3 plan §2.4 | LP3 | `inp-lp-lp3drift` / geomod worktree | claude-11 | audit LP-W5A-1 **PASS WITH NOTES** (codex-2); merged; **landing requested** |
+| LP3-KEP Kepler fast Hamiltonian | LP3 plan | LP3 | `inp-lp-lp3kep` / mom worktree | claude-11 | **LANDED** W5A (main a994efdf); audit LP-W5A-1 PASS WITH NOTES |
+| LP3-COVERPERT finite cover + normalized perturbation | LP3 plan | LP3 | `inp-lp-lp3cp` / geomod worktree | claude-12 | **LANDED** W5A (main a994efdf); audit LP-W5A-1 PASS WITH NOTES |
+| LP3-CELL generic cellwise application (k slow pairs), ± time | LP3 plan §5 option | LP3 | `inp-lp-lp3cell` / geomod worktree | claude-11 | **LANDED** W5A (main a994efdf); audit LP-W5A-1 PASS WITH NOTES |
+| LP3-DRIFT planar `hstop` supplier (no Diophantine premise) | LP3 plan §2.4 | LP3 | `inp-lp-lp3drift` / geomod worktree | claude-11 | **LANDED** W5A (main a994efdf); audit LP-W5A-1 PASS WITH NOTES |
 | LP3-PS planar theorem LP3-1 (no arithmetic hypothesis) | LP3 plan §1.2 | LP3 | `inp-lp-lp3ps` / geomod worktree | claude-11 | **PROVED** e032c059 (510 lines: `lp3_planar_strongAMD_safety{,_normalized}`, LP3-1; token diff vs LP1 only the three changes; axioms standard); audit queued |
 | LP-FREEZE7 draft 7 exact freeze text (D59) | freeze | — | `inp-lp-freeze7` / geomod worktree | claude-11 (Opus) | **RUNNING** (08:31) |
 | LP3-SP-COVER spatial cover + perturbation | LP3 plan | LP3 | `inp-lp-lp3spcov` / mom worktree | claude-12 | **PROVED** b8994a7c (434 lines; planar cells reused verbatim; `exists_spatialNekPerturbation`); audit queued |
@@ -162,3 +162,4 @@ Note (08:5x UTC, root-b8): log and table stamps written between about 06:00 and 
 now on every stamp is taken from `date -u +%H:%M`.
 - 2026-11-01 08:52 UTC: LP-W4E LANDED (main 3114e48a, per root-b8): **LP2 on main**. W5A landing pending confirmation. W5B/W5C staging (builds running); the LP lane takes the draft-7 statement audit first when LP-FREEZE7 is ready, otherwise W5B then W5C.
 - 2026-11-01 08:52 UTC: closed finished auditor sessions w4c/w4d/w4e/w5a (reports committed); policy: close each auditor once its verdict is recorded. LP's second prover slot released to W (root-b8); LP keeps one slot (LP-FREEZE7, then draft 8).
+- 2026-11-01 09:03 UTC: LP-W5A LANDED (main a994efdf; W4E at 3114e48a). Lander: 121 theorems in the 14 new modules, all [propext, Classical.choice, Quot.sound]: no sorryAx through the sealed PartialConvexNekhoroshev. W5B auditing; W5C staged; LP-FREEZE7 has 127 draft files and manifest drafts, verification in progress.
