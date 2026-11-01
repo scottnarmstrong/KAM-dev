@@ -73,6 +73,37 @@ def graph_resolved(graph, parts):
     return c[0] / c[1] if c and c[1] else None
 
 
+# Lean directories whose landings a track's proof graph must record (2026-11-01: track W's meter sat at 65 % for
+# hours because W5, W6 and W7 landed without a LEAN_STATUS sync; the owner asked that this never recur).
+GRAPH_DIRS = {'W': ['KAM/Wave'], 'LP': ['KAM/Planetary/StrongAMD', 'KAM/Planetary/Spatial']}
+GRAPH_SYNC_GRACE_MIN = 60
+
+
+def graph_sync_lag(graph):
+    """Warning line when Lean landed in the track's directories after the tree its proof graph was last synced
+    against, or None. Both sides are read from git: the last commit touching docs/graph/<graph>/DEPGRAPH.md and the
+    lines added in GRAPH_DIRS between that commit's tree and HEAD."""
+    dirs = GRAPH_DIRS.get(graph)
+    path = f'docs/graph/{graph}/DEPGRAPH.md'
+    if not dirs or not (root / path).exists():
+        return None
+    synced = git('log', '-1', '--format=%H %ct', '--', path).split()
+    if len(synced) != 2:
+        return None
+    gc, gt = synced[0], int(synced[1])
+    added = sum(int(a) for a, *_ in (l.split('\t') for l in git('diff', '--numstat', gc, 'HEAD', '--', *dirs).splitlines())
+                if a.isdigit())
+    if not added:
+        return None
+    first = git('log', '--reverse', '--format=%ct', f'{gc}..HEAD', '--', *dirs).split()
+    since = int(first[0]) if first else gt
+    age = (datetime.now(timezone.utc).timestamp() - since) / 60
+    when = datetime.fromtimestamp(gt, timezone.utc).strftime('%H:%M UTC %d %b')
+    flag = '⚠️ **graph sync overdue**' if age > GRAPH_SYNC_GRACE_MIN else 'graph sync pending'
+    return (f'- {flag}: {added:,} Lean lines landed in `{"`, `".join(dirs)}` since the proof graph was last synced '
+            f'({when}); the meter counts only recorded nodes, so it undercounts until the sync lands.')
+
+
 # Manifest id prefix of each track's frozen anchors.
 ANCHOR_PREFIX = {'K': 'kam', 'I': 'iso', 'N': 'nekhoroshev', 'P': 'planetary'}
 
@@ -869,6 +900,7 @@ def w_glance():
             f'u_tt = u_xx − m u − u³ on [0, π] (Pöschel 1996) · **{pct:.0f} %**',
             f'- Statements: {stmt} · blueprint milestones written: {len(written)} / {len(W_MILESTONES)} '
             f'({", ".join(written) or "none"}) · proof graph: {gtxt} · `KAM/Wave`: {n} modules, {lines:,} lines',
+            *([lag] if (lag := graph_sync_lag('W')) else []),
             *([f'- **Now:** {campaign["w"]["now"]}'] if campaign.get('w', {}).get('now') else [])]
 
 
@@ -925,6 +957,7 @@ def lp_glance():
             f'(1+n)-body problem has no orbit crossing for a time exp(c μ^(−1/(2(τ+1)))), with no hypothesis on its '
             f'(possibly chaotic) secular dynamics · **{pct:.0f} %**',
             f'- Stages: {reached} · {pk} · `KAM/Planetary/StrongAMD` and `Spatial`: {n} modules, {lines:,} lines',
+            *([lag] if (lag := graph_sync_lag('LP')) else []),
             *([f'- **Now:** {campaign["lp"]["now"]}'] if campaign.get('lp', {}).get('now') else [])]
 
 

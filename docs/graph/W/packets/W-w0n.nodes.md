@@ -201,8 +201,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
 LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.wave_algebra (KAM/Wave/Algebra/Algebra.lean)
-LEAN_NOTE: W1-ALGEBRA audit 1 PASS WITH NOTES; algebra inequality proved; the identity K_{3/2}^2 = 8(1+2 zeta(3)) not exported
+LEAN_REF: KAM.Wave.wave_algebra, KAM.Wave.waveAlgConst_three_halves_sq, KAM.Wave.waveCubicConst_one (KAM/Wave/Algebra/Algebra.lean, KAM/Wave/Normal/Analysis/CubicHeadline.lean)
+LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: the identity K_(3/2)^2 = 8(1+2 zeta(3)) is proved by waveAlgConst_three_halves_sq (Normal/Analysis/CubicHeadline.lean:46-58) and used by waveCubicConst_one (finding A); exported: the algebra inequality and absolute convergence wave_algebra (W1-ALGEBRA audit 1 PASS WITH NOTES); candidate PROVED with the corrected reference (audit finding A)
 NOTE: -
 
 NODE: stepW:w0n:weight
@@ -228,8 +228,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: KAM.Wave.wave_weight_ineq, KAM.Wave.waveJap_sub_le, KAM.Wave.wave_algebra (KAM/Wave/Algebra/Algebra.lean)
+LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: the step is a separate theorem wave_weight_ineq (Algebra/Algebra.lean:48-74, exponential triangle inequality plus waveJap_sub_le), invoked by wave_algebra at line 102; after unfolding waveTwoWeight it is the W0 weight inequality (finding A); candidate PROVED with the corrected reference (audit finding A)
 NOTE: -
 
 NODE: stepW:w0n:young
@@ -255,9 +255,9 @@ EDGE: bpW:w1:young | blueprint-W/parts/w0-normalization.tex#stepW:w0n:young@L110
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.wave_algebra (KAM/Wave/Algebra/Algebra.lean)
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): step not separately formalized; Young and Cauchy-Schwarz are applied inside wave_algebra; previous status NOT_STARTED
 NOTE: -
 
 NODE: bpW:w0n:cubic-bound
@@ -444,9 +444,9 @@ EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:for
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: PARTIAL
+LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.wave_force_identity, KAM.Wave.summable_abs_sqrtLam_waveCubic, KAM.Wave.waveSineSeries_tendstoUniformly, KAM.Wave.wave_sineModeIter_two, KAM.Wave.wave_pde_identity, KAM.Wave.iteratedDeriv_waveSineSeries (KAM/Wave/Normal/Analysis/PdeForce.lean, KAM/Wave/Normal/Analysis/SineSeries.lean, KAM/Wave/Normal/Analysis/PdeForward.lean)
-LEAN_NOTE: W0-ANALYSIS audit 1 PASS WITH NOTES (N2): first identity U_m(q)^3 = sum sqrt(lambda_l) G_q(q)_l phi_l proved pointwise on [0,pi] with uniform convergence; second identity -d_x^2 U_m(q) + m U_m(q) = U_m(lambda^2 q) only coefficientwise inside wave_pde_identity, no standalone export
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the second identity -d_x^2 U + m U = U(lambda^2 q) is used only coefficientwise inside wave_pde_identity, which is what the PROVED consumer stepW:w2:fcub needs; exported: the force identity U^3 = sum sqrt(lambda_l) G_q(q)_l phi_l with uniform convergence (W0-ANALYSIS audit 1 PASS WITH NOTES); previous status PARTIAL
 NOTE: -
 
 NODE: bpW:w0n:nonres
@@ -561,9 +561,9 @@ EDGE: bpW:w0:H | blueprint-W/parts/w0-normalization.tex#bpW:w0n:Qdef@L274-L274 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.resonantQuarticPart, KAM.Wave.tangentialQuarticTuple, KAM.Wave.normalQuarticTuple, KAM.Wave.quarticDivisor, KAM.Wave.normQuarticCoeff (KAM/Wave/Normal/ResonantPart.lean)
-LEAN_NOTE: W0-NORMAL audit 2 PASS WITH NOTES; bar G defined as the genuine resonant projection for finitely many modes (Fin N) only; infinite-mode/weighted-space version absent (F2 open); no unfiltered G^nor functional and no partial normal form Lambda + bar G + G^nor constructed (normalQuarticTuple is a resonance-filtered predicate); W3 two-sided analogue is birkBarSet/birkCoefBar (W3-SETTING); candidate bridge: W3 birkQuartP_bar (KAM/Wave/Birkhoff/QuartBarAlg.lean, audited PASS) gives the infinite-mode complex bar G formula; equivalence with this node not yet checked
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.resonantQuarticPart, KAM.Wave.tangentialQuarticTuple, KAM.Wave.normalQuarticTuple, KAM.Wave.quarticDivisor, KAM.Wave.normQuarticCoeff, KAM.Wave.birkCoefBar, KAM.Wave.birkBarSet, KAM.Wave.birkQuartP_bar, KAM.Wave.birkHamBar, KAM.Wave.birkHamNor (KAM/Wave/Normal/ResonantPart.lean, KAM/Wave/Birkhoff/QuartPaired.lean, KAM/Wave/Birkhoff/QuartBarAlg.lean, KAM/Wave/Birkhoff/MainQuart.lean)
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the sealed route uses the W3 two-sided infinite-mode normal form (birkBarSet, birkCoefBar, birkHamBar, birkHamNor, birkQuartP_bar) instead of the W0 finite-mode construction; exported: finite-mode resonant projection resonantQuarticPart and tuple filters (W0-NORMAL audit 2 PASS WITH NOTES); previous status PARTIAL
 NOTE: -
 
 NODE: bpW:w0n:AB
@@ -593,9 +593,9 @@ EDGE: stepW:w0n:sum | blueprint-W/parts/w0-normalization.tex#bpW:w0n:AB@L301-L30
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.resonantQuarticPart_tangential_eq, KAM.Wave.avgG_eq, KAM.Wave.partial_avgG_eq, KAM.Wave.actionA, KAM.Wave.actionB, KAM.Wave.actionA_eq (KAM/Wave/Normal/ResonantPart.lean, KAM/Wave/Normal/ActionCoeff.lean, KAM/Wave/Normal/Nondegeneracy.lean)
-LEAN_NOTE: W0-NORMAL audit 1 FAIL (F1,F2), audit 2 PASS WITH NOTES for the finite-mode repair; proved: bar G = (1/2)<AI,I> + <BI,Z> for finitely many modes on polar points z_j = sqrt(I_j) e^{-i phi_j} (I,Z >= 0), corrected A,B, equivalent matrix form, and avgG for finitely many modes; not covered (F2): infinite-mode extension and arbitrary complex coordinates; follow-on package queued per landing note (W3-SETTING birkQuartP_bar proves a two-sided complex analogue, see ambiguity list); candidate bridge: W3 birkQuartP_bar (KAM/Wave/Birkhoff/QuartBarAlg.lean, audited PASS) gives the infinite-mode complex bar G formula; equivalence with this node not yet checked; (mapping inferred)
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.resonantQuarticPart_tangential_eq, KAM.Wave.avgG_eq, KAM.Wave.partial_avgG_eq, KAM.Wave.actionA, KAM.Wave.actionB, KAM.Wave.actionA_eq, KAM.Wave.birkQuartP_bar, KAM.Wave.birkHamBar_birkZR (KAM/Wave/Normal/ResonantPart.lean, KAM/Wave/Normal/ActionCoeff.lean, KAM/Wave/Normal/Nondegeneracy.lean, KAM/Wave/Birkhoff/QuartBarAlg.lean, KAM/Wave/Birkhoff/MainRealId.lean)
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the infinite-mode formula used downstream is the W3 birkQuartP_bar / birkHamBar_birkZR (audited PASS) with the corrected A, B of actionA_eq; the W0 finite-mode theorem is not extended; exported: finite-mode bar G = (1/2)<AI,I> + <BI,Z>, corrected A, B, matrix form and avgG (W0-NORMAL audit 2 PASS WITH NOTES); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w0n:resavg
@@ -624,9 +624,9 @@ EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#stepW:w0n:resavg
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.signBalanced_of_resonant, KAM.Wave.signBalanced_sum_zero, KAM.Wave.signBalanced_iff, KAM.Wave.resonantQuartic_term_eq, KAM.Wave.resonantQuarticPart_polar, KAM.Wave.resonantQuarticReal_all, KAM.Wave.resonantQuarticReal_split (KAM/Wave/Normal/ResonantBalance.lean, KAM/Wave/Normal/ResonantPart.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w0n:AB; W0-NORMAL audit 2 PASS for finite modes (resonant iff balanced via quartic_nonresonance, phase-independence, resonant part = avgG); the extension 'by the absolutely convergent formula' beyond finitely supported q is not formalized (F2); candidate bridge: W3 birkQuartP_bar (KAM/Wave/Birkhoff/QuartBarAlg.lean, audited PASS) gives the infinite-mode complex bar G formula; equivalence with this node not yet checked
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.signBalanced_of_resonant, KAM.Wave.signBalanced_sum_zero, KAM.Wave.signBalanced_iff, KAM.Wave.resonantQuartic_term_eq, KAM.Wave.resonantQuarticPart_polar, KAM.Wave.resonantQuarticReal_all, KAM.Wave.resonantQuarticReal_split, KAM.Wave.birkQuartP_bar (KAM/Wave/Normal/ResonantBalance.lean, KAM/Wave/Normal/ResonantPart.lean, KAM/Wave/Birkhoff/QuartBarAlg.lean)
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the infinite-mode extension is supplied by the W3 route (birkQuartP_bar) instead of extending the W0 average; exported: resonant iff balanced, phase independence and resonant part = avgG for finitely many modes (W0-NORMAL audit 2 PASS); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w0n:moments
@@ -744,9 +744,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:det@L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta-W-w0n
 REVIEWER: sol-delta2-W-w0n
-LEAN_STATUS: PARTIAL
+LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.det_actionA, KAM.Wave.actionA_eq (KAM/Wave/Normal/Nondegeneracy.lean)
-LEAN_NOTE: step of parent bpW:w0n:nondeg; W0-NORMAL audit 1 PASS for the determinant of the two-mode action matrix (det_actionA, actionA_eq); NOT formalized: the parenthetical general-n identity det(4 11^T - Id_n) = (-1)^{n-1}(4n-1)
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the general-n identity det(4 11^T - Id_n) is a parenthetical remark; the PROVED consumer bpW:w0n:nondeg needs only n = 2; exported: det_actionA for the two-mode action matrix (W0-NORMAL audit 1 PASS); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w0n:A2
@@ -888,9 +888,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:birkhoff
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.quarticGComplex, KAM.Wave.quarticG_eq_complex, KAM.Wave.sum_quarticMonomial, KAM.Wave.quarticMonomial, KAM.Wave.conjSelect, KAM.Wave.quarticDivisor, KAM.Wave.tangentialQuarticTuple, KAM.Wave.normalQuarticTuple (KAM/Wave/Normal/ResonantPart.lean)
-LEAN_NOTE: definition formalized by W0-NORMAL for finitely many modes only; W0-NORMAL audit 2 PASS (Gz expansion with 1/16, divisor, tangential/normal tuple split); infinite-mode expansion and an unfiltered G^nor functional absent (F2; audit 2 line 39); candidate bridge: W3 birkQuartP_bar (KAM/Wave/Birkhoff/QuartBarAlg.lean, audited PASS) gives the infinite-mode complex bar G formula; equivalence with this node not yet checked
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.quarticGComplex, KAM.Wave.quarticG_eq_complex, KAM.Wave.sum_quarticMonomial, KAM.Wave.quarticMonomial, KAM.Wave.conjSelect, KAM.Wave.quarticDivisor, KAM.Wave.tangentialQuarticTuple, KAM.Wave.normalQuarticTuple, KAM.Wave.birkQuartForm, KAM.Wave.birkCoefTan, KAM.Wave.birkCoefNor, KAM.Wave.birkNormalSet, KAM.Wave.birkQuartP_normal (KAM/Wave/Normal/ResonantPart.lean, KAM/Wave/Birkhoff/QuartForm.lean, KAM/Wave/Birkhoff/QuartBarAlg.lean, KAM/Wave/Birkhoff/QuartNormal.lean)
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the infinite-mode quartic expansion and the tangential/normal split used downstream are the W3 objects (birkQuartForm, birkCoefTan, birkCoefNor, birkNormalSet, birkQuartP_normal); exported: finite-mode Gz expansion with 1/16, divisor and tuple split (W0-NORMAL audit 2 PASS); previous status PARTIAL
 NOTE: Unlabelled prose L260-L270 (with the display bpW:w0n:Gz) that fixes data consumed by Qdef, AB and formal-birkhoff (SPEC section-data rule).
 
 NODE: bpW:w0n:nondeg-sec#data

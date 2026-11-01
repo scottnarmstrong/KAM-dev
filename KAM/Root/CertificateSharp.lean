@@ -161,6 +161,7 @@ public import KAM.CertificateSharp.V2.Tests.Forced.MicroPackedData
 public import KAM.CertificateSharp.V2.Tests.Forced.MicroPackedFrames
 public import KAM.CertificateSharp.V2.Tests.Forced.MicroPackedGram
 public import KAM.CertificateSharp.V2.Tests.Forced.MicroPackedTors
+public import KAM.CertificateSharp.V2.Tests.Forced.MicroReading
 public import KAM.CertificateSharp.V2.Tests.Forced.MicroRotBase
 public import KAM.CertificateSharp.V2.Tests.Forced.MicroRotChecksA
 public import KAM.CertificateSharp.V2.Tests.Forced.MicroRotChecksB

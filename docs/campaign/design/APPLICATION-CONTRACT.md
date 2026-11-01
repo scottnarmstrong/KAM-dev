@@ -9,6 +9,13 @@ LG00 modules are not built in this worktree). No application certificate is clai
 Revised by V2-ADAPT-FIX after AUDIT-V2-ADAPT-1: torus invariance (`Invariance`), the real-torus
 checks (`checkAngleGraphReal`, `checkActionRangeReal`), `IsFieldTransport.const_mul` (SO-3 clock),
 dot-notation names, and the probes (`Tests/Probes`).
+Extended by V2-CLOCKGRAPH (branch `v2-clockgraph`): the qualitative graph notion
+`IsAnalyticAngleGraph` (`AngleGraph`) and the **clock-triangular graph adapter** of the Moon's
+spin–orbit tori (`ClockGraph`, `ClockGraphCert`, `ClockGraphCheck`, `Tests/ClockGraph`; §2.4), with
+the adoption recipe for SO-2/SO-3 (§3.1, §3.2).
+Extended by V2-GRAPHBRIDGE (branch `v2-graphbridge`, after AUDIT-V2-CLOCKGRAPH-1): the bridge from
+both graph adapters to the core confinement's `GraphTorus` (`GraphBridge`, `Tests/GraphBridge`;
+§2.5), and the audit nits N1–N3 (§2.4, §3.1).
 
 ## 1. What a certified application must supply
 
@@ -21,8 +28,8 @@ system. Each row names what must be written down and the Lean object that carrie
 | **Coordinates** | Chart, valid domain, symplectic identity or justified time change | the chart `Ψ : ℝⁿ × ℝⁿ → E`, its open model domain `O`, and the transport identity `IsFieldTransport Ψ Hc F κ O` (`DΨ X_{Hc} = κ F ∘ Ψ` on `O`; `κ` the clock); from a conformally symplectic chart by `isFieldTransport_of_isChart` |
 | **Approximation** | Fourier/model truncation and rigorous remainder budgets | the certificate's exact Hamiltonian expression `c.ham` (`c.H = c.ham.eval`) and the identity `Hc = Re c.H` on `O` (`hHc`); a truncated or approximate model is a *different* exact model, and its relation to the physical one is a separate theorem |
 | **Frequency** | Exact target, enclosure and infinite Diophantine witness | `ωstar : Fin n → ℝ` exact; `FreqEncloses n c.freqBox ωstar`; `IsDiophantine γ τ ωstar` (proved, e.g. quadratic/cubic constructions); the torus frequency is `s∞ ωstar`, `CertifiedTorusAt.isDiophantine`, `abs_sub_mul_norm_le` |
-| **Certificate** | Candidate, route, witness, checked margins and replay receipts | `c : TorusCertificate n α`, a certifier (landed `checkTorusCertificate`, v2 `checkTorusCertificateV2 E`, hybrid …) whose soundness gives `CertifiedTorus c ωstar`; the adapter checks `checkStatic`, `checkHamBounds`, `checkAngleGraphReal c δ` (or the conservative strip `checkAngleGraph c δ`), `checkActionRangeReal c i ctr r` (or `checkActionRange`) |
-| **Physical output** | Observable bounds, initial set, quantifiers, time interval | `IsPhysicalFlowTorus F ν (Ψ ∘ k)` (every torus line `τ ↦ L(θ + τν)` solves `ż = F z` for all real `τ`) and its invariance (`IsPhysicalFlowTorus.mem_range_of_solution`, `isInvariantSet`: every solution meeting the torus stays on it, `F` of class `C¹` near the torus), energy level `H_phys = E₀/a`, `IsAngleGraph` (graph over the angles), observable enclosures (`observable_bounds`, `abs_action_sub_ctr_le_real`, `IsPhysicalFlowTorus.forall_solution`) |
+| **Certificate** | Candidate, route, witness, checked margins and replay receipts | `c : TorusCertificate n α`, a certifier (landed `checkTorusCertificate`, v2 `checkTorusCertificateV2 E`, hybrid …) whose soundness gives `CertifiedTorus c ωstar`; the adapter checks `checkStatic`, `checkHamBounds`, `checkAngleGraphReal c δ` (or the conservative strip `checkAngleGraph c δ`), `checkActionRangeReal c i ctr r` (or `checkActionRange`); with a clock: `checkClock c i a` and `checkClockGraphReal c i mono` (or the SOS `checkClockGraph c i mono mono₀ sos`) |
+| **Physical output** | Observable bounds, initial set, quantifiers, time interval | `IsPhysicalFlowTorus F ν (Ψ ∘ k)` (every torus line `τ ↦ L(θ + τν)` solves `ż = F z` for all real `τ`) and its invariance (`IsPhysicalFlowTorus.mem_range_of_solution`, `isInvariantSet`: every solution meeting the torus stays on it, `F` of class `C¹` near the torus), energy level `H_phys = E₀/a`, `IsAngleGraph` or, with a clock, `IsClockAngleGraph` (graph over the angles; both give `IsAnalyticAngleGraph`, and for `n = 2` a confinement `GraphTorus` by `GraphBridge`), observable enclosures (`observable_bounds`, `abs_action_sub_ctr_le_real`, `IsPhysicalFlowTorus.forall_solution`) |
 
 The hub is **`CertifiedTorusAt c ω* K∞ s∞`** (`KAM/Application/Certified.lean`): the body of
 `CertifiedTorus` with the exact torus `K∞` and the scalar `s∞` named
@@ -34,7 +41,8 @@ case, verbatim.)
 
 ## 2. The adapters (`KAM/Application/`)
 
-Module map (all core, additive, under 350 lines each):
+Module map (all core, additive, under 350 lines each; the last four rows and `AngleGraph` are
+V2-CLOCKGRAPH's):
 
 | Module | Content |
 |---|---|
@@ -50,6 +58,13 @@ Module map (all core, additive, under 350 lines each):
 | `Observables` | `abs_sub_le_of_convex`, `forall_orbit` (along torus lines only), `CertifiedTorusAt.observable_bounds`, `abs_angle_sub_le`, `abs_action_sub_le`, `norm_fderiv_realRestriction_sub_le`, `norm_physFreq_sub_le`, `checkActionRangeReal`/`checkActionRange` with `abs_action_sub_ctr_le_real`/`abs_action_sub_ctr_le`, `realInclusion₂_realRestriction_K_mem_D` |
 | `Tests/Toy2` | the whole chain on the toy T2 through the `2π` chart (`toyCert2_physical`, via `CertifiedTorusAt.physical`) |
 | `Tests/Probes` | negative cases of every check, nonzero angle data (real vs strip), `physical`/`physical_energy`/`const_mul`/`observable_bounds` on T2 (no chart layer) |
+| `AngleGraph` | pure: `IsAnalyticAngleGraph k` (the graph property without a near-identity constant), `isAnalyticAngleGraph_of_bijective` (bijective angle map with invertible derivative; inverse function theorem), `homeomorphOfAnalytic`, `analyticOnNhd_invFun_of_bijective`, accessors (`angleHomeomorph`, `k_invFun`, `continuous_angleInv`, `continuous_graph`, `mem_range_iff`), `IsAngleGraph.isAnalyticAngleGraph` |
+| `ClockGraph` | pure: `IsClockTriangular A i c m` (clock rows `A θ l = θ l + c l`, `l ≠ i`; `∂_i A_i ≥ m > 0`), `abs_slice_le`, `injective`, `surjective`, `fderiv_injective`, `invFun_clock`; `IsClockAngleGraph k i c m`, `isClockAngleGraph_of_clock` |
+| `ClockGraphCert` | `invarianceError_ofReal_mul`, `ClockMono c i m`, `CertifiedTorusAt.clock` (clock lemma with slope `a`), `CertifiedTorusAt.le_fderiv_torusAngle` (Cauchy transfer of the diagonal), `CertifiedTorusAt.isClockAngleGraph`, `KAM.Certificate.CertifiedTorus.exists_clockGraph` (certified hypotheses satisfiable only for `n = 2`, see §2.4 *Scope*) |
+| `ClockGraphCheck` | `actionSlope`, `eval_add_action`, `checkClock`, `checkClock_sound`; `clockDiagModel`, `checkClockGraph` (SOS, the SO form), `checkClockGraphReal` (real torus), their soundness; `KAM.Certificate.CertifiedTorus.exists_clockGraph_of_checks` (only for `n = 2`, as above) |
+| `Tests/ClockGraph` | clock check on T2 and fail-closed shapes; diagonal checks on probe data (off-diagonal mode: near-identity check fails, clock checks pass); the full chain on the certified T2 (`toyCert2_clockGraph`, `s∞ = 2`) |
+| `GraphBridge` | `IsAnalyticAngleGraph.toGraphTorus`, `.toGraphTorusOfModel`, `IsAngleGraph.toGraphTorus`, `.toGraphTorusOfModel`, `IsClockAngleGraph.toGraphTorusOfModel`: either graph adapter gives a `Confinement.GraphTorus` (`n = 2`) for `twoTorus_confinement` |
+| `Tests/GraphBridge` | a near-identity torus and a sheared clock torus (`∂₀A₁` up to `6π`, `shear_not_derivNearId`) feed one `twoTorus_confinement` (`bridge_confined`); the certified T2 as a `GraphTorus` through both adapters |
 
 ### 2.1 Graph/embedding adapter — the checkable condition
 
@@ -169,8 +184,158 @@ From an enclosure of the certificate's own real torus `Re K ∘ ι` (numerical d
 These bound observables **on the torus**. In dimension `n ≥ 3` one torus does not enclose a region of
 its energy surface: bounds for uncertain initial conditions need families of tori, extra geometry
 or finite-time stability (programs B–D). For `n = 2` (two degrees of freedom), two tori on one energy
-level bound a region of it; that confinement argument is LG00-CONF's (`LG00.Confinement.*`), which
-consumes `IsAngleGraph` and `IsRealModelTorus`.
+level bound a region of it; that confinement argument is the core's
+`KAM.Application.Confinement.twoTorus_confinement` (landed from LG00-CONF), which takes its tori as
+`Confinement.GraphTorus`; both graph adapters produce one through `GraphBridge` (§2.5).
+
+### 2.4 Clock-triangular graph adapter (`AngleGraph`, `ClockGraph*`)
+
+`AngleNearId` bounds whole rows of `DU`. In an extended phase space with a **clock** (an action
+`I_l` with `∂_{I_l} H ≡ a` constant: periodically forced systems, e.g. the Moon's spin–orbit
+problem), the clock lemma `KAM.Certificate.clock_frequency` makes the clock angle of the exact
+torus exact, `A_l(θ) = θ_l + c_l`; then `DA` is triangular and only the diagonal entry
+`∂_i A_i` of the free row matters. No bound on the off-diagonal entries `∂_l U_i` is needed.
+
+**The graph notion** (`AngleGraph`). `IsAnalyticAngleGraph k` is the qualitative content of
+`IsAngleGraph` without the constant `L`: `k` analytic; `A = torusAngle k` bijective, commuting
+with `ℤⁿ`, with analytic inverse and `DA(θ)` injective for every `θ`; `eq_graph`, `range_eq`,
+`graph_add_int`, `analytic_graph` (`G = torusGraph k`); `injective_mod`; `immersion`. The general
+constructor `isAnalyticAngleGraph_of_bijective` needs an analytic `k` with
+`k(θ + m) = k θ + (m, 0)`, a bijective `A` and `DA` injective everywhere (the inverse is
+continuous because `A` is an open map, `isOpenMap_of_hasStrictFDerivAt_equiv`, and analytic by
+`Homeomorph.contDiff_symm` at order `ω`). `IsAngleGraph.isAnalyticAngleGraph` (given analytic `k`)
+shows that the near-identity adapter lands in the same notion, so a consumer can take
+`IsAnalyticAngleGraph` and accept either adapter. Not included: bi-Lipschitz constants (the
+clock criterion gives only the slice bound below).
+
+**The pure criterion** (`ClockGraph`). `IsClockTriangular A i c m`: `A : ℝⁿ → ℝⁿ`
+differentiable, `A(θ + m) = A θ + m` (`m ∈ ℤⁿ`), `A θ l = θ l + c l` for every `l ≠ i`, and
+`m ≤ ∂_i A_i(θ)` with `0 < m`. Then `A` is bijective (injective by the slice bound
+`m |s' - s| ≤ |A_i(θ + s' eᵢ) - A_i(θ + s eᵢ)|` (`abs_slice_le`) once the clock components agree;
+surjective by intermediate values on the line with `A_i(θ + eᵢ) = A_i(θ) + 1`), `DA(θ)` is
+injective (triangular, diagonal `≥ m` and `1`), and `A⁻¹(φ)_l = φ_l - c_l` (`invFun_clock`).
+`IsClockAngleGraph k i c m` is `IsAnalyticAngleGraph k` plus `IsClockTriangular (torusAngle k) i
+c m`; `isClockAngleGraph_of_clock` builds it from an analytic `k` with `k(θ + m) = k θ + (m, 0)`,
+the clock rows and the diagonal bound.
+
+**Certificate level** (`ClockGraphCert`). The checkable diagonal condition is
+
+* **`ClockMono c i m`**: `m ≤ Re (DK(ι x) eᵢ)_{θ,i}` for every real `x` (the certificate's own
+  `K`), and **the margin** `disp < m ρ∞`.
+
+`CertifiedTorusAt.clock`: if `∂_{I_l} c.H = a > 0` on `c.D` and `ω*` is `(γ, τ)`-Diophantine
+(`γ > 0`; an input of every certifier's soundness theorem), then `s∞ ω*_l = a` and
+`A_l(θ) = θ_l + c_l` (the clock lemma applied to `a⁻¹ c.H` at `a⁻¹ s∞ ω*`, via
+`invarianceError_ofReal_mul`). `CertifiedTorusAt.le_fderiv_torusAngle`: Cauchy on `T_{ρ∞}` moves
+`ClockMono c i m` to `∂_i A_i ≥ m - disp/ρ∞` (the single-entry case of
+`norm_fderiv_sub_le_of_real`). Together (`CertifiedTorusAt.isClockAngleGraph`,
+`CertifiedTorus.exists_clockGraph`), with every `l ≠ i` a clock:
+`IsClockAngleGraph (realRestriction K∞) i c' (m - disp/ρ∞)`, `m - disp/ρ∞ > 0`.
+
+**Checks** (`ClockGraphCheck`):
+
+* **`checkClock c i a`**: `0 < a` and `actionSlope l c.ham = some a` for every `l ≠ i`.
+  `actionSlope l` is syntactic: `.action j` has slope `1` if `j = l` else `0`; constants, `π` and
+  modes `0`; sums add; `.mul (.const q) e` has `q ·` the slope of `e`; every other constructor
+  (products, quotients, powers, `exp`, `sin`, `cos`, `sqrt`) needs operands of slope `0`.
+  Sound: `eval_add_action` (`H(z + t e_{I_l}) = H(z) + a t` for complex `t`), hence
+  `∂_{I_l} H = a` wherever `H` is holomorphic (`checkClock_sound`, from `IsRealHolo c.D c.H`).
+  It recognises `soHamExpr` (slope `1`), `soRotHamExprScaled c` (slope `c`) and
+  `κ · lockHamExpr Ω cs` (slope `κ`; checked on concrete `Ω, cs`); a constant *right* factor or
+  a product of actions fails closed.
+* **`checkClockGraphReal c i mono`** (use this one when `ρ` is large): the margin
+  `disp < mono ρ∞` and `sup_{x ∈ ℝⁿ} |∂_i U_i(x)| ≤ 1 - mono`, the bound being the unconverted
+  derivative model `angleDerivModel n c.emb c.weight i i` at weight `1`, i.e.
+  `(2π)^{d+1} Σ_k |k_i| |c_k|` (rounded up). Sound: `checkClockGraphReal_sound`.
+* **`checkClockGraph c i mono mono₀ sos`** (the spin–orbit form): the margin and
+  `checkRealLowerBound c.weight c.cfgLow (clockDiagModel n c.emb c.weight c.piEnc i) mono₀ mono
+  sos`, a paid SOS lower bound of `Re ∂_i K_{θ,i}` on the real torus; its residual is measured in
+  the strip weight, so it is conservative for large `ρ` (on T2, `ρ = 9`, it fails with an empty
+  witness where the real check passes). Sound: `checkClockGraph_sound`.
+
+The fully checked form:
+
+```lean
+theorem KAM.Certificate.CertifiedTorus.exists_clockGraph_of_checks
+    {c : TorusCertificate n α} {ωstar : Fin n → ℝ} (hT : CertifiedTorus c ωstar)
+    (hs : checkStatic c = true) (hh : checkHamBounds c = true) {i : Fin n} {a : ℚ}
+    (hclk : checkClock c i a = true) {γ τ : ℝ} (hγ : 0 < γ) (hdio : IsDiophantine γ τ ωstar)
+    {mono : ℚ}
+    (hg : checkClockGraphReal c i mono = true ∨
+      ∃ (mono₀ : ℚ) (sos : CertPoly α), checkClockGraph c i mono mono₀ sos = true) :
+    ∃ (Kinf : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (sinf : ℝ),
+      CertifiedTorusAt c ωstar Kinf sinf ∧
+      IsRealModelTorus (realHam c.H) (sinf • ωstar) c.params.E0 (realRestriction Kinf) ∧
+      (∀ l, l ≠ i → sinf * ωstar l = a) ∧ ∃ cc : Fin n → ℝ,
+      IsClockAngleGraph (realRestriction Kinf) i cc
+        ((mono : ℝ) - (c.params.disp : ℝ) / c.params.rhoInf)
+```
+
+(`CertifiedTorus.exists_clockGraph` is the same with `IsRealHolo c.D c.H`, the clock hypotheses
+`∂_{I_l} c.H = a` on `c.D` and `ClockMono c i m` as `Prop`s, e.g. for an entire `H` without
+`checkHamBounds`.)
+
+Scope: for `n ≥ 3`, two clocks have the same frequency `a`, so `s∞ ω*` is resonant
+(`k = e_l - e_{l'}`) and the Diophantine hypothesis fails: the certified adapter is of use for
+`n = 2` (one clock, one free angle). The pure layer holds for every `n`. This applies to each
+certified statement: `CertifiedTorusAt.clock` is fine for any `n` (one clock), but
+`CertifiedTorusAt.isClockAngleGraph`, `KAM.Certificate.CertifiedTorus.exists_clockGraph` and
+`KAM.Certificate.CertifiedTorus.exists_clockGraph_of_checks` (every `l ≠ i` a clock) have
+satisfiable hypotheses only for `n ≤ 2`. (AUDIT-V2-CLOCKGRAPH-1 N2: the landed docstrings of
+`ClockGraphCert.lean` and `ClockGraphCheck.lean` do not repeat this, and landed `.lean` files are
+not edited; the caveat lives here and in the module docstring of `GraphBridge.lean`.)
+
+Beyond near-identity (N3): `Tests/GraphBridge` proves `IsClockAngleGraph (shearK c) 1 0 1` for the
+sheared parametrization `A(θ) = (θ₀, θ₁ + 3 sin 2πθ₀)` of a flat torus, whose off-diagonal entry
+`∂₀A₁ = 6π cos 2πθ₀` reaches `6π`, and `shear_not_derivNearId`: no `DerivNearId` bound with
+`L < 1` holds for it. A *certified* torus with a large off-diagonal `∂_l U_i` is not available
+cheaply (for an integrable toy the exact torus at a Diophantine frequency has constant `U`), so
+this case is tested at the pure level.
+
+Tests (`Tests/ClockGraph`, `decide +kernel`, 2.4 s, 1.8 GB): `checkClock toyCert2 0 1` (T2:
+`H = I₁ + I₀²/2`) and its fail-closed variants; on T2's data with one mode added to `U₀`:
+the off-diagonal mode `k = (0, 1)`, `a = 1/10` (`sup |∂₁ U₀| = 4π/10 > 1`) fails
+`checkAngleGraphReal` at `δ = 0.99` and passes both clock checks at `mono = 0.99`; the diagonal
+mode `k = (1, 0)`, `a = 1/100` passes the real check at `mono = 4/5`, fails it at `9/10`, and fails
+the SOS check at `4/5`; `mono = 0` fails the margin. Full chain: `toyCert2_clockGraph` (exact
+torus of T2 at `s∞ = 2`, clock-triangular graph with free angle `0`, diagonal
+`≥ 99/100 - disp/ρ∞`), through either diagonal check.
+
+### 2.5 Bridge to the confinement (`GraphBridge`)
+
+The core confinement (`KAM.Application.Confinement.twoTorus_confinement`, two degrees of freedom,
+`Phase = ℝ² × ℝ²`) takes its tori as `GraphTorus V H E lo hi`: `k`, a continuous two-sided inverse
+`Θ` of the angle map, the linear flow `s ↦ k(θ + s ν)` of `V`, the level `H ∘ k = E`, the action
+box `(k θ).2 ∈ [lo, hi]`. `GraphBridge` produces it from either graph adapter, with
+`Θ = A⁻¹ = invFun (torusAngle k)`:
+
+```lean
+def IsAnalyticAngleGraph.toGraphTorus (hG : IsAnalyticAngleGraph k) (ν : Fin 2 → ℝ)
+    (hflow : ∀ θ t, HasDerivAt (fun s : ℝ => k (θ + s • ν)) (V (k (θ + t • ν))) t)
+    (henergy : ∀ θ, H (k θ) = E) (hIcc : ∀ θ, (k θ).2 ∈ Icc lo hi) : GraphTorus V H E lo hi
+def IsAnalyticAngleGraph.toGraphTorusOfModel (hG : IsAnalyticAngleGraph k)
+    (hT : IsRealModelTorus H ω E k) (hIcc : ∀ θ, (k θ).2 ∈ Icc lo hi) :
+    GraphTorus (hamiltonianVectorField H) H E lo hi
+def IsAngleGraph.toGraphTorus (h : IsAngleGraph k L) (hk : AnalyticOnNhd ℝ k univ) ...
+def IsAngleGraph.toGraphTorusOfModel (h : IsAngleGraph k L) (hT : IsRealModelTorus H ω E k) ...
+def IsClockAngleGraph.toGraphTorusOfModel (h : IsClockAngleGraph k i c m)
+    (hT : IsRealModelTorus H ω E k) ...
+```
+
+(simp lemmas `toGraphTorus_k`, `toGraphTorus_Θ`, `toGraphTorus_ν`, `toGraphTorus_graph₁`: the
+first action over `φ` is `torusGraph k φ 0`). For a certified torus: the graph and the real model
+torus from `CertifiedTorus.exists_realGraph_of_checks` or `CertifiedTorus.exists_clockGraph_of_checks`,
+the action box from `CertifiedTorusAt.abs_action_sub_ctr_le_real` (`checkActionRangeReal`), then
+the bridge. The model torus solves `X_{realHam c.H}`; for the confinement's chart Hamiltonian move
+it with `IsRealModelTorus.congr` (equal on an open set containing the torus).
+
+Tests (`Tests/GraphBridge`, 3.2 s, 1.87 GB): `bridge_confined` runs `twoTorus_confinement` on the
+toy `H = −a₂` with the torus `a = (−1/2, 0)` from the near-identity adapter
+(`IsAngleGraph.toGraphTorus`, `L = 0`) and the torus `a = (1/2, 0)` in the sheared parametrization
+from the clock adapter; `toyCert2_graphTorus_clock` and `toyCert2_graphTorus_nearId` make the
+certified T2 a `GraphTorus` of `X_{realHam c.H}` on the level `E₀` with the box
+`[ctr ± (r + disp)]` from two `checkActionRangeReal` checks. (T2 has one certified torus and
+`∂H/∂I₁ = 1 > 0`, so it is not itself run through the confinement.)
 
 ## 3. Instances
 
@@ -186,14 +351,60 @@ consumes `IsAngleGraph` and `IsRealModelTorus`.
 | Physical output | frozen `SoBarrier`, `lunar_barriers`, `lunar_spin_confinement` (`|p(t) - 1| ≤ 2755/100000` for all `t`) via `so_confinement` |
 
 Relation to the adapters: SO's graph check `checkSoGraph` (`mono > disp/ρ∞`, one SOS lower bound of
-`∂_{θ₀} K_{q}`, the action range `[pLo, pHi]`) is the **clock-triangular** special case of the
-graph condition: the second angle is the clock (`clock_frequency`: `φ = θ₁ + c₀`), so only the
-first row needs `∂_{θ₀} Q ≥ m > 0`, which is weaker than `AngleNearId` (no near-identity bound on
-`∂_{θ₁} Q`). Its transfer `soGraph_deriv_transfer` is the single-entry case of
-`norm_fderiv_sub_le_of_real`; its action range is `observable_bounds` for the action coordinate;
-the rotated-frame map is a field transport (complex form `hamiltonianVectorFieldℂ_soRotHC`). An
-integration branch could restate the SO-2 chain through `CertifiedTorusAt` and `IsFieldTransport`;
-nothing in SO-2 needs to change for the adapters to exist.
+`∂_{θ₀} K_{q}`, the action range `[pLo, pHi]`) is the clock-triangular criterion of §2.4 at
+`n = 2`, free angle `i = 0`, clock `1` (`clock_frequency`: `φ = θ₁ + c₀`):
+
+* `soGraphMonoModel g` **is** `clockDiagModel 2 g.base.emb g.base.weight g.base.piEnc 0`
+  (`rfl`), and the first two conjuncts of `checkSoGraph g` are exactly
+  `checkClockGraph g.base 0 g.mono g.mono₀ g.sosMono`;
+* `soGraph_deriv_transfer` is the single-entry case of `norm_fderiv_sub_le_of_real`
+  (`CertifiedTorusAt.le_fderiv_torusAngle`); `SoGraph.graphAbs_sub_le` corresponds to
+  `abs_slice_le`, and `SoGraph.Torus.soGraphInv` (and SO-3's `LockAngle.lockInv`) corresponds to
+  `invFun (torusAngle k)` of `IsClockAngleGraph` (`invFun_clock`: the clock component of the
+  inverse is `φ - c₀`); these are analogues on different carriers (`ℝ → ℝ → ℝ` versus
+  `Fin n → ℝ`), not proved identifications;
+* the clock slope of `soHamExpr` is `1`, of `soRotHamExprScaled c` is `c`
+  (`checkClock g.base 0 c`);
+* the action range is `observable_bounds` for the action coordinate; the rotated-frame map is a
+  field transport (complex form `hamiltonianVectorFieldℂ_soRotHC`).
+
+**Adoption recipe (SO-2).** Compiled on `v2-clockgraph` in a scratch module importing
+`KAM.SpinOrbit.Graph.Cert` and `KAM.SpinOrbit.Rotated` (not committed: the core does not import
+the SO track; the text is in `docs/campaign/handoffs/V2-CLOCKGRAPH.md`):
+
+```lean
+theorem checkClockGraph_of_checkSoGraph {α : Type} [CertArith α] (g : SoGraphCert α)
+    (h : checkSoGraph g = true) : checkClockGraph g.base 0 g.mono g.mono₀ g.sosMono = true := by
+  simp only [checkSoGraph, Bool.and_eq_true] at h
+  simp only [checkClockGraph, Bool.and_eq_true]
+  exact ⟨h.1.1.1, h.1.1.2⟩
+
+theorem checkClock_soRot {α : Type} [CertArith α] (g : SoGraphCert α) {c : ℚ} (hc0 : 0 < c)
+    (hham : g.base.ham = soRotHamExprScaled c) : checkClock g.base 0 c = true := by
+  have h1 : actionSlope 1 (soRotHamExprScaled c) = some c := by
+    simp [soRotHamExprScaled, actionSlope, hamConstVal?, soRot_slope]  -- soRot_slope: decide
+  simp [checkClock, hham, h1, hc0, List.all_cons, List.finRange_succ]
+
+-- a rotated-frame SO-2 certificate through the clock adapter
+example ... (hham : g.base.ham = soRotHamExprScaled c) (hs : checkStatic g.base = true)
+    (hh : checkHamBounds g.base = true) (hg : checkSoGraph g = true)
+    (hT : CertifiedTorus g.base ωstar) (hdio : IsDiophantine γ τ ωstar) :
+    ∃ Kinf sinf, CertifiedTorusAt g.base ωstar Kinf sinf ∧ sinf * ωstar 1 = c ∧
+      ∃ cc, IsClockAngleGraph (realRestriction Kinf) 0 cc (g.mono - disp/ρ∞) := by
+  obtain ⟨Kinf, sinf, hT', -, hf, hG⟩ := hT.exists_clockGraph_of_checks hs hh
+    (checkClock_soRot g hc0 hham) (by exact_mod_cast (checkStatic_sound hs).hγ) hdio
+    (.inr ⟨_, _, checkClockGraph_of_checkSoGraph g hg⟩)
+  exact ⟨Kinf, sinf, hT', hf 1 (by decide), hG⟩
+```
+
+What adoption would change: nothing in the data or in the frozen statements (`checkSoGraph`
+implies `checkClockGraph`, whose model is SO's own, definitionally); a new proof module of the SO track could derive
+`SoBarrier` from `IsClockAngleGraph` (continuous, doubly periodic graph `p = (torusGraph k)(q, φ)`
+with the shear `(x, y) ↦ (x - y, y)` in the rotated frame) and the invariance of §2.2
+(`IsRealModelTorus.isPhysicalFlowTorus_self` or a field transport to `soField`), replacing the
+hand-made inversion `SoGraph.Torus`. If `checkHamBounds` is not at hand, `exists_clockGraph` with
+`isRealHolo_of_nonvanishing` (or `isRealHolo_of_differentiableOn` for the entire `soRotHC`) does
+the same.
 
 ### 3.2 SO-3 (the Moon's synchronous lock; in progress)
 
@@ -234,7 +445,34 @@ form of the lock package's evaluation identity for `lockHamExpr` (the one behind
 `hamiltonianVectorFieldℂ_lockHamExpr_ofRealPt`).
 
 The lock's angle inversion (`LockAngle`, monotone `α` in `θ₀`) is again the clock-triangular graph
-condition.
+condition (§2.4), with clock slope `κ`: `LockGraphCert.graph` is a `SoGraphCert`, so
+`checkClockGraph_of_checkSoGraph g.graph` applies, and
+`actionSlope 1 (.mul (.const κ) (lockHamExpr Ω cs)) = some κ` (by `decide` on the concrete
+`Ω, cs`; a sample `Ω = 1/3`, `cs = [1/2, 1/5]`, `κ = 5/4` was checked). `CertifiedTorusAt.clock`
+then gives `s∞ ω*₁ = κ`, i.e. SO-3's unscaled `(s∞/κ) ω*₁ = 1`. Recipe (compiled in the same
+scratch module with `KAM.SpinOrbit.Lock.Graph`):
+
+```lean
+example (g : LockGraphCert α) (hκ : 0 < g.κ)
+    (hham : g.graph.base.ham = .mul (.const g.κ) (lockHamExpr g.Ω g.cs))
+    (hslope : actionSlope 1 (lockHamExpr g.Ω g.cs) = some 1)   -- `decide` on concrete data
+    (hs : checkStatic g.graph.base = true)
+    (hnv : g.graph.base.ham.NonvanishingOn g.graph.base.D)
+    (hg : checkSoGraph g.graph = true) (hT : CertifiedTorus g.graph.base ωstar)
+    (hdio : IsDiophantine γ τ ωstar) :
+    ∃ Kinf sinf, CertifiedTorusAt g.graph.base ωstar Kinf sinf ∧ sinf * ωstar 1 = g.κ ∧
+      ∃ cc, IsClockAngleGraph (realRestriction Kinf) 0 cc (g.graph.mono - disp/ρ∞) := by
+  have hH := isRealHolo_of_nonvanishing g.graph.base hnv
+  have hclk : checkClock g.graph.base 0 g.κ = true := by
+    have h1 : actionSlope 1 g.graph.base.ham = some g.κ := by
+      simp [hham, actionSlope, hamConstVal?, hslope]
+    simp [checkClock, h1, hκ, List.finRange_succ]
+  obtain ⟨ha, hclock⟩ := checkClock_sound hH hclk
+  obtain ⟨hmono, hm⟩ := checkClockGraph_sound hs (checkClockGraph_of_checkSoGraph g.graph hg)
+  obtain ⟨Kinf, sinf, hT', -, hf, hG⟩ := hT.exists_clockGraph hs hH ha hclock
+    (by exact_mod_cast (checkStatic_sound hs).hγ) hdio hmono hm
+  exact ⟨Kinf, sinf, hT', hf 1 (by decide), hG⟩
+```
 
 ### 3.3 LG00 (secular Sun–Jupiter–Saturn; branch `lg00-cert`, application package to come)
 
@@ -270,9 +508,11 @@ about `e^{2π|k|ρ}` and may fail where the real criterion holds.
 ## 4. Gaps and next steps
 
 * **Weaker graph criteria.** `AngleNearId` asks `‖DU‖ < 1`. The clock-triangular criterion of
-  SO-2/SO-3 (and, in general, invertibility of `DA` everywhere: Hadamard's global inverse theorem,
-  since `A - id` is periodic hence `A` proper) would cover more certificates; neither is in Mathlib
-  in the needed form.
+  SO-2/SO-3 is now in the core (§2.4, V2-CLOCKGRAPH). Still open: invertibility of `DA` everywhere
+  as the only input (Hadamard's global inverse theorem, since `A - id` is periodic hence `A`
+  proper; not in Mathlib — `isAnalyticAngleGraph_of_bijective` takes bijectivity as an input),
+  a general-`n` triangular criterion (one clock, the free block near the identity), and clocks
+  with a constant *right* factor in `actionSlope`.
 * **Real-point sup bounds (done).** `checkAngleGraphReal` and `checkActionRangeReal` bound at the
   real points with weight `1`. What remains conservative: the row bound is `Σ_j sup_x |∂_j U_i|`
   (not `sup_x Σ_j`), and on fixed-point backends the coefficient-rounding radius is still measured
@@ -283,7 +523,7 @@ about `e^{2π|k|ρ}` and may fail where the real criterion holds.
 * **Isotropy.** The frozen planetary `IsPhysicalTorus` also asks the torus to be Lagrangian; the
   adapters do not prove isotropy of the certified torus (true for Diophantine invariant tori; not
   needed by the current applications).
-* **Lift of LG00-CONF.** After `LG00-CONF DONE`, its general two-degree-of-freedom confinement
-  lemma can move to `KAM/Application/` on top of `IsAngleGraph` and `IsRealModelTorus`.
+* **Lift of LG00-CONF (done).** The two-degree-of-freedom confinement is in the core
+  (`KAM.Application.Confinement`); `GraphBridge` (§2.5) connects both graph adapters to it.
 * Parameter families and non-Hamiltonian effects are outside this interface (§7 of the
   improvements note).

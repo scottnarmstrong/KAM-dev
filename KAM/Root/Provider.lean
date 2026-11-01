@@ -29,6 +29,7 @@ public import KAM.Provider.Planetary.SecularBoxSafety
 public import KAM.Provider.Russmann.RussmannKam
 public import KAM.Provider.SpinOrbit.LunarWindow
 public import KAM.Provider.VolumeNotDiophantineLe
+public import KAM.Provider.Wave.Nlw2
 
 /-!
 # Root part `KAM.Root.Provider`

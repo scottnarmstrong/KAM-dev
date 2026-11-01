@@ -4,7 +4,7 @@
 
 Every statement below is an exact Lean declaration that the owner approved before its proof was written. Each lives alone in its own file under `KAM/Frozen/`, and the manifest pins its bytes. A sealed theorem has a complete proof, assembled in a separate provider module, replayed by the kernel, and using only the standard axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
-**31 frozen theorems, 26 sealed; 148 frozen definitions.**
+**31 frozen theorems, 27 sealed; 148 frozen definitions.**
 
 ## Index
 
@@ -413,7 +413,7 @@ The decimal model masses of Figueras--Haro, arXiv:2403.10152v1 §4 p. 6: μ=0.00
 
 ### nlw2
 
-[`KAM.Wave.nlw2`](../KAM/Frozen/Wave/Theorems/Nlw2.lean#L43) · ⬜ not yet
+[`KAM.Wave.nlw2`](../KAM/Frozen/Wave/Theorems/Nlw2.lean#L43) · ✅ proved and sealed
 
 **W-NLW2.** For every `m > 0` the cubic Dirichlet wave equation `u_tt = u_xx - m u - u³` has a density-one (in the actions, at `0`) Borel family of small analytic invariant 2-tori with Diophantine frequencies, carrying exact classical PDE solutions, pairwise disjoint and embedded.
 
