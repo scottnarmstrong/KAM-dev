@@ -1,0 +1,87 @@
+LP-FREEZE8 provider staging for the draft-8 anchors LP3-1, LP3-2 (orchestrator update 2, 2026-11-01). Generated 2026-11-01 09:51 UTC
+Worktree /root/code/KAM-inp-lp-freeze8, branch inp-lp-freeze8, on top of e877f867 (draft-8 texts).
+Generator: .drafts/freeze8/mk_providers8.py (provider text = the draft-8 anchor's exact type text from the same
+records as freeze/draft8/, statement in namespace KAM.Provider.Planetary.{StrongAMD,Spatial}, one-line term proof).
+Nothing under KAM/Frozen/ or manifest/ is created or changed.
+
+1. Files (sha256)
+  956c7e7648eb1c74468344d90038811202ef1738a5ac33f054ad93c1eed9304e  KAM/Provider/Planetary/StrongAMD/PlanarStrongAMDExponentialSafetyNoArith.lean
+  34e337b7af0e90f8e6472acdf2093e68b0add2f2e476e7552c2cc58fe60b0904  KAM/Provider/Planetary/Spatial/SpatialStrongAMDExponentialSafetyNoArith.lean
+  Imports: planar provider: KAM.Planetary.StrongAMD.Nek.PlanarSafety.Source (implementation only).
+           spatial provider: KAM.Planetary.Spatial.Nek.SpatialSafety.Source and KAM.Planetary.Spatial.SourceBarycentric
+           (implementation only; no frozen file, no other provider).
+  Proofs:  lp3_planar_strongAMD_safety_source hn ν hν hνmax hνle A hA hAord δ hδ
+           lp3_spatial_strongAMD_safety_source hn ν hν hνmax hνle A hA hAord δ hδ
+           (the r1 source barycentric maps are definitionally the raw maps; no restated implementation theorem).
+
+2. DEPENDENCY on package LP-FREEZE7R (draft 7 revision 1, F1)
+  The spatial provider states LP3-2 exactly, so it needs KAM.Planetary.Spatial.spatialSourceBarycentricPositions/
+  Velocities, which LP-FREEZE7R adds in the implementation module KAM.Planetary.Spatial.SourceBarycentric (its brief;
+  its file is not on any branch yet). That module is NOT committed here (another package's file). To build and check
+  the spatial provider, a TRANSIENT KAM/Planetary/Spatial/SourceBarycentric.lean holding exactly the auditor's two
+  declarations (STATEMENT-AUDIT-DRAFT7-1.md F1) was created, built, used, and deleted before the commit. Hence the
+  spatial provider builds on this branch only after LP-FREEZE7R's module lands (same module name and declarations
+  expected; if its text differs, rebuild and rerun section 4). The planar provider is self-contained.
+  Transient stand-in declarations (exact):
+    def spatialSourceBarycentricPositions {n : ℕ} (ν : Fin n → ℝ) (μ : ℝ)
+        (_hν : ∀ i, 0 < ν i) (_hμ : 0 < μ) (q : Fin (n * 3) → ℝ) :
+        Fin (n + 1) → (Fin 3 → ℝ) := spatialBarycentricPositions ν μ q
+    
+    /-- Source-facing barycentric velocities (draft-7 r1 stand-in: the auditor's exact text, F1). -/
+    def spatialSourceBarycentricVelocities {n : ℕ} (ν : Fin n → ℝ) (μ : ℝ)
+        (_hν : ∀ i, 0 < ν i) (_hμ : 0 < μ) (p : Fin (n * 3) → ℝ) :
+        Fin (n + 1) → (Fin 3 → ℝ) := spatialBarycentricVelocities ν μ p
+
+3. Build (capped wrapper, one module per lake build, serial)
+  Command: /root/code/KAM-inp/.drafts/LP/lp_build.sh /root/code/KAM-inp-lp-freeze8 KAM.Planetary.Spatial.SourceBarycentric \
+    KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyNoArith \
+    KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyNoArith   (rc=0)
+  1:[lp_build] slot 1: KAM.Planetary.Spatial.SourceBarycentric (09:46:31)
+  3:Build completed successfully (9070 jobs).
+  4:[lp_build] slot 1: KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyNoArith (09:46:47)
+  698:Build completed successfully (9370 jobs).
+  699:[lp_build] slot 1: KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyNoArith (09:47:09)
+  1426:Build completed successfully (9431 jobs).
+  No warning or error in the three built files (grep of the log for their paths: 0 hits).
+
+4. Transient check (.drafts/freeze8/providers8_check.lean): imports the two providers; states each draft-8 anchor
+  verbatim (scratch, namespace <ns>.Draft8Seal) with the EXACT seal body of its frozen file, then #sameDecl (Expr.eqv
+  of elaborated types, reducibility) against the provider, and #print axioms of provider and scratch anchor.
+  Seal bodies:
+    96:  by exact KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith hn ν hν hνmax hνle A hA hAord δ hδ
+    185:  by exact KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith hn ν hν hνmax hνle A hA hAord δ hδ
+  Command: /root/code/KAM-inp/.drafts/LP/lp_lean.sh /root/code/KAM-inp-lp-freeze8 .drafts/freeze8/providers8_check.lean   (exit 0)
+  Full output:
+    KAM.Planetary.StrongAMD.Draft8Seal.planar_strongAMD_exponentialSafety_noArith vs KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith: TYPE_EQV THEOREM REDUCIBILITY_SAME
+    'KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith' depends on axioms: [propext,
+     Classical.choice,
+     Quot.sound]
+    'KAM.Planetary.StrongAMD.Draft8Seal.planar_strongAMD_exponentialSafety_noArith' depends on axioms: [propext,
+     Classical.choice,
+     Quot.sound]
+    KAM.Planetary.Spatial.Draft8Seal.spatial_strongAMD_exponentialSafety_noArith vs KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith: TYPE_EQV THEOREM REDUCIBILITY_SAME
+    'KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith' depends on axioms: [propext,
+     Classical.choice,
+     Quot.sound]
+    'KAM.Planetary.Spatial.Draft8Seal.spatial_strongAMD_exponentialSafety_noArith' depends on axioms: [propext,
+     Classical.choice,
+     Quot.sound]
+
+5. Short-name check
+  Command: python3 /mnt/HC_Volume_106379410/orchestrator-tools/main_shortname_check.py /root/code/KAM-inp-lp-freeze8 \
+    KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyNoArith KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyNoArith   (exit 0)
+    short-name check OK (no reused public short name)
+
+6. Lint (after deleting the transient stand-in; providers present, roots NOT regenerated)
+  Command: /root/code/KAM-inp/.drafts/LP/lp_lint.sh /root/code/KAM-inp-lp-freeze8   (exit 1)
+    KAM.lean is out of date; run scripts/gen_root_imports.py (KAM/Root/Provider.lean)
+    check_lean_modules: PASS (3801 Lean files, 0 comparator configurations)
+    FROZEN-ANCHOR GUARD OK
+    ABI HASHES OK (177 frozen declarations of KAM; checked by file hash only, not built by this run: KAMLunarBand: KAM.SpinOrbit.lunar_barriers, KAM.SpinOrbit.lunar_spin_confinement (--lib KAMLunarBand))
+  The only failure is the generated-root staleness. scripts/gen_root_imports.py skips (quarantined()) only the
+  anchors in state DRAFT_SORRY in manifest/frozen-anchors.json and their providers; staged providers without a
+  manifest entry would be imported by KAM/Root/Provider.lean, which the quarantine forbids (AGENTS rule 9;
+  orchestrator: 'no module imports them'). The roots were therefore deliberately NOT regenerated. At freeze, the
+  manifest entries (state DRAFT_SORRY, implementation.module = these providers) make the generator skip them and
+  put them in the lakefile quarantine globs; lint then passes. Without the providers (draft-8 commit e877f867) lint
+  exits 0 (verification-draft-8.txt section 5).
