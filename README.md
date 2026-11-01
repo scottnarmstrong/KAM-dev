@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-01 16:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.6 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 68 / 72 · **505,574 lines of hand-written Lean** of an estimated ≈ 507,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-01 16:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.6 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 68 / 72 · **505,574 lines of hand-written Lean** of an estimated ≈ 507,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -339,7 +339,7 @@ Overall, everything together: 97.0 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **505,574** (382,994 excluding blank lines and comments) · **+138,395** since 2026-10-31 16:20 UTC |
+| On `main` now (hand-written) | **505,574** (382,994 excluding blank lines and comments) · **+138,395** since 2026-10-31 16:40 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 632,896 lines in 1,649 modules |
 | Written on agent branches, not yet landed (hand-written) | 1,864 |
 | Generated certificate data on agent branches (numeric literals; not counted in the other rows) | 5,265 |
@@ -350,7 +350,7 @@ Overall, everything together: 97.0 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 16:20 UTC from `main` at `2a530d48` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 16:40 UTC from `main` at `914ed2bc` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -574,6 +574,9 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-01 16:24 | `914ed2bc` | Explorations catalogue: SJSU phase 0 wording |
+| 2026-11-01 16:24 | `288847db` | Explorations catalogue: SJSU phase 0 (model recovery, public dataset) |
+| 2026-11-01 16:21 | `abe5cf5e` | Land sjsu-p0: SJSU18-O2, a reconstructed degree-18 planar secular Sun-Jupiter-Saturn-Uranus Hamiltonian (public data, CC BY 4.0) with generator scripts, validation tables and recovery report; AUDIT-SJSU-P0-1 PASS WITH CHANGES, fixes applied |
 | 2026-11-01 16:18 | `ce102f96` | Merge remote-tracking branch 'origin/main' |
 | 2026-11-01 16:18 | `80951e1d` | Overnight log: LP complete, MAG gate PASS, SO-3 projection |
 | 2026-11-01 15:17 | `689bd1d0` | README: layout row lists the published LP graph |
@@ -583,9 +586,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-01 15:02 | `7e8eb360` | Land paper-lp: §A.4 wording (owner request) |
 | 2026-11-01 15:00 | `ba0257cc` | Land paper-lp: author line Claude Opus 5.5 (owner request) |
 | 2026-11-01 14:57 | `ff4ffda3` | Land paper-lp: Theorem E frozen and sealed (D64); seven frozen statements; 24 pp |
-| 2026-11-01 14:55 | `3b2e192b` | README: LP3 frozen and sealed (D64); item 9 links the frozen anchors |
-| 2026-11-01 14:53 | `f6ca357c` | D66: owner approves the magnetic field-line barrier pilot at eps = 0.0012 |
-| 2026-11-01 14:49 | `61c6d5a7` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
