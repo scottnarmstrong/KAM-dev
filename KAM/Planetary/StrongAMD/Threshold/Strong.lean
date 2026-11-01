@@ -167,7 +167,7 @@ theorem continuous_orderedStrongThreshold {ν : Fin n → ℝ} (hν : ∀ i, 0 <
 
 theorem orderedStrongThreshold_eq_min_first {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (hn : 2 ≤ n)
     (I : OrderedActions ν) :
-    orderedStrongThreshold hn I = min (orderedCrossThreshold I) (I.1 ⟨0, by omega⟩) :=
+    orderedStrongThreshold hn I = min (orderedCrossThreshold hn I) (I.1 ⟨0, by omega⟩) :=
   strongThreshold_eq_min_first hν I.2 hn
 
 end KAM.Planetary.StrongAMD

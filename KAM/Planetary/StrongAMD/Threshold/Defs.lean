@@ -78,16 +78,21 @@ proof as typing data. -/
 def orderedPairThreshold {ν : Fin n → ℝ} (I : OrderedActions ν) (i j : Fin n) (_hij : i < j) : ℝ :=
   pairThreshold ν I.1 i j
 
-/-- `B_cross` on the carrier `𝒬` (OD-2); a literal infimum of carrier pair thresholds. -/
-def orderedCrossThreshold {ν : Fin n → ℝ} (I : OrderedActions ν) : ℝ :=
+/-- `B_cross` on the carrier `𝒬` (OD-2), for `2 ≤ n` (the hypothesis is typing data: for `n = 1`
+the adjacent family is empty and the real `⨅` would return `0`); a literal infimum of carrier pair
+thresholds. -/
+def orderedCrossThreshold {ν : Fin n → ℝ} (_hn : 2 ≤ n) (I : OrderedActions ν) : ℝ :=
   ⨅ a : AdjIdx n, orderedPairThreshold I a.1 a.upperIdx a.lt_upperIdx
 
 /-- `B` on the carrier `𝒬` (OD-2), for `2 ≤ n` (the hypothesis is typing data). -/
-def orderedStrongThreshold {ν : Fin n → ℝ} (_hn : 2 ≤ n) (I : OrderedActions ν) : ℝ :=
-  min (orderedCrossThreshold I) (⨅ i : Fin n, I.1 i)
+def orderedStrongThreshold {ν : Fin n → ℝ} (hn : 2 ≤ n) (I : OrderedActions ν) : ℝ :=
+  min (orderedCrossThreshold hn I) (⨅ i : Fin n, I.1 i)
 
 theorem orderedPairThreshold_eq {ν : Fin n → ℝ} (I : OrderedActions ν) (i j : Fin n)
     (hij : i < j) : orderedPairThreshold I i j hij = pairThreshold ν I.1 i j := rfl
+
+theorem orderedCrossThreshold_eq {ν : Fin n → ℝ} (hn : 2 ≤ n) (I : OrderedActions ν) :
+    orderedCrossThreshold hn I = crossThreshold ν I.1 := rfl
 
 theorem orderedStrongThreshold_eq {ν : Fin n → ℝ} (hn : 2 ≤ n) (I : OrderedActions ν) :
     orderedStrongThreshold hn I = strongThreshold ν I.1 := rfl
