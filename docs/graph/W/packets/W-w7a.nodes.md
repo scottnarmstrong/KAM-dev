@@ -202,9 +202,9 @@ EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#bpW:w7:indexdef@L83-L83 | Â
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.normLab, KAM.Wave.japL, KAM.Wave.absWt, KAM.Wave.IsLam, KAM.Wave.IsLamMinus, KAM.Wave.hatW, KAM.Wave.kAbs, KAM.Wave.kAk, KAM.Wave.lam_cases (KAM/Wave/Measure/Lambda.lean)
+LEAN_NOTE: definition formalized by W7-MEASURE; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS); normal modes nu : N with Dirichlet label nu + 3 (normLab); hat w defined by cases on IsLamMinus with the smaller label (handoff deviation); hatW 0 = 1
 NOTE: -
 
 NODE: bpW:w7:omega0
@@ -231,9 +231,9 @@ EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#bpW:w7:omega0@L127-L131 | t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.omegaTan, KAM.Wave.omegaNor, KAM.Wave.omegaTan_eq, KAM.Wave.omegaNor_eq (KAM/Wave/Normal/Nondegeneracy.lean, KAM/Wave/Measure/Coords.lean)
+LEAN_NOTE: definition: the landed W0 omegaTan, omegaNor (corrected A, B, label nu + 3); W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: bpW:w7:freqcoords
@@ -264,9 +264,9 @@ EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#bpW:w7:freqcoords@L135-L150
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.measBvec, KAM.Wave.measAinvMat, KAM.Wave.actionAMat_inv, KAM.Wave.abs_det_actionAMat, KAM.Wave.actionAMat_inv_mulVec_measBvec, KAM.Wave.measDA, KAM.Wave.measNA, KAM.Wave.measLA, KAM.Wave.measNA_lt, KAM.Wave.measLA_eq, KAM.Wave.actionAMat_linfty_opNorm, KAM.Wave.actionAMat_inv_linfty_opNorm, KAM.Wave.omegaTanInv, KAM.Wave.omegaTan_bijective, KAM.Wave.omegaTanEquiv, KAM.Wave.omegaTan_eq_add_mulVec, KAM.Wave.omegaNor_eq, KAM.Wave.measS, KAM.Wave.measS_eq, KAM.Wave.measure_omegaTan_image, KAM.Wave.norm_omegaTan_sub_le, KAM.Wave.norm_sub_le_measLA_mul (KAM/Wave/Measure/CoordsInverse.lean, KAM/Wave/Measure/Coords.lean)
+LEAN_NOTE: W7-MEASURE audit 1 FAIL completion (F2: inverse formula, A^(-1) b, norm equalities, affine bijection not exported), W7-MEASURE audit 2 PASS (F2 closed by CoordsInverse); (iv) W7-MEASURE audit 1 PASS (image measure for arbitrary sets)
 NOTE: -
 
 NODE: stepW:w7:inverse
@@ -294,9 +294,9 @@ EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#stepW:w7:inverse@L152-L157 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.measAinvMat, KAM.Wave.actionAMat_mul_measAinvMat, KAM.Wave.measAinvMat_mul_actionAMat, KAM.Wave.actionAMat_inv, KAM.Wave.actionAMat_inv_mulVec_measBvec, KAM.Wave.abs_det_actionAMat (KAM/Wave/Measure/CoordsInverse.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:freqcoords; W7-MEASURE audit 2 PASS; Lean route differs: explicit two-sided inverse check instead of Sherman-Morrison
 NOTE: -
 
 NODE: stepW:w7:norms
@@ -325,9 +325,9 @@ EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#stepW:w7:norms@L158-L162 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+sol-global-W
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.measNA_lt, KAM.Wave.measLA_eq, KAM.Wave.actionAMat_linfty_opNorm, KAM.Wave.actionAMat_inv_linfty_opNorm (KAM/Wave/Measure/Coords.lean, KAM/Wave/Measure/CoordsInverse.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:freqcoords; W7-MEASURE audit 2 PASS (maximal absolute row sum = operator norm on the sup-norm space)
 NOTE: -
 
 NODE: stepW:w7:Omegazeta
@@ -355,9 +355,9 @@ EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#stepW:w7:Omegazeta@L163-L16
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.omegaNor_eq, KAM.Wave.measS_eq, KAM.Wave.abs_measS_sub_le (KAM/Wave/Measure/Coords.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:freqcoords; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: stepW:w7:measure-affine
@@ -385,9 +385,9 @@ EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#stepW:w7:measure-affine@L16
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.measure_omegaTan_image, KAM.Wave.norm_omegaTan_sub_le, KAM.Wave.norm_sub_le_measLA_mul (KAM/Wave/Measure/Coords.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:freqcoords; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: bpW:w7:unpert-bounds
@@ -420,9 +420,9 @@ EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#bpW:w7:unpert-bounds@L172-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+sol-global-W
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.abs_measS_le, KAM.Wave.norm_omegaTan_le, KAM.Wave.three_betaStar_japL_le, KAM.Wave.omegaNor_sub_approx, KAM.Wave.abs_linF_omegaNor_sub_le (KAM/Wave/Measure/UnpertBounds.lean)
+LEAN_NOTE: W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS) (literal constants beta_*, a_kappa = m/2 + 1, decay j^(-2))
 NOTE: -
 
 NODE: stepW:w7:ssize
@@ -450,9 +450,9 @@ EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#stepW:w7:ssize@L183-L185 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+sol-global-W
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.abs_measS_le, KAM.Wave.norm_omegaTan_le (KAM/Wave/Measure/UnpertBounds.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:unpert-bounds; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: stepW:w7:plus
@@ -480,9 +480,9 @@ EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#stepW:w7:plus@L186-L189 | t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+sol-global-W
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.three_betaStar_japL_le (KAM/Wave/Measure/UnpertBounds.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:unpert-bounds; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS); not separately formalized (inside three_betaStar_japL_le)
 NOTE: -
 
 NODE: stepW:w7:minus
@@ -510,9 +510,9 @@ EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#stepW:w7:minus@L190-L194 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.three_betaStar_japL_le, KAM.Wave.omegaNor_sub_ge (KAM/Wave/Measure/UnpertBounds.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:unpert-bounds; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: stepW:w7:kappa
@@ -540,9 +540,9 @@ EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#stepW:w7:kappa@L195-L200 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.omegaNor_sub_approx (KAM/Wave/Measure/UnpertBounds.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:unpert-bounds; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: stepW:w7:liplOmega
@@ -570,9 +570,9 @@ EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#stepW:w7:liplOmega@L201-L20
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w7a+sol-global-W
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.abs_linF_omegaNor_sub_le (KAM/Wave/Measure/UnpertBounds.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:unpert-bounds; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: bpW:w7:constdef
@@ -604,9 +604,9 @@ EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#bpW:w7:constdef@L211-L231 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+sol-global-W
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.measW, KAM.Wave.measTheta, KAM.Wave.measCLam, KAM.Wave.measKstar, KAM.Wave.measJstar, KAM.Wave.measXSet, KAM.Wave.measNX, KAM.Wave.measSigmaX, KAM.Wave.measCX, KAM.Wave.measTheta0, KAM.Wave.measAlpha0, KAM.Wave.measZ3, KAM.Wave.measCP, KAM.Wave.measCI, KAM.Wave.measC7, KAM.Wave.alphaHat, KAM.Wave.alphaCheck, KAM.Wave.alpha_facts (KAM/Wave/Measure/Consts.lean, KAM/Wave/Measure/Pair.lean)
+LEAN_NOTE: definition formalized by W7-MEASURE; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS) (mass-only constants; sigma_X, c_X are sInf of the finite sets with default 1)
 NOTE: The (C1)-(C2) definition is also represented by bpW:w7:constdef#base so that X and the exceptional affine constants can depend on it without depending on (C3)-(C6). No positivity assertion is added to the base definition.
 
 NODE: bpW:w7:zones
@@ -633,9 +633,9 @@ EDGE: bpW:w7:indexdef | blueprint-W/parts/w7-measure.tex#bpW:w7:zones@L259-L259 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.zoneSet, KAM.Wave.prepZone, KAM.Wave.InZ, KAM.Wave.prepSet, KAM.Wave.iterSet, KAM.Wave.exclSet (KAM/Wave/Measure/Family.lean)
+LEAN_NOTE: definition formalized by W7-MEASURE; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS) (literal cutoff and weights; off-domain map values never enter a zone)
 NOTE: -
 
 NODE: bpW:w7:family
@@ -662,9 +662,9 @@ EDGE: bpW:w7:omega0 | blueprint-W/parts/w7-measure.tex#bpW:w7:family@L272-L272 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.MeasSetup, KAM.Wave.IsFreqPair, KAM.Wave.AdmissibleFamily, KAM.Wave.AdmissibleFamily.Kprev, KAM.Wave.isFreqPair_unpert (KAM/Wave/Measure/Family.lean)
+LEAN_NOTE: definition formalized by W7-MEASURE; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS) ((H1)-(H2) verbatim, common eps and theta, Borel D_nu, K_nu >= 2^nu, K_(-1) = 0; maps total, constrained only on D_nu)
 NOTE: -
 
 NODE: bpW:w7:slab
@@ -691,9 +691,9 @@ EDGE: stepW:w7:slab-int | blueprint-W/parts/w7-measure.tex#bpW:w7:slab@L330-L330
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.measSlab_measure_le, KAM.Wave.measurableSet_abs_lt_of_continuousOn, KAM.Wave.volume_le_of_coord_slices (KAM/Wave/Measure/Slab.lean)
+LEAN_NOTE: W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS) (Tonelli in coordinates, arbitrary Borel domain; the raw slab helper takes measurability of the small-value set, proved by callers)
 NOTE: -
 
 NODE: stepW:w7:slab-borel
@@ -718,9 +718,9 @@ EDGE: bpW:w7:ext-borel | blueprint-W/parts/w7-measure.tex#stepW:w7:slab-borel@L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.measurableSet_abs_lt_of_continuousOn (KAM/Wave/Measure/Slab.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:slab; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: stepW:w7:slab-line
@@ -745,9 +745,9 @@ EDGE: bpW:w7:ext-diam | blueprint-W/parts/w7-measure.tex#stepW:w7:slab-line@L329
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.volume_le_of_coord_slices (KAM/Wave/Measure/Slab.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:slab; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS); not separately formalized (inside measSlab_measure_le)
 NOTE: -
 
 NODE: stepW:w7:slab-int
@@ -773,9 +773,9 @@ EDGE: stepW:w7:slab-line | blueprint-W/parts/w7-measure.tex#stepW:w7:slab-int@L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.volume_le_of_slices_prod, KAM.Wave.volume_le_of_coord_slices (KAM/Wave/Measure/Slab.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:slab; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: bpW:w7:sep
@@ -802,9 +802,9 @@ EDGE: stepW:w7:sep-concl | blueprint-W/parts/w7-measure.tex#bpW:w7:sep@L353-L353
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsFreqPair.normal_sep, KAM.Wave.zoneSet_zero_empty, KAM.Wave.melnikov_sep (KAM/Wave/Measure/SepLarge.lean, KAM/Wave/Measure/Measure.lean)
+LEAN_NOTE: W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS) (drift paid by 4 alpha)
 NOTE: -
 
 NODE: stepW:w7:sep-drift
@@ -831,9 +831,9 @@ EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:sep-drift@L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-g1
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsFreqPair.drift_le, KAM.Wave.IsFreqPair.normal_sep (KAM/Wave/Measure/Pair.lean, KAM/Wave/Measure/SepLarge.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:sep; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: stepW:w7:sep-concl
@@ -863,9 +863,9 @@ EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:sep-concl@L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+claude-suborch-W-g1
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsFreqPair.normal_sep, KAM.Wave.zoneSet_zero_empty (KAM/Wave/Measure/SepLarge.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:sep; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: bpW:w7:largek
@@ -893,9 +893,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#bpW:w7:largek@L366-L36
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsFreqPair.largek, KAM.Wave.prepZone_subset (KAM/Wave/Measure/SepLarge.lean)
+LEAN_NOTE: W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS); Lean needs only 0 <= a <= beta_* (handoff deviation, weaker premise)
 NOTE: -
 
 NODE: stepW:w7:largek-tan
@@ -924,9 +924,9 @@ EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:largek-tan@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+claude-suborch-W-g1
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsFreqPair.norm_omega_le, KAM.Wave.IsFreqPair.largek (KAM/Wave/Measure/Pair.lean, KAM/Wave/Measure/SepLarge.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:largek; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: stepW:w7:largek-cmp
@@ -953,9 +953,9 @@ EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:largek-cmp@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+claude-suborch-W-g1
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsFreqPair.largek (KAM/Wave/Measure/SepLarge.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:largek; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS); not separately formalized
 NOTE: -
 
 NODE: bpW:w7:zone
@@ -984,9 +984,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#bpW:w7:zone@L392-L392 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsFreqPair.zone_measure_le, KAM.Wave.measure_abs_lt_le_of_growth, KAM.Wave.IsFreqPair.zone_diff_bounds, KAM.Wave.IsFreqPair.linF_lip, KAM.Wave.IsFreqPair.drift_le, KAM.Wave.IsFreqPair.zone_bound_lam, KAM.Wave.IsFreqPair.zone_bound_zero, KAM.Wave.IsFreqPair.zone_bound_const (KAM/Wave/Measure/ZoneBound.lean, KAM/Wave/Measure/Pair.lean, KAM/Wave/Measure/ZoneSums.lean, KAM/Wave/Measure/MinusZones.lean)
+LEAN_NOTE: W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS) (slope |k|/4, factor 8, affine Jacobian D_A; no convexity premise)
 NOTE: -
 
 NODE: stepW:w7:zone-lower
@@ -1014,9 +1014,9 @@ EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:zone-lower@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-g1
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsFreqPair.zone_diff_bounds (KAM/Wave/Measure/ZoneBound.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:zone; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: stepW:w7:zone-slab
@@ -1044,9 +1044,9 @@ EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:zone-slab@L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-g1
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.measure_abs_lt_le_of_growth, KAM.Wave.measSlab_measure_le (KAM/Wave/Measure/ZoneBound.lean, KAM/Wave/Measure/Slab.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:zone; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: stepW:w7:zone-psi
@@ -1075,9 +1075,9 @@ EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:zone-psi@L39
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-g1
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsFreqPair.zone_bound_lam, KAM.Wave.IsFreqPair.zone_bound_zero, KAM.Wave.IsFreqPair.zone_bound_const, KAM.Wave.IsFreqPair.linF_lip (KAM/Wave/Measure/ZoneSums.lean, KAM/Wave/Measure/MinusZones.lean, KAM/Wave/Measure/Pair.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:zone; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: bpW:w7:Xdef
@@ -1104,9 +1104,9 @@ EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#bpW:w7:Xdef@L398-L401 | the
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+sol-global-W
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.measXSet, KAM.Wave.measXSet_finite (KAM/Wave/Measure/Consts.lean)
+LEAN_NOTE: definition formalized by W7-MEASURE; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS) (both indices bounded in minus pairs)
 NOTE: -
 
 NODE: bpW:w7:dichotomy
@@ -1135,9 +1135,9 @@ EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#bpW:w7:dichotomy@L404
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a
 REVIEWER: sol-delta6-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.measXSet_finite, KAM.Wave.IsFreqPair.zone_dichotomy (KAM/Wave/Measure/Consts.lean, KAM/Wave/Measure/SepLarge.lean)
+LEAN_NOTE: W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: stepW:w7:Xfinite
@@ -1164,9 +1164,9 @@ EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:Xfinite@L408
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+claude-suborch-W-g1
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.measXSet_finite (KAM/Wave/Measure/Consts.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:dichotomy; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: stepW:w7:dich-large
@@ -1193,9 +1193,9 @@ EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:dich-large@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+claude-suborch-W-g1
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsFreqPair.zone_dichotomy, KAM.Wave.IsFreqPair.largek (KAM/Wave/Measure/SepLarge.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:dichotomy; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: stepW:w7:dich-small
@@ -1223,9 +1223,9 @@ EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:dich-small@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+claude-suborch-W-g1
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsFreqPair.zone_dichotomy (KAM/Wave/Measure/SepLarge.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:dichotomy; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS); not separately formalized
 NOTE: -
 
 NODE: bpW:w7:Xzones
@@ -1257,9 +1257,9 @@ EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#bpW:w7:Xzones@L426-L4
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a
 REVIEWER: sol-delta6-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.measCval_pos, KAM.Wave.measSigmaX_pos, KAM.Wave.measCX_pos, KAM.Wave.IsFreqPair.Xzone_empty, KAM.Wave.IsFreqPair.Xzone_measure_le (KAM/Wave/Measure/Consts.lean, KAM/Wave/Measure/Xzones.lean)
+LEAN_NOTE: W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS); the sloped bound is proved without a <= hat alpha (stronger; handoff deviation)
 NOTE: -
 
 NODE: stepW:w7:X-A3
@@ -1289,9 +1289,9 @@ EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:X-A3@L431-L4
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+claude-suborch-W-g1
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.affineForm_eq, KAM.Wave.measCval_pos, KAM.Wave.measSigmaX_pos, KAM.Wave.measCX_pos (KAM/Wave/Measure/Consts.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:Xzones; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: stepW:w7:X-const
@@ -1320,9 +1320,9 @@ EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:X-const@L436
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+claude-suborch-W-g1
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsFreqPair.Xzone_empty (KAM/Wave/Measure/Xzones.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:Xzones; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: stepW:w7:X-slope
@@ -1353,9 +1353,9 @@ EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:X-slope@L439
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7a+claude-suborch-W-g1
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.IsFreqPair.Xzone_measure_le (KAM/Wave/Measure/Xzones.lean)
+LEAN_NOTE: step of PROVED parent bpW:w7:Xzones; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS)
 NOTE: -
 
 NODE: bpW:w7:count
@@ -1381,9 +1381,9 @@ EDGE: bpW:w7:ext-zeta | blueprint-W/parts/w7-measure.tex#bpW:w7:count@L456-L456 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.lamPlusFin, KAM.Wave.card_lamPlusFin_le, KAM.Wave.mem_lamPlusFin, KAM.Wave.kAbs_eq_nat, KAM.Wave.tsum_Kprev_le, KAM.Wave.tsum_lattice_inv_cube, KAM.Wave.hasSum_lattice_inv_cube, KAM.Wave.measZ3_lt_seven (KAM/Wave/Measure/Count.lean, KAM/Wave/Measure/ZetaExact.lean)
+LEAN_NOTE: W7-MEASURE audit 1 PASS WITH NOTES ((i): small-N endpoint), PASS ((ii)), FAIL completion ((iii), F2); W7-MEASURE audit 2 PASS ((iii) closed: tsum_lattice_inv_cube); missing: (i) is exported only through the candidate superset lamPlusFin (card_lamPlusFin_le for N >= 2, mem_lamPlusFin), with no direct cardinality statement for Lambda^+ and no N = 1 case (consumers use N >= 18)
 NOTE: Inline proof (L454-L456).
 
 NODE: bpW:w7#data
@@ -1440,9 +1440,9 @@ EDGE: bpW:w7:freqcoords | blueprint-W/parts/w7-measure.tex#bpW:w7:basic@L340-L34
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.MeasSetup, KAM.Wave.IsFreqPair, KAM.Wave.isFreqPair_unpert (KAM/Wave/Measure/Family.lean)
+LEAN_NOTE: definition formalized by W7-MEASURE; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS); rho, rho_zeta enter as diam Pi and an explicit bound on omega^0(Pi) in the consumers; (mapping inferred)
 NOTE: Unlabelled prose L339-L343 fixing the data of the zone lemmas (SPEC section-data rule).
 
 NODE: bpW:w7:Xzones#consts
@@ -1470,9 +1470,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#bpW:w7:Xzones@L423-L42
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.measPX, KAM.Wave.measCval, KAM.Wave.affineForm_eq, KAM.Wave.measCval_eq, KAM.Wave.measSigmaSet, KAM.Wave.measCSet, KAM.Wave.measSigmaX, KAM.Wave.measCX (KAM/Wave/Measure/Consts.lean)
+LEAN_NOTE: definition formalized by W7-MEASURE; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS); minimum over the empty set := 1 as prescribed
 NOTE: Definitional part of Lemma bpW:w7:Xzones, split off so that Definition bpW:w7:constdef (C3) can use sigma_X, c_X without depending on the lemma, whose proof uses (C4) (otherwise a dependency cycle).
 
 NODE: bpW:w7:constdef#base
@@ -1501,7 +1501,7 @@ EDGE: bpW:w7#data | blueprint-W/parts/w7-measure.tex#bpW:w7:constdef@L214-L217 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-W-w7a+sol-global-W
 REVIEWER: sol-delta9-W-W-w7a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.measBetaStar, KAM.Wave.measAKappa, KAM.Wave.measDA, KAM.Wave.measNA, KAM.Wave.measLA, KAM.Wave.measW, KAM.Wave.measTheta, KAM.Wave.measCLam, KAM.Wave.measKstar, KAM.Wave.measJstar (KAM/Wave/Measure/UnpertBounds.lean, KAM/Wave/Measure/Coords.lean, KAM/Wave/Measure/Consts.lean)
+LEAN_NOTE: definition formalized by W7-MEASURE; W7-MEASURE audit 1 PASS, unchanged in W7-MEASURE audit 2 (PASS); tau = 24, varpi, beta, w = 1/47 enter as literal exponents; (mapping inferred)
 NOTE: Only definitions (C1)-(C2), not the later minima, smallness thresholds or positivity conclusions. This split permits Xdef to consume its actual constants without a cycle.
