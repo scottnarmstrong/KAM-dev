@@ -22,7 +22,8 @@ launcher prompt. The author's record is `docs/tracks/LP/freeze/verification-draf
    - the binder must be `∀ μ : ℝ, ∀ hμ : 0 < μ, μ ≤ μ₀ →`;
    - the reconstruction must go through the source maps with `hν hμ`;
    - the binder must be **typing data, not a new premise**: the mathematical content of the anchors must be
-     unchanged, and their closing theorems must still close by `exact`.
+     unchanged, and their closing theorems must still close, by `exact` or, where option C (item 4) applies, by a
+     one-line term over the proved bridge lemma.
 
    Check the treatment of characterizations under OD-11 (b) for the two new definitions: either a characterization
    pair, or `N/A_LITERAL` with a valid reason. Check consistency with the frozen planar barycentric maps.
@@ -41,7 +42,7 @@ launcher prompt. The author's record is `docs/tracks/LP/freeze/verification-draf
 5. **Nothing else changed.**
    - Recompute the sha256 of every draft file under `docs/tracks/LP/freeze/draft7/` (127 or more) and diff them
      against the audited state at `809aa0dd` (`git show 809aa0dd:<path> | sha256sum`).
-   - Every changed or new file must be explained by F1, F2 or N2.
+   - Every changed or new file must be explained by F1, F2, N2 or option C.
    - Diff the proposal and the manifest drafts the same way.
 6. **Re-verification.** Re-run the author's check (c) for LP2 and LP2-H and for any new characterization, check (a)
    for every changed or new file, and check (b) for the two new definitions. Confirm `#print axioms` (standard).
