@@ -57,9 +57,9 @@ EDGE: lpM:s1:elements#sourceStrongAMD | docs/tracks/LP/source/MAIN.md#s1@L69-L69
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety (KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafety.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety
 NOTE: Anchor LP1. Planar instance of the §1 conclusion (Theorem 15), with Lemma 16's elliptic, tangency and (43) clauses and N10's constant relations; A_elem is the constant A of (43) (MAIN's §1 list omits it). The premise Λ(z_0) ∈ Q is a typing binder that the source derives from a(0) ∈ 𝒜. AMENDED: N8, N10.
 
 NODE: lpM:T15#planar_strongAMD_exponentialSafety_halfInteger
@@ -116,9 +116,9 @@ EDGE: lpM:s1:elements#sourceStrongAMD | docs/tracks/LP/source/MAIN.md#s1@L93-L93
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_halfInteger (KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyHalfInteger.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_halfInteger
 NOTE: Anchor LP1-H: the half-integer corollary (MAIN §1 L93) of LP1
 
 NODE: lpM:L16#sourceOscAxis_pos
@@ -145,9 +145,9 @@ EDGE: lpM:L16:defs#sourceOscAxis | docs/tracks/LP/source/MAIN.md#L16@L520-L520 |
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.sourceOscAxis_pos (KAM/Frozen/Planetary/StrongAMD/Theorems/SourceOscAxisPos.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.StrongAMD.sourceOscAxis_pos
 NOTE: -
 
 NODE: lpM:L16#sourceOscPeri_pos
@@ -175,9 +175,9 @@ EDGE: lpM:L16:defs#sourceOscPeri | docs/tracks/LP/source/MAIN.md#L16@L520-L520 |
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.sourceOscPeri_pos (KAM/Frozen/Planetary/StrongAMD/Theorems/SourceOscPeriPos.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.StrongAMD.sourceOscPeri_pos
 NOTE: -
 
 NODE: lpM:L16#sourceOscPeri_le_planeLength
@@ -206,9 +206,9 @@ EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/source/MAIN.md#L16@L525-L525 | th
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.sourceOscPeri_le_planeLength (KAM/Frozen/Planetary/StrongAMD/Theorems/SourceOscPeriLePlaneLength.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.StrongAMD.sourceOscPeri_le_planeLength
 NOTE: -
 
 NODE: lpM:L16#planeLength_le_sourceOscApo
@@ -237,7 +237,7 @@ EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/source/MAIN.md#L16@L525-L525 | th
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.planeLength_le_sourceOscApo (KAM/Frozen/Planetary/StrongAMD/Theorems/PlaneLengthLeSourceOscApo.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.StrongAMD.planeLength_le_sourceOscApo
 NOTE: -

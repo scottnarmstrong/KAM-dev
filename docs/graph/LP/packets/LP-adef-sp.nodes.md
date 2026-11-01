@@ -19,9 +19,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spaceDot (KAM/Frozen/Planetary/Spatial/Defs/SpaceDot.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:data#spaceSq
@@ -45,9 +45,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spaceSq (KAM/Frozen/Planetary/Spatial/Defs/SpaceSq.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:data#spaceLength
@@ -72,9 +72,9 @@ EDGE: lpM:s1:data#spaceSq | docs/tracks/LP/source/MAIN.md#s1@L15-L15 | the decla
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spaceLength (KAM/Frozen/Planetary/Spatial/Defs/SpaceLength.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#spaceCross
@@ -98,9 +98,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spaceCross (KAM/Frozen/Planetary/Spatial/Defs/SpaceCross.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:model#bodyVector3
@@ -124,9 +124,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.bodyVector3 (KAM/Frozen/Planetary/Spatial/Defs/BodyVector3.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#planetAngularMomentum3
@@ -153,9 +153,9 @@ EDGE: lpM:s1:elements#spaceCross | docs/tracks/LP/source/MAIN.md#s1@L31-L31 | th
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.planetAngularMomentum3 (KAM/Frozen/Planetary/Spatial/Defs/PlanetAngularMomentum3.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#angularMomentum3
@@ -182,9 +182,9 @@ EDGE: lpM:s1:elements#spaceCross | docs/tracks/LP/source/MAIN.md#s1@L31-L31 | th
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.angularMomentum3 (KAM/Frozen/Planetary/Spatial/Defs/AngularMomentum3.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:model#spatialHamiltonian
@@ -212,9 +212,9 @@ EDGE: lpM:s1:data#spaceSq | docs/tracks/LP/source/MAIN.md#s1@L17-L17 | the decla
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialHamiltonian (KAM/Frozen/Planetary/Spatial/Defs/SpatialHamiltonian.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:model#SpatialNoCollision
@@ -240,9 +240,9 @@ EDGE: lpM:s1:data#spaceLength | docs/tracks/LP/source/MAIN.md#s1@L24-L24 | the d
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.SpatialNoCollision (KAM/Frozen/Planetary/Spatial/Defs/SpatialNoCollision.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:model#IsSpatialMovingSolutionOn
@@ -270,9 +270,9 @@ EDGE: lpM:s1:model#SpatialNoCollision | docs/tracks/LP/source/MAIN.md#s1@L17-L17
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.IsSpatialMovingSolutionOn (KAM/Frozen/Planetary/Spatial/Defs/IsSpatialMovingSolutionOn.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:model#SpatialMovingUniqueOn
@@ -298,9 +298,9 @@ EDGE: lpM:s1:model#IsSpatialMovingSolutionOn | docs/tracks/LP/source/MAIN.md#s1@
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.SpatialMovingUniqueOn (KAM/Frozen/Planetary/Spatial/Defs/SpatialMovingUniqueOn.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L1#spatialBarycentricPositions
@@ -325,9 +325,9 @@ EDGE: lpM:s1:model#bodyVector3 | docs/tracks/LP/source/MAIN.md#L1@L100-L100 | th
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialBarycentricPositions (KAM/Frozen/Planetary/Spatial/Defs/SpatialBarycentricPositions.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L1#spatialBarycentricVelocities
@@ -352,9 +352,9 @@ EDGE: lpM:s1:model#bodyVector3 | docs/tracks/LP/source/MAIN.md#L1@L100-L100 | th
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialBarycentricVelocities (KAM/Frozen/Planetary/Spatial/Defs/SpatialBarycentricVelocities.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:model#spatialMasses
@@ -378,9 +378,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialMasses (KAM/Frozen/Planetary/Spatial/Defs/SpatialMasses.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L1#IsSpatialNewtonSolutionOn
@@ -405,9 +405,9 @@ EDGE: lpM:s1:data#spaceLength | docs/tracks/LP/source/MAIN.md#L1@L100-L100 | the
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.IsSpatialNewtonSolutionOn (KAM/Frozen/Planetary/Spatial/Defs/IsSpatialNewtonSolutionOn.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#spatialKeplerEnergy
@@ -435,9 +435,9 @@ EDGE: lpM:s1:data#spaceSq | docs/tracks/LP/source/MAIN.md#s1@L26-L26 | the decla
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialKeplerEnergy (KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerEnergy.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#spatialKeplerAxis
@@ -463,9 +463,9 @@ EDGE: lpM:s1:elements#spatialKeplerEnergy | docs/tracks/LP/source/MAIN.md#s1@L31
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialKeplerAxis (KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerAxis.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#spatialKeplerAction
@@ -491,9 +491,9 @@ EDGE: lpM:s1:elements#spatialKeplerAxis | docs/tracks/LP/source/MAIN.md#s1@L31-L
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialKeplerAction (KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerAction.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#spatialKeplerEccVector
@@ -522,9 +522,9 @@ EDGE: lpM:s1:data#spaceSq | docs/tracks/LP/source/MAIN.md#s1@L26-L26 | the decla
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialKeplerEccVector (KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerEccVector.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#SpatialNegativeEnergy
@@ -552,9 +552,9 @@ EDGE: lpM:s1:elements#spatialKeplerEnergy | docs/tracks/LP/source/MAIN.md#s1@L31
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.SpatialNegativeEnergy (KAM/Frozen/Planetary/Spatial/Defs/SpatialNegativeEnergy.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#SpatialElliptic
@@ -580,9 +580,9 @@ EDGE: lpM:s1:elements#SpatialNegativeEnergy | docs/tracks/LP/source/MAIN.md#s1@L
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.SpatialElliptic (KAM/Frozen/Planetary/Spatial/Defs/SpatialElliptic.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#spatialKeplerPeri
@@ -610,9 +610,9 @@ EDGE: lpM:s1:elements#spatialKeplerEccVector | docs/tracks/LP/source/MAIN.md#s1@
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialKeplerPeri (KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerPeri.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#spatialKeplerApo
@@ -640,9 +640,9 @@ EDGE: lpM:s1:elements#spatialKeplerEccVector | docs/tracks/LP/source/MAIN.md#s1@
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialKeplerApo (KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerApo.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L16:defs#spatialOscVelocity
@@ -668,9 +668,9 @@ EDGE: lpM:s1:model#bodyVector3 | docs/tracks/LP/source/MAIN.md#L16@L508-L508 | t
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialOscVelocity (KAM/Frozen/Planetary/Spatial/Defs/SpatialOscVelocity.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L16:defs#spatialOscParam
@@ -694,9 +694,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialOscParam (KAM/Frozen/Planetary/Spatial/Defs/SpatialOscParam.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L16:defs#spatialOscEnergy
@@ -726,9 +726,9 @@ EDGE: lpM:L16:defs#spatialOscVelocity | docs/tracks/LP/source/MAIN.md#L16@L510-L
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialOscEnergy (KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEnergy.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L16:defs#spatialOscAxis
@@ -755,9 +755,9 @@ EDGE: lpM:L16:defs#spatialOscParam | docs/tracks/LP/source/MAIN.md#L16@L510-L510
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialOscAxis (KAM/Frozen/Planetary/Spatial/Defs/SpatialOscAxis.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L16:defs#spatialOscEccVector
@@ -788,9 +788,9 @@ EDGE: lpM:L16:defs#spatialOscVelocity | docs/tracks/LP/source/MAIN.md#L16@L510-L
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialOscEccVector (KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEccVector.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L16:defs#spatialOscEcc
@@ -817,9 +817,9 @@ EDGE: lpM:L16:defs#spatialOscEccVector | docs/tracks/LP/source/MAIN.md#L16@L510-
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialOscEcc (KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEcc.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L16:defs#spatialOscPeri
@@ -846,9 +846,9 @@ EDGE: lpM:L16:defs#spatialOscEcc | docs/tracks/LP/source/MAIN.md#L16@L521-L521 |
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialOscPeri (KAM/Frozen/Planetary/Spatial/Defs/SpatialOscPeri.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L16:defs#spatialOscApo
@@ -875,9 +875,9 @@ EDGE: lpM:L16:defs#spatialOscEcc | docs/tracks/LP/source/MAIN.md#L16@L521-L521 |
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialOscApo (KAM/Frozen/Planetary/Spatial/Defs/SpatialOscApo.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L16:defs#SpatialOscPhase
@@ -906,9 +906,9 @@ EDGE: lpM:L16:defs#spatialOscEnergy | docs/tracks/LP/source/MAIN.md#L16@L508-L50
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.SpatialOscPhase (KAM/Frozen/Planetary/Spatial/Defs/SpatialOscPhase.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#SpatialSourceCanonicalPhase
@@ -933,9 +933,9 @@ EDGE: lpM:s1:elements#SpatialElliptic | docs/tracks/LP/source/MAIN.md#s1@L26-L26
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.SpatialSourceCanonicalPhase (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceCanonicalPhase.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L16:defs#SpatialSourceOsculatingPhase
@@ -960,9 +960,9 @@ EDGE: lpM:L16:defs#SpatialOscPhase | docs/tracks/LP/source/MAIN.md#L16@L508-L508
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.SpatialSourceOsculatingPhase (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOsculatingPhase.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#spatialSourceKeplerAxis
@@ -988,9 +988,9 @@ EDGE: lpM:s1:elements#SpatialSourceCanonicalPhase | docs/tracks/LP/source/MAIN.m
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceKeplerAxis (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerAxis.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#spatialSourceKeplerAction
@@ -1016,9 +1016,9 @@ EDGE: lpM:s1:elements#SpatialSourceCanonicalPhase | docs/tracks/LP/source/MAIN.m
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceKeplerAction (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerAction.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#spatialSourceKeplerEccVector
@@ -1044,9 +1044,9 @@ EDGE: lpM:s1:elements#SpatialSourceCanonicalPhase | docs/tracks/LP/source/MAIN.m
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceKeplerEccVector (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerEccVector.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#spatialSourceKeplerEcc
@@ -1073,9 +1073,9 @@ EDGE: lpM:s1:elements#spatialSourceKeplerEccVector | docs/tracks/LP/source/MAIN.
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceKeplerEcc (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerEcc.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#spatialSourcePlanetAngularMomentum
@@ -1101,9 +1101,9 @@ EDGE: lpM:s1:elements#SpatialSourceCanonicalPhase | docs/tracks/LP/source/MAIN.m
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourcePlanetAngularMomentum.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#spatialSourceAngularMomentum
@@ -1129,9 +1129,9 @@ EDGE: lpM:s1:elements#SpatialSourceCanonicalPhase | docs/tracks/LP/source/MAIN.m
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceAngularMomentum (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceAngularMomentum.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#spatialSourceStrongAMD
@@ -1159,9 +1159,9 @@ EDGE: lpM:s1:elements#spatialSourceKeplerAction | docs/tracks/LP/source/MAIN.md#
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceStrongAMD (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceStrongAMD.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#spatialSourceKeplerPeri
@@ -1187,9 +1187,9 @@ EDGE: lpM:s1:elements#spatialKeplerPeri | docs/tracks/LP/source/MAIN.md#s1@L89-L
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceKeplerPeri (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerPeri.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:elements#spatialSourceKeplerApo
@@ -1215,9 +1215,9 @@ EDGE: lpM:s1:elements#spatialKeplerApo | docs/tracks/LP/source/MAIN.md#s1@L89-L8
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceKeplerApo (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerApo.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L16:defs#spatialSourceOscParam
@@ -1243,9 +1243,9 @@ EDGE: lpM:L16:defs#SpatialOscPhase | docs/tracks/LP/source/MAIN.md#L16@L508-L508
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceOscParam (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscParam.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L16:defs#spatialSourceOscEnergy
@@ -1271,9 +1271,9 @@ EDGE: lpM:L16:defs#SpatialOscPhase | docs/tracks/LP/source/MAIN.md#L16@L510-L510
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceOscEnergy (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEnergy.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L16:defs#spatialSourceOscAxis
@@ -1299,9 +1299,9 @@ EDGE: lpM:L16:defs#SpatialOscPhase | docs/tracks/LP/source/MAIN.md#L16@L510-L510
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceOscAxis (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscAxis.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L16:defs#spatialSourceOscEccVector
@@ -1327,9 +1327,9 @@ EDGE: lpM:L16:defs#SpatialOscPhase | docs/tracks/LP/source/MAIN.md#L16@L510-L510
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceOscEccVector (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEccVector.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L16:defs#spatialSourceOscEcc
@@ -1355,9 +1355,9 @@ EDGE: lpM:L16:defs#SpatialOscPhase | docs/tracks/LP/source/MAIN.md#L16@L510-L510
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceOscEcc (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEcc.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L16:defs#spatialSourceOscPeri
@@ -1383,9 +1383,9 @@ EDGE: lpM:L16:defs#SpatialOscPhase | docs/tracks/LP/source/MAIN.md#L16@L521-L521
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceOscPeri (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscPeri.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L16:defs#spatialSourceOscApo
@@ -1411,9 +1411,9 @@ EDGE: lpM:L16:defs#SpatialOscPhase | docs/tracks/LP/source/MAIN.md#L16@L521-L521
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceOscApo (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscApo.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L1#spatialSourceBarycentricPositions
@@ -1438,9 +1438,9 @@ EDGE: lpM:L1#spatialBarycentricPositions | docs/tracks/LP/source/MAIN.md#L1@L100
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceBarycentricPositions (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricPositions.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:L1#spatialSourceBarycentricVelocities
@@ -1465,9 +1465,9 @@ EDGE: lpM:L1#spatialBarycentricVelocities | docs/tracks/LP/source/MAIN.md#L1@L10
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceBarycentricVelocities (KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricVelocities.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: spatial (d = 3) frozen realization of a d-generic MAIN definition (SPEC §5 dimension rule); DEPS read mechanically from the frozen file's direct imports (D65)
 
 NODE: lpM:s1:model#IsHamiltonianSolutionOn
@@ -1491,7 +1491,7 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.IsHamiltonianSolutionOn (KAM/Frozen/Iso/Defs/IsHamiltonianSolutionOn.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition iso.IsHamiltonianSolutionOn.v1, bound as an LP anchor node (Q6); typing data of the moving-Sun solution predicates

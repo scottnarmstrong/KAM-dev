@@ -22,9 +22,9 @@ EDGE: lpM:s1:elements#spatialSourceKeplerAxis | docs/tracks/LP/source/MAIN.md#s1
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceKeplerAxis_pos (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerAxisPos.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourceKeplerAxis_pos
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:L2#spatialSourceKeplerAction_pos
@@ -51,9 +51,9 @@ EDGE: lpM:s1:elements#spatialSourceKeplerAction | docs/tracks/LP/source/MAIN.md#
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceKeplerAction_pos (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerActionPos.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourceKeplerAction_pos
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:L2#spatialSourceKeplerAction_sq
@@ -81,9 +81,9 @@ EDGE: lpM:s1:elements#spatialSourceKeplerAxis | docs/tracks/LP/source/MAIN.md#s1
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceKeplerAction_sq (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerActionSq.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourceKeplerAction_sq
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:L2#spatialSourceKeplerEcc_sq
@@ -113,9 +113,9 @@ EDGE: lpM:s1:elements#spatialSourcePlanetAngularMomentum | docs/tracks/LP/source
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceKeplerEcc_sq (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerEccSq.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourceKeplerEcc_sq
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:L2#spatialSourceKeplerEcc_nonneg
@@ -142,9 +142,9 @@ EDGE: lpM:s1:elements#spatialSourceKeplerEcc | docs/tracks/LP/source/MAIN.md#s1@
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceKeplerEcc_nonneg (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerEccNonneg.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourceKeplerEcc_nonneg
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:L2#spatialSourceKeplerEcc_le_one
@@ -171,9 +171,9 @@ EDGE: lpM:s1:elements#spatialSourceKeplerEcc | docs/tracks/LP/source/MAIN.md#L2@
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceKeplerEcc_le_one (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerEccLeOne.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourceKeplerEcc_le_one
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:L2#spatialSourcePlanetAngularMomentum_length
@@ -203,9 +203,9 @@ EDGE: lpM:s1:elements#spatialSourcePlanetAngularMomentum | docs/tracks/LP/source
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourcePlanetAngularMomentumLength.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:L2#spatialSourcePlanetAngularMomentum_length_le
@@ -234,9 +234,9 @@ EDGE: lpM:s1:elements#spatialSourcePlanetAngularMomentum | docs/tracks/LP/source
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length_le (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourcePlanetAngularMomentumLengthLe.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length_le
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:L2#spatialSourceKeplerPeri_le_length
@@ -265,9 +265,9 @@ EDGE: lpM:s1:elements#spatialSourceKeplerPeri | docs/tracks/LP/source/MAIN.md#L2
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceKeplerPeri_le_length (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerPeriLeLength.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourceKeplerPeri_le_length
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:L2#spatialSourceKeplerApo_ge_length
@@ -296,9 +296,9 @@ EDGE: lpM:s1:elements#spatialSourceKeplerApo | docs/tracks/LP/source/MAIN.md#L2@
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceKeplerApo_ge_length (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerApoGeLength.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourceKeplerApo_ge_length
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:L3#spatialSourceStrongAMD_nonneg
@@ -325,9 +325,9 @@ EDGE: lpM:s1:elements#spatialSourceStrongAMD | docs/tracks/LP/source/MAIN.md#L3@
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceStrongAMD_nonneg (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceStrongAMDNonneg.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourceStrongAMD_nonneg
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:L3#spatialSourceAction_mul_eccDeficit_le
@@ -357,9 +357,9 @@ EDGE: lpM:s1:elements#spatialSourceStrongAMD | docs/tracks/LP/source/MAIN.md#L3@
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceAction_mul_eccDeficit_le (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceActionMulEccDeficitLe.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourceAction_mul_eccDeficit_le
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:L16#spatialSourceOscParam_pos
@@ -386,9 +386,9 @@ EDGE: lpM:L16:defs#SpatialSourceOsculatingPhase | docs/tracks/LP/source/MAIN.md#
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceOscParam_pos (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscParamPos.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourceOscParam_pos
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:L16#spatialSourceOscEnergy_neg
@@ -415,9 +415,9 @@ EDGE: lpM:L16:defs#SpatialSourceOsculatingPhase | docs/tracks/LP/source/MAIN.md#
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceOscEnergy_neg (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscEnergyNeg.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourceOscEnergy_neg
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:L16#spatialSourceOscEcc_lt_one
@@ -444,9 +444,9 @@ EDGE: lpM:L16:defs#SpatialSourceOsculatingPhase | docs/tracks/LP/source/MAIN.md#
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceOscEcc_lt_one (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscEccLtOne.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourceOscEcc_lt_one
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:L16#spatialSourceOscEcc_nonneg
@@ -473,9 +473,9 @@ EDGE: lpM:L16:defs#SpatialSourceOsculatingPhase | docs/tracks/LP/source/MAIN.md#
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceOscEcc_nonneg (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscEccNonneg.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourceOscEcc_nonneg
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:L16#spatialSourceOscAxis_pos
@@ -502,9 +502,9 @@ EDGE: lpM:L16:defs#SpatialSourceOsculatingPhase | docs/tracks/LP/source/MAIN.md#
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceOscAxis_pos (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscAxisPos.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourceOscAxis_pos
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:L16#spatialSourceOscPeri_pos
@@ -532,9 +532,9 @@ EDGE: lpM:L16:defs#SpatialSourceOsculatingPhase | docs/tracks/LP/source/MAIN.md#
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceOscPeri_pos (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscPeriPos.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourceOscPeri_pos
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:L16#spatialSourceOscPeri_le_length
@@ -563,9 +563,9 @@ EDGE: lpM:L16:defs#SpatialSourceOsculatingPhase | docs/tracks/LP/source/MAIN.md#
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceOscPeri_le_length (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscPeriLeLength.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourceOscPeri_le_length
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:L16#spatialSourceOscApo_ge_length
@@ -594,9 +594,9 @@ EDGE: lpM:L16:defs#SpatialSourceOsculatingPhase | docs/tracks/LP/source/MAIN.md#
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatialSourceOscApo_ge_length (KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscApoGeLength.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatialSourceOscApo_ge_length
 NOTE: spatial characterization (d = 3), frozen with its definition as one semantic unit
 
 NODE: lpM:T19#spatial_strongAMD_exponentialSafety
@@ -660,9 +660,9 @@ EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#T
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety (KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafety.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety
 NOTE: Anchor LP2. Spatial instance of the §1 conclusion (Theorem 19), with Lemma 16's clauses and N10's constant relations; A_elem is the constant A of (43). AMENDED: N8, N10.
 
 NODE: lpM:T19#spatial_strongAMD_exponentialSafety_halfInteger
@@ -719,7 +719,7 @@ EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#s
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger (KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyHalfInteger.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger
 NOTE: Anchor LP2-H: the half-integer corollary (MAIN §1 L93) of LP2

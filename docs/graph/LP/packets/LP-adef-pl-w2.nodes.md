@@ -19,9 +19,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.IsDiophantine (KAM/Frozen/Defs/IsDiophantine.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition kam.IsDiophantine.v1 (core), bound as an LP anchor node (Q6)
 
 NODE: lpM:s1:model#actualMasses
@@ -45,9 +45,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.actualMasses (KAM/Frozen/Planetary/Defs/ActualMasses.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition planetary.actualMasses.v1 (track P), bound as an LP anchor node (Q6)
 
 NODE: lpM:L1#barycentricPositions
@@ -72,9 +72,9 @@ EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/source/MAIN.md#L1@L104-L104 | pla
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.barycentricPositions (KAM/Frozen/Planetary/Defs/BarycentricPositions.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition planetary.barycentricPositions.v1 (track P), bound as an LP anchor node (Q6)
 
 NODE: lpM:L1#barycentricVelocities
@@ -99,9 +99,9 @@ EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/source/MAIN.md#L1@L104-L104 | pla
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.barycentricVelocities (KAM/Frozen/Planetary/Defs/BarycentricVelocities.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition planetary.barycentricVelocities.v1 (track P), bound as an LP anchor node (Q6)
 
 NODE: lpM:s1:model#IsMovingSolutionOn
@@ -128,9 +128,9 @@ EDGE: lpM:s1:model#IsHamiltonianSolutionOn | docs/tracks/LP/source/MAIN.md#s1@L1
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.IsMovingSolutionOn (KAM/Frozen/Planetary/Defs/IsMovingSolutionOn.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition planetary.d25.IsMovingSolutionOn.v1 (track P), bound as an LP anchor node (Q6); movingHamiltonian is typing data
 
 NODE: lpM:s1:model#MovingUniqueOn
@@ -156,9 +156,9 @@ EDGE: lpM:s1:model#IsMovingSolutionOn | docs/tracks/LP/source/MAIN.md#s1@L24-L24
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.MovingUniqueOn (KAM/Frozen/Planetary/Defs/MovingUniqueOn.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition planetary.d25.MovingUniqueOn.v1 (track P), bound as an LP anchor node (Q6)
 
 NODE: lpM:L1#IsNewtonSolutionOn
@@ -183,7 +183,7 @@ EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#L1@L108-L108 | the
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.IsNewtonSolutionOn (KAM/Frozen/Planetary/Defs/IsNewtonSolutionOn.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition planetary.d25.IsNewtonSolutionOn.v1 (track P), bound as an LP anchor node (Q6)

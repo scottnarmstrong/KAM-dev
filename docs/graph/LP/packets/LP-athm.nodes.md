@@ -39,9 +39,9 @@ EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#L5@L164-L164 | states a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-athm
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.planar_strongAMD_barrier (KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDBarrier.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.StrongAMD.planar_strongAMD_barrier
 NOTE: Anchor LP0. Planar instance (d = 2) of the d-generic MAIN Lemma 5 (node lpM:L5), bound as its own anchor node so that the spatial consumers of Lemma 5 do not depend on a planar declaration (SPEC §1). The distance clauses are proved at L175 and restated at §1 L91. Q3: Lemma 5 consumes only the static part of Lemma 3. AMENDED: N11 (AMENDMENTS.md L20).
 
 NODE: lpM:L4#orderedPairThreshold_isLeast
@@ -72,9 +72,9 @@ EDGE: lpM:ext-compact-min | docs/tracks/LP/source/MAIN.md#L4@L149-L149 | directl
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-athm
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.orderedPairThreshold_isLeast (KAM/Frozen/Planetary/StrongAMD/Theorems/OrderedPairThresholdIsLeast.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.StrongAMD.orderedPairThreshold_isLeast
 NOTE: Carrier-level use of MAIN L149 only: no positive-mass premise is added. The original supplier lpM:L4#feasible-compact is recorded for positive masses with alpha in (0,1), so it is not applied here. L149 itself needs only the carrier consequences I_i > 0 and 0 <= a_i(I) < a_j(I), giving 0 <= alpha < 1; its closedness, feasible competitor and continuous-objective argument apply on this carrier. No contact parameterization (15), positivity of B_ij, or L151 division by alpha is used. The unique value is not a unique optimizer.
 
 NODE: lpM:L4#orderedPairThreshold_existsUnique_value
@@ -104,9 +104,9 @@ EDGE: lpM:ext-compact-min | docs/tracks/LP/source/MAIN.md#L4@L149-L149 | directl
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-athm
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.orderedPairThreshold_existsUnique_value (KAM/Frozen/Planetary/StrongAMD/Theorems/OrderedPairThresholdExistsUniqueValue.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.StrongAMD.orderedPairThreshold_existsUnique_value
 NOTE: Carrier-level use of MAIN L149 only: no positive-mass premise is added. The original supplier lpM:L4#feasible-compact is recorded for positive masses with alpha in (0,1), so it is not applied here. L149 itself needs only the carrier consequences I_i > 0 and 0 <= a_i(I) < a_j(I), giving 0 <= alpha < 1; its closedness, feasible competitor and continuous-objective argument apply on this carrier. No contact parameterization (15), positivity of B_ij, or L151 division by alpha is used. The unique value is not a unique optimizer.
 
 NODE: lpM:L4#orderedCrossThreshold_isLeast
@@ -133,9 +133,9 @@ EDGE: lpM:s1:thresholds#orderedPairThreshold | docs/tracks/LP/source/MAIN.md#s1@
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-athm
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.orderedCrossThreshold_isLeast (KAM/Frozen/Planetary/StrongAMD/Theorems/OrderedCrossThresholdIsLeast.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.StrongAMD.orderedCrossThreshold_isLeast
 NOTE: MAIN L55 asserts attainment; L4 L156 says 'Finite minima preserve continuity and positivity'. The local binder n >= 2 supplies nonemptiness of the finite adjacent family at this consumer (MAIN L52, L156); it does not import the full lpM:s1:data package, including positive normalized masses, delta, gamma, tau and A. No pair-minimum attainment or positivity premise is needed to take the minimum of the finite nonempty family of real pair-threshold values.
 
 NODE: lpM:L4#orderedStrongThreshold_isLeast
@@ -164,9 +164,9 @@ EDGE: lpM:s1:thresholds#orderedCrossThreshold | docs/tracks/LP/source/MAIN.md#s1
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-athm
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.orderedStrongThreshold_isLeast (KAM/Frozen/Planetary/StrongAMD/Theorems/OrderedStrongThresholdIsLeast.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.StrongAMD.orderedStrongThreshold_isLeast
 NOTE: -
 
 NODE: lpM:L3#sourceStrongAMD_nonneg
@@ -193,9 +193,9 @@ EDGE: lpM:s1:elements#sourceStrongAMD | docs/tracks/LP/source/MAIN.md#L3@L132-L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-athm
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.sourceStrongAMD_nonneg (KAM/Frozen/Planetary/StrongAMD/Theorems/SourceStrongAMDNonneg.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.StrongAMD.sourceStrongAMD_nonneg
 NOTE: -
 
 NODE: lpM:L3#sum_action_mul_eccDeficit_le_sourceStrongAMD
@@ -227,9 +227,9 @@ EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#L3@L134-L134 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-athm
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.sum_action_mul_eccDeficit_le_sourceStrongAMD (KAM/Frozen/Planetary/StrongAMD/Theorems/SumActionMulEccDeficitLeSourceStrongAMD.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.StrongAMD.sum_action_mul_eccDeficit_le_sourceStrongAMD
 NOTE: MAIN states the inequality of (13) on orbits with C < B_⋆; the frozen characterization states it on every source canonical phase, so it also depends on the gap step lpM:L3#deficit-zero-L
 
 NODE: lpM:L2#sourceKepler_axis_pos
@@ -256,9 +256,9 @@ EDGE: lpM:s1:elements#keplerAxis | docs/tracks/LP/source/MAIN.md#s1@L33-L33 | a_
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-athm
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.sourceKepler_axis_pos (KAM/Frozen/Planetary/StrongAMD/Theorems/SourceKeplerAxisPos.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.StrongAMD.sourceKepler_axis_pos
 NOTE: -
 
 NODE: lpM:L2#sourceKepler_ecc_le_one
@@ -286,9 +286,9 @@ EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#L2@L114-L114 | Euc
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-athm
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.sourceKepler_ecc_le_one (KAM/Frozen/Planetary/StrongAMD/Theorems/SourceKeplerEccLeOne.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.StrongAMD.sourceKepler_ecc_le_one
 NOTE: -
 
 NODE: lpM:L2#sourceKeplerPeri_le_planeLength
@@ -317,9 +317,9 @@ EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/source/MAIN.md#L2@L119-L119 | the
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-athm
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.sourceKeplerPeri_le_planeLength (KAM/Frozen/Planetary/StrongAMD/Theorems/SourceKeplerPeriLePlaneLength.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.StrongAMD.sourceKeplerPeri_le_planeLength
 NOTE: -
 
 NODE: lpM:L2#planeLength_le_sourceKeplerApo
@@ -348,7 +348,7 @@ EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/source/MAIN.md#L2@L119-L119 | the
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-athm
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.planeLength_le_sourceKeplerApo (KAM/Frozen/Planetary/StrongAMD/Theorems/PlaneLengthLeSourceKeplerApo.lean)
+LEAN_NOTE: sealed frozen theorem (manifest SEALED, D62); proof by exact KAM.Provider.Planetary.StrongAMD.planeLength_le_sourceKeplerApo
 NOTE: -

@@ -19,9 +19,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.actionAxis (KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:s1:chamber#chamber
@@ -46,9 +46,9 @@ EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#s1@L43-L43 | 
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.chamber (KAM/Frozen/Planetary/StrongAMD/Defs/Chamber.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:s1:thresholds#eccDeficit
@@ -72,9 +72,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.eccDeficit (KAM/Frozen/Planetary/StrongAMD/Defs/EccDeficit.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:s1:thresholds#pairFeasible
@@ -99,9 +99,9 @@ EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#s1@L48-L48 | 
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.pairFeasible (KAM/Frozen/Planetary/StrongAMD/Defs/PairFeasible.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:s1:thresholds#pairObjective
@@ -126,9 +126,9 @@ EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#s1@L49-L49 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.pairObjective (KAM/Frozen/Planetary/StrongAMD/Defs/PairObjective.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:s1:thresholds#pairThreshold
@@ -154,9 +154,9 @@ EDGE: lpM:s1:thresholds#pairObjective | docs/tracks/LP/source/MAIN.md#s1@L49-L49
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.pairThreshold (KAM/Frozen/Planetary/StrongAMD/Defs/PairThreshold.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: internal helper (FREEZE-PROPOSAL draft 7 role 'internal'); source meaning only on its carrier
 
 NODE: lpM:s1:thresholds#AdjIdx
@@ -180,9 +180,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.AdjIdx (KAM/Frozen/Planetary/StrongAMD/Defs/AdjIdx.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: internal helper (typing of the adjacent-pair family); source meaning only through B_cross
 
 NODE: lpM:s1:thresholds#AdjIdx.upperIdx
@@ -207,9 +207,9 @@ EDGE: lpM:s1:thresholds#AdjIdx | docs/tracks/LP/source/MAIN.md#s1@L52-L52 | defi
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.AdjIdx.upperIdx (KAM/Frozen/Planetary/StrongAMD/Defs/AdjIdxUpperIdx.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: internal helper; source meaning only through B_cross and the gaps of (9)
 
 NODE: lpM:s1:chamber#OrderedActions
@@ -234,9 +234,9 @@ EDGE: lpM:s1:chamber#chamber | docs/tracks/LP/source/MAIN.md#s1@L41-L41 | the ca
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.OrderedActions (KAM/Frozen/Planetary/StrongAMD/Defs/OrderedActions.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:s1:thresholds#orderedPairThreshold
@@ -262,9 +262,9 @@ EDGE: lpM:s1:thresholds#pairThreshold | docs/tracks/LP/source/MAIN.md#s1@L47-L47
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.orderedPairThreshold (KAM/Frozen/Planetary/StrongAMD/Defs/OrderedPairThreshold.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:s1:thresholds#orderedCrossThreshold
@@ -292,9 +292,9 @@ EDGE: lpM:s1:thresholds#orderedPairThreshold | docs/tracks/LP/source/MAIN.md#s1@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.orderedCrossThreshold (KAM/Frozen/Planetary/StrongAMD/Defs/OrderedCrossThreshold.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:s1:thresholds#orderedStrongThreshold
@@ -320,9 +320,9 @@ EDGE: lpM:s1:thresholds#orderedCrossThreshold | docs/tracks/LP/source/MAIN.md#s1
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.orderedStrongThreshold (KAM/Frozen/Planetary/StrongAMD/Defs/OrderedStrongThreshold.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:s1:elements#strongAMD
@@ -349,9 +349,9 @@ EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#s1@L33-L35 | the phase 
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.strongAMD (KAM/Frozen/Planetary/StrongAMD/Defs/StrongAMD.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: AMENDED: N8 (AMENDMENTS.md L17): the orientation-free convention C = ΣΛ - ¦L¦ is the frozen one (OD-1)
 
 NODE: lpM:s1:elements#keplerPeri
@@ -379,9 +379,9 @@ EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#s1@L88-L88 | the E
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.keplerPeri (KAM/Frozen/Planetary/StrongAMD/Defs/KeplerPeri.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:s1:elements#keplerApo
@@ -409,9 +409,9 @@ EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#s1@L89-L89 | the E
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.keplerApo (KAM/Frozen/Planetary/StrongAMD/Defs/KeplerApo.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:s1:elements#SourceCanonicalPhase
@@ -439,9 +439,9 @@ EDGE: lpM:s1:elements#keplerEnergy | docs/tracks/LP/source/MAIN.md#s1@L28-L31 | 
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.SourceCanonicalPhase (KAM/Frozen/Planetary/StrongAMD/Defs/SourceCanonicalPhase.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:s1:elements#sourceStrongAMD
@@ -467,9 +467,9 @@ EDGE: lpM:s1:elements#strongAMD | docs/tracks/LP/source/MAIN.md#s1@L35-L35 | the
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.sourceStrongAMD (KAM/Frozen/Planetary/StrongAMD/Defs/SourceStrongAMD.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:s1:elements#sourceKeplerPeri
@@ -495,9 +495,9 @@ EDGE: lpM:s1:elements#keplerPeri | docs/tracks/LP/source/MAIN.md#s1@L88-L88 | th
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.sourceKeplerPeri (KAM/Frozen/Planetary/StrongAMD/Defs/SourceKeplerPeri.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:s1:elements#sourceKeplerApo
@@ -523,9 +523,9 @@ EDGE: lpM:s1:elements#keplerApo | docs/tracks/LP/source/MAIN.md#s1@L89-L89 | the
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.sourceKeplerApo (KAM/Frozen/Planetary/StrongAMD/Defs/SourceKeplerApo.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:L16:defs#oscVelocity
@@ -551,9 +551,9 @@ EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#L16@L512-L512 | the pha
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.oscVelocity (KAM/Frozen/Planetary/StrongAMD/Defs/OscVelocity.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:L16:defs#oscParam
@@ -577,9 +577,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.oscParam (KAM/Frozen/Planetary/StrongAMD/Defs/OscParam.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:L16:defs#oscEnergy
@@ -609,9 +609,9 @@ EDGE: lpM:L16:defs#oscVelocity | docs/tracks/LP/source/MAIN.md#L16@L515-L515 | V
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.oscEnergy (KAM/Frozen/Planetary/StrongAMD/Defs/OscEnergy.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:L16:defs#oscAxis
@@ -638,9 +638,9 @@ EDGE: lpM:L16:defs#oscParam | docs/tracks/LP/source/MAIN.md#L16@L516-L516 | k_i 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.oscAxis (KAM/Frozen/Planetary/StrongAMD/Defs/OscAxis.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:L16:defs#oscEccVector
@@ -671,9 +671,9 @@ EDGE: lpM:L16:defs#oscVelocity | docs/tracks/LP/source/MAIN.md#L16@L517-L517 | V
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.oscEccVector (KAM/Frozen/Planetary/StrongAMD/Defs/OscEccVector.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:L16:defs#oscEcc
@@ -700,9 +700,9 @@ EDGE: lpM:L16:defs#oscEccVector | docs/tracks/LP/source/MAIN.md#L16@L518-L518 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.oscEcc (KAM/Frozen/Planetary/StrongAMD/Defs/OscEcc.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:L16:defs#oscPeri
@@ -729,9 +729,9 @@ EDGE: lpM:L16:defs#oscEcc | docs/tracks/LP/source/MAIN.md#L16@L523-L523 | e_i^os
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.oscPeri (KAM/Frozen/Planetary/StrongAMD/Defs/OscPeri.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:L16:defs#oscApo
@@ -758,9 +758,9 @@ EDGE: lpM:L16:defs#oscEcc | docs/tracks/LP/source/MAIN.md#L16@L523-L523 | e_i^os
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.oscApo (KAM/Frozen/Planetary/StrongAMD/Defs/OscApo.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:L16:defs#SourceOsculatingPhase
@@ -789,9 +789,9 @@ EDGE: lpM:L16:defs#oscEnergy | docs/tracks/LP/source/MAIN.md#L16@L510-L520 | the
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.SourceOsculatingPhase (KAM/Frozen/Planetary/StrongAMD/Defs/SourceOsculatingPhase.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:L16:defs#sourceOscEnergy
@@ -817,9 +817,9 @@ EDGE: lpM:L16:defs#oscEnergy | docs/tracks/LP/source/MAIN.md#L16@L515-L515 | the
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.sourceOscEnergy (KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEnergy.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:L16:defs#sourceOscAxis
@@ -845,9 +845,9 @@ EDGE: lpM:L16:defs#oscAxis | docs/tracks/LP/source/MAIN.md#L16@L516-L516 | the v
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.sourceOscAxis (KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscAxis.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:L16:defs#sourceOscEccVector
@@ -873,9 +873,9 @@ EDGE: lpM:L16:defs#oscEccVector | docs/tracks/LP/source/MAIN.md#L16@L517-L517 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.sourceOscEccVector (KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEccVector.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:L16:defs#sourceOscEcc
@@ -901,9 +901,9 @@ EDGE: lpM:L16:defs#oscEcc | docs/tracks/LP/source/MAIN.md#L16@L518-L518 | the va
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.sourceOscEcc (KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEcc.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:L16:defs#sourceOscPeri
@@ -929,9 +929,9 @@ EDGE: lpM:L16:defs#oscPeri | docs/tracks/LP/source/MAIN.md#L16@L523-L523 | the v
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.sourceOscPeri (KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscPeri.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:L16:defs#sourceOscApo
@@ -957,9 +957,9 @@ EDGE: lpM:L16:defs#oscApo | docs/tracks/LP/source/MAIN.md#L16@L523-L523 | the va
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StrongAMD.sourceOscApo (KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscApo.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: -
 
 NODE: lpM:s1:model#Phase
@@ -983,9 +983,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Phase (KAM/Frozen/Planetary/Defs/Phase.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition planetary.Phase.v1 (track P), bound as an LP anchor node (Q6)
 
 NODE: lpM:s1:model#bodyVector
@@ -1009,9 +1009,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.bodyVector (KAM/Frozen/Planetary/Defs/BodyVector.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition planetary.bodyVector.v1 (track P), bound as an LP anchor node (Q6)
 
 NODE: lpM:s1:model#NoCollision
@@ -1037,9 +1037,9 @@ EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#s1@L24-L24 | the E
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.NoCollision (KAM/Frozen/Planetary/Defs/NoCollision.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition planetary.NoCollision.v1 (track P), bound as an LP anchor node (Q6)
 
 NODE: lpM:s1:elements#keplerEnergy
@@ -1067,9 +1067,9 @@ EDGE: lpM:s1:data#planeSq | docs/tracks/LP/source/MAIN.md#s1@L28-L28 | the squar
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.keplerEnergy (KAM/Frozen/Planetary/Defs/KeplerEnergy.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition planetary.d25.keplerEnergy.v1 (track P), bound as an LP anchor node (Q6); convention watch: the frozen value is ν_i E_i, not the specific energy E_i
 
 NODE: lpM:s1:elements#keplerAxis
@@ -1095,9 +1095,9 @@ EDGE: lpM:s1:elements#keplerEnergy | docs/tracks/LP/source/MAIN.md#s1@L33-L33 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.keplerAxis (KAM/Frozen/Planetary/Defs/KeplerAxis.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition planetary.d25.keplerAxis.v1 (track P), bound as an LP anchor node (Q6)
 
 NODE: lpM:s1:elements#keplerAction
@@ -1123,9 +1123,9 @@ EDGE: lpM:s1:elements#keplerAxis | docs/tracks/LP/source/MAIN.md#s1@L33-L33 | Λ
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.keplerAction (KAM/Frozen/Planetary/Defs/KeplerAction.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition planetary.d25.keplerAction.v1 (track P), bound as an LP anchor node (Q6)
 
 NODE: lpM:s1:elements#keplerEccVector
@@ -1154,9 +1154,9 @@ EDGE: lpM:s1:data#planeSq | docs/tracks/LP/source/MAIN.md#s1@L29-L29 | the squar
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.keplerEccVector (KAM/Frozen/Planetary/Defs/KeplerEccVector.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition planetary.d25.keplerEccVector.v1 (track P), bound as an LP anchor node (Q6)
 
 NODE: lpM:s1:elements#planeCross
@@ -1180,9 +1180,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.planeCross (KAM/Frozen/Planetary/Defs/PlaneCross.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition planetary.d25.planeCross.v1 (track P), bound as an LP anchor node (Q6)
 
 NODE: lpM:s1:elements#totalMomentum
@@ -1209,9 +1209,9 @@ EDGE: lpM:s1:elements#planeCross | docs/tracks/LP/source/MAIN.md#s1@L34-L35 | L_
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.totalMomentum (KAM/Frozen/Planetary/Defs/TotalMomentum.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition planetary.d25.totalMomentum.v1 (track P), bound as an LP anchor node (Q6)
 
 NODE: lpM:s1:data#planeSq
@@ -1235,9 +1235,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.planeSq (KAM/Frozen/Planetary/Defs/PlaneSq.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition planetary.planeSq.v1 (track P), bound as an LP anchor node (Q6)
 
 NODE: lpM:s1:data#planeLength
@@ -1262,9 +1262,9 @@ EDGE: lpM:s1:data#planeSq | docs/tracks/LP/source/MAIN.md#s1@L15-L15 | the squar
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.planeLength (KAM/Frozen/Planetary/Defs/PlaneLength.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition planetary.planeLength.v1 (track P), bound as an LP anchor node (Q6)
 
 NODE: lpM:s1:data#planeDot
@@ -1288,7 +1288,7 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
 REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.planeDot (KAM/Frozen/Planetary/Defs/PlaneDot.lean)
+LEAN_NOTE: sealed frozen definition (manifest SEALED); formalized, nothing to prove
 NOTE: reused frozen definition planetary.planeDot.v1 (track P), bound as an LP anchor node (Q6)
