@@ -1,0 +1,13 @@
+linting took 1.26ms
+elaboration took 1.37ms
+.lake/v2-packed-gate/TorsNodeXN.lean:10843:2: error: Tactic `decide` failed to reduce
+  @decide (((ptXN 2 lg00GramInv gW gCfg lg00Box (1000001 / 1000000) tBook gMemo tMemo tEps).x 0 0).re % 7 < 7)
+    ((((ptXN 2 lg00GramInv gW gCfg lg00Box (1000001 / 1000000) tBook gMemo tMemo tEps).x 0 0).re % 7).decLt 7)
+to `true` or `false`.
+
+Reduction got stuck at
+  match 7 - (((ptXN 2 lg00GramInv gW gCfg lg00Box (1000001 / 1000000) tBook gMemo tMemo tEps).x 0 0).re % 7 + 1) with
+  | Int.ofNat m => isTrue ⋯
+  | Int.negSucc i => isFalse ⋯
+type checking took 7.34s
+linting took 1.34ms

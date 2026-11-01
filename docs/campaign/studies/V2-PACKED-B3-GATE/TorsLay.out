@@ -1,0 +1,5 @@
+typeclass inference of OfNat took 1.31ms
+elaboration took 1.49ms
+type checking took 1.31s
+tactic execution of Lean.Parser.Tactic.decide took 5.79ms
+linting took 3.04ms

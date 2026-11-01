@@ -339,5 +339,269 @@ on the standard axioms.
   - The landed `checkTorsion` matches on the landed `gramCheck`, so the 89-module landed Gram stage is still
     required by `checkTorsion`. In LG00, `lg00_checkTorsion` consumes `lg00GramCheck`.
   - With `gramPackedBase` the net change is therefore +73 s.
-  - The saving appears only with a packed torsion stage (B3) that takes the Gram result from the packed
-    check.
+  - A packed torsion stage (B3) that takes the Gram result from the packed check is necessary, but not
+    sufficient. Route A refined's frame checks (`checkFrameN`, `checkFrameT`, `Frame/Majorants.lean`) re-run the
+    landed Gram check and torsion models, so an LG00 saving also needs packed frames and a matching engine
+    (AUDIT-V2-PACKED-B3-1 M1; V2-PACKED-FRAMES).
+
+## 10. B3, the torsion stage (branch `v2-packed-b3`; details in `docs/campaign/handoffs/V2-PACKED-B3.md`)
+
+The packed torsion check is built and proved end to end (`checkTorsionPacked_sound`: the landed
+`checkTorsion_sound_of` conclusion; `torsPackedBase`: packed Gram and torsion, landed `CertifiedTorus`, with no
+landed Gram certificate). It is **exact**: packed models (`PEnc`, `PMat`) with exact products, radii through
+`‖a‖ s + r ‖b‖ + r s`, and averages read from the zero-key slot.
+
+**At LG00 size the exact chain does not fit the kernel.**
+- The windows grow additively, up to 263 × 315 for `T`, at 1,168-bit slots: numbers of up to 97 Mbit.
+- The kernel refuses `Nat.pow` results above 16.8 Mbit (`LEAN_NAT_MAX_SIZE`).
+- It also keeps every intermediate of a declaration: one entry of `DG⁻¹` takes 4.1 GB.
+
+The boundary (36 entries, 218 CPU-s), the guards and the Gram link pass on LG00's data.
+
+**The design consequence (B3b, proposed).** The packed chain must be bounded like the landed one:
+- round each node back to scale `2^P` (`gmpRound`), with the exact residual's packed norm in the radius;
+- truncate each node to the `ℓ∞` box of half-width 24, with the tail's packed norm in the radius;
+- decide the final test entry by entry, handing over centres and radii as small literals.
+
+Every number then stays ≤ 3.5 Mbit, and each process is estimated at ≤ 2 GB. "Exact, no rounding" (§9) works
+for the Gram stage because its windows stay small; it does not carry over to deep chains.
+
+## 11. B3b, the rounded and truncated torsion stage (branch `v2-packed-b3`; `docs/campaign/handoffs/V2-PACKED-B3B.md`)
+
+The B3 design consequence, built.
+- Every node of the torsion chain is an untrusted memo on one box: the ℓ∞ box of half-width 25, which contains
+  the landed `cfgLow` truncation. It is held at scale `2^128`.
+- The kernel checks each node entry by its exact residual against the exact product of the memoized inputs on
+  one window (`stageOk`). The rounding and truncation errors therefore enter the radius and are never assumed.
+- The averages of `T` and `Y` are checked against small tables, and the landed test runs on the tables.
+
+Every number stays ≤ 3.67 Mbit (360-bit slots on a 101 × 101 window), and every process ≤ 3.19 GB.
+
+**Gate on LG00's data:** 64 processes, 1,292 CPU-s (269 s kernel), against the landed Torsion stage's 637
+modules and 12,126 CPU-s. Together with B2's packed Gram stage, the two **sub-checks** cost 1,365 CPU-s against
+13,561 (≈ 9.9×, a stage-cost comparison; production assembly unmeasured).
+
+**There is no LG00 saving yet.** Route A refined's `checkFrameN`/`checkFrameT` re-run the landed Gram check and
+torsion models, so the landed stages stay (AUDIT-V2-PACKED-B3-1 M1). Packed frames and a matching engine are the
+next step (V2-PACKED-FRAMES). The jet compositions (`Low`, `Full`) are unchanged.
+
+**The memo-and-residual pattern** (a node verified by `packRepOk` and the packed norm of its exact residual) needs
+no digit lemma about the rounding or the truncation. It applies to any chain of packed products, including a
+packed jet evaluator.
+
+## 12. The packed jet evaluator (DESIGN ONLY; no Lean before the B3/B3b audit findings)
+
+The remaining dominant cost of an LG00-shaped certificate is the composition of the Hamiltonian's jet with the
+embedding. This section designs its packed replacement, with the check-by-residual pattern of §11.
+
+### 12.1 What the Low and Full stages compute
+
+**The program.**
+- `Slp.compose n p K wit W cfg pe wanted` (`KAM/Certificate/Expr/Compose.lean`) runs the jet program
+  `p = c.ham.jet.prog` slot by slot on Fourier models of `θ ↦ slot(K θ)`.
+- `composeStep` dispatches on the operation:
+  - `const re im deg`: `constModel`;
+  - `action j`: the action data `(2π)^{dA_j} A_j`;
+  - `char k`: a character witness, checked once and cached (`charSlot`);
+  - `add`: `CertModel.add` (degree conversion through the π enclosure);
+  - `mul`: `CertModel.mulN` (an advice-checked packed product, truncated to `cfg.cutoff`, rounded);
+  - `exp`, `inv`, `sqrt`: witnesses checked by `expWitnessRadius`, `invWitnessRadius`, `sqrtWitnessRadius`.
+- It returns the models of the wanted slots.
+
+**What its contract gives.** `Slp.compose_sound` gives only the **enclosure** of each wanted slot function
+`θ ↦ p.val n (K.eval n θ) i` on `T_ρ` (`SlotsEnclose`). That is all any consumer uses:
+
+| stage | call | consumer | what the consumer uses |
+|---|---|---|---|
+| **Low** | `Slp.compose … cfgLow (torsionSlots)`: the `2n` first and `(2n)²` second derivatives of `H` along `K` | `checkTorsion` (and the B3/B3b packed torsion) | `dxhModels_encloses`, `d1Models_encloses` from `SlotsEnclose` |
+| **Full** | `Slp.compose … cfgFull (d1Slots)` and `… [v0]` | `checkInvariance` (`invarianceModel`, sup bound ≤ `err`), `checkEnergy` (`energyOk`: zero mode of `H∘K − E₀`) | the enclosures of `∂_a H ∘ K` and `H ∘ K` |
+
+**LG00's program** (`lg00Jet`) has 7,816 operations: 4,310 `mul`, 1,854 `add`, 1,508 `const`, 120 `char`, 20
+`action`, 2 `inv`, 2 `sqrt`, 0 `exp`. LG00's census puts it at about 690 genuine (non-scalar) products in the two
+chains after pruning; most `mul`s multiply by a constant.
+
+**How LG00 proves it today.** The landed segment check `ComposeCkpt` (`KAM/CertificateSharp/Kernel/Seg*.lean`)
+cuts the program into segments; each one replays the landed `composeStep` on its live operations from a ledger of
+imported slot models, and the chain theorem `ComposeCkpt.compose_eq` gives `Slp.compose … = some ledger`. In
+`run20e`:
+
+| | modules | CPU |
+|---|---:|---:|
+| `Low.T` (segments) | 1,911 | 48,096 s (13.4 h) |
+| `Full.T` (segments) | 1,094 | 34,630 s (9.6 h) |
+| their literal modules (`L`, `D`, `V`, `K`, `P`, `Ckpt`) | 1,054 | 4,533 s |
+
+That is **24.2 of LG00's 30.1 CPU-h**. LG00's own analysis puts the cost in three places:
+- regular segments, about 115 M per-coefficient backend calls for additions, scalar products and degree
+  conversions: ≈ 9.6 h;
+- product shard groups and product segments (decode, truncation, ledger): ≈ 11 h;
+- witness certification: ≈ 0.8 h.
+
+**Note (AUDIT-V2-PACKED-B3-1 M1).** The landed `checkFrameT` of route A refined re-runs the landed
+`torsionModels`, and that includes the `cfgLow` composition. The jet's `Low` saving therefore also needs the
+packed frames of V2-PACKED-FRAMES, whose `T` comes from the packed torsion.
+
+### 12.2 The bridge: at the enclosure, not at the landed segment check
+
+**Why not the landed segment check.** `segOk` asserts **bit-equality** of the replayed state with the landed
+rounded models: `pairBeq`, then `compose_eq`, then `Slp.compose … = some ledger`. A packed evaluator rounds
+differently (it rounds the exact window product to `2^P` and truncates to a box), so it cannot satisfy it.
+
+**Bridging B1-style, by accelerating the landed products inside the landed segments, is rejected.** It keeps the
+9.6 h of per-coefficient regular segments and the ledger volume, and V2-PACKED measured its product gain at about
+4.7× on products alone.
+
+**The bridge proposed** is the content of `Slp.compose_sound` itself:
+
+```
+theorem jetPacked_sound … (h : jetCheck n p K wit W pe jb jm wanted = true) :
+  ∀ i ∈ wanted, PEnc jb.Lb jb.bR jb.P (jetNode jm i) (jetRad jm i) (jetNb jm i) n W.rho
+    (fun θ => p.val n (K.eval n θ) i)
+```
+
+These are packed models (§11's `PEnc`, scale `2^P`, degree 0) of the same slot functions.
+
+**The consumers.** Each consumer gets a packed variant that takes these packed models where it took
+`SlotsEnclose ms`:
+- **Torsion:** `checkTorsionJ` is B3b's `checkTorsionR` with its `DX_H ∘ K` and `DH ∘ K` boundary read from the
+  jet nodes. This removes `ptAOk`/`ptD1Ok` and the landed `cfgLow` composition.
+- **Invariance:** `checkInvarianceJ` takes the packed `X_H(K) − DK (s ω)` from the jet's `d1` nodes, `DK` (the Gram
+  memo) and the frequency constant. It then needs one packed norm (§B2 `pcNorm`) plus radii, ≤ `err`.
+- **Energy:** `checkEnergyJ` takes the zero-key slot of the `v0` node (`PEnc.average`, B3) ± radius, ≤ `err`.
+
+The base checker `jetBase : BaseChecker` combines the landed `checkStatic`, `checkHamBounds` and `checkEmbedding`
+with the packed Gram stage (B2), the packed torsion (B3b/J), the packed invariance and the packed energy. It
+reaches the landed `CertifiedTorus` through the landed `checkV2With_sound`. No landed `Slp.compose` remains.
+
+**Landed contracts reused:**
+- `SlpOp.step`/`Slp.val` (the semantics);
+- `charSlot_sound`, `invWitness_sound`, `sqrtWitness_sound`, `expWitness_sound` (the nonlinear operations);
+- the landed `invarianceModel`/`energyOk` statements as the target conclusions;
+- `torsion_eq_models` (via B3b).
+
+### 12.3 The packed representation
+
+- **A jet node** is a packed model on a **box** `Lb`: an ℓ∞ box of half-width `h`, stride `4h + 1`, slot width `w`.
+  It is held at scale `2^P` and **degree 0**, with a radius and a norm bound.
+- **Degrees are removed at the constants.** A `const re im d` becomes the dyadic ball of
+  `(re + i im)(2π)^d`, with the π enclosure (`pe`) in its radius. The same holds for the `(2π)^{dA_j}` of `action j`.
+  The landed models keep degrees to avoid π rounding; at `P = 128` the rounding is about `2^-120` relative, which
+  is negligible against `cfgLow`/`cfgFull` truncation.
+- **Products** land on the window `Lw = win Lb Lb`, at scale `2^(2P)`.
+- **Linear operations stay exact and on the box.** `add`, and `mul` by a constant, are done with mixed scales:
+  `c x` with `c` at scale `2^Pc` lands at `2^(P + Pc)`, and summands are aligned by an exact unit shift. The scale
+  is re-normalized only at the next reduce.
+- **Box per chain.**
+  - `Low`: `h = 25`, the B3b box, which contains the `cfgLow` cutoff (ℓ¹ 24). The window is 101 × 101, about
+    3.6 Mbit at `w ≈ 360`.
+  - `Full`: `h = 48`, which contains the `cfgFull` cutoff 48. The window is 193 × 193, about 13.4 Mbit, under the
+    16.8 Mbit numeral cap with no `LEAN_NAT_MAX_SIZE` change. The invariance tolerance (`err = 8.1·10⁻¹⁸`) needs
+    the larger box: the tail beyond `|k| = 48` must sit far below `err`. The generator checks this before
+    emitting.
+
+### 12.4 The residual check, in two forms
+
+The core lemma is §11's `PEnc.stage`. `x` is the exact value on the source layout and `x'` a candidate on the box.
+If the residual's packed norm plus the propagated radius stays below the candidate's radius, the candidate is a
+packed model of the same function. The lemma needs only an `SRep` of `x'`. There are two ways to obtain it:
+
+- **(M) Memo.** `x'` is a generator literal validated by `packRepOk`, exactly as in B3b. This needs no new
+  lemma, but costs one literal per reduced node. LG00 has about 690 products, at about 1.2–2.5 k terms per node
+  (both parts), which comes to ≈ 40–80 MB of source per certificate.
+- **(Z) Computed in the kernel.**
+  - `x'` is computed by the kernel itself. `gmpRound` (Round.lean, already proved) rounds to scale `2^P`; one
+    mask on the offset digits zeroes the slots outside the box; one exact shift moves it onto `Lb`.
+  - `x'` is then validated by one Boolean `boxOk Lb l x'`. This is `loadOk` (Round.lean) restricted to the box:
+    the offset `2^l` sits on the box slots only, the mask allows `l + 1` bits on the box slots and 0 elsewhere,
+    and there is one comparison.
+  - **Lemmas.** `boxOk_sound : boxOk L l Z = true → ∃ d, SRep L (2^l) Z d` needs a digit-wise `&&&` lemma (an
+    induction on `land_split`, Digits.lean) and the closed form of the box mask. The mask is one row pattern times
+    `periodic (w·S) R 1`, proved like `periodic_eq_natPack`. Estimate: 150–250 lines.
+  - **No literal** is needed inside a segment. The correctness of `gmpRound` or of the mask is **not** needed:
+    `boxOk` and the residual decide everything, so a wrong computation fails closed.
+
+**Recommendation: (Z).** It removes the per-node literal volume, which is LG00's other cost centre (≈ 125 MB of
+source and 3.6 CPU-h of elaboration at L = 20), and keeps segments long. (M) remains the fallback for nodes whose
+inputs come from another process: the ledger.
+
+**The nonlinear operations:**
+- **`char k`** (120 operations, 24 witnesses). The operand is the embedding's `U`, not a chain slot, so the landed
+  witness check runs unchanged (`charSlot`, cached). Its output, the landed `shiftModel`, is packed by `pcOfPoly`
+  with `pcOfPolyOk` (B2, `PCRep.ofPoly`); the generator checks its keys fit the box. LG00 measured one
+  certification at about 22 s, i.e. 24 per chain.
+- **`inv`, `sqrt`, `exp`** (4 operations in LG00). The operand is a chain slot.
+  - Its box node is written once as a landed `CertPoly` memo `Q₀`. The kernel checks that
+    `pcOfPoly Q₀ = x'` (one packed equality), and converts the `PEnc` into a landed `CertModel.Encloses` of
+    `⟨0, Q₀, ofRatUp r⟩` (`PEnc.toModel`, new, about 40 lines, via `srep_of_packRepOk`/`intEval`).
+  - The landed witness check then runs on that model.
+  - These operations stay landed because they are rare: four witnesses at 10–20 s each.
+
+### 12.5 Segments and the ledger
+
+The program is cut into **segments** of consecutive operations, as in the landed plan but simpler.
+- **The state.** A segment's state is a list of packed nodes (box, scale, radius, norm bound), with no cache and
+  no `nExp`/`nInv` counters. Witness indices are static functions of the program (the number of `exp`/`inv`
+  operations before slot `i`, and the slot itself for `sqrt`), computed in the plan.
+- **Seeding.** A segment is seeded from the **ledger**: (M)-memos of the slots it imports, each validated by
+  `packRepOk`. It runs its live operations in the kernel (linear operations exact, products followed by a (Z)
+  reduce, nonlinear operations as above) and **exports** its ledger slots.
+- **The export check.** It compares the exported node with its ledger memo (packed equality and `ble` of radius
+  and norm bound).
+
+**The plan check.**
+- Segments tile the program.
+- Imports come earlier and are exported.
+- Every wanted slot is on the ledger.
+
+The landed `planOk`/`segsTile` logic carries over without the metadata.
+
+**The chain theorem** (`jetChain_sound`) is a strong induction on the slot index. If every live slot of a
+segment is a packed model of its slot function given its operands' models, and every import is one by the
+induction hypothesis (through the ledger), then every export is one. The per-operation lemmas are:
+- `const`, `action`: exact data and a π radius;
+- `add`, scalar `mul`: `PEnc.add`, `PEnc.mul` with a constant, the unit shift (§9–§11);
+- product `mul`: `PEnc.mul`, then `PEnc.stage` with the (Z) validator;
+- `char`, `inv`, `sqrt`, `exp`: the landed witness soundness through `PCRep.ofPoly` / `PEnc.toModel`.
+
+Dead operations (not on a path to a wanted slot) are skipped, as the landed `shadowStep` does; `opDeps` and
+liveness are computed by the plan.
+
+### 12.6 Cost model (LG00 rates from B3b; ±2×, to be gated)
+
+- **Per genuine product** (box `h`, one complex product plus a (Z) reduce plus a residual norm): about 0.5 s of
+  kernel time at `h = 25`. This scales from B3b's `TRStN`: 12.4 s for 8 entries of 2 complex products, packing
+  included. At `h = 48`, about 2 s: ×4 sizes, near-linear GMP.
+- **Per linear operation:** 10–50 ms (GMP additions and small multiplications on numbers of at most 4 Mbit).
+- **Per witness:** landed, 10–22 s.
+- **Per segment:** import plus ledger elaboration, about 15–30 s. Segment length is bounded by kernel memory:
+  about 30 MB per product kept by the kernel, so about 50 products and 1.5 GB per segment, ≤ 4 GB.
+
+| chain | products | linear ops | witnesses | segments | estimate |
+|---|---:|---:|---:|---:|---:|
+| Low (`h = 25`) | ≈ 345 × 0.5 s | ≈ 3,000 × 0.03 s | 26 × 20 s | ≈ 10 × 25 s | ≈ 1,000 CPU-s |
+| Full (`h = 48`) | ≈ 345 × 2 s | ≈ 3,000 × 0.03 s | 26 × 20 s | ≈ 15 × 25 s | ≈ 1,700 CPU-s |
+
+**Total:** ≈ 0.75 CPU-h against 24.2 CPU-h landed, about 30× on the two chains, and ≈ 20× with consumer and data
+overheads. These are estimates. The first gate measures one `Low` segment of 50 products at LG00 size.
+
+**Memory and the numeral cap.** Every number is at most one window (3.6 Mbit `Low`, 13.4 Mbit `Full`), so no
+`LEAN_NAT_MAX_SIZE` change is needed. Every process is planned at ≤ 2 GB.
+
+### 12.7 Lean work, in order (after the audit findings)
+
+1. `boxOk`, `boxOk_sound`, and the (Z) reduce with its `PEnc.stage` instance. Gate: one LG00 product at
+   `h = 25` and `h = 48`.
+2. Jet nodes and the per-operation lemmas (`const`, `action`, `add`, scalar and genuine `mul`, `char`, `inv`,
+   `sqrt`, `exp`), including `PEnc.toModel`.
+3. Segments, the ledger, the plan, and `jetChain_sound` → `jetPacked_sound`.
+4. The consumers: `checkTorsionJ` (B3b on the jet's boundary), `checkInvarianceJ`, `checkEnergyJ`, and
+   `jetBase` → `CertifiedTorus`.
+5. The generator: a plan cutter by product count and memory, ledger memos, the (Z) mirror (bit-exact, as
+   `torsr_gate_gen.py`), and the gate on LG00's two chains.
+
+### 12.8 Open points for the owner
+
+- **(M) or (Z).** (Z) is recommended: no literal per node, 150–250 lines of digit lemmas.
+- **The `Full` box (`h = 48`, window 13.4 Mbit) against a split of the invariance residual into two boxes.** The
+  generator decides it from the measured tail, below `err`.
+- **The production data module** (owner decision 1) is shared with the jet ledger and the B3b memos.

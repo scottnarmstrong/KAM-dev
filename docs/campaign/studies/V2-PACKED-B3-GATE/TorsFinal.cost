@@ -1,0 +1,8 @@
+Command exited with non-zero status 137
+wall_s 16.24
+user_s 16.33
+sys_s 1.87
+maxrss_kb 5604140
+exit 137
+cgroup_sampled_peak_bytes 4173770752
+oom_kill 1
