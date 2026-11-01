@@ -8,8 +8,10 @@ Copies, from `lg00-app`'s package `applications/lg00/LG00` (read only), the modu
     and `Data/Cert`, the certificate WITHOUT the landed composition's advice (`cfgLow`/`cfgFull` advice `[]`) and
     WITHOUT witnesses (`wit` empty): the packed route reads neither, and `CertifiedTorus` reads only `params`, `ham`,
     `weightH`, `centre`, `radius` and `emb`, so the copy certifies the same torus.
-Writes OUT/<P>/... and prints the module list. The text is otherwise byte-identical to the source (checked: every
-copied definition outside `lg00Wit`, `lg00CfgFull.advice`, `lg00CfgLow.advice` and the imports is unchanged).
+Writes OUT/<P>/... (a file already holding its text is left untouched, so a second tree, e.g. `--tree=TPP`, does
+not touch the shared modules) and prints the module list. The text is otherwise byte-identical to the source
+(checked: every copied definition outside `lg00Wit`, `lg00CfgFull.advice`, `lg00CfgLow.advice` and the imports is
+unchanged).
 Usage: python3 -I scripts/packed/prod_cert_gen.py OUT [--app=APP_ROOT] [--tree=TP] [--prefix=LG00P]
 """
 import os
@@ -56,6 +58,14 @@ def cert_text(src, pre, tree):
     return s
 
 
+def put(dst, text):
+    """Write `text` to `dst` unless it already holds it (a second tree leaves the shared modules untouched)."""
+    if os.path.exists(dst) and open(dst).read() == text:
+        return
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    open(dst, "w").write(text)
+
+
 def main():
     out = sys.argv[1]
     app = opt("app", "/home/scott/KAM-dev-worktrees/lg00-app/applications/lg00")
@@ -63,17 +73,13 @@ def main():
     mods = []
     for m in SHARED:
         src = open(os.path.join(app, "LG00", m + ".lean")).read()
-        dst = os.path.join(out, pre, m + ".lean")
-        os.makedirs(os.path.dirname(dst), exist_ok=True)
-        open(dst, "w").write(rename(src, pre))
+        put(os.path.join(out, pre, m + ".lean"), rename(src, pre))
         mods.append("%s.%s" % (pre, m))
     for m in TREE_DATA + ["Data/Cert"]:
         src = rename(open(os.path.join(app, "LG00", tree, m + ".lean")).read(), pre)
         if m == "Data/Cert":
             src = cert_text(src, pre, tree)
-        dst = os.path.join(out, pre, tree, m + ".lean")
-        os.makedirs(os.path.dirname(dst), exist_ok=True)
-        open(dst, "w").write(src)
+        put(os.path.join(out, pre, tree, m + ".lean"), src)
         mods.append("%s.%s.%s" % (pre, tree, m.replace("/", ".")))
     print("\n".join(mods))
 

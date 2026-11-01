@@ -16,7 +16,8 @@ steps, characters and witness candidates), cuts the chain into blocks as `jet_lo
                 `lg00Cert.ham.jet` (the jet bridge `lg00Ham_jet`).
 The order certificate names, for every import, the block that exports its key; every import is checked to have an
 earlier exporter and every ledger node to be the exporter's exact node (by construction from the mirror).
-Prints the module list in dependency order (`modules.txt`) and the plan (`<C>Plan.json`).
+Writes the module list in dependency order (OUT/`modules_<C>.txt`) and the plan (OUT/`<C>Plan.json`); for a tree
+other than `TP` these are OUT/`modules_<T>_<C>.txt` and OUT/`<T><C>Plan.json` (one package holds several tori).
 Usage: python3 -I scripts/packed/jet_prod_gen.py CHAIN.json MIRROR.pkl OUT --stage=Low|Full [--prefix=LG00P]
        [--tree=TP] [--heavy=8] [--seg-io=13] [--char-keys=2] [--char-io=12] [--act=4] [--taylor=3] [--pows=2]
        [--led-nodes=12]
@@ -418,14 +419,15 @@ def main():
     write(out, base + ".ChainCert", [base + ".Chain", PRE + ".JetBridge"],
           "The %s chain at the certificate's jet" % C_, "`jet%s_check` moved to `lg00Cert.ham.jet` by the jet "
           "bridge (LG00's shared `lg00Ham_jet`; built once, above 4 GiB)." % C_, cert_chain, src)
-    with open(os.path.join(out, "modules_%s.txt" % C_), "w") as f:
+    tag = "" if TREE == "TP" else TREE
+    with open(os.path.join(out, "modules_%s%s.txt" % (tag + "_" if tag else "", C_)), "w") as f:
         f.write("\n".join(mods) + "\n")
     plan = dict(stage=STAGE, source=src, blocks=[dict(i=i, kind=b.kind, heavy=b.heavy, imports=len(b.imports),
                                                       exports=len(b.exports)) for i, b in enumerate(blocks)],
                 ledger_nodes=len(node_of), ledger_parts=len(parts), wanted=wanted, b=bmax,
                 wanted_radii={str(j): [float(JL.F(node_of[("slot", j)].r, 2 ** P)),
                                        float(JL.F(node_of[("slot", j)].nb, 2 ** P))] for j in wanted})
-    json.dump(plan, open(os.path.join(out, "%sPlan.json" % C_), "w"), indent=1)
+    json.dump(plan, open(os.path.join(out, "%s%sPlan.json" % (tag, C_)), "w"), indent=1)
     kinds = {}
     for b in blocks:
         kinds[b.kind] = kinds.get(b.kind, 0) + 1
