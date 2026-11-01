@@ -160,6 +160,15 @@
    "source": "MAIN L5-L6, d=3"
   },
   {
+   "id": "LP-SP-OSC",
+   "wave": 4,
+   "weight": 1.0,
+   "modules": [
+    "KAM/Planetary/Spatial/Osculating.lean"
+   ],
+   "source": "MAIN L16, d=3"
+  },
+  {
    "id": "LP-SP-DOM",
    "wave": 4,
    "weight": 1.5,
