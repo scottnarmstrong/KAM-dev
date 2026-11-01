@@ -50,8 +50,7 @@ New:
   `sensitivity.py`, `precision_check.py`, `validation_tables.py`, `table2_analysis.py`,
   `nbody_secular_freq.py`.
 - `applications/sjsu/validation/`: 18 small tables (index in its `README.md`).
-- `docs/explorations/sjsu-model-recovery.md`, this handoff, and `SJSU-P0-email-draft.md`
-  (for Scott to send; nobody was contacted).
+- `docs/explorations/sjsu-model-recovery.md` and this handoff. Nobody was contacted.
 - Outside the repository: `/home/scott/kam-tools/papers/slg13-sjsu-arxiv-1010.2609v1/` and
   `…/gls17-sjsu-arxiv-1702.04894v1/` (pdf, text, `SHA256SUMS`; the PDFs match the scoping
   pins), and regenerable runs under `~/kam-data/sjsu/` (N-body, fits, order study, builds,
@@ -129,15 +128,22 @@ Deviations introduced (all stated in the dataset): strict order two; corrected n
 Table 1 read as Poincaré elements; χ degree 6; eq. (12) as printed; the additive constant
 dropped and reversibility/reality enforced exactly after a round-off check.
 
-## Owner questions
+## Owner decisions
 
-1. Which model should phase 1 certify: SJSU18-O2 (published), an order-3 degree-18 variant
-   closer to the printed numbers (a few CPU-hours, needs a targeted producer), or wait for the
-   authors' file?
-2. Send the email draft to Sansottera, Locatelli and Giorgilli?
-3. `CITATION.cff`: Zohar Komargodski's affiliation, and the public repository URL.
-4. The nominal initial point for later phases: we recommend our first-order Table 1 map (it
-   matches the N-body modal amplitudes to ≤ 1 %), not Table 2 (which reproduces GLS17's eq. (37)
-   but not the N-body dynamics). Agree?
-5. Orchestrator: add a catalogue entry for the report in `docs/explorations/README.md`
-   (outside my write scope), and record the errata above.
+Recorded owner decisions (Scott, 1 November 2026, 15:50 UTC):
+
+1. Phase 1 certifies **SJSU18-O2 as published** (strictly second order in the masses).
+2. The nominal initial point of later phases is **our Table 1 map**: Table 1 read as Poincaré
+   elements, then the first-order Lie map to the secular variables (report §5.3). Table 2's mismatch
+   remains erratum candidate SJSU-E2.
+3. `CITATION.cff`: Zohar Komargodski, Simons Center for Geometry and Physics, Stony Brook
+   University; repository https://github.com/scottnarmstrong/KAM-dev.
+4. The source authors are not contacted.
+
+Applied in one commit: `CITATION.cff` updated, decision 4 applied, and the decisions recorded
+in this handoff, the README and the report §10.
+
+## Open items for the orchestrator
+
+- Add a catalogue entry for the report in `docs/explorations/README.md` (outside my write
+  scope), and record the errata above in `docs/errata/ledger.json`.

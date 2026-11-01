@@ -274,7 +274,7 @@ supports the first-order Table 1 map, and not Table 2, as the physical initial p
   Eq. (37) is consistent with Table 2. The full N-body flow decides between them: its mean modal
   amplitudes match our Table 1 map to ≤ 1 % and miss Table 2 by 15–68 % (§6.2). **Measured
   conclusion:** Table 2's (x(0), y(0)) do not represent the Table 1 initial data; their origin
-  remains an author question.
+  is unknown, and the mismatch stays erratum candidate SJSU-E2.
 * **SJSU-E3 (new).** SLG13 §3.2, last paragraph (journal p. 7): "we decided to calculate the
   generating functions χ₁ and χ₂ up to degree 9 (recall Eqs. (6) and (7))". But eqs. (6)–(7)
   sum j₂ ≤ 6, and GLS17 §2.2 says "up to degree 6". This is material: degree 9 changes the
@@ -356,14 +356,17 @@ model, small tables and scripts are committed; the first-order expansion (1.08 M
 regenerable, and its hash is in `data/sjsu18-o2.SOURCE.txt`. Commands are in
 [`applications/sjsu/README.md`](../../applications/sjsu/README.md#how-to-regenerate).
 
-## 10. Owner questions
+## 10. Owner decisions
 
-1. **Which model should phase 1 certify?** SJSU18-O2 (strict, published, well-defined), a
-   higher-order Lie model closer to the printed numbers (truncation to be defined; degree 18 at
-   order ≥ 3 needs a dedicated producer), or wait for the authors' file?
-2. Send the draft email to the authors
-   ([`SJSU-P0-email-draft.md`](../campaign/handoffs/SJSU-P0-email-draft.md))?
-3. `CITATION.cff`: Zohar Komargodski's affiliation, and the public repository URL.
-4. Nominal initial point of later phases: we recommend our first-order Table 1 map (it matches
-   the N-body modal amplitudes to ≤ 1 %), not Table 2 (which reproduces GLS17's eq. (37) but not
-   the N-body dynamics). Agree?
+Recorded owner decisions (Scott, 1 November 2026, 15:50 UTC):
+
+1. Phase 1 certifies **SJSU18-O2 as published** (strictly second order in the masses).
+2. The nominal initial point of later phases is **our Table 1 map**: Table 1 read as Poincaré
+   elements, then the first-order Lie map to the secular variables (§5.3). Table 2's mismatch
+   remains erratum candidate SJSU-E2.
+3. `CITATION.cff`: Zohar Komargodski, Simons Center for Geometry and Physics, Stony Brook
+   University; repository https://github.com/scottnarmstrong/KAM-dev.
+4. The source authors are not contacted.
+
+An order-3 or higher degree-18 variant (closer to the printed numbers; §6.1, §7) is therefore
+not pursued in phase 1.

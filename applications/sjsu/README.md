@@ -156,6 +156,23 @@ python3 -I applications/sjsu/scripts/precision_check.py
 | `build_model.py`, `make_manifest.py`, `test_regression.py` | the model file, its manifest and its regression test |
 | `order_study.py`, `sensitivity.py`, `precision_check.py`, `validation_tables.py`, `table2_analysis.py` | validation tables in `validation/` |
 
+## Owner decisions
+
+Recorded decisions (Scott, 1 November 2026, 15:50 UTC):
+
+1. Phase 1 of the SJSU certificate pilot certifies **SJSU18-O2 as published** (strictly second
+   order in the masses).
+2. The **nominal initial point** of later phases is the Table 1 data read as Poincaré elements
+   and mapped to the secular variables by the first-order Lie map (`scripts/initial_map.py
+   --ic poincare --order 1`, `validation/table2_map_poincare_order1.json`):
+   (ξ_J, ξ_S, ξ_U) = (0.03446271128616895, −0.0014352339355918572, −0.010122263133599879),
+   (η_J, η_S, η_U) = (−0.009080669615926963, −0.025602508346796338, −0.0016540224121661881),
+   modal amplitudes R = (0.025264, 0.036570, 0.007567). These amplitudes match the N-body flow
+   to ≤ 1 %; SLG13 Table 2 is not used, and its mismatch remains erratum candidate SJSU-E2.
+3. Citation: authors and affiliations as in [`CITATION.cff`](CITATION.cff); repository
+   https://github.com/scottnarmstrong/KAM-dev.
+4. The source authors were not contacted.
+
 ## Validation and differences from the published model (summary)
 
 Measured; details, tables and every source issue are in the
@@ -196,4 +213,5 @@ of the source, not errors bounded here.
 
 ## Version history
 
-* 0.1.0 (1 November 2026): first public reconstruction (strict order two in the masses).
+* 0.1.0 (1 November 2026): first public reconstruction (strict order two in the masses);
+  owner decisions recorded (phase-1 model, nominal initial point, citation).
