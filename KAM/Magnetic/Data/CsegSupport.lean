@@ -14,8 +14,9 @@ public import KAM.CertificateSharp.Kernel.ProductSplit
 # Support lemmas for the generated segmented proofs (SO-CSEG-GEN)
 
 Equations between computable terms, used by the modules that
-`scripts/magnetic/mag_csplit_emit.py` generates (a copy of `KAM.SpinOrbit.Data.CsegSupport` under the magnetic
-prefix, so that the magnetic application does not require the lunar band library):
+`scripts/magnetic/mag_csplit_emit.py` generates (a copy of `KAM.SpinOrbit.Data.CsegSupport`
+under the magnetic prefix, so that the magnetic application does not require the lunar band
+library):
 
 * `mul_eq_of_polyProduct_cseg`: the landed `CertModel.mul` with its polynomial product memoized
   (the analogue of `CertModel.mulN_eq_of_polyProduct` for the products of the Gram and torsion
