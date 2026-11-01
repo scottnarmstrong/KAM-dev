@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-01 02:37 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 56 % · track LP 33 %** · frozen statements proved: 26 / 31 · **406,920 lines of hand-written Lean** of an estimated ≈ 492,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-01 02:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 56 % · track LP 33 %** · frozen statements proved: 26 / 31 · **407,990 lines of hand-written Lean** of an estimated ≈ 494,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -284,18 +284,18 @@ Overall, everything together: 84.6 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **406,920** (313,864 excluding blank lines and comments) · **+40,989** since 2026-10-31 02:20 UTC |
+| On `main` now (hand-written) | **407,990** (314,602 excluding blank lines and comments) · **+42,059** since 2026-10-31 02:40 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 632,896 lines in 1,649 modules |
-| Written on agent branches, not yet landed (hand-written) | 41,824 |
+| Written on agent branches, not yet landed (hand-written) | 42,605 |
 | Generated certificate data on agent branches (numeric literals; not counted in the other rows) | 5,129 |
-| **Estimated total at completion** (hand-written) | **≈ 492,000** |
+| **Estimated total at completion** (hand-written) | **≈ 494,000** |
 | Estimated still to write | ≈ 44,000 (21,000–66,000 over the range of track W's plan) |
 
 **How the size is estimated.** Every figure except the two rows of generated data counts hand-written Lean only: the generated certificate data under `KAM/SpinOrbit/Data/` (the barrier tori of the Moon, emitted by `scripts/spin_orbit/` and checked by the kernel) are counted apart. The estimate scales the lines written so far for the other tracks (on `main` plus the agent branches: tracks K, I, N, P and R, the sharp a-posteriori theorems and certifiers, the shared infrastructure) by the done share of the Lean work items, weighted by difficulty (track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P: 100 % done); adds track SO from its design (its lines on `main` plus the line estimates of its packages not yet landed, 0 lines; the Lean packages of part 3 are on `main`, and what it still needs is generated data); and adds track W from its planning range of 93,000–126,000 lines (graph-scaled (2026-10-31): track W's dependency graph has 690 nodes; the finished tracks average 87 lines of Lean per graph node (K 72, I 83, N 59, P 109), so 690 × 87 ≈ 60k; the high end uses track P's 109 per node plus 20 % for infinite-dimensional infrastructure (sequence spaces, parameter-Lipschitz estimates), ≈ 90k; replaces the low-confidence 34k–70k of docs/TRACKS.md; raised to its measured rate, 109,000 lines for the whole graph at its lines on `main` per resolved node; midpoint used), of which 80,434 are written; and adds track LP from its planning range of 12,000–25,000 lines (the Lean roadmap of the audited proof; midpoint used), of which 3,658 are written. The side project LG00 is not counted: its certificate never enters this library. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv) (`lean_lines` counts every module, `generated_lines` the generated data among them).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 02:37 UTC from `main` at `71c73243` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 02:40 UTC from `main` at `ec56ab55` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -317,7 +317,7 @@ Overall, everything together: 84.6 %
 
 **Frozen statements proved: 26 / 31** · frozen definitions: 148
 
-**Lean on `main` (hand-written):** 2,086 modules · 406,920 lines · 17,329 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0 (both scans cover every module, generated data included)
+**Lean on `main` (hand-written):** 2,091 modules · 407,990 lines · 17,368 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0 (both scans cover every module, generated data included)
 
 **Generated certificate data on `main`:** 632,896 lines in 1,649 modules (numeric literals; not counted above), with 4,663 generated kernel-check theorems; under [`KAM/SpinOrbit/Data/`](KAM/SpinOrbit/Data)
 
@@ -471,9 +471,9 @@ flowchart BT
 | [`KAM/Planetary/`](KAM/Planetary) | Track P: planetary KAM | 761 | 147,974 | 6062 |
 | [`KAM/Russmann/`](KAM/Russmann) | Track R: Rüssmann's KAM theorem (finite-order non-degeneracy, Lipschitz extension, assembly) | 12 | 1,631 | 48 |
 | [`KAM/Sharp/`](KAM/Sharp) | Sharp explicit a-posteriori KAM: Newton engine, torsion route, step, g1_sharp, parameter boxes | 20 | 4,469 | 107 |
-| [`KAM/CertificateSharp/`](KAM/CertificateSharp) | The sharp KAM certifier: engine-agnostic checker, rational constants, soundness | 117 | 22,177 | 1016 |
+| [`KAM/CertificateSharp/`](KAM/CertificateSharp) | The sharp KAM certifier: engine-agnostic checker, rational constants, soundness | 122 | 23,242 | 1055 |
 | [`KAM/Sharp2/`](KAM/Sharp2) | v2 sharp a-posteriori KAM: route A, modified step (route B), l1 entry, small-divisor constants, PlasmaLean example | 108 | 27,182 | 1121 |
-| [`KAM/Root/`](KAM/Root) | Generated parts of the core root KAM.lean (scripts/gen_root_imports.py; the application roots `<Lib>.lean` and their parts live beside it, D51) | 27 | 2,530 | 0 |
+| [`KAM/Root/`](KAM/Root) | Generated parts of the core root KAM.lean (scripts/gen_root_imports.py; the application roots `<Lib>.lean` and their parts live beside it, D51) | 27 | 2,535 | 0 |
 | [`KAM/Certificate/`](KAM/Certificate) | Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies) | 90 | 22,540 | 1054 |
 | [`KAM/SpinOrbit/`](KAM/SpinOrbit) | Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs, the Moon's band theorems, the synchronous lock in `Lock/`); its generated certificate data are the next row | 37 | 6,771 | 390 |
 | [`KAM/SpinOrbit/Data/`](KAM/SpinOrbit/Data) | Track SO: generated certificate data of the barrier tori (numeric literals emitted by `scripts/spin_orbit/`, checked by the kernel; with their literal format and support lemmas); counted apart from the hand-written Lean | 1649 | 632,896 | 4663 |
@@ -485,7 +485,7 @@ flowchart BT
 
 | Library | Content | Modules | Hand-written lines | Generated data lines | Theorems |
 |---|---|---|---|---|---|
-| `KAM` (default) | The core: every module not assigned to an application | 2054 | 404,123 | — | 17320 |
+| `KAM` (default) | The core: every module not assigned to an application | 2059 | 405,188 | — | 17359 |
 | [`KAMLunarBand`](KAMLunarBand.lean) | SO-2: the Moon's spin-orbit band (N = 65 barrier tori) | 1654 | 267 | 632,896 | 4672 |
 | [`KAMLunarLock`](KAMLunarLock.lean) | SO-3: the Moon locked in synchronous rotation (N = 65 librational torus) | 0 | 0 | 0 | 0 |
 <!-- /AUTO:areas -->
@@ -503,13 +503,12 @@ account read from each agent's running process) and their branches. Rules for ag
 |---|---|---|---|---|---|---|---|
 | **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
-| **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | 🔄 working | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
+| **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA lock_mlane: dry-run schedule (LOCK_DRY=1) and missing-source report | `inp-lockdata` | 55 (vs `inp`) |
-| **lp** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: Merge inp-lp-oscaud (LP-OSC, audit LP-OSC-1 PASS WITH NOTES) into inp-lp | `inp-lp` | 11 (vs `inp`) |
-| **lp-domx** `inp-mprov-lp-domx` | prover (offload) | Claude Sonnet 5.5 | claude-11 | 🔄 proving | last commit: LP: LP-DOMX brief (remaining MAIN L8 clauses, for PROVED bookkeeping) | `inp-lp-domx` | 3 (vs `inp`) |
-| **lp-lift** `inp-mprov-lp-lift` | prover (offload) | Claude Sonnet 5.5 | claude-12 | 🔄 proving | last commit: LP-LIFT: stopped-interval estimates and the chart lift | `inp-lp-lift` | 3 (vs `inp`) |
-| **lp-w3b** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: Merge inp-lp-nrr (LP-NRR) into inp-lp-w3b for the combined CONF+NRR audit | `inp-lp-w3b` | 15 (vs `inp`) |
+| **lp-domx** `inp-mprov-lp-domx` | prover (offload) | Claude Sonnet 5.5 | claude-11 | 🔄 proving | last commit: LP-DOMX: chart/momenta extension, Cauchy bounds, denominator tube (milestone) | `inp-lp-domx` | 1 (vs `inp`) |
+| **lp-lift** `inp-mprov-lp-lift` | prover (offload) | Claude Sonnet 5.5 | claude-12 | 🔄 proving | last commit: LP-LIFT: stopped-interval estimates and the chart lift | `inp-lp-lift` | 1 (vs `inp`) |
+| **lp-w3b** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: LP-W3B: combined CONF+NRR audit handoff | `inp-lp-w3b` | 5 (vs `inp`) |
 | **w7land** `inp-mprov-wpl` | prover (offload) | Claude Opus 5.5 | claude-11 | 🔄 proving | last commit: W7-FIX F2.2: export count (iii) Z_3 = sum_{k!=0} ∣k∣^-3 < 7 and ext-zeta sphere cardinalit | `inp-w7land` | 35 (vs `inp`) |
 | **wpj** `inp-mprov-wpj` | prover (offload) | Claude Sonnet 5.5 | claude-11 | 🔄 proving | last commit: W5: N + N-hat = N_+ as functions | `inp-wpj` | 152 (vs `inp`) |
 | **wpk** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: W3-MAIN: real-coordinate identities (X_K^R gradient form, Gbar closed form, H(Gamma^R x)); | `inp-wpk` | 87 (vs `inp`) |
@@ -521,7 +520,8 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
-| 2026-11-01 02:26 | `71c73243` | Land inp into main |
+| 2026-11-01 02:38 | `ec56ab55` | Merge remote-tracking branch 'origin/main' |
+| 2026-11-01 02:36 | `db48617f` | Land v2-packed: packed (GMP) Fourier-model product prototype with correctness theorems (KAM/CertificateSharp/Packed, additive), kernel cost profile and gate study; audit AUDIT-V2-PACKED-1 PASS WITH CHANGES, fixes applied |
 | 2026-11-01 02:22 | `d84c16ea` | HQ: track LP status (all planar lemmas proved; planar theorem assembly next) |
 | 2026-11-01 02:09 | `ad43b900` | Regenerate root imports after landing lift-conf |
 | 2026-11-01 02:09 | `88f863d8` | Land lift-conf: general two-degree-of-freedom confinement lemmas in the core (KAM.Application.Confinement: global solutions by clamping, periodic Lipschitz, level-set fibres, two-torus confinement with uniqueness; invariance-only variant), toy tests; audit AUDIT-LIFT-CONF-1 PASS WITH CHANGES, fixes applied |
@@ -532,7 +532,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-01 01:31 | `22c7517e` | Land inp into main |
 | 2026-11-01 01:27 | `db980a19` | Land v2-adapt: reusable application adapters (KAM/Application: real-torus graph and action checks, chart transport, observables, invariance; application contract); audits AUDIT-V2-ADAPT-1/2 PASS |
 | 2026-11-01 01:26 | `4da58c94` | HQ: track LP status (wave 1 audited, landing; wave 2 proving) |
-| 2026-11-01 01:15 | `dac56c37` | HQ: track LP status (THR, MOM landed; wave 1 proved; wave 2 started) |
 <!-- /AUTO:landed -->
 
 ## Decisions
