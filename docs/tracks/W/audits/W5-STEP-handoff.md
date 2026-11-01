@@ -317,3 +317,8 @@ Checks: `w_build.sh … KAM.Wave.KamStep.{RealSmoothOnto,RealStep,RealWeakConj,S
 successfully (3437 jobs)`. `#print axioms KAM.Wave.stepTheorem`, `KAM.Wave.stepTheoremMod`,
 `stepTheorem_reality_of_eps0_pos`, `stepTheoremMod_weakConj_field_of_eps0_pos`: `[propext, Classical.choice,
 Quot.sound]`. Suspected errata: none.
+Final checks (part A, after the line wrap `e26a76f3`): `w_lint.sh /root/code/KAM-inp-wpj` exit 0
+(`check_lean_modules: PASS (3871 Lean files)`, `FROZEN-ANCHOR GUARD OK`, `ABI HASHES OK`);
+`main_shortname_check.py /root/code/KAM-inp-wpj` on all `KAM.Wave.KamStep.*` modules and the merged
+`KAM.Wave.Homological.Complete*`: `short-name check OK`. Consumers: W6 (branch `inp-wpr`) uses the new conjuncts
+(`w6StepReal_holds`, `stepTheorem_strong`); see `W6-ITER-handoff.md`, part B.
