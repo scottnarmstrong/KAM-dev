@@ -61,12 +61,12 @@ src (4th, created 05:30 for the third slot).
 | LP3-COVERPERT finite cover + normalized perturbation | LP3 plan | LP3 | `inp-lp-lp3cp` / geomod worktree | claude-12 | **LANDED** W5A (main a994efdf); audit LP-W5A-1 PASS WITH NOTES |
 | LP3-CELL generic cellwise application (k slow pairs), ± time | LP3 plan §5 option | LP3 | `inp-lp-lp3cell` / geomod worktree | claude-11 | **LANDED** W5A (main a994efdf); audit LP-W5A-1 PASS WITH NOTES |
 | LP3-DRIFT planar `hstop` supplier (no Diophantine premise) | LP3 plan §2.4 | LP3 | `inp-lp-lp3drift` / geomod worktree | claude-11 | **LANDED** W5A (main a994efdf); audit LP-W5A-1 PASS WITH NOTES |
-| LP3-PS planar theorem LP3-1 (no arithmetic hypothesis) | LP3 plan §1.2 | LP3 | `inp-lp-lp3ps` / geomod worktree | claude-11 | **PROVED** e032c059 (510 lines: `lp3_planar_strongAMD_safety{,_normalized}`, LP3-1; token diff vs LP1 only the three changes; axioms standard); audit queued |
+| LP3-PS planar theorem LP3-1 (no arithmetic hypothesis) | LP3 plan §1.2 | LP3 | `inp-lp-lp3ps` / geomod worktree | claude-11 | audit LP-W5C-1 **PASS** (component; combined PASS WITH NOTES, codex-2); merged; **landing requested** |
 | LP-FREEZE7 draft 7 exact freeze text (D59) | freeze | — | `inp-lp-freeze7` / geomod worktree | claude-11 (Opus) | **DONE** 8d6f33cc: draft 7 (5 anchors, 88 new defs + 34 characterizations, 127 file texts, manifest drafts, rebase plan); verification (a)(b)(c) all pass, axioms standard; statement audit queued (after W5C) |
 | LP3-SP-COVER spatial cover + perturbation | LP3 plan | LP3 | `inp-lp-lp3spcov` / mom worktree | claude-12 | **LANDED** W5B (main 4916704e); audit LP-W5B-1 PASS WITH NOTES |
 | LP3-SP-DRIFT spatial `hstop` supplier | LP3 plan §2.5 | LP3 | `inp-lp-lp3spdrift` / mom worktree | claude-12 | **LANDED** W5B (main 4916704e); audit LP-W5B-1 PASS WITH NOTES |
-| LP3-SP-SAFE spatial theorem LP3-2 (no arithmetic hypothesis) | LP3 plan §1.3 | LP3 | `inp-lp-lp3spsafe` / mom worktree | claude-12 | **PROVED** d39c3195 (547 lines: `lp3_spatial_strongAMD_safety{,_normalized}`, LP3-2; token diff vs LP2 only the three changes; axioms standard); audit queued |
-| LP3-SRC LP3-1/LP3-2 through source carriers (OD-11 (b)) | freeze prep (draft 8) | LP3 | `inp-lp-lp3src` / mom worktree | claude-12 | **PROVED** 402de5f7 (four (b) restatements; token diffs only the three LP3 changes; axioms standard); audit queued (W5C) |
+| LP3-SP-SAFE spatial theorem LP3-2 (no arithmetic hypothesis) | LP3 plan §1.3 | LP3 | `inp-lp-lp3spsafe` / mom worktree | claude-12 | audit LP-W5C-1 **PASS** (component; combined PASS WITH NOTES, codex-2); merged; **landing requested** |
+| LP3-SRC LP3-1/LP3-2 through source carriers (OD-11 (b)) | freeze prep (draft 8) | LP3 | `inp-lp-lp3src` / mom worktree | claude-12 | audit LP-W5C-1 **PASS** (component; combined PASS WITH NOTES, codex-2); merged; **landing requested** |
 
 ## Audit queue (codex-2, one at a time machine-wide; W interleaves when LP has a gap)
 
@@ -166,3 +166,4 @@ now on every stamp is taken from `date -u +%H:%M`.
 - 2026-11-01 09:11 UTC: LP-W5B audit 1 PASS WITH NOTES (SP-COVER, SP-DRIFT; notes informational, no changes). Merged; landing requested. W5C audit launched (09:11).
 - 2026-11-01 09:21 UTC: LP-FREEZE7 DONE: FREEZE-PROPOSAL draft 7 on `inp-lp-freeze7` (8d6f33cc). LP0 restated under (b) and proved; corollaries recommended as anchors. Draft-7 statement audit (fresh codex-2 Sol medium; brief freeze/AUDIT-DRAFT7-BRIEF.md) launches when W5C frees the LP lane.
 - 2026-11-01 09:24 UTC: LP-W5B LANDED (main 4916704e; lander: 25 theorems standard, no sorryAx through the sealed anchor). Audit launchers now require the audited HEAD in the report's first lines (lander's request). Draft-7 statement audit running concurrently with W5C (root-b8, 09:22).
+- 2026-11-01 09:25 UTC: **LP-W5C audit 1: LP3-PS, LP3-SP-SAFE, LP3-SRC all PASS** (combined PASS WITH NOTES; independent full-signature comparison of all eight LP3 types against the landed LP1/LP2 templates: only the intended changes). **LP3 fully proved and audited.** Merged; landing requested. Next: draft 8 (LP3 anchors) after the draft-7 audit.
