@@ -1,11 +1,15 @@
-# HD 11964: a planned certified no-crossing time (pilot, phase 1)
+# HD 11964: a planned certified no-crossing time (pilot, phases 1–2)
 
 This directory is the project root of the HD 11964 application of KAM-dev (decision D51). It holds the pinned
 inputs of a planar Newtonian model of the HD 11964 planetary system, the numerical gate of a planned Lean
-certificate, and the validation tables. The future Lean package (`applications/hd11964/lakefile.lean`,
-namespace `HD11964`) will live here too.
+certificate, the validation tables, and the opt-in Lean package `HD11964` (`lakefile.lean`, root
+`HD11964.lean`; never part of the core build).
 
-**Nothing here is a Lean result or a certificate yet.** Phase 1 is data, design and a sampled numerical gate.
+**There is no certificate yet.** Phase 1 is data, design and a sampled numerical gate. Phase 2, part A adds
+Lean: the margin lemmas for HD 11964 (`HD11964.Threshold`: `B = Λ_c` on the action box, the data of LP-LIFT)
+and the statement of no orbit crossing *given* the certificate's bounds on the region `R(d)`
+(`HD11964.NoCrossing`, conditional); the general bridge is in the core (`KAM.Application.LambdaDrift`). The
+bounds themselves (the cell checks) are phase 2, part B.
 The design is [`docs/campaign/design/HD11964-PILOT.md`](../../docs/campaign/design/HD11964-PILOT.md); the
 report is [`docs/explorations/hd11964-pilot.md`](../../docs/explorations/hd11964-pilot.md).
 
@@ -62,6 +66,9 @@ report is [`docs/explorations/hd11964-pilot.md`](../../docs/explorations/hd11964
 |---|---|
 | `data/hd11964-pilot.json` | pinned inputs: catalogue values with errors, constants, model and conventions |
 | `data/nasa-exoplanet-archive-ps-20261101.csv` | the archive query (all HD 11964 rows; the Rosenthal rows are the pin) |
+| `lakefile.lean`, `lean-toolchain`, `HD11964.lean` | the opt-in Lean package (requires the core `kam` by path) |
+| `HD11964/Threshold.lean` | the masses, the action box `U`, `U ⊆ 𝒬`, `B = Λ_c` on `U` (monotone pair-threshold bound), `liftData` |
+| `HD11964/NoCrossing.lean` | the region `R(d)`, its inclusion and rotation invariance, `noCrossing_of_regionBounds` (conditional on the certificate's bounds) |
 | `scripts/hd11964_model.py` | the model in exact rationals and mpmath: nominal state, chart, AMD; `threshold_ok` (exact rational mirror of the planned Lean threshold check) |
 | `scripts/jets.py` | truncated multivariate Taylor jets with grid-valued coefficients |
 | `scripts/normal_form.py` | the chart and `f` in jet arithmetic, the fast-angle Lie normal form with slow variables, and the residual `{F_i, H}` against the exact gradient of the original Hamiltonian |
@@ -100,3 +107,5 @@ python3 -I applications/hd11964/scripts/slow_radius.py                 # slow ra
 ## Version history
 
 - 0.1.0 (1 November 2026): pinned inputs, gate and validation tables (phase 1).
+- Phase 2, part A (1 November 2026): the opt-in Lean package `HD11964` (margin lemmas, conditional
+  no-crossing statement). The data and tables are unchanged (still 0.1.0).
