@@ -1,0 +1,32 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceCanonicalPhase
+public import KAM.Frozen.Planetary.StrongAMD.Defs.StrongAMD
+
+/-!
+# Frozen definition `KAM.Planetary.StrongAMD.sourceStrongAMD`
+
+Track LP, `LP:MAIN §1 (2) (31–37), L3 (130–139)` (MAIN as amended by AMENDMENTS). Owner-approved on
+2026-11-01 (decision D62; docs/tracks/LP/FREEZE-PROPOSAL.md draft 7, under the rulings
+of D59). This file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an
+owner-approved versioned successor.
+
+Freeze role (D59, OD-11 (b)): a source-facing definition on its carrier, frozen as one semantic unit
+with its characterization theorems (draft 7, §4).
+-/
+
+@[expose] public noncomputable section
+
+namespace KAM.Planetary.StrongAMD
+
+/-- The strong AMD on source canonical phases. -/
+def sourceStrongAMD {n : ℕ} {ν : Fin n → ℝ} (z : SourceCanonicalPhase n ν) : ℝ := strongAMD ν z.1
+
+end KAM.Planetary.StrongAMD
+
+end

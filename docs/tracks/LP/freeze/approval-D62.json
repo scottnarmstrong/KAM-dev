@@ -1,0 +1,11 @@
+{
+ "_comment": "Approval record for lp_manifest_add.py (RUNBOOK §2 (b).4, S9). D62 (main 7394d94e): the owner approved draft 7 revision 1 (approval object inp-lp-freeze7 at de343000), freeze and seals.",
+ "author_approval": {
+  "approved_by": "Scott Armstrong",
+  "approved_at": "2026-11-01",
+  "approval_ref": "owner reply 'approve draft 7' (2026-11-01, 10:50 UTC) to FREEZE-PROPOSAL draft 7 revision 1 (branch inp-lp-freeze7, commit de343000; statement audit 2 PASS WITH NOTES); docs/DECISIONS.md D59, D62",
+  "approval_version": "1"
+ },
+ "ruling_ref": "docs/DECISIONS.md D59, D62",
+ "state": "SEALED"
+}

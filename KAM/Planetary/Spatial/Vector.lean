@@ -7,6 +7,11 @@ module
 
 public import Mathlib
 public import KAM.Frozen.Planetary.Defs.Phase
+public import KAM.Frozen.Planetary.Spatial.Defs.BodyVector3
+public import KAM.Frozen.Planetary.Spatial.Defs.SpaceCross
+public import KAM.Frozen.Planetary.Spatial.Defs.SpaceDot
+public import KAM.Frozen.Planetary.Spatial.Defs.SpaceLength
+public import KAM.Frozen.Planetary.Spatial.Defs.SpaceSq
 
 /-!
 # Three-dimensional vectors and body blocks
@@ -26,23 +31,6 @@ namespace KAM.Planetary.Spatial
 
 open KAM.Planetary
 open scoped ContDiff
-
-/-- Euclidean scalar product on `Fin 3 → ℝ`. -/
-def spaceDot (v w : Fin 3 → ℝ) : ℝ := ∑ k, v k * w k
-
-/-- Squared Euclidean length on `Fin 3 → ℝ`. -/
-def spaceSq (v : Fin 3 → ℝ) : ℝ := ∑ k, v k ^ 2
-
-/-- Euclidean length on `Fin 3 → ℝ`, independent of the ambient Pi sup norm. -/
-def spaceLength (v : Fin 3 → ℝ) : ℝ := Real.sqrt (spaceSq v)
-
-/-- The standard cross product on `Fin 3 → ℝ`, written out in components. -/
-def spaceCross (v w : Fin 3 → ℝ) : Fin 3 → ℝ :=
-  ![v 1 * w 2 - v 2 * w 1, v 2 * w 0 - v 0 * w 2, v 0 * w 1 - v 1 * w 0]
-
-/-- Extract the three Cartesian coordinates of body `i`. -/
-def bodyVector3 {n : ℕ} (q : Fin (n * 3) → ℝ) (i : Fin n) : Fin 3 → ℝ :=
-  fun k => q (finProdFinEquiv (i, k))
 
 section Algebra
 

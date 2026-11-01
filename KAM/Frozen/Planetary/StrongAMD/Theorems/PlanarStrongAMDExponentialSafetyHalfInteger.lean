@@ -1,0 +1,143 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+-- FROZEN_ANCHOR_PREFIX_BEGIN
+module
+
+public import KAM.Frozen.Defs.IsDiophantine
+public import KAM.Frozen.Planetary.Defs.ActualMasses
+public import KAM.Frozen.Planetary.Defs.BarycentricPositions
+public import KAM.Frozen.Planetary.Defs.BarycentricVelocities
+public import KAM.Frozen.Planetary.Defs.BodyVector
+public import KAM.Frozen.Planetary.Defs.IsMovingSolutionOn
+public import KAM.Frozen.Planetary.Defs.IsNewtonSolutionOn
+public import KAM.Frozen.Planetary.Defs.KeplerAction
+public import KAM.Frozen.Planetary.Defs.KeplerAxis
+public import KAM.Frozen.Planetary.Defs.KeplerEccVector
+public import KAM.Frozen.Planetary.Defs.KeplerEnergy
+public import KAM.Frozen.Planetary.Defs.MovingUniqueOn
+public import KAM.Frozen.Planetary.Defs.Phase
+public import KAM.Frozen.Planetary.Defs.PlaneLength
+public import KAM.Frozen.Planetary.StrongAMD.Defs.AdjIdx
+public import KAM.Frozen.Planetary.StrongAMD.Defs.AdjIdxUpperIdx
+public import KAM.Frozen.Planetary.StrongAMD.Defs.Chamber
+public import KAM.Frozen.Planetary.StrongAMD.Defs.OrderedStrongThreshold
+public import KAM.Frozen.Planetary.StrongAMD.Defs.OscEcc
+public import KAM.Frozen.Planetary.StrongAMD.Defs.OscEnergy
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceCanonicalPhase
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceKeplerApo
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceKeplerPeri
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscApo
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscAxis
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscEcc
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscEccVector
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscEnergy
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscPeri
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOsculatingPhase
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceStrongAMD
+import KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyHalfInteger
+
+/-!
+# Frozen theorem `KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_halfInteger`
+
+Track LP anchor LP1-H, planar strong-AMD exponential safety at τ = n − 1/2 (exponent 1/(2n+1))
+(`LP:MAIN §1 (93) (τ = n − 1/2), T15 (502–506), L16 (508–529)`; MAIN as amended by AMENDMENTS).
+Owner-approved on 2026-11-01 (decision D62; docs/tracks/LP/FREEZE-PROPOSAL.md draft 7,
+under the rulings of D59). This file is frozen: it is hashed in `manifest/frozen-anchors.json`; any
+change needs an owner-approved versioned successor. Only the proof body between the markers may
+change, and only to `by exact
+KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_halfInteger hn ν hν hνmax hνle A
+hA hAord δ γ hδ hγ` when the provider
+`KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyHalfInteger` is complete
+(sealing).
+-/
+
+@[expose] public section
+
+namespace KAM.Planetary.StrongAMD
+
+/-- **LP1-H** (`LP:MAIN §1 (93) (τ = n − 1/2), T15 (502–506), L16 (508–529)`): planar strong-AMD
+exponential safety at τ = n − 1/2 (exponent 1/(2n+1)). -/
+theorem planar_strongAMD_exponentialSafety_halfInteger {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
+    (hν : ∀ i, 0 < ν i) (hνmax : ∃ i, ν i = 1) (hνle : ∀ i, ν i ≤ 1)
+    (A : Set (Fin n → ℝ)) (hA : IsCompact A)
+    (hAord : ∀ a ∈ A, (∀ i, 0 < a i) ∧ ∀ i j, i < j → a i < a j)
+    (δ γ : ℝ) (hδ : 0 < δ) (hγ : 0 < γ) :
+    ∃ μ₀ c T₀ AΛ Aa dStar dPair Aosc Aelem : ℝ,
+      0 < μ₀ ∧ 0 < c ∧ 0 < T₀ ∧ 0 < AΛ ∧ 0 < Aa ∧ 0 < dStar ∧ 0 < dPair ∧ 0 < Aosc ∧
+      0 < Aelem ∧ Aosc * μ₀ ≤ dStar / 2 ∧ 2 * (Aosc * μ₀) ≤ dPair / 2 ∧
+      ∀ μ : ℝ, 0 < μ → μ ≤ μ₀ →
+      ∀ z₀ : Phase (n * 2),
+        (∀ i, 0 < planeLength (bodyVector z₀.1 i) ∧ keplerEnergy ν z₀ i < 0) →
+        (fun i => keplerAxis ν z₀ i) ∈ A →
+        KAM.IsDiophantine γ ((n : ℝ) - 1 / 2) (fun i => ν i ^ 3 / keplerAction ν z₀ i ^ 3) →
+        ∀ hch : (fun i => keplerAction ν z₀ i) ∈ chamber ν,
+        ∀ h₀ : (∀ i, 0 < ν i) ∧
+          ∀ i, 0 < planeLength (bodyVector z₀.1 i) ∧ keplerEnergy ν z₀ i < 0,
+        sourceStrongAMD (⟨z₀, h₀⟩ : SourceCanonicalPhase n ν) ≤
+          orderedStrongThreshold hn ⟨_, hch⟩ - δ →
+        let T := T₀ * Real.exp (c * μ ^ (-(1 / (2 * (n : ℝ) + 1))))
+        ∃ z : ℝ → Phase (n * 2), z 0 = z₀ ∧
+          IsMovingSolutionOn ν μ (Set.Icc (-T) T) z ∧
+          MovingUniqueOn ν μ (Set.Icc (-T) T) z ∧
+          IsNewtonSolutionOn (actualMasses 1 ν μ) (Set.Icc (-T) T)
+            (fun t => barycentricPositions 1 ν μ (z t).1)
+            (fun t => barycentricVelocities 1 ν μ (z t).2) ∧
+          ∀ t ∈ Set.Icc (-T) T,
+            (∀ i, 0 < planeLength (bodyVector (z t).1 i) ∧ keplerEnergy ν (z t) i < 0) ∧
+            (∃ hcht : (fun i => keplerAction ν (z t) i) ∈ chamber ν,
+              ∃ hs : (∀ i, 0 < ν i) ∧
+                ∀ i, 0 < planeLength (bodyVector (z t).1 i) ∧ keplerEnergy ν (z t) i < 0,
+              sourceStrongAMD (⟨z t, hs⟩ : SourceCanonicalPhase n ν) ≤
+                orderedStrongThreshold hn ⟨_, hcht⟩ - δ / 2) ∧
+            ‖(fun i => keplerAction ν (z t) i) - fun i => keplerAction ν z₀ i‖ ≤ AΛ * Real.sqrt μ ∧
+            ‖(fun i => keplerAxis ν (z t) i) - fun i => keplerAxis ν z₀ i‖ ≤ Aa * Real.sqrt μ ∧
+            (∃ hs : (∀ i, 0 < ν i) ∧
+                ∀ i, 0 < planeLength (bodyVector (z t).1 i) ∧ keplerEnergy ν (z t) i < 0,
+              |sourceStrongAMD (⟨z t, hs⟩ : SourceCanonicalPhase n ν) -
+                  sourceStrongAMD (⟨z₀, h₀⟩ : SourceCanonicalPhase n ν)| ≤
+                n * AΛ * Real.sqrt μ) ∧
+            (∀ i, dStar ≤ keplerAxis ν (z t) i *
+              (1 - planeLength (keplerEccVector ν (z t) i))) ∧
+            (∀ a : AdjIdx n, dPair ≤ keplerAxis ν (z t) a.upperIdx *
+                (1 - planeLength (keplerEccVector ν (z t) a.upperIdx)) -
+                keplerAxis ν (z t) a.1 * (1 + planeLength (keplerEccVector ν (z t) a.1))) ∧
+            (∀ i, dStar ≤ planeLength (bodyVector (z t).1 i)) ∧
+            (∀ i j, i ≠ j → dPair ≤ planeLength (bodyVector (z t).1 i - bodyVector (z t).1 j)) ∧
+            (∃ hs : (∀ i, 0 < ν i) ∧
+                ∀ i, 0 < planeLength (bodyVector (z t).1 i) ∧ keplerEnergy ν (z t) i < 0,
+             ∃ ho : (∀ i, 0 < ν i) ∧ 0 < μ ∧
+                ∀ i, 0 < planeLength (bodyVector (z t).1 i) ∧
+                  oscEnergy ν μ (z t) i < 0 ∧ oscEcc ν μ (z t) i < 1,
+              (∀ i, sourceOscEnergy (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i < 0 ∧
+                  0 < sourceOscAxis (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i ∧
+                  sourceOscEcc (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i < 1 ∧
+                  sourceOscPeri (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i ≤
+                    planeLength (bodyVector (z t).1 i) ∧
+                  planeLength (bodyVector (z t).1 i) ≤
+                    sourceOscApo (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i ∧
+                  |sourceOscAxis (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i -
+                      keplerAxis ν (z t) i| +
+                    planeLength (sourceOscEccVector (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i -
+                      keplerEccVector ν (z t) i) ≤ Aelem * μ) ∧
+              (∀ i, |sourceOscPeri (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i -
+                      sourceKeplerPeri (⟨z t, hs⟩ : SourceCanonicalPhase n ν) i| ≤ Aosc * μ ∧
+                  |sourceOscApo (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i -
+                      sourceKeplerApo (⟨z t, hs⟩ : SourceCanonicalPhase n ν) i| ≤ Aosc * μ) ∧
+              (∀ i, dStar / 2 ≤
+                  sourceOscPeri (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i) ∧
+              (∀ a : AdjIdx n, dPair / 2 ≤
+                  sourceOscPeri (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) a.upperIdx -
+                    sourceOscApo (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) a.1)) :=
+  -- FROZEN_ANCHOR_PROOF_BEGIN
+  by exact KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_halfInteger hn ν hν
+      hνmax hνle A hA hAord δ γ hδ hγ
+  -- FROZEN_ANCHOR_PROOF_END
+-- FROZEN_ANCHOR_SUFFIX_BEGIN
+
+end KAM.Planetary.StrongAMD
+
+end
+-- FROZEN_ANCHOR_SUFFIX_END

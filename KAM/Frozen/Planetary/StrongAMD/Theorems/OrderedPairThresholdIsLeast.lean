@@ -1,0 +1,45 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+-- FROZEN_ANCHOR_PREFIX_BEGIN
+module
+
+public import KAM.Frozen.Planetary.StrongAMD.Defs.OrderedActions
+public import KAM.Frozen.Planetary.StrongAMD.Defs.OrderedPairThreshold
+public import KAM.Frozen.Planetary.StrongAMD.Defs.PairFeasible
+public import KAM.Frozen.Planetary.StrongAMD.Defs.PairObjective
+import KAM.Provider.Planetary.StrongAMD.OrderedPairThresholdIsLeast
+
+/-!
+# Frozen theorem `KAM.Planetary.StrongAMD.orderedPairThreshold_isLeast`
+
+Track LP characterization theorem of `orderedPairThreshold`, `pairThreshold` (`LP:MAIN §1 (3)
+(47–55), L4 (141–160)`), frozen with its definition as one semantic unit (D59, OD-11 (b)).
+Owner-approved on 2026-11-01 (decision D62; docs/tracks/LP/FREEZE-PROPOSAL.md draft 7,
+under the rulings of D59). This file is frozen: it is hashed in `manifest/frozen-anchors.json`; any
+change needs an owner-approved versioned successor. Only the proof body between the markers may
+change, and only to `by exact KAM.Provider.Planetary.StrongAMD.orderedPairThreshold_isLeast I i j
+hij` when the provider `KAM.Provider.Planetary.StrongAMD.OrderedPairThresholdIsLeast` is complete
+(sealing).
+-/
+
+@[expose] public section
+
+namespace KAM.Planetary.StrongAMD
+
+/-- The ordered pair threshold is the attained minimum of the objective over the feasible set
+(carrier-level characterization; `LP:MAIN L4`). -/
+theorem orderedPairThreshold_isLeast {n : ℕ} {ν : Fin n → ℝ} (I : OrderedActions ν) (i j : Fin n)
+    (hij : i < j) :
+    IsLeast (pairObjective I.1 i j '' pairFeasible ν I.1 i j) (orderedPairThreshold I i j hij) :=
+  -- FROZEN_ANCHOR_PROOF_BEGIN
+  by exact KAM.Provider.Planetary.StrongAMD.orderedPairThreshold_isLeast I i j hij
+  -- FROZEN_ANCHOR_PROOF_END
+-- FROZEN_ANCHOR_SUFFIX_BEGIN
+
+end KAM.Planetary.StrongAMD
+
+end
+-- FROZEN_ANCHOR_SUFFIX_END
