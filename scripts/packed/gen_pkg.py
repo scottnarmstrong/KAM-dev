@@ -159,12 +159,16 @@ def reuse(pkg, lg00, mods):
                 if fn.split(".")[0] != base:
                     continue
                 s, d = os.path.join(sdir, fn), os.path.join(ddir, fn)
-                if os.path.exists(d):
-                    continue
                 if fn.endswith(LINK_EXT):
+                    if os.path.exists(d) and os.stat(d).st_ino == os.stat(s).st_ino:
+                        continue              # the same file: up to date
+                    if os.path.exists(d):
+                        os.remove(d)          # the source package rebuilt it (Lake writes a new file)
                     os.link(s, d)
                     nlink += 1
                 else:
+                    if os.path.exists(d) and open(d, "rb").read() == open(s, "rb").read():
+                        continue
                     shutil.copy2(s, d)
                     ncopy += 1
     return nsrc, nlink, ncopy
