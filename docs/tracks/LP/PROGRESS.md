@@ -60,7 +60,8 @@ src (4th, created 05:30 for the third slot).
 | LP3-KEP Kepler fast Hamiltonian | LP3 plan | LP3 | `inp-lp-lp3kep` / mom worktree | claude-11 | **PROVED** 50aaa4e0 (253 lines: `lp3_kepler_data`; axioms standard); audit queued |
 | LP3-COVERPERT finite cover + normalized perturbation | LP3 plan | LP3 | `inp-lp-lp3cp` / geomod worktree | claude-12 | **PROVED** bc848662 (590 lines; Cover + Perturbation incl. `−P`); audit queued |
 | LP3-CELL generic cellwise application (k slow pairs), ± time | LP3 plan §5 option | LP3 | `inp-lp-lp3cell` / geomod worktree | claude-11 | **PROVED** 4d6256d1 (≈230 lines: `cell_threshold_uniform`, `isSolutionOn_reverse_neg`, `cell_drift_two_sided`, `kepler_cell_drift`; axioms standard, sealed anchor complete); audit queued |
-| LP3-DRIFT planar `hstop` supplier (no Diophantine premise) | LP3 plan §2.4 | LP3 | `inp-lp-lp3drift` / geomod worktree | claude-11 | **RUNNING** (09:1x) |
+| LP3-DRIFT planar `hstop` supplier (no Diophantine premise) | LP3 plan §2.4 | LP3 | `inp-lp-lp3drift` / geomod worktree | claude-11 | **PROVED** 92d0a5fe (373 lines: `lp_stopped_drift_nek{,_hstop}`; axioms standard); audit queued |
+| LP3-PS planar theorem LP3-1 (no arithmetic hypothesis) | LP3 plan §1.2 | LP3 | `inp-lp-lp3ps` / geomod worktree | claude-11 | **RUNNING** (10:0x) |
 | LP3-SP-COVER spatial cover + perturbation | LP3 plan | LP3 | `inp-lp-lp3spcov` / mom worktree | claude-12 | **PROVED** b8994a7c (434 lines; planar cells reused verbatim; `exists_spatialNekPerturbation`); audit queued |
 | LP3-SP-DRIFT spatial `hstop` supplier | LP3 plan §2.5 | LP3 | `inp-lp-lp3spdrift` / mom worktree | claude-12 | **PROVED** 01622857 (460 lines: `spatial_stopped_drift_nek`, exact `hstop`; uses CELL `cell_drift_two_sided`, not `kepler_cell_drift` (collar too small)); audit queued |
 | LP3-SP-SAFE spatial theorem LP3-2 (no arithmetic hypothesis) | LP3 plan §1.3 | LP3 | `inp-lp-lp3spsafe` / mom worktree | claude-12 | **RUNNING** (09:5x) |
@@ -148,3 +149,4 @@ src (4th, created 05:30 for the third slot).
 - 2026-11-01 09:3x UTC: LP-W4C audit 1 PASS WITH NOTES (CHART: N1 administrative, N2 disclosed `Complex.arg` inverse representation; PROD: PASS). Merged into inp-lp; landing requested from kam-inp-63. LP-W4D audit launched (LP lane).
 - 2026-11-01 09:4x UTC: LP-W4C LANDED (main d54ba2cb; lander: 89 theorems, standard axioms).
 - 2026-11-01 09:5x UTC: LP3-SP-DRIFT PROVED. LP3-SP-SAFE (LP3-2 assembly) launched on claude-12.
+- 2026-11-01 10:0x UTC: LP3-DRIFT PROVED. LP3-PS (LP3-1 assembly) launched on claude-11. Both LP3 headline assemblies now running.
