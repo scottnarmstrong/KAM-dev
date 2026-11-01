@@ -29,7 +29,8 @@ choice of an equivalent norm) and estimated with the norms `kamNorm r_μ`.
 * `W6State.stepPsiN`: the smoothing displacement `Ψ_{ν+1}` of the step (`Φ_{ν+1} = id + ι Ψ_{ν+1}`);
 * `w6PhiK`, `w6PsiK`: `Φ_{ν+1}`, `Ψ_{ν+1}` along the iteration started at `S₀`, on `KamPhase`;
 * `w6StepK_smooth`, `w6StepK_clauses`: their properties at stage `ν` (W5's `stepTheorem` and
-  `StepHypSrc.phi_smooth`, transported to `KamPhase`).
+  `StepHypSrc.phi_smooth_of`, transported to `KamPhase`). Everything using `Ψ` or `DΦ` is
+  conditional on the W5 dependency `W6StepSmooth` (argument `hS`).
 -/
 
 @[expose] public noncomputable section
@@ -111,13 +112,13 @@ def stepPsiN (d : W6SeqData) (ν : ℕ) (S : W6State) (ξ : Fin 2 → ℝ) :
   open Classical in
   if h : Std d ∧ S.w6Stage d ν then
     haveI := W6Stage.factRPos h.1.1 ν
-    (W6Stage.stageStepHyp h.1.1 h.1.2 h.2).hyp.core.stepPsi ξ
+    (W6Stage.stageStepHyp h.1.1 h.1.2 h.2).w6Psi ξ
   else fun _ => 0
 
 theorem stepPsiN_eq {S : W6State} {ν : ℕ} (hd : Std d) (h : S.w6Stage d ν) :
     S.stepPsiN d ν = fun ξ =>
       haveI := W6Stage.factRPos hd.1 ν
-      (W6Stage.stageStepHyp hd.1 hd.2 h).hyp.core.stepPsi ξ := by
+      (W6Stage.stageStepHyp hd.1 hd.2 h).w6Psi ξ := by
   funext ξ
   unfold stepPsiN
   rw [dite_eq_left ⟨hd, h⟩]
@@ -132,9 +133,9 @@ def w6PhiK (d : W6SeqData) (S0 : W6State) (ν : ℕ) (ξ : Fin 2 → ℝ) (w : K
 def w6PsiK (d : W6SeqData) (S0 : W6State) (ν : ℕ) (ξ : Fin 2 → ℝ) (w : KamPhase) : KamPhase :=
   StepPhase.toK ((w6Seq d S0 ν).stepPsiN d ν ξ (StepPhase.ofK w))
 
-/-- The open neighbourhood `D(s_ν - 2σ_ν, r_ν/2)` of `D_{ν+1}` on which `Φ_{ν+1}` is holomorphic. -/
+/-- The open set `D_{ν+1} = D(s_ν - 5σ_ν, η_ν r_ν)` on which `Φ_{ν+1}` is holomorphic. -/
 def w6Ubig (d : W6SeqData) (ν : ℕ) : Set KamPhase :=
-  kamDomain (d.s ν - 2 * d.sigma ν) (d.rNu ν / 2)
+  kamDomain (d.s ν - 5 * d.sigma ν) (d.etaNu ν * d.rNu ν)
 
 section step
 
@@ -161,17 +162,17 @@ theorem w6PhiK_eq (hd : W6State.Std d) (hs : (w6Seq d S0 ν).w6Stage d ν) :
 theorem w6PsiK_eq (hd : W6State.Std d) (hs : (w6Seq d S0 ν).w6Stage d ν) :
     w6PsiK d S0 ν ξ = fun w =>
       haveI := W6Stage.factRPos hd.1 ν
-      StepPhase.toK ((W6Stage.stageStepHyp hd.1 hd.2 hs).hyp.core.stepPsi ξ
-        (StepPhase.ofK w)) := by
+      StepPhase.toK ((W6Stage.stageStepHyp hd.1 hd.2 hs).w6Psi ξ (StepPhase.ofK w)) := by
   unfold w6PsiK
   rw [W6State.stepPsiN_eq hd hs]
 
 /-- **The factor `Φ_{ν+1}` on `KamPhase`** (steps `il-tr`, `c-dom`): for `ξ ∈ Π_ν`, `Φ_{ν+1}` and
-`Ψ_{ν+1}` are holomorphic on `U_ν = D(s_ν - 2σ_ν, r_ν/2) ⊇ D_{ν+1}`, and on `D_{ν+1}`:
+`Ψ_{ν+1}` are holomorphic on the open `D_{ν+1}`, and on `D_{ν+1}` (conditional on the W5
+dependency `W6StepSmooth`):
 `Φ_{ν+1}(w) ∈ D(s_ν - 4σ_ν, 2η_ν r_ν) ⊆ D_ν`, `Φ_{ν+1}(w) = w + ι Ψ_{ν+1}(w)`,
 `|Ψ_{ν+1}(w)|_{r_ν} ≤ M_{F,ν}`, `DΦ_{ν+1}(w) = I + ι ∘ DΨ_{ν+1}(w)` and
 `|DΨ_{ν+1}(w) W|_{r_ν} ≤ 2^{-ν-3} |W|_{r_ν}`. -/
-theorem w6StepK_smooth (hd : W6State.Std d) (hs : (w6Seq d S0 ν).w6Stage d ν)
+theorem w6StepK_smooth (hS : W6StepSmooth) (hd : W6State.Std d) (hs : (w6Seq d S0 ν).w6Stage d ν)
     (hξ : ξ ∈ (w6Seq d S0 ν).Pi) :
     d.domNu (ν + 1) ⊆ w6Ubig d ν ∧
     (∀ w ∈ w6Ubig d ν, DifferentiableAt ℂ (w6PhiK d S0 ν ξ) w) ∧
@@ -188,7 +189,9 @@ theorem w6StepK_smooth (hd : W6State.Std d) (hs : (w6Seq d S0 ν).w6Stage d ν)
         1 / 2 ^ (ν + 3) * kamNorm (d.rNu ν) W := by
   have := W6Stage.factRPos hd.1 ν
   set H := W6Stage.stageStepHyp hd.1 hd.2 hs
-  obtain ⟨hsub, hdΦ, hdΨ, hall⟩ := H.phi_smooth hξ
+  obtain ⟨hdΦ, hdΨ, hall⟩ := H.phi_smooth_of hS hξ
+  have hsub : stepDomain (d.rNu ν) (d.s ν - 5 * d.sigma ν) (d.etaNu ν * d.rNu ν) ⊆
+      stepDomain (d.rNu ν) (d.s ν - 5 * d.sigma ν) (d.etaNu ν * d.rNu ν) := subset_rfl
   have hU : IsOpen (w6Ubig d ν) := kamDomain_isOpen _ _
   have hΦ : ∀ w ∈ w6Ubig d ν, HasFDerivAt (w6PhiK d S0 ν ξ)
       ((stepToKCLM _).comp ((fderiv ℂ (H.hyp.core.Phi ξ) (StepPhase.ofK w)).comp
@@ -198,7 +201,7 @@ theorem w6StepK_smooth (hd : W6State.Std d) (hs : (w6Seq d S0 ν).w6Stage d ν)
     exact hasFDerivAt_stepK ((hdΦ _ hw).differentiableAt
       ((stepDomain_isOpen _ _ _).mem_nhds hw))
   have hΨ : ∀ w ∈ w6Ubig d ν, HasFDerivAt (w6PsiK d S0 ν ξ)
-      ((stepToKCLM _).comp ((fderiv ℂ (H.hyp.core.stepPsi ξ) (StepPhase.ofK w)).comp
+      ((stepToKCLM _).comp ((fderiv ℂ (H.w6Psi ξ) (StepPhase.ofK w)).comp
         (stepOfKCLM _))) w := by
     intro w hw
     rw [w6PsiK_eq hd hs]
@@ -221,20 +224,20 @@ theorem w6StepK_smooth (hd : W6State.Std d) (hs : (w6Seq d S0 ν).w6Stage d ν)
   · rw [(hΦ w hwU).fderiv, (hΨ w hwU).fderiv, e3]
     rfl
   · rw [(hΨ w hwU).fderiv]
-    have hb := (W6Stage.stageStepHyp hd.1 hd.2 hs).hyp.core.M₀_le_MF
     have h8 := w6_eight_MF_le hd ν
-    have hle : ‖fderiv ℂ (H.hyp.core.stepPsi ξ) (StepPhase.ofK w)‖ ≤ 1 / 2 ^ (ν + 3) :=
+    have hle : ‖fderiv ℂ (H.w6Psi ξ) (StepPhase.ofK w)‖ ≤ 1 / 2 ^ (ν + 3) :=
       e4.trans h8
-    have := (fderiv ℂ (H.hyp.core.stepPsi ξ) (StepPhase.ofK w)).le_opNorm (StepPhase.ofK W)
-    calc kamNorm (d.rNu ν) _ = ‖fderiv ℂ (H.hyp.core.stepPsi ξ) (StepPhase.ofK w)
+    have := (fderiv ℂ (H.w6Psi ξ) (StepPhase.ofK w)).le_opNorm (StepPhase.ofK W)
+    calc kamNorm (d.rNu ν) _ = ‖fderiv ℂ (H.w6Psi ξ) (StepPhase.ofK w)
           (StepPhase.ofK W)‖ := rfl
-      _ ≤ ‖fderiv ℂ (H.hyp.core.stepPsi ξ) (StepPhase.ofK w)‖ * ‖(StepPhase.ofK W :
+      _ ≤ ‖fderiv ℂ (H.w6Psi ξ) (StepPhase.ofK w)‖ * ‖(StepPhase.ofK W :
           StepPhase (d.rNu ν))‖ := this
       _ ≤ 1 / 2 ^ (ν + 3) * kamNorm (d.rNu ν) W :=
           mul_le_mul_of_nonneg_right hle (norm_nonneg _)
 
 /-- The derivative of `Φ_{ν+1}` on `KamPhase` is W5's `DΦ` transported. -/
-theorem w6PhiK_fderiv_apply (hd : W6State.Std d) (hs : (w6Seq d S0 ν).w6Stage d ν)
+theorem w6PhiK_fderiv_apply (hS : W6StepSmooth) (hd : W6State.Std d)
+    (hs : (w6Seq d S0 ν).w6Stage d ν)
     (hξ : ξ ∈ (w6Seq d S0 ν).Pi) {w : KamPhase} (hw : w ∈ w6Ubig d ν) (W : KamPhase) :
     fderiv ℂ (w6PhiK d S0 ν ξ) w W =
       haveI := W6Stage.factRPos hd.1 ν
@@ -242,7 +245,7 @@ theorem w6PhiK_fderiv_apply (hd : W6State.Std d) (hs : (w6Seq d S0 ν).w6Stage d
         (StepPhase.ofK w) (StepPhase.ofK W)) := by
   have := W6Stage.factRPos hd.1 ν
   set H := W6Stage.stageStepHyp hd.1 hd.2 hs
-  obtain ⟨-, hdΦ, -, -⟩ := H.phi_smooth hξ
+  obtain ⟨hdΦ, -, -⟩ := H.phi_smooth_of hS hξ
   have h : HasFDerivAt (w6PhiK d S0 ν ξ)
       ((stepToKCLM _).comp ((fderiv ℂ (H.hyp.core.Phi ξ) (StepPhase.ofK w)).comp
         (stepOfKCLM _))) w := by
@@ -279,7 +282,7 @@ theorem w6Field_irrel {K0 K1 : ℝ} {Ω : ℕ+ → ℝ} (hΩ : ∀ j : ℕ+, |Ω
 /-- **The clauses of `Φ_{ν+1}` on `KamPhase`** (`bpW:w5:step` (i)): on `D_{ν+1}`, for `ξ ∈ Π_ν`:
 real on real points, `Φ(w + τ_i) = Φ(w) + τ_i`, `DΦ(w)` symplectic, `DΦ(w)` maps `𝒫^{p_+}` into
 and onto `𝒫^{p_+}`, and `Φ_{ν+1}(·, ξ)` is Lipschitz in `ξ ∈ Π_ν` uniformly in `w`. -/
-theorem w6StepK_clauses (hd : W6State.Std d) (hs : (w6Seq d S0 ν).w6Stage d ν)
+theorem w6StepK_clauses (hS : W6StepSmooth) (hd : W6State.Std d) (hs : (w6Seq d S0 ν).w6Stage d ν)
     (hξ : ξ ∈ (w6Seq d S0 ν).Pi) :
     (∃ A : ℝ, 0 ≤ A ∧ ∀ ζ ∈ (w6Seq d S0 ν).Pi, ∀ w ∈ d.domNu (ν + 1),
       kamNorm (d.rNu ν) (w6PhiK d S0 ν ξ w - w6PhiK d S0 ν ζ w) ≤ A * ‖ξ - ζ‖) ∧
@@ -293,7 +296,7 @@ theorem w6StepK_clauses (hd : W6State.Std d) (hs : (w6Seq d S0 ν).w6Stage d ν)
   have := W6Stage.factRPos hd.1 ν
   set H := W6Stage.stageStepHyp hd.1 hd.2 hs
   obtain ⟨-, -, -, c4, c5, c6, c7, -, -, -, -, -, -, -, -, -, c17⟩ := stepTheorem H
-  obtain ⟨hsub, -, -, -⟩ := H.phi_smooth hξ
+  have hsub : d.domNu (ν + 1) ⊆ w6Ubig d ν := fun _ hw => hw
   obtain ⟨A₀, A₁, B₀, B₁, -, a1, -, -, -, -, hb⟩ := c17
   refine ⟨⟨A₁, a1, fun ζ hζ w hw => ?_⟩, fun w hw => ⟨fun hr => ?_, fun i => ?_, fun W W' => ?_,
     fun W' => ?_, fun W'' => ?_⟩⟩
@@ -306,22 +309,22 @@ theorem w6StepK_clauses (hd : W6State.Std d) (hs : (w6Seq d S0 ν).w6Stage d ν)
     exact h
   · rw [w6PhiK_eq hd hs]; exact c6 ξ hξ (StepPhase.ofK w) hw hr
   · rw [w6PhiK_eq hd hs]; exact c5 ξ hξ (StepPhase.ofK w) hw i
-  · rw [w6PhiK_fderiv_apply hd hs hξ (hsub hw), w6PhiK_fderiv_apply hd hs hξ (hsub hw)]
+  · rw [w6PhiK_fderiv_apply hS hd hs hξ (hsub hw), w6PhiK_fderiv_apply hS hd hs hξ (hsub hw)]
     exact c4 ξ hξ (StepPhase.ofK w) hw (StepPhase.ofK W) (StepPhase.ofK W')
   · obtain ⟨W'', h⟩ := (c7 ξ hξ (StepPhase.ofK w) hw).1 (StepPhase.ofK W')
     refine ⟨StepPhase.toK W'', ?_⟩
-    rw [w6PhiK_fderiv_apply hd hs hξ (hsub hw)]
+    rw [w6PhiK_fderiv_apply hS hd hs hξ (hsub hw)]
     exact congrArg StepPhase.toK h
   · obtain ⟨W', h⟩ := (c7 ξ hξ (StepPhase.ofK w) hw).2 (StepPhase.ofK W'')
     refine ⟨StepPhase.toK W', ?_⟩
-    rw [w6PhiK_fderiv_apply hd hs hξ (hsub hw)]
+    rw [w6PhiK_fderiv_apply hS hd hs hξ (hsub hw)]
     exact congrArg StepPhase.toK h
 
 /-- **Weak conjugacy of `Φ_{ν+1}` in field form** (`bpW:w5:new-ham` (iii), `bpW:w5:step` (i)) on
 `KamPhase`: on `D_{ν+1}`, for `ξ ∈ Π_ν`, if `DΦ_{ν+1}(w)(ι W') = ι W''` then
 `ϖ_{p-1,p_+}(X_{H_ν}(Φ_{ν+1} w), W'') = ϖ_{p-1,p_+}(X_{H_{ν+1}}(w), W')`, with
 `X_{H_μ} = X_{N_μ} + ι X_{P_μ}` (`w6Field`, any bounds for the normal frequencies). -/
-theorem w6StepK_weakConj (hd : W6State.Std d) (hs : (w6Seq d S0 ν).w6Stage d ν)
+theorem w6StepK_weakConj (hS : W6StepSmooth) (hd : W6State.Std d) (hs : (w6Seq d S0 ν).w6Stage d ν)
     (hξ : ξ ∈ (w6Seq d S0 ν).Pi) {K0 K1 : ℝ}
     (hΩ0 : ∀ j : ℕ+, |(w6Seq d S0 ν).Om ξ j| ≤ K0 * ((j : ℝ) + 2))
     (hΩ1 : ∀ j : ℕ+, |(w6Seq d S0 (ν + 1)).Om ξ j| ≤ K1 * ((j : ℝ) + 2))
@@ -332,10 +335,10 @@ theorem w6StepK_weakConj (hd : W6State.Std d) (hs : (w6Seq d S0 ν).w6Stage d ν
   have := W6Stage.factRPos hd.1 ν
   set H := W6Stage.stageStepHyp hd.1 hd.2 hs
   obtain ⟨-, -, -, -, -, -, -, c8, -⟩ := stepTheorem H
-  obtain ⟨hsub, -, -, -⟩ := H.phi_smooth hξ
+  have hsub : d.domNu (ν + 1) ⊆ w6Ubig d ν := fun _ hw => hw
   have e1 : w6Seq d S0 (ν + 1) = _ :=
     (w6Seq_succ d S0 ν).trans (W6State.w6next_eq hd.1 hd.2 hs)
-  rw [w6PhiK_fderiv_apply hd hs hξ (hsub hw)] at hW
+  rw [w6PhiK_fderiv_apply hS hd hs hξ (hsub hw)] at hW
   have h := c8 ξ hξ (StepPhase.ofK w) hw (StepPhase.ofK W') (StepPhase.ofK W'') hW
   have hO : (w6Seq d S0 (ν + 1)).om = W6Stage.omN hd.1 hd.2 hs := by rw [e1]
   have hX : (w6Seq d S0 (ν + 1)).X = W6Stage.XN hd.1 hd.2 hs := by rw [e1]

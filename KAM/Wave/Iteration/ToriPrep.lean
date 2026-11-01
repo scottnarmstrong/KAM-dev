@@ -20,10 +20,11 @@ still being built. Blueprint labels `bpW:w6:prep-step` (iii) (sharp bound) and t
 For the wave iteration (Definition `bpW:w6:wave-iteration`, starting size
 `ε₀ ∈ [ε^♭_0, γ₁ α̌]`), `w6TorusKam H ε₀ θ ξ = Φ_P(Φ_*(θ))`:
 
-* `W6PrepHyp.phiP_sharp` (`bpW:w6:prep-step` (iii), sharp form): `Φ_P = id + ι Ψ_P` on `D_0` with
-  `|Ψ_P|_{p_+,r} ≤ M_{F,P}` (the sharper bound of step `f-flow`; W6-ITER's `phiP_bounds` has
-  `2M_{F,P}`, deviation D3, which this removes);
-* `W6PrepHyp.w6ToriKam`: for `ξ ∈ Π_*`, `θ ∈ T_{s_0/2}`: `θ ↦ Φ_P(Φ_*(θ))` is holomorphic,
+* `W6PrepHyp.phiP_sharp_of_stepSmoothMod` (`bpW:w6:prep-step` (iii), sharp form; conditional on the
+  W5 dependency `W6StepSmoothMod`): `Φ_P = id + ι Ψ_P` on `D_0` with `|Ψ_P|_{p_+,r} ≤ M_{F,P}` (the
+  sharper bound of step `f-flow`; W6-ITER's `phiP_bounds` has `2M_{F,P}`, deviation D3);
+* `W6PrepHyp.w6ToriKam_of_stepSmooth` (conditional on `W6StepSmooth`, `W6StepSmoothMod`): for
+  `ξ ∈ Π_*`, `θ ∈ T_{s_0/2}`: `θ ↦ Φ_P(Φ_*(θ))` is holomorphic,
   periodic, real, jointly continuous in `(θ, ξ)`, with values in `D(s - 4σ_P, 2η_P r) ⊆ D(s, r)`,
   `Φ_P(Φ_*(θ)) - ιθ = ι V` with `|V|_{p_+,r} ≤ e_tor = M_{F,P} + e_Φ`, and the invariance
   `X_{H_in}(Φ_P Φ_* θ) = ι_{p→p-1}(∂_θ(Φ_P ∘ Φ_*)(θ) ν_*)` (steps `t-prep`: `bpW:w6:invariance`,
@@ -83,13 +84,14 @@ def w6PhiPK (H : W6PrepHyp m hm Pi α r ε P X) (ξ : Fin 2 → ℝ) (w : KamPha
 /-- `Ψ_P` on `KamPhase` (`p_+`-representatives): `Φ_P = id + ι Ψ_P` on `D_0`. -/
 def w6PsiPK (H : W6PrepHyp m hm Pi α r ε P X) (ξ : Fin 2 → ℝ) (w : KamPhase) : KamPhase :=
   haveI := H.factR
-  StepPhase.toK (H.prepStepHyp.hyp.core.stepPsi ξ (StepPhase.ofK w))
+  StepPhase.toK (H.prepStepHyp.w6Psi ξ (StepPhase.ofK w))
 
-/-- **Preparatory step, transformation, sharp form** (`bpW:w6:prep-step` (iii), step `p-lipp`):
+/-- **Preparatory step, transformation, sharp form** (`bpW:w6:prep-step` (iii), step `p-lipp`;
+conditional helper on the W5 dependency `W6StepSmoothMod`):
 for `ξ ∈ Π ∖ Ξ` and `w ∈ D_0 = D(s_0, η_P r)`: `Φ_P(w) = w + ι Ψ_P(w)` with
 `|Ψ_P(w)|_{p_+,r} ≤ M_{F,P} = c^♮_F ε/(α̂ σ_P^{t^♮-1})`, and `Φ_P(w) - w` is Lipschitz in `ξ` in
 `|·|_{p,r}`. -/
-theorem phiP_sharp (H : W6PrepHyp m hm Pi α r ε P X) :
+theorem phiP_sharp_of_stepSmoothMod (hSm : W6StepSmoothMod) (H : W6PrepHyp m hm Pi α r ε P X) :
     (∀ ξ ∈ Pi \ prepSet m hm Pi α, ∀ w ∈ kamDomain w6S0 (w6EtaP α ε * r),
       H.w6PhiPK ξ w = w + w6Iota (H.w6PsiPK ξ w) ∧ kamNorm r (H.w6PsiPK ξ w) ≤ w6MFP α ε) ∧
     ∃ A₁ : ℝ, 0 ≤ A₁ ∧ ∀ ξ ∈ Pi \ prepSet m hm Pi α, ∀ ζ ∈ Pi \ prepSet m hm Pi α,
@@ -98,7 +100,7 @@ theorem phiP_sharp (H : W6PrepHyp m hm Pi α r ε P X) :
   have := H.factR
   obtain ⟨A₀, A₁, -, a1, -, hb⟩ := H.phiP_bounds
   refine ⟨fun ξ hξ w hw => ?_, A₁, a1, fun ξ hξ ζ hζ w hw => ?_⟩
-  · obtain ⟨-, -, -, hall⟩ := H.prepStepHyp.phi_smooth hξ
+  · obtain ⟨-, -, hall⟩ := H.prepStepHyp.phi_smooth_of hSm hξ
     obtain ⟨e1, e2, -, -⟩ := hall (StepPhase.ofK w) hw
     refine ⟨?_, e2⟩
     unfold w6PhiPK w6PsiPK PhiP
@@ -111,12 +113,13 @@ theorem phiP_sharp (H : W6PrepHyp m hm Pi α r ε P X) :
     exact h
 
 /-- The clauses of `Φ_P` on `KamPhase` (`bpW:w5:step` (i), modified case): for `ξ ∈ Π ∖ Ξ`,
-`Φ_P` is differentiable on `D(s - 2σ_P, r/2) ⊇ D_0`, and on `D_0`: `Φ_P(w) ∈ D(s-4σ_P, 2η_P r)`,
+`Φ_P` is differentiable on `D_0` (W5 dependency `W6StepSmoothMod`), and on `D_0`:
+`Φ_P(w) ∈ D(s-4σ_P, 2η_P r)`,
 real on real points, `Φ_P(w + τ_i) = Φ_P(w) + τ_i`, `DΦ_P(w)` symplectic and onto `𝒫^{p_+}`, and
 the weak conjugacy in field form. -/
-theorem prepK_clauses (H : W6PrepHyp m hm Pi α r ε P X) {ξ : Fin 2 → ℝ}
+theorem prepK_clauses (hSm : W6StepSmoothMod) (H : W6PrepHyp m hm Pi α r ε P X) {ξ : Fin 2 → ℝ}
     (hξ : ξ ∈ Pi \ prepSet m hm Pi α) :
-    (∀ w ∈ kamDomain (w6S - 2 * w6SigmaP) (r / 2), DifferentiableAt ℂ (H.w6PhiPK ξ) w) ∧
+    (∀ w ∈ kamDomain w6S0 (w6EtaP α ε * r), DifferentiableAt ℂ (H.w6PhiPK ξ) w) ∧
     ∀ w ∈ kamDomain w6S0 (w6EtaP α ε * r),
       H.w6PhiPK ξ w ∈ kamDomain (w6S - 4 * w6SigmaP) (2 * w6EtaP α ε * r) ∧
       (StepReal w → StepReal (H.w6PhiPK ξ w)) ∧
@@ -132,13 +135,14 @@ theorem prepK_clauses (H : W6PrepHyp m hm Pi α r ε P X) {ξ : Fin 2 → ℝ}
           w6SympPred (w6Field hΩ1 (H.om0 ξ) (H.X0 ξ) w) W' := by
   have := H.factR
   set G := H.prepStepHyp
-  obtain ⟨hsub, hdΦ, -, -⟩ := G.phi_smooth hξ
+  obtain ⟨hdΦ, -, -⟩ := G.phi_smooth_of hSm hξ
+  have hsub : kamDomain w6S0 (w6EtaP α ε * r) ⊆ kamDomain w6S0 (w6EtaP α ε * r) := subset_rfl
   obtain ⟨c1, -, -, c4, c5, c6, c7, c8, -⟩ := stepTheoremMod G
-  have hΦ : ∀ w ∈ kamDomain (w6S - 2 * w6SigmaP) (r / 2), HasFDerivAt (H.w6PhiPK ξ)
+  have hΦ : ∀ w ∈ kamDomain w6S0 (w6EtaP α ε * r), HasFDerivAt (H.w6PhiPK ξ)
       ((stepToKCLM r).comp ((fderiv ℂ (G.hyp.core.Phi ξ) (StepPhase.ofK w)).comp
         (stepOfKCLM r))) w := fun w hw =>
     hasFDerivAt_stepK ((hdΦ _ hw).differentiableAt ((stepDomain_isOpen _ _ _).mem_nhds hw))
-  have hfd : ∀ w ∈ kamDomain (w6S - 2 * w6SigmaP) (r / 2), ∀ W,
+  have hfd : ∀ w ∈ kamDomain w6S0 (w6EtaP α ε * r), ∀ W,
       fderiv ℂ (H.w6PhiPK ξ) w W =
         StepPhase.toK (fderiv ℂ (G.hyp.core.Phi ξ) (StepPhase.ofK w) (StepPhase.ofK W)) :=
     fun w hw W => by rw [(hΦ w hw).fderiv]; rfl
@@ -162,7 +166,8 @@ def w6TorusKam (H : W6PrepHyp m hm Pi α r ε P X) (ε₀ : ℝ) (θ : Fin 2 →
     (w6Start (w6WaveSeq m hm α r ε ε₀) (Pi \ prepSet m hm Pi α) H.om0 H.Om0 H.w6P0 H.X0) θ ξ)
 
 /-- **The tori in KAM coordinates** (W6 part of `bpW:w6:tori`, steps `t-hol`, `t-cont`, `t-prep`,
-`t-close`; before W5's action-angle map). For the wave iteration with starting size
+`t-close`; before W5's action-angle map; conditional helper on the W5 dependencies
+`W6StepSmooth`, `W6StepSmoothMod`). For the wave iteration with starting size
 `ε₀ ∈ [ε^♭_0, γ₁ α̌]`, `Π_* = wavePiStar`, `T = T_{s_∞}`, and `Ψ(θ) = Φ_P(Φ_*(θ))`:
 * (i) for `ξ ∈ Π_*`, `Ψ` is holomorphic on `T`, periodic, and real on real `θ`;
 * (ii) `(θ, ξ) ↦ Ψ(θ)` is continuous on `T × Π_*`;
@@ -171,7 +176,8 @@ def w6TorusKam (H : W6PrepHyp m hm Pi α r ε P X) (ε₀ : ℝ) (θ : Fin 2 →
 * (iii) invariance, for `θ ∈ T_{s_0/2}`: `X_{H_in}(Ψ(θ)) = ι_{p→p-1}(∂_θΨ(θ) ν_*)` in `𝒫^{p-1}`,
   `ν_* = ω_*/2π`, with `X_{H_in} = X_N + ι X'` for the unperturbed frequencies (any bound `K0` of
   `Ω⁰`) and W5's reweighted input field `X'`. -/
-theorem w6ToriKam (H : W6PrepHyp m hm Pi α r ε P X) (hlo : w6EpsFlat α ε ≤ ε₀)
+theorem w6ToriKam_of_stepSmooth (hS : W6StepSmooth) (hSm : W6StepSmoothMod)
+    (H : W6PrepHyp m hm Pi α r ε P X) (hlo : w6EpsFlat α ε ≤ ε₀)
     (hhi : ε₀ ≤ w6Gamma1 m hm * alphaCheck α) :
     (∀ ξ ∈ H.wavePiStar ε₀,
       DifferentiableOn ℂ (fun θ => H.w6TorusKam ε₀ θ ξ)
@@ -196,9 +202,9 @@ theorem w6ToriKam (H : W6PrepHyp m hm Pi α r ε P X) (hlo : w6EpsFlat α ε ≤
   set d := w6WaveSeq m hm α r ε ε₀ with hddef
   set S0 := w6Start d (Pi \ prepSet m hm Pi α) H.om0 H.Om0 H.w6P0 H.X0 with hS0
   have hC := H.w6Applicable hlo hhi
-  have hI := w6IterHyp_of_conv hC
+  have hI := w6IterHyp_of_conv hS hC
   have hr0 := W6SeqData.w6r_pos hI.std.1 0
-  obtain ⟨-, -, -, hlim, hcont, himg, hcl, hbd, -⟩ := w6ConvTorus hC
+  obtain ⟨-, -, -, hlim, hcont, himg, hcl, hbd, -⟩ := w6ConvTorus_of_stepSmooth hS hC
   set T := complexStrip 2 d.sInfty
   have hTo : IsOpen T := isOpen_complexStrip 2 _
   have hPS : ∀ ξ ∈ H.wavePiStar ε₀, ξ ∈ Pi \ prepSet m hm Pi α := fun ξ hξ =>
@@ -209,33 +215,32 @@ theorem w6ToriKam (H : W6PrepHyp m hm Pi α r ε P X) (hlo : w6EpsFlat α ε ≤
   have hη := H.prepStepHyp.hη
   have hη0 := H.prepStepHyp.hη0
   have hσP := H.prepStepHyp.hσ
-  have hsubU : kamDomain w6S0 (w6EtaP α ε * r) ⊆ kamDomain (w6S - 2 * w6SigmaP) (r / 2) :=
-    kamDomain_mono (by unfold w6S0; linarith) (by positivity) (by nlinarith)
+  have hsubU : kamDomain w6S0 (w6EtaP α ε * r) ⊆ kamDomain w6S0 (w6EtaP α ε * r) := subset_rfl
   -- `Φ_P` at `Φ_*(θ)`
   have hdP : ∀ θ ∈ T, ∀ ξ ∈ H.wavePiStar ε₀,
       DifferentiableAt ℂ (H.w6PhiPK ξ) (w6PhiStar d S0 θ ξ) := fun θ hθ ξ hξ =>
-    (H.prepK_clauses (hPS ξ hξ)).1 _ (hsubU (hD0 θ hθ ξ hξ))
+    (H.prepK_clauses hSm (hPS ξ hξ)).1 _ (hsubU (hD0 θ hθ ξ hξ))
   have hdS : ∀ θ ∈ T, ∀ ξ ∈ H.wavePiStar ε₀,
       DifferentiableAt ℂ (fun θ' => w6PhiStar d S0 θ' ξ) θ := fun θ hθ ξ hξ =>
     ((hlim ξ hξ).1).differentiableAt (hTo.mem_nhds hθ)
   refine ⟨fun ξ hξ => ⟨fun θ hθ => ((hdP θ hθ ξ hξ).comp θ (hdS θ hθ ξ hξ)).differentiableWithinAt,
       fun θ hθ i => ?_, fun x => ?_⟩, ?_, fun θ hθ ξ hξ => ?_, fun ξ hξ θ hθ K0 hΩ0 => ?_⟩
   · -- periodicity
-    have hcl' := (H.prepK_clauses (hPS ξ hξ)).2 _ (hD0 θ hθ ξ hξ)
+    have hcl' := (H.prepK_clauses hSm (hPS ξ hξ)).2 _ (hD0 θ hθ ξ hξ)
     unfold w6TorusKam
     rw [((hlim ξ hξ).2.1 θ hθ i)]
     exact hcl'.2.2.1 i
   · -- reality
     have hx := w6_real_mem_strip hI.std x
-    exact ((H.prepK_clauses (hPS ξ hξ)).2 _ (hD0 _ hx ξ hξ)).2.1 ((hlim ξ hξ).2.2 x)
+    exact ((H.prepK_clauses hSm (hPS ξ hξ)).2 _ (hD0 _ hx ξ hξ)).2.1 ((hlim ξ hξ).2.2 x)
   · -- joint continuity
-    obtain ⟨-, A₁, hA₁, hlip⟩ := H.phiP_sharp
+    obtain ⟨-, A₁, hA₁, hlip⟩ := H.phiP_sharp_of_stepSmoothMod hSm
     set C := max 1 (max (r ^ 2) r)
     have hC : 0 < C := lt_of_lt_of_le one_pos (le_max_left _ _)
     have hg : ContinuousOn (fun q : KamPhase × (Fin 2 → ℝ) => H.w6PhiPK q.2 q.1)
         (kamDomain w6S0 (w6EtaP α ε * r) ×ˢ (Pi \ prepSet m hm Pi α)) :=
       continuousOn_param_lip (A := C * A₁) (by positivity)
-        (fun ξ hξ w hw => ((H.prepK_clauses hξ).1 w (hsubU hw)).continuousAt)
+        (fun ξ hξ w hw => ((H.prepK_clauses hSm hξ).1 w (hsubU hw)).continuousAt)
         fun ξ hξ ζ hζ w hw => by
           calc _ ≤ C * kamNorm r (H.w6PhiPK ξ w - H.w6PhiPK ζ w) := norm_kamPhase_le_kamNorm hr _
             _ ≤ C * (A₁ * ‖ξ - ζ‖) := mul_le_mul_of_nonneg_left (hlip ξ hξ ζ hζ w hw) hC.le
@@ -249,9 +254,9 @@ theorem w6ToriKam (H : W6PrepHyp m hm Pi α r ε P X) (hlo : w6EpsFlat α ε ≤
     exact hfin
   · -- values and closeness
     have hw := hD0 θ hθ ξ hξ
-    refine ⟨((H.prepK_clauses (hPS ξ hξ)).2 _ hw).1, ?_⟩
+    refine ⟨((H.prepK_clauses hSm (hPS ξ hξ)).2 _ hw).1, ?_⟩
     obtain ⟨V, hV, hVb⟩ := hbd θ hθ ξ hξ
-    obtain ⟨e1, e2⟩ := H.phiP_sharp.1 ξ (hPS ξ hξ) _ hw
+    obtain ⟨e1, e2⟩ := (H.phiP_sharp_of_stepSmoothMod hSm).1 ξ (hPS ξ hξ) _ hw
     refine ⟨V + H.w6PsiPK ξ (w6PhiStar d S0 θ ξ), ?_, ?_⟩
     · unfold w6TorusKam
       rw [e1, map_add, ← hV]
@@ -267,8 +272,8 @@ theorem w6ToriKam (H : W6PrepHyp m hm Pi α r ε P X) (hlo : w6EpsFlat α ε ≤
     have hw := hD0 θ hθT ξ hξ
     have hξ' := hPS ξ hξ
     have hΩ1 := H.prepStepHyp.hyp.core.omegaPlus_bound hξ'
-    have hinv := w6Invariance hC hξ hΩ1 hθ
-    obtain ⟨-, -, -, hs, hon, hweak⟩ := (H.prepK_clauses hξ').2 _ hw
+    have hinv := w6Invariance_of_stepSmooth hS hC hξ hΩ1 hθ
+    obtain ⟨-, -, -, hs, hon, hweak⟩ := (H.prepK_clauses hSm hξ').2 _ hw
     have key := w6StrongConjK _ hs hon _ _ (hweak hΩ0 hΩ1) _ hinv
     have hc : HasFDerivAt (fun θ' => H.w6TorusKam ε₀ θ' ξ)
         ((fderiv ℂ (H.w6PhiPK ξ) (w6PhiStar d S0 θ ξ)).comp

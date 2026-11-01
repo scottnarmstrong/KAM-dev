@@ -68,10 +68,13 @@ section compose
 
 variable {d : W6SeqData} {S0 : W6State}
 
-/-- The standing hypotheses on the iteration: `Std d` and the hypotheses of every stage. -/
+/-- The standing hypotheses on the iteration: `Std d`, the hypotheses of every stage, and the W5
+dependency `W6StepSmooth` (the `p_+` smoothing of each step's transformation, being added to W5 on
+`inp-w5aa`); every theorem taking `W6IterHyp` is conditional on that dependency. -/
 structure W6IterHyp (d : W6SeqData) (S0 : W6State) : Prop where
   std : W6State.Std d
   stage : ∀ ν, (w6Seq d S0 ν).w6Stage d ν
+  smooth : W6StepSmooth
 
 theorem kamNorm_add_le' {r : ℝ} (hr : 0 < r) (W W' : KamPhase) :
     kamNorm r (W + W') ≤ kamNorm r W + kamNorm r W' := kamNorm_add_le hr W W'
@@ -104,7 +107,7 @@ theorem w6Compose_main (hI : W6IterHyp d S0) (ν : ℕ) :
   | succ ν ih =>
     intro ξ hξ w hw
     have hξν : ξ ∈ (w6Seq d S0 ν).Pi := hξ ν (Nat.lt_succ_self ν)
-    obtain ⟨hsubU, hdK, hdP, hall⟩ := w6StepK_smooth hd (hI.stage ν) hξν
+    obtain ⟨hsubU, hdK, hdP, hall⟩ := w6StepK_smooth hI.smooth hd (hI.stage ν) hξν
     obtain ⟨-, hz, eK, hPsiK, eDK, hDK⟩ := hall w hw
     set z := w6PhiK d S0 ν ξ w with hzdef
     obtain ⟨a1, a2, a3, a4, a5, a6⟩ := ih ξ (fun μ hμ => hξ μ (Nat.lt_succ_of_lt hμ)) z hz
@@ -181,7 +184,7 @@ theorem w6PhiC_succ_fderiv (hI : W6IterHyp d S0) {ν : ℕ} {ξ : Fin 2 → ℝ}
     fderiv ℂ (w6PhiC d S0 (ν + 1) ξ) w =
       (fderiv ℂ (w6PhiC d S0 ν ξ) (w6PhiK d S0 ν ξ w)).comp (fderiv ℂ (w6PhiK d S0 ν ξ) w) := by
   have hξν : ξ ∈ (w6Seq d S0 ν).Pi := hξ ν (Nat.lt_succ_self ν)
-  obtain ⟨hsubU, hdK, -, hall⟩ := w6StepK_smooth hI.std (hI.stage ν) hξν
+  obtain ⟨hsubU, hdK, -, hall⟩ := w6StepK_smooth hI.smooth hI.std (hI.stage ν) hξν
   obtain ⟨-, hz, -⟩ := hall w hw
   have a3 := (w6Compose_main hI ν ξ (fun μ hμ => hξ μ (Nat.lt_succ_of_lt hμ)) _ hz).2.2.1
   exact (a3.hasFDerivAt.comp w (hdK w (hsubU hw)).hasFDerivAt).fderiv
@@ -193,11 +196,11 @@ theorem w6PhiC_mem_image (hI : W6IterHyp d S0) (ν : ℕ) :
   induction ν with
   | zero =>
     intro ξ hξ w hw
-    exact ((w6StepK_smooth hI.std (hI.stage 0) (hξ 0 (Nat.zero_lt_one))).2.2.2 w hw).1
+    exact ((w6StepK_smooth hI.smooth hI.std (hI.stage 0) (hξ 0 (Nat.zero_lt_one))).2.2.2 w hw).1
   | succ ν ih =>
     intro ξ hξ w hw
     have hξν : ξ ∈ (w6Seq d S0 (ν + 1)).Pi := hξ (ν + 1) (Nat.lt_succ_self _)
-    have hz := ((w6StepK_smooth hI.std (hI.stage (ν + 1)) hξν).2.2.2 w hw).2.1
+    have hz := ((w6StepK_smooth hI.smooth hI.std (hI.stage (ν + 1)) hξν).2.2.2 w hw).2.1
     exact ih ξ (fun μ hμ => hξ μ (Nat.lt_succ_of_lt hμ)) _ hz
 
 /-- **Operator bounds, symplecticity, surjectivity** (`bpW:w6:convergence` (iv), step `c-op`): for
@@ -236,8 +239,8 @@ theorem w6Compose_ops (hI : W6IterHyp d S0) (ν : ℕ) :
     | succ ν ih =>
       intro ξ hξ w hw
       have hξν : ξ ∈ (w6Seq d S0 ν).Pi := hξ ν (Nat.lt_succ_self ν)
-      obtain ⟨-, hz, -⟩ := (w6StepK_smooth hd (hI.stage ν) hξν).2.2.2 w hw
-      obtain ⟨-, hcl⟩ := w6StepK_clauses hd (hI.stage ν) hξν
+      obtain ⟨-, hz, -⟩ := (w6StepK_smooth hI.smooth hd (hI.stage ν) hξν).2.2.2 w hw
+      obtain ⟨-, hcl⟩ := w6StepK_clauses hI.smooth hd (hI.stage ν) hξν
       obtain ⟨-, -, hsK, hinK, honK⟩ := hcl w hw
       obtain ⟨hs, hon⟩ := ih ξ (fun μ hμ => hξ μ (Nat.lt_succ_of_lt hμ)) _ hz
       rw [w6PhiC_succ_fderiv hI hξ hw]
@@ -286,8 +289,8 @@ theorem w6Compose_real_periodic (hI : W6IterHyp d S0) (ν : ℕ) :
   | succ ν ih =>
     intro ξ hξ w hw
     have hξν : ξ ∈ (w6Seq d S0 ν).Pi := hξ ν (Nat.lt_succ_self ν)
-    obtain ⟨-, hz, -⟩ := (w6StepK_smooth hI.std (hI.stage ν) hξν).2.2.2 w hw
-    obtain ⟨-, hcl⟩ := w6StepK_clauses hI.std (hI.stage ν) hξν
+    obtain ⟨-, hz, -⟩ := (w6StepK_smooth hI.smooth hI.std (hI.stage ν) hξν).2.2.2 w hw
+    obtain ⟨-, hcl⟩ := w6StepK_clauses hI.smooth hI.std (hI.stage ν) hξν
     obtain ⟨hrK, hpK, -⟩ := hcl w hw
     obtain ⟨hr, hp⟩ := ih ξ (fun μ hμ => hξ μ (Nat.lt_succ_of_lt hμ)) _ hz
     refine ⟨fun h => hr (hrK h), fun i => ?_⟩
@@ -319,15 +322,15 @@ theorem w6Compose_weak (hI : W6IterHyp d S0) (ν : ℕ) :
   | succ ν ih =>
     intro ξ hξ K0 K1 hΩ0 hΩ1 w hw W' W'' h
     have hξν : ξ ∈ (w6Seq d S0 ν).Pi := hξ ν (Nat.lt_succ_self ν)
-    obtain ⟨-, hz, -⟩ := (w6StepK_smooth hI.std (hI.stage ν) hξν).2.2.2 w hw
-    obtain ⟨-, hcl⟩ := w6StepK_clauses hI.std (hI.stage ν) hξν
+    obtain ⟨-, hz, -⟩ := (w6StepK_smooth hI.smooth hI.std (hI.stage ν) hξν).2.2.2 w hw
+    obtain ⟨-, hcl⟩ := w6StepK_clauses hI.smooth hI.std (hI.stage ν) hξν
     obtain ⟨-, -, -, hinK, -⟩ := hcl w hw
     rw [w6PhiC_succ_fderiv hI hξ hw, ContinuousLinearMap.comp_apply] at h
     obtain ⟨W1, h1⟩ := hinK W'
     rw [h1] at h
     have hΩm := homOmega_le (hI.stage ν).freq_spec hξν
     have e1 := ih ξ (fun μ hμ => hξ μ (Nat.lt_succ_of_lt hμ)) hΩ0 hΩm _ hz W1 W'' h
-    have e2 := w6StepK_weakConj hI.std (hI.stage ν) hξν hΩm hΩ1 hw W' W1 h1
+    have e2 := w6StepK_weakConj hI.smooth hI.std (hI.stage ν) hξν hΩm hΩ1 hw W' W1 h1
     exact e1.trans e2
 
 end compose

@@ -156,8 +156,8 @@ theorem w6PhiK_continuousOn (hI : W6IterHyp d S0) (ν : ℕ) :
       (d.domNu (ν + 1) ×ˢ (w6Seq d S0 ν).Pi) := by
   have hrν := W6SeqData.w6r_pos hI.std.1 ν
   rintro ⟨w0, ξ0⟩ ⟨hw0, hξ0⟩
-  obtain ⟨A, hA, hlip⟩ := (w6StepK_clauses hI.std (hI.stage ν) hξ0).1
-  obtain ⟨hsubU, hdK, -, -⟩ := w6StepK_smooth hI.std (hI.stage ν) hξ0
+  obtain ⟨A, hA, hlip⟩ := (w6StepK_clauses hI.smooth hI.std (hI.stage ν) hξ0).1
+  obtain ⟨hsubU, hdK, -, -⟩ := w6StepK_smooth hI.smooth hI.std (hI.stage ν) hξ0
   have hc : ContinuousAt (w6PhiK d S0 ν ξ0) w0 := (hdK w0 (hsubU hw0)).continuousAt
   set C := max 1 (max (d.rNu ν ^ 2) (d.rNu ν))
   have hC : 0 < C := lt_of_lt_of_le one_pos (le_max_left _ _)
@@ -205,7 +205,7 @@ theorem w6PhiC_continuousOn (hI : W6IterHyp d S0) (ν : ℕ) :
       ((w6PhiK_continuousOn hI ν).mono (prod_mono subset_rfl fun ξ hξ => mem_iInter.1 hξ ν)).prodMk
         continuous_snd.continuousOn
     refine ih.comp hh fun q hq => ⟨?_, hq.2⟩
-    exact ((w6StepK_smooth hI.std (hI.stage ν) (mem_iInter.1 hq.2 ν)).2.2.2 q.1 hq.1).2.1
+    exact ((w6StepK_smooth hI.smooth hI.std (hI.stage ν) (mem_iInter.1 hq.2 ν)).2.2.2 q.1 hq.1).2.1
 
 end torus
 

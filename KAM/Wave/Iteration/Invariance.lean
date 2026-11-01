@@ -23,7 +23,8 @@ Model (as in `StrongConj`): fields with values in `𝒫^{p-1}` are read in the `
 * `w6Field_torus`: `X_{H}(ιθ) = ι_{p→p-1}((ω/2π, 0, 0, 0) + ι X_P(ιθ))` at torus points;
 * `w6Invariance_step` (step `i-torus`): `X_{H_0}(Φ^ν ιθ) = ι_{p→p-1}(∂_θ(Φ^ν∘ι)(θ) ω_ν/2π +
   DΦ^ν(ιθ) ι X_{P_ν}(ιθ))`;
-* `w6Invariance` (`bpW:w6:invariance`): `X_{H_0}(Φ_*(θ)) = ι_{p→p-1}(∂_θΦ_*(θ) ν_*)` for `ξ ∈ Π_*`,
+* `w6Invariance_of_stepSmooth` (`bpW:w6:invariance`, conditional on the W5 dependency
+  `W6StepSmooth`): `X_{H_0}(Φ_*(θ)) = ι_{p→p-1}(∂_θΦ_*(θ) ν_*)` for `ξ ∈ Π_*`,
   `θ ∈ T_{s_0/2}`, `ν_* = ω_*/2π`; the right side exhibits both sides as elements of `𝒫`.
 -/
 
@@ -230,15 +231,17 @@ variable {d : W6SeqData} {Pm : Set (Fin 2 → ℝ)} {ω0 : (Fin 2 → ℝ) → F
 Proposition `bpW:w6:convergence` (`W6ConvHyp`), with `H_0 = N_0 + P_0`,
 `X_{H_0} = X_{N_0} + ι X_{P_0}` (`X_{N_0}(w) = (ω_0/2π, 0, Ω_0 v, -Ω_0 u)`, any bound `K0` for
 `Ω_0(ξ)`), `ν_* = ω_*/(2π)`: for `ξ ∈ Π_*` and `θ ∈ T_{s_0/2}`,
-`X_{H_0}(Φ_*(θ)) = ι_{p→p-1}(∂_θΦ_*(θ) ν_*)` in `𝒫^{p-1}`; both sides lie in `𝒫`. -/
-theorem w6Invariance (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) {ξ : Fin 2 → ℝ}
+`X_{H_0}(Φ_*(θ)) = ι_{p→p-1}(∂_θΦ_*(θ) ν_*)` in `𝒫^{p-1}`; both sides lie in `𝒫`. Conditional
+helper on the W5 dependency `W6StepSmooth`. -/
+theorem w6Invariance_of_stepSmooth (hS : W6StepSmooth) (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀)
+    {ξ : Fin 2 → ℝ}
     (hξ : ξ ∈ w6PiStarIt d (w6Start d Pm ω0 Ω0 P0 X0))
     {K0 : ℝ} (hΩ0 : ∀ j : ℕ+, |Ω0 ξ j| ≤ K0 * ((j : ℝ) + 2))
     {θ : Fin 2 → ℂ} (hθ : θ ∈ complexStrip 2 (d.s0 / 2)) :
     w6Field hΩ0 (ω0 ξ) (X0 ξ) (w6PhiStar d (w6Start d Pm ω0 Ω0 P0 X0) θ ξ) =
       w6IotaPred (fderiv ℂ (fun θ' => w6PhiStar d (w6Start d Pm ω0 Ω0 P0 X0) θ' ξ) θ
         (w6NuVec (w6OmStar d (w6Start d Pm ω0 Ω0 P0 X0) ξ))) := by
-  have hI := w6IterHyp_of_conv hC
+  have hI := w6IterHyp_of_conv hS hC
   have hξPm : ξ ∈ Pm := w6Pi0_subset (mem_iInter.1 hξ 0)
   exact w6InvarianceIt hI hξ (hC.smooth ξ hξPm).holoX hΩ0 ((w6ConvFreq hC).1.tendsto_at hξ) hθ
 

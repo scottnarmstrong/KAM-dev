@@ -72,7 +72,7 @@ theorem w6PsiC_cauchy (hI : W6IterHyp d S0) {ν : ℕ} {ξ : Fin 2 → ℝ}
   have h0ν := W6SeqData.rNu_le_r0 hd ν
   have hξν : ξ ∈ (w6Seq d S0 ν).Pi := hξ ν (Nat.lt_succ_self ν)
   have hξ' : ∀ μ < ν, ξ ∈ (w6Seq d S0 μ).Pi := fun μ hμ => hξ μ (Nat.lt_succ_of_lt hμ)
-  obtain ⟨-, -, -, hall⟩ := w6StepK_smooth hd (hI.stage ν) hξν
+  obtain ⟨-, -, -, hall⟩ := w6StepK_smooth hI.smooth hd (hI.stage ν) hξν
   obtain ⟨-, hz, eK, hPsiK, -, -⟩ := hall w hw
   have hwν : w ∈ d.domNu ν := W6SeqData.domNu_succ_subset hd ν hw
   set z := w6PhiK d S0 ν ξ w

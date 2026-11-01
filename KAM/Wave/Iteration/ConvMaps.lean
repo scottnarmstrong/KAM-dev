@@ -209,18 +209,21 @@ variable {d : W6SeqData} {Pm : Set (Fin 2 → ℝ)} {ω0 : (Fin 2 → ℝ) → F
 
 /-- The iteration of Proposition `bpW:w6:convergence` has the hypotheses of every stage (step
 `c-ind`). -/
-theorem w6IterHyp_of_conv (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) :
+theorem w6IterHyp_of_conv (hS : W6StepSmooth) (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) :
     W6IterHyp d (w6Start d Pm ω0 Ω0 P0 X0) :=
-  ⟨⟨hC.valid, hC.small⟩, w6Seq_stage hC⟩
+  ⟨⟨hC.valid, hC.small⟩, w6Seq_stage hC, hS⟩
 
 /-- **Transformations on the torus** (blueprint `bpW:w6:convergence` (iii)) for the data of the
-proposition (`W6ConvHyp`, `Π_{-1} = Pm`, the iteration `w6Seq` started at `w6Start`). -/
-theorem w6ConvTorus (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) :
+proposition (`W6ConvHyp`, `Π_{-1} = Pm`, the iteration `w6Seq` started at `w6Start`); conditional
+helper on the W5 dependency `W6StepSmooth`. -/
+theorem w6ConvTorus_of_stepSmooth (hS : W6StepSmooth) (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) :
     W6ConvTorusClause d (w6Start d Pm ω0 Ω0 P0 X0) :=
-  w6ConvTorusIt (w6IterHyp_of_conv hC)
+  w6ConvTorusIt (w6IterHyp_of_conv hS hC)
 
-/-- **Operator bounds** (blueprint `bpW:w6:convergence` (iv)) for the data of the proposition. -/
-theorem w6ConvOpsSrc (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) (ν : ℕ) (ξ : Fin 2 → ℝ)
+/-- **Operator bounds** (blueprint `bpW:w6:convergence` (iv)) for the data of the proposition;
+conditional helper on the W5 dependency `W6StepSmooth`. -/
+theorem w6ConvOpsSrc_of_stepSmooth (hS : W6StepSmooth) (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀)
+    (ν : ℕ) (ξ : Fin 2 → ℝ)
     (hξ : ∀ μ < ν, ξ ∈ (w6Seq d (w6Start d Pm ω0 Ω0 P0 X0) μ).Pi) :
     DifferentiableOn ℂ (w6PhiC d (w6Start d Pm ω0 Ω0 P0 X0) ν ξ) (d.domNu ν) ∧
     ∀ w ∈ d.domNu ν,
@@ -232,7 +235,7 @@ theorem w6ConvOpsSrc (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) (ν : ℕ) (ξ : 
         (fderiv ℂ (w6PhiC d (w6Start d Pm ω0 Ω0 P0 X0) ν ξ) w W') = w6Symp W W') ∧
       (∀ W'', ∃ W', fderiv ℂ (w6PhiC d (w6Start d Pm ω0 Ω0 P0 X0) ν ξ) w (w6Iota W') =
         w6Iota W'') :=
-  w6ConvOps (w6IterHyp_of_conv hC) ν ξ hξ
+  w6ConvOps (w6IterHyp_of_conv hS hC) ν ξ hξ
 
 /-- `Π_*` here is W6-ITER's `w6PiStarIt`. -/
 theorem w6PiStarS_eq_It (S0 : W6State) : w6PiStarS d S0 = w6PiStarIt d S0 := rfl
