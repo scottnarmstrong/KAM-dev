@@ -222,6 +222,27 @@ theorem checkTorusCertificateV2_routeAV2G_sharp (c : TorusCertificate n α) :
   rfl
 
 omit [LawfulCertArith α] in
+/-- The landed sub-checks of the v2 certifier from a passing landed certifier (its first seven
+checks). -/
+theorem landedBase_check_of_checkTorusCertificate {c : TorusCertificate n α}
+    (h : checkTorusCertificate c = true) : landedBase.check c = true := by
+  simp only [checkTorusCertificate, Bool.and_eq_true] at h
+  obtain ⟨⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, -⟩ := h
+  simp only [landedBase, Bool.and_eq_true]
+  exact ⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩
+
+omit [LawfulCertArith α] in
+/-- Sharding: the whole certifier at `routeARefinedG` from the landed sub-checks, the disc pass, the
+frame majorants and the numerical core, each a kernel computation of its own. -/
+theorem checkTorusCertificateV2_routeARefinedG_of {c : TorusCertificate n α} {w : RefinedWitG}
+    (hb : landedBase.check c = true) (hH : checkHamClaim c w.R = true)
+    (hF : checkFrameMajorants c (w.R.frame c.freqBox) = true)
+    (hc : refinedCoreG n c.params c.freqBox w = true) :
+    checkTorusCertificateV2 routeARefinedG c w = true := by
+  simp only [checkTorusCertificateV2, checkV2With, routeARefinedG, refinedTestG, Bool.and_eq_true]
+  exact ⟨hb, ⟨hH, hF⟩, hc⟩
+
+omit [LawfulCertArith α] in
 /-- A refined witness passes the new engine exactly when it passes `routeARefined`. -/
 theorem checkTorusCertificateV2_routeARefinedG_ofRefined (c : TorusCertificate n α)
     (w : RefinedWit) :

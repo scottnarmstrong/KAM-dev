@@ -22,11 +22,13 @@ Route B asks `ρ ≤ 1` (`NumB.Wf.ρ_le`) and T3 has `ρ = 9`. `toyB3` is T3 on 
   `NumBQ.sitesOkG_of`. The certified constants are `14–160` times below the classical ones.
 * **The torus.** `toyB3_refinedBG_passes` is the whole v2 certifier with `routeBRefinedG`, from
   its parts (`refinedBCoreG_of`); `toyB3_refinedBG_torus` is the soundness theorem at `cubicFreq`.
-* **The threshold.** At the invariance error `5·10⁻²³` the core passes with the fibered sites
-  (`X⋆ = 1.4·10⁻¹⁶`) and fails with the classical ones at their best `X⋆ = 9·10⁻¹⁸`; the classical
-  sites pass at `5·10⁻²⁴` (`toyB3_threshold_*`). By `#eval` of the same Lean tests the largest `X⋆`
-  of the Newton conditions is `10^{-15.85}` (fibered) against `10^{-17.02}` (classical), i.e. the
-  accepted invariance errors `1.2·10⁻²²` and `8.1·10⁻²⁴`: `1.17` orders.
+* **The threshold.** At the invariance error `5·10⁻²³` the core passes with the fibered sites at
+  `X⋆ = 1.4·10⁻¹⁶` (`toyB3_threshold_fibered`) and fails with the classical sites at
+  `X⋆ = 9·10⁻¹⁸`, near their largest `X⋆` (`toyB3_threshold_classical_fails`); the classical sites
+  pass at `5·10⁻²⁴` (`toyB3_threshold_classical`). Each kernel theorem is about one `X⋆`. That no
+  classical `X⋆` passes at `5·10⁻²³` is a sweep, not a kernel theorem: `#eval` sweeps of the same
+  Lean `refinedBCoreG` put the last error passing at `1.1·10⁻²²` (fibered) and `8.0·10⁻²⁴`
+  (classical), about `1.14` orders.
 -/
 
 @[expose] public section
@@ -260,6 +262,8 @@ theorem toyB3_threshold_fibered :
       (by decide +kernel) (by decide +kernel) (by decide +kernel) (by decide +kernel) rfl rfl rfl)
     (by decide +kernel) (by decide +kernel)
 
+/-- The classical sites fail at err `5·10⁻²³` at this one `X⋆` (the "every `X⋆`" half is a sweep;
+see the module docstring). -/
 theorem toyB3_threshold_classical_fails :
     refinedBCoreG 3 (b3ParamsAt (5 / 10 ^ 23) (1 / 10 ^ 9)) toyB3.freqBox
       (b3WitClassical (9 / 10 ^ 18)) = false := by

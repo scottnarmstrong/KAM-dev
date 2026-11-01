@@ -22,13 +22,17 @@ T3 (`toyCert3`): `n = 3`, `τ = 2`, `H = I₂ + I₀²/2 + I₁²/2`, the freque
 * **The sites.** `fiberSiteOk` certifies `c(1) = 4.909·10⁻⁴` (12 fibres) and `c(1/2) = 2.853·10⁻³`
   (24 fibres), against the classical `c♮(3, 2, 1) = 0.0783` and `c♮(3, 2, 1/2) = 0.0629`: factors
   `159` and `22`.
-* **The torus.** `toyCert3_refinedG_passes` runs the whole v2 certifier with `routeARefinedG` and
-  these sites by `decide +kernel`; `toyCert3_refinedG_torus` is the soundness theorem at
-  `cubicFreq`.
-* **The threshold.** At the same certificate data with the invariance error raised to `5·10⁻¹²`
-  (`X⋆ = 1.2·10⁻⁷`), the refined core passes with the fibered sites and fails with the classical
-  ones; the classical sites pass at `5·10⁻¹⁴` (`toy3_threshold_*`). The mirror
-  (`scripts/certifier/fiber3.py`, `v2_q.py`) puts the two thresholds at `6.1·10⁻¹²` and `5.6·10⁻¹⁴`.
+* **The torus.** `toyCert3_refinedG_passes` is the whole v2 certifier with `routeARefinedG` and
+  these sites, assembled from its parts (`checkTorusCertificateV2_routeARefinedG_of`): the landed
+  sub-checks from `toyCert3_passes`, and the disc pass, frame majorants and core, each decided by
+  the kernel. `toyCert3_refinedG_torus` is the soundness theorem at `cubicFreq`.
+* **The threshold.** With the invariance error raised to `5·10⁻¹²`, the refined core passes with
+  the fibered sites at `X⋆ = 1.2·10⁻⁷` (`toy3_threshold_fibered`) and fails with the classical sites
+  at that same `X⋆` (`toy3_threshold_classical_fails`). The classical sites pass at `5·10⁻¹⁴`
+  (`toy3_threshold_classical`). Each kernel theorem is about one `X⋆`. That no classical `X⋆`
+  passes at `5·10⁻¹²` is a sweep, not a kernel theorem: the mirror (`scripts/certifier/fiber3.py`,
+  `v2_q.py`) and the audit's `#eval` sweeps of `refinedCoreG` (last error passing `5.5·10⁻¹⁴`
+  classical, `6.1·10⁻¹²` fibered; about 2.0 orders).
 -/
 
 @[expose] public section
@@ -146,14 +150,20 @@ def t3WitClassical (Xs : ℚ) : RefinedWitG where
 
 theorem toyCert3_hamClaimG : checkHamClaim toyCert3 t3RefClaim = true := by decide +kernel
 
+theorem toyCert3_frameG :
+    checkFrameMajorants toyCert3 (t3RefClaim.frame toyCert3.freqBox) = true := by
+  decide +kernel
+
 theorem toyCert3_refinedCoreG :
     refinedCoreG 3 toyCert3.params toyCert3.freqBox (t3WitG (1 / 10 ^ 30)) = true := by
   decide +kernel
 
 /-- **The whole v2 certifier on T3, with three-frequency sites.** -/
 theorem toyCert3_refinedG_passes :
-    checkTorusCertificateV2 routeARefinedG toyCert3 (t3WitG (1 / 10 ^ 30)) = true := by
-  decide +kernel
+    checkTorusCertificateV2 routeARefinedG toyCert3 (t3WitG (1 / 10 ^ 30)) = true :=
+  checkTorusCertificateV2_routeARefinedG_of
+    (landedBase_check_of_checkTorusCertificate toyCert3_passes) toyCert3_hamClaimG toyCert3_frameG
+    toyCert3_refinedCoreG
 
 /-- **The toy 3-torus through route A with three-frequency sites.** -/
 theorem toyCert3_refinedG_torus : CertifiedTorus toyCert3 cubicFreq :=
@@ -175,6 +185,8 @@ theorem toy3_threshold_fibered :
       (t3WitG (12 / 10 ^ 8)) = true := by
   decide +kernel
 
+/-- The classical sites fail at err `5·10⁻¹²` at this one `X⋆` (the "every `X⋆`" half is a sweep;
+see the module docstring). -/
 theorem toy3_threshold_classical_fails :
     refinedCoreG 3 (t3ParamsAt (5 / 10 ^ 12) (1 / 10 ^ 9)) toyCert3.freqBox
       (t3WitClassical (12 / 10 ^ 8)) = false := by
