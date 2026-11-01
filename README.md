@@ -629,6 +629,7 @@ Full text: [`docs/DECISIONS.md`](docs/DECISIONS.md).
   frozen definition, `max ν = 1` kept, τ free). The exact anchor text still goes to the owner before any freeze.
   *(Scott, 2026-11-01)*
 - **D60** Track W audits run in parallel, up to 3 sessions on codex-1 and codex-2. *(Scott, 2026-11-01)*
+- **D61** Seal W-NLW2 (`KAM.Wave.nlw2`) as soon as its audits and a seal audit pass. *(Scott, 2026-11-01)*
 
 ## Owner questions
 

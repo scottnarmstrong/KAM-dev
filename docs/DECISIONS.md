@@ -504,3 +504,14 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
     - the W6 delta when it is ready.
   - Replays stay capped (4 GB, MemAvailable ≥ 8 GB). Quota is not rationed (D54). An audit that hits an account limit
     resumes on the other account.
+- **D61 (2026-11-01, 09:45 UTC) Seal W-NLW2.** *(Scott: "Approve, now get everything sealed and audited!", to the staged
+  seal of `KAM.Wave.nlw2`.)*
+  - **The edit:** the frozen body in `KAM/Frozen/Wave/Theorems/Nlw2.lean` changes from `by sorry` to
+    `by exact KAM.Provider.Wave.nlw2 hm`, and `wave.nlw2.v1` becomes SEALED in the manifest. The text is in
+    `.drafts/W/SEAL-NLW2-STAGED.md`.
+  - **When:** as soon as these gates pass; no further owner go is needed:
+    - PASS on W6 round 2, W8, the W8-FINAL delta, and W5's action-angle/initial after the F1 fix;
+    - the type-equality and axiom checks re-run on the final merge;
+    - a dedicated seal audit (codex) of the provider and the anchor body.
+  - **Procedure:** as D26/D50. Everything lands on `main` (W5, W6, W8 with the provider, action-angle/initial), then
+    the seal commit lands with its MANIFEST-CHANGES.md row.
