@@ -383,7 +383,8 @@ modules and 12,126 CPU-s. Together with B2's packed Gram stage, the two **sub-ch
 
 **There is no LG00 saving yet.** Route A refined's `checkFrameN`/`checkFrameT` re-run the landed Gram check and
 torsion models, so the landed stages stay (AUDIT-V2-PACKED-B3-1 M1). Packed frames and a matching engine are the
-next step (V2-PACKED-FRAMES, built in §13: with them the saving is real, ≈ 12,700 CPU-s). The jet compositions
+next step (V2-PACKED-FRAMES, built in §13: with them the gate figures give ≈ 12,700 CPU-s; the production assembly is
+unmeasured). The jet compositions
 (`Low`, `Full`) are unchanged.
 
 **The memo-and-residual pattern** (a node verified by `packRepOk` and the packed norm of its exact residual) needs
@@ -625,9 +626,9 @@ reads the same four bounds from the objects of B2 and B3b.
 (`FrameMajorants c b ωstar`), under its hypotheses. Each entry is bounded by `‖f θ‖ ≤ nb + r` of its `PEnc`
 (`PEnc.norm_le_bound`); for `T` the bound uses the packed weighted norm (`PEnc.renorm`).
 
-**Engine.** `routeARefinedR bk mm rb tm rm : EngineV2` keeps the landed `checkHamClaim` and `refinedCore` and uses
+**Engine.** `routeARefinedPacked bk mm rb tm rm : EngineV2` keeps the landed `checkHamClaim` and `refinedCore` and uses
 the packed frames. `checkV2With_packed_sound` concludes the landed `CertifiedTorus` from
-`checkV2With (torsRBase …) (routeARefinedR …) c w = true`. No landed Gram product, torsion model or frame model
+`checkV2With (torsRBase …) (routeARefinedPacked …) c w = true`. No landed Gram product, torsion model or frame model
 is evaluated.
 
 **Sharing.** Each frame check repeats, as the identical Boolean terms, the conjuncts it shares with

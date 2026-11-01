@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """V2-PACKED-FRAMES: the LG00 end-to-end comparison (untrusted tooling, read-only).
 
-Which landed LG00 modules does the packed route (`checkV2With (torsRBase …) (routeARefinedR …)`) make unnecessary,
+Which landed LG00 modules does the packed route (`checkV2With (torsRBase …) (routeARefinedPacked …)`) make unnecessary,
 and what did they cost in the final shard run?
 
   - Replaced: the landed modules whose theorems the packed route proves differently, i.e. `Final.Torsion` (the base

@@ -27,9 +27,9 @@ bounds from the packed objects of B2/B3b:
 Each packed frame check repeats the conjuncts it shares with `checkTorsionR` (the packed Gram check,
 the composition, the boundary entries, the guards, the stages), so a production proof establishes
 them once for both. `checkFrameMajorantsR_sound` has the conclusion of the landed
-`checkFrameMajorants_sound` (`FrameMajorants`), under its hypotheses. `routeARefinedR` is route A
-refined with the packed frames; `checkV2With_packed_sound` gives the landed `CertifiedTorus` for
-the v2 certifier with the packed Gram, torsion and frames (`torsRBase`, `routeARefinedR`).
+`checkFrameMajorants_sound` (`FrameMajorants`), under its hypotheses. `routeARefinedPacked` is route
+A refined with the packed frames; `checkV2With_packed_sound` gives the landed `CertifiedTorus` for
+the v2 certifier with the packed Gram, torsion and frames (`torsRBase`, `routeARefinedPacked`).
 -/
 
 @[expose] public noncomputable section
@@ -419,31 +419,31 @@ end Sound
 /-! ### The engine and the certifier -/
 
 /-- The test of route A refined with the packed frames. -/
-def refinedTestR (bk : PGramBook) (mm : PGramMemo) (rb : PRBook) (tm : PTorsMemo) (rm : PRMemo)
+def refinedTestPacked (bk : PGramBook) (mm : PGramMemo) (rb : PRBook) (tm : PTorsMemo) (rm : PRMemo)
     {n : ℕ} {α : Type} [CertArith α] (c : TorusCertificate n α) (w : RefinedWit) : Bool :=
   checkHamClaim c w.R && checkFrameMajorantsR bk mm rb tm rm c (w.R.frame c.freqBox) &&
     refinedCore n c.params c.freqBox w
 
 /-- **Route A refined with the packed frames** (the landed disc pass and refined core). -/
-def routeARefinedR (bk : PGramBook) (mm : PGramMemo) (rb : PRBook) (tm : PTorsMemo)
+def routeARefinedPacked (bk : PGramBook) (mm : PGramMemo) (rb : PRBook) (tm : PTorsMemo)
     (rm : PRMemo) : EngineV2 where
   Wit := RefinedWit
-  test := fun c w => refinedTestR bk mm rb tm rm c w
+  test := fun c w => refinedTestPacked bk mm rb tm rm c w
   sound := by
     intro n α _ _ c w ωstar hω hdio B h
-    simp only [refinedTestR, Bool.and_eq_true] at h
+    simp only [refinedTestPacked, Bool.and_eq_true] at h
     obtain ⟨⟨hH, hF⟩, hc⟩ := h
     obtain ⟨h1, h2, h3, h4, -⟩ := checkFrameMajorantsR_sound B.hs B.hH B.hEm hF hω
     exact refinedCore_sound c w hω hdio B (checkHamClaim_sound B.hs hH) ⟨h1, h2, h3, h4⟩ hc
 
 /-- **End to end**: a certificate passing the v2 certifier with the packed Gram, torsion and frame
-checks (`torsRBase`, `routeARefinedR`) is a landed `CertifiedTorus`. -/
+checks (`torsRBase`, `routeARefinedPacked`) is a landed `CertifiedTorus`. -/
 theorem checkV2With_packed_sound {n : ℕ} {α : Type} [CertArith α] [LawfulCertArith α]
     (bk : PGramBook) (mm : PGramMemo) (rb : PRBook) (tm : PTorsMemo) (rm : PRMemo)
     {c : TorusCertificate n α} {w : RefinedWit}
-    (h : checkV2With (torsRBase bk mm rb tm rm) (routeARefinedR bk mm rb tm rm) c w = true)
+    (h : checkV2With (torsRBase bk mm rb tm rm) (routeARefinedPacked bk mm rb tm rm) c w = true)
     {ωstar : Fin n → ℝ} (hω : FreqEncloses n c.freqBox ωstar)
     (hdio : IsDiophantine (c.params.γ : ℝ) (c.params.tau : ℝ) ωstar) : CertifiedTorus c ωstar :=
-  checkV2With_sound (torsRBase bk mm rb tm rm) (routeARefinedR bk mm rb tm rm) h hω hdio
+  checkV2With_sound (torsRBase bk mm rb tm rm) (routeARefinedPacked bk mm rb tm rm) h hω hdio
 
 end KAM.CertificateSharp.Packed
