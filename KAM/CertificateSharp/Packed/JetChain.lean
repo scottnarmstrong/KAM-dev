@@ -15,8 +15,9 @@ The chain is an ordered list of **blocks**, each with imported and exported ledg
 * a segment (`jSegOk`): sums, products and constants of earlier slots;
 * an action block (`jActionsOk`): the action components of the embedding, packed from the landed
   `realCompModel` by `jLeaf`;
-* a given block: entries supplied as hypotheses (for the characters and the witness operations
-  until their packed blocks exist; `jChain_sound_of_given` names this dependence).
+* a given block: entries supplied as hypotheses (`jChain_sound_of_given` names this dependence).
+  The characters (`JetChar.lean`) and the witness operations (`JetWit.lean`) have packed blocks;
+  `jChainW_slot` and `jChainT_slot` exclude given blocks.
 
 `chain_sound` is the induction on the block order: if every block's exports enclose their slot
 functions whenever its imports do, and every import is an export of an earlier block, then every

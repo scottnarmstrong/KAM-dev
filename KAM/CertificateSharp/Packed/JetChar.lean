@@ -23,8 +23,8 @@ The character slot `char k` has the value `exp(i modePhase k (K θ).1)`, which i
 * `jCharsOk`: each character slot as the unit at `k` times the powers.
 
 The ledger keys are the program slots and the auxiliary powers `(j, σ, m)`
-(`keyFn`); `JBlockX` adds the three block kinds to `JBlock`, and `jChainX_sound` is the chain
-theorem over both kinds of keys.
+(`keyFn`); `JBlockX` adds the three block kinds to `JBlock`, and `jChainX_sound_of_given` is the
+chain theorem over both kinds of keys.
 -/
 
 @[expose] public noncomputable section

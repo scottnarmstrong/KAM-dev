@@ -42,7 +42,7 @@ structure JBook where
   Lw : PackLayout
   /-- the weight exponent of the packed norm -/
   q : ℕ
-  /-- a reduced node packs digits in `[-2^lb, 2^lb]` -/
+  /-- a reduced node packs digits in `[-2^lb, 2^lb)` (`boxOk`) -/
   lb : ℕ
   /-- the norm guards: residual on the window, residual on the box, reduced node -/
   lr : ℕ

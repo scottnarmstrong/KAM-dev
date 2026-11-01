@@ -17,6 +17,9 @@ Task: the orchestrator's overnight decisions after V2-PACKED-JET GATE, on `v2-pa
 - **Against the landed range** (228 modules, 4,815 CPU-s), this is ≈ 88×.
   - The landed column counts theorem modules only; each packed process also elaborates its own ledger data.
   - Production assembly is unmeasured.
+  - The range's 53 imports are landed models, rounded to packed form and taken as hypotheses of `jSegOk_sound`
+    (not kernel-checked). Superseded by V2-PACKED-JET-LOW (design §12.11), where every import is an earlier
+    packed export.
 - **All runs are on LG00's data** (`lg00-cert` `fd82fef5`, cfgLow slots [7099, 7292), the same 53 imports and 35
   exports):
 

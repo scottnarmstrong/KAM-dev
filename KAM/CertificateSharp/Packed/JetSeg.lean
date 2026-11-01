@@ -17,8 +17,8 @@ a box-by-box product is reduced to the box at once (`jMul`). The steps carry onl
 numbers (the target scales): a bad choice fails closed.
 
 `jSegOk_sound`: if the segment check passes and every imported node encloses its slot function
-`θ ↦ p.val n (z θ) j`, then every exported node encloses its slot function. (The chain of segments
-through the ledger, by induction on the slot, is the next step, §12.7 item 3.)
+`θ ↦ p.val n (z θ) j`, then every exported node encloses its slot function. (The chain of blocks
+through the ledger is `chain_sound` in `JetChain.lean`, an induction on the block order.)
 
 The slot semantics: `slpVal_add`, `slpVal_mul` (the value of an `add`/`mul` slot from the values of
 its two earlier operands, `Slp.val_append`/`Slp.val_snoc_self`).

@@ -389,7 +389,7 @@ next step (V2-PACKED-FRAMES). The jet compositions (`Low`, `Full`) are unchanged
 no digit lemma about the rounding or the truncation. It applies to any chain of packed products, including a
 packed jet evaluator.
 
-## 12. The packed jet evaluator (DESIGN ONLY; no Lean before the B3/B3b audit findings)
+## 12. The packed jet evaluator (design §12.1–§12.8; built and measured from §12.9 on)
 
 The remaining dominant cost of an LG00-shaped certificate is the composition of the Hamiltonian's jet with the
 embedding. This section designs its packed replacement, with the check-by-residual pattern of §11.
@@ -627,7 +627,9 @@ ones), `Packed/JetIngest.lean` (narrow ledger literals spread in the kernel) and
 | CPU (user + sys) | 4,815 s | 512 s (279 s kernel) |
 | largest charge | 5.27 GB | 4.29 GB (4 GiB cap) |
 
-That is **9.4×** on the range, with the production assembly unmeasured.
+That is **9.4×** on the range, with the production assembly unmeasured. The range's 53 imports are landed models,
+rounded to packed form and taken as hypotheses of `jSegOk_sound` (not kernel-checked). Superseded by §12.11, where
+every import is an earlier packed export.
 
 **The cost model of §12.6 was optimistic:**
 - **Kernel time** is 4.1 s per heavy step inside a run, against 0.5 s estimated. Standalone, a product with its
@@ -674,7 +676,8 @@ chain theorem over the sub-segments and the plan (§12.7 item 3).
 - **CPU is now mostly data elaboration.** The data control is 19–25 CPU-s per process: the elaborator, not the
   kernel. A shared data module (production assembly) would remove most of it.
 - **Comparison with the landed range** (228 modules, 4,815 CPU-s): 88× at the chosen cut. The landed column
-  counts theorem modules only, while each packed process also elaborates its own ledger data.
+  counts theorem modules only, while each packed process also elaborates its own ledger data. The 53 imports are
+  landed models, rounded to packed form and taken as hypotheses (not kernel-checked); superseded by §12.11.
 
 
 ### 12.11 The whole Low chain (V2-PACKED-JET-LOW; `docs/campaign/handoffs/V2-PACKED-JET-LOW.md`)
@@ -702,6 +705,19 @@ chain theorem over the sub-segments and the plan (§12.7 item 3).
 - 60 blocks, one process each: 41 segments (≤ 34 heavy steps), actions, 4 exponentials (Taylor degrees 17 and
   22), 4 power blocks, 6 character blocks (≤ 8 keys), 2 `inv`, 2 `sqrt`.
 
+**What is checked (AUDIT-V2-PACKED-JET-1 M1).**
+- Every one of the 60 blocks passes in the kernel, as a **separate theorem** over a probe-local copy of the
+  program, the embedding, the weight and the π enclosure.
+- **The LG00 instance of `jChainW_slot` is not built.** Its hypotheses are not discharged in Lean for LG00:
+  - `hfirst` (the block order) and `hng` (no given block). Both hold as data; the audit checked all 944 imports.
+  - `jBookOk`, which is checked inside each segment only.
+  - `checkWeight gW` and `checkPiEnclosure lgPe`, which appear in no probe.
+- **The probe program is a prefix.** It is the first 7,752 of the 7,816 operations of `lg00Jet.prog`, so a prefix
+  lemma (`Slp.val_append`) is needed unless the data module names `lg00Jet.prog` itself.
+- `JNode`, `PC` and `CertFixed` have no `DecidableEq`, so `hfirst` as stated (membership of `(key, node)` pairs)
+  cannot be decided. With a shared data module it can be shown by name; alternatively, derive `DecidableEq` or index
+  the ledger by key.
+
 | | landed Low stage (run20e) | packed |
 |---|---:|---:|
 | CPU (user + sys) | 50,440.0 s (14.01 h) | **1,415.0 s** (321.3 s kernel) |
@@ -709,8 +725,11 @@ chain theorem over the sub-segments and the plan (§12.7 item 3).
 
 **That is 35.6×, with the production assembly unmeasured:**
 - the shared data module;
-- one theorem over the 60 blocks with its order proof;
+- one theorem over the 60 blocks with its order proof (the instance of `jChainW_slot`, above);
 - the consumer bridge.
+
+The landed figure counts each module's last, successful run. With LG00's two failed earlier attempts of one
+module it is 50,514.9 s, and 35.7×.
 
 **By kind:**
 
@@ -726,11 +745,13 @@ elaboration.
 **Controls.** A one-ulp lower radius on an exponential, a power, a character, an `inv` and a `sqrt` export
 decides `= false`.
 
-**Accuracy.**
-- The packed radii of the wanted slots are 1e-17 to 3e-15, against 2e-4 to 3e-2 landed.
-  - The landed models are sparse (70–625 terms) and put the truncated tail in the radius.
-  - The packed nodes keep the 51 × 51 box.
+**Accuracy (configuration against configuration, not method against method).**
+- The packed configuration's radii on the wanted slots are 1e-17 to 3e-15, against 2e-4 to 3e-2 for the landed
+  configuration.
+  - The landed cfgLow trims to a sparse diamond (70–625 terms) and puts the tail in the radius.
+  - The packed nodes keep the dense 51 × 51 box, about 5× the ledger volume.
 - The norm bounds agree to about 1e-5 relative.
+- The margin that matters is the downstream torsion check. It cannot be measured until the consumer exists.
 
 **`P = 64`.**
 - **Precision.** The margin is large: about 10 orders even with 10⁴ growth (estimate).

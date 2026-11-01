@@ -1,4 +1,4 @@
-# V2-PACKED-JET-LOW handoff: the whole cfgLow jet chain of LG00, packed and measured end to end
+# V2-PACKED-JET-LOW handoff: the whole cfgLow jet chain of LG00, packed and measured block by block
 
 Task: the orchestrator's overnight decisions after V2-PACKED-JET-MEM, on `v2-packed-jet`:
 1. The chain theorem and the remaining operations toward the whole Low chain of LG00, measured end to end
@@ -10,7 +10,10 @@ process of mine at a time.
 
 ## Result
 
-**The whole cfgLow chain of LG00 passes in the kernel.**
+**Every one of the 60 blocks of LG00's whole cfgLow chain passes in the kernel**, each as a separate theorem over a
+probe-local copy of the program, the embedding, the weight and the π enclosure. The chain itself is not yet one
+theorem; see "What is not proved" below. (The commit subject `039b5a2b`, "packed and checked end to end",
+overstates this; it stays as it is, since history is not rewritten.)
 - **Data.** `lg00-cert` `fd82fef5`; 3,745 live slots, ending at the 20 wanted slots 7732–7751 (`J.d1`, `J.d2`).
 - **60 blocks, one process each, every one under the 4 GiB cap:**
   - 41 segments, holding 3,601 steps: 824 constants, 206 box-by-box products and 1,134 reduces in place;
@@ -19,8 +22,21 @@ process of mine at a time.
   - 4 power blocks (`m = 2..6`);
   - 6 character blocks (48 keys, 120 character slots);
   - 2 `sqrt` and 2 `inv` blocks.
-- **No given blocks.** The chain theorem `jChainW_slot` has no hypotheses beyond the block checks and the block
-  order (`hng`: no block is given).
+- **No given blocks.** The chain theorem `jChainW_slot` has no hypotheses beyond the block checks, the block
+  order, the book, weight and π checks, and `hng` (no block is given). Its LG00 instance is not built (below).
+
+**What is not proved (AUDIT-V2-PACKED-JET-1 M1).**
+- **The LG00 instance of `jChainW_slot` is not built.** Its hypotheses are not discharged in Lean for LG00:
+  - `hfirst` (the block order) and `hng` (no given block). Both hold as data: the audit checked that all 944
+    imports equal an earlier export, key and literal alike, in plan order.
+  - `jBookOk`: checked inside each segment only.
+  - `checkWeight gW` and `checkPiEnclosure lgPe`: they appear in no probe.
+- **The probe program is a prefix.** `lgProg` is the first 7,752 of the 7,816 operations of `lg00Jet.prog` (the
+  audit compared them exactly). A prefix lemma (`Slp.val_append`) is needed unless the data module names
+  `lg00Jet.prog` itself.
+- **`hfirst` cannot be decided as stated.** `JNode`, `PC` and `CertFixed` have no `DecidableEq`, so membership of
+  `(key, node)` pairs is not decidable. With a shared data module it can be shown by name; alternatively, derive
+  `DecidableEq` or index the ledger by key.
 
 | | landed Low stage (run20e) | packed Low chain |
 |---|---:|---:|
@@ -30,8 +46,14 @@ process of mine at a time.
 | largest charge | — | 3.62 GB (`LowSeg_14`) |
 | serial wall | — | 1,060.5 s |
 
-**That is 35.6× on the whole Low stage.**
-- The production assembly is unmeasured (see Uncertainties).
+**That is 35.6× on the whole Low stage, with three items unmeasured:**
+- the shared data module;
+- one theorem over the 60 blocks with its order proof (the LG00 instance of `jChainW_slot`, above);
+- the link from the `JEnc` exports to the consumers (§12.2).
+
+Notes on the figures:
+- The landed figure counts each module's last, successful run. With LG00's two failed earlier attempts of one
+  module (`Low.T1898`), it is 50,514.9 s and 35.7×.
 - The landed figure includes its 2,419.1 CPU-s of literal modules. The packed figure includes, in every
   process, the elaboration of that process's own data.
 
@@ -53,19 +75,19 @@ process of mine at a time.
 a power, a character, an `inv` and a `sqrt` export. All five decide `= false` (`full/ctl/`;
 `scripts/packed/jet_low_ctl.py`). The segment and action controls are those of M1 and MEM.
 
-**Accuracy against the landed stage.** The 20 wanted slots, both sides at degree 0
-(`scripts/packed/jet_low_cmp.py`, `full/LowRadii.{txt,json}`):
-- **Radii.** The packed radii are 1.2e-17 to 3.0e-15. The landed radii are 2.4e-4 to 2.9e-2, so the packed
-  radius is 4e-12 to 8e-15 of the landed one.
+**Accuracy: the packed configuration against the landed configuration** (not method against method; audit L1).
+The 20 wanted slots, both sides at degree 0 (`scripts/packed/jet_low_cmp.py`, `full/LowRadii.{txt,json}`):
+- **Radii.** The packed configuration's radii are 1.2e-17 to 3.0e-15. The landed configuration's are 2.4e-4 to
+  2.9e-2, so the packed radius is 4e-12 to 8e-15 of the landed one.
 - **Norm bounds.** The packed norm bounds agree with the landed weighted sup norms to about 1e-5 relative.
 - **Why the radii differ.**
   - The landed models are sparse: 70–625 terms, all inside the cfgLow diamond `ℓ¹ ≤ 24`. Eleven of the 20 slots
     stop at `ℓ¹ ≤ 12–16`; slot 7741, for example, keeps 97 terms with `|k|∞ ≤ 9`. The truncated tail goes into
     the radius.
-  - The packed nodes keep the whole 51 × 51 box, so only the tails beyond `|k|∞ = 25` and the rounding reach
-    the radius.
-- **For the consumers.** The packed enclosures are far tighter than the landed ones, but they are box nodes. A
-  consumer needs the §12.2 bridge (unbuilt).
+  - The packed nodes keep the whole dense 51 × 51 box (about 5× the ledger volume), so only the tails beyond
+    `|k|∞ = 25` and the rounding reach the radius.
+- **For the consumers.** The margin that matters is the downstream torsion check, which cannot be measured until
+  the consumer exists. The packed enclosures are box nodes, so a consumer needs the §12.2 bridge (unbuilt).
 
 ## The chain theorem (Lean; `KAM/CertificateSharp/Packed/`)
 
