@@ -5,7 +5,9 @@ Walks the import closure of a target module across the scratch packages (`--pkg 
 order), attributes each module's cost to the ledger that built it (`--ledger FILE` for each: the run harness's
 `ledger.tsv`, LG00's run ledger, or a kamx-packed summary JSON with `rows`), and prints the totals per stage next to
 LG00's own stages of the same tree. A module found in no ledger is listed (cost unknown).
+A `--ledger` may also be a directory of kamx-packed's per-module `<module>.cost` files (`run_modules.sh`).
 Usage: python3 -I scripts/packed/run_compare.py TARGET --tree TP --pkg DIR... --ledger FILE... --lg00-ledger FILE
+       [--base-tree TP]       (compare with another tree's LG00 run: T″'s was stopped by the owner's decision)
 """
 import json
 import os
@@ -25,6 +27,15 @@ def opts(name):
 
 def load_ledger(path):
     rows = {}
+    if os.path.isdir(path):                  # kamx-packed's run_modules.sh: one LOGDIR/<module>.cost per module
+        for fn in sorted(os.listdir(path)):
+            if not fn.endswith(".cost"):
+                continue
+            kv = dict(l.split(None, 1) for l in open(os.path.join(path, fn)) if len(l.split(None, 1)) == 2)
+            g = lambda k: kv.get(k, "0").strip()
+            rows[fn[:-5]] = dict(cpu=float(g("user_s")) + float(g("sys_s")), ok=g("exit") == "0", reused=False,
+                                 peak=int(float(g("cgroup_sampled_peak_bytes"))))
+        return {m: r for m, r in rows.items() if r["ok"]}
     if path.endswith(".json"):
         for r in json.load(open(path))["rows"]:
             rows[r["module"]] = dict(cpu=r["cpu"], peak=r.get("peak", 0) or 0, ok=r["exit"] == 0, reused=False)
@@ -54,7 +65,8 @@ def extras(path, rows):
     if path.endswith(".json"):
         return out
     for m, r in rows.items():
-        log = os.path.join(os.path.dirname(path), m + ".log")
+        log = (os.path.join(path, m + ".out") if os.path.isdir(path) else
+               os.path.join(os.path.dirname(path), m + ".log"))
         if r["reused"] or not os.path.exists(log):
             continue
         ex = [(x, lake_secs(t)) for x, t in re.findall(r"Built (\S+)(?: \(([^)]*)\))?", open(log).read()) if x != m]
@@ -127,10 +139,10 @@ def main():
             continue
         t["cpu"] += r["cpu"]
         t["peak"] = max(t["peak"], r["peak"])
-    base = {}
+    base, btree = {}, (opts("--base-tree") or [tree])[0]     # the LG00 run's tree to compare with (default: same)
     for m, r in lg00.items():
         p = m.split(".")
-        if len(p) > 2 and p[0] == "LG00" and p[1] == tree:
+        if len(p) > 2 and p[0] == "LG00" and p[1] == btree:
             b = base.setdefault(p[2] if p[2] in ("Data", "Balls", "Gram", "Torsion", "Low", "Full", "Final")
                                 else "Main", dict(n=0, cpu=0.0, peak=0))
             b["n"] += 1
