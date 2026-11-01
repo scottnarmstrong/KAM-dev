@@ -21,7 +21,8 @@ For a signed packed integer `Z = packSum w d` (`N` slots of width `w`):
 * `loadOk w N l Z` certifies with one mask that `Z` packs `N` slots in `[-2^l, 2^l)`
   (`loadOk_sound`).
 * `unpackSlots w N Z` reads the `N` signed slots by balanced mask/shift halving (`natDigitsSh`),
-  and inverts `packSum` on slots with `2|d_i| < 2^w` (`unpackSlots_packSum`).
+  and inverts `packSum` on slots with `2|d_i| < 2^w` (`unpackSlots_packSum`);
+* `natJoin` joins the chunks of a large packed literal (a balanced tree, written by the producer).
 -/
 
 @[expose] public section
@@ -172,6 +173,13 @@ theorem loadOk_sound {w N l : ℕ} {Z : ℤ} (h : loadOk w N l Z = true) :
     push_cast at hp
     rw [← hp, hYdef, Int.toNat_of_nonneg h0]
     ring
+
+/-! ### Literal ingestion -/
+
+/-- Join two chunks of a packed literal: `a + b · 2^k` (kernel: one shift and one addition).
+Large packed literals are written as balanced trees of `natJoin` over short hexadecimal chunks:
+the elaborator's numeral parser is quadratic in the digit count, and source lines are short. -/
+def natJoin (k a b : ℕ) : ℕ := a + (b <<< k)
 
 /-! ### Balanced unpacking -/
 
