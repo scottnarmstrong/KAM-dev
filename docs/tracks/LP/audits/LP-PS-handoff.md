@@ -1,3 +1,53 @@
+# LP-PS audit handoff: the planar theorem LP1 (MAIN Theorem 15 with Lemma 16) and LP0 (Lemma 5)
+
+Branch `inp-lp-psaud` (worktree `/root/code/KAM-inp-lp-thr`) = `inp-lp-ps` (74ebebb1) + `inp-lp` (every other planar
+package: landed or audited and landing). The package diff is `git diff inp-lp...HEAD -- KAM`: the `PlanarSafety`
+facade and its parts (Orientation, Constants, Prograde, Main), plus the regenerated root, about 780 lines. Every
+ingredient is already audited (LP-BAR1, W1B, W2A, OSC, W3B, W3C) and is NOT in scope. Nothing in track LP is
+frozen.
+
+Prover handoff: `docs/tracks/LP/audits/LP-PS-handoff.md`. Brief:
+`/root/code/KAM-inp-lp/docs/tracks/LP/packages/LP-PS.md`.
+
+Target statements: `docs/tracks/LP/FREEZE-PROPOSAL.md` draft 2, §2 (LP0) and §3 (LP1), reviewed twice
+(`docs/tracks/LP/freeze/STATEMENT-REVIEW-{1,2}.md`; review 2 PASS for the theorem types). The orchestrator's
+verification file `docs/tracks/LP/freeze/verification-draft-2.lean.txt` states the draft-2 LP0 and LP1 verbatim
+and closes them by `lp0_planar_barrier` and `lp1_planar_strongAMD_safety_normalized`. Capped `lp_lean`, exit 0,
+axioms `[propext, Classical.choice, Quot.sound]`. Please re-run that check, capped.
+
+Source: `docs/tracks/LP/source/MAIN.md` Theorem 15 (502–506), Lemma 14 (468–500), Lemma 16 (508–529), Lemma 5
+(162–175), §1 (6)–(9), with `docs/tracks/LP/source/AMENDMENTS.md` (N2, N6, N7, N10).
+
+## REPORT FORMAT
+
+One verdict for the package, with a section per main theorem: `lp1_planar_strongAMD_safety` (general),
+`…_normalized` (the draft-2 text), `…_halfInteger`, `lp0_planar_barrier`, and `planar_safety_of_prograde`
+(internal).
+
+## AUDIT FOCUS
+
+- **Statement fidelity:**
+  - `lp1_planar_strongAMD_safety_normalized` IS the draft-2 LP1 text (re-run the verification).
+  - The general theorem differs only by dropping `hνmax` and `hνle`; it is a pure generalization of the
+    equation, with μ read as a mass scale (review 1, F5).
+- **No conclusion-shaped premise anywhere in the public theorems.** `0 < totalMomentum` appears only in the
+  internal `planar_safety_of_prograde`, and is discharged by the reflection.
+- **Constant order:** every constant, including `Aelem` and the N10 inequalities, is chosen before `μ` and
+  `z₀`, and depends only on `(n, ν, A, δ, γ, τ)`.
+- **Discharge of `hstop`:**
+  - `StoppedOn` is CONF's antecedent by `rfl`;
+  - both time directions use `uIcc 0 t`;
+  - the time bound matches NRR's;
+  - `lpStoppedBlock` is `lpBlock` by `rfl`;
+  - NRR's widths are used consistently.
+- **Orientation reduction:** `PlanarSafeSol.of_reflectPhase`, in particular `MovingUniqueOn` and the
+  osculating clauses (`oscVelocity` of a reflected state).
+- **LP0:** the compact `K := K_barrier ∩ {E_i ≤ −c}` (closedness, negative energies).
+
+---
+
+# Prover handoff (LP-PS, as delivered)
+
 # LP-PS handoff (planar theorem LP1, MAIN Theorem 15 with Lemmas 14, 16; track LP, non-frozen)
 
 Branch `inp-lp-ps`. No `sorry`/axiom/`maxHeartbeats`; no existing file edited (only the generated
