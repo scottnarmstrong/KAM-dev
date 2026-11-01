@@ -176,7 +176,11 @@ def _write_sharded(self, rel, imports, title, doc, body, heavy=False, ns=None):
         for gi, g in enumerate(_groups(NSHARDS[adv], adv)):
             st = "[%s].all %s = true := by" % (", ".join(map(str, g)), rest)
             gb = ["theorem %sG%d :" % (nm, gi)] + wrap(st.split(" "), "    ") + ["  decide +kernel"]
-            mods.append(_tree_write(self, "%sG%d" % (rel, gi), imports, "%s, shards %s" % (title, g), doc, gb,
+            gt = "%s, shards %s" % (title, g)
+            if len(gt) > 84:          # a light product's single group lists every shard: name the range instead
+                gt = "%s, shards %d to %d" % (title, g[0], g[-1]) if g == list(range(g[0], g[-1] + 1)) else \
+                    "%s, %d shards" % (title, len(g))
+            mods.append(_tree_write(self, "%sG%d" % (rel, gi), imports, gt, doc, gb,
                                     heavy=heavy, ns=ns))
         return _tree_write(self, rel, mods, title, doc + " (facade over the shard-group modules)", [], ns=ns)
     if rel.startswith("Full/") or rel.startswith("Low/"):
@@ -481,6 +485,36 @@ def _split_items(items):
 _tree_data = CE.Tree.data
 CE.Tree.data = lambda self, stem, title, doc, items, imports: _tree_data(self, stem, title, doc,
                                                                          list(_split_items(items)), imports)
+
+
+def data_flat(tree, stem, title, doc, items, imports, needs=None):
+    """`Tree.data` without the chain: file `stem NN` imports `imports`, the modules `needs(name)` of its items, and
+    only those earlier files holding earlier pieces of one of its own split items (`_split_items`), so the parts
+    elaborate in parallel; returns every part (a consumer imports all of them)."""
+    files, cur, n, imp = [], [], 0, set()
+    for nm, lines in _split_items(items):
+        new = set(needs(nm)) if needs else set()
+        # each import is one header line: the file stays under the line cap with its imports
+        if cur and n + len(lines) + len(imp | new) > CE.MAXLINES:
+            files.append(cur)
+            cur, n, imp = [], 0, set()
+        cur.append((nm, lines))
+        n += len(lines)
+        imp |= new
+    if cur:
+        files.append(cur)
+    mods, where = [], {}
+    for fi, f in enumerate(files):
+        rel = "%s%02d" % (stem, fi)
+        own = sorted({where[nm] for nm, _ in f if nm in where})
+        extra = sorted({m for nm, _ in f for m in (needs(nm) if needs else [])})
+        m = tree.write(rel, list(imports) + own + extra, "%s, part %d" % (title, fi), doc,
+                       [l for _, ls in f for l in ls])
+        for nm, _ in f:
+            tree.defs[nm] = m
+            where[nm] = m
+        mods.append(m)
+    return mods
 
 
 class LockEmitter(CE.Emitter):
@@ -1041,7 +1075,7 @@ class LockEmitter(CE.Emitter):
             metas = [wrap(self.meta_lit(chain, b).split(" "), "  ") for b in bounds]
             led = sorted(self.led["chains"][chain]["ledger"])
             ledl = [["  (%d, (%s, %sN))" % (i, self.slotName(chain, i), self.slotName(chain, i))] for i in led]
-            items, joins = [], {}
+            items, joins, needs = [], {}, {}
             for tag, ty, ents in (("Segs", "List SegSpec", segs),
                                   ("Metas", "List (ComposeMeta %s)" % CE.TY, metas),
                                   ("Ledger", "List (ℕ × (CertModel %s × %s))" % (CE.TY, CE.TY), ledl)):
@@ -1054,11 +1088,14 @@ class LockEmitter(CE.Emitter):
                         lines += e[:-1] + [e[-1] + ("," if j + 1 < len(ch) else "]")]
                     items.append((nm, lines + [""]))
                     names.append(nm)
+                    if tag == "Ledger":
+                        needs[nm] = sorted({self.tree.defs[self.slotName(chain, i)]
+                                            for i in led[c0:c0 + PLAN_CHUNK]})
                 joins[tag] = (ty, names)
             stem = "Plan%s" % ("Full" if chain == "cfgFull" else "Low")
-            parts = self.tree.data(stem + "Part", "The %s plan of the %s chain (lists)" % (self.w, chain),
-                                   "Chunks of the segments, boundary metadata and ledger (untrusted data).", items,
-                                   self.base + self.ledger_mods[chain])
+            parts = data_flat(self.tree, stem + "Part", "The %s plan of the %s chain (lists)" % (self.w, chain),
+                              "Chunks of the segments, boundary metadata and ledger (untrusted data).", items,
+                              self.base, needs=lambda nm: needs.get(nm, []))
             body = []
             for tag, doc in (("Segs", "The segments"), ("Metas", "The boundary metadata"), ("Ledger", "The ledger")):
                 ty, names = joins[tag]
@@ -1066,10 +1103,23 @@ class LockEmitter(CE.Emitter):
                 body += ["  " + " ++\n    ".join(names), ""]
             body += ["/-- The checkpointed %s composition. -/" % chain,
                      "def %s : ComposeCkpt %s := ⟨%sSegs, %sMetas, %sLedger⟩" % (ck, CE.TY, ck, ck, ck)]
-            self.plan_mods[chain] = self.tree.write(stem, self.base + parts[-1:],
+            self.plan_mods[chain] = self.tree.write(stem, self.base + parts,
                                                     "The %s plan of the %s chain" % (self.w, chain),
                                                     "Segments, boundary metadata and ledger (untrusted data; "
                                                     "`planOk`/`segOk` check them).", body)
+
+    def emit_ledger(self):
+        """`csplit_emit.Emitter.emit_ledger` with the parts unchained (`data_flat`): each ledger part imports only
+        the base, so the parts elaborate in parallel; the plan's ledger chunks import the parts of their slots."""
+        mods = {}
+        for chain in ("cfgFull", "cfgLow"):
+            L = self.led["chains"][chain]["ledger"]
+            items = [(self.slotName(chain, i), CE.model_defs(self.slotName(chain, i), L[i][0], L[i][1]))
+                     for i in sorted(L)]
+            mods[chain] = data_flat(self.tree, "Ledger%s" % ("Full" if chain == "cfgFull" else "Low"),
+                                    "The %s ledger of the %s chain" % (self.w, chain),
+                                    "Ledger pairs `(model, cached norm)` (route E; SO-CSPLIT §5).", items, self.base)
+        self.ledger_mods = mods
 
     def emit_charE(self):
         """`charE`: the terms of the character witness of the forced character slot (the lunar emitter's name)."""
@@ -1083,8 +1133,6 @@ class LockEmitter(CE.Emitter):
         self.led_ops = [tuple(o) for o in self.led["ops"]]
         self.emit_charE()
         self.emit_ledger()
-        # the ledger parts chain-import, so the last part brings the whole ledger (the plan file stays under the cap)
-        self.ledger_mods = {k: v[-1:] for k, v in self.ledger_mods.items()}
         self.emit_plans()
         self.stage_mod = self.tree.mod("StageMats")
         self.ops_map = self.operands()
