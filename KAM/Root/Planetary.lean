@@ -638,7 +638,10 @@ public import KAM.Planetary.StrongAMD.Continuation
 public import KAM.Planetary.StrongAMD.Geometry
 public import KAM.Planetary.StrongAMD.Modulus
 public import KAM.Planetary.StrongAMD.Momentum
+public import KAM.Planetary.StrongAMD.NonresonantAdapter
+public import KAM.Planetary.StrongAMD.NonresonantAdapterRescale
 public import KAM.Planetary.StrongAMD.Orbital
+public import KAM.Planetary.StrongAMD.PlanarDictionary
 public import KAM.Planetary.StrongAMD.Reflection
 public import KAM.Planetary.StrongAMD.Threshold.Continuity
 public import KAM.Planetary.StrongAMD.Threshold.Defs
