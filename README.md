@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-01 10:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 92 % · track LP 90 %** · frozen statements proved: 26 / 31 · **480,988 lines of hand-written Lean** of an estimated ≈ 491,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-01 10:41 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 92 % · track LP 90 %** · frozen statements proved: 26 / 31 · **480,988 lines of hand-written Lean** of an estimated ≈ 491,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -295,7 +295,7 @@ Overall, everything together: 93.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 10:40 UTC from `main` at `f5a8d816` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 10:41 UTC from `main` at `7394d94e` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -507,7 +507,7 @@ account read from each agent's running process) and their branches. Rules for ag
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA lock_mlane: dry-run schedule (LOCK_DRY=1) and missing-source report | `inp-lockdata` | 55 (vs `inp`) |
-| **lp** `inp-mprov-lp` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP: draft-8 statement audit brief | `inp-lp` | 10 (vs `inp`) |
+| **lp** `inp-mprov-lp` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP: owner summary count fix (22 already-frozen definitions in the closure; root-b8) | `inp-lp` | 11 (vs `inp`) |
 | **lp-freeze7** `inp-mprov-lp-freeze7` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP-FREEZE7R: audit 7-2 notes R1-R3 applied | `inp-lp-freeze7` | 9 (vs `inp`) |
 | **lp-freeze8** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: Merge branch 'inp-lp-freeze7' into inp-lp-freeze8 | `inp-lp-freeze8` | 11 (vs `inp`) |
 | **lp-fz7r-audit** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP: draft-7 r1 delta statement audit 2 (codex-2): PASS WITH NOTES (BLOCKING 0; R1-R3 small | `inp-lp-fz7r-audit` | 15 (vs `inp`) |
@@ -522,6 +522,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-01 10:41 | `7394d94e` | D62: owner approves LP freeze draft 7 r1 (de343000), freeze and seals |
 | 2026-11-01 10:32 | `f2b48d85` | Land inp into main |
 | 2026-11-01 10:30 | `a9ba449d` | HQ: LP status (paper on main; draft 7 passed its delta audit) |
 | 2026-11-01 10:30 | `82e22386` | Land paper-lp: the LP paper (papers/LP, 23 pp; fidelity, literature and exposition audits PASS WITH NOTES) |
@@ -533,7 +534,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-01 09:50 | `74d77b43` | Land inp into main |
 | 2026-11-01 09:49 | `224a7e75` | Overnight log 09:49 heartbeat |
 | 2026-11-01 09:45 | `56e376fb` | Overnight log: LP3 audited, nlw2 proved, D61, draft-7 audit |
-| 2026-11-01 09:44 | `e815d5b5` | D61: owner approves sealing W-NLW2 once its gates pass |
 <!-- /AUTO:landed -->
 
 ## Decisions
