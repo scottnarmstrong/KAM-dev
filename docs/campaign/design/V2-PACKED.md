@@ -391,7 +391,7 @@ unmeasured). The jet compositions
 no digit lemma about the rounding or the truncation. It applies to any chain of packed products, including a
 packed jet evaluator.
 
-## 12. The packed jet evaluator (DESIGN ONLY; no Lean before the B3/B3b audit findings)
+## 12. The packed jet evaluator (design §12.1–§12.8; built and measured from §12.9 on)
 
 The remaining dominant cost of an LG00-shaped certificate is the composition of the Hamiltonian's jet with the
 embedding. This section designs its packed replacement, with the check-by-residual pattern of §11.
@@ -607,6 +607,226 @@ overheads. These are estimates. The first gate measures one `Low` segment of 50 
 - **The `Full` box (`h = 48`, window 13.4 Mbit) against a split of the invariance residual into two boxes.** The
   generator decides it from the measured tail, below `err`.
 - **The production data module** (owner decision 1) is shared with the jet ledger and the B3b memos.
+
+**Decided (orchestrator, overnight, 2026-11-01):**
+- (Z): the reduced values are computed in the kernel and validated by `boxOk`; literals only as a fallback.
+- The larger `Full` box is accepted (13.4 Mbit, under the numeral cap, no `LEAN_NAT_MAX_SIZE` change).
+- The jet ledger shares the production data module.
+
+### 12.9 First gate (measured; `docs/campaign/handoffs/V2-PACKED-JET-GATE.md`)
+
+**Built.** `Packed/Box.lean` (`boxOk`, `boxOk_sound`: the digit lemma in closed form), `Packed/StageZ.lean`
+(`zPC`, `PEnc.reduceZ`), `Packed/JetNode.lean` (nodes, `jAdd`, `jMul` with the reduce, `jRed`),
+`Packed/JetSeg.lean` (`jSegOk`, `jSegOk_sound`: imported nodes enclosing their slot functions give exported
+ones), `Packed/JetIngest.lean` (narrow ledger literals spread in the kernel) and `Packed/JetTests.lean`.
+
+**Gate.** LG00's cfgLow slots [7099, 7292): 55 box-by-box products, 13 products by constants (reduced in place),
+46 sums; 53 imports, 35 exports; 83 landed segments.
+
+| | landed (run20e) | packed |
+|---|---:|---:|
+| processes | 228 modules | 23 sub-segments |
+| CPU (user + sys) | 4,815 s | 512 s (279 s kernel) |
+| largest charge | 5.27 GB | 4.29 GB (4 GiB cap) |
+
+That is **9.4×** on the range, with the production assembly unmeasured. The range's 53 imports are landed models,
+rounded to packed form and taken as hypotheses of `jSegOk_sound` (not kernel-checked). Superseded by §12.11, where
+every import is an earlier packed export.
+
+**The cost model of §12.6 was optimistic:**
+- **Kernel time** is 4.1 s per heavy step inside a run, against 0.5 s estimated. Standalone, a product with its
+  reduce takes 0.65 s, and each of its two packed norms 0.8 s.
+- **Kernel memory** is about 0.5 GB per heavy step inside a run, against 30 MB. The kernel keeps every
+  intermediate of a declaration.
+  - So a 4 GB process holds at most 4 heavy steps, and fewer when a piece carries many ledger memos.
+  - The 55-product segment in one process is OOM-killed.
+- **The ledger memos are box nodes** (2,601 coefficients, against about 515 landed terms). Each is ingested in
+  0.18 s and about 30 MB.
+
+**Next.** Memory engineering of the run: why the run keeps far more than the sum of its operations. Then the
+chain theorem over the sub-segments and the plan (§12.7 item 3).
+
+### 12.10 Kernel memory of the run (V2-PACKED-JET-MEM; `docs/campaign/handoffs/V2-PACKED-JET-MEM.md`)
+
+**What held the memory.** Not the packed arithmetic: a product with its reduce and its two norms keeps about
+5–20 MB. Two costs scaled with the run.
+
+- **The program read.**
+  - The probe wrote the program as `ops_0 ++ ops_1 ++ … ++ ops_36`. `++` associates to the left, so every cell of
+    the first chunk passed through 36 appends.
+  - `jRun` also read `p.ops.getD i` from slot `0` at every step.
+  - One read at slot 7291 took 4.6 s and 1.1 GB of kernel, and a run step about 0.4 GB.
+  - **Fix:** right-nested appends in the generator, and the segment runs on `p.ops.drop start`, computed once
+    and shared, at `i - start` (`jSegOk … start …`, `getD_drop_sub`).
+- **Literal ingestion.**
+  - The digit-by-digit re-spacing (`respace`) was one kernel operation per digit: 0.22 s and 37 MB per part.
+  - **Fix:** `jSpread` spreads in about 18 whole-number steps. In each block the upper half moves by one
+    closed-form mask, one multiplication and one addition.
+  - Literal widths are rounded to multiples of 8, so the masks are shared, and zero parts are written `0`.
+  - Cost: about 0.02 s and 13 MB per part.
+
+**Measured** (the same LG00 range as §12.9: 68 heavy steps, 53 imports, 35 exports):
+
+| cut | processes | heavy steps per process | CPU | kernel | largest charge |
+|---|---:|---:|---:|---:|---:|
+| §12.9 | 23 | ≤ 4 | 512 s | 279 s | 4.29 GB |
+| one process | 1 | 68 | 29.0 s | 6.0 s | 3.90 GB |
+| **34 (chosen)** | 2 | 34 | 54.9 s | 8.4 s | 2.65 GB |
+| 20 | 4 | ≤ 20 | 71.3 s | 11.1 s | 2.22 GB |
+
+- **The kernel now takes 0.09–0.16 s per heavy step.**
+- **CPU is now mostly data elaboration.** The data control is 19–25 CPU-s per process: the elaborator, not the
+  kernel. A shared data module (production assembly) would remove most of it.
+- **Comparison with the landed range** (228 modules, 4,815 CPU-s): 88× at the chosen cut. The landed column
+  counts theorem modules only, while each packed process also elaborates its own ledger data. The 53 imports are
+  landed models, rounded to packed form and taken as hypotheses (not kernel-checked); superseded by §12.11.
+
+
+### 12.11 The whole Low chain (V2-PACKED-JET-LOW; `docs/campaign/handoffs/V2-PACKED-JET-LOW.md`)
+
+**Built.**
+- **`Packed/JetLeaf.lean`.** Leaves from landed models: `toDeg` to degree 0, then box truncation into the radius,
+  then packing.
+- **`Packed/JetChain.lean`.**
+  - `chain_sound`, an induction on the block order;
+  - segments, the action block and given blocks.
+- **`Packed/JetChar.lean`.**
+  - Characters `character(k) · ∏ᵢ exp(σᵢ i 2π angleAtᵢ)^{|kᵢ|}`;
+  - the exponential as a Taylor sum with Mathlib's `exp_bound'` remainder;
+  - powers and products.
+- **`Packed/JetWit.lean`.**
+  - `inv` and `sqrt` in residual form, with an untrusted candidate validated by `boxOk` and the bounds
+    `inv_sub_le` (Neumann) and `sqrtE_sub_le`;
+  - `jRenorm`, which restores the cancellation a sum node's norm bound loses;
+  - the whole-chain theorem `jChainW_slot`: every exported slot is a packed enclosure of the program's slot
+    function at the embedding.
+- **No given blocks.**
+
+**Measured on LG00's whole cfgLow chain** (`lg00-cert` `fd82fef5`):
+- 3,745 live slots, 20 wanted;
+- 60 blocks, one process each: 41 segments (≤ 34 heavy steps), actions, 4 exponentials (Taylor degrees 17 and
+  22), 4 power blocks, 6 character blocks (≤ 8 keys), 2 `inv`, 2 `sqrt`.
+
+**What is checked (AUDIT-V2-PACKED-JET-1 M1).**
+- Every one of the 60 blocks passes in the kernel, as a **separate theorem** over a probe-local copy of the
+  program, the embedding, the weight and the π enclosure.
+- **The LG00 instance of `jChainW_slot` is not built.** Its hypotheses are not discharged in Lean for LG00:
+  - `hfirst` (the block order) and `hng` (no given block). Both hold as data; the audit checked all 944 imports.
+  - `jBookOk`, which is checked inside each segment only.
+  - `checkWeight gW` and `checkPiEnclosure lgPe`, which appear in no probe.
+- **The probe program is a prefix.** It is the first 7,752 of the 7,816 operations of `lg00Jet.prog`, so a prefix
+  lemma (`Slp.val_append`) is needed unless the data module names `lg00Jet.prog` itself.
+- `JNode`, `PC` and `CertFixed` have no `DecidableEq`, so `hfirst` as stated (membership of `(key, node)` pairs)
+  cannot be decided. With a shared data module it can be shown by name; alternatively, derive `DecidableEq` or index
+  the ledger by key.
+
+| | landed Low stage (run20e) | packed |
+|---|---:|---:|
+| CPU (user + sys) | 50,440.0 s (14.01 h) | **1,415.0 s** (321.3 s kernel) |
+| largest charge | — | 3.62 GB (4 GiB cap) |
+
+**That is 35.6×, with the production assembly unmeasured:**
+- the shared data module;
+- one theorem over the 60 blocks with its order proof (the instance of `jChainW_slot`, above);
+- the consumer bridge.
+
+The landed figure counts each module's last, successful run. With LG00's two failed earlier attempts of one
+module it is 50,514.9 s, and 35.7×.
+
+**By kind:**
+
+| kind | ratio |
+|---|---:|
+| segments and actions | 35.9× |
+| characters | 39.8× |
+| `inv`/`sqrt` | 7.6× |
+
+**Where the CPU goes.** The kernel takes 0.20 s per heavy step. About 18 CPU-s per process is import and data
+elaboration.
+
+**Controls.** A one-ulp lower radius on an exponential, a power, a character, an `inv` and a `sqrt` export
+decides `= false`.
+
+**Accuracy (configuration against configuration, not method against method).**
+- The packed configuration's radii on the wanted slots are 1e-17 to 3e-15, against 2e-4 to 3e-2 for the landed
+  configuration.
+  - The landed cfgLow trims to a sparse diamond (70–625 terms) and puts the tail in the radius.
+  - The packed nodes keep the dense 51 × 51 box, about 5× the ledger volume.
+- The norm bounds agree to about 1e-5 relative.
+- The margin that matters is the downstream torsion check. It cannot be measured until the consumer exists.
+
+**`P = 64`.**
+- **Precision.** The margin is large: about 10 orders even with 10⁴ growth (estimate).
+- **Design.** The leaf conversion needs `jb.P` equal to the arithmetic's precision (`CertFixed.toMant`).
+  - Recommended: keep `CertFixed 128` and the landed embedding, and add a leaf conversion that rounds to
+    `2^jb.P` into the radius.
+  - Then measure.
+
+### 12.12 The whole Full chain (V2-PACKED-JET-FULL; `docs/campaign/handoffs/V2-PACKED-JET-FULL.md`)
+
+**Built.** `Packed/JetStage.lean` stages the exponential, since a whole Taylor sum on the 97 × 97 box does not
+fit one process:
+- the keys `TKey` (`w`, the Taylor term and the partial sum at `m`), so the chain runs over `JKey ⊕ TKey`;
+- the blocks `tstart`, `tstep` (`k` Taylor steps from any `m`), `texp` (the partial sum plus `jExpRem`) and
+  `pows` (powers from any power);
+- `JBlockT.sound`, `jChainT_sound` and `jChainT_slot`.
+
+**Measured on LG00's whole cfgFull chain** (`lg00-cert` `fd82fef5`):
+- 1,837 live slots and 5 wanted (`v0`, `d1`), on the box `H = 48` (window 193 × 193, slots of 400 bits);
+- 169 blocks, one process each:
+  - 88 segments (at most 8 heavy steps and 15 imports + exports);
+  - 5 action blocks;
+  - the staged exponentials (4 `tstart`, 28 `tstep` of at most 3 Taylor steps, 78 in all, 4 `texp`; Taylor
+    degrees 17 and 22);
+  - 12 power blocks (at most 2 powers each, 20 in all), 24 character blocks (2 keys each), 2 `inv` and 2
+    `sqrt`.
+
+**What is checked.** As for Low (§12.11): each block is a separate theorem over probe-local data.
+- The LG00 instance of `jChainT_slot` is not built: `hfirst`, `hng`, `jBookOk`, `checkWeight` and
+  `checkPiEnclosure` are not discharged in Lean.
+- The per-block theorems do not check the degree or power labels of their imports (a `texp` fed a lower-degree
+  sum, or a `pows` fed a lower power, passes its own check). Only the block order `hfirst` ties the labels, so
+  it is load-bearing. AUDIT-V2-PACKED-JET-FULL-1 checked it as data: all 892 imports equal an earlier export,
+  key and literal node alike.
+- The probe program is the first 7,736 of the 7,816 operations of `lg00Jet.prog`.
+
+| | landed Full stage (run20e) | packed |
+|---|---:|---:|
+| CPU (user + sys) | 36,734.5 s (10.20 h) | **4,382.8 s** (945.7 s kernel) |
+| largest charge | — | 4.08 GB (4 GiB cap) |
+
+**That is 8.4×, with the production assembly unmeasured:**
+- the shared data module;
+- one theorem over the 169 blocks with its order proof;
+- the consumer bridge.
+
+With the ledger's failed attempts the landed figure is 36,743.3 s, still 8.4×.
+
+**Where the CPU goes.**
+- **The kernel** takes 1.04 s per heavy step in the segments, 5.8× Low's, for 3.7× the bits.
+- **The fixed part is 78% of the CPU:** 20.3 s per process. The imports are 2.2 s and the probe's copy of the
+  program, book and embedding 9.6 s; the block's own node literals are the rest.
+- **The shared data module** would remove about 1,620 CPU-s. Estimate, unmeasured: about 13×.
+- **By kind:**
+
+| kind | ratio |
+|---|---:|
+| segments and actions | 8.8× |
+| characters | 7.7× |
+| `inv`/`sqrt` | 6.6× |
+
+**Memory.** At Full the nodes a process holds dominate its memory: about 0.125 GB per import or export, against
+0.13 GB per heavy step.
+- A segment of 8 heavy steps and 24 nodes was OOM-killed at 4 GiB.
+- Segments are now cut at 15 nodes (`--seg-io`). They took 1.62–4.08 GB.
+
+**Controls.** A one-ulp lower radius on a `tstart`, a `tstep`, a `texp` and a `pows` export (from the power 3)
+decides `= false`.
+
+**Accuracy (configuration against configuration).**
+- The packed radii on the 5 wanted slots are 5.8e-23 to 1.2e-21, 1.1–2.8% of the landed cfgFull radii (3.0e-21 to
+  4.1e-20).
+- The norm bounds agree to 6e-8 relative.
 
 ## 13. Packed frames and the packed route-A-refined engine (branch `v2-packed-frames`; `docs/campaign/handoffs/V2-PACKED-FRAMES.md`)
 

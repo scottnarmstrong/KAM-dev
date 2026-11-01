@@ -1,0 +1,33 @@
+{
+ "all_pass": true,
+ "processes": 1,
+ "cpu_s": 29.0,
+ "kernel_s": 6.0,
+ "wall_s": 21.7,
+ "max_charged_bytes": 3897044992,
+ "heavy_steps": 68,
+ "kernel_s_per_heavy": 0.09,
+ "cpu_s_per_heavy": 0.43,
+ "data_control_JData_0": {
+  "cpu_s": 25.2,
+  "peak": 1067155456
+ },
+ "landed_cpu_s": 4815.2,
+ "landed_modules": 228,
+ "landed_max_charged_bytes": 5267603456,
+ "ratio_landed_over_packed": 166.1,
+ "rows": [
+  {
+   "name": "JSeg_0",
+   "heavy": 68,
+   "imports": 53,
+   "exports": 35,
+   "exit": 0,
+   "oom": 0,
+   "cpu": 28.99,
+   "wall": 21.74,
+   "kernel": 6.05,
+   "peak": 3897044992
+  }
+ ]
+}
