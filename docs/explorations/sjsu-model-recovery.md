@@ -13,25 +13,30 @@ dense rotation-invariant polynomial with exactly 7,941 complex (38,466 real) coe
 written to 25 digits, and regression-tested. It is a well-defined *reconstruction*, not the
 authors' file. It reproduces the printed quadratic coefficients to ≤ 7.7·10⁻⁴ and the linear
 secular frequencies of Table 2 to ≤ 5.8·10⁻⁴. From the mapped Table 1 point it reproduces the
-**secular frequencies of the full planar N-body flow** to 1.6 %, 0.35 % and 0.05 %. The printed quartic agrees only to 3–8 % for the
-5:2-dominated terms, and its three-planet terms are absent at strict order two.
+**secular frequencies of the full planar N-body flow** to 1.6 %, 0.35 % and 0.05 %. At strict
+order two the printed quartic agrees to 5.5–8 % for the 5:2-dominated terms (3–7 % even at order
+5), and its three-planet terms are nearly absent (≤ 20 % of the printed values).
 
-Four findings explain the gap and correct the scoping report's reading of the source:
+Four findings explain the gap and refine the scoping report's reading of the source:
 
-1. **The printed Appendix A is not a strict order-two truncation.** Its three-planet quartic
-   coefficients appear only at **third order in the masses**. With the Lie series kept to order
-   3 they are reproduced to a median 2.9 %, closer than with the converged series (order 4–5).
+1. **The printed Appendix A contains higher mass orders.** SLG13 and GLS17 expand the Lie series
+   and gather the terms by degree; "order two in the masses" names the approximation, not a cut
+   of the series. Indeed the printed three-planet quartic coefficients appear only at **third
+   order in the masses**: with the Lie series kept to order 3 they are reproduced to a median
+   2.9 %, closer than with the converged series (order 4–5). Strict order two, used for
+   SJSU18-O2, is therefore **our chosen truncation**, not the source's.
 2. **n\* includes the first-order frequency correction.** Read this way, SLG13 eq. (5) gives
    2n₁\* − 5n₂\* = −0.007099 rad/yr, matching the N-body great-inequality frequency −0.007115.
    The Kepler frequencies give −0.004374, which inflates the J–S quartic by about 40 %.
 3. **SJSU-E1 is exactly a charge-±4 component of the printed quartic** (30 monomials, the
    largest 7.8·10⁻⁸). No computation obeying the d'Alembert rules can produce it, at any order.
-4. **SJSU-E2 is sharper than reported.** Table 2 keeps the AMD of the *raw* Table 1 point to
-   11 digits, but its modal amplitudes are inconsistent with the printed quadratic part (by
-   15–64 %), and eq. (24) is a third, unrelated set. The true N-body modal amplitudes agree with
+4. **SJSU-E2 is sharper than reported.** Table 2 has the same AMD as the *raw* Table 1 point to
+   its printed precision (3.8·10⁻¹¹ relative), but its modal amplitudes are inconsistent with
+   the printed quadratic part (by 15–64 %), and eq. (24) is a third, unrelated set. The true N-body modal amplitudes agree with
    our Table 1 map to ≤ 1 %, not with Table 2. GLS17's eq. (37) frequencies are nevertheless
-   consistent with integrating from the Table 2 point (SJSU18-O2 gives them to 3.9 %, 0.5 % and
-   0.04 %), so their ω₁ is 10.6 % faster than the true N-body secular frequency.
+   consistent with integrating from the Table 2 point (SJSU18-O2 gives ω₁ to 2.3–3.9 %, ω₂ to
+   0.30–0.50 % and ω₃ to 0.04–0.08 %, over the eigenvector sign choices that Table 2 leaves
+   open), so their ω₁ is 10.6 % faster than the true N-body secular frequency.
 
 | Label | Meaning |
 |---|---|
@@ -88,9 +93,9 @@ In total, 1,077,382 complex terms in 12 s (long double).
 
 | Check | Result |
 |---|---|
-| Kepler series vs direct Kepler solve (mpmath) | error ∝ e¹⁹: 2.5·10⁻²², 4.6·10⁻²⁸, 8.7·10⁻³⁴ at e = 0.06, 0.03, 0.015 |
-| Laplace coefficients and α-derivatives vs quadrature | ≤ 6·10⁻⁴¹ |
-| Every tested harmonic of f_ij (11 per pair, all three pairs, two amplitudes) vs an exact mpmath DFT of −Gmᵢmⱼ/|rᵢ−rⱼ| + r̃ᵢ·r̃ⱼ/m₀ on a 96×96 grid, values **and** ∂/∂Λ (central differences) | worst 3.4·10⁻¹⁹ of |F₀| (`check_expansion.py`) |
+| Kepler series vs direct Kepler solve (mpmath; `validation/checks.json`) | error ∝ e¹⁹: 2.5·10⁻²², 4.6·10⁻²⁸, 8.7·10⁻³⁴ at e = 0.06, 0.03, 0.015 |
+| Laplace coefficients and α-derivatives vs quadrature (`validation/checks.json`) | ≤ 2.3·10⁻⁴⁰ |
+| Every tested harmonic of f_ij (11 per pair, all three pairs, two amplitudes) vs an exact mpmath DFT of −Gmᵢmⱼ/|rᵢ−rⱼ| + r̃ᵢ·r̃ⱼ/m₀ on a 96×96 grid, values **and** ∂/∂Λ (central differences) | worst 3.4·10⁻¹⁹ of |F₀| (`check_expansion.py`; `validation/check_expansion.log`) |
 | Secular quadratic part vs the Laplace–Lagrange formula with b^{(1)}_{3/2}, b^{(2)}_{3/2} | ≤ 1.1·10⁻¹⁹ (long double), 2.3·10⁻⁴⁰ (mpmath, regression test) |
 
 The pointwise sums differ from the true Hamiltonian by about 10⁻³: that is SLG13's |k| ≤ 16
@@ -126,7 +131,7 @@ physical one; with Kepler n\* it is +3.2·10⁻³, about 10× weaker in the squa
 
 **Independent check of the engine (measured).** `lie_mimic.py` evaluates the same two steps as
 an order-tracked Lie series. At N = 2 it reproduces `secular.py` to round-off at every
-coefficient of degree ≤ 4.
+coefficient of degree ≤ 4 (`validation/checks.json`).
 
 ## 5. Reference axes and the initial map (step 4)
 
@@ -134,7 +139,8 @@ coefficient of degree ≤ 4.
 
 **Measured.** A planar SJSU N-body integration from Table 1: Wisdom–Holman map in democratic
 heliocentric splitting, exactly SLG13's Hamiltonian (1). It is composed to fourth order, with
-dt = 0.5 yr; the energy error is ≤ 10⁻⁷, and dt = 0.25 changes the averages by 10⁻⁸. The time
+dt = 0.5 yr; the energy error is ≤ 10⁻⁷, and dt = 0.25 changes 2000-yr averages by 10⁻⁸
+(`validation/checks.json`). The time
 average of the Poincaré semi-major axes over 1 Myr is
 
   a\* = (5.202374655793598, 9.554443730484715, 19.21504720877541) AU
@@ -173,8 +179,9 @@ check. Then (ξ, η) = O(x, y), with O the orthogonal eigenvectors of the quadra
 | R_j: eq. (24) (literature) | 0.025558 | 0.030602 | 0.011223 |
 
 The Lie correction moves the amplitudes by ≤ 2.3 %. The total AMD Σ R_j²/2 is 1.0015294·10⁻³
-for the raw Table 1 point, **the same to 3.8·10⁻¹⁴ relative** for Table 2, 1.01644·10⁻³ for
-the first-order secular point, and 8.578·10⁻⁴ for eq. (24).
+for the raw Table 1 point, **the same to Table 2's printed precision** for Table 2 (difference
+3.8·10⁻¹⁴ absolute, 3.8·10⁻¹¹ relative), 1.01644·10⁻³ for the first-order secular point, and
+8.578·10⁻⁴ for eq. (24).
 
 ## 6. Validation against the published numbers (step 5)
 
@@ -192,7 +199,7 @@ N = 2…5 (degree 4).
 | quartic, J–S (13) | 6.4·10⁻² / 6.9·10⁻² | 4.8·10⁻² / 5.7·10⁻² | 4.3·10⁻² / 5.2·10⁻² |
 | quartic, J–U (13) | 3.7·10⁻³ / 0.19 | 1.1·10⁻³ / 3.5·10⁻³ | 1.3·10⁻³ / 1.2·10⁻² |
 | quartic, S–U (13) | 1.0·10⁻² / 8.4·10⁻² | 2.6·10⁻⁴ / 1.8·10⁻³ | 6.0·10⁻⁴ / 4.3·10⁻³ |
-| quartic, three planets (18) | 1.0 / 1.2 (absent at order two) | 2.9·10⁻² / 0.62 | 6.9·10⁻² / 0.47 |
+| quartic, three planets (18) | 1.0 / 1.2 (nearly absent at order two: ≤ 20 % of the printed values) | 2.9·10⁻² / 0.62 | 6.9·10⁻² / 0.47 |
 
 (The maxima of 0.47–0.62 in the last row come from the smallest printed coefficient,
 ξ_Jξ_Uη_Sη_U = 5.4·10⁻⁸.)
@@ -209,8 +216,9 @@ not published. **Measured conclusions:**
   ξ_Jξ_Sη_Sη_U agree to 1.8 %, 0.7 % and 0.5 %; ξ_J³ξ_U goes from +18.6 % (order two) to −0.17 %.
   N = 4 shifts the three-planet terms by 4–14 %, and N = 5 changes nothing above 2·10⁻³: the
   series has converged at degree 4. Yet **order 3 matches the printed table better than the
-  converged series** for every group except the J–S quartic. **Estimated:** SLG13's Lie series
-  was effectively cut near third order, a detail their text does not give.
+  converged series** for every group except the J–S quartic. **Estimated:** SLG13's numerical
+  series was effectively truncated near third order, although the text describes the full
+  series.
   CPU time: 8 s at N = 3, 4 min at N = 4, 56 min at N = 5 (degree 4).
 * **The 5:2 quartic is still off after convergence.** The J–S quartic stays 3.4–6.8 % from the
   printed values, and the implied rescalings of 1/(2n₁−5n₂) differ between monomials (1.04–1.08).
@@ -226,16 +234,25 @@ Fourier peak of x_j + iy_j). Relative deviation from GLS17 (37),
 
 | Model, initial point | ω₁ | ω₂ | ω₃ |
 |---|---|---|---|
-| SJSU18-O2, Table 2 (with our O) | +3.9·10⁻² | +4.8·10⁻³ | −4.3·10⁻⁴ |
-| printed quartic, Table 2 | +0.114 | +1.6·10⁻² | +2.2·10⁻³ |
+| SJSU18-O2, Table 2, default sign rule | +3.9·10⁻² | +4.8·10⁻³ | −4.3·10⁻⁴ |
+| SJSU18-O2, Table 2, all four sign classes | +2.3…+3.9·10⁻² | +3.0…+5.0·10⁻³ | ±(4.3…7.7)·10⁻⁴ |
+| printed quartic, Table 2, all four sign classes | +0.109…+0.114 | +1.5…+1.6·10⁻² | +2.0…+2.6·10⁻³ |
 | SJSU18-O2, Table 1 first-order secular point | +0.110 | +1.5·10⁻² | +6.9·10⁻³ |
 | printed quartic, raw Table 1 | +0.153 | +2.3·10⁻² | +8.2·10⁻³ |
+
+**Eigenvector signs.** Table 2 gives modal (x, y). Converting them to (ξ, η) = O(x, y) needs
+the column signs of O, which the source does not give, and the nonlinear flow is not invariant
+under flipping one mode alone. Our default rule (`freq_check.py`): column j is signed so that the
+projection of the Table 1 point onto mode j has the sign of Table 2's x_j(0); the y-signs then
+do not all agree. A global sign change is a symmetry of the rotation-invariant model, so there
+are four inequivalent classes, all run (`validation/frequencies_table2_sign_classes.json`).
+The ranges above agree with the independent audit.
 
 From the same point, SJSU18-O2 (degrees 2–18) and the printed quartic differ by 8 % in the
 fast frequency. That is mostly the degree-6–18 content, partly the 5–8 % quartic difference;
 in either case it moves toward GLS17's value. GLS17's eq. (37) is consistent with the Table 2 point, not with the Table 1
-point mapped as in §5.3. The remaining 3.9 % on ω₁ matches the 5:2 quartic gap of §6.1
-(**estimated**).
+point mapped as in §5.3. The remaining 2.3–3.9 % on ω₁ is of the same order as the 5:2 quartic
+gap of §6.1; the two may be related (**estimated**, not shown).
 
 **Physical check against the full N-body flow (measured, `nbody_secular_freq.py`,
 `validation/nbody_secular_frequencies.json`).** The osculating Poincaré (ξ, η) were sampled
@@ -266,35 +283,45 @@ supports the first-order Table 1 map, and not Table 2, as the physical initial p
   representation is one possible mechanism (**estimated**). Our model is exactly invariant,
   so the AMD C = Σ zⱼz̄ⱼ is an exact first integral of SJSU18-O2, and the planar reduction of
   scoping §4 applies to it.
-* **SJSU-E2 (sharpened).** See §5.3. Table 2 is an orthogonal image of the raw Table 1 point:
-  its AMD agrees to 3.8·10⁻¹⁴. But its modal amplitudes are not those of Table 1 in the
-  eigenbasis of the printed quadratic part (Procrustes residual 1.3·10⁻³ for any common
-  orthogonal map; transposed or permuted bases, and first-order-only eigenvectors, miss by
-  ≥ 14 %). Eq. (24) states R_j = √(x_j² + y_j²) from Table 2, but carries a different AMD.
+* **SJSU-E2 (sharpened).** See §5.3. Table 2 has the same AMD as the raw Table 1 point to its
+  printed precision (3.8·10⁻¹¹ relative); equal norms alone say nothing more. But its modal
+  amplitudes, which do not depend on the choice of diagonalizer, are not those of Table 1 in the
+  eigenbasis of the printed quadratic part. The Gram determinants differ (8.657·10⁻⁷ against
+  8.896·10⁻⁷), so no common orthogonal map relates the two points (Procrustes residual
+  1.3·10⁻³). Transposed or permuted bases and first-order-only eigenvectors miss by ≥ 14 %, and
+  the independent audit ruled out per-planet perihelion shifts combined with any sign,
+  permutation or conjugation (best residual 6 %). Eq. (24) states R_j = √(x_j² + y_j²) from Table 2, but carries a different AMD.
   Eq. (37) is consistent with Table 2. The full N-body flow decides between them: its mean modal
   amplitudes match our Table 1 map to ≤ 1 % and miss Table 2 by 15–68 % (§6.2). **Measured
   conclusion:** Table 2's (x(0), y(0)) do not represent the Table 1 initial data; their origin
   is unknown, and the mismatch stays erratum candidate SJSU-E2.
-* **SJSU-E3 (new).** SLG13 §3.2, last paragraph (journal p. 7): "we decided to calculate the
-  generating functions χ₁ and χ₂ up to degree 9 (recall Eqs. (6) and (7))". But eqs. (6)–(7)
-  sum j₂ ≤ 6, and GLS17 §2.2 says "up to degree 6". This is material: degree 9 changes the
-  coefficients of degree ≥ 12 by a median of 22–69 % (`validation/sensitivity.json`). We use 6.
-* **SJSU-E4 (new, possible imprecision).** SLG13 eq. (12) applies ½ to
+* **SJSU-E3 (new; slip in SLG13, corrected in GLS17).** SLG13 §3.2, last paragraph (journal
+  p. 7): "we decided to calculate the generating functions χ₁ and χ₂ up to degree 9 (recall
+  Eqs. (6) and (7))". But eqs. (6)–(7) sum j₂ ≤ 6, and GLS17 §2.2 (arXiv p. 12) settles it:
+  χ₁ and χ₂ up to degree 6, χ₁^(q.r.) up to degree 9. We use 6. The choice is material: degree 9
+  would change the coefficients of degree ≥ 12 by a median of 22–69 %
+  (`validation/sensitivity.json`).
+* **SJSU-E4 (new, plausible imprecision).** SLG13 eq. (12) applies ½ to
   {χ_res, Σ_{j₂≥0} h_res_{0,j₂}}, but χ_res removes only degree 9. For the unremoved degree-11
   part the second-order Lie coefficient is 1. This affects degree 18 only (median 3 %, max
-  ×320 on small coefficients). We follow the printed formula.
-* **SJSU-E5 (new, description).** Appendix A is titled "up to order 2 in the masses", but its
-  three-planet quartic coefficients require order ≥ 3 (§6.1). The H⁽ᴼ²⁾ of SLG13 must
-  therefore keep Lie-series terms beyond order two.
-* **Inherited typo, also in SLG13.** "3λ₁ − 5λ₅ − 7λ₃" (journal p. 7, three times; arXiv v1
-  likewise), in addition to GLS17 p. 12.
+  ×320 on small coefficients). The printed formula is exact only if the sum stops at
+  j₂ = 9; whether SLG13 kept h_res_{0,11} cannot be decided. We follow the printed formula.
+* **Reading note (not an erratum).** Appendix A is titled "up to order 2 in the masses", yet
+  its three-planet quartic coefficients require mass order ≥ 3 (§6.1). This agrees with the
+  source's description of expanding the Lie series and gathering terms by degree: "order two"
+  names the approximation. Readers should not expect a strict order-two truncation to
+  reproduce the printed digits.
+* **Typo, confirmed.** "3λ₁ − 5λ₅ − 7λ₃" for 3λ₁ − 5λ₂ − 7λ₃: SLG13 journal p. 7 (three
+  times), arXiv v1 (three times), GLS17 p. 12 (three times).
 
 ## 7. Output (step 6)
 
 **Measured.** [`applications/sjsu/data/sjsu18-o2.json`](../../applications/sjsu/data/sjsu18-o2.json)
-is 3.2 MB, with SHA-256 in `data/MANIFEST.sha256` and its SOURCE file. It contains the complex
-form (z), the real form (ξ, η), its four components, every parameter and choice, provenance,
-precision and census.
+is 3.2 MB, with SHA-256 in `data/MANIFEST.sha256`. It contains the complex form (z), the real
+form (ξ, η), its four components, every parameter and choice, the sources, precision and
+census. It holds no volatile field: the generator commit, command, environment and CPU time are
+in `data/sjsu18-o2.SOURCE.txt`, with local paths written relative to the repository or `~`. An
+independent rebuild is byte-identical (sha256 `702b0b3a…`).
 
 | Census | complex (z, z̄) | real (ξ, η) |
 |---|---|---|
@@ -317,7 +344,8 @@ imaginary parts were 0.
 
 **Regression test (measured).** `test_regression.py` checks the manifest, charge balance,
 reversibility, components, complex↔real agreement, a from-scratch recomputation of degree ≤ 4
-(5.2·10⁻¹⁷) and Laplace–Lagrange (2.4·10⁻¹⁹), all PASS in 1.5 s. `--full` recomputes all
+(5.2·10⁻¹⁷) and Laplace–Lagrange on all six first-order quadratic coefficients (2.4·10⁻¹⁹),
+all PASS in 1.5 s. `--full` recomputes all
 7,941 coefficients in mpmath and agrees to 4.7·10⁻²⁵ (about 3 min).
 
 **Sensitivity to open choices (measured, median / max relative change).**
@@ -336,8 +364,9 @@ polynomial; its relation to the true secular dynamics is a separate fidelity que
 
 ## 8. Deviations from the source, and choices
 
-1. Strict order two in the masses for all degrees (SLG13's own numbers contain higher orders;
-   §6.1). The order-3–5 values at degree 4 are given as a validation table, not as the model.
+1. Strict order two in the masses for all degrees: our chosen truncation (the source expands the
+   full Lie series, and its printed numbers contain higher orders; §6.1). The order-3–5 values at
+   degree 4 are given as a validation table, not as the model.
 2. n\* corrected by ⟨∂f/∂L⟩ at zero eccentricity (interpretation of eq. (5); §4).
 3. a\* from our N-body average (procedure as stated; value and length not published).
 4. Table 1 read as Poincaré elements (§5.2).
@@ -349,7 +378,8 @@ polynomial; its relation to the true secular dynamics is a separate fidelity que
 ## 9. Resources and reproduction
 
 All heavy steps ran under `systemd-run --user --scope -p MemoryMax=8G -p MemorySwapMax=0
-nice -n 10`, on ≤ 2 cores. Peak RSS was about 1 GB (the order study at N = 5). Measured CPU:
+nice -n 10`, on ≤ 2 cores. Peak RSS was about 1.7 GB (the mpmath model build and the order-3
+timing at degree 10). Measured CPU:
 first-order expansion 12 s; model 17 s (long double) or 180 s (mpmath); N-body 10 min per Myr;
 order study 1 h; precision check 10 min. Disk: about 55 MB under `~/kam-data/sjsu/` (each run directory with `MANIFEST.sha256` and `SOURCE.txt`). Only the
 model, small tables and scripts are committed; the first-order expansion (1.08 M terms) is

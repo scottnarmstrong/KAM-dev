@@ -37,7 +37,9 @@ Hamiltonian in canonical heliocentric (Poincaré) variables by:
 2. **Two Kolmogorov-like steps** (SLG13 §3.1, eqs. (6)–(7)): χ₁ removes every harmonic
    0 < |k| ≤ 8 of the L-independent part up to degree 6; χ₂ removes the same harmonics of the
    L-linear part. H^(O2) = exp(L_χ₂) exp(L_χ₁) H^(T) is kept **strictly to order two in the
-   masses** (all Lie-series terms of order ≤ 2; see "Differences" for why this matters).
+   masses** (all Lie-series terms of order ≤ 2). This is **our chosen truncation**: SLG13 and
+   GLS17 expand the full Lie series within the polynomial truncations, and their printed
+   numbers contain higher mass orders (see "Differences").
 3. **Average and set L = 0** (SLG13 eq. (9)), then the **resonant step** for 3λ₁ − 5λ₂ − 7λ₃
    (SLG13 eqs. (10)–(12)): χ_res of degree 9 and the μ⁴ terms of eq. (12), as printed
    (weight ½ on the whole resonant L-independent part).
@@ -51,7 +53,8 @@ Parameters:
 * frequencies n\* in the homological equations: the Kepler frequencies plus the first-order
   correction ⟨∂h/∂L⟩ at zero eccentricity — SLG13 eq. (5) separates "the term which is both
   linear in the actions and independent of all the other canonical variables". With this
-  reading 2n₁\* − 5n₂\* agrees with the N-body great-inequality frequency to 1.4 %.
+  reading 2n₁\* − 5n₂\* = −0.0070996 rad/yr agrees with the N-body great-inequality frequency
+  (−0.0071145 rad/yr) to 0.21 %.
 
 ## Quickstart
 
@@ -107,7 +110,7 @@ print(float(H_real([Fraction(x) for x in xi], [Fraction(e) for e in eta])), H_co
 
 | Path | Content |
 |---|---|
-| `data/sjsu18-o2.json` | the model: metadata, conventions, truncations, parameters, precision, census, provenance; `complex_form.terms` = `[p_J, q_J, p_S, q_S, p_U, q_U, "coef"]` for c·z^p z̄^q; `real_form.terms` = `[a_J, a_S, a_U, b_J, b_S, b_U, "coef"]` for c·ξ^a η^b; `components_complex_form` (first order, χ₁ and χ₂ parts of order two, resonant μ⁴ part) |
+| `data/sjsu18-o2.json` | the model: metadata, conventions, truncations, parameters, precision, census, sources (static, byte-reproducible; the build record is in `data/sjsu18-o2.SOURCE.txt`); `complex_form.terms` = `[p_J, q_J, p_S, q_S, p_U, q_U, "coef"]` for c·z^p z̄^q; `real_form.terms` = `[a_J, a_S, a_U, b_J, b_S, b_U, "coef"]` for c·ξ^a η^b; `components_complex_form` (first order, χ₁ and χ₂ parts of order two, resonant μ⁴ part) |
 | `data/MANIFEST.sha256`, `data/*.SOURCE.txt` | hashes; generator, commit and command of every data file |
 | `validation/` | comparison tables: Appendix A (78 coefficients), frequencies, Table 2 and eq. (24), GLS17 eq. (37), a\* determination, order study, precision |
 | `scripts/` | generators and validators (Python 3, numpy, mpmath); see below |
@@ -122,18 +125,25 @@ From the repository root. Heavy steps should run under a memory cap, for example
 `systemd-run --user --scope -p MemoryMax=8G -p MemorySwapMax=0 nice -n 10 …`.
 
 ```sh
-# 1. reference semi-major axes (about 10 CPU-min): writes the N-body averages
-python3 -I applications/sjsu/scripts/nbody.py --years 1e6 --dt 0.5 --ic poincare --out nbody.json
-# 2. the model (strict order two, degree 18; mpmath 40 digits, about 3 CPU-min, 1 GB)
+# 1. reference semi-major axes a* (about 10 + 1 CPU-min): two N-body runs, then
+#    validation/astar.json (a* = the t = 1e6 checkpoint of aP_mean, copied as written)
+python3 -I applications/sjsu/scripts/nbody.py --years 1e6 --dt 0.5 --ic poincare --out run1e6.json
+python3 -I applications/sjsu/scripts/nbody.py --years 1e5 --dt 0.5 --ic poincare --out run1e5.json
+python3 -I applications/sjsu/scripts/write_astar.py run1e6.json run1e5.json
+# 2. the model (strict order two, degree 18; mpmath 40 digits, about 3.5 CPU-min, 1.7 GB peak RSS)
 python3 -I applications/sjsu/scripts/build_model.py --variant O2 --backend mp \
-    --out applications/sjsu/data/sjsu18-o2.json --work ~/kam-data/sjsu/build-o2
+    --out applications/sjsu/data/sjsu18-o2.json --work ~/kam-data/sjsu/build-o2-mp
 python3 -I applications/sjsu/scripts/make_manifest.py
 # 3. regression test (fast; add --full to recompute everything)
 python3 -I applications/sjsu/scripts/test_regression.py
-# 4. validation tables
-python3 -I applications/sjsu/scripts/compare_appendix_a.py --astar A1 A2 A3 --csv out.csv
-python3 -I applications/sjsu/scripts/initial_map.py --astar A1 A2 A3
-python3 -I applications/sjsu/scripts/freq_check.py --model applications/sjsu/data/sjsu18-o2.json --initial table2
+# 4. validation tables (A = the three values of "astar" in validation/astar.json)
+A=$(python3 -I -c "import json; print(*json.load(open('applications/sjsu/validation/astar.json'))['astar'])")
+python3 -I applications/sjsu/scripts/compare_appendix_a.py --astar $A --csv out.csv
+python3 -I applications/sjsu/scripts/initial_map.py --astar $A --ic poincare --order 1 \
+    --json applications/sjsu/validation/table2_map_poincare_order1.json
+python3 -I applications/sjsu/scripts/freq_check.py --model applications/sjsu/data/sjsu18-o2.json \
+    --table scripts/sjsu/slg13_quartic.json --initial table2 --sign-classes
+python3 -I applications/sjsu/scripts/checks_log.py
 python3 -I applications/sjsu/scripts/validation_tables.py
 python3 -I applications/sjsu/scripts/table2_analysis.py
 python3 -I applications/sjsu/scripts/sensitivity.py
@@ -154,24 +164,23 @@ python3 -I applications/sjsu/scripts/precision_check.py
 | `freq_check.py` | frequency analysis of the secular flow from Table 2 (GLS17 eq. (37)) |
 | `check_expansion.py` | harmonic-by-harmonic check of the expansion against an exact DFT |
 | `build_model.py`, `make_manifest.py`, `test_regression.py` | the model file, its manifest and its regression test |
-| `order_study.py`, `sensitivity.py`, `precision_check.py`, `validation_tables.py`, `table2_analysis.py` | validation tables in `validation/` |
+| `write_astar.py` | writes `validation/astar.json` from the two N-body runs |
+| `order_study.py`, `sensitivity.py`, `precision_check.py`, `validation_tables.py`, `table2_analysis.py`, `nbody_secular_freq.py`, `checks_log.py` | validation tables in `validation/` |
 
-## Owner decisions
+## Nominal initial point
 
-Recorded decisions (Scott, 1 November 2026, 15:50 UTC):
+The secular initial point used with this model is the SLG13 Table 1 data read as Poincaré
+elements and mapped to the secular variables by the first-order Lie map of χ₁ and χ₂
+(`scripts/initial_map.py --astar $A --ic poincare --order 1`, see "How to regenerate";
+`validation/table2_map_poincare_order1.json`):
 
-1. Phase 1 of the SJSU certificate pilot certifies **SJSU18-O2 as published** (strictly second
-   order in the masses).
-2. The **nominal initial point** of later phases is the Table 1 data read as Poincaré elements
-   and mapped to the secular variables by the first-order Lie map (`scripts/initial_map.py
-   --ic poincare --order 1`, `validation/table2_map_poincare_order1.json`):
-   (ξ_J, ξ_S, ξ_U) = (0.03446271128616895, −0.0014352339355918572, −0.010122263133599879),
-   (η_J, η_S, η_U) = (−0.009080669615926963, −0.025602508346796338, −0.0016540224121661881),
-   modal amplitudes R = (0.025264, 0.036570, 0.007567). These amplitudes match the N-body flow
-   to ≤ 1 %; SLG13 Table 2 is not used, and its mismatch remains erratum candidate SJSU-E2.
-3. Citation: authors and affiliations as in [`CITATION.cff`](CITATION.cff); repository
-   https://github.com/scottnarmstrong/KAM-dev.
-4. The source authors were not contacted.
+* (ξ_J, ξ_S, ξ_U) = (0.03446271128616895, −0.0014352339355918572, −0.010122263133599879),
+* (η_J, η_S, η_U) = (−0.009080669615926963, −0.025602508346796338, −0.0016540224121661881),
+* modal amplitudes R = (0.025264, 0.036570, 0.007567).
+
+These amplitudes match the time-averaged modal amplitudes of the full planar N-body flow to
+≤ 1 %. The initial data of SLG13 Table 2 do not: they are not used here (source issue SJSU-E2
+in the report).
 
 ## Validation and differences from the published model (summary)
 
@@ -181,26 +190,28 @@ Measured; details, tables and every source issue are in the
 | Test | Result |
 |---|---|
 | First-order expansion vs exact DFT of the Hamiltonian (all pairs, values and ∂/∂Λ) | ≤ 3.4·10⁻¹⁹ of the mean |
-| Secular quadratic part vs Laplace–Lagrange formula | ≤ 2.4·10⁻¹⁹ (long double); 2.3·10⁻⁴⁰ (mpmath) |
+| Secular quadratic part (all six first-order coefficients) vs Laplace–Lagrange formula | ≤ 2.4·10⁻¹⁹ (long double); 2.3·10⁻⁴⁰ (mpmath) |
 | SLG13 Appendix A, 12 quadratic coefficients | ≤ 7.7·10⁻⁴ (median 3.2·10⁻⁴) |
-| SLG13 Appendix A, 66 quartic coefficients | J–S 5.5–8 %; J–U, S–U up to 19 %; three-planet terms absent (they need order ≥ 3) |
+| SLG13 Appendix A, 66 quartic coefficients | J–S 5.5–8 %; J–U, S–U up to 19 %; three-planet terms nearly absent (≤ 20 % of the printed values; they need order ≥ 3) |
 | Table 2 linear secular frequencies ν | 9.2·10⁻⁵, 5.8·10⁻⁴, 7.5·10⁻⁵ |
-| GLS17 eq. (37) nonlinear frequencies, from the Table 2 data | 3.9 %, 0.48 %, 0.043 % (printed quartic alone: 11 %, 1.6 %, 0.22 %) |
+| GLS17 eq. (37) nonlinear frequencies, from the Table 2 data | ω₁ 2.3–3.9 %, ω₂ 0.30–0.50 %, ω₃ 0.04–0.08 % over the four eigenvector sign classes that Table 2 leaves open (printed quartic alone: ω₁ 10.9–11.4 %); sign rule in `scripts/freq_check.py` |
 | Secular frequencies of the full planar N-body flow (3 Myr), from the mapped Table 1 point | 1.6 %, 0.35 %, 0.053 %; mean modal amplitudes ≤ 1 % |
 | Regression test (`test_regression.py --full`) | all 7,941 coefficients recomputed to 4.7·10⁻²⁵ |
+| Rebuild of the model file | byte-identical (the file holds no commit, path, version or timing; those are in `data/sjsu18-o2.SOURCE.txt`) |
 
 Why the printed coefficients are not reproduced exactly:
 
-* **Higher-order terms.** The printed Appendix A contains terms of third order in the masses
-  (its three-planet quartic coefficients appear only at order ≥ 3; at order 3 they agree to a
-  median 2.9 %), although it is described as order two. SJSU18-O2 is strictly order two, the
-  well-defined reading of the recipe. The order-3–5 values at degree 4 are in
+* **Higher-order terms.** SLG13 and GLS17 expand the full Lie series and gather the terms by
+  degree ("order two in the masses" names the approximation), so their printed Appendix A
+  contains terms of third order in the masses: its three-planet quartic coefficients appear only
+  at order ≥ 3, and at order 3 they agree to a median 2.9 %. SJSU18-O2 is kept strictly to order
+  two: our chosen, explicitly defined truncation. The order-3–5 values at degree 4 are in
   `validation/order_study_d4.csv`.
 * **Undisclosed parameters.** a\*, the integration used to average it, the frequency vector of
   the homological equations, and the Lie-series truncation are not published. Our choices are
   stated above, and their effect is in `validation/sensitivity.json`. The degree ≥ 12
-  coefficients depend strongly on the χ degree (6 versus 9: the source is inconsistent) and on
-  n\*. The degree-18 coefficients are dominated by the resonant μ⁴ terms (κ·n\* = −9.8·10⁻⁴).
+  coefficients depend strongly on the χ degree (SLG13 says 9 in one place and 6 in its
+  equations; GLS17 fixes 6, which we use) and on n\*. The degree-18 coefficients are dominated by the resonant μ⁴ terms (κ·n\* = −9.8·10⁻⁴).
 * **Source defects.** The printed quartic has a small component that breaks rotation invariance
   (charge ±4, about 10⁻⁸, `validation/appendixA_noninvariant.csv`); SJSU18-O2 is exactly
   invariant, so the AMD Σ z_j z̄_j is an exact first integral. Table 2 and eq. (24) are
@@ -213,5 +224,5 @@ of the source, not errors bounded here.
 
 ## Version history
 
-* 0.1.0 (1 November 2026): first public reconstruction (strict order two in the masses);
-  owner decisions recorded (phase-1 model, nominal initial point, citation).
+* 0.1.0 (1 November 2026): first public reconstruction (strict order two in the masses), with
+  its nominal initial point.

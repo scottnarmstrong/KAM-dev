@@ -13,6 +13,10 @@ changes were made.
 The scripts that generate these files (applications/sjsu/scripts/) are part of the KAM-dev
 repository and are licensed under the Apache License 2.0 (see the repository's LICENSE file).
 
+Printed values of SLG13 and GLS17 that appear in applications/sjsu/validation/ (for example the
+78 coefficients of SLG13 Appendix A and the Table 2 data) are quoted from the cited papers for
+comparison only; they are not covered as original data of this dataset.
+
 The model is a reconstruction from the published recipe of M. Sansottera, U. Locatelli and
 A. Giorgilli (Math. Comput. Simul. 88 (2013) 1-14) and A. Giorgilli, U. Locatelli and
 M. Sansottera (Regul. Chaotic Dyn. 22 (2017) 54-77); please cite those papers as well.
