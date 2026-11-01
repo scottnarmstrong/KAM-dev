@@ -61,6 +61,22 @@ def wrapdoc(text, width=100):
     return "\n".join(out)
 
 
+def wrap_long(txt, width=100):
+    """Break every over-long line at its last space before the limit; the continuation is indented 4 more than the
+    line (Lean reads an indented continuation as the same term or tactic). Doc comments are left alone."""
+    out = []
+    for line in txt.split("\n"):
+        while len(line) > width and not line.lstrip().startswith(("/-", "-/", "--")):
+            k = line.rfind(" ", 0, width)
+            ind = len(line) - len(line.lstrip())
+            if k <= ind:
+                break
+            out.append(line[:k].rstrip())
+            line = " " * (ind + 4) + line[k + 1:]
+        out.append(line)
+    return "\n".join(out)
+
+
 class Emit:
     """Writes modules into the package and records them (with their imports) in emission order."""
 
@@ -91,6 +107,7 @@ class Emit:
             "`scripts/packed/gen_packed.py` (V2-PACKED-GEN) from `LG00/%s`.\n-/\n\n" \
             "@[expose] public noncomputable section\n\nnamespace %s\n\n%s\n%s\nend %s\n" % (
                 self.tree, title, wrapdoc(doc), self.tree, ns, OPEN, body.rstrip() + "\n", ns)
+        txt = wrap_long(txt)
         lines = txt.split("\n")
         long_ = [l for l in lines if len(l) > 100]
         assert not long_, (name, long_[:2])
