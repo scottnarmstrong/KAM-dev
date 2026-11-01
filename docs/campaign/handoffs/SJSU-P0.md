@@ -15,7 +15,9 @@ per the owner's mid-task change; data CC BY 4.0, scripts Apache-2.0).
   ≤ 7.4·10⁻³⁶. Regression test: all coefficients recomputed to 4.7·10⁻²⁵.
 - **Validation (measured):** first-order expansion vs an exact DFT ≤ 3.4·10⁻¹⁹; Appendix A
   quadratic ≤ 7.7·10⁻⁴; Table 2 ν ≤ 5.8·10⁻⁴; GLS17 eq. (37) from the Table 2 data: 3.9 %,
-  0.48 %, 0.043 % (the printed quartic alone: 11 %, 1.6 %, 0.22 %). Quartic: J–S 5.5–8 %; J–U
+  0.48 %, 0.043 % (the printed quartic alone: 11 %, 1.6 %, 0.22 %). Against the **full planar
+  N-body flow** (3 Myr frequency analysis), the secular frequencies from the mapped Table 1
+  point agree to 1.6 %, 0.35 %, 0.053 %, and the mean modal amplitudes to ≤ 1 %. Quartic: J–S 5.5–8 %; J–U
   and S–U up to 19 %; three-planet terms absent at order two.
 - **Why not digit-exact:** the printed table contains **third-order** Lie terms. Its
   three-planet quartic is reproduced to a median 2.9 % at order 3, which beats the converged
@@ -32,7 +34,9 @@ per the owner's mid-task change; data CC BY 4.0, scripts Apache-2.0).
   computation. SJSU18-O2 is exactly invariant, so the AMD is an exact integral.
 - **SJSU-E2 sharpened:** Table 2 is an orthogonal image of the raw Table 1 point (its AMD
   agrees to 3.8·10⁻¹⁴), but its modal amplitudes contradict the printed quadratic part by
-  15–64 %. Eq. (24) is a third set, with AMD 8.58·10⁻⁴.
+  15–64 %, and the N-body amplitudes by 15–68 %; our Table 1 map matches the N-body to ≤ 1 %.
+  Eq. (24) is a third set, with AMD 8.58·10⁻⁴. GLS17's ω₁ (from Table 2) is 10.6 % faster than
+  the true N-body secular frequency.
 
 ## Files
 
@@ -104,8 +108,8 @@ apply. Heavy steps ran under `MemoryMax=8G`, on ≤ 2 cores; peak RSS about 1.7 
   authors' a\*, n\* and Lie truncation. The remaining J–S quartic gap (3–7 %) is unexplained.
 - Degrees ≥ 12 depend strongly on choices the sources leave open (`validation/sensitivity.json`):
   the χ degree (6 versus 9), n\*, and at degree 18 the eq. (12) weight.
-- The Table 2 / eq. (24) initial-data map remains unreconciled. GLS17's eq. (37) agrees with
-  the Table 2 point, not with our Table 1 map.
+- The origin of Table 2 / eq. (24) remains unknown. GLS17's eq. (37) agrees with the Table 2
+  point, while the true N-body flow agrees with our Table 1 map.
 - A degree-18 model at order 3, which would be closer to the printed numbers, is estimated at
   4–5 CPU-h and 6–10 GB with the current producer (measured 27/78/221 s and 0.8/1.1/1.7 GB at
   degrees 6/8/10); not attempted.
@@ -115,7 +119,7 @@ apply. Heavy steps ran under `MemoryMax=8G`, on ≤ 2 cores; peak RSS about 1.7 
 | id | source, location | printed | claim | kind |
 |---|---|---|---|---|
 | SJSU-E1 | SLG13 Appendix A (journal p. 12; arXiv v1 identical) | quartic coefficients, e.g. η_S²η_U², ξ_S²η_U², ξ_Sξ_Uη_Sη_U | the polynomial has a charge-±4 component (30 complex monomials, ≤ 7.84·10⁻⁸; `validation/appendixA_noninvariant.csv`), forbidden by the d'Alembert rules at any order; it alone causes the nonzero AMD bracket | defect in printed data |
-| SJSU-E2 | SLG13 Table 2 (p. 8) and eq. (24) (p. 11); GLS17 Table 2 | x_j(0), y_j(0); R_j "= √(x_j²(0)+y_j²(0))" | Table 2 preserves the raw Table 1 AMD to 3.8·10⁻¹⁴, but its modal amplitudes (0.02964, 0.03103, 0.01273) contradict Table 1 in the eigenbasis of the printed quadratic part (0.02501, 0.03630, 0.00775; with the first-order Lie correction 0.02526, 0.03657, 0.00757). Eq. (24) neither follows from its stated formula nor shares Table 2's AMD (8.58·10⁻⁴) | inconsistent data |
+| SJSU-E2 | SLG13 Table 2 (p. 8) and eq. (24) (p. 11); GLS17 Table 2 | x_j(0), y_j(0); R_j "= √(x_j²(0)+y_j²(0))" | Table 2 preserves the raw Table 1 AMD to 3.8·10⁻¹⁴, but its modal amplitudes (0.02964, 0.03103, 0.01273) contradict Table 1 in the eigenbasis of the printed quadratic part (0.02501, 0.03630, 0.00775; with the first-order Lie correction 0.02526, 0.03657, 0.00757) and the time-averaged modal amplitudes of the full N-body flow (0.02551, 0.03668, 0.00759). Eq. (24) neither follows from its stated formula nor shares Table 2's AMD (8.58·10⁻⁴) | inconsistent data |
 | SJSU-E3 | SLG13 §3.2, last paragraph (journal p. 7) | "we decided to calculate the generating functions χ₁ and χ₂ up to degree 9 (recall Eqs. (6) and (7))" | eqs. (6)–(7) sum j₂ ≤ 6, and GLS17 §2.2 says "up to degree 6"; the choice changes the coefficients of degree ≥ 12 by a median of 22–69 % | internal inconsistency |
 | SJSU-E4 | SLG13 eq. (12) (p. 7); GLS17 eq. (12) | ½{χ₁^(res), Σ_{j₂≥0} h^(res)_{0,j₂}}_{ξ,η} | χ^(res) removes only degree 9 (eq. (11)); on the unremoved part the second-order Lie coefficient is 1, not ½ (affects degree 18 only) | possible imprecision |
 | SJSU-E5 | SLG13 Appendix A title, §3.1; GLS17 §2.2 | "up to order 2 in the masses" | the printed three-planet quartic coefficients exist only at third order in the masses (reproduced at order 3, median 2.9 %), so the computed H^(O2) kept higher-order Lie terms | description inconsistent with data |
@@ -132,7 +136,8 @@ dropped and reversibility/reality enforced exactly after a round-off check.
    authors' file?
 2. Send the email draft to Sansottera, Locatelli and Giorgilli?
 3. `CITATION.cff`: Zohar Komargodski's affiliation, and the public repository URL.
-4. The nominal initial point for later phases: Table 2 (consistent with GLS17's eq. (37)) or
-   our Table 1 map?
+4. The nominal initial point for later phases: we recommend our first-order Table 1 map (it
+   matches the N-body modal amplitudes to ≤ 1 %), not Table 2 (which reproduces GLS17's eq. (37)
+   but not the N-body dynamics). Agree?
 5. Orchestrator: add a catalogue entry for the report in `docs/explorations/README.md`
    (outside my write scope), and record the errata above.

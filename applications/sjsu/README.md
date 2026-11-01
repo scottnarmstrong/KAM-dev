@@ -169,6 +169,7 @@ Measured; details, tables and every source issue are in the
 | SLG13 Appendix A, 66 quartic coefficients | J–S 5.5–8 %; J–U, S–U up to 19 %; three-planet terms absent (they need order ≥ 3) |
 | Table 2 linear secular frequencies ν | 9.2·10⁻⁵, 5.8·10⁻⁴, 7.5·10⁻⁵ |
 | GLS17 eq. (37) nonlinear frequencies, from the Table 2 data | 3.9 %, 0.48 %, 0.043 % (printed quartic alone: 11 %, 1.6 %, 0.22 %) |
+| Secular frequencies of the full planar N-body flow (3 Myr), from the mapped Table 1 point | 1.6 %, 0.35 %, 0.053 %; mean modal amplitudes ≤ 1 % |
 | Regression test (`test_regression.py --full`) | all 7,941 coefficients recomputed to 4.7·10⁻²⁵ |
 
 Why the printed coefficients are not reproduced exactly:

@@ -12,7 +12,8 @@ K_F = 8, and the resonant step for 3λ₁ − 5λ₂ − 7λ₃. It is published
 dense rotation-invariant polynomial with exactly 7,941 complex (38,466 real) coefficients,
 written to 25 digits, and regression-tested. It is a well-defined *reconstruction*, not the
 authors' file. It reproduces the printed quadratic coefficients to ≤ 7.7·10⁻⁴ and the linear
-secular frequencies of Table 2 to ≤ 5.8·10⁻⁴. The printed quartic agrees only to 3–8 % for the
+secular frequencies of Table 2 to ≤ 5.8·10⁻⁴. From the mapped Table 1 point it reproduces the
+**secular frequencies of the full planar N-body flow** to 1.6 %, 0.35 % and 0.05 %. The printed quartic agrees only to 3–8 % for the
 5:2-dominated terms, and its three-planet terms are absent at strict order two.
 
 Four findings explain the gap and correct the scoping report's reading of the source:
@@ -27,9 +28,10 @@ Four findings explain the gap and correct the scoping report's reading of the so
    largest 7.8·10⁻⁸). No computation obeying the d'Alembert rules can produce it, at any order.
 4. **SJSU-E2 is sharper than reported.** Table 2 keeps the AMD of the *raw* Table 1 point to
    11 digits, but its modal amplitudes are inconsistent with the printed quadratic part (by
-   15–64 %), and eq. (24) is a third, unrelated set. Even so, GLS17's eq. (37) frequencies are
-   consistent with integrating from the Table 2 point: SJSU18-O2 gives them to 3.9 %, 0.5 %
-   and 0.04 %.
+   15–64 %), and eq. (24) is a third, unrelated set. The true N-body modal amplitudes agree with
+   our Table 1 map to ≤ 1 %, not with Table 2. GLS17's eq. (37) frequencies are nevertheless
+   consistent with integrating from the Table 2 point (SJSU18-O2 gives them to 3.9 %, 0.5 % and
+   0.04 %), so their ω₁ is 10.6 % faster than the true N-body secular frequency.
 
 | Label | Meaning |
 |---|---|
@@ -235,6 +237,22 @@ in either case it moves toward GLS17's value. GLS17's eq. (37) is consistent wit
 point mapped as in §5.3. The remaining 3.9 % on ω₁ matches the 5:2 quartic gap of §6.1
 (**estimated**).
 
+**Physical check against the full N-body flow (measured, `nbody_secular_freq.py`,
+`validation/nbody_secular_frequencies.json`).** The osculating Poincaré (ξ, η) were sampled
+every 50 yr along a 3 Myr planar N-body run from Table 1 (Poincaré reading). Frequency analysis
+of the modal signals gives the true secular frequencies; half and full span agree to ≤ 7·10⁻⁶.
+
+| | ω₁ | ω₂ | ω₃ | mean modal R₁, R₂, R₃ |
+|---|---|---|---|---|
+| full planar N-body (3 Myr) | −1.37179·10⁻⁴ | −2.03549·10⁻⁵ | −1.15269·10⁻⁵ | 0.02551, 0.03668, 0.00759 |
+| SJSU18-O2 from the first-order secular Table 1 point | −1.35047·10⁻⁴ (−1.6 %) | −2.02832·10⁻⁵ (−0.35 %) | −1.15208·10⁻⁵ (−0.05 %) | 0.02526, 0.03657, 0.00757 |
+| SJSU18-O2 from the raw Table 1 point | −2.0 % | −0.40 % | −0.08 % | 0.02501, 0.03630, 0.00774 |
+| GLS17 eq. (37) (from Table 2; literature) | −1.51665·10⁻⁴ (+10.6 %) | −2.05981·10⁻⁵ (+1.2 %) | −1.16008·10⁻⁵ (+0.64 %) | Table 2: 0.02964, 0.03103, 0.01273 |
+
+The order-two model therefore carries the secular dynamics of this planar system to 1.6 % in
+the fast frequency, at the level of LG00's SJS model (literature: 0.1 % and 1.3 %). It also
+supports the first-order Table 1 map, and not Table 2, as the physical initial point.
+
 ### 6.3 Source issues: resolutions and new candidates
 
 * **SJSU-E1 (resolved in kind).** Converted exactly to z, the printed quartic is a
@@ -253,7 +271,10 @@ point mapped as in §5.3. The remaining 3.9 % on ω₁ matches the 5:2 quartic g
   eigenbasis of the printed quadratic part (Procrustes residual 1.3·10⁻³ for any common
   orthogonal map; transposed or permuted bases, and first-order-only eigenvectors, miss by
   ≥ 14 %). Eq. (24) states R_j = √(x_j² + y_j²) from Table 2, but carries a different AMD.
-  Eq. (37) is consistent with Table 2. **Owner/author question.**
+  Eq. (37) is consistent with Table 2. The full N-body flow decides between them: its mean modal
+  amplitudes match our Table 1 map to ≤ 1 % and miss Table 2 by 15–68 % (§6.2). **Measured
+  conclusion:** Table 2's (x(0), y(0)) do not represent the Table 1 initial data; their origin
+  remains an author question.
 * **SJSU-E3 (new).** SLG13 §3.2, last paragraph (journal p. 7): "we decided to calculate the
   generating functions χ₁ and χ₂ up to degree 9 (recall Eqs. (6) and (7))". But eqs. (6)–(7)
   sum j₂ ≤ 6, and GLS17 §2.2 says "up to degree 6". This is material: degree 9 changes the
@@ -343,5 +364,6 @@ regenerable, and its hash is in `data/sjsu18-o2.SOURCE.txt`. Commands are in
 2. Send the draft email to the authors
    ([`SJSU-P0-email-draft.md`](../campaign/handoffs/SJSU-P0-email-draft.md))?
 3. `CITATION.cff`: Zohar Komargodski's affiliation, and the public repository URL.
-4. Should eq. (37)-type checks use Table 2 (as GLS17) or our Table 1 map (inconsistent with
-   Table 2, §5.3) as the nominal initial point of later phases?
+4. Nominal initial point of later phases: we recommend our first-order Table 1 map (it matches
+   the N-body modal amplitudes to ≤ 1 %), not Table 2 (which reproduces GLS17's eq. (37) but not
+   the N-body dynamics). Agree?
