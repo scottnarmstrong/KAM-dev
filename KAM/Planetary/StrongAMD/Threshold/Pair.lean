@@ -110,7 +110,7 @@ theorem pairThreshold_le_of_feasible (ν I : Fin n → ℝ) (i j : Fin n) {u v :
 theorem actionAxis_pos {ν I : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (hI : I ∈ chamber ν) (i : Fin n) :
     0 < actionAxis ν I i := by
   unfold actionAxis
-  exact pow_pos (div_pos (hI.1 i) (hν i)) 2 
+  exact pow_pos (div_pos (hI.1 i) (hν i)) 2
 
 /-- Contact reduction (`LP:MAIN L4 (147–150)`): on the chamber the minimum is attained at a
 feasible point of radial contact `a_j (1 - v) = a_i (1 + u)`. -/
