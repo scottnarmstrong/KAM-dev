@@ -144,6 +144,26 @@ kamx-packed's chain modules in the package (stage C). The emitted names follow V
 from its tree. The B3b mirror passes (torsion margin 0.00118) and the frames at T″'s claims: `|Lᵀ|` 1.3513 / 1.36,
 `|N|` 1.1961 / 1.2, `|Nᵀ|` 1.4334 / 1.44, `sup |T|` 115.68 / 116.
 
+**The B2 and B3b stages of T′ in production form (built, log `runB`).** On LG00's real `lg00Cert`, with the shared
+data modules: `pkCheckGram : checkGramPacked pkGBook pkGMemo lg00Cert = true`, `pkTorsEntries : ptEntries … = true`
+(36 entries), `pkTorsCore : torsRCore … = true` (13 parts; `DN`, `X_N` entry by entry): 389 modules pass (304
+reused), every process ≤ 2.81 GB.
+
+| stage | modules built | CPU-s | kernel-s |
+|---|---:|---:|---:|
+| shared data (Gram memo, node memo, books; from `runA`) | 24 | 204.7 | — |
+| jet slot models of the torsion (`pkTMs`, copied from the tree) | 10 | 119.0 | 0.4 |
+| Gram (B2): 8 entries, core, assembly | 10 | 157.8 | 113.7 |
+| torsion (B3b): 36 entries, guards, stages, averages, final test, assembly | 66 | 751.7 | 453.3 |
+| **total** | **110** | **1,233.2** | **567.4** |
+
+Against the landed Gram and Torsion stages of the first certificate (726 modules, 13,551 CPU-s, run20e): ≈ 11×, now
+with the production assembly (shared data, the `_of` assembly theorems) measured rather than estimated; the B3b
+gate's 64 probes took 1,292 CPU-s for the torsion alone, mostly data elaboration per probe. CPU of failed first
+attempts (generator bugs, fixed: below) is not counted. Remaining for the B3b route: the assembly through the
+tree's `Low` chain (`pkComposeLow`, `pkCheckTorsion`, `pkFrames`, `pkEngine`, `pkBase`, `pk_check`, `pk_kamTorus`),
+emitted; it runs when LG00's run18 has finished T′'s `Low` chain (2,062 / 2,484 at 15:38 UTC).
+
 **Run harness** (`run_packed.py LOGDIR CAP TARGET…`).
 - The module list: the targets' import closure inside the package, dependencies first.
 - Reuse: staleness predicted from the import graph (no artifacts, a stale import, or a core import whose source

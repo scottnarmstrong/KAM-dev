@@ -474,7 +474,7 @@ def emit_tors(E, data, tms):
                             thm("pkTorsD1_%d" % a, "ptD1Ok 2 %s %s %s.piEnc pkRBook.toT pkTMemo pkTMs %d = true"
                                 % (W, cfg, c, a))))
     import itertools
-    body = ("theorem pkTorsEntries :\n%s := by\n"
+    body = ("theorem pkTorsEntries :\n%s\n"
             "  refine ptEntries_of (fun r hr j hj l hl => ?_) (fun a ha b hb => ?_) (fun a ha => ?_)\n"
             "  · have hr' : r < 4 := hr\n    have hj' : j < 2 := hj\n    have hl' : l < 2 := hl\n"
             "    interval_cases r <;> interval_cases j <;> interval_cases l\n%s\n"
