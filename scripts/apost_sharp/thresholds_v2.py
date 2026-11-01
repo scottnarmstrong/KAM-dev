@@ -24,6 +24,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import thresholds as v1  # noqa: E402
 import smalldiv as sd    # noqa: E402
+import smalldiv_sup as sds  # noqa: E402
 
 lg = v1.lg
 up = v1.up
@@ -785,7 +786,7 @@ def c_stages(D, which, k=5):
     def cf(d):
         d = float(d)
         if d not in cache:
-            cache[d] = min(Fr(sd.c_freq(om, gam, tau, d)[0]), ccl(d))
+            cache[d] = min(Fr(sd.c_freq(om, gam, tau, d, n=n)[0]), ccl(d))
         return cache[d]
 
     def st(s):
@@ -808,7 +809,7 @@ def c_inf_fn(D, exact=True, digits=10):
     """d -> c_inf(d) = Gamma_inf(omega*, d) gamma d^tau, n = 2, omega* = (w1, w2):
     Gamma_inf((w1, w2), d) = Gamma_inf((w1/w2, 1), d)/|w2|, fibered computation (smalldiv_sup.gamma_inf, SHARP-L9).
     Rounded up to `digits` significant digits (rational) if exact, else double precision."""
-    import smalldiv_sup as sds                       # noqa: E402
+    sd.check_two_freq(D["omega_star"], D["n"])
     w1, w2 = D["omega_star"]
     alpha = abs(float(w1) / float(w2)); gam = float(D["gamma"]) / abs(float(w2)); tau = int(D["tau"])
     cache = {}
@@ -996,7 +997,7 @@ def run_routeB(D, label=""):
     def cf(d):
         d = float(d)
         if d not in cache:
-            cache[d] = min(sd.c_freq(om, gam, tau_, d)[0], sd.c_classical(n_, tau_, d))
+            cache[d] = min(sd.c_freq(om, gam, tau_, d, n=n_)[0], sd.c_classical(n_, tau_, d))
         return cache[d]
     stf = lambda ds, r: (cf(ds), cf(ds * tau_ / (tau_ + 1)), cf(min(r, 1.0)))
     stf.by_bite = True

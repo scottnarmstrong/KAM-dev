@@ -49,6 +49,7 @@ def load(name):
 
 
 sds = load("smalldiv_sum")
+sd = load("smalldiv")
 C_GENERIC = 1 / (4 * math.pi ** 2 * math.e)
 
 
@@ -64,6 +65,7 @@ def gamma_inf(alpha, gamma, tau, delta):
     """Gamma_inf((alpha, 1), delta) by fibers, the maximizing mode, and the certificate cut-off.
 
     Returns (Gamma, (k1, k2), N_cert, B(N_cert), tail(N_cert))."""
+    sd.check_finite(alpha=alpha, gamma=gamma, tau=tau, delta=delta)
     b = 2 * math.pi * delta
     # fibers up to K, with K so large that the tail is negligible
     K = int(math.ceil(60 / b)) + 10
@@ -92,6 +94,7 @@ def gamma_inf(alpha, gamma, tau, delta):
 
 def best_gamma(alpha, tau, K=200000):
     """min_{k != 0} |k.omega| |k|_1^tau over 0 < |k1| <= K (nearest k2 in each fiber)."""
+    sd.check_finite(alpha=alpha, tau=tau, K=K)
     k1 = np.arange(1, K + 1, dtype=np.float64)
     x = k1 * alpha
     p = -np.rint(x)
