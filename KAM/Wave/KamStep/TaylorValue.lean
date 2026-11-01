@@ -179,4 +179,33 @@ theorem stepSymp_quadratic (A : KamPhase →L[ℂ] KamPhase)
 
 end pieces
 
+/-- **`R = stepFun T`** (`bpW:w5:taylor` (i), last claim): the value of the Taylor polynomial of
+`P` is the polynomial of the element `T = stepTaylorOf … ∈ 𝒯_s`. -/
+theorem stepFun_taylorOf_eq (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hs : 0 < s) (hr : 0 < r)
+    (hP : IsSmoothing (p := p) ha (by linarith : 0 ≤ pb + p) (kamDomain s r) P X)
+    (hper : ∀ i, ∀ w ∈ kamDomain s r, P (w + stepTau i) = P w) {ε : ℝ}
+    (hb : ∀ z ∈ kamDomain s r, kamNorm r (X z) ≤ ε) {w : KamPhase} (hw : w ∈ kamDomain s r) :
+    stepFun ha (homPP hp hpb) (stepTaylorOf ha hp hpb hs hr hP hper hb) w = taylorRv P w := by
+  rw [taylorRv_eq ha _ hr hP hw]
+  have hw0 : stepW0L w.1 ∈ kamDomain s r := stepW0L_mem hr (fun i => hw.1 i)
+  set Y := X (stepW0L w.1) with hY
+  set A := fderiv ℂ X (stepW0L w.1) with hA
+  have hqq' : 0 ≤ pb + p := by linarith
+  have cw := fun (U V : KamPhase) => stepSymp_comm_weights (q := pb) (q' := p) ha hqq'
+    (homPP hp hpb) U V
+  rw [cw, cw, cw]
+  rw [stepSymp_linear ha hp hpb, stepSymp_ypart ha hp hpb,
+    stepSymp_quadratic ha hp hpb A (stepDX_symm_pp ha hp hpb hP hw0)]
+  unfold stepFun
+  simp only [stepTaylorOf, tA0, tB, tCp, tCm, tP, tP', tQ, tQt]
+  simp only [map_smul, smul_apply, smul_eq_mul, hY]
+  rw [Finset.mul_sum]
+  simp only [← hA]
+  have e : ∑ i, 2 * (Real.pi : ℂ) * ((X (stepW0L w.1)).1 i * w.2.1 i) =
+      ∑ k, 2 * (Real.pi : ℂ) * (X (stepW0L w.1)).1 k * w.2.1 k :=
+    Finset.sum_congr rfl fun i _ => by ring
+  rw [e]
+  ring
+
+
 end KAM.Wave
