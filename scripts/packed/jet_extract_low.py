@@ -8,8 +8,10 @@ generator state into JSON, with every leaf node computed by lg00-cert's bit-exac
   - actions (`realCompModel`, the landed slot model), characters, `inv`, `sqrt` (the landed slot models; in
     V2-PACKED-JET-LOW M1 the last three are given blocks), on the box of half-width H.
 Writes the program prefix, the live slots, the wanted slots, the weight, and the leaves.
+V2-PACKED-JET-FULL: `--stage=Full` extracts the cfgFull chain instead (box half-width H = 48, wanted slots `v0` and
+`d1`, the landed Full stage's `Slp.compose … cfgFull (d1Slots)` and `… [v0]`).
 Run with lg00-cert's tooling on the path (unpickling). Usage:
-  python3 -I scripts/packed/jet_extract_low.py STATE.pkl OUT.json [LG00_CERT_ROOT]
+  python3 -I scripts/packed/jet_extract_low.py STATE.pkl OUT.json [LG00_CERT_ROOT] [--stage=Low|Full]
 """
 import json
 import os
@@ -17,22 +19,27 @@ import pickle
 import subprocess
 import sys
 
-P, H = 128, 25
+P = 128
+STAGES = {"Low": dict(cfg="cfgLow", H=25), "Full": dict(cfg="cfgFull", H=48)}
 
 
 def main():
-    state, out = sys.argv[1], sys.argv[2]
-    cert = sys.argv[3] if len(sys.argv) > 3 else "/home/scott/KAM-dev-worktrees/lg00-cert"
+    opts = [a for a in sys.argv[1:] if a.startswith("--")]
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    stage = next((a.split("=")[1] for a in opts if a.startswith("--stage=")), "Low")
+    cfgn, H = STAGES[stage]["cfg"], STAGES[stage]["H"]
+    state, out = args[0], args[1]
+    cert = args[2] if len(args) > 2 else "/home/scott/KAM-dev-worktrees/lg00-cert"
     sys.path.insert(0, os.path.join(cert, "scripts", "sjs", "lg00cert"))
     import lg00_emit_stage  # noqa: F401  (lg00-cert's classes and mirror on the path)
     import sofx_model as SM
     import sofx_packed as SP
     import sofx_arith as SA
     st = pickle.load(open(state, "rb"))
-    prog, pairs = st["prog"], st["pairs"]["cfgLow"]
-    live = sorted(st["live"]["cfgLow"])
+    prog, pairs = st["prog"], st["pairs"][cfgn]
+    live = sorted(st["live"][cfgn])
     J = st["J"]
-    wanted = J["d1"] + [x for row in J["d2"] for x in row]
+    wanted = J["d1"] + [x for row in J["d2"] for x in row] if stage == "Low" else [J["v0"]] + J["d1"]
     stop = max(live + wanted) + 1
     c = st["c"]
     B = SA.FixedB(P)
@@ -84,7 +91,8 @@ def main():
         commit = "unknown"
     data = dict(ops=[op_json(op) for op in prog[:stop]], live=live, wanted=wanted,
                 leaves={str(j): v for j, v in leaves.items()}, angles=angles, consts=consts,
-                weight=dict(rho=fr(W.rho), w=fr(W.w)), lg00_cert_commit=commit, args=st["args"])
+                weight=dict(rho=fr(W.rho), w=fr(W.w)), lg00_cert_commit=commit, args=st["args"],
+                stage=stage, cfg=cfgn, H=H)
     with open(out, "w") as f:
         json.dump(data, f)
     from collections import Counter

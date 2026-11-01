@@ -6,7 +6,7 @@ For each wanted slot (`J.d1`, `J.d2`) prints the packed node's radius and norm b
 `jet_low_gen.py` from the bit-exact mirror) next to the landed model's radius and weighted sup norm, both at
 degree 0 (the landed model is converted by lg00-cert's mirror of `toDeg`, as `jLeaf` does).
 Run with lg00-cert's tooling on the path (unpickling). Usage:
-  python3 -I scripts/packed/jet_low_cmp.py STATE.pkl LowPlan.json [LG00_CERT_ROOT]
+  python3 -I scripts/packed/jet_low_cmp.py STATE.pkl LowPlan.json [LG00_CERT_ROOT] [--stage=Low|Full]
 """
 import json
 import os
@@ -18,14 +18,16 @@ P = 128
 
 
 def main():
-    state, plan = sys.argv[1], json.load(open(sys.argv[2]))
-    cert = sys.argv[3] if len(sys.argv) > 3 else "/home/scott/KAM-dev-worktrees/lg00-cert"
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    stage = next((a.split("=")[1] for a in sys.argv[1:] if a.startswith("--stage=")), "Low")
+    state, plan = args[0], json.load(open(args[1]))
+    cert = args[2] if len(args) > 2 else "/home/scott/KAM-dev-worktrees/lg00-cert"
     sys.path.insert(0, os.path.join(cert, "scripts", "sjs", "lg00cert"))
     import lg00_emit_stage  # noqa: F401  (lg00-cert's classes and mirror on the path)
     import sofx_model as SM
     import sofx_arith as SA
     st = pickle.load(open(state, "rb"))
-    pairs, c = st["pairs"]["cfgLow"], st["c"]
+    pairs, c = st["pairs"]["cfg" + stage], st["c"]
     B, W, pe = SA.FixedB(P), c.weight, c.piEnc
     fl = lambda v: float(Fr(v, 2 ** P))
     rows = []

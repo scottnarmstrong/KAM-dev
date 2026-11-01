@@ -5,6 +5,9 @@ tooling, read-only).
 Reads LowPlan.json (the blocks), LOGDIR/<block>.{cost,out} (one process per checked block, `run_probe.sh`) and the
 run20e ledger with lg00-cert's Low modules: the landed Low stage by segment kind (regular, product, character `X`,
 `inv` `I`, `sqrt` `Q`; a module's cost split over its pieces) and its literal modules.
+The stage (Low or Full) is the basename of LOW_DIR (lg00-cert's `KAM/LG00Cert/Low` or `…/Full`). The ledger keeps
+retried runs (the last column is the exit code); the landed figure counts each module's last, successful run, and
+`landed_cpu_s_with_retries` adds the failed attempts.
 Usage: python3 -I scripts/packed/jet_low_sum.py LowPlan.json LOGDIR LEDGER.tsv LOW_DIR PLANS.json
 """
 import collections
@@ -32,15 +35,18 @@ def kernel_s(path):
 
 
 def landed(led, low, plans):
-    rows = {}
+    stage = os.path.basename(os.path.normpath(low))
+    rows, retries = {}, 0.0
     for line in open(led):
         p = line.rstrip("\n").split("\t")
         if len(p) >= 7:
+            if p[0] in rows and p[0].startswith("KAM.LG00Cert.%s." % stage):
+                retries += rows[p[0]]
             rows[p[0]] = float(p[1]) + float(p[2])
-    segs = json.load(open(plans))["cfgLow"]["segs"]
+    segs = json.load(open(plans))["cfg" + stage]["segs"]
     by, lit = collections.Counter(), collections.Counter()
     for fn in os.listdir(low):
-        mod = "KAM.LG00Cert.Low." + fn[:-5]
+        mod = "KAM.LG00Cert.%s." % stage + fn[:-5]
         if mod not in rows:
             continue
         if not fn.startswith("T"):
@@ -50,12 +56,12 @@ def landed(led, low, plans):
         ps = re.findall(r"([A-Za-z]+)(\d+)((?:_\d+)*) \((\w+)\)", m.group(1)) if m else []
         for p in ps:
             by[segs[int(p[1])]["kind"]] += rows[mod] / len(ps)
-    return by, lit
+    return by, lit, retries
 
 
 def main():
     plan, logs = json.load(open(sys.argv[1])), sys.argv[2]
-    by, lit = landed(*sys.argv[3:6])
+    by, lit, retries = landed(*sys.argv[3:6])
     rows = []
     for b in plan["blocks"]:
         if b["kind"] == "given":
@@ -76,6 +82,8 @@ def main():
                heavy_steps=sum(r["heavy"] for r in rows),
                max_heavy_per_process=max(r["heavy"] for r in rows),
                landed_low_cpu_s=round(land_all, 1), landed_by_kind={k: round(v, 1) for k, v in by.items()},
+               landed_cpu_s_with_retries=round(land_all + retries, 1),
+               ratio_with_retries=round((land_all + retries) / cpu, 1),
                landed_literal_cpu_s=round(sum(lit.values()), 1),
                landed_given_cpu_s=round(land_given, 1),
                landed_without_given_cpu_s=round(land_all - land_given, 1),

@@ -59,6 +59,8 @@ public import KAM.CertificateSharp.Packed.JetIngest
 public import KAM.CertificateSharp.Packed.JetLeaf
 public import KAM.CertificateSharp.Packed.JetNode
 public import KAM.CertificateSharp.Packed.JetSeg
+public import KAM.CertificateSharp.Packed.JetStage
+public import KAM.CertificateSharp.Packed.JetStageTests
 public import KAM.CertificateSharp.Packed.JetTests
 public import KAM.CertificateSharp.Packed.JetWit
 public import KAM.CertificateSharp.Packed.Norm

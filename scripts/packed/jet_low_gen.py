@@ -12,11 +12,18 @@ and runs the whole chain in Python with the bit-exact mirror of `KAM/Certificate
     `jSqrtOk`: the landed output as an untrusted candidate, its residual as the radius) sit between them. A box
     node above scale 2^P is reduced in place only when a product or a witness reads it or it is wanted.
 Every import of a block is an export of an earlier block (by construction). Writes one probe per block into
-$V2P_GATE_DIR (default .lake/v2-packed-jet/low), and LowPlan.json.
-Usage: python3 -I scripts/packed/jet_low_gen.py LOW.json [--heavy=34] [--char-keys=8] [--char-io=48] [--only=K]
+$V2P_GATE_DIR (default .lake/v2-packed-jet/low), and LowPlan.json (FullPlan.json).
+V2-PACKED-JET-FULL: `--stage=Full` (with `jet_extract_low.py --stage=Full`) generates the cfgFull chain on the box of
+half-width 48, the blocks named `Full…`, into .lake/v2-packed-jet/full; there the exponentials are staged
+(`JetStage.lean`, `--taylor=K` Taylor steps per block: `tstart`, `tstep`, `texp`), the powers split (`--pows=K` per
+block), the action slots split (`--act=K` per block). `--cache=PATH` saves the mirror run (pickle; this script's own
+output) and reuses it when present, so re-planning skips the run.
+Usage: python3 -I scripts/packed/jet_low_gen.py LOW.json [--stage=Low|Full] [--heavy=34] [--char-keys=8] [--char-io=48]
+       [--act=K] [--taylor=K] [--pows=K] [--cache=PATH] [--only=K]
 """
 import json
 import os
+import pickle
 import sys
 from fractions import Fraction as F
 
@@ -24,8 +31,17 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import jet_gate_gen as JG     # noqa: E402
 G, GG = JG.G, JG.GG
+STAGE = next((x.split("=")[1] for x in sys.argv if x.startswith("--stage=")), "Low")
+assert STAGE in ("Low", "Full")
+if STAGE == "Full":
+    JG.H = 48                                           # the box of the cfgFull chain (V2-PACKED.md 12.8)
 P, Q, H, n = JG.P, JG.Q, JG.H, JG.n
-OUT = os.environ.get("V2P_GATE_DIR", os.path.join(JG.ROOT, ".lake", "v2-packed-jet", "low"))
+PRE = STAGE                                             # block names: LowSeg_0, FullSeg_0, ...
+OUT = os.environ.get("V2P_GATE_DIR", os.path.join(JG.ROOT, ".lake", "v2-packed-jet", STAGE.lower()))
+
+
+def opt(name, default):
+    return next((x.split("=", 1)[1] for x in sys.argv if x.startswith("--%s=" % name)), default)
 CERT = os.environ.get("LG00_CERT", "/home/scott/KAM-dev-worktrees/lg00-cert/KAM/LG00Cert")
 LEAVES = ("action", "char", "inv", "sqrt", "exp")
 
@@ -113,7 +129,7 @@ def chars(C, bk, D, aC, lb, st):
         for i, ki in enumerate(k):
             if ki:
                 need[(i, ki < 0)] = max(need.get((i, ki < 0), 0), abs(ki))
-    E, pows, Ns = {}, {}, {}
+    E, pows, Ns, TS = {}, {}, {}, {}
     one = const_node(C, D, "1/0/0", aC, lb)
     for (j, neg), M in sorted(need.items()):
         Ns[(j, neg)] = N = taylor_order(C, D, j)
@@ -121,11 +137,14 @@ def chars(C, bk, D, aC, lb, st):
         c = const_node(C, D, "0/%d/1" % (-1 if neg else 1), aC, lb)
         w = ops.norm(ops.mul(c, A, P))
         t = s_ = one
+        ts = [(t, s_)]
         for m in range(N):
             t2 = ops.norm(ops.mul(t, w, P))
             cq = const_node(C, D, "%s/0/0" % F(1, m + 1), aC, lb)
             t = ops.norm(ops.mul(t2, cq, P))
             s_ = ops.add(s_, t)
+            ts.append((t, s_))
+        TS[(j, neg)] = dict(w=w, ts=ts)
         if bk is not None:
             B = C.B
             Mw = B.upAdd(w.nb, w.r)
@@ -153,7 +172,7 @@ def chars(C, bk, D, aC, lb, st):
     for j in D["live"]:
         if ops_[j][0] == "char":
             nodes[j] = by_key[tuple(ops_[j][1])]
-    return E, pows, nodes, Ns, by_key, one
+    return E, pows, nodes, Ns, by_key, one, TS
 
 
 def wit_node(C, bk, D, kind, na, lv, aC, lb, ops):
@@ -270,6 +289,16 @@ def main():
     aC = max(abs(v) for lv in list(D["leaves"].values()) + list(D["consts"].values()) if lv["kind"] == "const"
              for _, v in lv["re"] + lv["im"])
     # pass 1: wide slots, `lb` to a fixed point
+    cache = opt("cache", None)
+    if cache is not None and os.path.exists(cache):
+        with open(cache, "rb") as f:
+            ck = pickle.load(f)
+        assert ck["stage"] == STAGE and ck["H"] == H and ck["source"] == os.path.abspath(sys.argv[1])
+        bk, S, steps, CH, wits = ck["bk"], ck["S"], ck["steps"], ck["chars"], ck["wits"]
+        C = JG.Ctx(W, bk.w)
+        print("mirror run from the cache", cache)
+        plan_and_emit(C, bk, D, S, steps, heavy_max, wanted, CH, wits)
+        return
     C1 = JG.Ctx(W, 1024)
     lb = 140
     for _ in range(6):
@@ -286,6 +315,10 @@ def main():
     C = JG.Ctx(W, bk.w)
     S, steps2, st2 = run(C, bk, D, lb, aC, decide)
     assert steps2 == steps
+    if cache is not None:
+        with open(cache, "wb") as f:
+            pickle.dump(dict(stage=STAGE, H=H, source=os.path.abspath(sys.argv[1]), bk=bk, S=S, steps=steps,
+                             chars=st2["chars"], wits=st2["wits"]), f, protocol=pickle.HIGHEST_PROTOCOL)
     plan_and_emit(C, bk, D, S, steps, heavy_max, wanted, st2["chars"], st2["wits"])
 
 
@@ -334,42 +367,105 @@ def plan_and_emit(C, bk, D, S, steps, heavy_max, wanted, CH, wits):
     os.makedirs(OUT, exist_ok=True)
     plan = []
     E = JG.Emit(C)
-    # the action block
-    E.defs = list(data_head)
-    E.defs.append(_emb_text())
-    for j in actions:
-        E.node("act_%d" % j, S[j])
-    E.defs.append("def actions : List (ℕ × JNode LGF) :=\n  [%s]\n" % ",\n   ".join(
-        "(%d, act_%d)" % (j, j) for j in actions))
-    _write("LowAct", "The action block (`jActionsOk`): %d action slots packed from the embedding." % len(actions),
-           D, "".join(d + "\n" for d in E.defs), "jActionsOk 2 gW lgPe gCfg jbk lg00Emb lgProg actions = true")
-    plan.append(dict(name="LowAct", kind="actions", exports=len(actions)))
-    E_, pows_, _, Ns, by_key, _ = CH
+    # the action blocks (`--act=K` slots each; one block by default)
+    act_k = int(opt("act", "0")) or len(actions)
+    emb = _emb_text()
+    for g in range(0, len(actions), act_k):
+        acts = actions[g:g + act_k]
+        E.defs = list(data_head) + [emb]
+        for j in acts:
+            E.node("act_%d" % j, S[j])
+        E.defs.append("def actions : List (ℕ × JNode LGF) :=\n  [%s]\n" % ",\n   ".join(
+            "(%d, act_%d)" % (j, j) for j in acts))
+        nm = PRE + "Act" if act_k >= len(actions) else "%sAct_%d" % (PRE, g // act_k)
+        _write(nm, "The action block (`jActionsOk`): %d action slots packed from the embedding." % len(acts),
+               D, "".join(d + "\n" for d in E.defs), "jActionsOk 2 gW lgPe gCfg jbk lg00Emb lgProg actions = true")
+        plan.append(dict(name=nm, kind="actions", exports=len(acts)))
+    E_, pows_, _, Ns, by_key, _, TS = CH
     kname = lambda j, neg, m: "fac_%d_%s_%d" % (j, "n" if neg else "p", m)
     klit = lambda j, neg, m: "Sum.inr (%d, %s, %d)" % (j, "true" if neg else "false", m)
-    emb = _emb_text()
+    sg = lambda neg: "n" if neg else "p"
+    tf = lambda neg: "true" if neg else "false"
+    tay_k = int(opt("taylor", "0"))
+    pow_k = int(opt("pows", "0"))
     for (j, neg), e in sorted(E_.items()):
-        E.defs = list(data_head) + [emb]
-        E.node(kname(j, neg, 1), e)
-        nm = "LowExp_%d_%s" % (j, "n" if neg else "p")
-        _write(nm, "The exponential block (`jExpNode`): exp(%si 2pi angleAt_%d), Taylor degree %d."
-               % ("-" if neg else "", j, Ns[(j, neg)]), D, "".join(d + "\n" for d in E.defs),
-               "(JBlockX.expo %d %s %d %s).ok 2 gW lgPe gCfg jbk lg00Emb lgProg = true"
-               % (j, "true" if neg else "false", Ns[(j, neg)], kname(j, neg, 1)))
-        plan.append(dict(name=nm, kind="expo", heavy=2 * Ns[(j, neg)] + 1, exports=1))
+        N = Ns[(j, neg)]
+        if tay_k:
+            # the staged exponential (`JetStage.lean`): tstart, tstep (tay_k steps each), texp
+            T = TS[(j, neg)]
+            one = T["ts"][0][0]
+            E.defs = list(data_head) + [emb]
+            E.node("tw", T["w"])
+            E.node("tone", one)
+            nm = "%sTw_%d_%s" % (PRE, j, sg(neg))
+            _write(nm, "The start of the staged exponential exp(%si 2pi angleAt_%d) (`JBlockT.tstart`): w and 1."
+                   % ("-" if neg else "", j), D, "".join(d + "\n" for d in E.defs),
+                   "(JBlockT.tstart %d %s tw tone).ok 2 gW lgPe gCfg jbk lg00Emb lgProg = true" % (j, tf(neg)))
+            plan.append(dict(name=nm, kind="tstart", heavy=1, exports=3))
+            for m0 in range(0, N, tay_k):
+                k = min(tay_k, N - m0)
+                E.defs = list(data_head) + [emb]
+                E.node("tw", T["w"])
+                E.node("tt", T["ts"][m0][0])
+                E.node("ts", T["ts"][m0][1])
+                E.node("tt1", T["ts"][m0 + k][0])
+                E.node("ts1", T["ts"][m0 + k][1])
+                nm = "%sTay_%d_%s_%d" % (PRE, j, sg(neg), m0)
+                _write(nm, "Taylor steps %d..%d of exp(%si 2pi angleAt_%d) (`JBlockT.tstep`)."
+                       % (m0, m0 + k, "-" if neg else "", j), D, "".join(d + "\n" for d in E.defs),
+                       "(JBlockT.tstep %d %s %d %d tw tt ts tt1 ts1).ok 2 gW lgPe gCfg jbk lg00Emb lgProg = true"
+                       % (j, tf(neg), m0, k))
+                plan.append(dict(name=nm, kind="tstep", heavy=2 * k, imports=3, exports=2))
+            E.defs = list(data_head) + [emb]
+            E.node("tw", T["w"])
+            E.node("ts", T["ts"][N][1])
+            E.node(kname(j, neg, 1), e)
+            nm = "%sTexp_%d_%s" % (PRE, j, sg(neg))
+            _write(nm, "The exponential exp(%si 2pi angleAt_%d) from its partial sum of degree %d (`JBlockT.texp`)."
+                   % ("-" if neg else "", j, N), D, "".join(d + "\n" for d in E.defs),
+                   "(JBlockT.texp %d %s %d tw ts %s).ok 2 gW lgPe gCfg jbk lg00Emb lgProg = true"
+                   % (j, tf(neg), N, kname(j, neg, 1)))
+            plan.append(dict(name=nm, kind="texp", heavy=0, imports=2, exports=1))
+        else:
+            E.defs = list(data_head) + [emb]
+            E.node(kname(j, neg, 1), e)
+            nm = "%sExp_%d_%s" % (PRE, j, sg(neg))
+            _write(nm, "The exponential block (`jExpNode`): exp(%si 2pi angleAt_%d), Taylor degree %d."
+                   % ("-" if neg else "", j, N), D, "".join(d + "\n" for d in E.defs),
+                   "(JBlockX.expo %d %s %d %s).ok 2 gW lgPe gCfg jbk lg00Emb lgProg = true"
+                   % (j, tf(neg), N, kname(j, neg, 1)))
+            plan.append(dict(name=nm, kind="expo", heavy=2 * N + 1, exports=1))
         outs = pows_[(j, neg)]
-        if outs:
+        if outs and not pow_k:
             E.defs = list(data_head) + [emb]
             E.node(kname(j, neg, 1), e)
             for m, o in enumerate(outs, 2):
                 E.node(kname(j, neg, m), o)
-            nm = "LowPow_%d_%s" % (j, "n" if neg else "p")
+            nm = "%sPow_%d_%s" % (PRE, j, sg(neg))
             _write(nm, "The power block (`jPowsAux`): exp(%si 2pi angleAt_%d)^m, m = 2..%d."
                    % ("-" if neg else "", j, len(outs) + 1), D, "".join(d + "\n" for d in E.defs),
                    "(JBlockX.pows %d %s %s [%s]).ok 2 gW lgPe gCfg jbk lg00Emb lgProg = true"
-                   % (j, "true" if neg else "false", kname(j, neg, 1),
+                   % (j, tf(neg), kname(j, neg, 1),
                       ", ".join(kname(j, neg, m) for m in range(2, len(outs) + 2))))
             plan.append(dict(name=nm, kind="pows", heavy=len(outs), imports=1, exports=len(outs)))
+        elif outs:
+            # powers from any power (`JBlockT.pows`), pow_k each: from m0 = 1 (cur = base), then m0 = 1 + pow_k, ...
+            for g in range(0, len(outs), pow_k):
+                m0 = 1 + g
+                E.defs = list(data_head) + [emb]
+                E.node(kname(j, neg, 1), e)
+                if m0 > 1:
+                    E.node(kname(j, neg, m0), outs[m0 - 2])
+                chunk = list(range(m0 + 1, min(m0 + pow_k, len(outs) + 1) + 1))
+                for m in chunk:
+                    E.node(kname(j, neg, m), outs[m - 2])
+                nm = "%sPow_%d_%s_%d" % (PRE, j, sg(neg), m0)
+                _write(nm, "Powers exp(%si 2pi angleAt_%d)^m, m = %d..%d, from the power %d (`JBlockT.pows`)."
+                       % ("-" if neg else "", j, chunk[0], chunk[-1], m0), D, "".join(d + "\n" for d in E.defs),
+                       "(JBlockT.pows %d %s %d %s %s [%s]).ok 2 gW lgPe gCfg jbk lg00Emb lgProg = true"
+                       % (j, tf(neg), m0, kname(j, neg, 1), kname(j, neg, m0),
+                          ", ".join(kname(j, neg, m) for m in chunk)))
+                plan.append(dict(name=nm, kind="pows", heavy=len(chunk), imports=2, exports=len(chunk)))
     char_slots = {}
     for j in D["live"]:
         if ops[j][0] == "char":
@@ -402,7 +498,7 @@ def plan_and_emit(C, bk, D, S, steps, heavy_max, wanted, CH, wits):
             "(%s, %s)" % (klit(*f), kname(*f)) for f in facs))
         E.defs.append("def entries : List (ℕ × JNode LGF) :=\n  [%s]\n" % ",\n   ".join(
             "(%d, chr_%d)" % (j, j) for j in ents))
-        nm = "LowChr_%d" % g
+        nm = "%sChr_%d" % (PRE, g)
         _write(nm, "A character block (`jCharsOk`): %d keys, %d character slots." % (len(ks), len(ents)), D,
                "".join(d + "\n" for d in E.defs),
                "(JBlockX.chars facs entries).ok 2 gW lgPe gCfg jbk lg00Emb lgProg = true")
@@ -422,7 +518,7 @@ def plan_and_emit(C, bk, D, S, steps, heavy_max, wanted, CH, wits):
             else:
                 st_ = ("(JBlockW.sqrt %d %d wna wcand.x 1 1 (1 / 2 : ℚ) wout).ok 2 gW lgPe gCfg jbk lg00Emb lgProg"
                        " = true" % (a, j))
-            nm = "Low%s_%d" % ("Inv" if ops[j][0] == "inv" else "Sqrt", j)
+            nm = "%s%s_%d" % (PRE, "Inv" if ops[j][0] == "inv" else "Sqrt", j)
             _write(nm, "The %s block of slot %d (operand %d): the candidate's residual (`JetWit.lean`)."
                    % (ops[j][0], j, a), D, "".join(d + "\n" for d in E.defs), st_)
             plan.append(dict(name=nm, kind=ops[j][0], heavy=2, imports=1, exports=1))
@@ -432,7 +528,7 @@ def plan_and_emit(C, bk, D, S, steps, heavy_max, wanted, CH, wits):
         imp = sorted({x for t in ch for x in reads(t)} - defined)
         exp = sorted(j for j in defined if any(qq > q for qq in later.get(j, ())) or j in wanted)
         hv_c = sum((1 if t[1] else 0) + (1 if t[2] else 0) for t in ch)
-        plan.append(dict(name="LowSeg_%d" % c, kind="seg", first=ch[0][0], last=ch[-1][0], steps=len(ch),
+        plan.append(dict(name="%sSeg_%d" % (PRE, c), kind="seg", first=ch[0][0], last=ch[-1][0], steps=len(ch),
                          heavy=hv_c, imports=len(imp), exports=len(exp)))
         if only is not None and c != only:
             continue
@@ -446,7 +542,7 @@ def plan_and_emit(C, bk, D, S, steps, heavy_max, wanted, CH, wits):
             E.node("exp_%d" % j, S[j])
         E.defs.append("def exports : List (ℕ × JNode LGF) :=\n  [%s]\n" % ",\n   ".join(
             "(%d, exp_%d)" % (j, j) for j in exp))
-        _write("LowSeg_%d" % c, "Segment %d of %d (`jSegOk`): slots %d..%d, %d steps (%d heavy), %d imports, %d "
+        _write("%sSeg_%d" % (PRE, c), "Segment %d of %d (`jSegOk`): slots %d..%d, %d steps (%d heavy), %d imports, %d "
                "exports." % (c, len(chunks), ch[0][0], ch[-1][0], len(ch), hv_c, len(imp), len(exp)), D,
                "".join(d + "\n" for d in E.defs),
                "jSegOk 2 gW lgPe gCfg jbk lgProg %d imports steps exports = true" % ch[0][0])
@@ -461,7 +557,7 @@ def plan_and_emit(C, bk, D, S, steps, heavy_max, wanted, CH, wits):
                           "2^%d" % v.bit_length()) for k, v in bk.__dict__.items()},
                 blocks=plan, wanted={str(j): [float(F(S[j].r, 2 ** P)), float(F(S[j].nb, 2 ** P))]
                                      for j in sorted(wanted)})
-    with open(os.path.join(OUT, "LowPlan.json"), "w") as f:
+    with open(os.path.join(OUT, PRE + "Plan.json"), "w") as f:
         json.dump(meta, f, indent=1)
     print(json.dumps({k: v for k, v in meta.items() if k not in ("blocks", "wanted")}, indent=1))
     print("segments", len(chunks), "max imports+exports", max(b["imports"] + b["exports"] for b in plan
@@ -473,7 +569,7 @@ def _data_head(C, bk, D):
     cert = os.path.join(CERT, "Data", "Cert.lean")
     out = [G.grab(dco, "lgD4"), G.grab(cert, "lg00Pi").replace("def lg00Pi ", "def lgPe "),
            "def gW : CertWeight := ⟨(29 / 5000 : ℚ), lgD4⟩\n",
-           "def gCfg : ModelConfig LGF := ⟨24, 30, 12, CertFixed.toMant lgP, []⟩\n",
+           "def gCfg : ModelConfig LGF := ⟨%d, 30, 12, CertFixed.toMant lgP, []⟩\n" % (24 if STAGE == "Low" else 48),
            ("def jbk : JBook where\n  Lb := %s\n  LU0 := %s\n  Lw := %s\n  q := %d\n  lb := %d\n  lr := %d\n"
             "  lrb := %d\n  ln := %d\n  aW := %d\n  aB := %d\n  smax := %d\n  ls := %d\n  lsb := %d\n  off := %d\n"
             "  P := %d\n  aC := %d\n  lc := %d\n  lrc := %d\n  lnc := %d\n"
@@ -505,6 +601,11 @@ TERM_ABBREVS = ("def dz (n : ℕ) : ℤ := if n % 2 = 0 then Int.ofNat (n / 2) e
 
 HEAD = JG.HEAD.replace("abbrev LGF : Type := CertFixed 128\n",
                        "abbrev lgP : ℕ := 128\n\nabbrev LGF : Type := CertFixed lgP\n")
+if STAGE == "Full":
+    HEAD = HEAD.replace("public import KAM.CertificateSharp.Packed.JetIngest",
+                        "public import KAM.CertificateSharp.Packed.JetStage").replace(
+        "LG00's cfgLow jet chain", "LG00's cfgFull jet chain").replace(
+        "generated by `scripts/packed/jet_gate_gen.py`", "generated by `scripts/packed/jet_low_gen.py --stage=Full`")
 
 
 def _write(name, doc, D, body, stmt):
