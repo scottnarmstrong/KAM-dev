@@ -95,6 +95,7 @@ public import KAM.CertificateSharp.V2.Engine
 public import KAM.CertificateSharp.V2.Fiber.Enum2
 public import KAM.CertificateSharp.V2.Fiber.RouteAG
 public import KAM.CertificateSharp.V2.Fiber.RouteBG
+public import KAM.CertificateSharp.V2.Fiber.RouteBGS
 public import KAM.CertificateSharp.V2.Fiber.Shard
 public import KAM.CertificateSharp.V2.Fiber.Site3
 public import KAM.CertificateSharp.V2.Fiber.TailTau
@@ -131,6 +132,7 @@ public import KAM.CertificateSharp.V2.RouteBLN
 public import KAM.CertificateSharp.V2.RouteBQ
 public import KAM.CertificateSharp.V2.RouteBQWf
 public import KAM.CertificateSharp.V2.RouteBRefined
+public import KAM.CertificateSharp.V2.RouteMax
 public import KAM.CertificateSharp.V2.SiteShard
 public import KAM.CertificateSharp.V2.SiteSign
 public import KAM.CertificateSharp.V2.SmallDivQ
