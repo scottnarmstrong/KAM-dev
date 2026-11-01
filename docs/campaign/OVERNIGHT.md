@@ -3038,3 +3038,22 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - Quotas: claude-11 41 %, claude-12 21 %, claude-3 21 %, claude-4 8 % (root-b8), claude-6 1 %; claude-2 and
     claude-5 reset at 09:00. codex-1 4 %, codex-2 0 % on plan (credits, D57).
   - kam-lp's PROGRESS.md stamps were estimated, not read from the clock; fixed (e8b182b6) from git commit times.
+- **09:00. KPZ structural fixes in force (orangutan; approved by the KPZ lead).** RECORD.md (40 MB) is frozen; lar appends
+  hourly shards under boxes/Z-record/shards/. New Phi4 reports go to reports-dated/YYYY-MM-DD/. Commits are batched
+  every 30 min, retries rebase, and nobody runs gc or prune.
+- **09:00. D60 W audits running.**
+  - inp-maud-wpja5: W5 round 2 part A (STEP-A/B deltas, 7 modules), codex-2.
+  - inp-maud-wpja5b: W5-AA round 1 (action-angle and initial, 11 modules), codex-1.
+  - inp-maud-wpl: W8 (W8-PREP + W8-ASM), codex-1, build in progress.
+  - Queued: W6 round 2 (the W6-TORI delta, 13 modules, inp-w6t@26a20671).
+  - W6-TORI is COMPLETE (F1 iteration lemma in p₊ λ-norms via Ψ, D2/D4, W6StepSmooth discharged, bpW:w6:tori
+    (i)–(v)).
+  - W's third prover: W4-LIECONT (claude-2). W8-FINAL is merging the final W5 and W6 heads.
+- **09:00. Owner request: a short natural-language paper on track LP** (background, the Laskar–Petit 2017 §3 conjecture,
+  results, proof summaries).
+  - Sub-orchestrator kam-paper (Opus 5.5, claude-5); brief .drafts/briefs/offload-main/paper-LP.md.
+  - Worktree /root/code/KAM-paper-lp (branch paper-lp, on HC), output under papers/LP/.
+  - Up to 3 Opus writers, then three fresh refute-first audits (math fidelity, literature and quotes, exposition).
+  - Docs only, no lake. Honesty rules: an asymptotic form of the informal conjecture, not its resolution; novelty
+    unverified (Niederman 1996 not inspected).
+- **09:03. kam-paper launched** (tmux kam-paper-lp, claude-5 at 100 % after its weekly reset; session name kam-paper-lp-bb). It acknowledged the brief and is planning (outline plus claims ledger first). claude-2 is also back at 100 %.
