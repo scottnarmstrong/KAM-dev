@@ -631,6 +631,7 @@ Full text: [`docs/DECISIONS.md`](docs/DECISIONS.md).
 - **D61** Seal W-NLW2 (`KAM.Wave.nlw2`) as soon as its audits and a seal audit pass. *(Scott, 2026-11-01)*
 - **D62** Freeze track LP's statements as approved (draft 7 r1: LP0–LP2 and the 1/(2n+1) corollaries, 128 files), then
   seal them after a seal audit. *(Scott, 2026-11-01)*
+- **D63** Relaunch SO-3 (the lunar lock) and seal it once its full kernel chain and a seal audit pass. *(Scott, 2026-11-01)*
 
 ## Owner questions
 

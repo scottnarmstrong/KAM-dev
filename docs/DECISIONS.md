@@ -533,3 +533,16 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
     - **Seals:** each sealed body is a one-line `by exact` to its provider. The seals need no further go, but only
       after a dedicated seal audit passes (as D61). Each seal gets a MANIFEST-CHANGES row citing D62.
   - **Not covered:** draft 8 (the LP3 anchors) needs its own approval.
+- **D63 (2026-11-01, 11:05 UTC) Relaunch SO-3 (the lunar lock) and seal it.** *(Scott: "can you relaunch the SO-3
+  stuff now? I want to get that subproblem sealed as well".)*
+  - This ends the overnight hold on lock work. The plan is D55's (c)+(b10).
+  - **Steps now, on this machine** (the lock-data morning plan):
+    1. re-emit the full segmented tree in the D55 form, after first dechaining the ledger/plan data parts so the build
+       can run wide;
+    2. kernel-check the template representatives;
+    3. split the Pass modules that exceed 10 GB.
+  - **Then the full kernel chain:** on a remote machine if the owner provides one (LOCK-REMOTE). Otherwise here, with one
+    10 GB heavy lane plus light lanes, gated on MemAvailable. Track LP's freeze build keeps priority while it runs.
+  - **Then seal** the frozen lock anchors (LOCK-FREEZE Phase B). The seal needs no further go, but only after the full
+    chain passes, the landing checks pass (`prebuild_heavy.py --check-all`, KAMLunarLock up to date) and a dedicated
+    seal audit passes (as D50 and D61).
