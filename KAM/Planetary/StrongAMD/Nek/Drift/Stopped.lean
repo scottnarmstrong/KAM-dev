@@ -23,7 +23,7 @@ the centre `c` of a cell:
 * `isSharedTube_of_le`: the shared tube is monotone in the radius;
 * `nek_sharp_slow_bound` (step 4, the curvature step): along the stopped interval
   `strongAMD < B(c) - 3δ/8`, sharper than the whole-ball bound `C ≤ B(I⁰) - δ/4`;
-* `nekNHam`: the N-Hamiltonian `h(fast) + ε Re P` of the frozen theorem for `h = planetaryKeplerC ν`;
+* `nekNHam`: the N-Hamiltonian `h(fast) + ε Re P` of the frozen theorem, `h = planetaryKeplerC ν`;
 * `nek_isSolutionOn_cell` (step 6): the `V_j`-form of the solution premise;
 * `nek_stopped_drift_core` (steps 1–7): the cell conclusion, with the lifted solution and the
   erosion premises derived from `StoppedOn`.  The cell data (the field identity on `V_j`, the

@@ -679,6 +679,8 @@ public import KAM.Planetary.StrongAMD.Modulus
 public import KAM.Planetary.StrongAMD.Momentum
 public import KAM.Planetary.StrongAMD.Nek.Cells
 public import KAM.Planetary.StrongAMD.Nek.Cover
+public import KAM.Planetary.StrongAMD.Nek.Drift.Stopped
+public import KAM.Planetary.StrongAMD.Nek.Drift
 public import KAM.Planetary.StrongAMD.Nek.Kepler
 public import KAM.Planetary.StrongAMD.Nek.Perturbation
 public import KAM.Planetary.StrongAMD.NonresonantAdapter
