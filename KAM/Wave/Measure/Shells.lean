@@ -7,6 +7,7 @@ module
 
 public import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 public import Mathlib.Topology.MetricSpace.Pseudo.Pi
+public import Mathlib.Topology.MetricSpace.HausdorffDistance
 
 /-!
 # W7: action shells and their geometry (blueprint `bpW:w7:shells`, `bpW:w7:shell-geom`)
@@ -15,7 +16,8 @@ Off the frontier: source-faithful infrastructure used by several nodes. The depe
 still being built.
 
 `t_k = q^k t₀`, the shell `R_k = (0, t_k)² ∖ (0, t_{k+1})²` and the inner shell
-`U_{-a} R_k = {I ∈ R_k : dist_∞ (I, ℝ² ∖ R_k) > a}`. We prove (i) the shells are pairwise
+`U_{-a} R_k = {I ∈ R_k : dist_∞ (I, ℝ² ∖ R_k) > a}`, where `dist_∞ (I, ℝ² ∖ R_k)` is
+`Metric.infDist I (R_k)ᶜ` for the sup-norm metric of `Fin 2 → ℝ`. We prove (i) the shells are pairwise
 disjoint Borel sets covering `(0, t_k)²` with `volume R_l = (1 - q²) t_l²`, (ii) the boundary-layer
 estimate `volume (R_k ∖ U_{-a} R_k) ≤ 7 a t_k`, (iii) `R_k ⊆ {|I|_∞ ≥ t_{k+1}}` of diameter `≤ t_k`.
 -/
@@ -36,9 +38,23 @@ def boxIoo (a b : ℝ) : Set (Fin 2 → ℝ) := Set.pi Set.univ fun _ => Set.Ioo
 def shellSet (q t0 : ℝ) (k : ℕ) : Set (Fin 2 → ℝ) :=
   boxIoo 0 (shellT q t0 k) \ boxIoo 0 (shellT q t0 (k + 1))
 
-/-- The inner shell `U_{-a} R_k` (blueprint `bpW:w7:shells`). -/
+/-- The inner shell `U_{-a} R_k = {I ∈ R_k : dist_∞ (I, ℝ² ∖ R_k) > a}` (blueprint
+`bpW:w7:shells`): the distance to the complement is the infimum `Metric.infDist` for the
+sup-norm metric of `Fin 2 → ℝ`. -/
 def shellInner (q t0 : ℝ) (k : ℕ) (a : ℝ) : Set (Fin 2 → ℝ) :=
-  {I | I ∈ shellSet q t0 k ∧ ∀ J, J ∉ shellSet q t0 k → a < dist I J}
+  {I | I ∈ shellSet q t0 k ∧ a < Metric.infDist I (shellSet q t0 k)ᶜ}
+
+/-- Equivalent uniform-margin form of the inner shell: `I ∈ R_k` and some `b > a` bounds the
+distance from `I` to every point of the complement from below. -/
+theorem mem_shellInner_iff {q t0 : ℝ} {k : ℕ} {a : ℝ} {I : Fin 2 → ℝ} :
+    I ∈ shellInner q t0 k a ↔
+      I ∈ shellSet q t0 k ∧ ∃ b, a < b ∧ ∀ J, J ∉ shellSet q t0 k → b ≤ dist I J := by
+  have hne : (shellSet q t0 k)ᶜ.Nonempty := ⟨0, fun h => lt_irrefl (0 : ℝ) (h.1 0 (mem_univ 0)).1⟩
+  constructor
+  · rintro ⟨hI, hd⟩
+    exact ⟨hI, _, hd, fun J hJ => Metric.infDist_le_dist_of_mem hJ⟩
+  · rintro ⟨hI, b, hab, hb⟩
+    exact ⟨hI, lt_of_lt_of_le hab ((Metric.le_infDist hne).2 fun J hJ => hb J hJ)⟩
 
 theorem measurableSet_boxIoo (a b : ℝ) : MeasurableSet (boxIoo a b) :=
   MeasurableSet.univ_pi fun _ => measurableSet_Ioo
@@ -159,26 +175,37 @@ theorem volume_shell_diff_inner_le {q t0 : ℝ} (hq : 0 < q) (hq1 : q < 1) (ht :
   have hspos : 0 < s := shellT_pos hq ht _
   -- the two bad sets
   set A : Set (Fin 2 → ℝ) := boxIoo 0 t \ boxIoo a (t - a) with hA
-  set B : Set (Fin 2 → ℝ) := boxIoo 0 (s + a) \ boxIoo 0 s with hB
+  set B : Set (Fin 2 → ℝ) := Set.pi Set.univ (fun _ => Set.Ioc 0 (s + a)) \ boxIoo 0 s with hB
   have hsub : shellSet q t0 k \ shellInner q t0 k a ⊆ A ∪ B := by
     intro I ⟨hI, hnot⟩
-    have : ∃ J, J ∉ shellSet q t0 k ∧ dist I J ≤ a := by
+    have hle : Metric.infDist I (shellSet q t0 k)ᶜ ≤ a := by
       by_contra hcon
       push Not at hcon
       exact hnot ⟨hI, hcon⟩
-    obtain ⟨J, hJ, hd⟩ := this
+    -- a closed superset of the complement realizes the distance
+    set C : Set (Fin 2 → ℝ) := (boxIoo 0 t)ᶜ ∪ Set.pi Set.univ (fun _ => Set.Icc 0 s) with hC
+    have hCcl : IsClosed C :=
+      (isOpen_set_pi Set.finite_univ fun _ _ => isOpen_Ioo).isClosed_compl.union
+        (isClosed_set_pi fun _ _ => isClosed_Icc)
+    have hne : (shellSet q t0 k)ᶜ.Nonempty :=
+      ⟨0, fun h => lt_irrefl (0 : ℝ) (h.1 0 (mem_univ 0)).1⟩
+    have hsubC : (shellSet q t0 k)ᶜ ⊆ C := by
+      intro J hJ
+      by_cases hJt : J ∈ boxIoo 0 t
+      · right
+        have hJs : J ∈ boxIoo 0 s := by
+          by_contra h; exact hJ ⟨hJt, h⟩
+        intro i _
+        exact ⟨(hJs i (mem_univ i)).1.le, (hJs i (mem_univ i)).2.le⟩
+      · left; exact hJt
+    obtain ⟨J, hJC, hJd⟩ := hCcl.exists_infDist_eq_dist (hne.mono hsubC) I
+    have hd : dist I J ≤ a := by
+      rw [← hJd]
+      exact (Metric.infDist_le_infDist_of_subset hsubC hne).trans hle
     have hcoord : ∀ i, |I i - J i| ≤ a := fun i => by
       have := dist_le_pi_dist I J i
       rw [Real.dist_eq] at this; linarith
-    by_cases hJt : J ∈ boxIoo 0 t
-    · -- then `J ∈ box(s)`
-      have hJs : J ∈ boxIoo 0 s := by
-        by_contra h; exact hJ ⟨hJt, h⟩
-      right
-      refine ⟨fun i _ => ⟨(hI.1 i (mem_univ i)).1, ?_⟩, hI.2⟩
-      have h1 := hcoord i
-      have h2 := (hJs i (mem_univ i)).2
-      rw [abs_le] at h1; linarith [h1.1]
+    rcases hJC with hJt | hJs
     · left
       refine ⟨hI.1, fun hin => hJt ?_⟩
       intro i _
@@ -186,6 +213,11 @@ theorem volume_shell_diff_inner_le {q t0 : ℝ} (hq : 0 < q) (hq1 : q < 1) (ht :
       have h2 := hin i (mem_univ i)
       rw [abs_le] at h1
       constructor <;> linarith [h1.1, h1.2, h2.1, h2.2]
+    · right
+      refine ⟨fun i _ => ⟨(hI.1 i (mem_univ i)).1, ?_⟩, hI.2⟩
+      have h1 := hcoord i
+      have h2 := (hJs i (mem_univ i)).2
+      rw [abs_le] at h1; linarith [h1.1]
   have hAvol : volume A ≤ ENNReal.ofReal (4 * a * t) := by
     have hin : boxIoo a (t - a) ⊆ boxIoo 0 t := boxIoo_subset ha.le (by linarith)
     rw [hA, measure_sdiff hin (measurableSet_boxIoo _ _).nullMeasurableSet (by
@@ -202,11 +234,17 @@ theorem volume_shell_diff_inner_le {q t0 : ℝ} (hq : 0 < q) (hq1 : q < 1) (ht :
       refine ENNReal.ofReal_le_ofReal ?_
       nlinarith
   have hBvol : volume B ≤ ENNReal.ofReal (3 * a * t) := by
-    have hin : boxIoo 0 s ⊆ boxIoo 0 (s + a) := boxIoo_subset le_rfl (by linarith)
+    have hin : boxIoo 0 s ⊆ Set.pi Set.univ (fun _ => Set.Ioc 0 (s + a)) := by
+      intro x hx i _
+      exact ⟨(hx i (mem_univ i)).1, by linarith [(hx i (mem_univ i)).2]⟩
+    have hIoc : volume (Set.pi Set.univ (fun _ : Fin 2 => Set.Ioc (0 : ℝ) (s + a))) =
+        ENNReal.ofReal ((s + a) ^ 2) := by
+      rw [Real.volume_pi_Ioc (a := fun _ => (0 : ℝ)) (b := fun _ => s + a), Fin.prod_univ_two,
+        ← ENNReal.ofReal_mul (by linarith)]
+      congr 1; ring
     rw [hB, measure_sdiff hin (measurableSet_boxIoo _ _).nullMeasurableSet (by
       rw [volume_boxIoo]; exact ENNReal.mul_ne_top ENNReal.ofReal_ne_top ENNReal.ofReal_ne_top)]
-    rw [volume_boxIoo_of_nonneg (by linarith : (0 : ℝ) ≤ s + a),
-      volume_boxIoo_of_nonneg hspos.le, ← ENNReal.ofReal_sub _ (sq_nonneg _)]
+    rw [hIoc, volume_boxIoo_of_nonneg hspos.le, ← ENNReal.ofReal_sub _ (sq_nonneg _)]
     refine ENNReal.ofReal_le_ofReal ?_
     nlinarith
   calc volume (shellSet q t0 k \ shellInner q t0 k a) ≤ volume (A ∪ B) := measure_mono hsub
