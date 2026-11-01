@@ -61,6 +61,10 @@ src (4th, created 05:30 for the third slot).
 
 ## Carried requirements
 
+- **Auditor policy (root-b8, 07:50):** Opus subagents are fine for PAPER-level reviews (the LP3 plan, the freeze-text
+  statement reviews), but every audit that GATES a Lean landing stays on Codex (codex-2; D54/D57). Never land a Lean
+  package on an Opus-only audit; if codex-2 is the bottleneck, queue and tell root-b8.
+
 - **For LP-CONF (MAIN L14), from audit LP-W1B-1 note D1:** `nonresonant_drift_of_chartData` is conditional. L14
   must supply (i) the chart lift `w` of the physical solution (domain `chartSafe`, projection, chart ODE), (ii)
   `lpRescale b.lam (w u) ∈ b.realDom b.rB` along `J` (outer localization), and (iii) the stopped slow membership
