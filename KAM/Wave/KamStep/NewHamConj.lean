@@ -43,10 +43,10 @@ theorem stepWeakConj {γ K0 : ℝ} {Ω : ℕ+ → ℝ} (hG : HomGuard a p γ) (h
     (hF : HomFieldBound_gen ha hp hpb r Mf FT) (hMf0 : 0 < Mf) (hMf : Mf ≤ σ / 1024)
     (a0 : ℂ)
     (heq : ∀ w : KamPhase, w.1 ∈ complexStrip 2 (s - σ) →
-      stepFun ha (homPP hp hpb) T w +
+      waveStepFun ha (homPP hp hpb) T w +
         ((homDN hG hK0 hΩ ω (stepToHom w)).comp stepToHom)
           (kamHomEmbed a p pb hpb (stepField ha hp hpb FT w)) =
-      stepFun ha (homPP hp hpb) (homNhatTaylor_gen T) w + a0)
+      waveStepFun ha (homPP hp hpb) (homNhatTaylor_gen T) w + a0)
     {w : StepPhase r} (hw : w ∈ stepDomain r (s - 5 * σ) (η * r)) (W : StepPhase r) :
     let ι := stepEmbedCLM a p pb hpb r
     let Z := stepFieldS ha hp hpb FT r

@@ -43,10 +43,10 @@ theorem stepNewHam_concrete {γ K0 : ℝ} {Ω : ℕ+ → ℝ} (hG : HomGuard a p
     (a0 : ℂ)
     (hP : DifferentiableOn ℂ (stepPS P r) (stepDomain r (s - σ) r))
     (heq : ∀ w : KamPhase, w.1 ∈ complexStrip 2 (s - σ) →
-      stepFun ha (homPP hp hpb) T w +
+      waveStepFun ha (homPP hp hpb) T w +
         ((homDN hG hK0 hΩ ω (stepToHom w)).comp stepToHom)
           (kamHomEmbed a p pb hpb (stepField ha hp hpb FT w)) =
-      stepFun ha (homPP hp hpb) (homNhatTaylor_gen T) w + a0)
+      waveStepFun ha (homPP hp hpb) (homNhatTaylor_gen T) w + a0)
     {w : StepPhase r} (hw : w ∈ stepDomain r (s - 5 * σ) (η * r)) :
     stepNfun hG hK0 hΩ ω (StepPhase.toK (holoFlow (smoothField (stepEmbedCLM a p pb hpb r)
         (stepFieldS ha hp hpb FT r)) 1 w)) +
@@ -107,8 +107,8 @@ theorem stepNewHam_concrete {γ K0 : ℝ} {Ω : ℕ+ → ℝ} (hG : HomGuard a p
       have h := heq (StepPhase.toK z) (hFθ z hz)
       show ((homDN hG hK0 hΩ ω (stepToHom (StepPhase.toK z))).comp stepToHom)
           (kamHomEmbed a p pb hpb (stepField ha hp hpb FT (StepPhase.toK z))) =
-        stepFun ha (homPP hp hpb) (homNhatTaylor_gen T) (StepPhase.toK z) + a0 -
-          stepFun ha (homPP hp hpb) T (StepPhase.toK z)
+        waveStepFun ha (homPP hp hpb) (homNhatTaylor_gen T) (StepPhase.toK z) + a0 -
+          waveStepFun ha (homPP hp hpb) T (StepPhase.toK z)
       linear_combination h)
     hU (hcont (G := homNhatTaylor_gen T)) (hcont (G := T))
   have hint : (∫ τ in (0 : ℝ)..1, ((1 - τ) • stepSympCLM (q := p) (q' := p) ha (by linarith) r

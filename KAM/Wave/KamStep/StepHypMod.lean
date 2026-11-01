@@ -198,12 +198,12 @@ theorem F_sub : ∀ ξ ∈ Par, ∀ ζ ∈ Par,
 
 theorem equation (ξ : Fin 2 → ℝ) (hξ : ξ ∈ Par) (w : KamPhase)
     (hw : w.1 ∈ complexStrip 2 (s - σ)) :
-    stepFun H.ha (homPP H.hp H.hpb)
+    waveStepFun H.ha (homPP H.hp H.hpb)
         (stepTaylorFam H.ha H.hp H.hpb H.hs H.hr Par P H.X' H.hP' H.hper H.hb' ξ) w +
         ((homDN H.hG (by linarith [H.freq.consts_nonneg.1] : 0 ≤ 1 + M0) (homOmega_le H.freq hξ)
             (ω ξ) (stepToHom w)).comp stepToHom)
           (kamHomEmbed a p pb H.hpb (stepField H.ha H.hp H.hpb (H.FT ξ) w)) =
-      stepFun H.ha (homPP H.hp H.hpb) (homNhatTaylor_gen
+      waveStepFun H.ha (homPP H.hp H.hpb) (homNhatTaylor_gen
           (stepTaylorFam H.ha H.hp H.hpb H.hs H.hr Par P H.X' H.hP' H.hper H.hb' ξ)) w +
         homCoeff (stepTaylorFam H.ha H.hp H.hpb H.hs H.hr Par P H.X' H.hP' H.hper H.hb' ξ).a0 0 :=
           by
@@ -227,7 +227,7 @@ theorem equation (ξ : Fin 2 → ℝ) (hξ : ξ ∈ Par) (w : KamPhase)
   exact key
 
 /-- A `StepHypMod` is a `StepCore` for `(P, D_ρ ∘ X)`. -/
-theorem core : StepCore a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ (stepM₀ τ σ α ε₀)
+protected theorem core : StepCore a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ (stepM₀ τ σ α ε₀)
     (stepM₁n τ σ α ε₀ ε₁ Mω MΩ) (stepCFn τ) (stepTn τ) Par ω Ω P H.X' H.FT where
   ha := H.ha
   hp := H.hp

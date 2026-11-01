@@ -41,7 +41,7 @@ structure StepCtx (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (σ s : ℝ)
       stepSympCLM (q := p) (q' := p) ha (by linarith) r x
         (fderiv ℂ (smoothField (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb FT r)) z y) = 0
 
-theorem StepCtx.mk' (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 < σ) (hσ1 : σ ≤ 1)
+protected theorem StepCtx.mk' (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 < σ) (hσ1 : σ ≤ 1)
     (hσs : 2 * σ < s) {FT : HomTaylor_gen a p pb (s - σ)}
     (hF : HomFieldBound_gen ha hp hpb r M FT) (hM0 : 0 < M) (hMδ : M < σ / 4) :
     StepCtx ha hp hpb σ s FT M r := by

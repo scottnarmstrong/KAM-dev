@@ -21,7 +21,7 @@ For `(P, X) ∈ 𝒮_{p+1}(D(s,r))` the element `T = stepTaylorOf …` of `𝒯_
 `T' = stepTaylorOf …` of the pair `(P, D_ρ ∘ X) ∈ 𝒮_{p₊}` are related by `T' = D_ρ T` on the strip
 (componentwise). Consequences, used to transfer the homological equation of `bpW:w5:w4-modified`
 (which is stated for `T`) to `T'`:
-* `stepFun_taylorRho`: `stepFun T' w = stepFun T w` for `θ ∈ T_s`;
+* `stepFun_taylorRho`: `waveStepFun T' w = waveStepFun T w` for `θ ∈ T_s`;
 * `stepFun_nhat_taylorRho`: the same for `N̂`;
 * `homNhat_taylorRho`: `N̂` of `T'` and of `T` agree.
 -/
@@ -171,8 +171,8 @@ theorem stepTaylorRho_a0 : (stepTaylorRho ha hp hpb hc hs hr hP hper hb).a0 =
 
 /-- **`T' = D_ρ T` on the strip.** -/
 theorem stepFun_taylorRho {w : KamPhase} (hw : w.1 ∈ complexStrip 2 s) :
-    stepFun ha (homPP hp hpb) (stepTaylorRho ha hp hpb hc hs hr hP hper hb) w =
-      stepFun ha (homPP hp (homModPP1 p)) (stepTaylorP1 ha hp hs hr hP hper hb) w := by
+    waveStepFun ha (homPP hp hpb) (stepTaylorRho ha hp hpb hc hs hr hP hper hb) w =
+      waveStepFun ha (homPP hp (homModPP1 p)) (stepTaylorP1 ha hp hs hr hP hper hb) w := by
   have hh := hP.holoX
   have e1 : (stepTaylorRho ha hp hpb hc hs hr hP hper hb).cp w.1 =
       homModRho a p pb hc ((stepTaylorP1 ha hp hs hr hP hper hb).cp w.1) :=
@@ -189,7 +189,7 @@ theorem stepFun_taylorRho {w : KamPhase} (hw : w.1 ∈ complexStrip 2 s) :
   have e5 : (stepTaylorRho ha hp hpb hc hs hr hP hper hb).P' w.1 =
       (homModRho a p pb hc).comp ((stepTaylorP1 ha hp hs hr hP hper hb).P' w.1) :=
     tP'_rhoK hr hh hc hw
-  unfold stepFun
+  unfold waveStepFun
   rw [e1, e2, e3, e4, e5]
   simp only [ContinuousLinearMap.comp_apply, stepPr_rho ha hp hpb hc]
   rfl
@@ -207,8 +207,9 @@ theorem homNhat_taylorRho (y : Fin 2 → ℂ) (z zb : HomL2) :
   rfl
 
 theorem stepFun_nhat_taylorRho (w : KamPhase) :
-    stepFun ha (homPP hp hpb) (homNhatTaylor_gen (stepTaylorRho ha hp hpb hc hs hr hP hper hb)) w =
-      stepFun ha (homPP hp (homModPP1 p))
+    waveStepFun ha (homPP hp hpb)
+      (homNhatTaylor_gen (stepTaylorRho ha hp hpb hc hs hr hP hper hb)) w =
+      waveStepFun ha (homPP hp (homModPP1 p))
         (homNhatTaylor_gen (stepTaylorP1 ha hp hs hr hP hper hb)) w := by
   rw [stepFun_eq_homRval ha hp hpb, stepFun_eq_homRval ha hp (homModPP1 p),
     homNhatTaylor_val_gen, homNhatTaylor_val_gen, homNhat_taylorRho]

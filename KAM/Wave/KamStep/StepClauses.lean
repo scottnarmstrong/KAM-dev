@@ -94,7 +94,7 @@ theorem freq_sup {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) : ‖H.omegaPlus ξ - �
   linarith
 
 /-- The Lipschitz part: `|(ω_+-ω)(ξ) - (ω_+-ω)(ζ)| ≤ 6π ε₁ |ξ-ζ|`. -/
-theorem freq_lip {ξ ζ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (hζ : ζ ∈ Par) :
+protected theorem freq_lip {ξ ζ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (hζ : ζ ∈ Par) :
     ‖(H.omegaPlus ξ - ω ξ) - (H.omegaPlus ζ - ω ζ)‖ ≤ 6 * Real.pi * ε₁ * ‖ξ - ζ‖ := by
   rw [H.omegaPlus_sub, H.omegaPlus_sub, stepOmegaHat_sub H.hs]
   have := stepOmegaHat_bound H.ha H.hp H.hpb H.hr H.hs _ (H.R_sub ξ hξ ζ hζ)
@@ -129,7 +129,7 @@ theorem freq_hyp (hl : 0 < lam) :
     rw [le_div_iff₀ hl]; nlinarith
 
 /-- **The divisors after the step** (`bpW:w5:step` (iv)). -/
-theorem divisors (hH : HomMelnikov τ α Par ω Ω) {K α' : ℝ} (hK : 1 ≤ K)
+protected theorem divisors (hH : HomMelnikov τ α Par ω Ω) {K α' : ℝ} (hK : 1 ≤ K)
     (hα' : 6 * Real.pi * (1 + K) * (1 + K ^ τ) * ε ≤ α - α') {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par)
     {k : Fin 2 → ℤ} {l : ℕ+ →₀ ℤ} (hkl : (k, l) ∈ homZ) (hkK : Fourier.modeSize k ≤ K) :
     α' * (homJap l : ℝ) / waveA τ k ≤

@@ -22,7 +22,7 @@ The premise `ε₀ > 0` of the conditional helpers (`stepTheorem_of_eps0_pos`,
 conjunctions of a sup bound and a Lipschitz bound with total `≤ (constant)·ε`. They are derived from
 the helpers for the splitting `(ε₀*, ε₁*)` = `(ε₀, ε₁)` if `ε₀ > 0` and `(ε, 0)` if `ε₀ = 0`
 (then `X_P ≡ 0` on `D(s,r)`), which satisfies `ε₀* + λ ε₁* ≤ ε`. The objects `Φ`, `P_+`, ...
-are those of `H.hyp`, the `StepHyp` for this splitting; they do not depend on the splitting.
+are those of `H.hyp`, the `WaveStepHyp` for this splitting; they do not depend on the splitting.
 Clause (iv) is conditional on `HomMelnikov` (blueprint: "whenever the same holds with `α`").
 -/
 
@@ -165,8 +165,9 @@ theorem split_spec : 0 < (stepE0 ε ε₀) ∧ 0 ≤ (stepE1 ε₀ ε₁) ∧ (s
       kamNorm r (X ξ z - X ζ z) ≤ (stepE1 ε₀ ε₁) * ‖ξ - ζ‖) :=
   eps_split_spec H.hr H.hεpos H.hε₀ H.hε₁ H.hlam0 H.hb H.hdiff H.hε
 
-/-- The `StepHyp` for the splitting `(ε₀*, ε₁*)`. -/
-theorem hyp : StepHyp a p pb s r σ η τ α lam ε (stepE0 ε ε₀) (stepE1 ε₀ ε₁) γ M0 Mω MΩ Par ω Ω P X
+/-- The `WaveStepHyp` for the splitting `(ε₀*, ε₁*)`. -/
+theorem hyp :
+    WaveStepHyp a p pb s r σ η τ α lam ε (stepE0 ε ε₀) (stepE1 ε₀ ε₁) γ M0 Mω MΩ Par ω Ω P X
   :=
   let sp := H.split_spec
   { ha := H.ha
@@ -279,7 +280,7 @@ theorem stepTheorem (H : StepHypSrc a p pb s r σ η τ α lam ε ε₀ ε₁ γ
         ‖fderiv ℂ (H.hyp.core.Phi ξ) w - ContinuousLinearMap.id ℂ _‖ ≤ B₀ ∧
         ‖fderiv ℂ (H.hyp.core.Phi ξ) w - fderiv ℂ (H.hyp.core.Phi ζ) w‖ ≤ B₁ * ‖ξ - ζ‖) := by
   have h := stepTheorem_of_eps0_pos H.hyp
-  unfold StepHyp.Conclusion at h
+  unfold WaveStepHyp.Conclusion at h
   obtain ⟨c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14⟩ := h
   obtain ⟨he0, he1, hsum, -, -⟩ := H.split_spec
   have hM0 := H.hyp.M₀_pos.le

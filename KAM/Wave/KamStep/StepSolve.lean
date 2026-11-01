@@ -185,7 +185,8 @@ variable {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 → ℝ} {�
 
 theorem stepFun_eq_homRval (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : HomTaylor_gen a p pb s)
     (w : KamPhase) :
-    stepFun ha (homPP hp hpb) T w = homRval_gen ha hp hpb T w.1 w.2.1 (stepZ w) (stepZb w) := rfl
+    waveStepFun ha (homPP hp hpb) T w =
+      homRval_gen ha hp hpb T w.1 w.2.1 (stepZ w) (stepZb w) := rfl
 
 /-- **The homological equation on `KamPhase`** (`bpW:w5:solve`, `R + DN·X_F = N̂ + â₀`, from W4
 `homLemma1_equation_all_gen` and `bpW:w4:lie` (iv)): at every `w` with `θ ∈ T_{s-σ}`,
@@ -196,12 +197,12 @@ theorem stepSolve_equation (h : HomFreqHyp Par ω Ω M0 Mω MΩ) (hH : HomMelnik
     {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (R : HomTaylor_gen a p pb s)
     (hX : HomFieldBound_gen ha hp hpb r ε R) {w : KamPhase}
     (hw : w.1 ∈ complexStrip 2 (s - σ)) :
-    stepFun ha (homPP hp hpb) R w +
+    waveStepFun ha (homPP hp hpb) R w +
         ((homDN hG (by linarith [h.consts_nonneg.1] : 0 ≤ 1 + M0) (homOmega_le h hξ) (ω ξ)
             (stepToHom w)).comp stepToHom)
           (kamHomEmbed a p pb hpb (stepField ha hp hpb
             (homSolveTaylor_gen hτ hα hσ hσs (homMultBounds_of h hα hH hξ) R) w)) =
-      stepFun ha (homPP hp hpb) (homNhatTaylor_gen R) w + homCoeff R.a0 0 := by
+      waveStepFun ha (homPP hp hpb) (homNhatTaylor_gen R) w + homCoeff R.a0 0 := by
   rw [stepNfun_lie hG (by linarith [h.consts_nonneg.1] : 0 ≤ 1 + M0) (homOmega_le h hξ) (ω ξ)
     ha hp hpb]
   have heq := homLemma1_equation_all_gen h hH ha hp hpb hp1 hr hτ hα hσ hσs hξ R hX hw w.2.1
@@ -250,12 +251,12 @@ theorem stepSymp_comm_weights {a q q' : ℝ} (ha : 0 ≤ a) (h : 0 ≤ q + q') (
   unfold stepSymp
   rw [e2, e2]
 
-/-- **`stepFun T ∈ 𝒮_{p_+}(D(s',r))`** with field `stepField T` (`bpW:w5:solve` step `s-class`,
+/-- **`waveStepFun T ∈ 𝒮_{p_+}(D(s',r))`** with field `stepField T` (`bpW:w5:solve` step `s-class`,
 `bpW:w5:class`): the polynomial of a Taylor Hamiltonian is a smoothing Hamiltonian. -/
 theorem stepFun_isSmoothing (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : HomTaylor_gen a p pb s)
     {s' r : ℝ} (hs' : s' ≤ s) :
     IsSmoothing (p := p) ha (by linarith : 0 ≤ pb + p) (kamDomain s' r)
-      (stepFun ha (homPP hp hpb) T) (stepField ha hp hpb T) := by
+      (waveStepFun ha (homPP hp hpb) T) (stepField ha hp hpb T) := by
   have hmem : ∀ w ∈ kamDomain s' r, w.1 ∈ complexStrip 2 s := fun w hw i => (hw.1 i).trans_le hs'
   refine ⟨fun w hw => ?_, fun w hw => ?_, fun w hw W => ?_⟩
   · obtain ⟨D, hD, -⟩ := stepFun_field ha hp hpb T (hmem w hw)

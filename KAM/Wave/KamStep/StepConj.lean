@@ -47,7 +47,7 @@ def omegaPlus (ξ : Fin 2 → ℝ) : Fin 2 → ℝ := fun k => ω ξ k + stepOme
 def OmegaPlus (ξ : Fin 2 → ℝ) : ℕ+ → ℝ := fun j => Ω ξ j + stepOmegaTail (H.R ξ) j
 
 /-- `â₀(ξ)`. -/
-def a0 (ξ : Fin 2 → ℝ) : ℂ := homCoeff (H.R ξ).a0 0
+protected def a0 (ξ : Fin 2 → ℝ) : ℂ := homCoeff (H.R ξ).a0 0
 
 variable [Fact (0 < r)]
 
@@ -73,7 +73,7 @@ theorem ε₀_le : ε₀ ≤ ε := by
   have := mul_nonneg H.hlam0 H.hε₁
   linarith [H.hε]
 
-theorem tail_bound {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (j : ℕ+) :
+protected theorem tail_bound {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (j : ℕ+) :
     |stepOmegaTail (H.R ξ) j| ≤ 3 * ε₀ * ((j : ℝ) + 2) := by
   have h := stepOmegaTail_bound H.ha H.hp H.hpb H.hr H.hs (H.R ξ) (H.R_field ξ hξ) j
   have hj : (1 : ℝ) ≤ (j : ℝ) + 2 := by
@@ -106,7 +106,7 @@ theorem mf_le_sigma : M₀ ≤ σ / 1024 := by
 
 theorem nplus_eq {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (w : KamPhase) :
     stepNfun H.hG H.hK0 (homOmega_le H.freq hξ) (ω ξ) w +
-        stepFun H.ha (homPP H.hp H.hpb) (homNhatTaylor_gen (H.R ξ)) w =
+        waveStepFun H.ha (homPP H.hp H.hpb) (homNhatTaylor_gen (H.R ξ)) w =
       stepNfun H.hG H.hKp (Ω := H.OmegaPlus ξ) (H.omegaPlus_bound hξ) (H.omegaPlus ξ) w := by
   have hb : ∀ k, (homCoeff (H.R ξ).b 0 k).im = 0 := by
     rw [H.R_eq hξ]
@@ -120,7 +120,7 @@ theorem nplus_eq {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (w : KamPhase) :
     H.hKp H.ha H.hp H.hpb (H.R ξ) (homOmega_le H.freq hξ)
     (fun j => by simpa using H.tail_bound hξ j) (H.omegaPlus_bound hξ) (ω ξ) hb hQ w
 
-theorem conj_eq {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {w : StepPhase r}
+protected theorem conj_eq {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {w : StepPhase r}
     (hw : w ∈ stepDomain r (s - 5 * σ) (η * r)) :
     stepNfun H.hG H.hK0 (homOmega_le H.freq hξ) (ω ξ) (StepPhase.toK (H.Phi ξ w)) +
         P ξ (StepPhase.toK (H.Phi ξ w)) =

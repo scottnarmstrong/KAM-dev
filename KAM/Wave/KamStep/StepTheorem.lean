@@ -15,9 +15,10 @@ import Mathlib.Tactic.Positivity
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
-`stepTheorem`: under `StepHyp` (step data and the smallness condition) there are the objects
-`Φ = StepHyp.Phi`, `P_+ = StepHyp.Pplus`, `X_+ = StepHyp.Xplus`, `ω_+ = StepHyp.omegaPlus`,
-`Ω_+ = StepHyp.OmegaPlus`, `â₀ = StepHyp.a0` with the clauses
+`stepTheorem`: under `WaveStepHyp` (step data and the smallness condition) there are the objects
+`Φ = WaveStepHyp.Phi`, `P_+ = WaveStepHyp.Pplus`, `X_+ = WaveStepHyp.Xplus`,
+`ω_+ = WaveStepHyp.omegaPlus`,
+`Ω_+ = WaveStepHyp.OmegaPlus`, `â₀ = WaveStepHyp.a0` with the clauses
 
 * (i) `Φ(D_+) ⊆ D(s-4σ, 2ηr)`, `H∘Φ = N_+ + P_+ + â₀`, the weak conjugacy in derivative form,
   symplecticity of `Φ`, `Φ(w + τ_k) = Φ(w) + τ_k`;
@@ -118,12 +119,12 @@ theorem stepTheoremCore (H : StepCore a p pb s r σ η τ α lam ε ε₀ ε₁ 
     fun ξ hξ ζ hζ w hw => H.flow_pair hξ hζ hw⟩
 
 
-namespace StepHyp
+namespace WaveStepHyp
 
 /-- The clauses of **one KAM step** (`bpW:w5:step`), non-modified case, conditional helper: it
   assumes `0 < ε₀`, which is not
 a premise of the blueprint (see `stepTheorem`). -/
-def Conclusion (H : StepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
+def Conclusion (H : WaveStepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
     [Fact (0 < r)] : Prop :=    -- (i)
     (∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r),
       StepPhase.toK (H.core.Phi ξ w) ∈ kamDomain (s - 4 * σ) (2 * η * r)) ∧
@@ -188,10 +189,11 @@ def Conclusion (H : StepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω 
       ‖fderiv ℂ (H.core.Phi ξ) w - fderiv ℂ (H.core.Phi ζ) w‖ ≤
         16 * (stepM₁ τ σ α ε₀ ε₁ Mω MΩ * ‖ξ - ζ‖) / σ)
 
-end StepHyp
+end WaveStepHyp
 
 /-- Conditional helper (`0 < ε₀`). -/
-theorem stepTheorem_of_eps0_pos (H : StepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
+theorem stepTheorem_of_eps0_pos
+    (H : WaveStepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
     [Fact (0 < r)] : H.Conclusion :=
   stepTheoremCore H.core
 

@@ -20,7 +20,7 @@ divisor hypothesis (`HomMelnikov` / `HomMelnikovMod`) and the supplier of the so
 abstracted away. The data are a smoothing family `(P, X)` at the exponent `p_+` (`pb`), the family
 `F = FT` of solutions of the homological equation with its field bounds `M₀`, `M₁` and the
 equation `R + DN·X_F = N̂ + â₀` for `R = stepTaylorFam`, and the constants `cF`, `tF` of the
-smallness condition. The non-modified case (`StepHyp`) and the modified case (`StepHypMod`) each
+smallness condition. The non-modified case (`WaveStepHyp`) and the modified case (`StepHypMod`) each
 construct a `StepCore`.
 -/
 
@@ -112,11 +112,11 @@ structure StepCore (a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ M₀
   F_sub : ∀ ξ ∈ Par, ∀ ζ ∈ Par,
     HomFieldBound_gen ha hp hpb r (M₁ * ‖ξ - ζ‖) ((FT ξ).homSub (FT ζ))
   equation : ∀ ξ (hξ : ξ ∈ Par), ∀ w : KamPhase, w.1 ∈ complexStrip 2 (s - σ) →
-    stepFun ha (homPP hp hpb) (stepTaylorFam ha hp hpb hs hr Par P X hP hper hb ξ) w +
+    waveStepFun ha (homPP hp hpb) (stepTaylorFam ha hp hpb hs hr Par P X hP hper hb ξ) w +
         ((homDN hG (by linarith [freq.consts_nonneg.1] : 0 ≤ 1 + M0) (homOmega_le freq hξ) (ω ξ)
             (stepToHom w)).comp stepToHom)
           (kamHomEmbed a p pb hpb (stepField ha hp hpb (FT ξ) w)) =
-      stepFun ha (homPP hp hpb)
+      waveStepFun ha (homPP hp hpb)
           (homNhatTaylor_gen (stepTaylorFam ha hp hpb hs hr Par P X hP hper hb ξ)) w +
         homCoeff (stepTaylorFam ha hp hpb hs hr Par P X hP hper hb ξ).a0 0
 
@@ -143,7 +143,7 @@ theorem mf_small : stepMF cF tF α σ ε ≤ σ * η ^ 2 / 16 :=
   stepMF_le_of_small H.hc H.hα H.hσ H.small
 
 /-- The Taylor family `R_ξ`. -/
-def R : (Fin 2 → ℝ) → HomTaylor_gen a p pb s :=
+protected def R : (Fin 2 → ℝ) → HomTaylor_gen a p pb s :=
   stepTaylorFam H.ha H.hp H.hpb H.hs H.hr Par P X H.hP H.hper H.hb
 
 theorem R_eq {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) :

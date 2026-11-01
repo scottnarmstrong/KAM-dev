@@ -54,7 +54,7 @@ theorem homPartial_apply_comp {f : (Fin 2 → ℂ) → (Fin 2 → ℂ)} {θ : Fi
 
 theorem stepFun_hasFDerivAt (ha : 0 ≤ a) (hpp : 0 ≤ p + pb) (T : HomTaylor_gen a p pb s)
     {w : KamPhase} (hw : w.1 ∈ KAM.complexStrip 2 s) :
-    ∃ D : KamPhase →L[ℂ] ℂ, HasFDerivAt (stepFun ha hpp T) D w ∧ ∀ W : KamPhase,
+    ∃ D : KamPhase →L[ℂ] ℂ, HasFDerivAt (waveStepFun ha hpp T) D w ∧ ∀ W : KamPhase,
       D W = ∑ i, W.1 i * homPartial i T.a0 w.1
         + ∑ k, (∑ i, W.1 i * homPartial i T.b w.1 k * w.2.1 k + T.b w.1 k * W.2.1 k)
         + (∑ i, W.1 i * stepPr ha hpp (homPartial i T.cp w.1) (stepZ w)

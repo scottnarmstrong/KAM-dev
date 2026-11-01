@@ -64,20 +64,20 @@ theorem hasDerivAt_taylorRv {P : KamPhase → ℂ} {V : Set KamPhase} (hV : IsOp
   have han := analyticOnNhd_of_differentiableOn_banach hSo hdiff
   have key := hasDerivAt_taylorSum_param hSo han h0
   have eRv : (fun ε : ℂ => taylorRv P (w + ε • W')) = fun ε : ℂ => ∑ k ∈ Finset.range 3,
-      taylorCoeff (fun t : ℂ => Φ (t • e0 + ε • e1)) k := by
+      taylorCoeff (fun t : ℂ => Φ (t • e0 + ε • tcE1)) k := by
     funext ε
     unfold taylorRv
     refine Finset.sum_congr rfl fun k _ => ?_
     congr 1
     funext t
-    simp [hΦ, scaleS_add_smul, e0, e1, Pi.single_apply]
+    simp [hΦ, scaleS_add_smul, e0, tcE1, Pi.single_apply]
   rw [eRv]
   refine key.congr_deriv (Finset.sum_congr rfl fun k _ => ?_)
   refine taylorCoeff_congr_eventually ?_ k
   have hin : ∀ᶠ t in 𝓝 (0 : ℂ), t • e0 ∈ S := line0_eventually_mem hSo h0
   filter_upwards [hin] with t ht
   have hz : scaleS t w ∈ V := by simpa [hS, e0, Pi.single_apply] using ht
-  have h1 := hasDerivAt_line (G := Φ) (q := t • e0) (v := e1) (t := 0)
+  have h1 := taylorHasDerivAt_line (G := Φ) (q := t • e0) (v := tcE1) (t := 0)
     (by simpa using (han _ ht).differentiableAt)
   have h2 : HasDerivAt (fun ε : ℂ => P (scaleS t w + ε • scaleS t W'))
       (fderiv ℂ P (scaleS t w) (scaleS t W')) 0 := by
@@ -86,9 +86,9 @@ theorem hasDerivAt_taylorRv {P : KamPhase → ℂ} {V : Set KamPhase} (hV : IsOp
     have hP' : HasFDerivAt P (fderiv ℂ P (scaleS t w)) (scaleS t w + (0 : ℂ) • scaleS t W') := by
       simpa using (hP.differentiableAt (hV.mem_nhds hz)).hasFDerivAt
     exact hP'.comp_hasDerivAt 0 hl
-  have eΦ : (fun ε : ℂ => Φ (t • e0 + ε • e1)) =
+  have eΦ : (fun ε : ℂ => Φ (t • e0 + ε • tcE1)) =
       fun ε : ℂ => P (scaleS t w + ε • scaleS t W') := by
-    funext ε; simp [hΦ, e0, e1, Pi.single_apply]
+    funext ε; simp [hΦ, e0, tcE1, Pi.single_apply]
   rw [eΦ] at h1
   simpa using h1.unique h2
 
