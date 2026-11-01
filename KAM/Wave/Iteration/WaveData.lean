@@ -128,7 +128,8 @@ theorem w6QP_le (hα : 0 < α) (hα0 : α ≤ measAlpha0 m hm) (hεγ : ε ≤ w
 
 theorem w6EtaP_le_inv (hα : 0 < α) (hα0 : α ≤ measAlpha0 m hm) (hε : 0 < ε)
     (hεγ : ε ≤ w6Gamma m hm * α) : w6EtaP α ε ≤ w6C0n⁻¹ := by
-  have h := Real.rpow_le_rpow (w6QP_pos hα hε).le (w6QP_le hα hα0 hεγ) (by norm_num : (0 : ℝ) ≤ 1 / 3)
+  have h := Real.rpow_le_rpow (w6QP_pos hα hε).le (w6QP_le hα hα0 hεγ)
+    (by norm_num : (0 : ℝ) ≤ 1 / 3)
   have hc := w6C0n_pos
   rw [← Real.rpow_natCast, ← Real.rpow_mul (inv_nonneg.2 hc.le)] at h
   norm_num at h
@@ -281,7 +282,8 @@ theorem w6WaveSeq_small (hα : 0 < α) (hα0 : α ≤ measAlpha0 m hm) {r ε₀ 
 
 /-- `ε^♭_0/α̌ = 2 C^♮_2 σ_P^{-t^♮/3} (ε/α)^{4/3}`. -/
 theorem w6EpsFlat_div (hα : 0 < α) (hε : 0 ≤ ε) :
-    w6EpsFlat α ε / alphaCheck α = 2 * w6C2n * w6SigmaP ^ (-(w6Tn / 3)) * (ε / α) ^ (4 / 3 : ℝ) := by
+    w6EpsFlat α ε / alphaCheck α =
+      2 * w6C2n * w6SigmaP ^ (-(w6Tn / 3)) * (ε / α) ^ (4 / 3 : ℝ) := by
   rw [w6EpsFlat_eq' hα, ← alpha_rpow_identity hα, Real.div_rpow hε hα.le]
   have h1 := Real.rpow_pos_of_pos hα (4 / 3 : ℝ)
   have h2 := Real.rpow_pos_of_pos (alphaHat_pos hα) (-(1 / 3 : ℝ))

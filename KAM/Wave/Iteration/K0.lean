@@ -26,7 +26,8 @@ Definition `bpW:w6:sequences` with `ε₀ ≤ γ₀ α₀ σ₀^t`, sets `Π_0 �
 whose increments `sup_j (j+2)^{1/2} |Ω_{μ+1,j} - Ω_{μ,j}| ≤ 3ε_μ` on `Π_μ` hold at the earlier
 stages `μ < ν` (the bound of the iterative lemma at those stages), and
 `|⟨l, Ω_0⟩| ≥ 2β₀⟨l⟩` (`l ∈ Λ`) on `Π_0` with `β₀ ≥ α₀`, `8ε₀ ≤ β₀`: the Melnikov condition
-with `k = 0` holds at stage `ν` on `Π_ν`, and `sup_j (j+2)^{1/2}|Ω_{ν,j} - Ω_{0,j}| ≤ ∑_{μ<ν} 3ε_μ ≤ 4ε₀`.
+with `k = 0` holds at stage `ν` on `Π_ν`, and
+`sup_j (j+2)^{1/2}|Ω_{ν,j} - Ω_{0,j}| ≤ ∑_{μ<ν} 3ε_μ ≤ 4ε₀`.
 The increments are hypotheses about the earlier stages only; nothing about stage `ν` is assumed.
 -/
 

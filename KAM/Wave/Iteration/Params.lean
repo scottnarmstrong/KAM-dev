@@ -111,8 +111,8 @@ theorem continuousOn_w6ZoneFun {D : Set (Fin 2 → ℝ)} {w : (Fin 2 → ℝ) �
   · unfold linF Finsupp.sum
     exact continuousOn_finsetSum _ fun j _ => continuousOn_const.mul (hW j)
 
-/-- **Borel** (blueprint `bpW:w6:convergence` (i)): if `Π_{-1}` is Borel and the `ω_ν`, `Ω_{ν,j}` are
-continuous on `Π_{ν-1}`, every `Π_ν` and `Π_*` are Borel. -/
+/-- **Borel** (blueprint `bpW:w6:convergence` (i)): if `Π_{-1}` is Borel and the `ω_ν`,
+`Ω_{ν,j}` are continuous on `Π_{ν-1}`, every `Π_ν` and `Π_*` are Borel. -/
 theorem w6PiSeq_measurableSet (hP0 : MeasurableSet P0)
     (hω : ∀ ν, ContinuousOn (ω ν) (w6PiSeq P0 ω Ω a Kp ν))
     (hΩ : ∀ ν j, ContinuousOn (fun ξ => Ω ν ξ j) (w6PiSeq P0 ω Ω a Kp ν)) :
@@ -150,8 +150,8 @@ theorem zoneSet_mono_level {D : Set (Fin 2 → ℝ)} {w : (Fin 2 → ℝ) → Fi
 
 /-- **Exclusion** (blueprint `bpW:w6:exclusion`), for the parameter sets built from an admissible
 family `F` for `(Π, α)` (W7's `AdmissibleFamily`): if `D_ν = Π_{ν-1}` is the set obtained from
-`Π_{-1} = Π ∖ Ξ` by removing the zones of `(F.ω ν, F.Ω ν)` with `|k| > K_{ν-1}` (`F.Kprev`) at levels
-`a ν ≤ α̌`, then `Π ∖ Π_* ⊆ ℰ`. -/
+`Π_{-1} = Π ∖ Ξ` by removing the zones of `(F.ω ν, F.Ω ν)` with `|k| > K_{ν-1}` (`F.Kprev`) at
+levels `a ν ≤ α̌`, then `Π ∖ Π_* ⊆ ℰ`. -/
 theorem w6_exclusion (m : ℝ) (hm : 0 < m) {Pi : Set (Fin 2 → ℝ)} {α : ℝ}
     (F : AdmissibleFamily m hm Pi α) (a : ℕ → ℝ) (ha : ∀ ν, a ν ≤ alphaCheck α)
     (hD : ∀ ν, F.D ν = w6PiSeq (Pi \ prepSet m hm Pi α) F.ω F.Ω a (F.Kprev m hm) ν) :

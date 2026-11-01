@@ -10,7 +10,7 @@ public import KAM.Wave.Measure.Coords
 import Mathlib.Topology.Algebra.Order.LiminfLimsup
 
 /-!
-# W6: passing frequency bounds to the limit (blueprint `bpW:w6:convergence` (ii), `bpW:w6:final-freq`)
+# W6: frequency bounds in the limit (`bpW:w6:convergence` (ii), `bpW:w6:final-freq`)
 
 Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
 still being built. Blueprint labels `bpW:w6:convergence` (step `c-freq`, the limit of the divisor

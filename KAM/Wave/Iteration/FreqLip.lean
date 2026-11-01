@@ -72,7 +72,8 @@ theorem w6_lipcoef_omega {α ε ε₀ : ℝ} (hα : 0 < α) (hα0 : α ≤ measA
   have hg1 : w6Gamma m hm ≤ g := le_max_left _ _
   have hg2 : w6Gamma1 m hm ≤ g := le_max_right _ _
   have e1 : 6 * π * ε / (α / w6M m hm) = 6 * π * w6M m hm * (ε / α) := by field_simp
-  have e2 : 64 * π * ε₀ / (alphaCheck α / w6M0 m hm) = 128 * π * w6M m hm * (ε₀ / alphaCheck α) := by
+  have e2 : 64 * π * ε₀ / (alphaCheck α / w6M0 m hm) =
+      128 * π * w6M m hm * (ε₀ / alphaCheck α) := by
     unfold w6M0; field_simp; ring
   have b1 : ε / α ≤ g := by rw [div_le_iff₀ hα]; nlinarith
   have b2 : ε₀ / alphaCheck α ≤ g := by rw [div_le_iff₀ hc0]; nlinarith
@@ -188,7 +189,8 @@ theorem w6IsFreqPair_of_bounds {Pi D : Set (Fin 2 → ℝ)} {α ε ε₀ : ℝ}
       apply rpow_half_mul_le
       exact w6_le_div_mul_of_mul_le hlam0 (by linarith [hΩL ξ hξ ζ hζ j])
     -- shift part: `≤ (3ε/λ) J^{-1} |ξ-ζ| ≤ (3ε/λ) J^{-1/2} |ξ-ζ|`
-    have h2 : |Ωh ξ j - Ωh ζ j| ≤ 3 * ε / (α / w6M m hm) * ‖ξ - ζ‖ * normLab j ^ (-(1 / 2 : ℝ)) := by
+    have h2 : |Ωh ξ j - Ωh ζ j| ≤
+        3 * ε / (α / w6M m hm) * ‖ξ - ζ‖ * normLab j ^ (-(1 / 2 : ℝ)) := by
       have h := w6_le_div_mul_of_mul_le hlam (hΩhL ξ hξ ζ hζ j)
       have h' : |Ωh ξ j - Ωh ζ j| ≤ 3 * ε / (α / w6M m hm) * ‖ξ - ζ‖ * (normLab j)⁻¹ := by
         rw [show 3 * ε / (α / w6M m hm) * ‖ξ - ζ‖ * (normLab j)⁻¹ =
