@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-01 10:49 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 95 % · track LP 90 %** · frozen statements proved: 27 / 31 · **480,990 lines of hand-written Lean** of an estimated ≈ 491,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-01 10:50 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 95 % · track LP 90 %** · frozen statements proved: 27 / 31 · **480,990 lines of hand-written Lean** of an estimated ≈ 491,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -295,7 +295,7 @@ Overall, everything together: 94.4 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 10:49 UTC from `main` at `fcaad50f` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 10:50 UTC from `main` at `30f216ac` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -502,18 +502,19 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:workers -->
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
-| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
-| **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
+| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | 🔄 working | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
+| **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | 🔄 working | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | 🔄 working | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA lock_mlane: dry-run schedule (LOCK_DRY=1) and missing-source report | `inp-lockdata` | 55 (vs `inp`) |
-| **lp** `inp-mprov-lp` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP: dedicated seal audit brief (D62; draft 7 only; option C) | `inp-lp` | 14 (vs `inp`) |
+| **lp** `inp-mprov-lp` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP: seal audit brief for the one-pass freeze+seal | `inp-lp` | 15 (vs `inp`) |
 | **lp-freeze** `inp-mprov-lp-freeze` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP seal S0: merge the approved draft 7 r1 (inp-lp-freeze7 @ de343000, D62) | `inp-lp-freeze` | 23 (vs `inp`) |
 | **lp-freeze7** `inp-mprov-lp-freeze7` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP-FREEZE7R: audit 7-2 notes R1-R3 applied | `inp-lp-freeze7` | 9 (vs `inp`) |
 | **lp-freeze8** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP-FREEZE7R part C: WIP | `inp-lp-freeze8` | 12 (vs `inp`) |
 | **lp-fz7r-audit** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP: draft-7 r1 delta statement audit 2 (codex-2): PASS WITH NOTES (BLOCKING 0; R1-R3 small | `inp-lp-fz7r-audit` | 15 (vs `inp`) |
 | **lp-providers** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP-FREEZE7R part B: stage the 39 draft-7 r1 providers (quarantined; not in roots), staging | `inp-lp-providers` | 15 (vs `inp`) |
 | **w8a** | prover (offload) | Claude Opus 5.5 | — | ❌ audit failed, parked | last commit: W8: audit 1 (FAIL: F1 w6-general constants (D4) and tori conjunct, F2 Kshell generic total | `inp-w8a` | 1 (vs `inp`) |
+| **wgclose** `inp-mprov-wpj` | prover (offload) | Claude Opus 5.5 | claude-11 | 🔄 proving | last commit: W-GRAPH-CLOSE: bpW:w0:basis#lambda-facts export (bounds, monotonicity, strict convexity of | `inp-wgclose` | 1 (vs `inp`) |
 | **wprov** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: W8: audit 2 (PASS WITH NOTES, incl. the nlw2 provider: types exact, seal body elaborates i | `inp-wprov` | 1 (vs `inp`) |
 <!-- /AUTO:workers -->
 
@@ -522,6 +523,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-01 10:50 | `30f216ac` | D63: owner relaunches SO-3 and approves sealing the lock once its chain and seal audit pass |
 | 2026-11-01 10:49 | `fcaad50f` | Overnight log: D62, nlw2 sealed, W graph syncs, LP freeze compressed |
 | 2026-11-01 10:42 | `5096afdf` | Land inp into main |
 | 2026-11-01 10:41 | `7394d94e` | D62: owner approves LP freeze draft 7 r1 (de343000), freeze and seals |
@@ -533,7 +535,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-01 10:15 | `9d426dbc` | Land inp into main |
 | 2026-11-01 10:00 | `0546e0aa` | Land inp into main |
 | 2026-11-01 09:57 | `b6241e69` | sources.json: LP17's pinned PDF is the arXiv v2, not the publisher's PDF |
-| 2026-11-01 09:50 | `74d77b43` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
