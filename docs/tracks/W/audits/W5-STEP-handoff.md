@@ -183,3 +183,8 @@ Remaining, in order: (a) reality of `R = stepTaylorOf` from `P` real (define "re
 (iii) of new-ham (`D(N∘Φ)W = ϖ(X_N(Φw), DΦ W)`, pairing `p-1` with `p_+`); (c) periodicity of `P_+`, translation equivariance
 `holoFlow_translate`; (d) clause (v): `‖Φ-id‖ ≤ 2M_F`, `‖DΦ-I‖ ≤ 16M_F/σ` as λ-bounds, symplecticity, inverse;
 (e) the Lean statement and assembly of `bpW:w5:step` (non-modified case); modified case after `inp-wpq` merges `w4-modified`.
+
+## Session 4, clause (v) (StepFlowFam) — DONE
+`stepFlow_bounds` (on `w ∈ D(s-3σ,r/4)`, `M₀ ≤ σ/1024`): `|Φ₁w-w| ≤ M₀`, `|(Φ₁-Φ₂)w-…| ≤ 2N`, `|DΦ₁-I| ≤ 8M₀/σ`,
+`|DΦ₁-DΦ₂| ≤ 16N/σ` (`N = M₁d`); with `M₀+λM₁ ≤ M_F` these give the `λ`-bounds `2M_F` and `16M_F/σ`.
+Remaining (a)-(c), (e) as listed above.
