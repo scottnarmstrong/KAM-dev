@@ -147,10 +147,10 @@ def table2_compare(xs, ys, nu):
     return rows
 
 
-def run(astar, ic='poincare', order=1, backend='ld', D=8, log=print):
+def run(astar, ic='poincare', order=1, backend='ld', D=8, log=print, nstar='corrected'):
     from secular import compute_secular
     bk = Backend(backend)
-    out = compute_secular(astar, bk, D=D, res=False, log=lambda *a: None, return_intermediates=True)
+    out = compute_secular(astar, bk, D=D, res=False, log=lambda *a: None, return_intermediates=True, nstar=nstar)
     c = out['consts']
     sec = SP.concat(bk, [out['first'], out['second_chi1'], out['second_chi2']]).consolidate()
     quad = sec.select(sec.degree() == 2)
@@ -169,7 +169,7 @@ def run(astar, ic='poincare', order=1, backend='ld', D=8, log=print):
         if x[j] * x2[j] < 0:
             V[:, j] *= -1; x[j] *= -1; y[j] *= -1
     rows = table2_compare(x, y, nu)
-    return {'astar': [mpmath.nstr(v, 18) for v in astar], 'ic': ic, 'order': order,
+    return {'astar': [mpmath.nstr(v, 18) for v in astar], 'ic': ic, 'order': order, 'nstar': nstar,
             'L_over_Lambda': [float(L[j] / c['Lambda'][j]) for j in range(3)],
             'xi_eta_poincare': [float(v) for v in xi + eta],
             'xi_eta_secular': list(map(float, xis)) + list(map(float, etas)),
@@ -179,12 +179,14 @@ def run(astar, ic='poincare', order=1, backend='ld', D=8, log=print):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--astar', nargs=3, required=True)
+    # (A1 A2 A3 from validation/astar.json for the published model)
     ap.add_argument('--ic', default='poincare', choices=['poincare', 'heliocentric'])
     ap.add_argument('--order', type=int, default=1)
     ap.add_argument('--json')
+    ap.add_argument('--nstar', default='corrected', choices=['kepler', 'corrected'])
     args = ap.parse_args()
     mpmath.mp.dps = 40
-    res = run([mpmath.mpf(s) for s in args.astar], args.ic, args.order)
+    res = run([mpmath.mpf(s) for s in args.astar], args.ic, args.order, nstar=args.nstar)
     for r in res['rows']:
         print(f"mode {r['mode']}: nu {r['nu']:.10e} (T2 {r['nu_table2']:.10e})  x {r['x']:+.10e} (T2 {r['x_table2']:+.10e})"
               f"  y {r['y']:+.10e} (T2 {r['y_table2']:+.10e})  R {r['R']:.10e} (T2 {r['R_table2']:.10e}; eq24 {r['R_eq24']:.10e})")

@@ -263,9 +263,13 @@ def main():
         os.makedirs(os.path.expanduser(args.work), exist_ok=True)
         f = out['f']
         path = os.path.join(os.path.expanduser(args.work), 'first_order_expansion.npz')
-        np.savez_compressed(path, K=f.K, E=f.E, L=f.L,
-                            re=np.array([np.format_float_scientific(np.real(x), precision=20, unique=False) for x in f.C]),
-                            im=np.array([np.format_float_scientific(np.imag(x), precision=20, unique=False) for x in f.C]))
+        if bk.name == 'mp':
+            re = np.array([mpmath.nstr(x.real, 25, min_fixed=0, max_fixed=0) for x in f.C])
+            im = np.array([mpmath.nstr(x.imag, 25, min_fixed=0, max_fixed=0) for x in f.C])
+        else:
+            re = np.array([np.format_float_scientific(np.real(x), precision=20, unique=False) for x in f.C])
+            im = np.array([np.format_float_scientific(np.imag(x), precision=20, unique=False) for x in f.C])
+        np.savez_compressed(path, K=f.K, E=f.E, L=f.L, re=re, im=im)
         inter = (path, hashlib.sha256(open(path, 'rb').read()).hexdigest(), len(f))
         print('intermediate', path, inter[1])
     src = os.path.splitext(args.out)[0] + '.SOURCE.txt'
