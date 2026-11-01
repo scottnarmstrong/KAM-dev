@@ -146,3 +146,14 @@ Nothing here blocks.
 - **N5:** the RSS figures corrected, as above.
 - **Not changed (non-blocking):** N3, the direct sites are still not emitted as Lean except T′ `b₀`, so kamx-certside emits those.
   N4, `routeV2AllS` extends `routeV2All` only.
+
+**Landing note: LG00's kernel run is not on this branch's HEAD.** `lg00-app` merged `86247437`, the audited commit. HEAD differs
+from it in two core files that LG00 imports, and the orchestrator ruled that these stay and that no further Lean changes are made:
+
+- `SiteSign.lean`: the N1 rename.
+- `SiteShard.lean`: the three-line docstring note of R2.
+
+`RouteARefinedS.lean` and the tests are identical. So when `lg00-app` next takes main with this branch landed, those two oleans
+change. The reverse import closure inside `applications/lg00` is 102 of 10,590 modules: only `Final` and `Main` of each torus, and
+no data module. On the first certificate's ledger the `Final` family cost 0.22 CPU-h, so I estimate about 0.3 CPU-h per torus
+with the sites. The statements and the site data are unchanged, so nothing mathematical is at stake.
