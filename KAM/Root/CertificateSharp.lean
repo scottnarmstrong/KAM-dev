@@ -61,6 +61,7 @@ public import KAM.CertificateSharp.Packed.Tors
 public import KAM.CertificateSharp.Packed.TorsBase
 public import KAM.CertificateSharp.Packed.TorsChain
 public import KAM.CertificateSharp.Packed.TorsSound
+public import KAM.CertificateSharp.Packed.TorsTests
 public import KAM.CertificateSharp.Sharp
 public import KAM.CertificateSharp.SharpEngine
 public import KAM.CertificateSharp.Sound
