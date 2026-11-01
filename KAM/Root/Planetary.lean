@@ -634,6 +634,11 @@ public import KAM.Planetary.SecularSpectrum.LocalAnalytic
 public import KAM.Planetary.SecularSpectrum.Norms
 public import KAM.Planetary.SecularSpectrum.Transport
 public import KAM.Planetary.SecularSpectrum.TwoPlanets
+public import KAM.Planetary.StrongAMD.AnalyticDomain.Containment
+public import KAM.Planetary.StrongAMD.AnalyticDomain.Core
+public import KAM.Planetary.StrongAMD.AnalyticDomain.Extension
+public import KAM.Planetary.StrongAMD.AnalyticDomain.Safety
+public import KAM.Planetary.StrongAMD.AnalyticDomain
 public import KAM.Planetary.StrongAMD.Confinement
 public import KAM.Planetary.StrongAMD.Continuation
 public import KAM.Planetary.StrongAMD.Geometry
@@ -641,7 +646,12 @@ public import KAM.Planetary.StrongAMD.Modulus
 public import KAM.Planetary.StrongAMD.Momentum
 public import KAM.Planetary.StrongAMD.NonresonantAdapter
 public import KAM.Planetary.StrongAMD.NonresonantAdapterRescale
+public import KAM.Planetary.StrongAMD.NonresonantScale
 public import KAM.Planetary.StrongAMD.Orbital
+public import KAM.Planetary.StrongAMD.Osculating.Basic
+public import KAM.Planetary.StrongAMD.Osculating.Core
+public import KAM.Planetary.StrongAMD.Osculating.Estimates
+public import KAM.Planetary.StrongAMD.Osculating
 public import KAM.Planetary.StrongAMD.PlanarDictionary
 public import KAM.Planetary.StrongAMD.Reflection
 public import KAM.Planetary.StrongAMD.Threshold.Continuity
