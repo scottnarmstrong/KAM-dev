@@ -5,6 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
+public import Mathlib.Algebra.BigOperators.Fin
 public import Mathlib.Algebra.BigOperators.Pi
 public import Mathlib.Algebra.Module.Pi
 public import Mathlib.Data.Fin.Tuple.Basic

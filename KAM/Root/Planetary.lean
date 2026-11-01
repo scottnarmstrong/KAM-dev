@@ -699,6 +699,7 @@ public import KAM.Planetary.Spatial.SpatialSafety.Constants
 public import KAM.Planetary.Spatial.SpatialSafety.Main
 public import KAM.Planetary.Spatial.SpatialSafety.Orientation
 public import KAM.Planetary.Spatial.SpatialSafety.Source
+public import KAM.Planetary.Spatial.SpatialSafety.SourceCorollary
 public import KAM.Planetary.Spatial.SpatialSafety
 public import KAM.Planetary.Spatial.Vector
 public import KAM.Planetary.Spatial
@@ -742,6 +743,8 @@ public import KAM.Planetary.StrongAMD.PlanarSafety.Main
 public import KAM.Planetary.StrongAMD.PlanarSafety.Orientation
 public import KAM.Planetary.StrongAMD.PlanarSafety.Prograde
 public import KAM.Planetary.StrongAMD.PlanarSafety.Source
+public import KAM.Planetary.StrongAMD.PlanarSafety.SourceCorollary
+public import KAM.Planetary.StrongAMD.PlanarSafety.SourceThreshold
 public import KAM.Planetary.StrongAMD.PlanarSafety
 public import KAM.Planetary.StrongAMD.Reflection
 public import KAM.Planetary.StrongAMD.SourceCarrier
