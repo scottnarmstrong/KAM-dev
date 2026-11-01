@@ -14,7 +14,7 @@ All edits in this task are to files this branch itself added.
 
 ## Changes, by audit item
 
-1. **Invariance (finding 1).** New `KAM/Application/Invariance.lean` (90 lines):
+1. **Invariance (finding 1).** New `KAM/Application/Invariance.lean` (93 lines):
    `IsPhysicalFlowTorus.hasDerivAt_line`, `isSolutionIn_line`, `eqOn_line` (a solution `y` of
    `ż = F z` in `W` on an order-connected `J` with `y t₀ = L θ₀` equals `L(θ₀ + (t - t₀) ν)` on `J`),
    `mem_range_of_solution`, `isInvariantSet` (the core `KAM.ODE.IsInvariantSet F W (range L)`),
