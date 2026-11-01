@@ -8,6 +8,20 @@ Build note: the worktree lacked the oleans of `KAM/Wave/Birkhoff` (and other unc
 copied (no-clobber) from main's build snapshot `/root/code/KAM/.lake/build` (identical sources; the traces differ
 only in absolute paths), instead of rebuilding them.
 
+## Progress (W5-AA proper)
+
+Done (each module builds with `w_build.sh`, default heartbeats, no `sorry`):
+- `KAM/Wave/KamStep/ActionAngle.lean`: `aaSqrt`, `aaShift`, `aaNormal`, `aaTanCoord`, `aaMap a p ξ w` (= `𝒜_ξ(w)` in
+  weighted coordinates of `𝔚_{a,p}`), `aaDomJ`; (i): `aaMap_differentiableOn` (joint in `(ξ,w)`), `isOpen_aaDomJ`,
+  `aaMap_add_tau`, `aaMap_real`, `aaMap_linearTorus` (`birkZinv (aaMap 1 1 ξ (θ,0,0,0)) = birkReal (linearTorus ξ hξ θ)`).
+- `ActionAngleDomain.lean`: (ii) `aaCA = 2200`, `aaMap_domain`, `aaMap_mem_ball`, `aaMap_mem_birkBall1`; (vi)
+  `aaNormal_norm_le`, `aaNormal_norm_ge`, `norm_sq_aaMap`.
+- `ActionAngleDeriv.lean`: (iii) `aaDer a q ξ w`, `hasFDerivAt_aaMap`, `aaDerInv`, `aaDerInv_aaDer`, `aaDer_aaDerInv`.
+- `ActionAngleSymp.lean`: (iii) `birkOmegaMix`, `aaDer_symp` (`Ω(D𝒜W, D𝒜W') = ϖ_{q,q'}(W,W')`, `q+q' ≥ 0`),
+  `birk_tsum_tan_nor`.
+- `ActionAngleNormal.lean`: (iv) `aaEnergy`, `aaOmega0`, `aaOmegaN0` (= `waveFreqTan`, `waveFreqNor` for real `ξ`),
+  `aaZZ`, `aaNfun`, `aaQt`, `aaKext`, `aaXKext`, `aaPfun`, `aaMap_normalForm`.
+
 ## W5-STEP-A-FIX (findings F1, F2 of `W5-STEP-A-audit-1.md`)
 
 New modules (no existing file edited): `KAM/Wave/KamStep/FlowCalcJoint.lean`, `KAM/Wave/KamStep/FlowCalcOnto.lean`.
