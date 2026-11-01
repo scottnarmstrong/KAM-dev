@@ -36,8 +36,9 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 | LP-SP-MODEL Spatial model + L1–L3 (d=3) + rotations | L1–L3 | 4 | `inp-lp-spmodel` / mom worktree (link `/root/code/KAM-inp-lp-spmodel`) | claude-11 | proved f0faca48 (2,031 lines, 13 modules: L1–L3 d=3, rotations, alignment); audit queued (LP-W4A with SP-ROT) |
 | LP-SP-ROT rotation algebra (46) | L17 | 4 | `inp-lp-sprot` | claude-12 | proved bfb15083 (328 lines); audit queued |
 | LP-SP-CHART spatial chart, one body | L17 | 4 | `inp-lp-spchart` / geomod worktree (link `/root/code/KAM-inp-lp-spchart`) | claude-12 | running (tmux inp-mprov-lp-spchart) |
-| LP-SP-GEO spatial barrier + continuation | L5–L6 (d=3) | 4 | `inp-lp-spgeo` / mom worktree (link `/root/code/KAM-inp-lp-spgeo`) | claude-11 | running (tmux inp-mprov-lp-spgeo) |
-| LP-SP-DOM / SP-OSC / SP-SAFE | L18, L16 (d=3), T19 | 4 | — | — | after SP-CHART, SP-GEO |
+| LP-SP-GEO spatial barrier + continuation | L5–L6 (d=3) | 4 | `inp-lp-spgeo` / mom worktree (link `/root/code/KAM-inp-lp-spgeo`) | claude-11 | proved 993b4451 (480 lines); audit queued (W4 batch) |
+| LP-SP-OSC osculating d=3 | L16 (d=3) | 4 | `inp-lp-sposc` / mom worktree (link `/root/code/KAM-inp-lp-sposc`) | claude-11 | running |
+| LP-SP-DOM / SP-SAFE (+ spatial NRR/LIFT/CONF twins) | L18, T19 | 4 | — | — | after SP-CHART |
 
 ## Audit queue (codex-2, one at a time machine-wide; W interleaves when LP has a gap)
 
@@ -84,3 +85,4 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 - 2026-11-01 04:08 UTC: LP-W3C (LIFT+DOMX+THR2) audit 1 PASS WITH NOTES; doc notes applied; merged into inp-lp (9cd1300e); landing requested. Delta review 2 of freeze draft 2 running on codex-2. LP-SP-ROT proved; LP-SP-CHART (L17, one body) launched on claude-12.
 - 2026-11-01 04:13 UTC: Freeze draft 2 delta review PASS for theorem types (freeze package gated on OD-11). LP-SP-MODEL proved (2,031 lines). LP-SP-GEO launched on claude-11. LP-PS audit after kam-1b's W4-COMPLETE.
 - 2026-11-01 04:26 UTC: LP-W3C (LIFT+DOMX+THR2) LANDED (main 9bd8b629). Every planar package except PS is on main.
+- 2026-11-01 04:33 UTC: LP-W3C LANDED (main 9bd8b629). LP-SP-GEO proved (480 lines). LP-SP-OSC launched on claude-11. LP-PS audit branch rebuilt; waiting for codex-2 (kam-1b W4-COMPLETE).
