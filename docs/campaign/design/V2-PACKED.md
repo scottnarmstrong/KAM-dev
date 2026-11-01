@@ -924,3 +924,83 @@ Packed value against LG00's claim:
 - **Production assembly is unmeasured:** the shared data module and the assembly theorems are not in the packed
   figure.
 - The `Low` and `Full` jet compositions (24.2 CPU-h) are unchanged; they are §12's target.
+
+## 14. The consumers of the packed jet and `jetBase` (branch `v2-packed-cons`; `docs/campaign/handoffs/V2-PACKED-CONS.md`)
+
+Section number to be confirmed by the orchestrator. This is §12.2's "The consumers", built on kamx-packed's API
+(`JetCheck.lean`: `jetCheck`, `jetPacked_sound`; `V2-PACKED-PROD-API.md`).
+
+**The interface.** A consumer reads three functions of the slot index (`JSlots`: packed value, radius, norm bound).
+Its soundness lemma assumes `JSlotsEnc L A P js … wanted`: every wanted slot has a `PEnc` of its slot function
+`θ ↦ p.val n (K.eval n θ) i` on the box `L` at scale `2^P` with load `A`. That is verbatim the conclusion of
+`jetPacked_sound`, which discharges it (`jetLowOk_sound`, `jetFullOk_sound`). For a keyed chain `jd` the functions
+are `jetSlots jd = ⟨jetNode jd, jetRad jd, jetNb jd⟩`.
+
+**Torsion (`checkTorsionJ`).** B3b's `checkTorsionR` with:
+- `DX_H ∘ K` (`trAJ`: entry `(a, b)` is `± ∂_{a'} ∂_b H ∘ K`, `a' = swapNat n a`, the slot the landed `dxhModels`
+  reads) and `DH ∘ K` (`trD1J`) read from the jet nodes of the `cfgLow` chain;
+- the box and scale agreement checked (`layoutEq jd.jb.Lb rb.Lb`, `jd.jb.P == rb.P`), the load bound `rb.bA`
+  passed to `jetCheck`;
+- only the two stages that read them changed (`trStXNJ`, `trYCheckJ`); the boundary `ptAOk`/`ptD1Ok` and the
+  landed `cfgLow` `Slp.compose` are gone, `ptD2All` (the `D²K` boundary) stays.
+`checkTorsionJ_sound` has the conclusion of the landed `checkTorsion_sound_of` (via `torsion_eq_models`).
+
+**Invariance (`checkInvarianceJ`).** Per coordinate `a < 2n`, one exact packed array on `win Lb LU0` at scale
+`2^(2P)`: `(X_H ∘ K)_a · 2^P − Σ_l DK_{al} (s ω)_l` (`ivX`), with
+- `(X_H ∘ K)_a = ± ∂_{a'} H ∘ K` from the `cfgFull` chain's `d1` nodes (`jetFullOk`);
+- `DK` the Gram memo (validated by `pgEntries` inside the packed Gram check, the same Boolean term as
+  `checkGramPacked`), packed on the jet's `cfgFull` box;
+- `(s ω)_l` B3's packed frequency (box centre, rounding and box radius in its radius).
+The test is one packed weighted norm plus the radii, `≤ err` (`ivRowOk`). `checkInvarianceJ_sound` has the
+conclusion of the landed `checkInvariance_sound_of`.
+
+**Energy (`checkEnergyJ`).** The zero-key slot `z` of the `cfgFull` chain's `v0` node (`PEnc.average`):
+`|Re z − E₀| + |Im z| + r ≤ err` (`enOk`). `checkEnergyJ_sound` has the conclusion of `checkEnergy_sound_of`.
+
+**Frames (`checkFrameMajorantsRJ`).** `|Lᵀ|`, `|N|`, `|Nᵀ|` and `|ω*|` are §13's packed tests verbatim (they read
+the Gram memo, the guards and the node `N`, which `checkTorsionJ` shares); `sup |T|` (`checkFrameTRJ`) reads the
+packed `T` of the jet's torsion. `routeARefinedPackedJ` is route A refined on them.
+
+**`jetBase`.** `checkStatic`, `checkHamBounds`, `checkEmbedding` (landed), `checkGramPacked` (B2), `checkTorsionJ`,
+`checkInvarianceJ`, `checkEnergyJ`. `jetBase.sound` gives the landed `BaseFacts`, so `checkV2With_sound` gives the
+landed `CertifiedTorus` for any engine. A reachability check over definition bodies finds no `Slp.compose`,
+`torsionModels` or `gramCheck` below `checkTorsionJ`, `checkInvarianceJ`, `checkEnergyJ`, `checkFrameMajorantsRJ`
+or `refinedTestPackedJ` (and finds `Slp.compose` below B3b's `checkTorsionR` and the landed `checkInvariance`).
+
+**Sharing.** Each consumer holds its jet check, and the frames repeat the torsion's conjuncts, as identical Boolean
+terms. A production proof establishes each shared conjunct once and assembles with the `_of` lemmas
+(`checkTorsionJ_of`, `torsRCoreJ_of`, `checkInvarianceJ_of`, `checkEnergyJ_of`, `checkFrameMajorantsRJ_of`,
+`jetBase_check_of`). On T′'s jet route (kamx-pk-gen, `v2-packed-gen-int`), the two torsion assemblies take
+2–3.3 CPU-s each when measured alone, as B3b's do (elaboration < 30 ms, kernel < 3 ms; V2-PACKED-CONS-PERF,
+`…/V2-PACKED-CONS-GATE/PERF/`). The 166 and 401 CPU-s first booked to them were stale stages, rebuilt inside their
+`lake build`s after the stages were re-emitted.
+
+**The copy and LG00's certificate (V2-PACKED-CONS-BRIDGE, `…/V2-PACKED-CONS-BRIDGE/`).** The packed route
+certifies kamx-packed's copies (`LG00P.<T>.lg00Cert`, …). LG00's statements are about LG00's own constants. Every
+field they read is equal in the copy and the original by `rfl`, so LG00's statement, verbatim, is proved by
+`:= LG00P.<T>.pk_kamTorus` (definitional unfolding; AUDIT-V2-PACKED-JETROUTE-1): `LG00.<T>.lg00_kamTorus_packed` and
+`lg00_kamTorusStatement_packed`. Both tori are built: T′ 2.3 CPU-s, T″ 1.95 CPU-s, standard axioms. A Boolean check such as `checkHamBounds`
+goes through a congruence lemma instead, since unfolding it makes the kernel evaluate it.
+
+**The jet's load bound.** The consumers pass their books' bounds to `jetCheck` (`rb.bA`, `ib.bJ`); a chain theorem
+at the generator's bound `b<C>` (the largest wanted load) closes them through `jetCheck_mono` (`jetLowOk_of`,
+`jetFullOk_of`, `JetConsLoad.lean`) when `b<C> ≤ rb.bA`, resp. `≤ ib.bJ` (agreed with kamx-packed).
+
+**Gate (LG00 T′, `docs/campaign/studies/V2-PACKED-CONS-GATE/`).** One process per conjunct under 4 GB, the shared
+data elaborated once:
+- torsion: 43 processes, 868.3 CPU-s, ≤ 2.75 GB; final margin 1.32·10⁻³ (δ_T = 2.0·10⁻⁸);
+- invariance: 6 processes, 41.4 CPU-s, ≤ 1.07 GB; margin 8.3·10⁻¹⁹ against err = 7.2·10⁻¹⁶ (0.1 % of err; T′'s err
+  was set at its invariance error);
+- energy: 2 processes, 9.7 CPU-s; |⟨H ∘ K⟩ − E₀| ≤ 5.7·10⁻²³;
+- frames `sup |T| ≤ 118` on the jet's torsion: 1 process, 30.2 CPU-s (sup |T| = 117.50).
+One-ulp controls decide `false` on the radii and bounds; at torsion, one ulp of a jet radius is absorbed by the
+outward rounding of the propagated radius (2²⁰ ulp is rejected). The landed consumers' composition inputs (T′:
+4,121 `Low`/`Full` modules, 88,068 CPU-s in run18) are no longer needed: the packed chains are proved (§12.13).
+
+**Gate (LG00 T″, `…/V2-PACKED-CONS-GATE/TPP/`).** The same probes at T″'s claims, every one decided as stated:
+- torsion: 43 processes, 408 CPU-s, ≤ 2.77 GB; margin 1.32·10⁻³;
+- frames: sup |T| = 115.68 ≤ 116;
+- invariance: 6 processes; slack 1.52·10⁻¹⁸ against err = 6.56·10⁻¹⁶ (0.23 % of err);
+- energy: |⟨H ∘ K⟩ − E₀| ≤ 6.3·10⁻²³.
+The same caveats as T′ apply: mirror nodes, jet chain not decided, T″'s data pinned by the hashes of the copies.
+

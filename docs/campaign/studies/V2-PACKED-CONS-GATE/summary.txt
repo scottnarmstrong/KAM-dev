@@ -1,0 +1,91 @@
+group                                  n      CPU s   kernel s  peak GB  failed
+certificate copy                      18      115.7        0.0     0.58  
+shared data                            4      141.8        0.0     1.40  
+data control                           2       14.0        0.0     0.56  
+Gram link (shared) check              10      156.8      103.7     2.06  
+torsion check                         43      868.3      661.5     2.75  
+torsion control                        5       59.2       35.2     1.51  
+frames sup |T| check                   2       60.0       58.8     2.19  
+frames sup |T| control                 1       27.7       26.3     2.23  
+invariance check                       6       41.4       13.2     1.07  
+invariance control                     3       20.0        6.6     1.06  
+energy check                           2        9.7        1.0     0.63  
+energy control                         3       16.6        3.6     0.69  
+
+data           ConsData               states true  exit 0.0  cpu     7.4  kernel       -  peak 0.56 GB
+Gram           CGEntry_0_0            states true  exit 0.0  cpu    10.6  kernel    4.80  peak 0.78 GB
+Gram           CGEntry_0_1            states true  exit 0.0  cpu    12.6  kernel    7.40  peak 0.75 GB
+Gram           CGEntry_1_0            states true  exit 0.0  cpu    12.5  kernel    6.28  peak 0.72 GB
+Gram           CGEntry_1_1            states true  exit 0.0  cpu    14.9  kernel    8.49  peak 0.98 GB
+Gram           CGEntry_2_0            states true  exit 0.0  cpu    18.2  kernel   12.00  peak 0.92 GB
+Gram           CGEntry_2_1            states true  exit 0.0  cpu    20.0  kernel   15.30  peak 0.91 GB
+Gram           CGEntry_3_0            states true  exit 0.0  cpu    19.3  kernel   13.80  peak 1.00 GB
+Gram           CGEntry_3_1            states true  exit 0.0  cpu    17.6  kernel   14.40  peak 0.94 GB
+Gram           CGCore                 states true  exit 0.0  cpu    24.8  kernel   21.20  peak 2.06 GB
+Gram           CGEps                  states true  exit 0.0  cpu     6.3  kernel    0.00  peak 0.75 GB
+torsion        TJJet                  states true  exit 0.0  cpu     7.7  kernel    0.01  peak 0.51 GB
+torsion        TJD2_0_0_0             states true  exit 0.0  cpu    18.5  kernel   13.80  peak 0.93 GB
+torsion        TJD2_0_0_1             states true  exit 0.0  cpu    18.8  kernel   12.80  peak 0.96 GB
+torsion        TJD2_0_1_0             states true  exit 0.0  cpu    18.3  kernel   15.10  peak 0.94 GB
+torsion        TJD2_0_1_1             states true  exit 0.0  cpu    18.7  kernel   13.30  peak 0.93 GB
+torsion        TJD2_1_0_0             states true  exit 0.0  cpu    18.3  kernel   13.10  peak 1.00 GB
+torsion        TJD2_1_0_1             states true  exit 0.0  cpu    19.4  kernel   14.00  peak 1.05 GB
+torsion        TJD2_1_1_0             states true  exit 0.0  cpu    17.8  kernel   13.80  peak 0.89 GB
+torsion        TJD2_1_1_1             states true  exit 0.0  cpu    19.1  kernel   14.60  peak 0.91 GB
+torsion        TJD2_2_0_0             states true  exit 0.0  cpu    15.7  kernel   10.50  peak 0.91 GB
+torsion        TJD2_2_0_1             states true  exit 0.0  cpu    16.7  kernel   10.40  peak 0.93 GB
+torsion        TJD2_2_1_0             states true  exit 0.0  cpu    16.1  kernel   11.00  peak 1.08 GB
+torsion        TJD2_2_1_1             states true  exit 0.0  cpu    16.1  kernel   11.20  peak 0.88 GB
+torsion        TJD2_3_0_0             states true  exit 0.0  cpu    16.2  kernel   11.00  peak 0.93 GB
+torsion        TJD2_3_0_1             states true  exit 0.0  cpu    16.3  kernel    9.78  peak 0.94 GB
+torsion        TJD2_3_1_0             states true  exit 0.0  cpu    16.4  kernel   10.40  peak 0.98 GB
+torsion        TJD2_3_1_1             states true  exit 0.0  cpu    16.9  kernel   10.80  peak 0.95 GB
+torsion        TJLay                  states true  exit 0.0  cpu     8.3  kernel    0.34  peak 0.62 GB
+torsion        TJPack                 states true  exit 0.0  cpu    29.5  kernel   25.60  peak 1.66 GB
+torsion        TJStN                  states true  exit 0.0  cpu    44.6  kernel   43.30  peak 2.75 GB
+torsion        TJStDL                 states true  exit 0.0  cpu    24.3  kernel   18.60  peak 1.82 GB
+torsion        TJStDG                 states true  exit 0.0  cpu    24.6  kernel   19.30  peak 1.96 GB
+torsion        TJStC                  states true  exit 0.0  cpu    32.2  kernel   29.90  peak 2.12 GB
+torsion        TJStDGi                states true  exit 0.0  cpu    36.8  kernel   37.60  peak 2.13 GB
+torsion        TJStDN_0_0             states true  exit 0.0  cpu    24.8  kernel   21.60  peak 1.55 GB
+torsion        TJStDN_0_1             states true  exit 0.0  cpu    24.4  kernel   18.20  peak 1.54 GB
+torsion        TJStDN_1_0             states true  exit 0.0  cpu    22.0  kernel   19.10  peak 1.48 GB
+torsion        TJStDN_1_1             states true  exit 0.0  cpu    20.8  kernel   17.40  peak 1.70 GB
+torsion        TJStDN_2_0             states true  exit 0.0  cpu    25.2  kernel   20.50  peak 1.57 GB
+torsion        TJStDN_2_1             states true  exit 0.0  cpu    19.2  kernel   15.80  peak 1.52 GB
+torsion        TJStDN_3_0             states true  exit 0.0  cpu    23.9  kernel   20.30  peak 1.58 GB
+torsion        TJStDN_3_1             states true  exit 0.0  cpu    23.1  kernel   18.80  peak 1.55 GB
+torsion        TJStXN_0_0             states true  exit 0.0  cpu    20.3  kernel   14.70  peak 1.43 GB
+torsion        TJStXN_0_1             states true  exit 0.0  cpu    18.7  kernel   12.90  peak 1.33 GB
+torsion        TJStXN_1_0             states true  exit 0.0  cpu    18.4  kernel   13.70  peak 1.37 GB
+torsion        TJStXN_1_1             states true  exit 0.0  cpu    18.8  kernel   13.40  peak 1.41 GB
+torsion        TJStXN_2_0             states true  exit 0.0  cpu    15.7  kernel   11.00  peak 1.45 GB
+torsion        TJStXN_2_1             states true  exit 0.0  cpu    17.2  kernel   11.40  peak 1.60 GB
+torsion        TJStXN_3_0             states true  exit 0.0  cpu    17.3  kernel   12.00  peak 1.40 GB
+torsion        TJStXN_3_1             states true  exit 0.0  cpu    16.6  kernel   12.10  peak 1.34 GB
+torsion        TJT                    states true  exit 0.0  cpu    29.4  kernel   26.70  peak 2.08 GB
+torsion        TJY                    states true  exit 0.0  cpu    16.7  kernel   11.10  peak 1.35 GB
+torsion        TJFinal                states true  exit 0.0  cpu     8.4  kernel    0.53  peak 0.59 GB
+torsion        TJCtlXNUlp             states false exit 0.0  cpu    16.5  kernel   11.00  peak 1.34 GB
+torsion        TJCtlYUlp              states false exit 0.0  cpu    12.3  kernel    6.27  peak 1.04 GB
+torsion        TJObsJetUlp            states true  exit 0.0  cpu    11.0  kernel    7.16  peak 1.35 GB
+torsion        TJCtlJetRad            states false exit 0.0  cpu     9.7  kernel    4.26  peak 1.51 GB
+torsion        TJCtlJetVal            states false exit 0.0  cpu     9.7  kernel    6.47  peak 1.26 GB
+frames         FRTJClaim              states true  exit 0.0  cpu    30.2  kernel   28.60  peak 2.19 GB
+frames         FRTJ                   states true  exit 0.0  cpu    29.8  kernel   30.20  peak 2.15 GB
+frames         FRTJCtl                states false exit 0.0  cpu    27.7  kernel   26.30  peak 2.23 GB
+data           ConsDataFull           states true  exit 0.0  cpu     6.6  kernel       -  peak 0.49 GB
+invariance     IVJet                  states true  exit 0.0  cpu     6.0  kernel       -  peak 0.59 GB
+invariance     IVGuard                states true  exit 0.0  cpu     5.9  kernel    2.01  peak 0.80 GB
+invariance     IVRow_0                states true  exit 0.0  cpu     7.1  kernel    3.00  peak 1.04 GB
+invariance     IVRow_1                states true  exit 0.0  cpu     7.3  kernel    2.54  peak 1.07 GB
+invariance     IVRow_2                states true  exit 0.0  cpu     7.0  kernel    2.82  peak 1.05 GB
+invariance     IVRow_3                states true  exit 0.0  cpu     8.1  kernel    2.82  peak 1.03 GB
+invariance     IVTight                states true  exit 0.0  cpu     6.7  kernel    2.04  peak 1.05 GB
+invariance     IVCtlUlp               states false exit 0.0  cpu     5.8  kernel    2.16  peak 1.04 GB
+invariance     IVCtlJetUlp            states false exit 0.0  cpu     7.4  kernel    2.37  peak 1.06 GB
+energy         ENGuard                states true  exit 0.0  cpu     4.0  kernel    0.00  peak 0.46 GB
+energy         ENOk                   states true  exit 0.0  cpu     5.7  kernel    0.99  peak 0.63 GB
+energy         ENTight                states true  exit 0.0  cpu     5.2  kernel    1.30  peak 0.61 GB
+energy         ENCtlUlp               states false exit 0.0  cpu     4.9  kernel    0.96  peak 0.62 GB
+energy         ENCtlJetUlp            states false exit 0.0  cpu     6.5  kernel    1.33  peak 0.69 GB

@@ -1,0 +1,3 @@
+'LG00.TP.lg00_kamTorus_packed' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LG00.TP.lg00_kamTorusStatement_packed' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LG00.TP.lg00_certifiedTorus_packed' depends on axioms: [propext, Classical.choice, Quot.sound]

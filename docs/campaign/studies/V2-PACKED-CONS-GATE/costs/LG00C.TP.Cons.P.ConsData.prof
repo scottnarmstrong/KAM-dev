@@ -1,0 +1,2 @@
+ℹ [3573/3573] Built LG00C.TP.Cons.P.ConsData (4.2s)
+info: LG00C/TP/Cons/P/ConsData.lean:26:0: tactic execution of Lean.Parser.Tactic.decide took 8.64ms
