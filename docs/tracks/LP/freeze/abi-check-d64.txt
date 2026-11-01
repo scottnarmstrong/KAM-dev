@@ -1,0 +1,8 @@
+LP-FREEZE8-EXEC (D64). abi_hashes.py on the 2 new entries (lp_manifest_add.py --emit-new-only), run 1 vs run 2: identical (cmp)
+{
+ "KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith": "b29ff03f40dc5f47b2ba0fae11d168ed7e2b83919b143d9d51cba0f1795d16f4",
+ "KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith": "387059c68796b425889eee542afbb9b3989ebf833cec9afaae08be7faa931966"
+}
+
+abi_hashes.py . manifest/frozen-anchors.json --check:
+ABI HASHES OK (307 frozen declarations of KAM; checked by file hash only, not built by this run: KAMLunarBand: KAM.SpinOrbit.lunar_barriers, KAM.SpinOrbit.lunar_spin_confinement (--lib KAMLunarBand))

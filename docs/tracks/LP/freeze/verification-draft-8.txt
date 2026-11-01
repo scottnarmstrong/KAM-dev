@@ -1,0 +1,547 @@
+LP-FREEZE8R: verification of FREEZE-PROPOSAL draft 8 (the LP3 anchors) against the LP freeze sealed on main (D62)
+=====================================================================================================================
+
+Branch inp-lp-freeze8r (worktree /root/code/KAM-inp-lp-freeze8r); base inp 2bbacd66 (merged with inp-lp at 58a2f066); the draft-8 material
+cherry-picked from inp-lp-freeze8 (e877f867, f431d047, f6b4b6ef; NOT its merge of inp-lp-freeze7 nor its WIP
+3a8e8b67). Dry-run approved commit: 759a04a3. Every Lean process ran through /root/code/KAM-inp/.drafts/LP/lp_lean.sh or
+/root/code/KAM-inp/.drafts/LP/lp_build.sh (4 GB scope, one thread, nice 10), one at a time. No stand-in, no
+simulated module: every check imports the real frozen modules of this tree. Nothing under KAM/Frozen/ or manifest/
+of the repository was created or edited.
+
+Scripts (gitignored, .drafts/freeze8r/): gen8r.py (texts), mk_manifest8r.py (entries), mk_checks8r.py (scratch
+Lean files), run8r.sh (runs them), dryrun8r.sh (install dry run), closure8r.py (closure classification),
+mk_verification8r.py (this file). Draft-7/8 machinery reused read-only from .drafts/freeze8/ (copied from
+/root/code/KAM-inp-lp-freeze8/.drafts/freeze8/): gen.render, gen.binder_names, gen.ident_deps, the #sameDecl /
+#kamClosure / #sameDeclUnfold meta commands. D62 scripts used unchanged: docs/tracks/LP/freeze/lp_freeze_lib.py,
+lp_freeze_install.py, lp_manifest_add.py, lp_axioms.py (its #typeEqv).
+
+0. The frozen sources (D62)
+---------------------------
+
+- LP3-1 is derived from KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafety.lean
+  (export KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety, manifest planetary.d59.planar_strongAMD_exponentialSafety.v1, state SEALED).
+  Git blob 4027d93cd4e76adf390b0e6addcc88cb3c11fa2a on HEAD = main = f46b94fb (asserted). Prefix and suffix, split by the guard's
+  check_theorem_region and hashed with Guard.digest, equal the manifest's prefix_sha256 97e5675aaba7b236…
+  and suffix_sha256 3a3499343d03144b… (asserted). Body: 'by exact KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety hn ν hν hνmax hνle A\n      hA hAord δ γ τ hδ hγ hτ'.
+- LP3-2 is derived from KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafety.lean
+  (export KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety, manifest planetary.d59.spatial_strongAMD_exponentialSafety.v1, state SEALED).
+  Git blob 3faa58643aeb14582e2116c5c7465f3858c5f53a on HEAD = main = f46b94fb (asserted). Prefix and suffix, split by the guard's
+  check_theorem_region and hashed with Guard.digest, equal the manifest's prefix_sha256 51bacd0e63931fd2…
+  and suffix_sha256 7a354397a2f0d077… (asserted). Body: 'by exact KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety hn ν hν hνmax hνle A\n      hA hAord δ γ τ hδ hγ hτ'.
+- `git diff f46b94fb HEAD -- KAM/Frozen manifest` and `git diff main HEAD -- KAM/Frozen manifest`: empty.
+
+1. Regeneration of the two texts (gen8r.py)
+------------------------------------------
+
+Route 1: the frozen LP1 / LP2 statement (from `theorem` to the ` :=` before FROZEN_ANCHOR_PROOF_BEGIN) with the
+three LP3 changes applied by asserted substitutions (each pattern occurs exactly once; `Real.sqrt μ` exactly three
+times; afterwards no `τ`, `γ`, `modeSize`, `IsDiophantine`, `Real.sqrt` remains). Route 2: the statement of the
+proved implementation theorem lp3_{planar,spatial}_strongAMD_safety_source with the anchor name, `{n : ℕ}`, the
+binder names `hνmax`, `hνle` and, for LP3-2, the frozen LP2 F1 form (`∀ hμ : 0 < μ`, the two
+spatialSourceBarycentric maps). Asserted: route 1 = route 2 up to whitespace. The anchor body is route 2 (its
+line breaks; route 1 would exceed 100 columns on the planar drift lines). Imports: every identifier of the
+statement resolved against the declarations of the real frozen definition files (KAM/Frozen/**/Defs/*.lean that
+are definition entries of manifest/frozen-anchors.json), no ambiguous name hit. Rendering: draft 7's gen.render.
+
+$ python3 .drafts/freeze8r/gen8r.py      (exit 0)
+    LP3-1 KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith
+      frozen source KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafety.lean blob 4027d93cd4e76adf390b0e6addcc88cb3c11fa2a planetary.d59.planar_strongAMD_exponentialSafety.v1
+      draft file docs/tracks/LP/freeze/draft8/KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean.txt lines 149 sha256 77c6bb5ee337d2c6b96bed50a06e5ca835acb33d3b9ee0813498df8b5be6cff8
+      committed draft-8 text byte-identical: True
+      imports 32 ; deps ['AdjIdx', 'AdjIdx.upperIdx', 'IsMovingSolutionOn', 'IsNewtonSolutionOn', 'MovingUniqueOn', 'Phase', 'SourceCanonicalPhase', 'SourceOsculatingPhase', 'actualMasses', 'barycentricPositions', 'barycentricVelocities', 'bodyVector', 'chamber', 'keplerAction', 'keplerAxis', 'keplerEccVector', 'keplerEnergy', 'orderedStrongThreshold', 'oscEcc', 'oscEnergy', 'planeLength', 'planetaryDriftExponent', 'planetaryTimeExponent', 'sourceKeplerApo', 'sourceKeplerPeri', 'sourceOscApo', 'sourceOscAxis', 'sourceOscEcc', 'sourceOscEccVector', 'sourceOscEnergy', 'sourceOscPeri', 'sourceStrongAMD']
+      token diff vs frozen PlanarStrongAMDExponentialSafety.lean:
+        replace: [planar_strongAMD_exponentialSafety] -> [planar_strongAMD_exponentialSafety_noArith]
+        delete: [γ τ] -> []
+        delete: [) ( hγ : 0 < γ ) ( hτ : ( n : ℝ ) - 1 < τ] -> []
+        delete: [KAM.IsDiophantine γ τ ( fun i = > ν i ^ 3 / keplerAction ν z₀ i ^ 3 ) →] -> []
+        replace: [( 1 / ( 2 * ( τ + 1 ) ) )] -> [planetaryTimeExponent n]
+        delete: [Real.sqrt] -> []
+        insert: [] -> [^ planetaryDriftExponent n]
+        delete: [Real.sqrt] -> []
+        insert: [] -> [^ planetaryDriftExponent n]
+        delete: [Real.sqrt] -> []
+        insert: [] -> [^ planetaryDriftExponent n]
+    LP3-2 KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith
+      frozen source KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafety.lean blob 3faa58643aeb14582e2116c5c7465f3858c5f53a planetary.d59.spatial_strongAMD_exponentialSafety.v1
+      draft file docs/tracks/LP/freeze/draft8/KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean.txt lines 155 sha256 ba6087a8953f445bb8dcea8f8a7ea074caf1d95442c80e27121f464efeea1374
+      committed draft-8 text byte-identical: True
+      imports 32 ; deps ['AdjIdx', 'AdjIdx.upperIdx', 'IsSpatialMovingSolutionOn', 'IsSpatialNewtonSolutionOn', 'Phase', 'SpatialMovingUniqueOn', 'SpatialSourceCanonicalPhase', 'SpatialSourceOsculatingPhase', 'bodyVector3', 'chamber', 'orderedStrongThreshold', 'planetaryDriftExponent', 'planetaryTimeExponent', 'spaceLength', 'spatialKeplerEnergy', 'spatialMasses', 'spatialOscEcc', 'spatialOscEnergy', 'spatialSourceBarycentricPositions', 'spatialSourceBarycentricVelocities', 'spatialSourceKeplerAction', 'spatialSourceKeplerApo', 'spatialSourceKeplerAxis', 'spatialSourceKeplerEccVector', 'spatialSourceKeplerPeri', 'spatialSourceOscApo', 'spatialSourceOscAxis', 'spatialSourceOscEcc', 'spatialSourceOscEccVector', 'spatialSourceOscEnergy', 'spatialSourceOscPeri', 'spatialSourceStrongAMD']
+      token diff vs frozen SpatialStrongAMDExponentialSafety.lean:
+        replace: [spatial_strongAMD_exponentialSafety] -> [spatial_strongAMD_exponentialSafety_noArith]
+        delete: [γ τ] -> []
+        delete: [) ( hγ : 0 < γ ) ( hτ : ( n : ℝ ) - 1 < τ] -> []
+        delete: [KAM.IsDiophantine γ τ ( fun i = > ν i ^ 3 / spatialSourceKeplerAction ( ⟨ z₀ , h₀ ⟩ : SpatialSourceCanonicalPhase n ν ) i ^ 3 ) →] -> []
+        replace: [( 1 / ( 2 * ( τ + 1 ) ) )] -> [planetaryTimeExponent n]
+        delete: [Real.sqrt] -> []
+        insert: [] -> [^ planetaryDriftExponent n]
+        delete: [Real.sqrt] -> []
+        insert: [] -> [^ planetaryDriftExponent n]
+        delete: [Real.sqrt] -> []
+        insert: [] -> [^ planetaryDriftExponent n]
+
+Result: both committed draft-8 files are reproduced BYTE FOR BYTE from the frozen texts; the token-level difference
+from the frozen LP1 / LP2 statement is exactly: the name; `γ τ` and `hγ hτ` removed; the Diophantine premise removed;
+the time exponent `(1 / (2 * (τ + 1)))` -> `planetaryTimeExponent n`; `Real.sqrt μ` -> `μ ^ planetaryDriftExponent n`
+three times (action, axis, AMD drift). LP3-2 keeps the frozen LP2 F1 form unchanged (not in its token diff).
+
+1.1 Statement diff, frozen PlanarStrongAMDExponentialSafety.lean -> draft-8 LP3-1 (unified, 1 line of context)
+
+    --- frozen KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafety.lean
+    +++ draft 8 KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean
+    @@ -1,2 +1,2 @@
+    -theorem planar_strongAMD_exponentialSafety {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
+    +theorem planar_strongAMD_exponentialSafety_noArith {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
+         (hν : ∀ i, 0 < ν i) (hνmax : ∃ i, ν i = 1) (hνle : ∀ i, ν i ≤ 1)
+    @@ -4,3 +4,3 @@
+         (hAord : ∀ a ∈ A, (∀ i, 0 < a i) ∧ ∀ i j, i < j → a i < a j)
+    -    (δ γ τ : ℝ) (hδ : 0 < δ) (hγ : 0 < γ) (hτ : (n : ℝ) - 1 < τ) :
+    +    (δ : ℝ) (hδ : 0 < δ) :
+         ∃ μ₀ c T₀ AΛ Aa dStar dPair Aosc Aelem : ℝ,
+    @@ -12,3 +12,2 @@
+             (fun i => keplerAxis ν z₀ i) ∈ A →
+    -        KAM.IsDiophantine γ τ (fun i => ν i ^ 3 / keplerAction ν z₀ i ^ 3) →
+             ∀ hch : (fun i => keplerAction ν z₀ i) ∈ chamber ν,
+    @@ -18,3 +17,3 @@
+               orderedStrongThreshold hn ⟨_, hch⟩ - δ →
+    -        let T := T₀ * Real.exp (c * μ ^ (-(1 / (2 * (τ + 1)))))
+    +        let T := T₀ * Real.exp (c * μ ^ (-planetaryTimeExponent n))
+             ∃ z : ℝ → Phase (n * 2), z 0 = z₀ ∧
+    @@ -32,4 +31,6 @@
+                     orderedStrongThreshold hn ⟨_, hcht⟩ - δ / 2) ∧
+    -            ‖(fun i => keplerAction ν (z t) i) - fun i => keplerAction ν z₀ i‖ ≤ AΛ * Real.sqrt μ ∧
+    -            ‖(fun i => keplerAxis ν (z t) i) - fun i => keplerAxis ν z₀ i‖ ≤ Aa * Real.sqrt μ ∧
+    +            ‖(fun i => keplerAction ν (z t) i) - fun i => keplerAction ν z₀ i‖ ≤
+    +              AΛ * μ ^ planetaryDriftExponent n ∧
+    +            ‖(fun i => keplerAxis ν (z t) i) - fun i => keplerAxis ν z₀ i‖ ≤
+    +              Aa * μ ^ planetaryDriftExponent n ∧
+                 (∃ hs : (∀ i, 0 < ν i) ∧
+    @@ -38,3 +39,3 @@
+                       sourceStrongAMD (⟨z₀, h₀⟩ : SourceCanonicalPhase n ν)| ≤
+    -                n * AΛ * Real.sqrt μ) ∧
+    +                n * AΛ * μ ^ planetaryDriftExponent n) ∧
+                 (∀ i, dStar ≤ keplerAxis ν (z t) i *
+
+1.2 Statement diff, frozen SpatialStrongAMDExponentialSafety.lean -> draft-8 LP3-2 (unified, 1 line of context)
+
+    --- frozen KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafety.lean
+    +++ draft 8 KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean
+    @@ -1,2 +1,2 @@
+    -theorem spatial_strongAMD_exponentialSafety {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
+    +theorem spatial_strongAMD_exponentialSafety_noArith {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
+         (hν : ∀ i, 0 < ν i) (hνmax : ∃ i, ν i = 1) (hνle : ∀ i, ν i ≤ 1)
+    @@ -4,3 +4,3 @@
+         (hAord : ∀ a ∈ A, (∀ i, 0 < a i) ∧ ∀ i j, i < j → a i < a j)
+    -    (δ γ τ : ℝ) (hδ : 0 < δ) (hγ : 0 < γ) (hτ : (n : ℝ) - 1 < τ) :
+    +    (δ : ℝ) (hδ : 0 < δ) :
+         ∃ μ₀ c T₀ AΛ Aa dStar dPair Aosc Aelem : ℝ,
+    @@ -14,4 +14,2 @@
+             (fun i => spatialSourceKeplerAxis (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i) ∈ A →
+    -        KAM.IsDiophantine γ τ (fun i => ν i ^ 3 /
+    -            spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i ^ 3) →
+             ∀ hch : (fun i => spatialSourceKeplerAction
+    @@ -20,3 +18,3 @@
+               orderedStrongThreshold hn ⟨_, hch⟩ - δ →
+    -        let T := T₀ * Real.exp (c * μ ^ (-(1 / (2 * (τ + 1)))))
+    +        let T := T₀ * Real.exp (c * μ ^ (-planetaryTimeExponent n))
+             ∃ z : ℝ → Phase (n * 3), z 0 = z₀ ∧
+    @@ -36,9 +34,9 @@
+                     fun i => spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i‖ ≤
+    -              AΛ * Real.sqrt μ ∧
+    +              AΛ * μ ^ planetaryDriftExponent n ∧
+                 ‖(fun i => spatialSourceKeplerAxis (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) i) -
+                     fun i => spatialSourceKeplerAxis (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i‖ ≤
+    -              Aa * Real.sqrt μ ∧
+    +              Aa * μ ^ planetaryDriftExponent n ∧
+                 |spatialSourceStrongAMD (⟨z t, hs⟩ : SpatialSourceCanonicalPhase n ν) -
+                     spatialSourceStrongAMD (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν)| ≤
+    -              n * AΛ * Real.sqrt μ ∧
+    +              n * AΛ * μ ^ planetaryDriftExponent n ∧
+                 (∀ i, dStar ≤
+
+1.3 Whole-file diff, frozen KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafety.lean -> draft-8 KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean.txt (0 context)
+
+    --- KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafety.lean (frozen, D62)
+    +++ KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean (draft 8)
+    @@ -9 +8,0 @@
+    -public import KAM.Frozen.Defs.IsDiophantine
+    @@ -22,0 +22,2 @@
+    +public import KAM.Frozen.Planetary.Defs.PlanetaryDriftExponent
+    +public import KAM.Frozen.Planetary.Defs.PlanetaryTimeExponent
+    @@ -40 +41 @@
+    -import KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafety
+    +import KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyNoArith
+    @@ -43 +44 @@
+    -# Frozen theorem `KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety`
+    +# Frozen theorem `KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith`
+    @@ -45,8 +46,11 @@
+    -Track LP anchor LP1, planar strong-AMD exponential safety (`LP:MAIN T15 (502–506) with §1 (6)–(9)
+    -(69–93), L16 (508–529); N8, N10`; MAIN as amended by AMENDMENTS). Owner-approved on 2026-11-01
+    -(decision D62; docs/tracks/LP/FREEZE-PROPOSAL.md draft 7, under the rulings of D59). This
+    -file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an owner-approved
+    -versioned successor. Only the proof body between the markers may change, and only to `by exact
+    -KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety hn ν hν hνmax hνle A hA hAord δ
+    -γ τ hδ hγ hτ` when the provider `KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafety`
+    -is complete (sealing).
+    +Track LP anchor LP3-1, planar strong-AMD exponential safety with no arithmetic hypothesis (time
+    +exponent `planetaryTimeExponent n`, drift exponent `planetaryDriftExponent n`) (`LP:MAIN T15
+    +(502–506) with §1 (6)–(9) (69–93) without (5), L14 (468–500), L16 (508–529); N8, N10; drift supplier
+    +L12–L13 (381–467) replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)`; MAIN as
+    +amended by AMENDMENTS). Owner-approved on <APPROVAL-DATE> (decision <DECISION>;
+    +docs/tracks/LP/FREEZE-PROPOSAL-DRAFT8.md draft 8, the LP3 delta on draft 7, under the rulings of
+    +D59). This file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an
+    +owner-approved versioned successor. Only the proof body between the markers may change, and only to
+    +`by exact KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith hn ν hν hνmax
+    +hνle A hA hAord δ hδ` when the provider
+    +`KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyNoArith` is complete (sealing).
+    @@ -59,3 +63,6 @@
+    -/-- **LP1** (`LP:MAIN T15 (502–506) with §1 (6)–(9) (69–93), L16 (508–529); N8, N10`): planar
+    -strong-AMD exponential safety. -/
+    -theorem planar_strongAMD_exponentialSafety {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
+    +/-- **LP3-1** (`LP:MAIN T15 (502–506) with §1 (6)–(9) (69–93) without (5), L14 (468–500), L16
+    +(508–529); N8, N10; drift supplier L12–L13 (381–467) replaced by the sealed
+    +partialConvex_nekhoroshev (LP3-PLAN §1–§2)`): planar strong-AMD exponential safety with no
+    +arithmetic hypothesis (time exponent `planetaryTimeExponent n`, drift exponent
+    +`planetaryDriftExponent n`). -/
+    +theorem planar_strongAMD_exponentialSafety_noArith {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
+    @@ -65 +72 @@
+    -    (δ γ τ : ℝ) (hδ : 0 < δ) (hγ : 0 < γ) (hτ : (n : ℝ) - 1 < τ) :
+    +    (δ : ℝ) (hδ : 0 < δ) :
+    @@ -73 +79,0 @@
+    -        KAM.IsDiophantine γ τ (fun i => ν i ^ 3 / keplerAction ν z₀ i ^ 3) →
+    @@ -79 +85 @@
+    -        let T := T₀ * Real.exp (c * μ ^ (-(1 / (2 * (τ + 1)))))
+    +        let T := T₀ * Real.exp (c * μ ^ (-planetaryTimeExponent n))
+    @@ -93,2 +99,4 @@
+    -            ‖(fun i => keplerAction ν (z t) i) - fun i => keplerAction ν z₀ i‖ ≤ AΛ * Real.sqrt μ ∧
+    -            ‖(fun i => keplerAxis ν (z t) i) - fun i => keplerAxis ν z₀ i‖ ≤ Aa * Real.sqrt μ ∧
+    +            ‖(fun i => keplerAction ν (z t) i) - fun i => keplerAction ν z₀ i‖ ≤
+    +              AΛ * μ ^ planetaryDriftExponent n ∧
+    +            ‖(fun i => keplerAxis ν (z t) i) - fun i => keplerAxis ν z₀ i‖ ≤
+    +              Aa * μ ^ planetaryDriftExponent n ∧
+    @@ -99 +107 @@
+    -                n * AΛ * Real.sqrt μ) ∧
+    +                n * AΛ * μ ^ planetaryDriftExponent n) ∧
+    @@ -133,2 +141 @@
+    -  by exact KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety hn ν hν hνmax hνle A
+    -      hA hAord δ γ τ hδ hγ hτ
+    +  by sorry
+
+1.4 Whole-file diff, frozen KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafety.lean -> draft-8 KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean.txt (0 context)
+
+    --- KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafety.lean (frozen, D62)
+    +++ KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean (draft 8)
+    @@ -9 +8,0 @@
+    -public import KAM.Frozen.Defs.IsDiophantine
+    @@ -10,0 +10,2 @@
+    +public import KAM.Frozen.Planetary.Defs.PlanetaryDriftExponent
+    +public import KAM.Frozen.Planetary.Defs.PlanetaryTimeExponent
+    @@ -40 +41 @@
+    -import KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafety
+    +import KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyNoArith
+    @@ -43 +44 @@
+    -# Frozen theorem `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety`
+    +# Frozen theorem `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith`
+    @@ -45,8 +46,11 @@
+    -Track LP anchor LP2, spatial strong-AMD exponential safety (`LP:MAIN T19 (599–603) with §1 (6)–(9)
+    -(69–93), L16 (508–529), d = 3`; MAIN as amended by AMENDMENTS). Owner-approved on 2026-11-01
+    -(decision D62; docs/tracks/LP/FREEZE-PROPOSAL.md draft 7, under the rulings of D59). This
+    -file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an owner-approved
+    -versioned successor. Only the proof body between the markers may change, and only to `by exact
+    -KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety hn ν hν hνmax hνle A hA hAord δ γ
+    -τ hδ hγ hτ` when the provider `KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafety` is
+    -complete (sealing).
+    +Track LP anchor LP3-2, spatial strong-AMD exponential safety with no arithmetic hypothesis (time
+    +exponent `planetaryTimeExponent n`, drift exponent `planetaryDriftExponent n`) (`LP:MAIN T19
+    +(599–603) with §1 (6)–(9) (69–93) without (5), L14 (468–500), L16 (508–529), d = 3; drift supplier
+    +L12–L13 (381–467) replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)`; MAIN as
+    +amended by AMENDMENTS). Owner-approved on <APPROVAL-DATE> (decision <DECISION>;
+    +docs/tracks/LP/FREEZE-PROPOSAL-DRAFT8.md draft 8, the LP3 delta on draft 7, under the rulings of
+    +D59). This file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an
+    +owner-approved versioned successor. Only the proof body between the markers may change, and only to
+    +`by exact KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith hn ν hν hνmax
+    +hνle A hA hAord δ hδ` when the provider
+    +`KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyNoArith` is complete (sealing).
+    @@ -61,3 +65,5 @@
+    -/-- **LP2** (`LP:MAIN T19 (599–603) with §1 (6)–(9) (69–93), L16 (508–529), d = 3`): spatial
+    -strong-AMD exponential safety. -/
+    -theorem spatial_strongAMD_exponentialSafety {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
+    +/-- **LP3-2** (`LP:MAIN T19 (599–603) with §1 (6)–(9) (69–93) without (5), L14 (468–500), L16
+    +(508–529), d = 3; drift supplier L12–L13 (381–467) replaced by the sealed partialConvex_nekhoroshev
+    +(LP3-PLAN §1–§2)`): spatial strong-AMD exponential safety with no arithmetic hypothesis (time
+    +exponent `planetaryTimeExponent n`, drift exponent `planetaryDriftExponent n`). -/
+    +theorem spatial_strongAMD_exponentialSafety_noArith {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
+    @@ -67 +73 @@
+    -    (δ γ τ : ℝ) (hδ : 0 < δ) (hγ : 0 < γ) (hτ : (n : ℝ) - 1 < τ) :
+    +    (δ : ℝ) (hδ : 0 < δ) :
+    @@ -77,2 +82,0 @@
+    -        KAM.IsDiophantine γ τ (fun i => ν i ^ 3 /
+    -            spatialSourceKeplerAction (⟨z₀, h₀⟩ : SpatialSourceCanonicalPhase n ν) i ^ 3) →
+    @@ -83 +87 @@
+    -        let T := T₀ * Real.exp (c * μ ^ (-(1 / (2 * (τ + 1)))))
+    +        let T := T₀ * Real.exp (c * μ ^ (-planetaryTimeExponent n))
+    @@ -99 +103 @@
+    -              AΛ * Real.sqrt μ ∧
+    +              AΛ * μ ^ planetaryDriftExponent n ∧
+    @@ -102 +106 @@
+    -              Aa * Real.sqrt μ ∧
+    +              Aa * μ ^ planetaryDriftExponent n ∧
+    @@ -105 +109 @@
+    -              n * AΛ * Real.sqrt μ ∧
+    +              n * AΛ * μ ^ planetaryDriftExponent n ∧
+    @@ -143,2 +147 @@
+    -  by exact KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety hn ν hν hνmax hνle A
+    -      hA hAord δ γ τ hδ hγ hτ
+    +  by sorry
+
+2. Manifest entry drafts (mk_manifest8r.py)
+-------------------------------------------
+
+definition_closure computed with the D62 install's own closure regex (lp_manifest_add.IMPORT) over the real frozen
+files, starting from each draft text's imports; every member asserted to be a definition entry of the live
+manifest; every `KAM.*` import of the texts other than the own provider is a KAM.Frozen module (asserted).
+
+$ python3 .drafts/freeze8r/mk_manifest8r.py 2bbacd66      (after --write; exit 0)
+    manifest-entries.json unchanged
+      planetary.d59.planar_strongAMD_exponentialSafety_noArith.v1 fields changed vs committed: []
+      planetary.d59.spatial_strongAMD_exponentialSafety_noArith.v1 fields changed vs committed: []
+    planetary.d59.planar_strongAMD_exponentialSafety_noArith.v1 79 closure files; vs planetary.d59.planar_strongAMD_exponentialSafety.v1 (77) : added ['KAM/Frozen/Planetary/Defs/PlanetaryDriftExponent.lean', 'KAM/Frozen/Planetary/Defs/PlanetaryTimeExponent.lean'] removed []
+    planetary.d59.spatial_strongAMD_exponentialSafety_noArith.v1 96 closure files; vs planetary.d59.spatial_strongAMD_exponentialSafety.v1 (79) : added ['KAM/Frozen/Planetary/Defs/ActualMasses.lean', 'KAM/Frozen/Planetary/Defs/Assemble.lean', 'KAM/Frozen/Planetary/Defs/BarycentricPositions.lean', 'KAM/Frozen/Planetary/Defs/BarycentricVelocities.lean', 'KAM/Frozen/Planetary/Defs/BodyVector.lean', 'KAM/Frozen/Planetary/Defs/Fast.lean', 'KAM/Frozen/Planetary/Defs/MovingHamiltonian.lean', 'KAM/Frozen/Planetary/Defs/NoCollision.lean', 'KAM/Frozen/Planetary/Defs/OscillatorAction.lean', 'KAM/Frozen/Planetary/Defs/PairBounds.lean', 'KAM/Frozen/Planetary/Defs/PlaneDot.lean', 'KAM/Frozen/Planetary/Defs/PlaneLength.lean', 'KAM/Frozen/Planetary/Defs/PlaneSq.lean', 'KAM/Frozen/Planetary/Defs/PlanetaryDriftExponent.lean', 'KAM/Frozen/Planetary/Defs/PlanetaryTimeExponent.lean', 'KAM/Frozen/Planetary/Defs/SecularAverage.lean', 'KAM/Frozen/Planetary/Defs/Slow.lean'] removed []
+
+The only change against the first draft-8 run: source.revision names the regeneration base KAM-inp@2bbacd66
+(MAIN, AMENDMENTS and LP3-PLAN sha256 asserted unchanged), and the _comment. The closures are unchanged (79, 96).
+docs/tracks/LP/freeze/draft8/manifest-entries.json sha256 9b8e3ffc6c5404c81bcd1cc5623f609c5ddd2976521b142a8d48aae9c4805669
+docs/tracks/LP/freeze/draft8/KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean.txt sha256 77c6bb5ee337d2c6b96bed50a06e5ca835acb33d3b9ee0813498df8b5be6cff8
+docs/tracks/LP/freeze/draft8/KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean.txt sha256 ba6087a8953f445bb8dcea8f8a7ea074caf1d95442c80e27121f464efeea1374
+
+3. Check (a): each text elaborates against the real frozen modules
+-------------------------------------------------------------------
+
+a/<Module>.lean = the draft-8 file text with exactly one line removed, `import <its provider>`; it therefore imports
+exactly its 32 frozen definition modules (built oleans of this tree) and nothing else. a/<Module>__verbatim.lean =
+the draft-8 file text byte for byte (the staged provider module exists and is built on this branch).
+
+$ /root/code/KAM-inp/.drafts/LP/lp_lean.sh /root/code/KAM-inp-lp-freeze8r .drafts/freeze8r/a/KAM_Frozen_Planetary_Spatial_Theorems_SpatialStrongAMDExponentialSafetyNoArith.lean      (exit 0)
+    .drafts/freeze8r/a/KAM_Frozen_Planetary_Spatial_Theorems_SpatialStrongAMDExponentialSafetyNoArith.lean:68:8: warning: declaration uses `sorry`
+
+$ /root/code/KAM-inp/.drafts/LP/lp_lean.sh /root/code/KAM-inp-lp-freeze8r .drafts/freeze8r/a/KAM_Frozen_Planetary_Spatial_Theorems_SpatialStrongAMDExponentialSafetyNoArith__verbatim.lean      (exit 0)
+    .drafts/freeze8r/a/KAM_Frozen_Planetary_Spatial_Theorems_SpatialStrongAMDExponentialSafetyNoArith__verbatim.lean:69:8: warning: declaration uses `sorry`
+
+$ /root/code/KAM-inp/.drafts/LP/lp_lean.sh /root/code/KAM-inp-lp-freeze8r .drafts/freeze8r/a/KAM_Frozen_Planetary_StrongAMD_Theorems_PlanarStrongAMDExponentialSafetyNoArith.lean      (exit 0)
+    .drafts/freeze8r/a/KAM_Frozen_Planetary_StrongAMD_Theorems_PlanarStrongAMDExponentialSafetyNoArith.lean:67:8: warning: declaration uses `sorry`
+
+$ /root/code/KAM-inp/.drafts/LP/lp_lean.sh /root/code/KAM-inp-lp-freeze8r .drafts/freeze8r/a/KAM_Frozen_Planetary_StrongAMD_Theorems_PlanarStrongAMDExponentialSafetyNoArith__verbatim.lean      (exit 0)
+    .drafts/freeze8r/a/KAM_Frozen_Planetary_StrongAMD_Theorems_PlanarStrongAMDExponentialSafetyNoArith__verbatim.lean:68:8: warning: declaration uses `sorry`
+
+Result: 4/4 exit 0; the only message is the expected "declaration uses `sorry`" warning, one per file.
+
+4. Check (c): verbatim statements closed by the implementation theorems
+------------------------------------------------------------------------
+
+c8r_verification.lean imports the 57 frozen definition modules imported by the two texts and the two implementation
+modules; each anchor statement verbatim in its REAL namespace (the spatial one after `open KAM.Planetary.StrongAMD`,
+as in the file), closed by `by exact _root_.<implementation theorem> hn ν hν hνmax hνle A hA hAord δ hδ`.
+#sameDecl = Expr.eqv of the elaborated types; #sameDeclUnfold = Expr.eqv after delta-expanding exactly
+spatialSourceBarycentricPositions / spatialSourceBarycentricVelocities and head-beta. The #kamClosure listing
+(127 lines) is summarized in §5.
+
+$ /root/code/KAM-inp/.drafts/LP/lp_lean.sh /root/code/KAM-inp-lp-freeze8r .drafts/freeze8r/c8r_verification.lean      (exit 0)
+    'KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith' depends on axioms: [propext,
+     Classical.choice,
+     Quot.sound]
+    KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith vs KAM.Planetary.StrongAMD.lp3_planar_strongAMD_safety_source: TYPE_EQV THEOREM REDUCIBILITY_SAME
+    KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith vs KAM.Planetary.StrongAMD.lp3_planar_strongAMD_safety_source after unfolding the source barycentric maps: TYPE_EQV
+    'KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith' depends on axioms: [propext,
+     Classical.choice,
+     Quot.sound]
+    KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith vs KAM.Planetary.Spatial.lp3_spatial_strongAMD_safety_source: TYPE_NOT_EQV THEOREM REDUCIBILITY_SAME
+    KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith vs KAM.Planetary.Spatial.lp3_spatial_strongAMD_safety_source after unfolding the source barycentric maps: TYPE_EQV
+
+Result: both anchors, stated verbatim, close by `exact` of lp3_{planar,spatial}_strongAMD_safety_source; no sorry;
+axioms exactly [propext, Classical.choice, Quot.sound]. LP3-1: types Expr-equal. LP3-2: types Expr-equal after
+unfolding exactly the two D62 source barycentric maps (the implementation theorem uses the raw
+spatialBarycentric* maps; the frozen maps are definitionally them: `spatialSourceBarycentricPositions_def` etc.
+are `rfl` in KAM/Planetary/Spatial/SourceBarycentric.lean). The staged provider (§6) restates the anchor text,
+closes it by the same raw-map theorem (definitional unfolding at elaboration), and is Expr-equal to the anchor.
+Difference from the frozen LP2: there the provider applies a restated implementation theorem already stated with
+the source maps (lp2_spatial_strongAMD_safety_source_isDiophantine, KAM/Planetary/Spatial/SpatialSafety/
+SourceCorollary.lean); no such restated LP3 theorem exists, and none is needed for the seal (it would be an
+implementation addition outside this package).
+
+5. Definition closure (Lean constant closure; closure8r.py)
+-----------------------------------------------------------
+
+c8r_verification.out:
+    - roots: the two anchors as elaborated in check (c);
+    - closure size: 104 definitions = 81 D62 LP frozen definitions + 23 other frozen definitions + 0 other;
+    - **definitions that are not frozen (would be new for draft 8): 0** (none);
+    - other frozen definitions: `KAM.Iso.IsHamiltonianSolutionOn`, `KAM.Planetary.IsMovingSolutionOn`, `KAM.Planetary.IsNewtonSolutionOn`, `KAM.Planetary.MovingUniqueOn`, `KAM.Planetary.NoCollision`, `KAM.Planetary.Phase`, `KAM.Planetary.actualMasses`, `KAM.Planetary.barycentricPositions`, `KAM.Planetary.barycentricVelocities`, `KAM.Planetary.bodyVector`, `KAM.Planetary.keplerAction`, `KAM.Planetary.keplerAxis`, `KAM.Planetary.keplerEccVector`, `KAM.Planetary.keplerEnergy`, `KAM.Planetary.movingHamiltonian`, `KAM.Planetary.planeCross`, `KAM.Planetary.planeDot`, `KAM.Planetary.planeLength`, `KAM.Planetary.planeSq`, `KAM.Planetary.planetaryDriftExponent`, `KAM.Planetary.planetaryTimeExponent`, `KAM.Planetary.totalMomentum`, `KAM.hamiltonianVectorField`.
+
+closure8r.out:
+    - roots: the two closing implementation theorems;
+    - closure size: 102 definitions = 79 D62 LP frozen definitions + 23 other frozen definitions + 0 other;
+    - **definitions that are not frozen (would be new for draft 8): 0** (none);
+    - other frozen definitions: `KAM.Iso.IsHamiltonianSolutionOn`, `KAM.Planetary.IsMovingSolutionOn`, `KAM.Planetary.IsNewtonSolutionOn`, `KAM.Planetary.MovingUniqueOn`, `KAM.Planetary.NoCollision`, `KAM.Planetary.Phase`, `KAM.Planetary.actualMasses`, `KAM.Planetary.barycentricPositions`, `KAM.Planetary.barycentricVelocities`, `KAM.Planetary.bodyVector`, `KAM.Planetary.keplerAction`, `KAM.Planetary.keplerAxis`, `KAM.Planetary.keplerEccVector`, `KAM.Planetary.keplerEnergy`, `KAM.Planetary.movingHamiltonian`, `KAM.Planetary.planeCross`, `KAM.Planetary.planeDot`, `KAM.Planetary.planeLength`, `KAM.Planetary.planeSq`, `KAM.Planetary.planetaryDriftExponent`, `KAM.Planetary.planetaryTimeExponent`, `KAM.Planetary.totalMomentum`, `KAM.hamiltonianVectorField`.
+
+($ /root/code/KAM-inp/.drafts/LP/lp_lean.sh /root/code/KAM-inp-lp-freeze8r .drafts/freeze8r/closure8r.lean: exit 0.)
+Result: 0 new definitions, 0 new characterizations; every definition reachable from the anchors is frozen (81
+D62 LP definitions and 23 earlier ones, among them the track-P exponents).
+
+6. Seal: one-pass install dry run, exact seal bodies, providers
+---------------------------------------------------------------
+
+6.1 Dry run of the D62 install scripts (dryrun8r.sh), outside the repository: the committed tree at the approved
+commit exported (git archive) into a scratch directory of the session scratchpad; lp_freeze_install.py --sealed
+writes there (--out), lp_manifest_add.py extends the scratch manifest (approval record of the dry run: dummy values,
+state SEALED), the guard and the root generator run on the scratch tree. Dummy fill: <APPROVAL-DATE> -> YYYY-MM-DD,
+<DECISION> -> Dnn. ABI hashes are not computed (they need the installed modules built; abi_hashes.py at freeze).
+
+$ .drafts/freeze8r/dryrun8r.sh 759a04a3      (exit 0)
+    == export of 759a04a3 into the scratch tree
+    == S1 lp_freeze_install.py --kind theorem --sealed (root = worktree, --out = scratch tree)
+    installed 2 theorem files (sealed bodies) into <scratch>
+    modules in import order:
+      KAM.Frozen.Planetary.Spatial.Theorems.SpatialStrongAMDExponentialSafetyNoArith
+      KAM.Frozen.Planetary.StrongAMD.Theorems.PlanarStrongAMDExponentialSafetyNoArith
+    -- KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean: diff vs the draft-8 text (only the two placeholders and the body may differ)
+    50c50
+    < amended by AMENDMENTS). Owner-approved on <APPROVAL-DATE> (decision <DECISION>;
+    ---
+    > amended by AMENDMENTS). Owner-approved on YYYY-MM-DD (decision Dnn;
+    141c141,142
+    <   by sorry
+    ---
+    >   by exact KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith hn ν hν hνmax
+    >       hνle A hA hAord δ hδ
+    -- KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean: diff vs the draft-8 text (only the two placeholders and the body may differ)
+    50c50
+    < amended by AMENDMENTS). Owner-approved on <APPROVAL-DATE> (decision <DECISION>;
+    ---
+    > amended by AMENDMENTS). Owner-approved on YYYY-MM-DD (decision Dnn;
+    147c147,148
+    <   by sorry
+    ---
+    >   by exact KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith hn ν hν hνmax
+    >       hνle A hA hAord δ hδ
+    == S3 lp_manifest_add.py (root = scratch tree, approved entries read from git at 759a04a3)
+    2 LP entries (0 definitions, 2 theorems; state SEALED; ABI zero placeholders); 307 existing entries unchanged; manifest now 309 -> <scratch>/manifest/frozen-anchors.json
+    307 existing entries JSON-equal; 2 new:
+      planetary.d59.planar_strongAMD_exponentialSafety_noArith.v1 SEALED KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean closure 79 prefix 6d287948d96851ad suffix 3a3499343d03144b abi 00000000
+      planetary.d59.spatial_strongAMD_exponentialSafety_noArith.v1 SEALED KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean closure 96 prefix 2af5b97066f062de suffix 7a354397a2f0d077 abi 00000000
+    == guard on the scratch tree
+    FROZEN-ANCHOR GUARD OK
+    == roots: gen_root_imports.py in the scratch tree, then the diff of the generated paths
+    roots up to date after regeneration
+    diff -u /root/code/KAM-inp-lp-freeze8r/KAM/Root/Frozen.lean <scratch>/KAM/Root/Frozen.lean
+    --- /root/code/KAM-inp-lp-freeze8r/KAM/Root/Frozen.lean	2026-11-01 10:57:05.857096704 +0000
+    +++ <scratch>/KAM/Root/Frozen.lean	2026-11-01 13:51:51.728119819 +0000
+    @@ -212,6 +212,7 @@
+     public import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceStrongAMDNonneg
+     public import KAM.Frozen.Planetary.Spatial.Theorems.SpatialStrongAMDExponentialSafety
+     public import KAM.Frozen.Planetary.Spatial.Theorems.SpatialStrongAMDExponentialSafetyHalfInteger
+    +public import KAM.Frozen.Planetary.Spatial.Theorems.SpatialStrongAMDExponentialSafetyNoArith
+     public import KAM.Frozen.Planetary.StrongAMD.Defs.ActionAxis
+     public import KAM.Frozen.Planetary.StrongAMD.Defs.AdjIdx
+     public import KAM.Frozen.Planetary.StrongAMD.Defs.AdjIdxUpperIdx
+    @@ -255,6 +256,7 @@
+     public import KAM.Frozen.Planetary.StrongAMD.Theorems.PlanarStrongAMDBarrier
+     public import KAM.Frozen.Planetary.StrongAMD.Theorems.PlanarStrongAMDExponentialSafety
+     public import KAM.Frozen.Planetary.StrongAMD.Theorems.PlanarStrongAMDExponentialSafetyHalfInteger
+    +public import KAM.Frozen.Planetary.StrongAMD.Theorems.PlanarStrongAMDExponentialSafetyNoArith
+     public import KAM.Frozen.Planetary.StrongAMD.Theorems.PlaneLengthLeSourceKeplerApo
+     public import KAM.Frozen.Planetary.StrongAMD.Theorems.PlaneLengthLeSourceOscApo
+     public import KAM.Frozen.Planetary.StrongAMD.Theorems.SourceKeplerAxisPos
+    diff -u /root/code/KAM-inp-lp-freeze8r/KAM/Root/Provider.lean <scratch>/KAM/Root/Provider.lean
+    --- /root/code/KAM-inp-lp-freeze8r/KAM/Root/Provider.lean	2026-11-01 10:57:05.857096704 +0000
+    +++ <scratch>/KAM/Root/Provider.lean	2026-11-01 13:51:51.728119819 +0000
+    @@ -48,6 +48,7 @@
+     public import KAM.Provider.Planetary.Spatial.SpatialSourceStrongAMDNonneg
+     public import KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafety
+     public import KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyHalfInteger
+    +public import KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyNoArith
+     public import KAM.Provider.Planetary.StrongAMD.OrderedCrossThresholdIsLeast
+     public import KAM.Provider.Planetary.StrongAMD.OrderedPairThresholdExistsUniqueValue
+     public import KAM.Provider.Planetary.StrongAMD.OrderedPairThresholdIsLeast
+    @@ -55,6 +56,7 @@
+     public import KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDBarrier
+     public import KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafety
+     public import KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyHalfInteger
+    +public import KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyNoArith
+     public import KAM.Provider.Planetary.StrongAMD.PlaneLengthLeSourceKeplerApo
+     public import KAM.Provider.Planetary.StrongAMD.PlaneLengthLeSourceOscApo
+     public import KAM.Provider.Planetary.StrongAMD.SourceKeplerAxisPos
+    DRYRUN-DONE
+
+6.2 The dry-run sealed files, byte for byte (seal/<Module>.lean; mk_checks8r.py asserts each equals the draft text
+with only the two placeholders filled and `  by sorry` replaced by the sealed body):
+
+$ /root/code/KAM-inp/.drafts/LP/lp_lean.sh /root/code/KAM-inp-lp-freeze8r .drafts/freeze8r/seal/KAM_Frozen_Planetary_Spatial_Theorems_SpatialStrongAMDExponentialSafetyNoArith.lean      (exit 0)
+    (no output)
+
+$ /root/code/KAM-inp/.drafts/LP/lp_lean.sh /root/code/KAM-inp-lp-freeze8r .drafts/freeze8r/seal/KAM_Frozen_Planetary_StrongAMD_Theorems_PlanarStrongAMDExponentialSafetyNoArith.lean      (exit 0)
+    (no output)
+
+Result: 2/2 exit 0 with no message: the exact seal bodies close the exact texts.
+
+6.3 Provider check (prov8r_check.lean): imports the two provider modules and the frozen definition modules; each
+anchor statement verbatim in its REAL namespace closed by its exact sealed body (copied from the dry-run file);
+`example : type_of% @X := @Pv`; #sameDecl; #typeEqv (lp_axioms.py's probe command); #print axioms of X and Pv.
+
+$ /root/code/KAM-inp/.drafts/LP/lp_lean.sh /root/code/KAM-inp-lp-freeze8r .drafts/freeze8r/prov8r_check.lean      (exit 0)
+    KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith vs KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith: TYPE_EQV THEOREM REDUCIBILITY_SAME
+    TYPECHECK KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith: TYPE_EQV
+    'KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith' depends on axioms: [propext,
+     Classical.choice,
+     Quot.sound]
+    'KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith' depends on axioms: [propext,
+     Classical.choice,
+     Quot.sound]
+    KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith vs KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith: TYPE_EQV THEOREM REDUCIBILITY_SAME
+    TYPECHECK KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith: TYPE_EQV
+    'KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith' depends on axioms: [propext,
+     Classical.choice,
+     Quot.sound]
+    'KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith' depends on axioms: [propext,
+     Classical.choice,
+     Quot.sound]
+
+Result: anchor and provider types Expr-equal (TYPE_EQV, both meta commands); the type_of% probe elaborates; axioms
+exactly [propext, Classical.choice, Quot.sound] for both anchors and both providers.
+
+6.4 Provider build and texts
+
+$ /root/code/KAM-inp/.drafts/LP/lp_build.sh /root/code/KAM-inp-lp-freeze8r KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyNoArith
+    KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyNoArith
+    [lp_build] slot 1: KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyNoArith (13:49:19)
+    ✔ [9406/9406] Built KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyNoArith (5.4s)
+    Build completed successfully (9406 jobs).
+    [lp_build] slot 1: KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyNoArith (13:49:36)
+    ✔ [9507/9507] Built KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyNoArith (4.4s)
+    Build completed successfully (9507 jobs).
+    rc=0
+    (no warning in the two provider files; the log's warnings are replays of other modules)
+
+mk_checks8r.py regenerates both provider texts with the draft-8 provider generator logic (mk_providers8.py) on the
+regenerated records: both committed providers byte-identical. The spatial provider imports the real
+KAM.Planetary.Spatial.SourceBarycentric (D62), so the first run's transient stand-in is gone.
+  KAM/Provider/Planetary/StrongAMD/PlanarStrongAMDExponentialSafetyNoArith.lean: 110 lines, sha256 956c7e7648eb1c74468344d90038811202ef1738a5ac33f054ad93c1eed9304e
+  KAM/Provider/Planetary/Spatial/SpatialStrongAMDExponentialSafetyNoArith.lean: 116 lines, sha256 34e337b7af0e90f8e6472acdf2093e68b0add2f2e476e7552c2cc58fe60b0904
+
+$ python3 /mnt/HC_Volume_106379410/orchestrator-tools/main_shortname_check.py /root/code/KAM-inp-lp-freeze8r <the two provider modules>
+    short-name check OK (no reused public short name)
+    (exit 0)
+
+7. Lint
+-------
+
+$ /root/code/KAM-inp/.drafts/LP/lp_lint.sh /root/code/KAM-inp-lp-freeze8r      (exit 1)
+    KAM.lean is out of date; run scripts/gen_root_imports.py (KAM/Root/Provider.lean)
+    check_lean_modules: PASS (4233 Lean files, 0 comparator configurations)
+    FROZEN-ANCHOR GUARD OK
+    ABI HASHES OK (305 frozen declarations of KAM; checked by file hash only, not built by this run: KAMLunarBand: KAM.SpinOrbit.lunar_barriers, KAM.SpinOrbit.lunar_spin_confinement (--lib KAMLunarBand))
+
+The only failure is the known provider-root deviation of the first draft-8 run (handoff LP-FREEZE8, conflict 1):
+scripts/gen_root_imports.py quarantines only providers of DRAFT_SORRY anchors, so with the two staged providers and
+no manifest entry it wants them in KAM/Root/Provider.lean; the roots are deliberately NOT regenerated (AGENTS rule 9:
+nothing but its anchor imports a provider). At the one-pass install the manifest entries exist and the regenerated
+roots add exactly the two anchors to KAM/Root/Frozen.lean and the two providers to KAM/Root/Provider.lean (§6.1).
+

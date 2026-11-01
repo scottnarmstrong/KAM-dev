@@ -48,6 +48,7 @@ public import KAM.Provider.Planetary.Spatial.SpatialSourcePlanetAngularMomentumL
 public import KAM.Provider.Planetary.Spatial.SpatialSourceStrongAMDNonneg
 public import KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafety
 public import KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyHalfInteger
+public import KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyNoArith
 public import KAM.Provider.Planetary.StrongAMD.OrderedCrossThresholdIsLeast
 public import KAM.Provider.Planetary.StrongAMD.OrderedPairThresholdExistsUniqueValue
 public import KAM.Provider.Planetary.StrongAMD.OrderedPairThresholdIsLeast
@@ -55,6 +56,7 @@ public import KAM.Provider.Planetary.StrongAMD.OrderedStrongThresholdIsLeast
 public import KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDBarrier
 public import KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafety
 public import KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyHalfInteger
+public import KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyNoArith
 public import KAM.Provider.Planetary.StrongAMD.PlaneLengthLeSourceKeplerApo
 public import KAM.Provider.Planetary.StrongAMD.PlaneLengthLeSourceOscApo
 public import KAM.Provider.Planetary.StrongAMD.SourceKeplerAxisPos
