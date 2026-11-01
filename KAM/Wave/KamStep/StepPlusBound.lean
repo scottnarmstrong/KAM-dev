@@ -312,4 +312,79 @@ theorem stepXplusB_bounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 
       (stepZgfam ha hp hpb T₁ FT₁) t w) (f₂ := fun t => yfam ι (stepFieldS ha hp hpb FT₂ r)
       (stepZgfam ha hp hpb T₂ FT₂) t w) hL₁ hL₂ hl₁ hl₂ (fun t ht => (hb t ht).2)
 
+
+/-- **Bounds of `X_+`** for two parameters: sum of the pulled-back and commutator terms. -/
+theorem stepXplus_pair_bound (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 < σ)
+    (hσ1 : σ ≤ 1) (hσs : 5 * σ < s) (hη0 : 0 < η) (hη : η ≤ 1 / 8)
+    {X₁ X₂ : KamPhase → KamPhase} {T₁ T₂ : HomTaylor_gen a p pb s}
+    {FT₁ FT₂ : HomTaylor_gen a p pb (s - σ)} {Δ₁ N₁ Y0 Yd : ℝ}
+    (he₁ : 0 ≤ e₁) (hΔ₁ : 0 ≤ Δ₁) (hN₁ : 0 ≤ N₁) (hY0 : 0 ≤ Y0)
+    (hT₁ : HomFieldBound_gen ha hp hpb r e₁ T₁) (hT₂ : HomFieldBound_gen ha hp hpb r e₁ T₂)
+    (hTn₁ : HomFieldBound_gen ha hp hpb r (2 * e₁) (homNhatTaylor_gen T₁))
+    (hTn₂ : HomFieldBound_gen ha hp hpb r (2 * e₁) (homNhatTaylor_gen T₂))
+    (hΔT : HomFieldBound_gen ha hp hpb r Δ₁ (T₁.homSub T₂))
+    (hΔTn : HomFieldBound_gen ha hp hpb r (2 * Δ₁)
+      ((homNhatTaylor_gen T₁).homSub (homNhatTaylor_gen T₂)))
+    (hF₁ : HomFieldBound_gen ha hp hpb r Mf FT₁) (hF₂ : HomFieldBound_gen ha hp hpb r Mf FT₂)
+    (hΔF : HomFieldBound_gen ha hp hpb r N₁ (FT₁.homSub FT₂))
+    (hM0 : 0 < Mf) (hMs : 16 * Mf ≤ σ * η ^ 2)
+    (hY₁ : DifferentiableOn ℂ (fun x => X₁ x - stepField ha hp hpb T₁ x)
+      (kamDomain (s - 3 * σ) (4 * (η * r))))
+    (hY₂ : DifferentiableOn ℂ (fun x => X₂ x - stepField ha hp hpb T₂ x)
+      (kamDomain (s - 3 * σ) (4 * (η * r))))
+    (hb₁ : ∀ z ∈ kamDomain (s - 3 * σ) (4 * (η * r)),
+      kamNorm (η * r) (X₁ z - stepField ha hp hpb T₁ z) ≤ Y0)
+    (hb₂ : ∀ z ∈ kamDomain (s - 3 * σ) (4 * (η * r)),
+      kamNorm (η * r) (X₂ z - stepField ha hp hpb T₂ z) ≤ Y0)
+    (hd : ∀ z ∈ kamDomain (s - 3 * σ) (4 * (η * r)),
+      kamNorm (η * r) ((X₁ z - stepField ha hp hpb T₁ z) - (X₂ z - stepField ha hp hpb T₂ z)) ≤ Yd)
+    {w : StepPhase r} (hw : w ∈ stepDomain r (s - 5 * σ) (η * r)) :
+    stepNu (η * r) (stepXplusS ha hp hpb X₁ T₁ FT₁ w) ≤
+        2 * Y0 + 2 * (η⁻¹ ^ 2 * (8 * e₁ * Mf / σ)) ∧
+      stepNu (η * r) (stepXplusS ha hp hpb X₁ T₁ FT₁ w - stepXplusS ha hp hpb X₂ T₂ FT₂ w) ≤
+        (2 * (Yd + 2 * Y0 / σ * (η⁻¹ ^ 2 * (2 * N₁))) +
+          4 * (η⁻¹ ^ 2 * (2 * N₁ / (σ / 8))) * Y0) +
+        (2 * (η⁻¹ ^ 2 * (8 * (Mf * Δ₁ + e₁ * N₁) / σ) +
+          2 * (η⁻¹ ^ 2 * (8 * e₁ * Mf / σ)) / σ * (η⁻¹ ^ 2 * (2 * N₁))) +
+        4 * (η⁻¹ ^ 2 * (2 * N₁ / (σ / 8))) * (η⁻¹ ^ 2 * (8 * e₁ * Mf / σ))) := by
+  have hρ : 0 < η * r := by have : 0 < r := Fact.out; positivity
+  obtain ⟨A1, A2⟩ := stepXplusA_bounds ha hp hpb hσ hσ1 hσs hη0 hη hF₁ hF₂ hM0 hMs hN₁
+    (fun z hz => by
+      rw [← stepFieldS_sub ha hp hpb FT₁ FT₂ (stepDomain_theta_mem le_rfl hz)]
+      exact stepFieldS_bound ha hp hpb _ r hΔF le_rfl hz) hY0 hY₁ hY₂ hb₁ hb₂ hd hw
+  obtain ⟨B1, B2⟩ := stepXplusB_bounds ha hp hpb hσ hσ1 hσs hη0 hη he₁ hΔ₁ hN₁ hT₁ hT₂ hTn₁
+    hTn₂ hΔT hΔTn hF₁ hF₂ hΔF hM0 hMs hw
+  unfold stepXplusS
+  refine ⟨(stepNu_add hρ _ _).trans (add_le_add A1 B1), ?_⟩
+  have e : transSolve (transNop (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb FT₁ r) 1 w)
+        (stepXPS X₁ r (holoFlow (smoothField (stepEmbedCLM a p pb hpb r)
+          (stepFieldS ha hp hpb FT₁ r)) 1 w) -
+          stepFieldS ha hp hpb T₁ r (holoFlow (smoothField (stepEmbedCLM a p pb hpb r)
+            (stepFieldS ha hp hpb FT₁ r)) 1 w)) +
+      (∫ t in (0 : ℝ)..1, yfam (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb FT₁ r)
+        (stepZgfam ha hp hpb T₁ FT₁) t w) -
+      (transSolve (transNop (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb FT₂ r) 1 w)
+        (stepXPS X₂ r (holoFlow (smoothField (stepEmbedCLM a p pb hpb r)
+          (stepFieldS ha hp hpb FT₂ r)) 1 w) -
+          stepFieldS ha hp hpb T₂ r (holoFlow (smoothField (stepEmbedCLM a p pb hpb r)
+            (stepFieldS ha hp hpb FT₂ r)) 1 w)) +
+      (∫ t in (0 : ℝ)..1, yfam (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb FT₂ r)
+        (stepZgfam ha hp hpb T₂ FT₂) t w)) =
+      (transSolve (transNop (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb FT₁ r) 1 w)
+        (stepXPS X₁ r (holoFlow (smoothField (stepEmbedCLM a p pb hpb r)
+          (stepFieldS ha hp hpb FT₁ r)) 1 w) -
+          stepFieldS ha hp hpb T₁ r (holoFlow (smoothField (stepEmbedCLM a p pb hpb r)
+            (stepFieldS ha hp hpb FT₁ r)) 1 w)) -
+      transSolve (transNop (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb FT₂ r) 1 w)
+        (stepXPS X₂ r (holoFlow (smoothField (stepEmbedCLM a p pb hpb r)
+          (stepFieldS ha hp hpb FT₂ r)) 1 w) -
+          stepFieldS ha hp hpb T₂ r (holoFlow (smoothField (stepEmbedCLM a p pb hpb r)
+            (stepFieldS ha hp hpb FT₂ r)) 1 w))) +
+      ((∫ t in (0 : ℝ)..1, yfam (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb FT₁ r)
+        (stepZgfam ha hp hpb T₁ FT₁) t w) -
+       ∫ t in (0 : ℝ)..1, yfam (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb FT₂ r)
+        (stepZgfam ha hp hpb T₂ FT₂) t w) := by abel
+  rw [e]
+  exact (stepNu_add hρ _ _).trans (add_le_add A2 B2)
+
 end KAM.Wave
