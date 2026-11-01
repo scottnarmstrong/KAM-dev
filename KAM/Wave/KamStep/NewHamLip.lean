@@ -90,6 +90,7 @@ theorem norm_fderiv_smoothDisp_time_sub_le (hL : 0 ≤ M / δ) {w : F} (hw : w �
 noncomputable def yfam (ι : G →L[ℂ] F) (Z : F → G) (Zg : ℝ → F → G) (t : ℝ) (w : F) : G :=
   transSolve (transNop ι Z t w) (Zg t (holoFlow (smoothField ι Z) t w))
 
+omit h hZ hb in
 /-- **`‖y‖ ≤ ‖u‖/(1-q)`**. -/
 theorem norm_transSolve_le {N : G →L[ℂ] G} {q : ℝ} (hq : q < 1) (hN : ‖N‖ ≤ q) (u : G) :
     ‖transSolve N u‖ ≤ ‖u‖ / (1 - q) := by
@@ -106,7 +107,7 @@ theorem norm_transSolve_le {N : G →L[ℂ] G} {q : ℝ} (hq : q < 1) (hN : ‖N
   rw [le_div_iff₀ (by linarith)]
   nlinarith
 
-omit [CompleteSpace F] in
+omit [CompleteSpace F] h hZ hb in
 theorem norm_transSolve_sub_le {N N' : G →L[ℂ] G} {q : ℝ} (hq : q < 1) (hN : ‖N‖ ≤ q)
     (hN' : ‖N'‖ ≤ q) (u u' : G) :
     ‖transSolve N u - transSolve N' u'‖ ≤
@@ -134,5 +135,63 @@ theorem norm_transSolve_sub_le {N N' : G →L[ℂ] G} {q : ℝ} (hq : q < 1) (hN
     (norm_sub_le _ _).trans (add_le_add_right ((N - N').le_opNorm y) _)
   rw [le_div_iff₀ (by linarith)]
   nlinarith [norm_nonneg (y - y')]
+
+/-- **The transported field is Lipschitz in time** (uniformly in `w`). -/
+theorem norm_yfam_time_sub_le (hι : ∀ g, ‖ι g‖ ≤ ‖g‖) (hL : 0 ≤ M / δ) {Zg : ℝ → F → G}
+    {q Y0 Lt : ℝ} (hq : q < 1) (hY0 : 0 ≤ Y0) (hLt : 0 ≤ Lt)
+    (hZg : ∀ t ∈ Icc (0 : ℝ) 1, DifferentiableOn ℂ (Zg t) V)
+    (hZgb : ∀ t ∈ Icc (0 : ℝ) 1, ∀ z ∈ V, ‖Zg t z‖ ≤ Y0)
+    (hZgt : ∀ t ∈ Icc (0 : ℝ) 1, ∀ t' ∈ Icc (0 : ℝ) 1, ∀ z ∈ V,
+      ‖Zg t z - Zg t' z‖ ≤ Lt * |t - t'|)
+    {w : F} (hw : w ∈ U) (hN : ∀ t ∈ Icc (0 : ℝ) 1, ‖transNop ι Z t w‖ ≤ q)
+    {t t' : ℝ} (ht : t ∈ Icc (0 : ℝ) 1) (ht' : t' ∈ Icc (0 : ℝ) 1) :
+    ‖yfam ι Z Zg t w - yfam ι Z Zg t' w‖ ≤
+      ((Y0 / δ * M + Lt) + M / δ * Real.exp (M / δ) * (Y0 / (1 - q))) / (1 - q) * |t - t'| := by
+  have htI : t ∈ Icc (-1 : ℝ) 1 := ⟨by linarith [ht.1], ht.2⟩
+  have htI' : t' ∈ Icc (-1 : ℝ) 1 := ⟨by linarith [ht'.1], ht'.2⟩
+  have hδ := h.delta_pos
+  set φ := holoFlow (smoothField ι Z) with hφ
+  have hflow := norm_flow_time_sub_le h hZ hb hι hw htI htI'
+  have hmemt : φ t w ∈ V := h.mem_V_of_ball hw (holoFlow_mem_ball h hw htI)
+  have hmemt' : φ t' w ∈ V := h.mem_V_of_ball hw (holoFlow_mem_ball h hw htI')
+  have hlip : ∀ x ∈ ball w δ, ∀ y ∈ ball w δ, ‖Zg t x - Zg t y‖ ≤ Y0 / δ * ‖x - y‖ :=
+    lipschitz_of_margin hδ hY0 h.isOpen_V (hZg t ht) (hZgb t ht) (convex_ball w δ)
+      (fun z hz => h.ball_subset_V hw hz)
+  have hu : ‖Zg t (φ t w) - Zg t' (φ t' w)‖ ≤ (Y0 / δ * M + Lt) * |t - t'| := by
+    calc ‖Zg t (φ t w) - Zg t' (φ t' w)‖
+        = ‖(Zg t (φ t w) - Zg t (φ t' w)) + (Zg t (φ t' w) - Zg t' (φ t' w))‖ := by
+          congr 1; abel
+      _ ≤ ‖Zg t (φ t w) - Zg t (φ t' w)‖ + ‖Zg t (φ t' w) - Zg t' (φ t' w)‖ := norm_add_le _ _
+      _ ≤ Y0 / δ * ‖φ t w - φ t' w‖ + Lt * |t - t'| := by
+          refine add_le_add (hlip _ (holoFlow_mem_ball h hw htI) _ (holoFlow_mem_ball h hw htI'))
+            (hZgt t ht t' ht' _ hmemt')
+      _ ≤ Y0 / δ * (M * |t - t'|) + Lt * |t - t'| := by
+          gcongr
+      _ = (Y0 / δ * M + Lt) * |t - t'| := by ring
+  have hNd : ‖transNop ι Z t w - transNop ι Z t' w‖ ≤ M / δ * Real.exp (M / δ) * |t - t'| := by
+    have h1 := norm_fderiv_smoothDisp_time_sub_le h hZ hb hL hw htI htI'
+    have hιn : ‖ι‖ ≤ 1 := ContinuousLinearMap.opNorm_le_bound _ zero_le_one fun g => by
+      simpa using hι g
+    unfold transNop
+    rw [← ContinuousLinearMap.sub_comp]
+    refine (ContinuousLinearMap.opNorm_comp_le _ _).trans ?_
+    calc _ ≤ (M / δ * Real.exp (M / δ) * |t - t'|) * ‖ι‖ :=
+          mul_le_mul_of_nonneg_right h1 (norm_nonneg _)
+      _ ≤ (M / δ * Real.exp (M / δ) * |t - t'|) * 1 :=
+          mul_le_mul_of_nonneg_left hιn (by positivity)
+      _ = _ := mul_one _
+  have hyb : ‖transSolve (transNop ι Z t w) (Zg t (φ t w))‖ ≤ Y0 / (1 - q) :=
+    (norm_transSolve_le hq (hN t ht) _).trans
+      (div_le_div_of_nonneg_right (hZgb t ht _ hmemt) (by linarith))
+  have h := norm_transSolve_sub_le hq (hN t ht) (hN t' ht') (Zg t (φ t w)) (Zg t' (φ t' w))
+  unfold yfam
+  refine h.trans ?_
+  rw [div_mul_eq_mul_div]
+  refine div_le_div_of_nonneg_right ?_ (by linarith)
+  have hprod : ‖transNop ι Z t w - transNop ι Z t' w‖ *
+      ‖(transSolve (transNop ι Z t w)) (Zg t (φ t w))‖ ≤
+      (M / δ * Real.exp (M / δ) * |t - t'|) * (Y0 / (1 - q)) :=
+    mul_le_mul hNd hyb (norm_nonneg _) (by positivity)
+  nlinarith
 
 end KAM.Wave
