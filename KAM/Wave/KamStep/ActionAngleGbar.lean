@@ -34,8 +34,9 @@ open KAM Complex
 
 variable (m : ℝ) (hm : 0 < m)
 
-/-- `R_i(w') = Σ_{J ≥ 3} B_{J i} I_J(w')`. -/
-def aaGbarR (a p : ℝ) (w' : BirkSpace) (i : Fin 2) : ℂ :=
+/-- `R_i(w') = Σ_{J ≥ 3} B_{J i} I_J(w')`, on the carrier `0 ≤ a`, `1/2 ≤ p` of W3's `Ḡ`
+(`birkHamBar`), where the series converges absolutely (`hasSum_aaGbarR`). -/
+def aaGbarR {a p : ℝ} (_ha : 0 ≤ a) (_hp : 1 / 2 ≤ p) (w' : BirkSpace) (i : Fin 2) : ℂ :=
   ∑' J : ℕ+, if 3 ≤ (J : ℕ) then (birkActionB m hm J i : ℂ) * birkAction a p w' J else 0
 
 variable {m hm} {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p)
@@ -43,7 +44,7 @@ variable {m hm} {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p)
 theorem birkHamBar_eq_aa (w' : BirkSpace) :
     birkHamBar m hm ha hp w' = 1 / 2 * ∑ i : Fin 2, ∑ i' : Fin 2, (actionA m hm i i' : ℂ) *
         (birkAction a p w' (modeIdx i) * birkAction a p w' (modeIdx i')) +
-      ∑ i : Fin 2, birkAction a p w' (modeIdx i) * aaGbarR m hm a p w' i := by
+      ∑ i : Fin 2, birkAction a p w' (modeIdx i) * aaGbarR m hm ha hp w' i := by
   rw [birkHamBar, birkQuartP_bar]
   congr 1
   refine Finset.sum_congr rfl fun i _ => ?_
@@ -68,13 +69,21 @@ theorem norm_birkAction_le (w' : BirkSpace) (J : ℕ+) :
     (norm_nonneg _) (norm_nonneg _)
 
 include ha hp in
-theorem summable_aaGbarR (w' : BirkSpace) (i : Fin 2) (c : ℕ+ → ℂ) (hc : ∀ J, ‖c J‖ ≤ 1) :
+theorem summable_aaGbarR (w' : BirkSpace) (c : ℕ+ → ℂ) (hc : ∀ J, ‖c J‖ ≤ 1) :
     Summable fun J : ℕ+ => if 3 ≤ (J : ℕ) then c J * birkAction a p w' J else 0 := by
   refine Summable.of_norm_bounded (birkHalf_summable w' w').1 fun J => ?_
   split_ifs
   · rw [norm_mul]
     exact (mul_le_of_le_one_left (norm_nonneg _) (hc J)).trans (norm_birkAction_le ha hp w' J)
   · rw [norm_zero]; positivity
+
+/-- (`bpW:w5:action-angle` (v), well-definedness of `R_i`) On its carrier, `aaGbarR` is the sum of
+the absolutely convergent series `Σ_{J ≥ 3} B_{J i} I_J(w')`. -/
+theorem hasSum_aaGbarR (w' : BirkSpace) (i : Fin 2) :
+    HasSum (fun J : ℕ+ =>
+        if 3 ≤ (J : ℕ) then (birkActionB m hm J i : ℂ) * birkAction a p w' J else 0)
+      (aaGbarR m hm ha hp w' i) :=
+  (summable_aaGbarR ha hp w' _ fun J => norm_birkActionB_le J i).hasSum
 
 /-! ### The line `t ↦ w' + t e_{-l}` -/
 
@@ -111,7 +120,7 @@ theorem hasDerivAt_birkHamBar_line (w' v : BirkSpace) :
 theorem fderiv_birkHamBar_tan (w' : BirkSpace) (b : Bool) (i₀ : Fin 2) :
     fderiv ℂ (birkHamBar m hm ha hp) w' (birkUnit a p (birkNeg (b, modeIdx i₀))) =
       birkCoord a p w' (b, modeIdx i₀) * (∑ i' : Fin 2, (actionA m hm i₀ i' : ℂ) *
-        birkAction a p w' (modeIdx i') + aaGbarR m hm a p w' i₀) := by
+        birkAction a p w' (modeIdx i') + aaGbarR m hm ha hp w' i₀) := by
   set v := birkUnit a p (birkNeg (b, modeIdx i₀))
   set c := birkCoord a p w' (b, modeIdx i₀)
   set I : Fin 2 → ℂ := fun i => birkAction a p w' (modeIdx i)
@@ -121,19 +130,19 @@ theorem fderiv_birkHamBar_tan (w' : BirkSpace) (b : Bool) (i₀ : Fin 2) :
       rw [birkAction_add_unit]
       simp only [I, d, (modeIdx_injective (N := 2)).eq_iff]
       split_ifs <;> ring
-  have hR : ∀ (t : ℂ) (i : Fin 2), aaGbarR m hm a p (w' + t • v) i = aaGbarR m hm a p w' i :=
+  have hR : ∀ (t : ℂ) (i : Fin 2), aaGbarR m hm ha hp (w' + t • v) i = aaGbarR m hm ha hp w' i :=
     fun t i => by
       unfold aaGbarR
       refine tsum_congr fun J => ?_
       by_cases h3 : 3 ≤ (J : ℕ)
       · have hJ : J ≠ modeIdx i₀ := fun h => by
           subst h; simp [modeIdx] at h3; have := i₀.is_lt; omega
-        rw [if_pos h3, if_pos h3, birkAction_add_unit, if_neg hJ, add_zero]
-      · rw [if_neg h3, if_neg h3]
+        rw [ite_eq_left h3, ite_eq_left h3, birkAction_add_unit, ite_eq_right hJ, add_zero]
+      · rw [ite_eq_right h3, ite_eq_right h3]
   have hg : (fun t : ℂ => birkHamBar m hm ha hp (w' + t • v)) = fun t =>
       1 / 2 * ∑ i : Fin 2, ∑ i' : Fin 2, (actionA m hm i i' : ℂ) *
         ((I i + t * d i) * (I i' + t * d i')) +
-      ∑ i : Fin 2, (I i + t * d i) * aaGbarR m hm a p w' i := by
+      ∑ i : Fin 2, (I i + t * d i) * aaGbarR m hm ha hp w' i := by
     funext t
     rw [birkHamBar_eq_aa]
     simp only [hI, hR]
@@ -142,10 +151,10 @@ theorem fderiv_birkHamBar_tan (w' : BirkSpace) (b : Bool) (i₀ : Fin 2) :
   have hP : HasDerivAt (fun t : ℂ =>
       1 / 2 * ∑ i : Fin 2, ∑ i' : Fin 2, (actionA m hm i i' : ℂ) *
         ((I i + t * d i) * (I i' + t * d i')) +
-      ∑ i : Fin 2, (I i + t * d i) * aaGbarR m hm a p w' i)
+      ∑ i : Fin 2, (I i + t * d i) * aaGbarR m hm ha hp w' i)
       (1 / 2 * ∑ i : Fin 2, ∑ i' : Fin 2, (actionA m hm i i' : ℂ) *
         (d i * (I i' + 0 * d i') + (I i + 0 * d i) * d i') +
-        ∑ i : Fin 2, d i * aaGbarR m hm a p w' i) 0 := by
+        ∑ i : Fin 2, d i * aaGbarR m hm ha hp w' i) 0 := by
     have hl : ∀ i, HasDerivAt (fun t : ℂ => I i + t * d i) (d i) 0 := fun i => by
       simpa using ((hasDerivAt_id (0 : ℂ)).mul_const (d i)).const_add (I i)
     refine HasDerivAt.add ?_ ?_
@@ -168,12 +177,12 @@ theorem fderiv_birkHamBar_nor (w' : BirkSpace) (b : Bool) (j : ℕ+) :
   set I : Fin 2 → ℂ := fun i => birkAction a p w' (modeIdx i)
   have hI : ∀ (t : ℂ) (i : Fin 2), birkAction a p (w' + t • v) (modeIdx i) = I i :=
     fun t i => by
-      rw [birkAction_add_unit, if_neg (modeIdx_ne_add_two i j), add_zero]
-  have hR : ∀ (t : ℂ) (i : Fin 2), aaGbarR m hm a p (w' + t • v) i =
-      aaGbarR m hm a p w' i + t * c * (birkActionB m hm (j + 2) i : ℂ) := fun t i => by
+      rw [birkAction_add_unit, ite_eq_right (modeIdx_ne_add_two i j), add_zero]
+  have hR : ∀ (t : ℂ) (i : Fin 2), aaGbarR m hm ha hp (w' + t • v) i =
+      aaGbarR m hm ha hp w' i + t * c * (birkActionB m hm (j + 2) i : ℂ) := fun t i => by
     unfold aaGbarR
     have h3 : 3 ≤ ((j + 2 : ℕ+) : ℕ) := by rw [PNat.add_coe]; simp; exact j.pos
-    have hs1 := summable_aaGbarR ha hp w' i (fun J : ℕ+ => (birkActionB m hm J i : ℂ))
+    have hs1 := summable_aaGbarR ha hp w' (fun J : ℕ+ => (birkActionB m hm J i : ℂ))
       (fun J => norm_birkActionB_le J i)
     have hsplit : (fun J : ℕ+ => if 3 ≤ (J : ℕ) then (birkActionB m hm J i : ℂ) *
         birkAction a p (w' + t • v) J else 0) = fun J : ℕ+ =>
@@ -182,24 +191,24 @@ theorem fderiv_birkHamBar_nor (w' : BirkSpace) (b : Bool) (j : ℕ+) :
       funext J
       rw [birkAction_add_unit]
       by_cases hJ : J = j + 2
-      · subst hJ; simp only [h3, if_true]; simp [birkNeg, c]; ring
+      · subst hJ; simp only [h3, ite_true]; simp [c]; ring
       · by_cases h : 3 ≤ (J : ℕ) <;> simp [h, hJ]
     rw [hsplit, hs1.tsum_add (summable_of_ne_finset_zero (s := {j + 2}) fun J hJ => by
       simp only [Finset.mem_singleton] at hJ; simp [hJ]), tsum_ite_eq]
   have hg : (fun t : ℂ => birkHamBar m hm ha hp (w' + t • v)) = fun t =>
       1 / 2 * ∑ i : Fin 2, ∑ i' : Fin 2, (actionA m hm i i' : ℂ) * (I i * I i') +
-      ∑ i : Fin 2, I i * (aaGbarR m hm a p w' i + t * c * (birkActionB m hm (j + 2) i : ℂ)) := by
+      ∑ i : Fin 2, I i * (aaGbarR m hm ha hp w' i + t * c * (birkActionB m hm (j + 2) i : ℂ)) := by
     funext t
     rw [birkHamBar_eq_aa]
     simp only [hI, hR]
   have hD := hasDerivAt_birkHamBar_line (m := m) (hm := hm) ha hp w' v
   rw [hg] at hD
   have hS : HasDerivAt (fun t : ℂ =>
-      ∑ i : Fin 2, I i * (aaGbarR m hm a p w' i + t * c * (birkActionB m hm (j + 2) i : ℂ)))
+      ∑ i : Fin 2, I i * (aaGbarR m hm ha hp w' i + t * c * (birkActionB m hm (j + 2) i : ℂ)))
       (∑ i : Fin 2, I i * (c * (birkActionB m hm (j + 2) i : ℂ))) 0 := by
     refine HasDerivAt.fun_sum fun i _ => HasDerivAt.const_mul _ ?_
     have := ((hasDerivAt_id (0 : ℂ)).mul_const (c * (birkActionB m hm (j + 2) i : ℂ))).const_add
-      (aaGbarR m hm a p w' i)
+      (aaGbarR m hm ha hp w' i)
     simpa [mul_assoc] using this
   have hP := (hasDerivAt_const (0 : ℂ) (1 / 2 * ∑ i : Fin 2, ∑ i' : Fin 2,
     (actionA m hm i i' : ℂ) * (I i * I i'))).add hS
@@ -218,7 +227,7 @@ theorem birkCoord_birkHamBarX_tan (w' : BirkSpace) (b : Bool) (i₀ : Fin 2) :
     birkCoord a (p + 1) (birkHamBarX m hm ha hp w') (b, modeIdx i₀) =
       -I * birkSgn (b, modeIdx i₀) * birkCoord a p w' (b, modeIdx i₀) *
         (∑ i' : Fin 2, (actionA m hm i₀ i' : ℂ) * birkAction a p w' (modeIdx i') +
-          aaGbarR m hm a p w' i₀) := by
+          aaGbarR m hm ha hp w' i₀) := by
   rw [birkField_coord (birkHamBar_hamField ha hp) trivial, fderiv_birkHamBar_tan ha hp]
   ring
 

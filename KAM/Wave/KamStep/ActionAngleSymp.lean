@@ -17,9 +17,11 @@ import Mathlib.Tactic.Positivity
 Off-frontier, source-faithful infrastructure (W5-AA); the dependency graph is still being built.
 Blueprint label `bpW:w5:action-angle` (iii), step `a-der` (the form).
 
-* `birkOmegaMix a q q' W W' = i Σ_l sgn(l) W_l W'_{-l}` (actual coordinates of `W ∈ 𝔚^q`,
-  `W' ∈ 𝔚^{q'}`), the form `Ω` of `bpW:w3:omega` between two weights; summable for `q + q' ≥ 0`
-  (`summable_birkOmegaMix`); `birkOmega_eq_birkOmegaMix` (equal weights) and
+* `birkOmegaMix ha hqq' W W' = i Σ_l sgn(l) W_l W'_{-l}` (actual coordinates of `W ∈ 𝔚^q`,
+  `W' ∈ 𝔚^{q'}`), the form `Ω` of `bpW:w3:omega` between two weights. It is defined only on its
+  convergence carrier `0 ≤ a`, `0 ≤ q + q'` (the guards are binders of the definition, as for W3's
+  `birkOmega`), where the series converges absolutely (`summable_birkOmegaMix`,
+  `hasSum_birkOmegaMix`); `birkOmega_eq_birkOmegaMix` (equal weights) and
   `birkOmegaPlus_eq_birkOmegaMix` (`Ω(ιX, v)`, `X ∈ 𝔚^{p+1}`).
 * `birk_tsum_tan_nor`: a sum over `ℤ ∖ {0}` is the tangential part `|l| ≤ 2` plus the normal part
   `|l| = j + 2`.
@@ -32,15 +34,18 @@ namespace KAM.Wave
 
 open KAM Complex
 
-/-- The form `Ω(W, W') = i Σ_l sgn(l) W_l W'_{-l}` for `W ∈ 𝔚^q`, `W' ∈ 𝔚^{q'}` (`bpW:w3:omega`). -/
-def birkOmegaMix (a q q' : ℝ) (y y' : BirkSpace) : ℂ :=
+/-- The form `Ω(W, W') = i Σ_l sgn(l) W_l W'_{-l}` for `W ∈ 𝔚^q`, `W' ∈ 𝔚^{q'}` (`bpW:w3:omega`),
+on its convergence carrier `0 ≤ a`, `0 ≤ q + q'` (the series converges absolutely there,
+`summable_birkOmegaMix`). -/
+def birkOmegaMix {a q q' : ℝ} (_ha : 0 ≤ a) (_hqq' : 0 ≤ q + q') (y y' : BirkSpace) : ℂ :=
   I * ∑' l, birkSgn l * birkCoord a q y l * birkCoord a q' y' (birkNeg l)
 
 theorem birkOmega_eq_birkOmegaMix {a r : ℝ} (ha : 0 ≤ a) (hr : 0 ≤ r) (y y' : BirkSpace) :
-    birkOmega ha hr y y' = birkOmegaMix a r r y y' := rfl
+    birkOmega ha hr y y' = birkOmegaMix ha (add_nonneg hr hr) y y' := rfl
 
 theorem birkOmegaPlus_eq_birkOmegaMix {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (X v : BirkSpace) :
-    birkOmegaPlus a p ha hp X v = birkOmegaMix a (p + 1) p X v := by
+    birkOmegaPlus a p ha hp X v =
+      birkOmegaMix (q := p + 1) (q' := p) ha (by linarith) X v := by
   rw [birkOmegaPlus, birkOmega_apply, birkOmegaMix]
   congr 1
   refine tsum_congr fun l => ?_
@@ -73,6 +78,12 @@ theorem norm_birkOmegaMix_term_le {a q q' : ℝ} (ha : 0 ≤ a) (hqq' : 0 ≤ q 
 theorem summable_birkOmegaMix {a q q' : ℝ} (ha : 0 ≤ a) (hqq' : 0 ≤ q + q') (y y' : BirkSpace) :
     Summable fun l => birkSgn l * birkCoord a q y l * birkCoord a q' y' (birkNeg l) :=
   Summable.of_norm_bounded (birkPair_summable y y').1 (norm_birkOmegaMix_term_le ha hqq' y y')
+
+/-- On its carrier, `birkOmegaMix` is `i` times the sum of an absolutely convergent series. -/
+theorem hasSum_birkOmegaMix {a q q' : ℝ} (ha : 0 ≤ a) (hqq' : 0 ≤ q + q') (y y' : BirkSpace) :
+    HasSum (fun l => I * (birkSgn l * birkCoord a q y l * birkCoord a q' y' (birkNeg l)))
+      (birkOmegaMix ha hqq' y y') :=
+  ((summable_birkOmegaMix ha hqq' y y').hasSum).mul_left I
 
 /-! ### Splitting sums over `ℤ ∖ {0}` -/
 
@@ -166,7 +177,7 @@ theorem aa_normal_pair (U V U' V' ω ω' : ℂ) (hω : ω ≠ 0) (hω' : ω' ≠
 `Ω(D𝒜 W, D𝒜 W') = ϖ(W, W')` for `W ∈ 𝒫^q`, `W' ∈ 𝒫^{q'}`, `q + q' ≥ 0`. -/
 theorem aaDer_symp {a q q' : ℝ} (ha : 0 ≤ a) (hqq' : 0 ≤ q + q') {ξ : Fin 2 → ℂ} {w : KamPhase}
     (hw : ∀ i, 0 < (ξ i + w.2.1 i).re) (W W' : KamPhase) :
-    birkOmegaMix a q q' (aaDer a q ξ w W) (aaDer a q' ξ w W') =
+    birkOmegaMix ha hqq' (aaDer a q ξ w W) (aaDer a q' ξ w W') =
       stepSymp (q := q) (q' := q') ha hqq' W W' := by
   have hsum := summable_birkOmegaMix ha hqq' (aaDer a q ξ w W) (aaDer a q' ξ w W')
   rw [birkOmegaMix, birk_tsum_tan_nor _ hsum, mul_add]

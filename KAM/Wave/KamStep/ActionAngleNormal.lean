@@ -24,12 +24,15 @@ Blueprint label `bpW:w5:action-angle` (iv), step `a-nf`.
 For `ξ ∈ ℂ²` (complexified parameters) and `w ∈ 𝒫` with `𝒜_ξ(w) ∈ B_{ρ₁}`:
 `H' ∘ 𝒜_ξ = e(ξ) + N_ξ + P_ξ` (`aaMap_normalForm`), `H' = Λ + Ḡ + G^{nor} + K`, with
 * `e(ξ) = ⟨λ_J, ξ⟩ + ½⟨Aξ, ξ⟩` (`aaEnergy`);
-* `N_ξ = ⟨ω⁰(ξ), y⟩ + Σ_{j ≥ 1} Ω⁰_{j+2}(ξ) z_j \bar z_j` (`aaNfun`), `ω⁰ = λ_J + Aξ` (`aaOmega0`),
+* `N_ξ = ⟨ω⁰(ξ), y⟩ + Σ_{j ≥ 1} Ω⁰_{j+2}(ξ) z_j \bar z_j` (`aaNfun`, defined on its convergence
+  carrier `0 ≤ a`, `1/2 ≤ p`, where the normal series converges absolutely, `summable_aaNfun`),
+  `ω⁰ = λ_J + Aξ` (`aaOmega0`),
   `Ω⁰_J = λ_J + 3⟨b,ξ⟩/(2πλ_J)` (`aaOmegaN0`), `z_j \bar z_j` the actual product (`aaZZ`);
   for real `ξ` these are W4's `waveFreqTan`, `waveFreqNor` (`aaOmega0_ofReal`, `aaOmegaN0_ofReal`),
   i.e. W7's `ω⁰`, `Ω⁰` (Definition `bpW:w7:omega0`);
 * `P_ξ = Q̃ + G^{nor} ∘ 𝒜_ξ + K ∘ 𝒜_ξ` (`aaPfun`),
-  `Q̃ = ½⟨Ay, y⟩ + Σ_j 3⟨b,y⟩/(2πλ_{j+2}) z_j \bar z_j` (`aaQt`); `K ∘ 𝒜_ξ` uses the extension
+  `Q̃ = ½⟨Ay, y⟩ + Σ_j 3⟨b,y⟩/(2πλ_{j+2}) z_j \bar z_j` (`aaQt`, defined on its convergence carrier
+  `0 ≤ a`, `0 ≤ p`; convergence `summable_aaQt`, ActionAngleQt); `K ∘ 𝒜_ξ` uses the extension
   `aaKext` of W3's `K` (defined on `B_{ρ₁}`) by `0`, which agrees with `K` on `B_{ρ₁}`.
 -/
 
@@ -60,12 +63,16 @@ def aaOmegaN0 (ξ : Fin 2 → ℂ) (J : ℕ+) : ℂ :=
 /-- `z_j \bar z_j` (actual coordinates, `z = (u + iv)/√2`). -/
 def aaZZ (a p : ℝ) (w : KamPhase) (j : ℕ+) : ℂ := stepZ w j * stepZb w j / (homWt a p j : ℂ) ^ 2
 
-/-- `N_ξ = ⟨ω⁰(ξ), y⟩ + Σ_j Ω⁰_{j+2}(ξ) z_j \bar z_j`. -/
-def aaNfun (a p : ℝ) (ξ : Fin 2 → ℂ) (w : KamPhase) : ℂ :=
+/-- `N_ξ = ⟨ω⁰(ξ), y⟩ + Σ_j Ω⁰_{j+2}(ξ) z_j \bar z_j`, on its convergence carrier `0 ≤ a`,
+`1/2 ≤ p` (the source weights are `a = p = 1`); the normal series converges absolutely there
+(`summable_aaNfun`). -/
+def aaNfun {a p : ℝ} (_ha : 0 ≤ a) (_hp : 1 / 2 ≤ p) (ξ : Fin 2 → ℂ) (w : KamPhase) : ℂ :=
   ∑ i : Fin 2, aaOmega0 m hm ξ i * w.2.1 i + ∑' j : ℕ+, aaOmegaN0 m hm ξ (j + 2) * aaZZ a p w j
 
-/-- `Q̃ = ½⟨Ay, y⟩ + Σ_j 3⟨b,y⟩/(2πλ_{j+2}) z_j \bar z_j`. -/
-def aaQt (a p : ℝ) (w : KamPhase) : ℂ :=
+/-- `Q̃ = ½⟨Ay, y⟩ + Σ_j 3⟨b,y⟩/(2πλ_{j+2}) z_j \bar z_j`, on its convergence carrier `0 ≤ a`,
+`0 ≤ p` (the source weights are `a = p = 1`); the normal series converges absolutely there
+(`summable_aaQt`). -/
+def aaQt {a p : ℝ} (_ha : 0 ≤ a) (_hp : 0 ≤ p) (w : KamPhase) : ℂ :=
   1 / 2 * ∑ i : Fin 2, ∑ i' : Fin 2, (actionA m hm i i' : ℂ) * (w.2.1 i * w.2.1 i') +
     ∑' j : ℕ+, 3 * aaBdot m hm w.2.1 / (2 * Real.pi * lam m hm (j + 2)) * aaZZ a p w j
 
@@ -91,7 +98,8 @@ theorem aaXKext_isExtension : IsBirkExtension (birkXK m hm ha hp) (aaXKext m hm 
 
 /-- `P_ξ = Q̃ + G^{nor} ∘ 𝒜_ξ + K ∘ 𝒜_ξ`. -/
 def aaPfun (ξ : Fin 2 → ℂ) (w : KamPhase) : ℂ :=
-  aaQt m hm a p w + birkHamNor m hm ha hp (aaMap a p ξ w) + aaKext m hm ha hp (aaMap a p ξ w)
+  aaQt m hm ha (le_trans one_half_pos.le hp) w + birkHamNor m hm ha hp (aaMap a p ξ w) +
+    aaKext m hm ha hp (aaMap a p ξ w)
 
 end K
 
@@ -190,6 +198,23 @@ theorem norm_three_div_le (J : ℕ+) : ‖(3 / (2 * Real.pi * lam m hm J) : ℂ)
     div_le_iff₀ hpos]
   nlinarith
 
+/-- `‖Ω⁰_J(ξ)‖ ≤ (1 + ‖⟨b,ξ⟩‖) λ_J`. -/
+theorem norm_aaOmegaN0_le (ξ : Fin 2 → ℂ) (J : ℕ+) :
+    ‖aaOmegaN0 m hm ξ J‖ ≤ (1 + ‖aaBdot m hm ξ‖) * lam m hm J := by
+  have hl := (lam_pnat_pos hm J).le
+  have h3 := norm_three_div_le (m := m) (hm := hm) J
+  unfold aaOmegaN0
+  refine (norm_add_le _ _).trans ?_
+  rw [norm_mul, Complex.norm_real, Real.norm_eq_abs, abs_of_nonneg hl]
+  have h4 := mul_le_mul_of_nonneg_right h3 (norm_nonneg (aaBdot m hm ξ))
+  linarith
+
+/-- (`bpW:w5:action-angle` (iv), well-definedness of `N_ξ`) On the carrier `0 ≤ a`, `1/2 ≤ p` of
+`aaNfun`, its normal series `Σ_j Ω⁰_{j+2}(ξ) z_j \bar z_j` converges absolutely. -/
+theorem summable_aaNfun {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (ξ : Fin 2 → ℂ) (w : KamPhase) :
+    Summable fun j : ℕ+ => aaOmegaN0 m hm ξ (j + 2) * aaZZ a p w j :=
+  summable_coef_aaZZ a p ha hp w fun j => norm_aaOmegaN0_le ξ (j + 2)
+
 /-! ### The normal form -/
 
 theorem tsum_ite_three (F : ℕ+ → ℂ) :
@@ -216,7 +241,7 @@ theorem aaMap_normalForm {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (ξ : Fin
     (h : aaMap a p ξ w ∈ birkBall1 m p) :
     birkLambda m hm ha hp (aaMap a p ξ w) + birkHamBar m hm ha hp (aaMap a p ξ w) +
         birkHamNor m hm ha hp (aaMap a p ξ w) + birkK m hm ha hp ⟨aaMap a p ξ w, h⟩ =
-      aaEnergy m hm ξ + aaNfun m hm a p ξ w + aaPfun m hm ha hp ξ w := by
+      aaEnergy m hm ξ + aaNfun m hm ha hp ξ w + aaPfun m hm ha hp ξ w := by
   -- the two base sums
   set T := ∑' j : ℕ+, (lam m hm (j + 2) : ℂ) * aaZZ a p w j with hT
   set S := ∑' j : ℕ+, (3 / (2 * Real.pi * lam m hm (j + 2)) : ℂ) * aaZZ a p w j with hS
@@ -263,14 +288,15 @@ theorem aaMap_normalForm {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (ξ : Fin
       push_cast
       field_simp
   -- `N_ξ` and `Q̃`
-  have hN : aaNfun m hm a p ξ w = ∑ i : Fin 2, aaOmega0 m hm ξ i * w.2.1 i +
+  have hN : aaNfun m hm ha hp ξ w = ∑ i : Fin 2, aaOmega0 m hm ξ i * w.2.1 i +
       (T + aaBdot m hm ξ * S) := by
     unfold aaNfun aaOmegaN0
     congr 1
     rw [hT, hS, ← tsum_mul_left, ← hsT.tsum_add (hsS.mul_left _)]
     exact tsum_congr fun j => by ring
-  have hQ : aaQt m hm a p w = 1 / 2 * ∑ i : Fin 2, ∑ i' : Fin 2, (actionA m hm i i' : ℂ) *
-      (w.2.1 i * w.2.1 i') + aaBdot m hm w.2.1 * S := by
+  have hQ : aaQt m hm ha (le_trans one_half_pos.le hp) w =
+      1 / 2 * ∑ i : Fin 2, ∑ i' : Fin 2, (actionA m hm i i' : ℂ) *
+        (w.2.1 i * w.2.1 i') + aaBdot m hm w.2.1 * S := by
     unfold aaQt
     congr 1
     rw [hS, ← tsum_mul_left]

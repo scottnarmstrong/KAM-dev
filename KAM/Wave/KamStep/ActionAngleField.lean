@@ -157,9 +157,9 @@ theorem differentiableAt_aaXQt (w : KamPhase) :
   · exact hB.smul ((aaDiagE m hm).differentiableAt.comp w aaPrV.differentiableAt)
   · exact (hB.smul ((aaDiagE m hm).differentiableAt.comp w aaPrU.differentiableAt)).neg
 
-/-- Helper (`P_ξ ∈ 𝒮_{p+1}(V)`) on any open `V` on which `𝒜_ξ` is defined (`Re(ξ_i + y_i) > 0`) and
+/-- Helper (`P_ξ ∈ 𝒮_{p+1}(V)`) on any `V` on which `𝒜_ξ` is defined (`Re(ξ_i + y_i) > 0`) and
 maps into `B_{ρ₁}`; the source-facing statement is `aaP_isSmoothing`. -/
-theorem aaP_isSmoothing_of (ξ : Fin 2 → ℂ) {V : Set KamPhase} (hV : IsOpen V)
+theorem aaP_isSmoothing_of (ξ : Fin 2 → ℂ) {V : Set KamPhase}
     (hVd : ∀ w ∈ V, (∀ i, 0 < (ξ i + w.2.1 i).re) ∧ aaMap a p ξ w ∈ birkBall1 m p) :
     IsSmoothing (p := p) (pb := p + 1) ha (by linarith) V (aaPfun m hm ha hp ξ)
       (aaXP m hm ha hp ξ) := by
@@ -167,7 +167,7 @@ theorem aaP_isSmoothing_of (ξ : Fin 2 → ℂ) {V : Set KamPhase} (hV : IsOpen 
   have hball := isOpen_birkBall1 m p
   -- derivatives of the three pieces at `w ∈ V`
   have hder : ∀ w ∈ V, HasFDerivAt (aaPfun m hm ha hp ξ)
-      (fderiv ℂ (aaQt m hm a p) w +
+      (fderiv ℂ (aaQt m hm ha hp0) w +
         (fderiv ℂ (birkHamNor m hm ha hp) (aaMap a p ξ w)).comp (aaDer a p ξ w) +
         (fderiv ℂ (aaKext m hm ha hp) (aaMap a p ξ w)).comp (aaDer a p ξ w)) w := by
     intro w hw
@@ -191,7 +191,7 @@ theorem aaP_isSmoothing_of (ξ : Fin 2 → ℂ) {V : Set KamPhase} (hV : IsOpen 
       ((aaXKext_analyticOnNhd ha hp _ hB).differentiableAt.comp w hmap)
   · intro w hw W
     obtain ⟨hpos, hB⟩ := hVd w hw
-    rw [(hder w hw).fderiv, ContinuousLinearMap.add_apply, ContinuousLinearMap.add_apply,
+    rw [(hder w hw).fderiv, add_apply, add_apply,
       (aaQt_hasFDerivAt (m := m) (hm := hm) ha hp0 w).2 W]
     have hGd : DifferentiableAt ℂ (birkHamNor m hm ha hp) (aaMap a p ξ w) :=
       ((birkHamNor_classA ha hp).analytic _ trivial).differentiableAt
@@ -212,14 +212,15 @@ theorem aaP_isSmoothing {s r t : ℝ} (hs : s ≤ 1 / 8) (hr : 0 < r) (ht : 0 < 
     IsSmoothing (p := 1) (pb := 1 + 1) (zero_le_one' ℝ) (by norm_num) (kamDomain s r)
       (aaPfun m hm (zero_le_one' ℝ) (by norm_num : (1 : ℝ) / 2 ≤ 1) ξ)
       (aaXP m hm (zero_le_one' ℝ) (by norm_num : (1 : ℝ) / 2 ≤ 1) ξ) :=
-  aaP_isSmoothing_of (zero_le_one' ℝ) (by norm_num : (1 : ℝ) / 2 ≤ 1) ξ (kamDomain_isOpen s r)
+  aaP_isSmoothing_of (zero_le_one' ℝ) (by norm_num : (1 : ℝ) / 2 ≤ 1) ξ
     fun w hw =>
     ⟨fun i => lt_trans (by positivity) ((aaMap_domain hs hr ht ξ hξ hre hw).1 i),
       aaMap_mem_birkBall1 m hm hs hr ht hρ₁ ξ hξ hre hw⟩
 
 /-! ### Reality and periodicity -/
 
-theorem aaQt_congr {w w' : KamPhase} (h : w.2 = w'.2) : aaQt m hm a p w = aaQt m hm a p w' := by
+theorem aaQt_congr (hp0 : 0 ≤ p) {w w' : KamPhase} (h : w.2 = w'.2) :
+    aaQt m hm ha hp0 w = aaQt m hm ha hp0 w' := by
   unfold aaQt aaZZ
   simp only [stepZ_apply', stepZb_apply', h]
 
@@ -227,7 +228,8 @@ theorem aaQt_congr {w w' : KamPhase} (h : w.2 = w'.2) : aaQt m hm a p w = aaQt m
 theorem aaPfun_add_tau (ξ : Fin 2 → ℂ) (w : KamPhase) (k : Fin 2) :
     aaPfun m hm ha hp ξ (w + stepTau k) = aaPfun m hm ha hp ξ w := by
   unfold aaPfun
-  rw [aaMap_add_tau, aaQt_congr (show (w + stepTau k).2 = w.2 by simp [stepTau])]
+  rw [aaMap_add_tau,
+    aaQt_congr ha (le_trans one_half_pos.le hp) (show (w + stepTau k).2 = w.2 by simp [stepTau])]
 
 theorem im_eq_zero_of_conj {z : ℂ} (h : starRingEnd ℂ z = z) : z.im = 0 :=
   Complex.conj_eq_iff_im.1 h
@@ -238,7 +240,8 @@ theorem aaPfun_real (ξ : Fin 2 → ℝ) (w : KamPhase) (hw : StepReal w)
     (hB : aaMap a p (fun i => (ξ i : ℂ)) w ∈ birkBall1 m p) :
     (aaPfun m hm ha hp (fun i => (ξ i : ℂ)) w).im = 0 := by
   have hrho := aaMap_real a p ξ w hw hpos
-  have hQ : starRingEnd ℂ (aaQt m hm a p w) = aaQt m hm a p w := by
+  have hQ : starRingEnd ℂ (aaQt m hm ha (le_trans one_half_pos.le hp) w) =
+      aaQt m hm ha (le_trans one_half_pos.le hp) w := by
     have hy : ∀ i, starRingEnd ℂ (w.2.1 i) = w.2.1 i := fun i => Complex.conj_eq_iff_im.2 (hw.2.1 i)
     have hu : ∀ j, starRingEnd ℂ (w.2.2.1 j) = w.2.2.1 j :=
       fun j => Complex.conj_eq_iff_im.2 (hw.2.2.1 j)

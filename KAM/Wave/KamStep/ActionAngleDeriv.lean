@@ -26,8 +26,9 @@ Write `s_i = √(ξ_i + y_i)`, `E_{±,i} = e^{∓2πiθ_i}` (`aaS`, `aaE`). For 
   `Θ_i = (W_{-i} E_{+,i} - W_i E_{-,i})/(4πi s_i)`, `Y_i = s_i (W_i E_{-,i} + W_{-i} E_{+,i})`,
   `U = (Ŵ_+ + Ŵ_-)/√2`, `V = (Ŵ_+ - Ŵ_-)/(i√2)` (actual coordinates `W_l` at weight `q`);
   `aaDerInv_aaDer`, `aaDer_aaDerInv`: `D𝒜_ξ(w)` is a linear bijection `𝒫^q → 𝔚^q` for every `q`.
-* `birkOmegaMix a q q'`: the form `Ω(W, W') = i Σ_l sgn(l) W_l W'_{-l}` for `W ∈ 𝔚^q`, `W' ∈ 𝔚^{q'}`
-  (`= birkOmega` for `q = q'`, `birkOmegaMix_eq_birkOmega`), and `aaDer_symp`:
+* `birkOmegaMix ha hqq'` (`ActionAngleSymp`; carrier `0 ≤ a`, `0 ≤ q + q'`): the form
+  `Ω(W, W') = i Σ_l sgn(l) W_l W'_{-l}` for `W ∈ 𝔚^q`, `W' ∈ 𝔚^{q'}`
+  (`= birkOmega` for `q = q'`, `birkOmega_eq_birkOmegaMix`), and `aaDer_symp`:
   `Ω(D𝒜 W, D𝒜 W') = ϖ(W, W')` for `W ∈ 𝒫^q`, `W' ∈ 𝒫^{q'}`, `q + q' ≥ 0`.
 -/
 
@@ -91,8 +92,8 @@ def aaDerTanL (ξ : Fin 2 → ℂ) (w : KamPhase) (b : Bool) (i : Fin 2) : KamPh
 theorem aaDerTanL_apply (ξ : Fin 2 → ℂ) (w : KamPhase) (b : Bool) (i : Fin 2) (W : KamPhase) :
     aaDerTanL ξ w b i W = (W.2.1 i / (2 * aaS ξ w i) -
       birkSgn (b, modeIdx i) * (2 * Real.pi * I) * aaS ξ w i * W.1 i) * aaE w b i := by
-  simp only [aaDerTanL, ContinuousLinearMap.sub_apply, ContinuousLinearMap.smul_apply,
-    ContinuousLinearMap.coe_comp', Function.comp_apply, ContinuousLinearMap.proj_apply,
+  simp only [aaDerTanL, sub_apply, smul_apply,
+    ContinuousLinearMap.coe_comp, Function.comp_apply, ContinuousLinearMap.proj_apply,
     ContinuousLinearMap.coe_fst', ContinuousLinearMap.coe_snd', smul_eq_mul]
   ring
 
@@ -103,7 +104,7 @@ def aaDer (a q : ℝ) (ξ : Fin 2 → ℂ) (w : KamPhase) : KamPhase →L[ℂ] B
 
 theorem aaDer_apply (a q : ℝ) (ξ : Fin 2 → ℂ) (w W : KamPhase) :
     aaDer a q ξ w W = aaTanBuild a q (fun b i => aaDerTanL ξ w b i W) + aaNormal W := by
-  simp only [aaDer, ContinuousLinearMap.add_apply, ContinuousLinearMap.coe_sum',
+  simp only [aaDer, add_apply, FunLike.coe_sum,
     Finset.sum_apply, ContinuousLinearMap.smulRight_apply, aaTanBuild]
   congr 1
   refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun b _ => ?_
@@ -256,7 +257,7 @@ theorem aaDerInv_theta (a q : ℝ) (ξ : Fin 2 → ℂ) (w : KamPhase) (V : Birk
     (aaDerInv a q ξ w V).1 i = (V (false, modeIdx i) * aaE w true i - V (true, modeIdx i) *
       aaE w false i) / (4 * Real.pi * I * aaS ξ w i * ellWeight a q (modeIdx i)) := by
   simp only [aaDerInv, aaInvTheta, ContinuousLinearMap.prod_apply, ContinuousLinearMap.pi_apply,
-    ContinuousLinearMap.sub_apply, ContinuousLinearMap.smul_apply, aaEv_apply,
+    sub_apply, smul_apply, aaEv_apply,
     smul_eq_mul]
   ring
 
@@ -264,7 +265,7 @@ theorem aaDerInv_y (a q : ℝ) (ξ : Fin 2 → ℂ) (w : KamPhase) (V : BirkSpac
     (aaDerInv a q ξ w V).2.1 i = aaS ξ w i * (V (true, modeIdx i) * aaE w false i +
       V (false, modeIdx i) * aaE w true i) / ellWeight a q (modeIdx i) := by
   simp only [aaDerInv, aaInvY, ContinuousLinearMap.prod_apply, ContinuousLinearMap.pi_apply,
-    ContinuousLinearMap.add_apply, ContinuousLinearMap.smul_apply, aaEv_apply,
+    add_apply, smul_apply, aaEv_apply,
     smul_eq_mul]
   ring
 
