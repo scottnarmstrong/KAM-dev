@@ -140,39 +140,46 @@ theorem norm_transSolve_sub_le {N N' : G →L[ℂ] G} {q : ℝ} (hq : q < 1) (hN
 controlled on an open set `V₂ ⊆ V` containing the trajectory of `w` and the balls `B(z, δ)` of its
 points. -/
 theorem norm_yfam_time_sub_le (hι : ∀ g, ‖ι g‖ ≤ ‖g‖) (hL : 0 ≤ M / δ) {Zg : ℝ → F → G}
-    {V₂ : Set F} (hV₂ : IsOpen V₂)
+    {V₂ : Set F} (hV₂ : IsOpen V₂) {δ₂ : ℝ} (hδ₂ : 0 < δ₂) (hMδ₂ : M < δ₂)
     {q Y0 Lt : ℝ} (hq : q < 1) (hY0 : 0 ≤ Y0) (hLt : 0 ≤ Lt)
     (hZg : ∀ t ∈ Icc (0 : ℝ) 1, DifferentiableOn ℂ (Zg t) V₂)
     (hZgb : ∀ t ∈ Icc (0 : ℝ) 1, ∀ z ∈ V₂, ‖Zg t z‖ ≤ Y0)
     (hZgt : ∀ t ∈ Icc (0 : ℝ) 1, ∀ t' ∈ Icc (0 : ℝ) 1, ∀ z ∈ V₂,
       ‖Zg t z - Zg t' z‖ ≤ Lt * |t - t'|)
-    {w : F} (hw : w ∈ U) (hballV₂ : ∀ z ∈ ball w δ, ball z δ ⊆ V₂)
+    {w : F} (hw : w ∈ U) (hballV₂ : ∀ z ∈ ball w δ₂, ball z δ₂ ⊆ V₂)
     (hN : ∀ t ∈ Icc (0 : ℝ) 1, ‖transNop ι Z t w‖ ≤ q)
     {t t' : ℝ} (ht : t ∈ Icc (0 : ℝ) 1) (ht' : t' ∈ Icc (0 : ℝ) 1) :
     ‖yfam ι Z Zg t w - yfam ι Z Zg t' w‖ ≤
-      ((Y0 / δ * M + Lt) + M / δ * Real.exp (M / δ) * (Y0 / (1 - q))) / (1 - q) * |t - t'| := by
+      ((Y0 / δ₂ * M + Lt) + M / δ * Real.exp (M / δ) * (Y0 / (1 - q))) / (1 - q) * |t - t'| := by
   have htI : t ∈ Icc (-1 : ℝ) 1 := ⟨by linarith [ht.1], ht.2⟩
   have htI' : t' ∈ Icc (-1 : ℝ) 1 := ⟨by linarith [ht'.1], ht'.2⟩
   have hδ := h.delta_pos
   set φ := holoFlow (smoothField ι Z) with hφ
   have hflow := norm_flow_time_sub_le h hZ hb hι hw htI htI'
-  have hmemt : φ t w ∈ V₂ :=
-    hballV₂ _ (holoFlow_mem_ball h hw htI) (mem_ball_self hδ)
-  have hmemt' : φ t' w ∈ V₂ :=
-    hballV₂ _ (holoFlow_mem_ball h hw htI') (mem_ball_self hδ)
-  have hlip : ∀ x ∈ ball w δ, ∀ y ∈ ball w δ, ‖Zg t x - Zg t y‖ ≤ Y0 / δ * ‖x - y‖ :=
-    lipschitz_of_margin hδ hY0 hV₂ (hZg t ht) (hZgb t ht) (convex_ball w δ) hballV₂
-  have hu : ‖Zg t (φ t w) - Zg t' (φ t' w)‖ ≤ (Y0 / δ * M + Lt) * |t - t'| := by
+  have hbt : φ t w ∈ ball w δ₂ := by
+    rw [mem_ball_iff_norm]
+    refine lt_of_le_of_lt (norm_holoFlow_sub_le h hw htI) ?_
+    have : |t| ≤ 1 := abs_le.mpr ⟨htI.1, htI.2⟩
+    nlinarith [h.M_pos]
+  have hbt' : φ t' w ∈ ball w δ₂ := by
+    rw [mem_ball_iff_norm]
+    refine lt_of_le_of_lt (norm_holoFlow_sub_le h hw htI') ?_
+    have : |t'| ≤ 1 := abs_le.mpr ⟨htI'.1, htI'.2⟩
+    nlinarith [h.M_pos]
+  have hmemt : φ t w ∈ V₂ := hballV₂ _ hbt (mem_ball_self hδ₂)
+  have hmemt' : φ t' w ∈ V₂ := hballV₂ _ hbt' (mem_ball_self hδ₂)
+  have hlip : ∀ x ∈ ball w δ₂, ∀ y ∈ ball w δ₂, ‖Zg t x - Zg t y‖ ≤ Y0 / δ₂ * ‖x - y‖ :=
+    lipschitz_of_margin hδ₂ hY0 hV₂ (hZg t ht) (hZgb t ht) (convex_ball w δ₂) hballV₂
+  have hu : ‖Zg t (φ t w) - Zg t' (φ t' w)‖ ≤ (Y0 / δ₂ * M + Lt) * |t - t'| := by
     calc ‖Zg t (φ t w) - Zg t' (φ t' w)‖
         = ‖(Zg t (φ t w) - Zg t (φ t' w)) + (Zg t (φ t' w) - Zg t' (φ t' w))‖ := by
           congr 1; abel
       _ ≤ ‖Zg t (φ t w) - Zg t (φ t' w)‖ + ‖Zg t (φ t' w) - Zg t' (φ t' w)‖ := norm_add_le _ _
-      _ ≤ Y0 / δ * ‖φ t w - φ t' w‖ + Lt * |t - t'| := by
-          refine add_le_add (hlip _ (holoFlow_mem_ball h hw htI) _ (holoFlow_mem_ball h hw htI'))
-            (hZgt t ht t' ht' _ hmemt')
-      _ ≤ Y0 / δ * (M * |t - t'|) + Lt * |t - t'| := by
+      _ ≤ Y0 / δ₂ * ‖φ t w - φ t' w‖ + Lt * |t - t'| := by
+          refine add_le_add (hlip _ hbt _ hbt') (hZgt t ht t' ht' _ hmemt')
+      _ ≤ Y0 / δ₂ * (M * |t - t'|) + Lt * |t - t'| := by
           gcongr
-      _ = (Y0 / δ * M + Lt) * |t - t'| := by ring
+      _ = (Y0 / δ₂ * M + Lt) * |t - t'| := by ring
   have hNd : ‖transNop ι Z t w - transNop ι Z t' w‖ ≤ M / δ * Real.exp (M / δ) * |t - t'| := by
     have h1 := norm_fderiv_smoothDisp_time_sub_le h hZ hb hL hw htI htI'
     have hιn : ‖ι‖ ≤ 1 := ContinuousLinearMap.opNorm_le_bound _ zero_le_one fun g => by
