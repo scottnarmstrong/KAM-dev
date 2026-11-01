@@ -24,7 +24,7 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 | LP-MOM Orbital+Momentum (planar) | L2–L3 | 1 | `inp-lp-mom` / `/mnt/HC_Volume_106379410/kam-lp/KAM-inp-lp-mom` | claude-12 | running (00:16, tmux inp-mprov-lp-mom, Sonnet 5.5) |
 | LP-GEO Geometry | L5 | 1 | — | — | needs THR + MOM |
 | LP-MOD Modulus+Continuation | L6 | 1 | — | — | needs THR (+ GEO for continuation) |
-| LP-DICT PlanarDictionary | L7 | 1 | — | — | queued (independent) |
+| LP-DICT PlanarDictionary + one-centre L13 adapter test | L7, L13 (interface) | 1–2 | — | — | brief ready; next free slot (audit §6: early) |
 | LP-DOM AnalyticDomain planar | L8 | 2 | — | — | after wave 1 slots |
 | LP-NRR NonresonantReuse | L13 | 2 | — | — | after wave 1 slots |
 | LP-NRS NonresonantScale | L12 | 2 | — | — | after wave 1 slots |
