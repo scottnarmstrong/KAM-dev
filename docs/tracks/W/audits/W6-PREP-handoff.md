@@ -18,3 +18,6 @@ still being built. Modules under `KAM/Wave/Iteration/`, namespace `KAM.Wave`.
 | `convergence` (i) | done (generic in the frequencies) | `Params` | `w6Removed`, `w6PiSeq`, `w6PiStar`, `w6Convergence_params` (`Π_{-1}∖Π_* = ⋃ R^ν_{kl}`), `w6Zone_subset`, `w6PiSeq_measurableSet` (Borel), `w6PiSeq_antitone` |
 | `exclusion` | done (generic family, D2-style) | `Params` | `w6_exclusion`, `w6_exclusion_seq` (levels `α_ν` with `α₀ = α̌`, thresholds `K_ν`) |
 | `convergence` (ii)–(iv) | W5-free arithmetic only | `ConvArith` | `freq_sum_le`, `freq_lip_sum_le` (step `c-freq`), `ePhi`, `ePhi_eq`, `cauchy_sum_le`, `cauchy_tail_le`, `two_two_MF_eq` (step `c-cauchy`), `w6prod_le_two` (step `c-op`), `sum_inv_pow_Ico_le` |
+| `convergence` (ii) | divisor limit (generic) | `Limits` | `w6_divisor_limit`, `tendsto_w6ZoneFun` |
+| `final-freq` | conditional helper only | `Limits` | `w6FinalFreq_of_limits` (hypotheses: an admissible family, convergence of `ω_ν` on `S`, stage-wise `l = 0` conditions) |
+| `freq-lip` | conditional helper (steps `fl-size`, `fl-lip`) | `FreqLip` | `w6IsFreqPair_of_bounds` (hypotheses: prep-step (ii) shift bounds and convergence (ii) drift bounds), `w6_lipcoef_omega`, `w6_lipcoef_Omega`, `w6AdmissibleFamilyOfPairs` |
