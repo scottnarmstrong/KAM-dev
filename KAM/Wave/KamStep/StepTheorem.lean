@@ -46,7 +46,8 @@ variable {a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ M₀ M₁ cF t
   {FT : (Fin 2 → ℝ) → HomTaylor_gen a p pb (s - σ)}
 
 /-- **One KAM step** (`bpW:w5:step`) for an abstract `StepCore`. -/
-theorem stepTheoremCore (H : StepCore a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ M₀ M₁ cF tF Par ω Ω P X FT)
+theorem stepTheoremCore (H : StepCore a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ M₀ M₁ cF tF Par ω Ω
+  P X FT)
     (hH : HomMelnikov τ α Par ω Ω) [Fact (0 < r)] :
     -- (i)
     (∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r),
@@ -116,24 +117,28 @@ theorem stepTheoremCore (H : StepCore a p pb s r σ η τ α lam ε ε₀ ε₁ 
     fun ξ hξ ζ hζ w hw => H.flow_pair hξ hζ hw⟩
 
 
-/-- **One KAM step** (`bpW:w5:step`), non-modified case, conditional helper: it assumes `0 < ε₀`, which is not
+namespace StepHyp
+
+/-- The clauses of **one KAM step** (`bpW:w5:step`), non-modified case, conditional helper: it
+  assumes `0 < ε₀`, which is not
 a premise of the blueprint (see `stepTheorem`). -/
-theorem stepTheorem_of_eps0_pos (H : StepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
-    [Fact (0 < r)] :
-    -- (i)
+def Conclusion (H : StepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
+    [Fact (0 < r)] : Prop :=    -- (i)
     (∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r),
       StepPhase.toK (H.core.Phi ξ w) ∈ kamDomain (s - 4 * σ) (2 * η * r)) ∧
     (∀ ξ (hξ : ξ ∈ Par), ∀ w ∈ stepDomain r (s - 5 * σ) (η * r),
       stepNfun H.hG H.core.hK0 (homOmega_le H.freq hξ) (ω ξ) (StepPhase.toK (H.core.Phi ξ w)) +
           P ξ (StepPhase.toK (H.core.Phi ξ w)) =
-        stepNfun H.hG H.core.hKp (Ω := H.core.OmegaPlus ξ) (H.core.omegaPlus_bound hξ) (H.core.omegaPlus ξ)
+        stepNfun H.hG H.core.hKp (Ω := H.core.OmegaPlus ξ) (H.core.omegaPlus_bound hξ)
+          (H.core.omegaPlus ξ)
           (StepPhase.toK w) + H.core.Pplus ξ w + H.core.a0 ξ) ∧
     (∀ ξ (hξ : ξ ∈ Par), ∀ w ∈ stepDomain r (s - 5 * σ) (η * r), ∀ W : StepPhase r,
       ((homDN H.hG H.core.hK0 (homOmega_le H.freq hξ) (ω ξ)
           (stepToHom (StepPhase.toK (H.core.Phi ξ w)))).comp stepToHom).comp (stepToKCLM r)
           (fderiv ℂ (H.core.Phi ξ) w W) +
         stepSympCLM (q := p) (q' := p) H.ha H.core.two_p r
-          (stepEmbedCLM a p pb H.hpb r (stepXPS (X ξ) r (H.core.Phi ξ w))) (fderiv ℂ (H.core.Phi ξ) w W) =
+          (stepEmbedCLM a p pb H.hpb r (stepXPS (X ξ) r (H.core.Phi ξ w))) (fderiv ℂ (H.core.Phi ξ)
+            w W) =
       ((homDN H.hG H.core.hK0 (homOmega_le H.freq hξ) (ω ξ)
           (stepToHom (StepPhase.toK w))).comp stepToHom).comp (stepToKCLM r) W +
         stepSympCLM (q := p) (q' := p) H.ha H.core.two_p r
@@ -152,7 +157,8 @@ theorem stepTheorem_of_eps0_pos (H : StepHyp a p pb s r σ η τ α lam ε ε₀
       (fun w : KamPhase => H.core.Pplus ξ (StepPhase.ofK (r := r) w))
       (fun w : KamPhase => StepPhase.toK (H.core.Xplus ξ (StepPhase.ofK (r := r) w)))) ∧
     (∀ ξ ∈ Par, ∀ i : Fin 2, ∀ w ∈ kamDomain (s - 5 * σ) (η * r),
-      H.core.Pplus ξ (StepPhase.ofK (r := r) (w + stepTau i)) = H.core.Pplus ξ (StepPhase.ofK (r := r) w)) ∧
+      H.core.Pplus ξ (StepPhase.ofK (r := r) (w + stepTau i)) = H.core.Pplus ξ (StepPhase.ofK (r :=
+        r) w)) ∧
     FamBound Par (kamDomain (s - 5 * σ) (η * r)) (η * r) lam
       (stepC2 τ * (ε ^ 2 / (α * σ ^ stepExpT τ * η ^ 2) + η * ε))
       (fun ξ w => StepPhase.toK (H.core.Xplus ξ (StepPhase.ofK (r := r) w))) ∧
@@ -163,7 +169,8 @@ theorem stepTheorem_of_eps0_pos (H : StepHyp a p pb s r σ η τ α lam ε ε₀
       ‖(H.core.omegaPlus ξ - ω ξ) - (H.core.omegaPlus ζ - ω ζ)‖ ≤ 6 * Real.pi * ε₁ * ‖ξ - ζ‖ ∧
       ∀ j : ℕ+, ((j : ℝ) + 2) ^ (pb - p) *
         |(H.core.OmegaPlus ξ j - Ω ξ j) - (H.core.OmegaPlus ζ j - Ω ζ j)| ≤ 3 * ε₁ * ‖ξ - ζ‖) ∧
-    (0 < lam → HomFreqHyp Par H.core.omegaPlus H.core.OmegaPlus (M0 + 3 * ε) (Mω + 6 * Real.pi * ε / lam)
+    (0 < lam → HomFreqHyp Par H.core.omegaPlus H.core.OmegaPlus (M0 + 3 * ε) (Mω + 6 * Real.pi * ε
+      / lam)
       (MΩ + 3 * ε / lam)) ∧
     -- (iv)
     (∀ K α' : ℝ, 1 ≤ K → 6 * Real.pi * (1 + K) * (1 + K ^ τ) * ε ≤ α - α' →
@@ -177,7 +184,13 @@ theorem stepTheorem_of_eps0_pos (H : StepHyp a p pb s r σ η τ α lam ε ε₀
       ‖(H.core.Phi ξ w - w) - (H.core.Phi ζ w - w)‖ ≤ 2 * (stepM₁ τ σ α ε₀ ε₁ Mω MΩ * ‖ξ - ζ‖) ∧
       ‖fderiv ℂ (H.core.Phi ξ) w - ContinuousLinearMap.id ℂ _‖ ≤ 8 * stepM₀ τ σ α ε₀ / σ ∧
       ‖fderiv ℂ (H.core.Phi ξ) w - fderiv ℂ (H.core.Phi ζ) w‖ ≤
-        16 * (stepM₁ τ σ α ε₀ ε₁ Mω MΩ * ‖ξ - ζ‖) / σ) :=
+        16 * (stepM₁ τ σ α ε₀ ε₁ Mω MΩ * ‖ξ - ζ‖) / σ)
+
+end StepHyp
+
+/-- Conditional helper (`0 < ε₀`). -/
+theorem stepTheorem_of_eps0_pos (H : StepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
+    [Fact (0 < r)] : H.Conclusion :=
   stepTheoremCore H.core H.mel
 
 end KAM.Wave

@@ -228,3 +228,37 @@ Status: `inp-wpq` is merged into this branch (`git merge inp-wpq`, clean) and `K
 2. **Setup.** A modified `StepHypMod` (replace `HomMelnikov` by `HomMelnikovMod τ α β`, `2β ≤ p+1-p₊`, `stepCFn/stepTn`, smallness `ε ≤ ασ^{t♮}η²/(16 c♮_F)`) and modified `R_field` (ε in the `p+1` norm; reweighted `3ε₀`), `F_field/F_sub` from `homModLemma_fieldBound/lipschitz`, `M_sum` from `stepSolveMod_fam`-explicit + `stepSolve_bound_mod` (copy `stepSolve_fam_explicit` with `waveBN`), `equation` from `stepSolveMod_equation`.
 3. **Downstream.** `StepConj`, `StepFlowClauses`, `StepClauses`, `StepTheorem` use `H` only through `R, FT, R_field, R_sub, F_field, F_sub, M₀, M₁, M_sum, equation, mf_small` and the reality facts `[b], [Q]_jj` real; the cleanest route is to factor those into an abstract `StepCore` structure (families `R`, `FT` plus these properties) and prove `stepTheorem` for `StepCore`, then instantiate it for `StepHyp` (done) and `StepHypMod`.
    For the modified case the frequency bounds use `sup_j (j+2)|Ω̂_j| ≤ ε` (p̄ = p+1) and constant `C₂♮ = stepC2n`.
+
+## Session 6 — MODIFIED CASE (item 6) DONE; orchestrator ruling on `ε₀ > 0` applied
+New/changed modules (all build at default heartbeats with `w_build.sh`; `w_lint.sh` exit 0; root regenerated):
+* `StepReweight` (`stepRhoK` = `D_ρ` on `KamPhase`, `kamNorm_stepRhoK_le`, `stepZ/stepZb` commute, `stepSymp_stepRhoK`
+  `ϖ_{p₊,p}(D_ρY,W)=ϖ_{p+1,p}(Y,W)`, `IsSmoothing.rhoK`: `𝒮_{p+1} → 𝒮_{p₊}` with field `D_ρ∘X`);
+* `StepReweightTaylor` (`stepTaylorRho` = `stepTaylorOf` of `(P, D_ρ∘X)`; on the strip its components are `D_ρ` of those of the
+  `p+1` element `stepTaylorP1`; `stepFun_taylorRho`, `homNhat_taylorRho`, `stepFun_nhat_taylorRho`, `homCoeff_congr_real`).
+  Note: equality of `HomTaylor_gen` structures is false off the strip (junk `fderiv`), so only strip-wise agreement is used;
+* `StepCore` (new abstract `StepCore … M₀ M₁ cF tF … FT`: all step data except the divisor hypothesis; `FT`, its field bounds,
+  `M_sum`, the equation `R + DN·X_F = N̂ + â₀` are fields; `stepM₀`, `stepM₁` moved here); `StepConj`, `StepFlowClauses`,
+  `StepClauses` now live over `StepCore` (`StepClauses.divisors` takes `HomMelnikov` as an argument);
+* `StepHyp` keeps the non-modified structure and `StepHyp.core : StepCore …`;
+* `StepHypMod` (`HomMelnikovMod`, `0 ≤ β`, `2β ≤ p+1-p₊`, smallness with `stepCFn`, `stepTn`; `stepFTfamMod`, `stepM₁n`;
+  `StepHypMod.core` for the pair `(P, D_ρ∘X)` using `stepSolveMod_*`, `homModLemma_fieldBound/lipschitz/2`, `stepSolve_bound_mod`);
+* `StepTheorem` (`stepTheoremCore` for any `StepCore` + `HomMelnikov`; `StepHyp.Conclusion`; conditional helper
+  `stepTheorem_of_eps0_pos`), `StepTheoremMod` (`StepHypMod.Conclusion`, `stepTheoremMod_of_eps0_pos`);
+* `StepTheoremSrc`: **source-facing `KAM.Wave.stepTheorem`** (hypothesis `StepHypSrc`: only `ε₀ ≥ 0` and `ε > 0`) and
+  **`KAM.Wave.stepTheoremMod`** (`StepHypModSrc`, plus `hH : HomMelnikov τ α Par ω Ω`, the premise of clause (iv)).
+Ruling (`ε₀ > 0`): the premise is removed from the source-facing statements. Both theorems conclude
+`∃ ε₀' ε₁', ∃ H' : StepHyp(Mod) … ε₀' ε₁' …, H'.Conclusion`: the splitting is `(ε₀,ε₁)` if `ε₀>0`, and `(ε/2, 0)` if `ε₀=0`
+(then `X_P ≡ 0` on `D(s,r)` forces `hb`, `hdiff` with `(ε/2, 0)`, lemma `exists_eps_split`). Clauses that mention `ε₀`
+(frequency bounds `6πε₀'`, `3ε₀'`, `stepM₀ … ε₀'`, the `M_F` bound) are stated for the witness `ε₀'`, not for the given `ε₀`
+(a bound `6π·0` for `ε₀ = 0` is not obtained: it would require showing `R = 0`, `F = 0`, `Φ = id` directly). Since
+`ε₀' + λε₁' ≤ ε`, these are the blueprint's `λ`-norm bounds `≤ 6πε`, `≤ 3ε`, `≤ M_F`. New explicit hypothesis `ε > 0`
+(blueprint: "a number `ε > 0`"); it was previously derived from `ε₀ > 0`.
+Hypothesis comparison: blueprint `σ ≤ min(1/4, s/6)` with `σ > 0` (Definition `bpW:w5:data`: "`0<σ≤min(¼,s/6)`", so `σ > 0` IS a
+blueprint premise) gives `5σ < s` and `σ ≤ 1`; the Lean hypotheses `hσ : 0 < σ`, `hσ1 : σ ≤ 1`, `hσs : 5σ < s` are weaker (allowed);
+`s ≤ 1` is not assumed (weaker); `η ≤ 1/8`, `0 < η` as in the blueprint. Modified case: `β ∈ (0,1/2]` and `p₊ ∈ [p+1/2,p+1]` in the
+blueprint; Lean assumes `0 ≤ β`, `2β ≤ p+1-p₊`, `1/2 ≤ p₊-p` (weaker), plus `1 ≤ p+p₊` (typing, as in the unmodified case).
+Deviations: clause (iv) of the modified theorem uses an explicit `HomMelnikov` premise (the blueprint's "whenever the same holds with α");
+reality of `Φ`, `P_+` still open (needs W4's unconditional reality of `F`; see Session 5 notes); weak conjugacy in derivative form.
+Checks: `w_lint.sh` exit 0 (`check_lean_modules` PASS, frozen guard OK). `#print axioms` of `stepTheorem`, `stepTheoremMod`,
+`stepTheorem_of_eps0_pos`, `stepTheoremMod_of_eps0_pos`: propext, Classical.choice, Quot.sound.
+Suspected errata: none new.

@@ -137,6 +137,7 @@ public import KAM.Wave.KamStep.StepBracket
 public import KAM.Wave.KamStep.StepCLM
 public import KAM.Wave.KamStep.StepClauses
 public import KAM.Wave.KamStep.StepConj
+public import KAM.Wave.KamStep.StepCore
 public import KAM.Wave.KamStep.StepCtx
 public import KAM.Wave.KamStep.StepFieldBound
 public import KAM.Wave.KamStep.StepFlowClauses
@@ -144,6 +145,7 @@ public import KAM.Wave.KamStep.StepFlowConcrete
 public import KAM.Wave.KamStep.StepFlowFam
 public import KAM.Wave.KamStep.StepFreqBound
 public import KAM.Wave.KamStep.StepHyp
+public import KAM.Wave.KamStep.StepHypMod
 public import KAM.Wave.KamStep.StepLip
 public import KAM.Wave.KamStep.StepMargin
 public import KAM.Wave.KamStep.StepNfun
@@ -161,11 +163,15 @@ public import KAM.Wave.KamStep.StepPlusFam
 public import KAM.Wave.KamStep.StepPlusFinal
 public import KAM.Wave.KamStep.StepPlusLam
 public import KAM.Wave.KamStep.StepPullbackBound
+public import KAM.Wave.KamStep.StepReweight
+public import KAM.Wave.KamStep.StepReweightTaylor
 public import KAM.Wave.KamStep.StepSetup
 public import KAM.Wave.KamStep.StepSolve
 public import KAM.Wave.KamStep.StepSympEmbed
 public import KAM.Wave.KamStep.StepSymplectic
 public import KAM.Wave.KamStep.StepTheorem
+public import KAM.Wave.KamStep.StepTheoremMod
+public import KAM.Wave.KamStep.StepTheoremSrc
 public import KAM.Wave.KamStep.SymplecticFlow
 public import KAM.Wave.KamStep.TaylorAssemble
 public import KAM.Wave.KamStep.TaylorBlocks

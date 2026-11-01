@@ -32,26 +32,31 @@ variable {a p pb s r σ η τ α β lam ε ε₀ ε₁ γ M0 Mω MΩ : ℝ} {Par
   {ω : (Fin 2 → ℝ) → Fin 2 → ℝ} {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ}
   {P : (Fin 2 → ℝ) → KamPhase → ℂ} {X : (Fin 2 → ℝ) → KamPhase → KamPhase}
 
-/-- **One KAM step, modified case** (`bpW:w5:step`), conditional helper (assumes `0 < ε₀`). The solve
-uses modified divisors; the new objects are those of `H.core` for the pair `(P, D_ρ ∘ X)`. The
-hypothesis `hH` is that of clause (iv) (the blueprint's "whenever the same holds with `α`"). -/
-theorem stepTheoremMod_of_eps0_pos
+namespace StepHypMod
+
+/-- **One KAM step, modified case** (`bpW:w5:step`), conditional helper (assumes `0 < ε₀`). The
+  solve
+uses modified divisors; the new objects are those of `H.core` for the pair `(P, D_ρ ∘ X)`. Clause
+  (iv)
+is conditional on `HomMelnikov` (the blueprint's "whenever the same holds with `α`"). -/
+def Conclusion
     (H : StepHypMod a p pb s r σ η τ α β lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
-    (hH : HomMelnikov τ α Par ω Ω) [Fact (0 < r)] :
-    -- (i)
+    [Fact (0 < r)] : Prop :=    -- (i)
     (∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r),
       StepPhase.toK (H.core.Phi ξ w) ∈ kamDomain (s - 4 * σ) (2 * η * r)) ∧
     (∀ ξ (hξ : ξ ∈ Par), ∀ w ∈ stepDomain r (s - 5 * σ) (η * r),
       stepNfun H.hG H.core.hK0 (homOmega_le H.freq hξ) (ω ξ) (StepPhase.toK (H.core.Phi ξ w)) +
           P ξ (StepPhase.toK (H.core.Phi ξ w)) =
-        stepNfun H.hG H.core.hKp (Ω := H.core.OmegaPlus ξ) (H.core.omegaPlus_bound hξ) (H.core.omegaPlus ξ)
+        stepNfun H.hG H.core.hKp (Ω := H.core.OmegaPlus ξ) (H.core.omegaPlus_bound hξ)
+          (H.core.omegaPlus ξ)
           (StepPhase.toK w) + H.core.Pplus ξ w + H.core.a0 ξ) ∧
     (∀ ξ (hξ : ξ ∈ Par), ∀ w ∈ stepDomain r (s - 5 * σ) (η * r), ∀ W : StepPhase r,
       ((homDN H.hG H.core.hK0 (homOmega_le H.freq hξ) (ω ξ)
           (stepToHom (StepPhase.toK (H.core.Phi ξ w)))).comp stepToHom).comp (stepToKCLM r)
           (fderiv ℂ (H.core.Phi ξ) w W) +
         stepSympCLM (q := p) (q' := p) H.ha H.core.two_p r
-          (stepEmbedCLM a p pb H.hpb r (stepXPS (H.X' ξ) r (H.core.Phi ξ w))) (fderiv ℂ (H.core.Phi ξ) w W) =
+          (stepEmbedCLM a p pb H.hpb r (stepXPS (H.X' ξ) r (H.core.Phi ξ w))) (fderiv ℂ (H.core.Phi
+            ξ) w W) =
       ((homDN H.hG H.core.hK0 (homOmega_le H.freq hξ) (ω ξ)
           (stepToHom (StepPhase.toK w))).comp stepToHom).comp (stepToKCLM r) W +
         stepSympCLM (q := p) (q' := p) H.ha H.core.two_p r
@@ -70,7 +75,8 @@ theorem stepTheoremMod_of_eps0_pos
       (fun w : KamPhase => H.core.Pplus ξ (StepPhase.ofK (r := r) w))
       (fun w : KamPhase => StepPhase.toK (H.core.Xplus ξ (StepPhase.ofK (r := r) w)))) ∧
     (∀ ξ ∈ Par, ∀ i : Fin 2, ∀ w ∈ kamDomain (s - 5 * σ) (η * r),
-      H.core.Pplus ξ (StepPhase.ofK (r := r) (w + stepTau i)) = H.core.Pplus ξ (StepPhase.ofK (r := r) w)) ∧
+      H.core.Pplus ξ (StepPhase.ofK (r := r) (w + stepTau i)) = H.core.Pplus ξ (StepPhase.ofK (r :=
+        r) w)) ∧
     FamBound Par (kamDomain (s - 5 * σ) (η * r)) (η * r) lam
       (stepC2n τ * (ε ^ 2 / (α * σ ^ stepTn τ * η ^ 2) + η * ε))
       (fun ξ w => StepPhase.toK (H.core.Xplus ξ (StepPhase.ofK (r := r) w))) ∧
@@ -81,7 +87,8 @@ theorem stepTheoremMod_of_eps0_pos
       ‖(H.core.omegaPlus ξ - ω ξ) - (H.core.omegaPlus ζ - ω ζ)‖ ≤ 6 * Real.pi * ε₁ * ‖ξ - ζ‖ ∧
       ∀ j : ℕ+, ((j : ℝ) + 2) ^ (pb - p) *
         |(H.core.OmegaPlus ξ j - Ω ξ j) - (H.core.OmegaPlus ζ j - Ω ζ j)| ≤ 3 * ε₁ * ‖ξ - ζ‖) ∧
-    (0 < lam → HomFreqHyp Par H.core.omegaPlus H.core.OmegaPlus (M0 + 3 * ε) (Mω + 6 * Real.pi * ε / lam)
+    (0 < lam → HomFreqHyp Par H.core.omegaPlus H.core.OmegaPlus (M0 + 3 * ε) (Mω + 6 * Real.pi * ε
+      / lam)
       (MΩ + 3 * ε / lam)) ∧
     -- (iv)
     (∀ K α' : ℝ, 1 ≤ K → 6 * Real.pi * (1 + K) * (1 + K ^ τ) * ε ≤ α - α' →
@@ -95,7 +102,14 @@ theorem stepTheoremMod_of_eps0_pos
       ‖(H.core.Phi ξ w - w) - (H.core.Phi ζ w - w)‖ ≤ 2 * (stepM₁n τ σ α ε₀ ε₁ Mω MΩ * ‖ξ - ζ‖) ∧
       ‖fderiv ℂ (H.core.Phi ξ) w - ContinuousLinearMap.id ℂ _‖ ≤ 8 * stepM₀ τ σ α ε₀ / σ ∧
       ‖fderiv ℂ (H.core.Phi ξ) w - fderiv ℂ (H.core.Phi ζ) w‖ ≤
-        16 * (stepM₁n τ σ α ε₀ ε₁ Mω MΩ * ‖ξ - ζ‖) / σ) :=
+        16 * (stepM₁n τ σ α ε₀ ε₁ Mω MΩ * ‖ξ - ζ‖) / σ)
+
+end StepHypMod
+
+/-- Conditional helper (`0 < ε₀`). -/
+theorem stepTheoremMod_of_eps0_pos
+    (H : StepHypMod a p pb s r σ η τ α β lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
+    (hH : HomMelnikov τ α Par ω Ω) [Fact (0 < r)] : H.Conclusion :=
   stepTheoremCore H.core hH
 
 end KAM.Wave

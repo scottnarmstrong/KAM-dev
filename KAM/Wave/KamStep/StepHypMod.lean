@@ -205,7 +205,8 @@ theorem equation (ξ : Fin 2 → ℝ) (hξ : ξ ∈ Par) (w : KamPhase)
           (kamHomEmbed a p pb H.hpb (stepField H.ha H.hp H.hpb (H.FT ξ) w)) =
       stepFun H.ha (homPP H.hp H.hpb) (homNhatTaylor_gen
           (stepTaylorFam H.ha H.hp H.hpb H.hs H.hr Par P H.X' H.hP' H.hper H.hb' ξ)) w +
-        homCoeff (stepTaylorFam H.ha H.hp H.hpb H.hs H.hr Par P H.X' H.hP' H.hper H.hb' ξ).a0 0 := by
+        homCoeff (stepTaylorFam H.ha H.hp H.hpb H.hs H.hr Par P H.X' H.hP' H.hper H.hb' ξ).a0 0 :=
+          by
   haveI : Fact (0 < r) := ⟨H.hr⟩
   have hws : w.1 ∈ complexStrip 2 s := fun i => lt_trans (hw i) (by linarith [H.hσ])
   have hF : H.FT ξ = homModSolveTaylor H.hτ H.hα H.hσ H.hσs' (homMod_pb_le H.hβ0 H.hβ)

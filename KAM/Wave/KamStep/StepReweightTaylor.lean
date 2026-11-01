@@ -16,7 +16,8 @@ import Mathlib.Tactic.Positivity
 Off-frontier, source-faithful infrastructure (W5-STEP, item 6); the dependency graph is still being
 built.
 
-For `(P, X) ∈ 𝒮_{p+1}(D(s,r))` the element `T = stepTaylorOf …` of `𝒯_s` (`p̄ = p+1`) and the element
+For `(P, X) ∈ 𝒮_{p+1}(D(s,r))` the element `T = stepTaylorOf …` of `𝒯_s` (`p̄ = p+1`) and the
+  element
 `T' = stepTaylorOf …` of the pair `(P, D_ρ ∘ X) ∈ 𝒮_{p₊}` are related by `T' = D_ρ T` on the strip
 (componentwise). Consequences, used to transfer the homological equation of `bpW:w5:w4-modified`
 (which is stated for `T`) to `T'`:
