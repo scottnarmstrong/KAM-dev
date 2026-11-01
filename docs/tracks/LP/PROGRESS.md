@@ -37,7 +37,7 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 
 ## Audit queue (codex-2, one at a time machine-wide; W interleaves when LP has a gap)
 
-1. LP-OSC (done, PASS WITH NOTES) → 2. LP-W3B (CONF + NRR, running) → 3. FREEZE-PROPOSAL statement review (independent, refute-first; root-b8 request; report to `freeze/`, fixes into draft 2) → 4. LIFT, DOMX → 5. PS.
+1. LP-OSC (done, PASS WITH NOTES) → 2. LP-W3B (CONF + NRR, running) → 3. FREEZE-PROPOSAL statement review 1 (done: RETURN FOR REVISION; draft 2 written) → [W7 r2] → 4. LP-W3C (LIFT + DOMX, ready) → 5. delta review 2 of draft 2 (scoped to F1–F5; `DRAFT=2 EXTRA=… lp_stmt_review.sh 2 codex-2`) → 6. THR2 → 7. PS.
 
 ## Carried requirements
 
