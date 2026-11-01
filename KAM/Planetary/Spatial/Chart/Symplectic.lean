@@ -27,6 +27,8 @@ and `Φ_q × Φ_p = G e₃`, so everything reduces to the planar form (`poincare
 `rot3_form_identity`, which gives `du ∧ dv`. In the repository convention (`symplecticForm` on
 `Phase 3`, coordinates `((λ, ξ, v), (I, η, u))`) the result is
 `symplecticForm (DΨ h) (DΨ k) = symplecticForm h k`, i.e. `dI ∧ dλ + dη ∧ dξ + du ∧ dv`.
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -71,7 +73,7 @@ theorem hasDerivAt_planar_line (hν : 0 < ν) (hw : w ∈ spatialPoincareDom) (h
     HasDerivAt (fun τ : ℝ => poincare ν 1 (spatialPlanar (w + τ • h))) (planarDeriv ν w h) 0 := by
   have hd : DifferentiableAt ℝ (poincare ν 1) (spatialPlanar w) :=
     (analyticOnNhd_poincare hν one_pos _ (spatialPlanar_mem hw)).differentiableAt
-  have := hasDerivAt_fderiv_line hd (spatialPlanar h)
+  have := hasDerivAt_fderiv_spatialLine hd (spatialPlanar h)
   show HasDerivAt _ (fderiv ℝ (poincare ν 1) (spatialPlanar w) (spatialPlanar h)) 0
   simpa only [spatialPlanar_line] using this
 
@@ -154,7 +156,7 @@ theorem spatialPoincare_fderiv_fst (hν : 0 < ν) (hw : w ∈ spatialPoincareDom
         spatialRot w *ᵥ planarEmbed (planarDeriv ν w h).1 := by
   have hd : DifferentiableAt ℝ (spatialPoincare ν) w :=
     (analyticOnNhd_spatialPoincare hν w hw).differentiableAt
-  have hline := hasDerivAt_fderiv_line hd h
+  have hline := hasDerivAt_fderiv_spatialLine hd h
   ext i
   have hc := (ContinuousLinearMap.hasFDerivAt ((ContinuousLinearMap.proj (R := ℝ)
     (φ := fun _ : Fin 3 => ℝ) i).comp
@@ -172,7 +174,7 @@ theorem spatialPoincare_fderiv_snd (hν : 0 < ν) (hw : w ∈ spatialPoincareDom
         spatialRot w *ᵥ planarEmbed (planarDeriv ν w h).2 := by
   have hd : DifferentiableAt ℝ (spatialPoincare ν) w :=
     (analyticOnNhd_spatialPoincare hν w hw).differentiableAt
-  have hline := hasDerivAt_fderiv_line hd h
+  have hline := hasDerivAt_fderiv_spatialLine hd h
   ext i
   have hc := (ContinuousLinearMap.hasFDerivAt ((ContinuousLinearMap.proj (R := ℝ)
     (φ := fun _ : Fin 3 => ℝ) i).comp

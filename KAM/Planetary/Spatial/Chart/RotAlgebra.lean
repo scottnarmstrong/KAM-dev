@@ -21,6 +21,8 @@ symplecticity computation. Since the tilt `t = (a, b, 0)` of (46) has no third c
 * `rot3_form_identity`: the identity
   `ω_k3 dG_h − ω_h3 dG_k − G (ω_h × ω_k)_3 = du_h dv_k − dv_h du_k` for
   `(u, v, G) = (2 s a, −2 s b, s²)`.
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

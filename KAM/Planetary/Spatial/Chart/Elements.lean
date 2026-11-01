@@ -17,6 +17,8 @@ Package LP-SP-CHART, `LP:MAIN L17 (533–578)`, track LP, non-frozen. On (44):
 * the Kepler energy of `spatialPoincare ν w` is `−ν³/(2I²)`;
 * `q ⨯₃ p = G • (R e₃)`, `|q ⨯₃ p| = G` and `(q ⨯₃ p) ⬝ᵥ e₃ = I − Γ − Z`;
 * the eccentricity vector is `R` applied to the planar one.
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

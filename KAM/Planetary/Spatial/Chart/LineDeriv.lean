@@ -17,6 +17,8 @@ Package LP-SP-CHART, `LP:MAIN L17 (562–569)`, track LP, non-frozen. Along the 
 `b = −v/(2√G)`, `c = incCos u v G`; this module computes their derivatives at `τ = 0`
 (`spatialRot_line_hasDerivAt`) and the algebraic relations between the resulting numbers
 (used by `rot3_form_identity` in the symplecticity proof).
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -28,7 +30,7 @@ namespace KAM.Planetary.Spatial
 open KAM KAM.Kepler KAM.Planetary
 
 /-- A function along a line has the line derivative of `fderiv`. -/
-theorem hasDerivAt_fderiv_line {E F : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+theorem hasDerivAt_fderiv_spatialLine {E F : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     [NormedAddCommGroup F] [NormedSpace ℝ F] {f : E → F} {w : E} (hf : DifferentiableAt ℝ f w)
     (h : E) : HasDerivAt (fun τ : ℝ => f (w + τ • h)) (fderiv ℝ f w h) 0 := by
   have hl : HasDerivAt (fun τ : ℝ => w + τ • h) h 0 := by
@@ -56,7 +58,8 @@ theorem rot3_hasDerivAt {a b c : ℝ → ℝ} {da db dc : ℝ} {x : ℝ}
   · exact ((hc.const_mul 2).mul ha).neg.congr_deriv (by ring)
   · exact ((hc.const_mul 2).mul hb).neg.congr_deriv (by ring)
   · exact ((hc.const_mul 2).mul ha).congr_deriv (by ring)
-  · exact ((((ha.mul ha).add (hb.mul hb)).const_mul 2).const_sub 1).congr_deriv (by ring) |>.congr_of_eventuallyEq
+  · exact ((((ha.mul ha).add (hb.mul hb)).const_mul 2).const_sub 1).congr_deriv (by ring)
+      |>.congr_of_eventuallyEq
       (Filter.Eventually.of_forall fun τ => by simp only [Pi.mul_apply, Pi.add_apply]; ring)
 
 section Line
@@ -215,7 +218,8 @@ lemma hasDerivAt_line_C (hw : w ∈ spatialPoincareDom) (h : Phase 3) :
     have : 1 - (spatialA w * spatialA w + spatialB w * spatialB w) = spatialC w ^ 2 := by
       nlinarith
     rw [this]; positivity
-  have key := hf.sqrt (by simpa only [Pi.mul_apply, Pi.add_apply, hA0, hB0, zero_smul, add_zero] using hne)
+  have key := hf.sqrt (by
+    simpa only [Pi.mul_apply, Pi.add_apply, hA0, hB0, zero_smul, add_zero] using hne)
   refine (key.congr_deriv ?_).congr_of_eventuallyEq
     (Filter.Eventually.of_forall fun τ => incCos_eq_sqrt_ab _ _ _)
   simp only [Pi.mul_apply, Pi.add_apply, hA0, hB0, zero_smul, add_zero]

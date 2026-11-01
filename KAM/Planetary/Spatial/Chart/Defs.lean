@@ -23,6 +23,8 @@ the form of MAIN (Lemma 17) for the planar chart in the repository convention
 * `spatialPoincareDom` is (44): `I > 0` and `Γ + Z < I`.
 * `spatialPoincare ν w = (R·(Q, 0), R·(P, 0))` is (46), with `(Q, P)` the planar chart
   `poincare ν 1` at `(λ, ξ; I, η)` and `R = incRotation u v G`, `G = I − Γ`.
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -67,7 +69,8 @@ def spatialPoincareDom : Set (Phase 3) :=
 def spatialRot (w : Phase 3) : Matrix (Fin 3) (Fin 3) ℝ :=
   incRotation (w.2 2) (w.1 2) (spatialAngMom w)
 
-/-- MAIN (46), literally: `q = R·(Q, 0)`, `p = R·(P, 0)` with `(Q, P) = poincare ν 1 (λ, ξ; I, η)`. -/
+/-- MAIN (46), literally: `q = R·(Q, 0)`, `p = R·(P, 0)` with
+`(Q, P) = poincare ν 1 (λ, ξ; I, η)`. -/
 def spatialPoincare (ν : ℝ) (w : Phase 3) : Phase 3 :=
   (spatialRot w *ᵥ planarEmbed (poincare ν 1 (spatialPlanar w)).1,
    spatialRot w *ᵥ planarEmbed (poincare ν 1 (spatialPlanar w)).2)

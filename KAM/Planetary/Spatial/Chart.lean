@@ -26,4 +26,6 @@ the modules of `KAM/Planetary/Spatial/Chart/`:
 * `Analytic`: analyticity and `2π`-periodicity, item 4;
 * `RotAlgebra`, `LineDeriv`, `Symplectic`: the symplectic computation, item 5;
 * `Inverse`, `Image`, `Diffeo`: the inverse, the image and local analytic diffeomorphism, item 3.
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/

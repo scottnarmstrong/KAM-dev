@@ -21,6 +21,8 @@ For a spatial state `z = (q, p)` put `c = q ⨯₃ p`, `G = |c|`, `x = c/G` (the
 `spatialPoincareInv` is the resulting explicit inverse; it is a left inverse of
 `spatialPoincare` up to the `2π`-lattice shift, and a right inverse on the prograde
 negative-energy region.
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

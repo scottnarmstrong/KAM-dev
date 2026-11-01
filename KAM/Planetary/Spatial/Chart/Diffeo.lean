@@ -15,6 +15,8 @@ Package LP-SP-CHART, `LP:MAIN L17 (571–578)`, track LP, non-frozen. Items 3–
 map has an injective, hence (finite dimension) invertible, derivative. With analyticity this
 gives, at every point of (44), an open partial homeomorphism extending `spatialPoincare ν` whose
 inverse is analytic, as for the planar chart (`poincare_localDiffeo`).
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -57,7 +59,8 @@ theorem spatialPoincare_fderiv_equiv (hν : 0 < ν) (hw : w ∈ spatialPoincareD
   · exact LinearMap.range_eq_top.2 hsurj
   · exact ContinuousLinearMap.ext fun z => rfl
 
-/-- Items 3–5: a local analytic diffeomorphism extending `spatialPoincare ν` at every point of (44). -/
+/-- Items 3–5: a local analytic diffeomorphism extending `spatialPoincare ν` at every point of
+(44). -/
 theorem spatialPoincare_localDiffeo (hν : 0 < ν) (hw : w ∈ spatialPoincareDom) :
     ∃ φ : OpenPartialHomeomorph (Phase 3) (Phase 3), w ∈ φ.source ∧
       (φ : Phase 3 → Phase 3) = spatialPoincare ν ∧ AnalyticOnNhd ℝ φ.symm φ.target := by

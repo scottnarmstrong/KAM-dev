@@ -15,6 +15,8 @@ Package LP-SP-CHART, `LP:MAIN L17 (571–578)`, track LP, non-frozen. Item 3: `s
 maps (44) into the prograde negative-energy region `spatialRegion ν`, `spatialPoincareInv` is a
 right inverse on that region (so the map is onto), and two points of (44) have the same image iff
 they differ by a shift `λ ↦ λ + 2πk`.
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
