@@ -186,6 +186,106 @@ theorem norm_stepBrG_le (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 
           (by have := (norm_nonneg _).trans h1; positivity)
     _ = _ := by ring
 
+
+theorem stepFieldS_sub (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {s' : ℝ}
+    (T₁ T₂ : HomTaylor_gen a p pb s') {z : StepPhase r}
+    (hz : (StepPhase.toK z).1 ∈ complexStrip 2 s') :
+    stepFieldS ha hp hpb (T₁.homSub T₂) r z =
+      stepFieldS ha hp hpb T₁ r z - stepFieldS ha hp hpb T₂ r z := by
+  unfold stepFieldS
+  rw [stepField_sub ha hp hpb T₁ T₂ hz]
+  rfl
+
+theorem fderiv_stepFieldS_sub (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {s' : ℝ}
+    (T₁ T₂ : HomTaylor_gen a p pb s') {z : StepPhase r}
+    (hz : (StepPhase.toK z).1 ∈ complexStrip 2 s') :
+    fderiv ℂ (stepFieldS ha hp hpb (T₁.homSub T₂) r) z =
+      fderiv ℂ (stepFieldS ha hp hpb T₁ r) z - fderiv ℂ (stepFieldS ha hp hpb T₂ r) z := by
+  have hev : stepFieldS ha hp hpb (T₁.homSub T₂) r =ᶠ[nhds z]
+      fun y => stepFieldS ha hp hpb T₁ r y - stepFieldS ha hp hpb T₂ r y := by
+    filter_upwards [(isOpen_theta_strip (r := r) s').mem_nhds hz] with y hy using
+      stepFieldS_sub ha hp hpb T₁ T₂ hy
+  rw [hev.fderiv_eq]
+  exact fderiv_sub (stepFieldS_differentiableAt ha hp hpb T₁ r hz)
+    (stepFieldS_differentiableAt ha hp hpb T₂ r hz)
+
+
+theorem stepBrZ_sub_norm_le (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 < σ) (hσ1 : σ ≤ 1)
+    (hσs : 2 * σ < s) {TG₂ : HomTaylor_gen a p pb s} {FT₂ : HomTaylor_gen a p pb (s - σ)}
+    {e ΔG Mf N₁ : ℝ} (he : 0 ≤ e) (hΔG : 0 ≤ ΔG) (hMf : 0 ≤ Mf) (hN₁ : 0 ≤ N₁)
+    (hTG₂ : HomFieldBound_gen ha hp hpb r e TG₂) (hFT₂ : HomFieldBound_gen ha hp hpb r Mf FT₂)
+    (hTG : HomFieldBound_gen ha hp hpb r e TG)
+    (hΔG' : HomFieldBound_gen ha hp hpb r ΔG (TG.homSub TG₂))
+    (hF : HomFieldBound_gen ha hp hpb r Mf FT)
+    (hΔF : HomFieldBound_gen ha hp hpb r N₁ (FT.homSub FT₂))
+    {z : StepPhase r} (hz : z ∈ stepDomain r (s - 2 * σ) (r / 2)) :
+    ‖stepBrZ ha hp hpb TG FT z - stepBrZ ha hp hpb TG₂ FT₂ z‖ ≤ 4 * (Mf * ΔG + e * N₁) / σ := by
+  have hr : 0 < r := Fact.out
+  have hzV : z ∈ stepDomain r (s - σ) r := stepDomain_mono' (by linarith) (by positivity)
+    (by linarith) hz
+  have hθs : (StepPhase.toK z).1 ∈ complexStrip 2 s := stepDomain_theta_mem (by linarith) hz
+  have hθF : (StepPhase.toK z).1 ∈ complexStrip 2 (s - σ) := stepDomain_theta_mem (by linarith) hz
+  have c1 := stepFieldS_cauchy (σ := σ) ha hp hpb (TG.homSub TG₂) hσ hσ1 hσs (by linarith) hΔG hΔG' hz
+  have c2 := stepFieldS_cauchy (σ := σ) ha hp hpb TG₂ hσ hσ1 hσs (by linarith) he hTG₂ hz
+  have c3 := stepFieldS_cauchy (σ := σ) (S := s) ha hp hpb (FT.homSub FT₂) hσ hσ1 hσs le_rfl hN₁
+    hΔF hz
+  have c4 := stepFieldS_cauchy (σ := σ) (S := s) ha hp hpb FT₂ hσ hσ1 hσs le_rfl hMf hFT₂ hz
+  have d1 := fderiv_stepFieldS_sub ha hp hpb TG TG₂ hθs
+  have d2 := fderiv_stepFieldS_sub ha hp hpb FT FT₂ hθF
+  rw [d1] at c1
+  rw [d2] at c3
+  have bΔG : ‖stepFieldS ha hp hpb TG r z - stepFieldS ha hp hpb TG₂ r z‖ ≤ ΔG := by
+    rw [← stepFieldS_sub ha hp hpb TG TG₂ hθs]
+    exact stepFieldS_bound ha hp hpb _ r hΔG' (by linarith) hzV
+  have bΔF : ‖stepFieldS ha hp hpb FT r z - stepFieldS ha hp hpb FT₂ r z‖ ≤ N₁ := by
+    rw [← stepFieldS_sub ha hp hpb FT FT₂ hθF]
+    exact stepFieldS_bound ha hp hpb _ r hΔF le_rfl hzV
+  have bG : ‖stepFieldS ha hp hpb TG r z‖ ≤ e :=
+    stepFieldS_bound ha hp hpb TG r hTG (by linarith) hzV
+  have bF : ‖stepFieldS ha hp hpb FT r z‖ ≤ Mf := stepFieldS_bound ha hp hpb FT r hF le_rfl hzV
+  have hι := fun g : StepPhase r => norm_stepEmbedCLM_apply_le a p pb hpb r g
+  have hid : stepBrZ ha hp hpb TG FT z - stepBrZ ha hp hpb TG₂ FT₂ z =
+      ((fderiv ℂ (stepFieldS ha hp hpb TG r) z - fderiv ℂ (stepFieldS ha hp hpb TG₂ r) z)
+          (stepEmbedCLM a p pb hpb r (stepFieldS ha hp hpb FT r z)) +
+        fderiv ℂ (stepFieldS ha hp hpb TG₂ r) z (stepEmbedCLM a p pb hpb r
+          (stepFieldS ha hp hpb FT r z - stepFieldS ha hp hpb FT₂ r z))) -
+      ((fderiv ℂ (stepFieldS ha hp hpb FT r) z - fderiv ℂ (stepFieldS ha hp hpb FT₂ r) z)
+          (stepEmbedCLM a p pb hpb r (stepFieldS ha hp hpb TG r z)) +
+        fderiv ℂ (stepFieldS ha hp hpb FT₂ r) z (stepEmbedCLM a p pb hpb r
+          (stepFieldS ha hp hpb TG r z - stepFieldS ha hp hpb TG₂ r z))) := by
+    unfold stepBrZ
+    simp only [sub_apply, map_sub]
+    abel
+  rw [hid]
+  have t1 : ‖(fderiv ℂ (stepFieldS ha hp hpb TG r) z - fderiv ℂ (stepFieldS ha hp hpb TG₂ r) z)
+      (stepEmbedCLM a p pb hpb r (stepFieldS ha hp hpb FT r z))‖ ≤ ΔG / (σ / 2) * Mf :=
+    (ContinuousLinearMap.le_opNorm _ _).trans
+      (mul_le_mul c1 ((hι _).trans bF) (norm_nonneg _) (by positivity))
+  have t2 : ‖fderiv ℂ (stepFieldS ha hp hpb TG₂ r) z (stepEmbedCLM a p pb hpb r
+      (stepFieldS ha hp hpb FT r z - stepFieldS ha hp hpb FT₂ r z))‖ ≤ e / (σ / 2) * N₁ :=
+    (ContinuousLinearMap.le_opNorm _ _).trans
+      (mul_le_mul c2 ((hι _).trans bΔF) (norm_nonneg _) (by positivity))
+  have t3 : ‖(fderiv ℂ (stepFieldS ha hp hpb FT r) z - fderiv ℂ (stepFieldS ha hp hpb FT₂ r) z)
+      (stepEmbedCLM a p pb hpb r (stepFieldS ha hp hpb TG r z))‖ ≤ N₁ / (σ / 2) * e :=
+    (ContinuousLinearMap.le_opNorm _ _).trans
+      (mul_le_mul c3 ((hι _).trans bG) (norm_nonneg _) (by positivity))
+  have t4 : ‖fderiv ℂ (stepFieldS ha hp hpb FT₂ r) z (stepEmbedCLM a p pb hpb r
+      (stepFieldS ha hp hpb TG r z - stepFieldS ha hp hpb TG₂ r z))‖ ≤ Mf / (σ / 2) * ΔG :=
+    (ContinuousLinearMap.le_opNorm _ _).trans
+      (mul_le_mul c4 ((hι _).trans bΔG) (norm_nonneg _) (by positivity))
+  refine (norm_sub_le _ _).trans ?_
+  have n1 := norm_add_le ((fderiv ℂ (stepFieldS ha hp hpb TG r) z -
+      fderiv ℂ (stepFieldS ha hp hpb TG₂ r) z) (stepEmbedCLM a p pb hpb r (stepFieldS ha hp hpb FT r z)))
+      (fderiv ℂ (stepFieldS ha hp hpb TG₂ r) z (stepEmbedCLM a p pb hpb r
+          (stepFieldS ha hp hpb FT r z - stepFieldS ha hp hpb FT₂ r z)))
+  have n2 := norm_add_le ((fderiv ℂ (stepFieldS ha hp hpb FT r) z -
+      fderiv ℂ (stepFieldS ha hp hpb FT₂ r) z) (stepEmbedCLM a p pb hpb r (stepFieldS ha hp hpb TG r z)))
+      (fderiv ℂ (stepFieldS ha hp hpb FT₂ r) z (stepEmbedCLM a p pb hpb r
+          (stepFieldS ha hp hpb TG r z - stepFieldS ha hp hpb TG₂ r z)))
+  have : ΔG / (σ / 2) * Mf + e / (σ / 2) * N₁ + (N₁ / (σ / 2) * e + Mf / (σ / 2) * ΔG) =
+      4 * (Mf * ΔG + e * N₁) / σ := by field_simp; ring
+  linarith
+
 end bounds
 
 end bracket
