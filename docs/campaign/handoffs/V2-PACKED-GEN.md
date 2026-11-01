@@ -3,7 +3,8 @@
 Brief: `/home/scott/kam-tools/briefs/V2-PACKED-GEN.md` (kamx-pk-gen). Branch `v2-packed-gen`, from `v2-packed-jet`
 `34d30126`, fast-forwarded to `origin/main` `7b81f9b9` (the landing of `v2-packed-jet`). Local commits only.
 
-DRAFT (in progress: the B3b route's end-to-end run and stage C are pending).
+Status (2026-11-01, 21:40 UTC): (A) landed on main (`3a5716f7`); (B) built; the T′ jet route proved end to end on
+the local integration branch (stage C, ahead of the landings at the orchestrator's instruction).
 
 ## Result
 
@@ -25,9 +26,9 @@ DRAFT (in progress: the B3b route's end-to-end run and stage C are pending).
   - T″: the same scripts, unchanged, read T″'s tree; its B3b and frame mirrors pass at T″'s claims.
   - The jet route for T′ (kamx-packed's certificate copy and chains, kamx-pk-cons' consumers) is emitted (103
     modules); its mirrors pass (torsion on the jet's nodes, frames, invariance, energy), and the book widths agree.
-- **(C) not started:** it needs `v2-packed-prod` and `v2-packed-cons` landed (the orchestrator's go), then
-  `RouteSharpJ.lean` added, then one command: `scripts/packed/run_tree.sh TP jet <logdir>` (with kamx-packed's
-  chain inputs).
+- **(C) the T′ jet route PROVED end to end** on the integration branch, ahead of the landings (orchestrator's
+  instruction): `pk_kamTorus` through `jetBase` + `routeARefinedPackedSJ`, standard axioms; whole torus 881 modules,
+  10,207 CPU-s (2.84 CPU-h) against run18's 107,577 (29.88 CPU-h): 10.5× (table in (B)).
 - **Found on the way:** LG00's generated `Final.Freq` (T′, T″) does not elaborate (errata below); LG00's run18 will
   hit it at `TP.Main`. One-line fix verified.
 
@@ -367,6 +368,50 @@ replaces them.
   certificate bit for bit (`LEGACY OK`).
 - **Emitted modules:** every one asserted ≤ 100 characters per line and ≤ 1,500 lines by the emitter; they are
   modules (copyright, `module`, `public import`, docstring, `@[expose] public noncomputable section`).
+
+## Resume after reboot (lemma.farm reboots 05:00 UTC Mon 2 Nov; `/tmp` is wiped)
+
+**State.** Everything is committed:
+- `v2-packed-gen` (landable): `RouteSharp`, `TorsRAsm`, `CertCongr`, the scripts, this handoff, the receipts under
+  `docs/campaign/studies/V2-PACKED-GEN/`.
+- `v2-packed-gen-int` (never landed): this branch merged with `v2-packed-cons` `4b2cf9af` and `v2-packed-prod`
+  `0bb4def23`, plus `JetFront` and `RouteSharpJ`.
+- The scratch packages and their builds live under `/home` and survive:
+  - `/home/scott/KAM-dev-worktrees/v2-packed-gen/.lake/lg00-packed` (`kam-lg00`: LG00's T′ modules reused, the A
+    gate, the B3b route);
+  - `/home/scott/KAM-dev-worktrees/v2-packed-gen-int/.lake/lg00p` (`kam-lg00p`: kamx-packed's copy and chains reused,
+    the jet route; requires the first).
+- The run ledgers and logs (`runA` … `runJ`) are copied to `~/kam-data/v2-packed-gen/`.
+
+Nothing of mine runs in the background.
+
+**Next steps** (none started):
+1. T″'s jet route, once kamx-packed's T″ chains and mirror caches exist (`.lake/v2-packed-prod/tpp`).
+2. Profile the two slow assemblies (`TorsJ.Core`, `TorsJ`).
+3. Land `CertCongr` with this branch, and `JetFront` and `RouteSharpJ` after `v2-packed-prod` and `v2-packed-cons`.
+
+**Exact commands.**
+```
+# re-check that the proved results are built (Lake only, no Lean process):
+cd /home/scott/KAM-dev-worktrees/v2-packed-gen-int/.lake/lg00p && lake build --no-build LG00P.TP.PK.MainJ
+cd /home/scott/KAM-dev-worktrees/v2-packed-gen/.lake/lg00-packed && lake build --no-build LG00Packed.TP.Main
+# the totals and the whole-torus table, from the saved ledgers:
+cd /home/scott/KAM-dev-worktrees/v2-packed-gen
+python3 -I scripts/packed/run_packed.py --summary ~/kam-data/v2-packed-gen/runJ
+python3 -I scripts/packed/run_compare.py LG00P.TP.PK.MainJ --tree TP \
+  --pkg ../v2-packed-gen-int/.lake/lg00p --pkg .lake/lg00-packed \
+  --ledger ~/kam-data/v2-packed-gen/runJ/ledger.tsv \
+  --ledger ../v2-packed/.lake/v2-packed-prod/low_summary.json \
+  --ledger ../v2-packed/.lake/v2-packed-prod/full_summary.json \
+  --ledger ~/kam-data/v2-packed-gen/runC/ledger.tsv --ledger ~/kam-data/v2-packed-gen/runA/ledger.tsv \
+  --lg00-ledger docs/campaign/studies/V2-PACKED-GEN/jet-e2e/run18_ledger_snapshot.tsv
+# a tree's jet route from scratch (from the integration worktree; one Lean process at a time, 4 GB):
+cd /home/scott/KAM-dev-worktrees/v2-packed-gen-int
+JET_LOW_CACHE=<tree's low_mirror.pkl> JET_FULL_CACHE=<tree's full_mirror.pkl> \
+  bash scripts/packed/run_tree.sh TP jet ~/kam-data/v2-packed-gen/runJ2
+```
+After the reboot, check the user memory gate (`grep '^anon ' /sys/fs/cgroup/user.slice/user-1004.slice/memory.stat`)
+before any Lean process. `run_tree.sh` first builds stale core modules one at a time (`run_core_frontier.sh`).
 
 ## Owner questions (overnight mode: none blocked the work)
 
