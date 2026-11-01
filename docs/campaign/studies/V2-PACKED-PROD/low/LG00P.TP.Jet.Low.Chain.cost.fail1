@@ -1,0 +1,9 @@
+error: build failed
+Command exited with non-zero status 1
+wall_s 15.70
+user_s 13.05
+sys_s 1.58
+maxrss_kb 2371400
+exit 1
+cgroup_sampled_peak_bytes 1307308032
+oom_kill 0

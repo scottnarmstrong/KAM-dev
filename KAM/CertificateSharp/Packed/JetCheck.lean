@@ -120,7 +120,8 @@ theorem jetPacked_sound {sw Nw : ℕ} (hW : checkWeight W sw Nw = true)
   exact he.mono hA
 
 omit [CertArith α] [LawfulCertArith α] in
-/-- **The prefix lemma**: slot `a < m` of a program has the same value in its first `m` operations. -/
+/-- **The prefix lemma**: slot `a < m` of a program has the same value in its first `m`
+operations. -/
 theorem slpVal_take {p : Slp} {m a : ℕ} (hm : m ≤ p.ops.length) (ha : a < m)
     (z : (Fin n → ℂ) × (Fin n → ℂ)) : (⟨p.ops.take m⟩ : Slp).val n z a = p.val n z a :=
   slpVals_take_getD n p z hm ha
