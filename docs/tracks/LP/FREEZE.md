@@ -192,8 +192,8 @@ included (it awaits its own approval).
   89 definitions on a subset of these.
 - Kernel replay: per module, `systemd-run --user --scope -p MemoryMax=4G -p MemorySwapMax=0 nice -n 10 env
   LEAN_NUM_THREADS=1 lake env leanchecker <Module>` behind the MemAvailable ≥ 8 GB gate, for the 284 modules of
-  `docs/tracks/LP/freeze/replay-modules.txt` (128 frozen, 39 providers, 117 rebuilt LP modules). The result is in
-  the handoff.
+  `docs/tracks/LP/freeze/replay-modules.txt` (128 frozen, 39 providers, 117 rebuilt LP modules). Pre-landing replay
+  stopped by orchestrator at 128/284 (all exit 0; `replay-prelanding.txt`); full replay at landing.
 
 ## Deviations
 
