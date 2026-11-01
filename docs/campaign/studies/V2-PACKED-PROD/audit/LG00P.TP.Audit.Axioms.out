@@ -1,0 +1,27 @@
+⚠ [2840/2858] Replayed KAM.Certificate.Arith.PiHigh
+warning: KAM/Certificate/Arith/PiHigh.lean:218:8: This simp argument is unused:
+  Nat.succ_eq_add_one
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [div_eq_mul_inv]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [2959/3190] Replayed KAM.Certificate.Expr.Basic
+warning: KAM/Certificate/Expr/Basic.lean:93:5: Variable name `hS` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hS
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+ℹ [3612/3612] Built LG00P.TP.Audit.Axioms (1.5s)
+info: LG00P/TP/Audit/Axioms.lean:10:0: 'LG00P.TP.jetLow_check' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: LG00P/TP/Audit/Axioms.lean:11:0: 'LG00P.TP.jetLow_check_cert' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: LG00P/TP/Audit/Axioms.lean:12:0: 'LG00P.TP.jetFull_check' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: LG00P/TP/Audit/Axioms.lean:13:0: 'LG00P.TP.jetFull_check_cert' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: LG00P/TP/Audit/Axioms.lean:14:0: 'KAM.CertificateSharp.Packed.jetPacked_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: LG00P/TP/Audit/Axioms.lean:15:0: 'KAM.CertificateSharp.Packed.jetPacked_sound_prefix' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: LG00P/TP/Audit/Axioms.lean:16:0: 'KAM.CertificateSharp.Packed.jetCheck_of' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: LG00P/TP/Audit/Axioms.lean:17:0: 'KAM.CertificateSharp.Packed.jChainK_slot' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: LG00P/TP/Audit/Axioms.lean:18:0: 'KAM.CertificateSharp.Packed.jetChainOk_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: LG00P/TP/Audit/Axioms.lean:19:0: 'KAM.CertificateSharp.Packed.orderOk_spec' depends on axioms: [propext, Quot.sound]
+Build completed successfully (3612 jobs).

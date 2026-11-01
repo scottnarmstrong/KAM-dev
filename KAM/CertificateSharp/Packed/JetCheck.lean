@@ -21,6 +21,8 @@ The interface between the packed jet chain and its consumers (torsion, invarianc
 * `jetPacked_sound`: **every wanted slot `i` has a packed model `PEnc jd.jb.Lb B jd.jb.P
   (jetNode jd i) (jetRad jd i) (jetNb jd i)` of its function `θ ↦ p.val n (K.eval n θ) i` on the
   strip.** A consumer takes these enclosures as hypotheses; `jetPacked_sound` discharges them.
+* `jetPacked_sound_prefix` (with `slpVal_take`): the contract for a chain checked on a prefix of
+  the program;
 * `jetCheck_of`: the Boolean from its parts (one block at a time), for the assembly of a chain
   whose blocks are checked in separate declarations.
 -/
@@ -116,6 +118,24 @@ theorem jetPacked_sound {sw Nw : ℕ} (hW : checkWeight W sw Nw = true)
   unfold JEnc jLay JLed.node at he
   simp only [hu, hP, Bool.false_eq_true, ↓reduceIte] at he
   exact he.mono hA
+
+omit [CertArith α] [LawfulCertArith α] in
+/-- **The prefix lemma**: slot `a < m` of a program has the same value in its first `m`
+operations. -/
+theorem slpVal_take {p : Slp} {m a : ℕ} (hm : m ≤ p.ops.length) (ha : a < m)
+    (z : (Fin n → ℂ) × (Fin n → ℂ)) : (⟨p.ops.take m⟩ : Slp).val n z a = p.val n z a :=
+  slpVals_take_getD n p z hm ha
+
+/-- The contract for a chain checked on the first `m` operations of a program: its wanted slots
+(all below `m`) enclose the slot functions of the whole program. -/
+theorem jetPacked_sound_prefix {sw Nw : ℕ} (hW : checkWeight W sw Nw = true)
+    (hpe : checkPiEnclosure pe = true) {K : CertEmbedding α} {p : Slp} {m : ℕ}
+    (hm : m ≤ p.ops.length) {jd : JetData} {B : ℕ} {wanted : List ℕ}
+    (h : jetCheck n W pe cfg K ⟨p.ops.take m⟩ jd B wanted = true) (hlt : ∀ i ∈ wanted, i < m) :
+    ∀ i ∈ wanted, PEnc jd.jb.Lb B jd.jb.P (jetNode jd i) (jetRad (α := α) jd i)
+      (jetNb (α := α) jd i) n W.rho (fun θ => p.val n (K.eval n θ) i) := by
+  intro i hi
+  exact (jetPacked_sound hW hpe h i hi).congr fun θ _ => slpVal_take hm (hlt i hi) _
 
 omit [LawfulCertArith α] in
 /-- **The packed jet check from its parts**: the book, each block (in separate declarations), the

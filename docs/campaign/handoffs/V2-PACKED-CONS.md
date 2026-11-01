@@ -209,8 +209,11 @@ those of T′:
 
 ## V2-PACKED-CONS-FIX (AUDIT-V2-PACKED-CONS-1: PASS WITH CHANGES, Lean sound)
 
-- **C1** (106-character line in `JetKeyedTests.lean:35`) is kamx-packed's, to be fixed on `v2-packed-prod`; I merge
-  it from there when it lands (asked kamx-packed on 2026-11-01).
+- **C1** (106-character line in `JetKeyedTests.lean:35`): fixed by kamx-packed on `v2-packed-prod` and merged here
+  from `3a84cc28`. `lint_sources.sh` now reports no line over 100 characters; only the pre-existing ABI step
+  fails, because a frozen planetary `.olean` is not built in this worktree. After the merge, `JetCheck` (which only
+  gained the prefix lemma `jetPacked_sound_prefix`), `JetKeyedTests` and every consumer module down to
+  `JetConsTests` rebuild with no warning.
 - **C2:** the Result bullet now says "every consumer-side conjunct, on the mirror's nodes", and that the jet chain
   conjunct was not decided in the gate.
 - **C3:** the invariance jet-radius control changes slot 7735 (coordinate 1's `d1` slot), not 7732.
@@ -224,6 +227,11 @@ those of T′:
     `jetFullOk_of` the invariance and energy one.
   The consumers' generator sets `rb.bA = ib.bJ =` the largest wanted load (2¹⁴⁰ on T′), so the side condition is an
   equality in practice. No change on `v2-packed-prod`.
+  **Confirmed by kamx-packed** (message of 2026-11-01, `v2-packed-prod` `3a84cc28`):
+  - `LG00P.TP.jetLow_check_cert` and `jetFull_check_cert` are built (standard axioms), at `bLow = bFull = 2¹⁴⁰`;
+  - `jdLow.jb.Lb = ⟨[-25, -25], [51, 51], [101, 1], 392, 1⟩` at scale `P = 128`, which is the consumers' `rb.Lb`;
+  - so T′'s torsion jet conjunct is `jetLowOk_of hL rfl jetLow_check_cert le_rfl`, with `hL` the decided
+    `layoutEq` (`TJJet`), and likewise `jetFullOk_of` for the invariance and energy.
 - **L2** (ledger lookups): measured afterwards on the real ledgers (V2-PACKED-CONS-LOOKUP, next section).
 
 ## V2-PACKED-CONS-LOOKUP: the jet-slot reads on kamx-packed's real ledgers (`…/V2-PACKED-CONS-GATE/LOOKUP/`)

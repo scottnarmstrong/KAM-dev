@@ -319,6 +319,8 @@ def main():
         with open(cache, "wb") as f:
             pickle.dump(dict(stage=STAGE, H=H, source=os.path.abspath(sys.argv[1]), bk=bk, S=S, steps=steps,
                              chars=st2["chars"], wits=st2["wits"]), f, protocol=pickle.HIGHEST_PROTOCOL)
+    if "--mirror-only" in sys.argv:  # V2-PACKED-PROD: the mirror and its cache only (no probe emission)
+        return
     plan_and_emit(C, bk, D, S, steps, heavy_max, wanted, st2["chars"], st2["wits"])
 
 

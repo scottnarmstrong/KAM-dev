@@ -32,7 +32,8 @@ def kK : CertEmbedding F := ⟨[], [], [], []⟩
 /-- The ledger: the constants `1` and `3` and their product. The norm bound of slot `5` is
 `d` (exactly `3` is the computed one). -/
 def kL (d : ℚ) : JLedger :=
-  [(slotK 0, ⟨true, 2 ^ 66, 64, ⟨2 ^ 64, 0⟩, 0, 1⟩), (slotK 4, ⟨true, 2 ^ 66, 64, ⟨3 * 2 ^ 64, 0⟩, 0, 3⟩),
+  [(slotK 0, ⟨true, 2 ^ 66, 64, ⟨2 ^ 64, 0⟩, 0, 1⟩),
+    (slotK 4, ⟨true, 2 ^ 66, 64, ⟨3 * 2 ^ 64, 0⟩, 0, 3⟩),
     (slotK 5, ⟨true, 2 ^ 133, 128, ⟨3 * 2 ^ 128, 0⟩, 0, d⟩)]
 
 def kB : List KBlock :=
