@@ -23364,6 +23364,784 @@
     "frozen_paths": [],
     "audit_paths": []
    }
+  },
+  {
+   "id": "planetary.d59.planar_strongAMD_exponentialSafety_noArith.v1",
+   "kind": "theorem",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-01",
+    "approval_ref": "owner reply 'approve draft 8' (2026-11-01, 14:20 UTC) to FREEZE-PROPOSAL-DRAFT8 (branch inp-lp-freeze8r, commit 6c168945; statement audit 1 PASS WITH NOTES); docs/DECISIONS.md D59, D64",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM-inp@2bbacd66 docs/tracks/LP/source/MAIN.md (sha256 68e9167f04e4a04689ea163c74e02ffcaea657b252726080abdbe37bdba48c1b) as amended by docs/tracks/LP/source/AMENDMENTS.md (sha256 c887d1e27354a3db7fb8a20d8bf3e33a9ef95ff3173f925ba5ebfab192651881), with the LP3 proof plan docs/tracks/LP/lp3/LP3-PLAN.md (sha256 1b58b7048fb3de47e1cadfee0e904085551227a28949a564ea2dc13085ab06ba); exact text docs/tracks/LP/FREEZE-PROPOSAL-DRAFT8.md draft 8",
+    "range": "MAIN T15 (502–506) with §1 (6)–(9) (69–93) without (5), L14 (468–500), L16 (508–529); N8, N10; drift supplier L12–L13 (381–467) replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)"
+   },
+   "contract": {
+    "id": "planetary.d59.planar_strongAMD_exponentialSafety_noArith",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean",
+   "export": "KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith",
+   "split_policy": {
+    "source_group": "planetary.d59.planar_strongAMD_exponentialSafety_noArith",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D59, D64"
+   },
+   "abi_sha256": "b29ff03f40dc5f47b2ba0fae11d168ed7e2b83919b143d9d51cba0f1795d16f4",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Defs/ActionNbhd.lean",
+     "sha256": "a3d0fe1c21946ded08e554c696710a795fc45cd67a1948c31887a850abb5ba80"
+    },
+    {
+     "path": "KAM/Frozen/Defs/ComplexStrip.lean",
+     "sha256": "e09d35d4c4c71ad6dad5dfb1995c842840f1c35bffbd3494bb6ff62f78c3da99"
+    },
+    {
+     "path": "KAM/Frozen/Defs/DotC.lean",
+     "sha256": "5471d86c669a72170ae2a0ac9af9bdd980f09c63391ac4810e7847992b9320ab"
+    },
+    {
+     "path": "KAM/Frozen/Defs/FrequencyMap.lean",
+     "sha256": "a1f9fe8cb6281f57cc68cfcbc5b7c3020bd207d681b45665e7c31ebd8593ee8f"
+    },
+    {
+     "path": "KAM/Frozen/Defs/GramMatrix.lean",
+     "sha256": "b157a0ddfd02c5a1e123beae25f18a085c10ff2d5378d542bb2623bda7c39573"
+    },
+    {
+     "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
+     "sha256": "1592cf15aadef80f7e2017860494a1e067de8698ff8f6075c055a2d138877a79"
+    },
+    {
+     "path": "KAM/Frozen/Defs/HamiltonianVectorFieldC.lean",
+     "sha256": "6943acf3f4c92ac007afeb274bd6f82ae422279617ca433d8c84898341d0edf5"
+    },
+    {
+     "path": "KAM/Frozen/Defs/InvarianceError.lean",
+     "sha256": "d3dff384bd1d7c3c5799f3d9630319cf67dd8dd8c9ab05160fd527356d5bcf94"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsDiophantine.lean",
+     "sha256": "45ac03a3d80f3be86018b756497d11e520e59e40beff85bc92e6bec6d873aea9"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsPrimaryOnStrip.lean",
+     "sha256": "24f6d108dceb1596bb50f1037229c7c76e217a724bdd1e32ff6d4832a4256ec6"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsRealOnReals.lean",
+     "sha256": "e0ebadd672b8483c426b4af5b934850c0dfd2a683013d82fca3a5ece965c035c"
+    },
+    {
+     "path": "KAM/Frozen/Defs/NormalFrame.lean",
+     "sha256": "832d539e946112dfdf5e07463e3cbb656b2ed466780760bdf62022912f3d1de4"
+    },
+    {
+     "path": "KAM/Frozen/Defs/OmegaZero.lean",
+     "sha256": "bdcb1908159f564c665ee352347f7e50f00e232233b8a040909f1179f1eec23a"
+    },
+    {
+     "path": "KAM/Frozen/Defs/RealHamiltonian.lean",
+     "sha256": "d2e526b9c26f37128281d928c668b6ae14c389f5ef63007634c1985e1ac6e2a4"
+    },
+    {
+     "path": "KAM/Frozen/Defs/SymplecticForm.lean",
+     "sha256": "cb406afe9c796cec050b1d0f340bf2327766481865dcaf001063c9b8d53df60a"
+    },
+    {
+     "path": "KAM/Frozen/Defs/Torsion.lean",
+     "sha256": "a82cbd3098b2dddec29fd8cf1ca7189f6e08f5c879053996d8c516a0e7ba319e"
+    },
+    {
+     "path": "KAM/Frozen/Defs/TorsionAverage.lean",
+     "sha256": "93a5fc1d91409f115c2a718016ad50c0c3d983b1e34e297ee22133881ad1f482"
+    },
+    {
+     "path": "KAM/Frozen/Iso/Defs/IsHamiltonianSolutionOn.lean",
+     "sha256": "79a01d5aa5b1be4c564176da35d6a69994dbaa9f5976466c7dbcb5bf8c21b7ac"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/ActualMasses.lean",
+     "sha256": "ddf2eaebbcbe5af8923f2df1662c791a2fa6c5b6ea6c6aa4d389582988b960fc"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/Assemble.lean",
+     "sha256": "5fb91fae233faaacc05768cc1385404cad353c72c9a4bd3cef913af635a23c58"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/BarycentricPositions.lean",
+     "sha256": "f6e65bcca58b0293604c06397e62b3c9709bce036138dd82a5a89343e52b1833"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/BarycentricVelocities.lean",
+     "sha256": "34a12290bff2365e791648ab86f074401956aa95c07e54884058e9fce2da1deb"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/BodyVector.lean",
+     "sha256": "95ba8e91c4aaa15aea50f32aa99cd047a794b1cfcbd4193cf4f4ed217a113c5e"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/Fast.lean",
+     "sha256": "ae0fbd48f355c86b05676ad477986320a3310b7b9e25ffadb0312667020dccec"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/IsMovingSolutionOn.lean",
+     "sha256": "033b867d34acb332f94b1709642f3caf3f20ea17eb520649552cbad1357319f8"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/IsNewtonSolutionOn.lean",
+     "sha256": "8438e16a76d7c599abbd61674716d48aa20a9a7b21ff29b5895095ae09099122"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/KeplerAction.lean",
+     "sha256": "6e3d5d3e5cba2dd73c4c92d4073998296ba03b25277322a1a7490f0ba0b665b4"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/KeplerAxis.lean",
+     "sha256": "0b3bcf9f96141b0cf3cc483d0b5c76470fdd59ddd843782a7b5ad518a2f53b65"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/KeplerEccVector.lean",
+     "sha256": "72c912c56ddc52033f3a93d58004da6e553654c535fd7f47a5ec4c4d980ebd5a"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/KeplerEnergy.lean",
+     "sha256": "c65be8cd5450aef65bedf02def54a5db5b23f40754772843b440cf0610218806"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/MovingHamiltonian.lean",
+     "sha256": "5e6f6ccead36136143259e9e7d6adaea922bf11a8e74c394d7535b60a73d702e"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/MovingUniqueOn.lean",
+     "sha256": "b681414d9b6751a564d05e982532d9a3729144259bfe6675a7de261590781ed8"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/NoCollision.lean",
+     "sha256": "e3b4034f6fbfab6741a31b38d33370165e5a9e79cef36773e35398d3534dd964"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/OscillatorAction.lean",
+     "sha256": "ad724cd5e19a4d4d420c5e30fbcd9f656107affaefa62e9e76c82fa66a4447c5"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PairBounds.lean",
+     "sha256": "6b30c158bcfe8553ac4d1863819fd3bba0f9cc200ad1ece2b8bb07f63992deef"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/Phase.lean",
+     "sha256": "ce1c7a4127866a19c0ec6dcc0f3588dc059cd0ce08ef97a06f4d91901cb11a47"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlaneCross.lean",
+     "sha256": "344491a239c469f374bd175ef734730efdf64c251362cd12340181df4a5a5840"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlaneDot.lean",
+     "sha256": "5246eb02678ad47d5d8834c2491683f1687a1061119f47e0a5cd0ed9c0636e37"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlaneLength.lean",
+     "sha256": "b276e6a53172b5388f8c292f1b9f98b9cdc37b818c24b06585b4d123a396add6"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlaneSq.lean",
+     "sha256": "d1328ceeca7d91bfaec0c7b3a869c0ca4d6714017f537c76e3c97019149e2082"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlanetaryDriftExponent.lean",
+     "sha256": "00fd59cf390440f6a98772c2df67d57e6bfaf3379c90b28d1220d017767cbf9c"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlanetaryTimeExponent.lean",
+     "sha256": "cba5d21d5ad5fb8ffd9f7ca748c338eb058c0af2b8fac522334dc0fcd5dd9601"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/SecularAverage.lean",
+     "sha256": "a3253e903b9633874d317d9a791467ee31e49724baa9b64e57f3c96d562bc7d6"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/Slow.lean",
+     "sha256": "66799ce70ae917a7ce7f37c15be7eb7267bcddbeed05ea0a341567107194e78a"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/TotalMomentum.lean",
+     "sha256": "52e5bfcecb4d79d307234eb6cfec34b4ea84edc151f45f3de7f501f46e5af655"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean",
+     "sha256": "360f6832934321aec167ec8dfacd05de4c9e60f87dfb8afc58deb17ae694bffe"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/AdjIdx.lean",
+     "sha256": "779da8f257faab41b72d71a8f4489e745fe5dfc6eee2b64bbc2be8185db8befa"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/AdjIdxUpperIdx.lean",
+     "sha256": "c8e3d89f4a28e4ecdae35d599e9a2493b988698d2b6e48b451a0d0838bf2399c"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/Chamber.lean",
+     "sha256": "33c4d8dc15280ef3a02ac968af2da795abb0fb554dfea4a8a56b9337a2865a6a"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/EccDeficit.lean",
+     "sha256": "b69e269f180d6df9d5c8b0cb322d19d058af6c288cbc52ba06b946e577be7ea6"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/KeplerApo.lean",
+     "sha256": "24583cf7af02a77fd811e9d5fa97cc20fc232cdb64dd63009bc5d117938552ed"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/KeplerPeri.lean",
+     "sha256": "0bae02fb35b5a22b810861faa34a4edcaaf20b1318801440d18a7e8258f3f1da"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OrderedActions.lean",
+     "sha256": "1af80f6b4d9cd3100a924527e1673ccc07379122dab5e86337ae277094559e92"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OrderedCrossThreshold.lean",
+     "sha256": "49863d961bc39f80b9bb238e07b56e1d89546fbc4301a80595544d09617da656"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OrderedPairThreshold.lean",
+     "sha256": "9925253168d80d78f52f522b94167a68fd58acdeb1a535113b587b450ff89eec"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OrderedStrongThreshold.lean",
+     "sha256": "6de1cced90999c45abbad34bd6ab580cdd465781a4438fd419980332419aad70"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OscApo.lean",
+     "sha256": "d33bf4532716f764d18b9090984c6c204ad172bd0b9cdf8b27524c02897f607a"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OscAxis.lean",
+     "sha256": "bc74cda9161b21f7a1dc222e55a9b0566a02384b5a48178e1a8a3065e04ef3f3"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OscEcc.lean",
+     "sha256": "99a383c1e74296613449bab5b2d7d2dc6521c9ca00cac52d60df701795f70f5b"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OscEccVector.lean",
+     "sha256": "0b05cf841b018ffde81e8ad682e98e42ad117c633aad3b6316efd5863e035de3"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OscEnergy.lean",
+     "sha256": "c632729c49551dc39fe5a907a580a0e106d3b1f989383e23daeedad97453dea2"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OscParam.lean",
+     "sha256": "752684dc7327e7c53606d86d17a539dd1125ad3224edeb223b79aff0ce08d0aa"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OscPeri.lean",
+     "sha256": "1d4f0f605c3dbcce2d01ec10e7ce5ea6cdaeb6ab4930d461506fc693209dad9e"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OscVelocity.lean",
+     "sha256": "112279a677cba8635275e4e72a796515c64e32489a4511fb635eaa8485928d54"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/PairFeasible.lean",
+     "sha256": "8c1c9cfe4fb44d514ff6dafe140662f249813c0826a9abe3491bf18f16337994"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/PairObjective.lean",
+     "sha256": "7f58f8b379aeb3fbd5a5a3d837ec20f321ddb5bf9315e98f4000b0f5bb7ef662"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/PairThreshold.lean",
+     "sha256": "dc6b7b4395d55a96b983cba640035ad3a09eabbb3e4df64ccfe05f06922ab8d8"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceCanonicalPhase.lean",
+     "sha256": "22cba041465bdfbb9bf888d6d32eb0628531e763003563180c189eeb3d3c57d6"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceKeplerApo.lean",
+     "sha256": "ca85e2f45518f97688aa5ed2b6e35daaa873b62a4bd98a9c4ac132c16f13deaf"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceKeplerPeri.lean",
+     "sha256": "9907a07c1dccd385508cbbbad07cf88d2e51b4f53f5292b1c0beb7f16cdb98dd"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscApo.lean",
+     "sha256": "64dc31bc30b0f944ddeabecb1d8fca2fc06a5b9c09a5518200021cc5da9d4a4c"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscAxis.lean",
+     "sha256": "dbd549597c897514bd90a21ff8cc5cc7d104e01d62f9b5bf18570bfceab4c301"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEcc.lean",
+     "sha256": "1d670c3900ab0219a444e61b8b2597ff8d6655f003e813377cd6192270ee1f21"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEccVector.lean",
+     "sha256": "4ae68d73a47499710aefb14872d79f6ae950909f7dd2cf5d697c46e84de809f5"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEnergy.lean",
+     "sha256": "79e43f8f4712ee4fb0854e739726664c2a05c81178747a2c39e517b5f465f458"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscPeri.lean",
+     "sha256": "f83e4743fe0129466567abc55e6df2b8a22d9aae658352de2aa3fc9e1180b218"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceOsculatingPhase.lean",
+     "sha256": "7b6d5eef0379f1874fa09c45d4e88fd7bc78a88afd74ad58ba91b91186db3778"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/SourceStrongAMD.lean",
+     "sha256": "c432783f3b21df6fcaaea2396e9e404c54b28c63ce16813b1138899fcca7327a"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/StrongAMD.lean",
+     "sha256": "2f2dca1bc9b41d352e9899ee028e88240f666c53ea908d36213657ed46f79976"
+    }
+   ],
+   "implementation": {
+    "module": "KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyNoArith",
+    "export": "KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith"
+   },
+   "state": "SEALED",
+   "prefix_sha256": "b738e4e647807fe7f51d170ed8f096ba5092d879477088e7307246706b8d9524",
+   "suffix_sha256": "3a3499343d03144b43f6adb652caef7ee155bbc8ecbc5e78d3646ecb8e872cd3",
+   "draft_allowlist": {
+    "frozen_paths": [],
+    "audit_paths": []
+   }
+  },
+  {
+   "id": "planetary.d59.spatial_strongAMD_exponentialSafety_noArith.v1",
+   "kind": "theorem",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-01",
+    "approval_ref": "owner reply 'approve draft 8' (2026-11-01, 14:20 UTC) to FREEZE-PROPOSAL-DRAFT8 (branch inp-lp-freeze8r, commit 6c168945; statement audit 1 PASS WITH NOTES); docs/DECISIONS.md D59, D64",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM-inp@2bbacd66 docs/tracks/LP/source/MAIN.md (sha256 68e9167f04e4a04689ea163c74e02ffcaea657b252726080abdbe37bdba48c1b) as amended by docs/tracks/LP/source/AMENDMENTS.md (sha256 c887d1e27354a3db7fb8a20d8bf3e33a9ef95ff3173f925ba5ebfab192651881), with the LP3 proof plan docs/tracks/LP/lp3/LP3-PLAN.md (sha256 1b58b7048fb3de47e1cadfee0e904085551227a28949a564ea2dc13085ab06ba); exact text docs/tracks/LP/FREEZE-PROPOSAL-DRAFT8.md draft 8",
+    "range": "MAIN T19 (599–603) with §1 (6)–(9) (69–93) without (5), L14 (468–500), L16 (508–529), d = 3; drift supplier L12–L13 (381–467) replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)"
+   },
+   "contract": {
+    "id": "planetary.d59.spatial_strongAMD_exponentialSafety_noArith",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean",
+   "export": "KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith",
+   "split_policy": {
+    "source_group": "planetary.d59.spatial_strongAMD_exponentialSafety_noArith",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D59, D64"
+   },
+   "abi_sha256": "387059c68796b425889eee542afbb9b3989ebf833cec9afaae08be7faa931966",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Defs/ActionNbhd.lean",
+     "sha256": "a3d0fe1c21946ded08e554c696710a795fc45cd67a1948c31887a850abb5ba80"
+    },
+    {
+     "path": "KAM/Frozen/Defs/ComplexStrip.lean",
+     "sha256": "e09d35d4c4c71ad6dad5dfb1995c842840f1c35bffbd3494bb6ff62f78c3da99"
+    },
+    {
+     "path": "KAM/Frozen/Defs/DotC.lean",
+     "sha256": "5471d86c669a72170ae2a0ac9af9bdd980f09c63391ac4810e7847992b9320ab"
+    },
+    {
+     "path": "KAM/Frozen/Defs/FrequencyMap.lean",
+     "sha256": "a1f9fe8cb6281f57cc68cfcbc5b7c3020bd207d681b45665e7c31ebd8593ee8f"
+    },
+    {
+     "path": "KAM/Frozen/Defs/GramMatrix.lean",
+     "sha256": "b157a0ddfd02c5a1e123beae25f18a085c10ff2d5378d542bb2623bda7c39573"
+    },
+    {
+     "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
+     "sha256": "1592cf15aadef80f7e2017860494a1e067de8698ff8f6075c055a2d138877a79"
+    },
+    {
+     "path": "KAM/Frozen/Defs/HamiltonianVectorFieldC.lean",
+     "sha256": "6943acf3f4c92ac007afeb274bd6f82ae422279617ca433d8c84898341d0edf5"
+    },
+    {
+     "path": "KAM/Frozen/Defs/InvarianceError.lean",
+     "sha256": "d3dff384bd1d7c3c5799f3d9630319cf67dd8dd8c9ab05160fd527356d5bcf94"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsDiophantine.lean",
+     "sha256": "45ac03a3d80f3be86018b756497d11e520e59e40beff85bc92e6bec6d873aea9"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsPrimaryOnStrip.lean",
+     "sha256": "24f6d108dceb1596bb50f1037229c7c76e217a724bdd1e32ff6d4832a4256ec6"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsRealOnReals.lean",
+     "sha256": "e0ebadd672b8483c426b4af5b934850c0dfd2a683013d82fca3a5ece965c035c"
+    },
+    {
+     "path": "KAM/Frozen/Defs/NormalFrame.lean",
+     "sha256": "832d539e946112dfdf5e07463e3cbb656b2ed466780760bdf62022912f3d1de4"
+    },
+    {
+     "path": "KAM/Frozen/Defs/OmegaZero.lean",
+     "sha256": "bdcb1908159f564c665ee352347f7e50f00e232233b8a040909f1179f1eec23a"
+    },
+    {
+     "path": "KAM/Frozen/Defs/RealHamiltonian.lean",
+     "sha256": "d2e526b9c26f37128281d928c668b6ae14c389f5ef63007634c1985e1ac6e2a4"
+    },
+    {
+     "path": "KAM/Frozen/Defs/SymplecticForm.lean",
+     "sha256": "cb406afe9c796cec050b1d0f340bf2327766481865dcaf001063c9b8d53df60a"
+    },
+    {
+     "path": "KAM/Frozen/Defs/Torsion.lean",
+     "sha256": "a82cbd3098b2dddec29fd8cf1ca7189f6e08f5c879053996d8c516a0e7ba319e"
+    },
+    {
+     "path": "KAM/Frozen/Defs/TorsionAverage.lean",
+     "sha256": "93a5fc1d91409f115c2a718016ad50c0c3d983b1e34e297ee22133881ad1f482"
+    },
+    {
+     "path": "KAM/Frozen/Iso/Defs/IsHamiltonianSolutionOn.lean",
+     "sha256": "79a01d5aa5b1be4c564176da35d6a69994dbaa9f5976466c7dbcb5bf8c21b7ac"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/ActualMasses.lean",
+     "sha256": "ddf2eaebbcbe5af8923f2df1662c791a2fa6c5b6ea6c6aa4d389582988b960fc"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/Assemble.lean",
+     "sha256": "5fb91fae233faaacc05768cc1385404cad353c72c9a4bd3cef913af635a23c58"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/BarycentricPositions.lean",
+     "sha256": "f6e65bcca58b0293604c06397e62b3c9709bce036138dd82a5a89343e52b1833"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/BarycentricVelocities.lean",
+     "sha256": "34a12290bff2365e791648ab86f074401956aa95c07e54884058e9fce2da1deb"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/BodyVector.lean",
+     "sha256": "95ba8e91c4aaa15aea50f32aa99cd047a794b1cfcbd4193cf4f4ed217a113c5e"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/Fast.lean",
+     "sha256": "ae0fbd48f355c86b05676ad477986320a3310b7b9e25ffadb0312667020dccec"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/MovingHamiltonian.lean",
+     "sha256": "5e6f6ccead36136143259e9e7d6adaea922bf11a8e74c394d7535b60a73d702e"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/NoCollision.lean",
+     "sha256": "e3b4034f6fbfab6741a31b38d33370165e5a9e79cef36773e35398d3534dd964"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/OscillatorAction.lean",
+     "sha256": "ad724cd5e19a4d4d420c5e30fbcd9f656107affaefa62e9e76c82fa66a4447c5"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PairBounds.lean",
+     "sha256": "6b30c158bcfe8553ac4d1863819fd3bba0f9cc200ad1ece2b8bb07f63992deef"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/Phase.lean",
+     "sha256": "ce1c7a4127866a19c0ec6dcc0f3588dc059cd0ce08ef97a06f4d91901cb11a47"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlaneDot.lean",
+     "sha256": "5246eb02678ad47d5d8834c2491683f1687a1061119f47e0a5cd0ed9c0636e37"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlaneLength.lean",
+     "sha256": "b276e6a53172b5388f8c292f1b9f98b9cdc37b818c24b06585b4d123a396add6"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlaneSq.lean",
+     "sha256": "d1328ceeca7d91bfaec0c7b3a869c0ca4d6714017f537c76e3c97019149e2082"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlanetaryDriftExponent.lean",
+     "sha256": "00fd59cf390440f6a98772c2df67d57e6bfaf3379c90b28d1220d017767cbf9c"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/PlanetaryTimeExponent.lean",
+     "sha256": "cba5d21d5ad5fb8ffd9f7ca748c338eb058c0af2b8fac522334dc0fcd5dd9601"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/SecularAverage.lean",
+     "sha256": "a3253e903b9633874d317d9a791467ee31e49724baa9b64e57f3c96d562bc7d6"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/Slow.lean",
+     "sha256": "66799ce70ae917a7ce7f37c15be7eb7267bcddbeed05ea0a341567107194e78a"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/AngularMomentum3.lean",
+     "sha256": "bf604f48011899111e970f6e1bf308e05880de0859e350f695097f3c324dcb15"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/BodyVector3.lean",
+     "sha256": "613dd4026cade58a93cc39d83c8d72ae40bd7e2f63ec4d76e4b1870b42501547"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/IsSpatialMovingSolutionOn.lean",
+     "sha256": "a5c1f01e7359c5e5e16170f90d05adc614ac4b9631c410253a82667483e37a57"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/IsSpatialNewtonSolutionOn.lean",
+     "sha256": "33986126f5ba817e97338a0fe12eeddffcf1a0889553db17d58c8ecb0a58906b"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpaceCross.lean",
+     "sha256": "146889f96049c376b9665ace1bc2a7bddeb1da89c56a1ac4fc23c6d1ab0fcc98"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpaceDot.lean",
+     "sha256": "bc5271b1e224d2490ef63f9f50dba9b146c89d95d60ec747b55e86a6184b5244"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpaceLength.lean",
+     "sha256": "f8ddd8965a2bc83daaec98a615665ccca58be7919fe60dd777b0fcd67f4af0c6"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpaceSq.lean",
+     "sha256": "036b6b0f268de37f82f58be6f7f728149f32c0e7ba110a09ce4c7914b8a65378"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialBarycentricPositions.lean",
+     "sha256": "03b5e5635ce62ec651c15e2b0e41ec277a78d685ce4b1dcb7edccc95db858e11"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialBarycentricVelocities.lean",
+     "sha256": "96add0f67141143f6c5f75a885862349ed955e004e432ca35b08948244a61caf"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialElliptic.lean",
+     "sha256": "ab2a4e8f6fd8ba7b8667716abea5adc8acfdf4ff1f8f857912c1e6af107099ef"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialHamiltonian.lean",
+     "sha256": "9b4c11a50f145a3473bbd39af1cf14f0286f6bd615e37962a07b3e44ae4bbd98"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerAction.lean",
+     "sha256": "bd9d8c022b7cad4e83fbd6f49b27786f2ff22be88293d9a1884aedb831011cc9"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerApo.lean",
+     "sha256": "420e8c28d5277430c163a58e88239966fc7ac4e490059b2e456e14432a1e1f27"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerAxis.lean",
+     "sha256": "d84304b9348d83abf93f16a71480714b9348b5dde38a7d05df57769faef6d428"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerEccVector.lean",
+     "sha256": "db0829eba9d69b9ce93132601c26b90b7604850cb027af122e388c1f7011613c"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerEnergy.lean",
+     "sha256": "af2f0cbdcd75e9732595d978cbcf8b0fab13fbc533bb0764c09214ea41b8bd2f"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerPeri.lean",
+     "sha256": "328d492e53efb9a21332218b7e694ffafd04aa75f51d12e87affbd7f7178f26d"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialMasses.lean",
+     "sha256": "16296d6f09add1f57896c81f12309c0a3787c40c39636f9c2fa6418e5fbd6636"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialMovingUniqueOn.lean",
+     "sha256": "46b5e8847e25c48f79b5b20a444e9932612224663482e740488235b86dbde91c"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialNegativeEnergy.lean",
+     "sha256": "dc99d5dab03b41209c51119936a2d1ef901d8fd40527710b0bbaff5ac9b30d65"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialNoCollision.lean",
+     "sha256": "9954bac192db7cbfd3c1d1b4c033a58f11ac3760c68560c7ff1a7c2edf20c031"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialOscApo.lean",
+     "sha256": "6dc158fb55e99fcdee9a1e0c9c4b10cdb11f61a60fac9ff1ea89cd750a628c98"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialOscAxis.lean",
+     "sha256": "9f55b2114cc2cf2ed94b15b928d6e8fd7dffa2f8885f6f2b4fb413274674e8b9"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEcc.lean",
+     "sha256": "91fc4fbb6a90d562faf6bf8e4f709d1b9aef977bd429a1e238d2b0c87dbc7dd9"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEccVector.lean",
+     "sha256": "5d32f062ee8c3e9a6744e9aa71527408f4ef6262362aded20937aa3ea24c9c96"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEnergy.lean",
+     "sha256": "9fca52f3a765fa26488a8cc155a28eb2d7d51db71082954c67d7fb18707c65e4"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialOscParam.lean",
+     "sha256": "fe68086595072cd8fa585341617dc182354e4d0e53c133dd92e7d411ab58bb87"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialOscPeri.lean",
+     "sha256": "97f21134ba047acb5033d75569d199e4c06f3069c841a0cad0386ea74c2d4faf"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialOscPhase.lean",
+     "sha256": "a41d21b173918b4584b62f2b41a9e434a7d11455bfb7930d7b080754df276781"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialOscVelocity.lean",
+     "sha256": "0f9955ca075aca0959fce4a709cb6150067248992372d865491597353500eecb"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceAngularMomentum.lean",
+     "sha256": "463f26c505528c35f4dc945d0a67a213ef867be44cc01316aac848b212825a9e"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricPositions.lean",
+     "sha256": "306cb9a3fec9b39198ad21e355f60bf21b86f95ee95195fbc809677c7a3c1d8f"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricVelocities.lean",
+     "sha256": "405597c61b1908b8abafebe18e8102e0dc9ee217e114fbe78c2ed1bc74280cf7"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceCanonicalPhase.lean",
+     "sha256": "7a305cfc5b7fdb008cbd1f22d8f1425d1249313aefa2cbf56e0b95bb80d09ce4"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerAction.lean",
+     "sha256": "9fe6aaf6e3bf1fd56f64f0be73e82921fad8354237182c57ffc6b767ba008982"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerApo.lean",
+     "sha256": "dea2687c810996c6f5e033be7ff5b16200667e5b0bce72b7e39cab514b8db38d"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerAxis.lean",
+     "sha256": "377c496b6668339e1ad473a1ed04ea56708f933f4be211b68406ba638800b7b7"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerEccVector.lean",
+     "sha256": "4e3eeea0949c5b73c194af667862e8113c3ad651cc8cd38bc0655c8d9b565458"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerPeri.lean",
+     "sha256": "9a27b8b370dcff8a7d815640865128ec4bcf8a9638f385865bc7ac36bdc9e120"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscApo.lean",
+     "sha256": "54f1acff3c4a0a24975211f666683ddde79e0525f13c8e157ec0c37d72d408d3"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscAxis.lean",
+     "sha256": "03e41eab5313e11a49137a5674b99f644016af16b4f411ce915e36d392097ba4"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEcc.lean",
+     "sha256": "dce4ab8531b326e3f19fcc0ba69b4d4dbd21ef82d99decb448cd464aa317bc3a"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEccVector.lean",
+     "sha256": "19fbb797f4bb8f317772d4d48209d805649572913e4a83b432b933728b0c0851"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEnergy.lean",
+     "sha256": "1537d9084376b777f36b177946dfd87713aee93f381d9ec086dae93f3b3c4c69"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscPeri.lean",
+     "sha256": "e12e7de299e2fca292aca975503fbc2431b644b25a03739ebc638bb407934e95"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOsculatingPhase.lean",
+     "sha256": "2964fca38bf48d0db187a775c011595b58ad166a1840ceaef736ee7602ea008b"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceStrongAMD.lean",
+     "sha256": "a9f79b3fb593d772bc30b664b17d7e8059f77b39a9ad18ccf7d1053e4e0b47bc"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean",
+     "sha256": "360f6832934321aec167ec8dfacd05de4c9e60f87dfb8afc58deb17ae694bffe"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/AdjIdx.lean",
+     "sha256": "779da8f257faab41b72d71a8f4489e745fe5dfc6eee2b64bbc2be8185db8befa"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/AdjIdxUpperIdx.lean",
+     "sha256": "c8e3d89f4a28e4ecdae35d599e9a2493b988698d2b6e48b451a0d0838bf2399c"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/Chamber.lean",
+     "sha256": "33c4d8dc15280ef3a02ac968af2da795abb0fb554dfea4a8a56b9337a2865a6a"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/EccDeficit.lean",
+     "sha256": "b69e269f180d6df9d5c8b0cb322d19d058af6c288cbc52ba06b946e577be7ea6"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OrderedActions.lean",
+     "sha256": "1af80f6b4d9cd3100a924527e1673ccc07379122dab5e86337ae277094559e92"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OrderedCrossThreshold.lean",
+     "sha256": "49863d961bc39f80b9bb238e07b56e1d89546fbc4301a80595544d09617da656"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OrderedPairThreshold.lean",
+     "sha256": "9925253168d80d78f52f522b94167a68fd58acdeb1a535113b587b450ff89eec"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/OrderedStrongThreshold.lean",
+     "sha256": "6de1cced90999c45abbad34bd6ab580cdd465781a4438fd419980332419aad70"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/PairFeasible.lean",
+     "sha256": "8c1c9cfe4fb44d514ff6dafe140662f249813c0826a9abe3491bf18f16337994"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/PairObjective.lean",
+     "sha256": "7f58f8b379aeb3fbd5a5a3d837ec20f321ddb5bf9315e98f4000b0f5bb7ef662"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/StrongAMD/Defs/PairThreshold.lean",
+     "sha256": "dc6b7b4395d55a96b983cba640035ad3a09eabbb3e4df64ccfe05f06922ab8d8"
+    }
+   ],
+   "implementation": {
+    "module": "KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyNoArith",
+    "export": "KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith"
+   },
+   "state": "SEALED",
+   "prefix_sha256": "bd7e923a2fab60ef57dfdbc30597414306dfc020df787b63a4d024f9901ccb8c",
+   "suffix_sha256": "7a354397a2f0d077baa30294f5b1eae76495e91ca2929ff8c048dd6a87bf8c4f",
+   "draft_allowlist": {
+    "frozen_paths": [],
+    "audit_paths": []
+   }
   }
  ]
 }

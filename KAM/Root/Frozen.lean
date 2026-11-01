@@ -212,6 +212,7 @@ public import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourcePlanetAngularMo
 public import KAM.Frozen.Planetary.Spatial.Theorems.SpatialSourceStrongAMDNonneg
 public import KAM.Frozen.Planetary.Spatial.Theorems.SpatialStrongAMDExponentialSafety
 public import KAM.Frozen.Planetary.Spatial.Theorems.SpatialStrongAMDExponentialSafetyHalfInteger
+public import KAM.Frozen.Planetary.Spatial.Theorems.SpatialStrongAMDExponentialSafetyNoArith
 public import KAM.Frozen.Planetary.StrongAMD.Defs.ActionAxis
 public import KAM.Frozen.Planetary.StrongAMD.Defs.AdjIdx
 public import KAM.Frozen.Planetary.StrongAMD.Defs.AdjIdxUpperIdx
@@ -255,6 +256,7 @@ public import KAM.Frozen.Planetary.StrongAMD.Theorems.OrderedStrongThresholdIsLe
 public import KAM.Frozen.Planetary.StrongAMD.Theorems.PlanarStrongAMDBarrier
 public import KAM.Frozen.Planetary.StrongAMD.Theorems.PlanarStrongAMDExponentialSafety
 public import KAM.Frozen.Planetary.StrongAMD.Theorems.PlanarStrongAMDExponentialSafetyHalfInteger
+public import KAM.Frozen.Planetary.StrongAMD.Theorems.PlanarStrongAMDExponentialSafetyNoArith
 public import KAM.Frozen.Planetary.StrongAMD.Theorems.PlaneLengthLeSourceKeplerApo
 public import KAM.Frozen.Planetary.StrongAMD.Theorems.PlaneLengthLeSourceOscApo
 public import KAM.Frozen.Planetary.StrongAMD.Theorems.SourceKeplerAxisPos
