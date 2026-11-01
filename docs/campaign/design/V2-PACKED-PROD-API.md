@@ -43,7 +43,10 @@ theorem jetPacked_sound {sw Nw : ℕ} (hW : checkWeight W sw Nw = true)
 
 - `cfg` is read only through `cfg.toMant` (leaf conversion); the advice is not read. So a certificate whose
   `cfgLow`/`cfgFull` carry no advice and whose `wit` is empty is accepted. `CertifiedTorus` does not read
-  `wit`, `cfg*`, `gramInv`, `torsInv`, `piEnc` or `weight`, so such a copy certifies the same torus.
+  `wit`, `cfg*`, `gramInv`, `torsInv`, `piEnc` or `weight`, so such a copy states the same `CertifiedTorus`
+  proposition. **The copy is a different constant** (`LG00P.<T>.lg00Cert`, in its own package): it is tied to
+  LG00's certificate by its source text (byte-identical renamed modules plus the documented diff, its data pinned
+  by sha256), not by a Lean theorem. kamx-pk-cons is building the Lean bridge (AUDIT-V2-PACKED-PROD-1 C2).
 - **The Low box is the torsion box.** `jdLow.jb.Lb` is to equal B3b's `rb.Lb` (half-width 25, stride 101). The
   generator takes the slot width as a parameter (`--width`), so the jet nodes can be the torsion's memo values
   without repacking; kamx-pk-cons states the agreement as a checked `layoutEq`.

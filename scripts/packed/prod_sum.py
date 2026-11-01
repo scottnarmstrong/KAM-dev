@@ -46,9 +46,11 @@ def main():
     for r in ok:
         b = by.setdefault(r["klass"], dict(modules=0, cpu_s=0.0, wall_s=0.0, max_charged_bytes=0))
         b["modules"] += 1
-        b["cpu_s"] = round(b["cpu_s"] + r["cpu"], 1)
-        b["wall_s"] = round(b["wall_s"] + r["wall"], 1)
+        b["cpu_s"] += r["cpu"]
+        b["wall_s"] += r["wall"]
         b["max_charged_bytes"] = max(b["max_charged_bytes"], r["peak"])
+    for b in by.values():  # rounded once, at the end (AUDIT-V2-PACKED-PROD-1 N1)
+        b["cpu_s"], b["wall_s"] = round(b["cpu_s"], 1), round(b["wall_s"], 1)
     out = dict(modules=len(rows), missing=[r["module"] for r in rows if r.get("missing")],
                all_pass=all(r["exit"] == 0 and r["oom"] == 0 for r in ok) and len(ok) == len(rows),
                cpu_s=round(sum(r["cpu"] for r in ok), 1), wall_s=round(sum(r["wall"] for r in ok), 1),

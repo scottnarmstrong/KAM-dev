@@ -839,18 +839,20 @@ decides `= false`.
   function on the box. `jetCheck_of` assembles the chain from separate block theorems. `slpVal_take` is the prefix
   lemma.
 - **The shared data.**
-  - A copy of LG00's certificate without advice and witnesses. `CertifiedTorus` reads neither, so it is the same
-    torus.
+  - A copy of LG00's certificate without advice and witnesses. `CertifiedTorus` reads neither, so the copy states
+    the same proposition. The copy is a different constant, tied to LG00's certificate by source text (renamed
+    byte-identical modules plus a documented diff), not by a Lean theorem; the Lean bridge is kamx-pk-cons's.
   - A ledger of every node once, the key-only blocks, one theorem per block, and one chain theorem per chain.
 
-**Measured on LG00's T′** (`lg00-app` `8210d92e`; landed figures from LG00's run18):
+**Measured on LG00's T′** (`lg00-app` `8210d92e` for the shared modules; T′'s data and generator state pinned by
+sha256 in the receipts; landed figures from LG00's run18):
 
 | chain | landed | packed, one theorem | ratio | largest charge |
 |---|---:|---:|---:|---:|
 | Low (77 blocks, 1,129 nodes) | 55,812.7 CPU-s | 1,467.2 CPU-s | 38.0× | 3.76 GB |
 | Full (175 blocks, 706 nodes) | 32,255.4 CPU-s | 2,647.8 CPU-s | 12.2× | 3.55 GB |
 
-- The shared certificate data costs 94.4 CPU-s; the jet bridge `lg00Ham.jet = lg00Jet` costs 39.2 CPU-s at
+- The shared certificate data costs 94.6 CPU-s; the jet bridge `lg00Ham.jet = lg00Jet` costs 39.2 CPU-s at
   6.07 GB (above 4 GiB, by exception).
 - The ledger's literal elaboration (0.5–1.1 s a node) is now the largest cost after the kernel.
 - The Full radii (≤ 1.05e-21) are about 750 times below T′'s invariance margin (7.9e-19).

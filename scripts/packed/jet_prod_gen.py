@@ -21,6 +21,8 @@ other than `TP` these are OUT/`modules_<T>_<C>.txt` and OUT/`<T><C>Plan.json` (o
 Usage: python3 -I scripts/packed/jet_prod_gen.py CHAIN.json MIRROR.pkl OUT --stage=Low|Full [--prefix=LG00P]
        [--tree=TP] [--heavy=8] [--seg-io=13] [--char-keys=2] [--char-io=12] [--act=4] [--taylor=3] [--pows=2]
        [--led-nodes=12]
+       (the defaults shown are Full's; Low's are --heavy=34 and no node cap, --seg-io=0; the T′/T″ Low plans use
+       --seg-io=40)
 """
 import json
 import os

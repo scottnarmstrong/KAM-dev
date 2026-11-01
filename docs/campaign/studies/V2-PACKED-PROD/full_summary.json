@@ -14,8 +14,8 @@
   },
   "ledger": {
    "modules": 18,
-   "cpu_s": 785.9,
-   "wall_s": 621.9,
+   "cpu_s": 786.1,
+   "wall_s": 621.7,
    "max_charged_bytes": 1459392512
   },
   "data": {
@@ -27,7 +27,7 @@
   "blocks": {
    "modules": 175,
    "cpu_s": 1836.0,
-   "wall_s": 1989.5,
+   "wall_s": 1988.2,
    "max_charged_bytes": 3553009664
   },
   "chain": {

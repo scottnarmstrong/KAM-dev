@@ -8,8 +8,8 @@
  "by_class": {
   "cert_data": {
    "modules": 18,
-   "cpu_s": 94.4,
-   "wall_s": 164.6,
+   "cpu_s": 94.6,
+   "wall_s": 164.8,
    "max_charged_bytes": 553598976
   },
   "bridge": {
@@ -26,8 +26,8 @@
   },
   "ledger": {
    "modules": 29,
-   "cpu_s": 550.8,
-   "wall_s": 458.6,
+   "cpu_s": 550.7,
+   "wall_s": 458.7,
    "max_charged_bytes": 1008873472
   },
   "data": {
@@ -38,8 +38,8 @@
   },
   "blocks": {
    "modules": 77,
-   "cpu_s": 880.4,
-   "wall_s": 939.9,
+   "cpu_s": 880.5,
+   "wall_s": 939.5,
    "max_charged_bytes": 3763568640
   },
   "chain": {
