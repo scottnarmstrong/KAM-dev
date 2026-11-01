@@ -992,8 +992,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.homOmega_le, KAM.Wave.homLie_Omega_mem, KAM.Wave.homLie_pairing_summable, KAM.Wave.homPair0, KAM.Wave.homPair0_hasSum, KAM.Wave.homLieSeq, KAM.Wave.homWeakBracket, KAM.Wave.homWeakBracket_eq_neg_lieN, KAM.Wave.HomOmegaCarrier, KAM.Wave.homLieN_gen, KAM.Wave.homLieN_gen_eq, KAM.Wave.homOmegaCarrier_of_guard, KAM.Wave.HomGuard, KAM.Wave.homNOmegaCLM, KAM.Wave.homNOmega_le_gen, KAM.Wave.homNfun, KAM.Wave.homDN, KAM.Wave.homNfun_hasFDerivAt, KAM.Wave.homLemma_lie_iv_gen, KAM.Wave.homLemma_lie_iv, KAM.Wave.homEq_a, KAM.Wave.homEq_b, KAM.Wave.homEq_Q (KAM/Wave/Homological/Lie.lean, KAM/Wave/Homological/PPlusOne.lean, KAM/Wave/Homological/LemmaOneFin.lean, KAM/Wave/Homological/LemmaOneEquation.lean, KAM/Wave/Homological/LieDeriv.lean, KAM/Wave/Homological/LemmaOneEqFam.lean)
-LEAN_NOTE: W4-HOMOLOGICAL audit 1 FAIL (F1: unrestricted pairing carriers), audit 2 PASS WITH NOTES (F1 closed: evidence-bearing homPair0, homLieSeq, homWeakBracket, homLieN_gen); (i), (ii), (iv) proved; missing: (iii) the coefficient rule for general F is not exported, only for the solved F on finitely supported vectors (homEq_a ... homEq_Q, gate-taking HomMultBounds, internal raw L_N; audit 2: conditional); continuity of L_N F in (z, zbar) only inside homLemma1_equation_all; homLemma_lie_iv (p_+ = p+1) displays the raw L_N formula
+LEAN_REF: KAM.Wave.homOmega_le, KAM.Wave.homLie_Omega_mem, KAM.Wave.homLie_pairing_summable, KAM.Wave.homPair0, KAM.Wave.homPair0_hasSum, KAM.Wave.homLieSeq, KAM.Wave.homWeakBracket, KAM.Wave.homWeakBracket_eq_neg_lieN, KAM.Wave.HomOmegaCarrier, KAM.Wave.homLieN_gen, KAM.Wave.homLieN_gen_eq, KAM.Wave.homWeakBracketN_gen, KAM.Wave.homWeakBracketN_eq_neg_lieN_gen, KAM.Wave.homLieComp, KAM.Wave.homTrueCoord, KAM.Wave.homCoeff_homLieComp, KAM.Wave.homLieN_fin_expansion_gen, KAM.Wave.homLemma_lie_iii_gen, KAM.Wave.homLemma_lie_iii, KAM.Wave.homOmegaCarrier_of_guard, KAM.Wave.HomGuard, KAM.Wave.homNOmegaCLM, KAM.Wave.homNOmega_le_gen, KAM.Wave.homNfun, KAM.Wave.homDN, KAM.Wave.homNfun_hasFDerivAt, KAM.Wave.homLemma_lie_iv_gen, KAM.Wave.homHamField_gen, KAM.Wave.homDN_hamField_gen (KAM/Wave/Homological/Lie.lean, KAM/Wave/Homological/PPlusOne.lean, KAM/Wave/Homological/LemmaOneFin.lean, KAM/Wave/Homological/LemmaOneEquation.lean, KAM/Wave/Homological/CompleteEquation.lean, KAM/Wave/Homological/CompleteLie.lean, KAM/Wave/Homological/CompleteLieExpand.lean, KAM/Wave/Homological/LieDeriv.lean)
+LEAN_NOTE: W4-HOMOLOGICAL audit 1 FAIL (F1: unrestricted pairing carriers), audit 2 PASS WITH NOTES (F1 closed: evidence-bearing homPair0, homLieSeq, homWeakBracket, homLieN_gen); (iii) for general F closed by W4-COMPLETE (W4-COMPLETE audit 1 PASS: homLemma_lie_iii, finite expansion with the seven coefficient rules, no gate); (ii) also for Taylor Hamiltonians (homWeakBracketN_eq_neg_lieN_gen); (iv) with the source-domain L_N via homDN_hamField_gen; missing: the (i) clause that L_N F and <<N,F>> are continuous in (z, zbar) and polynomials of degree <= 2 is not exported (continuity used only inside homLemma1_equation_all; outside the W4-COMPLETE scope per its audit)
 NOTE: -
 
 NODE: stepW:w4:liebd
@@ -1072,9 +1072,9 @@ EDGE: bpW:w4:fourier-ops | blueprint-W/parts/w4-homological.tex#stepW:w4:liecoef
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w4
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.homEq_a, KAM.Wave.homEq_b, KAM.Wave.homEq_cp_gen, KAM.Wave.homEq_cm_gen, KAM.Wave.homEq_P_gen, KAM.Wave.homEq_P'_gen, KAM.Wave.homEq_Q_gen, KAM.Wave.homCohEq_scalar (KAM/Wave/Homological/LemmaOneEqFam.lean, KAM/Wave/Homological/CohEq.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w4:lie; W4-HOMOLOGICAL audit 1 CONDITIONAL (F2), audit 2: gate-taking internal steps remain conditional; the coefficient identities are proved only for the solved F = S(R) under HomMultBounds on finitely supported vectors, not as the general coefficient collection
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.homLieComp, KAM.Wave.homTrueCoord, KAM.Wave.homCoeff_homLieComp, KAM.Wave.homRval_fin_true_gen, KAM.Wave.homLieN_fin_expansion_gen, KAM.Wave.homLemma_lie_iii_gen, KAM.Wave.homLemma_lie_iii (KAM/Wave/Homological/CompleteLie.lean, KAM/Wave/Homological/CompleteLieExpand.lean)
+LEAN_NOTE: step of PARTIAL parent bpW:w4:lie; W4-COMPLETE audit 1 PASS (coefficient collection for arbitrary Taylor F on finitely supported vectors; multiplier i(<k,omega> - lambda) gives delta^0, delta^+-, delta^P, delta^Q (zero at (0,j,j)), delta^P'); supersedes the gate-taking homEq_* helpers
 NOTE: -
 
 NODE: stepW:w4:lieder
@@ -1315,9 +1315,9 @@ EDGE: bpW:w4:index | blueprint-W/parts/w4-homological.tex#bpW:w4:lemma1@L631-L63
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: sol-delta6-W-W-w4
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.homMultBounds_of, KAM.Wave.homSolveTaylor, KAM.Wave.homLemma1_zero_modes, KAM.Wave.homSolveTaylor_isReal, KAM.Wave.homNhatTaylor_isReal, KAM.Wave.homLemma1_equation_all, KAM.Wave.homLemma1_fieldBound, KAM.Wave.homLemma1_lipschitz, KAM.Wave.homNhat, KAM.Wave.homNhatTaylor, KAM.Wave.homNhatTaylor_val, KAM.Wave.homNhat_coeff_bounds, KAM.Wave.homNhat_fieldBound, KAM.Wave.homNhat_lipschitz (KAM/Wave/Homological/LemmaOneF.lean, KAM/Wave/Homological/PPlusOne.lean)
-LEAN_NOTE: W4-HOMOLOGICAL audit 1 FAIL (F2: headline exports took intermediate gates), audit 2 PASS WITH NOTES (F2 closed for homLemma1_fieldBound, homLemma1_lipschitz, homLemma1_equation_all and their _gen forms, now from the source premises HomFreqHyp, HomMelnikov); proved from source premises: (ii) first form for all (y, z, zbar), (iii), (iv); missing: (i) zero modes and reality of F exported only as gate-taking helpers (homLemma1_zero_modes, homSolveTaylor_isReal take HomMultBounds; the supplier homMultBounds_of is not composed into an export); (ii) the bracket form R + <<N,F>> = hat N + hat a_0 and the guarded form R + DN.X_F = hat N + hat a_0 are not exported (they follow by composing with homWeakBracket_eq_neg_lieN and homLemma_lie_iv)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.homMultBounds_of, KAM.Wave.homSolveTaylor, KAM.Wave.homLemma1Complete_zero_modes, KAM.Wave.homLemma1Complete_real, KAM.Wave.homLemma1_equation_all, KAM.Wave.homLemma1Complete_equation, KAM.Wave.homLemma1Complete_bracket, KAM.Wave.homLemma1Complete_guarded, KAM.Wave.homWeakBracketN, KAM.Wave.homHamField, KAM.Wave.homLemma1_fieldBound, KAM.Wave.homLemma1_lipschitz, KAM.Wave.homNhat, KAM.Wave.homNhatTaylor, KAM.Wave.homNhatTaylor_val, KAM.Wave.homNhat_coeff_bounds, KAM.Wave.homNhat_fieldBound, KAM.Wave.homNhat_lipschitz (KAM/Wave/Homological/LemmaOneF.lean, KAM/Wave/Homological/PPlusOne.lean, KAM/Wave/Homological/CompleteZeroReal.lean, KAM/Wave/Homological/CompleteEquation.lean)
+LEAN_NOTE: W4-HOMOLOGICAL audit 1 FAIL (F2), audit 2 PASS WITH NOTES (source-premise homLemma1_fieldBound, homLemma1_lipschitz, homLemma1_equation_all); remaining clauses closed by W4-COMPLETE (W4-COMPLETE audit 1 PASS for (i): zero modes and reality of F and hat N with the gate homMultBounds_of built into the statement; PASS WITH NOTES for (ii): homLemma1Complete_equation gives all three forms (L_N F, bracket, guarded R + DN.X_F) from source premises for all (y, z, zbar), theta in T_(s-sigma)); HomFreqHyp is the weaker j^(1/2)-tail form (HomFreqHyp1.toHyp, same constants); the separate homLemma1Complete_bracket takes redundant carrier evidence, discharged in the combined export
 NOTE: -
 
 NODE: stepW:w4:divops
@@ -1373,9 +1373,9 @@ EDGE: stepW:w4:divops | blueprint-W/parts/w4-homological.tex#stepW:w4:class@L668
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w4
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.homSolveTaylor, KAM.Wave.isHomComp_solve, KAM.Wave.homSolve_entry_symm_gen, KAM.Wave.homLemma1_zero_modes (KAM/Wave/Homological/PPlusOne.lean, KAM/Wave/Homological/LemmaOneF.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w4:lemma1; W4-HOMOLOGICAL audit 1 CONDITIONAL / BRIDGED; F in T_{s-sigma} is the type of homSolveTaylor (gate HomMultBounds an argument); the vanishing coefficients are exported only gate-taking
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.homSolveTaylor, KAM.Wave.isHomComp_solve, KAM.Wave.homSolve_entry_symm_gen, KAM.Wave.homLemma1Complete_zero_modes (KAM/Wave/Homological/PPlusOne.lean, KAM/Wave/Homological/LemmaOneF.lean, KAM/Wave/Homological/CompleteZeroReal.lean)
+LEAN_NOTE: step of PROVED parent bpW:w4:lemma1; F in T_(s-sigma) by the type of homSolveTaylor; vanishing coefficients from source premises in homLemma1Complete_zero_modes (W4-COMPLETE audit 1 PASS, gate homMultBounds_of built in, Q zero mode in true entries)
 NOTE: -
 
 NODE: stepW:w4:equation
@@ -1406,9 +1406,9 @@ EDGE: stepW:w4:Nhat | blueprint-W/parts/w4-homological.tex#stepW:w4:equation@L67
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w4
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.homLemma1_equation, KAM.Wave.homLemma1_equation_all (KAM/Wave/Homological/PPlusOne.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w4:lemma1; first form for all vectors from source premises (audit 2 PASS; finitely supported case and extension by continuity and truncation); second and third forms not exported
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.homLemma1_equation, KAM.Wave.homLemma1_equation_all, KAM.Wave.homWeakBracketN_eq_neg_lieN_gen, KAM.Wave.homDN_hamField_gen, KAM.Wave.homLemma1Complete_equation (KAM/Wave/Homological/PPlusOne.lean, KAM/Wave/Homological/CompleteEquation.lean)
+LEAN_NOTE: step of PROVED parent bpW:w4:lemma1; first form for all vectors (W4-HOMOLOGICAL audit 2 PASS; finitely supported case plus continuity and truncation); second and third forms in homLemma1Complete_equation (W4-COMPLETE audit 1 PASS WITH NOTES)
 NOTE: -
 
 NODE: stepW:w4:Fcomp
@@ -1551,9 +1551,9 @@ EDGE: stepW:w4:class | blueprint-W/parts/w4-homological.tex#stepW:w4:real@L727-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w4
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.homSolveTaylor_isReal, KAM.Wave.homNhatTaylor_isReal (KAM/Wave/Homological/PPlusOne.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w4:lemma1; reality of hat N unconditional; reality of F only gate-taking (HomMultBounds), W4-HOMOLOGICAL audit 1 CONDITIONAL / BRIDGED
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.homSolveTaylor_isReal, KAM.Wave.homNhatTaylor_isReal, KAM.Wave.homLemma1Complete_real (KAM/Wave/Homological/PPlusOne.lean, KAM/Wave/Homological/CompleteZeroReal.lean)
+LEAN_NOTE: step of PROVED parent bpW:w4:lemma1; homLemma1Complete_real (W4-COMPLETE audit 1 PASS): F and hat N real, hat omega and hat Omega_j real, gate built in
 NOTE: -
 
 NODE: bpW:w4:lemma2
@@ -1579,9 +1579,9 @@ EDGE: bpW:w4:lattice | blueprint-W/parts/w4-homological.tex#bpW:w4:lemma2@L756-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w4
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.homLamNorm, KAM.Wave.homLemma2, KAM.Wave.homKS_lt_29, KAM.Wave.waveBW_le (KAM/Wave/Homological/Lemma1.lean, KAM/Wave/Homological/LatticeBW.lean)
-LEAN_NOTE: W4-HOMOLOGICAL audit 1 PASS WITH NOTES (arithmetic assembly of explicit bounds, not a theorem supplying the field estimates); proved: the inequalities between the explicit bounds (homLamNorm lam eps epsL = eps + lam epsL), 3 C_1 < 108 and (4) B^W_sigma <= b_W(tau) sigma^{-(2tau+3)}; missing: the lambda-weighted field norms |X|^lambda_{r,D} have no Lean definition, so the inequalities for X_hat N and X_F are not exported (they follow by combining with homNhat_fieldBound, homNhat_lipschitz, homLemma1_fieldBound, homLemma1_lipschitz)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.homFieldSup_gen, KAM.Wave.homFieldLip_gen, KAM.Wave.homLamFieldNorm_gen, KAM.Wave.homLamFieldNorm, KAM.Wave.homFieldSup_le_ofReal_iff, KAM.Wave.homFieldLip_le_ofReal_iff, KAM.Wave.homSolveFamily_gen, KAM.Wave.homLemma2Complete, KAM.Wave.homLemma2Complete_gen, KAM.Wave.homLamNorm, KAM.Wave.homLemma2, KAM.Wave.homKS_lt_29, KAM.Wave.waveBW_le (KAM/Wave/Homological/CompleteLemma2.lean, KAM/Wave/Homological/Lemma1.lean, KAM/Wave/Homological/LatticeBW.lean)
+LEAN_NOTE: W4-COMPLETE audit 1 PASS WITH NOTES: homLemma2Complete states both inequalities in the lambda-weighted field norms (ENNReal suprema of |X|_r over Pi x D(s',r) plus lambda times the best Lipschitz constant, best-constant reading by the _le_ofReal_iff lemmas), 3 C_1 < 108 with C_1 = 7 + 10 K_S, and (4) with exponent 2tau+3; extended-real form is stronger than the finite-bound setting; the arithmetic homLemma2 (W4-HOMOLOGICAL audit 1 PASS WITH NOTES) is the finite core
 NOTE: lambda here is the P96-K weighting parameter, not the frequency lambda_j (no lam edge).
 
 NODE: bpW:w4:from-w3
