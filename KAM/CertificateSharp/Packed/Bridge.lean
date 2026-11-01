@@ -5,7 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.Certificate.Packed.Product
+public import KAM.CertificateSharp.Packed.Product
 
 /-!
 # Bridge B1: the packed complex product proves the landed model-product proposition
@@ -23,9 +23,11 @@ therefore applies verbatim to the packed route.
 
 @[expose] public section
 
-namespace KAM.Certificate
+namespace KAM.CertificateSharp.Packed
 
-open KAM CertArith
+open KAM.Certificate
+
+open KAM KAM.Certificate.CertArith
 
 /-- The packed complex product of two backend polynomials (mantissa scale `P`): the landed
 `mulPacked` assembly over four packed real products. `none` on any failed decode, guard, boundary
@@ -114,4 +116,4 @@ theorem CertPoly.mulGmp_sound {α : Type} [CertArith α] [LawfulCertArith α] {n
         rw [show (2 : ℝ) ^ (2 * P) = 2 ^ (2 * P) from rfl]
         nlinarith [bRR, bII, bRI, bIR]
 
-end KAM.Certificate
+end KAM.CertificateSharp.Packed

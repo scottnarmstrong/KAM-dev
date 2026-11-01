@@ -28,7 +28,9 @@ of such a number with a constant number of big-integer operations (`Nat.land`, `
 
 @[expose] public section
 
-namespace KAM.Certificate
+namespace KAM.CertificateSharp.Packed
+
+open KAM.Certificate
 
 /-- Natural-number Kronecker packing of digits: `Σ_i e_i 2^{w i}`. -/
 def natPack (w : ℕ) : List ℕ → ℕ
@@ -184,4 +186,4 @@ theorem packSum_add_periodic (w O : ℕ) : ∀ cs : List ℤ, (∀ c ∈ cs, 0 �
     rw [← packSum_add_periodic w O cs fun x hx => h x (by simp [hx]), Int.toNat_of_nonneg hc]
     ring
 
-end KAM.Certificate
+end KAM.CertificateSharp.Packed

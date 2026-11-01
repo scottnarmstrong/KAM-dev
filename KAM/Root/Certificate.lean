@@ -50,11 +50,6 @@ public import KAM.Certificate.Model.Ops
 public import KAM.Certificate.Model.SqrtWitness
 public import KAM.Certificate.Model.Terms
 public import KAM.Certificate.NormBridge
-public import KAM.Certificate.Packed.Bridge
-public import KAM.Certificate.Packed.Digits
-public import KAM.Certificate.Packed.Product
-public import KAM.Certificate.Packed.Round
-public import KAM.Certificate.Packed.Tests
 public import KAM.Certificate.PhaseBasis
 public import KAM.Certificate.Poly.Advice
 public import KAM.Certificate.Poly.Basic

@@ -5,7 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.Certificate.Packed.Digits
+public import KAM.CertificateSharp.Packed.Digits
 
 /-!
 # Advice-free rounding, the load check and balanced unpacking of packed slots
@@ -27,7 +27,9 @@ For a signed packed integer `Z = packSum w d` (`N` slots of width `w`):
 
 @[expose] public section
 
-namespace KAM.Certificate
+namespace KAM.CertificateSharp.Packed
+
+open KAM.Certificate
 
 /-! ### Rounding by mask and shift -/
 
@@ -324,4 +326,4 @@ theorem natRamp_eq {b : ℕ} (hb : 0 < b) (n : ℕ) :
   rw [Nat.sub_eq_of_eq_add (key n).symm,
     Nat.mul_div_cancel_left _ (pow_pos (by omega : 0 < x - 1) 2)]
 
-end KAM.Certificate
+end KAM.CertificateSharp.Packed

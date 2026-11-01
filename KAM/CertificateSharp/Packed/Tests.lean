@@ -5,7 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.Certificate.Packed.Bridge
+public import KAM.CertificateSharp.Packed.Bridge
 
 /-!
 # Small kernel tests of the packed product (default build, cheap)
@@ -18,9 +18,9 @@ values. The LG00-sized gate is in `kernel-tests/Packed/` (opt-in).
 
 @[expose] public section
 
-namespace KAM.Certificate.PackedTests
+namespace KAM.CertificateSharp.Packed.Tests
 
-open KAM KAM.Certificate
+open KAM KAM.Certificate KAM.CertificateSharp.Packed
 
 /-- Three slots `[5, -6, 3]` at width 8. -/
 def z3 : ℤ := packSum 8 [5, -6, 3]
@@ -60,4 +60,4 @@ example : (gmpRealProduct gs wt 4 tx ty).map Prod.fst =
 -- an out-of-box key fails closed
 example : gmpRealProduct gs wt 4 [([2, 0], 1)] ty = none := by decide +kernel
 
-end KAM.Certificate.PackedTests
+end KAM.CertificateSharp.Packed.Tests

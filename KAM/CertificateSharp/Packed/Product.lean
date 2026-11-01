@@ -5,7 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.Certificate.Packed.Round
+public import KAM.CertificateSharp.Packed.Round
 public import KAM.Certificate.Poly.MulPacked
 
 /-!
@@ -32,7 +32,9 @@ product's slots are within `2^l`) and the rounding shift `s`. Its guard reads me
 
 @[expose] public section
 
-namespace KAM.Certificate
+namespace KAM.CertificateSharp.Packed
+
+open KAM.Certificate
 
 open KAM
 
@@ -360,4 +362,4 @@ theorem gmpRealProduct_sound {g : GmpSpec} {W : CertWeight} {P2 : ℕ}
     obtain ⟨⟨hg, hx⟩, hy⟩ := hck
     exact GmpSpec.round_sound hg (packRepOk_sound hx) (packRepOk_sound hy) hW P2 hθ
 
-end KAM.Certificate
+end KAM.CertificateSharp.Packed

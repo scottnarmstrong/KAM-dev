@@ -2,7 +2,7 @@
 
 Status: design (2026-11-01), brief V2-PACKED step 2, with a prototype (step 3) and a measured gate (step 4).
 No frozen statement, landed definition or certificate changes. Every new Lean file is a new module under
-`KAM/Certificate/Packed/`. Profile: [`V2-PACKED-PROFILE.md`](../studies/V2-PACKED-PROFILE.md).
+`KAM/CertificateSharp/Packed/`. Profile: [`V2-PACKED-PROFILE.md`](../studies/V2-PACKED-PROFILE.md).
 
 ## 0. Summary
 
@@ -226,11 +226,11 @@ proof of `intSlotsBound`.
 
 | module | content |
 |---|---|
-| `KAM/Certificate/Packed/Digits.lean` | `natPack`, `periodic`, `natPack_land_mask`, `natPack_injective`, `natPack_digits`, `packSum_add_periodic` |
-| `KAM/Certificate/Packed/Round.lean` | `gmpRound`, `gmpRound_spec`, `loadOk`, `loadOk_sound`, `unpackSlots` (balanced), `unpackSlots_packSum` |
-| `KAM/Certificate/Packed/Product.lean` | `PRep`, `packRepOk` (list boundary), `GmpSpec`, `degCap`, `gmpTerms`, `gmpRealProduct`, `gmpRealProduct_sound` |
-| `KAM/Certificate/Packed/Bridge.lean` | `CertPoly.mulGmp`, `CertPoly.mulGmp_sound` |
-| `KAM/Certificate/Packed/Tests.lean` | small default kernel tests (cheap) |
+| `KAM/CertificateSharp/Packed/Digits.lean` | `natPack`, `periodic`, `natPack_land_mask`, `natPack_injective`, `natPack_digits`, `packSum_add_periodic` |
+| `KAM/CertificateSharp/Packed/Round.lean` | `gmpRound`, `gmpRound_spec`, `loadOk`, `loadOk_sound`, `unpackSlots` (balanced), `unpackSlots_packSum` |
+| `KAM/CertificateSharp/Packed/Product.lean` | `PRep`, `packRepOk` (list boundary), `GmpSpec`, `degCap`, `gmpTerms`, `gmpRealProduct`, `gmpRealProduct_sound` |
+| `KAM/CertificateSharp/Packed/Bridge.lean` | `CertPoly.mulGmp`, `CertPoly.mulGmp_sound` |
+| `KAM/CertificateSharp/Packed/Tests.lean` | small default kernel tests (cheap) |
 | `scripts/packed/gate_gen.py`, `run_probe.sh` | the gate probes, generated outside the sources (their literals exceed the 1,500-line cap; `kernel-tests/Packed/README.md`) |
 
 ## 7. Risks
