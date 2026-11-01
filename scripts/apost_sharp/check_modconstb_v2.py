@@ -6,6 +6,11 @@ The Lean helper definitions (KAM/Sharp2/ModConstantsB/Data.lean, one per `let` o
 plain and isoenergetic; option L10 on and off) and compared with `stageB` constants and conditions.
 Also a randomized monotonicity check of every constant under `StepInB.Dom` (including iso).
 
+The comparison is made under both conventions of the |DK| cap, `dk_cap` on (the theorem's `sigma_K - mu/2`, the
+default of `stageB`) and off (raw `sigma_K`).  `mkp` reads the convention from the same option as `stageB`, so the
+two evaluations get identical inputs.  Each case also runs a negative control: the Lean side evaluated at the cap of
+the other convention must be reported as different, so a cap mismatch cannot pass unnoticed.
+
 Usage: python3 -I scripts/apost_sharp/check_modconstb_v2.py   (untrusted design tooling)
 """
 from fractions import Fraction as F
@@ -132,12 +137,17 @@ def consts(p):
     return {k: ev.helper(k) for k in DEFS}
 
 
+def cap_sK(D, o):
+    """The |DK| cap under the convention of `stageB`: option `dk_cap`, default on, is the theorem's sigma_K - mu/2."""
+    return D["sK"] - D["mu"] / 2 if o.get("dk_cap", True) else D["sK"]
+
+
 def mkp(D, o, delta, r, c, c1, cr, iso, stage0=None, selfcons=False):
     n = D["n"]; kap = D["kappa"]
     M1, M2 = D["M1"], D["M2"]
     avg = cr * (delta / min(r, 1)) ** kap
     th = o.get("theta", F(1, 8))
-    return {"n": n, "κ": F(kap), "M1": M1, "M2": M2, "cTh": 2 * M1, "cDTh": 2 * M2, "sK": D["sK"], "sLt": D["sLt"],
+    return {"n": n, "κ": F(kap), "M1": M1, "M2": M2, "cTh": 2 * M1, "cDTh": 2 * M2, "sK": cap_sK(D, o), "sLt": D["sLt"],
             "sB": D["sB"], "sN": D["sN"], "sNt": D["sNt"], "sT": D["sT"], "ts": F(1, 10), "bF": F(1),
             "c": c, "c1": c1, "cavg": avg, "θ": th, "θξ": F(1, 8), "θΩ": F(1, 8), "q": F(1, 8), "θN": F(1, 8),
             "θω": F(1, 8), "a": F(2), "lam": F(1), "γb": D["gbar"], "δ": delta, "selfcons": selfcons,
@@ -164,49 +174,64 @@ def conds(p, k):
     return out
 
 
+def compare(st, p, iso, verbose=True):
+    """(number of constants, number of conditions, all equal?) of the Lean formulas at `p` against `stageB`'s `st`."""
+    k = consts(p)
+    pairs = [("sCDK", st["C_DK"]), ("sC0", st["C_0"]), ("sCxiL", st["C_xiL"]),
+             ("sQtN", st["Qt_N"]), ("sQL", st["QL"]), ("sQ", st["Q"]), ("sBloc", st["B_loc"]),
+             ("sCBb", st["rates"]["B"][0]), ("sCNb", st["rates"]["N"][0]),
+             ("sCNbT", st["rates"]["Nt"][0]), ("sCab", st["rates"]["Tab"][0])]
+    if iso:
+        pairs.append(("sCnu", st["rates"]["nu"][0]))
+    good = True
+    for nm, v in pairs:
+        if k[nm] != v:
+            good = False
+            if verbose:
+                print("  DIFF", nm, float(k[nm]), float(v))
+    # conditions: coef/bound with power, as a multiset
+    lc = sorted((float(a / b), pw) for a, b, pw in conds(p, k) if a != 0 or True)
+    pc = []
+    for tup in st["cond"]:
+        a, b = tup[0], tup[1]; pw = tup[2] if len(tup) > 2 else 1
+        pc.append((float(a / b), pw))
+    pc = sorted(pc)
+    # python has no Bloc condition (local budget); drop the matching Lean entry
+    lean_wo = list(lc)
+    bl = float(k["sBloc"] / p["bF"])
+    lean_wo.remove((bl, 1))
+    condsame = all(abs(x[0] - y[0]) <= 1e-12 * max(1, abs(y[0])) and x[1] == y[1]
+                   for x, y in zip(sorted(lean_wo), pc)) and len(lean_wo) == len(pc)
+    if verbose and not condsame:
+        print("  conds lean:", lean_wo); print("  conds py:  ", pc)
+    return len(pairs), len(pc), good and condsame
+
+
 def main():
     D = t2.package("R1")
     delta0 = min(F(1), (D["rho"] - D["rhoinf"]) / 6)
     r0 = D["rho"]
     ok = True
-    for iso in (False, True):
-        for selfc in (False, True):
-            for stage0 in (None, dict(e_over_mu=F(7, 10))):
-                for (c, c1, cr) in ((F(1, 3), F(2, 3), F(1, 5)), (F(7, 10), F(11, 10), F(1, 2))):
-                    o = {"selfcons": selfc}
-                    st = t2.stageB(D, o, delta0, r0, c, c1, cr, iso, stage0=stage0)
-                    p = mkp(D, o, delta0, r0, c, c1, cr, iso, stage0, selfc)
-                    k = consts(p)
-                    pairs = [("sCDK", st["C_DK"]), ("sC0", st["C_0"]), ("sCxiL", st["C_xiL"]),
-                             ("sQtN", st["Qt_N"]), ("sQL", st["QL"]), ("sQ", st["Q"]), ("sBloc", st["B_loc"]),
-                             ("sCBb", st["rates"]["B"][0]), ("sCNb", st["rates"]["N"][0]),
-                             ("sCNbT", st["rates"]["Nt"][0]), ("sCab", st["rates"]["Tab"][0])]
-                    if iso:
-                        pairs.append(("sCnu", st["rates"]["nu"][0]))
-                    good = True
-                    for nm, v in pairs:
-                        if k[nm] != v:
-                            good = False; print("  DIFF", nm, float(k[nm]), float(v))
-                    # conditions: coef/bound with power, as a multiset
-                    lc = sorted((float(a / b), pw) for a, b, pw in conds(p, k) if a != 0 or True)
-                    pc = []
-                    for tup in st["cond"]:
-                        a, b = tup[0], tup[1]; pw = tup[2] if len(tup) > 2 else 1
-                        pc.append((float(a / b), pw))
-                    pc = sorted(pc)
-                    # python has no Bloc condition (local budget); drop the matching Lean entry
-                    lean_wo = list(lc)
-                    bl = float(k["sBloc"] / p["bF"])
-                    lean_wo.remove((bl, 1))
-                    condsame = all(abs(x[0] - y[0]) <= 1e-12 * max(1, abs(y[0])) and x[1] == y[1]
-                                   for x, y in zip(sorted(lean_wo), pc)) and len(lean_wo) == len(pc)
-                    if not condsame:
-                        print("  conds lean:", lean_wo); print("  conds py:  ", pc)
-                    good &= condsame
-                    ok &= good
-                    print("iso=%-5s L10=%-5s stage0=%-5s c=%s: %d constants + %d conditions %s" % (
-                        iso, selfc, stage0 is not None, c, len(pairs), len(pc), "EQUAL" if good else "DIFF"))
-    print("R1 cross-check:", "all equal" if ok else "MISMATCH")
+    cases = undetected = 0
+    for dk in (True, False):
+        for iso in (False, True):
+            for selfc in (False, True):
+                for stage0 in (None, dict(e_over_mu=F(7, 10))):
+                    for (c, c1, cr) in ((F(1, 3), F(2, 3), F(1, 5)), (F(7, 10), F(11, 10), F(1, 2))):
+                        o = {"selfcons": selfc, "dk_cap": dk}
+                        st = t2.stageB(D, o, delta0, r0, c, c1, cr, iso, stage0=stage0)
+                        p = mkp(D, o, delta0, r0, c, c1, cr, iso, stage0, selfc)
+                        nc, ncond, good = compare(st, p, iso)
+                        # negative control: the same case at the cap of the other convention must not compare equal
+                        q = dict(p, sK=cap_sK(D, dict(o, dk_cap=not dk)))
+                        if compare(st, q, iso, verbose=False)[2]:
+                            undetected += 1; print("  cap mismatch NOT detected")
+                        cases += 1
+                        ok &= good
+                        print("dk_cap=%-5s iso=%-5s L10=%-5s stage0=%-5s c=%s: %d constants + %d conditions %s" % (
+                            dk, iso, selfc, stage0 is not None, c, nc, ncond, "EQUAL" if good else "DIFF"))
+    print("R1 cross-check (%d cases, both cap conventions):" % cases, "all equal" if ok else "MISMATCH")
+    print("cap-mismatch negative controls detected:", cases - undetected, "/", cases)
     # tail-style input (full-strip average), iso and plain
     # random monotonicity under Dom (plain and iso, L10 on/off)
     random.seed(1)
@@ -230,7 +255,7 @@ def main():
                     if any(b[nm] < a[nm] for nm in ("sQ", "sCDK", "sCBb", "sCNb", "sCNbT", "sCab", "sCnu", "sBloc", "sQbN", "sQL")):
                         viol += 1
     print("monotonicity violations under Dom (plain/iso, L10 on/off):", viol, "/", trials)
-    return 0 if ok and viol == 0 else 1
+    return 0 if ok and undetected == 0 and viol == 0 else 1
 
 
 if __name__ == "__main__":
