@@ -3,10 +3,11 @@
 Brief: `/home/scott/kam-tools/briefs/V2-PACKED-GEN.md` (kamx-pk-gen). Branch `v2-packed-gen`, from `v2-packed-jet`
 `34d30126`, fast-forwarded to `origin/main` `7b81f9b9` (the landing of `v2-packed-jet`). Local commits only.
 
-Status (2026-11-01, 22:00 UTC): (A) landed on main (`3a5716f7`); (B) built; the T′ jet route proved end to end on
+Status (2026-11-01, 22:30 UTC): (A) landed on main (`3a5716f7`); (B) built; the T′ jet route proved end to end on
 the local integration branch (stage C, ahead of the landings at the orchestrator's instruction); (D) the Data
-stage diagnosed and cut (T′ without LG00's data: 6,370 CPU-s, 16.9×); (E) T″ by the packed route: in progress
-(owner decision: LG00 goes by the packed route), waiting on kamx-packed's T″ chains.
+stage diagnosed and cut (T′ without LG00's data: 6,370 CPU-s, 16.9×); **(E) T″ PROVED by the packed route**
+(owner decision: LG00 goes by the packed route): `LG00P.TPP.PK.MainJ`, 22:23 UTC, standard axioms, 592 modules,
+6,288 CPU-s (1.75 CPU-h).
 
 ## Result
 
@@ -35,7 +36,10 @@ stage diagnosed and cut (T′ without LG00's data: 6,370 CPU-s, 16.9×); (E) T�
 - **(D) the Data stage** (36 % of the route) was LG00's advice, which the route never reads, pulled in by the import
   of LG00's Hamiltonian results. With the copy proving them itself (LG00's 6 GB ball chunk split in two, 3.62 GB),
   T′'s route is 592 modules, 6,370 CPU-s (1.77 CPU-h): **16.9×** against run18, Data 46 modules / 295 CPU-s.
-- **(E) T″ by the packed route:** see (E).
+- **(E) T″ PROVED by the packed route** (22:23 UTC): `pk_kamTorus` in `LG00P.TPP.PK.MainJ`, LG00's
+  `LG00.TPP.lg00_kamTorus` statement verbatim about the packed copy, standard axioms; the whole torus 592 modules,
+  6,288 CPU-s (1.75 CPU-h): 17.1× against run18's complete T′ (T″'s run18 was stopped). No LG00 data in its
+  closure, every process of mine ≤ 3.62 GB.
 - **Found on the way:** LG00's generated `Final.Freq` (T′, T″) did not elaborate (errata below); fixed on `lg00-app`
   at ≈ 16:05 UTC by kamx-certside (generator `769510ff`, both trees re-emitted).
 
@@ -454,6 +458,58 @@ processes under 4 GB, anon < 18 GB, no start after 04:30 UTC; ends when `LG00P.T
 **Chain-free part: built** (`runT2`, 21:37–21:52 UTC, 2 processes): 170 modules pass (125 built, 1,269.6 CPU-s,
 45 reused), no failure, no module built twice (`extra.tsv` empty), largest charge 3.62 GB (`Balls.T38b`; `T38a`
 2.93 GB, `T38` 0.50 GB).
+
+**T″ PROVED (2026-11-01 22:23:02 UTC, driver pass 10).** `LG00P.TPP.PK.MainJ` proves
+
+```
+theorem pk_kamTorus :
+    (∀ θ a : Fin 2 → ℝ, (∀ j, 0 < lg00Act a j) →
+      lg00Cert.H (fun j => (θ j : ℂ), fun j => (a j : ℂ)) =
+        ((((lg00Kappa / lg00Ell : ℚ) : ℝ) * lg00H11 (lg00Xi θ a) (lg00Eta θ a) : ℝ) : ℂ)) ∧
+    lg00Cert.params.E0 = lg00Kappa / lg00Ell * lg00EStarQ ∧
+    ∃ (Kinf : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ)) (sinf : ℝ),
+      lg00TorusWith lg00Cert lg00OmegaStarPP Kinf sinf ∧
+      |1 + (sinf / ((1000001 / 1000000 : ℚ) : ℝ)) * (-0.00025790797112834715 : ℝ) /
+        0.00025790797112834715| ≤ 5e-10
+```
+
+(LG00's `LG00.TPP.lg00_kamTorus` statement verbatim, `diff`-checked, in namespace `LG00P.TPP`: about kamx-packed's
+copy `LG00P.TPP.lg00Cert`; kamx-pk-cons' bridge carries it to LG00's own constants) and `pk_kamTorusStatement :
+LG00TorusStatement lg00Cert lg00OmegaStarPP lg00WindowTPP`, from `pk_checkJ : checkV2With (jetBase … jdLowW pkIBook
+jdFullW) (routeARefinedPackedSJ … jdLowW) lg00Cert lg00RW = true` through `checkV2With_jetSharp_sound`.
+- `#print axioms` (`tpp/AxT2.out`): `pk_kamTorus`, `pk_kamTorusStatement`, `pk_checkJ`, `pkHamBounds`,
+  `pkHamClaim`, `pkBaseJ`, `pkEngineJ` each `[propext, Classical.choice, Quot.sound]`.
+- `lake build --no-build LG00P.TPP.PK.MainJ LG00P.TP.PK.MainJ LG00P.TP.PK.MainJH`: `All targets up-to-date (5221
+  jobs)`.
+- The mirrors on T″ before emission: torsion on the jet's nodes (margin 0.00132), frames `L` 1.3513 / 1.36, `N`
+  1.1961 / 1.2, `Nᵀ` 1.4334 / 1.44, `T` 115.68 / 116, invariance rows ≤ 6.54e-16 (err 6.56e-16), energy 6.3e-23,
+  widths: Low 392 = torsion 392, Full 400, `bA` 141 bits.
+
+Whole torus T″ (`run_compare.py LG00P.TPP.PK.MainJ --tree TPP --base-tree TP`; LG00 column: run18's complete T′, the
+reference, since run18 stopped T″ by the owner's decision at 274 data, 75 balls, 1,177 Full modules):
+
+| stage | LG00 run (T′): modules | CPU-s | peak | packed route (T″): modules | CPU-s | peak | ratio |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Data | 275 | 3378 | 0.96 GB | 46 | 249 | 1.13 GB | 13.6× |
+| Balls | 75 | 372 | 6.00 GB | 77 | 570 | 3.62 GB | 0.7× |
+| Gram | 80 | 1529 | 2.07 GB | 10 | 85 | 1.99 GB | 17.9× |
+| Torsion | 628 | 13162 | 2.53 GB | 48 | 415 | 2.84 GB | 31.7× |
+| Low | 2484 | 55813 | 6.32 GB | 110 | 1789 | 3.72 GB | 31.2× |
+| Full | 1637 | 32255 | 5.27 GB | 206 | 2202 | 3.38 GB | 14.7× |
+| Final | 61 | 1055 | 3.42 GB | 94 | 973 | 6.07 GB | 1.1× |
+| Main | 1 | 12 | 1.12 GB | 1 | 5 | 0.58 GB | 2.6× |
+| **total** | **5241** | **107577** (29.88 CPU-h) | | **592** | **6288** (1.75 CPU-h) | | **17.1×** |
+
+Every module has a ledger row: mine (`runT2`: 240 built, 2,087.6 CPU-s, largest 3.62 GB `Balls.T38b`, no module
+built twice: `extra.tsv` empty), kamx-packed's T″ chains (`tpp_low` 110 modules / 1,789 CPU-s / 3.72 GB, `tpp_full`
+197 / 2,149 / 3.38 GB, their `.cost` files) and copy, and the shared modules' T′ rows (kamx-packed's summaries:
+`LG00P.JetBridge` 6.07 GB is theirs, the orchestrator's exception; my `runH`/`runJ`). The same shared-module caveat as
+T′ applies (40 copies on the packed side, none on the LG00 side).
+
+Wall clock: chain-free part 21:37–21:52 (2 processes); emission 21:56:20 (5 s after kamx-packed's full mirror);
+packed modules 21:56–22:23 as kamx-packed's chain modules appeared (Low chain 21:56, `Full.Data` 22:11, Full chain
+22:20:47); `MainJ` 22:23:02. Receipts: `docs/campaign/studies/V2-PACKED-GEN/tpp/` (ledger, summary, driver log,
+table, axioms, the emitted `MainJ` and `Xfer`, run18's T″ rows).
 
 **For kamx-pk-cons' bridge:** LG00's `LG00.TPP.Data.Cert` and its closure (274 data modules, built by run18 in
 `lg00-app`) are reused into `kam-lg00` (`gen_pkg.py --keep-config`: sources copied, artifacts hardlinked); from the
