@@ -18,6 +18,8 @@ Package LP-SP-ROT, `LP:MAIN L17 (533–578)`, track LP, non-frozen. Pure `3 × 3
 * `tiltRotation t c = (1 − 2|t|²) Id + 2 t tᵀ + 2c [t]ₓ` for `c² = 1 − |t|²` is orthogonal of
   determinant one and preserves the cross product.
 * `incTilt`, `incCos`, `incRotation` are the objects `t`, `c`, `R` of (46).
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

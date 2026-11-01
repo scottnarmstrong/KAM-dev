@@ -1,4 +1,4 @@
-# Track LP: freeze proposal (DRAFT 2, reviewed twice, for the owner's morning review)
+# Track LP: freeze proposal (DRAFT 3, for the owner's morning review)
 
 Status: 2026-11-01, overnight. **Nothing is frozen.** This file proposes the exact Lean text of the LP anchors.
 **Draft 2** applies the independent refute-first statement review
@@ -8,7 +8,11 @@ issues F3–F4). The texts below are the reviewer's replacements, elaborated tra
 (`freeze/elaboration-draft-2.lean.txt`, proof placeholders only, outside the library; capped `lp_lean.sh`, exit 0).
 Draft 1 is kept in `freeze/elaboration-draft-1.lean.txt` for comparison.
 
-**Review status.** Delta review [`freeze/STATEMENT-REVIEW-2.md`](freeze/STATEMENT-REVIEW-2.md) (codex-2): **PASS for the
+**Review status.** Draft 3 adds only §3b (the OD-11 (b) text, proved); its delta review
+[`freeze/STATEMENT-REVIEW-3.md`](freeze/STATEMENT-REVIEW-3.md) is **PASS** (F4 resolved for the source-facing
+definitions on their whole carriers; §3b faithful to draft-2 LP1). **With option (b), the freeze package has no open
+technical blocker**: what remains is the owner's decisions OD-1…OD-11. (Code blocks show statements only; the proofs
+are the LP-PS / LP-SRC theorems, see §1.) Delta review [`freeze/STATEMENT-REVIEW-2.md`](freeze/STATEMENT-REVIEW-2.md) (codex-2): **PASS for the
 draft-2 theorem types** (F1, F2, F5 resolved; F3 repaired in LP-THR2, landing; no conclusion-shaped input; sorry-free
 producers independently verified). **Freeze package NOT READY** only because of the open owner decision **OD-11**
 (F4: how the new physical formulas are frozen; orchestrator recommendation (b), source subtypes). After the owner
@@ -64,8 +68,7 @@ theorem planar_strongAMD_barrier (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀ 
         (∀ i j, i ≠ j → dPair ≤ planeLength (bodyVector z.1 i - bodyVector z.1 j)) ∧
         z ∈ K ∧
         (∀ i, m ≤ |planeCross (bodyVector z.1 i) (bodyVector z.2 i)| ∧
-          0 < planeCross (bodyVector z.1 i) (bodyVector z.2 i) * totalMomentum z) := by
-  sorry
+          0 < planeCross (bodyVector z.1 i) (bodyVector z.2 i) * totalMomentum z)
 ```
 
 Reading: for fixed positive masses, a compact action set `U` inside the ordered chamber and a margin `m > 0`,
@@ -124,8 +127,7 @@ theorem planar_strongAMD_exponentialSafety (hn : 2 ≤ n) (ν : Fin n → ℝ) (
             (∀ i, |oscPeri ν μ (z t) i - keplerPeri ν (z t) i| ≤ Aosc * μ ∧
                   |oscApo ν μ (z t) i - keplerApo ν (z t) i| ≤ Aosc * μ) ∧
             (∀ i, dStar / 2 ≤ oscPeri ν μ (z t) i) ∧
-            (∀ a : AdjIdx n, dPair / 2 ≤ oscPeri ν μ (z t) a.upperIdx - oscApo ν μ (z t) a.1) := by
-  sorry
+            (∀ a : AdjIdx n, dPair / 2 ≤ oscPeri ν μ (z t) a.upperIdx - oscApo ν μ (z t) a.1)
 ```
 
 Reading (MAIN §1 (6)–(9) and Theorem 15): constants `μ₀, c, T₀, A_Λ, A_a, d⋆, d_pair, A_osc` are chosen
@@ -137,6 +139,162 @@ Newtonian `(1+n)`-body motion, and along it: ellipticity, AMD `≤ B − δ/2`, 
 actual-velocity osculating ellipses: valid ellipses (energy `< 0`, `e < 1`) through the current position, with
 MAIN L16's summed element error `≤ A_elem μ`, endpoint errors `≤ A_osc μ` and half the gaps; the N10 smallness
 inequalities on `μ₀` are displayed (review F2). **No hypothesis on the secular dynamics.**
+
+## 3b. LP1 under OD-11 option (b): exact text through the source carriers (draft 3 addition)
+
+Option (b) (orchestrator recommendation) is now **concrete and proved**: package LP-SRC (branch `inp-lp-src`
+dd0a5ec5; audit pending) defines the source carriers and source-facing definitions of review 1 F4, with their
+characterization theorems, and proves LP1 restated through them from `lp1_planar_strongAMD_safety` (capped build,
+lint, short names, axioms `[propext, Classical.choice, Quot.sound]`). Full files:
+`freeze/odb-SourceCarrier.lean.txt`, `freeze/odb-PlanarSafety-Source.lean.txt`.
+
+Source carriers and source-facing definitions (each with a `_def` equation to its internal total helper, by `rfl`;
+characterizations: `sourceStrongAMD_nonneg`, `sum_action_mul_eccDeficit_le_sourceStrongAMD`, `sourceKepler_axis_pos`,
+`sourceKepler_ecc_le_one`, `sourceKeplerPeri_le_planeLength`, `planeLength_le_sourceKeplerApo`, `sourceOscAxis_pos`,
+`sourceOscPeri_pos`, `sourceOscPeri_le_planeLength`, `planeLength_le_sourceOscApo`):
+
+```lean
+abbrev SourceCanonicalPhase (n : ℕ) (ν : Fin n → ℝ) :=
+  {z : Phase (n * 2) // (∀ i, 0 < ν i) ∧
+    ∀ i, 0 < planeLength (bodyVector z.1 i) ∧ keplerEnergy ν z i < 0}
+
+/-- Source osculating phases (`LP:MAIN L16 (510–525)`): positive masses and `μ`, nonzero
+positions, and nondegenerate actual-velocity ellipses (`E^osc < 0`, `e^osc < 1`). -/
+abbrev SourceOsculatingPhase (n : ℕ) (ν : Fin n → ℝ) (μ : ℝ) :=
+  {z : Phase (n * 2) // (∀ i, 0 < ν i) ∧ 0 < μ ∧
+    ∀ i, 0 < planeLength (bodyVector z.1 i) ∧
+      oscEnergy ν μ z i < 0 ∧ oscEcc ν μ z i < 1}
+
+/-- The strong AMD on source canonical phases. -/
+def sourceStrongAMD {ν : Fin n → ℝ} (z : SourceCanonicalPhase n ν) : ℝ := strongAMD ν z.1
+
+/-- Canonical perihelion on source canonical phases. -/
+def sourceKeplerPeri {ν : Fin n → ℝ} (z : SourceCanonicalPhase n ν) (i : Fin n) : ℝ :=
+  keplerPeri ν z.1 i
+
+/-- Canonical aphelion on source canonical phases. -/
+def sourceKeplerApo {ν : Fin n → ℝ} (z : SourceCanonicalPhase n ν) (i : Fin n) : ℝ :=
+  keplerApo ν z.1 i
+
+/-- Actual heliocentric velocity on source osculating phases. -/
+def sourceOscVelocity {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ) (i : Fin n) :
+    Fin 2 → ℝ := oscVelocity ν μ z.1 i
+
+/-- Gravitational parameter `1 + μ ν_i` on source osculating phases. -/
+def sourceOscParam {ν : Fin n → ℝ} {μ : ℝ} (_z : SourceOsculatingPhase n ν μ) (i : Fin n) : ℝ :=
+  oscParam ν μ i
+
+/-- Osculating energy on source osculating phases. -/
+def sourceOscEnergy {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ) (i : Fin n) : ℝ :=
+  oscEnergy ν μ z.1 i
+
+/-- Osculating semi-major axis on source osculating phases. -/
+def sourceOscAxis {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ) (i : Fin n) : ℝ :=
+  oscAxis ν μ z.1 i
+
+/-- Osculating eccentricity vector on source osculating phases. -/
+def sourceOscEccVector {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ) (i : Fin n) :
+    Fin 2 → ℝ := oscEccVector ν μ z.1 i
+
+/-- Osculating eccentricity on source osculating phases. -/
+def sourceOscEcc {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ) (i : Fin n) : ℝ :=
+  oscEcc ν μ z.1 i
+
+/-- Osculating perihelion on source osculating phases. -/
+def sourceOscPeri {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ) (i : Fin n) : ℝ :=
+  oscPeri ν μ z.1 i
+
+/-- Osculating aphelion on source osculating phases. -/
+def sourceOscApo {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ) (i : Fin n) : ℝ :=
+  oscApo ν μ z.1 i
+
+/-! ### Defining equations -/
+```
+
+LP1 through the source carriers (normalized, i.e. the draft-2 LP1 binders plus the typing binder `h₀`):
+
+```lean
+theorem lp1_planar_strongAMD_safety_source (hn : 2 ≤ n) (ν : Fin n → ℝ)
+    (hν : ∀ i, 0 < ν i)
+    (_hνmax : ∃ i, ν i = 1) (_hνle : ∀ i, ν i ≤ 1)
+    (A : Set (Fin n → ℝ)) (hA : IsCompact A)
+    (hAord : ∀ a ∈ A, (∀ i, 0 < a i) ∧ ∀ i j, i < j → a i < a j)
+    (δ γ τ : ℝ) (hδ : 0 < δ) (hγ : 0 < γ) (hτ : (n : ℝ) - 1 < τ) :
+    ∃ μ₀ c T₀ AΛ Aa dStar dPair Aosc Aelem : ℝ,
+      0 < μ₀ ∧ 0 < c ∧ 0 < T₀ ∧ 0 < AΛ ∧ 0 < Aa ∧ 0 < dStar ∧ 0 < dPair ∧ 0 < Aosc ∧
+      0 < Aelem ∧ Aosc * μ₀ ≤ dStar / 2 ∧ 2 * (Aosc * μ₀) ≤ dPair / 2 ∧
+      ∀ μ : ℝ, 0 < μ → μ ≤ μ₀ →
+      ∀ z₀ : Phase (n * 2),
+        (∀ i, 0 < planeLength (bodyVector z₀.1 i) ∧ keplerEnergy ν z₀ i < 0) →
+        (fun i => keplerAxis ν z₀ i) ∈ A →
+        (∀ k : Fin n → ℤ, k ≠ 0 →
+          γ * (KAM.Fourier.modeSize k : ℝ) ^ (-τ) ≤
+            |∑ i, (k i : ℝ) * (ν i ^ 3 / keplerAction ν z₀ i ^ 3)|) →
+        ∀ hch : (fun i => keplerAction ν z₀ i) ∈ chamber ν,
+        ∀ h₀ : (∀ i, 0 < ν i) ∧
+          ∀ i, 0 < planeLength (bodyVector z₀.1 i) ∧ keplerEnergy ν z₀ i < 0,
+        sourceStrongAMD (⟨z₀, h₀⟩ : SourceCanonicalPhase n ν) ≤
+          orderedStrongThreshold hn ⟨_, hch⟩ - δ →
+        let T := T₀ * Real.exp (c * μ ^ (-(1 / (2 * (τ + 1)))))
+        ∃ z : ℝ → Phase (n * 2), z 0 = z₀ ∧
+          IsMovingSolutionOn ν μ (Set.Icc (-T) T) z ∧
+          MovingUniqueOn ν μ (Set.Icc (-T) T) z ∧
+          IsNewtonSolutionOn (actualMasses 1 ν μ) (Set.Icc (-T) T)
+            (fun t => barycentricPositions 1 ν μ (z t).1)
+            (fun t => barycentricVelocities 1 ν μ (z t).2) ∧
+          ∀ t ∈ Set.Icc (-T) T,
+            (∀ i, 0 < planeLength (bodyVector (z t).1 i) ∧ keplerEnergy ν (z t) i < 0) ∧
+            (∃ hcht : (fun i => keplerAction ν (z t) i) ∈ chamber ν,
+              ∃ hs : (∀ i, 0 < ν i) ∧
+                ∀ i, 0 < planeLength (bodyVector (z t).1 i) ∧ keplerEnergy ν (z t) i < 0,
+              sourceStrongAMD (⟨z t, hs⟩ : SourceCanonicalPhase n ν) ≤
+                orderedStrongThreshold hn ⟨_, hcht⟩ - δ / 2) ∧
+            ‖(fun i => keplerAction ν (z t) i) - fun i => keplerAction ν z₀ i‖ ≤ AΛ * Real.sqrt μ ∧
+            ‖(fun i => keplerAxis ν (z t) i) - fun i => keplerAxis ν z₀ i‖ ≤ Aa * Real.sqrt μ ∧
+            (∃ hs : (∀ i, 0 < ν i) ∧
+                ∀ i, 0 < planeLength (bodyVector (z t).1 i) ∧ keplerEnergy ν (z t) i < 0,
+              |sourceStrongAMD (⟨z t, hs⟩ : SourceCanonicalPhase n ν) -
+                  sourceStrongAMD (⟨z₀, h₀⟩ : SourceCanonicalPhase n ν)| ≤
+                n * AΛ * Real.sqrt μ) ∧
+            (∀ i, dStar ≤ keplerAxis ν (z t) i *
+              (1 - planeLength (keplerEccVector ν (z t) i))) ∧
+            (∀ a : AdjIdx n, dPair ≤ keplerAxis ν (z t) a.upperIdx *
+                (1 - planeLength (keplerEccVector ν (z t) a.upperIdx)) -
+                keplerAxis ν (z t) a.1 * (1 + planeLength (keplerEccVector ν (z t) a.1))) ∧
+            (∀ i, dStar ≤ planeLength (bodyVector (z t).1 i)) ∧
+            (∀ i j, i ≠ j → dPair ≤ planeLength (bodyVector (z t).1 i - bodyVector (z t).1 j)) ∧
+            (∃ hs : (∀ i, 0 < ν i) ∧
+                ∀ i, 0 < planeLength (bodyVector (z t).1 i) ∧ keplerEnergy ν (z t) i < 0,
+             ∃ ho : (∀ i, 0 < ν i) ∧ 0 < μ ∧
+                ∀ i, 0 < planeLength (bodyVector (z t).1 i) ∧
+                  oscEnergy ν μ (z t) i < 0 ∧ oscEcc ν μ (z t) i < 1,
+              (∀ i, sourceOscEnergy (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i < 0 ∧
+                  0 < sourceOscAxis (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i ∧
+                  sourceOscEcc (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i < 1 ∧
+                  sourceOscPeri (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i ≤
+                    planeLength (bodyVector (z t).1 i) ∧
+                  planeLength (bodyVector (z t).1 i) ≤
+                    sourceOscApo (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i ∧
+                  |sourceOscAxis (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i -
+                      keplerAxis ν (z t) i| +
+                    planeLength (sourceOscEccVector (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i -
+                      keplerEccVector ν (z t) i) ≤ Aelem * μ) ∧
+              (∀ i, |sourceOscPeri (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i -
+                      sourceKeplerPeri (⟨z t, hs⟩ : SourceCanonicalPhase n ν) i| ≤ Aosc * μ ∧
+                  |sourceOscApo (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i -
+                      sourceKeplerApo (⟨z t, hs⟩ : SourceCanonicalPhase n ν) i| ≤ Aosc * μ) ∧
+              (∀ i, dStar / 2 ≤
+                  sourceOscPeri (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) i) ∧
+              (∀ a : AdjIdx n, dPair / 2 ≤
+                  sourceOscPeri (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) a.upperIdx -
+                    sourceOscApo (⟨z t, ho⟩ : SourceOsculatingPhase n ν μ) a.1))
+```
+
+Differences from §3: a typing binder `h₀` (the source-carrier membership of `z₀`, derivable from the physical
+premise and `hν`); the initial AMD hypothesis through `sourceStrongAMD ⟨z₀, h₀⟩`; in the conclusion, the AMD
+margin/drift clauses as `∃ hs, … sourceStrongAMD ⟨z t, hs⟩ …` and the whole osculating block under `∃ hs ho, …`
+with `sourceOsc*` / `sourceKeplerPeri/Apo` (mirroring `∃ hcht` for the thresholds). The frozen planar repository
+definitions (`keplerAxis`, `keplerEccVector`, `keplerAction`, …) stay as in §3.
 
 ## 4. Choices embedded in the text (owner decisions)
 

@@ -18,6 +18,10 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 
 ## Packages (roadmap §3 rows)
 
+Prover slots: 3 (root-b8 05:2x: W runs one; machine total 4; drop to 2 if W asks). Worktrees: thr (audits), mom, geomod,
+src (4th, created 05:30 for the third slot).
+
+
 | Package | MAIN | Wave | Branch / worktree | Account | State |
 |---|---|---|---|---|---|
 | LP-THR Threshold | L4 | 1 | `inp-lp-thr` / `/mnt/HC_Volume_106379410/kam-lp/KAM-inp-lp-thr` | claude-6 | **LANDED** main f1fe1d30 (inp c2cd35af); audit LP-BAR1-1 PASS WITH NOTES |
@@ -32,13 +36,24 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 | LP-LIFT Chart lift + D1 discharge | L14 | 3 | `inp-lp-lift` / geomod worktree (link `/root/code/KAM-inp-lp-lift`) | claude-12 | audit LP-W3C-1 PASS WITH NOTES (codex-2); **LANDED** main 9bd8b629 (inp 374c4202) |
 | LP-DOMX L8 remaining clauses (PROVED bookkeeping) | L8 | 2 | `inp-lp-domx` / mom worktree (link `/root/code/KAM-inp-lp-domx`) | claude-11 | **LANDED** main 9bd8b629; `lemma8_complete` (L8 PROVED) |
 | LP-OSC Osculating | L16 | 3 | `inp-lp-osc` (geomod worktree) | claude-12 | **LANDED** main 5af21b0c (inp e0262014); audit LP-OSC-1 PASS WITH NOTES |
-| LP-PS PlanarSafety (LP1) | T15 | 3 | `inp-lp-ps` / geomod worktree (link `/root/code/KAM-inp-lp-ps`) | claude-12 | **PROVED** 74ebebb1 (779 lines): `lp1_planar_strongAMD_safety` (general), `…_normalized` (= draft-2 LP1 verbatim, verified), `…_halfInteger`, `lp0_planar_barrier` (= draft-2 LP0); axioms standard; audit queued |
+| LP-PS PlanarSafety (LP1) | T15 | 3 | `inp-lp-ps` / geomod worktree (link `/root/code/KAM-inp-lp-ps`) | claude-12 | **PROVED** 74ebebb1 (779 lines): `lp1_planar_strongAMD_safety` (general), `…_normalized` (= draft-2 LP1 verbatim, verified), `…_halfInteger`, `lp0_planar_barrier` (= draft-2 LP0); axioms standard; audit LP-PS-1 **PASS WITH NOTES** (all five main statements PASS); **LANDED** main 0772a7d5 (inp ff50f80f) |
 | LP-SP-MODEL Spatial model + L1–L3 (d=3) + rotations | L1–L3 | 4 | `inp-lp-spmodel` / mom worktree (link `/root/code/KAM-inp-lp-spmodel`) | claude-11 | proved f0faca48 (2,031 lines, 13 modules: L1–L3 d=3, rotations, alignment); audit queued (LP-W4A with SP-ROT) |
 | LP-SP-ROT rotation algebra (46) | L17 | 4 | `inp-lp-sprot` | claude-12 | proved bfb15083 (328 lines); audit queued |
-| LP-SP-CHART spatial chart, one body | L17 | 4 | `inp-lp-spchart` / geomod worktree (link `/root/code/KAM-inp-lp-spchart`) | claude-12 | running (tmux inp-mprov-lp-spchart) |
+| LP-SP-CHART spatial chart, one body | L17 | 4 | `inp-lp-spchart` / geomod worktree (link `/root/code/KAM-inp-lp-spchart`) | claude-12 | proved 3bc913d7 (≈1,600 lines: chart, (45), image/inverse, analyticity, **symplecticity**); audit queued (W4) |
 | LP-SP-GEO spatial barrier + continuation | L5–L6 (d=3) | 4 | `inp-lp-spgeo` / mom worktree (link `/root/code/KAM-inp-lp-spgeo`) | claude-11 | proved 993b4451 (480 lines); audit queued (W4 batch) |
-| LP-SP-OSC osculating d=3 | L16 (d=3) | 4 | `inp-lp-sposc` / mom worktree (link `/root/code/KAM-inp-lp-sposc`) | claude-11 | running |
-| LP-SP-DOM / SP-SAFE (+ spatial NRR/LIFT/CONF twins) | L18, T19 | 4 | — | — | after SP-CHART |
+| LP-SP-OSC osculating d=3 | L16 (d=3) | 4 | `inp-lp-sposc` | claude-11 | proved 4d0e6cc1 (1,040 lines; F2 + OD-11(b) built in); audit queued (W4) |
+| LP-SP-CONF spatial first exit (conditional) | L14 (d=3) | 4 | `inp-lp-spconf` | claude-11 | proved c5168c68 (333 lines); audit queued (W4) |
+| LP-SP-TUBE tube for Phase (n+m) (N12) | L18 infra | 4 | `inp-lp-sptube` | claude-11 | proved 14d8799a (201 lines); audit queued (W4) |
+| LP-SP-ADAPT L13 adapter for Phase (n+m) | L13 infra | 4 | `inp-lp-spadapt` | claude-11 | proved 0be0685a (401 lines; no convention mismatch for m ≠ n); audit queued (W4) |
+| LP-SP-LIFT spatial chart lift + D1 premises | L14/L18 (d=3) | 4 | `inp-lp-splift` | claude-11 | proved 80e1e1dd (1,063 lines); audit queued |
+| LP-SP-SAFE spatial theorem LP2 | T19 | 4 | `inp-lp-spsafe` / mom worktree | claude-11 | running: end-to-end spatial assembly |
+| LP-SRC OD-11 (b) source carriers + LP1 restatement | freeze prep | — | `inp-lp-src` / src worktree (4th) | claude-6 | proved dd0a5ec5 (405 lines); text in FREEZE-PROPOSAL draft 3 §3b; delta review 3 running; audit queued |
+| LP-SP-PROD n-body spatial product chart | L17 (n bodies), (47) | 4 | `inp-lp-spprod` | claude-12 | proved e2a64cdc (767 lines); audit queued (W4) |
+| LP-SP-DOM spatial analytic domain | L18 | 4 | `inp-lp-spdom` | claude-12 | proved e57e5a6c (≈760 lines); L18 node PARTIAL until a DOMX-style supplement (derivative/denominator clauses); audit queued |
+| LP-SP-NRR spatial L13 (2n slow pairs) | L13, T19 | 4 | `inp-lp-spnrr` | claude-12 | proved 8e2ccbed (558 lines: `spatial_stopped_drift`); audit queued |
+| LP-SP-DOMX L18 remaining clauses | L18 | 4 | `inp-lp-spdomx` | claude-12 | proved 0aaed69c (750 lines: `lemma18_complete`; L18 PROVED once the facade imports Bounds); audit queued |
+| LP-SP-SRC spatial source carriers (W4A N1) | freeze prep | 4 | `inp-lp-spsrc` / geomod worktree | claude-12 | running |
+| LP-SP-DOM / SP-SAFE (+ spatial NRR/LIFT/CONF twins) | L18, T19 | 4 | — | — | after SP-PROD |
 
 ## Audit queue (codex-2, one at a time machine-wide; W interleaves when LP has a gap)
 
@@ -56,6 +71,11 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
   first-derivative and denominator clauses (the Lean route consumes only the scalar class and the sup bound), so
   the L8 node is PARTIAL, with a LEAN_NOTE naming the proved clauses and why the rest is not needed downstream. The
   alternative: add the two clauses later (cheap, from the same tube) and mark it PROVED then.
+- **LP2 freeze surface (audit LP-W4A-1, N1):** the spatial Kepler elements (`spatialKeplerAxis`, `…Action`, `…EccVector`, …)
+  are public total helpers; the LP2 proposal must expose them through source subtypes (OD-11 (b)), never freeze the
+  unrestricted helpers as physical quantities.
+- **Spatial L18 (SP-DOM):** like planar DOM, the derivative and denominator clauses of L8/L18 are not separately
+  exported; the L18 node is PARTIAL until a spatial DOMX-style supplement (cheap, same tube) is proved.
 - **For LP-NRR (from audit LP-W2A-1):** choose `ρ` strictly inside `r_*` when feeding `lp_scale_choice`, so the
   strict `D₀√μ < r_*` of N6 holds.
 
@@ -86,3 +106,18 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 - 2026-11-01 04:13 UTC: Freeze draft 2 delta review PASS for theorem types (freeze package gated on OD-11). LP-SP-MODEL proved (2,031 lines). LP-SP-GEO launched on claude-11. LP-PS audit after kam-1b's W4-COMPLETE.
 - 2026-11-01 04:26 UTC: LP-W3C (LIFT+DOMX+THR2) LANDED (main 9bd8b629). Every planar package except PS is on main.
 - 2026-11-01 04:33 UTC: LP-W3C LANDED (main 9bd8b629). LP-SP-GEO proved (480 lines). LP-SP-OSC launched on claude-11. LP-PS audit branch rebuilt; waiting for codex-2 (kam-1b W4-COMPLETE).
+- 2026-11-01 04:53 UTC: LP-SP-CHART proved (MAIN L17, one body, incl. symplecticity by direct derivative computation). LP-SP-PROD (n-body product chart) launched on claude-12.
+- 2026-11-01 04:58 UTC: LP-SP-OSC proved. LP-SP-CONF launched on claude-11.
+- 2026-11-01 05:10 UTC: LP-SP-CONF proved. LP-PS audit launched on codex-2 (W4-COMPLETE had ended 04:30 without a ping). LP-SP-TUBE (N12 re-typing of tube) launched on claude-11.
+- 2026-11-01 05:20 UTC: third prover slot granted (root-b8). LP-SRC (OD-11 (b) concrete text, proved) launched on claude-6 in a 4th worktree. LP-PS audit running.
+- 2026-11-01 05:22 UTC: LP-SP-TUBE proved. SP-PROD chose layout Phase (n + (n + n)). LP-SP-ADAPT (L13 adapter for Phase (n+m)) launched on claude-11.
+- 2026-11-01 05:23 UTC: LP-SP-PROD proved (767 lines). LP-SP-DOM (L18) launched on claude-12.
+- 2026-11-01 05:36 UTC: **LP-PS audit 1 PASS WITH NOTES: planar LP1 and LP0 audited** (general, normalized = draft-2 text verbatim, half-integer, LP0, internal prograde: all PASS). Notes H1/D1 applied; merged into inp-lp; landing requested. With it, the whole planar campaign (MAIN L2–L8, L13, L14, L16, T15) is proved and audited.
+- 2026-11-01 05:40 UTC: LP-SRC proved: OD-11 (b) is concrete and proved (FREEZE-PROPOSAL draft 3 §3b). Delta review 3 launched on codex-2 (prioritized over W4A for the owner's morning). LP-SP-ADAPT proved (no convention mismatch for m ≠ n). LP-SP-LIFT launched on claude-11. W4A branch built in the thr worktree (waiting for codex-2).
+- 2026-11-01 05:48 UTC: delta review 3 PASS (OD-11 (b) resolves F4); freeze package has no open technical blocker (owner decisions remain). LP-W4A (SP-MODEL+SP-ROT) audit launched on codex-2. LP-SP-DOM proved. LP-SP-NRR launched on claude-12.
+- 2026-11-01 05:49 UTC: **LP-PS LANDED (main 0772a7d5): the planar theorem LP1 and LP0 are on main**, audited; kam-inp-63 independently confirmed standard axioms on main's build for lp1_planar_strongAMD_safety{,_normalized,_halfInteger} and lp0_planar_barrier. LP-SP-NRR launched on claude-12.
+- 2026-11-01 06:06 UTC: LP-W4A (SP-MODEL + SP-ROT) audit 1 PASS WITH NOTES; N2 applied, N1 carried to the LP2 proposal; merged into inp-lp; landing requested.
+- 2026-11-01 06:10 UTC: LP-SP-NRR proved (spatial L13 stopped drift). LP-SP-DOMX launched on claude-12 (SP-SAFE waits for SP-LIFT). codex-2: kam-1b's W5-STEP-A.
+- 2026-11-01 06:14 UTC: LP-SP-LIFT proved. LP-SP-SAFE (the spatial theorem LP2, end-to-end assembly) launched on claude-11.
+- 2026-11-01 06:25 UTC: LP-W4A LANDED (main b2308bac). LP back to 2 provers (root-b8: W's slot returned). LP-W4B staged (branch inp-lp-w4b, 4th worktree), waiting for codex-2 behind kam-1b's W5-STEP-A.
+- 2026-11-01 06:29 UTC: LP-SP-DOMX proved (lemma18_complete). LP-SP-SRC (spatial OD-11 (b) carriers, audit W4A N1) launched on claude-12.
