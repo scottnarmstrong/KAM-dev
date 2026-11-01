@@ -18,7 +18,10 @@ Stages (`--stages`, comma-separated; default `frames,gram,tors,sharp`):
 The assembly through the landed `cfgLow` composition (`torsRBase`) and the jet-fed route (`jetBase`) are emitted by
 `--stages assembly` once their inputs exist (see the handoff: the Low chain of the tree, the branch APIs).
 
-Usage: python3 -I scripts/packed/gen_packed.py [--tree TP] [--cert DIR] [--pkg DIR] [--stages LIST]
+`--prefix LG00` (default) writes on LG00's real certificate (library `LG00Packed`, reusing LG00's built data);
+`--prefix LG00P` on kamx-packed's certificate copy (`LG00P.<T>.Data.Cert`, modules `LG00P.<T>.PK.**`), the format
+of the production route (V2-PACKED-PROD-API §3); the numbers are read from LG00's tree either way.
+Usage: python3 -I scripts/packed/gen_packed.py [--tree TP] [--prefix LG00] [--cert DIR] [--pkg DIR] [--stages LIST]
 """
 import json
 import os
@@ -61,13 +64,24 @@ def wrapdoc(text, width=100):
 class Emit:
     """Writes modules into the package and records them (with their imports) in emission order."""
 
-    def __init__(self, pkg, tree, cert_root):
-        self.pkg, self.tree, self.cert_root = pkg, tree, cert_root
-        self.ns = "LG00.%s" % tree
+    def __init__(self, pkg, tree, cert_root, prefix="LG00"):
+        self.pkg, self.tree, self.cert_root, self.pre = pkg, tree, cert_root, prefix
+        self.ns = "%s.%s" % (prefix, tree)
+        # LG00's real certificate: library `LG00Packed`; a copy `<P>` (kamx-packed's format): `<P>.<T>.PK`
+        self.root = "LG00Packed.%s" % tree if prefix == "LG00" else "%s.%s.PK" % (prefix, tree)
+        self.fmt = "LG00Packed.Format" if prefix == "LG00" else "%s.PKFormat" % prefix
         self.mods = []
 
     def mod(self, rel):
-        return "LG00Packed.%s.%s" % (self.tree, rel)
+        return "%s.%s" % (self.root, rel)
+
+    def lg(self, rel):
+        """A module of the certificate's own tree (`<P>.<T>.rel`)."""
+        return "%s.%s.%s" % (self.pre, self.tree, rel)
+
+    def sh(self, rel):
+        """A shared module of the certificate's package (`<P>.rel`)."""
+        return "%s.%s" % (self.pre, rel)
 
     def write(self, rel, imports, title, doc, body, ns=None, modname=None):
         name = modname or self.mod(rel)
@@ -201,15 +215,14 @@ NODES = ("N", "DL", "DG", "C", "DGi", "DN", "XN")
 def emit_format(E):
     body = ("/-- A term of a packed real array: zigzag-coded key and integer (`LG00.Format`). -/\n"
             "abbrev tz (k₀ k₁ v : ℕ) : CertKey × ℤ := ([dz k₀, dz k₁], dz v)\n")
-    return E.write("", ["LG00.Format", "KAM.CertificateSharp.Packed.RouteSharp"], "the literal format",
-                   "The packed memo terms `tz`; shared by every tree.", body, ns="LG00",
-                   modname="LG00Packed.Format")
+    return E.write("", [E.sh("Format"), "KAM.CertificateSharp.Packed.RouteSharp"], "the literal format",
+                   "The packed memo terms `tz`; shared by every tree.", body, ns=E.pre, modname=E.fmt)
 
 
 def emit_data(E, S):
     """The shared data modules of the Gram and torsion stages. Returns the names of the umbrella modules."""
     D, rb, memos = S["D"], S["rb"], S["memos"]
-    fmt = "LG00Packed.Format"
+    fmt = E.fmt
     out = {}
     # the Gram memo (B2) and book
     gb = gram_book(D)
@@ -293,7 +306,7 @@ def emit_data(E, S):
 
 def emit_frames(E, S, data, fr):
     """The packed frame tests at the claims of the route witness, and the one-ulp attacks (gate)."""
-    imp = [data["G"], data["R"], "LG00.%s.Final.Wit" % E.tree]
+    imp = [data["G"], data["R"], E.lg("Final.Wit")]
     W = "lg00Cert.weight"
     stL = "trFrameLOk (α := LGF) 2 %s pkRBook pkGMemo %s = %s"
     stN = "trFrameNOk (α := LGF) 2 pkRBook pkRMemo %s %s = %s"
@@ -328,7 +341,7 @@ def emit_frames(E, S, data, fr):
 
 def emit_sharp(E, frames_mods):
     """The A gate's assembly: the frame tests and `refinedCoreS` on the tree's data, as one theorem."""
-    imp = list(frames_mods.values()) + ["LG00.%s.Final.RefinedCore" % E.tree]
+    imp = list(frames_mods.values()) + [E.lg("Final.RefinedCore")]
     body = ("/-- **The A gate** (V2-PACKED-SHARP): the numerical parts of `refinedTestPackedS` specific to the\n"
             "packed sharp-site engine, decided on the tree's data: the packed frame tests at the route witness's\n"
             "claims and `refinedCoreS` (the certified sharp sites). With `checkHamClaim` and the conjuncts the\n"
@@ -347,7 +360,7 @@ def emit_sharp(E, frames_mods):
 
 def emit_gram(E, data):
     """The packed Gram stage (B2): entries, core, assembly."""
-    imp = [data["G"], "LG00.%s.Data.Cert" % E.tree]
+    imp = [data["G"], E.lg("Data.Cert")]
     args = "2 lg00Cert.emb lg00Cert.weight lg00Cert.cfgLow lg00Cert.piEnc pkGBook pkGMemo"
     ents = []
     for r in range(2 * n):
@@ -413,7 +426,7 @@ def emit_tms(E, D):
         defs.append((lst, re.sub(r"\blg00TMs", "pkTMs", ttext.replace("noncomputable def", "def"))))
         defs.append(("m%d" % i, re.sub(r"\blg00TMs", "pkTMs", mdef.replace("noncomputable def", "def"))))
     top = re.sub(r"\blg00TMs", "pkTMs", G.grab(d0, "lg00TMs").replace("noncomputable def", "def"))
-    parts = E.chunks("Data.TMs", ["LG00Packed.Format"], "the jet slot models of the torsion",
+    parts = E.chunks("Data.TMs", [E.fmt], "the jet slot models of the torsion",
                      "The models of the `2n` first and `(2n)²` second derivatives of `H` along `K` at `cfgLow`, as "
                      "the tree's landed composition returns them (`Torsion/D0.lean`).", defs)
     return E.write("Data.TMsAll", parts, "the jet slot models of the torsion", "`pkTMs`.", top)
@@ -421,7 +434,7 @@ def emit_tms(E, D):
 
 def emit_tors(E, data, tms):
     """The rounded packed torsion stage (B3b) without its composition: entries, guards, stages, tables."""
-    imp = [data["G"], data["T"], data["R"], "LG00.%s.Data.Cert" % E.tree]
+    imp = [data["G"], data["T"], data["R"], E.lg("Data.Cert")]
     c = "lg00Cert"
     W, Bi, cfg, box, sv = c + ".weight", c + ".gramInv", c + ".cfgLow", c + ".freqBox", c + ".params.s"
     mods = {}
@@ -514,6 +527,77 @@ def emit_tors(E, data, tms):
     return mods
 
 
+def emit_assembly(E, data, gram, tors, frames, tms, sharp_engine="routeARefinedPackedS"):
+    """End to end through B3b's `torsRBase` and the packed sharp-site engine, with the tree's landed `cfgLow`
+    composition (its `Low` chain) for the torsion boundary and the frames, and the tree's landed `Final` facts for
+    the other sub-checks; then the tree's main statement (`Main.lean`'s `lg00_kamTorus`, verbatim), re-proved."""
+    import re
+    t = E.tree
+    bk = "pkGBook pkGMemo pkRBook pkTMemo pkRMemo"
+    comp = E.write("Asm.Compose", [tms, E.lg("Low.T1931"), E.lg("Low.Ckpt"), E.sh("JetBridge"),
+                                   E.sh("Kernel.StageTwo")],
+                   "the landed cfgLow composition", "The tree's landed `cfgLow` composition (`lg00ComposeLow`, the "
+                   "`Low` chain) returns the torsion's jet slot models `pkTMs`.",
+                   "theorem pkTMs_eq :\n    (torsionSlots 2 lg00Jet).map (fun i => (lg00CkptLow.slotPair "
+                   "lg00Cert.weight i).1) =\n      pkTMs :=\n  eq_of_modelsBeq (by decide +kernel)\n\n"
+                   "theorem pkComposeLow :\n    Slp.compose 2 lg00Cert.ham.jet.prog lg00Cert.emb lg00Cert.wit "
+                   "lg00Cert.weight lg00Cert.cfgLow\n      lg00Cert.piEnc (torsionSlots 2 lg00Cert.ham.jet) = "
+                   "some pkTMs := by\n"
+                   "  rw [show lg00Cert.ham.jet = lg00Jet from lg00Ham_jet, lg00ComposeLow, pkTMs_eq]\n")
+    ctors = E.write("Asm.Tors", [gram, tors["E"], tors["C"], comp], "the packed torsion sub-check",
+                    "`checkTorsionR` of the certificate (B3b).",
+                    "/-- **The rounded packed torsion sub-check passes** (B3b). -/\n"
+                    "theorem pkCheckTorsion : checkTorsionR %s lg00Cert = true :=\n"
+                    "  checkTorsionR_of pkGram pkEps_eq pkComposeLow rfl pkTorsEntries pkTorsCore\n" % bk)
+    om = "checkFrameOmega lg00Cert (lg00RW.base.R.frame lg00Cert.freqBox).bOm = true"
+    fr = E.write("Asm.Frames", list(frames.values()) + [ctors], "the packed frame majorants",
+                 "`checkFrameMajorantsR` at the route witness's claims, from the facts shared with the torsion "
+                 "stage and the three frame tests.",
+                 thm("pkFrameOm", om) + "\n"
+                 "theorem pkFrames :\n    checkFrameMajorantsR %s lg00Cert\n"
+                 "      (lg00RW.base.R.frame lg00Cert.freqBox) = true :=\n"
+                 "  checkFrameMajorantsR_of pkGram pkEps_eq pkComposeLow rfl pkTorsEntries pkTrLay pkTrNorm pkTrPack\n"
+                 "    pkTrStN pkTrStDL pkTrStDG pkTrStC pkTrStDGi pkTrStDN pkTrStXN pkFrameL pkFrameN pkFrameT\n"
+                 "    pkFrameOm\n" % bk)
+    eng = E.write("Asm.Engine", [fr, E.lg("Final.HamClaim"), E.lg("Final.RefinedCore")],
+                  "the packed sharp-site engine", "The test of `routeARefinedPackedS` on the certificate and its "
+                  "route witness: the landed disc pass, the packed frames, the certified sharp sites.",
+                  "theorem pkEngine : refinedTestPackedS %s lg00Cert lg00RW = true :=\n"
+                  "  refinedTestPackedS_of %s lg00_hamClaim pkFrames lg00_refinedCore\n" % (bk, bk))
+    base = E.write("Asm.Base", [gram, ctors, E.lg("Final.Static"), E.lg("Final.Embedding"),
+                                E.lg("Final.Invariance"), E.lg("Balls.HamBounds")],
+                   "the packed base checker", "`torsRBase`: the landed static, Hamiltonian, embedding, invariance and "
+                   "energy sub-checks (the tree's `Final` facts) with the packed Gram and torsion sub-checks.",
+                   "theorem pkBase : (torsRBase %s).check lg00Cert = true := by\n"
+                   "  show (checkStatic lg00Cert && checkHamBounds lg00Cert && checkEmbedding lg00Cert &&\n"
+                   "    checkInvariance lg00Cert && checkEnergy lg00Cert && checkGramPacked pkGBook pkGMemo lg00Cert &&\n"
+                   "    checkTorsionR %s lg00Cert) = true\n"
+                   "  rw [lg00_checkStatic, lg00_hamBounds, lg00_checkEmbedding, lg00_checkInvariance, "
+                   "lg00_checkEnergy,\n    pkCheckGram, pkCheckTorsion]\n  rfl\n" % (bk, bk))
+    chk = E.write("Asm.Check", [eng, base], "the v2 certifier on the packed route",
+                  "The certifier with B3b's base checker and the packed sharp-site engine passes on the certificate.",
+                  "/-- **The v2 certifier passes on `lg00Cert` through the packed route** (`torsRBase`,\n"
+                  "`routeARefinedPackedS`, witness `lg00RW`). -/\n"
+                  "theorem pk_check :\n    checkV2With (torsRBase %s)\n"
+                  "      (routeARefinedPackedS %s) lg00Cert lg00RW = true :=\n"
+                  "  checkV2With_packedS_of %s pkBase pkEngine\n" % (bk, bk, bk))
+    main_src = open(os.path.join(E.cert_root, "Main.lean"), encoding="utf-8").read()
+    ren = lambda x: re.sub(r"\bLG00\b", E.pre, x)
+    st = ren(re.search(r"theorem lg00_kamTorus :\n(.*?) := by\n", main_src, re.S).group(1))
+    opens = ren(re.search(r"^open .*$", main_src, re.M).group(0))
+    body = ("%s KAM.CertificateSharp.Packed\n\n"
+            "/-- **The tree's torus theorem through the packed route** (`lg00_kamTorus`'s statement, verbatim;\n"
+            "proved from `pk_check` and `checkV2With_packedS_sound`). -/\n"
+            "theorem pk_kamTorus :\n%s := by\n"
+            "  refine ⟨lg00Ham_identity, by decide +kernel, ?_⟩\n"
+            "  obtain ⟨Kinf, sinf, h⟩ := (lg00_certifiedTorus_iff lg00Cert lg00OmegaStar).mp\n"
+            "    (checkV2With_packedS_sound %s pk_check lg00_freqEncloses lg00_diophantine)\n"
+            "  exact ⟨Kinf, sinf, h, lg00_window h.2.2.2.2.2.2.2.2.2.2⟩\n") % (opens, st, bk)
+    return E.write("Main", [chk, E.lg("Final.Freq"), E.sh("Physical.HamIdentity")],
+                   "the torus theorem through the packed route",
+                   "`pk_kamTorus`: the statement of the tree's `Main.lean`, from the packed route.", body)
+
+
 def main():
     args = sys.argv[1:]
 
@@ -525,6 +609,7 @@ def main():
             return v
         return d
     tree = opt("--tree", "TP")
+    prefix = opt("--prefix", "LG00")
     cert_root = opt("--cert", os.path.join(GP.LG00, "LG00", tree))
     pkg = opt("--pkg", GP.PKG)
     stages = opt("--stages", "frames,sharp").split(",")
@@ -533,18 +618,22 @@ def main():
     S = cached_compute(cert, pkg, tree)
     fr = GC.frames(S)
     assert all(fr["ok"].values()), fr["ok"]
-    E = Emit(pkg, tree, cert_root)
+    E = Emit(pkg, tree, cert_root, prefix)
     emit_format(E)
     data = emit_data(E, S)
     if "frames" in stages or "sharp" in stages:
         fm, gate = emit_frames(E, S, data, fr)
         if "sharp" in stages:
             emit_sharp(E, fm)
-    if "gram" in stages:
-        emit_gram(E, data)
-    if "tors" in stages:
+    gram = tors = tms = None
+    if "gram" in stages or "assembly" in stages:
+        gram = emit_gram(E, data)
+    if "tors" in stages or "assembly" in stages:
         tms = emit_tms(E, S["D"])
-        emit_tors(E, data, tms)
+        tors = emit_tors(E, data, tms)
+    if "assembly" in stages:
+        assert prefix == "LG00", "the torsRBase assembly reads the tree's landed Low chain (LG00's real data only)"
+        emit_assembly(E, data, gram, tors, fm, tms)
     lst = E.list_file()
     info = dict(tree=tree, cert=cert_root, stages=stages, modules=len(E.mods),
                 claims={k: str(v) for k, v in fr["claims"].items()},
