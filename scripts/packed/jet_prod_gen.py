@@ -312,7 +312,7 @@ def main():
     bk, S, steps, CH, wits = ck["bk"], ck["S"], ck["steps"], ck["chars"], ck["wits"]
     W = JL.F(D["weight"]["w"][0], D["weight"]["w"][1])
     C = JG.Ctx(W, bk.w)
-    src = "lg00-app `%s`" % D["lg00_cert_commit"][:8]
+    src = "lg00-app %s" % D["lg00_cert_commit"][:8]
     blocks, node_of, cands = plan_blocks(C, D, S, steps, CH, wits)
     cert = order_cert(blocks)
     C_ = STAGE
