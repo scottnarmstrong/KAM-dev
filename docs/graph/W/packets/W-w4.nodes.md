@@ -1613,9 +1613,9 @@ EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w4-homological.tex#bpW:w4:from-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w4
 REVIEWER: sol-delta7-W-w4
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.aaMap, KAM.Wave.aaUnshift, KAM.Wave.aaDer, KAM.Wave.aaDerInv (KAM/Wave/KamStep/ActionAngle.lean, KAM/Wave/KamStep/ActionAngleDeriv.lean)
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the identification of W3 normal coordinates with the W4 normal variables is done inside the W5 action-angle substitution (aaMap, aaUnshift, aaDer, aaDerInv; W5-AA audit 2 PASS), as the ownership ruling assigns it to W5; previous status NOT_STARTED
 NOTE: Remark kept as a node: its identifications are consumed by W5 (action-angle substitution); the ownership ruling and the pointer to Remark bpW:w3:interface are administrative.
 
 NODE: bpW:w4:lie-sec#guard

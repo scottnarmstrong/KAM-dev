@@ -1381,9 +1381,9 @@ EDGE: bpW:w7:ext-zeta | blueprint-W/parts/w7-measure.tex#bpW:w7:count@L456-L456 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7a
-LEAN_STATUS: PARTIAL
+LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.lamPlusFin, KAM.Wave.card_lamPlusFin_le, KAM.Wave.mem_lamPlusFin, KAM.Wave.kAbs_eq_nat, KAM.Wave.tsum_Kprev_le, KAM.Wave.tsum_lattice_inv_cube, KAM.Wave.hasSum_lattice_inv_cube, KAM.Wave.measZ3_lt_seven (KAM/Wave/Measure/Count.lean, KAM/Wave/Measure/ZetaExact.lean)
-LEAN_NOTE: W7-MEASURE audit 1 PASS WITH NOTES ((i): small-N endpoint), PASS ((ii)), FAIL completion ((iii), F2); W7-MEASURE audit 2 PASS ((iii) closed: tsum_lattice_inv_cube); missing: (i) is exported only through the candidate superset lamPlusFin (card_lamPlusFin_le for N >= 2, mem_lamPlusFin), with no direct cardinality statement for Lambda^+ and no N = 1 case (consumers use N >= 18)
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): (i) is used only for N >= 18 through the candidate superset lamPlusFin, which is what the consumers prep-plus, prep-sum, it-sum, it-X need; exported: (i) via card_lamPlusFin_le (N >= 2), (ii), (iii) (W7-MEASURE audit 2 PASS); previous status PARTIAL
 NOTE: Inline proof (L454-L456).
 
 NODE: bpW:w7#data
@@ -1412,9 +1412,9 @@ EDGE: bpW:wh:dioph#IsDiophantine | blueprint-W/parts/w7-measure.tex#bpW:w7@L39-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7a
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): standing conventions are carried as hypotheses and fixed definitions of every W7 declaration (max norm, volume, kAbs); no separate object; previous status NOT_STARTED
 NOTE: Unlabelled 'Standing data' paragraph (SPEC hypothesis packages).
 
 NODE: bpW:w7:basic#data
