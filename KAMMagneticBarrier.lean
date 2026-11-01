@@ -5,8 +5,6 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAMMagneticBarrier.Magnetic
-
 /-!
 # KAMMagneticBarrier
 

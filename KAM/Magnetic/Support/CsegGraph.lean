@@ -5,7 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.Magnetic.Data.CsegSupport
+public import KAM.Magnetic.Support.CsegSupport
 public import KAM.Certificate.Positivity
 
 /-!

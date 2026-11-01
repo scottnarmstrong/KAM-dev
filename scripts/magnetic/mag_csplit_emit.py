@@ -216,7 +216,7 @@ class Emitter:
         self.cert = json.load(open(os.path.join(gdir, "%s_cert.json" % which)))
         self.adv = json.load(open(os.path.join(gdir, "%s_advice.json" % which)))
         self.tree = Tree(root, self.T)
-        self.base = ["KAM.Magnetic.Data.%s.Cert" % self.T, "KAM.Magnetic.Data.CsegSupport",
+        self.base = ["KAM.Magnetic.Data.%s.Cert" % self.T, "KAM.Magnetic.Support.CsegSupport",
                      "KAM.Magnetic.Data.CsegJet"]
         self.W = "base.weight"
         self.pe = "base.piEnc"
@@ -607,7 +607,7 @@ class Emitter:
         body += wrap(d3.replace(",", ", ").split(" ") if False else ("d3 := " + d3).split(" "), "  ")
         jt = Tree(root, "Lower")
         txt = HEADER.format(imports="public import KAM.Magnetic.Params\npublic import "
-                                    "KAM.Magnetic.Data.CsegSupport",
+                                    "KAM.Magnetic.Support.CsegSupport",
                             title="The literal jet of the magnetic Hamiltonian",
                             doc="`magJetLit`: the compiled jet of `magHamExpr` as data "
                                 "(M0, SO-CSPLIT §3.2).", ns="KAM.Magnetic.Data", body="\n".join(body))
