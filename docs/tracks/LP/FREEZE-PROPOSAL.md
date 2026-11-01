@@ -171,7 +171,11 @@ inequalities on `μ₀` are displayed (review F2). **No hypothesis on the secula
   (a) register them as total algebraic expressions with guarded physical interpretation (the anchors unchanged); or
   (b) freeze source-facing restrictions on subtypes (`SourceCanonicalPhase`, `SourceOsculatingPhase`, and
   `sourceStrongAMD`, `sourceOscAxis`, …; exact text in the review, F4), keeping the totals as internal helpers.
-  The review does not choose; the owner rules (OD-11).
+  The review does not choose; the owner rules (OD-11). **Orchestrator recommendation: (b)**, for every frozen
+  meaning-carrying definition, each with its characterization theorem (the frozen-definition rules reject
+  off-carrier junk values). Under (b), the anchors' occurrences of these formulas are restated through the source
+  restrictions (the guards `oscEnergy < 0`, `oscEcc < 1` and negative canonical energy, which LP1 exports, supply
+  the subtype proofs); the exact restated text is generated once the owner rules, and re-reviewed.
 
 ## 5. What a freeze would require next
 
