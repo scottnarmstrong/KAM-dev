@@ -192,3 +192,76 @@ General `n ≥ 4` enumeration (the fiber theorem is general; only the walk is `m
 higher-degree number fields; a positive three-frequency example for route B (route B needs
 `ρ ≤ 1`, and T3 has `ρ = 9`); producer-side route selection (improvement #3); a bulk bound
 for far-from-resonance fibres, which would cut the SJS walks by orders of magnitude (§4).
+
+## 7. V2-BULK: a bulk bound for the fibres far from resonance
+
+Date: 1 November 2026. Branch `v2-bulk` from `origin/main` at `01d36418` (owner question 2 of the
+V2-3FREQ handoff, approved). Additive: new modules only. `SmallDivQ.lean` and the landed `Fiber/*`
+modules stay byte-identical.
+
+**Problem.** `walk2` evaluates every fibre `k' = (a, b)` with `0 < |a| + |b| ≤ N`, which is
+`2N(N + 1)` fibres. For the SJS frequencies (§4) that is `3·10⁶–6·10⁷` fibres. Yet at the first
+bite, only `6.9·10³` fibres have `|x + p| < 10⁻³`, and the others carry `1.8 %` of `S`
+(mirror sweep, `ω' = (0.40288, −2.2037·10⁻⁴)`, `δ = 5.3·10⁻³`, `N = 1310`).
+
+**Structure used.** Along a row `a` (fixed), `x_b = aω'₀ + bω'₁` is an arithmetic progression of
+step `ω'₁`. The application orders coordinates so that `|ω'₁|` is small (for SJS it is the secular
+frequency over the fast clock). A run of consecutive `b` on which `p` is constant and `x_b + p` keeps
+one sign has `|x_b + p|` affine in `b`. The weights `e^{-2πδ(|a|+|b|)}` are geometric in `|b|`.
+Both facts make a whole run summable from its two endpoints.
+
+**The bound (any run, no Diophantine input).** Take a run `b = σ(lo + i)`, `i₀ ≤ i ≤ i₁`, with
+`σ = ±1` and `|b| = lo + i`. Put `p = nearP(X(i₀))`, `Z(i) = X(i) + p·2^q` and
+`Rd(i) = |a|R₀ + (lo + i)R₁`, all integers. Let `s` be the sign of `Z(i₀)`, `F = sZ − Rd` and
+`G = sZ + Rd`. Both are affine in `i`. The check `F(i₀), F(i₁) > 0` and `2G(i₀), 2G(i₁) ≤ 2^q`
+then gives, for every `i` in the run:
+
+  `Λ/2^q ≤ |x_b + p| ≤ 1/2`, where `Λ = min(F(i₀), F(i₁))`.
+
+This holds because an affine function on an interval lies above the smaller endpoint value. With
+`x = e/2^P ≥ e^{-2πδ}` and `Σ_{j<2^t} x^j ≤ G_t/2^P` (a checked table, `G_{t+1} ≥ G_t(1 + x^{2^t})`),
+the run's terms sum to at most
+
+  `x^{|a|+lo+i₀}·(x^{|p|}·Λ⁻²·2^{2q} + [p ≠ 0](|p| − ½)⁻² + x·C₀)·G_t/2^P`.
+
+That is one `mode3`-shaped rounded value with the weights replaced by `mulUp(powUp(j₀), G_t)`. A
+single fibre is the case `i₀ = i₁`, `t = 0`, which is exactly `mode3`. Nothing about `p` or the
+choice of runs is assumed: soundness uses only the checked endpoint inequalities.
+
+**The walk.** Row `a = i − N` (bisection over `i < 2^l`, as in `walk2`) is split into two half-rows,
+`b = lo + i ≥ 0` (`lo = 1` when `a = 0`) and `b = −(1 + i)`. Each half-row is bisected over
+`i < 2^l`. A node `[i₀, i₀ + 2^t)` (clipped at `N − |a|`) is accepted as a run if the check passes
+and either
+- `rd·max(G(i₀), G(i₁)) ≤ rn·Λ`, so `|x + p|` varies by at most `rn/rd` and the loss is at most
+  `(rn/rd)²`; or
+- the run's value is at most `tol`.
+
+Otherwise the node splits. A leaf (`t = 0`) must pass the check. The acceptance rule only affects cost
+and tightness, never soundness. Near a crossing of an integer (a near-resonance) the walk ends
+in single fibres, evaluated as by `mode3`. Elsewhere it takes long runs.
+
+**Soundness glue.** `BCov S v` says that some per-fibre choice `(p_k, L_k)` on the finite mode set `S`
+satisfies the fibered theorem's hypotheses, with summands summing to at most `v` (base `x`). It is
+closed under disjoint unions (choices glued with `if k ∈ S`), subsets (terms are nonnegative) and
+finite disjoint unions. The walk gives `BCov (modeBox 2 N) (s/2^P)`, and
+`smallDivisorSum_snoc_le_fiber` with `E_j = x^j` finishes, as in `smallDivisorSum_snoc2_le_walk`.
+The output has the same form: `E₁·3.3075 + s/2^P + tailQ`.
+
+**Measured on SJS (float model of the walk, `rn/rd = 5/4`, `tol = 10⁻⁹ S`).** First bite: the bound
+is `1.0027 ×` the full walk's sum. It takes `2.2·10³` single fibres plus `2.1·10⁴` runs, `4.2·10⁴`
+visited nodes in all, against `3.4·10⁶` fibres. The exact mirror's counts, the other bites and a
+kernel timing are in the handoff.
+
+**Interfaces (new modules).**
+
+| Module | Content |
+|---|---|
+| `Fiber/Bulk.lean` | `termX`, `BCov` and its union/subset lemmas; `gTabOk` (geometric table); `blk`/`blkK` (run check and value), `blk_spec`; `hrow`, `rowB`, `walkB` and the kernel forms; `walkB_sound`; `smallDivisorSum_snoc2_le_bulk` |
+| `Fiber/BulkSite.lean` | `BulkWit`, `bulkSiteOk`, `sdConst_ray_of_bulkSiteOk`; `SiteWitH` (`g` = every landed site, `bulk`), `siteOkH`, `sdConst_of_siteOkH` |
+| `Fiber/RouteH.lean` | route A and route B with `siteOkH` sites (`routeARefinedH`, `routeBRefinedH`), and embeddings of the `G` witnesses with the same verdict |
+| `Tests/BulkToy.lean` | a cubic three-frequency vector with a slow coordinate; one bulk site decided by the kernel, with `SDConst` from `cubicDioOk` |
+| `scripts/certifier/fiber3_bulk.py` | exact mirror of `walkB` (same rounding, same order), producer, SJS counts |
+
+**Out of scope.** A run across a half-integer crossing, where `p` changes inside the run. It would
+cut the visited nodes by a further third on SJS (float model: `2.8·10⁴` instead of `4.2·10⁴`); it is
+left as an optional extension. Clock choice (owner question 3) stays with the application.

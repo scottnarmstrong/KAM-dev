@@ -92,6 +92,7 @@ public import KAM.CertificateSharp.V2.BaseCorner
 public import KAM.CertificateSharp.V2.BaseTrig
 public import KAM.CertificateSharp.V2.ClassicalQ
 public import KAM.CertificateSharp.V2.Engine
+public import KAM.CertificateSharp.V2.Fiber.Bulk
 public import KAM.CertificateSharp.V2.Fiber.Enum2
 public import KAM.CertificateSharp.V2.Fiber.RouteAG
 public import KAM.CertificateSharp.V2.Fiber.RouteBG
