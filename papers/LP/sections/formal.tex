@@ -97,13 +97,19 @@ Lemma & Lean declarations (file and line)\\
 
 \subsection{Axioms and status}
 
-{\sloppy\texttt{\#print axioms} reports exactly \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound} for
-each headline declaration (\texttt{lp0\_planar\_barrier}; \texttt{lp1\_planar\_strongAMD\_safety} and
-\texttt{lp2\_spatial\_strongAMD\_safety} with their \texttt{\_normalized}, \texttt{\_halfInteger} and
-\texttt{\_source} versions; \texttt{lp3\_planar\_strongAMD\_safety} and \texttt{lp3\_spatial\_strongAMD\_safety}
-with their \texttt{\_normalized} and \texttt{\_source} versions), checked at commit \texttt{74d77b43}; no file
-defining these declarations or imported by them changed through commit \texttt{01d36418}. Each integration of new code into the repository also
-replays the proofs in the Lean kernel. The exact statement texts await the authors' final approval.\par}
+\texttt{\#print axioms} reports exactly \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound} for
+each of the following headline declarations, checked at commit \texttt{74d77b43}:
+\begin{itemize}
+\item \texttt{lp0\_planar\_barrier};
+\item \texttt{lp1\_planar\_strongAMD\_safety}, \texttt{lp2\_spatial\_strongAMD\_safety}\\ and their
+  \texttt{\_normalized}, \texttt{\_halfInteger} and \texttt{\_source} versions;
+\item \texttt{lp3\_planar\_strongAMD\_safety}, \texttt{lp3\_spatial\_strongAMD\_safety}\\ and their
+  \texttt{\_normalized} and \texttt{\_source} versions.
+\end{itemize}
+No file defining these declarations or imported by them changed through commit \texttt{01d36418}. Each
+integration of new code into the repository also replays the proofs in the Lean kernel. The exact statement texts
+await the authors' final approval.
+
 
 \subsection{Use of AI and formal tools}
 

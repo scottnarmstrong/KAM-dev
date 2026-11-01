@@ -460,3 +460,73 @@ sentence credits one author.
 
 None in the pinned sources. One discrepancy between the paper and its cited notes is reported as R2-1 (AMENDMENTS
 N5 versus "complete proofs").
+
+---
+
+# Round 3 (bound to commit 05ad2cbe; narrow final check)
+
+Target: commit `05ad2cbe`, `papers/LP/main.pdf` (23 pp). Diff reviewed: `git diff b6d1cca3 05ad2cbe -- papers/LP`.
+Rulings accepted as given: R2-2 (the approval sentence and the verification-evidence sentences stay), R2-4 (the
+repository paths are the citation), R2-11 (Las97 without a title).
+
+```
+0b565f28b54772e4c97fdf9eba2211bedc4aadad4aa17bb2223ae48dd920f0b3  sections/abstract.tex
+9750a5c33b4e36c45f9bc1685d7891c1c8ab40de60a36665e5a2cbdea66096e0  sections/barrier.tex
+88d8549265fcf2e97a4b2072921a9aca54849594f5fee82d312e78111f2d8474  sections/formal.tex
+5835916c965ff3a6d1e6e38695ddc64b75d9249ed530821c2b83420b401e8755  sections/intro.tex
+bb295fbc845e0807abb888bbf7fec42e515f9f459c10655b48ccd940f4213729  sections/outlook.tex
+22c8477a68f497148d9d78bc8a0b1b9ab42fef4540be9aea880e0bc8c844e724  sections/planar.tex
+cf3c7f8402a1db88a582585d397fb53cd35fa07e6f1ef6374ae4c98642f2718c  sections/resonant.tex
+fc1177df942b90dae4898bc278e8e9ff89c6d9d03e7d5c54e617f491f79a7d36  sections/results.tex
+46b48ebd3c541d54d88463b24202e84ff18cf3ebf0c417f553a3a5631e5e520e  sections/spatial.tex
+```
+
+Checks run: every changed line read; a fresh build in a scratch directory (23 pp, 0 overfull boxes, no undefined
+references); pages 18–23 rendered and inspected.
+
+## Verdict: PASS WITH NOTES
+
+R2-1, R2-6, R2-7 and R2-10 are resolved. R2-8 and R2-9 are resolved in substance. R2-5 is resolved only in part.
+The change introduced one cosmetic issue (R3-2). Nothing here blocks submission.
+
+## Status of round-2 findings
+
+| Item | Status |
+|---|---|
+| R2-1 | **Resolved, honestly.** `planar.tex:81` now reads "More detailed proofs, with constants, are in the supplementary proof notes~\cite{KAMnotes} (Lemmas~9--11 there), where the standard flow estimates of the Lie step are also only sketched." `intro.tex` reads "More detailed proofs are written out in~\cite{KAMnotes}." This matches AMENDMENTS N5. |
+| R2-5 | **Partly resolved (R3-1).** |
+| R2-6 | Resolved ("… two adjacent annuli can touch or a planet can reach the star"). |
+| R2-7 | Resolved: §6 now says "As explained in Section~1, Theorem~E is close to …" and the duplicated hedge is gone. |
+| R2-8 | Resolved in substance. Uniqueness is now attributed correctly ("uniqueness as in Theorem~B"). The proof of Theorem C now verifies (SD) explicitly, with the spatial ball. Lemma 4.8 now says "the maximal solution". Still left: the redundant "$\Lambda^0\in\Lset$ and $C(0)\le B(\Lambda^0)-\delta$" after "admissible", and the §6.3 restatement of (SD) without "the solution exists at time $u$". Both are harmless, since admissibility and maximality make them implicit. |
+| R2-9 | ζ removed. `ρ` in the proof of Lemma 3.6 (`barrier.tex:105`) is unchanged; it is local to that proof and causes no confusion on the page. `k` noted only, per the earlier ruling. |
+| R2-10 | Resolved (the cell is removed). |
+
+Also checked: the shortened novelty sentence in `intro.tex:34` now claims novelty only for the Diophantine drift
+and time exponents of Theorems B–D, keeps the Niederman caveat, and stays consistent with the B1 ruling. The
+added bibliography notes ("page, section and table numbers cited refer to this version") are standard practice
+and contain no jargon.
+
+## Round-3 findings
+
+**R3-1 (MINOR). The replacement sentence in §3 is still not accurate.**
+- `barrier.tex` (end of the proof of Theorem A, p. 10): "The next lemma, the only place where the drift of the
+  actions is compared with the threshold, converts action drift into margin drift."
+
+The proof of Theorem B also makes this comparison ($B(\Lambda(u))\le B(\Lambda^0)+\Omega_B(r)$ in the stopped
+drift display), and so does Lemma 6.2(ii).
+*Repair:* drop the qualifier, leaving "The next lemma converts action drift into margin drift."
+
+**R3-2 (MINOR, new). Bibliography [6] prints the year twice:** "Jacques Laskar, Astron. Astrophys. **317** (1997),
+L75, 1997." (p. 23). The `@misc` entry has both `howpublished` containing "(1997)" and `year = {1997}`.
+*Repair:* write `howpublished = {Astron. Astrophys. \textbf{317}, L75}` and keep `year`, or drop the
+`year` field.
+
+## Rendered pages 18–23
+
+Clean. The display in Lemma 6.2, Table 1 at the start of §6.3, Tables 2 and 3, and the references are all set
+correctly, with no overfull lines. The wide spacing in the §A.3 paragraph of declaration names on pp. 21–22
+remains. It is cosmetic; it was R2-3 and was not in this round's scope.
+
+## Errata and deviations
+
+None.

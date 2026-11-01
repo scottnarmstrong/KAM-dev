@@ -70,16 +70,16 @@ Status column: ☐ open, ☑ checked by editor against source/Lean, ✓A checked
 
 ### 4a. Theorems (paper ↔ Lean)
 
-Lean commits: main `a994efdf` (2026-11-01 08:56 UTC); LP3 branch `inp-lp-lp3src` `402de5f7` (08:44 UTC), not yet on main.
+Lean commit (paper pin): main `74d77b43` for all of Theorems A–E (LP3 landed 09:50 UTC); line numbers identical to the earlier a994efdf/402de5f7 pins. Axioms [propext, Classical.choice, Quot.sound] for all 15 headline declarations, run by root-b8 on main's build (Lean files of these declarations unchanged through 01d36418).
 
 | Paper | Content (exact contract) | MAIN | Lean (file:line @commit) | Status |
 |---|---|---|---|---|
-| Thm A (barrier) | ∀ n≥2, ν>0, compact U ⊂ 𝒬, m>0 ∃ d_⋆, d_pair > 0: (a) ∀ Λ∈U, e∈[0,1]ⁿ with ΣΛ_iD(e_i) ≤ B(Λ)−m: a_i(Λ)(1−e_i) ≥ d_⋆ and a_{i+1}(1−e_{i+1}) − a_i(1+e_i) ≥ d_pair; (b) ∃ compact K of collision-free negative-energy states such that every state with q_i ≠ 0, E_i<0, Λ∈U, C ≤ B(Λ)−m satisfies the perihelion and gap bounds, |q_i| ≥ d_⋆, |q_i−q_j| ≥ d_pair (i≠j), lies in K, and (planar) |L_i| ≥ m with L_i of the sign of L. Lean statement is planar. Spatial counterpart (H_i ≥ m) is MAIN L5 / used inside LP2 — writer C locate Lean name or say "planar only" | L5 (164–169), with L3, L4 | `KAM/Planetary/StrongAMD/PlanarSafety/Main.lean:255` `KAM.Planetary.StrongAMD.lp0_planar_barrier` @a994efdf | ☑ |
-| Thm B (planar) | ∀ n≥2, ν>0, compact 𝒜 ⊂ ordered positive axes, δ,γ>0, τ>n−1 ∃ μ₀,c,T₀,A_Λ,A_a,d_⋆,d_pair,A_osc,A_el > 0 with A_oscμ₀ ≤ d_⋆/2, 2A_oscμ₀ ≤ d_pair/2, ∀ 0<μ≤μ₀ ∀ initial state with q_i≠0, E_i<0, a(0)∈𝒜, Diophantine (γ,τ) at ω(Λ(0)), [Λ(0)∈𝒬 — automatic from a(0)∈𝒜; Lean binder], C(0) ≤ B(Λ(0))−δ; T := T₀exp(cμ^{−1/(2(τ+1))}): ∃ solution of (1) on [−T,T] with that initial value, unique on [−T,T]; its barycentric reconstruction solves Newton's equations with masses (1, μν_1…μν_n); ∀|t|≤T: q_i≠0, E_i<0; Λ(t)∈𝒬 and C(t) ≤ B(Λ(t))−δ/2; ‖Λ(t)−Λ(0)‖∞ ≤ A_Λ√μ; ‖a(t)−a(0)‖∞ ≤ A_a√μ; |C(t)−C(0)| ≤ nA_Λ√μ; a_i(1−e_i) ≥ d_⋆; adjacent gaps ≥ d_pair; |q_i| ≥ d_⋆; |q_i−q_j| ≥ d_pair (all i≠j); osculating: E^osc_i<0, a^osc_i>0, e^osc_i<1, a^osc(1−e^osc) ≤ |q_i| ≤ a^osc(1+e^osc), |a^osc−a|+|**e**^osc−**e**| ≤ A_elμ, |peri^osc−peri|,|apo^osc−apo| ≤ A_oscμ, peri^osc ≥ d_⋆/2, adjacent osc gaps ≥ d_pair/2. No normalization max ν = 1 needed (general version); normalized version is the corollary `_normalized` | T15 (502–506), L14, L16, (6)–(9) | `PlanarSafety/Main.lean:44` `lp1_planar_strongAMD_safety`; `:137` `_normalized`; source-carrier forms `PlanarSafety/Source.lean:38,132` @a994efdf | ☑ |
-| Thm C (spatial) | Thm B verbatim for d=3 (Euclidean |L|, 3-vectors); no prograde / inclination / alignment premise; includes circular and coplanar orbits | T19 (599–603), L17, L18 | `KAM/Planetary/Spatial/SpatialSafety/Main.lean:43` `KAM.Planetary.Spatial.lp2_spatial_strongAMD_safety`; `:153` `_normalized`; `Source.lean:42,145` @a994efdf | ☑ |
-| Cor D | Thm B and C with τ = n−1/2: T = T₀exp(cμ^{−1/(2n+1)}); Diophantine exponent n−1/2 | §1 (line 77) | `PlanarSafety/Main.lean:190` `lp1_planar_strongAMD_safety_halfInteger`; `SpatialSafety/Main.lean:210` `lp2_spatial_strongAMD_safety_halfInteger` | ☑ |
-| Thm E (resonance-tolerant) | Thm B/C with: no γ, τ, no Diophantine premise; T = T₀exp(cμ^{−a_n}); drift lines A_Λμ^{b_n}, A_aμ^{b_n}, nA_Λμ^{b_n}; all else identical (margin δ/2, separations, osculating, uniqueness, reconstruction); constants depend on (n,ν,𝒜,δ). Planar and spatial | LP3-PLAN §1.2–1.3 | branch `inp-lp-lp3src` @402de5f7: `KAM/Planetary/StrongAMD/Nek/PlanarSafety/Main.lean:42` `lp3_planar_strongAMD_safety` (+`:135` normalized, `Source.lean:37,130`); `KAM/Planetary/Spatial/Nek/SpatialSafety/Main.lean:40` `lp3_spatial_strongAMD_safety` (+`:150`, `Source.lean:40,139`) | ☑ statement; audits in progress |
-| Input to Thm E | partial (convex) Nekhoroshev theorem: n≥2 fast, k≥1 slow pairs, open convex G ⊂ G′, open D, h fixed (holomorphic, definite Hessian, |ω|≥g), μ₀ chosen before P, C, solution; drift ≤ μ^{b_n}/2 up to min(C, μ⁻¹exp(μ^{−a_n})) while slow variables stay in innerCore D(μ^{b_n}) | Nek77 Thm 4.4 p.30 (+ Rem. 4.5.A–B) | `KAM/Frozen/Nekhoroshev/Theorems/PartialConvexNekhoroshev.lean:48` `KAM.Nekhoroshev.partialConvex_nekhoroshev` (proved in the repository on main) | ☑ |
+| Thm A (barrier) | ∀ n≥2, ν>0, compact U ⊂ 𝒬, m>0 ∃ d_⋆, d_pair > 0: (a) ∀ Λ∈U, e∈[0,1]ⁿ with ΣΛ_iD(e_i) ≤ B(Λ)−m: a_i(Λ)(1−e_i) ≥ d_⋆ and a_{i+1}(1−e_{i+1}) − a_i(1+e_i) ≥ d_pair; (b) ∃ compact K of collision-free negative-energy states such that every state with q_i ≠ 0, E_i<0, Λ∈U, C ≤ B(Λ)−m satisfies the perihelion and gap bounds, |q_i| ≥ d_⋆, |q_i−q_j| ≥ d_pair (i≠j), lies in K, and (planar) |L_i| ≥ m with L_i of the sign of L. Lean statement is planar. Spatial counterpart (H_i ≥ m) is MAIN L5 / used inside LP2 — writer C locate Lean name or say "planar only" | L5 (164–169), with L3, L4 | `KAM/Planetary/StrongAMD/PlanarSafety/Main.lean:255` `KAM.Planetary.StrongAMD.lp0_planar_barrier` @a994efdf | ✓A |
+| Thm B (planar) | ∀ n≥2, ν>0, compact 𝒜 ⊂ ordered positive axes, δ,γ>0, τ>n−1 ∃ μ₀,c,T₀,A_Λ,A_a,d_⋆,d_pair,A_osc,A_el > 0 with A_oscμ₀ ≤ d_⋆/2, 2A_oscμ₀ ≤ d_pair/2, ∀ 0<μ≤μ₀ ∀ initial state with q_i≠0, E_i<0, a(0)∈𝒜, Diophantine (γ,τ) at ω(Λ(0)), [Λ(0)∈𝒬 — automatic from a(0)∈𝒜; Lean binder], C(0) ≤ B(Λ(0))−δ; T := T₀exp(cμ^{−1/(2(τ+1))}): ∃ solution of (1) on [−T,T] with that initial value, unique on [−T,T]; its barycentric reconstruction solves Newton's equations with masses (1, μν_1…μν_n); ∀|t|≤T: q_i≠0, E_i<0; Λ(t)∈𝒬 and C(t) ≤ B(Λ(t))−δ/2; ‖Λ(t)−Λ(0)‖∞ ≤ A_Λ√μ; ‖a(t)−a(0)‖∞ ≤ A_a√μ; |C(t)−C(0)| ≤ nA_Λ√μ; a_i(1−e_i) ≥ d_⋆; adjacent gaps ≥ d_pair; |q_i| ≥ d_⋆; |q_i−q_j| ≥ d_pair (all i≠j); osculating: E^osc_i<0, a^osc_i>0, e^osc_i<1, a^osc(1−e^osc) ≤ |q_i| ≤ a^osc(1+e^osc), |a^osc−a|+|**e**^osc−**e**| ≤ A_elμ, |peri^osc−peri|,|apo^osc−apo| ≤ A_oscμ, peri^osc ≥ d_⋆/2, adjacent osc gaps ≥ d_pair/2. No normalization max ν = 1 needed (general version); normalized version is the corollary `_normalized` | T15 (502–506), L14, L16, (6)–(9) | `PlanarSafety/Main.lean:44` `lp1_planar_strongAMD_safety`; `:137` `_normalized`; source-carrier forms `PlanarSafety/Source.lean:38,132` @a994efdf | ✓A |
+| Thm C (spatial) | Thm B verbatim for d=3 (Euclidean |L|, 3-vectors); no prograde / inclination / alignment premise; includes circular and coplanar orbits | T19 (599–603), L17, L18 | `KAM/Planetary/Spatial/SpatialSafety/Main.lean:43` `KAM.Planetary.Spatial.lp2_spatial_strongAMD_safety`; `:153` `_normalized`; `Source.lean:42,145` @a994efdf | ✓A |
+| Cor D | Thm B and C with τ = n−1/2: T = T₀exp(cμ^{−1/(2n+1)}); Diophantine exponent n−1/2 | §1 (line 77) | `PlanarSafety/Main.lean:190` `lp1_planar_strongAMD_safety_halfInteger`; `SpatialSafety/Main.lean:210` `lp2_spatial_strongAMD_safety_halfInteger` | ✓A |
+| Thm E (resonance-tolerant) | Thm B/C with: no γ, τ, no Diophantine premise; T = T₀exp(cμ^{−a_n}); drift lines A_Λμ^{b_n}, A_aμ^{b_n}, nA_Λμ^{b_n}; all else identical (margin δ/2, separations, osculating, uniqueness, reconstruction); constants depend on (n,ν,𝒜,δ). Planar and spatial | LP3-PLAN §1.2–1.3 | branch `inp-lp-lp3src` @402de5f7: `KAM/Planetary/StrongAMD/Nek/PlanarSafety/Main.lean:42` `lp3_planar_strongAMD_safety` (+`:135` normalized, `Source.lean:37,130`); `KAM/Planetary/Spatial/Nek/SpatialSafety/Main.lean:40` `lp3_spatial_strongAMD_safety` (+`:150`, `Source.lean:40,139`) | ✓A (Lean on main 74d77b43) |
+| Input to Thm E | partial (convex) Nekhoroshev theorem: n≥2 fast, k≥1 slow pairs, open convex G ⊂ G′, open D, h fixed (holomorphic, definite Hessian, |ω|≥g), μ₀ chosen before P, C, solution; drift ≤ μ^{b_n}/2 up to min(C, μ⁻¹exp(μ^{−a_n})) while slow variables stay in innerCore D(μ^{b_n}) | Nek77 Thm 4.4 p.30 (+ Rem. 4.5.A–B) | `KAM/Frozen/Nekhoroshev/Theorems/PartialConvexNekhoroshev.lean:48` `KAM.Nekhoroshev.partialConvex_nekhoroshev` (proved in the repository on main) | ✓A |
 
 Axioms: main results report `propext, Classical.choice, Quot.sound` (PROGRESS 03:39 and 05:49 entries for LP1/LP0; 06:44 for LP2, orchestrator re-check; landing checks "standard axioms"). The editor did not run `#print axioms` (docs-only brief). LP3: to confirm from the LP3 handoffs (writer C reads `docs/tracks/LP/packages/` handoffs).
 
@@ -110,17 +110,17 @@ Axioms: main results report `propext, Classical.choice, Quot.sound` (PROGRESS 03
 
 | Item | Pin | PDF | Status |
 |---|---|---|---|
-| LP17 conjecture sentence | published §3, A72 p.3; arXiv v2 §3 p.4 | `sources/incoming-zohar2/r2-amd17.pdf`; `_sources/LP17-arxiv-v2.pdf` | ☐ |
-| AMD definition, invariable plane | LP17 §2.2 (9)–(11) | same | ☐ |
-| critical AMD C_c(α,γ) | LP17 §3.2 (35)–(39) | same | ☐ |
-| strong/weak AMD-stability | LP17 §5.3 | same | ☐ |
-| Nekhoroshev 1977 | Thm 4.4 p.30 (partial), exponents | `sources/incoming-round3/nek77-eng.pdf` | ☐ |
-| Pöschel 1993 | Normal Form Lemma p.192 | `sources/incoming-N/poschel1993_gdz.pdf` | ☐ |
-| Niederman 1996 | NOT inspected (A2 §2) — cite only as "studied exponential stability in the planetary problem", via secondary descriptions (CFG23 §1.3 p.5; BN18 intro p.2) | — | ☐ |
-| Barbieri–Niederman | arXiv:1810.05987 | `sources/pdf/arxiv_1810.05987v1_BN_planetary.pdf` | ☐ |
-| Pinzari | per A2 (Pinzari 2016 v4; Pinzari–Liu 2023) | `_sources/Pinzari2016-v4.pdf`, `PL23-v2.pdf` | ☐ |
-| Nek77 Thm 12.3 (planetary, exponents = Thm E) | §12.2–12.3 pp.55–56 | nek77-eng.pdf | ☑ writer A |
-| Practicality | A7 | `_sources/target_margins.*` | ☐ |
+| LP17 conjecture sentence | published §3, A72 p.3; arXiv v2 §3 p.4 | `sources/incoming-zohar2/r2-amd17.pdf`; `_sources/LP17-arxiv-v2.pdf` | ✓A |
+| AMD definition, invariable plane | LP17 §2.2 (9)–(11) | same | ✓A |
+| critical AMD C_c(α,γ) | LP17 §3.2 (35)–(39) | same | ✓A |
+| strong/weak AMD-stability | LP17 §5.3 | same | ✓A |
+| Nekhoroshev 1977 | Thm 4.4 p.30 (partial), exponents | `sources/incoming-round3/nek77-eng.pdf` | ✓A |
+| Pöschel 1993 | Normal Form Lemma p.192 | `sources/incoming-N/poschel1993_gdz.pdf` | ✓A |
+| Niederman 1996 | NOT inspected (A2 §2) — cite only as "studied exponential stability in the planetary problem", via secondary descriptions (CFG23 §1.3 p.5; BN18 intro p.2) | — | ✓A |
+| Barbieri–Niederman | arXiv:1810.05987 | `sources/pdf/arxiv_1810.05987v1_BN_planetary.pdf` | ✓A |
+| Pinzari | per A2 (Pinzari 2016 v4; Pinzari–Liu 2023) | `_sources/Pinzari2016-v4.pdf`, `PL23-v2.pdf` | ✓A |
+| Nek77 Thm 12.3 (planetary, exponents = Thm E) | §12.2–12.3 pp.55–56 | nek77-eng.pdf | ✓A |
+| Practicality | A7 | `_sources/target_margins.*` | ✓A |
 
 ## 5. Detail standard (binding for writers)
 
@@ -168,3 +168,21 @@ Reader: a mathematician in Hamiltonian dynamics / celestial mechanics, checking 
 - 10:17 fix round 1 done (A, B, C). 23 pp, clean (only bibtex 'missing pages in Pin18', a Memoir). B: lem:exit has explicit stopped-drift hypothesis (SD), eq:stopped; rem:engine deleted; lem:osc moved before Thm B proof; A_a = Λ_max/min ν_i² (r/2 drift). C: Las97 title from memory (unverified) — re-audit to check. Editor ruling: optional renames H_i, (k,l), 𝖣 not applied (standard notation, local).
 - 10:20 LIT round 2 PASS WITH NOTES; editor fixed R2-1 (Las97 → @misc without title), R2-2 (arXiv-version notes restored), R2-3 (intro B–D differences restricted to √μ drift and exponent). R2-4 declined: proofs are verified; only the statement texts' approval is pending — not inconsistent.
 - 10:21 round 2: FID FAIL (2 one-phrase blockers barrier.tex:4, :88) + 4 minor; EXPO PASS WITH NOTES (R2-1 'complete proofs' overclaim; R2-2 approval sentence kept per brief/root-b8; R2-7 §6 opening now refers to §1; R2-9 ζ removed; R2-10 table cell). Editor applied all fixes directly; 23 pp clean; pages viewed.
+- 10:22 FID round 3 PASS WITH NOTES; R3-1 applied (spatial constants wording).
+
+## 10. Final state
+
+- Audits (fresh Opus 5.5, refute-first; reports in `audits/`):
+  - FIDELITY-1: r1 FAIL (2 blockers) → r2 FAIL (2 new one-phrase blockers) → r3 PASS WITH NOTES (R3-1 applied).
+  - LITERATURE-1: r1 PASS WITH NOTES (F1 major: Nek77 Thm 12.3 comparison) → r2 PASS WITH NOTES (R2-1..3 applied; R2-4 declined, see above).
+  - EXPOSITION-1: r1 FAIL → r2 PASS WITH NOTES → r3 PASS WITH NOTES (R3-1, R3-2 applied; §A.3 spacing fixed with a list; KAMnotes title "proof notes").
+- Final compile: 23 pages, no overfull/underfull boxes, no undefined references; every page viewed rendered.
+- Errata/deviations to record: (1) `docs/sources.json` LP17 record (fixed on main b6241e69); (2) MAIN deviations in the paper: L3 inequality stated on the whole negative-energy region; L14 restated with an explicit stopped-drift hypothesis (drift r/2, A_a = Λ_max/min ν_i²); L9–L11 auxiliary bounds unused and omitted; (35) omitted (N4). (3) Las97 title unverifiable → cited without title.
+
+## 11. FOR OWNER (final)
+- Authorship line (D15 draft) and title.
+- §A.4 "Use of AI and formal tools" wording.
+- Closeness of Theorem E to Nekhoroshev 1977 Thm 12.3 is stated plainly; novelty limited to Theorems B–D "to our knowledge", with the caveat that Niederman 1996 could not be consulted. Obtaining Nie96 would settle it.
+- Corollary D kept as a separate statement (the brief asks for it; house style would fold it).
+- Once the statement texts are approved, delete the last sentence of §A.3.
+- 10:23 EXPO round 3 PASS WITH NOTES; all notes applied; final build 23 pp clean.

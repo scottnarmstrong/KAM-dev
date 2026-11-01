@@ -423,3 +423,82 @@ mathematical changes are correct:
 ## Suspected errata in pinned sources
 
 None.
+
+---
+
+# Round 3 (final narrow check of commit `05ad2cbe14b3`)
+
+Target: `git diff b6d1cca3 05ad2cbe -- papers/LP/sections` (barrier, formal, intro, planar, resonant, spatial).
+Docs only: no `.tex` edited, no lake.
+
+```
+0b565f28b54772e4c97fdf9eba2211bedc4aadad4aa17bb2223ae48dd920f0b3  abstract.tex
+9750a5c33b4e36c45f9bc1685d7891c1c8ab40de60a36665e5a2cbdea66096e0  barrier.tex
+88d8549265fcf2e97a4b2072921a9aca54849594f5fee82d312e78111f2d8474  formal.tex
+5835916c965ff3a6d1e6e38695ddc64b75d9249ed530821c2b83420b401e8755  intro.tex
+bb295fbc845e0807abb888bbf7fec42e515f9f459c10655b48ccd940f4213729  outlook.tex
+22c8477a68f497148d9d78bc8a0b1b9ab42fef4540be9aea880e0bc8c844e724  planar.tex
+cf3c7f8402a1db88a582585d397fb53cd35fa07e6f1ef6374ae4c98642f2718c  resonant.tex
+fc1177df942b90dae4898bc278e8e9ff89c6d9d03e7d5c54e617f491f79a7d36  results.tex
+46b48ebd3c541d54d88463b24202e84ff18cf3ebf0c417f553a3a5631e5e520e  spatial.tex
+```
+
+## Verdict: **PASS WITH NOTES**
+
+All six round-2 findings are resolved. No changed sentence is false. One wording note remains (R3-1), which is
+not blocking.
+
+## Round-2 findings
+
+| # | Status | Evidence at `05ad2cbe` |
+|---|---|---|
+| R2-1 | Fixed | barrier.tex:4: "$B$ is the least deficit at which two adjacent annuli can touch or a planet can reach the star". This is true because `B = min(B_cross, Λ_1)`. |
+| R2-2 | Fixed | barrier.tex:88: "the only place where the drift of the actions is compared with the threshold". This is true: the moving-threshold estimate (17) is the only comparison, and Lemma `lem:exit` and §6.3 use it via (17). |
+| R2-3 | Fixed | resonant.tex: "gives existence on $[-T,T]$ (uniqueness as in Theorem~\ref{thm:planar})". |
+| R2-4 | Fixed | spatial.tex, proof of Theorem C: (SD) is "verified as in the proof of Theorem~\ref{thm:planar} … with the ball~\eqref{eq:spball} in place of the planar one". Checked: the spatial stopped state gives `½|z|² = C_N = C < B(Λ⁰) − 7δ/16`, so `z ∈` (eq:spball) and the orbit lies in `𝒟_1` of Lemma `lem:spdomain`. Lemma `lem:scaling` with `n_s = 2n` then gives `r/4`. See R3-1 for one wording point. |
+| R2-5 | Fixed | planar.tex: "Consider the maximal solution". |
+| R2-6 | Fixed | See the next section. |
+
+## Claim in formal.tex: no relevant Lean file changed through `01d36418`
+
+The claim reads: "no file defining these declarations or imported by them changed through commit
+\texttt{01d36418}". I checked it in `/root/code/KAM` as follows.
+
+* `git diff --name-status 74d77b43 01d36418 -- KAM/Planetary KAM/Nekhoroshev KAM/Frozen KAM/Provider KAM/Fourier
+  KAM/Iso KAM/Kepler KAM/Defs lakefile.lean lean-toolchain lake-manifest.json` is empty.
+* Over all `*.lean`, the only changes are 34 added files under `KAM/Wave/Iteration/` and the modified
+  generated root `KAM/Root/Wave.lean`.
+* No file under `KAM/Planetary`, `KAM/Nekhoroshev`, `KAM/Frozen`, `KAM/Provider` or `KAM/Fourier` imports
+  `KAM.Wave` or `KAM.Root` (`git grep` is empty). No module imports a root (AGENTS rule 10).
+* Newly added files cannot enter an unchanged file's import closure.
+
+The claim is **true**.
+
+The table row for the spatial barrier lost its parenthesis "negative energy is in the first". That leaves the row
+with no claim, so nothing in it is false. The F9 nuance, that `exists_spatialBarrierCompact` has no `E_i<0`
+clause, is now simply unstated. This is acceptable.
+
+## Other changed sentences
+
+* **True:** planar.tex: "More detailed proofs, with constants, are in the supplementary proof notes~\cite{KAMnotes}
+  (Lemmas~9--11 there), where the standard flow estimates of the Lie step are also only sketched."
+  * MAIN Lemmas 9, 10 and 11 are the Fourier/commutator estimates, the Lie step and the normal form.
+  * AMENDMENTS N5 records "Flow existence, Lie-series identification and `c_D` are sketched".
+  * This assumes `\cite{KAMnotes}` resolves to MAIN, whose numbering this is.
+* **True:** intro.tex, Formal verification: "More detailed proofs are written out in~\cite{KAMnotes}." This replaces
+  "Complete proofs", which was an overclaim given N5.
+* **True:** intro.tex: the shortened paragraph comparing Theorems B–D with earlier work now states only the
+  drift and exponent comparison.
+* **True:** resonant.tex opening: "As explained in Section~\ref{sec:intro}, Theorem~\ref{thm:resonant} is close to
+  Nekhoroshev's planetary theorem~\cite[Theorem~12.3]{Nek77}." This is consistent with intro.tex:30.
+* **True and harmless:** resonant.tex, removal of "$\zeta=n(n-1)/2$". The sentence still says that (4.1), (4.4) and
+  (4.5) give the exponents.
+
+## R3-1 — MINOR (wording, not blocking)
+
+* **Location:** spatial.tex, proof of Theorem C: "with the same choice of $\mu_0$, $r=\sqrt\mu$ and $T$".
+* **Evidence:** In space, `μ_1`, `c` and `M_1` come from Lemma `lem:scaling` with `n_s = 2n`. The domain
+  constants come from Lemma `lem:spdomain`, and `A_osc` comes from Lemma `lem:osc` with `d = 3`. So `μ_0` and
+  `T = exp(cμ^{−ϑ})` are chosen *by the same rule*, but they are not numerically the same as in the planar case.
+  The sentence can be misread as "the same constants".
+* **Repair:** Write "with $\mu_0$, $r=\sqrt\mu$ and $T$ chosen in the same way from the spatial constants".
