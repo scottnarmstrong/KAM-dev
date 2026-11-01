@@ -18,8 +18,8 @@ public import KAM.CertificateSharp.Packed.TorsBase
 # One engine with every route
 
 `routeMax` is a single `EngineV2` whose witness names the route. Its witness type `RouteMaxWit` has
-one named constructor per route now in the library; each constructor runs exactly that engine's test,
-and every row of the table below is a theorem by `rfl`, at **every** base checker `B`
+one named constructor per route now in the library; each constructor runs exactly that engine's
+test, and every row of the table below is a theorem by `rfl`, at **every** base checker `B`
 (`checkV2With B routeMax c (.r w) = checkV2With B E c w`). In particular, at the landed base,
 `checkTorusCertificateV2 routeMax c (.r w)` is `checkTorusCertificateV2 E c w`.
 

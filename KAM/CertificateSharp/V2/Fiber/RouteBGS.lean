@@ -300,6 +300,22 @@ theorem refinedBTestGSE_ofE (c : TorusCertificate n α) (w : RefinedBWit) :
     from rfl, refinedBCoreGS_ofE]
   rfl
 
+/-- The certifier at the image of a witness of `routeBRefinedLN` is the certifier of that engine. -/
+theorem checkTorusCertificateV2_routeBRefinedGSLN_ofLN (c : TorusCertificate n α)
+    (w : RefinedBWit) :
+    checkTorusCertificateV2 routeBRefinedGSLN c ⟨RefinedBWitG.ofRefined w, false, c.freqBox⟩ =
+      checkTorusCertificateV2 routeBRefinedLN c w := by
+  simp only [checkTorusCertificateV2, checkV2With, routeBRefinedGSLN, routeBRefinedLN,
+    refinedBTestGSLN_ofLN]
+
+/-- The certifier at the image of a witness of `routeBRefinedE` is the certifier of that engine. -/
+theorem checkTorusCertificateV2_routeBRefinedGSE_ofE (c : TorusCertificate n α)
+    (w : RefinedBWit) :
+    checkTorusCertificateV2 routeBRefinedGSE c ⟨RefinedBWitG.ofRefined w, false, c.freqBox⟩ =
+      checkTorusCertificateV2 routeBRefinedE c w := by
+  simp only [checkTorusCertificateV2, checkV2With, routeBRefinedGSE, routeBRefinedE,
+    refinedBTestGSE_ofE]
+
 /-- **Every witness `routeBRefinedG` accepts, `routeBRefinedGSLN` accepts**, at the sign `false`
 and the certificate's box. -/
 theorem refinedBTestGSLN_of_refinedBTestG (c : TorusCertificate n α) (w : RefinedBWitG)
