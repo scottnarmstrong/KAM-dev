@@ -178,6 +178,15 @@
    "source": "MAIN L17 for n bodies; fixed-plane deficit"
   },
   {
+   "id": "LP-SP-CONF",
+   "wave": 4,
+   "weight": 0.6,
+   "modules": [
+    "KAM/Planetary/Spatial/Confinement.lean"
+   ],
+   "source": "MAIN L14, d=3 (conditional first exit)"
+  },
+  {
    "id": "LP-SP-DOM",
    "wave": 4,
    "weight": 1.5,

@@ -37,7 +37,8 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 | LP-SP-ROT rotation algebra (46) | L17 | 4 | `inp-lp-sprot` | claude-12 | proved bfb15083 (328 lines); audit queued |
 | LP-SP-CHART spatial chart, one body | L17 | 4 | `inp-lp-spchart` / geomod worktree (link `/root/code/KAM-inp-lp-spchart`) | claude-12 | proved 3bc913d7 (≈1,600 lines: chart, (45), image/inverse, analyticity, **symplecticity**); audit queued (W4) |
 | LP-SP-GEO spatial barrier + continuation | L5–L6 (d=3) | 4 | `inp-lp-spgeo` / mom worktree (link `/root/code/KAM-inp-lp-spgeo`) | claude-11 | proved 993b4451 (480 lines); audit queued (W4 batch) |
-| LP-SP-OSC osculating d=3 | L16 (d=3) | 4 | `inp-lp-sposc` / mom worktree (link `/root/code/KAM-inp-lp-sposc`) | claude-11 | running |
+| LP-SP-OSC osculating d=3 | L16 (d=3) | 4 | `inp-lp-sposc` | claude-11 | proved 4d0e6cc1 (1,040 lines; F2 + OD-11(b) built in); audit queued (W4) |
+| LP-SP-CONF spatial first exit (conditional) | L14 (d=3) | 4 | `inp-lp-spconf` / mom worktree | claude-11 | running |
 | LP-SP-PROD n-body spatial product chart | L17 (n bodies), (47) | 4 | `inp-lp-spprod` / geomod worktree | claude-12 | running (tmux inp-mprov-lp-spprod) |
 | LP-SP-DOM / SP-SAFE (+ spatial NRR/LIFT/CONF twins) | L18, T19 | 4 | — | — | after SP-PROD |
 
@@ -88,3 +89,4 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 - 2026-11-01 04:26 UTC: LP-W3C (LIFT+DOMX+THR2) LANDED (main 9bd8b629). Every planar package except PS is on main.
 - 2026-11-01 04:33 UTC: LP-W3C LANDED (main 9bd8b629). LP-SP-GEO proved (480 lines). LP-SP-OSC launched on claude-11. LP-PS audit branch rebuilt; waiting for codex-2 (kam-1b W4-COMPLETE).
 - 2026-11-01 04:53 UTC: LP-SP-CHART proved (MAIN L17, one body, incl. symplecticity by direct derivative computation). LP-SP-PROD (n-body product chart) launched on claude-12.
+- 2026-11-01 04:58 UTC: LP-SP-OSC proved. LP-SP-CONF launched on claude-11.
