@@ -48,7 +48,7 @@ variable {a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ M₀ M₁ cF t
 /-- **One KAM step** (`bpW:w5:step`) for an abstract `StepCore`. -/
 theorem stepTheoremCore (H : StepCore a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ M₀ M₁ cF tF Par ω Ω
   P X FT)
-    (hH : HomMelnikov τ α Par ω Ω) [Fact (0 < r)] :
+    [Fact (0 < r)] :
     -- (i)
     (∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r),
       StepPhase.toK (H.Phi ξ w) ∈ kamDomain (s - 4 * σ) (2 * η * r)) ∧
@@ -95,7 +95,8 @@ theorem stepTheoremCore (H : StepCore a p pb s r σ η τ α lam ε ε₀ ε₁ 
     (0 < lam → HomFreqHyp Par H.omegaPlus H.OmegaPlus (M0 + 3 * ε) (Mω + 6 * Real.pi * ε / lam)
       (MΩ + 3 * ε / lam)) ∧
     -- (iv)
-    (∀ K α' : ℝ, 1 ≤ K → 6 * Real.pi * (1 + K) * (1 + K ^ τ) * ε ≤ α - α' →
+    (HomMelnikov τ α Par ω Ω → ∀ K α' : ℝ, 1 ≤ K → 6 * Real.pi * (1 + K) * (1 + K ^ τ) * ε ≤ α - α'
+      →
       ∀ ξ ∈ Par, ∀ (k : Fin 2 → ℤ) (l : ℕ+ →₀ ℤ), (k, l) ∈ homZ → Fourier.modeSize k ≤ K →
         α' * (homJap l : ℝ) / waveA τ k ≤
           |homPairZ k (H.omegaPlus ξ) + homPairL l (H.OmegaPlus ξ)|) ∧
@@ -113,7 +114,7 @@ theorem stepTheoremCore (H : StepCore a p pb s r σ η τ α lam ε ε₀ ε₁ 
     fun ξ hξ i w hw => H.Pplus_periodic hξ i hw, H.Xplus_fam,
     fun ξ hξ => ⟨H.freq_sup hξ, H.tail_sup hξ⟩,
     fun ξ hξ ζ hζ => ⟨H.freq_lip hξ hζ, H.tail_lip hξ hζ⟩, fun hl => H.freq_hyp hl,
-    fun K α' hK hα' ξ hξ k l hkl hkK => H.divisors hH hK hα' hξ hkl hkK, H.M_sum,
+    fun hH K α' hK hα' ξ hξ k l hkl hkK => H.divisors hH hK hα' hξ hkl hkK, H.M_sum,
     fun ξ hξ ζ hζ w hw => H.flow_pair hξ hζ hw⟩
 
 
@@ -173,7 +174,8 @@ def Conclusion (H : StepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω 
       / lam)
       (MΩ + 3 * ε / lam)) ∧
     -- (iv)
-    (∀ K α' : ℝ, 1 ≤ K → 6 * Real.pi * (1 + K) * (1 + K ^ τ) * ε ≤ α - α' →
+    (HomMelnikov τ α Par ω Ω → ∀ K α' : ℝ, 1 ≤ K → 6 * Real.pi * (1 + K) * (1 + K ^ τ) * ε ≤ α - α'
+      →
       ∀ ξ ∈ Par, ∀ (k : Fin 2 → ℤ) (l : ℕ+ →₀ ℤ), (k, l) ∈ homZ → Fourier.modeSize k ≤ K →
         α' * (homJap l : ℝ) / waveA τ k ≤
           |homPairZ k (H.core.omegaPlus ξ) + homPairL l (H.core.OmegaPlus ξ)|) ∧
@@ -191,6 +193,6 @@ end StepHyp
 /-- Conditional helper (`0 < ε₀`). -/
 theorem stepTheorem_of_eps0_pos (H : StepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
     [Fact (0 < r)] : H.Conclusion :=
-  stepTheoremCore H.core H.mel
+  stepTheoremCore H.core
 
 end KAM.Wave

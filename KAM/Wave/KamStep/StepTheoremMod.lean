@@ -91,7 +91,8 @@ def Conclusion
       / lam)
       (MΩ + 3 * ε / lam)) ∧
     -- (iv)
-    (∀ K α' : ℝ, 1 ≤ K → 6 * Real.pi * (1 + K) * (1 + K ^ τ) * ε ≤ α - α' →
+    (HomMelnikov τ α Par ω Ω → ∀ K α' : ℝ, 1 ≤ K → 6 * Real.pi * (1 + K) * (1 + K ^ τ) * ε ≤ α - α'
+      →
       ∀ ξ ∈ Par, ∀ (k : Fin 2 → ℤ) (l : ℕ+ →₀ ℤ), (k, l) ∈ homZ → Fourier.modeSize k ≤ K →
         α' * (homJap l : ℝ) / waveA τ k ≤
           |homPairZ k (H.core.omegaPlus ξ) + homPairL l (H.core.OmegaPlus ξ)|) ∧
@@ -109,7 +110,7 @@ end StepHypMod
 /-- Conditional helper (`0 < ε₀`). -/
 theorem stepTheoremMod_of_eps0_pos
     (H : StepHypMod a p pb s r σ η τ α β lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
-    (hH : HomMelnikov τ α Par ω Ω) [Fact (0 < r)] : H.Conclusion :=
-  stepTheoremCore H.core hH
+    [Fact (0 < r)] : H.Conclusion :=
+  stepTheoremCore H.core
 
 end KAM.Wave

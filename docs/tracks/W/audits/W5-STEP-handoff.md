@@ -262,3 +262,19 @@ reality of `Φ`, `P_+` still open (needs W4's unconditional reality of `F`; see 
 Checks: `w_lint.sh` exit 0 (`check_lean_modules` PASS, frozen guard OK). `#print axioms` of `stepTheorem`, `stepTheoremMod`,
 `stepTheorem_of_eps0_pos`, `stepTheoremMod_of_eps0_pos`: propext, Classical.choice, Quot.sound.
 Suspected errata: none new.
+
+## Session 6, revision (orchestrator review of a0bbe981) — source-facing theorems restated
+`StepTheoremSrc.lean` now states `KAM.Wave.stepTheorem` (`StepHypSrc`) and `KAM.Wave.stepTheoremMod` (`StepHypModSrc`) with the blueprint's
+clauses (i)-(v) in terms of `ε` and NO existential wrapper over `H'`:
+* (i), (ii) as in the helper; (iii): `∃ b₀ b₁ ≥ 0, b₀ + λ b₁ ≤ 6πε` with sup bound `b₀` and Lipschitz bound `b₁` for `ω_+ - ω`, and
+  `∃ c₀ c₁ ≥ 0, c₀ + λ c₁ ≤ 3ε` for `(j+2)^{p_+-p}(Ω_+ - Ω)` (the `λ`-norm read as a conjunction); `HomFreqHyp` for `(ω_+, Ω_+)`;
+  (iv) conditional on `HomMelnikov τ α Par ω Ω` (blueprint (iv): "whenever the same holds with α for ω, Ω", w5-kamstep.tex l. 581);
+  (v): `∃ A₀ A₁ B₀ B₁ ≥ 0`, `A₀ + λA₁ ≤ 2 M_F`, `B₀ + λB₁ ≤ 16 M_F/σ` bounding `Φ - id` and `DΦ - I` (sup and Lipschitz), `M_F` =
+  `stepMF (stepCF τ) (stepExpT τ) α σ ε` (modified: `stepCFn`, `stepTn`).
+* The objects are those of `H.hyp`, the helper's hypothesis for the splitting `(ε₀*, ε₁*) = (ε₀, ε₁)` if `ε₀ > 0`, `(ε, 0)` if `ε₀ = 0`
+  (then `X_P ≡ 0` on `D(s,r)`); `ε₀* + λε₁* ≤ ε`. They do not depend on the splitting (`R`, `F` are built from the data only).
+  The finer `ε₀`/`ε₁` clauses stay in the helpers `stepTheorem_of_eps0_pos`, `stepTheoremMod_of_eps0_pos`.
+* Premise `ε > 0`: the blueprint states it, Definition `bpW:w5:data` (w5-kamstep.tex l. 336: "a number ε>0 with ε ≥ |X_P|^λ").
+* `stepTheoremMod` has no `HomMelnikov` argument any more: it is the hypothesis of clause (iv) only (see above); the modified data
+  assume `HomMelnikovMod` (blueprint: "the hypotheses of Lemma bpW:w5:w4-modified with α̂ = α", l. 332-333).
+* `w_lint.sh` exit 0; `#print axioms` of `stepTheorem`, `stepTheoremMod` and both helpers: propext, Classical.choice, Quot.sound.
