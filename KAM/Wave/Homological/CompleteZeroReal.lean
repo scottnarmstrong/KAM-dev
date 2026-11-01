@@ -53,7 +53,8 @@ theorem homLemma1Complete_zero_modes_gen (h : HomFreqHyp Par ω Ω M0 Mω MΩ)
     homCoeff (homSolveTaylor_gen hτ hα hσ hσs (homMultBounds_of h hα hH hξ) R).a0 0 = 0 ∧
       homCoeff (homSolveTaylor_gen hτ hα hσ hσs (homMultBounds_of h hα hH hξ) R).b 0 = 0 ∧
       ∀ j : ℕ+, homNormalEntry_gen a p pb
-        (homCoeff (homSolveTaylor_gen hτ hα hσ hσs (homMultBounds_of h hα hH hξ) R).Q 0) j j = 0 := by
+        (homCoeff (homSolveTaylor_gen hτ hα hσ hσs (homMultBounds_of h hα hH hξ) R).Q 0) j j =
+          0 := by
   obtain ⟨h1, h2, h3⟩ :=
     homLemma1_zero_modes_gen hτ hα hσ hσs (homMultBounds_of h hα hH hξ) R
   exact ⟨h1, h2, fun j => homNormalEntry_gen_eq_zero_of_kamEntry (h3 j)⟩
