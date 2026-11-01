@@ -261,6 +261,20 @@ All of the following give `[propext, Classical.choice, Quot.sound]`:
    frequency vector so the fast coordinate is last (assumed in the estimate), or should the clock
    index become witness data?
 
+### Cross-session notes (v2-fixes-96, branch `v2-sites`, not landed; recorded, no action taken)
+
+- **Negative clock.** `fiberSiteOk` requires `clockC − clockR > 0`. A certificate whose last
+  coordinate is negative can use V2-SITES-SIGN's `sdConst_ray_of_neg` (SDConst level, from
+  `cohR_neg`) with `negBox`/`freqEncloses_negBox`/`isDiophantine_neg`: run `siteOkG` on
+  `negBox box` and transfer. Nothing changes on this branch; it needs both branches landed.
+- **Question 3 (clock index).** v2-fixes-96 recommends keeping the clock last and letting the
+  application order its coordinates. A permutation is a change of variables on the torus, so an
+  SDConst-level lemma is real work. The sdSum-level `sdSum (ω ∘ σ) = sdSum ω` is the easy part. The
+  decision stays with Scott and the orchestrator.
+- **No overlap.** Their `SiteShard.lean` shards the `n = 2` `balSum`/`balAll` walk; `Fiber/Shard.lean`
+  shards `balFold`/`walk2`. They independently measured 0.86 MB per mode for exact rationals on
+  LG00, matching the 0.8 MB per fibre measured here.
+
 ## Uncertainties
 
 - The SJS numbers are estimates.
