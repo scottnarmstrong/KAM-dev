@@ -49,6 +49,7 @@ public import KAM.CertificateSharp.Packed.Complex
 public import KAM.CertificateSharp.Packed.Digits
 public import KAM.CertificateSharp.Packed.Gram
 public import KAM.CertificateSharp.Packed.GramBase
+public import KAM.CertificateSharp.Packed.GramTests
 public import KAM.CertificateSharp.Packed.Norm
 public import KAM.CertificateSharp.Packed.Product
 public import KAM.CertificateSharp.Packed.Round
