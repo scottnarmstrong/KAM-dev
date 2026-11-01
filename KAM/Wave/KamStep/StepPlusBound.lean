@@ -267,4 +267,49 @@ theorem stepYfam_time_lip (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 
     (by positivity : 0 < σ / 16) (by linarith) (by norm_num) hY0 (by positivity) hdiff hnb hnt
     (hU'U hw) (hball) hN ht ht'
 
+
+/-- **The commutator integral** `∫₀¹ y_t dt`: sup bound and two-parameter difference bound. -/
+theorem stepXplusB_bounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 < σ)
+    (hσ1 : σ ≤ 1) (hσs : 5 * σ < s) (hη0 : 0 < η) (hη : η ≤ 1 / 8)
+    {T₁ T₂ : HomTaylor_gen a p pb s} {FT₁ FT₂ : HomTaylor_gen a p pb (s - σ)} {Δ₁ N₁ : ℝ}
+    (he₁ : 0 ≤ e₁) (hΔ₁ : 0 ≤ Δ₁) (hN₁ : 0 ≤ N₁)
+    (hT₁ : HomFieldBound_gen ha hp hpb r e₁ T₁) (hT₂ : HomFieldBound_gen ha hp hpb r e₁ T₂)
+    (hTn₁ : HomFieldBound_gen ha hp hpb r (2 * e₁) (homNhatTaylor_gen T₁))
+    (hTn₂ : HomFieldBound_gen ha hp hpb r (2 * e₁) (homNhatTaylor_gen T₂))
+    (hΔT : HomFieldBound_gen ha hp hpb r Δ₁ (T₁.homSub T₂))
+    (hΔTn : HomFieldBound_gen ha hp hpb r (2 * Δ₁)
+      ((homNhatTaylor_gen T₁).homSub (homNhatTaylor_gen T₂)))
+    (hF₁ : HomFieldBound_gen ha hp hpb r Mf FT₁) (hF₂ : HomFieldBound_gen ha hp hpb r Mf FT₂)
+    (hΔF : HomFieldBound_gen ha hp hpb r N₁ (FT₁.homSub FT₂))
+    (hM0 : 0 < Mf) (hMs : 16 * Mf ≤ σ * η ^ 2)
+    {w : StepPhase r} (hw : w ∈ stepDomain r (s - 5 * σ) (η * r)) :
+    let ι := stepEmbedCLM a p pb hpb r
+    stepNu (η * r) (∫ t in (0 : ℝ)..1,
+        yfam ι (stepFieldS ha hp hpb FT₁ r) (stepZgfam ha hp hpb T₁ FT₁) t w) ≤
+        2 * (η⁻¹ ^ 2 * (8 * e₁ * Mf / σ)) ∧
+      stepNu (η * r) ((∫ t in (0 : ℝ)..1,
+          yfam ι (stepFieldS ha hp hpb FT₁ r) (stepZgfam ha hp hpb T₁ FT₁) t w) -
+        ∫ t in (0 : ℝ)..1, yfam ι (stepFieldS ha hp hpb FT₂ r) (stepZgfam ha hp hpb T₂ FT₂) t w) ≤
+        2 * (η⁻¹ ^ 2 * (8 * (Mf * Δ₁ + e₁ * N₁) / σ) +
+          2 * (η⁻¹ ^ 2 * (8 * e₁ * Mf / σ)) / σ * (η⁻¹ ^ 2 * (2 * N₁))) +
+        4 * (η⁻¹ ^ 2 * (2 * N₁ / (σ / 8))) * (η⁻¹ ^ 2 * (8 * e₁ * Mf / σ)) := by
+  intro ι
+  have hr : 0 < r := Fact.out
+  have hη2 : η ^ 2 ≤ 1 / 64 := by nlinarith
+  have hMσ : Mf ≤ σ / 1024 := by nlinarith
+  have hρ : 0 < η * r := by positivity
+  obtain ⟨L₁, hL₁, hl₁⟩ := stepYfam_time_lip ha hp hpb hσ hσ1 hσs hη0 hη he₁ hT₁ hTn₁ hF₁ hM0 hMσ hw
+  obtain ⟨L₂, hL₂, hl₂⟩ := stepYfam_time_lip ha hp hpb hσ hσ1 hσs hη0 hη he₁ hT₂ hTn₂ hF₂ hM0 hMσ hw
+  have hb := fun t ht => stepXplusB_time_bounds ha hp hpb hσ hσ1 hσs hη0 hη he₁ hΔ₁ hN₁ hT₁ hT₂
+    hTn₁ hTn₂ hΔT hΔTn hF₁ hF₂ hΔF hM0 hMs hw (t := t) ht
+  refine ⟨?_, ?_⟩
+  · have := stepNu_integral_sub_le hρ (f₁ := fun t => yfam ι (stepFieldS ha hp hpb FT₁ r)
+      (stepZgfam ha hp hpb T₁ FT₁) t w) (f₂ := fun _ => 0) (L₁ := L₁) (L₂ := 0) (K := 2 * (η⁻¹ ^ 2 * (8 * e₁ * Mf / σ)))
+      hL₁ le_rfl hl₁ (fun _ _ _ _ => by simp) (fun t ht => by
+        simpa using (hb t ht).1)
+    simpa using this
+  · exact stepNu_integral_sub_le hρ (f₁ := fun t => yfam ι (stepFieldS ha hp hpb FT₁ r)
+      (stepZgfam ha hp hpb T₁ FT₁) t w) (f₂ := fun t => yfam ι (stepFieldS ha hp hpb FT₂ r)
+      (stepZgfam ha hp hpb T₂ FT₂) t w) hL₁ hL₂ hl₁ hl₂ (fun t ht => (hb t ht).2)
+
 end KAM.Wave
