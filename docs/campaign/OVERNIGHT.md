@@ -2995,3 +2995,46 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - kam-lp generates FREEZE-PROPOSAL draft 7 under them, then an independent statement audit on codex-2.
   - **FOR OWNER next:** approval of the exact draft-7 Lean text. Then freeze (DRAFT_SORRY), the source dependency
     graph, and the seals.
+- **08:40. Track LP after D59.**
+  - OWNER-DECISIONS: OD-1–6, 9 and 11 (b) are RULED and OD-8, 10, 12 and 13 SETTLED. OD-7 (the freeze) stays IN
+    PROGRESS until the owner approves the exact text.
+  - Package LP-FREEZE7 (claude-11, Opus; this is statement work) writes draft 7:
+    - LP0, LP1 (§3b), LP2 (§3d) and both 1/(2n+1) corollaries;
+    - the complete set of definitions to be frozen under (b), each with its characterization;
+    - exact per-file texts as .txt under docs/tracks/LP/freeze/draft7/, plus manifest drafts;
+    - rfl checks of each draft body against the implementation definitions, and a verification file.
+    A fresh codex-2 statement audit follows.
+  - **LP3-PS PROVED:** LP3-1, planar strong-AMD safety with NO arithmetic hypothesis (510 lines, standard axioms). LP3-2
+    (spatial) is proving.
+  - Lanes: the W4D landing is building, W4E is in audit, and W5A (the LP3 planar suppliers) is staged.
+- **08:45. Track W endgame (kam-1b).** **Unlanded W: about 33k lines across W5, W6 and W8** (inp-w8f, two-dot over
+  KAM/Wave), all gated on audits.
+  - W8-ASM done (inp-w8a@1d2ce4b0): the shell data, the patch instances, and the nlw2-proof steps p-dens, p-dioph and
+    p-lim. Three shell labels are W8-side conditional helpers pending action-angle.
+  - W6-TORI nearly done (inp-w6t@3a236d01): W6StepSmooth(Mod) discharged, so convergence (iii)/(iv), invariance and
+    prep-step are unconditional; D2 and D4 fixed; bpW:w6:tori (i)–(v) proved.
+  - New prover W8-FINAL (claude-11, inp-w8f): the remaining W8 labels and KAM.Wave.nlw2_proof.
+  - Ruling (root-b8): land W5 (round 2) and W6 the moment each passes audit, without waiting for nlw2. The W6 delta
+    after the conditional audit gets a short follow-up audit of the changed modules only.
+- **08:50. Track W. Unlanded about 33k lines; the next landing is W5 (inp-w5aa) on its round-2 PASS.**
+  - W6 audit 1 (the conditional version 24c56b59) FAILED:
+    - F1: the transformation clause of the iteration lemma is in the ambient norm, not the p₊ λ-norms, and
+      W6StepSmooth lacks the parameter-Lipschitz part;
+    - F2: D2;
+    - F3: D4.
+    W6-TORI already fixes F2 and F3, and F1 is assigned to the W6-TORI prover (restate via W5's Ψ and the p₊ clause
+    (v)). A short delta audit follows.
+  - The W5 round-2 audit has launched: deltas for the STEP-A/B findings, plus a first full audit of action-angle and
+    initial (18 modules, 4.3k lines).
+- **08:53. Heartbeat. Unlanded W: about 33k lines** (W5, W6, W8; gated on audits).
+  - **MILESTONE (track LP): LP2 is on main** (W4E merged af4d2dd9, landed 3114e48a). LP0, LP1 and LP2 are proved,
+    audited and on main.
+  - **All LP3 proof work is done:** LP3-1 (planar), LP3-2 (spatial) and LP3-SRC, with no Diophantine hypothesis.
+    LP3 audits: W5A PASS WITH NOTES (landing); W5B and W5C are building. LP-FREEZE7 (draft 7) is writing.
+  - D60: owner asked for parallel W audits on codex-1 and codex-2 (up to 3 W sessions). kam-1b is launching them; the
+    W5 round 2 pre-launch checks are running.
+  - W: W6-TORI is on the F1 fix and W8-FINAL is proving. LP's free prover slot is offered to W.
+  - No OOM. Load about 17. Memory: 17 GB available. Disks: / 17 GB free (89 %), HC 50 GB free.
+  - Quotas: claude-11 41 %, claude-12 21 %, claude-3 21 %, claude-4 8 % (root-b8), claude-6 1 %; claude-2 and
+    claude-5 reset at 09:00. codex-1 4 %, codex-2 0 % on plan (credits, D57).
+  - kam-lp's PROGRESS.md stamps were estimated, not read from the clock; fixed (e8b182b6) from git commit times.
