@@ -261,7 +261,7 @@ theorem spatialBarrier_osc_data {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (hn
     rw [div_le_iff₀ hM0]; exact h4
   linarith
 
-/-- **MAIN Lemma 16 with N10, planar** (`LP:MAIN L16 (508–529)`, `AMENDMENTS N10`): on the safe
+/-- **MAIN Lemma 16 with N10, spatial** (`LP:MAIN L16 (508–529)`, `AMENDMENTS N10`): on the safe
 compact physical set of GEOMOD (barrier states `C ≤ B(Λ z) - m`, `Λ z ∈ U`) there are
 `d_⋆ = dS`, `d_pair = dP`, `c > 0` and `μ₀, A, A_osc > 0` with `A_osc μ₀ ≤ d_⋆/2` and
 `2 A_osc μ₀ ≤ d_pair/2` such that for `0 < μ ≤ μ₀` and every barrier state `z`:
