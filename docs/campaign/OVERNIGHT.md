@@ -2771,3 +2771,227 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - HQ meters: track W 65 %, track LP 42 %.
   - No OOM since 03:20. Memory: 15 GB available. Disks: / 15 GB free (90 %), HC 67 GB free.
   - Quotas: claude-11 59 %, claude-12 34 %, claude-3 29 %, claude-6 7 %.
+- **04:06. Track W: W5-STEP final (inp-wpj@5e45b8b0).**
+  - stepTheorem and stepTheoremMod state blueprint clauses (i)–(v) verbatim, with no ∃ wrapper (one round-trip fixed
+    that). The ε₀ > 0 versions are now the distinctly named helpers. ε > 0 is a blueprint premise; the modified (iv)
+    is conditional on (H_α) as in the source. Standard axioms, lint 0.
+  - The step node stays PARTIAL until W5-REAL lands.
+  - W7-MEASURE landed (main eabc84d2).
+  - W5 audit: about 12.7k lines in two codex-2 runs, after LP's queue; W4-COMPLETE is ready to audit too.
+  - New prover W6-ITER (claude-11): the ShellGeom repair, then the W6 labels unlocked by the step theorem (iteration,
+    convergence (ii)–(iv), prep-step, invariance, strong, instances, tori).
+- **04:10. LP freeze proposal draft 2: statement delta review 2 PASS for the theorem types.** F1–F5 resolved and
+  sorry-free producers confirmed for the exact LP0/LP1 types. The freeze package is NOT_READY solely because of OD-11
+  (owner; (b) recommended).
+  - LP-W3C (LIFT + DOMX + THR2): PASS WITH NOTES; landing inp-lp cc3d5e46. The LP-PS audit is next, which completes
+    the audit of the planar campaign.
+  - Wave 4: LP-SP-ROT proved (328 lines); LP-SP-CHART (Lemma 17) and LP-SP-MODEL are proving.
+  - **FOR OWNER (morning):** FREEZE-PROPOSAL draft 2 plus STATEMENT-REVIEW-1/2; decide OD-1..OD-11.
+- **04:19. Heartbeat.**
+  - Working: the W4-COMPLETE audit (codex-2), LP-SP-CHART, W5-REAL, W6-ITER. LP-SP-GEO is waiting on a compile-gate
+    slot and the memory gate.
+  - A landing core build is running on main.
+  - Load about 18 and memory down to 11 GB available. The largest single user is KPZ's recurring git pack-objects
+    (3.3 GB, 1.5 cores; it repacks about every 30 min under KPZ's commit churn), then a landing build.
+  - No OOM since 03:50. Disks: / 15 GB free (91 %).
+  - Quotas: claude-11 56 %, claude-12 32 %, claude-3 28 %, claude-6 6 %.
+- **04:48. Heartbeat.**
+  - LP-W3C landed (main 9bd8b629); track LP 48 %. LP-SP-CHART is finishing (final build, lint, shortname). LP-SP-OSC
+    is proving.
+  - W: the W4-COMPLETE audit is PASS WITH NOTES (50 axiom checks). W5-REAL is done (handoff written; 15 long lines to
+    wrap for lint); kam-1b is processing it. W6-ITER is proving.
+  - No OOM since 04:18. Load about 10. Memory: 17 GB available. Disks: / 14 GB free (91 %).
+- **05:18. Track W.**
+  - W4-COMPLETE audit PASS WITH NOTES; landing inp-w4c@bbe955c2 closes the 8 W4 PARTIAL nodes.
+  - W5-REAL done (reality of Φ and P₊, DΦ(𝒫^{p₊}), field X_N, both cases; helpers on WaveStepHyp).
+  - W6-ITER done: ShellGeom re-proved, the iteration lemma, convergence (i)–(ii), prep-step, the wave instances. All
+    are conditional helpers on W5's reality clauses with distinct names.
+  - W5 short-name hygiene: 17 names.
+  - Now W5W6-INTEGRATE alone: the source-facing full bpW:w5:step, then the W6 labels made unconditional, then
+    invariance, strong, tori and the W8 instantiations.
+  - W's free prover slot is lent to LP (3 LP + 1 W = 4 total).
+- **05:18. Heartbeat.**
+  - W4-COMPLETE landed (main cfc3fbaa).
+  - Working: an LP audit (codex-2), LP-SP-PROD and LP-SP-TUBE (spatial product chart and complex tube), kam-lp,
+    W5W6-INTEGRATE.
+  - No OOM since 04:48. Load about 12. Memory: 16 GB available. Disks: / 14 GB free, HC 65 GB free.
+  - Quotas: claude-11 54 %, claude-12 30 %, claude-3 26 %, claude-6 4 % (nearly exhausted; no LP or W prover uses it
+    now).
+- **05:20. Track LP (3 provers).**
+  - LP-SRC (claude-6, short): OD-11 option (b) made concrete. Source-subtype definitions with characterizations, and
+    lp1_planar_strongAMD_safety_source PROVED from LP1, so the owner chooses between two proved texts. Draft 3 is to be
+    reviewed. A 4th worktree, 6.7 GB on HC (59 GB free), is temporary.
+  - LP-SP-PROD (claude-12) and LP-SP-TUBE (claude-11).
+  - Spatial proved so far: SP-ROT, SP-MODEL, SP-GEO, SP-CHART (Lemma 17 with symplecticity), SP-OSC (Lemma 16 d=3,
+    1,040 lines), SP-CONF (Lemma 14 d=3, 333 lines).
+  - Audits: LP-PS (planar LP1) running on codex-2; then the spatial batches W4A, W4B, W4C.
+- **05:36. MILESTONE (track LP): the planar theorem LP1 and LP0 passed audit LP-PS-1 (codex-2), PASS WITH NOTES, with every
+  main statement PASS.** The auditor re-verified that _normalized has exactly the draft-2 LP1 type. Landing inp-lp
+  6fe5c059.
+  - The whole planar campaign (MAIN Lemmas 2–8, 13, 14, 16, Theorem 15) is proved and audited in Lean. It waits only on
+    the landing and the owner's freeze decisions.
+  - Spatial: SP-TUBE (201) and SP-PROD (767) proved; SP-DOM (Lemma 18), SP-ADAPT (Lemma 13 adapter, Phase (n+m)) and
+    LP-SRC are running. The spatial audit batches start (W4A).
+- **05:49. MILESTONE: the planar LP1 is on main (0772a7d5).** KAM/Planetary/StrongAMD/PlanarSafety/Main.lean:
+  lp1_planar_strongAMD_safety, _normalized, _halfInteger and lp0_planar_barrier. Up to date on main (9,313 jobs).
+  Track LP 50 %. The spatial wave continues: SP-LIFT is proving and SP-DOM is finishing.
+- **05:50. Track LP:** kam-inp-63 checked #print axioms on main for LP1 and LP0: standard three only.
+  - **FOR OWNER: the LP freeze package is ready.** FREEZE-PROPOSAL draft 3 plus three statement reviews (1 returned →
+    2 PASS → 3 PASS for the concrete OD-11(b) text). Both OD-11 options are proved (LP-SRC). Rulings OD-1..OD-11 are
+    needed; recommended: OD-11 (b), OD-3 keep max ν = 1.
+  - Spatial proved: MODEL, ROT, CHART, PROD, TUBE, GEO, OSC, CONF, ADAPT, DOM (Lemma 18, PARTIAL until a DOMX-style
+    supplement). Running: SP-NRR, SP-LIFT. Next: SP-SAFE (LP2).
+- **06:19. Heartbeat.**
+  - LP: LP-SP-SAFE (the spatial theorem LP2 assembly) and LP-SP-DOMX (the Lemma 18 supplement) are proving.
+  - W: W5W6-INTEGRATE finished at 06:12. Its handoff carries audit-focus sections; two open W5 interface deviations
+    (D2/D3: the normal-shift weight and a sharper Φ_P bound) are still open. kam-1b is processing it, with convergence
+    (iii)–(iv) as the next package.
+  - No OOM since 05:48. Load about 12. Memory: 15 GB available. Disks: / 13 GB free (92 %), HC 58 GB free.
+  - Quotas: claude-11 52 %, claude-12 28 %, claude-3 25 %, claude-6 3 %.
+- **06:22. MILESTONE (track W): W5W6-INTEGRATE.**
+  - The source-facing stepTheorem and stepTheoremMod carry the full bpW:w5:step (Φ and P₊ real, DΦ onto 𝒫^{p₊},
+    field-form weak conjugacy) with no ε₀ premise.
+  - Unconditional W6 results: W6StepReal(Mod), the iteration lemma, convergence (i)–(ii), applicable, the wave
+    instances, and strong.
+  - W gets its second slot back: W6-CONV (convergence (iii)–(iv), invariance) and W5-AA (action-angle and initial).
+    LP returns to 2 provers.
+  - The W5-STEP-A audit (52 modules) is launching on codex-2. W5-STEP-B follows, with the D2/D3 deviations as audit
+    focus.
+- **06:25. Track LP back to 2 provers:** SP-SAFE (claude-11) and SP-DOMX (claude-12); claude-6 idle. The spatial W4A audit batch (SP-MODEL + SP-ROT) landed (main b2308bac). LP-W4B (LP-SRC + SP-GEO, OSC, CONF, TUBE, ADAPT) is staged for codex-2 behind W5-STEP-A.
+- **06:40. ROOT DISK ALERT: / fell to 5.4 GB free (97 %) by 06:36, from about 14 GB at 05:40.**
+  - Cause, not KAM: /root/code/KPZ/.git/objects holds 10.56 GB of loose objects (packs 1.6 GB). KPZ's repeated
+    auto-gc (gc.pid 06:36) explodes unreachable objects into loose files with backdated mtimes.
+  - Also 6.8 GB held by deleted-but-open old codex and claude binaries (long-running sessions after updates).
+  - Action (KAM only, reversible): moved the idle lock worktree's .lake/build (5.9 GB) to
+    HC kam-data/so-lock/lockdata-lake-build behind a symlink. rsync was verified with 0 diffs, and Lake reads it
+    (core 9,094 jobs up to date). / is at 6.6 GB free.
+  - Reported to root-42 (the diskspace session). **FOR OWNER:** KPZ needs a supervised git prune/gc; root-b8 does not
+    touch KPZ.
+- **06:43. Correction from root-42 (diskspace):** the KPZ loose objects are mostly REACHABLE: the 40 MB boxes/Z-record/RECORD.md is rewritten by many of about 3,700 commits per day, each a ~16 MB blob, and no gc pass has completed since about Oct 29. root-42 is watching a running gc --auto and will take it to the owner; no pruning without the owner. No KAM action needed.
+- **06:45. MILESTONE (track LP): the spatial theorem LP2 is proved end to end in Lean** (LP-SP-SAFE,
+  inp-lp-spsafe@c9553935, 938 lines; 49 changed Lean files scanned clean by root-b8).
+  - lp2_spatial_strongAMD_safety, _normalized and _halfInteger (exponent 1/(2n+1)); standard axioms.
+  - No prograde, inclination, nonzero-|L|, alignment or secular premise; the frame is aligned inside the proof.
+  - All of LP0, LP1 and LP2 are proved. FREEZE-PROPOSAL draft 4 adds the LP2 text (delta review queued); the spatial
+    audits W4B–W4E are rolling.
+  - LP3 (the resonance-tolerant stretch) starts its design phase per the owner's strongest-version mandate, with a
+    paper plan and an independent review before any Lean work; nothing frozen.
+- **06:47. LP3 design phase running** (Opus 5.5, docs-only worktree; output docs/tracks/LP/lp3/LP3-PLAN.md), then a refute-first review and Lean only after it passes. Import-policy ruling (root-b8): LP modules may import the SEALED frozen partialConvex_nekhoroshev (rule 9 quarantines only providers and DRAFT_SORRY anchors; track P's Exponential/Stopped.lean is the precedent); never its provider. LP-SP-SRCB (LP2 through the spatial source carriers) is running.
+- **06:48. Heartbeat.**
+  - Working: the LP-W4B audit (codex-2), LP3 design, LP-SP-SRCB, W5-AA, W6-CONV. Track LP 57 %, W 65 %.
+  - No OOM since 06:18. Memory: 11 GB available.
+  - / at 6.3 GB free (96 %) while KPZ's gc runs (root-42 watching); a background alarm fires below 3 GB.
+  - Quotas: claude-11 52 %, claude-12 28 %, claude-3 25 %.
+- **07:05. LP3 design done** (docs/tracks/LP/lp3/LP3-PLAN.md).
+  - The sealed partialConvex_nekhoroshev is applied cellwise on a finite cover with sharp per-cell slow levels (no
+    AMDBox). Everything else of LP1/LP2 is reused.
+  - Result: T₀ exp(c μ^(−a_n)) with drift O(μ^(b_n)), Nek77 exponents, no Diophantine hypothesis; planar and spatial;
+    about 2,300 lines in 12 files.
+  - An Opus refute-first review is running.
+  - LP-W4B passed with notes and is landing. claude-11 is to run SP-DOMX (the spatial Lemma 18 clauses) meanwhile.
+- **07:16. LP3 plan review (independent Opus): PASS WITH NOTES, no blocking.** Every partialConvex_nekhoroshev premise
+  is met, μ₀ is uniform, the sharpened bound is correct, and there is no hidden Diophantine or confinement assumption.
+  - C1–C5 applied.
+  - LP3 Lean is running: LP3-KEP and LP3-COVERPERT. Next LP3-ONE, DRIFT, PS.
+  - D58 recorded (sealed frozen theorems may be imported; rule 9 clarification).
+  - FREEZE-PROPOSAL draft 5 (§3d LP2 under (b), proved by LP-SP-SRCB); LP2 statement review 4 (Opus) is running.
+  - Lean package audits stay on codex-2 (D54/D57); Opus only for paper-level and statement reviews.
+- **07:18. Heartbeat.**
+  - Track LP 66 %, W 65 %.
+  - Working: a W audit (wpja5) on codex-2, LP3-COVERPERT, kam-lp, W5-AA, W6-CONV. LP3-KEP has finished; kam-lp is
+    processing it.
+  - No OOM since 06:48. Memory: 15 GB available. / at 5.8 GB free (the KPZ cleanup is pending; the alarm is set below
+    3 GB).
+  - Quotas: claude-11 48 %, claude-12 25 %, claude-3 24 %, claude-6 1 %.
+- **07:21. Track W, W5 audits (codex-2).**
+  - W5-STEP-A (52 modules): FAIL on two missing exports: F1, joint continuity of the flow and its derivative in (t, w);
+    F2, Dφᵗ(w) onto 𝒫^{p₊} for all t.
+  - W5-STEP-B (61 modules): FAIL on statement fidelity: F1, clause (v) bounds Φ−id and DΦ−I in the ambient p norm
+    instead of the p₊ and p→p₊ norms (the smoothing displacement Ψ was discarded); F2, clause (iv) lacks the
+    Dirichlet-weight variant. Holomorphy and the full ℤ² law are not stated explicitly.
+  - PASS: new-ham, w4-modified, reality, step-map onto, frequency, ε₀ split.
+  - D2/D3 ruled consumer mismatches; the fix is a bridge to the p+1 Taylor family and a separate sharp sup bound via Ψ.
+  - The fixes go to the W5-AA prover first; a combined round 2 follows.
+- **07:22. LP progress.**
+  - LP3-KEP proved (253 lines; lp3_kepler_data supplies every fast-Hamiltonian premise of partialConvex_nekhoroshev).
+  - Statement review 4: §3c (LP2) PASS. §3d (LP2 under OD-11 (b)) had a blocking R4.1 (unfrozen total spatial
+    elements applied to z₀ and z t), fixed by restating through spatialSource* (LP-SP-SRCB2 running).
+    FREEZE-PROPOSAL is at draft 6.
+  - codex-2 was the bottleneck, so it now runs two concurrent audit lanes (LP and W), replays capped at 4 GB with the
+    MemAvailable ≥ 8 GB gate. Orchestrator decision (the one-at-a-time rule was root-b8's, for quota and memory).
+- **07:46. Track W.**
+  - W6-CONV done (inp-wpr@24c56b59): the compositions Φ^ν, the Cauchy limit Φ_*, convergence (iii)–(iv), invariance,
+    and the tori interface. D3 is removed by a sharp prep-step bound.
+  - The p₊-smoothing dependency is the named W6StepSmooth(Mod), which W5-AA is exporting; the affected labels are
+    *_of_stepSmooth helpers meanwhile (rule 6).
+  - New prover W8-ASM (claude-11): the W8 labels needing W6 but not action-angle.
+  - The W lane runs the W6 audit (30 modules, about 7.1k lines), then W5 round 2.
+- **07:48. Heartbeat.**
+  - The LP-W4C audit (SP-CHART + SP-PROD) finished at 07:44 (READY); kam-lp is processing it.
+  - LP3 Lean: LP3-DRIFT and LP3-SP-DRIFT (planar and spatial cellwise drift) are proving.
+  - W: W5-AA (W5 fixes) and W8-ASM.
+  - No OOM since 07:18. Load about 13. Memory: 16 GB available. / at 5.6 GB free (alarm armed).
+  - Quotas: claude-11 47 %, claude-12 24 %, claude-3 23 %.
+- **07:54. Track LP.**
+  - LP-W4C (Lemma 17 with symplecticity, plus the product) audit PASS WITH NOTES (no code changes); landing.
+  - LP-W4D (22 modules) is in audit; W4E is next.
+  - LP-SP-SRCB2 proved the R4.1 (A) text; statement review 5 PASS WITH NOTES. FREEZE-PROPOSAL draft 6 has the
+    spatial (b) text ready.
+  - LP3 proved: KEP (253), COVERPERT (590), CELL (about 230; the sealed theorem applied per cell with no sorryAx),
+    SP-COVER (434). DRIFT and SP-DRIFT are proving.
+  - The wrappers now pass -DautoImplicit=false (single-file checks had missed a binder; W fixed the same).
+- **08:01. MILESTONE (track W): W5-AA done in 1h37m (inp-w5aa@d4cc1ff5).**
+  - The W5-STEP-A and B audit findings are all fixed: joint flow continuity; Dφᵗ onto 𝒫^{p₊}; clause (v) in p₊ via Ψ;
+    the Dirichlet-weight (iv); holomorphy; the full ℤ² law; the D2 bridge; the sharp |Ψ| ≤ M_F.
+  - bpW:w5:action-angle (i)–(vi) and bpW:w5:initial are proved. Only unused premises are dropped.
+  - Next: W6-TORI (discharge W6StepSmooth, prove bpW:w6:tori), then W8's action-angle labels and the nlw2 provider
+    assembly.
+  - Ruling (root-b8): the nlw2 provider and its seal audit may proceed. **FOR OWNER: the seal itself (the frozen-file
+    edit and SEALED state) waits for the owner's go, as for SO-2 (D50).**
+- **08:06. Root disk 5.1 GB free, falling about 1 GB/h.** A KPZ gc --auto has been running since 08:03. KPZ's gc.log (Oct 31 10:33, 'too many unreachable loose objects; run git prune') may make auto-gc skip work until it expires, which would explain no completed gc since Oct 29. Passed to root-42. **FOR OWNER: a supervised manual gc in KPZ (after removing the stale gc.log) is likely needed.** The alarm is armed at 3 GB.
+- **08:07. KPZ disk plan (root-42):** blocked on the owner's OK. It proposes one supervised non-destructive git repack -d in KPZ (it should free about 8–9 GB if the loose objects are reachable). The background gcs do run, but end after about 3 min without producing a pack (not OOM). A read-only reachability check is running. KAM holds its 3 GB alarm and its options.
+- **08:10. KPZ reachability (root-42):** of about 11.8 GB of loose objects, 5.7 GB are reachable and 6.1 GB unreachable
+  (22.5k trees and 1.1k commits from retried lar-N commits; the flat ~2 MB Phi4project/reports tree and the 40 MB
+  RECORD.md rewritten every commit).
+  - **FOR OWNER (root-42 has put the options to them):**
+    (a) repack -d: frees up to about 5 GB, non-destructive;
+    (b) a cruft repack, also non-destructive;
+    (c) a prune, covering the rest.
+  - Root is at about 5 GB free; the KAM fallback is armed at 3 GB.
+- **08:17. Owner: run the cruft repack in KPZ, and ask KPZ to stop rewriting the 40 MB file.**
+  - A KPZ gc --auto started a cruft repack at about 08:24 (pid 1334765). root-b8 is watching it rather than starting
+    a concurrent one; if it ends without a pack, root-b8 runs `git repack -d --cruft` (no expiration) capped, with
+    stderr captured.
+  - Message sent to the KPZ orchestrator (tmux orangutan): shard or append-only RECORD.md instead of whole rewrites;
+    split Phi4project/reports into subtrees; fix the lar-N retry recommits; batch commits; no prune without the owner.
+- **08:18. Heartbeat.**
+  - Track LP 79 %: the LP3 drift suppliers are done, and LP3-PS and LP3-SP-SAFE (the LP3 planar and spatial
+    assemblies) are proving. The LP-W4D audit is running on codex-2.
+  - W: W6-TORI and W8-ASM are proving.
+  - KPZ's cruft repack (gc --auto, pid 1334765) is running, with pack-objects at 2.5 GB RSS; watched.
+  - No OOM since 07:48. Memory: 14 GB available. / at 4.9 GB free (a temporary dip is expected during the repack).
+  - Quotas: claude-11 44 %, claude-12 22 %, claude-3 22 %.
+- **08:20. KPZ (orangutan) commit-cadence changes in place (08:20).**
+  - RECORD.md is committed at most once per hour (was 23/h; about 350 MB/h down to about 16 MB/h), and lar retries
+    rebase the existing commit instead of recommitting.
+  - The 4 Phi4 workers commit at most every 30 min (was about 115 report commits/h); the orchestrator's own commits
+    are batched every 30 min. Nobody there runs gc or prune.
+  - **FOR OWNER (KPZ lead approval pending):** shard RECORD.md into append-only per-hour files, and put new reports
+    outside the 48,913-entry reports/ tree.
+- **08:21. KPZ cruft repack.**
+  - KPZ's own gc --auto cruft repack (08:17–08:20) again ended after 195 s without a new pack: loose objects still
+    11.81 GB, no OOM.
+  - root-b8 is now running `git gc --prune=never --no-quiet`. It takes the gc lock so auto-gcs cannot collide, does
+    the cruft repack with no expiry (non-destructive), keeps reflog/worktree/rerere expiry off, caps memory at 8 GB
+    (windowMemory 256m, 2 threads), and captures stderr.
+  - Before: 32,816 loose objects (11.27 GiB), 51 packs (1.57 GiB). Log in the scratchpad (kpz-repack.log).
+- **08:27. KPZ cruft repack done (root-b8's `git gc --prune=never`, 08:21–08:26, exit 0).**
+  - Before: 32,816 loose objects (11.27 GiB) and 51 packs (1.57 GiB). After: 0 loose objects and 2 packs (488 MiB in
+    all): a 469 MB main pack, plus a 28 MB cruft pack with `.mtimes` holding the unreachable objects. Nothing was
+    pruned, and KPZ's HEAD reads normally.
+  - Root disk: 4.9 GB → 18 GB free (89 %). The KAM fallback (moving more build output) is no longer needed.
+- **08:27. D59: the owner approved the LP freeze rulings** (the recommended OD-1…OD-13: |L| AMD, OD-11 (b) source
+  carriers, `max ν = 1` kept, τ free with the 1/(2n+1) corollary, new anchors only).
+  - kam-lp generates FREEZE-PROPOSAL draft 7 under them, then an independent statement audit on codex-2.
+  - **FOR OWNER next:** approval of the exact draft-7 Lean text. Then freeze (DRAFT_SORRY), the source dependency
+    graph, and the seals.

@@ -627,6 +627,9 @@ Full text: [`docs/DECISIONS.md`](docs/DECISIONS.md).
 - **D56** Track LP launched: strong-AMD exponential safety (the Laskar–Petit conjecture), planar then spatial, top
   priority; the paper proof passed an independent audit. *(Scott, 2026-11-01)*
 - **D57** Audits run on codex-2 (usage credits), LP first. *(Scott, 2026-11-01)*
+- **D59** Track LP freeze rulings: the recommended conventions are approved (|L| in the AMD, source carriers for every
+  frozen definition, `max ν = 1` kept, τ free). The exact anchor text still goes to the owner before any freeze.
+  *(Scott, 2026-11-01)*
 
 ## Owner questions
 

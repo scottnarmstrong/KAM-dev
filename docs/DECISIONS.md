@@ -479,3 +479,18 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   provider is never imported directly.
   - Precedent: KAM/Planetary/Exponential/Stopped.lean imports the sealed `KAM.Nekhoroshev.partialConvex_nekhoroshev`.
   - Track LP's LP3 (the sharp threshold without arithmetic hypothesis) uses the same theorem (LP OD-13).
+- **D59 (2026-11-01, 08:27 UTC) Track LP: the recommended freeze rulings are approved.** *(Scott: "Approved", in reply
+  to the LP outlook asking for rulings on LP's OD-1…OD-13.)* These settle the conventions of the LP anchors:
+  - **OD-1:** the AMD is `strongAMD = ΣΛ − |L|` (orientation-free, MAIN (2)), with no prograde premise.
+  - **OD-2 and OD-11, option (b):** every frozen meaning-carrying definition lives on its source carrier, with its
+    characterization theorem: the thresholds on `OrderedActions`, and the strong AMD, Kepler and osculating elements
+    through source subtypes. In the spatial case the anchors are restated through `spatialSource*` (review 4,
+    resolution (A)). The total formulas stay internal helpers.
+  - **OD-3:** the anchors keep MAIN's normalization `max ν = 1`. The general-mass version stays an ordinary theorem.
+  - **OD-4:** τ > n − 1 is free, plus the τ = n − 1/2 corollary (exponent 1/(2n+1)).
+  - **OD-5 and OD-9:** the crossing notion is canonical annuli, all-pair distances and the actual-velocity osculating
+    annuli, with half gaps. The ordering of μ₀ is internal to the proof.
+  - **OD-6:** new anchors only; P-EXP-SAFE is unchanged.
+  - **Scope:** this approves the rulings, not yet the freeze itself. The exact final anchor and definition text
+    (FREEZE-PROPOSAL draft 7, generated under these rulings) gets an independent statement audit and then goes to the
+    owner for approval of the exact text, before anything enters `KAM/Frozen/` or `manifest/`.
