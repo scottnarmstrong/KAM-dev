@@ -23,7 +23,10 @@ imports (`V2/SiteSign.lean`, `V2/SiteShard.lean`: the `Final` and `Main` modules
 
 `--like PKG [--core DIR]`: mirror another scratch package's configuration (kamx-packed's `kam-lg00p`) on the core at
 DIR instead of LG00's, and `--lg00 PKG` reuses that package's modules: the jet route's integration package.
-Usage: python3 -I scripts/packed/gen_pkg.py [--pkg DIR] [--lg00 DIR] [--like PKG] [--core DIR] [--check] ROOT_MODULE...
+`--keep-config` reuses modules from another source into an existing package (no configuration written);
+`--add-lg00-lib` appends LG00's library with LG00's options (LG00's own modules imported read only).
+Usage: python3 -I scripts/packed/gen_pkg.py [--pkg DIR] [--lg00 DIR] [--like PKG] [--core DIR] [--keep-config]
+       [--add-lg00-lib] [--check] ROOT_MODULE...
 """
 import json
 import os
@@ -78,6 +81,21 @@ def closure(lg00, roots):
             elif d.split(".")[0] not in LOCAL:
                 core.add(d)
     return seen, core
+
+
+def add_lg00_lib(pkg, lg00_app):
+    """Append LG00's library (LG00's own Lean options, from its lakefile) to a package's lakefile, so LG00's built
+    modules can be imported read only with their traces intact (orchestrator, 2026-11-01: the packed copy imports
+    LG00's own Hamiltonian results instead of re-proving them)."""
+    lf_path = os.path.join(pkg, "lakefile.lean")
+    lf = open(lf_path, encoding="utf-8").read()
+    if "lean_lib «LG00» where" in lf:
+        return
+    src = open(os.path.join(lg00_app, "lakefile.lean"), encoding="utf-8").read()
+    opts = re.search(r"def lg00LeanOptions : Array LeanOption := #\[.*?\n\]", src, re.S).group(0)
+    lf += ("\n/-- LG00's modules, imported read only (V2-PACKED-GEN): LG00's own Lean options. -/\n%s\n\n"
+           "lean_lib «LG00» where\n  leanOptions := lg00LeanOptions\n" % opts)
+    open(lf_path, "w", encoding="utf-8").write(lf)
 
 
 def write_config_like(pkg, like, core):
@@ -204,12 +222,18 @@ def main():
         i = args.index("--core")
         core = os.path.abspath(args[i + 1])
         del args[i:i + 2]
+    keep = "--keep-config" in args              # another source of modules into an existing package
+    add_lib = "--add-lg00-lib" in args
     do_check = "--check" in args
     roots = [a for a in args if not a.startswith("--")]
-    if like:
+    if keep:
+        pass
+    elif like:
         write_config_like(pkg, like, core or CORE)
     else:
         write_config(pkg, lg00)
+    if add_lib:
+        add_lg00_lib(pkg, LG00)
     mods, core = closure(lg00, roots)
     print("roots %s: %d LG00 modules, %d core imports" % (roots, len(mods), len(core)))
     print("sources copied %d, artifacts hardlinked %d, copied %d" % reuse(pkg, lg00, mods))
