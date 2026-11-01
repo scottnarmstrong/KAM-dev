@@ -20,3 +20,5 @@ Package LP-PS (MAIN Theorem 15 with Lemma 16), track LP, non-frozen.  Re-exports
 
 The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
+
+public section
