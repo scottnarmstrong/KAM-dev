@@ -30,7 +30,7 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: sol-delta6-W-W-w5b
 LEAN_STATUS: PROVED
-LEAN_REF: KAM.Wave.stepExpansion_H, KAM.Wave.stepNewHam_flow_H, KAM.Wave.stepNewHam_concrete, KAM.Wave.stepPplusS, KAM.Wave.stepXplusS, KAM.Wave.stepPlus_isSmoothing, KAM.Wave.stepPplusS_periodic, KAM.Wave.Pplus_real_of_FT_real, KAM.Wave.stepWeakConj, KAM.Wave.stepXN, KAM.Wave.stepDN_eq_symp_XN, KAM.Wave.stepNfun_add_Nhat (KAM/Wave/KamStep/NewHamExp.lean, KAM/Wave/KamStep/NewHamFlow.lean, KAM/Wave/KamStep/NewHamConcrete.lean, KAM/Wave/KamStep/StepPlusAssemble.lean, KAM/Wave/KamStep/StepPeriodicFlow.lean, KAM/Wave/KamStep/RealStep.lean, KAM/Wave/KamStep/NewHamConj.lean, KAM/Wave/KamStep/RealNField.lean, KAM/Wave/KamStep/StepNplus.lean)
+LEAN_REF: KAM.Wave.stepExpansion_H, KAM.Wave.stepNewHam_flow_H, KAM.Wave.stepNewHam_concrete, KAM.Wave.stepPplusS, KAM.Wave.stepXplusS, KAM.Wave.stepPlus_isSmoothing, KAM.Wave.stepPplusS_periodic, KAM.Wave.StepCore.Pplus_real_of_FT_real, KAM.Wave.stepWeakConj, KAM.Wave.stepXN, KAM.Wave.stepDN_eq_symp_XN, KAM.Wave.stepNfun_add_Nhat (KAM/Wave/KamStep/NewHamExp.lean, KAM/Wave/KamStep/NewHamFlow.lean, KAM/Wave/KamStep/NewHamConcrete.lean, KAM/Wave/KamStep/StepPlusAssemble.lean, KAM/Wave/KamStep/StepPeriodicFlow.lean, KAM/Wave/KamStep/RealStep.lean, KAM/Wave/KamStep/NewHamConj.lean, KAM/Wave/KamStep/RealNField.lean, KAM/Wave/KamStep/StepNplus.lean)
 LEAN_NOTE: W5-STEP-B audit 1 PASS (new-ham (i)-(iii): scalar expansion, smoothing field of P_+ with the transport/commutator formula, field-form weak conjugacy with the affine X_N in p-1 representatives); reality and periodicity of P_+ in the W5-REAL chain
 NOTE: -
 
@@ -116,7 +116,7 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: PROVED
-LEAN_REF: KAM.Wave.stepPlus_isSmoothing, KAM.Wave.newHam_integral_smoothing, KAM.Wave.hasFDerivAt_comp_flow_smooth, KAM.Wave.Pplus_real_of_FT_real (KAM/Wave/KamStep/StepPlusAssemble.lean, KAM/Wave/KamStep/NewHamIntegral.lean, KAM/Wave/KamStep/NewHamTransport.lean, KAM/Wave/KamStep/RealStep.lean)
+LEAN_REF: KAM.Wave.stepPlus_isSmoothing, KAM.Wave.newHam_integral_smoothing, KAM.Wave.hasFDerivAt_comp_flow_smooth, KAM.Wave.StepCore.Pplus_real_of_FT_real (KAM/Wave/KamStep/StepPlusAssemble.lean, KAM/Wave/KamStep/NewHamIntegral.lean, KAM/Wave/KamStep/NewHamTransport.lean, KAM/Wave/KamStep/RealStep.lean)
 LEAN_NOTE: step of PROVED parent bpW:w5:new-ham; W5-STEP-B audit 1 PASS
 NOTE: -
 
@@ -174,9 +174,9 @@ EDGE: stepW:w5:p-ass | blueprint-W/parts/w5-kamstep.tex#bpW:w5:pullback@L537-L53
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: sol-delta6-W-W-w5b
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.stepPullback_bounds, KAM.Wave.stepPullback_const, KAM.Wave.stepPullback_diff, KAM.Wave.stepPullback_sup, KAM.Wave.stepPullback_sub, KAM.Wave.stepNu_transNop_le, KAM.Wave.stepNu_transNop_sub_le (KAM/Wave/KamStep/StepPullbackBound.lean, KAM/Wave/KamStep/Pullback.lean, KAM/Wave/KamStep/PullbackNu.lean)
-LEAN_NOTE: W5-STEP-A audit 1 PASS, supplier scope (conditional algebraic helpers whose transport equation is discharged by consumers via transSolve_spec), W5-STEP-B audit 1: assembly in StepPlus*/StepPullbackBound without defect; missing: no standalone statement |(phi^t)^* Y|^lambda <= 7 |Y|^lambda for a general Y; the factor 7 is combined only inside the X_(P_+) bound (stepXplus_pair_bound, stepPlus_famBound)
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.stepPullback_bounds, KAM.Wave.stepPullback_const, KAM.Wave.stepPullback_diff, KAM.Wave.stepPullback_sup, KAM.Wave.stepPullback_sub, KAM.Wave.stepNu_transNop_le, KAM.Wave.stepNu_transNop_sub_le, KAM.Wave.stepXplus_pair_bound, KAM.Wave.stepPlus_famBound (KAM/Wave/KamStep/StepPullbackBound.lean, KAM/Wave/KamStep/Pullback.lean, KAM/Wave/KamStep/PullbackNu.lean, KAM/Wave/KamStep/StepPlusBound.lean, KAM/Wave/KamStep/StepPlusFam.lean)
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the pull-back bound is used only inside the X_{P_+} estimate (stepXplus_pair_bound, stepPlus_famBound), the only consumers being st-1, st-2; exported: conditional pull-back helpers stepPullback_* with the factor 7 arithmetic; previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w5:p-inv
@@ -263,9 +263,9 @@ EDGE: stepW:w5:f-par | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-ass@L540-L543
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b+claude-suborch-W-gapfix
 REVIEWER: sol-delta7-W-w5b
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.stepPullback_bounds, KAM.Wave.stepPullback_diff, KAM.Wave.stepPullback_const (KAM/Wave/KamStep/StepPullbackBound.lean, KAM/Wave/KamStep/Pullback.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w5:pullback; W5-STEP-A audit 1 PASS, supplier scope: conditional helpers plus the arithmetic 7; not exported as a standalone lambda-norm bound
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.stepPullback_bounds, KAM.Wave.stepPullback_diff, KAM.Wave.stepPullback_const, KAM.Wave.stepXplus_pair_bound (KAM/Wave/KamStep/StepPullbackBound.lean, KAM/Wave/KamStep/Pullback.lean, KAM/Wave/KamStep/StepPlusBound.lean)
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): assembly done inside stepXplus_pair_bound; exported: stepPullback_bounds, stepPullback_diff, stepPullback_const; previous status PARTIAL
 NOTE: -
 
 NODE: bpW:w5:commutator
@@ -293,9 +293,9 @@ EDGE: stepW:w5:k-bd | blueprint-W/parts/w5-kamstep.tex#bpW:w5:commutator@L556-L5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5b
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.hasFDerivAt_bracket, KAM.Wave.stepBrZ, KAM.Wave.stepBrZ_norm_le, KAM.Wave.stepBrZ_sub_norm_le, KAM.Wave.stepFieldS_cauchy, KAM.Wave.stepCommutator_arith (KAM/Wave/KamStep/FlowSkew.lean, KAM/Wave/KamStep/StepBracket.lean, KAM/Wave/KamStep/Pullback.lean)
-LEAN_NOTE: W5-STEP-A audit 1 PASS, supplier scope (bracket sign DX_G X_F - DX_F X_G, arithmetic 24 eps M_F/(sigma eta^2)), W5-STEP-B audit 1: assembly without defect; missing: the bound |[X_R(t),X_F]|^lambda_(eta r, D(s-3sigma,4 eta r)) <= 24 eps M_F/(sigma eta^2) is not a standalone export (combined only inside stepXplus_pair_bound)
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.hasFDerivAt_bracket, KAM.Wave.stepBrZ, KAM.Wave.stepBrZ_norm_le, KAM.Wave.stepBrZ_sub_norm_le, KAM.Wave.stepFieldS_cauchy, KAM.Wave.stepCommutator_arith, KAM.Wave.stepXplus_pair_bound (KAM/Wave/KamStep/FlowSkew.lean, KAM/Wave/KamStep/StepBracket.lean, KAM/Wave/KamStep/Pullback.lean, KAM/Wave/KamStep/StepPlusBound.lean)
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the commutator bound is used only inside stepXplus_pair_bound (consumer st-2); exported: bracket sign and norm bounds stepBrZ_norm_le, stepBrZ_sub_norm_le, arithmetic stepCommutator_arith; previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w5:k-cauchy
@@ -352,9 +352,9 @@ EDGE: bpW:w5:omega | blueprint-W/parts/w5-kamstep.tex#stepW:w5:k-bd@L559-L559 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5b
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.stepCommutator_arith, KAM.Wave.stepBrZ_norm_le (KAM/Wave/KamStep/Pullback.lean, KAM/Wave/KamStep/StepBracket.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w5:commutator; arithmetic exported, the commutator lambda-bound itself only inside the X_(P_+) assembly
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.stepCommutator_arith, KAM.Wave.stepBrZ_norm_le, KAM.Wave.stepXplus_pair_bound (KAM/Wave/KamStep/Pullback.lean, KAM/Wave/KamStep/StepBracket.lean, KAM/Wave/KamStep/StepPlusBound.lean)
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): bound combined inside stepXplus_pair_bound; exported: stepCommutator_arith, stepBrZ_norm_le; previous status PARTIAL
 NOTE: -
 
 NODE: bpW:w5:step
