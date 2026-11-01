@@ -1,12 +1,12 @@
 {
- "_comment": "LP-FREEZE8 manifest entry drafts (NOT manifest/frozen-anchors.json): the LP3 delta (draft 8) on top of docs/tracks/LP/freeze/draft7/manifest-entries.json, same schema and conventions. Fields marked \"TBD at freeze\" are computed by scripts/abi_hashes.py and sha256 at freeze time; author_approval is filled from the owner decision approving the exact text. definition_closure lists the complete transitive closure of frozen definition files imported (including the core KAM/Frozen/Defs files); the paths under KAM/Frozen/Planetary/StrongAMD/ and KAM/Frozen/Planetary/Spatial/ are draft-7 files.",
+ "_comment": "LP-FREEZE8 manifest entry drafts (NOT manifest/frozen-anchors.json): the LP3 delta (draft 8), regenerated against the LP freeze sealed on main (D62, f46b94fb); same schema and conventions as docs/tracks/LP/freeze/draft7/manifest-entries.json. Fields marked \"TBD at freeze\" are computed at freeze time by docs/tracks/LP/freeze/lp_manifest_add.py (sha256 with the guard's digest) and scripts/abi_hashes.py; author_approval, split_policy.ruling_ref and state come from the approval record of the owner decision approving the exact text. definition_closure lists the complete transitive closure of frozen definition files imported (including the core KAM/Frozen/Defs files); every listed file is a frozen definition of manifest/frozen-anchors.json (the draft-7 files are frozen and sealed under D62).",
  "entries": [
   {
    "id": "planetary.d59.planar_strongAMD_exponentialSafety_noArith.v1",
    "kind": "theorem",
    "author_approval": "PENDING (D59 approves rulings only)",
    "source": {
-    "revision": "KAM-inp@ced282aa docs/tracks/LP/source/MAIN.md (sha256 68e9167f04e4a04689ea163c74e02ffcaea657b252726080abdbe37bdba48c1b) as amended by docs/tracks/LP/source/AMENDMENTS.md (sha256 c887d1e27354a3db7fb8a20d8bf3e33a9ef95ff3173f925ba5ebfab192651881), with the LP3 proof plan docs/tracks/LP/lp3/LP3-PLAN.md (sha256 1b58b7048fb3de47e1cadfee0e904085551227a28949a564ea2dc13085ab06ba); exact text docs/tracks/LP/FREEZE-PROPOSAL-DRAFT8.md draft 8",
+    "revision": "KAM-inp@2bbacd66 docs/tracks/LP/source/MAIN.md (sha256 68e9167f04e4a04689ea163c74e02ffcaea657b252726080abdbe37bdba48c1b) as amended by docs/tracks/LP/source/AMENDMENTS.md (sha256 c887d1e27354a3db7fb8a20d8bf3e33a9ef95ff3173f925ba5ebfab192651881), with the LP3 proof plan docs/tracks/LP/lp3/LP3-PLAN.md (sha256 1b58b7048fb3de47e1cadfee0e904085551227a28949a564ea2dc13085ab06ba); exact text docs/tracks/LP/FREEZE-PROPOSAL-DRAFT8.md draft 8",
     "range": "MAIN T15 (502–506) with §1 (6)–(9) (69–93) without (5), L14 (468–500), L16 (508–529); N8, N10; drift supplier L12–L13 (381–467) replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)"
    },
    "contract": {
@@ -356,7 +356,7 @@
    "kind": "theorem",
    "author_approval": "PENDING (D59 approves rulings only)",
    "source": {
-    "revision": "KAM-inp@ced282aa docs/tracks/LP/source/MAIN.md (sha256 68e9167f04e4a04689ea163c74e02ffcaea657b252726080abdbe37bdba48c1b) as amended by docs/tracks/LP/source/AMENDMENTS.md (sha256 c887d1e27354a3db7fb8a20d8bf3e33a9ef95ff3173f925ba5ebfab192651881), with the LP3 proof plan docs/tracks/LP/lp3/LP3-PLAN.md (sha256 1b58b7048fb3de47e1cadfee0e904085551227a28949a564ea2dc13085ab06ba); exact text docs/tracks/LP/FREEZE-PROPOSAL-DRAFT8.md draft 8",
+    "revision": "KAM-inp@2bbacd66 docs/tracks/LP/source/MAIN.md (sha256 68e9167f04e4a04689ea163c74e02ffcaea657b252726080abdbe37bdba48c1b) as amended by docs/tracks/LP/source/AMENDMENTS.md (sha256 c887d1e27354a3db7fb8a20d8bf3e33a9ef95ff3173f925ba5ebfab192651881), with the LP3 proof plan docs/tracks/LP/lp3/LP3-PLAN.md (sha256 1b58b7048fb3de47e1cadfee0e904085551227a28949a564ea2dc13085ab06ba); exact text docs/tracks/LP/FREEZE-PROPOSAL-DRAFT8.md draft 8",
     "range": "MAIN T19 (599–603) with §1 (6)–(9) (69–93) without (5), L14 (468–500), L16 (508–529), d = 3; drift supplier L12–L13 (381–467) replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)"
    },
    "contract": {
