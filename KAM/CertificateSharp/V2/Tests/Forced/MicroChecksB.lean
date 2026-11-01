@@ -9,24 +9,16 @@ public import KAM.CertificateSharp.V2.Tests.Forced.MicroData
 public import KAM.CertificateSharp.V2.Engine
 
 /-!
-# The direct landed sub-checks of the forced toy `Micro`
+# Landed sub-checks of the forced toy `Micro` (part B)
 
-`checkStatic`, `checkHamBounds`, `checkEmbedding`, `checkInvariance`, `checkEnergy` on
-`Micro.cert`, one `decide +kernel` each. The Gram and torsion checks are in `MicroBase`
-(memoized stages).
+`invariance_ok`, `energy_ok`, one `decide +kernel` each.
 -/
 
 @[expose] public section
 
 namespace KAM.CertificateSharp.V2.Forced.Micro
 
-open KAM.Certificate
-
-theorem static_ok : checkStatic cert = true := by decide +kernel
-
-theorem hamBounds_ok : checkHamBounds cert = true := by decide +kernel
-
-theorem embedding_ok : checkEmbedding cert = true := by decide +kernel
+open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2
 
 theorem invariance_ok : checkInvariance cert = true := by decide +kernel
 

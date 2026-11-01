@@ -320,8 +320,6 @@ def main(tag):
     return W, WR
 
 
-if __name__ == "__main__":
-    main(sys.argv[1])
 
 
 def bsite(t):
@@ -541,3 +539,51 @@ end KAM.CertificateSharp.V2.Forced.%(T)s
 
 end
 """ % dict(mod=MOD, T=T, Xs=q(Xs), bF=q(bF), bT=q(bT)))
+
+
+def main_B(tag):
+    """route B at the refined data (the claim of <TAG>_witness.json), certified sites; <TAG>RouteB.lean."""
+    import forced_witness as FW
+    c = FW.load(tag)
+    path = os.path.join(ROOT, "scripts", "certifier", "fixtures", "forced-toy", "%s_witness.json" % tag)
+    W = json.load(open(path))
+    R = {k: F(v) for k, v in W["refinedA"]["R"].items()}
+    B = FW.route_B(c, tag, R)
+    assert FW.check_B_in_lean(tag, B)
+    B["err"] = c.params["err"]
+    write(tag, "RouteB", routeB_module(tag, B))
+    W["refinedB"] = FW.jsonable({k: v for k, v in B.items() if k != "I"})
+    json.dump(W, open(path, "w"), indent=1, sort_keys=True, default=str)
+
+
+def main_frozen(tag):
+    """the sharp and frozen routes (A, B) of a near-integrable toy; <TAG>Freq.lean and <TAG>Routes.lean."""
+    import forced_witness as FW
+    import sharp_q as SQ
+    c = FW.load(tag)
+    A = FW.frozen_A(c)
+    A["err"], A["esharp"] = c.params["err"], SQ.sharp(dict(c.params))["threshold"]
+    B = FW.route_B(c, tag, None, frozen=True)
+    write(tag, "Freq", freq_module(tag, c))
+    write(tag, "Routes", frozen_module(tag, A, B))
+    path = os.path.join(ROOT, "scripts", "certifier", "fixtures", "forced-toy", "%s_witness.json" % tag)
+    json.dump(FW.jsonable(dict(frozenA=A, frozenB={k: v for k, v in B.items() if k != "I"})), open(path, "w"),
+              indent=1, sort_keys=True, default=str)
+
+
+if __name__ == "__main__":
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("tag")
+    ap.add_argument("--B", action="store_true", help="route B (after the refined route A run)")
+    ap.add_argument("--R", nargs=3, metavar=("XS", "BF", "BT"), help="route A with lever L8' at these numbers")
+    ap.add_argument("--frozen", action="store_true", help="sharp and frozen routes (near-integrable toys)")
+    a = ap.parse_args()
+    if a.frozen:
+        main_frozen(a.tag)
+    elif a.B:
+        main_B(a.tag)
+    elif a.R:
+        write(a.tag, "RouteR", routeR_module(a.tag, F(a.R[0]), F(a.R[1]), F(a.R[2])))
+    else:
+        main(a.tag)

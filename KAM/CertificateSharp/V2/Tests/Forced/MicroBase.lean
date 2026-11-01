@@ -5,88 +5,26 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.CertificateSharp.V2.Tests.Forced.MicroStages
-public import KAM.CertificateSharp.V2.Tests.Forced.MicroChecks
-public import KAM.CertificateSharp.Kernel.Stage
-public import KAM.CertificateSharp.V2.Engine
+public import KAM.CertificateSharp.V2.Tests.Forced.MicroGram
+public import KAM.CertificateSharp.V2.Tests.Forced.MicroTorsion1
+public import KAM.CertificateSharp.V2.Tests.Forced.MicroTorsion2
+public import KAM.CertificateSharp.V2.Tests.Forced.MicroTorsion3
+public import KAM.CertificateSharp.V2.Tests.Forced.MicroChecksA
+public import KAM.CertificateSharp.V2.Tests.Forced.MicroChecksB
 
 /-!
-# The landed sub-checks of the forced toy `Micro`, one kernel run each
+# Every landed sub-check of the forced toy `Micro`
 
-`static_ok` … `energy_ok` (`MicroChecks`) decide the landed sub-checks directly. The Gram
-and torsion checks go through the memoized stages of `MicroStages` (`Kernel/Stage.lean`):
-each stage literal, computed by the Python mirror, is re-proved here by its own
-`decide +kernel` on a Boolean equality, then rewritten into the landed `gramCheck` and
-`torsionModels` (`gramCheck_eq_of_rows`, `torsionModels_eq_of_stages`). A mirror that drifted
-from the landed checker would fail these equalities: the stage theorems are the cross-language
-agreement test of the producer. `base_ok` assembles `landedBase.check`.
+`torsion_ok` assembles the torsion stages of `MicroTorsion1/2/3` and `MicroGram`
+(`torsionModels_eq_of_stages`);
+`base_ok` is `landedBase.check Micro.cert = true`.
 -/
 
 @[expose] public section
 
 namespace KAM.CertificateSharp.V2.Forced.Micro
 
-open KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2
-
-/-! ### Gram -/
-
-theorem G_eq : gramModels 2 cert.emb cert.weight cert.cfgLow cert.piEnc = G :=
-  eq_of_matBeq (by decide +kernel)
-
-theorem dRows_eq : gramDefectRows 2 cert.gramInv G cert.weight cert.cfgLow cert.piEnc = dRows := by
-  decide +kernel
-
-theorem gram_eq : gramCheck 2 cert.emb cert.gramInv cert.weight cert.cfgLow cert.piEnc
-    (cert.params.σB - cert.params.μ) = some db :=
-  (gramCheck_eq_of_rows 2 cert.emb cert.gramInv cert.weight cert.cfgLow cert.piEnc _
-    (by decide +kernel) (by rewrite [G_eq]; exact dRows_eq)).trans (by decide +kernel)
-
-theorem gram_ok : checkGram cert = true := checkGram_of_gramCheck gram_eq
-
-/-! ### Torsion, stage by stage -/
-
-theorem eps_eq : gramInvRadius db = some eps := by decide +kernel
-
-theorem ms_eq : Slp.compose 2 cert.ham.jet.prog cert.emb cert.wit cert.weight cert.cfgLow cert.piEnc
-    (torsionSlots 2 cert.ham.jet) = some ms :=
-  eq_of_optModelsBeq (by decide +kernel)
-
-theorem L_eq : dkModels 2 cert.emb cert.weight cert.piEnc = L := eq_of_matBeq (by decide +kernel)
-
-theorem Gi_eq : gramInvModels 2 cert.gramInv eps = Gi := eq_of_matBeq (by decide +kernel)
-
-theorem DL_eq : dkwModels 2 cert.emb cert.freqBox cert.params.s cert.weight cert.cfgLow
-    cert.piEnc = DL :=
-  eq_of_matBeq (by decide +kernel)
-
-theorem N0_eq : modelMatMul cert.weight cert.cfgLow cert.piEnc [4, 0] (2 + 2) 2 2 L Gi = N0 :=
-  eq_of_matBeq (by decide +kernel)
-
-theorem DG1_eq : modelMatMul cert.weight cert.cfgLow cert.piEnc [4, 1] 2 (2 + 2) 2
-    (modelMatTranspose (2 + 2) 2 DL) L = DG1 :=
-  eq_of_matBeq (by decide +kernel)
-
-theorem DG2_eq : modelMatMul cert.weight cert.cfgLow cert.piEnc [4, 2] 2 (2 + 2) 2
-    (modelMatTranspose (2 + 2) 2 L) DL = DG2 :=
-  eq_of_matBeq (by decide +kernel)
-
-theorem DGi0_eq : modelMatMul cert.weight cert.cfgLow cert.piEnc [4, 3] 2 2 2 Gi
-    (modelMatAdd cert.weight cert.piEnc 2 2 DG1 DG2) = DGi0 :=
-  eq_of_matBeq (by decide +kernel)
-
-theorem DGi1_eq : modelMatMul cert.weight cert.cfgLow cert.piEnc [4, 4] 2 2 2 DGi0 Gi = DGi1 :=
-  eq_of_matBeq (by decide +kernel)
-
-theorem DN1_eq : modelMatMul cert.weight cert.cfgLow cert.piEnc [4, 5] (2 + 2) 2 2 DL Gi = DN1 :=
-  eq_of_matBeq (by decide +kernel)
-
-theorem DN2_eq : modelMatMul cert.weight cert.cfgLow cert.piEnc [4, 6] (2 + 2) 2 2 L
-    (modelMatNeg 2 2 DGi1) = DN2 :=
-  eq_of_matBeq (by decide +kernel)
-
-theorem XN1_eq : modelMatMul cert.weight cert.cfgLow cert.piEnc [4, 7] (2 + 2) (2 + 2) 2
-    (dxhModels 2 ms) (modelMatOmega 2 2 N0) = XN1 :=
-  eq_of_matBeq (by decide +kernel)
+open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2
 
 theorem Tb_eq : modelMatMul cert.weight cert.cfgLow cert.piEnc [4, 8] 2 (2 + 2) 2
     (modelMatTranspose (2 + 2) 2 (modelMatOmega 2 2 N0))

@@ -160,7 +160,8 @@ def catalogue(tag, c, W, WB):
         "checkStatic { cert with params := { cert.params with nuRay := 1 / 10 ^ 5 } }", mirror=dict(ok=ok))
     w = dict(W["core"], R=R)
     add("mut_dispRoom", "ray room", "`disp = 1`, above the room `(σω - s)|ω*|` of the ray",
-        "refinedCore 2 { cert.params with disp := 1 } cert.freqBox refinedWit",
+        "finalOkA (refinedWit.num 2 { cert.params with disp := 1 } cert.freqBox) { cert.params with disp := 1 } "
+        "cert.freqBox refinedWit.core.Xs",
         mirror=dict(ok=safe(V.refinedCore, 2, dict(p, disp=F(1)), c.freqBox, w)))
     # -- schedules
     add("mut_theta", "schedules", "route A with `θ = 1`",

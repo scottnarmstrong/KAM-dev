@@ -19,10 +19,14 @@ orchestrator asked). Owned files of other workers were only imported, never edit
   `scripts/apost_sharp/route_b_lean_mirror.py`.
 * Fixtures: `scripts/certifier/fixtures/forced-toy/{Tiny,Micro,TinyC2}.json` (spec, mirror report, every
   number of the certificate), `{Tiny,Micro}_witness.json`, `Tiny_mutations.json`, `sweep.json`, `xlang.json`.
-* Lean (new modules only, `KAM/CertificateSharp/V2/Tests/Forced/`, all in the default build):
-  `Format`, `Lemmas`; per toy `<T>Data` (certificate, `CertFixed 96`), `<T>Stages` (memoized Gram/torsion
-  stage literals), `<T>Checks`, `<T>Base`, `<T>Freq`; `TinyClaim`, `TinyRouteA`, `TinyRouteB`, `TinyRouteR`,
-  `TinyMutations`, `TinyMutationsInv`, `MicroRoutes`, `TinyC2Claim`, `TinyC2RouteA`, `TimeScale`.
+* Lean, laid out per the orchestrator's ruling (V2-TOOLS-FIX, below): default build
+  (`KAM/CertificateSharp/V2/Tests/Forced/`, new modules only): `Format`, `Lemmas`; data `<T>Data`
+  (certificate, `CertFixed 96`), `<T>Stages` (memoized Gram/torsion stage literals), `<T>Freq` for
+  `T ∈ {Tiny, Micro, TinyC2}`; the passing certificate `Micro`: `MicroChecksA/B`, `MicroGram`,
+  `MicroTorsion1/2/3`, `MicroBase`, `MicroRoutes`; the mutation target `Tiny`: `TinyWitness`, `TinyGram`,
+  `TinyMutClaims/Cores/Sites/Denominator/Sqrt/Coef/Residual/Advice/ConvA/ConvB`. Opt-in:
+  `kernel-tests/CertificateSharp/V2/ForcedRoutes.lean` (Tiny's base checks and routes A, L8′, B with their tori,
+  `mut_frameT`, the TinyC2 chain, `timeScale_*`).
 
 ### The model and the three certificates
 
@@ -78,15 +82,16 @@ Main theorems (all `decide +kernel` at default limits, no heartbeat or recursion
 
 ### Mutations (24 rejections, 2 controls)
 
-`TinyMutations` (13 + 2 controls, 27 s) and `TinyMutationsInv` (11, 18 s); each decides only the check that must
-reject. The 19 the mirror covers are rejected by the mirror too (`Tiny_mutations.json`).
+Ten default-build modules `TinyMut*` (23 rejections and the 2 controls, 1.4–6.9 s each) and `mut_frameT` in
+the opt-in `ForcedRoutes.lean`; each decides only the check that must reject. The 19 the mirror covers are
+rejected by the mirror too (`Tiny_mutations.json`, which records each mutation's module).
 
 | Family | Mutation → rejecting check |
 |---|---|
 | coefficients | amplitude of `(1,0)` × (1 + 10⁻³) → `checkInvariance`; largest `u` coefficient × (1 + 10⁻⁴) → invariance; largest witness coefficient × (1 + 10⁻³) → invariance |
 | residual claims | `err/2` → invariance; `E0 + 2 err` → `checkEnergy` |
 | frame bounds | `bL`, `bN`, `bT` × 0.99 → `checkFrameL/N/T` (N, T through the stages); `dx` × 0.99 → `checkHamClaim` |
-| ray room | `nuRay = 10⁻⁵` → `checkStatic`; `disp = 1` → `refinedCore` (room of the ray) |
+| ray room | `nuRay = 10⁻⁵` → `checkStatic`; `disp = 1` → `finalOkA`, the final clause of route A (room of the ray) |
 | schedules | `θ = 1`, `10 X⋆` → `refinedCore`; route B `a = 1` → `refinedBCore` |
 | denominator separation | box radius 1/20 (fibers reach the resonance) → `sitesOk`; site bound `B/2` → `siteOk`; `10⁻⁹/(p − p_c)` (ball contains 0) → `checkHamBounds`, control `10⁻⁹/(p + 1)` passes |
 | square-root domains | `10⁻⁹ √(p − p_c)` (operand reaches Re ≤ 0) → `checkHamBounds`, control `√(p + 1)` passes |
@@ -114,7 +119,7 @@ certified sites the refined margin of `Tiny` is 3.2 (kernel). The sweep is mirro
 
 ### Equivalent normalizations through their checked transformation
 
-`TimeScale.lean`: `TinyC2` (H and ω* doubled) carries the same torus (`timeScale_emb`, `rfl`), its Hamiltonian
+`timeScale_*` (in the opt-in `ForcedRoutes.lean` since V2-TOOLS-FIX): `TinyC2` (H and ω* doubled) carries the same torus (`timeScale_emb`, `rfl`), its Hamiltonian
 is `2 · Tiny.H` (`timeScale_H`), its reference vector `2 • Tiny.ωstar` (`timeScale_ωstar`), and
 `timeScale_invariance` is `invarianceError_const_mul` instantiated: the invariance error of `TinyC2` is twice
 that of `Tiny` at half the frequency, which is exactly the factor between the two independently checked
@@ -130,18 +135,22 @@ the stage literals. In the kernel: every stage literal (above).
 
 ### Checks and measurements
 
-`lake build` per module (wall, peak RSS of the build): Tiny `Checks` 10 s / 2.0 GB, `Base` 22–32 s / 2.5 GB,
-`Claim` 5.4 s / 2.1 GB, `RouteA` 10 s / 2.9 GB, `RouteB` 16 s / 3.0 GB, `RouteR` 10 s / 2.9 GB, `Mutations`
-27 s / 3.0 GB, `MutationsInv` 18 s / 1.9 GB; Micro `Checks` 9 s / 2.0 GB, `Base` 17–19 s / 2.3 GB, `Routes`
-1.6 s / 1.6 GB; TinyC2 `Base` 23 s, `RouteA` 10 s; `Freq` 1.4 s / 1.5 GB; `TimeScale` 1.3 s. The heaviest single
-theorem is a torsion stage (`XN1_eq`, about 7 s). Whole suite ≈ 4 min serial. Memory accounting: under
-`lake env lean` the bare imports already show 3.4–3.6 GB RSS, under `lake build` the lightest forced module
-peaks at 1.5 GB; the numbers above are `lake build` peaks.
+Default build, `lake build` per module (wall, peak RSS of the build), after V2-TOOLS-FIX: `TinyWitness` 1.3 s /
+1.5 GB, `TinyGram` 3.5 s / 1.7 GB, `MicroGram` 3.3 s / 1.7 GB, `MicroChecksA` 4.2 s / 2.0 GB, `MicroChecksB` 5.3 s
+/ 2.0 GB, `MicroTorsion1` 6.2 s / 2.0 GB, `MicroTorsion2` 3.7 s / 1.9 GB, `MicroTorsion3` 2.8 s / 1.7 GB,
+`MicroBase` 6.5 s / 2.2 GB, `MicroRoutes` 1.8 s / 1.6 GB; `TinyMutClaims` 3.8 s / 2.0 GB, `TinyMutCores` 1.4 s /
+1.6 GB, `TinyMutSites` 1.6 s / 1.6 GB, `TinyMutDenominator` 6.5 s / 2.2 GB, `TinyMutSqrt` 6.9 s / 2.2 GB,
+`TinyMutCoef` 4.0 s / 1.9 GB, `TinyMutResidual` 4.6 s / 1.9 GB, `TinyMutAdvice` 5.1 s / 1.9 GB, `TinyMutConvA`
+3.3 s / 1.8 GB, `TinyMutConvB` 3.7 s / 1.8 GB; the data modules 1.4–2.6 s. Every default module is at most
+6.9 s and 2.24 GB. Opt-in `ForcedRoutes.lean`: 90 s, 3.5 GB peak under `lake env lean` (verified on an identical
+copy in the scratch directory, so that nothing under `kernel-tests/` was built). Memory accounting: under
+`lake env lean` the bare imports already show 3.4–3.6 GB RSS, under `lake build` the lightest module peaks at
+1.5 GB. Before the split the heaviest single theorem was a torsion stage (`XN1_eq`, about 7 s on Tiny).
 
-`#print axioms` (all `[propext, Classical.choice, Quot.sound]`): `Tiny.refinedA_torus`, `Tiny.refinedB_torus`,
-`Tiny.refinedR_torus`, `Micro.sharp_torus`, `Micro.frozenA_torus`, `Micro.frozenB_torus`,
-`TinyC2.refinedA_torus`, `timeScale_tori`, `timeScale_invariance`, `Tiny.mut_hamCoef`, `Tiny.mut_denominator`,
-`Tiny.ctl_sqrtDomain`.
+`#print axioms` (all `[propext, Classical.choice, Quot.sound]`), re-run after the layout: default
+`Micro.base_ok`, `Micro.sharp_torus`, `Micro.frozenA_torus`, `Micro.frozenB_torus`, `Tiny.mut_hamCoef`,
+`Tiny.mut_frameN`, `Tiny.ctl_sqrtDomain`; opt-in `Tiny.refinedA_torus`, `Tiny.refinedB_torus`,
+`Tiny.refinedR_torus`, `TinyC2.refinedA_torus`, `timeScale_tori`, `Tiny.mut_frameT`.
 
 `scripts/lint_sources.sh`: every file-based step passes (forbidden constructs, 100-column lines, 1500-line cap,
 `gen_root_imports --check`, `render_errata --check`, `check_lean_modules: PASS (3687 Lean files)`,
@@ -236,22 +245,42 @@ Readings:
 * Route B with certified sites is not scanned (the B rows use classical sites); the refined-B threshold of the
   forced toy with certified sites is in part #6.
 
+### Known limitation (deferred to Scott)
+
+The cost model's ℓ¹-entry (+0.5 of the base cost) and hybrid (+1.0) terms are unmeasured guesses, and their
+thresholds are design estimates (`thresholds_v2` at R1; the hybrid also needs the model's measured step-0
+constant). They are reported as estimates and never chosen over an exact-mirror candidate of equal cost; one
+measured trial each would calibrate them (orchestrator: recorded as a known limitation, deferred to Scott).
+
 ### Owner questions (#3)
 
-1. Should the cost model's unmeasured parts (the ℓ¹ entry +0.5, the hybrid +1.0 of the base cost) be calibrated
-   by one measured trial each before the tool is used to commit an application run?
-2. LG00 at `CertFixed 96`: is there a reason (time scale, jet constants) for 128 bits that the precision-floor
+1. LG00 at `CertFixed 96`: is there a reason (time scale, jet constants) for 128 bits that the precision-floor
    model does not see? The tool's 0.68 depends on it (0.90 at P = 128, L = 19).
-3. Lunar at ρ = 1/70, L = 19 (0.88×): worth a new package for the next lunar run, or keep R2 as SO-V2PKG decided?
+2. Lunar at ρ = 1/70, L = 19 (0.88×): worth a new package for the next lunar run, or keep R2 as SO-V2PKG decided?
 
 ## Owner questions (#6)
 
-1. Default-build weight of the forced suite: per-module `lake build` peaks are 1.5–3.0 GB and module walls up to
-   32 s (the heaviest single theorem ≈ 7 s), about 4 min serial in all. Keep everything in the default build (as
-   now), or move the route/mutation modules over ~2 GB (`TinyRouteA/B/R`, `TinyMutations`, 2.9–3.0 GB) to
-   `kernel-tests/`? Nothing in the core imports them except `TimeScale`.
-2. The ℓ¹ entry and the hybrid on the forced toy need checker-side memoization bridges (for `checkL1Claim`, and
+1. The ℓ¹ entry and the hybrid on the forced toy need checker-side memoization bridges (for `checkL1Claim`, and
    the hybrid compositions) analogous to `Kernel/Stage.lean`: commission them after the SO hold lifts?
+
+## V2-TOOLS-FIX (orchestrator ruling on the default-build weight)
+
+Ruling: move anything over ~10 s or ~2.5 GB to `kernel-tests/` with a README line; keep in the default build only
+a cheap subset (the mutation checks and one passing certificate, a few seconds each).
+
+* `scripts/certifier/forced/forced_layout.py` lays the generated full modules out (reproducible: the generators,
+  then the layout). The passing certificate kept in the default build is `Micro` (sharp, frozen A, frozen B; no
+  certified sites, so its routes cost 1.8 s); its base proofs are split into seven modules, the stage proofs
+  independent of each other (parallel). The mutations stay on `Tiny`, in ten modules, importing only the
+  witnesses (`TinyWitness`, definitions) and the cheap Gram and `[4, 0]` stages (`TinyGram`).
+* `mut_dispRoom` now decides the rejecting final clause (`finalOkA` at `disp = 1`) instead of the whole
+  `refinedCore`, whose site checks made its module 9.1 s / 3.0 GB (now 1.4 s / 1.6 GB); `mut_frameT` (it needs
+  every torsion stage) moved to the opt-in file.
+* Opt-in: `kernel-tests/CertificateSharp/V2/ForcedRoutes.lean` (451 lines; imports only library modules; row and
+  run line in `kernel-tests/README.md`).
+* Re-checked: every default module built (numbers above), the opt-in file elaborated on a scratch copy without
+  error, `forced_xlang.py`: `ALL AGREE (31 comparisons)`, axioms as above, `forced_routes.py` gained `--B`,
+  `--R XS BF BT` and `--frozen` so the README's pipeline regenerates every route module.
 
 ## Suspected errata and deviations
 

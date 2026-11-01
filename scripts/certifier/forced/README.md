@@ -17,19 +17,33 @@ reports and witnesses in `scripts/certifier/fixtures/forced-toy/`.
 | `forced_build.py TAG` | build one named spec (`Tiny`, `Micro`, `TinyC2`) and write `<TAG>Data/Stages/Checks/Base.lean` |
 | `forced_lean.py` | compiled-Lean `#eval` oracle (ℚ-level checks only: the `CertFixed` instance is noncomputable) |
 | `forced_witness.py` | refined claim R (mirror), certified small-divisor sites (Lean `balCheck` search), route A/B/frozen witnesses (`v2_q`, `v2_r2`, `route_b_lean_mirror`) |
-| `forced_routes.py TAG` | `<TAG>Freq/Claim/RouteA.lean` (and the route-B, L8′, frozen/sharp modules) |
+| `forced_routes.py TAG [--B / --R XS BF BT / --frozen]` | `<TAG>Freq/Claim/RouteA.lean`; route B; L8′; the sharp and frozen routes |
 | `forced_mutations.py TAG` | 24 mutations with mirror verdicts, `<TAG>Mutations(Inv).lean` |
 | `forced_sweep.py` | mirror sweep of frequency separation, twist, support, precision, perturbation, time scale |
 | `forced_xlang.py` | cross-language agreement (31 comparisons; exit status 0 iff all agree) |
+| `forced_layout.py` | lays the generated full modules out: a cheap default-build subset and the opt-in `kernel-tests/CertificateSharp/V2/ForcedRoutes.lean` |
+
+Layout (orchestrator ruling, V2-TOOLS-FIX: default modules of a few seconds each):
+* default build: `Format`, `Lemmas`; `Micro` (the passing certificate: `MicroChecksA/B`, `MicroGram`,
+  `MicroTorsion1/2/3`, `MicroBase`, `MicroRoutes` — sharp, frozen A, frozen B); `Tiny`'s mutations
+  (`TinyWitness`, `TinyGram`, ten `TinyMut*` modules); the data modules `<T>Data`, `<T>Stages`, `<T>Freq` that
+  the opt-in test imports;
+* opt-in: `kernel-tests/CertificateSharp/V2/ForcedRoutes.lean` (`Tiny`'s routes A, L8′, B and tori, `mut_frameT`,
+  the `TinyC2` chain, the time-normalization tori).
 
 Reproduce (from the repository root; `FORCED_WORK` holds the pickles):
 
     export FORCED_WORK=/tmp/forced-work
     python3 -I scripts/certifier/forced/forced_build.py Tiny     # also Micro, TinyC2
-    python3 -I scripts/certifier/forced/forced_routes.py Tiny    # needs TinyData built
+    python3 -I scripts/certifier/forced/forced_routes.py Tiny    # needs TinyData built (also TinyC2)
+    python3 -I scripts/certifier/forced/forced_routes.py Tiny --B
+    python3 -I scripts/certifier/forced/forced_routes.py Tiny --R 191 1/1000 1/1000
+    python3 -I scripts/certifier/forced/forced_routes.py Micro --frozen
     python3 -I scripts/certifier/forced/forced_mutations.py Tiny
     python3 -I scripts/certifier/forced/forced_xlang.py
-    nice -n 5 lake build KAM.CertificateSharp.V2.Tests.Forced.TimeScale   # and the other Forced modules
+    python3 -I scripts/certifier/forced/forced_layout.py      # needs the full modules of all three tags
+    nice -n 5 lake build KAM.CertificateSharp.V2.Tests.Forced.MicroRoutes   # and the TinyMut* modules
+    nice -n 10 lake env lean kernel-tests/CertificateSharp/V2/ForcedRoutes.lean   # opt-in
 
 Kernel cost is quadratic in the Fourier support (the direct product costs about 1 ms per coefficient pair in
 the kernel), so the toys keep every model at a few dozen terms; the character witness enters the residual
