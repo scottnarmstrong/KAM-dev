@@ -61,7 +61,8 @@ src (4th, created 05:30 for the third slot).
 | LP3-COVERPERT finite cover + normalized perturbation | LP3 plan | LP3 | `inp-lp-lp3cp` / geomod worktree | claude-12 | **PROVED** bc848662 (590 lines; Cover + Perturbation incl. `−P`); audit queued |
 | LP3-CELL generic cellwise application (k slow pairs), ± time | LP3 plan §5 option | LP3 | `inp-lp-lp3cell` / geomod worktree | claude-11 | **PROVED** 4d6256d1 (≈230 lines: `cell_threshold_uniform`, `isSolutionOn_reverse_neg`, `cell_drift_two_sided`, `kepler_cell_drift`; axioms standard, sealed anchor complete); audit queued |
 | LP3-DRIFT planar `hstop` supplier (no Diophantine premise) | LP3 plan §2.4 | LP3 | `inp-lp-lp3drift` / geomod worktree | claude-11 | **RUNNING** (09:1x) |
-| LP3-SP-COVER spatial cover + perturbation | LP3 plan | LP3 | `inp-lp-lp3spcov` / mom worktree | claude-12 | **RUNNING** (09:0x; on the unlanded spatial branch) |
+| LP3-SP-COVER spatial cover + perturbation | LP3 plan | LP3 | `inp-lp-lp3spcov` / mom worktree | claude-12 | **PROVED** b8994a7c (434 lines; planar cells reused verbatim; `exists_spatialNekPerturbation`); audit queued |
+| LP3-SP-DRIFT spatial `hstop` supplier | LP3 plan §2.5 | LP3 | `inp-lp-lp3spdrift` / mom worktree | claude-12 | **RUNNING** (09:2x) |
 
 ## Audit queue (codex-2, one at a time machine-wide; W interleaves when LP has a gap)
 
@@ -142,3 +143,4 @@ src (4th, created 05:30 for the third slot).
 - 2026-11-01 08:35 UTC: root-b8: two codex-2 lanes (LP and W concurrently); fix (A) for R4.1 confirmed. LP lane: W4C running; then W4D, W4E, LP3-KEP continuously.
 - 2026-11-01 09:0x UTC: LP-SP-SRCB2 PROVED (R4.1 (A) text verbatim; axioms standard); statement review 5 PASS WITH NOTES (R5.1/R5.3 applied; R4.6 docstring fixes in Elements.lean:35 and Model.lean:21 to be folded into the W4E notes round). LP3-COVERPERT PROVED (590 lines). LP3-CELL (claude-11) and LP3-SP-COVER (claude-12) launched. LP-W4C auditing on codex-2; W4D built.
 - 2026-11-01 09:1x UTC: LP3-CELL PROVED (generic cellwise application, ± time; Kepler instance). LP3-DRIFT launched (claude-11).
+- 2026-11-01 09:2x UTC: LP3-SP-COVER PROVED. LP3-SP-DRIFT launched (claude-12), in parallel with the planar LP3-DRIFT. W4D fully staged (lint, short-name OK); waits for the W4C audit (LP lane).
