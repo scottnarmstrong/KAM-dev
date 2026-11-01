@@ -21,6 +21,14 @@ Done (each module builds with `w_build.sh`, default heartbeats, no `sorry`):
   `birk_tsum_tan_nor`.
 - `ActionAngleNormal.lean`: (iv) `aaEnergy`, `aaOmega0`, `aaOmegaN0` (= `waveFreqTan`, `waveFreqNor` for real `ξ`),
   `aaZZ`, `aaNfun`, `aaQt`, `aaKext`, `aaXKext`, `aaPfun`, `aaMap_normalForm`.
+- `ActionAngleQt.lean`: (v) the field of `Q̃`: `aaSfun`, `aaBq`, `aaXQt`, `aaQt_hasFDerivAt`.
+- `ActionAngleField.lean`: (v) `aaXP` (`X_{P_ξ}`), `hasFDerivAt_comp_aaMap` (chain rule, step `a-field`),
+  `aaP_isSmoothing_of` (helper, any open `V`), **`aaP_isSmoothing`** (`a=p=1`, `D(s,r)`), `aaPfun_real`, `aaPfun_add_tau`.
+- `InitialBound.lean`: `aaEpsIn`, `kamNorm_aaXQt_le` (i-q), `kamNorm_aaDerInv_normal_le` (i-g), `kamNorm_aaDerInv_le`
+  (i-k), `kamNorm_aaXP_le`.
+- `Initial.lean`: `differentiableAt_aaXP_param`, `aaXP_lipschitz` (i-par), **`initialPerturbation`** (`bpW:w5:initial`).
+
+Open (in progress): (v) the conjugacy identity `X_{H'}(𝒜w) = D𝒜(w)(X_N + X_P)` in `𝔚^{p-1}`.
 
 ## W5-STEP-A-FIX (findings F1, F2 of `W5-STEP-A-audit-1.md`)
 
