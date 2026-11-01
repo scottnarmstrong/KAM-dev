@@ -31,7 +31,8 @@ open KAM.Planetary KAM.Planetary.StrongAMD Set Metric
 
 variable {n : ℕ} {ν : Fin n → ℝ} {L : Set (Fin n → ℝ)} {δ r : ℝ}
 
-/-- The real slow ball `{z ∈ ℝ^{4n} : |z|₂²/2 ≤ B(I⁰) − δ/4}` of MAIN (47), over all `2n` slow pairs. -/
+/-- The real slow ball `{z ∈ ℝ^{4n} : |z|₂²/2 ≤ B(I⁰) − δ/4}` of MAIN (47), over all `2n` slow
+pairs. -/
 def spatialSecularBall (ν : Fin n → ℝ) (δ : ℝ) (I0 : Fin n → ℝ) : Set (Phase (n + n)) :=
   {y | ((∑ k, y.1 k ^ 2) + ∑ k, y.2 k ^ 2) / 2 ≤ strongThreshold ν I0 - δ / 4}
 
@@ -96,7 +97,8 @@ theorem spatialStrongCore_containment {rs s b R : ℝ} (hrs : 0 < rs) (hrg : rs 
       rw [Real.norm_eq_abs] at h2
       simp only [KAM.Nekhoroshev.complexifyPhase, Prod.fst_sub, Pi.sub_apply, hx, fastShift,
         Prod.fst_add, Pi.add_apply, Fin.append_left]
-      have : z.1 (Fin.castAdd (n + n) i) - (((z.1 (Fin.castAdd (n + n) i)).re - 2 * Real.pi * (k i : ℝ) +
+      have : z.1 (Fin.castAdd (n + n) i) -
+          (((z.1 (Fin.castAdd (n + n) i)).re - 2 * Real.pi * (k i : ℝ) +
           2 * Real.pi * (k i : ℝ) : ℝ) : ℂ) = z.1 (Fin.castAdd (n + n) i) -
           (((z.1 (Fin.castAdd (n + n) i)).re : ℝ) : ℂ) := by
         congr 2; ring

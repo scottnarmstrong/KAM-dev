@@ -635,6 +635,12 @@ public import KAM.Planetary.SecularSpectrum.Norms
 public import KAM.Planetary.SecularSpectrum.Transport
 public import KAM.Planetary.SecularSpectrum.TwoPlanets
 public import KAM.Planetary.Spatial.Alignment
+public import KAM.Planetary.Spatial.AnalyticDomain.Alignment
+public import KAM.Planetary.Spatial.AnalyticDomain.Containment
+public import KAM.Planetary.Spatial.AnalyticDomain.Core
+public import KAM.Planetary.Spatial.AnalyticDomain.Extension
+public import KAM.Planetary.Spatial.AnalyticDomain.Safety
+public import KAM.Planetary.Spatial.AnalyticDomain
 public import KAM.Planetary.Spatial.Chart.Analytic
 public import KAM.Planetary.Spatial.Chart.Defs
 public import KAM.Planetary.Spatial.Chart.Diffeo

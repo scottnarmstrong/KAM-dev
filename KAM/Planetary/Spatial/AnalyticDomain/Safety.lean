@@ -36,7 +36,8 @@ variable {n : ℕ} {ν : Fin n → ℝ} {L : Set (Fin n → ℝ)} {δ r : ℝ}
 def spatialChartSafe (ν : Fin n → ℝ) : Set (Phase (n + (n + n))) :=
   spatialPoincareProdDom n ∩ spatialPoincareProd ν ⁻¹' spatialCollisionFreeDomain n
 
-theorem spatialChartSafe_subset_dom (ν : Fin n → ℝ) : spatialChartSafe ν ⊆ spatialPoincareProdDom n :=
+theorem spatialChartSafe_subset_dom (ν : Fin n → ℝ) :
+    spatialChartSafe ν ⊆ spatialPoincareProdDom n :=
   inter_subset_left
 
 /-- Chart images have negative energy, positive masses and no planet at the star. -/
