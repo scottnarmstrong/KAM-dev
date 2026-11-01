@@ -12,7 +12,7 @@ public import KAM.Planetary.StrongAMD.Osculating.Core
 /-!
 # Specific Kepler elements with parameter `k` in dimension three and their perturbation estimates
 
-Package LP-SP-OSC, `LP:MAIN L16 (508–529)` with `d = 3` and amendment N10; track LP, non-frozen.
+Package LP-SP-OSC, `LP:MAIN L16 (508–529)` with `d = 3` and amendment N10; track LP, non-frozen. The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 For a position `q`, a velocity `V` and a gravitational parameter `k` (`Fin 3` vectors, unit mass), the
 specific elements of `LP:MAIN L16 (42)`:
