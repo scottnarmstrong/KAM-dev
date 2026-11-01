@@ -158,3 +158,9 @@ the inputs are fed: `Mf := M₀` (sup of `X_F`), `N₁ := M₁ d` (Lipschitz of 
 Coordination: `w4-modified` (i)-(iii) incl. `m-act` is being done by a second prover (branch `inp-wpq`, files `KamStep/Modified*.lean`);
 this session does NOT touch it. The step theorem is proved first for the non-modified case; the modified case will consume the
 `w4-modified` result by its blueprint statement once merged.
+
+## Session 4, λ-bound of X_+ for a pair — DONE (e57b9d44), `zeroTaylor` (5459435c)
+`StepPlusLam.lean`: `stepSplus`, `stepDplus`, `stepPlus_pair_lamBound` (sup bound `stepSplus ε₀ M₀ η σ`, difference bound
+`stepDplus ε₀ ε₁ M₀ M₁ η σ · d` for `ν_{ηr}(X_+)`), with `stepSplus + λ·stepDplus ≤ 896ηε + 168εM_F/(ση²)`.
+`ZeroTaylor.lean`: `zeroTaylor` (the element `0 ∈ 𝒯_s`, value of parameter families outside `Π`).
+Next: package with the F-family data (`FamBound`), concretize new-ham (i), (iii), then clauses (iii)-(v) of the step theorem.
