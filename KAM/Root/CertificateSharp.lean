@@ -107,6 +107,8 @@ public import KAM.CertificateSharp.V2.Tests.Forced.TinyChecks
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyClaim
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyData
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyFreq
+public import KAM.CertificateSharp.V2.Tests.Forced.TinyMutations
+public import KAM.CertificateSharp.V2.Tests.Forced.TinyMutationsInv
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyRouteA
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyRouteB
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyStages
