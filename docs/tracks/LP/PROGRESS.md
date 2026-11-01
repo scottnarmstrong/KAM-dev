@@ -35,6 +35,10 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 | LP-PS PlanarSafety (LP1) | T15 | 3 | — | — | |
 | LP-SP* Spatial | L1–3, L17–19 | 4 | — | — | |
 
+## Audit queue (codex-2, one at a time machine-wide; W interleaves when LP has a gap)
+
+1. LP-OSC (running) → 2. LP-W3B (CONF + NRR) → 3. FREEZE-PROPOSAL statement review (independent, refute-first; root-b8 request; report to `freeze/`, fixes into draft 2) → 4. LIFT, DOMX.
+
 ## Carried requirements
 
 - **For LP-CONF (MAIN L14), from audit LP-W1B-1 note D1:** `nonresonant_drift_of_chartData` is conditional. L14
