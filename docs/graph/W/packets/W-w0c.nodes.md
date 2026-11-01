@@ -297,9 +297,9 @@ EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L96-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c+claude-suborch-W-r2
 REVIEWER: sol-delta3-W-w0c
-LEAN_STATUS: BYPASSED
+LEAN_STATUS: PROVED
 LEAN_REF: KAM.Wave.waveHw, KAM.Wave.waveLamQuad, KAM.Wave.waveG, KAM.Wave.birkLambda, KAM.Wave.birkHamG (KAM/Wave/Cubic/HamHamiltonian.lean, KAM/Wave/Normal/Analysis/Gradient.lean, KAM/Wave/Birkhoff/Lambda.lean, KAM/Wave/Birkhoff/MainQuart.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the Hamiltonian is carried by the Lean definitions waveHw = waveLamQuad + waveG (weighted coordinates, W1-CUBIC) and, in complex coordinates, birkLambda + birkHamG (W3); consumers use these definitions, not a separate H_m on E_{1,1}; previous status NOT_STARTED
+LEAN_NOTE: formalized definition (waveHw = waveLamQuad + waveG in weighted coordinates, W1-CUBIC audit 2 PASS WITH NOTES; complex form birkLambda + birkHamG, W3-SETTING / W3-MAIN audits PASS); not bypassed
 NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): G extended to l^{a,p}, a > 0; the mention of bpW:w0n:gradient and bpW:w1:gradient-identity at L97 is a forward pointer, not an edge.
 
 NODE: bpW:w0:Gq#cubicGrad
@@ -361,9 +361,9 @@ EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
 REVIEWER: sol-delta-W-w0c
-LEAN_STATUS: BYPASSED
+LEAN_STATUS: PROVED
 LEAN_REF: KAM.Wave.waveXw, KAM.Wave.frozen_invariance_iff_waveXw, KAM.Wave.waveXG, KAM.Wave.lamMul (KAM/Wave/Cubic/FrozenForm.lean, KAM/Wave/Cubic/HamField.lean, KAM/Wave/Seq/Diag.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the Hamiltonian equations are used through the frozen-form field waveXw and frozen_invariance_iff_waveXw (coefficient system in weighted coordinates) and the multiplier lamMul; the symplectic form sum dq ^ dp is never a separate Lean object; previous status NOT_STARTED
+LEAN_NOTE: formalized definition (frozen-form field waveXw with frozen_invariance_iff_waveXw for the coefficient system, waveXG, multiplier lamMul); the symplectic form enters only through the field; not bypassed
 NOTE: The \ref{bpW:w0n:cubic-bound} of L119 (smoothing of order one) is a forward pointer, not an edge.
 
 NODE: bpW:w0:z
@@ -390,9 +390,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:z@L129-L130
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
 REVIEWER: sol-delta-W-w0c
-LEAN_STATUS: BYPASSED
+LEAN_STATUS: PROVED
 LEAN_REF: KAM.Wave.birkZ, KAM.Wave.birkZR, KAM.Wave.birkZinv (KAM/Wave/Birkhoff/Coords.lean, KAM/Wave/Birkhoff/MainReal.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): complex coordinates are realized by the W3 map birkZ (weighted two-sided carrier) and its real restriction birkZR; consumers use those, not a separate z_j definition; previous status NOT_STARTED
+LEAN_NOTE: formalized definition (birkZ, its inverse birkZinv and real restriction birkZR, W3-SETTING-DIVF audit 1 PASS); not bypassed
 NOTE: -
 
 NODE: bpW:w0:actions
@@ -419,9 +419,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:actions@L13
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
 REVIEWER: sol-delta-W-w0c
-LEAN_STATUS: BYPASSED
+LEAN_STATUS: PROVED
 LEAN_REF: KAM.Wave.birkAction, KAM.Wave.birkActionR, KAM.Wave.actionA_eq, KAM.Wave.birkLambda_birkZR (KAM/Wave/Birkhoff/QuartBar.lean, KAM/Wave/Birkhoff/MainRealId.lean, KAM/Wave/Normal/Nondegeneracy.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): actions enter through birkAction / birkActionR (I_j = (q_j^2+p_j^2)/2) and the polar points of W0-NORMAL; radian angles are used only through the period-one torus of the frozen linearTorus; previous status NOT_STARTED
+LEAN_NOTE: formalized definition (birkAction, birkActionR with I_j = (q_j^2+p_j^2)/2, Lambda = sum lambda_j I_j via birkLambda_birkZR; radian angles through the period-one linearTorus); not bypassed
 NOTE: -
 
 NODE: bpW:w0:periodone#linearTorus
@@ -477,9 +477,9 @@ EDGE: bpW:w0:mass | blueprint-W/parts/w0-conventions.tex#bpW:w0:basis@L46-L46 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0c
-LEAN_STATUS: BYPASSED
+LEAN_STATUS: PARTIAL
 LEAN_REF: KAM.Wave.lam_pos, KAM.Wave.lam_ge, KAM.Wave.lam_le, KAM.Wave.lam_succ_le, KAM.Wave.lam_sub_pnat_pos, KAM.Wave.lam_sub_pnat_le, KAM.Wave.lam_facts (KAM/Wave/Iteration/Sequences.lean, KAM/Wave/Recon/ReconAnalytic.lean, KAM/Wave/Iteration/IterArith.lean, KAM/Wave/Seq/Tails.lean, KAM/Wave/Normal/Nondegeneracy.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the elementary facts are proved piecewise where consumers need them (lam_pos, lam_ge, lam_le, lam_succ_le, lam_sub_pnat_*, lam_facts and local convexity arguments in the divisor proofs); no consumer needs the packaged claim, the strict convexity of sqrt(s^2+m) is replaced by discrete second differences (stepW:w3:divisor#curvature); previous status NOT_STARTED
+LEAN_NOTE: proved pieces: lam_pos, lam_ge, lam_le, lam_succ_le, lam_sub_pnat_pos, lam_sub_pnat_le, lam_facts (j < lambda_j < j + sqrt m, monotonicity, increments < 1); strict convexity not formalized; the divisor proof uses discrete second differences instead (stepW:w3:divisor#curvature)
 NOTE: Unlabelled prose (L45-L47) stating facts that later proofs consume (SPEC section-data rule); justification is elementary and inline.
 
 NODE: bpW:w0:ellap#spaces
@@ -504,7 +504,7 @@ EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w0-conventions.tex#bpW:w0:ellap
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-W-w0c
 REVIEWER: sol-delta-W-w0c
-LEAN_STATUS: BYPASSED
+LEAN_STATUS: PROVED
 LEAN_REF: KAM.Wave.coeffW, KAM.Wave.ellNorm (KAM/Wave/Seq/Transport.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the general weighted spaces are realized by transport to l^2 (coeffW, ellNorm; frozen WaveSpace and ellWeight) rather than as a separate type ell^{a,p}; previous status NOT_STARTED
+LEAN_NOTE: formalized definition (by transport: coeffW, ellNorm, with the frozen ellWeight and WaveSpace anchors); not bypassed
 NOTE: -
