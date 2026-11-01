@@ -553,7 +553,7 @@ integration workspace `lake build --no-build LG00.TPP.Data.Cert`: `All targets u
 - `v2-packed-gen` (landable): `RouteSharp`, `TorsRAsm`, `CertCongr`, the scripts, this handoff, the receipts under
   `docs/campaign/studies/V2-PACKED-GEN/`.
 - `v2-packed-gen-int` (never landed): this branch merged with `v2-packed-cons` `4b2cf9af` and `v2-packed-prod`
-  `0bb4def23`, plus `JetFront` and `RouteSharpJ`.
+  `0bb4def23`, plus `JetFront` and `RouteSharpJ` (C2 line fix `e9d941830`).
 
 Built, under `/home` (survives):
 - `/home/scott/KAM-dev-worktrees/v2-packed-gen/.lake/lg00-packed` (`kam-lg00`: LG00's T′ modules reused, the A gate,
@@ -562,12 +562,12 @@ Built, under `/home` (survives):
   the T′ jet route `LG00P.TP.PK.MainJ`, its no-LG00-data twin `MainJH`, and T″ as far as it got).
 
 Ledgers and logs: `~/kam-data/v2-packed-gen/` (`runA` … `runJ`, `runH`; T″: `runT2`, `runT2.out`,
-`runT2.jet.out`). The T″ driver writes there directly. Background at 22:00 UTC: the T″ chain-free run
-(`run_packed.py … runT2`) and the T″ driver (`run_tpp_jet.sh`); both stop starting Lean processes at 04:30 UTC and
-die with the reboot.
+`runT2.jet.out`, `runL`). **Nothing of mine runs in the background** (since 22:26 UTC): T′ (`MainJ`, `MainJH`) and
+T″ (`LG00P.TPP.PK.MainJ`) are proved and built; the receipts are committed.
 
-**Next step.** If `runT2.jet.out` has `T'' PROVED`: print the axioms (below) and the T″ table. Otherwise rerun the
-driver: it is resumable (the ledger skips passed modules; emission is skipped once `packed_LG00P_TPP.json` exists).
+**Next step.** None pending on the critical path. Open: land `CertCongr` with this branch, and `JetFront`,
+`RouteSharpJ` (the `pending/` text) after `v2-packed-prod` and `v2-packed-cons`; the T″ driver is resumable if a
+rebuild is ever needed (the ledger skips passed modules; emission is skipped once `packed_LG00P_TPP.json` exists).
 
 **Exact commands.**
 ```
