@@ -32,6 +32,7 @@ LG00_CORE = "/home/scott/KAM-dev-worktrees/lg00-app"     # the core LG00's reuse
 ANON_MAX = 20 * 10 ** 9
 MIN_DISK = 30
 IMP = re.compile(r"^public import (\S+)", re.M)
+LOCAL = ("LG00", "LG00Packed", "LG00P")     # the package-local module roots
 
 PROBE = r'''
 cg=/sys/fs/cgroup$(cut -d: -f3 /proc/self/cgroup)
@@ -60,7 +61,7 @@ def order(pkg, targets):
             return
         seen.add(m)
         for d in IMP.findall(open(src(pkg, m), encoding="utf-8").read()):
-            if d.split(".")[0] in ("LG00", "LG00Packed", "LG00P") and os.path.exists(src(pkg, d)):
+            if d.split(".")[0] in LOCAL and os.path.exists(src(pkg, d)):
                 visit(d)
         out.append(m)
     sys.setrecursionlimit(100000)
@@ -110,7 +111,7 @@ def predict_stale(pkg, mods, deps, lg00_core):
         imps = IMP.findall(open(src(pkg, m), encoding="utf-8").read())
         ours = m.split(".")[0] in ("LG00Packed", "LG00P")     # built here, against this core
         if not os.path.exists(olean) or any(d in stale for d in deps[m]) or (not ours and any(
-                core_changed(d) for d in imps if d.split(".")[0] not in ("LG00", "LG00Packed", "LG00P"))):
+                core_changed(d) for d in imps if d.split(".")[0] not in LOCAL)):
             stale.add(m)
     return stale
 
@@ -219,7 +220,7 @@ def main():
                 (done.add if f[6] == "0" else done.discard)(f[0])
     print("%d modules, %d already passed" % (len(mods), len(done)), flush=True)
     core = sorted({d for m in mods for d in IMP.findall(open(src(pkg, m), encoding="utf-8").read())
-                   if d.split(".")[0] not in ("LG00", "LG00Packed")})
+                   if d.split(".")[0] not in LOCAL})
     for attempt in range(2):                  # once more after a pause: a concurrent Lake may hold the lock
         r = subprocess.run(["lake", "build", "--no-build"] + core, cwd=CORE, capture_output=True, text=True)
         if r.returncode == 0:
