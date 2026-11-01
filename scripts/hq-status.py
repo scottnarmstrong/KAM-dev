@@ -199,6 +199,7 @@ STATEMENT_TRACKS = [('kam', 'Track K: positive-measure KAM'),
                     ('planetary', 'Track P: planetary systems'),
                     ('russmann', "Track R: Rüssmann's KAM theorem (weak non-degeneracy)"),
                     ('wave', 'Track W: PDE KAM (cubic wave equation)'),
+                    ('lp', 'Track LP: strong-AMD exponential safety (the Laskar–Petit conjecture)'),
                     ('spinorbit', "Track SO: the Moon's spin rate and synchronous lock (certified tori)")]
 
 
@@ -313,7 +314,7 @@ def section_glance(rows):
     ndefs = sum(1 for a in manifest['anchors'] if a['kind'] == 'definition')
     drafts = [r[5] for r in rows if r[4] != 'sealed']
     out = [f'*Generated {NOW} from `main` at `{head}` by `scripts/hq-status.py`.*', '',
-           f'**Current phase:** {campaign["current_phase"]}', ''] + so_glance() + w_glance() + ['',
+           f'**Current phase:** {campaign["current_phase"]}', ''] + so_glance() + w_glance() + lp_glance() + ['',
            f'**Frozen statements proved: {sealed} / {len(rows)}** · frozen definitions: {ndefs}', '',
            f'**Lean on `main` (hand-written):** {n:,} modules · {lines:,} lines · {thms:,} theorems · '
            f'`sorry` outside frozen anchors: {len(bad_sorry)} files · `axiom` declarations: {len(bad_axiom)} '
@@ -481,6 +482,10 @@ AREAS = [
              'convolution algebra, analytic maps on Banach domains, Banach-valued Fourier coefficients for the KAM '
              'step, Birkhoff normal form (averaged quartic part, nonresonance, nondegeneracy), analytic and classical '
              'reconstruction of the solutions'),
+    ('Planetary/StrongAMD', 'Track LP: the sharp strong Laskar–Petit AMD threshold and barrier, the nonresonant '
+                            'exponential normal-form adapter, first exit, planar exponential safety (D56)'),
+    ('Planetary/Spatial', 'Track LP: the spatial planetary problem (regular spatial Poincaré chart, vector angular '
+                          'momentum, spatial exponential safety; D56)'),
 ]
 
 
@@ -719,6 +724,8 @@ TRACKS = [
     ('R', 'russmann', "Rüssmann's KAM theorem under weak non-degeneracy: invariant tori fill all but κ of phase space"),
     ('W', 'wave', 'PDE KAM: two-frequency quasi-periodic solutions of the cubic wave equation '
                   'u_tt = u_xx − m u − u³ on [0, π], every m > 0 (Pöschel 1996)'),
+    ('LP', 'lp', 'Chaotic but collision-free: below the sharp Laskar–Petit AMD threshold the exact spatial (1+n)-body '
+                 'problem has no orbit crossing for exp(c μ^(−1/(2(τ+1)))), whatever its secular dynamics (D56)'),
     ('SO-1', None, 'Track SO, part 1: a general Lean certificate checker turning numerical KAM tori into theorems'),
     ('SO-2', 'so-band', "Track SO, part 2: the Moon's spin rate stays within 2.755 % of its orbital rate for all time "
                         '(N = 65; proved 2026-10-31)'),
@@ -804,6 +811,8 @@ def completion(rows):
         groups[LG00_GROUP] = [float(lg_w), lg_w * lg_pct / 100, len(LG00['stages'])]
     w_pct, _ = w_progress()
     groups[W_GROUP] = [64.0, 64.0 * w_pct / 100, 5]
+    lp_pct, _ = lp_progress()
+    groups[LP_GROUP] = [16.0, 16.0 * lp_pct / 100, len(LP_STAGES)]   # 12k–25k lines planned against W's 60k–90k
     total = sum(g[0] for g in groups.values())
     done = sum(g[1] for g in groups.values())
     return 100 * done / total, groups, total, done
@@ -863,6 +872,62 @@ def w_glance():
             *([f'- **Now:** {campaign["w"]["now"]}'] if campaign.get('w', {}).get('now') else [])]
 
 
+LP_GROUP = 'Track LP: strong-AMD exponential safety, the Laskar–Petit conjecture (D56)'
+_lp_pkgs_file = root / 'docs/tracks/LP/packages.json'
+
+
+def lp_packages(waves):
+    """(landed weight, total weight, landed, total) of track LP's packages in `waves`, from docs/tracks/LP/packages.json
+    (kept by the LP sub-orchestrator); a package counts as landed when every module it lists exists on `main`."""
+    if not _lp_pkgs_file.exists():
+        return 0.0, 0.0, 0, 0
+    pk = [p for p in json.loads(_lp_pkgs_file.read_text()).get('packages', []) if p.get('wave') in waves]
+    on = [p for p in pk if p.get('modules') and all((root / m).exists() for m in p['modules'])]
+    return (sum(p.get('weight', 1) for p in on), sum(p.get('weight', 1) for p in pk), len(on), len(pk))
+
+
+def _lp_frac(waves):
+    lw, tw, _, _ = lp_packages(waves)
+    return lw / tw if tw else 0.0
+
+
+def _lp_anchors():
+    return [a for a in manifest['anchors'] if a['kind'] == 'theorem' and a['id'].split('.')[0] == 'lp']
+
+
+# Stages of track LP, weighted by effort; every test reads the repository (planned 12k–25k new Lean lines: planar
+# 5k–10k, spatial 7k–15k; docs/explorations/amd-crossing/A9-lean-roadmap.md §6).
+LP_STAGES = [
+    ('audited paper proof', 5, lambda: 1.0 * (root / 'docs/explorations/amd-crossing/A10-proof-audit.md').exists()),
+    ('source, spec and plan', 5, lambda: 1.0 * (root / 'docs/tracks/LP/SPEC.md').exists()),
+    ('statements frozen', 5, lambda: 1.0 * bool(_lp_anchors())),
+    ('planar Lean packages', 40, lambda: _lp_frac({1, 2, 3})),
+    ('spatial Lean packages', 40, lambda: _lp_frac({4})),
+    ('sealed', 5, lambda: 1.0 * bool(_lp_anchors() and all(a['state'] == 'SEALED' for a in _lp_anchors()))),
+]
+
+
+def lp_progress():
+    """Track LP (D56), read from the repository: (percent by stage weight, [(stage, fraction done)])."""
+    done = [(name, w, test()) for name, w, test in LP_STAGES]
+    return 100 * sum(w * f for _, w, f in done) / sum(w for _, w, _ in LP_STAGES), [(n, f) for n, _, f in done]
+
+
+def lp_glance():
+    pct, stages = lp_progress()
+    n, lines, thms = lean_stats([root / 'KAM' / 'Planetary' / 'StrongAMD', root / 'KAM' / 'Planetary' / 'Spatial'])
+    _, _, pl, pt = lp_packages({1, 2, 3})
+    _, _, sl, st = lp_packages({4})
+    reached = ', '.join(name if f >= 1 else f'{name} {100 * f:.0f} %' for name, f in stages if f > 0) or 'none yet'
+    pk = f'planar packages on `main`: {pl} / {pt} · spatial: {sl} / {st}' if pt + st else 'package list not on `main` yet'
+    return ['', f'**Track LP** (D56; [exploration, audited proof and plan](docs/explorations/amd-crossing/README.md)): '
+            f'chaotic but collision-free planetary systems. Below the sharp Laskar–Petit AMD threshold the exact '
+            f'(1+n)-body problem has no orbit crossing for a time exp(c μ^(−1/(2(τ+1)))), with no hypothesis on its '
+            f'(possibly chaotic) secular dynamics · **{pct:.0f} %**',
+            f'- Stages: {reached} · {pk} · `KAM/Planetary/StrongAMD` and `Spatial`: {n} modules, {lines:,} lines',
+            *([f'- **Now:** {campaign["lp"]["now"]}'] if campaign.get('lp', {}).get('now') else [])]
+
+
 # Stages of track SO part 3, weighted by effort (owner/orchestrator, 2026-10-31; they had counted equally): each
 # test reads the repository. The sealed test also accepts the planned anchor `lunar_sync_lock` (LOCK-FREEZE names its
 # anchors spinorbit.*, which `so.lunar_lock` alone never matched).
@@ -904,7 +969,7 @@ def completion_split(rows):
     figure, which read 96.0 % then)."""
     pct, groups, total, done = completion(rows)
     parts = [groups.get(g, [0.0, 0.0, 0]) for g in SO_GROUPS]
-    extra = [groups.get(g, [0.0, 0.0, 0]) for g in (LOCK_GROUP, W_GROUP, LG00_GROUP)]
+    extra = [groups.get(g, [0.0, 0.0, 0]) for g in (LOCK_GROUP, W_GROUP, LP_GROUP, LG00_GROUP)]
     orig = 100 * (done - sum(p[1] for p in parts + extra)) / (total - sum(p[0] for p in parts + extra))
     so1, so2 = (100 * p[1] / p[0] if p[0] else 0.0 for p in parts)
     return orig, so1, so2, pct
@@ -1048,12 +1113,16 @@ def size_parts(rows):
     wave = loc([root / 'KAM' / 'Wave'])[0] + _unlanded()[2].get('Wave', 0)
     plan = campaign.get('size_plan', {}).get('W', {})
     lo, hi = plan.get('low', 0), plan.get('high', 0)
-    rest = total + unl - so_on_main - wave        # tracks K, I, N, P, R, the sharp a-posteriori work, the rest
+    lpw = loc([root / 'KAM' / 'Planetary' / 'StrongAMD', root / 'KAM' / 'Planetary' / 'Spatial'])[0]
+    lplan = campaign.get('size_plan', {}).get('LP', {})
+    llo, lhi = lplan.get('low', 0), lplan.get('high', 0)
+    rest = total + unl - so_on_main - wave - lpw   # tracks K, I, N, P, R, the sharp a-posteriori work, the rest
     rest_est = rest / lean_done * lean_all if lean_done >= 8 else PLANNED_TOTAL
     fixed = rest_est + so_on_main + so_left
-    est, est_lo, est_hi = (fixed + max(x, wave) for x in ((lo + hi) / 2, lo, hi))
+    est, est_lo, est_hi = (fixed + max(x, wave) + max(y, lpw)
+                           for x, y in (((lo + hi) / 2, (llo + lhi) / 2), (lo, llo), (hi, lhi)))
     return dict(total=total, code=code, unl=unl, est=est, est_lo=est_lo, est_hi=est_hi, so_left=so_left, wave=wave,
-                lo=lo, hi=hi, source=plan.get('source', ''), share=lean_done / lean_all if lean_all else 0.0,
+                lpw=lpw, llo=llo, lhi=lhi, lo=lo, hi=hi, source=plan.get('source', ''), share=lean_done / lean_all if lean_all else 0.0,
                 rate_based=lean_done >= 8)
 
 
@@ -1074,7 +1143,8 @@ def section_size(rows):
            f'lines on `main` plus the line estimates of its packages not yet landed, {z["so_left"]:,} lines; the Lean '
            f'packages of part 3 are on `main`, and what it still needs is generated data); and adds track W from its '
            f'planning range of {z["lo"]:,}–{z["hi"]:,} lines ({z["source"]}; midpoint used), of which '
-           f'{z["wave"]:,} are written. The side project LG00 is not counted: its certificate never enters this '
+           f'{z["wave"]:,} are written; and adds track LP from its planning range of {z["llo"]:,}–{z["lhi"]:,} lines '
+           f'(the Lean roadmap of the audited proof; midpoint used), of which {z["lpw"]:,} are written. The side project LG00 is not counted: its certificate never enters this '
            f'library' if z['rate_based'] else
            'is a planning figure; it switches to a rate-based estimate once 8 weight units of Lean work are done')
     out = ['### Size of the formalization', '',
@@ -1107,7 +1177,7 @@ def section_updated(rows, est):
     gen = lean_stats(LIB, generated=True)[1]
     return (f'> **Last updated: {NOW}** (automatic: every 20 minutes and after every commit) · '
             f'**estimated completion: original project {orig:.1f} % · SO checker {so1:.0f} % · SO Moon {so2:.0f} % · '
-            f'Moon locked {lock_progress()[0]:.0f} % · track W {w_progress()[0]:.0f} %** · '
+            f'Moon locked {lock_progress()[0]:.0f} % · track W {w_progress()[0]:.0f} % · track LP {lp_progress()[0]:.0f} %** · '
             f'frozen statements proved: {sealed} / {len(rows)} · '
             f'**{total:,} lines of hand-written Lean** of an estimated ≈ {round(est, -3):,.0f}' +
             (f' (plus {gen:,} lines of generated certificate data, not counted)' if gen else ''))
@@ -1118,6 +1188,7 @@ def section_progress(rows):
     orig, so1, so2, _ = completion_split(rows)
     out = [f'### Estimated completion: original project **{orig:.1f} %** · SO checker **{so1:.0f} %** · '
            f'SO Moon **{so2:.0f} %** · Moon locked **{lock_progress()[0]:.0f} %** · track W **{w_progress()[0]:.0f} %** · '
+           f'track LP **{lp_progress()[0]:.0f} %** · '
            f'LG00 **{lg00_progress()[0]:.0f} %**', '',
            f'Original project (tracks K, I, N, P): `{bar(orig)}` {orig:.1f} %', '',
            f'Track SO, part 1, the general Lean certificate checker: `{bar(so1)}` {so1:.1f} %', '',
@@ -1128,6 +1199,10 @@ def section_progress(rows):
            f'Track W, PDE KAM for the cubic wave equation: `{bar(w_progress()[0])}` {w_progress()[0]:.1f} % '
            '(statements frozen 1, blueprint milestones 3, graph published 1, graph nodes resolved 10, seal 0.5; '
            'all read from the repository)', '',
+           f'Track LP, strong-AMD exponential safety (the Laskar–Petit conjecture, D56): `{bar(lp_progress()[0])}` '
+           f'{lp_progress()[0]:.1f} % (stages, weighted by effort: ' + ', '.join(f'{n} {w}' for n, w, _ in LP_STAGES) +
+           '; packages from [`docs/tracks/LP/packages.json`](docs/tracks/LP/packages.json), landed when their modules '
+           'are on `main`; each read from the repository)', '',
            f'Side project LG00, a certified torus of the secular Sun–Jupiter–Saturn model: `{bar(lg00_progress()[0])}` '
            f'{lg00_progress()[0]:.0f} % (stages, weighted by effort: ' + ', '.join(s['name'] for s in LG00['stages']) + '; '
            'from [`docs/campaign/side/lg00-status.json`](docs/campaign/side/lg00-status.json), the side orchestrator\'s '
