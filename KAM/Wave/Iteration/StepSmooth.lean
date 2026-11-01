@@ -139,9 +139,11 @@ theorem phi_smooth {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) :
         (stepEmbedCLM a p pb H.hpb r).comp (fderiv ℂ (H.hyp.core.stepPsi ξ) w) ∧
       ‖fderiv ℂ (H.hyp.core.stepPsi ξ) w‖ ≤ 8 * stepMF (stepCF τ) (stepExpT τ) α σ ε / σ := by
   have hMF := H.hyp.core.M₀_le_MF
-  refine ⟨H.hyp.core.Dplus_sub_U, H.hyp.core.phi_differentiableOn hξ, H.hyp.core.psi_differentiableOn hξ,
+  refine ⟨H.hyp.core.Dplus_sub_U, H.hyp.core.phi_differentiableOn hξ,
+    H.hyp.core.psi_differentiableOn hξ,
     fun w hw => ⟨H.hyp.core.phi_eq_add_psi hξ (H.hyp.core.Dplus_sub_U hw),
-      (H.hyp.core.norm_psi_le hξ (H.hyp.core.Dplus_sub_U hw)).trans hMF, H.hyp.core.fderiv_phi_eq hξ (H.hyp.core.Dplus_sub_U hw),
+      (H.hyp.core.norm_psi_le hξ (H.hyp.core.Dplus_sub_U hw)).trans hMF,
+      H.hyp.core.fderiv_phi_eq hξ (H.hyp.core.Dplus_sub_U hw),
       (H.hyp.core.norm_fderiv_psi_le hξ hw).trans ?_⟩⟩
   exact div_le_div_of_nonneg_right (by linarith) H.hyp.core.hσ.le
 

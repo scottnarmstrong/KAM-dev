@@ -259,7 +259,8 @@ theorem w6_pred_nonneg : (0 : ℝ) ≤ (1 - 1) + 3 / 2 := by norm_num
 theorem w6_pred_le : (1 : ℝ) - 1 ≤ 3 / 2 := by norm_num
 
 /-- The pairing `ϖ_{p,p}` of `𝒫` (`a = p = 1`). -/
-def w6Symp (W W' : KamPhase) : ℂ := stepSymp (a := 1) (q := 1) (q' := 1) zero_le_one w6_two_nonneg W W'
+def w6Symp (W W' : KamPhase) : ℂ :=
+  stepSymp (a := 1) (q := 1) (q' := 1) zero_le_one w6_two_nonneg W W'
 
 /-- The pairing `ϖ_{p-1,p_+}` of `𝒫^{p-1}` with `𝒫^{p_+}` (`a = p = 1`, `p_+ = 3/2`). -/
 def w6SympPred (W W' : KamPhase) : ℂ :=

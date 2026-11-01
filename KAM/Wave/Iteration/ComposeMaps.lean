@@ -20,7 +20,8 @@ Along the iteration started at `S₀` (with the hypotheses of every stage), for 
 * `w6PhiC ν ξ = Φ^ν` (`Φ^0 = id`, `Φ^{ν+1} = Φ^ν ∘ Φ_{ν+1}`) and its smoothing displacement
   `w6PsiC ν ξ = Ψ^ν` (`Ψ^{ν+1} = Ψ_{ν+1} + Ψ^ν ∘ Φ_{ν+1}`), with `Φ^ν = id + ι ∘ Ψ^ν` on `D_ν`;
 * `w6Compose_main`: `Φ^ν(D_ν) ⊆ D_0`, `Φ^ν`, `Ψ^ν` holomorphic on `D_ν`,
-  `DΦ^ν = I + ι ∘ DΨ^ν`, `|DΨ^ν(w) W|_{r_0} ≤ (c_ν - 1)|W|_{r_ν}`, `c_ν = ∏_{μ<ν}(1 + 2^{-μ-2}) ≤ 2`;
+  `DΦ^ν = I + ι ∘ DΨ^ν`, `|DΨ^ν(w) W|_{r_0} ≤ (c_ν - 1)|W|_{r_ν}`,
+  `c_ν = ∏_{μ<ν}(1 + 2^{-μ-2}) ≤ 2`;
 * `w6Compose_ops` (`bpW:w6:convergence` (iv)): `|DΦ^ν(w) W|_{q,r_0} ≤ 2|W|_{q,r_ν}` for
   `q ∈ {p, p_+}`, `DΦ^ν(w)` symplectic and maps `𝒫^{p_+}` onto `𝒫^{p_+}`;
 * `w6Compose_real_periodic`: `Φ^ν` is real on real points and `Φ^ν(w + τ_i) = Φ^ν(w) + τ_i`;
