@@ -32,6 +32,15 @@ positivity, `< I j`), `Continuity.lean`, `Strong.lean` (cross/star/strong minima
   never inside the definition by an `if`. If the literal form of the adjacent index needs a choice (e.g.
   `Fin (n - 1)` with casts vs a subtype of `Fin n`), take the one that states most cleanly and report it.
 
+## Freeze-ready API (OD-2, binding)
+
+The frozen definition will most likely live on the source carrier. So also define the subtype
+`OrderedActions ν := {I // I ∈ chamber ν}` and carrier versions `orderedPairThreshold (I : OrderedActions ν)
+(i j : Fin n) (hij : i < j)` and `orderedStrongThreshold` (for `2 ≤ n`), each proved equal to the total `sInf`
+helper by a one-line lemma. Every downstream-facing theorem (items 2–8) must be stated so it transfers by that
+equation: state the characterization with `IsLeast` / an attained minimum, and never rely on the off-carrier
+value of the total formula.
+
 ## Theorems to prove (all with `hν : ∀ i, 0 < ν i` where needed)
 
 1. `pairFeasible` is nonempty and compact for every `I` (`(1, 1)` is feasible; it is a closed subset of `[0,1]²`).
