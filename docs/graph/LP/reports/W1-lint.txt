@@ -1,0 +1,50 @@
+# wave-1 lint, 2026-11-01T14:02Z, branch inp-lp-graph
+LP-adef-pl: 48 nodes, 103 edges, 48 coverage items, 0 problems
+LP-athm: 11 nodes, 65 edges, 11 coverage items, 0 problems
+LP-ext: 5 nodes, 0 edges, 0 coverage items, 0 problems
+LP-m1: 6 nodes, 8 edges, 19 coverage items, 0 problems
+LP-m2a: 24 nodes, 77 edges, 36 coverage items, 0 problems
+LP-m2b: 15 nodes, 64 edges, 20 coverage items, 0 problems
+LP-amend: 0 nodes, 0 edges, 7 coverage items, 0 problems
+LP-m78: 0 nodes, 0 edges, 12 coverage items, 0 problems
+$ proof_depgraph.py --db docs/graph/LP/DEPGRAPH.md --manifest docs/graph/LP/DEPGRAPH_COVERAGE.md --source-root . --require-complete-coverage --require-initial-lean-status --check
+rc 0
+$ ... --require-all-reachable --check (wave 1: expected to fail, 37 nodes serve the wave-2/3 roots)
+root-connectivity gate: node 'lpM:L1' is outside every declared root closure
+root-connectivity gate: node 'lpM:L1#reconstruction' is outside every declared root closure
+root-connectivity gate: node 'lpM:L1#reduction' is outside every declared root closure
+root-connectivity gate: node 'lpM:L1#velocity' is outside every declared root closure
+root-connectivity gate: node 'lpM:L16:defs#SourceOsculatingPhase' is outside every declared root closure
+root-connectivity gate: node 'lpM:L16:defs#oscApo' is outside every declared root closure
+root-connectivity gate: node 'lpM:L16:defs#oscAxis' is outside every declared root closure
+root-connectivity gate: node 'lpM:L16:defs#oscEcc' is outside every declared root closure
+root-connectivity gate: node 'lpM:L16:defs#oscEccVector' is outside every declared root closure
+root-connectivity gate: node 'lpM:L16:defs#oscEnergy' is outside every declared root closure
+root-connectivity gate: node 'lpM:L16:defs#oscParam' is outside every declared root closure
+root-connectivity gate: node 'lpM:L16:defs#oscPeri' is outside every declared root closure
+root-connectivity gate: node 'lpM:L16:defs#oscVelocity' is outside every declared root closure
+root-connectivity gate: node 'lpM:L16:defs#sourceOscApo' is outside every declared root closure
+root-connectivity gate: node 'lpM:L16:defs#sourceOscAxis' is outside every declared root closure
+root-connectivity gate: node 'lpM:L16:defs#sourceOscEcc' is outside every declared root closure
+root-connectivity gate: node 'lpM:L16:defs#sourceOscEccVector' is outside every declared root closure
+root-connectivity gate: node 'lpM:L16:defs#sourceOscEnergy' is outside every declared root closure
+root-connectivity gate: node 'lpM:L16:defs#sourceOscParam' is outside every declared root closure
+root-connectivity gate: node 'lpM:L16:defs#sourceOscPeri' is outside every declared root closure
+root-connectivity gate: node 'lpM:L16:defs#sourceOscVelocity' is outside every declared root closure
+root-connectivity gate: node 'lpM:L3' is outside every declared root closure
+root-connectivity gate: node 'lpM:L3#conservation' is outside every declared root closure
+root-connectivity gate: node 'lpM:L3#dynamic' is outside every declared root closure
+root-connectivity gate: node 'lpM:L3#planar-orientation' is outside every declared root closure
+root-connectivity gate: node 'lpM:L6' is outside every declared root closure
+root-connectivity gate: node 'lpM:L6#backward' is outside every declared root closure
+root-connectivity gate: node 'lpM:L6#continuation' is outside every declared root closure
+root-connectivity gate: node 'lpM:L6#local-existence' is outside every declared root closure
+root-connectivity gate: node 'lpM:L6#moving-threshold' is outside every declared root closure
+root-connectivity gate: node 'lpM:L6#shared-U' is outside every declared root closure
+root-connectivity gate: node 'lpM:ext-ftc' is outside every declared root closure
+root-connectivity gate: node 'lpM:ext-gronwall' is outside every declared root closure
+root-connectivity gate: node 'lpM:ext-picard' is outside every declared root closure
+root-connectivity gate: node 'lpM:s1:dioph' is outside every declared root closure
+root-connectivity gate: node 'lpM:s1:fast' is outside every declared root closure
+root-connectivity gate: node 'lpM:s1:half-integer' is outside every declared root closure
+rc 1
