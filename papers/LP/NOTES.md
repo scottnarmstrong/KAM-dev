@@ -1,0 +1,152 @@
+# LP paper: plan, notation, claims ledger
+
+Editor: kam-paper (paper sub-orchestrator). Started 2026-11-01 09:02 UTC. Branch `paper-lp`, directory `papers/LP/`.
+
+## 0. Authorities
+
+| Role | Source |
+|---|---|
+| Mathematics (ground truth) | `/root/code/KAM/docs/tracks/LP/source/MAIN.md` (cite `MAIN L<k>`; MAIN lines are those of the pinned file) as amended by `source/AMENDMENTS.md` (N1–N12, normative), audit `PROOF-AUDIT-1.md` |
+| LP3 mathematics | `/root/code/KAM/docs/tracks/LP/lp3/LP3-PLAN.md` (+ `LP3-PLAN-REVIEW-1.md`); Lean on branch `inp-lp-lp3src` |
+| Statements as formalized | Lean on `main` @ `a994efdf` (LP0–LP2); branch `inp-lp-lp3src` @ `402de5f7` (LP3); `docs/tracks/LP/FREEZE-PROPOSAL.md` (draft 6), `freeze/STATEMENT-REVIEW-*.md` |
+| Literature | `docs/explorations/amd-crossing/A2-literature.md` (page pins), PDFs under `/root/code/KAM/sources/` and `/mnt/HC_Volume_106379410/kam-explore/amd-crossing/RESEARCH/_sources/` |
+| Practicality | `docs/explorations/amd-crossing/A7-practical.md` |
+| Style | `latex-math-writing` skill, HCP-final exemplar; preamble in `main.tex` |
+
+Rules: brief `/root/code/KAM-inp/.drafts/briefs/offload-main/paper-LP.md` (honesty rules binding).
+
+## 1. Outline and page budget (hard cap 25 pages total; target ≤ 23)
+
+| § | File | Writer | Content | Budget (pp) |
+|---|---|---|---|---|
+| — | `sections/abstract.tex` | A | abstract (≤ 180 words) | 0.3 |
+| 1 | `sections/intro.tex` | A | AMD; Laskar–Petit AMD-stability and the conjecture (quoted, LP17 §3); chaos vs. collision safety; informal statement of results; mechanism (AM confinement + exponentially slow drift of fast actions); prior art (Nekhoroshev 1977, Pöschel 1993, Niederman 1996, Barbieri–Niederman, Pinzari; others from A2 only if pinned); honest scope (asymptotic, not practical; no Solar System claim; novelty unverified); formal verification in one paragraph; organization | 3.5 |
+| 2 | `sections/results.tex` | A | the model (Hamiltonian (1), elements (2), chamber, thresholds (3), frequencies (4), Diophantine (5)); Theorem A = LP0 (barrier); Theorem B = LP1 (planar); Theorem C = LP2 (spatial); Corollary D = τ = n − 1/2; Theorem E = LP3; remarks on quantifier order, constants, what is not claimed | 3 |
+| 3 | `sections/barrier.tex` | B | MAIN L1 (normalization, brief), L2 (orbital identities), L3 (AM conservation and AMD identity), L4 (thresholds attained, continuous, sharp; identification with LP17), L5 (uniform barrier = proof of Thm A), L6 (moving threshold + continuation) | 3 |
+| 4 | `sections/planar.tex` | B | L7 (regular planar Poincaré chart), L8 (whole-sublevel analytic domain), L9–L11 (Fourier/commutator estimates, Lie step, exponential normal form on full slow set — presented as standard, Pöschel-type, not new), L12 (scaling, √μ, exponential time; L13 remark: Lean route uses the repository's finite-cutoff normal form), L14 (first exit), proof of Thm B, L16 (osculating) | 5.5 |
+| 5 | `sections/spatial.tex` | C | L17 (regular spatial Poincaré chart), L18 (spatial domain, alignment with L), proof of Thm C and Cor D | 1.5 |
+| 6 | `sections/resonant.tex` | C | LP3: partial Nekhoroshev theorem (Nek77 Thm 4.4 p.30, convex specialization), finite cover of the sharp sublevel by cells, cellwise forward/backward application, μ₀ minimum, drift radius μ^{b_n}, first exit unchanged; proof of Thm E; comparison table | 2 |
+| 7 | `sections/outlook.tex` | C | limitations (asymptotic, non-explicit constants; A7 real masses out of reach), open questions | 1 |
+| App. A | `sections/formal.tex` | C | formalization: what is verified, what is not (faithfulness of definitions by review), table paper result ↔ Lean declaration (file, name, commit), axioms; status (LP0–LP2 on main, audited; LP3 on branch, audits in progress; freeze pending) | 2.5 |
+| — | bibliography | all | `refs.bib` (editor) + `refs-A/B/C.bib` (writer-owned) | 1 |
+
+"Over the allowance = not done."
+
+## 2. Labels (fixed; every writer uses exactly these)
+
+Theorems (lettered): `thm:barrier` (A, LP0), `thm:planar` (B, LP1), `thm:spatial` (C, LP2), `cor:half` (D), `thm:resonant` (E, LP3).
+Displays in §2 (writer A): `eq:H` (Hamiltonian), `eq:elements` (elements, AMD), `eq:chamber`, `eq:thresholds` (B_ij, B_cross, B_⋆, B), `eq:freq` (h, ω), `eq:dioph`, `eq:hyp` (initial hypotheses), `eq:time` (T_μ).
+Lemmas: §3 `lem:normalization` (L1), `lem:orbital` (L2), `lem:amd` (L3), `lem:threshold` (L4), `lem:uniform` (L5), `lem:moving` (L6); §4 `lem:chart` (L7), `lem:domain` (L8), `lem:fourier` (L9), `lem:lie` (L10), `lem:nf` (L11), `lem:scaling` (L12, with L13 as a remark `rem:engine`), `lem:exit` (L14), `lem:osc` (L16); §5 `lem:spchart` (L17), `lem:spdomain` (L18); §6 `thm:partialnek` (the partial Nekhoroshev theorem used as input, stated as a Theorem/Proposition with citation), `lem:cover`.
+Sections: `sec:intro`, `sec:results`, `sec:barrier`, `sec:planar`, `sec:spatial`, `sec:resonant`, `sec:outlook`, `app:formal`.
+
+## 3. Notation (MAIN's conventions; macros in `macros.tex`)
+
+| Symbol | Meaning | Source |
+|---|---|---|
+| n ≥ 2, d ∈ {2,3} | number of planets, space dimension | MAIN §1 |
+| m_i = μν_i, ν_i > 0 | planet masses; star mass 1, G = 1. MAIN normalizes max ν_i = 1; the Lean general theorems drop this (μ is then a mass scale) | MAIN §1, OD-3 |
+| q_i, p_i | heliocentric positions, scaled canonical momenta (physical momentum μp_i); form Σ dp_i∧dq_i | MAIN (1) |
+| H_μ = Σ(|p_i|²/2ν_i − ν_i/|q_i|) + μ f, f = ½|Σp_i|² − Σ_{i<j} ν_iν_j/|q_i−q_j| | exact Hamiltonian, physical time | MAIN (1) = `eq:H` |
+| v_i = p_i/ν_i, E_i, **e**_i | canonical velocity, specific energy, eccentricity vector | MAIN §1 |
+| a_i = −1/(2E_i), Λ_i = ν_i√a_i, e_i = |**e**_i| | semi-major axis, Delaunay action, eccentricity. **Use Λ (not I) in the paper**; MAIN writes I = Λ | MAIN (2) |
+| L_i = q_i×p_i, L = ΣL_i, C = ΣΛ_i − |L| | angular momenta and the (normalized) AMD; physical AMD is μC | MAIN (2) |
+| D(u) = 1 − √(1−u²) | eccentricity deficit function | MAIN §1 |
+| 𝒬 = {Λ: Λ_i > 0, (Λ_1/ν_1)² < … < (Λ_n/ν_n)²} | action chamber (ordered axes) | MAIN §1 |
+| B_ij(Λ), B_cross, B_⋆ = min Λ_i, B = min(B_cross, B_⋆) | pair threshold (min over contact), strong threshold | MAIN (3) |
+| h(Λ) = −Σν_i³/(2Λ_i²), ω_i = ν_i³/Λ_i³ | Kepler Hamiltonian, mean motions | MAIN (4) |
+| |k·ω(Λ⁰)| ≥ γ|k|₁^{−τ}, k ∈ ℤⁿ∖0 | Diophantine condition (|k|₁ = Σ|k_i|) | MAIN (5) |
+| 𝒜 ⊂ {0 < a_1 < … < a_n} compact; δ > 0 | axes window; normalized AMD margin | MAIN §1 |
+| T_μ = T₀ exp(c μ^{−1/(2(τ+1))}) | stability time | MAIN (7) |
+| d_⋆, d_pair, A_Λ, A_a, A_osc, A_el | separation and drift constants (A_el = Lean `Aelem`) | MAIN (8)–(9), Lean |
+| a_n = 2/(6n²−3n+14), b_n = 3/(6n²−3n+14) | LP3 time and drift exponents | `planetaryTimeExponent`, `planetaryDriftExponent` |
+| (Λ, λ, x, y) / (Λ, λ, x, y, u, v) | regular Poincaré variables, Γ = (x²+y²)/2, Z = (u²+v²)/2 | MAIN L7, L17 |
+| ‖·‖_∞ | max norm on action vectors | MAIN §1 |
+
+Avoid: campaign jargon (anchor, freeze, OD, codex, wave, package, provider, track, LP0/LP1… as names in the text — use Theorem A–E; "LP" in the paper means Laskar–Petit only).
+
+## 4. Claims ledger
+
+Status column: ☐ open, ☑ checked by editor against source/Lean, ✓A checked by fidelity audit.
+
+### 4a. Theorems (paper ↔ Lean)
+
+Lean commits: main `a994efdf` (2026-11-01 08:56 UTC); LP3 branch `inp-lp-lp3src` `402de5f7` (08:44 UTC), not yet on main.
+
+| Paper | Content (exact contract) | MAIN | Lean (file:line @commit) | Status |
+|---|---|---|---|---|
+| Thm A (barrier) | ∀ n≥2, ν>0, compact U ⊂ 𝒬, m>0 ∃ d_⋆, d_pair > 0: (a) ∀ Λ∈U, e∈[0,1]ⁿ with ΣΛ_iD(e_i) ≤ B(Λ)−m: a_i(Λ)(1−e_i) ≥ d_⋆ and a_{i+1}(1−e_{i+1}) − a_i(1+e_i) ≥ d_pair; (b) ∃ compact K of collision-free negative-energy states such that every state with q_i ≠ 0, E_i<0, Λ∈U, C ≤ B(Λ)−m satisfies the perihelion and gap bounds, |q_i| ≥ d_⋆, |q_i−q_j| ≥ d_pair (i≠j), lies in K, and (planar) |L_i| ≥ m with L_i of the sign of L. Lean statement is planar. Spatial counterpart (H_i ≥ m) is MAIN L5 / used inside LP2 — writer C locate Lean name or say "planar only" | L5 (164–169), with L3, L4 | `KAM/Planetary/StrongAMD/PlanarSafety/Main.lean:255` `KAM.Planetary.StrongAMD.lp0_planar_barrier` @a994efdf | ☑ |
+| Thm B (planar) | ∀ n≥2, ν>0, compact 𝒜 ⊂ ordered positive axes, δ,γ>0, τ>n−1 ∃ μ₀,c,T₀,A_Λ,A_a,d_⋆,d_pair,A_osc,A_el > 0 with A_oscμ₀ ≤ d_⋆/2, 2A_oscμ₀ ≤ d_pair/2, ∀ 0<μ≤μ₀ ∀ initial state with q_i≠0, E_i<0, a(0)∈𝒜, Diophantine (γ,τ) at ω(Λ(0)), [Λ(0)∈𝒬 — automatic from a(0)∈𝒜; Lean binder], C(0) ≤ B(Λ(0))−δ; T := T₀exp(cμ^{−1/(2(τ+1))}): ∃ solution of (1) on [−T,T] with that initial value, unique on [−T,T]; its barycentric reconstruction solves Newton's equations with masses (1, μν_1…μν_n); ∀|t|≤T: q_i≠0, E_i<0; Λ(t)∈𝒬 and C(t) ≤ B(Λ(t))−δ/2; ‖Λ(t)−Λ(0)‖∞ ≤ A_Λ√μ; ‖a(t)−a(0)‖∞ ≤ A_a√μ; |C(t)−C(0)| ≤ nA_Λ√μ; a_i(1−e_i) ≥ d_⋆; adjacent gaps ≥ d_pair; |q_i| ≥ d_⋆; |q_i−q_j| ≥ d_pair (all i≠j); osculating: E^osc_i<0, a^osc_i>0, e^osc_i<1, a^osc(1−e^osc) ≤ |q_i| ≤ a^osc(1+e^osc), |a^osc−a|+|**e**^osc−**e**| ≤ A_elμ, |peri^osc−peri|,|apo^osc−apo| ≤ A_oscμ, peri^osc ≥ d_⋆/2, adjacent osc gaps ≥ d_pair/2. No normalization max ν = 1 needed (general version); normalized version is the corollary `_normalized` | T15 (502–506), L14, L16, (6)–(9) | `PlanarSafety/Main.lean:44` `lp1_planar_strongAMD_safety`; `:137` `_normalized`; source-carrier forms `PlanarSafety/Source.lean:38,132` @a994efdf | ☑ |
+| Thm C (spatial) | Thm B verbatim for d=3 (Euclidean |L|, 3-vectors); no prograde / inclination / alignment premise; includes circular and coplanar orbits | T19 (599–603), L17, L18 | `KAM/Planetary/Spatial/SpatialSafety/Main.lean:43` `KAM.Planetary.Spatial.lp2_spatial_strongAMD_safety`; `:153` `_normalized`; `Source.lean:42,145` @a994efdf | ☑ |
+| Cor D | Thm B and C with τ = n−1/2: T = T₀exp(cμ^{−1/(2n+1)}); Diophantine exponent n−1/2 | §1 (line 77) | `PlanarSafety/Main.lean:190` `lp1_planar_strongAMD_safety_halfInteger`; `SpatialSafety/Main.lean:210` `lp2_spatial_strongAMD_safety_halfInteger` | ☑ |
+| Thm E (resonance-tolerant) | Thm B/C with: no γ, τ, no Diophantine premise; T = T₀exp(cμ^{−a_n}); drift lines A_Λμ^{b_n}, A_aμ^{b_n}, nA_Λμ^{b_n}; all else identical (margin δ/2, separations, osculating, uniqueness, reconstruction); constants depend on (n,ν,𝒜,δ). Planar and spatial | LP3-PLAN §1.2–1.3 | branch `inp-lp-lp3src` @402de5f7: `KAM/Planetary/StrongAMD/Nek/PlanarSafety/Main.lean:42` `lp3_planar_strongAMD_safety` (+`:135` normalized, `Source.lean:37,130`); `KAM/Planetary/Spatial/Nek/SpatialSafety/Main.lean:40` `lp3_spatial_strongAMD_safety` (+`:150`, `Source.lean:40,139`) | ☑ statement; audits in progress |
+| Input to Thm E | partial (convex) Nekhoroshev theorem: n≥2 fast, k≥1 slow pairs, open convex G ⊂ G′, open D, h fixed (holomorphic, definite Hessian, |ω|≥g), μ₀ chosen before P, C, solution; drift ≤ μ^{b_n}/2 up to min(C, μ⁻¹exp(μ^{−a_n})) while slow variables stay in innerCore D(μ^{b_n}) | Nek77 Thm 4.4 p.30 (+ Rem. 4.5.A–B) | `KAM/Frozen/Nekhoroshev/Theorems/PartialConvexNekhoroshev.lean:48` `KAM.Nekhoroshev.partialConvex_nekhoroshev` (proved in the repository on main) | ☑ |
+
+Axioms: main results report `propext, Classical.choice, Quot.sound` (PROGRESS 03:39 and 05:49 entries for LP1/LP0; 06:44 for LP2, orchestrator re-check; landing checks "standard axioms"). The editor did not run `#print axioms` (docs-only brief). LP3: to confirm from the LP3 handoffs (writer C reads `docs/tracks/LP/packages/` handoffs).
+
+### 4b. Lemmas (paper ↔ MAIN)
+
+| Paper | MAIN | Amendments | Notes |
+|---|---|---|---|
+| lem:normalization | L1 (§2) | — | brief |
+| lem:orbital | L2 | — | (11), (12) incl. e = 1 |
+| lem:amd | L3 | N8 (|L| convention ruled: C = ΣΛ − |L|) | conservation of L, C ≥ 0, C < B_⋆ ⇒ L ≠ 0, H_i ≥ m, (13) |
+| lem:threshold | L4 | N9 (interior-minimizer paragraph not used downstream) | attained, continuous, B_ij < Λ_j, B = min(B_cross, Λ_1); identification with LP17 relative critical AMD (LP17 §3.2 (35)–(39)) |
+| lem:uniform | L5 | N11 (define d_⋆ := a_min m²/(2I_max²) first) | proof of Thm A |
+| lem:moving | L6 | N2 (one shared compact U, 4r_g tube) | (17) and continuation |
+| lem:chart | L7 | N1 (fixed in place) | regular planar Poincaré chart |
+| lem:domain | L8 | N2, N3 | whole-sublevel complex domain; the key "entire ball" point |
+| lem:fourier | L9 | — | standard |
+| lem:lie | L10 | N5 | standard Lie step; do not present as new |
+| lem:nf | L11 | — | normal form on full slow tube |
+| lem:scaling | L12 | N4 ((35) is a remark), N7 (L12 and L13 alternative suppliers; Lean uses L13) | r = √μ, N ≍ μ^{−a}, time |
+| rem:engine | L13 | N6 (widths; r = D₀√μ, improvement to r/2) | Lean route: Pöschel-type finite-cutoff normal form `KAM.Nekhoroshev.nonresonant` |
+| lem:exit | L14 | N6 | first exit / bootstrap |
+| lem:osc | L16 | N10 (μ₀ ordering; in Lean as A_oscμ₀ ≤ d_⋆/2 etc.) | velocity-osculating elements |
+| lem:spchart | L17 | N12 (engineering only) | spatial chart |
+| lem:spdomain | L18 | — | |
+| lem:cover | LP3-PLAN §2.2 (F4–F5) | review-1 C1–C5 | finite cover, cells, local level B(c_j) − 5δ/16 |
+
+### 4c. Quotations and literature pins (to be checked against PDFs by writer A, then by the literature audit)
+
+| Item | Pin | PDF | Status |
+|---|---|---|---|
+| LP17 conjecture sentence | published §3, A72 p.3; arXiv v2 §3 p.4 | `sources/incoming-zohar2/r2-amd17.pdf`; `_sources/LP17-arxiv-v2.pdf` | ☐ |
+| AMD definition, invariable plane | LP17 §2.2 (9)–(11) | same | ☐ |
+| critical AMD C_c(α,γ) | LP17 §3.2 (35)–(39) | same | ☐ |
+| strong/weak AMD-stability | LP17 §5.3 | same | ☐ |
+| Nekhoroshev 1977 | Thm 4.4 p.30 (partial), exponents | `sources/incoming-round3/nek77-eng.pdf` | ☐ |
+| Pöschel 1993 | Normal Form Lemma p.192 | `sources/incoming-N/poschel1993_gdz.pdf` | ☐ |
+| Niederman 1996 | NOT inspected (A2 §2) — cite only as "studied exponential stability in the planetary problem", via secondary descriptions (CFG23 §1.3 p.5; BN18 intro p.2) | — | ☐ |
+| Barbieri–Niederman | arXiv:1810.05987 | `sources/pdf/arxiv_1810.05987v1_BN_planetary.pdf` | ☐ |
+| Pinzari | per A2 (Pinzari 2016 v4; Pinzari–Liu 2023) | `_sources/Pinzari2016-v4.pdf`, `PL23-v2.pdf` | ☐ |
+| Practicality | A7 | `_sources/target_margins.*` | ☐ |
+
+## 5. Detail standard (binding for writers)
+
+Reader: a mathematician in Hamiltonian dynamics / celestial mechanics, checking each step with pen and paper.
+- **Full statement:** Theorems A–E (exact contracts per ledger), and each lemma's statement.
+- **Written out (short):** Lemmas 2–6 (elementary; full short proofs), the whole-sublevel point of L8 (why the *entire* ball is one analytic domain), the scaling arithmetic of L12 (why √μ and μ^{−1/(2(τ+1))}), the first-exit bootstrap L14, the cover argument for Thm E.
+- **Sketch + citation:** L7, L17 (charts; key formulas and the symplectic identity), L9–L11 (standard normal form; cite Pöschel 1993 and point to MAIN for the full proof), L16, complex-extension details of L8/L18.
+- **Never:** Lean scaffolding, internal names in the text (Lean names only in the appendix table), campaign history, hedging-by-volume.
+- Point to "the audited full proof" as a supplementary document: cite as the project's proof notes (writer C/editor will add a bib entry `KAMrepo` for the repository + docs path). Do not use MAIN line numbers in the paper.
+
+## 6. Open questions
+
+1. Spatial Thm A: Lean LP0 is planar only. Paper Thm A is stated for d = 2 with a remark that the spatial counterpart is proved inside Thm C's proof (MAIN L5 is dimension-free) — writer C to confirm the Lean spatial barrier declaration name for the appendix.
+2. LP3 axioms record — writer C to find in handoffs; else "not yet recorded".
+3. "Audited full proof" citation form: repository path at a commit (no public URL yet) — FOR OWNER.
+
+## 7. FOR OWNER
+
+- **Authorship line** "Scott Armstrong and Zohar Komargodski" (D15) is a draft line; confirm.
+- **Acknowledgment of AI and formal tools** (who/what drafted the proofs, the Lean formalization, the paper text): draft in `sections/formal.tex` §A.4; owner to confirm wording.
+- Where the audited proof notes will be public (citation target).
+- Title.
+
+## 8. Audit log
+
+(to be filled: fidelity, literature, exposition audits; findings → repairs)
+
+## 9. Progress log (UTC, from `date -u`)
+
+- 09:02 plan started; sources read (MAIN, AMENDMENTS, OWNER-DECISIONS, Lean LP0–LP2 on main, LP3 plan and Lean on branch, A2 head).
