@@ -38,7 +38,7 @@ GEOMOD's barrier states satisfy all of these, with `e_*` from its deficit bound;
 
 1. **(43), uniform.** `∃ μ₀ A A_osc > 0` (depending only on `ν`, `n` and the bounds) such that for
    `0 < μ ≤ μ₀` and every `z ∈ K` and `i`:
-   - `oscEnergy ≤ −c/2`, so the elements are nondegenerate elliptic;
+   - `oscEnergy ≤ −(c/ν_i)/2` (specific energy; the input bound `keplerEnergy ≤ −c` is total energy, audit LP-OSC-1 note), so the elements are nondegenerate elliptic;
    - `oscEcc < 1`;
    - `|oscAxis − keplerAxis| + planeLength (oscEccVector − keplerEccVector) ≤ A μ`;
    - `|oscPeri − peri| ≤ A_osc μ` and `|oscApo − apo| ≤ A_osc μ`.

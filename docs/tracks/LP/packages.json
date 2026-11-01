@@ -60,6 +60,15 @@
    "source": "MAIN L8: whole-sublevel planar analytic domain"
   },
   {
+   "id": "LP-DOMX",
+   "wave": 2,
+   "weight": 0.8,
+   "modules": [
+    "KAM/Planetary/StrongAMD/AnalyticDomain/Bounds.lean"
+   ],
+   "source": "MAIN L8 remaining clauses (chart/momenta/derivative bounds, denominators)"
+  },
+  {
    "id": "LP-NRR",
    "wave": 2,
    "weight": 1.2,
