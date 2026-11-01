@@ -12,8 +12,14 @@ imports) and runs the packed segment of `KAM/CertificateSharp/Packed/JetSeg.lean
     and a reduce in place to 2^P after a product by a constant (`jRed`);
   - the book (`JBook`): loads, offsets, norm guards, the slot width, from the run (two passes);
   - the exports: the nodes of the live slots read after the range.
-Every mirror function names its Lean counterpart. Literals: `gate_gen.nat_tree` (balanced `natJoin` trees).
-Usage: python3 -I scripts/packed/jet_gate_gen.py SEG.json [--stats]
+Every mirror function names its Lean counterpart. Literals: balanced `natJoin` trees of 1024-bit chunks; a box part
+as its narrow digits (width rounded up to a multiple of 8, so few width classes share the spreading masks), read by
+`jSpread`; a zero part as `0`. The program is emitted with right-nested appends (`++` associates to the left).
+The steps are cut into sub-segments of at most `--heavy` heavy steps (box-by-box products and reduces in place),
+one probe each; `--split=i,j;k` halves chosen sub-segments (rounds separated by `;`).
+V2-PACKED-JET-MEM: `--heavy=34` (two processes, <= 2.65 GB) is the measured setting for LG00's Low range; the
+whole range (68 heavy steps) also passes in one process at 3.90 GB.
+Usage: python3 -I scripts/packed/jet_gate_gen.py SEG.json [--stats] [--heavy=N] [--split=...]
 Writes the probes into $V2P_GATE_DIR (default .lake/v2-packed-jet/gate).
 """
 import json
@@ -346,37 +352,42 @@ def book_of(C, st):
 
 
 # ------------------------------------------------------------------------------------------------- ingestion
-def respace_lin(a, b, k, Y):                            # JetIngest.respaceLin
-    out = 0
-    for i in range(k):
-        out += ((Y >> (a * i)) & (2 ** a - 1)) << (b * i)
-    return out
+def spread_step(a, b, h, k, Y):                         # JetIngest.spreadStep
+    return Y + (Y & periodic(b * (2 * h), k, (2 ** (a * h) - 1) << (a * h))) * (2 ** ((b - a) * h) - 1)
 
 
-def respace(a, b, f, k, Y):                             # JetIngest.respace
-    if f == 0 or k <= 8:
-        return respace_lin(a, b, k, Y)
-    h = k // 2
-    return respace(a, b, f - 1, h, Y & (2 ** (a * h) - 1)) + (respace(a, b, f - 1, k - h, Y >> (a * h)) << (b * h))
+def spread_aux(a, b, L, k, Y):                          # JetIngest.spreadAux
+    while L:
+        L -= 1
+        Y = spread_step(a, b, 2 ** L, k, Y)
+        k *= 2
+    return Y
 
 
-def j_ingest(D0, D1, S, w, wn, Y):                      # JetIngest.jIngest
-    return respace(D1 * w, S * w, 16, D0, respace(wn, w, 16, D0 * D1, Y)) - box_pat(w, S, D0, D1, 2 ** (wn - 1))
+def ceil_log2(x):
+    return max(0, (x - 1).bit_length())
+
+
+def j_spread(D0, D1, S, w, wn, L1, L2, Y):              # JetIngest.jSpread
+    return spread_aux(D1 * w, S * w, L2, 1, spread_aux(wn, w, L1, 1, Y)) - box_pat(w, S, D0, D1, 2 ** (wn - 1))
 
 
 def narrow(C, Z):
-    """The narrow literal of a box part: (wn, Y), checked against the mirror of `jIngest`."""
+    """The narrow literal of a box part: its width rounded up to a multiple of 8 (few width classes, so the
+    spreading masks are shared), checked against the mirror of `jSpread`."""
     L = C.Lb
     d = unpack(L, Z)
     wn = max([abs(c) for c in d.values()] + [1]).bit_length() + 1
+    wn += (-wn) % 8
     Y = 0
     for r in range(L.dims[0]):
         for c in range(L.dims[1]):
             v = d.get((L.lo[0] + r, L.lo[1] + c), 0) + 2 ** (wn - 1)
             assert 0 <= v < 2 ** wn
             Y |= v << (wn * (r * L.dims[1] + c))
-    assert j_ingest(L.dims[0], L.dims[1], L.S, L.w, wn, Y) == Z, "jIngest mirror"
-    return wn, Y
+    L1, L2 = ceil_log2(L.dims[0] * L.dims[1]), ceil_log2(L.dims[0])
+    assert j_spread(L.dims[0], L.dims[1], L.S, L.w, wn, L1, L2, Y) == Z, "jSpread mirror"
+    return wn, Y, L1, L2
 
 
 # ------------------------------------------------------------------------------------------------- Lean text
@@ -434,12 +445,15 @@ class Emit:
         else:
             parts = []
             for pi, z in enumerate(nd.x):
-                wn, Y = narrow(C, z)
+                if z == 0:
+                    parts.append("0")
+                    continue
+                wn, Y, L1, L2 = narrow(C, z)
                 body, m = nat_tree(Y)
                 self.chunks += m
                 self.defs.append("def %s_%d : ℕ :=\n%s\n" % (name, pi, body))
-                parts.append("jIngest %d %d %d %d %d %s_%d" % (C.Lb.dims[0], C.Lb.dims[1], C.Lb.S, C.Lb.w, wn, name,
-                                                                pi))
+                parts.append("jSpread %d %d %d %d %d %d %d %s_%d" % (C.Lb.dims[0], C.Lb.dims[1], C.Lb.S, C.Lb.w,
+                                                                       wn, L1, L2, name, pi))
             x = "⟨%s,\n    %s⟩" % tuple(parts)
         al = ("2 ^ %d" % (nd.A.bit_length() - 1)) if nd.A == 2 ** (nd.A.bit_length() - 1) else "%d" % nd.A
         self.defs.append("def %s : JNode LGF :=\n  ⟨%s, %s, %d, %s, ⟨%d⟩, ⟨%d⟩⟩\n" % (
@@ -513,14 +527,16 @@ def main():
         nm = "ops_%d" % (c0 // nch)
         names.append(nm)
         E.defs.append("def %s : List SlpOp :=\n  [%s]\n" % (nm, ",\n   ".join(op_lit(op) for op in ops[c0:c0 + nch])))
-    E.defs.append("def lgProg : Slp := ⟨%s⟩\n" % " ++\n    ".join(names))
+    # right-nested appends: `++` associates to the left, and a left-nested chain makes every cell of the first
+    # chunk pass through every append (V2-PACKED-JET-MEM: 4.6 s and 1.1 GB for one walk to slot 7291)
+    E.defs.append("def lgProg : Slp := ⟨%s%s⟩\n" % (" ++\n    (".join(names), ")" * (len(names) - 1)))
     for j in sorted(imps):
         E.node("imp_%d" % j, imps[j])
     E.defs.append("def imports : List (ℕ × JNode LGF) :=\n  [%s]\n" % ",\n   ".join(
         "(%d, imp_%d)" % (j, j) for j in sorted(imps)))
     E.defs.append("def steps : List JStep :=\n  [%s]\n" % ",\n   ".join("(%d, %d, %d)" % t for t in steps))
     head_defs = list(E.defs[:3 + len(names)])        # gW, jbk, the program chunks, lgProg
-    heavy_max = int(next((x.split("=")[1] for x in sys.argv if x.startswith("--heavy=")), "8"))
+    heavy_max = int(next((x.split("=")[1] for x in sys.argv if x.startswith("--heavy=")), "34"))
     # sub-segments of at most `heavy_max` heavy steps (box-by-box products and reduces in place): the kernel keeps
     # every intermediate of a declaration, so one sub-segment per probe
     chunks, cur, hv = [], [], 0
@@ -555,7 +571,6 @@ def main():
     final = set(D["exports"])
     node_of = dict(imps)
     node_of.update(S)
-    stmt = "jSegOk 2 gW jbk lgProg imports steps exports = %s"
     probes, plan = {}, []
     for c, ch in enumerate(chunks):
         defined = {t[0] for t in ch}
@@ -577,6 +592,7 @@ def main():
         exp_list = "def exports : List (ℕ × JNode LGF) :=\n  [%s]\n\n" % ",\n   ".join(
             "(%d, exp_%d)" % (j, j) for j in exp_c)
         nm = "JSeg_%d" % c
+        stmt = "jSegOk 2 gW jbk lgProg %d imports steps exports = %%s" % ch[0][0]
         hv_c = sum((1 if t[1] else 0) + (1 if t[2] else 0) for t in ch)
         doc = ("Sub-segment %d of %d (`jSegOk`): slots %d..%d, %d steps (%d box-by-box products, %d reduces in place), "
                "%d imports, %d exports." % (c, len(chunks), ch[0][0], ch[-1][0], len(ch), sum(1 for t in ch if t[1]),

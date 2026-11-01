@@ -42,15 +42,17 @@ def main():
                          kernel=kernel_s(os.path.join(logs, nm + ".out")),
                          peak=int(c["cgroup_sampled_peak_bytes"])))
     ok = all(r["exit"] == 0 and r["oom"] == 0 and r["kernel"] is not None for r in rows)
-    data = cost(os.path.join(logs, "JData_0.cost"))
+    dp = os.path.join(logs, "JData_0.cost")
+    data = cost(dp) if os.path.exists(dp) else None
     cpu = sum(r["cpu"] for r in rows)
     ker = sum(r["kernel"] or 0 for r in rows)
     heavy = sum(r["heavy"] for r in rows)
     out = dict(all_pass=ok, processes=len(rows), cpu_s=round(cpu, 1), kernel_s=round(ker, 1),
                wall_s=round(sum(r["wall"] for r in rows), 1), max_charged_bytes=max(r["peak"] for r in rows),
                heavy_steps=heavy, kernel_s_per_heavy=round(ker / heavy, 2), cpu_s_per_heavy=round(cpu / heavy, 2),
-               data_control_JData_0=dict(cpu_s=round(float(data["user_s"]) + float(data["sys_s"]), 1),
-                                         peak=int(data["cgroup_sampled_peak_bytes"])),
+               data_control_JData_0=None if data is None else dict(
+                   cpu_s=round(float(data["user_s"]) + float(data["sys_s"]), 1),
+                   peak=int(data["cgroup_sampled_peak_bytes"])),
                landed_cpu_s=landed["cpu_s"], landed_modules=landed["modules"],
                landed_max_charged_bytes=landed["max_charged_bytes"],
                ratio_landed_over_packed=round(landed["cpu_s"] / cpu, 1), rows=rows)

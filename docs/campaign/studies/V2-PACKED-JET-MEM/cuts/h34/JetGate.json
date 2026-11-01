@@ -1,0 +1,53 @@
+{
+ "start": 7099,
+ "stop": 7292,
+ "lg00_cert_commit": "fd82fef5a92cd75a8ed4b34b98f3fd9a25b5a315",
+ "steps": 114,
+ "products": 55,
+ "in_place": 13,
+ "adds": 46,
+ "imports": 53,
+ "exports": 35,
+ "landed_segments": 83,
+ "landed_kinds": {
+  "P": 54,
+  "R": 29
+ },
+ "book": {
+  "lb": 140,
+  "lr": 282,
+  "lrb": 270,
+  "ln": 141,
+  "aW": "2^277",
+  "aB": "2^268",
+  "smax": 128,
+  "ls": 277,
+  "lsb": 268,
+  "off": 2550,
+  "w": 352
+ },
+ "heavy_max": 34,
+ "sub_segments": [
+  {
+   "name": "JSeg_0",
+   "steps": 62,
+   "heavy": 34,
+   "imports": 42,
+   "exports": 19,
+   "first": 7099,
+   "last": 7239
+  },
+  {
+   "name": "JSeg_1",
+   "steps": 52,
+   "heavy": 34,
+   "imports": 26,
+   "exports": 16,
+   "first": 7240,
+   "last": 7291
+  }
+ ],
+ "chunk_bits": 1024,
+ "export_radius_max": 3.5222870497372037e-10,
+ "export_nb_max": 0.00019385970574929134
+}

@@ -642,3 +642,37 @@ That is **9.4×** on the range, with the production assembly unmeasured.
 **Next.** Memory engineering of the run: why the run keeps far more than the sum of its operations. Then the
 chain theorem over the sub-segments and the plan (§12.7 item 3).
 
+### 12.10 Kernel memory of the run (V2-PACKED-JET-MEM; `docs/campaign/handoffs/V2-PACKED-JET-MEM.md`)
+
+**What held the memory.** Not the packed arithmetic: a product with its reduce and its two norms keeps about
+5–20 MB. Two costs scaled with the run.
+
+- **The program read.**
+  - The probe wrote the program as `ops_0 ++ ops_1 ++ … ++ ops_36`. `++` associates to the left, so every cell of
+    the first chunk passed through 36 appends.
+  - `jRun` also read `p.ops.getD i` from slot `0` at every step.
+  - One read at slot 7291 took 4.6 s and 1.1 GB of kernel, and a run step about 0.4 GB.
+  - **Fix:** right-nested appends in the generator, and the segment runs on `p.ops.drop start`, computed once
+    and shared, at `i - start` (`jSegOk … start …`, `getD_drop_sub`).
+- **Literal ingestion.**
+  - The digit-by-digit re-spacing (`respace`) was one kernel operation per digit: 0.22 s and 37 MB per part.
+  - **Fix:** `jSpread` spreads in about 18 whole-number steps. In each block the upper half moves by one
+    closed-form mask, one multiplication and one addition.
+  - Literal widths are rounded to multiples of 8, so the masks are shared, and zero parts are written `0`.
+  - Cost: about 0.02 s and 13 MB per part.
+
+**Measured** (the same LG00 range as §12.9: 68 heavy steps, 53 imports, 35 exports):
+
+| cut | processes | heavy steps per process | CPU | kernel | largest charge |
+|---|---:|---:|---:|---:|---:|
+| §12.9 | 23 | ≤ 4 | 512 s | 279 s | 4.29 GB |
+| one process | 1 | 68 | 29.0 s | 6.0 s | 3.90 GB |
+| **34 (chosen)** | 2 | 34 | 54.9 s | 8.4 s | 2.65 GB |
+| 20 | 4 | ≤ 20 | 71.3 s | 11.1 s | 2.22 GB |
+
+- **The kernel now takes 0.09–0.16 s per heavy step.**
+- **CPU is now mostly data elaboration.** The data control is 19–25 CPU-s per process: the elaborator, not the
+  kernel. A shared data module (production assembly) would remove most of it.
+- **Comparison with the landed range** (228 modules, 4,815 CPU-s): 88× at the chosen cut. The landed column
+  counts theorem modules only, while each packed process also elaborates its own ledger data.
+

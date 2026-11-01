@@ -65,18 +65,18 @@ def tExports (d : ℤ) : List (ℕ × JNode F) :=
 
 example : jBookOk 2 tW tJb = true := by decide +kernel
 
-example : jSegOk 2 tW tJb tP tImports tSteps (tExports 0) = true := by decide +kernel
+example : jSegOk 2 tW tJb tP 0 tImports tSteps (tExports 0) = true := by decide +kernel
 
 /-- A digit off by one. -/
-example : jSegOk 2 tW tJb tP tImports tSteps (tExports 1) = false := by decide +kernel
+example : jSegOk 2 tW tJb tP 0 tImports tSteps (tExports 1) = false := by decide +kernel
 
 /-- A rounding shift of `128 > smax`. -/
-example : jSegOk 2 tW tJb tP tImports [(2, 0, 0), (3, 0, 0)] (tExports 0) = false := by
+example : jSegOk 2 tW tJb tP 0 tImports [(2, 0, 0), (3, 0, 0)] (tExports 0) = false := by
   decide +kernel
 
 /-- Ingestion: the `3 × 3` box digits `1, -2, 3; 0, 0, 0; -8, 7, 1` at `5` bits spread to the
-slots of width `200` and rows of stride `5`. -/
-example : jIngest 3 3 5 200 5 19491115781585 =
+slots of width `200` (`9 ≤ 2^4` digits) and to rows of stride `5` (`3 ≤ 2^2` rows). -/
+example : jSpread 3 3 5 200 5 4 2 19491115781585 =
     1 - 2 * 2 ^ (200 * 1) + 3 * 2 ^ (200 * 2) - 8 * 2 ^ (200 * 10) + 7 * 2 ^ (200 * 11) +
       2 ^ (200 * 12) := by
   decide +kernel
