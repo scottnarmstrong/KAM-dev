@@ -117,4 +117,104 @@ Always state these, then the application's own limits:
 
 ## Example: the quickstart toy `Quick`
 
-<!-- filled from the quickstart run; see QUICKSTART.md for the commands -->
+This is a toy, so sections 1 and 2 are short: the certified model is the model. The modules are not
+checked in. Anyone can regenerate them with the commands of [QUICKSTART.md](QUICKSTART.md), and the
+checked-in analogue is `Micro` (`MicroRoutes.lean`, `MicroReading.lean`).
+
+### 0. Identification
+
+| Field | Value |
+|---|---|
+| Application | forced-pendulum toy `Quick`: an invariant torus of a periodically forced pendulum with two interacting modes |
+| Repository | KAM, branch `v2-public`; producer at `39110bc34d8387113a9b4450ff19e08407f111ee` (unchanged up to the commit of this page) |
+| Toolchain | `leanprover/lean4:v4.35.0`; Mathlib `v4.35.0` (`56a005855ea17e0b0958f73ec801ae140b0a1679`) |
+| Library | core `KAM` (modules `KAM.CertificateSharp.V2.Tests.Forced.Quick*`, generated locally, not in the root) |
+| Producer | `scripts/requirements.txt` (numpy 2.5.3, mpmath 1.3.0, scipy 1.18.1; Python 3.13.13); spec `docs/certifier/examples/quick.json` |
+| Date | 1 November 2026 |
+
+### 1. Model
+
+* Certified Hamiltonian (`QuickData.lean`, lines 35–38):
+  `(.mul (.const (1)) (.add (.action 1) (.add (.mul (.const (1 / 2)) (.pow (.action 0) 2)) (.add
+  (.mul (.const (3 / 1000000000000)) (.cosMode [1, 0])) (.add (.mul (.const (1 / 1000000000000))
+  (.cosMode [1, 1])) (.const (0)))))))`. That is,
+  `H = J + p²/2 + 3·10⁻¹² cos 2πθ₀ + 10⁻¹² cos 2π(θ₀ + θ₁)`.
+* Equations: `θ₁' = 1`, `θ₀'' = 2π [3·10⁻¹² sin 2πθ₀ + 10⁻¹² sin 2π(θ₀ + t)]`.
+* The certified model is the model. There are no idealizations: it is a toy with exact coefficients.
+
+### 2. Chart and normalization
+
+* Model coordinates `θ = (θ₀, θ₁)` (`θ₁` the time, period 1), `I = (p, J)` (`J` conjugate to the time).
+  No chart (`Ψ = id`); the time scale is `c = 1`.
+* Domain `c.D` (`certDomain`): angles in the complex strip of width `ρ_H = 137/1000`, actions with
+  `|I_i − centre_i| < 11/1000` about `(p, J) ≈ (−0.0942, −0.00443)`. Level `E₀ = 0`.
+
+### 3. Frequency
+
+* `ω* = κ (ν₋(10) − 1, 1)`, `κ = 10⁶/(10⁶ + 1)`, `ν₋(10) − 1 = (−19 + √5)/178 ≈ −0.0941794`. The box
+  `cert.freqBox` has radius `1/(356000356·10³⁹) ≈ 2.8·10⁻⁴⁸` in the first coordinate and is exact in
+  the second. `Quick.freq : FreqEncloses 2 cert.freqBox ωstar` (a root enclosure of `√5` and
+  `checkAlgBox`).
+* `Quick.dio : IsDiophantine (κ/12) 1 ωstar` (from `lunarRotFreqMinusN_isDiophantine 10`).
+* `s = 1 + 10⁻⁶` (so `s ω* = (ν₋(10) − 1, 1)`), `disp = 10⁻³`: the torus frequency `s∞ ω*` satisfies
+  `|s∞ − s| ‖ω*‖ ≤ 10⁻³`.
+
+### 4. Certificate and route
+
+* `Quick.cert : TorusCertificate 2 (CertFixed 96)`; truncation `L = 15` (`prune_digits`), Fourier
+  support: `u` 4, `p` 5 and `J` 3 terms; 1308 genuine product pairs.
+* Route: `sharp` (`routeV2All` at `Sum.inl ()`, the landed certifier). The same module also proves the
+  frozen routes: `frozenWit` (route A, `X* = 271/5000`) and `frozenBWit` (route B, `X* = 137/5000000`).
+* `err = 233/10²¹ = 2.33·10⁻¹⁹`. Thresholds (exact mirrors): sharp `2.51·10⁻¹⁸` (margin 1.03 decades),
+  frozen A `4.73·10⁻¹³` (6.31), frozen B `4.09·10⁻¹³` (6.24). `ρ = 1/8`, `ρ∞ = 1/800`.
+* Chosen by `python3 -I scripts/certifier/route_select.py forced_quick --beta 1`, row
+  `baseline fallback`: sharp, `L = 15`, `P = 96`, margin 1.03, err measured. The `--frozen` emitter
+  needs the sharp route; see QUICKSTART step 3.
+
+### 5. The exact theorem
+
+* `KAM.CertificateSharp.V2.Forced.Quick.sharp_torus : CertifiedTorus Quick.cert Quick.ωstar`
+  (`QuickRoutes.lean`, line 38). Also `Quick.frozenA_torus` and `Quick.frozenB_torus`, with the same
+  statement.
+* Unfolded as in section 5 of the template, with `σω = 2`, `ρ∞ = 1/800`, `μ = 1/100`, `σK = 103/100`.
+* The real reading `Quick.real_torus` (QUICKSTART step 6, the pattern of the checked-in
+  `Micro.real_torus`) gives an analytic real torus of `realHam cert.H` on `H = 0`, whose lines solve
+  Hamilton's equations, at a frequency `s∞ ω*` that is `(s∞ κ/12, 1)`-Diophantine, with
+  `|s∞ − s| ‖ω*‖ ≤ 10⁻³`.
+
+### 6. Axioms and guards
+
+```
+'KAM.CertificateSharp.V2.Forced.Quick.sharp_torus' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.CertificateSharp.V2.Forced.Quick.frozenA_torus' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.CertificateSharp.V2.Forced.Quick.frozenB_torus' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Quick.real_torus' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+Every check is a `decide +kernel`; the generated modules contain no `native_decide` or `#eval`.
+
+### 7. Kernel-run ledger
+
+| module | wall (s) |
+|---|---:|
+| `QuickData` | 2.8 |
+| `QuickFreq` | 1.7 |
+| `QuickStages` | 2.5 |
+| `QuickChecks` | 8.9 |
+| `QuickBase` | 9.7 |
+| `QuickRoutes` | 2.0 |
+| **total** (`lake build …QuickRoutes`: 27.1 s wall, 25.2 s user CPU) | 27.6 |
+
+AMD Ryzen 7 7700 (8 cores, 16 threads), 124 GB; at most 2.0 GB per process. The checker's closure was
+already built (QUICKSTART step 0); only the six certificate modules were compiled.
+
+### 8. What this does not prove
+
+Items 1–6 of the template apply. In particular, for this toy:
+
+* It proves nothing about any physical pendulum. The coefficients `3·10⁻¹²` and `10⁻¹²` are exact
+  rationals chosen to make the example small.
+* It covers one torus, of rotation number `ν₋(10) − 1` per forcing period. That `s∞ = s` exactly follows
+  from `θ₁' = 1`, a one-line argument that is not formalized.
+* Solutions off the torus are not controlled. The graph property, invariance of the image and observable
+  bounds (`KAM/Application/`) are not instantiated here.

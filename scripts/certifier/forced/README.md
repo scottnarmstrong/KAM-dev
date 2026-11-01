@@ -20,8 +20,10 @@ reports and witnesses in `scripts/certifier/fixtures/forced-toy/`.
 | `forced_routes.py TAG [--B / --R XS BF BT / --frozen]` | `<TAG>Freq/Claim/RouteA.lean`; route B; L8′; the sharp and frozen routes |
 | `forced_mutations.py TAG` | 25 mutations with mirror verdicts (laid out into the `TinyMut*` modules by `forced_layout.py`) |
 | `forced_sweep.py` | mirror sweep of frequency separation, twist, support, precision, perturbation, time scale |
-| `forced_xlang.py` | cross-language agreement (31 comparisons; exit status 0 iff all agree) |
+| `forced_xlang.py` | cross-language agreement (52 comparisons for Tiny, Micro, TinyC2; exit status 0 iff all agree) |
 | `forced_layout.py` | lays the generated full modules out: a cheap default-build subset and the opt-in `kernel-tests/CertificateSharp/V2/ForcedRoutes.lean` |
+| `forced_profile.py TAG [--spec JSON\|@FILE]` | the `route_select.py` profile `forced_<tag>` of a model spec: err and product pairs against the truncation `L = prune_digits` (mirror only, no Lean) |
+| `forced_diag.py` | the named failure lines (`FAIL route=… check=…`) printed by `forced_build.py`, `forced_routes.py` and `route_select.py` on a failure path only |
 
 Layout (orchestrator ruling, V2-TOOLS-FIX: default modules of a few seconds each):
 * default build: `Format`, `Lemmas`; `Micro` (the passing certificate: `MicroChecksA/B`, `MicroGram`,
@@ -30,6 +32,8 @@ Layout (orchestrator ruling, V2-TOOLS-FIX: default modules of a few seconds each
   the opt-in test imports;
 * opt-in: `kernel-tests/CertificateSharp/V2/ForcedRoutes.lean` (`Tiny`'s routes A, L8′, B and tori, `mut_frameT`,
   the `TinyC2` chain, the time-normalization tori).
+
+From a model of your own to a kernel-checked torus, step by step: `docs/certifier/QUICKSTART.md`.
 
 Reproduce (from the repository root; `FORCED_WORK` holds the pickles):
 
