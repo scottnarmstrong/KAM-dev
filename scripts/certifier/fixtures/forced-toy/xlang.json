@@ -1,0 +1,219 @@
+[
+ {
+  "tag": "Tiny",
+  "check": "jet length",
+  "python": "200",
+  "lean": "200",
+  "agree": true
+ },
+ {
+  "tag": "Tiny",
+  "check": "jet v0",
+  "python": "182",
+  "lean": "182",
+  "agree": true
+ },
+ {
+  "tag": "Tiny",
+  "check": "jet d1",
+  "python": "[183,184,185,186]",
+  "lean": "[183,184,185,186]",
+  "agree": true
+ },
+ {
+  "tag": "Tiny",
+  "check": "jet d2",
+  "python": "[[187,188,0,0],[189,190,0,0],[0,0,191,0],[0,0,0,0]]",
+  "lean": "[[187,188,0,0],[189,190,0,0],[0,0,191,0],[0,0,0,0]]",
+  "agree": true
+ },
+ {
+  "tag": "Tiny",
+  "check": "sharpTest",
+  "python": "false",
+  "lean": "false",
+  "agree": true
+ },
+ {
+  "tag": "Tiny",
+  "check": "claim at R",
+  "python": "true",
+  "lean": "true",
+  "agree": true
+ },
+ {
+  "tag": "Tiny",
+  "check": "claim at dx below the disc pass",
+  "python": "false",
+  "lean": "false",
+  "agree": true
+ },
+ {
+  "tag": "Tiny",
+  "check": "refinedCore at 1 X*",
+  "python": "true",
+  "lean": "true",
+  "agree": true
+ },
+ {
+  "tag": "Tiny",
+  "check": "refinedCore at 10 X*",
+  "python": "false",
+  "lean": "false",
+  "agree": true
+ },
+ {
+  "tag": "Tiny",
+  "check": "refinedCore at 1/2 X*",
+  "python": "true",
+  "lean": "true",
+  "agree": true
+ },
+ {
+  "tag": "Tiny",
+  "check": "stage literals regenerate byte for byte",
+  "python": "",
+  "lean": "",
+  "agree": true
+ },
+ {
+  "tag": "Micro",
+  "check": "jet length",
+  "python": "200",
+  "lean": "200",
+  "agree": true
+ },
+ {
+  "tag": "Micro",
+  "check": "jet v0",
+  "python": "182",
+  "lean": "182",
+  "agree": true
+ },
+ {
+  "tag": "Micro",
+  "check": "jet d1",
+  "python": "[183,184,185,186]",
+  "lean": "[183,184,185,186]",
+  "agree": true
+ },
+ {
+  "tag": "Micro",
+  "check": "jet d2",
+  "python": "[[187,188,0,0],[189,190,0,0],[0,0,191,0],[0,0,0,0]]",
+  "lean": "[[187,188,0,0],[189,190,0,0],[0,0,191,0],[0,0,0,0]]",
+  "agree": true
+ },
+ {
+  "tag": "Micro",
+  "check": "sharpTest",
+  "python": "true",
+  "lean": "true",
+  "agree": true
+ },
+ {
+  "tag": "Micro",
+  "check": "frozenCore at 1 X*",
+  "python": "true",
+  "lean": "true",
+  "agree": true
+ },
+ {
+  "tag": "Micro",
+  "check": "frozenCore at 10 X*",
+  "python": "false",
+  "lean": "false",
+  "agree": true
+ },
+ {
+  "tag": "Micro",
+  "check": "frozenCore at 1/2 X*",
+  "python": "true",
+  "lean": "true",
+  "agree": true
+ },
+ {
+  "tag": "Micro",
+  "check": "stage literals regenerate byte for byte",
+  "python": "",
+  "lean": "",
+  "agree": true
+ },
+ {
+  "tag": "TinyC2",
+  "check": "jet length",
+  "python": "200",
+  "lean": "200",
+  "agree": true
+ },
+ {
+  "tag": "TinyC2",
+  "check": "jet v0",
+  "python": "182",
+  "lean": "182",
+  "agree": true
+ },
+ {
+  "tag": "TinyC2",
+  "check": "jet d1",
+  "python": "[183,184,185,186]",
+  "lean": "[183,184,185,186]",
+  "agree": true
+ },
+ {
+  "tag": "TinyC2",
+  "check": "jet d2",
+  "python": "[[187,188,0,0],[189,190,0,0],[0,0,191,0],[0,0,0,0]]",
+  "lean": "[[187,188,0,0],[189,190,0,0],[0,0,191,0],[0,0,0,0]]",
+  "agree": true
+ },
+ {
+  "tag": "TinyC2",
+  "check": "sharpTest",
+  "python": "false",
+  "lean": "false",
+  "agree": true
+ },
+ {
+  "tag": "TinyC2",
+  "check": "claim at R",
+  "python": "true",
+  "lean": "true",
+  "agree": true
+ },
+ {
+  "tag": "TinyC2",
+  "check": "claim at dx below the disc pass",
+  "python": "false",
+  "lean": "false",
+  "agree": true
+ },
+ {
+  "tag": "TinyC2",
+  "check": "refinedCore at 1 X*",
+  "python": "true",
+  "lean": "true",
+  "agree": true
+ },
+ {
+  "tag": "TinyC2",
+  "check": "refinedCore at 10 X*",
+  "python": "false",
+  "lean": "false",
+  "agree": true
+ },
+ {
+  "tag": "TinyC2",
+  "check": "refinedCore at 1/2 X*",
+  "python": "true",
+  "lean": "true",
+  "agree": true
+ },
+ {
+  "tag": "TinyC2",
+  "check": "stage literals regenerate byte for byte",
+  "python": "",
+  "lean": "",
+  "agree": true
+ }
+]

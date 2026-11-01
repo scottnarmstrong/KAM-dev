@@ -483,3 +483,61 @@ end KAM.CertificateSharp.V2.Forced.%(T)s
 end
 """ % dict(mod=MOD, T=T, err=q(A["err"]), es=float(A["esharp"]), ea=float(A["estar"]), eb=float(B["estar"]),
            coreA=coreA, coreB=coreB))
+
+
+def routeR_module(tag, Xs, bF, bT):
+    """route A with lever L8' (`Ref.iso_g1_branch_R`): the refined witness of <TAG>RouteA at X* = Xs."""
+    T = tag
+    return lines_ok(FE.HEADER + """public import %(mod)s%(T)sRouteA
+
+/-!
+# Route A with lever L8′ on the forced toy `%(T)s`, in the kernel
+
+`refinedWitR`: the refined witness of `%(T)sRouteA` at `X⋆ = %(Xs)s` with the lever's
+budgets `b_F = %(bF)s`, `b_T = %(bT)s` (found by the compiled `refinedCoreR`; at route A's
+own `X⋆` the lever's torsion budget does not close). `refinedR_passes` is the whole v2 certifier
+at `routeV2All` with the witness of `routeARefinedR`, and `refinedR_torus` the certified torus.
+-/
+
+@[expose] public section
+
+namespace KAM.CertificateSharp.V2.Forced.%(T)s
+
+open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2
+
+/-- The witness of route A with lever L8′. -/
+def refinedWitR : RefinedWitR where
+  base := { refinedWit with core := { refinedWit.core with Xs := %(Xs)s } }
+  bF := %(bF)s
+  bT := %(bT)s
+
+theorem refinedR_sites : sitesOk (refinedWitR.base.num 2 cert.params cert.freqBox)
+    refinedWitR.base.core.J cert.freqBox refinedWitR.base.κ cert.params.γ refinedWitR.base.sites =
+      true := by decide +kernel
+
+theorem refinedR_core : refinedCoreR 2 cert.params cert.freqBox refinedWitR = true :=
+  refinedCoreR_of (by decide +kernel) (by decide +kernel) (by decide +kernel) (by decide +kernel)
+    refinedR_sites (by decide +kernel) (by decide +kernel)
+
+/-- **The forced toy through `routeV2All`** with lever L8′. -/
+theorem refinedR_passes : checkTorusCertificateV2 routeV2All cert
+    (Sum.inr (Sum.inl (Sum.inl (Sum.inr refinedWitR)))) = true := by
+  rw [checkTorusCertificateV2_routeV2All_aRefinedR]
+  refine (checkV2_eq routeARefinedR cert refinedWitR).trans ?_
+  rw [base_ok, Bool.true_and]
+  refine (routeARefinedR_test cert refinedWitR).trans ?_
+  have h1 : checkHamClaim cert refinedWitR.base.R = true := hamClaim_ok
+  have h2 : checkFrameMajorants cert (refinedWitR.base.R.frame cert.freqBox) = true := frame_ok
+  show (checkHamClaim cert refinedWitR.base.R &&
+    checkFrameMajorants cert (refinedWitR.base.R.frame cert.freqBox) &&
+    refinedCoreR 2 cert.params cert.freqBox refinedWitR) = true
+  rw [h1, h2, refinedR_core]
+  rfl
+
+theorem refinedR_torus : CertifiedTorus cert ωstar :=
+  checkTorusCertificateV2_sound routeV2All refinedR_passes freq dio
+
+end KAM.CertificateSharp.V2.Forced.%(T)s
+
+end
+""" % dict(mod=MOD, T=T, Xs=q(Xs), bF=q(bF), bT=q(bT)))
