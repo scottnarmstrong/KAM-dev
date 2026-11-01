@@ -252,13 +252,13 @@ theorem aaQt_hasFDerivAt {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (w : KamPhase
       simp [div_eq_mul_inv])
   refine ⟨hQ.differentiableAt.hasFDerivAt, fun W => ?_⟩
   rw [hQ.fderiv]
-  simp only [ContinuousLinearMap.add_apply, ContinuousLinearMap.smul_apply,
-    ContinuousLinearMap.sum_apply, ContinuousLinearMap.coe_comp', Function.comp_apply,
+  simp only [add_apply, smul_apply,
+    sum_apply, ContinuousLinearMap.coe_comp, Function.comp_apply,
     ContinuousLinearMap.proj_apply, smul_eq_mul, aaSfun_deriv_apply,
     ContinuousLinearMap.coe_fst', ContinuousLinearMap.coe_snd']
   unfold stepSymp aaXQt
   simp only [Pi.zero_apply, zero_mul, Finset.sum_const_zero, sub_zero, map_smul, map_neg,
-    ContinuousLinearMap.smul_apply, ContinuousLinearMap.neg_apply, smul_eq_mul,
+    smul_apply, neg_apply, smul_eq_mul,
     stepPairCLM_aaDiagE ha hp]
   simp only [aaBdot, Fin.sum_univ_two]
   have hpi : (2 * Real.pi : ℂ) ≠ 0 := by

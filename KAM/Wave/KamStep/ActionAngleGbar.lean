@@ -69,7 +69,7 @@ theorem norm_birkAction_le (w' : BirkSpace) (J : ℕ+) :
     (norm_nonneg _) (norm_nonneg _)
 
 include ha hp in
-theorem summable_aaGbarR (w' : BirkSpace) (i : Fin 2) (c : ℕ+ → ℂ) (hc : ∀ J, ‖c J‖ ≤ 1) :
+theorem summable_aaGbarR (w' : BirkSpace) (c : ℕ+ → ℂ) (hc : ∀ J, ‖c J‖ ≤ 1) :
     Summable fun J : ℕ+ => if 3 ≤ (J : ℕ) then c J * birkAction a p w' J else 0 := by
   refine Summable.of_norm_bounded (birkHalf_summable w' w').1 fun J => ?_
   split_ifs
@@ -83,7 +83,7 @@ theorem hasSum_aaGbarR (w' : BirkSpace) (i : Fin 2) :
     HasSum (fun J : ℕ+ =>
         if 3 ≤ (J : ℕ) then (birkActionB m hm J i : ℂ) * birkAction a p w' J else 0)
       (aaGbarR m hm ha hp w' i) :=
-  (summable_aaGbarR ha hp w' i _ fun J => norm_birkActionB_le J i).hasSum
+  (summable_aaGbarR ha hp w' _ fun J => norm_birkActionB_le J i).hasSum
 
 /-! ### The line `t ↦ w' + t e_{-l}` -/
 
@@ -137,8 +137,8 @@ theorem fderiv_birkHamBar_tan (w' : BirkSpace) (b : Bool) (i₀ : Fin 2) :
       by_cases h3 : 3 ≤ (J : ℕ)
       · have hJ : J ≠ modeIdx i₀ := fun h => by
           subst h; simp [modeIdx] at h3; have := i₀.is_lt; omega
-        rw [if_pos h3, if_pos h3, birkAction_add_unit, if_neg hJ, add_zero]
-      · rw [if_neg h3, if_neg h3]
+        rw [ite_eq_left h3, ite_eq_left h3, birkAction_add_unit, ite_eq_right hJ, add_zero]
+      · rw [ite_eq_right h3, ite_eq_right h3]
   have hg : (fun t : ℂ => birkHamBar m hm ha hp (w' + t • v)) = fun t =>
       1 / 2 * ∑ i : Fin 2, ∑ i' : Fin 2, (actionA m hm i i' : ℂ) *
         ((I i + t * d i) * (I i' + t * d i')) +
@@ -177,12 +177,12 @@ theorem fderiv_birkHamBar_nor (w' : BirkSpace) (b : Bool) (j : ℕ+) :
   set I : Fin 2 → ℂ := fun i => birkAction a p w' (modeIdx i)
   have hI : ∀ (t : ℂ) (i : Fin 2), birkAction a p (w' + t • v) (modeIdx i) = I i :=
     fun t i => by
-      rw [birkAction_add_unit, if_neg (modeIdx_ne_add_two i j), add_zero]
+      rw [birkAction_add_unit, ite_eq_right (modeIdx_ne_add_two i j), add_zero]
   have hR : ∀ (t : ℂ) (i : Fin 2), aaGbarR m hm ha hp (w' + t • v) i =
       aaGbarR m hm ha hp w' i + t * c * (birkActionB m hm (j + 2) i : ℂ) := fun t i => by
     unfold aaGbarR
     have h3 : 3 ≤ ((j + 2 : ℕ+) : ℕ) := by rw [PNat.add_coe]; simp; exact j.pos
-    have hs1 := summable_aaGbarR ha hp w' i (fun J : ℕ+ => (birkActionB m hm J i : ℂ))
+    have hs1 := summable_aaGbarR ha hp w' (fun J : ℕ+ => (birkActionB m hm J i : ℂ))
       (fun J => norm_birkActionB_le J i)
     have hsplit : (fun J : ℕ+ => if 3 ≤ (J : ℕ) then (birkActionB m hm J i : ℂ) *
         birkAction a p (w' + t • v) J else 0) = fun J : ℕ+ =>
@@ -191,7 +191,7 @@ theorem fderiv_birkHamBar_nor (w' : BirkSpace) (b : Bool) (j : ℕ+) :
       funext J
       rw [birkAction_add_unit]
       by_cases hJ : J = j + 2
-      · subst hJ; simp only [h3, if_true]; simp [birkNeg, c]; ring
+      · subst hJ; simp only [h3, ite_true]; simp [c]; ring
       · by_cases h : 3 ≤ (J : ℕ) <;> simp [h, hJ]
     rw [hsplit, hs1.tsum_add (summable_of_ne_finset_zero (s := {j + 2}) fun J hJ => by
       simp only [Finset.mem_singleton] at hJ; simp [hJ]), tsum_ite_eq]

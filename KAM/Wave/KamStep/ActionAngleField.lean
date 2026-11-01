@@ -157,9 +157,9 @@ theorem differentiableAt_aaXQt (w : KamPhase) :
   · exact hB.smul ((aaDiagE m hm).differentiableAt.comp w aaPrV.differentiableAt)
   · exact (hB.smul ((aaDiagE m hm).differentiableAt.comp w aaPrU.differentiableAt)).neg
 
-/-- Helper (`P_ξ ∈ 𝒮_{p+1}(V)`) on any open `V` on which `𝒜_ξ` is defined (`Re(ξ_i + y_i) > 0`) and
+/-- Helper (`P_ξ ∈ 𝒮_{p+1}(V)`) on any `V` on which `𝒜_ξ` is defined (`Re(ξ_i + y_i) > 0`) and
 maps into `B_{ρ₁}`; the source-facing statement is `aaP_isSmoothing`. -/
-theorem aaP_isSmoothing_of (ξ : Fin 2 → ℂ) {V : Set KamPhase} (hV : IsOpen V)
+theorem aaP_isSmoothing_of (ξ : Fin 2 → ℂ) {V : Set KamPhase}
     (hVd : ∀ w ∈ V, (∀ i, 0 < (ξ i + w.2.1 i).re) ∧ aaMap a p ξ w ∈ birkBall1 m p) :
     IsSmoothing (p := p) (pb := p + 1) ha (by linarith) V (aaPfun m hm ha hp ξ)
       (aaXP m hm ha hp ξ) := by
@@ -191,7 +191,7 @@ theorem aaP_isSmoothing_of (ξ : Fin 2 → ℂ) {V : Set KamPhase} (hV : IsOpen 
       ((aaXKext_analyticOnNhd ha hp _ hB).differentiableAt.comp w hmap)
   · intro w hw W
     obtain ⟨hpos, hB⟩ := hVd w hw
-    rw [(hder w hw).fderiv, ContinuousLinearMap.add_apply, ContinuousLinearMap.add_apply,
+    rw [(hder w hw).fderiv, add_apply, add_apply,
       (aaQt_hasFDerivAt (m := m) (hm := hm) ha hp0 w).2 W]
     have hGd : DifferentiableAt ℂ (birkHamNor m hm ha hp) (aaMap a p ξ w) :=
       ((birkHamNor_classA ha hp).analytic _ trivial).differentiableAt
@@ -212,7 +212,7 @@ theorem aaP_isSmoothing {s r t : ℝ} (hs : s ≤ 1 / 8) (hr : 0 < r) (ht : 0 < 
     IsSmoothing (p := 1) (pb := 1 + 1) (zero_le_one' ℝ) (by norm_num) (kamDomain s r)
       (aaPfun m hm (zero_le_one' ℝ) (by norm_num : (1 : ℝ) / 2 ≤ 1) ξ)
       (aaXP m hm (zero_le_one' ℝ) (by norm_num : (1 : ℝ) / 2 ≤ 1) ξ) :=
-  aaP_isSmoothing_of (zero_le_one' ℝ) (by norm_num : (1 : ℝ) / 2 ≤ 1) ξ (kamDomain_isOpen s r)
+  aaP_isSmoothing_of (zero_le_one' ℝ) (by norm_num : (1 : ℝ) / 2 ≤ 1) ξ
     fun w hw =>
     ⟨fun i => lt_trans (by positivity) ((aaMap_domain hs hr ht ξ hξ hre hw).1 i),
       aaMap_mem_birkBall1 m hm hs hr ht hρ₁ ξ hξ hre hw⟩
