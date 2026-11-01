@@ -293,3 +293,122 @@ Kernel laws, from `lake build` of shard modules importing `Fiber/BulkSite`:
   the route to about `10⁴` nodes at the first SJS bite.
 
 The clock choice (owner question 3) stays with the application.
+
+## 8. V2-BULK-RUNS: tent runs, crossing runs and a computed crossing cut
+
+Date: 1 November 2026, on top of V2-BULK (orchestrator decision 1, owner question 1 of the V2-BULK
+handoff). New modules only; the V2-BULK modules are unchanged.
+
+**Why.** At the first SJS bite, `walkB` spends its 44,568 nodes on two kinds of half-rows:
+- 738 half-rows with an integer crossing, at 28.5 nodes each. Isolating a crossing by bisection costs
+  `O(log M)` nodes, and the ratio runs around it cost `O(log_{5/4})` more.
+- 745 half-rows with a half-integer crossing, at 21.4 nodes each. A plain run cannot contain a
+  change of `p`.
+
+The 3,709 half-rows with no crossing cost 2.0 nodes each.
+
+The mass map (float) shows how much each part matters:
+- the ±3 fibres around integer crossings carry 86.9 % of `S`;
+- no-crossing half-rows carry 12.5 %;
+- the receding sides of crossings carry 0.24 % and the approaching sides 0.44 %;
+- half-integer half-rows carry 0.001 %.
+
+**Run types (`Fiber/BulkRuns.lean`).**
+- *Tent run* (`tentK`), across a half-integer, with `p₀ = −⌊X(i₀)/2^q⌋`.
+  - The certified distance is `min(Z − Rd, 2^q − Z − Rd)` with `Z = X + p₀2^q`. It is the minimum
+    of two affine functions, so its four endpoint values bound it below.
+  - Each fibre takes the nearer of `p₀` and `p₀ − 1`.
+  - The weight uses `min(|p₀|, |p₀−1|)`, and the term `j = 0` uses `max(·, 1)`.
+- *Crossing run* (`apK`): `p` constant and one sign, as `blkK`. The certified distance
+  `F(i) = sZ − Rd` has the exact integer slope `d = sσC₁ − R₁`, and every fibre keeps its own lower
+  bound `F(i)/2^q`.
+  - Receding (`d ≥ 0`): `Σ_{j<n} x^j (F₀+jd)⁻² ≤ (1/u − x^n/(u+nd))/(d+(1−x)u)`, with
+    `u = F₀ − d/2 > 0`. This is telescoping, and `x^n` is bounded below by `powDownK`, a
+    floor-rounded binary power.
+  - Approaching (`d < 0`): the weights are at most the largest, and
+    `Σ_{k<n} (F₁+ke')⁻² ≤ n/((F₁−e'/2)(F₁+(n−½)e'))`.
+  - Acceptance: the near end must be at least `s|d|` from the crossing; when approaching, the
+    weights must also vary by at most `rn/rd`. Before V2-BULK-CUTS a value at most `tol` was also
+    accepted; since the cuts a crossing run is accepted by its quality alone (CUTS subsection
+    below).
+- *Weights at any length*: `gsumK n = ⌈2^P(2^P − powDownK n)/(2^P − e)⌉ ≥ 2^P Σ_{j<n} x^j`. This
+  needs no table and needs `e < 2^P`. `blkK_spec_gen` is `blkK_spec` at the run's own length.
+
+**Walk (`Fiber/Bulk2.lean`, `walkB2`).** A node `[i₀, i₀+n)` is handled by the first of these that
+applies:
+1. a single fibre;
+2. a plain run, a tent run or a crossing run;
+3. if the centre line crosses an integer (`crossCut`, one division), two options:
+   - the crossing fibre alone plus one crossing run on each side;
+   - otherwise the cut `[i₀, i_c−s)`, the single fibres `[i_c−s, i_c+s]` and `(i_c+s, i₀+n)`,
+     each recursed;
+4. otherwise its two halves.
+
+Fuel bounds the recursion. Soundness is independent of every cut point and acceptance rule. Each
+branch partitions the index interval (`runSet_split`), and each leaf is a run check with its own
+theorem (`hnode_spec`, `walkB2_sound`, `smallDivisorSum_snoc2_le_bulk2`).
+
+**Site and engine.** `Fiber/Bulk2Site.lean`: `bulk2SiteOk`, `bulk2SiteOk_of` (shards) and
+`SiteWitK` (`h` = every `SiteWitH`, plus `bulk2`). `Fiber/RouteBK.lean`: route B with `SiteWitK`
+sites, copied by script from `RouteBG`, with `ofH` (same verdict). Route A is not copied, because
+the combined engine of applications is V2-CONSOL's.
+
+**Measured (exact mirror `scripts/certifier/fiber3_bulk2.py`; `rn/rd = 5/4`, `tol = 10⁻⁹ S`,
+`s = 2`, `P = 128`).** "Over float sum" is relative to a floating-point evaluation of the fibered
+sum, as in §7.
+
+| SJS bite (cubic γ) | fibres | `walkB` nodes / values | `walkB2` nodes / values | `walkB2` over float sum | certified `c` (`walkB2` / `walkB`) |
+|---|---:|---:|---:|---:|---|
+| `2.65·10⁻³` | `3.4·10⁶` | 44,568 / 28,212 | **13,719** / 20,425 | +0.40 % | `2.357·10⁻⁷` / `2.358·10⁻⁷` |
+| `1.33·10⁻³` | `1.4·10⁷` | 168,464 / 94,579 | **38,028** / 56,265 | +0.22 % | |
+| `6.6·10⁻⁴` | `5.8·10⁷` | 653,691 / 345,363 | **122,921** / 164,699 | +0.31 % | |
+
+**Kernel cost tracks value computations, not nodes.** A value costs about three binary powers of
+`P`-bit numbers. Before V2-BULK-CUTS, `walkB2` evaluated more values per node than `walkB` does,
+because a node that ends up split could compute plain, tent and crossing values for their tolerance
+tests; the cuts (subsection below) remove the tent and crossing ones. Kernel probes at the first
+bite, before the cuts (temporary shard modules, not committed; base about 1.5 GB):
+
+| 512-row block | `walkB2` nodes, values | build, peak | `walkB` nodes, build, peak |
+|---|---|---|---|
+| typical | 1,860, 2,259 | 11 s, 2.0 GB | 8,033, 13 s, 3.05 GB |
+| densest | 7,311, 12,942 | 19 s, 3.8 GB | 21,249, over 4 GB (killed) |
+
+At the first bite, extrapolated from the two probed blocks (of six), the whole `walkB2` walk
+before the cuts is about 50 s of kernel time in 4–5 shards. That is a modest gain over `walkB` (about 1 min projected, 4 shards). At the third bite the
+values drop 2.1× (`walkB2` 164,699 against `walkB` 345,363). Possible further savings are listed in
+the handoff.
+
+**V2-BULK-CUTS (as built; orchestrator decision).** These cuts change acceptance and dispatch only,
+so soundness is unchanged (`run3_spec`):
+- `hnode` tries a plain run then a crossing run when the node has the plain shape (`plainShape`), and
+  a tent run otherwise. The two shapes are complementary, so no value is spent on a run type that
+  cannot pass.
+- A crossing run is accepted by its quality alone, and its value is computed only when it is
+  accepted.
+- `P = 128` at all bites (audit AUDIT-V2-BULK-RUNS-1, E1). `P = 64` was tried at the first two
+  bites. It raised `N` (1,318 against 1,298 and 2,688 against 2,647, so 3.1 % more fibres at the
+  first bite) and gave about 2 % more nodes and values, with no kernel-time gain.
+
+Exact mirror at `P = 128`, so the same `N` before and after the cuts (before-cut figures in
+parentheses):
+
+| SJS bite | `N` | fibres | nodes | values |
+|---|---:|---:|---:|---:|
+| `2.65·10⁻³` | 1,298 | 3,372,204 | 15,299 (13,719) | 15,903 (20,425) |
+| `1.33·10⁻³` | 2,647 | 14,018,512 | 45,364 (38,028) | 46,954 (56,265) |
+| `6.6·10⁻⁴` | 5,387 | 58,050,312 | 144,083 (122,921) | 147,868 (164,699) |
+
+The bounds and constants are unchanged. At the same `N`, nodes rise while values fall. The reason
+is that the light-crossing branch relied on the tolerance fallback and no longer fires.
+
+Kernel probes on the densest 512-row block of the first bite:
+
+| | nodes | values | build | peak |
+|---|---:|---:|---:|---:|
+| before the cuts (`P = 128`) | 7,311 | 12,942 | 19 s | 3.81 GB |
+| with the cuts, `P = 64` (`N = 1,318`) | 7,519 | 8,098 | 15 s | 3.41 GB |
+| with the cuts, `P = 128` | 7,465 | 8,042 | 15 s | 3.41 GB |
+
+`P` made no measurable difference there. Extrapolated from the two probed blocks (of six), the whole
+first bite is about 40 s of kernel time in 4 shards. `walkB`'s is about 1 min (projected).
