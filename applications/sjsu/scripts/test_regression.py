@@ -10,7 +10,8 @@ Default (fast, ~1 minute):
      degree D of a run also needs f of degree D + 1, so only degrees <= D - 2 are compared)
      and compared with the file (relative tolerance 1e-15 on coefficients above 1e-6 of the max).
   4. Laplace-Lagrange: the first-order quadratic part agrees with the classical formula.
---full additionally recomputes the whole model and compares every coefficient (CPU: minutes).
+--full recomputes the whole model in mpmath (about 3 CPU-min) and compares every coefficient with
+the 25 written digits (tolerance 1e-23 relative).
 Exit status 0 on success.
 Usage: python3 -I applications/sjsu/scripts/test_regression.py [--full]
 """
@@ -98,7 +99,8 @@ def structure(model):
 def recompute(model, C, D):
     p = model['parameters']
     tr = model['truncations']
-    bk = Backend('ld')
+    full = (D == tr['degree_xi_eta'])
+    bk = Backend('mp' if full else 'ld')      # the file is the mpmath build; ld suffices for degree <= 4
     astar = [mpmath.mpf(s) for s in p['astar_AU']]
     out = compute_secular(astar, bk, D=D, D1=tr['chi1_chi2_degree'], res=(D >= 16), nstar=tr['nstar'],
                           res_weight=tr['resonant_step']['weight_on_h_res_0'], log=lambda *a: None)
@@ -109,11 +111,12 @@ def recompute(model, C, D):
     scale = max(abs(C[k]) for k in keys)
     worst = 0
     for k in keys:
-        if abs(C[k]) < scale * mpmath.mpf('1e-12'):
+        if not full and abs(C[k]) < scale * mpmath.mpf('1e-12'):
             continue
         worst = max(worst, abs(new.get(k, 0) - C[k]) / abs(C[k]))
-    missing = [k for k in new if sum(k) <= Dcmp and k not in C and abs(new[k]) > scale * mpmath.mpf('1e-30')]
-    check(worst < 1e-15 and not missing,
+    missing = [k for k in new if 0 < sum(k) <= Dcmp and k not in C and abs(new[k]) > scale * mpmath.mpf('1e-30')]
+    tol = 1e-23 if full else 1e-15      # full: 25 written digits; quick: long double vs mpmath
+    check(worst < tol and not missing,
           f'recomputed degree <= {Dcmp}: max rel diff {mpmath.nstr(worst, 3)} over {len(keys)} terms, {len(missing)} missing')
     return out
 

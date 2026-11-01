@@ -43,7 +43,7 @@ class ComplexPoly:
     def quad_matrix(self):
         A = np.zeros((3, 3))
         for e, c in zip(self.E, self.C):
-            if e.sum() == 2:
+            if e.sum() == 2 and e[0::2].sum() == 1 and e[1::2].sum() == 1:   # z_i zbar_k (charge 0)
                 i = [j for j in range(3) if e[2 * j] == 1][0]
                 k = [j for j in range(3) if e[2 * j + 1] == 1][0]
                 A[i, k] += c.real
@@ -156,7 +156,7 @@ def fundamental_frequency(sig, h):
     return 0.5 * (a + b)
 
 
-def run(terms, years, dt, sample, label, log=print):
+def run(terms, years, dt, sample, label, log=print, initial='table2', secular_xieta=None):
     poly = ComplexPoly(terms)
     A = poly.quad_matrix()
     A = 0.5 * (A + A.T)
@@ -175,7 +175,14 @@ def run(terms, years, dt, sample, label, log=print):
             flips.append(j + 1)
     xT = V.T @ xiP; yT = V.T @ etaP
     sign_ok = bool(all(np.sign(yT) == np.sign(y0)))
-    xi0, eta0 = V @ x0, V @ y0
+    if initial == 'table2':
+        xi0, eta0 = V @ x0, V @ y0
+    elif initial == 'table1raw':
+        xi0, eta0 = xiP, etaP
+    elif initial == 'table1secular':
+        xi0, eta0 = np.array(secular_xieta[:3]), np.array(secular_xieta[3:])
+    else:
+        raise ValueError(initial)
     z0 = (xi0 - 1j * eta0) / math.sqrt(2)
     nsteps = int(round(years / dt))
     every = max(1, int(round(sample / dt)))
@@ -188,7 +195,9 @@ def run(terms, years, dt, sample, label, log=print):
     # energy check
     log(f'[{label}] {len(terms)} terms, {nsteps} RK4 steps, {time.time()-t0:.0f}s; linear nu = {w}; '
         f'y-sign pattern of Table 1 projection matches Table 2: {sign_ok}')
-    return {'label': label, 'nu_linear': w.tolist(), 'omega': om, 'years': years, 'dt': dt,
+    return {'label': label, 'initial': initial, 'xi_eta_initial': list(xi0) + list(eta0),
+            'modal_R': list(np.hypot(V.T @ xi0, V.T @ eta0)),
+            'nu_linear': w.tolist(), 'omega': om, 'years': years, 'dt': dt,
             'O': V.tolist(), 'table1_projection_x': xT.tolist(), 'table1_projection_y': yT.tolist(),
             'omega_gls17': [float(s) for s in GLS17_OMEGA]}
 
@@ -201,14 +210,19 @@ def main():
     ap.add_argument('--dt', type=float, default=100.0)
     ap.add_argument('--sample', type=float, default=1000.0)
     ap.add_argument('--json')
+    ap.add_argument('--initial', default='table2', choices=['table2', 'table1raw', 'table1secular'])
+    ap.add_argument('--secular-json', help='initial_map.py JSON providing xi_eta_secular (for --initial table1secular)')
     args = ap.parse_args()
+    sec = json.load(open(args.secular_json))['xi_eta_secular'] if args.secular_json else None
     results = []
     if args.table:
-        results.append(run(from_real_table(args.table), args.years, args.dt, args.sample, 'printed quartic (78 terms)'))
+        results.append(run(from_real_table(args.table), args.years, args.dt, args.sample, 'printed quartic (78 terms)',
+                           initial=args.initial, secular_xieta=sec))
     if args.model:
-        results.append(run(from_model(args.model), args.years, args.dt, args.sample, os.path.basename(args.model)))
+        results.append(run(from_model(args.model), args.years, args.dt, args.sample, os.path.basename(args.model),
+                           initial=args.initial, secular_xieta=sec))
     for r in results:
-        print(r['label'])
+        print(r['label'], 'initial', r['initial'], 'modal R', ['%.6f' % x for x in r['modal_R']])
         for j in range(3):
             print(f"   omega_{j+1} = {r['omega'][j]:.12e}   GLS17 (37): {r['omega_gls17'][j]:.12e}   "
                   f"rel diff {(r['omega'][j] - r['omega_gls17'][j]) / abs(r['omega_gls17'][j]):+.3e}   linear {r['nu_linear'][j]:.10e}")

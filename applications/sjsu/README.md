@@ -19,6 +19,7 @@ published numbers is listed below and in the report
 | | |
 |---|---|
 | Dataset version | 0.1.0 (1 November 2026) |
+| Size | 7,941 complex = 38,466 real coefficients (every invariant reversible monomial of degrees 2–18), 25 significant digits, 3.2 MB |
 | Model file | [`data/sjsu18-o2.json`](data/sjsu18-o2.json) (see `data/MANIFEST.sha256`, `data/sjsu18-o2.SOURCE.txt`) |
 | Data license | CC BY 4.0 ([`data/LICENSE`](data/LICENSE)); scripts Apache-2.0 (repository [LICENSE](../../LICENSE)) |
 | How to cite | [`CITATION.cff`](CITATION.cff), and cite SLG13 and GLS17 |
@@ -31,7 +32,8 @@ Hamiltonian in canonical heliocentric (Poincaré) variables by:
 
 1. **Classical expansion** (SLG13 §2): translate the fast actions, L = Λ − Λ\*, keep the
    Kepler part to order L² and the perturbation (direct and indirect parts of all three pairs)
-   to order L¹, to total degree 18 in (ξ, η) and trigonometric degree |k₁|+|k₂|+|k₃| ≤ 16.
+   to order L¹, to total degree 18 in (ξ, η) and trigonometric degree |k₁|+|k₂|+|k₃| ≤ 16
+   (Table 1 elements read as Poincaré elements).
 2. **Two Kolmogorov-like steps** (SLG13 §3.1, eqs. (6)–(7)): χ₁ removes every harmonic
    0 < |k| ≤ 8 of the L-independent part up to degree 6; χ₂ removes the same harmonics of the
    L-linear part. H^(O2) = exp(L_χ₂) exp(L_χ₁) H^(T) is kept **strictly to order two in the
@@ -86,15 +88,20 @@ From the repository root. Heavy steps should run under a memory cap, for example
 ```sh
 # 1. reference semi-major axes (about 10 CPU-min): writes the N-body averages
 python3 -I applications/sjsu/scripts/nbody.py --years 1e6 --dt 0.5 --ic poincare --out nbody.json
-# 2. the model (strict order two, degree 18)
-python3 -I applications/sjsu/scripts/build_model.py --variant O2 \
+# 2. the model (strict order two, degree 18; mpmath 40 digits, about 3 CPU-min, 1 GB)
+python3 -I applications/sjsu/scripts/build_model.py --variant O2 --backend mp \
     --out applications/sjsu/data/sjsu18-o2.json --work ~/kam-data/sjsu/build-o2
+python3 -I applications/sjsu/scripts/make_manifest.py
 # 3. regression test (fast; add --full to recompute everything)
 python3 -I applications/sjsu/scripts/test_regression.py
 # 4. validation tables
 python3 -I applications/sjsu/scripts/compare_appendix_a.py --astar A1 A2 A3 --csv out.csv
 python3 -I applications/sjsu/scripts/initial_map.py --astar A1 A2 A3
-python3 -I applications/sjsu/scripts/freq_check.py --model applications/sjsu/data/sjsu18-o2.json
+python3 -I applications/sjsu/scripts/freq_check.py --model applications/sjsu/data/sjsu18-o2.json --initial table2
+python3 -I applications/sjsu/scripts/validation_tables.py
+python3 -I applications/sjsu/scripts/table2_analysis.py
+python3 -I applications/sjsu/scripts/sensitivity.py
+python3 -I applications/sjsu/scripts/precision_check.py
 ```
 
 | Script | Role |
@@ -110,11 +117,45 @@ python3 -I applications/sjsu/scripts/freq_check.py --model applications/sjsu/dat
 | `initial_map.py` | Table 1 → secular coordinates → Table 2 and eq. (24) |
 | `freq_check.py` | frequency analysis of the secular flow from Table 2 (GLS17 eq. (37)) |
 | `check_expansion.py` | harmonic-by-harmonic check of the expansion against an exact DFT |
-| `build_model.py`, `test_regression.py` | the model file and its regression test |
+| `build_model.py`, `make_manifest.py`, `test_regression.py` | the model file, its manifest and its regression test |
+| `order_study.py`, `sensitivity.py`, `precision_check.py`, `validation_tables.py`, `table2_analysis.py` | validation tables in `validation/` |
 
-## Differences from the published model (summary)
+## Validation and differences from the published model (summary)
 
-To be completed with the validation numbers; see the report.
+Measured; details, tables and every source issue are in the
+[report](../../docs/explorations/sjsu-model-recovery.md) and in `validation/`.
+
+| Test | Result |
+|---|---|
+| First-order expansion vs exact DFT of the Hamiltonian (all pairs, values and ∂/∂Λ) | ≤ 3.4·10⁻¹⁹ of the mean |
+| Secular quadratic part vs Laplace–Lagrange formula | ≤ 2.4·10⁻¹⁹ (long double); 2.3·10⁻⁴⁰ (mpmath) |
+| SLG13 Appendix A, 12 quadratic coefficients | ≤ 7.7·10⁻⁴ (median 3.2·10⁻⁴) |
+| SLG13 Appendix A, 66 quartic coefficients | J–S 5.5–8 %; J–U, S–U up to 19 %; three-planet terms absent (they need order ≥ 3) |
+| Table 2 linear secular frequencies ν | 9.2·10⁻⁵, 5.8·10⁻⁴, 7.5·10⁻⁵ |
+| GLS17 eq. (37) nonlinear frequencies, from the Table 2 data | 3.9 %, 0.48 %, 0.043 % (printed quartic alone: 11 %, 1.6 %, 0.22 %) |
+| Regression test (`test_regression.py --full`) | all 7,941 coefficients recomputed to 4.7·10⁻²⁵ |
+
+Why the printed coefficients are not reproduced exactly:
+
+* **Higher-order terms.** The printed Appendix A contains terms of third order in the masses
+  (its three-planet quartic coefficients appear only at order ≥ 3; at order 3 they agree to a
+  median 2.9 %), although it is described as order two. SJSU18-O2 is strictly order two, the
+  well-defined reading of the recipe. The order-3–5 values at degree 4 are in
+  `validation/order_study_d4.csv`.
+* **Undisclosed parameters.** a\*, the integration used to average it, the frequency vector of
+  the homological equations, and the Lie-series truncation are not published. Our choices are
+  stated above, and their effect is in `validation/sensitivity.json`. The degree ≥ 12
+  coefficients depend strongly on the χ degree (6 versus 9: the source is inconsistent) and on
+  n\*. The degree-18 coefficients are dominated by the resonant μ⁴ terms (κ·n\* = −9.8·10⁻⁴).
+* **Source defects.** The printed quartic has a small component that breaks rotation invariance
+  (charge ±4, about 10⁻⁸, `validation/appendixA_noninvariant.csv`); SJSU18-O2 is exactly
+  invariant, so the AMD Σ z_j z̄_j is an exact first integral. Table 2 and eq. (24) are
+  inconsistent with Table 1 and with each other (`validation/table2_analysis.json`).
+
+**Use it as what it is:** an exactly specified, reproducible degree-18 polynomial in the SLG13
+family, close to but not identical with the authors' model, and not the full secular dynamics.
+Missing bodies, the planar restriction, the averaging and the truncations are modelling choices
+of the source, not errors bounded here.
 
 ## Version history
 

@@ -1,5 +1,11 @@
 # SJSU scope prototype
 
+> **Update (1 November 2026, SJSU-P0):** the full degree-18 reconstruction of the SLG13/GLS17
+> secular model, with its generator, validation tables and a public dataset, now lives in
+> [`applications/sjsu/`](../../applications/sjsu/README.md); see also
+> [the recovery report](../../docs/explorations/sjsu-model-recovery.md). This prototype is kept
+> unchanged as the 78-term `SJSU4-table` pilot.
+
 This is a floating numerical scout, not a certificate. Its model is the **78
 printed decimal monomials** in SLG13 Appendix A, interpreted as exact rational
 numbers, with the unprinted degrees omitted by definition. It is a separate

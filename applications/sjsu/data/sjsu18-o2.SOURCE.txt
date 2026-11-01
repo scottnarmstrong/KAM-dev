@@ -1,0 +1,10 @@
+file: sjsu18-o2.json
+sha256: 775a3f4c2e1ba7e7990f15bf896dc8def611ee65c7bb39b0bf1c5db2ec7ddbfb
+generator: applications/sjsu/scripts/build_model.py (KAM-dev)
+commit: 1b4e8d36b4e757728815cd3c382bbcc51d52dc4b
+command: python3 -I applications/sjsu/scripts/build_model.py --variant O2 --backend mp --out applications/sjsu/data/sjsu18-o2.json --work /home/scott/kam-data/sjsu/build-o2-mp
+a* input: applications/sjsu/validation/astar.json: time average over 0 <= t <= 1e6 yr of the Poincare semi-major axes a_j (from r_j and r~_j/beta_j with mu_j = G(m0+m_j)) along the planar SJSU N-body flow from SLG13 Table 1 read as Poincare elements; WH democratic-heliocentric map, Yoshida 4th order, dt = 0.5 yr, float64 (scripts/nbody.py) (sha256 13d5d18c87ba2e360351d2334d02b6b89cfb205b7764ad44de01270526c8e31e)
+environment: Python 3.13.13, numpy 2.5.3, mpmath 1.3.0
+cpu_seconds: 189
+regenerable intermediate (not committed): first-order Fourier-Taylor expansion, 1077379 complex terms, first_order_expansion.npz sha256 ee0b3891e220c5f41fade47e4c1c622d070b29f7dc9f3afe760963889e704040 (numpy-version dependent container)
+license: CC BY 4.0 (see LICENSE in this directory)

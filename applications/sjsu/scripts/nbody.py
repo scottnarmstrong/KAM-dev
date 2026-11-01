@@ -164,6 +164,21 @@ def semimajor(r, p):
     return aP, aH
 
 
+def poincare_xieta(r, p):
+    """Osculating Poincare (xi_j, eta_j) from (r_j, r~_j/beta_j), mu_j: returns array (2, 3)."""
+    v = p / BETA[:, None]
+    rn = np.sqrt((r * r).sum(1))
+    a = 1.0 / (2.0 / rn - (v * v).sum(1) / MU)
+    h = r[:, 0] * v[:, 1] - r[:, 1] * v[:, 0]
+    ex = (v[:, 1] * h) / MU - r[:, 0] / rn
+    ey = (-v[:, 0] * h) / MU - r[:, 1] / rn
+    e = np.sqrt(ex * ex + ey * ey)
+    Lam = BETA * np.sqrt(MU * a)
+    G = Lam * (1 - np.sqrt(1 - e * e))
+    s = np.sqrt(2 * G) / np.where(e > 0, e, 1)
+    return np.array([s * ex, -s * ey])      # xi = sqrt(2 Gamma) cos varpi, eta = -sqrt(2 Gamma) sin varpi
+
+
 def mean_longitude(r, p):
     """Poincare mean longitude lambda = M + varpi from (r_j, r~_j/beta_j), mu_j."""
     v = p / BETA[:, None]
@@ -187,6 +202,8 @@ def main():
     ap.add_argument('--ic', default='poincare', choices=['poincare', 'heliocentric'])
     ap.add_argument('--checkpoints', type=float, nargs='*', default=[1e3, 1e4, 3e4, 1e5, 3e5, 1e6, 3e6])
     ap.add_argument('--out')
+    ap.add_argument('--sample', type=float, default=0.0, help='sampling step (yr) of the osculating Poincare (xi, eta)')
+    ap.add_argument('--sample-out', help='npz file for the sampled (t, xi, eta)')
     args = ap.parse_args()
     r, p = initial_state(args.ic)
     E0 = energy(r, p)
@@ -196,6 +213,8 @@ def main():
     # trapezoid in time: weight 1/2 at the ends
     sumP += aP / 2; sumH += aH / 2
     chk = sorted(c for c in args.checkpoints if c <= args.years + 1e-9)
+    every = int(round(args.sample / args.dt)) if args.sample > 0 else 0
+    samples = [poincare_xieta(r, p)] if every else []
     lam_prev = mean_longitude(r, p)
     lam_unw = lam_prev.copy()
     St = 0.0; St2 = 0.0; Sl = np.zeros(3); Stl = np.zeros(3); Sn = 0
@@ -213,6 +232,8 @@ def main():
         lam_unw = lam_unw + d
         lam_prev = lam
         St += t; St2 += t * t; Sl += lam_unw; Stl += t * lam_unw; Sn += 1
+        if every and k % every == 0:
+            samples.append(poincare_xieta(r, p))
         if ci < len(chk) and t >= chk[ci] - 1e-9:
             dE = abs(energy(r, p) / E0 - 1)
             maxdE = max(maxdE, dE)
@@ -234,6 +255,9 @@ def main():
     if args.out:
         with open(args.out, 'w') as fh:
             json.dump(res, fh, indent=1)
+    if every and args.sample_out:
+        arr = np.array(samples)
+        np.savez_compressed(args.sample_out, dt=every * args.dt, xi=arr[:, 0, :], eta=arr[:, 1, :])
 
 
 if __name__ == '__main__':
