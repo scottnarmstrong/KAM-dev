@@ -174,8 +174,8 @@ end comps
 
 section avg
 
-variable (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hs : 0 < s) (hr : 0 < r)
-  (hP : IsSmoothing (p := p) ha (by linarith : 0 ≤ pb + p) (kamDomain s r) P X)
+variable (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hqq : 0 ≤ pb + p) (hs : 0 < s) (hr : 0 < r)
+  (hP : IsSmoothing (p := p) ha hqq (kamDomain s r) P X)
   (hper : ∀ i, ∀ w ∈ kamDomain s r, P (w + stepTau i) = P w) {ε : ℝ}
   (hb : ∀ z ∈ kamDomain s r, kamNorm r (X z) ≤ ε)
   (hreal : ∀ w ∈ kamDomain s r, StepReal w → (P w).im = 0)
@@ -188,7 +188,7 @@ theorem homCoeff_b_real (k : Fin 2) :
   have := homCoeff_zero_clm (coordImCLM k) (f := (stepTaylorOf ha hp hpb hs hr hP hper hb).b)
     (fun x => by
       rw [coordImCLM_apply]
-      exact tB_real ha (by linarith) hr hs hP hreal x k)
+      exact tB_real ha hqq hr hs hP hreal x k)
   simpa [coordImCLM_apply] using this
 
 /-- **`[Q]_{jj}` is real** (the frequency `Ω̂_j`). -/
@@ -199,7 +199,7 @@ theorem homCoeff_Q_real (j : ℕ+) :
   have := homCoeff_zero_clm (entryImCLM c j) (f := (stepTaylorOf ha hp hpb hs hr hP hper hb).Q)
     (fun x => by
       refine (entryImCLM_apply c j _).trans ?_
-      have h := tQ_entry_real ha (by linarith) hr hs hP hreal hp hpb x j
+      have h := tQ_entry_real ha hqq hr hs hP hreal hp hpb x j
       have e : homNormalEntry_gen a p pb (tQ X (fun l => (x l : ℂ))) j j =
           (c : ℂ) * kamEntry (tQ X (fun l => (x l : ℂ))) j j := rfl
       rw [e, Complex.im_ofReal_mul] at h
