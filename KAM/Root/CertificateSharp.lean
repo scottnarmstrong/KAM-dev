@@ -142,6 +142,7 @@ public import KAM.CertificateSharp.V2.SiteShard
 public import KAM.CertificateSharp.V2.SiteSign
 public import KAM.CertificateSharp.V2.SmallDivQ
 public import KAM.CertificateSharp.V2.StepBQ
+public import KAM.CertificateSharp.V2.Tests.Bulk2RouteB
 public import KAM.CertificateSharp.V2.Tests.Bulk2Toy
 public import KAM.CertificateSharp.V2.Tests.Bulk2XLang
 public import KAM.CertificateSharp.V2.Tests.BulkRouteB
