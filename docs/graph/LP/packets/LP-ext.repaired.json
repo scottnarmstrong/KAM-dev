@@ -1,0 +1,15 @@
+{
+ "replaced": [
+  "lpM:ext-ftc"
+ ],
+ "added": [],
+ "items": [],
+ "unresolved": {},
+ "cross_slice": {},
+ "passes": [
+  "lpM:ext-compact-min",
+  "lpM:ext-heine-cantor",
+  "lpM:ext-picard",
+  "lpM:ext-gronwall"
+ ]
+}

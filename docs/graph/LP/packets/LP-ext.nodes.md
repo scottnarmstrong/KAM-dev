@@ -5,9 +5,9 @@ STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#L3@L139-L139
 PROOF_SOURCE: -
 CONTRACT_ID: lpM:ext-ftc
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: f differentiable on a connected interval J with derivative 0 (or with integrable derivative)
-SOURCE_QUANTIFIERS: for every instance of the hypotheses
-SOURCE_CONCLUSION: f is constant on J (f(t) - f(s) = ∫_s^t f')
+SOURCE_HYPOTHESES: J a real interval; f : J → V continuous on J and differentiable on its interior, with derivative zero there; V is a finite-dimensional real normed vector space (including ℝ)
+SOURCE_QUANTIFIERS: for every such J, V and f, and every s, t ∈ J
+SOURCE_CONCLUSION: f(t) = f(s); thus f is constant on J
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
@@ -17,7 +17,7 @@ DEPS: -
 ROUTES: -
 ROUTE_FOR: -
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-R1-small
 REVIEWER: -
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
@@ -42,9 +42,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-R1-small
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
@@ -68,9 +68,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-R1-small
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
@@ -94,9 +94,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-R1-small
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
@@ -120,9 +120,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-R1-small
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
