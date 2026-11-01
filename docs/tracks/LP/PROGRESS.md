@@ -49,7 +49,8 @@ src (4th, created 05:30 for the third slot).
 | LP-SRC OD-11 (b) source carriers + LP1 restatement | freeze prep | — | `inp-lp-src` / src worktree (4th) | claude-6 | proved dd0a5ec5 (405 lines); text in FREEZE-PROPOSAL draft 3 §3b; delta review 3 running; audit queued |
 | LP-SP-PROD n-body spatial product chart | L17 (n bodies), (47) | 4 | `inp-lp-spprod` | claude-12 | proved e2a64cdc (767 lines); audit queued (W4) |
 | LP-SP-DOM spatial analytic domain | L18 | 4 | `inp-lp-spdom` | claude-12 | proved e57e5a6c (≈760 lines); L18 node PARTIAL until a DOMX-style supplement (derivative/denominator clauses); audit queued |
-| LP-SP-NRR spatial L13 (2n slow pairs) | L13, T19 | 4 | `inp-lp-spnrr` / geomod worktree | claude-12 | running |
+| LP-SP-NRR spatial L13 (2n slow pairs) | L13, T19 | 4 | `inp-lp-spnrr` | claude-12 | proved 8e2ccbed (558 lines: `spatial_stopped_drift`); audit queued |
+| LP-SP-DOMX L18 remaining clauses | L18 | 4 | `inp-lp-spdomx` / geomod worktree | claude-12 | running |
 | LP-SP-DOM / SP-SAFE (+ spatial NRR/LIFT/CONF twins) | L18, T19 | 4 | — | — | after SP-PROD |
 
 ## Audit queue (codex-2, one at a time machine-wide; W interleaves when LP has a gap)
@@ -114,3 +115,4 @@ src (4th, created 05:30 for the third slot).
 - 2026-11-01 05:48 UTC: delta review 3 PASS (OD-11 (b) resolves F4); freeze package has no open technical blocker (owner decisions remain). LP-W4A (SP-MODEL+SP-ROT) audit launched on codex-2. LP-SP-DOM proved. LP-SP-NRR launched on claude-12.
 - 2026-11-01 05:49 UTC: **LP-PS LANDED (main 0772a7d5): the planar theorem LP1 and LP0 are on main**, audited; kam-inp-63 independently confirmed standard axioms on main's build for lp1_planar_strongAMD_safety{,_normalized,_halfInteger} and lp0_planar_barrier. LP-SP-NRR launched on claude-12.
 - 2026-11-01 06:06 UTC: LP-W4A (SP-MODEL + SP-ROT) audit 1 PASS WITH NOTES; N2 applied, N1 carried to the LP2 proposal; merged into inp-lp; landing requested.
+- 2026-11-01 06:10 UTC: LP-SP-NRR proved (spatial L13 stopped drift). LP-SP-DOMX launched on claude-12 (SP-SAFE waits for SP-LIFT). codex-2: kam-1b's W5-STEP-A.
