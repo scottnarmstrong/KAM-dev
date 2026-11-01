@@ -437,10 +437,14 @@ class PackedEngine:
         Ab, Bb = cut(adv0, da), cut(adv0, db)
         ns = len(Ab) + len(Bb) - 1
         mA, mB = maxAbsFlat(Ab), maxAbsFlat(Bb)
-        # MAG-2b: shardFits tests 2 (s + 1) L max|A| max|B| < 2^w for every shard s < ns; the original width (first
-        # term) covers s + 1 <= 2 len(Ab), so it is kept whenever it suffices (byte-identical advice) and widened only
-        # when len(Bb) > len(Ab) + 1
-        w0 = max((2 * len(Ab) * L * mA * mB).bit_length() + 1, (2 * ns * L * mA * mB).bit_length())
+        w0 = (2 * len(Ab) * L * mA * mB).bit_length() + 1
+        # MAG-2b: shardFits (checkShard) requires 2 (s + 1) L max|A[:s+1]| max|B[:s+1]| < 2^w for every shard s < ns
+        # (len(Bb) > len(Ab) included).  Packing at the max of the original width and that exact bound leaves the
+        # advice of every product that passed before byte-identical (its final width already met the bound, and
+        # the convolution digits do not depend on a decodable width); a product that failed shardFits is widened.
+        # The Lean checker decides every advice either way.
+        w0 = max(w0, max((2 * (s + 1) * L * maxAbsFlat(Ab[:s + 1]) * maxAbsFlat(Bb[:s + 1])).bit_length()
+                         for s in range(ns)))
         PA = [pack_sum(w0, v) for v in Ab]
         PB = [pack_sum(w0, v) for v in Bb]
         T = []
