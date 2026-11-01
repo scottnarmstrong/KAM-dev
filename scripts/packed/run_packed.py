@@ -220,10 +220,16 @@ def main():
     print("%d modules, %d already passed" % (len(mods), len(done)), flush=True)
     core = sorted({d for m in mods for d in IMP.findall(open(src(pkg, m), encoding="utf-8").read())
                    if d.split(".")[0] not in ("LG00", "LG00Packed")})
-    r = subprocess.run(["lake", "build", "--no-build"] + core, cwd=CORE, capture_output=True, text=True)
+    for attempt in range(2):                  # once more after a pause: a concurrent Lake may hold the lock
+        r = subprocess.run(["lake", "build", "--no-build"] + core, cwd=CORE, capture_output=True, text=True)
+        if r.returncode == 0:
+            break
+        time.sleep(60)
     if r.returncode != 0:
+        out = (r.stdout + "\n" + r.stderr).splitlines()
+        stale = [l for l in out if "✖" in l or l.startswith("- ")]
         print("STOP: core modules out of date (build them in the core worktree, one at a time):\n" +
-              "\n".join(l for l in r.stdout.splitlines() if "✖" in l or l.startswith("- ")), flush=True)
+              "\n".join(stale or [l for l in out if "error" in l.lower()][-8:]), flush=True)
         return 2
     if dry:
         for m in mods:
