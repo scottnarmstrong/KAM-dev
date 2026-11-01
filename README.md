@@ -295,7 +295,7 @@ Overall, everything together: 88.9 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 09:03 UTC from `main` at `46d571fa` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 09:03 UTC from `main` at `7c902355` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -505,9 +505,9 @@ account read from each agent's running process) and their branches. Rules for ag
 | **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
-| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | 🔄 working | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
+| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA lock_mlane: dry-run schedule (LOCK_DRY=1) and missing-source report | `inp-lockdata` | 55 (vs `inp`) |
-| **lp** `inp-mprov-lp` `inp-maud-lp` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP progress: auditor sessions closed; second slot released to W | `inp-lp` | 3 (vs `inp`) |
+| **lp** `inp-mprov-lp` `inp-maud-lp` | prover (offload) | Claude Opus 5.5 | — | 🔍 in audit | last commit: LP progress: W5A landed (LP3 planar suppliers on main) | `inp-lp` | 4 (vs `inp`) |
 | **lp-freeze7** `inp-mprov-lp-freeze7` | prover (offload) | Claude Opus 5.5 | claude-11 | 🔄 proving | last commit: LP-FREEZE7: draft-7 exact frozen file texts (127 files) and manifest entry drafts | `inp-lp-freeze7` | 2 (vs `inp`) |
 | **lp-w5b** `inp-maud-lp-w5b` | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: LP-W5B: combined LP3 SP-COVER+SP-DRIFT audit handoff | `inp-lp-w5b` | 5 (vs `inp`) |
 | **lp-w5c** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: LP-W5C: combined LP3 PS+SP-SAFE+SRC audit handoff | `inp-lp-w5c` | 9 (vs `inp`) |
