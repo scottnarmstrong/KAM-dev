@@ -53,10 +53,6 @@ so the run harness reads each module's kernel time (`type checking took`). -/
 lean_lib «LG00Packed» where
   leanOptions := lg00LeanOptions ++ #[⟨`profiler, true⟩, ⟨`profiler.threshold, (50 : Nat)⟩]
 
-/-- The packed route on kamx-packed's certificate copy (V2-PACKED-PROD-API: modules `LG00P.**`: the copy, the
-ported chain-free part of LG00's proof, the jet chains, the packed stages and the assembly), with the profiler. -/
-lean_lib «LG00P» where
-  leanOptions := lg00LeanOptions ++ #[⟨`profiler, true⟩, ⟨`profiler.threshold, (50 : Nat)⟩]
 """
 
 

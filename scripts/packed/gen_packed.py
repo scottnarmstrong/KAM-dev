@@ -854,17 +854,32 @@ def emit_j(E, SJ, jet):
                  "theorem pkCheckEnJ : checkEnergyJ pkIBook jdFullW lg00Cert = true :=\n"
                  "  checkEnergyJ_of pkFullOk pkEnGuard (by %s; exact pkEnOk)\n" % RWJ)
     bk = "pkGBook pkGMemo pkRBook pkTMemo pkRMemo"
-    base = E.write("Asm.BaseJ", [tors, inv, en, E.lg("Final.Static"), E.lg("Final.Embedding"),
-                                 E.lg("Balls.HamBounds")], "the jet base checker",
+    # the Hamiltonian bounds and the disc pass: LG00's own proofs (orchestrator, 2026-11-01), carried over to the
+    # copy by `CertCongr` (the two checks read only the Hamiltonian and its domain, which the copy shares)
+    lg = "LG00.%s" % E.tree
+    xfer = E.write("Xfer", [E.lg("Data.Cert"), E.lg("Final.Wit"), lg + ".Balls.HamBounds", lg + ".Final.HamClaim",
+                            "KAM.CertificateSharp.Packed.CertCongr"], "LG00's Hamiltonian results on the copy",
+                   "`pkHamBounds`, `pkHamClaim`: LG00's own `lg00_hamBounds` and `lg00_hamClaim` (imported read "
+                   "only), carried over to the packed copy of the certificate, which has the same Hamiltonian, "
+                   "domain and order.",
+                   ("theorem pkHamBounds : checkHamBounds lg00Cert = true :=\n"
+                    "  (checkHamBounds_congr (c := lg00Cert) (c' := %s.lg00Cert) rfl rfl rfl rfl rfl rfl).trans\n"
+                    "    %s.lg00_hamBounds\n\n"
+                    "theorem pkHamClaim : checkHamClaim lg00Cert lg00RW.base.R = true :=\n"
+                    "  (checkHamClaim_congr (c := lg00Cert) (c' := %s.lg00Cert) (R := lg00RW.base.R)\n"
+                    "    (R' := %s.lg00RW.base.R) rfl rfl rfl rfl rfl rfl).trans %s.lg00_hamClaim\n") % (
+                       lg, lg, lg, lg, lg))
+    base = E.write("Asm.BaseJ", [tors, inv, en, E.lg("Final.Static"), E.lg("Final.Embedding"), xfer],
+                   "the jet base checker",
                    "`jetBase`: the landed static, Hamiltonian and embedding checks (the tree's facts, on the copy) "
                    "with the packed Gram, torsion, invariance and energy on the jet.",
                    "theorem pkBaseJ :\n    (jetBase %s jdLowW pkIBook jdFullW).check lg00Cert = true :=\n"
-                   "  jetBase_check_of lg00_checkStatic lg00_hamBounds lg00_checkEmbedding pkGram pkCheckTorsionJ\n"
+                   "  jetBase_check_of lg00_checkStatic pkHamBounds lg00_checkEmbedding pkGram pkCheckTorsionJ\n"
                    "    pkCheckInvJ pkCheckEnJ\n" % bk)
-    eng = E.write("Asm.EngineJ", [frames, E.lg("Final.HamClaim"), E.lg("Final.RefinedCore")],
+    eng = E.write("Asm.EngineJ", [frames, xfer, E.lg("Final.RefinedCore")],
                   "the packed sharp-site engine on the jet", "The test of `routeARefinedPackedSJ`.",
                   "theorem pkEngineJ :\n    refinedTestSWith (framesRJ %s jdLowW) lg00Cert lg00RW =\n      true :=\n"
-                  "  refinedTestPackedSJ_of %s jdLowW\n    lg00_hamClaim pkFramesJ lg00_refinedCore\n" % (bk, bk))
+                  "  refinedTestPackedSJ_of %s jdLowW\n    pkHamClaim pkFramesJ lg00_refinedCore\n" % (bk, bk))
     chk = E.write("Asm.CheckJ", [eng, base], "the v2 certifier on the jet route",
                   "The certifier with `jetBase` and the packed sharp-site engine on the jet passes.",
                   "/-- **The v2 certifier passes on `lg00Cert` through the jet route.** -/\n"

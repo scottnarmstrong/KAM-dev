@@ -26,8 +26,9 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 IMP = re.compile(r"^public import (\S+)", re.M)
-TREE_ROOTS = ["Final.Static", "Final.Embedding", "Balls.HamBounds", "Final.HamClaim", "Final.RefinedCore",
-              "Final.Freq"]
+# `Balls.HamBounds` and `Final.HamClaim` are not ported: the copy imports LG00's own proofs and carries them over
+# (`CertCongr`; orchestrator, 2026-11-01: LG00's `Balls.T38` alone needs 6 GB to re-prove)
+TREE_ROOTS = ["Final.Static", "Final.Embedding", "Final.RefinedCore", "Final.Freq"]
 SHARED_ROOTS = ["Physical.HamIdentity", "Model"]
 CERT_DATA = ("DCoeffs", "E0", "W8", "Cert")
 
