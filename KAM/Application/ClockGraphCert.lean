@@ -155,7 +155,8 @@ theorem CertifiedTorusAt.isClockAngleGraph (hT : CertifiedTorusAt c ωstar Kinf 
     (hγ : 0 < γ) (hdio : IsDiophantine γ τ ωstar) {m : ℝ} (hm : ClockMono c i m)
     (hmargin : (c.params.disp : ℝ) < m * c.params.rhoInf) :
     (∀ l, l ≠ i → sinf * ωstar l = a) ∧ ∃ cc : Fin n → ℝ,
-      IsClockAngleGraph (realRestriction Kinf) i cc (m - (c.params.disp : ℝ) / c.params.rhoInf) := by
+      IsClockAngleGraph (realRestriction Kinf) i cc
+        (m - (c.params.disp : ℝ) / c.params.rhoInf) := by
   have S := checkStatic_sound hs
   have hc2 : ∀ l, l ≠ i → ∃ cl : ℝ, ∀ x, torusAngle (realRestriction Kinf) x l = x l + cl :=
     fun l hl => (hT.clock hs ha (hclock l hl) hγ hdio).2
@@ -186,7 +187,8 @@ theorem _root_.KAM.Certificate.CertifiedTorus.exists_clockGraph (hT : CertifiedT
       CertifiedTorusAt c ωstar Kinf sinf ∧
       IsRealModelTorus (realHam c.H) (sinf • ωstar) c.params.E0 (realRestriction Kinf) ∧
       (∀ l, l ≠ i → sinf * ωstar l = a) ∧ ∃ cc : Fin n → ℝ,
-      IsClockAngleGraph (realRestriction Kinf) i cc (m - (c.params.disp : ℝ) / c.params.rhoInf) := by
+      IsClockAngleGraph (realRestriction Kinf) i cc
+        (m - (c.params.disp : ℝ) / c.params.rhoInf) := by
   obtain ⟨Kinf, sinf, hT⟩ := (certifiedTorus_iff c ωstar).1 hT
   exact ⟨Kinf, sinf, hT, hT.isRealModelTorus hs hH,
     hT.isClockAngleGraph hs ha hclock hγ hdio hm hmargin⟩
