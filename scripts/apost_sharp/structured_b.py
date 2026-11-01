@@ -136,7 +136,8 @@ def sampled(n, J, ops, rhoH, centre, radius, N=SAMPLES):
     rows3 = [sum(np.abs(v[J["d3"][sw(a)][sw(b)][e]] + eps(a, b) * v[J["d3"][a][b][e]]) for b in range(m) for e in range(m))
              for a in range(m)]
     hess = [sum(np.abs(v[J["d2"][a][b]]) for b in range(m)) for a in range(m)]
-    return float(np.max(rows)), float(np.max(rows3)), float(np.max(hess))
+    grad = sum(np.abs(v[J["d1"][a]]) for a in range(m))
+    return float(np.max(rows)), float(np.max(rows3)), float(np.max(hess)), float(np.max(grad))
 
 
 # ------------------------------------------------------------------------------------------- the data
