@@ -474,4 +474,3 @@ No new suspected arithmetic or mathematical defect in the pinned MAIN under N1â€
     `scripts/gen_root_imports.py`; no module imports a root or part).
 11. **Errata:** report every suspected defect in a pinned source (location, quoted text, why it is wrong) in your
     handoff; the orchestrator records it in `docs/errata/ledger.json`. Deviations you introduce are reported too.
-
