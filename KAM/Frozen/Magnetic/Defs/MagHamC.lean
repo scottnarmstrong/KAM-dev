@@ -27,8 +27,7 @@ open Complex
 `φ`); on real arguments `h = magH0` and `V = magV`. -/
 def magHamC (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) : ℂ :=
   z.2 1 + (z.2 0 - 3 / 4 * z.2 0 ^ 2 + 1 / 3 * z.2 0 ^ 3 - 1 / 16 * z.2 0 ^ 4) +
-    ((magEps : ℂ) * (cos (2 * (Real.pi : ℂ) * (2 * z.1 0 - z.1 1)) +
-        cos (2 * (Real.pi : ℂ) * (3 * z.1 0 - 2 * z.1 1))) +
+    ((magEps : ℂ) * (cos (2 * (Real.pi : ℂ) * (2 * z.1 0 - z.1 1)) + cos (2 * (Real.pi : ℂ) * (3 * z.1 0 - 2 * z.1 1))) +
       1427 / 3200 * (magEps : ℂ) ^ 2 *
         (32000 / 2777 * cos (2 * (Real.pi : ℂ) * (2 * z.1 0 - z.1 1)) -
           96000 / 7669 * cos (2 * (Real.pi : ℂ) * (3 * z.1 0 - 2 * z.1 1))) ^ 2)

@@ -24338,7 +24338,7 @@
     }
    ],
    "state": "SEALED",
-   "full_file_sha256": "b8aed05ee93baf02f6af8d0f982772adbe15c259f6e37fed77e721279bb51e57"
+   "full_file_sha256": "962a77d2c5ebc8cce494e63e6f9386d4cc5a36903cc9afa60591b6c3982c0007"
   },
   {
    "id": "magnetic.magnetic_barrier.v1",
@@ -24404,7 +24404,7 @@
     },
     {
      "path": "KAM/Frozen/Magnetic/Defs/MagHamC.lean",
-     "sha256": "b8aed05ee93baf02f6af8d0f982772adbe15c259f6e37fed77e721279bb51e57"
+     "sha256": "962a77d2c5ebc8cce494e63e6f9386d4cc5a36903cc9afa60591b6c3982c0007"
     },
     {
      "path": "KAM/Frozen/Magnetic/Defs/MagV.lean",

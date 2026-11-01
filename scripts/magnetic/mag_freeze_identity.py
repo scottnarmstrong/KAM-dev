@@ -2,8 +2,7 @@
 """D68 identity check: the installed KAM/Frozen/Magnetic files equal the approved drafts of
 mag-pilot@a48eb432 (docs/explorations/mag/draft/*.lean.txt) up to exactly the allowed edits: the module
 docstring (date/decision placeholders), the anchor marker comments, the quarantined provider import of the
-theorem anchor, and the theorem body `sorry` -> `by sorry`; a whitespace-only reflow (lint: 100 columns) is reported as
-TOKEN-IDENTICAL.  Exit 0 iff every file passes."""
+theorem anchor, and the theorem body `sorry` -> `by sorry` (byte comparison of everything else).  Exit 0 iff every file passes."""
 import re
 import subprocess
 import sys
@@ -30,8 +29,6 @@ for inst, draft in FILES.items():
     a = open("KAM/Frozen/Magnetic/%s.lean" % inst).read()
     b = subprocess.check_output(["git", "show", "%s:docs/explorations/mag/draft/%s.lean.txt" % (REF, draft)]).decode()
     same = norm(a) == norm(b)
-    tok = tokens(a) == tokens(b)
-    ok &= tok
-    print("%-28s %s" % (inst, "IDENTICAL (allowed edits only)" if same else
-                         ("TOKEN-IDENTICAL (whitespace reflow only)" if tok else "DIFFERS")))
+    ok &= same
+    print("%-28s %s" % (inst, "IDENTICAL (allowed edits only)" if same else "DIFFERS"))
 sys.exit(0 if ok else 1)
