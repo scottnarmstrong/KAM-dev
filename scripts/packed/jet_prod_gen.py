@@ -268,7 +268,7 @@ def order_cert(blocks):
     return cert
 
 
-CH = 32                                                 # blocks per chunk of the block list
+CHUNK = 32                                              # blocks per chunk of the block list
 
 
 HEAD = """/-
@@ -360,11 +360,11 @@ def main():
     body = []
     for i, b in enumerate(blocks):
         body.append("def kb%s_%d : KBlock :=\n  %s\n" % (C_, i, b.lit))
-    # the block list in chunks of at most CH blocks (every list and proof of the chain stays shallow)
-    nch = (len(blocks) + CH - 1) // CH
+    # the block list in chunks of at most CHUNK blocks (every list and proof of the chain stays shallow)
+    nch = (len(blocks) + CHUNK - 1) // CHUNK
     for c in range(nch):
         body.append("def blocks%s_%d : List KBlock :=\n  [%s]\n" % (C_, c, ", ".join(
-            "kb%s_%d" % (C_, i) for i in range(c * CH, min(len(blocks), (c + 1) * CH)))))
+            "kb%s_%d" % (C_, i) for i in range(c * CHUNK, min(len(blocks), (c + 1) * CHUNK)))))
     body.append("def blocks%s : List KBlock :=\n  %s\n" % (C_, " ++ ".join("blocks%s_%d" % (C_, c)
                                                                            for c in range(nch))))
     body.append("def cert%s : List (List ℕ) :=\n  [%s]\n" % (C_, ", ".join("[%s]" % ", ".join(map(str, r))
@@ -390,7 +390,7 @@ def main():
           "lg00Cert.emb lg00Jet.prog = true" % (C_, CFG, C_))
     chunks_txt = []
     for c in range(nch):
-        ids = range(c * CH, min(len(blocks), (c + 1) * CH))
+        ids = range(c * CHUNK, min(len(blocks), (c + 1) * CHUNK))
         chunks_txt.append("/-- The blocks of chunk %d. -/\ntheorem chunk%s_%d :\n    ∀ kb ∈ blocks%s_%d, %s := by\n"
                           "  simp only [blocks%s_%d, List.forall_mem_cons]\n  exact ⟨%s,\n    List.forall_mem_nil _⟩\n"
                           % (c, C_, c, C_, c, P_, C_, c, ",\n    ".join("blk%s_%d" % (C_, i) for i in ids)))
