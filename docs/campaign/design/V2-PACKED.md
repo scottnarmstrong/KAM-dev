@@ -929,10 +929,15 @@ terms. A production proof establishes each shared conjunct once and assembles wi
 (`checkTorsionJ_of`, `torsRCoreJ_of`, `checkInvarianceJ_of`, `checkEnergyJ_of`, `checkFrameMajorantsRJ_of`,
 `jetBase_check_of`).
 
+**The jet's load bound.** The consumers pass their books' bounds to `jetCheck` (`rb.bA`, `ib.bJ`); a chain theorem
+at the generator's bound `b<C>` (the largest wanted load) closes them through `jetCheck_mono` (`jetLowOk_of`,
+`jetFullOk_of`, `JetConsLoad.lean`) when `b<C> ≤ rb.bA`, resp. `≤ ib.bJ` (agreed with kamx-packed).
+
 **Gate (LG00 T′, `docs/campaign/studies/V2-PACKED-CONS-GATE/`).** One process per conjunct under 4 GB, the shared
 data elaborated once:
 - torsion: 43 processes, 868.3 CPU-s, ≤ 2.75 GB; final margin 1.32·10⁻³ (δ_T = 2.0·10⁻⁸);
-- invariance: 6 processes, 41.4 CPU-s, ≤ 1.07 GB; margin 8.3·10⁻¹⁹ against err = 7.2·10⁻¹⁶;
+- invariance: 6 processes, 41.4 CPU-s, ≤ 1.07 GB; margin 8.3·10⁻¹⁹ against err = 7.2·10⁻¹⁶ (0.1 % of err; T′'s err
+  was set at its invariance error);
 - energy: 2 processes, 9.7 CPU-s; |⟨H ∘ K⟩ − E₀| ≤ 5.7·10⁻²³;
 - frames `sup |T| ≤ 118` on the jet's torsion: 1 process, 30.2 CPU-s (sup |T| = 117.50).
 One-ulp controls decide `false` on the radii and bounds; at torsion, one ulp of a jet radius is absorbed by the

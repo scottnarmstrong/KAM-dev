@@ -23,9 +23,11 @@ Rules: additive only (new files under `KAM/CertificateSharp/Packed/`, `scripts/p
   verbatim the conclusion of kamx-packed's `jetPacked_sound`); the consumer's Boolean holds its jet check
   (`jetLowOk`, `jetFullOk` = `jetCheck` plus the checked box agreement), so its soundness discharges them with
   `jetPacked_sound`.
-- **The gate passes on LG00 T′'s data** (lg00-app `8210d92e`; the jet's T′ nodes from kamx-packed's T′ mirror runs):
-  every conjunct of every consumer decides `true` in its own process, every control decides `false`, and every
-  process stays under the 4 GB cap (largest 2.75 GB). Figures below.
+- **The gate passes on LG00 T′'s data** (lg00-app `8210d92e`), **on the mirror's nodes**: every consumer-side
+  conjunct decides `true` in its own process, every control decides `false`, and every process stays under the 4 GB
+  cap (largest 2.75 GB). The jet nodes are kamx-packed's untrusted Python mirror output, and the jet chain conjunct
+  inside `jetLowOk`/`jetFullOk` (`jetCheck`) was not decided: that is kamx-packed's chain theorem. Only the box and
+  scale guards of those two conjuncts are in the gate. Figures below (corrected by AUDIT-V2-PACKED-CONS-1 C2).
 
 ## What was built (Lean, `KAM/CertificateSharp/Packed/`, all new)
 
@@ -36,6 +38,7 @@ Rules: additive only (new files under `KAM/CertificateSharp/Packed/`, `scripts/p
 | `JetConsInv.lean` | 331 | `PIBook`, the invariance array `ivX` (`(X_H ∘ K)_a · 2^P − Σ_l DK_{al} (s ω)_l`, exact, on `win Lb LU0` at `2^(2P)`), its radius `ivR`, **`ivRowOk`** (one packed norm plus the radii ≤ `err`), `ivGuard`, **`jetFullOk`** (`jetCheck` at `cfgFull` for `v0 :: d1Slots`), **`checkInvarianceJ`**, `ivX_encloses`, **`checkInvarianceJ_sound`** (the conclusion of the landed `checkInvariance_sound_of`), `checkInvarianceJ_of`. |
 | `JetConsEnergy.lean` | 137 | `enGuard`, **`enOk`** (`|Re z − E₀| + |Im z| + r ≤ err`, `z` the zero-key slot of the `v0` node), **`checkEnergyJ`**, **`checkEnergyJ_sound`** (the conclusion of the landed `checkEnergy_sound_of`), `checkEnergyJ_of`. |
 | `JetConsFrames.lean` | 239 | **`checkFrameTRJ`** (`sup |T|` from the jet's torsion), **`checkFrameMajorantsRJ`** (`|Lᵀ|`, `|N|`, `|Nᵀ|`, `|ω*|` are the landed packed tests verbatim), `trT_chainJ`, `checkFrameTRJ_sound`, **`checkFrameMajorantsRJ_sound`** (`FrameMajorants`), `checkFrameMajorantsRJ_of`, **`routeARefinedPackedJ : EngineV2`**, `checkV2With_packedJ_sound` (any base). |
+| `JetConsLoad.lean` | 58 | **`jetCheck_mono`** (a passing jet check passes at every larger load bound), **`jetLowOk_of`**, **`jetFullOk_of`** (the consumers' jet conjuncts from kamx-packed's chain theorem at its generated bound; V2-PACKED-CONS-FIX L1). |
 | `JetBase.lean` | 94 | **`jetBase : BaseChecker`**, **`checkV2With_jetBase_sound`** (any engine → landed `CertifiedTorus`), **`checkV2With_jetBasePackedJ_sound`** (`jetBase` + `routeARefinedPackedJ`), **`jetBase_check_of`**. |
 | `JetConsTests.lean` | 67 | Default-build kernel tests on B3b's toy integrable case (below). |
 
@@ -102,7 +105,7 @@ The jet chains themselves (`jetCheck` at `cfgLow` and `cfgFull`) are kamx-packed
   largest coefficient off by 2²⁰ (2⁻¹⁰⁸) → `false`;
 - frames: `sup |T|` at the tight bound → `true`, one ulp below → `false`;
 - invariance: coordinate 1 at its tight bound → `true`, one ulp below → `false`, and at the tight bound with the
-  jet's radius of slot 7732 **one ulp above** the ledger's → `false`;
+  jet's radius of slot 7735 (coordinate 1's `d1` slot) **one ulp above** the ledger's → `false`;
 - energy: the same three, on `v0` (7731) → `true`, `false`, `false`.
 - **Observation (not a control):** at torsion, the jet's radius of slot 7744 one ulp above the ledger's still
   passes X_N(0,0) (`TJObsJetUlp`, `= true`): the outward rounding of `upMul` in the propagated radius absorbs one ulp
@@ -119,8 +122,9 @@ The jet chains themselves (`jetCheck` at `cfgLow` and `cfgFull`) are kamx-packed
 | torsion | `TP.Torsion.*`: 628 modules, not yet run in run18 (on lg00-cert's data, run20e: 637 modules, 12,126 CPU-s) | 43 processes, 868.3 CPU-s (+ 127 CPU-s of shared data, once) |
 | its composition input | `TP.Low.*` (cfgLow `Slp.compose`): 2,484 modules; the 2,062 run so far took 45,670 CPU-s | the packed cfgLow chain (kamx-packed) |
 
-- The consumers' own cost is of the order of the landed consumers' (invariance, energy) or ≈ 14× below
-  (torsion: 868 against 12,126 CPU-s, a cross-torus comparison). **The saving that matters is that no landed
+- The consumers' own cost is of the order of the landed consumers' (invariance, energy) or ≈ 10× below
+  (torsion: 868 CPU-s, ≈ 1,150 CPU-s with the shared Gram link and the shared data, against 12,126 CPU-s; a
+  cross-torus comparison). **The saving that matters is that no landed
   composition is needed:** the consumers read the packed chains, so the 4,121 landed `Low` and `Full` modules can go once kamx-packed's chain theorems are in place (on
   T′, 77,925 CPU-s for the 3,699 of them run so far; 422 `Low` modules are still to run).
 - Against B3b's torsion (lg00-cert: 64 processes, 1,292 CPU-s with per-probe data), the J torsion drops the 20
@@ -141,7 +145,8 @@ The jet chains themselves (`jetCheck` at `cfgLow` and `cfgFull`) are kamx-packed
   `ivX_encloses`, `jetFullOk_sound`, `checkInvarianceJ_sound`, `checkInvarianceJ_of`, `checkEnergyJ_sound`,
   `checkEnergyJ_of`, `trT_chainJ`, `checkFrameTRJ_sound`, `checkFrameMajorantsRJ_sound`, `checkFrameMajorantsRJ_of`,
   `routeARefinedPackedJ`, `jetBase`, `checkV2With_jetBase_sound`, `checkV2With_jetBasePackedJ_sound`,
-  `jetBase_check_of`.
+  `jetBase_check_of`, and (V2-PACKED-CONS-FIX) `jetCheck_mono`, `jetLowOk_of`, `jetFullOk_of`. The audit also
+  checked kamx-packed's API theorems (`jetPacked_sound`, `jetCheck_of`, `jetChainOk_sound`, …): standard axioms.
 - **No `Slp.compose`** (a scratch meta-program over definition bodies, theorems not followed): `checkTorsionJ`,
   `checkInvarianceJ`, `checkEnergyJ`, `checkFrameMajorantsRJ`, `refinedTestPackedJ`, `checkGramPacked`,
   `checkHamBounds`, `checkEmbedding`, `checkStatic` → `false`; `checkTorsionR`, `checkFrameMajorantsR`, landed
@@ -160,16 +165,36 @@ The jet chains themselves (`jetCheck` at `cfgLow` and `cfgFull`) are kamx-packed
 - `cons_run.sh` (one module of the scratch package under a cap, with the anon-memory wait), `cons_run_plan.py`
   (all modules in order, resumable), `cons_gate_sum.py` (the summary).
 
-## Owner questions (overnight mode: none blocked work)
+## Owner questions (answered by the orchestrator)
 
-1. **Landing order.** This branch contains kamx-packed's `e4bb0b16` (the `jetCheck` API it calls). Land
-   `v2-packed-prod` first or together; if kamx-packed changes `jetCheck`/`jetPacked_sound`, only `jetLowOk`,
-   `jetFullOk` and their two `_sound` lemmas need adapting (the cores depend on `JSlotsEnc` only).
-2. **Design section number.** §14 of `V2-PACKED.md` is new here; please confirm or renumber at landing.
-3. **`JetBridge`.** A production proof must state the consumers at `lg00Cert.ham.jet`, i.e. rewrite it to the
-   literal `lg00Jet` with `lg00Ham_jet` (`LG00.JetBridge`). kamx-packed's copy of that module was OOM-killed at
-   4 GB. The jet check needs the same rewrite, so this is a shared prerequisite for kamx-packed and kamx-pk-gen,
-   not specific to the consumers.
+1. **Landing order.** This branch contains kamx-packed's `e4bb0b16` (the `jetCheck` API it calls).
+   *Answered:* `v2-packed-cons` lands together with or after `v2-packed-prod`. If kamx-packed changes
+   `jetCheck`/`jetPacked_sound`, only `jetLowOk`, `jetFullOk`, their two `_sound` lemmas and `JetConsLoad.lean`
+   need adapting (the cores depend on `JSlotsEnc` only).
+2. **Design section number.** *Answered:* §14 for CONS (kamx-pk-gen uses §15 if it adds design text).
+3. **`JetBridge`.** A production proof states the consumers at `lg00Cert.ham.jet`, i.e. rewrites it to the
+   literal `lg00Jet` with `lg00Ham_jet` (`LG00.JetBridge`). *Answered:* `LG00.JetBridge` is already built in
+   lg00-app; kamx-packed reuses it (or one solo build at 7.5 GB).
+
+## V2-PACKED-CONS-FIX (AUDIT-V2-PACKED-CONS-1: PASS WITH CHANGES, Lean sound)
+
+- **C1** (106-character line in `JetKeyedTests.lean:35`) is kamx-packed's, to be fixed on `v2-packed-prod`; I merge
+  it from there when it lands (asked kamx-packed on 2026-11-01).
+- **C2:** the Result bullet now says "every consumer-side conjunct, on the mirror's nodes", and that the jet chain
+  conjunct was not decided in the gate.
+- **C3:** the invariance jet-radius control changes slot 7735 (coordinate 1's `d1` slot), not 7732.
+- **Optional items:** §14 now states the invariance slack as 0.1 % of err. The torsion comparison now counts the
+  shared Gram link and data (≈ 10×, not ≈ 14×).
+- **L1, the jet's load bound** (agreement with kamx-packed, message of 2026-11-01). The consumers keep their books'
+  bounds (`rb.bA` in `jetLowOk`, `ib.bJ` in `jetFullOk`), and kamx-packed's chain theorem keeps its generated
+  `b<C>` (the largest load of a wanted node). The new `JetConsLoad.lean` bridges them:
+  - `jetCheck_mono`: a passing `jetCheck` passes at every larger bound (only `jetWantedOk` depends on it);
+  - `jetLowOk_of hL hP jetLow_check_cert (by decide : bLow ≤ rb.bA)` closes the torsion's jet conjunct, and
+    `jetFullOk_of` the invariance and energy one.
+  The consumers' generator sets `rb.bA = ib.bJ =` the largest wanted load (2¹⁴⁰ on T′), so the side condition is an
+  equality in practice. No change on `v2-packed-prod`.
+- **L2** (ledger lookups) stays an open point (below): unmeasured. The remedy, if needed, is a `JSlotsEnc` transfer
+  to a small wanted-slot table.
 
 ## Uncertainties and open points
 

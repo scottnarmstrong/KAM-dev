@@ -67,6 +67,7 @@ public import KAM.CertificateSharp.Packed.JetCheck
 public import KAM.CertificateSharp.Packed.JetConsEnergy
 public import KAM.CertificateSharp.Packed.JetConsFrames
 public import KAM.CertificateSharp.Packed.JetConsInv
+public import KAM.CertificateSharp.Packed.JetConsLoad
 public import KAM.CertificateSharp.Packed.JetConsTests
 public import KAM.CertificateSharp.Packed.JetConsTors
 public import KAM.CertificateSharp.Packed.JetConsTorsSound
