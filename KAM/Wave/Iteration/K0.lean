@@ -63,7 +63,7 @@ variable {d : W6SeqData}
 
 /-- **The conditions with `k = 0`** (blueprint `bpW:w6:k0`), at stage `ν`, given the increment
 bounds of the earlier stages. -/
-theorem w6K0_of_increments (hd : d.Valid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
+theorem w6K0_of_increments (hd : d.SeqValid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
     {β₀ : ℝ} (hβ : d.al0 ≤ β₀) (h8 : 8 * d.eps0 ≤ β₀)
     (Pis : ℕ → Set (Fin 2 → ℝ)) (hPis : Antitone Pis) (Ω : ℕ → (Fin 2 → ℝ) → ℕ → ℝ)
     (h0 : ∀ ξ ∈ Pis 0, ∀ l : ℕ →₀ ℤ, IsLam l → 2 * β₀ * japL l ≤ |linF l (Ω 0 ξ)|)
@@ -124,7 +124,7 @@ theorem w6K0_of_increments (hd : d.Valid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 
     have := abs_sub_abs_le_abs_sub (linF l (Ω 0 ξ)) (linF l (Ω ν ξ))
     rw [abs_sub_comm (linF l (Ω 0 ξ))] at this
     linarith
-  have hα := alpha_le hd ν
+  have hα := alphaNu_le hd ν
   have hα0 := (alpha_pos hd ν).le
   rw [kAk_zero, div_one]
   have : d.alpha ν * japL l ≤ β₀ * japL l := mul_le_mul_of_nonneg_right (hα.trans hβ) (by linarith)

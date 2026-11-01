@@ -54,7 +54,7 @@ variable {d : W6SeqData}
 def w6Stage (d : W6SeqData) (ν : ℕ) (S : W6State) : Prop := W6Stage d ν S.Pi S.om S.Om S.P S.X
 
 /-- The standing conditions on the data `d`: `Valid` and `ε₀ ≤ γ₀ α₀ σ₀^t`. -/
-def Std (d : W6SeqData) : Prop := d.Valid ∧ d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T
+def Std (d : W6SeqData) : Prop := d.SeqValid ∧ d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T
 
 /-- One step of the iteration: the outputs of Lemma `bpW:w6:iter-lemma` at stage `ν`. -/
 def next (d : W6SeqData) (ν : ℕ) (S : W6State) : W6State :=
@@ -66,18 +66,18 @@ def next (d : W6SeqData) (ν : ℕ) (S : W6State) : W6State :=
 
 /-- `Φ_{ν+1}` (the identity if the hypotheses of stage `ν` fail). -/
 def phi (d : W6SeqData) (ν : ℕ) (S : W6State) (ξ : Fin 2 → ℝ) :
-    StepPhase (d.r ν) → StepPhase (d.r ν) :=
+    StepPhase (d.rNu ν) → StepPhase (d.rNu ν) :=
   open Classical in
   if h : Std d ∧ S.w6Stage d ν then W6Stage.PhiN h.1.1 h.1.2 h.2 ξ else id
 
-theorem w6next_eq {S : W6State} {ν : ℕ} (hd : d.Valid)
+theorem w6next_eq {S : W6State} {ν : ℕ} (hd : d.SeqValid)
     (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T) (h : S.w6Stage d ν) :
     S.next d ν = ⟨W6Stage.PiN hd hsmall h, W6Stage.omN hd hsmall h, W6Stage.OmN hd hsmall h,
       W6Stage.PN hd hsmall h, W6Stage.XN hd hsmall h⟩ := by
   unfold next
   rw [dite_eq_left ⟨⟨hd, hsmall⟩, h⟩]
 
-theorem phi_eq {S : W6State} {ν : ℕ} (hd : d.Valid)
+theorem phi_eq {S : W6State} {ν : ℕ} (hd : d.SeqValid)
     (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T) (h : S.w6Stage d ν) :
     S.phi d ν = W6Stage.PhiN hd hsmall h := by
   funext ξ
@@ -111,23 +111,23 @@ Definition `bpW:w6:sequences` with `ε₀ ≤ γ₀ α₀ σ₀^t`; frequencies 
 structure W6ConvHyp (d : W6SeqData) (Pm : Set (Fin 2 → ℝ)) (ω0 : (Fin 2 → ℝ) → Fin 2 → ℝ)
     (Ω0 : (Fin 2 → ℝ) → ℕ+ → ℝ) (P0 : (Fin 2 → ℝ) → KamPhase → ℂ)
     (X0 : (Fin 2 → ℝ) → KamPhase → KamPhase) (β₀ : ℝ) : Prop where
-  valid : d.Valid
+  valid : d.SeqValid
   small : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T
   freq : ∃ T Mω MΩ : ℝ, HomFreqHyp Pm ω0 Ω0 T Mω MΩ ∧ Mω + MΩ ≤ d.M0
   beta_ge : d.al0 ≤ β₀
   eight_le : 8 * d.eps0 ≤ β₀
   k0 : ∀ ξ ∈ Pm, ∀ l : ℕ →₀ ℤ, IsLam l → 2 * β₀ * japL l ≤ |linF l (w6Om7 (Ω0 ξ))|
   smooth : ∀ ξ ∈ Pm, IsSmoothing (a := 1) (p := 1) (pb := 3 / 2) zero_le_one (by norm_num)
-    (d.dom 0) (P0 ξ) (X0 ξ)
-  per : ∀ ξ ∈ Pm, ∀ i, ∀ w ∈ d.dom 0, P0 ξ (w + stepTau i) = P0 ξ w
-  real : ∀ ξ ∈ Pm, ∀ w ∈ d.dom 0, StepReal w → (P0 ξ w).im = 0
-  bound : FamBound Pm (d.dom 0) (d.r 0) (d.lam 0) (d.eps 0) X0
+    (d.domNu 0) (P0 ξ) (X0 ξ)
+  per : ∀ ξ ∈ Pm, ∀ i, ∀ w ∈ d.domNu 0, P0 ξ (w + stepTau i) = P0 ξ w
+  real : ∀ ξ ∈ Pm, ∀ w ∈ d.domNu 0, StepReal w → (P0 ξ w).im = 0
+  bound : FamBound Pm (d.domNu 0) (d.rNu 0) (d.lam 0) (d.eps 0) X0
 
 /-- `Π_0 = Π_{-1} ∖ ⋃_{(k,l) ∈ Z, k ≠ 0} R^0_{kl}` (zones of `(ω₀, Ω₀)` at level `α₀`), i.e. the
 removal of W6-PREP's `w6Removed` at index `0` (`K_{-1} = 0`). -/
 def w6Pi0 (d : W6SeqData) (Pm : Set (Fin 2 → ℝ)) (ω0 : (Fin 2 → ℝ) → Fin 2 → ℝ)
     (Ω0 : (Fin 2 → ℝ) → ℕ+ → ℝ) : Set (Fin 2 → ℝ) :=
-  Pm \ w6Removed (fun _ => ω0) (fun _ ξ => w6Om7 (Ω0 ξ)) d.alpha d.Kprev Pm 0
+  Pm \ w6Removed (fun _ => ω0) (fun _ ξ => w6Om7 (Ω0 ξ)) d.alpha d.KprevNu Pm 0
 
 /-- The stage-`0` state `(Π_0, ω₀, Ω₀, P₀, X₀)`. -/
 def w6Start (d : W6SeqData) (Pm : Set (Fin 2 → ℝ)) (ω0 : (Fin 2 → ℝ) → Fin 2 → ℝ)
@@ -196,7 +196,7 @@ theorem w6Start_stage (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) :
         simp
       rw [e, zero_add]
       exact hk0 ξ hξ l hl
-    · have hkpos : d.Kprev 0 < kAbs k := by
+    · have hkpos : d.KprevNu 0 < kAbs k := by
         show (0 : ℝ) < kAbs k
         linarith [one_le_kAbs hk]
       have hn := hξ.2
@@ -204,7 +204,7 @@ theorem w6Start_stage (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) :
       by_contra hlt
       push Not at hlt
       exact hn k l ⟨hkl, hkpos⟩ ⟨hξ.1, hlt⟩
-  · have e : d.dom 0 = d.dom 0 := rfl
+  · have e : d.domNu 0 = d.domNu 0 := rfl
     exact hC.bound.mono_lam hsub subset_rfl le_rfl le_rfl
 
 /-- **Induction** (step `c-ind`; conditional helper, not the label): if W5's reality clause

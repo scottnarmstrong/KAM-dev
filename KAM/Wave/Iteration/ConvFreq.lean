@@ -169,7 +169,7 @@ local notation "𝒮" => w6Seq d (w6Start d Pm ω0 Ω0 P0 X0)
 /-- **Parameters** (`bpW:w6:convergence` (i)): `Π_ν` is W6-PREP's `w6PiSeq` (index `ν + 1`) of the
 output frequencies `(ω_n, Ω_n)`, levels `α_n` and thresholds `K_{n-1}`. -/
 theorem w6Seq_Pi_eq_of_stepReal (ν : ℕ) :
-    (𝒮 ν).Pi = w6PiSeq Pm (fun n => (𝒮 n).om) (fun n ξ => w6Om7 ((𝒮 n).Om ξ)) d.alpha d.Kprev
+    (𝒮 ν).Pi = w6PiSeq Pm (fun n => (𝒮 n).om) (fun n ξ => w6Om7 ((𝒮 n).Om ξ)) d.alpha d.KprevNu
       (ν + 1) := by
   induction ν with
   | zero => rfl
@@ -183,7 +183,7 @@ theorem w6Seq_Pi_eq_of_stepReal (ν : ℕ) :
 /-- `Π_* = ⋂_ν Π_ν` is W6-PREP's `w6PiStar` of the output frequencies. -/
 theorem w6PiStarIt_eq_of_stepReal :
     w6PiStarIt d (w6Start d Pm ω0 Ω0 P0 X0) =
-      w6PiStar Pm (fun n => (𝒮 n).om) (fun n ξ => w6Om7 ((𝒮 n).Om ξ)) d.alpha d.Kprev := by
+      w6PiStar Pm (fun n => (𝒮 n).om) (fun n ξ => w6Om7 ((𝒮 n).Om ξ)) d.alpha d.KprevNu := by
   unfold w6PiStarIt w6PiStar
   ext ξ
   simp only [Set.mem_iInter]
@@ -200,11 +200,11 @@ theorem w6PiStarIt_eq_of_stepReal :
 `(ω_ν, Ω_ν)` at level `α_ν` in `Π_{ν-1}`. -/
 theorem w6ConvParams_of_stepReal :
     Pm \ w6PiStarIt d (w6Start d Pm ω0 Ω0 P0 X0) =
-      ⋃ (ν : ℕ) (k : Fin 2 → ℤ) (l : ℕ →₀ ℤ) (_ : InZ k l ∧ d.Kprev ν < kAbs k),
-        zoneSet (w6PiSeq Pm (fun n => (𝒮 n).om) (fun n ξ => w6Om7 ((𝒮 n).Om ξ)) d.alpha d.Kprev ν)
+      ⋃ (ν : ℕ) (k : Fin 2 → ℤ) (l : ℕ →₀ ℤ) (_ : InZ k l ∧ d.KprevNu ν < kAbs k),
+        zoneSet (w6PiSeq Pm (fun n => (𝒮 n).om) (fun n ξ => w6Om7 ((𝒮 n).Om ξ)) d.alpha d.KprevNu ν)
           ((𝒮 ν).om) (fun ξ => w6Om7 ((𝒮 ν).Om ξ)) (d.alpha ν) k l := by
   rw [w6PiStarIt_eq_of_stepReal hR hC]
-  exact w6Convergence_params Pm _ _ d.alpha d.Kprev
+  exact w6Convergence_params Pm _ _ d.alpha d.KprevNu
 
 /-- Partial sums of the `ω` increments: `|ω_n - ω_0| ≤ ∑_{μ<n} 6πε_μ ≤ 8πε₀` and the Lipschitz
 part `≤ ∑_{μ<n} 6πε_μ/λ_μ ≤ 64πε₀/λ₀`, on `Π_{n-1}` (`ξ ∈ Π_μ` for `μ < n`). -/
@@ -369,32 +369,32 @@ theorem w6ConvBorel_of_stepReal (hPm : MeasurableSet Pm) :
   obtain ⟨T, Mω, MΩ, hf, -⟩ := hC.freq
   set ωs : ℕ → (Fin 2 → ℝ) → Fin 2 → ℝ := fun n => (𝒮 n).om
   set Ωs : ℕ → (Fin 2 → ℝ) → ℕ → ℝ := fun n ξ => w6Om7 ((𝒮 n).Om ξ)
-  have hsub : ∀ n, w6PiSeq Pm ωs Ωs d.alpha d.Kprev n ⊆ Pm := w6PiSeq_subset Pm ωs Ωs _ _
-  have hmem : ∀ n, ∀ ξ ∈ w6PiSeq Pm ωs Ωs d.alpha d.Kprev n, ∀ μ < n, ξ ∈ (𝒮 μ).Pi := by
+  have hsub : ∀ n, w6PiSeq Pm ωs Ωs d.alpha d.KprevNu n ⊆ Pm := w6PiSeq_subset Pm ωs Ωs _ _
+  have hmem : ∀ n, ∀ ξ ∈ w6PiSeq Pm ωs Ωs d.alpha d.KprevNu n, ∀ μ < n, ξ ∈ (𝒮 μ).Pi := by
     intro n ξ hξ μ hμ
     obtain ⟨n, rfl⟩ : ∃ m, n = m + 1 := ⟨n - 1, by omega⟩
     rw [← w6Seq_Pi_eq_of_stepReal hR hC n] at hξ
     exact w6Seq_Pi_antitone d _ (Nat.lt_succ_iff.1 hμ) hξ
-  have hω : ∀ n, ContinuousOn (ωs n) (w6PiSeq Pm ωs Ωs d.alpha d.Kprev n) := by
+  have hω : ∀ n, ContinuousOn (ωs n) (w6PiSeq Pm ωs Ωs d.alpha d.KprevNu n) := by
     intro n
-    have h1 : ContinuousOn (fun ξ => (𝒮 n).om ξ - ω0 ξ) (w6PiSeq Pm ωs Ωs d.alpha d.Kprev n) :=
+    have h1 : ContinuousOn (fun ξ => (𝒮 n).om ξ - ω0 ξ) (w6PiSeq Pm ωs Ωs d.alpha d.KprevNu n) :=
       w6_continuousOn_of_lip fun ξ hξ ζ hζ =>
         (w6Seq_om_partial hR hC n (hmem n ξ hξ) (hmem n ζ hζ)).2
-    have h0 : ContinuousOn ω0 (w6PiSeq Pm ωs Ωs d.alpha d.Kprev n) :=
+    have h0 : ContinuousOn ω0 (w6PiSeq Pm ωs Ωs d.alpha d.KprevNu n) :=
       w6_continuousOn_of_lip fun ξ hξ ζ hζ => hf.lipOmega ξ (hsub n hξ) ζ (hsub n hζ)
     exact (h1.add h0).congr fun ξ _ => by simp [ωs]
-  have hΩ : ∀ n j, ContinuousOn (fun ξ => Ωs n ξ j) (w6PiSeq Pm ωs Ωs d.alpha d.Kprev n) := by
+  have hΩ : ∀ n j, ContinuousOn (fun ξ => Ωs n ξ j) (w6PiSeq Pm ωs Ωs d.alpha d.KprevNu n) := by
     intro n j
     have hw := one_le_normLab_rpow_half j
     have h1 : ContinuousOn (fun ξ => w6Om7 ((𝒮 n).Om ξ) j - w6Om7 (Ω0 ξ) j)
-        (w6PiSeq Pm ωs Ωs d.alpha d.Kprev n) :=
+        (w6PiSeq Pm ωs Ωs d.alpha d.KprevNu n) :=
       w6_continuousOn_of_lip (L := 16 * d.eps0 / d.lam 0) fun ξ hξ ζ hζ => by
         have h := (w6Seq_Om_partial hR hC n (hmem n ξ hξ) (hmem n ζ hζ) j).2
         rw [Real.norm_eq_abs]
         have ha := abs_nonneg ((w6Om7 ((𝒮 n).Om ξ) j - w6Om7 (Ω0 ξ) j) -
           (w6Om7 ((𝒮 n).Om ζ) j - w6Om7 (Ω0 ζ) j))
         nlinarith
-    have h0 : ContinuousOn (fun ξ => w6Om7 (Ω0 ξ) j) (w6PiSeq Pm ωs Ωs d.alpha d.Kprev n) :=
+    have h0 : ContinuousOn (fun ξ => w6Om7 (Ω0 ξ) j) (w6PiSeq Pm ωs Ωs d.alpha d.KprevNu n) :=
       w6_continuousOn_of_lip (L := MΩ) fun ξ hξ ζ hζ => by
         have h := hf.lipTail ξ (hsub n hξ) ζ (hsub n hζ) j.succPNat
         have hw' : 1 ≤ ((j.succPNat : ℕ+) : ℝ) ^ (1 / 2 : ℝ) :=
@@ -404,7 +404,7 @@ theorem w6ConvBorel_of_stepReal (hPm : MeasurableSet Pm) :
         show |Ω0 ξ j.succPNat - Ω0 ζ j.succPNat| ≤ _
         nlinarith
     exact (h1.add h0).congr fun ξ _ => by simp [Ωs]
-  obtain ⟨hall, hstar⟩ := w6PiSeq_measurableSet Pm ωs Ωs d.alpha d.Kprev hPm hω hΩ
+  obtain ⟨hall, hstar⟩ := w6PiSeq_measurableSet Pm ωs Ωs d.alpha d.KprevNu hPm hω hΩ
   refine ⟨fun ν => ?_, ?_⟩
   · rw [w6Seq_Pi_eq_of_stepReal hR hC ν]; exact hall (ν + 1)
   · rw [w6PiStarIt_eq_of_stepReal hR hC]; exact hstar

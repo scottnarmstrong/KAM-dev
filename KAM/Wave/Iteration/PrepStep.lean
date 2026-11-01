@@ -21,7 +21,7 @@ still being built. Blueprint label `bpW:w6:prep-step` (milestone W6).
 Borel, `0 < α ≤ α₀`, `r > 0`, a real periodic `P ∈ 𝒮_{p+1}(D(s, r))` on `Π ∖ Ξ`,
 `0 < ε ≤ γα`, `|X_P|^λ_{r, D(s,r)} ≤ ε`, `λ = α/M`, `s = 1/8`). Then:
 
-* `W6PrepHyp.stepHyp`: W5's step in the modified case applies on `Π ∖ Ξ` (`β = 1/4`,
+* `W6PrepHyp.prepStepHyp`: W5's step in the modified case applies on `Π ∖ Ξ` (`β = 1/4`,
   `p_+ = 3/2`, level `α̂`, `σ_P`, `η_P`), steps `p-data`, `p-div`; the objects `Φ_P`, `(ω_0, Ω_0)`,
   `P_0` are `W6PrepHyp.{PhiP, om0, Om0, P0, X0}`;
 * (i): `w6_homMelnikovMod_of_prep`, `w6_prep_divisors` (module `PrepMel`);
@@ -102,7 +102,7 @@ def w6PrepTail (m : ℝ) (hm : 0 < m) : ℝ := m / 2 + 3 / (2 * π) * w6BB m hm
 
 /-- **W5's step applies in the modified case** (blueprint `bpW:w6:prep-step`, steps `p-data`,
 `p-div`): on `Π ∖ Ξ` with `s = 1/8`, `σ_P`, `η_P`, level `α̂`, `β = 1/4`, `p_+ = 3/2`. -/
-theorem stepHyp (H : W6PrepHyp m hm Pi α r ε P X) :
+theorem prepStepHyp (H : W6PrepHyp m hm Pi α r ε P X) :
     StepHypModSrc 1 1 (3 / 2) w6S r w6SigmaP (w6EtaP α ε) w6Tau (alphaHat α) (1 / 4)
       (α / w6M m hm) ε H.w6PrepE0 H.w6PrepE1 w6GamG (w6PrepTail m hm) (waveMomega m hm)
       (waveMOmega m hm)
@@ -148,26 +148,26 @@ theorem factR (H : W6PrepHyp m hm Pi α r ε P X) : Fact (0 < r) := ⟨H.hr⟩
 
 /-- `ω_0 = ω⁰ + ω̂_P` on `Π ∖ Ξ`. -/
 def om0 (H : W6PrepHyp m hm Pi α r ε P X) : (Fin 2 → ℝ) → Fin 2 → ℝ :=
-  H.stepHyp.hyp.core.omegaPlus
+  H.prepStepHyp.hyp.core.omegaPlus
 
 /-- `Ω_0 = Ω⁰ + Ω̂_P` on `Π ∖ Ξ` (W5 index). -/
 def Om0 (H : W6PrepHyp m hm Pi α r ε P X) : (Fin 2 → ℝ) → ℕ+ → ℝ :=
-  H.stepHyp.hyp.core.OmegaPlus
+  H.prepStepHyp.hyp.core.OmegaPlus
 
 /-- `Φ_P` (norm `|·|_r`). -/
 def PhiP (H : W6PrepHyp m hm Pi α r ε P X) (ξ : Fin 2 → ℝ) : StepPhase r → StepPhase r :=
   haveI := H.factR
-  H.stepHyp.hyp.core.Phi ξ
+  H.prepStepHyp.hyp.core.Phi ξ
 
 /-- `P_0`. -/
 def w6P0 (H : W6PrepHyp m hm Pi α r ε P X) : (Fin 2 → ℝ) → KamPhase → ℂ :=
   haveI := H.factR
-  fun ξ w => H.stepHyp.hyp.core.Pplus ξ (StepPhase.ofK (r := r) w)
+  fun ξ w => H.prepStepHyp.hyp.core.Pplus ξ (StepPhase.ofK (r := r) w)
 
 /-- `X_{P_0}`. -/
 def X0 (H : W6PrepHyp m hm Pi α r ε P X) : (Fin 2 → ℝ) → KamPhase → KamPhase :=
   haveI := H.factR
-  fun ξ w => StepPhase.toK (H.stepHyp.hyp.core.Xplus ξ (StepPhase.ofK (r := r) w))
+  fun ξ w => StepPhase.toK (H.prepStepHyp.hyp.core.Xplus ξ (StepPhase.ofK (r := r) w))
 
 /-- **(ii), `ω`** (`bpW:w6:prep-step` (ii)): `|ω̂_P| + λ |ω̂_P|^ℒ ≤ 6πε` on `Π ∖ Ξ`. -/
 theorem shift_omega (H : W6PrepHyp m hm Pi α r ε P X) :
@@ -176,7 +176,7 @@ theorem shift_omega (H : W6PrepHyp m hm Pi α r ε P X) :
       ∀ ξ ∈ Pi \ prepSet m hm Pi α, ∀ ζ ∈ Pi \ prepSet m hm Pi α,
         ‖(H.om0 ξ - omegaTan m hm ξ) - (H.om0 ζ - omegaTan m hm ζ)‖ ≤ b₁ * ‖ξ - ζ‖ := by
   have := H.factR
-  exact (stepTheoremMod H.stepHyp).2.2.2.2.2.2.2.2.2.2.2.2.1
+  exact (stepTheoremMod H.prepStepHyp).2.2.2.2.2.2.2.2.2.2.2.2.1
 
 /-- **(ii), `Ω`** (`bpW:w6:prep-step` (ii), with the weight `J^{1/2}`; W7 index, `J = j + 3`):
 `J^{1/2} (|Ω̂_{P,J}| + λ |Ω̂_{P,J}|^ℒ) ≤ 3ε` on `Π ∖ Ξ`. -/
@@ -189,7 +189,7 @@ theorem shift_Omega (H : W6PrepHyp m hm Pi α r ε P X) :
           (w6Om7 (H.Om0 ζ) n - omegaNor m hm ζ n)| ≤ c₁ * ‖ξ - ζ‖ := by
   have := H.factR
   obtain ⟨c₀, c₁, h0, h1, hs, hb, hl⟩ :=
-    (stepTheoremMod H.stepHyp).2.2.2.2.2.2.2.2.2.2.2.2.2.1
+    (stepTheoremMod H.prepStepHyp).2.2.2.2.2.2.2.2.2.2.2.2.2.1
   have e : ((3 / 2 : ℝ) - 1) = 1 / 2 := by norm_num
   have hN : ∀ ξ n, omegaNor m hm ξ n = waveFreqNor m hm ξ n.succPNat := fun ξ n => by
     rw [waveFreqNor_eq_omegaNor, Nat.natPred_succPNat]
@@ -208,7 +208,7 @@ theorem freq0 (H : W6PrepHyp m hm Pi α r ε P X) :
       Mω + MΩ ≤ w6M0 m hm := by
   have := H.factR
   have hl : 0 < α / w6M m hm := div_pos H.hα (w6M_pos m hm)
-  have h := (stepTheoremMod H.stepHyp).2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 hl
+  have h := (stepTheoremMod H.prepStepHyp).2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 hl
   refine ⟨_, _, _, h, ?_⟩
   obtain ⟨h1, h2⟩ := w6prep_lip_growth (m := m) (hm := hm) H.hα H.hε.le H.hεγ
   have e : waveMomega m hm + 6 * π * ε / (α / w6M m hm) + (waveMOmega m hm + 3 * ε /
@@ -229,7 +229,7 @@ theorem phiP_bounds (H : W6PrepHyp m hm Pi α r ε P X) :
         ‖(H.PhiP ξ w - w) - (H.PhiP ζ w - w)‖ ≤ A₁ * ‖ξ - ζ‖ := by
   have := H.factR
   obtain ⟨A₀, A₁, B₀, B₁, a0, a1, -, -, ha, -, hall⟩ :=
-    (stepTheoremMod H.stepHyp).2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2
+    (stepTheoremMod H.prepStepHyp).2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2
   exact ⟨A₀, A₁, a0, a1, ha, fun ξ hξ ζ hζ w hw =>
     ⟨(hall ξ hξ ζ hζ w hw).1, (hall ξ hξ ζ hζ w hw).2.1⟩⟩
 
@@ -247,7 +247,7 @@ theorem w6size (H : W6PrepHyp m hm Pi α r ε P X) :
       (alphaCheck α / w6M0 m hm) (w6EpsFlat α ε) H.X0 ∧
     w6EpsFlat α ε ≤ w6Gamma1 m hm * alphaCheck α := by
   have := H.factR
-  obtain ⟨-, -, -, -, -, -, -, -, c6, c7, -, c8, -⟩ := stepTheoremMod H.stepHyp
+  obtain ⟨-, -, -, -, -, -, -, -, c6, c7, -, c8, -⟩ := stepTheoremMod H.prepStepHyp
   have hle := w6EpsFlat_le (m := m) (hm := hm) H.hα H.hε.le H.hεγ
   -- `C^♮_2 (ε²/(α̂ σ_P^{t^♮} η_P²) + η_P ε) = 2 C^♮_2 ε η_P = ε^♭_0`
   have hq := w6QP_pos H.hα H.hε

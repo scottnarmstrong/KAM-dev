@@ -39,21 +39,21 @@ namespace KAM.Wave
 
 namespace W6SeqData
 
-variable {d : W6SeqData} (hd : d.Valid)
+variable {d : W6SeqData} (hd : d.SeqValid)
 include hd
 
-theorem sigma_rpow_pos (ν : ℕ) : 0 < d.sigma ν ^ w6T := Real.rpow_pos_of_pos (sigma_pos hd ν) _
+theorem sigma_rpow_pos (ν : ℕ) : 0 < d.sigma ν ^ w6T := Real.rpow_pos_of_pos (sigmaNu_pos hd ν) _
 
 theorem alpha_sigma_pos (ν : ℕ) : 0 < d.alpha ν * d.sigma ν ^ w6T :=
   mul_pos (alpha_pos hd ν) (sigma_rpow_pos hd ν)
 
 /-- `ε_ν = q_ν α_ν σ_ν^t`. -/
-theorem eps_eq_q (ν : ℕ) : d.eps ν = d.q ν * (d.alpha ν * d.sigma ν ^ w6T) := by
-  unfold q; rw [div_mul_cancel₀ _ (alpha_sigma_pos hd ν).ne']
+theorem eps_eq_q (ν : ℕ) : d.eps ν = d.qNu ν * (d.alpha ν * d.sigma ν ^ w6T) := by
+  unfold qNu; rw [div_mul_cancel₀ _ (alpha_sigma_pos hd ν).ne']
 
 /-- `σ_{ν+1}^t = σ_ν^t / 2^{52}`. -/
 theorem sigma_succ_rpow (ν : ℕ) : d.sigma (ν + 1) ^ w6T = d.sigma ν ^ w6T / 2 ^ (52 : ℕ) := by
-  rw [sigma_succ, Real.div_rpow (sigma_pos hd ν).le (by norm_num), w6T_eq,
+  rw [sigma_succ, Real.div_rpow (sigmaNu_pos hd ν).le (by norm_num), w6T_eq,
     show (52 : ℝ) = ((52 : ℕ) : ℝ) by norm_num, Real.rpow_natCast (2 : ℝ)]
 
 theorem alpha_le_two_alpha_succ (ν : ℕ) : d.alpha ν ≤ 2 * d.alpha (ν + 1) := by
@@ -67,25 +67,26 @@ theorem alpha_le_two_alpha_succ (ν : ℕ) : d.alpha ν ≤ 2 * d.alpha (ν + 1)
 
 /-- `q_{ν+1} = 2^{52} · 2C₂ q_ν η_ν α_ν/α_{ν+1}`. -/
 theorem q_succ_eq (ν : ℕ) :
-    d.q (ν + 1) = 2 ^ (52 : ℕ) * (2 * w6C2 * d.q ν * d.eta ν) * (d.alpha ν / d.alpha (ν + 1)) := by
-  have hq : d.q (ν + 1) = d.eps (ν + 1) / (d.alpha (ν + 1) * d.sigma (ν + 1) ^ w6T) := rfl
+    d.qNu (ν + 1) =
+      2 ^ (52 : ℕ) * (2 * w6C2 * d.qNu ν * d.etaNu ν) * (d.alpha ν / d.alpha (ν + 1)) := by
+  have hq : d.qNu (ν + 1) = d.eps (ν + 1) / (d.alpha (ν + 1) * d.sigma (ν + 1) ^ w6T) := rfl
   rw [hq, eps_succ, eps_eq_q hd ν, sigma_succ_rpow hd ν]
   have h1 := alpha_pos hd ν
   have h2 := alpha_pos hd (ν + 1)
   have h3 := sigma_rpow_pos hd ν
   field_simp
 
-theorem q_nonneg_of_eps (ν : ℕ) (he : 0 ≤ d.eps ν) : 0 ≤ d.q ν :=
+theorem q_nonneg_of_eps (ν : ℕ) (he : 0 ≤ d.eps ν) : 0 ≤ d.qNu ν :=
   div_nonneg he (alpha_sigma_pos hd ν).le
 
 /-- One step: if `0 ≤ q_ν ≤ γ₀` then `q_{ν+1} ≤ q_ν/4` (step `il-err`). -/
-theorem q_succ_le_of (ν : ℕ) (h0 : 0 ≤ d.q ν) (hγ : d.q ν ≤ w6Gamma0) :
-    d.q (ν + 1) ≤ d.q ν / 4 := by
+theorem q_succ_le_of (ν : ℕ) (h0 : 0 ≤ d.qNu ν) (hγ : d.qNu ν ≤ w6Gamma0) :
+    d.qNu (ν + 1) ≤ d.qNu ν / 4 := by
   rw [q_succ_eq hd ν]
-  have hη : d.eta ν ≤ w6GammaBase⁻¹ := by
+  have hη : d.etaNu ν ≤ w6GammaBase⁻¹ := by
     rw [eta_eq_q, ← w6Gamma0_rpow_third]
     exact Real.rpow_le_rpow h0 hγ (by norm_num)
-  have hη0 : 0 ≤ d.eta ν := Real.rpow_nonneg h0 _
+  have hη0 : 0 ≤ d.etaNu ν := Real.rpow_nonneg h0 _
   have ha : d.alpha ν / d.alpha (ν + 1) ≤ 2 := by
     rw [div_le_iff₀ (alpha_pos hd (ν + 1))]; exact alpha_le_two_alpha_succ hd ν
   have ha0 : 0 ≤ d.alpha ν / d.alpha (ν + 1) := (div_pos (alpha_pos hd ν) (alpha_pos hd _)).le
@@ -99,25 +100,25 @@ theorem q_succ_le_of (ν : ℕ) (h0 : 0 ≤ d.q ν) (hγ : d.q ν ≤ w6Gamma0) 
       div_le_iff₀ hX]
     have : (2 : ℝ) ^ (56 : ℕ) = 2 ^ (52 : ℕ) * 16 := by norm_num
     nlinarith
-  calc 2 ^ (52 : ℕ) * (2 * w6C2 * d.q ν * d.eta ν) * (d.alpha ν / d.alpha (ν + 1))
-      ≤ 2 ^ (52 : ℕ) * (2 * w6C2 * d.q ν * w6GammaBase⁻¹) * 2 := by gcongr
-    _ = ((2 : ℝ) ^ (52 : ℕ) * (2 * w6C2) * w6GammaBase⁻¹ * 2) * d.q ν := by ring
-    _ ≤ 1 / 4 * d.q ν := mul_le_mul_of_nonneg_right hkey h0
-    _ = d.q ν / 4 := by ring
+  calc 2 ^ (52 : ℕ) * (2 * w6C2 * d.qNu ν * d.etaNu ν) * (d.alpha ν / d.alpha (ν + 1))
+      ≤ 2 ^ (52 : ℕ) * (2 * w6C2 * d.qNu ν * w6GammaBase⁻¹) * 2 := by gcongr
+    _ = ((2 : ℝ) ^ (52 : ℕ) * (2 * w6C2) * w6GammaBase⁻¹ * 2) * d.qNu ν := by ring
+    _ ≤ 1 / 4 * d.qNu ν := mul_le_mul_of_nonneg_right hkey h0
+    _ = d.qNu ν / 4 := by ring
 
-theorem eta_pos_of (ν : ℕ) (he : 0 < d.eps ν) : 0 < d.eta ν := by
+theorem eta_pos_of (ν : ℕ) (he : 0 < d.eps ν) : 0 < d.etaNu ν := by
   rw [eta_eq_q]; exact Real.rpow_pos_of_pos (div_pos he (alpha_sigma_pos hd ν)) _
 
 /-- `ε_ν > 0`. -/
-theorem eps_pos (ν : ℕ) : 0 < d.eps ν := by
+theorem epsNu_pos (ν : ℕ) : 0 < d.eps ν := by
   induction ν with
   | zero => exact hd.eps0_pos
   | succ n ih =>
     rw [eps_succ]; have := eta_pos_of hd n ih; have := w6C2_pos; positivity
 
-theorem q_pos (ν : ℕ) : 0 < d.q ν := div_pos (eps_pos hd ν) (alpha_sigma_pos hd ν)
+theorem qNu_pos (ν : ℕ) : 0 < d.qNu ν := div_pos (epsNu_pos hd ν) (alpha_sigma_pos hd ν)
 
-theorem eta_pos (ν : ℕ) : 0 < d.eta ν := eta_pos_of hd ν (eps_pos hd ν)
+theorem eta_pos (ν : ℕ) : 0 < d.etaNu ν := eta_pos_of hd ν (epsNu_pos hd ν)
 
 /-- `α_{ν+1} ≤ α_ν`. -/
 theorem alpha_succ_le (ν : ℕ) : d.alpha (ν + 1) ≤ d.alpha ν := by
@@ -141,46 +142,47 @@ section small
 variable (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
 include hsmall
 
-theorem q_zero_le : d.q 0 ≤ w6Gamma0 := by
-  unfold q
+theorem q_zero_le : d.qNu 0 ≤ w6Gamma0 := by
+  unfold qNu
   rw [alpha_zero, div_le_iff₀ (by rw [← alpha_zero]; exact alpha_sigma_pos hd 0)]
   have : d.eps 0 = d.eps0 := rfl
   rw [this]; linarith
 
 /-- `q_ν ≤ γ₀ 4^{-ν}`. -/
-theorem q_le_four_pow (ν : ℕ) : d.q ν ≤ w6Gamma0 / 4 ^ ν := by
+theorem q_le_four_pow (ν : ℕ) : d.qNu ν ≤ w6Gamma0 / 4 ^ ν := by
   induction ν with
   | zero => simpa using q_zero_le hd hsmall
   | succ n ih =>
-    have hγ : d.q n ≤ w6Gamma0 := ih.trans (div_le_self w6Gamma0_pos.le (one_le_pow₀ (by norm_num)))
-    calc d.q (n + 1) ≤ d.q n / 4 := q_succ_le_of hd n (q_pos hd n).le hγ
+    have hγ : d.qNu n ≤ w6Gamma0 :=
+      ih.trans (div_le_self w6Gamma0_pos.le (one_le_pow₀ (by norm_num)))
+    calc d.qNu (n + 1) ≤ d.qNu n / 4 := q_succ_le_of hd n (qNu_pos hd n).le hγ
       _ ≤ w6Gamma0 / 4 ^ n / 4 := by gcongr
       _ = w6Gamma0 / 4 ^ (n + 1) := by rw [pow_succ]; ring
 
-theorem q_le_gamma0 (ν : ℕ) : d.q ν ≤ w6Gamma0 :=
+theorem q_le_gamma0 (ν : ℕ) : d.qNu ν ≤ w6Gamma0 :=
   (q_le_four_pow hd hsmall ν).trans (div_le_self w6Gamma0_pos.le (one_le_pow₀ (by norm_num)))
 
 /-- `q_ν ≤ γ₀ 2^{-ν}`. -/
-theorem q_le_two_pow (ν : ℕ) : d.q ν ≤ w6Gamma0 / 2 ^ ν := by
+theorem q_le_two_pow (ν : ℕ) : d.qNu ν ≤ w6Gamma0 / 2 ^ ν := by
   refine (q_le_four_pow hd hsmall ν).trans ?_
   apply div_le_div_of_nonneg_left w6Gamma0_pos.le (by positivity)
   exact pow_le_pow_left₀ (by norm_num) (by norm_num) ν
 
 /-- `q_{ν+1} ≤ q_ν/4`. -/
-theorem q_succ_le (ν : ℕ) : d.q (ν + 1) ≤ d.q ν / 4 :=
-  q_succ_le_of hd ν (q_pos hd ν).le (q_le_gamma0 hd hsmall ν)
+theorem q_succ_le (ν : ℕ) : d.qNu (ν + 1) ≤ d.qNu ν / 4 :=
+  q_succ_le_of hd ν (qNu_pos hd ν).le (q_le_gamma0 hd hsmall ν)
 
 /-- **Iterative lemma, the bounds on `q_ν`** (blueprint `bpW:w6:iter-lemma`): under
 `ε₀ ≤ γ₀ α₀ σ₀^t`, `q_ν ≤ γ₀ 2^{-ν}` and `q_{ν+1} ≤ q_ν/4` for every `ν`. -/
 theorem w6Iter_q_bounds (ν : ℕ) :
-    d.q ν ≤ w6Gamma0 / 2 ^ ν ∧ d.q (ν + 1) ≤ d.q ν / 4 :=
+    d.qNu ν ≤ w6Gamma0 / 2 ^ ν ∧ d.qNu (ν + 1) ≤ d.qNu ν / 4 :=
   ⟨q_le_two_pow hd hsmall ν, q_succ_le hd hsmall ν⟩
 
 /-- `η_ν ≤ γ₀^{1/3} ≤ 1/8` (step `il-small`). -/
-theorem eta_le (ν : ℕ) : d.eta ν ≤ 1 / 8 := by
-  have h : d.eta ν ≤ w6GammaBase⁻¹ := by
+theorem eta_le (ν : ℕ) : d.etaNu ν ≤ 1 / 8 := by
+  have h : d.etaNu ν ≤ w6GammaBase⁻¹ := by
     rw [eta_eq_q, ← w6Gamma0_rpow_third]
-    exact Real.rpow_le_rpow (q_pos hd ν).le (q_le_gamma0 hd hsmall ν) (by norm_num)
+    exact Real.rpow_le_rpow (qNu_pos hd ν).le (q_le_gamma0 hd hsmall ν) (by norm_num)
   refine h.trans ?_
   rw [inv_le_comm₀ w6GammaBase_pos (by norm_num)]
   have := w6GammaBase_ge_big
@@ -190,15 +192,15 @@ theorem eta_le (ν : ℕ) : d.eta ν ≤ 1 / 8 := by
 /-- **W5's smallness at stage `ν`** (step `il-small`): `ε_ν ≤ α_ν σ_ν^t η_ν²/c₀`
 (`bpW:w5:small`). -/
 theorem eps_le_small (ν : ℕ) :
-    d.eps ν ≤ d.alpha ν * d.sigma ν ^ w6T * d.eta ν ^ 2 / w6C0 := by
-  have hq := q_pos hd ν
+    d.eps ν ≤ d.alpha ν * d.sigma ν ^ w6T * d.etaNu ν ^ 2 / w6C0 := by
+  have hq := qNu_pos hd ν
   have hX := w6GammaBase_pos
   have hc0 := w6C0_pos
   -- `η = q^{1/3} ≤ X⁻¹ ≤ c₀⁻¹`, and `q = η³`
-  have hη3 : d.eta ν ^ 3 = d.q ν := by
+  have hη3 : d.etaNu ν ^ 3 = d.qNu ν := by
     rw [eta_eq_q, ← Real.rpow_natCast, ← Real.rpow_mul hq.le]; norm_num
-  have hη : d.eta ν ≤ w6C0⁻¹ := by
-    have h : d.eta ν ≤ w6GammaBase⁻¹ := by
+  have hη : d.etaNu ν ≤ w6C0⁻¹ := by
+    have h : d.etaNu ν ≤ w6GammaBase⁻¹ := by
       rw [eta_eq_q, ← w6Gamma0_rpow_third]
       exact Real.rpow_le_rpow hq.le (q_le_gamma0 hd hsmall ν) (by norm_num)
     refine h.trans (inv_anti₀ hc0 ?_)
@@ -210,26 +212,26 @@ theorem eps_le_small (ν : ℕ) :
   have hb := alpha_sigma_pos hd ν
   rw [eps_eq_q hd ν, ← hη3]
   rw [le_div_iff₀ hc0]
-  have : d.eta ν * w6C0 ≤ 1 := by
-    calc d.eta ν * w6C0 ≤ w6C0⁻¹ * w6C0 := by gcongr
+  have : d.etaNu ν * w6C0 ≤ 1 := by
+    calc d.etaNu ν * w6C0 ≤ w6C0⁻¹ * w6C0 := by gcongr
       _ = 1 := inv_mul_cancel₀ hc0.ne'
-  have h2 : 0 ≤ d.eta ν ^ 2 * (d.alpha ν * d.sigma ν ^ w6T) := by positivity
-  calc d.eta ν ^ 3 * (d.alpha ν * d.sigma ν ^ w6T) * w6C0
-      = (d.eta ν * w6C0) * (d.eta ν ^ 2 * (d.alpha ν * d.sigma ν ^ w6T)) := by ring
-    _ ≤ 1 * (d.eta ν ^ 2 * (d.alpha ν * d.sigma ν ^ w6T)) := by gcongr
-    _ = d.alpha ν * d.sigma ν ^ w6T * d.eta ν ^ 2 := by ring
+  have h2 : 0 ≤ d.etaNu ν ^ 2 * (d.alpha ν * d.sigma ν ^ w6T) := by positivity
+  calc d.etaNu ν ^ 3 * (d.alpha ν * d.sigma ν ^ w6T) * w6C0
+      = (d.etaNu ν * w6C0) * (d.etaNu ν ^ 2 * (d.alpha ν * d.sigma ν ^ w6T)) := by ring
+    _ ≤ 1 * (d.etaNu ν ^ 2 * (d.alpha ν * d.sigma ν ^ w6T)) := by gcongr
+    _ = d.alpha ν * d.sigma ν ^ w6T * d.etaNu ν ^ 2 := by ring
 
 /-- `ε_{ν+1} ≤ ε_ν/4` (blueprint `bpW:w6:k0`, proof). -/
 theorem eps_succ_le (ν : ℕ) : d.eps (ν + 1) ≤ d.eps ν / 4 := by
   rw [eps_eq_q hd (ν + 1), eps_eq_q hd ν]
   have h1 := q_succ_le hd hsmall ν
   have h2 := alpha_sigma_succ_le hd ν
-  have h3 := (q_pos hd (ν + 1)).le
+  have h3 := (qNu_pos hd (ν + 1)).le
   have h4 := (alpha_sigma_pos hd (ν + 1)).le
-  calc d.q (ν + 1) * (d.alpha (ν + 1) * d.sigma (ν + 1) ^ w6T)
-      ≤ d.q ν / 4 * (d.alpha ν * d.sigma ν ^ w6T) := mul_le_mul h1 h2 h4 (by
-        have := (q_pos hd ν).le; positivity)
-    _ = d.q ν * (d.alpha ν * d.sigma ν ^ w6T) / 4 := by ring
+  calc d.qNu (ν + 1) * (d.alpha (ν + 1) * d.sigma (ν + 1) ^ w6T)
+      ≤ d.qNu ν / 4 * (d.alpha ν * d.sigma ν ^ w6T) := mul_le_mul h1 h2 h4 (by
+        have := (qNu_pos hd ν).le; positivity)
+    _ = d.qNu ν * (d.alpha ν * d.sigma ν ^ w6T) / 4 := by ring
 
 theorem eps_le_four_pow (ν : ℕ) : d.eps ν ≤ d.eps0 / 4 ^ ν := by
   induction ν with
@@ -258,24 +260,25 @@ theorem sum_three_eps_le (ν : ℕ) : ∑ μ ∈ Finset.range ν, 3 * d.eps μ �
   nlinarith
 
 /-- **Lipschitz growth** (step `il-lip`): `(6π+3) ε_ν/λ_ν ≤ 2^{-ν-2} M_ν`. -/
-theorem lip_growth_le (ν : ℕ) : (6 * π + 3) * d.eps ν / d.lam ν ≤ d.M ν / 2 ^ (ν + 2) := by
+theorem lip_growth_le (ν : ℕ) : (6 * π + 3) * d.eps ν / d.lam ν ≤ d.Mnu ν / 2 ^ (ν + 2) := by
   have hM := M_pos hd ν
   have ha := alpha_pos hd ν
   have hσ := sigma_rpow_le_one hd ν
   have hσ0 := (sigma_rpow_pos hd ν).le
   have hq := q_le_two_pow hd hsmall ν
-  have hq0 := (q_pos hd ν).le
+  have hq0 := (qNu_pos hd ν).le
   have hγ := w6Gamma0_le_small
   have hπ := Real.pi_le_four
   have hp : (0 : ℝ) < 2 ^ ν := by positivity
-  have he : (6 * π + 3) * d.eps ν / d.lam ν = (6 * π + 3) * d.q ν * d.sigma ν ^ w6T * d.M ν := by
+  have he : (6 * π + 3) * d.eps ν / d.lam ν =
+      (6 * π + 3) * d.qNu ν * d.sigma ν ^ w6T * d.Mnu ν := by
     rw [eps_eq_q hd ν, lam]; field_simp
   rw [he]
-  have h1 : (6 * π + 3) * d.q ν * d.sigma ν ^ w6T ≤ 27 * (w6Gamma0 / 2 ^ ν) := by
+  have h1 : (6 * π + 3) * d.qNu ν * d.sigma ν ^ w6T ≤ 27 * (w6Gamma0 / 2 ^ ν) := by
     have : (6 * π + 3) ≤ 27 := by linarith
     have hg : 0 ≤ 27 * (w6Gamma0 / 2 ^ ν) := by have := w6Gamma0_pos; positivity
     have hpi0 : 0 ≤ 6 * π + 3 := by have := Real.pi_pos; linarith
-    calc (6 * π + 3) * d.q ν * d.sigma ν ^ w6T ≤ 27 * (w6Gamma0 / 2 ^ ν) * 1 :=
+    calc (6 * π + 3) * d.qNu ν * d.sigma ν ^ w6T ≤ 27 * (w6Gamma0 / 2 ^ ν) * 1 :=
           mul_le_mul (mul_le_mul this hq hq0 (by norm_num)) hσ hσ0 hg
       _ = 27 * (w6Gamma0 / 2 ^ ν) := mul_one _
   have h2 : 27 * (w6Gamma0 / 2 ^ ν) ≤ 1 / 2 ^ (ν + 2) := by
@@ -285,15 +288,15 @@ theorem lip_growth_le (ν : ℕ) : (6 * π + 3) * d.eps ν / d.lam ν ≤ d.M ν
       nlinarith [w6Gamma0_pos]
     rw [mul_div_assoc', div_le_div_iff₀ hp (by positivity)]
     nlinarith
-  calc (6 * π + 3) * d.q ν * d.sigma ν ^ w6T * d.M ν ≤ 1 / 2 ^ (ν + 2) * d.M ν :=
+  calc (6 * π + 3) * d.qNu ν * d.sigma ν ^ w6T * d.Mnu ν ≤ 1 / 2 ^ (ν + 2) * d.Mnu ν :=
         mul_le_mul_of_nonneg_right (h1.trans h2) hM.le
-    _ = d.M ν / 2 ^ (ν + 2) := by ring
+    _ = d.Mnu ν / 2 ^ (ν + 2) := by ring
 
 end small
 
 /-- `M_ν (1 + 2^{-ν-2}) ≤ M_{ν+1}` (step `il-lip`). -/
-theorem M_growth_le (ν : ℕ) : d.M ν * (1 + 1 / 2 ^ (ν + 2)) ≤ d.M (ν + 1) := by
-  unfold M
+theorem M_growth_le (ν : ℕ) : d.Mnu ν * (1 + 1 / 2 ^ (ν + 2)) ≤ d.Mnu (ν + 1) := by
+  unfold Mnu
   have := hd.M0_pos
   have hp : (0 : ℝ) < 2 ^ ν := by positivity
   rw [show (2 : ℝ) ^ (ν + 2) = 2 ^ ν * 4 by rw [pow_add]; norm_num,
@@ -310,10 +313,10 @@ theorem M_growth_le (ν : ℕ) : d.M ν * (1 + 1 / 2 ^ (ν + 2)) ≤ d.M (ν + 1
 theorem lam_succ_le (ν : ℕ) : d.lam (ν + 1) ≤ d.lam ν := by
   unfold lam
   have ha := alpha_succ_le hd ν
-  have hM : d.M ν ≤ d.M (ν + 1) := by
+  have hM : d.Mnu ν ≤ d.Mnu (ν + 1) := by
     have h := M_growth_le hd ν
     have := M_pos hd ν
-    have : 0 ≤ d.M ν * (1 / 2 ^ (ν + 2)) := by positivity
+    have : 0 ≤ d.Mnu ν * (1 / 2 ^ (ν + 2)) := by positivity
     nlinarith
   exact div_le_div₀ (alpha_pos hd ν).le ha (M_pos hd ν) hM
 
@@ -344,7 +347,7 @@ theorem K_rpow_eq (ν : ℕ) :
 /-- `σ_ν^t = σ₀^t/(2^ν)^{52}`. -/
 theorem sigma_rpow_eq (ν : ℕ) : d.sigma ν ^ w6T = d.sigma 0 ^ w6T / (2 ^ ν) ^ (52 : ℕ) := by
   have h0 : d.sigma ν = d.sigma 0 / 2 ^ ν := by simp [sigma]
-  rw [h0, Real.div_rpow (sigma_pos hd 0).le (by positivity), w6T_eq,
+  rw [h0, Real.div_rpow (sigmaNu_pos hd 0).le (by positivity), w6T_eq,
     show (52 : ℝ) = ((52 : ℕ) : ℝ) by norm_num, Real.rpow_natCast (2 ^ ν : ℝ)]
 
 /-- **Divisors** (step `il-div`): `6π · 4 K_ν^{τ+1} ε_ν ≤ α_ν - α_{ν+1}`. -/
@@ -353,8 +356,8 @@ theorem div_arith (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T) (ν :
   rw [alpha_sub_succ, K_rpow_eq hd, eps_eq_q hd ν, sigma_rpow_eq hd ν]
   have hb := K0_base_pos hd
   have hq := q_le_two_pow hd hsmall ν
-  have hq0 := (q_pos hd ν).le
-  have ha := alpha_le hd ν
+  have hq0 := (qNu_pos hd ν).le
+  have ha := alphaNu_le hd ν
   have ha0 := (alpha_pos hd ν).le
   have hγ := w6Gamma0_pos
   have hσ := sigma_rpow_pos hd 0
@@ -363,12 +366,12 @@ theorem div_arith (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T) (ν :
   have hx1 : 1 ≤ x := one_le_pow₀ (by norm_num)
   have hx0 : 0 < x := by linarith
   -- bound `ε_ν ≤ (γ₀/x) α₀ σ₀^t/x^{52}`
-  have hε : d.q ν * (d.alpha ν * (d.sigma 0 ^ w6T / x ^ (52 : ℕ))) ≤
+  have hε : d.qNu ν * (d.alpha ν * (d.sigma 0 ^ w6T / x ^ (52 : ℕ))) ≤
       w6Gamma0 / x * (d.al0 * (d.sigma 0 ^ w6T / x ^ (52 : ℕ))) := by gcongr
   have e2 : (2 : ℝ) ^ (ν + 2) = 4 * x := by rw [hx, pow_add]; ring
   rw [e2]
   calc 6 * π * (4 * (x ^ (25 : ℕ) / (96 * π * w6Gamma0 * d.sigma 0 ^ w6T))) *
-        (d.q ν * (d.alpha ν * (d.sigma 0 ^ w6T / x ^ (52 : ℕ))))
+        (d.qNu ν * (d.alpha ν * (d.sigma 0 ^ w6T / x ^ (52 : ℕ))))
       ≤ 6 * π * (4 * (x ^ (25 : ℕ) / (96 * π * w6Gamma0 * d.sigma 0 ^ w6T))) *
         (w6Gamma0 / x * (d.al0 * (d.sigma 0 ^ w6T / x ^ (52 : ℕ)))) := by gcongr
     _ = d.al0 / (4 * x) * (1 / x ^ (27 : ℕ)) := by field_simp; ring
@@ -380,9 +383,9 @@ theorem div_arith (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T) (ν :
 
 /-- `M_{F,ν} = c_F ε_ν/(α_ν σ_ν^{t-1}) = c_F q_ν σ_ν` (blueprint `bpW:w6:iter-lemma`). -/
 theorem stepMF_eq (ν : ℕ) :
-    stepMF w6CF w6T (d.alpha ν) (d.sigma ν) (d.eps ν) = w6CF * d.q ν * d.sigma ν := by
-  have hσ := sigma_pos hd ν
-  unfold stepMF q
+    stepMF w6CF w6T (d.alpha ν) (d.sigma ν) (d.eps ν) = w6CF * d.qNu ν * d.sigma ν := by
+  have hσ := sigmaNu_pos hd ν
+  unfold stepMF qNu
   rw [Real.rpow_sub hσ, Real.rpow_one]
   have := alpha_pos hd ν
   have := sigma_rpow_pos hd ν
@@ -392,7 +395,7 @@ theorem stepMF_eq (ν : ℕ) :
 theorem transf_arith (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T) (ν : ℕ) :
     16 * stepMF w6CF w6T (d.alpha ν) (d.sigma ν) (d.eps ν) / d.sigma ν ≤ 1 / 2 ^ (ν + 2) := by
   rw [stepMF_eq hd ν]
-  have hσ := sigma_pos hd ν
+  have hσ := sigmaNu_pos hd ν
   have hq := q_le_two_pow hd hsmall ν
   have hcF := w6CF_pos
   have hγX := w6Gamma0_le_inv
@@ -413,9 +416,9 @@ theorem transf_arith (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T) (�
       _ ≤ w6GammaBase * w6GammaBase⁻¹ := by gcongr
       _ = 1 := mul_inv_cancel₀ hX.ne'
   have hp : (0 : ℝ) < 2 ^ ν := by positivity
-  have e : 16 * (w6CF * d.q ν * d.sigma ν) / d.sigma ν = 16 * w6CF * d.q ν := by field_simp
+  have e : 16 * (w6CF * d.qNu ν * d.sigma ν) / d.sigma ν = 16 * w6CF * d.qNu ν := by field_simp
   rw [e, pow_add]
-  calc 16 * w6CF * d.q ν ≤ 16 * w6CF * (w6Gamma0 / 2 ^ ν) := by gcongr
+  calc 16 * w6CF * d.qNu ν ≤ 16 * w6CF * (w6Gamma0 / 2 ^ ν) := by gcongr
     _ = (64 * w6CF * w6Gamma0) * (1 / (2 ^ ν * 2 ^ 2)) := by field_simp; ring
     _ ≤ 1 * (1 / (2 ^ ν * 2 ^ 2)) := by gcongr
     _ = 1 / (2 ^ ν * 2 ^ 2) := one_mul _

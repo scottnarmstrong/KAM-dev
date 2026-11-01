@@ -25,7 +25,7 @@ Fixed: `a = p = 1`, `p_+ = p + 1/2 = 3/2`, `τ = 24`, W4's guard constant `γ_G 
   `(bpW:w6:melnikov)` at level `α_ν` on `Π` (W7 index, Dirichlet weight), a periodic family
   `P ∈ 𝒮_{p_+}(D_ν)` on `Π` with `|X_P|^{λ_ν}_{r_ν, D_ν} ≤ ε_ν`;
 * `W6Stage`: the same with `P` real (all hypotheses of the lemma at stage `ν`);
-* `W6Stage.stepHyp`: W5's step data `StepHypSrc` at stage `ν` (step `il-small`), with
+* `W6Stage.stageStepHyp`: W5's step data `StepHypSrc` at stage `ν` (step `il-small`), with
   `s_ν, σ_ν, η_ν, r_ν, α_ν, λ_ν, ε_ν`;
 * the objects of the step at stage `ν`: `Φ_{ν+1}` (`W6Stage.PhiN`), `ω_{ν+1}`, `Ω_{ν+1}`
   (`omN`, `OmN`), `P_{ν+1}`, `X_{P_{ν+1}}` (`PN`, `XN`), and `Π_{ν+1}` (`PiN`).
@@ -44,19 +44,19 @@ namespace W6SeqData
 
 variable {d : W6SeqData}
 
-theorem w6r_pos (hd : d.Valid) : ∀ ν, 0 < d.r ν
+theorem w6r_pos (hd : d.SeqValid) : ∀ ν, 0 < d.rNu ν
   | 0 => hd.r0_pos
   | ν + 1 => mul_pos (eta_pos hd ν) (w6r_pos hd ν)
 
-theorem s_pos (hd : d.Valid) (ν : ℕ) : 0 < d.s ν := by
+theorem s_pos (hd : d.SeqValid) (ν : ℕ) : 0 < d.s ν := by
   have h := sInf_le_s hd ν
-  unfold sInf at h
+  unfold sInfty at h
   have := hd.s0_pos
   linarith
 
-theorem five_sigma_lt (hd : d.Valid) (ν : ℕ) : 5 * d.sigma ν < d.s ν := by
+theorem five_sigma_lt (hd : d.SeqValid) (ν : ℕ) : 5 * d.sigma ν < d.s ν := by
   have h1 := sigma_le_s_div_six hd ν
-  have h2 := sigma_pos hd ν
+  have h2 := sigmaNu_pos hd ν
   linarith
 
 end W6SeqData
@@ -85,16 +85,16 @@ structure W6StageCore (d : W6SeqData) (ν : ℕ) (Pi : Set (Fin 2 → ℝ))
     (ω : (Fin 2 → ℝ) → Fin 2 → ℝ) (Ω : (Fin 2 → ℝ) → ℕ+ → ℝ) (P : (Fin 2 → ℝ) → KamPhase → ℂ)
     (X : (Fin 2 → ℝ) → KamPhase → KamPhase) : Prop where
   /-- `(bpW:w5:freq)` on `Π` with `M_ω + M_Ω ≤ M_ν` -/
-  freq : ∃ T Mω MΩ : ℝ, HomFreqHyp Pi ω Ω T Mω MΩ ∧ Mω + MΩ ≤ d.M ν
+  freq : ∃ T Mω MΩ : ℝ, HomFreqHyp Pi ω Ω T Mω MΩ ∧ Mω + MΩ ≤ d.Mnu ν
   /-- `(bpW:w6:melnikov)` at level `α_ν` on `Π` -/
   mel : W6Mel (d.alpha ν) Pi ω (fun ξ => w6Om7 (Ω ξ))
   /-- `P ∈ 𝒮_{p_+}(D_ν)`, `p_+ = 3/2` -/
   smooth : ∀ ξ ∈ Pi, IsSmoothing (a := 1) (p := 1) (pb := 3 / 2) zero_le_one (by norm_num)
-    (d.dom ν) (P ξ) (X ξ)
+    (d.domNu ν) (P ξ) (X ξ)
   /-- `P` is periodic -/
-  per : ∀ ξ ∈ Pi, ∀ i, ∀ w ∈ d.dom ν, P ξ (w + stepTau i) = P ξ w
+  per : ∀ ξ ∈ Pi, ∀ i, ∀ w ∈ d.domNu ν, P ξ (w + stepTau i) = P ξ w
   /-- `|X_P|^{λ_ν}_{r_ν, D_ν} ≤ ε_ν` -/
-  bound : FamBound Pi (d.dom ν) (d.r ν) (d.lam ν) (d.eps ν) X
+  bound : FamBound Pi (d.domNu ν) (d.rNu ν) (d.lam ν) (d.eps ν) X
 
 /-- The hypotheses of Lemma `bpW:w6:iter-lemma` at stage `ν` (blueprint `bpW:w6:iter-lemma`). -/
 structure W6Stage (d : W6SeqData) (ν : ℕ) (Pi : Set (Fin 2 → ℝ))
@@ -102,7 +102,7 @@ structure W6Stage (d : W6SeqData) (ν : ℕ) (Pi : Set (Fin 2 → ℝ))
     (X : (Fin 2 → ℝ) → KamPhase → KamPhase) : Prop
     extends W6StageCore d ν Pi ω Ω P X where
   /-- `P` is real -/
-  real : ∀ ξ ∈ Pi, ∀ w ∈ d.dom ν, StepReal w → (P ξ w).im = 0
+  real : ∀ ξ ∈ Pi, ∀ w ∈ d.domNu ν, StepReal w → (P ξ w).im = 0
 
 namespace W6Stage
 
@@ -123,22 +123,22 @@ def w6StageE0 (h : W6Stage d ν Pi ω Ω P X) : ℝ := h.bound.choose
 def w6StageE1 (h : W6Stage d ν Pi ω Ω P X) : ℝ := h.bound.choose_spec.choose
 
 theorem freq_spec (h : W6Stage d ν Pi ω Ω P X) :
-    HomFreqHyp Pi ω Ω h.w6StageTail (d.M ν - h.MO) h.MO := by
+    HomFreqHyp Pi ω Ω h.w6StageTail (d.Mnu ν - h.MO) h.MO := by
   obtain ⟨hf, hle⟩ := h.freq.choose_spec.choose_spec.choose_spec
   exact hf.w6mono subset_rfl (by unfold MO; linarith)
 
 theorem bound_spec (h : W6Stage d ν Pi ω Ω P X) :
     0 ≤ h.w6StageE0 ∧ 0 ≤ h.w6StageE1 ∧ h.w6StageE0 + d.lam ν * h.w6StageE1 ≤ d.eps ν ∧
-      (∀ ξ ∈ Pi, ∀ w ∈ d.dom ν, kamNorm (d.r ν) (X ξ w) ≤ h.w6StageE0) ∧
-      (∀ ξ ∈ Pi, ∀ ζ ∈ Pi, ∀ w ∈ d.dom ν,
-        kamNorm (d.r ν) (X ξ w - X ζ w) ≤ h.w6StageE1 * ‖ξ - ζ‖) :=
+      (∀ ξ ∈ Pi, ∀ w ∈ d.domNu ν, kamNorm (d.rNu ν) (X ξ w) ≤ h.w6StageE0) ∧
+      (∀ ξ ∈ Pi, ∀ ζ ∈ Pi, ∀ w ∈ d.domNu ν,
+        kamNorm (d.rNu ν) (X ξ w - X ζ w) ≤ h.w6StageE1 * ‖ξ - ζ‖) :=
   h.bound.choose_spec.choose_spec
 
 /-- **W5's step applies at stage `ν`** (blueprint `bpW:w6:iter-lemma`, step `il-small`). -/
-theorem stepHyp (hd : d.Valid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
+theorem stageStepHyp (hd : d.SeqValid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
     (h : W6Stage d ν Pi ω Ω P X) :
-    StepHypSrc 1 1 (3 / 2) (d.s ν) (d.r ν) (d.sigma ν) (d.eta ν) w6Tau (d.alpha ν) (d.lam ν)
-      (d.eps ν) h.w6StageE0 h.w6StageE1 w6GamG h.w6StageTail (d.M ν - h.MO) h.MO Pi ω Ω P X := by
+    StepHypSrc 1 1 (3 / 2) (d.s ν) (d.rNu ν) (d.sigma ν) (d.etaNu ν) w6Tau (d.alpha ν) (d.lam ν)
+      (d.eps ν) h.w6StageE0 h.w6StageE1 w6GamG h.w6StageTail (d.Mnu ν - h.MO) h.MO Pi ω Ω P X := by
   obtain ⟨b0, b1, bs, bb, bl⟩ := h.bound_spec
   have hM := W6SeqData.M_pos hd ν
   exact
@@ -152,7 +152,7 @@ theorem stepHyp (hd : d.Valid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0
     hα := W6SeqData.alpha_pos hd ν
     hs := W6SeqData.s_pos hd ν
     hr := W6SeqData.w6r_pos hd ν
-    hσ := W6SeqData.sigma_pos hd ν
+    hσ := W6SeqData.sigmaNu_pos hd ν
     hσ1 := (W6SeqData.sigma_le_quarter hd ν).trans (by norm_num)
     hσs := W6SeqData.five_sigma_lt hd ν
     hη0 := W6SeqData.eta_pos hd ν
@@ -168,51 +168,52 @@ theorem stepHyp (hd : d.Valid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0
     hper := h.per
     hreal := h.real
     hε₀ := b0
-    hεpos := W6SeqData.eps_pos hd ν
+    hεpos := W6SeqData.epsNu_pos hd ν
     hε₁ := b1
     hb := bb
     hdiff := bl
     hε := bs
     small := W6SeqData.eps_le_small hd hsmall ν }
 
-theorem factRPos (hd : d.Valid) (ν : ℕ) : Fact (0 < d.r ν) := ⟨W6SeqData.w6r_pos hd ν⟩
+theorem factRPos (hd : d.SeqValid) (ν : ℕ) : Fact (0 < d.rNu ν) := ⟨W6SeqData.w6r_pos hd ν⟩
 
 /-- `ω_{ν+1}` (on `Π_ν`). -/
-def omN (hd : d.Valid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
+def omN (hd : d.SeqValid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
     (h : W6Stage d ν Pi ω Ω P X) : (Fin 2 → ℝ) → Fin 2 → ℝ :=
-  (h.stepHyp hd hsmall).hyp.core.omegaPlus
+  (h.stageStepHyp hd hsmall).hyp.core.omegaPlus
 
 /-- `Ω_{ν+1}` (on `Π_ν`; W5 index). -/
-def OmN (hd : d.Valid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
+def OmN (hd : d.SeqValid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
     (h : W6Stage d ν Pi ω Ω P X) : (Fin 2 → ℝ) → ℕ+ → ℝ :=
-  (h.stepHyp hd hsmall).hyp.core.OmegaPlus
+  (h.stageStepHyp hd hsmall).hyp.core.OmegaPlus
 
 /-- `Φ_{ν+1}` (on `Π_ν`), a map of `𝒫` with the norm `|·|_{r_ν}`. -/
-def PhiN (hd : d.Valid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
-    (h : W6Stage d ν Pi ω Ω P X) (ξ : Fin 2 → ℝ) : StepPhase (d.r ν) → StepPhase (d.r ν) :=
+def PhiN (hd : d.SeqValid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
+    (h : W6Stage d ν Pi ω Ω P X) (ξ : Fin 2 → ℝ) : StepPhase (d.rNu ν) → StepPhase (d.rNu ν) :=
   haveI := factRPos hd ν
-  (h.stepHyp hd hsmall).hyp.core.Phi ξ
+  (h.stageStepHyp hd hsmall).hyp.core.Phi ξ
 
 /-- `P_{ν+1}` (on `Π_ν`). -/
-def PN (hd : d.Valid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
+def PN (hd : d.SeqValid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
     (h : W6Stage d ν Pi ω Ω P X) : (Fin 2 → ℝ) → KamPhase → ℂ :=
   haveI := factRPos hd ν
-  fun ξ w => (h.stepHyp hd hsmall).hyp.core.Pplus ξ (StepPhase.ofK (r := d.r ν) w)
+  fun ξ w => (h.stageStepHyp hd hsmall).hyp.core.Pplus ξ (StepPhase.ofK (r := d.rNu ν) w)
 
 /-- `X_{P_{ν+1}}` (on `Π_ν`). -/
-def XN (hd : d.Valid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
+def XN (hd : d.SeqValid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
     (h : W6Stage d ν Pi ω Ω P X) : (Fin 2 → ℝ) → KamPhase → KamPhase :=
   haveI := factRPos hd ν
-  fun ξ w => StepPhase.toK ((h.stepHyp hd hsmall).hyp.core.Xplus ξ (StepPhase.ofK (r := d.r ν) w))
+  fun ξ w => StepPhase.toK
+    ((h.stageStepHyp hd hsmall).hyp.core.Xplus ξ (StepPhase.ofK (r := d.rNu ν) w))
 
 /-- `Π_{ν+1} = Π_ν ∖ ⋃_{(k,l) ∈ Z, |k| > K_ν} R^{ν+1}_{kl}`, the zones of `(ω_{ν+1}, Ω_{ν+1})` at
 level `α_{ν+1}` on `Π_ν`. -/
-def PiN (hd : d.Valid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
+def PiN (hd : d.SeqValid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
     (h : W6Stage d ν Pi ω Ω P X) : Set (Fin 2 → ℝ) :=
   Pi \ ⋃ (k : Fin 2 → ℤ) (l : ℕ →₀ ℤ) (_ : InZ k l ∧ d.K ν < kAbs k),
     zoneSet Pi (h.omN hd hsmall) (fun ξ => w6Om7 (h.OmN hd hsmall ξ)) (d.alpha (ν + 1)) k l
 
-theorem PiN_subset (hd : d.Valid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
+theorem PiN_subset (hd : d.SeqValid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
     (h : W6Stage d ν Pi ω Ω P X) : h.PiN hd hsmall ⊆ Pi := Set.sdiff_subset
 
 end W6Stage

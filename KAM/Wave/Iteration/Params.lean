@@ -174,15 +174,15 @@ theorem w6_exclusion (m : ℝ) (hm : 0 < m) {Pi : Set (Fin 2 → ℝ)} {α : ℝ
 thresholds `K_ν` (blueprint `bpW:w6:exclusion`: "the thresholds are `K_ν ≥ 2^ν` and the levels
 `α_ν ≤ α̌`"). -/
 theorem w6_exclusion_seq (m : ℝ) (hm : 0 < m) {Pi : Set (Fin 2 → ℝ)} {α : ℝ}
-    (d : W6SeqData) (hd : d.Valid) (hal : d.al0 = alphaCheck α)
+    (d : W6SeqData) (hd : d.SeqValid) (hal : d.al0 = alphaCheck α)
     (F : AdmissibleFamily m hm Pi α) (hK : ∀ ν, F.K ν = d.K ν)
-    (hD : ∀ ν, F.D ν = w6PiSeq (Pi \ prepSet m hm Pi α) F.ω F.Ω d.alpha d.Kprev ν) :
-    Pi \ w6PiStar (Pi \ prepSet m hm Pi α) F.ω F.Ω d.alpha d.Kprev ⊆ exclSet m hm F := by
-  have hKp : F.Kprev m hm = d.Kprev := by
+    (hD : ∀ ν, F.D ν = w6PiSeq (Pi \ prepSet m hm Pi α) F.ω F.Ω d.alpha d.KprevNu ν) :
+    Pi \ w6PiStar (Pi \ prepSet m hm Pi α) F.ω F.Ω d.alpha d.KprevNu ⊆ exclSet m hm F := by
+  have hKp : F.Kprev m hm = d.KprevNu := by
     funext ν; cases ν with
     | zero => rfl
     | succ n => exact hK n
   rw [← hKp] at hD ⊢
-  exact w6_exclusion m hm F d.alpha (fun ν => hal ▸ W6SeqData.alpha_le hd ν) hD
+  exact w6_exclusion m hm F d.alpha (fun ν => hal ▸ W6SeqData.alphaNu_le hd ν) hD
 
 end KAM.Wave

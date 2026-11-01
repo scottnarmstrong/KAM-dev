@@ -226,7 +226,7 @@ theorem waveSeq_lam_zero (r ε ε₀ : ℝ) :
 of `P_0` (`W6ConvHyp` minus `real`), for `ε₀ ∈ [ε^♭_0, γ₁ α̌]`. -/
 theorem waveConv_parts (H : W6PrepHyp m hm Pi α r ε P X) {ε₀ : ℝ}
     (hlo : w6EpsFlat α ε ≤ ε₀) (hhi : ε₀ ≤ w6Gamma1 m hm * alphaCheck α) :
-    (w6WaveSeq m hm α r ε ε₀).Valid ∧
+    (w6WaveSeq m hm α r ε ε₀).SeqValid ∧
     (w6WaveSeq m hm α r ε ε₀).eps0 ≤ w6Gamma0 * (w6WaveSeq m hm α r ε ε₀).al0 *
       (w6WaveSeq m hm α r ε ε₀).sigma 0 ^ w6T ∧
     (∃ T Mω MΩ : ℝ, HomFreqHyp (Pi \ prepSet m hm Pi α) H.om0 H.Om0 T Mω MΩ ∧
@@ -235,8 +235,8 @@ theorem waveConv_parts (H : W6PrepHyp m hm Pi α r ε P X) {ε₀ : ℝ}
     8 * (w6WaveSeq m hm α r ε ε₀).eps0 ≤ measBetaStar m ∧
     (∀ ξ ∈ Pi \ prepSet m hm Pi α, ∀ l : ℕ →₀ ℤ, IsLam l →
       2 * measBetaStar m * japL l ≤ |linF l (w6Om7 (H.Om0 ξ))|) ∧
-    FamBound (Pi \ prepSet m hm Pi α) ((w6WaveSeq m hm α r ε ε₀).dom 0)
-      ((w6WaveSeq m hm α r ε ε₀).r 0) ((w6WaveSeq m hm α r ε ε₀).lam 0)
+    FamBound (Pi \ prepSet m hm Pi α) ((w6WaveSeq m hm α r ε ε₀).domNu 0)
+      ((w6WaveSeq m hm α r ε ε₀).rNu 0) ((w6WaveSeq m hm α r ε ε₀).lam 0)
       ((w6WaveSeq m hm α r ε ε₀).eps 0) H.X0 := by
   have hflat := w6EpsFlat_pos H.hα H.hε
   have hε₀ : 0 < ε₀ := lt_of_lt_of_le hflat hlo
@@ -265,7 +265,7 @@ theorem w6Applicable_of_stepRealMod (hRm : W6StepRealMod) (H : W6PrepHyp m hm Pi
   obtain ⟨hv, hs, hf, hb, h8, hk, hfb⟩ := H.waveConv_parts hlo hhi
   obtain ⟨hsm, hper, -⟩ := H.w6size
   exact ⟨hv, hs, hf, hb, h8, hk, hsm, hper, fun ξ hξ w hw hwr =>
-    hRm _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ H.stepHyp.hyp ξ hξ (StepPhase.ofK w) hw hwr, hfb⟩
+    hRm _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ H.prepStepHyp.hyp ξ hξ (StepPhase.ofK w) hw hwr, hfb⟩
 
 /-- **Applicability** (blueprint `bpW:w6:applicable`): the hypotheses of Proposition
 `bpW:w6:convergence` hold for the wave iteration (Definition `bpW:w6:wave-iteration`,

@@ -70,7 +70,7 @@ theorem w6prod_le_two (n : ℕ) : ∏ μ ∈ Finset.range n, (1 + 1 / (2 : ℝ) 
 
 namespace W6SeqData
 
-variable {d : W6SeqData} (hd : d.Valid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
+variable {d : W6SeqData} (hd : d.SeqValid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
 include hd hsmall
 
 /-- `∑_{ν<n} ε_ν ≤ 4ε₀/3`. -/
@@ -97,7 +97,7 @@ theorem sum_eps_div_lam_le (n : ℕ) :
         refine Finset.sum_le_sum fun ν _ => ?_
         have hl := lam_pos hd ν
         have hge := lam_ge hd ν
-        have he := (eps_pos hd ν).le
+        have he := (epsNu_pos hd ν).le
         rw [div_le_iff₀ hl]
         calc d.eps ν = 4 / d.lam 0 * d.eps ν * (d.lam 0 / 4) := by field_simp
           _ ≤ 4 / d.lam 0 * d.eps ν * d.lam ν := by gcongr
@@ -130,68 +130,70 @@ theorem freq_lip_sum_le (n : ℕ) :
     nlinarith
 
 /-- `q_ν σ_ν ≤ q₀ σ₀ 8^{-ν}`. -/
-theorem q_sigma_le (ν : ℕ) : d.q ν * d.sigma ν ≤ d.q 0 * d.sigma 0 / 8 ^ ν := by
-  have h : ∀ ν, d.q ν ≤ d.q 0 / 4 ^ ν := by
+theorem q_sigma_le (ν : ℕ) : d.qNu ν * d.sigma ν ≤ d.qNu 0 * d.sigma 0 / 8 ^ ν := by
+  have h : ∀ ν, d.qNu ν ≤ d.qNu 0 / 4 ^ ν := by
     intro ν
     induction ν with
     | zero => simp
     | succ n ih =>
-      calc d.q (n + 1) ≤ d.q n / 4 := q_succ_le hd hsmall n
-        _ ≤ d.q 0 / 4 ^ n / 4 := by gcongr
-        _ = d.q 0 / 4 ^ (n + 1) := by rw [pow_succ]; ring
+      calc d.qNu (n + 1) ≤ d.qNu n / 4 := q_succ_le hd hsmall n
+        _ ≤ d.qNu 0 / 4 ^ n / 4 := by gcongr
+        _ = d.qNu 0 / 4 ^ (n + 1) := by rw [pow_succ]; ring
   have hs : d.sigma ν = d.sigma 0 / 2 ^ ν := by simp [sigma]
   rw [hs]
-  have hσ := (sigma_pos hd 0).le
-  have hq0 := (q_pos hd 0).le
-  calc d.q ν * (d.sigma 0 / 2 ^ ν) ≤ d.q 0 / 4 ^ ν * (d.sigma 0 / 2 ^ ν) := by
+  have hσ := (sigmaNu_pos hd 0).le
+  have hq0 := (qNu_pos hd 0).le
+  calc d.qNu ν * (d.sigma 0 / 2 ^ ν) ≤ d.qNu 0 / 4 ^ ν * (d.sigma 0 / 2 ^ ν) := by
         gcongr; exact h ν
-    _ = d.q 0 * d.sigma 0 / 8 ^ ν := by
+    _ = d.qNu 0 * d.sigma 0 / 8 ^ ν := by
         rw [show (8 : ℝ) ^ ν = 4 ^ ν * 2 ^ ν by rw [← mul_pow]; norm_num]; field_simp
 
 /-- `e_Φ = 5 c_F ε₀/(α₀ σ₀^{t-1})` (blueprint `bpW:w6:convergence` (iii)). -/
 def ePhi (d : W6SeqData) : ℝ := 5 * stepMF w6CF w6T d.al0 (d.sigma 0) d.eps0
 
 omit hsmall in
-theorem ePhi_eq : d.ePhi = 5 * w6CF * d.q 0 * d.sigma 0 := by
+theorem ePhi_eq : d.ePhi = 5 * w6CF * d.qNu 0 * d.sigma 0 := by
   have h := stepMF_eq hd 0
   rw [alpha_zero] at h
   unfold ePhi; rw [show d.eps0 = d.eps 0 from rfl, h]; ring
 
 /-- Step `c-cauchy`, tails: `∑_{n ≤ ν < N} 4 c_F q_ν σ_ν ≤ e_Φ 8^{-n}`. -/
 theorem cauchy_tail_le (n N : ℕ) :
-    ∑ ν ∈ Finset.Ico n N, 4 * w6CF * d.q ν * d.sigma ν ≤ d.ePhi / 8 ^ n := by
+    ∑ ν ∈ Finset.Ico n N, 4 * w6CF * d.qNu ν * d.sigma ν ≤ d.ePhi / 8 ^ n := by
   rw [ePhi_eq hd]
   have hc := w6CF_pos
-  have hqs : 0 ≤ d.q 0 * d.sigma 0 := (mul_pos (q_pos hd 0) (sigma_pos hd 0)).le
-  calc ∑ ν ∈ Finset.Ico n N, 4 * w6CF * d.q ν * d.sigma ν
-      ≤ ∑ ν ∈ Finset.Ico n N, 4 * w6CF * (d.q 0 * d.sigma 0) * (1 / 8 ^ ν) := by
+  have hqs : 0 ≤ d.qNu 0 * d.sigma 0 := (mul_pos (qNu_pos hd 0) (sigmaNu_pos hd 0)).le
+  calc ∑ ν ∈ Finset.Ico n N, 4 * w6CF * d.qNu ν * d.sigma ν
+      ≤ ∑ ν ∈ Finset.Ico n N, 4 * w6CF * (d.qNu 0 * d.sigma 0) * (1 / 8 ^ ν) := by
         refine Finset.sum_le_sum fun ν _ => ?_
         have := q_sigma_le hd hsmall ν
-        calc 4 * w6CF * d.q ν * d.sigma ν = 4 * w6CF * (d.q ν * d.sigma ν) := by ring
-          _ ≤ 4 * w6CF * (d.q 0 * d.sigma 0 / 8 ^ ν) := by gcongr
-          _ = 4 * w6CF * (d.q 0 * d.sigma 0) * (1 / 8 ^ ν) := by ring
-    _ = 4 * w6CF * (d.q 0 * d.sigma 0) * ∑ ν ∈ Finset.Ico n N, 1 / (8 : ℝ) ^ ν := by
+        calc 4 * w6CF * d.qNu ν * d.sigma ν = 4 * w6CF * (d.qNu ν * d.sigma ν) := by ring
+          _ ≤ 4 * w6CF * (d.qNu 0 * d.sigma 0 / 8 ^ ν) := by gcongr
+          _ = 4 * w6CF * (d.qNu 0 * d.sigma 0) * (1 / 8 ^ ν) := by ring
+    _ = 4 * w6CF * (d.qNu 0 * d.sigma 0) * ∑ ν ∈ Finset.Ico n N, 1 / (8 : ℝ) ^ ν := by
         rw [Finset.mul_sum]
-    _ ≤ 4 * w6CF * (d.q 0 * d.sigma 0) * (8 / (8 - 1) / 8 ^ n) := by
+    _ ≤ 4 * w6CF * (d.qNu 0 * d.sigma 0) * (8 / (8 - 1) / 8 ^ n) := by
         gcongr; exact sum_inv_pow_Ico_le (by norm_num) n N
-    _ ≤ 5 * w6CF * d.q 0 * d.sigma 0 / 8 ^ n := by
+    _ ≤ 5 * w6CF * d.qNu 0 * d.sigma 0 / 8 ^ n := by
         have hp : (0 : ℝ) < 8 ^ n := by positivity
-        rw [show 4 * w6CF * (d.q 0 * d.sigma 0) * (8 / (8 - 1) / 8 ^ n) =
-          32 / 7 * (w6CF * (d.q 0 * d.sigma 0)) / 8 ^ n by ring,
-          show 5 * w6CF * d.q 0 * d.sigma 0 / 8 ^ n = 5 * (w6CF * (d.q 0 * d.sigma 0)) / 8 ^ n by
+        rw [show 4 * w6CF * (d.qNu 0 * d.sigma 0) * (8 / (8 - 1) / 8 ^ n) =
+          32 / 7 * (w6CF * (d.qNu 0 * d.sigma 0)) / 8 ^ n by ring,
+          show 5 * w6CF * d.qNu 0 * d.sigma 0 / 8 ^ n =
+            5 * (w6CF * (d.qNu 0 * d.sigma 0)) / 8 ^ n by
             ring]
         gcongr; norm_num
 
 /-- Step `c-cauchy`: `∑_{ν<n} 4 c_F q_ν σ_ν ≤ e_Φ`. -/
 theorem cauchy_sum_le (n : ℕ) :
-    ∑ ν ∈ Finset.range n, 4 * w6CF * d.q ν * d.sigma ν ≤ d.ePhi := by
+    ∑ ν ∈ Finset.range n, 4 * w6CF * d.qNu ν * d.sigma ν ≤ d.ePhi := by
   have h := cauchy_tail_le hd hsmall 0 n
   rw [Finset.range_eq_Ico]; simpa using h
 
 omit hsmall in
 /-- `2 · 2 M_{F,ν} = 4 c_F q_ν σ_ν` (step `c-cauchy`). -/
 theorem two_two_MF_eq (ν : ℕ) :
-    2 * (2 * stepMF w6CF w6T (d.alpha ν) (d.sigma ν) (d.eps ν)) = 4 * w6CF * d.q ν * d.sigma ν := by
+    2 * (2 * stepMF w6CF w6T (d.alpha ν) (d.sigma ν) (d.eps ν)) =
+      4 * w6CF * d.qNu ν * d.sigma ν := by
   rw [stepMF_eq hd ν]; ring
 
 end W6SeqData

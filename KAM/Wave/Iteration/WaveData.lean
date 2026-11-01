@@ -258,7 +258,7 @@ theorem w6WaveSeq_sigma_zero (r ε ε₀ : ℝ) : (w6WaveSeq m hm α r ε ε₀)
 /-- The data of Definition `bpW:w6:wave-iteration` satisfy the standing conditions of
 `bpW:w6:sequences`. -/
 theorem w6WaveSeq_valid (hα : 0 < α) (hα0 : α ≤ measAlpha0 m hm) {r ε₀ : ℝ} (hr : 0 < r)
-    (hε : 0 < ε) (hε₀ : 0 < ε₀) : (w6WaveSeq m hm α r ε ε₀).Valid := by
+    (hε : 0 < ε) (hε₀ : 0 < ε₀) : (w6WaveSeq m hm α r ε ε₀).SeqValid := by
   obtain ⟨hc0, hcα, -, h27, -, -⟩ := alpha_facts m hm hα hα0
   have hαh : α ≤ alphaHat α := (alpha_facts m hm hα hα0).2.2.1
   refine ⟨?_, ?_, ?_, hc0, ?_, w6M0_pos m hm, hε₀⟩

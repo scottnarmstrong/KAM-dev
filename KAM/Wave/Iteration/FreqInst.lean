@@ -53,7 +53,7 @@ def waveSeq (H : W6PrepHyp m hm Pi α r ε P X) (ε₀ : ℝ) : ℕ → W6State 
 def waveD (H : W6PrepHyp m hm Pi α r ε P X) (ε₀ : ℝ) (ν : ℕ) : Set (Fin 2 → ℝ) :=
   w6PiSeq (Pi \ prepSet m hm Pi α) (fun n => (H.waveSeq ε₀ n).om)
     (fun n ξ => w6Om7 ((H.waveSeq ε₀ n).Om ξ)) (w6WaveSeq m hm α r ε ε₀).alpha
-    (w6WaveSeq m hm α r ε ε₀).Kprev ν
+    (w6WaveSeq m hm α r ε ε₀).KprevNu ν
 
 variable (hR : W6StepReal) (hRm : W6StepRealMod) (hS : MeasSetup m hm Pi α)
   (H : W6PrepHyp m hm Pi α r ε P X) (hlo : w6EpsFlat α ε ≤ ε₀)

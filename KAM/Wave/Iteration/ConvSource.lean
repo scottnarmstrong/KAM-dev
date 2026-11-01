@@ -42,14 +42,14 @@ local notation "𝒮" => w6Seq d (w6Start d Pm ω0 Ω0 P0 X0)
 /-- **Parameters** (`bpW:w6:convergence` (i)): `Π_ν` is W6-PREP's `w6PiSeq` (index `ν + 1`) of the
 output frequencies `(ω_n, Ω_n)`, levels `α_n` and thresholds `K_{n-1}`. -/
 theorem w6Seq_Pi_eq (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) (ν : ℕ) :
-    (𝒮 ν).Pi = w6PiSeq Pm (fun n => (𝒮 n).om) (fun n ξ => w6Om7 ((𝒮 n).Om ξ)) d.alpha d.Kprev
+    (𝒮 ν).Pi = w6PiSeq Pm (fun n => (𝒮 n).om) (fun n ξ => w6Om7 ((𝒮 n).Om ξ)) d.alpha d.KprevNu
       (ν + 1) :=
   w6Seq_Pi_eq_of_stepReal w6StepReal_holds hC ν
 
 /-- `Π_* = ⋂_ν Π_ν` is W6-PREP's `w6PiStar` of the output frequencies (`bpW:w6:convergence` (i)). -/
 theorem w6PiStarIt_eq (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) :
     w6PiStarIt d (w6Start d Pm ω0 Ω0 P0 X0) =
-      w6PiStar Pm (fun n => (𝒮 n).om) (fun n ξ => w6Om7 ((𝒮 n).Om ξ)) d.alpha d.Kprev :=
+      w6PiStar Pm (fun n => (𝒮 n).om) (fun n ξ => w6Om7 ((𝒮 n).Om ξ)) d.alpha d.KprevNu :=
   w6PiStarIt_eq_of_stepReal w6StepReal_holds hC
 
 /-- **Convergence (i)** (`bpW:w6:convergence` (i)): for the iteration,
@@ -57,8 +57,8 @@ theorem w6PiStarIt_eq (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) :
 `(ω_ν, Ω_ν)` at level `α_ν` in `Π_{ν-1}`. -/
 theorem w6ConvParams (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) :
     Pm \ w6PiStarIt d (w6Start d Pm ω0 Ω0 P0 X0) =
-      ⋃ (ν : ℕ) (k : Fin 2 → ℤ) (l : ℕ →₀ ℤ) (_ : InZ k l ∧ d.Kprev ν < kAbs k),
-        zoneSet (w6PiSeq Pm (fun n => (𝒮 n).om) (fun n ξ => w6Om7 ((𝒮 n).Om ξ)) d.alpha d.Kprev ν)
+      ⋃ (ν : ℕ) (k : Fin 2 → ℤ) (l : ℕ →₀ ℤ) (_ : InZ k l ∧ d.KprevNu ν < kAbs k),
+        zoneSet (w6PiSeq Pm (fun n => (𝒮 n).om) (fun n ξ => w6Om7 ((𝒮 n).Om ξ)) d.alpha d.KprevNu ν)
           ((𝒮 ν).om) (fun ξ => w6Om7 ((𝒮 ν).Om ξ)) (d.alpha ν) k l :=
   w6ConvParams_of_stepReal w6StepReal_holds hC
 

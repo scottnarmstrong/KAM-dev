@@ -207,7 +207,7 @@ theorem w6IsFreqPair_of_bounds {Pi D : Set (Fin 2 → ℝ)} {α ε ε₀ : ℝ}
 
 /-- An admissible family (W7's `AdmissibleFamily`) from pairs satisfying (H1)–(H2) at every stage,
 with the thresholds `K_ν ≥ 2^ν` of `bpW:w6:sequences`. -/
-def w6AdmissibleFamilyOfPairs {Pi : Set (Fin 2 → ℝ)} {α : ℝ} (d : W6SeqData) (hd : d.Valid)
+def w6AdmissibleFamilyOfPairs {Pi : Set (Fin 2 → ℝ)} {α : ℝ} (d : W6SeqData) (hd : d.SeqValid)
     (D : ℕ → Set (Fin 2 → ℝ)) (ω : ℕ → (Fin 2 → ℝ) → Fin 2 → ℝ) (Ω : ℕ → (Fin 2 → ℝ) → ℕ → ℝ)
     (εω ε1 ε2 θ : ℝ) (hpair : ∀ ν, IsFreqPair m hm Pi α (D ν) (ω ν) (Ω ν) εω ε1 ε2 θ) :
     AdmissibleFamily m hm Pi α where
