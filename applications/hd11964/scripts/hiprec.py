@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """HD11964-PILOT high-precision leg (untrusted, Apache-2.0): the same normal form and residual in 80-bit long double
 (explicit DFTs) against float64, at the same centre and grid; plus the mass-scaling test (residual of order N must
-scale like mu^(N+1) if it is not a rounding floor).  Writes validation/hiprec.json."""
+scale like mu^(N+1) if it is not a rounding floor).  Usage: hiprec.py N share N1 N2 [nolong|long] [phi]
+[amd_fraction]; writes validation/hiprec-N<N>-s<share>-f<amd_fraction>-<N1>x<N2>[-nolong].json."""
 import json
 import os
 import sys

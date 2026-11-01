@@ -15,12 +15,12 @@ Nothing here is a certificate.
 
 ## 1. Verdict
 
-**The gate passes for 10³ and 10⁶ yr, and for 10⁹ yr on the sampled supremum.** Margin 2 is required
-throughout.
+**The gate passes for 10³ and 10⁶ yr; the 10⁹ yr rung is provisional.** Margin 2 is required throughout.
+Order 4, which the 10⁹ yr rung needs, is not resolved in float64 (§5.3).
 
 - **The route works as designed for HD 11964.**
-  - The AMD barrier is the star threshold of planet c, `B = Λ_c`. It is certified by a one-line monotone bound
-    (*checked*: pair threshold ≥ 0.792 against `Λ_c ≤ 0.0625` on the whole action box).
+  - The AMD barrier is the star threshold of planet c, `B = Λ_c`. It is established by a one-line monotone bound
+    (*checked*, Lean pending: pair threshold ≥ 0.792 against `Λ_c ≤ 0.0625` on the whole action box).
   - The margin `δ = 0.0483` leaves the helper's tube `r = 4.0·10⁻³`, ten times the certified drift needed.
 - **Drift rates** (*measured*). A fast-angle Lie normal form with the slow variables (not frozen) brings
   `sup |{F_i, H}|` over the whole AMD ball (`e_c` up to 0.61) from 5·10⁻⁴ down by about 10³ per order. The
@@ -31,24 +31,30 @@ throughout.
   |---|---:|---:|
   | 10³ yr | 2 (4.7) | 2 (3.3) |
   | 10⁶ yr | 3 (4.7) | 3 (3.2) |
-  | 10⁹ yr | 4 (3.8) | 4 (≈ 3.2 on the extrapolated order-4 rate; 1.8 on the float64 floor, closed by `d = 1.5·10⁻³`) |
+  | 10⁹ yr, provisional | 4 (3.8 on the float64 floor) | 4 (≈ 3.2 on the extrapolated order-4 rate; 1.8 on the floor, closed by `d = 1.5·10⁻³`) |
 
   The largest `T` that closes at margin 2:
   - order 2: 1.9·10⁵ yr;
   - order 3: 2.1·10⁸ yr;
-  - order 4: ≥ 5.9·10⁹ yr on the sampled sup. Order 4 is float64-limited (§5.3); its measured values are upper
-    estimates.
+  - order 4: ≈ 5.9·10⁹ yr on the sampled floor values, *provisional*. Order 4 is not resolved in float64
+    (§5.3); its sampled values bound the true rate in neither direction.
 - **What limits it.**
   1. **The order**, i.e. the kernel cost. Each order gains ≈ 10³ in `T` and costs ≈ 7× more products per cell.
   2. **The oscillation of `Λ_b` itself** (`F_b − Λ_b` ranges over 2.1·10⁻⁴). LP's Kepler split leaves the
      reduced-mass term `μ|p_b|²/2` in the perturbation. That caps the margin at `d/osc ≈ 4.8` for every `T`.
+     **It sets the 10³ and 10⁶ yr rungs**, not the rate: they close at margin ≥ 2 with the rate multiplied by up
+     to ≈ 186 (order 2, 10³ yr) and ≈ 212 (order 3, 10⁶ yr), or the oscillation by up to 2.37. The ×5
+     rigorous-design factor matters only for the 10⁹ yr rung.
   3. **The high-`e_c` part of the AMD ball**: the rates are 3–5× those at the nominal eccentricities, and the
      Fourier cutoff grows to `K_c ≈ 90–140`.
-- **Cost** (*estimated*, design §7).
-  - 10³ yr: 70–300 CPU-h in the packed kernel engine;
-  - 10⁶ yr: 500–2,000 CPU-h;
-  - 10⁹ yr: 2.5–10·10³ CPU-h before pruning.
-  - Without the packed layer only order 1 is practical: about 10² yr.
+- **Cost** (*estimated*, design §7). Packed engine, kernel time only, then all-in CPU (kernel × 2–5:
+  per-process fixed cost and node I/O, as measured on LG00):
+  - 10³ yr: 70–300 CPU-h kernel, 140–1,500 CPU-h all-in;
+  - 10⁶ yr: 500–2,000 kernel, 10³–10⁴ all-in;
+  - 10⁹ yr: 2.5–10·10³ kernel, 5·10³–5·10⁴ all-in, before pruning.
+  - Without the packed layer only order 1 is practical (about 10² yr). The landed list product is about 100×
+    the packed one per product; whole chains measured 8–36× on LG00, and from order 2 a product does not fit
+    4 GB.
 
 ## 2. Data and model
 
@@ -142,7 +148,7 @@ is grid sampling).
 Centre actions `Λ = Λ̂`; on the AMD sphere `Γ_c + Γ_b = 0.012`, with `s = Γ_c/0.012`. Each entry is the worst over
 the two planets and the six perihelion angles.
 
-| s | e_c | e_b | grid | order 0 | order 1 | order 2 | order 3 | order 4 (upper estimate, §5.3) | range of F_b − Λ_b |
+| s | e_c | e_b | grid | order 0 | order 1 | order 2 | order 3 | order 4 (float64 floor, §5.3) | range of F_b − Λ_b |
 |---:|---:|---:|---|---:|---:|---:|---:|---:|---:|
 | 0 | 0.000 | 0.116 | 64×80 | 1.0e-04 | 5.6e-08 | 3.8e-11 | 1.6e-14 | 9.9e-17 | 2.1e-04 |
 | 0.15 | 0.246 | 0.107 | 128×80 | 1.4e-04 | 6.5e-08 | 4.5e-11 | 2.6e-14 | 3.7e-16 | 2.0e-04 |
@@ -173,7 +179,7 @@ Sampled sup over all 48 centres (*measured*). Region `R(10⁻³)`; margin `= d /
 | 1 | 4.20e-07 | 6.66e-08 | 3.45e-05 | 2.10e-04 | 1.6·10² yr | no (0.35) | no | no |
 | 2 | 3.70e-10 | 7.41e-11 | 3.45e-05 | 2.10e-04 | 1.9·10⁵ yr | **yes (4.7)** | no (0.39) | no |
 | 3 | 3.25e-13 | 9.80e-14 | 3.45e-05 | 2.10e-04 | 2.1·10⁸ yr | yes (4.8) | **yes (4.7)** | no (0.45) |
-| 4 | ≤ 4.8e-15 | ≤ 7.3e-15 | 3.45e-05 | 2.10e-04 | ≥ 5.9·10⁹ yr | yes (4.8) | yes (4.8) | **yes (3.8)** |
+| 4 (floor) | ≈ 4.8e-15 | ≈ 7.3e-15 | 3.45e-05 | 2.10e-04 | ≈ 5.9·10⁹ yr | yes (4.8) | yes (4.8) | provisional (3.8) |
 
 The same with the rigorous-design factors of §5.4 (η × 5, osc × 1.45; *estimated*):
 
@@ -183,11 +189,13 @@ The same with the rigorous-design factors of §5.4 (η × 5, osc × 1.45; *estim
 | 2 | 3.6·10⁴ yr | **yes (3.3)** | no | no |
 | 3 | 4.1·10⁷ yr | yes (3.3) | **yes (3.2)** | no |
 | 4, floor values | 7.9·10⁸ yr | yes | yes | no (1.8) |
-| 4, extrapolated true rate | ≈ 2·10¹⁰ yr | yes | yes | **yes (≈ 3.2)** |
+| 4, extrapolated rate | ≈ 4.5·10¹⁰ yr | yes | yes | provisional (≈ 3.2) |
 
-**Order 4, read with §5.3.** Its sampled values are float64- and truncation-limited upper estimates, not
-order-5 remainders. Extrapolating the measured per-order gain gives true order-4 rates near
-`η_3 (η_3/η_2) ≈ 2.9·10⁻¹⁶` (c) and `1.3·10⁻¹⁶` (b). With them, 10⁹ yr closes with the ×5 factor at margin ≈ 3.2.
+**Order 4, read with §5.3.** Its sampled values are set by float64 rounding and truncation, not by the order-5
+remainder. They bound the true rate in neither direction: a sampled sup is low, a rounding floor is high. Every
+order-4 entry, and so the 10⁹ yr rung, is provisional. Extrapolating the measured per-order gain gives true
+order-4 rates near `η_3 (η_3/η_2) ≈ 2.9·10⁻¹⁶` (c) and `1.3·10⁻¹⁶` (b). With them, 10⁹ yr closes with the ×5
+factor at margin ≈ 3.2, and the largest `T` is ≈ 4.5·10¹⁰ yr, each planet with its own rate and oscillation.
 On the floor values alone it needs `d = 1.5·10⁻³`, which is still `≤ r/2`. That gives margin ≈ 2.7 on a region
 with `Cmax = 0.013` and `e_c ≤ 0.635`, below the Laplace limit; the rates there are estimated ≤ 1.3× higher.
 
@@ -212,18 +220,20 @@ with `Cmax = 0.013` and `e_c ≤ 0.635`, below the Laplace limit; the rates ther
   2. At the fine centres (cutoffs 176–213) order 4 **rises** (2.2→7.0·10⁻¹⁵ at `s = 0.85`, 0.7→1.9·10⁻¹⁵ at
      `s = 1`), while order 3 agrees to 3 digits. Rounding in the highest modes, amplified by four nested
      spectral derivatives (about `(K/ω)⁴`), sets a floor of 10⁻¹⁵–10⁻¹⁴.
-  3. **Mass scaling** (`validation/hiprec-N4-s0.85-…-nolong.json`). With `μ/2` the order-`N` residual must scale
-     by `2^{N+1}`. Measured: 2.0, 4.0, 8.0, 15.8–16.0 for orders 0–3, i.e. genuine. Order 4 gives 2.0–2.9
-     instead of 32: dominated by `∝ μ` terms, that is the floor and the unsolved tail.
+  3. **Mass scaling** (`validation/hiprec-N4-s0.85-f1.0-352x64-nolong.json`, `s = 0.85`, `φ = π/3`). With `μ/2`
+     the order-`N` residual must scale by `2^{N+1}`. Measured: 2.0, 4.0, 8.0, 15.8–16.0 for orders 0–3, i.e.
+     genuine. Order 4 gives 2.0–2.9 instead of 32: dominated by `∝ μ` terms, that is the floor and the unsolved
+     tail.
 
-  Hence orders 0–3 are reliable to a few per cent, and order 4 is an upper estimate. A certificate does not
-  inherit this: its models carry ≥ 128-bit coefficients, and the tail term is bounded separately (design §6.2).
+  Hence orders 0–3 are reliable to a few per cent, and order 4 is unresolved: its values bound nothing in
+  either direction. A certificate does not inherit this: its models carry ≥ 128-bit coefficients, and the tail
+  term is bounded separately (design §6.2).
 - **80-bit long double: did not complete.** `hiprec.py` reruns a centre with explicit long-double DFTs (numpy
   has no long-double FFT), which cost about 10³ times the float64 `rfft2`. The order-4 run at circular orbits on
   48 × 48 (`hiprec.py 4 0.0 48 48 long 0.0 0.0`) hit its 5,400 s limit. An order-3 run on 64 × 48 was stopped
   by hand: its float64 leg took 4.8 s. No long-double value exists, so the order-4 precision question rests on
   tests 1–3 above. The order 0–3 values, which set the 10³ and 10⁶ yr rungs, do not depend on it. The 10⁹ yr
-  rung uses the order-4 upper estimate.
+  rung rests on the order-4 floor values or the extrapolation, and is provisional.
 
 ### 5.4 Rigorous-design estimate
 
@@ -298,7 +308,8 @@ Design §7 answers the orchestrator's addendum. In short:
   - *Addition:* the "Kernel engine" section (orchestrator addendum).
 - **Uncertainties.**
   - Sampled sups are lower estimates. The ×5 rigorous-design factor is an estimate, of which 1.7 is measured.
-  - The kernel costs are extrapolated from LG00's measured packed rates. Box sizes and precision differ, and
+  - The kernel costs are extrapolated from LG00's measured packed rates. They are kernel time only; all-in CPU
+    is 2–5× (design §7). Box sizes and precision differ, and
     production assembly is unmeasured. A measured cell is phase 2's first step.
   - The cell count (50–200) rests on root-test radii from degree-12 jets of one planet's chart.
 

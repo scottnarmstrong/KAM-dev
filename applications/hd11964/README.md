@@ -16,7 +16,7 @@ report is [`docs/explorations/hd11964-pilot.md`](../../docs/explorations/hd11964
 | Source extract | [`data/nasa-exoplanet-archive-ps-20261101.csv`](data/nasa-exoplanet-archive-ps-20261101.csv) (SHA-256 in the JSON) |
 | Data license | CC BY 4.0 ([`data/LICENSE`](data/LICENSE)); scripts Apache-2.0 (repository [LICENSE](../../LICENSE)) |
 | How to cite | [`CITATION.cff`](CITATION.cff), and Rosenthal et al. 2021 |
-| Status labels | *measured*: computed here (floating point, sampled); *estimated*: judgement; *literature*: the catalogue |
+| Status labels | *proved*: a Lean theorem on main; *checked*: decided here in exact rationals, Lean pending; *measured*: computed here (floating point, sampled); *estimated*: judgement; *literature*: the catalogue |
 
 ## The system and the model
 
@@ -45,9 +45,11 @@ report is [`docs/explorations/hd11964-pilot.md`](../../docs/explorations/hd11964
 ## What is (planned to be) claimed, and what is not
 
 - **The planned theorem** (phase 2). Every solution of the model that starts with actions `Λ` in an explicit
-  box and strong AMD `C ≤ 0.0100` exists and is unique for `|t| ≤ T`, for **every** phase and perihelion
+  box, strong AMD `C ≤ 0.0100` and positive total angular momentum `L > 0` (prograde; bound Kepler orbits
+  with nonzero positions) exists and is unique for `|t| ≤ T`, for **every** phase and perihelion
   orientation. On that interval the orbits keep LP0's perihelion and annulus separations, so they never cross.
-  `T` is planned on the ladder 10³, 10⁶, 10⁹ yr.
+  `T` is planned on the ladder 10³, 10⁶, 10⁹ yr. The gate closes 10³ and 10⁶ yr; 10⁹ yr is provisional, since
+  the order-4 normal form it needs is not resolved in float64.
 - **Not claimed.**
   - Anything about true masses or mutual inclination.
   - Anything about physical effects outside the model.
@@ -67,7 +69,13 @@ report is [`docs/explorations/hd11964-pilot.md`](../../docs/explorations/hd11964
 | `scripts/checks.py` | convention self-checks: chart dictionary, symplecticity, rotation invariance, flow check against a direct N-body integration |
 | `scripts/rigor.py` | the l1-versus-sup loss factors of the residuals (rigorous-design estimate) |
 | `scripts/summarize.py` | the horizon ladder |
-| `validation/` | `gate-N4.jsonl` (all samples), `ladder.json`, `rigor-N3.json`, `checks.json`, `threshold.json`, `product-census.json`, `slow-radius.json` |
+| `scripts/threshold.py` | runs `threshold_ok` on the baseline region (writes `threshold.json`) |
+| `scripts/kscan.py` | the Fourier cutoff the normal form needs at the `e_c`-max corner (`kscan-N3-s1.0.json`) |
+| `scripts/conv.py` | grid convergence of the order-3 and order-4 rates (`conv-N4-ec044.json`) |
+| `scripts/hiprec.py` | the mass-scaling test, and the long-double rerun that did not finish in time (`hiprec-*.json`) |
+| `scripts/census.py` | the census of jet products per cell, the input of the cost estimate (`product-census.json`) |
+| `scripts/slow_radius.py` | analyticity radii of c's chart in the slow variables, the input of the cell count (`slow-radius.json`) |
+| `validation/` | `gate-N4.jsonl` (all samples), `ladder.json`, `rigor-N3.json`, `checks.json`, `threshold.json`, `kscan-N3-s1.0.json`, `conv-N4-ec044.json`, `hiprec-N4-s0.85-f1.0-352x64-nolong.json`, `product-census.json`, `slow-radius.json` |
 
 ## How to regenerate
 
@@ -81,6 +89,12 @@ $CAP python3 -I applications/hd11964/scripts/gate.py --N 4 --procs 2 \
     --out applications/hd11964/validation/gate-N4.jsonl               # the sweep (2.6 CPU-h, <= 3 GB per process)
 $CAP python3 -I applications/hd11964/scripts/rigor.py 3 0.0,0.5,0.85,1.0
 python3 -I applications/hd11964/scripts/summarize.py 5 1.45            # the ladder
+python3 -I applications/hd11964/scripts/threshold.py                   # exact-rational threshold check
+$CAP python3 -I applications/hd11964/scripts/kscan.py 3 1.0 20,30,40,50,60,73,90,110,143
+$CAP python3 -I applications/hd11964/scripts/conv.py 1.0 0.5 224x64,320x64,224x96
+$CAP python3 -I applications/hd11964/scripts/hiprec.py 4 0.85 352 64 nolong 1.0471975511965976  # mass scaling, φ = π/3 (5 min)
+$CAP python3 -I applications/hd11964/scripts/census.py                 # product census (minutes)
+python3 -I applications/hd11964/scripts/slow_radius.py                 # slow radii (seconds)
 ```
 
 ## Version history

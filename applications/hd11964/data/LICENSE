@@ -18,5 +18,6 @@ Exoplanet Archive's Planetary Systems table (query of 2026-11-01). It is reprodu
 and is not covered by the CC BY 4.0 grant above. If you use it, please acknowledge: "This research
 has made use of the NASA Exoplanet Archive, which is operated by the California Institute of
 Technology, under contract with the National Aeronautics and Space Administration under the
-Exoplanet Exploration Program." The orbital solution it contains is that of L. J. Rosenthal et al.,
-ApJS 255 (2021) 8; please cite that paper as well.
+Exoplanet Exploration Program." It holds every HD 11964 row of the table: the
+solutions of Butler et al. 2006, Wright et al. 2009, Bryan et al. 2016 and Rosenthal et al. 2021. Only the
+Rosenthal et al. rows (ApJS 255 (2021) 8) are pinned; please cite that paper as well.

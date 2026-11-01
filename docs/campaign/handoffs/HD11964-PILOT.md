@@ -11,8 +11,8 @@ Worker HD11964-PILOT, branch `hd11964` (worktree `/home/scott/KAM-dev-worktrees/
 | `applications/hd11964/data/hd11964-pilot.json` | pinned inputs as exact decimal rationals, with errors and provenance |
 | `applications/hd11964/data/nasa-exoplanet-archive-ps-20261101.csv` | the archive query (SHA-256 recorded in the JSON) |
 | `applications/hd11964/data/LICENSE` | CC BY 4.0 for our data and tables; attribution note for the archive extract |
-| `applications/hd11964/scripts/*.py` (Apache-2.0) | `hd11964_model` (model, nominal state, exact-rational `threshold_ok`), `jets`, `normal_form`, `gate`, `checks`, `rigor`, `kscan`, `hiprec`, `summarize` |
-| `applications/hd11964/validation/*` | `gate-N4.jsonl` (48 centres), `ladder.json`, `checks.json`, `threshold.json`, `rigor-N3.json`, `kscan-N3-s1.0.json`, `product-census.json`, `slow-radius.json`, `hiprec-*.json`, `conv-*.json` |
+| `applications/hd11964/scripts/*.py` (Apache-2.0) | `hd11964_model` (model, nominal state, exact-rational `threshold_ok`), `jets`, `normal_form`, `gate`, `checks`, `rigor`, `kscan`, `hiprec`, `summarize`, and the generators `threshold`, `census`, `slow_radius`, `conv` |
+| `applications/hd11964/validation/*` | `gate-N4.jsonl` (48 centres), `ladder.json`, `checks.json`, `threshold.json`, `rigor-N3.json`, `kscan-N3-s1.0.json`, `product-census.json`, `slow-radius.json`, `hiprec-N4-s0.85-f1.0-352x64-nolong.json`, `conv-N4-ec044.json` |
 | `docs/campaign/design/HD11964-PILOT.md` | the design, including the "Kernel engine" section of the addendum |
 | `docs/explorations/hd11964-pilot.md` | the report, with status labels and owner questions |
 
@@ -71,8 +71,9 @@ All commands were run from the repository root.
 - **Cutoff, loss factors, convergence, precision.**
   - `kscan.py 3 1.0 …`: saturation at `K_c` 40 / 73 / 90 for orders 1 / 2 / 3.
   - `rigor.py 3 0.0,0.5,0.85,1.0`: ℓ¹/sup 1.01–1.66 at every order.
-  - `conv.py` at `e_c = 0.44` and `hiprec.py 4 0.85 352 64 nolong`: μ-scaling ratios 2.0 / 4.0 / 8.0 /
-    15.8–16.0 / 2.0–2.9 for orders 0–4; order 4 is float64-limited.
+  - `conv.py 1.0 0.5 224x64,320x64,224x96` (`e_c = 0.44`) and `hiprec.py 4 0.85 352 64 nolong
+    1.0471975511965976` (φ = π/3): μ-scaling ratios 2.0 / 4.0 / 8.0 / 15.8–16.0 / 2.0–2.9 for orders 0–4;
+    order 4 is not resolved in float64.
   - `hiprec.py 4 0.0 48 48 long 0.0 0.0`: killed by its `timeout 5400` (exit 143), with no output. Explicit
     long-double DFTs are about 10³ times slower than `rfft2`. An order-3 long run on 64 × 48 was stopped by
     hand. No long-double comparison exists.
@@ -94,18 +95,21 @@ No Lean declarations were added, so there is nothing to `#print axioms`. The pla
 
 - **Drift rate by order** (worst sampled, `R(10⁻³)`, `e_c ≤ 0.612`):
   - orders 0–3: `5.35e-4, 4.20e-7, 3.70e-10, 3.25e-13`;
-  - order 4: ≤ 7.3e-15, a float64-limited upper estimate; extrapolated ≈ 3e-16.
+  - order 4: ≈ 7.3e-15 sampled, the float64 floor, which bounds the true rate in neither direction;
+    extrapolated ≈ 3e-16.
   The worst point is the low-`Λ_c` corner with all AMD in c.
 - **`F − Λ` ranges:** 3.5e-5 (c) and 2.1e-4 (b). The latter is the reduced-mass oscillation of LP's split.
 - **Ladder** (margin ≥ 2):
   - 10³ yr at order 2 (margin 4.7; 3.3 with ×5);
   - 10⁶ yr at order 3 (4.7; 3.2);
-  - 10⁹ yr at order 4 (3.8; 1.8–3.2 with ×5, see report §5.2).
-  The largest `T`: order 2 1.9e5 yr, order 3 2.1e8 yr, order 4 ≥ 5.9e9 yr.
+  - 10⁹ yr at order 4, **provisional** (3.8 on the floor values; 1.8–3.2 with ×5, see report §5.2).
+  The 10³ and 10⁶ yr margins are set by the `Λ_b` oscillation: they stay ≥ 2 with the rate ×186 and ×212.
+  The largest `T`: order 2 1.9e5 yr, order 3 2.1e8 yr, order 4 ≈ 5.9e9 yr (provisional).
 - **Products per cell** (unpruned census): 1.0e3 / 1.0e4 / 7.2e4 / 3.8e5 at orders 1–4.
 - **Slow-variable analyticity radii of c:** 0.05–0.16. Cells: 50–200 (*estimated*).
-- **Kernel cost** (*estimated*, packed): 10³ yr 70–300 CPU-h; 10⁶ yr 500–2,000; 10⁹ yr 2.5–10e3 before pruning.
-  Landed list arithmetic: about 100× more.
+- **Cost** (*estimated*, packed; kernel time, then all-in = kernel × 2–5): 10³ yr 70–300 / 140–1,500 CPU-h;
+  10⁶ yr 500–2,000 / 10³–10⁴; 10⁹ yr 2.5–10e3 / 5e3–5e4 before pruning. Landed list arithmetic: about 100× per
+  product, 8–36× per whole chain (LG00), and from order 2 a product does not fit 4 GB.
 - **Python compute:** the sweep took 2.58 CPU-h in all (about 1.3 h wall on 2 processes); per centre 27 s –
   24 min; RSS ≤ about 3 GB per process.
 
@@ -143,3 +147,42 @@ The conservative option was taken in each case; nothing blocked.
     the Laplace limit.
   - The lint's ABI-hash step could not run in this worktree: 164 of 307 frozen modules have no `.olean` in its
     build snapshot. No Lean file changed, so the ABI is unaffected.
+
+## Changes after AUDIT-HD11964-PILOT-1 (PASS WITH CHANGES)
+
+1. **`CITATION.cff`.** `repository-code: https://github.com/scottnarmstrong/KAM-dev`; Komargodski's affiliation
+   "Simons Center for Geometry and Physics, Stony Brook University", as in `applications/sjsu`.
+2. **Generators.**
+   - Committed `scripts/threshold.py` (`threshold.json`), `census.py` (`product-census.json`),
+     `slow_radius.py` (`slow-radius.json`) and `conv.py` (`conv-N4-ec044.json`): the scratch scripts that made
+     those files, tidied, with the same arguments.
+   - Re-run from the committed scripts: `threshold.json`, `product-census.json` and `slow-radius.json` are
+     reproduced byte for byte, and so is
+     `conv-N4-ec044.json` (`conv.py 1.0 0.5 224x64,320x64,224x96`, 4 min).
+   - The mass-scaling file is renamed to what `hiprec.py` writes, `hiprec-N4-s0.85-f1.0-352x64-nolong.json`.
+     It was made at perihelion angle φ = π/3; the rerun with that angle reproduces every rate and ratio
+     exactly (the new file adds only `amd_fraction: 1.0` and the run times).
+   - `hiprec.py`'s docstring now gives its usage and output name.
+3. **Design §4–§5.**
+   - `hF` is stated on an open `O` with `R ⊆ O ⊆ chartSafe ν`. `F` is singular where the annuli cross, and the
+     mean value step needs it only along the path, which stays in `R`.
+   - §5 notes that `pairThreshold` is a literal `sInf`: the lower bound goes through `le_csInf` with
+     `pairFeasible_nonempty` (the point `(1, 1)`, already on main).
+4. **Cost.** Every cost table and summary now gives kernel time only and the all-in CPU (kernel × 2–5, from
+   LG00's measured 4.4× Low and 4.6× Full; about 20 CPU-s fixed per process, ≤ 15 nodes per process against
+   28–462 nodes per function here). Revised all-in ranges: 10³ yr 140–1,500 CPU-h; 10⁶ yr 10³–10⁴; 10⁹ yr
+   5·10³–5·10⁴ before pruning. "About 100×" without the packed layer is per product; whole chains measured
+   8.4–35.6×.
+5. **Order 4.** Its values are called the float64 floor, bounding the true rate in neither direction; no
+   ≤/≥/"upper estimate" wording remains. The 10⁹ yr rung is *provisional* throughout. The 10³ and 10⁶ yr rungs
+   are set by the `Λ_b` oscillation and close at margin ≥ 2 with the rate ×186 and ×212 (or the oscillation
+   ×2.37). Report §5.2: the per-planet extrapolated largest `T` is ≈ 4.5·10¹⁰ yr, not 2·10¹⁰.
+6. **Wording.**
+   - `data/LICENSE` and the JSON's `extract` field say the extract holds the Butler 2006, Wright 2009,
+     Bryan 2016 and Rosenthal 2021 rows, only the last pinned.
+   - The README states the `L > 0` hypothesis, lists *proved* and *checked* among the labels, lists every
+     script and validation file, and gives every regeneration command.
+   - "Certifies"/"certified by" for the threshold bound became "establishes"/"established by" (*checked*, Lean
+     pending) in design §0 and report §1; design's label list includes *checked*.
+7. **Lint after the changes.** As before: `check_lean_modules: PASS (4397 Lean files)`, 25 tests OK,
+   `FROZEN-ANCHOR GUARD OK`; the ABI step stops on the missing `AngularMomentum3.olean` of the snapshot.

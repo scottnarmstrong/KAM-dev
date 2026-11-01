@@ -7,7 +7,7 @@
   "source": {
     "fit": "Rosenthal et al. 2021, ApJS 255, 8 (California Legacy Survey I), doi:10.3847/1538-4365/abe23c",
     "retrieved_from": "NASA Exoplanet Archive, Planetary Systems table (ps), rows with pl_refname = ROSENTHAL_ET_AL__2021 for hostname 'HD 11964', TAP sync query on 2026-11-01",
-    "extract": "nasa-exoplanet-archive-ps-20261101.csv",
+    "extract": "nasa-exoplanet-archive-ps-20261101.csv (all HD 11964 rows of the table: Butler 2006, Wright 2009, Bryan 2016, Rosenthal 2021; only the Rosenthal rows are pinned)",
     "extract_sha256": "9a38aa177f01f320e713a940826a1ccda883a05df52f78c5bb42eec73a2daae7",
     "cross_check": "docs/explorations/amd-crossing/A7-practical.md section 5 (periods 37.9196, 1935.0 d; m sin i 24.3, 201 Earth masses; e .106, .101; a .2315, 3.185 AU) agree to the digits shown there",
     "not_retrieved": "the CDS catalogue J/ApJS/255/8 did not answer on 2026-11-01; the archive row is the pin"

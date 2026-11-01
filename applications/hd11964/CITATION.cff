@@ -13,7 +13,8 @@ authors:
     affiliation: "CNRS, Sorbonne Université, Courant Institute"
   - family-names: Komargodski
     given-names: Zohar
-repository-code: "https://github.com/"  # KAM-dev repository URL to be filled in by the owner
+    affiliation: "Simons Center for Geometry and Physics, Stony Brook University"
+repository-code: "https://github.com/scottnarmstrong/KAM-dev"
 keywords:
   - celestial mechanics
   - planetary three-body problem

@@ -3,8 +3,9 @@
 Date: 1 November 2026. Branch `hd11964` (worker HD11964-PILOT, phase 1). Status: **design only**. No Lean
 is written in this phase; every Lean name below is proposed. The numbers come from the numerical gate,
 [`docs/explorations/hd11964-pilot.md`](../../explorations/hd11964-pilot.md), and carry its labels:
-*proved* (a Lean theorem on main), *measured* (computed here, floating point, sampled), *estimated*
-(a judgement or an extrapolation), *literature*.
+*proved* (a Lean theorem on main), *checked* (a finite statement decided in exact rationals in Python; Lean
+pending), *measured* (computed here, floating point, sampled), *estimated* (a judgement or an extrapolation),
+*literature*.
 
 ## 0. Summary
 
@@ -21,21 +22,28 @@ is written in this phase; every Lean name below is proposed. The numbers come fr
     `{F_i, H}` bounded against the **original** Hamiltonian on the whole region.
 - **The AMD margin is cheap here.** For HD 11964 the strong threshold is `B(Λ) = Λ_c`: planet c falling into the
   star binds, not the pair. The pair threshold is at least 0.79 on the whole action box (0.858 at the nominal
-  point), against `Λ_c ≤ 0.0625`. A two-line monotone lower bound on the pair threshold certifies this, checked
-  in exact rationals (`validation/threshold.json`); no contact problem has to be solved. The margin is
-  `δ = 0.0483` (normalized), `C/B = 0.162`.
+  point), against `Λ_c ≤ 0.0625`. A two-line monotone lower bound on the pair threshold establishes this
+  (*checked* in exact rationals, `validation/threshold.json`; Lean pending); no contact problem has to be
+  solved. The margin is `δ = 0.0483` (normalized), `C/B = 0.162`.
 - **Gate (measured, sampled).** Whole AMD ball, `e_c` up to 0.612. The worst sampled drift rate falls by
   ≈ 10³ per order:
   - orders 0–3: `5.4·10⁻⁴, 4.2·10⁻⁷, 3.7·10⁻¹⁰, 3.3·10⁻¹³`;
-  - order 4: ≤ 7·10⁻¹⁵, a float64-limited upper estimate; extrapolated ≈ 3·10⁻¹⁶.
-  With margin 2 the rungs close at order 2 (10³ yr), order 3 (10⁶ yr) and order 4 (10⁹ yr). The 10⁹ yr rung
-  also closes with a ×5 rigorous-design factor on the extrapolated order-4 rate, or with `d = 1.5·10⁻³`.
-- **Cost (estimated).** The kernel cost is set by the order and by a cover of the slow region by 50–200 cells.
-  With the packed engine:
-  - 10³ yr (order 2): about 10²–3·10² CPU-h;
-  - 10⁶ yr (order 3): about 10³ CPU-h;
-  - 10⁹ yr (order 4): 10³–10⁴ CPU-h before pruning.
-  Without the packed layer only order 1 (about 10² yr) is within reach. Section 7 gives the derivation.
+  - order 4: ≈ 7·10⁻¹⁵ sampled, which is the float64 floor and bounds the true rate in neither direction;
+    ≈ 3·10⁻¹⁶ extrapolated from orders 2–3.
+  With margin 2 the rungs close at order 2 (10³ yr) and order 3 (10⁶ yr). Both margins (4.7) are set by the
+  oscillation of `Λ_b`, not by the rate: they stay ≥ 2 with the rate multiplied by up to ≈ 180 (10³ yr) and
+  ≈ 210 (10⁶ yr). The 10⁹ yr rung at order 4 is **provisional**. It closes on the float64 floor values
+  (margin 3.8), and with a ×5 rigorous-design factor on the extrapolated rate or with `d = 1.5·10⁻³`, but
+  order 4 is not resolved in float64.
+- **Cost (estimated).** The cost is set by the order and by a cover of the slow region by 50–200 cells. With
+  the packed engine, kernel time only, then all-in CPU (kernel × 2–5: per-process fixed cost and node I/O, as
+  on LG00):
+  - 10³ yr (order 2): 70–300 CPU-h kernel, 140–1,500 CPU-h all-in;
+  - 10⁶ yr (order 3): 500–2,000 kernel, 10³–10⁴ all-in;
+  - 10⁹ yr (order 4): 2.5–10·10³ kernel, 5·10³–5·10⁴ all-in, before pruning.
+  Without the packed layer only order 1 (about 10² yr) is within reach: whole chains on the landed list
+  arithmetic cost 8–36× the packed all-in on LG00, and from order 2 a product no longer fits 4 GB. Section 7
+  gives the derivation.
 
 ## 1. Model, data and what is claimed
 
@@ -151,7 +159,8 @@ HD11964.no_crossing
 /-- From an approximate-integral certificate on a chart region to the stopped drift of LP-CONF. -/
 theorem stoppedDrift_of_approxIntegrals (hd : LiftData ν U z₀ δ r) {μ T d : ℝ}
     (F : Fin n → Phase (n + n) → ℝ) (R : Set (Phase (n + n))) (η lo hi : Fin n → ℝ)
-    (hF : ∀ i, ContDiffOn ℝ 1 (F i) (chartSafe ν))
+    (O : Set (Phase (n + n))) (hO : IsOpen O) (hRO : R ⊆ O) (hOsafe : O ⊆ chartSafe ν)
+    (hF : ∀ i, ContDiffOn ℝ 1 (F i) O)
     (hper : ∀ i w (k : Fin n → ℤ), F i (w + fastShift k) = F i w)
     (hR : ∀ w ∈ chartSafe ν, (∀ i, |fast w.2 i - actionVector ν z₀ i| ≤ d) →
         chartAMD w ≤ strongAMD ν z₀ + n * d → w ∈ R)
@@ -170,7 +179,13 @@ theorem stoppedDrift_of_approxIntegrals (hd : LiftData ν U z₀ δ r) {μ T d :
    - hence `|Λ_i(w u) − Λ_i(w 0)| ≤ η_i |u| + (hi_i − lo_i) < d`.
    By continuity `s` does not exist (a one-dimensional first exit; `gen_exit` or a direct `IsClosed`
    argument). So `‖Λ(z t) − Λ(z₀)‖ ≤ d ≤ r/2`.
-3. Periodicity (`hper`) makes `F ∘ w` independent of the lift's branch.
+3. Periodicity (`hper`) makes `F ∘ w` independent of the lift's branch. It is needed only to extend cell checks
+   on a fundamental domain of the angles to all angles.
+
+**The domain of `hF`.** `F` is `C¹` only near `R`, not on all of `chartSafe ν`. Where the orbit annuli of c and
+b cross, the angle averages of `1/|q_c − q_b|` that define `F` (§6.1) are singular in the slow variables. So
+`hF` is stated on an open `O` with `R ⊆ O ⊆ chartSafe ν`. The mean value step of item 2 uses it only along
+the path, which stays in `R`.
 
 **Size** (*estimated*): 500–900 lines. **Reuse:**
 - `lpChartLift_of_stopped`, `StoppedOn`, `LiftData`, `chartSafe` (ChartLift, LP-LIFT);
@@ -182,8 +197,11 @@ theorem stoppedDrift_of_approxIntegrals (hd : LiftData ν U z₀ δ r) {μ T d :
 
 `strongThreshold ν I = min (crossThreshold ν I) (min_i I_i)`, and for `n = 2`,
 `crossThreshold = pairThreshold ν I 0 1`, the `sInf` of `I_0 D(u) + I_1 D(v)` over the feasible set
-`a_1(1 − v) ≤ a_0(1 + u)`.
+`a_1(1 − v) ≤ a_0(1 + u)`, `u, v ∈ [0, 1]`.
 - **Lemma** (new, `HD11964.pairThreshold_ge`).
+  - `pairThreshold` is a literal `sInf`, and `sInf ∅ = 0` in ℝ. The lower bound therefore goes through
+    `le_csInf` and needs the feasible set nonempty: `pairFeasible_nonempty` (the point `(1, 1)`,
+    `KAM/Planetary/StrongAMD/Threshold/Pair.lean`).
   - Every feasible `(u, v)` has `v ≥ v_min = 1 − 2 a_0/a_1`.
   - `D` is increasing on `[0, 1]`.
   - So `pairThreshold ν I 0 1 ≥ I_1 D(v_min)`.
@@ -328,26 +346,36 @@ The bracket is computed through an identity, never as a difference of large term
 - **Census** (*measured*, `validation/product-census.json`). Two-angle Fourier products per cell, i.e. the
   monomial pairs of every jet product of the chart, `f` and the Lie series, unpruned:
   - order 1: 1.0·10³; order 2: 1.0·10⁴; order 3: 7.2·10⁴; order 4: 3.8·10⁵.
-- **Per packed product:** 0.2–1.3 s by box size; 0.5 s on average.
+- **Per packed product:** 0.2–1.3 s **kernel time** per heavy step by box size; 0.5 s on average.
+- **All-in against kernel: 2–5×.** On main the all-in CPU of LG00's packed chains was 4.4× (Low) and 4.6×
+  (Full) the kernel time (V2-PACKED §12.11–12.12). At Full about 20 CPU-s per process is fixed (imports, the
+  probe's copy of the program, node literals), and a process holds ≤ 8 heavy steps and ≤ 15 nodes
+  (0.125 GB each). A Taylor × Fourier jet here is 28–462 packed nodes (`M` in the census), so node I/O and
+  per-process overhead dominate unless the shared data module and node streaming are built; with them the
+  factor should approach 2.
 - **Cells:** 50–200 (§8).
 
-| rung (margin 2, sampled sup) | order | per cell, packed | whole cover, packed | whole cover, landed list arithmetic |
+| rung (margin 2, sampled sup) | order | per cell, packed: kernel / all-in | whole cover, packed: kernel / all-in | whole cover, landed list arithmetic (all-in) |
 |---|---:|---:|---:|---:|
-| ≈ 10² yr | 1 | ≈ 0.15 CPU-h | 8–30 CPU-h | 0.7–3·10³ CPU-h |
-| 10³ yr (up to ≈ 10⁵) | 2 | ≈ 1.5 CPU-h | 70–300 CPU-h | ≈ 10⁴ CPU-h, and OOM per product at 4 GB |
-| 10⁶ yr (up to ≈ 10⁸) | 3 | ≈ 10 CPU-h | 500–2,000 CPU-h | infeasible |
-| 10⁹ yr | 4 | ≈ 50 CPU-h | 2.5–10·10³ CPU-h | infeasible |
+| ≈ 10² yr | 1 | 0.15 / 0.3–0.75 CPU-h | 8–30 / 16–150 CPU-h | 1.3·10²–5·10³ CPU-h |
+| 10³ yr (up to ≈ 10⁵) | 2 | 1.5 / 3–7.5 CPU-h | 70–300 / 140–1,500 CPU-h | 10³–5·10⁴ CPU-h, and OOM per product at 4 GB |
+| 10⁶ yr (up to ≈ 10⁸) | 3 | 10 / 20–50 CPU-h | 500–2,000 / 10³–10⁴ CPU-h | infeasible |
+| 10⁹ yr (provisional) | 4 | 50 / 100–250 CPU-h | 2.5–10·10³ / 5·10³–5·10⁴ CPU-h | infeasible |
 
-- **The landed column.** It uses the landed list product, ≈ 70 CPU-s per 8k-slot product (V2-PACKED §8,
-  sum of pieces), about 100× the packed product.
+- **The kernel columns** are kernel time only: per-process fixed cost, node I/O and production assembly are
+  excluded. The all-in columns multiply them by 2–5.
+- **The landed column.** Per product, the landed list product costs ≈ 70 CPU-s per 8k-slot product (V2-PACKED
+  §8, sum of pieces), about 100× the packed kernel product. Whole chains are closer: measured 8.4× (LG00 Full)
+  to 35.6× (Low) the packed all-in (V2-PACKED §12.11–12.12). The column is the packed all-in × 8–36. From
+  order 2 one product no longer fits 4 GB on the landed route.
 - **Pruning** (*estimated*, unmeasured): dropping monomial-pair products whose norm product is below 10⁻³ of
   the target, with the bound added to the radius, should save 3–10×, most at orders 3–4.
 - **Not in the table.**
   - The Python producer at the precision the models need: radii below 10⁻¹⁶ of `f`, so 128–192-bit
     mantissas. Python big-integer arithmetic, or a GMP-backed numpy replacement.
   - Production assembly: data modules and the chain theorems per cell.
-- **Comparison.** LG00 costs 30 CPU-h in all. The 10³ yr rung is about 3–10 LG00 runs; the 10⁹ yr rung needs
-  pruning or structure (next paragraph) to be practical.
+- **Comparison.** LG00 costs 30.1 CPU-h in all on the landed route (V2-PACKED §12.1). The 10³ yr rung is about
+  5–50 LG00 runs all-in; the 10⁹ yr rung needs pruning or structure (next paragraph) to be practical.
 
 **Structure that would cut the cost further** (*estimated*; to be measured in phase 2, step 1).
 - `f`'s chart parts are one-angle, and their products are cheap. Only the pair function and the Lie brackets
@@ -405,7 +433,7 @@ the Moon track are untouched.
 
 - **Sampled, not certified.** The gate's sup is over 48 centres × full fast-angle grids. The rigorous-design
   factor (report §5.4) is estimated at 1.5–5×, of which 1.7× is measured. The 10⁹ yr rung at order 4 then has
-  margin 1.8–3.2, depending on the true order-4 rate, which float64 does not resolve.
+  margin 1.8–3.2, depending on the true order-4 rate, which float64 does not resolve: it is provisional.
 - **Region edge.** The rates grow with `e_c`, about 5× from `e_c = 0` to 0.61 at order 2. A larger `Cbar`, or
   the 1σ eccentricities (`C = 0.020`, `e_c` up to 0.76), crosses the Laplace limit and lengthens the tails
   quickly. Owner question 1.
