@@ -173,3 +173,61 @@ six block counts; only two blocks were run.
 - The SJS counts use FH25's printed frequencies (radius `10⁻³⁰`), as in V2-BULK.
 
 V2-BULK-RUNS DONE
+
+## V2-BULK-CUTS (orchestrator decision: acceptance-only cost cuts, then stop)
+
+Commit `c3164201`. New and changed code is in the unaudited run-type modules only; soundness is
+unchanged.
+
+- **Dispatch.** `hnode` tests `plainShape` (the shape test that plain and crossing runs share). When
+  it holds, it tries a plain run (`blkK`) and then a crossing run (`apK`). Otherwise it tries a tent
+  run (`tentK`). Soundness of the three branches is `run3_spec`.
+- **Crossing runs** are accepted by quality alone, with no tolerance fallback, so a rejected crossing
+  run costs no value. `apK` lost its `tol` argument.
+- **Precision.** The producer uses `P = 64` at the first two SJS bites and `P = 128` at the third.
+- **Tests regenerated.** `Bulk2XLang` has 31 values. The accepted approaching crossing run is now
+  taken from the `b = 1/64` toy walk, because the `1/32` toy's only one had been accepted by the
+  dropped tolerance. The `Bulk2Toy` witnesses and the `Bulk2RouteB` sites are unchanged and pass.
+- **Builds.** All seven run-type modules rebuilt alone: 2.5–7.4 s, at most 1.76 GB, no warnings in
+  the new files.
+
+**Exact mirror (`fiber3_bulk2.py sjs`, 8 GB cap):**
+
+| SJS bite | `P` | nodes | values | before the cuts (`P = 128`) | over float sum | `c` |
+|---|---:|---:|---:|---|---:|---|
+| `2.65·10⁻³` | 64 | 15,619 | **16,221** | 13,719 / 20,425 | +0.40 % | `2.357·10⁻⁷` (unchanged) |
+| `1.325·10⁻³` | 64 | 46,340 | **47,928** | 38,028 / 56,265 | +0.22 % | unchanged |
+| `6.6·10⁻⁴` | 128 | 144,083 | **147,868** | 122,921 / 164,699 | +0.31 % | unchanged |
+
+Values, which drive kernel cost, fall 21 %, 15 % and 10 %. Nodes rise, because the light-crossing
+branch (crossing fibre plus two crossing runs) relied on the tolerance fallback and no longer fires;
+those crossings take the `±s` single fibres instead.
+
+**Kernel probes** (first bite, temporary shard modules, deleted, 4 GB cap):
+
+| 512-row block | `P` | nodes | values | build | peak |
+|---|---:|---:|---:|---:|---:|
+| densest | 64 | 7,519 | 8,098 | 15 s | 3.41 GB |
+| densest | 128 | 7,465 | 8,042 | 15 s | 3.41 GB |
+| typical | 64 | 2,338 | 2,341 | 14 s | 1.99 GB |
+
+Before the cuts the densest block took 19 s and 3.81 GB (12,942 values). `P = 64` against `P = 128`
+made no measurable difference on that block. Estimate for the whole first bite, from the six block
+counts: about 40 s of kernel time in 4 shards, against about 50 s before the cuts and about 1 min
+(projected) for `walkB`.
+
+**Checks.**
+- `#print axioms` of `apK_spec`, `run3_spec`, `hnode_spec`, `walkB2_sound`,
+  `smallDivisorSum_snoc2_le_bulk2`, `sdConst_ray_of_bulk2SiteOk`, `refinedBCoreK_sound`,
+  `bk2Site64_sdConst` and `toyB3_refinedBK_torus`: `[propext, Classical.choice, Quot.sound]`.
+  `xl_ap_app` uses `[propext]` only.
+- `gen_root_imports.py --check`: exit 0. `fiber3_bulk2_xlang.py --check`: matches.
+  `check_lean_modules.py`: PASS.
+- `lint_sources.sh` passes every step except the ABI-hash step (the frozen planetary oleans are not
+  built in this worktree).
+
+**Recorded, not started (orchestrator):** the weight-dependent single-fibre window around crossings,
+which addresses the third bite's 76,726 single fibres. It waits until an SJS certificate is actually
+scheduled.
+
+V2-BULK-CUTS DONE

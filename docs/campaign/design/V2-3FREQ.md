@@ -375,3 +375,34 @@ At the first bite, the estimate for the whole `walkB2` walk is about 50 s of ker
 shards. That is a modest gain over `walkB` (about 1 min projected, 4 shards). At the third bite the
 values drop 2.1× (`walkB2` 164,699 against `walkB` 345,363). Possible further savings are listed in
 the handoff.
+
+**V2-BULK-CUTS (as built; orchestrator decision).** These cuts change acceptance and dispatch only,
+so soundness is unchanged (`run3_spec`):
+- `hnode` tries a plain run then a crossing run when the node has the plain shape (`plainShape`), and
+  a tent run otherwise. The two shapes are complementary, so no value is spent on a run type that
+  cannot pass.
+- A crossing run is accepted by its quality alone, and its value is computed only when it is
+  accepted.
+- `P = 64` at the first two SJS bites, `P = 128` at the third.
+
+Exact mirror (values in parentheses, before the cuts):
+
+| SJS bite | `P` | nodes | values |
+|---|---:|---:|---:|
+| `2.65·10⁻³` | 64 | 15,619 | 16,221 (20,425) |
+| `1.33·10⁻³` | 64 | 46,340 | 47,928 (56,265) |
+| `6.6·10⁻⁴` | 128 | 144,083 | 147,868 (164,699) |
+
+The bounds and constants are unchanged. The light-crossing branch no longer fires, so nodes rise
+while values fall.
+
+Kernel probes on the densest 512-row block of the first bite:
+
+| | nodes | values | build | peak |
+|---|---:|---:|---:|---:|
+| before the cuts (`P = 128`) | 7,311 | 12,942 | 19 s | 3.81 GB |
+| with the cuts, `P = 64` | 7,519 | 8,098 | 15 s | 3.41 GB |
+| with the cuts, `P = 128` | | | 15 s | 3.41 GB |
+
+`P` made no measurable difference there. The whole first bite is now about 40 s of kernel time in 4
+shards; `walkB`'s is about 1 min (projected).
