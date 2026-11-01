@@ -636,6 +636,11 @@ public import KAM.Planetary.SecularSpectrum.Transport
 public import KAM.Planetary.SecularSpectrum.TwoPlanets
 public import KAM.Planetary.Spatial.Alignment
 public import KAM.Planetary.Spatial.AnalyticDomain.Alignment
+public import KAM.Planetary.Spatial.AnalyticDomain.Bounds.Algebra
+public import KAM.Planetary.Spatial.AnalyticDomain.Bounds.Chart
+public import KAM.Planetary.Spatial.AnalyticDomain.Bounds.Denominator
+public import KAM.Planetary.Spatial.AnalyticDomain.Bounds.Tube
+public import KAM.Planetary.Spatial.AnalyticDomain.Bounds
 public import KAM.Planetary.Spatial.AnalyticDomain.Containment
 public import KAM.Planetary.Spatial.AnalyticDomain.Core
 public import KAM.Planetary.Spatial.AnalyticDomain.Extension
