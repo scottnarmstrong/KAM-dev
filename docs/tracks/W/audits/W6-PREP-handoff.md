@@ -25,3 +25,5 @@ still being built. Modules under `KAM/Wave/Iteration/`, namespace `KAM.Wave`.
 | `prep-step` | arithmetic only (steps `p-data`, `p-step`, `p-size`, (v)) | `WaveData` | `w6QP_le`, `w6EtaP_le`, `w6prep_small` (W5 smallness, modified case), `w6SigmaP_le_min`, `w6prep_lam_le`, `w6prep_lip_growth`, `w6EpsFlat_eq`, `w6EpsFlat_le` (`ε^♭_0 ≤ γ₁α̌`), `w6lam0_le_lam`, `alpha_rpow_identity`, `w6C0n_ge` (`c^♮_0 ≥ 8`) |
 | `to-w8` ("Starting size") | done | `WaveData` | `w6EpsFlat_div`, `w6MFP_eq`, `w6MFP_le`, `w6WaveSeq_ePhi`, `w6Etor_sharp_le` |
 | `strong` | linear-algebra core only | `Strong` | `w6Strong_core` |
+| `applicable` (`k = 0` clause) | conditional helper | `Applicable` | `w6applicable_k0_of_shift` (hypothesis: the prep-step (ii) shift bound `J|Ω̂_{P,J}| ≤ 3ε`) |
+| `freq-lip` step `fl-borel` | done | `Params` | `w6PiMinus_measurableSet` |

@@ -130,6 +130,15 @@ theorem w6PiSeq_measurableSet (hP0 : MeasurableSet P0)
           (continuousOn_w6ZoneFun (hω n) (hΩ n) k l) _
   exact ⟨h, MeasurableSet.iInter h⟩
 
+/-- **Borel** (blueprint `bpW:w6:freq-lip`, step `fl-borel`): `Π_{-1} = Π ∖ Ξ` is Borel; no
+admissible family is used. -/
+theorem w6PiMinus_measurableSet (m : ℝ) (hm : 0 < m) {Pi : Set (Fin 2 → ℝ)} {α : ℝ}
+    (hS : MeasSetup m hm Pi α) : MeasurableSet (Pi \ prepSet m hm Pi α) := by
+  refine hS.meas.diff ?_
+  unfold prepSet
+  exact MeasurableSet.iUnion fun k => MeasurableSet.iUnion fun l =>
+    MeasurableSet.iUnion fun _ => measurableSet_prepZone m hm hS _ k l
+
 theorem zoneSet_mono_level {D : Set (Fin 2 → ℝ)} {w : (Fin 2 → ℝ) → Fin 2 → ℝ}
     {W : (Fin 2 → ℝ) → ℕ → ℝ} {b c : ℝ} (hbc : b ≤ c) (k : Fin 2 → ℤ) (l : ℕ →₀ ℤ) :
     zoneSet D w W b k l ⊆ zoneSet D w W c k l := by

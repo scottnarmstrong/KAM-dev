@@ -31,6 +31,7 @@ public import KAM.Wave.Assembly.Patch
 public import KAM.Wave.Assembly.ShellData
 public import KAM.Wave.Assembly.ShellGeom
 public import KAM.Wave.Assembly.Unique
+public import KAM.Wave.Assembly.UpstreamW6
 public import KAM.Wave.Assembly.Winding
 public import KAM.Wave.Birkhoff.BlockMap
 public import KAM.Wave.Birkhoff.Coords
@@ -183,6 +184,17 @@ public import KAM.Wave.Homological.Taylor
 public import KAM.Wave.Homological.TaylorSub
 public import KAM.Wave.Homological.Wave
 public import KAM.Wave.Homological.WaveReindex
+public import KAM.Wave.Iteration.Applicable
+public import KAM.Wave.Iteration.Constants
+public import KAM.Wave.Iteration.ConvArith
+public import KAM.Wave.Iteration.FreqLip
+public import KAM.Wave.Iteration.IterArith
+public import KAM.Wave.Iteration.K0
+public import KAM.Wave.Iteration.Limits
+public import KAM.Wave.Iteration.Params
+public import KAM.Wave.Iteration.Sequences
+public import KAM.Wave.Iteration.Strong
+public import KAM.Wave.Iteration.WaveData
 public import KAM.Wave.KamStep.Class
 public import KAM.Wave.KamStep.Data
 public import KAM.Wave.KamStep.Divisors
