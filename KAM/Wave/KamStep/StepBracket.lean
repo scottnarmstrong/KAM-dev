@@ -125,6 +125,67 @@ theorem stepBrZ_norm_le (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 
   have : e / (σ / 2) * Mf + Mf / (σ / 2) * e = 4 * e * Mf / σ := by field_simp; ring
   linarith
 
+theorem stepFieldS_differentiableOn_theta (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {s' : ℝ}
+    (T' : HomTaylor_gen a p pb s') :
+    DifferentiableOn ℂ (stepFieldS ha hp hpb T' r)
+      {z : StepPhase r | (StepPhase.toK z).1 ∈ complexStrip 2 s'} := fun z hz =>
+  (stepFieldS_differentiableAt ha hp hpb T' r hz).differentiableWithinAt
+
+theorem isOpen_theta_strip (s' : ℝ) :
+    IsOpen {z : StepPhase r | (StepPhase.toK z).1 ∈ complexStrip 2 s'} :=
+  (isOpen_complexStrip 2 s').preimage (continuous_fst.comp (stepPhase_toK_continuous r))
+
+theorem stepBrZ_differentiableOn (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 < σ)
+    (hσs : 2 * σ < s) :
+    DifferentiableOn ℂ (stepBrZ ha hp hpb TG FT) (stepDomain r (s - 2 * σ) (r / 2)) := by
+  have hUs : ∀ z ∈ stepDomain r (s - 2 * σ) (r / 2),
+      z ∈ {z : StepPhase r | (StepPhase.toK z).1 ∈ complexStrip 2 s} := fun z hz =>
+    stepDomain_theta_mem (by linarith) hz
+  have hUF : ∀ z ∈ stepDomain r (s - 2 * σ) (r / 2),
+      z ∈ {z : StepPhase r | (StepPhase.toK z).1 ∈ complexStrip 2 (s - σ)} := fun z hz =>
+    stepDomain_theta_mem (by linarith) hz
+  have d1 := (differentiableOn_fderiv_of_holomorphic (isOpen_theta_strip s)
+    (stepFieldS_differentiableOn_theta ha hp hpb TG)).mono hUs
+  have d2 := (differentiableOn_fderiv_of_holomorphic (isOpen_theta_strip (s - σ))
+    (stepFieldS_differentiableOn_theta ha hp hpb FT)).mono hUF
+  have e1 : DifferentiableOn ℂ (fun z => stepEmbedCLM a p pb hpb r (stepFieldS ha hp hpb FT r z))
+      (stepDomain r (s - 2 * σ) (r / 2)) :=
+    (stepEmbedCLM a p pb hpb r).differentiable.comp_differentiableOn
+      ((stepFieldS_differentiableOn_theta ha hp hpb FT).mono hUF)
+  have e2 : DifferentiableOn ℂ (fun z => stepEmbedCLM a p pb hpb r (stepFieldS ha hp hpb TG r z))
+      (stepDomain r (s - 2 * σ) (r / 2)) :=
+    (stepEmbedCLM a p pb hpb r).differentiable.comp_differentiableOn
+      ((stepFieldS_differentiableOn_theta ha hp hpb TG).mono hUs)
+  exact (d1.clm_apply e1).sub (d2.clm_apply e2)
+
+theorem norm_stepBrG_le (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 < σ)
+    (hσs : 2 * σ < s) {e Mf : ℝ} (hTG : HomFieldBound_gen ha hp hpb r e TG)
+    (hF : HomFieldBound_gen ha hp hpb r Mf FT) {z : StepPhase r}
+    (hz : z ∈ stepDomain r (s - 2 * σ) (r / 2)) :
+    ‖stepBrG ha hp hpb TG FT z‖ ≤ (4 * Real.pi + 1) * r ^ 2 * (e * Mf) := by
+  have hr : 0 < r := Fact.out
+  have hzV : z ∈ stepDomain r (s - σ) r := stepDomain_mono' (by linarith) (by positivity)
+    (by linarith) hz
+  have hZG : ‖stepFieldS ha hp hpb TG r z‖ ≤ e :=
+    stepFieldS_bound ha hp hpb TG r hTG (by linarith) hzV
+  have hZF : ‖stepFieldS ha hp hpb FT r z‖ ≤ Mf :=
+    stepFieldS_bound ha hp hpb FT r hF le_rfl hzV
+  have hι := fun g : StepPhase r => norm_stepEmbedCLM_apply_le a p pb hpb r g
+  unfold stepBrG
+  refine (ContinuousLinearMap.le_opNorm₂ _ _ _).trans ?_
+  have hB := norm_stepSympCLM_le (q := p) (q' := p) ha (by linarith : 0 ≤ p + p) r
+  have h1 := (hι (stepFieldS ha hp hpb TG r z)).trans hZG
+  have h2 := (hι (stepFieldS ha hp hpb FT r z)).trans hZF
+  calc _ ≤ (4 * Real.pi + 1) * r ^ 2 * ‖stepEmbedCLM a p pb hpb r (stepFieldS ha hp hpb TG r z)‖ *
+        ‖stepEmbedCLM a p pb hpb r (stepFieldS ha hp hpb FT r z)‖ := by
+        refine mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_right hB (norm_nonneg _))
+          (norm_nonneg _)
+    _ ≤ (4 * Real.pi + 1) * r ^ 2 * e * Mf := by
+        have hc : 0 ≤ (4 * Real.pi + 1) * r ^ 2 := by positivity
+        exact mul_le_mul (mul_le_mul_of_nonneg_left h1 hc) h2 (norm_nonneg _)
+          (by have := (norm_nonneg _).trans h1; positivity)
+    _ = _ := by ring
+
 end bounds
 
 end bracket
