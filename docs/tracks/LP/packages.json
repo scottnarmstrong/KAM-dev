@@ -232,6 +232,15 @@
    "source": "MAIN L14/L18 chart lift, d=3"
   },
   {
+   "id": "LP-SP-DOMX",
+   "wave": 4,
+   "weight": 0.7,
+   "modules": [
+    "KAM/Planetary/Spatial/AnalyticDomain/Bounds.lean"
+   ],
+   "source": "MAIN L18 remaining clauses"
+  },
+  {
    "id": "LP-SP-NRR",
    "wave": 4,
    "weight": 1.0,
@@ -245,7 +254,7 @@
    "wave": 4,
    "weight": 1.0,
    "modules": [
-    "KAM/Planetary/Spatial/Safety.lean"
+    "KAM/Planetary/Spatial/SpatialSafety.lean"
    ],
    "source": "MAIN T19: spatial theorem (LP2)"
   }

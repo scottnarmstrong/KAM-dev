@@ -652,6 +652,7 @@ public import KAM.Planetary.Spatial.Osculating.Core
 public import KAM.Planetary.Spatial.Osculating.Estimates
 public import KAM.Planetary.Spatial.Osculating
 public import KAM.Planetary.Spatial.Rotation
+public import KAM.Planetary.Spatial.Rotation46
 public import KAM.Planetary.Spatial.RotationAlgebra
 public import KAM.Planetary.Spatial.RotationSolution
 public import KAM.Planetary.Spatial.Vector
