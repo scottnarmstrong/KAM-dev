@@ -159,6 +159,7 @@ public import KAM.Wave.KamSupport.LatticeCount
 public import KAM.Wave.KamSupport.SchurTest
 public import KAM.Wave.Measure.Consts
 public import KAM.Wave.Measure.Coords
+public import KAM.Wave.Measure.CoordsInverse
 public import KAM.Wave.Measure.Count
 public import KAM.Wave.Measure.Density
 public import KAM.Wave.Measure.Dioph
@@ -180,6 +181,7 @@ public import KAM.Wave.Measure.Shells
 public import KAM.Wave.Measure.Slab
 public import KAM.Wave.Measure.UnpertBounds
 public import KAM.Wave.Measure.Xzones
+public import KAM.Wave.Measure.ZetaExact
 public import KAM.Wave.Measure.ZetaSum
 public import KAM.Wave.Measure.ZoneBound
 public import KAM.Wave.Measure.ZoneSums

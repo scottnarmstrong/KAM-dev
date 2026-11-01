@@ -17,7 +17,9 @@ still being built.
 
 The unperturbed tangential frequency is `omegaTan m hm ξ = λ_J + A ξ` and the normal one is
 `omegaNor m hm ξ ν = λ_{ν+3} + (B ξ)_ν` (landed in `KAM.Wave.Normal.Nondegeneracy`). Here we prove
-Lemma `bpW:w7:freqcoords`: the constants `D_A = |det A|`, `N_A = ‖A‖_∞`, `L_A = ‖A⁻¹‖_∞`, the
+Lemma `bpW:w7:freqcoords`: the constants `D_A = |det A|`, `N_A`, `L_A = N_A / D_A` (the norm
+identities `‖A‖_∞ = N_A`, `‖A⁻¹‖_∞ = L_A`, the inverse matrix and the bijection are in
+`KAM.Wave.Measure.CoordsInverse`), the
 identity `Ω⁰_ν = λ_ν + (4/(7 λ_ν)) s` with `s = ⟨λ_J, ω⁰ - λ_J⟩`, the Lebesgue measure scaling
 under `ω⁰`, and the distance bounds.
 -/
@@ -40,7 +42,8 @@ def measNA (m : ℝ) (hm : 0 < m) : ℝ :=
 def measLA (m : ℝ) (hm : 0 < m) : ℝ :=
   8 * π / 21 * lamTan m hm 1 * (4 * lamTan m hm 0 + 3 * lamTan m hm 1)
 
-/-- The sup-norm of the tangential frequency difference, in the notation `|ω⁰ ξ - ω⁰ ξ'|_∞`. -/
+/-- The signed scalar `s(ζ) = ⟨λ_J, ζ - λ_J⟩` at the frequency coordinate `ζ = ω⁰ ξ`
+(blueprint `bpW:w7:freqcoords` (iii)); it is a signed pairing, not a norm. -/
 def measS (m : ℝ) (hm : 0 < m) (ξ : Fin 2 → ℝ) : ℝ :=
   ∑ i, lamTan m hm i * (omegaTan m hm ξ i - lamTan m hm i)
 
@@ -123,7 +126,8 @@ theorem omegaTan_eq (ξ : Fin 2 → ℝ) :
 theorem det_measAlin : LinearMap.det (measAlin m hm) = (actionAMat m hm).det := by
   simp [measAlin, LinearMap.det_toLin']
 
-/-- The unperturbed tangential frequency map is injective. -/
+/-- Differences of the unperturbed tangential frequency map: `ω⁰ ξ - ω⁰ ξ' = A (ξ - ξ')`
+(injectivity is `omegaTan_injective`; the inverse is in `KAM.Wave.Measure.CoordsInverse`). -/
 theorem omegaTan_sub (ξ ξ' : Fin 2 → ℝ) :
     omegaTan m hm ξ - omegaTan m hm ξ' = measAlin m hm (ξ - ξ') := by
   rw [omegaTan_eq, omegaTan_eq, map_sub]; abel
