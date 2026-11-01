@@ -1,4 +1,4 @@
-# W5-AA handoff (in progress)
+# W5-AA handoff
 
 Branch `inp-w5aa` (worktree `/root/code/KAM-inp-wpj`), from the integrated W5 head `a7414cf7`. Package W5-AA:
 blueprint `bpW:w5:action-angle`, `bpW:w5:initial` (`blueprint-W/parts/w5-kamstep.tex`), plus the added item
@@ -8,27 +8,79 @@ Build note: the worktree lacked the oleans of `KAM/Wave/Birkhoff` (and other unc
 copied (no-clobber) from main's build snapshot `/root/code/KAM/.lake/build` (identical sources; the traces differ
 only in absolute paths), instead of rebuilding them.
 
-## Progress (W5-AA proper)
+## Status: COMPLETE (both labels proved; W5-STEP-A-FIX and W5-STEP-B-FIX done)
 
-Done (each module builds with `w_build.sh`, default heartbeats, no `sorry`):
-- `KAM/Wave/KamStep/ActionAngle.lean`: `aaSqrt`, `aaShift`, `aaNormal`, `aaTanCoord`, `aaMap a p ξ w` (= `𝒜_ξ(w)` in
-  weighted coordinates of `𝔚_{a,p}`), `aaDomJ`; (i): `aaMap_differentiableOn` (joint in `(ξ,w)`), `isOpen_aaDomJ`,
-  `aaMap_add_tau`, `aaMap_real`, `aaMap_linearTorus` (`birkZinv (aaMap 1 1 ξ (θ,0,0,0)) = birkReal (linearTorus ξ hξ θ)`).
-- `ActionAngleDomain.lean`: (ii) `aaCA = 2200`, `aaMap_domain`, `aaMap_mem_ball`, `aaMap_mem_birkBall1`; (vi)
-  `aaNormal_norm_le`, `aaNormal_norm_ge`, `norm_sq_aaMap`.
-- `ActionAngleDeriv.lean`: (iii) `aaDer a q ξ w`, `hasFDerivAt_aaMap`, `aaDerInv`, `aaDerInv_aaDer`, `aaDer_aaDerInv`.
-- `ActionAngleSymp.lean`: (iii) `birkOmegaMix`, `aaDer_symp` (`Ω(D𝒜W, D𝒜W') = ϖ_{q,q'}(W,W')`, `q+q' ≥ 0`),
-  `birk_tsum_tan_nor`.
-- `ActionAngleNormal.lean`: (iv) `aaEnergy`, `aaOmega0`, `aaOmegaN0` (= `waveFreqTan`, `waveFreqNor` for real `ξ`),
-  `aaZZ`, `aaNfun`, `aaQt`, `aaKext`, `aaXKext`, `aaPfun`, `aaMap_normalForm`.
-- `ActionAngleQt.lean`: (v) the field of `Q̃`: `aaSfun`, `aaBq`, `aaXQt`, `aaQt_hasFDerivAt`.
-- `ActionAngleField.lean`: (v) `aaXP` (`X_{P_ξ}`), `hasFDerivAt_comp_aaMap` (chain rule, step `a-field`),
-  `aaP_isSmoothing_of` (helper, any open `V`), **`aaP_isSmoothing`** (`a=p=1`, `D(s,r)`), `aaPfun_real`, `aaPfun_add_tau`.
-- `InitialBound.lean`: `aaEpsIn`, `kamNorm_aaXQt_le` (i-q), `kamNorm_aaDerInv_normal_le` (i-g), `kamNorm_aaDerInv_le`
-  (i-k), `kamNorm_aaXP_le`.
-- `Initial.lean`: `differentiableAt_aaXP_param`, `aaXP_lipschitz` (i-par), **`initialPerturbation`** (`bpW:w5:initial`).
+Labels: `bpW:w5:action-angle` (i)-(vi), `bpW:w5:initial`. 11 new modules under `KAM/Wave/KamStep/`
+(`ActionAngle*`, `Initial*`), each < 450 lines, default heartbeats, no `sorry`/axiom/option override.
 
-Open (in progress): (v) the conjugacy identity `X_{H'}(𝒜w) = D𝒜(w)(X_N + X_P)` in `𝔚^{p-1}`.
+### AUDIT FOCUS (W5-AA proper)
+
+Conventions. `𝒫 = KamPhase` (normal components: representatives at weight `p`, Dirichlet labels `j+2`);
+`𝔚 = BirkSpace` in weighted coordinates at `(a,p)`; `ξ : Fin 2 → ℂ` (real parameters enter as
+`aaOfReal ξ = fun i => (ξ i : ℂ)`); `√ = aaSqrt` (`ζ^(1/2)`, principal `cpow`). Total maps (`aaMap`, `aaDer`, …)
+are only *used* on `Re(ξ_i + y_i) > 0` (and `𝒜_ξ(w) ∈ B_{ρ₁}`), as hypotheses of every theorem.
+
+- **(i)** `ActionAngle.lean`: `aaMap a p ξ w` (:172, `= aaTan + aaNormal`; coordinates `birkCoord_aaMap_tan`,
+  `aaMap_nor_true/false`); `aaMap_differentiableOn` (:264, joint in `(ξ,w)` on `aaDomJ`, `isOpen_aaDomJ` :177);
+  `aaMap_add_tau` (:299); `aaMap_real` (:326, real `ξ`, `StepReal w`, `ξ_i + Re y_i > 0` ⇒ `ϱ𝒜w = 𝒜w`);
+  `aaMap_linearTorus` (:373, `a=p=1`: `birkZinv (aaMap 1 1 ξ (θ,0,0,0)) = birkReal (linearTorus ξ hξ θ)`).
+- **(ii)** `ActionAngleDomain.lean`: `aaCA = 2200` (:41); `aaMap_domain` (:174): `s ≤ 1/8, r>0, t>0, ‖ξ‖ ≤ t,
+  2r² ≤ Re ξ_i, w ∈ D(s,r)` ⇒ `r² < Re(ξ_i+y_i)` and `‖𝒜w‖² < c_A(t+r²)`; `aaMap_mem_ball` (:216),
+  `aaMap_mem_birkBall1` (:223, under `c_A(t+r²) < ρ₁(m)²`). Numerics: `2(e²+4e⁴)e^{π/2} ≤ 2199` (`aaTan_const_le`).
+  The blueprint premise `0 < s` is not needed and omitted.
+- **(iii)** `ActionAngleDeriv.lean`: `aaDer a q ξ w` (:100) = `D𝒜_ξ(w)` on `q`-representatives;
+  `hasFDerivAt_aaMap` (:188, at `q = p`); `aaDerInv` (:249, the blueprint's inverse formulas);
+  `aaDerInv_aaDer` (:278), `aaDer_aaDerInv` (:315) (bijection `𝒫^q → 𝔚^q` for every `q`).
+  `ActionAngleSymp.lean`: `birkOmegaMix a q q'` (:36, `Ω` between weights; `= birkOmega` for `q=q'`,
+  `birkOmegaPlus_eq_birkOmegaMix`), `aaDer_symp` (:167): `Ω(D𝒜W, D𝒜W') = stepSymp (q) (q') W W'`, `q+q' ≥ 0`.
+- **(iv)** `ActionAngleNormal.lean`: `aaEnergy` (:48), `aaNfun` (:64) (`aaOmega0`, `aaOmegaN0`, `aaZZ = z_j z̄_j`),
+  `aaQt` (:68), `aaKext` (:78, W3's `K` extended by 0), `aaPfun` (:93); `aaMap_normalForm` (:215):
+  `birkLambda + birkHamBar + birkHamNor + birkK ⟨𝒜w,h⟩ = aaEnergy ξ + aaNfun ξ w + aaPfun ξ w`.
+  `aaOmega0_ofReal` (:104), `aaOmegaN0_ofReal` (:113): `= waveFreqTan`, `waveFreqNor` for real `ξ`.
+- **(v)** `ActionAngleQt.lean`: `aaXQt` (:100), `aaQt_hasFDerivAt` (:210). `ActionAngleField.lean`:
+  `hasFDerivAt_comp_aaMap` (:99, step `a-field`), `aaXP` (:117) `= X_{Q̃} + aaDerInv a (p+1) ξ w (X_{G^nor}(𝒜w) +
+  X_K(𝒜w))`; `aaP_isSmoothing_of` (:162, helper on any open `V` with the domain conditions);
+  **`aaP_isSmoothing`** (:209, `a=p=1`, `IsSmoothing (p:=1) (pb:=1+1) … (kamDomain s r) (aaPfun ξ) (aaXP ξ)`);
+  `aaPfun_add_tau` (:227), `aaPfun_real` (:236). `ActionAngleGbar.lean`: `birkCoord_birkHamBarX_tan` (:217),
+  `_nor` (:226) (coordinates of `X_Ḡ`, via `DḠ(w')e_{-l}` along complex lines). `ActionAngleConj.lean`:
+  `aaXN` (:81, `X_N` in `(p-1)`-representatives), **`aaConjugacy`** (:125):
+  `birkXLam (𝒜w) + birkEmbed a (p+1) (p-1) (X_Ḡ + X_{G^nor} + X_K)(𝒜w) = aaDer a (p-1) ξ w (aaXN ξ w +
+  kamHomEmbed a (p-1) (p+1) (aaXP ξ w))`. Deviation (proof route only): the identity is proved coordinatewise
+  instead of through derivatives and nondegeneracy; the statement is the blueprint's.
+- **(vi)** `aaNormal_norm_le` (`ActionAngleDomain.lean`:70), `aaNormal_norm_ge` (:77) (`‖ŵ‖ ≤ ‖u‖+‖v‖ ≤ √2‖ŵ‖`);
+  `‖x‖_E ≤ ‖𝒵x‖ ≤ √2‖x‖_E` is W3's `norm_le_norm_birkZ`, `norm_birkZ_le`. The "no weight conversion" remark is
+  structural (`homWt a q j = ellWeight a q (j+2)`; `aaNormal` is weight-free).
+- **`bpW:w5:initial`** `InitialBound.lean`: `aaEpsIn m r t` (:38) `= (1+2C_*)r² + 66C_*C_F(c_A(t+r²))^{5/2}(3/r +
+  2√(t+r²)/r²)`, `C_* = waveCubicConst 1`, `C_F = birkCF m 1`; `kamNorm_aaXQt_le` (:263, i-q `≤ r²`),
+  `kamNorm_aaDerInv_normal_le` (:103, i-g), `kamNorm_aaDerInv_le` (:119, i-k), `kamNorm_aaXP_le` (:374,
+  `|X_{P_ζ}(w)|_{2,r} ≤ ε_in`). `Initial.lean`: `differentiableAt_aaXP_param` (:103), `aaXP_lipschitz` (:158,
+  `4ε_in/ρ_ξ`), **`initialPerturbation`** (:219): hypotheses `s ≤ 1/8, 0<r, 0<t, 0<ρ_ξ`, the `ρ_ξ`-neighbourhood
+  condition `hPar`, `c_A(t+r²) < ρ₁²`; conclusions: `IsSmoothing` on `D(s,r)` for `ξ ∈ Π`, periodicity, reality,
+  `∀ λ ≥ 0, FamBound Π D(s,r) r λ (ε_in(1+4λ/ρ_ξ)) X_P`, `HomFreqHyp1` with the constants of `homFreqHyp1_wave`
+  (for any `B ≥ |⟨b,ξ⟩|` on `Π`), `dist (waveFreqTan ξ) (waveFreqTan ξ') ≤ N_A dist ξ ξ'`. The blueprint premises
+  `0 < s` and `r ≤ 1` are not needed and omitted (stronger statement).
+
+### Not done
+Nothing of the package. Interfaces left to consumers: the step theorem's `N` (`stepNfun`, real frequencies) is
+identified with `aaNfun` only through the frequencies (`aaOmega0_ofReal`, `aaOmegaN0_ofReal`), not as a function
+identity; `aaXN` is stated with complex `Ω⁰` (W3/W4's `stepXN` uses real `Ω`).
+
+### Checks
+- Builds (all via `w_build.sh`, one module per call): `FlowCalcJoint`, `FlowCalcOnto`, `ActionAngleConj` (pulls all
+  `ActionAngle*`), `Initial`, `StepOmegaBridge`, `StepTheoremSrc`: each `Build completed successfully`.
+- `w_lint.sh /root/code/KAM-inp-wpj`: exit 0 (`check_lean_modules: PASS`, `FROZEN-ANCHOR GUARD OK`, `ABI HASHES OK`).
+- `main_shortname_check.py` on all 16 new modules: `short-name check OK` (after renaming two flagged helpers).
+- `KAM/Root/Wave.lean` regenerated by `scripts/gen_root_imports.py`.
+- `#print axioms`: `initialPerturbation`, `aaConjugacy`, `aaMap_normalForm`, `aaDer_symp`, `aaP_isSmoothing`,
+  `aaMap_linearTorus`, `aaMap_differentiableOn`, `aaMap_real`, `aaMap_add_tau`, `aaMap_domain`,
+  `aaMap_mem_birkBall1`, `hasFDerivAt_aaMap`, `aaDerInv_aaDer`, `aaDer_aaDerInv`, `aaPfun_real`, `aaPfun_add_tau`,
+  `aaQt_hasFDerivAt`, `kamNorm_aaXP_le`, `aaXP_lipschitz`, `aaNormal_norm_le/ge`, `birkCoord_birkHamBarX_tan/nor`:
+  all `[propext, Classical.choice, Quot.sound]`.
+
+### Blueprint defects / deviations
+- No blueprint defect found. Omitted unneeded premises: (ii) `0 < s`; initial `0 < s`, `r ≤ 1`.
+- (v) conjugacy proved coordinatewise (route deviation; same statement).
+- Build note: Birkhoff (and other unchanged) oleans were copied no-clobber from main's build snapshot.
 
 ## W5-STEP-A-FIX (findings F1, F2 of `W5-STEP-A-audit-1.md`)
 
@@ -92,7 +144,7 @@ add the new ones.
   `StepPhase r` = `|·|_{p_+,r}` on `p_+`-representatives, and the operator norm `|·|_{p→p_+,r}`), from
   `flowII_disp`, `flowII_disp_sub`, `flowII_deriv`, `flowII_deriv_sub` without `‖ι g‖ ≤ ‖g‖`;
 - `StepCore.smooth_clause_v` (:215): `∃ A₀ A₁ B₀ B₁ ≥ 0, A₀+λA₁ ≤ 2M_F, B₀+λB₁ ≤ 16M_F/σ` with the four bounds on `Ψ`.
-- In `stepTheorem`/`stepTheoremMod` (`StepTheoremSrc.lean`, new conjunct 5 of the appended six).
+- In `stepTheorem` (`StepTheoremSrc.lean`:357) / `stepTheoremMod` (:687): new conjunct 5 of the appended six.
 
 **F2 (clause (iv), Dirichlet weight, `w5-kamstep.tex:581-584`).** `StepDivisorsW.lean`: `stepDivisorsW` (:32) (the
 subtraction argument of `stepDivisors` with `HomMelnikovW`/`homJapW`; only `homJapW l ≥ 1` is used, no factor 3);
