@@ -1,0 +1,20 @@
+LP-FREEZE8-EXEC (D64), step 2. Command (run 2026-11-01 in /root/code/KAM-inp-lp-freeze8x after the sealed install):
+  python3 -I docs/tracks/LP/freeze/lp_identity_check.py --root . --approved 6c168945:docs/tracks/LP/freeze/draft8 --date 2026-11-01 --decision D64 --pin --show-diff
+Output:
+77c6bb5ee337d2c6b96bed50a06e5ca835acb33d3b9ee0813498df8b5be6cff8  docs/tracks/LP/freeze/draft8/KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean.txt
+ba6087a8953f445bb8dcea8f8a7ea074caf1d95442c80e27121f464efeea1374  docs/tracks/LP/freeze/draft8/KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean.txt
+9b8e3ffc6c5404c81bcd1cc5623f609c5ddd2976521b142a8d48aae9c4805669  docs/tracks/LP/freeze/draft8/manifest-entries.json
+IDENTICAL  KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean  (body: sealed; changed lines: 1 placeholder line(s))
+    -amended by AMENDMENTS). Owner-approved on <APPROVAL-DATE> (decision <DECISION>;
+    +amended by AMENDMENTS). Owner-approved on 2026-11-01 (decision D64;
+    -  by sorry
+    +  by exact KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith hn ν hν hνmax
+    +      hνle A hA hAord δ hδ
+IDENTICAL  KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean  (body: sealed; changed lines: 1 placeholder line(s))
+    -amended by AMENDMENTS). Owner-approved on <APPROVAL-DATE> (decision <DECISION>;
+    +amended by AMENDMENTS). Owner-approved on 2026-11-01 (decision D64;
+    -  by sorry
+    +  by exact KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith hn ν hν hνmax
+    +      hνle A hA hAord δ hδ
+2 files checked
+ALL IDENTICAL

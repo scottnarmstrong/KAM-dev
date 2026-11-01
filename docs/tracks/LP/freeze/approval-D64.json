@@ -1,0 +1,11 @@
+{
+ "_comment": "Approval record for lp_manifest_add.py (FREEZE-PROPOSAL-DRAFT8 §6; package LP-FREEZE8-EXEC). D64 (main 14fe69d6): the owner approved draft 8 (LP3; approval object inp-lp-freeze8r at 6c168945), installed frozen and sealed in one pass as D62.",
+ "author_approval": {
+  "approved_by": "Scott Armstrong",
+  "approved_at": "2026-11-01",
+  "approval_ref": "owner reply 'approve draft 8' (2026-11-01, 14:20 UTC) to FREEZE-PROPOSAL-DRAFT8 (branch inp-lp-freeze8r, commit 6c168945; statement audit 1 PASS WITH NOTES); docs/DECISIONS.md D59, D64",
+  "approval_version": "1"
+ },
+ "ruling_ref": "docs/DECISIONS.md D59, D64",
+ "state": "SEALED"
+}

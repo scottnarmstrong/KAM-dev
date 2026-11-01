@@ -1,0 +1,48 @@
+LP-FREEZE8-EXEC (D64). lp_axioms.py --probe on a manifest holding the 2 D64 entries; lp_lean.sh rc 0; --verify:
+OK  axioms KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith: ['propext', 'Classical.choice', 'Quot.sound']
+OK  axioms KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith: ['propext', 'Classical.choice', 'Quot.sound']
+OK  type KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith == KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith: TYPE_EQV
+OK  axioms KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith: ['propext', 'Classical.choice', 'Quot.sound']
+OK  axioms KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith: ['propext', 'Classical.choice', 'Quot.sound']
+OK  type KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith == KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith: TYPE_EQV
+2 anchors, 2 providers, 0 definitions
+ALL OK
+
+Raw Lean output:
+TYPECHECK KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith: TYPE_EQV
+'KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TYPECHECK KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith: TYPE_EQV
+'KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+
+Probe file:
+import KAM.Frozen.Planetary.StrongAMD.Theorems.PlanarStrongAMDExponentialSafetyNoArith
+import KAM.Frozen.Planetary.Spatial.Theorems.SpatialStrongAMDExponentialSafetyNoArith
+
+open Lean Meta Elab Command
+/-- `#typeEqv a b`: whether the elaborated types of `a` and `b` are alpha-equivalent (`Expr.eqv`). -/
+elab "#typeEqv " a:ident b:ident : command => do
+  let env ← getEnv
+  let some ca := env.find? a.getId | throwError "unknown {a.getId}"
+  let some cb := env.find? b.getId | throwError "unknown {b.getId}"
+  logInfo m!"TYPECHECK {a.getId} {b.getId}: {if ca.type.eqv cb.type then "TYPE_EQV" else "TYPE_NOT_EQV"}"
+
+example : type_of% @KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith := @KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith
+#typeEqv KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith
+#print axioms KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith
+#print axioms KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith
+
+example : type_of% @KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith := @KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith
+#typeEqv KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith
+#print axioms KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith
+#print axioms KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith
+
