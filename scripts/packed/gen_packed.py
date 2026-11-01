@@ -720,7 +720,10 @@ def emit_j(E, SJ, jet):
     # the jet literal `lg00Jet`, never `lg00Cert.ham.jet`: reading the certificate's jet makes the kernel compile the
     # Hamiltonian's jet (`lg00Ham_jet`'s cost, ≈ 7.5 GB); the assemblies rewrite with the proved `lg00Ham_jet`
     J, jsL, jsF = "lg00Jet", "(jetSlots (α := LGF) jdLowW)", "(jetSlots (α := LGF) jdFullW)"
-    RWJ = "rw [show lg00Cert.ham.jet = lg00Jet from lg00Ham_jet]"
+    RWJ = "rw [pkHamJet]"
+    hamjet = E.write("HamJet", [E.lg("Data.Cert"), E.sh("JetBridge"), E.sh("Jet")], "the certificate's jet",
+                     "`pkHamJet`: the certificate's jet is the literal `lg00Jet` (the jet bridge `lg00Ham_jet`).",
+                     "theorem pkHamJet : lg00Cert.ham.jet = lg00Jet := lg00Ham_jet\n")
     low, full = jet["low"], jet["full"]                  # the chain theorems (`…ChainCert`)
     lowd, fulld = jet["low_data"], jet["full_data"]      # the chain data (`jdLowW`, `jdFullW`) only
     imp = [data["G"], data["T"], data["R"], E.lg("Data.Cert"), "KAM.CertificateSharp.Packed.RouteSharpJ", front["data"],
@@ -796,7 +799,7 @@ def emit_j(E, SJ, jet):
                    "pkTrStC pkTrStDGi\n    pkTrStDN pkTrStXN pkTrT pkTrY pkTrFinal\n" % swrap(
                        "torsRCoreJ 2 %s %s %s %s %s %s %s pkRBook pkGMemo pkTMemo pkRMemo pkEps %s.torsInv %s = true :="
                        % (Bi, W, cfg, box, sv, J, jsL, c, sig)))
-    tors = E.write("TorsJ", [gram, d2all, lowok, core, E.sh("JetBridge")], "the packed torsion on the jet",
+    tors = E.write("TorsJ", [gram, d2all, lowok, core, hamjet], "the packed torsion on the jet",
                    "`checkTorsionJ` of the certificate.",
                    "theorem pkCheckTorsionJ :\n    checkTorsionJ pkGBook pkGMemo pkRBook pkTMemo pkRMemo jdLowW lg00Cert "
                    "= true :=\n  checkTorsionJ_of pkGram pkEps_eq rfl pkLowOk pkD2All (by %s; exact pkTorsCoreJ)\n" % RWJ)
@@ -835,7 +838,7 @@ def emit_j(E, SJ, jet):
                      "  simp only [jetFullOk, Bool.and_eq_true]\n"
                      "  exact ⟨⟨by decide +kernel, by decide +kernel⟩,\n"
                      "    (jetCheck_withFront pkFrontFullOk _ _).trans jetFull_check_cert⟩\n")
-    inv = E.write("InvJ", [gram, guard, fullok, E.sh("JetBridge")] + rows + ["Mathlib.Tactic.IntervalCases"],
+    inv = E.write("InvJ", [gram, guard, fullok, hamjet] + rows + ["Mathlib.Tactic.IntervalCases"],
                   "the packed invariance on the jet", "`checkInvarianceJ` of the certificate.",
                   "theorem pkCheckInvJ : checkInvarianceJ pkGBook pkGMemo pkIBook jdFullW lg00Cert = true := by\n"
                   "  refine checkInvarianceJ_of pkGram rfl pkFullOk pkIvGuard fun a ha => ?_\n"
@@ -845,7 +848,7 @@ def emit_j(E, SJ, jet):
                   "`v0` node, minus `E0`, plus its radius, at most `err`).",
                   thm("pkEnGuard", "enGuard 2 pkIBook = true") + "\n" +
                   thm("pkEnOk", "enOk 2 %s %s pkIBook %s.params.E0 %s.params.err = true" % (J, jsF, c, c)))
-    en = E.write("EnJ", [enp, fullok, E.sh("JetBridge")], "the packed energy on the jet", "`checkEnergyJ` from its parts.",
+    en = E.write("EnJ", [enp, fullok, hamjet], "the packed energy on the jet", "`checkEnergyJ` from its parts.",
                  "theorem pkCheckEnJ : checkEnergyJ pkIBook jdFullW lg00Cert = true :=\n"
                  "  checkEnergyJ_of pkFullOk pkEnGuard (by %s; exact pkEnOk)\n" % RWJ)
     bk = "pkGBook pkGMemo pkRBook pkTMemo pkRMemo"
