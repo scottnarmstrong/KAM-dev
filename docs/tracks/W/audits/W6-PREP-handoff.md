@@ -21,3 +21,7 @@ still being built. Modules under `KAM/Wave/Iteration/`, namespace `KAM.Wave`.
 | `convergence` (ii) | divisor limit (generic) | `Limits` | `w6_divisor_limit`, `tendsto_w6ZoneFun` |
 | `final-freq` | conditional helper only | `Limits` | `w6FinalFreq_of_limits` (hypotheses: an admissible family, convergence of `ω_ν` on `S`, stage-wise `l = 0` conditions) |
 | `freq-lip` | conditional helper (steps `fl-size`, `fl-lip`) | `FreqLip` | `w6IsFreqPair_of_bounds` (hypotheses: prep-step (ii) shift bounds and convergence (ii) drift bounds), `w6_lipcoef_omega`, `w6_lipcoef_Omega`, `w6AdmissibleFamilyOfPairs` |
+| `wave-iteration` | W5-free data | `WaveData` | `w6QP`, `w6EtaP`, `w6EpsFlat`, `w6MFP`, `w6WaveSeq` (`s₀ = 7/64`, `r₀ = η_P r`, `α₀ = α̌`, `M₀ = 2M`, `ε₀`), `w6Etor`; `w6WaveSeq_valid`, `w6WaveSeq_small` (applicable, first clause), `w6EpsFlat_pos` |
+| `prep-step` | arithmetic only (steps `p-data`, `p-step`, `p-size`, (v)) | `WaveData` | `w6QP_le`, `w6EtaP_le`, `w6prep_small` (W5 smallness, modified case), `w6SigmaP_le_min`, `w6prep_lam_le`, `w6prep_lip_growth`, `w6EpsFlat_eq`, `w6EpsFlat_le` (`ε^♭_0 ≤ γ₁α̌`), `w6lam0_le_lam`, `alpha_rpow_identity`, `w6C0n_ge` (`c^♮_0 ≥ 8`) |
+| `to-w8` ("Starting size") | done | `WaveData` | `w6EpsFlat_div`, `w6MFP_eq`, `w6MFP_le`, `w6WaveSeq_ePhi`, `w6Etor_sharp_le` |
+| `strong` | linear-algebra core only | `Strong` | `w6Strong_core` |
