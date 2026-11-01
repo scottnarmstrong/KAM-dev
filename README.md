@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-01 00:06 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 56 %** · frozen statements proved: 26 / 31 · **389,564 lines of hand-written Lean** of an estimated ≈ 429,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-01 00:12 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 56 %** · frozen statements proved: 26 / 31 · **389,564 lines of hand-written Lean** of an estimated ≈ 429,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -292,7 +292,7 @@ Overall, everything together: 87.1 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 00:06 UTC from `main` at `a90e48ad` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 00:12 UTC from `main` at `f7bd39e0` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published.
 
@@ -491,7 +491,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:workers -->
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
-| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
+| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | 🔄 working | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
@@ -499,7 +499,7 @@ account read from each agent's running process) and their branches. Rules for ag
 | **w3main** `inp-maud-wpka` | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: W3-MAIN (group 4) from inp-wpk@5791205c, on inp-w3flow: audit branch | `inp-w3main` | 1 (vs `inp`) |
 | **wpj** `inp-mprov-wpj` | prover (offload) | Claude Sonnet 5.5 | claude-11 | 🔄 proving | last commit: W5: expansion of H o Phi along the flow (new-ham (i)); handoff update | `inp-wpj` | 73 (vs `inp`) |
 | **wpk** `inp-maud-wpk` | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: W3-MAIN: real-coordinate identities (X_K^R gradient form, Gbar closed form, H(Gamma^R x)); | `inp-wpk` | 87 (vs `inp`) |
-| **wpm** `inp-mprov-wpl` | prover (offload) | Claude Opus 5.5 | claude-11 | 🔄 proving | last commit: W8-PREP: patched family and locality (bpW:w8:patch, patch-local), patching helpers (patch- | `inp-wpm` | 34 (vs `inp`) |
+| **wpn** `inp-mprov-wpl` | prover (offload) | Claude Opus 5.5 | claude-11 | 🔄 proving | last commit: Merge W5-STEP snapshot inp-wpj@82544b6e into inp-wpn (W6 prover base) | `inp-wpn` | 108 (vs `inp`) |
 <!-- /AUTO:workers -->
 
 ### Recent changes on `main`
@@ -507,6 +507,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-01 00:12 | `f7bd39e0` | D56: track LP launched (strong-AMD exponential safety); proof audit PASS WITH NOTES (A10) |
 | 2026-11-01 00:06 | `a90e48ad` | Explorations: amd-crossing (strong-AMD exponential safety; research, claimed proof pending audit, campaign design) |
 | 2026-10-31 23:59 | `cbae9a98` | docs: record certifier v2 review and plasma application routes |
 | 2026-10-31 23:51 | `ceec8de1` | LG00 status: torus in Γ′ certified (lg00_kamTorus proved, standard axioms); stages for exact-energy T′, T″ and confinement added |
@@ -518,7 +519,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-10-31 21:07 | `102d5d68` | HQ: track W resumed (D53), graph published (c89e1f98), 11 packages on main |
 | 2026-10-31 21:03 | `c89e1f98` | Land inp into main |
 | 2026-10-31 20:50 | `8d1de23c` | Land inp into main |
-| 2026-10-31 20:48 | `2272b319` | Log: lock inv chain passes; W audits on codex-1 (W3 pass, graph G1-G3, K amendments K-A045..A048); disk archive |
 <!-- /AUTO:landed -->
 
 ## Decisions
