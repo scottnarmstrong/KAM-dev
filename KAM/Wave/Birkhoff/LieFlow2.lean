@@ -55,6 +55,7 @@ section Series
 
 variable [CompleteSpace E] {C : ℝ} (hC : 0 ≤ C) (hT : ∀ v : Fin 3 → E, ‖T v‖ ≤ C * ∏ i, ‖v i‖)
 
+omit [CompleteSpace E] in
 include hC hT in
 theorem norm_lieTermD_le (k : ℕ) (t : ℝ) (w : E) :
     ‖lieTermD T k (t, w)‖ ≤ (k : ℝ) * |t| ^ (k - 1) * (2 * C * ‖w‖ ^ 2) ^ k * ‖w‖ +
@@ -99,6 +100,7 @@ theorem norm_lieTermD_le (k : ℕ) (t : ℝ) (w : E) :
       _ = (2 * k + 1) * (2 * |t| * C * ‖w‖ ^ 2) ^ k := by
         rw [mul_pow, mul_pow, mul_pow, ← pow_mul]; ring
 
+omit [CompleteSpace E] in
 include hC hT in
 /-- A local uniform summable majorant for the termwise derivatives `lieTermD`: around every point
 `(t, w)` with `|t| < 2`, `40 C ‖w‖² < 1` there is an open convex set `s ∋ (t,w), (0,0)` and a
@@ -168,15 +170,15 @@ theorem exists_lieTermD_majorant (hCp : 0 < C) (t : ℝ) (w : E) (ht : |t| < 2)
     have hq0n : (0 : ℝ) ≤ 2 * |t'| * C * ‖w'‖ ^ 2 := by positivity
     refine add_le_add ?_ ?_
     · cases k with
-      | zero => simp [hu]
+      | zero => simp
       | succ k =>
         have ht' : |t'| ^ k ≤ τ ^ k := pow_le_pow_left₀ (abs_nonneg _) h1.le k
         have hA' : (2 * C * ‖w'‖ ^ 2) ^ (k + 1) ≤ a ^ (k + 1) :=
           pow_le_pow_left₀ (by positivity) hA _
         have hrhs : (a * ρ / q0) * (((k + 1 : ℕ) : ℝ) * q0 ^ (k + 1)) =
             ((k + 1 : ℕ) : ℝ) * (τ ^ k * a ^ (k + 1) * ρ) := by
-          rw [hq0]; field_simp; ring
-        simp only [hu, Nat.add_sub_cancel]
+          rw [hq0]; field_simp; ring_nf
+        simp only [Nat.add_sub_cancel]
         rw [hrhs]
         have hk0 : (0 : ℝ) ≤ ((k + 1 : ℕ) : ℝ) := by positivity
         calc ((k + 1 : ℕ) : ℝ) * |t'| ^ k * (2 * C * ‖w'‖ ^ 2) ^ (k + 1) * ‖w'‖
