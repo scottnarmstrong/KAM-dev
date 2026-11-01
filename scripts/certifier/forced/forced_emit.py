@@ -128,7 +128,13 @@ def emit_data(c, tag, modname, doc):
     out.append("  [" + ",\n".join(r.lstrip() if i == 0 else r for i, r in enumerate(rows)) + "]\n\n")
     out.append("/-- The advice of the full stage. -/\ndef advFull : AdviceBook :=\n%s\n\n" % adv_lean(c.books["cfgFull"]))
     out.append("/-- The advice of the low stage. -/\ndef advLow : AdviceBook :=\n%s\n\n" % adv_lean(c.books["cfgLow"]))
-    box = ["(%s,\n    %s)" % (q(a), q(b)) for a, b in c.freqBox]
+    def qb(x, ind):
+        t = q(x)
+        if len(t) + len(ind) + 3 <= WIDTH:
+            return t
+        x = F(x)
+        return "(%d /\n%s  %d)" % (x.numerator, ind, x.denominator)
+    box = ["(%s,\n    %s)" % (qb(a, "    "), qb(b, "    ")) for a, b in c.freqBox]
     out.append("/-- The frequency box. -/\ndef box : FreqBox :=\n  [%s]\n\n" % ",\n   ".join(box))
     pe = c.piEnc
     W, WH = c.weight, c.weightH

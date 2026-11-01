@@ -28,6 +28,9 @@ variable {n : ℕ} {α : Type} [CertArith α]
 theorem checkV2_eq (E : EngineV2) (c : TorusCertificate n α) (w : E.Wit) :
     checkTorusCertificateV2 E c w = (landedBase.check c && E.test c w) := rfl
 
+theorem sharpV2_test (c : TorusCertificate n α) (u : Unit) :
+    sharpV2.test c u = sharpTest c := rfl
+
 theorem routeAFrozen_test (c : TorusCertificate n α) (w : FrozenWit) :
     routeAFrozen.test c w = frozenCore n c.params c.freqBox w := rfl
 

@@ -278,7 +278,6 @@ def route_B(c, tag, R, frozen=False, kp=2, J=20, log=print):
     d0, dl, sp, bfull = b_bites(p, kp)
     if frozen:
         sites = {}
-        I = dict(iLt=p["sK"] - p["mu"], iN=None, iNt=None)       # defaultIB, filled below from the Lean definition
     else:
         bites = sorted({dl(s) for s in range(kp)} | {sp(s) for s in range(kp)} | {bfull(s) for s in range(kp)})
         sites = site_search(tag, bites, kappa, p["gamma"])
@@ -312,9 +311,32 @@ def route_B(c, tag, R, frozen=False, kp=2, J=20, log=print):
                 estar=estar, frozen=frozen, I=I)
 
 
-def default_IB(p):
+def default_IB(p, n=2):
     """`defaultIB n p` of RouteBCore.lean (the frozen route's initial values)."""
-    raise NotImplementedError
+    a, b = p["sK"] - p["mu"], p["sB"] - p["mu"]
+    return dict(iLt=2 * n * a, iN=a * b, iNt=2 * n * a * b)
+
+
+def frozen_A(c, kp=5, th=F(1, 8), J=20, log=print):
+    p = params_of(c)
+    box = c.freqBox
+    Xs = R2.max_Xs("frozen", p, box, kp, th, J, lo=-30.0, hi=8.0, steps=40)
+    ok, why, w = R2.okB_at("frozen", p, box, kp, th, J, Xs, detail=True)
+    assert ok, why
+    full = V.frozenCore(2, p, box, w, detail=True)
+    assert full[0], full
+    d0 = min(F(1), (p["rho"] - p["rhoInf"]) / 6)
+    estar = Xs * p["gamma"] ** 4 * d0 ** 4
+    log("route A frozen: Xs %s, threshold e* %.3e, err %.3e" % (Xs, float(estar), float(p["err"])))
+    return dict(w, estar=estar)
+
+
+def lean_frozenA(w):
+    q = FL.lq
+    return ("({ Xs := %s, kp := %d, th := %s, c := [%s], cbar := [%s], ctail := %s, sB := %s, sT := %s, "
+            "sLt := %s, sN := %s, sNt := %s, t := %s, J := %d } : KAM.CertificateSharp.V2.FrozenWit)") % (
+        q(w["Xs"]), w["kp"], q(w["th"]), ", ".join(q(x) for x in w["c"]), ", ".join(q(x) for x in w["cbar"]),
+        q(w["ctail"]), q(w["sB"]), q(w["sT"]), q(w["sLt"]), q(w["sN"]), q(w["sNt"]), q(w["t"]), w["J"])
 
 
 def lean_runB(W):

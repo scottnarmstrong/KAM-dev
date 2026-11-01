@@ -30,6 +30,23 @@ def q(x):
     return FE.FM.lean_q(F(x))
 
 
+def q2(x):
+    """a rational on one line, or split after `/` when it is too long."""
+    t = "  " + q(x)
+    if len(t) <= 100:
+        return t
+    x = F(x)
+    return "  (%d /\n    %d)" % (x.numerator, x.denominator)
+
+
+def list_items(name, xs):
+    """wrap tokens of `name := [x0, ..., xk]` (the wrap separator supplies the commas)."""
+    xs = [q(x) for x in xs]
+    if len(xs) == 1:
+        return ["%s := [%s]" % (name, xs[0])]
+    return ["%s := [%s" % (name, xs[0])] + xs[1:-1] + [xs[-1] + "]"]
+
+
 def lines_ok(text):
     for ln in text.split("\n"):
         assert len(ln) <= 100, ln
@@ -67,11 +84,11 @@ noncomputable def ωstar : Fin 2 → ℝ := lunarRotFreq (lunarNuMinusN %(N)d) �
 
 /-- The lower end of the enclosure of `√5`. -/
 def rootLo : ℚ :=
-  %(lo)s
+%(lo)s
 
 /-- The upper end of the enclosure of `√5`. -/
 def rootHi : ℚ :=
-  %(hi)s
+%(hi)s
 
 theorem freq : FreqEncloses 2 cert.freqBox ωstar := by
   have hx := sqrt_mem_of_checkRootEnclosure
@@ -95,7 +112,7 @@ theorem dio : IsDiophantine ((cert.params.γ : ℚ) : ℝ) ((cert.params.tau : �
 end KAM.CertificateSharp.V2.Forced.%(T)s
 
 end
-""" % dict(mod=MOD, T=tag, N=N, N2=N + 2, kq=q(kap), lo=q(lo), hi=q(hi)))
+""" % dict(mod=MOD, T=tag, N=N, N2=N + 2, kq=q(kap), lo=q2(lo), hi=q2(hi)))
 
 
 def claim_module(tag, W):
@@ -172,8 +189,7 @@ def bite(s):
 def refined_wit_def(name, W, doc):
     w = W["core"]
     items = ["Xs := %s" % q(w["Xs"]), "kp := %d" % w["kp"], "th := %s" % q(w["th"]),
-             "c := [%s]" % ", ".join(q(x) for x in w["c"]), "cbar := [%s]" % ", ".join(q(x) for x in w["cbar"]),
-             "ctail := %s" % q(w["ctail"])] + ["%s := %s" % (k, q(w[k])) for k in
+             ] + list_items("c", w["c"]) + list_items("cbar", w["cbar"]) + ["ctail := %s" % q(w["ctail"])] + ["%s := %s" % (k, q(w[k])) for k in
                                                  ("sB", "sT", "sLt", "sN", "sNt", "t")] + ["J := %d" % w["J"]]
     core = FE.wrap("    { ", items, indent="      ", close=" }")
     sites = ["(%s,\n      %s)" % (bite(a), bite(b)) for a, b in W["sites"]]
@@ -319,8 +335,8 @@ def runB_items(W):
              "θξ := 1 / 8", "θΩ := 1 / 8", "q := 1 / 8", "θN := 1 / 8", "θω := 1 / 8", "ts := 1 / 10",
              "bF := %s" % q(caps["bF"]), "selfcons := false", "lam0 := %s" % q(caps["lam0"]),
              "lamW0 := %s" % q(caps["lamW0"]), "ePer0 := %s" % q(caps["ePer0"]),
-             "c := [%s]" % ", ".join(q(x) for x in cl), "c' := [%s]" % ", ".join(q(x) for x in cpl),
-             "cbar := [%s]" % ", ".join(q(x) for x in cbl), "ctail := %s" % q(ctail), "cbtail := %s" % q(cbtail)]
+] + list_items("c", cl) + list_items("c'", cpl) + list_items("cbar", cbl) +
+            ["ctail := %s" % q(ctail), "cbtail := %s" % q(cbtail)]
             + ["%s := %s" % (k, q(caps[k])) for k in ("sB", "sT", "sLt", "sN", "sNt")] + ["J := %d" % W["J"]])
 
 
@@ -388,3 +404,82 @@ end KAM.CertificateSharp.V2.Forced.%(T)s
 end
 """ % dict(mod=MOD, T=T, Xs=q(W["Xs"]), estar=float(W["estar"]), err=q(W["err"]), core=core, kap=q(W["kappa"]),
            sites=sites))
+
+
+def frozen_module(tag, A, B):
+    T = tag
+    itemsA = (["Xs := %s" % q(A["Xs"]), "kp := %d" % A["kp"], "th := %s" % q(A["th"]),
+] + list_items("c", A["c"]) + list_items("cbar", A["cbar"]) + ["ctail := %s" % q(A["ctail"])] + ["%s := %s" % (k, q(A[k])) for k in
+                                                ("sB", "sT", "sLt", "sN", "sNt", "t")] + ["J := %d" % A["J"]])
+    coreA = FE.wrap("  { ", itemsA, indent="    ", close=" }")
+    coreB = FE.wrap("  { ", runB_items(B), indent="    ", close=" }")
+    return lines_ok(FE.HEADER + """public import %(mod)s%(T)sBase
+public import %(mod)s%(T)sFreq
+public import %(mod)sLemmas
+
+/-!
+# The sharp and frozen routes on the near-integrable forced toy `%(T)s`, in the kernel
+
+`%(T)s` has `err = %(err)s`, below the thresholds of the landed sharp
+engine and of the frozen forms of routes A and B (sharp `%(es).2e`, frozen A `%(ea).2e`,
+frozen B `%(eb).2e`), so every one of them passes on the same certificate:
+* `sharp_passes`: `routeV2All` at `Sum.inl ()` (the landed certifier `checkTorusCertificateSharp`);
+* `frozenA_passes`: the witness of `routeAFrozen` (classical constants, `M₁ = M₂ = M`);
+* `frozenB_passes`: the witness of `routeBFrozen` (`iso_g1_v2B_frozen`);
+and `sharp_torus`, `frozenA_torus`, `frozenB_torus` are the certified tori.
+-/
+
+@[expose] public section
+
+namespace KAM.CertificateSharp.V2.Forced.%(T)s
+
+open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2
+
+theorem sharp_test : sharpTest cert = true := by decide +kernel
+
+/-- **The landed sharp certifier on `%(T)s`**, through `routeV2All`. -/
+theorem sharp_passes : checkTorusCertificateV2 routeV2All cert (Sum.inl ()) = true := by
+  refine (checkV2_eq routeV2All cert (Sum.inl ())).trans ?_
+  rw [base_ok, Bool.true_and]
+  exact (sharpV2_test cert ()).trans sharp_test
+
+theorem sharp_torus : CertifiedTorus cert ωstar :=
+  checkTorusCertificateV2_sound routeV2All sharp_passes freq dio
+
+/-- The frozen route-A witness of `%(T)s`. -/
+def frozenWit : FrozenWit :=
+%(coreA)s
+
+theorem frozenA_core : frozenCore 2 cert.params cert.freqBox frozenWit = true := by decide +kernel
+
+theorem frozenA_passes : checkTorusCertificateV2 routeV2All cert
+    (Sum.inr (Sum.inl (Sum.inl (Sum.inl (Sum.inl frozenWit))))) = true := by
+  rw [checkTorusCertificateV2_routeV2All_aFrozen]
+  refine (checkV2_eq routeAFrozen cert frozenWit).trans ?_
+  rw [base_ok, Bool.true_and]
+  exact (routeAFrozen_test cert frozenWit).trans frozenA_core
+
+theorem frozenA_torus : CertifiedTorus cert ωstar :=
+  checkTorusCertificateV2_sound routeV2All frozenA_passes freq dio
+
+/-- The frozen route-B witness of `%(T)s`. -/
+def frozenBWit : RunBWit :=
+%(coreB)s
+
+theorem frozenB_core : frozenBCore 2 cert.params cert.freqBox frozenBWit = true := by decide +kernel
+
+theorem frozenB_passes : checkTorusCertificateV2 routeV2All cert
+    (Sum.inr (Sum.inr (Sum.inl frozenBWit))) = true := by
+  rw [checkTorusCertificateV2_routeV2All_bFrozen]
+  refine (checkV2_eq routeBFrozen cert frozenBWit).trans ?_
+  rw [base_ok, Bool.true_and]
+  exact (routeBFrozen_test cert frozenBWit).trans frozenB_core
+
+theorem frozenB_torus : CertifiedTorus cert ωstar :=
+  checkTorusCertificateV2_sound routeV2All frozenB_passes freq dio
+
+end KAM.CertificateSharp.V2.Forced.%(T)s
+
+end
+""" % dict(mod=MOD, T=T, err=q(A["err"]), es=float(A["esharp"]), ea=float(A["estar"]), eb=float(B["estar"]),
+           coreA=coreA, coreB=coreB))

@@ -96,6 +96,12 @@ public import KAM.CertificateSharp.V2.SmallDivQ
 public import KAM.CertificateSharp.V2.StepBQ
 public import KAM.CertificateSharp.V2.Tests.Forced.Format
 public import KAM.CertificateSharp.V2.Tests.Forced.Lemmas
+public import KAM.CertificateSharp.V2.Tests.Forced.MicroBase
+public import KAM.CertificateSharp.V2.Tests.Forced.MicroChecks
+public import KAM.CertificateSharp.V2.Tests.Forced.MicroData
+public import KAM.CertificateSharp.V2.Tests.Forced.MicroFreq
+public import KAM.CertificateSharp.V2.Tests.Forced.MicroRoutes
+public import KAM.CertificateSharp.V2.Tests.Forced.MicroStages
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyBase
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyChecks
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyClaim
