@@ -642,6 +642,7 @@ public import KAM.Planetary.Spatial.Momentum
 public import KAM.Planetary.Spatial.Newton
 public import KAM.Planetary.Spatial.Orbital
 public import KAM.Planetary.Spatial.Rotation
+public import KAM.Planetary.Spatial.Rotation46
 public import KAM.Planetary.Spatial.RotationAlgebra
 public import KAM.Planetary.Spatial.RotationSolution
 public import KAM.Planetary.Spatial.Vector
