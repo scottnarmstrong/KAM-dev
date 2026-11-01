@@ -312,7 +312,7 @@ def main(tag):
     write(tag, "Freq", freq_module(tag, c))
     write(tag, "Claim", claim_module(tag, W))
     write(tag, "RouteA", routeA_module(tag, W, WR))
-    out = os.path.join(ROOT, "certificates", "forced-toy", "%s_witness.json" % tag)
+    out = os.path.join(ROOT, "scripts", "certifier", "fixtures", "forced-toy", "%s_witness.json" % tag)
     with open(out, "w") as fh:
         json.dump(FW.jsonable(dict(refinedA={k: v for k, v in W.items() if k != "claim_values"},
                                    claim_values=W["claim_values"], refinedR=WR)), fh, indent=1, sort_keys=True,

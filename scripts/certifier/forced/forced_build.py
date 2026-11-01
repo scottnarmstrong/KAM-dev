@@ -8,7 +8,7 @@ Writes, for TAG (a Lean identifier, e.g. `Tiny`):
   KAM/CertificateSharp/V2/Tests/Forced/<TAG>Stages.lean   the memoized Gram and torsion stages (literals)
   KAM/CertificateSharp/V2/Tests/Forced/<TAG>Base.lean     every landed sub-check, one kernel run each, and
                                                           `<TAG>.base_ok : landedBase.check <TAG>.cert = true`
-and certificates/forced-toy/<TAG>.json (the spec, the mirror's report and every number of the certificate), and a
+and scripts/certifier/fixtures/forced-toy/<TAG>.json (the spec, the mirror's report and every number of the certificate), and a
 pickle of the mirror objects in the work directory (default: $FORCED_WORK or /tmp) for forced_witness.py.
 """
 import argparse
@@ -30,7 +30,7 @@ import forced_emit as FE            # noqa: E402
 import forced_stages as FS          # noqa: E402
 
 LEAN_DIR = os.path.join(ROOT, "KAM", "CertificateSharp", "V2", "Tests", "Forced")
-JSON_DIR = os.path.join(ROOT, "certificates", "forced-toy")
+JSON_DIR = os.path.join(ROOT, "scripts", "certifier", "fixtures", "forced-toy")
 MOD = "KAM.CertificateSharp.V2.Tests.Forced."
 
 # the named specs of the regression suite (overrides of forced_cert.DEFAULT_SPEC)
@@ -54,13 +54,13 @@ public import KAM.CertificateSharp.V2.Engine
 /-!
 # The landed sub-checks of the forced toy `%(T)s`, one kernel run each
 
-`static_ok` … `energy_ok` (`%(T)sChecks`) decide the landed sub-checks directly. The Gram and
-torsion checks go through the memoized stages of `%(T)sStages` (`Kernel/Stage.lean`): each stage literal, computed by
-the Python mirror, is re-proved here by its own `decide +kernel` on a Boolean equality, then
-rewritten into the landed `gramCheck` and `torsionModels` (`gramCheck_eq_of_rows`,
-`torsionModels_eq_of_stages`). A mirror that drifted from the landed checker would fail these
-equalities: the stage theorems are the cross-language agreement test of the producer. `base_ok`
-assembles `landedBase.check`.
+`static_ok` … `energy_ok` (`%(T)sChecks`) decide the landed sub-checks directly. The Gram
+and torsion checks go through the memoized stages of `%(T)sStages` (`Kernel/Stage.lean`):
+each stage literal, computed by the Python mirror, is re-proved here by its own
+`decide +kernel` on a Boolean equality, then rewritten into the landed `gramCheck` and
+`torsionModels` (`gramCheck_eq_of_rows`, `torsionModels_eq_of_stages`). A mirror that drifted
+from the landed checker would fail these equalities: the stage theorems are the cross-language
+agreement test of the producer. `base_ok` assembles `landedBase.check`.
 -/
 
 @[expose] public section
@@ -142,9 +142,9 @@ theorem Y_eq : modelMatMul cert.weight cert.cfgLow cert.piEnc [4, 9] 1 (2 + 2) 2
 
 /-- The torsion check from the stages: `torsionAvgCheck` on the assembled literal matrix. -/
 theorem torsion_ok : checkTorsion cert = true := by
-  rw [checkTorsion_eq_of gram_eq (torsionModels_eq_of_stages 2 cert.ham cert.emb cert.wit cert.gramInv
-    db cert.freqBox cert.params.s cert.weight cert.cfgLow cert.piEnc eps_eq ms_eq L_eq Gi_eq DL_eq
-    N0_eq DG1_eq DG2_eq DGi0_eq DGi1_eq DN1_eq DN2_eq XN1_eq Tb_eq Y_eq)]
+  rw [checkTorsion_eq_of gram_eq (torsionModels_eq_of_stages 2 cert.ham cert.emb cert.wit
+    cert.gramInv db cert.freqBox cert.params.s cert.weight cert.cfgLow cert.piEnc eps_eq ms_eq L_eq
+    Gi_eq DL_eq N0_eq DG1_eq DG2_eq DGi0_eq DGi1_eq DN1_eq DN2_eq XN1_eq Tb_eq Y_eq)]
   decide +kernel
 
 /-- **Every landed sub-check passes** on `%(T)s.cert`. -/
@@ -191,6 +191,12 @@ end KAM.CertificateSharp.V2.Forced.%(T)s
 
 end
 """ % dict(mod=MOD, T=tag)
+
+
+def checked(text):
+    for ln in text.split("\n"):
+        assert len(ln) <= 100, ln
+    return text
 
 
 def cert_json(c):
@@ -244,15 +250,15 @@ def build(tag, spec=None, work=None, lean=True, log=print):
         doc = ("The periodically forced toy `%s` of the V2-TOOLS regression suite,\n"
                "`H = c (J + β p²/2 + Σ ε_j cos 2π k_j·θ)`, reference vector `κ (ν₋(%d) - 1, 1)`, `κ = c/s`.\n"
                "Emitted by `scripts/certifier/forced/forced_build.py %s`; the producer's report is\n"
-               "`certificates/forced-toy/%s.json`.") % (tag, c.toy.N, tag, tag)
+               "`scripts/certifier/fixtures/forced-toy/%s.json`.") % (tag, c.toy.N, tag, tag)
         with open(os.path.join(LEAN_DIR, "%sData.lean" % tag), "w") as fh:
             fh.write(FE.emit_data(c, tag, "The forced toy `%s` (data)" % tag, doc))
         with open(os.path.join(LEAN_DIR, "%sStages.lean" % tag), "w") as fh:
             fh.write(FS.emit_stages(c, st, tag, MOD + tag + "Data"))
         with open(os.path.join(LEAN_DIR, "%sChecks.lean" % tag), "w") as fh:
-            fh.write(checks_module(tag))
+            fh.write(checked(checks_module(tag)))
         with open(os.path.join(LEAN_DIR, "%sBase.lean" % tag), "w") as fh:
-            fh.write(base_module(tag))
+            fh.write(checked(base_module(tag)))
     return c
 
 

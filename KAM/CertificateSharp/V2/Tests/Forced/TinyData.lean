@@ -13,7 +13,7 @@ public import KAM.CertificateSharp.V2.Tests.Forced.Format
 The periodically forced toy `Tiny` of the V2-TOOLS regression suite,
 `H = c (J + β p²/2 + Σ ε_j cos 2π k_j·θ)`, reference vector `κ (ν₋(8) - 1, 1)`, `κ = c/s`.
 Emitted by `scripts/certifier/forced/forced_build.py Tiny`; the producer's report is
-`certificates/forced-toy/Tiny.json`.
+`scripts/certifier/fixtures/forced-toy/Tiny.json`.
 -/
 
 @[expose] public section

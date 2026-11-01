@@ -13,7 +13,7 @@ chosen from the certificate's own numbers:
     `B κ^-2 (γ b)^2 <= (3.1415 c)^2`;
   * the run numbers (caps, X*) from the exact mirror of the route core (v2_q.py / v2_r2.py), X* the largest
     3-digit value passing, then re-checked by the compiled Lean core.
-Writes certificates/forced-toy/<TAG>_witness.json and returns the witnesses as Lean terms (forced_routes.py).
+Writes scripts/certifier/fixtures/forced-toy/<TAG>_witness.json and returns the witnesses as Lean terms (forced_routes.py).
 """
 import json
 import math

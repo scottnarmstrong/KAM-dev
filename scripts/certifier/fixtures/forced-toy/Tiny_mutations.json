@@ -1,0 +1,252 @@
+[
+ {
+  "name": "mut_hamCoef",
+  "family": "coefficients",
+  "doc": "the amplitude of the mode `[1, 0]` times `1 + 10\u207b\u00b3`",
+  "check": "checkInvariance { cert with ham := hamCoef }",
+  "mirror": {
+   "ok": false,
+   "rows": [
+    1.4754854371253805e-26,
+    1.0097419586828951e-28,
+    1.381817833159586e-09,
+    4.364756659184133e-15
+   ]
+  },
+  "module": "TinyMutationsInv"
+ },
+ {
+  "name": "mut_torusCoef",
+  "family": "coefficients",
+  "doc": "the largest Fourier coefficient of `u` times `1 + 10\u207b\u2074`",
+  "check": "checkInvariance { cert with emb := \u27e8[-1, 0], [\u27e8\u27e80\u27e9, uHalfMut\u27e9, \u27e8\u27e80\u27e9, []\u27e9], [0, 0], [p, J]\u27e9 }",
+  "mirror": {
+   "ok": false,
+   "rows": [
+    1.8901763661051028e-10,
+    1.0097419586828951e-28,
+    3.774338098175473e-12,
+    4.3035927539717294e-14
+   ]
+  },
+  "module": "TinyMutationsInv"
+ },
+ {
+  "name": "mut_witnessCoef",
+  "family": "coefficients",
+  "doc": "the largest coefficient of the character witness times `1 + 10\u207b\u00b3`",
+  "check": "checkInvariance { cert with wit := \u27e8[], [], [([1, 0], \u27e8\u27e8E1TermsMut\u27e9, 0, 30\u27e9)], []\u27e9 }",
+  "mirror": {
+   "ok": false,
+   "rows": [
+    1.4754854371253805e-26,
+    1.0097419586828951e-28,
+    1.4850742505815145e-08,
+    1.2090712779244869e-08
+   ]
+  },
+  "module": "TinyMutationsInv"
+ },
+ {
+  "name": "mut_err",
+  "family": "residual claims",
+  "doc": "the residual claim `err` halved",
+  "check": "checkInvariance { cert with params := { cert.params with err := cert.params.err / 2 } }",
+  "mirror": {
+   "ok": false,
+   "margin": -1.6768510974335204e-12
+  },
+  "module": "TinyMutationsInv"
+ },
+ {
+  "name": "mut_E0",
+  "family": "residual claims",
+  "doc": "the energy level `E0` moved by `2 err`",
+  "check": "checkEnergy { cert with params := { cert.params with E0 := cert.params.E0 + 2 * cert.params.err } }",
+  "mirror": {
+   "ok": false
+  },
+  "module": "TinyMutationsInv"
+ },
+ {
+  "name": "mut_frameL",
+  "family": "frame bounds",
+  "doc": "the frame bound `bL` times `0.99`",
+  "check": "checkFrameL cert (Rclaim.bL * 99 / 100)",
+  "mirror": {
+   "ok": false
+  },
+  "module": "TinyMutations"
+ },
+ {
+  "name": "mut_frameT",
+  "family": "frame bounds",
+  "doc": "the frame bound `bT` times `0.99`",
+  "check": "checkFrameT cert (Rclaim.bT * 99 / 100)",
+  "mirror": {
+   "ok": false
+  },
+  "module": "TinyMutations"
+ },
+ {
+  "name": "mut_frameN",
+  "family": "frame bounds",
+  "doc": "the frame bound `bN` times `0.99`",
+  "check": "checkFrameN cert (Rclaim.bN * 99 / 100) Rclaim.bNt",
+  "mirror": {
+   "ok": false
+  },
+  "module": "TinyMutations"
+ },
+ {
+  "name": "mut_hamClaim",
+  "family": "frame bounds",
+  "doc": "the Hamiltonian claim `dx` times `0.99`",
+  "check": "checkHamClaim cert { Rclaim with dx := Rclaim.dx * 99 / 100 }",
+  "mirror": {
+   "ok": false
+  },
+  "module": "TinyMutations"
+ },
+ {
+  "name": "mut_nuRay",
+  "family": "ray room",
+  "doc": "`nuRay = 10\u207b\u2075`, above `(s - 1)|\u03c9*| \u2248 10\u207b\u2076`",
+  "check": "checkStatic { cert with params := { cert.params with nuRay := 1 / 10 ^ 5 } }",
+  "mirror": {
+   "ok": false
+  },
+  "module": "TinyMutations"
+ },
+ {
+  "name": "mut_dispRoom",
+  "family": "ray room",
+  "doc": "`disp = 1`, above the room `(\u03c3\u03c9 - s)|\u03c9*|` of the ray",
+  "check": "refinedCore 2 { cert.params with disp := 1 } cert.freqBox refinedWit",
+  "mirror": {
+   "ok": false
+  },
+  "module": "TinyMutations"
+ },
+ {
+  "name": "mut_theta",
+  "family": "schedules",
+  "doc": "route A with `\u03b8 = 1`",
+  "check": "refinedCore 2 cert.params cert.freqBox { refinedWit with core := { refinedWit.core with th := 1 } }",
+  "mirror": {
+   "ok": false,
+   "note": "mirror: 1 - \u03b8 = 0"
+  },
+  "module": "TinyMutations"
+ },
+ {
+  "name": "mut_Xs",
+  "family": "schedules",
+  "doc": "route A with ten times the passing `X\u22c6`",
+  "check": "refinedCore 2 cert.params cert.freqBox { refinedWit with core := { refinedWit.core with Xs := refinedWit.core.Xs * 10 } }",
+  "mirror": {
+   "ok": false
+  },
+  "module": "TinyMutations"
+ },
+ {
+  "name": "mut_scheduleB",
+  "family": "schedules",
+  "doc": "route B with the schedule ratio `a = 1`",
+  "check": "refinedBCore 2 cert.params cert.freqBox { refinedBWit with core := { refinedBWit.core with a := 1 } }",
+  "mirror": null,
+  "module": "TinyMutations"
+ },
+ {
+  "name": "mut_boxFiber",
+  "family": "denominator separation",
+  "doc": "the frequency box widened to radius `1/20`: the fibers reach the resonance, the sites fail",
+  "check": "sitesOk (refinedWit.num 2 cert.params boxWide) refinedWit.core.J boxWide refinedWit.\u03ba cert.params.\u03b3 refinedWit.sites",
+  "mirror": null,
+  "module": "TinyMutations"
+ },
+ {
+  "name": "mut_siteBound",
+  "family": "denominator separation",
+  "doc": "the first site with its bound `B` halved",
+  "check": "siteOk 2 1 refinedWit.core.J cert.freqBox refinedWit.\u03ba cert.params.\u03b3 ((refinedWit.num 2 cert.params cert.freqBox).\u03b4 0) (refinedWit.core.c.getD 0 0) (some \u27e8(773227 / 1000000), 6, 8, (4522 / 25)\u27e9)",
+  "mirror": null,
+  "module": "TinyMutations"
+ },
+ {
+  "name": "mut_denominator",
+  "family": "denominator separation",
+  "doc": "a term `10\u207b\u2079 / (p - p_c)` whose denominator ball contains `0` on the domain",
+  "check": "checkHamBounds { cert with ham := .add ham (.div (.const (1 / 10 ^ 9)) (.add (.action 0) (.const (63791325795 / 549755813888)))) }",
+  "mirror": null,
+  "module": "TinyMutations"
+ },
+ {
+  "name": "mut_sqrtDomain",
+  "family": "square-root domains",
+  "doc": "a term `10\u207b\u2079 \u221a(p - p_c)` whose operand reaches `Re \u2264 0` on the domain",
+  "check": "checkHamBounds { cert with ham := .add ham (.mul (.const (1 / 10 ^ 9)) (.sqrt (.add (.action 0) (.const (63791325795 / 549755813888))))) }",
+  "mirror": null,
+  "module": "TinyMutations"
+ },
+ {
+  "name": "mut_adviceFull",
+  "family": "advice",
+  "doc": "the first full-stage advice key removed: the crude enclosure of `p\u00b2` breaks the energy row",
+  "check": "checkEnergy { cert with cfgFull := { cert.cfgFull with advice := cert.cfgFull.advice.tail } }",
+  "mirror": {
+   "ok": false
+  },
+  "module": "TinyMutationsInv"
+ },
+ {
+  "name": "mut_adviceLow",
+  "family": "advice",
+  "doc": "the first low-stage advice key removed (crude Gram entry)",
+  "check": "checkGram { cert with cfgLow := { cert.cfgLow with advice := cert.cfgLow.advice.tail } }",
+  "mirror": {
+   "ok": false
+  },
+  "module": "TinyMutationsInv"
+ },
+ {
+  "name": "mut_angleDeg",
+  "family": "conventions",
+  "doc": "`u = 2\u03c0U` read at angle degree `0` (as `U`)",
+  "check": "checkInvariance { cert with emb := \u27e8[0, 0], [u, \u27e8\u27e80\u27e9, []\u27e9], [0, 0], [p, J]\u27e9 }",
+  "mirror": {
+   "ok": false
+  },
+  "module": "TinyMutationsInv"
+ },
+ {
+  "name": "mut_rayScalar",
+  "family": "conventions",
+  "doc": "the ray scalar `s = 1 + 10\u207b\u00b3` against the box of `c / s`",
+  "check": "checkInvariance { cert with params := { cert.params with s := 1001 / 1000 } }",
+  "mirror": {
+   "ok": false
+  },
+  "module": "TinyMutationsInv"
+ },
+ {
+  "name": "mut_timeScale",
+  "family": "conventions",
+  "doc": "the Hamiltonian doubled without rescaling the box",
+  "check": "checkInvariance { cert with ham := .mul (.const 2) ham }",
+  "mirror": {
+   "ok": false
+  },
+  "module": "TinyMutationsInv"
+ },
+ {
+  "name": "mut_swapActions",
+  "family": "conventions",
+  "doc": "the actions `(p, J)` emitted in the order `(J, p)`",
+  "check": "checkInvariance { cert with emb := \u27e8[-1, 0], [u, \u27e8\u27e80\u27e9, []\u27e9], [0, 0], [J, p]\u27e9 }",
+  "mirror": {
+   "ok": false
+  },
+  "module": "TinyMutationsInv"
+ }
+]

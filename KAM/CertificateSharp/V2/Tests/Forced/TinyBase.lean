@@ -13,13 +13,13 @@ public import KAM.CertificateSharp.V2.Engine
 /-!
 # The landed sub-checks of the forced toy `Tiny`, one kernel run each
 
-`static_ok` … `energy_ok` (`TinyChecks`) decide the landed sub-checks directly. The Gram and
-torsion checks go through the memoized stages of `TinyStages` (`Kernel/Stage.lean`): each stage literal, computed by
-the Python mirror, is re-proved here by its own `decide +kernel` on a Boolean equality, then
-rewritten into the landed `gramCheck` and `torsionModels` (`gramCheck_eq_of_rows`,
-`torsionModels_eq_of_stages`). A mirror that drifted from the landed checker would fail these
-equalities: the stage theorems are the cross-language agreement test of the producer. `base_ok`
-assembles `landedBase.check`.
+`static_ok` … `energy_ok` (`TinyChecks`) decide the landed sub-checks directly. The Gram
+and torsion checks go through the memoized stages of `TinyStages` (`Kernel/Stage.lean`):
+each stage literal, computed by the Python mirror, is re-proved here by its own
+`decide +kernel` on a Boolean equality, then rewritten into the landed `gramCheck` and
+`torsionModels` (`gramCheck_eq_of_rows`, `torsionModels_eq_of_stages`). A mirror that drifted
+from the landed checker would fail these equalities: the stage theorems are the cross-language
+agreement test of the producer. `base_ok` assembles `landedBase.check`.
 -/
 
 @[expose] public section
@@ -101,9 +101,9 @@ theorem Y_eq : modelMatMul cert.weight cert.cfgLow cert.piEnc [4, 9] 1 (2 + 2) 2
 
 /-- The torsion check from the stages: `torsionAvgCheck` on the assembled literal matrix. -/
 theorem torsion_ok : checkTorsion cert = true := by
-  rw [checkTorsion_eq_of gram_eq (torsionModels_eq_of_stages 2 cert.ham cert.emb cert.wit cert.gramInv
-    db cert.freqBox cert.params.s cert.weight cert.cfgLow cert.piEnc eps_eq ms_eq L_eq Gi_eq DL_eq
-    N0_eq DG1_eq DG2_eq DGi0_eq DGi1_eq DN1_eq DN2_eq XN1_eq Tb_eq Y_eq)]
+  rw [checkTorsion_eq_of gram_eq (torsionModels_eq_of_stages 2 cert.ham cert.emb cert.wit
+    cert.gramInv db cert.freqBox cert.params.s cert.weight cert.cfgLow cert.piEnc eps_eq ms_eq L_eq
+    Gi_eq DL_eq N0_eq DG1_eq DG2_eq DGi0_eq DGi1_eq DN1_eq DN2_eq XN1_eq Tb_eq Y_eq)]
   decide +kernel
 
 /-- **Every landed sub-check passes** on `Tiny.cert`. -/
