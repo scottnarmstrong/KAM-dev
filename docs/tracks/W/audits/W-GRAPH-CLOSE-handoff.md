@@ -126,3 +126,82 @@ ABI HASHES OK (177 frozen declarations of KAM; checked by file hash only, not bu
 KAM.Wave.Seq.ExportLamFacts KAM.Wave.Measure.ExportShells KAM.Wave.KamStep.ExportFlowCore
 KAM.Wave.KamStep.ExportFlow KAM.Wave.KamStep.ExportSolve KAM.Wave.Algebra.ExportW0n`: exit 0,
 `short-name check OK (no reused public short name)`.
+
+## W-SOLVE-FIX (closes audit 1, finding F1: `bpW:w5:solve`, modified case, "(indeed `p'`)")
+
+Blueprint `w5-kamstep.tex:355–356`: `N̂ ∈ S_{p_+}(𝒫)` "(indeed `p'`)", with `p' = p+1` in the modified case
+(`:335–336`). Fix: `KAM.Wave.stepSolveLemmaMod` is **extended in place**. Its hypothesis (`H : StepHypModSrc …`)
+and every previous conjunct are unchanged; two conjuncts are inserted in the `∀ ξ ∈ Π` block right after the
+`S_{p_+}(𝒫)` clause. No other file is changed; no consumer of `stepSolveLemmaMod` exists.
+
+### AUDIT FOCUS
+
+* `KAM.Wave.stepSolveLemmaMod`, `KAM/Wave/KamStep/ExportSolve.lean:286`. New conjuncts (lines 295–300), for every
+  `ξ ∈ Par`:
+  ```lean
+  IsSmoothing (p := p) (pb := p + 1) H.ha (stepRho_nn2 H.hp) univ
+    (waveStepFun H.ha (homPP H.hp H.hpb) (homNhatTaylor_gen (H.hyp.core.R ξ)))
+    (stepField H.ha H.hp (homModPP1 p) (homNhatTaylor_gen (H.hyp.R1 ξ))) ∧
+  (∀ w, stepField H.ha H.hp H.hpb (homNhatTaylor_gen (H.hyp.core.R ξ)) w =
+    stepRhoK a p pb H.hyp.hc
+      (stepField H.ha H.hp (homModPP1 p) (homNhatTaylor_gen (H.hyp.R1 ξ)) w)) ∧
+  ```
+  The first says `N̂ ∈ S_{p+1}(𝒫)` (holomorphic on all of `𝒫`, with a holomorphic field into the `p+1` weights and
+  `DN̂·W = ϖ_{p+1,p}(X, W)` everywhere). The Hamiltonian is **literally the same** `N̂` as in the other clauses,
+  `waveStepFun … (homNhatTaylor_gen (H.hyp.core.R ξ))` with `H.hyp.core.R` the reweighted (`p_+`) Taylor family
+  that appears in the equation `R + DN·X_F = N̂ + â₀`. Its `p+1` field is the field of `N̂` of the `p+1` Taylor
+  element `H.hyp.R1 ξ` (the family from which `F` is solved, W5-MODIFIED, and that the D2 bridge
+  `StepOmegaBridge` uses for `ω_+`, `Ω_+`). The second conjunct identifies the two weightings of the field of this
+  one Hamiltonian: the `p_+` field (that of the `S_{p_+}` clause and of `|X_N̂|^λ ≤ 6ε`) is `D_ρ` of the `p+1` field.
+  It follows from uniqueness of the field (`isSmoothing_unique_apply`, nondegeneracy of `ϖ_{p_+,p}`) and
+  `IsSmoothing.rhoK`.
+* Helpers (distinct names, same file, namespace `KAM.Wave.StepHypMod`, assume only `H : StepHypMod …` and
+  `ξ ∈ Par`; not source-facing on their own):
+  `nhat_fun_eq_R1` (`:201`): `waveStepFun … (homNhatTaylor_gen (H.core.R ξ)) =
+  waveStepFun … (homNhatTaylor_gen (H.R1 ξ))` as functions on `𝒫` (from `stepFun_nhat_taylorRho`, i.e.
+  `homNhat_taylorRho` / `homNhat_reweight`, after `H.core.R ξ = stepTaylorRho …`, `H.R1 ξ = stepTaylorP1 …` by
+  `stepTaylorFam_of_mem`, the same identities as `StepHypMod.core_R_eq` / `R1_eq` of `StepOmegaBridge`, inlined so
+  that `ExportSolve` does not import that module);
+  `nhat_isSmoothing_p1_univ` (`:215`): the first new conjunct for `StepHypMod` (rewrite by `nhat_fun_eq_R1`, then
+  `stepNhat_isSmoothing_univ` at `pb := p + 1`);
+  `nhat_field_eq_rhoK` (`:223`): the second new conjunct.
+* Rule 6: no premise added. `stepRho_nn2 H.hp : 0 ≤ (p+1)+p` and `H.hyp.hc : p_+ ≤ p+1` are proofs (typing data)
+  derived from the step data (`hc` from `0 ≤ β`, `2β ≤ p+1−p_+`), not hypotheses.
+
+### Graph record
+
+`bpW:w5:solve` → `KAM.Wave.stepSolveLemma, KAM.Wave.stepSolveLemmaMod` (both now cover the full statement; in the
+non-modified case `p' = p_+` and "(indeed `p'`)" is the existing `S_{p_+}(𝒫)` clause). Uncertainty 4 above
+("`S_{p+1}` is NOT exported") is superseded by this section.
+
+### Checks
+
+`/root/code/KAM-inp/.drafts/W/w_build.sh /root/code/KAM-inp-wpj KAM.Wave.KamStep.ExportSolve`:
+`✔ [3441/3441] Built KAM.Wave.KamStep.ExportSolve (12s)`, `Build completed successfully (3441 jobs).`, no warning
+in `ExportSolve.lean`. `wc -l`: 332 lines.
+
+`#print axioms` (scratch file under `.lake/abi-scratch`, via `w_lean.sh`, removed afterwards):
+```
+'KAM.Wave.stepSolveLemmaMod' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Wave.StepHypMod.nhat_fun_eq_R1' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Wave.StepHypMod.nhat_isSmoothing_p1_univ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Wave.StepHypMod.nhat_field_eq_rhoK' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Wave.stepSolveLemma' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+`python3 /mnt/HC_Volume_106379410/orchestrator-tools/main_shortname_check.py /root/code/KAM-inp-wpj
+KAM.Wave.KamStep.ExportSolve`: exit 0, `short-name check OK (no reused public short name)`.
+
+`/root/code/KAM-inp/.drafts/W/w_lint.sh /root/code/KAM-inp-wpj`: exit 0, tail:
+```
+check_lean_modules: PASS (4059 Lean files, 0 comparator configurations)
+FROZEN-ANCHOR GUARD OK
+ABI HASHES OK (177 frozen declarations of KAM; checked by file hash only, not built by this run: KAMLunarBand: KAM.SpinOrbit.lunar_barriers, KAM.SpinOrbit.lunar_spin_confinement (--lib KAMLunarBand))
+```
+`git diff --check` clean; `git diff -- KAM/Frozen manifest KAM.lean README.md` empty.
+
+### Uncertainties, errata, deviations
+
+* Design choice: `stepSolveLemmaMod` was extended rather than complemented, so the existing two-reference LEAN_REF
+  list becomes complete. Projections into its `∀ ξ` block shift by two positions (no consumer exists).
+* The packet `W-w5a.nodes.md:909` drops "(indeed `p'`)" (audit F1); a packet defect, not a source erratum.
+  No suspected errata in pinned sources. No heartbeat or design signals (module builds in ~12 s).

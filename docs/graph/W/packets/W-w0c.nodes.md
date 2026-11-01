@@ -477,9 +477,9 @@ EDGE: bpW:w0:mass | blueprint-W/parts/w0-conventions.tex#bpW:w0:basis@L46-L46 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0c
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.lam_pnat_pos, KAM.Wave.lam_gt, KAM.Wave.lam_div_pnat_le, KAM.Wave.lam_sub_pnat_pos, KAM.Wave.lam_sub_pnat_le, KAM.Wave.lam_le, KAM.Wave.lam_facts, KAM.Wave.lamExt_convex, KAM.Wave.birkL_second_diff, KAM.Wave.birkDelta_mono (KAM/Wave/Seq/Tails.lean, KAM/Wave/Seq/Diag.lean, KAM/Wave/Recon/ReconAnalytic.lean, KAM/Wave/Normal/Nondegeneracy.lean, KAM/Wave/Normal/NonresAux.lean, KAM/Wave/Birkhoff/DivisorReal.lean)
-LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: no PROVED consumer needs the full strict convexity / derivative statement (finding L); proved physical-frequency pieces: lam_pnat_pos, lam_gt, lam_div_pnat_le, lam_sub_pnat_pos, lam_sub_pnat_le (increments), lam_le (only lam_j <= (1+m) j, not lam_j < j + sqrt m), lam_facts (two tangential modes only: positivity, lamTan 0 < lamTan 1, gap < 1), non-strict convexity lamExt_convex (W0 nonresonance route); strict convexity not formalized: the divisor proof uses discrete second differences instead (birkL_second_diff, birkDelta_mono); missing: the packaged claim for all j (j < lambda_j < j + sqrt m, strict monotonicity, increment < 1 as one statement) and strict convexity of sqrt(s^2+m); finding L: the earlier refs lam_pos, lam_ge, lam_succ_le were W6SeqData declarations about the iteration weight, removed
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.lamBasis_facts (KAM/Wave/Seq/ExportLamFacts.lean)
+LEAN_NOTE: W-GRAPH-CLOSE audit 1 (maud-wpj-1, inp-wgclose a82197a3) PROVED-OK: all bounds for j : PNat, strict increase, strict convexity on all of R, derivative via HasDerivAt, 0 < f' < 1 on positive arguments, f' strictly increasing, exact successive-difference identity and bound; supersedes the BYPASS-audit-1 KEEP (finding L)
 NOTE: Unlabelled prose (L45-L47) stating facts that later proofs consume (SPEC section-data rule); justification is elementary and inline.
 
 NODE: bpW:w0:ellap#spaces
