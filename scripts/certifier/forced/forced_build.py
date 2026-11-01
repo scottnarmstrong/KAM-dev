@@ -37,6 +37,9 @@ MOD = "KAM.CertificateSharp.V2.Tests.Forced."
 SPECS = {
     "Tiny": dict(modes=[[[1, 0], "1/10000000"], [[1, 1], "1/5000000"]], prune_digits=13, char_tol="1/100000000",
                  gramTol=None, cutLow=4, L0=4, L1=3, machin=[6, 3]),
+    # the time normalization of Tiny: H doubled, κ = c/s doubled, the same torus (TimeScale.lean relates them)
+    "TinyC2": dict(modes=[[[1, 0], "1/10000000"], [[1, 1], "1/5000000"]], prune_digits=13,
+                   char_tol="1/100000000", gramTol=None, cutLow=4, L0=4, L1=3, machin=[6, 3], c="2"),
     # near-integrable control: residual small enough for the sharp and the frozen routes
     "Micro": dict(modes=[[[1, 0], "1/1000000000000"], [[1, 1], "1/500000000000"]], prune_digits=27,
                   char_tol="1/100000000000000000", gramTol=None, cutLow=4, L0=4, L1=3, machin=[8, 3],
@@ -167,8 +170,9 @@ public import KAM.CertificateSharp.V2.Engine
 /-!
 # The direct landed sub-checks of the forced toy `%(T)s`
 
-`checkStatic`, `checkHamBounds`, `checkEmbedding`, `checkInvariance`, `checkEnergy` on `%(T)s.cert`,
-one `decide +kernel` each. The Gram and torsion checks are in `%(T)sBase` (memoized stages).
+`checkStatic`, `checkHamBounds`, `checkEmbedding`, `checkInvariance`, `checkEnergy` on
+`%(T)s.cert`, one `decide +kernel` each. The Gram and torsion checks are in `%(T)sBase`
+(memoized stages).
 -/
 
 @[expose] public section

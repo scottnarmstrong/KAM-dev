@@ -102,7 +102,15 @@ public import KAM.CertificateSharp.V2.Tests.Forced.MicroData
 public import KAM.CertificateSharp.V2.Tests.Forced.MicroFreq
 public import KAM.CertificateSharp.V2.Tests.Forced.MicroRoutes
 public import KAM.CertificateSharp.V2.Tests.Forced.MicroStages
+public import KAM.CertificateSharp.V2.Tests.Forced.TimeScale
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyBase
+public import KAM.CertificateSharp.V2.Tests.Forced.TinyC2Base
+public import KAM.CertificateSharp.V2.Tests.Forced.TinyC2Checks
+public import KAM.CertificateSharp.V2.Tests.Forced.TinyC2Claim
+public import KAM.CertificateSharp.V2.Tests.Forced.TinyC2Data
+public import KAM.CertificateSharp.V2.Tests.Forced.TinyC2Freq
+public import KAM.CertificateSharp.V2.Tests.Forced.TinyC2RouteA
+public import KAM.CertificateSharp.V2.Tests.Forced.TinyC2Stages
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyChecks
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyClaim
 public import KAM.CertificateSharp.V2.Tests.Forced.TinyData

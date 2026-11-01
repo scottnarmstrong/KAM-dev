@@ -11,8 +11,9 @@ public import KAM.CertificateSharp.V2.Engine
 /-!
 # The direct landed sub-checks of the forced toy `Tiny`
 
-`checkStatic`, `checkHamBounds`, `checkEmbedding`, `checkInvariance`, `checkEnergy` on `Tiny.cert`,
-one `decide +kernel` each. The Gram and torsion checks are in `TinyBase` (memoized stages).
+`checkStatic`, `checkHamBounds`, `checkEmbedding`, `checkInvariance`, `checkEnergy` on
+`Tiny.cert`, one `decide +kernel` each. The Gram and torsion checks are in `TinyBase`
+(memoized stages).
 -/
 
 @[expose] public section

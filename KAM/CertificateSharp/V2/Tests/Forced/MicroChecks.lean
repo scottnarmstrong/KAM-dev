@@ -11,8 +11,9 @@ public import KAM.CertificateSharp.V2.Engine
 /-!
 # The direct landed sub-checks of the forced toy `Micro`
 
-`checkStatic`, `checkHamBounds`, `checkEmbedding`, `checkInvariance`, `checkEnergy` on `Micro.cert`,
-one `decide +kernel` each. The Gram and torsion checks are in `MicroBase` (memoized stages).
+`checkStatic`, `checkHamBounds`, `checkEmbedding`, `checkInvariance`, `checkEnergy` on
+`Micro.cert`, one `decide +kernel` each. The Gram and torsion checks are in `MicroBase`
+(memoized stages).
 -/
 
 @[expose] public section
