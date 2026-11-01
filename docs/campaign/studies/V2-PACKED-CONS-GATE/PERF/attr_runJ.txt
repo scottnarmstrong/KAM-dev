@@ -1,0 +1,23 @@
+1. rows whose process built more than its target
+row                                  CPU-s   own s  deps   deps' s
+PK.TorsJ.Core                        166.0     1.8    16     162.8
+PK.InvJ.FullOk                        14.3     1.4     3       9.7
+PK.TorsJ                             400.9     1.4    91     385.0
+PK.FramesJ                            18.1     1.5     3      12.8
+PK.InvJ                               29.5     1.3     9      24.3
+PK.EnJ                                 6.5     1.2     1       2.1
+rebuilt dependencies booked to other rows: 596.7 s of job time
+
+2. per group: the ledger (last row of each module, CPU-s) against each module's final build (job s)
+group                                       rows   ledger   - deps  mods    final
+torsion assemblies (TorsJ.Core, TorsJ)         2    567.0     19.2     2      2.7
+torsion on the jet (stages, D2K, LowOk)       46    423.6    423.6    46    244.3
+packed data and fronts                        38    255.5    255.5    38    109.2
+Gram (B2)                                     10     76.3     76.3    10     40.7
+frames on the jet                              4     44.8     32.0     4     14.3
+invariance on the jet                          7     76.5     42.5     7     16.3
+energy on the jet                              2     12.5     10.4     2      3.3
+jet-route assemblies (PK.Asm, Xfer, MainJ)     5     33.1     33.1     5     12.7
+ported Hamiltonian balls                      65    363.8    363.8    65    250.1
+ported chain-free LG00 proof                  67    650.2    650.2    67    506.7
+total                                        246   2503.1   1906.4   246   1200.3

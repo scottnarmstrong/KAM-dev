@@ -954,7 +954,10 @@ or `refinedTestPackedJ` (and finds `Slp.compose` below B3b's `checkTorsionR` and
 **Sharing.** Each consumer holds its jet check, and the frames repeat the torsion's conjuncts, as identical Boolean
 terms. A production proof establishes each shared conjunct once and assembles with the `_of` lemmas
 (`checkTorsionJ_of`, `torsRCoreJ_of`, `checkInvarianceJ_of`, `checkEnergyJ_of`, `checkFrameMajorantsRJ_of`,
-`jetBase_check_of`).
+`jetBase_check_of`). On T′'s jet route (kamx-pk-gen, `v2-packed-gen-int`), the two torsion assemblies take
+2–3.3 CPU-s each when measured alone, as B3b's do (elaboration < 30 ms, kernel < 3 ms; V2-PACKED-CONS-PERF,
+`…/V2-PACKED-CONS-GATE/PERF/`). The 166 and 401 CPU-s first booked to them were stale stages, rebuilt inside their
+`lake build`s after the stages were re-emitted.
 
 **The jet's load bound.** The consumers pass their books' bounds to `jetCheck` (`rb.bA`, `ib.bJ`); a chain theorem
 at the generator's bound `b<C>` (the largest wanted load) closes them through `jetCheck_mono` (`jetLowOk_of`,

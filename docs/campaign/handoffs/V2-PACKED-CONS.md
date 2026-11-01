@@ -260,10 +260,69 @@ those of T′:
   entries first in `led<C>` (no Lean change). The T′ instance already built (`3a84cc28`) keeps the old order, so the
   2.5 % above stands for it; future emissions read the wanted slots from the head of the ledger.
 
+## V2-PACKED-CONS-PERF: the two "slow" torsion assemblies (`…/V2-PACKED-CONS-GATE/PERF/`)
+
+kamx-pk-gen booked `TorsJ.Core` (`torsRCoreJ_of`) at 166 CPU-s and `TorsJ` (`checkTorsionJ_of`) at 401 CPU-s on the
+T′ jet route (integration log `runJ`). B3b's counterparts took 4.3 and 7.3 s.
+
+- **The assemblies are not slow.** Elaborated alone by `lean` against the built oleans (read only, one process under
+  4 GB, two interleaved passes; `cons_perf_run.sh`):
+  - jet: `TorsJ.Core` 2.29–2.45 CPU-s and `TorsJ` 2.07–3.31;
+  - B3b: `Tors.Core` 2.17–2.18 and `Asm.Tors` 2.43–2.57;
+  - elaboration < 30 ms and kernel < 3 ms everywhere, peak ≤ 0.91 GB; the rest is the import;
+  - nothing unfolds `jetSlots`, the ledger or `lg00Ham_jet`: the parts match the lemmas' hypotheses syntactically.
+- **Cause: the driver's accounting, not Lean.** `run_packed.py` resumes by skipping the modules whose last ledger
+  row passed, without asking Lake. `gen_packed.py` re-emitted the torsion stages twice during `runJ` (between 16:50
+  and 17:30: `jdLowW`, `lg00Jet`; at 17:37: `pkHamJet`, the `RouteSharp` import). Each time, the next target's
+  `lake build` rebuilt the stale stages inside its own process, and the ledger booked them to that target:
+  - `TorsJ.Core`'s process built 17 modules: its own job 1.8 s, the rebuilt stages 162.8 s;
+  - `TorsJ`'s built 92: its own job 1.4 s; the rebuilt data, Gram, D²K, fronts and every stage took 385.0 s.
+- **The whole ledger** (`cons_perf_attr.py`; receipt `runJ/`, sha256-pinned): six rows rebuilt 123 dependencies,
+  596.7 s of job time, so the ledger's 2,503 CPU-s double-count about 24 %. A single pass would read about
+  1,906 CPU-s. Torsion assemblies: 567.0 booked, 19.2 after the correction (Lake's start-up and trace check
+  included), 2.7 s of Lean jobs.
+- **Fix: kamx-pk-gen's driver.** `PERF/run_packed_resume.patch` against `v2-packed-gen`'s `run_packed.py`
+  (`305612780`; not applied, since that branch is read only here):
+  - on resume, one batched `lake build --no-build` over the passed modules, bisected to the stale ones, which are
+    then built in their own rows;
+  - a warning when a row's process built more than its target.
+
+  `cons_perf_drvtest.sh` tests the patch on a toy package with V2-PACKED-GEN's layout:
+  - **unpatched:** after one source changes, the next target's process builds that module too;
+  - **patched:** the stale module gets its own row, and the target's process builds only the target.
+- **No Lean change:** the consumers and the `_of` lemmas are unchanged.
+- **Checks:** `lint_sources.sh` gives the same result as before:
+  - `check_lean_modules: PASS` (4,421 files), the 25 anchor tests `OK`, `FROZEN-ANCHOR GUARD OK`;
+  - only the ABI step fails, as before: the frozen planetary module `AngularMomentum3`'s olean is not built in this
+    worktree.
+
+## Resume after reboot (lemma.farm reboots 2026-11-02 05:00 UTC; `/tmp` is wiped)
+
+- **State:** everything is committed on `v2-packed-cons`. Nothing of this task lives only in `/tmp`:
+  - the PERF receipts are under `docs/campaign/studies/V2-PACKED-CONS-GATE/PERF/`;
+  - `runJ/` carries the ledger and the `Built` lines of kamx-pk-gen's `/tmp` logs, which the reboot will lose.
+- **Built outputs that survive (`/home`):**
+  - T′ gate: `.lake/v2-packed-cons/pkg` (prefix `LG00C`, with kamx-packed's ledgers);
+  - T″ gate: `.lake/v2-packed-cons/pkg-tpp` (prefix `LG00D`);
+  - the core's `.lake/build` of this worktree.
+- **Lost at reboot (not needed):**
+  - the scratch copies of the measured sources (pinned by `PERF/alone/sources_sha256.txt`);
+  - the toy driver packages (`cons_perf_drvtest.sh` recreates them);
+  - the T″ script copies (made by the `sed` recipe in `TPP/README.md`).
+- **Next step:** none pending. If asked to re-measure, after the reboot:
+  ```
+  cd /home/scott/KAM-dev-worktrees/v2-packed-cons
+  python3 -I scripts/packed/cons_perf_attr.py docs/campaign/studies/V2-PACKED-CONS-GATE/PERF/runJ
+  scripts/packed/cons_perf_drvtest.sh ../v2-packed-gen/scripts/packed/run_packed.py <patched copy> <scratch dir>
+  # assemblies alone: copy the module source to SRC/<its path>, then
+  ROOT=SRC scripts/packed/cons_perf_run.sh 4G <core worktree> <package> SRC/<path>.lean NAME LOGS -Dprofiler=true
+  ```
+
 ## Uncertainties and open points
 
-- **Production assembly unmeasured.** The gate decides each conjunct separately. Not built for T′: the instances
-  of the `_of` lemmas, and `jetBase`'s Boolean from them (`jetBase_check_of`).
+- **Production assembly: built by kamx-pk-gen and measured** (V2-PACKED-CONS-PERF, above). The `_of` instances
+  for T′ (`pkTorsCoreJ`, `pkCheckTorsionJ`, …) are built on `v2-packed-gen-int`. Measured alone, the torsion
+  assemblies take 2–3.3 CPU-s each, as B3b's do.
 - **Ledger lookups: measured** (V2-PACKED-CONS-LOOKUP, above). The searches cost 2.5 % of the consumers' kernel
   time; no wanted-slot table is needed.
 - **Invariance margin on T′:** 8.3·10⁻¹⁹ on coordinate 1, i.e. 0.1 % of err (the kernel brackets the bound at
