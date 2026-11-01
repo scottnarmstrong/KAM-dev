@@ -79,8 +79,7 @@ since T″ at L = 21 does not reach 10× classically. The sites add about 0.17 C
   9 GB. In blocks of `2⁹` fibres, no block exceeds the cap, even at `l = 13`.
 - **`kp = 4` was needed.** My first estimate put T′ at 11.8× at L = 17; the real dry run gave 8.5× at `kp = 3`. One more certified
   stage gives 14.7×. `kp = 5` adds little (16.2×) and needs `l = 14`.
-- **Certified constants are close to the float ones,** within 1.4 % of `c_freq`, and `c` is about 4 times below the classical
-  constant at the prefix stages.
+- **Certified constants are close to the float ones:** on T′ they are within 1.4 % of `c_freq`.
 
 ## Scope and caveats
 
