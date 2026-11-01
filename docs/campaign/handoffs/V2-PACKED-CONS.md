@@ -407,6 +407,11 @@ kamx-pk-gen's T′ table books Data at 326 modules and 3,673 CPU-s, 36 % of the 
   - the scratch copies of the measured sources (pinned by `PERF/alone/sources_sha256.txt`);
   - the toy driver packages (`cons_perf_drvtest.sh` recreates them);
   - the T″ script copies (made by the `sed` recipe in `TPP/README.md`).
+- **The landing branch `v2-packed-land`** (worktree `/home/scott/KAM-dev-worktrees/v2-packed-land`, local, not
+  pushed): `origin/main` plus prod `5ae036075`, cons `08294cfcd`, gen `7a0b1612f`, and `RouteSharpJ`/`JetFront` from
+  int `e9d941830`. 14 new core modules built serially (68.9 CPU-s, ≤ 0.58 GB). Its receipt and resume notes are in
+  `docs/campaign/studies/V2-PACKED-LAND/README.md`. The orchestrator lands it with `land-side.sh`
+  (`NEW_ANCHORS_ABI_ONLY=1`).
 - **Next steps:** none pending. The DATA options are for the owner and orchestrator. To re-measure after the
   reboot:
   ```
