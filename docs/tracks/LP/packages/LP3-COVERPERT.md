@@ -31,8 +31,9 @@ All constants come before `μ`. Every admissible initial action lies in some `in
 **LP3-PERT** (plan §2.3):
 - the global normalized `P = fc/B₀` (LP-DOM's `exists_strongTube`), with `IsPartialPerturbation G′_j D_j ρ P` on every
   cell, and the same for `−P`;
-- the cell Hamiltonian identity: on the real cell region, `degenerateHamiltonian (realPart h) (P.re) ε` equals the
-  chart Hamiltonian divided by `B₀` in the time scale the plan specifies;
+- the cell Hamiltonian identity: on the real cell region, `degenerateHamiltonian (realPart h) (P.re) ε` with
+  `ε = B₀ μ` equals the chart Hamiltonian exactly, with no time conversion (plan §0.4, §2.3; corrected per audit
+  LP-W5A-1 N1: the earlier wording "divided by `B₀`" was wrong);
 - equality of Hamiltonian fields on the open set (track P's `fderiv_eq_of_eqOn_open`,
   `hamiltonianVectorField_eq_of_eqOn_open` in `Exponential/Hamiltonian.lean`).
 
