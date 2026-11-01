@@ -1,0 +1,32 @@
+{
+ "replaced": [],
+ "added": [],
+ "items": [],
+ "unresolved": {},
+ "passes": [
+  "bpW:w2:ext-sums",
+  "bpW:w2:ext-trig",
+  "bpW:w2:force",
+  "stepW:w2:fsum",
+  "stepW:w2:flin",
+  "stepW:w2:fcub",
+  "bpW:w2:curve-deriv",
+  "stepW:w2:cdiff",
+  "stepW:w2:ccoord",
+  "stepW:w2:t1",
+  "stepW:w2:t2",
+  "stepW:w2:mred",
+  "bpW:w2:ext-sums",
+  "bpW:w2:ext-trig",
+  "bpW:w2:force",
+  "stepW:w2:fsum",
+  "stepW:w2:flin",
+  "stepW:w2:fcub",
+  "bpW:w2:curve-deriv",
+  "stepW:w2:cdiff",
+  "stepW:w2:ccoord",
+  "stepW:w2:t1",
+  "stepW:w2:t2",
+  "stepW:w2:mred"
+ ]
+}
