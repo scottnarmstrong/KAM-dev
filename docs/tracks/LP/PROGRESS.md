@@ -33,10 +33,11 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 | LP-DOMX L8 remaining clauses (PROVED bookkeeping) | L8 | 2 | `inp-lp-domx` / mom worktree (link `/root/code/KAM-inp-lp-domx`) | claude-11 | audit LP-W3C-1 PASS WITH NOTES (codex-2); landing requested; `lemma8_complete` (L8 PROVED) |
 | LP-OSC Osculating | L16 | 3 | `inp-lp-osc` (geomod worktree) | claude-12 | **LANDED** main 5af21b0c (inp e0262014); audit LP-OSC-1 PASS WITH NOTES |
 | LP-PS PlanarSafety (LP1) | T15 | 3 | `inp-lp-ps` / geomod worktree (link `/root/code/KAM-inp-lp-ps`) | claude-12 | **PROVED** 74ebebb1 (779 lines): `lp1_planar_strongAMD_safety` (general), `…_normalized` (= draft-2 LP1 verbatim, verified), `…_halfInteger`, `lp0_planar_barrier` (= draft-2 LP0); axioms standard; audit queued |
-| LP-SP-MODEL Spatial model + L1–L3 (d=3) + rotations | L1–L3 | 4 | `inp-lp-spmodel` / mom worktree (link `/root/code/KAM-inp-lp-spmodel`) | claude-11 | running (tmux inp-mprov-lp-spmodel) |
+| LP-SP-MODEL Spatial model + L1–L3 (d=3) + rotations | L1–L3 | 4 | `inp-lp-spmodel` / mom worktree (link `/root/code/KAM-inp-lp-spmodel`) | claude-11 | proved f0faca48 (2,031 lines, 13 modules: L1–L3 d=3, rotations, alignment); audit queued (LP-W4A with SP-ROT) |
 | LP-SP-ROT rotation algebra (46) | L17 | 4 | `inp-lp-sprot` | claude-12 | proved bfb15083 (328 lines); audit queued |
 | LP-SP-CHART spatial chart, one body | L17 | 4 | `inp-lp-spchart` / geomod worktree (link `/root/code/KAM-inp-lp-spchart`) | claude-12 | running (tmux inp-mprov-lp-spchart) |
-| LP-SP-DOM / SP-SAFE | L18, T19 | 4 | — | — | after SP-MODEL, SP-CHART |
+| LP-SP-GEO spatial barrier + continuation | L5–L6 (d=3) | 4 | `inp-lp-spgeo` / mom worktree (link `/root/code/KAM-inp-lp-spgeo`) | claude-11 | running (tmux inp-mprov-lp-spgeo) |
+| LP-SP-DOM / SP-OSC / SP-SAFE | L18, L16 (d=3), T19 | 4 | — | — | after SP-CHART, SP-GEO |
 
 ## Audit queue (codex-2, one at a time machine-wide; W interleaves when LP has a gap)
 
@@ -81,3 +82,4 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 - 2026-11-01 03:36 UTC: LP-THR2 proved (F3 repair) and folded into LP-W3C; LP-W3C (LIFT+DOMX+THR2) audit launched on codex-2 (W7 r2 PASS freed it). Wave 4 started: LP-SP-MODEL on claude-11.
 - 2026-11-01 03:39 UTC: **PLANAR MILESTONE: LP1 (MAIN Theorem 15 + Lemma 16) and LP0 (Lemma 5 in full) proved end to end in Lean** (LP-PS, branch inp-lp-ps 74ebebb1, no interface mismatch). Independently verified: the exact FREEZE-PROPOSAL draft-2 texts are closed by the proved theorems (freeze/verification-draft-2.lean.txt; axioms propext, Classical.choice, Quot.sound). Audit of PS queued (after W3C and the delta review).
 - 2026-11-01 04:08 UTC: LP-W3C (LIFT+DOMX+THR2) audit 1 PASS WITH NOTES; doc notes applied; merged into inp-lp (9cd1300e); landing requested. Delta review 2 of freeze draft 2 running on codex-2. LP-SP-ROT proved; LP-SP-CHART (L17, one body) launched on claude-12.
+- 2026-11-01 04:13 UTC: Freeze draft 2 delta review PASS for theorem types (freeze package gated on OD-11). LP-SP-MODEL proved (2,031 lines). LP-SP-GEO launched on claude-11. LP-PS audit after kam-1b's W4-COMPLETE.
