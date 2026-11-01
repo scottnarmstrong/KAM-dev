@@ -698,6 +698,7 @@ public import KAM.Planetary.Spatial.SpatialSafety.Bridge
 public import KAM.Planetary.Spatial.SpatialSafety.Constants
 public import KAM.Planetary.Spatial.SpatialSafety.Main
 public import KAM.Planetary.Spatial.SpatialSafety.Orientation
+public import KAM.Planetary.Spatial.SpatialSafety.Source
 public import KAM.Planetary.Spatial.SpatialSafety
 public import KAM.Planetary.Spatial.Vector
 public import KAM.Planetary.Spatial
