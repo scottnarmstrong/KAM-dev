@@ -10,10 +10,10 @@ public import KAM.CertificateSharp.Frame.Majorants
 /-!
 # The frame majorants without the torsion
 
-`checkFrameMajorants` (`Frame/Majorants.lean`) certifies `|Lᵀ|`, `|N|`, `|Nᵀ|`, `sup |T|` and `|ω*|`.
-Route B reads only the first three, so `checkFrameLN` runs the same `checkFrameL` and `checkFrameN`
-and neither builds the torsion models nor reads a bound on them. `checkFrameLN_sound` needs only the
-static contract: the three bounds concern `K` alone.
+`checkFrameMajorants` (`Frame/Majorants.lean`) certifies `|Lᵀ|`, `|N|`, `|Nᵀ|`, `sup |T|` and
+`|ω*|`. Route B reads only the first three, so `checkFrameLN` runs the same `checkFrameL` and
+`checkFrameN` and neither builds the torsion models nor reads a bound on them. `checkFrameLN_sound`
+needs only the static contract: the three bounds concern `K` alone.
 -/
 
 @[expose] public section

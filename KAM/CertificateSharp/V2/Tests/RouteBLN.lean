@@ -30,7 +30,7 @@ open KAM.Certificate
 def toyBNoT : RefinedBWit := { toyRefinedBWit with R := { toyRefinedBWit.R with bT := 0 } }
 
 /-- The refined witness of `toyB` with `|Lᵀ|` understated. `fitsOk` bounds the stage-0 weights from
-below through `bL`, so they are raised with it: the mutant differs only where `refinedBCore` allows. -/
+below through `bL`, so they are raised with it: `refinedBCore` still accepts this mutant. -/
 def toyBLowL : RefinedBWit :=
   { toyRefinedBWit with
     core := { toyRefinedBWit.core with
