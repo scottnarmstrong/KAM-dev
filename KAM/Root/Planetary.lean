@@ -635,8 +635,10 @@ public import KAM.Planetary.SecularSpectrum.Norms
 public import KAM.Planetary.SecularSpectrum.Transport
 public import KAM.Planetary.SecularSpectrum.TwoPlanets
 public import KAM.Planetary.Spatial.Alignment
+public import KAM.Planetary.Spatial.Continuation
 public import KAM.Planetary.Spatial.Elements
 public import KAM.Planetary.Spatial.Field
+public import KAM.Planetary.Spatial.Geometry
 public import KAM.Planetary.Spatial.Model
 public import KAM.Planetary.Spatial.Momentum
 public import KAM.Planetary.Spatial.Newton
