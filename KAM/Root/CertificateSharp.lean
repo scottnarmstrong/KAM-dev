@@ -45,7 +45,9 @@ public import KAM.CertificateSharp.Kernel.SegOne
 public import KAM.CertificateSharp.Kernel.Shared
 public import KAM.CertificateSharp.Kernel.Stage
 public import KAM.CertificateSharp.Packed.Bridge
+public import KAM.CertificateSharp.Packed.Complex
 public import KAM.CertificateSharp.Packed.Digits
+public import KAM.CertificateSharp.Packed.Gram
 public import KAM.CertificateSharp.Packed.Norm
 public import KAM.CertificateSharp.Packed.Product
 public import KAM.CertificateSharp.Packed.Round
