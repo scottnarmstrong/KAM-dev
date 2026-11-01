@@ -46,9 +46,10 @@ test, and every row of the table below is a theorem by `rfl`, at **every** base 
 beyond those of `EngineV2.sound`, so `checkTorusCertificateV2_sound routeMax` concludes the landed
 `CertifiedTorus` (`checkTorusCertificateV2_routeMax_sound`).
 
-**The older combined engines.** `RouteMaxWit.ofV2All`, `ofV2AllLN`, `ofV2AllE`, `ofV2AllS`,
-`ofAV2G`, `ofV2G`, `ofV2Hyb` translate a witness of `routeV2All`, `routeV2AllLN`, `routeV2AllE`,
-`routeV2AllS`, `routeAV2G`, `routeV2G`, `routeV2Hyb`; the certifier gives the same verdict
+**The older combined engines.** `RouteMaxWit.ofAV2`, `ofAV2'`, `ofAV2L1`, `ofABV2`, `ofV2All`,
+`ofV2AllLN`, `ofV2AllE`, `ofV2AllS`, `ofAV2G`, `ofV2G`, `ofV2Hyb` translate a witness of `routeAV2`,
+`routeAV2'`, `routeAV2L1`, `routeABV2`, `routeV2All`, `routeV2AllLN`, `routeV2AllE`, `routeV2AllS`,
+`routeAV2G`, `routeV2G`, `routeV2Hyb`; the certifier gives the same verdict at every base
 (`checkV2With_routeMax_ofV2All` …, by cases and `rfl`).
 
 **The packed route and its base.** The packed route A refined fits the `EngineV2` split as an engine
@@ -250,6 +251,30 @@ def RouteMaxWit.ofAV2 : Unit ⊕ (FrozenWit ⊕ RefinedWit) → RouteMaxWit
   | .inr (.inl w) => .aFrozen w
   | .inr (.inr w) => .aRefined w
 
+/-- A witness of `routeAV2'` (`routeAV2` and lever L8′). -/
+def RouteMaxWit.ofAV2' : Unit ⊕ ((FrozenWit ⊕ RefinedWit) ⊕ RefinedWitR) → RouteMaxWit
+  | .inl () => .sharp
+  | .inr (.inl (.inl w)) => .aFrozen w
+  | .inr (.inl (.inr w)) => .aRefined w
+  | .inr (.inr w) => .aRefinedR w
+
+/-- A witness of `routeAV2L1` (`routeAV2'` and the ℓ¹ entry). -/
+def RouteMaxWit.ofAV2L1 :
+    Unit ⊕ (((FrozenWit ⊕ RefinedWit) ⊕ RefinedWitR) ⊕ L1.L1Wit) → RouteMaxWit
+  | .inl () => .sharp
+  | .inr (.inl (.inl (.inl w))) => .aFrozen w
+  | .inr (.inl (.inl (.inr w))) => .aRefined w
+  | .inr (.inl (.inr w)) => .aRefinedR w
+  | .inr (.inr w) => .aL1 w
+
+/-- A witness of `routeABV2` (`routeAV2` and both forms of route B). -/
+def RouteMaxWit.ofABV2 : Unit ⊕ ((FrozenWit ⊕ RefinedWit) ⊕ (RunBWit ⊕ RefinedBWit)) → RouteMaxWit
+  | .inl () => .sharp
+  | .inr (.inl (.inl w)) => .aFrozen w
+  | .inr (.inl (.inr w)) => .aRefined w
+  | .inr (.inr (.inl w)) => .bFrozen w
+  | .inr (.inr (.inr w)) => .bRefined w
+
 /-- A witness of `routeV2All`. -/
 def RouteMaxWit.ofV2All :
     Unit ⊕ ((((FrozenWit ⊕ RefinedWit) ⊕ RefinedWitR) ⊕ L1.L1Wit) ⊕ (RunBWit ⊕ RefinedBWit)) →
@@ -303,6 +328,18 @@ variable (B : BaseChecker) (c : TorusCertificate n α)
 theorem checkV2With_routeMax_ofAV2 (w : routeAV2.Wit) :
     checkV2With B routeMax c (.ofAV2 w) = checkV2With B routeAV2 c w := by
   rcases w with _ | w | w <;> rfl
+
+theorem checkV2With_routeMax_ofAV2' (w : routeAV2'.Wit) :
+    checkV2With B routeMax c (.ofAV2' w) = checkV2With B routeAV2' c w := by
+  rcases w with _ | ((w | w) | w) <;> rfl
+
+theorem checkV2With_routeMax_ofAV2L1 (w : routeAV2L1.Wit) :
+    checkV2With B routeMax c (.ofAV2L1 w) = checkV2With B routeAV2L1 c w := by
+  rcases w with _ | (((w | w) | w) | w) <;> rfl
+
+theorem checkV2With_routeMax_ofABV2 (w : routeABV2.Wit) :
+    checkV2With B routeMax c (.ofABV2 w) = checkV2With B routeABV2 c w := by
+  rcases w with _ | ((w | w) | (w | w)) <;> rfl
 
 theorem checkV2With_routeMax_ofV2All (w : routeV2All.Wit) :
     checkV2With B routeMax c (.ofV2All w) = checkV2With B routeV2All c w := by

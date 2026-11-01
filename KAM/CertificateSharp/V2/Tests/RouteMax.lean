@@ -119,6 +119,16 @@ theorem toyB3_routeMax_bGSE :
     checkTorusCertificateV2 routeMax toyB3 (.bGSE (b3WitGS (1 / 10 ^ 20))) = true :=
   (checkV2With_routeMax_bGSE landedBase toyB3 _).trans toyB3_refinedBGSE_passes
 
+/-- **The witness names the route; the certifier tries no other.** One witness (`bT = 0`) under two
+constructors: `.bLN` accepts it, `.bRefined` rejects it in its torsion majorant. -/
+theorem toyB_routeMax_bLN_noT_passes :
+    checkTorusCertificateV2 routeMax toyB (.bLN toyBNoT) = true :=
+  (checkV2With_routeMax_bLN landedBase toyB _).trans toyB_refinedBLN_noT_passes
+
+theorem toyB_routeMax_bRefined_noT_rejects :
+    checkTorusCertificateV2 routeMax toyB (.bRefined toyBNoT) = false :=
+  (checkV2With_routeMax_bRefined landedBase toyB _).trans toyB_refinedB_noT_rejects
+
 /-- A witness of `routeV2AllE` runs unchanged. -/
 theorem toyB_routeMax_ofV2AllE_passes :
     checkTorusCertificateV2 routeMax toyB (.ofV2AllE (Sum.inr toyBGain)) = true :=
