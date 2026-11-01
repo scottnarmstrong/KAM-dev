@@ -32,7 +32,7 @@ variable {n : ℕ}
 def spatialKeplerEnergy (ν : Fin n → ℝ) (z : Phase (n * 3)) (i : Fin n) : ℝ :=
   spaceSq (bodyVector3 z.2 i) / (2 * ν i) - ν i / spaceLength (bodyVector3 z.1 i)
 
-/-- Osculating semimajor axis `a_i = −ν_i/(2 ν_i E_i)`. -/
+/-- Canonical (Kepler) semimajor axis `a_i = −ν_i/(2 ν_i E_i)`; physical where `ν_i E_i < 0`. -/
 def spatialKeplerAxis (ν : Fin n → ℝ) (z : Phase (n * 3)) (i : Fin n) : ℝ :=
   -ν i / (2 * spatialKeplerEnergy ν z i)
 
