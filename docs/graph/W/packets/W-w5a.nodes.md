@@ -931,9 +931,9 @@ EDGE: stepW:w5:s-class | blueprint-W/parts/w5-kamstep.tex#bpW:w5:solve@L373-L373
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5a
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.stepSolveLemma, KAM.Wave.stepSolveLemmaMod (KAM/Wave/KamStep/ExportSolve.lean)
-LEAN_NOTE: W-GRAPH-CLOSE audit 1 (maud-wpj-1, inp-wgclose a82197a3) NOT (F1), retained PARTIAL record: stepSolveLemma covers the non-modified case; stepSolveLemmaMod states hat N in S_(p_+)(P) only; missing: the modified-case clause hat N in S_(p+1)(P) ('indeed p'', p' = p+1, w5-kamstep.tex:335-336, 355-356), an explicit source-facing export identifying the same hat N; fix in progress
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.stepSolveLemma, KAM.Wave.stepSolveLemmaMod (KAM/Wave/KamStep/ExportSolve.lean:239,286)
+LEAN_NOTE: W-GRAPH-CLOSE audit 2 (maud-wpj-2, W-SOLVE-FIX at b0e251ba) PROVED-OK, round-1 F1 closed: stepSolveLemmaMod now also states the modified normal correction hat N in S_(p+1)(P) for the same hat N ('indeed p'', p' = p+1); stepSolveLemma unchanged (non-modified case, audit 1 PASS); axioms propext, Classical.choice, Quot.sound
 NOTE: -
 
 NODE: stepW:w5:s-in
