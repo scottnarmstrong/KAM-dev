@@ -188,6 +188,54 @@ kamx-packed's chain modules in the package (stage C). The emitted names follow V
 (`LG00P.TP.Jet.<C>.ChainCert`: `jdLow`, `bLow`, `jetLow_check_cert`, …); if kamx-packed renames them, only
 `emit_j`'s import and name strings change.
 
+**The jet route compiled for T′ (integration, log `runJ`, 2026-11-01 16:43–18:00 UTC).** On the local branch
+`v2-packed-gen-int` (this branch + `v2-packed-cons` `4b2cf9af` + `v2-packed-prod` `0bb4def23`; never landed), in a
+scratch package mirroring kamx-packed's `kam-lg00p` (same name, library and options), so their built modules are
+reused read-only by hardlink: the certificate copy, `LG00P.JetBridge`, and both chains with their theorems
+(`jetLow_check_cert`, `jetFull_check_cert`; 307 chain modules, all up to date). Proved, standard axioms:
+`pkCheckTorsionJ` (`checkTorsionJ … jdLowW lg00Cert`), `pkFramesJ` (`checkFrameMajorantsRJ` at the claims),
+`pkCheckInvJ` (`checkInvarianceJ … jdFullW`, all four rows, the tight row 1 included), `pkCheckEnJ`, `pkLowOk`,
+`pkFullOk`, `pkFrontLowOk`.
+
+| part | built | reused | CPU-s | peak |
+|---|---:|---:|---:|---:|
+| packed data (books, memos, `pkIBook`, fronts, `pkHamJet`) | 31 | 0 | 177.4 | 0.65 GB |
+| front checks (25 lookups, five per module) and assemblies | 7 | 0 | 78.0 | 1.22 GB |
+| Gram (B2) | 10 | 0 | 76.3 | 2.01 GB |
+| torsion on the jet: 16 `D²K`, guards, 6 stages, 8 + 8 entries, `T`, `Y`, final, `jetLowOk` | 46 | 0 | 423.6 | 2.77 GB |
+| torsion core assembly (`torsRCoreJ_of`) | 1 | 0 | 166.0 | 2.84 GB |
+| `checkTorsionJ` assembly | 1 | 0 | 400.9 | 3.06 GB |
+| frames on the jet's torsion | 4 | 0 | 44.8 | 2.21 GB |
+| invariance on the jet (guard, 4 rows, `jetFullOk`, assembly) | 7 | 0 | 76.5 | 1.23 GB |
+| energy on the jet | 2 | 0 | 12.5 | 0.68 GB |
+| ported chain-free LG00 proof (static, embedding, disc-pass parts, sites, frequency, confinement, identity) | 68 | 14 | 653.7 | 3.02 GB |
+| ported Hamiltonian balls | 64 | 0 | 360.2 | 1.74 GB |
+| kamx-packed's certificate copy and chains | 0 | 311 | 0 | — |
+| **total** | **241** | **325** | **2,470.0** | **3.06 GB** |
+
+**Not built: `LG00P.TP.Balls.T38`** (the ported ball module of the disc pass; LG00's own run charged 6.00 GB for it,
+killed here at the 4 GB cap in three attempts), and its 22 dependants: `Balls.HamBounds`, `Final.HamClaim` and their
+parts, hence `Asm.BaseJ` (`jetBase`), `Asm.EngineJ`, `Asm.CheckJ`, `MainJ`. Everything else of the jet route is
+built. Two ways out (owner's/orchestrator's choice): one solo build of `T38` at 7.5 GB under the JetBridge exception
+rules; or the copy imports LG00's `Ham` (kamx-packed's `KEEP`), so `checkHamBounds` and `checkHamClaim` of the copy
+transfer from LG00's own `lg00_hamBounds`, `lg00_hamClaim` by `rfl` (same fields) instead of being re-proved: this
+also saves the ported balls' 360 CPU-s and the disc pass.
+
+**Missing from kamx-packed: nothing on the chains.** Both chain theorems are built and plug into the consumers
+(`pkLowOk`, `pkFullOk`). Open items for the owners:
+- **Do not state the consumers at `lg00Cert.ham.jet`.** Reading the certificate's jet makes the kernel compile the
+  Hamiltonian's jet (`lg00Ham_jet`'s cost): every `X_N` entry was killed at 4 GB (eight, three attempts) until the
+  stages were stated at the literal `lg00Jet` and the assemblies rewrote with `lg00Ham_jet` (`pkHamJet`). Then
+  `X_N` entries take 1.4 GB, as on the landed-model route.
+- **`JetFront.lean`** (on `v2-packed-gen-int`; text in `pending/`): `jd.withFront front` puts a chain's wanted
+  nodes (its own `JLed` constants, by name) in front of its ledger; `jetCheck_withFront` moves the chain theorem
+  across, given one checked lookup per front entry (`frontOk`, 25 lookups, ≤ 0.54 GB). It bounds every consumer
+  lookup by 20 or 5 entries (AUDIT/CONS L2). Whether it is necessary is unmeasured: it did not by itself fix the
+  `X_N` entries (the cause was the jet above).
+- **Two slow assemblies:** `TorsJ.Core` (166 CPU-s) and `TorsJ` (401 CPU-s), against 4.3 and 7.3 s for the same
+  assemblies on the landed-model route. Proof terms are the same lemma applications; something in the unification
+  of `jetSlots jdLowW` or the rewrite unfolds a large definition. Under the cap; to profile.
+
 **T″ the same way.** `gen_cert.py …/LG00/TPP` (no change to any script): T″'s own parameters, box
 (`s = 886058956738442102019008342433694847/886058070680308099785085113265000000`), zero modes and claims are read
 from its tree. The B3b mirror passes (torsion margin 0.00118) and the frames at T″'s claims: `|Lᵀ|` 1.3513 / 1.36,
