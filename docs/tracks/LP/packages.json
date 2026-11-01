@@ -145,7 +145,7 @@
    "wave": 4,
    "weight": 5.2,
    "modules": [
-    "KAM/Planetary/Spatial/Poincare.lean"
+    "KAM/Planetary/Spatial/Chart.lean"
    ],
    "source": "MAIN L17: regular spatial Poincare chart"
   },
@@ -167,6 +167,15 @@
     "KAM/Planetary/Spatial/Osculating.lean"
    ],
    "source": "MAIN L16, d=3"
+  },
+  {
+   "id": "LP-SP-PROD",
+   "wave": 4,
+   "weight": 1.2,
+   "modules": [
+    "KAM/Planetary/Spatial/Product.lean"
+   ],
+   "source": "MAIN L17 for n bodies; fixed-plane deficit"
   },
   {
    "id": "LP-SP-DOM",
