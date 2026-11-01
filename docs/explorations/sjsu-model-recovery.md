@@ -229,8 +229,9 @@ Fourier peak of x_j + iy_j). Relative deviation from GLS17 (37),
 | SJSU18-O2, Table 1 first-order secular point | +0.110 | +1.5·10⁻² | +6.9·10⁻³ |
 | printed quartic, raw Table 1 | +0.153 | +2.3·10⁻² | +8.2·10⁻³ |
 
-The degree-6–18 content shifts the fast frequency by about 8 % at these amplitudes, toward
-GLS17's value. GLS17's eq. (37) is consistent with the Table 2 point, not with the Table 1
+From the same point, SJSU18-O2 (degrees 2–18) and the printed quartic differ by 8 % in the
+fast frequency. That is mostly the degree-6–18 content, partly the 5–8 % quartic difference;
+in either case it moves toward GLS17's value. GLS17's eq. (37) is consistent with the Table 2 point, not with the Table 1
 point mapped as in §5.3. The remaining 3.9 % on ω₁ matches the 5:2 quartic gap of §6.1
 (**estimated**).
 
@@ -329,7 +330,7 @@ polynomial; its relation to the true secular dynamics is a separate fidelity que
 All heavy steps ran under `systemd-run --user --scope -p MemoryMax=8G -p MemorySwapMax=0
 nice -n 10`, on ≤ 2 cores. Peak RSS was about 1 GB (the order study at N = 5). Measured CPU:
 first-order expansion 12 s; model 17 s (long double) or 180 s (mpmath); N-body 10 min per Myr;
-order study 1 h; precision check 10 min. Disk: about 60 MB under `~/kam-data/sjsu/`. Only the
+order study 1 h; precision check 10 min. Disk: about 55 MB under `~/kam-data/sjsu/` (each run directory with `MANIFEST.sha256` and `SOURCE.txt`). Only the
 model, small tables and scripts are committed; the first-order expansion (1.08 M terms) is
 regenerable, and its hash is in `data/sjsu18-o2.SOURCE.txt`. Commands are in
 [`applications/sjsu/README.md`](../../applications/sjsu/README.md#how-to-regenerate).

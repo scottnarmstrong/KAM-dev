@@ -53,6 +53,42 @@ Parameters:
   linear in the actions and independent of all the other canonical variables". With this
   reading 2n₁\* − 5n₂\* agrees with the N-body great-inequality frequency to 1.4 %.
 
+## Quickstart
+
+Python standard library only (run from the repository root). Both forms give the same
+Hamiltonian; the real form is exact when evaluated in rational arithmetic.
+
+```python
+import json
+from fractions import Fraction
+
+model = json.load(open('applications/sjsu/data/sjsu18-o2.json'))
+
+def H_real(xi, eta):
+    """SJSU18-O2 at (xi_J, xi_S, xi_U), (eta_J, eta_S, eta_U); exact if the inputs are Fractions."""
+    v = (*xi, *eta)
+    total = 0
+    for *powers, coef in model['real_form']['terms']:
+        term = Fraction(coef)
+        for x, p in zip(v, powers):
+            term *= x ** p
+        total += term
+    return total
+
+def H_complex(z):
+    """Same Hamiltonian from the complex form, z_j = (xi_j - i eta_j)/sqrt 2 (floating point)."""
+    total = 0
+    for pJ, qJ, pS, qS, pU, qU, coef in model['complex_form']['terms']:
+        total += float(coef) * (z[0]**pJ * z[0].conjugate()**qJ * z[1]**pS * z[1].conjugate()**qS
+                                * z[2]**pU * z[2].conjugate()**qU)
+    return total.real
+
+xi, eta = (0.034, -0.001, -0.010), (-0.009, -0.026, -0.002)
+z = [complex(a, -b) / 2 ** 0.5 for a, b in zip(xi, eta)]
+print(float(H_real([Fraction(x) for x in xi], [Fraction(e) for e in eta])), H_complex(z))
+# -5.182958389258055e-08 -5.182958389258028e-08
+```
+
 ## Conventions
 
 | Item | Convention |
