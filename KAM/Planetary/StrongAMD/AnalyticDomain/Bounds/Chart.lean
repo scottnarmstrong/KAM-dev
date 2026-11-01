@@ -44,7 +44,7 @@ structure IsChartExtension (ν : Fin n → ℝ) (K : Set (Phase (n + n))) (R' : 
         Ψc (z + KAM.Nekhoroshev.complexifyPhase (fastShift k : Phase (n + n))) = Ψc z
 
 /-- A chart extension restricts to a smaller tube. -/
-theorem IsChartExtension.mono {K : Set (Phase (n + n))} {R' R'' : ℝ}
+theorem IsChartExtension.toSmallerTube {K : Set (Phase (n + n))} {R' R'' : ℝ}
     {Ψc : ((Fin (n + n) → ℂ) × (Fin (n + n) → ℂ)) → (Fin (n * 2) → ℂ) × (Fin (n * 2) → ℂ)}
     (h : IsChartExtension ν K R' Ψc) (hle : R'' ≤ R') : IsChartExtension ν K R'' Ψc where
   holo := h.holo.mono (complexTube_mono hle)
@@ -85,7 +85,8 @@ theorem exists_strongChart (hν : ∀ i, 0 < ν i) (hn : 2 ≤ n) (hL : IsCompac
   have hloc := fun c => tube hW hKc hKW (chartSafe_shift_iff hν) (hcoord c) (hper c)
   choose rc hrc gc hgc hreal hgper using hloc
   obtain ⟨R', hR', hR'le⟩ := exists_pos_le_half rc hrc Finset.univ
-  have hRle : ∀ c, R' ≤ rc c := fun c => (hR'le c (Finset.mem_univ c)).trans (half_le_self (hrc c).le)
+  have hRle : ∀ c, R' ≤ rc c := fun c =>
+    (hR'le c (Finset.mem_univ c)).trans (half_le_self (hrc c).le)
   set Ψc : ((Fin (n + n) → ℂ) × (Fin (n + n) → ℂ)) → (Fin (n * 2) → ℂ) × (Fin (n * 2) → ℂ) :=
     fun z => (fun k => gc (Sum.inl k) z, fun k => gc (Sum.inr k) z) with hΨ
   have hchart : IsChartExtension ν (strongCore ν L δ r) R' Ψc := by

@@ -17,7 +17,7 @@ Package LP-DOMX, `LP:MAIN L8 (253, 270)`, track LP, non-frozen.
   properties of `complexTube`.
 * `exists_norm_le_halfTube`: a shift-periodic holomorphic function with values in a normed space is
   bounded on the half tube (compactness of one cell, as in `KAM.Planetary.perturbation`).
-* `norm_fderiv_le_of_closedBall`: the multivariable Cauchy estimate
+* `norm_fderiv_le_cauchyBall`: the multivariable Cauchy estimate
   `‖fderiv ℂ f z‖ ≤ M / ρ` from a bound `M` on `closedBall z ρ`.
 -/
 
@@ -33,8 +33,8 @@ variable {E F : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [NormedAddComm
   [NormedSpace ℂ F]
 
 /-- The multivariable Cauchy estimate: a bound `M` on `closedBall z ρ` bounds the Fréchet
-derivative at the centre by `M / ρ` (restrict to complex lines and use the one-variable estimate). -/
-theorem norm_fderiv_le_of_closedBall {f : E → F} {z : E} {ρ M : ℝ} (hρ : 0 < ρ)
+derivative at the centre by `M / ρ` (restrict to complex lines, one-variable estimate). -/
+theorem norm_fderiv_le_cauchyBall {f : E → F} {z : E} {ρ M : ℝ} (hρ : 0 < ρ)
     (hd : DifferentiableOn ℂ f (closedBall z ρ)) (hb : ∀ y ∈ closedBall z ρ, ‖f y‖ ≤ M) :
     ‖fderiv ℂ f z‖ ≤ M / ρ := by
   have hz : DifferentiableAt ℂ f z := hd.differentiableAt (closedBall_mem_nhds z hρ)

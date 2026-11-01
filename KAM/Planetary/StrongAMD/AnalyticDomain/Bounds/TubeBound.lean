@@ -14,7 +14,8 @@ public import KAM.Planetary.Exponential.Perturbation
 
 Package LP-DOMX, `LP:MAIN L8 (253, 270)`, track LP, non-frozen.
 
-* `complexTube_mono`, `complexTube_add_shift`, `closedBall_subset_complexTube`, `isOpen_complexTube`.
+* `complexTube_mono`, `complexTube_add_shift`, `closedBall_subset_complexTube`,
+  `isOpen_complexTube`.
 * `exists_norm_le_halfTube`: a shift-periodic continuous function is bounded on the half tube.
 * `norm_fderiv_le_quarterTube`: Cauchy estimate on the quarter tube from a bound on the half tube.
 * `norm_sub_le_of_quarterTube`: the resulting Lipschitz estimate near a real centre.
@@ -115,7 +116,7 @@ theorem norm_fderiv_le_quarterTube {R M : ℝ} (hR : 0 < R)
   intro z hz
   have hsub : closedBall z (R / 4) ⊆ complexTube K (R / 2) :=
     (closedBall_subset_complexTube hz).trans (complexTube_mono (by linarith))
-  exact norm_fderiv_le_of_closedBall (by positivity)
+  exact norm_fderiv_le_cauchyBall (by positivity)
     (hG.mono (hsub.trans (complexTube_mono (by linarith)))) fun y hy => hM y (hsub hy)
 
 /-- Lipschitz estimate on a quarter-tube ball around a real centre of the periodic orbit set. -/
@@ -125,10 +126,12 @@ theorem norm_sub_le_of_quarterTube {R C : ℝ}
     (hC : ∀ z ∈ complexTube K (R / 4), ‖fderiv ℂ G z‖ ≤ C) {x : Phase (n + n)}
     (hx : x ∈ periodicOrbitSet K) {z : (Fin (n + n) → ℂ) × (Fin (n + n) → ℂ)}
     (hz : ‖z - KAM.Nekhoroshev.complexifyPhase x‖ < R / 4) (hR : 0 < R) :
-    ‖G z - G (KAM.Nekhoroshev.complexifyPhase x)‖ ≤ C * ‖z - KAM.Nekhoroshev.complexifyPhase x‖ := by
+    ‖G z - G (KAM.Nekhoroshev.complexifyPhase x)‖ ≤
+      C * ‖z - KAM.Nekhoroshev.complexifyPhase x‖ := by
   have hball : ball (KAM.Nekhoroshev.complexifyPhase x) (R / 4) ⊆ complexTube K (R / 4) :=
     fun y hy => ⟨x, hx, by simpa [dist_eq_norm] using hy⟩
-  have hcent : KAM.Nekhoroshev.complexifyPhase x ∈ ball (KAM.Nekhoroshev.complexifyPhase x) (R / 4) :=
+  have hcent : KAM.Nekhoroshev.complexifyPhase x ∈
+      ball (KAM.Nekhoroshev.complexifyPhase x) (R / 4) :=
     mem_ball_self (by positivity)
   refine (convex_ball _ _).norm_image_sub_le_of_norm_fderiv_le (fun y hy => ?_)
     (fun y hy => hC y (hball hy)) hcent (by simpa [dist_eq_norm] using hz)

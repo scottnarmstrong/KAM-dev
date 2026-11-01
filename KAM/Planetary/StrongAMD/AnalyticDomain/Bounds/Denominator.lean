@@ -41,7 +41,8 @@ theorem exists_tube_re_cDot_ge (hν : ∀ i, 0 < ν i) {K : Set (Phase (n + n))}
     (hstar : ∀ x ∈ K, ∀ i, dS ≤ planeLength (bodyVector (poincareProd ν 1 x).1 i) ∧
       planeLength (bodyVector (poincareProd ν 1 x).1 i) ≤ R)
     (hpair : ∀ x ∈ K, ∀ i j, i ≠ j →
-      dP ≤ planeLength (bodyVector (poincareProd ν 1 x).1 i - bodyVector (poincareProd ν 1 x).1 j)) :
+      dP ≤ planeLength (bodyVector (poincareProd ν 1 x).1 i -
+        bodyVector (poincareProd ν 1 x).1 j)) :
     ∃ ρ : ℝ, 0 < ρ ∧ ρ ≤ R' / 4 ∧ ∀ z ∈ complexTube K ρ,
       (∀ i, dS ^ 2 / 2 ≤ (cDot (cBody (Ψc z).1 i)).re) ∧
       ∀ i j, i ≠ j → dP ^ 2 / 2 ≤ (cDot (cBody (Ψc z).1 i - cBody (Ψc z).1 j)).re := by

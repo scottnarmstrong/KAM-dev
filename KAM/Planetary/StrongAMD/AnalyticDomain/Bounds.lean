@@ -39,7 +39,7 @@ open KAM.Planetary Set Metric
 
 variable {n : ℕ} {ν : Fin n → ℝ} {L : Set (Fin n → ℝ)} {δ r : ℝ}
 
-/-- The complex coordinate `j` of the first (position) component of a holomorphic chart is holomorphic. -/
+/-- Coordinate `j` of the position component of a holomorphic chart is holomorphic. -/
 theorem differentiableOn_chart_coord {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
     {T : Set E} {Ψc : E → (Fin (n * 2) → ℂ) × (Fin (n * 2) → ℂ)}
     (h : DifferentiableOn ℂ Ψc T) (j : Fin (n * 2)) :
@@ -105,8 +105,8 @@ structure StrongTubeData (ν : Fin n → ℝ) (L : Set (Fin n → ℝ)) (δ r R 
         (planeLength (bodyVector (poincareProd ν 1 w).1 i -
           bodyVector (poincareProd ν 1 w).1 j) : ℂ)
 
-/-- Items 1–3 with D4 (`LP:MAIN L8 (253, 259–271)`): all constants and functions are chosen before any
-`I⁰` or `μ`; they depend only on `(ν, L, δ, r_g)`. -/
+/-- Items 1–3 with D4 (`LP:MAIN L8 (253, 259–271)`): all constants and functions are chosen
+before any `I⁰` or `μ`; they depend only on `(ν, L, δ, r_g)`. -/
 theorem exists_strongTubeData (hν : ∀ i, 0 < ν i) (hn : 2 ≤ n) (hL : IsCompact L)
     (hLch : L ⊆ chamber ν) (hg : IsSharedTube ν L δ r) (hδ : 0 < δ) :
     ∃ R ρ M M' dS dP : ℝ, ∃ fc : ((Fin (n + n) → ℂ) × (Fin (n + n) → ℂ)) → ℂ,
@@ -120,7 +120,7 @@ theorem exists_strongTubeData (hν : ∀ i, 0 < ν i) (hn : 2 ≤ n) (hL : IsCom
   have hle2 : R'' ≤ R' := min_le_right _ _
   have hfc'' : DifferentiableOn ℂ fc (complexTube (strongCore ν L δ r) R'') :=
     hfc.mono (complexTube_mono hle1)
-  have hΨ'' : IsChartExtension ν (strongCore ν L δ r) R'' Ψc := hΨ.mono hle2
+  have hΨ'' : IsChartExtension ν (strongCore ν L δ r) R'' Ψc := hΨ.toSmallerTube hle2
   have hMfc : ∀ z ∈ complexTube (strongCore ν L δ r) (R'' / 2), ‖fc z‖ ≤ M := fun z hz =>
     hM z (complexTube_mono (by linarith) hz)
   have hMΨ : ∀ z ∈ complexTube (strongCore ν L δ r) (R'' / 2), ‖Ψc z‖ ≤ M' := fun z hz =>
@@ -172,6 +172,38 @@ theorem exists_strongTubeData (hν : ∀ i, 0 < ν i) (hn : 2 ≤ n) (hL : IsCom
           simp [cBody, bodyVector, KAM.Nekhoroshev.complexifyPhase]
         rw [e]
         exact cDot_cpow_ofReal _ }
+
+/-- Item 4 (`LP:MAIN L8 (244–271)`), quantified as MAIN L8: the constants `R, ρ, M, M', dS, dP`, the
+functions `fc, Ψc` and the widths `r_*, s, b` (with `r_* ≤ 4 r_g`, amendment N3) are fixed
+before any `I⁰`; for every `I⁰ ∈ 𝓛_δ`, every point of the domain (22) lies in the thin tube
+`complexTube core ρ`
+on which all the data of `StrongTubeData` hold (holomorphy, real traces, bounds, first-derivative
+bounds, holomorphic denominators bounded away from zero).  The split `H = h + μ f` is
+`movingHamiltonian_poincareProd_split` (D6). -/
+theorem lemma8_complete (hν : ∀ i, 0 < ν i) (hn : 2 ≤ n) (hL : IsCompact L)
+    (hLch : L ⊆ chamber ν) (hg : IsSharedTube ν L δ r) (hδ : 0 < δ) :
+    ∃ R ρ M M' dS dP : ℝ, ∃ fc : ((Fin (n + n) → ℂ) × (Fin (n + n) → ℂ)) → ℂ,
+      ∃ Ψc : ((Fin (n + n) → ℂ) × (Fin (n + n) → ℂ)) → (Fin (n * 2) → ℂ) × (Fin (n * 2) → ℂ),
+      StrongTubeData ν L δ r R ρ M M' dS dP fc Ψc ∧
+      ∃ rStar s b : ℝ, 0 < rStar ∧ rStar ≤ 4 * r ∧ 0 < s ∧ 0 < b ∧
+        ∀ I0 ∈ strongLevelSet ν L δ, ∀ z : (Fin (n + n) → ℂ) × (Fin (n + n) → ℂ),
+          ‖(fun i => z.2 (Fin.castAdd n i)) - fun i => ((I0 i : ℝ) : ℂ)‖ < rStar →
+          ‖fun i => (z.1 (Fin.castAdd n i)).im‖ < 4 * s →
+          (∃ y ∈ secularBall ν δ I0,
+            ‖(fun i => z.1 (Fin.natAdd n i)) - fun i => ((y.1 i : ℝ) : ℂ)‖ < 4 * b ∧
+            ‖(fun i => z.2 (Fin.natAdd n i)) - fun i => ((y.2 i : ℝ) : ℂ)‖ < 4 * b) →
+          z ∈ complexTube (strongCore ν L δ r) ρ := by
+  obtain ⟨R, ρ, M, M', dS, dP, fc, Ψc, hd⟩ := exists_strongTubeData hν hn hL hLch hg hδ
+  have hρ := hd.ρ_pos
+  refine ⟨R, ρ, M, M', dS, dP, fc, Ψc, hd, min (4 * r) (ρ / 2), ρ / 8, ρ / 8,
+    lt_min (by linarith [hg.pos]) (by positivity), min_le_left _ _, by positivity, by positivity,
+    fun I0 hI0 z hact hang hslow => ?_⟩
+  have hmax : max (min (4 * r) (ρ / 2)) (max (4 * (ρ / 8)) (4 * (ρ / 8))) < 2 * ρ / 2 := by
+    refine max_lt ?_ (max_lt ?_ ?_) <;> linarith [min_le_right (4 * r) (ρ / 2)]
+  have := strongCore_containment (r := r) (R := 2 * ρ) (lt_min (by linarith [hg.pos])
+    (by positivity)) (min_le_left _ _) hmax hI0 hact hang hslow
+  have e : 2 * ρ / 2 = ρ := by ring
+  rwa [e] at this
 
 end KAM.Planetary.StrongAMD
 
