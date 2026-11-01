@@ -24,3 +24,5 @@ Package LP-SP-MODEL (wave 4), `LP:MAIN §1 (9–93)`, Lemmas 1–3 (`d = 3`) and
 track LP, non-frozen; the statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 Public import path for the modules `KAM.Planetary.Spatial.*` (namespace `KAM.Planetary.Spatial`).
 -/
+
+public section
