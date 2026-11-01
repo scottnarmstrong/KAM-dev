@@ -698,6 +698,10 @@ public import KAM.Planetary.StrongAMD.Nek.Drift.Stopped
 public import KAM.Planetary.StrongAMD.Nek.Drift
 public import KAM.Planetary.StrongAMD.Nek.Kepler
 public import KAM.Planetary.StrongAMD.Nek.Perturbation
+public import KAM.Planetary.StrongAMD.Nek.PlanarSafety.Main
+public import KAM.Planetary.StrongAMD.Nek.PlanarSafety.Orientation
+public import KAM.Planetary.StrongAMD.Nek.PlanarSafety.Prograde
+public import KAM.Planetary.StrongAMD.Nek.PlanarSafety
 public import KAM.Planetary.StrongAMD.NonresonantAdapter
 public import KAM.Planetary.StrongAMD.NonresonantAdapterRescale
 public import KAM.Planetary.StrongAMD.NonresonantReuse.Drift
