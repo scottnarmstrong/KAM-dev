@@ -46,6 +46,6 @@ LP-MOM:
   `isMovingSolutionOn_reflectPhase_iff` with the invariance lemmas is the N8 reflection bridge for `L < 0`.
 - `cross_sign_and_margin`: MAIN's "if `C ≤ B_⋆ − m` then `H_i ≥ m`", stated per planet with `0 < L_i * L`.
 - `hamiltonianVectorField_reflectPhase`: the chain-rule argument and the symplectic sign convention of
-  `KAM.Iso.hamiltonianVectorField`.
+  `KAM.hamiltonianVectorField`.
 - Deviation reported by the prover: `strongAMD_sub_eq_sum` drops MAIN's negative-energy premise. It is a stronger
   statement; confirm that it is still true and faithful.
