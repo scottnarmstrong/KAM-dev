@@ -115,3 +115,14 @@ chain was not built: no frozen files are created before approval.
   about 1.7–2.3k keys at CertFixed 160–192.
 - Bespoke Lean work, about 2–3k lines: ClockGraph (inverse, FromTorus, Barrier), magnetic Global ODE, HamExpr and
   the expansion identity, and the Frequency module (continued-fraction port).
+
+## Audits
+
+- **MAG-SA-1** (codex-2, commit `44842038`): FAIL. The torus conjuncts of §1.2 were missing (now restored), the
+  margins are now stated exactly, and the state type is left as decision 4. Report:
+  `/mnt/HC_Volume_106379410/kam-data/mag/MAG-SA-1.md`.
+- **MAG-SA-2** (codex-2, commit `716251f5`): **PASS WITH NOTES**, 0 blocking, 0 major. Report:
+  `/mnt/HC_Volume_106379410/kam-data/mag/MAG-SA-2.md`.
+  - Note 1: embedding follows from the conjuncts (∂₀Q > 0 by the dense irrational flow); prove it as a corollary.
+  - Note 2: the state-type exception (decision 4).
+  - Minor 3: deprecated `Mathlib.Data.Real.Sqrt` import, fixed to `Mathlib.Analysis.Real.Sqrt`.
