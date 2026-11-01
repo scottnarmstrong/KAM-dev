@@ -14,16 +14,17 @@ public import KAM.Frozen.Planetary.Defs.PhysicalAMD
 /-!
 # The strong AMD and exact angular momentum, planar
 
-Package LP-MOM, `LP:MAIN L3 (130–139)`, definition `LP:MAIN §1 (2) (26–45)`; track LP, non-frozen; the
-statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Package LP-MOM, `LP:MAIN L3 (130–139)`, definition `LP:MAIN §1 (2) (26–45)`; track LP,
+non-frozen; the statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 `strongAMD ν z = Σ Λ_i - |L|` with the absolute value of the total angular momentum.  Items:
 conservation of `L` and the AMD identity (13) along a moving solution; `0 ≤ C`; `C < Λ_k ⇒ L ≠ 0`;
 the projection bounds and the margin corollary; the eccentricity-deficit bound; the bridge to the
 signed `physicalAMD` when `0 ≤ L`.
 
-All per-planet statements assume `0 < ν i`, `0 < |q_i|`, `E_i < 0` for every `i` (the negative-energy
-region), packaged as `hz : ∀ i, 0 < ν i ∧ 0 < planeLength (bodyVector z.1 i) ∧ keplerEnergy ν z i < 0`.
+All per-planet statements assume `0 < ν i`, `0 < |q_i|`, `E_i < 0` for every `i` (the
+negative-energy region), packaged as
+`hz : ∀ i, 0 < ν i ∧ 0 < planeLength (bodyVector z.1 i) ∧ keplerEnergy ν z i < 0`.
 -/
 
 @[expose] public noncomputable section
@@ -165,8 +166,9 @@ theorem sum_action_mul_eccDeficit_le_strongAMD {ν : Fin n → ℝ} {z : Phase (
     (hz : ∀ i, 0 < ν i ∧ 0 < planeLength (bodyVector z.1 i) ∧ keplerEnergy ν z i < 0) :
     ∑ i, keplerAction ν z i * (1 - Real.sqrt (1 - planeLength (keplerEccVector ν z i) ^ 2)) ≤
       strongAMD ν z := by
-  have hterm : ∀ i, keplerAction ν z i * (1 - Real.sqrt (1 - planeLength (keplerEccVector ν z i) ^ 2))
-      = keplerAction ν z i - |planeCross (bodyVector z.1 i) (bodyVector z.2 i)| := fun i => by
+  have hterm : ∀ i, keplerAction ν z i *
+      (1 - Real.sqrt (1 - planeLength (keplerEccVector ν z i) ^ 2)) =
+        keplerAction ν z i - |planeCross (bodyVector z.1 i) (bodyVector z.2 i)| := fun i => by
     rw [(orbital_identities i (hz i)).2.2.2.2.2.1]; ring
   simp only [hterm]
   rw [Finset.sum_sub_distrib]

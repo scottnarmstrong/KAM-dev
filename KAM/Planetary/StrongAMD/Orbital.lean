@@ -18,8 +18,8 @@ public import KAM.Frozen.Planetary.Defs.KeplerEccVector
 Package LP-MOM, `LP:MAIN L2 (110–128)`, definitions `LP:MAIN §1 (26–45)`; track LP, non-frozen; the
 statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
-For one planet with `0 < ν i`, `0 < |q_i|` and negative Kepler energy (and **no** sign condition on the
-angular momentum `L_i = q_i × p_i`, so the radial case `e_i = 1`, `L_i = 0` is included):
+For one planet with `0 < ν i`, `0 < |q_i|` and negative Kepler energy (and **no** sign condition
+on the angular momentum `L_i = q_i × p_i`, so the radial case `e_i = 1`, `L_i = 0` is included):
 `orbital_identities` bundles `0 < a`, `0 < Λ`, `Λ² = ν² a`, (11) `e² = 1 - L²/Λ²`, `e ≤ 1`,
 `|L| = Λ √(1 - e²)`, `|L| ≤ Λ`, and (12) `a (1 - e) ≤ |q| ≤ a (1 + e)`, `|p|² = ν² (2/|q| - 1/a)`.
 -/
