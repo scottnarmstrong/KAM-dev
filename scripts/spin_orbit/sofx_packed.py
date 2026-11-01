@@ -437,7 +437,10 @@ class PackedEngine:
         Ab, Bb = cut(adv0, da), cut(adv0, db)
         ns = len(Ab) + len(Bb) - 1
         mA, mB = maxAbsFlat(Ab), maxAbsFlat(Bb)
-        w0 = (2 * ns * L * mA * mB).bit_length() + 1      # MAG-2b: shardFits runs s + 1 up to ns (len(Bb) > len(Ab) too)
+        # MAG-2b: shardFits tests 2 (s + 1) L max|A| max|B| < 2^w for every shard s < ns; the original width (first
+        # term) covers s + 1 <= 2 len(Ab), so it is kept whenever it suffices (byte-identical advice) and widened only
+        # when len(Bb) > len(Ab) + 1
+        w0 = max((2 * len(Ab) * L * mA * mB).bit_length() + 1, (2 * ns * L * mA * mB).bit_length())
         PA = [pack_sum(w0, v) for v in Ab]
         PB = [pack_sum(w0, v) for v in Bb]
         T = []
