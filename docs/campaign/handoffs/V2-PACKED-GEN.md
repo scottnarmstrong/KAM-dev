@@ -3,11 +3,33 @@
 Brief: `/home/scott/kam-tools/briefs/V2-PACKED-GEN.md` (kamx-pk-gen). Branch `v2-packed-gen`, from `v2-packed-jet`
 `34d30126`, fast-forwarded to `origin/main` `7b81f9b9` (the landing of `v2-packed-jet`). Local commits only.
 
-DRAFT (in progress; the sections marked TODO are filled when the runs finish).
+DRAFT (in progress: the B3b route's end-to-end run and stage C are pending).
 
 ## Result
 
-TODO
+- **(A) done** (`V2-PACKED-SHARP DONE 11955893`; AUDIT-V2-PACKED-SHARP-1 PASS WITH CHANGES, fixed in
+  `SHARP-FIX 41f9e45e`). `routeARefinedPackedS` (`checkHamClaim && checkFrameMajorantsR … && refinedCoreS`) and
+  `routeV2AllPackedS`, sound to the landed `CertifiedTorus` for every base checker, standard axioms. The engine is
+  generic in the frame check (`FrameChecker`), so the jet route is one instance (`RouteSharpJ`, compile-checked
+  against the two branches on `v2-packed-gen-int`). Gate: the gate's own modules pass on T′'s real certificate
+  (frame sums at the claims, the certified sharp sites, one-ulp attacks); what it does not establish is stated in
+  (A).
+- **(B) built** (scripts below, all new): a certificate-tree reader (regression-equal to the first certificate's
+  gates), the scratch package with LG00's built modules reused read-only, the port of LG00's chain-free proof onto
+  kamx-packed's certificate copy, the module generator (B2, B3b, frames, A gate, B3b-route assembly, jet route), and
+  the run harness (ledger, cap, gates, resumable, staleness predicted and confirmed by one Lake call).
+  - On T′'s real certificate: the A gate (353 modules) and the B2 + B3b stages in production form (389 modules,
+    1,233 CPU-s against 13,551 for the landed Gram and Torsion stages of the first certificate) pass in the kernel.
+    The B3b route's end-to-end assembly to `pk_kamTorus` (LG00's `lg00_kamTorus` statement, verbatim) is emitted and
+    runs when LG00's run18 finishes T′'s `Low` chain (armed; see below).
+  - T″: the same scripts, unchanged, read T″'s tree; its B3b and frame mirrors pass at T″'s claims.
+  - The jet route for T′ (kamx-packed's certificate copy and chains, kamx-pk-cons' consumers) is emitted (103
+    modules); its mirrors pass (torsion on the jet's nodes, frames, invariance, energy), and the book widths agree.
+- **(C) not started:** it needs `v2-packed-prod` and `v2-packed-cons` landed (the orchestrator's go), then
+  `RouteSharpJ.lean` added, then one command: `scripts/packed/run_tree.sh TP jet <logdir>` (with kamx-packed's
+  chain inputs).
+- **Found on the way:** LG00's generated `Final.Freq` (T′, T″) does not elaborate (errata below); LG00's run18 will
+  hit it at `TP.Main`. One-line fix verified.
 
 ## (A) The packed sharp-site engine
 
@@ -232,9 +254,20 @@ emitted; it runs when LG00's run18 has finished T′'s `Low` chain (2,062 / 2,48
 - **Emitted modules:** every one asserted ≤ 100 characters per line and ≤ 1,500 lines by the emitter; they are
   modules (copyright, `module`, `public import`, docstring, `@[expose] public noncomputable section`).
 
-## Owner questions
+## Owner questions (overnight mode: none blocked the work)
 
-TODO
+1. **Where the packed LG00 modules live.** Now: a scratch Lake package (`<core>/.lake/lg00-packed`, never committed),
+   which reuses LG00's built modules read-only. The brief's alternative, `applications/lg00/LG00/Packed/` on
+   `lg00-app`, needs the orchestrator's approval (not asked to write there). The generators work for either:
+   only `gen_pkg.py`'s package root changes.
+2. **Which certificate the production theorem is about.** The jet route certifies kamx-packed's certificate COPY
+   (`LG00P.TP.lg00Cert`: LG00's certificate without advice and witnesses, which `CertifiedTorus` does not read).
+   `pk_kamTorus` is therefore `lg00_kamTorus`'s statement about the copy, not about `LG00.TP.lg00Cert`. A transfer
+   lemma (same `params`, `ham`, `weightH`, `centre`, `radius`, `emb` ⇒ same `CertifiedTorus`) would restate it at
+   LG00's certificate in one environment that imports both. Owner's choice.
+3. **The B3b route as a deliverable.** It replaces only LG00's Gram, Torsion and frame stages (the landed `Low` and
+   `Full` chains stay); it is the end-to-end validation of the assembly on LG00's real certificate, not the
+   production route.
 
 ## Suspected errata and deviations
 
