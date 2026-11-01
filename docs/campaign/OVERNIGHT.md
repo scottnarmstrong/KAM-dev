@@ -3117,3 +3117,21 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - F2: wording of four role paragraphs. N2: one sentence.
   - LP-FREEZE7R (the second LP slot, on claude-2) applies the fixes and re-verifies; a delta re-audit follows. Draft 8
     adopts the F1 convention.
+- **09:49. Heartbeat. Unlanded W: about 11k lines** (W6 landing sent as inp-w6land@2619fd55; W8 with the provider;
+  action-angle/initial with the tori).
+  - **D61 gates:**
+    - W5 LANDED (main 246bc1ce, 18.5k Wave lines).
+    - W6 round 2 PASS WITH NOTES (F1–F3 closed; the tori fully audited). The tori modules and W8-PREP are held back
+      for the final landing.
+    - W8 round 2 (complete W8 plus the provider) PASS WITH NOTES; the auditor elaborated the seal body in a temporary
+      copy, and this covers the W8-FINAL delta.
+    - W4-LIECONT PASS WITH NOTES.
+    - W5-AA round 2 running (codex-2).
+    - Final seal branch: inp-w8adapt@aecbecc3.
+  - LP: LP-FREEZE7R check (a) is re-elaborating the 129 files (33 done, no failures); LP-FREEZE8 is drafting; kam-lp
+    is preparing the graph's coverage inventory.
+  - Paper: writers A and B are done and C is finishing. root-b8 approved a second safe-rm prompt; writers now use
+    ${S:?}.
+  - No OOM. Load about 13. Memory: 17 GB available. Disks: / 17 GB free, HC 38 GB free (90 %).
+  - Quotas: claude-2 98 %, claude-5 95 %, claude-11 39 %, claude-3 20 %, claude-12 19 %, claude-4 7 % (root-b8).
+    codex-1 3 %, codex-2 on credits.
