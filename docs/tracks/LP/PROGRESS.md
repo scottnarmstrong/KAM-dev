@@ -44,8 +44,9 @@ src (4th, created 05:30 for the third slot).
 | LP-SP-OSC osculating d=3 | L16 (d=3) | 4 | `inp-lp-sposc` | claude-11 | proved 4d0e6cc1 (1,040 lines; F2 + OD-11(b) built in); audit queued (W4) |
 | LP-SP-CONF spatial first exit (conditional) | L14 (d=3) | 4 | `inp-lp-spconf` | claude-11 | proved c5168c68 (333 lines); audit queued (W4) |
 | LP-SP-TUBE tube for Phase (n+m) (N12) | L18 infra | 4 | `inp-lp-sptube` | claude-11 | proved 14d8799a (201 lines); audit queued (W4) |
-| LP-SP-ADAPT L13 adapter for Phase (n+m) | L13 infra | 4 | `inp-lp-spadapt` / mom worktree | claude-11 | running |
-| LP-SRC OD-11 (b) source carriers + LP1 restatement | freeze prep | — | `inp-lp-src` / src worktree (4th) | claude-6 | running |
+| LP-SP-ADAPT L13 adapter for Phase (n+m) | L13 infra | 4 | `inp-lp-spadapt` | claude-11 | proved 0be0685a (401 lines; no convention mismatch for m ≠ n); audit queued (W4) |
+| LP-SP-LIFT spatial chart lift + D1 premises | L14/L18 (d=3) | 4 | `inp-lp-splift` / mom worktree | claude-11 | running |
+| LP-SRC OD-11 (b) source carriers + LP1 restatement | freeze prep | — | `inp-lp-src` / src worktree (4th) | claude-6 | proved dd0a5ec5 (405 lines); text in FREEZE-PROPOSAL draft 3 §3b; delta review 3 running; audit queued |
 | LP-SP-PROD n-body spatial product chart | L17 (n bodies), (47) | 4 | `inp-lp-spprod` | claude-12 | proved e2a64cdc (767 lines); audit queued (W4) |
 | LP-SP-DOM spatial analytic domain | L18 | 4 | `inp-lp-spdom` / geomod worktree | claude-12 | running |
 | LP-SP-DOM / SP-SAFE (+ spatial NRR/LIFT/CONF twins) | L18, T19 | 4 | — | — | after SP-PROD |
@@ -103,3 +104,4 @@ src (4th, created 05:30 for the third slot).
 - 2026-11-01 05:22 UTC: LP-SP-TUBE proved. SP-PROD chose layout Phase (n + (n + n)). LP-SP-ADAPT (L13 adapter for Phase (n+m)) launched on claude-11.
 - 2026-11-01 05:23 UTC: LP-SP-PROD proved (767 lines). LP-SP-DOM (L18) launched on claude-12.
 - 2026-11-01 05:36 UTC: **LP-PS audit 1 PASS WITH NOTES: planar LP1 and LP0 audited** (general, normalized = draft-2 text verbatim, half-integer, LP0, internal prograde: all PASS). Notes H1/D1 applied; merged into inp-lp; landing requested. With it, the whole planar campaign (MAIN L2–L8, L13, L14, L16, T15) is proved and audited.
+- 2026-11-01 05:40 UTC: LP-SRC proved: OD-11 (b) is concrete and proved (FREEZE-PROPOSAL draft 3 §3b). Delta review 3 launched on codex-2 (prioritized over W4A for the owner's morning). LP-SP-ADAPT proved (no convention mismatch for m ≠ n). LP-SP-LIFT launched on claude-11. W4A branch built in the thr worktree (waiting for codex-2).
