@@ -147,7 +147,30 @@ from its tree. The B3b mirror passes (torsion margin 0.00118) and the frames at 
 
 ## Checks and their output
 
-TODO
+- **Targeted builds** (`nice -n 5 systemd-run --user --scope -q -p MemoryMax=4G -p MemorySwapMax=0 lake build …`):
+  `✔ Built KAM.CertificateSharp.Packed.RouteSharp (1.0s)`, `✔ Built KAM.CertificateSharp.Packed.TorsRAsm (3.8s)`,
+  `Build completed successfully`; no warning in `Packed/`. (They rebuilt `V2/SiteSign`, `V2/SiteShard`,
+  `Packed/Frames`, `V2/RouteARefinedS`: stale in the seeded build, unchanged sources.)
+- **Integration** (`v2-packed-gen-int`: this branch + `v2-packed-prod` `0d5f39d9` + `v2-packed-cons` `75deebd9`, both
+  merges clean): their modules and `RouteSharpJ` built one at a time, `✔ Built
+  KAM.CertificateSharp.Packed.RouteSharpJ (7.6s)`. My first draft re-declared `torsRCoreJ_of` (kamx-pk-cons has it,
+  same arguments); removed.
+- **`#print axioms`**, each `[propext, Classical.choice, Quot.sound]`: `routeARefinedPackedS`, `routeV2AllPackedS`,
+  `routeARefinedSWith`, `checkV2With_packedS_sound`, `checkV2With_routeV2AllPackedS_sound`,
+  `checkV2With_routeARefinedSWith_sound`, `refinedTestPackedS_of`, `refinedTestPackedS_ofPacked`, `framesR`,
+  `FrameChecker.facts`; on the integration branch `routeARefinedPackedSJ`, `checkV2With_jetSharp_sound`,
+  `checkV2With_jetSharp_of`, `refinedTestPackedSJ_of`, `ptD2All_of`, `framesRJ`.
+- **`scripts/lint_sources.sh`**: `check_lean_modules: PASS (4411 Lean files, 0 comparator configurations)`, the 25
+  tests `OK`, `FROZEN-ANCHOR GUARD OK`; only the ABI step fails, as in every worktree so far (`object file
+  …/KAM/Frozen/Planetary/Spatial/Defs/AngularMomentum3.olean` not built here). `gen_root_imports.py --check`: exit 0.
+- **Additivity:** against `origin/main` the only changes under `KAM/` are the new `Packed/RouteSharp.lean` (208 lines),
+  `Packed/TorsRAsm.lean` (73 lines) and the generated `KAM/Root/CertificateSharp.lean`. No forbidden token, no
+  `set_option`, no line over 100 characters. Nothing under `lg00-*`, `applications/`, `KAM/Frozen`, `manifest/`
+  changed; `lg00-app`'s files are read only (sources copied, artifacts hardlinked read-only or copied).
+- **Generator regression:** `gen_cert.py --check-legacy` reproduces V2-PACKED-FRAMES' frame edges of the first
+  certificate bit for bit (`LEGACY OK`).
+- **Emitted modules:** every one asserted ≤ 100 characters per line and ≤ 1,500 lines by the emitter; they are
+  modules (copyright, `module`, `public import`, docstring, `@[expose] public noncomputable section`).
 
 ## Owner questions
 
