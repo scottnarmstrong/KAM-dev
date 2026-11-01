@@ -39,7 +39,7 @@ namespace StepHypMod
 uses modified divisors; the new objects are those of `H.core` for the pair `(P, D_ρ ∘ X)`. Clause
   (iv)
 is conditional on `HomMelnikov` (the blueprint's "whenever the same holds with `α`"). -/
-def Conclusion
+protected def Conclusion
     (H : StepHypMod a p pb s r σ η τ α β lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
     [Fact (0 < r)] : Prop :=    -- (i)
     (∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r),
