@@ -12,7 +12,7 @@ public import KAM.Planetary.StrongAMD.Nek.PlanarSafety.Main
 /-!
 # LP3-1 restated through the source carriers (OD-11 option (b), D59)
 
-Package LP3-SRC (`LP:MAIN L15 (502–506)` with `L14 (468–500)`, `L16 (508–529)`), track LP,
+Package LP3-SRC (`LP:MAIN T15 (502–506)` with `L14 (468–500)`, `L16 (508–529)`), track LP,
 non-frozen.  The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 * `lp3_planar_strongAMD_safety_source`: the text of `lp1_planar_strongAMD_safety_source`
@@ -33,7 +33,7 @@ open KAM.Planetary Set
 variable {n : ℕ}
 
 /-- **LP3-1 through the source carriers, without the normalization premises**
-(`LP:MAIN L15 (502–506)` with `L14 (468–500)`, `L16 (508–529)`). -/
+(`LP:MAIN T15 (502–506)` with `L14 (468–500)`, `L16 (508–529)`). -/
 theorem lp3_planar_strongAMD_safety_source_general (hn : 2 ≤ n) (ν : Fin n → ℝ)
     (hν : ∀ i, 0 < ν i)
     (A : Set (Fin n → ℝ)) (hA : IsCompact A)

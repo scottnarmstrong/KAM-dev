@@ -202,3 +202,37 @@ included (it awaits its own approval).
   with the same statement text, and are Expr-equal to their anchors (probe). The 5 anchor providers are f2fa9f88's,
   byte for byte.
 - No frozen text was changed beyond the two placeholders and the proof body.
+
+# Track LP3 freeze and seal (decision D64, draft 8)
+
+Branch `inp-lp-freeze8x` (cut at the approval commit `6c168945` of `inp-lp-freeze8r`), one pass as D62. Freezes and
+seals exactly the 2 anchors of FREEZE-PROPOSAL-DRAFT8 (approval object `inp-lp-freeze8r`@`6c168945`:
+`docs/tracks/LP/freeze/draft8/**.txt` and `manifest-entries.json`, D64). There is no new definition and no
+implementation module change other than the N3 docstring fix below.
+
+## Files (D64)
+
+| # | Declaration | Frozen file | Manifest id | Kind | Provider |
+|---|---|---|---|---|---|
+| LP3-1 | `KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith` | `KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean` | `planetary.d59.planar_strongAMD_exponentialSafety_noArith.v1` | theorem | `KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyNoArith` (staged one-liner, sha256 956c7e76…) |
+| LP3-2 | `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith` | `KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean` | `planetary.d59.spatial_strongAMD_exponentialSafety_noArith.v1` | theorem | `KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyNoArith` (staged one-liner, sha256 34e337b7…) |
+
+## Method (D64; D62's scripts, unchanged)
+
+1. `lp_freeze_install.py --root . --approved 6c168945:docs/tracks/LP/freeze/draft8 --date 2026-11-01 --decision D64
+   --kind theorem --sealed` (dry run into a scratch tree first; the real files are byte-identical to the dry run).
+   Bodies: `by exact KAM.Provider.Planetary.{StrongAMD,Spatial}.{planar,spatial}_strongAMD_exponentialSafety_noArith
+   hn ν hν hνmax hνle A hA hAord δ hδ` (two lines, 6-space continuation), equal to each file's docstring sealing string.
+2. `lp_identity_check.py` (output `docs/tracks/LP/freeze/identity-check-d64.txt`): 2 files, ALL IDENTICAL.
+3. `lp_manifest_add.py --approval docs/tracks/LP/freeze/approval-D64.json`: 2 entries SEALED, hashes by the guard's
+   code, closures cross-checked; the 307 existing entries JSON-equal. ABI from `abi_hashes.py` on the 2 new entries
+   (two runs, identical; `abi-check-d64.txt`), then `lp_manifest_add.py --abi`.
+4. `scripts/gen_root_imports.py` (+2 lines in `KAM/Root/Frozen.lean`, +2 in `KAM/Root/Provider.lean`);
+   `lp_manifest_changes_rows_d64.py --append` (2 rows citing D64; the D62 row script hard-codes D62's decision text and
+   id filter, so its D64 counterpart is a separate file in the same format).
+5. N3 (draft-8 audit): `KAM/Planetary/StrongAMD/Nek/PlanarSafety/Source.lean` lines 15 and 36, docstring tag
+   `LP:MAIN L15 (502–506)` → `LP:MAIN T15 (502–506)` (implementation docstring only).
+
+## Checks (D64)
+
+Filled after the build; see below.
