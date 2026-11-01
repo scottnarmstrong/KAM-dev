@@ -252,8 +252,12 @@ also saves the ported balls' 360 CPU-s and the disc pass.
   alone); see the corrected table.
 - **Lines over 100 characters (AUDIT-V2-PACKED-JETROUTE-1 C2):** `RouteSharpJ.lean` (2 lines) and `JetFront.lean`
   (6) had them. Fixed in the landable text (`pending/*.lean.txt`: docstrings re-wrapped, two statements broken,
-  no term changed; every line ≤ 100). The integration branch keeps the built text until T″ is proved: an edit
-  there invalidates every built module of both routes (Lake traces cascade).
+  no term changed; every line ≤ 100), and on the integration branch after T″ (`e9d941830`, 22:25 UTC): the two
+  core modules rebuilt (`✔ Built KAM.CertificateSharp.Packed.JetFront (1.4s)`, `… RouteSharpJ (1.2s)`), after which
+  Lake finds all 1,147 package modules of the three routes up to date (`runL`: 0 stale; under the module system a
+  module's trace follows its imports' public interface, which a docstring or line break leaves unchanged): no
+  package olean rewritten (`LG00P.TPP.PK.MainJ.olean` sha256 `6228edcbef26777f…`, 22:23:01, as before), so
+  kamx-pk-cons' bridge and kamx-conf's final build keep their inputs.
 
 **The T′ jet route PROVED end to end (integration, `runJ` pass 5, 2026-11-01).** `LG00P.TP.PK.MainJ` proves
 `pk_kamTorus` (`lg00_kamTorus`'s statement, verbatim, about the packed route's certificate copy

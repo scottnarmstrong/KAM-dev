@@ -246,8 +246,10 @@ def main():
             for m in mods}
     done, failed = set(), set()
     for m, ds in sorted(MISSING.items()):    # an import not emitted yet (another agent's): retried by a later pass
-        failed.add(m)
-        print("BLOCKED (import not there yet) %s <- %s" % (m, ds[0]), flush=True)
+        ds = [d for d in ds if never and d.startswith(never)]    # others: a required package's (external)
+        if ds:
+            failed.add(m)
+            print("BLOCKED (import not there yet) %s <- %s" % (m, ds[0]), flush=True)
     if os.path.exists(ledger):
         for l in open(ledger):
             f = l.rstrip("\n").split("\t")
