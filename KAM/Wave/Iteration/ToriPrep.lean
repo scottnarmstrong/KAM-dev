@@ -32,8 +32,9 @@ For the wave iteration (Definition `bpW:w6:wave-iteration`, starting size
   `X_{H_in} = X_N + ι X_P` for the unperturbed frequencies `(ω⁰, Ω⁰)` and W5's reweighted field
   `X' = D_ρ ∘ X_P` of the input perturbation (the same vector of `𝒫^{p-1}` as `X_P`).
 
-What `bpW:w6:tori` still needs: W5's `bpW:w5:action-angle` (the map `𝒜_ξ` and the identity
-`X_{H'} ∘ 𝒜_ξ = D𝒜_ξ X_{H_in}`, clause (v)) and `bpW:w5:initial`, and W3/W1 for (v).
+The unconditional forms are in `SmoothSrc` (`W6PrepHyp.phiP_sharp`, `W6PrepHyp.w6ToriKam`); the
+composition with W5's action–angle map `𝒜_ξ` (`bpW:w5:action-angle`, `bpW:w5:initial`) and W3/W1
+for (v) is `W6PrepHyp.w6Tori` (module `Tori`).
 -/
 
 @[expose] public noncomputable section

@@ -219,6 +219,7 @@ public import KAM.Wave.Iteration.ConvSource
 public import KAM.Wave.Iteration.ConvTorus
 public import KAM.Wave.Iteration.FreqInst
 public import KAM.Wave.Iteration.FreqLip
+public import KAM.Wave.Iteration.FreqLipJ
 public import KAM.Wave.Iteration.Invariance
 public import KAM.Wave.Iteration.IterArith
 public import KAM.Wave.Iteration.IterLemma
@@ -226,13 +227,19 @@ public import KAM.Wave.Iteration.K0
 public import KAM.Wave.Iteration.Limits
 public import KAM.Wave.Iteration.Params
 public import KAM.Wave.Iteration.PrepMel
+public import KAM.Wave.Iteration.PrepShiftJ
 public import KAM.Wave.Iteration.PrepStep
 public import KAM.Wave.Iteration.Sequence
 public import KAM.Wave.Iteration.Sequences
+public import KAM.Wave.Iteration.SmoothSrc
 public import KAM.Wave.Iteration.Stage
 public import KAM.Wave.Iteration.StepSmooth
+public import KAM.Wave.Iteration.StepSmoothW5
 public import KAM.Wave.Iteration.Strong
 public import KAM.Wave.Iteration.StrongConj
+public import KAM.Wave.Iteration.Tori
+public import KAM.Wave.Iteration.ToriBk
+public import KAM.Wave.Iteration.ToriBridge
 public import KAM.Wave.Iteration.ToriPrep
 public import KAM.Wave.Iteration.WaveData
 public import KAM.Wave.Iteration.WaveInst

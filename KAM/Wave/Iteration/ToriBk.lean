@@ -78,7 +78,8 @@ theorem w6PrepHyp_initial {Pi : Set (Fin 2 → ℝ)} {α r t ρξ ε : ℝ} (hme
 theorem norm_homEmbed_gen_apply_le {a p pb : ℝ} (hpb : p ≤ pb) (x : HomL2) :
     ‖homEmbed_gen a p pb hpb x‖ ≤ ‖x‖ := by
   have h := norm_diagCLM_le (homEmbedCoef_gen a p pb) (norm_homEmbedCoef_le_gen hpb)
-  calc ‖homEmbed_gen a p pb hpb x‖ ≤ ‖homEmbed_gen a p pb hpb‖ * ‖x‖ := ContinuousLinearMap.le_opNorm _ _
+  calc ‖homEmbed_gen a p pb hpb x‖ ≤ ‖homEmbed_gen a p pb hpb‖ * ‖x‖ :=
+        ContinuousLinearMap.le_opNorm _ _
     _ ≤ 1 * ‖x‖ := mul_le_mul_of_nonneg_right h (norm_nonneg _)
     _ = ‖x‖ := one_mul _
 

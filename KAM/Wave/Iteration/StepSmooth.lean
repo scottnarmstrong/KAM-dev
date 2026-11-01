@@ -23,7 +23,9 @@ displacement `Ψ`, `Φ = id + ι Ψ`). Per the orchestrator's ruling, W6 does no
 the **named W5 dependencies** `W6StepSmooth` (unmodified step) and `W6StepSmoothMod` (modified
 step),
 and every W6 result that uses them is a conditional helper (suffix `_of_stepSmooth`), to be
-discharged by one line once `inp-w5aa` lands.
+discharged by one line once `inp-w5aa` lands. Both are now theorems (`w6StepSmooth_holds`,
+`w6StepSmoothMod_holds`, module `StepSmoothW5`); the unconditional source-facing theorems are in
+`SmoothSrc`.
 
 * `W6StepSmooth`, `W6StepSmoothMod`: on `D_+ = D(s-5σ, ηr)`, for `ξ ∈ Π`, there is `Ψ` holomorphic
   on `D_+` with `Φ(w) = w + ι Ψ(w)`, `|Ψ(w)|_{p_+,r} ≤ M_F`, `‖DΨ(w)‖_{p → p_+} ≤ 8 M_F/σ`;
