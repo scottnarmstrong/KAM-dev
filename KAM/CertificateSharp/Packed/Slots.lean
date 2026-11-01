@@ -5,20 +5,20 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.Certificate.Packed.Product
+public import KAM.CertificateSharp.Packed.Product
 
 /-!
 # Packed slot data: meaning, the list boundary, exact products and sums
 
 Slot data `d` on a landed layout `L` denotes the Fourier sum `slotSum L n d = Σ_i d_i χ_{key(i)}`,
-the key of slot `i` being `lo + digits(i)` (`PackLayout.keyOf`). `SRep L B Z d` says that the
+the key of slot `i` being `lo + digits(i)` (`keyOf PackLayout`). `SRep L B Z d` says that the
 integer `Z` packs `d` (`packSum`), every slot is within `B`, and `d` vanishes off the box slots
-(`PackLayout.InBox`). Then, with every step a single big-integer operation in the kernel:
+(`InBox`). Then, with every step a single big-integer operation in the kernel:
 
 * **boundary** (`srep_of_packRepOk`): the landed packing of a term list represents its dense slots,
   with the same Fourier sum (`intEval`);
 * **exact product** (`SRep.mul`): on compatible layouts, `Z_a · Z_b` represents the convolution on
-  the window layout `PackLayout.win`, whose Fourier sum is the product of the factors' sums;
+  the window layout `win`, whose Fourier sum is the product of the factors' sums;
 * **sums** (`SRep.add`, `SRep.neg`, `SRep.sumN`) and a **unit at one slot** (`srep_unit`).
 
 No rounding happens here: products and sums are exact, so chains of them need no intermediate
@@ -27,28 +27,30 @@ term lists (the representation of a product is again slot data on a layout).
 
 @[expose] public section
 
-namespace KAM.Certificate
+namespace KAM.CertificateSharp.Packed
+
+open KAM.Certificate
 
 open KAM
 
 /-! ### Keys of slots and box slots -/
 
 /-- The key carried by slot `i` of a layout: `lo + digits(i)` on its axes. -/
-def PackLayout.keyOf (L : PackLayout) (i : ℕ) : CertKey :=
+def keyOf (L : PackLayout) (i : ℕ) : CertKey :=
   (List.range L.dims.length).map fun j => L.lo.getD j 0 + ((packDigits L.stride i).getD j 0 : ℤ)
 
 /-- Slot `i` is a box slot: the stride dot product of in-range digits. -/
-def PackLayout.InBox (L : PackLayout) (i : ℕ) : Prop :=
+def InBox (L : PackLayout) (i : ℕ) : Prop :=
   ∃ u : List ℕ, u.length = L.dims.length ∧ (∀ j < L.dims.length, u.getD j 0 < L.dims.getD j 0) ∧
     i = packDot u L.stride
 
 /-- A well-formed layout: positive extents and no wrap of its own box (decidable). -/
-def PackLayout.wf (L : PackLayout) : Bool :=
+def layoutWf (L : PackLayout) : Bool :=
   packNoWrap L.stride L.dims && L.dims.all fun d => decide (0 < d)
 
 /-- The Fourier sum of slot data on a layout. -/
 noncomputable def slotSum (L : PackLayout) (n : ℕ) (d : List ℤ) (θ : Fin n → ℂ) : ℂ :=
-  ∑ i ∈ Finset.range d.length, (d.getD i 0 : ℂ) * character (certKeyFun n (L.keyOf i)) θ
+  ∑ i ∈ Finset.range d.length, (d.getD i 0 : ℂ) * character (certKeyFun n (keyOf L i)) θ
 
 /-- `Z` packs the slot data `d` of the layout `L`; every slot is within `B` and `d` vanishes off the
 box slots. -/
@@ -56,27 +58,27 @@ structure SRep (L : PackLayout) (B : ℕ) (Z : ℤ) (d : List ℤ) : Prop where
   len : d.length = L.denseLen
   pack : packSum L.width d = Z
   bound : ∀ c ∈ d, |c| ≤ (B : ℤ)
-  box : ∀ i, d.getD i 0 ≠ 0 → L.InBox i
+  box : ∀ i, d.getD i 0 ≠ 0 → InBox L i
 
-theorem PackLayout.wf_spec {L : PackLayout} (h : L.wf = true) :
+theorem layoutWf_spec {L : PackLayout} (h : layoutWf L = true) :
     packNoWrap L.stride L.dims = true ∧ ∀ d ∈ L.dims, 0 < d := by
-  simp only [PackLayout.wf, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq] at h
+  simp only [layoutWf, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq] at h
   exact h
 
 /-- The key of a box slot is `lo + digits`. -/
-theorem PackLayout.keyOf_packDot {L : PackLayout} (hw : L.wf = true) {u : List ℕ}
+theorem keyOf_packDot {L : PackLayout} (hw : layoutWf L = true) {u : List ℕ}
     (hu : u.length = L.dims.length) (hlt : ∀ j < L.dims.length, u.getD j 0 < L.dims.getD j 0) :
-    L.keyOf (packDot u L.stride) =
+    keyOf L (packDot u L.stride) =
       (List.range L.dims.length).map fun j => L.lo.getD j 0 + (u.getD j 0 : ℤ) := by
-  have hd := (packDigits_packDot L.stride L.dims u (PackLayout.wf_spec hw).1 hu hlt).1
-  unfold PackLayout.keyOf
+  have hd := (packDigits_packDot L.stride L.dims u (layoutWf_spec hw).1 hu hlt).1
+  unfold keyOf
   rw [hd]
 
 /-! ### The list boundary -/
 
 /-- The key of the slot of an in-box key is the key itself. -/
-theorem PackLayout.keyOf_slot {L : PackLayout} (hw : L.wf = true) {k : CertKey} {p : ℕ}
-    (h : L.slot k = some p) : L.keyOf p = k ∧ L.InBox p := by
+theorem keyOf_slot {L : PackLayout} (hw : layoutWf L = true) {k : CertKey} {p : ℕ}
+    (h : L.slot k = some p) : keyOf L p = k ∧ InBox L p := by
   obtain ⟨hk, hbox, rfl⟩ := PackLayout.slot_eq_some h
   set u := (L.keyOffsets k).map Int.toNat with hu
   have hul : u.length = L.dims.length := by simp [hu, PackLayout.keyOffsets]
@@ -89,7 +91,7 @@ theorem PackLayout.keyOf_slot {L : PackLayout} (hw : L.wf = true) {k : CertKey} 
     have := hbox j hj
     omega
   refine ⟨?_, u, hul, hlt, rfl⟩
-  rw [PackLayout.keyOf_packDot hw hul hlt]
+  rw [keyOf_packDot hw hul hlt]
   apply List.ext_getElem
   · simp [hk]
   · intro j h1 h2
@@ -104,7 +106,7 @@ theorem PackLayout.keyOf_slot {L : PackLayout} (hw : L.wf = true) {k : CertKey} 
 
 /-- **Boundary**: a passing `packRepOk` gives the packed representation of the dense slots, whose
 Fourier sum is the term list's. -/
-theorem srep_of_packRepOk {L : PackLayout} {x : List (CertKey × ℤ)} {B : ℕ} (hw : L.wf = true)
+theorem srep_of_packRepOk {L : PackLayout} {x : List (CertKey × ℤ)} {B : ℕ} (hw : layoutWf L = true)
     (h : packRepOk L x B = true) :
     ∃ d : List ℤ, SRep L B (packOf L x) d ∧ ∀ (n : ℕ) (θ : Fin n → ℂ),
       intEval n x θ = slotSum L n d θ := by
@@ -129,23 +131,23 @@ theorem srep_of_packRepOk {L : PackLayout} {x : List (CertKey × ℤ)} {B : ℕ}
     have hs := hspec.1 t ht
     simp only [beq_iff_eq] at hsl
     rw [hsl] at hs
-    exact (PackLayout.keyOf_slot hw hs).2
+    exact (keyOf_slot hw hs).2
   · -- the Fourier sum, regrouped by slots
     unfold slotSum
     rw [hlen]
     have hfib := sum_range_fiber_mul x (fun t => (L.slot t.1).getD 0) L.denseLen
       (fun t ht => PackLayout.slot_lt_denseLen (hspec.1 t ht)) (fun t => (t.2 : ℂ))
-      (fun p => character (certKeyFun n (L.keyOf p)) θ)
+      (fun p => character (certKeyFun n (keyOf L p)) θ)
     rw [Finset.sum_congr rfl fun p _ => by rw [PackLayout.dense_getD_cast hd p], hfib]
     unfold intEval
     refine congrArg List.sum (List.map_congr_left fun t ht => ?_)
-    rw [(PackLayout.keyOf_slot hw (hspec.1 t ht)).1]
+    rw [(keyOf_slot hw (hspec.1 t ht)).1]
 
 /-! ### Window layouts -/
 
 /-- The window of a product of two layouts: corner `lo_a + lo_b`, extents `dims_a + dims_b - 1`,
 the strides and width of the first. -/
-def PackLayout.win (La Lb : PackLayout) : PackLayout :=
+def win (La Lb : PackLayout) : PackLayout :=
   ⟨(List.range La.dims.length).map fun j => La.lo.getD j 0 + Lb.lo.getD j 0,
     (List.range La.dims.length).map fun j => La.dims.getD j 0 + Lb.dims.getD j 0 - 1,
     La.stride, La.width, La.blockRows⟩
@@ -159,22 +161,22 @@ theorem compat_spec {m : ℕ} {La Lb : PackLayout} (hc : PackLayout.compat m La 
   exact ⟨h1, h2, h3, h4, h5, h6⟩
 
 theorem win_dims_eq {La Lb : PackLayout} (h : La.dims.length = Lb.dims.length) :
-    (La.win Lb).dims = List.zipWith (fun a b => a + b - 1) La.dims Lb.dims := by
+    (win La Lb).dims = List.zipWith (fun a b => a + b - 1) La.dims Lb.dims := by
   apply List.ext_getElem
-  · simp [PackLayout.win, h]
+  · simp [win, h]
   · intro j h1 h2
-    have hj : j < La.dims.length := by simpa [PackLayout.win] using h1
-    simp [PackLayout.win, List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hj,
+    have hj : j < La.dims.length := by simpa [win] using h1
+    simp [win, List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hj,
       List.getElem?_eq_getElem (h ▸ hj : j < Lb.dims.length)]
 
 theorem win_wf {m : ℕ} {La Lb : PackLayout} (hc : PackLayout.compat m La Lb = true)
-    (ha : La.wf = true) (hb : Lb.wf = true) : (La.win Lb).wf = true := by
+    (ha : layoutWf La = true) (hb : layoutWf Lb = true) : layoutWf (win La Lb) = true := by
   obtain ⟨h1, h2, -, -, -, hnw⟩ := compat_spec hc
-  have hpa := (PackLayout.wf_spec ha).2
-  have hpb := (PackLayout.wf_spec hb).2
-  simp only [PackLayout.wf, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq]
+  have hpa := (layoutWf_spec ha).2
+  have hpb := (layoutWf_spec hb).2
+  simp only [layoutWf, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq]
   refine ⟨by rw [win_dims_eq (h1.trans h2.symm)]; exact hnw, fun d hd => ?_⟩
-  simp only [PackLayout.win, List.mem_map, List.mem_range] at hd
+  simp only [win, List.mem_map, List.mem_range] at hd
   obtain ⟨j, hj, rfl⟩ := hd
   have : 0 < La.dims.getD j 0 := hpa _ (by
     rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hj]; exact List.getElem_mem _)
@@ -183,18 +185,18 @@ theorem win_wf {m : ℕ} {La Lb : PackLayout} (hc : PackLayout.compat m La Lb = 
     rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hj2]; exact List.getElem_mem _)
   omega
 
-theorem denseLen_eq {L : PackLayout} (h : L.wf = true) :
+theorem denseLen_eq {L : PackLayout} (h : layoutWf L = true) :
     L.denseLen = 1 + packDot (L.dims.map (· - 1)) L.stride := by
-  have hp := (PackLayout.wf_spec h).2
+  have hp := (layoutWf_spec h).2
   unfold PackLayout.denseLen
   rw [ite_eq_left (List.all_eq_true.mpr fun d hd => decide_eq_true (hp d hd))]
 
 theorem win_denseLen {m : ℕ} {La Lb : PackLayout} (hc : PackLayout.compat m La Lb = true)
-    (ha : La.wf = true) (hb : Lb.wf = true) :
-    (La.win Lb).denseLen = La.denseLen + Lb.denseLen - 1 := by
+    (ha : layoutWf La = true) (hb : layoutWf Lb = true) :
+    (win La Lb).denseLen = La.denseLen + Lb.denseLen - 1 := by
   obtain ⟨h1, h2, h3, h4, -, -⟩ := compat_spec hc
-  have hpa := (PackLayout.wf_spec ha).2
-  have hpb := (PackLayout.wf_spec hb).2
+  have hpa := (layoutWf_spec ha).2
+  have hpb := (layoutWf_spec hb).2
   rw [denseLen_eq (win_wf hc ha hb), denseLen_eq ha, denseLen_eq hb, win_dims_eq (h1.trans h2.symm)]
   have hsplit : (List.zipWith (fun a b => a + b - 1) La.dims Lb.dims).map (· - 1) =
       List.zipWith (· + ·) (La.dims.map (· - 1)) (Lb.dims.map (· - 1)) := by
@@ -207,29 +209,30 @@ theorem win_denseLen {m : ℕ} {La Lb : PackLayout} (hc : PackLayout.compat m La
       simp only [List.getElem_map, List.getElem_zipWith]
       omega
   rw [hsplit, packDot_add _ _ _ (by simp [h1, h2])]
-  simp only [PackLayout.win, ← h4]
+  simp only [win, ← h4]
   omega
 
 /-- Box slots add to box slots of the window, and their keys add. -/
 theorem win_inBox_add {m : ℕ} {La Lb : PackLayout} (hc : PackLayout.compat m La Lb = true)
-    (ha : La.wf = true) (hb : Lb.wf = true) {p q : ℕ} (hp : La.InBox p) (hq : Lb.InBox q) :
-    (La.win Lb).InBox (p + q) ∧
-      (La.win Lb).keyOf (p + q) = List.zipWith (· + ·) (La.keyOf p) (Lb.keyOf q) := by
+    (ha : layoutWf La = true) (hb : layoutWf Lb = true) {p q : ℕ} (hp : InBox La p)
+    (hq : InBox Lb q) :
+    InBox (win La Lb) (p + q) ∧
+      keyOf (win La Lb) (p + q) = List.zipWith (· + ·) (keyOf La p) (keyOf Lb q) := by
   obtain ⟨h1, h2, -, h4, -, -⟩ := compat_spec hc
   obtain ⟨u, hul, hult, rfl⟩ := hp
   obtain ⟨v, hvl, hvlt, rfl⟩ := hq
-  have hwl : (La.win Lb).dims.length = m := by simp [PackLayout.win, h1]
+  have hwl : (win La Lb).dims.length = m := by simp [win, h1]
   have huv : (List.zipWith (· + ·) u v).length = m := by simp [hul, hvl, h1, h2]
   have hget : ∀ j < m, (List.zipWith (· + ·) u v).getD j 0 = u.getD j 0 + v.getD j 0 := by
     intro j hj
     simp [List.getD_eq_getElem?_getD, List.getElem?_zipWith,
       List.getElem?_eq_getElem (by omega : j < u.length),
       List.getElem?_eq_getElem (by omega : j < v.length)]
-  have hwd : ∀ j < m, (La.win Lb).dims.getD j 0 = La.dims.getD j 0 + Lb.dims.getD j 0 - 1 := by
+  have hwd : ∀ j < m, (win La Lb).dims.getD j 0 = La.dims.getD j 0 + Lb.dims.getD j 0 - 1 := by
     intro j hj
-    simp [PackLayout.win, List.getD_eq_getElem?_getD, h1, hj]
-  have hlt : ∀ j < (La.win Lb).dims.length,
-      (List.zipWith (· + ·) u v).getD j 0 < (La.win Lb).dims.getD j 0 := by
+    simp [win, List.getD_eq_getElem?_getD, h1, hj]
+  have hlt : ∀ j < (win La Lb).dims.length,
+      (List.zipWith (· + ·) u v).getD j 0 < (win La Lb).dims.getD j 0 := by
     intro j hj
     rw [hwl] at hj
     rw [hget j hj, hwd j hj]
@@ -237,19 +240,19 @@ theorem win_inBox_add {m : ℕ} {La Lb : PackLayout} (hc : PackLayout.compat m L
     have := hvlt j (by omega)
     omega
   have hsum : packDot u La.stride + packDot v Lb.stride =
-      packDot (List.zipWith (· + ·) u v) (La.win Lb).stride := by
-    simp only [PackLayout.win, ← h4]
+      packDot (List.zipWith (· + ·) u v) (win La Lb).stride := by
+    simp only [win, ← h4]
     rw [packDot_add _ _ _ (by rw [hul, hvl, h1, h2])]
   refine ⟨⟨_, by rw [huv, hwl], hlt, hsum⟩, ?_⟩
-  rw [hsum, PackLayout.keyOf_packDot (win_wf hc ha hb) (by rw [huv, hwl]) hlt,
-    PackLayout.keyOf_packDot ha hul hult, PackLayout.keyOf_packDot hb hvl hvlt]
+  rw [hsum, keyOf_packDot (win_wf hc ha hb) (by rw [huv, hwl]) hlt,
+    keyOf_packDot ha hul hult, keyOf_packDot hb hvl hvlt]
   apply List.ext_getElem
   · simp [hwl, h1, h2]
   · intro j hj1 hj2
     have hj : j < m := by simpa [hwl] using hj1
     simp only [List.getElem_map, List.getElem_range, List.getElem_zipWith]
     rw [hget j hj]
-    simp only [PackLayout.win, List.getD_eq_getElem?_getD, List.getElem?_map,
+    simp only [win, List.getD_eq_getElem?_getD, List.getElem?_map,
       List.getElem?_range (h1 ▸ hj : j < La.dims.length), Option.map_some, Option.getD_some]
     push_cast
     ring
@@ -267,11 +270,11 @@ theorem listConv_getD_eq {a b : List ℤ} (ha : a ≠ []) (hb : b ≠ []) {i : �
 /-- **Exact product**: on compatible well-formed layouts the product of two packed integers
 represents the convolution on the window layout, and its Fourier sum is the product. -/
 theorem SRep.mul {m : ℕ} {La Lb : PackLayout} (hc : PackLayout.compat m La Lb = true)
-    (hwa : La.wf = true) (hwb : Lb.wf = true) {A B : ℕ} {Za Zb : ℤ} {da db : List ℤ}
+    (hwa : layoutWf La = true) (hwb : layoutWf Lb = true) {A B : ℕ} {Za Zb : ℤ} {da db : List ℤ}
     (ha : SRep La A Za da) (hb : SRep Lb B Zb db) {C : ℕ}
     (hC : min La.denseLen Lb.denseLen * A * B ≤ C) :
-    SRep (La.win Lb) C (Za * Zb) (listConv da db) ∧ ∀ (n : ℕ) (θ : Fin n → ℂ),
-      slotSum (La.win Lb) n (listConv da db) θ = slotSum La n da θ * slotSum Lb n db θ := by
+    SRep (win La Lb) C (Za * Zb) (listConv da db) ∧ ∀ (n : ℕ) (θ : Fin n → ℂ),
+      slotSum (win La Lb) n (listConv da db) θ = slotSum La n da θ * slotSum Lb n db θ := by
   obtain ⟨h1, h2, -, -, hwid, -⟩ := compat_spec hc
   have hNa : 0 < La.denseLen := by
     rw [denseLen_eq hwa]; omega
@@ -279,16 +282,16 @@ theorem SRep.mul {m : ℕ} {La Lb : PackLayout} (hc : PackLayout.compat m La Lb 
     rw [denseLen_eq hwb]; omega
   have hane : da ≠ [] := List.ne_nil_of_length_pos (ha.len ▸ hNa)
   have hbne : db ≠ [] := List.ne_nil_of_length_pos (hb.len ▸ hNb)
-  have hclen : (listConv da db).length = (La.win Lb).denseLen := by
+  have hclen : (listConv da db).length = (win La Lb).denseLen := by
     rw [listConv_length hane hbne, ha.len, hb.len, win_denseLen hc hwa hwb]
   have hkey : ∀ p q, da.getD p 0 * db.getD q 0 ≠ 0 →
-      (La.win Lb).InBox (p + q) ∧
-        (La.win Lb).keyOf (p + q) = List.zipWith (· + ·) (La.keyOf p) (Lb.keyOf q) := by
+      InBox (win La Lb) (p + q) ∧
+        keyOf (win La Lb) (p + q) = List.zipWith (· + ·) (keyOf La p) (keyOf Lb q) := by
     intro p q hpq
     exact win_inBox_add hc hwa hwb (ha.box p (left_ne_zero_of_mul hpq))
       (hb.box q (right_ne_zero_of_mul hpq))
   refine ⟨⟨hclen, ?_, ?_, ?_⟩, fun n θ => ?_⟩
-  · simp only [PackLayout.win]
+  · simp only [win]
     rw [packSum_listConv, ha.pack, ← hb.pack, hwid]
   · intro c hcm
     refine (listConv_abs_le ha.bound hb.bound c hcm).trans ?_
@@ -307,26 +310,26 @@ theorem SRep.mul {m : ℕ} {La Lb : PackLayout} (hc : PackLayout.compat m La Lb 
     rwa [Nat.add_sub_cancel' (by simpa [Nat.lt_succ_iff] using hp)] at this
   · -- the Fourier identity
     have hlenK : ∀ p q, da.getD p 0 * db.getD q 0 ≠ 0 →
-        (La.keyOf p).length = (Lb.keyOf q).length := by
+        (keyOf La p).length = (keyOf Lb q).length := by
       intro p q _
-      simp [PackLayout.keyOf, h1, h2]
-    have hterm : ∀ p q, (da.getD p 0 : ℂ) * character (certKeyFun n (La.keyOf p)) θ *
-        ((db.getD q 0 : ℂ) * character (certKeyFun n (Lb.keyOf q)) θ) =
+      simp [keyOf, h1, h2]
+    have hterm : ∀ p q, (da.getD p 0 : ℂ) * character (certKeyFun n (keyOf La p)) θ *
+        ((db.getD q 0 : ℂ) * character (certKeyFun n (keyOf Lb q)) θ) =
         (da.getD p 0 : ℂ) * (db.getD q 0 : ℂ) *
-          character (certKeyFun n ((La.win Lb).keyOf (p + q))) θ := by
+          character (certKeyFun n (keyOf (win La Lb) (p + q))) θ := by
       intro p q
       by_cases hz : da.getD p 0 * db.getD q 0 = 0
       · have : (da.getD p 0 : ℂ) * (db.getD q 0 : ℂ) = 0 := by exact_mod_cast hz
-        linear_combination (character (certKeyFun n (La.keyOf p)) θ *
-          character (certKeyFun n (Lb.keyOf q)) θ -
-          character (certKeyFun n ((La.win Lb).keyOf (p + q))) θ) * this
+        linear_combination (character (certKeyFun n (keyOf La p)) θ *
+          character (certKeyFun n (keyOf Lb q)) θ -
+          character (certKeyFun n (keyOf (win La Lb) (p + q))) θ) * this
       · rw [(hkey p q hz).2, certKeyFun_zipWith_add n (hlenK p q hz), ← character_mul]
         ring
     unfold slotSum
     rw [Finset.sum_mul_sum]
     simp_rw [hterm]
     rw [← sum_range_cauchy_weighted (fun p => (da.getD p 0 : ℂ)) (fun q => (db.getD q 0 : ℂ))
-      (fun i => character (certKeyFun n ((La.win Lb).keyOf i)) θ) da.length db.length
+      (fun i => character (certKeyFun n (keyOf (win La Lb) i)) θ) da.length db.length
       (fun p hp => by simp [List.getD_eq_getElem?_getD, List.getElem?_eq_none hp])
       (fun q hq => by simp [List.getD_eq_getElem?_getD, List.getElem?_eq_none hq]),
       listConv_length hane hbne]
@@ -458,9 +461,9 @@ theorem SRep.sumN {L : PackLayout} {A : ℕ → ℕ} {f : ℕ → ℤ} {g : ℕ 
 def zunit (L : PackLayout) (p : ℕ) (c : ℤ) : List ℤ :=
   (List.range L.denseLen).map fun i => if i = p then c else 0
 
-theorem srep_unit {L : PackLayout} {p : ℕ} (hp : p < L.denseLen) (hbox : L.InBox p) (c : ℤ) :
+theorem srep_unit {L : PackLayout} {p : ℕ} (hp : p < L.denseLen) (hbox : InBox L p) (c : ℤ) :
     SRep L c.natAbs (c * 2 ^ (L.width * p)) (zunit L p c) ∧ ∀ (n : ℕ) (θ : Fin n → ℂ),
-      slotSum L n (zunit L p c) θ = c * character (certKeyFun n (L.keyOf p)) θ := by
+      slotSum L n (zunit L p c) θ = c * character (certKeyFun n (keyOf L p)) θ := by
   have hget : ∀ i, (zunit L p c).getD i 0 = if i = p then c else 0 := by
     intro i
     by_cases hi : i < L.denseLen
@@ -486,4 +489,4 @@ theorem srep_unit {L : PackLayout} {p : ℕ} (hp : p < L.denseLen) (hbox : L.InB
       Finset.sum_eq_single p (fun i _ hip => by rw [hget, ite_eq_right hip]; simp)
         (fun h => absurd (Finset.mem_range.mpr hp) h), hget, ite_eq_left rfl]
 
-end KAM.Certificate
+end KAM.CertificateSharp.Packed

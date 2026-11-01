@@ -5,13 +5,13 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.Certificate.Packed.Slots
+public import KAM.CertificateSharp.Packed.Slots
 
 /-!
 # Packed absolute values and weighted `ℓ¹` norms
 
-On packed slot data the weighted norm `Σ_i |d_i| w^{|key(i)|₁}` of the strip bound is computed with a
-constant number of big-integer operations:
+On packed slot data the weighted norm `Σ_i |d_i| w^{|key(i)|₁}` of the strip bound is computed with
+a constant number of big-integer operations:
 
 * `packAbs`: every slot's absolute value, from the offset digits by a digit shift (the sign bits), a
   mask and three subtractions (`packAbs_spec`);
@@ -26,7 +26,9 @@ constant number of big-integer operations:
 
 @[expose] public section
 
-namespace KAM.Certificate
+namespace KAM.CertificateSharp.Packed
+
+open KAM.Certificate
 
 open KAM
 
@@ -273,10 +275,10 @@ def packNorm (W : CertWeight) (q l : ℕ) (L : PackLayout) (Z : ℤ) : ℕ :=
 two-axis layout with unit column stride and `D₁ ≤ s₀`, a positive weight, `B < 2^l`,
 `l + 2 ≤ w`, and no carry in the product: `D₀ s₀ 2^l · max row · max column < 2^w`. -/
 def normOk (W : CertWeight) (q l B : ℕ) (L : PackLayout) : Bool :=
-  L.wf && L.dims.length == 2 && L.stride.length == 2 && L.stride.getD 1 0 == 1 &&
+  layoutWf L && L.dims.length == 2 && L.stride.length == 2 && L.stride.getD 1 0 == 1 &&
     decide (L.dims.getD 1 0 ≤ L.stride.getD 0 0) && decide (0 < W.w) && decide (B < 2 ^ l) &&
     decide (l + 2 ≤ L.width) &&
     decide (L.dims.getD 0 0 * L.stride.getD 0 0 * 2 ^ l *
       (listMax (rowsRev W q L) * listMax (colsRev W q L)) < 2 ^ L.width)
 
-end KAM.Certificate
+end KAM.CertificateSharp.Packed

@@ -46,8 +46,10 @@ public import KAM.CertificateSharp.Kernel.Shared
 public import KAM.CertificateSharp.Kernel.Stage
 public import KAM.CertificateSharp.Packed.Bridge
 public import KAM.CertificateSharp.Packed.Digits
+public import KAM.CertificateSharp.Packed.Norm
 public import KAM.CertificateSharp.Packed.Product
 public import KAM.CertificateSharp.Packed.Round
+public import KAM.CertificateSharp.Packed.Slots
 public import KAM.CertificateSharp.Packed.Tests
 public import KAM.CertificateSharp.Sharp
 public import KAM.CertificateSharp.SharpEngine
