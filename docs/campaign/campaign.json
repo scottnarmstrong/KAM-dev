@@ -282,6 +282,6 @@
   }
  },
  "lp": {
-  "now": "Wave 1 (the sharp AMD barrier, MAIN Lemmas 2–7) is complete on `main` and audited. Wave 2: LP-DOM (Lemma 8, the uniform analytic domain; 601 lines) and LP-NRS (the scale choice; 301 lines) are proved and in audit on codex-2; LP-NRR (Lemma 13, the normal-form engine's hypotheses per centre, giving the stopped drift ‖Λ(t) − Λ(0)‖ ≤ D₀√μ/2 up to T₀ exp(c μ^(−a))) is proving. Wave 3 has started: LP-OSC (Lemma 16, osculating ellipses) is proving; next LP-CONF (Lemma 14, first exit) and LP-PS (the planar theorem). Nothing frozen until the owner approves the exact statements."
+  "now": "Wave 1 (MAIN Lemmas 2–7) is on `main`. Wave 2: LP-DOM (Lemma 8, the uniform analytic domain) and LP-NRS (the scale choice) passed their audit (LP-W2A, PASS WITH NOTES) and are landing; LP-NRR (Lemma 13, the normal-form engine per centre, giving the stopped drift) is proving. Wave 3: LP-OSC (Lemma 16, osculating ellipses) is proved and queued for audit; LP-CONF (Lemma 14, first exit) is proving; then LP-PS, the planar theorem. Nothing frozen until the owner approves the exact statements."
  }
 }
