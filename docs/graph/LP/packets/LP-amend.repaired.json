@@ -1,0 +1,13 @@
+{
+ "replaced": [],
+ "added": [],
+ "items": [
+  "lpA:N2"
+ ],
+ "unresolved": {},
+ "cross_slice": {
+  "lpM:L6": "LP-m2b",
+  "lpM:L6#shared-U": "LP-m2b"
+ },
+ "passes": []
+}

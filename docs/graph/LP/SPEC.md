@@ -1,76 +1,78 @@
-# Track LP dependency graph: extraction specification (PRE-FREEZE DRAFT)
+# Track LP dependency graph: extraction specification
 
-Skill `build-proof-dependency-graph`, Phase 1, written **before the LP anchors are frozen**. It follows the
-precedent of tracks K and W (`docs/graph/K/SPEC.md`, `docs/graph/W/SPEC.md`) and states only what track LP needs.
-Sections marked **AFTER FREEZE** are proposals: they become binding only when the orchestrator confirms them after
-the owner approves the exact anchor text and the anchors enter `manifest/frozen-anchors.json`. Every other section
-binds the writer and the reviewers from the moment extraction starts. Changes are recorded in the change log with a
-date and a reason.
+Skill `build-proof-dependency-graph`, Phase 1. It follows the precedent of tracks K and W (`docs/graph/K/SPEC.md`,
+`docs/graph/W/SPEC.md`) and states only what track LP needs. It was drafted before the freeze and settled after it
+(package LP-GRAPH-W1, 2026-11-01): the anchors are the D62 manifest entries (§1), and the orchestrator rulings on
+Q1–Q8 (root-b8) are recorded in §10. It binds the writer and the reviewers. Changes are recorded in the change log
+with a date and a reason.
 
-No extraction has started. No dependency edge, node block, `header.txt` or `DEPGRAPH*.md` exists yet. The skill
-forbids them before the frozen manifest exists ("Only then create the graph header").
+Track LP is built in **waves** (§9): wave 1 is the LP0 closure (§1 data, Lemmas 1–6, amendments, §7–§8 coverage),
+extracted and assembled; waves 2 (LP1, LP1-H) and 3 (LP2, LP2-H) follow. LP3 (draft 8) is not frozen and not in the
+graph.
 
-## 1. Roots and anchors (AFTER FREEZE; proposal)
+## 1. Roots and anchors (binding since 2026-11-01, D62 freeze)
 
-The LP anchors are not frozen. The proposal is FREEZE-PROPOSAL **draft 7** (`/root/code/KAM-inp-lp-freeze7`,
-branch `inp-lp-freeze7`, commit `b5f8d503`, `docs/tracks/LP/FREEZE-PROPOSAL.md` sha256 `429830d2…dc3a6d5`). That draft
-is in revision (LP-FREEZE7R: audit-1 findings F1 spatial barycentric maps, F2 helper roles). LP3 is the separate
-**draft 8** delta (`/root/code/KAM-inp-lp-freeze8`, in progress; tentative names `…_noArith`). At freeze, every name,
-path, count and ABI hash below is re-read from the manifest. Nothing here may be copied into a graph field before
-then.
+The LP anchors were frozen and sealed on main at `f46b94fb` (D62; `docs/tracks/LP/FREEZE.md`): **128 manifest entries**
+`planetary.d59.*` (89 definitions, 34 characterization theorems, 5 headline theorems LP0, LP1, LP1-H, LP2, LP2-H),
+FREEZE-PROPOSAL draft 7 revision 1. Draft 8 (LP3-1, LP3-2) is not frozen; LP3 stays outside the graph (§7, Q1).
+The identity fields come from `manifest/frozen-anchors.json` (sha256 `cee8ce34…5cded8` at this freeze) and nothing
+else: `packets/anchor-map.tsv` is the README's step-2 extract (128 rows) and `packets/anchor-binding.tsv`, written by
+`tools/lp_depgraph_bind.py`, binds every anchor to its node, slice and wave (148 rows: the 128 entries plus 20 reused
+definitions). The linter binds FROZEN_FILE, FROZEN_DECL, FROZEN_ANCHOR_ID, CONTRACT_ID/VERSION and FROZEN_ABI_SHA256
+to the manifest. No graph field reads a proof body or a manifest state.
 
-### 1.1 Theorem anchors and proposed node IDs
+### 1.1 Node IDs of anchors (settled)
 
-The proposal binds each anchor to the MAIN unit whose statement it is, as K and W do (source labels as node IDs).
+Every anchor node is `<owning MAIN node>#<Lean short name>`: definitions as in K (`bp:p0:domains#complexStrip`) and W
+(`bpW:w0:ellap#WaveSpace`), and, departing from the pre-freeze proposal, theorem anchors too.
 
-| Anchor | Draft-7/8 Lean name | Proposed node | KIND | MAIN locus (statement / proof) |
-|---|---|---|---|---|
-| LP0 | `KAM.Planetary.StrongAMD.planar_strongAMD_barrier` | `lpM:L5` | lemma | L5 (162–175), with L2–L4 (110–160); N11 |
-| LP1 | `KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety` | `lpM:T15` | theorem | T15 (502–506) with §1 (69–93) and L16 (508–529); N8, N10 |
-| LP1-H | `…planar_strongAMD_exponentialSafety_halfInteger` | `lpM:T15#tau-half` | corollary | §1 (93) and T15 |
-| LP2 | `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety` | `lpM:T19` | theorem | T19 (599–603) with §1 (69–93), L16, d = 3 |
-| LP2-H | `…spatial_strongAMD_exponentialSafety_halfInteger` | `lpM:T19#tau-half` | corollary | §1 (93) and T19 |
-| LP3-1 | draft 8, tentative `…planar_strongAMD_exponentialSafety_noArith` | `lp3:LP3-1` | theorem | LP3-PLAN §1.2 (85–126); proof §2.2–§2.4, §3 |
-| LP3-2 | draft 8, tentative `…spatial_strongAMD_exponentialSafety_noArith` | `lp3:LP3-2` | theorem | LP3-PLAN §1.3 (128–134); proof §2.5, §3 |
+| Anchor | Lean export | Node | KIND | Wave | MAIN locus (statement / proof) |
+|---|---|---|---|---|---|
+| LP0 | `KAM.Planetary.StrongAMD.planar_strongAMD_barrier` | `lpM:L5#planar_strongAMD_barrier` | lemma | 1 | L5 L164 / L166–L175; N11 |
+| LP1 | `…StrongAMD.planar_strongAMD_exponentialSafety` | `lpM:T15#planar_strongAMD_exponentialSafety` | theorem | 2 | T15 L502 with §1 L69–L93 |
+| LP1-H | `…StrongAMD.planar_strongAMD_exponentialSafety_halfInteger` | `lpM:T15#planar_strongAMD_exponentialSafety_halfInteger` | corollary | 2 | §1 L93 and T15 |
+| LP2 | `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety` | `lpM:T19#spatial_strongAMD_exponentialSafety` | theorem | 3 | T19 L601 with §1 L69–L93 |
+| LP2-H | `…Spatial.spatial_strongAMD_exponentialSafety_halfInteger` | `lpM:T19#spatial_strongAMD_exponentialSafety_halfInteger` | corollary | 3 | §1 L93 and T19 |
 
-- The corollary anchors depend on their parent anchor node and on `lpM:s1:half-integer` (τ = n − ½ is admissible;
-  2((n − ½) + 1) = 2n + 1).
-- LP3-1 and LP3-2 enter only if draft 8 is frozen (LP3-PLAN O-3) and Q1 below is settled.
+**Why LP0 is not the node `lpM:L5` itself.** MAIN's Lemma 5 is d-generic ("negative-energy states", d ∈ {2,3}); Lemma
+6 and Lemma 16 apply it in both dimensions, and the spatial chain (wave 3) must not depend on a planar declaration.
+So `lpM:L5` is the ordinary d-generic lemma node and the anchor `lpM:L5#planar_strongAMD_barrier` is its planar
+instance: it depends on `lpM:L5`, on the step `lpM:L5#pair-distances` (its distance clauses ¦q_i¦ ≥ d_⋆ and
+¦q_i − q_j¦ ≥ d_pair are proved at L175 and restated at §1 L91), and on the frozen definitions its statement uses.
+The same pattern applies to every theorem anchor; T15/T19 keep ordinary nodes `lpM:T15`/`lpM:T19` for the MAIN
+theorem, decided by the wave-2/3 extractor.
 
-### 1.2 Characterization theorems (34 in draft 7)
+### 1.2 Characterization theorems (34; roots by Q2)
 
-These are frozen theorems with `DRAFT_SORRY` bodies. The proposal (Q2) makes each one an anchor node **and a root**.
-The node ID is `<owning MAIN node>#<LeanName>`. Consumers depend on the characterization theorem, not on the
-definition's codomain (skill Phase 0). Proposed loci:
-
-| Characterizations | MAIN locus |
-|---|---|
-| `orderedPairThreshold_isLeast`, `orderedPairThreshold_existsUnique_value`, `orderedCrossThreshold_isLeast`, `orderedStrongThreshold_isLeast` | (3) (45–55), L4 (141–156) |
-| `sourceStrongAMD_nonneg`, `sum_action_mul_eccDeficit_le_sourceStrongAMD`; `spatialSourceStrongAMD_nonneg`, `spatialSourceAction_mul_eccDeficit_le` | L3 (130–139), (13) |
-| `sourceKepler_axis_pos`; `spatialSourceKeplerAxis_pos`, `spatialSourceKeplerAction_pos`, `spatialSourceKeplerAction_sq` | (2) (31–35) |
-| `sourceKepler_ecc_le_one`, `sourceKeplerPeri_le_planeLength`, `planeLength_le_sourceKeplerApo`; `spatialSourceKeplerEcc_{sq,nonneg,le_one}`, `spatialSourcePlanetAngularMomentum_length{,_le}`, `spatialSourceKeplerPeri_le_length`, `spatialSourceKeplerApo_ge_length` | L2 (110–128), (11)–(12) |
-| `sourceOscAxis_pos`, `sourceOscPeri_pos`, `sourceOscPeri_le_planeLength`, `planeLength_le_sourceOscApo`; `spatialSourceOsc{Param_pos,Energy_neg,Ecc_lt_one,Ecc_nonneg,Axis_pos,Peri_pos,Peri_le_length,Apo_ge_length}` | L16 (508–529), (42)–(43), and L2 with parameter k_i |
+Node `<owner>#<LeanName>`, the owner chosen by the docstring locus: thresholds `lpM:L4#…` (4), AMD `lpM:L3#…` (2 planar,
+2 spatial), Kepler elements `lpM:L2#…` (4 planar, 9 spatial), osculating `lpM:L16#…` (4 planar, 9 spatial). Wave 1
+holds the 10 planar ones whose loci lie in §1 and L2–L4; the 4 planar osculating ones join with Lemma 16 (wave 2),
+the 20 spatial ones with LP-adef-sp (wave 3). Consumers depend on the characterization, never on the definition's
+codomain (skill Phase 0).
 
 ### 1.3 Definition anchors
 
-- **New definitions (88 in draft 7).** Node ID `<definition node>#<LeanName>`, as in `bp:p0:domains#complexStrip`
-  (K) or `bpW:w0:ellap#WaveSpace` (W). The definition nodes are:
-  - `lpM:s1:chamber`, `lpM:s1:thresholds` (thresholds, carriers, `AdjIdx`, `modeSize` through (5));
-  - `lpM:s1:elements` (the strong AMD, canonical elements, source carriers, planar and spatial vectors);
-  - `lpM:s1:model` (the spatial model and Newtonian maps);
-  - `lpM:L16:defs` (osculating elements).
-
-  The exact mapping is made at freeze from the frozen docstrings, which carry `LP:MAIN` loci.
-- **Reused frozen definitions.** 19 are referenced directly and 21 are in the closure, including `movingHamiltonian`
-  and `hamiltonianVectorField`. Following the I/P/W precedent (W SPEC, ruling kam-d4), a definition that MAIN §1
-  transcribes becomes **LP's own anchor node**, bound to the existing manifest entry, and is never imported. Examples
-  are `keplerAxis` (2) and `IsMovingSolutionOn` (1). A reused definition that MAIN does not transcribe gets a
-  writer decision, recorded here: anchor node or `EXCLUDED` typing data. Example: `Phase`.
-- **Internal helpers** ("internal" role, draft 7 §4.2/§4.4) are frozen definitions, so each is an anchor node of
-  `KIND: definition`. Its source fields say "internal helper; source meaning only on its carrier". It has no
-  separate MAIN statement.
-- LP3 adds no definition, if draft 8 confirms an empty closure delta. The exponents `planetaryTimeExponent` and
-  `planetaryDriftExponent` are already frozen (track P). They bind to `lp3:s1.1#exponents` under the same reuse rule.
+- **D62 definitions (89).** Groups (owning node): `lpM:s1:chamber` (chamber, OrderedActions), `lpM:s1:thresholds`
+  (actionAxis, eccDeficit, pairFeasible, pairObjective, pairThreshold, AdjIdx, AdjIdx.upperIdx, the three ordered
+  thresholds), `lpM:s1:elements` (strongAMD, keplerPeri/Apo, SourceCanonicalPhase, sourceStrongAMD,
+  sourceKeplerPeri/Apo and the spatial elements), `lpM:s1:data` (spaceDot/Sq/Length), `lpM:s1:model` (spatial model,
+  solution predicates, masses, bodyVector3), `lpM:L1` (barycentric maps), `lpM:L16:defs` (osculating elements). 36
+  planar/dimension-free ones are wave 1 (slice LP-adef-pl), 53 spatial ones wave 3 (LP-adef-sp).
+- **Reused frozen definitions (Q6: LP's own anchor nodes, bound to the existing manifest entries, never imported).**
+  Exactly those that an LP frozen file imports directly: 20. Wave 1 (12): `Phase`, `bodyVector`, `NoCollision`
+  (`lpM:s1:model#…`), `keplerEnergy`, `keplerAxis`, `keplerAction`, `keplerEccVector`, `planeCross`, `totalMomentum`
+  (`lpM:s1:elements#…`), `planeSq`, `planeLength`, `planeDot` (`lpM:s1:data#…`). Wave 2 (7): `IsDiophantine`
+  (`lpM:s1:dioph`), `actualMasses`, `IsMovingSolutionOn`, `MovingUniqueOn` (`lpM:s1:model`), `barycentricPositions`,
+  `barycentricVelocities`, `IsNewtonSolutionOn` (`lpM:L1`). Wave 3 (1): `KAM.Iso.IsHamiltonianSolutionOn`. The
+  transitive definition closure (e.g. `movingHamiltonian`, `hamiltonianVectorField`) is reached only through these
+  and is typing data, not graph nodes.
+- **Internal helpers** (`pairThreshold`, `AdjIdx`, `AdjIdx.upperIdx`) are anchor nodes of KIND definition with the
+  NOTE "internal helper; source meaning only on its carrier".
+- **Definition DEPS** are the frozen definitions the declaration uses (read from the frozen file), with the EDGE at
+  the MAIN line it transcribes. A definition anchor has no edge to the d-generic MAIN definition node (`lpM:s1:elements`
+  etc.): it realizes it in one dimension, which the statement audit of the freeze certified.
+- **Convention watch:** the reused `keplerEnergy` is ν_i E_i (the Kepler term of (1)), not E_i; `keplerAxis` =
+  −ν_i/(2 keplerEnergy) = −1/(2E_i).
 
 ## 2. Corpus (source pinning record)
 
@@ -131,7 +133,7 @@ in the source README: `LP:MAIN L<k> (<lines>)`.
 
 ## 3. Standing assumptions and external inputs
 
-- **STANDING_ASSUMPTIONS: none (proposal).** The data of MAIN §1 are not global standing assumptions:
+- **STANDING_ASSUMPTIONS: none (settled at freeze; header `STANDING_ASSUMPTIONS: -`).** The data of MAIN §1 are not global standing assumptions:
   - n ≥ 2;
   - ν > 0 with max ν = 1;
   - 𝒜 compact and ordered;
@@ -142,7 +144,7 @@ in the source README: `LP:MAIN L<k> (<lines>)`.
   They are the hypothesis package `lpM:s1:data` (a definition node), as K treats its part-level packages. A result
   that assumes the package names it in `SOURCE_HYPOTHESES` and depends on it. Every application shows where the
   package is supplied. LP0 uses only n and ν. LP3 drops γ, τ and (5).
-- **Externals.** MAIN has no labelled external list. The writer fixes a **closed list** before extraction. Any other
+- **Externals.** MAIN has no labelled external list. The **closed list** is the ten candidates below (fixed at freeze; wave 1 renders the five it consumes: ftc, compact-min, heine-cantor, picard, gronwall). Any other
   unproved fact is a step node with `NOTE: SOURCE_GAP: …`, never a silent edge and never an extra external without a
   SPEC revision. The candidate list comes from MAIN's explicit appeals (coverage items `*#ext-*`, `KIND: external`,
   `LEAN_STATUS: EXTERNAL`):
@@ -253,10 +255,32 @@ in the source README: `LP:MAIN L<k> (<lines>)`.
   - a step's `SOURCE_HYPOTHESES` are the premises of the enclosing statement plus local definitions;
   - results derived earlier in the proof are DEPS, never hypotheses;
   - the step's quantifiers inherit the enclosing scope.
-- **Symbol uses** (the W lesson). A node whose statement or proof writes a frozen object by symbol depends on its
-  anchor at the first use. The symbols are B, B_ij, 𝒬, C (strong AMD), the canonical and osculating elements and
-  their source carriers, `modeSize` (|k|₁), and the model and solution predicates. This list is fixed from the
-  anchor map at freeze.
+- **Dimension rule (settled at freeze).** MAIN's §1 definitions and Lemmas 1–6 and 16 are d-generic (d ∈ {2,3});
+  the frozen carriers are dimension-specific (planar `strongAMD`, `keplerAxis`, …; spatial `spatialSourceStrongAMD`,
+  …). So MAIN nodes are recorded d-generically and depend on the d-generic definition nodes `lpM:s1:data`,
+  `lpM:s1:model`, `lpM:s1:elements` (non-anchor), and the **dimension-specific frozen definitions attach at the
+  anchors** whose statements use them (theorem anchors and definition anchors). A theorem anchor that is the
+  instance of a d-generic lemma depends on that lemma node (e.g. LP0 → `lpM:L5`). This keeps every closure exact:
+  LP0's closure holds the planar carriers and no spatial one.
+- **Symbol uses** (the W lesson; list fixed from the anchor map at freeze). A node whose statement or proof writes a
+  **dimension-free** frozen object by symbol depends on its anchor at the first use: 𝒬 (`chamber`; `OrderedActions`
+  where the carrier itself is used), a_i(I) (`actionAxis`), D (`eccDeficit`), the pair feasible set and objective
+  (`pairFeasible`, `pairObjective`), B_ij (`orderedPairThreshold`), B_cross (`orderedCrossThreshold`), B
+  (`orderedStrongThreshold`). B_⋆ = min_i I_i has no anchor (it is inline in B). The internal helpers `pairThreshold`,
+  `AdjIdx`, `AdjIdx.upperIdx` are edged only from the anchors whose declarations use them. Dimension-specific symbols
+  (C, E_i, a_i, e_i, L, the osculating elements, the phase carriers, model and solution predicates) follow the
+  dimension rule. Wave 2 adds `modeSize` (¦k¦₁) and the model predicates when their anchors are bound.
+- **Statement splits (Q3–Q5, ruling root-b8).**
+  - Q3: Lemma 3 = `lpM:L3#static` (C ≥ 0; L ≠ 0, H_i > 0, H_i ≥ m; the inequality of (13)) ∧ `lpM:L3#dynamic`
+    (conservation of L; the identity of (13)) ∧ `lpM:L3#planar-orientation`; `lpM:L3` is their conjunction. Lemma 5
+    consumes only `lpM:L3#static`, so LP0's closure does not reach Lemma 1.
+  - Q4: `lpM:L4`'s source fields omit the radial-contact and Laskar–Petit clauses (L143) and the sharpness sentence
+    (L147); items `lpM:L4#stmt-contact-lp`, `lpM:L4#stmt-sharpness`, and the prose L158 (N9) and L160 are EXCLUDED.
+  - Q5 (wave 2, slice LP-m4b): Lemma 12's source fields omit (35) (N4); its items are EXCLUDED as "a remark, not a
+    formal dependency (N4)". The inventory items `lpM:eq35` and the (35) proof region carry this ruling; the
+    amendment item `lpA:N4` is deferred to wave 2.
+- **Display refinement in wave 1:** (10) is the node `lpM:L1#velocity` (Lemma 3's recoil term and Lemma 16's V_i
+  consume it apart from the reconstruction).
 
 ## 6. Edges
 
@@ -281,9 +305,12 @@ in the source README: `LP:MAIN L<k> (<lines>)`.
 
 ## 7. Reachability
 
-`--require-all-reachable` is part of the gate from the first assembled draft. A node outside every root closure is
-either linked (a missed use) or `EXCLUDED` with the reason "outside every root closure of track LP" and the check
-made. Expected exclusions:
+`--require-all-reachable` joins the gate once the roots that a wave's nodes serve exist (W precedent). In wave 1 the
+roots are LP0 and the 10 planar characterizations; 37 wave-1 nodes (Lemma 1, the dynamic part of Lemma 3, Lemma 6,
+the osculating definitions, (4), (5), the half-integer claim, and the externals `ftc`, `picard`, `gronwall`) serve
+the dynamic roots LP1/LP2 of waves 2–3 and are kept, not excluded (`reports/W1-lint.txt` lists them). From wave 3 on,
+the gate includes `--require-all-reachable`; a node then outside every root closure is either linked (a missed use)
+or `EXCLUDED` with the reason "outside every root closure of track LP" and the check made. Expected exclusions:
 - the N9 paragraph (L158) and the Laskar–Petit identification (L160) of L4;
 - the L4 statement clauses L143 (radial contact, Laskar–Petit) and L147 (sharpness), if Q4 splits them off;
 - (35) (N4; see Q5);
@@ -292,108 +319,128 @@ made. Expected exclusions:
 
 If LP3 is not frozen, the LP3 slices are not extracted and LP3-PLAN stays outside the corpus.
 
-## 8. Roles and reviewer assignments
+## 8. Roles and reviewer assignments (settled: Q8, ruling root-b8)
 
-The roles follow the skill and the repository model policy:
-- D21: Sonnet workers, Codex GPT-6.1-Sol auditors;
-- D24: Sol at medium effort;
-- D54: codex-1 for every track;
-- D57: codex-2 carries the LP and W audits, one audit at a time machine-wide, LP first;
-- D60: parallel W audits; this is W-specific.
-
-All of codex-1, codex-2 and codex-3 are valid audit accounts. Items marked **[CONFIRM]** need the orchestrator.
+The roles follow the skill and the repository model policy (D21: Codex GPT-6.1-Sol auditors; D24: Sol at medium
+effort; D54/D57: codex-2 carries the LP audits; all of codex-1, codex-2, codex-3 are valid audit accounts).
 
 | Role | Who (tag) | Rule |
 |---|---|---|
-| Writer (single) | `claude-suborch-LP` (kam-lp sub-orchestrator, Opus 5.5; D56) **[CONFIRM tag]** | The only editor of packets, `DEPGRAPH.md` and `DEPGRAPH_COVERAGE.md`. Merges, adjudicates, and marks REVIEWED. Never a reviewer. |
-| Pre-anchor inventory | `lp-preanchor-inventory` (this preparation) | Wrote `draft/coverage-*.md`, all PROPOSED. It may never review an LP coverage item or node. |
-| Extractors | **Option A (recommended):** Sonnet subagents at low effort, one per slice, `sonnet-extract-LP-<slice>` (skill default; K precedent; D21). **Option B:** the writer extracts every slice from compact specs (the W "low-cost policy" precedent), `EXTRACTOR: claude-suborch-LP`. **[CONFIRM A or B]** | Packets only. No Lean evidence, no implementation files. Each extractor edits only its own `packets/<slice>.{nodes,coverage}.md`. |
-| Slice reviewers | Codex GPT-6.1-Sol, medium effort, default tier, on **codex-2** (D57), fallback codex-1 (D54) or codex-3. One fresh session per review batch, `sol-review-LP-<slice>`. **[CONFIRM account]** | Refute-first (REVIEW-BRIEF, to be written from the K/W template). Never the extractor of the slice. |
+| Writer (single) | `kam-lp` (WRITER in header.txt) | The only editor of packets, `DEPGRAPH.md` and `DEPGRAPH_COVERAGE.md`. Merges, adjudicates, applies review fragments and marks REVIEWED. Never a reviewer. |
+| Extractor | `kam-lp` (EXTRACTOR of every wave-1 record). Package LP-GRAPH-W1 names its agent "the extractor, working under the writer's direction": the W low-cost precedent (option B), extracting every slice from compact specs `specs/<slice>.py` rendered by `tools/lp_depgraph_fill.py`. | Packets only; no Lean evidence, no implementation files, no proof bodies. |
+| Pre-anchor inventory | `lp-preanchor-inventory` | Wrote `draft/coverage-*.md`. It may never review an LP item or node. |
+| Slice reviewers | Codex GPT-6.1-Sol, medium effort, on **codex-2** (D57), one fresh session per slice, `sol-review-LP-<slice>`; the orchestrator launches them in **parallel batches** (Q8), each in its own session. | Refute-first, per `REVIEW-BRIEF.md`. Never the extractor or the writer. |
 | Delta reviewers | A Sol session different from the reviewer whose replacement blocks it checks, `sol-delta<k>-LP-<slice>` | The K/W delta rule. |
-| Global reviewer | A fresh Sol session, `sol-global-LP` | Distinct from the writer, every extractor and every slice or delta reviewer (the linter enforces writer and extractor; the writer enforces reviewer). |
-| Opus subagents | **Paper-level only [CONFIRM]**: e.g. a refute-first review of a new LP3 source note (Q1 (b)), as PROOF-AUDIT-1 and LP3-PLAN-REVIEW-1 were. | No D-number authorizes Opus as the recorded slice or global topology reviewer. D21 and D57 place audits on Codex, and OD-10 option (b) was not taken. Opus would serve as a reviewer of record only by an explicit orchestrator ruling recorded here. |
+| Global reviewer | A fresh Sol session, `sol-global-LP` | Distinct from the writer, every extractor and every slice or delta reviewer. |
+| Opus subagents | Paper-level reviews only (e.g. the LP3 source note of Q1); never a reviewer of record for the topology (auditor policy of root-b8, 07:50). | — |
 
-**Batching.** D57 allows one audit at a time machine-wide, so reviews run in four batches, in order. Each batch is
-one fresh Sol session with one review file per slice, as in W's batched review. Running batches in parallel needs a
-ruling like D60 for LP **[CONFIRM]**.
-
-| Batch | Slices | Closure it completes |
-|---|---|---|
-| R1 | `LP-adef-pl`, `LP-athm`, `LP-m1`, `LP-m2a`, `LP-m2b`, `LP-amend`, `LP-m78` | LP0 |
-| R2 | `LP-m3`, `LP-m4a`, `LP-m4b`, `LP-m5`, `LP-imports`, `LP-ext` | LP1, LP1-H |
-| R3 | `LP-adef-sp`, `LP-m6` | LP2, LP2-H |
-| R4 | `LP3-a`, `LP3-b` | LP3-1, LP3-2 (conditional) |
-
-After that come delta rounds, then the global review of all roots.
+**Review batches.** R1 (wave 1, LP0): `LP-adef-pl`, `LP-athm`, `LP-ext`, `LP-m1`, `LP-m2a`, `LP-m2b`, `LP-amend`,
+`LP-m78`; R2 (wave 2): `LP-m3`, `LP-m4a`, `LP-m4b`, `LP-m5`, `LP-imports`, the wave-2 additions to `LP-ext`,
+`LP-adef-pl` and `LP-athm`; R3 (wave 3): `LP-adef-sp`, `LP-m6`, the wave-3 `LP-athm` additions. Then delta rounds and
+the global review of all roots. Review packets: `REVIEW-BRIEF.md` and `reviews/R1-packets.md`.
 
 ## 9. Slices
 
-These are the planned slices; `packets/slices.json` records them. They are line-addressable and aligned to complete
-lemma units. A node belongs to the slice containing the first line of its STATEMENT_SOURCE, with one override: every
-frozen anchor node belongs to `LP-athm` or `LP-adef-*`, as K's anchors belong to K-p0. Coverage items follow their
-SOURCE line. Node and item counts are estimates from the draft inventory.
+Line-addressable, aligned to complete lemma units, recorded in `packets/slices.json`. A node belongs to the slice
+containing the first line of its STATEMENT_SOURCE, with two overrides: every frozen anchor belongs to `LP-athm`
+(theorems) or `LP-adef-pl`/`LP-adef-sp` (definitions), and the externals belong to the writer-owned `LP-ext`.
+Coverage items follow their SOURCE line; an anchor slice has one item per anchor. An inventory item whose
+disposition names a node of a later wave is kept in `packets/<slice>.deferred-coverage.md` (not assembled) until
+that node exists. Anchor slices grow by wave (`anchor-binding.tsv`, column `wave`).
 
-| Slice | Source range | Units | Est. nodes | Est. items | Anchors served | Wave |
+Status after wave-1 extraction (2026-11-01; all PROPOSED, extractor `kam-lp`):
+
+| Slice | Source range | Wave | Nodes | Edges | Coverage | Deferred items |
 |---|---|---|---|---|---|---|
-| `LP-adef-pl` | anchors (manifest) | new planar/dimension-free definitions 1–37 and reused frozen definitions | ≈ 56 | ≈ 56 | all | 1 |
-| `LP-adef-sp` | anchors (manifest) | new spatial definitions 38–88 | ≈ 51 | ≈ 51 | LP2, LP2-H, LP3-2 | 3 |
-| `LP-athm` | anchors (manifest) | 5 (+2) theorem anchors, 34 characterizations: identity and source fields; DEPS into MAIN nodes | ≈ 41 | ≈ 41 | all | 1 |
-| `LP-m1` | MAIN L1–93 | §1 data, (1)–(9), conclusion, line 93 | 8 | 25 | all | 1 |
-| `LP-m2a` | MAIN L94–160 | L1–L4 | 20 | 33 | all (L1: dynamic anchors) | 1 |
-| `LP-m2b` | MAIN L161–189 | L5–L6 | 15 | 20 | LP0 (L5); dynamic (L6) | 1 |
-| `LP-amend` | AMENDMENTS L1–26 | N1–N12, precedence, order | 0 | 14 | per amendment | 1 |
-| `LP-m78` | MAIN L604–679 | §7–§8, all excluded | 0 | 12 | none | 1 |
-| `LP-m3` | MAIN L190–271 | L7–L8 | 16 | 27 | dynamic | 2 |
-| `LP-m4a` | MAIN L272–379 | L9–L11 | 21 | 35 | LP1/LP2, route-L12 | 2 |
-| `LP-m4b` | MAIN L380–464 | L12–L13 | 12 | 21 | LP1/LP2, both routes | 2 |
-| `LP-m5` | MAIN L465–529 | L14, T15, L16 | 25 | 32 | LP1, LP1-H; dynamic | 2 |
-| `LP-imports` | graphs N, P | imported nodes (writer-owned) | ≤ 5 | — | LP1/LP2 (route-L13), LP3 | 2 |
-| `LP-ext` | — | the closed external list (writer-owned) | 10 | — | per use | 2 |
-| `LP-m6` | MAIN L530–603 | L17, L18, T19 | 17 | 23 | LP2, LP2-H, LP3-2 | 3 |
-| `LP3-a` | LP3-PLAN L1–258 | targets, the frozen interface, fixed data F1–F7, premises | 17 | 22 | LP3-1, LP3-2 | 4 |
-| `LP3-b` | LP3-PLAN L259–506 | the hstop supplier, spatial version, sublevel, first exit, assembly; §4–§7 excluded | 14 | 18 | LP3-1, LP3-2 | 4 |
+| `LP-adef-pl` | anchors (manifest): 36 planar/dimension-free D62 definitions + 12 reused | 1 | 48 | 103 | 48 | — |
+| `LP-athm` | anchors (manifest): LP0 + 10 planar characterizations | 1 | 11 | 65 | 11 | — |
+| `LP-ext` | closed external list, wave-1 part (ftc, compact-min, heine-cantor, picard, gronwall) | 1 | 5 | 0 | 0 (items in the MAIN slices) | — |
+| `LP-m1` | MAIN L1–93 | 1 | 6 | 8 | 19 | 6 (§1 conclusion → T15/T19 anchors) |
+| `LP-m2a` | MAIN L94–160 (L1–L4) | 1 | 24 | 77 | 36 | — |
+| `LP-m2b` | MAIN L161–189 (L5–L6) | 1 | 15 | 64 | 20 | — |
+| `LP-amend` | AMENDMENTS L1–26 | 1 | 0 | 0 | 7 | 7 (N1, N3–N7, N10) |
+| `LP-m78` | MAIN L604–679 | 1 | 0 | 0 | 12 | — |
+| **wave 1** | | | **109** | **317** | **153** (26 excluded) | 13 |
+| `LP-m3`, `LP-m4a`, `LP-m4b`, `LP-m5`, `LP-imports`; wave-2 parts of `LP-adef-pl` (7 reused), `LP-athm` (LP1, LP1-H, 4 osculating characterizations), `LP-ext` (5) | MAIN L190–529 | 2 | — | — | — | — |
+| `LP-adef-sp` (54), `LP-m6`; wave-3 part of `LP-athm` (LP2, LP2-H, 20 spatial characterizations) | MAIN L530–603 | 3 | — | — | — | — |
+| `LP3-a`, `LP3-b` | LP3-PLAN (conditional, Q1) | 4 | — | — | — | — |
 
-The MAIN slices hold 134 planned nodes and 242 coverage items (MAIN 228 and AMENDMENTS 14), plus 10 externals, ≤ 5
-imports and the anchor slices. The largest MAIN slice is `LP-m4a`, 107 lines. Each wave ends with the linter run
-`--require-complete-coverage --require-initial-lean-status` on the assembled draft.
+## 10. Orchestrator rulings on Q1–Q8 (root-b8, 2026-11-01: all proposed defaults accepted)
 
-## 10. Open questions for the orchestrator
-
-- **Q1 (LP3 corpus).** LP3-PLAN.md is a plan ("not a proof certificate", L4), and most of its steps cite LP or
-  track-P implementation lemmas by name, marked [REUSED] or [ADAPTED]. Options:
-  - (a) Pin LP3-PLAN.md (and REVIEW-1 as provenance) as the LP3 corpus. Map every Lean-name citation to a MAIN node,
-    a graph-N/P import, or a `SOURCE_GAP` step. Expect several gaps (cell Kepler data, the Hamiltonian identity on
-    V_j, time reversal).
-  - (b) First write a short paper-level LP3 source note: MAIN-style, line-addressable, with the [REUSED] steps
-    restated against MAIN lemmas and the N/P blueprints. Give it a refute-first review, then pin it.
-
-  Recommendation: (b), if the LP3 anchors are frozen. Otherwise defer.
-- **Q2 (characterizations).** Make all 34 characterization theorems (and any draft-8 additions) anchors **and
-  roots**? There is no precedent graph with characterization anchors. Recommendation: yes. They are `DRAFT_SORRY`
-  frozen theorems that need a source-traced closure, and `--require-all-reachable` otherwise forces the
-  unconsumed ones out, e.g. `spatialSourceOscParam_pos`.
-- **Q3 (L3 split).** LP0 uses only L3's static parts: C ≥ 0, L ≠ 0, H_i ≥ m and the inequality half of (13). If L3
-  stays one node, LP0's closure includes L3#conservation and hence L1. Options:
-  - expose the static claims as separately consumed steps, so that L5 depends on `lpM:L3#deficit` etc., as W
-    allows step dependencies;
-  - accept the larger closure.
-
-  Recommendation: steps.
-- **Q4 (L4 unconsumed clauses).** The L4 statement asserts radial contact, the Laskar–Petit identification (L143)
-  and sharpness (L147). No proof uses them (N9). Either keep them in L4's SOURCE_CONCLUSION, which drags the L158/L160
-  arguments into every closure, or record L4's statement without them in a reviewed split with a NOTE.
-  Recommendation: split, with `lpM:L4#sharpness` EXCLUDED.
-- **Q5 ((35)).** (35) belongs to L12's statement but has no consumer (N4). The question is the same as Q4: keep it
-  in the statement, or split it off and exclude it. Recommendation: split it off and exclude it.
-- **Q6 (reused frozen definitions).** Bind the 19–21 reused P/I definitions as LP anchor nodes (I/P/W precedent),
-  or import them from graph P? Recommendation: anchors, for those that MAIN §1 transcribes.
-- **Q7 (Markdown tooling).** The shared `inp_depgraph_preextract.py` reads LaTeX labels only. Either the writer
-  converts `draft/coverage-*.md` into slice packets with a small `docs/graph/LP/tools/lp_depgraph_preextract.py`
-  (Markdown, locator tokens from §2), or the extractors start from the draft coverage directly. The slice check,
-  assemble and review tools work unchanged, because they check paths and line ranges only.
-- **Q8 (roles).** The [CONFIRM] items of §8: writer tag, extractor option, Codex account, Opus scope, batch
-  parallelism.
+- **Q1 (LP3 corpus):** option (b). A short paper-level LP3 source note is written and reviewed after the draft-8
+  freeze, before LP3 extraction. Until then LP3-PLAN.md stays outside the corpus and no LP3 slice exists.
+- **Q2 (characterizations):** the 34 characterization theorems are anchors **and roots** (header ROOTS).
+- **Q3 (L3 split):** done in wave 1 (§5): `lpM:L3#static`, `lpM:L3#dynamic`, `lpM:L3` their conjunction.
+- **Q4 (L4 clauses):** done in wave 1 (§5): the unconsumed statement clauses are excluded items.
+- **Q5 ((35)):** split off and excluded; applied by the wave-2 extractor of LP-m4b (§5).
+- **Q6 (reused definitions):** bound as LP anchor nodes (§1.3); exactly the 20 that LP frozen files import directly.
+- **Q7 (Markdown tooling):** `tools/lp_depgraph_preextract.py` turns the draft inventory and the anchor binding into
+  skeleton slice packets (dry run: `reports/W1-dryrun.txt`); `tools/lp_depgraph_fill.py` renders the writer's specs.
+- **Q8 (roles):** writer tag `kam-lp`; slice and global reviews on codex-2, in parallel batches, one session per
+  reviewer (§8).
 
 ## Change log
 
 - 2026-11-01: initial pre-freeze draft (pinning, inventory, slice plan, roles). No extraction, no header, no edges.
+- 2026-11-01, **post-freeze setup and wave 1** (package LP-GRAPH-W1, branch `inp-lp-graph` off inp with the D62
+  freeze f46b94fb):
+  - Pins re-checked: `sha256sum -c` on CORPUS.sha256 and IMPORTS.sha256, all OK; no re-pin.
+  - Anchor map (128 entries; README step 2) and anchor binding (148 anchors incl. 20 reused definitions) written.
+  - §1 settled: all anchor IDs are `<owner>#<LeanName>`; LP0 is `lpM:L5#planar_strongAMD_barrier`, the planar
+    instance of the d-generic `lpM:L5` (deviation from the pre-freeze proposal `lpM:L5`; reason in §1.1).
+  - §5: dimension rule and the fixed symbol list; Q3–Q5 splits recorded (Q3, Q4 applied; Q5 in wave 2).
+  - §7: `--require-all-reachable` joins the gate when the served roots exist (wave 1 keeps 37 nodes for LP1/LP2).
+  - §8, §10: rulings Q1–Q8 recorded.
+  - Wave 1 extracted from specs and assembled: 109 nodes (59 anchors, 5 externals), 317 edges, 0 routes, 11 roots,
+    72 nodes in the root closure, 153 coverage items (26 excluded), 13 deferred items, 1 SOURCE_GAP
+    (`lpM:L3#deficit-zero-L`: the frozen deficit characterization covers L = 0, which MAIN does not argue). The
+    linter (`--require-complete-coverage --require-initial-lean-status`, `--check`) exits 0; `reports/W1-lint.txt`.
+- 2026-11-01, **waves 2 and 3, streamlined (D65)** (package LP-GRAPH-W2, writer and extractor `kam-lp`):
+  - Owner ruling D65: a fully proved track's graph is a provenance record. No per-slice or delta reviews (the R1
+    verdicts already applied stay), one extraction pass for waves 2-3 (and 4 when the LP3 anchors are on main), LEAN_STATUS
+    set mechanically from LEAN_REFs that resolve on main, structural lint (coverage, edges, cycles, reachability)
+    without `--require-reviewed`, then ONE independent global review. The header CORPUS line says so. §8's per-slice
+    review batches R2/R3 are cancelled.
+  - Packets: the wave additions to the reviewed wave-1 slices are separate packets `LP-athm-w2`, `LP-athm-w3`,
+    `LP-adef-pl-w2`, `LP-ext-w2`, and the formerly deferred coverage items are `LP-m1-w2`, `LP-amend-w2` (the
+    `*.deferred-coverage.md` files are superseded and not assembled). Assembly order: `packets/slices-assembled.txt`.
+  - §6 routes: the drift suppliers are route nodes `lpM:L14#route-L12` and `lpM:L14#route-L13`, owned by
+    `lpM:L14#improvement` (the step consuming the drift at L487/L500), a refinement of the proposal "lpM:L14 owns
+    them". Lemma 14 is d-generic and conditional; T15/T19 discharge its chart premises (`#apply-L14`).
+  - Q5 applied: (35) and its proof region excluded, `lpA:N4` excluded. The Cauchy bounds on DΦ (L379) are excluded as
+    unconsumed ("not used to infer invertibility").
+  - New SOURCE_GAP steps: `lpM:L10#lie-flow-identification`, `lpM:L10#flow-existence` (N5: sketched; route L12 only)
+    and `lpM:L14#maximal-solution` (the unique maximal solution from Lemma 6's local existence; §1 L78).
+  - Externals: the remaining five of the closed list rendered (`LP-ext-w2`). Imports: only `N:bpN:p11:nonresonant`
+    (Lemma 13); `N:bpN:p0:partial` and the P imports serve LP3 only and stay unrendered; IMPORTS.sha256 unchanged.
+  - Wave 3 anchors are bound mechanically (`specs/_lp_anchor_util.py`): a definition's DEPS (and a theorem's
+    statement-symbol edges) are the bound frozen definitions its file imports and names in its declaration.
+  - Three frozen carrier definitions have no consumer in any root statement or source proof and are not graph
+    nodes: `sourceOscVelocity`, `sourceOscParam`, `spatialSourceOscVelocity` (items EXCLUDED, "outside every root
+    closure"; removed from FROZEN_ANCHORS by `tools/lp_depgraph_header.py`). `lpM:L3` is consumed whole by
+    `lpM:L18#alignment`.
+  - Result: 292 nodes, 1040 edges, 39 roots, 145 anchors, 11 externals (10 closed-list + 1 import), 2 routes,
+    4 SOURCE_GAP, 394 coverage items (40 excluded), every node in a root closure; lint exit 0
+    (`reports/W2-lint.txt`); LEAN_STATUS applied (`LEAN_STATUS.md`): 145 PROVED, 11 EXTERNAL, 136 NOT_STARTED.
+- 2026-11-01, **wave 4 (LP3, D64 landed at main 61c6d5a7), streamlined (D65)**: `inp` (b5f029f5, with D64) merged into
+  `inp-lp-graph` (no conflict). LP3-PLAN.md is pinned in CORPUS.sha256 (hash = the §2 candidate pin) and is the LP3
+  source; the Q1 source note is not written (D65 minimal model, orchestrator ruling). Anchors bound mechanically from
+  the manifest (binding rows, wave 4): LP3-1 `lpM:T15#planar_strongAMD_exponentialSafety_noArith`, LP3-2
+  `lpM:T19#spatial_strongAMD_exponentialSafety_noArith` (roots), and the reused exponent definitions
+  `lp3:s1.1#planetaryTimeExponent`, `lp3:s1.1#planetaryDriftExponent` (Q6). Import `N:bpN:p0:partial`
+  (partialConvex_nekhoroshev). Four LP3 step nodes: `lp3:s2.3` (fixed data and premise discharge, §2.2-§2.3),
+  `lp3:s2.4` (planar drift supplier in the hstop shape, §2.4 with §3's sharp sublevel), `lp3:s2.5` (spatial),
+  `lp3:s3#first-exit` (Lemma 14's route-independent steps with the LP3 supplier; LP3 drops (5), so it does not use
+  `lpM:L14` or `lpM:T15#apply-L14`). The 40 LP3-PLAN inventory items are coverage (packets LP3-a, LP3-b). Result:
+  301 nodes, 1161 edges, 41 roots, 149 anchors, 12 externals, 438 coverage items (47 excluded); lint exit 0;
+  LEAN_STATUS PROVED 153, BYPASSED 136, EXTERNAL 12.
+- 2026-11-01, **global review incorporated (D65)**: the one global review `maud-lp-gglob-1`
+  (`reviews/GLOBAL-review-1.md`, audited ef3c63d0) is PASS WITH NOTES and confirms the D27 BYPASS of all 136 nodes.
+  Its 11 exact evidence-record refinements (report lines 161-189: EDGE locators of LP1 (4), LP2-H (1), LP3-1 (2),
+  LP3-2 (2) and the spatial characterizations spatialSourceKeplerApo_ge_length, spatialSourceKeplerPeri_le_length
+  (1 each)) are applied to the packets; no DEPS, ROUTES, status or identity field changed. Header GLOBAL_REVIEWER / GLOBAL_REVIEW_REF are
+  set. TOPOLOGY_STATUS stays PROPOSED outside the 72 R1-reviewed wave-1 records: under D65 the global review replaces
+  slice review, and the structural gate runs without `--require-reviewed` (the W graph's REVIEWED markers came from
+  its slice reviews, which D65 cancels). Lint exit 0; LEAN_STATUS sync re-applied with no change (PROVED 153,
+  BYPASSED 136, EXTERNAL 12). Retained SOURCE_GAP steps: `lpM:L3#deficit-zero-L`, `lpM:L10#flow-existence`,
+  `lpM:L10#lie-flow-identification`, `lpM:L14#maximal-solution`.

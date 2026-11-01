@@ -1,0 +1,93 @@
+LP-adef-pl: 48 nodes, 0 edges, 48 coverage items, 48 problems, 96 TODO records (not counted: --structural)
+  coverage lpM:L16:defs#SourceOsculatingPhase: malformed SOURCE 'TODO'
+  coverage lpM:L16:defs#oscApo: malformed SOURCE 'TODO'
+  coverage lpM:L16:defs#oscAxis: malformed SOURCE 'TODO'
+  coverage lpM:L16:defs#oscEcc: malformed SOURCE 'TODO'
+  coverage lpM:L16:defs#oscEccVector: malformed SOURCE 'TODO'
+  coverage lpM:L16:defs#oscEnergy: malformed SOURCE 'TODO'
+  coverage lpM:L16:defs#oscParam: malformed SOURCE 'TODO'
+  coverage lpM:L16:defs#oscPeri: malformed SOURCE 'TODO'
+  coverage lpM:L16:defs#oscVelocity: malformed SOURCE 'TODO'
+  coverage lpM:L16:defs#sourceOscApo: malformed SOURCE 'TODO'
+  coverage lpM:L16:defs#sourceOscAxis: malformed SOURCE 'TODO'
+  coverage lpM:L16:defs#sourceOscEcc: malformed SOURCE 'TODO'
+  coverage lpM:L16:defs#sourceOscEccVector: malformed SOURCE 'TODO'
+  coverage lpM:L16:defs#sourceOscEnergy: malformed SOURCE 'TODO'
+  coverage lpM:L16:defs#sourceOscParam: malformed SOURCE 'TODO'
+  coverage lpM:L16:defs#sourceOscPeri: malformed SOURCE 'TODO'
+  coverage lpM:L16:defs#sourceOscVelocity: malformed SOURCE 'TODO'
+  coverage lpM:s1:chamber#OrderedActions: malformed SOURCE 'TODO'
+  coverage lpM:s1:chamber#chamber: malformed SOURCE 'TODO'
+  coverage lpM:s1:data#planeDot: malformed SOURCE 'TODO'
+  coverage lpM:s1:data#planeLength: malformed SOURCE 'TODO'
+  coverage lpM:s1:data#planeSq: malformed SOURCE 'TODO'
+  coverage lpM:s1:elements#SourceCanonicalPhase: malformed SOURCE 'TODO'
+  coverage lpM:s1:elements#keplerAction: malformed SOURCE 'TODO'
+  coverage lpM:s1:elements#keplerApo: malformed SOURCE 'TODO'
+  coverage lpM:s1:elements#keplerAxis: malformed SOURCE 'TODO'
+  coverage lpM:s1:elements#keplerEccVector: malformed SOURCE 'TODO'
+  coverage lpM:s1:elements#keplerEnergy: malformed SOURCE 'TODO'
+  coverage lpM:s1:elements#keplerPeri: malformed SOURCE 'TODO'
+  coverage lpM:s1:elements#planeCross: malformed SOURCE 'TODO'
+  coverage lpM:s1:elements#sourceKeplerApo: malformed SOURCE 'TODO'
+  coverage lpM:s1:elements#sourceKeplerPeri: malformed SOURCE 'TODO'
+  coverage lpM:s1:elements#sourceStrongAMD: malformed SOURCE 'TODO'
+  coverage lpM:s1:elements#strongAMD: malformed SOURCE 'TODO'
+  coverage lpM:s1:elements#totalMomentum: malformed SOURCE 'TODO'
+  coverage lpM:s1:model#NoCollision: malformed SOURCE 'TODO'
+  coverage lpM:s1:model#Phase: malformed SOURCE 'TODO'
+  coverage lpM:s1:model#bodyVector: malformed SOURCE 'TODO'
+  coverage lpM:s1:thresholds#AdjIdx: malformed SOURCE 'TODO'
+  coverage lpM:s1:thresholds#AdjIdx.upperIdx: malformed SOURCE 'TODO'
+  coverage lpM:s1:thresholds#actionAxis: malformed SOURCE 'TODO'
+  coverage lpM:s1:thresholds#eccDeficit: malformed SOURCE 'TODO'
+  coverage lpM:s1:thresholds#orderedCrossThreshold: malformed SOURCE 'TODO'
+  coverage lpM:s1:thresholds#orderedPairThreshold: malformed SOURCE 'TODO'
+  coverage lpM:s1:thresholds#orderedStrongThreshold: malformed SOURCE 'TODO'
+  coverage lpM:s1:thresholds#pairFeasible: malformed SOURCE 'TODO'
+  coverage lpM:s1:thresholds#pairObjective: malformed SOURCE 'TODO'
+  coverage lpM:s1:thresholds#pairThreshold: malformed SOURCE 'TODO'
+LP-athm: 11 nodes, 0 edges, 11 coverage items, 11 problems, 22 TODO records (not counted: --structural)
+  coverage lpM:L2#planeLength_le_sourceKeplerApo: malformed SOURCE 'TODO'
+  coverage lpM:L2#sourceKeplerPeri_le_planeLength: malformed SOURCE 'TODO'
+  coverage lpM:L2#sourceKepler_axis_pos: malformed SOURCE 'TODO'
+  coverage lpM:L2#sourceKepler_ecc_le_one: malformed SOURCE 'TODO'
+  coverage lpM:L3#sourceStrongAMD_nonneg: malformed SOURCE 'TODO'
+  coverage lpM:L3#sum_action_mul_eccDeficit_le_sourceStrongAMD: malformed SOURCE 'TODO'
+  coverage lpM:L4#orderedCrossThreshold_isLeast: malformed SOURCE 'TODO'
+  coverage lpM:L4#orderedPairThreshold_existsUnique_value: malformed SOURCE 'TODO'
+  coverage lpM:L4#orderedPairThreshold_isLeast: malformed SOURCE 'TODO'
+  coverage lpM:L4#orderedStrongThreshold_isLeast: malformed SOURCE 'TODO'
+  coverage lpM:L5#planar_strongAMD_barrier: malformed SOURCE 'TODO'
+LP-m1: 8 nodes, 0 edges, 25 coverage items, 12 problems, 8 TODO records (not counted: --structural)
+  coverage lpM:s1:conclusion: unknown node lpM:T15
+  coverage lpM:s1:conclusion: unknown node lpM:T19
+  coverage lpM:eq6: unknown node lpM:T15
+  coverage lpM:eq6: unknown node lpM:T19
+  coverage lpM:eq7: unknown node lpM:T15
+  coverage lpM:eq7: unknown node lpM:T19
+  coverage lpM:eq8: unknown node lpM:T15
+  coverage lpM:eq8: unknown node lpM:T19
+  coverage lpM:eq9: unknown node lpM:T15
+  coverage lpM:eq9: unknown node lpM:T19
+  coverage lpM:s1:no-crossing: unknown node lpM:T15
+  coverage lpM:s1:no-crossing: unknown node lpM:T19
+LP-m2a: 20 nodes, 0 edges, 33 coverage items, 0 problems, 20 TODO records (not counted: --structural)
+LP-m2b: 15 nodes, 0 edges, 20 coverage items, 0 problems, 15 TODO records (not counted: --structural)
+LP-amend: 0 nodes, 0 edges, 14 coverage items, 14 problems, 0 TODO records (not counted: --structural)
+  coverage lpA:N1: unknown node lpM:L7#symplectic
+  coverage lpA:N2: unknown node lpM:L8#shared-tube
+  coverage lpA:N2: unknown node lpM:L14#choices
+  coverage lpA:N3: unknown node lpM:L8#widths
+  coverage lpA:N4: unknown node lpM:L12#finite-divisors
+  coverage lpA:N5: unknown node lpM:L10#lie-flow-identification
+  coverage lpA:N5: unknown node lpM:L10#flow-existence
+  coverage lpA:N5: unknown node lpM:L10#remainder
+  coverage lpA:N6: unknown node lpM:L13#numeric-hypotheses
+  coverage lpA:N6: unknown node lpM:L14#route-L13
+  coverage lpA:N7: unknown node lpM:L14#route-L12
+  coverage lpA:N7: unknown node lpM:L14#route-L13
+  coverage lpA:N8: unknown node lpM:T15#orientation
+  coverage lpA:N10: unknown node lpM:L16#mu0-choice
+LP-m78: 0 nodes, 0 edges, 12 coverage items, 0 problems, 0 TODO records (not counted: --structural)
+LP-ext: 10 nodes, 0 edges, 0 coverage items, 0 problems, 10 TODO records (not counted: --structural)
