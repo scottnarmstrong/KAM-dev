@@ -17,13 +17,14 @@ T3 (`toyCert3`): `n = 3`, `τ = 2`, `H = I₂ + I₀²/2 + I₁²/2`, the freque
 `kp = 2`: bites `δ₀ = 1`, `δ₁ = 1/2` and `b₀ = b₁ = 1`.
 
 * **The premise.** `cubicDioOk` (`Freq/CubicNorm.lean`) proves `cubicFreq` `(0.198, 2)`-Diophantine
-  (`cubicFreq_isDiophantine_norm`), against `1/12` for the landed special argument; the certificate's
-  `γ = 1/12` follows by monotonicity.
+  (`cubicFreq_isDiophantine_norm`), against `1/12` for the landed special argument; the
+  certificate's `γ = 1/12` follows by monotonicity.
 * **The sites.** `fiberSiteOk` certifies `c(1) = 4.909·10⁻⁴` (12 fibres) and `c(1/2) = 2.853·10⁻³`
   (24 fibres), against the classical `c♮(3, 2, 1) = 0.0783` and `c♮(3, 2, 1/2) = 0.0629`: factors
   `159` and `22`.
 * **The torus.** `toyCert3_refinedG_passes` runs the whole v2 certifier with `routeARefinedG` and
-  these sites by `decide +kernel`; `toyCert3_refinedG_torus` is the soundness theorem at `cubicFreq`.
+  these sites by `decide +kernel`; `toyCert3_refinedG_torus` is the soundness theorem at
+  `cubicFreq`.
 * **The threshold.** At the same certificate data with the invariance error raised to `5·10⁻¹²`
   (`X⋆ = 1.2·10⁻⁷`), the refined core passes with the fibered sites and fails with the classical
   ones; the classical sites pass at `5·10⁻¹⁴` (`toy3_threshold_*`). The mirror
@@ -101,7 +102,8 @@ theorem t3Fib2_ok : fiberSiteOk 3 2 toyT3Box (1 / 12) (1 / 2) (2853 / 1000000) t
   decide +kernel
 
 /-- The fibered site rejects a constant below its bound. -/
-theorem t3Fib1_rejects : fiberSiteOk 3 2 toyT3Box (1 / 12) 1 (44181 / 100000000) t3Fib1 = false := by
+theorem t3Fib1_rejects :
+    fiberSiteOk 3 2 toyT3Box (1 / 12) 1 (44181 / 100000000) t3Fib1 = false := by
   decide +kernel
 
 /-! ### The refined witness -/

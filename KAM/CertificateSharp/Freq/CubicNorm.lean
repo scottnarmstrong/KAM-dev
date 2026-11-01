@@ -20,8 +20,9 @@ import Mathlib.Tactic.FieldSimp
 # Diophantine vectors from a real cubic irrational
 
 Let `P = t³ + p₂ t² + p₁ t + p₀ ∈ ℤ[t]` have no rational root and `P(θ) = 0`, `θ ∈ ℝ`. For an
-integer matrix `A` with `det A ≠ 0` and `D > 0`, the vector `ω_i = (A_{i0} + A_{i1} θ + A_{i2} θ²)/D`
-is `(γ, 2)`-Diophantine for an explicit rational `γ` (`isDiophantine_of_cubicDioOk`). The argument is
+integer matrix `A` with `det A ≠ 0` and `D > 0`, the vector
+`ω_i = (A_{i0} + A_{i1} θ + A_{i2} θ²)/D` is `(γ, 2)`-Diophantine for an explicit rational `γ`
+(`isDiophantine_of_cubicDioOk`). The argument is
 the norm form, without complex conjugates:
 
 * `noRatRoot_of`: the rational root theorem (a rational root of the monic `P` is an integer dividing

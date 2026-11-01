@@ -264,7 +264,8 @@ theorem sdConst_ray_of_fiberSiteOk {n τ : ℕ} {box : FreqBox} {γ b c : ℚ} {
   split at hsum
   · exact absurd hsum (by simp)
   rename_i s hs
-  have hK : mode3K w.D w.e w.P = mode3 w.D w.e w.P := funext fun a => funext fun b => mode3K_eq _ _ _ a b
+  have hK : mode3K w.D w.e w.P = mode3 w.D w.e w.P :=
+    funext fun a => funext fun b => mode3K_eq _ _ _ a b
   rw [hK] at hs
   have hB : fibBound box γ b τ w s ≤ w.B := by simpa only [decide_eq_true_eq] using hsum
   have hγd : 0 < fibGamma box γ := div_pos hγ (by linarith)

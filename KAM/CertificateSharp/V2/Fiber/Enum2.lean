@@ -319,7 +319,8 @@ def mode3 (D : DBox2) (e P : ℕ) (a b : ℤ) : Option ℕ :=
 `mode3K` and `powUpK` are `mode3` and `powUp` written with the core operations (`Nat.add`,
 `Nat.mul`, `Nat.shiftRight`, `Int.mul`, …) and `Bool` tests (`Nat.blt`, `Nat.ble`, `cond`). The
 kernel evaluates them about `2.5×` faster and with `1.5×` less cache than the `Decidable`/instance
-forms (measured on 420 modes: `0.39 s` against `1.0 s`); `mode3K_eq` and `powUpK_eq` identify them. -/
+forms (measured on 420 modes: `0.39 s` against `1.0 s`); `mode3K_eq` and `powUpK_eq` identify
+them. -/
 
 /-- `mulUp`, with core operations. -/
 def mulUpK (P a b : ℕ) : ℕ := Nat.shiftRight (Nat.sub (Nat.add (Nat.mul a b) (pow2 P)) 1) P
@@ -330,7 +331,8 @@ def sqMulUpK (e P r h : ℕ) : ℕ := cond (Nat.beq r 0) (mulUpK P h h) (mulUpK 
 /-- `powUp`, with core operations. -/
 def powUpK (e P : ℕ) : ℕ → ℕ → ℕ
   | 0, _ => pow2 P
-  | f + 1, j => cond (Nat.beq j 0) (pow2 P) (sqMulUpK e P (Nat.mod j 2) (powUpK e P f (Nat.div j 2)))
+  | f + 1, j =>
+    cond (Nat.beq j 0) (pow2 P) (sqMulUpK e P (Nat.mod j 2) (powUpK e P f (Nat.div j 2)))
 
 /-- `mode3`, with core operations. -/
 def mode3K (D : DBox2) (e P : ℕ) (a b : ℤ) : Option ℕ :=
