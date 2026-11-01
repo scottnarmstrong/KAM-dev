@@ -88,26 +88,26 @@ theorem homLamD_rho (j : ℕ+) :
 
 theorem homLamDiag_rho (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hc : pb ≤ p + 1) (c : HomL2) :
     homLamDiag_gen ha (homPP hp hpb) (homModRho a p pb hc c) =
-      homLamDiag_gen ha (homPP hp (by linarith : p ≤ p + 1)) c := by
+      homLamDiag_gen ha (homPP hp (homModPP1 p)) c := by
   ext j
   rw [homLamDiag_apply_gen, homLamDiag_apply_gen, homModRho_apply, ← mul_assoc, homLamD_rho]
 
 theorem homLamCLM_rho (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hc : pb ≤ p + 1) (A : HomOp) :
     homLamCLM_gen ha (homPP hp hpb) ((homModRho a p pb hc).comp A) =
-      homLamCLM_gen ha (homPP hp (by linarith : p ≤ p + 1)) A := by
+      homLamCLM_gen ha (homPP hp (homModPP1 p)) A := by
   refine ContinuousLinearMap.ext fun v => ?_
   rw [homLamCLM_apply_gen, homLamCLM_apply_gen, ContinuousLinearMap.comp_apply,
     ContinuousLinearMap.comp_apply, ContinuousLinearMap.comp_apply, homLamDiag_rho ha hp hpb hc]
 
 theorem homPairRep_rho (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hc : pb ≤ p + 1) (c z : HomL2) :
     homPairRep_gen ha (homPP hp hpb) (homModRho a p pb hc c) z =
-      homPairRep_gen ha (homPP hp (by linarith : p ≤ p + 1)) c z := by
+      homPairRep_gen ha (homPP hp (homModPP1 p)) c z := by
   unfold homPairRep_gen
   rw [homLamDiag_rho ha hp hpb hc]
 
 theorem homDualNorm_rho (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hc : pb ≤ p + 1) (c : HomL2) :
     homDualNorm_gen ha (homPP hp hpb) (homModRho a p pb hc c) =
-      homDualNorm_gen ha (homPP hp (by linarith : p ≤ p + 1)) c := by
+      homDualNorm_gen ha (homPP hp (homModPP1 p)) c := by
   unfold homDualNorm_gen
   rw [homLamDiag_rho ha hp hpb hc]
 
@@ -195,7 +195,7 @@ include ha hp hpb
 theorem homRtheta_reweight (R : HomTaylor_gen a p (p + 1) s) (i : Fin 2) {θ : Fin 2 → ℂ}
     (hθ : θ ∈ complexStrip 2 s) (y : Fin 2 → ℂ) (z zb : HomL2) :
     homRtheta_gen ha hp hpb (homReweight hc R) i θ y z zb =
-      homRtheta_gen ha hp (by linarith : p ≤ p + 1) R i θ y z zb := by
+      homRtheta_gen ha hp (homModPP1 p) R i θ y z zb := by
   have hn := (isOpen_complexStrip 2 s).mem_nhds hθ
   unfold homRtheta_gen
   simp only [homReweight]
@@ -211,11 +211,11 @@ theorem homRtheta_reweight (R : HomTaylor_gen a p (p + 1) s) (i : Fin 2) {θ : F
 theorem homXnorm_reweight_le {r : ℝ} (hr : 0 < r) (R : HomTaylor_gen a p (p + 1) s)
     {θ : Fin 2 → ℂ} (hθ : θ ∈ complexStrip 2 s) (y : Fin 2 → ℂ) (z zb : HomL2) :
     homXnorm_gen ha hp hpb r (homReweight hc R) θ y z zb ≤
-      homXnorm_gen ha hp (by linarith : p ≤ p + 1) r R θ y z zb := by
+      homXnorm_gen ha hp (homModPP1 p) r R θ y z zb := by
   unfold homXnorm_gen
   have e1 : homRy_gen (homReweight hc R) θ = homRy_gen R θ := rfl
   have e2 : (fun i => homRtheta_gen ha hp hpb (homReweight hc R) i θ y z zb) =
-      fun i => homRtheta_gen ha hp (by linarith : p ≤ p + 1) R i θ y z zb :=
+      fun i => homRtheta_gen ha hp (homModPP1 p) R i θ y z zb :=
     funext fun i => homRtheta_reweight ha hp hpb hc R i hθ y z zb
   rw [e1, e2, homRu_reweight, homRv_reweight]
   have h1 := norm_homModRho_apply_le (a := a) hc (homRu_gen R θ z zb)
@@ -227,14 +227,14 @@ theorem homXnorm_reweight_le {r : ℝ} (hr : 0 < r) (R : HomTaylor_gen a p (p + 
   linarith
 
 theorem homFieldBound_reweight {r ε : ℝ} (hr : 0 < r) (R : HomTaylor_gen a p (p + 1) s)
-    (hX : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r ε R) :
+    (hX : HomFieldBound_gen ha hp (homModPP1 p) r ε R) :
     HomFieldBound_gen ha hp hpb r ε (homReweight hc R) := fun θ y z zb hdom =>
   (homXnorm_reweight_le ha hp hpb hc hr R hdom.1 y z zb).trans (hX θ y z zb hdom)
 
 /-- **The value is unchanged** by the reweighting. -/
 theorem homRval_reweight (R : HomTaylor_gen a p (p + 1) s) (θ y : Fin 2 → ℂ) (z zb : HomL2) :
     homRval_gen ha hp hpb (homReweight hc R) θ y z zb =
-      homRval_gen ha hp (by linarith : p ≤ p + 1) R θ y z zb := by
+      homRval_gen ha hp (homModPP1 p) R θ y z zb := by
   unfold homRval_gen
   simp only [homReweight, homModRhoL_apply, ContinuousLinearMap.comp_apply,
     homPairRep_rho ha hp hpb hc]

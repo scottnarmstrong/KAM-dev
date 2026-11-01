@@ -219,20 +219,20 @@ theorem homModLip_dP' (R₁ R₂ : HomTaylor_gen a p pb s) (hX₁ : HomFieldBoun
 
 /-- **Step `m-act`, differences**: `‖Λ ∂_{θ_i}(Q_{F(ξ)} - Q_{F(ζ)})‖ ≤ 16πK_S E^♮`. -/
 theorem homModLip_dQ (R₁ R₂ : HomTaylor_gen a p (p + 1) s)
-    (hX₁ : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r ε R₁)
-    (hXL : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r (εL * d) (R₁.homSub R₂))
-    (hX₂ : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r ε R₂) (i : Fin 2) :
+    (hX₁ : HomFieldBound_gen ha hp (homModPP1 p) r ε R₁)
+    (hXL : HomFieldBound_gen ha hp (homModPP1 p) r (εL * d) (R₁.homSub R₂))
+    (hX₂ : HomFieldBound_gen ha hp (homModPP1 p) r ε R₂) (i : Fin 2) :
     ‖homLamCLM_gen ha (homPP hp hpb) (homPartial i (homSolve (homModTQ hm₁) R₁.Q) θ -
         homPartial i (homSolve (homModTQ hm₂) R₂.Q) θ)‖ ≤
       homKS * (16 * Real.pi * (waveBN τ σ / α * (εL + 2 * M * ε / α) * d)) := by
   have hs : 0 < s := hσ.trans hσs
   have hε : 0 ≤ ε := homFieldBound_nonneg_gen hr hs hX₁
   have hf₁ := fun z (hz : z ∈ complexStrip 2 s) =>
-    homComp_first_gen ha hp (by linarith : p ≤ p + 1) hr R₁ hX₁ hz
+    homComp_first_gen ha hp (homModPP1 p) hr R₁ hX₁ hz
   have hf₂ := fun z (hz : z ∈ complexStrip 2 s) =>
-    homComp_first_gen ha hp (by linarith : p ≤ p + 1) hr R₂ hX₂ hz
+    homComp_first_gen ha hp (homModPP1 p) hr R₂ hX₂ hz
   have hfL := fun z (hz : z ∈ complexStrip 2 s) =>
-    homComp_first_gen ha hp (by linarith : p ≤ p + 1) hr (R₁.homSub R₂) hXL hz
+    homComp_first_gen ha hp (homModPP1 p) hr (R₁.homSub R₂) hXL hz
   have h1 := norm_homPartial_homSolve_sub_le (m := ε) (mL := εL) hτ hα one_le_homKS hM hd hσ hσs
     (norm_homModTQ_le hm₁) (norm_homModTQ_le hm₂) (norm_homModTQ_sub_le hm₁ hm₂ hL)
     R₁.comp_Q.1 R₂.comp_Q.1 R₁.comp_Q.2.1 R₂.comp_Q.2.1

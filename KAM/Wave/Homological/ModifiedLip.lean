@@ -172,18 +172,18 @@ theorem homModLip_P' (R₁ R₂ : HomTaylor_gen a p pb s) (hX₁ : HomFieldBound
 
 /-- The twisted `Q`-solve (step `m-lip`, from the `p+1` bounds of `R.Q`). -/
 theorem homModLip_Q (R₁ R₂ : HomTaylor_gen a p (p + 1) s)
-    (hX₁ : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r ε R₁)
-    (hXL : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r (εL * d) (R₁.homSub R₂))
-    (hX₂ : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r ε R₂) :
+    (hX₁ : HomFieldBound_gen ha hp (homModPP1 p) r ε R₁)
+    (hXL : HomFieldBound_gen ha hp (homModPP1 p) r (εL * d) (R₁.homSub R₂))
+    (hX₂ : HomFieldBound_gen ha hp (homModPP1 p) r ε R₂) :
     ‖homSolve (homModTQ hm₁) R₁.Q θ - homSolve (homModTQ hm₂) R₂.Q θ‖ ≤
       homKS * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
   have hs : 0 < s := hσ.trans hσs
   have hf₁ := fun z (hz : z ∈ complexStrip 2 s) =>
-    homComp_first_gen ha hp (by linarith : p ≤ p + 1) hr R₁ hX₁ hz
+    homComp_first_gen ha hp (homModPP1 p) hr R₁ hX₁ hz
   have hf₂ := fun z (hz : z ∈ complexStrip 2 s) =>
-    homComp_first_gen ha hp (by linarith : p ≤ p + 1) hr R₂ hX₂ hz
+    homComp_first_gen ha hp (homModPP1 p) hr R₂ hX₂ hz
   have hfL := fun z (hz : z ∈ complexStrip 2 s) =>
-    homComp_first_gen ha hp (by linarith : p ≤ p + 1) hr (R₁.homSub R₂) hXL hz
+    homComp_first_gen ha hp (homModPP1 p) hr (R₁.homSub R₂) hXL hz
   have := homSolve_sub_le (m := ε) (mL := εL) (κ := homKS) hτ hα one_le_homKS
     hM hd hσ hσs (norm_homModTQ_le hm₁) (norm_homModTQ_le hm₂) (norm_homModTQ_sub_le hm₁ hm₂ hL)
     R₁.comp_Q.1 R₂.comp_Q.1 R₁.comp_Q.2.1 R₂.comp_Q.2.1
@@ -197,18 +197,18 @@ theorem homModLip_Q (R₁ R₂ : HomTaylor_gen a p (p + 1) s)
   exact this.trans (le_of_eq (by ring))
 
 theorem homModLip_Qt (R₁ R₂ : HomTaylor_gen a p (p + 1) s)
-    (hX₁ : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r ε R₁)
-    (hXL : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r (εL * d) (R₁.homSub R₂))
-    (hX₂ : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r ε R₂) :
+    (hX₁ : HomFieldBound_gen ha hp (homModPP1 p) r ε R₁)
+    (hXL : HomFieldBound_gen ha hp (homModPP1 p) r (εL * d) (R₁.homSub R₂))
+    (hX₂ : HomFieldBound_gen ha hp (homModPP1 p) r ε R₂) :
     ‖homSolve (homModTQt hm₁) R₁.Qt θ - homSolve (homModTQt hm₂) R₂.Qt θ‖ ≤
       homKS * (waveBW τ σ / α * (εL + 2 * M * ε / α) * d) := by
   have hs : 0 < s := hσ.trans hσs
   have hf₁ := fun z (hz : z ∈ complexStrip 2 s) =>
-    homComp_first_gen ha hp (by linarith : p ≤ p + 1) hr R₁ hX₁ hz
+    homComp_first_gen ha hp (homModPP1 p) hr R₁ hX₁ hz
   have hf₂ := fun z (hz : z ∈ complexStrip 2 s) =>
-    homComp_first_gen ha hp (by linarith : p ≤ p + 1) hr R₂ hX₂ hz
+    homComp_first_gen ha hp (homModPP1 p) hr R₂ hX₂ hz
   have hfL := fun z (hz : z ∈ complexStrip 2 s) =>
-    homComp_first_gen ha hp (by linarith : p ≤ p + 1) hr (R₁.homSub R₂) hXL hz
+    homComp_first_gen ha hp (homModPP1 p) hr (R₁.homSub R₂) hXL hz
   have := homSolve_sub_le (m := ε) (mL := εL) (κ := homKS) hτ hα one_le_homKS
     hM hd hσ hσs (norm_homModTQt_le hm₁) (norm_homModTQt_le hm₂)
     (norm_homModTQt_sub_le hm₁ hm₂ hL)

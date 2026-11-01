@@ -56,7 +56,7 @@ theorem homLamDiag_comm_homModTdm (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb)
 theorem homModF_compBounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hc : pb ≤ p + 1)
     {r ε : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) (hσs : σ < s)
     (hm : HomModMultBounds a p pb τ α w W) (R : HomTaylor_gen a p (p + 1) s)
-    (hX : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r ε R)
+    (hX : HomFieldBound_gen ha hp (homModPP1 p) r ε R)
     {θ : Fin 2 → ℂ} (hθ : θ ∈ complexStrip 2 (s - σ)) :
     HomCompBounds_gen ha hp hpb r homKS (waveBW τ σ * ε / α)
       (homModSolveTaylor hτ hα hσ hσs hc hm R) θ := by
@@ -67,7 +67,7 @@ theorem homModF_compBounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hc : 
   have hB := waveBW_nonneg τ σ
   have hfirst := fun z (hz : z ∈ complexStrip 2 s) => homComp_first_gen ha hp hpb hr R' hX' hz
   have hfirstR := fun z (hz : z ∈ complexStrip 2 s) =>
-    homComp_first_gen ha hp (by linarith : p ≤ p + 1) hr R hX hz
+    homComp_first_gen ha hp (homModPP1 p) hr R hX hz
   have hang := fun z (hz : z ∈ complexStrip 2 s) i => homComp_angle_gen ha hp hpb hr R' hX' hz i
   have hK1 := one_le_homKS
   have hs2 : 0 ≤ Real.sqrt 2 := Real.sqrt_nonneg _
@@ -216,7 +216,7 @@ theorem homModF_compBounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hc : 
 theorem homModLemma_fieldBound_of_gates (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb)
     (hc : pb ≤ p + 1) {r ε : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ)
     (hσs : σ < s) (hm : HomModMultBounds a p pb τ α w W) (R : HomTaylor_gen a p (p + 1) s)
-    (hX : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r ε R) :
+    (hX : HomFieldBound_gen ha hp (homModPP1 p) r ε R) :
     HomFieldBound_gen ha hp hpb r ((7 + 10 * homKS) * (waveBW τ σ * ε / α))
       (homModSolveTaylor hτ hα hσ hσs hc hm R) := by
   intro θ y z zb hdom
@@ -236,9 +236,9 @@ theorem homModLemma_fieldBound {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ)
     (hβ : β ≤ p + 1 - pb) (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε : ℝ} (hr : 0 < r)
     (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) (hσs : σ < s) {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par)
     (R : HomTaylor_gen a p (p + 1) s)
-    (hX : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r ε R) :
+    (hX : HomFieldBound_gen ha hp (homModPP1 p) r ε R) :
     HomFieldBound_gen ha hp hpb r ((7 + 10 * homKS) * (waveBW τ σ * ε / α))
-      (homModSolveTaylor hτ hα hσ hσs (by linarith : pb ≤ p + 1)
+      (homModSolveTaylor hτ hα hσ hσs (homMod_pb_le hβ0 hβ)
         (homModMultBounds_of hα hβ0 hβ hH hξ) R) :=
   homModLemma_fieldBound_of_gates ha hp hpb (by linarith) hr hτ hα hσ hσs
     (homModMultBounds_of hα hβ0 hβ hH hξ) R hX

@@ -41,9 +41,9 @@ theorem homModF_sub_compBounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (h
     (hεL : 0 ≤ εL) (hσ : 0 < σ) (hσs : σ < s) (hm₁ : HomModMultBounds a p pb τ α w₁ W₁)
     (hm₂ : HomModMultBounds a p pb τ α w₂ W₂) (hL : HomModMultLip a p pb τ α M d w₁ W₁ w₂ W₂)
     (R₁ R₂ : HomTaylor_gen a p (p + 1) s)
-    (hX₁ : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r ε R₁)
-    (hX₂ : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r ε R₂)
-    (hXL : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r (εL * d) (R₁.homSub R₂))
+    (hX₁ : HomFieldBound_gen ha hp (homModPP1 p) r ε R₁)
+    (hX₂ : HomFieldBound_gen ha hp (homModPP1 p) r ε R₂)
+    (hXL : HomFieldBound_gen ha hp (homModPP1 p) r (εL * d) (R₁.homSub R₂))
     {θ : Fin 2 → ℂ} (hθ : θ ∈ complexStrip 2 (s - σ)) :
     HomCompBounds_gen ha hp hpb r homKS (waveBN τ σ / α * (εL + 2 * M * ε / α) * d)
       ((homModSolveTaylor hτ hα hσ hσs hc hm₁ R₁).homSub
@@ -125,9 +125,9 @@ theorem homModLemma_lipschitz_of_gates (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p �
     (hd : 0 ≤ d) (hεL : 0 ≤ εL) (hσ : 0 < σ) (hσs : σ < s)
     (hm₁ : HomModMultBounds a p pb τ α w₁ W₁) (hm₂ : HomModMultBounds a p pb τ α w₂ W₂)
     (hL : HomModMultLip a p pb τ α M d w₁ W₁ w₂ W₂) (R₁ R₂ : HomTaylor_gen a p (p + 1) s)
-    (hX₁ : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r ε R₁)
-    (hX₂ : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r ε R₂)
-    (hXL : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r (εL * d) (R₁.homSub R₂)) :
+    (hX₁ : HomFieldBound_gen ha hp (homModPP1 p) r ε R₁)
+    (hX₂ : HomFieldBound_gen ha hp (homModPP1 p) r ε R₂)
+    (hXL : HomFieldBound_gen ha hp (homModPP1 p) r (εL * d) (R₁.homSub R₂)) :
     HomFieldBound_gen ha hp hpb r ((7 + 10 * homKS) * (waveBN τ σ / α * (εL + 2 * M * ε / α) * d))
       ((homModSolveTaylor hτ hα hσ hσs hc hm₁ R₁).homSub
         (homModSolveTaylor hτ hα hσ hσs hc hm₂ R₂)) := by
@@ -154,15 +154,15 @@ theorem homModLemma_lipschitz {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) 
     (h2β : 2 * β ≤ p + 1 - pb) (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε εL : ℝ}
     (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α) (hεL : 0 ≤ εL) (hσ : 0 < σ) (hσs : σ < s)
     {ξ ζ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (hζ : ζ ∈ Par) (R₁ R₂ : HomTaylor_gen a p (p + 1) s)
-    (hX₁ : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r ε R₁)
-    (hX₂ : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r ε R₂)
-    (hXL : HomFieldBound_gen ha hp (by linarith : p ≤ p + 1) r (εL * ‖ξ - ζ‖) (R₁.homSub R₂)) :
+    (hX₁ : HomFieldBound_gen ha hp (homModPP1 p) r ε R₁)
+    (hX₂ : HomFieldBound_gen ha hp (homModPP1 p) r ε R₂)
+    (hXL : HomFieldBound_gen ha hp (homModPP1 p) r (εL * ‖ξ - ζ‖) (R₁.homSub R₂)) :
     HomFieldBound_gen ha hp hpb r
       ((7 + 10 * homKS) * (waveBN τ σ / α * (εL + 2 * (Mω + MΩ) * ε / α) * ‖ξ - ζ‖))
-      ((homModSolveTaylor hτ hα hσ hσs (by linarith : pb ≤ p + 1)
-          (homModMultBounds_of hα hβ0 (by linarith : β ≤ p + 1 - pb) hH hξ) R₁).homSub
-        (homModSolveTaylor hτ hα hσ hσs (by linarith : pb ≤ p + 1)
-          (homModMultBounds_of hα hβ0 (by linarith : β ≤ p + 1 - pb) hH hζ) R₂)) :=
+      ((homModSolveTaylor hτ hα hσ hσs (homMod_pb_le hβ0 (homMod_beta_le hβ0 h2β))
+          (homModMultBounds_of hα hβ0 (homMod_beta_le hβ0 h2β) hH hξ) R₁).homSub
+        (homModSolveTaylor hτ hα hσ hσs (homMod_pb_le hβ0 (homMod_beta_le hβ0 h2β))
+          (homModMultBounds_of hα hβ0 (homMod_beta_le hβ0 h2β) hH hζ) R₂)) :=
   homModLemma_lipschitz_of_gates ha hp hpb (by linarith) hr hτ hα
     (by linarith [h.consts_nonneg.2.1, h.consts_nonneg.2.2]) (norm_nonneg _) hεL hσ hσs
     (homModMultBounds_of hα hβ0 (by linarith) hH hξ)

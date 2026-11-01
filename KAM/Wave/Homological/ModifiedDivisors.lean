@@ -55,6 +55,13 @@ structure HomMelnikovMod (τ α β : ℝ) (Par : Set (Fin 2 → ℝ)) (ω : (Fin
   dQ : ∀ ξ ∈ Par, ∀ (k : Fin 2 → ℤ) (i j : ℕ+), i ≠ j →
     α / waveA τ k * (|(i : ℝ) - j| / (min (i : ℝ) j + 2) ^ β) ≤ |homDeltaQ (ω ξ) (Ω ξ) k i j|
 
+theorem homModPP1 (p : ℝ) : p ≤ p + 1 := by linarith
+
+theorem homMod_pb_le {p pb β : ℝ} (hβ0 : 0 ≤ β) (hβ : β ≤ p + 1 - pb) : pb ≤ p + 1 := by linarith
+
+theorem homMod_beta_le {p pb β : ℝ} (hβ0 : 0 ≤ β) (h2β : 2 * β ≤ p + 1 - pb) : β ≤ p + 1 - pb := by
+  linarith
+
 /-- The weight ratio `ρ_j = ω_{a,p₊}(j+2)/ω_{a,p+1}(j+2)`. -/
 def homModRatio (a p pb : ℝ) (j : ℕ+) : ℝ := homWt a pb j / homWt a (p + 1) j
 
