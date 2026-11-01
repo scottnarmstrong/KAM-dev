@@ -171,3 +171,85 @@ of the `StepHypMod` passed (for the source theorem, `H.hyp`, whose `ε₀, ε₁
 `#print axioms` of `stepTheorem`, `stepTheoremMod`, `StepCore.smooth_clause_v`, `StepCore.divisorsW`,
 `StepHypMod.core_OmegaPlus_eq`, `StepHypMod.OmegaPlus_tail_lip_J`: `[propext, Classical.choice, Quot.sound]`.
 Builds: `w_build.sh … StepPsi StepDivisorsW StepOmegaBridge StepTheorem StepTheoremSrc`: `Build completed successfully`.
+
+## W5-AA-FIX (finding F1 and note N1 of `W5-AA-audit-1.md`)
+
+Branch `inp-w5aafix`, from the audit commit `3f5734fc`. Commits: F1 `333115b5`, N1 `2d30ef06`, then this
+section. Only `KAM/Wave/KamStep/ActionAngle*.lean` were edited. The `Initial*` files needed no change; they were
+rebuilt.
+
+**Approach to F1.** The audit allowed two repairs. This uses the first one: each of the four source series
+definitions now takes **sufficient weight guards as binders**, in the style of W3's `birkOmega ha hr` and the
+existing `aaSfun`/`aaKext`. So no exported carrier contains a divergent series, and the audit's counterexample
+inputs (`a = 0`, `p = -1` or `q = q' = -1`) can no longer be passed. No totalized `*Ext` auxiliary was added.
+The bodies are the same literal series as before. Each definition has a new convergence theorem on its carrier.
+
+### AUDIT FOCUS
+
+**F1, per definition** (namespace `KAM.Wave`, file `KAM/Wave/KamStep/…`):
+
+| Definition | New signature (file:line) | Carrier | Convergence on the carrier |
+|---|---|---|---|
+| `aaNfun` | `def aaNfun {a p : ℝ} (_ha : 0 ≤ a) (_hp : 1 / 2 ≤ p) (ξ : Fin 2 → ℂ) (w : KamPhase) : ℂ` (ActionAngleNormal.lean:69) | `0 ≤ a`, `1/2 ≤ p` | `summable_aaNfun` (ActionAngleNormal.lean:214): `Summable fun j => aaOmegaN0 m hm ξ (j+2) * aaZZ a p w j`; it relies on the new `norm_aaOmegaN0_le` (:202), `‖Ω⁰_J(ξ)‖ ≤ (1+‖⟨b,ξ⟩‖) λ_J` |
+| `aaQt` | `def aaQt {a p : ℝ} (_ha : 0 ≤ a) (_hp : 0 ≤ p) (w : KamPhase) : ℂ` (ActionAngleNormal.lean:75) | `0 ≤ a`, `0 ≤ p` | `summable_aaQt` (ActionAngleQt.lean:160), which uses `summable_aaCoefC_aaZZ` (:143) |
+| `aaGbarR` | `def aaGbarR {a p : ℝ} (_ha : 0 ≤ a) (_hp : 1 / 2 ≤ p) (w' : BirkSpace) (i : Fin 2) : ℂ` (ActionAngleGbar.lean:39) | `0 ≤ a`, `1/2 ≤ p` (the carrier of W3's `Ḡ` = `birkHamBar`) | `hasSum_aaGbarR` (ActionAngleGbar.lean:82): `HasSum (fun J => if 3 ≤ J then B_{J i} I_J else 0) (aaGbarR m hm ha hp w' i)` |
+| `birkOmegaMix` | `def birkOmegaMix {a q q' : ℝ} (_ha : 0 ≤ a) (_hqq' : 0 ≤ q + q') (y y' : BirkSpace) : ℂ` (ActionAngleSymp.lean:40) | `0 ≤ a`, `0 ≤ q + q'` | `hasSum_birkOmegaMix` (ActionAngleSymp.lean:83): `HasSum (fun l => I * (sgn l · y_l · y'_{-l})) (birkOmegaMix ha hqq' y y')`, plus the existing `summable_birkOmegaMix` |
+
+In the source-facing statements, only the guard arguments change. Their meaning is the same: they are the same
+objects at the same weights, and the guards were already binders of every theorem.
+
+- `aaMap_normalForm` (ActionAngleNormal.lean:240): `… = aaEnergy m hm ξ + aaNfun m hm ha hp ξ w + aaPfun m hm ha hp ξ w`.
+- `aaQt_hasFDerivAt` (ActionAngleQt.lean:234): `HasFDerivAt (aaQt m hm ha hp) …`, with `ha : 0 ≤ a`, `hp : 0 ≤ p`.
+- `aaQt_eq` (ActionAngleQt.lean:166): `aaQt m hm ha hp w = …`.
+- `aaDer_symp` (ActionAngleSymp.lean:178): `birkOmegaMix ha hqq' (aaDer a q ξ w W) (aaDer a q' ξ w W') = stepSymp ha hqq' W W'`.
+- `birkOmega_eq_birkOmegaMix` (:43): the right side is `birkOmegaMix ha (add_nonneg hr hr)`.
+- `birkOmegaPlus_eq_birkOmegaMix` (:46): the right side is `birkOmegaMix (q := p+1) (q' := p) ha _`.
+- `aaGbarR_aaMap` (ActionAngleConj.lean:108): `hp : 0 ≤ p` became `hp : 1 / 2 ≤ p`, and the result is
+  `aaGbarR m hm ha hp (aaMap a p ξ w) i = aaSfun m hm ha _ w / λ_i`.
+- `aaPfun` keeps its signature (`ha : 0 ≤ a`, `hp : 1/2 ≤ p`). Its body calls `aaQt m hm ha (le_trans one_half_pos.le hp)`.
+- `aaQt_congr` (ActionAngleField.lean:222) now takes `ha` and `(hp0 : 0 ≤ p)`.
+- These are unchanged: `aaConjugacy`, `aaP_isSmoothing`, `aaPfun_real`, `aaPfun_add_tau`, `initialPerturbation`,
+  and every `Initial*` statement.
+
+**Names changed, for W6/W8 consumers.** No declaration was renamed. The argument changes are:
+
+- `aaNfun m hm a p ξ w` becomes `aaNfun m hm ha hp ξ w`.
+- `aaQt m hm a p w` becomes `aaQt m hm ha hp w` (with `hp : 0 ≤ p`).
+- `aaGbarR m hm a p w' i` becomes `aaGbarR m hm ha hp w' i` (with `hp : 1/2 ≤ p`).
+- `birkOmegaMix a q q' y y'` becomes `birkOmegaMix ha hqq' y y'`.
+- `aaGbarR_aaMap`: `hp` is now `1/2 ≤ p`.
+- `aaQt_congr`: now takes `ha hp0`.
+- `aaP_isSmoothing_of`: the unused `(hV : IsOpen V)` was removed.
+- `summable_aaGbarR`: the unused `(i : Fin 2)` was removed.
+- New: `norm_aaOmegaN0_le`, `summable_aaNfun`, `summable_aaCoefC_aaZZ`, `summable_aaQt`, `hasSum_aaGbarR`,
+  `hasSum_birkOmegaMix`.
+
+**N1.** A fresh `w_build.sh` of Deriv, Symp, Normal, Qt, Gbar, Field, Conj, InitialBound and Initial
+shows **0 warnings** in the 11 `ActionAngle*`/`Initial*` files. Before this fix there were 33. The fixes:
+
+- Deprecated names replaced: `ContinuousLinearMap.{add,sub,smul,neg,sum}_apply` → `{add,sub,smul,neg,sum}_apply`;
+  `coe_comp'` → `ContinuousLinearMap.coe_comp`; `coe_sum'` → `FunLike.coe_sum`; `if_pos`/`if_neg`/`if_true` →
+  `ite_eq_left`/`ite_eq_right`/`ite_true`.
+- Unused simp arguments removed: in ActionAngleConj tangential case `Prod.snd_zero, Prod.fst_add, Prod.snd_add,
+  Pi.add_apply, zero_add`; in ActionAngleConj `hZV` `Prod.fst_add`; in ActionAngleGbar `birkNeg`.
+- Unused binders removed: `hV` and `i`, as listed above.
+
+**Checks.**
+
+- `w_build.sh` of all 9 rebuilt modules: each reports `Build completed successfully`.
+- Capped probe (`w_lean.sh`, importing Initial and ActionAngleConj): every main and new declaration prints
+  `[propext, Classical.choice, Quot.sound]`. These are `summable_aaNfun`, `summable_aaQt`, `summable_aaCoefC_aaZZ`,
+  `norm_aaOmegaN0_le`, `hasSum_aaGbarR`, `hasSum_birkOmegaMix`, `aaMap_normalForm`, `aaQt_hasFDerivAt`,
+  `aaDer_symp`, `aaConjugacy`, `aaP_isSmoothing`, `aaPfun_real`, `aaPfun_add_tau`, `initialPerturbation`,
+  `aaGbarR_aaMap`, `birkCoord_birkHamBarX_tan/_nor`, `birkOmega_eq_birkOmegaMix` and `birkOmegaPlus_eq_birkOmegaMix`.
+- The audit's two source-only witnesses (both inverse identities, and the `B = 3t/2` frequency witness) still
+  elaborate unchanged.
+- `w_lint.sh`: exit 0.
+- `main_shortname_check.py` on the 11 modules: exit 0.
+
+**Deviations.**
+
+- The guards are sufficient, not minimal. For example, `aaGbarR` uses W3's `Ḡ` carrier `1/2 ≤ p`, although
+  `0 ≤ p` would also give convergence.
+- The source weights `a = p = 1` lie inside every carrier.
+- No suspected blueprint errata.
