@@ -1,22 +1,22 @@
 cumulative profiling times:
-	attribute application 0.00583ms
-	declTypeLinter 0.351ms
-	elaboration 1.17ms
-	fix level params 0.0051ms
-	instantiate metavars 0.0108ms
-	let-to-have transformation 0.00735ms
-	linting 3.45ms
-	parsing 0.173ms
-	process pre-definitions 0.3ms
-	share common exprs 0.0274ms
-	tactic execution 0.309ms
-	tacticAnalysis 0.38ms
-	type checking 1.83s
-	typeclass inference 0.376ms
-wall_s 4.47
-user_s 3.88
-sys_s 0.90
-maxrss_kb 2128284
+	attribute application 0.00669ms
+	declTypeLinter 0.395ms
+	elaboration 1.49ms
+	fix level params 0.0056ms
+	instantiate metavars 0.00979ms
+	let-to-have transformation 0.00726ms
+	linting 4.54ms
+	parsing 0.174ms
+	process pre-definitions 0.277ms
+	share common exprs 0.0251ms
+	tactic execution 0.288ms
+	tacticAnalysis 0.453ms
+	type checking 2.03s
+	typeclass inference 0.327ms
+wall_s 6.43
+user_s 6.33
+sys_s 0.79
+maxrss_kb 2181444
 exit 0
-cgroup_sampled_peak_bytes 732848128
+cgroup_sampled_peak_bytes 799191040
 oom_kill 0

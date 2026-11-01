@@ -1,3 +1,4 @@
-elaboration took 1.06ms
-type checking took 4.34s
-linting took 1.97ms
+elaboration took 1.4ms
+type checking took 5.31s
+elaboration took 3.35ms
+linting took 19.1ms

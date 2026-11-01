@@ -11,6 +11,15 @@ LG00's literal format (`dz`, `tm`, `tr`, `LGF = CertFixed 128`), and writes prob
                eight probes;
   GramCore     `(gramPackedCore 2 lg00GramInv W cfg book memo (σB - μ)).isSome = true`: the packed core.
 Together (`pgEntries_of`, `gramPackedCheck_eq_core`) they decide `checkGramPacked` for the LG00 certificate.
+Controls and the decomposition of the core:
+  GramCoreGuard     the core's guard alone (`pgGuard`);
+  GramCoreNeg       the core with the bound `σ = 1/100` returns `none`;
+  GramEntryMut_0_0  the boundary entry (0, 0) against a memo with one mantissa + 1 is rejected;
+  GramCoreMut       the core with the memo's entry (0, 0) doubled (real part) returns `none`.
+Scaling probes (`docs/campaign/studies/V2-PACKED-B2-GATE/scaling/`): the landed DK models in one declaration
+(`GramK2`, `GramK4`, `GramKall`: 2, 4 and 8 entries), one or two alone (`GramE1model`, `GramE3model`: the
+model only; `GramE1ok`, `GramE3ok`, `GramK00sep`: with the packing check), the B boundary (`GramBok`, one
+entry; `GramBall`, all four) and one norm guard (`GramNormL3`).
 The memo (the DK models' mantissas and radii) is computed by the landed mirror `scripts/spin_orbit/sofx_check.py`
 (`dkAngleModel`, `dkActionModel`, bit-exact) and re-checked by the kernel entry by entry.
 
@@ -23,6 +32,7 @@ Usage: python3 -I scripts/packed/gram_gate_gen.py [LG00_CERT_DIR]
 import json
 import os
 import re
+import subprocess
 import sys
 from fractions import Fraction as F
 
@@ -232,16 +242,62 @@ namespace KAM.CertificateSharp.Packed.Gate.%s
 open KAM KAM.Certificate KAM.CertificateSharp.Packed
 
 """
+    sig = "((73 / 50 : ℚ) - 1 / 100000)"
     stmts = {"GramData": ("Data-only control.", "True"),
              "GramCore": ("The core of the packed Gram check of the LG00 certificate (everything but the "
                           "boundary entries).",
                           "(gramPackedCore 2 lg00GramInv gW gCfg gBook gMemo\n"
-                          "      ((73 / 50 : ℚ) - 1 / 100000)).isSome = true")}
+                          "      %s).isSome = true" % sig)}
     for r in range(2 * n):
         for a in range(n):
             stmts["GramEntry_%d_%d" % (r, a)] = (
                 "One boundary entry: the landed DK model (%d, %d) against the memo." % (r, a),
                 "pgEntryOk 2 lg00Emb gW gCfg lg00Pi gBook gMemo %d %d = true" % (r, a))
+    # controls and the decomposition of the core
+    memo_rows = lambda sub: "[" + ", ".join("[" + ", ".join(sub.get((r, a), "gMre_%d_%d" % (r, a)) for a in range(n))
+                                            + "]" for r in range(2 * n)) + "]"
+    mut = [(k, v + 1 if t == 0 else v) for t, (k, v) in enumerate(memo_re[0][0])]
+    dbl = [(k, 2 * v) for k, v in memo_re[0][0]]
+    extra_defs = {
+        "GramEntryMut_0_0": ("noncomputable def gMreMut : List (CertKey × ℤ) :=\n%s\n\n"
+                             "noncomputable def gMemoMut : PGramMemo := { gMemo with re := %s }\n" % (
+                                 wrap_list(tl(mut)), memo_rows({(0, 0): "gMreMut"}))),
+        "GramCoreMut": ("noncomputable def gMreDbl : List (CertKey × ℤ) :=\n%s\n\n"
+                        "noncomputable def gMemoDbl : PGramMemo := { gMemo with re := %s }\n" % (
+                            wrap_list(tl(dbl)), memo_rows({(0, 0): "gMreDbl"})))}
+    stmts.update({
+        "GramCoreGuard": ("The guard of the packed core alone (layouts, loads, norms, the memo's and B's packing).",
+                          "pgGuard 2 lg00GramInv gW gCfg gBook gMemo = true"),
+        "GramCoreNeg": ("Negative control: the packed core with the bound 1/100 returns none.",
+                        "(gramPackedCore 2 lg00GramInv gW gCfg gBook gMemo\n      (1 / 100 : ℚ)).isSome = false"),
+        "GramEntryMut_0_0": ("Negative control (data): the boundary entry (0, 0) against a memo whose first "
+                             "real mantissa is off by one.",
+                             "pgEntryOk 2 lg00Emb gW gCfg lg00Pi gBook gMemoMut 0 0 = false"),
+        "GramCoreMut": ("Negative control (data): the packed core with the memo's DK entry (0, 0) doubled "
+                        "(real part) returns none.",
+                        "(gramPackedCore 2 lg00GramInv gW gCfg gBook gMemoDbl\n      %s).isSome = false" % sig)})
+    okK = "pcOfPolyOk gCfg.toMant 128 gBook.L1 gBook.bK (dkModel 2 lg00Emb gW lg00Pi %d %d).poly = true"
+    allK = ("((List.range %d).all fun r => (List.range 2).all fun a =>\n      pcOfPolyOk gCfg.toMant 128 gBook.L1 "
+            "gBook.bK (dkModel 2 lg00Emb gW lg00Pi r a).poly) = true")
+    stmts.update({
+        "GramK2": ("Scaling: the landed DK models (0, *) and their packing check in one declaration.", allK % 1),
+        "GramK4": ("Scaling: the landed DK models (0..1, *) and their packing check in one declaration.", allK % 2),
+        "GramKall": ("Scaling: all eight landed DK models and their packing check in one declaration.", allK % 4),
+        "GramE1model": ("Scaling: the landed DK model (0, 0) alone.",
+                        "(dkModel 2 lg00Emb gW lg00Pi 0 0).poly.terms.length > 0"),
+        "GramE3model": ("Scaling: the landed DK model (2, 0) alone.",
+                        "(dkModel 2 lg00Emb gW lg00Pi 2 0).poly.terms.length > 0"),
+        "GramE1ok": ("Scaling: the landed DK model (0, 0) and its packing check.", okK % (0, 0)),
+        "GramE3ok": ("Scaling: the landed DK model (2, 0) and its packing check.", okK % (2, 0)),
+        "GramK00sep": ("Scaling: the DK models (0, 0) and (0, 1) with their packing checks, in two declarations.",
+                       [("p1", okK % (0, 0)), ("probe", okK % (0, 1))]),
+        "GramBok": ("Scaling: the boundary of one entry of B.",
+                    "pcOfPolyOk gCfg.toMant 128 gBook.LB gBook.bB (gramInvPoly lg00GramInv 0 1) = true"),
+        "GramBall": ("Scaling: the boundary of all four entries of B in one declaration.",
+                     "((List.range 2).all fun i => (List.range 2).all fun k =>\n      pcOfPolyOk gCfg.toMant 128 "
+                     "gBook.LB gBook.bB (gramInvPoly lg00GramInv i k)) = true"),
+        "GramNormL3": ("Scaling: the norm guard of the defects.",
+                       "normOk gW gBook.q gBook.lD (gBook.bD 2) gBook.L3 = true")})
     os.makedirs(OUT, exist_ok=True)
     for name, (doc, stmt) in stmts.items():
         words, lines, cur = doc.split(), [], ""
@@ -252,12 +308,20 @@ open KAM KAM.Certificate KAM.CertificateSharp.Packed
             else:
                 cur = (cur + " " + wd) if cur else wd
         lines.append(cur)
-        txt = head % (name, "\n".join(lines), name) + body
-        txt += "\nset_option profiler true\nset_option profiler.threshold 1\n\ntheorem probe :\n    %s := by\n" \
-               "  decide +kernel\n\nend KAM.CertificateSharp.Packed.Gate.%s\n" % (stmt, name)
+        txt = head % (name, "\n".join(lines), name) + body + extra_defs.get(name, "")
+        thms = stmt if isinstance(stmt, list) else [("probe", stmt)]
+        txt += "\nset_option profiler true\nset_option profiler.threshold 1\n"
+        for tn, st in thms:
+            txt += "\ntheorem %s :\n    %s := by\n  decide +kernel\n" % (tn, st)
+        txt += "\nend KAM.CertificateSharp.Packed.Gate.%s\n" % name
         with open(os.path.join(OUT, name + ".lean"), "w") as f:
             f.write(txt)
-    meta = dict(memo_terms=sum(len(memo_re[r][a]) + len(memo_im[r][a]) for r in range(2 * n) for a in range(n)),
+    try:
+        commit = subprocess.run(["git", "-C", CERT, "rev-parse", "HEAD"], capture_output=True, text=True,
+                                check=True).stdout.strip()
+    except (OSError, subprocess.CalledProcessError):
+        commit = "unknown"
+    meta = dict(lg00_cert_commit=commit, memo_terms=sum(len(memo_re[r][a]) + len(memo_im[r][a]) for r in range(2 * n) for a in range(n)),
                 memo_max_mantissa_bits=maxm.bit_length(), L1=[loK, dK], LB=[loB, dB], L2=[lo2, d2], L3=[lo3, d3], stride=s0, width=width,
                 dense=[N1, NB, N2, N3], loads_log2=dict(bK=136, bB=132, bG=bG.bit_length(), bE=bE.bit_length(),
                                                          bD=bD.bit_length()), l=[lK, lB, lD], q=Q,

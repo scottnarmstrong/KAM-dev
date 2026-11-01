@@ -1,2 +1,3 @@
-type checking took 190ms
-linting took 1.74ms
+linting took 1.45ms
+type checking took 278ms
+linting took 2.14ms

@@ -1,4 +1,5 @@
-type checking took 1.97s
-linting took 2.47ms
-type checking took 3.72s
-linting took 2.41ms
+linting took 1.29ms
+type checking took 2.03s
+linting took 2.61ms
+type checking took 4.33s
+linting took 1.73ms

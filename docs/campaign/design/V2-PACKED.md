@@ -332,7 +332,12 @@ on the standard axioms.
   - The defect is bounded by one packed norm product, not by a decoded remainder.
   - The DK boundary is the landed per-coefficient models, memoized and re-checked one entry per
     declaration. Building the DK entries packed from `K` (the derivative ramps of §2) is not done yet.
-- **Gate (LG00's data).** 9 processes, ≈ 73 CPU-s, ≤ 2.23 GB charged, against the landed stage's 89 modules,
-  1,425 CPU-s, 2.28 GB: ≈ 19.5×. The packed arithmetic is ≈ 2.7 s of it; the boundary is 23 s.
-- **Open.** The landed `checkTorsion` still recomputes the landed Gram certificate, so the work leaves the
-  pipeline only with a packed torsion stage.
+- **Gate (LG00's data, a stage measurement).** 9 processes, ≈ 73 CPU-s, ≤ 2.23 GB charged, against the
+  landed stage's 89 modules, 1,425 CPU-s, 2.28 GB: ≈ 19.5×. The packed arithmetic is ≈ 3 s of it; the boundary
+  is 23 s.
+- **No end-to-end saving yet.**
+  - The landed `checkTorsion` matches on the landed `gramCheck`, so the 89-module landed Gram stage is still
+    required by `checkTorsion`. In LG00, `lg00_checkTorsion` consumes `lg00GramCheck`.
+  - With `gramPackedBase` the net change is therefore +73 s.
+  - The saving appears only with a packed torsion stage (B3) that takes the Gram result from the packed
+    check.
