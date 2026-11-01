@@ -16,6 +16,14 @@ sealed source-facing theorem, consumed as a black box; **[RISK]** an obligation 
 
 ---
 
+
+> **Review 1 (PASS WITH NOTES) applied** — `LP3-PLAN-REVIEW-1.md`. C1: the import ruling is recorded in
+> `OWNER-DECISIONS.md` (OD-13) and in the LP prover brief. C2: §1.4 says "not comparable". C3: packages LP3-SRC and
+> LP3-SP-SRC added (§5); LP3 branches start from current `inp-lp`. C4: the scalar small parameter `B₀μ` is written `ε`
+> (the mass vector is `ν`); occurrences elsewhere in the text that still read `ν` for `B₀μ` mean `ε`. C5: the headline
+> `μ₀` is the minimum of `ε₀/(2B₀)` and LP1/LP2's osculating and separation limits (`μ₂`, `dS₁/(2A_osc)`,
+> `dP₁/(4A_osc)`, as in `PlanarSafety/Prograde.lean:83-104`). The NOTEs are folded into the package briefs.
+
 ## 0. Summary
 
 1. **Only the drift supplier changes.** LP1/LP2 prove safety by the first-exit argument of MAIN Lemma 14
@@ -35,13 +43,13 @@ sealed source-facing theorem, consumed as a black box; **[RISK]** an obligation 
    the minimum of finitely many thresholds.
 3. **One perturbation serves every cell.** `P = fc/B₀` uses the uniform holomorphic extension `fc` of the LP
    whole-sublevel domain (`exists_strongTube`, `KAM/Planetary/StrongAMD/AnalyticDomain/Extension.lean:35`; spatial
-   `exists_spatialStrongTube`, `spsafe:…/AnalyticDomain/Extension.lean:66`), with `B₀ = max M 1` and `ν = B₀μ`.
+   `exists_spatialStrongTube`, `spsafe:…/AnalyticDomain/Extension.lean:66`), with `B₀ = max M 1` and `ε = B₀μ`.
    The containment theorem (`AnalyticDomain/Containment.lean:39`) places every cell's complex domain inside the
    tube where `|fc| ≤ M`.
 4. **No conversion of time or period.** The frozen theorem uses radian angles (`fastShift` = `2π`-lattice,
    `KAM/Frozen/Planetary/Defs/FastShift.lean:38-39`), the standard field `KAM.hamiltonianVectorField`, and the
    physical time variable. These are exactly the conventions of the LP chart lift
-   (`ChartLift/Lift.lean:148-149`). The only change of parameter is `ν = B₀μ`.
+   (`ChartLift/Lift.lean:148-149`). The only change of parameter is `ε = B₀μ`.
 5. **Import policy.** Following the root-b8 ruling of 2026-11-01 (§4), an LP implementation module may import the
    sealed frozen anchor, as track P's `Stopped.lean:9` does. It must never import the provider.
 6. **Lean size.** About 2,100 new lines in 12 files (§5). None of the LP1/LP2 geometry, chart, domain,
@@ -135,9 +143,9 @@ slow pairs change only the constants. This is the same observation as `LP:MAIN T
 | action / axis / AMD drift | `O(√μ)` | `O(μ^{b_n})`, `b_n = 3/(6n²−3n+14) < 1/2` (**weaker**) |
 | threshold, margin, separations, osculating, uniqueness, reconstruction | sharp `B`, margin `δ/2` | identical |
 
-Neither result implies the other. LP3 is stronger than track P's `planetaryExponentialSafety` on its domain: it has
-the same exponents, but it covers the sharp curved sublevel instead of an `AMDBox` (`A4:254`, `LP:MAIN 616`), and it
-adds the separation and osculating conclusions.
+Neither result implies the other. LP3 is **not comparable** with track P's `planetaryExponentialSafety` (review C2): it has
+the same exponents and covers the sharp curved sublevel instead of an `AMDBox` (`A4:254`, `LP:MAIN 616`), and it adds
+the separation and osculating conclusions, but P states conclusions LP3 does not (and conversely).
 
 ---
 
@@ -228,7 +236,7 @@ Fix `j`. Write `h := planetaryKeplerC ν` (`Setting.lean:70-71`, `h(I) = −Σ �
 * **The Hamiltonian identity on an open real set [ADAPTED].** Let
   `V_j := {w : Phase (n+n) | fast w.2 ∈ G′_j ∧ (slow w.1, slow w.2) ∈ D_j}`, which is open. For `w ∈ V_j`,
   `complexifyPhase w` lies in `partialComplexDomain G′_j D_j ρ` (imaginary parts `0 < ρ`), hence in `T`. So
-  `w ∈ chartSafe ν` and `P (complexifyPhase w) = fMov(Ψ w)/B₀`. With `ν := B₀μ`:
+  `w ∈ chartSafe ν` and `P (complexifyPhase w) = fMov(Ψ w)/B₀`. With `ε := B₀μ`:
   `degenerateHamiltonian (realPart h) (Re P ∘ complexify) ν w = −Σ νᵢ³/(2 Iᵢ²) + μ·fMov(Ψ w) = liftChartHam ν μ w`.
   This uses `realPart_planetaryKeplerC` (`KeplerData.lean:216`), `movingHamiltonian_poincareProd_split`
   (`Extension.lean:87`) and `liftChartHam` (`KAM/Planetary/Exponential/Lift.lean:53-54`). Equality on an open set gives
@@ -240,7 +248,7 @@ Fix `j`. Write `h := planetaryKeplerC ν` (`Setting.lean:70-71`, `h(I) = −Σ �
 Applying the frozen theorem to `(h, P)` and to `(−h, −P)` for each `j` gives thresholds `ν_j^+, ν_j^− > 0`. Set
 `ν₀ := min{1, ν_j^±, (η/4)^{1/b}, ε_D^{1/b}, r₁^{1/b}, (4r_g)^{1/b}}`, using the minimum over the finite cover and
 strict inequalities where the frozen theorem needs `<`. Here `r₁` is the budget radius of `exists_budget_radius`
-(`PlanarSafety/Constants.lean:35-40`) **[REUSED]**. Then put `μ₀ := ν₀/(2B₀)`, `ν := B₀μ < ν₀`, and
+(`PlanarSafety/Constants.lean:35-40`) **[REUSED]**. Then put `μ₀ := ε₀/(2B₀)`, `ε := B₀μ < ε₀`, and
 
 ```
 r(μ) := ν^{b_n} = (B₀μ)^{b_n},      T(μ) := exp(B₀^{−a_n} μ^{−a_n}),      c := B₀^{−a_n},  T₀ := 1.
@@ -449,6 +457,9 @@ and LP3-SP-DRIFT then shrink to chart adapters.
 Every Lean brief repeats AGENTS hard rules 1–11 verbatim and the §4 ruling.
 
 ---
+
+Additional packages (review C3): **LP3-SRC** and **LP3-SP-SRC**, the LP3-1/LP3-2 statements restated through the
+source carriers (OD-11 (b)), as LP-SRC/LP-SP-SRCB did for LP1/LP2 (≈ 150 lines each).
 
 ## 6. Risks and open points (honest)
 
