@@ -209,6 +209,37 @@ theorem phi_translate_int {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {w : StepPhase
   obtain ⟨-, h3⟩ := hlaw 1 (k 1) _ h1
   rw [← add_assoc, h3, h2, add_assoc]
 
+/-- **Clause (v) in the `p_+` norms** (`bpW:w5:step` (v)):
+`|Φ - id|^λ_{p_+,r,D_+} = |Ψ|^λ ≤ 2M_F` and `|DΦ - I|^λ_{p→p_+,r,D_+} = |DΨ|^λ ≤ 16M_F/σ`, as
+conjunctions of sup and Lipschitz bounds. -/
+theorem smooth_clause_v :
+    ∃ A₀ A₁ B₀ B₁ : ℝ, 0 ≤ A₀ ∧ 0 ≤ A₁ ∧ 0 ≤ B₀ ∧ 0 ≤ B₁ ∧
+      A₀ + lam * A₁ ≤ 2 * stepMF cF tF α σ ε ∧ B₀ + lam * B₁ ≤ 16 * stepMF cF tF α σ ε / σ ∧
+      ∀ ξ ∈ Par, ∀ ζ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r),
+        ‖H.Psi ξ w‖ ≤ A₀ ∧ ‖H.Psi ξ w - H.Psi ζ w‖ ≤ A₁ * ‖ξ - ζ‖ ∧
+        ‖fderiv ℂ (H.Psi ξ) w‖ ≤ B₀ ∧
+        ‖fderiv ℂ (H.Psi ξ) w - fderiv ℂ (H.Psi ζ) w‖ ≤ B₁ * ‖ξ - ζ‖ := by
+  have hM0 := H.M₀_pos.le
+  have hM1 := H.M₁_nonneg
+  have hσ := H.hσ
+  have hlam := H.hlam0
+  have hsum := H.M_sum
+  refine ⟨M₀, 2 * M₁, 8 * M₀ / σ, 16 * M₁ / σ, hM0, by positivity, by positivity, by positivity,
+    by nlinarith, ?_, fun ξ hξ ζ hζ w hw => ?_⟩
+  · have e : 8 * M₀ / σ + lam * (16 * M₁ / σ) = (8 * M₀ + 16 * lam * M₁) / σ := by ring
+    rw [e]
+    exact div_le_div_of_nonneg_right (by nlinarith) hσ.le
+  · obtain ⟨d1, d2, d3, d4⟩ := H.flow_pair_smooth hξ hζ hw
+    exact ⟨d1, d2.trans_eq (by ring), d3, d4.trans_eq (by ring)⟩
+
+/-- **The sharp sup bound** `|Φ - id|_{p_+,r,D_+} = |Ψ|_{p_+,r} ≤ M_F` (step `f-flow`,
+`w5-kamstep.tex:400-402`; ruling D3: a separate export, the `λ`-clause keeps `2M_F`). -/
+theorem psi_le_MF {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {w : StepPhase r}
+    (hw : w ∈ stepDomain r (s - 5 * σ) (η * r)) : ‖H.Psi ξ w‖ ≤ stepMF cF tF α σ ε := by
+  have h := (H.flow_pair_smooth hξ hξ hw).1
+  have := mul_nonneg H.hlam0 H.M₁_nonneg
+  linarith [H.M_sum]
+
 end StepCore
 
 end KAM.Wave

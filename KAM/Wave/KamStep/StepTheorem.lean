@@ -15,7 +15,7 @@ import Mathlib.Tactic.Positivity
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
-`stepTheorem`: under `WaveStepHyp` (step data and the smallness condition) there are the objects
+`stepTheorem_of_eps0_pos`: under `WaveStepHyp` (step data and the smallness condition) there are the objects
 `Φ = WaveStepHyp.Phi`, `P_+ = WaveStepHyp.Pplus`, `X_+ = WaveStepHyp.Xplus`,
 `ω_+ = WaveStepHyp.omegaPlus`,
 `Ω_+ = WaveStepHyp.OmegaPlus`, `â₀ = WaveStepHyp.a0` with the clauses
@@ -29,8 +29,12 @@ bound,
 * (iv) the divisor bounds;
 * (v) `|Φ - id|`, `|DΦ - I|` (sup and Lipschitz parts, `M₀ + λ M₁ ≤ M_F`).
 
-Not included (open, recorded in the handoff): the reality clauses (`Φ` real on real points, `P_+`
-real) and `DΦ(w)(𝒫^{p_+}) = 𝒫^{p_+}`; the Riesz representation of `DN` by the unbounded field `X_N`.
+This module's `stepTheoremCore`/`stepTheorem_of_eps0_pos` are conditional helpers. The reality
+clauses, `DΦ(w)(𝒫^{p_+}) = 𝒫^{p_+}` and the field-form weak conjugacy are supplied by the W5-REAL
+modules (`RealStep`, `RealSmoothOnto`, `RealWeakConj`); clause (v) in the `p_+` norms (the smoothing
+displacement `Ψ`), holomorphy of `Φ`, the `ℤ²` translation law and the Dirichlet-weight clause (iv)
+by `StepPsi`, `StepDivisorsW`. The source-facing statements are `stepTheorem`, `stepTheoremMod`
+in `StepTheoremSrc`.
 -/
 
 @[expose] public noncomputable section
