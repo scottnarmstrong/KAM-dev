@@ -142,7 +142,7 @@ costs ns per coefficient instead of ms: a factor of 10⁴–10⁵ per element.
   overall. Decodes and remainders stay per slot, because the consumers read lists.
 - **Ceiling of GMP-resident models.** Products and segments become a constant number of GMP operations per
   model operation. The leftover is literal ingestion, one import per (much smaller) module, and the few
-  scalar/rational steps (frames, `refinedCore`). §6 of the design estimates the resulting LG00 cost from the
+  scalar/rational steps (frames, `refinedCore`). The handoff `V2-PACKED.md` projects the resulting LG00 cost from the
   gate's measurement.
 - **The gate must therefore measure both:**
   - the landed product (shards, decode, remainder) under the cap;

@@ -68,9 +68,14 @@ applies to it.
   As in `CertFixed`, the exponent is shared, never per coefficient.
 - **Literal ingestion.** Certificate inputs (embedding, witnesses, Hamiltonian data) arrive either:
   - as landed term lists, packed once by `spPack` (per term, about 1.3 ms per term; §8 measures it); or
-  - as packed literals, in chunks of at most 2¹⁴ bits. Chunks are hexadecimal `Nat` literals joined by a
-    balanced shift tree, because the elaborator's literal parser is quadratic in the digit count. The load of
-    such a literal is certified by one mask test (`loadOk`, §2).
+  - as packed literals: 288-bit hexadecimal chunks (72 digits, so that a line stays ≤ 100 characters) joined
+    by a balanced `natJoin` tree. The chunks are XOR-ed with the closed-form ramp `natRamp 288 m`, so that no
+    two partial results share their low 64 bits (§7: the kernel hashes a natural literal by its low 64 bits).
+    The load of such a literal is certified by one mask test (`loadOk`, §2).
+- **Literal costs** (gate): about 16 µs of kernel time per chunk, plus 0.9–1.3 µs of elaboration per
+  literal bit. Longer chunks would cut the kernel's share 50×, but the numeral parser is quadratic: 64 k-digit lines
+  cost 1.2 s each to elaborate. Generated packed data therefore needs either the line cap or an owner waiver
+  (handoff, owner questions).
 
 ## 2. Kernel operations and their guard rules
 
@@ -218,13 +223,24 @@ proof of `intSlotsBound`.
 | `KAM/Certificate/Packed/Product.lean` | `PRep`, `packRepOk` (list boundary), `GmpSpec`, `degCap`, `gmpTerms`, `gmpRealProduct`, `gmpRealProduct_sound` |
 | `KAM/Certificate/Packed/Bridge.lean` | `CertPoly.mulGmp`, `CertPoly.mulGmp_sound` |
 | `KAM/Certificate/Packed/Tests.lean` | small default kernel tests (cheap) |
-| `kernel-tests/Packed/*.lean` | the gate probes (opt-in, not built by `lake build`) |
+| `scripts/packed/gate_gen.py`, `run_probe.sh` | the gate probes, generated outside the sources (their literals exceed the 1,500-line cap; `kernel-tests/Packed/README.md`) |
 
 ## 7. Risks
 
 - **Kernel caching of large integers.** Every intermediate big integer of a declaration stays cached. Packed
   declarations are therefore sized by the bits they create (§8 measures the rate), not by operations.
-- **Literal parsing** is quadratic per literal; hence the 2¹⁴-bit chunks (§1).
+- **Kernel hashing of big literals (measured).** Lean's `instance : Hashable Nat` is
+  `hash n := UInt64.ofNat n` (`Init/Data/Hashable.lean`), so an expression's hash sees only the low 64 bits of
+  its natural literals. When many distinct big literals share their low limb, the kernel's caches degrade:
+  - a tree of 4,096 random 288-bit chunks is ingested in 37 ms;
+  - the same tree with zero low limbs takes 20.8 s;
+  - the gate's first, unmasked packed literals took 11.9 s instead of 0.24 s.
+  Producers must keep low limbs distinct: the `natRamp` XOR mask for literals, and few big intermediates per
+  declaration. An upstream fix (hash all limbs) would remove the hazard; this is an orchestrator item.
+- **Literal parsing** is quadratic per literal; with lines ≤ 100 characters, chunks are 288 bits (§1).
+- **Literal volume and memory.** The gate measured 36–47 bytes of charged memory per packed literal bit
+  (elaboration plus kernel) and 0.9–1.3 µs of elaboration per bit. At SJS's 3–4 GB of input literals this is the
+  binding cost, not the arithmetic; see the handoff's SJS paragraph.
 - **Widths.** Product-ready widths (`2 log₂ B + log₂ N` + guard) are about 2× the coefficient precision, as in
   the landed advice (193–277 bits for `CertFixed 128`). Weighted norms need `log₂ N + log₂ B + m` bits;
   rounding before a norm keeps that within the same width.
@@ -232,15 +248,53 @@ proof of `intSlotsBound`.
   roughly the size of `KAM/Certificate/Model` + `Expr` (≈ 3–5 k lines). It has its own audit. The landed
   statement and soundness interface are fixed, which limits the risk.
 
-## 8. Gate
+## 8. Gate (measured; receipts in `docs/campaign/studies/V2-PACKED-GATE/`)
 
-Measured in the handoff
-[`V2-PACKED.md`](../handoffs/V2-PACKED.md#gate-measurements): one LG00-sized real product, 41 × 51 by 43 × 48
-boxes (3,971 and 4,164 dense slots, product window 8,134 slots), LG00's widths and scales, synthetic
-LG00-like coefficients. It runs under the same 4 GB charged cap, one Lean process at a time, for three
-routes:
-- **landed:** shards, decode and remainder, each forced;
-- **gmp from lists:** the boundary pack plus the gmp product plus the decode to terms, i.e. `gmpRealProduct = some …`;
-- **GMP-resident:** packed literals in, packed literal out.
+**Setup.** One LG00-sized real product, `G8k`:
+- 41 × 51 by 43 × 48 boxes: 1,611 and 1,614 terms, 3,971 and 4,164 dense slots, 8,134 product slots;
+- width 263; `CertFixed 128` mantissas;
+- landed advice from the landed mirror: 3 shards of 3,136-slot blocks.
 
-Extrapolations use only those measured costs.
+The packed route rounds by `2^164`, and its a-priori remainder 2^-71.2 is no larger than the landed 2^-70.5.
+Each forced theorem ran alone under a 4 GB charged cap. The table gives kernel time and charged peak.
+
+| route | what is forced | kernel | charged |
+|---|---|---:|---:|
+| landed | `checkShardSp`, shards 0 / 1 / 2 | 11.2 / 9.5 / 8.9 s | 2.9 / 2.8 / 2.6 GB |
+| landed | prefix: `allSlots`, `shapeOK` (advice-zero walk), ordering | 12.7 s | 3.6 GB |
+| landed | decode `targetTerms`, whole | **OOM at 4 GB** | — |
+| landed | decode, first 1,500 / 3,000 terms | 5.2 / 8.6 s | 1.8 / 2.7 GB |
+| landed | `remainderBound` | 11.0 s | 2.8 GB |
+| landed | `packedRealProduct = some (T, e)`, whole | **OOM at 4 GB** | — |
+| **landed, sum of pieces** (decode extrapolated: 2.3 ms per term) | | **≈ 70 s, ≥ 7 processes** | ≤ 3.6 GB each |
+| packed, list boundary | `packRepOk` + `packOf`, both factors | 3.0 s | 1.1 GB |
+| packed, list boundary | read-back `GmpSpec.terms` | 12.4 s | 3.2 GB |
+| packed | a-priori remainder `GmpSpec.rem` | 0.004 s | 0.38 GB |
+| **packed, lists in and out** | `gmpRealProduct = some (T', e')` | **14.9 s, 1 process** | 3.7 GB |
+| **GMP-resident** | guard, product, rounding, equality with the packed output (3 literals ingested) | **0.18 s** | 0.60 GB |
+| GMP-resident | literal ingestion alone | 0.24 s | 0.59 GB |
+
+Controls: import 1.25 s user and 0.40 GB; landed data elaboration 7.7 s and 0.66 GB; packed literals 5.8 s and
+0.54 GB.
+
+**At LG00's largest product size** (`G19k`: 10,127 × 9,185 dense slots, 19,311 product slots, 4 shards of
+5,024-slot blocks):
+- GMP-resident with literals: 0.65 s and 0.90 GB.
+- One landed shard, and the landed remainder alone: each **OOM at 4 GB**. LG00 ran them under 5.9 GiB.
+- **Compute without literals** (`C19kCompute`: operands built in the kernel, product, rounding, load check):
+  23 ms for one product, 183 ms for ten, +4–5 MB each.
+
+**Speedups on the same product.**
+- **Drop-in (lists in and out):** 4.7× kernel time, and one process instead of seven. The boundary decode
+  (12.4 s) is now the cost.
+- **GMP-resident with literal I/O:** about 380×.
+- **Compute only:** ≥ 3,000×. The 19 k-slot compute time bounds the 8 k-slot one.
+- **Precision:** the packed route matched the landed remainder with 3 fewer bits of rounding shift.
+
+**Output size** (source bytes).
+- **Landed:** advice windows 159 kB plus decoded terms 146 kB per real product.
+- **Packed:** no advice. A packed output memo is 681 kB, because every slot of the window is stored at the full
+  width with guard bits. The decoded terms are 152 kB.
+- In a GMP-resident pipeline, intermediates are never literals.
+
+The handoff draws the consequences for one LG00 torus and for SJS.

@@ -15,6 +15,7 @@ cfgLow product of the LG00 L = 20 advice books) and synthetic LG00-like coeffici
 Writes $V2P_GATE_DIR/<TAG>*.lean (default .lake/v2-packed-gate, outside the sources; one forced theorem per file;
 `run_probe.sh` runs them) and $V2P_GATE_DIR/<TAG>.json (sizes, remainders, literal bytes).
 Usage: python3 -I scripts/packed/gate_gen.py [TAG] [dimsA0 dimsA1 dimsB0 dimsB1 radius]
+       python3 -I scripts/packed/gate_gen.py compute        (the literal-free compute probes C19kCompute*)
 """
 import json
 import math
@@ -258,7 +259,25 @@ def write_probe(tag, name, doc, data, stmt):
     return len(txt.encode())
 
 
+def compute_probes():
+    """GMP-resident compute without literals at LG00's largest product size: factors of 10,127 and 9,185 slots at
+    width 264 (every slot 2^124 - k) built in the kernel by `periodic`, one multiplication, advice-free rounding,
+    the load check of the 19,311-slot result; once (`C19kCompute`) and ten times (`C19kCompute10`)."""
+    os.makedirs(OUT, exist_ok=True)
+    one = ("loadOk 264 19311 %d (gmpRound 264 19311 262 %d\n"
+           "      ((periodic 264 10127 (2 ^ 124 - 1) : ℤ) *\n"
+           "        (periodic 264 9185 (2 ^ 124 - %d) : ℤ)))")
+    write_probe("C19k", "Compute", "GMP-resident compute without literals: one product of LG00's largest size "
+                "(operands built in the kernel), rounding, load check.", [], (one % (105, 159, 1)) + " = true")
+    ten = "(" + " &&\n      ".join(one % (114, sh, k) for k, sh in zip(range(1, 11), range(150, 160))) + ") = true"
+    write_probe("C19k", "Compute10", "GMP-resident compute without literals: ten products of LG00's largest size "
+                "(rounding shifts 150 to 159), rounding, load checks.", [], ten)
+
+
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == "compute":
+        compute_probes()
+        return
     tag = sys.argv[1] if len(sys.argv) > 1 else "G8k"
     if len(sys.argv) > 6:
         dA = (int(sys.argv[2]), int(sys.argv[3]))
