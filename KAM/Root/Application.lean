@@ -10,7 +10,9 @@ public import KAM.Application.Graph
 public import KAM.Application.GraphCert
 public import KAM.Application.GraphCheck
 public import KAM.Application.Observables
+public import KAM.Application.Physical
 public import KAM.Application.RealTorus
+public import KAM.Application.Tests.Toy2
 public import KAM.Application.Transport
 public import KAM.Application.TransportChart
 

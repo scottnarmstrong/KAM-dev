@@ -298,6 +298,36 @@ theorem isAngleGraph_of_derivNearId (hk : AnalyticOnNhd ℝ k univ)
     rw [fderiv_torusAngle (hdk θ)] at h1
     exact h1.trans (norm_fst_le _)
 
+namespace IsAngleGraph
+
+/-- The angle map as a homeomorphism of `ℝⁿ` (it commutes with `ℤⁿ`, `angle_add_int`). -/
+def angleHomeomorph (hg : IsAngleGraph k L) : (Fin n → ℝ) ≃ₜ (Fin n → ℝ) :=
+  hg.nearId.toHomeomorph hg.lt_one
+
+@[simp] theorem angleHomeomorph_apply (hg : IsAngleGraph k L) (θ : Fin n → ℝ) :
+    hg.angleHomeomorph θ = torusAngle k θ := rfl
+
+theorem angleHomeomorph_symm (hg : IsAngleGraph k L) :
+    (hg.angleHomeomorph.symm : (Fin n → ℝ) → (Fin n → ℝ)) = invFun (torusAngle k) :=
+  (hg.nearId.invFun_eq hg.lt_one).symm
+
+theorem continuous_graph (hg : IsAngleGraph k L) : Continuous (torusGraph k) :=
+  continuousOn_univ.1 hg.analytic_graph.continuousOn
+
+theorem continuous_angleInv (hg : IsAngleGraph k L) : Continuous (invFun (torusAngle k)) :=
+  continuousOn_univ.1 hg.analytic_angleInv.continuousOn
+
+/-- The graph points are torus points: `k (A⁻¹ φ) = (φ, G φ)`. -/
+theorem apply_invFun (hg : IsAngleGraph k L) (φ : Fin n → ℝ) :
+    k (invFun (torusAngle k) φ) = (φ, torusGraph k φ) := by
+  rw [hg.eq_graph, hg.nearId.apply_invFun hg.lt_one]
+
+theorem mem_range_iff (hg : IsAngleGraph k L) (z : (Fin n → ℝ) × (Fin n → ℝ)) :
+    z ∈ range k ↔ z.2 = torusGraph k z.1 := by
+  rw [hg.range_eq]; rfl
+
+end IsAngleGraph
+
 end Graph
 
 end KAM.Application

@@ -104,12 +104,6 @@ theorem derivNearId_torusAngle_realRestriction
     _ ≤ d / ρ * ‖v‖ + δ * ‖v‖ := add_le_add h2 (hδ x v)
     _ = (δ + d / ρ) * ‖v‖ := by ring
 
-/-- `IsAngleGraph` at the graph points: `k (A⁻¹ φ) = (φ, G φ)`. -/
-theorem IsAngleGraph.apply_invFun {k : (Fin n → ℝ) → (Fin n → ℝ) × (Fin n → ℝ)} {L : ℝ}
-    (hg : IsAngleGraph k L) (φ : Fin n → ℝ) :
-    k (Function.invFun (torusAngle k) φ) = (φ, torusGraph k φ) := by
-  rw [hg.eq_graph, hg.nearId.apply_invFun hg.lt_one]
-
 /-! ### The certificate level -/
 
 variable {α : Type} [CertArith α]
