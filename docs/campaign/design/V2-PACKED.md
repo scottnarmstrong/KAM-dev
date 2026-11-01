@@ -1,0 +1,246 @@
+# V2-PACKED: GMP-resident packed Fourier models for the kernel
+
+Status: design (2026-11-01), brief V2-PACKED step 2, with a prototype (step 3) and a measured gate (step 4).
+No frozen statement, landed definition or certificate changes. Every new Lean file is a new module under
+`KAM/Certificate/Packed/`. Profile: [`V2-PACKED-PROFILE.md`](../studies/V2-PACKED-PROFILE.md).
+
+## 0. Summary
+
+- **Problem (profile).**
+  - Products are 54 % of LG00's attributable kernel time and per-coefficient model operations 35 %.
+  - Inside them, the big-integer multiplications cost 7 s of 26 h. The rest is interpretive overhead of
+    0.2–1.5 ms per coefficient, advice slot or list cell, times the number of passes.
+- **Idea.** Keep every Fourier model *packed*: one signed big integer per real coefficient array (Kronecker
+  substitution in base `2^w` on the landed box layouts). Then:
+  - each model operation is a constant number of kernel GMP operations (`Nat.mul`, `+`, `&&&`, `>>>`);
+  - a product is one `Int.mul`;
+  - rounding is one mask and one shift, with an a-priori error budget and **no advice**;
+  - bounds are one mask test.
+  No list is walked between operations.
+- **What exists and is reused, not duplicated.**
+  - `packSum` with its injectivity and Kronecker lemma (`Poly/Packed.lean`);
+  - the layouts and the Fourier-side Kronecker theorem `PackLayout.intEval_mul_of_compat` (`Poly/Layout.lean`);
+  - the sparse packer `spPack` (`Poly/Sparse.lean`);
+  - the fixed-point backend `CertFixed` (exponent alignment: a model's coefficients share the scale `2^-P`);
+  - `ofDyadic`, `toMants` and `dyadicTerms` at the list boundary.
+- **New.**
+  - Digit-wise mask arithmetic on base-`2^w` naturals (`Packed/Digits.lean`).
+  - Advice-free rounding, the load check and balanced unpacking (`Packed/Round.lean`).
+  - The packed real product, its exact correctness lemma and its strip contract in the landed shape
+    (`Packed/Product.lean`).
+  - The complex product with the landed `mulPacked_sound` conclusion (`Packed/Bridge.lean`).
+- **Bridges (additive).**
+  - **B1, product contract.** `gmpRealProduct_sound` states exactly `packedRealProduct_sound`'s proposition.
+    `CertPoly.mulGmp_sound` states exactly `CertPoly.mulPacked_sound`'s, which is what
+    `CertModel.polyProduct_sound` and hence `CertModel.Encloses.mul` consume.
+  - **B2, certifier (plan).** A packed `BaseChecker` (`packedBase`) whose `sound` yields the landed
+    `BaseFacts`. The landed `checkV2With_sound packedBase E` then gives the landed `CertifiedTorus c ωstar`
+    unchanged, and every application consumer applies verbatim.
+- **Gate (§8).** Measured on an LG00-sized product. The handoff reports the speedup and what it implies for one
+  LG00 torus and for SJS.
+
+## 1. Representation
+
+A **packed real array** on a landed `PackLayout L` (box `lo ≤ k < lo + dims`, mixed-radix strides, slot
+width `w = L.width`) is a signed integer
+`Z = packSum w d = Σ_i d_i 2^{w i}`, where `d = L.dense x` is the dense slot list of integer Fourier data `x`.
+It carries metadata:
+
+| field | meaning | kernel cost |
+|---|---|---|
+| `L` | layout (keys ↔ slots, landed) | none |
+| `B : ℕ` | load bound: `|d_i| ≤ B` for every slot | none |
+| `P : ℕ` | fixed-point exponent: the coefficient is `d_i / 2^P` (shared by all slots) | none |
+| `Z : ℤ` | the packed value | one GMP integer |
+
+A **packed model** is a degree `deg`, packed real and imaginary arrays on one layout at one exponent `P`, and a
+radius (as in `CertModel`). Its meaning is the landed `CertModel` obtained by unpacking. A model therefore
+*denotes* exactly what the landed algebra denotes, so the landed enclosure predicate `CertModel.Encloses`
+applies to it.
+
+- **Signed slots and carries.** `Z` is a plain integer: negative slots borrow from the next slot, and no digit
+  is ever stored. A list is determined by `Z` whenever every slot satisfies `2|d_i| < 2^w`
+  (`packSum_injective`, landed). All arithmetic is on `Z`; digits are read only through masks (§2), on the
+  **offset** natural `Z + Σ_i O 2^{w i}`, whose base-`2^w` digits are `d_i + O ∈ [0, 2^w)` once `O ≥ B` and
+  `O + B < 2^w`.
+- **Exponent alignment.** Models at exponents `P ≤ P'` are aligned by `Z ↦ 2^{P'-P} Z` (exact; the load grows
+  by `P' − P` bits). A product has exponent `P_a + P_b`; rounding by `s` bits lowers it to `P_a + P_b − s`.
+  As in `CertFixed`, the exponent is shared, never per coefficient.
+- **Literal ingestion.** Certificate inputs (embedding, witnesses, Hamiltonian data) arrive either:
+  - as landed term lists, packed once by `spPack` (per term, about 1.3 ms per term; §8 measures it); or
+  - as packed literals, in chunks of at most 2¹⁴ bits. Chunks are hexadecimal `Nat` literals joined by a
+    balanced shift tree, because the elaborator's literal parser is quadratic in the digit count. The load of
+    such a literal is certified by one mask test (`loadOk`, §2).
+
+## 2. Kernel operations and their guard rules
+
+Below, `N` is the number of slots, `w` the width, and `M_t = periodic w N (2^t − 1)` the periodic mask of the
+low `t` bits of every slot. `periodic w N m = m · (2^{wN} − 1)/(2^w − 1)` costs one power, one subtraction,
+one division and one multiplication: kernel GMP, no loop.
+
+| operation | packed formula | guard (metadata only) | result load |
+|---|---|---|---|
+| add / subtract | `Z_a ± Z_b` (same layout, exponent) | `2(B_a + B_b) < 2^w` | `B_a + B_b` |
+| scalar `m ∈ ℤ` | `m · Z` | `2 |m| B < 2^w` | `|m| B` |
+| product (Kronecker) | `Z_a · Z_b` on `compat` layouts | `2 min(N_a, N_b) B_a B_b < 2^w` | `min(N_a,N_b) B_a B_b` |
+| round by `s` bits | `R = ((Y − (Y &&& M_s)) >>> s) − periodic(2^{l−s})`, `Y = (Z + periodic(2^l + 2^{s−1})).toNat` | `B ≤ 2^l`, `1 ≤ s ≤ l`, `l + 2 ≤ w` | `B/2^s + 1` |
+| load check `|d_i| < 2^l` | `Y = (Z + periodic(2^l)).toNat < 2^{wN}` and `Y &&& M_{l+1} = Y` | `l + 2 ≤ w` | `2^l` |
+| box mask (truncation to a sub-box) | `Y &&& Mbox`, `Mbox = Π_axes` 1-D interval masks (one product per axis) | as load check | unchanged |
+| absolute value | sign masks: `S = (Y >>> l) &&& periodic 1`; `|d| = (Y &&& S(2^{l+1}−1)) − S 2^l + (1−S) 2^l − (Y &&& (1−S)(2^{l+1}−1))`, digit-wise | as load check | `B` |
+| weighted ℓ¹ norm `Σ |d_k| W_k` | `(A · W^rev) >>> (w(N−1)) &&& (2^w − 1)`, `A` = absolute values, `W^rev` = reversed packed weight table | `N B 2^m < 2^w` (`W_k ≤ 2^m`) | scalar |
+| axis ramp `Σ k_j d_k 2^{w·slot(k)}` (derivatives, `ω·∂`) | Leibniz at the packed level: `T^{(j)}_{ab} = T^{(j)}_a Z_b + Z_a T^{(j)}_b` | as product | as product |
+
+**Rounding** (`gmpRound`, prototyped).
+- **Digits.** Adding `O = 2^l + 2^{s−1}` per slot turns slot `d` into the digit `e = d + 2^l + 2^{s−1}`,
+  with `0 ≤ e < 2^w`.
+- **Mask and shift.** `Y − (Y &&& M_s)` clears the low `s` bits of every digit. The shift by `s` then gives the
+  digits `⌊e/2^s⌋ = ⌊(d + 2^{s−1})/2^s⌋ + 2^{l−s}` exactly: no carry crosses a slot, because the cleared digits
+  are multiples of `2^s` below `2^w`.
+- **Result.** Removing the offset `2^{l−s}` per slot leaves round-to-nearest (ties up):
+  `r_i = ⌊(d_i + 2^{s−1})/2^s⌋`, `|d_i − 2^s r_i| ≤ 2^{s−1}`.
+- **Cost.** Four GMP operations and no advice. The landed route instead walks the advice, the windows and
+  every slot's log.
+
+**Error budget.** A rounded product's slots err by at most `2^{s−1}` each, and every product slot carries
+`|χ_k| ≤ w^{|k|₁}` on the strip. The remainder is therefore at most
+`2^{s−1} Σ_i w^{deg_i} ≤ 2^{s−1} · N · w^{D}`.
+- `D = degCap` bounds every slot degree of the product window from the layout alone: per axis
+  `max(|lo_j|, |lo_j + cap_j|)`, with mixed-radix digit caps `cap_0 = (N−1)/s_0`,
+  `cap_{j+1} = (s_j − 1)/s_{j+1}`.
+- The cost is `O(dims)` rational operations, not per slot.
+- **Lossiness.** For decaying analytic data the geometric weight sum is dominated by its largest terms. The
+  crude `N w^D` overestimates the exact `Σ w^{deg}` by `N(w−1)²/4`-ish (a factor ≈ 7, i.e. 3 bits, on LG00's
+  boxes). Precision is cheap in the packed representation (§8: cost ∝ bits, not slots), so the producer adds
+  those bits.
+- **Exact alternative (design only).** `Σ_box w^{|k|₁}` factorizes over the axes. It is the weighted-norm
+  primitive of the table above, applied to the all-ones array.
+
+**Truncation and the weighted norm** (design only; not prototyped).
+- **Truncation.** The landed `truncPoly` drops `|k|₁ > cutoff`, a diamond, not a box. Its packed mask is one
+  interval mask per row: `M (B^b − B^a)/(B − 1)`, `O(1)` GMP each, so `O(√N)` operations for 2-D, once per
+  (layout, cutoff). The dropped part's weighted norm goes to the radius.
+- **Weighted norm.** The landed radius terms `|P|_w r` and `errRadius` need `Σ |c_k| w^{|k|₁}`. Packed:
+  - the absolute values come from sign masks;
+  - one product with a reversed packed weight table gives the dot product as the middle digit;
+  - no carry reaches that digit if `N B 2^m < 2^w`. At product-ready widths `w ≈ 2 log₂ B + log₂ N`, weights
+    of `m ≈ log₂ B` bits fit.
+  - For a 2-D box the table is the outer product of two 1-D tables, i.e. one GMP product of a row table and a
+    column table.
+
+**Pointwise multipliers** (derivatives `∂_j`, the invariance operator `ω·∂`, `toDeg` with `(2π)^e`).
+- `(2π)^e` is a scalar.
+- `k_j c_k` is a Hadamard product, which no single convolution provides. Instead each packed model carries
+  its axis ramps `T^{(j)}`. Keys add under products, so ramps propagate by the Leibniz rule (two products
+  each), and linearly through sums.
+- Ramps of the certificate inputs are made once at the boundary (per slot, once per input).
+- This is forward-mode differentiation on the Kronecker variable. It matches the jet compiler, which already
+  makes derivatives explicit program slots.
+
+## 3. Correctness lemmas
+
+**Exact product** (the brief's "unpack ∘ packed product = coefficientwise product when the guard bits
+suffice"). Assume `compat` layouts and `L.dense x = some d_a`, `packSum w d_a = Z_a` (likewise for `b`), with
+`|d_a| ≤ B_a` and `|d_b| ≤ B_b`. Then:
+- **pack:** `Z_a Z_b = packSum w (listConv d_a d_b)` (landed `packSum_listConv`);
+- **unpack:** `unpackSlots w N (Z_a Z_b) = listConv d_a d_b`, `N = |d_a| + |d_b| − 1`, provided
+  `2 min(N_a, N_b) B_a B_b < 2^w`. This uses `abs_conv_entry_le` and `packSum_injective` (landed) and the new
+  balanced unpacking `unpackSlots_packSum`;
+- **meaning:** the product's Fourier meaning is the landed `PackLayout.intEval_mul_of_compat`.
+
+**Rounding** (`gmpRound_spec`). Under the rounding guard, `gmpRound w N l s (packSum w d) = packSum w r` with
+`r_i = (d_i + 2^{s−1}) / 2^s` (floor), `|d_i − 2^s r_i| ≤ 2^{s−1}` and `|r_i| ≤ B/2^s + 1`. The proof is
+digit-wise:
+- `natPack_land_mask`: `natPack w e &&& periodic w N (2^t − 1) = natPack w (e mod 2^t)` for digits
+  `e_i < 2^w`, from `testBit_two_pow_mul_add` and `and_two_pow_sub_one_eq_mod`;
+- `packSum_add_periodic`: the offset as digits;
+- `periodic_eq_natPack`: the closed form as a digit list.
+
+**Load check** (`loadOk_sound`). If `loadOk w N l Z = true`, then `Z = packSum w d` for some `d` of length
+`N` with `−2^l ≤ d_i < 2^l`: the digits of a natural below `2^{wN}` exist (`natPack_digits`), and the mask
+fixes them below `2^{l+1}`.
+
+**Strip contract** (`gmpRealProduct_sound`). With `R = gmpRound(Z_a Z_b)` and `T = gmpTerms R`, the
+keyed nonzero slots of `unpackSlots R` on the product window (landed `prodKey`):
+`‖intEval x · intEval y − 2^s intEval T‖ ≤ (N 2^{s−1} w^D / 2^{P2}) · 2^{P2}` on `T_ρ`. This is the statement
+of the landed `packedRealProduct_sound`, with the gmp output in place of the advice output.
+
+## 4. Bridges: how a packed check proves what the landed checker consumes
+
+**B1 (prototype).** The landed model-product chain is
+`packedRealProduct_sound` → `CertPoly.mulPacked_sound` → `CertModel.polyProduct_sound` → `CertModel.Encloses.mul`.
+The prototype supplies the first two links for the packed route, **with identical conclusions**:
+- `gmpRealProduct (g : GmpSpec) W P2 x y : Option (List (CertKey × ℤ) × ℚ)`: the landed signature, with a
+  spec in place of the advice;
+- `CertPoly.mulGmp dec W P g_rr g_ii g_ri g_ir a b : Option (CertPoly α × α)`: the landed `mulPacked`
+  assembly with the four gmp real products, and `CertPoly.mulGmp_sound`, the `mulPacked_sound` proposition.
+
+A consumer proof written against the landed contracts therefore applies verbatim to the packed route.
+
+**B2 (plan, not prototyped).** The certifier is already parametric in its sub-checks:
+`checkV2With (B : BaseChecker) (E : EngineV2)`, `checkV2With_sound` (`KAM/CertificateSharp/V2/Engine.lean`).
+A new `packedBase (book : PackedBook) : BaseChecker`:
+- converts the certificate's inputs once at the boundary (embedding, witnesses: about 3·10⁴ terms for LG00,
+  about a minute at the measured per-term cost);
+- evaluates the jet program, the Gram and torsion stages and the frame inputs on packed models;
+- proves `BaseFacts c ωstar` by the same chain as `landedBase.sound`, with each landed enclosure lemma
+  replaced by its packed twin (product: B1; sum, scalar, rounding: §2).
+
+Then `checkV2With_sound (packedBase book) E h hω hdio : CertifiedTorus c ωstar` is the **landed** conclusion,
+and `lg00_certifiedTorus_iff`, the lunar consumers and every frozen statement are untouched. No landed file
+changes: the book is a parameter, so the final theorem's statement does not mention it.
+
+**What is deliberately not bridged.** A memo proof `packedRealProduct adv W P2 x y = some (T, e)` of the
+**landed** list route (as SO-CSPLIT and LG00 use) cannot be made cheap by a packed check. Its value is defined
+by per-slot list functions of the advice (`targetTerms`, `remainderBound`), which the kernel must evaluate.
+A packed shard check could remove only the shard share (≈ 26 % of LG00). That is not worth a completeness
+proof of `intSlotsBound`.
+
+## 5. Coordination
+
+- **Fixed point.** `CertFixed P` stays the backend of the boundary (`toMants`, `ofDyadic`, `mantCheck`). Packed
+  models use its convention, one shared exponent per model. No new real-number backend.
+- **Outward rounding.** The landed outward operations (`upAdd`, `upMul`, `ofRatUp`) keep handling radii, which
+  are scalars. Packed rounding is coefficient rounding with an a-priori budget added to the radius, as the
+  landed packed remainder already is.
+- **SO segmentation.** SO-CSPLIT's M1/M2 split the landed Bools into memoized pieces. A packed base checker
+  needs no ledger of model literals, because intermediate models are never materialized as lists. Its
+  declarations are split only by the memory of the big integers they create (the gate, §8, measures it),
+  against 80–130 MB per kernel-second for list work.
+- **Owned files.** None touched: `KAM/CertificateSharp/**`, `KAM/Certificate/**` (existing), `KAM/Sharp2/**`,
+  `KAM/Iso/**`, `KAM/SpinOrbit/**`, `KAM/Frozen/**`, `manifest/**` are unchanged.
+
+## 6. Prototype (step 3): modules
+
+| module | content |
+|---|---|
+| `KAM/Certificate/Packed/Digits.lean` | `natPack`, `periodic`, `natPack_land_mask`, `natPack_injective`, `natPack_digits`, `packSum_add_periodic` |
+| `KAM/Certificate/Packed/Round.lean` | `gmpRound`, `gmpRound_spec`, `loadOk`, `loadOk_sound`, `unpackSlots` (balanced), `unpackSlots_packSum` |
+| `KAM/Certificate/Packed/Product.lean` | `PRep`, `packRepOk` (list boundary), `GmpSpec`, `degCap`, `gmpTerms`, `gmpRealProduct`, `gmpRealProduct_sound` |
+| `KAM/Certificate/Packed/Bridge.lean` | `CertPoly.mulGmp`, `CertPoly.mulGmp_sound` |
+| `KAM/Certificate/Packed/Tests.lean` | small default kernel tests (cheap) |
+| `kernel-tests/Packed/*.lean` | the gate probes (opt-in, not built by `lake build`) |
+
+## 7. Risks
+
+- **Kernel caching of large integers.** Every intermediate big integer of a declaration stays cached. Packed
+  declarations are therefore sized by the bits they create (§8 measures the rate), not by operations.
+- **Literal parsing** is quadratic per literal; hence the 2¹⁴-bit chunks (§1).
+- **Widths.** Product-ready widths (`2 log₂ B + log₂ N` + guard) are about 2× the coefficient precision, as in
+  the landed advice (193–277 bits for `CertFixed 128`). Weighted norms need `log₂ N + log₂ B + m` bits;
+  rounding before a norm keeps that within the same width.
+- **B2 is the large part.** The packed jet evaluator, the Gram/torsion stages and the frame inputs total
+  roughly the size of `KAM/Certificate/Model` + `Expr` (≈ 3–5 k lines). It has its own audit. The landed
+  statement and soundness interface are fixed, which limits the risk.
+
+## 8. Gate
+
+Measured in the handoff
+[`V2-PACKED.md`](../handoffs/V2-PACKED.md#gate-measurements): one LG00-sized real product, 41 × 51 by 43 × 48
+boxes (3,971 and 4,164 dense slots, product window 8,134 slots), LG00's widths and scales, synthetic
+LG00-like coefficients. It runs under the same 4 GB charged cap, one Lean process at a time, for three
+routes:
+- **landed:** shards, decode and remainder, each forced;
+- **gmp from lists:** the boundary pack plus the gmp product plus the decode to terms, i.e. `gmpRealProduct = some …`;
+- **GMP-resident:** packed literals in, packed literal out.
+
+Extrapolations use only those measured costs.
