@@ -177,6 +177,7 @@ public import KAM.Frozen.Wave.Defs.ReconU
 public import KAM.Frozen.Wave.Defs.ReconV
 public import KAM.Frozen.Wave.Defs.SineMode
 public import KAM.Frozen.Wave.Defs.WaveSpace
+public import KAM.Frozen.Wave.Theorems.Nlw2
 
 /-!
 # Root part `KAM.Root.Frozen`
