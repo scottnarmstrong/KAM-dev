@@ -122,6 +122,7 @@ theorem packAbs_spec {w N l : ℕ} (hlw : l + 2 ≤ w) {cs : List ℤ} (hN : cs.
   rw [hY, hS, hSK, hP, hS2, hper,
     natPack_map_sub _ _ es (fun e _ => by split_ifs <;> omega),
     natPack_map_sub (fun _ => 2 ^ l) _ es (fun e _ => by split_ifs <;> omega),
+    show natPack w es = natPack w (es.map fun e => e) by rw [List.map_id'],
     natPack_map_sub (fun e => e) (fun e => if 2 ^ l ≤ e then e else 0) es
       (fun e _ => by split_ifs <;> omega)]
   · rw [natPack_map_sub _ _ es (fun e he => by
@@ -129,20 +130,14 @@ theorem packAbs_spec {w N l : ℕ} (hlw : l + 2 ≤ w) {cs : List ℤ} (hN : cs.
     congr 1
     refine List.map_congr_left fun c hc => ?_
     have h0 := hnn c hc
-    have hb := hB c hc
     simp only [Function.comp_apply]
-    have ht : (((c + ((2 ^ l : ℕ) : ℤ)).toNat : ℕ) : ℤ) = c + 2 ^ l := by
-      rw [Int.toNat_of_nonneg h0]; push_cast; ring
-    split_ifs with h1 h2 h2
-    · omega
-    · have : ((2 ^ l : ℕ) : ℤ) ≤ ((c + ((2 ^ l : ℕ) : ℤ)).toNat : ℤ) := by exact_mod_cast h1
-      push_cast at this ht
-      omega
-    · have : ((c + ((2 ^ l : ℕ) : ℤ)).toNat : ℤ) < ((2 ^ l : ℕ) : ℤ) := by
-        exact_mod_cast (not_le.mp h1)
-      push_cast at this ht
-      omega
-    · omega
+    have ht : (((c + ((2 ^ l : ℕ) : ℤ)).toNat : ℕ) : ℤ) = c + ((2 ^ l : ℕ) : ℤ) :=
+      Int.toNat_of_nonneg h0
+    generalize (c + ((2 ^ l : ℕ) : ℤ)).toNat = E at ht ⊢
+    generalize (2 ^ l : ℕ) = L at ht ⊢
+    by_cases h1 : L ≤ E
+    · simp only [h1, ite_true]; omega
+    · simp only [h1, ite_false]; omega
 
 /-! ### Reading a digit -/
 
@@ -210,17 +205,19 @@ theorem dot_extract {w : ℕ} {a v : List ℤ} (ha0 : ∀ x ∈ a, 0 ≤ x) (hv0
 def wCeil (W : CertWeight) (q e : ℕ) : ℕ :=
   (W.w.num.toNat ^ e * 2 ^ q + W.w.den ^ e - 1) / W.w.den ^ e
 
+theorem le_ceilDiv_mul (x d : ℕ) (hd : 0 < d) : x ≤ (x + d - 1) / d * d := by
+  have h1 := Nat.div_add_mod (x + d - 1) d
+  have h2 := Nat.mod_lt (x + d - 1) hd
+  rw [mul_comm]
+  generalize d * ((x + d - 1) / d) = m at h1 ⊢
+  omega
+
 theorem wCeil_ge {W : CertWeight} (hw : 0 < W.w) (q e : ℕ) :
     (W.w : ℝ) ^ e * 2 ^ q ≤ (wCeil W q e : ℝ) := by
   have hnum : (0 : ℤ) < W.w.num := Rat.num_pos.mpr hw
   have hden : 0 < W.w.den ^ e := pow_pos W.w.den_pos e
-  set x := W.w.num.toNat ^ e * 2 ^ q
-  have hceil : x ≤ wCeil W q e * W.w.den ^ e := by
-    unfold wCeil
-    have := Nat.div_add_mod (x + W.w.den ^ e - 1) (W.w.den ^ e)
-    have := Nat.mod_lt (x + W.w.den ^ e - 1) hden
-    rw [mul_comm]
-    omega
+  have hceil : W.w.num.toNat ^ e * 2 ^ q ≤ wCeil W q e * W.w.den ^ e :=
+    le_ceilDiv_mul _ _ hden
   have hwR : (W.w : ℝ) = (W.w.num.toNat : ℝ) / (W.w.den : ℝ) := by
     have : ((W.w.num.toNat : ℕ) : ℝ) = (W.w.num : ℝ) := by
       exact_mod_cast Int.toNat_of_nonneg hnum.le
