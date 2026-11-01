@@ -1,14 +1,16 @@
 {
- "_note": "PLANNED slices (pre-anchor). nodes/coverage are estimates from docs/graph/LP/draft/coverage-*.md (planned node IDs, excluding externals and imports); LP-adef-*/LP-athm sizes are draft-7 estimates, re-read from the frozen manifest after freeze. 'part' names the source file stem; LP3 slices are conditional on the draft-8 freeze and SPEC Q1.",
+ "_note": "Slices of the track-LP graph (SPEC §9). Wave 1 (LP0 closure) is extracted: the counts of wave-1 slices are actual (2026-11-01, LP-GRAPH-W1); later-wave counts are pre-freeze estimates. 'wave' is the extraction wave; the anchor slices grow by wave (packets/anchor-binding.tsv). LP3 slices are conditional on the draft-8 freeze and Q1.",
  "LP-adef-pl": {
   "part": "anchors",
   "lines": [
    1,
    1000000000
   ],
-  "nodes": 56,
-  "coverage": 56,
-  "what": "frozen definition anchors: draft-7 new definitions 1-37 (planar, dimension-free) plus reused frozen definitions (19 direct, 21 in closure); estimate, re-read from the manifest at freeze"
+  "nodes": 48,
+  "coverage": 48,
+  "what": "frozen definition anchors: wave 1 the 36 planar/dimension-free D62 definitions + 12 reused; wave 2 the 7 reused definitions of the LP1 statements",
+  "wave": 1,
+  "status": "wave 1 extracted, PROPOSED"
  },
  "LP-adef-sp": {
   "part": "anchors",
@@ -18,7 +20,8 @@
   ],
   "nodes": 51,
   "coverage": 51,
-  "what": "frozen definition anchors: draft-7 new definitions 38-88 (spatial); estimate"
+  "what": "frozen definition anchors: the 53 spatial D62 definitions + KAM.Iso.IsHamiltonianSolutionOn (wave 3)",
+  "wave": 3
  },
  "LP-athm": {
   "part": "anchors",
@@ -26,9 +29,11 @@
    1,
    1000000000
   ],
-  "nodes": 41,
-  "coverage": 41,
-  "what": "frozen theorem anchors: LP0, LP1, LP1-H, LP2, LP2-H (+ LP3-1, LP3-2 if draft 8 is frozen) and the 34 characterization theorems; estimate"
+  "nodes": 11,
+  "coverage": 11,
+  "what": "frozen theorem anchors: wave 1 LP0 + 10 planar characterizations; wave 2 LP1, LP1-H + 4 planar osculating characterizations; wave 3 LP2, LP2-H + 20 spatial characterizations",
+  "wave": 1,
+  "status": "wave 1 extracted, PROPOSED"
  },
  "LP-m1": {
   "part": "MAIN",
@@ -36,8 +41,10 @@
    1,
    93
   ],
-  "nodes": 8,
-  "coverage": 25
+  "nodes": 6,
+  "coverage": 19,
+  "wave": 1,
+  "status": "wave 1 extracted, PROPOSED"
  },
  "LP-m2a": {
   "part": "MAIN",
@@ -45,8 +52,10 @@
    94,
    160
   ],
-  "nodes": 20,
-  "coverage": 33
+  "nodes": 24,
+  "coverage": 36,
+  "wave": 1,
+  "status": "wave 1 extracted, PROPOSED"
  },
  "LP-m2b": {
   "part": "MAIN",
@@ -55,7 +64,9 @@
    189
   ],
   "nodes": 15,
-  "coverage": 20
+  "coverage": 20,
+  "wave": 1,
+  "status": "wave 1 extracted, PROPOSED"
  },
  "LP-m3": {
   "part": "MAIN",
@@ -64,7 +75,8 @@
    271
   ],
   "nodes": 16,
-  "coverage": 27
+  "coverage": 27,
+  "wave": 2
  },
  "LP-m4a": {
   "part": "MAIN",
@@ -73,7 +85,8 @@
    379
   ],
   "nodes": 21,
-  "coverage": 35
+  "coverage": 35,
+  "wave": 2
  },
  "LP-m4b": {
   "part": "MAIN",
@@ -82,7 +95,8 @@
    464
   ],
   "nodes": 12,
-  "coverage": 21
+  "coverage": 21,
+  "wave": 2
  },
  "LP-m5": {
   "part": "MAIN",
@@ -91,7 +105,8 @@
    529
   ],
   "nodes": 25,
-  "coverage": 32
+  "coverage": 32,
+  "wave": 2
  },
  "LP-m6": {
   "part": "MAIN",
@@ -100,7 +115,8 @@
    603
   ],
   "nodes": 17,
-  "coverage": 23
+  "coverage": 23,
+  "wave": 3
  },
  "LP-m78": {
   "part": "MAIN",
@@ -109,7 +125,9 @@
    679
   ],
   "nodes": 0,
-  "coverage": 12
+  "coverage": 12,
+  "wave": 1,
+  "status": "wave 1 extracted, PROPOSED"
  },
  "LP-amend": {
   "part": "AMENDMENTS",
@@ -118,7 +136,9 @@
    26
   ],
   "nodes": 0,
-  "coverage": 14
+  "coverage": 7,
+  "wave": 1,
+  "status": "wave 1 extracted, PROPOSED"
  },
  "LP-imports": {
   "part": "imports",
@@ -128,7 +148,8 @@
   ],
   "nodes": 5,
   "coverage": 0,
-  "what": "writer-owned candidate imported nodes: N:bpN:p0:partial, N:bpN:p11:nonresonant, N:bpN:p11:s-nf#data, P:bpP:p14:h-data, P:bpP:p14:perturbation"
+  "what": "writer-owned candidate imported nodes: N:bpN:p0:partial, N:bpN:p11:nonresonant, N:bpN:p11:s-nf#data, P:bpP:p14:h-data, P:bpP:p14:perturbation",
+  "wave": 2
  },
  "LP3-a": {
   "part": "LP3-PLAN",
@@ -137,7 +158,8 @@
    258
   ],
   "nodes": 17,
-  "coverage": 22
+  "coverage": 22,
+  "wave": 4
  },
  "LP3-b": {
   "part": "LP3-PLAN",
@@ -146,7 +168,8 @@
    506
   ],
   "nodes": 14,
-  "coverage": 18
+  "coverage": 18,
+  "wave": 4
  },
  "LP-ext": {
   "part": "externals",
@@ -154,8 +177,10 @@
    1,
    1000000000
   ],
-  "nodes": 10,
+  "nodes": 5,
   "coverage": 0,
-  "what": "writer-owned candidate external leaves: lpM:ext-cauchy-estimates, lpM:ext-compact-cover, lpM:ext-compact-min, lpM:ext-fourier-contour, lpM:ext-ftc, lpM:ext-gronwall, lpM:ext-heine-cantor, lpM:ext-holomorphic-limit, lpM:ext-identity-theorem, lpM:ext-picard"
+  "what": "writer-owned external leaves (closed list, SPEC §3); wave 1: lpM:ext-ftc, lpM:ext-compact-min, lpM:ext-heine-cantor, lpM:ext-picard, lpM:ext-gronwall; wave 2: lpM:ext-cauchy-estimates, lpM:ext-compact-cover, lpM:ext-fourier-contour, lpM:ext-holomorphic-limit, lpM:ext-identity-theorem",
+  "wave": 1,
+  "status": "wave 1 extracted, PROPOSED"
  }
 }
