@@ -589,3 +589,12 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
     manifest entries. Only the approval date and the decision placeholders change.
   - **Seal:** as D63. After the certificate chain passes (on the CCX53), the landing checks and a dedicated seal audit,
     with no further go.
+- **D69 (2026-11-01, 22:25 UTC) Overnight mode, acting on recommendations.** *(Scott: "push mag-pilot when the package
+  is ready. go now into overnight mode - defer approvals and go with recs".)*
+  - **Approvals:** decisions that would normally go to the owner take the orchestrator's recorded recommendation and
+    are logged FOR OWNER in OVERNIGHT.md.
+  - **Still excluded:** no new statement is frozen without the owner's approval of its exact text. The seals already
+    approved (D63 lock, D68 magnetic) proceed when their gates pass.
+  - **No remote job:** the CCX53 needs the owner's access, so nothing remote is started.
+  - **mag-pilot:** once its packed-gate certificate package is committed, root-b8 pushes the branch to `origin` for the
+    side campaign (lemma.farm).
