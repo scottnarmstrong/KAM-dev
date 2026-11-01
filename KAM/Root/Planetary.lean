@@ -675,6 +675,10 @@ public import KAM.Planetary.Spatial.Nek.Drift.Kepler
 public import KAM.Planetary.Spatial.Nek.Drift.Slow
 public import KAM.Planetary.Spatial.Nek.Drift
 public import KAM.Planetary.Spatial.Nek.Perturbation
+public import KAM.Planetary.Spatial.Nek.SpatialSafety.Aligned
+public import KAM.Planetary.Spatial.Nek.SpatialSafety.Main
+public import KAM.Planetary.Spatial.Nek.SpatialSafety.Orientation
+public import KAM.Planetary.Spatial.Nek.SpatialSafety
 public import KAM.Planetary.Spatial.Newton
 public import KAM.Planetary.Spatial.NonresonantAdapter
 public import KAM.Planetary.Spatial.NonresonantAdapterRescale
