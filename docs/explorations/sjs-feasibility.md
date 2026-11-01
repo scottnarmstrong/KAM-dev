@@ -142,6 +142,14 @@ sup |T|; caps), 2 frequency-specific stages and the classical tail unless stated
 | 3 | 1.69·10⁻⁶ (FH) | −549.9 | −140.3 | −62.8 | −57.5 | −54.1 | **−52.1** |
 | 3 | 1.85·10⁻⁵ (numerical) | −545.7 | −136.2 | −60.8 | −55.4 | −52.0 | −50.0 |
 
+> **Update (V2-CONSOL-FIX, 2026-11-01).** The table above came from the mirror copy of the since-deleted `sharp-plus`
+> worktree. `scripts/sjs/results/sjs_thresholds.{json,log}` were regenerated with this checkout's mirror
+> (`scripts/apost_sharp`, now the script's default). The classical-c_R column rises by 0.75 decades at τ = 2
+> (−52.4 with FH's γ, −50.3 numerical) and by 0.90 at τ = 3 (−56.6, −54.5); every other column moves by at most
+> +0.03 (frequency-specific −49.7, −48.4, −54.1, −52.0; with the tail −47.5, −46.5, −52.1, −50.0). So at τ = 2,
+> numerical γ, the Rüssmann → classical step below is 4.8 orders and classical → frequency-specific 1.9 orders
+> (not 4 and 2.6); the frequency-specific figures and the conclusions drawn from them are unchanged.
+
 Reading the ladder (τ = 2, numerical γ):
 - **v1 → route B: 68 orders.** This is the modified Newton step (γ⁻⁴δ^{−4τ} → γ⁻²δ^{−2τ−1}), the split derivative
   bounds (c_D²Xh no longer multiplies everything) and the measured torsion together. It is the decisive lever.
