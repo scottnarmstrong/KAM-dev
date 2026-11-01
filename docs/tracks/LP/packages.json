@@ -267,6 +267,25 @@
     "KAM/Planetary/Spatial/SpatialSafety/Source.lean"
    ],
    "source": "OD-11 (b) spatial source carriers (audit W4A N1)"
+  },
+  {
+   "id": "LP3-KEP",
+   "wave": 5,
+   "weight": 0.4,
+   "modules": [
+    "KAM/Planetary/StrongAMD/Nek/Kepler.lean"
+   ],
+   "source": "LP3 plan: Kepler fast Hamiltonian (partial convexity)"
+  },
+  {
+   "id": "LP3-COVERPERT",
+   "wave": 5,
+   "weight": 0.8,
+   "modules": [
+    "KAM/Planetary/StrongAMD/Nek/Cover.lean",
+    "KAM/Planetary/StrongAMD/Nek/Perturbation.lean"
+   ],
+   "source": "LP3 plan: finite cover + normalized perturbation"
   }
  ]
 }
