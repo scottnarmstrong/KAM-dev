@@ -282,6 +282,6 @@
   }
  },
  "lp": {
-  "now": "Planar theorem nearly assembled. Proved in Lean: every lemma of the planar proof (MAIN Lemmas 2–8, 13, 14, 16); Lemmas 2–8 audited (2–7 on `main`, 8 landing). LP-NRR (Lemma 13) gives the stopped drift ‖Λ(t) − Λ(0)‖ ≤ D₀√μ/2 for |t| ≤ T₀ exp(c μ^(−1/(2(τ+1)))), every engine hypothesis built per centre, constants before μ. LP-CONF (Lemma 14, first exit) and LP-OSC (Lemma 16) proved; audits queued on codex-2. Now proving: LP-LIFT (the chart lift that discharges the drift premise) and LP-DOMX (Lemma 8's remaining clauses). Next: LP-PS, the planar theorem, then the freeze proposal for the owner and the spatial wave."
+  "now": "Planar theorem LP1 being assembled end to end (LP-PS). Every ingredient is proved in Lean: MAIN Lemmas 2–8 (audited; 2–8 on `main`), 13 (the stopped drift through the existing normal-form engine), 14 (first exit), 16 (osculating ellipses) and the chart lift (LP-LIFT), which discharges the drift premise from the first-exit conditions. Audits rolling on codex-2 (CONF+NRR now; then the independent statement review of the freeze text, LIFT, DOMX, PS). Freeze proposal draft for the owner's morning review; nothing frozen yet. Then the spatial wave."
  }
 }
