@@ -634,6 +634,8 @@ public import KAM.Planetary.SecularSpectrum.LocalAnalytic
 public import KAM.Planetary.SecularSpectrum.Norms
 public import KAM.Planetary.SecularSpectrum.Transport
 public import KAM.Planetary.SecularSpectrum.TwoPlanets
+public import KAM.Planetary.Spatial.NonresonantAdapter
+public import KAM.Planetary.Spatial.NonresonantAdapterRescale
 public import KAM.Planetary.StrongAMD.AnalyticDomain.Bounds.Algebra
 public import KAM.Planetary.StrongAMD.AnalyticDomain.Bounds.Cauchy
 public import KAM.Planetary.StrongAMD.AnalyticDomain.Bounds.Chart

@@ -24,7 +24,8 @@ pairs and `m` slow pairs (slow positions in `w.1`, slow momenta in `w.2`), to th
 `lpRescaleNM_hasDerivAt` is the field conversion at unchanged physical time: a solution of the
 chart Hamiltonian field of `G` maps to a solution of `realWfield (2π/ℓ²)` of
 `Ĝ = (1/(2π)) • (G ∘ lpUnrescaleNM ℓ)`.  The slot and sign conventions match for every `m`
-(`θ̇ = Ĝ_I`, `İ = −Ĝ_θ`, `q̇ = c Ĝ_p`, `ṗ = −c Ĝ_q`, `c = 2π/ℓ²`).  The spatial chart is `m = n + n`.
+(`θ̇ = Ĝ_I`, `İ = −Ĝ_θ`, `q̇ = c Ĝ_p`, `ṗ = −c Ĝ_q`, `c = 2π/ℓ²`).
+The spatial chart is `m = n + n`.
 -/
 
 @[expose] public noncomputable section
@@ -151,7 +152,8 @@ theorem lpUnrescaleNM_theta (ℓ : ℝ) (i : Fin n) :
       lp_basis
 
 theorem lpUnrescaleNM_fast (ℓ : ℝ) (i : Fin n) :
-    lpUnrescaleNM ℓ ((0 : Fin n → ℝ), (Pi.single (Fin.castAdd (m + m) i) 1 : Fin (n + (m + m)) → ℝ)) =
+    lpUnrescaleNM ℓ ((0 : Fin n → ℝ),
+      (Pi.single (Fin.castAdd (m + m) i) 1 : Fin (n + (m + m)) → ℝ)) =
       ((0 : Fin (n + m) → ℝ), (Pi.single (Fin.castAdd m i) 1 : Fin (n + m) → ℝ)) := by
   refine Prod.ext (funext fun j => ?_) (funext fun j => ?_)
   · refine Fin.addCases (fun k => ?_) (fun k => ?_) j <;>
@@ -214,12 +216,14 @@ theorem lpRescaleNM_field {ℓ : ℝ} (hℓ : ℓ ≠ 0) {G : Phase (n + m) → 
         map_smul, smul_eq_mul, neg_mul]
       field_simp
     · refine Fin.addCases (fun i => ?_) (fun i => ?_) j
-      · simp only [lpRescaleNM_apply, lpRescaleNMFun, hamiltonianVectorField, slow, Fin.append_right,
+      · simp only [lpRescaleNM_apply, lpRescaleNMFun, hamiltonianVectorField, slow,
+          Fin.append_right,
         Fin.append_left,
           smul_apply, ContinuousLinearMap.comp_apply, lpUnrescaleNM_p,
           map_smul, smul_eq_mul]
         field_simp
-      · simp only [lpRescaleNM_apply, lpRescaleNMFun, hamiltonianVectorField, slow, Fin.append_right,
+      · simp only [lpRescaleNM_apply, lpRescaleNMFun, hamiltonianVectorField, slow,
+          Fin.append_right,
           smul_apply, ContinuousLinearMap.comp_apply, lpUnrescaleNM_q,
           map_smul, smul_eq_mul, neg_mul]
         field_simp
