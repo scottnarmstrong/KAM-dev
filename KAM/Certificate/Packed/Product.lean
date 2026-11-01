@@ -81,7 +81,8 @@ theorem packRepOk_sound {L : PackLayout} {x : List (CertKey × ℤ)} {B : ℕ}
 
 /-! ### The specification of one packed product -/
 
-/-- One packed real product: layouts, factor load bounds, offset exponent `l`, rounding shift `s`. -/
+/-- One packed real product: layouts, factor load bounds, offset exponent `l`, rounding shift
+`s`. -/
 structure GmpSpec where
   la : PackLayout
   lb : PackLayout
@@ -214,7 +215,8 @@ theorem intEval_gmpTerms {g : GmpSpec} {rs : List ℤ} (hw : 0 < g.la.width)
 
 /-! ### The a-priori remainder -/
 
-/-- Caps of the mixed-radix digits of the slots below `N`: `(N - 1)/s₀`, then `(s_j - 1)/s_{j+1}`. -/
+/-- Caps of the mixed-radix digits of the slots below `N`: `(N - 1)/s₀`, then
+`(s_j - 1)/s_{j+1}`. -/
 def digitCaps : List ℕ → ℕ → List ℕ
   | [], _ => []
   | s :: ss, N => (N - 1) / s :: digitCaps ss s

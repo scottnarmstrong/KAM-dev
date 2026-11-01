@@ -181,6 +181,14 @@ Large packed literals are written as balanced trees of `natJoin` over short hexa
 the elaborator's numeral parser is quadratic in the digit count, and source lines are short. -/
 def natJoin (k a b : ℕ) : ℕ := a + (b <<< k)
 
+/-- The ramp `Σ_{i<n} (i+1) 2^(b i)` in closed form (kernel GMP: powers, one exact division). The
+chunks of a packed literal are XOR-ed with it, so that no two partial results of its `natJoin` tree
+share their low 64 bits: the kernel hashes a natural literal by its low 64 bits
+(`instHashableNat`), and its caches degrade on many big literals with equal low limbs (V2-PACKED
+gate: 4,096 chunks with zero low limbs, 20.8 s against 37 ms for random chunks). -/
+def natRamp (b n : ℕ) : ℕ :=
+  (n * 2 ^ (b * (n + 1)) + 1 - (n + 1) * 2 ^ (b * n)) / (2 ^ b - 1) ^ 2
+
 /-! ### Balanced unpacking -/
 
 /-- Digit-by-digit reading of `N` base-`2^w` digits (low mask, then shift). -/

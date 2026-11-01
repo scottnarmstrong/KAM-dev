@@ -36,6 +36,7 @@ example : unpackSlots 8 40 (packSum 8 ((List.range 40).map fun i => (i : ℤ) - 
     (List.range 40).map fun i => (i : ℤ) - 20 := by decide +kernel
 -- literal joining
 example : natJoin 8 3 2 = 3 + 2 * 256 := by decide +kernel
+example : natRamp 8 3 = 1 + 2 * 256 + 3 * 65536 := by decide +kernel
 
 /-- A 2-D layout: box `[0, 2) × [0, 2)`, strides `[3, 1]`, width 16. -/
 def lay : PackLayout := ⟨[0, 0], [2, 2], [3, 1], 16, 1⟩
