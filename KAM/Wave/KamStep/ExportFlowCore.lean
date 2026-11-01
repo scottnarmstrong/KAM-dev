@@ -48,7 +48,7 @@ namespace KAM.Wave
 open KAM
 
 /-- `FlowHyp` is monotone in the field bound `M` (below `δ`). -/
-theorem FlowHyp.of_le {F : Type*} [NormedAddCommGroup F] [NormedSpace ℂ F] {X : F → F}
+theorem FlowHyp.weakenFieldBound {F : Type*} [NormedAddCommGroup F] [NormedSpace ℂ F] {X : F → F}
     {V U : Set F} {M M' δ : ℝ} (h : FlowHyp X V U M δ) (hMM : M ≤ M') (hM' : M' < δ) :
     FlowHyp X V U M' δ :=
   ⟨h.isOpen_V, h.isOpen_U, h.holo, fun z hz => (h.bound z hz).trans hMM, h.margin,
@@ -123,7 +123,7 @@ theorem flowT_hyp {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) :
       stepMF cF tF α σ ε ≤ σ / 256 ∧ stepMF cF tF α σ ε / (σ / 4) ≤ 1 / 64 := by
   obtain ⟨h1, h2⟩ := H.MF_flow_margins
   have hσ := H.hσ
-  exact ⟨(H.flow_data hξ).1.of_le H.M₀_le_MF (by linarith), h1, h2⟩
+  exact ⟨(H.flow_data hξ).1.weakenFieldBound H.M₀_le_MF (by linarith), h1, h2⟩
 
 /-- `φ^t` maps `U` into `V` (`bpW:w5:flow` (i)). -/
 theorem phiT_mem_V {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {t : ℝ} (ht : t ∈ Icc (-1 : ℝ) 1)
