@@ -58,9 +58,8 @@ theorem lpPertNM_extClass (hT : LPChartTubeNM ν L δ rg R M fc) (hrs : 0 < rs)
       lpUnrescaleCNM b.lam z ∈ complexTubeNM (spatialStrongCore ν L δ rg) R := fun z hz =>
     lpTubeNM_mono hT.R_pos (lpPertNM_dom_mem hrs hrg hmax hI0 hS hIc hrB hrB0 hw0 hw ht hts hz)
   refine ⟨⟨?_, fun j z hz => ?_⟩, fun x hx => ?_⟩
-  · have := (hT.hol.comp (lpUnrescaleCNM_differentiable (n := n) (m := n + n) b.lam).differentiableOn
-      hm)
-    exact this.const_mul _
+  · have hd := (lpUnrescaleCNM_differentiable (n := n) (m := n + n) b.lam)
+    exact (hT.hol.comp hd.differentiableOn hm).const_mul _
   · have h1 := (hT.per (Pi.single j 1) _ (hm z hz)).2
     simp only [lpPertNM]
     rw [lpUnrescaleCNM_shift, h1]

@@ -662,6 +662,11 @@ public import KAM.Planetary.Spatial.Momentum
 public import KAM.Planetary.Spatial.Newton
 public import KAM.Planetary.Spatial.NonresonantAdapter
 public import KAM.Planetary.Spatial.NonresonantAdapterRescale
+public import KAM.Planetary.Spatial.NonresonantReuse.Drift
+public import KAM.Planetary.Spatial.NonresonantReuse.Hyp
+public import KAM.Planetary.Spatial.NonresonantReuse.Pert
+public import KAM.Planetary.Spatial.NonresonantReuse.PertClass
+public import KAM.Planetary.Spatial.NonresonantReuse
 public import KAM.Planetary.Spatial.Orbital
 public import KAM.Planetary.Spatial.Osculating.Basic
 public import KAM.Planetary.Spatial.Osculating.Core

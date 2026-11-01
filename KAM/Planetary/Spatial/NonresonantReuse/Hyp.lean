@@ -17,10 +17,10 @@ The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 Package LP-SP-NRR, MAIN Lemma 13 with `2n` slow pairs (`LP:MAIN L13 (429–464)`,
 `LP:MAIN T19 (599–603)`), N6, track LP, non-frozen.
 
-* `spatialChartHam ν μ w = H_μ (Ψ w)`: the spatial chart Hamiltonian (SP-PROD).
+* `lpChartHamNM ν μ w = H_μ (Ψ w)`: the spatial chart Hamiltonian (SP-PROD).
 * `lpTraceNM`: on `b.realDom b.rB`,
   `((liftFast (lpKepler ν) + lpPertNM μ b.lam fc) (extCx y)).re`
-  `= lpRescaleHamNM b.lam (spatialChartHam ν μ) y`;
+  `= lpRescaleHamNM b.lam (lpChartHamNM ν μ) y`;
 * `lpExtNFHypNM`: the engine bundle
   `ExtNFHyp b s K α L 2 ε {0} (lpKepler ν) (lpPertNM μ b.lam fc)` for
   `b : PartialBlock n (n + n)`, field by field.  The Kepler data are the planar ones
@@ -38,7 +38,7 @@ variable {n : ℕ} {ν : Fin n → ℝ} {L : Set (Fin n → ℝ)} {δ rg R M : �
   {fc : ((Fin (n + (n + n)) → ℂ) × (Fin (n + (n + n)) → ℂ)) → ℂ}
 
 /-- The spatial chart Hamiltonian `w ↦ H_μ (Ψ w)` on `Phase (n + (n + n))`. -/
-def spatialChartHam (ν : Fin n → ℝ) (μ : ℝ) (w : Phase (n + (n + n))) : ℝ :=
+def lpChartHamNM (ν : Fin n → ℝ) (μ : ℝ) (w : Phase (n + (n + n))) : ℝ :=
   spatialHamiltonian ν μ (spatialPoincareProd ν w)
 
 section
@@ -51,7 +51,7 @@ theorem lpTraceNM (hν : ∀ i, 0 < ν i) (hT : LPChartTubeNM ν L δ rg R M fc)
     (hrB : b.rB ≤ rs) (hrB0 : 0 < b.rB) (hw0 : 0 < b.w) (hw : b.w < 4 * b₀) (μ : ℝ)
     {y : ER n (n + n)} (hy : y ∈ b.realDom b.rB) :
     ((liftFast (lpKepler ν) + lpPertNM μ b.lam fc : EC n (n + n) → ℂ) (extCx y)).re =
-      lpRescaleHamNM b.lam (spatialChartHam ν μ) y := by
+      lpRescaleHamNM b.lam (lpChartHamNM ν μ) y := by
   have hpi := Real.pi_pos
   have ht : 0 < 2 * s₀ / Real.pi := by positivity
   have hts : 2 * Real.pi * (2 * s₀ / Real.pi) ≤ 4 * s₀ := by
@@ -68,7 +68,7 @@ theorem lpTraceNM (hν : ∀ i, 0 < ν i) (hT : LPChartTubeNM ν L δ rg R M fc)
   unfold lpKepler
   rw [hfa', planetaryKeplerC_ofReal, ← Complex.ofReal_div, ← Complex.ofReal_mul,
     ← Complex.ofReal_add, Complex.ofReal_re]
-  unfold lpRescaleHamNM spatialChartHam
+  unfold lpRescaleHamNM lpChartHamNM
   rw [spatialHamiltonian_split_chartSafe hν μ hws, hfa]
   simp only [keplerSumGen, RCLike.ofReal_real_eq_id, id_eq]
   ring
