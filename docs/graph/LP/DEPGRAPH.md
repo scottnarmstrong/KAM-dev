@@ -2,15 +2,15 @@
 
 GRAPH_VERSION: 4
 ROOTS: lpM:L4#orderedPairThreshold_isLeast, lpM:L4#orderedPairThreshold_existsUnique_value, lpM:L4#orderedCrossThreshold_isLeast, lpM:L4#orderedStrongThreshold_isLeast, lpM:L3#sourceStrongAMD_nonneg, lpM:L3#sum_action_mul_eccDeficit_le_sourceStrongAMD, lpM:L2#sourceKepler_axis_pos, lpM:L2#sourceKepler_ecc_le_one, lpM:L2#sourceKeplerPeri_le_planeLength, lpM:L2#planeLength_le_sourceKeplerApo, lpM:L16#sourceOscAxis_pos, lpM:L16#sourceOscPeri_pos, lpM:L16#sourceOscPeri_le_planeLength, lpM:L16#planeLength_le_sourceOscApo, lpM:L2#spatialSourceKeplerAxis_pos, lpM:L2#spatialSourceKeplerAction_pos, lpM:L2#spatialSourceKeplerAction_sq, lpM:L2#spatialSourceKeplerEcc_sq, lpM:L2#spatialSourceKeplerEcc_nonneg, lpM:L2#spatialSourceKeplerEcc_le_one, lpM:L2#spatialSourcePlanetAngularMomentum_length, lpM:L2#spatialSourcePlanetAngularMomentum_length_le, lpM:L2#spatialSourceKeplerPeri_le_length, lpM:L2#spatialSourceKeplerApo_ge_length, lpM:L3#spatialSourceStrongAMD_nonneg, lpM:L3#spatialSourceAction_mul_eccDeficit_le, lpM:L16#spatialSourceOscParam_pos, lpM:L16#spatialSourceOscEnergy_neg, lpM:L16#spatialSourceOscEcc_lt_one, lpM:L16#spatialSourceOscEcc_nonneg, lpM:L16#spatialSourceOscAxis_pos, lpM:L16#spatialSourceOscPeri_pos, lpM:L16#spatialSourceOscPeri_le_length, lpM:L16#spatialSourceOscApo_ge_length, lpM:L5#planar_strongAMD_barrier, lpM:T15#planar_strongAMD_exponentialSafety, lpM:T15#planar_strongAMD_exponentialSafety_halfInteger, lpM:T19#spatial_strongAMD_exponentialSafety, lpM:T19#spatial_strongAMD_exponentialSafety_halfInteger, lpM:T15#planar_strongAMD_exponentialSafety_noArith, lpM:T19#spatial_strongAMD_exponentialSafety_noArith
-CORPUS: docs/tracks/LP/source/{MAIN,AMENDMENTS}.md pinned by SHA-256 in docs/graph/LP/CORPUS.sha256 (MAIN 68e9167f...48c1b, 679 lines; AMENDMENTS c887d1e2...51881, 26 lines; N1 fixed in place, N2-N12 override the MAIN lines they cite); wave 4: docs/tracks/LP/lp3/LP3-PLAN.md (1b58b704...ba06ba, 506 lines), the LP3 source under D65 (no separate LP3 source note); branch inp-lp-graph off inp after the D62 freeze (main f46b94fb); waves 1-4; streamlined review (D65): one global review, no per-slice reviews; LEAN_STATUS set mechanically from LEAN_REFs that resolve on main
+CORPUS: docs/tracks/LP/source/{MAIN,AMENDMENTS}.md pinned by SHA-256 in docs/graph/LP/CORPUS.sha256 (MAIN 68e9167f...48c1b, 679 lines; AMENDMENTS c887d1e2...51881, 26 lines; N1 fixed in place, N2-N12 override the MAIN lines they cite); wave 4: docs/tracks/LP/lp3/LP3-PLAN.md (1b58b704...ba06ba, 506 lines), the LP3 source under D65 (no separate LP3 source note); branch inp-lp-graph off inp after the D62 freeze (main f46b94fb); waves 1-4; streamlined review (D65): one global review, no per-slice reviews; LEAN_STATUS set mechanically from LEAN_REFs that resolve on main; global review maud-lp-gglob-1 PASS WITH NOTES (docs/graph/LP/reviews/GLOBAL-review-1.md; D27 BYPASS confirmed); TOPOLOGY_STATUS stays PROPOSED outside the R1-reviewed wave-1 records, because D65 replaces slice review by the global review
 CONVENTIONS: docs/graph/LP/SPEC.md §4: Euclidean ¦·¦ (planeLength, spaceLength) vs max norm on actions; period 2π angles (L13 converts to period one); G = 1, star mass 1, masses μν_i, max ν = 1, physical AMD μC; C = ΣI - ¦L¦ orientation-free (N8, OD-1); thresholds on the chamber carrier OrderedActions (n ≥ 2) with attained-minimum characterizations; C(0) ≤ B(I^0) - δ, conclusion C(t) ≤ B(I(t)) - δ/2; frozen keplerEnergy is ν_i E_i; MAIN lemmas are d-generic (d ∈ {2,3}) and dimension-specific frozen carriers attach at the anchors (SPEC §5 dimension rule); constants depend only on (d, n, ν, 𝒜, δ, γ, τ), L5's d_⋆, d_pair only on (n, ν, U, m), chosen before μ and the state
 STANDING_ASSUMPTIONS: -
 EXTERNAL_POLICY: a closed list of Mathlib-level externals lpM:ext-* fixed in SPEC §3 (KIND external, LEAN_STATUS EXTERNAL, located at the first appeal in MAIN); cross-track results that a proof uses are IMPORTED nodes N:<node> / P:<node> (KIND external, source fields copied from that track's graph, NOTE IMPORTED), never read through implementation files; any other unproved fact is a step node with NOTE SOURCE_GAP
 FROZEN_ANCHORS: lpM:s1:thresholds#actionAxis, lpM:s1:chamber#chamber, lpM:s1:thresholds#eccDeficit, lpM:s1:thresholds#pairFeasible, lpM:s1:thresholds#pairObjective, lpM:s1:thresholds#pairThreshold, lpM:s1:thresholds#AdjIdx, lpM:s1:thresholds#AdjIdx.upperIdx, lpM:s1:chamber#OrderedActions, lpM:s1:thresholds#orderedPairThreshold, lpM:s1:thresholds#orderedCrossThreshold, lpM:s1:thresholds#orderedStrongThreshold, lpM:s1:elements#strongAMD, lpM:s1:elements#keplerPeri, lpM:s1:elements#keplerApo, lpM:L16:defs#oscVelocity, lpM:L16:defs#oscParam, lpM:L16:defs#oscEnergy, lpM:L16:defs#oscAxis, lpM:L16:defs#oscEccVector, lpM:L16:defs#oscEcc, lpM:L16:defs#oscPeri, lpM:L16:defs#oscApo, lpM:s1:elements#SourceCanonicalPhase, lpM:L16:defs#SourceOsculatingPhase, lpM:s1:elements#sourceStrongAMD, lpM:s1:elements#sourceKeplerPeri, lpM:s1:elements#sourceKeplerApo, lpM:L16:defs#sourceOscEnergy, lpM:L16:defs#sourceOscAxis, lpM:L16:defs#sourceOscEccVector, lpM:L16:defs#sourceOscEcc, lpM:L16:defs#sourceOscPeri, lpM:L16:defs#sourceOscApo, lpM:s1:data#spaceDot, lpM:s1:data#spaceSq, lpM:s1:data#spaceLength, lpM:s1:elements#spaceCross, lpM:s1:model#bodyVector3, lpM:s1:elements#planetAngularMomentum3, lpM:s1:elements#angularMomentum3, lpM:s1:model#spatialHamiltonian, lpM:s1:model#SpatialNoCollision, lpM:s1:model#IsSpatialMovingSolutionOn, lpM:s1:model#SpatialMovingUniqueOn, lpM:L1#spatialBarycentricPositions, lpM:L1#spatialBarycentricVelocities, lpM:s1:model#spatialMasses, lpM:L1#IsSpatialNewtonSolutionOn, lpM:s1:elements#spatialKeplerEnergy, lpM:s1:elements#spatialKeplerAxis, lpM:s1:elements#spatialKeplerAction, lpM:s1:elements#spatialKeplerEccVector, lpM:s1:elements#SpatialNegativeEnergy, lpM:s1:elements#SpatialElliptic, lpM:s1:elements#spatialKeplerPeri, lpM:s1:elements#spatialKeplerApo, lpM:L16:defs#spatialOscVelocity, lpM:L16:defs#spatialOscParam, lpM:L16:defs#spatialOscEnergy, lpM:L16:defs#spatialOscAxis, lpM:L16:defs#spatialOscEccVector, lpM:L16:defs#spatialOscEcc, lpM:L16:defs#spatialOscPeri, lpM:L16:defs#spatialOscApo, lpM:L16:defs#SpatialOscPhase, lpM:s1:elements#SpatialSourceCanonicalPhase, lpM:L16:defs#SpatialSourceOsculatingPhase, lpM:s1:elements#spatialSourceKeplerAxis, lpM:s1:elements#spatialSourceKeplerAction, lpM:s1:elements#spatialSourceKeplerEccVector, lpM:s1:elements#spatialSourceKeplerEcc, lpM:s1:elements#spatialSourcePlanetAngularMomentum, lpM:s1:elements#spatialSourceAngularMomentum, lpM:s1:elements#spatialSourceStrongAMD, lpM:s1:elements#spatialSourceKeplerPeri, lpM:s1:elements#spatialSourceKeplerApo, lpM:L16:defs#spatialSourceOscParam, lpM:L16:defs#spatialSourceOscEnergy, lpM:L16:defs#spatialSourceOscAxis, lpM:L16:defs#spatialSourceOscEccVector, lpM:L16:defs#spatialSourceOscEcc, lpM:L16:defs#spatialSourceOscPeri, lpM:L16:defs#spatialSourceOscApo, lpM:L1#spatialSourceBarycentricPositions, lpM:L1#spatialSourceBarycentricVelocities, lpM:L4#orderedPairThreshold_isLeast, lpM:L4#orderedPairThreshold_existsUnique_value, lpM:L4#orderedCrossThreshold_isLeast, lpM:L4#orderedStrongThreshold_isLeast, lpM:L3#sourceStrongAMD_nonneg, lpM:L3#sum_action_mul_eccDeficit_le_sourceStrongAMD, lpM:L2#sourceKepler_axis_pos, lpM:L2#sourceKepler_ecc_le_one, lpM:L2#sourceKeplerPeri_le_planeLength, lpM:L2#planeLength_le_sourceKeplerApo, lpM:L16#sourceOscAxis_pos, lpM:L16#sourceOscPeri_pos, lpM:L16#sourceOscPeri_le_planeLength, lpM:L16#planeLength_le_sourceOscApo, lpM:L2#spatialSourceKeplerAxis_pos, lpM:L2#spatialSourceKeplerAction_pos, lpM:L2#spatialSourceKeplerAction_sq, lpM:L2#spatialSourceKeplerEcc_sq, lpM:L2#spatialSourceKeplerEcc_nonneg, lpM:L2#spatialSourceKeplerEcc_le_one, lpM:L2#spatialSourcePlanetAngularMomentum_length, lpM:L2#spatialSourcePlanetAngularMomentum_length_le, lpM:L2#spatialSourceKeplerPeri_le_length, lpM:L2#spatialSourceKeplerApo_ge_length, lpM:L3#spatialSourceStrongAMD_nonneg, lpM:L3#spatialSourceAction_mul_eccDeficit_le, lpM:L16#spatialSourceOscParam_pos, lpM:L16#spatialSourceOscEnergy_neg, lpM:L16#spatialSourceOscEcc_lt_one, lpM:L16#spatialSourceOscEcc_nonneg, lpM:L16#spatialSourceOscAxis_pos, lpM:L16#spatialSourceOscPeri_pos, lpM:L16#spatialSourceOscPeri_le_length, lpM:L16#spatialSourceOscApo_ge_length, lpM:L5#planar_strongAMD_barrier, lpM:T15#planar_strongAMD_exponentialSafety, lpM:T15#planar_strongAMD_exponentialSafety_halfInteger, lpM:T19#spatial_strongAMD_exponentialSafety, lpM:T19#spatial_strongAMD_exponentialSafety_halfInteger, lpM:s1:model#IsHamiltonianSolutionOn, lpM:s1:dioph#IsDiophantine, lpM:s1:model#NoCollision, lpM:s1:model#Phase, lpM:s1:model#actualMasses, lpM:L1#barycentricPositions, lpM:L1#barycentricVelocities, lpM:s1:model#bodyVector, lpM:s1:model#IsMovingSolutionOn, lpM:L1#IsNewtonSolutionOn, lpM:s1:model#MovingUniqueOn, lpM:s1:elements#keplerAction, lpM:s1:elements#keplerAxis, lpM:s1:elements#keplerEccVector, lpM:s1:elements#keplerEnergy, lpM:s1:elements#planeCross, lpM:s1:elements#totalMomentum, lpM:s1:data#planeDot, lpM:s1:data#planeLength, lpM:s1:data#planeSq, lpM:T15#planar_strongAMD_exponentialSafety_noArith, lpM:T19#spatial_strongAMD_exponentialSafety_noArith, lp3:s1.1#planetaryTimeExponent, lp3:s1.1#planetaryDriftExponent
 FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:e518662231ee06f71209863433e49b20b957c4ba2a9dcc7120c4824095a48375
 WRITER: kam-lp
-GLOBAL_REVIEWER: -
-GLOBAL_REVIEW_REF: -
+GLOBAL_REVIEWER: maud-lp-gglob-1
+GLOBAL_REVIEW_REF: docs/graph/LP/reviews/GLOBAL-review-1.md
 
 The dependency direction is `NODE -> prerequisite`. Node blocks are assembled from `docs/graph/LP/packets/<slice>.nodes.md`; edit those, then re-run `inp_depgraph_assemble.py` (orchestrator-tools).
 
@@ -5538,14 +5538,14 @@ EDGE: lpM:L16#planeLength_le_sourceOscApo | docs/tracks/LP/source/MAIN.md#L16@L5
 EDGE: lpM:s1:dioph#IsDiophantine | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | the Diophantine premise (5) at ω(I^0) = (ν_i^3/Λ_i^3)_i
 EDGE: lpM:s1:model#actualMasses | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | the Newtonian masses (1, μν_i)
 EDGE: lpM:L1#barycentricPositions | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | the reconstructed barycentric positions
-EDGE: lpM:L1#barycentricVelocities | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | the reconstructed barycentric velocities
+EDGE: lpM:L1#barycentricVelocities | docs/tracks/LP/source/MAIN.md#T15@L506-L506 | Lemma 1 reconstructs the exact Newtonian motion, including the displayed barycentric velocities
 EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | the positions q_i
-EDGE: lpM:s1:model#IsMovingSolutionOn | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | z solves (1) on [-T, T] without collision
+EDGE: lpM:s1:model#IsMovingSolutionOn | docs/tracks/LP/source/MAIN.md#s1@L74-L78 | the solution of Hamiltonian (1) exists on the stated interval
 EDGE: lpM:L1#IsNewtonSolutionOn | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | the reconstructed motion solves Newton's equations
 EDGE: lpM:s1:elements#keplerAction | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | the actions Λ(z)
 EDGE: lpM:s1:elements#keplerAxis | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | the axes a_i
 EDGE: lpM:s1:elements#keplerEccVector | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | the eccentricities e_i = ¦e_i¦
-EDGE: lpM:s1:elements#keplerEnergy | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | negative Kepler energies
+EDGE: lpM:s1:elements#keplerEnergy | docs/tracks/LP/source/MAIN.md#s1@L70-L74 | the admissible initial states have negative Kepler energy
 EDGE: lpM:s1:model#MovingUniqueOn | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | uniqueness against every local solution
 EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | planar phases
 EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | Euclidean lengths
@@ -5559,7 +5559,7 @@ EDGE: lpM:s1:elements#SourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#s1@L6
 EDGE: lpM:s1:elements#sourceKeplerApo | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | canonical aphelia
 EDGE: lpM:s1:elements#sourceKeplerPeri | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | canonical perihelia
 EDGE: lpM:L16:defs#sourceOscApo | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | osculating aphelia
-EDGE: lpM:L16:defs#sourceOscAxis | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | osculating axes
+EDGE: lpM:L16:defs#sourceOscAxis | docs/tracks/LP/source/MAIN.md#s1@L91-L91 | the actual-velocity osculating conclusion consumes the axes defined in Lemma 16 (516)
 EDGE: lpM:L16:defs#sourceOscEcc | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | osculating eccentricities
 EDGE: lpM:L16:defs#sourceOscEccVector | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | osculating eccentricity vectors
 EDGE: lpM:L16:defs#sourceOscEnergy | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | osculating energies
@@ -8216,7 +8216,7 @@ DEPS: lpM:L2, lpM:s1:model#bodyVector3, lpM:s1:data#spaceLength, lpM:s1:elements
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L2 | docs/tracks/LP/source/MAIN.md#L2@L128-L128 | (12): a(1 - e) ≤ ¦q¦
-EDGE: lpM:s1:model#bodyVector3 | docs/tracks/LP/source/MAIN.md#L2@L118-L118 | the statement uses bodyVector3
+EDGE: lpM:s1:model#bodyVector3 | docs/tracks/LP/source/MAIN.md#L2@L119-L119 | the radial lower bound compares perihelion with the length of the position q
 EDGE: lpM:s1:data#spaceLength | docs/tracks/LP/source/MAIN.md#L2@L118-L118 | the statement uses spaceLength
 EDGE: lpM:s1:elements#SpatialSourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#L2@L118-L118 | the statement uses SpatialSourceCanonicalPhase
 EDGE: lpM:s1:elements#spatialSourceKeplerPeri | docs/tracks/LP/source/MAIN.md#L2@L118-L118 | the statement uses spatialSourceKeplerPeri
@@ -8249,7 +8249,7 @@ ROUTE_FOR: -
 EDGE: lpM:L2 | docs/tracks/LP/source/MAIN.md#L2@L128-L128 | (12): ¦q¦ ≤ a(1 + e)
 EDGE: lpM:s1:model#bodyVector3 | docs/tracks/LP/source/MAIN.md#L2@L118-L118 | the statement uses bodyVector3
 EDGE: lpM:s1:data#spaceLength | docs/tracks/LP/source/MAIN.md#L2@L118-L118 | the statement uses spaceLength
-EDGE: lpM:s1:elements#SpatialSourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#L2@L118-L118 | the statement uses SpatialSourceCanonicalPhase
+EDGE: lpM:s1:elements#SpatialSourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#L2@L112-L120 | the source negative-energy carrier supplies the orbital assumptions for the radial upper bound
 EDGE: lpM:s1:elements#spatialSourceKeplerApo | docs/tracks/LP/source/MAIN.md#L2@L118-L118 | the statement uses spatialSourceKeplerApo
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
@@ -8653,7 +8653,7 @@ EDGE: lpM:s1:elements#spatialKeplerEnergy | docs/tracks/LP/source/MAIN.md#s1@L93
 EDGE: lpM:s1:model#spatialMasses | docs/tracks/LP/source/MAIN.md#s1@L93-L93 | the statement uses spatialMasses
 EDGE: lpM:s1:model#SpatialMovingUniqueOn | docs/tracks/LP/source/MAIN.md#s1@L93-L93 | the statement uses SpatialMovingUniqueOn
 EDGE: lpM:L16:defs#spatialOscEcc | docs/tracks/LP/source/MAIN.md#s1@L93-L93 | the statement uses spatialOscEcc
-EDGE: lpM:L16:defs#spatialOscEnergy | docs/tracks/LP/source/MAIN.md#s1@L93-L93 | the statement uses spatialOscEnergy
+EDGE: lpM:L16:defs#spatialOscEnergy | docs/tracks/LP/source/MAIN.md#L16@L510-L520 | the retained velocity-osculating conclusion uses the energy in (42) and asserts nondegenerate ellipticity
 EDGE: lpM:L1#spatialSourceBarycentricPositions | docs/tracks/LP/source/MAIN.md#s1@L93-L93 | the statement uses spatialSourceBarycentricPositions
 EDGE: lpM:L1#spatialSourceBarycentricVelocities | docs/tracks/LP/source/MAIN.md#s1@L93-L93 | the statement uses spatialSourceBarycentricVelocities
 EDGE: lpM:s1:elements#SpatialSourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#s1@L93-L93 | the statement uses SpatialSourceCanonicalPhase
@@ -8766,7 +8766,7 @@ EDGE: lpM:L16#sourceOscAxis_pos | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | 
 EDGE: lpM:L16#sourceOscPeri_le_planeLength | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | a^osc(1 - e^osc) ≤ ¦q_i¦
 EDGE: lpM:L16#planeLength_le_sourceOscApo | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | ¦q_i¦ ≤ a^osc(1 + e^osc)
 EDGE: lpM:s1:model#actualMasses | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses actualMasses
-EDGE: lpM:L1#barycentricPositions | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses barycentricPositions
+EDGE: lpM:L1#barycentricPositions | docs/tracks/LP/lp3/LP3-PLAN.md#s1.2@L115-L119 | the retained Newtonian reconstruction explicitly uses barycentricPositions
 EDGE: lpM:L1#barycentricVelocities | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses barycentricVelocities
 EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses bodyVector
 EDGE: lpM:s1:model#IsMovingSolutionOn | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses IsMovingSolutionOn
@@ -8781,7 +8781,7 @@ EDGE: lpM:s1:data#planeLength | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the 
 EDGE: lp3:s1.1#planetaryDriftExponent | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses planetaryDriftExponent
 EDGE: lp3:s1.1#planetaryTimeExponent | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses planetaryTimeExponent
 EDGE: lpM:s1:thresholds#AdjIdx | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses AdjIdx
-EDGE: lpM:s1:thresholds#AdjIdx.upperIdx | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses AdjIdx.upperIdx
+EDGE: lpM:s1:thresholds#AdjIdx.upperIdx | docs/tracks/LP/lp3/LP3-PLAN.md#s1.2@L95-L98 | all other LP1 conclusions, including adjacent separations and osculating annuli, are retained with the same adjacent upper index
 EDGE: lpM:s1:chamber#chamber | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses chamber
 EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses orderedStrongThreshold
 EDGE: lpM:L16:defs#oscEcc | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses oscEcc
@@ -8843,7 +8843,7 @@ EDGE: lp3:s1.1#planetaryTimeExponent | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L1
 EDGE: lpM:s1:model#bodyVector3 | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses bodyVector3
 EDGE: lpM:s1:model#IsSpatialMovingSolutionOn | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses IsSpatialMovingSolutionOn
 EDGE: lpM:L1#IsSpatialNewtonSolutionOn | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses IsSpatialNewtonSolutionOn
-EDGE: lpM:s1:data#spaceLength | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spaceLength
+EDGE: lpM:s1:data#spaceLength | docs/tracks/LP/lp3/LP3-PLAN.md#s1.3@L130-L134 | the spatial LP2 statement is retained except for the arithmetic premise and time/drift exponents; its physical Euclidean lengths are unchanged
 EDGE: lpM:s1:elements#spatialKeplerEnergy | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialKeplerEnergy
 EDGE: lpM:s1:model#spatialMasses | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialMasses
 EDGE: lpM:s1:model#SpatialMovingUniqueOn | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses SpatialMovingUniqueOn
@@ -8851,7 +8851,7 @@ EDGE: lpM:L16:defs#spatialOscEcc | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 |
 EDGE: lpM:L16:defs#spatialOscEnergy | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialOscEnergy
 EDGE: lpM:L1#spatialSourceBarycentricPositions | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceBarycentricPositions
 EDGE: lpM:L1#spatialSourceBarycentricVelocities | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceBarycentricVelocities
-EDGE: lpM:s1:elements#SpatialSourceCanonicalPhase | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses SpatialSourceCanonicalPhase
+EDGE: lpM:s1:elements#SpatialSourceCanonicalPhase | docs/tracks/LP/lp3/LP3-PLAN.md#s1.3@L130-L134 | the spatial physical initial-state carrier and remaining LP2 premises are retained
 EDGE: lpM:s1:elements#spatialSourceKeplerAction | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceKeplerAction
 EDGE: lpM:s1:elements#spatialSourceKeplerApo | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceKeplerApo
 EDGE: lpM:s1:elements#spatialSourceKeplerAxis | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceKeplerAxis

@@ -154,3 +154,55 @@ Wave-1 packets edited, as writer under D65:
   - Q5/N4 holds: the second κ condition of (36) serves only (35).
 - **Deviation:** the three unconsumed frozen definitions are left out of the graph (decision 6).
 - **Deviation:** the review gate is replaced by D65's single global review. Per-slice R2/R3 batches were not run.
+
+## Final step D: global review incorporated, landing scope (2026-11-01)
+
+Steps A, B and C (the mechanical LEAN_REF map, the d-generic pair rule and D27 BYPASS, and wave 4 for LP3 after D64)
+are recorded in `docs/graph/LP/reports/lean-ref-map.txt` and the SPEC change log.
+
+The ONE global review is `maud-lp-gglob-1`, in `docs/graph/LP/reviews/GLOBAL-review-1.md`, audited at ef3c63d0.
+- Verdict: PASS WITH NOTES. It confirms the D27 BYPASS of all 136 nodes.
+
+**Changes made in this step:**
+1. **The 11 exact evidence-record refinements** (report lines 161–189) were applied to the packets as EDGE locator
+   replacements only. Each target edge was matched exactly once. No DEPS, ROUTES, status or identity field changed.
+   - LP1: 4 edges.
+   - LP2-H: 1 edge.
+   - LP3-1: 2 edges.
+   - LP3-2: 2 edges.
+   - `lpM:L2#spatialSourceKeplerApo_ge_length` and `lpM:L2#spatialSourceKeplerPeri_le_length`: 1 edge each.
+2. **Header.**
+   - `GLOBAL_REVIEWER: maud-lp-gglob-1`.
+   - `GLOBAL_REVIEW_REF: docs/graph/LP/reviews/GLOBAL-review-1.md`.
+   - The D65 label now names the review.
+   - TOPOLOGY_STATUS stays PROPOSED outside the 72 R1-reviewed wave-1 records. W's REVIEWED markers came from its
+     slice reviews, which D65 replaces by this global review; the structural gate runs without `--require-reviewed`.
+3. **Checks.**
+   - Re-assembled. `proof_depgraph.py --require-complete-coverage --require-all-reachable` gives rc 0 with
+     `--write-dashboard` and rc 0 with `--check`.
+   - LEAN_STATUS sync check: `lp_depgraph_lean_sync.py --apply`, now without `--force` because GLOBAL_REVIEWER is set,
+     gives PROVED 153, BYPASSED 136, EXTERNAL 12, 0 blocked. It changed no packet byte.
+4. **Retained SOURCE_GAP steps,** as the review asks:
+   - `lpM:L3#deficit-zero-L`;
+   - `lpM:L10#flow-existence`;
+   - `lpM:L10#lie-flow-identification`;
+   - `lpM:L14#maximal-solution`.
+5. **Documentation notes.** The reviewer's notes on the historical SPEC and LEAN_STATUS setup paragraphs, and on
+   `reports/W2-lint.txt` as a wave-2/3 snapshot, are clarity notes. The final records are current.
+
+**Final graph:**
+- 301 nodes, 1161 edges, 41 roots, 149 anchors.
+- 12 externals: 10 on the closed list and 2 imports from track N.
+- 2 routes, 4 SOURCE_GAP steps.
+- 438 coverage items, 47 of them excluded.
+- LEAN_STATUS: PROVED 153, BYPASSED 136, EXTERNAL 12, NOT_STARTED 0.
+
+**Landing scope.** `git diff --name-only inp...HEAD` lists only `docs/graph/LP/` (the graph, its packets, specs,
+tools, reports and reviews, including `reviews/GLOBAL-review-1.md`) and `docs/tracks/LP/`:
+- `docs/tracks/LP/audits/LP-GRAPH-W1-handoff.md`;
+- `docs/tracks/LP/audits/LP-GRAPH-W2-handoff.md`;
+- `docs/tracks/LP/packages/LP-GRAPH-R1APPLY.md`;
+- `docs/tracks/LP/packages/LP-GRAPH-W2.md`.
+
+Nothing outside these two directories is touched: no `KAM/`, no `manifest/`, no generated roots. The exact list is
+in the commit that adds this section (`git diff --name-only inp...HEAD`).

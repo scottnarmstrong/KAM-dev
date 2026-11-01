@@ -1,6 +1,6 @@
 # Proof-source coverage manifest
 
-CORPUS: docs/tracks/LP/source/{MAIN,AMENDMENTS}.md pinned by SHA-256 in docs/graph/LP/CORPUS.sha256 (MAIN 68e9167f...48c1b, 679 lines; AMENDMENTS c887d1e2...51881, 26 lines; N1 fixed in place, N2-N12 override the MAIN lines they cite); wave 4: docs/tracks/LP/lp3/LP3-PLAN.md (1b58b704...ba06ba, 506 lines), the LP3 source under D65 (no separate LP3 source note); branch inp-lp-graph off inp after the D62 freeze (main f46b94fb); waves 1-4; streamlined review (D65): one global review, no per-slice reviews; LEAN_STATUS set mechanically from LEAN_REFs that resolve on main
+CORPUS: docs/tracks/LP/source/{MAIN,AMENDMENTS}.md pinned by SHA-256 in docs/graph/LP/CORPUS.sha256 (MAIN 68e9167f...48c1b, 679 lines; AMENDMENTS c887d1e2...51881, 26 lines; N1 fixed in place, N2-N12 override the MAIN lines they cite); wave 4: docs/tracks/LP/lp3/LP3-PLAN.md (1b58b704...ba06ba, 506 lines), the LP3 source under D65 (no separate LP3 source note); branch inp-lp-graph off inp after the D62 freeze (main f46b94fb); waves 1-4; streamlined review (D65): one global review, no per-slice reviews; LEAN_STATUS set mechanically from LEAN_REFs that resolve on main; global review maud-lp-gglob-1 PASS WITH NOTES (docs/graph/LP/reviews/GLOBAL-review-1.md; D27 BYPASS confirmed); TOPOLOGY_STATUS stays PROPOSED outside the R1-reviewed wave-1 records, because D65 replaces slice review by the global review
 
 ## Inventory
 

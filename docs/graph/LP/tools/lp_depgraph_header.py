@@ -31,7 +31,9 @@ H = {
               "the MAIN lines they cite)" + ("; wave 4: docs/tracks/LP/lp3/LP3-PLAN.md (1b58b704...ba06ba, 506 lines), the "
               "LP3 source under D65 (no separate LP3 source note)" if a.wave >= 4 else "") + "; branch inp-lp-graph off inp after the D62 freeze (main f46b94fb); waves 1-"
               + str(a.wave) + "; streamlined review (D65): one global review, no per-slice reviews; LEAN_STATUS set "
-              "mechanically from LEAN_REFs that resolve on main",
+              "mechanically from LEAN_REFs that resolve on main; global review maud-lp-gglob-1 PASS WITH NOTES "
+              "(docs/graph/LP/reviews/GLOBAL-review-1.md; D27 BYPASS confirmed); TOPOLOGY_STATUS stays PROPOSED "
+              "outside the R1-reviewed wave-1 records, because D65 replaces slice review by the global review",
     "CONVENTIONS": "docs/graph/LP/SPEC.md §4: Euclidean ¦·¦ (planeLength, spaceLength) vs max norm on actions; period "
                    "2π angles (L13 converts to period one); G = 1, star mass 1, masses μν_i, max ν = 1, physical AMD "
                    "μC; C = ΣI - ¦L¦ orientation-free (N8, OD-1); thresholds on the chamber carrier OrderedActions "
@@ -48,8 +50,9 @@ H = {
     "FROZEN_ANCHORS": ", ".join(anchors),
     "FROZEN_MANIFEST": "manifest/frozen-anchors.json | sha256:auto",
     "WRITER": "kam-lp",
-    "GLOBAL_REVIEWER": "-",
-    "GLOBAL_REVIEW_REF": "-",
+    # the ONE global review of D65 (PASS WITH NOTES, audited ef3c63d0; locator refinements applied by the writer)
+    "GLOBAL_REVIEWER": "maud-lp-gglob-1",
+    "GLOBAL_REVIEW_REF": "docs/graph/LP/reviews/GLOBAL-review-1.md",
 }
 (g / "header.txt").write_text("".join(f"{k}: {v}\n" for k, v in H.items()))
 print(f"wrote {g / 'header.txt'}: {len(roots)} roots, {len(anchors)} anchors (waves <= {a.wave})")

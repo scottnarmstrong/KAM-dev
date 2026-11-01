@@ -258,7 +258,7 @@ DEPS: lpM:L2, lpM:s1:model#bodyVector3, lpM:s1:data#spaceLength, lpM:s1:elements
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L2 | docs/tracks/LP/source/MAIN.md#L2@L128-L128 | (12): a(1 - e) ≤ ¦q¦
-EDGE: lpM:s1:model#bodyVector3 | docs/tracks/LP/source/MAIN.md#L2@L118-L118 | the statement uses bodyVector3
+EDGE: lpM:s1:model#bodyVector3 | docs/tracks/LP/source/MAIN.md#L2@L119-L119 | the radial lower bound compares perihelion with the length of the position q
 EDGE: lpM:s1:data#spaceLength | docs/tracks/LP/source/MAIN.md#L2@L118-L118 | the statement uses spaceLength
 EDGE: lpM:s1:elements#SpatialSourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#L2@L118-L118 | the statement uses SpatialSourceCanonicalPhase
 EDGE: lpM:s1:elements#spatialSourceKeplerPeri | docs/tracks/LP/source/MAIN.md#L2@L118-L118 | the statement uses spatialSourceKeplerPeri
@@ -291,7 +291,7 @@ ROUTE_FOR: -
 EDGE: lpM:L2 | docs/tracks/LP/source/MAIN.md#L2@L128-L128 | (12): ¦q¦ ≤ a(1 + e)
 EDGE: lpM:s1:model#bodyVector3 | docs/tracks/LP/source/MAIN.md#L2@L118-L118 | the statement uses bodyVector3
 EDGE: lpM:s1:data#spaceLength | docs/tracks/LP/source/MAIN.md#L2@L118-L118 | the statement uses spaceLength
-EDGE: lpM:s1:elements#SpatialSourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#L2@L118-L118 | the statement uses SpatialSourceCanonicalPhase
+EDGE: lpM:s1:elements#SpatialSourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#L2@L112-L120 | the source negative-energy carrier supplies the orbital assumptions for the radial upper bound
 EDGE: lpM:s1:elements#spatialSourceKeplerApo | docs/tracks/LP/source/MAIN.md#L2@L118-L118 | the statement uses spatialSourceKeplerApo
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
@@ -695,7 +695,7 @@ EDGE: lpM:s1:elements#spatialKeplerEnergy | docs/tracks/LP/source/MAIN.md#s1@L93
 EDGE: lpM:s1:model#spatialMasses | docs/tracks/LP/source/MAIN.md#s1@L93-L93 | the statement uses spatialMasses
 EDGE: lpM:s1:model#SpatialMovingUniqueOn | docs/tracks/LP/source/MAIN.md#s1@L93-L93 | the statement uses SpatialMovingUniqueOn
 EDGE: lpM:L16:defs#spatialOscEcc | docs/tracks/LP/source/MAIN.md#s1@L93-L93 | the statement uses spatialOscEcc
-EDGE: lpM:L16:defs#spatialOscEnergy | docs/tracks/LP/source/MAIN.md#s1@L93-L93 | the statement uses spatialOscEnergy
+EDGE: lpM:L16:defs#spatialOscEnergy | docs/tracks/LP/source/MAIN.md#L16@L510-L520 | the retained velocity-osculating conclusion uses the energy in (42) and asserts nondegenerate ellipticity
 EDGE: lpM:L1#spatialSourceBarycentricPositions | docs/tracks/LP/source/MAIN.md#s1@L93-L93 | the statement uses spatialSourceBarycentricPositions
 EDGE: lpM:L1#spatialSourceBarycentricVelocities | docs/tracks/LP/source/MAIN.md#s1@L93-L93 | the statement uses spatialSourceBarycentricVelocities
 EDGE: lpM:s1:elements#SpatialSourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#s1@L93-L93 | the statement uses SpatialSourceCanonicalPhase

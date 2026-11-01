@@ -29,7 +29,7 @@ EDGE: lpM:L16#sourceOscAxis_pos | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | 
 EDGE: lpM:L16#sourceOscPeri_le_planeLength | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | a^osc(1 - e^osc) ≤ ¦q_i¦
 EDGE: lpM:L16#planeLength_le_sourceOscApo | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L363-L363 | ¦q_i¦ ≤ a^osc(1 + e^osc)
 EDGE: lpM:s1:model#actualMasses | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses actualMasses
-EDGE: lpM:L1#barycentricPositions | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses barycentricPositions
+EDGE: lpM:L1#barycentricPositions | docs/tracks/LP/lp3/LP3-PLAN.md#s1.2@L115-L119 | the retained Newtonian reconstruction explicitly uses barycentricPositions
 EDGE: lpM:L1#barycentricVelocities | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses barycentricVelocities
 EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses bodyVector
 EDGE: lpM:s1:model#IsMovingSolutionOn | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses IsMovingSolutionOn
@@ -44,7 +44,7 @@ EDGE: lpM:s1:data#planeLength | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the 
 EDGE: lp3:s1.1#planetaryDriftExponent | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses planetaryDriftExponent
 EDGE: lp3:s1.1#planetaryTimeExponent | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses planetaryTimeExponent
 EDGE: lpM:s1:thresholds#AdjIdx | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses AdjIdx
-EDGE: lpM:s1:thresholds#AdjIdx.upperIdx | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses AdjIdx.upperIdx
+EDGE: lpM:s1:thresholds#AdjIdx.upperIdx | docs/tracks/LP/lp3/LP3-PLAN.md#s1.2@L95-L98 | all other LP1 conclusions, including adjacent separations and osculating annuli, are retained with the same adjacent upper index
 EDGE: lpM:s1:chamber#chamber | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses chamber
 EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses orderedStrongThreshold
 EDGE: lpM:L16:defs#oscEcc | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L85-L85 | the statement uses oscEcc
@@ -106,7 +106,7 @@ EDGE: lp3:s1.1#planetaryTimeExponent | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L1
 EDGE: lpM:s1:model#bodyVector3 | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses bodyVector3
 EDGE: lpM:s1:model#IsSpatialMovingSolutionOn | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses IsSpatialMovingSolutionOn
 EDGE: lpM:L1#IsSpatialNewtonSolutionOn | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses IsSpatialNewtonSolutionOn
-EDGE: lpM:s1:data#spaceLength | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spaceLength
+EDGE: lpM:s1:data#spaceLength | docs/tracks/LP/lp3/LP3-PLAN.md#s1.3@L130-L134 | the spatial LP2 statement is retained except for the arithmetic premise and time/drift exponents; its physical Euclidean lengths are unchanged
 EDGE: lpM:s1:elements#spatialKeplerEnergy | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialKeplerEnergy
 EDGE: lpM:s1:model#spatialMasses | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialMasses
 EDGE: lpM:s1:model#SpatialMovingUniqueOn | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses SpatialMovingUniqueOn
@@ -114,7 +114,7 @@ EDGE: lpM:L16:defs#spatialOscEcc | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 |
 EDGE: lpM:L16:defs#spatialOscEnergy | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialOscEnergy
 EDGE: lpM:L1#spatialSourceBarycentricPositions | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceBarycentricPositions
 EDGE: lpM:L1#spatialSourceBarycentricVelocities | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceBarycentricVelocities
-EDGE: lpM:s1:elements#SpatialSourceCanonicalPhase | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses SpatialSourceCanonicalPhase
+EDGE: lpM:s1:elements#SpatialSourceCanonicalPhase | docs/tracks/LP/lp3/LP3-PLAN.md#s1.3@L130-L134 | the spatial physical initial-state carrier and remaining LP2 premises are retained
 EDGE: lpM:s1:elements#spatialSourceKeplerAction | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceKeplerAction
 EDGE: lpM:s1:elements#spatialSourceKeplerApo | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceKeplerApo
 EDGE: lpM:s1:elements#spatialSourceKeplerAxis | docs/tracks/LP/lp3/LP3-PLAN.md#s3@L128-L128 | the statement uses spatialSourceKeplerAxis

@@ -27,7 +27,9 @@ pre-freeze preparation record.
 The full graph (LP0-LP3: 41 roots) is assembled: 301 nodes, 1161 edges, 149 anchors, 12 externals (2 imports from
 track N), 2 routes, 4 SOURCE_GAP steps, 438 coverage items (47 excluded); structural lint exit 0. LEAN_STATUS
 (mechanical, D65/D27): PROVED 153 (149 anchors + 4 ordinary nodes by docstring match), BYPASSED 136, EXTERNAL 12,
-NOT_STARTED 0 (`LEAN_STATUS.md`, `reports/lean-ref-map.txt`). ONE global review (codex-2) is pending.
+NOT_STARTED 0 (`LEAN_STATUS.md`, `reports/lean-ref-map.txt`). The ONE global review `maud-lp-gglob-1`
+(`reviews/GLOBAL-review-1.md`) is PASS WITH NOTES and is incorporated (header GLOBAL_REVIEWER/GLOBAL_REVIEW_REF; its 11
+locator refinements applied); the graph is ready to land.
 
 ## Status after LP-GRAPH-W2 (2026-11-01, streamlined under D65)
 

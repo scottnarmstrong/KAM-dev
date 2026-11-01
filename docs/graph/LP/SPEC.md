@@ -434,3 +434,13 @@ Status after wave-1 extraction (2026-11-01; all PROPOSED, extractor `kam-lp`):
   `lpM:L14` or `lpM:T15#apply-L14`). The 40 LP3-PLAN inventory items are coverage (packets LP3-a, LP3-b). Result:
   301 nodes, 1161 edges, 41 roots, 149 anchors, 12 externals, 438 coverage items (47 excluded); lint exit 0;
   LEAN_STATUS PROVED 153, BYPASSED 136, EXTERNAL 12.
+- 2026-11-01, **global review incorporated (D65)**: the one global review `maud-lp-gglob-1`
+  (`reviews/GLOBAL-review-1.md`, audited ef3c63d0) is PASS WITH NOTES and confirms the D27 BYPASS of all 136 nodes.
+  Its 11 exact evidence-record refinements (report lines 161-189: EDGE locators of LP1 (4), LP2-H (1), LP3-1 (2),
+  LP3-2 (2) and the spatial characterizations spatialSourceKeplerApo_ge_length, spatialSourceKeplerPeri_le_length
+  (1 each)) are applied to the packets; no DEPS, ROUTES, status or identity field changed. Header GLOBAL_REVIEWER / GLOBAL_REVIEW_REF are
+  set. TOPOLOGY_STATUS stays PROPOSED outside the 72 R1-reviewed wave-1 records: under D65 the global review replaces
+  slice review, and the structural gate runs without `--require-reviewed` (the W graph's REVIEWED markers came from
+  its slice reviews, which D65 cancels). Lint exit 0; LEAN_STATUS sync re-applied with no change (PROVED 153,
+  BYPASSED 136, EXTERNAL 12). Retained SOURCE_GAP steps: `lpM:L3#deficit-zero-L`, `lpM:L10#flow-existence`,
+  `lpM:L10#lie-flow-identification`, `lpM:L14#maximal-solution`.

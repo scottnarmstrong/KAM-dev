@@ -26,14 +26,14 @@ EDGE: lpM:L16#planeLength_le_sourceOscApo | docs/tracks/LP/source/MAIN.md#L16@L5
 EDGE: lpM:s1:dioph#IsDiophantine | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | the Diophantine premise (5) at ω(I^0) = (ν_i^3/Λ_i^3)_i
 EDGE: lpM:s1:model#actualMasses | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | the Newtonian masses (1, μν_i)
 EDGE: lpM:L1#barycentricPositions | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | the reconstructed barycentric positions
-EDGE: lpM:L1#barycentricVelocities | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | the reconstructed barycentric velocities
+EDGE: lpM:L1#barycentricVelocities | docs/tracks/LP/source/MAIN.md#T15@L506-L506 | Lemma 1 reconstructs the exact Newtonian motion, including the displayed barycentric velocities
 EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | the positions q_i
-EDGE: lpM:s1:model#IsMovingSolutionOn | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | z solves (1) on [-T, T] without collision
+EDGE: lpM:s1:model#IsMovingSolutionOn | docs/tracks/LP/source/MAIN.md#s1@L74-L78 | the solution of Hamiltonian (1) exists on the stated interval
 EDGE: lpM:L1#IsNewtonSolutionOn | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | the reconstructed motion solves Newton's equations
 EDGE: lpM:s1:elements#keplerAction | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | the actions Λ(z)
 EDGE: lpM:s1:elements#keplerAxis | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | the axes a_i
 EDGE: lpM:s1:elements#keplerEccVector | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | the eccentricities e_i = ¦e_i¦
-EDGE: lpM:s1:elements#keplerEnergy | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | negative Kepler energies
+EDGE: lpM:s1:elements#keplerEnergy | docs/tracks/LP/source/MAIN.md#s1@L70-L74 | the admissible initial states have negative Kepler energy
 EDGE: lpM:s1:model#MovingUniqueOn | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | uniqueness against every local solution
 EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | planar phases
 EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | Euclidean lengths
@@ -47,7 +47,7 @@ EDGE: lpM:s1:elements#SourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#s1@L6
 EDGE: lpM:s1:elements#sourceKeplerApo | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | canonical aphelia
 EDGE: lpM:s1:elements#sourceKeplerPeri | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | canonical perihelia
 EDGE: lpM:L16:defs#sourceOscApo | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | osculating aphelia
-EDGE: lpM:L16:defs#sourceOscAxis | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | osculating axes
+EDGE: lpM:L16:defs#sourceOscAxis | docs/tracks/LP/source/MAIN.md#s1@L91-L91 | the actual-velocity osculating conclusion consumes the axes defined in Lemma 16 (516)
 EDGE: lpM:L16:defs#sourceOscEcc | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | osculating eccentricities
 EDGE: lpM:L16:defs#sourceOscEccVector | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | osculating eccentricity vectors
 EDGE: lpM:L16:defs#sourceOscEnergy | docs/tracks/LP/source/MAIN.md#s1@L69-L69 | osculating energies
