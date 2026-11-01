@@ -295,7 +295,7 @@ Overall, everything together: 86.9 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 05:36 UTC from `main` at `26feac4e` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 05:36 UTC from `main` at `52c1f44a` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -504,11 +504,11 @@ account read from each agent's running process) and their branches. Rules for ag
 | **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
-| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | 🔄 working | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
+| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA lock_mlane: dry-run schedule (LOCK_DRY=1) and missing-source report | `inp-lockdata` | 55 (vs `inp`) |
 | **lp-spadapt** `inp-mprov-lp-spadapt` | prover (offload) | Claude Sonnet 5.5 | claude-11 | 🔄 proving | last commit: LP-SP-ADAPT: lint fixes, regenerate roots, handoff | `inp-lp-spadapt` | 3 (vs `inp`) |
 | **lp-spdom** `inp-mprov-lp-spdom` | prover (offload) | Claude Sonnet 5.5 | claude-12 | 🔄 proving | last commit: LP-SP-DOM: spatial containment (D5) | `inp-lp-spdom` | 26 (vs `inp`) |
-| **lp-src** `inp-mprov-lp-src` | prover (offload) | Claude Sonnet 5.5 | claude-6 | 🔄 proving | last commit: LP-SRC: LP1 through the source carriers | `inp-lp-src` | 2 (vs `inp`) |
+| **lp-src** `inp-mprov-lp-src` | prover (offload) | Claude Sonnet 5.5 | claude-6 | 🔄 proving | last commit: LP-SRC: handoff, regenerated root, lint fix | `inp-lp-src` | 3 (vs `inp`) |
 | **lp-w4a** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Merge inp-lp-sprot into inp-lp-w4a | `inp-lp-w4a` | 12 (vs `inp`) |
 | **w5r** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: W5-REAL: handoff (audit focus, statements, checks) | `inp-w5r` | 164 (vs `inp`) |
 | **wpj** `inp-mprov-wpj` | prover (offload) | Claude Opus 5.5 | claude-11 | 🔄 proving | last commit: W5: source-facing stepTheorem/stepTheoremMod carry the full bpW:w5:step statement (Phi rea | `inp-wpj` | 168 (vs `inp`) |
