@@ -114,4 +114,19 @@ theorem stepFlowHyp_concrete (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T :
   exact (stepFieldS_differentiableAt ha hp hpb T r
     (stepDomain_theta_mem (by linarith) hz)).differentiableWithinAt
 
+/-- **The flow hypotheses, general strip**: `T` defined on `T_{s'}`, `V = D(S-σ,r)`,
+`U = D(S-2σ,r/2)` with `S - σ ≤ s'`. -/
+theorem stepFlowHyp_concrete' (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {s' : ℝ}
+    (T : HomTaylor_gen a p pb s') (r : ℝ) [Fact (0 < r)] {S σ M : ℝ} (hσ : 0 < σ) (hσ1 : σ ≤ 1)
+    (hσS : 2 * σ < S) (hSs : S - σ ≤ s') (hX : HomFieldBound_gen ha hp hpb r M T) (hM : 0 < M)
+    (hMδ : M < σ / 4) :
+    FlowHyp (smoothField (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb T r))
+      (stepDomain r (S - σ) r) (stepDomain r (S - 2 * σ) (r / 2)) M (σ / 4) := by
+  refine flowHyp_smooth (norm_stepEmbedCLM_apply_le a p pb hpb r) (stepDomain_isOpen _ _ _)
+    (stepDomain_isOpen _ _ _) ?_ (fun z hz => stepFieldS_bound ha hp hpb T r hX hSs hz)
+    (fun w hw => stepDomain_margin hσ hσ1 hσS hw) hM hMδ
+  intro z hz
+  exact (stepFieldS_differentiableAt ha hp hpb T r
+    (stepDomain_theta_mem hSs hz)).differentiableWithinAt
+
 end KAM.Wave
