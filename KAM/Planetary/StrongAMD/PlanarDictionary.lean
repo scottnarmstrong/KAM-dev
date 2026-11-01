@@ -14,11 +14,14 @@ public import KAM.Planetary.Poincare.Product
 /-!
 # The planar chart dictionary (package LP-DICT, Part A)
 
-Package LP-DICT, MAIN Lemma 7 (`LP:MAIN L7 (193–242)`, with N1 at line 238), track LP, non-frozen; the
+Package LP-DICT, MAIN Lemma 7 (`LP:MAIN L7 (193–242)`, with N1 at line 238), track LP,
+non-frozen; the
 statement surface is proposed in `docs/tracks/LP/FREEZE-PROPOSAL.md`.
 
-The repository chart `poincareProd ν 1 : Phase (n + n) → Phase (n * 2)` (period `2π`, `κ = G m₀ = 1`)
-is the chart of MAIN Lemma 7 with `(I, λ) = (Λ, λ)` and the slow pair `(ξ, η) = (x, −y)`.  Everything
+The repository chart `poincareProd ν 1 : Phase (n + n) → Phase (n * 2)` (period `2π`, `κ = G m₀ =
+1`)
+is the chart of MAIN Lemma 7 with `(I, λ) = (Λ, λ)` and the slow pair `(ξ, η) = (x, −y)`. 
+Everything
 here restates facts of `Poincare/*` and `Exponential/Dictionary.lean` in MAIN's vocabulary:
 
 * the image of the chart domain is exactly the prograde elliptic region (`lpChart_image`);
@@ -37,7 +40,8 @@ namespace KAM.Planetary.StrongAMD
 
 variable {n : ℕ}
 
-/-- MAIN's `b_e = √((1 − Γ/(2I))/I)` (`LP:MAIN L7 (205)`), with `Γ = (x² + y²)/2` replaced by its value. -/
+/-- MAIN's `b_e = √((1 − Γ/(2I))/I)` (`LP:MAIN L7 (205)`), with `Γ = (x² + y²)/2` replaced by its
+value. -/
 def lpEccScale (I Γ : ℝ) : ℝ := √((1 - Γ / (2 * I)) / I)
 
 /-- The oscillator action `Γ_i = (ξ_i² + η_i²)/2` of the `i`-th planet in chart coordinates. -/
@@ -129,7 +133,8 @@ theorem lpChart_eccVector_xy {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {w : P
     (hw : w ∈ poincareProdDom n) (i : Fin n) {x y : ℝ}
     (hx : slow w.1 i = x) (hy : slow w.2 i = -y) :
     keplerEccVector ν (poincareProd ν 1 w) i =
-      ![lpEccScale (fast w.2 i) (lpGamma w i) * x, -(lpEccScale (fast w.2 i) (lpGamma w i) * y)] := by
+      ![lpEccScale (fast w.2 i) (lpGamma w i) * x,
+        -(lpEccScale (fast w.2 i) (lpGamma w i) * y)] := by
   rw [lpChart_eccVector hν hw i]
   have h0 : (planetBlock w i).2 0 = fast w.2 i := planetBlock_snd_zero w i
   have hΓ : poincareGamma (planetBlock w i) = lpGamma w i := by

@@ -634,6 +634,9 @@ public import KAM.Planetary.SecularSpectrum.LocalAnalytic
 public import KAM.Planetary.SecularSpectrum.Norms
 public import KAM.Planetary.SecularSpectrum.Transport
 public import KAM.Planetary.SecularSpectrum.TwoPlanets
+public import KAM.Planetary.StrongAMD.NonresonantAdapter
+public import KAM.Planetary.StrongAMD.NonresonantAdapterRescale
+public import KAM.Planetary.StrongAMD.PlanarDictionary
 public import KAM.Planetary.TwoScale.Constants
 public import KAM.Planetary.TwoScale.Cover
 public import KAM.Planetary.TwoScale.FourierCompact
