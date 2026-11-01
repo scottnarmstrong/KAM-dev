@@ -643,6 +643,10 @@ public import KAM.Planetary.Spatial.Model
 public import KAM.Planetary.Spatial.Momentum
 public import KAM.Planetary.Spatial.Newton
 public import KAM.Planetary.Spatial.Orbital
+public import KAM.Planetary.Spatial.Osculating.Basic
+public import KAM.Planetary.Spatial.Osculating.Core
+public import KAM.Planetary.Spatial.Osculating.Estimates
+public import KAM.Planetary.Spatial.Osculating
 public import KAM.Planetary.Spatial.Rotation
 public import KAM.Planetary.Spatial.RotationAlgebra
 public import KAM.Planetary.Spatial.RotationSolution

@@ -12,9 +12,11 @@ public import KAM.Planetary.StrongAMD.Osculating.Core
 /-!
 # Specific Kepler elements with parameter `k` in dimension three and their perturbation estimates
 
-Package LP-SP-OSC, `LP:MAIN L16 (508–529)` with `d = 3` and amendment N10; track LP, non-frozen. The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Package LP-SP-OSC, `LP:MAIN L16 (508–529)` with `d = 3` and amendment N10; track LP, non-frozen.
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
-For a position `q`, a velocity `V` and a gravitational parameter `k` (`Fin 3` vectors, unit mass), the
+For a position `q`, a velocity `V` and a gravitational parameter `k` (`Fin 3` vectors, unit mass),
+the
 specific elements of `LP:MAIN L16 (42)`:
 `spatialSpecEnergy k q V = |V|²/2 - k/|q|`, `spatialSpecAxis = -k/(2 E)`,
 `spatialSpecEccVector k q V = ((|V|² - k/|q|) q - (q·V) V)/k`.
@@ -25,7 +27,8 @@ reused from the planar package.
 
 * `spatialSpecAxis_tangency`: Lemma 2 with parameter `k` (the ellipse passes through `q`), via
   `orbital_scalar`, with `|C| = √k |q × V|`.
-* `abs_spatialSpecEnergy_sub_le`, `spaceLength_specEccVector_sub_le`: the perturbation estimates behind (43).
+* `abs_spatialSpecEnergy_sub_le`, `spaceLength_specEccVector_sub_le`: the perturbation estimates
+behind (43).
 -/
 
 @[expose] public noncomputable section
@@ -143,7 +146,8 @@ theorem spatialSpecAxis_tangency {k : ℝ} {q V : Fin 3 → ℝ} (hk : 0 < k) (h
   have hC2 : (Real.sqrt k * spaceLength (spaceCross q V)) ^ 2 = k * spaceSq (spaceCross q V) := by
     rw [mul_pow, hsk, spaceLength_sq]
   have hecc2 : spaceSq (spatialSpecEccVector k q V) =
-      1 + 2 * spatialSpecEnergy k q V * (Real.sqrt k * spaceLength (spaceCross q V)) ^ 2 / k ^ 3 := by
+      1 + 2 * spatialSpecEnergy k q V * (Real.sqrt k * spaceLength (spaceCross q V)) ^ 2 / k ^ 3 :=
+          by
     rw [spaceSq_spatialSpecEccVector hk hr, hC2]
     field_simp
   have hdot2 : spaceDot q (spatialSpecEccVector k q V) =
@@ -209,10 +213,12 @@ theorem abs_spatialSpecEnergy_sub_le (hdS : 0 < dS) (hr : dS ≤ spaceLength q)
 
 /-- The vector `F` of the eccentricity vector: `spatialSpecEccVector k q V = (1/k) • F`. -/
 theorem spatialSpecEccVector_eq (k : ℝ) (q V : Fin 3 → ℝ) :
-    spatialSpecEccVector k q V = (1 / k) • ((spaceSq V - k / spaceLength q) • q - spaceDot q V • V) :=
+    spatialSpecEccVector k q V = (1 / k) • ((spaceSq V - k / spaceLength q) • q - spaceDot q V • V)
+        :=
   rfl
 
-theorem spaceLength_eccNumerator_sub_le (hdS : 0 < dS) (hr : dS ≤ spaceLength q) (hrR : spaceLength q ≤ R)
+theorem spaceLength_eccNumerator_sub_le (hdS : 0 < dS) (hr : dS ≤ spaceLength q) (hrR : spaceLength
+    q ≤ R)
     (hv : spaceLength v ≤ Pv) (hVv : spaceLength (V - v) ≤ μ * D) (hμ0 : 0 ≤ μ) (hμ1 : μ ≤ 1)
     (hD : 0 ≤ D) (hPv : 0 ≤ Pv) (hk1 : 1 ≤ k) (hk : k - 1 ≤ μ) :
     spaceLength (((spaceSq V - k / spaceLength q) • q - spaceDot q V • V) -

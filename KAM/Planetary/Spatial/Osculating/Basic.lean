@@ -13,7 +13,8 @@ public import KAM.Planetary.Spatial.Osculating.Estimates
 /-!
 # Actual-velocity osculating elements in dimension three: definitions, velocity, tangency
 
-Package LP-SP-OSC, `LP:MAIN L16 (508–529)` with `d = 3` and amendment N10; track LP, non-frozen. The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Package LP-SP-OSC, `LP:MAIN L16 (508–529)` with `d = 3` and amendment N10; track LP, non-frozen.
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 Literal `LP:MAIN L16 (42)` for a phase `z : Phase (n * 3)` and planet `i` (`q_i`, `p_i` the body
 blocks): `V_i = p_i/ν_i + μ ∑_j p_j`, `k_i = 1 + μ ν_i`, and the specific elements
@@ -39,7 +40,8 @@ open KAM KAM.Planetary
 
 variable {n : ℕ}
 
-/-- The actual heliocentric velocity `V_i = p_i/ν_i + μ ∑_j p_j` (`LP:MAIN (10)`, `L16`, `d = 3`). -/
+/-- The actual heliocentric velocity `V_i = p_i/ν_i + μ ∑_j p_j` (`LP:MAIN (10)`, `L16`, `d = 3`).
+-/
 def spatialOscVelocity (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 3)) (i : Fin n) : Fin 3 → ℝ :=
   (1 / ν i) • bodyVector3 z.2 i + μ • ∑ j, bodyVector3 z.2 j
 
@@ -155,7 +157,8 @@ theorem spatialOsc_tangency (ν : Fin n → ℝ) {μ : ℝ} (hμ : 0 ≤ μ) {z 
 
 /-! ### The valid osculating carrier (OD-11 (b)) -/
 
-/-- Valid actual-velocity osculating states (`LP:MAIN L16`, nondegenerate ellipses): positive masses,
+/-- Valid actual-velocity osculating states (`LP:MAIN L16`, nondegenerate ellipses): positive
+masses,
 `μ > 0`, and for every planet `|q_i| > 0`, `E_i^osc < 0`, `e_i^osc < 1`. -/
 abbrev SpatialOscPhase (n : ℕ) (ν : Fin n → ℝ) (μ : ℝ) :=
   {z : Phase (n * 3) // (∀ i, 0 < ν i) ∧ 0 < μ ∧

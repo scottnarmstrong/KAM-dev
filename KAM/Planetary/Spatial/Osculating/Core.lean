@@ -11,9 +11,11 @@ public import KAM.Planetary.Spatial.Osculating.Estimates
 /-!
 # The pointwise core of `LP:MAIN L16 (43)` in dimension three
 
-Package LP-SP-OSC, `LP:MAIN L16 (508–529)` with `d = 3`; track LP, non-frozen. The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Package LP-SP-OSC, `LP:MAIN L16 (508–529)` with `d = 3`; track LP, non-frozen.
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
-`spatial_osc_core` is the whole estimate (43) at the level of one position `q`, one reference velocity
+`spatial_osc_core` is the whole estimate (43) at the level of one position `q`, one reference
+velocity
 `v` (unperturbed specific elements, `k = 1`) and the actual velocity `V` (parameter `k`), with the
 explicit constants of the planar `Osculating/Core.lean` (`oscAE`, `oscAF`, `oscB`, `oscAa`, `oscAe`,
 `oscAmax`, `oscAperi`), which are dimension free and reused unchanged.
@@ -43,9 +45,11 @@ theorem spatial_osc_core {k s D Pv R dS c1 eStar : ℝ} {q v V : Fin 3 → ℝ}
     spaceLength (spatialSpecEccVector k q V - spatialSpecEccVector 1 q v) ≤ s * oscAe R D Pv dS ∧
     spaceLength (spatialSpecEccVector k q V) < 1 ∧
     |spatialSpecAxis k q V * (1 - spaceLength (spatialSpecEccVector k q V)) -
-        spatialSpecAxis 1 q v * (1 - spaceLength (spatialSpecEccVector 1 q v))| ≤ s * oscAperi R D Pv dS c1 ∧
+        spatialSpecAxis 1 q v * (1 - spaceLength (spatialSpecEccVector 1 q v))| ≤ s * oscAperi R D
+            Pv dS c1 ∧
     |spatialSpecAxis k q V * (1 + spaceLength (spatialSpecEccVector k q V)) -
-        spatialSpecAxis 1 q v * (1 + spaceLength (spatialSpecEccVector 1 q v))| ≤ s * oscAperi R D Pv dS c1 := by
+        spatialSpecAxis 1 q v * (1 + spaceLength (spatialSpecEccVector 1 q v))| ≤ s * oscAperi R D
+            Pv dS c1 := by
   have hrpos : 0 < spaceLength q := hdS.trans_le hr
   have hEn := abs_spatialSpecEnergy_sub_le hdS hr hv hVv hs0 hs1 hD hk1 hk
   have hAE : oscAE D Pv dS = D * (2 * Pv + D) / 2 + 1 / dS := rfl
@@ -72,7 +76,8 @@ theorem spatial_osc_core {k s D Pv R dS c1 eStar : ℝ} {q v V : Fin 3 → ℝ}
   have hax' : |spatialSpecAxis k q V - spatialSpecAxis 1 q v| ≤ s * oscAa D Pv dS c1 := hax
   have hF1 : spaceLength (spatialSpecEccVector 1 q v) ≤ 1 := he0.trans he.le
   have hecc := spaceLength_spatialSpecEccVector_sub_le hdS hr hrR hv hVv hs0 hs1 hD hPv hk1 hk hF1
-  have hecc' : spaceLength (spatialSpecEccVector k q V - spatialSpecEccVector 1 q v) ≤ s * oscAe R D Pv dS :=
+  have hecc' : spaceLength (spatialSpecEccVector k q V - spatialSpecEccVector 1 q v) ≤ s * oscAe R
+      D Pv dS :=
     hecc
   have hlt : spaceLength (spatialSpecEccVector k q V) < 1 := by
     have := (abs_le.1 (abs_spaceLength_sub_spaceLength_le (spatialSpecEccVector k q V)
@@ -95,7 +100,8 @@ theorem spatial_osc_core {k s D Pv R dS c1 eStar : ℝ} {q v V : Fin 3 → ℝ}
         spatialSpecAxis 1 q v * (1 + σ * spaceLength (spatialSpecEccVector 1 q v))| ≤
         s * oscAperi R D Pv dS c1 := fun σ hσ =>
     abs_peri_apo_sub_le (a1 := spatialSpecAxis k q V) (a0 := spatialSpecAxis 1 q v)
-      (ε1 := spaceLength (spatialSpecEccVector k q V)) (ε0 := spaceLength (spatialSpecEccVector 1 q v))
+      (ε1 := spaceLength (spatialSpecEccVector k q V)) (ε0 := spaceLength (spatialSpecEccVector 1 q
+          v))
       (s := s) (Aa := oscAa D Pv dS c1) (Ae := oscAe R D Pv dS) (amax := oscAmax c1)
       hσ (spaceLength_nonneg _) hlt.le ha0 hamax hax' hε
   refine ⟨hE1, hax', hecc', hlt, ?_, ?_⟩
