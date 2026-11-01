@@ -605,3 +605,40 @@ overheads. These are estimates. The first gate measures one `Low` segment of 50 
 - **The `Full` box (`h = 48`, window 13.4 Mbit) against a split of the invariance residual into two boxes.** The
   generator decides it from the measured tail, below `err`.
 - **The production data module** (owner decision 1) is shared with the jet ledger and the B3b memos.
+
+**Decided (orchestrator, overnight, 2026-11-01):**
+- (Z): the reduced values are computed in the kernel and validated by `boxOk`; literals only as a fallback.
+- The larger `Full` box is accepted (13.4 Mbit, under the numeral cap, no `LEAN_NAT_MAX_SIZE` change).
+- The jet ledger shares the production data module.
+
+### 12.9 First gate (measured; `docs/campaign/handoffs/V2-PACKED-JET-GATE.md`)
+
+**Built.** `Packed/Box.lean` (`boxOk`, `boxOk_sound`: the digit lemma in closed form), `Packed/StageZ.lean`
+(`zPC`, `PEnc.reduceZ`), `Packed/JetNode.lean` (nodes, `jAdd`, `jMul` with the reduce, `jRed`),
+`Packed/JetSeg.lean` (`jSegOk`, `jSegOk_sound`: imported nodes enclosing their slot functions give exported
+ones), `Packed/JetIngest.lean` (narrow ledger literals spread in the kernel) and `Packed/JetTests.lean`.
+
+**Gate.** LG00's cfgLow slots [7099, 7292): 55 box-by-box products, 13 products by constants (reduced in place),
+46 sums; 53 imports, 35 exports; 83 landed segments.
+
+| | landed (run20e) | packed |
+|---|---:|---:|
+| processes | 228 modules | 23 sub-segments |
+| CPU (user + sys) | 4,815 s | 512 s (279 s kernel) |
+| largest charge | 5.27 GB | 4.29 GB (4 GiB cap) |
+
+That is **9.4×** on the range, with the production assembly unmeasured.
+
+**The cost model of §12.6 was optimistic:**
+- **Kernel time** is 4.1 s per heavy step inside a run, against 0.5 s estimated. Standalone, a product with its
+  reduce takes 0.65 s, and each of its two packed norms 0.8 s.
+- **Kernel memory** is about 0.5 GB per heavy step inside a run, against 30 MB. The kernel keeps every
+  intermediate of a declaration.
+  - So a 4 GB process holds at most 4 heavy steps, and fewer when a piece carries many ledger memos.
+  - The 55-product segment in one process is OOM-killed.
+- **The ledger memos are box nodes** (2,601 coefficients, against about 515 landed terms). Each is ingested in
+  0.18 s and about 30 MB.
+
+**Next.** Memory engineering of the run: why the run keeps far more than the sum of its operations. Then the
+chain theorem over the sub-segments and the plan (§12.7 item 3).
+

@@ -45,6 +45,7 @@ public import KAM.CertificateSharp.Kernel.SegOne
 public import KAM.CertificateSharp.Kernel.Shared
 public import KAM.CertificateSharp.Kernel.Stage
 public import KAM.CertificateSharp.Packed.Avg
+public import KAM.CertificateSharp.Packed.Box
 public import KAM.CertificateSharp.Packed.Bridge
 public import KAM.CertificateSharp.Packed.Complex
 public import KAM.CertificateSharp.Packed.Digits
@@ -52,11 +53,16 @@ public import KAM.CertificateSharp.Packed.Enc
 public import KAM.CertificateSharp.Packed.Gram
 public import KAM.CertificateSharp.Packed.GramBase
 public import KAM.CertificateSharp.Packed.GramTests
+public import KAM.CertificateSharp.Packed.JetIngest
+public import KAM.CertificateSharp.Packed.JetNode
+public import KAM.CertificateSharp.Packed.JetSeg
+public import KAM.CertificateSharp.Packed.JetTests
 public import KAM.CertificateSharp.Packed.Norm
 public import KAM.CertificateSharp.Packed.Product
 public import KAM.CertificateSharp.Packed.Round
 public import KAM.CertificateSharp.Packed.Slots
 public import KAM.CertificateSharp.Packed.Stage
+public import KAM.CertificateSharp.Packed.StageZ
 public import KAM.CertificateSharp.Packed.TabFinal
 public import KAM.CertificateSharp.Packed.Tests
 public import KAM.CertificateSharp.Packed.Tors
