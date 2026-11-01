@@ -196,6 +196,15 @@
    "source": "N12: tube for Phase (n+m)"
   },
   {
+   "id": "LP-SP-ADAPT",
+   "wave": 4,
+   "weight": 0.7,
+   "modules": [
+    "KAM/Planetary/Spatial/NonresonantAdapter.lean"
+   ],
+   "source": "MAIN L13 adapter for Phase (n+m)"
+  },
+  {
    "id": "LP-SP-DOM",
    "wave": 4,
    "weight": 1.5,
