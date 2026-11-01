@@ -115,7 +115,8 @@ theorem w8_shellInv (n : ℕ) {ξ : Fin 2 → ℝ} (hξ : ξ ∈ w8ShellGamma (w
 /-- **Continuity on one shell** (blueprint `bpW:w8:shell-inv` (ii)): `(ξ, θ) ↦ K^{(n)}_ξ(θ)` is
 continuous on `Γ_n × ℝ²`. -/
 theorem w8_shellInvCont (n : ℕ) :
-    ContinuousOn (Function.uncurry (w8Kshell w8AA (w8HW hm n))) (w8ShellGamma (w8HW hm n) ×ˢ univ) :=
+    ContinuousOn (Function.uncurry (w8Kshell w8AA (w8HW hm n)))
+      (w8ShellGamma (w8HW hm n) ×ˢ univ) :=
   w8_shellInvCont_of_birk (Ψ := fun ξ θ => w8Psi hm n ξ θ) ((w8tori hm n).2.1)
     (fun _ hξ θ => (w8Psi_ball hm n hξ θ).2.2.2.2.1)
     (fun _ hξ θ => (w8Psi_ball hm n hξ θ).2.2.2.1)
@@ -135,7 +136,8 @@ theorem w8_patch_of_mem {n : ℕ} {I : Fin 2 → ℝ} (hI : I ∈ w8Gammas (w8HF
   exact ⟨h2, h1⟩
 
 /-- Clause (3), embedding (blueprint `bpW:w8:nlw2-proof`, Step `stepW:w8:p-emb`). -/
-theorem w8_patchEmb : ∀ I ∈ w8GammaW (w8HF hm), IsAnalyticTorusEmbedding (w8KW w8AA (w8HF hm) I) := by
+theorem w8_patchEmb :
+    ∀ I ∈ w8GammaW (w8HF hm), IsAnalyticTorusEmbedding (w8KW w8AA (w8HF hm) I) := by
   intro I hI
   obtain ⟨n, hn⟩ := mem_iUnion.1 hI
   rw [(w8_patch_of_mem hm hn).1]
