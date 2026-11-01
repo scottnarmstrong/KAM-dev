@@ -3135,3 +3135,78 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - No OOM. Load about 13. Memory: 17 GB available. Disks: / 17 GB free, HC 38 GB free (90 %).
   - Quotas: claude-2 98 %, claude-5 95 %, claude-11 39 %, claude-3 20 %, claude-12 19 %, claude-4 7 % (root-b8).
     codex-1 3 %, codex-2 on credits.
+- **09:50. Track W: every D61 package gate is PASS.** W5-AA round 2 (codex-2) PASS: F1 (the four guarded series carriers converge) and N1 closed. W4-LIECONT is in inp (30e417df). Final seal branch inp-w8adapt@f02d4ccc. Next: W6 lands; merge inp; rebuild; Expr, seal-body and axiom re-checks on that commit; a fresh seal audit; the final landing; then the seal through kam-inp-63.
+- **09:57. LP paper: first full draft** (paper-lp cda28701, papers/LP/main.pdf, 23 pages, clean compile). The three refute-first audits (fidelity, literature, exposition) are launched. Writer C found that sources.json labelled LP17's pinned PDF as the published one, when it is arXiv v2; fixed on main (b6241e69).
+- **09:59. MILESTONE (track LP): all LP Lean work is on main** (W5C landed 74d77b43: LP3 planar and spatial plus
+  the source restatements). claude-11 is back with W.
+  - Seal preparation staged:
+    - RUNBOOK (00ed6618): 90 frozen definitions and 41 anchors; about 3–5 h from approval to a sealed branch.
+    - Graph prep (docs/graph/LP, 7b665de0): 282 inventory items, 17 slices.
+    - Draft 8's providers staged and checked.
+  - **Text change (option C), for the owner summary:** the Diophantine premise uses the D20-frozen KAM.IsDiophantine
+    (the same ℓ¹ size, pointwise equivalent), so KAM.Fourier.modeSize is not frozen. Freezing it would have rebuilt
+    about 2,830 core modules plus the certificate data.
+  - root-b8 rulings:
+    - the owner is asked to approve the text and the seals together (the seals follow the seal audit, like D61);
+    - kernel replay per module under a 4 GB scope;
+    - no dedicated sealing tool: precedent SO-FREEZE3 Phase B (599d781e).
+- **10:02. Track W. Unlanded about 8.5k lines (the final seal branch).** W6 is in inp (a43ea7e7) and W4-LIECONT is on main (74d77b43). Final seal branch inp-w8adapt@c7dd873b (W8, the provider, action-angle with the fix, the tori); audited W code is byte-identical after the merge. On that commit: capped builds OK, lint 0, guard OK; provider == frozen == nlw2_proof (Expr); the seal body type-checks; standard axioms. The SEAL AUDIT is running (codex-2, inp-maud-wpq). On SEAL-READY: the final landing, then the seal edit through kam-inp-63.
+- **10:09. W-NLW2 SEAL AUDIT: SEAL-READY, PASS for wave.nlw2.v1** (fresh codex-2 session; all five gates). W6 landed on main (0546e0aa, 387 theorems, standard axioms). The final landing (inp-w8adapt@3e4f4e0a: W8, the provider, action-angle/initial, the tori; about 9.3k lines) and the seal request (D26/D50, citing D61) are with kam-inp-63. The graph agent is recording LEAN_STATUS for W5, W6 and W4-LIECONT.
+- **10:12. LP paper audit round 1:** fidelity FAIL (2 false explanatory sentences; Theorems A–E match Lean exactly); literature PASS WITH NOTES (major: Nek77 Theorem 12.3 plus a box cover gives Theorem E's hypothesis up to δ, so Theorem E's additions are the LP-threshold identification, the annulus and osculating conclusions, and the formal proof); exposition FAIL (fixable text). The fix round is running. root-b8 re-checked #print axioms on main (01d36418; LP files unchanged since 74d77b43): all 15 LP headline theorems [propext, Classical.choice, Quot.sound].
+- **10:14. Owner asked why W's meter reads 65 %.** Cause: the W graph's LEAN_STATUS on main was last synced at 05:25. W7 (landed at about 04:06), W5, W6 and W4-LIECONT were never recorded, so the meter counted 358 of 695 nodes. Fix: the W5/W6/W4-LIECONT sync (inp-wgraph@85171203: PROVED 402, PARTIAL 35, NOT_STARTED 210) is being extended with W7's 85 nodes and lands at once; a second sync follows the final landing and the seal. Standing rule: a graph sync within the same hour as every landing.
+- **10:19. Owner: "update README with the landed progress and do not let this happen again."**
+  - The W graph sync inp-wgraph@f1a17a14 (W5, W6, W4-LIECONT and W7) goes to kam-inp-63 right after the running
+    landing. It gives 567 / 695 resolved (PROVED 478, PARTIAL 41, NOT_STARTED 128, EXTERNAL 47, ASSUMED 1), so the
+    meter goes from 65 % to about 85 %.
+  - Prevention:
+    - scripts/hq-status.py graph_sync_lag prints under each track how many Lean lines landed since its graph was last
+      synced, flagged "overdue" after 60 min (tested: W showed 34,766 lines since 05:25);
+    - the rule that every landing in a graph-tracked directory gets its sync within the hour (kam-1b, kam-lp,
+      kam-inp-63);
+    - root-b8's heartbeat checks graph sync times.
+- **10:20. Heartbeat. Unlanded W: 0 Lean lines.** The final W landing is on main (742e0c2f / 9d426dbc: W8, the
+  provider, action-angle/initial, the tori). Next: the graph sync f1a17a14 (separate, before the seal), then the
+  W-NLW2 seal.
+  - LP: draft 7 revision 1 (05155acf): F1, F2, N2 and option C applied, with the bridge
+    isDiophantine_iff_forall_modeSize (no premise, a literal equivalence); 5 anchors, 89 definitions,
+    34 characterizations, 128 texts, all checks passing. The delta re-audit is running (inp-maud-lp-fz7r, own
+    worktree). Part B (39 providers) is running on claude-2.
+  - Paper: the fix round is running (appendix pages being inspected).
+  - Process slip, root-b8: I edited scripts/hq-status.py in the main checkout while a landing was running. I moved it
+    to a patch at once (main clean again) and re-apply it atomically under the HQ lock.
+  - No OOM. Load about 5. Memory: 17 GB available. Disks: / 16 GB free, HC 38 GB free (90 %).
+- **10:30. The LP paper is on main (82e22386; the owner said "Land on main now").** *Angular momentum deficit and exponentially long
+  collision safety in the planetary problem*, papers/LP/main.pdf, 23 pages.
+  - Fidelity (3 rounds), literature (2) and exposition (3) audits: all PASS WITH NOTES, notes applied.
+  - FOR OWNER (NOTES.md §11): the title and author line, the §A.4 AI-use wording, the Theorem E framing (close to
+    Nek77 Thm 12.3), Corollary D as its own statement; drop §A.3's last sentence after the freeze.
+- **10:30. Track W. Unlanded Lean: 0.** The final landing is on main (9d426dbc), byte-identical to the audited heads.
+  - Graph syncs: f1a17a14 (landing) and 8fb5ec91 (sent), giving 640 / 695 resolved (about 92 %). The root
+    bpW:wh:nlw2 stays PARTIAL until the seal.
+  - The remaining 55 are export gaps, not gaps in nlw2's proof; they are queued as follow-ups.
+- **10:30. LP draft 7 revision 1: delta statement audit PASS WITH NOTES, 0 blocking** (codex-2, c9c2b904).
+  - F1, F2 and N2 resolved exactly. Option C verified as a literal equivalence (the bridge lemma has no premises).
+  - R1–R3 (lint, two boilerplate role lines, one phrase) are being applied.
+  - Verification: 128 texts elaborate; 89 definitions rfl-equal; 39 theorems Expr-equal; standard axioms.
+  - Owner summary: docs/tracks/LP/freeze/OWNER-SUMMARY-DRAFT7.md. Next: the 39 providers, then draft 8 regenerated
+    and audited.
+- **10:32. Owner asked whether, with nlw2 proved, the remaining W graph nodes can be BYPASSED.** root-b8: yes, under D27, after the seal. Each of the 55 gets a LEAN_NOTE with the route taken; one Codex audit confirms that no proved consumer or frozen anchor needs the node's exact statement; the sync lands with the root flipped to PROVED. The export follow-up packages are cancelled unless the audit finds a consumed node.
+- **10:40. LP draft 7 r1 (de343000) presented to the owner for exact-text approval:** review page https://claude.ai/artifact/D3nf8JKrQnrbJm8A3czcEA (all 128 files; root-b8 re-verified every sha256 against verification §0). The approval asked covers the text and the seals (after a seal audit, as D61). The owner summary's reused-definition count is being corrected to 22.
+- **10:41. D62: the owner approved LP freeze draft 7 r1** ("approve draft 7"; approval object de343000: 128 files, 5 anchors including both corollaries). kam-lp is running the RUNBOOK: placeholders and identity check; definitions, characterizations and DRAFT_SORRY anchors with the manifest; the freeze landing; graph extraction; then the seal branch, the seal audit, and the seal landing (no further go needed). Draft 8 (LP3) needs its own approval.
+- **10:46. W D27 bypass audit (codex-2):** 39 BYPASS-OK, 5 PROVED-OK, 10 KEEP (consumed exactly or with wrong references: w5 flow ×4, w7 shell-geom/partition, w0n:algebra, w0n:weight, w5:solve, lambda-facts). Applied fail-closed. Expected after the seal: 598 PROVED, 39 BYPASSED, 10 open. root-b8: one small package W-GRAPH-CLOSE (exports plus corrected references, one audit) after the seal, to resolve all of W.
+- **10:49. MILESTONE (track W): KAM.Wave.nlw2 is SEALED on main** (5096afdf; seal commit 6798a3c5; D61).
+  - kam-inp-63 reports `#print axioms` [propext, Classical.choice, Quot.sound] and a leanchecker replay of the anchor
+    and provider (exit 0).
+  - root-b8 re-checked on main: manifest wave.nlw2.v1 SEALED; body `by exact KAM.Provider.Wave.nlw2 hm`;
+    check_frozen_anchors.py "FROZEN-ANCHOR GUARD OK".
+  - The W graph synced at 10:24 (the stale-graph warning is gone). Next: the D27 sync (39 BYPASSED, root PROVED),
+    then W-GRAPH-CLOSE (the 10 KEEP nodes; claude-11).
+- **10:49. Owner objected to the 3–5 h LP freeze-and-seal estimate** ("bureaucratic bullshit").
+  - root-b8: the DRAFT_SORRY intermediate landing is pointless when the proofs exist, and I relayed the estimate
+    without challenging it.
+  - New plan: freeze directly as SEALED, on one branch with one landing (precedent track R, 10-30). The seal audit
+    runs in parallel with the build. All machine checks stay.
+  - kam-lp has queued this for LP-FREEZE-EXEC.
+- **10:49. Heartbeat.** No OOM. Load about 4. Memory: 17 GB available. Disks: / 16 GB free, HC 30 GB free (93 %;
+  falling with the LP freeze worktree; the alarm is set at 15 GB).
+- **10:49. W D27 graph sync** inp-wgraph-byp@5bfe22dc sent: PROVED 598 (including the root nlw2, citing seal 6798a3c5), BYPASSED 39, PARTIAL 9, NOT_STARTED 1, which is 685 / 695 resolved (98.6 %). W-GRAPH-CLOSE (claude-11) closes the last 10.
