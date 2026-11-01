@@ -140,6 +140,7 @@ public import KAM.CertificateSharp.V2.SmallDivQ
 public import KAM.CertificateSharp.V2.StepBQ
 public import KAM.CertificateSharp.V2.Tests.BulkRouteB
 public import KAM.CertificateSharp.V2.Tests.BulkToy
+public import KAM.CertificateSharp.V2.Tests.BulkXLang
 public import KAM.CertificateSharp.V2.Tests.Fiber3RouteB
 public import KAM.CertificateSharp.V2.Tests.Fiber3Toy
 public import KAM.CertificateSharp.V2.Tests.Fiber3ToyB
