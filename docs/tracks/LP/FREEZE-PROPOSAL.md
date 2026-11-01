@@ -1,0 +1,135 @@
+# Track LP: freeze proposal (DRAFT 1, for the owner's morning review)
+
+Status: 2026-11-01, overnight. **Nothing is frozen.** This file proposes the exact Lean text of the LP anchors.
+Every statement below was elaborated transiently against the current LP code: the file
+`freeze/elaboration-draft-1.lean.txt` (proof placeholders only, outside the library), checked with the capped
+`lp_lean.sh` at branch `inp-lp-oscaud` (exit 0; only the expected placeholder warnings). Approval objects are
+these exact texts; the decisions they depend on are in [`OWNER-DECISIONS.md`](OWNER-DECISIONS.md) (OD-1…OD-9).
+
+Source: [`source/MAIN.md`](source/MAIN.md) as amended by [`source/AMENDMENTS.md`](source/AMENDMENTS.md)
+(audit PROOF-AUDIT-1, PASS WITH NOTES).
+
+## 1. Proposed anchors
+
+| Anchor | Lean name | MAIN | Lean proof status (2026-11-01 overnight) |
+|---|---|---|---|
+| LP0 | `planar_strongAMD_barrier` | L5 (with L2–L4) | proved as `strongBarrier_physical` (GEOMOD, landed); the anchor is a direct restatement |
+| LP1 | `planar_strongAMD_exponentialSafety` | Theorem 15 (+ L16) | all ingredients proved or in progress: L2–L8 audited, L13 (`lp_stopped_drift`), L14 (`strongFirstExit_of_stopped_drift`), L16 (`osculating_barrier`) proved; chart lift (LP-LIFT) and the assembly (LP-PS) pending |
+| LP2 | `spatial_strongAMD_exponentialSafety` | Theorem 19 | not drafted yet (wave 4: spatial chart L17 is the largest package); proposed later, same shape as LP1 |
+| LP-cor | `planar_strongAMD_exponentialSafety_halfInteger` | §1 (τ = n − 1/2) | corollary, exponent `1/(2n+1)` (`scaleExponent_planar`, NRS) |
+
+Definitions entering the statements (all non-frozen today; freezing an anchor freezes them with it):
+`chamber`, `actionAxis`, `eccDeficit`, `pairFeasible`, `pairObjective`, `pairThreshold` (+ characterization),
+`AdjIdx`, `AdjIdx.upperIdx`, `crossThreshold`, `starThreshold`, `strongThreshold`, `OrderedActions`,
+`orderedPairThreshold`, `orderedCrossThreshold`, `orderedStrongThreshold` (THR); `strongAMD` (MOM);
+`oscVelocity`, `oscParam`, `oscEnergy`, `oscAxis`, `oscEccVector`, `oscEcc`, `oscPeri`, `oscApo`, `keplerPeri`,
+`keplerApo` (OSC); and the frozen planar repository definitions (`Phase`, `bodyVector`, `keplerEnergy`,
+`keplerAxis`, `keplerAction`, `keplerEccVector`, `planeLength`, `IsMovingSolutionOn`, `MovingUniqueOn`,
+`IsNewtonSolutionOn`, `actualMasses`, `barycentricPositions`, `barycentricVelocities`), and
+`KAM.Fourier.modeSize` (ℓ¹ mode size).
+
+## 2. LP0: the planar sharp barrier (exact text)
+
+```lean
+theorem planar_strongAMD_barrier (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀ i, 0 < ν i)
+    (U : Set (Fin n → ℝ)) (hU : IsCompact U) (hUch : U ⊆ chamber ν) (m : ℝ) (hm : 0 < m) :
+    ∃ dStar dPair : ℝ, 0 < dStar ∧ 0 < dPair ∧
+      ∀ z : Phase (n * 2),
+        (∀ i, 0 < planeLength (bodyVector z.1 i) ∧ keplerEnergy ν z i < 0) →
+        ∀ hΛ : (fun i => keplerAction ν z i) ∈ U,
+        strongAMD ν z ≤ orderedStrongThreshold hn ⟨_, hUch hΛ⟩ - m →
+        (∀ i, dStar ≤ keplerAxis ν z i * (1 - ecc ν z i)) ∧
+        (∀ a : AdjIdx n, dPair ≤ keplerAxis ν z a.upperIdx * (1 - ecc ν z a.upperIdx) -
+            keplerAxis ν z a.1 * (1 + ecc ν z a.1)) ∧
+        (∀ i, dStar ≤ planeLength (bodyVector z.1 i)) ∧
+        (∀ i j, i ≠ j → dPair ≤ planeLength (bodyVector z.1 i - bodyVector z.1 j)) := by
+  sorry
+```
+
+Reading: for fixed positive masses, a compact action set `U` inside the ordered chamber and a margin `m > 0`,
+there are `d⋆, d_pair > 0` (before the state) such that every negative-energy state with actions in `U` and
+strong AMD `≤ B(Λ) − m` has perihelia `≥ d⋆`, adjacent radial-annulus gaps `≥ d_pair`, star distances `≥ d⋆`,
+and all pair distances `≥ d_pair`. This is MAIN L5 (the sharp, uniform Laskar–Petit barrier), with no dynamics.
+
+## 3. LP1: planar strong-AMD exponential safety (exact text)
+
+```lean
+theorem planar_strongAMD_exponentialSafety (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀ i, 0 < ν i)
+    (hνmax : ∃ i, ν i = 1) (hνle : ∀ i, ν i ≤ 1)
+    (A : Set (Fin n → ℝ)) (hA : IsCompact A)
+    (hAord : ∀ a ∈ A, (∀ i, 0 < a i) ∧ ∀ i j, i < j → a i < a j)
+    (δ γ τ : ℝ) (hδ : 0 < δ) (hγ : 0 < γ) (hτ : (n : ℝ) - 1 < τ) :
+    ∃ μ₀ c T₀ AΛ Aa dStar dPair Aosc : ℝ,
+      0 < μ₀ ∧ 0 < c ∧ 0 < T₀ ∧ 0 < AΛ ∧ 0 < Aa ∧ 0 < dStar ∧ 0 < dPair ∧ 0 < Aosc ∧
+      ∀ μ : ℝ, 0 < μ → μ ≤ μ₀ →
+      ∀ z₀ : Phase (n * 2),
+        (∀ i, 0 < planeLength (bodyVector z₀.1 i) ∧ keplerEnergy ν z₀ i < 0) →
+        (fun i => keplerAxis ν z₀ i) ∈ A →
+        (∀ k : Fin n → ℤ, k ≠ 0 →
+          γ * (KAM.Fourier.modeSize k : ℝ) ^ (-τ) ≤
+            |∑ i, (k i : ℝ) * (ν i ^ 3 / keplerAction ν z₀ i ^ 3)|) →
+        ∀ hch : (fun i => keplerAction ν z₀ i) ∈ chamber ν,
+        strongAMD ν z₀ ≤ orderedStrongThreshold hn ⟨_, hch⟩ - δ →
+        let T := T₀ * Real.exp (c * μ ^ (-(1 / (2 * (τ + 1)))))
+        ∃ z : ℝ → Phase (n * 2), z 0 = z₀ ∧
+          IsMovingSolutionOn ν μ (Set.Icc (-T) T) z ∧
+          MovingUniqueOn ν μ (Set.Icc (-T) T) z ∧
+          IsNewtonSolutionOn (actualMasses 1 ν μ) (Set.Icc (-T) T)
+            (fun t => barycentricPositions 1 ν μ (z t).1)
+            (fun t => barycentricVelocities 1 ν μ (z t).2) ∧
+          ∀ t ∈ Set.Icc (-T) T,
+            (∀ i, 0 < planeLength (bodyVector (z t).1 i) ∧ keplerEnergy ν (z t) i < 0) ∧
+            (∃ hcht : (fun i => keplerAction ν (z t) i) ∈ chamber ν,
+              strongAMD ν (z t) ≤ orderedStrongThreshold hn ⟨_, hcht⟩ - δ / 2) ∧
+            ‖(fun i => keplerAction ν (z t) i) - fun i => keplerAction ν z₀ i‖ ≤ AΛ * Real.sqrt μ ∧
+            ‖(fun i => keplerAxis ν (z t) i) - fun i => keplerAxis ν z₀ i‖ ≤ Aa * Real.sqrt μ ∧
+            |strongAMD ν (z t) - strongAMD ν z₀| ≤ n * AΛ * Real.sqrt μ ∧
+            (∀ i, dStar ≤ keplerAxis ν (z t) i * (1 - ecc ν (z t) i)) ∧
+            (∀ a : AdjIdx n, dPair ≤ keplerAxis ν (z t) a.upperIdx * (1 - ecc ν (z t) a.upperIdx) -
+                keplerAxis ν (z t) a.1 * (1 + ecc ν (z t) a.1)) ∧
+            (∀ i, dStar ≤ planeLength (bodyVector (z t).1 i)) ∧
+            (∀ i j, i ≠ j → dPair ≤ planeLength (bodyVector (z t).1 i - bodyVector (z t).1 j)) ∧
+            (∀ i, |oscPeri ν μ (z t) i - keplerPeri ν (z t) i| ≤ Aosc * μ ∧
+                  |oscApo ν μ (z t) i - keplerApo ν (z t) i| ≤ Aosc * μ) ∧
+            (∀ i, dStar / 2 ≤ oscPeri ν μ (z t) i) ∧
+            (∀ a : AdjIdx n, dPair / 2 ≤ oscPeri ν μ (z t) a.upperIdx - oscApo ν μ (z t) a.1) := by
+  sorry
+```
+
+Reading (MAIN §1 (6)–(9) and Theorem 15): constants `μ₀, c, T₀, A_Λ, A_a, d⋆, d_pair, A_osc` are chosen
+before `μ` and the initial state. For every `0 < μ ≤ μ₀` and every negative-energy initial state with axes in
+`A`, the Diophantine condition (5) on the initial Kepler frequencies `ω_i = ν_i³/Λ_i³`, and AMD at most
+`B(Λ) − δ`, the unique moving solution exists on `|t| ≤ T₀ exp(c μ^{−1/(2(τ+1))})`, reconstructs the actual
+Newtonian `(1+n)`-body motion, and along it: ellipticity, AMD `≤ B − δ/2`, `O(√μ)` action/axis drift, AMD drift
+`≤ n A_Λ √μ`, perihelia and adjacent gaps bounded below, all star and pair distances bounded below, and the
+actual-velocity osculating ellipses within `A_osc μ` and with half the gaps. **No hypothesis on the secular
+dynamics.**
+
+## 4. Choices embedded in the text (owner decisions)
+
+1. **AMD convention (OD-1, audit N8).** `strongAMD = ΣΛ − |L|` (orientation-free, MAIN (2)); no prograde premise.
+   The proof reduces `L < 0` by the reflection (`isMovingSolutionOn_reflectPhase_iff`, MOM, audited). The
+   alternative signed `physicalAMD` would make the hypothesis force `L > 0` (a narrower theorem).
+2. **Threshold carrier (OD-2; root-b8 recommendation).** The anchors use `orderedStrongThreshold hn ⟨Λ, h⟩` on
+   the source carrier `OrderedActions ν`, with the chamber membership `hch` as typing data (a binder, not a
+   source premise: it follows from `a ∈ A` and `ν > 0`). In conclusions the membership is existential
+   (`∃ hcht, …`). The total `strongThreshold` stays an internal helper, equal by `rfl`
+   (`orderedStrongThreshold_eq`). **Alternative:** the total form (no `hch` binder; simpler text, but the frozen
+   definition then has off-source values).
+3. **Mass normalization (OD-3).** Drafted with MAIN's `max ν = 1` (`hνmax`, `hνle`). **Recommendation: drop
+   both.** No proof step uses them (OSC uses `|k_i − 1| ≤ M μ` with `M = 1 + Σν`); dropping them gives a strictly
+   more general theorem with the same constants' dependence.
+4. **Arithmetic (OD-4).** `τ > n − 1` free, `γ > 0`, condition on the initial radian frequencies with ℓ¹ mode
+   size; the corollary fixes `τ = n − 1/2`.
+5. **Crossing notion (OD-5).** Canonical annuli + all-pair distances + actual-velocity osculating annuli (N10:
+   half gaps; the `μ₀` ordering is internal).
+6. **Uniqueness.** Exported in the repository's `MovingUniqueOn` form (as P-EXP-SAFE), plus the Newtonian
+   reconstruction `IsNewtonSolutionOn`.
+7. **New anchors only (OD-6).** P-EXP-SAFE is untouched.
+
+## 5. What a freeze would require next
+
+Owner approval of the exact text (with the OD choices) → independent statement audit (lean-statement-audit) →
+freeze under `KAM/Frozen/` with manifest entries (DRAFT_SORRY until sealed) → source dependency graph
+(build-proof-dependency-graph skill) → seal by providers from the proved packages (LP0 immediately; LP1 after
+LP-LIFT and LP-PS).
