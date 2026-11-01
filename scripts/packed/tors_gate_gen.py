@@ -26,6 +26,8 @@ Probes (into $V2P_GATE_DIR, default .lake/v2-packed-gate; each with the data it 
   TorsAMut_0_2        the entry A(0, 2) against a memo with one mantissa + 1 is `false`;
   TorsNode*           one entry of one node of the chain (K, its norm, N, DL, DG, DG^-1, X_N, T): the profile.
 `python3 -I scripts/packed/tors_gate_gen.py --toy` prints the toy book of `TorsTests.lean`.
+Order: run `scripts/packed/gram_gate_gen.py` first, into the same $V2P_GATE_DIR: the probes copy its `gBook`
+from `GramCore.lean` (asserted). `torsr_gate_gen.py` has no such dependency.
 Usage: python3 -I scripts/packed/tors_gate_gen.py [LG00_CERT_DIR]
 """
 import json

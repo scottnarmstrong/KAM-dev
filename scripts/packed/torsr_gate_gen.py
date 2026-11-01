@@ -13,7 +13,8 @@ computes, exactly in Python (Kronecker products of big integers, as the kernel d
 Writes the probes (into $V2P_GATE_DIR, default .lake/v2-packed-gate), each with the data it reads:
   TRData (control), TRLay, TRPack, TRSt<node> (one node, every entry), TRStDN_i_j and TRStXN_i_j (one entry
   each: the two largest nodes), TRT, TRY, TRFinal, the boundary entries under the box book (TRE_*), and the
-  negative controls TRFinalNeg (bound 1/100) and TRStNMut (a node mantissa off by 2^120).
+  controls TRFinalNeg (bound 1/100), TRStNMut (a node mantissa off by 2^120), TRStCRadUlp (one ulp of radius),
+  TRStCDrop (the largest term dropped), TRFinalEdge_hi / TRFinalEdge_lo (sigma around the threshold).
 `--toy` prints the book and the memo of `TorsRTests.lean` instead.
 Usage: python3 -I scripts/packed/torsr_gate_gen.py [--toy] [--drop=BITS]
 """
@@ -472,7 +473,7 @@ def write_probes(D, rb, memos, CT, RT, CY, RY, info):
     nodes = ("N", "DL", "DG", "C", "DGi", "DN", "XN")
     shape = dict(N=(2 * n, n), DL=(2 * n, n), DG=(n, n), C=(n, n), DGi=(n, n), DN=(2 * n, n), XN=(2 * n, n))
 
-    def node_defs(nm, sub=None):
+    def node_defs(nm, sub=None, radsub=None):
         memo, mats = memos[nm]
         out = ""
         R, Cc = shape[nm]
@@ -480,7 +481,7 @@ def write_probes(D, rb, memos, CT, RT, CY, RY, info):
             for j in range(Cc):
                 poly = (sub or {}).get((i, j), memo[(i, j)])
                 re_, im_ = node_lists(poly)
-                rad, nb = mats[(i, j)][1], mats[(i, j)][2]
+                rad, nb = mats[(i, j)][1] - (radsub or {}).get((i, j), 0), mats[(i, j)][2]
                 nmij = "r%s_%d_%d" % (nm, i, j)
                 out += ("noncomputable def %s_re : List (CertKey × ℤ) :=\n%s\n\n"
                         "noncomputable def %s_im : List (CertKey × ℤ) :=\n%s\n\n"
@@ -609,6 +610,23 @@ open KAM KAM.Certificate KAM.CertificateSharp.Packed
     probes["TRStNMut"] = ("Negative control (data): the node N with one mantissa off by 2^120 is rejected.",
                           base + tmemo() + node_defs("N", sub={(0, 0): m00}) + rmemo(["N"]),
                           stmt["N"] + " = false")
+    # sharp controls (AUDIT-V2-PACKED-B3-1 L2): one ulp of radius, the largest term dropped, the sigma edges
+    probes["TRStCRadUlp"] = ("Negative control (sharp): the radius of C(0, 0) lowered by one ulp (2^-128) is rejected.",
+                             base + tmemo() + node_defs("DG") + node_defs("C", radsub={(0, 0): 1}) +
+                             rmemo(["DG", "C"]), stmt["C"] + " = false")
+    c00 = dict(memos["C"][0][(0, 0)])
+    kbig = max(c00, key=lambda k: max(abs(c00[k][0]), abs(c00[k][1])))
+    part_ = 0 if abs(c00[kbig][0]) >= abs(c00[kbig][1]) else 1
+    c00[kbig] = (0, c00[kbig][1]) if part_ == 0 else (c00[kbig][0], 0)
+    c00 = {k: v for k, v in c00.items() if v != (0, 0)}
+    probes["TRStCDrop"] = ("Negative control (sharp): the largest term of C(0, 0) dropped, radius kept, is rejected.",
+                           base + tmemo() + node_defs("DG") + node_defs("C", sub={(0, 0): c00}) +
+                           rmemo(["DG", "C"]), stmt["C"] + " = false")
+    probes["TRFinalEdge_hi"] = ("Control: the averaged test just above its threshold (sigma = 0.2088116) is true.",
+                                base + rmemo(()), fin % ("(2088116 / 10000000 : ℚ)", "true"))
+    probes["TRFinalEdge_lo"] = ("Negative control (sharp): the averaged test just below its threshold "
+                                "(sigma = 0.2088114) is false.", base + rmemo(()),
+                                fin % ("(2088114 / 10000000 : ℚ)", "false"))
     for r in range(2 * n):
         for j in range(n):
             for l in range(n):

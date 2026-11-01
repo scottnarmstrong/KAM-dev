@@ -10,6 +10,23 @@ same rules and end to end on LG00's data with its gate. B3b is the rounded and t
 Decision 2 (raising `LEAN_NAT_MAX_SIZE`) was declined, so the design must not need it, and it does not. B3 and
 B3b are to be audited together. The branch is local and builds on B3 (`docs/campaign/handoffs/V2-PACKED-B3.md`).
 
+## V2-PACKED-B3-FIX (audit AUDIT-V2-PACKED-B3-1: PASS WITH CHANGES, Lean sound)
+
+- **M1.** The LG00 saving claim is withdrawn. The B3b figures are a stage-cost comparison only: route A refined's
+  frame checks re-run the landed Gram check and torsion models, so with `torsRBase` the landed stages stay and
+  the packed stages add ≈ 1,355 CPU-s (under "Result"). Design §9, §11 and §12 are corrected the same way.
+- **L1.** The "production assembly unmeasured" caveat now stands next to the figures, together with the gate's
+  statement names (`gW`, `gCfg`, literal `s`/`σ`).
+- **L2.** The audit's sharp negative controls are now in the generator and the receipts (`controls/`):
+  - `TRStCRadUlp`: the radius of `C(0,0)` lowered by one ulp (2⁻¹²⁸) gives `= false`;
+  - `TRStCDrop`: the largest term of `C(0,0)` dropped, radius kept, gives `= false`;
+  - `TRFinalEdge_hi` (σ = 0.2088116) gives `= true`, and `TRFinalEdge_lo` (σ = 0.2088114) gives `= false`.
+    These bracket σ* = ‖S‖/(1 − δ_T) = 0.20881152.
+- **L3.** The generator order is documented: `gram_gate_gen.py` must run before `tors_gate_gen.py` (same
+  `V2P_GATE_DIR`; this is asserted). `torsr_gate_gen.py` has no such dependency.
+- **I1.** The `TorsR.lean` docstring now says that the box containing the landed truncation is a property of
+  the book chosen by the generator, which the check does not rely on.
+
 ## Result
 
 - **The Lean is complete and sound end to end**, on the standard axioms.
@@ -20,19 +37,36 @@ B3b are to be audited together. The branch is local and builds on B3 (`docs/camp
   its own process under the 4 GB cap, with no failure.
   - Every number is ≤ 3.67 Mbit, so the kernel numeral cap is never approached.
   - Every process is charged ≤ 3.19 GB.
-- **The first end-to-end saving.** With `torsRBase`, LG00's landed Gram stage and landed Torsion stage are both
-  replaced:
+- **A stage-cost comparison, not an LG00 saving (corrected by AUDIT-V2-PACKED-B3-1 M1).** For the base
+  checker's Gram and Torsion sub-checks alone, on LG00's data:
 
-  | | current method (LG00 run20e) | packed |
+  | sub-check | current method (LG00 run20e) | packed |
   |---|---|---|
   | Gram stage | 89 modules, 1,425 CPU-s | 9 processes, 73 CPU-s (B2) |
   | Torsion stage | 637 modules, 12,126 CPU-s (+ `Final.Torsion` 9.5) | **64 processes, 1,292 CPU-s** (269 s kernel) |
-  | **both** | **726 modules, 13,561 CPU-s** | **73 processes, 1,365 CPU-s (≈ 9.9×)** |
+  | **both** | **726 modules, 13,561 CPU-s** | **73 processes, 1,365 CPU-s (≈ 9.9× per stage)** |
   | max cgroup charge | 2.44 GB | 3.19 GB (4 GB cap) |
 
-  - The saving is ≈ 12,200 CPU-s, i.e. ≈ 3.4 CPU-h, about 11 % of LG00's passing set (30.1 CPU-h).
-  - The `Low` stage (the landed jet composition at `cfgLow`, 2,469 modules, 14.0 CPU-h) feeds both methods and
-    is unchanged. `Full` (10.2 CPU-h) is untouched as well.
+  - **Production assembly is unmeasured (L1).** The packed column counts the probes only. It leaves out the
+    shared data module and the assembly theorems (`checkTorsionR_of`; `stageAll` from the per-entry `stageOk`
+    of `DN`/`X_N`).
+  - **The probes are stated at the gate's names** (`gW`, `gCfg := ⟨24, 30, 12, CertFixed.toMant lgP, []⟩` with
+    empty advice, literal `s` and `σT − μ`). These agree with `lg00Cert` in every field the checks read, but a
+    production proof must state them at `lg00Cert.cfgLow` etc., and that link was not measured.
+  - **There is no LG00 end-to-end saving.** LG00 certifies with route A refined, whose test also runs
+    `checkFrameMajorants` (`RouteARefinedEngine.lean:35`). Its `checkFrameN` and `checkFrameT`
+    (`KAM/CertificateSharp/Frame/Majorants.lean:141-167`) re-evaluate the landed `gramCheck`, a landed `[4,0]`
+    product and the landed `torsionModels`. In LG00 these are `Final/FrameN.lean:22-24` (`lg00GramCheck`,
+    `lg00TStage_0`) and `Final/FrameT.lean:22` (`lg00GramCheck`, `lg00TorsionModels`).
+  - **So the effect today is a cost.** With `torsRBase` all 726 landed Gram and Torsion modules stay in LG00's
+    build, and the packed stages **add** ≈ 1,355 CPU-s: only `Final.Torsion`, ≈ 10 s, disappears.
+  - **What an LG00 saving needs:**
+    - packed frame checks: `|N|`/`|Nᵀ|` from the verified `N` memo and `sup |T|` from the packed `T` on the
+      window;
+    - a route-A-refined engine variant whose test reads them.
+
+    This is the orchestrator's next task, V2-PACKED-FRAMES.
+  - The `Low` and `Full` jet compositions (14.0 and 10.2 CPU-h) are unchanged either way.
 - **The final test.** With LG00's own torsion witness, `tabFinal` gives:
   - `‖S‖ = 0.2087` and `δ_T = 6.8·10⁻⁴`;
   - the test `‖S‖ + σ δ_T ≤ σ` with `σ = σT − μ = 0.20999` holds with **margin 1.18·10⁻³** (generator mirror);
@@ -171,3 +205,5 @@ Each probe carries the data it reads (one data module in production).
 - **No errata.**
 
 V2-PACKED-B3B DONE
+
+V2-PACKED-B3-FIX DONE

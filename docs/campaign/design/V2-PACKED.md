@@ -339,8 +339,10 @@ on the standard axioms.
   - The landed `checkTorsion` matches on the landed `gramCheck`, so the 89-module landed Gram stage is still
     required by `checkTorsion`. In LG00, `lg00_checkTorsion` consumes `lg00GramCheck`.
   - With `gramPackedBase` the net change is therefore +73 s.
-  - The saving appears only with a packed torsion stage (B3) that takes the Gram result from the packed
-    check.
+  - A packed torsion stage (B3) that takes the Gram result from the packed check is necessary, but not
+    sufficient. Route A refined's frame checks (`checkFrameN`, `checkFrameT`, `Frame/Majorants.lean`) re-run the
+    landed Gram check and torsion models, so an LG00 saving also needs packed frames and a matching engine
+    (AUDIT-V2-PACKED-B3-1 M1; V2-PACKED-FRAMES).
 
 ## 10. B3, the torsion stage (branch `v2-packed-b3`; details in `docs/campaign/handoffs/V2-PACKED-B3.md`)
 
@@ -376,8 +378,12 @@ The B3 design consequence, built.
 Every number stays ≤ 3.67 Mbit (360-bit slots on a 101 × 101 window), and every process ≤ 3.19 GB.
 
 **Gate on LG00's data:** 64 processes, 1,292 CPU-s (269 s kernel), against the landed Torsion stage's 637
-modules and 12,126 CPU-s. Together with B2's packed Gram stage, the two stages cost 1,365 CPU-s against 13,561
-(≈ 9.9×); the jet compositions (`Low`, `Full`) are unchanged.
+modules and 12,126 CPU-s. Together with B2's packed Gram stage, the two **sub-checks** cost 1,365 CPU-s against
+13,561 (≈ 9.9×, a stage-cost comparison; production assembly unmeasured).
+
+**There is no LG00 saving yet.** Route A refined's `checkFrameN`/`checkFrameT` re-run the landed Gram check and
+torsion models, so the landed stages stay (AUDIT-V2-PACKED-B3-1 M1). Packed frames and a matching engine are the
+next step (V2-PACKED-FRAMES). The jet compositions (`Low`, `Full`) are unchanged.
 
 **The memo-and-residual pattern** (a node verified by `packRepOk` and the packed norm of its exact residual) needs
 no digit lemma about the rounding or the truncation. It applies to any chain of packed products, including a
@@ -430,6 +436,10 @@ That is **24.2 of LG00's 30.1 CPU-h**. LG00's own analysis puts the cost in thre
   conversions: ≈ 9.6 h;
 - product shard groups and product segments (decode, truncation, ledger): ≈ 11 h;
 - witness certification: ≈ 0.8 h.
+
+**Note (AUDIT-V2-PACKED-B3-1 M1).** The landed `checkFrameT` of route A refined re-runs the landed
+`torsionModels`, and that includes the `cfgLow` composition. The jet's `Low` saving therefore also needs the
+packed frames of V2-PACKED-FRAMES, whose `T` comes from the packed torsion.
 
 ### 12.2 The bridge: at the enclosure, not at the landed segment check
 

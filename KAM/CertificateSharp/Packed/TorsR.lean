@@ -16,9 +16,9 @@ numbers exceed the kernel's numeral cap and its memory exceeds 4 GB in one proce
 `checkTorsionR` certifies the same proposition with **bounded** packed models, as the landed models
 do:
 
-* **one box** `Lb` for every boundary entry and every node (the landed `cfgLow` truncation lies
-  inside it), **one window** `Lw = win Lb Lb` for every product, one unit layout `Lu`
-  (`win Lb Lu = Lw`);
+* **one box** `Lb` for every boundary entry and every node (untrusted metadata: LG00's book chooses
+  it to contain the landed `cfgLow` truncation, which the check does not rely on), **one window**
+  `Lw = win Lb Lb` for every product, one unit layout `Lu` (`win Lb Lu = Lw`);
 * **every node** (`N`, `D L`, `DG`, `C`, `D(G⁻¹)`, `DN`, `X_N`) is a memo on `Lb` at scale `2^P`
   (`PRMemo`; rounded mantissas, truncated modes, computed by untrusted tooling), checked entry by
   entry against the exact product of its (memoized) inputs on `Lw` at scale `2^(2P)` by the residual
