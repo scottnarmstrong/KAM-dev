@@ -147,16 +147,13 @@ theorem w8Pi_sep_of_ne (ht : 0 < t0) {n n' : ℕ} (h : n ≠ n') {ξ ξ' : Fin 2
 /-- `Π_n` lies in W7's inner shell `U_{-α_n} R_n` (`shellInner`). -/
 theorem w8Pi_subset_shellInner (n : ℕ) :
     w8Pi t0 n ⊆ shellInner (1 / 2) t0 n (w8alpha t0 n) :=
-  fun _ hξ => ⟨hξ.1, fun _ hJ => w8Pi_sep hξ hJ⟩
+  fun _ hξ => ⟨hξ.1, hξ.2⟩
 
 /-- For `a < b`, W7's inner shell `U_{-b} R_n` lies in `{dist(·, ℝ² ∖ R_n) > a}`. -/
 theorem shellInner_subset_w8Pi_of_lt {n : ℕ} {b : ℝ}
     (hab : w8alpha t0 n < b) : shellInner (1 / 2) t0 n b ⊆ w8Pi t0 n := by
   intro ξ hξ
-  refine ⟨hξ.1, lt_of_lt_of_le hab ?_⟩
-  have hne : (w8Rn t0 n)ᶜ.Nonempty := ⟨0, fun h => by
-    have := (h.1 0 (mem_univ 0)).1; simp at this⟩
-  exact (Metric.le_infDist hne).2 fun J hJ => (hξ.2 J hJ).le
+  exact ⟨hξ.1, hab.trans hξ.2⟩
 
 /-- **Boundary layer** (Remark `bpW:w8:boundaries`; W7 `bpW:w7:shell-geom` (ii)):
 `volume (R_n ∖ Π_n) ≤ 7 α_n t_n` for `0 < t₀ < 1`. -/
