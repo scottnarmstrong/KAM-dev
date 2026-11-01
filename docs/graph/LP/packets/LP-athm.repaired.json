@@ -1,0 +1,27 @@
+{
+ "replaced": [
+  "lpM:L4#orderedPairThreshold_isLeast",
+  "lpM:L4#orderedPairThreshold_existsUnique_value",
+  "lpM:L4#orderedCrossThreshold_isLeast",
+  "lpM:L4#orderedStrongThreshold_isLeast"
+ ],
+ "added": [],
+ "items": [],
+ "unresolved": {},
+ "passes": [
+  "lpM:L5#planar_strongAMD_barrier",
+  "lpM:L3#sourceStrongAMD_nonneg",
+  "lpM:L3#sum_action_mul_eccDeficit_le_sourceStrongAMD",
+  "lpM:L2#sourceKepler_axis_pos",
+  "lpM:L2#sourceKepler_ecc_le_one",
+  "lpM:L2#sourceKeplerPeri_le_planeLength",
+  "lpM:L2#planeLength_le_sourceKeplerApo",
+  "lpM:L2#planeLength_le_sourceKeplerApo",
+  "lpM:L2#sourceKeplerPeri_le_planeLength",
+  "lpM:L2#sourceKepler_axis_pos",
+  "lpM:L2#sourceKepler_ecc_le_one",
+  "lpM:L3#sourceStrongAMD_nonneg",
+  "lpM:L3#sum_action_mul_eccDeficit_le_sourceStrongAMD",
+  "lpM:L5#planar_strongAMD_barrier"
+ ]
+}

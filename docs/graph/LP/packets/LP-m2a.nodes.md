@@ -19,9 +19,9 @@ ROUTE_FOR: -
 EDGE: lpM:L1#reduction | docs/tracks/LP/source/MAIN.md#L1@L101-L102 | the reduction and the division by μ give (1)
 EDGE: lpM:L1#reconstruction | docs/tracks/LP/source/MAIN.md#L1@L104-L108 | the explicit inverse reconstructs Newtonian solutions
 EDGE: lpM:s1:model | docs/tracks/LP/source/MAIN.md#L1@L99-L99 | the statement concerns Hamiltonian (1) and the masses μν_i
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -46,9 +46,9 @@ DEPS: lpM:s1:model
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:model | docs/tracks/LP/source/MAIN.md#L1@L102-L102 | the result is compared with the Hamiltonian (1) and its symplectic form
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -73,9 +73,9 @@ DEPS: lpM:s1:model
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:model | docs/tracks/LP/source/MAIN.md#L1@L106-L106 | Hamilton's equation q̇_i = ∂H_μ/∂p_i for the Hamiltonian (1)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -102,9 +102,9 @@ ROUTE_FOR: -
 EDGE: lpM:L1#velocity | docs/tracks/LP/source/MAIN.md#L1@L105-L108 | Hamilton's equation (10) shows that the displayed velocities differentiate the displayed positions
 EDGE: lpM:L1#reduction | docs/tracks/LP/source/MAIN.md#L1@L108-L108 | the planet momenta are multiplied by μ (P_i = μ p_i) as in the reduction
 EDGE: lpM:s1:model | docs/tracks/LP/source/MAIN.md#L1@L108-L108 | the equations for ṗ_i come from differentiating the potentials in (1)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -131,9 +131,9 @@ ROUTE_FOR: -
 EDGE: lpM:L2#ecc-identity | docs/tracks/LP/source/MAIN.md#L2@L124-L124 | the first identity of (11) and its substitutions
 EDGE: lpM:L2#radial-bounds | docs/tracks/LP/source/MAIN.md#L2@L124-L128 | the bounds and the momentum identity (12)
 EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L2@L112-L112 | definitions (2) of a, e, I
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -158,9 +158,9 @@ DEPS: lpM:s1:elements
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L2@L124-L124 | the eccentricity vector, E, a and I of (2)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -186,9 +186,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L2#ecc-identity | docs/tracks/LP/source/MAIN.md#L2@L128-L128 | uses ¦ℓ¦^2 = a(1 - e^2) from (11)
 EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L2@L124-L124 | the energy definition E = ¦v¦^2/2 - 1/¦q¦ = -1/(2a)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -209,14 +209,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: lpM:L3#static, lpM:L3#dynamic, lpM:L3#planar-orientation
+DEPS: lpM:L3#static, lpM:L3#dynamic, lpM:L3#planar-orientation, lpM:s1:thresholds#eccDeficit
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L3#static | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | the static clauses: C ≥ 0, L ≠ 0, H_i > 0, H_i ≥ m and the inequality of (13)
 EDGE: lpM:L3#dynamic | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | the dynamic clauses: conservation of L and the identity of (13)
 EDGE: lpM:L3#planar-orientation | docs/tracks/LP/source/MAIN.md#L3@L137-L137 | the planar orientation clause
+EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#L3@L135-L135 | D occurs directly in the full statement of (13), independently of the conjunction edges
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -246,9 +247,9 @@ EDGE: lpM:L3#L-nonzero | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | L ≠ 0 wh
 EDGE: lpM:L3#projections | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | H_i ≥ I_i - C, hence H_i > 0 and H_i ≥ m
 EDGE: lpM:L3#deficit | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | the inequality of (13)
 EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#L3@L135-L135 | D occurs in (13)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -274,9 +275,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L3#conservation | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | L̇ = 0 and constancy
 EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | C = Σ I_i - ¦L¦ with constant ¦L¦ gives the identity
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -304,9 +305,9 @@ EDGE: lpM:L1#velocity | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | the recoil 
 EDGE: lpM:s1:model | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | the forces are those of the Hamiltonian (1)
 EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | L = Σ_i q_i × p_i
 EDGE: lpM:ext-ftc | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | the fundamental theorem of calculus gives constancy
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -332,9 +333,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L2 | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | by (11), ¦L_i¦ = ¦q_i × p_i¦ = I_i √(1 - e_i^2) ≤ I_i
 EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | C = Σ I_i - ¦L¦
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -359,9 +360,9 @@ DEPS: lpM:s1:elements
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | C = Σ I_i - ¦L¦ and the actions I_i > 0
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -374,27 +375,26 @@ STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#L3@L132-L137
 PROOF_SOURCE: docs/tracks/LP/source/MAIN.md#L3@L139-L139
 CONTRACT_ID: lpM:L3#projections
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of lpM:L3: the model (1) with its data (n, ν, d, μ > 0); a negative-energy state (E_i < 0, q_i ≠ 0 for every i) or a solution of (1) on a connected interval of existence (a negative-energy state with L ≠ 0); local data: L̂ = L/¦L¦, H_i = L_i·L̂
-SOURCE_QUANTIFIERS: for every such state and every m > 0
+SOURCE_HYPOTHESES: negative-energy state: ν_i > 0, q_i ≠ 0 and E_i < 0 for every i, d ∈ {2,3}; local nonzero-L case: L ≠ 0; local definitions L̂ = L/¦L¦ and H_i = L_i·L̂; m > 0 for the margin implication
+SOURCE_QUANTIFIERS: for every such negative-energy state with L ≠ 0 and every m > 0
 SOURCE_CONCLUSION: H_i ≤ ¦L_i¦ ≤ I_i, so every I_i - H_i ≥ 0, and Σ_i (I_i - H_i) = C; hence H_i ≥ I_i - C ≥ B_⋆(I) - C, so H_i > 0 when C < B_⋆(I) and H_i ≥ m when C ≤ B_⋆(I) - m
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: lpM:L3#L-nonzero, lpM:L2, lpM:s1:elements
+DEPS: lpM:L2, lpM:s1:elements
 ROUTES: -
 ROUTE_FOR: -
-EDGE: lpM:L3#L-nonzero | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | L ≠ 0 (when C < B_⋆) makes L̂ and H_i defined
 EDGE: lpM:L2 | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | ¦L_i¦ ≤ I_i by (11)
 EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | Σ_i H_i = ¦L¦ and C = Σ I_i - ¦L¦
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: The local L ≠ 0 case is explicit, as needed by the nonzero-L deficit argument. The C < B_⋆ and C ≤ B_⋆ - m clauses are conditional conclusions. Do not apply lpM:L3#L-nonzero here: its premise C < B_⋆ is absent in the general nonzero-L case; lpM:L3#static obtains L ≠ 0 separately before using this step.
 
 NODE: lpM:L3#deficit
 KIND: step
@@ -417,9 +417,9 @@ ROUTE_FOR: -
 EDGE: lpM:L3#projections | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | C = Σ_i (I_i - H_i)
 EDGE: lpM:L2 | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | ¦L_i¦ = I_i √(1 - e_i^2) by (11)
 EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | D(e) = 1 - √(1 - e^2)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -446,9 +446,9 @@ ROUTE_FOR: -
 EDGE: lpM:L2 | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | e_i ≤ 1 by (11)
 EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | D(e) ≤ 1 for e ∈ [0,1]
 EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | C = Σ I_i - ¦L¦ = Σ I_i when L = 0
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -469,12 +469,13 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: lpM:L3#projections
+DEPS: lpM:L3#projections, lpM:L3#L-nonzero
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L3#projections | docs/tracks/LP/source/MAIN.md#L3@L137-L137 | in the plane H_i = L_i·sign(L) > 0
+EDGE: lpM:L3#L-nonzero | docs/tracks/LP/source/MAIN.md#L3@L137-L137 | C < B_⋆ supplies L ≠ 0 before applying the projection step and choosing an orientation
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -488,15 +489,15 @@ STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#L4@L143-L146
 PROOF_SOURCE: docs/tracks/LP/source/MAIN.md#L4@L149-L156
 CONTRACT_ID: lpM:L4
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: ν_i > 0 for every i ('all positive masses'); I ∈ Q
-SOURCE_QUANTIFIERS: for every ν > 0 and I ∈ Q (each pair i < j)
+SOURCE_HYPOTHESES: n ≥ 2 (MAIN §1 L11); ν_i > 0 for every i ('all positive masses'); I ∈ Q
+SOURCE_QUANTIFIERS: for every n ≥ 2; for every ν > 0 and I ∈ Q (each pair i < j)
 SOURCE_CONCLUSION: every minimum in (3) is attained and positive; each B_ij and B is continuous on Q; B_ij(I) < I_j and B(I) = min(B_cross(I), I_1) (14)
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: lpM:L4#feasible-compact, lpM:L4#continuity, lpM:L4#positivity, lpM:L4#competitor, lpM:s1:chamber#chamber, lpM:s1:thresholds#orderedPairThreshold, lpM:s1:thresholds#orderedCrossThreshold, lpM:s1:thresholds#orderedStrongThreshold
+DEPS: lpM:L4#feasible-compact, lpM:L4#continuity, lpM:L4#positivity, lpM:L4#competitor, lpM:s1:chamber#chamber, lpM:s1:thresholds#orderedPairThreshold, lpM:s1:thresholds#orderedCrossThreshold, lpM:s1:thresholds#orderedStrongThreshold, lpM:s1:data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L4#feasible-compact | docs/tracks/LP/source/MAIN.md#L4@L149-L149 | the pair minima are attained
@@ -507,8 +508,9 @@ EDGE: lpM:s1:chamber#chamber | docs/tracks/LP/source/MAIN.md#L4@L143-L143 | I �
 EDGE: lpM:s1:thresholds#orderedPairThreshold | docs/tracks/LP/source/MAIN.md#L4@L143-L143 | B_ij occurs
 EDGE: lpM:s1:thresholds#orderedCrossThreshold | docs/tracks/LP/source/MAIN.md#L4@L145-L145 | B_cross occurs in (14)
 EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#L4@L143-L143 | B occurs
+EDGE: lpM:s1:data | docs/tracks/LP/source/MAIN.md#L4@L143-L143 | the inherited n ≥ 2 and positive-mass data; only this part of the data package is assumed
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -522,15 +524,15 @@ STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#L4@L143-L143
 PROOF_SOURCE: docs/tracks/LP/source/MAIN.md#L4@L149-L149
 CONTRACT_ID: lpM:L4#feasible-compact
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of lpM:L4: ν_i > 0 for every i; I ∈ Q; i < j; local data: α = a_i(I)/a_j(I) ∈ (0,1)
-SOURCE_QUANTIFIERS: for every ν > 0, I ∈ Q and pair i < j (inherited from lpM:L4)
+SOURCE_HYPOTHESES: n ≥ 2 (MAIN §1 L11); context of the proof of lpM:L4: ν_i > 0 for every i; I ∈ Q; i < j; local data: α = a_i(I)/a_j(I) ∈ (0,1)
+SOURCE_QUANTIFIERS: for every n ≥ 2; for every ν > 0, I ∈ Q and pair i < j (inherited from lpM:L4)
 SOURCE_CONCLUSION: the feasible subset of [0,1]^2 is closed and nonempty, since (0, 1 - α) is feasible, and the objective I_i D(u) + I_j D(v) is continuous, so the pair minimum is attained
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: lpM:s1:thresholds#pairFeasible, lpM:s1:thresholds#pairObjective, lpM:s1:thresholds#eccDeficit, lpM:s1:thresholds#actionAxis, lpM:s1:chamber#chamber, lpM:ext-compact-min
+DEPS: lpM:s1:thresholds#pairFeasible, lpM:s1:thresholds#pairObjective, lpM:s1:thresholds#eccDeficit, lpM:s1:thresholds#actionAxis, lpM:s1:chamber#chamber, lpM:ext-compact-min, lpM:s1:data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:thresholds#pairFeasible | docs/tracks/LP/source/MAIN.md#L4@L149-L149 | the feasible set
@@ -539,8 +541,9 @@ EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#L4@L149-L149 
 EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#L4@L149-L149 | α = a_i(I)/a_j(I)
 EDGE: lpM:s1:chamber#chamber | docs/tracks/LP/source/MAIN.md#L4@L149-L149 | I ∈ Q gives α < 1
 EDGE: lpM:ext-compact-min | docs/tracks/LP/source/MAIN.md#L4@L149-L149 | a continuous function on a nonempty compact set attains its minimum
+EDGE: lpM:s1:data | docs/tracks/LP/source/MAIN.md#L4@L149-L156 | the inherited n ≥ 2 and positive-mass data; only this part of the data package is assumed
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -554,22 +557,25 @@ STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#L4@L143-L143
 PROOF_SOURCE: docs/tracks/LP/source/MAIN.md#L4@L149-L149
 CONTRACT_ID: lpM:L4#contact-reduction
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of lpM:L4: ν_i > 0 for every i; I ∈ Q; i < j; local data: α = a_i(I)/a_j(I) ∈ (0,1)
-SOURCE_QUANTIFIERS: for every ν > 0, I ∈ Q and pair i < j (inherited from lpM:L4); for every feasible (u,v)
+SOURCE_HYPOTHESES: n ≥ 2 (MAIN §1 L11); context of the proof of lpM:L4: ν_i > 0 for every i; I ∈ Q; i < j; local data: α = a_i(I)/a_j(I) ∈ (0,1)
+SOURCE_QUANTIFIERS: for every n ≥ 2; for every ν > 0, I ∈ Q and pair i < j (inherited from lpM:L4); for every feasible (u,v)
 SOURCE_CONCLUSION: replacing (u,v) by t(u,v) with t = (1 - α)/(αu + v) ≤ 1 gives contact a_i(1 + tu) = a_j(1 - tv) and does not increase the objective
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: lpM:s1:thresholds#pairFeasible, lpM:s1:thresholds#pairObjective, lpM:s1:thresholds#eccDeficit
+DEPS: lpM:s1:thresholds#pairFeasible, lpM:s1:thresholds#pairObjective, lpM:s1:thresholds#eccDeficit, lpM:s1:data, lpM:s1:chamber#chamber, lpM:s1:thresholds#actionAxis
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:thresholds#pairFeasible | docs/tracks/LP/source/MAIN.md#L4@L149-L149 | feasibility and contact
 EDGE: lpM:s1:thresholds#pairObjective | docs/tracks/LP/source/MAIN.md#L4@L149-L149 | the objective
 EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#L4@L149-L149 | D is nondecreasing on [0,1]
+EDGE: lpM:s1:data | docs/tracks/LP/source/MAIN.md#L4@L149-L156 | the inherited n ≥ 2 and positive-mass data; only this part of the data package is assumed
+EDGE: lpM:s1:chamber#chamber | docs/tracks/LP/source/MAIN.md#L4@L149-L156 | I ∈ Q is a direct carrier premise
+EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#L4@L149-L156 | the local ratio α = a_i(I)/a_j(I) directly uses the action-axis formula
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -583,21 +589,25 @@ STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#L4@L150-L153
 PROOF_SOURCE: docs/tracks/LP/source/MAIN.md#L4@L149-L153
 CONTRACT_ID: lpM:L4#contact-param
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of lpM:L4: ν_i > 0 for every i; I ∈ Q; i < j; local data: α = a_i(I)/a_j(I) ∈ (0,1)
-SOURCE_QUANTIFIERS: for every ν > 0, I ∈ Q and pair i < j (inherited from lpM:L4); t ∈ [0,1]
+SOURCE_HYPOTHESES: n ≥ 2 (MAIN §1 L11); context of the proof of lpM:L4: ν_i > 0 for every i; I ∈ Q; i < j; local data: α = a_i(I)/a_j(I) ∈ (0,1)
+SOURCE_QUANTIFIERS: for every n ≥ 2; for every ν > 0, I ∈ Q and pair i < j (inherited from lpM:L4); t ∈ [0,1]
 SOURCE_CONCLUSION: with m(α) = min(1, (1 - α)/α), u = m(α)t, v = 1 - α - αm(α)t (15) parameterizes the contact set over the fixed interval [0,1], so B_ij(I) = min_{t ∈ [0,1]} F(I,t) with F the objective along (15)
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: lpM:L4#contact-reduction, lpM:s1:thresholds#pairObjective
+DEPS: lpM:L4#contact-reduction, lpM:s1:thresholds#pairObjective, lpM:s1:data, lpM:s1:chamber#chamber, lpM:s1:thresholds#actionAxis, lpM:s1:thresholds#orderedPairThreshold
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L4#contact-reduction | docs/tracks/LP/source/MAIN.md#L4@L149-L149 | the minimum is attained on the contact set
 EDGE: lpM:s1:thresholds#pairObjective | docs/tracks/LP/source/MAIN.md#L4@L151-L151 | F is the objective along (15)
+EDGE: lpM:s1:data | docs/tracks/LP/source/MAIN.md#L4@L149-L156 | the inherited n ≥ 2 and positive-mass data; only this part of the data package is assumed
+EDGE: lpM:s1:chamber#chamber | docs/tracks/LP/source/MAIN.md#L4@L149-L156 | I ∈ Q is a direct carrier premise
+EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#L4@L149-L156 | the local ratio α = a_i(I)/a_j(I) directly uses the action-axis formula
+EDGE: lpM:s1:thresholds#orderedPairThreshold | docs/tracks/LP/source/MAIN.md#L4@L149-L156 | the conclusion directly identifies or bounds B_ij(I)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -611,15 +621,15 @@ STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#L4@L143-L143
 PROOF_SOURCE: docs/tracks/LP/source/MAIN.md#L4@L154-L156
 CONTRACT_ID: lpM:L4#continuity
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of lpM:L4: ν_i > 0 for every i; I ∈ Q; i < j
-SOURCE_QUANTIFIERS: for every ν > 0 and every I, J ∈ Q
+SOURCE_HYPOTHESES: n ≥ 2 (MAIN §1 L11); context of the proof of lpM:L4: ν_i > 0 for every i; I ∈ Q; i < j
+SOURCE_QUANTIFIERS: for every n ≥ 2; for every ν > 0 and every I, J ∈ Q
 SOURCE_CONCLUSION: the objective in (15) is jointly continuous in (I,t), hence uniformly continuous on K × [0,1] for every compact neighborhood K ⊂ Q; ¦min_t F(I,t) - min_t F(J,t)¦ ≤ sup_t ¦F(I,t) - F(J,t)¦ proves continuity of B_ij on Q; finite minima preserve continuity, so B_cross and B are continuous
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: lpM:L4#contact-param, lpM:ext-heine-cantor, lpM:ext-compact-min, lpM:s1:chamber#chamber, lpM:s1:thresholds#orderedPairThreshold, lpM:s1:thresholds#orderedCrossThreshold, lpM:s1:thresholds#orderedStrongThreshold
+DEPS: lpM:L4#contact-param, lpM:ext-heine-cantor, lpM:ext-compact-min, lpM:s1:chamber#chamber, lpM:s1:thresholds#orderedPairThreshold, lpM:s1:thresholds#orderedCrossThreshold, lpM:s1:thresholds#orderedStrongThreshold, lpM:s1:data, lpM:s1:thresholds#pairObjective
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L4#contact-param | docs/tracks/LP/source/MAIN.md#L4@L154-L154 | B_ij is the minimum over t of the objective in (15)
@@ -629,8 +639,10 @@ EDGE: lpM:s1:chamber#chamber | docs/tracks/LP/source/MAIN.md#L4@L154-L154 | comp
 EDGE: lpM:s1:thresholds#orderedPairThreshold | docs/tracks/LP/source/MAIN.md#L4@L155-L155 | continuity of B_ij
 EDGE: lpM:s1:thresholds#orderedCrossThreshold | docs/tracks/LP/source/MAIN.md#L4@L156-L156 | finite minimum B_cross
 EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#L4@L156-L156 | finite minimum B
+EDGE: lpM:s1:data | docs/tracks/LP/source/MAIN.md#L4@L154-L156 | the inherited n ≥ 2 and positive-mass data; only this part of the data package is assumed
+EDGE: lpM:s1:thresholds#pairObjective | docs/tracks/LP/source/MAIN.md#L4@L154-L154 | joint continuity is asserted directly for the objective composed with (15)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -644,23 +656,29 @@ STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#L4@L143-L143
 PROOF_SOURCE: docs/tracks/LP/source/MAIN.md#L4@L156-L156
 CONTRACT_ID: lpM:L4#positivity
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of lpM:L4: ν_i > 0 for every i; I ∈ Q; i < j; local data: α = a_i(I)/a_j(I) ∈ (0,1)
-SOURCE_QUANTIFIERS: for every ν > 0, I ∈ Q and pair i < j (inherited from lpM:L4)
+SOURCE_HYPOTHESES: n ≥ 2 (MAIN §1 L11); context of the proof of lpM:L4: ν_i > 0 for every i; I ∈ Q; i < j; local data: α = a_i(I)/a_j(I) ∈ (0,1)
+SOURCE_QUANTIFIERS: for every n ≥ 2; for every ν > 0, I ∈ Q and pair i < j (inherited from lpM:L4)
 SOURCE_CONCLUSION: a zero minimum would require u = v = 0, which is not feasible because α < 1; so B_ij(I) > 0, and the finite minima B_cross(I), B(I) are positive (I_i > 0)
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: lpM:L4#feasible-compact, lpM:s1:thresholds#eccDeficit, lpM:s1:thresholds#pairFeasible, lpM:s1:thresholds#orderedStrongThreshold
+DEPS: lpM:L4#feasible-compact, lpM:s1:thresholds#eccDeficit, lpM:s1:thresholds#pairFeasible, lpM:s1:thresholds#orderedStrongThreshold, lpM:s1:data, lpM:s1:chamber#chamber, lpM:s1:thresholds#actionAxis, lpM:s1:thresholds#orderedPairThreshold, lpM:s1:thresholds#orderedCrossThreshold, lpM:s1:thresholds#pairObjective
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L4#feasible-compact | docs/tracks/LP/source/MAIN.md#L4@L156-L156 | the minimum is attained at a feasible point
 EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#L4@L156-L156 | D(u) = 0 only at u = 0
 EDGE: lpM:s1:thresholds#pairFeasible | docs/tracks/LP/source/MAIN.md#L4@L156-L156 | (0,0) is not feasible when α < 1
 EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#L4@L156-L156 | B is a finite minimum of positive numbers
+EDGE: lpM:s1:data | docs/tracks/LP/source/MAIN.md#L4@L149-L156 | the inherited n ≥ 2 and positive-mass data; only this part of the data package is assumed
+EDGE: lpM:s1:chamber#chamber | docs/tracks/LP/source/MAIN.md#L4@L149-L156 | I ∈ Q is a direct carrier premise
+EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#L4@L149-L156 | the local ratio α = a_i(I)/a_j(I) directly uses the action-axis formula
+EDGE: lpM:s1:thresholds#orderedPairThreshold | docs/tracks/LP/source/MAIN.md#L4@L149-L156 | the conclusion directly identifies or bounds B_ij(I)
+EDGE: lpM:s1:thresholds#orderedCrossThreshold | docs/tracks/LP/source/MAIN.md#L4@L156-L156 | B_cross(I) is directly asserted positive as a finite minimum
+EDGE: lpM:s1:thresholds#pairObjective | docs/tracks/LP/source/MAIN.md#L4@L156-L156 | a zero value of I_i D(u) + I_j D(v) forces u = v = 0
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -674,15 +692,15 @@ STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#L4@L144-L146
 PROOF_SOURCE: docs/tracks/LP/source/MAIN.md#L4@L156-L156
 CONTRACT_ID: lpM:L4#competitor
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of lpM:L4: ν_i > 0 for every i; I ∈ Q; i < j; local data: α = a_i(I)/a_j(I) ∈ (0,1)
-SOURCE_QUANTIFIERS: for every ν > 0, I ∈ Q and pair i < j (inherited from lpM:L4)
+SOURCE_HYPOTHESES: n ≥ 2 (MAIN §1 L11); context of the proof of lpM:L4: ν_i > 0 for every i; I ∈ Q; i < j; local data: α = a_i(I)/a_j(I) ∈ (0,1)
+SOURCE_QUANTIFIERS: for every n ≥ 2; for every ν > 0, I ∈ Q and pair i < j (inherited from lpM:L4)
 SOURCE_CONCLUSION: the feasible competitor (0, 1 - α) gives B_ij(I) ≤ I_j D(1 - α) < I_j; since B_{i,i+1}(I) < I_{i+1}, B(I) = min(B_cross(I), I_1) (14)
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: lpM:L4#feasible-compact, lpM:s1:thresholds#pairObjective, lpM:s1:thresholds#eccDeficit, lpM:s1:thresholds#orderedPairThreshold, lpM:s1:thresholds#orderedCrossThreshold, lpM:s1:thresholds#orderedStrongThreshold
+DEPS: lpM:L4#feasible-compact, lpM:s1:thresholds#pairObjective, lpM:s1:thresholds#eccDeficit, lpM:s1:thresholds#orderedPairThreshold, lpM:s1:thresholds#orderedCrossThreshold, lpM:s1:thresholds#orderedStrongThreshold, lpM:s1:data, lpM:s1:chamber#chamber, lpM:s1:thresholds#actionAxis
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L4#feasible-compact | docs/tracks/LP/source/MAIN.md#L4@L156-L156 | (0, 1 - α) is feasible
@@ -691,8 +709,11 @@ EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#L4@L156-L156 
 EDGE: lpM:s1:thresholds#orderedPairThreshold | docs/tracks/LP/source/MAIN.md#L4@L156-L156 | B_ij
 EDGE: lpM:s1:thresholds#orderedCrossThreshold | docs/tracks/LP/source/MAIN.md#L4@L156-L156 | B_cross in (14)
 EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#L4@L156-L156 | B in (14)
+EDGE: lpM:s1:data | docs/tracks/LP/source/MAIN.md#L4@L149-L156 | the inherited n ≥ 2 and positive-mass data; only this part of the data package is assumed
+EDGE: lpM:s1:chamber#chamber | docs/tracks/LP/source/MAIN.md#L4@L149-L156 | I ∈ Q is a direct carrier premise
+EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#L4@L149-L156 | the local ratio α = a_i(I)/a_j(I) directly uses the action-axis formula
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-m2a
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -

@@ -16,9 +16,9 @@ FROZEN_ABI_SHA256: d5ad8dc786c2a14554e8b89eccde6e39a603a7940c907e614204e6c5dc95a
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -42,9 +42,9 @@ FROZEN_ABI_SHA256: 9cc5ec65df5dfe2ee99959839aaf121fe0f58cc2d4b429a8925f1829a1e2e
 DEPS: lpM:s1:thresholds#actionAxis
 ROUTES: -
 ROUTE_FOR: -
-EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#s1@L41-L41 | the ordering (I_i/ν_i)^2 is a_i(I)
+EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#s1@L43-L43 | the ordering (I_i/ν_i)^2 is a_i(I)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -69,9 +69,9 @@ FROZEN_ABI_SHA256: 8e801ff76c90860eaf3a26128931dd910e823ec8f547c6113357245ceb6f6
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -95,9 +95,9 @@ FROZEN_ABI_SHA256: 6d14a6a1abecfcb4a34314f3f30bf0c70cf69b47d42ec1c16db1a849b6e46
 DEPS: lpM:s1:thresholds#actionAxis
 ROUTES: -
 ROUTE_FOR: -
-EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#s1@L47-L47 | the constraint is written with a_i(I), a_j(I)
+EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#s1@L48-L48 | the constraint is written with a_i(I), a_j(I)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -123,9 +123,9 @@ DEPS: lpM:s1:thresholds#eccDeficit
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#s1@L49-L49 | the objective is built from D
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -149,10 +149,10 @@ FROZEN_ABI_SHA256: 293566de81d28fcd969f94618cf2952a3c801b57dfe816185f24d4683c5ca
 DEPS: lpM:s1:thresholds#pairFeasible, lpM:s1:thresholds#pairObjective
 ROUTES: -
 ROUTE_FOR: -
-EDGE: lpM:s1:thresholds#pairFeasible | docs/tracks/LP/source/MAIN.md#s1@L47-L47 | the infimum runs over the feasible set
-EDGE: lpM:s1:thresholds#pairObjective | docs/tracks/LP/source/MAIN.md#s1@L47-L47 | the infimum is of the pair objective
+EDGE: lpM:s1:thresholds#pairFeasible | docs/tracks/LP/source/MAIN.md#s1@L47-L48 | the infimum runs over the feasible set
+EDGE: lpM:s1:thresholds#pairObjective | docs/tracks/LP/source/MAIN.md#s1@L49-L49 | the infimum is of the pair objective
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -177,9 +177,9 @@ FROZEN_ABI_SHA256: b5f634e0a44da0960607f622f84d116b7dd00f4f67d0b6a33981693330d37
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -204,9 +204,9 @@ DEPS: lpM:s1:thresholds#AdjIdx
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:thresholds#AdjIdx | docs/tracks/LP/source/MAIN.md#s1@L52-L52 | defined on the adjacent index type
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -231,9 +231,9 @@ DEPS: lpM:s1:chamber#chamber
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:chamber#chamber | docs/tracks/LP/source/MAIN.md#s1@L41-L41 | the carrier is the chamber Q
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -259,9 +259,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:chamber#OrderedActions | docs/tracks/LP/source/MAIN.md#s1@L47-L47 | the carrier: action vectors in the chamber Q
 EDGE: lpM:s1:thresholds#pairThreshold | docs/tracks/LP/source/MAIN.md#s1@L47-L47 | the value is the pair-threshold helper at I
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -289,9 +289,9 @@ EDGE: lpM:s1:thresholds#AdjIdx | docs/tracks/LP/source/MAIN.md#s1@L52-L52 | the 
 EDGE: lpM:s1:thresholds#AdjIdx.upperIdx | docs/tracks/LP/source/MAIN.md#s1@L52-L52 | the second index of each adjacent pair is i + 1
 EDGE: lpM:s1:chamber#OrderedActions | docs/tracks/LP/source/MAIN.md#s1@L52-L52 | the carrier: action vectors in the chamber Q
 EDGE: lpM:s1:thresholds#orderedPairThreshold | docs/tracks/LP/source/MAIN.md#s1@L52-L52 | the minimum is of the pair thresholds B_{i,i+1}
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -315,10 +315,10 @@ FROZEN_ABI_SHA256: 04abc34ad0f0932d9db56255430732564b704f27505f05989c65917a8b1d4
 DEPS: lpM:s1:chamber#OrderedActions, lpM:s1:thresholds#orderedCrossThreshold
 ROUTES: -
 ROUTE_FOR: -
-EDGE: lpM:s1:chamber#OrderedActions | docs/tracks/LP/source/MAIN.md#s1@L52-L52 | the carrier: action vectors in the chamber Q
-EDGE: lpM:s1:thresholds#orderedCrossThreshold | docs/tracks/LP/source/MAIN.md#s1@L52-L52 | B is the minimum of B_cross and B_star
+EDGE: lpM:s1:chamber#OrderedActions | docs/tracks/LP/source/MAIN.md#s1@L53-L53 | the carrier: action vectors in the chamber Q
+EDGE: lpM:s1:thresholds#orderedCrossThreshold | docs/tracks/LP/source/MAIN.md#s1@L53-L53 | B is the minimum of B_cross and B_star
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -343,11 +343,11 @@ FROZEN_ABI_SHA256: 302f70fe20850c0973d1ef0d3af71b6405869abf58fce9ff70e41ea440313
 DEPS: lpM:s1:elements#keplerAction, lpM:s1:elements#totalMomentum, lpM:s1:model#Phase
 ROUTES: -
 ROUTE_FOR: -
-EDGE: lpM:s1:elements#keplerAction | docs/tracks/LP/source/MAIN.md#s1@L32-L32 | Λ_i = I_i is the Kepler action
-EDGE: lpM:s1:elements#totalMomentum | docs/tracks/LP/source/MAIN.md#s1@L32-L32 | L is the total angular momentum
-EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#s1@L32-L32 | the phase type Phase (n*2) of planar positions and momenta
+EDGE: lpM:s1:elements#keplerAction | docs/tracks/LP/source/MAIN.md#s1@L33-L35 | Λ_i = I_i is the Kepler action
+EDGE: lpM:s1:elements#totalMomentum | docs/tracks/LP/source/MAIN.md#s1@L33-L35 | L is the total angular momentum
+EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#s1@L33-L35 | the phase type Phase (n*2) of planar positions and momenta
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -376,9 +376,9 @@ EDGE: lpM:s1:elements#keplerAxis | docs/tracks/LP/source/MAIN.md#s1@L88-L88 | a_
 EDGE: lpM:s1:elements#keplerEccVector | docs/tracks/LP/source/MAIN.md#s1@L88-L88 | e_i is the length of the eccentricity vector
 EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#s1@L88-L88 | the phase type Phase (n*2) of planar positions and momenta
 EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#s1@L88-L88 | the Euclidean length ¦·¦ of a planar vector
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -402,12 +402,12 @@ FROZEN_ABI_SHA256: 43024b250cebf92740dcc172da23740ac0cd9b049b3e4611c09f94c72eb22
 DEPS: lpM:s1:elements#keplerAxis, lpM:s1:elements#keplerEccVector, lpM:s1:model#Phase, lpM:s1:data#planeLength
 ROUTES: -
 ROUTE_FOR: -
-EDGE: lpM:s1:elements#keplerAxis | docs/tracks/LP/source/MAIN.md#s1@L88-L88 | a_i is the Kepler axis
-EDGE: lpM:s1:elements#keplerEccVector | docs/tracks/LP/source/MAIN.md#s1@L88-L88 | e_i is the length of the eccentricity vector
-EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#s1@L88-L88 | the phase type Phase (n*2) of planar positions and momenta
-EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#s1@L88-L88 | the Euclidean length ¦·¦ of a planar vector
+EDGE: lpM:s1:elements#keplerAxis | docs/tracks/LP/source/MAIN.md#s1@L89-L89 | a_i is the Kepler axis
+EDGE: lpM:s1:elements#keplerEccVector | docs/tracks/LP/source/MAIN.md#s1@L89-L89 | e_i is the length of the eccentricity vector
+EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#s1@L89-L89 | the phase type Phase (n*2) of planar positions and momenta
+EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#s1@L89-L89 | the Euclidean length ¦·¦ of a planar vector
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -432,12 +432,12 @@ FROZEN_ABI_SHA256: 2b1d4f563d8a7e7e1be25be909f06c3e8463e515ca822939290e47557f8b1
 DEPS: lpM:s1:model#Phase, lpM:s1:model#bodyVector, lpM:s1:data#planeLength, lpM:s1:elements#keplerEnergy
 ROUTES: -
 ROUTE_FOR: -
-EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#s1@L26-L26 | the phase type Phase (n*2) of planar positions and momenta
-EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/source/MAIN.md#s1@L26-L26 | planet i's coordinates q_i or p_i are extracted by bodyVector
-EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#s1@L26-L26 | the Euclidean length ¦·¦ of a planar vector
-EDGE: lpM:s1:elements#keplerEnergy | docs/tracks/LP/source/MAIN.md#s1@L26-L26 | the carrier requires negative Kepler energy
+EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#s1@L28-L31 | the phase type Phase (n*2) of planar positions and momenta
+EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/source/MAIN.md#s1@L28-L31 | planet i's coordinates q_i or p_i are extracted by bodyVector
+EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#s1@L28-L31 | the Euclidean length ¦·¦ of a planar vector
+EDGE: lpM:s1:elements#keplerEnergy | docs/tracks/LP/source/MAIN.md#s1@L28-L31 | the carrier requires negative Kepler energy
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -462,10 +462,10 @@ FROZEN_ABI_SHA256: f3f9ec60c7a6fa9c1692e70e8b59bd59a0a8de8937d6a7d024de2939c388a
 DEPS: lpM:s1:elements#SourceCanonicalPhase, lpM:s1:elements#strongAMD
 ROUTES: -
 ROUTE_FOR: -
-EDGE: lpM:s1:elements#SourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#s1@L32-L32 | the carrier of source canonical phases
-EDGE: lpM:s1:elements#strongAMD | docs/tracks/LP/source/MAIN.md#s1@L32-L32 | the value is the strong AMD
+EDGE: lpM:s1:elements#SourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#s1@L35-L35 | the carrier of source canonical phases
+EDGE: lpM:s1:elements#strongAMD | docs/tracks/LP/source/MAIN.md#s1@L35-L35 | the value is the strong AMD
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -492,9 +492,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:elements#SourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#s1@L88-L88 | the carrier of source canonical phases
 EDGE: lpM:s1:elements#keplerPeri | docs/tracks/LP/source/MAIN.md#s1@L88-L88 | the value is the canonical perihelion
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -518,10 +518,10 @@ FROZEN_ABI_SHA256: 0c8b3de0105c5c7a55c38b9a7090f961ac41ceb6fb90e12f140ca905c6946
 DEPS: lpM:s1:elements#SourceCanonicalPhase, lpM:s1:elements#keplerApo
 ROUTES: -
 ROUTE_FOR: -
-EDGE: lpM:s1:elements#SourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#s1@L88-L88 | the carrier of source canonical phases
-EDGE: lpM:s1:elements#keplerApo | docs/tracks/LP/source/MAIN.md#s1@L88-L88 | the value is the canonical aphelion
+EDGE: lpM:s1:elements#SourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#s1@L89-L89 | the carrier of source canonical phases
+EDGE: lpM:s1:elements#keplerApo | docs/tracks/LP/source/MAIN.md#s1@L89-L89 | the value is the canonical aphelion
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -548,9 +548,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/source/MAIN.md#L16@L512-L512 | planet i's coordinates q_i or p_i are extracted by bodyVector
 EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#L16@L512-L512 | the phase type Phase (n*2) of planar positions and momenta
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -574,9 +574,9 @@ FROZEN_ABI_SHA256: 83c4392908734d61f8fbd748fc137b446a86b7bcc30ee7789f27a1497c40a
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -606,9 +606,9 @@ EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#L16@L515-L515 | th
 EDGE: lpM:s1:data#planeSq | docs/tracks/LP/source/MAIN.md#L16@L515-L515 | the squared Euclidean length ¦·¦^2
 EDGE: lpM:L16:defs#oscParam | docs/tracks/LP/source/MAIN.md#L16@L515-L515 | k_i occurs in the energy
 EDGE: lpM:L16:defs#oscVelocity | docs/tracks/LP/source/MAIN.md#L16@L515-L515 | V_i occurs in the energy
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -635,9 +635,9 @@ ROUTE_FOR: -
 EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#L16@L516-L516 | the phase type Phase (n*2) of planar positions and momenta
 EDGE: lpM:L16:defs#oscEnergy | docs/tracks/LP/source/MAIN.md#L16@L516-L516 | the axis is built from E_i^osc
 EDGE: lpM:L16:defs#oscParam | docs/tracks/LP/source/MAIN.md#L16@L516-L516 | k_i occurs in the axis
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -668,9 +668,9 @@ EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#L16@L517-L517 | th
 EDGE: lpM:s1:data#planeSq | docs/tracks/LP/source/MAIN.md#L16@L517-L517 | the squared Euclidean length ¦·¦^2
 EDGE: lpM:L16:defs#oscParam | docs/tracks/LP/source/MAIN.md#L16@L517-L517 | k_i occurs in the vector
 EDGE: lpM:L16:defs#oscVelocity | docs/tracks/LP/source/MAIN.md#L16@L517-L517 | V_i occurs in the vector
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -697,9 +697,9 @@ ROUTE_FOR: -
 EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#L16@L518-L518 | the phase type Phase (n*2) of planar positions and momenta
 EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#L16@L518-L518 | the Euclidean length ¦·¦ of a planar vector
 EDGE: lpM:L16:defs#oscEccVector | docs/tracks/LP/source/MAIN.md#L16@L518-L518 | the eccentricity is the length of the vector
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -726,9 +726,9 @@ ROUTE_FOR: -
 EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#L16@L523-L523 | the phase type Phase (n*2) of planar positions and momenta
 EDGE: lpM:L16:defs#oscAxis | docs/tracks/LP/source/MAIN.md#L16@L523-L523 | a_i^osc occurs
 EDGE: lpM:L16:defs#oscEcc | docs/tracks/LP/source/MAIN.md#L16@L523-L523 | e_i^osc occurs
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -755,9 +755,9 @@ ROUTE_FOR: -
 EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#L16@L523-L523 | the phase type Phase (n*2) of planar positions and momenta
 EDGE: lpM:L16:defs#oscAxis | docs/tracks/LP/source/MAIN.md#L16@L523-L523 | a_i^osc occurs
 EDGE: lpM:L16:defs#oscEcc | docs/tracks/LP/source/MAIN.md#L16@L523-L523 | e_i^osc occurs
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -781,13 +781,13 @@ FROZEN_ABI_SHA256: a95826fff22c5725fbc68ed4ad44927739fe644b9276f988f80e7c5d25898
 DEPS: lpM:s1:model#bodyVector, lpM:s1:model#Phase, lpM:s1:data#planeLength, lpM:L16:defs#oscEcc, lpM:L16:defs#oscEnergy
 ROUTES: -
 ROUTE_FOR: -
-EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/source/MAIN.md#L16@L510-L510 | planet i's coordinates q_i or p_i are extracted by bodyVector
-EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#L16@L510-L510 | the phase type Phase (n*2) of planar positions and momenta
-EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#L16@L510-L510 | the Euclidean length ¦·¦ of a planar vector
-EDGE: lpM:L16:defs#oscEcc | docs/tracks/LP/source/MAIN.md#L16@L510-L510 | the carrier requires e_i^osc < 1
-EDGE: lpM:L16:defs#oscEnergy | docs/tracks/LP/source/MAIN.md#L16@L510-L510 | the carrier requires E_i^osc < 0
+EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/source/MAIN.md#L16@L510-L520 | planet i's coordinates q_i or p_i are extracted by bodyVector
+EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#L16@L510-L520 | the phase type Phase (n*2) of planar positions and momenta
+EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#L16@L510-L520 | the Euclidean length ¦·¦ of a planar vector
+EDGE: lpM:L16:defs#oscEcc | docs/tracks/LP/source/MAIN.md#L16@L510-L520 | the carrier requires e_i^osc < 1
+EDGE: lpM:L16:defs#oscEnergy | docs/tracks/LP/source/MAIN.md#L16@L510-L520 | the carrier requires E_i^osc < 0
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -814,9 +814,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L16:defs#SourceOsculatingPhase | docs/tracks/LP/source/MAIN.md#L16@L512-L512 | the carrier of source osculating phases
 EDGE: lpM:L16:defs#oscVelocity | docs/tracks/LP/source/MAIN.md#L16@L512-L512 | the value is the actual velocity V_i
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -842,9 +842,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L16:defs#SourceOsculatingPhase | docs/tracks/LP/source/MAIN.md#L16@L512-L512 | the carrier of source osculating phases
 EDGE: lpM:L16:defs#oscParam | docs/tracks/LP/source/MAIN.md#L16@L512-L512 | the value is the gravitational parameter k_i
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -870,9 +870,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L16:defs#SourceOsculatingPhase | docs/tracks/LP/source/MAIN.md#L16@L515-L515 | the carrier of source osculating phases
 EDGE: lpM:L16:defs#oscEnergy | docs/tracks/LP/source/MAIN.md#L16@L515-L515 | the value is the osculating energy
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -898,9 +898,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L16:defs#SourceOsculatingPhase | docs/tracks/LP/source/MAIN.md#L16@L516-L516 | the carrier of source osculating phases
 EDGE: lpM:L16:defs#oscAxis | docs/tracks/LP/source/MAIN.md#L16@L516-L516 | the value is the osculating axis
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -926,9 +926,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L16:defs#SourceOsculatingPhase | docs/tracks/LP/source/MAIN.md#L16@L517-L517 | the carrier of source osculating phases
 EDGE: lpM:L16:defs#oscEccVector | docs/tracks/LP/source/MAIN.md#L16@L517-L517 | the value is the osculating eccentricity vector
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -954,9 +954,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L16:defs#SourceOsculatingPhase | docs/tracks/LP/source/MAIN.md#L16@L518-L518 | the carrier of source osculating phases
 EDGE: lpM:L16:defs#oscEcc | docs/tracks/LP/source/MAIN.md#L16@L518-L518 | the value is the osculating eccentricity
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -982,9 +982,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L16:defs#SourceOsculatingPhase | docs/tracks/LP/source/MAIN.md#L16@L523-L523 | the carrier of source osculating phases
 EDGE: lpM:L16:defs#oscPeri | docs/tracks/LP/source/MAIN.md#L16@L523-L523 | the value is the osculating perihelion
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1010,9 +1010,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L16:defs#SourceOsculatingPhase | docs/tracks/LP/source/MAIN.md#L16@L523-L523 | the carrier of source osculating phases
 EDGE: lpM:L16:defs#oscApo | docs/tracks/LP/source/MAIN.md#L16@L523-L523 | the value is the osculating aphelion
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1036,9 +1036,9 @@ FROZEN_ABI_SHA256: 0b8db62a1a83c34b9c3562bd1bb6043b1db7174c9222df403355844422056
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1062,9 +1062,9 @@ FROZEN_ABI_SHA256: 09f09ead30448301bb78763192f9a9c6ca3edcf4d3d2a771d616c54834766
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1090,9 +1090,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/source/MAIN.md#s1@L24-L24 | planet i's coordinates q_i or p_i are extracted by bodyVector
 EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#s1@L24-L24 | the Euclidean length ¦·¦ of a planar vector
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1120,9 +1120,9 @@ EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/source/MAIN.md#s1@L28-L28 | plane
 EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#s1@L28-L28 | the phase type Phase (n*2) of planar positions and momenta
 EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#s1@L28-L28 | the Euclidean length ¦·¦ of a planar vector
 EDGE: lpM:s1:data#planeSq | docs/tracks/LP/source/MAIN.md#s1@L28-L28 | the squared Euclidean length ¦·¦^2
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1148,9 +1148,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#s1@L33-L33 | the phase type Phase (n*2) of planar positions and momenta
 EDGE: lpM:s1:elements#keplerEnergy | docs/tracks/LP/source/MAIN.md#s1@L33-L33 | a_i is built from the Kepler term ν_i E_i
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1176,9 +1176,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#s1@L33-L33 | the phase type Phase (n*2) of planar positions and momenta
 EDGE: lpM:s1:elements#keplerAxis | docs/tracks/LP/source/MAIN.md#s1@L33-L33 | Λ_i is built from a_i
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1207,9 +1207,9 @@ EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#s1@L29-L29 | the phase 
 EDGE: lpM:s1:data#planeDot | docs/tracks/LP/source/MAIN.md#s1@L29-L29 | the Euclidean scalar product of planar vectors
 EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#s1@L29-L29 | the Euclidean length ¦·¦ of a planar vector
 EDGE: lpM:s1:data#planeSq | docs/tracks/LP/source/MAIN.md#s1@L29-L29 | the squared Euclidean length ¦·¦^2
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1233,9 +1233,9 @@ FROZEN_ABI_SHA256: 27b7e3e428e60b15c01126bb9108975bef6f4c08bdd2bcd42149bf2229dab
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1244,7 +1244,7 @@ NOTE: reused frozen definition planetary.d25.planeCross.v1 (track P), bound as a
 NODE: lpM:s1:elements#totalMomentum
 KIND: definition
 TITLE: total planar angular momentum L = sum_i q_i x p_i
-STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#s1@L34-L34
+STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#s1@L34-L35
 PROOF_SOURCE: -
 CONTRACT_ID: planetary.d25.totalMomentum
 CONTRACT_VERSION: 1
@@ -1259,11 +1259,11 @@ FROZEN_ABI_SHA256: 176b9c28336577a54e1e706d18da24caf3646966e591da4333bfde457dcd6
 DEPS: lpM:s1:model#bodyVector, lpM:s1:model#Phase, lpM:s1:elements#planeCross
 ROUTES: -
 ROUTE_FOR: -
-EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/source/MAIN.md#s1@L34-L34 | planet i's coordinates q_i or p_i are extracted by bodyVector
-EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#s1@L34-L34 | the phase type Phase (n*2) of planar positions and momenta
-EDGE: lpM:s1:elements#planeCross | docs/tracks/LP/source/MAIN.md#s1@L34-L34 | L_i = q_i × p_i
+EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/source/MAIN.md#s1@L34-L35 | planet i's coordinates q_i or p_i are extracted by bodyVector
+EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#s1@L34-L35 | the phase type Phase (n*2) of planar positions and momenta
+EDGE: lpM:s1:elements#planeCross | docs/tracks/LP/source/MAIN.md#s1@L34-L35 | L_i = q_i × p_i
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-adef-pl
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1288,9 +1288,9 @@ FROZEN_ABI_SHA256: b0de2d3150c6c723a7af40b0f9ef8d6849b211bf81ab6685ebd870b7aa618
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1315,9 +1315,9 @@ DEPS: lpM:s1:data#planeSq
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:data#planeSq | docs/tracks/LP/source/MAIN.md#s1@L15-L15 | the squared Euclidean length ¦·¦^2
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1341,9 +1341,9 @@ FROZEN_ABI_SHA256: 8cf08c43a712bf1c8d3e6fd5426b13d34d07a93597447a35b7b671e1126ae
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-adef-pl
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

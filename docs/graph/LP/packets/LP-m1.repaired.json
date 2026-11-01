@@ -1,0 +1,20 @@
+{
+ "replaced": [
+  "lpM:s1:model"
+ ],
+ "added": [],
+ "items": [],
+ "unresolved": {},
+ "passes": [
+  "lpM:s1:data",
+  "lpM:s1:elements",
+  "lpM:s1:fast",
+  "lpM:s1:dioph",
+  "lpM:s1:half-integer",
+  "lpM:s1:data",
+  "lpM:s1:elements",
+  "lpM:s1:fast",
+  "lpM:s1:dioph",
+  "lpM:s1:half-integer"
+ ]
+}

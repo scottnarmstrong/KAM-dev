@@ -36,9 +36,9 @@ EDGE: lpM:s1:elements#planeCross | docs/tracks/LP/source/MAIN.md#L5@L164-L164 | 
 EDGE: lpM:s1:elements#totalMomentum | docs/tracks/LP/source/MAIN.md#L5@L164-L164 | the invariable frame is that of L
 EDGE: lpM:s1:model#NoCollision | docs/tracks/LP/source/MAIN.md#L5@L164-L164 | the compact set lies in the nonsingular physical region
 EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#L5@L164-L164 | states are planar phases
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-athm
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -59,21 +59,23 @@ FROZEN_FILE: KAM/Frozen/Planetary/StrongAMD/Theorems/OrderedPairThresholdIsLeast
 FROZEN_DECL: KAM.Planetary.StrongAMD.orderedPairThreshold_isLeast
 FROZEN_ANCHOR_ID: planetary.d59.orderedPairThreshold_isLeast.v1
 FROZEN_ABI_SHA256: 8a4a9ca0b3a8ed72192667f31315ee47a6a945981fb6759f349269d14a9eef70
-DEPS: lpM:L4#feasible-compact, lpM:s1:chamber#OrderedActions, lpM:s1:thresholds#orderedPairThreshold, lpM:s1:thresholds#pairFeasible, lpM:s1:thresholds#pairObjective
+DEPS: lpM:s1:chamber#OrderedActions, lpM:s1:thresholds#orderedPairThreshold, lpM:s1:thresholds#pairFeasible, lpM:s1:thresholds#pairObjective, lpM:s1:thresholds#actionAxis, lpM:s1:thresholds#eccDeficit, lpM:ext-compact-min
 ROUTES: -
 ROUTE_FOR: -
-EDGE: lpM:L4#feasible-compact | docs/tracks/LP/source/MAIN.md#L4@L149-L149 | the feasible set is compact and nonempty and the objective is continuous, so the minimum is attained
 EDGE: lpM:s1:chamber#OrderedActions | docs/tracks/LP/source/MAIN.md#s1@L47-L47 | the statement is on the chamber carrier I ∈ Q
 EDGE: lpM:s1:thresholds#orderedPairThreshold | docs/tracks/LP/source/MAIN.md#s1@L47-L47 | B_ij occurs
 EDGE: lpM:s1:thresholds#pairFeasible | docs/tracks/LP/source/MAIN.md#s1@L47-L47 | the feasible set occurs
 EDGE: lpM:s1:thresholds#pairObjective | docs/tracks/LP/source/MAIN.md#s1@L47-L47 | the objective occurs
+EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#L4@L149-L149 | the feasible competitor uses alpha = a_i(I)/a_j(I); on OrderedActions with i < j, 0 <= alpha < 1
+EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#L4@L149-L149 | the objective I_i D(u) + I_j D(v) is continuous on [0,1]^2
+EDGE: lpM:ext-compact-min | docs/tracks/LP/source/MAIN.md#L4@L149-L149 | directly apply extreme value to the closed nonempty feasible subset of [0,1]^2 and its continuous objective; the witness (0, 1 - alpha) is valid also for alpha = 0
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-athm
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: L4 says 'for all positive masses'; the frozen statement has no positive-mass premise and rests on the carrier I ∈ Q, which gives I_i > 0 and 0 ≤ a_i(I) < a_j(I) for i < j (so α = a_i/a_j ∈ [0,1))
+NOTE: Carrier-level use of MAIN L149 only: no positive-mass premise is added. The original supplier lpM:L4#feasible-compact is recorded for positive masses with alpha in (0,1), so it is not applied here. L149 itself needs only the carrier consequences I_i > 0 and 0 <= a_i(I) < a_j(I), giving 0 <= alpha < 1; its closedness, feasible competitor and continuous-objective argument apply on this carrier. No contact parameterization (15), positivity of B_ij, or L151 division by alpha is used. The unique value is not a unique optimizer.
 
 NODE: lpM:L4#orderedPairThreshold_existsUnique_value
 KIND: lemma
@@ -90,20 +92,22 @@ FROZEN_FILE: KAM/Frozen/Planetary/StrongAMD/Theorems/OrderedPairThresholdExistsU
 FROZEN_DECL: KAM.Planetary.StrongAMD.orderedPairThreshold_existsUnique_value
 FROZEN_ANCHOR_ID: planetary.d59.orderedPairThreshold_existsUnique_value.v1
 FROZEN_ABI_SHA256: c6d8eb9bce1d8bad0dda3f050fbd47464f6ca6045e4aecd1555d8a56614e7cb0
-DEPS: lpM:L4#feasible-compact, lpM:s1:chamber#OrderedActions, lpM:s1:thresholds#pairFeasible, lpM:s1:thresholds#pairObjective
+DEPS: lpM:s1:chamber#OrderedActions, lpM:s1:thresholds#pairFeasible, lpM:s1:thresholds#pairObjective, lpM:s1:thresholds#actionAxis, lpM:s1:thresholds#eccDeficit, lpM:ext-compact-min
 ROUTES: -
 ROUTE_FOR: -
-EDGE: lpM:L4#feasible-compact | docs/tracks/LP/source/MAIN.md#L4@L149-L149 | existence: the minimum of the pair objective is attained; uniqueness of a least element is order-theoretic
 EDGE: lpM:s1:chamber#OrderedActions | docs/tracks/LP/source/MAIN.md#s1@L47-L47 | the statement is on the chamber carrier I ∈ Q
 EDGE: lpM:s1:thresholds#pairFeasible | docs/tracks/LP/source/MAIN.md#s1@L47-L47 | the feasible set occurs
 EDGE: lpM:s1:thresholds#pairObjective | docs/tracks/LP/source/MAIN.md#s1@L47-L47 | the objective occurs
+EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#L4@L149-L149 | the feasible competitor uses alpha = a_i(I)/a_j(I); on OrderedActions with i < j, 0 <= alpha < 1
+EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#L4@L149-L149 | the objective I_i D(u) + I_j D(v) is continuous on [0,1]^2
+EDGE: lpM:ext-compact-min | docs/tracks/LP/source/MAIN.md#L4@L149-L149 | directly apply extreme value to the closed nonempty feasible subset of [0,1]^2 and its continuous objective; the witness (0, 1 - alpha) is valid also for alpha = 0; uniqueness of the least value is elementary order reasoning
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-athm
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: Carrier-level use of MAIN L149 only: no positive-mass premise is added. The original supplier lpM:L4#feasible-compact is recorded for positive masses with alpha in (0,1), so it is not applied here. L149 itself needs only the carrier consequences I_i > 0 and 0 <= a_i(I) < a_j(I), giving 0 <= alpha < 1; its closedness, feasible competitor and continuous-objective argument apply on this carrier. No contact parameterization (15), positivity of B_ij, or L151 division by alpha is used. The unique value is not a unique optimizer.
 
 NODE: lpM:L4#orderedCrossThreshold_isLeast
 KIND: lemma
@@ -120,20 +124,19 @@ FROZEN_FILE: KAM/Frozen/Planetary/StrongAMD/Theorems/OrderedCrossThresholdIsLeas
 FROZEN_DECL: KAM.Planetary.StrongAMD.orderedCrossThreshold_isLeast
 FROZEN_ANCHOR_ID: planetary.d59.orderedCrossThreshold_isLeast.v1
 FROZEN_ABI_SHA256: 960caadb1ee1979d1eb596770b57f164b0868885d328250141f799c83ecd0a4f
-DEPS: lpM:s1:chamber#OrderedActions, lpM:s1:thresholds#orderedCrossThreshold, lpM:s1:thresholds#orderedPairThreshold, lpM:s1:data
+DEPS: lpM:s1:chamber#OrderedActions, lpM:s1:thresholds#orderedCrossThreshold, lpM:s1:thresholds#orderedPairThreshold
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:chamber#OrderedActions | docs/tracks/LP/source/MAIN.md#s1@L52-L52 | the statement is on the chamber carrier I ∈ Q
 EDGE: lpM:s1:thresholds#orderedCrossThreshold | docs/tracks/LP/source/MAIN.md#s1@L52-L52 | B_cross occurs
 EDGE: lpM:s1:thresholds#orderedPairThreshold | docs/tracks/LP/source/MAIN.md#s1@L52-L52 | the pair thresholds B_{i,i+1} occur
-EDGE: lpM:s1:data | docs/tracks/LP/source/MAIN.md#s1@L11-L11 | n ≥ 2 makes the adjacent family nonempty, so the finite minimum is attained
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-athm
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: MAIN L55 asserts that the minima of (3) are attained and points to Lemma 4; for the finite minimum over the n - 1 adjacent pairs this is elementary (L4 L156: 'Finite minima preserve continuity and positivity')
+NOTE: MAIN L55 asserts attainment; L4 L156 says 'Finite minima preserve continuity and positivity'. The local binder n >= 2 supplies nonemptiness of the finite adjacent family at this consumer (MAIN L52, L156); it does not import the full lpM:s1:data package, including positive normalized masses, delta, gamma, tau and A. No pair-minimum attainment or positivity premise is needed to take the minimum of the finite nonempty family of real pair-threshold values.
 
 NODE: lpM:L4#orderedStrongThreshold_isLeast
 KIND: lemma
@@ -150,15 +153,16 @@ FROZEN_FILE: KAM/Frozen/Planetary/StrongAMD/Theorems/OrderedStrongThresholdIsLea
 FROZEN_DECL: KAM.Planetary.StrongAMD.orderedStrongThreshold_isLeast
 FROZEN_ANCHOR_ID: planetary.d59.orderedStrongThreshold_isLeast.v1
 FROZEN_ABI_SHA256: 1dd51f606407a4de87aca3abfe2c61e14660ecc796ed2289ff3ec904e07eff41
-DEPS: lpM:L4#orderedCrossThreshold_isLeast, lpM:s1:chamber#OrderedActions, lpM:s1:thresholds#orderedStrongThreshold, lpM:s1:thresholds#orderedPairThreshold
+DEPS: lpM:L4#orderedCrossThreshold_isLeast, lpM:s1:chamber#OrderedActions, lpM:s1:thresholds#orderedStrongThreshold, lpM:s1:thresholds#orderedPairThreshold, lpM:s1:thresholds#orderedCrossThreshold
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L4#orderedCrossThreshold_isLeast | docs/tracks/LP/source/MAIN.md#L4@L156-L156 | B_cross(I) is attained among the adjacent thresholds
 EDGE: lpM:s1:chamber#OrderedActions | docs/tracks/LP/source/MAIN.md#s1@L52-L52 | the statement is on the chamber carrier I ∈ Q
 EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#s1@L52-L52 | B occurs
 EDGE: lpM:s1:thresholds#orderedPairThreshold | docs/tracks/LP/source/MAIN.md#s1@L52-L52 | the pair thresholds B_{i,i+1} occur
+EDGE: lpM:s1:thresholds#orderedCrossThreshold | docs/tracks/LP/source/MAIN.md#s1@L52-L53 | B = min(B_cross, min_i I_i) uses B_cross directly; combine its attained minimum with the finite nonempty action family
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-athm
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -186,9 +190,9 @@ ROUTE_FOR: -
 EDGE: lpM:L3#amd-nonneg | docs/tracks/LP/source/MAIN.md#L3@L139-L139 | ¦L¦ ≤ Σ¦L_i¦ ≤ Σ I_i, so C ≥ 0
 EDGE: lpM:s1:elements#SourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#L3@L132-L132 | the statement quantifies over source canonical phases
 EDGE: lpM:s1:elements#sourceStrongAMD | docs/tracks/LP/source/MAIN.md#L3@L132-L132 | C occurs
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-athm
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -220,9 +224,9 @@ EDGE: lpM:s1:elements#keplerAction | docs/tracks/LP/source/MAIN.md#L3@L134-L134 
 EDGE: lpM:s1:elements#keplerEccVector | docs/tracks/LP/source/MAIN.md#L3@L134-L134 | e_i = ¦e_i¦ occurs
 EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#L3@L134-L134 | Euclidean lengths ¦·¦ occur in the statement
 EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#L3@L134-L134 | D occurs
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-athm
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -249,9 +253,9 @@ ROUTE_FOR: -
 EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#s1@L31-L31 | when E_i < 0, a_i = -1/(2E_i) > 0 by (2)
 EDGE: lpM:s1:elements#SourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#s1@L33-L33 | the statement quantifies over source canonical phases
 EDGE: lpM:s1:elements#keplerAxis | docs/tracks/LP/source/MAIN.md#s1@L33-L33 | a_i occurs
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-athm
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -279,9 +283,9 @@ EDGE: lpM:L2 | docs/tracks/LP/source/MAIN.md#L2@L124-L124 | (11) gives e^2 = 1 -
 EDGE: lpM:s1:elements#SourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#L2@L114-L114 | the statement quantifies over source canonical phases
 EDGE: lpM:s1:elements#keplerEccVector | docs/tracks/LP/source/MAIN.md#L2@L114-L114 | the eccentricity vector occurs
 EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#L2@L114-L114 | Euclidean lengths ¦·¦ occur in the statement
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-athm
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -310,9 +314,9 @@ EDGE: lpM:s1:elements#SourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#L2@L1
 EDGE: lpM:s1:elements#sourceKeplerPeri | docs/tracks/LP/source/MAIN.md#L2@L119-L119 | the canonical perihelion occurs
 EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#L2@L119-L119 | Euclidean lengths ¦·¦ occur in the statement
 EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/source/MAIN.md#L2@L119-L119 | the position q_i occurs in the statement
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-athm
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -341,9 +345,9 @@ EDGE: lpM:s1:elements#SourceCanonicalPhase | docs/tracks/LP/source/MAIN.md#L2@L1
 EDGE: lpM:s1:elements#sourceKeplerApo | docs/tracks/LP/source/MAIN.md#L2@L119-L119 | the canonical aphelion occurs
 EDGE: lpM:s1:data#planeLength | docs/tracks/LP/source/MAIN.md#L2@L119-L119 | Euclidean lengths ¦·¦ occur in the statement
 EDGE: lpM:s1:model#bodyVector | docs/tracks/LP/source/MAIN.md#L2@L119-L119 | the position q_i occurs in the statement
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-athm
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

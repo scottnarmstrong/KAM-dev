@@ -6,14 +6,14 @@ PROOF_SOURCE: docs/tracks/LP/source/MAIN.md#L5@L166-L175
 CONTRACT_ID: lpM:L5
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: n ≥ 2 and ν_i > 0 (lpM:s1:data); U ⊂ Q compact; m > 0
-SOURCE_QUANTIFIERS: for every compact U ⊂ Q and m > 0: there exist d_⋆ > 0 and d_pair > 0, then for every negative-energy state with I ∈ U and C ≤ B(I) - m and every list e ∈ [0,1]^n with Σ_i I_i D(e_i) ≤ B(I) - m
+SOURCE_QUANTIFIERS: for every n ≥ 2, positive ν, d ∈ {2,3}, compact U ⊂ Q and m > 0: there exist d_⋆ > 0 and d_pair > 0 before all states and lists; for every negative-energy state with I ∈ U and C ≤ B(I) - m the state clauses hold; independently, for every I ∈ U and e ∈ [0,1]^n with Σ_i I_i D(e_i) ≤ B(I) - m the same perihelion and gap bounds hold with a_i = a_i(I)
 SOURCE_CONCLUSION: perihelia a_i(1 - e_i) ≥ d_⋆ and adjacent-annulus gaps a_{i+1}(1 - e_{i+1}) - a_i(1 + e_i) ≥ d_pair, for these states and for these lists; all these states belong to a compact subset of the nonsingular physical region and satisfy H_i ≥ m in their invariable frame
 CONSTANT_SCOPE: d_⋆ and d_pair are uniform: they depend only on (n, ν, U, m)
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: lpM:L5#gap-positive, lpM:L5#Km-compact, lpM:L5#empty-case, lpM:L5#perihelion, lpM:L5#compact-physical, lpM:L5#projection, lpM:s1:data, lpM:s1:elements, lpM:s1:chamber#chamber, lpM:s1:thresholds#orderedStrongThreshold, lpM:s1:thresholds#eccDeficit
+DEPS: lpM:L5#gap-positive, lpM:L5#Km-compact, lpM:L5#empty-case, lpM:L5#perihelion, lpM:L5#compact-physical, lpM:L5#projection, lpM:s1:data, lpM:s1:elements, lpM:s1:chamber#chamber, lpM:s1:thresholds#orderedStrongThreshold, lpM:s1:thresholds#eccDeficit, lpM:s1:thresholds#actionAxis
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L5#gap-positive | docs/tracks/LP/source/MAIN.md#L5@L166-L166 | every adjacent gap is positive
@@ -27,8 +27,9 @@ EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L5@L164-L164 | C, the elem
 EDGE: lpM:s1:chamber#chamber | docs/tracks/LP/source/MAIN.md#L5@L164-L164 | U ⊂ Q
 EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#L5@L164-L164 | B(I) occurs
 EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#L5@L164-L164 | Σ I_i D(e_i) occurs
+EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#L5@L164-L164 | the independent list clause uses a_i(I) = (I_i/ν_i)^2, rather than an axis extracted from a physical state
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-m2b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -50,7 +51,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: lpM:L3#static, lpM:s1:thresholds#pairFeasible, lpM:s1:thresholds#orderedPairThreshold, lpM:s1:thresholds#orderedStrongThreshold, lpM:s1:thresholds#actionAxis, lpM:s1:elements
+DEPS: lpM:L3#static, lpM:s1:thresholds#pairFeasible, lpM:s1:thresholds#orderedPairThreshold, lpM:s1:thresholds#orderedStrongThreshold, lpM:s1:thresholds#actionAxis, lpM:s1:elements, lpM:s1:thresholds#eccDeficit, lpM:s1:thresholds#pairObjective
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L3#static | docs/tracks/LP/source/MAIN.md#L5@L166-L166 | the inequality of (13), C ≥ Σ I_k D(e_k); its premise C < B_⋆ holds because C ≤ B(I) - m < B(I) ≤ B_⋆(I)
@@ -59,8 +60,10 @@ EDGE: lpM:s1:thresholds#orderedPairThreshold | docs/tracks/LP/source/MAIN.md#L5@
 EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#L5@L166-L166 | B_{i,i+1}(I) ≥ B(I)
 EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#L5@L166-L166 | the constraint uses a_i(I) = (I_i/ν_i)^2
 EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L5@L166-L166 | the Kepler axis of a state equals a_i(I) since I_i = ν_i √a_i
+EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#L5@L166-L166 | the deficit sum uses D and its nonnegativity on [0,1]
+EDGE: lpM:s1:thresholds#pairObjective | docs/tracks/LP/source/MAIN.md#L5@L166-L166 | the feasible pair objective I_i D(e_i) + I_{i+1} D(e_{i+1}) is bounded by the total deficit and below by the pair minimum
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-m2b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -92,9 +95,9 @@ EDGE: lpM:ext-compact-min | docs/tracks/LP/source/MAIN.md#L5@L170-L170 | the con
 EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#L5@L168-L168 | K_m is defined with D
 EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#L5@L168-L168 | K_m is defined with B
 EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#L5@L170-L170 | the gaps a_{i+1}(I)(1 - e_{i+1}) - a_i(I)(1 + e_i)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -119,9 +122,9 @@ DEPS: lpM:L5#Km-compact
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L5#Km-compact | docs/tracks/LP/source/MAIN.md#L5@L170-L170 | the case split is on K_m, which contains every state and list of the hypothesis
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -151,9 +154,9 @@ EDGE: lpM:s1:thresholds#eccDeficit | docs/tracks/LP/source/MAIN.md#L5@L172-L172 
 EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#L5@L170-L170 | a_i(I) on U
 EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#L5@L172-L172 | B(I) ≤ B_⋆(I) ≤ I_i
 EDGE: lpM:s1:chamber#chamber | docs/tracks/LP/source/MAIN.md#L5@L170-L170 | a_min > 0 because U ⊂ Q
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -179,9 +182,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L2 | docs/tracks/LP/source/MAIN.md#L5@L175-L175 | (12): ¦q¦ ≤ a(1 + e) and ¦p¦^2 = ν^2(2/¦q¦ - 1/a)
 EDGE: lpM:L5#perihelion | docs/tracks/LP/source/MAIN.md#L5@L175-L175 | ¦q_i¦ ≥ a_i(1 - e_i) ≥ d_⋆ and the extrema a_max
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -208,9 +211,9 @@ ROUTE_FOR: -
 EDGE: lpM:L2 | docs/tracks/LP/source/MAIN.md#L5@L175-L175 | (12): ¦q_i¦ lies in its radial interval [a_i(1 - e_i), a_i(1 + e_i)]
 EDGE: lpM:L5#perihelion | docs/tracks/LP/source/MAIN.md#L5@L175-L175 | a_i(1 - e_i) ≥ d_⋆
 EDGE: lpM:L5#Km-compact | docs/tracks/LP/source/MAIN.md#L5@L175-L175 | every adjacent gap is at least d_pair
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -238,9 +241,9 @@ EDGE: lpM:L5#bounds | docs/tracks/LP/source/MAIN.md#L5@L175-L175 | the position 
 EDGE: lpM:L5#pair-distances | docs/tracks/LP/source/MAIN.md#L5@L175-L175 | the star and pair distance bounds
 EDGE: lpM:s1:model | docs/tracks/LP/source/MAIN.md#L5@L175-L175 | the nonsingular physical region excludes q_i = 0 and q_i = q_j
 EDGE: lpM:s1:elements | docs/tracks/LP/source/MAIN.md#L5@L175-L175 | E_i = -1/(2a_i)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -266,9 +269,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L3#static | docs/tracks/LP/source/MAIN.md#L5@L175-L175 | Lemma 3: C ≤ B_⋆(I) - m gives H_i ≥ m
 EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#L5@L175-L175 | C ≤ B(I) - m ≤ B_⋆(I) - m
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m2b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -281,10 +284,10 @@ STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#L6@L179-L187
 PROOF_SOURCE: docs/tracks/LP/source/MAIN.md#L6@L189-L189
 CONTRACT_ID: lpM:L6
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: the model (1) with its data (n, ν, d, μ > 0); 𝓛 ⊂ Q compact; δ > 0
-SOURCE_QUANTIFIERS: for every compact 𝓛 ⊂ Q and δ > 0: there exist a compact neighborhood U ⊂ Q of 𝓛 and the modulus Ω_B; then for every r > 0 and every solution with I^0 ∈ 𝓛, C_0 ≤ B(I^0) - δ, whose actions stay within r of I^0 with that tube in U, and every t
-SOURCE_CONCLUSION: Ω_B(r) = sup{¦B(I) - B(J)¦ : I, J ∈ U, ‖I - J‖_∞ ≤ r} → 0 as r ↓ 0; C(t) ≤ B(I(t)) - δ + nr + Ω_B(r) (17); if nr + Ω_B(r) ≤ δ/2, the solution cannot terminate at a finite time while those action and ellipticity conditions hold; the same holds backwards in time
-CONSTANT_SCOPE: U and Ω_B depend only on 𝓛 and the fixed data (chosen before the solution)
+SOURCE_HYPOTHESES: the model (1) with its data (n ≥ 2, ν_i > 0, d ∈ {2,3}, μ > 0); compact 𝓛 ⊂ Q; δ > 0
+SOURCE_QUANTIFIERS: for every fixed data, compact 𝓛 ⊂ Q and δ > 0: there exist one compact neighborhood U ⊂ Q of 𝓛, r_g > 0 and its modulus Ω_B, before r and the solution; then for every 0 < r ≤ r_g and every solution starting at I^0 ∈ 𝓛 with C_0 ≤ B(I^0) - δ, while its negative-energy actions stay within r of I^0 with that tube in U, and every time t
+SOURCE_CONCLUSION: the closed 4r_g sup-norm tube about 𝓛 is contained in U; Ω_B(s) = sup{¦B(I) - B(J)¦ : I,J ∈ U, ‖I-J‖_∞ ≤ s} tends to zero as s ↓ 0 and Ω_B(4r_g) ≤ δ/16; the same U and Ω_B are used in Lemmas 8 and 14 when 𝓛 = 𝓛_δ; C(t) ≤ B(I(t)) - δ + nr + Ω_B(r) (17); if nr + Ω_B(r) ≤ δ/2, there is no finite-time termination while the action and ellipticity conditions hold, in either time direction
+CONSTANT_SCOPE: U, r_g and Ω_B depend only on (n, ν, 𝓛, δ), before r and the solution; they are shared across the later applications with 𝓛 = 𝓛_δ
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
@@ -292,19 +295,19 @@ FROZEN_ABI_SHA256: -
 DEPS: lpM:L6#shared-U, lpM:L6#moving-threshold, lpM:L6#continuation, lpM:L6#backward, lpM:s1:chamber#chamber, lpM:s1:thresholds#orderedStrongThreshold
 ROUTES: -
 ROUTE_FOR: -
-EDGE: lpM:L6#shared-U | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | the neighborhood U and the modulus Ω_B
+EDGE: lpM:L6#shared-U | docs/tracks/LP/source/AMENDMENTS.md#N2@L11-L11 | one shared U contains the closed 4r_g tube, supplies the common modulus, and r ≤ r_g (MAIN L179-L189 supplies the construction and modulus claim)
 EDGE: lpM:L6#moving-threshold | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | (17)
 EDGE: lpM:L6#continuation | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | no finite-time termination
 EDGE: lpM:L6#backward | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | the backward assertion
 EDGE: lpM:s1:chamber#chamber | docs/tracks/LP/source/MAIN.md#L6@L179-L179 | 𝓛, U ⊂ Q
 EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#L6@L181-L181 | B and Ω_B
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-m2b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: AMENDED: N2 (AMENDMENTS.md L11): U is the one compact set shared with Lemmas 8 and 14; it contains the closed 4r_g sup-norm tube about 𝓛_δ, its modulus Ω_B serves (17), Lemma 8 and (39), and r ≤ r_g (the consumers in wave 2 record where these requirements are used)
+NOTE: AMENDED: N2 (AMENDMENTS.md L11): one shared compact U and one modulus for (17), Lemma 8 and (39); when 𝓛 = 𝓛_δ, U contains the closed 4r_g sup-norm tube about 𝓛_δ, Ω_B(4r_g) ≤ δ/16, and r ≤ r_g. No planar-carrier dependency is introduced.
 
 NODE: lpM:L6#shared-U
 KIND: step
@@ -313,10 +316,10 @@ STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#L6@L179-L182
 PROOF_SOURCE: docs/tracks/LP/source/MAIN.md#L6@L189-L189
 CONTRACT_ID: lpM:L6#shared-U
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of lpM:L6: the model (1) with its data (n, ν, d, μ > 0); compact 𝓛 ⊂ Q; δ > 0; a solution with I^0 ∈ 𝓛, C_0 ≤ B(I^0) - δ, whose actions stay within r of I^0 inside U
-SOURCE_QUANTIFIERS: for every compact 𝓛 ⊂ Q, δ > 0, r > 0 and every such solution (inherited from lpM:L6)
-SOURCE_CONCLUSION: a sufficiently small closed neighborhood U of 𝓛 inside the open chamber is compact, and uniform continuity of B on U gives Ω_B(r) → 0 as r ↓ 0
-CONSTANT_SCOPE: U depends only on 𝓛 and the fixed data
+SOURCE_HYPOTHESES: the model (1) with its data (n ≥ 2, ν_i > 0, d ∈ {2,3}, μ > 0); compact 𝓛 ⊂ Q; δ > 0
+SOURCE_QUANTIFIERS: for every fixed data, compact 𝓛 ⊂ Q and δ > 0, there exist a compact neighborhood U ⊂ Q, r_g > 0 and Ω_B, chosen before any radius r or solution; Ω_B is defined for all s ≥ 0
+SOURCE_CONCLUSION: choose one compact neighborhood U of 𝓛 inside Q; uniform continuity of B on U gives Ω_B(s) = sup{¦B(I)-B(J)¦ : I,J ∈ U, ‖I-J‖_∞ ≤ s} → 0 as s ↓ 0; choose r_g > 0 small enough that the closed 4r_g sup-norm tube about 𝓛 is in U and Ω_B(4r_g) ≤ δ/16; when 𝓛 = 𝓛_δ this U and its modulus are the same in (17), Lemma 8 and (39), with subsequent r ≤ r_g
+CONSTANT_SCOPE: U, r_g and Ω_B depend only on (n, ν, 𝓛, δ), before r and the solution
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
@@ -329,12 +332,12 @@ EDGE: lpM:ext-heine-cantor | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | unifor
 EDGE: lpM:s1:chamber#chamber | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | U lies in the open chamber Q
 EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | the modulus of B
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-m2b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: AMENDED: N2 (AMENDMENTS.md L11): the closed neighborhood is the one shared compact U containing the closed 4r_g-tube about 𝓛_δ
+NOTE: AMENDED: N2 (AMENDMENTS.md L11): one shared compact U and one modulus for (17), Lemma 8 and (39); when 𝓛 = 𝓛_δ, U contains the closed 4r_g sup-norm tube about 𝓛_δ, Ω_B(4r_g) ≤ δ/16, and r ≤ r_g. No planar-carrier dependency is introduced.
 
 NODE: lpM:L6#moving-threshold
 KIND: step
@@ -343,8 +346,8 @@ STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#L6@L183-L186
 PROOF_SOURCE: docs/tracks/LP/source/MAIN.md#L6@L189-L189
 CONTRACT_ID: lpM:L6#moving-threshold
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of lpM:L6: the model (1) with its data (n, ν, d, μ > 0); compact 𝓛 ⊂ Q; δ > 0; a solution with I^0 ∈ 𝓛, C_0 ≤ B(I^0) - δ, whose actions stay within r of I^0 inside U
-SOURCE_QUANTIFIERS: for every compact 𝓛 ⊂ Q, δ > 0, r > 0 and every such solution (inherited from lpM:L6)
+SOURCE_HYPOTHESES: context of the proof of lpM:L6: the model (1) with its data (n ≥ 2, ν_i > 0, d ∈ {2,3}, μ > 0); compact 𝓛 ⊂ Q; δ > 0; local notation: U, r_g, Ω_B are the witnesses constructed by lpM:L6#shared-U before r and the solution; 0 < r ≤ r_g; a solution in the negative-energy region on the connected interval under consideration, with I^0 ∈ 𝓛, C_0 ≤ B(I^0) - δ and ‖I(t) - I^0‖_∞ ≤ r, with that tube in U
+SOURCE_QUANTIFIERS: for every fixed data, compact 𝓛 ⊂ Q and δ > 0, first choose the shared U, r_g > 0 and Ω_B; then for every 0 < r ≤ r_g and every solution as specified, and all times in the interval
 SOURCE_CONCLUSION: C(t) = C_0 + Σ_i(I_i(t) - I_i^0) ≤ C_0 + nr and B(I^0) ≤ B(I(t)) + Ω_B(r), hence C(t) ≤ B(I(t)) - δ + nr + Ω_B(r) (17)
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -358,12 +361,12 @@ EDGE: lpM:L3#dynamic | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | the action i
 EDGE: lpM:L6#shared-U | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | I^0 and I(t) lie in U within r, so the modulus applies
 EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | B occurs
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-m2b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: AMENDED: N2 (AMENDMENTS.md L11): one shared compact U and one modulus for (17), Lemma 8 and (39); when 𝓛 = 𝓛_δ, U contains the closed 4r_g sup-norm tube about 𝓛_δ, Ω_B(4r_g) ≤ δ/16, and r ≤ r_g. No planar-carrier dependency is introduced.
 
 NODE: lpM:L6#local-existence
 KIND: step
@@ -372,15 +375,15 @@ STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#L6@L187-L187
 PROOF_SOURCE: docs/tracks/LP/source/MAIN.md#L6@L189-L189
 CONTRACT_ID: lpM:L6#local-existence
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of lpM:L6: the model (1) with its data (n, ν, d, μ > 0); compact 𝓛 ⊂ Q; δ > 0; a solution with I^0 ∈ 𝓛, C_0 ≤ B(I^0) - δ, whose actions stay within r of I^0 inside U; nr + Ω_B(r) ≤ δ/2
-SOURCE_QUANTIFIERS: for every compact 𝓛 ⊂ Q, δ > 0, r > 0 and every such solution (inherited from lpM:L6)
+SOURCE_HYPOTHESES: context of the proof of lpM:L6: the model (1) with its data (n ≥ 2, ν_i > 0, d ∈ {2,3}, μ > 0); compact 𝓛 ⊂ Q; δ > 0; local notation: U, r_g, Ω_B are the witnesses constructed by lpM:L6#shared-U before r and the solution; 0 < r ≤ r_g; a solution in the negative-energy region on the connected interval under consideration, with I^0 ∈ 𝓛, C_0 ≤ B(I^0) - δ and ‖I(t) - I^0‖_∞ ≤ r, with that tube in U; nr + Ω_B(r) ≤ δ/2 for the continuation assertion
+SOURCE_QUANTIFIERS: for every fixed data, compact 𝓛 ⊂ Q and δ > 0, first choose the shared U, r_g > 0 and Ω_B; then for every 0 < r ≤ r_g and every solution as specified, and all times in the interval
 SOURCE_CONCLUSION: by (17), C ≤ B(I) - δ/2 along the solution, so Lemma 5 (with U and m = δ/2) supplies a compact nonsingular physical set with bounded momenta and energies separated from zero; the vector field of (1) and its derivative are bounded on a neighborhood of it; at every point of that set a local solution exists and is unique: on a small closed ball, z(t) = z_* + ∫_0^t X_H(z(u)) du is a contraction for times below the ball radius divided by the field bound and the inverse derivative bound (Picard iteration), and the same Lipschitz bound gives uniqueness by iterating the integral inequality
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: lpM:L5, lpM:L6#moving-threshold, lpM:s1:model, lpM:ext-picard, lpM:ext-gronwall
+DEPS: lpM:L5, lpM:L6#moving-threshold, lpM:s1:model, lpM:ext-picard, lpM:ext-gronwall, lpM:s1:thresholds#orderedStrongThreshold
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L5 | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | Lemma 5 supplies the compact nonsingular physical set (its premise C ≤ B(I) - δ/2 comes from (17))
@@ -388,13 +391,14 @@ EDGE: lpM:L6#moving-threshold | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | (17
 EDGE: lpM:s1:model | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | the vector field X_H of (1)
 EDGE: lpM:ext-picard | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | contraction mapping and Picard iteration
 EDGE: lpM:ext-gronwall | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | uniqueness by iterating the integral inequality
+EDGE: lpM:s1:thresholds#orderedStrongThreshold | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | the direct application of Lemma 5 uses the moving bound C ≤ B(I) - δ/2
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-m2b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: AMENDED: N2 (AMENDMENTS.md L11): one shared compact U and one modulus for (17), Lemma 8 and (39); when 𝓛 = 𝓛_δ, U contains the closed 4r_g sup-norm tube about 𝓛_δ, Ω_B(4r_g) ≤ δ/16, and r ≤ r_g. No planar-carrier dependency is introduced.
 
 NODE: lpM:L6#continuation
 KIND: step
@@ -403,8 +407,8 @@ STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#L6@L187-L187
 PROOF_SOURCE: docs/tracks/LP/source/MAIN.md#L6@L189-L189
 CONTRACT_ID: lpM:L6#continuation
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of lpM:L6: the model (1) with its data (n, ν, d, μ > 0); compact 𝓛 ⊂ Q; δ > 0; a solution with I^0 ∈ 𝓛, C_0 ≤ B(I^0) - δ, whose actions stay within r of I^0 inside U; nr + Ω_B(r) ≤ δ/2
-SOURCE_QUANTIFIERS: for every compact 𝓛 ⊂ Q, δ > 0, r > 0 and every such solution (inherited from lpM:L6)
+SOURCE_HYPOTHESES: context of the proof of lpM:L6: the model (1) with its data (n ≥ 2, ν_i > 0, d ∈ {2,3}, μ > 0); compact 𝓛 ⊂ Q; δ > 0; local notation: U, r_g, Ω_B are the witnesses constructed by lpM:L6#shared-U before r and the solution; 0 < r ≤ r_g; a solution in the negative-energy region on the connected interval under consideration, with I^0 ∈ 𝓛, C_0 ≤ B(I^0) - δ and ‖I(t) - I^0‖_∞ ≤ r, with that tube in U; nr + Ω_B(r) ≤ δ/2 for the continuation assertion
+SOURCE_QUANTIFIERS: for every fixed data, compact 𝓛 ⊂ Q and δ > 0, first choose the shared U, r_g > 0 and Ω_B; then for every 0 < r ≤ r_g and every solution as specified, and all times in the interval
 SOURCE_CONCLUSION: the field bound makes the trajectory Lipschitz in time, so at a finite endpoint it has a limit in the compact set; the local solution there glues to extend the solution; bounded actions keep the energies a fixed distance below zero, so ellipticity cannot be lost unnoticed; hence the solution cannot terminate at a finite time while the action and ellipticity conditions hold
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -415,14 +419,14 @@ DEPS: lpM:L6#local-existence, lpM:L5
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L6#local-existence | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | local existence and uniqueness at the limit point
-EDGE: lpM:L5 | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | the limit lies in the compact set of Lemma 5
+EDGE: lpM:L5 | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | use U and m = δ/2: (17) and nr + Ω_B(r) ≤ δ/2 supply C ≤ B(I) - m, as delivered by local-existence; the endpoint limit stays in that compact set
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-m2b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: AMENDED: N2 (AMENDMENTS.md L11): one shared compact U and one modulus for (17), Lemma 8 and (39); when 𝓛 = 𝓛_δ, U contains the closed 4r_g sup-norm tube about 𝓛_δ, Ω_B(4r_g) ≤ δ/16, and r ≤ r_g. No planar-carrier dependency is introduced.
 
 NODE: lpM:L6#backward
 KIND: step
@@ -431,9 +435,9 @@ STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#L6@L187-L187
 PROOF_SOURCE: docs/tracks/LP/source/MAIN.md#L6@L189-L189
 CONTRACT_ID: lpM:L6#backward
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of lpM:L6: the model (1) with its data (n, ν, d, μ > 0); compact 𝓛 ⊂ Q; δ > 0; a solution with I^0 ∈ 𝓛, C_0 ≤ B(I^0) - δ, whose actions stay within r of I^0 inside U
-SOURCE_QUANTIFIERS: for every compact 𝓛 ⊂ Q, δ > 0, r > 0 and every such solution (inherited from lpM:L6); t ≤ 0
-SOURCE_CONCLUSION: the assertions hold backwards in time
+SOURCE_HYPOTHESES: context of the proof of lpM:L6: the model (1) with its data (n ≥ 2, ν_i > 0, d ∈ {2,3}, μ > 0); compact 𝓛 ⊂ Q; δ > 0; local notation: U, r_g, Ω_B are the witnesses constructed by lpM:L6#shared-U before r and the solution; 0 < r ≤ r_g; a solution in the negative-energy region on the connected interval under consideration, with I^0 ∈ 𝓛, C_0 ≤ B(I^0) - δ and ‖I(t) - I^0‖_∞ ≤ r, with that tube in U
+SOURCE_QUANTIFIERS: for every fixed data, compact 𝓛 ⊂ Q and δ > 0, first choose the shared U, r_g > 0 and Ω_B; then for every 0 < r ≤ r_g and every solution as specified, and all times in the interval; t ≤ 0 for the reversed-time assertion
+SOURCE_CONCLUSION: the moving-threshold estimate (17) holds backwards in time; if nr + Ω_B(r) ≤ δ/2, the solution also cannot terminate at a finite backward endpoint while the action and ellipticity conditions hold, by applying the continuation argument to the negated field
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
@@ -445,9 +449,9 @@ ROUTE_FOR: -
 EDGE: lpM:L6#continuation | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | the forward argument applied to the negated field
 EDGE: lpM:L6#moving-threshold | docs/tracks/LP/source/MAIN.md#L6@L189-L189 | (17) holds for negative times as well
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-m2b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: AMENDED: N2 (AMENDMENTS.md L11): one shared compact U and one modulus for (17), Lemma 8 and (39); when 𝓛 = 𝓛_δ, U contains the closed 4r_g sup-norm tube about 𝓛_δ, Ω_B(4r_g) ≤ δ/16, and r ≤ r_g. No planar-carrier dependency is introduced.

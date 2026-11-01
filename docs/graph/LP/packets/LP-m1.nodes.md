@@ -16,9 +16,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m1
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -27,7 +27,7 @@ NOTE: hypothesis package (SPEC §3): not a global standing assumption; a result 
 NODE: lpM:s1:model
 KIND: definition
 TITLE: the exact model: units, masses, symplectic form, Hamiltonian (1), domain, time
-STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#s1@L17-L24
+STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#s1@L17-L39
 PROOF_SOURCE: -
 CONTRACT_ID: lpM:s1:model
 CONTRACT_VERSION: 1
@@ -44,7 +44,7 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:data | docs/tracks/LP/source/MAIN.md#s1@L17-L17 | the data ν, n, d and the Euclidean length ¦·¦ enter (1)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: kam-lp
+EXTRACTOR: kam-lp+sol-review-LP-LP-m1
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -71,9 +71,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:model | docs/tracks/LP/source/MAIN.md#s1@L28-L28 | q_i, p_i and ν_i are the variables of the model
 EDGE: lpM:s1:data | docs/tracks/LP/source/MAIN.md#s1@L28-L28 | the Euclidean length ¦·¦ and the dimension d
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m1
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -99,9 +99,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:data | docs/tracks/LP/source/MAIN.md#s1@L59-L59 | the masses ν_i enter h and ω
 EDGE: lpM:s1:thresholds#actionAxis | docs/tracks/LP/source/MAIN.md#s1@L60-L60 | ω_i(I) = a_i(I)^{-3/2} uses the action axis
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m1
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -127,9 +127,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:fast | docs/tracks/LP/source/MAIN.md#s1@L64-L64 | the frequencies ω(I^0) of (4)
 EDGE: lpM:s1:data | docs/tracks/LP/source/MAIN.md#s1@L64-L64 | γ and τ are fixed data
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m1
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -154,9 +154,9 @@ DEPS: lpM:s1:data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:data | docs/tracks/LP/source/MAIN.md#s1@L93-L93 | admissibility is the condition τ > n - 1 of the data
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-lp
-REVIEWER: -
+REVIEWER: sol-review-LP-LP-m1
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
