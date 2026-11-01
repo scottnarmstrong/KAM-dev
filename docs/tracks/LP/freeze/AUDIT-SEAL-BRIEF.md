@@ -9,10 +9,15 @@ approval object is `inp-lp-freeze7` at `de343000`), with freeze and seals. The s
 passes. **Draft 8 (LP3) is not approved.** Nothing from `docs/tracks/LP/freeze/draft8/` may appear under
 `KAM/Frozen/` or in the manifest.
 
-**Object.** The seal commit (or commits) on branch `inp-lp-seal`, in your worktree at the HEAD named in the launcher.
-It is based on the freeze commits of `inp-lp-freeze`; that freeze is landed, or about to be. The author's records are
-`docs/tracks/LP/audits/LP-FREEZE-EXEC-handoff.md`, `docs/tracks/LP/FREEZE.md` and the `docs/MANIFEST-CHANGES.md`
-rows.
+**Object.** At the owner's request (via root-b8), the freeze and the seal are ONE pass on ONE branch with ONE landing,
+as track R did on 2026-10-30 ("froze and sealed"; see `docs/MANIFEST-CHANGES.md`). The object is branch
+`inp-lp-freeze`, in your worktree at the HEAD named in the launcher. It installs the 128 frozen files with the 39
+theorem anchors **already sealed** (`by exact KAM.Provider.…`), the 39 providers, and the manifest entries directly in
+state SEALED. There is no DRAFT_SORRY stage. The author's capped build and lint run **in parallel** with your audit.
+If the author's later commits on the branch change anything you have checked, re-check those files before your
+verdict, and state the final HEAD you certify. The author's records are
+`docs/tracks/LP/audits/LP-FREEZE-EXEC-handoff.md` (it may still be in progress), `docs/tracks/LP/FREEZE.md` and the
+`docs/MANIFEST-CHANGES.md` rows.
 
 **Procedure reference:** `docs/tracks/LP/freeze/RUNBOOK.md` §2 (commits A–D) and **§6** (your ten checks). Read both,
 and the rulings at the end of the runbook. The precedents §6 cites are SO-FREEZE3 seal audit, P14-SEAL and
@@ -33,7 +38,7 @@ AUDIT-RUSSMANN-SEAL-1.
    - `definition_closure` must be complete.
    - All pre-existing entries must be JSON-equal to `inp`'s.
 4. **Seal bodies.** Each of the 39 must be `by exact <provider export> <explicit binders>` within the guard limits,
-   with state SEALED. Prefix, suffix and ABI must be unchanged from the freeze commits.
+   with state SEALED. Outside the body between the markers, every anchor file must equal its approved draft (placeholders filled).
 5. **Providers.** Run the exact-type probe: each provider type must be `Expr`-equal to its anchor. Each body must be
    a one-line application of the named proved implementation theorem, or the moved characterization proof, with any
    inlining disclosed. There must be no extra hypothesis, no provider-to-provider or frozen-theorem import, and no
@@ -51,7 +56,7 @@ AUDIT-RUSSMANN-SEAL-1.
      `systemd-run --user --scope -p MemoryMax=4G -p MemorySwapMax=0 nice -n 10 env LEAN_NUM_THREADS=1 lake env leanchecker <Module>`
      behind the MemAvailable ≥ 8 GB gate. **Never** use `kernel_replay.sh --mem-gb`.
 8. **Quarantine and roots.** `scripts/gen_root_imports.py --check` must pass. No non-anchor module may import a
-   provider. No LP `DRAFT_SORRY` may remain after the seal.
+   provider. No LP `DRAFT_SORRY` may exist; every new LP entry is SEALED.
 9. **Carry-forward.** The real provider and import graph is now exercised (draft-7 audit note N1); confirm it. N3, and
    N4 (every characterization is sealed before any consumer relies on it).
 10. **Records.** The MANIFEST-CHANGES rows (freeze and seal, citing D62) and `docs/tracks/LP/FREEZE.md` must match
