@@ -15,3 +15,5 @@ still being built. Modules under `KAM/Wave/Iteration/`, namespace `KAM.Wave`.
 | `applicable` | arithmetic only | `Constants` | `w6applicable_arith` |
 | `freq-lip` | constants clause only | `Constants` | `w6freqLip_consts` (`ε_ω, ε₁, ε₂ ∈ [0,α]`, `θ ∈ [0,θ₀]`) |
 | W8 D1 | done | `Assembly/UpstreamW6` | `w8Upstream m hm : W8UpstreamConsts` (`γ`, `γ₁`, `c_F = stepCF 24`, `c^♮_F = stepCFn 24`), `w8SigmaP_eq_w6`, `w8Sigma0_eq_w6`, `w8M_eq_w6` |
+| `convergence` (i) | done (generic in the frequencies) | `Params` | `w6Removed`, `w6PiSeq`, `w6PiStar`, `w6Convergence_params` (`Π_{-1}∖Π_* = ⋃ R^ν_{kl}`), `w6Zone_subset`, `w6PiSeq_measurableSet` (Borel), `w6PiSeq_antitone` |
+| `exclusion` | done (generic family, D2-style) | `Params` | `w6_exclusion`, `w6_exclusion_seq` (levels `α_ν` with `α₀ = α̌`, thresholds `K_ν`) |
