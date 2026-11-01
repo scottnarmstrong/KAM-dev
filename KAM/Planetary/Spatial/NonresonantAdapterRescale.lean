@@ -20,7 +20,7 @@ track LP, non-frozen. The statement surface is proposed in docs/tracks/LP/FREEZE
 
 `lpRescaleNM ℓ : Phase (n + m) →L[ℝ] ER n m` sends a chart point `((λ, ξ), (Λ, η))`, with `n` fast
 pairs and `m` slow pairs (slow positions in `w.1`, slow momenta in `w.2`), to the engine point
-`(θ, (I, q, p)) = (λ/(2π), (Λ, ξ/ℓ, η/ℓ))`.  `lpUnrescaleNM ℓ` is its inverse.
+`(θ, (I, q, p)) = (λ/(2π), (Λ, ξ/ℓ, η/ℓ))`.  `lpUnrescaleNM ℓ` is its inverse for `ℓ ≠ 0`.
 `lpRescaleNM_hasDerivAt` is the field conversion at unchanged physical time: a solution of the
 chart Hamiltonian field of `G` maps to a solution of `realWfield (2π/ℓ²)` of
 `Ĝ = (1/(2π)) • (G ∘ lpUnrescaleNM ℓ)`.  The slot and sign conventions match for every `m`

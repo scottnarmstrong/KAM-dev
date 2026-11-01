@@ -741,8 +741,10 @@ public import KAM.Planetary.StrongAMD.PlanarSafety.Constants
 public import KAM.Planetary.StrongAMD.PlanarSafety.Main
 public import KAM.Planetary.StrongAMD.PlanarSafety.Orientation
 public import KAM.Planetary.StrongAMD.PlanarSafety.Prograde
+public import KAM.Planetary.StrongAMD.PlanarSafety.Source
 public import KAM.Planetary.StrongAMD.PlanarSafety
 public import KAM.Planetary.StrongAMD.Reflection
+public import KAM.Planetary.StrongAMD.SourceCarrier
 public import KAM.Planetary.StrongAMD.Threshold.Continuity
 public import KAM.Planetary.StrongAMD.Threshold.Defs
 public import KAM.Planetary.StrongAMD.Threshold.Pair
