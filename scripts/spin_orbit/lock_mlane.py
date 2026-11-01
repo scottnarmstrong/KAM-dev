@@ -16,6 +16,12 @@
     LOCK_MEM=10G LOCK_GATE=12582912 python3 lock_mlane.py LOGDIR LANES TARGET [TARGET ...]
     (TARGET: a module name, or @FILE with one module per line)
 
+Mixed lanes (this machine): LOCK_HEAVY=FILE (one module per line) sends those modules to LOCK_HEAVY_LANES (default 1)
+heavy lanes with LOCK_HEAVY_MEM (default 10G) and LOCK_HEAVY_GATE kB (default 12 GiB); every other module runs on
+the LANES light lanes (LOCK_MEM, LOCK_GATE).  With LOCK_RETRY_HEAVY=1 a light module killed by its cap is retried
+once on a heavy lane.  LOCK_DONE=FILE marks the listed modules done (verify them first with one
+`lake build --no-build $(cat FILE)`, rc 0).
+
 Already-built modules are rebuilt by Lake only if their traces changed (a replay takes a few seconds).
 """
 import os
@@ -64,7 +70,8 @@ def mem_available_kb():
     return 0
 
 
-def run(m, logdir, lane):
+def run(m, logdir, lane, mem=None):
+    mem = mem or os.environ.get("LOCK_MEM", "10G")
     log = os.path.join(logdir, m + ".log")
     head = subprocess.run("date -u; git -C %s rev-parse HEAD; df -h / | tail -1" % ROOT, shell=True,
                           capture_output=True, text=True).stdout
@@ -74,9 +81,9 @@ def run(m, logdir, lane):
               'echo "OOMKILL $(grep oom_kill $cg/memory.events 2>/dev/null | awk \'{print $2}\')"; '
               'echo "rc=$rc"' % m)
     with open(log, "w") as f:
-        f.write(head + "lane %d\n" % lane)
+        f.write(head + "lane %s mem %s\n" % (lane, mem))
         f.flush()
-        subprocess.run(["systemd-run", "--user", "--scope", "-q", "-p", "MemoryMax=" + os.environ.get("LOCK_MEM", "10G"),
+        subprocess.run(["systemd-run", "--user", "--scope", "-q", "-p", "MemoryMax=" + mem,
                         "-p", "MemorySwapMax=0", "bash", "-c", script], cwd=ROOT, stdout=f, stderr=subprocess.STDOUT)
     t = open(log).read()
 
@@ -86,7 +93,7 @@ def run(m, logdir, lane):
     rc = grab(r"^rc=(\S+)") or "OOM-or-killed"
     u, s = grab(r"User time \(seconds\): (\S+)"), grab(r"System time \(seconds\): (\S+)")
     cpu = "%.2f" % (float(u) + float(s)) if u and s else ""
-    line = "%s rc=%s cpu=%s wall=%s peak=%s oom=%s lane=%d" % (
+    line = "%s rc=%s cpu=%s wall=%s peak=%s oom=%s lane=%s" % (
         m, rc, cpu, grab(r"Elapsed \(wall clock\) time \(h:mm:ss or m:ss\): (\S+)"), grab(r"^MEMPEAK (\S+)"),
         grab(r"^OOMKILL (\S+)"), lane)
     return rc == "0", line
@@ -103,7 +110,21 @@ def main(argv):
         print("missing sources: %d (first: %s); not building" % (len(MISSING), MISSING[0]), flush=True)
         return 2
     gate = int(os.environ.get("LOCK_GATE", "8388608"))
+    heavy = set()
+    if os.environ.get("LOCK_HEAVY"):
+        heavy = {l.strip() for l in open(os.environ["LOCK_HEAVY"]) if l.strip()}
+    hmem = os.environ.get("LOCK_HEAVY_MEM", "10G")
+    hgate = int(os.environ.get("LOCK_HEAVY_GATE", "12582912"))
+    hfree = ["H%d" % i for i in range(1, int(os.environ.get("LOCK_HEAVY_LANES", "1")) + 1)] if heavy else []
+    retry = os.environ.get("LOCK_RETRY_HEAVY") == "1" and bool(heavy)
     state = {m: "todo" for m in order}            # todo / run / ok / fail / skip
+    if os.environ.get("LOCK_DONE"):
+        # modules already verified up to date (one batch `lake build --no-build …` rc 0): not re-invoked
+        done = {l.strip() for l in open(os.environ["LOCK_DONE"]) if l.strip()}
+        for m in order:
+            if m in done:
+                state[m] = "ok"
+        print("pre-verified up to date: %d" % sum(1 for m in order if m in done), flush=True)
     lock = threading.Lock()
     free = list(range(1, lanes + 1))
     print("modules %d lanes %d mem %s gate %d kB" % (len(order), lanes, os.environ.get("LOCK_MEM", "10G"), gate),
@@ -122,10 +143,16 @@ def main(argv):
         return 0
 
     def worker(m, lane):
-        ok, line = run(m, logdir, lane)
+        isH = isinstance(lane, str)
+        ok, line = run(m, logdir, lane, hmem if isH else None)
         with lock:
+            (hfree if isH else free).append(lane)
+            if not ok and not isH and retry and ("OOM" in line or "oom=1" in line):
+                heavy.add(m)
+                state[m] = "todo"
+                print(line + " (retry on a heavy lane)", flush=True)
+                return
             state[m] = "ok" if ok else "fail"
-            free.append(lane)
             print(line, flush=True)
 
     while True:
@@ -140,6 +167,12 @@ def main(argv):
             if not ready and running == 0:
                 break
             launch = []
+            for m in [x for x in ready if x in heavy]:
+                if not hfree or mem_available_kb() < hgate:
+                    break
+                state[m] = "run"
+                launch.append((m, hfree.pop(0)))
+            ready = [x for x in ready if x not in heavy]
             while ready and free and mem_available_kb() >= gate:
                 m = ready.pop(0)
                 lane = free.pop(0)

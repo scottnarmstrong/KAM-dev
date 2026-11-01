@@ -8,12 +8,17 @@ module
 public import KAM.SpinOrbit.Data.LockN65.Cert
 public import KAM.SpinOrbit.Data.LockN65.Witness
 public import KAM.SpinOrbit.LunarAssemblyV2
+public import KAM.SpinOrbit.Data.LockN65.JetEq
+public import KAM.SpinOrbit.Data.LockN65.HamBalls
+public import KAM.SpinOrbit.Data.LockN65.HamOk
+public import KAM.SpinOrbit.Data.LockN65.HamBridge
 
 /-!
 # The N = 65 lock: Hamiltonian claim
 
-One kernel run (`decide +kernel`), as for the band data in
-`KAM/SpinOrbit/Data/Upper/Pass/HamClaim.lean`.
+From the kernel-checked pieces: the jet bridge `lock_jet` (JetEq), the segmented disc pass `lock_balls`
+(HamBalls) and `lock_hamClaimOk` (HamOk). The monolithic `decide +kernel` (the band data's form) was
+OOM-killed at 8 GB.
 -/
 
 @[expose] public section
@@ -23,7 +28,7 @@ namespace KAM.SpinOrbit.Data.LockN65
 open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2 KAM.SpinOrbit CertArith
 
 theorem lock_hamClaim :
-    checkHamClaim base refinedWit.R = true := by
-  decide +kernel
+    checkHamClaim base refinedWit.R = true :=
+  checkHamClaim_of_parts (c := base) refinedWit.R lock_jet lock_balls lock_hamClaimOk
 
 end KAM.SpinOrbit.Data.LockN65

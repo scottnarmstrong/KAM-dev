@@ -75,7 +75,9 @@ preflight() {
   git cat-file -e "$FROZEN^{commit}" 2>/dev/null || die "frozen commit $FROZEN unknown"
   echo "frozen commit $FROZEN ($(git log -1 --format=%s "$FROZEN" | cut -c1-80))"
   [ "$(git rev-parse HEAD)" = "$FROZEN" ] || echo "note: HEAD $(git rev-parse --short HEAD) != frozen; the bundle carries the frozen commit, the untracked sources come from this worktree"
-  [ -z "$(git status --porcelain --untracked-files=no)" ] || die "tracked changes in the worktree"
+  if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
+    [ $DRY = 1 ] && echo "WARN (dry-run): tracked changes in the worktree; a real run stops here" || die "tracked changes in the worktree"
+  fi
   local seg; seg=${SEGTREE:-$(readlink "$LOCKDIR/Seg/CharE.lean" | sed 's|/KAM/SpinOrbit/Data/LockN65/Seg/CharE.lean||')}
   echo "segment tree: $seg"
   mkdir -p "$WORK"

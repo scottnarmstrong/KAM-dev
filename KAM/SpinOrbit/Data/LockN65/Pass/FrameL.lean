@@ -8,12 +8,13 @@ module
 public import KAM.SpinOrbit.Data.LockN65.Cert
 public import KAM.SpinOrbit.Data.LockN65.Witness
 public import KAM.SpinOrbit.LunarAssemblyV2
+public import KAM.SpinOrbit.Data.LockN65.Pass.FrameL0
+public import KAM.SpinOrbit.Data.LockN65.Pass.FrameL1
 
 /-!
 # The N = 65 lock: frame majorant L
 
-One kernel run (`decide +kernel`), as for the band data in
-`KAM/SpinOrbit/Data/Upper/Pass/FrameL.lean`.
+`checkFrameL` from its two columns (`Pass/FrameL0`, `Pass/FrameL1`, one kernel run each).
 -/
 
 @[expose] public section
@@ -24,6 +25,11 @@ open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2 KAM.SpinOr
 
 theorem lock_frameL :
     checkFrameL base refinedWit.R.bL = true := by
-  decide +kernel
+  unfold checkFrameL
+  rewrite [List.all_eq_true]
+  intro j _
+  fin_cases j
+  · exact lock_frameL0
+  · exact lock_frameL1
 
 end KAM.SpinOrbit.Data.LockN65
