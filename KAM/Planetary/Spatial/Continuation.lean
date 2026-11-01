@@ -22,6 +22,8 @@ track LP, non-frozen.  The modulus `strongThresholdModulus` is the planar (dimen
 * M4 `spatial_maximal_global_of_barrier`: a maximal solution that stays in barrier states near an
   end of its interval has that end infinite.
 * `spatial_maximal_global_of_tube`: the MAIN-shaped corollary, `n r + Ω_B(r) ≤ δ / 2`.
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
