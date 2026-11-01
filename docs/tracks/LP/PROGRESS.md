@@ -20,18 +20,25 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 
 | Package | MAIN | Wave | Branch / worktree | Account | State |
 |---|---|---|---|---|---|
-| LP-THR Threshold | L4 | 1 | `inp-lp-thr` / `/mnt/HC_Volume_106379410/kam-lp/KAM-inp-lp-thr` | claude-6 | audit LP-BAR1-1 PASS WITH NOTES (codex-1); landing requested (inp-lp c6cd3a95) |
-| LP-MOM Orbital+Momentum (planar) | L2–L3 | 1 | `inp-lp-mom` / `/mnt/HC_Volume_106379410/kam-lp/KAM-inp-lp-mom` | claude-12 | audit LP-BAR1-1 PASS WITH NOTES (codex-1); landing requested (inp-lp c6cd3a95) |
-| LP-GEO Geometry | L5 | 1 | `inp-lp-geomod` / `/mnt/HC_Volume_106379410/kam-lp/KAM-inp-lp-geomod` (with MOD, brief LP-GEOMOD) | claude-11 | running (tmux inp-mprov-lp-geomod) |
-| LP-MOD Modulus+Continuation | L6 | 1 | (with GEO) | claude-11 | running |
-| LP-DICT PlanarDictionary + one-centre L13 adapter test | L7, L13 (interface) | 1–2 | `inp-lp-dict` / mom worktree (link `/root/code/KAM-inp-lp-dict`) | claude-12 | proved (712 lines; L13 interface: no convention mismatch); join round; audit queued on codex-2 |
-| LP-DOM AnalyticDomain planar | L8 | 2 | — | — | after wave 1 slots |
+| LP-THR Threshold | L4 | 1 | `inp-lp-thr` / `/mnt/HC_Volume_106379410/kam-lp/KAM-inp-lp-thr` | claude-6 | **LANDED** main f1fe1d30 (inp c2cd35af); audit LP-BAR1-1 PASS WITH NOTES |
+| LP-MOM Orbital+Momentum (planar) | L2–L3 | 1 | `inp-lp-mom` / `/mnt/HC_Volume_106379410/kam-lp/KAM-inp-lp-mom` | claude-12 | **LANDED** main f1fe1d30 (inp c2cd35af); audit LP-BAR1-1 PASS WITH NOTES |
+| LP-GEO Geometry | L5 | 1 | `inp-lp-geomod` / `/mnt/HC_Volume_106379410/kam-lp/KAM-inp-lp-geomod` (with MOD, brief LP-GEOMOD) | claude-11 | audit LP-W1B-1 PASS WITH NOTES (codex-2); landing requested (inp-lp 7198d469) |
+| LP-MOD Modulus+Continuation | L6 | 1 | (with GEO) | claude-11 | audit LP-W1B-1 PASS WITH NOTES; landing requested |
+| LP-DICT PlanarDictionary + one-centre L13 adapter test | L7, L13 (interface) | 1–2 | `inp-lp-dict` / mom worktree (link `/root/code/KAM-inp-lp-dict`) | claude-12 | audit LP-W1B-1 PASS WITH NOTES (codex-2); landing requested (inp-lp 7198d469) |
+| LP-DOM AnalyticDomain planar | L8 | 2 | `inp-lp-dom` / mom worktree (link `/root/code/KAM-inp-lp-dom`) | claude-11 | running (tmux inp-mprov-lp-dom) |
 | LP-NRR NonresonantReuse | L13 | 2 | — | — | after wave 1 slots |
-| LP-NRS NonresonantScale | L12 | 2 | — | — | after wave 1 slots |
+| LP-NRS NonresonantScale | L12/(37) | 2 | `inp-lp-nrs` / thr worktree (link `/root/code/KAM-inp-lp-nrs`) | claude-12 | running (tmux inp-mprov-lp-nrs) |
 | LP-CONF Confinement | L14 | 3 | — | — | |
 | LP-OSC Osculating | L16 | 3 | — | — | |
 | LP-PS PlanarSafety (LP1) | T15 | 3 | — | — | |
 | LP-SP* Spatial | L1–3, L17–19 | 4 | — | — | |
+
+## Carried requirements
+
+- **For LP-CONF (MAIN L14), from audit LP-W1B-1 note D1:** `nonresonant_drift_of_chartData` is conditional. L14
+  must supply (i) the chart lift `w` of the physical solution (domain `chartSafe`, projection, chart ODE), (ii)
+  `lpRescale b.lam (w u) ∈ b.realDom b.rB` along `J` (outer localization), and (iii) the stopped slow membership
+  up to the queried time. All three come from the first-exit argument, never from an assumed drift.
 
 ## Log
 
@@ -43,3 +50,5 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 - 2026-11-01 00:45 UTC: combined audit LP-BAR1 (THR+MOM, branch inp-lp-bar1 @96fafe66) launching on codex-1; LP-GEOMOD (L5+L6) launched on claude-11 in a third worktree (the thr worktree is pinned by the audit).
 - 2026-11-01 00:55 UTC: OD-10 resolved by the owner: audits move to codex-2 (LP-BAR1 finishes on codex-1).
 - 2026-11-01 01:00 UTC: LP-BAR1 (THR+MOM) audit 1 PASS WITH NOTES (docs/tracks/LP/audits/LP-BAR1-audit-1.md); notes 4 and 6 applied, lp_build.sh exit-code bug fixed (note 5); merged into inp-lp; landing requested. LP-DICT proved: the L13 interface has no convention mismatch. codex-2 slot passed to W7-MEASURE (DICT not ready yet).
+- 2026-11-01 01:14 UTC: THR+MOM LANDED (main f1fe1d30). DICT and GEOMOD proved; combined audit LP-W1B (branch inp-lp-w1b @d927990e, geomod worktree) queued on codex-2 behind W7-MEASURE. Wave 2 started: LP-NRS (claude-12, thr worktree) and LP-DOM (claude-11, mom worktree).
+- 2026-11-01 01:26 UTC: LP-W1B (GEOMOD+DICT) audit 1 PASS WITH NOTES (codex-2); doc notes applied; merged into inp-lp (7198d469); landing requested. codex-2 handed to W7-MEASURE.
