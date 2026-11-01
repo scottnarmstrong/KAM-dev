@@ -282,6 +282,6 @@
   }
  },
  "lp": {
-  "now": "Wave 1 (the sharp AMD barrier): LP-THR (Lemma 4: Laskar–Petit pair and strong thresholds, attained minimum, continuity; 666 lines) and LP-MOM (Lemmas 2–3 planar with no prograde premise, the |L| AMD identity and the reflection bridge; 677 lines) are proved, standard axioms; their combined audit is next on codex-1. LP-DICT (the planar chart dictionary, Lemma 7, plus an early one-centre test of the nonresonant normal-form adapter, Lemma 13) is proving. Track docs and package list on `main` (af98d3c4). Nothing frozen until the owner approves the exact statements."
+  "now": "Wave 1 (the sharp AMD barrier) nearly done: LP-THR (Lemma 4, thresholds; 666 lines), LP-MOM (Lemmas 2–3 planar, |L| AMD identity, reflection bridge; 677 lines) and LP-DICT (Lemma 7, the planar chart dictionary; 712 lines) are proved with standard axioms. The early test of the riskiest interface passed in Lean: the physical chart field maps exactly onto the existing nonresonant normal-form engine (KAM.Nekhoroshev.nonresonant), in physical time, with no convention mismatch. THR+MOM in audit (codex-1); later audits on codex-2 (D57). LP-GEOMOD (Lemmas 5–6) proving; next, wave 2: the analytic domain (Lemma 8) and the scale arithmetic. Nothing frozen until the owner approves the exact statements."
  }
 }

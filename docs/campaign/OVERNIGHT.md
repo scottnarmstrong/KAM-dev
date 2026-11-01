@@ -2613,3 +2613,64 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     matches KAM.Nekhoroshev.nonresonant line by line. The exponent was re-derived.
   - 12 notes (N1–N12) to apply before any freeze.
   - D56: the campaign is GO for all waves under the overnight rules.
+- **00:15. Track LP is set up.**
+  - inp-lp at /mnt/HC_Volume_106379410/kam-lp/KAM-inp-lp (d1e71100). The source is pinned as LPMAIN with the audit
+    copy; N1 is fixed in place and N2–N12 are normative amendments. OWNER-DECISIONS has OD-1..OD-9 (OD-1: planar AMD
+    with |L| plus a reflection bridge; OD-2: pairThreshold form, with root-b8 recommending a carrier-restricted
+    frozen definition over a total sInf).
+  - Provers (Sonnet 5.5, 4 GB wrappers): LP-THR (L4 thresholds, claude-6) and LP-MOM (L2–L3 planar plus reflection,
+    claude-12). Next: LP-GEO, LP-MOD, LP-DICT, then the early L13 adapter test.
+  - HC volume: 74 GB free.
+- **00:18. Heartbeat.**
+  - LP: LP-THR and LP-MOM provers active; the next is LP-DICT.
+  - W: W5-STEP and W6-PREP active; the W3-MAIN audit is running on codex-1.
+  - No OOM since 00:00. Load about 7. Memory: 17 GB available. Disks: / 19 GB free, HC 74 GB free.
+  - Quotas: claude-6 12 % (LP-THR; rotation planned to claude-12 or claude-11), claude-11 70 %, claude-12 41 %,
+    claude-3 34 %, codex-1 7 %.
+- **00:24. Owner: track LP added to the README/HQ (2223e049).**
+  - Additions: a derived LP meter (stages read from the repo, packages from docs/tracks/LP/packages.json), the tracks
+    row, the glance block, areas Planetary/StrongAMD and Planetary/Spatial, the size plan 12k–25k, the current
+    phase, and the completion meters. LP currently reads 5 %.
+  - Size fix (bc3be874): track W's estimate now follows its measured lines per resolved graph node once 100 nodes are
+    resolved (136 lines per node, about 95k for the whole graph; the 60k–90k plan was low). The total is about 468k,
+    with about 41k still to write.
+  - kam-lp is asked to land the LP docs and packages.json on main.
+- **00:30. LP-THR proved: all 8 items of MAIN Lemma 4 in 666 lines, standard axioms, lint passing.** The OD-2 carrier API
+  equals the helper by rfl. A small naming fix round is underway; then the codex-1 audit.
+  - **FOR OWNER (OD-10): codex-1 is below 5 % weekly, enough for about 1–2 package audits; it resets 6 Nov 16:24 UTC.**
+    After that, LP and W audits queue (proving continues; nothing lands unaudited).
+  - Options:
+    (a) wait for the resets (codex-3 on 5 Nov, codex-1 on 6 Nov);
+    (b) authorize an Opus 5.5 refute-first auditor for Lean packages;
+    (c) provide another Codex account.
+- **00:31. W3-MAIN audit 1 (codex-1): FAIL on three major findings.** The remainder, conjugacy and frozen transport
+  theorems are not refuted.
+  - F1: the cubic term exports 2·C_* instead of C_*.
+  - F2: the Yseries node lacks its source exports.
+  - F3: birkBF, birkXK2 and birkGammaR need domain-restricted, source-facing versions.
+  - The fix takes the next free W slot; W6-PREP is not paused, since audits are quota-bound. The remaining W audits
+    are batched once quota or an owner ruling (OD-10) allows.
+- **00:34. Track LP progress.**
+  - The track docs and packages.json are on main (af98d3c4).
+  - LP-MOM proved: 9 items, 677 lines (Lemmas 2–3 planar with no prograde premise, the |L| AMD identity, the N8
+    reflection bridge), standard axioms.
+  - LP-THR proved (naming fix round). The combined THR+MOM audit goes next on codex-1.
+  - LP-DICT (Lemma 7 plus the early Lemma 13 adapter test) is proving.
+  - The HQ LP meter reads 10 %; the status line is updated (499ebd95).
+- **00:45. Track LP:** LP-BAR1, the combined THR+MOM audit (inp-lp-bar1@96fafe66; kernel replay of 8 modules exit 0, lint 0), is launching on codex-1 (tmux inp-maud-lp-thr; THR's verdict is written first). LP-GEOMOD (Lemma 5 uniform barrier, Lemma 6 modulus with one shared U, continuation) is on claude-11 in a third worktree (6.5 GB on HC; no more planned). LP-DICT is on claude-12.
+- **00:48. Heartbeat.**
+  - LP: the BAR1 audit (THR+MOM) is running on codex-1 (about 5 % left); the DICT and GEOMOD provers are active.
+  - W: W5-STEP and W6-PREP active.
+  - Load about 10 from transient work: a KPZ git pack, two frozen-anchor guard runs, a lake build, Codex, and another
+    user's grep. No OOM since 00:20. Memory: 16 GB available.
+  - Quotas: claude-11 70 %, claude-12 41 %, claude-3 34 %, claude-6 12 %, codex-1 5 %.
+- **00:53. Track W.**
+  - W6-PREP is done (inp-wpn@6f692aa6, 12 modules, lint 0): real definitions for gamma and gamma1, the k0 induction,
+    exclusion and convergence (i) stated generically, and the W8UpstreamConsts instance, so W8's constants node now has
+    its source-facing instantiation.
+  - Conditional helpers (freq-lip, final-freq, applicable) have distinct names. The parts waiting on bpW:w5:step are
+    PARTIAL.
+  - The audit is batched with W7 and W8-PREP after the quota reset.
+  - The free slot runs the W3-MAIN fix (F1–F3). Provers: W5-STEP, W3-MAIN-FIX.
+- **00:55. Owner: D57, audits on codex-2 (usage credits).** kam-lp and kam-1b are told; the launchers accept codex-2.
+  OD-10 is resolved.
