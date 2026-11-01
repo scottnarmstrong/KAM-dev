@@ -38,3 +38,4 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 - 2026-11-01 00:40 UTC: setup (worktree, source pin, SPEC, OWNER-DECISIONS OD-1…OD-8, wrappers).
 - 2026-11-01 00:50 UTC: audit PASS WITH NOTES; report copied, N1–N12 applied; OD-8 closed, OD-9 added.
 - 2026-11-01 00:15 UTC: LP-THR (claude-6) and LP-MOM (claude-12) provers launched; build snapshot verified up to date (no rebuild).
+- 2026-11-01 00:19 UTC: quota (root-b8 00:20): claude-6 12 %, claude-12 41 %, claude-11 70 %. Next LP provers on claude-12 / claude-11; LP-THR restarts from its last commit/handoff on claude-11 or claude-12 at once if claude-6 hits its limit.
