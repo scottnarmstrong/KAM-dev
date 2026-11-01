@@ -64,12 +64,6 @@ variable {a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ : ℝ} {Par : 
   {ω : (Fin 2 → ℝ) → Fin 2 → ℝ} {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ}
   {P : (Fin 2 → ℝ) → KamPhase → ℂ} {X : (Fin 2 → ℝ) → KamPhase → KamPhase}
 
-/-- The constants `M₀`, `M₁` of `X_F` (sup and `ξ`-Lipschitz). -/
-def stepM₀ (τ σ α ε₀ : ℝ) : ℝ := (7 + 10 * homKS) * (waveBW τ σ * (3 * ε₀) / α)
-
-def stepM₁ (τ σ α ε₀ ε₁ Mω MΩ : ℝ) : ℝ :=
-  (7 + 10 * homKS) * (waveBW τ σ / α * (3 * ε₁ + 2 * (Mω + MΩ) * (3 * ε₀) / α))
-
 namespace StepHyp
 
 variable (H : StepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)

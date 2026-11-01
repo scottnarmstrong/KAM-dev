@@ -30,6 +30,12 @@ namespace KAM.Wave
 
 open KAM
 
+/-- The constants `M₀`, `M₁` of `X_F` (sup and `ξ`-Lipschitz). -/
+def stepM₀ (τ σ α ε₀ : ℝ) : ℝ := (7 + 10 * homKS) * (waveBW τ σ * (3 * ε₀) / α)
+
+def stepM₁ (τ σ α ε₀ ε₁ Mω MΩ : ℝ) : ℝ :=
+  (7 + 10 * homKS) * (waveBW τ σ / α * (3 * ε₁ + 2 * (Mω + MΩ) * (3 * ε₀) / α))
+
 section family
 
 variable {a p pb s r ε₀ ε₁ : ℝ} {Par : Set (Fin 2 → ℝ)} {P : (Fin 2 → ℝ) → KamPhase → ℂ}

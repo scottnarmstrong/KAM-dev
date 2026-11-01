@@ -139,11 +139,15 @@ theorem stepRhoK_bound {X : KamPhase → KamPhase} {ε : ℝ} (hc : pb ≤ p + 1
     ∀ z ∈ kamDomain s r, kamNorm r (stepRhoK a p pb hc (X z)) ≤ ε :=
   fun z hz => (kamNorm_stepRhoK_le hc hr _).trans (hb z hz)
 
+theorem stepRho_nn1 {p pb : ℝ} (hp : 0 ≤ p) (hpb : p ≤ pb) : 0 ≤ pb + p := by linarith
+
+theorem stepRho_nn2 {p : ℝ} (hp : 0 ≤ p) : 0 ≤ (p + 1) + p := by linarith
+
 section agree
 
 variable {P : KamPhase → ℂ} {X : KamPhase → KamPhase}
   (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hc : pb ≤ p + 1) (hs : 0 < s) (hr : 0 < r)
-  (hP : IsSmoothing (p := p) (pb := p + 1) ha (by linarith : 0 ≤ (p + 1) + p) (kamDomain s r) P X)
+  (hP : IsSmoothing (p := p) (pb := p + 1) ha (stepRho_nn2 hp) (kamDomain s r) P X)
   (hper : ∀ i, ∀ w ∈ kamDomain s r, P (w + stepTau i) = P w) {ε : ℝ}
   (hb : ∀ z ∈ kamDomain s r, kamNorm r (X z) ≤ ε)
 
@@ -151,7 +155,7 @@ variable {P : KamPhase → ℂ} {X : KamPhase → KamPhase}
 `(P, D_ρ ∘ X) ∈ 𝒮_{p₊}`. -/
 def stepTaylorRho : HomTaylor_gen a p pb s :=
   stepTaylorOf ha hp hpb hs hr
-    (IsSmoothing.rhoK (X := X) ha hc (by linarith [hp, hpb]) (by linarith) hP) hper
+    (IsSmoothing.rhoK (X := X) ha hc (stepRho_nn1 hp hpb) (stepRho_nn2 hp) hP) hper
     (stepRhoK_bound hc hr hb)
 
 /-- The element for the `p+1` class. -/
