@@ -147,4 +147,35 @@ theorem phi_smooth {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) :
 
 end StepHypSrc
 
+namespace StepHypModSrc
+
+variable {β : ℝ}
+  (H : StepHypModSrc a p pb s r σ η τ α β lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X) [Fact (0 < r)]
+include H
+
+/-- **The smoothing of `Φ`, modified case** (`bpW:w5:step` (v) with the sharper sup bound of step
+`f-flow`, used by `bpW:w6:prep-step` (iii)): on `D_+`, for `ξ ∈ Π`, `Φ(w) = w + ι Ψ(w)`,
+`|Ψ(w)|_r ≤ M_F` (constants `c^♮_F`, `t^♮`), `DΦ(w) = I + ι ∘ DΨ(w)`, `‖DΨ(w)‖ ≤ 8 M_F/σ`, and `Φ`,
+`Ψ` are holomorphic on `D(s - 2σ, r/2)`. -/
+theorem phi_smooth {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) :
+    stepDomain r (s - 5 * σ) (η * r) ⊆ stepDomain r (s - 2 * σ) (r / 2) ∧
+    DifferentiableOn ℂ (H.hyp.core.Phi ξ) (stepDomain r (s - 2 * σ) (r / 2)) ∧
+    DifferentiableOn ℂ (H.hyp.core.stepPsi ξ) (stepDomain r (s - 2 * σ) (r / 2)) ∧
+    ∀ w ∈ stepDomain r (s - 5 * σ) (η * r),
+      H.hyp.core.Phi ξ w = w + stepEmbedCLM a p pb H.hpb r (H.hyp.core.stepPsi ξ w) ∧
+      ‖H.hyp.core.stepPsi ξ w‖ ≤ stepMF (stepCFn τ) (stepTn τ) α σ ε ∧
+      fderiv ℂ (H.hyp.core.Phi ξ) w = ContinuousLinearMap.id ℂ _ +
+        (stepEmbedCLM a p pb H.hpb r).comp (fderiv ℂ (H.hyp.core.stepPsi ξ) w) ∧
+      ‖fderiv ℂ (H.hyp.core.stepPsi ξ) w‖ ≤ 8 * stepMF (stepCFn τ) (stepTn τ) α σ ε / σ := by
+  have hMF := H.hyp.core.M₀_le_MF
+  refine ⟨H.hyp.core.Dplus_sub_U, H.hyp.core.phi_differentiableOn hξ,
+    H.hyp.core.psi_differentiableOn hξ,
+    fun w hw => ⟨H.hyp.core.phi_eq_add_psi hξ (H.hyp.core.Dplus_sub_U hw),
+      (H.hyp.core.norm_psi_le hξ (H.hyp.core.Dplus_sub_U hw)).trans hMF,
+      H.hyp.core.fderiv_phi_eq hξ (H.hyp.core.Dplus_sub_U hw),
+      (H.hyp.core.norm_fderiv_psi_le hξ hw).trans ?_⟩⟩
+  exact div_le_div_of_nonneg_right (by linarith) H.hyp.core.hσ.le
+
+end StepHypModSrc
+
 end KAM.Wave
