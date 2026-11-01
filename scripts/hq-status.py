@@ -87,7 +87,7 @@ def graph_sync_lag(graph):
     path = f'docs/graph/{graph}/DEPGRAPH.md'
     if not dirs or not (root / path).exists():
         return None
-    synced = git('log', '-1', '--format=%H %ct', '--', path).split()
+    synced = git('log', '--first-parent', '-1', '--format=%H %ct', '--', path).split()
     if len(synced) != 2:
         return None
     gc, gt = synced[0], int(synced[1])
@@ -95,7 +95,7 @@ def graph_sync_lag(graph):
                 if a.isdigit())
     if not added:
         return None
-    first = git('log', '--reverse', '--format=%ct', f'{gc}..HEAD', '--', *dirs).split()
+    first = git('log', '--first-parent', '--reverse', '--format=%ct', f'{gc}..HEAD', '--', *dirs).split()
     since = int(first[0]) if first else gt
     age = (datetime.now(timezone.utc).timestamp() - since) / 60
     when = datetime.fromtimestamp(gt, timezone.utc).strftime('%H:%M UTC %d %b')
