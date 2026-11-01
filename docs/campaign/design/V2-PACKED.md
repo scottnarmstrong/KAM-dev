@@ -383,7 +383,8 @@ modules and 12,126 CPU-s. Together with B2's packed Gram stage, the two **sub-ch
 
 **There is no LG00 saving yet.** Route A refined's `checkFrameN`/`checkFrameT` re-run the landed Gram check and
 torsion models, so the landed stages stay (AUDIT-V2-PACKED-B3-1 M1). Packed frames and a matching engine are the
-next step (V2-PACKED-FRAMES). The jet compositions (`Low`, `Full`) are unchanged.
+next step (V2-PACKED-FRAMES, built in §13: with them the saving is real, ≈ 12,700 CPU-s). The jet compositions
+(`Low`, `Full`) are unchanged.
 
 **The memo-and-residual pattern** (a node verified by `packRepOk` and the packed norm of its exact residual) needs
 no digit lemma about the rounding or the truncation. It applies to any chain of packed products, including a
@@ -605,3 +606,57 @@ overheads. These are estimates. The first gate measures one `Low` segment of 50 
 - **The `Full` box (`h = 48`, window 13.4 Mbit) against a split of the invariance residual into two boxes.** The
   generator decides it from the measured tail, below `err`.
 - **The production data module** (owner decision 1) is shared with the jet ledger and the B3b memos.
+
+## 13. Packed frames and the packed route-A-refined engine (branch `v2-packed-frames`; `docs/campaign/handoffs/V2-PACKED-FRAMES.md`)
+
+Route A refined tests `checkHamClaim && checkFrameMajorants && refinedCore`. The landed `checkFrameMajorants`
+(`Frame/Majorants.lean`, unchanged) re-evaluates the landed Gram check and torsion models. `Packed/Frames.lean`
+reads the same four bounds from the objects of B2 and B3b.
+
+- **`|Lᵀ| ≤ bL`** (`checkFrameLR`): column sums of `nb + r` over the packed `DK` entries `ptK` (the Gram memo,
+  checked by B2's `pgEntries`).
+- **`|N| ≤ bN`, `|Nᵀ| ≤ bNt`** (`checkFrameNR`): row and column sums of `nb + r` over the verified memo of
+  `N = Ω₀ (L G⁻¹)` (stage `trStN`).
+- **`sup |T| ≤ bT`** (`checkFrameTR`): row sums of `pnorm + r` over the packed `T = Nᵀ Ω₀ X_N` on the window.
+  These use every B3b stage through `X_N` and the guard `aT ≤ aW`.
+- **`|ω*| ≤ bOm`**: the landed `checkFrameOmega`.
+
+**Soundness.** `checkFrameMajorantsR_sound` has the conclusion of the landed `checkFrameMajorants_sound`
+(`FrameMajorants c b ωstar`), under its hypotheses. Each entry is bounded by `‖f θ‖ ≤ nb + r` of its `PEnc`
+(`PEnc.norm_le_bound`); for `T` the bound uses the packed weighted norm (`PEnc.renorm`).
+
+**Engine.** `routeARefinedR bk mm rb tm rm : EngineV2` keeps the landed `checkHamClaim` and `refinedCore` and uses
+the packed frames. `checkV2With_packed_sound` concludes the landed `CertifiedTorus` from
+`checkV2With (torsRBase …) (routeARefinedR …) c w = true`. No landed Gram product, torsion model or frame model
+is evaluated.
+
+**Sharing.** Each frame check repeats, as the identical Boolean terms, the conjuncts it shares with
+`checkTorsionR`: `gramPackedCheck`, `Slp.compose`, `ptEntries`, `trLayOk`, `trNormOk`, `ptPackOk` and the seven
+`trSt*`. A production proof establishes each once and assembles the result with `checkFrameMajorantsR_of` (and
+`checkTorsionR_of`). The kernel work specific to the frames is only `trFrameLOk`, `trFrameNOk` and `trFrameTOk`.
+
+**Gate (LG00, `lg00-cert` `fd82fef5`).**
+- `FRL`: 2.0 s kernel, 7.0 CPU-s.
+- `FRN`: 0.02 s kernel, 8.6 CPU-s.
+- `FRT`: 8.9 s kernel, 22.1 CPU-s, 2.43 GB.
+
+Packed value against LG00's claim:
+
+| bound | packed | claim |
+|---|---:|---:|
+| `\|Lᵀ\|` | 1.3620 | 1.37 |
+| `\|N\|` | 1.1992 | 1.21 |
+| `\|Nᵀ\|` | 1.4397 | 1.45 |
+| `sup \|T\|` | 117.504 | 118 |
+
+**End to end.**
+
+| | modules / processes | CPU-s |
+|---|---:|---:|
+| landed modules the packed route removes (from lg00-cert's import graph) | 732 | 14,138 (run20e) |
+| packed replacement (B2 9 + B3b 64 + frames 3) | 76 | 1,402.5 |
+
+- The net saving is **12,736 CPU-s ≈ 3.54 CPU-h**, i.e. **11.8 %** of LG00's 30.08 CPU-h (30.08 → 26.54).
+- **Production assembly is unmeasured:** the shared data module and the assembly theorems are not in the packed
+  figure.
+- The `Low` and `Full` jet compositions (24.2 CPU-h) are unchanged; they are §12's target.

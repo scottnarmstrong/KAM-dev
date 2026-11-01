@@ -1,0 +1,5 @@
+linting took 1.59ms
+typeclass inference of HDiv took 31ms
+elaboration took 2.25ms
+type checking took 2.01s
+linting took 1.85ms
