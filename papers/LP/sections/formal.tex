@@ -51,7 +51,7 @@ Result & Lean declaration (file and line)\\
 \midrule
 Thm.~\ref{thm:barrier} & \texttt{lp0\_planar\_barrier} (\texttt{StrongAMD/PlanarSafety/Main.lean:255})\\
 \quad spatial & \texttt{spatialStrongBarrier\_physical}, \texttt{exists\_spatialBarrierCompact}
-  (\texttt{Spatial/Geometry.lean:83, 252}); negative energy is in the first\\
+  (\texttt{Spatial/Geometry.lean:83, 252})\\
 Thm.~\ref{thm:planar} & \texttt{lp1\_planar\_strongAMD\_safety}, \texttt{\_normalized}
   (\texttt{StrongAMD/PlanarSafety/Main.lean:44, 137}); \texttt{\_source} forms (\texttt{Source.lean:38, 132})\\
 Thm.~\ref{thm:spatial} & \texttt{lp2\_spatial\_strongAMD\_safety}, \texttt{\_normalized}
@@ -101,8 +101,8 @@ Lemma & Lean declarations (file and line)\\
 each headline declaration (\texttt{lp0\_planar\_barrier}; \texttt{lp1\_planar\_strongAMD\_safety} and
 \texttt{lp2\_spatial\_strongAMD\_safety} with their \texttt{\_normalized}, \texttt{\_halfInteger} and
 \texttt{\_source} versions; \texttt{lp3\_planar\_strongAMD\_safety} and \texttt{lp3\_spatial\_strongAMD\_safety}
-with their \texttt{\_normalized} and \texttt{\_source} versions), checked at commit \texttt{74d77b43}; the Lean
-files are unchanged through commit \texttt{01d36418}. Each integration of new code into the repository also
+with their \texttt{\_normalized} and \texttt{\_source} versions), checked at commit \texttt{74d77b43}; no file
+defining these declarations or imported by them changed through commit \texttt{01d36418}. Each integration of new code into the repository also
 replays the proofs in the Lean kernel. The exact statement texts await the authors' final approval.\par}
 
 \subsection{Use of AI and formal tools}

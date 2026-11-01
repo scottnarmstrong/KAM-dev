@@ -160,3 +160,123 @@ Repair: verify the flagged fields against the publishers' pages before submissio
 ## Overclaim and novelty scan
 
 The text contains no "first", "novel" or "new result" claim. "New" appears only in negations ("The mechanism is not new"; "We do not present the normal form as new"; "we do not claim them as new"). There is no Solar-System claim (outlook.tex:23–25, results.tex:97, intro.tex:26). The relation to the conjecture is framed correctly (abstract; intro.tex:26). The remaining overclaims are F1 (main), F2, F8 and F9.
+
+---
+
+# Round 2 (target commit `b6d1cca3`, 2026-11-01 10:19 UTC)
+
+Diff audited: `git diff cda28701 b6d1cca3 -- papers/LP`. Hashes of the target files, taken from `git show b6d1cca3:<file>`:
+
+```
+0b565f28b54772e4c97fdf9eba2211bedc4aadad4aa17bb2223ae48dd920f0b3  papers/LP/sections/abstract.tex
+fab6d6dd33aa0b69d791b0e3a72f666db3c9632a385490522bdd34cecb7f7c27  papers/LP/sections/barrier.tex
+bebe76929beb2540005cbfda8446a3ca76b964a145e7751ceed78061da09b1c0  papers/LP/sections/formal.tex
+9d4cdd88d301afd3f51ad94f146bd8e524bc6a6760982d41a42b539a0f4e5502  papers/LP/sections/intro.tex
+bb295fbc845e0807abb888bbf7fec42e515f9f459c10655b48ccd940f4213729  papers/LP/sections/outlook.tex
+d50bb6d0e29dc8cbf3c9896d1031f350b5ac9f3f94d30d8e0c7f56ce2540a859  papers/LP/sections/planar.tex
+0383ced534cd829d986153f0bdde13527043d9b3f212e102b5547b9844b5ee96  papers/LP/sections/resonant.tex
+fc1177df942b90dae4898bc278e8e9ff89c6d9d03e7d5c54e617f491f79a7d36  papers/LP/sections/results.tex
+157cc18f687ac912c69154c5b115a64d70366bbb10b55684bef385fa5601c0dc  papers/LP/sections/spatial.tex
+f7ccaf4b128d4472234310720b1ce40be32f31d83c29c3a0af6651eda15a5b3f  papers/LP/refs-A.bib
+3a88dd6af1066cc7fccf5cfd945f0b3c6cf89a46f1b73f5b8ad719ffd0a94e4c  papers/LP/refs-B.bib
+dbe16d2ade9b85e3c107072e629e0bec569429209f0d5231c363d27d5df84fbe  papers/LP/refs.bib
+94bb695a681f536609ef582e20fcb3bf0cc8ab9cb399f2cf17e56d23eaf8826f  papers/LP/refs-C.bib
+```
+
+## Verdict (Round 2): **PASS WITH NOTES**
+
+F1–F8 are resolved. F9 and F10 are resolved apart from small residuals. The new Barbieri–Niederman figures and the
+"according to" description of Niederman's work check out against the sources. There are four new MINOR findings. The
+only one that needs action before submission is R2-1: the title of the new `Las97` entry could not be verified.
+
+## Status of Round 1 findings
+
+- **F1: resolved.** intro.tex:30 now says "Theorem E is close to a classical result". It states that a lower bound on
+  the angular momentum is an upper bound on the AMD, and that the collision value is a strong-AMD threshold taken uniformly
+  over the box. It says that covering the axes set by small boxes "appears to give … a statement of the type of
+  Theorem E under the same hypothesis, up to the margin δ". It then limits what Theorem E adds to the identification
+  with the Laskar–Petit threshold, the annulus and osculating conclusions, and a formal proof. resonant.tex:5–9 says the
+  same. These sentences match Nek77 p.55, §12.2: "collisions of the planets, either with one another or with the centre
+  of attraction O". The §12.2 and p.55 locators are correct. The comparison is now fair and plainly stated. There is one
+  residual sentence in intro.tex:34; see R2-3.
+- **F2: resolved.** "geometrically sharp: at the threshold, two orbits, or an orbit and the star, can touch" (intro.tex:3); the abstract says "geometrically sharp".
+- **F3: resolved.** intro.tex:5 and results.tex:28 now cite "\S5 and \S5.3". The rewritten sentence "below the circular
+  angular momentum μΛ₁ of the innermost planet" matches LP17 p.8: "βS = C/Λ, where Λ is the circular momentum of the
+  innermost planet". The normalised AMD formula μΣΛ_i(1−√(1−e_i²)cos ι_i) is correct: with G = m₀ = 1 and m_k = μν_k, LP17's Λ_k = m_k√(μa_k) is μΛ_k.
+- **F4: resolved, and the new figures are correct.** outlook.tex:16–18 says "$5.75\times10^{10}$ years for a
+  perturbation of size $10^{-11.25}$ with initial actions exactly at the resonance, and $1.04\times10^9$ years for size
+  $10^{-11.5}$ with nearby initial actions". BN arXiv v1 p.40 agrees. Table 1, whose caption reads "Initial conditions in
+  the actions are supposed to be those corresponding exactly to the 5:2 resonance", gives "−11.25 18 5.75 × 10¹⁰". Table
+  3, whose caption reads "Initial conditions in the actions are contained in an interval of radius R", gives "−11.5 18
+  1.03 × 10⁻⁶ 8.09 × 10⁻⁷ 1.04 × 10⁹". "Planar Sun–Jupiter–Saturn model near the 5:2 resonance" also matches (BN §5.1,
+  p.40: "the plane, planetary three-body problem … Sun-Jupiter-Saturn model (with smaller masses) in 5:2 resonance").
+- **F5: resolved.** intro.tex:32 says "at the $5{:}2$ resonance … if the ratio of the mass of the larger planet to that of
+  the star is at most $10^{-13}$". BN p.2 reads: "In the case of the 5 : 2 resonance … if the ratio for the mass of the
+  greater planet on the Sun mass does not exceed 10⁻¹³". The sentence is faithful.
+- **F6: resolved,** except that the new reference is unverified (R2-1). outlook.tex:24–25 says "Laskar and Petit classify it
+  as AMD-unstable, following \cite{Las97}, because of the AMD carried by the giant planets \cite[\S5.4.1]{LP17}". This
+  matches LP17 §5.4.1: "Owing to the large amount of AMD created by the giant planets, the inner system is not AMD-stable
+  (Laskar 1997)".
+- **F7: resolved.** intro.tex:32 now opens with "We could not consult Niederman's paper~\cite{Nie96}; our description of
+  it is taken from~\cite{CFG24,BN20}", and both attributions are introduced with "According to …". The CFG §1.3 paraphrase
+  is faithful; CFG p.5 reads "provided that the actions in the degenerate (i.e. secular) directions remain in some
+  bounded region, the actions conjugate to the fast angles are stable over an exponentially long time … In the
+  neighborhood of coplanar and circular ellipses … the conservation of the angular momentum prevents the degenerate
+  actions … to undergo any substantial instability". intro.tex:34 adds that the novelty assessment "rests in part on the
+  descriptions above". The contrast with large eccentricities has been dropped.
+- **F8: resolved.** The abstract now reads "drift $O(\mu^{b})$ for $|t|\le T_0\exp(c\mu^{-a})$".
+- **F9: resolved, with a residual.**
+  - The abstract, intro.tex:36 and formal.tex:3–5 now all say that every result is proved at `74d77b43`.
+  - I checked that both declarations exist there: `theorem lp3_planar_strongAMD_safety` in `KAM/Planetary/StrongAMD/Nek/PlanarSafety/Main.lean:42` and `theorem lp3_spatial_strongAMD_safety` in `KAM/Planetary/Spatial/Nek/SpatialSafety/Main.lean:40`.
+  - I did not re-run the axiom check. The fidelity audit owns that.
+  - Residual: see R2-4.
+- **F10: repository part resolved.**
+  - https://github.com/scottnarmstrong/KAM-dev/tree/74d77b43/docs/tracks/LP/source loads without authentication and lists `AMENDMENTS.md`, `MAIN.md` and the other files. The commit also exists locally with the same files.
+  - The publisher metadata for BN20, CFG24, Pin18, LP17, Lean4 and Mathlib is unchanged and still not verified locally; this is carried over from Round 1.
+
+## New findings
+
+### R2-1 — MINOR, fix before submission — The `Las97` title cannot be verified, and it may be confused with Laskar's 1996 paper
+
+Location: refs-C.bib, `@article{Las97, author = {Laskar, Jacques}, title = {Large scale chaos and marginal stability in the solar system}, journal = {Astron. Astrophys.}, volume = {317}, pages = {L75}, year = {1997}}`. It is printed as [6] in main.pdf and cited at outlook.tex:25.
+
+Evidence:
+- LP17's reference list (arXiv v2) gives only "Laskar, J. 1997, Astronomy and Astrophysics, 317, L75", with no title.
+- The only place in the local corpus where this exact title appears is a different paper. `sources/pdf/chierchia_KAM09.pdf` lists in its references: "Laskar J (1996) Large scale chaos and marginal stability in the solar system. Celest Mech Dyn Astronom 64:115–162".
+- My online attempts all failed. ADS returned HTTP 405 for bibcode `1997A&A...317L..75L`. aanda.org returned 403. Crossref has no DOI for A&A 1997 letters. Semantic Scholar returned 429.
+- My own recollection is that the A&A letter carries the same title, but I could not confirm it. The bib entry was written from memory, and an identical title on a 1996 CMDA paper is exactly where confusion would arise.
+
+Smallest safe repair, in order of preference:
+- (a) Verify the title against ADS (`1997A&A...317L..75L`) or the A&A scan, and add the page range if it is L75–L78.
+- (b) If it cannot be verified, delete the `title` field and keep exactly what LP17 gives: J. Laskar, Astron. Astrophys. 317 (1997), L75. amsplain prints an untitled @article entry with only a BibTeX warning.
+- (c) Alternatively, drop `\cite{Las97}` and write "following Laskar (1997), as cited in \cite[\S5.4.1]{LP17}".
+
+Do not substitute the 1996 CMDA reference, which is a different paper.
+
+### R2-2 — MINOR — The bibliography no longer says which version the locators refer to
+
+Location: refs-A.bib. The notes for BN20, CFG24 and Pin18 changed from "Locators refer to arXiv:…" to a bare "arXiv:…".
+
+Evidence: the paper cites arXiv-specific locators against journal entries: BN20 "p.~2" (intro.tex:32) and "Tables~1 and~3" of §5.1 (outlook.tex:16); CFG24 §1.3; Pin18 Proposition 5.1. "p. 2" of the arXiv v1 is certainly not p. 2 of J. Differential Equations 268, which begins at p. 3749. Section, table and proposition numbers may also differ in the published Mem. AMS and ARMA versions. None of these was checked.
+
+Repair: restore "locators refer to arXiv:…v1" (or v4 for Pin18) in the three notes, or add one sentence before the bibliography saying so.
+
+### R2-3 — MINOR — Residual of F1: intro.tex:34 lists the hypothesis as a "more substantial" difference
+
+Location: intro.tex:34. "Theorems~B--C and Corollary~D differ more substantially from these results. … the hypothesis is the strong AMD condition at the initial actions with a fixed margin, with constants uniform over the corresponding sublevel set; and the conclusion is the ordering of the orbital annuli…"
+
+Evidence: intro.tex:30 now concedes that Nek77 Theorem 12.3, combined with a cover by small boxes, appears to give the same hypothesis up to δ. The annulus conclusion is also shared with Theorem E. So the clauses on hypothesis and conclusion are not differences from Nekhoroshev. The genuine differences for Theorems B–D are the O(√μ) drift and the exponent 1/(2(τ+1)) under a Diophantine condition, and possibly differences from Niederman's work.
+
+Repair: keep the first clause ("Under the Diophantine condition the drift is $O(\sqrt\mu)$ and the time exponent is $1/(2(\tau+1))$, compared with $\mu^{b}$ and $a$"). Move the rest into a clause that does not claim to be a difference, e.g. "with the same hypothesis and conclusions as Theorem E". Alternatively, write "differ from these results in the drift and the time exponent".
+
+### R2-4 — MINOR — Residual of F9: the abstract says the results are "formally verified", but the appendix says the statements await final approval
+
+Location: abstract.tex ("All results are formally verified in the Lean proof assistant.") and intro.tex:36 ("are proved in the proof assistant Lean~4"). Compare formal.tex:106: "The exact statement texts await the authors' final approval."
+
+Evidence: these sentences are now consistent about the proofs, but formal.tex still marks the statements as not finalised. A referee may read the unqualified sentence in the abstract as covering frozen statements.
+
+Repair: once the statements are approved, delete the sentence in formal.tex. Until then, it is better not to state "formally verified" without qualification in the abstract.
+
+## Round 2 overclaim scan
+
+There is still no "first", "novel" or "new result" claim. "Classical" (intro.tex:30) is now used to credit Nekhoroshev, which is good. The novelty sentence is hedged twice: "To our knowledge … rests in part on the descriptions above". There is no Solar-System claim. The changed passages introduce no new overclaim beyond R2-3 and R2-4.

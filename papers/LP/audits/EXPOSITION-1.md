@@ -283,3 +283,180 @@ Projected total after repairs, with B2 by written proofs: about 24 pp, within th
 
 No source errata were identified (this audit is about exposition). One factual claim was checked: the appendix's
 "contains no sorry" for Proposition 6.1's file is true but uninformative (M2). This audit introduces no deviations.
+
+---
+
+# Round 2 (bound to commit b6d1cca3)
+
+Target: commit `b6d1cca3`, `papers/LP/main.pdf` (23 pp). Diff reviewed: `git diff cda28701 b6d1cca3 -- papers/LP`.
+Editor rulings: `NOTES.md` §8. Docs only; no `.tex` file was edited.
+
+```
+0b565f28b54772e4c97fdf9eba2211bedc4aadad4aa17bb2223ae48dd920f0b3  sections/abstract.tex
+fab6d6dd33aa0b69d791b0e3a72f666db3c9632a385490522bdd34cecb7f7c27  sections/barrier.tex
+bebe76929beb2540005cbfda8446a3ca76b964a145e7751ceed78061da09b1c0  sections/formal.tex
+9d4cdd88d301afd3f51ad94f146bd8e524bc6a6760982d41a42b539a0f4e5502  sections/intro.tex
+bb295fbc845e0807abb888bbf7fec42e515f9f459c10655b48ccd940f4213729  sections/outlook.tex
+d50bb6d0e29dc8cbf3c9896d1031f350b5ac9f3f94d30d8e0c7f56ce2540a859  sections/planar.tex
+0383ced534cd829d986153f0bdde13527043d9b3f212e102b5547b9844b5ee96  sections/resonant.tex
+fc1177df942b90dae4898bc278e8e9ff89c6d9d03e7d5c54e617f491f79a7d36  sections/results.tex
+157cc18f687ac912c69154c5b115a64d70366bbb10b55684bef385fa5601c0dc  sections/spatial.tex
+```
+
+Checks run: every changed section read linearly; a fresh `latexmk` build in a scratch directory (23 pp, no
+overfull boxes, no undefined references, underfull boxes only in §A.3 and in bibliography entry [2]); all 23
+pages rendered at 80 dpi and inspected; jargon and banned-word greps on `sections/*.tex` (the only hit is the
+`KAM/Frozen/` path in Table 2); the cited proof notes read at `74d77b43`
+(`docs/tracks/LP/source/MAIN.md`, `AMENDMENTS.md`). I did not check whether the GitHub repository is public; I
+take that from the ruling.
+
+## Verdict: PASS WITH NOTES
+
+Both blockers are closed according to the editor's rulings, and every round-1 Major is resolved or reduced to a
+residue. Two Majors should be repaired before submission. R2-1: the paper calls the cited proof notes "complete",
+but the notes record that part of Lemma 10 is only sketched. R2-2: one sentence still states that approval is
+pending. Neither needs a structural change.
+
+## Implementation of the rulings
+
+**B1 (Niederman): implemented honestly.** `intro.tex:32` opens with "We could not consult Niederman's
+paper~\cite{Nie96}; our description of it is taken from~\cite{CFG24,BN20}", and each claim is attributed
+("According to …"). `intro.tex:34` restricts the novelty sentence to Theorems B–D and adds "since we could not
+consult~\cite{Nie96}, this rests in part on the descriptions above". Open question 5 is deleted. The paragraph
+also says plainly that Theorem E is close to Nek77 Theorem 12.3. Not re-raised.
+
+**B2 (Lemmas 4.3–4.5 as sketches): implemented, with one overclaim (R2-1) and a citation-form residue (R2-4).**
+`planar.tex:81` says the lemmas are standard, are not claimed as new, and are only sketched, and it points to
+[2]. That matches the ruling.
+
+## Round-2 findings
+
+**R2-1 (MAJOR). The paper calls the proof notes complete, and the notes themselves say part of Lemma 10 is sketched.**
+- `planar.tex:81`: "Complete proofs, with all constants, are in the supplementary proof notes~\cite{KAMnotes}."
+- `intro.tex:36`: "Complete proofs, with the details omitted here, are written out in~\cite{KAMnotes}."
+
+The cited source is `AMENDMENTS.md` at `74d77b43`, which is normative over `MAIN.md`. Its note N5 reads: "L10 |
+Flow existence, Lie-series identification and `c_D` are sketched; they matter only for the optional packages
+9–11 (not on the shortest route)." L10 is the notes' Lie step, which is the paper's Lemma 4.4. So for Lemma 4.4
+the paper points to a source that is not complete either, and Lemma 4.4 is also outside the formal check
+(Appendix A.1). The gap is small and the argument is standard. The claim is still false as written, and a reader
+in formal verification will check it.
+
+*Repair (smallest):* in `planar.tex:81`, replace "Complete proofs, with all constants, are in" with "More detailed
+proofs, with explicit constants, are in"; add "(the flow estimates of the Lie step are standard and only
+sketched there)"; and change `intro.tex:36` to "More detailed proofs are written out in~\cite{KAMnotes}."
+Alternatively, complete N5 in the notes and keep the wording.
+
+**R2-2 (MAJOR). Residue of M1: an approval-status sentence and a process detail remain in Appendix A.3.**
+- `formal.tex:106`: "The exact statement texts await the authors' final approval."
+- `formal.tex:104-106`: "the Lean files are unchanged through commit 01d36418. Each integration of new code into
+  the repository also replays the proofs in the Lean kernel."
+
+The first sentence tells the reader that the results are not final; a submitted paper either has approved
+statements or is not submitted. The second sentence names a commit that appears nowhere else in the paper and
+describes the project's internal workflow.
+
+*Repair:* delete both sentences. Keep "`#print axioms` reports exactly … checked at commit 74d77b43."
+
+**R2-3 (MINOR). The A.3 paragraph is badly typeset (p. 21).** The `\sloppy` paragraph of `\texttt` names has
+very wide inter-word spaces (two underfull boxes). *Repair:* say "for each declaration in Table~2 (all headline
+declarations and their `_normalized`, `_halfInteger` and `_source` versions)", without listing the names again.
+
+**R2-4 (MINOR). Residue of M6 and m13: the citation form of [2] and one path.**
+- `refs.bib:43` still prints `docs/tracks/LP/source/MAIN.md and AMENDMENTS.md`. The entry is underfull on p. 22,
+  and the reader is asked to apply one file of amendments to another by hand. The notes also number lemmas
+  differently (Lemmas 9–11 there are the paper's Lemmas 4.3–4.5) and write `I` for Λ.
+  *Repair:* add one sentence at `planar.tex:81`: "(Lemmas 9–11 there, with $I$ in place of $\Lambda$; the
+  amendments file overrides the cited lines)". Better, publish the notes as one merged PDF at a release tag.
+- Table 2, last row: the path `KAM/Frozen/Nekhoroshev/…` shows campaign vocabulary. It is acceptable in the
+  appendix after the sentence "internal identifiers, listed verbatim", but listing the provider file, or
+  renaming at public release, reads better.
+
+**R2-5 (MINOR). A false explanatory sentence was introduced.**
+- `barrier.tex` (end of the proof of Theorem A, p. 10): "The next lemma, the only place where conservation of $L$
+  enters, converts action drift into margin drift."
+
+Conservation of $L$ also enters Lemma 3.3 (which proves it), the proof of Theorem B ("we may assume $L>0$, which
+is conserved") and Lemma 5.2 ("Along the solution $L$ is conserved, so $C_{\mathbf N}=C$").
+*Repair:* "The next lemma uses the conservation of $L$ to convert action drift into margin drift."
+
+**R2-6 (MINOR). The section opening of §3 drops the star.**
+- `barrier.tex:4`: "and $B$ is the least deficit at which two annuli can touch."
+
+$B$ is also bounded by $\Bst$, the deficit at which a planet reaches the star.
+*Repair:* "… at which two adjacent annuli can touch or a planet can reach the star."
+
+**R2-7 (MINOR). The Nek77 comparison appears twice, with the same hedge.** `intro.tex:30` and
+`resonant.tex:5-9` both say that a box cover "appears to give" the hypothesis of Theorem E up to δ, and both list
+what Theorem E adds. *Repair:* in §6, keep only the first sentence ("… replaces it.") and "Table~1 compares …",
+and refer back with "(see the comparison with~\cite[Theorem~12.3]{Nek77} in Section~1)".
+
+**R2-8 (MINOR). Small gaps in the new §4.4–§6.3 argument.**
+- §6.3 Conclusion (`resonant.tex:125`): "Lemma~4.8 now gives existence and uniqueness". Lemma 4.8 gives
+  existence only; uniqueness comes from analyticity, as the proof of Theorem B says. *Repair:* "Lemma~4.8 gives
+  existence on $[-T,T]$ (uniqueness as in Theorem~B), …".
+- Proof of Theorem C (`spatial.tex`, p. 17): "Lemmas 4.3–4.6 hold verbatim …; Lemmas 4.8, 3.5, 4.7 and 3.1 give
+  all conclusions". It never says that (SD) is verified. *Repair:* add "and (SD) is verified as in the proof of
+  Theorem~B".
+- Lemma 4.8's hypothesis (`planar.tex`, p. 15): "admissible initial state, $\Lambda^0\in\Lset$ and
+  $C(0)\le B(\Lambda^0)-\delta$". The last two are part of admissibility. *Repair:* "with admissible initial
+  state and $\Lambda^0=\Lambda(0)$".
+- The §6.3 restatement of (SD) omits "the solution exists at time $u$", which Lemma 4.8 includes. *Repair:* cite
+  (SD) by name instead of restating it.
+
+**R2-9 (MINOR). New symbol reuse introduced by the repairs.**
+- Lemma 3.2 now uses $k$ as the gravitational parameter. This is consistent with $k_i=1+\mu\nu_i$, but it adds a
+  third meaning of $k$ next to the Fourier index. The (k,l) rename was declined, so this is noted only.
+- The proof of Lemma 3.6 uses $\rho$ for a neighbourhood radius, while $\rho$ indexes the domains
+  $\mathcal D_\rho$ in §4 and $\rho_*$ is a width in §6. *Repair:* call it $r_0$, as before.
+- $\zeta=n(n-1)/2$ (`resonant.tex:39`) is Nekhoroshev's symbol and is not defined in the paper. *Repair:* "give
+  the exponents $\aE{},\bE{}$ (with $\zeta=n(n-1)/2$ in Nekhoroshev's notation)", or drop ζ.
+
+**R2-10 (MINOR). A cryptic table cell.** Table 2, "spatial" row: "; negative energy is in the first". *Repair:*
+"(the first declaration also assumes negative energies)", or delete it.
+
+**R2-11 (MINOR). Bibliography.** [6] Las97 has `pages = {L75}`; the letter runs L75–L78. NOTES.md says the title
+was entered from memory. The title matches the A&A Letter as I know it; check the pages against the PDF.
+
+## Round-1 findings: status
+
+| Item | Status |
+|---|---|
+| B1 | Resolved per ruling (see above). |
+| B2 | Resolved per ruling; overclaim R2-1, citation form R2-4. |
+| M1 | Resolved (single status: Theorems A–E proved at 74d77b43) except the approval sentence (R2-2). |
+| M2 | Resolved: `#print axioms` stated; "fixed in advance" reworded; the file-level "no sorry" removed. |
+| M3 | Resolved for m (masses now μν_i), C (T₁), γ, η (r_c), d (d₀), μ₀ (ε_*), S (W), F (𝓕), P (p̄). H_i, (k,l), 𝖣 declined per ruling. New reuse in R2-9. |
+| M4 | Resolved (m, γ, τ introduced in the bullets; "compact set of ordered axes"). |
+| M5 | Resolved: Remark 4.7 deleted; Appendix A.1 describes the formal normal form in words. |
+| M6 | Mostly resolved ("Locators" notes removed; Lean names declared internal identifiers); residue R2-4. The `FOR OWNER` comment is gone. |
+| M7 | Resolved: "What is not claimed" merged into "Constants"; the B/E paragraph replaced by a pointer to Table 1, which now sits at the start of §6.3. New duplication R2-7. |
+| M8 | Resolved: Lemma 4.8 has an explicit (SD) hypothesis, verified in the proofs of Theorems B and E. Small gaps in R2-8. |
+| M9 | Resolved: Lemma 4.7 (osculating) precedes Lemma 4.8 and the proof of Theorem B; the duplicate definition is removed. |
+| m1 | Resolved. |
+| m2 | Corollary D kept (owner's call); its proof is merged into §5.3. Accepted. |
+| m3 | Resolved ("All results are formally verified"). |
+| m4 | Resolved (`\tfrac12`). |
+| m5 | Resolved (sentence removed). |
+| m6 | Resolved: `r_g` is explained in §4.1 ("a fixed action radius over which $B$ varies by at most δ/16"), and `c_U` is replaced by an explicit bound. |
+| m7 | Resolved (Lemma 3.2 has a parameter $k$). |
+| m8 | Resolved. |
+| m9 | Resolved (displays in Lemmas 4.7 and 4.8). |
+| m10 | Resolved ("$\varepsilon_*$ precedes …"). |
+| m11 | Resolved: §7 now gives BN20's actual figures and what they measure. |
+| m12 | Resolved (index i, units stated). |
+| m13 | Open (R2-4). |
+| m14 | Resolved. |
+| ToC depth | Resolved (depth 2; the contents now run onto p. 2, which is acceptable). |
+
+## Rendered pages
+
+23 pp, within the cap. No overfull lines. The new displays in Lemmas 4.7 and 4.8 and in the (SD) item are set
+cleanly (p. 15). Tables 1–3 fit the text width. Problems: §A.3 has wide inter-word spacing (R2-3) and
+bibliography entry [2] is underfull (R2-4). Link colours are unchanged (dark blue). No banned words, and no
+sentence credits one author.
+
+## Errata and deviations
+
+None in the pinned sources. One discrepancy between the paper and its cited notes is reported as R2-1 (AMENDMENTS
+N5 versus "complete proofs").

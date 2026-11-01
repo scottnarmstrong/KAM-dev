@@ -2,11 +2,7 @@
 
 The Diophantine condition enters the proofs of Theorems~\ref{thm:planar} and~\ref{thm:spatial} only through the
 stopped drift estimate of Lemma~\ref{lem:scaling}; here Nekhoroshev's theorem for a convex Hamiltonian with slow
-variables replaces it. Theorem~\ref{thm:resonant} is close to Nekhoroshev's planetary result
-\cite[\S12.2 and Theorem~12.3, pp.~55--56]{Nek77}, which has the same exponents and excludes collisions for axes in a
-box and angular momentum above the collision value of the box, star included; a cover of $\Aset$ by small boxes
-appears to give our hypothesis up to the margin $\delta$. Theorem~\ref{thm:resonant} adds the identification with
-the strong threshold of Laskar and Petit, the conclusions on annuli and osculating elements, and a formal proof. Table~\ref{tab:comparison} compares
+variables replaces it. As explained in Section~\ref{sec:intro}, Theorem~\ref{thm:resonant} is close to Nekhoroshev's planetary theorem~\cite[Theorem~12.3]{Nek77}. Table~\ref{tab:comparison} compares
 Theorem~\ref{thm:resonant} with Theorems~\ref{thm:planar} and~\ref{thm:spatial}.
 
 \subsection{The input theorem}
@@ -36,7 +32,7 @@ such that $(\xi(u),\eta(u))\in W\ominus\varepsilon^{\bE{}}$ for all $u\in[0,t]$.
 Here $\varepsilon_*$ precedes $P$, $T_1$ and the solution. This is
 \cite[Theorem~4.4, p.~30]{Nek77}, with $\sup\abs{H_1}$ as allowed by \cite[Remark~4.5.A]{Nek77}, specialized to a
 definite Hessian, which is quasiconvex with all steepness indices one \cite[\S1.11, p.~9]{Nek77}; then
-\cite[(4.1), (4.4), (4.5)]{Nek77} give $\zeta=n(n-1)/2$ and the exponents $\aE{},\bE{}$. The form is slightly weaker
+\cite[(4.1), (4.4), (4.5)]{Nek77} give the exponents $\aE{},\bE{}$. The form is slightly weaker
 (analyticity on $G'\supset G$, maximum-norm erosions and conclusion, $\varepsilon_*$ depending on the domains). It is proved in this form in Lean (Appendix~\ref{app:formal}).
 
 \subsection{A finite cover}
@@ -122,6 +118,6 @@ $t\le\exp(\varepsilon^{-\aE{}})\le\varepsilon^{-1}\exp(\varepsilon^{-\aE{}})$, a
 with $T_1=t$ gives $\nrm{\Lambda(t)-\Lambda^0}\le\frac12\varepsilon^{\bE{}}=r/2$. For $t<0$, the time-reversed orbit
 on $[0,-t]$ solves Hamilton's equations for $-h-\varepsilon P$; use $\varepsilon_j^-$.
 
-\emph{Conclusion.} Lemma~\ref{lem:exit} now gives existence and uniqueness on $[-T,T]$, the margin $\delta/2$, the
+\emph{Conclusion.} Lemma~\ref{lem:exit} now gives existence on $[-T,T]$ (uniqueness as in Theorem~\ref{thm:planar}) and, on $[-T,T]$, the margin $\delta/2$, the
 separations, and the drift bounds with $A_\Lambda=B_0^{\bE{}}/2$; Lemmas~\ref{lem:osc}
 and~\ref{lem:normalization} give the rest. In space $n_s=2n$, and the exponents are unchanged. \qed

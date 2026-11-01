@@ -226,3 +226,200 @@ statement is stronger than its Lean counterpart. No proof step fails. All append
 None that bears on the paper. F2 originates in LP3-PLAN §2.4 step 4. That wording is correct there,
 where it refers to the Lean `strongAMD_le_of_stopped`, but it was transcribed into the paper without
 that referent.
+
+---
+
+# Round 2 (re-audit of commit `b6d1cca3`, Lean at `74d77b43`)
+
+Target: `git diff cda28701 b6d1cca3 -- papers/LP/sections` (9 files changed, +251/−259). Lean statements were read
+as text at `/root/code/KAM` commit `74d77b43486d`. Docs only: no `.tex` was edited, no lake command was run.
+
+```
+sha256 of papers/LP/sections/*.tex at b6d1cca3 (git show | sha256sum)
+0b565f28b54772e4c97fdf9eba2211bedc4aadad4aa17bb2223ae48dd920f0b3  abstract.tex
+fab6d6dd33aa0b69d791b0e3a72f666db3c9632a385490522bdd34cecb7f7c27  barrier.tex
+bebe76929beb2540005cbfda8446a3ca76b964a145e7751ceed78061da09b1c0  formal.tex
+9d4cdd88d301afd3f51ad94f146bd8e524bc6a6760982d41a42b539a0f4e5502  intro.tex
+bb295fbc845e0807abb888bbf7fec42e515f9f459c10655b48ccd940f4213729  outlook.tex
+d50bb6d0e29dc8cbf3c9896d1031f350b5ac9f3f94d30d8e0c7f56ce2540a859  planar.tex
+0383ced534cd829d986153f0bdde13527043d9b3f212e102b5547b9844b5ee96  resonant.tex
+fc1177df942b90dae4898bc278e8e9ff89c6d9d03e7d5c54e617f491f79a7d36  results.tex
+157cc18f687ac912c69154c5b115a64d70366bbb10b55684bef385fa5601c0dc  spatial.tex
+```
+
+## Verdict: **FAIL** (two BLOCKERs, both one-phrase repairs; otherwise PASS WITH NOTES)
+
+Both blockers are new false explanatory sentences in barrier.tex, introduced by the fix for F1. All
+mathematical changes are correct:
+
+* the new stopped-drift Lemma `lem:exit`;
+* its verification in Theorem B and in §6.3;
+* the moved Lemma `lem:osc`;
+* the constants `A_Λ = 1` and `A_a = Λ_max/min ν_i²`;
+* the generalized Lemma `lem:orbital`;
+* the re-pinned Appendix table.
+
+## Status of the round-1 findings
+
+| # | Status | Evidence at `b6d1cca3` |
+|---|---|---|
+| F1 | Fixed, but the new sentence has a new error (R2-1) | The barrier.tex:4 conservation claim is gone. |
+| F2 | Fixed | The resonant.tex clause is deleted. |
+| F3 | Fixed | planar.tex:70: "within Euclidean distance $\eta$". |
+| F4 | Fixed | planar.tex:58: "Every Newtonian denominator". |
+| F5 | Fixed | Horizon `T_1` (resonant.tex:30), cover radius `r_c`, slow set `W`/`W_j`, threshold `ε_*`, momentum bound `\bar p`. |
+| F6 | Fixed | resonant.tex:45–46: "We may assume $\Lset_\delta\ne\emptyset$". |
+| F7 | Fixed | formal.tex:13: "defined as infima … and proved to be attained". |
+| F8 | Fixed | The file-level "no sorry" sentence is replaced by the `#print axioms` statement (formal.tex:100–106). |
+| F9 | Fixed | formal.tex:54: "negative energy is in the first". |
+| F10 | Fixed | intro.tex:36 and formal.tex:16–17 name the chamber binder. |
+| F11 | Fixed | intro.tex:17 and :24, abstract: "normalized masses". |
+| F12 | Fixed | All of Thm E is now "proved" at `74d77b43` (intro.tex:36, formal.tex:3). |
+
+## Changed material checked and found correct
+
+* **Lemma `lem:exit` with (SD)** (planar.tex:196–229) was checked line by line.
+  * The interval `J ∋ 0` is open and nonempty: at `t = 0`, `0 < r`, `C(0) ≤ B − δ < B − δ/2`, and the
+    state is prograde by Lemma `lem:amd`.
+  * For `t ∈ J ∩ [−T, T]`, the antecedent of (SD) holds on `[0, t]`. The improvement to `r/2` together
+    with (17) and (eq:stop) gives `C ≤ B − δ + nr/2 + Ω_B(r/2) ≤ B − 3δ/4`, with `r/2 ≤ 4r_g`.
+  * Exit: at a finite maximal endpoint, Lemma `lem:moving` applies with `nr + Ω_B(r) ≤ δ/4 < δ/2`.
+    Otherwise `E_i = −ν_i²/(2Λ_i²)` is uniformly negative on `U`, and at `t*` we have `≤ r/2 < r`,
+    `C ≤ B − 3δ/4 < B − δ/2`, and `H_i ≥ Λ_i − C ≥ 3δ/4`. This contradicts `t* = sup J ≤ T`.
+  * Conclusions:
+    * `|a_i − a_i^0| ≤ (r/2)(2Λ_max)/ν_i² = Λ_max r/ν_i²`;
+    * `|ΔC| ≤ nr/2` by (eq:amd);
+    * the separations follow from Lemma `lem:uniform` with `m = δ/2` on `U`, because `Λ(t)` is within
+      `r/2 ≤ r_g` of `Λ⁰ ∈ 𝓛_δ`;
+    * `d⋆ = a_min δ²/(8Λ_max²)`.
+  * The paper's (SD) puts "prograde" in the antecedent. This makes it weaker to verify than Lean's
+    `hstop` (`Confinement.lean:177–182`), which has no prograde clause and quantifies over all solutions.
+    The paper's Lemma `lem:exit` is a stand-alone conditional helper with a distinct name, so this is
+    acceptable.
+* **(SD) in the proof of Theorem B** (planar.tex:234–242).
+  * The constants `μ0 ≤ min(μ_1, μ_2)`, `r = √μ ≤ r_g`, (eq:stop), `Ω_B(r) ≤ δ/16` and the two `A_osc`
+    relations all precede `μ` and the initial state.
+  * Given the antecedent, `½|z|² < B(Λ⁰) − 7δ/16`, so `z ∈ 𝒵_0(Λ⁰)` and the orbit lies in `𝒟_1`. Then
+    Lemma `lem:scaling` gives `r/4 ≤ r/2` for `|t| ≤ T_μ`, with `T_0 = 1`.
+  * `A_Λ = 1` works because the drift is `≤ r/2 = √μ/2`. `A_a = Λ_max/min ν_i²` works because
+    `Λ_max r/ν² = A_a √μ`. The AMD drift is `nr/2 ≤ nA_Λ√μ`.
+  * Uniqueness follows from analyticity, as stated.
+* **(SD) in §6.3** (resonant.tex:102–127).
+  * `ε = B_0μ ≤ ε_0/2 < ε_j^±` (strict, as Lean needs).
+  * `r = ε^𝔟 < ε_0^𝔟 ≤ min{r_c/4, r_1, r_g}` and `r < ε_1`.
+  * `T = exp(ε^{−𝔞}) ≤ ε^{−1}exp(ε^{−𝔞})`, using `ε ≤ 1`.
+  * Cell `j` with `‖Λ⁰ − Λ̄_j‖ < r_c/2`. Then `I(0) ∈ G_j ⊖ r` because `r_c/2 + r_c/4 < r_c`.
+  * By Lemma `lem:cover`(ii), `C < B(Λ̄_j) − 3δ/8`. By (iii), `z ∈ W_j ⊖ r`.
+  * Prop 6.1 with `T_1 = t` gives drift `≤ r/2`. Time reversal uses `(−h, −P)` with `ε_j^-`.
+  * `A_Λ = B_0^𝔟/2`.
+  * Lemma `lem:cover` arithmetic: `2r_c + ρ* = 5w/8 < w`, `r_c + ρ* < 2r_c`, `r_c/2 ≤ r_g`, and
+    `2Ω_B(4r_g) ≤ δ/8`. The definition of `ε_1` is correct.
+* **Lemma `lem:osc`** (planar.tex:177–192, moved). The data `(n, ν, U, m)`, the estimates and the half-gap
+  conclusion are unchanged in substance. It now uses Lemma `lem:orbital` with `k = k_i`, `v = V_i`.
+* **Lemma `lem:orbital`, generalized to parameter `k`** (barrier.tex). The following identities were
+  checked:
+  * `k²e² = k² + 2E|q×v|²`;
+  * `2E = −k/a`, so `e² = 1 − |q×v|²/(ka)`;
+  * `(q·v)² = 2kr − kr²/a − |q×v|² ≥ 0`, which gives `(r − a)² ≤ a²e²`;
+  * `|v|² = k(2/|q| − 1/a)`;
+  * `|q×p| = Λ√(1 − e²)` at `k = 1`.
+* **Lemma `lem:normalization`**: `x_0 = −μΣν_i q_i/(1 + μΣν_i)` is unchanged in substance.
+* **Lemma `lem:moving` proof**: `ρ` replaces `r_0`. It is correct.
+* **Statements in results.tex.** Theorems A–E have the same content as round 1. The index rewording
+  "inequalities involving $i+1$ required for $i<n$" matches Lean `AdjIdx`.
+* **Lean pins at `74d77b43`.** All 34 file:line locators in Tables `tab:lean-main` and `tab:lean-lemmas`
+  resolve to the named declarations:
+  * the `_source` forms are `…_source_general` at the first line and `…_source` at the second, in each
+    `Source.lean`;
+  * Theorem E is at `Nek/PlanarSafety/Main.lean:42, 135`, `Source.lean:37, 130`,
+    `Spatial/Nek/SpatialSafety/Main.lean:40, 150` and `Source.lean:40, 139`;
+  * Prop 6.1 is at `PartialConvexNekhoroshev.lean:48`.
+
+  Both Theorem E `Main.lean` files are byte-identical to the round-1 branch `inp-lp-lp3src`, so the round-1
+  statement check of Theorem E carries over.
+
+  The coordinator's note that "a994efdf→74d77b43 only adds files" is not exact. Nine files are modified, but
+  they are only the generated roots `KAM/Root/{Planetary,Wave}.lean`, the README and docs. No declaration
+  file changed.
+* **Axiom text.** The axiom text is consistent with the project records. `docs/tracks/LP/PROGRESS.md`
+  records the lander's standard-axiom reports for LP0/LP1 (05:49), LP2 (06:44), and W5A/W5B/W5C (LP3,
+  "no sorryAx through the sealed anchor"). This audit did not re-run `#print axioms`.
+* **New explanatory sentences classified true.**
+  * intro.tex:3 ("at the threshold, two orbits, or an orbit and the star, can touch").
+  * intro.tex:30, the Nekhoroshev comparison. It is hedged ("appears to give"). It is correct that a
+    small-box cover plus continuity of `B` turns a uniform `|N| ≥ γ` condition into the pointwise
+    `C ≤ B − δ` up to the margin. Adjacent-pair contact also covers non-adjacent collisions, because ordered
+    axes force an adjacent overlap.
+  * resonant.tex:3–9, the same comparison.
+  * planar.tex:44 (meaning of `r_g`, `U`), :175, :194.
+  * results.tex:95–99.
+  * spatial.tex sketch ("q×p determines u, v, hence R").
+  * barrier.tex:69 (sharpness paragraph).
+  * Literature numbers (BN20 tables, Las97, LP17 §5) are left to the literature audit.
+
+## Round-2 findings
+
+### R2-1 — BLOCKER (false explanatory sentence)
+
+* **Location:** barrier.tex:4: "…uniformly apart, and $B$ is the least deficit at which two annuli can
+  touch."
+* **Evidence:** `B = min(B_cross, Λ_1)` (results.tex (2.5), barrier.tex (eq:Bsharp)). When
+  `Λ_1 < B_cross`, `B` is the deficit of a radial innermost orbit (planet–star contact), not of annulus
+  contact. This case occurs, for example when `ν_1/ν_2` is small, since `Λ_1/Λ_2 = (ν_1/ν_2)√α` while
+  `B_12 ≥` a positive multiple of `Λ_2`. The round-1 text said, correctly, "the least deficit at which this
+  fails" (perihelion or annuli).
+* **Repair:** "…and $B$ is the least deficit at which two adjacent annuli can touch or a planet can reach
+  the star."
+
+### R2-2 — BLOCKER (false explanatory sentence)
+
+* **Location:** barrier.tex:88: "The next lemma, the only place where conservation of $L$ enters, converts
+  action drift into margin drift."
+* **Evidence:** Conservation of `L` also enters in four other places:
+  * the identity (eq:amd) `C(t) − C(0) = Σ(Λ_i(t) − Λ_i(0))`, which Lemma `lem:exit` invokes directly
+    (planar.tex:228);
+  * the orientation step of Theorem B ("we may assume $L>0$, which is conserved", planar.tex:232);
+  * the spatial alignment ("Along the solution $L$ is conserved, so $C_{\mathbf N}=C$", spatial.tex
+    Lemma `lem:spdomain` proof);
+  * the identification `½|z|² = C` along the solution in Theorems B, C and E.
+* **Repair:** Restore the round-1 wording "It is the only place where the drift of the actions is compared
+  with the threshold", or drop the clause "the only place where conservation of $L$ enters".
+
+### R2-3 — MINOR
+
+* **Location:** resonant.tex:125: "Lemma~\ref{lem:exit} now gives existence and uniqueness on $[-T,T]$".
+* **Evidence:** The new Lemma `lem:exit` (planar.tex:212) concludes existence only. The proof of Theorem B
+  adds "uniqueness holds because (H) is analytic" (planar.tex:242). Lean's
+  `strongFirstExit_of_stopped_drift` does give `MovingUniqueOn`, but the paper's lemma does not state it.
+* **Repair:** "…gives existence on $[-T,T]$ (uniqueness as in Theorem B)…"
+
+### R2-4 — MINOR
+
+* **Location:** spatial.tex, proof of Theorem C: "Lemmas~\ref{lem:exit}, \ref{lem:uniform}
+  (dimension-free), \ref{lem:osc} and~\ref{lem:normalization} give all conclusions".
+* **Evidence:** Lemma `lem:exit` now needs (SD) as an explicit hypothesis. The spatial proof never says
+  where (SD) is verified, and it does not fix the constants `μ0`, `r`, `T`. The planar verification
+  (planar.tex:234–240) carries over verbatim with the ball (eq:spball), but the proof should say so.
+* **Repair:** Add "The constants and the verification of (SD) are those of the proof of
+  Theorem~\ref{thm:planar}, with \eqref{eq:spball} in place of \eqref{eq:ball}."
+
+### R2-5 — MINOR
+
+* **Location:** planar.tex:203: "Consider a solution of \eqref{eq:H} with admissible initial state … and
+  assume the stopped drift estimate".
+* **Evidence:** The proof applies (SD) on the maximal solution's interval `J` (planar.tex:222–226). If "a
+  solution" is a restriction to a short interval, (SD) says nothing beyond that interval.
+* **Repair:** "Consider the maximal solution of \eqref{eq:H} with admissible initial state…"
+
+### R2-6 — MINOR (Appendix accuracy)
+
+* **Location:** formal.tex:105: "the Lean files are unchanged through commit \texttt{01d36418}".
+* **Evidence:** `git diff --name-status 74d77b43 01d36418 -- '*.lean'` shows 34 added files (`KAM/Wave/…`)
+  and the modified generated root `KAM/Root/Wave.lean`. No file of the LP declarations or their imports
+  changed.
+* **Repair:** "the files of these declarations and their imports are unchanged through commit
+  \texttt{01d36418}".
+
+## Suspected errata in pinned sources
+
+None.
