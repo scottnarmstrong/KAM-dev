@@ -30,7 +30,10 @@ identity from the core's conformally symplectic charts (`KAM.Planetary.IsChart`)
   chart), `injective_mod_comp` (injective modulo `ℤⁿ` when the chart is injective modulo the angle
   lattice), `injective_fderiv_comp` (immersion), `energy_comp` and `level_comp` (energy levels,
   for `Hc = a · H_phys ∘ Ψ` on `O`).
-* `hamiltonianVectorField_const_mul`: `X_{r G} = r X_G` for `r ≠ 0` (time rescaling).
+* `hamiltonianVectorField_const_mul`: `X_{r G} = r X_G` for `r ≠ 0` (time rescaling), and
+  `IsFieldTransport.const_mul`: scaling `Hc` by `r` scales the clock by `r`.
+* `IsPhysicalFlowTorus` only says that the torus lines are solutions; that the image is invariant
+  (every solution meeting it stays on it) is `KAM/Application/Invariance.lean`.
 -/
 
 @[expose] public noncomputable section
@@ -53,6 +56,18 @@ def IsFieldTransport (Ψ : (Fin n → ℝ) × (Fin n → ℝ) → E) (Hc : (Fin 
 line `τ ↦ L(θ + τ ν)` is a solution of `ż = F(z)` for all real times. -/
 def IsPhysicalFlowTorus (F : E → E) (ν : Fin n → ℝ) (L : (Fin n → ℝ) → E) : Prop :=
   ∀ θ τ, HasDerivAt (fun u : ℝ => L (θ + u • ν)) (F (L (θ + τ • ν))) τ
+
+/-- **Time rescaling**: `X_{r G} = r X_G` for `r ≠ 0` (unconditionally in differentiability). -/
+theorem hamiltonianVectorField_const_mul {G : (Fin n → ℝ) × (Fin n → ℝ) → ℝ} {r : ℝ} (hr : r ≠ 0)
+    (p : (Fin n → ℝ) × (Fin n → ℝ)) :
+    hamiltonianVectorField (fun q => r * G q) p = r • hamiltonianVectorField G p := by
+  by_cases hG : DifferentiableAt ℝ G p
+  · ext i <;> simp [hamiltonianVectorField, fderiv_const_mul hG r]
+  · have hrG : ¬ DifferentiableAt ℝ (fun q => r * G q) p := fun h => hG (by
+      have := h.const_mul r⁻¹
+      simpa [← mul_assoc, inv_mul_cancel₀ hr] using this)
+    ext i <;> simp [hamiltonianVectorField, fderiv_zero_of_not_differentiableAt hG,
+      fderiv_zero_of_not_differentiableAt hrG]
 
 section Transport
 
@@ -135,18 +150,20 @@ theorem IsRealModelTorus.energy_comp {ω : Fin n → ℝ} {E₀ : ℝ}
     (hHc : ∀ p ∈ O, Hc p = a * Hp (Ψ p)) (θ : Fin n → ℝ) : Hp ((Ψ ∘ k) θ) = E₀ / a :=
   level_comp ha hHc (hkO θ) (hk.energy θ)
 
-end Transport
+/-- **Clock rescaling**: scaling the model Hamiltonian by `r ≠ 0` scales the clock by `r`
+(e.g. a certificate Hamiltonian `κ · H` with a chart transporting `H` at clock `1`). -/
+theorem IsFieldTransport.const_mul (hΨ : IsFieldTransport Ψ Hc F κ O) {r : ℝ} (hr : r ≠ 0) :
+    IsFieldTransport Ψ (fun p => r * Hc p) F (r * κ) O := fun p hp =>
+  ⟨(hΨ p hp).1, by
+    rw [hamiltonianVectorField_const_mul hr, map_smul, (hΨ p hp).2, smul_smul]⟩
 
-/-- **Time rescaling**: `X_{r G} = r X_G` for `r ≠ 0` (unconditionally in differentiability). -/
-theorem hamiltonianVectorField_const_mul {G : (Fin n → ℝ) × (Fin n → ℝ) → ℝ} {r : ℝ} (hr : r ≠ 0)
-    (p : (Fin n → ℝ) × (Fin n → ℝ)) :
-    hamiltonianVectorField (fun q => r * G q) p = r • hamiltonianVectorField G p := by
-  by_cases hG : DifferentiableAt ℝ G p
-  · ext i <;> simp [hamiltonianVectorField, fderiv_const_mul hG r]
-  · have hrG : ¬ DifferentiableAt ℝ (fun q => r * G q) p := fun h => hG (by
-      have := h.const_mul r⁻¹
-      simpa [← mul_assoc, inv_mul_cancel₀ hr] using this)
-    ext i <;> simp [hamiltonianVectorField, fderiv_zero_of_not_differentiableAt hG,
-      fderiv_zero_of_not_differentiableAt hrG]
+omit [NormedAddCommGroup E] [NormedSpace ℝ E] in
+/-- A real model torus is a flow torus of its own Hamiltonian field (model coordinates). -/
+theorem IsRealModelTorus.isPhysicalFlowTorus_self {ω : Fin n → ℝ} {E₀ : ℝ}
+    {k : (Fin n → ℝ) → (Fin n → ℝ) × (Fin n → ℝ)} (hk : IsRealModelTorus Hc ω E₀ k) :
+    IsPhysicalFlowTorus (hamiltonianVectorField Hc) ω k :=
+  hk.flow
+
+end Transport
 
 end KAM.Application

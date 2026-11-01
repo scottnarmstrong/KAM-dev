@@ -13,8 +13,10 @@ public import KAM.Application.Transport
 
 The observables adapter (improvement #7): bounds on observables of the exact torus `K∞`, in model or
 original coordinates, from enclosures of the certificate's own embedding `K` (numerical data) and
-the displacement `‖K∞ - K‖ ≤ disp` on `T_{ρ∞}`. Since the orbits of the torus stay on it, every
-bound holds along every orbit on the torus for all times (`forall_orbit`).
+the displacement `‖K∞ - K‖ ≤ disp` on `T_{ρ∞}`. A bound valid at every torus point holds along
+every torus line `τ ↦ L(θ + τ ν)` (`forall_orbit`, a restatement), and along **every solution that
+meets the torus**, for all times of its interval, when the field is `C¹` near the torus
+(`IsPhysicalFlowTorus.forall_solution`, `KAM/Application/Invariance.lean`, by ODE uniqueness).
 
 * `abs_sub_le_of_convex`: mean value inequality for an observable with `‖Df‖ ≤ Λ` on a convex set.
 * `CertifiedTorusAt.observable_bounds`: an enclosure `f ∘ Re K ∘ ι ∈ [lo, hi]` of an observable
@@ -25,7 +27,9 @@ bound holds along every orbit on the torus for all times (`forall_orbit`).
   (Cauchy at real points).
 * `CertifiedTorusAt.norm_physFreq_sub_le`: the physical frequency `κ⁻¹ s∞ ω*` is within
   `disp/|κ|` of `κ⁻¹ s ω*`.
-* `checkActionRange c i ctr r` (checkable, the strip model of `A_i - ctr`) and
+* `checkActionRangeReal c i ctr r` (checkable: the model of `A_i - ctr` summed at the real points,
+  weight `w = 1`) and `CertifiedTorusAt.abs_action_sub_ctr_le_real`, or the strip version
+  `checkActionRange` (weight `W`, about `e^{2π|k|ρ}` per mode, conservative) and
   `CertifiedTorusAt.abs_action_sub_ctr_le`: `|k_I(θ)_i - ctr| ≤ r + disp` for every real `θ`.
 * `realInclusion₂_realRestriction_K_mem_D`: the certificate's own real torus lies in `c.D` (from
   `checkEmbedding`), for choosing the convex set of `observable_bounds`.
@@ -49,7 +53,8 @@ theorem abs_sub_le_of_convex {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ
   have h := hS.norm_image_sub_le_of_norm_fderiv_le hf hΛ hz' hz
   rwa [Real.norm_eq_abs] at h
 
-/-- Every orbit on a torus stays on it: a property of all torus points holds along every line. -/
+/-- A property of all torus points holds along every torus line `τ ↦ L(θ + τ ν)` (a restatement;
+for arbitrary solutions meeting the torus see `IsPhysicalFlowTorus.forall_solution`). -/
 theorem forall_orbit {X : Type*} {L : (Fin n → ℝ) → X} {P : X → Prop} (h : ∀ θ, P (L θ))
     (ν : Fin n → ℝ) (θ : Fin n → ℝ) (τ : ℝ) : P (L (θ + τ • ν)) :=
   h _
@@ -139,45 +144,66 @@ section Action
 
 variable {α : Type} [CertArith α]
 
-/-- **The action-range check** for the action coordinate `i`: the strip model of `A_i - ctr` has sup
-bound `≤ r` (the model `checkEmbedding` uses for its action room). -/
+/-- **The strip action-range check** for the action coordinate `i`: the model of `A_i - ctr` has
+sup bound `≤ r` over the strip `T_ρ` (the model `checkEmbedding` uses for its action room). -/
 def checkActionRange {n : ℕ} (c : TorusCertificate n α) (i : ℕ) (ctr r : ℚ) : Bool :=
   ble ((actionShiftModel n c.emb c.weight c.piEnc ctr i).supBound c.weight) (ofRatDown r)
 
+/-- **The real-torus action-range check**: the same model summed at the real points (weight
+`w = 1`, no `e^{2π|k|ρ}`) has sup bound `≤ r`. -/
+def checkActionRangeReal {n : ℕ} (c : TorusCertificate n α) (i : ℕ) (ctr r : ℚ) : Bool :=
+  ble ((actionShiftModel n c.emb c.weight c.piEnc ctr i).supBound
+    KAM.CertificateSharp.Hybrid.realWeight) (ofRatDown r)
+
 variable [LawfulCertArith α] {c : TorusCertificate n α}
 
-/-- A passing action-range check: `|A_i(θ) - ctr| ≤ r` on the strip `T_ρ`. -/
+/-- The enclosure of `A_i - ctr` (the model of `checkEmbedding`'s action room). -/
+theorem actionShiftModel_encloses (hs : checkStatic c = true) (i : Fin n) (ctr : ℚ) :
+    (actionShiftModel n c.emb c.weight c.piEnc ctr i.val).Encloses n c.weight.rho
+      fun θ => (c.K θ).2 i - ((ctr : ℝ) : ℂ) := by
+  have S := checkStatic_sound hs
+  refine ((realCompModel_encloses (α := α) n c.weight.rho (c.emb.actionDeg.getD i 0)
+    c.emb.action[i.val]?).addMixed S.hW S.hpe (constModel_encloses n c.weight.rho
+      (-ctr) 0 0)).of_eq_fun fun θ => ?_
+  rw [TorusCertificate.K, CertEmbedding.eval_snd]
+  simp [slpConstVal, CertEmbedding.actionAt, sub_eq_add_neg]
+
+/-- A passing strip action-range check: `|A_i(θ) - ctr| ≤ r` on the strip `T_ρ`. -/
 theorem checkActionRange_sound (hs : checkStatic c = true) {i : Fin n} {ctr r : ℚ}
     (h : checkActionRange c i.val ctr r = true) {θ : Fin n → ℂ}
     (hθ : θ ∈ complexStrip n c.params.rho) : ‖(c.K θ).2 i - ((ctr : ℝ) : ℂ)‖ ≤ r := by
   have S := checkStatic_sound hs
   have hθ' : θ ∈ complexStrip n c.weight.rho := by rw [S.hrho]; exact hθ
-  have hA := CertModel.norm_le_supBound S.hW
-    ((realCompModel_encloses (α := α) n c.weight.rho (c.emb.actionDeg.getD i 0)
-      c.emb.action[i.val]?).addMixed S.hW S.hpe (constModel_encloses n c.weight.rho
-        (-ctr) 0 0)) hθ'
-  have h1 := LawfulCertArith.ble_sound _ _ h
-  have h2 := LawfulCertArith.ofRatDown_le (α := α) r
-  refine le_trans (le_of_eq ?_) (hA.trans (h1.trans h2))
-  rw [TorusCertificate.K, CertEmbedding.eval_snd]
-  simp [slpConstVal, CertEmbedding.actionAt, sub_eq_add_neg]
+  exact (CertModel.norm_le_supBound S.hW (actionShiftModel_encloses hs i ctr) hθ').trans
+    ((LawfulCertArith.ble_sound _ _ h).trans (LawfulCertArith.ofRatDown_le r))
 
-/-- **Checked action bounds on the exact real torus**: `|k_I(θ)_i - ctr| ≤ r + disp` for every real
-angle, hence along every orbit on the torus for all times. -/
-theorem CertifiedTorusAt.abs_action_sub_ctr_le {ωstar : Fin n → ℝ}
+/-- A passing real-torus action-range check: `|A_i(ι x) - ctr| ≤ r` at every real point. -/
+theorem checkActionRangeReal_sound (hs : checkStatic c = true) {i : Fin n} {ctr r : ℚ}
+    (h : checkActionRangeReal c i.val ctr r = true) (x : Fin n → ℝ) :
+    ‖(c.K (realInclusion n x)).2 i - ((ctr : ℝ) : ℂ)‖ ≤ r := by
+  have S := checkStatic_sound hs
+  exact (KAM.CertificateSharp.Hybrid.CertModel.norm_le_supBound_real (CertWeight.rho_pos S.hW)
+    (actionShiftModel_encloses hs i ctr) x).trans
+    ((LawfulCertArith.ble_sound _ _ h).trans (LawfulCertArith.ofRatDown_le r))
+
+/-- A bound of an action of the certificate's torus at the real points, in real form. -/
+theorem abs_realRestriction_K_snd_sub_le {i : Fin n} {ctr r : ℚ}
+    (hc : ∀ x : Fin n → ℝ, ‖(c.K (realInclusion n x)).2 i - ((ctr : ℝ) : ℂ)‖ ≤ r)
+    (θ : Fin n → ℝ) : |(realRestriction c.K θ).2 i - ctr| ≤ r := by
+  have hc0 := hc θ
+  rw [isRealOnReals_iff.mp c.emb_structural.2.2] at hc0
+  have e : (realInclusion₂ n (realRestriction c.K θ)).2 i - ((ctr : ℝ) : ℂ) =
+      (((realRestriction c.K θ).2 i - ctr : ℝ) : ℂ) := by simp
+  rw [e, Complex.norm_real, Real.norm_eq_abs] at hc0
+  exact hc0
+
+/-- Action bounds on the exact real torus from a bound on the certificate's real torus. -/
+theorem CertifiedTorusAt.abs_action_sub_ctr_le_of {ωstar : Fin n → ℝ}
     {Kinf : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {sinf : ℝ}
     (hT : CertifiedTorusAt c ωstar Kinf sinf) (hs : checkStatic c = true) {i : Fin n}
-    {ctr r : ℚ} (h : checkActionRange c i.val ctr r = true) (θ : Fin n → ℝ) :
-    |(realRestriction Kinf θ).2 i - ctr| ≤ r + c.params.disp := by
-  have S := checkStatic_sound hs
-  have hc := checkActionRange_sound hs h
-    (realInclusion_mem_complexStrip (S.hρinf.trans S.hρinfρ) θ)
-  rw [isRealOnReals_iff.mp c.emb_structural.2.2] at hc
-  have hc' : |(realRestriction c.K θ).2 i - ctr| ≤ r := by
-    have e : (realInclusion₂ n (realRestriction c.K θ)).2 i - ((ctr : ℝ) : ℂ) =
-        (((realRestriction c.K θ).2 i - ctr : ℝ) : ℂ) := by simp
-    rw [e, Complex.norm_real, Real.norm_eq_abs] at hc
-    exact hc
+    {ctr r : ℚ} (hc : ∀ x : Fin n → ℝ, ‖(c.K (realInclusion n x)).2 i - ((ctr : ℝ) : ℂ)‖ ≤ r)
+    (θ : Fin n → ℝ) : |(realRestriction Kinf θ).2 i - ctr| ≤ r + c.params.disp := by
+  have hc' := abs_realRestriction_K_snd_sub_le hc θ
   have hd := hT.abs_action_sub_le hs θ i
   calc |(realRestriction Kinf θ).2 i - ctr|
       = |((realRestriction Kinf θ).2 i - (realRestriction c.K θ).2 i) +
@@ -185,6 +211,26 @@ theorem CertifiedTorusAt.abs_action_sub_ctr_le {ωstar : Fin n → ℝ}
     _ ≤ _ := abs_add_le _ _
     _ ≤ c.params.disp + r := add_le_add hd hc'
     _ = r + c.params.disp := add_comm _ _
+
+/-- **Checked action bounds on the exact real torus** (strip check): `|k_I(θ)_i - ctr| ≤ r + disp`
+for every real angle `θ`. -/
+theorem CertifiedTorusAt.abs_action_sub_ctr_le {ωstar : Fin n → ℝ}
+    {Kinf : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {sinf : ℝ}
+    (hT : CertifiedTorusAt c ωstar Kinf sinf) (hs : checkStatic c = true) {i : Fin n}
+    {ctr r : ℚ} (h : checkActionRange c i.val ctr r = true) (θ : Fin n → ℝ) :
+    |(realRestriction Kinf θ).2 i - ctr| ≤ r + c.params.disp := by
+  have S := checkStatic_sound hs
+  exact hT.abs_action_sub_ctr_le_of hs (fun x => checkActionRange_sound hs h
+    (realInclusion_mem_complexStrip (S.hρinf.trans S.hρinfρ) x)) θ
+
+/-- **Checked action bounds on the exact real torus** (real-torus check): `|k_I(θ)_i - ctr| ≤
+r + disp` for every real angle `θ`. -/
+theorem CertifiedTorusAt.abs_action_sub_ctr_le_real {ωstar : Fin n → ℝ}
+    {Kinf : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {sinf : ℝ}
+    (hT : CertifiedTorusAt c ωstar Kinf sinf) (hs : checkStatic c = true) {i : Fin n}
+    {ctr r : ℚ} (h : checkActionRangeReal c i.val ctr r = true) (θ : Fin n → ℝ) :
+    |(realRestriction Kinf θ).2 i - ctr| ≤ r + c.params.disp :=
+  hT.abs_action_sub_ctr_le_of hs (checkActionRangeReal_sound hs h) θ
 
 end Action
 

@@ -20,13 +20,14 @@ The graph/embedding adapter at the certificate level (improvement #7).
 * `AngleNearId c δ`: **the checkable numerical condition on the certificate's own embedding** `K`:
   `0 ≤ δ` and, at every real angle `x` and real direction `v`,
   `‖(DK(ι x) (ι v))_θ - ι v‖ ≤ δ ‖v‖`; equivalently, for every row `i`,
-  `Σ_j |∂_j U_i(x)| ≤ δ` where `K_θ(θ) = θ + U(θ)` (`KAM/Application/GraphCheck.lean` checks it
-  with the strip models of `∂_j U_i`).
+  `Σ_j |∂_j U_i(x)| ≤ δ` where `K_θ(θ) = θ + U(θ)` (`KAM/Application/GraphCheck.lean` checks it:
+  `checkAngleGraphReal` at the real points, or the conservative strip `checkAngleGraph`).
 * `derivNearId_torusAngle_realRestriction`: then the angle map `A = (Re K∞ ∘ ι)_θ` of the exact
   torus satisfies `‖DA - 1‖ ≤ δ + d/ρ`.
-* `CertifiedTorusAt.isAngleGraph`, `CertifiedTorus.exists_realGraph`: with the strict margin
-  **`δ + disp/ρ∞ < 1`**, the real certified torus is an analytic graph over the angles
-  (`IsAngleGraph`), on top of being a real model torus (`IsRealModelTorus`).
+* `CertifiedTorusAt.isAngleGraph`, `KAM.Certificate.CertifiedTorus.exists_realGraph` (dot
+  notation `hT.exists_realGraph`; alias `KAM.Application.CertifiedTorus.exists_realGraph`): with
+  the strict margin **`δ + disp/ρ∞ < 1`**, the real certified torus is an analytic graph over the
+  angles (`IsAngleGraph`), on top of being a real model torus (`IsRealModelTorus`).
 -/
 
 @[expose] public noncomputable section
@@ -142,7 +143,7 @@ restriction `k = Re ∘ K∞ ∘ ι` is
   diffeomorphism of `ℝⁿ` commuting with `ℤⁿ`, `‖DA - 1‖ ≤ δ + disp/ρ∞ < 1`,
   `G = torusGraph k` analytic and `ℤⁿ`-periodic, `range k = {z | z.2 = G z.1}`, `k` injective
   modulo `ℤⁿ` and an immersion. -/
-theorem CertifiedTorus.exists_realGraph (hT : CertifiedTorus c ωstar)
+theorem _root_.KAM.Certificate.CertifiedTorus.exists_realGraph (hT : CertifiedTorus c ωstar)
     (hs : checkStatic c = true) (hH : IsRealHolo c.D c.H) {δ : ℝ} (hδ : AngleNearId c δ)
     (hsmall : δ + (c.params.disp : ℝ) / c.params.rhoInf < 1) :
     ∃ (Kinf : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (sinf : ℝ),
@@ -151,5 +152,8 @@ theorem CertifiedTorus.exists_realGraph (hT : CertifiedTorus c ωstar)
       IsAngleGraph (realRestriction Kinf) (δ + (c.params.disp : ℝ) / c.params.rhoInf) := by
   obtain ⟨Kinf, sinf, hT⟩ := (certifiedTorus_iff c ωstar).1 hT
   exact ⟨Kinf, sinf, hT, hT.isRealModelTorus hs hH, hT.isAngleGraph hs hδ hsmall⟩
+
+/-- Alias in the adapter namespace (the name announced with `V2-ADAPT GRAPH READY`). -/
+alias CertifiedTorus.exists_realGraph := KAM.Certificate.CertifiedTorus.exists_realGraph
 
 end KAM.Application

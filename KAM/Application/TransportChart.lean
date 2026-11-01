@@ -49,8 +49,8 @@ theorem isFieldTransport_of_isChart {c a : ℝ} (hc : 0 < c) (ha : a ≠ 0)
     hamiltonianVectorField_const_mul (mul_ne_zero ha hc.ne'), map_smul, chart_field hc hΨ H hp]
 
 /-- The chart's derivative is injective on `O` (for `injective_fderiv_comp`). -/
-theorem IsChart.injective_fderiv {c : ℝ} (hc : 0 < c) {Ψ : Phase d → Phase d}
-    {O : Set (Phase d)} (hΨ : IsChart c Ψ O) {p : Phase d} (hp : p ∈ O) :
+theorem _root_.KAM.Planetary.IsChart.injective_fderiv {c : ℝ} (hc : 0 < c)
+    {Ψ : Phase d → Phase d} {O : Set (Phase d)} (hΨ : IsChart c Ψ O) {p : Phase d} (hp : p ∈ O) :
     Function.Injective (fderiv ℝ Ψ p) :=
   (hΨ.bijective_fderiv hc hp).1
 
