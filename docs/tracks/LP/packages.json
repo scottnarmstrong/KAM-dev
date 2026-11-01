@@ -257,6 +257,15 @@
     "KAM/Planetary/Spatial/SpatialSafety.lean"
    ],
    "source": "MAIN T19: spatial theorem (LP2)"
+  },
+  {
+   "id": "LP-SP-SRC",
+   "wave": 4,
+   "weight": 0.4,
+   "modules": [
+    "KAM/Planetary/Spatial/SourceCarrier.lean"
+   ],
+   "source": "OD-11 (b) spatial source carriers (audit W4A N1)"
   }
  ]
 }
