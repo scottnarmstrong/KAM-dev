@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-01 14:53 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.6 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 68 / 72 · **505,291 lines of hand-written Lean** of an estimated ≈ 507,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-01 14:55 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.6 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 68 / 72 · **505,291 lines of hand-written Lean** of an estimated ≈ 507,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -350,7 +350,7 @@ Overall, everything together: 97.0 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 14:53 UTC from `main` at `7b7578bf` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 14:55 UTC from `main` at `3b2e192b` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -560,13 +560,13 @@ account read from each agent's running process) and their branches. Rules for ag
 | **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
-| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | 🔄 working | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
+| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-5 | 🔄 proving | last commit: LOCK-DATA: Pass.HamBounds/HamClaim from the kernel-checked jet, ball pass and HamOk (HamBr | `inp-lockdata` | 57 (vs `inp`) |
 | **LOCK-FREEZE** `inp-mprov-lockfreeze` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-FREEZE Phase B prep: frozen<->landed bridges and providers for lunarSyncOrbit_{spec,u | `inp-lockfreeze` | 1 (vs `inp`) |
-| **lp** `inp-mprov-lp` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP progress: D64 sealed, audit PASS, landing requested; graph waves 1-3 done | `inp-lp` | 12 (vs `inp`) |
+| **lp** `inp-mprov-lp` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP: LP3 frozen and sealed on main (61c6d5a7, D64); all LP statements sealed | `inp-lp` | 13 (vs `inp`) |
 | **lp-freeze7** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP-FREEZE7R: handoff (parts A-C; superseded by LP-FREEZE-EXEC) | `inp-lp-freeze7` | 1 (vs `inp`) |
 | **lp-fz7r-audit** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP: draft-7 r1 delta statement audit 2 (codex-2): PASS WITH NOTES (BLOCKING 0; R1-R3 small | `inp-lp-fz7r-audit` | 1 (vs `inp`) |
-| **lp-graph** `inp-mprov-lp-graph` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP graph step B (D65, D27): d-generic pair rule (lpM:L1#velocity, lpM:L2, lpM:L5 PROVED wi | `inp-lp-graph` | 17 (vs `inp`) |
+| **lp-graph** `inp-mprov-lp-graph` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: Merge branch 'inp' into inp-lp-graph | `inp-lp-graph` | 17 (vs `inp`) |
 | **lp-providers** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP-FREEZE7R part B: stage the 39 draft-7 r1 providers (quarantined; not in roots), staging | `inp-lp-providers` | 1 (vs `inp`) |
 <!-- /AUTO:workers -->
 
@@ -575,6 +575,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-01 14:55 | `3b2e192b` | README: LP3 frozen and sealed (D64); item 9 links the frozen anchors |
 | 2026-11-01 14:53 | `f6ca357c` | D66: owner approves the magnetic field-line barrier pilot at eps = 0.0012 |
 | 2026-11-01 14:49 | `61c6d5a7` | Land inp into main |
 | 2026-11-01 14:22 | `6491a128` | D65: streamlined dependency graph for fully proved tracks (LP) |
@@ -586,7 +587,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-01 13:46 | `f6301ad5` | Merge remote-tracking branch 'origin/main' |
 | 2026-11-01 13:43 | `9643461e` | Overnight log: LP frozen and sealed on main, W resolved, SO-3 relaunched, README |
 | 2026-11-01 13:41 | `fbe400d6` | HQ: find track LP's frozen anchors by path (ids are planetary.d59.*, not lp.*) |
-| 2026-11-01 13:41 | `97ce2c58` | README: track LP frozen and sealed (D62, main f46b94fb); item 8 links the frozen anchors |
 <!-- /AUTO:landed -->
 
 ## Decisions
