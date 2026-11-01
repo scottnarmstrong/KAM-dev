@@ -656,6 +656,12 @@ public import KAM.Planetary.Spatial.Chart.LineDeriv
 public import KAM.Planetary.Spatial.Chart.RotAlgebra
 public import KAM.Planetary.Spatial.Chart.Symplectic
 public import KAM.Planetary.Spatial.Chart
+public import KAM.Planetary.Spatial.ChartLift.Lift
+public import KAM.Planetary.Spatial.ChartLift.Premises
+public import KAM.Planetary.Spatial.ChartLift.Setting
+public import KAM.Planetary.Spatial.ChartLift.Stopped
+public import KAM.Planetary.Spatial.ChartLift.Uniform
+public import KAM.Planetary.Spatial.ChartLift
 public import KAM.Planetary.Spatial.ComplexTube
 public import KAM.Planetary.Spatial.Confinement
 public import KAM.Planetary.Spatial.Continuation
