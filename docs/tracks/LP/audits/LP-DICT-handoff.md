@@ -20,8 +20,8 @@ Part A (`PlanarDictionary`), premises `hν : ∀ i, 0 < ν i`, `hw : w ∈ poinc
   `lpChart_momentum : planeCross … = fast w.2 i - lpGamma w i`; `lpChart_eccVector : keplerEccVector ν (Ψ w) i = poincareV (planetBlock w i)`;
   `lpChart_eccSq : planeSq (keplerEccVector …) = 1 - (1 - lpGamma w i / fast w.2 i)^2`; `lpChart_eccentricity_sq` (same for `planeLength ^ 2`);
   `lpChart_eccVector_xy` (`slow w.1 i = x`, `slow w.2 i = -y` ⇒ eccVector `= ![b_e x, -(b_e y)]`, `b_e = lpEccScale`) (item 2)
-- `lpLiteralAMD ν z := (∑ i, keplerAction ν z i) - |totalMomentum z|`; `lpLiteralAMD_eq_physicalAMD` (prograde);
-  `lpChart_physicalAMD`, `lpChart_literalAMD : lpLiteralAMD ν (Ψ w) = chartAMD w` (item 3)
+- `lpChart_physicalAMD`, `lpChart_strongAMD : strongAMD ν (poincareProd ν 1 w) = chartAMD w` (item 3; `strongAMD` from LP-MOM
+  `Momentum.lean`, via `strongAMD_eq_physicalAMD`; the earlier duplicate `lpLiteralAMD` was deleted)
 - `lpChart_hamiltonian`, `lpChart_symplectic`, `lpChart_analytic`, `lpChart_periodic`, `lpChart_inverse`
   (preimage unique mod `fastShift k`), `lpChart_localDiffeo` (item 4)
 
@@ -49,18 +49,19 @@ Part B:
   trace identity usable along the orbit; it is for L14 (first exit) to supply.
 - Item 9's `hx` of `nonresonant` is derived from the stopped premise at `u = 0`.
 
-## Checks
+## Checks (after merging `inp-lp-bar1`; `KAM/Root/Planetary.lean` conflict resolved by regenerating)
+- Rebuilt in order: Orbital, Momentum, Reflection, Threshold (+ parts), PlanarDictionary, NonresonantAdapterRescale, NonresonantAdapter: all built.
 - `lp_build.sh … PlanarDictionary NonresonantAdapterRescale NonresonantAdapter`: all three `✔ Built`, no warning from the new files.
 - `lp_lint.sh`: exit 0 (`check_lean_modules: PASS`, `FROZEN-ANCHOR GUARD OK`, `ABI HASHES OK`).
 - `main_shortname_check.py` on the three modules: `short-name check OK`, exit 0.
-- `#print axioms` (scratch `.drafts/axioms_lpdict.lean`, via `lp_lean.sh`): all 24 main declarations depend only on
+- `#print axioms` (scratch `.drafts/axioms_lpdict.lean`, via `lp_lean.sh`): all 23 main declarations depend only on
   `propext, Classical.choice, Quot.sound`.
 
 ## AUDIT FOCUS
 - `lpRescaleFun`/`lpUnrescaleFun` slot order against `fastAction`/`slowPair`/`realWfield` (the six components of `lpRescale_field`).
 - `lpEccScale` and the sign statement `lpChart_eccVector_xy` (`(ξ, η) = (x, −y)`).
 - Item 9 premise list: the trace identity and the `realDom` membership on `J`; the `H` of the engine is `liftFast h + f`.
-- `lpLiteralAMD` uses `|totalMomentum|` literally; equals `physicalAMD` only on the prograde region (`lpLiteralAMD_eq_physicalAMD`).
+- `lpChart_strongAMD` discharges `0 ≤ totalMomentum` from `ProgradeElliptic` of the chart image.
 
 ## Source defects / deviations / design signals
 - No source defect found in MAIN L7 or L13 for the checked statements.

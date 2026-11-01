@@ -10,6 +10,7 @@ public import KAM.Frozen.Planetary.Defs.KeplerEccVector
 public import KAM.Frozen.Planetary.Defs.PhysicalAMD
 public import KAM.Planetary.Exponential.Dictionary
 public import KAM.Planetary.Poincare.Product
+public import KAM.Planetary.StrongAMD.Momentum
 
 /-!
 # The planar chart dictionary (package LP-DICT, Part A)
@@ -28,7 +29,7 @@ here restates facts of `Poincare/*` and `Exponential/Dictionary.lean` in MAIN's 
 * the per-planet dictionary: action `I = Λ`, energy `−ν³/(2 I²)`, momentum `L = I − Γ`, the
   eccentricity vector `keplerEccVector = poincareV`, `e² = 1 − (1 − Γ/I)²`, and MAIN's
   `(k, l) = b_e (x, −y)` (`lpChart_eccVector_xy`);
-* the AMD `C = (∑ I_i) − |L|` of MAIN (2), written literally, equals `chartAMD w`;
+* the AMD `C = (∑ I_i) − |L|` of MAIN (2) (`strongAMD`, LP-MOM) equals `chartAMD w`;
 * one-line corollaries: Hamiltonian identity, symplecticity, analyticity, periodicity, inverse.
 -/
 
@@ -46,11 +47,6 @@ def lpEccScale (I Γ : ℝ) : ℝ := √((1 - Γ / (2 * I)) / I)
 
 /-- The oscillator action `Γ_i = (ξ_i² + η_i²)/2` of the `i`-th planet in chart coordinates. -/
 def lpGamma (w : Phase (n + n)) (i : Fin n) : ℝ := ((slow w.1 i) ^ 2 + (slow w.2 i) ^ 2) / 2
-
-/-- MAIN's AMD `C = (∑ I_i) − |L|`, written literally in the physical variables
-(`LP:MAIN L7`, §1 (2)); package LP-MOM names it `strongAMD`. -/
-def lpLiteralAMD (ν : Fin n → ℝ) (z : Phase (n * 2)) : ℝ :=
-  (∑ i, keplerAction ν z i) - |totalMomentum z|
 
 /-! ### Region -/
 
@@ -150,27 +146,19 @@ theorem lpChart_eccVector_xy {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {w : P
 
 /-! ### AMD in the chart -/
 
-/-- The total angular momentum of the chart image is nonnegative (each planet is prograde). -/
-theorem lpTotalMomentum_nonneg {ν : Fin n → ℝ} {z : Phase (n * 2)} (hz : ProgradeElliptic ν z) :
-    0 ≤ totalMomentum z :=
-  Finset.sum_nonneg fun i _ => (hz i).2.2.2.le
-
-/-- On the prograde region MAIN's `C = ∑ I_i − |L|` is the signed `physicalAMD`. -/
-theorem lpLiteralAMD_eq_physicalAMD {ν : Fin n → ℝ} {z : Phase (n * 2)}
-    (hz : ProgradeElliptic ν z) : lpLiteralAMD ν z = physicalAMD ν z := by
-  unfold lpLiteralAMD physicalAMD
-  rw [abs_of_nonneg (lpTotalMomentum_nonneg hz)]
-
 /-- (LP:MAIN L7 (200)) The physical AMD of the chart image is the chart AMD (exists in track P). -/
 theorem lpChart_physicalAMD {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {w : Phase (n + n)}
     (hw : w ∈ poincareProdDom n) : physicalAMD ν (poincareProd ν 1 w) = chartAMD w :=
   (sec_domain_chart_facts hν hw).2.2
 
-/-- (LP:MAIN L7 (200), §1 (2)) MAIN's literal `C = ∑ I_i − |L|` of the chart image is `chartAMD w`,
-i.e. `∑ (x_i² + y_i²)/2`. -/
-theorem lpChart_literalAMD {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {w : Phase (n + n)}
-    (hw : w ∈ poincareProdDom n) : lpLiteralAMD ν (poincareProd ν 1 w) = chartAMD w := by
-  rw [lpLiteralAMD_eq_physicalAMD ((sec_domain_chart_facts hν hw).1), lpChart_physicalAMD hν hw]
+/-- (LP:MAIN L7 (200), §1 (2)) MAIN's `C = ∑ I_i − |L|` (`strongAMD`, package LP-MOM) of the chart
+image is `chartAMD w`, i.e. `∑ (x_i² + y_i²)/2`. -/
+theorem lpChart_strongAMD {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {w : Phase (n + n)}
+    (hw : w ∈ poincareProdDom n) : strongAMD ν (poincareProd ν 1 w) = chartAMD w := by
+  have hpro := (sec_domain_chart_facts hν hw).1
+  have hL : 0 ≤ totalMomentum (poincareProd ν 1 w) :=
+    Finset.sum_nonneg fun i _ => (hpro i).2.2.2.le
+  rw [strongAMD_eq_physicalAMD hL, lpChart_physicalAMD hν hw]
 
 /-- The chart AMD is the sum of the oscillator actions `Γ_i`. -/
 theorem chartAMD_eq_sum_lpGamma (w : Phase (n + n)) : chartAMD w = ∑ i, lpGamma w i := rfl
