@@ -1,1 +1,95 @@
-% placeholder: spatial
+\section{The spatial problem}\label{sec:spatial}
+
+In space we need a chart regular at coplanar orbits whose slow variables measure the deficit against a fixed
+plane; that plane is aligned with $L$ only along the actual solution. There are $n$ fast angles and $2n$ slow pairs.
+
+\subsection{A regular spatial chart}
+
+Fix a unit vector $\mathbf N\in\R^3$ and coordinates in which $\mathbf N=(0,0,1)$. For one planet with parameter
+$\nu>0$ the chart has variables $(\Lambda,\lambda,x,y,u,v)$, with $\lambda\in\T$ and
+\begin{equation}\label{eq:spcarrier}
+  \Lambda>\Gamma+Z,\qquad \Gamma=\tfrac12(x^2+y^2),\qquad Z=\tfrac12(u^2+v^2).
+\end{equation}
+Let $(Q,P)$ be the planar chart of Lemma~\ref{lem:chart} at $(\Lambda,\lambda,x,y)$, embedded in the first two
+coordinate directions, and put
+\begin{equation}\label{eq:sprot}
+  t=\frac{(u,-v,0)}{2\sqrt{\Lambda-\Gamma}},\qquad c_t=\sqrt{1-\abs t^2},\qquad
+  R=(1-2\abs t^2)\,\mathrm{Id}+2\,tt^{\mathsf T}+2c_t\,[t]_\times,\qquad (q,p)=(RQ,RP),
+\end{equation}
+where $[t]_\times w=t\times w$; as $\abs t^2=Z/(2(\Lambda-\Gamma))<\nf12$, the roots are positive and analytic.
+
+\begin{lemma}[Regular spatial Poincar\'e chart]\label{lem:spchart}
+For every $\nu>0$, \eqref{eq:spcarrier}--\eqref{eq:sprot} define a real analytic diffeomorphism, with $\lambda$
+read modulo $2\pi$, onto the states $(q,p)\in\R^3\times\R^3$ with negative energy and $(q\times p)\cdot\mathbf N>0$.
+It carries $dp\wedge dq$ to $d\Lambda\wedge d\lambda+dx\wedge dy+du\wedge dv$, it is regular at circular and at
+coplanar orbits, and
+\begin{equation}\label{eq:spelements}
+  \frac{\abs p^2}{2\nu}-\frac{\nu}{\abs q}=-\frac{\nu^3}{2\Lambda^2},\qquad
+  \abs{q\times p}=\Lambda-\Gamma,\qquad (q\times p)\cdot\mathbf N=\Lambda-\Gamma-Z.
+\end{equation}
+For $n$ planets, the fixed-plane deficit of the product chart is
+\begin{equation}\label{eq:fixeddeficit}
+  C_{\mathbf N}=\sum_i\Lambda_i-L\cdot\mathbf N=\tfrac12\sum_i\bigl(x_i^2+y_i^2+u_i^2+v_i^2\bigr).
+\end{equation}
+\end{lemma}
+
+\begin{proof}[Sketch]
+One checks $R\in SO(3)$ from $[t]_\times^2=tt^{\mathsf T}-\abs t^2\mathrm{Id}$, and $R\mathbf N$ has third component
+$1-Z/(\Lambda-\Gamma)$. As $Q\times P=(\Lambda-\Gamma)\mathbf N$ (Lemma~\ref{lem:chart}), $q\times p=(\Lambda-\Gamma)
+R\mathbf N$; this gives \eqref{eq:spelements}, and summing over the planets gives \eqref{eq:fixeddeficit}. Where
+the eccentricity and $Z$ are positive, write $(x,y)=\sqrt{2\Gamma}(\cos\varpi,-\sin\varpi)$ and
+$(u,v)=\sqrt{2Z}(\cos\Omega,-\sin\Omega)$; then $R$ is a rotation about the line of nodes conjugated by the rotation
+by $\Omega$ about $\mathbf N$. A varying rotation adds $(q\times p)\cdot\boldsymbol\theta$ to $p\cdot dq$, where
+$\boldsymbol\theta$ is the infinitesimal rotation vector, and the line of nodes is orthogonal to $q\times p$, so
+$p\cdot dq=\Lambda\,d\lambda+\Gamma\,d(-\varpi)+Z\,d(-\Omega)+d(\cdot)$, with
+$\Gamma\,d(-\varpi)=\frac12(x\,dy-y\,dx)$ and $Z\,d(-\Omega)=\frac12(u\,dv-v\,du)$. This gives the form on a dense
+set, and analyticity extends it. The inverse is explicit: $q\times p$ determines $\Lambda-\Gamma$, $u$, $v$, hence
+$R$, and Lemma~\ref{lem:chart} inverts the planar part \cite{KAMnotes}.
+\end{proof}
+
+\subsection{The spatial domain}
+
+\begin{lemma}[Spatial domain]\label{lem:spdomain}
+Lemma~\ref{lem:domain} holds in space, for the product of the charts of Lemma~\ref{lem:spchart}, with $2n$ slow
+pairs $z=(x_i,y_i,u_i,v_i)_i\in\R^{4n}$ and the whole ball
+\begin{equation}\label{eq:spball}
+  \mathcal Z_0(\Lambda^0)=\bigl\{z\in\R^{4n}:\tfrac12\abs z^2\le B(\Lambda^0)-\delta/4\bigr\};
+\end{equation}
+its constants do not depend on $\mathbf N$. Every state allowed by \eqref{eq:hyp} lies in this domain once
+$\mathbf N$ is aligned with its total angular momentum.
+\end{lemma}
+
+\begin{proof}
+For a real point of \eqref{eq:spball} and a real $\Lambda$ with $\nrm{\Lambda-\Lambda^0}\le4r_g$, using
+$\Omega_B(4r_g)\le\delta/16$ and $B\le\Bst$,
+\[
+  \Gamma_i+Z_i\le\tfrac12\abs z^2\le B(\Lambda^0)-\delta/4\le B(\Lambda)-3\delta/16\le\Lambda_i-3\delta/16 .
+\]
+Hence $\Lambda_i-\Gamma_i$, $L_i\cdot\mathbf N\ge3\delta/16$ and $\abs{t_i}^2<\nf12$ with fixed margins. Moreover
+$\Lambda_i\Dfn(e_i)=\Lambda_i-\abs{L_i}\le\Lambda_i-L_i\cdot\mathbf N$, so by \eqref{eq:fixeddeficit}
+$\sum_i\Lambda_i\Dfn(e_i)\le C_{\mathbf N}=\frac12\abs z^2\le B(\Lambda)-3\delta/16$. Thus Lemma~\ref{lem:uniform}
+applies, with $m=3\delta/16$, at every point of the ball, also where $L$ is not parallel to $\mathbf N$: alignment is
+not a restriction on the analytic domain. The rest of the proof of Lemma~\ref{lem:domain} applies verbatim in $6n$
+coordinates (compactness, holomorphic extension of \eqref{eq:sprot} and Lemma~\ref{lem:chart} with these margins,
+gluing, and the bilinear denominators $(q_i-q_j)\cdot(q_i-q_j)$). Scalar products and potentials are invariant under
+a simultaneous rotation of all positions and momenta, so the constants do not depend on $\mathbf N$.
+
+For a state allowed by \eqref{eq:hyp}, $L\ne0$ by Lemma~\ref{lem:amd}. Fix $\mathcal R\in SO(3)$ with
+$\mathcal RL=\abs L\mathbf N$; the map $(q,p)\mapsto(\mathcal Rq,\mathcal Rp)$ is symplectic and preserves
+$H_\mu$ and all elements, and one rotation is used per solution. Along the solution $L$ is conserved, so
+$C_{\mathbf N}=C$, and $L_i\cdot\mathbf N>0$ by Lemma~\ref{lem:amd} while $C<\Bst(\Lambda)$.
+\end{proof}
+
+\subsection{Proofs of Theorem~\ref{thm:spatial} and Corollary~\ref{cor:half}}
+
+\begin{proof}[Proof of Theorem~\ref{thm:spatial}]
+After the rotation of Lemma~\ref{lem:spdomain}, the product chart is symplectic, $H_\mu=h+\mu f$, and
+$\frac12\abs z^2=C$ along the solution. Lemmas~\ref{lem:fourier}--\ref{lem:scaling} hold verbatim with $n_s=2n$,
+which changes only constants, not exponents; all small divisors are $k\cdot\omega(\Lambda^0)$, $k\in\Z^n$.
+Lemmas~\ref{lem:exit}, \ref{lem:uniform} (dimension-free), \ref{lem:osc} and~\ref{lem:normalization} give all
+conclusions, and undoing the rotation changes no inequality.
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:half}]
+$\tau=n-\nf12>n-1$ is admissible in Theorems~\ref{thm:planar} and~\ref{thm:spatial}, and $2(\tau+1)=2n+1$.
+\end{proof}

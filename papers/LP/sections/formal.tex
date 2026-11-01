@@ -1,1 +1,119 @@
-% placeholder: formal
+\section{Formal verification}\label{app:formal}
+
+Theorems~\ref{thm:barrier}--\ref{thm:spatial} and Corollary~\ref{cor:half} are formally verified in Lean~4
+\cite{Lean4} (version 4.35.0) with the Mathlib library \cite{Mathlib}, in the repository \cite{KAMrepo} at
+commit \texttt{a994efdf}. The formal proof of Theorem~\ref{thm:resonant} is in preparation in the same
+repository. This appendix records what the formal proofs establish, what they do not, and where the statements
+are.
+
+\subsection{What is verified and what is not}
+
+The Lean statements are written in the model of Section~\ref{sec:results}: the exact Hamiltonian \eqref{eq:H}
+in heliocentric positions and scaled canonical momenta, the Kepler energies, axes, actions and eccentricity
+vectors computed from $(q,p)$, the AMD $C=\sum_i\Lambda_i-\abs L$, and the thresholds \eqref{eq:thresholds}
+defined as minima over the action chamber. The conclusions include the existence and uniqueness of the solution
+of Hamilton's equations on $[-T,T]$, and the fact that its barycentric reconstruction solves Newton's equations
+with masses $(1,\mu\nu_1,\dots,\mu\nu_n)$. All constants are quantified before $\mu$ and the initial state,
+exactly as in the paper. The general theorems do not assume $\max_i\nu_i=1$; the normalized forms are
+corollaries.
+
+Lean checks that each stated conclusion follows from the stated hypotheses and the definitions, using Mathlib
+and the axioms listed below. It does not check:
+\begin{itemize}
+\item that the Lean definitions express the intended physical and mathematical notions (heliocentric
+  canonical coordinates, the Kepler elements, the AMD, the thresholds, the osculating elements). This was
+  argued by comparing every definition and statement with the mathematical text, in reviews by readers other
+  than the writers of the formal proofs;
+\item the identification of $B_{ij}$ with the critical AMD of Laskar and Petit (Lemma~\ref{lem:threshold}),
+  which is not formalized;
+\item the proofs of Lemmas~\ref{lem:fourier}--\ref{lem:scaling}: the formal proofs of
+  Theorems~\ref{thm:planar} and~\ref{thm:spatial} use instead the finite-cutoff normal form already available in
+  the library (Remark~\ref{rem:engine});
+\item the literature citations and the prose of this paper.
+\end{itemize}
+Proposition~\ref{thm:partialnek}, the input of Theorem~\ref{thm:resonant}, is itself formally proved in the same
+library; its statement was fixed in advance, with \cite[Theorem~4.4]{Nek77} as its source. The file
+containing that proof, at commit \texttt{a994efdf}, contains no \texttt{sorry}; the formal proof of
+Theorem~\ref{thm:resonant} depends on it.
+
+\subsection{Statements}
+
+Table~\ref{tab:lean-main} lists the formal statements of the main results. Names in the planar files are in the
+namespace \texttt{KAM.Planetary.StrongAMD}, names in the spatial files in \texttt{KAM.Planetary.Spatial}, and
+the name of Proposition~\ref{thm:partialnek} in \texttt{KAM.Nekhoroshev}. Paths are relative to
+\texttt{KAM/Planetary/} except for the last row.
+
+\begin{table}[ht]
+\centering\small
+\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{13.4cm}@{}}
+\toprule
+Result & Lean declaration (file and line)\\
+\midrule
+Thm.~\ref{thm:barrier} & \texttt{lp0\_planar\_barrier} (\texttt{StrongAMD/PlanarSafety/Main.lean:255})\\
+\quad spatial & \texttt{spatialStrongBarrier\_physical}, \texttt{exists\_spatialBarrierCompact}
+  (\texttt{Spatial/Geometry.lean:83, 252})\\
+Thm.~\ref{thm:planar} & \texttt{lp1\_planar\_strongAMD\_safety}, \texttt{lp1\_planar\_strongAMD\_safety\_normalized}
+  (\texttt{StrongAMD/PlanarSafety/Main.lean:44, 137})\\
+Thm.~\ref{thm:spatial} & \texttt{lp2\_spatial\_strongAMD\_safety}, \texttt{lp2\_spatial\_strongAMD\_safety\_normalized}
+  (\texttt{Spatial/SpatialSafety/Main.lean:43, 153})\\
+Cor.~\ref{cor:half} & \texttt{lp1\_planar\_strongAMD\_safety\_halfInteger}
+  (\texttt{StrongAMD/PlanarSafety/Main.lean:190}), \texttt{lp2\_spatial\_strongAMD\_safety\_halfInteger}
+  (\texttt{Spatial/SpatialSafety/Main.lean:210})\\
+Thm.~\ref{thm:resonant} & \texttt{lp3\_planar\_strongAMD\_safety}, \texttt{lp3\_spatial\_strongAMD\_safety}, and
+  their normalized forms (in preparation)\\
+Prop.~\ref{thm:partialnek} & \texttt{partialConvex\_nekhoroshev}
+  (\texttt{KAM/Frozen/Nekhoroshev/Theorems/PartialConvexNekhoroshev.lean:48})\\
+\bottomrule
+\end{tabular}
+\caption{Formal statements of the main results, at commit \texttt{a994efdf}.}\label{tab:lean-main}
+\end{table}
+
+Several lemmas have formal counterparts that can be read independently; Table~\ref{tab:lean-lemmas} lists the
+principal ones. They formalize the content of the lemma, sometimes split differently.
+
+\begin{table}[ht]
+\centering\small
+\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{14.4cm}@{}}
+\toprule
+Lemma & Lean declarations (file and line)\\
+\midrule
+\ref{lem:threshold} & \texttt{exists\_pairThreshold\_attained} (\texttt{StrongAMD/Threshold/Pair.lean:97}),
+  \texttt{continuousOn\_strongThreshold} (\texttt{StrongAMD/Threshold/Strong.lean:120})\\
+\ref{lem:moving} & \texttt{strongAMD\_le\_of\_tube}, \texttt{maximal\_global\_of\_barrier}
+  (\texttt{StrongAMD/Continuation.lean:43, 72})\\
+\ref{lem:chart} & \texttt{KAM.Planetary.poincare\_symplectic} (\texttt{Poincare/Symplectic.lean:642}),
+  \texttt{KAM.Planetary.poincare\_image} (\texttt{Poincare/Bijective.lean:320}),
+  \texttt{lpChart\_strongAMD} (\texttt{StrongAMD/PlanarDictionary.lean:156})\\
+\ref{lem:domain} & \texttt{lemma8\_complete} (\texttt{StrongAMD/AnalyticDomain/Bounds.lean:185})\\
+\ref{lem:exit} & \texttt{strongFirstExit\_of\_stopped\_drift} (\texttt{StrongAMD/Confinement.lean:170})\\
+\ref{lem:osc} & \texttt{osculating\_barrier} (\texttt{StrongAMD/Osculating.lean:268})\\
+\ref{lem:spchart} & \texttt{spatialPoincare\_image} (\texttt{Spatial/Chart/Image.lean:180}),
+  \texttt{spatialPoincare\_symplectic} (\texttt{Spatial/Chart/Symplectic.lean:256}),
+  \texttt{spatialFixedPlaneDeficit\_spatialPoincareProd} (\texttt{Spatial/Product/Deficit.lean:110})\\
+\ref{lem:spdomain} & \texttt{lemma18\_complete} (\texttt{Spatial/AnalyticDomain/Bounds.lean:191})\\
+\bottomrule
+\end{tabular}
+\caption{Formal counterparts of lemmas, at commit \texttt{a994efdf}.}\label{tab:lean-lemmas}
+\end{table}
+
+\subsection{Axioms and status}
+
+As reported by the project's build checks at commit \texttt{a994efdf}, the declarations of
+Table~\ref{tab:lean-main} for Theorems~\ref{thm:barrier}--\ref{thm:spatial} and Corollary~\ref{cor:half}
+depend only on the axioms \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}, the standard
+axioms of Lean and Mathlib; in particular they use no \texttt{sorry}. The same is reported for the development
+version of the formal proof of Theorem~\ref{thm:resonant}.
+
+Theorems~\ref{thm:barrier}--\ref{thm:spatial} and Corollary~\ref{cor:half} are proved, and their formal
+statements and proofs have been independently reviewed. Theorem~\ref{thm:resonant} is proved on a development
+version; its independent review is in progress. The exact statement texts of all results are under final
+review.
+
+\subsection{Use of AI and formal tools}
+
+% FOR OWNER: confirm wording
+The proofs in this paper, their Lean formalization and a first draft of the text were developed with
+substantial use of large language model systems, working under the direction of the authors. Every formal proof
+was checked by the Lean kernel. Statements, proofs and the correspondence between the paper and the formal
+statements were reviewed by independent model-based audits and by the authors. The authors take full
+responsibility for the content of the paper.

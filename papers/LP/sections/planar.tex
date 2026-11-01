@@ -1,1 +1,228 @@
-% placeholder: planar
+\section{The planar theorem}
+\label{sec:planar}
+
+By Section~\ref{sec:barrier}, Theorem~\ref{thm:planar} reduces to the actions: if $\Lambda(t)$ stays within $O(\sqrt\mu)$ of $\Lambda^0$ for $\abs t\le T_\mu$, then \eqref{eq:moving} keeps the AMD $\delta/2$ below the moving threshold, and Lemma~\ref{lem:uniform} gives every separation. We control the actions by averaging over the fast angles, with three features.
+
+First, we average about the \emph{linear} Hamiltonian $h_0=h(\Lambda^0)+\omega(\Lambda^0)\cdot(\Lambda-\Lambda^0)$ with the initial Kepler frequencies; the Kepler nonlinearity $h-h_0$ is part of the perturbation on an action tube of radius $r$. Its vector field has size $r$, that of $\mu f$ has size $\mu/r$ in the action directions, and $r=\sqrt\mu$ balances the two. Second, the secular variables $z=(x_i,y_i)_i$ are carried along as canonical variables, with no assumption on their dynamics; the averaged Hamiltonian is never analysed. Third, the slow domain is the entire ball of secular states allowed by the AMD margin; all its configurations are collision free with a fixed margin, so it is one analytic domain with fixed complex widths. Since the AMD equals $\nf12\abs z^2$, the orbit cannot leave the ball before its actions drift or its margin is lost, and a first-exit argument closes the bootstrap.
+
+\subsection{The chart and its analytic domain}
+
+We use the regular Poincaré variables. For one body with parameter $\nu>0$, given $\Lambda>0$ and $(x,y)\in\R^2$ with $\Gamma=(x^2+y^2)/2<\Lambda$, put
+\[
+a=(\Lambda/\nu)^2,\qquad \beta=1-\frac{\Gamma}{\Lambda},\qquad \varrho=\sqrt{\frac{1-\Gamma/(2\Lambda)}{\Lambda}},\qquad k=\varrho x,\qquad l=-\varrho y,
+\]
+so that $k^2+l^2=1-\beta^2<1$. For $\lambda\in\R$ the eccentric longitude $F$ is the unique solution of
+\begin{equation}
+\label{eq:kepeq}
+F-k\sin F+l\cos F=\lambda,
+\end{equation}
+and with $c(F)=(\cos F,\sin F)$, $c'(F)=(-\sin F,\cos F)$ and $D_F=1-k\cos F-l\sin F$ we set
+\begin{equation}
+\label{eq:chartmap}
+\mathbf M=\begin{pmatrix}1-\frac{l^2}{1+\beta}&\frac{kl}{1+\beta}\\[2pt] \frac{kl}{1+\beta}&1-\frac{k^2}{1+\beta}\end{pmatrix},\qquad
+q=a\big(\mathbf Mc(F)-(k,l)\big),\qquad p=\frac{\nu}{\sqrt a}\,\frac{\mathbf Mc'(F)}{D_F}.
+\end{equation}
+
+\begin{lemma}[Regular planar chart]
+\label{lem:chart}
+For every $\nu>0$, the map $(\Lambda,\lambda,x,y)\mapsto(q,p)$ of \eqref{eq:kepeq}--\eqref{eq:chartmap}, with $\lambda$ read modulo $2\pi$, is a real analytic diffeomorphism from $\{\Lambda>0,\ \lambda\in\T,\ (x,y)\in\R^2,\ \Gamma<\Lambda\}$ onto the planar states with $q\ne0$, $E<0$ and $q\times p>0$. It carries $dp\wedge dq$ to $d\Lambda\wedge d\lambda+dx\wedge dy$; in it the Kepler energy $\abs p^2/(2\nu)-\nu/\abs q$ is $-\nu^3/(2\Lambda^2)$, the angular momentum is $\Lambda-\Gamma$, and the eccentricity vector is $(k,l)$. It is regular at circular orbits.
+\end{lemma}
+
+\begin{proof}[Sketch]
+The left side of \eqref{eq:kepeq} has derivative $D_F\ge1-\sqrt{k^2+l^2}>0$ and increases by $2\pi$ per period, so $F$ exists, is unique and is analytic. Where $e=\sqrt{k^2+l^2}>0$, write $(k,l)=e(\cos\varpi,\sin\varpi)$ and $F=\psi+\varpi$. In the frame rotated by $\varpi$, \eqref{eq:chartmap} is the classical parametrization by the eccentric anomaly $\psi$, with $\beta=\sqrt{1-e^2}$; it gives the energy, the angular momentum $G=\Lambda\beta=\Lambda-\Gamma$ and the eccentricity vector, also at $e=0$ by continuity. With $\ell=\psi-e\sin\psi$, so that $\lambda=\ell+\varpi$, differentiation and the contribution $G\,d\varpi$ of the rotation give
+\[
+p\cdot dq=\Lambda\,d\ell+G\,d\varpi+d(2\Lambda e\sin\psi)=\Lambda\,d\lambda+\tfrac12(x\,dy-y\,dx)+d(2\Lambda e\sin\psi),
+\]
+because $(x,y)=\sqrt{2\Gamma}(\cos\varpi,-\sin\varpi)$ gives $\Gamma\,d(-\varpi)=\frac12(x\,dy-y\,dx)$. Exterior differentiation proves the symplectic identity for $e>0$, and analyticity extends it to $e=0$. The inverse recovers $\Lambda$ from the energy, $\Gamma$ from the angular momentum, $(k,l)$ as the eccentricity vector, $c(F)=\mathbf M^{-1}(q/a+(k,l))$, and $e^{i\lambda}=e^{iF}\exp(-i(k\sin F-l\cos F))$, analytically and without a perihelion angle; see~\cite{KAMnotes}.
+\end{proof}
+
+For $n$ planets we use the product chart, with $z=(x_i,y_i)_{i\le n}\in\R^{2n}$. It covers the states with $q_i\ne0$, $E_i<0$ and $L_i>0$ for all $i$; on them $H_\mu=h(\Lambda)+\mu f(\Lambda,\lambda,z)$ exactly, $f$ being the pulled-back perturbation of \eqref{eq:H}, and if moreover $L>0$,
+\begin{equation}
+\label{eq:Cz}
+C=\sum_i\Lambda_i-\sum_iL_i=\sum_i\Gamma_i=\tfrac12\abs z^2.
+\end{equation}
+Let $\Lset=\{(\nu_i\sqrt{a_i})_i:a\in\Aset\}\subset\Ach$ and $\Lset_\delta=\{\Lambda^0\in\Lset:B(\Lambda^0)\ge\delta\}$. Since $C\ge0$, every initial state satisfying \eqref{eq:hyp} has $\Lambda^0\in\Lset_\delta$. We fix $r_g$, $U$, $\Omega_B$ by Lemma~\ref{lem:moving} applied to $\Lset_\delta$. For complex arguments, $\abs z^2$ and $\Gamma_i$ are bilinear sums of squares, and distances are in the maximum norm.
+
+\begin{lemma}[Analytic domain of the whole sublevel ball]
+\label{lem:domain}
+There are $r_*\in(0,4r_g]$ and $s,b,M>0$, depending only on $(n,\nu,\Aset,\delta)$, such that for every $\Lambda^0\in\Lset_\delta$, with
+\begin{equation}
+\label{eq:ball}
+\mathcal Z_0(\Lambda^0)=\big\{z\in\R^{2n}:\tfrac12\abs z^2\le B(\Lambda^0)-\delta/4\big\},
+\end{equation}
+the product chart and $f$ are holomorphic, $2\pi$-periodic in $\lambda$ and real on real points in the complex domain
+\begin{equation}
+\label{eq:domain}
+\nrm{\Lambda-\Lambda^0}<r_*,\qquad \nrm{\operatorname{Im}\lambda}<4s,\qquad \operatorname{dist}_\infty\big(z,\mathcal Z_0(\Lambda^0)\big)<4b,
+\end{equation}
+and on a slightly smaller domain of the same form the chart, the momenta, $f$ and their first derivatives are bounded by $M$. Every denominator $\abs{q_i}$, $\abs{q_i-q_j}$ of $f$ has a single holomorphic branch there, with modulus bounded below by a positive constant depending only on $(n,\nu,\Aset,\delta)$.
+\end{lemma}
+
+\begin{proof}
+We may assume $\Lset_\delta\neq\emptyset$; it is compact.
+
+\emph{Step 1: every real point of the ball is safe.} Let $\Lambda^0\in\Lset_\delta$, $\Lambda$ real with $\nrm{\Lambda-\Lambda^0}\le4r_g$ (so $\Lambda\in U$), and $z\in\mathcal Z_0(\Lambda^0)$. As $\Omega_B(4r_g)\le\delta/16$,
+\[
+\sum_i\Gamma_i=\tfrac12\abs z^2\le B(\Lambda^0)-\frac\delta4\le B(\Lambda)-\frac{3\delta}{16}.
+\]
+Since $B(\Lambda)\le\Lambda_i$, we get $\Gamma_i\le\Lambda_i-3\delta/16$: the point lies in the chart domain with a fixed margin, and $e_i\le e_*<1$ for a fixed $e_*$. At every phase $\lambda$ the physical state has all $L_i>0$ and, by \eqref{eq:Cz}, $C\le B(\Lambda)-3\delta/16$, so Lemma~\ref{lem:uniform} with $m=3\delta/16$ gives $d\le\abs{q_i},\abs{q_i-q_j}\le Q$ with fixed $d,Q>0$. The set $K'$ of all such $(\Lambda,\lambda,z)$, over $\Lambda^0\in\Lset_\delta$ and $\lambda$ in a closed period cell, is compact.
+
+\emph{Step 2: a uniform complex neighbourhood.} Since $D_F\ge1-e_*$, the Newton map for \eqref{eq:kepeq} contracts a complex disk of fixed radius about each real root, giving a bounded holomorphic branch of $F$; the radicands and $1+\beta$ stay away from zero. By the identity theorem, local extensions agree on overlaps, and a finite subcover of $K'$ gives one complex neighbourhood on which the chart is single valued and periodic. For a denominator, if the complex vector $w$ lies within distance $\eta$ of a real $w_0$ with $d\le\abs{w_0}\le Q$, then
+\[
+\abs{w\cdot w-\abs{w_0}^2}\le2Q\eta+\eta^2\le d^2/2
+\]
+for small fixed $\eta$, so $\operatorname{Re}(w\cdot w)\ge d^2/2$, the root with positive real part is holomorphic, and its reciprocal is at most $\sqrt2/d$. Cauchy's estimates bound first derivatives. Finally choose $r_*\le4r_g$ and $s,b$ so small that \eqref{eq:domain}, which lies within distance $\max(r_*,4s,4b)$ of $K'$, and a slight enlargement of it lie in this neighbourhood.
+\end{proof}
+
+Thus the slow domain is the \emph{entire} ball \eqref{eq:ball}, with complex widths independent of $\Lambda^0$ and $\mu$. The proof uses only the safety of every real point of the ball, compactness and the bilinear bound on the denominators, so it applies verbatim to any analytic chart with the identity \eqref{eq:Cz}.
+
+\subsection{Exponential averaging with evolving slow variables}
+
+The next three lemmas are standard Nekhoroshev-type estimates, in the form of Pöschel's Normal Form Lemma~\cite[p.~192]{Pos93} (see also~\cite{Nek77}); we do not claim them as new. We use a norm on Hamiltonian vector fields, a linear unperturbed Hamiltonian, and $n_s$ slow pairs near an arbitrary compact set; the slow variables enter only through Cauchy estimates, which need nothing of the shape of that set. Proofs are in~\cite{KAMnotes}.
+
+Fix $n\ge1$, $n_s\ge0$, a nonempty compact $S\subset\R^{2n_s}$, $\Lambda^0\in\R^n$ and widths $r,s,b>0$, use the symplectic form $d\Lambda\wedge d\lambda+\sum dx\wedge dy$, and put $\mathsf D=2n+2n_s$. For $1\le\rho\le4$ let
+\begin{equation}
+\label{eq:Drho}
+\mathcal D_\rho=\big\{(\Lambda,\lambda,z):\nrm{\Lambda-\Lambda^0}<\rho r,\ \nrm{\operatorname{Im}\lambda}<\rho s,\ \operatorname{dist}_\infty(z,S)<\rho b\big\}.
+\end{equation}
+For a $\lambda$-periodic holomorphic vector field $V$ with scaled components $\widehat V=(V_\Lambda/r,V_\lambda/s,V_z/b)$ and Fourier coefficients $\widehat V_k(\Lambda,z)$, let $\norm V_\rho=\sum_{k\in\Z^n}e^{\rho s\abs k_1}\sup\abs{\widehat V_k}_\infty$, the supremum over $\nrm{\Lambda-\Lambda^0}<\rho r$, $\operatorname{dist}_\infty(z,S)<\rho b$.
+
+\begin{lemma}[Fourier and commutator estimates]
+\label{lem:fourier}
+For $0<\sigma<\rho-1$ the norm decreases under restriction, the $\lambda$-average and its complement have norm at most one, and
+\begin{equation}
+\label{eq:comm}
+\norm{[V,W]}_{\rho-\sigma}\le\frac{2\mathsf D}{\sigma}\norm V_\rho\norm W_\rho.
+\end{equation}
+If $\abs{\widehat V}_\infty\le M'$ on $\mathcal D_4$, then $\norm V_3\le M'\big((1+e^{-s})/(1-e^{-s})\big)^n$.
+\end{lemma}
+
+\begin{proof}[Sketch]
+Contour shifts give $\abs{\widehat V_k}\le M'e^{-4s\abs k_1}$. A disk of radius $\sigma r$ or $\sigma b$ about a point of the smaller domain lies in the larger one, since $\operatorname{dist}(\cdot,S)$ is $1$-Lipschitz, so Cauchy's formula costs $1/\sigma$ in each of the $\mathsf D$ directions (in the angles, $s\abs{k_j}e^{-\sigma s\abs k_1}\le1/(e\sigma)$), which gives \eqref{eq:comm}.
+\end{proof}
+
+\begin{lemma}[Lie step]
+\label{lem:lie}
+Let $\abs{k\cdot\omega}\ge\gamma\abs k_1^{-\tau}$ for $k\in\Z^n\setminus\{0\}$, $h_0=\omega\cdot(\Lambda-\Lambda^0)+c_0$, and $H=h_0+g+f$ real holomorphic on $\mathcal D_\rho$ with $\partial_\lambda g=0$. Put $\mathcal E=\norm{X_f}_\rho$, $\mathcal G=\norm{X_g}_\rho$ and $A_\gamma=\gamma^{-1}\max\{1,(2\tau/(es))^\tau\}$. For $0<\sigma<\rho-1$ there is a real $\chi$ with
+\begin{equation}
+\label{eq:homol}
+\omega\cdot\partial_\lambda\chi=f-\langle f\rangle,\qquad \norm{X_\chi}_{\rho-\sigma/2}\le A_\gamma\sigma^{-\tau}\mathcal E=:u,
+\end{equation}
+$\langle f\rangle$ the $\lambda$-average. There are $c_{\mathsf D},B_{\mathsf D}>0$ depending only on $\mathsf D$ such that, if $u/\sigma\le c_{\mathsf D}$, the time-one map $\phi$ of $X_\chi$ is real, holomorphic, symplectic and periodic on $\mathcal D_{\rho-\sigma}$, moves points by at most $u$ in scaled coordinates, and
+\begin{equation}
+\label{eq:liestep}
+H\circ\phi=h_0+g+\langle f\rangle+f_+,\qquad \norm{X_{f_+}}_{\rho-\sigma}\le B_{\mathsf D}\frac u\sigma(\mathcal G+\mathcal E).
+\end{equation}
+The constants do not depend on $r,b,S,\Lambda^0$.
+\end{lemma}
+
+\begin{proof}[Sketch]
+Put $\chi_k=f_k/(ik\cdot\omega)$ for $k\ne0$; the divisor is constant, and $\abs k_1^\tau e^{-\sigma s\abs k_1/2}\le(2\tau/(e\sigma s))^\tau$ gives \eqref{eq:homol}. Iterating \eqref{eq:comm} gives $\norm{\mathrm{ad}_{X_\chi}^jV}_{\rho-\eta}/j!\le(2e\mathsf Du/\eta)^j\norm V_\rho$, so the Lie series converges and represents the flow. The identity $\{h_0,\chi\}=-(f-\langle f\rangle)$ removes $X_{h_0}$, which is not small, exactly; the remaining terms are at least linear in $\chi$ and give \eqref{eq:liestep}.
+\end{proof}
+
+\begin{lemma}[Normal form on the full slow tube]
+\label{lem:nf}
+In the setting of Lemma~\ref{lem:lie} let $H=h_0+F$ with $\norm{X_F}_3\le\epsilon$, and let $N\ge1$ be an integer. There is $q_{\mathsf D}>0$, depending only on $\mathsf D$, such that if
+\begin{equation}
+\label{eq:nfcond}
+A_\gamma\,\epsilon\,N^{\tau+1}\le q_{\mathsf D},
+\end{equation}
+there is a real holomorphic symplectic map $\Phi:\mathcal D_2\to\mathcal D_3$ with
+\begin{equation}
+\label{eq:nf}
+H\circ\Phi=h_0+Y+R,\qquad \partial_\lambda Y=0,\qquad \norm{X_R}_2\le\epsilon2^{-N},\qquad \norm{X_Y}_2\le2\epsilon.
+\end{equation}
+The map $\Phi$ moves points by at most $\nf1{16}$ in scaled coordinates; its inverse is defined on $\mathcal D_{3/2}$, with values in $\mathcal D_2$ and the same bound; in particular both move actions by at most $r/16$. No condition is imposed on the slow dynamics.
+\end{lemma}
+
+\begin{proof}[Sketch]
+Apply Lemma~\ref{lem:lie} $N$ times with $\sigma=1/N$ on $\rho_j=3-j/N$, from $g_0=0$, $f_0=F$. If $\mathcal E_j\le\epsilon2^{-j}$ and $\mathcal G_j\le2\epsilon$, then $u_j\le A_\gamma N^\tau\epsilon2^{-j}$ and $\mathcal E_{j+1}\le3B_{\mathsf D}A_\gamma\epsilon N^{\tau+1}\mathcal E_j\le\mathcal E_j/2$ for $q_{\mathsf D}=\min(c_{\mathsf D},1/(6B_{\mathsf D}),\nf1{64})$, while $\mathcal G_{j+1}\le\sum_{l\le j}\mathcal E_l\le2\epsilon$. The total displacement $\sum_ju_j\le2A_\gamma\epsilon N^\tau\le\nf1{32}$ is smaller than every allotted loss, so the composition of the time-one maps is defined on $\mathcal D_2$ and inverted by the time-reversed flows.
+\end{proof}
+
+\subsection{Scaling and the exponential time}
+
+We apply Lemma~\ref{lem:nf} in the chart of Lemma~\ref{lem:domain} with $n_s=n$, $S=\mathcal Z_0(\Lambda^0)$, the fixed widths $s,b$, and $r=\sqrt\mu$. Let $L_\omega$ be a Lipschitz bound for $\omega=\nabla h$ near $U$.
+
+\begin{lemma}[Scaling]
+\label{lem:scaling}
+There are $M_1,\kappa,\mu_1,c>0$, depending only on $(n,\nu,\Aset,\delta,\gamma,\tau)$, such that for every $\Lambda^0\in\Lset_\delta$ satisfying \eqref{eq:dioph} and every $0<\mu\le\mu_1$ the following holds. Put
+\begin{equation}
+\label{eq:scaling}
+r=\sqrt\mu,\qquad \vartheta=\frac{1}{2(\tau+1)},\qquad N=\lfloor\kappa\mu^{-\vartheta}\rfloor,\qquad \epsilon=M_1\sqrt\mu,
+\end{equation}
+and $h_0=h(\Lambda^0)+\omega(\Lambda^0)\cdot(\Lambda-\Lambda^0)$. Then $N\ge1$, $\norm{X_{H_\mu-h_0}}_3\le\epsilon$, and \eqref{eq:nfcond} holds. In the transformed variables $(\tilde\Lambda,\tilde\lambda,\tilde z)$,
+\begin{equation}
+\label{eq:Jdot}
+H_\mu\circ\Phi=h(\tilde\Lambda)+Y'(\tilde\Lambda,\tilde z)+R,\qquad \Big|\frac{d\tilde\Lambda}{dt}\Big|_\infty\le r\epsilon2^{-N}
+\end{equation}
+along every transformed solution in $\mathcal D_2$. With $T_\mu=\exp(c\mu^{-\vartheta})$, every portion of a solution of \eqref{eq:H} lying in $\mathcal D_1$, of duration at most $T_\mu$ and starting at action $\Lambda^0$, satisfies $\nrm{\Lambda(t)-\Lambda^0}\le r/4$.
+\end{lemma}
+
+\begin{proof}
+Shrink $s,b$ so that $f$ and its first derivatives are bounded by $M$ on $\mathcal D_4$, and take $\mu_1$ so small that $4r<r_*$ and $r\le1$. On $\mathcal D_4$, the scaled field of $h-h_0$ has only angle components $(\omega(\Lambda)-\omega(\Lambda^0))/s$, of size at most $4L_\omega r/s$, while those of $X_{\mu f}$ are $\mu\partial_\lambda f/r$, $\mu\partial_\Lambda f/s$ and $\mu J\partial_zf/b$, of size at most $M\mu(1/r+1/s+1/b)$. The total $4L_\omega r/s+M\mu/r+O(\mu)$ is of order $\sqrt\mu$ at the balancing choice $r=\sqrt\mu$. Lemma~\ref{lem:fourier} converts this into $\norm{X_{H_\mu-h_0}}_3\le M_1\sqrt\mu$, losing only the fixed strip between $\mathcal D_4$ and $\mathcal D_3$.
+
+Condition \eqref{eq:nfcond} now reads $A_\gamma M_1\sqrt\mu\,N^{\tau+1}\le q_{\mathsf D}$, so the admissible order is $N\asymp\mu^{-1/(2(\tau+1))}$. Precisely, choose $\kappa$ with $A_\gamma M_1\kappa^{\tau+1}\le q_{\mathsf D}/2$; since $\vartheta(\tau+1)=\nf12$, we get $A_\gamma\epsilon N^{\tau+1}\le A_\gamma M_1\sqrt\mu\,\kappa^{\tau+1}\mu^{-1/2}\le q_{\mathsf D}/2$. Decrease $\mu_1$ so that $\kappa\mu^{-\vartheta}\ge2$, hence $N\ge\kappa\mu^{-\vartheta}/2$, and $\epsilon\le\nf18$. Lemma~\ref{lem:nf} gives $\Phi$; with $Y'=h_0-h+Y$ we obtain \eqref{eq:Jdot}, since $d\tilde\Lambda/dt=-\partial_{\tilde\lambda}R$ has scaled size at most $\norm{X_R}_2\le\epsilon2^{-N}$. Only the divisors $k\cdot\omega(\Lambda^0)$ were inverted; no arithmetic condition is imposed at later times.
+
+Set $c=(\log2)\kappa/4$, so $T_\mu=2^{\kappa\mu^{-\vartheta}/4}\le2^{N/2}$. As $\Phi$ is symplectic, $\Phi^{-1}$ maps a solution in $\mathcal D_1$ to a transformed solution in $\mathcal D_2$; adding the displacements of $\Phi^{-1}$ at time $0$ and of $\Phi$ at time $t$ to the drift \eqref{eq:Jdot}, for $\abs t\le T_\mu$,
+\[
+\nrm{\Lambda(t)-\Lambda^0}\le\frac r{16}+r\epsilon\abs t2^{-N}+\frac r{16}\le\frac r8+r\epsilon2^{-N/2}\le\frac r4.
+\qedhere
+\]
+\end{proof}
+
+\begin{remark}[Finite-cutoff normal form]
+\label{rem:engine}
+The formal proof replaces Lemmas~\ref{lem:fourier}--\ref{lem:scaling} by a finite-cutoff normal form of Pöschel type~\cite[p.~192]{Pos93} available in the formal library~\cite{KAMrepo}, fed with the data of Lemma~\ref{lem:domain}: slow set the whole ball \eqref{eq:ball}, fixed widths, cutoff $K\asymp\mu^{-\vartheta}$, nonresonance constant $\gamma K^{-\tau}/(2\pi)$, action radius $r=D_0\sqrt\mu$. Its smallness conditions hold since $\vartheta(\tau+1)=\nf12$, and it gives action drift at most $r/2$ up to a time $\ge\exp(c_1\mu^{-\vartheta})$ while the secular coordinates stay in the ball, which is the membership proved in Lemma~\ref{lem:exit}. With $r/2$ in place of $r/4$, \eqref{eq:stop} still gives the margin $3\delta/4$ there.
+\end{remark}
+
+\subsection{First exit and the proof of Theorem~\ref{thm:planar}}
+
+The first-exit lemma is stated for an abstract chart, so that it also serves the spatial problem. A state is \emph{prograde} if $q_i\ne0$, $E_i<0$ and all $H_i>0$ (Lemma~\ref{lem:amd}).
+
+\begin{lemma}[First exit]
+\label{lem:exit}
+Assume the prograde states carry a real analytic symplectic chart $(\Lambda,\lambda,z)$, $z\in\R^{2n_s}$, a diffeomorphism modulo the angle lattice, in which $H_\mu=h(\Lambda)+\mu f$ and $C=\nf12\abs z^2$, and for which the conclusions of Lemmas~\ref{lem:domain} and~\ref{lem:scaling} hold. Then there are $\mu_0,c,T_0,A_\Lambda,A_a,\dstar,\dpair>0$, depending only on $(n,\nu,\Aset,\delta,\gamma,\tau)$ and the chart, such that for $0<\mu\le\mu_0$ and every initial state satisfying \eqref{eq:hyp}, the maximal solution of \eqref{eq:H} exists on $[-T_\mu,T_\mu]$, with $T_\mu$ as in \eqref{eq:time}; on this interval it is prograde, $\Lambda(t)\in\Ach$, $C(t)\le B(\Lambda(t))-\delta/2$, $\nrm{\Lambda(t)-\Lambda^0}\le A_\Lambda\sqrt\mu$, $\nrm{a(t)-a(0)}\le A_a\sqrt\mu$, $\abs{C(t)-C(0)}\le nA_\Lambda\sqrt\mu$, and \eqref{eq:barrier}, $\abs{q_i}\ge\dstar$ and $\abs{q_i-q_j}\ge\dpair$ ($i\ne j$) hold.
+\end{lemma}
+
+\begin{proof}
+\emph{Constants.} Take $U$, $\Omega_B$, $r_g$ as fixed above and $\mu_1,c$ from Lemma~\ref{lem:scaling}. Choose $\mu_0\le\mu_1$, before $\mu$ and the initial state, so that for $0<\mu\le\mu_0$, $r=\sqrt\mu\le r_g$ and
+\begin{equation}
+\label{eq:stop}
+nr+\Omega_B(r)\le\delta/4,\qquad \Omega_B(r)\le\delta/16.
+\end{equation}
+
+\emph{Stopped interval.} By Lemma~\ref{lem:amd}, $C(0)\le B(\Lambda^0)-\delta<\Bst(\Lambda^0)$ makes the initial state prograde, and $\Lambda^0\in\Lset_\delta$. Let $\mathcal J$ be the open interval of times containing $0$ on which the solution exists, is prograde, and satisfies the stopped conditions
+\begin{equation}
+\label{eq:stopped}
+\nrm{\Lambda(t)-\Lambda^0}<r,\qquad C(t)<B(\Lambda(t))-\delta/2.
+\end{equation}
+For $t\in\mathcal J$, the identity $C=\nf12\abs z^2$ gives
+\[
+\tfrac12\abs{z(t)}^2=C(t)<B(\Lambda(t))-\frac\delta2\le B(\Lambda^0)+\Omega_B(r)-\frac\delta2\le B(\Lambda^0)-\frac{7\delta}{16},
+\]
+so $z(t)\in\mathcal Z_0(\Lambda^0)$ and the point lies in $\mathcal D_1$; this uses the whole ball \eqref{eq:ball} and only \eqref{eq:stopped}.
+
+\emph{Improvement.} Lemma~\ref{lem:scaling} on $\mathcal J\cap[-T_\mu,T_\mu]$ gives $\nrm{\Lambda(t)-\Lambda^0}\le r/4$, and then \eqref{eq:moving} with $r/4$ and \eqref{eq:stop} give $C(t)\le B(\Lambda(t))-3\delta/4$.
+
+\emph{Exit.} Suppose $t_*=\sup\mathcal J\le T_\mu$. If the maximal solution ends at $t_*$, this contradicts Lemma~\ref{lem:moving}, as $nr+\Omega_B(r)\le\delta/2$. Otherwise, since $E_i=-\nu_i^2/(2\Lambda_i^2)\le-c_U<0$ on $\mathcal J$, by continuity the state at $t_*$ is elliptic, satisfies $\nrm{\Lambda-\Lambda^0}\le r/4$ and $C\le B(\Lambda)-3\delta/4$, and is prograde as $H_i\ge3\delta/4$ (Lemma~\ref{lem:amd}); the open conditions then hold near $t_*$, a contradiction. Backward time is identical. Thus $[-T_\mu,T_\mu]\subset\mathcal J$; uniqueness holds because \eqref{eq:H} is analytic. We may take $A_\Lambda=1$, $T_0=1$, and $\abs{C(t)-C(0)}\le n\nrm{\Lambda(t)-\Lambda^0}$ by \eqref{eq:amd}. Since $\abs{a_i(\Lambda)-a_i(\Lambda^0)}=\abs{\Lambda_i-\Lambda^0_i}\abs{\Lambda_i+\Lambda^0_i}/\nu_i^2$, $A_a=2\Lambda_{\max}/\min_i\nu_i^2$ works. The separations come from Lemma~\ref{lem:uniform} with $m=\delta/2$; by \eqref{eq:dstar}, $\dstar=a_{\min}\delta^2/(8\Lambda_{\max}^2)$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:planar}]
+Here $\Lambda^0\in\Lset\subset\Ach$. By Lemma~\ref{lem:amd}, $L\ne0$; a reflection of the plane, applied to positions and momenta, is symplectic and leaves \eqref{eq:H} and all constants unchanged, so we may assume $L>0$, which is conserved. Prograde states then have all $L_i>0$, the product chart of Lemma~\ref{lem:chart} covers them, and \eqref{eq:Cz} gives $C=\nf12\abs z^2$. Lemmas~\ref{lem:domain}--\ref{lem:scaling} and~\ref{lem:exit} give all conclusions except the osculating ones, with nothing assumed about the averaged Hamiltonian $Y'$. Lemma~\ref{lem:normalization} reconstructs the Newtonian motion, and Lemma~\ref{lem:osc}, on the compact set of Lemma~\ref{lem:uniform} with $m=\delta/2$, gives the osculating conclusions once $\mu_0\le\mu_2$, $\Aosc\mu_0\le\dstar/2$ and $2\Aosc\mu_0\le\dpair/2$.
+\end{proof}
+
+The velocity-osculating elements $E_i^\osc,a_i^\osc,\ev_i^\osc,e_i^\osc$ of Section~\ref{sec:results} use the heliocentric velocity $V_i=\dot q_i=p_i/\nu_i+\mu\sum_jp_j$ and the parameter $k_i=1+\mu\nu_i$.
+
+\begin{lemma}[Osculating elements]
+\label{lem:osc}
+Let $K$ be the compact set of Lemma~\ref{lem:uniform} for a compact $U\subset\Ach$ and $m>0$, in dimension $d\in\{2,3\}$. There are $\mu_2,\Ael,\Aosc>0$, depending only on $K$ and $\nu$, such that for $0<\mu\le\mu_2$ and every state in $K$: $E_i^\osc<0$, $a_i^\osc>0$, $e_i^\osc<1$, $a_i^\osc(1-e_i^\osc)\le\abs{q_i}\le a_i^\osc(1+e_i^\osc)$, and
+\begin{equation}
+\label{eq:oscest}
+\abs{a_i^\osc-a_i}+\abs{\ev_i^\osc-\ev_i}\le\Ael\mu,\qquad \abs{a_i^\osc(1\pm e_i^\osc)-a_i(1\pm e_i)}\le\Aosc\mu.
+\end{equation}
+If also $\Aosc\mu\le\dstar/2$ and $2\Aosc\mu\le\dpair/2$, then $a_i^\osc(1-e_i^\osc)\ge\dstar/2$ and $a_{i+1}^\osc(1-e_{i+1}^\osc)-a_i^\osc(1+e_i^\osc)\ge\dpair/2$.
+\end{lemma}
+
+\begin{proof}[Sketch]
+On $K$, $\abs{p_i}\le P$, $\abs{q_i}\ge\dstar$, $E_i\le-1/(2a_{\max})$ and $e_i\le e_*<1$. Then $\abs{V_i-v_i}\le nP\mu$ and $\abs{k_i-1}\le\mu$, and expanding the definitions gives $\abs{E_i^\osc-E_i}+\abs{\ev_i^\osc-\ev_i}\le A_0\mu$. For small $\mu$, $E_i^\osc\le-1/(4a_{\max})$ bounds $\abs{a_i^\osc-a_i}$, and $\abs{e_i^\osc-e_i}\le\abs{\ev_i^\osc-\ev_i}$ (also at circular orbits) gives $e_i^\osc<1$ and \eqref{eq:oscest}. These are the elements of the two-body orbit with parameter $k_i$ through $q_i$ with velocity $V_i$, so Lemma~\ref{lem:orbital} with parameter $k_i$ bounds $\abs{q_i}$. The last claim follows from \eqref{eq:barrier} and \eqref{eq:oscest}.
+\end{proof}

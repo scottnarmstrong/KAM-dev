@@ -119,6 +119,7 @@ Axioms: main results report `propext, Classical.choice, Quot.sound` (PROGRESS 03
 | Niederman 1996 | NOT inspected (A2 §2) — cite only as "studied exponential stability in the planetary problem", via secondary descriptions (CFG23 §1.3 p.5; BN18 intro p.2) | — | ☐ |
 | Barbieri–Niederman | arXiv:1810.05987 | `sources/pdf/arxiv_1810.05987v1_BN_planetary.pdf` | ☐ |
 | Pinzari | per A2 (Pinzari 2016 v4; Pinzari–Liu 2023) | `_sources/Pinzari2016-v4.pdf`, `PL23-v2.pdf` | ☐ |
+| Nek77 Thm 12.3 (planetary, exponents = Thm E) | §12.2–12.3 pp.55–56 | nek77-eng.pdf | ☑ writer A |
 | Practicality | A7 | `_sources/target_margins.*` | ☐ |
 
 ## 5. Detail standard (binding for writers)
@@ -134,7 +135,7 @@ Reader: a mathematician in Hamiltonian dynamics / celestial mechanics, checking 
 
 1. Spatial Thm A: Lean LP0 is planar only. Paper Thm A is stated for d = 2 with a remark that the spatial counterpart is proved inside Thm C's proof (MAIN L5 is dimension-free) — writer C to confirm the Lean spatial barrier declaration name for the appendix.
 2. LP3 axioms record — writer C to find in handoffs; else "not yet recorded".
-3. "Audited full proof" citation form: repository path at a commit (no public URL yet) — FOR OWNER.
+3. RESOLVED (root-b8 09:1x): main is public at https://github.com/scottnarmstrong/KAM-dev; cite proof notes as \cite{KAMnotes} and Lean as \cite{KAMrepo} at a994efdf; LP3 "in preparation in the same repository". Do not cite README campaign material.
 
 ## 7. FOR OWNER
 
@@ -150,3 +151,7 @@ Reader: a mathematician in Hamiltonian dynamics / celestial mechanics, checking 
 ## 9. Progress log (UTC, from `date -u`)
 
 - 09:02 plan started; sources read (MAIN, AMENDMENTS, OWNER-DECISIONS, Lean LP0–LP2 on main, LP3 plan and Lean on branch, A2 head).
+- 09:2x writer A done (abstract 177 w, §1 3.0 pp, §2 3.0 pp). KEY FINDING: Nek77 §12.2–12.3 Thm 12.3 pp.55–56 already proves planetary no-collision for exp time with the SAME exponents a = 2/(6s²−3s+14), b = 3a/2 on boxes of axes with |N| ≥ γ above the collision value. Theorem E's difference: pointwise sharp strong threshold C(0) ≤ B(Λ(0)) − δ, ordered annuli, osculating. Ledger row added (4c). The LP17 "published A72 p.3" pin is unverified (r2-amd17.pdf = arXiv v2, identical md5); paper cites §3 only. Erratum in repository metadata: docs/sources.json treats r2-amd17.pdf as the published LP17.
+- 09:20 writer B done (§3 ≈2.8 pp, §4 ≈5.5 pp). Deviations: L3 C ≥ ΣΛD(e) stated on whole negative-energy region (stronger, proved); L6 absorbs N2 (r_g, U, Ω_B(4r_g) ≤ δ/16); L9 tail estimate and L10/L11 derivative bounds dropped (unused); L12 (35) omitted (N4); N6 widths summarized; renamings ϑ, n_s, 𝖣, S, Y, A_γ, β, ϱ, M, ψ. No MAIN errata.
+- 09:48 root-b8: every writer/auditor brief must say: never `rm -f $S/*`; use `rm -f "${S:?}"/*` or a fresh `mktemp -d` dir (avoids blocking confirmation).
+- 09:56 writer C done. Draft 1 assembled: 23 pp, 0 overfull, 0 undefined. Editor renamed Nekhoroshev exponents a_n,b_n → \aE,\bE (𝔞_n, 𝔟_n) to avoid clash with semi-major axis a_n. C notes: Lean partial-Nek μ₀ also depends on g, m, Hessian bound (paper states full list); spatial barrier Lean = spatialStrongBarrier_physical (Spatial/Geometry.lean:83) + exists_spatialBarrierCompact (:252); Theorem E axioms per audits/LP3-*-handoff.md; LP3 branch not descended from a994efdf; PROGRESS.md has future-stamped entries (11:3x at 09:08) — report to root-b8; B_ij = C_c identification and Lemmas 4.3–4.6 not formalized (appendix says so).
