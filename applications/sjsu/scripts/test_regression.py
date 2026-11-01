@@ -9,7 +9,8 @@ Default (fast, ~1 minute):
   3. Recomputation: the degree <= 4 part is recomputed from scratch (D = 6 run, same parameters;
      degree D of a run also needs f of degree D + 1, so only degrees <= D - 2 are compared)
      and compared with the file (relative tolerance 1e-15 on coefficients above 1e-6 of the max).
-  4. Laplace-Lagrange: the first-order quadratic part agrees with the classical formula.
+  4. Laplace-Lagrange: all six first-order quadratic coefficients (diagonal and off-diagonal) agree
+     with the classical formula.
 --full recomputes the whole model in mpmath (about 3 CPU-min) and compares every coefficient with
 the 25 written digits (tolerance 1e-23 relative).
 Exit status 0 on success.
@@ -126,6 +127,7 @@ def laplace_lagrange(out):
     sec = out['first']
     d = {tuple(int(x) for x in e): out['first'].bk.to_mpc(cc).real for e, cc in zip(sec.E, sec.C)}
     worst = 0
+    diag = [mpmath.mpf(0)] * 3
     for (i, j) in ((0, 1), (0, 2), (1, 2)):
         alpha = c['a'][i] / c['a'][j]
         b1 = mpmath.quad(lambda x: mpmath.cos(x) / (1 + alpha**2 - 2*alpha*mpmath.cos(x))**1.5, [0, mpmath.pi]) * 2 / mpmath.pi
@@ -134,7 +136,13 @@ def laplace_lagrange(out):
         e = [0] * 6; e[2 * i] = 1; e[2 * j + 1] = 1
         ref = -pref * alpha * b2 / 4 / mpmath.sqrt(c['Lambda'][i] * c['Lambda'][j])
         worst = max(worst, abs(d[tuple(e)] - ref) / abs(ref))
-    check(worst < 1e-17, f'Laplace-Lagrange off-diagonal secular coefficients (max rel {mpmath.nstr(worst, 3)})')
+        # diagonal: (1/8) alpha b^(1)_{3/2} (e_i^2 + e_j^2), e^2 -> 2 z zbar / Lambda at quadratic order
+        diag[i] += pref * alpha * b1 / 8 * 2 / c['Lambda'][i]
+        diag[j] += pref * alpha * b1 / 8 * 2 / c['Lambda'][j]
+    for k in range(3):
+        e = [0] * 6; e[2 * k] = 1; e[2 * k + 1] = 1
+        worst = max(worst, abs(d[tuple(e)] - diag[k]) / abs(diag[k]))
+    check(worst < 1e-17, f'Laplace-Lagrange: all six first-order quadratic secular coefficients (max rel {mpmath.nstr(worst, 3)})')
 
 
 def main():

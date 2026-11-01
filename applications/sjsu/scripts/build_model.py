@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
 """Build the SJSU18 secular model file (applications/sjsu/data/).
 
-Example (from the repository root; heavy steps under a memory cap):
+Published build (from the repository root; about 3.5 CPU-min, 1.7 GB peak RSS; run heavy steps
+under a memory cap):
   systemd-run --user --scope -p MemoryMax=8G -p MemorySwapMax=0 nice -n 10 \
-    python3 -I applications/sjsu/scripts/build_model.py --variant O2 \
-      --out applications/sjsu/data/sjsu18-o2.json --work ~/kam-data/sjsu/build-o2
+    python3 -I applications/sjsu/scripts/build_model.py --variant O2 --backend mp \
+      --out applications/sjsu/data/sjsu18-o2.json --work ~/kam-data/sjsu/build-o2-mp
 
 Variants
   O2 : strict order two in the masses (secular.py), all degrees <= 18, with the resonant
        mu^4 step of SLG13 eq. (12) (printed weight 1/2).
 The output JSON contains the model in complex form (z_j = (xi_j - i eta_j)/sqrt 2) and in real
 form (xi, eta), its components (first order, chi_1 and chi_2 parts of order two, resonant step),
-all parameters, conventions, truncations and provenance.  Coefficients are decimal strings with
-20 significant digits computed in 80-bit long double; see 'precision'.
+all parameters, conventions, truncations and the static provenance (sources).  With the default
+back end (mpmath, 40 digits) the coefficients are written with 25 significant digits; the
+development back ends 'ld' (80-bit long double) and 'f64' write 20.  The JSON contains no
+volatile field (no commit, command, path, version or timing), so it is byte-reproducible; those
+are recorded in the companion <name>.SOURCE.txt, with local paths shown relative to the
+repository or to '~'.
 """
 import argparse
 import hashlib
@@ -52,6 +57,12 @@ CONVENTIONS = {
     'secular_variables': 'the (xi, eta) after the near-identity transformations chi_1, chi_2 (and chi_res) '
                          'at L = 0, as in SLG13 eq. (9)/(12); not the osculating Poincare variables',
 }
+
+
+def sanitize(text):
+    """Replace absolute local paths: the repository root by nothing (relative paths), home by '~'."""
+    out = text.replace(REPO + os.sep, '').replace(REPO, '.')
+    return out.replace(os.path.expanduser('~'), '~')
 
 
 def git_commit():
@@ -156,7 +167,7 @@ def main():
     ap.add_argument('--D', type=int, default=DEG_MAX)
     ap.add_argument('--D1', type=int, default=6)
     ap.add_argument('--res-weight', default='printed', choices=['printed', 'lie'])
-    ap.add_argument('--backend', default='ld')
+    ap.add_argument('--backend', default='mp', choices=['mp', 'ld', 'f64'])
     ap.add_argument('--out', required=True)
     ap.add_argument('--work', help='directory for regenerable intermediates (never committed)')
     ap.add_argument('--version', default='0.1.0')
@@ -238,9 +249,9 @@ def main():
         'dropped_additive_constant': fmt(constant),
         'census': census(total, real),
         'provenance': {
-            'generator': 'applications/sjsu/scripts/build_model.py', 'commit': git_commit(),
-            'scripts_dirty': git_dirty(), 'command': ' '.join(sys.argv), 'python': platform.python_version(),
-            'numpy': np.__version__, 'mpmath': mpmath.__version__, 'cpu_seconds': time.process_time(),
+            'generator': 'applications/sjsu/scripts/build_model.py',
+            'build_record': os.path.splitext(os.path.basename(args.out))[0] + '.SOURCE.txt '
+                            '(generator commit, command, environment, CPU time, intermediate hash)',
             'sources': ['SLG13: M. Sansottera, U. Locatelli, A. Giorgilli, Math. Comput. Simul. 88 (2013) 1-14, '
                         'doi:10.1016/j.matcom.2010.11.018, arXiv:1010.2609v1, sections 2-3, Table 1, Appendix A',
                         'GLS17: A. Giorgilli, U. Locatelli, M. Sansottera, Regul. Chaotic Dyn. 22 (2017) 54-77, '
@@ -279,7 +290,7 @@ def main():
         fh.write(f"sha256: {h}\n")
         fh.write(f"generator: applications/sjsu/scripts/build_model.py (KAM-dev)\n")
         fh.write(f"commit: {git_commit()}{' (scripts modified after this commit)' if git_dirty() else ''}\n")
-        fh.write(f"command: python3 -I applications/sjsu/scripts/build_model.py {' '.join(sys.argv[1:])}\n")
+        fh.write(f"command: python3 -I applications/sjsu/scripts/build_model.py {sanitize(' '.join(sys.argv[1:]))}\n")
         fh.write(f"a* input: {astar_src} (sha256 {aj_hash})\n")
         fh.write(f"environment: Python {platform.python_version()}, numpy {np.__version__}, mpmath {mpmath.__version__}\n")
         fh.write(f"cpu_seconds: {time.process_time():.0f}\n")

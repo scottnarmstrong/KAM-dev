@@ -9,6 +9,10 @@ x_j(t) + i y_j(t).  This script repeats the experiment for a given model:
   --table scripts/sjsu/slg13_quartic.json  (the printed 78-term quartic, real form).
 
 The linear diagonalizer O is recomputed from the model's own quadratic part; (xi, eta) = (O x, O y).
+Eigenvector sign rule (matters for --initial table2, because the nonlinear flow is not invariant
+under rotating one mode alone): column j of O is signed so that the projection of the Table 1
+Poincare point onto mode j has the sign of Table 2's x_j(0).  The y-signs then do not all agree;
+--sign-classes runs the four inequivalent classes.
 Equations of motion: dz/dt = -i dH/dzbar.  Integrator: classical RK4 (complex128), step dt.
 Frequency analysis: Hann-windowed Fourier transform, peak refined by golden-section search
 (a simplified NAFF first-frequency step).  Float64: an estimate, not an enclosure.
@@ -156,7 +160,7 @@ def fundamental_frequency(sig, h):
     return 0.5 * (a + b)
 
 
-def run(terms, years, dt, sample, label, log=print, initial='table2', secular_xieta=None):
+def run(terms, years, dt, sample, label, log=print, initial='table2', secular_xieta=None, flip=(1, 1, 1)):
     poly = ComplexPoly(terms)
     A = poly.quad_matrix()
     A = 0.5 * (A + A.T)
@@ -173,6 +177,7 @@ def run(terms, years, dt, sample, label, log=print, initial='table2', secular_xi
         if xT[j] * x0[j] < 0:
             V[:, j] *= -1
             flips.append(j + 1)
+    V = V * np.array(flip)          # optional extra column-sign class (relevant for --initial table2 only)
     xT = V.T @ xiP; yT = V.T @ etaP
     sign_ok = bool(all(np.sign(yT) == np.sign(y0)))
     if initial == 'table2':
@@ -195,7 +200,7 @@ def run(terms, years, dt, sample, label, log=print, initial='table2', secular_xi
     # energy check
     log(f'[{label}] {len(terms)} terms, {nsteps} RK4 steps, {time.time()-t0:.0f}s; linear nu = {w}; '
         f'y-sign pattern of Table 1 projection matches Table 2: {sign_ok}')
-    return {'label': label, 'initial': initial, 'xi_eta_initial': list(xi0) + list(eta0),
+    return {'label': label, 'initial': initial, 'sign_class': list(flip), 'xi_eta_initial': list(xi0) + list(eta0),
             'modal_R': list(np.hypot(V.T @ xi0, V.T @ eta0)),
             'nu_linear': w.tolist(), 'omega': om, 'years': years, 'dt': dt,
             'O': V.tolist(), 'table1_projection_x': xT.tolist(), 'table1_projection_y': yT.tolist(),
@@ -212,17 +217,22 @@ def main():
     ap.add_argument('--json')
     ap.add_argument('--initial', default='table2', choices=['table2', 'table1raw', 'table1secular'])
     ap.add_argument('--secular-json', help='initial_map.py JSON providing xi_eta_secular (for --initial table1secular)')
+    ap.add_argument('--sign-classes', action='store_true',
+                    help='for --initial table2: run the four inequivalent eigenvector column-sign classes relative to '
+                         'the default rule (a global sign change is a symmetry of the rotation-invariant model)')
     args = ap.parse_args()
     sec = json.load(open(args.secular_json))['xi_eta_secular'] if args.secular_json else None
     results = []
-    if args.table:
-        results.append(run(from_real_table(args.table), args.years, args.dt, args.sample, 'printed quartic (78 terms)',
-                           initial=args.initial, secular_xieta=sec))
-    if args.model:
-        results.append(run(from_model(args.model), args.years, args.dt, args.sample, os.path.basename(args.model),
-                           initial=args.initial, secular_xieta=sec))
+    classes = [(1, 1, 1), (1, 1, -1), (1, -1, 1), (-1, 1, 1)] if args.sign_classes else [(1, 1, 1)]
+    for flip in classes:
+        if args.table:
+            results.append(run(from_real_table(args.table), args.years, args.dt, args.sample, 'printed quartic (78 terms)',
+                               initial=args.initial, secular_xieta=sec, flip=flip))
+        if args.model:
+            results.append(run(from_model(args.model), args.years, args.dt, args.sample, os.path.basename(args.model),
+                               initial=args.initial, secular_xieta=sec, flip=flip))
     for r in results:
-        print(r['label'], 'initial', r['initial'], 'modal R', ['%.6f' % x for x in r['modal_R']])
+        print(r['label'], 'initial', r['initial'], 'sign class', r['sign_class'], 'modal R', ['%.6f' % x for x in r['modal_R']])
         for j in range(3):
             print(f"   omega_{j+1} = {r['omega'][j]:.12e}   GLS17 (37): {r['omega_gls17'][j]:.12e}   "
                   f"rel diff {(r['omega'][j] - r['omega_gls17'][j]) / abs(r['omega_gls17'][j]):+.3e}   linear {r['nu_linear'][j]:.10e}")
