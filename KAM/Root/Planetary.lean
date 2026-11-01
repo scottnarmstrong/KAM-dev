@@ -645,6 +645,7 @@ public import KAM.Planetary.Spatial.Chart.LineDeriv
 public import KAM.Planetary.Spatial.Chart.RotAlgebra
 public import KAM.Planetary.Spatial.Chart.Symplectic
 public import KAM.Planetary.Spatial.Chart
+public import KAM.Planetary.Spatial.ComplexTube
 public import KAM.Planetary.Spatial.Continuation
 public import KAM.Planetary.Spatial.Elements
 public import KAM.Planetary.Spatial.Field
