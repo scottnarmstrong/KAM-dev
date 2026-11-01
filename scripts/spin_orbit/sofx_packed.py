@@ -437,7 +437,7 @@ class PackedEngine:
         Ab, Bb = cut(adv0, da), cut(adv0, db)
         ns = len(Ab) + len(Bb) - 1
         mA, mB = maxAbsFlat(Ab), maxAbsFlat(Bb)
-        w0 = (2 * len(Ab) * L * mA * mB).bit_length() + 1
+        w0 = (2 * ns * L * mA * mB).bit_length() + 1      # MAG-2b: shardFits runs s + 1 up to ns (len(Bb) > len(Ab) too)
         PA = [pack_sum(w0, v) for v in Ab]
         PB = [pack_sum(w0, v) for v in Bb]
         T = []

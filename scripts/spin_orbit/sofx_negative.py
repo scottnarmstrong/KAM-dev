@@ -16,7 +16,8 @@ from fractions import Fraction as F
 
 import sofx_model as M
 import sofx_check as C
-import sofx_lunar as L
+import importlib
+L = importlib.import_module(os.environ.get("SO_CLIENT", "sofx_lunar"))   # MAG-2b: client module (default lunar)
 import sofx_packed as PK
 import sofx_gen as G
 
