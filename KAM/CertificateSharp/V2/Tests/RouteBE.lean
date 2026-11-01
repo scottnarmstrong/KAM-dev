@@ -14,8 +14,8 @@ public import KAM.CertificateSharp.V2.Tests.RouteBToy
 `toyB` has `M = 297/100` and `dh = 2`, so `y₀` falls from `M s_N = 3.15` to `dh s_N = 2.12`.
 
 * an ordinary refined witness passes `routeBRefinedE`, by itself and inside `routeV2AllE`;
-* `toyBGain`, at `X⋆ = 27·10⁻⁶` and the local budget `10⁻⁴`, passes `routeBRefinedE` and is rejected by
-  `routeBRefined` and `routeBRefinedLN`: the old `y₀` puts `X⋆` above the threshold;
+* `toyBGain`, at `X⋆ = 27·10⁻⁶` and the local budget `10⁻⁴`, passes `routeBRefinedE` and is
+  rejected by `routeBRefined` and `routeBRefinedLN`: the old `y₀` puts `X⋆` above the threshold;
 * `toyBLowDh`, the ordinary witness with `dh` understated, is rejected, although `refinedBCoreE`
   alone accepts it: `checkHamClaim` is what rejects it;
 * the toy torus through both engines, at `toyBGain`.

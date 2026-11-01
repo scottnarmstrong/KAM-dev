@@ -3,7 +3,7 @@
 Date: 1 November 2026. Step 1 of the V2-ENERGY brief; gate of
 [improvement 2](../design/CERTIFIER-V2-IMPROVEMENTS.md). Mirror measurements only.
 
-Reproduce (several minutes, one process; reads the T′ dry run through `KAM_LG00_TP`):
+Reproduce (several minutes, one process; LG00-T2's T′ dry run is copied to `v2-energy-data/`, `KAM_LG00_TP` overrides it):
 
 ```sh
 nice -n 10 python3 -B -I scripts/apost_sharp/energy_row.py --json OUT.json
@@ -125,6 +125,24 @@ clock, might be cheap.
   threshold.
 - **Route B:** the additive theorems and engine proceed as the brief directs. They help any future application with
   `M ≫ dh` that selects route B; they do not change a current one.
+
+## After the theorem and checker work
+
+Steps 2–4 of the brief are done: `routeBRefinedE` is route B with `y₀ = dh s_N`
+([handoff](../handoffs/V2-ENERGY.md)). `scripts/apost_sharp/route_be_mirror.py` evaluates `routeBOk` on the same certificates
+in exact rationals, with classical constants, at a short rational `X⋆` just below the threshold for `y₀ = dh s_N`:
+
+| Data | `X⋆` | `y₀ = dh s_N` | `y₀ = M s_N` |
+|---|---:|---|---|
+| lunar N = 65, lower | `351/500000000` | passes | passes |
+| lunar N = 65, upper | `351/500000000` | passes | passes |
+| LG00 T′ L = 20 | `199/250000000000` | passes | **fails** |
+
+So the mirror's gain is confirmed exactly on T′, and the lunar tori are indifferent to `y₀`.
+
+**Cost on the toy** (user CPU net of imports, median of 5, one `decide +kernel` of the engine's test): `routeBRefined` 2.03 s,
+`routeBRefinedLN` 1.16 s, `routeBRefinedE` 1.13 s. The new engine costs the same as `routeBRefinedLN`, because changing
+`y₀` changes one rational in the run. Its cost advantage over the landed engine is F2's.
 
 ## Scope and caveats
 

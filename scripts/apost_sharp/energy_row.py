@@ -10,7 +10,8 @@ for the gradient bound is worth, changing nothing else:
     sampled  the sup over D of the gradient sum, a floor for any pass over D (not a bound);
     omega    y0 = |s omega*|_1, the value of the row on an exact torus (Y = omega^T - (eta^L)^T), a floor for y0 itself.
 
-Packages: the two lunar N = 65 band tori, and LG00 T' on the exact energy (the dry run of LG00-T2, KAM_LG00_TP).
+Packages: the two lunar N = 65 band tori, and LG00 T' on the exact energy (LG00-T2's dry run, copied to
+docs/campaign/studies/v2-energy-data/; KAM_LG00_TP overrides it).
 
 Usage: python3 -B -I scripts/apost_sharp/energy_row.py [--json OUT]
 """
@@ -22,8 +23,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import structured_b as SB   # noqa: E402
 
-TP_JSON = os.environ.get("KAM_LG00_TP", "/tmp/claude-1004/-home-scott-KAM-dev-worktrees-sharp-certside/"
-                         "f7124e1e-e206-4457-a678-89d561534847/scratchpad/t2/dry_tp_L20.json")
+TP_JSON = os.environ.get("KAM_LG00_TP", os.path.join(SB.ROOT, "docs/campaign/studies/v2-energy-data/dry_tp_L20.json"))
 
 
 def lg00_tp(B):
