@@ -288,6 +288,23 @@ theorem stepBrZ_sub_norm_le (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ 
 
 end bounds
 
+
+theorem stepN_le' [Fact (0 < r)] (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 < σ)
+    (hσ1 : σ ≤ 1) (hσs : 3 * σ < s) {FT : HomTaylor_gen a p pb (s - σ)}
+    (hF : HomFieldBound_gen ha hp hpb r M FT) (hM0 : 0 < M) (hM : M ≤ σ / 1024)
+    {w : StepPhase r} (hw : w ∈ stepDomain r (s - 3 * σ) (r / 4)) {t : ℝ}
+    (ht : t ∈ Icc (-1 : ℝ) 1) :
+    ‖transNop (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb FT r) t w‖ ≤ 1 / 128 := by
+  have hMδ : M < σ / 4 := by linarith
+  have hFlow := stepFlowHyp_concrete' (S := s) ha hp hpb FT r hσ hσ1 (by linarith : 2 * σ < s)
+    le_rfl hF hM0 hMδ
+  have hVd : ∀ z ∈ stepDomain r (s - σ) r,
+      z ∈ {z : StepPhase r | (StepPhase.toK z).1 ∈ complexStrip 2 (s - σ)} := fun z hz =>
+    stepDomain_theta_mem le_rfl hz
+  exact stepN_bound ha hp hpb hσ hσ1 hσs hFlow
+    ((stepFieldS_differentiableOn_theta ha hp hpb FT).mono hVd)
+    (fun z hz => stepFieldS_bound ha hp hpb FT r hF le_rfl hz) hM hw ht
+
 end bracket
 
 end KAM.Wave
