@@ -21,7 +21,7 @@ statement surface is proposed in `docs/tracks/LP/FREEZE-PROPOSAL.md`.
 
 The repository chart `poincareProd ν 1 : Phase (n + n) → Phase (n * 2)` (period `2π`, `κ = G m₀ =
 1`)
-is the chart of MAIN Lemma 7 with `(I, λ) = (Λ, λ)` and the slow pair `(ξ, η) = (x, −y)`. 
+is the chart of MAIN Lemma 7 with `(I, λ) = (Λ, λ)` and the slow pair `(ξ, η) = (x, −y)`.
 Everything
 here restates facts of `Poincare/*` and `Exponential/Dictionary.lean` in MAIN's vocabulary:
 
