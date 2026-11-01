@@ -265,7 +265,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.tauLp_coeffW, KAM.Wave.coeffW_tauLp, KAM.Wave.coeffW_injective, KAM.Wave.coeffWLinear, KAM.Wave.norm_tauLp_sq, KAM.Wave.ellNorm_coeffW, KAM.Wave.inner_tauLp, KAM.Wave.norm_coeffW_le, KAM.Wave.coeffWCLM, KAM.Wave.tendsto_norm_sub_truncLp, KAM.Wave.coeffW_one_one, KAM.Wave.norm_prod_eq_max_ellNorm (KAM/Wave/Seq/Transport.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): separability of l^{a,p} is not consumed (the source says so); all consumers use the transported Hilbert structure; exported: (i) bijection, isometry, inner product and completeness by transport, (ii)-(iv) (W1-WEIGHTED audit 2 PASS WITH NOTES); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): separability of l^{a,p} is not consumed (the source says so); all consumers use the transported Hilbert structure; exported: (i) bijection, isometry, inner product and completeness by transport, (ii)-(iv) (W1-WEIGHTED audit 2 PASS WITH NOTES); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w1:iso
@@ -322,7 +322,7 @@ EXTRACTOR: claude-suborch-W+sol-review-W-w1a
 REVIEWER: sol-delta-W-w1a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.coeffW (KAM/Wave/Seq/Transport.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): separability is never consumed (source: 'not consumed by later milestones'); the Lean route works with the transported l^2 carrier; previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): separability is never consumed (source: 'not consumed by later milestones'); the Lean route works with the transported l^2 carrier; previous status NOT_STARTED
 NOTE: -
 
 NODE: stepW:w1:coord
@@ -554,7 +554,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.lamMul, KAM.Wave.lamMul_represents, KAM.Wave.norm_lamMul_le_of_nonneg, KAM.Wave.norm_lamMul_le_of_neg, KAM.Wave.norm_lamMul_eq, KAM.Wave.lamMul_comp_neg, KAM.Wave.not_exists_bounded_lam_pow, KAM.Wave.rotCLM, KAM.Wave.norm_rotCLM, KAM.Wave.rotCLM_add, KAM.Wave.continuous_rotCLM_apply, KAM.Wave.flowCLM, KAM.Wave.norm_sq_flowCLM, KAM.Wave.norm_flowCLM_apply_le, KAM.Wave.flowCLM_add, KAM.Wave.hasDerivAt_coeffW_flow_fst, KAM.Wave.hasDerivAt_coeffW_flow_snd (KAM/Wave/Seq/Diag.lean, KAM/Wave/Seq/Flow.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the last sentence of (iv) (in the z coordinates of bpW:w0:z, L_t is R_t) is used only through the W3 coordinates birkZ, where the consumers state the rotation directly; exported: (i)-(iii) and the norm, group law and coordinate ODE of (iv) (W1-WEIGHTED audit 2 PASS WITH NOTES); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the last sentence of (iv) (in the z coordinates of bpW:w0:z, L_t is R_t) is used only through the W3 coordinates birkZ, where the consumers state the rotation directly; exported: (i)-(iii) and the norm, group law and coordinate ODE of (iv) (W1-WEIGHTED audit 2 PASS WITH NOTES); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w1:ratio
@@ -641,7 +641,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.rotCLM (KAM/Wave/Seq/Flow.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): step not separately formalized; the rotation identities are proved inside the rotCLM lemmas of bpW:w1:diag; previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): step not separately formalized; the rotation identities are proved inside the rotCLM lemmas of bpW:w1:diag; previous status NOT_STARTED
 NOTE: -
 
 NODE: bpW:w1:linfty
@@ -697,7 +697,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.waveOmegaTilde, KAM.Wave.tildeOmegaSeq, KAM.Wave.tail_bound, KAM.Wave.tail_lipschitz, KAM.Wave.tail_gap, KAM.Wave.isLinfty_tildeOmegaSeq, KAM.Wave.norm_tildeOmegaSeq_le, KAM.Wave.isLinftyLipschitz_tildeOmegaSeq, KAM.Wave.HomFreqHyp1, KAM.Wave.homFreqHyp1_wave (KAM/Wave/Seq/Tails.lean, KAM/Wave/KamStep/StepConj.lean, KAM/Wave/Homological/Melnikov.lean, KAM/Wave/Homological/Wave.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the packaged statement 'P96-K Assumption B with d = 1, delta = -1' is replaced in W4 by the frequency hypothesis HomFreqHyp1 / HomFreqHyp, discharged for the wave by homFreqHyp1_wave; exported: the three quantitative tail bounds tail_bound, tail_lipschitz, tail_gap for all j >= 1 (W1-WEIGHTED audit 2 PASS WITH NOTES); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the packaged statement 'P96-K Assumption B with d = 1, delta = -1' is replaced in W4 by the frequency hypothesis HomFreqHyp1 / HomFreqHyp, discharged for the wave by homFreqHyp1_wave; exported: the three quantitative tail bounds tail_bound, tail_lipschitz, tail_gap for all j >= 1 (W1-WEIGHTED audit 2 PASS WITH NOTES); previous status PARTIAL
 NOTE: -
 
 NODE: bpW:w1:twosided-transport
@@ -1540,7 +1540,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.waveG_hasSum_pairing, KAM.Wave.waveG_coeffW_eq_inner, KAM.Wave.waveG_coeffW_analyticOnNhd, KAM.Wave.waveG_coeffW_hasFDerivAt, KAM.Wave.waveG_coeffW_fderiv_apply, KAM.Wave.waveG_frozen_fderiv_apply, KAM.Wave.waveGradW_one_one_apply, KAM.Wave.waveQuartForm, KAM.Wave.waveQuartForm_apply, KAM.Wave.waveQuartForm_norm_le, KAM.Wave.norm_waveQuartForm_le, KAM.Wave.waveQuartForm_perm (KAM/Wave/Cubic/GradIdentity.lean, KAM/Wave/Cubic/GradLp.lean, KAM/Wave/Cubic/QPair.lean, KAM/Wave/Cubic/QSymm.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the general l^{a,p} Riesz-gradient characterization is a remark; the PROVED consumer stepW:w1:hham uses the frozen-coordinate formulas; exported: (i) incl. the symmetric 4-linear Q with C_* bound, (ii), and the frozen formulas of (iii) (W1-CUBIC audit 2 PASS WITH NOTES); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the general l^{a,p} Riesz-gradient characterization is a remark; the PROVED consumer stepW:w1:hham uses the frozen-coordinate formulas; exported: (i) incl. the symmetric 4-linear Q with C_* bound, (ii), and the frozen formulas of (iii) (W1-CUBIC audit 2 PASS WITH NOTES); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w1:quartic
@@ -1629,7 +1629,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.waveG_frozen_fderiv_apply, KAM.Wave.waveGradW_one_one_apply (KAM/Wave/Cubic/GradLp.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): step not separately formalized for general (a, p); only the frozen-coordinate case is needed and is proved (waveG_frozen_fderiv_apply, waveGradW_one_one_apply); previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): step not separately formalized for general (a, p); only the frozen-coordinate case is needed and is proved (waveG_frozen_fderiv_apply, waveGradW_one_one_apply); previous status NOT_STARTED
 NOTE: -
 
 NODE: bpW:w1:hamfield
@@ -1843,7 +1843,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
 LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: D27 route substitution (draft, pending audit): alternative route not taken: the coordinates of the trilinear map are proved via the selection route stepW:w1:tricoord#via-selection (PROVED); this route node has no consumer; previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): alternative route not taken: the coordinates of the trilinear map are proved via the selection route stepW:w1:tricoord#via-selection (PROVED); this route node has no consumer; previous status NOT_STARTED
 NOTE: -
 
 NODE: stepW:w1:tricoord#via-selection

@@ -7,7 +7,7 @@ CONVENTIONS: docs/graph/W/SPEC.md "Conventions to watch": weighted coordinates (
 STANDING_ASSUMPTIONS: bpW:w0:mass
 EXTERNAL_POLICY: track-W external inputs are the labelled items of the parts' external-fact lists (bpW:w1:ext-*, bpW:w2:ext-*, bpW:w3:ext-*, bpW:w4:ext-*, bpW:w5:ext-*, bpW:w7:ext-*, bpW:w8:ext-*, all Mathlib-level; an item that only restates another external is excluded as an alias); track-K results that a W proof uses (cited by \texttt{bp:p1:...}; blueprint-W has no \Kref) are IMPORTED nodes K:<K graph node> (KIND external, LEAN_STATUS EXTERNAL, STATEMENT_SOURCE in blueprint/, NOTE IMPORTED: proved in the track-K graph, node <label>; shared Lean provider); any other unproved fact is a step node with NOTE SOURCE_GAP
 FROZEN_ANCHORS: bpW:w0:nlw#IsClassicalSolution, bpW:w0:basis#lam, bpW:w0:basis#sineMode, bpW:w0:ellap#ellWeight, bpW:w0:ellap#WaveSpace, bpW:w0:ellap#coeff, bpW:w0:reconstruction#reconU, bpW:w0:reconstruction#reconV, bpW:w0:Gq#cubicGrad, bpW:w0:periodone#linearTorus, bpW:wh:embedding#IsAnalyticTorusEmbedding, bpW:wh:dioph#IsDiophantine, bpW:wh:nlw2
-FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:8859fe7f8bae7ca904585d0b72a6c23601d848c66febefdc7e5c74adb2300555
+FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:25da7f2d90ab389ea55d98480ff1c6ebfc2ccb4cd20ad13e26988e07bc8d6269
 WRITER: claude-suborch-W
 GLOBAL_REVIEWER: sol-global-W
 GLOBAL_REVIEW_REF: docs/graph/W/reviews/GLOBAL-review-2.md
@@ -228,7 +228,7 @@ EXTRACTOR: claude-suborch-W+claude-suborch-W-r2
 REVIEWER: sol-delta3-W-w0c
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.WaveTwoMem.summable_sq, KAM.Wave.wave_conv_summable (KAM/Wave/Algebra/TwoSided.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the s < 0 divergence example is a remark no proof consumes; consumers use only absolute convergence for a, s >= 0; exported: space WaveTwoMem, square-summability and absolute convergence of the convolution for a, s >= 0 (W1-ALGEBRA audit 1 PASS WITH NOTES); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the s < 0 divergence example is a remark no proof consumes; consumers use only absolute convergence for a, s >= 0; exported: space WaveTwoMem, square-summability and absolute convergence of the convolution for a, s >= 0 (W1-ALGEBRA audit 1 PASS WITH NOTES); previous status PARTIAL
 NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): convolution restricted to s >= 0 with its convergence argument (inline); the pointers to bpW:w0n:algebra and bpW:w1:twosided-transport at L73-L74 are forward pointers, not edges.
 
 NODE: bpW:w0:reconstruction#reconU
@@ -496,8 +496,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0c
 LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.lam_pos, KAM.Wave.lam_ge, KAM.Wave.lam_le, KAM.Wave.lam_succ_le, KAM.Wave.lam_sub_pnat_pos, KAM.Wave.lam_sub_pnat_le, KAM.Wave.lam_facts (KAM/Wave/Iteration/Sequences.lean, KAM/Wave/Recon/ReconAnalytic.lean, KAM/Wave/Iteration/IterArith.lean, KAM/Wave/Seq/Tails.lean, KAM/Wave/Normal/Nondegeneracy.lean)
-LEAN_NOTE: proved pieces: lam_pos, lam_ge, lam_le, lam_succ_le, lam_sub_pnat_pos, lam_sub_pnat_le, lam_facts (j < lambda_j < j + sqrt m, monotonicity, increments < 1); strict convexity not formalized; the divisor proof uses discrete second differences instead (stepW:w3:divisor#curvature)
+LEAN_REF: KAM.Wave.lam_pnat_pos, KAM.Wave.lam_gt, KAM.Wave.lam_div_pnat_le, KAM.Wave.lam_sub_pnat_pos, KAM.Wave.lam_sub_pnat_le, KAM.Wave.lam_le, KAM.Wave.lam_facts, KAM.Wave.lamExt_convex, KAM.Wave.birkL_second_diff, KAM.Wave.birkDelta_mono (KAM/Wave/Seq/Tails.lean, KAM/Wave/Seq/Diag.lean, KAM/Wave/Recon/ReconAnalytic.lean, KAM/Wave/Normal/Nondegeneracy.lean, KAM/Wave/Normal/NonresAux.lean, KAM/Wave/Birkhoff/DivisorReal.lean)
+LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: no PROVED consumer needs the full strict convexity / derivative statement (finding L); proved physical-frequency pieces: lam_pnat_pos, lam_gt, lam_div_pnat_le, lam_sub_pnat_pos, lam_sub_pnat_le (increments), lam_le (only lam_j <= (1+m) j, not lam_j < j + sqrt m), lam_facts (two tangential modes only: positivity, lamTan 0 < lamTan 1, gap < 1), non-strict convexity lamExt_convex (W0 nonresonance route); strict convexity not formalized: the divisor proof uses discrete second differences instead (birkL_second_diff, birkDelta_mono); missing: the packaged claim for all j (j < lambda_j < j + sqrt m, strict monotonicity, increment < 1 as one statement) and strict convexity of sqrt(s^2+m); finding L: the earlier refs lam_pos, lam_ge, lam_succ_le were W6SeqData declarations about the iteration weight, removed
 NOTE: Unlabelled prose (L45-L47) stating facts that later proofs consume (SPEC section-data rule); justification is elementary and inline.
 
 NODE: bpW:w0:ellap#spaces
@@ -729,9 +729,9 @@ EDGE: stepW:w0n:young | blueprint-W/parts/w0-normalization.tex#bpW:w0n:algebra@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
-LEAN_STATUS: BYPASSED
-LEAN_REF: KAM.Wave.wave_algebra, KAM.Wave.waveCubicConst_one (KAM/Wave/Algebra/Algebra.lean, KAM/Wave/Normal/Analysis/CubicHeadline.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the identity K_{3/2}^2 = 8(1+2 zeta(3)) is used only through the cubic constant, whose value is waveCubicConst_one (W0-ANALYSIS audit 1 PASS); exported: the algebra inequality wave_algebra with K_s (W1-ALGEBRA audit 1 PASS WITH NOTES); previous status PARTIAL
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.wave_algebra, KAM.Wave.waveAlgConst_three_halves_sq, KAM.Wave.waveCubicConst_one (KAM/Wave/Algebra/Algebra.lean, KAM/Wave/Normal/Analysis/CubicHeadline.lean)
+LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: the identity K_(3/2)^2 = 8(1+2 zeta(3)) is proved by waveAlgConst_three_halves_sq (Normal/Analysis/CubicHeadline.lean:46-58) and used by waveCubicConst_one (finding A); exported: the algebra inequality and absolute convergence wave_algebra (W1-ALGEBRA audit 1 PASS WITH NOTES); candidate PROVED with the corrected reference (audit finding A)
 NOTE: -
 
 NODE: stepW:w0n:weight
@@ -756,9 +756,9 @@ EDGE: bpW:w0:twosided | blueprint-W/parts/w0-normalization.tex#stepW:w0n:weight@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
-LEAN_STATUS: BYPASSED
-LEAN_REF: KAM.Wave.wave_algebra (KAM/Wave/Algebra/Algebra.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): step not separately formalized; its weight inequality is proved inside wave_algebra; previous status NOT_STARTED
+LEAN_STATUS: NOT_STARTED
+LEAN_REF: KAM.Wave.wave_weight_ineq, KAM.Wave.waveJap_sub_le, KAM.Wave.wave_algebra (KAM/Wave/Algebra/Algebra.lean)
+LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: the step is a separate theorem wave_weight_ineq (Algebra/Algebra.lean:48-74, exponential triangle inequality plus waveJap_sub_le), invoked by wave_algebra at line 102; after unfolding waveTwoWeight it is the W0 weight inequality (finding A); candidate PROVED with the corrected reference (audit finding A)
 NOTE: -
 
 NODE: stepW:w0n:young
@@ -786,7 +786,7 @@ EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.wave_algebra (KAM/Wave/Algebra/Algebra.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): step not separately formalized; Young and Cauchy-Schwarz are applied inside wave_algebra; previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): step not separately formalized; Young and Cauchy-Schwarz are applied inside wave_algebra; previous status NOT_STARTED
 NOTE: -
 
 NODE: bpW:w0n:cubic-bound
@@ -975,7 +975,7 @@ EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.wave_force_identity, KAM.Wave.summable_abs_sqrtLam_waveCubic, KAM.Wave.waveSineSeries_tendstoUniformly, KAM.Wave.wave_sineModeIter_two, KAM.Wave.wave_pde_identity, KAM.Wave.iteratedDeriv_waveSineSeries (KAM/Wave/Normal/Analysis/PdeForce.lean, KAM/Wave/Normal/Analysis/SineSeries.lean, KAM/Wave/Normal/Analysis/PdeForward.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the second identity -d_x^2 U + m U = U(lambda^2 q) is used only coefficientwise inside wave_pde_identity, which is what the PROVED consumer stepW:w2:fcub needs; exported: the force identity U^3 = sum sqrt(lambda_l) G_q(q)_l phi_l with uniform convergence (W0-ANALYSIS audit 1 PASS WITH NOTES); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the second identity -d_x^2 U + m U = U(lambda^2 q) is used only coefficientwise inside wave_pde_identity, which is what the PROVED consumer stepW:w2:fcub needs; exported: the force identity U^3 = sum sqrt(lambda_l) G_q(q)_l phi_l with uniform convergence (W0-ANALYSIS audit 1 PASS WITH NOTES); previous status PARTIAL
 NOTE: -
 
 NODE: bpW:w0n:nonres
@@ -1092,7 +1092,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.resonantQuarticPart, KAM.Wave.tangentialQuarticTuple, KAM.Wave.normalQuarticTuple, KAM.Wave.quarticDivisor, KAM.Wave.normQuarticCoeff, KAM.Wave.birkCoefBar, KAM.Wave.birkBarSet, KAM.Wave.birkQuartP_bar, KAM.Wave.birkHamBar, KAM.Wave.birkHamNor (KAM/Wave/Normal/ResonantPart.lean, KAM/Wave/Birkhoff/QuartPaired.lean, KAM/Wave/Birkhoff/QuartBarAlg.lean, KAM/Wave/Birkhoff/MainQuart.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the sealed route uses the W3 two-sided infinite-mode normal form (birkBarSet, birkCoefBar, birkHamBar, birkHamNor, birkQuartP_bar) instead of the W0 finite-mode construction; exported: finite-mode resonant projection resonantQuarticPart and tuple filters (W0-NORMAL audit 2 PASS WITH NOTES); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the sealed route uses the W3 two-sided infinite-mode normal form (birkBarSet, birkCoefBar, birkHamBar, birkHamNor, birkQuartP_bar) instead of the W0 finite-mode construction; exported: finite-mode resonant projection resonantQuarticPart and tuple filters (W0-NORMAL audit 2 PASS WITH NOTES); previous status PARTIAL
 NOTE: -
 
 NODE: bpW:w0n:AB
@@ -1124,7 +1124,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.resonantQuarticPart_tangential_eq, KAM.Wave.avgG_eq, KAM.Wave.partial_avgG_eq, KAM.Wave.actionA, KAM.Wave.actionB, KAM.Wave.actionA_eq, KAM.Wave.birkQuartP_bar, KAM.Wave.birkHamBar_birkZR (KAM/Wave/Normal/ResonantPart.lean, KAM/Wave/Normal/ActionCoeff.lean, KAM/Wave/Normal/Nondegeneracy.lean, KAM/Wave/Birkhoff/QuartBarAlg.lean, KAM/Wave/Birkhoff/MainRealId.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the infinite-mode formula used downstream is the W3 birkQuartP_bar / birkHamBar_birkZR (audited PASS) with the corrected A, B of actionA_eq; the W0 finite-mode theorem is not extended; exported: finite-mode bar G = (1/2)<AI,I> + <BI,Z>, corrected A, B, matrix form and avgG (W0-NORMAL audit 2 PASS WITH NOTES); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the infinite-mode formula used downstream is the W3 birkQuartP_bar / birkHamBar_birkZR (audited PASS) with the corrected A, B of actionA_eq; the W0 finite-mode theorem is not extended; exported: finite-mode bar G = (1/2)<AI,I> + <BI,Z>, corrected A, B, matrix form and avgG (W0-NORMAL audit 2 PASS WITH NOTES); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w0n:resavg
@@ -1155,7 +1155,7 @@ EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.signBalanced_of_resonant, KAM.Wave.signBalanced_sum_zero, KAM.Wave.signBalanced_iff, KAM.Wave.resonantQuartic_term_eq, KAM.Wave.resonantQuarticPart_polar, KAM.Wave.resonantQuarticReal_all, KAM.Wave.resonantQuarticReal_split, KAM.Wave.birkQuartP_bar (KAM/Wave/Normal/ResonantBalance.lean, KAM/Wave/Normal/ResonantPart.lean, KAM/Wave/Birkhoff/QuartBarAlg.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the infinite-mode extension is supplied by the W3 route (birkQuartP_bar) instead of extending the W0 average; exported: resonant iff balanced, phase independence and resonant part = avgG for finitely many modes (W0-NORMAL audit 2 PASS); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the infinite-mode extension is supplied by the W3 route (birkQuartP_bar) instead of extending the W0 average; exported: resonant iff balanced, phase independence and resonant part = avgG for finitely many modes (W0-NORMAL audit 2 PASS); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w0n:moments
@@ -1275,7 +1275,7 @@ EXTRACTOR: claude-suborch-W+sol-delta-W-w0n
 REVIEWER: sol-delta2-W-w0n
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.det_actionA, KAM.Wave.actionA_eq (KAM/Wave/Normal/Nondegeneracy.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the general-n identity det(4 11^T - Id_n) is a parenthetical remark; the PROVED consumer bpW:w0n:nondeg needs only n = 2; exported: det_actionA for the two-mode action matrix (W0-NORMAL audit 1 PASS); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the general-n identity det(4 11^T - Id_n) is a parenthetical remark; the PROVED consumer bpW:w0n:nondeg needs only n = 2; exported: det_actionA for the two-mode action matrix (W0-NORMAL audit 1 PASS); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w0n:A2
@@ -1419,7 +1419,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.quarticGComplex, KAM.Wave.quarticG_eq_complex, KAM.Wave.sum_quarticMonomial, KAM.Wave.quarticMonomial, KAM.Wave.conjSelect, KAM.Wave.quarticDivisor, KAM.Wave.tangentialQuarticTuple, KAM.Wave.normalQuarticTuple, KAM.Wave.birkQuartForm, KAM.Wave.birkCoefTan, KAM.Wave.birkCoefNor, KAM.Wave.birkNormalSet, KAM.Wave.birkQuartP_normal (KAM/Wave/Normal/ResonantPart.lean, KAM/Wave/Birkhoff/QuartForm.lean, KAM/Wave/Birkhoff/QuartBarAlg.lean, KAM/Wave/Birkhoff/QuartNormal.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the infinite-mode quartic expansion and the tangential/normal split used downstream are the W3 objects (birkQuartForm, birkCoefTan, birkCoefNor, birkNormalSet, birkQuartP_normal); exported: finite-mode Gz expansion with 1/16, divisor and tuple split (W0-NORMAL audit 2 PASS); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the infinite-mode quartic expansion and the tangential/normal split used downstream are the W3 objects (birkQuartForm, birkCoefTan, birkCoefNor, birkNormalSet, birkQuartP_normal); exported: finite-mode Gz expansion with 1/16, divisor and tuple split (W0-NORMAL audit 2 PASS); previous status PARTIAL
 NOTE: Unlabelled prose L260-L270 (with the display bpW:w0n:Gz) that fixes data consumed by Qdef, AB and formal-birkhoff (SPEC section-data rule).
 
 NODE: bpW:w0n:nondeg-sec#data
@@ -1717,7 +1717,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.tauLp_coeffW, KAM.Wave.coeffW_tauLp, KAM.Wave.coeffW_injective, KAM.Wave.coeffWLinear, KAM.Wave.norm_tauLp_sq, KAM.Wave.ellNorm_coeffW, KAM.Wave.inner_tauLp, KAM.Wave.norm_coeffW_le, KAM.Wave.coeffWCLM, KAM.Wave.tendsto_norm_sub_truncLp, KAM.Wave.coeffW_one_one, KAM.Wave.norm_prod_eq_max_ellNorm (KAM/Wave/Seq/Transport.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): separability of l^{a,p} is not consumed (the source says so); all consumers use the transported Hilbert structure; exported: (i) bijection, isometry, inner product and completeness by transport, (ii)-(iv) (W1-WEIGHTED audit 2 PASS WITH NOTES); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): separability of l^{a,p} is not consumed (the source says so); all consumers use the transported Hilbert structure; exported: (i) bijection, isometry, inner product and completeness by transport, (ii)-(iv) (W1-WEIGHTED audit 2 PASS WITH NOTES); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w1:iso
@@ -1774,7 +1774,7 @@ EXTRACTOR: claude-suborch-W+sol-review-W-w1a
 REVIEWER: sol-delta-W-w1a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.coeffW (KAM/Wave/Seq/Transport.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): separability is never consumed (source: 'not consumed by later milestones'); the Lean route works with the transported l^2 carrier; previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): separability is never consumed (source: 'not consumed by later milestones'); the Lean route works with the transported l^2 carrier; previous status NOT_STARTED
 NOTE: -
 
 NODE: stepW:w1:coord
@@ -2006,7 +2006,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.lamMul, KAM.Wave.lamMul_represents, KAM.Wave.norm_lamMul_le_of_nonneg, KAM.Wave.norm_lamMul_le_of_neg, KAM.Wave.norm_lamMul_eq, KAM.Wave.lamMul_comp_neg, KAM.Wave.not_exists_bounded_lam_pow, KAM.Wave.rotCLM, KAM.Wave.norm_rotCLM, KAM.Wave.rotCLM_add, KAM.Wave.continuous_rotCLM_apply, KAM.Wave.flowCLM, KAM.Wave.norm_sq_flowCLM, KAM.Wave.norm_flowCLM_apply_le, KAM.Wave.flowCLM_add, KAM.Wave.hasDerivAt_coeffW_flow_fst, KAM.Wave.hasDerivAt_coeffW_flow_snd (KAM/Wave/Seq/Diag.lean, KAM/Wave/Seq/Flow.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the last sentence of (iv) (in the z coordinates of bpW:w0:z, L_t is R_t) is used only through the W3 coordinates birkZ, where the consumers state the rotation directly; exported: (i)-(iii) and the norm, group law and coordinate ODE of (iv) (W1-WEIGHTED audit 2 PASS WITH NOTES); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the last sentence of (iv) (in the z coordinates of bpW:w0:z, L_t is R_t) is used only through the W3 coordinates birkZ, where the consumers state the rotation directly; exported: (i)-(iii) and the norm, group law and coordinate ODE of (iv) (W1-WEIGHTED audit 2 PASS WITH NOTES); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w1:ratio
@@ -2093,7 +2093,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.rotCLM (KAM/Wave/Seq/Flow.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): step not separately formalized; the rotation identities are proved inside the rotCLM lemmas of bpW:w1:diag; previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): step not separately formalized; the rotation identities are proved inside the rotCLM lemmas of bpW:w1:diag; previous status NOT_STARTED
 NOTE: -
 
 NODE: bpW:w1:linfty
@@ -2149,7 +2149,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.waveOmegaTilde, KAM.Wave.tildeOmegaSeq, KAM.Wave.tail_bound, KAM.Wave.tail_lipschitz, KAM.Wave.tail_gap, KAM.Wave.isLinfty_tildeOmegaSeq, KAM.Wave.norm_tildeOmegaSeq_le, KAM.Wave.isLinftyLipschitz_tildeOmegaSeq, KAM.Wave.HomFreqHyp1, KAM.Wave.homFreqHyp1_wave (KAM/Wave/Seq/Tails.lean, KAM/Wave/KamStep/StepConj.lean, KAM/Wave/Homological/Melnikov.lean, KAM/Wave/Homological/Wave.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the packaged statement 'P96-K Assumption B with d = 1, delta = -1' is replaced in W4 by the frequency hypothesis HomFreqHyp1 / HomFreqHyp, discharged for the wave by homFreqHyp1_wave; exported: the three quantitative tail bounds tail_bound, tail_lipschitz, tail_gap for all j >= 1 (W1-WEIGHTED audit 2 PASS WITH NOTES); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the packaged statement 'P96-K Assumption B with d = 1, delta = -1' is replaced in W4 by the frequency hypothesis HomFreqHyp1 / HomFreqHyp, discharged for the wave by homFreqHyp1_wave; exported: the three quantitative tail bounds tail_bound, tail_lipschitz, tail_gap for all j >= 1 (W1-WEIGHTED audit 2 PASS WITH NOTES); previous status PARTIAL
 NOTE: -
 
 NODE: bpW:w1:twosided-transport
@@ -2992,7 +2992,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.waveG_hasSum_pairing, KAM.Wave.waveG_coeffW_eq_inner, KAM.Wave.waveG_coeffW_analyticOnNhd, KAM.Wave.waveG_coeffW_hasFDerivAt, KAM.Wave.waveG_coeffW_fderiv_apply, KAM.Wave.waveG_frozen_fderiv_apply, KAM.Wave.waveGradW_one_one_apply, KAM.Wave.waveQuartForm, KAM.Wave.waveQuartForm_apply, KAM.Wave.waveQuartForm_norm_le, KAM.Wave.norm_waveQuartForm_le, KAM.Wave.waveQuartForm_perm (KAM/Wave/Cubic/GradIdentity.lean, KAM/Wave/Cubic/GradLp.lean, KAM/Wave/Cubic/QPair.lean, KAM/Wave/Cubic/QSymm.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the general l^{a,p} Riesz-gradient characterization is a remark; the PROVED consumer stepW:w1:hham uses the frozen-coordinate formulas; exported: (i) incl. the symmetric 4-linear Q with C_* bound, (ii), and the frozen formulas of (iii) (W1-CUBIC audit 2 PASS WITH NOTES); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the general l^{a,p} Riesz-gradient characterization is a remark; the PROVED consumer stepW:w1:hham uses the frozen-coordinate formulas; exported: (i) incl. the symmetric 4-linear Q with C_* bound, (ii), and the frozen formulas of (iii) (W1-CUBIC audit 2 PASS WITH NOTES); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w1:quartic
@@ -3081,7 +3081,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.waveG_frozen_fderiv_apply, KAM.Wave.waveGradW_one_one_apply (KAM/Wave/Cubic/GradLp.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): step not separately formalized for general (a, p); only the frozen-coordinate case is needed and is proved (waveG_frozen_fderiv_apply, waveGradW_one_one_apply); previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): step not separately formalized for general (a, p); only the frozen-coordinate case is needed and is proved (waveG_frozen_fderiv_apply, waveGradW_one_one_apply); previous status NOT_STARTED
 NOTE: -
 
 NODE: bpW:w1:hamfield
@@ -3295,7 +3295,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w1a
 LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: D27 route substitution (draft, pending audit): alternative route not taken: the coordinates of the trilinear map are proved via the selection route stepW:w1:tricoord#via-selection (PROVED); this route node has no consumer; previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): alternative route not taken: the coordinates of the trilinear map are proved via the selection route stepW:w1:tricoord#via-selection (PROVED); this route node has no consumer; previous status NOT_STARTED
 NOTE: -
 
 NODE: stepW:w1:tricoord#via-selection
@@ -6683,7 +6683,7 @@ EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.birkLamBil, KAM.Wave.birkLambda, KAM.Wave.norm_birkLambda_le, KAM.Wave.birkLambda_analyticOnNhd, KAM.Wave.birkLambda_birkZ, KAM.Wave.fderiv_birkLambda_apply, KAM.Wave.birkXLam, KAM.Wave.norm_birkXLam_le, KAM.Wave.birkLambda_field, KAM.Wave.not_exists_birkXLam_bounded (KAM/Wave/Birkhoff/Lambda.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the negative clause 'X_Lambda does not map W into itself' is a remark no proof consumes; it is exported in the form not_exists_birkXLam_bounded; exported: all other clauses: quadratic form, bounds, Lambda(Zx), DLambda, X_Lambda on W+ (W3-SETTING-DIVF audit 2 PASS); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the negative clause 'X_Lambda does not map W into itself' is a remark no proof consumes; it is exported in the form not_exists_birkXLam_bounded; exported: all other clauses: quadratic form, bounds, Lambda(Zx), DLambda, X_Lambda on W+ (W3-SETTING-DIVF audit 2 PASS); previous status PARTIAL
 NOTE: -
 
 NODE: bpW:w3:majorant
@@ -8789,7 +8789,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w3
 LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: D27 route substitution (draft, pending audit): standing data a >= 0, p >= 1/2, J = {1,2} are carried as the hypotheses ha, hp and the fixed index sets of every W3 declaration (birkTanSet, birkNormalSet); no separate object is needed; previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): standing data a >= 0, p >= 1/2, J = {1,2} are carried as the hypotheses ha, hp and the fixed index sets of every W3 declaration (birkTanSet, birkNormalSet); no separate object is needed; previous status NOT_STARTED
 NOTE: Unlabelled 'Standing data' paragraph (SPEC hypothesis packages): its premise p >= 1/2 is used by Lemma bpW:w3:Lambda and every bound through C_* = K_{p+1/2}^2/pi; it is recorded in the SOURCE_HYPOTHESES of each W3 result.
 
 NODE: bpW:w3:hamfield-def#hamilton
@@ -8819,7 +8819,7 @@ EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.IsBirkClassA.field_rho, KAM.Wave.birkZinv_birkQuartX_birkZ, KAM.Wave.birkK_real_gradient (KAM/Wave/Birkhoff/HamClass.lean, KAM/Wave/Birkhoff/QuartIdent.lean, KAM/Wave/Birkhoff/MainBallReal.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the general real-point identity is used only for the two Hamiltonians the proofs need, G (birkZinv_birkQuartX_birkZ) and K (birkK_real_gradient); reality of fields is used only for class-A Hamiltonians (IsBirkClassA.field_rho); exported: X_P o rho = rho o X_P for class-A P; the real-point identity for P = G and P = K; previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the general real-point identity is used only for the two Hamiltonians the proofs need, G (birkZinv_birkQuartX_birkZ) and K (birkK_real_gradient); reality of fields is used only for class-A Hamiltonians (IsBirkClassA.field_rho); exported: X_P o rho = rho o X_P for class-A P; the real-point identity for P = G and P = K; previous status PARTIAL
 NOTE: Unlabelled paragraph after Definition bpW:w3:hamfield-def, cited as "paragraph after Definition bpW:w3:hamfield-def" in Steps stepW:w3:XG and stepW:w3:XKconcl.
 
 NODE: bpW:w3:quartic-sec#data
@@ -10695,7 +10695,7 @@ EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w4
 REVIEWER: sol-delta7-W-w4
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.aaMap, KAM.Wave.aaUnshift, KAM.Wave.aaDer, KAM.Wave.aaDerInv (KAM/Wave/KamStep/ActionAngle.lean, KAM/Wave/KamStep/ActionAngleDeriv.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the identification of W3 normal coordinates with the W4 normal variables is done inside the W5 action-angle substitution (aaMap, aaUnshift, aaDer, aaDerInv; W5-AA audit 2 PASS), as the ownership ruling assigns it to W5; previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the identification of W3 normal coordinates with the W4 normal variables is done inside the W5 action-angle substitution (aaMap, aaUnshift, aaDer, aaDerInv; W5-AA audit 2 PASS), as the ownership ruling assigns it to W5; previous status NOT_STARTED
 NOTE: Remark kept as a node: its identifications are consumed by W5 (action-angle substitution); the ownership ruling and the pointer to Remark bpW:w3:interface are administrative.
 
 NODE: bpW:w4:lie-sec#guard
@@ -11223,7 +11223,7 @@ EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a+sol-global-W
 REVIEWER: sol-delta9-W-W-w5a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.HomMelnikovMod, KAM.Wave.homModRatio, KAM.Wave.homModMultBounds_of, KAM.Wave.homModMultLip_of, KAM.Wave.homReweight, KAM.Wave.homModSolveTaylor, KAM.Wave.homModSolve_entry, KAM.Wave.homModF_compBounds, KAM.Wave.homModLemma_fieldBound, KAM.Wave.homModLemma_lipschitz, KAM.Wave.homModLemma2, KAM.Wave.homModLemma_equation_all, KAM.Wave.stepSolveMod_equation, KAM.Wave.homModLemma_zero_modes, KAM.Wave.homModSolveTaylor_isReal, KAM.Wave.waveBN, KAM.Wave.waveBNconst, KAM.Wave.waveBN_le, KAM.Wave.stepTheoremMod (KAM/Wave/Homological/ModifiedDivisors.lean, KAM/Wave/Homological/ModifiedReweight.lean, KAM/Wave/Homological/ModifiedSolve.lean, KAM/Wave/Homological/ModifiedBounds.lean, KAM/Wave/Homological/ModifiedLipField.lean, KAM/Wave/Homological/ModifiedEquation.lean, KAM/Wave/KamStep/ModifiedStepSolve.lean, KAM/Wave/Homological/ModifiedReal.lean, KAM/Wave/KamStep/LatticeBN.lean, KAM/Wave/KamStep/StepTheoremSrc.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): zero modes, reality and the bracket form for the modified solve are used only inside stepTheoremMod (gate supplied by homModMultBounds_of); exported: field and Lipschitz bounds, lambda form, (iii), the L_N F and guarded DN equations (W5-STEP-B audit 1 PASS); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): zero modes, reality and the bracket form for the modified solve are used only inside stepTheoremMod (gate supplied by homModMultBounds_of); exported: field and Lipschitz bounds, lambda form, (iii), the L_N F and guarded DN equations (W5-STEP-B audit 1 PASS); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w5:m-sup
@@ -11686,9 +11686,9 @@ EDGE: stepW:w5:s-class | blueprint-W/parts/w5-kamstep.tex#bpW:w5:solve@L373-L373
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5a
-LEAN_STATUS: BYPASSED
-LEAN_REF: KAM.Wave.stepFun_field, KAM.Wave.stepField_differentiableAt, KAM.Wave.stepFun_isSmoothing, KAM.Wave.stepSolve_fam, KAM.Wave.stepSolve_bound, KAM.Wave.stepSolve_bound_mod, KAM.Wave.stepSolveMod_fam, KAM.Wave.stepSolve_equation, KAM.Wave.stepSolveMod_equation, KAM.Wave.stepNhat_fam, KAM.Wave.stepOmegaHat_bound, KAM.Wave.stepOmegaTail_bound, KAM.Wave.stepOmegaHat_sub, KAM.Wave.stepOmegaTail_sub, KAM.Wave.FT_isRealTaylor, KAM.Wave.stepTheorem, KAM.Wave.stepTheoremMod (KAM/Wave/KamStep/TaylorField.lean, KAM/Wave/KamStep/TaylorFieldDiff.lean, KAM/Wave/KamStep/StepSolve.lean, KAM/Wave/KamStep/Data.lean, KAM/Wave/KamStep/ModifiedStepSolve.lean, KAM/Wave/KamStep/StepFreqBound.lean, KAM/Wave/KamStep/RealStep.lean, KAM/Wave/KamStep/StepTheoremSrc.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the lemma's clauses are assembled inside stepTheorem / stepTheoremMod, the only consumers; hat N smoothing is needed only on the domains D(s',r); exported: each clause separately: stepSolve_fam, stepSolve_bound(_mod), stepSolve_equation, stepSolveMod_equation, stepNhat_fam, stepFun_isSmoothing; previous status PARTIAL
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.stepFun_field, KAM.Wave.stepField_differentiableAt, KAM.Wave.stepFun_isSmoothing, KAM.Wave.stepSolve_fam, KAM.Wave.stepSolve_bound, KAM.Wave.stepSolve_bound_mod, KAM.Wave.stepSolveMod_fam, KAM.Wave.stepSolve_equation, KAM.Wave.stepSolveMod_equation, KAM.Wave.stepNhat_fam, KAM.Wave.WaveStepHyp.FT_isRealTaylor, KAM.Wave.StepHypMod.FT_isRealTaylor, KAM.Wave.stepTheorem, KAM.Wave.stepTheoremMod (KAM/Wave/KamStep/TaylorField.lean, KAM/Wave/KamStep/TaylorFieldDiff.lean, KAM/Wave/KamStep/StepSolve.lean, KAM/Wave/KamStep/Data.lean, KAM/Wave/KamStep/ModifiedStepSolve.lean, KAM/Wave/KamStep/RealStep.lean, KAM/Wave/KamStep/StepTheoremSrc.lean)
+LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: the component route (solve, bounds, equation, smoothing, frequency corrections) is viable but the cited KAM.Wave.FT_isRealTaylor did not exist; the reality proofs are WaveStepHyp.FT_isRealTaylor and StepHypMod.FT_isRealTaylor (KamStep/RealStep.lean:138,159), reference corrected (finding S); W5-STEP-A audit 1 PASS WITH NOTES, W5-STEP-B audit 1 PASS; missing: no single export of the lemma (clauses assembled inside stepTheorem / stepTheoremMod), hat N in S_(p_+)(P) shown only on D(s',r) (stepFun_isSmoothing); candidate BYPASSED with the corrected reference (audit finding S)
 NOTE: -
 
 NODE: stepW:w5:s-in
@@ -11810,9 +11810,9 @@ EDGE: stepW:w5:f-real | blueprint-W/parts/w5-kamstep.tex#bpW:w5:flow@L416-L416 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
 REVIEWER: sol-delta7-W-w5a
-LEAN_STATUS: BYPASSED
-LEAN_REF: KAM.Wave.stepFlowHyp, KAM.Wave.stepFlowHyp_concrete, KAM.Wave.stepDomain_margin, KAM.Wave.stepMF_margins, KAM.Wave.holoFlow_smooth_eq, KAM.Wave.differentiableOn_smoothDisp, KAM.Wave.norm_smoothDisp_le, KAM.Wave.flowII_disp, KAM.Wave.flowII_disp_sub, KAM.Wave.flowII_deriv, KAM.Wave.flowII_deriv_sub, KAM.Wave.stepImage_mem, KAM.Wave.stepFlow_real, KAM.Wave.stepFlow_translate, KAM.Wave.holoFlow_translate, KAM.Wave.stepFlow_bounds_smooth, KAM.Wave.stepTheorem (KAM/Wave/KamStep/Flow.lean, KAM/Wave/KamStep/StepFieldBound.lean, KAM/Wave/KamStep/Data.lean, KAM/Wave/KamStep/FlowSmooth.lean, KAM/Wave/KamStep/FlowSmoothDeriv.lean, KAM/Wave/KamStep/FlowStepBounds.lean, KAM/Wave/KamStep/RealFlowPicard.lean, KAM/Wave/KamStep/StepPeriodicFlow.lean, KAM/Wave/KamStep/FlowEquivariant.lean, KAM/Wave/KamStep/StepPsi.lean, KAM/Wave/KamStep/StepTheoremSrc.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the flow bounds are used only for Phi = phi^1, assembled in the step theorem (stepFlow_bounds_smooth); the per-t statements are abstract flowII_* estimates instantiated through stepFlowHyp_concrete; exported: the W1 flow hypotheses (stepFlowHyp_concrete), (iii), abstract per-t estimates flowII_*, reality for real X_F, unit-shift equivariance; previous status PARTIAL
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.stepFlowHyp, KAM.Wave.stepFlowHyp_concrete, KAM.Wave.stepDomain_margin, KAM.Wave.stepMF_margins, KAM.Wave.holoFlow_smooth_eq, KAM.Wave.differentiableOn_smoothDisp, KAM.Wave.norm_smoothDisp_le, KAM.Wave.flowII_disp, KAM.Wave.flowII_disp_sub, KAM.Wave.flowII_deriv, KAM.Wave.flowII_deriv_sub, KAM.Wave.stepFlow_bounds_smooth, KAM.Wave.stepXplusB_time_bounds, KAM.Wave.stepFlow_real, KAM.Wave.stepFlow_translate (KAM/Wave/KamStep/Flow.lean, KAM/Wave/KamStep/StepFieldBound.lean, KAM/Wave/KamStep/Data.lean, KAM/Wave/KamStep/FlowSmooth.lean, KAM/Wave/KamStep/FlowSmoothDeriv.lean, KAM/Wave/KamStep/FlowStepBounds.lean, KAM/Wave/KamStep/StepPsi.lean, KAM/Wave/KamStep/StepPlusBound.lean, KAM/Wave/KamStep/RealFlowPicard.lean, KAM/Wave/KamStep/StepPeriodicFlow.lean)
+LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: the proof closure uses the flow at arbitrary t, not only Phi = phi^1 (finding FLOW): flowII_deriv at variable t in FlowCalcOnto.lean:112 (all-time target inverse for c-inv), flowII_disp_sub at variable t in StepPullbackBound.lean:138, stepPullback_bounds at variable t in stepXplusB_time_bounds; exported: the W1 flow hypotheses (stepFlowHyp_concrete), (iii), the abstract per-t estimates flowII_* (FlowHyp, instantiated through stepFlowHyp_concrete), reality for real X_F (stepFlow_real), unit-shift equivariance; missing as concrete statements for every t in [-1,1]: the lambda forms of (i), (ii) (assembled only for Phi in stepFlow_bounds_smooth) and unconditional reality
 NOTE: -
 
 NODE: stepW:w5:f-margin
@@ -11869,9 +11869,9 @@ EDGE: stepW:w5:f-margin | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-flow@L400-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
 REVIEWER: sol-delta7-W-w5a
-LEAN_STATUS: BYPASSED
-LEAN_REF: KAM.Wave.holoFlow_smooth_eq, KAM.Wave.differentiableOn_smoothDisp, KAM.Wave.norm_smoothDisp_le, KAM.Wave.stepFlow_bounds_smooth (KAM/Wave/KamStep/FlowSmooth.lean, KAM/Wave/KamStep/FlowSmoothDeriv.lean, KAM/Wave/KamStep/StepPsi.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): step used only at t = 1 inside the step theorem (stepFlow_bounds_smooth); per-t form abstract; exported: abstract smooth displacement (holoFlow_smooth_eq, differentiableOn_smoothDisp, norm_smoothDisp_le); previous status PARTIAL
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.holoFlow_smooth_eq, KAM.Wave.differentiableOn_smoothDisp, KAM.Wave.norm_smoothDisp_le, KAM.Wave.smoothDisp, KAM.Wave.flowII_disp, KAM.Wave.stepFlowHyp_concrete (KAM/Wave/KamStep/FlowSmooth.lean, KAM/Wave/KamStep/FlowSmoothDeriv.lean, KAM/Wave/KamStep/FlowStepBounds.lean, KAM/Wave/KamStep/StepFieldBound.lean)
+LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: norm_smoothDisp_le (FlowSmooth.lean:84-94) proves exactly |smoothDisp t w| <= M |t| under the abstract flow hypothesis, used at all t by flowII_disp (FlowStepBounds.lean:43) and FlowSmoothDeriv.lean:101 (finding DISPLACEMENT); stepImage_mem is a generic increment lemma, not a time-one theorem; exported: the abstract all-t displacement bound and holomorphy (instantiable by stepFlowHyp_concrete); candidate PROVED with the corrected reference (audit finding DISPLACEMENT)
 NOTE: -
 
 NODE: stepW:w5:f-par
@@ -11898,9 +11898,9 @@ EDGE: stepW:w5:f-flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-par@L406-L40
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
 REVIEWER: sol-delta7-W-w5a
-LEAN_STATUS: BYPASSED
-LEAN_REF: KAM.Wave.flowII_disp_sub, KAM.Wave.stepFlow_bounds_smooth (KAM/Wave/KamStep/FlowStepBounds.lean, KAM/Wave/KamStep/StepPsi.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): lambda form used only for Phi = phi^1 inside the step theorem; exported: abstract per-t estimate flowII_disp_sub; previous status PARTIAL
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.flowII_disp_sub, KAM.Wave.stepXplusB_time_bounds (KAM/Wave/KamStep/FlowStepBounds.lean, KAM/Wave/KamStep/StepPlusBound.lean)
+LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: flowII_disp_sub is applied at arbitrary t in StepPullbackBound.lean:138 and integrated in StepPlusBound (finding FLOW); exported: the abstract per-t estimate flowII_disp_sub; missing: the lambda form |phi^t - id|^lambda <= 2 M_F as a concrete statement for every t
 NOTE: -
 
 NODE: stepW:w5:f-der
@@ -11929,9 +11929,9 @@ EDGE: bpW:w5:data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-der@L413-L413 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
 REVIEWER: sol-delta7-W-w5a
-LEAN_STATUS: BYPASSED
-LEAN_REF: KAM.Wave.flowII_deriv, KAM.Wave.flowII_deriv_sub, KAM.Wave.stepMF_margins, KAM.Wave.stepFlow_bounds_smooth (KAM/Wave/KamStep/FlowStepBounds.lean, KAM/Wave/KamStep/Data.lean, KAM/Wave/KamStep/StepPsi.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): lambda form 16 M_F/sigma used only for Phi inside the step theorem; exported: abstract flowII_deriv, flowII_deriv_sub, stepMF_margins; previous status PARTIAL
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.flowII_deriv, KAM.Wave.flowII_deriv_sub, KAM.Wave.stepMF_margins (KAM/Wave/KamStep/FlowStepBounds.lean, KAM/Wave/KamStep/Data.lean)
+LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: flowII_deriv is applied with ht for arbitrary t in FlowCalcOnto.lean:112 (all-time target inverse for the PROVED c-inv) (finding FLOW); exported: the abstract per-t estimates flowII_deriv, flowII_deriv_sub and the margins stepMF_margins; missing: the lambda form 16 M_F/sigma as a concrete statement for every t
 NOTE: -
 
 NODE: stepW:w5:f-image
@@ -11987,7 +11987,7 @@ EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
 REVIEWER: sol-delta7-W-w5a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.stepFlow_real, KAM.Wave.stepFlow_translate, KAM.Wave.holoFlow_translate, KAM.Wave.stepTheorem (KAM/Wave/KamStep/RealFlowPicard.lean, KAM/Wave/KamStep/StepPeriodicFlow.lean, KAM/Wave/KamStep/FlowEquivariant.lean, KAM/Wave/KamStep/StepTheoremSrc.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): reality and equivariance are used only for Phi, where reality of X_F is discharged in stepTheorem; exported: stepFlow_real (conditional on real X_F), unit-shift translation; previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): reality and equivariance are used only for Phi, where reality of X_F is discharged in stepTheorem; exported: stepFlow_real (conditional on real X_F), unit-shift translation; previous status PARTIAL
 NOTE: -
 
 NODE: bpW:w5:flow-calc
@@ -12022,7 +12022,7 @@ EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a
 REVIEWER: sol-delta6-W-W-w5a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.fderiv_holoFlow_eq, KAM.Wave.continuousOn_holoFlow_joint, KAM.Wave.continuousOn_fderiv_holoFlow_joint, KAM.Wave.stepFieldS_skew, KAM.Wave.stepFlow_symplectic, KAM.Wave.stepFlow_dPhi_targetUnit, KAM.Wave.stepFlow_dPhi_image_range, KAM.Wave.hasFDerivAt_comp_hamiltonian, KAM.Wave.hasFDerivAt_comp_flow_smooth, KAM.Wave.hasDerivWithinAt_comp_holoFlow, KAM.Wave.stepNfun_hasFDerivAt, KAM.Wave.stepNfun_lie, KAM.Wave.stepTheorem, KAM.Wave.stepFlowHyp_concrete (KAM/Wave/KamStep/FlowVariational.lean, KAM/Wave/KamStep/FlowCalcJoint.lean, KAM/Wave/KamStep/StepFlowConcrete.lean, KAM/Wave/KamStep/StepSymplectic.lean, KAM/Wave/KamStep/FlowCalcOnto.lean, KAM/Wave/KamStep/FlowTransport.lean, KAM/Wave/KamStep/NewHamTransport.lean, KAM/Wave/KamStep/FlowTime.lean, KAM/Wave/KamStep/StepNfun.lean, KAM/Wave/KamStep/StepTheoremSrc.lean, KAM/Wave/KamStep/StepFieldBound.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): (i), (iv) and the (v) chain rule are used in the abstract flow calculus (FlowHyp) instantiated through stepFlowHyp_concrete inside new-ham and the step theorem; no concrete per-flow statement is consumed; exported: (ii) stepFlow_symplectic, (iii) stepFlow_dPhi_targetUnit / stepFlow_dPhi_image_range, (v) stepNfun_lie, abstract (i) and (iv) (W5-R2A audit 2 PASS WITH NOTES); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): (i), (iv) and the (v) chain rule are used in the abstract flow calculus (FlowHyp) instantiated through stepFlowHyp_concrete inside new-ham and the step theorem; no concrete per-flow statement is consumed; exported: (ii) stepFlow_symplectic, (iii) stepFlow_dPhi_targetUnit / stepFlow_dPhi_image_range, (v) stepNfun_lie, abstract (i) and (iv) (W5-R2A audit 2 PASS WITH NOTES); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w5:c-cont
@@ -12051,7 +12051,7 @@ EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a
 REVIEWER: sol-delta6-W-W-w5a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.continuousOn_holoFlow_joint, KAM.Wave.continuousOn_fderiv_holoFlow_joint, KAM.Wave.stepFlowHyp_concrete (KAM/Wave/KamStep/FlowCalcJoint.lean, KAM/Wave/KamStep/StepFieldBound.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): abstract joint continuity instantiated through stepFlowHyp_concrete; exported: continuousOn_holoFlow_joint, continuousOn_fderiv_holoFlow_joint (abstract); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): abstract joint continuity instantiated through stepFlowHyp_concrete; exported: continuousOn_holoFlow_joint, continuousOn_fderiv_holoFlow_joint (abstract); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w5:c-var
@@ -12080,7 +12080,7 @@ EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a
 REVIEWER: sol-delta6-W-W-w5a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.fderiv_holoFlow_eq, KAM.Wave.stepFlowHyp_concrete (KAM/Wave/KamStep/FlowVariational.lean, KAM/Wave/KamStep/StepFieldBound.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): abstract variational equation instantiated through stepFlowHyp_concrete; exported: fderiv_holoFlow_eq (abstract); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): abstract variational equation instantiated through stepFlowHyp_concrete; exported: fderiv_holoFlow_eq (abstract); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w5:c-skew
@@ -12197,7 +12197,7 @@ EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a
 REVIEWER: sol-delta6-W-W-w5a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.hasFDerivAt_comp_hamiltonian, KAM.Wave.hasFDerivAt_comp_flow_smooth, KAM.Wave.transSolve, KAM.Wave.transSolve_spec, KAM.Wave.stepFlowHyp_concrete (KAM/Wave/KamStep/FlowTransport.lean, KAM/Wave/KamStep/NewHamTransport.lean, KAM/Wave/KamStep/StepFieldBound.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): abstract transport consumed inside new-ham (transSolve_spec); exported: hasFDerivAt_comp_hamiltonian, hasFDerivAt_comp_flow_smooth, transSolve, transSolve_spec; previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): abstract transport consumed inside new-ham (transSolve_spec); exported: hasFDerivAt_comp_hamiltonian, hasFDerivAt_comp_flow_smooth, transSolve, transSolve_spec; previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w5:c-time
@@ -12256,7 +12256,7 @@ EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a
 REVIEWER: sol-delta6-W-W-w5a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.homGuard_one_one (KAM/Wave/Homological/Lie.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): a = p = 1 is fixed by instantiation in every W5 declaration; the guard fact it records is homGuard_one_one; previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): a = p = 1 is fixed by instantiation in every W5 declaration; the guard fact it records is homGuard_one_one; previous status NOT_STARTED
 NOTE: Unlabelled 'Weights' paragraph (SPEC hypothesis packages); its premise a = p = 1 is recorded in the SOURCE_HYPOTHESES of W5 results that use it (guard (G), pairings).
 
 NODE: bpW:w5:ext-symm
@@ -12369,7 +12369,7 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: sol-delta6-W-W-w5b
 LEAN_STATUS: PROVED
-LEAN_REF: KAM.Wave.stepExpansion_H, KAM.Wave.stepNewHam_flow_H, KAM.Wave.stepNewHam_concrete, KAM.Wave.stepPplusS, KAM.Wave.stepXplusS, KAM.Wave.stepPlus_isSmoothing, KAM.Wave.stepPplusS_periodic, KAM.Wave.Pplus_real_of_FT_real, KAM.Wave.stepWeakConj, KAM.Wave.stepXN, KAM.Wave.stepDN_eq_symp_XN, KAM.Wave.stepNfun_add_Nhat (KAM/Wave/KamStep/NewHamExp.lean, KAM/Wave/KamStep/NewHamFlow.lean, KAM/Wave/KamStep/NewHamConcrete.lean, KAM/Wave/KamStep/StepPlusAssemble.lean, KAM/Wave/KamStep/StepPeriodicFlow.lean, KAM/Wave/KamStep/RealStep.lean, KAM/Wave/KamStep/NewHamConj.lean, KAM/Wave/KamStep/RealNField.lean, KAM/Wave/KamStep/StepNplus.lean)
+LEAN_REF: KAM.Wave.stepExpansion_H, KAM.Wave.stepNewHam_flow_H, KAM.Wave.stepNewHam_concrete, KAM.Wave.stepPplusS, KAM.Wave.stepXplusS, KAM.Wave.stepPlus_isSmoothing, KAM.Wave.stepPplusS_periodic, KAM.Wave.StepCore.Pplus_real_of_FT_real, KAM.Wave.stepWeakConj, KAM.Wave.stepXN, KAM.Wave.stepDN_eq_symp_XN, KAM.Wave.stepNfun_add_Nhat (KAM/Wave/KamStep/NewHamExp.lean, KAM/Wave/KamStep/NewHamFlow.lean, KAM/Wave/KamStep/NewHamConcrete.lean, KAM/Wave/KamStep/StepPlusAssemble.lean, KAM/Wave/KamStep/StepPeriodicFlow.lean, KAM/Wave/KamStep/RealStep.lean, KAM/Wave/KamStep/NewHamConj.lean, KAM/Wave/KamStep/RealNField.lean, KAM/Wave/KamStep/StepNplus.lean)
 LEAN_NOTE: W5-STEP-B audit 1 PASS (new-ham (i)-(iii): scalar expansion, smoothing field of P_+ with the transport/commutator formula, field-form weak conjugacy with the affine X_N in p-1 representatives); reality and periodicity of P_+ in the W5-REAL chain
 NOTE: -
 
@@ -12455,7 +12455,7 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: PROVED
-LEAN_REF: KAM.Wave.stepPlus_isSmoothing, KAM.Wave.newHam_integral_smoothing, KAM.Wave.hasFDerivAt_comp_flow_smooth, KAM.Wave.Pplus_real_of_FT_real (KAM/Wave/KamStep/StepPlusAssemble.lean, KAM/Wave/KamStep/NewHamIntegral.lean, KAM/Wave/KamStep/NewHamTransport.lean, KAM/Wave/KamStep/RealStep.lean)
+LEAN_REF: KAM.Wave.stepPlus_isSmoothing, KAM.Wave.newHam_integral_smoothing, KAM.Wave.hasFDerivAt_comp_flow_smooth, KAM.Wave.StepCore.Pplus_real_of_FT_real (KAM/Wave/KamStep/StepPlusAssemble.lean, KAM/Wave/KamStep/NewHamIntegral.lean, KAM/Wave/KamStep/NewHamTransport.lean, KAM/Wave/KamStep/RealStep.lean)
 LEAN_NOTE: step of PROVED parent bpW:w5:new-ham; W5-STEP-B audit 1 PASS
 NOTE: -
 
@@ -12515,7 +12515,7 @@ EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: sol-delta6-W-W-w5b
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.stepPullback_bounds, KAM.Wave.stepPullback_const, KAM.Wave.stepPullback_diff, KAM.Wave.stepPullback_sup, KAM.Wave.stepPullback_sub, KAM.Wave.stepNu_transNop_le, KAM.Wave.stepNu_transNop_sub_le, KAM.Wave.stepXplus_pair_bound, KAM.Wave.stepPlus_famBound (KAM/Wave/KamStep/StepPullbackBound.lean, KAM/Wave/KamStep/Pullback.lean, KAM/Wave/KamStep/PullbackNu.lean, KAM/Wave/KamStep/StepPlusBound.lean, KAM/Wave/KamStep/StepPlusFam.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the pull-back bound is used only inside the X_{P_+} estimate (stepXplus_pair_bound, stepPlus_famBound), the only consumers being st-1, st-2; exported: conditional pull-back helpers stepPullback_* with the factor 7 arithmetic; previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the pull-back bound is used only inside the X_{P_+} estimate (stepXplus_pair_bound, stepPlus_famBound), the only consumers being st-1, st-2; exported: conditional pull-back helpers stepPullback_* with the factor 7 arithmetic; previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w5:p-inv
@@ -12604,7 +12604,7 @@ EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b+claude-suborch-W-gapfix
 REVIEWER: sol-delta7-W-w5b
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.stepPullback_bounds, KAM.Wave.stepPullback_diff, KAM.Wave.stepPullback_const, KAM.Wave.stepXplus_pair_bound (KAM/Wave/KamStep/StepPullbackBound.lean, KAM/Wave/KamStep/Pullback.lean, KAM/Wave/KamStep/StepPlusBound.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): assembly done inside stepXplus_pair_bound; exported: stepPullback_bounds, stepPullback_diff, stepPullback_const; previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): assembly done inside stepXplus_pair_bound; exported: stepPullback_bounds, stepPullback_diff, stepPullback_const; previous status PARTIAL
 NOTE: -
 
 NODE: bpW:w5:commutator
@@ -12634,7 +12634,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.hasFDerivAt_bracket, KAM.Wave.stepBrZ, KAM.Wave.stepBrZ_norm_le, KAM.Wave.stepBrZ_sub_norm_le, KAM.Wave.stepFieldS_cauchy, KAM.Wave.stepCommutator_arith, KAM.Wave.stepXplus_pair_bound (KAM/Wave/KamStep/FlowSkew.lean, KAM/Wave/KamStep/StepBracket.lean, KAM/Wave/KamStep/Pullback.lean, KAM/Wave/KamStep/StepPlusBound.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the commutator bound is used only inside stepXplus_pair_bound (consumer st-2); exported: bracket sign and norm bounds stepBrZ_norm_le, stepBrZ_sub_norm_le, arithmetic stepCommutator_arith; previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the commutator bound is used only inside stepXplus_pair_bound (consumer st-2); exported: bracket sign and norm bounds stepBrZ_norm_le, stepBrZ_sub_norm_le, arithmetic stepCommutator_arith; previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w5:k-cauchy
@@ -12693,7 +12693,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.stepCommutator_arith, KAM.Wave.stepBrZ_norm_le, KAM.Wave.stepXplus_pair_bound (KAM/Wave/KamStep/Pullback.lean, KAM/Wave/KamStep/StepBracket.lean, KAM/Wave/KamStep/StepPlusBound.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): bound combined inside stepXplus_pair_bound; exported: stepCommutator_arith, stepBrZ_norm_le; previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): bound combined inside stepXplus_pair_bound; exported: stepCommutator_arith, stepBrZ_norm_le; previous status PARTIAL
 NOTE: -
 
 NODE: bpW:w5:step
@@ -16076,7 +16076,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.lamPlusFin, KAM.Wave.card_lamPlusFin_le, KAM.Wave.mem_lamPlusFin, KAM.Wave.kAbs_eq_nat, KAM.Wave.tsum_Kprev_le, KAM.Wave.tsum_lattice_inv_cube, KAM.Wave.hasSum_lattice_inv_cube, KAM.Wave.measZ3_lt_seven (KAM/Wave/Measure/Count.lean, KAM/Wave/Measure/ZetaExact.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): (i) is used only for N >= 18 through the candidate superset lamPlusFin, which is what the consumers prep-plus, prep-sum, it-sum, it-X need; exported: (i) via card_lamPlusFin_le (N >= 2), (ii), (iii) (W7-MEASURE audit 2 PASS); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): (i) is used only for N >= 18 through the candidate superset lamPlusFin, which is what the consumers prep-plus, prep-sum, it-sum, it-X need; exported: (i) via card_lamPlusFin_le (N >= 2), (ii), (iii) (W7-MEASURE audit 2 PASS); previous status PARTIAL
 NOTE: Inline proof (L454-L456).
 
 NODE: bpW:w7#data
@@ -16107,7 +16107,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7a
 LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: D27 route substitution (draft, pending audit): standing conventions are carried as hypotheses and fixed definitions of every W7 declaration (max norm, volume, kAbs); no separate object; previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): standing conventions are carried as hypotheses and fixed definitions of every W7 declaration (max norm, volume, kAbs); no separate object; previous status NOT_STARTED
 NOTE: Unlabelled 'Standing data' paragraph (SPEC hypothesis packages).
 
 NODE: bpW:w7:basic#data
@@ -16777,7 +16777,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7b
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.exclSet_measure_le, KAM.Wave.exclSet_measurableSet, KAM.Wave.prepSet_measure_le, KAM.Wave.iterSet_measure_le, KAM.Wave.measure_omegaTan_image (KAM/Wave/Measure/Measure.lean, KAM/Wave/Measure/Prep.lean, KAM/Wave/Measure/Iter.lean, KAM/Wave/Measure/Coords.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the equivalent frequency-coordinate form is not consumed; consumers use exclSet_measure_le; exported: E Borel and Leb(E) <= C_7 rho alpha^(32/47) (W7-MEASURE audit 1 PASS); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the equivalent frequency-coordinate form is not consumed; consumers use exclSet_measure_le; exported: E Borel and Leb(E) <= C_7 rho alpha^(32/47) (W7-MEASURE audit 1 PASS); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w7:assemble
@@ -16887,9 +16887,9 @@ EDGE: stepW:w7:shell-size | blueprint-W/parts/w7-measure.tex#bpW:w7:shell-geom@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7b
-LEAN_STATUS: BYPASSED
-LEAN_REF: KAM.Wave.measurableSet_shellSet, KAM.Wave.shellSet_disjoint, KAM.Wave.boxIoo_subset_iUnion_shell, KAM.Wave.volume_shellSet, KAM.Wave.volume_shell_diff_inner_le, KAM.Wave.shellSet_norm_ge, KAM.Wave.shellSet_dist_le (KAM/Wave/Measure/Shells.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): only the inclusion (0,t_k)^2 subset union is consumed; the reverse inclusion is immediate from shellSet; exported: disjointness, Borel, Leb(R_l), (ii), (iii), and the inclusion boxIoo_subset_iUnion_shell (W7-MEASURE audit 2 PASS); previous status PARTIAL
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.measurableSet_shellSet, KAM.Wave.shellSet_disjoint, KAM.Wave.boxIoo_subset_iUnion_shell, KAM.Wave.volume_shellSet, KAM.Wave.volume_shell_diff_inner_le, KAM.Wave.shellSet_norm_ge, KAM.Wave.shellSet_dist_le, KAM.Wave.volume_box_diff_le (KAM/Wave/Measure/Shells.lean, KAM/Wave/Measure/Density.lean)
+LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: the reverse inclusion union R_(k+l) subset (0,t_k)^2 is proved and used inline in volume_box_diff_le (Measure/Density.lean:89-93), hence by density_one_of_shells, w8_density and nlw2_proof (finding SHELL); exported: disjointness, Borel, Leb(R_l), (ii), (iii) and the forward inclusion boxIoo_subset_iUnion_shell (W7-MEASURE audit 2 PASS); missing: the union equality as a named statement; candidate PROVED with the corrected reference (audit finding SHELL)
 NOTE: -
 
 NODE: stepW:w7:partition
@@ -16914,9 +16914,9 @@ EDGE: bpW:w7:ext-ball | blueprint-W/parts/w7-measure.tex#stepW:w7:partition@L624
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7b
-LEAN_STATUS: BYPASSED
-LEAN_REF: KAM.Wave.shellSet_disjoint, KAM.Wave.boxIoo_subset_iUnion_shell, KAM.Wave.volume_shellSet (KAM/Wave/Measure/Shells.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): same as parent: only the inclusion into the union is consumed; exported: shellSet_disjoint, boxIoo_subset_iUnion_shell, volume_shellSet; previous status PARTIAL
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.shellSet_disjoint, KAM.Wave.boxIoo_subset_iUnion_shell, KAM.Wave.volume_shellSet, KAM.Wave.volume_box_diff_le (KAM/Wave/Measure/Shells.lean, KAM/Wave/Measure/Density.lean)
+LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: same as parent: the reverse inclusion is proved inline at Measure/Density.lean:89-93 inside volume_box_diff_le (finding SHELL); exported: disjointness, forward inclusion, Leb(R_l); candidate PROVED with the corrected reference (audit finding SHELL)
 NOTE: -
 
 NODE: stepW:w7:layer
@@ -17002,7 +17002,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7b
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.posQuadrant_inter_ball, KAM.Wave.exists_shell_index, KAM.Wave.volume_box_diff_le, KAM.Wave.density_one_of_shells (KAM/Wave/Measure/Density.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the quantitative bracket is not consumed; the frozen clause (1) needs only the limit density_one_of_shells, used by w8_density; exported: density_one_of_shells, exactly the frozen clause (1) limit (W7-MEASURE audit 1 PASS); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the quantitative bracket is not consumed; the frozen clause (1) needs only the limit density_one_of_shells, used by w8_density; exported: density_one_of_shells, exactly the frozen clause (1) limit (W7-MEASURE audit 1 PASS); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w7:den
@@ -17147,7 +17147,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7b
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.shell_defect_le, KAM.Wave.volume_shell_diff_inner_le, KAM.Wave.exclSet_measure_le, KAM.Wave.w8_shell_defect, KAM.Wave.w8_defect_rate_eq, KAM.Wave.w8_density (KAM/Wave/Measure/ShellEst.lean, KAM/Wave/Measure/Shells.lean, KAM/Wave/Measure/Measure.lean, KAM/Wave/Assembly/Clauses.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the consequence eps_k -> 0 is proved in the W8 glue for the chosen alpha (w8_shell_defect, w8_defect_rate_eq, w8_density); the two-term intermediate bound is internal; exported: eps_k <= (7 + C_7) alpha_k^(32/47)/((1-q^2) t_k) for each k (shell_defect_le, W7-MEASURE audit 2 PASS); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the consequence eps_k -> 0 is proved in the W8 glue for the chosen alpha (w8_shell_defect, w8_defect_rate_eq, w8_density); the two-term intermediate bound is internal; exported: eps_k <= (7 + C_7) alpha_k^(32/47)/((1-q^2) t_k) for each k (shell_defect_le, W7-MEASURE audit 2 PASS); previous status PARTIAL
 NOTE: Inline proof (L669-L672).
 
 NODE: bpW:w7:exponents
@@ -17175,7 +17175,7 @@ EXTRACTOR: claude-suborch-W+sol-review-W-w7b
 REVIEWER: sol-delta6-W-W-w7b
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.w8alpha, KAM.Wave.w8_defect_rate_eq, KAM.Wave.w8tn_tendsto_rpow (KAM/Wave/Assembly/Consts.lean, KAM/Wave/Assembly/Clauses.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the choice alpha(t) = t^(95/64) is made in W8 (w8alpha) and its consequences (alpha^(32/47)/t = t^(1/94) -> 0) are proved there (w8_defect_rate_eq, w8tn_tendsto_rpow); previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the choice alpha(t) = t^(95/64) is made in W8 (w8alpha) and its consequences (alpha^(32/47)/t = t^(1/94) -> 0) are proved there (w8_defect_rate_eq, w8tn_tendsto_rpow); previous status NOT_STARTED
 NOTE: Remark kept as a node: W8 cites it (4x) for the choice alpha(t) = t^{95/64}.
 
 NODE: bpW:w7:dioph
@@ -17286,7 +17286,7 @@ EXTRACTOR: claude-suborch-W+sol-review-W-w7b
 REVIEWER: sol-delta6-W-W-w7b
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.w8_dioph, KAM.Wave.isDiophantine_of_lower_bound (KAM/Wave/Assembly/Clauses.lean, KAM/Wave/Measure/Dioph.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the per-shell composition of W6 final-freq with isDiophantine_of_lower_bound is done in W8 (w8_dioph); previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the per-shell composition of W6 final-freq with isDiophantine_of_lower_bound is done in W8 (w8_dioph); previous status NOT_STARTED
 NOTE: Retained because W8 consumes the explicit per-shell gamma_I. The W6 final-frequency lemma is a direct supplier of the displayed bound; this node is not used to prove that W6 result.
 
 NODE: bpW:w7:limit
@@ -17957,7 +17957,7 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w8a
 LEAN_STATUS: PROVED
-LEAN_REF: KAM.Wave.w8_w6General, KAM.Wave.w8ShellToriKam, KAM.Wave.w8_toriData, KAM.Wave.W6PrepHyp.w6Tori, KAM.Wave.w6WaveFamilyJ, KAM.Wave.w6ExclusionJ (KAM/Wave/Assembly/ShellIter.lean, KAM/Wave/Assembly/ShellTorus.lean, KAM/Wave/Iteration/Tori.lean, KAM/Wave/Iteration/FreqLipJ.lean)
+LEAN_REF: KAM.Wave.w8_w6General, KAM.Wave.w8ShellToriKam, KAM.Wave.w8_toriData, KAM.Wave.W6PrepHyp.w6Tori, KAM.Wave.W6PrepHyp.w6WaveFamilyJ, KAM.Wave.W6PrepHyp.w6ExclusionJ (KAM/Wave/Assembly/ShellIter.lean, KAM/Wave/Assembly/ShellTorus.lean, KAM/Wave/Iteration/Tori.lean, KAM/Wave/Iteration/FreqLipJ.lean)
 LEAN_NOTE: W8 audit 1 FAIL (F1 w6-general constants/tori conjunct, F2 Kshell totalization, N1 partial labels), W8 audit 2 PASS WITH NOTES (F1, F2, N1 closed); W8 audit 2 PASS WITH NOTES (exact frequency constants eps_1 = 3 gamma alpha_n, eps_2 = 4 eps_(0,n); the tori conclusion is the separate unconditional w8ShellToriKam plus W6PrepHyp.w6Tori fed by w8_toriData, not a conjunct of w8_w6General)
 NOTE: -
 
@@ -18013,7 +18013,7 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w8a
 LEAN_STATUS: PROVED
-LEAN_REF: KAM.Wave.w8_w6General, KAM.Wave.w6WaveFamilyJ (KAM/Wave/Assembly/ShellIter.lean, KAM/Wave/Iteration/FreqLipJ.lean)
+LEAN_REF: KAM.Wave.w8_w6General, KAM.Wave.W6PrepHyp.w6WaveFamilyJ (KAM/Wave/Assembly/ShellIter.lean, KAM/Wave/Iteration/FreqLipJ.lean)
 LEAN_NOTE: step of PROVED parent bpW:w8:w6-general; W8 audit 2 PASS WITH NOTES (blueprint constants)
 NOTE: -
 
@@ -18041,7 +18041,7 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w8a
 LEAN_STATUS: PROVED
-LEAN_REF: KAM.Wave.w8_w6General, KAM.Wave.w6ExclusionJ (KAM/Wave/Assembly/ShellIter.lean, KAM/Wave/Iteration/FreqLipJ.lean)
+LEAN_REF: KAM.Wave.w8_w6General, KAM.Wave.W6PrepHyp.w6ExclusionJ (KAM/Wave/Assembly/ShellIter.lean, KAM/Wave/Iteration/FreqLipJ.lean)
 LEAN_NOTE: step of PROVED parent bpW:w8:w6-general; W8 audit 2 PASS WITH NOTES
 NOTE: -
 
@@ -19064,7 +19064,7 @@ EXTRACTOR: claude-suborch-W+sol-review-W-w8a
 REVIEWER: sol-delta6-W-W-w8a
 LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: D27 route substitution (draft, pending audit): standing data and notation are carried by the W8 definitions and hypotheses (constants in KAM/Wave/Assembly/Consts.lean); no separate object; previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): standing data and notation are carried by the W8 definitions and hypotheses (constants in KAM/Wave/Assembly/Consts.lean); no separate object; previous status NOT_STARTED
 NOTE: Unlabelled 'Standing data and notation' paragraph (SPEC hypothesis packages).
 
 NODE: bpW:w8:patch
@@ -20548,9 +20548,9 @@ EDGE: bpW:w8:nlw2-proof | blueprint-W/parts/w8-assembly.tex#bpW:w8:nlw2-proof@L5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-w2
 REVIEWER: sol-delta5-W-wh
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.nlw2_proof (KAM/Wave/Assembly/Nlw2Proof.lean)
-LEAN_NOTE: proved by KAM.Wave.nlw2_proof / provider; seal pending (provider KAM.Provider.Wave.nlw2 in KAM/Provider/Wave/Nlw2.lean, W-NLW2-SEAL audit 1 SEAL-READY; frozen anchor wave.nlw2.v1 is DRAFT_SORRY in manifest/frozen-anchors.json and KAM/Frozen/Wave/Theorems/Nlw2.lean still ends in by sorry on main 7fbbcd02 and inp 3562eb71)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.nlw2, KAM.Provider.Wave.nlw2, KAM.Wave.nlw2_proof (KAM/Frozen/Wave/Theorems/Nlw2.lean, KAM/Provider/Wave/Nlw2.lean, KAM/Wave/Assembly/Nlw2Proof.lean)
+LEAN_NOTE: sealed at 6798a3c5 (D61); seal audit W-NLW2-SEAL-audit-1 SEAL-READY; axioms propext, Classical.choice, Quot.sound
 NOTE: Root of track W. PROOF_SOURCE is the proof environment of Theorem bpW:w8:nlw2-proof (W8 assembly, wave 2), which proves the frozen statement conjunct by conjunct; the root depends on it through one edge, and on the statement-level definitions through the symbol edges. W2 (bpW:w2:clause5) enters through Step stepW:w8:p-pde. D_nu (bpW:wh:Dnu) is inlined in the frozen statement.
 
 NODE: K:bp:p1:decay

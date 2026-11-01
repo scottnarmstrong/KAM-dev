@@ -210,7 +210,7 @@ EXTRACTOR: claude-suborch-W+claude-suborch-W-r2
 REVIEWER: sol-delta3-W-w0c
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.WaveTwoMem.summable_sq, KAM.Wave.wave_conv_summable (KAM/Wave/Algebra/TwoSided.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the s < 0 divergence example is a remark no proof consumes; consumers use only absolute convergence for a, s >= 0; exported: space WaveTwoMem, square-summability and absolute convergence of the convolution for a, s >= 0 (W1-ALGEBRA audit 1 PASS WITH NOTES); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the s < 0 divergence example is a remark no proof consumes; consumers use only absolute convergence for a, s >= 0; exported: space WaveTwoMem, square-summability and absolute convergence of the convolution for a, s >= 0 (W1-ALGEBRA audit 1 PASS WITH NOTES); previous status PARTIAL
 NOTE: Writer revision r2 (wave-1 corpus update, inp 99afc128 blueprint cleanup): convolution restricted to s >= 0 with its convergence argument (inline); the pointers to bpW:w0n:algebra and bpW:w1:twosided-transport at L73-L74 are forward pointers, not edges.
 
 NODE: bpW:w0:reconstruction#reconU
@@ -478,8 +478,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0c
 LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.lam_pos, KAM.Wave.lam_ge, KAM.Wave.lam_le, KAM.Wave.lam_succ_le, KAM.Wave.lam_sub_pnat_pos, KAM.Wave.lam_sub_pnat_le, KAM.Wave.lam_facts (KAM/Wave/Iteration/Sequences.lean, KAM/Wave/Recon/ReconAnalytic.lean, KAM/Wave/Iteration/IterArith.lean, KAM/Wave/Seq/Tails.lean, KAM/Wave/Normal/Nondegeneracy.lean)
-LEAN_NOTE: proved pieces: lam_pos, lam_ge, lam_le, lam_succ_le, lam_sub_pnat_pos, lam_sub_pnat_le, lam_facts (j < lambda_j < j + sqrt m, monotonicity, increments < 1); strict convexity not formalized; the divisor proof uses discrete second differences instead (stepW:w3:divisor#curvature)
+LEAN_REF: KAM.Wave.lam_pnat_pos, KAM.Wave.lam_gt, KAM.Wave.lam_div_pnat_le, KAM.Wave.lam_sub_pnat_pos, KAM.Wave.lam_sub_pnat_le, KAM.Wave.lam_le, KAM.Wave.lam_facts, KAM.Wave.lamExt_convex, KAM.Wave.birkL_second_diff, KAM.Wave.birkDelta_mono (KAM/Wave/Seq/Tails.lean, KAM/Wave/Seq/Diag.lean, KAM/Wave/Recon/ReconAnalytic.lean, KAM/Wave/Normal/Nondegeneracy.lean, KAM/Wave/Normal/NonresAux.lean, KAM/Wave/Birkhoff/DivisorReal.lean)
+LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: no PROVED consumer needs the full strict convexity / derivative statement (finding L); proved physical-frequency pieces: lam_pnat_pos, lam_gt, lam_div_pnat_le, lam_sub_pnat_pos, lam_sub_pnat_le (increments), lam_le (only lam_j <= (1+m) j, not lam_j < j + sqrt m), lam_facts (two tangential modes only: positivity, lamTan 0 < lamTan 1, gap < 1), non-strict convexity lamExt_convex (W0 nonresonance route); strict convexity not formalized: the divisor proof uses discrete second differences instead (birkL_second_diff, birkDelta_mono); missing: the packaged claim for all j (j < lambda_j < j + sqrt m, strict monotonicity, increment < 1 as one statement) and strict convexity of sqrt(s^2+m); finding L: the earlier refs lam_pos, lam_ge, lam_succ_le were W6SeqData declarations about the iteration weight, removed
 NOTE: Unlabelled prose (L45-L47) stating facts that later proofs consume (SPEC section-data rule); justification is elementary and inline.
 
 NODE: bpW:w0:ellap#spaces

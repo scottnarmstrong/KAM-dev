@@ -576,7 +576,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7b
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.exclSet_measure_le, KAM.Wave.exclSet_measurableSet, KAM.Wave.prepSet_measure_le, KAM.Wave.iterSet_measure_le, KAM.Wave.measure_omegaTan_image (KAM/Wave/Measure/Measure.lean, KAM/Wave/Measure/Prep.lean, KAM/Wave/Measure/Iter.lean, KAM/Wave/Measure/Coords.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the equivalent frequency-coordinate form is not consumed; consumers use exclSet_measure_le; exported: E Borel and Leb(E) <= C_7 rho alpha^(32/47) (W7-MEASURE audit 1 PASS); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the equivalent frequency-coordinate form is not consumed; consumers use exclSet_measure_le; exported: E Borel and Leb(E) <= C_7 rho alpha^(32/47) (W7-MEASURE audit 1 PASS); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w7:assemble
@@ -686,9 +686,9 @@ EDGE: stepW:w7:shell-size | blueprint-W/parts/w7-measure.tex#bpW:w7:shell-geom@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7b
-LEAN_STATUS: BYPASSED
-LEAN_REF: KAM.Wave.measurableSet_shellSet, KAM.Wave.shellSet_disjoint, KAM.Wave.boxIoo_subset_iUnion_shell, KAM.Wave.volume_shellSet, KAM.Wave.volume_shell_diff_inner_le, KAM.Wave.shellSet_norm_ge, KAM.Wave.shellSet_dist_le (KAM/Wave/Measure/Shells.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): only the inclusion (0,t_k)^2 subset union is consumed; the reverse inclusion is immediate from shellSet; exported: disjointness, Borel, Leb(R_l), (ii), (iii), and the inclusion boxIoo_subset_iUnion_shell (W7-MEASURE audit 2 PASS); previous status PARTIAL
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.measurableSet_shellSet, KAM.Wave.shellSet_disjoint, KAM.Wave.boxIoo_subset_iUnion_shell, KAM.Wave.volume_shellSet, KAM.Wave.volume_shell_diff_inner_le, KAM.Wave.shellSet_norm_ge, KAM.Wave.shellSet_dist_le, KAM.Wave.volume_box_diff_le (KAM/Wave/Measure/Shells.lean, KAM/Wave/Measure/Density.lean)
+LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: the reverse inclusion union R_(k+l) subset (0,t_k)^2 is proved and used inline in volume_box_diff_le (Measure/Density.lean:89-93), hence by density_one_of_shells, w8_density and nlw2_proof (finding SHELL); exported: disjointness, Borel, Leb(R_l), (ii), (iii) and the forward inclusion boxIoo_subset_iUnion_shell (W7-MEASURE audit 2 PASS); missing: the union equality as a named statement; candidate PROVED with the corrected reference (audit finding SHELL)
 NOTE: -
 
 NODE: stepW:w7:partition
@@ -713,9 +713,9 @@ EDGE: bpW:w7:ext-ball | blueprint-W/parts/w7-measure.tex#stepW:w7:partition@L624
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7b
-LEAN_STATUS: BYPASSED
-LEAN_REF: KAM.Wave.shellSet_disjoint, KAM.Wave.boxIoo_subset_iUnion_shell, KAM.Wave.volume_shellSet (KAM/Wave/Measure/Shells.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): same as parent: only the inclusion into the union is consumed; exported: shellSet_disjoint, boxIoo_subset_iUnion_shell, volume_shellSet; previous status PARTIAL
+LEAN_STATUS: PARTIAL
+LEAN_REF: KAM.Wave.shellSet_disjoint, KAM.Wave.boxIoo_subset_iUnion_shell, KAM.Wave.volume_shellSet, KAM.Wave.volume_box_diff_le (KAM/Wave/Measure/Shells.lean, KAM/Wave/Measure/Density.lean)
+LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: same as parent: the reverse inclusion is proved inline at Measure/Density.lean:89-93 inside volume_box_diff_le (finding SHELL); exported: disjointness, forward inclusion, Leb(R_l); candidate PROVED with the corrected reference (audit finding SHELL)
 NOTE: -
 
 NODE: stepW:w7:layer
@@ -801,7 +801,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7b
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.posQuadrant_inter_ball, KAM.Wave.exists_shell_index, KAM.Wave.volume_box_diff_le, KAM.Wave.density_one_of_shells (KAM/Wave/Measure/Density.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the quantitative bracket is not consumed; the frozen clause (1) needs only the limit density_one_of_shells, used by w8_density; exported: density_one_of_shells, exactly the frozen clause (1) limit (W7-MEASURE audit 1 PASS); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the quantitative bracket is not consumed; the frozen clause (1) needs only the limit density_one_of_shells, used by w8_density; exported: density_one_of_shells, exactly the frozen clause (1) limit (W7-MEASURE audit 1 PASS); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w7:den
@@ -946,7 +946,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7b
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.shell_defect_le, KAM.Wave.volume_shell_diff_inner_le, KAM.Wave.exclSet_measure_le, KAM.Wave.w8_shell_defect, KAM.Wave.w8_defect_rate_eq, KAM.Wave.w8_density (KAM/Wave/Measure/ShellEst.lean, KAM/Wave/Measure/Shells.lean, KAM/Wave/Measure/Measure.lean, KAM/Wave/Assembly/Clauses.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the consequence eps_k -> 0 is proved in the W8 glue for the chosen alpha (w8_shell_defect, w8_defect_rate_eq, w8_density); the two-term intermediate bound is internal; exported: eps_k <= (7 + C_7) alpha_k^(32/47)/((1-q^2) t_k) for each k (shell_defect_le, W7-MEASURE audit 2 PASS); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the consequence eps_k -> 0 is proved in the W8 glue for the chosen alpha (w8_shell_defect, w8_defect_rate_eq, w8_density); the two-term intermediate bound is internal; exported: eps_k <= (7 + C_7) alpha_k^(32/47)/((1-q^2) t_k) for each k (shell_defect_le, W7-MEASURE audit 2 PASS); previous status PARTIAL
 NOTE: Inline proof (L669-L672).
 
 NODE: bpW:w7:exponents
@@ -974,7 +974,7 @@ EXTRACTOR: claude-suborch-W+sol-review-W-w7b
 REVIEWER: sol-delta6-W-W-w7b
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.w8alpha, KAM.Wave.w8_defect_rate_eq, KAM.Wave.w8tn_tendsto_rpow (KAM/Wave/Assembly/Consts.lean, KAM/Wave/Assembly/Clauses.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the choice alpha(t) = t^(95/64) is made in W8 (w8alpha) and its consequences (alpha^(32/47)/t = t^(1/94) -> 0) are proved there (w8_defect_rate_eq, w8tn_tendsto_rpow); previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the choice alpha(t) = t^(95/64) is made in W8 (w8alpha) and its consequences (alpha^(32/47)/t = t^(1/94) -> 0) are proved there (w8_defect_rate_eq, w8tn_tendsto_rpow); previous status NOT_STARTED
 NOTE: Remark kept as a node: W8 cites it (4x) for the choice alpha(t) = t^{95/64}.
 
 NODE: bpW:w7:dioph
@@ -1085,7 +1085,7 @@ EXTRACTOR: claude-suborch-W+sol-review-W-w7b
 REVIEWER: sol-delta6-W-W-w7b
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.w8_dioph, KAM.Wave.isDiophantine_of_lower_bound (KAM/Wave/Assembly/Clauses.lean, KAM/Wave/Measure/Dioph.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): the per-shell composition of W6 final-freq with isDiophantine_of_lower_bound is done in W8 (w8_dioph); previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): the per-shell composition of W6 final-freq with isDiophantine_of_lower_bound is done in W8 (w8_dioph); previous status NOT_STARTED
 NOTE: Retained because W8 consumes the explicit per-shell gamma_I. The W6 final-frequency lemma is a direct supplier of the displayed bound; this node is not used to prove that W6 result.
 
 NODE: bpW:w7:limit

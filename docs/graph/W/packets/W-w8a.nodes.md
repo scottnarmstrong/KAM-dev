@@ -553,7 +553,7 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w8a
 LEAN_STATUS: PROVED
-LEAN_REF: KAM.Wave.w8_w6General, KAM.Wave.w8ShellToriKam, KAM.Wave.w8_toriData, KAM.Wave.W6PrepHyp.w6Tori, KAM.Wave.w6WaveFamilyJ, KAM.Wave.w6ExclusionJ (KAM/Wave/Assembly/ShellIter.lean, KAM/Wave/Assembly/ShellTorus.lean, KAM/Wave/Iteration/Tori.lean, KAM/Wave/Iteration/FreqLipJ.lean)
+LEAN_REF: KAM.Wave.w8_w6General, KAM.Wave.w8ShellToriKam, KAM.Wave.w8_toriData, KAM.Wave.W6PrepHyp.w6Tori, KAM.Wave.W6PrepHyp.w6WaveFamilyJ, KAM.Wave.W6PrepHyp.w6ExclusionJ (KAM/Wave/Assembly/ShellIter.lean, KAM/Wave/Assembly/ShellTorus.lean, KAM/Wave/Iteration/Tori.lean, KAM/Wave/Iteration/FreqLipJ.lean)
 LEAN_NOTE: W8 audit 1 FAIL (F1 w6-general constants/tori conjunct, F2 Kshell totalization, N1 partial labels), W8 audit 2 PASS WITH NOTES (F1, F2, N1 closed); W8 audit 2 PASS WITH NOTES (exact frequency constants eps_1 = 3 gamma alpha_n, eps_2 = 4 eps_(0,n); the tori conclusion is the separate unconditional w8ShellToriKam plus W6PrepHyp.w6Tori fed by w8_toriData, not a conjunct of w8_w6General)
 NOTE: -
 
@@ -609,7 +609,7 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w8a
 LEAN_STATUS: PROVED
-LEAN_REF: KAM.Wave.w8_w6General, KAM.Wave.w6WaveFamilyJ (KAM/Wave/Assembly/ShellIter.lean, KAM/Wave/Iteration/FreqLipJ.lean)
+LEAN_REF: KAM.Wave.w8_w6General, KAM.Wave.W6PrepHyp.w6WaveFamilyJ (KAM/Wave/Assembly/ShellIter.lean, KAM/Wave/Iteration/FreqLipJ.lean)
 LEAN_NOTE: step of PROVED parent bpW:w8:w6-general; W8 audit 2 PASS WITH NOTES (blueprint constants)
 NOTE: -
 
@@ -637,7 +637,7 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w8a
 LEAN_STATUS: PROVED
-LEAN_REF: KAM.Wave.w8_w6General, KAM.Wave.w6ExclusionJ (KAM/Wave/Assembly/ShellIter.lean, KAM/Wave/Iteration/FreqLipJ.lean)
+LEAN_REF: KAM.Wave.w8_w6General, KAM.Wave.W6PrepHyp.w6ExclusionJ (KAM/Wave/Assembly/ShellIter.lean, KAM/Wave/Iteration/FreqLipJ.lean)
 LEAN_NOTE: step of PROVED parent bpW:w8:w6-general; W8 audit 2 PASS WITH NOTES
 NOTE: -
 
@@ -1660,5 +1660,5 @@ EXTRACTOR: claude-suborch-W+sol-review-W-w8a
 REVIEWER: sol-delta6-W-W-w8a
 LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: D27 route substitution (draft, pending audit): standing data and notation are carried by the W8 definitions and hypotheses (constants in KAM/Wave/Assembly/Consts.lean); no separate object; previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): standing data and notation are carried by the W8 definitions and hypotheses (constants in KAM/Wave/Assembly/Consts.lean); no separate object; previous status NOT_STARTED
 NOTE: Unlabelled 'Standing data and notation' paragraph (SPEC hypothesis packages).

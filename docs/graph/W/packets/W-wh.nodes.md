@@ -83,7 +83,7 @@ EDGE: bpW:w8:nlw2-proof | blueprint-W/parts/w8-assembly.tex#bpW:w8:nlw2-proof@L5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-w2
 REVIEWER: sol-delta5-W-wh
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.nlw2_proof (KAM/Wave/Assembly/Nlw2Proof.lean)
-LEAN_NOTE: proved by KAM.Wave.nlw2_proof / provider; seal pending (provider KAM.Provider.Wave.nlw2 in KAM/Provider/Wave/Nlw2.lean, W-NLW2-SEAL audit 1 SEAL-READY; frozen anchor wave.nlw2.v1 is DRAFT_SORRY in manifest/frozen-anchors.json and KAM/Frozen/Wave/Theorems/Nlw2.lean still ends in by sorry on main 7fbbcd02 and inp 3562eb71)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.nlw2, KAM.Provider.Wave.nlw2, KAM.Wave.nlw2_proof (KAM/Frozen/Wave/Theorems/Nlw2.lean, KAM/Provider/Wave/Nlw2.lean, KAM/Wave/Assembly/Nlw2Proof.lean)
+LEAN_NOTE: sealed at 6798a3c5 (D61); seal audit W-NLW2-SEAL-audit-1 SEAL-READY; axioms propext, Classical.choice, Quot.sound
 NOTE: Root of track W. PROOF_SOURCE is the proof environment of Theorem bpW:w8:nlw2-proof (W8 assembly, wave 2), which proves the frozen statement conjunct by conjunct; the root depends on it through one edge, and on the statement-level definitions through the symbol edges. W2 (bpW:w2:clause5) enters through Step stepW:w8:p-pde. D_nu (bpW:wh:Dnu) is inlined in the frozen statement.

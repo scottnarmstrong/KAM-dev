@@ -1383,7 +1383,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7a
 LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.lamPlusFin, KAM.Wave.card_lamPlusFin_le, KAM.Wave.mem_lamPlusFin, KAM.Wave.kAbs_eq_nat, KAM.Wave.tsum_Kprev_le, KAM.Wave.tsum_lattice_inv_cube, KAM.Wave.hasSum_lattice_inv_cube, KAM.Wave.measZ3_lt_seven (KAM/Wave/Measure/Count.lean, KAM/Wave/Measure/ZetaExact.lean)
-LEAN_NOTE: D27 route substitution (draft, pending audit): (i) is used only for N >= 18 through the candidate superset lamPlusFin, which is what the consumers prep-plus, prep-sum, it-sum, it-X need; exported: (i) via card_lamPlusFin_le (N >= 2), (ii), (iii) (W7-MEASURE audit 2 PASS); previous status PARTIAL
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): (i) is used only for N >= 18 through the candidate superset lamPlusFin, which is what the consumers prep-plus, prep-sum, it-sum, it-X need; exported: (i) via card_lamPlusFin_le (N >= 2), (ii), (iii) (W7-MEASURE audit 2 PASS); previous status PARTIAL
 NOTE: Inline proof (L454-L456).
 
 NODE: bpW:w7#data
@@ -1414,7 +1414,7 @@ EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w7a
 LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: D27 route substitution (draft, pending audit): standing conventions are carried as hypotheses and fixed definitions of every W7 declaration (max norm, volume, kAbs); no separate object; previous status NOT_STARTED
+LEAN_NOTE: D27 route substitution (audit BYPASS-audit-1, BYPASS-OK): standing conventions are carried as hypotheses and fixed definitions of every W7 declaration (max norm, volume, kAbs); no separate object; previous status NOT_STARTED
 NOTE: Unlabelled 'Standing data' paragraph (SPEC hypothesis packages).
 
 NODE: bpW:w7:basic#data
