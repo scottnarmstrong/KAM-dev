@@ -295,7 +295,7 @@ theorem w6StepK_clauses (hS : W6StepSmooth) (hd : W6State.Std d) (hs : (w6Seq d 
       (∀ W'', ∃ W', fderiv ℂ (w6PhiK d S0 ν ξ) w (w6Iota W') = w6Iota W'') := by
   have := W6Stage.factRPos hd.1 ν
   set H := W6Stage.stageStepHyp hd.1 hd.2 hs
-  obtain ⟨-, -, -, c4, c5, c6, c7, -, -, -, -, -, -, -, -, -, c17⟩ := stepTheorem H
+  obtain ⟨-, -, -, c4, c5, c6, c7, -, -, -, -, -, -, -, -, -, c17⟩ := stepTheorem_clauses H
   have hsub : d.domNu (ν + 1) ⊆ w6Ubig d ν := fun _ hw => hw
   obtain ⟨A₀, A₁, B₀, B₁, -, a1, -, -, -, -, hb⟩ := c17
   refine ⟨⟨A₁, a1, fun ζ hζ w hw => ?_⟩, fun w hw => ⟨fun hr => ?_, fun i => ?_, fun W W' => ?_,
@@ -334,7 +334,7 @@ theorem w6StepK_weakConj (hS : W6StepSmooth) (hd : W6State.Std d) (hs : (w6Seq d
       w6SympPred (w6Field hΩ1 ((w6Seq d S0 (ν + 1)).om ξ) ((w6Seq d S0 (ν + 1)).X ξ) w) W' := by
   have := W6Stage.factRPos hd.1 ν
   set H := W6Stage.stageStepHyp hd.1 hd.2 hs
-  obtain ⟨-, -, -, -, -, -, -, c8, -⟩ := stepTheorem H
+  obtain ⟨-, -, -, -, -, -, -, c8, -⟩ := stepTheorem_clauses H
   have hsub : d.domNu (ν + 1) ⊆ w6Ubig d ν := fun _ hw => hw
   have e1 : w6Seq d S0 (ν + 1) = _ :=
     (w6Seq_succ d S0 ν).trans (W6State.w6next_eq hd.1 hd.2 hs)

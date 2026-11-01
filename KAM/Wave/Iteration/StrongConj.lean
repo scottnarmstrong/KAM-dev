@@ -101,7 +101,7 @@ theorem stepTheorem_strong
     stepXN (a := a) (p := p) (homOmega_le H.freq hξ) (ω ξ) (StepPhase.toK (H.hyp.core.Phi ξ w)) +
       kamHomEmbed a (p - 1) pb H.hyp.core.hpm (X ξ (StepPhase.toK (H.hyp.core.Phi ξ w))) =
         kamHomEmbed a (p - 1) p hpm (StepPhase.toK (fderiv ℂ (H.hyp.core.Phi ξ) w A)) := by
-  obtain ⟨-, -, -, hs, -, -, hon, hwc, -⟩ := stepTheorem H
+  obtain ⟨-, -, -, hs, -, -, hon, hwc, -⟩ := stepTheorem_clauses H
   exact w6StrongConj H.ha H.hpb H.hyp.core.two_p H.hyp.core.hqq1 hpm (H.hyp.core.Phi ξ) w
     (hs ξ hξ w hw) (hon ξ hξ w hw).2
     (fun z => stepXN (a := a) (p := p) (homOmega_le H.freq hξ) (ω ξ) z +

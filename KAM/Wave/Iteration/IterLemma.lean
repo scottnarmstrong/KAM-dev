@@ -163,7 +163,7 @@ theorem phiN_mapsTo :
       StepPhase.toK (h.PhiN hd hsmall ξ w) ∈ d.domNu ν := by
   have := factRPos hd ν
   intro ξ hξ w hw
-  have h1 := (stepTheorem (h.stageStepHyp hd hsmall)).1 ξ hξ w hw
+  have h1 := (stepTheorem_clauses (h.stageStepHyp hd hsmall)).1 ξ hξ w hw
   refine ⟨h1, kamDomain_mono ?_ ?_ ?_ h1⟩
   · linarith [W6SeqData.sigmaNu_pos hd ν]
   · have := W6SeqData.eta_pos hd ν; have := W6SeqData.w6r_pos hd ν; positivity
@@ -177,7 +177,7 @@ theorem omN_inc :
       ∀ ξ ∈ Pi, ∀ ζ ∈ Pi,
         ‖(h.omN hd hsmall ξ - ω ξ) - (h.omN hd hsmall ζ - ω ζ)‖ ≤ b₁ * ‖ξ - ζ‖ := by
   have := factRPos hd ν
-  exact (stepTheorem (h.stageStepHyp hd hsmall)).2.2.2.2.2.2.2.2.2.2.2.2.1
+  exact (stepTheorem_clauses (h.stageStepHyp hd hsmall)).2.2.2.2.2.2.2.2.2.2.2.2.1
 
 theorem normLab_eq_succPNat (n : ℕ) : normLab n = ((n.succPNat : ℕ+) : ℝ) + 2 := by
   unfold normLab
@@ -195,7 +195,7 @@ theorem OmN_inc :
           (w6Om7 (h.OmN hd hsmall ζ) n - w6Om7 (Ω ζ) n)| ≤ c₁ * ‖ξ - ζ‖ := by
   have := factRPos hd ν
   obtain ⟨c₀, c₁, h0, h1, hs, hb, hl⟩ :=
-    (stepTheorem (h.stageStepHyp hd hsmall)).2.2.2.2.2.2.2.2.2.2.2.2.2.1
+    (stepTheorem_clauses (h.stageStepHyp hd hsmall)).2.2.2.2.2.2.2.2.2.2.2.2.2.1
   have e : ((3 / 2 : ℝ) - 1) = 1 / 2 := by norm_num
   refine ⟨c₀, c₁, h0, h1, hs, fun ξ hξ n => ?_, fun ξ hξ ζ hζ n => ?_⟩
   · have := hb ξ hξ n.succPNat
@@ -233,7 +233,7 @@ theorem phiN_bounds :
         ‖fderiv ℂ (h.PhiN hd hsmall ξ) w - fderiv ℂ (h.PhiN hd hsmall ζ) w‖ ≤ B₁ * ‖ξ - ζ‖ := by
   have := factRPos hd ν
   obtain ⟨A₀, A₁, B₀, B₁, a0, a1, b0, b1, ha, hb, hall⟩ :=
-    (stepTheorem (h.stageStepHyp hd hsmall)).2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2
+    (stepTheorem_clauses (h.stageStepHyp hd hsmall)).2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2
   exact ⟨A₀, A₁, B₀, B₁, a0, a1, b0, b1, ha, hb, W6SeqData.transf_arith hd hsmall ν, hall⟩
 
 /-- **Stage `ν+1`** (`bpW:w6:iter-lemma`): given the conditions with `k = 0` at stage `ν+1` on
@@ -245,7 +245,7 @@ theorem next_core
       (h.PN hd hsmall) (h.XN hd hsmall) := by
   have := factRPos hd ν
   obtain ⟨-, -, -, -, -, -, -, -, c6, c7, -, c8, -, -, c11, -, -⟩ :=
-    stepTheorem (h.stageStepHyp hd hsmall)
+    stepTheorem_clauses (h.stageStepHyp hd hsmall)
   have hsub := h.PiN_subset hd hsmall
   have hlam := W6SeqData.lam_pos hd ν
   have hε := W6SeqData.epsNu_pos hd ν

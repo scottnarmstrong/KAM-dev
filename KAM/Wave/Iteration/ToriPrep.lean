@@ -137,7 +137,7 @@ theorem prepK_clauses (hSm : W6StepSmoothMod) (H : W6PrepHyp m hm Pi α r ε P X
   set G := H.prepStepHyp
   obtain ⟨hdΦ, -, -⟩ := G.phi_smooth_of hSm hξ
   have hsub : kamDomain w6S0 (w6EtaP α ε * r) ⊆ kamDomain w6S0 (w6EtaP α ε * r) := subset_rfl
-  obtain ⟨c1, -, -, c4, c5, c6, c7, c8, -⟩ := stepTheoremMod G
+  obtain ⟨c1, -, -, c4, c5, c6, c7, c8, -⟩ := stepTheoremMod_clauses G
   have hΦ : ∀ w ∈ kamDomain w6S0 (w6EtaP α ε * r), HasFDerivAt (H.w6PhiPK ξ)
       ((stepToKCLM r).comp ((fderiv ℂ (G.hyp.core.Phi ξ) (StepPhase.ofK w)).comp
         (stepOfKCLM r))) w := fun w hw =>
