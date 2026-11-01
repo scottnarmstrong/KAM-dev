@@ -8,6 +8,8 @@ module
 public import KAM.Wave.Assembly.ShellInit
 public import KAM.Wave.Iteration.ConvSource
 public import KAM.Wave.Iteration.ToriPrep
+public import KAM.Wave.Iteration.SmoothSrc
+public import KAM.Wave.Iteration.FreqLipJ
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 
@@ -35,13 +37,10 @@ conclusion of `bpW:w5:initial`. The starting size is `ε_{0,n} = κ_n^{4/3} γ�
   (`ε^{(n)}_ω`), `w8ShellTorusKam` (`Φ^{(n)}_P ∘ Φ^{(n)}_*`, the torus in KAM coordinates; the
   torus `Ψ̃^{(n)}_ξ = 𝒜_ξ ∘ Φ^{(n)}_P ∘ Φ^{(n)}_*` needs W5's `bpW:w5:action-angle`, not here);
 * `w8_w6General` (`bpW:w8:w6-general`): Lemmas `bpW:w6:applicable`, `bpW:w6:freq-lip`,
-  `bpW:w6:exclusion`, `bpW:w6:final-freq` for the shell iteration; the W6 part of Theorem
-  `bpW:w6:tori` with `e_tor = e^{(n)}_tor` is the conditional helper
-  `w8ShellToriKam_of_stepSmooth` (named W5 dependencies `W6StepSmooth`, `W6StepSmoothMod`).
-
-Deviation (inherited from W6-ITER D4): in `bpW:w6:freq-lip` the constants are `ε₁ = 0`,
-`ε₂ = 3γα_n + 4ε_{0,n}` (blueprint `ε₁ = 3γα_n`, `ε₂ = 4ε_{0,n}`); W7's estimates hold for every
-admissible family.
+  `bpW:w6:exclusion`, `bpW:w6:final-freq` for the shell iteration (blueprint constants
+  `ε₁ = 3γα_n`, `ε₂ = 4ε_{0,n}`, W6-TORI's `w6WaveFamilyJ`); the W6 part of Theorem
+  `bpW:w6:tori` with `e_tor = e^{(n)}_tor` (KAM coordinates) is `w8ShellToriKam` (unconditional,
+  W6's `w6ToriKam`).
 -/
 
 @[expose] public noncomputable section
@@ -147,7 +146,7 @@ def w8ShellNu (H : W8ShellPrep m hm n P X) (ξ : Fin 2 → ℝ) : Fin 2 → ℝ 
 (blueprint `bpW:w8:shell-iter`, Lemma `bpW:w6:freq-lip`). -/
 def w8ShellFamily (H : W8ShellPrep m hm n P X) :
     AdmissibleFamily m hm (w8Pi (w8T0W m hm) n) (w8alpha (w8T0W m hm) n) :=
-  H.w6WaveFamily (w8MeasSetup hm n) (w8_epsFlat_shell hm n).2.1 (w8_epsFlat_shell hm n).2.2
+  H.w6WaveFamilyJ (w8MeasSetup hm n) (w8_epsFlat_shell hm n).2.1 (w8_epsFlat_shell hm n).2.2
 
 /-- The excluded set `ℰ^{(n)}` of the shell iteration (blueprint `bpW:w8:shell-iter`). -/
 def w8ShellExcl (H : W8ShellPrep m hm n P X) : Set (Fin 2 → ℝ) :=
@@ -223,17 +222,17 @@ theorem w8_sharpPrep (H : W8ShellPrep m hm n P X) :
 /-- **W6 with the sharp starting size** (blueprint `bpW:w8:w6-general`): for the shell iteration
 (starting size `ε_{0,n} ∈ [ε^♭_{0,n}, γ₁ α̌_n]`),
 * Lemma `bpW:w6:applicable`: the hypotheses of Proposition `bpW:w6:convergence` (`β₀ = β_*`);
-* Lemma `bpW:w6:freq-lip`: the admissible family, with `ε_ω = ε^{(n)}_ω`, `ε₁ = 0`,
-  `ε₂ = 3γα_n + 4ε_{0,n}` (deviation D4 of W6-ITER) and `θ = 425(1+M) max(γ, γ₁) ≤ θ₀`;
+* Lemma `bpW:w6:freq-lip`: the admissible family, with `ε_ω = ε^{(n)}_ω`, `ε₁ = 3γα_n`,
+  `ε₂ = 4ε_{0,n}` and `θ = 425(1+M) max(γ, γ₁) ≤ θ₀`;
 * Lemma `bpW:w6:exclusion`: `Π_n ∖ Γ_n ⊆ ℰ^{(n)}`;
 * Lemma `bpW:w6:final-freq`: on `Γ_n`, `|⟨k, ω^{(n)}_*⟩| ≥ α̌_n/(2A_k)` (`k ≠ 0`),
   `|ω^{(n)}_* - ω⁰| ≤ ε^{(n)}_ω`, and `ω^{(n)}_*` is `(N_A + θ)`-Lipschitz.
-Theorem `bpW:w6:tori` (W6 part) is `w8ShellToriKam_of_stepSmooth`. -/
+Theorem `bpW:w6:tori` (W6 part, KAM coordinates) is `w8ShellToriKam`. -/
 theorem w8_w6General (H : W8ShellPrep m hm n P X) :
     W6ConvHyp (w8ShellSeqData m hm n) 𝔓 H.om0 H.Om0 H.w6P0 H.X0 (measBetaStar m) ∧
       ((∀ ν, IsFreqPair m hm (w8Pi 𝔱 n) 𝔞 ((w8ShellFamily H).D ν) ((w8ShellFamily H).ω ν)
-        ((w8ShellFamily H).Ω ν) (w8ShellEpsOm m hm n) 0
-        (3 * w6Gamma m hm * 𝔞 + 4 * w8Eps0W m hm n) (w6Theta m hm)) ∧
+        ((w8ShellFamily H).Ω ν) (w8ShellEpsOm m hm n) (3 * w6Gamma m hm * 𝔞)
+        (4 * w8Eps0W m hm n) (w6Theta m hm)) ∧
         w6Theta m hm ≤ measTheta0 m hm) ∧
       w8Pi 𝔱 n \ w8ShellGamma H ⊆ w8ShellExcl H ∧
       (∀ ξ ∈ w8ShellGamma H, ∀ k : Fin 2 → ℤ, k ≠ 0 →
@@ -245,16 +244,15 @@ theorem w8_w6General (H : W8ShellPrep m hm n P X) :
   have hS := w8MeasSetup hm n
   obtain ⟨f1, f2, f3⟩ := H.w6FinalFreq hS hlo hhi
   refine ⟨H.w6Applicable hlo hhi, ⟨fun ν => (w8ShellFamily H).pair ν, w6Theta_le m hm⟩,
-    H.w6Exclusion hS hlo hhi, f1, f2, f3⟩
+    H.w6ExclusionJ hS hlo hhi, f1, f2, f3⟩
 
 /-- **The tori of one shell in KAM coordinates** (W6 part of Theorem `bpW:w6:tori` for the shell
-iteration, blueprint `bpW:w8:w6-general`, Step `stepW:w8:g-tori`; conditional helper on the
-named W5 dependencies `W6StepSmooth`, `W6StepSmoothMod`): for `Ψ(θ) = Φ^{(n)}_P(Φ^{(n)}_*(θ))`,
+iteration, blueprint `bpW:w8:w6-general`, Step `stepW:w8:g-tori`; W6's `w6ToriKam`): for
+`Ψ(θ) = Φ^{(n)}_P(Φ^{(n)}_*(θ))`,
 holomorphy, periodicity and reality, joint continuity on `T_{s_∞} × Γ_n`, values in
 `D(s - 4σ_P, 2η_P r_n)` with `Ψ(θ) - ιθ = ιV`, `|V|_{p_+, r_n} ≤ e^{(n)}_tor`, and the invariance
 in `𝒫^{p-1}` on `T_{s_0/2}`. -/
-theorem w8ShellToriKam_of_stepSmooth (hS : W6StepSmooth) (hSm : W6StepSmoothMod)
-    (H : W8ShellPrep m hm n P X) :
+theorem w8ShellToriKam (H : W8ShellPrep m hm n P X) :
     (∀ ξ ∈ w8ShellGamma H,
       DifferentiableOn ℂ (fun θ => w8ShellTorusKam H θ ξ)
         (complexStrip 2 (w8ShellSeqData m hm n).sInfty) ∧
@@ -273,7 +271,7 @@ theorem w8ShellToriKam_of_stepSmooth (hS : W6StepSmooth) (hSm : W6StepSmoothMod)
         w6IotaPred (fderiv ℂ (fun θ' => w8ShellTorusKam H θ' ξ) θ
           (w6NuVec (w8ShellOmega H ξ))) := by
   obtain ⟨-, hlo, hhi⟩ := w8_epsFlat_shell hm n
-  exact H.w6ToriKam_of_stepSmooth hS hSm hlo hhi
+  exact H.w6ToriKam hlo hhi
 
 end Labels
 
