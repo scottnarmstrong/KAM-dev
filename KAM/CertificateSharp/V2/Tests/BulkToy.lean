@@ -26,9 +26,10 @@ the bulk walk (`Fiber/Bulk.lean`) bounds long runs at once.
 * **The site** at the bite `b = 1/32` (`N = 65`, `l = 8`, `8 580` fibres): the bulk walk visits
   `452` nodes (`18` single fibres, `317` runs) and certifies `c = 5.726·10⁻⁴`
   (`bkSite_ok`, `bkSite_sdConst`), against the classical `c♮(3, 2, 1/32) = 0.0437` (factor `76`).
-  The landed walk on the same data gives `c = 5.721·10⁻⁴` (the bulk loss is `0.17 %` of `S`),
-  but its `8 580` fibres exceed the `4 GB` process cap (measured: killed at `4.0 GB`), while this
-  test stays under it.
+  The landed walk on the same data gives `c = 5.721·10⁻⁴` (the bulk loss is `0.17 %` of `S`).
+  As a module its `8 580` fibres fit under the `4 GB` cap only narrowly (audit AUDIT-V2-BULK-1:
+  `3.68 GB`, `27 s`); this module, with a second sharded proof of the site, builds in `4–8 s` at
+  `1.65 GB`.
 * **Shards.** `bkSite_ok_sharded` is the same site from two row blocks of the walk, assembled by
   `balFold_succ_of`, and the cheap part `bulkPreOk` (`bulkSiteOk_of`).
 * `bkSite_rejects`: a constant `1 %` below is rejected.

@@ -177,6 +177,10 @@ module.
   `N ≈ 1,200–1,300`, i.e. `3·10⁶` fibres, about 1 h of kernel CPU in about 1,400 shards (4 GB cap).
   At `b = 6.6·10⁻⁴` it needs `N ≈ 5,000`, about `5·10⁷` fibres and 16–20 h. These are opt-in
   application builds, never in the default build.
+- **Correction (1 November 2026, V2-BULK).** The 3.39 GB base above was measured on a non-module
+  scratch file. As a `lake build` module the base is about 1.5–1.6 GB, so about 11,000 fibres fit per
+  4 GB shard. The SJS shard counts become about 307, 1,275 and 5,278, not about 1,400 at the first
+  bite (handoff V2-BULK, suspected errata; §7).
 
 ## 5. Python mirror
 
@@ -247,11 +251,16 @@ finite disjoint unions. The walk gives `BCov (modeBox 2 N) (s/2^P)`, and
 `smallDivisorSum_snoc_le_fiber` with `E_j = x^j` finishes, as in `smallDivisorSum_snoc2_le_walk`.
 The output has the same form: `E₁·3.3075 + s/2^P + tailQ`.
 
-**Measured (as built).** These figures are from the exact mirror `scripts/certifier/fiber3_bulk.py`
-(node by node, `rn/rd = 5/4`, `tol = 10⁻⁹ S`, `P = 128`) and kernel probes (handoff V2-BULK). The
-plain walk, its CPU and its shards are projections from the walk's per-fibre law, not measured runs.
+**Counts (exact mirror) and kernel projections (as built).**
+- The node counts are from the exact mirror `scripts/certifier/fiber3_bulk.py` (node by node,
+  `rn/rd = 5/4`, `tol = 10⁻⁹ S`, `P = 128`).
+- No SJS walk, bulk or plain, was run in the kernel. Both kernel columns (minutes and 4 GB shards)
+  are **projections** from the per-node law below (bulk) and the per-fibre law (plain walk).
+- "Bulk minus plain-walk sum" is relative to a **floating-point** evaluation of the fibered sum
+  (`sd_sum_fiber_np`: no rounding, no tail, true exponential), not to the exact landed walk. It also
+  contains the fixed-point bias `e/2^P ≥ e^{−6.28δ}` that the landed walk shares.
 
-| SJS bite (cubic γ) | `N` | plain-walk fibres | bulk nodes (values) | bulk minus plain-walk sum | kernel: bulk / plain walk | 4 GB shards: bulk / plain walk |
+| SJS bite (cubic γ) | `N` | plain-walk fibres | bulk nodes (values) | bulk minus float sum | kernel (projected): bulk / plain walk | 4 GB shards (projected): bulk / plain walk |
 |---|---:|---:|---:|---:|---:|---:|
 | `2.65·10⁻³` | 1,298 | `3.4·10⁶` | 44,568 (28,212) | +0.46 % | 1.0 min / 1.1 h | 4 / 307 |
 | `1.33·10⁻³` | 2,647 | `1.4·10⁷` | 168,464 (94,579) | +0.22 % | 3.9 min / 4.7 h | 13 / 1,275 |

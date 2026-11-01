@@ -16,12 +16,25 @@ The landed three-frequency site walks every fibre `k' = (a, b)` with `0 < |a| + 
 - **Walk structure.** Rows are bisected. Near a crossing of an integer (a near-resonance) the walk
   ends in single fibres, evaluated exactly as the landed `mode3`. Elsewhere it takes long runs,
   accepted when the distance varies by at most `5/4` or when their value is negligible.
-- **SJS measurements.** At the plan's first bite (`N = 1298`) the bound uses **44,568 nodes instead
-  of 3.37·10⁶ fibres** and is `0.46 %` above the plain walk's sum. Kernel cost is about 1 min in
-  4 shards, against 1.1 h in about 300 shards. At the third bite: 654k nodes for 5.8·10⁷ fibres,
-  15 min against 19 h. That is 76–89× fewer evaluations.
+- **SJS counts (exact mirror).** At the plan's first bite (`N = 1298`) the bound uses **44,568 nodes
+  instead of 3.37·10⁶ fibres**. It is `0.46 %` above a floating-point evaluation of the fibered sum,
+  not above the exact landed walk. At the third bite: 654k nodes for 5.8·10⁷ fibres. That is 76–89×
+  fewer evaluations.
+- **SJS kernel cost (projected, not run).** From the measured per-node law: about 1 min in 4 shards
+  at the first bite, against 1.1 h in about 300 shards; 15 min against 19 h at the third.
 - **Short of the target.** The orchestrator's target was ~10⁴. The remaining factor of about 4
   needs one more run type (owner question 1 below).
+
+## V2-BULK-FIX (audit AUDIT-V2-BULK-1: PASS WITH CHANGES, wording only)
+
+- **C1.** `Tests/BulkToy.lean` docstring: the landed walk on the toy site passes as a module
+  (3.68 GB, 27 s, the auditor's measurement). The earlier "killed at 4.0 GB" came from a non-module
+  scratch file with the inflated 3.3 GB base. The kernel-timings table below says the same.
+- **C2.** The SJS kernel minutes and shard counts are labelled as projections from the per-node and
+  per-fibre laws (no SJS walk was run in the kernel), both here and in design §7. "Bulk over plain
+  walk" is restated as relative to a floating-point evaluation of the fibered sum.
+- **C3.** Design §4 has a dated pointer to the corrected shard counts. The V2-3FREQ handoff has the
+  dated correction note (commit `3dcc07aa`).
 
 ## Files (all new except the generated root)
 
@@ -138,7 +151,7 @@ Kernel timings, measured as user time over the import base:
 | site | landed walk | bulk walk |
 |---|---|---|
 | `1/16` | 2.6 s, +0.38 GB | within noise of the base |
-| `1/32` | killed by the 4 GB cap (scratch file, 3.3 GB base) | `BulkToy` builds in 4.2 s at 1.65 GB, with a second sharded proof of the same site |
+| `1/32` | passes as a module at 3.68 GB, 27 s (audit AUDIT-V2-BULK-1); killed at 4.0 GB only as a non-module scratch file (3.3 GB base) | `BulkToy` builds in 4.2 s at 1.65 GB, with a second sharded proof of the same site |
 | `1/64` | not run | about 2.5 s, +0.4 GB |
 
 **SJS-plan frequencies.** The FH25 planar frequencies, with the fast one as the clock:
@@ -148,7 +161,7 @@ Kernel timings, measured as user time over the import base:
 
 Counts are from the exact mirror (`python3 -I scripts/certifier/fiber3_bulk.py sjs`).
 
-| γ | bite | `N` | fibres | nodes | values | single fibres | runs | bulk over plain walk |
+| γ | bite | `N` | fibres | nodes | values | single fibres | runs | bulk over float sum |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
 | cubic `2.8·10⁻⁷` | `2.65·10⁻³` | 1,298 | 3,372,204 | 44,568 | 28,212 | 2,192 | 20,977 | +0.455 % |
 | | `1.325·10⁻³` | 2,647 | 14,018,512 | 168,464 | 94,579 | 8,410 | 74,972 | +0.224 % |
@@ -163,7 +176,7 @@ importing `Fiber/BulkSite`:
 - The densest 512-row block (21,249 nodes) exceeds 4 GB, so shards hold at most about 12–13k nodes.
 - The plain walk's law (V2-3FREQ) is 1.2 ms and 215 KB per fibre.
 
-Projections from these laws:
+Projections from these laws (no SJS walk was run in the kernel):
 
 | bite | bulk | plain walk |
 |---|---|---|
@@ -173,7 +186,7 @@ Projections from these laws:
 
 **The acceptance trade-off at the first SJS bite** (`N = 1298`):
 
-| `rn/rd`, `tol` | nodes | values | bulk over plain walk | certified `c` |
+| `rn/rd`, `tol` | nodes | values | bulk over float sum | certified `c` |
 |---|---:|---:|---:|---|
 | `9/8`, `10⁻⁹ S` | 48,960 | 32,604 | +0.25 % | `2.355·10⁻⁷` |
 | `5/4`, `10⁻⁹ S` | 44,568 | 28,212 | +0.46 % | `2.358·10⁻⁷` |
@@ -237,3 +250,5 @@ uses two such bulk sites only to test the integration (`toyB3` through `routeBRe
   application builds, sharded with `bulkSiteOk_of` and `balFold_succ_of`.
 
 V2-BULK DONE
+
+V2-BULK-FIX DONE
