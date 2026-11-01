@@ -397,9 +397,14 @@ def sjs_counts(args):
                 dt = time.time() - t0
                 full = sd_sum_fiber_np((float(cb[0][0]), float(cb[1][0])), float(2 * b), w["N"])
                 infl = float(F(s, 2 ** w["P"])) / full - 1
-                print(f"gamma={gname} b={float(b):.4g}: N={w['N']} fibres={2 * w['N'] * (w['N'] + 1):,} "
+                fib = 2 * w['N'] * (w['N'] + 1)
+                print(f"gamma={gname} b={float(b):.4g}: N={w['N']} fibres={fib:,} "
                       f"S'~{Sp:.4g} walk {full:.6g} bulk {float(F(s, 2 ** w['P'])):.6g} (+{100 * infl:.3f}%) "
                       f"{st} [{dt:.0f}s]", flush=True)
+                # kernel laws (handoff V2-BULK): module base 1.6 GB, 4 GB cap; bulk 1.4 ms and 180 KB
+                # per node (13k nodes per shard), landed walk 1.2 ms and 215 KB per fibre (11k per shard)
+                print(f"    kernel: bulk {st.nodes * 1.4e-3 / 60:.1f} min in {math.ceil(st.nodes / 13000)} shards; "
+                      f"landed walk {fib * 1.2e-3 / 3600:.1f} h in {math.ceil(fib / 11000):,} shards", flush=True)
                 rows.append((gname, float(b), w["N"], 2 * w["N"] * (w["N"] + 1), st.nodes, st.leaves, st.runs,
                              st.vals, infl))
     return rows
