@@ -1,0 +1,3962 @@
+[
+ {
+  "profile": "lunar65",
+  "margin_rule": 1.0,
+  "beta": 0.7752205105283028,
+  "pi": 1.0,
+  "best": {
+   "route": "A.refined.cert[kp=2]",
+   "kind": "exact+shifted",
+   "rho": "1/70",
+   "L": 20,
+   "P": 96,
+   "log10_estar": -13.6,
+   "log10_err": -15.4,
+   "margin": 1.79,
+   "margin_exact": 1.7939464182080496,
+   "err_source": "interpolated",
+   "precision_ok": true,
+   "sites_verified": false,
+   "support": 251,
+   "cost_h": 2.013,
+   "sites_ok": true,
+   "sites": [
+    10,
+    7,
+    11,
+    8
+   ],
+   "binding": [
+    "J2 tail"
+   ],
+   "displacement": 6.637419649269845e-11
+  },
+  "best_exact": {
+   "route": "A.refined.cert[kp=2]",
+   "kind": "exact+shifted",
+   "rho": "1/70",
+   "L": 20,
+   "P": 96,
+   "log10_estar": -13.6,
+   "log10_err": -15.4,
+   "margin": 1.79,
+   "margin_exact": 1.7939464182080496,
+   "err_source": "interpolated",
+   "precision_ok": true,
+   "sites_verified": false,
+   "support": 251,
+   "cost_h": 2.013,
+   "sites_ok": true,
+   "sites": [
+    10,
+    7,
+    11,
+    8
+   ],
+   "binding": [
+    "J2 tail"
+   ],
+   "displacement": 6.637419649269845e-11
+  },
+  "constrained": {
+   "hand's \u03c1 and P, margin 1.0": {
+    "choice": {
+     "route": "A.refined.cert[kp=2]",
+     "rho": "1/140",
+     "L": 20,
+     "P": 96,
+     "margin": 1.32,
+     "cost_h": 2.036,
+     "kind": "exact+shifted",
+     "err_source": "measured",
+     "sites_verified": true
+    },
+    "verdict": "differs: predicted cost 2.036 CPU-h against the hand choice's 2.039 (ratio 1.00)"
+   },
+   "hand's \u03c1 and P, the hand's realized margin 1.53": {
+    "choice": {
+     "route": "A.refined.cert[kp=3]",
+     "rho": "1/140",
+     "L": 20,
+     "P": 96,
+     "margin": 1.54,
+     "cost_h": 2.039,
+     "kind": "exact+shifted",
+     "err_source": "measured",
+     "sites_verified": true
+    },
+    "verdict": "reproduces the hand choice (route A.refined.cert[kp=3], the same sites and threshold as A.refined.cert[d01b])"
+   }
+  },
+  "baseline_fallback": {
+   "route": "sharp",
+   "kind": "exact+shifted",
+   "rho": "1/70",
+   "L": 38,
+   "P": 128,
+   "log10_estar": -30.69,
+   "log10_err": -32.17,
+   "margin": 1.48,
+   "margin_exact": 1.4756745501172865,
+   "err_source": "interpolated",
+   "precision_ok": true,
+   "sites_verified": false,
+   "support": 1025,
+   "cost_h": 7.935,
+   "sites_ok": true,
+   "sites": [],
+   "binding": [],
+   "displacement": 6.494679973293528e-18
+  },
+  "hand": {
+   "route": "A.refined.cert[d01b]",
+   "kind": "exact+remeasured",
+   "rho": "1/140",
+   "L": 20,
+   "P": 96,
+   "log10_estar": -14.26,
+   "log10_err": -15.8,
+   "margin": 1.54,
+   "margin_exact": 1.5358800173440752,
+   "err_source": "measured",
+   "precision_ok": true,
+   "sites_verified": true,
+   "support": 251,
+   "cost_h": 2.039,
+   "sites_ok": true,
+   "sites": [
+    11,
+    8,
+    12,
+    9,
+    10
+   ],
+   "binding": [
+    "J2 tail"
+   ],
+   "displacement": 6.020574287961745e-11
+  },
+  "verdict": "differs: predicted cost 2.013 CPU-h against the hand choice's 2.039 (ratio 0.99)",
+  "sensitivity": {
+   "pi=0 beta=0.933": {
+    "choice": {
+     "route": "A.refined.cert[kp=2]",
+     "rho": "1/70",
+     "L": 20,
+     "P": 96,
+     "margin": 1.79,
+     "cost_h": 2.013,
+     "kind": "exact+shifted",
+     "err_source": "interpolated",
+     "sites_verified": false
+    },
+    "hand_cost_h": 2.039,
+    "ratio": 0.9872486512996566
+   },
+   "pi=0 beta=1.500": {
+    "choice": {
+     "route": "A.refined.cert[kp=2]",
+     "rho": "1/70",
+     "L": 20,
+     "P": 96,
+     "margin": 1.79,
+     "cost_h": 2.013,
+     "kind": "exact+shifted",
+     "err_source": "interpolated",
+     "sites_verified": false
+    },
+    "hand_cost_h": 2.039,
+    "ratio": 0.9872486512996566
+   },
+   "pi=0 beta=2.000": {
+    "choice": {
+     "route": "A.refined.cert[kp=2]",
+     "rho": "1/70",
+     "L": 20,
+     "P": 96,
+     "margin": 1.79,
+     "cost_h": 2.013,
+     "kind": "exact+shifted",
+     "err_source": "interpolated",
+     "sites_verified": false
+    },
+    "hand_cost_h": 2.039,
+    "ratio": 0.9872486512996566
+   },
+   "pi=1 beta=0.775": {
+    "choice": {
+     "route": "A.refined.cert[kp=2]",
+     "rho": "1/70",
+     "L": 20,
+     "P": 96,
+     "margin": 1.79,
+     "cost_h": 2.013,
+     "kind": "exact+shifted",
+     "err_source": "interpolated",
+     "sites_verified": false
+    },
+    "hand_cost_h": 2.039,
+    "ratio": 0.9872486512996566
+   },
+   "pi=1 beta=1.500": {
+    "choice": {
+     "route": "A.refined.cert[kp=2]",
+     "rho": "1/70",
+     "L": 20,
+     "P": 96,
+     "margin": 1.79,
+     "cost_h": 2.013,
+     "kind": "exact+shifted",
+     "err_source": "interpolated",
+     "sites_verified": false
+    },
+    "hand_cost_h": 2.039,
+    "ratio": 0.9872486512996566
+   },
+   "pi=1 beta=2.000": {
+    "choice": {
+     "route": "A.refined.cert[kp=2]",
+     "rho": "1/70",
+     "L": 20,
+     "P": 96,
+     "margin": 1.79,
+     "cost_h": 2.013,
+     "kind": "exact+shifted",
+     "err_source": "interpolated",
+     "sites_verified": false
+    },
+    "hand_cost_h": 2.039,
+    "ratio": 0.9872486512996566
+   }
+  },
+  "thresholds": {
+   "1/280": {
+    "sharp": {
+     "log10_estar": -31.71,
+     "kind": "exact+shifted",
+     "binding": [],
+     "sites": [],
+     "error": null
+    },
+    "A.frozen": {
+     "log10_estar": -27.76,
+     "kind": "exact+shifted",
+     "binding": [
+      "J1 stage 5 cond 2",
+      "J2 tail"
+     ],
+     "sites": [],
+     "error": null
+    },
+    "A.refined.classical": {
+     "log10_estar": -18.54,
+     "kind": "exact+shifted",
+     "binding": [
+      "J2 tail"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       0,
+       false
+      ],
+      [
+       "b",
+       0,
+       0,
+       false
+      ],
+      [
+       "d",
+       1,
+       0,
+       false
+      ],
+      [
+       "b",
+       1,
+       0,
+       false
+      ],
+      [
+       "d",
+       2,
+       0,
+       false
+      ],
+      [
+       "b",
+       2,
+       0,
+       false
+      ]
+     ],
+     "error": null
+    },
+    "A.refined.cert[kp=1]": {
+     "log10_estar": -16.0,
+     "kind": "exact+shifted",
+     "binding": [
+      "J2 tail"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       12,
+       true
+      ],
+      [
+       "b",
+       0,
+       9,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "A.refined.cert[kp=2]": {
+     "log10_estar": -15.56,
+     "kind": "exact+shifted",
+     "binding": [
+      "J2 tail"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       12,
+       true
+      ],
+      [
+       "b",
+       0,
+       9,
+       true
+      ],
+      [
+       "d",
+       1,
+       13,
+       false
+      ],
+      [
+       "b",
+       1,
+       10,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "A.refined.cert[kp=3]": {
+     "log10_estar": -15.34,
+     "kind": "exact+shifted",
+     "binding": [
+      "J2 tail"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       12,
+       true
+      ],
+      [
+       "b",
+       0,
+       9,
+       true
+      ],
+      [
+       "d",
+       1,
+       13,
+       false
+      ],
+      [
+       "b",
+       1,
+       10,
+       true
+      ],
+      [
+       "d",
+       2,
+       14,
+       false
+      ],
+      [
+       "b",
+       2,
+       11,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "A.refined.cert[d01b]": {
+     "log10_estar": -15.34,
+     "kind": "exact+remeasured",
+     "binding": [
+      "J2 tail"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       12,
+       true
+      ],
+      [
+       "b",
+       0,
+       9,
+       true
+      ],
+      [
+       "d",
+       1,
+       13,
+       false
+      ],
+      [
+       "b",
+       1,
+       10,
+       true
+      ],
+      [
+       "d",
+       2,
+       0,
+       false
+      ],
+      [
+       "b",
+       2,
+       11,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "B.frozen": {
+     "log10_estar": -25.22,
+     "kind": "exact+shifted",
+     "binding": [],
+     "sites": [],
+     "error": null
+    },
+    "B.refined.classical": {
+     "log10_estar": -18.09,
+     "kind": "exact+shifted",
+     "binding": [],
+     "sites": [],
+     "error": null
+    },
+    "A.L8'": {
+     "log10_estar": -15.64,
+     "kind": "estimate+shifted",
+     "binding": [],
+     "sites": [
+      [
+       "d",
+       0,
+       12,
+       true
+      ],
+      [
+       "b",
+       0,
+       9,
+       true
+      ],
+      [
+       "d",
+       1,
+       13,
+       false
+      ],
+      [
+       "b",
+       1,
+       10,
+       true
+      ],
+      [
+       "d",
+       2,
+       14,
+       false
+      ],
+      [
+       "b",
+       2,
+       11,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "l1-entry": {
+     "log10_estar": -14.59,
+     "kind": "design+shifted",
+     "binding": [],
+     "sites": [
+      [
+       "d",
+       0,
+       12,
+       true
+      ],
+      [
+       "b",
+       0,
+       9,
+       true
+      ],
+      [
+       "d",
+       1,
+       13,
+       false
+      ],
+      [
+       "b",
+       1,
+       10,
+       true
+      ],
+      [
+       "d",
+       2,
+       14,
+       false
+      ],
+      [
+       "b",
+       2,
+       11,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "hybrid": {
+     "log10_estar": -7.36,
+     "kind": "design+shifted",
+     "binding": [],
+     "sites": [
+      [
+       "d",
+       0,
+       13,
+       false
+      ],
+      [
+       "b",
+       0,
+       10,
+       true
+      ],
+      [
+       "d",
+       1,
+       14,
+       false
+      ],
+      [
+       "b",
+       1,
+       11,
+       true
+      ],
+      [
+       "d",
+       2,
+       15,
+       false
+      ],
+      [
+       "b",
+       2,
+       12,
+       true
+      ]
+     ],
+     "error": null
+    }
+   },
+   "1/140": {
+    "sharp": {
+     "log10_estar": -31.82,
+     "kind": "exact+shifted",
+     "binding": [],
+     "sites": [],
+     "error": null
+    },
+    "A.frozen": {
+     "log10_estar": -27.87,
+     "kind": "exact+shifted",
+     "binding": [
+      "J1 stage 5 cond 2",
+      "J2 tail"
+     ],
+     "sites": [],
+     "error": null
+    },
+    "A.refined.classical": {
+     "log10_estar": -18.65,
+     "kind": "exact+shifted",
+     "binding": [
+      "J2 tail"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       0,
+       false
+      ],
+      [
+       "b",
+       0,
+       0,
+       false
+      ],
+      [
+       "d",
+       1,
+       0,
+       false
+      ],
+      [
+       "b",
+       1,
+       0,
+       false
+      ],
+      [
+       "d",
+       2,
+       0,
+       false
+      ],
+      [
+       "b",
+       2,
+       0,
+       false
+      ]
+     ],
+     "error": null
+    },
+    "A.refined.cert[kp=1]": {
+     "log10_estar": -16.21,
+     "kind": "exact+shifted",
+     "binding": [
+      "J2 tail"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       11,
+       true
+      ],
+      [
+       "b",
+       0,
+       8,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "A.refined.cert[kp=2]": {
+     "log10_estar": -14.47,
+     "kind": "exact+shifted",
+     "binding": [
+      "J2 tail"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       11,
+       true
+      ],
+      [
+       "b",
+       0,
+       8,
+       true
+      ],
+      [
+       "d",
+       1,
+       12,
+       true
+      ],
+      [
+       "b",
+       1,
+       9,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "A.refined.cert[kp=3]": {
+     "log10_estar": -14.26,
+     "kind": "exact+shifted",
+     "binding": [
+      "J2 tail"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       11,
+       true
+      ],
+      [
+       "b",
+       0,
+       8,
+       true
+      ],
+      [
+       "d",
+       1,
+       12,
+       true
+      ],
+      [
+       "b",
+       1,
+       9,
+       true
+      ],
+      [
+       "d",
+       2,
+       13,
+       false
+      ],
+      [
+       "b",
+       2,
+       10,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "A.refined.cert[d01b]": {
+     "log10_estar": -14.26,
+     "kind": "exact+remeasured",
+     "binding": [
+      "J2 tail"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       11,
+       true
+      ],
+      [
+       "b",
+       0,
+       8,
+       true
+      ],
+      [
+       "d",
+       1,
+       12,
+       true
+      ],
+      [
+       "b",
+       1,
+       9,
+       true
+      ],
+      [
+       "d",
+       2,
+       0,
+       false
+      ],
+      [
+       "b",
+       2,
+       10,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "B.frozen": {
+     "log10_estar": -25.64,
+     "kind": "exact+shifted",
+     "binding": [],
+     "sites": [],
+     "error": null
+    },
+    "B.refined.classical": {
+     "log10_estar": -18.51,
+     "kind": "exact+shifted",
+     "binding": [],
+     "sites": [],
+     "error": null
+    },
+    "A.L8'": {
+     "log10_estar": -14.56,
+     "kind": "estimate+shifted",
+     "binding": [],
+     "sites": [
+      [
+       "d",
+       0,
+       11,
+       true
+      ],
+      [
+       "b",
+       0,
+       8,
+       true
+      ],
+      [
+       "d",
+       1,
+       12,
+       true
+      ],
+      [
+       "b",
+       1,
+       9,
+       true
+      ],
+      [
+       "d",
+       2,
+       13,
+       false
+      ],
+      [
+       "b",
+       2,
+       10,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "l1-entry": {
+     "log10_estar": -13.51,
+     "kind": "design+shifted",
+     "binding": [],
+     "sites": [
+      [
+       "d",
+       0,
+       11,
+       true
+      ],
+      [
+       "b",
+       0,
+       8,
+       true
+      ],
+      [
+       "d",
+       1,
+       12,
+       true
+      ],
+      [
+       "b",
+       1,
+       9,
+       true
+      ],
+      [
+       "d",
+       2,
+       13,
+       false
+      ],
+      [
+       "b",
+       2,
+       10,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "hybrid": {
+     "log10_estar": -6.76,
+     "kind": "design+shifted",
+     "binding": [],
+     "sites": [
+      [
+       "d",
+       0,
+       12,
+       true
+      ],
+      [
+       "b",
+       0,
+       9,
+       true
+      ],
+      [
+       "d",
+       1,
+       13,
+       false
+      ],
+      [
+       "b",
+       1,
+       10,
+       true
+      ],
+      [
+       "d",
+       2,
+       14,
+       false
+      ],
+      [
+       "b",
+       2,
+       11,
+       true
+      ]
+     ],
+     "error": null
+    }
+   },
+   "1/100": {
+    "sharp": {
+     "log10_estar": -31.26,
+     "kind": "exact+shifted",
+     "binding": [],
+     "sites": [],
+     "error": null
+    },
+    "A.frozen": {
+     "log10_estar": -27.31,
+     "kind": "exact+shifted",
+     "binding": [
+      "J1 stage 5 cond 2",
+      "J2 tail"
+     ],
+     "sites": [],
+     "error": null
+    },
+    "A.refined.classical": {
+     "log10_estar": -18.09,
+     "kind": "exact+shifted",
+     "binding": [
+      "J2 tail"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       0,
+       false
+      ],
+      [
+       "b",
+       0,
+       0,
+       false
+      ],
+      [
+       "d",
+       1,
+       0,
+       false
+      ],
+      [
+       "b",
+       1,
+       0,
+       false
+      ],
+      [
+       "d",
+       2,
+       0,
+       false
+      ],
+      [
+       "b",
+       2,
+       0,
+       false
+      ]
+     ],
+     "error": null
+    },
+    "A.refined.cert[kp=1]": {
+     "log10_estar": -15.72,
+     "kind": "exact+shifted",
+     "binding": [
+      "J2 tail"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       11,
+       true
+      ],
+      [
+       "b",
+       0,
+       8,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "A.refined.cert[kp=2]": {
+     "log10_estar": -14.01,
+     "kind": "exact+shifted",
+     "binding": [
+      "J2 tail"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       11,
+       true
+      ],
+      [
+       "b",
+       0,
+       8,
+       true
+      ],
+      [
+       "d",
+       1,
+       12,
+       true
+      ],
+      [
+       "b",
+       1,
+       9,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "A.refined.cert[kp=3]": {
+     "log10_estar": -13.81,
+     "kind": "exact+shifted",
+     "binding": [
+      "J2 tail"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       11,
+       true
+      ],
+      [
+       "b",
+       0,
+       8,
+       true
+      ],
+      [
+       "d",
+       1,
+       12,
+       true
+      ],
+      [
+       "b",
+       1,
+       9,
+       true
+      ],
+      [
+       "d",
+       2,
+       13,
+       false
+      ],
+      [
+       "b",
+       2,
+       10,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "A.refined.cert[d01b]": {
+     "log10_estar": -13.81,
+     "kind": "exact+remeasured",
+     "binding": [
+      "J2 tail"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       11,
+       true
+      ],
+      [
+       "b",
+       0,
+       8,
+       true
+      ],
+      [
+       "d",
+       1,
+       12,
+       true
+      ],
+      [
+       "b",
+       1,
+       9,
+       true
+      ],
+      [
+       "d",
+       2,
+       0,
+       false
+      ],
+      [
+       "b",
+       2,
+       10,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "B.frozen": {
+     "log10_estar": -25.22,
+     "kind": "exact+shifted",
+     "binding": [],
+     "sites": [],
+     "error": null
+    },
+    "B.refined.classical": {
+     "log10_estar": -18.09,
+     "kind": "exact+shifted",
+     "binding": [],
+     "sites": [],
+     "error": null
+    },
+    "A.L8'": {
+     "log10_estar": -14.11,
+     "kind": "estimate+shifted",
+     "binding": [],
+     "sites": [
+      [
+       "d",
+       0,
+       11,
+       true
+      ],
+      [
+       "b",
+       0,
+       8,
+       true
+      ],
+      [
+       "d",
+       1,
+       12,
+       true
+      ],
+      [
+       "b",
+       1,
+       9,
+       true
+      ],
+      [
+       "d",
+       2,
+       13,
+       false
+      ],
+      [
+       "b",
+       2,
+       10,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "l1-entry": {
+     "log10_estar": -13.06,
+     "kind": "design+shifted",
+     "binding": [],
+     "sites": [
+      [
+       "d",
+       0,
+       11,
+       true
+      ],
+      [
+       "b",
+       0,
+       8,
+       true
+      ],
+      [
+       "d",
+       1,
+       12,
+       true
+      ],
+      [
+       "b",
+       1,
+       9,
+       true
+      ],
+      [
+       "d",
+       2,
+       13,
+       false
+      ],
+      [
+       "b",
+       2,
+       10,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "hybrid": {
+     "log10_estar": -6.5,
+     "kind": "design+shifted",
+     "binding": [],
+     "sites": [
+      [
+       "d",
+       0,
+       12,
+       true
+      ],
+      [
+       "b",
+       0,
+       9,
+       true
+      ],
+      [
+       "d",
+       1,
+       13,
+       false
+      ],
+      [
+       "b",
+       1,
+       10,
+       true
+      ],
+      [
+       "d",
+       2,
+       14,
+       false
+      ],
+      [
+       "b",
+       2,
+       11,
+       true
+      ]
+     ],
+     "error": null
+    }
+   },
+   "1/70": {
+    "sharp": {
+     "log10_estar": -30.69,
+     "kind": "exact+shifted",
+     "binding": [],
+     "sites": [],
+     "error": null
+    },
+    "A.frozen": {
+     "log10_estar": -26.75,
+     "kind": "exact+shifted",
+     "binding": [
+      "J1 stage 5 cond 2",
+      "J2 tail"
+     ],
+     "sites": [],
+     "error": null
+    },
+    "A.refined.classical": {
+     "log10_estar": -17.53,
+     "kind": "exact+shifted",
+     "binding": [
+      "J2 tail"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       0,
+       false
+      ],
+      [
+       "b",
+       0,
+       0,
+       false
+      ],
+      [
+       "d",
+       1,
+       0,
+       false
+      ],
+      [
+       "b",
+       1,
+       0,
+       false
+      ],
+      [
+       "d",
+       2,
+       0,
+       false
+      ],
+      [
+       "b",
+       2,
+       0,
+       false
+      ]
+     ],
+     "error": null
+    },
+    "A.refined.cert[kp=1]": {
+     "log10_estar": -15.27,
+     "kind": "exact+shifted",
+     "binding": [
+      "J2 tail"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       10,
+       true
+      ],
+      [
+       "b",
+       0,
+       7,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "A.refined.cert[kp=2]": {
+     "log10_estar": -13.6,
+     "kind": "exact+shifted",
+     "binding": [
+      "J2 tail"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       10,
+       true
+      ],
+      [
+       "b",
+       0,
+       7,
+       true
+      ],
+      [
+       "d",
+       1,
+       11,
+       true
+      ],
+      [
+       "b",
+       1,
+       8,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "A.refined.cert[kp=3]": {
+     "log10_estar": -13.48,
+     "kind": "exact+shifted",
+     "binding": [
+      "J3 sT"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       10,
+       true
+      ],
+      [
+       "b",
+       0,
+       7,
+       true
+      ],
+      [
+       "d",
+       1,
+       11,
+       true
+      ],
+      [
+       "b",
+       1,
+       8,
+       true
+      ],
+      [
+       "d",
+       2,
+       12,
+       true
+      ],
+      [
+       "b",
+       2,
+       9,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "A.refined.cert[d01b]": {
+     "log10_estar": -13.48,
+     "kind": "exact+remeasured",
+     "binding": [
+      "J3 sT"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       10,
+       true
+      ],
+      [
+       "b",
+       0,
+       7,
+       true
+      ],
+      [
+       "d",
+       1,
+       11,
+       true
+      ],
+      [
+       "b",
+       1,
+       8,
+       true
+      ],
+      [
+       "d",
+       2,
+       0,
+       false
+      ],
+      [
+       "b",
+       2,
+       9,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "B.frozen": {
+     "log10_estar": -24.81,
+     "kind": "exact+shifted",
+     "binding": [],
+     "sites": [],
+     "error": null
+    },
+    "B.refined.classical": {
+     "log10_estar": -17.68,
+     "kind": "exact+shifted",
+     "binding": [],
+     "sites": [],
+     "error": null
+    },
+    "A.L8'": {
+     "log10_estar": -13.78,
+     "kind": "estimate+shifted",
+     "binding": [],
+     "sites": [
+      [
+       "d",
+       0,
+       10,
+       true
+      ],
+      [
+       "b",
+       0,
+       7,
+       true
+      ],
+      [
+       "d",
+       1,
+       11,
+       true
+      ],
+      [
+       "b",
+       1,
+       8,
+       true
+      ],
+      [
+       "d",
+       2,
+       12,
+       true
+      ],
+      [
+       "b",
+       2,
+       9,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "l1-entry": {
+     "log10_estar": -12.73,
+     "kind": "design+shifted",
+     "binding": [],
+     "sites": [
+      [
+       "d",
+       0,
+       10,
+       true
+      ],
+      [
+       "b",
+       0,
+       7,
+       true
+      ],
+      [
+       "d",
+       1,
+       11,
+       true
+      ],
+      [
+       "b",
+       1,
+       8,
+       true
+      ],
+      [
+       "d",
+       2,
+       12,
+       true
+      ],
+      [
+       "b",
+       2,
+       9,
+       true
+      ]
+     ],
+     "error": null
+    },
+    "hybrid": {
+     "log10_estar": -5.63,
+     "kind": "design+shifted",
+     "binding": [],
+     "sites": [
+      [
+       "d",
+       0,
+       11,
+       true
+      ],
+      [
+       "b",
+       0,
+       8,
+       true
+      ],
+      [
+       "d",
+       1,
+       12,
+       true
+      ],
+      [
+       "b",
+       1,
+       9,
+       true
+      ],
+      [
+       "d",
+       2,
+       13,
+       false
+      ],
+      [
+       "b",
+       2,
+       10,
+       true
+      ]
+     ],
+     "error": null
+    }
+   }
+  },
+  "candidates": [
+   {
+    "route": "A.refined.cert[kp=2]",
+    "kind": "exact+shifted",
+    "rho": "1/70",
+    "L": 20,
+    "P": 96,
+    "log10_estar": -13.6,
+    "log10_err": -15.4,
+    "margin": 1.79,
+    "margin_exact": 1.7939464182080496,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 251,
+    "cost_h": 2.013,
+    "sites_ok": true,
+    "sites": [
+     10,
+     7,
+     11,
+     8
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 6.637419649269845e-11
+   },
+   {
+    "route": "A.refined.cert[d01b]",
+    "kind": "exact+remeasured",
+    "rho": "1/70",
+    "L": 20,
+    "P": 96,
+    "log10_estar": -13.48,
+    "log10_err": -15.4,
+    "margin": 1.92,
+    "margin_exact": 1.917940008672037,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 251,
+    "cost_h": 2.015,
+    "sites_ok": true,
+    "sites": [
+     10,
+     7,
+     11,
+     8,
+     9
+    ],
+    "binding": [
+     "J3 sT"
+    ],
+    "displacement": 6.856668435945039e-11
+   },
+   {
+    "route": "A.refined.cert[kp=2]",
+    "kind": "exact+shifted",
+    "rho": "1/140",
+    "L": 20,
+    "P": 96,
+    "log10_estar": -14.47,
+    "log10_err": -15.8,
+    "margin": 1.32,
+    "margin_exact": 1.3248683525989975,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 251,
+    "cost_h": 2.036,
+    "sites_ok": true,
+    "sites": [
+     11,
+     8,
+     12,
+     9
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 5.869894327092256e-11
+   },
+   {
+    "route": "A.refined.cert[kp=2]",
+    "kind": "exact+shifted",
+    "rho": "1/100",
+    "L": 20,
+    "P": 96,
+    "log10_estar": -14.01,
+    "log10_err": -15.58,
+    "margin": 1.56,
+    "margin_exact": 1.5626341434072692,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 251,
+    "cost_h": 2.036,
+    "sites_ok": true,
+    "sites": [
+     11,
+     8,
+     12,
+     9
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 6.431063683790678e-11
+   },
+   {
+    "route": "A.refined.cert[kp=3]",
+    "kind": "exact+shifted",
+    "rho": "1/140",
+    "L": 20,
+    "P": 96,
+    "log10_estar": -14.26,
+    "log10_err": -15.8,
+    "margin": 1.54,
+    "margin_exact": 1.5358800173440752,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 251,
+    "cost_h": 2.039,
+    "sites_ok": true,
+    "sites": [
+     11,
+     8,
+     12,
+     9,
+     10
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 6.020574287961745e-11
+   },
+   {
+    "route": "A.refined.cert[d01b]",
+    "kind": "exact+remeasured",
+    "rho": "1/140",
+    "L": 20,
+    "P": 96,
+    "log10_estar": -14.26,
+    "log10_err": -15.8,
+    "margin": 1.54,
+    "margin_exact": 1.5358800173440752,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 251,
+    "cost_h": 2.039,
+    "sites_ok": true,
+    "sites": [
+     11,
+     8,
+     12,
+     9,
+     10
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 6.020574287961745e-11
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate+shifted",
+    "rho": "1/140",
+    "L": 20,
+    "P": 96,
+    "log10_estar": -14.56,
+    "log10_err": -15.8,
+    "margin": 1.23,
+    "margin_exact": 1.234850021680094,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 251,
+    "cost_h": 2.039,
+    "sites_ok": true,
+    "sites": [
+     11,
+     8,
+     12,
+     9,
+     10
+    ],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.cert[kp=3]",
+    "kind": "exact+shifted",
+    "rho": "1/100",
+    "L": 20,
+    "P": 96,
+    "log10_estar": -13.81,
+    "log10_err": -15.58,
+    "margin": 1.77,
+    "margin_exact": 1.7667541260631925,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 251,
+    "cost_h": 2.039,
+    "sites_ok": true,
+    "sites": [
+     11,
+     8,
+     12,
+     9,
+     10
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 6.695748212252878e-11
+   },
+   {
+    "route": "A.refined.cert[d01b]",
+    "kind": "exact+remeasured",
+    "rho": "1/100",
+    "L": 20,
+    "P": 96,
+    "log10_estar": -13.81,
+    "log10_err": -15.58,
+    "margin": 1.77,
+    "margin_exact": 1.7667541260631925,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 251,
+    "cost_h": 2.039,
+    "sites_ok": true,
+    "sites": [
+     11,
+     8,
+     12,
+     9,
+     10
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 6.695748212252878e-11
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate+shifted",
+    "rho": "1/100",
+    "L": 20,
+    "P": 96,
+    "log10_estar": -14.11,
+    "log10_err": -15.58,
+    "margin": 1.47,
+    "margin_exact": 1.4657241303992112,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 251,
+    "cost_h": 2.039,
+    "sites_ok": true,
+    "sites": [
+     11,
+     8,
+     12,
+     9,
+     10
+    ],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.cert[kp=3]",
+    "kind": "exact+shifted",
+    "rho": "1/70",
+    "L": 20,
+    "P": 96,
+    "log10_estar": -13.48,
+    "log10_err": -15.4,
+    "margin": 1.92,
+    "margin_exact": 1.9207692986909013,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 251,
+    "cost_h": 2.039,
+    "sites_ok": true,
+    "sites": [
+     10,
+     7,
+     11,
+     8,
+     12,
+     9
+    ],
+    "binding": [
+     "J3 sT"
+    ],
+    "displacement": 6.856570186333538e-11
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate+shifted",
+    "rho": "1/70",
+    "L": 20,
+    "P": 96,
+    "log10_estar": -13.78,
+    "log10_err": -15.4,
+    "margin": 1.62,
+    "margin_exact": 1.61973930302692,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 251,
+    "cost_h": 2.039,
+    "sites_ok": true,
+    "sites": [
+     10,
+     7,
+     11,
+     8,
+     12,
+     9
+    ],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "hybrid",
+    "kind": "design+shifted",
+    "rho": "1/280",
+    "L": 14,
+    "P": 96,
+    "log10_estar": -7.36,
+    "log10_err": -10.68,
+    "margin": 3.32,
+    "margin_exact": 3.31511049958836,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 108,
+    "cost_h": 2.117,
+    "sites_ok": true,
+    "sites": [
+     10,
+     11,
+     12
+    ],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "hybrid",
+    "kind": "design+shifted",
+    "rho": "1/140",
+    "L": 14,
+    "P": 96,
+    "log10_estar": -6.76,
+    "log10_err": -10.43,
+    "margin": 3.67,
+    "margin_exact": 3.6702434968043676,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 108,
+    "cost_h": 2.118,
+    "sites_ok": true,
+    "sites": [
+     12,
+     9,
+     10,
+     11
+    ],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "hybrid",
+    "kind": "design+shifted",
+    "rho": "1/100",
+    "L": 14,
+    "P": 96,
+    "log10_estar": -6.5,
+    "log10_err": -10.21,
+    "margin": 3.7,
+    "margin_exact": 3.7041903238275795,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 108,
+    "cost_h": 2.118,
+    "sites_ok": true,
+    "sites": [
+     12,
+     9,
+     10,
+     11
+    ],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "hybrid",
+    "kind": "design+shifted",
+    "rho": "1/70",
+    "L": 14,
+    "P": 96,
+    "log10_estar": -5.63,
+    "log10_err": -10.03,
+    "margin": 4.4,
+    "margin_exact": 4.395316758825604,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 108,
+    "cost_h": 2.119,
+    "sites_ok": true,
+    "sites": [
+     11,
+     8,
+     12,
+     9,
+     10
+    ],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.cert[kp=1]",
+    "kind": "exact+shifted",
+    "rho": "1/70",
+    "L": 21,
+    "P": 96,
+    "log10_estar": -15.27,
+    "log10_err": -16.33,
+    "margin": 1.07,
+    "margin_exact": 1.0687630607056349,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 277,
+    "cost_h": 2.16,
+    "sites_ok": true,
+    "sites": [
+     10,
+     7
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 1.2281639689048531e-11
+   },
+   {
+    "route": "A.refined.cert[kp=2]",
+    "kind": "exact+shifted",
+    "rho": "1/70",
+    "L": 21,
+    "P": 96,
+    "log10_estar": -13.6,
+    "log10_err": -16.33,
+    "margin": 2.73,
+    "margin_exact": 2.7297871795782083,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 277,
+    "cost_h": 2.17,
+    "sites_ok": true,
+    "sites": [
+     10,
+     7,
+     11,
+     8
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 7.694112202729441e-12
+   },
+   {
+    "route": "A.refined.cert[d01b]",
+    "kind": "exact+remeasured",
+    "rho": "1/70",
+    "L": 21,
+    "P": 96,
+    "log10_estar": -13.48,
+    "log10_err": -16.33,
+    "margin": 2.85,
+    "margin_exact": 2.8537807700421958,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 277,
+    "cost_h": 2.172,
+    "sites_ok": true,
+    "sites": [
+     10,
+     7,
+     11,
+     8,
+     9
+    ],
+    "binding": [
+     "J3 sT"
+    ],
+    "displacement": 7.948265903132699e-12
+   },
+   {
+    "route": "A.refined.cert[kp=2]",
+    "kind": "exact+shifted",
+    "rho": "1/280",
+    "L": 21,
+    "P": 96,
+    "log10_estar": -15.56,
+    "log10_err": -16.98,
+    "margin": 1.42,
+    "margin_exact": 1.4190969184472806,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 277,
+    "cost_h": 2.185,
+    "sites_ok": true,
+    "sites": [
+     12,
+     9,
+     10
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 1.3127719614417832e-11
+   },
+   {
+    "route": "A.refined.cert[kp=2]",
+    "kind": "exact+shifted",
+    "rho": "1/140",
+    "L": 21,
+    "P": 96,
+    "log10_estar": -14.47,
+    "log10_err": -16.73,
+    "margin": 2.26,
+    "margin_exact": 2.260709113969156,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 277,
+    "cost_h": 2.192,
+    "sites_ok": true,
+    "sites": [
+     11,
+     8,
+     12,
+     9
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 6.804395074791013e-12
+   },
+   {
+    "route": "A.refined.cert[kp=2]",
+    "kind": "exact+shifted",
+    "rho": "1/100",
+    "L": 21,
+    "P": 96,
+    "log10_estar": -14.01,
+    "log10_err": -16.51,
+    "margin": 2.5,
+    "margin_exact": 2.498474904777428,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 277,
+    "cost_h": 2.192,
+    "sites_ok": true,
+    "sites": [
+     11,
+     8,
+     12,
+     9
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 7.454903890464005e-12
+   },
+   {
+    "route": "A.refined.cert[kp=3]",
+    "kind": "exact+shifted",
+    "rho": "1/280",
+    "L": 21,
+    "P": 96,
+    "log10_estar": -15.34,
+    "log10_err": -16.98,
+    "margin": 1.64,
+    "margin_exact": 1.6415982519308336,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 277,
+    "cost_h": 2.195,
+    "sites_ok": true,
+    "sites": [
+     12,
+     9,
+     10,
+     11
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 1.3762873760574587e-11
+   },
+   {
+    "route": "A.refined.cert[d01b]",
+    "kind": "exact+remeasured",
+    "rho": "1/280",
+    "L": 21,
+    "P": 96,
+    "log10_estar": -15.34,
+    "log10_err": -16.98,
+    "margin": 1.64,
+    "margin_exact": 1.6415982519308336,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 277,
+    "cost_h": 2.195,
+    "sites_ok": true,
+    "sites": [
+     12,
+     9,
+     10,
+     11
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 1.3762873760574587e-11
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate+shifted",
+    "rho": "1/280",
+    "L": 21,
+    "P": 96,
+    "log10_estar": -15.64,
+    "log10_err": -16.98,
+    "margin": 1.34,
+    "margin_exact": 1.3405682562668524,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 277,
+    "cost_h": 2.195,
+    "sites_ok": true,
+    "sites": [
+     12,
+     9,
+     10,
+     11
+    ],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.cert[kp=3]",
+    "kind": "exact+shifted",
+    "rho": "1/140",
+    "L": 21,
+    "P": 96,
+    "log10_estar": -14.26,
+    "log10_err": -16.73,
+    "margin": 2.47,
+    "margin_exact": 2.471720778714234,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 277,
+    "cost_h": 2.195,
+    "sites_ok": true,
+    "sites": [
+     11,
+     8,
+     12,
+     9,
+     10
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 6.979063633793499e-12
+   },
+   {
+    "route": "A.refined.cert[d01b]",
+    "kind": "exact+remeasured",
+    "rho": "1/140",
+    "L": 21,
+    "P": 96,
+    "log10_estar": -14.26,
+    "log10_err": -16.73,
+    "margin": 2.47,
+    "margin_exact": 2.471720778714234,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 277,
+    "cost_h": 2.195,
+    "sites_ok": true,
+    "sites": [
+     11,
+     8,
+     12,
+     9,
+     10
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 6.979063633793499e-12
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate+shifted",
+    "rho": "1/140",
+    "L": 21,
+    "P": 96,
+    "log10_estar": -14.56,
+    "log10_err": -16.73,
+    "margin": 2.17,
+    "margin_exact": 2.1706907830502526,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 277,
+    "cost_h": 2.195,
+    "sites_ok": true,
+    "sites": [
+     11,
+     8,
+     12,
+     9,
+     10
+    ],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.cert[kp=3]",
+    "kind": "exact+shifted",
+    "rho": "1/100",
+    "L": 21,
+    "P": 96,
+    "log10_estar": -13.81,
+    "log10_err": -16.51,
+    "margin": 2.7,
+    "margin_exact": 2.702594887433351,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 277,
+    "cost_h": 2.195,
+    "sites_ok": true,
+    "sites": [
+     11,
+     8,
+     12,
+     9,
+     10
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 7.761726807791333e-12
+   },
+   {
+    "route": "A.refined.cert[d01b]",
+    "kind": "exact+remeasured",
+    "rho": "1/100",
+    "L": 21,
+    "P": 96,
+    "log10_estar": -13.81,
+    "log10_err": -16.51,
+    "margin": 2.7,
+    "margin_exact": 2.702594887433351,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 277,
+    "cost_h": 2.195,
+    "sites_ok": true,
+    "sites": [
+     11,
+     8,
+     12,
+     9,
+     10
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 7.761726807791333e-12
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate+shifted",
+    "rho": "1/100",
+    "L": 21,
+    "P": 96,
+    "log10_estar": -14.11,
+    "log10_err": -16.51,
+    "margin": 2.4,
+    "margin_exact": 2.40156489176937,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 277,
+    "cost_h": 2.195,
+    "sites_ok": true,
+    "sites": [
+     11,
+     8,
+     12,
+     9,
+     10
+    ],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.cert[kp=3]",
+    "kind": "exact+shifted",
+    "rho": "1/70",
+    "L": 21,
+    "P": 96,
+    "log10_estar": -13.48,
+    "log10_err": -16.33,
+    "margin": 2.86,
+    "margin_exact": 2.85661006006106,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 277,
+    "cost_h": 2.196,
+    "sites_ok": true,
+    "sites": [
+     10,
+     7,
+     11,
+     8,
+     12,
+     9
+    ],
+    "binding": [
+     "J3 sT"
+    ],
+    "displacement": 7.9481520119559e-12
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate+shifted",
+    "rho": "1/70",
+    "L": 21,
+    "P": 96,
+    "log10_estar": -13.78,
+    "log10_err": -16.33,
+    "margin": 2.56,
+    "margin_exact": 2.5555800643970787,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 277,
+    "cost_h": 2.196,
+    "sites_ok": true,
+    "sites": [
+     10,
+     7,
+     11,
+     8,
+     12,
+     9
+    ],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.cert[kp=1]",
+    "kind": "exact+shifted",
+    "rho": "1/70",
+    "L": 22,
+    "P": 96,
+    "log10_estar": -15.27,
+    "log10_err": -17.27,
+    "margin": 2.0,
+    "margin_exact": 2.0046038220757936,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 305,
+    "cost_h": 2.329,
+    "sites_ok": true,
+    "sites": [
+     10,
+     7
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 1.4236905121921835e-12
+   },
+   {
+    "route": "A.refined.cert[kp=1]",
+    "kind": "exact+shifted",
+    "rho": "1/140",
+    "L": 22,
+    "P": 96,
+    "log10_estar": -16.21,
+    "log10_err": -17.67,
+    "margin": 1.46,
+    "margin_exact": 1.458854724713376,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 305,
+    "cost_h": 2.336,
+    "sites_ok": true,
+    "sites": [
+     11,
+     8
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 1.3914608184752842e-12
+   },
+   {
+    "route": "A.refined.cert[kp=1]",
+    "kind": "exact+shifted",
+    "rho": "1/100",
+    "L": 22,
+    "P": 96,
+    "log10_estar": -15.72,
+    "log10_err": -17.45,
+    "margin": 1.73,
+    "margin_exact": 1.727376732140291,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 305,
+    "cost_h": 2.336,
+    "sites_ok": true,
+    "sites": [
+     11,
+     8
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 1.4516203411442072e-12
+   },
+   {
+    "route": "A.refined.cert[kp=2]",
+    "kind": "exact+shifted",
+    "rho": "1/70",
+    "L": 22,
+    "P": 96,
+    "log10_estar": -13.6,
+    "log10_err": -17.27,
+    "margin": 3.67,
+    "margin_exact": 3.665627940948367,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 305,
+    "cost_h": 2.34,
+    "sites_ok": true,
+    "sites": [
+     10,
+     7,
+     11,
+     8
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 8.919032653706376e-13
+   },
+   {
+    "route": "A.refined.cert[d01b]",
+    "kind": "exact+remeasured",
+    "rho": "1/70",
+    "L": 22,
+    "P": 96,
+    "log10_estar": -13.48,
+    "log10_err": -17.27,
+    "margin": 3.79,
+    "margin_exact": 3.7896215314123545,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 305,
+    "cost_h": 2.341,
+    "sites_ok": true,
+    "sites": [
+     10,
+     7,
+     11,
+     8,
+     9
+    ],
+    "binding": [
+     "J3 sT"
+    ],
+    "displacement": 9.213648210801167e-13
+   },
+   {
+    "route": "A.refined.cert[kp=1]",
+    "kind": "exact+shifted",
+    "rho": "1/280",
+    "L": 22,
+    "P": 96,
+    "log10_estar": -16.0,
+    "log10_err": -17.92,
+    "margin": 1.91,
+    "margin_exact": 1.914133077089204,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 305,
+    "cost_h": 2.351,
+    "sites_ok": true,
+    "sites": [
+     12,
+     9
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 2.370979675840172e-12
+   },
+   {
+    "route": "A.refined.cert[kp=2]",
+    "kind": "exact+shifted",
+    "rho": "1/280",
+    "L": 22,
+    "P": 96,
+    "log10_estar": -15.56,
+    "log10_err": -17.92,
+    "margin": 2.35,
+    "margin_exact": 2.3549376798174393,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": false,
+    "support": 305,
+    "cost_h": 2.354,
+    "sites_ok": true,
+    "sites": [
+     12,
+     9,
+     10
+    ],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 1.521768292749338e-12
+   }
+  ]
+ },
+ {
+  "profile": "lg00",
+  "margin_rule": 1.0,
+  "beta": 0.7752205105283028,
+  "pi": 1.0,
+  "best": {
+   "route": "A.refined.classical",
+   "kind": "exact",
+   "rho": "29/5000",
+   "L": 19,
+   "P": 128,
+   "log10_estar": -15.1,
+   "log10_err": -16.12,
+   "margin": 1.02,
+   "margin_exact": 1.019224162549829,
+   "err_source": "interpolated",
+   "precision_ok": true,
+   "sites_verified": true,
+   "support": 613,
+   "cost_h": 27.686,
+   "sites_ok": true,
+   "sites": [],
+   "binding": [
+    "J2 tail"
+   ],
+   "displacement": 1.281319844090034e-11
+  },
+  "best_exact": {
+   "route": "A.refined.classical",
+   "kind": "exact",
+   "rho": "29/5000",
+   "L": 19,
+   "P": 128,
+   "log10_estar": -15.1,
+   "log10_err": -16.12,
+   "margin": 1.02,
+   "margin_exact": 1.019224162549829,
+   "err_source": "interpolated",
+   "precision_ok": true,
+   "sites_verified": true,
+   "support": 613,
+   "cost_h": 27.686,
+   "sites_ok": true,
+   "sites": [],
+   "binding": [
+    "J2 tail"
+   ],
+   "displacement": 1.281319844090034e-11
+  },
+  "constrained": {
+   "hand's \u03c1 and P, margin 1.0": {
+    "choice": {
+     "route": "A.refined.classical",
+     "rho": "29/5000",
+     "L": 19,
+     "P": 128,
+     "margin": 1.02,
+     "cost_h": 27.686,
+     "kind": "exact",
+     "err_source": "interpolated",
+     "sites_verified": true
+    },
+    "verdict": "differs: predicted cost 27.686 CPU-h against the hand choice's 30.110 (ratio 0.92)"
+   },
+   "hand's \u03c1 and P, the hand's realized margin 2.00": {
+    "choice": {
+     "route": "A.refined.classical",
+     "rho": "29/5000",
+     "L": 20,
+     "P": 128,
+     "margin": 1.99,
+     "cost_h": 30.11,
+     "kind": "exact",
+     "err_source": "measured",
+     "sites_verified": true
+    },
+    "verdict": "reproduces the hand choice"
+   }
+  },
+  "baseline_fallback": {
+   "route": "sharp",
+   "kind": "exact",
+   "rho": "29/5000",
+   "L": 37,
+   "P": 192,
+   "log10_estar": -32.04,
+   "log10_err": -33.55,
+   "margin": 1.51,
+   "margin_exact": 1.5067150814608041,
+   "err_source": "extrapolated",
+   "precision_ok": true,
+   "sites_verified": true,
+   "support": 2429,
+   "cost_h": 120.779,
+   "sites_ok": true,
+   "sites": [],
+   "binding": [],
+   "displacement": 1.359515074018389e-19
+  },
+  "hand": {
+   "route": "A.refined.classical",
+   "kind": "exact",
+   "rho": "29/5000",
+   "L": 20,
+   "P": 128,
+   "log10_estar": -15.1,
+   "log10_err": -17.09,
+   "margin": 1.99,
+   "margin_exact": 1.9936479013261348,
+   "err_source": "measured",
+   "precision_ok": true,
+   "sites_verified": true,
+   "support": 683,
+   "cost_h": 30.11,
+   "sites_ok": true,
+   "sites": [],
+   "binding": [
+    "J2 tail"
+   ],
+   "displacement": 1.3590449259374352e-12
+  },
+  "verdict": "differs: predicted cost 27.686 CPU-h against the hand choice's 30.110 (ratio 0.92)",
+  "sensitivity": {
+   "pi=0 beta=0.933": {
+    "choice": {
+     "route": "A.refined.classical",
+     "rho": "29/5000",
+     "L": 19,
+     "P": 128,
+     "margin": 1.02,
+     "cost_h": 27.217,
+     "kind": "exact",
+     "err_source": "interpolated",
+     "sites_verified": true
+    },
+    "hand_cost_h": 30.11,
+    "ratio": 0.9039189637994022
+   },
+   "pi=0 beta=1.500": {
+    "choice": {
+     "route": "A.refined.classical",
+     "rho": "29/5000",
+     "L": 19,
+     "P": 128,
+     "margin": 1.02,
+     "cost_h": 25.596,
+     "kind": "exact",
+     "err_source": "interpolated",
+     "sites_verified": true
+    },
+    "hand_cost_h": 30.11,
+    "ratio": 0.8500830288940552
+   },
+   "pi=0 beta=2.000": {
+    "choice": {
+     "route": "A.refined.classical",
+     "rho": "29/5000",
+     "L": 19,
+     "P": 128,
+     "margin": 1.02,
+     "cost_h": 24.247,
+     "kind": "exact",
+     "err_source": "interpolated",
+     "sites_verified": true
+    },
+    "hand_cost_h": 30.11,
+    "ratio": 0.8052806376619064
+   },
+   "pi=1 beta=0.775": {
+    "choice": {
+     "route": "A.refined.classical",
+     "rho": "29/5000",
+     "L": 19,
+     "P": 128,
+     "margin": 1.02,
+     "cost_h": 27.686,
+     "kind": "exact",
+     "err_source": "interpolated",
+     "sites_verified": true
+    },
+    "hand_cost_h": 30.11,
+    "ratio": 0.9194951843241448
+   },
+   "pi=1 beta=1.500": {
+    "choice": {
+     "route": "A.refined.classical",
+     "rho": "29/5000",
+     "L": 19,
+     "P": 128,
+     "margin": 1.02,
+     "cost_h": 25.596,
+     "kind": "exact",
+     "err_source": "interpolated",
+     "sites_verified": true
+    },
+    "hand_cost_h": 30.11,
+    "ratio": 0.8500830288940552
+   },
+   "pi=1 beta=2.000": {
+    "choice": {
+     "route": "A.refined.classical",
+     "rho": "29/5000",
+     "L": 19,
+     "P": 128,
+     "margin": 1.02,
+     "cost_h": 24.247,
+     "kind": "exact",
+     "err_source": "interpolated",
+     "sites_verified": true
+    },
+    "hand_cost_h": 30.11,
+    "ratio": 0.8052806376619064
+   }
+  },
+  "thresholds": {
+   "29/5000": {
+    "sharp": {
+     "log10_estar": -32.04,
+     "kind": "exact",
+     "binding": [],
+     "sites": [],
+     "error": null
+    },
+    "A.frozen": {
+     "log10_estar": -27.98,
+     "kind": "exact",
+     "binding": [
+      "J1 stage 5 cond 2",
+      "J2 tail"
+     ],
+     "sites": [],
+     "error": null
+    },
+    "A.refined.classical": {
+     "log10_estar": -15.1,
+     "kind": "exact",
+     "binding": [
+      "J2 tail"
+     ],
+     "sites": [
+      [
+       "d",
+       0,
+       0,
+       false
+      ],
+      [
+       "b",
+       0,
+       0,
+       false
+      ],
+      [
+       "d",
+       1,
+       0,
+       false
+      ],
+      [
+       "b",
+       1,
+       0,
+       false
+      ],
+      [
+       "d",
+       2,
+       0,
+       false
+      ],
+      [
+       "b",
+       2,
+       0,
+       false
+      ]
+     ],
+     "error": null
+    },
+    "B.frozen": {
+     "log10_estar": -25.96,
+     "kind": "exact",
+     "binding": [],
+     "sites": [],
+     "error": null
+    },
+    "B.refined.classical": {
+     "log10_estar": -17.81,
+     "kind": "exact",
+     "binding": [],
+     "sites": [],
+     "error": null
+    },
+    "A.L8'": {
+     "log10_estar": -15.4,
+     "kind": "estimate",
+     "binding": [],
+     "sites": [
+      [
+       "d",
+       0,
+       0,
+       false
+      ],
+      [
+       "b",
+       0,
+       0,
+       false
+      ],
+      [
+       "d",
+       1,
+       0,
+       false
+      ],
+      [
+       "b",
+       1,
+       0,
+       false
+      ],
+      [
+       "d",
+       2,
+       0,
+       false
+      ],
+      [
+       "b",
+       2,
+       0,
+       false
+      ]
+     ],
+     "error": null
+    },
+    "l1-entry": {
+     "log10_estar": -14.35,
+     "kind": "design",
+     "binding": [],
+     "sites": [
+      [
+       "d",
+       0,
+       0,
+       false
+      ],
+      [
+       "b",
+       0,
+       0,
+       false
+      ],
+      [
+       "d",
+       1,
+       0,
+       false
+      ],
+      [
+       "b",
+       1,
+       0,
+       false
+      ],
+      [
+       "d",
+       2,
+       0,
+       false
+      ],
+      [
+       "b",
+       2,
+       0,
+       false
+      ]
+     ],
+     "error": null
+    }
+   }
+  },
+  "candidates": [
+   {
+    "route": "A.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 19,
+    "P": 128,
+    "log10_estar": -15.1,
+    "log10_err": -16.12,
+    "margin": 1.02,
+    "margin_exact": 1.019224162549829,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 613,
+    "cost_h": 27.686,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 1.281319844090034e-11
+   },
+   {
+    "route": "A.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 20,
+    "P": 128,
+    "log10_estar": -15.1,
+    "log10_err": -17.09,
+    "margin": 1.99,
+    "margin_exact": 1.9936479013261348,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 683,
+    "cost_h": 30.11,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 1.3590449259374352e-12
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate",
+    "rho": "29/5000",
+    "L": 20,
+    "P": 128,
+    "log10_estar": -15.4,
+    "log10_err": -17.09,
+    "margin": 1.69,
+    "margin_exact": 1.6926179056621535,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 683,
+    "cost_h": 30.11,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 21,
+    "P": 128,
+    "log10_estar": -15.1,
+    "log10_err": -17.96,
+    "margin": 2.86,
+    "margin_exact": 2.86074023504656,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 749,
+    "cost_h": 32.331,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 1.8456165660878699e-13
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate",
+    "rho": "29/5000",
+    "L": 21,
+    "P": 128,
+    "log10_estar": -15.4,
+    "log10_err": -17.96,
+    "margin": 2.56,
+    "margin_exact": 2.5597102393825786,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 749,
+    "cost_h": 32.331,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 19,
+    "P": 160,
+    "log10_estar": -15.1,
+    "log10_err": -16.12,
+    "margin": 1.02,
+    "margin_exact": 1.019224162549829,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 613,
+    "cost_h": 34.607,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 1.281319844090034e-11
+   },
+   {
+    "route": "A.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 22,
+    "P": 128,
+    "log10_estar": -15.1,
+    "log10_err": -18.92,
+    "margin": 3.83,
+    "margin_exact": 3.8258284515398877,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 821,
+    "cost_h": 34.715,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 2.0001071539501294e-14
+   },
+   {
+    "route": "B.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 22,
+    "P": 128,
+    "log10_estar": -17.81,
+    "log10_err": -18.92,
+    "margin": 1.11,
+    "margin_exact": 1.1096257645569274,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 821,
+    "cost_h": 34.715,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate",
+    "rho": "29/5000",
+    "L": 22,
+    "P": 128,
+    "log10_estar": -15.4,
+    "log10_err": -18.92,
+    "margin": 3.52,
+    "margin_exact": 3.5247984558759065,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 821,
+    "cost_h": 34.715,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 23,
+    "P": 128,
+    "log10_estar": -15.1,
+    "log10_err": -19.89,
+    "margin": 4.79,
+    "margin_exact": 4.790916668033219,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 900,
+    "cost_h": 37.275,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 2.1675296487840466e-15
+   },
+   {
+    "route": "B.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 23,
+    "P": 128,
+    "log10_estar": -17.81,
+    "log10_err": -19.89,
+    "margin": 2.07,
+    "margin_exact": 2.074713981050259,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 900,
+    "cost_h": 37.275,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate",
+    "rho": "29/5000",
+    "L": 23,
+    "P": 128,
+    "log10_estar": -15.4,
+    "log10_err": -19.89,
+    "margin": 4.49,
+    "margin_exact": 4.489886672369238,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 900,
+    "cost_h": 37.275,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 20,
+    "P": 160,
+    "log10_estar": -15.1,
+    "log10_err": -17.09,
+    "margin": 1.99,
+    "margin_exact": 1.9936479013261348,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 683,
+    "cost_h": 37.638,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 1.3590449259374352e-12
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate",
+    "rho": "29/5000",
+    "L": 20,
+    "P": 160,
+    "log10_estar": -15.4,
+    "log10_err": -17.09,
+    "margin": 1.69,
+    "margin_exact": 1.6926179056621535,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 683,
+    "cost_h": 37.638,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 24,
+    "P": 128,
+    "log10_estar": -15.1,
+    "log10_err": -20.85,
+    "margin": 5.76,
+    "margin_exact": 5.756004884526547,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 986,
+    "cost_h": 40.024,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 2.348966538657294e-16
+   },
+   {
+    "route": "B.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 24,
+    "P": 128,
+    "log10_estar": -17.81,
+    "log10_err": -20.85,
+    "margin": 3.04,
+    "margin_exact": 3.0398021975435867,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 986,
+    "cost_h": 40.024,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate",
+    "rho": "29/5000",
+    "L": 24,
+    "P": 128,
+    "log10_estar": -15.4,
+    "log10_err": -20.85,
+    "margin": 5.45,
+    "margin_exact": 5.454974888862566,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 986,
+    "cost_h": 40.024,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 21,
+    "P": 160,
+    "log10_estar": -15.1,
+    "log10_err": -17.96,
+    "margin": 2.86,
+    "margin_exact": 2.86074023504656,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 749,
+    "cost_h": 40.413,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 1.8456165660878699e-13
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate",
+    "rho": "29/5000",
+    "L": 21,
+    "P": 160,
+    "log10_estar": -15.4,
+    "log10_err": -17.96,
+    "margin": 2.56,
+    "margin_exact": 2.5597102393825786,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 749,
+    "cost_h": 40.413,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 19,
+    "P": 192,
+    "log10_estar": -15.1,
+    "log10_err": -16.12,
+    "margin": 1.02,
+    "margin_exact": 1.019224162549829,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 613,
+    "cost_h": 41.528,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 1.281319844090034e-11
+   },
+   {
+    "route": "l1-entry",
+    "kind": "design",
+    "rho": "29/5000",
+    "L": 19,
+    "P": 128,
+    "log10_estar": -14.35,
+    "log10_err": -16.12,
+    "margin": 1.77,
+    "margin_exact": 1.769224162549877,
+    "err_source": "interpolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 613,
+    "cost_h": 41.528,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 25,
+    "P": 128,
+    "log10_estar": -15.1,
+    "log10_err": -21.83,
+    "margin": 6.73,
+    "margin_exact": 6.73390062364745,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 1064,
+    "cost_h": 42.455,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 2.47161653019413e-17
+   },
+   {
+    "route": "B.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 25,
+    "P": 128,
+    "log10_estar": -17.81,
+    "log10_err": -21.83,
+    "margin": 4.02,
+    "margin_exact": 4.01769793666449,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 1064,
+    "cost_h": 42.455,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate",
+    "rho": "29/5000",
+    "L": 25,
+    "P": 128,
+    "log10_estar": -15.4,
+    "log10_err": -21.83,
+    "margin": 6.43,
+    "margin_exact": 6.432870627983469,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 1064,
+    "cost_h": 42.455,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 22,
+    "P": 160,
+    "log10_estar": -15.1,
+    "log10_err": -18.92,
+    "margin": 3.83,
+    "margin_exact": 3.8258284515398877,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 821,
+    "cost_h": 43.394,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 2.0001071539501294e-14
+   },
+   {
+    "route": "B.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 22,
+    "P": 160,
+    "log10_estar": -17.81,
+    "log10_err": -18.92,
+    "margin": 1.11,
+    "margin_exact": 1.1096257645569274,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 821,
+    "cost_h": 43.394,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate",
+    "rho": "29/5000",
+    "L": 22,
+    "P": 160,
+    "log10_estar": -15.4,
+    "log10_err": -18.92,
+    "margin": 3.52,
+    "margin_exact": 3.5247984558759065,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 821,
+    "cost_h": 43.394,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 26,
+    "P": 128,
+    "log10_estar": -15.1,
+    "log10_err": -22.81,
+    "margin": 7.71,
+    "margin_exact": 7.71179636276835,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 1148,
+    "cost_h": 45.032,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 2.6006706233545797e-18
+   },
+   {
+    "route": "B.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 26,
+    "P": 128,
+    "log10_estar": -17.81,
+    "log10_err": -22.81,
+    "margin": 5.0,
+    "margin_exact": 4.99559367578539,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 1148,
+    "cost_h": 45.032,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate",
+    "rho": "29/5000",
+    "L": 26,
+    "P": 128,
+    "log10_estar": -15.4,
+    "log10_err": -22.81,
+    "margin": 7.41,
+    "margin_exact": 7.410766367104369,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 1148,
+    "cost_h": 45.032,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 20,
+    "P": 192,
+    "log10_estar": -15.1,
+    "log10_err": -17.09,
+    "margin": 1.99,
+    "margin_exact": 1.9936479013261348,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 683,
+    "cost_h": 45.165,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 1.3590449259374352e-12
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate",
+    "rho": "29/5000",
+    "L": 20,
+    "P": 192,
+    "log10_estar": -15.4,
+    "log10_err": -17.09,
+    "margin": 1.69,
+    "margin_exact": 1.6926179056621535,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 683,
+    "cost_h": 45.165,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "l1-entry",
+    "kind": "design",
+    "rho": "29/5000",
+    "L": 20,
+    "P": 128,
+    "log10_estar": -14.35,
+    "log10_err": -17.09,
+    "margin": 2.74,
+    "margin_exact": 2.7436479013261827,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 683,
+    "cost_h": 45.165,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 23,
+    "P": 160,
+    "log10_estar": -15.1,
+    "log10_err": -19.89,
+    "margin": 4.79,
+    "margin_exact": 4.790916668033219,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 900,
+    "cost_h": 46.594,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 2.1675296487840466e-15
+   },
+   {
+    "route": "B.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 23,
+    "P": 160,
+    "log10_estar": -17.81,
+    "log10_err": -19.89,
+    "margin": 2.07,
+    "margin_exact": 2.074713981050259,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 900,
+    "cost_h": 46.594,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate",
+    "rho": "29/5000",
+    "L": 23,
+    "P": 160,
+    "log10_estar": -15.4,
+    "log10_err": -19.89,
+    "margin": 4.49,
+    "margin_exact": 4.489886672369238,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 900,
+    "cost_h": 46.594,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 21,
+    "P": 192,
+    "log10_estar": -15.1,
+    "log10_err": -17.96,
+    "margin": 2.86,
+    "margin_exact": 2.86074023504656,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 749,
+    "cost_h": 48.496,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 1.8456165660878699e-13
+   },
+   {
+    "route": "A.L8'",
+    "kind": "estimate",
+    "rho": "29/5000",
+    "L": 21,
+    "P": 192,
+    "log10_estar": -15.4,
+    "log10_err": -17.96,
+    "margin": 2.56,
+    "margin_exact": 2.5597102393825786,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 749,
+    "cost_h": 48.496,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "l1-entry",
+    "kind": "design",
+    "rho": "29/5000",
+    "L": 21,
+    "P": 128,
+    "log10_estar": -14.35,
+    "log10_err": -17.96,
+    "margin": 3.61,
+    "margin_exact": 3.610740235046608,
+    "err_source": "measured",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 749,
+    "cost_h": 48.496,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [],
+    "displacement": null
+   },
+   {
+    "route": "A.refined.classical",
+    "kind": "exact",
+    "rho": "29/5000",
+    "L": 24,
+    "P": 160,
+    "log10_estar": -15.1,
+    "log10_err": -20.85,
+    "margin": 5.76,
+    "margin_exact": 5.756004884526547,
+    "err_source": "extrapolated",
+    "precision_ok": true,
+    "sites_verified": true,
+    "support": 986,
+    "cost_h": 50.03,
+    "sites_ok": true,
+    "sites": [],
+    "binding": [
+     "J2 tail"
+    ],
+    "displacement": 2.348966538657294e-16
+   }
+  ]
+ }
+]
