@@ -6,9 +6,10 @@ short reflected box of `routeARefinedS` with the exact mirror (bite_sign.py): th
 `balBound` and the constant c, all rationals, nothing float.  Then the exact route-A mirror (v2_r2.max_Xs) gives the
 threshold with those constants, for every choice of the certified sites.
 
-Reads docs/campaign/studies/v2-sites-data/dry_tp_L20.json (LG00-T2's dry run) and the box from the LG00 worktree.
+Reads docs/campaign/studies/v2-sites-data/dry_<torus>_L20.json (LG00-T2's dry runs) and the box from the LG00 worktree.
+--tpp selects T'' (Gamma'', the generator's LG00_GAMMA=2); --kp N the longest prefix (default 4).
 
-Usage: python3 -B -I scripts/certifier/lg00_sites.py [--json OUT] [--lean DIR]
+Usage: python3 -B -I scripts/certifier/lg00_sites.py [--tpp] [--kp N] [--json OUT]
 """
 import itertools, json, math, os, sys, time
 from fractions import Fraction as F
@@ -21,9 +22,13 @@ sys.path.insert(0, os.path.join(ROOT, "scripts", "apost_sharp"))
 import bite_sign as BS            # noqa: E402
 import structured_b as SB         # noqa: E402
 
-TP = os.path.join(ROOT, "docs/campaign/studies/v2-sites-data/dry_tp_L20.json")
+TORUS = "tpp" if "--tpp" in sys.argv else "tp"
+if TORUS == "tpp":
+    os.environ["LG00_GAMMA"] = "2"
+TP = os.path.join(ROOT, "docs/campaign/studies/v2-sites-data/dry_%s_L20.json" % TORUS)
 Q_BITS = 48                       # the short box: centre and radius at 2^-48
-J, KP = 8, 4
+J = 8
+KP = int(sys.argv[sys.argv.index("--kp") + 1]) if "--kp" in sys.argv else 4
 
 
 def package(path=TP):
@@ -62,8 +67,8 @@ def short_box(box):
     return neg, bw, kap, cs, rs
 
 
-def site_table(b, kap, gamma, cs, rs, lmin=6, lmax=15):
-    """B and c at each cut-off; the least l whose c is within 0.5 % of the limit."""
+def site_table(b, kap, gamma, cs, rs, lmin=6, lmax=16):
+    """B and c at each cut-off; the caller takes the least l whose c is within 1 % of the limit."""
     E1 = BS.E1_of(2 * b, J)
     rows = []
     for l in range(lmin, lmax + 1):
@@ -91,7 +96,7 @@ def main():
         t = time.time()
         E1, rows = site_table(b, kap, gamma, cs, rs)
         best = min(r["c"] for r in rows if r["ok"])
-        pick = next(r for r in rows if r["ok"] and r["c"] <= best * F(1005, 1000))
+        pick = next(r for r in rows if r["ok"] and r["c"] <= best * F(101, 100))
         choice[key] = dict(pick, E1=E1, b=b)
         print("%s%d b %.6e E1 %s classical %.5f: " % (key[0], key[1], float(b), E1, float(clas[key])) + "  ".join(
             "l%d %.5f%s" % (r["l"], float(r["c"]), "" if r["ok"] else "!") for r in rows) + "  -> l=%d c=%s (%.3fs)" % (
@@ -99,8 +104,8 @@ def main():
     rows = []
     errL = json.load(open(TP))["params"]["err"]
     lerr = math.log10(F(errL))
-    for kp in (3, 4):
-        for lmax in (0, 8, 9, 10, 11, 12, 13):
+    for kp in range(3, KP + 1):
+        for lmax in (0, 8, 9, 10, 11, 12, 13, 14, 15, 16):
             sub = [k for k in sch if k[1] < kp and choice[k]["l"] <= lmax]
             sites = {k: (choice[k]["c"] if k in sub else v) for k, v in SB.classical_sites(p, kp).items()}
             le = SB.route_a(pkg, sites, kp=kp)
@@ -108,7 +113,7 @@ def main():
                              fibres=sum(2 ** (choice[k]["l"] + 1) for k in sub)))
             print("  kp %d, cut-offs l <= %2d: %-34s log10 e* %8.3f  margin at L = 20 %8.1f  fibres %6d" % (
                 kp, lmax, ",".join(rows[-1]["sub"]) or "(classical)", le, rows[-1]["margin"], rows[-1]["fibres"]), flush=True)
-    out = dict(neg=neg, kappa=str(kap), q=Q_BITS, bw=[[str(a), str(b)] for a, b in bw], sites={"%s%d" % k: {a: str(b) for a, b in v.items()} for k, v in choice.items()},
+    out = dict(torus=TORUS, gamma=str(gamma), neg=neg, kappa=str(kap), q=Q_BITS, bw=[[str(a), str(b)] for a, b in bw], sites={"%s%d" % k: {a: str(b) for a, b in v.items()} for k, v in choice.items()},
                configs=rows, classical={"%s%d" % k: str(v) for k, v in clas.items()})
     if "--json" in sys.argv:
         json.dump(out, open(sys.argv[sys.argv.index("--json") + 1], "w"), indent=1, default=str)

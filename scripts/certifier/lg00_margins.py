@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """V2-SITES-SIGN: LG00 T' at each dry run, with classical and certified sites, in exact rationals.
 
-Untrusted tooling.  For every dry run docs/campaign/studies/v2-sites-data/dry_tp_L*.json: the err of that L, the largest
+Untrusted tooling.  For every dry run docs/campaign/studies/v2-sites-data/dry_<torus>_L*.json (--tpp: T''): the err of that L, the largest
 X* of the exact route-A mirror (v2_r2.max_Xs), the margin e*/err, and the whole numerical test `refinedCore` of the mirror
 at a concrete witness (X* = 2 err/scale, three digits up; disp the exact minimum, rounded up), for kp = 3 and 4.  The sites
 are the certified constants of sites_tp.json (bite_sign.py), whose witnesses `biteOk` accepts in the kernel.
@@ -49,11 +49,12 @@ def one(pkg, sites, name, KP):
 
 
 def main():
-    d = json.load(open(os.path.join(DATA, "sites_tp.json")))
+    d = json.load(open(os.path.join(DATA, "sites_%s.json" % LS.TORUS)))
+    kps = sorted({int(k[1]) for k in d["sites"]})
     cert = {(k[0], int(k[1])): F(v["c"]) for k, v in d["sites"].items()}
     cut = lambda kp: {k: v for k, v in cert.items() if k[1] < kp}
     res = {}
-    for path in sorted(glob.glob(os.path.join(DATA, "dry_tp_L*.json"))):
+    for path in sorted(glob.glob(os.path.join(DATA, "dry_%s_L*.json" % LS.TORUS))):
         rep = json.load(open(path))
         pkg = LS.package(path)
         clas = SB.classical_sites(pkg["p"], 3)
@@ -61,11 +62,13 @@ def main():
         row = dict(L=L, support=rep["support"], err=float(F(rep["params"]["err"])), slots=rep["jet_slots"],
                    checks={k: v.get("ok") for k, v in rep["checks"].items() if k != "sharpTest"})
         row["classical"] = one(pkg, clas, "classical", 3)
-        row["certified kp 3"] = one(pkg, cut(3), "certified kp 3", 3)
-        row["certified kp 4"] = one(pkg, cut(4), "certified kp 4", 4)
+        names = []
+        for kp in range(3, kps[-1] + 2):
+            names.append("certified kp %d" % kp)
+            row[names[-1]] = one(pkg, cut(kp), names[-1], kp)
         res[L] = row
         print("L=%d support %d err %.3g landed checks %s" % (L, row["support"], row["err"], all(row["checks"].values())))
-        for k in ("classical", "certified kp 3", "certified kp 4"):
+        for k in ["classical"] + names:
             r = row[k]
             print("   %-14s log10 e* %8.3f  margin %10.1f  X* %s  disp %s  refinedCore %s" % (
                 k, r["log10_e"], r["margin"], r.get("Xs"), r.get("disp"), r.get("core")), flush=True)
