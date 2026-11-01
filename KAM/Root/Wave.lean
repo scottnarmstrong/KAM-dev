@@ -225,6 +225,7 @@ public import KAM.Wave.Iteration.Sequence
 public import KAM.Wave.Iteration.Sequences
 public import KAM.Wave.Iteration.Stage
 public import KAM.Wave.Iteration.Strong
+public import KAM.Wave.Iteration.StrongConj
 public import KAM.Wave.Iteration.WaveData
 public import KAM.Wave.Iteration.WaveInst
 public import KAM.Wave.KamStep.Class
