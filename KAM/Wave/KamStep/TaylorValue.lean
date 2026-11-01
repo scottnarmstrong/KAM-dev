@@ -208,4 +208,43 @@ theorem stepFun_taylorOf_eq (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hs :
   ring
 
 
+/-- **`X_R = X_{T}`** (`bpW:w5:taylor` (ii), step `t-field`): the field of the polynomial of
+`T = stepTaylorOf …` is the Taylor field `taylorXR X` on `D(s,r)`. -/
+theorem stepField_taylorOf_eq (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hs : 0 < s) (hr : 0 < r)
+    (hP : IsSmoothing (p := p) ha (by linarith : 0 ≤ pb + p) (kamDomain s r) P X)
+    (hper : ∀ i, ∀ w ∈ kamDomain s r, P (w + stepTau i) = P w) {ε : ℝ}
+    (hb : ∀ z ∈ kamDomain s r, kamNorm r (X z) ≤ ε) {w : KamPhase} (hw : w ∈ kamDomain s r) :
+    stepField ha hp hpb (stepTaylorOf ha hp hpb hs hr hP hper hb) w = taylorXR X w := by
+  set T := stepTaylorOf ha hp hpb hs hr hP hper hb with hT
+  have hV := kamDomain_isOpen s r
+  obtain ⟨D, hD, hDW⟩ := stepFun_field ha hp hpb T (w := w) (fun i => hw.1 i)
+  have hqq' : 0 ≤ pb + p := by linarith
+  have key : ∀ W : KamPhase, stepSymp (q := p) (q' := pb) ha (homPP hp hpb)
+      (stepField ha hp hpb T w) W =
+      stepSymp (q := p) (q' := pb) ha (homPP hp hpb) (taylorXR X w) W := by
+    intro W
+    -- the derivative of ε ↦ stepFun T (w + εW) at 0
+    have hline : HasDerivAt (fun ε : ℂ => w + ε • W) W 0 := by
+      simpa using ((hasDerivAt_id (0 : ℂ)).smul_const W).const_add w
+    have h1 : HasDerivAt (fun ε : ℂ => stepFun ha (homPP hp hpb) T (w + ε • W)) (D W) 0 := by
+      have : HasFDerivAt (stepFun ha (homPP hp hpb) T) D (w + (0 : ℂ) • W) := by simpa using hD
+      exact this.comp_hasDerivAt 0 hline
+    have hS0 : scaleS 0 w ∈ kamDomain s r := by
+      have : scaleS 0 w = stepW0L w.1 := by simp [scaleS, stepW0L_apply]
+      rw [this]; exact stepW0L_mem hr (fun i => hw.1 i)
+    have h2 := hasDerivAt_taylorRv hV hP.holoP (w := w) (W' := W) hS0
+    have hev : ∀ᶠ ε in 𝓝 (0 : ℂ), w + ε • W ∈ kamDomain s r := by
+      have hc : ContinuousAt (fun ε : ℂ => w + ε • W) 0 := hline.continuousAt
+      exact hc.eventually (hV.mem_nhds (by simpa using hw))
+    have h3 : HasDerivAt (fun ε : ℂ => taylorRv P (w + ε • W)) (D W) 0 := by
+      refine h1.congr_of_eventuallyEq ?_
+      filter_upwards [hev] with ε hε
+      exact (stepFun_taylorOf_eq ha hp hpb hs hr hP hper hb hε).symm
+    have h4 := h3.unique h2
+    rw [sum_taylorCoeff_symp ha hqq' hP hr hw W] at h4
+    rw [← hDW W, h4, stepSymp_comm_weights ha hqq' (homPP hp hpb)]
+  exact sub_eq_zero.mp (stepSymp_nondeg (q := p) (q' := pb) ha (homPP hp hpb)
+    (W := stepField ha hp hpb T w - taylorXR X w) (fun W => by
+      rw [stepSymp_sub_left, key W, sub_self]))
+
 end KAM.Wave
