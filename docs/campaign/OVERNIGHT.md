@@ -3210,3 +3210,51 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
 - **10:49. Heartbeat.** No OOM. Load about 4. Memory: 17 GB available. Disks: / 16 GB free, HC 30 GB free (93 %;
   falling with the LP freeze worktree; the alarm is set at 15 GB).
 - **10:49. W D27 graph sync** inp-wgraph-byp@5bfe22dc sent: PROVED 598 (including the root nlw2, citing seal 6798a3c5), BYPASSED 39, PARTIAL 9, NOT_STARTED 1, which is 685 / 695 resolved (98.6 %). W-GRAPH-CLOSE (claude-11) closes the last 10.
+- **10:53. D63: the owner relaunched SO-3** ("I want to get that subproblem sealed as well"). The seal is approved once the full chain, the landing checks and a seal audit pass.
+  - kam-inp-24 restarted LOCK-DATA (a fresh worker on claude-5; PKG-LOCK-DATA-RUN.md): dechain, re-emission in the D55
+    form, the template pass, splits.
+  - LOCK-FREEZE Phase B prep has started.
+  - **The owner will rent a Hetzner CCX53 for the full chain** (about 3–4 h there versus about 1–1.5 days here).
+    kam-inp-24 is preparing the remote runbook (provision, transfer, return, sample replay); the chain does not start
+    locally.
+- **10:56. W cleanup:** kam-1b retired 5 finished W worktrees (wpja5, wpl, wpr, wps, wpq; each clean, no live session, work on main, branches kept). HC was briefly at 95 % with the LP freeze worktree and the lock re-emission; now 92 % (33 GB free). README W meter 99 % (685 / 695). W-GRAPH-CLOSE is running.
+- **11:19. Heartbeat.**
+  - LP: the one-pass freeze-and-seal branch is complete (a4eecfc1); the seal audit is running (codex-2); the 284-module
+    replay list is ready; the landing goes next.
+  - Lock: the template pass is running (FrameL0 at 10.7 GB, plus light lanes).
+  - Memory: about 8 GB available; one cgroup OOM at 11:06 (a lean process at a 4 GB cap; the owner is being checked).
+    root-b8: no new heavy lock modules until LP lands; LP replay gate lowered to ≥ 6 GB per worker; an OOM-killed
+    module is retried alone at 8 GB.
+  - W: W-GRAPH-CLOSE is running (32 min).
+  - PRs: #4 declined with a thank-you (KAM/Matrix/Inverse.lean is upstream of 2,157 modules, including the band data);
+    #5 merged (02f3ee7e, 25 guard fixture tests in lint; GitHub shows it MERGED at 11:15). Another agent landed
+    v2-clockgraph (1e32cf2a) through origin/main.
+- **11:37. SO-LOCK:** the re-emission is done (frozen commit cf15c6e0; D55 segment tree 3,207 modules, 67.8 MB, ledger/plan dechained; total source about 181 MB, within D55's 200 MB). Chain plan: 4,507 modules, 205 levels (334 before the dechain), widest level 536, critical path 0.85 h. Projected on a CCX53 with 11 × 10 GB lanes: 2.7 h (3.5 h with margin); here, 28 h. Runbook scripts/spin_orbit/lock_remote_runbook.sh (7ebe69c3), dry run rc 0, audit sample 174 modules. The 11:06 OOM was a deliberate probe of a superseded form. Template pass: 85 rc=0. FrameL0 passed at 9.61 GiB and gets a further row split. LOCK-FREEZE Phase B prep (41934621, FrozenBridge). Waiting on LP's landing (heavy paused) and CCX53 access (owner).
+- **11:39. README Main theorems (owner request):** track W (item 12, nlw2, sealed) gets its own section; track LP (items 8–9) joins track N's section ('Exponential stability and safe planetary systems'); P renumbered 10–11, SO 13–15 with cross-references; layout rows for papers/LP, graphs, tracks (ed7c4daf). TODO root-b8: re-point item 8's links to the frozen anchors when the LP freeze lands.
+- **11:49. Heartbeat.**
+  - LP: the seal audit (since 10:57) was waiting on a single-stream full replay (128 / 284, all exit 0) that duplicates
+    kam-inp-63's 3-worker landing replay. root-b8: the auditor replays only the 39 anchors and providers, gives its
+    verdict without waiting, and the landing replay is the authoritative full one.
+  - W: W-GRAPH-CLOSE is at its lint; kam-1b plans 9 nodes PROVED and w5:solve PARTIAL pending one more export.
+  - Lock: template pass on light lanes (heavy paused for LP).
+  - Two cgroup OOMs at 11:04/11:06 were lock probes (attributed by kam-inp-24). Load about 14. Memory: 15 GB
+    available. Disks: / 16 GB free, HC 31 GB free.
+- **11:53. W-GRAPH-CLOSE audit (codex-2):** 9 of 10 PROVED-OK (w5 flow ×4, w7 shell-geom/partition, w0n:algebra, w0n:weight, lambda-facts). bpW:w5:solve is not closed (the modified case lacks the blueprint's '(indeed p′)' clause). W-GRAPH-CLOSE (a82197a3) is landing; W-SOLVE-FIX (claude-11) plus a round 2 on that one node follow, after which W is fully resolved (608 PROVED, 39 BYPASSED).
+- **12:07. LP SEAL AUDIT: SEAL-READY, PASS WITH NOTES, 0 blocking** (codex-2, f5729cf8; LP-SEAL-audit-1.md). Identity 128/128 against de343000 (placeholders and seal bodies only); 128 SEALED entries (guard and ABI reproduced; the 179 old entries unchanged); 39/39 providers Expr-equal; 78/78 standard axioms; 89 definitions sorryAx-free; the rebase removed exactly 89 definitions and 34 theorems across 13 paths; Derivative.lean and the lunar data untouched; own replay 167/167 exit 0. The landing (inp-lp-freeze@c68c1f09) is with kam-inp-63: 3-worker replay of 284 modules and #print axioms of the 39 anchors on main.
+- **12:18. Heartbeat.**
+  - LP: the freeze-and-seal landing is in progress: merged into inp (2264fd4e); the incremental build rebuilds only the
+    roughly 284 LP modules; then the 3-worker replay and the axioms on main.
+  - Owner asked whether we were rebuilding the whole repo. root-b8 checked: no; only LP frozen definitions and LP
+    modules are recompiled.
+  - W: W-GRAPH-CLOSE is landing; W-SOLVE-FIX round 2 audit running (inp-maud-wpj).
+  - Lock: template pass on light lanes.
+  - One more cgroup OOM at 11:57 (a lean process in a capped scope; probably a lock probe).
+  - Load about 34 (the landing build plus lock lanes). Memory: 13 GB available. Disks: / 13 GB free (92 %, the
+    landing build), HC 30 GB free. HQ refreshes wait behind the landing's lock.
+- **12:48. Heartbeat.** The LP landing replay is still running (kam-inp-63, parallel leanchecker workers); the lock's heavy lane stays paused until LP is on main. The W-SOLVE-FIX round 2 audit has finished; kam-1b is processing it. Another agent landed v2-bulk (4dbc74c9) through main. No new OOM since 11:57. Load about 17. Memory: 16 GB available. Disks: / 13 GB free, HC 29 GB free.
+- **12:59. Track W fully resolved** pending two small landings (inp-wgclose2@05f62854, the ExportSolve fix; inp-wgraph-close@df15635a, the final sync): W-SOLVE-FIX audit 2 PROVED-OK, giving PROVED 608, BYPASSED 39, EXTERNAL 47, ASSUMED 1, 0 PARTIAL or NOT_STARTED. W-GRAPH-CLOSE is in inp. The W lint's spaceDot clash is a stale W overlay (inp's Vector.lean imports the frozen SpaceDot after the D62 rebase), not an LP regression.
+- **13:28. MILESTONE (track LP): frozen and sealed on main (f46b94fb, 13:23; D62).** 128 manifest entries SEALED (89 definitions, 39 theorems: 5 anchors and 34 characterizations). Seal bodies are one-line `by exact KAM.Provider…`. Landing replay 284 modules, all rc 0. root-b8 ran check_frozen_anchors.py on main: GUARD OK. Project-wide: 70 frozen theorems, 66 SEALED (the 4 open are the lunar lock's). The lock's heavy lane is released. The README's item 8 is re-pointed to the frozen anchors. The paper's §A.3 is being finalized.
+- **13:31. root-b8 checked the frozen LP anchors' axioms:** `#print axioms` of the 5 sealed anchors gives [propext, Classical.choice, Quot.sound], with no sorry (on the KAM-inp build at 2264fd4e; LP, frozen, provider and manifest files byte-identical to main f46b94fb). Main's own .lake is not yet rebuilt for the LP modules (`--no-build` exit 3); kam-inp-63's axioms-on-main check needs that build. The paper's §A.3 cites this check.
+- **13:35. SO-LOCK:** the heavy lane resumed (Prod.M0DecP0 first); light lanes continue. Measured data parts are lighter than planned (about 10–12 s at ≤ 0.70 GB; Rem ranges about 22 s at ≤ 1.62 GB). The FrameL vertex split (8 plus 2 modules) is staged for after the template pass. MemAvailable 16.8 GB; / 12 GB free.
+- **13:42. LP landing confirmed by kam-inp-63:** `#print axioms` on main's build, 78/78 (39 sealed anchors and 39 providers) [propext, Classical.choice, Quot.sound]; kernel replay 284/284 exit 0 (3 workers at 4 GB, no OOM, 47 min); guard, ABI (305), lint and core build OK. W-GRAPH-CLOSE landed in the same push.
+- **13:42. README:** LP meter fixed (hq-status found LP anchors by an 'lp.' id prefix; now by path, fbe400d6), so LP reads 100 %; item 8 links the frozen anchors (97ce2c58); LP paper after the freeze (57b045dd). Frozen statements proved: 66 / 70.
