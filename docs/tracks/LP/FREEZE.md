@@ -235,4 +235,24 @@ implementation module change other than the N3 docstring fix below.
 
 ## Checks (D64)
 
-Filled after the build; see below.
+- Identity: 2 files checked / ALL IDENTICAL (`docs/tracks/LP/freeze/identity-check-d64.txt`).
+- `scripts/check_frozen_anchors.py --root . --manifest manifest/frozen-anchors.json`: FROZEN-ANCHOR GUARD OK (309
+  entries; the 307 earlier ones JSON-equal).
+- Build: `/root/code/KAM-inp/.drafts/LP/lp_build_fast.sh /root/code/KAM-inp-lp-freeze8x <the 21 LP3 modules under
+  KAM/Planetary/{StrongAMD,Spatial}/Nek> <2 providers> <2 frozen anchors> KAM.Root.Planetary KAM.Root.Provider
+  KAM.Root.Frozen`: "Build completed successfully (11094 jobs)", rc 0. Built: the 2 frozen anchors,
+  `PlanarSafety.Source`, `KAM.Root.Frozen`, `KAM.Root.Provider` (the providers were already built at staging); no
+  warning in any new or changed file.
+- ABI: `abi_hashes.py` on the 2 new entries, twice: identical (`abi-check-d64.txt`). `--check`: ABI HASHES OK (307
+  frozen declarations of KAM; KAMLunarBand checked by file hash only).
+- `lp_lint.sh`: exit 0 (check_lean_modules PASS (4235 Lean files); FROZEN-ANCHOR GUARD OK; ABI HASHES OK (307)).
+- Provider type probe and axioms (`seal-probe-verify-d64.txt`): 2 anchors, 2 providers / ALL OK; both types
+  `Expr.eqv`; all four depend on exactly `[propext, Classical.choice, Quot.sound]`.
+- Kernel replay (leanchecker, 4 GB cap) of the 5 modules of `replay-modules-d64.txt`: all rc 0
+  (`replay-prelanding-d64.txt`).
+
+## Deviations (D64)
+
+- `lp_manifest_changes_rows_d64.py` is new (the D62 row script hard-codes D62's decision text and id filter).
+- The ABI hashes were filled after the build (they need built modules), as in D62's commit C.
+- No frozen text was changed beyond the two placeholders and the proof body.

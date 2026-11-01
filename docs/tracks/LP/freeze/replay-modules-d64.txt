@@ -1,0 +1,5 @@
+KAM.Planetary.StrongAMD.Nek.PlanarSafety.Source
+KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyNoArith
+KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyNoArith
+KAM.Frozen.Planetary.StrongAMD.Theorems.PlanarStrongAMDExponentialSafetyNoArith
+KAM.Frozen.Planetary.Spatial.Theorems.SpatialStrongAMDExponentialSafetyNoArith

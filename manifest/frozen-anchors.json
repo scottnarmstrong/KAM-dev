@@ -23389,7 +23389,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D64"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "b29ff03f40dc5f47b2ba0fae11d168ed7e2b83919b143d9d51cba0f1795d16f4",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
@@ -23744,7 +23744,7 @@
     "mode": "NOT_SPLIT",
     "ruling_ref": "docs/DECISIONS.md D59, D64"
    },
-   "abi_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+   "abi_sha256": "387059c68796b425889eee542afbb9b3989ebf833cec9afaae08be7faa931966",
    "definition_closure": [
     {
      "path": "KAM/Frozen/Defs/ActionNbhd.lean",
