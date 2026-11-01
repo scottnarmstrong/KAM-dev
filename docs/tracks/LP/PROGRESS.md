@@ -45,7 +45,8 @@ src (4th, created 05:30 for the third slot).
 | LP-SP-CONF spatial first exit (conditional) | L14 (d=3) | 4 | `inp-lp-spconf` | claude-11 | proved c5168c68 (333 lines); audit queued (W4) |
 | LP-SP-TUBE tube for Phase (n+m) (N12) | L18 infra | 4 | `inp-lp-sptube` | claude-11 | proved 14d8799a (201 lines); audit queued (W4) |
 | LP-SP-ADAPT L13 adapter for Phase (n+m) | L13 infra | 4 | `inp-lp-spadapt` | claude-11 | proved 0be0685a (401 lines; no convention mismatch for m ≠ n); audit queued (W4) |
-| LP-SP-LIFT spatial chart lift + D1 premises | L14/L18 (d=3) | 4 | `inp-lp-splift` / mom worktree | claude-11 | running |
+| LP-SP-LIFT spatial chart lift + D1 premises | L14/L18 (d=3) | 4 | `inp-lp-splift` | claude-11 | proved 80e1e1dd (1,063 lines); audit queued |
+| LP-SP-SAFE spatial theorem LP2 | T19 | 4 | `inp-lp-spsafe` / mom worktree | claude-11 | running: end-to-end spatial assembly |
 | LP-SRC OD-11 (b) source carriers + LP1 restatement | freeze prep | — | `inp-lp-src` / src worktree (4th) | claude-6 | proved dd0a5ec5 (405 lines); text in FREEZE-PROPOSAL draft 3 §3b; delta review 3 running; audit queued |
 | LP-SP-PROD n-body spatial product chart | L17 (n bodies), (47) | 4 | `inp-lp-spprod` | claude-12 | proved e2a64cdc (767 lines); audit queued (W4) |
 | LP-SP-DOM spatial analytic domain | L18 | 4 | `inp-lp-spdom` | claude-12 | proved e57e5a6c (≈760 lines); L18 node PARTIAL until a DOMX-style supplement (derivative/denominator clauses); audit queued |
@@ -116,3 +117,4 @@ src (4th, created 05:30 for the third slot).
 - 2026-11-01 05:49 UTC: **LP-PS LANDED (main 0772a7d5): the planar theorem LP1 and LP0 are on main**, audited; kam-inp-63 independently confirmed standard axioms on main's build for lp1_planar_strongAMD_safety{,_normalized,_halfInteger} and lp0_planar_barrier. LP-SP-NRR launched on claude-12.
 - 2026-11-01 06:06 UTC: LP-W4A (SP-MODEL + SP-ROT) audit 1 PASS WITH NOTES; N2 applied, N1 carried to the LP2 proposal; merged into inp-lp; landing requested.
 - 2026-11-01 06:10 UTC: LP-SP-NRR proved (spatial L13 stopped drift). LP-SP-DOMX launched on claude-12 (SP-SAFE waits for SP-LIFT). codex-2: kam-1b's W5-STEP-A.
+- 2026-11-01 06:14 UTC: LP-SP-LIFT proved. LP-SP-SAFE (the spatial theorem LP2, end-to-end assembly) launched on claude-11.
