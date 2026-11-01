@@ -19,6 +19,13 @@ public import KAM.Application.GraphBridge
 public import KAM.Application.GraphCert
 public import KAM.Application.GraphCheck
 public import KAM.Application.Invariance
+public import KAM.Application.LambdaDrift.Bridge
+public import KAM.Application.LambdaDrift.LieRemainder
+public import KAM.Application.LambdaDrift.LieRemainderChart
+public import KAM.Application.LambdaDrift.NoCrossing
+public import KAM.Application.LambdaDrift.Poisson
+public import KAM.Application.LambdaDrift.Rotation
+public import KAM.Application.LambdaDrift.Threshold
 public import KAM.Application.Observables
 public import KAM.Application.Physical
 public import KAM.Application.RealTorus
