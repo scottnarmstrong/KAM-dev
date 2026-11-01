@@ -1,0 +1,3 @@
+ℹ [3572/3572] Built LG00C.TP.Cons.P.TJStDL (23s)
+type checking took 18.6s
+tactic execution of Lean.Parser.Tactic.decide took 3.03ms

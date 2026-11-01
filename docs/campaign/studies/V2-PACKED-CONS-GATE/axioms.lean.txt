@@ -1,0 +1,25 @@
+import KAM.CertificateSharp.Packed.JetBase
+open KAM.CertificateSharp.Packed
+#print axioms trAJ_encloses
+#print axioms trD1J_encloses
+#print axioms trXNmJ_encloses
+#print axioms torsRJ_sound
+#print axioms jetLowOk_sound
+#print axioms checkTorsionJ_sound
+#print axioms checkTorsionJ_of
+#print axioms torsRCoreJ_of
+#print axioms ivX_encloses
+#print axioms jetFullOk_sound
+#print axioms checkInvarianceJ_sound
+#print axioms checkInvarianceJ_of
+#print axioms checkEnergyJ_sound
+#print axioms checkEnergyJ_of
+#print axioms trT_chainJ
+#print axioms checkFrameTRJ_sound
+#print axioms checkFrameMajorantsRJ_sound
+#print axioms checkFrameMajorantsRJ_of
+#print axioms routeARefinedPackedJ
+#print axioms jetBase
+#print axioms checkV2With_jetBase_sound
+#print axioms checkV2With_jetBasePackedJ_sound
+#print axioms jetBase_check_of
