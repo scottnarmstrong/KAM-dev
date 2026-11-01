@@ -26,8 +26,10 @@ In the representative model the smoothing space `𝒫^{p_+}` is `StepPhase r` re
 * `stepFlow_dPhi_smooth_mapsTo`, `stepFlow_dPhi_smooth_onto`: the concrete flow of `X_F` on
   `D(s-3σ, r/4)` (`bpW:w5:flow-calc` (iii)).
 * `StepCore.dPhi_smooth_mapsTo`, `StepCore.dPhi_smooth_onto` on `D_+ = D(s-5σ, ηr)`, and the
-  instances `stepTheorem_dPhi_smooth_onto` (`WaveStepHyp`, `bpW:w5:step` (i)) and
-  `stepTheoremMod_dPhi_smooth_onto` (`StepHypMod`).
+  instances `stepTheorem_dPhi_smooth_onto_of_eps0_pos` (`WaveStepHyp`, `bpW:w5:step` (i)) and
+  `stepTheoremMod_dPhi_smooth_onto_of_eps0_pos` (`StepHypMod`); conditional helpers (`ε₀ > 0`,
+  carried by `WaveStepHyp`, `StepHypMod`), the source-facing clause is a conjunct of `stepTheorem`,
+  `stepTheoremMod` (`StepTheoremSrc.lean`).
 * `stepEmbedCLM_injective`: `ι` is injective, so the preimage in `𝒫^{p_+}` is unique.
 -/
 
@@ -196,7 +198,7 @@ end StepCore
 /-- **`DΦ(w)` maps `𝒫^{p_+}` onto `𝒫^{p_+}`** (blueprint `bpW:w5:step` (i), non-modified case):
 for `ξ ∈ Π` and `w ∈ D_+`, `DΦ(w)` sends every `ι W'` to some `ι W''`, and every `ι W''` is the
 image of some `ι W'` (`ι : 𝒫^{p_+} → 𝒫` the inclusion, `Φ = H.core.Phi ξ`). -/
-theorem stepTheorem_dPhi_smooth_onto
+theorem stepTheorem_dPhi_smooth_onto_of_eps0_pos
     (H : WaveStepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X) [Fact (0 < r)]
     {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {w : StepPhase r}
     (hw : w ∈ stepDomain r (s - 5 * σ) (η * r)) :
@@ -210,7 +212,7 @@ theorem stepTheorem_dPhi_smooth_onto
 
 /-- **`DΦ(w)` maps `𝒫^{p_+}` onto `𝒫^{p_+}`**, modified case (blueprint `bpW:w5:step` (i) for
 `StepHypMod`; `Φ = H.core.Phi ξ`). -/
-theorem stepTheoremMod_dPhi_smooth_onto {β : ℝ}
+theorem stepTheoremMod_dPhi_smooth_onto_of_eps0_pos {β : ℝ}
     (H : StepHypMod a p pb s r σ η τ α β lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X) [Fact (0 < r)]
     {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {w : StepPhase r}
     (hw : w ∈ stepDomain r (s - 5 * σ) (η * r)) :

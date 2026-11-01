@@ -25,7 +25,10 @@ bounded fields `X_P`, `X_{P_+}` (`p_+`-representatives) enter through `ι_{p_+�
 * `StepCore.dNplus_eq`: `DN_+(w) = DN(w) + DN̂(w)` with `DN̂(w) V = ϖ_{p,p}(ι X_{N̂}(w), V)`.
 * `StepCore.weakConj_field`: the identity, from the derivative form `StepCore.weakConj`, the Riesz
   representation `stepDN_eq_symp_XN` (for `N` and `N_+`) and the invariance `stepSymp_embed_eq`.
-* `stepTheorem_weakConj_field` (`WaveStepHyp`), `stepTheoremMod_weakConj_field` (`StepHypMod`).
+* `stepTheorem_weakConj_field_of_eps0_pos` (`WaveStepHyp`),
+  `stepTheoremMod_weakConj_field_of_eps0_pos` (`StepHypMod`): conditional helpers (`ε₀ > 0`, carried
+  by `WaveStepHyp`, `StepHypMod`); the source-facing clause is a conjunct of `stepTheorem`,
+  `stepTheoremMod` (`StepTheoremSrc.lean`).
 -/
 
 @[expose] public noncomputable section
@@ -134,7 +137,7 @@ non-modified case. For `ξ ∈ Π` and `w ∈ D_+`, with `Φ = H.core.Phi ξ`, `
 `X_N` = `stepXN` for `(ω, Ω)` and `X_{N_+}` = `stepXN` for `(ω_+, Ω_+)`, and `ι` the inclusions:
 every `W = ι W' ∈ 𝒫^{p_+}` has `DΦ(w) W = ι W''` for some `W''`, and for every such pair
 `ϖ_{p-1,p_+}(X_H(Φ w), W'') = ϖ_{p-1,p_+}(X_{N_+}(w) + X_{P_+}(w), W')`, `X_H = X_N + X_P`. -/
-theorem stepTheorem_weakConj_field
+theorem stepTheorem_weakConj_field_of_eps0_pos
     (H : WaveStepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X) [Fact (0 < r)]
     {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {w : StepPhase r}
     (hw : w ∈ stepDomain r (s - 5 * σ) (η * r)) :
@@ -157,7 +160,7 @@ theorem stepTheorem_weakConj_field
 
 /-- **Weak conjugacy in field form**, modified case (blueprint `bpW:w5:new-ham` (iii) for
 `StepHypMod`; the field of `P` enters as `D_ρ ∘ X = H.X'` in the `p_+`-representatives). -/
-theorem stepTheoremMod_weakConj_field {β : ℝ}
+theorem stepTheoremMod_weakConj_field_of_eps0_pos {β : ℝ}
     (H : StepHypMod a p pb s r σ η τ α β lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X) [Fact (0 < r)]
     {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {w : StepPhase r}
     (hw : w ∈ stepDomain r (s - 5 * σ) (η * r)) :

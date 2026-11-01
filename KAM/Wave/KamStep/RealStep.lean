@@ -18,9 +18,13 @@ import Mathlib.Tactic.Positivity
 Off-frontier, source-faithful infrastructure (W5-REAL, item 1); the dependency graph is still being
 built.
 
-* `stepTheorem_reality` (`WaveStepHyp`, non-modified case): `Φ` maps real points of `D_+` to real
-  points, and `P_+` is real at the real points of `D_+`.
-* `stepTheoremMod_reality` (`StepHypMod`, modified case): the same.
+* `stepTheorem_reality_of_eps0_pos` (`WaveStepHyp`, non-modified case): `Φ` maps real points of
+  `D_+` to real points, and `P_+` is real at the real points of `D_+`.
+* `stepTheoremMod_reality_of_eps0_pos` (`StepHypMod`, modified case): the same.
+
+These two are conditional helpers: `WaveStepHyp`, `StepHypMod` carry the non-source premise
+`ε₀ > 0`. The source-facing clauses are conjuncts of `stepTheorem`, `stepTheoremMod`
+(`StepTheoremSrc.lean`), derived through the splitting `(ε₀*, ε₁*)`.
 * `kamDomain_star_mem`: the domains `D(s,r)` are invariant under complex conjugation of all
   coordinates (the other half of "`P_+` is real", `bpW:w5:class`).
 
@@ -164,7 +168,7 @@ and (ii) "`P_+` is real"; `bpW:w5:flow` (iv), `bpW:w5:new-ham` (ii)), non-modifi
 `ξ ∈ Π`, `Φ = H.core.Phi ξ` maps the real points of `D_+ = D(s-5σ, ηr)` to real points, and
 `P_+ = H.core.Pplus ξ` is real at the real points of `D_+` (`D_+` is conjugation invariant,
 `kamDomain_star_mem`). -/
-theorem stepTheorem_reality
+theorem stepTheorem_reality_of_eps0_pos
     (H : WaveStepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X) [Fact (0 < r)] :
     (∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r), StepReal (StepPhase.toK w) →
       StepReal (StepPhase.toK (H.core.Phi ξ w))) ∧
@@ -175,7 +179,7 @@ theorem stepTheorem_reality
 
 /-- **Reality clauses of the KAM step**, modified case (blueprint `bpW:w5:step` (i), (ii) for
 `StepHypMod`; `Φ = H.core.Phi ξ`, `P_+ = H.core.Pplus ξ`). -/
-theorem stepTheoremMod_reality {β : ℝ}
+theorem stepTheoremMod_reality_of_eps0_pos {β : ℝ}
     (H : StepHypMod a p pb s r σ η τ α β lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X) [Fact (0 < r)] :
     (∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r), StepReal (StepPhase.toK w) →
       StepReal (StepPhase.toK (H.core.Phi ξ w))) ∧

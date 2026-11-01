@@ -6,6 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.Wave.KamStep.StepTheoremMod
+public import KAM.Wave.KamStep.RealWeakConj
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 
@@ -24,6 +25,12 @@ the helpers for the splitting `(ε₀*, ε₁*)` = `(ε₀, ε₁)` if `ε₀ > 
 (then `X_P ≡ 0` on `D(s,r)`), which satisfies `ε₀* + λ ε₁* ≤ ε`. The objects `Φ`, `P_+`, ...
 are those of `H.hyp`, the `WaveStepHyp` for this splitting; they do not depend on the splitting.
 Clause (iv) is conditional on `HomMelnikov` (blueprint: "whenever the same holds with `α`").
+
+Clause (i) also contains "`Φ` is real on real points", "`DΦ(w)` maps `𝒫^{p_+}` onto itself" and the
+weak conjugacy of `bpW:w5:new-ham` (iii) in field form, and clause (ii) "`P_+` is real"; they are
+derived from the conditional helpers `stepTheorem_reality_of_eps0_pos`,
+`stepTheorem_dPhi_smooth_onto_of_eps0_pos`, `stepTheorem_weakConj_field_of_eps0_pos` (and their
+`Mod` forms, W5-REAL) applied to `H.hyp`, so no premise `ε₀ > 0` appears.
 -/
 
 @[expose] public noncomputable section
@@ -204,7 +211,9 @@ end StepHypSrc
 
 /-- **One KAM step, non-modified case** (`bpW:w5:step`), the blueprint's clauses (i)-(v) in terms of
 `ε` (`λ`-norms as conjunctions of a sup and a Lipschitz bound; (iv) is conditional on
-`HomMelnikov`). The objects are those of `H.hyp`. -/
+`HomMelnikov`). Clause (i) includes: `Φ` real on real points, `DΦ(w)` maps `𝒫^{p_+} = range ι`
+onto itself, and the weak conjugacy of `bpW:w5:new-ham` (iii) in field form; clause (ii) includes
+`P_+` real at the real points of `D_+`. The objects are those of `H.hyp`. -/
 theorem stepTheorem (H : StepHypSrc a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
     [Fact (0 < r)] :
     -- (i)
@@ -238,6 +247,28 @@ theorem stepTheorem (H : StepHypSrc a p pb s r σ η τ α lam ε ε₀ ε₁ γ
         stepSympCLM (q := p) (q' := p) H.ha H.hyp.core.two_p r W W') ∧
     (∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r), ∀ k : Fin 2,
       H.hyp.core.Phi ξ (w + stepTauS r k) = H.hyp.core.Phi ξ w + stepTauS r k) ∧
+    (∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r), StepReal (StepPhase.toK w) →
+      StepReal (StepPhase.toK (H.hyp.core.Phi ξ w))) ∧
+    (∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r),
+      (∀ W' : StepPhase r, ∃ W'' : StepPhase r,
+        fderiv ℂ (H.hyp.core.Phi ξ) w (stepEmbedCLM a p pb H.hpb r W') =
+          stepEmbedCLM a p pb H.hpb r W'') ∧
+      (∀ W'' : StepPhase r, ∃ W' : StepPhase r,
+        fderiv ℂ (H.hyp.core.Phi ξ) w (stepEmbedCLM a p pb H.hpb r W') =
+          stepEmbedCLM a p pb H.hpb r W'')) ∧
+    (∀ ξ (hξ : ξ ∈ Par), ∀ w ∈ stepDomain r (s - 5 * σ) (η * r), ∀ W' W'' : StepPhase r,
+      fderiv ℂ (H.hyp.core.Phi ξ) w (stepEmbedCLM a p pb H.hpb r W') =
+        stepEmbedCLM a p pb H.hpb r W'' →
+      stepSymp (q := p - 1) (q' := pb) H.ha H.hyp.core.hqq1
+          (stepXN (a := a) (p := p) (homOmega_le H.freq hξ) (ω ξ)
+              (StepPhase.toK (H.hyp.core.Phi ξ w)) +
+            kamHomEmbed a (p - 1) pb H.hyp.core.hpm (X ξ (StepPhase.toK (H.hyp.core.Phi ξ w))))
+          (StepPhase.toK W'') =
+        stepSymp (q := p - 1) (q' := pb) H.ha H.hyp.core.hqq1
+          (stepXN (a := a) (p := p) (H.hyp.core.omegaPlus_bound hξ) (H.hyp.core.omegaPlus ξ)
+              (StepPhase.toK w) +
+            kamHomEmbed a (p - 1) pb H.hyp.core.hpm (StepPhase.toK (H.hyp.core.Xplus ξ w)))
+          (StepPhase.toK W')) ∧
     -- (ii)
     (∀ ξ ∈ Par, IsSmoothing (p := p) H.ha H.hyp.core.pb_pos (kamDomain (s - 5 * σ) (η * r))
       (fun w : KamPhase => H.hyp.core.Pplus ξ (StepPhase.ofK (r := r) w))
@@ -246,6 +277,8 @@ theorem stepTheorem (H : StepHypSrc a p pb s r σ η τ α lam ε ε₀ ε₁ γ
       H.hyp.core.Pplus ξ (StepPhase.ofK (r := r) (w + stepTau i)) = H.hyp.core.Pplus ξ
         (StepPhase.ofK (r :=
         r) w)) ∧
+    (∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r), StepReal (StepPhase.toK w) →
+      (H.hyp.core.Pplus ξ w).im = 0) ∧
     FamBound Par (kamDomain (s - 5 * σ) (η * r)) (η * r) lam
       (stepC2 τ * (ε ^ 2 / (α * σ ^ stepExpT τ * η ^ 2) + η * ε))
       (fun ξ w => StepPhase.toK (H.hyp.core.Xplus ξ (StepPhase.ofK (r := r) w))) ∧
@@ -280,6 +313,11 @@ theorem stepTheorem (H : StepHypSrc a p pb s r σ η τ α lam ε ε₀ ε₁ γ
         ‖fderiv ℂ (H.hyp.core.Phi ξ) w - ContinuousLinearMap.id ℂ _‖ ≤ B₀ ∧
         ‖fderiv ℂ (H.hyp.core.Phi ξ) w - fderiv ℂ (H.hyp.core.Phi ζ) w‖ ≤ B₁ * ‖ξ - ζ‖) := by
   have h := stepTheorem_of_eps0_pos H.hyp
+  have hre := stepTheorem_reality_of_eps0_pos H.hyp
+  have hon : ∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r), _ :=
+    fun ξ hξ w hw => stepTheorem_dPhi_smooth_onto_of_eps0_pos H.hyp hξ hw
+  have hwc : ∀ ξ (hξ : ξ ∈ Par), ∀ w ∈ stepDomain r (s - 5 * σ) (η * r), _ :=
+    fun ξ hξ w hw => (stepTheorem_weakConj_field_of_eps0_pos H.hyp hξ hw).2
   unfold WaveStepHyp.Conclusion at h
   obtain ⟨c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14⟩ := h
   obtain ⟨he0, he1, hsum, -, -⟩ := H.split_spec
@@ -288,7 +326,7 @@ theorem stepTheorem (H : StepHypSrc a p pb s r σ η τ α lam ε ε₀ ε₁ γ
   have hσ := H.hσ
   have hlam := H.hlam0
   have hpi := Real.pi_pos
-  refine ⟨c1, c2, c3, c4, c5, c6, c7, c8, ?_, ?_, c11, c12, ?_⟩
+  refine ⟨c1, c2, c3, c4, c5, hre.1, hon, hwc, c6, c7, hre.2, c8, ?_, ?_, c11, c12, ?_⟩
   · refine ⟨6 * Real.pi * (stepE0 ε ε₀), 6 * Real.pi * (stepE1 ε₀ ε₁), by positivity, by
     positivity, by nlinarith,
       fun ξ hξ => (c9 ξ hξ).1, fun ξ hξ ζ hζ => (c10 ξ hξ ζ hζ).1⟩
@@ -359,7 +397,9 @@ end StepHypModSrc
 
 /-- **One KAM step, modified case** (`bpW:w5:step`), the blueprint's clauses (i)-(v) in terms of
 `ε` (`λ`-norms as conjunctions of a sup and a Lipschitz bound; (iv) is conditional on
-`HomMelnikov`). The objects are those of `H.hyp`. -/
+`HomMelnikov`). Clause (i) includes: `Φ` real on real points, `DΦ(w)` maps `𝒫^{p_+} = range ι`
+onto itself, and the weak conjugacy of `bpW:w5:new-ham` (iii) in field form; clause (ii) includes
+`P_+` real at the real points of `D_+`. The objects are those of `H.hyp`. -/
 theorem stepTheoremMod (H : StepHypModSrc a p pb s r σ η τ α β lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
     [Fact (0 < r)] :
     -- (i)
@@ -393,6 +433,28 @@ theorem stepTheoremMod (H : StepHypModSrc a p pb s r σ η τ α β lam ε ε₀
         stepSympCLM (q := p) (q' := p) H.ha H.hyp.core.two_p r W W') ∧
     (∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r), ∀ k : Fin 2,
       H.hyp.core.Phi ξ (w + stepTauS r k) = H.hyp.core.Phi ξ w + stepTauS r k) ∧
+    (∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r), StepReal (StepPhase.toK w) →
+      StepReal (StepPhase.toK (H.hyp.core.Phi ξ w))) ∧
+    (∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r),
+      (∀ W' : StepPhase r, ∃ W'' : StepPhase r,
+        fderiv ℂ (H.hyp.core.Phi ξ) w (stepEmbedCLM a p pb H.hpb r W') =
+          stepEmbedCLM a p pb H.hpb r W'') ∧
+      (∀ W'' : StepPhase r, ∃ W' : StepPhase r,
+        fderiv ℂ (H.hyp.core.Phi ξ) w (stepEmbedCLM a p pb H.hpb r W') =
+          stepEmbedCLM a p pb H.hpb r W'')) ∧
+    (∀ ξ (hξ : ξ ∈ Par), ∀ w ∈ stepDomain r (s - 5 * σ) (η * r), ∀ W' W'' : StepPhase r,
+      fderiv ℂ (H.hyp.core.Phi ξ) w (stepEmbedCLM a p pb H.hpb r W') =
+        stepEmbedCLM a p pb H.hpb r W'' →
+      stepSymp (q := p - 1) (q' := pb) H.ha H.hyp.core.hqq1
+          (stepXN (a := a) (p := p) (homOmega_le H.freq hξ) (ω ξ)
+              (StepPhase.toK (H.hyp.core.Phi ξ w)) +
+            kamHomEmbed a (p - 1) pb H.hyp.core.hpm (H.hyp.X' ξ (StepPhase.toK (H.hyp.core.Phi ξ w))))
+          (StepPhase.toK W'') =
+        stepSymp (q := p - 1) (q' := pb) H.ha H.hyp.core.hqq1
+          (stepXN (a := a) (p := p) (H.hyp.core.omegaPlus_bound hξ) (H.hyp.core.omegaPlus ξ)
+              (StepPhase.toK w) +
+            kamHomEmbed a (p - 1) pb H.hyp.core.hpm (StepPhase.toK (H.hyp.core.Xplus ξ w)))
+          (StepPhase.toK W')) ∧
     -- (ii)
     (∀ ξ ∈ Par, IsSmoothing (p := p) H.ha H.hyp.core.pb_pos (kamDomain (s - 5 * σ) (η * r))
       (fun w : KamPhase => H.hyp.core.Pplus ξ (StepPhase.ofK (r := r) w))
@@ -401,6 +463,8 @@ theorem stepTheoremMod (H : StepHypModSrc a p pb s r σ η τ α β lam ε ε₀
       H.hyp.core.Pplus ξ (StepPhase.ofK (r := r) (w + stepTau i)) = H.hyp.core.Pplus ξ
         (StepPhase.ofK (r :=
         r) w)) ∧
+    (∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r), StepReal (StepPhase.toK w) →
+      (H.hyp.core.Pplus ξ w).im = 0) ∧
     FamBound Par (kamDomain (s - 5 * σ) (η * r)) (η * r) lam
       (stepC2n τ * (ε ^ 2 / (α * σ ^ stepTn τ * η ^ 2) + η * ε))
       (fun ξ w => StepPhase.toK (H.hyp.core.Xplus ξ (StepPhase.ofK (r := r) w))) ∧
@@ -435,6 +499,11 @@ theorem stepTheoremMod (H : StepHypModSrc a p pb s r σ η τ α β lam ε ε₀
         ‖fderiv ℂ (H.hyp.core.Phi ξ) w - ContinuousLinearMap.id ℂ _‖ ≤ B₀ ∧
         ‖fderiv ℂ (H.hyp.core.Phi ξ) w - fderiv ℂ (H.hyp.core.Phi ζ) w‖ ≤ B₁ * ‖ξ - ζ‖) := by
   have h := stepTheoremMod_of_eps0_pos H.hyp
+  have hre := stepTheoremMod_reality_of_eps0_pos H.hyp
+  have hon : ∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r), _ :=
+    fun ξ hξ w hw => stepTheoremMod_dPhi_smooth_onto_of_eps0_pos H.hyp hξ hw
+  have hwc : ∀ ξ (hξ : ξ ∈ Par), ∀ w ∈ stepDomain r (s - 5 * σ) (η * r), _ :=
+    fun ξ hξ w hw => (stepTheoremMod_weakConj_field_of_eps0_pos H.hyp hξ hw).2
   unfold StepHypMod.Conclusion at h
   obtain ⟨c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14⟩ := h
   obtain ⟨he0, he1, hsum, -, -⟩ := H.split_spec
@@ -443,7 +512,7 @@ theorem stepTheoremMod (H : StepHypModSrc a p pb s r σ η τ α β lam ε ε₀
   have hσ := H.hσ
   have hlam := H.hlam0
   have hpi := Real.pi_pos
-  refine ⟨c1, c2, c3, c4, c5, c6, c7, c8, ?_, ?_, c11, c12, ?_⟩
+  refine ⟨c1, c2, c3, c4, c5, hre.1, hon, hwc, c6, c7, hre.2, c8, ?_, ?_, c11, c12, ?_⟩
   · refine ⟨6 * Real.pi * (stepE0 ε ε₀), 6 * Real.pi * (stepE1 ε₀ ε₁), by positivity, by
     positivity, by nlinarith,
       fun ξ hξ => (c9 ξ hξ).1, fun ξ hξ ζ hζ => (c10 ξ hξ ζ hζ).1⟩
