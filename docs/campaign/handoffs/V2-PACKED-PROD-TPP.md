@@ -166,7 +166,8 @@ python3 -I scripts/packed/run18_cmp.py ~/kam-data/lg00/run18/ledger.tsv
 ## Uncertainties
 
 1. **The copy's identity** (AUDIT-V2-PACKED-PROD-1 C2) holds for T″ as for T′. The theorems are about
-   `LG00P.TPP.lg00Cert`, and kamx-pk-cons is building the Lean bridge.
+   `LG00P.TPP.lg00Cert`. The definitional bridge to LG00's own constants is kamx-pk-cons's `LG00B.TPP.Main`
+   (V2-PACKED-CONS-BRIDGE, built 22:25 UTC on kamx-pk-gen's `MainJ`).
 2. **The landed comparison** is partial: run18 was stopped. The Full ratio of about 20.9× is an estimate, and Low
    has no landed T″ figure.
 3. **Single runs** on a shared machine; per-module CPU moved by about ±20% between T′ and T″.

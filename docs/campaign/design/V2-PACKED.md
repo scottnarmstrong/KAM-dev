@@ -841,7 +841,8 @@ decides `= false`.
 - **The shared data.**
   - A copy of LG00's certificate without advice and witnesses. `CertifiedTorus` reads neither, so the copy states
     the same proposition. The copy is a different constant, tied to LG00's certificate by source text (renamed
-    byte-identical modules plus a documented diff), not by a Lean theorem; the Lean bridge is kamx-pk-cons's.
+    byte-identical modules plus a documented diff), not by a Lean theorem in this package. The definitional
+    bridge to LG00's own constants is kamx-pk-cons's `LG00B.<T>.Main` (V2-PACKED-CONS-BRIDGE).
   - A ledger of every node once, the key-only blocks, one theorem per block, and one chain theorem per chain.
 
 **Measured on LG00's T′** (`lg00-app` `8210d92e` for the shared modules; T′'s data and generator state pinned by
@@ -856,6 +857,9 @@ sha256 in the receipts; landed figures from LG00's run18):
   6.07 GB (above 4 GiB, by exception).
 - The ledger's literal elaboration (0.5–1.1 s a node) is now the largest cost after the kernel.
 - The Full radii (≤ 1.05e-21) are about 750 times below T′'s invariance margin (7.9e-19).
+- run18's T′ is complete. Its composition is 4,121 `Low`/`Full` modules and 88,068.1 CPU-s, and its torsion
+  (`LG00.TP.Torsion.*`) is 628 modules and 13,162.4 CPU-s (final ledger, last run per module). Both chains are
+  now proved by the packed route, so the landed composition is no longer needed for LG00.
 
 **T″ (V2-PACKED-PROD-TPP; `docs/campaign/handoffs/V2-PACKED-PROD-TPP.md`).** Owner decision of 1 Nov: run18 is
 stopped and T″ is proved only by the packed route. Its two chains were built with the same emitter and plans, and

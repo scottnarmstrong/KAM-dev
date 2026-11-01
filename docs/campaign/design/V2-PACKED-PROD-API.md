@@ -46,7 +46,9 @@ theorem jetPacked_sound {sw Nw : ℕ} (hW : checkWeight W sw Nw = true)
   `wit`, `cfg*`, `gramInv`, `torsInv`, `piEnc` or `weight`, so such a copy states the same `CertifiedTorus`
   proposition. **The copy is a different constant** (`LG00P.<T>.lg00Cert`, in its own package): it is tied to
   LG00's certificate by its source text (byte-identical renamed modules plus the documented diff, its data pinned
-  by sha256), not by a Lean theorem. kamx-pk-cons is building the Lean bridge (AUDIT-V2-PACKED-PROD-1 C2).
+  by sha256), not by a Lean theorem in this package (AUDIT-V2-PACKED-PROD-1 C2). The definitional bridge to LG00's
+  own constants is kamx-pk-cons's `LG00B.<T>.Main` (`v2-packed-cons`): LG00's statements, verbatim, proved by
+  `:= LG00P.<T>.pk_kamTorus`, each field they read equal by `rfl`.
 - **The Low box is the torsion box.** `jdLow.jb.Lb` is to equal B3b's `rb.Lb` (half-width 25, stride 101). The
   generator takes the slot width as a parameter (`--width`), so the jet nodes can be the torsion's memo values
   without repacking; kamx-pk-cons states the agreement as a checked `layoutEq`.

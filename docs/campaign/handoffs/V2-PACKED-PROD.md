@@ -91,8 +91,10 @@ the default build.
   - **The copy is a different constant** (AUDIT-V2-PACKED-PROD-1 C2). The chain theorems are about
     `LG00P.TP.lg00Cert`, in a separate package. It is tied to LG00's `LG00.TP.lg00Cert` by its source text only:
     the shared modules are byte-identical after renaming, and `Cert` differs exactly as `cert_copy.diff` shows. No
-    Lean theorem relates the two constants (two `kam` checkouts cannot share a workspace). kamx-pk-cons is building
-    the Lean bridge; until it lands, a whole-torus theorem on this route is a theorem about the copy.
+    theorem in this package relates the two constants (two `kam` checkouts cannot share a workspace). The bridge
+    to LG00's own constants is definitional and lives in kamx-pk-cons's `LG00B` (`v2-packed-cons`,
+    V2-PACKED-CONS-BRIDGE). `LG00B.<T>.Main` proves LG00's own statements, verbatim, by `:= LG00P.<T>.pk_kamTorus`.
+    Every field those statements read is equal in the copy and the original by `rfl`. Built for T′ and T″.
 - **`scripts/packed/jet_extract_low.py`**, run on T′'s generator state (`gen_tp_L18/state.pkl`, `lg00-app`
   `8210d92e`). Then `jet_low_gen.py --mirror-only --cache=` computes the bit-exact mirror (Low 19 min, Full
   60 min), and **`scripts/packed/jet_prod_gen.py`** emits one chain:
@@ -223,9 +225,12 @@ python3 -I scripts/packed/prod_sum.py $PK/modules_Low.txt <logs>
   transcription slip.
 - **C2.** The handoff, `V2-PACKED-PROD-API.md` §2 and §12.13 now say that the copy is a different constant, tied
   to LG00's certificate by source text, not by a Lean theorem.
-- **C3.** Not on this branch. The stale passages are in §14 of `V2-PACKED.md` and in `V2-PACKED-CONS.md`. Both
-  exist only on `v2-packed-cons` and are kamx-pk-cons's text (`V2-PACKED-CONS M2`). This branch's `V2-PACKED.md`
-  has 910 lines and no run18 figure that is still open. Editing §14 here would conflict at the merge.
+- **C3.** §12.13 now gives run18's final T′ figures: a composition of 4,121 modules and 88,068.1 CPU-s, and a
+  torsion of 628 modules and 13,162.4 CPU-s. The stale passages themselves (§14 of `V2-PACKED.md` at :972, and
+  `V2-PACKED-CONS.md`) exist only on `v2-packed-cons` and are kamx-pk-cons's text (`V2-PACKED-CONS M2`); they were
+  sent to kamx-pk-cons with the report's figures. Editing §14 here would conflict at the merge.
+- **C2, update.** The definitional bridge now exists: kamx-pk-cons's `LG00B.<T>.Main`, for T′ and T″. The C2
+  passages name it.
 - **C4.** The axiom receipt is renamed `studies/V2-PACKED-PROD/audit/Axioms.lean.txt`.
 - **N1.** `prod_sum.py` now rounds once, at the end. The summaries are regenerated: the same rows and totals, with
   the per-class figures exact. The copy is 94.6, the Low ledger 550.7, the Low blocks 880.5 and the Full ledger
@@ -241,7 +246,7 @@ python3 -I scripts/packed/prod_sum.py $PK/modules_Low.txt <logs>
   - The block order is an explicit order certificate on keys, with nodes read from one ledger, rather than
     `DecidableEq` on `JNode`.
   - The certificate copy has no advice and no witnesses. It is a different constant, tied to LG00's certificate
-    by source text, not by a Lean theorem (above; kamx-pk-cons is building the Lean bridge).
+    by source text in this package; the definitional bridge is kamx-pk-cons's `LG00B` (above).
   - The jet bridge was built above 4 GiB (the orchestrator's exception).
 
 ## Next
