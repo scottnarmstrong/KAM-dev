@@ -133,9 +133,17 @@ def reuse(pkg, lg00, mods):
             old, new = PATCHES[m]
             if old in text and new not in text:
                 text = text.replace(old, new, 1)
-        if not os.path.exists(dst) or open(dst, encoding="utf-8").read() != text:
+        changed = not os.path.exists(dst) or open(dst, encoding="utf-8").read() != text
+        if changed:
             open(dst, "w", encoding="utf-8").write(text)
             nsrc += 1
+            for sub in (os.path.join("lib", "lean"), "ir"):     # the old artifacts belong to the old source
+                ddir = os.path.join(pkg, ".lake", "build", sub, os.path.dirname(rel))
+                base = os.path.basename(rel)
+                if os.path.isdir(ddir):
+                    for fn in os.listdir(ddir):
+                        if fn.split(".")[0] == base:
+                            os.remove(os.path.join(ddir, fn))
         if m in PATCHES:
             continue                      # a patched copy is rebuilt here: never reuse LG00's artifacts for it
         for sub in (os.path.join("lib", "lean"), "ir"):
