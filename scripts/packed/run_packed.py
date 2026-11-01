@@ -60,7 +60,7 @@ def order(pkg, targets):
             return
         seen.add(m)
         for d in IMP.findall(open(src(pkg, m), encoding="utf-8").read()):
-            if d.split(".")[0] in ("LG00", "LG00Packed") and os.path.exists(src(pkg, d)):
+            if d.split(".")[0] in ("LG00", "LG00Packed", "LG00P") and os.path.exists(src(pkg, d)):
                 visit(d)
         out.append(m)
     sys.setrecursionlimit(100000)
