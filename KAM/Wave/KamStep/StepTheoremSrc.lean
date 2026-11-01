@@ -448,7 +448,8 @@ theorem stepTheoremMod (H : StepHypModSrc a p pb s r σ η τ α β lam ε ε₀
       stepSymp (q := p - 1) (q' := pb) H.ha H.hyp.core.hqq1
           (stepXN (a := a) (p := p) (homOmega_le H.freq hξ) (ω ξ)
               (StepPhase.toK (H.hyp.core.Phi ξ w)) +
-            kamHomEmbed a (p - 1) pb H.hyp.core.hpm (H.hyp.X' ξ (StepPhase.toK (H.hyp.core.Phi ξ w))))
+            kamHomEmbed a (p - 1) pb H.hyp.core.hpm
+              (H.hyp.X' ξ (StepPhase.toK (H.hyp.core.Phi ξ w))))
           (StepPhase.toK W'') =
         stepSymp (q := p - 1) (q' := pb) H.ha H.hyp.core.hqq1
           (stepXN (a := a) (p := p) (H.hyp.core.omegaPlus_bound hξ) (H.hyp.core.omegaPlus ξ)
