@@ -857,6 +857,16 @@ sha256 in the receipts; landed figures from LG00's run18):
 - The ledger's literal elaboration (0.5–1.1 s a node) is now the largest cost after the kernel.
 - The Full radii (≤ 1.05e-21) are about 750 times below T′'s invariance margin (7.9e-19).
 
+**T″ (V2-PACKED-PROD-TPP; `docs/campaign/handoffs/V2-PACKED-PROD-TPP.md`).** Owner decision of 1 Nov: run18 is
+stopped and T″ is proved only by the packed route. Its two chains were built with the same emitter and plans, and
+the jet bridge was reused:
+- `LG00P.TPP.jetLow_check`: 110 modules, 1,789.3 CPU-s;
+- `LG00P.TPP.jetFull_check`: 197 modules, 2,149.4 CPU-s;
+- the `_cert` versions likewise; every process under 4 GiB, three at a time.
+
+run18 has 1,177 of T″'s Full modules, at 26,940.1 CPU-s, and no Low row. A complete landed T″ Full stage is
+estimated at about 44,960 CPU-s, about 20.9× the packed chain.
+
 ## 13. Packed frames and the packed route-A-refined engine (branch `v2-packed-frames`; `docs/campaign/handoffs/V2-PACKED-FRAMES.md`)
 
 Route A refined tests `checkHamClaim && checkFrameMajorants && refinedCore`. The landed `checkFrameMajorants`
