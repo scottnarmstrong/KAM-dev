@@ -295,7 +295,7 @@ Overall, everything together: 88.9 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 09:24 UTC from `main` at `f6949e95` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 09:24 UTC from `main` at `5ad1298c` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -505,17 +505,16 @@ account read from each agent's running process) and their branches. Rules for ag
 | **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | 🔄 working | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
-| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | 🔄 working | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
+| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-DATA lock_mlane: dry-run schedule (LOCK_DRY=1) and missing-source report | `inp-lockdata` | 55 (vs `inp`) |
-| **lp** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP progress: draft 7 produced and verified; statement audit queued | `inp-lp` | 1 (vs `inp`) |
+| **lp** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP progress: W5B landed | `inp-lp` | 2 (vs `inp`) |
 | **lp-freeze7** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP: draft-7 audit brief: root-b8 emphasis | `inp-lp-freeze7` | 5 (vs `inp`) |
 | **lp-w5c** `inp-maud-lp-w5c` | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: LP-W5C: combined LP3 PS+SP-SAFE+SRC audit handoff | `inp-lp-w5c` | 5 (vs `inp`) |
 | **w4lc** `inp-maud-wpq` | prover (offload) | Claude Opus 5.5 | — | 🔍 in audit | last commit: Merge branch 'inp' into inp-w4lc | `inp-w4lc` | 1 (vs `inp`) |
-| **w5aafix** `inp-mprov-wps` | prover (offload) | Claude Opus 5.5 | claude-5 | 🔄 proving | last commit: W5-AA-FIX F1: bind convergence-carrier weight guards into aaNfun, aaQt, aaGbarR, birkOmega | `inp-w5aafix` | 194 (vs `inp`) |
-| **w5land** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: W5 landing branch: W5-STEP (runs A and B, round 2 PASS WITH NOTES), W5-MODIFIED, W5-REAL;  | `inp-w5land` | 194 (vs `inp`) |
-| **w6t** `inp-maud-wpj` | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: W6 round 2: audit-scope handoff (tight delta W6-TORI) | `inp-w6t` | 238 (vs `inp`) |
-| **w8a** `inp-maud-wpl` | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Merge branch 'inp' into inp-w8a | `inp-w8a` | 216 (vs `inp`) |
-| **wprov** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: W-NLW2 provider staged: KAM.Provider.Wave.nlw2 := KAM.Wave.nlw2_proof hm (frozen type copi | `inp-wprov` | 257 (vs `inp`) |
+| **w5aafix** `inp-mprov-wps` | prover (offload) | Claude Opus 5.5 | claude-5 | 🔄 proving | last commit: W5-AA-FIX F1: bind convergence-carrier weight guards into aaNfun, aaQt, aaGbarR, birkOmega | `inp-w5aafix` | 1 (vs `inp`) |
+| **w6t** `inp-maud-wpj` | prover (offload) | Claude Opus 5.5 | — | 🔍 in audit | last commit: W6 round 2: audit-scope handoff (tight delta W6-TORI) | `inp-w6t` | 47 (vs `inp`) |
+| **w8a** `inp-maud-wpl` | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: Merge branch 'inp' into inp-w8a | `inp-w8a` | 47 (vs `inp`) |
+| **wprov** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: W-NLW2 provider staged: KAM.Provider.Wave.nlw2 := KAM.Wave.nlw2_proof hm (frozen type copi | `inp-wprov` | 66 (vs `inp`) |
 <!-- /AUTO:workers -->
 
 ### Recent changes on `main`
