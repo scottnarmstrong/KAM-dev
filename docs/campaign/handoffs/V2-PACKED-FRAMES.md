@@ -1,0 +1,201 @@
+# V2-PACKED-FRAMES handoff: packed frame checks and the packed route-A-refined engine, end to end on LG00
+
+Task: the orchestrator's overnight decision of 2026-11-01, issued with AUDIT-V2-PACKED-B3-1.
+- Add packed `checkFrameN`/`checkFrameT` that reuse B2/B3b, as new modules beside `Frame/Majorants.lean`, which
+  stays byte-identical.
+- Add a route-A-refined engine variant that uses the packed Gram, torsion **and** frames, with its soundness to
+  the landed `CertifiedTorus`.
+- Run the LG00 gate, showing the real end-to-end saving.
+
+The branch is `v2-packed-frames`, from `v2-packed-b3` at `475c7311` (B3-FIX). It is local and was never pushed.
+
+## Result
+
+**Gate figures; the production assembly is unmeasured.** Production must also carry `lg00TMs` (now in the
+removed `Torsion/D0`) in its shared data module and re-prove `lg00TMs_eq` (now in the removed `Final.Torsion`);
+re-importing `Torsion.D0` instead would bring back about 253 CPU-s (≈ 2 % of the saving). The packed engine was
+renamed `routeARefinedPacked` (and `refinedTestPacked`) after AUDIT-V2-PACKED-FRAMES-1, to avoid the landed
+`V2.routeARefinedR` (lever L8′).
+
+
+- **The Lean is complete and sound end to end**, on the standard axioms.
+  - `checkFrameMajorantsR_sound` concludes the landed `FrameMajorants c b ωstar` under the hypotheses of the
+    landed `checkFrameMajorants_sound`.
+  - `routeARefinedPacked` is route A refined with the packed frames, keeping the landed `checkHamClaim` and
+    `refinedCore`.
+  - `checkV2With_packed_sound`: `checkV2With (torsRBase …) (routeARefinedPacked …) c w = true` implies the landed
+    `CertifiedTorus c ωstar`.
+  - Along that route, no landed Gram product, landed torsion model or landed frame model is evaluated.
+- **The gate passes on LG00's data** (`lg00-cert` `fd82fef5`), at LG00's own claims. Each frame test runs in one
+  process, ≤ 2.43 GB.
+
+  | test | kernel | CPU (user + sys) | max charged | packed value / LG00 claim |
+  |---|---:|---:|---:|---|
+  | `FRL` (`trFrameLOk`) | 2.01 s | 7.0 s | 0.98 GB | `\|Lᵀ\|` 1.3620 / 1.37 |
+  | `FRN` (`trFrameNOk`) | 0.02 s | 8.6 s | 0.62 GB | `\|N\|` 1.1992 / 1.21, `\|Nᵀ\|` 1.4397 / 1.45 |
+  | `FRT` (`trFrameTOk`) | 8.89 s | 22.1 s | 2.43 GB | `sup \|T\|` 117.504 / 118 (guard `aT < 2^284 ≤ aW < 2^287`) |
+  | **frames** | **10.9 s** | **37.7 s** | **2.43 GB** | |
+
+- **The real LG00 end-to-end saving.** The figures come from lg00-cert's import graph and the run20e ledger
+  (`scripts/packed/frames_saving.py`).
+
+  | | landed (run20e) | packed |
+  |---|---|---|
+  | Gram | 89 modules, 1,425.6 CPU-s | 9 processes, 73.0 CPU-s (B2) |
+  | Torsion | 637 modules, 12,125.6 CPU-s | 64 processes, 1,291.8 CPU-s (B3b) |
+  | frames and their assembly | `Final.FrameL/N/T`, `Final.Frames`: 577.2 CPU-s | 3 processes, 37.7 CPU-s |
+  | `Final.Torsion`, `Kernel.GramTwo` | 9.5 CPU-s | (assembly, unmeasured) |
+  | **total** | **732 modules, 14,138.0 CPU-s** | **76 processes, 1,402.5 CPU-s** |
+
+  - **Net saving: 12,735.5 CPU-s ≈ 3.54 CPU-h**, i.e. **11.8 %** of LG00's 30.08 CPU-h (30.08 → 26.54).
+  - **Production assembly is unmeasured.** The packed column counts the gate probes only. It leaves out:
+    - the shared data module;
+    - the assembly theorems: `checkTorsionR_of`, `checkFrameMajorantsR_of`, and `stageAll` from the per-entry
+      `stageOk` of `DN`/`X_N`;
+    - the restatement at `lg00Cert`'s fields: the probes use the gate's names `gW`, `gCfg`, literal `s`/`σ`.
+  - **Per-process data elaboration** is most of the packed CPU: 1,023 of B3b's 1,292 s, and 5–13 s per frame
+    probe (`FRT`'s data alone: 13.1 s in `FRData`). A shared data module removes most of it, so the measured figure should be pessimistic on
+    this side.
+  - The `Low` and `Full` jet compositions (14.0 + 10.2 CPU-h) are unchanged; they are the jet evaluator's target.
+
+## Files
+
+All files are new except the generated root and the two scripts noted below. Nothing under `KAM/Certificate/` or
+`KAM/Frozen/` changed, and `Frame/Majorants.lean` is byte-identical to `main` (sha256 `8a3e9352…`).
+
+- **`KAM/CertificateSharp/Packed/Frames.lean`** (449 lines).
+  - **Tests:** `pmBound`, `trFrameLOk`, `trFrameNOk`, `trFrameTOk`, `trTChainOk`.
+  - **Checks:** `checkFrameLR`, `checkFrameNR`, `checkFrameTR`, `checkFrameMajorantsR`.
+  - **Lemmas:**
+    - `sum_phaseNat_eq` (a sum over `Fin n ⊕ Fin n` as a sum over `range (n + n)`);
+    - `PEnc.norm_le_bound` (`‖f θ‖ ≤ nb + r`);
+    - `sum_le_sumUp_bound`;
+    - `trT_chain` (the B3b chain up to the packed `T` on the window) and `trT_chainOk`;
+    - `frameT_bound`, stated for any packed matrix, so `trT` is never unfolded during elaboration.
+  - **Soundness:** `checkFrameLR_sound`, `checkFrameNR_sound`, `checkFrameTR_sound`,
+    `checkFrameMajorantsR_sound`, and the assembly lemma `checkFrameMajorantsR_of`.
+  - **Engine:** `refinedTestPacked`, `routeARefinedPacked`, `checkV2With_packed_sound`.
+- **`KAM/Root/CertificateSharp.lean`**: regenerated by `gen_root_imports.py` (one import line added).
+- **`scripts/packed/frames_gate_gen.py`** (new).
+  - Reads LG00's frame claims from `<lg00-cert>/KAM/LG00Cert/Final/Wit.lean` (`lg00RW.R`).
+  - Mirrors the three tests bit-exactly with the backend arithmetic.
+  - Asserts that they pass, and writes the probes and `FramesGate.json`.
+- **`scripts/packed/frames_saving.py`** (new): the end-to-end comparison.
+  - The removable set is closure(`Main`) minus kept. Kept means the closure that avoids the replaced modules
+    (`Final.Torsion`, `Final.FrameL/N/T`, `Final.Frames`), plus their non-Gram, non-Torsion imports.
+  - The packed side is summed from the B2, B3 and B3b receipts and the frame probes.
+- **`scripts/packed/torsr_gate_gen.py`**: refactored into `compute()`, `parts()` and `emit()`, shared with the
+  frames generator. Its B3b output regenerates byte for byte (71 probes, `TorsRGate.json` and the log, compared
+  with `diff -r`).
+- **Docs:** this handoff; design §13 of `docs/campaign/design/V2-PACKED.md` (and a forward pointer in §11).
+- **Receipts:** `docs/campaign/studies/V2-PACKED-FRAMES-GATE/`.
+  - `probes/`: `FRData`, `FRL`, `FRN`, `FRT`.
+  - `controls/`: the sharp edges.
+  - `split/`: `FRT_0`, `FRT_1`.
+  - `FramesGate.json` and `FramesSaving.json`.
+
+## Design
+
+- **Bounds from the packed objects.**
+  - `|Lᵀ|`: the packed `DK` entries `ptK` (B2's Gram memo, checked by `pgEntries`).
+  - `|N|`, `|Nᵀ|`: the verified memo of `N = Ω₀ (L G⁻¹)`, through its norm bounds and radii.
+  - `sup |T|`: the packed `T = Nᵀ Ω₀ X_N` on the window, by the packed weighted norm of each entry plus its
+    radius. Its chain is B3b's `trT_encloses`, from every stage through `X_N`.
+  - `|ω*|`: the landed `checkFrameOmega`.
+- **No corner bounds are needed.** The packed weighted norms already pass LG00's claims, with margins
+  0.6 % (`|Lᵀ|`), 0.9 % (`|N|`), 0.7 % (`|Nᵀ|`) and 0.4 % (`sup |T|`).
+- **Shared conjuncts.** `checkFrameLR`, `checkFrameNR` and `checkFrameTR` restate, as the identical Boolean
+  terms of `checkTorsionR` (same arguments: `c.gramInv`, `c.weight`, `c.cfgLow`, `c.freqBox`, `c.params.s`),
+  every conjunct they share with it:
+  - the packed Gram check;
+  - `gramInvRadius` and the composition;
+  - `ptEntries`;
+  - the guards `trLayOk`, `trNormOk`, `ptPackOk`;
+  - the seven stages.
+
+  `checkFrameMajorantsR_of` assembles `checkFrameMajorantsR = true` from those facts plus the four frame tests,
+  so a production proof decides each shared conjunct once.
+- **The `T` guard.** The test checks `aT ≤ aW`, so the `T` products sit under the window's existing norm guard
+  `nW` (load `aW + mulLoad …`). LG00: `aT < 2^284`, `aW < 2^287`.
+- **Elaboration.** The `sup |T|` proof first hit the default heartbeat limit: the unifier unfolded `trT`.
+  - The fix splits it: `trTChainOk` bundles the guards and stages, and `trT_chainOk` unpacks them.
+  - `frameT_bound` is stated over an arbitrary packed matrix.
+  - No option was changed. The module builds in a few seconds.
+
+## Checks and their output
+
+- **Targeted build.** `nice -n 5 systemd-run --user --scope -q -p MemoryMax=4G -p MemorySwapMax=0 lake build
+  KAM.CertificateSharp.Packed.Frames` gives `✔ [3534/3534] Built KAM.CertificateSharp.Packed.Frames` and
+  `Build completed successfully`.
+  - It reports no warning in `Packed/`. The only warnings are 4 pre-existing ones in `Corner/SupBound.lean`.
+- **`#print axioms`** gives `[propext, Classical.choice, Quot.sound]` for each of:
+  - `checkV2With_packed_sound`;
+  - `checkFrameMajorantsR_sound`;
+  - `checkFrameMajorantsR_of`;
+  - `routeARefinedPacked`;
+  - `trT_chain`.
+- **`scripts/lint_sources.sh`:** `check_lean_modules: PASS (3687 Lean files, 0 comparator configurations)` and
+  `FROZEN-ANCHOR GUARD OK`.
+  - Only the pre-existing ABI step fails (`FixedSunPlanetaryKAM.olean` is not built in this worktree), as in B3b.
+  - `gen_root_imports.py --check` exits 0.
+- **Source limits.** No forbidden token, and no `set_option` in the module. No line exceeds 100 characters, and
+  `Frames.lean` has 449 lines.
+- **Additivity.** Against the merge base with `main`, the only changes under `KAM/` are the added
+  `Packed/*.lean` and the generated `KAM/Root/CertificateSharp.lean`.
+
+## Gate on LG00's data
+
+**Method.** As in B2/B3/B3b:
+- `scripts/packed/run_probe.sh 4G`, one process at a time, `LEAN_NUM_THREADS=1`;
+- the cgroup charge is sampled every 0.2 s;
+- the probes are generated outside the repo, by
+  `V2P_GATE_DIR=$PWD/.lake/v2-packed-frames-gate python3 -I scripts/packed/frames_gate_gen.py`.
+
+Each probe is a module with its own copy of the data, proving its statement by `decide +kernel`. The data are
+the B3b book and memos. `FRT` reads the memos of `N` and `X_N`.
+
+| probe | statement | result | kernel | CPU | charged |
+|---|---|---|---:|---:|---:|
+| `FRData` | data only (control) | — | — | 13.1 s | 0.78 GB |
+| `FRL` | `trFrameLOk … (137/100) = true` | pass | 2.01 s | 7.0 s | 0.98 GB |
+| `FRN` | `trFrameNOk … (121/100) (29/20) = true` | pass | 0.02 s | 8.6 s | 0.62 GB |
+| `FRT` | `trFrameTOk … 118 = true` | pass | 8.89 s | 22.1 s | 2.43 GB |
+| `FRLEdge_hi` | `trFrameLOk` at the largest column sum `= true` | pass | 2.03 s | 6.6 s | 0.98 GB |
+| `FRLEdge_lo` | the same, one ulp (2⁻¹²⁸) lower, `= false` | pass | 2.00 s | 6.7 s | 0.98 GB |
+| `FRNEdge_hi` | `trFrameNOk`, `bN` at the largest row sum, `= true` | pass | 0.02 s | 8.7 s | 0.61 GB |
+| `FRNEdge_lo` | the same, one ulp lower, `= false` | pass | 0.01 s | 8.3 s | 0.61 GB |
+| `FRTEdge_lo` | `trFrameTOk` one ulp below the largest row of `T` `= false` | pass | 8.02 s | 21.0 s | 2.44 GB |
+| `FRT_0`, `FRT_1` | the two rows of `FRT` (a split alternative) | pass | 6.46 s, 8.86 s | 18.7 s, 21.4 s | 2.03 GB |
+
+- **The edges agree to the last bit.** The kernel's sums equal the generator's mirror exactly:
+  - true at the mirror's maximum;
+  - false one ulp below.
+- **`FRT` in one process** is cheaper than its two rows together, so the split is not needed.
+
+## Uncertainties
+
+1. **Production assembly** (above; as in B2 L3 and B3b L1) is unmeasured.
+2. **The removable set is conservative.** It keeps `Kernel.StageTwo` and `Pilot.JetBridge` (imports of
+   `Final.Torsion`).
+   - The packed route may not need `Kernel.StageTwo`; it is not in the ledger, so the figure is unaffected.
+   - `Kernel.GramTwo` is removable but missing from the ledger, so it is counted at 0.
+   - `Main`'s closure has 5,206 modules against 5,183 ledger rows: 28 closure modules have no ledger row and 5 ledger
+     rows lie outside the closure.
+3. **Ledger rows include the ≈ 2 s per-module import baseline**, and so does each packed process. Both sides
+   are compared as run.
+
+## Errata and deviations
+
+- **Suspected errata in pinned sources:** none.
+- **Deviations:** none.
+  - `Frame/Majorants.lean` and every existing module are unchanged.
+  - The packed frame bounds are sufficient conditions for the landed `FrameMajorants`, which is the very
+    conclusion the landed `refinedCore_sound` consumes.
+
+## Owner questions (overnight mode: none blocked work)
+
+1. **Production assembly next, or the jet gate first?** The orchestrator's plan is the jet gate next. The
+   production assembly for Gram, torsion and frames together is what turns the 12.7k CPU-s into a landed LG00
+   build change: one data module and the `_of` assembly theorems.
+
+V2-PACKED-FRAMES DONE

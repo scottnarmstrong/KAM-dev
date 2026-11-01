@@ -1,0 +1,39 @@
+\section{Limitations and open questions}\label{sec:outlook}
+
+\paragraph{The results are asymptotic.}
+The proofs of Theorems~\ref{thm:planar}--\ref{thm:resonant} do not compute $\mu_0$ or the other constants. They
+come from compactness: the widths of the complex domain around the whole sublevel, the bound on the complexified
+perturbation there, the modulus of continuity of $B$, and, for Theorem~\ref{thm:resonant}, the thresholds of
+Proposition~\ref{thm:partialnek}, which are not explicit either. The theorems say nothing about a given value of
+$\mu$, and no statement about a real planetary system follows from them.
+
+\paragraph{Real masses.}
+An explicit version would need rigorous lower bounds for the complex widths near the boundary of the sublevel,
+where perihelia and mutual distances approach their minima, rigorous bounds for the complexified perturbation
+on the whole enlarged slow set, and, for Theorems~\ref{thm:planar} and~\ref{thm:spatial}, control of the small
+divisors up to a cutoff. With generic majorants one should expect admissible mass ratios many orders of magnitude
+below planetary values. Tailored estimates do better, but remain far from planetary masses: for a planar
+Sun--Jupiter--Saturn model near the $5{:}2$ resonance, \cite[\S5.1, Tables~1 and~3]{BN20} obtain
+$5.75\times10^{10}$ years for a perturbation of size $10^{-11.25}$ with initial actions exactly at the resonance,
+and $1.04\times10^9$ years for size $10^{-11.5}$ with nearby initial actions, while the Jupiter--Sun mass ratio is
+about $10^{-3}$. Nor can observations establish a Diophantine condition to all orders, since every
+interval of mean motions contains resonances of high order; Theorem~\ref{thm:resonant} removes this hypothesis,
+but an explicit version would still have to control resonances up to a finite order.
+
+\paragraph{The Solar System.}
+We make no claim about the Solar System. Laskar and Petit classify it as AMD-unstable, following
+\cite{Las97}, because of the AMD carried by the giant planets \cite[\S5.4.1]{LP17}, so the hypothesis of our theorems fails for the full eight-planet Newtonian
+model, whatever the constants. The model \eqref{eq:H} also omits all non-Newtonian effects.
+
+\paragraph{Open questions.}
+\begin{enumerate}
+\item \emph{Explicit constants.} Can the proof be made quantitative, perhaps computer-assisted with a finite
+  Fourier cutoff and rigorous divisor bounds, for a published model of a system with a large AMD margin?
+\item \emph{Exponents.} The exponents of Theorem~\ref{thm:resonant} are those of Nekhoroshev's general theorem, as
+  in \cite[Theorem~12.3]{Nek77}. Can they be improved on the sharp sublevel, using the convexity of the Kepler
+  Hamiltonian or the structure of specific resonances?
+\item \emph{Other thresholds.} What are the analogues of our theorems for the weaker notion of AMD-stability of
+  \cite[\S5.3]{LP17}, which allows a collision of the innermost planet with the star?
+\item \emph{Longer times.} Does a fixed margin below the strong threshold give stability beyond exponentially long
+  times?
+\end{enumerate}

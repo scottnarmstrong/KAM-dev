@@ -9883,7 +9883,7 @@
     "module": "KAM.Provider.Wave.Nlw2",
     "export": "KAM.Provider.Wave.nlw2"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "b2962b367741a5f5e42202a09b1c4908e36416e12687ca3528b77379a3a6a9b5",
    "suffix_sha256": "9fbcbc092ac5275ee83355be1725aec08622915482639ba4d88d69383961d4f6",
    "draft_allowlist": {

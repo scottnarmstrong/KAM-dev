@@ -756,5 +756,5 @@ python3 -I scripts/certifier/rho_retrunc.py CACHE 28 32 36    # rho at the v1 su
 python3 -I scripts/certifier/v2_support.py CACHE 16 18 20 24  # truncation needed by the v2 mirror
 ```
 
-The v2 mirror is found through the environment variable `KAM_V2_DIR` (default: the `sharp-plus` worktree's
-`scripts/apost_sharp`).
+The v2 mirror is found through the environment variable `KAM_V2_DIR` (default: `scripts/apost_sharp` of the
+adapter's own checkout).

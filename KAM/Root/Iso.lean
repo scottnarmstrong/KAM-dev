@@ -120,6 +120,10 @@ public import KAM.Iso.Sharp2.RouteB.Run
 public import KAM.Iso.Sharp2.RouteB.Scheme
 public import KAM.Iso.Sharp2.RouteB.Step
 public import KAM.Iso.Sharp2.RouteB
+public import KAM.Iso.Sharp2.RouteBE.Core
+public import KAM.Iso.Sharp2.RouteBE.Scheme
+public import KAM.Iso.Sharp2.RouteBE.Step
+public import KAM.Iso.Sharp2.RouteBE
 public import KAM.Iso.ShiftPotential
 public import KAM.Iso.TransferStepNodes
 

@@ -1,0 +1,166 @@
+{
+ "17": {
+  "L": 17,
+  "support": 487,
+  "err": 8.47e-15,
+  "slots": 7816,
+  "checks": {
+   "checkHamBounds": true,
+   "checkEmbedding": true,
+   "checkInvariance": true,
+   "checkEnergy": true,
+   "checkGram": true,
+   "checkTorsion": true,
+   "checkStatic": true
+  },
+  "classical": {
+   "sites": "classical",
+   "log10_e": -15.097867079795208,
+   "margin": 0.09424308842579411,
+   "core": false,
+   "why": "2 err above the threshold"
+  },
+  "certified kp 3": {
+   "sites": "certified kp 3",
+   "log10_e": -13.143225952171036,
+   "margin": 8.489666643315337,
+   "Xs": "257/100000000",
+   "disp": 1.02e-10,
+   "core": true,
+   "parts": {
+    "Xs": true,
+    "wf": true,
+    "okB": true,
+    "tail": true,
+    "final": true
+   }
+  },
+  "certified kp 4": {
+   "sites": "certified kp 4",
+   "log10_e": -12.904190645938414,
+   "margin": 14.720614638409161,
+   "Xs": "257/100000000",
+   "disp": 1.02e-10,
+   "core": true,
+   "parts": {
+    "Xs": true,
+    "wf": true,
+    "okB": true,
+    "tail": true,
+    "final": true
+   }
+  }
+ },
+ "18": {
+  "L": 18,
+  "support": 551,
+  "err": 7.2e-16,
+  "slots": 7816,
+  "checks": {
+   "checkHamBounds": true,
+   "checkEmbedding": true,
+   "checkInvariance": true,
+   "checkEnergy": true,
+   "checkGram": true,
+   "checkTorsion": true,
+   "checkStatic": true
+  },
+  "classical": {
+   "sites": "classical",
+   "log10_e": -15.097867079795208,
+   "margin": 1.1086652207867724,
+   "core": false,
+   "why": "2 err above the threshold"
+  },
+  "certified kp 3": {
+   "sites": "certified kp 3",
+   "log10_e": -13.143225952171036,
+   "margin": 99.87149509566792,
+   "Xs": "219/1000000000",
+   "disp": 8.45e-12,
+   "core": true,
+   "parts": {
+    "Xs": true,
+    "wf": true,
+    "okB": true,
+    "tail": true,
+    "final": true
+   }
+  },
+  "certified kp 4": {
+   "sites": "certified kp 4",
+   "log10_e": -12.904190645938414,
+   "margin": 173.17167498239667,
+   "Xs": "219/1000000000",
+   "disp": 8.45e-12,
+   "core": true,
+   "parts": {
+    "Xs": true,
+    "wf": true,
+    "okB": true,
+    "tail": true,
+    "final": true
+   }
+  }
+ },
+ "20": {
+  "L": 20,
+  "support": 683,
+  "err": 8.06e-18,
+  "slots": 7816,
+  "checks": {
+   "checkHamBounds": true,
+   "checkEmbedding": true,
+   "checkInvariance": true,
+   "checkEnergy": true,
+   "checkGram": true,
+   "checkTorsion": true,
+   "checkStatic": true
+  },
+  "classical": {
+   "sites": "classical",
+   "log10_e": -15.097867079795208,
+   "margin": 99.03709168318562,
+   "Xs": "49/20000000000",
+   "disp": 1.14e-12,
+   "core": true,
+   "parts": {
+    "Xs": true,
+    "wf": true,
+    "okB": true,
+    "tail": true,
+    "final": true
+   }
+  },
+  "certified kp 3": {
+   "sites": "certified kp 3",
+   "log10_e": -13.143225952171036,
+   "margin": 8921.523135096886,
+   "Xs": "49/20000000000",
+   "disp": 9.44e-14,
+   "core": true,
+   "parts": {
+    "Xs": true,
+    "wf": true,
+    "okB": true,
+    "tail": true,
+    "final": true
+   }
+  },
+  "certified kp 4": {
+   "sites": "certified kp 4",
+   "log10_e": -12.904190645938414,
+   "margin": 15469.43002324139,
+   "Xs": "49/20000000000",
+   "disp": 9.44e-14,
+   "core": true,
+   "parts": {
+    "Xs": true,
+    "wf": true,
+    "okB": true,
+    "tail": true,
+    "final": true
+   }
+  }
+ }
+}

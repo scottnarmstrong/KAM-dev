@@ -358,7 +358,7 @@
       "doi": "10.1051/0004-6361/201630022",
       "pdf": "sources/incoming-zohar2/r2-amd17.pdf",
       "sha256": "6b3c7aad2c2bf69612c0e0a65a5409f40a03e330253f8b3880f8e53d40f09361",
-      "role": "D25 AMD and heliocentric Hamiltonian. Exact publisher title/author/volume match verified."
+      "role": "D25 AMD and heliocentric Hamiltonian. Exact publisher title/author/volume match verified. The pinned PDF is the arXiv v2 (1703.07125v2), not the publisher's PDF (identical bytes to the LP exploration copy LP17-arxiv-v2.pdf); track LP checked the §3 conjecture clause in both versions (identical; docs/explorations/amd-crossing/A2-literature.md §1). Cite page numbers by version."
     },
     {
       "key": "CP09",
@@ -609,6 +609,16 @@
    "pdf": "paper.pdf (lemma.farm ~/kam-tools/papers/chandre05-control)",
    "sha256": "e63bf2eea3ac49a97308a7b6493e24de8bdc688f179fbcb4a70b4a8be7b40153",
    "role": "Hamiltonian control of magnetic field lines; the next-demonstrations study (magnetic transport barrier)"
+  },
+  {
+   "key": "LPMAIN",
+   "tier": "track LP",
+   "citation": "Strong AMD and exponential safety (campaign manuscript, 31 October 2026): planar Theorem 15, spatial Theorem 19; pinned copy docs/tracks/LP/source/MAIN.md",
+   "arxiv": null,
+   "doi": null,
+   "pdf": "docs/tracks/LP/source/MAIN.md (Markdown, line-addressable)",
+   "sha256": "68e9167f04e4a04689ea163c74e02ffcaea657b252726080abdbe37bdba48c1b",
+   "role": "Track LP source: sharp strong Laskar\u2013Petit AMD threshold and exponential-time safety without secular hypotheses. Independent proof audit PROOF-AUDIT-1: PASS WITH NOTES (N1 fixed in place; N2\u2013N12 normative in docs/tracks/LP/source/AMENDMENTS.md)."
   }
  ]
 }

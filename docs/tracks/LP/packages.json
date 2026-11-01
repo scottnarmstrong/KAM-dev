@@ -1,0 +1,291 @@
+{
+ "note": "Track LP package plan (roadmap section 3 rows). weight = planned kLOC. Modules are the public facade paths; a package counts as landed when all its listed modules exist on main. Kept truthful by kam-lp; updated when module plans change.",
+ "packages": [
+  {
+   "id": "LP-THR",
+   "wave": 1,
+   "weight": 1.2,
+   "modules": [
+    "KAM/Planetary/StrongAMD/Threshold.lean"
+   ],
+   "source": "MAIN L4: attained, continuous sharp thresholds"
+  },
+  {
+   "id": "LP-MOM",
+   "wave": 1,
+   "weight": 0.9,
+   "modules": [
+    "KAM/Planetary/StrongAMD/Orbital.lean",
+    "KAM/Planetary/StrongAMD/Momentum.lean",
+    "KAM/Planetary/StrongAMD/Reflection.lean"
+   ],
+   "source": "MAIN L2-L3 planar; orientation reflection"
+  },
+  {
+   "id": "LP-GEO",
+   "wave": 1,
+   "weight": 0.8,
+   "modules": [
+    "KAM/Planetary/StrongAMD/Geometry.lean"
+   ],
+   "source": "MAIN L5: uniform strong barrier"
+  },
+  {
+   "id": "LP-MOD",
+   "wave": 1,
+   "weight": 0.9,
+   "modules": [
+    "KAM/Planetary/StrongAMD/Modulus.lean",
+    "KAM/Planetary/StrongAMD/Continuation.lean"
+   ],
+   "source": "MAIN L6: moving threshold and continuation"
+  },
+  {
+   "id": "LP-DICT",
+   "wave": 1,
+   "weight": 1.0,
+   "modules": [
+    "KAM/Planetary/StrongAMD/PlanarDictionary.lean",
+    "KAM/Planetary/StrongAMD/NonresonantAdapter.lean"
+   ],
+   "source": "MAIN L7 dictionary; one-centre L13 adapter test"
+  },
+  {
+   "id": "LP-DOM",
+   "wave": 2,
+   "weight": 1.5,
+   "modules": [
+    "KAM/Planetary/StrongAMD/AnalyticDomain.lean"
+   ],
+   "source": "MAIN L8: whole-sublevel planar analytic domain"
+  },
+  {
+   "id": "LP-DOMX",
+   "wave": 2,
+   "weight": 0.8,
+   "modules": [
+    "KAM/Planetary/StrongAMD/AnalyticDomain/Bounds.lean"
+   ],
+   "source": "MAIN L8 remaining clauses (chart/momenta/derivative bounds, denominators)"
+  },
+  {
+   "id": "LP-NRR",
+   "wave": 2,
+   "weight": 1.2,
+   "modules": [
+    "KAM/Planetary/StrongAMD/NonresonantReuse.lean"
+   ],
+   "source": "MAIN L13: ExtNFHyp from the analytic domain; nonresonant"
+  },
+  {
+   "id": "LP-NRS",
+   "wave": 2,
+   "weight": 0.8,
+   "modules": [
+    "KAM/Planetary/StrongAMD/NonresonantScale.lean"
+   ],
+   "source": "MAIN L12/(37): scale choice and exponential horizon"
+  },
+  {
+   "id": "LP-LIFT",
+   "wave": 3,
+   "weight": 1.0,
+   "modules": [
+    "KAM/Planetary/StrongAMD/ChartLift.lean"
+   ],
+   "source": "MAIN L14 (chart lift of the physical orbit in the sharp region; discharges the D1 premises of the L13 adapter)"
+  },
+  {
+   "id": "LP-CONF",
+   "wave": 3,
+   "weight": 1.5,
+   "modules": [
+    "KAM/Planetary/StrongAMD/Confinement.lean"
+   ],
+   "source": "MAIN L14: first exit on the allowed secular ball"
+  },
+  {
+   "id": "LP-OSC",
+   "wave": 3,
+   "weight": 0.8,
+   "modules": [
+    "KAM/Planetary/StrongAMD/Osculating.lean"
+   ],
+   "source": "MAIN L16: actual-velocity osculating ellipses"
+  },
+  {
+   "id": "LP-PS",
+   "wave": 3,
+   "weight": 0.8,
+   "modules": [
+    "KAM/Planetary/StrongAMD/PlanarSafety.lean"
+   ],
+   "source": "MAIN T15: planar theorem (LP1)"
+  },
+  {
+   "id": "LP-SRC",
+   "wave": 3,
+   "weight": 0.4,
+   "modules": [
+    "KAM/Planetary/StrongAMD/SourceCarrier.lean"
+   ],
+   "source": "OD-11 (b) source carriers; LP1 restated"
+  },
+  {
+   "id": "LP-SP-MODEL",
+   "wave": 4,
+   "weight": 3.0,
+   "modules": [
+    "KAM/Planetary/Spatial.lean"
+   ],
+   "source": "MAIN L1-L3 spatial"
+  },
+  {
+   "id": "LP-SP-ROT",
+   "wave": 4,
+   "weight": 0.8,
+   "modules": [
+    "KAM/Planetary/Spatial/Rotation46.lean"
+   ],
+   "source": "MAIN L17, rotation algebra (46) and inverse"
+  },
+  {
+   "id": "LP-SP-CHART",
+   "wave": 4,
+   "weight": 5.2,
+   "modules": [
+    "KAM/Planetary/Spatial/Chart.lean"
+   ],
+   "source": "MAIN L17: regular spatial Poincare chart"
+  },
+  {
+   "id": "LP-SP-GEO",
+   "wave": 4,
+   "weight": 1.2,
+   "modules": [
+    "KAM/Planetary/Spatial/Geometry.lean",
+    "KAM/Planetary/Spatial/Continuation.lean"
+   ],
+   "source": "MAIN L5-L6, d=3"
+  },
+  {
+   "id": "LP-SP-OSC",
+   "wave": 4,
+   "weight": 1.0,
+   "modules": [
+    "KAM/Planetary/Spatial/Osculating.lean"
+   ],
+   "source": "MAIN L16, d=3"
+  },
+  {
+   "id": "LP-SP-PROD",
+   "wave": 4,
+   "weight": 1.2,
+   "modules": [
+    "KAM/Planetary/Spatial/Product.lean"
+   ],
+   "source": "MAIN L17 for n bodies; fixed-plane deficit"
+  },
+  {
+   "id": "LP-SP-CONF",
+   "wave": 4,
+   "weight": 0.6,
+   "modules": [
+    "KAM/Planetary/Spatial/Confinement.lean"
+   ],
+   "source": "MAIN L14, d=3 (conditional first exit)"
+  },
+  {
+   "id": "LP-SP-TUBE",
+   "wave": 4,
+   "weight": 0.4,
+   "modules": [
+    "KAM/Planetary/Spatial/ComplexTube.lean"
+   ],
+   "source": "N12: tube for Phase (n+m)"
+  },
+  {
+   "id": "LP-SP-ADAPT",
+   "wave": 4,
+   "weight": 0.7,
+   "modules": [
+    "KAM/Planetary/Spatial/NonresonantAdapter.lean"
+   ],
+   "source": "MAIN L13 adapter for Phase (n+m)"
+  },
+  {
+   "id": "LP-SP-DOM",
+   "wave": 4,
+   "weight": 1.5,
+   "modules": [
+    "KAM/Planetary/Spatial/AnalyticDomain.lean"
+   ],
+   "source": "MAIN L18: spatial analytic domain"
+  },
+  {
+   "id": "LP-SP-LIFT",
+   "wave": 4,
+   "weight": 0.9,
+   "modules": [
+    "KAM/Planetary/Spatial/ChartLift.lean"
+   ],
+   "source": "MAIN L14/L18 chart lift, d=3"
+  },
+  {
+   "id": "LP-SP-DOMX",
+   "wave": 4,
+   "weight": 0.7,
+   "modules": [
+    "KAM/Planetary/Spatial/AnalyticDomain/Bounds.lean"
+   ],
+   "source": "MAIN L18 remaining clauses"
+  },
+  {
+   "id": "LP-SP-NRR",
+   "wave": 4,
+   "weight": 1.0,
+   "modules": [
+    "KAM/Planetary/Spatial/NonresonantReuse.lean"
+   ],
+   "source": "MAIN L13 with 2n slow pairs"
+  },
+  {
+   "id": "LP-SP-SAFE",
+   "wave": 4,
+   "weight": 1.0,
+   "modules": [
+    "KAM/Planetary/Spatial/SpatialSafety.lean"
+   ],
+   "source": "MAIN T19: spatial theorem (LP2)"
+  },
+  {
+   "id": "LP-SP-SRC",
+   "wave": 4,
+   "weight": 0.4,
+   "modules": [
+    "KAM/Planetary/Spatial/SourceCarrier.lean",
+    "KAM/Planetary/Spatial/SpatialSafety/Source.lean"
+   ],
+   "source": "OD-11 (b) spatial source carriers (audit W4A N1)"
+  },
+  {
+   "id": "LP3-KEP",
+   "wave": 5,
+   "weight": 0.4,
+   "modules": [
+    "KAM/Planetary/StrongAMD/Nek/Kepler.lean"
+   ],
+   "source": "LP3 plan: Kepler fast Hamiltonian (partial convexity)"
+  },
+  {
+   "id": "LP3-COVERPERT",
+   "wave": 5,
+   "weight": 0.8,
+   "modules": [
+    "KAM/Planetary/StrongAMD/Nek/Cover.lean",
+    "KAM/Planetary/StrongAMD/Nek/Perturbation.lean"
+   ],
+   "source": "LP3 plan: finite cover + normalized perturbation"
+  }
+ ]
+}
