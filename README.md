@@ -687,6 +687,9 @@ Full text: [`docs/DECISIONS.md`](docs/DECISIONS.md).
 - **D64** Freeze and seal track LP's two LP3 statements (draft 8: no Diophantine hypothesis), installed sealed in one
   pass after a seal audit. *(Scott, 2026-11-01)*
 - **D66** Magnetic field-line barrier: run the ε = 0.0012 fallback pilot (numerical gate first). *(Scott, 2026-11-01)*
+- **D67** The lock's certificate source may reach about 228 MB (amends D55). *(Scott, 2026-11-01)*
+- **D68** Freeze the magnetic field-line barrier statement (ε = 3/2500); seal it after its certificate chain and a seal
+  audit. *(Scott, 2026-11-01)*
 
 ## Owner questions
 

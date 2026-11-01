@@ -574,3 +574,18 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
     reusing `scripts/spin_orbit/hp*.py` and the v2 route scripts, and report the verdict.
   - **Phase 2:** the exact Lean statement goes to the owner for approval before any certificate emission or kernel
     run.
+- **D67 (2026-11-01, 21:35 UTC) Lock source size: about 228 MB accepted.** *(Scott: "accept 228 MB for the lock".)*
+  - This amends D55's ≈ 200 MB. The growth comes from splitting the side checks into their own modules, which run in
+    parallel remotely, and from the Gram product modules (an emitter bug fix).
+  - Every file stays far below GitHub's per-file limit.
+- **D68 (2026-11-01, 21:35 UTC) Magnetic field-line barrier statement approved.** *(Scott: "approve the magnetic
+  statement", after the review page of the exact text.)*
+  - **The approval object:** branch `mag-pilot` at `a48eb432`: `docs/explorations/mag/FREEZE-PROPOSAL.md` and the seven
+    draft files under `docs/explorations/mag/draft/` (magEps, magH0, magAlpha, magV, magField, magHamC,
+    magnetic_barrier), byte for byte, ε = 3/2500.
+  - **The state type** `ℝ × ℝ × ℝ` is accepted as an exception to AGENTS rule 7, consistent with the sealed lunar
+    statements.
+  - **Freeze:** the definitions frozen, and `magnetic_barrier` frozen as DRAFT_SORRY under `KAM/Frozen/Magnetic/`, with
+    manifest entries. Only the approval date and the decision placeholders change.
+  - **Seal:** as D63. After the certificate chain passes (on the CCX53), the landing checks and a dedicated seal audit,
+    with no further go.
