@@ -1,0 +1,34 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import Mathlib.Order.Interval.Set.Defs
+public import KAM.Frozen.Planetary.StrongAMD.Defs.ActionAxis
+
+/-!
+# Frozen definition `KAM.Planetary.StrongAMD.pairFeasible`
+
+Track LP, `LP:MAIN §1 (3) (47–51)` (MAIN as amended by AMENDMENTS). Owner-approved on
+<APPROVAL-DATE> (decision <DECISION>; docs/tracks/LP/FREEZE-PROPOSAL.md draft 7, under the rulings
+of D59). This file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an
+owner-approved versioned successor.
+
+Freeze role (D59, OD-11 (b)): a literal formula or predicate of the source, faithful on its whole
+carrier.
+-/
+
+@[expose] public noncomputable section
+
+namespace KAM.Planetary.StrongAMD
+
+/-- The feasible set `{(u,v) ∈ [0,1]² : a_i(1+u) ≥ a_j(1-v)}` of the pair `(i,j)`. -/
+def pairFeasible {n : ℕ} (ν I : Fin n → ℝ) (i j : Fin n) : Set (ℝ × ℝ) :=
+  {uv | uv.1 ∈ Set.Icc (0 : ℝ) 1 ∧ uv.2 ∈ Set.Icc (0 : ℝ) 1 ∧
+    actionAxis ν I j * (1 - uv.2) ≤ actionAxis ν I i * (1 + uv.1)}
+
+end KAM.Planetary.StrongAMD
+
+end
