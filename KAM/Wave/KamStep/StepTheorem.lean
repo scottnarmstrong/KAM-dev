@@ -129,7 +129,7 @@ namespace WaveStepHyp
 /-- The clauses of **one KAM step** (`bpW:w5:step`), non-modified case, conditional helper: it
   assumes `0 < ε₀`, which is not
 a premise of the blueprint (see `stepTheorem`). -/
-def Conclusion (H : WaveStepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
+protected def Conclusion (H : WaveStepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
     [Fact (0 < r)] : Prop :=    -- (i)
     (∀ ξ ∈ Par, ∀ w ∈ stepDomain r (s - 5 * σ) (η * r),
       StepPhase.toK (H.core.Phi ξ w) ∈ kamDomain (s - 4 * σ) (2 * η * r)) ∧
