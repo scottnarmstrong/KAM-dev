@@ -5,7 +5,9 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
+public import KAM.Application.AngleGraph
 public import KAM.Application.Certified
+public import KAM.Application.ClockGraph
 public import KAM.Application.Confinement.GlobalODE
 public import KAM.Application.Confinement.Level
 public import KAM.Application.Confinement.Periodic
