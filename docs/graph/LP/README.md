@@ -172,3 +172,7 @@ All proposed defaults for Q1–Q8 are accepted:
 - Q8: the writer tag is `kam-lp`. Slice and global reviews run on codex-2 in parallel batches, each reviewer in its
   own session.
 
+## Standing rule after publication (owner, 2026-11-01)
+
+Every LP landing that adds Lean under `KAM/Planetary/StrongAMD` or `KAM/Planetary/Spatial` gets its LEAN_STATUS sync
+on main within the same hour. The HQ flags the lag (`scripts/hq-status.py` `graph_sync_lag`).

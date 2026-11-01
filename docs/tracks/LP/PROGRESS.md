@@ -76,6 +76,10 @@ src (4th, created 05:30 for the third slot).
 
 ## Carried requirements
 
+- **Graph sync rule (owner, via root-b8, 2026-11-01):** once the LP dependency graph is published, every LP landing that
+  adds Lean under `KAM/Planetary/StrongAMD` or `KAM/Planetary/Spatial` gets its LEAN_STATUS sync on main **within the
+  same hour**. The HQ prints "graph sync pending/overdue" (`scripts/hq-status.py` `graph_sync_lag`).
+
 - **Auditor policy (root-b8, 07:50):** Opus subagents are fine for PAPER-level reviews (the LP3 plan, the freeze-text
   statement reviews), but every audit that GATES a Lean landing stays on Codex (codex-2; D54/D57). Never land a Lean
   package on an Opus-only audit; if codex-2 is the bottleneck, queue and tell root-b8.
