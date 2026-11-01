@@ -48,7 +48,8 @@ src (4th, created 05:30 for the third slot).
 | LP-SP-LIFT spatial chart lift + D1 premises | L14/L18 (d=3) | 4 | `inp-lp-splift` / mom worktree | claude-11 | running |
 | LP-SRC OD-11 (b) source carriers + LP1 restatement | freeze prep | — | `inp-lp-src` / src worktree (4th) | claude-6 | proved dd0a5ec5 (405 lines); text in FREEZE-PROPOSAL draft 3 §3b; delta review 3 running; audit queued |
 | LP-SP-PROD n-body spatial product chart | L17 (n bodies), (47) | 4 | `inp-lp-spprod` | claude-12 | proved e2a64cdc (767 lines); audit queued (W4) |
-| LP-SP-DOM spatial analytic domain | L18 | 4 | `inp-lp-spdom` / geomod worktree | claude-12 | running |
+| LP-SP-DOM spatial analytic domain | L18 | 4 | `inp-lp-spdom` | claude-12 | proved e57e5a6c (≈760 lines); L18 node PARTIAL until a DOMX-style supplement (derivative/denominator clauses); audit queued |
+| LP-SP-NRR spatial L13 (2n slow pairs) | L13, T19 | 4 | `inp-lp-spnrr` / geomod worktree | claude-12 | running |
 | LP-SP-DOM / SP-SAFE (+ spatial NRR/LIFT/CONF twins) | L18, T19 | 4 | — | — | after SP-PROD |
 
 ## Audit queue (codex-2, one at a time machine-wide; W interleaves when LP has a gap)
@@ -67,6 +68,8 @@ src (4th, created 05:30 for the third slot).
   first-derivative and denominator clauses (the Lean route consumes only the scalar class and the sup bound), so
   the L8 node is PARTIAL, with a LEAN_NOTE naming the proved clauses and why the rest is not needed downstream. The
   alternative: add the two clauses later (cheap, from the same tube) and mark it PROVED then.
+- **Spatial L18 (SP-DOM):** like planar DOM, the derivative and denominator clauses of L8/L18 are not separately
+  exported; the L18 node is PARTIAL until a spatial DOMX-style supplement (cheap, same tube) is proved.
 - **For LP-NRR (from audit LP-W2A-1):** choose `ρ` strictly inside `r_*` when feeding `lp_scale_choice`, so the
   strict `D₀√μ < r_*` of N6 holds.
 
@@ -105,3 +108,4 @@ src (4th, created 05:30 for the third slot).
 - 2026-11-01 05:23 UTC: LP-SP-PROD proved (767 lines). LP-SP-DOM (L18) launched on claude-12.
 - 2026-11-01 05:36 UTC: **LP-PS audit 1 PASS WITH NOTES: planar LP1 and LP0 audited** (general, normalized = draft-2 text verbatim, half-integer, LP0, internal prograde: all PASS). Notes H1/D1 applied; merged into inp-lp; landing requested. With it, the whole planar campaign (MAIN L2–L8, L13, L14, L16, T15) is proved and audited.
 - 2026-11-01 05:40 UTC: LP-SRC proved: OD-11 (b) is concrete and proved (FREEZE-PROPOSAL draft 3 §3b). Delta review 3 launched on codex-2 (prioritized over W4A for the owner's morning). LP-SP-ADAPT proved (no convention mismatch for m ≠ n). LP-SP-LIFT launched on claude-11. W4A branch built in the thr worktree (waiting for codex-2).
+- 2026-11-01 05:48 UTC: delta review 3 PASS (OD-11 (b) resolves F4); freeze package has no open technical blocker (owner decisions remain). LP-W4A (SP-MODEL+SP-ROT) audit launched on codex-2. LP-SP-DOM proved. LP-SP-NRR launched on claude-12.

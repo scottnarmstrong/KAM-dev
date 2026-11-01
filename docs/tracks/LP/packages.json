@@ -232,6 +232,15 @@
    "source": "MAIN L14/L18 chart lift, d=3"
   },
   {
+   "id": "LP-SP-NRR",
+   "wave": 4,
+   "weight": 1.0,
+   "modules": [
+    "KAM/Planetary/Spatial/NonresonantReuse.lean"
+   ],
+   "source": "MAIN L13 with 2n slow pairs"
+  },
+  {
    "id": "LP-SP-SAFE",
    "wave": 4,
    "weight": 1.0,
