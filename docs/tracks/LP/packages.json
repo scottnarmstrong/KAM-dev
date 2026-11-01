@@ -127,9 +127,7 @@
    "wave": 4,
    "weight": 3.0,
    "modules": [
-    "KAM/Planetary/Spatial/ExactModel.lean",
-    "KAM/Planetary/Spatial/OrbitalIdentities.lean",
-    "KAM/Planetary/Spatial/Momentum.lean"
+    "KAM/Planetary/Spatial.lean"
    ],
    "source": "MAIN L1-L3 spatial"
   },
@@ -147,9 +145,64 @@
    "wave": 4,
    "weight": 5.2,
    "modules": [
-    "KAM/Planetary/Spatial/Poincare.lean"
+    "KAM/Planetary/Spatial/Chart.lean"
    ],
    "source": "MAIN L17: regular spatial Poincare chart"
+  },
+  {
+   "id": "LP-SP-GEO",
+   "wave": 4,
+   "weight": 1.2,
+   "modules": [
+    "KAM/Planetary/Spatial/Geometry.lean",
+    "KAM/Planetary/Spatial/Continuation.lean"
+   ],
+   "source": "MAIN L5-L6, d=3"
+  },
+  {
+   "id": "LP-SP-OSC",
+   "wave": 4,
+   "weight": 1.0,
+   "modules": [
+    "KAM/Planetary/Spatial/Osculating.lean"
+   ],
+   "source": "MAIN L16, d=3"
+  },
+  {
+   "id": "LP-SP-PROD",
+   "wave": 4,
+   "weight": 1.2,
+   "modules": [
+    "KAM/Planetary/Spatial/Product.lean"
+   ],
+   "source": "MAIN L17 for n bodies; fixed-plane deficit"
+  },
+  {
+   "id": "LP-SP-CONF",
+   "wave": 4,
+   "weight": 0.6,
+   "modules": [
+    "KAM/Planetary/Spatial/Confinement.lean"
+   ],
+   "source": "MAIN L14, d=3 (conditional first exit)"
+  },
+  {
+   "id": "LP-SP-TUBE",
+   "wave": 4,
+   "weight": 0.4,
+   "modules": [
+    "KAM/Planetary/Spatial/ComplexTube.lean"
+   ],
+   "source": "N12: tube for Phase (n+m)"
+  },
+  {
+   "id": "LP-SP-ADAPT",
+   "wave": 4,
+   "weight": 0.7,
+   "modules": [
+    "KAM/Planetary/Spatial/NonresonantAdapter.lean"
+   ],
+   "source": "MAIN L13 adapter for Phase (n+m)"
   },
   {
    "id": "LP-SP-DOM",
