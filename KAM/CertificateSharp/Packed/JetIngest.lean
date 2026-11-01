@@ -5,7 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.CertificateSharp.Packed.JetChain
+public import KAM.CertificateSharp.Packed.JetWit
 
 /-!
 # Ingestion of packed box nodes from narrow literals

@@ -676,3 +676,65 @@ chain theorem over the sub-segments and the plan (§12.7 item 3).
 - **Comparison with the landed range** (228 modules, 4,815 CPU-s): 88× at the chosen cut. The landed column
   counts theorem modules only, while each packed process also elaborates its own ledger data.
 
+
+### 12.11 The whole Low chain (V2-PACKED-JET-LOW; `docs/campaign/handoffs/V2-PACKED-JET-LOW.md`)
+
+**Built.**
+- **`Packed/JetLeaf.lean`.** Leaves from landed models: `toDeg` to degree 0, then box truncation into the radius,
+  then packing.
+- **`Packed/JetChain.lean`.**
+  - `chain_sound`, an induction on the block order;
+  - segments, the action block and given blocks.
+- **`Packed/JetChar.lean`.**
+  - Characters `character(k) · ∏ᵢ exp(σᵢ i 2π angleAtᵢ)^{|kᵢ|}`;
+  - the exponential as a Taylor sum with Mathlib's `exp_bound'` remainder;
+  - powers and products.
+- **`Packed/JetWit.lean`.**
+  - `inv` and `sqrt` in residual form, with an untrusted candidate validated by `boxOk` and the bounds
+    `inv_sub_le` (Neumann) and `sqrtE_sub_le`;
+  - `jRenorm`, which restores the cancellation a sum node's norm bound loses;
+  - the whole-chain theorem `jChainW_slot`: every exported slot is a packed enclosure of the program's slot
+    function at the embedding.
+- **No given blocks.**
+
+**Measured on LG00's whole cfgLow chain** (`lg00-cert` `fd82fef5`):
+- 3,745 live slots, 20 wanted;
+- 60 blocks, one process each: 41 segments (≤ 34 heavy steps), actions, 4 exponentials (Taylor degrees 17 and
+  22), 4 power blocks, 6 character blocks (≤ 8 keys), 2 `inv`, 2 `sqrt`.
+
+| | landed Low stage (run20e) | packed |
+|---|---:|---:|
+| CPU (user + sys) | 50,440.0 s (14.01 h) | **1,415.0 s** (321.3 s kernel) |
+| largest charge | — | 3.62 GB (4 GiB cap) |
+
+**That is 35.6×, with the production assembly unmeasured:**
+- the shared data module;
+- one theorem over the 60 blocks with its order proof;
+- the consumer bridge.
+
+**By kind:**
+
+| kind | ratio |
+|---|---:|
+| segments and actions | 35.9× |
+| characters | 39.8× |
+| `inv`/`sqrt` | 7.6× |
+
+**Where the CPU goes.** The kernel takes 0.20 s per heavy step. About 18 CPU-s per process is import and data
+elaboration.
+
+**Controls.** A one-ulp lower radius on an exponential, a power, a character, an `inv` and a `sqrt` export
+decides `= false`.
+
+**Accuracy.**
+- The packed radii of the wanted slots are 1e-17 to 3e-15, against 2e-4 to 3e-2 landed.
+  - The landed models are sparse (70–625 terms) and put the truncated tail in the radius.
+  - The packed nodes keep the 51 × 51 box.
+- The norm bounds agree to about 1e-5 relative.
+
+**`P = 64`.**
+- **Precision.** The margin is large: about 10 orders even with 10⁴ growth (estimate).
+- **Design.** The leaf conversion needs `jb.P` equal to the arithmetic's precision (`CertFixed.toMant`).
+  - Recommended: keep `CertFixed 128` and the landed embedding, and add a leaf conversion that rounds to
+    `2^jb.P` into the radius.
+  - Then measure.

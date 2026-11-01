@@ -98,4 +98,26 @@ example : jSpread 3 3 5 200 5 4 2 19491115781585 =
       2 ^ (200 * 12) := by
   decide +kernel
 
+/-- The witness checks: the node of the constant `2` (`9/4`) on the box, the candidate `1/2`
+(`3/2`). -/
+def nTwo : JNode F := ⟨false, 2 ^ 66, 64, ⟨2 * 2 ^ 64 * 2 ^ (200 * 6), 0⟩, ⟨0⟩, ⟨2 ^ 66⟩⟩
+
+def nNine4 : JNode F := ⟨false, 2 ^ 66, 64, ⟨9 * 2 ^ 62 * 2 ^ (200 * 6), 0⟩, ⟨0⟩, ⟨2 ^ 66⟩⟩
+
+def cand (v : ℕ) : PC := ⟨v * 2 ^ (200 * 6), 0⟩
+
+def wOut (v : ℕ) : JNode F := ⟨false, 2 ^ 66, 64, cand v, ⟨2 ^ 70⟩, ⟨2 ^ 70⟩⟩
+
+example : jInvOk 2 tW tPe tCfg tJb nTwo (cand (2 ^ 63)) (wOut (2 ^ 63)) = true := by decide +kernel
+
+/-- A candidate `1/8` for `1/2`: the residual `3/4` is above `1/2`. -/
+example : jInvOk 2 tW tPe tCfg tJb nTwo (cand (2 ^ 61)) (wOut (2 ^ 61)) = false := by
+  decide +kernel
+
+/-- `√(9/4) = 3/2`, with `c_A = 2`, `c_S = 1`, `s₀ = 1/2`. -/
+example :
+    jSqrtOk 2 tW tPe tCfg tJb nNine4 (cand (3 * 2 ^ 63)) 2 1 (1 / 2)
+      (wOut (3 * 2 ^ 63)) = true := by
+  decide +kernel
+
 end KAM.CertificateSharp.Packed.JetTests

@@ -79,7 +79,14 @@ def main():
                landed_literal_cpu_s=round(sum(lit.values()), 1),
                landed_given_cpu_s=round(land_given, 1),
                landed_without_given_cpu_s=round(land_all - land_given, 1),
-               ratio_without_given=round((land_all - land_given) / cpu, 1), rows=rows)
+               ratio_without_given=round((land_all - land_given) / cpu, 1),
+               ratio_full=round(land_all / cpu, 1),
+               by_kind={k: dict(processes=sum(1 for r in rows if r["kind"] == k),
+                                cpu_s=round(sum(r["cpu"] for r in rows if r["kind"] == k), 1),
+                                kernel_s=round(sum(r["kernel"] or 0 for r in rows if r["kind"] == k), 1),
+                                max_charged_bytes=max(r["peak"] for r in rows if r["kind"] == k))
+                        for k in sorted({r["kind"] for r in rows})},
+               rows=rows)
     print(json.dumps(out, indent=1))
 
 

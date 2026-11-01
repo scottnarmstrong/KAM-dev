@@ -59,6 +59,15 @@ def main():
         elif op[0] in ("action", "char", "inv", "sqrt", "exp"):
             leaves[j] = dict(kind=op[0], **leaf(pairs[j][0], box))
 
+    # V2-PACKED-JET-LOW M3: the angle leaves and the constants of the packed characters
+    from fractions import Fraction as Fr
+    angles = {str(j): dict(kind="angle", **leaf(SM.realCompModel(B, n, K.angleDeg[j], K.angle[j]), box))
+              for j in range(n)} if (K := c.emb) is not None else {}
+    consts = {}
+    for re_, im_, deg in [(Fr(0), Fr(-1), 1), (Fr(0), Fr(1), 1), (Fr(1), Fr(0), 0)] + \
+            [(Fr(1, m + 1), Fr(0), 0) for m in range(48)]:
+        consts["%s/%s/%d" % (re_, im_, deg)] = dict(kind="const", **leaf(SM.constModel(B, n, re_, im_, deg), unit))
+
     def fr(q):
         return [q.numerator, q.denominator]
 
@@ -74,7 +83,7 @@ def main():
     except (OSError, subprocess.CalledProcessError):
         commit = "unknown"
     data = dict(ops=[op_json(op) for op in prog[:stop]], live=live, wanted=wanted,
-                leaves={str(j): v for j, v in leaves.items()},
+                leaves={str(j): v for j, v in leaves.items()}, angles=angles, consts=consts,
                 weight=dict(rho=fr(W.rho), w=fr(W.w)), lg00_cert_commit=commit, args=st["args"])
     with open(out, "w") as f:
         json.dump(data, f)

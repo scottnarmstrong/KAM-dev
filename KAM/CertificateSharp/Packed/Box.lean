@@ -13,7 +13,7 @@ public import KAM.CertificateSharp.Packed.Complex
 For a layout `L` with two axes (`dims = [D₀, D₁]`, `stride = [S, 1]`, `D₁ ≤ S`, slot width `w`),
 the slot `i < N = (D₀ - 1) S + D₁` is a box slot iff `i % S < D₁`; the others are the gap slots
 between rows. `boxOk L l Z` checks, by one closed-form pattern, one addition, one comparison, one
-mask and one equality, that `Z` packs digits in `[-2^l, 2^l]` on the box slots and `0` on the gap
+mask and one equality, that `Z` packs digits in `[-2^l, 2^l)` on the box slots and `0` on the gap
 slots (`boxOk_sound`: an `SRep L (2^l) Z d`). No digit list is built in the kernel, and nothing is
 assumed about how `Z` was computed: a candidate computed in the kernel (`V2-PACKED.md` §12.4 (Z))
 is validated by this check alone.
@@ -143,7 +143,7 @@ def boxShapeOk (L : PackLayout) : Bool :=
     decide (0 < L.dims.getD 1 0) && decide (L.dims.getD 1 0 ≤ L.stride.getD 0 0) &&
     decide (0 < L.width)
 
-/-- **Box check**: `Z` packs, on the two-axis box `L`, digits in `[-2^l, 2^l]` on the box slots
+/-- **Box check**: `Z` packs, on the two-axis box `L`, digits in `[-2^l, 2^l)` on the box slots
 and `0` on the gap slots (`boxOk_sound`). -/
 def boxOk (L : PackLayout) (l : ℕ) (Z : ℤ) : Bool :=
   boxShapeOk L && decide (l + 1 ≤ L.width) &&

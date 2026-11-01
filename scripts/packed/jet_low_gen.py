@@ -3,15 +3,17 @@
 
 Reads `jet_extract_low.py`'s JSON (the program, the live slots, the leaves computed by lg00-cert's bit-exact mirror)
 and runs the whole chain in Python with the bit-exact mirror of `KAM/CertificateSharp/Packed/Jet*.lean`
-(`jet_gate_gen.py`), then cuts it into the blocks of `JetChain.lean`:
-  - block 0: the action block (`jActionsOk`: the 20 action slots packed from the embedding);
-  - block 1: the given block (V2-PACKED-JET-LOW M1: the characters, `inv` and `sqrt`, as hypotheses);
-  - segments (`jSegOk`): the constants, sums and products in slot order, at most `--heavy` heavy steps each
-    (box-by-box products and reduces in place). A box node above scale 2^P is reduced in place only when a product
-    reads it or it is wanted; sums keep the larger scale.
-Every import of a block is an export of an earlier block (by construction). Writes one probe per checked block
-(segments and actions) into $V2P_GATE_DIR (default .lake/v2-packed-jet/low), and LowPlan.json.
-Usage: python3 -I scripts/packed/jet_low_gen.py LOW.json [--heavy=34] [--only=K]
+(`jet_gate_gen.py`), then cuts it into the blocks of `JetWit.lean` (`JBlockW`), in this order:
+  - the action block (`jActionsOk`: the action slots packed from the embedding);
+  - the exponential blocks (`jExpNode`: exp(+-i 2pi angleAt_j), Taylor with remainder), the power blocks
+    (`jPowsAux`) and the character blocks (`jCharsOk`), `JetChar.lean`;
+  - the segments (`jSegOk`): the constants, sums and products in slot order, at most `--heavy` heavy steps each
+    (box-by-box products and reduces in place), cut at the `inv`/`sqrt` slots, whose blocks (`jInvOk`,
+    `jSqrtOk`: the landed output as an untrusted candidate, its residual as the radius) sit between them. A box
+    node above scale 2^P is reduced in place only when a product or a witness reads it or it is wanted.
+Every import of a block is an export of an earlier block (by construction). Writes one probe per block into
+$V2P_GATE_DIR (default .lake/v2-packed-jet/low), and LowPlan.json.
+Usage: python3 -I scripts/packed/jet_low_gen.py LOW.json [--heavy=34] [--char-keys=8] [--char-io=48] [--only=K]
 """
 import json
 import os
@@ -50,13 +52,158 @@ def plan_steps(D, consumers, wanted):
     return None
 
 
+class Ops:
+    """The node operations of pass 1 (loads and digits) or pass 2 (exact), as `JetNode.lean`."""
+
+    def __init__(self, C, bk, st, lb):
+        self.C, self.bk, self.st, self.lb = C, bk, st, lb
+
+    def mul(self, a, b, eT):
+        if self.bk is not None:
+            return JG.j_mul(self.C, self.bk, a, b, eT, self.st)
+        self.st["lbfix"] = self.lb
+        return JG.j_mul_pass1(self.C, a, b, eT, self.st)
+
+    def red(self, nd, eT):
+        if self.bk is not None:
+            return JG.j_red(self.C, self.bk, nd, eT, self.st)
+        self.st["lbfix"] = self.lb
+        return JG.j_red_pass1(self.C, nd, eT, self.st)
+
+    def add(self, a, b):
+        return JG.j_add(self.C, a, b) if self.bk is not None else JG.j_add_pass1(self.C, a, b)
+
+    def norm(self, nd):                                # JetChar.jNorm
+        return self.red(nd, P) if nd.e > P else nd
+
+
+def const_node(C, D, key, aC, lb):
+    return leaf_node(C, D["consts"][key], aC, lb)
+
+
+def up_pow(B, M, k):                                    # JetChar.upPow
+    r = B.ofInt(1)
+    for _ in range(k):
+        r = B.upMul(r, M)
+    return r
+
+
+def taylor_order(C, D, j):
+    """The Taylor degree N of exp(+-i 2pi angleAt_j): remainder 2 M^(N+1)/(N+1)! below 2^-130 with M a generous
+    estimate of |w| (the angle's packed norm times 2pi times 1.25); the check holds for any N."""
+    lv = D["angles"][str(j)]
+    L = C.Lb
+    x = (sum(v << (L.w * L.slot(tuple(k))) for k, v in lv["re"]),
+         sum(v << (L.w * L.slot(tuple(k))) for k, v in lv["im"]))
+    M = float(F(C.pnorm(L, P, x), 2 ** P)) * 6.2832 * 1.25 + 1e-6
+    import math
+    N = 4
+    while 2 * M ** (N + 1) / math.factorial(N + 1) > 2.0 ** -130:
+        N += 1
+    return N
+
+
+def chars(C, bk, D, aC, lb, st):
+    """The packed characters (`JetChar.lean`): the exponential nodes, their powers and every character slot's
+    node; returns (E, pows, nodes, N) with E[(j, neg)], pows[(j, neg)] = [base^2, ...], nodes[slot]."""
+    ops_, ops = D["ops"], Ops(C, bk, st, lb)
+    keys = sorted({tuple(ops_[j][1]) for j in D["live"] if ops_[j][0] == "char"})
+    need = {}
+    for k in keys:
+        for i, ki in enumerate(k):
+            if ki:
+                need[(i, ki < 0)] = max(need.get((i, ki < 0), 0), abs(ki))
+    E, pows, Ns = {}, {}, {}
+    one = const_node(C, D, "1/0/0", aC, lb)
+    for (j, neg), M in sorted(need.items()):
+        Ns[(j, neg)] = N = taylor_order(C, D, j)
+        A = leaf_node(C, dict(D["angles"][str(j)], kind="angle"), aC, lb)
+        c = const_node(C, D, "0/%d/1" % (-1 if neg else 1), aC, lb)
+        w = ops.norm(ops.mul(c, A, P))
+        t = s_ = one
+        for m in range(N):
+            t2 = ops.norm(ops.mul(t, w, P))
+            cq = const_node(C, D, "%s/0/0" % F(1, m + 1), aC, lb)
+            t = ops.norm(ops.mul(t2, cq, P))
+            s_ = ops.add(s_, t)
+        if bk is not None:
+            B = C.B
+            Mw = B.upAdd(w.nb, w.r)
+            assert B.ble(B.upMul(Mw, B.ofRatUp(F(1, N + 2))), B.ofRatDown(F(1, 2)))
+            import math
+            rem = B.upMul(B.ofRatUp(F(2, math.factorial(N + 1))), up_pow(B, Mw, N + 1))
+            e = JG.Node(s_.u, s_.A, s_.e, s_.x, B.upAdd(s_.r, rem), s_.nb)
+        else:
+            e = s_
+        E[(j, neg)] = e
+        cur, outs = e, []
+        for _ in range(2, M + 1):
+            cur = ops.norm(ops.mul(cur, e, P))
+            outs.append(cur)
+        pows[(j, neg)] = outs
+    fac = lambda i, ki: one if ki == 0 else (E[(i, ki < 0)] if abs(ki) == 1 else pows[(i, ki < 0)][abs(ki) - 2])
+    nodes, by_key = {}, {}
+    L = C.Lb
+    for k in keys:
+        x = ((1 << P) << (L.w * L.slot(k)), 0)
+        acc = JG.Node(False, 2 ** lb, P, x, 0, C.pnorm(L, P, x) if bk is not None else None)
+        for i, ki in enumerate(k):
+            acc = ops.norm(ops.mul(acc, fac(i, ki), P))
+        by_key[k] = acc
+    for j in D["live"]:
+        if ops_[j][0] == "char":
+            nodes[j] = by_key[tuple(ops_[j][1])]
+    return E, pows, nodes, Ns, by_key, one
+
+
+def wit_node(C, bk, D, kind, na, lv, aC, lb, ops):
+    """The exported node of an `inv` or `sqrt` slot (`JetWit.lean`): the candidate (the landed output, packed) with
+    the radius from its residual; constants c_A = c_S = 1, s0 = 1/2 for `sqrt`."""
+    L, B = C.Lb, C.B
+    x = (sum(v << (L.w * L.slot(tuple(k))) for k, v in lv["re"]),
+         sum(v << (L.w * L.slot(tuple(k))) for k, v in lv["im"]))
+    cand = JG.Node(False, 2 ** lb, P, x, 0, C.pnorm(L, P, x) if bk is not None else None)
+    neg = lambda nd: JG.Node(nd.u, nd.A, nd.e, (-nd.x[0], -nd.x[1]), nd.r, nd.nb)
+    one = const_node(C, D, "1/0/0", aC, lb)
+
+    def renorm(nd):                                     # JetWit.jRenorm
+        ops.st["aB"] = max(ops.st["aB"], nd.A)
+        if bk is None:
+            return nd
+        return JG.Node(nd.u, nd.A, nd.e, nd.x, nd.r, C.pnorm(C.lay(nd.u), nd.e, nd.x))
+    if kind == "inv":
+        d = renorm(ops.add(one, neg(ops.mul(na, cand, P))))
+        if bk is None:
+            return JG.Node(False, 2 ** lb, P, x, None, None), cand
+        dl = B.upAdd(d.r, d.nb)
+        assert B.ble(dl, B.ofRatDown(F(1, 2))), "inv residual"
+        return JG.Node(False, 2 ** lb, P, x, B.upMul(B.upMul(cand.nb, dl), B.ofRatUp(F(2))), cand.nb), cand
+    sq = ops.mul(cand, cand, P)
+    dA, dS, e = (renorm(ops.add(na, neg(one))), renorm(ops.add(cand, neg(one))),
+                 renorm(ops.add(sq, neg(na))))
+    if bk is None:
+        return JG.Node(False, 2 ** lb, P, x, None, None), cand
+    assert B.ble(B.upAdd(dA.r, dA.nb), B.ofRatDown(F(1, 2))), "sqrt operand"
+    assert B.ble(B.upAdd(B.upAdd(dS.r, dS.nb), B.ofRatUp(F(1, 2))), B.ofRatDown(F(1))), "sqrt candidate"
+    return JG.Node(False, 2 ** lb, P, x, B.upMul(B.upAdd(e.r, e.nb), B.ofRatUp(F(2))), cand.nb), cand
+
+
 def run(C, bk, D, lb, aC, decide):
     """The whole chain. `decide` (pass 1) fixes the steps; then the same steps are replayed exactly."""
     ops, leaves = D["ops"], D["leaves"]
     S, steps, st = {}, [], {"aW": 0, "aB": 0, "smax": 0, "lb": 0}
+    CH = chars(C, bk, D, aC, lb, st)
+    ops_obj, wits = Ops(C, bk, st, lb), {}
     for i in D["live"]:
         op = ops[i]
         lv = leaves.get(str(i))
+        if op[0] == "char":
+            S[i] = CH[2][i]
+            continue
+        if op[0] in ("inv", "sqrt"):
+            S[i], cand = wit_node(C, bk, D, op[0], S[op[1]], lv, aC, lb, ops_obj)
+            wits[i] = cand
+            continue
         if lv is not None and lv["kind"] in LEAVES:
             S[i] = leaf_node(C, lv, aC, lb)
             st["lb"] = max(st["lb"], digits_bits(C, S[i].x))
@@ -87,6 +234,8 @@ def run(C, bk, D, lb, aC, decide):
                 nd = JG.j_red_pass1(C, nd, red, st)
         S[i] = nd
         steps.append((i, eT, red))
+    st["chars"] = CH
+    st["wits"] = wits
     return S, steps, st
 
 
@@ -118,7 +267,8 @@ def main():
         elif op[0] in ("inv", "sqrt", "exp"):
             consumers.setdefault(op[1], []).append(i)
     decide = lambda i: i in wanted or any(ops[c][0] in ("mul", "inv", "sqrt", "exp") for c in consumers.get(i, []))
-    aC = max(abs(v) for lv in D["leaves"].values() if lv["kind"] == "const" for _, v in lv["re"] + lv["im"])
+    aC = max(abs(v) for lv in list(D["leaves"].values()) + list(D["consts"].values()) if lv["kind"] == "const"
+             for _, v in lv["re"] + lv["im"])
     # pass 1: wide slots, `lb` to a fixed point
     C1 = JG.Ctx(W, 1024)
     lb = 140
@@ -134,33 +284,52 @@ def main():
     if "--stats" in sys.argv:
         return
     C = JG.Ctx(W, bk.w)
-    S, steps2, _ = run(C, bk, D, lb, aC, decide)
+    S, steps2, st2 = run(C, bk, D, lb, aC, decide)
     assert steps2 == steps
-    plan_and_emit(C, bk, D, S, steps, heavy_max, wanted)
+    plan_and_emit(C, bk, D, S, steps, heavy_max, wanted, st2["chars"], st2["wits"])
 
 
-def plan_and_emit(C, bk, D, S, steps, heavy_max, wanted):
+def plan_and_emit(C, bk, D, S, steps, heavy_max, wanted, CH, wits):
     ops, leaves = D["ops"], D["leaves"]
     actions = sorted(int(j) for j, v in leaves.items() if v["kind"] == "action")
-    given = sorted(int(j) for j, v in leaves.items() if v["kind"] in ("char", "inv", "sqrt", "exp"))
-    chunks, cur, hv = [], [], 0
-    for t in steps:
-        h = (1 if t[1] else 0) + (1 if t[2] else 0)
-        if cur and hv + h > heavy_max:
+    given = sorted(int(j) for j, v in leaves.items() if v["kind"] == "exp")
+    assert not given, "an exp slot (no packed block yet)"
+    # segments in slot order, cut at the witness slots (each witness block between its operand's segment and
+    # the segments reading its result); `seq` interleaves ("seg", chunk index) and ("wit", slot)
+    step_of = {t[0]: t for t in steps}
+    chunks, seq, cur, hv = [], [], [], 0
+
+    def flush():
+        nonlocal cur, hv
+        if cur:
+            seq.append(("seg", len(chunks)))
             chunks.append(cur)
             cur, hv = [], 0
-        cur.append(t)
-        hv += h
-    chunks.append(cur)
+    for j in D["live"]:
+        if j in step_of:
+            t = step_of[j]
+            h = (1 if t[1] else 0) + (1 if t[2] else 0)
+            if cur and hv + h > heavy_max:
+                flush()
+            cur.append(t)
+            hv += h
+        elif ops[j][0] in ("inv", "sqrt"):
+            flush()
+            seq.append(("wit", j))
+    flush()
     reads = lambda t: [x for x in ops[t[0]][1:3]] if ops[t[0]][0] in ("add", "mul") else []
-    # a slot is exported by its segment when a later segment reads it or it is wanted
+    # a slot is exported by its segment when a later block reads it or it is wanted
+    pos = {}
+    for q, (kind, v) in enumerate(seq):
+        for j in ([t[0] for t in chunks[v]] if kind == "seg" else [v]):
+            pos[j] = q
     seg_of = {t[0]: c for c, ch in enumerate(chunks) for t in ch}
     later = {}
-    for c, ch in enumerate(chunks):
-        for t in ch:
-            for x in reads(t):
-                if x in seg_of and seg_of[x] != c:
-                    later.setdefault(x, set()).add(c)
+    for q, (kind, v) in enumerate(seq):
+        rd = [x for t in chunks[v] for x in reads(t)] if kind == "seg" else [ops[v][1]]
+        for x in rd:
+            if x in seg_of and pos[x] != q:
+                later.setdefault(x, set()).add(q)
     data_head = _data_head(C, bk, D)
     os.makedirs(OUT, exist_ok=True)
     plan = []
@@ -175,12 +344,93 @@ def plan_and_emit(C, bk, D, S, steps, heavy_max, wanted):
     _write("LowAct", "The action block (`jActionsOk`): %d action slots packed from the embedding." % len(actions),
            D, "".join(d + "\n" for d in E.defs), "jActionsOk 2 gW lgPe gCfg jbk lg00Emb lgProg actions = true")
     plan.append(dict(name="LowAct", kind="actions", exports=len(actions)))
-    plan.append(dict(name="(given)", kind="given", exports=len(given)))
+    E_, pows_, _, Ns, by_key, _ = CH
+    kname = lambda j, neg, m: "fac_%d_%s_%d" % (j, "n" if neg else "p", m)
+    klit = lambda j, neg, m: "Sum.inr (%d, %s, %d)" % (j, "true" if neg else "false", m)
+    emb = _emb_text()
+    for (j, neg), e in sorted(E_.items()):
+        E.defs = list(data_head) + [emb]
+        E.node(kname(j, neg, 1), e)
+        nm = "LowExp_%d_%s" % (j, "n" if neg else "p")
+        _write(nm, "The exponential block (`jExpNode`): exp(%si 2pi angleAt_%d), Taylor degree %d."
+               % ("-" if neg else "", j, Ns[(j, neg)]), D, "".join(d + "\n" for d in E.defs),
+               "(JBlockX.expo %d %s %d %s).ok 2 gW lgPe gCfg jbk lg00Emb lgProg = true"
+               % (j, "true" if neg else "false", Ns[(j, neg)], kname(j, neg, 1)))
+        plan.append(dict(name=nm, kind="expo", heavy=2 * Ns[(j, neg)] + 1, exports=1))
+        outs = pows_[(j, neg)]
+        if outs:
+            E.defs = list(data_head) + [emb]
+            E.node(kname(j, neg, 1), e)
+            for m, o in enumerate(outs, 2):
+                E.node(kname(j, neg, m), o)
+            nm = "LowPow_%d_%s" % (j, "n" if neg else "p")
+            _write(nm, "The power block (`jPowsAux`): exp(%si 2pi angleAt_%d)^m, m = 2..%d."
+                   % ("-" if neg else "", j, len(outs) + 1), D, "".join(d + "\n" for d in E.defs),
+                   "(JBlockX.pows %d %s %s [%s]).ok 2 gW lgPe gCfg jbk lg00Emb lgProg = true"
+                   % (j, "true" if neg else "false", kname(j, neg, 1),
+                      ", ".join(kname(j, neg, m) for m in range(2, len(outs) + 2))))
+            plan.append(dict(name=nm, kind="pows", heavy=len(outs), imports=1, exports=len(outs)))
+    char_slots = {}
+    for j in D["live"]:
+        if ops[j][0] == "char":
+            char_slots.setdefault(tuple(ops[j][1]), []).append(j)
+    keys = sorted(char_slots)
+    fac_node = lambda i, neg, m: E_[(i, neg)] if m == 1 else pows_[(i, neg)][m - 2]
+    # character groups: at most `--char-keys` keys (2 heavy steps each) and `--char-io` imports + exports
+    # (V2-PACKED-JET-LOW: 17 keys with 57 exports exceeded 4 GiB)
+    ck = int(next((x.split("=")[1] for x in sys.argv if x.startswith("--char-keys=")), "8"))
+    cio = int(next((x.split("=")[1] for x in sys.argv if x.startswith("--char-io=")), "48"))
+    kfacs = lambda ks: {(i, ki < 0, abs(ki)) for k in ks for i, ki in enumerate(k) if ki}
+    groups, cur = [], []
+    for k in keys:
+        nxt = cur + [k]
+        if cur and (len(nxt) > ck or len(kfacs(nxt)) + sum(len(char_slots[x]) for x in nxt) > cio):
+            groups.append(cur)
+            nxt = [k]
+        cur = nxt
+    if cur:
+        groups.append(cur)
+    for g, ks in enumerate(groups):
+        facs = sorted(kfacs(ks))
+        E.defs = list(data_head) + [emb]
+        for (i, neg, m) in facs:
+            E.node(kname(i, neg, m), fac_node(i, neg, m))
+        ents = sorted(j for k in ks for j in char_slots[k])
+        for j in ents:
+            E.node("chr_%d" % j, S[j])
+        E.defs.append("def facs : List (JKey × JNode LGF) :=\n  [%s]\n" % ",\n   ".join(
+            "(%s, %s)" % (klit(*f), kname(*f)) for f in facs))
+        E.defs.append("def entries : List (ℕ × JNode LGF) :=\n  [%s]\n" % ",\n   ".join(
+            "(%d, chr_%d)" % (j, j) for j in ents))
+        nm = "LowChr_%d" % g
+        _write(nm, "A character block (`jCharsOk`): %d keys, %d character slots." % (len(ks), len(ents)), D,
+               "".join(d + "\n" for d in E.defs),
+               "(JBlockX.chars facs entries).ok 2 gW lgPe gCfg jbk lg00Emb lgProg = true")
+        plan.append(dict(name=nm, kind="chars", heavy=2 * len(ks), imports=len(facs), exports=len(ents)))
     only = next((int(x.split("=")[1]) for x in sys.argv if x.startswith("--only=")), None)
-    for c, ch in enumerate(chunks):
+    for q, (kind, v) in enumerate(seq):
+        if kind == "wit":
+            j = v
+            a = ops[j][1]
+            E.defs = list(data_head) + [emb]
+            E.node("wna", S[a])
+            cand = wits[j]
+            E.node("wcand", JG.Node(False, cand.A, cand.e, cand.x, 0, cand.nb))
+            E.node("wout", S[j])
+            if ops[j][0] == "inv":
+                st_ = "(JBlockW.inv %d %d wna wcand.x wout).ok 2 gW lgPe gCfg jbk lg00Emb lgProg = true" % (a, j)
+            else:
+                st_ = ("(JBlockW.sqrt %d %d wna wcand.x 1 1 (1 / 2 : ℚ) wout).ok 2 gW lgPe gCfg jbk lg00Emb lgProg"
+                       " = true" % (a, j))
+            nm = "Low%s_%d" % ("Inv" if ops[j][0] == "inv" else "Sqrt", j)
+            _write(nm, "The %s block of slot %d (operand %d): the candidate's residual (`JetWit.lean`)."
+                   % (ops[j][0], j, a), D, "".join(d + "\n" for d in E.defs), st_)
+            plan.append(dict(name=nm, kind=ops[j][0], heavy=2, imports=1, exports=1))
+            continue
+        c, ch = v, chunks[v]
         defined = {t[0] for t in ch}
         imp = sorted({x for t in ch for x in reads(t)} - defined)
-        exp = sorted(j for j in defined if c in () or any(cc > c for cc in later.get(j, ())) or j in wanted)
+        exp = sorted(j for j in defined if any(qq > q for qq in later.get(j, ())) or j in wanted)
         hv_c = sum((1 if t[1] else 0) + (1 if t[2] else 0) for t in ch)
         plan.append(dict(name="LowSeg_%d" % c, kind="seg", first=ch[0][0], last=ch[-1][0], steps=len(ch),
                          heavy=hv_c, imports=len(imp), exports=len(exp)))

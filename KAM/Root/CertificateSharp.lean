@@ -60,6 +60,7 @@ public import KAM.CertificateSharp.Packed.JetLeaf
 public import KAM.CertificateSharp.Packed.JetNode
 public import KAM.CertificateSharp.Packed.JetSeg
 public import KAM.CertificateSharp.Packed.JetTests
+public import KAM.CertificateSharp.Packed.JetWit
 public import KAM.CertificateSharp.Packed.Norm
 public import KAM.CertificateSharp.Packed.Product
 public import KAM.CertificateSharp.Packed.Round
