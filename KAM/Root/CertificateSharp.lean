@@ -46,6 +46,11 @@ public import KAM.CertificateSharp.Kernel.SegDefs
 public import KAM.CertificateSharp.Kernel.SegOne
 public import KAM.CertificateSharp.Kernel.Shared
 public import KAM.CertificateSharp.Kernel.Stage
+public import KAM.CertificateSharp.Packed.Bridge
+public import KAM.CertificateSharp.Packed.Digits
+public import KAM.CertificateSharp.Packed.Product
+public import KAM.CertificateSharp.Packed.Round
+public import KAM.CertificateSharp.Packed.Tests
 public import KAM.CertificateSharp.Sharp
 public import KAM.CertificateSharp.SharpEngine
 public import KAM.CertificateSharp.Sound

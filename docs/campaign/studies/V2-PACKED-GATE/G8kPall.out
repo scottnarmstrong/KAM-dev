@@ -1,0 +1,4 @@
+linting took 1.17ms
+typeclass inference of Decidable took 1.64ms
+type checking took 14.9s
+linting took 2.2ms
