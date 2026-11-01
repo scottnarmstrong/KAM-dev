@@ -2,9 +2,9 @@
 
 Exploration for a co-author's proposal, 31 October 2026. This is a research report and campaign design note, not an
 approved statement or a formalization receipt. **Status: proposed. Nothing here is proved in Lean.** A paper proof of
-the target theorem is *claimed complete* in [A8](A8-proof.md), but it is the self-assessment of one analysis and has
-**not been independently audited**; its companion `PROOF/OPEN.md` reads "None". An independent refute-first audit is
-the first campaign gate (§9).
+the target theorem is in [A8](A8-proof.md). **Update 2026-11-01:** an independent refute-first audit
+([A10](A10-proof-audit.md)) found it **PASS WITH NOTES**: no gap, no error, 12 one-line notes (N1–N12) to apply before
+freezing statements. The campaign is launched as track LP (D56).
 
 The analyses summarized here were written on 31 October 2026 in the workspace
 `/mnt/HC_Volume_106379410/kam-explore/amd-crossing/`, read-only against `/root/code/KAM` at commit
@@ -30,6 +30,7 @@ Lemma 12 of A8; "ORCHESTRATOR" is the orchestrator's assessment in the workspace
 | [A6-campaign-plan.md](A6-campaign-plan.md) | `RESEARCH/CAMPAIGN-PLAN.md` | phases, gates, packages, risks |
 | [A7-practical.md](A7-practical.md) | `RESEARCH/PRACTICAL.md` | explicit constants, Solar System, exoplanet targets, certificate route |
 | [A8-proof.md](A8-proof.md) | `PROOF/MAIN.md` | claimed complete proof: planar Theorem 15, spatial Theorem 19 (**unaudited**) |
+| [A10-proof-audit.md](A10-proof-audit.md) | `AUDIT/PROOF-AUDIT-1.md` | independent refute-first audit of A8: PASS WITH NOTES |
 | [A9-lean-roadmap.md](A9-lean-roadmap.md) | `PROOF/LEAN-ROADMAP.md` | Lean packages per lemma, dependency DAG, reuse map, sizes |
 
 A1 is the first, independent brainstorm; A2–A7 are the parallel research analysis; A8–A9 are the proof attempt. The

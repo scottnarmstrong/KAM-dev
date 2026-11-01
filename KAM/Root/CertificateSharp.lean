@@ -14,6 +14,7 @@ public import KAM.CertificateSharp.Corner.SupBound
 public import KAM.CertificateSharp.Corner.Vertex
 public import KAM.CertificateSharp.Engine
 public import KAM.CertificateSharp.Frame.Majorants
+public import KAM.CertificateSharp.Frame.MajorantsLN
 public import KAM.CertificateSharp.Freq.CubicNorm
 public import KAM.CertificateSharp.Freq.QuadraticCore
 public import KAM.CertificateSharp.Freq.QuadraticExact
@@ -92,10 +93,14 @@ public import KAM.CertificateSharp.V2.RouteARefinedEngine
 public import KAM.CertificateSharp.V2.RouteARefinedRef
 public import KAM.CertificateSharp.V2.RouteARefinedRefEngine
 public import KAM.CertificateSharp.V2.RouteAll
+public import KAM.CertificateSharp.V2.RouteAllE
+public import KAM.CertificateSharp.V2.RouteAllLN
 public import KAM.CertificateSharp.V2.RouteBCert
 public import KAM.CertificateSharp.V2.RouteBCore
+public import KAM.CertificateSharp.V2.RouteBE
 public import KAM.CertificateSharp.V2.RouteBEngine
 public import KAM.CertificateSharp.V2.RouteBFrozen
+public import KAM.CertificateSharp.V2.RouteBLN
 public import KAM.CertificateSharp.V2.RouteBQ
 public import KAM.CertificateSharp.V2.RouteBQWf
 public import KAM.CertificateSharp.V2.RouteBRefined
@@ -111,6 +116,9 @@ public import KAM.CertificateSharp.V2.Tests.L1Toy
 public import KAM.CertificateSharp.V2.Tests.Refined
 public import KAM.CertificateSharp.V2.Tests.RefinedRef
 public import KAM.CertificateSharp.V2.Tests.RouteAll
+public import KAM.CertificateSharp.V2.Tests.RouteBE
+public import KAM.CertificateSharp.V2.Tests.RouteBEMirror
+public import KAM.CertificateSharp.V2.Tests.RouteBLN
 public import KAM.CertificateSharp.V2.Tests.RouteBToy
 public import KAM.CertificateSharp.V2.Tests.TrigCombined
 public import KAM.CertificateSharp.V2.Tests.TrigFacts
