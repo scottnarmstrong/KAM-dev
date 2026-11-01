@@ -52,7 +52,7 @@ src (4th, created 05:30 for the third slot).
 | LP-SP-DOM spatial analytic domain | L18 | 4 | `inp-lp-spdom` | claude-12 | proved e57e5a6c (≈760 lines); L18 node PARTIAL until a DOMX-style supplement (derivative/denominator clauses); audit queued |
 | LP-SP-NRR spatial L13 (2n slow pairs) | L13, T19 | 4 | `inp-lp-spnrr` | claude-12 | proved 8e2ccbed (558 lines: `spatial_stopped_drift`); audit queued |
 | LP-SP-DOMX L18 remaining clauses | L18 | 4 | `inp-lp-spdomx` | claude-12 | proved 0aaed69c (750 lines: `lemma18_complete`; L18 PROVED once the facade imports Bounds); audit queued |
-| LP-SP-SRC spatial source carriers (W4A N1) | freeze prep | 4 | `inp-lp-spsrc` | claude-12 | part A proved 14a1b9e0 (267 lines); part B (LP2 restated) running (`inp-lp-spsrcb`) |
+| LP-SP-SRC spatial source carriers (W4A N1) | freeze prep | 4 | `inp-lp-spsrc` | claude-12 | part A proved 14a1b9e0 (267 lines); part B proved 6e84c27a (245 lines; FREEZE-PROPOSAL §3d); audit queued (W4E) |
 | LP-SP-DOM / SP-SAFE (+ spatial NRR/LIFT/CONF twins) | L18, T19 | 4 | — | — | after SP-PROD |
 
 ## Audit queue (codex-2, one at a time machine-wide; W interleaves when LP has a gap)
@@ -125,3 +125,4 @@ src (4th, created 05:30 for the third slot).
 - 2026-11-01 06:54 UTC: LP-W4B (LP-SRC + SP-GEO/OSC/CONF/TUBE/ADAPT) audit 1 PASS WITH NOTES (GEO, CONF, TUBE PASS); N3/N4 applied; merged into inp-lp; landing requested. codex-2 to kam-1b's W5-STEP-B.
 - 2026-11-01 07:05 UTC: LP3-DESIGN done (docs/tracks/LP/lp3/LP3-PLAN.md: one new drift supplier = sealed partialConvex_nekhoroshev cellwise on a finite sharp cover; r = (B0 mu)^{b_n}; time exp(c mu^{-a_n}); ~2,300 lines in 12 files). Refute-first review running (independent Opus subagent; codex-2 busy with W5-STEP-B). LP3 Lean waits for the review.
 - 2026-11-01 07:07 UTC: LP-W4B LANDED (main 73dd9149): LP-SRC + spatial GEO/OSC/CONF/TUBE/ADAPT on main. LP3-KEP running on claude-11 (root-b8 direction); LP3 plan review running (Opus subagent).
+- 2026-11-01 07:11 UTC: LP-SP-SRCB proved (LP2 under OD-11 (b)); FREEZE-PROPOSAL draft 5 (§3c LP2, §3d LP2 (b)). Statement review 4 of §3c/§3d running (independent Opus subagent; codex-2 on W5-STEP-B). W4D staged (inp-lp-w4d).
