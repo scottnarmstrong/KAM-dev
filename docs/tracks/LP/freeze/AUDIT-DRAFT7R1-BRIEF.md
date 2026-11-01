@@ -35,7 +35,8 @@ launcher prompt. The author's record is `docs/tracks/LP/freeze/verification-draf
      Diophantine premise of LP1, LP1-H, LP2 and LP2-H through the already-frozen
      `KAM.IsDiophantine γ τ (fun i => ν i ^ 3 / Λ_i ^ 3)` (`KAM/Frozen/Defs/IsDiophantine.lean`, D20).
    - `modeSize` is removed from the frozen set.
-   - **Check that this is a literal equivalence and not a change of meaning:** the same ℓ¹ mode size, `γ s^{−τ} =
+   - **Check that this is a literal equivalence and not a change of meaning** (root-b8: on the exact frequency vector
+     `ν_i³/Λ_i³`, with the same ℓ¹ size and the same `γ`, `τ`): the same ℓ¹ mode size, `γ s^{−τ} =
      γ/s^τ` for `k ≠ 0`, the same `ω_i = ν_i³/Λ_i³`, and the `τ = n − 1/2` forms. Check that the bridge lemma is
      proved, that the closure, manifest and rebase plan no longer contain `modeSize`, and that Appendix A records the
      change.

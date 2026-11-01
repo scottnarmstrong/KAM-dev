@@ -160,3 +160,15 @@ The publish gate is the skill's Phase-7 pair of commands with `--require-reviewe
 - Deviation of this preparation from the skill: the inventory was written before the anchors are frozen, with
   planned node IDs. The skill orders "anchors → graph" and allows the source inventory as Phase 2 work. No edge, node
   block or header exists. Every planned ID is a proposal that the anchor map can change.
+
+## Orchestrator rulings (root-b8, 2026-11-01)
+
+All proposed defaults for Q1–Q8 are accepted:
+- Q1: a short paper-level LP3 source note is written and reviewed after the freeze, before LP3 extraction.
+- Q2: the 34 characterization theorems are anchors and roots.
+- Q3–Q5: the statement splits are made as proposed.
+- Q6: the reused frozen definitions are bound as LP anchor nodes.
+- Q7: a small Markdown converter is written for MAIN.md.
+- Q8: the writer tag is `kam-lp`. Slice and global reviews run on codex-2 in parallel batches, each reviewer in its
+  own session.
+

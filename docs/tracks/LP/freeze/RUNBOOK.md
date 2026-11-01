@@ -680,3 +680,25 @@ is a design signal to refactor or split the proof, not something to mask with a 
 elaborate at default heartbeats, report it as a design signal.
 2. No Lean file may exceed 1500 lines of code. When a file approaches the cap, split it into focused modules,
 preserving public import paths as cheap facades.
+
+## Rulings on the open questions (root-b8, 2026-11-01)
+
+- **modeSize:** option C is approved. The Diophantine premise goes through the D20-frozen `KAM.IsDiophantine`, and
+  `modeSize` is not frozen. The owner summary lists this explicitly as a text change.
+- **Q2:** use the next free decision number when the owner approves. D62 is free now; take whatever is next at the
+  time.
+- **Q4:** root-b8 asks the owner to approve the exact text **and** the seals in one go. The seals then need no
+  further go, but run only after the seal audit passes (like D61).
+- **Q7:** kernel replay must **not** use `kernel_replay.sh --mem-gb`, which is an address-space ulimit that Mathlib's
+  mmapped oleans exceed. Use the w_audit/lp_audit pattern: per module, `systemd-run --user --scope -p MemoryMax=4G
+  -p MemorySwapMax=0 nice -n 10 env LEAN_NUM_THREADS=1 lake env leanchecker <Module>`, behind the MemAvailable ≥ 8 GB
+  gate. kam-inp-63's landing also runs `scripts/kernel_replay.sh`.
+- **Q9:** there is no dedicated sealing tool. "Sealing tool" means the procedure:
+  - edit only the body between the `FROZEN_ANCHOR_PROOF` markers;
+  - set the manifest state to SEALED, with hashes from the guard's own code;
+  - `scripts/check_frozen_anchors.py` must pass.
+
+  The worked precedent is SO-FREEZE3 Phase B (599d781e). The `lp_*` scripts are fine if they reuse the guard's
+  hashing and are dry-run first.
+- **Providers:** staged only, and merged at freeze.
+
