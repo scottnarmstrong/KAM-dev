@@ -375,7 +375,8 @@ theorem weightRevList_getD (W : CertWeight) (q : ℕ) (L : PackLayout) {p : ℕ}
   have e4 : s0 - 1 - (s0 - 1 - b) = b := by omega
   have e5 : p / s0 = a := by rw [hpab, Nat.add_comm, Nat.add_mul_div_right _ _ hs0,
     Nat.div_eq_of_lt hb, Nat.zero_add]
-  have e6 : p % s0 = b := by rw [hpab, Nat.add_comm, Nat.add_mul_mod_self_right, Nat.mod_eq_of_lt hb]
+  have e6 : p % s0 = b := by
+    rw [hpab, Nat.add_comm, Nat.add_mul_mod_self_right, Nat.mod_eq_of_lt hb]
   rw [e3, e4]
   unfold slotWeight
   rw [hs0d, e5, e6]
@@ -512,7 +513,8 @@ theorem slotSum_le_packNorm {W : CertWeight} {q l B : ℕ} {L : PackLayout} {Z :
       rw [hi, keyOf_packDot hwf (by simp [hdx]) (by rw [hdx]; exact hult), hdx]
       rfl
     have hw : slotWeight W q L i =
-        wCeil W q (L.lo.getD 0 0 + (u0 : ℤ)).natAbs * wCeil W q (L.lo.getD 1 0 + (u1 : ℤ)).natAbs := by
+        wCeil W q (L.lo.getD 0 0 + (u0 : ℤ)).natAbs *
+          wCeil W q (L.lo.getD 1 0 + (u1 : ℤ)).natAbs := by
       unfold slotWeight
       rw [hdiv, hmod, ite_eq_left hu1]
     set e0 := (L.lo.getD 0 0 + (u0 : ℤ)).natAbs

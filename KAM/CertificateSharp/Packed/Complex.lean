@@ -10,8 +10,9 @@ public import KAM.CertificateSharp.Packed.Norm
 /-!
 # Packed complex arrays and their Fourier meaning
 
-A packed complex array `PC` is a pair of packed integers (real and imaginary slots). `PCRep L A x n F`
-says that its slot data on the layout `L` are within `A` and that its Fourier sum is the function `F`.
+A packed complex array `PC` is a pair of packed integers (real and imaginary slots).
+`PCRep L A x n F` says that its slot data on the layout `L` are within `A` and that its Fourier sum
+is the function `F`.
 The operations are exact and cost a constant number of big-integer operations each:
 
 * `pcMul`: the complex product (four multiplications), on the window layout (`PCRep.mul`);
