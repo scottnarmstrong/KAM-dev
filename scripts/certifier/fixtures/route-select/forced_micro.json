@@ -1,0 +1,163 @@
+{
+ "A_meas": null,
+ "A_meas_source": "not measured for the forced toy",
+ "P_grid": [
+  96
+ ],
+ "P_ref": 96,
+ "R": {
+  "bL": "1001/1000",
+  "bN": "1001/1000",
+  "bNt": "1001/1000",
+  "bT": "1001/1000",
+  "d2h": "1001/1000",
+  "d2x": "1169/100000000000",
+  "dh": "141/125",
+  "dx": "1001/1000"
+ },
+ "box": [
+  [
+   "-25527864045000420607181652662537447529118763281/220000220000000000000000000000000000000000000000",
+   "1/220000220000000000000000000000000000000000000000"
+  ],
+  [
+   "1000000/1000001",
+   "0"
+  ]
+ ],
+ "cost_ref": {
+  "L": 27,
+  "P": 96,
+  "cpu_h": "0.010666666666666666",
+  "cpu_s": 38.4,
+  "source": "measured: CPU seconds of Micro's modules (--cost-s 38.4)"
+ },
+ "err_L": {
+  "15": "6.02e-20",
+  "17": "6.02e-20",
+  "19": "6.02e-20",
+  "21": "1.57e-20",
+  "23": "4.1e-22",
+  "25": "4.36e-25",
+  "27": "4.36e-25"
+ },
+ "err_L_measured": [
+  "15",
+  "17",
+  "19",
+  "21",
+  "23",
+  "25",
+  "27"
+ ],
+ "hand": {
+  "L": 27,
+  "P": 96,
+  "kp": 0,
+  "margin": 6.81,
+  "note": "forced_routes.py Micro --frozen: sharp, frozen A and frozen B in one module",
+  "rho": "1/8",
+  "route": "sharp"
+ },
+ "margin_rule": 1.0,
+ "name": "forced_micro",
+ "params": {
+  "E0": "0",
+  "M": "57/50",
+  "disp": "1/1000",
+  "err": "109/250000000000000000000000000",
+  "gamma": "100000/1000001",
+  "gbar": "100000/1000001",
+  "mu": "1/100",
+  "nu": "1/10000000",
+  "rho": "1/8",
+  "rhoInf": "1/800",
+  "s": "1000001/1000000",
+  "sB": "103/100",
+  "sK": "103/100",
+  "sT": "29/25",
+  "som": "2",
+  "tau": 1
+ },
+ "precision_rule": null,
+ "provenance": {
+  "generator": "scripts/certifier/forced/forced_profile.py",
+  "spec": {
+   "L0": 4,
+   "L1": 3,
+   "N": 8,
+   "P": 96,
+   "R": 140,
+   "beta": "1",
+   "c": "1",
+   "char_tol": "1/100000000000000000",
+   "cutFull": 1000000,
+   "cutLow": 4,
+   "disp": "1/1000",
+   "err_slack": "11/10",
+   "expHalvings": 8,
+   "expOrder": 30,
+   "gramTol": null,
+   "machin": [
+    8,
+    3
+   ],
+   "modes": [
+    [
+     [
+      1,
+      0
+     ],
+     "1/1000000000000"
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     "1/500000000000"
+    ]
+   ],
+   "mu": "1/100",
+   "name": "Micro",
+   "nuRay": "1/10000000",
+   "pinOrder": 30,
+   "prune_digits": 27,
+   "rho": "1/8",
+   "rhoInf": "1/800",
+   "room": "1/100",
+   "s": "1000001/1000000",
+   "som": "2",
+   "sqrt5_digits": 45
+  }
+ },
+ "rho_fixed": true,
+ "rho_grid": [
+  "1/8"
+ ],
+ "site_cost_s": {
+  "10": 10.8,
+  "11": 34.3,
+  "12": 85.2,
+  "8": 2.4,
+  "9": 6.1
+ },
+ "site_l_max": 12,
+ "site_l_rule": {
+  "b": "1.8",
+  "delta": "2.4",
+  "source": "SO-V2PKG \u00a72.2 rule, transferred (not measured on the toy)"
+ },
+ "support_L": {
+  "15": 1308,
+  "17": 1308,
+  "19": 1308,
+  "21": 2180,
+  "23": 7402,
+  "25": 9716,
+  "27": 9716
+ },
+ "support_unit": "genuine product pairs of checkEnergy, checkGram, checkTorsion (forced_sweep.product_pairs)",
+ "title": "forced toy Micro: H = c (J + \u03b2 p\u00b2/2 + \u03a3 \u03b5_j cos 2\u03c0 k_j\u00b7\u03b8), N = 8, c = 1, \u03b2 = 1, modes [[[1, 0], \"1/1000000000000\"], [[1, 1], \"1/500000000000\"]]",
+ "truncation": "L = prune_digits; char_tol = 10^-(L - 12 + 2) off the spec's own L"
+}

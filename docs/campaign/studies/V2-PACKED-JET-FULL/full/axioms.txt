@@ -1,0 +1,7 @@
+'KAM.CertificateSharp.Packed.jTStep_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.CertificateSharp.Packed.jTSteps_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.CertificateSharp.Packed.jExpFin_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.CertificateSharp.Packed.JBlockT.sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.CertificateSharp.Packed.jChainT_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.CertificateSharp.Packed.jChainT_slot' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.CertificateSharp.Packed.chain_sound' does not depend on any axioms

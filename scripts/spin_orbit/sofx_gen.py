@@ -23,7 +23,8 @@ import numpy as np
 import sofx_arith as A
 import sofx_model as M
 import sofx_check as C
-import sofx_lunar as L
+import importlib
+L = importlib.import_module(os.environ.get("SO_CLIENT", "sofx_lunar"))   # MAG-2b: client module (default lunar)
 import sofx_packed as PK
 import toy_constants as TC
 import sharp_q as SQ
@@ -185,7 +186,7 @@ def books_of(cfg):
 def main(which, outdir):
     os.makedirs(outdir, exist_ok=True)
     rep = dict(which=which, budgets={k: str(v) for k, v in BUDGET.items()}, cutoffs=[CUT_FULL, CUT_LOW])
-    eng = PK.PackedEngine({"cfgFull": BUDGET["cfgFull"], "cfgLow": BUDGET["cfgLow"]})
+    eng = PK.PackedEngine({"cfgFull": BUDGET["cfgFull"], "cfgLow": BUDGET["cfgLow"]}, blockRows=int(os.environ.get("SO_BLOCK_ROWS", "32")))
     cf, cl = make_cfgs(eng)
     err0 = F(1)
     t0 = time.time()
@@ -235,7 +236,7 @@ def main(which, outdir):
     rep["generate_seconds"] = round(time.time() - t0)
     gen_books = {"cfgFull": books_of(cf), "cfgLow": books_of(cl)}
     # ---- CHECK pass from scratch with exactly the emitted books
-    eng2 = PK.PackedEngine({"cfgFull": BUDGET["cfgFull"], "cfgLow": BUDGET["cfgLow"]})
+    eng2 = PK.PackedEngine({"cfgFull": BUDGET["cfgFull"], "cfgLow": BUDGET["cfgLow"]}, blockRows=int(os.environ.get("SO_BLOCK_ROWS", "32")))
     cf2, cl2 = make_cfgs(eng2, gen_books)
     c2c = L.build(which, err, disp, cf2, cl2, HALV, TAYLOR)
     c2c.torsInv, c2c.graph = S, c.graph
@@ -316,9 +317,9 @@ def save_data(cpath, apath, c, books, rep):
     B = c.B
     e = c.emb
     rp = lambda R: dict(zero=str(R.zero), half=pj(B, R.half))
-    d = dict(precision=L.PREC, mantissas="integers m denoting m / 2^320 (CertFixed 320)",
+    d = dict(precision=L.PREC, mantissas="integers m denoting m / 2^%d (CertFixed %d)" % (L.PREC, L.PREC),
              params={k: str(v) for k, v in c.params.items()},
-             ham="soRotHamExprScaled lunarR1TimeScale", weightH=[str(c.weightH.rho), str(c.weightH.w)],
+             ham=getattr(L, "HAM_NAME", "soRotHamExprScaled lunarR1TimeScale"), weightH=[str(c.weightH.rho), str(c.weightH.w)],
              centre=[str(x) for x in c.centre], radius=[str(x) for x in c.radius],
              freqBox=[[str(a), str(b)] for a, b in c.freqBox],
              emb=dict(angleDeg=e.angleDeg, angle=[rp(R) for R in e.angle], actionDeg=e.actionDeg,

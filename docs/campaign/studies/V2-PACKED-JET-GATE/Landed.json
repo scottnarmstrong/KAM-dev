@@ -1,0 +1,33 @@
+{
+ "range": [
+  7099,
+  7292
+ ],
+ "segments": 83,
+ "segment_kinds": {
+  "R": 29,
+  "P": 54
+ },
+ "modules": 228,
+ "modules_full": 227,
+ "modules_mixed": 1,
+ "cpu_s": 4815.2,
+ "cpu_s_mixed_share": 35.4,
+ "max_charged_bytes": 5267603456,
+ "pieces": {
+  "segment": 83,
+  "decide": 227,
+  "group": 261,
+  "chunk": 242,
+  "head": 50,
+  "part": 171
+ },
+ "low_T_total_cpu_s": 48020.9,
+ "low_literal_modules_cpu_s": {
+  "D": 119.3,
+  "K": 13.6,
+  "L": 2196.8,
+  "P": 42.2,
+  "V": 40.8
+ }
+}

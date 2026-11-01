@@ -1,29 +1,57 @@
 #!/usr/bin/env python3
-"""SHARP-CERTSIDE: adapter from the optimizer's packages to the v2 mirror of SHARP-PLUS.
+"""SHARP-CERTSIDE: adapter from the optimizer's packages to the v2 mirror.
 
-Untrusted design tooling.  The v2 mirror is `scripts/apost_sharp/thresholds_v2.py` of branch `sharp-plus`
-(work in progress when this was written; path in the environment variable KAM_V2_DIR, default the sharp-plus
-worktree).  It is imported read-only.  `log10_threshold(pkg)` evaluates its full variant (A7: levers L1, L2, L3,
+Untrusted design tooling.  The v2 mirror is `scripts/apost_sharp/thresholds_v2.py` of this checkout, found from this
+file's own location; the environment variable KAM_V2_DIR overrides the directory.  It is imported read-only, from
+exactly that directory (see `_load`).  `log10_threshold(pkg)` evaluates its full variant (A7: levers L1, L2, L3,
 L8; route A; frequency-specific stage data, k = 5 stages) for the isoenergetic form, from the optimizer's package
 plus the extra measured objects of the oracle (`extras`: |X_H|, |DX_H|, |D^2 X_H|, |Dh|, |D^2 h|, |L^T|, |N|,
 |N^T|, sup |T|), all in the package's frame and time scale.
 """
-import os, sys, math
+import importlib, os, sys
+import math
 import numpy as np
 from fractions import Fraction as F
 
-V2_DIR = os.environ.get("KAM_V2_DIR", "/home/scott/KAM-dev-worktrees/sharp-plus/scripts/apost_sharp")
-_mod = None
+V2_ENV = "KAM_V2_DIR"
+DEFAULT_V2_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "apost_sharp")
+_MIRROR = "thresholds_v2"
+_MIRROR_MODULES = (_MIRROR, "thresholds", "smalldiv", "smalldiv_sup")   # the mirror and what it imports by bare name
+_loaded = {}                                                            # mirror directory -> module
+
+
+def v2_dir():
+    """The mirror directory: KAM_V2_DIR if set, else this checkout's.  ImportError if it holds no mirror."""
+    d = os.environ.get(V2_ENV, DEFAULT_V2_DIR)
+    origin = "%s=%r" % (V2_ENV, d) if V2_ENV in os.environ else "the default %r" % d
+    if not os.path.isfile(os.path.join(d, _MIRROR + ".py")):
+        raise ImportError("v2 mirror not found: %s is not a directory containing %s.py (set %s to one, or unset it "
+                          "to use %r)" % (origin, _MIRROR, V2_ENV, DEFAULT_V2_DIR))
+    return os.path.realpath(d)
 
 
 def _load():
-    global _mod
-    if _mod is None:
-        sys.path.insert(0, V2_DIR)
-        import thresholds_v2 as T2                             # noqa: E402  (read-only use)
-        _mod = T2
-        sys.path.pop(0)
-    return _mod
+    """The mirror of `v2_dir()`, one module per directory.  Every name of `_MIRROR_MODULES` resolves to that directory
+    during the import: `scripts/certifier/smalldiv.py` shares its name with the mirror's `smalldiv`, and any entry
+    already in `sys.modules` would otherwise be reused.  The caller's `sys.modules` entries and `sys.path` (the mirror
+    extends it on import) are restored afterwards, also when the import fails."""
+    d = v2_dir()
+    if d not in _loaded:
+        saved_path = list(sys.path)
+        saved_mods = {m: sys.modules.pop(m) for m in _MIRROR_MODULES if m in sys.modules}
+        try:
+            sys.path.insert(0, d)
+            importlib.invalidate_caches()
+            mod = importlib.import_module(_MIRROR)
+        except Exception as e:
+            raise ImportError("v2 mirror in %r failed to import: %s: %s" % (d, type(e).__name__, e)) from e
+        finally:
+            sys.path[:] = saved_path
+            for m in _MIRROR_MODULES:
+                sys.modules.pop(m, None)
+            sys.modules.update(saved_mods)
+        _loaded[d] = mod
+    return _loaded[d]
 
 
 def q(x):

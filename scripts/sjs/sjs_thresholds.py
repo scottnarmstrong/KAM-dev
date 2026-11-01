@@ -16,13 +16,20 @@ only enters the tail and the absorptions).  Conventions: the v1/v2 mirrors use p
 unchanged (their 2 pi rescaling of angle and action rows is not undone -- an approximation, the same for every theorem).
 The gamma used: FH's certified 1.69e-6 (a Diophantine vector within 1e-80 of the ephemeris frequency) or the
 numerical infimum 1.85e-5 at k = (0, 0, 1) (sjs_freq.dioph), which an explicit algebraic frequency could attain.
-Usage: python3 -I scripts/sjs/sjs_thresholds.py [--json OUT]       (env KAM_V2_DIR: SHARP-PLUS mirror directory)
+Usage: python3 -I scripts/sjs/sjs_thresholds.py [--json OUT]   (env KAM_V2_DIR overrides the mirror directory,
+by default scripts/apost_sharp of this checkout)
 """
 import os, sys, math, json
 from fractions import Fraction as F
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-V2 = os.environ.get("KAM_V2_DIR", "/home/scott/KAM-dev-worktrees/sharp-plus/scripts/apost_sharp")
+HERE = os.path.dirname(os.path.realpath(__file__))
+# The v2 mirrors are `scripts/apost_sharp` of this checkout, found from this file's own location; the environment
+# variable KAM_V2_DIR overrides the directory (as in `scripts/certifier/v2_adapter.py`).
+DEFAULT_V2_DIR = os.path.join(os.path.dirname(HERE), "apost_sharp")
+V2 = os.environ.get("KAM_V2_DIR", DEFAULT_V2_DIR)
+if not all(os.path.isfile(os.path.join(V2, m + ".py")) for m in ("thresholds", "thresholds_v2", "benchmark_fh24")):
+    sys.exit("sjs_thresholds: the v2 mirrors (thresholds.py, thresholds_v2.py, benchmark_fh24.py) are not in %s%s"
+             % (V2, " (KAM_V2_DIR)" if "KAM_V2_DIR" in os.environ else ""))
 sys.path.insert(0, V2)
 import thresholds as v1           # noqa: E402
 import thresholds_v2 as T2        # noqa: E402

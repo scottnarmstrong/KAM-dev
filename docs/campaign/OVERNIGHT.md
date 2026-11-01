@@ -2207,3 +2207,1054 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - Lock: the B3 levers are implemented. The CHECK on regenerated data passes every sub-check (inv 1.08e-21, energy
     5.9e-23, Gram margin 7.3e-4, torsion margin 2.66e-4); the graph verdict is re-running. The owner's ruling on
     about 158 MB is pending.
+- **14:22. SO-2 COMPLETE; owner rulings D47–D51 recorded; the lock is next.**
+  - **Owner (awake 11:00–14:15):** D47 accepts the 2.755 % band (rule B tightness waived); D48 lands the lock data as
+    is; D49 freezes the band and lock numbers; D50 approves sealing SO-2; D51 makes certificate applications opt-in
+    builds. Track W's size plan is now graph-scaled, 60,000–90,000 lines (45a76023).
+  - **SO-FREEZE3 landed (main ceeb106c):** `lunar_barriers`, `lunar_spin_confinement`, `lunarPLo_lt_lunarPHi`
+    frozen and sealed; seal audit PASS WITH NOTES (codex-1); standard axioms. Q11 done (landed code uses the frozen
+    D40 definitions). The data modules were reused from the HC build overlay with no recompilation.
+  - **Lock (SO-3):** the Q11 kernel redo passes; segments re-emitted (782 modules, 43 MB); kernel probes of the
+    sqrt/inv/exp segments running, then the segmented checks and AssemblyN65. LOCK-FREEZE Phase A done (3f8679c7);
+    the landed helpers lunarSyncOrbit_{spec,unique,bound} are being renamed for the short-name rule before the
+    identity audit.
+  - **BUILD-OPTIN (D51)** started (tmux inp-mprov-buildoptin, claude-3): opt-in libs KAMLunarBand and KAMLunarLock;
+    it is measuring whether one root over all data oleans fits the 10 GB cap.
+  - **Audit quota:** codex-3 is at 0 % (resets 5 Nov); codex-1 at 19 % (resets 6 Nov) carries the remaining audits:
+    LOCK-FREEZE identity, BUILD-OPTIN, LOCK-DATA, LOCK-FREEZE seal. **FOR OWNER:** if codex-1 runs out, name another
+    audit account; no Claude fallback.
+  - **Still FOR OWNER:** land the lock data at about 158 MB (D48 covered 131 MB as is).
+- **14:47. Owner: D52, land the lock data at about 158 MB** ("approve"). This closes the FOR OWNER item of 09:24 and
+  14:22, and the lock sub-orchestrator is told. Open: a spare audit account if codex-1 runs out.
+- **14:53. LOCK-FREEZE identity audit running (codex-1, inp-maud-lockdesign); rename at 7deabe9f.**
+  - Incident (mine): at 14:27 I removed the landed SO-FREEZE3 worktree KAM-inp-sodata3, but the LOCK-FREEZE handoff
+    compiled against its oleans. The auditor was redirected before it compiled, to KAM-inp's build at the same inp
+    commit (da762768; `lake build --no-build` reports all 5,230 jobs up to date). The sweep now keeps any worktree
+    that another live worktree's drafts or branch files name.
+  - LOCK-DATA: the first segment probe ran out of memory in its 8 GB scope (Lake elaborated several heavy
+    dependencies in parallel). It now builds one module per Lake call in topological order; PlanFull passes at
+    2.80 GB and 17 probes are running.
+- **14:56. BUILD-OPTIN (D51) ready (inp-buildoptin ade92a4f), in audit on codex-1 (inp-maud-buildoptin).**
+  - A plain `lake build` now builds the core only: 10,899 jobs, with no data module or LunarFinalR2V2. The band is
+    the opt-in library KAMLunarBand, and KAMLunarLock is ready for LOCK-DATA.
+  - No recompilation: `lake build --no-build` reports all 1,654 band modules up to date after the lakefile change.
+  - The obsolete CsegSupport width-allowlist entries are removed.
+  - Landing change: land-branch.sh stops (exit 3) instead of building stale application data; building it is now a
+    deliberate `prebuild_heavy.py --lib` step.
+  - The audit focus is that a core change making the band stale is still caught at landing.
+- **15:02. BUILD-OPTIN audit 1 (codex-1): FAIL; fixes in progress.**
+  - F1 (high): a core change in the band's import closure, or a lakefile or toolchain change, selected no application
+    at landing, so the band could go stale unnoticed. The fix checks every application with `lake build --no-build`
+    at each landing and stops (exit 3) if any data module would rebuild.
+  - F2: the generated roots now get `public section` (rule 3).
+  - F3: GUARDS.md is updated for D51.
+  - Core coverage, no-recompilation and the frozen anchors all PASS. Round 2 audit after the fixes.
+- **15:19. Heartbeat: LOCK-FREEZE Phase A identity audit PASS WITH NOTES (codex-1, 14:58).**
+  - All 8 declarations match FREEZE-PROPOSAL-LOCK §1 byte for byte, and all 179 ABI hashes reproduce. Four theorems
+    stay DRAFT_SORRY until the seal.
+  - Phase A goes to kam-inp-63 for landing (the lock sub-orchestrator was told).
+  - BUILD-OPTIN audit round 2 is running. LOCK-DATA's segment kernel probes are running. codex-1 is at 16 %.
+- **15:21. BUILD-OPTIN audit 2 PASS (codex-1; F1–F3 closed); handed to kam-inp-63 for landing at 8256d980.** Every landing now
+  checks every application (`lake build --no-build <Lib>`) and stops before any data rebuild. LOCK-FREEZE Phase A
+  (57aec394) is also with kam-inp-63; the two land independently, then LOCK-DATA.
+- **15:26. LOCK-FREEZE Phase A landed (inp 8d03a917, main e0f2376e).**
+  - Eight lock anchors are frozen: four definitions and four DRAFT_SORRY theorems (`lunar_sync_lock`,
+    `lunarSyncOrbit_{spec,unique,bound}`). The manifest has 179 entries.
+  - Full build: 12,466 jobs. The guard and the ABI check pass.
+  - The HQ shows Moon locked at 60 %.
+  - The seal (Phase B) waits for LOCK-DATA. BUILD-OPTIN is merging into inp next.
+- **15:42. MILESTONE: BUILD-OPTIN (D51) landed (main f6ca8f68).**
+  - A plain `lake build` builds the core only: 10,911 jobs, all up to date on main. The band is KAMLunarBand, with all
+    5,234 jobs up to date and no data module rebuilt. KAMLunarLock is ready for LOCK-DATA.
+  - Bootstrap: main's old land-branch.sh called the new prebuild_heavy.py without arguments, and the first attempt
+    reset cleanly. kam-inp-63 landed with the branch's script; later landings are normal.
+  - The lakefile quarantine block now lists the four LOCK-FREEZE DRAFT_SORRY anchors and their providers.
+- **15:48. Heartbeat.**
+  - LOCK-DATA is fixing its emitter's product-module split, then the full emission, the kernel passes and AssemblyN65,
+    with the overlay copy coordinated before landing. LOCK-FREEZE waits for LOCK-DATA before Phase B (the seal).
+  - Quotas: codex-1 16 %, claude-3 53 %, claude-12 53 %, claude-4 17 %. Memory: 12 GB available. Disk: 91 %.
+- **15:51. LOCK-DATA segment probe (kseg3): 3 of 15 pass; the rest are cgroup OOM kills at the 8 GB scope cap.**
+  - The passes are the decoders M0Dec 5.8 GB, M202Dec 8.57 GB and M203Dec 7.96 GB. The kernel log shows twelve
+    single-lean kills at about 8.08 GB between 14:43 and 15:44.
+  - Fix: split the decoder and segment chunks to at most about 6 GB per module (the ≤ 8 GB rule; MemAvailable is
+    about 9 GB with swap full), run them serially on one lane, and re-measure. Engineering only; no statement change.
+- **16:02. Owner: "Ok then do it"**, the go-ahead for splitting the LOCK-DATA segment modules to at most 6 GB each
+  (engineering, no statement change). The worker has re-emitted the segments (segprobe3) and is kernel-checking the
+  M202 decoder pieces serially at a 6 GB cap.
+- **16:18. The split works.** M202's decode (8.57 GB as one module) is now 7 pieces, all passing at 2.3–4.3 GB, serial
+  at a 6 GB cap. Shards are 2 per module (about 5.2 GB). No OOM kills since the split runs began. Running: kseg4,
+  67 modules serial at 6 GB, stopping at the first failure.
+- **16:29. kseg4: 13 of 67 pass (max 4.91 GB, no OOM); Seg.Prod.M0 failed in elaboration (design signal).**
+  - Line 88 hits the recursion-depth limit (the nested group-proof term of the new 2-shard split). Line 126 hits a
+    whnf timeout at the default 200k heartbeats.
+  - No option raises (hard rule 1, AGENTS rule 4). The emitter is being restructured: named subterm definitions,
+    a flat group proof, a named decide. Then M0 re-runs alone and kseg4 resumes from M0.
+- **16:47. kseg5: the M0 fix works (Prod.M0 passes at 4.61 GB); 15 of 71 pass with no OOM.**
+  - It stopped at Seg.Rad.SqrtF17, a type mismatch: the consumer still expects lockM0's old expanded form.
+  - The emitter is propagating the named operands lockM{k}a/b to the Rad/Full consumers, with rfl bridges where
+    needed.
+- **16:48. Heartbeat.** LOCK-DATA is re-emitting the segments with the named operands propagated to the consumers,
+  then kseg6. LOCK-FREEZE waits for LOCK-DATA. Quotas: codex-1 14 %, claude-3 47 %, claude-12 52 %, claude-4 17 %.
+  Memory: 15 GB available. Disk: 92 %.
+- **17:16. Owner: D53, track W resumes at reduced size beside SO-3** ("Yes").
+  - The machine has room: 8 cores at load about 2.5, and about 13 GB available at the lock's 8 GB peaks.
+  - W runs kam-1b plus 2 provers: 4 GB cap each, nice 10, pausing below 8 GB MemAvailable.
+  - codex-1 (14 %) stays with the lock. New W audits wait for codex-3 (5 Nov). **FOR OWNER:** name another audit
+    account if W should land sooner.
+- **17:03. LOCK-DATA probe: M0 passes (4.59 GB) after the rewrite-direction fix. kseg7 stopped at Seg.Rad.SqrtF17.**
+  - It is a shape mismatch: the product states its operands as `.2.poly`, while the consumer
+    `mul_eq_of_polyProduct_cseg` expects `.2.model.poly`, with an unresolved find? predicate.
+  - It probably predates today, since earlier runs never reached SqrtF17. Emitter fix in progress, with a mechanical
+    check of every product and consumer pair before the relaunch.
+- **17:11. kseg8: SqrtF17 now type-checks but hits the 6 GB cap (cgroup OOM at 17:10, 5.95 GB anon).**
+  - The worker measures it once at 8 GB (the lock design's per-theorem rule allows that, with MemAvailable ≥ 12 GB),
+    then splits the heavy check into modules of at most 6 GB, as for the decoders.
+  - InvF18 and ExpF888 are pre-measured the same way.
+- **17:18. Heartbeat.**
+  - LOCK-DATA: SqrtF17's residual-bound module needs more than 8 GB. The 8 GB measurement was OOM-killed at 17:15,
+    inside its own scope, so the system was unaffected. It is being split into the memoized square, the −1 constant
+    multiplication and the slot-15 model g, each probed at 6 GB.
+  - Track W (D53): kam-1b is linting W1-CUBIC before the merge and landing. Provers next.
+- **17:22. Track W running (D53).**
+  - W1-CUBIC (inp-wph@51a1d0a5) is merged into inp (9c6d9128) and queued with kam-inp-63 for main.
+  - Provers on claude-11:
+    - W4-HOMOLOGICAL: the rest of part 1, then part 2 (inp-mprov-wpj).
+    - W3-SETTING: W3's first lemma group (inp-mprov-wpk; worktree on the HC volume).
+  - Every W build goes through .drafts/W/w_build.sh: one module per call, a 4 GB scope with no swap, nice 10,
+    1 thread, a compile-gate slot, and it waits for MemAvailable ≥ 8 GB.
+  - New W audits queue (codex-1 is reserved for the lock).
+- **17:26. Track W: delta review 7 applied to the W graph (de133459).** The global review waits for an audit account (codex-3 resets 5 Nov).
+- **17:33. LOCK-DATA: the root cause of SqrtF17's memory is the advice remainder bound.**
+  - `remainderBound` and `maxSlotDeg` evaluate over all 29,645 product slots.
+  - Fix: kernel checks over 2000-slot ranges, with lock-owned split lemmas (RemSplit.lean), and the products state
+    the literal bound. No option raised.
+  - Re-emitted: 1,000 modules, 44 MB. kseg10 is running 144 modules serially at 6 GB.
+- **17:49. Heartbeat.**
+  - W1-CUBIC is on main (0189f0f2, from inp 9c6d9128).
+  - W provers are running: W4-HOMOLOGICAL is building Homological/Index, and W3-SETTING is checking
+    Birkhoff/QuartML. Both run under 4 GB caps.
+  - LOCK-DATA kseg10: 30 of 144 modules pass, with no OOM since 17:22. CPU load is about 5 and memory 15 GB available.
+- **17:49. FOR OWNER: codex-1, KAM's reserved audit account, is also used by a KPZ agent.**
+  - The Codex session in tmux `amelie_agent` (cwd /root/code/KPZ/Phi4project, CODEX_HOME=/root/.codex = account 1)
+    has run for about 22 h.
+  - codex-1 fell from 16 % (15:20) to 12 % (17:20) with no KAM audit running.
+  - The lock still needs two codex-1 audits: LOCK-DATA, then the seal.
+  - Not touched (another project). Owner: move that agent off codex-1, or name a backup KAM audit account.
+- **17:52. kseg10: 33 of 144 pass.**
+  - The RemSplit ranges all pass, and SqrtF17Res passes at 5.96 GB. No OOM.
+  - It stopped at the light assembly Rad.SqrtF17 with a whnf timeout at the default heartbeats: the find?/getD
+    witness argument, unified with _ok/_res, makes whnf evaluate find? over the witness list.
+  - Fix in progress, no option raised: name the witness once with an rfl bridge, as for the product operands.
+- **17:59. LOCK-DATA template bugs, one per run.**
+  - Rad.SqrtF17 now passes (typed witness binder).
+  - kseg12 hit a parse slip in Full.S2. It is fixed, and a layout scan of all 1,000 files flags none.
+  - kseg13: Full.S2 cannot synthesize the post-state `st'` of segOk_one_of.
+  - Asked for one probe per template (Prod, Rad, Full, Rem, assembly) before the next full run, instead of finding
+    one template bug per run. Engineering only, no option raised.
+- **18:13. Template pass: 25 of 109 pass (all M1 Rem ranges, at most 1.2 GB). Then Prod.M1ShG1 was OOM-killed at 6 GB.**
+  - M1ShG0 had already peaked at 5.87 GB: the inv product's shards are heavier than M0's.
+  - Fix: size the shard groups per product with a 5 GB budget (1 shard where needed), then re-run from M1ShG0.
+  - Owner asked for an SO-3 update at 18:07. Estimate: the full chain of about 1,000 modules takes 11–20 h serial, so
+    SO-3 completes during 1 Nov if no more template bugs appear. Offered a light second lane for modules under
+    2 GB.
+- **18:19. Heartbeat.**
+  - LOCK-DATA tpass2: 24 of 169 pass with one shard per theorem (max 2.72 GB) and no OOM since 18:14.
+  - Track W: W4 and W3 provers active on claude-11. The W4 prover's single-file `lake env lean` checks ran uncapped,
+    and kam-1b is told to wrap them in the 4 GB scope.
+  - Load 8 (a transient filesystem search plus builds). Memory: 18 GB available.
+  - Quotas: codex-1 12 %, claude-11 86 %, claude-12 50 %, claude-3 42 %.
+- **18:20. Track W.**
+  - Every lean/lake call now goes through a D53 cap: .drafts/W/w_lean.sh for single files, w_build.sh for builds.
+    Whole-filesystem searches are banned, and w-prover.md is updated.
+  - W4-HOMOLOGICAL part 1 is committed, including a Banach-target holomorphic-derivative lemma. Part 2 (Lemmas 1–2)
+    is next. W3-SETTING is running.
+  - The graph is ready for delta 8 and the global review once an audit account is free.
+- **18:49. Heartbeat.**
+  - LOCK-DATA tpass2: 70 of 169 pass, with no OOM since 18:20. Shards over 5.5 GB (M1ShG10–12 at 6.3–6.4 GB, under
+    the 6 GiB cap) are split by block range for the final chain.
+  - W provers active: W4 part 2 (LemmaOneLipBounds) and W3 (QuartSum).
+  - Root disk: 93 %, 11 GB free (was 13 GB at 16:00). The lock's build output is on the HC volume (5.6 GB there).
+    The largest root users are the shared Codex store (23 GB; thread_history 13 GB) and /tmp/claude-0 (4.7 GB).
+    A root-disk archive pass is due if free space falls below 8 GB.
+- **18:59. tpass2: 73 of 169 pass, then a single M1 shard (Prod.M1ShG4) was OOM-killed at 6 GB.** M1 shards run 6.3–6.4 GB. In-shard split by block range to at most 5 GB (exp shards pre-checked), then re-run from M1's shards.
+- **19:06. LOCK-DATA: the fixed cost of an M1 shard is recomputing the operand slot terms (4.17 GB, 3 min).**
+  - Fix: per product, one ShOps module fixes the slot terms as literals, checked once by `decide`. The shards then
+    cite the literals and should run at 1–2 GB each.
+  - Trust is unchanged: the literals are kernel-verified equalities. No option raised.
+- **19:18. Heartbeat. Track W is making fast progress.**
+  - W4-HOMOLOGICAL is done; only statement-free remarks remain. It is queued for audit.
+  - W3-SETTING and W3-DIVISOR-F are done and queued for audit.
+  - Provers: W5-STEP (the KAM step, stacked on W4) and W3 group 3 (Lie-series flow, symplecticity).
+  - **FOR OWNER:** the W audit queue is graph delta 8 plus the global review, W4, and W3-SETTING with W3-DIVISOR-F.
+    All wait for an audit account (codex-3 resets 5 Nov; codex-1 at 12 % is reserved for the lock).
+  - LOCK-DATA: lock_eaeb.py (capped at 6 GiB) is capturing the operand slot terms, then the re-emit and tpass. No
+    OOM since 19:00.
+- **19:47. LOCK-DATA: the operand-literal fix (ShOps) works.** Re-emitted 1,070 modules (45.7 MB), layout scan clean, lock_eaeb.py peaked at 3.25 GB. tpass3 has 43 of 46 inv-chain modules passing (max 4.71 GB). Next: Rad.InvF18, Full.S3, the exp templates, then the full chain.
+- **19:49. Heartbeat.**
+  - Both W provers were idle and waiting; kam-1b's READY-marker watcher missed them. kam-1b is now handling it.
+    - W5-STEP: partial work committed at 4c32401c. It is blocked on a design choice: W4 hard-codes p̄ = p+1, while
+      w4-general needs p₊ ∈ [p+½, p+1]. kam-1b decides between parametrizing W4 and delivering p₊ = p+1 first; the
+      step statement stays the blueprint's.
+    - W3: to continue with LieFlow4.
+  - Lock tpass3: 43 of 46 inv-chain modules pass. No OOM since 19:20.
+- **19:50. Track W: both provers unblocked.** W5-STEP takes option (a), parametrizing W4 by p₊, because W6 and W7 apply w4-general at p₊ = p+½ after the ½ smoothing loss. The existing W4 theorems stay as p₊ = p+1 corollaries with their names. The W4 audit targets the post-refactor commit. W3 continues group 3 from LieFlow4. kam-1b's watcher now also flags idle prover panes.
+- **19:52. Owner: D54, audits continue on codex-1 for every track** ("do not complain about quota"). This closes the
+  FOR OWNER items about the audit account and the codex-1 contention. W's queued audits are launched on codex-1.
+- **19:58. W audits resumed on codex-1 (D54), one at a time.**
+  - Running: W3-SETTING with W3-DIVISOR-F (26 modules) in a detached audit worktree at 47fa21b9 on the HC volume.
+    Pre-checks: 26 of 26 replays exit 0; name-clash, shadow and short-name checks OK.
+  - Launcher .drafts/W/w_audit.sh runs every replay inside the D53 cap.
+  - Next: graph delta 8, the global review, publication, then W4 post-refactor.
+  - LOCK-DATA: Prod.M1 was OOM-killed at 6 GB (19:52). Its side checks are split into their own modules and the inv
+    chain resumes.
+- **20:07. W3-SETTING with W3-DIVISOR-F, audit 1 (codex-1): FAIL on F1 only.**
+  - The four main results pass statement review.
+  - F1: the general Hamiltonian-field predicate (hamfield-def) wrongly requires a 𝔚⁺-valued lift; the blueprint's is
+    𝔚-valued (separating example). No concrete result is refuted.
+  - Fix: a general 𝔚-valued predicate, plus the renamed smoothing predicate and an implication lemma. Then a round-2
+    delta.
+  - LOCK-DATA tpass4: the M1 side-check split works (Aux modules 1.9–2.5 GB). M1Aux11 had a parse slip (a stray
+    docstring before `end`) and is being fixed.
+  - Running on codex-1: graph delta 8 (4 nodes).
+- **20:16. LOCK-DATA milestone: the inv chain passes end to end through Full.S3** (serial at 6 GB, no OOM). M1ShOps 3.92 GB; one-shard modules 3.18–4.71 GB; side checks 0.36–0.73 GB except Aux7 at 5.77 GiB (to be split); M1 assembly 0.72 GB; Rad.InvF18 2.48 GB; Full.S3 3.65 GB. Running: tpass7, 172 modules (M0 rebuilt against literals through Full.S2, then the exp chain).
+- **20:19. Heartbeat.**
+  - LOCK-DATA tpass7: 24 of 172 pass (M0 rebuilt against literals, then the exp chain), no OOM.
+  - W: the global graph review is running on codex-1, W3-FLOW continues with its F1 fix queued, and the W5-STEP
+    prover is active.
+  - Root disk at 94 % (9.6 GB free; about 1 GB lost per hour). Archiving the closed Codex rollouts older than 2 days
+    (738 files, 2.45 GB) to the HC volume with ~/bin/archive_codex_rollouts.py: per-file symlinks, regular files only,
+    open files skipped.
+- **20:20. Root disk: archived 737 closed Codex rollouts (2.07 GB freed); / now at 93 % with 12 GB free.**
+- **20:20. W graph global review (codex-1): FAIL on three findings.** The root correspondence and the frozen-order
+  assembly PASS, and nothing refutes nlw2.
+  - G1: about 121 records lack a direct edge to their section's standing data. Being added.
+  - G3: the hacoef step is remodelled as W's own step with K provenance.
+  - G2 (orchestrator ruling, as K's graph owner): the 4 W imports of K nodes carry K-source premises that the K
+    records omit. Fix: append-only SET_SOURCE_HYPOTHESES amendments to docs/graph/K/AMENDMENTS.md with an
+    independent codex-1 delta review and K's linter, then W re-copies. None of the nodes is a frozen anchor; no K
+    statement changes. Every W use must satisfy the added premises; otherwise it becomes W's own step.
+  - Next: delta 9, then global review round 2.
+- **20:30. W graph G2 done.**
+  - K-A045..A048 (decay, fourier-basic, holomorphic-analytic, strip-identity) passed an independent codex-1 review,
+    4 of 4, and are appended to docs/graph/K/AMENDMENTS.md.
+  - The 3 remaining K imports are used only in scalar settings. holomorphic-analytic is no longer imported; the W
+    step does its own Banach adaptation.
+  - K's pre-existing FROZEN_MANIFEST pin mismatch (from the later freezes) is refreshed on the same branch, with
+    K's linter --check requiring every K anchor to match exactly.
+  - Delta 9 (150 W records) is running on codex-1.
+- **20:30. K graph re-pinned (inp-wgraph aebcc14e):** FROZEN_MANIFEST is now 674c7321… (the current manifest). Only that line changed. K's linter --check exits 0 with every K anchor matching (verified by root-b8).
+- **20:44. W3-SETTING with W3-DIVISOR-F: audit 2 PASS (F1 fix). Landing go-ahead given to kam-inp-63.**
+  - Branch inp-w3land@693f8b7b is the audited 47fa21b9 plus only the F1 files; checked.
+  - 26 core modules: the setting, the divisor bound, F, and the homological identity.
+  - W graph: delta 9 is 7 of 7 PASS and all 695 nodes are REVIEWED. Global review round 2 is running on codex-1.
+  - The W4 audit target is fixed at 82d8325d (after the p₊ refactor).
+- **20:48. Heartbeat.**
+  - LOCK-DATA tpass7: 89 of 172 pass (the exp chain is in progress), no OOM since 20:20.
+  - kam-inp-63 is landing W3-SETTING with W3-DIVISOR-F.
+  - W graph global review round 2 is running on codex-1. W5-STEP and W3-FLOW provers are active.
+  - Memory: 15 GB available. Root disk: 11 GB free. Quotas: claude-11 80 %, claude-12 48 %, claude-3 40 %.
+- **SO-LOCK full-chain cost (for owner review, 2026-10-31 23:xx UTC):** with every template kernel-checked under the
+  6 GiB cap, LOCK-DATA projects the full segmented chain at ~50k modules, ~330 h serial (~7 days on two 6G lanes),
+  ~340 GB build output (HC has 87 GB free) and ~1.9 GB source (D52 approved ~158 MB). Driver: ~600 heavy products
+  each split into ~70 modules that re-elaborate shared inputs. Held, not started. Costed options requested in
+  LOCK-DATA's .drafts/LOCK-OPTIONS.md: 8 vs 10 GB heavy budget, shared-literal restructuring, a smaller
+  certificate (support/cut coarsening within the 1.74-decade margin; any N or amplitude change is logged with
+  numbers but not switched without the owner), and combinations. Headline statement and literals unchanged.
+- **20:56. W3-SETTING with W3-DIVISOR-F landed (main 8d1de23c, inp 130b6894).** Core build 10,957 jobs; guard and ABI 177 OK; both applications up to date with 0 built. kam-1b records the W graph nodes.
+- **20:59. MILESTONE: the track W source dependency graph passes global review round 2 (codex-1) and is published.**
+  - G1–G3 resolved; root correspondence and model accepted; no new findings.
+  - 695 nodes (all REVIEWED and reachable from nlw2), 2,545 edges, 13 anchors, 0 SOURCE_GAP. The full gate exits 0.
+  - The W and K header manifest pins are being refreshed after a later freeze, with the per-anchor check. Then
+    inp-wgraph (docs only) goes to kam-inp-63.
+  - Next: the LEAN_STATUS commit for the landed W packages. The W4 audit waits on 3 short-name renames.
+- **21:08. MILESTONE: the track W graph is on main (c89e1f98, inp 052cf94c).**
+  - It includes the K amendments K-A045..A048 and both manifest re-pins. The publication gate passes for W and K on
+    the merged tree.
+  - The HQ track W meter rose from 26 % to 37 %. The W texts in campaign.json are updated (D53 resumed, graph
+    published, 11 packages on main; 102d5d68).
+  - Next: the LEAN_STATUS commit, then the W4 and W3-FLOW audits. Provers: W5-STEP and W3 group 4.
+- **21:14. Track W LEAN_STATUS commit sent to kam-inp-63 (docs only).** 213 nodes PROVED (12 of them sealed definition anchors), 14 PARTIAL with precise notes, 420 NOT_STARTED, and 48 assumed/external. PROVED only where an audit accepts the node's full source conclusion. Linter exit 0.
+- **21:18. Heartbeat.**
+  - LOCK-DATA tpass7: 120 of 172 pass, no OOM since 20:50.
+  - W: the W4 short-name clashes are renamed (plus 6 more the checker found). All W4 and KamStep modules are rebuilt
+    under w_build.sh, lint passes, and the short-name check passes, so the W4 audit can launch.
+  - The W5-STEP prover went idle at 21:18 before continuing; kam-1b's idle watcher re-arms it.
+  - W3 group 4 is running.
+  - Memory: 18 GB available. Root disk: 11 GB free. Load about 6.
+- **21:47. W4-HOMOLOGICAL audit 1 (codex-1, 7de5b4e0): FAIL on two interface findings.** All bounded and
+  source-domain results PASS; the model is faithful.
+  - F1: the raw weak pairing and bracket accept divergent inputs (the totalized tsum returns 0). Fix: carriers with
+    summability evidence.
+  - F2 (rule 6): the Lemma 1 headline exports take the intermediate divisor gates as hypotheses. Fix: the source
+    names take only source premises, proved via the existing producers, and the gate-taking versions are renamed
+    as conditional helpers. LEAN_STATUS must not mark those nodes PROVED on gate-taking versions.
+  - Round 2 after the fix commit. The W5 prover restarted fresh (its context was full).
+- **21:48. Heartbeat.**
+  - The track W LEAN_STATUS commit landed (main b5859852), and the HQ W meter is 56 %. The W4 Lemma 1 nodes were not
+    marked, since W4 has not landed.
+  - LOCK-DATA tpass7: 161 of 172 pass. The exp side checks (M203Aux*) take 1.5–3 min each at 1.8–3.8 GB; about
+    25 min remain. No OOM since 21:20.
+  - The W3 prover went idle at 21:46 after its group 4 summary; kam-1b's watcher re-arms it.
+  - Root disk: 10 GB free.
+- **21:53. Track W.**
+  - The W4 F2 fix follows rule 6: the source-facing Lemma 1 names take only source premises, and the gate-taking
+    versions become `*_of_gates` helpers that nothing cites. The landed LEAN_STATUS has no W4 entries.
+  - The W3-FLOW audit is running on codex-1 (inp-w3flow = inp plus 25 Lie* modules).
+  - W3-MAIN (group 4): all main results proved, with 3 small items being closed by a fresh prover.
+- **21:59. W3-FLOW audit 1 (codex-1): FAIL on three completeness gaps; no false theorem.** The flow, its reality, the
+  diagonal Leibniz recurrence and the bounds pass.
+  - F1: the full multilinear identification of the coefficients with the source slot recursion (only the diagonal
+    is done).
+  - F2: all-input reality.
+  - F3: joint C¹ of (t, w) ↦ Γ_t(w).
+  - The W3 prover fixes these first, then W3-MAIN's 3 items. The W4 round-2 fixes are with the W5 prover.
+- **22:08. LOCK-DATA tpass7: 171 of 172 pass.** The exp chain passes through Rad.ExpF888 (6.22 GB, 5 min 41 s, close to
+  the cap). The last module, Full.S88, hits recursion depth: `rfl` arguments make the elaborator unfold list lookups
+  to op index 870. Fix: `decide +kernel` in the Full template, no option raised, then S88 alone.
+- **22:14. MILESTONE: the LOCK-DATA template pass is complete.**
+  - Every forced template is kernel-checked, serial at 6 GB, with no OOM: S88 4.66, S2 2.66, S3 3.48 GB, after a
+    decide-based segment lookup in the new lock-owned SegDecide.lean.
+  - Margin splits come before the final chain: Rad.ExpF888 at 5.79 GiB, the Aux7 prefix at 5.77 GiB, SqrtF17Res at
+    5.53 GiB.
+  - Then the BUILD-OPTIN merge of inp, AssemblyN65 under KAMLunarLock, and the full emission and chain.
+- **22:21. Heartbeat.**
+  - LOCK-DATA: the margin splits are running (tpass9). W provers active (W4 round-2 fixes, W3-FLOW fixes).
+  - Root disk fell to 9.5 GB free, from live KPZ/Phi4project sessions, not KAM. Moved the unused Codex daemon
+    release 0.165.0 (5 homes, 2.1 GB) to the archive volume. / is now at 12 GB free.
+- **22:27. Track W: W3 (analytic Birkhoff normal form) is fully proved in Lean on inp-wpk.**
+  - Groups 1–2 are on main.
+  - Group 3 (flow): F1–F3 fixed (840a38c7); the landing branch inp-w3flow (550bc869) waits for its round-2 audit.
+  - Group 4 (W3-MAIN) is complete at 5791205c and queued for audit.
+  - The W4 round-2 audit is running on codex-1 (fixes 7155ce2c).
+  - Provers: W5-STEP, and the new W7-MEASURE (worktree on the HC volume). The codex-1 queue: W4 r2, W3-FLOW r2,
+    W3-MAIN.
+- **22:44. LOCK-DATA.**
+  - tpass9 re-checks the whole forced chain after the margin splits: 242 of 264 pass, no OOM since 21:45.
+  - Margin splits: the exp residuals are one module each, and the Aux7 prefix is 8 conjunct modules plus an assembly.
+    SqrtF17Res is kept as is at 5.53 GiB, under the 6 GiB cap.
+  - inp merged (c5f8c9ca, with BUILD-OPTIN). Next: AssemblyN65, the full emission, then the ordinary-segment chain.
+  - W4-HOMOLOGICAL is on main (inp 710c4ce0; 46 Homological modules; audit 2 PASS WITH NOTES).
+  - Owner asked for an assessment of Zohar's AMD/no-orbit-crossing statement. Recommended a design note and a
+    literature check before drafting a Lean statement.
+- **22:48. Owner: two GPT-6-Astra xhigh sessions on codex-1 for Zohar's AMD/no-orbit-crossing statement.** amd-astra1 (independent brainstorm from Zohar's message only) is running in /mnt/HC_Volume_106379410/kam-explore/amd-crossing. amd-astra2 (design-note research) follows with a prompt informed by #1. The result goes to docs/explorations as campaign-ready notes.
+- **22:49. Finding: our project already proves a planar global-Nekhoroshev version of Zohar's statement.**
+  - planetaryExponentialSafety (track P, sealed): the AMD box, low-AMD region, and exponentially long Newtonian
+    existence with confinement and pairwise separation.
+  - Zohar's version upgrades it: the sharp Laskar–Petit threshold instead of the crude annulus separation (each
+    planet given all of the AMD); the exponent 1/(2n+1) under non-resonance instead of Nekhoroshev 1977's
+    2/(6n²−3n+14); the spatial problem instead of the planar one; and "no orbit crossing".
+  - This goes into the amd-astra2 prompt.
+- **22:49. Heartbeat.**
+  - LOCK-DATA tpass9: 261 of 264 pass, no OOM since 22:20.
+  - amd-astra1 is brainstorming.
+  - W: the W5-STEP prover went idle at 22:25 after a handoff (kam-1b is handling it). W7-MEASURE is active.
+  - Root disk freed elsewhere: now 20 GB free (87 %). Memory: 17 GB available.
+- **22:53. Track W.**
+  - W4-HOMOLOGICAL is on main (4e03e651).
+  - W3-FLOW round 2: PASS WITH NOTES (F1–F3 closed). It goes to kam-inp-63 as inp-w3flow@ee1e80f1: 32 Birkhoff
+    modules plus a one-file W4 hygiene fix. That fix removes the duplicate homL1_neg in WaveReindex and imports
+    Divisors instead of Melnikov; checked.
+  - Next on codex-1: the W3-MAIN audit.
+- **23:11. AMD exploration.**
+  - amd-astra1 is done (BRAINSTORM-1.md, independent). It agrees, and adds: the LP17 §3 conjecture as prior art; the
+    exponent 1/(2(τ+1)), with τ = n − 1/2 giving 1/(2n+1); the strong (star) threshold; the moving-threshold
+    first-exit argument; and Candidate A/B.
+  - amd-astra2 is launched with BRIEF-2.md: literature, gap analysis against tracks N/P, proof plan, statements,
+    campaign plan. Owner addendum: PRACTICAL.md on explicit constants and real systems. Both theorems are asymptotic,
+    and the inner Solar System is AMD-unstable (LP17).
+- **23:16. Owner: an Astra at max effort to PROVE the asymptotic Laskar–Petit conjecture with the sharp threshold.** amd-astra3 (GPT-6-Astra max, codex-1, BRIEF-3.md) is to write a complete planar-then-spatial proof for Lean formalization (PROOF/MAIN.md, LEAN-ROADMAP.md, OPEN.md), reusing tracks N/P where possible. It runs alongside amd-astra2's research.
+- **23:19. Heartbeat.**
+  - LOCK-DATA tpass9: all 264 of 264 forced modules pass (no OOM). The worker had been idle since 22:54 and is now
+    told to proceed: AssemblyN65, the full emission, the full chain.
+  - W3-FLOW is on main (106a1521). The W3-MAIN audit is running on codex-1.
+  - The W5-STEP prover had been idle since 22:25 (kam-1b's watcher missed it); kam-1b is told to restart it.
+  - amd-astra2 (research) and amd-astra3 (proof, max) are running; amd-astra1 is closed.
+  - Root disk: 20 GB free. Memory: 16 GB available.
+- **23:20. W5-STEP prover restarted** (fresh context, claude-11): the remaining steps run in the recorded order, ending with bpW:w5:step. Watcher bug fixed: an idle flag suppressed repeat reports; idle provers are now reported on every check.
+- **23:21. FOR OWNER: the LOCK-DATA full chain in its current split form is about 50k modules and about 330 h serial.**
+  The worker is holding it.
+  - Cause: about 600 heavy products, each about 70 split modules under the 6 GiB cap, each module re-elaborating
+    shared inputs. B3's 21 CPU-h assumed unsplit modules at 8+ GB.
+  - Also infeasible as stated: about 340 GB of build output (6.75 MB per module measured; HC has 87 GB free) and
+    about 1.9 GB of source (D52 approved about 158 MB).
+  - Options being costed in .drafts/LOCK-OPTIONS.md: an 8 GB or 10 GB heavy budget, shared-literal restructuring, a
+    smaller certificate (N and cut are not in the frozen statement; the margin is 1.74 decades), and combinations.
+  - The previous SO-3 estimate (11–20 h for the chain) is withdrawn.
+- **23:44. Owner: D55, the lock plan is (c)+(b10) with the source up to about 200 MB.** LOCK-DATA proceeds with the
+  shared-literal restructuring and the 10 GB heavy lane, gated at MemAvailable ≥ 12 GB.
+- **23:46. Owner: run the lock's full chain on a larger machine.**
+  - Plan: .drafts/briefs/offload-main/LOCK-REMOTE.md. Recommended a Hetzner CCX53 (32 vCPU, 128 GB) in nbg1, about
+    3–4 h with 11–12 lanes, transferring the identical core and package builds and returning the lock outputs to
+    the HC overlay, then `--no-build` verification and a sampled local kernel replay.
+  - Dedicated key: /root/.ssh/kam_build_ed25519. **FOR OWNER:** a machine with that key, or a Hetzner API token.
+  - LOCK-DATA prepares here only: the (c) restructuring, the templates, Passes/AssemblyN65, a multi-lane driver.
+  - AMD exploration: amd-astra2 (6 research files) and amd-astra3 (a proof claimed complete, planar Thm 15 and
+    spatial Thm 19, OPEN = None, UNAUDITED) are done. A subagent is drafting the docs/explorations notes.
+- **23:50. Heartbeat.**
+  - LOCK-DATA is sizing the Pass modules: three capped kills (23:38 at 6 GB; 23:46 and 23:49 at 8 GB) show some Pass
+    modules need the D55 10 GB budget or a split. All three stayed inside their own scopes.
+  - W: the W3-MAIN audit is running on codex-1; the W5-STEP and W8-PREP provers are active.
+  - AMD: the Opus proof audit and the exploration-notes synthesis are running as subagents. The draft launch plan is
+    LAUNCH-PLAN-DRAFT.md.
+  - Owner asked about Hetzner billing: it is hourly and stops only on delete.
+- **23:55. Owner directives (overnight mode again).**
+  - (1) No more large jobs. The owner takes SO-3 in the morning; LOCK-DATA and kam-inp-24 hold all heavy kernel runs
+    and do light preparation only.
+  - (2) If the Opus proof audit passes, launch the campaign for the new theorem (the strong-AMD exponential safety
+    theorem): the strongest version.
+  - (3) Defer all further approvals and decisions; log them here as FOR OWNER.
+  - CPUs are reserved for track W and the new track.
+- **23:56. LOCK-DATA idle for the night** (no lean/lake jobs; 125-module template pass not started; Pass sizing stopped by its own PIDs; FrameL/HamClaim/HamBounds need the 10 GB lane or splits). The morning note is in KAM-inp-lockdata/.drafts/PROGRESS.md; the frozen commit waits on the D55 re-emission (about 45 min of capped Python, held). lock_mlane.py dry run: 1,544 modules, 334 levels.
+- **00:06. Exploration notes on main (a90e48ad):** docs/explorations/amd-crossing/ (an 829-line overview plus appendices A1–A9; the proof is marked unaudited) and the index entry. The cross-report inconsistencies (the δ bound, prograde premise, open-risk lemmas 8/17/18, spatial chart domain, cutoff floor) are forwarded to the running Opus proof audit.
+- **00:07. Owner: LP is top priority.** Sub-orchestrator kam-lp (tmux kam-suborch-lp, Opus 5.5 on claude-12) is launched with suborch-LP.md. It does setup and wave 1 (elementary sharp barrier: threshold, geometry, modulus/continuation, planar momentum, planar chart dictionary) now; waves 2+ wait for the Opus proof audit. LP audits go ahead of W's on codex-1; W keeps its 2 provers.
+- **00:11. Track W: W8-PREP is partly done (inp-wpm@a7fc63d1) and queued for audit behind LP.** The constants record W8UpstreamConsts is data only (gam, gam1, cF, cFnat with positivity). The generic and record-based results stay PARTIAL until W6-PREP instantiates them with the landed definitions; the source-facing versions are the instantiations. W6-PREP has started. Provers: W5-STEP, W6-PREP.
+- **00:12. LP proof audit (Opus 5.5, refute-first): PASS WITH NOTES, no blocking issue.**
+  - All lemmas pass, including the whole-sublevel analytic domain (8, 18), the spatial chart (17) and Lemma 13, which
+    matches KAM.Nekhoroshev.nonresonant line by line. The exponent was re-derived.
+  - 12 notes (N1–N12) to apply before any freeze.
+  - D56: the campaign is GO for all waves under the overnight rules.
+- **00:15. Track LP is set up.**
+  - inp-lp at /mnt/HC_Volume_106379410/kam-lp/KAM-inp-lp (d1e71100). The source is pinned as LPMAIN with the audit
+    copy; N1 is fixed in place and N2–N12 are normative amendments. OWNER-DECISIONS has OD-1..OD-9 (OD-1: planar AMD
+    with |L| plus a reflection bridge; OD-2: pairThreshold form, with root-b8 recommending a carrier-restricted
+    frozen definition over a total sInf).
+  - Provers (Sonnet 5.5, 4 GB wrappers): LP-THR (L4 thresholds, claude-6) and LP-MOM (L2–L3 planar plus reflection,
+    claude-12). Next: LP-GEO, LP-MOD, LP-DICT, then the early L13 adapter test.
+  - HC volume: 74 GB free.
+- **00:18. Heartbeat.**
+  - LP: LP-THR and LP-MOM provers active; the next is LP-DICT.
+  - W: W5-STEP and W6-PREP active; the W3-MAIN audit is running on codex-1.
+  - No OOM since 00:00. Load about 7. Memory: 17 GB available. Disks: / 19 GB free, HC 74 GB free.
+  - Quotas: claude-6 12 % (LP-THR; rotation planned to claude-12 or claude-11), claude-11 70 %, claude-12 41 %,
+    claude-3 34 %, codex-1 7 %.
+- **00:24. Owner: track LP added to the README/HQ (2223e049).**
+  - Additions: a derived LP meter (stages read from the repo, packages from docs/tracks/LP/packages.json), the tracks
+    row, the glance block, areas Planetary/StrongAMD and Planetary/Spatial, the size plan 12k–25k, the current
+    phase, and the completion meters. LP currently reads 5 %.
+  - Size fix (bc3be874): track W's estimate now follows its measured lines per resolved graph node once 100 nodes are
+    resolved (136 lines per node, about 95k for the whole graph; the 60k–90k plan was low). The total is about 468k,
+    with about 41k still to write.
+  - kam-lp is asked to land the LP docs and packages.json on main.
+- **00:30. LP-THR proved: all 8 items of MAIN Lemma 4 in 666 lines, standard axioms, lint passing.** The OD-2 carrier API
+  equals the helper by rfl. A small naming fix round is underway; then the codex-1 audit.
+  - **FOR OWNER (OD-10): codex-1 is below 5 % weekly, enough for about 1–2 package audits; it resets 6 Nov 16:24 UTC.**
+    After that, LP and W audits queue (proving continues; nothing lands unaudited).
+  - Options:
+    (a) wait for the resets (codex-3 on 5 Nov, codex-1 on 6 Nov);
+    (b) authorize an Opus 5.5 refute-first auditor for Lean packages;
+    (c) provide another Codex account.
+- **00:31. W3-MAIN audit 1 (codex-1): FAIL on three major findings.** The remainder, conjugacy and frozen transport
+  theorems are not refuted.
+  - F1: the cubic term exports 2·C_* instead of C_*.
+  - F2: the Yseries node lacks its source exports.
+  - F3: birkBF, birkXK2 and birkGammaR need domain-restricted, source-facing versions.
+  - The fix takes the next free W slot; W6-PREP is not paused, since audits are quota-bound. The remaining W audits
+    are batched once quota or an owner ruling (OD-10) allows.
+- **00:34. Track LP progress.**
+  - The track docs and packages.json are on main (af98d3c4).
+  - LP-MOM proved: 9 items, 677 lines (Lemmas 2–3 planar with no prograde premise, the |L| AMD identity, the N8
+    reflection bridge), standard axioms.
+  - LP-THR proved (naming fix round). The combined THR+MOM audit goes next on codex-1.
+  - LP-DICT (Lemma 7 plus the early Lemma 13 adapter test) is proving.
+  - The HQ LP meter reads 10 %; the status line is updated (499ebd95).
+- **00:45. Track LP:** LP-BAR1, the combined THR+MOM audit (inp-lp-bar1@96fafe66; kernel replay of 8 modules exit 0, lint 0), is launching on codex-1 (tmux inp-maud-lp-thr; THR's verdict is written first). LP-GEOMOD (Lemma 5 uniform barrier, Lemma 6 modulus with one shared U, continuation) is on claude-11 in a third worktree (6.5 GB on HC; no more planned). LP-DICT is on claude-12.
+- **00:48. Heartbeat.**
+  - LP: the BAR1 audit (THR+MOM) is running on codex-1 (about 5 % left); the DICT and GEOMOD provers are active.
+  - W: W5-STEP and W6-PREP active.
+  - Load about 10 from transient work: a KPZ git pack, two frozen-anchor guard runs, a lake build, Codex, and another
+    user's grep. No OOM since 00:20. Memory: 16 GB available.
+  - Quotas: claude-11 70 %, claude-12 41 %, claude-3 34 %, claude-6 12 %, codex-1 5 %.
+- **00:53. Track W.**
+  - W6-PREP is done (inp-wpn@6f692aa6, 12 modules, lint 0): real definitions for gamma and gamma1, the k0 induction,
+    exclusion and convergence (i) stated generically, and the W8UpstreamConsts instance, so W8's constants node now has
+    its source-facing instantiation.
+  - Conditional helpers (freq-lip, final-freq, applicable) have distinct names. The parts waiting on bpW:w5:step are
+    PARTIAL.
+  - The audit is batched with W7 and W8-PREP after the quota reset.
+  - The free slot runs the W3-MAIN fix (F1–F3). Provers: W5-STEP, W3-MAIN-FIX.
+- **00:55. Owner: D57, audits on codex-2 (usage credits).** kam-lp and kam-1b are told; the launchers accept codex-2.
+  OD-10 is resolved.
+- **00:56. LP-DICT proved (712 lines, standard axioms). The early Lemma 13 interface test passed in Lean:** the planar chart field maps exactly onto KAM.Nekhoroshev.nonresonant's realWfield in physical time (θ = λ/2π, I = Λ, slow scale ℓ, c = 2π/ℓ²), with no convention mismatch; the riskiest interface the auditor named is de-risked. DICT is in a join round, then its audit on codex-2 after BAR1.
+- **01:00. LP-BAR1 (THR+MOM) audit (codex-1): PASS WITH NOTES, nothing blocking.** Notes applied, including a real wrapper bug: lp_build.sh exited 1 after successful builds, and W's w_build.sh has the same line (kam-1b told). Landing requested as inp-lp@4873f67b (8 StrongAMD modules). The codex-2 slot passed to W7-MEASURE while DICT finishes its join round.
+- **01:13. The v2-certifier review (cbae9a98) against SO-3.**
+  - Assessment: the fixes do not reduce SO-3's cost. F1, F3 and F4 are Python tooling; F2 is route B only, and the
+    lock uses route A (routeAV2/routeARefined).
+  - Of the improvements, only #3 (producer-side search minimizing replay cost at a fixed margin) could yield a cheaper
+    lock certificate, and only through a regenerated certificate. It is a later optional study.
+  - Risk raised: Frame/Majorants.lean and V2/SmallDivQ.lean are in the import closure of all 1,650 band data modules
+    and of the lock assembly. The other agent confirms the fixes landed as new modules (MajorantsLN, RouteBLN,
+    RouteAllLN; main 8665c67b) with the core files byte-identical. It now forbids edits to existing core files, and
+    its land-side.sh refuses such branches.
+  - Verified on main: those files were last changed 30 Oct; KAMLunarBand is up to date (5,234 jobs); the core build is
+    complete at 11,047 jobs (3 light new modules built).
+- **01:15. Track LP:** THR and MOM are on main (f1fe1d30). GEOMOD (748 lines) and DICT (632 lines) are proved and combined as audit LP-W1B (inp-lp-w1b@d927990e), queued on codex-2 behind W7-MEASURE. Wave 2 has started: LP-NRS (scale and horizon, claude-12) and LP-DOM (Lemma 8 analytic domain through tube, claude-11). Next: LP-NRR, then wave 3.
+- **01:19. Heartbeat.**
+  - Provers working: LP-DOM, LP-NRS, W5-STEP, W3-MAIN-FIX. The LP lean processes are capped at 4 GB (checked).
+  - Load about 11 from the 4 provers plus KPZ activity (git pack-objects, lar scripts) and Codex. No OOM since 01:00.
+    Memory: 16 GB available.
+  - Quotas: claude-11 66 %, claude-12 39 %, claude-3 32 %, claude-6 10 %.
+- **01:26. LP-W1B (GEOMOD+DICT) audit on codex-2: PASS WITH NOTES, nothing blocking.** Note D1 is carried to LP-CONF: the one-centre drift helper is conditional, and Lemma 14 must supply the chart lift and memberships from the first-exit argument, never an assumed drift. Landing inp-lp@9124ae66 (6 StrongAMD modules) completes wave 1 (Lemmas 2–7) on main.
+- **01:34. Track W.**
+  - The W7-MEASURE audit is running on codex-2, after LP-W1B, with 4 short names renamed first.
+  - W3-MAIN-FIX is done (inp-w3main@6d809163):
+    - F1: weak transport with C_* exactly;
+    - F2: the Yseries source exports;
+    - F3: a domain-restricted public API, with the global helpers renamed *Ext;
+    - N1: the real power series.
+    Its round-2 audit is queued after W7.
+  - W5-STEP has 55 more commits (Taylor, the new-Hamiltonian engine, pull-back estimates).
+  - A second prover, W5-MODIFIED (claude-11, slim worktree wpq), takes bpW:w5:w4-modified only.
+  - The w_build.sh exit-code bug is fixed.
+- **01:42. W7-MEASURE audit 1 (codex-2): FAIL on 2 findings.** The main measure theorem exclSet_measure_le and the density, Diophantine and limit implications pass. F1 is a real transcription bug: shellInner used a pointwise margin, where the source has dist_∞(I, R²∖R_k) > a, which made it a stronger premise (counterexample given). It will be redefined with infDist, and W8-PREP's ShellGeom (7 uses) re-checked. F2: missing exports (freqcoords inverse and bijection, counts). The fix is queued for the next W slot. W3-MAIN round 2 is next on codex-2 if LP has nothing ready.
+- **01:45. Track LP:** wave 1 (Lemmas 2–7) is complete on main (22c7517e). LP-DOM (Lemma 8, 601 lines) and LP-NRS (scale, 301 lines) are proved and in combined audit LP-W2A on codex-2. LP-NRR (Lemma 13, ExtNFHyp per centre giving the stopped drift) is on claude-11; LP-OSC (Lemma 16) is on claude-12. kam-inp-63 is told that D57 makes codex-2 audits valid.
+- **01:48. Heartbeat.**
+  - LP provers: LP-NRR and LP-CONF (LP-OSC has finished); W provers: W5-STEP and W5-MODIFIED; the W suborch is active.
+  - No OOM since 01:20. Load about 7–9. Memory: 17 GB available. Disks: / 17 GB free, HC 66 GB free.
+  - Quotas: claude-11 66 %, claude-12 39 %, claude-3 32 %.
+- **01:49. The LP-W2A audit prompt was stuck unsubmitted in the Codex input box** (a long paste needs an extra Enter). root-b8 submitted it; it is now running. kam-lp is told to verify the 'Working' spinner after every launch (the known tmux-submission failure).
+- **02:01. LP-W2A (DOM, Lemma 8; NRS, scale) audit on codex-2: PASS WITH NOTES; landing inp-lp@d144c7b9 (6 modules).** DOM proves only the parts of Lemma 8 the Lean route consumes; the Lemma 8 graph node is to be PARTIAL unless the derivative and denominator clauses are added. NRR must choose ρ strictly inside r_*. Next LP audit: LP-OSC (Lemma 16).
+- **02:02. LP-CONF (Lemma 14) proved:** strongFirstExit_of_stopped_drift, 267 lines, standard axioms. It gives existence, uniqueness, drift ≤ r/2, the AMD margin δ/2 and the barrier state on [−T, T]; its only extra premise, the stopped drift hstop, is an internal helper premise that LP-PS discharges via NRR. A strict-inequality strengthening round is underway. CONF will be audited with OSC as LP-W3A on codex-2 after W3-MAIN round 2. The Lemma 8 PARTIAL rule is in PROGRESS (a7aa700e).
+- **02:14. Track W: W3-MAIN round 2 (codex-2): PASS WITH NOTES** (F1–F3 closed, N1 supplied). It is landing as
+  inp-w3main@f07140a5 (33 Birkhoff modules), so all of W3 is audited.
+  - W5-STEP's context filled after clause (v) and it restarted fresh (02:05). Remaining: reality of R, weak conjugacy,
+    periodicity and equivariance, symplecticity, then the step theorem.
+  - W5-MODIFIED is working. The W7 fix waits for a slot.
+- **02:18. Heartbeat.**
+  - Load about 17 from overlapping bursts: the landing core build of W3-MAIN in KAM-inp (parallel lean), two
+    frozen-anchor guard runs from provers' lint (minutes each), the LP-OSC audit's kernel replay, and KPZ activity
+    (a git pack and a 20-minute python job).
+  - No OOM since 01:50. Memory: 17 GB available.
+  - Provers working: LP-NRR, LP-CONF, W5-STEP, W5-MODIFIED.
+  - Quotas: claude-11 62 %, claude-12 36 %, claude-3 31 %, claude-6 9 %.
+- **02:22. Track LP: LP-NRR (Lemma 13) proved** (762 lines, standard axioms): lp_stopped_drift gives ‖Λ(z u) − I⁰‖ ≤ D₀√μ/2 for |t| ≤ T₀ exp(c μ^(−1/(2(τ+1)))), with every ExtNFHyp field built per centre and ρ strictly inside r_*. Every planar lemma is now proved. Running: LP-LIFT (the chart lift discharging hstop) and LP-DOMX (the remaining Lemma 8 clauses). Audits queued: OSC (running), W3B (CONF+NRR), then LIFT and DOMX. Next: LP-PS, the planar theorem LP1.
+- **02:22. Track W: W5-MODIFIED done in 45 min** (inp-wpq@1d8e2579): bpW:w5:w4-modified (i)–(iii) complete, 12 new files each under 600 lines, standard axioms; only generality deviations. It merges into W5-STEP at the next commit boundary, and its audit is batched with W5-STEP's. The freed slot runs W7-FIX (shellInner via infDist plus the exports).
+- **02:25. LP FREEZE-PROPOSAL draft 1** (inp-lp daac5b3e): exact elaborated text of LP0 planar_strongAMD_barrier (already proved as strongBarrier_physical on main) and LP1 planar_strongAMD_exponentialSafety (Thm 15 + L16), with OD-1 |L|, OD-2 the carrier variant, and OD-3 recommending dropping max ν = 1. An independent statement-fidelity review on codex-2 is requested before the owner sees it (draft 2).
+- **02:37. Track W: W3-MAIN landed (main 71c73243, with LP-W2A). All of W3 and W4 are on main.** The LEAN_STATUS recording for the W3/W4 graph nodes is running under the binding rule: PROVED only for source conclusions that passed their final audit, PARTIAL otherwise; the structural gate must exit 0.
+- **02:49. Track W graph LEAN_STATUS for W3 and W4** (inp-wgraph@0aaf2bb3, docs only, to kam-inp-63): PROVED 213 → 305, PARTIAL 14 → 22, NOT_STARTED 420 → 320; all W3 nodes PROVED. The 8 new PARTIALs are W4 clauses not exported (the lie (iii) general-F rule, lemma1 (i) and (ii) composition and exports, lemma2's λ-weighted norms, steps, w4-general). A W4-COMPLETE package is queued after W7-FIX. Gate exit 0. W7-FIX: F1 (infDist), F2.1 and F2.2 committed.
+- **02:50. Heartbeat.**
+  - LP-OSC (Lemma 16) merged into inp (e0262014; audit PASS WITH NOTES), and the landing to main is in progress (the
+    HQ lock is held by land-branch).
+  - Working: the LP-W3B audit (CONF+NRR), LP-PS (the LP1 assembly), LP-DOMX, W5-STEP, W7-FIX.
+  - No OOM since 02:20. Load about 14. Memory: 16 GB available. Disks: / 16 GB free (90 %), HC 67 GB free.
+- **02:51. Track LP: LP-LIFT done** (510 lines, standard axioms): the chart lift on the stopped interval, with the three D1 premises derived from CONF's strict conditions (no assumed drift). Every LP1 ingredient is proved. LP-PS is assembling lp1_planar_strongAMD_safety (proposal text minus max ν = 1), the normalized corollary, LP0 and the τ = n − 1/2 corollary. Audits: W3B running, then the statement review, LIFT, DOMX, PS.
+- **03:17. MILESTONE (track W): the W5 KAM step theorem is proved for the non-modified case** (KAM.Wave.stepTheorem, inp-wpj@4bb365eb; all five clauses; standard axioms). Before audit (rule 6, root-b8): the extra premise ε₀ > 0 must be discharged or moved to a distinctly named helper; 5σ < s versus σ ≤ s/6 is to be compared as a hypothesis. The node stays PARTIAL until reality, DΦ(𝒫^{p₊}) and the Riesz X_N are exported. The modified case is next; the W5 audit will be split into two codex-2 runs.
+- **03:18. Heartbeat.**
+  - LP-W3B (CONF Lemma 14 + NRR Lemma 13) audit PASS WITH NOTES; both landed (main 56adb6f3). LP-OSC landed earlier.
+  - HQ meters: track W 65 % (graph LEAN_STATUS for W3 and W4), track LP 34 %.
+  - Working: LP-PS (the LP1 assembly), an LP thr2 package, kam-lp, kam-1b, W5-STEP (modified case), and the wpq prover.
+  - No OOM since 02:50. Load about 10. Memory: 16 GB available.
+  - Quotas: claude-11 59 %, claude-12 34 %, claude-3 29 %, claude-6 7 %.
+- **03:19. LP freeze proposal: statement review 1 (codex-2) returned draft 1 for revision.** No false statement and no
+  conclusion-shaped premise. Findings:
+  - F1: LP0 exported only the distance projection of Lemma 5;
+  - F2: LP1 lacked Lemma 16's summed element estimate and ellipse-validity clauses;
+  - F3: the cross threshold lacked a 2 ≤ n guard;
+  - F4: the total formulas need source subtypes (new FOR OWNER OD-11; root-b8 recommends (b) source subtypes);
+  - F5: keep max ν = 1 (OD-3 revised).
+  - Draft 2 (448cd5d9) is elaborated with the fixes. A delta review is queued before the owner sees it.
+  - LP-THR2 (F3 repair) is running. LP-DOMX is proved (lemma8_complete; Lemma 8 can be PROVED); LIFT + DOMX are queued
+    as audit LP-W3C.
+- **03:26. Track W: rule-6 points on stepTheorem are being addressed.** The ε₀ > 0 version becomes the helper stepTheorem_of_eps0_pos; the source-facing stepTheorem is proved without the premise (via ε₀' = ε/2 when ε₀ = 0), and the same applies to the modified case. 5σ < s is weaker than the blueprint's σ ≤ s/6 (given σ > 0), so it is allowed, and the comparison is recorded. The step node stays PARTIAL until reality, DΦ(𝒫^{p₊}) and X_N are exported. W7 round 2 is running on codex-2 (spinner confirmed).
+- **03:36. Track W: W7-MEASURE round 2 (codex-2): PASS** (F1 shellInner via infDist with consumers reproved; F2 exports). Landing as inp-w7land@4a8adcb5 (28 modules). After it lands, W6-PREP/W8-PREP (inp-wpn) rebases onto it, adopting the renames and the new shellInner, and W8's ShellGeom (7 uses) is re-checked. Provers: W5-STEP (modified case plus the ε₀ fix), W4-COMPLETE. codex-2 is back with LP for W3C.
+- **03:39. MILESTONE (track LP): the planar strong-AMD exponential safety theorem is proved end to end in Lean**
+  (LP-PS, inp-lp-ps@74ebebb1, 779 lines; the forbidden-construct scan of the 17 changed Lean files is clean).
+  - lp1_planar_strongAMD_safety (general), _normalized (the freeze-proposal draft-2 text verbatim) and _halfInteger
+    (exponent 1/(2n+1)), plus lp0_planar_barrier (full Lemma 5). Standard axioms.
+  - Remaining: audits LP-W3C, then the delta review, then LP-PS; landings; the owner's freeze decisions OD-1..OD-11.
+  - Wave 4 (spatial) has started: LP-SP-MODEL on claude-11; the rotation algebra next.
+- **03:39. Track W: W4-COMPLETE done** (inp-w4c@6532d124): the four PARTIAL W4 clauses are exported (lie (iii) general F,
+  lemma1 (i) unconditional, lemma1 (ii), lemma2 λ-weighted). Its audit follows LP's queue. W5-REAL (claude-11) adds
+  the step's missing clauses (reality, DΦ(𝒫^{p₊}), Riesz X_N). W5-STEP is on the modified case with the conditional
+  helper pattern.
+- **03:48. Heartbeat.**
+  - Working: the LP-W3C audit (LIFT+DOMX) on codex-2; LP-SP-MODEL and LP-SP-ROT (the spatial wave); W5-STEP; W5-REAL.
+  - HQ meters: track W 65 %, track LP 42 %.
+  - No OOM since 03:20. Memory: 15 GB available. Disks: / 15 GB free (90 %), HC 67 GB free.
+  - Quotas: claude-11 59 %, claude-12 34 %, claude-3 29 %, claude-6 7 %.
+- **04:06. Track W: W5-STEP final (inp-wpj@5e45b8b0).**
+  - stepTheorem and stepTheoremMod state blueprint clauses (i)–(v) verbatim, with no ∃ wrapper (one round-trip fixed
+    that). The ε₀ > 0 versions are now the distinctly named helpers. ε > 0 is a blueprint premise; the modified (iv)
+    is conditional on (H_α) as in the source. Standard axioms, lint 0.
+  - The step node stays PARTIAL until W5-REAL lands.
+  - W7-MEASURE landed (main eabc84d2).
+  - W5 audit: about 12.7k lines in two codex-2 runs, after LP's queue; W4-COMPLETE is ready to audit too.
+  - New prover W6-ITER (claude-11): the ShellGeom repair, then the W6 labels unlocked by the step theorem (iteration,
+    convergence (ii)–(iv), prep-step, invariance, strong, instances, tori).
+- **04:10. LP freeze proposal draft 2: statement delta review 2 PASS for the theorem types.** F1–F5 resolved and
+  sorry-free producers confirmed for the exact LP0/LP1 types. The freeze package is NOT_READY solely because of OD-11
+  (owner; (b) recommended).
+  - LP-W3C (LIFT + DOMX + THR2): PASS WITH NOTES; landing inp-lp cc3d5e46. The LP-PS audit is next, which completes
+    the audit of the planar campaign.
+  - Wave 4: LP-SP-ROT proved (328 lines); LP-SP-CHART (Lemma 17) and LP-SP-MODEL are proving.
+  - **FOR OWNER (morning):** FREEZE-PROPOSAL draft 2 plus STATEMENT-REVIEW-1/2; decide OD-1..OD-11.
+- **04:19. Heartbeat.**
+  - Working: the W4-COMPLETE audit (codex-2), LP-SP-CHART, W5-REAL, W6-ITER. LP-SP-GEO is waiting on a compile-gate
+    slot and the memory gate.
+  - A landing core build is running on main.
+  - Load about 18 and memory down to 11 GB available. The largest single user is KPZ's recurring git pack-objects
+    (3.3 GB, 1.5 cores; it repacks about every 30 min under KPZ's commit churn), then a landing build.
+  - No OOM since 03:50. Disks: / 15 GB free (91 %).
+  - Quotas: claude-11 56 %, claude-12 32 %, claude-3 28 %, claude-6 6 %.
+- **04:48. Heartbeat.**
+  - LP-W3C landed (main 9bd8b629); track LP 48 %. LP-SP-CHART is finishing (final build, lint, shortname). LP-SP-OSC
+    is proving.
+  - W: the W4-COMPLETE audit is PASS WITH NOTES (50 axiom checks). W5-REAL is done (handoff written; 15 long lines to
+    wrap for lint); kam-1b is processing it. W6-ITER is proving.
+  - No OOM since 04:18. Load about 10. Memory: 17 GB available. Disks: / 14 GB free (91 %).
+- **05:18. Track W.**
+  - W4-COMPLETE audit PASS WITH NOTES; landing inp-w4c@bbe955c2 closes the 8 W4 PARTIAL nodes.
+  - W5-REAL done (reality of Φ and P₊, DΦ(𝒫^{p₊}), field X_N, both cases; helpers on WaveStepHyp).
+  - W6-ITER done: ShellGeom re-proved, the iteration lemma, convergence (i)–(ii), prep-step, the wave instances. All
+    are conditional helpers on W5's reality clauses with distinct names.
+  - W5 short-name hygiene: 17 names.
+  - Now W5W6-INTEGRATE alone: the source-facing full bpW:w5:step, then the W6 labels made unconditional, then
+    invariance, strong, tori and the W8 instantiations.
+  - W's free prover slot is lent to LP (3 LP + 1 W = 4 total).
+- **05:18. Heartbeat.**
+  - W4-COMPLETE landed (main cfc3fbaa).
+  - Working: an LP audit (codex-2), LP-SP-PROD and LP-SP-TUBE (spatial product chart and complex tube), kam-lp,
+    W5W6-INTEGRATE.
+  - No OOM since 04:48. Load about 12. Memory: 16 GB available. Disks: / 14 GB free, HC 65 GB free.
+  - Quotas: claude-11 54 %, claude-12 30 %, claude-3 26 %, claude-6 4 % (nearly exhausted; no LP or W prover uses it
+    now).
+- **05:20. Track LP (3 provers).**
+  - LP-SRC (claude-6, short): OD-11 option (b) made concrete. Source-subtype definitions with characterizations, and
+    lp1_planar_strongAMD_safety_source PROVED from LP1, so the owner chooses between two proved texts. Draft 3 is to be
+    reviewed. A 4th worktree, 6.7 GB on HC (59 GB free), is temporary.
+  - LP-SP-PROD (claude-12) and LP-SP-TUBE (claude-11).
+  - Spatial proved so far: SP-ROT, SP-MODEL, SP-GEO, SP-CHART (Lemma 17 with symplecticity), SP-OSC (Lemma 16 d=3,
+    1,040 lines), SP-CONF (Lemma 14 d=3, 333 lines).
+  - Audits: LP-PS (planar LP1) running on codex-2; then the spatial batches W4A, W4B, W4C.
+- **05:36. MILESTONE (track LP): the planar theorem LP1 and LP0 passed audit LP-PS-1 (codex-2), PASS WITH NOTES, with every
+  main statement PASS.** The auditor re-verified that _normalized has exactly the draft-2 LP1 type. Landing inp-lp
+  6fe5c059.
+  - The whole planar campaign (MAIN Lemmas 2–8, 13, 14, 16, Theorem 15) is proved and audited in Lean. It waits only on
+    the landing and the owner's freeze decisions.
+  - Spatial: SP-TUBE (201) and SP-PROD (767) proved; SP-DOM (Lemma 18), SP-ADAPT (Lemma 13 adapter, Phase (n+m)) and
+    LP-SRC are running. The spatial audit batches start (W4A).
+- **05:49. MILESTONE: the planar LP1 is on main (0772a7d5).** KAM/Planetary/StrongAMD/PlanarSafety/Main.lean:
+  lp1_planar_strongAMD_safety, _normalized, _halfInteger and lp0_planar_barrier. Up to date on main (9,313 jobs).
+  Track LP 50 %. The spatial wave continues: SP-LIFT is proving and SP-DOM is finishing.
+- **05:50. Track LP:** kam-inp-63 checked #print axioms on main for LP1 and LP0: standard three only.
+  - **FOR OWNER: the LP freeze package is ready.** FREEZE-PROPOSAL draft 3 plus three statement reviews (1 returned →
+    2 PASS → 3 PASS for the concrete OD-11(b) text). Both OD-11 options are proved (LP-SRC). Rulings OD-1..OD-11 are
+    needed; recommended: OD-11 (b), OD-3 keep max ν = 1.
+  - Spatial proved: MODEL, ROT, CHART, PROD, TUBE, GEO, OSC, CONF, ADAPT, DOM (Lemma 18, PARTIAL until a DOMX-style
+    supplement). Running: SP-NRR, SP-LIFT. Next: SP-SAFE (LP2).
+- **06:19. Heartbeat.**
+  - LP: LP-SP-SAFE (the spatial theorem LP2 assembly) and LP-SP-DOMX (the Lemma 18 supplement) are proving.
+  - W: W5W6-INTEGRATE finished at 06:12. Its handoff carries audit-focus sections; two open W5 interface deviations
+    (D2/D3: the normal-shift weight and a sharper Φ_P bound) are still open. kam-1b is processing it, with convergence
+    (iii)–(iv) as the next package.
+  - No OOM since 05:48. Load about 12. Memory: 15 GB available. Disks: / 13 GB free (92 %), HC 58 GB free.
+  - Quotas: claude-11 52 %, claude-12 28 %, claude-3 25 %, claude-6 3 %.
+- **06:22. MILESTONE (track W): W5W6-INTEGRATE.**
+  - The source-facing stepTheorem and stepTheoremMod carry the full bpW:w5:step (Φ and P₊ real, DΦ onto 𝒫^{p₊},
+    field-form weak conjugacy) with no ε₀ premise.
+  - Unconditional W6 results: W6StepReal(Mod), the iteration lemma, convergence (i)–(ii), applicable, the wave
+    instances, and strong.
+  - W gets its second slot back: W6-CONV (convergence (iii)–(iv), invariance) and W5-AA (action-angle and initial).
+    LP returns to 2 provers.
+  - The W5-STEP-A audit (52 modules) is launching on codex-2. W5-STEP-B follows, with the D2/D3 deviations as audit
+    focus.
+- **06:25. Track LP back to 2 provers:** SP-SAFE (claude-11) and SP-DOMX (claude-12); claude-6 idle. The spatial W4A audit batch (SP-MODEL + SP-ROT) landed (main b2308bac). LP-W4B (LP-SRC + SP-GEO, OSC, CONF, TUBE, ADAPT) is staged for codex-2 behind W5-STEP-A.
+- **06:40. ROOT DISK ALERT: / fell to 5.4 GB free (97 %) by 06:36, from about 14 GB at 05:40.**
+  - Cause, not KAM: /root/code/KPZ/.git/objects holds 10.56 GB of loose objects (packs 1.6 GB). KPZ's repeated
+    auto-gc (gc.pid 06:36) explodes unreachable objects into loose files with backdated mtimes.
+  - Also 6.8 GB held by deleted-but-open old codex and claude binaries (long-running sessions after updates).
+  - Action (KAM only, reversible): moved the idle lock worktree's .lake/build (5.9 GB) to
+    HC kam-data/so-lock/lockdata-lake-build behind a symlink. rsync was verified with 0 diffs, and Lake reads it
+    (core 9,094 jobs up to date). / is at 6.6 GB free.
+  - Reported to root-42 (the diskspace session). **FOR OWNER:** KPZ needs a supervised git prune/gc; root-b8 does not
+    touch KPZ.
+- **06:43. Correction from root-42 (diskspace):** the KPZ loose objects are mostly REACHABLE: the 40 MB boxes/Z-record/RECORD.md is rewritten by many of about 3,700 commits per day, each a ~16 MB blob, and no gc pass has completed since about Oct 29. root-42 is watching a running gc --auto and will take it to the owner; no pruning without the owner. No KAM action needed.
+- **06:45. MILESTONE (track LP): the spatial theorem LP2 is proved end to end in Lean** (LP-SP-SAFE,
+  inp-lp-spsafe@c9553935, 938 lines; 49 changed Lean files scanned clean by root-b8).
+  - lp2_spatial_strongAMD_safety, _normalized and _halfInteger (exponent 1/(2n+1)); standard axioms.
+  - No prograde, inclination, nonzero-|L|, alignment or secular premise; the frame is aligned inside the proof.
+  - All of LP0, LP1 and LP2 are proved. FREEZE-PROPOSAL draft 4 adds the LP2 text (delta review queued); the spatial
+    audits W4B–W4E are rolling.
+  - LP3 (the resonance-tolerant stretch) starts its design phase per the owner's strongest-version mandate, with a
+    paper plan and an independent review before any Lean work; nothing frozen.
+- **06:47. LP3 design phase running** (Opus 5.5, docs-only worktree; output docs/tracks/LP/lp3/LP3-PLAN.md), then a refute-first review and Lean only after it passes. Import-policy ruling (root-b8): LP modules may import the SEALED frozen partialConvex_nekhoroshev (rule 9 quarantines only providers and DRAFT_SORRY anchors; track P's Exponential/Stopped.lean is the precedent); never its provider. LP-SP-SRCB (LP2 through the spatial source carriers) is running.
+- **06:48. Heartbeat.**
+  - Working: the LP-W4B audit (codex-2), LP3 design, LP-SP-SRCB, W5-AA, W6-CONV. Track LP 57 %, W 65 %.
+  - No OOM since 06:18. Memory: 11 GB available.
+  - / at 6.3 GB free (96 %) while KPZ's gc runs (root-42 watching); a background alarm fires below 3 GB.
+  - Quotas: claude-11 52 %, claude-12 28 %, claude-3 25 %.
+- **07:05. LP3 design done** (docs/tracks/LP/lp3/LP3-PLAN.md).
+  - The sealed partialConvex_nekhoroshev is applied cellwise on a finite cover with sharp per-cell slow levels (no
+    AMDBox). Everything else of LP1/LP2 is reused.
+  - Result: T₀ exp(c μ^(−a_n)) with drift O(μ^(b_n)), Nek77 exponents, no Diophantine hypothesis; planar and spatial;
+    about 2,300 lines in 12 files.
+  - An Opus refute-first review is running.
+  - LP-W4B passed with notes and is landing. claude-11 is to run SP-DOMX (the spatial Lemma 18 clauses) meanwhile.
+- **07:16. LP3 plan review (independent Opus): PASS WITH NOTES, no blocking.** Every partialConvex_nekhoroshev premise
+  is met, μ₀ is uniform, the sharpened bound is correct, and there is no hidden Diophantine or confinement assumption.
+  - C1–C5 applied.
+  - LP3 Lean is running: LP3-KEP and LP3-COVERPERT. Next LP3-ONE, DRIFT, PS.
+  - D58 recorded (sealed frozen theorems may be imported; rule 9 clarification).
+  - FREEZE-PROPOSAL draft 5 (§3d LP2 under (b), proved by LP-SP-SRCB); LP2 statement review 4 (Opus) is running.
+  - Lean package audits stay on codex-2 (D54/D57); Opus only for paper-level and statement reviews.
+- **07:18. Heartbeat.**
+  - Track LP 66 %, W 65 %.
+  - Working: a W audit (wpja5) on codex-2, LP3-COVERPERT, kam-lp, W5-AA, W6-CONV. LP3-KEP has finished; kam-lp is
+    processing it.
+  - No OOM since 06:48. Memory: 15 GB available. / at 5.8 GB free (the KPZ cleanup is pending; the alarm is set below
+    3 GB).
+  - Quotas: claude-11 48 %, claude-12 25 %, claude-3 24 %, claude-6 1 %.
+- **07:21. Track W, W5 audits (codex-2).**
+  - W5-STEP-A (52 modules): FAIL on two missing exports: F1, joint continuity of the flow and its derivative in (t, w);
+    F2, Dφᵗ(w) onto 𝒫^{p₊} for all t.
+  - W5-STEP-B (61 modules): FAIL on statement fidelity: F1, clause (v) bounds Φ−id and DΦ−I in the ambient p norm
+    instead of the p₊ and p→p₊ norms (the smoothing displacement Ψ was discarded); F2, clause (iv) lacks the
+    Dirichlet-weight variant. Holomorphy and the full ℤ² law are not stated explicitly.
+  - PASS: new-ham, w4-modified, reality, step-map onto, frequency, ε₀ split.
+  - D2/D3 ruled consumer mismatches; the fix is a bridge to the p+1 Taylor family and a separate sharp sup bound via Ψ.
+  - The fixes go to the W5-AA prover first; a combined round 2 follows.
+- **07:22. LP progress.**
+  - LP3-KEP proved (253 lines; lp3_kepler_data supplies every fast-Hamiltonian premise of partialConvex_nekhoroshev).
+  - Statement review 4: §3c (LP2) PASS. §3d (LP2 under OD-11 (b)) had a blocking R4.1 (unfrozen total spatial
+    elements applied to z₀ and z t), fixed by restating through spatialSource* (LP-SP-SRCB2 running).
+    FREEZE-PROPOSAL is at draft 6.
+  - codex-2 was the bottleneck, so it now runs two concurrent audit lanes (LP and W), replays capped at 4 GB with the
+    MemAvailable ≥ 8 GB gate. Orchestrator decision (the one-at-a-time rule was root-b8's, for quota and memory).
+- **07:46. Track W.**
+  - W6-CONV done (inp-wpr@24c56b59): the compositions Φ^ν, the Cauchy limit Φ_*, convergence (iii)–(iv), invariance,
+    and the tori interface. D3 is removed by a sharp prep-step bound.
+  - The p₊-smoothing dependency is the named W6StepSmooth(Mod), which W5-AA is exporting; the affected labels are
+    *_of_stepSmooth helpers meanwhile (rule 6).
+  - New prover W8-ASM (claude-11): the W8 labels needing W6 but not action-angle.
+  - The W lane runs the W6 audit (30 modules, about 7.1k lines), then W5 round 2.
+- **07:48. Heartbeat.**
+  - The LP-W4C audit (SP-CHART + SP-PROD) finished at 07:44 (READY); kam-lp is processing it.
+  - LP3 Lean: LP3-DRIFT and LP3-SP-DRIFT (planar and spatial cellwise drift) are proving.
+  - W: W5-AA (W5 fixes) and W8-ASM.
+  - No OOM since 07:18. Load about 13. Memory: 16 GB available. / at 5.6 GB free (alarm armed).
+  - Quotas: claude-11 47 %, claude-12 24 %, claude-3 23 %.
+- **07:54. Track LP.**
+  - LP-W4C (Lemma 17 with symplecticity, plus the product) audit PASS WITH NOTES (no code changes); landing.
+  - LP-W4D (22 modules) is in audit; W4E is next.
+  - LP-SP-SRCB2 proved the R4.1 (A) text; statement review 5 PASS WITH NOTES. FREEZE-PROPOSAL draft 6 has the
+    spatial (b) text ready.
+  - LP3 proved: KEP (253), COVERPERT (590), CELL (about 230; the sealed theorem applied per cell with no sorryAx),
+    SP-COVER (434). DRIFT and SP-DRIFT are proving.
+  - The wrappers now pass -DautoImplicit=false (single-file checks had missed a binder; W fixed the same).
+- **08:01. MILESTONE (track W): W5-AA done in 1h37m (inp-w5aa@d4cc1ff5).**
+  - The W5-STEP-A and B audit findings are all fixed: joint flow continuity; Dφᵗ onto 𝒫^{p₊}; clause (v) in p₊ via Ψ;
+    the Dirichlet-weight (iv); holomorphy; the full ℤ² law; the D2 bridge; the sharp |Ψ| ≤ M_F.
+  - bpW:w5:action-angle (i)–(vi) and bpW:w5:initial are proved. Only unused premises are dropped.
+  - Next: W6-TORI (discharge W6StepSmooth, prove bpW:w6:tori), then W8's action-angle labels and the nlw2 provider
+    assembly.
+  - Ruling (root-b8): the nlw2 provider and its seal audit may proceed. **FOR OWNER: the seal itself (the frozen-file
+    edit and SEALED state) waits for the owner's go, as for SO-2 (D50).**
+- **08:06. Root disk 5.1 GB free, falling about 1 GB/h.** A KPZ gc --auto has been running since 08:03. KPZ's gc.log (Oct 31 10:33, 'too many unreachable loose objects; run git prune') may make auto-gc skip work until it expires, which would explain no completed gc since Oct 29. Passed to root-42. **FOR OWNER: a supervised manual gc in KPZ (after removing the stale gc.log) is likely needed.** The alarm is armed at 3 GB.
+- **08:07. KPZ disk plan (root-42):** blocked on the owner's OK. It proposes one supervised non-destructive git repack -d in KPZ (it should free about 8–9 GB if the loose objects are reachable). The background gcs do run, but end after about 3 min without producing a pack (not OOM). A read-only reachability check is running. KAM holds its 3 GB alarm and its options.
+- **08:10. KPZ reachability (root-42):** of about 11.8 GB of loose objects, 5.7 GB are reachable and 6.1 GB unreachable
+  (22.5k trees and 1.1k commits from retried lar-N commits; the flat ~2 MB Phi4project/reports tree and the 40 MB
+  RECORD.md rewritten every commit).
+  - **FOR OWNER (root-42 has put the options to them):**
+    (a) repack -d: frees up to about 5 GB, non-destructive;
+    (b) a cruft repack, also non-destructive;
+    (c) a prune, covering the rest.
+  - Root is at about 5 GB free; the KAM fallback is armed at 3 GB.
+- **08:17. Owner: run the cruft repack in KPZ, and ask KPZ to stop rewriting the 40 MB file.**
+  - A KPZ gc --auto started a cruft repack at about 08:24 (pid 1334765). root-b8 is watching it rather than starting
+    a concurrent one; if it ends without a pack, root-b8 runs `git repack -d --cruft` (no expiration) capped, with
+    stderr captured.
+  - Message sent to the KPZ orchestrator (tmux orangutan): shard or append-only RECORD.md instead of whole rewrites;
+    split Phi4project/reports into subtrees; fix the lar-N retry recommits; batch commits; no prune without the owner.
+- **08:18. Heartbeat.**
+  - Track LP 79 %: the LP3 drift suppliers are done, and LP3-PS and LP3-SP-SAFE (the LP3 planar and spatial
+    assemblies) are proving. The LP-W4D audit is running on codex-2.
+  - W: W6-TORI and W8-ASM are proving.
+  - KPZ's cruft repack (gc --auto, pid 1334765) is running, with pack-objects at 2.5 GB RSS; watched.
+  - No OOM since 07:48. Memory: 14 GB available. / at 4.9 GB free (a temporary dip is expected during the repack).
+  - Quotas: claude-11 44 %, claude-12 22 %, claude-3 22 %.
+- **08:20. KPZ (orangutan) commit-cadence changes in place (08:20).**
+  - RECORD.md is committed at most once per hour (was 23/h; about 350 MB/h down to about 16 MB/h), and lar retries
+    rebase the existing commit instead of recommitting.
+  - The 4 Phi4 workers commit at most every 30 min (was about 115 report commits/h); the orchestrator's own commits
+    are batched every 30 min. Nobody there runs gc or prune.
+  - **FOR OWNER (KPZ lead approval pending):** shard RECORD.md into append-only per-hour files, and put new reports
+    outside the 48,913-entry reports/ tree.
+- **08:21. KPZ cruft repack.**
+  - KPZ's own gc --auto cruft repack (08:17–08:20) again ended after 195 s without a new pack: loose objects still
+    11.81 GB, no OOM.
+  - root-b8 is now running `git gc --prune=never --no-quiet`. It takes the gc lock so auto-gcs cannot collide, does
+    the cruft repack with no expiry (non-destructive), keeps reflog/worktree/rerere expiry off, caps memory at 8 GB
+    (windowMemory 256m, 2 threads), and captures stderr.
+  - Before: 32,816 loose objects (11.27 GiB), 51 packs (1.57 GiB). Log in the scratchpad (kpz-repack.log).
+- **08:27. KPZ cruft repack done (root-b8's `git gc --prune=never`, 08:21–08:26, exit 0).**
+  - Before: 32,816 loose objects (11.27 GiB) and 51 packs (1.57 GiB). After: 0 loose objects and 2 packs (488 MiB in
+    all): a 469 MB main pack, plus a 28 MB cruft pack with `.mtimes` holding the unreachable objects. Nothing was
+    pruned, and KPZ's HEAD reads normally.
+  - Root disk: 4.9 GB → 18 GB free (89 %). The KAM fallback (moving more build output) is no longer needed.
+- **08:27. D59: the owner approved the LP freeze rulings** (the recommended OD-1…OD-13: |L| AMD, OD-11 (b) source
+  carriers, `max ν = 1` kept, τ free with the 1/(2n+1) corollary, new anchors only).
+  - kam-lp generates FREEZE-PROPOSAL draft 7 under them, then an independent statement audit on codex-2.
+  - **FOR OWNER next:** approval of the exact draft-7 Lean text. Then freeze (DRAFT_SORRY), the source dependency
+    graph, and the seals.
+- **08:40. Track LP after D59.**
+  - OWNER-DECISIONS: OD-1–6, 9 and 11 (b) are RULED and OD-8, 10, 12 and 13 SETTLED. OD-7 (the freeze) stays IN
+    PROGRESS until the owner approves the exact text.
+  - Package LP-FREEZE7 (claude-11, Opus; this is statement work) writes draft 7:
+    - LP0, LP1 (§3b), LP2 (§3d) and both 1/(2n+1) corollaries;
+    - the complete set of definitions to be frozen under (b), each with its characterization;
+    - exact per-file texts as .txt under docs/tracks/LP/freeze/draft7/, plus manifest drafts;
+    - rfl checks of each draft body against the implementation definitions, and a verification file.
+    A fresh codex-2 statement audit follows.
+  - **LP3-PS PROVED:** LP3-1, planar strong-AMD safety with NO arithmetic hypothesis (510 lines, standard axioms). LP3-2
+    (spatial) is proving.
+  - Lanes: the W4D landing is building, W4E is in audit, and W5A (the LP3 planar suppliers) is staged.
+- **08:45. Track W endgame (kam-1b).** **Unlanded W: about 33k lines across W5, W6 and W8** (inp-w8f, two-dot over
+  KAM/Wave), all gated on audits.
+  - W8-ASM done (inp-w8a@1d2ce4b0): the shell data, the patch instances, and the nlw2-proof steps p-dens, p-dioph and
+    p-lim. Three shell labels are W8-side conditional helpers pending action-angle.
+  - W6-TORI nearly done (inp-w6t@3a236d01): W6StepSmooth(Mod) discharged, so convergence (iii)/(iv), invariance and
+    prep-step are unconditional; D2 and D4 fixed; bpW:w6:tori (i)–(v) proved.
+  - New prover W8-FINAL (claude-11, inp-w8f): the remaining W8 labels and KAM.Wave.nlw2_proof.
+  - Ruling (root-b8): land W5 (round 2) and W6 the moment each passes audit, without waiting for nlw2. The W6 delta
+    after the conditional audit gets a short follow-up audit of the changed modules only.
+- **08:50. Track W. Unlanded about 33k lines; the next landing is W5 (inp-w5aa) on its round-2 PASS.**
+  - W6 audit 1 (the conditional version 24c56b59) FAILED:
+    - F1: the transformation clause of the iteration lemma is in the ambient norm, not the p₊ λ-norms, and
+      W6StepSmooth lacks the parameter-Lipschitz part;
+    - F2: D2;
+    - F3: D4.
+    W6-TORI already fixes F2 and F3, and F1 is assigned to the W6-TORI prover (restate via W5's Ψ and the p₊ clause
+    (v)). A short delta audit follows.
+  - The W5 round-2 audit has launched: deltas for the STEP-A/B findings, plus a first full audit of action-angle and
+    initial (18 modules, 4.3k lines).
+- **08:53. Heartbeat. Unlanded W: about 33k lines** (W5, W6, W8; gated on audits).
+  - **MILESTONE (track LP): LP2 is on main** (W4E merged af4d2dd9, landed 3114e48a). LP0, LP1 and LP2 are proved,
+    audited and on main.
+  - **All LP3 proof work is done:** LP3-1 (planar), LP3-2 (spatial) and LP3-SRC, with no Diophantine hypothesis.
+    LP3 audits: W5A PASS WITH NOTES (landing); W5B and W5C are building. LP-FREEZE7 (draft 7) is writing.
+  - D60: owner asked for parallel W audits on codex-1 and codex-2 (up to 3 W sessions). kam-1b is launching them; the
+    W5 round 2 pre-launch checks are running.
+  - W: W6-TORI is on the F1 fix and W8-FINAL is proving. LP's free prover slot is offered to W.
+  - No OOM. Load about 17. Memory: 17 GB available. Disks: / 17 GB free (89 %), HC 50 GB free.
+  - Quotas: claude-11 41 %, claude-12 21 %, claude-3 21 %, claude-4 8 % (root-b8), claude-6 1 %; claude-2 and
+    claude-5 reset at 09:00. codex-1 4 %, codex-2 0 % on plan (credits, D57).
+  - kam-lp's PROGRESS.md stamps were estimated, not read from the clock; fixed (e8b182b6) from git commit times.
+- **09:00. KPZ structural fixes in force (orangutan; approved by the KPZ lead).** RECORD.md (40 MB) is frozen; lar appends
+  hourly shards under boxes/Z-record/shards/. New Phi4 reports go to reports-dated/YYYY-MM-DD/. Commits are batched
+  every 30 min, retries rebase, and nobody runs gc or prune.
+- **09:00. D60 W audits running.**
+  - inp-maud-wpja5: W5 round 2 part A (STEP-A/B deltas, 7 modules), codex-2.
+  - inp-maud-wpja5b: W5-AA round 1 (action-angle and initial, 11 modules), codex-1.
+  - inp-maud-wpl: W8 (W8-PREP + W8-ASM), codex-1, build in progress.
+  - Queued: W6 round 2 (the W6-TORI delta, 13 modules, inp-w6t@26a20671).
+  - W6-TORI is COMPLETE (F1 iteration lemma in p₊ λ-norms via Ψ, D2/D4, W6StepSmooth discharged, bpW:w6:tori
+    (i)–(v)).
+  - W's third prover: W4-LIECONT (claude-2). W8-FINAL is merging the final W5 and W6 heads.
+- **09:00. Owner request: a short natural-language paper on track LP** (background, the Laskar–Petit 2017 §3 conjecture,
+  results, proof summaries).
+  - Sub-orchestrator kam-paper (Opus 5.5, claude-5); brief .drafts/briefs/offload-main/paper-LP.md.
+  - Worktree /root/code/KAM-paper-lp (branch paper-lp, on HC), output under papers/LP/.
+  - Up to 3 Opus writers, then three fresh refute-first audits (math fidelity, literature and quotes, exposition).
+  - Docs only, no lake. Honesty rules: an asymptotic form of the informal conjecture, not its resolution; novelty
+    unverified (Niederman 1996 not inspected).
+- **09:03. kam-paper launched** (tmux kam-paper-lp, claude-5 at 100 % after its weekly reset; session name kam-paper-lp-bb). It acknowledged the brief and is planning (outline plus claims ledger first). claude-2 is also back at 100 %.
+- **09:05. SO-LOCK (kam-inp-24):** still held; no lock processes; Phase B held. Ready for the owner's SO-3 takeover (LOCK-REMOTE needs a machine or a Hetzner token).
+- **09:05. LP paper plan ready** (paper-lp 2fb39347, papers/LP/NOTES.md): 7 sections plus a formalization appendix, target ≤ 23 pages. Theorems A–E = LP0, LP1, LP2, the τ = n − 1/2 corollary, LP3. The ledger pins main a994efdf and LP3 inp-lp-lp3src 402de5f7. 3 Opus writers launched. root-b8: cite the public KAM-dev repository at a pinned commit.
+- **09:15. Track W. Unlanded about 33k lines.**
+  - W5 round 2: part A (the STEP deltas) PASS WITH NOTES. W5-AA round 1 (action-angle and initial) FAIL on F1: four
+    exported series definitions accept parameters where their series diverge (whole-carrier definition audit). The
+    theorems pass. root-b8: repair F1 now and re-audit those modules; then W5 lands.
+  - Process bug: the parallel auditors shared one checkout (wpja5b is a symlink to wpja5), and part A advanced HEAD
+    during part B. Ruling: every parallel audit gets its own worktree.
+  - W8 audit running (codex-1, at 4 % weekly). W6 round 2 queued. W8-FINAL proving (40 min). W4-LIECONT is the third
+    prover.
+- **09:17. Track W. Unlanded about 33k lines; landing W5 now without action-angle and initial** (inp-w5land@13dfa3c7,
+  18.6k lines, sent to kam-inp-63). No module imports the 11 held-back files.
+  - W5-AA-FIX (claude-5, worktree wps, branch inp-w5aafix) restricts the four series definitions to their carriers;
+    a tight round 2 follows.
+  - The shared-HEAD bug was a docs-only commit (459f6658); no Lean changed during either audit. The symlink is
+    removed.
+  - Running: the W8 audit (codex-1), W6 round 2 (codex-2), W8-FINAL (claude-11), W4-LIECONT (claude-2) and
+    W5-AA-FIX (claude-5). HC volume at 90 %; kam-1b is retiring finished worktrees.
+- **09:19. Heartbeat. Unlanded W: about 33k lines** (the W5 landing, 18.6k lines, is with kam-inp-63).
+  - LP: W5B landed (main 4916704e, the LP3 spatial suppliers); the W5C audit (the LP3 assemblies) is running;
+    LP-FREEZE7 has run 47 min.
+  - W: W6 round 2 (codex-2) and the W8 audit (codex-1) are running. W8-FINAL has run 43 min. W5-AA-FIX started.
+    W4-LIECONT is done (inp-w4lc c8b76873, bpW:w4:lie (i)); kam-1b audits it.
+  - Paper: writer A done (abstract, introduction, results). **Finding:** Nekhoroshev 1977, Theorem 12.3 (pp. 55–56),
+    already proves exponentially long collision-free motion in the planetary problem with the same exponents as
+    LP3. LP3's addition is the sharp per-state AMD threshold (instead of a box of semi-major axes), the ordered annuli
+    and the osculating conclusions. The paper says so plainly. Writers B and C are drafting. root-b8 approved a
+    blocked but safe scratch-cleanup prompt in the paper session.
+  - No OOM. Load about 19. Memory: 16 GB available. Disks: / 17 GB free, HC 39 GB free (90 %).
+  - Quotas: claude-2 100 %, claude-5 97 %, claude-11 40 %, claude-3 21 %, claude-12 21 %, claude-4 7 % (root-b8).
+    codex-1 4 %, codex-2 on credits.
+- **09:26. MILESTONE (track LP): LP3 proved and audited.** LP-W5C-1 (codex-2, fe922018): LP3-PS, LP3-SP-SAFE and
+  LP3-SRC all PASS, combined PASS WITH NOTES.
+  - The auditor compared the 8 LP3 types with LP1/LP2. The only differences: the Diophantine premise removed, the time
+    exponent 2/(6n²−3n+14), and drift μ^(3/(6n²−3n+14)). The 14 new theorems have standard axioms.
+  - W5B is on main (4916704e). The W5C landing is requested, and it puts all of LP3 on main.
+  - Draft 8 (the LP3 anchors) started: LP-FREEZE8, Opus on claude-11, two anchors in source-carrier form. The draft-7
+    statement audit (inp-maud-lp-fz7) is running.
+- **09:27. MILESTONE (track W): the frozen KAM.Wave.nlw2 is PROVED, not yet sealed.** W8-FINAL (inp-w8f@dc3a9d5c)
+  proves it as KAM.Wave.nlw2_proof (Assembly/Nlw2Proof.lean, frozen definitions only).
+  - The provider KAM.Provider.Wave.nlw2 is staged (inp-wprov@16141d21).
+  - kam-1b's check: Expr-equal types; the seal body type-checks; standard axioms for all three; lint and the
+    frozen-anchor guard are OK.
+  - root-b8 spot check of the branch diff against main: no sorry, admit, axiom, opaque, unsafe or heartbeat or
+    recursion overrides; largest new W file 824 lines.
+  - **FOR OWNER:** the seal edit (.drafts/W/SEAL-NLW2-STAGED.md). Gates first: W6 round 2, W8, the W8-FINAL delta,
+    W5-AA after its F1 fix, then a dedicated seal audit. W4-LIECONT is done and in audit.
+- **09:36. D61: the owner approved the W-NLW2 seal**, to be executed when its gates pass (audits W6 r2, W8, the
+  W8-FINAL delta, W5-AA after F1; re-checks on the final merge; a dedicated seal audit). kam-1b is driving the gates in
+  parallel. LP: the owner said "get everything sealed and audited", and kam-lp is pre-staging providers, the runbook and
+  graph preparation, so the freeze and seals follow the exact-text approval within the hour.
+- **09:36. LP draft-7 statement audit (codex-2, 809aa0dd): RETURN FOR REVISION.**
+  - The five anchor types pass against MAIN/AMENDMENTS, the 34 characterizations are genuine, and the 127 hashes
+    match.
+  - F1 BLOCKING: the total spatialBarycentricPositions/Velocities (division by zero at zero total mass) are used as
+    physical reconstruction in LP2/LP2-H. Fix: source versions taking (hν), (hμ : 0 < μ), definitionally equal; the
+    anchors bind ∀ hμ. No new premise.
+  - F2: wording of four role paragraphs. N2: one sentence.
+  - LP-FREEZE7R (the second LP slot, on claude-2) applies the fixes and re-verifies; a delta re-audit follows. Draft 8
+    adopts the F1 convention.
+- **09:49. Heartbeat. Unlanded W: about 11k lines** (W6 landing sent as inp-w6land@2619fd55; W8 with the provider;
+  action-angle/initial with the tori).
+  - **D61 gates:**
+    - W5 LANDED (main 246bc1ce, 18.5k Wave lines).
+    - W6 round 2 PASS WITH NOTES (F1–F3 closed; the tori fully audited). The tori modules and W8-PREP are held back
+      for the final landing.
+    - W8 round 2 (complete W8 plus the provider) PASS WITH NOTES; the auditor elaborated the seal body in a temporary
+      copy, and this covers the W8-FINAL delta.
+    - W4-LIECONT PASS WITH NOTES.
+    - W5-AA round 2 running (codex-2).
+    - Final seal branch: inp-w8adapt@aecbecc3.
+  - LP: LP-FREEZE7R check (a) is re-elaborating the 129 files (33 done, no failures); LP-FREEZE8 is drafting; kam-lp
+    is preparing the graph's coverage inventory.
+  - Paper: writers A and B are done and C is finishing. root-b8 approved a second safe-rm prompt; writers now use
+    ${S:?}.
+  - No OOM. Load about 13. Memory: 17 GB available. Disks: / 17 GB free, HC 38 GB free (90 %).
+  - Quotas: claude-2 98 %, claude-5 95 %, claude-11 39 %, claude-3 20 %, claude-12 19 %, claude-4 7 % (root-b8).
+    codex-1 3 %, codex-2 on credits.
+- **09:50. Track W: every D61 package gate is PASS.** W5-AA round 2 (codex-2) PASS: F1 (the four guarded series carriers converge) and N1 closed. W4-LIECONT is in inp (30e417df). Final seal branch inp-w8adapt@f02d4ccc. Next: W6 lands; merge inp; rebuild; Expr, seal-body and axiom re-checks on that commit; a fresh seal audit; the final landing; then the seal through kam-inp-63.
+- **09:57. LP paper: first full draft** (paper-lp cda28701, papers/LP/main.pdf, 23 pages, clean compile). The three refute-first audits (fidelity, literature, exposition) are launched. Writer C found that sources.json labelled LP17's pinned PDF as the published one, when it is arXiv v2; fixed on main (b6241e69).
+- **09:59. MILESTONE (track LP): all LP Lean work is on main** (W5C landed 74d77b43: LP3 planar and spatial plus
+  the source restatements). claude-11 is back with W.
+  - Seal preparation staged:
+    - RUNBOOK (00ed6618): 90 frozen definitions and 41 anchors; about 3–5 h from approval to a sealed branch.
+    - Graph prep (docs/graph/LP, 7b665de0): 282 inventory items, 17 slices.
+    - Draft 8's providers staged and checked.
+  - **Text change (option C), for the owner summary:** the Diophantine premise uses the D20-frozen KAM.IsDiophantine
+    (the same ℓ¹ size, pointwise equivalent), so KAM.Fourier.modeSize is not frozen. Freezing it would have rebuilt
+    about 2,830 core modules plus the certificate data.
+  - root-b8 rulings:
+    - the owner is asked to approve the text and the seals together (the seals follow the seal audit, like D61);
+    - kernel replay per module under a 4 GB scope;
+    - no dedicated sealing tool: precedent SO-FREEZE3 Phase B (599d781e).
+- **10:02. Track W. Unlanded about 8.5k lines (the final seal branch).** W6 is in inp (a43ea7e7) and W4-LIECONT is on main (74d77b43). Final seal branch inp-w8adapt@c7dd873b (W8, the provider, action-angle with the fix, the tori); audited W code is byte-identical after the merge. On that commit: capped builds OK, lint 0, guard OK; provider == frozen == nlw2_proof (Expr); the seal body type-checks; standard axioms. The SEAL AUDIT is running (codex-2, inp-maud-wpq). On SEAL-READY: the final landing, then the seal edit through kam-inp-63.
+- **10:09. W-NLW2 SEAL AUDIT: SEAL-READY, PASS for wave.nlw2.v1** (fresh codex-2 session; all five gates). W6 landed on main (0546e0aa, 387 theorems, standard axioms). The final landing (inp-w8adapt@3e4f4e0a: W8, the provider, action-angle/initial, the tori; about 9.3k lines) and the seal request (D26/D50, citing D61) are with kam-inp-63. The graph agent is recording LEAN_STATUS for W5, W6 and W4-LIECONT.
+- **10:12. LP paper audit round 1:** fidelity FAIL (2 false explanatory sentences; Theorems A–E match Lean exactly); literature PASS WITH NOTES (major: Nek77 Theorem 12.3 plus a box cover gives Theorem E's hypothesis up to δ, so Theorem E's additions are the LP-threshold identification, the annulus and osculating conclusions, and the formal proof); exposition FAIL (fixable text). The fix round is running. root-b8 re-checked #print axioms on main (01d36418; LP files unchanged since 74d77b43): all 15 LP headline theorems [propext, Classical.choice, Quot.sound].
+- **10:14. Owner asked why W's meter reads 65 %.** Cause: the W graph's LEAN_STATUS on main was last synced at 05:25. W7 (landed at about 04:06), W5, W6 and W4-LIECONT were never recorded, so the meter counted 358 of 695 nodes. Fix: the W5/W6/W4-LIECONT sync (inp-wgraph@85171203: PROVED 402, PARTIAL 35, NOT_STARTED 210) is being extended with W7's 85 nodes and lands at once; a second sync follows the final landing and the seal. Standing rule: a graph sync within the same hour as every landing.
+- **10:19. Owner: "update README with the landed progress and do not let this happen again."**
+  - The W graph sync inp-wgraph@f1a17a14 (W5, W6, W4-LIECONT and W7) goes to kam-inp-63 right after the running
+    landing. It gives 567 / 695 resolved (PROVED 478, PARTIAL 41, NOT_STARTED 128, EXTERNAL 47, ASSUMED 1), so the
+    meter goes from 65 % to about 85 %.
+  - Prevention:
+    - scripts/hq-status.py graph_sync_lag prints under each track how many Lean lines landed since its graph was last
+      synced, flagged "overdue" after 60 min (tested: W showed 34,766 lines since 05:25);
+    - the rule that every landing in a graph-tracked directory gets its sync within the hour (kam-1b, kam-lp,
+      kam-inp-63);
+    - root-b8's heartbeat checks graph sync times.
+- **10:20. Heartbeat. Unlanded W: 0 Lean lines.** The final W landing is on main (742e0c2f / 9d426dbc: W8, the
+  provider, action-angle/initial, the tori). Next: the graph sync f1a17a14 (separate, before the seal), then the
+  W-NLW2 seal.
+  - LP: draft 7 revision 1 (05155acf): F1, F2, N2 and option C applied, with the bridge
+    isDiophantine_iff_forall_modeSize (no premise, a literal equivalence); 5 anchors, 89 definitions,
+    34 characterizations, 128 texts, all checks passing. The delta re-audit is running (inp-maud-lp-fz7r, own
+    worktree). Part B (39 providers) is running on claude-2.
+  - Paper: the fix round is running (appendix pages being inspected).
+  - Process slip, root-b8: I edited scripts/hq-status.py in the main checkout while a landing was running. I moved it
+    to a patch at once (main clean again) and re-apply it atomically under the HQ lock.
+  - No OOM. Load about 5. Memory: 17 GB available. Disks: / 16 GB free, HC 38 GB free (90 %).
+- **10:30. The LP paper is on main (82e22386; the owner said "Land on main now").** *Angular momentum deficit and exponentially long
+  collision safety in the planetary problem*, papers/LP/main.pdf, 23 pages.
+  - Fidelity (3 rounds), literature (2) and exposition (3) audits: all PASS WITH NOTES, notes applied.
+  - FOR OWNER (NOTES.md §11): the title and author line, the §A.4 AI-use wording, the Theorem E framing (close to
+    Nek77 Thm 12.3), Corollary D as its own statement; drop §A.3's last sentence after the freeze.
+- **10:30. Track W. Unlanded Lean: 0.** The final landing is on main (9d426dbc), byte-identical to the audited heads.
+  - Graph syncs: f1a17a14 (landing) and 8fb5ec91 (sent), giving 640 / 695 resolved (about 92 %). The root
+    bpW:wh:nlw2 stays PARTIAL until the seal.
+  - The remaining 55 are export gaps, not gaps in nlw2's proof; they are queued as follow-ups.
+- **10:30. LP draft 7 revision 1: delta statement audit PASS WITH NOTES, 0 blocking** (codex-2, c9c2b904).
+  - F1, F2 and N2 resolved exactly. Option C verified as a literal equivalence (the bridge lemma has no premises).
+  - R1–R3 (lint, two boilerplate role lines, one phrase) are being applied.
+  - Verification: 128 texts elaborate; 89 definitions rfl-equal; 39 theorems Expr-equal; standard axioms.
+  - Owner summary: docs/tracks/LP/freeze/OWNER-SUMMARY-DRAFT7.md. Next: the 39 providers, then draft 8 regenerated
+    and audited.
+- **10:32. Owner asked whether, with nlw2 proved, the remaining W graph nodes can be BYPASSED.** root-b8: yes, under D27, after the seal. Each of the 55 gets a LEAN_NOTE with the route taken; one Codex audit confirms that no proved consumer or frozen anchor needs the node's exact statement; the sync lands with the root flipped to PROVED. The export follow-up packages are cancelled unless the audit finds a consumed node.
+- **10:40. LP draft 7 r1 (de343000) presented to the owner for exact-text approval:** review page https://claude.ai/artifact/D3nf8JKrQnrbJm8A3czcEA (all 128 files; root-b8 re-verified every sha256 against verification §0). The approval asked covers the text and the seals (after a seal audit, as D61). The owner summary's reused-definition count is being corrected to 22.
+- **10:41. D62: the owner approved LP freeze draft 7 r1** ("approve draft 7"; approval object de343000: 128 files, 5 anchors including both corollaries). kam-lp is running the RUNBOOK: placeholders and identity check; definitions, characterizations and DRAFT_SORRY anchors with the manifest; the freeze landing; graph extraction; then the seal branch, the seal audit, and the seal landing (no further go needed). Draft 8 (LP3) needs its own approval.
+- **10:46. W D27 bypass audit (codex-2):** 39 BYPASS-OK, 5 PROVED-OK, 10 KEEP (consumed exactly or with wrong references: w5 flow ×4, w7 shell-geom/partition, w0n:algebra, w0n:weight, w5:solve, lambda-facts). Applied fail-closed. Expected after the seal: 598 PROVED, 39 BYPASSED, 10 open. root-b8: one small package W-GRAPH-CLOSE (exports plus corrected references, one audit) after the seal, to resolve all of W.
+- **10:49. MILESTONE (track W): KAM.Wave.nlw2 is SEALED on main** (5096afdf; seal commit 6798a3c5; D61).
+  - kam-inp-63 reports `#print axioms` [propext, Classical.choice, Quot.sound] and a leanchecker replay of the anchor
+    and provider (exit 0).
+  - root-b8 re-checked on main: manifest wave.nlw2.v1 SEALED; body `by exact KAM.Provider.Wave.nlw2 hm`;
+    check_frozen_anchors.py "FROZEN-ANCHOR GUARD OK".
+  - The W graph synced at 10:24 (the stale-graph warning is gone). Next: the D27 sync (39 BYPASSED, root PROVED),
+    then W-GRAPH-CLOSE (the 10 KEEP nodes; claude-11).
+- **10:49. Owner objected to the 3–5 h LP freeze-and-seal estimate** ("bureaucratic bullshit").
+  - root-b8: the DRAFT_SORRY intermediate landing is pointless when the proofs exist, and I relayed the estimate
+    without challenging it.
+  - New plan: freeze directly as SEALED, on one branch with one landing (precedent track R, 10-30). The seal audit
+    runs in parallel with the build. All machine checks stay.
+  - kam-lp has queued this for LP-FREEZE-EXEC.
+- **10:49. Heartbeat.** No OOM. Load about 4. Memory: 17 GB available. Disks: / 16 GB free, HC 30 GB free (93 %;
+  falling with the LP freeze worktree; the alarm is set at 15 GB).
+- **10:49. W D27 graph sync** inp-wgraph-byp@5bfe22dc sent: PROVED 598 (including the root nlw2, citing seal 6798a3c5), BYPASSED 39, PARTIAL 9, NOT_STARTED 1, which is 685 / 695 resolved (98.6 %). W-GRAPH-CLOSE (claude-11) closes the last 10.
+- **10:53. D63: the owner relaunched SO-3** ("I want to get that subproblem sealed as well"). The seal is approved once the full chain, the landing checks and a seal audit pass.
+  - kam-inp-24 restarted LOCK-DATA (a fresh worker on claude-5; PKG-LOCK-DATA-RUN.md): dechain, re-emission in the D55
+    form, the template pass, splits.
+  - LOCK-FREEZE Phase B prep has started.
+  - **The owner will rent a Hetzner CCX53 for the full chain** (about 3–4 h there versus about 1–1.5 days here).
+    kam-inp-24 is preparing the remote runbook (provision, transfer, return, sample replay); the chain does not start
+    locally.
+- **10:56. W cleanup:** kam-1b retired 5 finished W worktrees (wpja5, wpl, wpr, wps, wpq; each clean, no live session, work on main, branches kept). HC was briefly at 95 % with the LP freeze worktree and the lock re-emission; now 92 % (33 GB free). README W meter 99 % (685 / 695). W-GRAPH-CLOSE is running.
+- **11:19. Heartbeat.**
+  - LP: the one-pass freeze-and-seal branch is complete (a4eecfc1); the seal audit is running (codex-2); the 284-module
+    replay list is ready; the landing goes next.
+  - Lock: the template pass is running (FrameL0 at 10.7 GB, plus light lanes).
+  - Memory: about 8 GB available; one cgroup OOM at 11:06 (a lean process at a 4 GB cap; the owner is being checked).
+    root-b8: no new heavy lock modules until LP lands; LP replay gate lowered to ≥ 6 GB per worker; an OOM-killed
+    module is retried alone at 8 GB.
+  - W: W-GRAPH-CLOSE is running (32 min).
+  - PRs: #4 declined with a thank-you (KAM/Matrix/Inverse.lean is upstream of 2,157 modules, including the band data);
+    #5 merged (02f3ee7e, 25 guard fixture tests in lint; GitHub shows it MERGED at 11:15). Another agent landed
+    v2-clockgraph (1e32cf2a) through origin/main.
+- **11:37. SO-LOCK:** the re-emission is done (frozen commit cf15c6e0; D55 segment tree 3,207 modules, 67.8 MB, ledger/plan dechained; total source about 181 MB, within D55's 200 MB). Chain plan: 4,507 modules, 205 levels (334 before the dechain), widest level 536, critical path 0.85 h. Projected on a CCX53 with 11 × 10 GB lanes: 2.7 h (3.5 h with margin); here, 28 h. Runbook scripts/spin_orbit/lock_remote_runbook.sh (7ebe69c3), dry run rc 0, audit sample 174 modules. The 11:06 OOM was a deliberate probe of a superseded form. Template pass: 85 rc=0. FrameL0 passed at 9.61 GiB and gets a further row split. LOCK-FREEZE Phase B prep (41934621, FrozenBridge). Waiting on LP's landing (heavy paused) and CCX53 access (owner).
+- **11:39. README Main theorems (owner request):** track W (item 12, nlw2, sealed) gets its own section; track LP (items 8–9) joins track N's section ('Exponential stability and safe planetary systems'); P renumbered 10–11, SO 13–15 with cross-references; layout rows for papers/LP, graphs, tracks (ed7c4daf). TODO root-b8: re-point item 8's links to the frozen anchors when the LP freeze lands.
+- **11:49. Heartbeat.**
+  - LP: the seal audit (since 10:57) was waiting on a single-stream full replay (128 / 284, all exit 0) that duplicates
+    kam-inp-63's 3-worker landing replay. root-b8: the auditor replays only the 39 anchors and providers, gives its
+    verdict without waiting, and the landing replay is the authoritative full one.
+  - W: W-GRAPH-CLOSE is at its lint; kam-1b plans 9 nodes PROVED and w5:solve PARTIAL pending one more export.
+  - Lock: template pass on light lanes (heavy paused for LP).
+  - Two cgroup OOMs at 11:04/11:06 were lock probes (attributed by kam-inp-24). Load about 14. Memory: 15 GB
+    available. Disks: / 16 GB free, HC 31 GB free.
+- **11:53. W-GRAPH-CLOSE audit (codex-2):** 9 of 10 PROVED-OK (w5 flow ×4, w7 shell-geom/partition, w0n:algebra, w0n:weight, lambda-facts). bpW:w5:solve is not closed (the modified case lacks the blueprint's '(indeed p′)' clause). W-GRAPH-CLOSE (a82197a3) is landing; W-SOLVE-FIX (claude-11) plus a round 2 on that one node follow, after which W is fully resolved (608 PROVED, 39 BYPASSED).
+- **12:07. LP SEAL AUDIT: SEAL-READY, PASS WITH NOTES, 0 blocking** (codex-2, f5729cf8; LP-SEAL-audit-1.md). Identity 128/128 against de343000 (placeholders and seal bodies only); 128 SEALED entries (guard and ABI reproduced; the 179 old entries unchanged); 39/39 providers Expr-equal; 78/78 standard axioms; 89 definitions sorryAx-free; the rebase removed exactly 89 definitions and 34 theorems across 13 paths; Derivative.lean and the lunar data untouched; own replay 167/167 exit 0. The landing (inp-lp-freeze@c68c1f09) is with kam-inp-63: 3-worker replay of 284 modules and #print axioms of the 39 anchors on main.
+- **12:18. Heartbeat.**
+  - LP: the freeze-and-seal landing is in progress: merged into inp (2264fd4e); the incremental build rebuilds only the
+    roughly 284 LP modules; then the 3-worker replay and the axioms on main.
+  - Owner asked whether we were rebuilding the whole repo. root-b8 checked: no; only LP frozen definitions and LP
+    modules are recompiled.
+  - W: W-GRAPH-CLOSE is landing; W-SOLVE-FIX round 2 audit running (inp-maud-wpj).
+  - Lock: template pass on light lanes.
+  - One more cgroup OOM at 11:57 (a lean process in a capped scope; probably a lock probe).
+  - Load about 34 (the landing build plus lock lanes). Memory: 13 GB available. Disks: / 13 GB free (92 %, the
+    landing build), HC 30 GB free. HQ refreshes wait behind the landing's lock.
+- **12:48. Heartbeat.** The LP landing replay is still running (kam-inp-63, parallel leanchecker workers); the lock's heavy lane stays paused until LP is on main. The W-SOLVE-FIX round 2 audit has finished; kam-1b is processing it. Another agent landed v2-bulk (4dbc74c9) through main. No new OOM since 11:57. Load about 17. Memory: 16 GB available. Disks: / 13 GB free, HC 29 GB free.
+- **12:59. Track W fully resolved** pending two small landings (inp-wgclose2@05f62854, the ExportSolve fix; inp-wgraph-close@df15635a, the final sync): W-SOLVE-FIX audit 2 PROVED-OK, giving PROVED 608, BYPASSED 39, EXTERNAL 47, ASSUMED 1, 0 PARTIAL or NOT_STARTED. W-GRAPH-CLOSE is in inp. The W lint's spaceDot clash is a stale W overlay (inp's Vector.lean imports the frozen SpaceDot after the D62 rebase), not an LP regression.
+- **13:28. MILESTONE (track LP): frozen and sealed on main (f46b94fb, 13:23; D62).** 128 manifest entries SEALED (89 definitions, 39 theorems: 5 anchors and 34 characterizations). Seal bodies are one-line `by exact KAM.Provider…`. Landing replay 284 modules, all rc 0. root-b8 ran check_frozen_anchors.py on main: GUARD OK. Project-wide: 70 frozen theorems, 66 SEALED (the 4 open are the lunar lock's). The lock's heavy lane is released. The README's item 8 is re-pointed to the frozen anchors. The paper's §A.3 is being finalized.
+- **13:31. root-b8 checked the frozen LP anchors' axioms:** `#print axioms` of the 5 sealed anchors gives [propext, Classical.choice, Quot.sound], with no sorry (on the KAM-inp build at 2264fd4e; LP, frozen, provider and manifest files byte-identical to main f46b94fb). Main's own .lake is not yet rebuilt for the LP modules (`--no-build` exit 3); kam-inp-63's axioms-on-main check needs that build. The paper's §A.3 cites this check.
+- **13:35. SO-LOCK:** the heavy lane resumed (Prod.M0DecP0 first); light lanes continue. Measured data parts are lighter than planned (about 10–12 s at ≤ 0.70 GB; Rem ranges about 22 s at ≤ 1.62 GB). The FrameL vertex split (8 plus 2 modules) is staged for after the template pass. MemAvailable 16.8 GB; / 12 GB free.
+- **13:42. LP landing confirmed by kam-inp-63:** `#print axioms` on main's build, 78/78 (39 sealed anchors and 39 providers) [propext, Classical.choice, Quot.sound]; kernel replay 284/284 exit 0 (3 workers at 4 GB, no OOM, 47 min); guard, ABI (305), lint and core build OK. W-GRAPH-CLOSE landed in the same push.
+- **13:42. README:** LP meter fixed (hq-status found LP anchors by an 'lp.' id prefix; now by path, fbe400d6), so LP reads 100 %; item 8 links the frozen anchors (97ce2c58); LP paper after the freeze (57b045dd). Frozen statements proved: 66 / 70.

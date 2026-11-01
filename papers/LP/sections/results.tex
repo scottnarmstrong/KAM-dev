@@ -1,0 +1,99 @@
+\section{Setting and results}\label{sec:results}
+
+\subsection{The model}
+
+We use units in which the gravitational constant and the mass of the star are equal to one. Fix $n\geq 2$ and $\nu_1,\ldots,\nu_n>0$; the planets have masses $\mu\nu_1,\ldots,\mu\nu_n$, where $\mu>0$ is small. The space dimension is $d\in\{2,3\}$. Let $q_i\in\R^d$ be the heliocentric position of the $i$-th planet and $p_i\in\R^d$ its momentum, scaled so that the physical momentum is $\mu p_i$. With the symplectic form $\sum_i dp_i\wedge dq_i$, the motion is governed by
+\begin{equation}\label{eq:H}
+H_\mu=\sum_{i=1}^n\Big(\frac{\abs{p_i}^2}{2\nu_i}-\frac{\nu_i}{\abs{q_i}}\Big)+\mu f\,, \qquad f=\frac12\Big|\sum_{i=1}^n p_i\Big|^2-\sum_{1\leq i<j\leq n}\frac{\nu_i\nu_j}{\abs{q_i-q_j}}\,,
+\end{equation}
+on the set where $q_i\neq0$ and $q_i\neq q_j$ for $i\neq j$, in physical time. It is the translation reduction of the Newtonian $(1+n)$-body problem divided by~$\mu$, and each solution has a \emph{barycentric reconstruction} solving Newton's equations with masses $(1,\mu\nu_1,\ldots,\mu\nu_n)$ (Lemma~\ref{lem:normalization}).
+
+\paragraph{Elements and the AMD.} For each planet let $v_i=\nf{p_i}{\nu_i}$, $E_i=\nf{\abs{v_i}^2}{2}-\nf{1}{\abs{q_i}}$ and $\ev_i=(\abs{v_i}^2-\nf{1}{\abs{q_i}})q_i-(q_i\cdot v_i)v_i$ be the canonical velocity, the specific energy and the eccentricity vector. When $E_i<0$, the semi-major axis, the Delaunay action, the eccentricity, the angular momenta and the (normalized) angular momentum deficit are
+\begin{equation}\label{eq:elements}
+a_i=-\frac{1}{2E_i}\,,\quad \Lambda_i=\nu_i\sqrt{a_i}\,,\quad e_i=\abs{\ev_i}\,,\quad L_i=q_i\times p_i\,,\quad L=\sum_{i=1}^n L_i\,,\quad C=\sum_{i=1}^n\Lambda_i-\abs{L}\,.
+\end{equation}
+In the plane, $q\times p=q^1p^2-q^2p^1$ is a scalar. If $E_i<0$, then $e_i\leq1$ and $r_i^-\leq\abs{q_i}\leq r_i^+$, where $r_i^\pm=a_i(1\pm e_i)$ are the perihelion and aphelion radii (Lemma~\ref{lem:orbital}). The physical angular momentum and AMD are $\mu L$ and $\mu C$, so a normalized margin~$\delta$ is a physical margin~$\mu\delta$.
+
+\paragraph{The chamber and the thresholds.} Ordered axes correspond to actions in the \emph{chamber}
+\begin{equation}\label{eq:chamber}
+\Ach=\big\{\Lambda\in\R^n:\ \Lambda_i>0,\ a_1(\Lambda)<\cdots<a_n(\Lambda)\big\}\,,\qquad a_i(\Lambda)=(\nf{\Lambda_i}{\nu_i})^2\,.
+\end{equation}
+Let $\Dfn(u)=1-\sqrt{1-u^2}$ for $u\in[0,1]$. For $\Lambda\in\Ach$ and $i<j$, define
+\begin{equation}\label{eq:thresholds}
+\begin{aligned}
+B_{ij}(\Lambda)&=\min\big\{\Lambda_i\Dfn(u)+\Lambda_j\Dfn(v):\ u,v\in[0,1],\ a_i(\Lambda)(1+u)\geq a_j(\Lambda)(1-v)\big\}\,,\\
+\Bcross(\Lambda)&=\min_{1\leq i<n}B_{i,i+1}(\Lambda)\,,\qquad \Bst(\Lambda)=\min_{1\leq i\leq n}\Lambda_i\,,\qquad B(\Lambda)=\min\big(\Bcross(\Lambda),\Bst(\Lambda)\big)\,.
+\end{aligned}
+\end{equation}
+The minima are attained and $B$ is positive and continuous on~$\Ach$ (Lemma~\ref{lem:threshold}). Here $B_{ij}(\Lambda)$ is the least deficit for which the annuli of planets $i$ and~$j$ touch, and $\Lambda_i$ that of a radial orbit. Since $C\geq\sum_i\Lambda_i\Dfn(e_i)$ (Lemma~\ref{lem:amd}), the inequality $C<B(\Lambda)$ excludes contact of adjacent annuli and $e_i=1$. After division by $\Lambda_j$, $B_{ij}$ is the critical AMD of~\cite[\S3.2]{LP17}, and $C<B(\Lambda)$ is the strong AMD-stability of~\cite[\S5 and \S5.3]{LP17} (Lemma~\ref{lem:threshold}).
+
+\paragraph{Frequencies and data.} The Kepler Hamiltonian and its mean motions are
+\begin{equation}\label{eq:freq}
+h(\Lambda)=-\sum_{i=1}^n\frac{\nu_i^3}{2\Lambda_i^2}\,,\qquad \omega_i(\Lambda)=\partial_{\Lambda_i}h(\Lambda)=\frac{\nu_i^3}{\Lambda_i^3}=a_i(\Lambda)^{-\nf32}\,.
+\end{equation}
+For $\gamma>0$ and $\tau>n-1$, a vector $\Lambda^0$ is \emph{$(\gamma,\tau)$-Diophantine} if
+\begin{equation}\label{eq:dioph}
+\abs{k\cdot\omega(\Lambda^0)}\geq\gamma\,\abs{k}_1^{-\tau}\qquad\mbox{for every } k\in\Z^n\setminus\{0\}\,,\qquad \abs{k}_1=\sum_{i=1}^n\abs{k_i}\,.
+\end{equation}
+Throughout, $\Aset\subset\{a\in\R^n:0<a_1<\cdots<a_n\}$ is compact and $\delta>0$. An initial state is \emph{admissible} if $q_i(0)\neq0$ and $E_i(0)<0$ for every~$i$, and
+\begin{equation}\label{eq:hyp}
+a(0)\in\Aset\,,\qquad C(0)\leq B(\Lambda(0))-\delta\,.
+\end{equation}
+Here $a(0)\in\Aset$ implies $\Lambda(0)\in\Ach$, so $B(\Lambda(0))$ is defined. For $T_0,c>0$ we put
+\begin{equation}\label{eq:time}
+T_\mu=T_0\exp\big(c\,\mu^{-\frac{1}{2(\tau+1)}}\big)\,,
+\end{equation}
+and we write $\nrm{x}=\max_i\abs{x_i}$ for vectors of actions or axes.
+
+\paragraph{Osculating elements.} The actual heliocentric velocity is $V_i=\dot q_i=\nf{p_i}{\nu_i}+\mu\sum_jp_j$, not~$v_i$. With $k_i=1+\mu\nu_i$, the velocity-osculating elements are
+\begin{equation*}
+E_i^\osc=\frac{\abs{V_i}^2}{2}-\frac{k_i}{\abs{q_i}}\,,\quad a_i^\osc=-\frac{k_i}{2E_i^\osc}\,,\quad \ev_i^\osc=\frac{1}{k_i}\Big(\Big(\abs{V_i}^2-\frac{k_i}{\abs{q_i}}\Big)q_i-(q_i\cdot V_i)\,V_i\Big)\,,\quad e_i^\osc=\abs{\ev_i^\osc}\,,
+\end{equation*}
+and $r_i^{\osc,\pm}=a_i^\osc(1\pm e_i^\osc)$. When $E_i^\osc<0$ they describe the Kepler ellipse through~$q_i$ tangent to~$V_i$, the orbit computed from the actual position and velocity (Lemma~\ref{lem:osc}).
+
+\subsection{Results}
+
+\begin{theorem}[Strong AMD barrier]\label{thm:barrier}
+Let $d=2$, $n\geq2$, $\nu\in(0,\infty)^n$, let $U\subset\Ach$ be compact and $m>0$. There exist $\dstar,\dpair>0$ and a compact set $K$ of states with $q_i\neq0$, $q_i\neq q_j$ $(i\neq j)$ and $E_i<0$ for all~$i$, such that:
+\begin{enumerate}[label=(\roman*)]
+\item if $\Lambda\in U$, $e\in[0,1]^n$ and $\sum_i\Lambda_i\Dfn(e_i)\leq B(\Lambda)-m$, then $a_i(\Lambda)(1-e_i)\geq\dstar$ for $1\leq i\leq n$ and $a_{i+1}(\Lambda)(1-e_{i+1})-a_i(\Lambda)(1+e_i)\geq\dpair$ for $1\leq i<n$;
+\item every state with $q_i\neq0$ and $E_i<0$ for all~$i$, $\Lambda\in U$ and $C\leq B(\Lambda)-m$ belongs to~$K$ and satisfies $r_i^-\geq\dstar$, $\abs{q_i}\geq\dstar$, $\abs{q_i-q_j}\geq\dpair$, $\abs{L_i}\geq m$ and $L_iL>0$ for all $i\neq j$, and $r_{i+1}^--r_i^+\geq\dpair$ for $i<n$.
+\end{enumerate}
+\end{theorem}
+
+\begin{theorem}[Planar exponential collision safety]\label{thm:planar}
+Let $d=2$, $n\geq 2$, $\nu\in(0,\infty)^n$, $\Aset$ and $\delta$ as above, $\gamma>0$ and $\tau>n-1$. There exist positive constants $\mu_0,c,T_0,A_\Lambda,A_a,\dstar,\dpair,\Aosc,\Ael$, depending only on $(n,\nu,\Aset,\delta,\gamma,\tau)$ and satisfying $\Aosc\mu_0\leq\nf{\dstar}{2}$ and $2\Aosc\mu_0\leq\nf{\dpair}{2}$, such that the following holds for every $\mu\in(0,\mu_0]$ and every admissible initial state with $(\gamma,\tau)$-Diophantine $\Lambda(0)$. Let $T=T_\mu$.
+\begin{enumerate}[label=(\roman*)]
+\item \emph{Well-posedness.} There is a solution of~\eqref{eq:H} on $[-T,T]$ with the given initial state. Every solution with the same initial state on an open interval containing~$0$ agrees with it on the common part of~$[-T,T]$. Its barycentric reconstruction solves Newton's equations with masses $(1,\mu\nu_1,\ldots,\mu\nu_n)$ on $[-T,T]$.
+\end{enumerate}
+Moreover, for every $t\in[-T,T]$ and all $i\neq j$, with all elements evaluated at time~$t$ and the inequalities involving $i+1$ required for $i<n$:
+\begin{enumerate}[label=(\roman*),resume]
+\item \emph{AMD margin.} $q_i\neq0$, $E_i<0$, $\Lambda(t)\in\Ach$ and $C(t)\leq B(\Lambda(t))-\nf{\delta}{2}$.
+\item \emph{Drift.} $\nrm{\Lambda(t)-\Lambda(0)}\leq A_\Lambda\sqrt\mu$, $\ \nrm{a(t)-a(0)}\leq A_a\sqrt\mu\ $ and $\ \abs{C(t)-C(0)}\leq nA_\Lambda\sqrt\mu$.
+\item \emph{Separation.} $r_i^-\geq\dstar$, $\ r_{i+1}^--r_i^+\geq\dpair$, $\ \abs{q_i}\geq\dstar\ $ and $\ \abs{q_i-q_j}\geq\dpair$.
+\item \emph{Osculating orbits.} $E_i^\osc<0$, $a_i^\osc>0$, $e_i^\osc<1$, $r_i^{\osc,-}\leq\abs{q_i}\leq r_i^{\osc,+}$, and
+\begin{equation*}
+\abs{a_i^\osc-a_i}+\abs{\ev_i^\osc-\ev_i}\leq\Ael\mu\,,\quad \abs{r_i^{\osc,\pm}-r_i^\pm}\leq\Aosc\mu\,,\quad r_i^{\osc,-}\geq\frac{\dstar}{2}\,,\quad r_{i+1}^{\osc,-}-r_i^{\osc,+}\geq\frac{\dpair}{2}\,.
+\end{equation*}
+\end{enumerate}
+\end{theorem}
+
+\begin{theorem}[Spatial exponential collision safety]\label{thm:spatial}
+For $d=3$, Theorem~\ref{thm:planar} holds verbatim, with the same data and quantifiers and the conclusions \emph{(i)--(v)}, where $\abs{\cdot}$ is the Euclidean norm on~$\R^3$ and $L$ is the vector total angular momentum.
+\end{theorem}
+
+\begin{corollary}[Exponent $\nf{1}{(2n+1)}$]\label{cor:half}
+Theorems~\ref{thm:planar} and~\ref{thm:spatial} hold with $\tau=n-\nf12$, and then $T_\mu=T_0\exp(c\mu^{-\nf{1}{(2n+1)}})$.
+\end{corollary}
+
+\begin{theorem}[Collision safety without arithmetic hypothesis]\label{thm:resonant}
+Let $d\in\{2,3\}$, $n\geq 2$, $\nu\in(0,\infty)^n$, $\Aset$ and $\delta$ as above, and put $\aE{}=\nf{2}{(6n^2-3n+14)}$ and $\bE{}=\nf{3}{(6n^2-3n+14)}$. There exist positive constants $\mu_0,c,T_0,A_\Lambda,A_a,\dstar,\dpair,\Aosc,\Ael$, depending only on $(n,\nu,\Aset,\delta)$ and satisfying $\Aosc\mu_0\leq\nf{\dstar}{2}$ and $2\Aosc\mu_0\leq\nf{\dpair}{2}$, such that for every $\mu\in(0,\mu_0]$ and every admissible initial state, with $T=T_0\exp(c\mu^{-\aE{}})$, the conclusions \emph{(i), (ii), (iv)} and~\emph{(v)} of Theorem~\ref{thm:planar} hold, and \emph{(iii)} holds with $\sqrt\mu$ replaced by~$\mu^{\bE{}}$.
+\end{theorem}
+
+\subsection{Comments}
+
+\paragraph{Constants.} All constants are chosen from the data, before $\mu$ and the initial state, and are uniform over all phases, eccentricities, inclinations and orientations allowed by~\eqref{eq:hyp}. The proofs may assume $\max_i\nu_i=1$: with $M=\max_i\nu_i$, the substitution $(\mu,\nu,p)\mapsto(M\mu,\nf{\nu}{M},\nf{p}{M})$ preserves the masses, the motion, the axes and the frequencies, and divides $\Lambda$, $C$, $B$ by~$M$. The theorems concern the limit $\mu\to0$ with $\nu$, $\Aset$, $\delta$ fixed, and assume nothing about secular stability. Theorems~\ref{thm:planar} and~\ref{thm:resonant} do not imply each other (Table~\ref{tab:comparison}).
+
+\paragraph{No orbit crossing.} By~(iv), the entire annuli $\{r_i^-\leq\abs{x}\leq r_i^+\}$ stay ordered and $\dpair$-apart, and $\dstar$ from the star; this is stronger than separation of the positions. By~(v) the same holds for the osculating ellipses with half the distances.
+
+\paragraph{Space.} Theorem~\ref{thm:spatial} assumes nothing on inclinations or orientations; $C<\Bst$ already forces $L\neq0$ and $L_i\cdot L>0$ (Lemma~\ref{lem:amd}). The proof of Theorem~\ref{thm:barrier} does not use the dimension; for $d=3$ it gives the same conclusions with $L_i\cdot L\geq m\abs{L}$ in place of $\abs{L_i}\geq m$, $L_iL>0$, as used for Theorem~\ref{thm:spatial}.

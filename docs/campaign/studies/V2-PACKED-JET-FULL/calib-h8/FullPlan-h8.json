@@ -1,0 +1,1325 @@
+{
+ "lg00_cert_commit": "fd82fef5a92cd75a8ed4b34b98f3fd9a25b5a315",
+ "live": 1837,
+ "steps": 1693,
+ "heavy": 565,
+ "products": 78,
+ "in_place": 487,
+ "constants": 463,
+ "heavy_max": 8,
+ "book": {
+  "lb": 140,
+  "lr": 325,
+  "lrb": 310,
+  "ln": 141,
+  "aW": "2^325",
+  "aB": "2^310",
+  "smax": 128,
+  "ls": 325,
+  "lsb": 310,
+  "off": 9312,
+  "w": 400,
+  "P": 128,
+  "aC": "2^154",
+  "lc": 155,
+  "lrc": 310,
+  "lnc": 141
+ },
+ "blocks": [
+  {
+   "name": "FullAct_0",
+   "kind": "actions",
+   "exports": 4
+  },
+  {
+   "name": "FullAct_1",
+   "kind": "actions",
+   "exports": 4
+  },
+  {
+   "name": "FullAct_2",
+   "kind": "actions",
+   "exports": 4
+  },
+  {
+   "name": "FullAct_3",
+   "kind": "actions",
+   "exports": 4
+  },
+  {
+   "name": "FullAct_4",
+   "kind": "actions",
+   "exports": 4
+  },
+  {
+   "name": "FullTw_0_p",
+   "kind": "tstart",
+   "heavy": 1,
+   "exports": 3
+  },
+  {
+   "name": "FullTay_0_p_0",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_0_p_3",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_0_p_6",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_0_p_9",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_0_p_12",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_0_p_15",
+   "kind": "tstep",
+   "heavy": 4,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTexp_0_p",
+   "kind": "texp",
+   "heavy": 0,
+   "imports": 2,
+   "exports": 1
+  },
+  {
+   "name": "FullPow_0_p_1",
+   "kind": "pows",
+   "heavy": 2,
+   "imports": 2,
+   "exports": 2
+  },
+  {
+   "name": "FullPow_0_p_3",
+   "kind": "pows",
+   "heavy": 2,
+   "imports": 2,
+   "exports": 2
+  },
+  {
+   "name": "FullPow_0_p_5",
+   "kind": "pows",
+   "heavy": 1,
+   "imports": 2,
+   "exports": 1
+  },
+  {
+   "name": "FullTw_0_n",
+   "kind": "tstart",
+   "heavy": 1,
+   "exports": 3
+  },
+  {
+   "name": "FullTay_0_n_0",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_0_n_3",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_0_n_6",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_0_n_9",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_0_n_12",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_0_n_15",
+   "kind": "tstep",
+   "heavy": 4,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTexp_0_n",
+   "kind": "texp",
+   "heavy": 0,
+   "imports": 2,
+   "exports": 1
+  },
+  {
+   "name": "FullPow_0_n_1",
+   "kind": "pows",
+   "heavy": 2,
+   "imports": 2,
+   "exports": 2
+  },
+  {
+   "name": "FullPow_0_n_3",
+   "kind": "pows",
+   "heavy": 2,
+   "imports": 2,
+   "exports": 2
+  },
+  {
+   "name": "FullPow_0_n_5",
+   "kind": "pows",
+   "heavy": 1,
+   "imports": 2,
+   "exports": 1
+  },
+  {
+   "name": "FullTw_1_p",
+   "kind": "tstart",
+   "heavy": 1,
+   "exports": 3
+  },
+  {
+   "name": "FullTay_1_p_0",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_1_p_3",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_1_p_6",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_1_p_9",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_1_p_12",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_1_p_15",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_1_p_18",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_1_p_21",
+   "kind": "tstep",
+   "heavy": 2,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTexp_1_p",
+   "kind": "texp",
+   "heavy": 0,
+   "imports": 2,
+   "exports": 1
+  },
+  {
+   "name": "FullPow_1_p_1",
+   "kind": "pows",
+   "heavy": 2,
+   "imports": 2,
+   "exports": 2
+  },
+  {
+   "name": "FullPow_1_p_3",
+   "kind": "pows",
+   "heavy": 2,
+   "imports": 2,
+   "exports": 2
+  },
+  {
+   "name": "FullPow_1_p_5",
+   "kind": "pows",
+   "heavy": 1,
+   "imports": 2,
+   "exports": 1
+  },
+  {
+   "name": "FullTw_1_n",
+   "kind": "tstart",
+   "heavy": 1,
+   "exports": 3
+  },
+  {
+   "name": "FullTay_1_n_0",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_1_n_3",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_1_n_6",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_1_n_9",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_1_n_12",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_1_n_15",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_1_n_18",
+   "kind": "tstep",
+   "heavy": 6,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTay_1_n_21",
+   "kind": "tstep",
+   "heavy": 2,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullTexp_1_n",
+   "kind": "texp",
+   "heavy": 0,
+   "imports": 2,
+   "exports": 1
+  },
+  {
+   "name": "FullPow_1_n_1",
+   "kind": "pows",
+   "heavy": 2,
+   "imports": 2,
+   "exports": 2
+  },
+  {
+   "name": "FullPow_1_n_3",
+   "kind": "pows",
+   "heavy": 2,
+   "imports": 2,
+   "exports": 2
+  },
+  {
+   "name": "FullPow_1_n_5",
+   "kind": "pows",
+   "heavy": 1,
+   "imports": 2,
+   "exports": 1
+  },
+  {
+   "name": "FullChr_0",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullChr_1",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 4,
+   "exports": 2
+  },
+  {
+   "name": "FullChr_2",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 2,
+   "exports": 4
+  },
+  {
+   "name": "FullChr_3",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 3,
+   "exports": 4
+  },
+  {
+   "name": "FullChr_4",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 3,
+   "exports": 4
+  },
+  {
+   "name": "FullChr_5",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 3,
+   "exports": 4
+  },
+  {
+   "name": "FullChr_6",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 2,
+   "exports": 9
+  },
+  {
+   "name": "FullChr_7",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 4,
+   "exports": 2
+  },
+  {
+   "name": "FullChr_8",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 3,
+   "exports": 9
+  },
+  {
+   "name": "FullChr_9",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 3,
+   "exports": 9
+  },
+  {
+   "name": "FullChr_10",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullChr_11",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 2,
+   "exports": 9
+  },
+  {
+   "name": "FullChr_12",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 2,
+   "exports": 9
+  },
+  {
+   "name": "FullChr_13",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullChr_14",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 3,
+   "exports": 9
+  },
+  {
+   "name": "FullChr_15",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 3,
+   "exports": 9
+  },
+  {
+   "name": "FullChr_16",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 4,
+   "exports": 2
+  },
+  {
+   "name": "FullChr_17",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 2,
+   "exports": 9
+  },
+  {
+   "name": "FullChr_18",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 3,
+   "exports": 4
+  },
+  {
+   "name": "FullChr_19",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 3,
+   "exports": 4
+  },
+  {
+   "name": "FullChr_20",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 3,
+   "exports": 4
+  },
+  {
+   "name": "FullChr_21",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 2,
+   "exports": 4
+  },
+  {
+   "name": "FullChr_22",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 4,
+   "exports": 2
+  },
+  {
+   "name": "FullChr_23",
+   "kind": "chars",
+   "heavy": 4,
+   "imports": 3,
+   "exports": 2
+  },
+  {
+   "name": "FullSeg_0",
+   "kind": "seg",
+   "first": 1,
+   "last": 44,
+   "steps": 25,
+   "heavy": 8,
+   "imports": 3,
+   "exports": 6
+  },
+  {
+   "name": "FullSeg_1",
+   "kind": "seg",
+   "first": 45,
+   "last": 76,
+   "steps": 20,
+   "heavy": 8,
+   "imports": 6,
+   "exports": 8
+  },
+  {
+   "name": "FullSeg_2",
+   "kind": "seg",
+   "first": 77,
+   "last": 138,
+   "steps": 29,
+   "heavy": 8,
+   "imports": 7,
+   "exports": 4
+  },
+  {
+   "name": "FullSeg_3",
+   "kind": "seg",
+   "first": 141,
+   "last": 177,
+   "steps": 16,
+   "heavy": 8,
+   "imports": 10,
+   "exports": 7
+  },
+  {
+   "name": "FullSeg_4",
+   "kind": "seg",
+   "first": 178,
+   "last": 223,
+   "steps": 21,
+   "heavy": 8,
+   "imports": 6,
+   "exports": 8
+  },
+  {
+   "name": "FullSeg_5",
+   "kind": "seg",
+   "first": 226,
+   "last": 294,
+   "steps": 33,
+   "heavy": 8,
+   "imports": 10,
+   "exports": 7
+  },
+  {
+   "name": "FullSeg_6",
+   "kind": "seg",
+   "first": 297,
+   "last": 343,
+   "steps": 17,
+   "heavy": 8,
+   "imports": 13,
+   "exports": 6
+  },
+  {
+   "name": "FullSeg_7",
+   "kind": "seg",
+   "first": 344,
+   "last": 380,
+   "steps": 19,
+   "heavy": 8,
+   "imports": 4,
+   "exports": 4
+  },
+  {
+   "name": "FullSeg_8",
+   "kind": "seg",
+   "first": 381,
+   "last": 413,
+   "steps": 21,
+   "heavy": 8,
+   "imports": 8,
+   "exports": 9
+  },
+  {
+   "name": "FullSeg_9",
+   "kind": "seg",
+   "first": 414,
+   "last": 523,
+   "steps": 31,
+   "heavy": 8,
+   "imports": 7,
+   "exports": 9
+  },
+  {
+   "name": "FullSeg_10",
+   "kind": "seg",
+   "first": 536,
+   "last": 611,
+   "steps": 29,
+   "heavy": 8,
+   "imports": 12,
+   "exports": 6
+  },
+  {
+   "name": "FullSeg_11",
+   "kind": "seg",
+   "first": 612,
+   "last": 729,
+   "steps": 21,
+   "heavy": 8,
+   "imports": 7,
+   "exports": 3
+  },
+  {
+   "name": "FullSeg_12",
+   "kind": "seg",
+   "first": 730,
+   "last": 836,
+   "steps": 21,
+   "heavy": 8,
+   "imports": 14,
+   "exports": 11
+  },
+  {
+   "name": "FullSeg_13",
+   "kind": "seg",
+   "first": 837,
+   "last": 850,
+   "steps": 11,
+   "heavy": 8,
+   "imports": 6,
+   "exports": 3
+  },
+  {
+   "name": "FullSeg_14",
+   "kind": "seg",
+   "first": 851,
+   "last": 918,
+   "steps": 30,
+   "heavy": 8,
+   "imports": 6,
+   "exports": 7
+  },
+  {
+   "name": "FullSeg_15",
+   "kind": "seg",
+   "first": 919,
+   "last": 1057,
+   "steps": 32,
+   "heavy": 8,
+   "imports": 8,
+   "exports": 5
+  },
+  {
+   "name": "FullSeg_16",
+   "kind": "seg",
+   "first": 1058,
+   "last": 1200,
+   "steps": 28,
+   "heavy": 8,
+   "imports": 8,
+   "exports": 6
+  },
+  {
+   "name": "FullSeg_17",
+   "kind": "seg",
+   "first": 1201,
+   "last": 1319,
+   "steps": 31,
+   "heavy": 8,
+   "imports": 9,
+   "exports": 8
+  },
+  {
+   "name": "FullSeg_18",
+   "kind": "seg",
+   "first": 1320,
+   "last": 1456,
+   "steps": 27,
+   "heavy": 8,
+   "imports": 11,
+   "exports": 8
+  },
+  {
+   "name": "FullSeg_19",
+   "kind": "seg",
+   "first": 1457,
+   "last": 1503,
+   "steps": 11,
+   "heavy": 8,
+   "imports": 10,
+   "exports": 5
+  },
+  {
+   "name": "FullSeg_20",
+   "kind": "seg",
+   "first": 1504,
+   "last": 1667,
+   "steps": 24,
+   "heavy": 8,
+   "imports": 13,
+   "exports": 11
+  },
+  {
+   "name": "FullSeg_21",
+   "kind": "seg",
+   "first": 1668,
+   "last": 1725,
+   "steps": 28,
+   "heavy": 8,
+   "imports": 8,
+   "exports": 3
+  },
+  {
+   "name": "FullSeg_22",
+   "kind": "seg",
+   "first": 1726,
+   "last": 1762,
+   "steps": 16,
+   "heavy": 8,
+   "imports": 9,
+   "exports": 7
+  },
+  {
+   "name": "FullSeg_23",
+   "kind": "seg",
+   "first": 1763,
+   "last": 1796,
+   "steps": 18,
+   "heavy": 8,
+   "imports": 6,
+   "exports": 7
+  },
+  {
+   "name": "FullSeg_24",
+   "kind": "seg",
+   "first": 1797,
+   "last": 1912,
+   "steps": 30,
+   "heavy": 8,
+   "imports": 8,
+   "exports": 8
+  },
+  {
+   "name": "FullSeg_25",
+   "kind": "seg",
+   "first": 1913,
+   "last": 2014,
+   "steps": 30,
+   "heavy": 8,
+   "imports": 11,
+   "exports": 7
+  },
+  {
+   "name": "FullSeg_26",
+   "kind": "seg",
+   "first": 2015,
+   "last": 2152,
+   "steps": 28,
+   "heavy": 8,
+   "imports": 11,
+   "exports": 8
+  },
+  {
+   "name": "FullSeg_27",
+   "kind": "seg",
+   "first": 2153,
+   "last": 2294,
+   "steps": 37,
+   "heavy": 8,
+   "imports": 12,
+   "exports": 5
+  },
+  {
+   "name": "FullSeg_28",
+   "kind": "seg",
+   "first": 2295,
+   "last": 2413,
+   "steps": 22,
+   "heavy": 8,
+   "imports": 5,
+   "exports": 3
+  },
+  {
+   "name": "FullSeg_29",
+   "kind": "seg",
+   "first": 2414,
+   "last": 2573,
+   "steps": 17,
+   "heavy": 8,
+   "imports": 14,
+   "exports": 8
+  },
+  {
+   "name": "FullSeg_30",
+   "kind": "seg",
+   "first": 2574,
+   "last": 2602,
+   "steps": 15,
+   "heavy": 8,
+   "imports": 3,
+   "exports": 5
+  },
+  {
+   "name": "FullSeg_31",
+   "kind": "seg",
+   "first": 2603,
+   "last": 2673,
+   "steps": 33,
+   "heavy": 8,
+   "imports": 7,
+   "exports": 4
+  },
+  {
+   "name": "FullSeg_32",
+   "kind": "seg",
+   "first": 2674,
+   "last": 2709,
+   "steps": 17,
+   "heavy": 8,
+   "imports": 7,
+   "exports": 3
+  },
+  {
+   "name": "FullSeg_33",
+   "kind": "seg",
+   "first": 2710,
+   "last": 2744,
+   "steps": 11,
+   "heavy": 3,
+   "imports": 8,
+   "exports": 6
+  },
+  {
+   "name": "FullSqrt_2745",
+   "kind": "sqrt",
+   "heavy": 2,
+   "imports": 1,
+   "exports": 1
+  },
+  {
+   "name": "FullInv_2746",
+   "kind": "inv",
+   "heavy": 2,
+   "imports": 1,
+   "exports": 1
+  },
+  {
+   "name": "FullSeg_34",
+   "kind": "seg",
+   "first": 2750,
+   "last": 2771,
+   "steps": 9,
+   "heavy": 4,
+   "imports": 3,
+   "exports": 3
+  },
+  {
+   "name": "FullSqrt_2772",
+   "kind": "sqrt",
+   "heavy": 2,
+   "imports": 1,
+   "exports": 1
+  },
+  {
+   "name": "FullInv_2773",
+   "kind": "inv",
+   "heavy": 2,
+   "imports": 1,
+   "exports": 1
+  },
+  {
+   "name": "FullSeg_35",
+   "kind": "seg",
+   "first": 2777,
+   "last": 2825,
+   "steps": 12,
+   "heavy": 8,
+   "imports": 6,
+   "exports": 6
+  },
+  {
+   "name": "FullSeg_36",
+   "kind": "seg",
+   "first": 2826,
+   "last": 2948,
+   "steps": 25,
+   "heavy": 8,
+   "imports": 5,
+   "exports": 6
+  },
+  {
+   "name": "FullSeg_37",
+   "kind": "seg",
+   "first": 2949,
+   "last": 3090,
+   "steps": 31,
+   "heavy": 8,
+   "imports": 10,
+   "exports": 7
+  },
+  {
+   "name": "FullSeg_38",
+   "kind": "seg",
+   "first": 3091,
+   "last": 3213,
+   "steps": 25,
+   "heavy": 8,
+   "imports": 5,
+   "exports": 6
+  },
+  {
+   "name": "FullSeg_39",
+   "kind": "seg",
+   "first": 3214,
+   "last": 3376,
+   "steps": 28,
+   "heavy": 8,
+   "imports": 9,
+   "exports": 7
+  },
+  {
+   "name": "FullSeg_40",
+   "kind": "seg",
+   "first": 3377,
+   "last": 3514,
+   "steps": 28,
+   "heavy": 8,
+   "imports": 11,
+   "exports": 8
+  },
+  {
+   "name": "FullSeg_41",
+   "kind": "seg",
+   "first": 3515,
+   "last": 3617,
+   "steps": 19,
+   "heavy": 8,
+   "imports": 11,
+   "exports": 4
+  },
+  {
+   "name": "FullSeg_42",
+   "kind": "seg",
+   "first": 3618,
+   "last": 3683,
+   "steps": 21,
+   "heavy": 8,
+   "imports": 10,
+   "exports": 8
+  },
+  {
+   "name": "FullSeg_43",
+   "kind": "seg",
+   "first": 3684,
+   "last": 3806,
+   "steps": 25,
+   "heavy": 8,
+   "imports": 5,
+   "exports": 6
+  },
+  {
+   "name": "FullSeg_44",
+   "kind": "seg",
+   "first": 3807,
+   "last": 3969,
+   "steps": 28,
+   "heavy": 8,
+   "imports": 9,
+   "exports": 7
+  },
+  {
+   "name": "FullSeg_45",
+   "kind": "seg",
+   "first": 3970,
+   "last": 4107,
+   "steps": 28,
+   "heavy": 8,
+   "imports": 11,
+   "exports": 8
+  },
+  {
+   "name": "FullSeg_46",
+   "kind": "seg",
+   "first": 4108,
+   "last": 4288,
+   "steps": 35,
+   "heavy": 8,
+   "imports": 12,
+   "exports": 10
+  },
+  {
+   "name": "FullSeg_47",
+   "kind": "seg",
+   "first": 4301,
+   "last": 4437,
+   "steps": 27,
+   "heavy": 8,
+   "imports": 12,
+   "exports": 9
+  },
+  {
+   "name": "FullSeg_48",
+   "kind": "seg",
+   "first": 4438,
+   "last": 4484,
+   "steps": 11,
+   "heavy": 8,
+   "imports": 10,
+   "exports": 4
+  },
+  {
+   "name": "FullSeg_49",
+   "kind": "seg",
+   "first": 4485,
+   "last": 4651,
+   "steps": 29,
+   "heavy": 8,
+   "imports": 12,
+   "exports": 12
+  },
+  {
+   "name": "FullSeg_50",
+   "kind": "seg",
+   "first": 4652,
+   "last": 4773,
+   "steps": 24,
+   "heavy": 8,
+   "imports": 8,
+   "exports": 8
+  },
+  {
+   "name": "FullSeg_51",
+   "kind": "seg",
+   "first": 4774,
+   "last": 4955,
+   "steps": 35,
+   "heavy": 8,
+   "imports": 10,
+   "exports": 5
+  },
+  {
+   "name": "FullSeg_52",
+   "kind": "seg",
+   "first": 4956,
+   "last": 5074,
+   "steps": 22,
+   "heavy": 8,
+   "imports": 5,
+   "exports": 3
+  },
+  {
+   "name": "FullSeg_53",
+   "kind": "seg",
+   "first": 5075,
+   "last": 5148,
+   "steps": 20,
+   "heavy": 8,
+   "imports": 12,
+   "exports": 9
+  },
+  {
+   "name": "FullSeg_54",
+   "kind": "seg",
+   "first": 5149,
+   "last": 5233,
+   "steps": 21,
+   "heavy": 8,
+   "imports": 7,
+   "exports": 10
+  },
+  {
+   "name": "FullSeg_55",
+   "kind": "seg",
+   "first": 5246,
+   "last": 5367,
+   "steps": 24,
+   "heavy": 8,
+   "imports": 9,
+   "exports": 9
+  },
+  {
+   "name": "FullSeg_56",
+   "kind": "seg",
+   "first": 5368,
+   "last": 5504,
+   "steps": 27,
+   "heavy": 8,
+   "imports": 11,
+   "exports": 8
+  },
+  {
+   "name": "FullSeg_57",
+   "kind": "seg",
+   "first": 5505,
+   "last": 5686,
+   "steps": 35,
+   "heavy": 8,
+   "imports": 10,
+   "exports": 5
+  },
+  {
+   "name": "FullSeg_58",
+   "kind": "seg",
+   "first": 5687,
+   "last": 5824,
+   "steps": 28,
+   "heavy": 8,
+   "imports": 8,
+   "exports": 6
+  },
+  {
+   "name": "FullSeg_59",
+   "kind": "seg",
+   "first": 5825,
+   "last": 5987,
+   "steps": 28,
+   "heavy": 8,
+   "imports": 9,
+   "exports": 7
+  },
+  {
+   "name": "FullSeg_60",
+   "kind": "seg",
+   "first": 5988,
+   "last": 6125,
+   "steps": 28,
+   "heavy": 8,
+   "imports": 11,
+   "exports": 8
+  },
+  {
+   "name": "FullSeg_61",
+   "kind": "seg",
+   "first": 6126,
+   "last": 6228,
+   "steps": 19,
+   "heavy": 8,
+   "imports": 11,
+   "exports": 4
+  },
+  {
+   "name": "FullSeg_62",
+   "kind": "seg",
+   "first": 6229,
+   "last": 6348,
+   "steps": 17,
+   "heavy": 8,
+   "imports": 13,
+   "exports": 9
+  },
+  {
+   "name": "FullSeg_63",
+   "kind": "seg",
+   "first": 6349,
+   "last": 6448,
+   "steps": 23,
+   "heavy": 8,
+   "imports": 6,
+   "exports": 8
+  },
+  {
+   "name": "FullSeg_64",
+   "kind": "seg",
+   "first": 6449,
+   "last": 6570,
+   "steps": 24,
+   "heavy": 8,
+   "imports": 8,
+   "exports": 8
+  },
+  {
+   "name": "FullSeg_65",
+   "kind": "seg",
+   "first": 6571,
+   "last": 6752,
+   "steps": 35,
+   "heavy": 8,
+   "imports": 10,
+   "exports": 5
+  },
+  {
+   "name": "FullSeg_66",
+   "kind": "seg",
+   "first": 6753,
+   "last": 6890,
+   "steps": 28,
+   "heavy": 8,
+   "imports": 8,
+   "exports": 6
+  },
+  {
+   "name": "FullSeg_67",
+   "kind": "seg",
+   "first": 6891,
+   "last": 7053,
+   "steps": 28,
+   "heavy": 8,
+   "imports": 9,
+   "exports": 7
+  },
+  {
+   "name": "FullSeg_68",
+   "kind": "seg",
+   "first": 7054,
+   "last": 7145,
+   "steps": 20,
+   "heavy": 8,
+   "imports": 9,
+   "exports": 3
+  },
+  {
+   "name": "FullSeg_69",
+   "kind": "seg",
+   "first": 7158,
+   "last": 7200,
+   "steps": 8,
+   "heavy": 8,
+   "imports": 9,
+   "exports": 4
+  },
+  {
+   "name": "FullSeg_70",
+   "kind": "seg",
+   "first": 7229,
+   "last": 7649,
+   "steps": 13,
+   "heavy": 8,
+   "imports": 12,
+   "exports": 5
+  },
+  {
+   "name": "FullSeg_71",
+   "kind": "seg",
+   "first": 7650,
+   "last": 7735,
+   "steps": 6,
+   "heavy": 6,
+   "imports": 7,
+   "exports": 5
+  }
+ ],
+ "wanted": {
+  "7731": [
+   5.76601299411238e-23,
+   9.059581741123745
+  ],
+  "7732": [
+   3.48294317115971e-22,
+   1.8444159243117304
+  ],
+  "7733": [
+   3.3946978776846295e-22,
+   2.8774142308365147
+  ],
+  "7734": [
+   2.8685260774232303e-22,
+   24.666019452950263
+  ],
+  "7735": [
+   1.1673102025852468e-21,
+   45.770649505665915
+  ]
+ }
+}

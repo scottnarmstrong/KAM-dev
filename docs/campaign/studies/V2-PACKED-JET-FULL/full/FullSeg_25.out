@@ -1,0 +1,5 @@
+linting took 1.22ms
+type checking took 6.18s
+declTypeLinter took 1.67ms
+tacticAnalysis took 1.23ms
+linting took 6.48ms

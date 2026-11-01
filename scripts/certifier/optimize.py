@@ -82,6 +82,8 @@ _GS = {}
 def gamma_spec(w, delta):
     """(2 pi)^-1 2^{n/2} S(w, 2 delta)^{1/2}; homogeneous of degree -1 in w (cached on the direction)."""
     w = np.asarray(w, float)
+    if w.shape != (2,) or not (np.isfinite(w).all() and math.isfinite(delta)):
+        raise ValueError("gamma_spec: finite two-frequency input required, got w = %r, delta = %r" % (w, delta))
     t = float(np.abs(w).max())
     key = (round(w[0] / t, 14), round(w[1] / t, 14), round(delta, 14))
     if key not in _GS:

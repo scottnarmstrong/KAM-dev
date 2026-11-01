@@ -1,0 +1,7 @@
+linting took 6.33ms
+typeclass inference of KAM.Certificate.CertArith took 2.27ms
+elaboration took 8.26ms
+type checking took 13.4s
+declTypeLinter took 1.4ms
+tacticAnalysis took 1.15ms
+linting took 8.77ms

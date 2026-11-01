@@ -1,0 +1,89 @@
+{
+ "tag": "G8k",
+ "dimsA": [
+  41,
+  51
+ ],
+ "dimsB": [
+  43,
+  48
+ ],
+ "radius": 30,
+ "P": 128,
+ "termsA": 1611,
+ "termsB": 1614,
+ "denseA": 3971,
+ "denseB": 4164,
+ "prodLen": 8134,
+ "landed": {
+  "width": 263,
+  "blockLen": 3136,
+  "shards": 3,
+  "scale": 167,
+  "outLog": 0,
+  "target": [
+   [
+    -41,
+    -49
+   ],
+   [
+    83,
+    98
+   ]
+  ],
+  "advice_slots": 18813,
+  "advice_nonzero": 9467,
+  "out_terms": 6327,
+  "rem_log2": -70.5379997048519
+ },
+ "packed": {
+  "width": 263,
+  "l": 261,
+  "s": 164,
+  "ba_bits": 125,
+  "bb_bits": 124,
+  "degCap": 90,
+  "out_terms": 6334,
+  "rem_log2": -71.22527902815986,
+  "chunks": [
+   3612,
+   3790,
+   7401
+  ],
+  "bits": [
+   1040251,
+   1091273,
+   2131359
+  ]
+ },
+ "literal_bytes": {
+  "advice_windows": 158825,
+  "landed_terms": 145857,
+  "packed_R": 682650,
+  "packed_terms": 152096,
+  "Za": 302550,
+  "Zb": 318717,
+  "x": 69566,
+  "y": 69732
+ },
+ "probe_bytes": {
+  "Ctl": 739,
+  "DataL": 299550,
+  "DataP": 1304705,
+  "Lshard0": 299790,
+  "Lshard1": 299790,
+  "Lshard2": 299790,
+  "Lprefix": 300099,
+  "Ldecode": 306120,
+  "Ldecode1500": 306210,
+  "Ldecode3000": 306210,
+  "Lrem": 1655,
+  "Lall": 446051,
+  "Pcore": 1305053,
+  "Pingest": 1304761,
+  "Ppack": 762122,
+  "Pdecode": 836178,
+  "Prem": 1634,
+  "Pall": 293474
+ }
+}

@@ -358,7 +358,7 @@
       "doi": "10.1051/0004-6361/201630022",
       "pdf": "sources/incoming-zohar2/r2-amd17.pdf",
       "sha256": "6b3c7aad2c2bf69612c0e0a65a5409f40a03e330253f8b3880f8e53d40f09361",
-      "role": "D25 AMD and heliocentric Hamiltonian. Exact publisher title/author/volume match verified."
+      "role": "D25 AMD and heliocentric Hamiltonian. Exact publisher title/author/volume match verified. The pinned PDF is the arXiv v2 (1703.07125v2), not the publisher's PDF (identical bytes to the LP exploration copy LP17-arxiv-v2.pdf); track LP checked the §3 conjecture clause in both versions (identical; docs/explorations/amd-crossing/A2-literature.md §1). Cite page numbers by version."
     },
     {
       "key": "CP09",

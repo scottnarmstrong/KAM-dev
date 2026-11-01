@@ -24142,6 +24142,286 @@
     "frozen_paths": [],
     "audit_paths": []
    }
+  },
+  {
+   "id": "magnetic.magEps.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-01",
+    "approval_ref": "owner approval of the magnetic statement ('approve the magnetic statement'), exactly docs/explorations/mag/FREEZE-PROPOSAL.md and docs/explorations/mag/draft/*.lean.txt at mag-pilot@a48eb432, including the ℝ × ℝ × ℝ state-type exception; docs/DECISIONS.md D68",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@a48eb432 (mag-pilot) docs/explorations/mag/FREEZE-PROPOSAL.md",
+    "range": "FREEZE-PROPOSAL §Proposed Lean text, draft/MagEps.lean.txt"
+   },
+   "contract": {
+    "id": "magnetic.magEps",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Magnetic/Defs/MagEps.lean",
+   "export": "KAM.Magnetic.magEps",
+   "split_policy": {
+    "source_group": "magnetic.magEps",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D68"
+   },
+   "abi_sha256": "aa0724f43982c50f9bc0e7f6607802b7527bb960f36850bdde6bd7af94ec0fca",
+   "definition_closure": [],
+   "state": "SEALED",
+   "full_file_sha256": "47611c4af5dde370b8494ba277cba73cfd2d6c114668d91b5e690f4b54f558ff"
+  },
+  {
+   "id": "magnetic.magH0.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-01",
+    "approval_ref": "owner approval of the magnetic statement ('approve the magnetic statement'), exactly docs/explorations/mag/FREEZE-PROPOSAL.md and docs/explorations/mag/draft/*.lean.txt at mag-pilot@a48eb432, including the ℝ × ℝ × ℝ state-type exception; docs/DECISIONS.md D68",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@a48eb432 (mag-pilot) docs/explorations/mag/FREEZE-PROPOSAL.md",
+    "range": "FREEZE-PROPOSAL §Proposed Lean text, draft/MagH0.lean.txt"
+   },
+   "contract": {
+    "id": "magnetic.magH0",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Magnetic/Defs/MagH0.lean",
+   "export": "KAM.Magnetic.magH0",
+   "split_policy": {
+    "source_group": "magnetic.magH0",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D68"
+   },
+   "abi_sha256": "43af7594959c86681a6619eceac008693f9aeb98ccfae117a39fbda825f9a741",
+   "definition_closure": [],
+   "state": "SEALED",
+   "full_file_sha256": "7c6749fd22181d1e6c3700a824eceeb8ec2a3bfeabb0cdcff3503cd7aea291db"
+  },
+  {
+   "id": "magnetic.magAlpha.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-01",
+    "approval_ref": "owner approval of the magnetic statement ('approve the magnetic statement'), exactly docs/explorations/mag/FREEZE-PROPOSAL.md and docs/explorations/mag/draft/*.lean.txt at mag-pilot@a48eb432, including the ℝ × ℝ × ℝ state-type exception; docs/DECISIONS.md D68",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@a48eb432 (mag-pilot) docs/explorations/mag/FREEZE-PROPOSAL.md",
+    "range": "FREEZE-PROPOSAL §Proposed Lean text, draft/MagAlpha.lean.txt"
+   },
+   "contract": {
+    "id": "magnetic.magAlpha",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Magnetic/Defs/MagAlpha.lean",
+   "export": "KAM.Magnetic.magAlpha",
+   "split_policy": {
+    "source_group": "magnetic.magAlpha",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D68"
+   },
+   "abi_sha256": "cd94f9e1ce1c4566ad5ddda698f93ff2b521359063976ac763aa1a0dab2ccbce",
+   "definition_closure": [],
+   "state": "SEALED",
+   "full_file_sha256": "bbffa22e6b78659aa40ad5d0daead0bb1504e5249927056ae4c3d829b4db141a"
+  },
+  {
+   "id": "magnetic.magV.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-01",
+    "approval_ref": "owner approval of the magnetic statement ('approve the magnetic statement'), exactly docs/explorations/mag/FREEZE-PROPOSAL.md and docs/explorations/mag/draft/*.lean.txt at mag-pilot@a48eb432, including the ℝ × ℝ × ℝ state-type exception; docs/DECISIONS.md D68",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@a48eb432 (mag-pilot) docs/explorations/mag/FREEZE-PROPOSAL.md",
+    "range": "FREEZE-PROPOSAL §Proposed Lean text, draft/MagV.lean.txt"
+   },
+   "contract": {
+    "id": "magnetic.magV",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Magnetic/Defs/MagV.lean",
+   "export": "KAM.Magnetic.magV",
+   "split_policy": {
+    "source_group": "magnetic.magV",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D68"
+   },
+   "abi_sha256": "0517bc60e2071e6e3da25208f85f308594eb97cbccef05d04d56e1164f8dae68",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Magnetic/Defs/MagEps.lean",
+     "sha256": "47611c4af5dde370b8494ba277cba73cfd2d6c114668d91b5e690f4b54f558ff"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "152bd1afe3c49973e9aad6bf2685f343f000827e1f72d43fc934f9093d211d41"
+  },
+  {
+   "id": "magnetic.magField.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-01",
+    "approval_ref": "owner approval of the magnetic statement ('approve the magnetic statement'), exactly docs/explorations/mag/FREEZE-PROPOSAL.md and docs/explorations/mag/draft/*.lean.txt at mag-pilot@a48eb432, including the ℝ × ℝ × ℝ state-type exception; docs/DECISIONS.md D68",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@a48eb432 (mag-pilot) docs/explorations/mag/FREEZE-PROPOSAL.md",
+    "range": "FREEZE-PROPOSAL §Proposed Lean text, draft/MagField.lean.txt"
+   },
+   "contract": {
+    "id": "magnetic.magField",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Magnetic/Defs/MagField.lean",
+   "export": "KAM.Magnetic.magField",
+   "split_policy": {
+    "source_group": "magnetic.magField",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D68"
+   },
+   "abi_sha256": "aaeedb78497acba102125347a90e6b2caad51cbdd459fe8eec1a97442dc369eb",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Magnetic/Defs/MagEps.lean",
+     "sha256": "47611c4af5dde370b8494ba277cba73cfd2d6c114668d91b5e690f4b54f558ff"
+    },
+    {
+     "path": "KAM/Frozen/Magnetic/Defs/MagH0.lean",
+     "sha256": "7c6749fd22181d1e6c3700a824eceeb8ec2a3bfeabb0cdcff3503cd7aea291db"
+    },
+    {
+     "path": "KAM/Frozen/Magnetic/Defs/MagV.lean",
+     "sha256": "152bd1afe3c49973e9aad6bf2685f343f000827e1f72d43fc934f9093d211d41"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "d3b060eec3088b549698c1d143d63a023a87b50fc31b3ff929476a4d083ad66c"
+  },
+  {
+   "id": "magnetic.magHamC.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-01",
+    "approval_ref": "owner approval of the magnetic statement ('approve the magnetic statement'), exactly docs/explorations/mag/FREEZE-PROPOSAL.md and docs/explorations/mag/draft/*.lean.txt at mag-pilot@a48eb432, including the ℝ × ℝ × ℝ state-type exception; docs/DECISIONS.md D68",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@a48eb432 (mag-pilot) docs/explorations/mag/FREEZE-PROPOSAL.md",
+    "range": "FREEZE-PROPOSAL §Proposed Lean text, draft/MagHamC.lean.txt"
+   },
+   "contract": {
+    "id": "magnetic.magHamC",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Magnetic/Defs/MagHamC.lean",
+   "export": "KAM.Magnetic.magHamC",
+   "split_policy": {
+    "source_group": "magnetic.magHamC",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D68"
+   },
+   "abi_sha256": "f8094b11e3e02c4d1f38fbe41d497ac528206f2c78fff2ea1a9e524b3a142fac",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Magnetic/Defs/MagEps.lean",
+     "sha256": "47611c4af5dde370b8494ba277cba73cfd2d6c114668d91b5e690f4b54f558ff"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "962a77d2c5ebc8cce494e63e6f9386d4cc5a36903cc9afa60591b6c3982c0007"
+  },
+  {
+   "id": "magnetic.magnetic_barrier.v1",
+   "kind": "theorem",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-01",
+    "approval_ref": "owner approval of the magnetic statement ('approve the magnetic statement'), exactly docs/explorations/mag/FREEZE-PROPOSAL.md and docs/explorations/mag/draft/*.lean.txt at mag-pilot@a48eb432, including the ℝ × ℝ × ℝ state-type exception; docs/DECISIONS.md D68",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM@a48eb432 (mag-pilot) docs/explorations/mag/FREEZE-PROPOSAL.md",
+    "range": "FREEZE-PROPOSAL §Proposed Lean text, draft/MagneticBarrier.lean.txt (headline)"
+   },
+   "contract": {
+    "id": "magnetic.magnetic_barrier",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Magnetic/Theorems/MagneticBarrier.lean",
+   "export": "KAM.Magnetic.magnetic_barrier",
+   "split_policy": {
+    "source_group": "magnetic.magnetic_barrier",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D68"
+   },
+   "abi_sha256": "227c2409f174f0911cd2b1c3c5b43c2d45a945e7a9ea51d6565053ce0ad2f32e",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Defs/ComplexStrip.lean",
+     "sha256": "e09d35d4c4c71ad6dad5dfb1995c842840f1c35bffbd3494bb6ff62f78c3da99"
+    },
+    {
+     "path": "KAM/Frozen/Defs/HamiltonianVectorFieldC.lean",
+     "sha256": "6943acf3f4c92ac007afeb274bd6f82ae422279617ca433d8c84898341d0edf5"
+    },
+    {
+     "path": "KAM/Frozen/Defs/InvarianceError.lean",
+     "sha256": "d3dff384bd1d7c3c5799f3d9630319cf67dd8dd8c9ab05160fd527356d5bcf94"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsPrimaryOnStrip.lean",
+     "sha256": "24f6d108dceb1596bb50f1037229c7c76e217a724bdd1e32ff6d4832a4256ec6"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsRealOnReals.lean",
+     "sha256": "e0ebadd672b8483c426b4af5b934850c0dfd2a683013d82fca3a5ece965c035c"
+    },
+    {
+     "path": "KAM/Frozen/Magnetic/Defs/MagAlpha.lean",
+     "sha256": "bbffa22e6b78659aa40ad5d0daead0bb1504e5249927056ae4c3d829b4db141a"
+    },
+    {
+     "path": "KAM/Frozen/Magnetic/Defs/MagEps.lean",
+     "sha256": "47611c4af5dde370b8494ba277cba73cfd2d6c114668d91b5e690f4b54f558ff"
+    },
+    {
+     "path": "KAM/Frozen/Magnetic/Defs/MagField.lean",
+     "sha256": "d3b060eec3088b549698c1d143d63a023a87b50fc31b3ff929476a4d083ad66c"
+    },
+    {
+     "path": "KAM/Frozen/Magnetic/Defs/MagH0.lean",
+     "sha256": "7c6749fd22181d1e6c3700a824eceeb8ec2a3bfeabb0cdcff3503cd7aea291db"
+    },
+    {
+     "path": "KAM/Frozen/Magnetic/Defs/MagHamC.lean",
+     "sha256": "962a77d2c5ebc8cce494e63e6f9386d4cc5a36903cc9afa60591b6c3982c0007"
+    },
+    {
+     "path": "KAM/Frozen/Magnetic/Defs/MagV.lean",
+     "sha256": "152bd1afe3c49973e9aad6bf2685f343f000827e1f72d43fc934f9093d211d41"
+    }
+   ],
+   "state": "DRAFT_SORRY",
+   "implementation": {
+    "export": "KAM.Provider.Magnetic.magnetic_barrier",
+    "module": "KAM.Provider.Magnetic.MagneticBarrier"
+   },
+   "prefix_sha256": "035a894cc6d51d31d00b08c4f98982b5269de82c6cc9074797c39be86a76eed5",
+   "suffix_sha256": "9ab51e4917976ae053b1bf1ebea5b2afa79869097319c0e23a6486a8e52298e3",
+   "draft_allowlist": {
+    "frozen_paths": [],
+    "audit_paths": []
+   }
   }
  ]
 }

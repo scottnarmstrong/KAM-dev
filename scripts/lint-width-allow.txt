@@ -1,2 +1,3 @@
 # Exact overlong Lean lines exempted from the 100-column lint (path, sha256 of the line, line number at the time).
 # Currently empty of entries (the SO-DATA3 CsegSupport.lean entries were removed after Q11 fixed those widths).
+KAM/Frozen/Magnetic/Defs/MagHamC.lean	003ed59867713ca3d8d090284feb2563f007845332eb0187637e3d6310f955af	30

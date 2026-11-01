@@ -17,6 +17,10 @@ giving c(delta) = (2 pi)^{-1} gamma delta^tau 2^{n/2} S(omega, delta)^{1/2}.
                        0.08137 (1 + 3.40 delta)^{1/2} for (2, 1); the uniform constant (delta <= 1) is 0.1707.
 * c_freq(omega, gamma, delta) = the frequency-specific value: the exact finite part |k|_1 <= N plus the classical
                        tail (shell bound S_M <= A gamma^{-2} M^{2 tau}, A = 2^{2 tau+1} zeta(2, 2^tau), Abel summation).
+
+S_finite, c_freq and gamma_inf are two-frequency routines: they sum over (k1, k2) only, so n != 2 and vectors of any
+other length are rejected (a higher-dimensional routine must sum over every coordinate and justify its own tail).
+c_v1, c_classical and c_inf_classical are formulas valid for general n.  Every entry point rejects non-finite scalars.
 """
 import math
 import numpy as np
@@ -26,6 +30,30 @@ try:
     mp.mp.dps = 30
 except ImportError:                                   # pragma: no cover
     mp = None
+
+
+def check_finite(**scalars):
+    """ValueError unless every named input is a finite real number."""
+    for name, v in scalars.items():
+        try:
+            x = float(v)
+        except (TypeError, ValueError, OverflowError):
+            raise ValueError("%s must be a finite real number, got %r" % (name, v)) from None
+        if not math.isfinite(x):
+            raise ValueError("%s must be finite, got %r" % (name, v))
+
+
+def check_two_freq(omega, n=2):
+    """ValueError unless n = 2 and omega is a finite vector of length 2."""
+    if n != 2:
+        raise ValueError("two-frequency routine: n must be 2, got %r (no higher-dimensional implementation)" % (n,))
+    try:
+        shape = np.shape(omega)
+    except ValueError:                                # ragged input
+        shape = None
+    if shape != (2,):
+        raise ValueError("two-frequency routine: omega must be a vector of length 2, got %r" % (omega,))
+    check_finite(omega_1=omega[0], omega_2=omega[1])
 
 
 def hurwitz2(a):
@@ -39,10 +67,12 @@ def shell_const(tau):
 
 
 def c_v1(n, tau):
+    check_finite(n=n, tau=tau)
     return float((2 * mp.pi) ** -1 * mp.sqrt(2 ** n * 6 * (1 + 2 ** mp.mpf(tau)) * (2 * mp.mpf(tau) / (mp.e * mp.pi)) ** (2 * tau)))
 
 
 def c_classical(n, tau, delta=0.0):
+    check_finite(n=n, tau=tau, delta=delta)
     eps = 4 * math.pi * delta * (2 * tau / math.e) ** (2 * tau) / math.gamma(2 * tau + 1)
     return (2 * math.pi) ** -1 * 2 ** (n / 2) * math.sqrt(shell_const(tau) * math.gamma(2 * tau + 1) * (1 + eps)) \
         * (4 * math.pi) ** (-tau)
@@ -50,6 +80,8 @@ def c_classical(n, tau, delta=0.0):
 
 def S_finite(omega, delta, N):
     """sum_{0 < |k|_1 <= N} |k.omega|^{-2} e^{-4 pi delta |k|_1} for n = 2 (vectorised)."""
+    check_two_freq(omega)
+    check_finite(delta=delta, N=N)
     k1 = np.arange(-N, N + 1)
     tot = 0.0
     for a in k1:
@@ -64,6 +96,7 @@ def S_finite(omega, delta, N):
 
 def S_tail(gamma, tau, delta, N, Mmax=None):
     """Classical tail sum_{|k|_1 > N}: (1 - e^{-b}) A gamma^{-2} sum_{M > N} M^{2 tau} e^{-b M}, b = 4 pi delta."""
+    check_finite(gamma=gamma, tau=tau, delta=delta, N=N)
     b = 4 * math.pi * delta
     A = shell_const(tau)
     Mmax = Mmax or int(N + 60 / b) + 10
@@ -73,6 +106,8 @@ def S_tail(gamma, tau, delta, N, Mmax=None):
 
 def c_freq(omega, gamma, tau, delta, n=2, N=None):
     """Frequency-specific constant at the bite delta (finite part + classical tail)."""
+    check_two_freq(omega, n)
+    check_finite(gamma=gamma, tau=tau, delta=delta)
     N = N or max(50, int(16.0 / (4 * math.pi * delta)))
     S = S_finite(omega, delta, N) + S_tail(gamma, tau, delta, N)
     return (2 * math.pi) ** -1 * gamma * delta ** tau * 2 ** (n / 2) * math.sqrt(S), N
@@ -95,6 +130,8 @@ def gamma_inf(omega, delta, gamma, tau=1, N=None):
     """L9: the l^1 (Wiener-algebra) small-divisor constant Gamma_inf(omega, delta) = sup_{k != 0} e^{-2 pi delta |k|_1}/(2 pi |k.omega|)
     (n = 2): exact on |k|_1 <= N, and for |k|_1 > N the Diophantine tail e^{-2 pi delta m} m^tau/(2 pi gamma), decreasing for
     m > tau/(2 pi delta).  Returns (Gamma_inf, c_inf = Gamma_inf gamma delta^tau)."""
+    check_two_freq(omega)
+    check_finite(delta=delta, gamma=gamma, tau=tau)
     N = N or max(50, int(30.0 / (2 * math.pi * delta)))
     best = 0.0
     for a in range(-N, N + 1):
@@ -113,4 +150,5 @@ def gamma_inf(omega, delta, gamma, tau=1, N=None):
 
 def c_inf_classical(tau):
     """The l^1 classical constant: sup_m m^tau e^{-2 pi delta m}/(2 pi gamma) <= (tau/(2 pi e delta))^tau/(2 pi gamma)."""
+    check_finite(tau=tau)
     return (tau / (2 * math.pi * math.e)) ** tau / (2 * math.pi)

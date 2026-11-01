@@ -1,0 +1,242 @@
+{
+ "start": 7099,
+ "stop": 7292,
+ "lg00_cert_commit": "fd82fef5a92cd75a8ed4b34b98f3fd9a25b5a315",
+ "steps": 114,
+ "products": 55,
+ "in_place": 13,
+ "adds": 46,
+ "imports": 53,
+ "exports": 35,
+ "landed_segments": 83,
+ "landed_kinds": {
+  "P": 54,
+  "R": 29
+ },
+ "book": {
+  "lb": 140,
+  "lr": 282,
+  "lrb": 270,
+  "ln": 141,
+  "aW": "2^277",
+  "aB": "2^268",
+  "smax": 128,
+  "ls": 277,
+  "lsb": 268,
+  "off": 2550,
+  "w": 352
+ },
+ "heavy_max": 4,
+ "sub_segments": [
+  {
+   "name": "JSeg_0",
+   "steps": 4,
+   "heavy": 4,
+   "imports": 5,
+   "exports": 4,
+   "first": 7099,
+   "last": 7102
+  },
+  {
+   "name": "JSeg_1",
+   "steps": 2,
+   "heavy": 2,
+   "imports": 3,
+   "exports": 2,
+   "first": 7103,
+   "last": 7104
+  },
+  {
+   "name": "JSeg_2",
+   "steps": 9,
+   "heavy": 2,
+   "imports": 15,
+   "exports": 7,
+   "first": 7113,
+   "last": 7129
+  },
+  {
+   "name": "JSeg_3",
+   "steps": 4,
+   "heavy": 4,
+   "imports": 5,
+   "exports": 4,
+   "first": 7130,
+   "last": 7133
+  },
+  {
+   "name": "JSeg_4",
+   "steps": 1,
+   "heavy": 1,
+   "imports": 2,
+   "exports": 1,
+   "first": 7134,
+   "last": 7134
+  },
+  {
+   "name": "JSeg_5",
+   "steps": 8,
+   "heavy": 1,
+   "imports": 15,
+   "exports": 8,
+   "first": 7143,
+   "last": 7158
+  },
+  {
+   "name": "JSeg_6",
+   "steps": 2,
+   "heavy": 2,
+   "imports": 3,
+   "exports": 2,
+   "first": 7159,
+   "last": 7160
+  },
+  {
+   "name": "JSeg_7",
+   "steps": 4,
+   "heavy": 4,
+   "imports": 6,
+   "exports": 4,
+   "first": 7161,
+   "last": 7164
+  },
+  {
+   "name": "JSeg_8",
+   "steps": 4,
+   "heavy": 4,
+   "imports": 6,
+   "exports": 4,
+   "first": 7165,
+   "last": 7168
+  },
+  {
+   "name": "JSeg_9",
+   "steps": 2,
+   "heavy": 2,
+   "imports": 4,
+   "exports": 2,
+   "first": 7169,
+   "last": 7170
+  },
+  {
+   "name": "JSeg_10",
+   "steps": 6,
+   "heavy": 0,
+   "imports": 12,
+   "exports": 6,
+   "first": 7197,
+   "last": 7202
+  },
+  {
+   "name": "JSeg_11",
+   "steps": 7,
+   "heavy": 1,
+   "imports": 14,
+   "exports": 7,
+   "first": 7203,
+   "last": 7230
+  },
+  {
+   "name": "JSeg_12",
+   "steps": 1,
+   "heavy": 1,
+   "imports": 2,
+   "exports": 1,
+   "first": 7231,
+   "last": 7231
+  },
+  {
+   "name": "JSeg_13",
+   "steps": 6,
+   "heavy": 4,
+   "imports": 6,
+   "exports": 2,
+   "first": 7232,
+   "last": 7237
+  },
+  {
+   "name": "JSeg_14",
+   "steps": 5,
+   "heavy": 4,
+   "imports": 6,
+   "exports": 3,
+   "first": 7238,
+   "last": 7242
+  },
+  {
+   "name": "JSeg_15",
+   "steps": 5,
+   "heavy": 4,
+   "imports": 6,
+   "exports": 3,
+   "first": 7243,
+   "last": 7247
+  },
+  {
+   "name": "JSeg_16",
+   "steps": 6,
+   "heavy": 4,
+   "imports": 6,
+   "exports": 2,
+   "first": 7248,
+   "last": 7253
+  },
+  {
+   "name": "JSeg_17",
+   "steps": 6,
+   "heavy": 4,
+   "imports": 6,
+   "exports": 2,
+   "first": 7254,
+   "last": 7259
+  },
+  {
+   "name": "JSeg_18",
+   "steps": 7,
+   "heavy": 4,
+   "imports": 6,
+   "exports": 1,
+   "first": 7260,
+   "last": 7266
+  },
+  {
+   "name": "JSeg_19",
+   "steps": 7,
+   "heavy": 4,
+   "imports": 8,
+   "exports": 1,
+   "first": 7267,
+   "last": 7273
+  },
+  {
+   "name": "JSeg_20",
+   "steps": 6,
+   "heavy": 4,
+   "imports": 6,
+   "exports": 2,
+   "first": 7274,
+   "last": 7279
+  },
+  {
+   "name": "JSeg_21",
+   "steps": 7,
+   "heavy": 4,
+   "imports": 8,
+   "exports": 1,
+   "first": 7280,
+   "last": 7286
+  },
+  {
+   "name": "JSeg_22",
+   "steps": 5,
+   "heavy": 4,
+   "imports": 6,
+   "exports": 3,
+   "first": 7287,
+   "last": 7291
+  }
+ ],
+ "chunk_bits": 1024,
+ "export_radius_max": 3.5222870497372037e-10,
+ "export_nb_max": 0.00019385970574929134
+}
