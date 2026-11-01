@@ -1,25 +1,26 @@
 #!/usr/bin/env python3
-"""V2-PACKED-CONS-BRIDGE (untrusted tooling; the Lean it writes is checked by the kernel): the bridge from the packed
-route's certificate COPY to LG00's own certificate (AUDIT-V2-PACKED-PROD-1 C2).
+"""V2-PACKED-CONS-BRIDGE (untrusted tooling; the Lean it writes is checked by the kernel): the packed route's torus
+theorem about LG00's own constants (AUDIT-V2-PACKED-PROD-1 C2; AUDIT-V2-PACKED-JETROUTE-1 §1-2).
 
-The packed route proves `LG00P.<T>.pk_kamTorus` about `LG00P.<T>.lg00Cert`, kamx-packed's copy of LG00's certificate
-without advice and witnesses: a different constant from LG00's `LG00.<T>.lg00Cert`. LG00's statements
-(`LG00.<T>.lg00_kamTorus`, `lg00_kamTorusStatement`) are about LG00's constants. `lg00TorusWith` (hence
-`CertifiedTorus` and `LG00TorusStatement`) reads a certificate only through `params`, `H = ham.eval`,
-`D = certDomain weightH.rho centre radius` and `K = emb.eval`. So the bridge is:
-  LG00B.Congr       (tree-free) `lg00TorusWith_congr`, `certifiedTorus_congr`: equal `params`, `H`, `D`, `K` give
-                    equivalent statements, across two certificates and two arithmetic types; `lg00TorusWith_copy`:
-                    the copy's `LG00P.lg00TorusWith` (LG00's text renamed) is LG00's, by `Iff.rfl`.
-  LG00B.<T>.Fields  the copy's fields are LG00's, by `rfl` on the identical literals: `params`, `ham`, `weightH`,
-                    `centre`, `radius`, `emb`, hence `H`, `D`, `K`; and the frequency vector `ω*`.
-  LG00B.<T>.Main    `LG00.<T>.lg00_kamTorus_packed`: the statement of LG00's `lg00_kamTorus`, verbatim, about LG00's
-                    constants; `LG00.<T>.lg00_kamTorusStatement_packed : LG00TorusStatement lg00Cert ω* window`;
-                    `LG00.<T>.lg00_certifiedTorus_packed : CertifiedTorus lg00Cert ω*`. From `pk_kamTorus` through the
-                    bridge; clauses 1-2 from LG00's own `lg00Ham_identity` and `decide`.
-The modules live outside every package (no Lake): they are compiled one by one with `lean` against kamx-pk-gen's
-built packages, read only (`cons_bridge_build.sh`).
-  LG00B.<T>.Check   (audit) LG00's two statements, extracted verbatim from LG00's `<T>/Main.lean` (read only),
-                    elaborated against the bridge's theorems; `#print axioms`.
+The packed route proves `LG00P.<T>.pk_kamTorus` about kamx-packed's copies: `LG00P.<T>.lg00Cert` (LG00's certificate
+without advice and witnesses), `LG00P.lg00TorusWith`, `LG00P.lg00OmegaStar`, … LG00's statements are about LG00's
+own constants. Every field the statement reads is equal in the copy and the original by `rfl`, so LG00's statement
+follows from the packed theorem by definitional unfolding (the audit's probe): the bridge is
+  LG00B.<T>.Main    `LG00.<T>.lg00_kamTorus_packed`: the statement of LG00's `lg00_kamTorus`, verbatim (LG00's
+                    namespace and `open` line), `:= LG00P.<T>.pk_kamTorus`;
+                    `LG00.<T>.lg00_kamTorusStatement_packed : LG00TorusStatement lg00Cert ω* window`;
+                    `LG00.<T>.lg00_certifiedTorus_packed : CertifiedTorus lg00Cert ω*`;
+                    T″ also `LG00.TPP.lg00_hamBounds_packed : checkHamBounds lg00Cert = true`, from the copy's
+                    `LG00P.TPP.lg00_hamBounds` by `checkHamBounds_congr` (kamx-conf's request: T″'s packed route
+                    proves the ball bounds on the copy). Not by unfolding: the kernel would evaluate the check
+                    (> 4 GB, measured on T′).
+  LG00B.<T>.Fields  (T″, for `lg00_hamBounds_packed`) the copy's `params`, `ham`, `weightH`, `centre`, `radius`,
+                    `expOrder` are LG00's, by `rfl`.
+  LG00B.<T>.Check   (audit) LG00's two statements, extracted verbatim from LG00's `<T>/Main.lean` (read only) with
+                    its `open` line, elaborated against the bridge's theorems; `#print axioms`.
+Names agreed with kamx-pk-gen and kamx-conf (which imports `LG00B.TP.Main`, `LG00B.TPP.Main`). The modules live
+outside every package (no Lake): compiled one by one with `lean` against kamx-pk-gen's built packages, read only
+(`cons_bridge_build.sh`).
 Usage: python3 -I scripts/packed/cons_bridge_gen.py --tree=TP|TPP [--src=DIR] [--app=<lg00-app>/applications/lg00]
 """
 import os
@@ -30,12 +31,13 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 SRC = next((a.split("=", 1)[1] for a in sys.argv if a.startswith("--src=")),
            os.path.join(ROOT, ".lake", "v2-packed-bridge", "src"))
 TREE = next((a.split("=", 1)[1] for a in sys.argv if a.startswith("--tree=")), "TP")
+APP = next((a.split("=", 1)[1] for a in sys.argv if a.startswith("--app=")),
+           "/home/scott/KAM-dev-worktrees/lg00-app/applications/lg00")
 # per tree: LG00's frequency vector, window, the window's centre (the statement's literal) and the torus' name
 TREES = {
-    "TP": dict(omega="lg00OmegaStar", window="lg00WindowTP", centre="0.000259234375151694060", name="T′",
-               seg="Γ′"),
+    "TP": dict(omega="lg00OmegaStar", window="lg00WindowTP", centre="0.000259234375151694060", name="T′"),
     "TPP": dict(omega="lg00OmegaStarPP", window="lg00WindowTPP", centre="0.00025790797112834715", name="T″",
-                seg="Γ″", hambounds=True),
+                hambounds=True),
 }
 
 HEAD = """/-
@@ -54,61 +56,17 @@ module
 @[expose] public noncomputable section
 """
 
-CONGR = HEAD % ("public import LG00.Confinement.Main\npublic import LG00P.Model", """\
-# The packed route's certificate copy and LG00's certificate: congruence (V2-PACKED-CONS-BRIDGE)
-
-LG00's torus statements read a certificate only through `params`, `H`, `D` and `K`:
-* `lg00TorusWith_congr`, `certifiedTorus_congr`: certificates (over any two arithmetic types) with
-  equal `params`, `H`, `D` and `K` have equivalent `lg00TorusWith` and `CertifiedTorus`;
-* `lg00TorusWith_copy`: the copy's `LG00P.lg00TorusWith` (LG00's `Model` text, renamed) is LG00's.
-
-Generated by `scripts/packed/cons_bridge_gen.py`.""") + """
-namespace LG00B
-
-open KAM KAM.Certificate KAM.Torus
-
-variable {α α' : Type} [CertArith α] [CertArith α']
-
-/-- `lg00TorusWith` reads a certificate only through `params`, `H`, `D` and `K`. -/
-theorem lg00TorusWith_congr {c : TorusCertificate 2 α} {c' : TorusCertificate 2 α'}
-    (hp : c.params = c'.params) (hH : c.H = c'.H) (hD : c.D = c'.D) (hK : c.K = c'.K)
-    (ω : Fin 2 → ℝ) (Kinf : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ)) (sinf : ℝ) :
-    LG00.lg00TorusWith c ω Kinf sinf ↔ LG00.lg00TorusWith c' ω Kinf sinf := by
-  unfold LG00.lg00TorusWith
-  rw [hp, hH, hD, hK]
-
-/-- The landed `CertifiedTorus` reads a certificate only through `params`, `H`, `D` and `K`. -/
-theorem certifiedTorus_congr {c : TorusCertificate 2 α} {c' : TorusCertificate 2 α'}
-    (hp : c.params = c'.params) (hH : c.H = c'.H) (hD : c.D = c'.D) (hK : c.K = c'.K)
-    (ω : Fin 2 → ℝ) : CertifiedTorus c ω ↔ CertifiedTorus c' ω := by
-  unfold CertifiedTorus
-  rw [hp, hH, hD, hK]
-
-/-- The copy's `lg00TorusWith` (`LG00P.Model`: LG00's text with `LG00` renamed) is LG00's. -/
-theorem lg00TorusWith_copy (c : TorusCertificate 2 α) (ω : Fin 2 → ℝ)
-    (Kinf : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ)) (sinf : ℝ) :
-    LG00P.lg00TorusWith c ω Kinf sinf ↔ LG00.lg00TorusWith c ω Kinf sinf :=
-  Iff.rfl
-
-end LG00B
-"""
-
 
 def fields(t):
-    d = TREES[t]
-    return HEAD % ("public import LG00.TP.Data.Cert\npublic import LG00P.TP.Data.Cert\npublic import LG00.Model\n"
-                   "public import LG00P.Model".replace(".TP.", ".%s." % t), """\
-# LG00 %s: the packed route's certificate copy has LG00's fields (V2-PACKED-CONS-BRIDGE)
+    return HEAD % ("public import LG00.%s.Data.Cert\npublic import LG00P.%s.Data.Cert" % (t, t), """\
+# LG00 %s: the copy's Hamiltonian fields are LG00's (V2-PACKED-CONS-BRIDGE)
 
 `LG00P.%s.lg00Cert` (kamx-packed's copy: no advice, no witnesses) and LG00's
-`LG00.%s.lg00Cert` have the same `params`, `ham`, `weightH`, `centre`, `radius` and `emb`, hence
-the same `H`, `D` and `K`, by `rfl` on the identical literals (the kernel unfolds both constants);
-and the copy's `ω*` is LG00's.
+`LG00.%s.lg00Cert` have the same `params`, `ham`, `weightH`, `centre`, `radius` and `expOrder`,
+by `rfl` on the identical literals: the inputs of `checkHamBounds_congr`.
 
-Generated by `scripts/packed/cons_bridge_gen.py --tree=%s`.""" % (d["name"], t, t, t)) + """
+Generated by `scripts/packed/cons_bridge_gen.py --tree=%s`.""" % (TREES[t]["name"], t, t, t)) + """
 namespace LG00B.%(t)s
-
-open KAM KAM.Certificate
 
 theorem params_eq : LG00P.%(t)s.lg00Cert.params = LG00.%(t)s.lg00Cert.params := rfl
 
@@ -122,34 +80,19 @@ theorem radius_eq : LG00P.%(t)s.lg00Cert.radius = LG00.%(t)s.lg00Cert.radius := 
 
 theorem expOrder_eq : LG00P.%(t)s.lg00Cert.expOrder = LG00.%(t)s.lg00Cert.expOrder := rfl
 
-/-- The embeddings, over the two (equal) arithmetic types `CertFixed lgP`. -/
-theorem emb_eval_eq : LG00P.%(t)s.lg00Emb.eval 2 = LG00.%(t)s.lg00Emb.eval 2 := rfl
-
-theorem H_eq : LG00P.%(t)s.lg00Cert.H = LG00.%(t)s.lg00Cert.H := by
-  unfold TorusCertificate.H
-  rw [ham_eq]
-
-theorem D_eq : LG00P.%(t)s.lg00Cert.D = LG00.%(t)s.lg00Cert.D := by
-  unfold TorusCertificate.D
-  rw [weightH_eq, centre_eq, radius_eq]
-
-theorem K_eq : LG00P.%(t)s.lg00Cert.K = LG00.%(t)s.lg00Cert.K := by
-  unfold TorusCertificate.K
-  exact emb_eval_eq
-
-theorem omega_eq : LG00P.%(omega)s = LG00.%(omega)s := rfl
-
 end LG00B.%(t)s
-""" % dict(t=t, omega=d["omega"])
+""" % dict(t=t)
 
 
 def main_(t):
     d = TREES[t]
-    imps = ["LG00B.Congr", "LG00B.%s.Fields" % t, "LG00P.%s.PK.MainJ" % t, "LG00.Physical.HamIdentity",
-            "LG00.Confinement.Main"]
-    hb = ""
+    imps = ["LG00P.%s.PK.MainJ" % t, "LG00.%s.Data.Cert" % t, "LG00.Model", "LG00.Confinement.Main",
+            "LG00.Confinement.InitialPoint"]
+    hb, hbdoc = "", ""
     if d.get("hambounds"):
-        imps += ["LG00P.%s.Balls.HamBounds" % t, "KAM.CertificateSharp.Packed.CertCongr"]
+        imps += ["LG00B.%s.Fields" % t, "LG00P.%s.Balls.HamBounds" % t, "KAM.CertificateSharp.Packed.CertCongr"]
+        hbdoc = (";\n* `lg00_hamBounds_packed : checkHamBounds lg00Cert = true`, from the copy's by\n"
+                 "  `checkHamBounds_congr` (unfolding would make the kernel evaluate the check)")
         hb = """
 /-- **LG00's Hamiltonian bounds for %(name)s** (`checkHamBounds` of LG00's own certificate), from the
 copy's (`LG00P.%(t)s.lg00_hamBounds`, proved on the copy) by `checkHamBounds_congr`: the check
@@ -160,26 +103,23 @@ theorem lg00_hamBounds_packed : checkHamBounds lg00Cert = true :=
     (congrArg CertParams.M LG00B.%(t)s.params_eq)).symm.trans LG00P.%(t)s.lg00_hamBounds
 """ % dict(d, t=t)
     return HEAD % ("\n".join("public import " + i for i in imps), """\
-# LG00 %(name)s: the packed route's torus theorem about LG00's own certificate (V2-PACKED-CONS-BRIDGE)
+# LG00 %(name)s: the packed route's torus theorem about LG00's own constants (V2-PACKED-CONS-BRIDGE)
 
-kamx-pk-gen's `LG00P.%(t)s.pk_kamTorus` is about the copy `LG00P.%(t)s.lg00Cert`. Through the bridge
-(`LG00B.Congr`, `LG00B.%(t)s.Fields`), the same statements about LG00's own constants:
+kamx-pk-gen's `LG00P.%(t)s.pk_kamTorus` is about kamx-packed's copies (`LG00P.%(t)s.lg00Cert`, …). Every
+field LG00's statement reads is equal in the copy and the original by `rfl`, so LG00's statements
+about its own constants follow by definitional unfolding (AUDIT-V2-PACKED-JETROUTE-1 §1):
 * `lg00_kamTorus_packed`: the statement of LG00's `LG00.%(t)s.lg00_kamTorus`, verbatim;
 * `lg00_kamTorusStatement_packed : LG00TorusStatement lg00Cert %(omega)s %(window)s`, the
   form LG00-CONF's assembly consumes;
 * `lg00_certifiedTorus_packed : CertifiedTorus lg00Cert %(omega)s`%(hbdoc)s.
-Clauses 1 and 2 (the Hamiltonian identity, the energy level) are LG00's own (`lg00Ham_identity`,
-`decide`); clause 3 is the packed proof's torus, carried over.
 
-Generated by `scripts/packed/cons_bridge_gen.py --tree=%(t)s`.""" % dict(d, t=t, hbdoc=(
-        ";\n* `lg00_hamBounds_packed : checkHamBounds lg00Cert = true`, from the copy's" if d.get("hambounds")
-        else ""))) + """
+Generated by `scripts/packed/cons_bridge_gen.py --tree=%(t)s`.""" % dict(d, t=t, hbdoc=hbdoc)) + """
 namespace LG00.%(t)s
 
-open KAM KAM.Certificate LG00 LG00.Confinement
+open KAM KAM.Certificate LG00 LG00.Confinement KAM.CertificateSharp.V2
 
-/-- **LG00's torus theorem for %(name)s** (the statement of `lg00_kamTorus`, verbatim), from the packed
-route's proof about the certificate copy. -/
+/-- **LG00's torus theorem for %(name)s** (the statement of `lg00_kamTorus`, verbatim, about LG00's
+constants), from the packed route's theorem about the copies, by definitional unfolding. -/
 theorem lg00_kamTorus_packed :
     (∀ θ a : Fin 2 → ℝ, (∀ j, 0 < lg00Act a j) →
       lg00Cert.H (fun j => (θ j : ℂ), fun j => (a j : ℂ)) =
@@ -188,13 +128,8 @@ theorem lg00_kamTorus_packed :
     ∃ (Kinf : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ)) (sinf : ℝ),
       lg00TorusWith lg00Cert %(omega)s Kinf sinf ∧
       |1 + (sinf / ((1000001 / 1000000 : ℚ) : ℝ)) * (-%(centre)s : ℝ) /
-        %(centre)s| ≤ 5e-10 := by
-  refine ⟨lg00Ham_identity, by decide +kernel, ?_⟩
-  obtain ⟨Kinf, sinf, h, hw⟩ := LG00P.%(t)s.pk_kamTorus.2.2
-  refine ⟨Kinf, sinf, ?_, hw⟩
-  rw [← LG00B.%(t)s.omega_eq]
-  exact (LG00B.lg00TorusWith_congr LG00B.%(t)s.params_eq LG00B.%(t)s.H_eq LG00B.%(t)s.D_eq
-    LG00B.%(t)s.K_eq _ _ _).mp ((LG00B.lg00TorusWith_copy _ _ _ _).mp h)
+        %(centre)s| ≤ 5e-10 :=
+  LG00P.%(t)s.pk_kamTorus
 
 /-- `lg00_kamTorus_packed` in the form of LG00-CONF's assembly (`lg00_kamTorusStatement`'s
 statement). -/
@@ -210,34 +145,30 @@ end LG00.%(t)s
 """ % dict(d, t=t, hb=hb)
 
 
-APP = next((a.split("=", 1)[1] for a in sys.argv if a.startswith("--app=")),
-           "/home/scott/KAM-dev-worktrees/lg00-app/applications/lg00")
-
-
 def check(t):
     """An audit module: LG00's two statements, extracted verbatim from LG00's own `<T>/Main.lean` (read only) with
-    its `open` line, each elaborated against the bridge's theorem; `#print axioms` of the three theorems."""
+    its `open` line, each elaborated against the bridge's theorem; `#print axioms` of the theorems."""
     src = open(os.path.join(APP, "LG00", t, "Main.lean"), encoding="utf-8").read()
     op = [l for l in src.splitlines() if l.startswith("open ")][0]
 
     def stmt(name):
         a = src.index("theorem %s :" % name) + len("theorem %s :" % name)
         return src[a:src.index(":=", a)].rstrip()
+    axs = ["lg00_kamTorus_packed", "lg00_kamTorusStatement_packed", "lg00_certifiedTorus_packed"]
+    if TREES[t].get("hambounds"):
+        axs.append("lg00_hamBounds_packed")
     body = "\n".join([
         "namespace LG00.%s" % t, "", op, "",
         "/-- LG00's `lg00_kamTorus` statement, verbatim from LG00's `%s/Main.lean`. -/" % t,
         "example :" + stmt("lg00_kamTorus") + " :=", "  lg00_kamTorus_packed", "",
         "/-- LG00's `lg00_kamTorusStatement` statement, verbatim. -/",
-        "example :" + stmt("lg00_kamTorusStatement") + " :=", "  lg00_kamTorusStatement_packed", "",
-        "#print axioms lg00_kamTorus_packed", "#print axioms lg00_kamTorusStatement_packed",
-        "#print axioms lg00_certifiedTorus_packed"] +
-        (["#print axioms lg00_hamBounds_packed"] if TREES[t].get("hambounds") else []) +
-        ["", "end LG00.%s" % t, ""])
+        "example :" + stmt("lg00_kamTorusStatement") + " :=", "  lg00_kamTorusStatement_packed", ""] +
+        ["#print axioms %s" % a for a in axs] + ["", "end LG00.%s" % t, ""])
     return HEAD % ("public import LG00B.%s.Main" % t, """\
 # LG00 %s: the bridge's statements are LG00's (V2-PACKED-CONS-BRIDGE audit module)
 
 LG00's statements, extracted verbatim from LG00's own `%s/Main.lean` (with its `open` line), each
-elaborated against the bridge's theorem; `#print axioms` of the three theorems.
+elaborated against the bridge's theorem; `#print axioms` of the theorems.
 
 Generated by `scripts/packed/cons_bridge_gen.py --tree=%s`.""" % (TREES[t]["name"], t, t)) + "\n" + body
 
@@ -254,8 +185,8 @@ def put(mod, txt):
 def main():
     if TREE not in TREES:
         sys.exit("unknown tree %s" % TREE)
-    put("LG00B.Congr", CONGR)
-    put("LG00B.%s.Fields" % TREE, fields(TREE))
+    if TREES[TREE].get("hambounds"):
+        put("LG00B.%s.Fields" % TREE, fields(TREE))
     put("LG00B.%s.Main" % TREE, main_(TREE))
     put("LG00B.%s.Check" % TREE, check(TREE))
 

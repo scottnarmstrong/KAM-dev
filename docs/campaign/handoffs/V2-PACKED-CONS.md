@@ -296,39 +296,38 @@ T′ jet route (integration log `runJ`). B3b's counterparts took 4.3 and 7.3 s.
   - only the ABI step fails, as before: the frozen planetary module `AngularMomentum3`'s olean is not built in this
     worktree.
 
-## V2-PACKED-CONS-BRIDGE: the packed theorem about LG00's own certificate (`…/V2-PACKED-CONS-BRIDGE/`)
+## V2-PACKED-CONS-BRIDGE: the packed theorem about LG00's own constants (`…/V2-PACKED-CONS-BRIDGE/`)
 
-AUDIT-V2-PACKED-PROD-1 C2: kamx-pk-gen's `LG00P.<T>.pk_kamTorus` is about kamx-packed's certificate copy
-`LG00P.<T>.lg00Cert`, a different constant from LG00's `LG00.<T>.lg00Cert`. LG00's statements are about LG00's
-constants.
+AUDIT-V2-PACKED-PROD-1 C2: kamx-pk-gen's `LG00P.<T>.pk_kamTorus` is about kamx-packed's copies (`LG00P.<T>.lg00Cert`
+and the renamed definitions). LG00's statements are about LG00's own constants.
 
-- **The bridge (option (b)).** `lg00TorusWith`, `CertifiedTorus` and `LG00TorusStatement` read a certificate only
-  through `params`, `H`, `D` and `K`. The bridge has three parts:
-  - **Same environment:** both certificates are in one environment (kamx-pk-gen's `kam-lg00p` requires `kam-lg00`);
-  - **Fields:** the copy's fields are LG00's by `rfl` on the identical literals;
-  - **Congruence:** equal fields give equivalent statements, across the two arithmetic types.
-
-  Re-targeting the packed route at LG00's certificate (option (a)) would rebuild the whole route; it was not needed.
+- **The bridge is definitional** (AUDIT-V2-PACKED-JETROUTE-1 §1; the orchestrator's instruction).
+  - Every field the statement reads is equal in the copy and the original by `rfl`; the copy differs only in its
+    empty witnesses and advice.
+  - So LG00's statement, verbatim (LG00's namespace and `open` line), is proved by `:= LG00P.<T>.pk_kamTorus`.
 - **Modules** (`cons_bridge_gen.py`, built by `cons_bridge_build.sh` with `lean` against kamx-pk-gen's packages, read
   only):
-  - `LG00B.Congr`;
-  - `LG00B.<T>.Fields`;
-  - `LG00B.<T>.Main`: `LG00.<T>.lg00_kamTorus_packed` (LG00's `lg00_kamTorus` statement), `…_kamTorusStatement_packed`
-    and `…_certifiedTorus_packed`; T″ also `lg00_hamBounds_packed`, for kamx-conf;
+  - `LG00B.<T>.Main`: `LG00.<T>.lg00_kamTorus_packed`, `…_kamTorusStatement_packed` and `…_certifiedTorus_packed`;
+    T″ also `lg00_hamBounds_packed` (kamx-conf's request), by `checkHamBounds_congr` with `LG00B.TPP.Fields`.
+    Unfolding would make the kernel evaluate the check: killed at 4 GB, probed on T′.
   - `LG00B.<T>.Check`: LG00's statements extracted verbatim from `lg00-app`'s `<T>/Main.lean`, elaborated against
     the theorems, and `#print axioms`.
 
   The oleans are at `.lake/v2-packed-bridge/build/lib/lean`, which kamx-conf reads.
 - **T′: built and checked.**
-  - Four processes of 1.9–2.7 CPU-s each, ≤ 0.37 GB; the `rfl` field comparisons take about 20 ms of kernel time.
-  - LG00's two statements, verbatim, elaborate against the theorems.
+  - `Main` 2.3 CPU-s, 0.34 GB (578 ms of elaboration, 31 ms of kernel time); `Check` 2.0 CPU-s.
   - Axioms: `propext`, `Classical.choice`, `Quot.sound`.
-- **T″: `Fields` built** (the T″ field equalities hold). `Main` waits for kamx-pk-gen's `LG00P.TPP.PK.MainJ`, after
-  kamx-packed's T″ chains. LG00's `LG00.TPP.Data.Cert` is now in `kam-lg00`: kamx-pk-gen hardlinked `lg00-app`'s
-  build, same inodes.
-- **Names agreed:**
-  - with kamx-pk-gen: it confirmed `LG00P.TPP.pk_kamTorus` in `LG00P.TPP.PK.MainJ`;
-  - with kamx-conf: it consumes `LG00.TP/TPP.lg00_kamTorusStatement_packed` and asked for `lg00_hamBounds_packed`.
+  - kamx-conf recompiled against it: `lg00_kamTorusStatement_packed` plugs into `lg00_confinement_of_tori`.
+  - The first version (`989deddbc`: explicit field equalities plus a congruence lemma) is superseded with the same
+    names, types and path.
+- **T″:** `LG00B.TPP.Fields` is built against LG00's `LG00.TPP.Data.Cert` (in `kam-lg00` now: kamx-pk-gen's
+  hardlinks of `lg00-app`'s build). `Main` waits for kamx-pk-gen's `LG00P.TPP.PK.MainJ` and
+  `LG00P.TPP.Balls.HamBounds`.
+- **Names fixed with kamx-conf.** It imports `LG00B.TP.Main` and `LG00B.TPP.Main`, and the declarations
+  `LG00.TP.lg00_kamTorusStatement_packed`, `LG00.TPP.lg00_kamTorusStatement_packed` and
+  `LG00.TPP.lg00_hamBounds_packed`. kamx-pk-gen confirmed `LG00P.TPP.pk_kamTorus` in `LG00P.TPP.PK.MainJ`.
+- **Runner fix:** `/usr/bin/time` reports `exit 0` for a signal kill. `cons_perf_run.sh` now marks an OOM kill or
+  signal as a failure. No earlier build was affected.
 - **Scope:** the theorems are LG00's statements about LG00's constants, proved through the packed route. They do
   not use LG00's landed checker run. The packed proof's own premises (the chains, the solo-exception
   `LG00P.lg00Ham_jet`, T′'s `Xfer`) are kamx-pk-gen's and kamx-packed's.
@@ -353,8 +352,7 @@ constants.
     ```
     cd /home/scott/KAM-dev-worktrees/v2-packed-cons
     python3 -I scripts/packed/cons_bridge_gen.py --tree=TPP
-    scripts/packed/cons_bridge_build.sh TPP 4G        # Congr, TPP.Fields, TPP.Main
-    scripts/packed/cons_bridge_build.sh TPP 4G LG00B.TPP.Check
+    scripts/packed/cons_bridge_build.sh TPP 4G        # TPP.Fields, TPP.Main, TPP.Check
     ```
 - **Lost at reboot (not needed):**
   - the scratch copies of the measured sources (pinned by `PERF/alone/sources_sha256.txt`);

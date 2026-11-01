@@ -960,15 +960,11 @@ terms. A production proof establishes each shared conjunct once and assembles wi
 `lake build`s after the stages were re-emitted.
 
 **The copy and LG00's certificate (V2-PACKED-CONS-BRIDGE, `…/V2-PACKED-CONS-BRIDGE/`).** The packed route
-certifies kamx-packed's copy `LG00P.<T>.lg00Cert`. LG00's statements are about LG00's own `LG00.<T>.lg00Cert`. Since
-`lg00TorusWith`, `CertifiedTorus` and `LG00TorusStatement` read only `params`, `H`, `D` and `K`, three steps carry
-the packed theorem over to LG00's constants:
-- field equalities, copy = original, by `rfl` on the identical literals;
-- a congruence lemma across the two arithmetic types;
-- LG00's own `lg00Ham_identity`.
-
-This gives `LG00.<T>.lg00_kamTorus_packed` (LG00's statement verbatim) and `lg00_kamTorusStatement_packed`. T′ is
-built: four processes of about 2 CPU-s each, standard axioms.
+certifies kamx-packed's copies (`LG00P.<T>.lg00Cert`, …). LG00's statements are about LG00's own constants. Every
+field they read is equal in the copy and the original by `rfl`, so LG00's statement, verbatim, is proved by
+`:= LG00P.<T>.pk_kamTorus` (definitional unfolding; AUDIT-V2-PACKED-JETROUTE-1): `LG00.<T>.lg00_kamTorus_packed` and
+`lg00_kamTorusStatement_packed`. T′ is built: 2.3 CPU-s, standard axioms. A Boolean check such as `checkHamBounds`
+goes through a congruence lemma instead, since unfolding it makes the kernel evaluate it.
 
 **The jet's load bound.** The consumers pass their books' bounds to `jetCheck` (`rb.bA`, `ib.bJ`); a chain theorem
 at the generator's bound `b<C>` (the largest wanted load) closes them through `jetCheck_mono` (`jetLowOk_of`,

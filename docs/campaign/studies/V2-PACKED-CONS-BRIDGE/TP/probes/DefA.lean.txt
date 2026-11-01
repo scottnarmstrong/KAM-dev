@@ -1,0 +1,28 @@
+module
+
+public import LG00P.TP.PK.MainJ
+public import LG00.TP.Data.Cert
+public import LG00.Model
+public import LG00.Confinement.Main
+public import LG00.Confinement.InitialPoint
+
+@[expose] public noncomputable section
+
+namespace LG00.TP
+
+open KAM KAM.Certificate LG00 LG00.Confinement KAM.CertificateSharp.V2
+
+theorem probe_kamTorus :
+    (∀ θ a : Fin 2 → ℝ, (∀ j, 0 < lg00Act a j) →
+      lg00Cert.H (fun j => (θ j : ℂ), fun j => (a j : ℂ)) =
+        ((((lg00Kappa / lg00Ell : ℚ) : ℝ) * lg00H11 (lg00Xi θ a) (lg00Eta θ a) : ℝ) : ℂ)) ∧
+    lg00Cert.params.E0 = lg00Kappa / lg00Ell * lg00EStarQ ∧
+    ∃ (Kinf : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ)) (sinf : ℝ),
+      lg00TorusWith lg00Cert lg00OmegaStar Kinf sinf ∧
+      |1 + (sinf / ((1000001 / 1000000 : ℚ) : ℝ)) * (-0.000259234375151694060 : ℝ) /
+        0.000259234375151694060| ≤ 5e-10 :=
+  LG00P.TP.pk_kamTorus
+
+#print axioms probe_kamTorus
+
+end LG00.TP

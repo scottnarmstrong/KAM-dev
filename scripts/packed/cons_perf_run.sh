@@ -44,5 +44,9 @@ LEAN_PATH="$lp" systemd-run --user --scope -q -p MemoryMax="$cap" -p MemorySwapM
   kill $smp 2>/dev/null
   echo "cgroup_sampled_peak_bytes $(cat "$pkf")" >> "$logdir/$name.cost"; rm -f "$pkf"
   echo "oom_kill $(grep oom_kill $cg/memory.events | awk "{print \$2}")" >> "$logdir/$name.cost"
+  # /usr/bin/time reports exit 0 for a process killed by a signal: record the kill as a failure
+  if grep -q "terminated by signal" "$logdir/$name.cost" || ! grep -q "^oom_kill 0" "$logdir/$name.cost"; then
+    echo "killed 1" >> "$logdir/$name.cost"; sed -i "s/^exit 0$/exit 137/" "$logdir/$name.cost"
+  fi
 ' _ "$lean" "$src" "$name" "$logdir" "$root" "$olean" "$@"
 echo "$name: $(grep -v "^Command" "$logdir/$name.cost" | tr '\n' ' ')"
