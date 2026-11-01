@@ -15,7 +15,8 @@ public import KAM.Frozen.Defs.IsDiophantine
 No certificate data. An exact complex torus `K∞` (holomorphic on the strip `T_ρ`, primary, real
 on the reals, invariant for a holomorphic Hamiltonian `h` at the frequency `ω`, on the level `E`)
 has the real restriction `k = Re ∘ K∞ ∘ ι` (`KAM.realRestriction`). This module states what `k`
-is in the model's own real coordinates `(θ, I) ∈ ℝⁿ × ℝⁿ`, for the real Hamiltonian `realHam h = Re h ∘ ι`:
+is in the model's own real coordinates `(θ, I) ∈ ℝⁿ × ℝⁿ`, for the real Hamiltonian
+`realHam h = Re h ∘ ι`:
 
 * `IsRealHolo D h`: `D` open, `h` holomorphic on `D` and real at the real points of `D` (the
   standing facts of every certificate Hamiltonian; `KAM/Application/Certified.lean` derives them).
