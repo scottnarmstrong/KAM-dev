@@ -67,6 +67,7 @@ public import KAM.CertificateSharp.V2.ClassicalQ
 public import KAM.CertificateSharp.V2.Engine
 public import KAM.CertificateSharp.V2.Fiber.Enum2
 public import KAM.CertificateSharp.V2.Fiber.RouteAG
+public import KAM.CertificateSharp.V2.Fiber.RouteBG
 public import KAM.CertificateSharp.V2.Fiber.Site3
 public import KAM.CertificateSharp.V2.Fiber.TailTau
 public import KAM.CertificateSharp.V2.HamClaim
@@ -99,6 +100,7 @@ public import KAM.CertificateSharp.V2.RouteBQWf
 public import KAM.CertificateSharp.V2.RouteBRefined
 public import KAM.CertificateSharp.V2.SmallDivQ
 public import KAM.CertificateSharp.V2.StepBQ
+public import KAM.CertificateSharp.V2.Tests.Fiber3RouteB
 public import KAM.CertificateSharp.V2.Tests.Fiber3Toy
 public import KAM.CertificateSharp.V2.Tests.Fiber3XLang
 public import KAM.CertificateSharp.V2.Tests.FrameFacts
