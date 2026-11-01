@@ -32,6 +32,11 @@ of `bpW:w5:taylor` and `F`, `N̂`, `â₀` the W4 objects for `R`: `F ∈ T_{s-�
   reality of `N̂`: `homNhatTaylor_isReal_gen`.
 * `stepNhat_isSmoothing_univ`: `N̂ ∈ S_{p_+}(𝒫)` on all of `𝒫` (its coefficients are constant in
   `θ`, so it is a Taylor polynomial on every strip, `homNhatTaylorWide`).
+* Modified case, "(indeed `p'`)" with `p' = p+1` (W-SOLVE-FIX): `stepSolveLemmaMod` also states
+  `N̂ ∈ S_{p+1}(𝒫)` for the same `N̂ = homNhatTaylor_gen (H.hyp.core.R ξ)`, with `p+1` field the
+  field of `homNhatTaylor_gen (H.hyp.R1 ξ)` (`R1` the `p+1` Taylor family), and its `p_+` field is
+  `D_ρ` of that `p+1` field (`StepHypMod.nhat_isSmoothing_p1_univ`,
+  `StepHypMod.nhat_field_eq_rhoK`, via `stepFun_nhat_taylorRho`).
 -/
 
 @[expose] public noncomputable section
@@ -185,6 +190,46 @@ theorem solve_equation {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {w : KamPhase}
 
 end StepCore
 
+namespace StepHypMod
+
+variable (H : StepHypMod a p pb s r σ η τ α β lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
+include H
+
+/-- In the modified case the step's `N̂ = homNhatTaylor_gen (H.core.R ξ)` (built from the
+reweighted pair `(P, D_ρ ∘ X)` at `p_+`) is, as a function on all of `𝒫`, the `N̂` of the `p+1`
+Taylor element `H.R1 ξ` (`stepFun_nhat_taylorRho`). -/
+theorem nhat_fun_eq_R1 {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) :
+    waveStepFun H.ha (homPP H.hp H.hpb) (homNhatTaylor_gen (H.core.R ξ)) =
+      waveStepFun H.ha (homPP H.hp (homModPP1 p)) (homNhatTaylor_gen (H.R1 ξ)) := by
+  have : Fact (0 < r) := ⟨H.hr⟩
+  funext w
+  rw [show H.core.R ξ = stepTaylorRho H.ha H.hp H.hpb H.hc H.hs H.hr (H.hP ξ hξ) (H.hper ξ hξ)
+      (H.hb ξ hξ) from stepTaylorFam_of_mem H.ha H.hp H.hpb H.hs H.hr H.hP' H.hper H.hb' hξ,
+    show H.R1 ξ = stepTaylorP1 H.ha H.hp H.hs H.hr (H.hP ξ hξ) (H.hper ξ hξ) (H.hb ξ hξ) from
+      stepTaylorFam_of_mem H.ha H.hp (homModPP1 p) H.hs H.hr H.hP H.hper H.hb hξ]
+  exact stepFun_nhat_taylorRho H.ha H.hp H.hpb H.hc H.hs H.hr (H.hP ξ hξ) (H.hper ξ hξ)
+    (H.hb ξ hξ) w
+
+/-- **`N̂ ∈ S_{p+1}(𝒫)`** in the modified case (`bpW:w5:solve`, "(indeed `p'`)", `p' = p+1`): the
+step's `N̂` has on all of `𝒫` the `p+1` field of the `N̂` of `H.R1 ξ`. -/
+theorem nhat_isSmoothing_p1_univ {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) :
+    IsSmoothing (p := p) (pb := p + 1) H.ha (stepRho_nn2 H.hp) univ
+      (waveStepFun H.ha (homPP H.hp H.hpb) (homNhatTaylor_gen (H.core.R ξ)))
+      (stepField H.ha H.hp (homModPP1 p) (homNhatTaylor_gen (H.R1 ξ))) := by
+  rw [H.nhat_fun_eq_R1 hξ]
+  exact stepNhat_isSmoothing_univ H.ha H.hp (homModPP1 p) (H.R1 ξ)
+
+/-- The `p_+` field of the step's `N̂` is `D_ρ` applied to its `p+1` field. -/
+theorem nhat_field_eq_rhoK {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) (w : KamPhase) :
+    stepField H.ha H.hp H.hpb (homNhatTaylor_gen (H.core.R ξ)) w =
+      stepRhoK a p pb H.hc
+        (stepField H.ha H.hp (homModPP1 p) (homNhatTaylor_gen (H.R1 ξ)) w) :=
+  isSmoothing_unique_apply H.ha (by linarith [H.hp, H.hpb] : 0 ≤ pb + p)
+    (stepNhat_isSmoothing_univ H.ha H.hp H.hpb (H.core.R ξ))
+    ((H.nhat_isSmoothing_p1_univ hξ).rhoK H.ha H.hc _ _) (mem_univ w)
+
+end StepHypMod
+
 /-- **The solution of the homological equation in the step** (blueprint Lemma `bpW:w5:solve`,
 non-modified case). Under the step data, for `R = H.hyp.core.R ξ` (the Taylor polynomial of
 `bpW:w5:taylor`) and `F = H.hyp.FT ξ`, `N̂ = homNhatTaylor_gen R`, `â₀ = H.hyp.core.a0 ξ` (the W4
@@ -233,7 +278,9 @@ theorem stepSolveLemma
 /-- **The solution of the homological equation in the step** (blueprint Lemma `bpW:w5:solve`,
 modified case). Under the step data, for `R = H.hyp.core.R ξ` (the Taylor polynomial of
 `bpW:w5:taylor`) and `F = H.hyp.FT ξ`, `N̂ = homNhatTaylor_gen R`, `â₀ = H.hyp.core.a0 ξ` (the W4
-objects for `R`): `F ∈ T_{s-σ} ∩ S_{p_+}(D(s-σ, r))`, `N̂ ∈ S_{p_+}(𝒫)`, both real,
+objects for `R`): `F ∈ T_{s-σ} ∩ S_{p_+}(D(s-σ, r))`, `N̂ ∈ S_{p_+}(𝒫)` (indeed `N̂ ∈ S_{p+1}(𝒫)`:
+its `p+1` field is that of `N̂` of the `p+1` Taylor element `H.hyp.R1 ξ`, and its `p_+` field is
+`D_ρ` of it), both real,
 `R + DN·X_F = N̂ + â₀` on `D(s-σ, r)`, `|X_F|^λ_{r,D(s-σ,r)} ≤ M_F`, `|X_N̂|^λ_{r,D(s,r)} ≤ 6ε`,
 `|ω̂| + λ|ω̂|^L ≤ 6πε` and `sup_j (j+2)^{p_+-p}(|Ω̂_j| + λ|Ω̂_j|^L) ≤ 3ε`. -/
 theorem stepSolveLemmaMod
@@ -245,6 +292,12 @@ theorem stepSolveLemmaMod
       IsSmoothing (p := p) H.ha H.hyp.core.pb_pos univ
         (waveStepFun H.ha (homPP H.hp H.hpb) (homNhatTaylor_gen (H.hyp.core.R ξ)))
         (stepField H.ha H.hp H.hpb (homNhatTaylor_gen (H.hyp.core.R ξ))) ∧
+      IsSmoothing (p := p) (pb := p + 1) H.ha (stepRho_nn2 H.hp) univ
+        (waveStepFun H.ha (homPP H.hp H.hpb) (homNhatTaylor_gen (H.hyp.core.R ξ)))
+        (stepField H.ha H.hp (homModPP1 p) (homNhatTaylor_gen (H.hyp.R1 ξ))) ∧
+      (∀ w, stepField H.ha H.hp H.hpb (homNhatTaylor_gen (H.hyp.core.R ξ)) w =
+        stepRhoK a p pb H.hyp.hc
+          (stepField H.ha H.hp (homModPP1 p) (homNhatTaylor_gen (H.hyp.R1 ξ)) w)) ∧
       (H.hyp.FT ξ).isRealTaylor ∧ (homNhatTaylor_gen (H.hyp.core.R ξ)).isRealTaylor ∧
       ∀ w ∈ kamDomain (s - σ) r,
         waveStepFun H.ha (homPP H.hp H.hpb) (H.hyp.core.R ξ) w +
@@ -269,6 +322,7 @@ theorem stepSolveLemmaMod
           c₁ * ‖ξ - ζ‖) :=
   ⟨fun ξ hξ => ⟨H.hyp.core.solve_F_isSmoothing ξ,
       stepNhat_isSmoothing_univ H.ha H.hp H.hpb (H.hyp.core.R ξ),
+      H.hyp.nhat_isSmoothing_p1_univ hξ, H.hyp.nhat_field_eq_rhoK hξ,
       StepHypMod.FT_isRealTaylor H.hyp ξ hξ,
       homNhatTaylor_isReal_gen H.hs (H.hyp.core.R ξ) (H.hyp.core.R_isRealTaylor hξ),
       fun _ hw => H.hyp.core.solve_equation hξ hw⟩,
