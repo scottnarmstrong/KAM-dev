@@ -402,12 +402,12 @@ file's statement; same assertions as for LP3-1):
 |---|---|---|
 | arithmetic premise | Diophantine `(γ, τ)` at `ω(Λ(z₀))`: the frozen `KAM.IsDiophantine γ τ ω`, `ωᵢ = νᵢ³/Λᵢ³` (option C; `LP:MAIN (5)`) | **none**: every initial state of the sharp sublevel, resonant ones included (**stronger**) |
 | data and constants depend on | `(n, ν, A, δ, γ, τ)` | `(n, ν, A, δ)`: uniform over the whole compact sublevel (**stronger**) |
-| time | `T₀ exp(c μ^(−1/(2(τ+1))))`; best `1/(2n+1)` at `τ = n − 1/2` (LP1-H, LP2-H) | `T₀ exp(c μ^(−a_n))`, `a_n = 2/(6n² − 3n + 14)` (**weaker**) |
+| time | `T₀ exp(c μ^(−1/(2(τ+1))))`; the half-integer choice `1/(2n+1)` at `τ = n − 1/2` (LP1-H, LP2-H) | `T₀ exp(c μ^(−a_n))`, `a_n = 2/(6n² − 3n + 14)` (**weaker**) |
 | action / axis / AMD drift | `A_Λ √μ`, `A_a √μ`, `n A_Λ √μ` | `A_Λ μ^(b_n)`, `A_a μ^(b_n)`, `n A_Λ μ^(b_n)`, `b_n = 3/(6n² − 3n + 14) < 1/2` (**weaker**) |
 | threshold, margin `δ/2`, separations, osculating annuli, N10, existence/uniqueness, Newtonian reconstruction | sharp `B`, all as stated | identical |
 
 Neither result implies the other. For `n = 2, 3, 4, 5`: `(a_n, b_n) = (1/16, 3/32), (2/59, 3/59), (1/49, 3/98),
-(2/149, 3/149)`, against LP1/LP2's best time exponent `1/5, 1/7, 1/9, 1/11` and drift `√μ`. LP3 is also **not
+(2/149, 3/149)`, against LP1-H/LP2-H's time exponent `1/5, 1/7, 1/9, 1/11` and drift `√μ`. LP3 is also **not
 comparable** with track P's frozen `planetaryExponentialSafety` (LP3-PLAN review C2): same exponents, but LP3 covers
 the sharp curved sublevel (not an `AMDBox`) and adds the separation and osculating conclusions, while P states
 conclusions LP3 does not.
