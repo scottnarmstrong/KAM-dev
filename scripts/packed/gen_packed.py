@@ -673,7 +673,8 @@ def emit_front(E, jet):
             "def jdLowW : JetData := jdLow.withFront frontLow\n\n"
             "/-- The `cfgFull` chain with its wanted nodes in front of the ledger. -/\n"
             "def jdFullW : JetData := jdFull.withFront frontFull\n") % (lit("Low", sets["Low"]), lit("Full", sets["Full"]))
-    dmod = E.write("Data.Front", [jet["low_data"], jet["full_data"], "KAM.CertificateSharp.Packed.JetFront"],
+    dmod = E.write("Data.Front", [jet["low_data"], jet["full_data"], "KAM.CertificateSharp.Packed.JetFront",
+                                  "KAM.CertificateSharp.Packed.RouteSharpJ"],
                    "the chains with their wanted nodes in front",
                    "`frontLow`, `frontFull` (kamx-packed's own wanted nodes, by name) and `jdLowW`, `jdFullW`.", body)
     out = dict(data=dmod)
