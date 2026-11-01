@@ -1,0 +1,5 @@
+ 7731  packed r 5.766e-23  landed r 3.044e-21  ratio 0.0189   packed nb 9.06  landed norm 9.06
+ 7732  packed r 3.483e-22  landed r 1.512e-20  ratio 0.023   packed nb 1.844  landed norm 1.844
+ 7733  packed r 3.395e-22  landed r 3.218e-20  ratio 0.0105   packed nb 2.877  landed norm 2.877
+ 7734  packed r 2.869e-22  landed r 1.202e-20  ratio 0.0239   packed nb 24.67  landed norm 24.67
+ 7735  packed r 1.167e-21  landed r 4.134e-20  ratio 0.0282   packed nb 45.77  landed norm 45.77

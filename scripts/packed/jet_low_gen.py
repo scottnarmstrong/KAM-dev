@@ -331,6 +331,22 @@ def plan_and_emit(C, bk, D, S, steps, heavy_max, wanted, CH, wits):
     # the segments reading its result); `seq` interleaves ("seg", chunk index) and ("wit", slot)
     step_of = {t[0]: t for t in steps}
     chunks, seq, cur, hv = [], [], [], 0
+    # `--seg-io=K`: at most K imports + exports per segment (V2-PACKED-JET-FULL: at cfgFull each node held by a
+    # process costs about 0.12 GB; a segment of 8 heavy steps and 24 nodes exceeded 4 GiB)
+    seg_io = int(opt("seg-io", "0"))
+    last_use = {}
+    for i in D["live"]:
+        op = ops[i]
+        rd = op[1:3] if op[0] in ("add", "mul") else op[1:2] if op[0] in ("inv", "sqrt", "exp") else []
+        for x in rd:
+            last_use[x] = max(last_use.get(x, -1), i)
+
+    def io_with(ch, t):
+        dfn = {u[0] for u in ch} | {t[0]}
+        rd = lambda u: ops[u[0]][1:3] if ops[u[0]][0] in ("add", "mul") else []
+        imps = {x for u in ch + [t] for x in rd(u)} - dfn
+        exps = [x for x in dfn if x in wanted or last_use.get(x, -1) > t[0]]
+        return len(imps) + len(exps)
 
     def flush():
         nonlocal cur, hv
@@ -342,7 +358,7 @@ def plan_and_emit(C, bk, D, S, steps, heavy_max, wanted, CH, wits):
         if j in step_of:
             t = step_of[j]
             h = (1 if t[1] else 0) + (1 if t[2] else 0)
-            if cur and hv + h > heavy_max:
+            if cur and (hv + h > heavy_max or (seg_io and io_with(cur, t) > seg_io)):
                 flush()
             cur.append(t)
             hv += h
@@ -609,6 +625,8 @@ if STAGE == "Full":
 
 
 def _write(name, doc, D, body, stmt):
+    if len(stmt) + 4 > 100:  # the statement within 100 columns: the block's arguments on their own line
+        stmt = stmt.replace(").ok ", ").ok\n      ", 1)
     txt = HEAD % (name, doc, 0, len(D["ops"]), D["lg00_cert_commit"][:8], name) + body
     txt += "\nset_option profiler true\nset_option profiler.threshold 1\n\ntheorem probe :\n    %s := by\n" \
            "  decide +kernel\n\nend KAM.CertificateSharp.Packed.JGate.%s\n" % (stmt, name)

@@ -762,6 +762,66 @@ decides `= false`.
     `2^jb.P` into the radius.
   - Then measure.
 
+### 12.12 The whole Full chain (V2-PACKED-JET-FULL; `docs/campaign/handoffs/V2-PACKED-JET-FULL.md`)
+
+**Built.** `Packed/JetStage.lean` stages the exponential, since a whole Taylor sum on the 97 × 97 box does not
+fit one process:
+- the keys `TKey` (`w`, the Taylor term and the partial sum at `m`), so the chain runs over `JKey ⊕ TKey`;
+- the blocks `tstart`, `tstep` (`k` Taylor steps from any `m`), `texp` (the partial sum plus `jExpRem`) and
+  `pows` (powers from any power);
+- `JBlockT.sound`, `jChainT_sound` and `jChainT_slot`.
+
+**Measured on LG00's whole cfgFull chain** (`lg00-cert` `fd82fef5`):
+- 1,837 live slots and 5 wanted (`v0`, `d1`), on the box `H = 48` (window 193 × 193, slots of 400 bits);
+- 169 blocks, one process each:
+  - 88 segments (at most 8 heavy steps and 15 imports + exports);
+  - 5 action blocks;
+  - the staged exponentials (4 `tstart`, 28 `tstep`, 4 `texp`; Taylor degrees 17 and 22);
+  - 12 power blocks, 24 character blocks (2 keys each), 2 `inv` and 2 `sqrt`.
+
+**What is checked.** As for Low (§12.11): each block is a separate theorem over probe-local data.
+- The LG00 instance of `jChainT_slot` is not built: `hfirst`, `hng`, `jBookOk`, `checkWeight` and
+  `checkPiEnclosure` are not discharged in Lean.
+- The probe program is the first 7,736 of the 7,816 operations of `lg00Jet.prog`.
+
+| | landed Full stage (run20e) | packed |
+|---|---:|---:|
+| CPU (user + sys) | 36,734.5 s (10.20 h) | **4,382.8 s** (945.7 s kernel) |
+| largest charge | — | 4.08 GB (4 GiB cap) |
+
+**That is 8.4×, with the production assembly unmeasured:**
+- the shared data module;
+- one theorem over the 169 blocks with its order proof;
+- the consumer bridge.
+
+With the ledger's failed attempts the landed figure is 36,743.3 s, still 8.4×.
+
+**Where the CPU goes.**
+- **The kernel** takes 1.04 s per heavy step in the segments, 5.8× Low's, for 3.7× the bits.
+- **The fixed part is 78% of the CPU:** 20.3 s per process. The imports are 2.2 s and the probe's copy of the
+  program, book and embedding 9.6 s; the block's own node literals are the rest.
+- **The shared data module** would remove about 1,620 CPU-s. Estimate, unmeasured: about 13×.
+- **By kind:**
+
+| kind | ratio |
+|---|---:|
+| segments and actions | 8.8× |
+| characters | 7.7× |
+| `inv`/`sqrt` | 6.6× |
+
+**Memory.** At Full the nodes a process holds dominate its memory: about 0.125 GB per import or export, against
+0.13 GB per heavy step.
+- A segment of 8 heavy steps and 24 nodes was OOM-killed at 4 GiB.
+- Segments are now cut at 15 nodes (`--seg-io`). They took 1.62–4.08 GB.
+
+**Controls.** A one-ulp lower radius on a `tstart`, a `tstep`, a `texp` and a `pows` export (from the power 3)
+decides `= false`.
+
+**Accuracy (configuration against configuration).**
+- The packed radii on the 5 wanted slots are 5.8e-23 to 1.2e-21, 1.1–2.8% of the landed cfgFull radii (3.0e-21 to
+  4.1e-20).
+- The norm bounds agree to 6e-8 relative.
+
 ## 13. Packed frames and the packed route-A-refined engine (branch `v2-packed-frames`; `docs/campaign/handoffs/V2-PACKED-FRAMES.md`)
 
 Route A refined tests `checkHamClaim && checkFrameMajorants && refinedCore`. The landed `checkFrameMajorants`

@@ -1,0 +1,22 @@
+cumulative profiling times:
+	attribute application 0.00856ms
+	declTypeLinter 0.509ms
+	elaboration 1.3ms
+	fix level params 0.008ms
+	instantiate metavars 0.00928ms
+	let-to-have transformation 0.00792ms
+	linting 6.36ms
+	parsing 0.202ms
+	process pre-definitions 0.255ms
+	share common exprs 0.0383ms
+	tactic execution 0.395ms
+	tacticAnalysis 1.29ms
+	type checking 5.08s
+	typeclass inference 0.423ms
+wall_s 21.75
+user_s 26.96
+sys_s 1.75
+maxrss_kb 3732996
+exit 0
+cgroup_sampled_peak_bytes 2394779648
+oom_kill 0
