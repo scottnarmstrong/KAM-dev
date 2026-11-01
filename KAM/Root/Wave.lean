@@ -74,6 +74,7 @@ public import KAM.Wave.Birkhoff.MainBallReal
 public import KAM.Wave.Birkhoff.MainConj
 public import KAM.Wave.Birkhoff.MainFrozenForm
 public import KAM.Wave.Birkhoff.MainGamma
+public import KAM.Wave.Birkhoff.MainGammaRSeries
 public import KAM.Wave.Birkhoff.MainGammaSympl
 public import KAM.Wave.Birkhoff.MainK
 public import KAM.Wave.Birkhoff.MainK1
