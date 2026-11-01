@@ -295,7 +295,7 @@ Overall, everything together: 91.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 10:30 UTC from `main` at `82e22386` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 10:30 UTC from `main` at `a9ba449d` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -313,7 +313,7 @@ Overall, everything together: 91.8 %
 
 **Track LP** (D56; [exploration, audited proof and plan](docs/explorations/amd-crossing/README.md)): chaotic but collision-free planetary systems. Below the sharp Laskar–Petit AMD threshold the exact (1+n)-body problem has no orbit crossing for a time exp(c μ^(−1/(2(τ+1)))), with no hypothesis on its (possibly chaotic) secular dynamics · **90 %**
 - Stages: audited paper proof, source, spec and plan, planar Lean packages, spatial Lean packages · planar packages on `main`: 14 / 14 · spatial: 15 / 15 · `KAM/Planetary/StrongAMD` and `Spatial`: 136 modules, 23,831 lines
-- **Now:** Every headline theorem is proved and audited: LP0, LP1 (planar) and LP2 (spatial) with the sharp strong Laskar–Petit threshold and exponent 1/(2(τ+1)) (1/(2n+1) at τ = n − 1/2), on `main`; LP3 (the same threshold with NO Diophantine hypothesis, Nekhoroshev 1977 exponents), audited, landing. The owner approved the freeze rulings (D59). Freeze proposal draft 7 (the exact files: 5 anchors, 88 definitions, 34 characterizations, 127 files; all verified against the proved theorems) is in its independent statement audit; draft 8 (the LP3 anchors) is being written. Then the owner's approval of the exact text, the freeze, the source graph and the seals. A short paper on the results is being written.
+- **Now:** Every headline theorem is proved, audited and on `main`: LP0, LP1 (planar) and LP2 (spatial) with the sharp strong Laskar–Petit threshold and exponent 1/(2(τ+1)) (1/(2n+1) at τ = n − 1/2), and LP3 (the same threshold with NO Diophantine hypothesis, Nekhoroshev 1977 exponents). The owner approved the freeze rulings (D59). Freeze proposal draft 7 (5 anchors, 89 definitions, 34 characterizations; 128 files, each verified against the proved theorems) passed its independent delta statement audit; draft 8 (the LP3 anchors) follows. Then the owner's approval of the exact text, the freeze, the source graph and the seals. Paper: [papers/LP/main.pdf](papers/LP/main.pdf) (23 pages, three independent audits).
 
 **Frozen statements proved: 26 / 31** · frozen definitions: 148
 
@@ -502,7 +502,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:workers -->
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
-| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | 🔄 working | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
+| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | 🔄 working | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
@@ -521,6 +521,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-01 10:30 | `a9ba449d` | HQ: LP status (paper on main; draft 7 passed its delta audit) |
 | 2026-11-01 10:30 | `82e22386` | Land paper-lp: the LP paper (papers/LP, 23 pp; fidelity, literature and exposition audits PASS WITH NOTES) |
 | 2026-11-01 10:25 | `63b82dc1` | Land inp into main |
 | 2026-11-01 10:21 | `f2eacc8d` | HQ: flag a proof graph that lags its track's landings |
@@ -532,7 +533,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-01 09:45 | `56e376fb` | Overnight log: LP3 audited, nlw2 proved, D61, draft-7 audit |
 | 2026-11-01 09:44 | `e815d5b5` | D61: owner approves sealing W-NLW2 once its gates pass |
 | 2026-11-01 09:32 | `246bc1ce` | Land inp into main |
-| 2026-11-01 09:27 | `a7d8a923` | HQ: W status (nlw2 proved, seal staged) |
 <!-- /AUTO:landed -->
 
 ## Decisions
