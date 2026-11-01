@@ -27,6 +27,8 @@ shape `nonresonant_drift_of_chartData` consumes (with `J := uIcc 0 t`):
 
 None is assumed.  `lpStopped_drift_of_chartData` composes them with the (conditional) adapter, to
 check that the shapes match; it does not discharge `hstop`.
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

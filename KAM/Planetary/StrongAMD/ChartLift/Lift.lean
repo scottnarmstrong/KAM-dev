@@ -27,6 +27,8 @@ conditions are used (not any drift or confinement conclusion).
 
 * `lpMovingSolutionOn_mono`: restriction of a moving solution to a sub-interval (two-sided
   derivatives, so it is legitimate on the closed stopped interval).
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

@@ -23,6 +23,7 @@ public import KAM.Planetary.StrongAMD.Momentum
 Package LP-CONF, `LP:MAIN L14 (468–500)` with amendments N2 (one shared compact `U`) and N6
 (on the Lemma-13 route the stopped radius is `r` and the improvement is to `r / 2`); track LP,
 non-frozen.
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 `strongFirstExit_of_stopped_drift` is the topological first-exit argument of MAIN Lemma 14 with
 the stopped drift as an **explicit hypothesis** `hstop`.  It is NOT the public theorem: it is the

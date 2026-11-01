@@ -13,6 +13,7 @@ public import KAM.Planetary.StrongAMD.NonresonantAdapterRescale
 /-!
 # The complex unrescaling and the perturbation (package LP-NRR, item 3, first half)
 
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 Package LP-NRR, MAIN Lemma 13 (`LP:MAIN L13 (435–441, 444–458)`), N6, track LP, non-frozen.
 
 `lpUnrescaleC ℓ : EC n n → ℂ^{n+n} × ℂ^{n+n}` is the complexification of `lpUnrescale ℓ`

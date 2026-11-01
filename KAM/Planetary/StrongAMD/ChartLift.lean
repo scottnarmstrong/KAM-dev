@@ -15,4 +15,6 @@ public import KAM.Planetary.StrongAMD.ChartLift.Premises
 Package LP-LIFT, MAIN Lemma 14, chart part (`LP:MAIN L14 (468–500)`), track LP, non-frozen.
 Facade for `ChartLift.Stopped` (prograde states and the whole-ball bound), `ChartLift.Lift` (the
 chart lift) and `ChartLift.Premises` (the D1 premises of the Lemma 13 adapter).
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
