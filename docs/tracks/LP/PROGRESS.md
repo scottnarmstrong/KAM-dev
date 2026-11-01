@@ -14,7 +14,9 @@ Sub-orchestrator kam-lp (claude-12); main orchestrator root-b8; lander kam-inp-6
 
 At most 2 Lean provers; every lean/lake process through `/root/code/KAM-inp/.drafts/LP/lp_build.sh`,
 `lp_lean.sh`, `lp_lint.sh` (4G scope, no swap, nice 10, 1 thread, compile-gate slot, MemAvailable ≥ 8 GB).
-Audits that gate Lean landings on codex-2 only (OD-10; D54/D57), one at a time machine-wide, interleaved with W. Opus
+Audits that gate Lean landings on codex-2 only (OD-10; D54/D57). **Two lanes (root-b8, 08:35): one LP audit and one W
+audit may run on codex-2 at once**, each in its own tmux session with the submit check; LP's queue runs continuously in
+its lane (replays stay capped and gated on MemAvailable ≥ 8 GB). Opus
 subagents for paper-level reviews only.
 
 ## Packages (roadmap §3 rows)
@@ -134,3 +136,4 @@ src (4th, created 05:30 for the third slot).
 - 2026-11-01 07:07 UTC: LP-W4B LANDED (main 73dd9149): LP-SRC + spatial GEO/OSC/CONF/TUBE/ADAPT on main. LP3-KEP running on claude-11 (root-b8 direction); LP3 plan review running (Opus subagent).
 - 2026-11-01 07:11 UTC: LP-SP-SRCB proved (LP2 under OD-11 (b)); FREEZE-PROPOSAL draft 5 (§3c LP2, §3d LP2 (b)). Statement review 4 of §3c/§3d running (independent Opus subagent; codex-2 on W5-STEP-B). W4D staged (inp-lp-w4d).
 - 2026-11-01 08:25 UTC: D58 cited (import ruling). LP3-KEP PROVED (253 lines). Statement review 4: LP2 §3c PASS for fidelity; §3d R4.1 BLOCKING (total helpers) → (A) adopted, LP-SP-SRCB2 launched (claude-11); R4.2/R4.3 applied (proposal draft 6). LP-W4C audit launched on codex-2 (W5-STEP-B finished). W4D handoff staged.
+- 2026-11-01 08:35 UTC: root-b8: two codex-2 lanes (LP and W concurrently); fix (A) for R4.1 confirmed. LP lane: W4C running; then W4D, W4E, LP3-KEP continuously.
