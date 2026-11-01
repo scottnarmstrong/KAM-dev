@@ -19,6 +19,8 @@ Package LP-DOMX, `LP:MAIN L8 (253, 270)`, track LP, non-frozen.
   bounded on the half tube (compactness of one cell, as in `KAM.Planetary.perturbation`).
 * `norm_fderiv_le_cauchyBall`: the multivariable Cauchy estimate
   `‖fderiv ℂ f z‖ ≤ M / ρ` from a bound `M` on `closedBall z ρ`.
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

@@ -18,6 +18,8 @@ Item 1 of the package brief: track P's `tube` applied to each of the `4n` coordi
 `poincareProd ν 1` on `chartSafe ν` (real analytic, fast-shift periodic) gives one holomorphic,
 shift-periodic extension `Ψc` of the whole chart (positions and momenta) to a thin complex tube
 around the sharp core, with real trace `poincareProd ν 1` and a sup bound on the half tube.
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

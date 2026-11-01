@@ -19,6 +19,8 @@ Package LP-DOMX, `LP:MAIN L8 (253, 270)`, track LP, non-frozen.
 * `exists_norm_le_halfTube`: a shift-periodic continuous function is bounded on the half tube.
 * `norm_fderiv_le_quarterTube`: Cauchy estimate on the quarter tube from a bound on the half tube.
 * `norm_sub_le_of_quarterTube`: the resulting Lipschitz estimate near a real centre.
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

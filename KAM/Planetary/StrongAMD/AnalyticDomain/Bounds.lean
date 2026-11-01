@@ -29,6 +29,8 @@ branch, and its modulus is bounded away from zero".
 * `StrongTubeData`: the collected analytic data on `complexTube (strongCore ν L δ r)`.
 * `exists_strongTubeData`: items 1–3 together with LP-DOM's `exists_strongTube` (D4).
 * `lemma8_complete`: item 4, quantified as MAIN L8, with the containment of (22) (D5).
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

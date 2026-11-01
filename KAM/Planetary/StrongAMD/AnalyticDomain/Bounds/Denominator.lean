@@ -21,6 +21,8 @@ within `ε` of its real trace on a thin tube (Cauchy/Lipschitz from the first-de
 `Re (w · w) ≥ d²/2` for every star position `w = q_i` and pair difference `w = q_i - q_j`, using
 `|w·w - |w₀|²| ≤ 2Qη + η²` (`re_cDot_ge`).  `exists_strongDenominatorTube` supplies the real
 lower/upper bounds `dS, dP, R` from the barrier of LP-GEOMOD on the sharp core.
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

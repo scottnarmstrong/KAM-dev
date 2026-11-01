@@ -20,6 +20,8 @@ Package LP-DOMX, `LP:MAIN L8 (266–268)`, track LP, non-frozen.
   `Re (w·w) ≥ |u|² - (2ε² + 4Qε)` (MAIN `|w·w - |w₀|²| ≤ 2Qη + η²`, sup-norm form).
 * `norm_inv_sqrt_le`, `differentiableOn_inv_sqrt_cDot`: if `Re z ≥ d²/2` then the principal
   branch `z^(1/2)` has reciprocal of norm `≤ √2/d`, holomorphic along any holomorphic family.
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
