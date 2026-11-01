@@ -678,6 +678,7 @@ public import KAM.Planetary.Spatial.Nek.Perturbation
 public import KAM.Planetary.Spatial.Nek.SpatialSafety.Aligned
 public import KAM.Planetary.Spatial.Nek.SpatialSafety.Main
 public import KAM.Planetary.Spatial.Nek.SpatialSafety.Orientation
+public import KAM.Planetary.Spatial.Nek.SpatialSafety.Source
 public import KAM.Planetary.Spatial.Nek.SpatialSafety
 public import KAM.Planetary.Spatial.Newton
 public import KAM.Planetary.Spatial.NonresonantAdapter
@@ -740,6 +741,7 @@ public import KAM.Planetary.StrongAMD.Nek.Perturbation
 public import KAM.Planetary.StrongAMD.Nek.PlanarSafety.Main
 public import KAM.Planetary.StrongAMD.Nek.PlanarSafety.Orientation
 public import KAM.Planetary.StrongAMD.Nek.PlanarSafety.Prograde
+public import KAM.Planetary.StrongAMD.Nek.PlanarSafety.Source
 public import KAM.Planetary.StrongAMD.Nek.PlanarSafety
 public import KAM.Planetary.StrongAMD.NonresonantAdapter
 public import KAM.Planetary.StrongAMD.NonresonantAdapterRescale
