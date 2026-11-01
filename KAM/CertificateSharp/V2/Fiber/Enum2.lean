@@ -400,7 +400,8 @@ theorem dot_sub_le_dbox {ω' : Fin 2 → ℝ} (hω : FreqEncloses 2 D.toBox ω')
   have e2 : (boxRad D.toBox k : ℝ) =
       (((k 0).natAbs * D.R0 + (k 1).natAbs * D.R1 : ℕ) : ℝ) / 2 ^ D.q := by
     simp only [boxRad, DBox2.toBox, Fin.sum_univ_two]
-    simp <;> ring
+    simp
+    ring
   rwa [e1, e2] at h
 
 /-- A passing mode: the facts of the fibered bound, and its term below its rounded value. -/

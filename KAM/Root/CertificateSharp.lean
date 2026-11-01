@@ -14,6 +14,7 @@ public import KAM.CertificateSharp.Corner.SupBound
 public import KAM.CertificateSharp.Corner.Vertex
 public import KAM.CertificateSharp.Engine
 public import KAM.CertificateSharp.Frame.Majorants
+public import KAM.CertificateSharp.Freq.CubicNorm
 public import KAM.CertificateSharp.Freq.QuadraticCore
 public import KAM.CertificateSharp.Freq.QuadraticExact
 public import KAM.CertificateSharp.Freq.QuadraticLunar
@@ -64,6 +65,10 @@ public import KAM.CertificateSharp.V2.BaseCorner
 public import KAM.CertificateSharp.V2.BaseTrig
 public import KAM.CertificateSharp.V2.ClassicalQ
 public import KAM.CertificateSharp.V2.Engine
+public import KAM.CertificateSharp.V2.Fiber.Enum2
+public import KAM.CertificateSharp.V2.Fiber.RouteAG
+public import KAM.CertificateSharp.V2.Fiber.Site3
+public import KAM.CertificateSharp.V2.Fiber.TailTau
 public import KAM.CertificateSharp.V2.HamClaim
 public import KAM.CertificateSharp.V2.HamTrig
 public import KAM.CertificateSharp.V2.RefinedFacts
@@ -94,6 +99,7 @@ public import KAM.CertificateSharp.V2.RouteBQWf
 public import KAM.CertificateSharp.V2.RouteBRefined
 public import KAM.CertificateSharp.V2.SmallDivQ
 public import KAM.CertificateSharp.V2.StepBQ
+public import KAM.CertificateSharp.V2.Tests.Fiber3Toy
 public import KAM.CertificateSharp.V2.Tests.FrameFacts
 public import KAM.CertificateSharp.V2.Tests.Frozen
 public import KAM.CertificateSharp.V2.Tests.L1Toy

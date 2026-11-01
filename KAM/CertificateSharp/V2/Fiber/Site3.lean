@@ -179,7 +179,7 @@ theorem clock_reduce {τ : ℕ} {box : FreqBox} {γ : ℚ} (hγ : 0 < γ)
   set ω' : Fin 2 → ℝ := ![ωstar 0 / ωstar 2, ωstar 1 / ωstar 2] with hω'
   have hsnoc : ωstar = ωstar 2 • (Fin.snoc ω' 1 : Fin 3 → ℝ) := by
     funext i
-    fin_cases i <;> simp [hω', Fin.snoc, hw2.ne'] <;> field_simp
+    fin_cases i <;> simp [hω'] <;> field_simp
   refine ⟨ω', hsnoc, ?_, ?_, by push_cast; exact hlo2⟩
   · intro i
     fin_cases i
@@ -238,12 +238,12 @@ theorem encloses_dbox {box : FreqBox} {D : DBox2} (h : dboxOk box D = true) {ω'
   fin_cases i
   · have hy := hω 0
     simp only [clockBox2, Fin.val_zero, Fin.isValue, List.getD_cons_zero] at hy
-    simp only [DBox2.toBox, Fin.val_zero, Fin.isValue, List.getD_cons_zero]
+    simp only [DBox2.toBox, List.getD_cons_zero]
     exact key (x := 0) hy h0
   · have hy := hω 1
     simp only [clockBox2, Fin.val_one, Fin.isValue, List.getD_cons_succ,
       List.getD_cons_zero] at hy
-    simp only [DBox2.toBox, Fin.val_one, Fin.isValue, List.getD_cons_succ, List.getD_cons_zero]
+    simp only [DBox2.toBox, List.getD_cons_succ, List.getD_cons_zero]
     exact key (x := 0) hy h1
 
 /-- **Soundness of the fibered test**: `SDConst` on the ray. -/
