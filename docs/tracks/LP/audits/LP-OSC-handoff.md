@@ -67,8 +67,8 @@ None of items 1–3. Out of scope as briefed: spatial version; dynamics beyond `
 ## AUDIT FOCUS
 - **Mass normalization.** `keplerEnergy ν z i = ν i * E_i` (`keplerEnergy_eq_spec`); `keplerAxis`, `keplerEccVector` are the
   specific `k = 1` elements of `v = p/ν`. The energy clause compares with `c / ν i` (specific), not `c`: the brief's
-  "`oscEnergy ≤ -c/2`" is stated like-for-like as `oscEnergy ≤ -(c/ν i)/2`. If `ν i ≤ 1` this implies `≤ -c/2`... only
-  after multiplying by ν i; the specific bound is the correct one.
+  "`oscEnergy ≤ -c/2`" is stated like-for-like as `oscEnergy ≤ -(c/ν i)/2`, because `keplerEnergy ≤ -c` is the total energy
+  and the osculating energy is specific (unit mass).
 - `OscEstimate` clause order and the `(43)` shape: axis and eccentricity-vector errors are *summed* with one `A`; peri/apo
   errors share `Aosc`. `oscEccVector` uses `(1/k) •` for MAIN's `(…)/k`.
 - Constants `M = 1 + ∑ ν`, not a normalization `max ν = 1`: `k - 1 = μ ν i ≤ M μ`, so all rates carry a factor `M`
