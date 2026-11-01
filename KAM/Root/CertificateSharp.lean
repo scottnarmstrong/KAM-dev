@@ -53,7 +53,10 @@ public import KAM.CertificateSharp.Packed.Enc
 public import KAM.CertificateSharp.Packed.Gram
 public import KAM.CertificateSharp.Packed.GramBase
 public import KAM.CertificateSharp.Packed.GramTests
+public import KAM.CertificateSharp.Packed.JetChain
+public import KAM.CertificateSharp.Packed.JetChar
 public import KAM.CertificateSharp.Packed.JetIngest
+public import KAM.CertificateSharp.Packed.JetLeaf
 public import KAM.CertificateSharp.Packed.JetNode
 public import KAM.CertificateSharp.Packed.JetSeg
 public import KAM.CertificateSharp.Packed.JetTests

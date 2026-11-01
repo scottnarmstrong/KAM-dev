@@ -58,6 +58,14 @@ structure JBook where
   ls : ℕ
   lsb : ℕ
   off : ℕ
+  /-- the scale `2^P` of leaf nodes (constants, actions, characters, witnesses), the load bound of
+  a constant on `LU0` and its norm guard -/
+  P : ℕ
+  aC : ℕ
+  lc : ℕ
+  /-- the norm guards of a reduce in place on `LU0` (residual, reduced node) -/
+  lrc : ℕ
+  lnc : ℕ
 
 /-- A packed jet node. -/
 structure JNode (α : Type) where
@@ -86,7 +94,9 @@ def jBookOk : Bool :=
     (jb.LU0.slot (List.replicate n 0)).isSome &&
     normOk W jb.q jb.lr (jb.aW + mulLoad jb.Lb jb.Lb (2 ^ jb.lb) (2 ^ jb.smax)) jb.Lw &&
     normOk W jb.q jb.lrb (jb.aB + mulLoad jb.Lb jb.LU0 (2 ^ jb.lb) (2 ^ jb.smax)) jb.Lb &&
-    normOk W jb.q jb.ln (2 ^ jb.lb) jb.Lb
+    normOk W jb.q jb.ln (2 ^ jb.lb) jb.Lb && normOk W jb.q jb.lc jb.aC jb.LU0 &&
+    normOk W jb.q jb.lrc (jb.aB + mulLoad jb.LU0 jb.LU0 (2 ^ jb.lb) (2 ^ jb.smax)) jb.LU0 &&
+    normOk W jb.q jb.lnc (2 ^ jb.lb) jb.LU0
 
 /-- The unit `2^k` at the zero slot of a layout. -/
 def jUnit (L : PackLayout) (k : ℕ) : PC := pcUnit L.width (zslot n L) (2 ^ k)
@@ -132,22 +142,34 @@ def jRedW (A e : ℕ) (x : PC) (r : α) (eT : ℕ) : Option (JNode α) :=
     else none
   else none
 
-/-- A reduce in place of a box node to the scale `2^eT`. -/
+/-- The norm guards of a reduce in place on the node's layout. -/
+def jRedL (u : Bool) : ℕ := if u then jb.lrc else jb.lrb
+
+def jRedN (u : Bool) : ℕ := if u then jb.lnc else jb.ln
+
+/-- A reduce in place of a node (on the box or on `LU0`) to the scale `2^eT`. -/
 def jRed (nd : JNode α) (eT : ℕ) : Option (JNode α) :=
-  if nd.u = false ∧ nd.A ≤ jb.aB ∧ eT < nd.e ∧ nd.e - eT ≤ jb.smax then
-    if boxOk jb.Lb jb.lb (zPC jb.Lb.width jb.Lb.denseLen jb.lsb (nd.e - eT)
-          (jb.Lb.stride.getD 0 0) (jb.Lb.dims.getD 0 0) (jb.Lb.dims.getD 1 0) 0 nd.x).re &&
-        boxOk jb.Lb jb.lb (zPC jb.Lb.width jb.Lb.denseLen jb.lsb (nd.e - eT)
-          (jb.Lb.stride.getD 0 0) (jb.Lb.dims.getD 0 0) (jb.Lb.dims.getD 1 0) 0 nd.x).im then
-      some ⟨false, 2 ^ jb.lb, eT,
-        zPC jb.Lb.width jb.Lb.denseLen jb.lsb (nd.e - eT) (jb.Lb.stride.getD 0 0)
-          (jb.Lb.dims.getD 0 0) (jb.Lb.dims.getD 1 0) 0 nd.x,
-        upAdd nd.r (pnorm W jb.q jb.lrb jb.Lb nd.e (zRes n jb.LU0 (nd.e - eT) nd.x
-          (zPC jb.Lb.width jb.Lb.denseLen jb.lsb (nd.e - eT) (jb.Lb.stride.getD 0 0)
-            (jb.Lb.dims.getD 0 0) (jb.Lb.dims.getD 1 0) 0 nd.x))),
-        pnorm W jb.q jb.ln jb.Lb eT
-          (zPC jb.Lb.width jb.Lb.denseLen jb.lsb (nd.e - eT) (jb.Lb.stride.getD 0 0)
-            (jb.Lb.dims.getD 0 0) (jb.Lb.dims.getD 1 0) 0 nd.x)⟩
+  if nd.A ≤ jb.aB ∧ eT < nd.e ∧ nd.e - eT ≤ jb.smax then
+    if boxOk (jLay jb nd.u) jb.lb (zPC (jLay jb nd.u).width (jLay jb nd.u).denseLen jb.lsb
+          (nd.e - eT)
+          ((jLay jb nd.u).stride.getD 0 0) ((jLay jb nd.u).dims.getD 0 0)
+          ((jLay jb nd.u).dims.getD 1 0) 0 nd.x).re &&
+        boxOk (jLay jb nd.u) jb.lb (zPC (jLay jb nd.u).width (jLay jb nd.u).denseLen jb.lsb
+          (nd.e - eT) ((jLay jb nd.u).stride.getD 0 0) ((jLay jb nd.u).dims.getD 0 0)
+          ((jLay jb nd.u).dims.getD 1 0) 0 nd.x).im then
+      some ⟨nd.u, 2 ^ jb.lb, eT,
+        zPC (jLay jb nd.u).width (jLay jb nd.u).denseLen jb.lsb (nd.e - eT)
+          ((jLay jb nd.u).stride.getD 0 0) ((jLay jb nd.u).dims.getD 0 0)
+          ((jLay jb nd.u).dims.getD 1 0) 0 nd.x,
+        upAdd nd.r (pnorm W jb.q (jRedL jb nd.u) (jLay jb nd.u) nd.e
+          (zRes n jb.LU0 (nd.e - eT) nd.x
+            (zPC (jLay jb nd.u).width (jLay jb nd.u).denseLen jb.lsb (nd.e - eT)
+              ((jLay jb nd.u).stride.getD 0 0) ((jLay jb nd.u).dims.getD 0 0)
+              ((jLay jb nd.u).dims.getD 1 0) 0 nd.x))),
+        pnorm W jb.q (jRedN jb nd.u) (jLay jb nd.u) eT
+          (zPC (jLay jb nd.u).width (jLay jb nd.u).denseLen jb.lsb (nd.e - eT)
+            ((jLay jb nd.u).stride.getD 0 0) ((jLay jb nd.u).dims.getD 0 0)
+            ((jLay jb nd.u).dims.getD 1 0) 0 nd.x)⟩
     else none
   else none
 
@@ -187,6 +209,9 @@ structure JBookFacts (n : ℕ) (W : CertWeight) (jb : JBook) : Prop where
   nB : normOk W jb.q jb.lrb (jb.aB + mulLoad jb.Lb jb.LU0 (2 ^ jb.lb) (2 ^ jb.smax)) jb.Lb =
     true
   nN : normOk W jb.q jb.ln (2 ^ jb.lb) jb.Lb = true
+  nC : normOk W jb.q jb.lc jb.aC jb.LU0 = true
+  nBc : normOk W jb.q jb.lrc (jb.aB + mulLoad jb.LU0 jb.LU0 (2 ^ jb.lb) (2 ^ jb.smax)) jb.LU0 = true
+  nNc : normOk W jb.q jb.lnc (2 ^ jb.lb) jb.LU0 = true
 
 theorem slot_eq_zslot {L : PackLayout} (h : (L.slot (List.replicate n 0)).isSome = true) :
     L.slot (List.replicate n 0) = some (zslot n L) := by
@@ -195,10 +220,10 @@ theorem slot_eq_zslot {L : PackLayout} (h : (L.slot (List.replicate n 0)).isSome
 
 theorem jBookOk_spec (h : jBookOk n W jb = true) : JBookFacts n W jb := by
   simp only [jBookOk, Bool.and_eq_true] at h
-  obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, h8⟩, h9⟩, h10⟩, h11⟩, h12⟩, h13⟩,
-    h14⟩, h15⟩ := h
+  obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, h8⟩, h9⟩, h10⟩, h11⟩, h12⟩,
+    h13⟩, h14⟩, h15⟩, h16⟩, h17⟩, h18⟩ := h
   exact ⟨h1, h2, h3, h4, h5, h6, layoutEq_eq h7, layoutEq_eq h8, layoutEq_eq h9,
-    layoutEq_eq h10, slot_eq_zslot h11, slot_eq_zslot h12, h13, h14, h15⟩
+    layoutEq_eq h10, slot_eq_zslot h11, slot_eq_zslot h12, h13, h14, h15, h16, h17, h18⟩
 
 /-- `normOk` is monotone in the load. -/
 theorem normOk_mono {q l B B' : ℕ} {L : PackLayout} (h : normOk W q l B L = true) (hB : B' ≤ B) :
@@ -295,16 +320,22 @@ theorem jRed_sound {sw Nw : ℕ} (hW : checkWeight W sw Nw = true) (B : JBookFac
   split_ifs at h with h1 h2
   · cases h
     simp only [Bool.and_eq_true] at h2
-    obtain ⟨hu, hA, he, hs⟩ := h1
-    unfold JEnc jLay at hx
-    rw [hu] at hx
-    simp only [Bool.false_eq_true, ↓reduceIte] at hx
-    have hokr := normOk_mono B.nB (Nat.add_le_add hA (mulLoad_mono le_rfl
-      (Nat.pow_le_pow_right (by norm_num) hs)))
-    have := PEnc.reduceZ (m := n) hW B.cb0 B.wb B.w0 B.eb0 B.s0 (Nat.sub_le nd.e eT) hokr B.nN
-      hx h2.1 h2.2
-    rw [Nat.sub_sub_self he.le] at this
-    exact this
+    obtain ⟨hA, he, hs⟩ := h1
+    have hload : nd.A + mulLoad (jLay jb nd.u) jb.LU0 (2 ^ jb.lb) (2 ^ (nd.e - eT)) ≤
+        jb.aB + mulLoad (jLay jb nd.u) jb.LU0 (2 ^ jb.lb) (2 ^ jb.smax) :=
+      Nat.add_le_add hA (mulLoad_mono le_rfl (Nat.pow_le_pow_right (by norm_num) hs))
+    unfold JEnc at hx ⊢
+    cases hu : nd.u
+    · simp only [hu, jLay, jRedL, jRedN, Bool.false_eq_true, ↓reduceIte] at hx h2 hload ⊢
+      have := PEnc.reduceZ (m := n) hW B.cb0 B.wb B.w0 B.eb0 B.s0 (Nat.sub_le nd.e eT)
+        (normOk_mono B.nB hload) B.nN hx h2.1 h2.2
+      rw [Nat.sub_sub_self he.le] at this
+      exact this
+    · simp only [hu, jLay, jRedL, jRedN, ↓reduceIte] at hx h2 hload ⊢
+      have := PEnc.reduceZ (m := n) hW B.c00 B.w0 B.w0 B.e00 B.s0 (Nat.sub_le nd.e eT)
+        (normOk_mono B.nBc hload) B.nNc hx h2.1 h2.2
+      rw [Nat.sub_sub_self he.le] at this
+      exact this
 
 theorem jMul_sound {sw Nw : ℕ} (hW : checkWeight W sw Nw = true) (B : JBookFacts n W jb)
     {a b c : JNode α} {eT : ℕ} {f g : (Fin n → ℂ) → ℂ} (ha : JEnc n W jb a f)

@@ -5,7 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.CertificateSharp.Packed.JetNode
+public import KAM.CertificateSharp.Packed.JetLeaf
 
 /-!
 # A packed jet segment (`V2-PACKED.md` §12.5)
@@ -74,6 +74,15 @@ theorem slpVal_add {i a b : ℕ} (h : p.ops.getD i (.const 0 0 0) = .add a b) (h
   simp only [SlpOp.step]
   rw [slpVals_take_getD n p z hi.le ha, slpVals_take_getD n p z hi.le hb]
 
+theorem slpVal_const {i : ℕ} {re im : ℚ} {deg : ℤ}
+    (h : p.ops.getD i (.const 0 0 0) = .const re im deg) (hi : i < p.ops.length) :
+    p.val n z i = slpConstVal re im deg := by
+  rw [slpVal_eq_step n p z hi]
+  rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hi] at h
+  simp only [Option.getD_some] at h
+  rw [h]
+  rfl
+
 theorem slpVal_mul {i a b : ℕ} (h : p.ops.getD i (.const 0 0 0) = .mul a b) (ha : a < i)
     (hb : b < i) : p.val n z i = p.val n z a * p.val n z b := by
   have hi := slp_lt_of_getD p h (by simp)
@@ -94,7 +103,8 @@ abbrev JStep := ℕ × ℕ × ℕ
 
 section Defs
 
-variable {α : Type} [CertArith α] (n : ℕ) (W : CertWeight) (jb : JBook)
+variable {α : Type} [CertArith α] (n : ℕ) (W : CertWeight) (pe : PiEnclosure α)
+  (cfg : ModelConfig α) (jb : JBook)
 
 /-- The node of slot `i` from the state; `ops` is the program from slot `base` on (read once per
 segment, not from slot `0` at every step). -/
@@ -112,6 +122,10 @@ def jOp (ops : List SlpOp) (base : ℕ) (st : List (ℕ × JNode α)) (i eT : �
       | some x, some y => jMul n W jb x y eT
       | _, _ => none
     else none
+  | .const re im deg =>
+    if base ≤ i ∧ i - base < ops.length then
+      jLeaf W pe cfg jb true jb.aC (constModel n re im deg)
+    else none
   | _ => none
 
 /-- The optional reduce in place. -/
@@ -123,7 +137,7 @@ def jRun (ops : List SlpOp) (base : ℕ) :
     List (ℕ × JNode α) → List JStep → Option (List (ℕ × JNode α))
   | st, [] => some st
   | st, (i, eT, red) :: rest =>
-    match jOp n W jb ops base st i eT with
+    match jOp n W pe cfg jb ops base st i eT with
     | some nd =>
       match jPost n W jb nd red with
       | some nd' => jRun ops base ((i, nd') :: st) rest
@@ -140,7 +154,7 @@ def jExportOk (nd m : JNode α) : Bool :=
 def jSegOk (p : Slp) (start : ℕ) (imports : List (ℕ × JNode α)) (steps : List JStep)
     (exports : List (ℕ × JNode α)) : Bool :=
   jBookOk n W jb &&
-    match jRun n W jb (p.ops.drop start) start imports steps with
+    match jRun n W pe cfg jb (p.ops.drop start) start imports steps with
     | some st =>
       exports.all fun m =>
         match st.lookup m.1 with
@@ -152,7 +166,8 @@ end Defs
 
 section Sound
 
-variable {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ} {W : CertWeight} {jb : JBook}
+variable {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ} {W : CertWeight}
+  {pe : PiEnclosure α} {cfg : ModelConfig α} {jb : JBook}
 
 theorem mem_of_lookup {β : Type} {st : List (ℕ × β)} {a : ℕ} {x : β}
     (h : st.lookup a = some x) : (a, x) ∈ st := by
@@ -167,10 +182,11 @@ theorem getD_drop_sub {β : Type} (l : List β) {base i : ℕ} (h : base ≤ i) 
     (l.drop base).getD (i - base) d = l.getD i d := by
   simp only [List.getD_eq_getElem?_getD, List.getElem?_drop, Nat.add_sub_cancel' h]
 
-theorem jOp_sound {sw Nw : ℕ} (hW : checkWeight W sw Nw = true) (B : JBookFacts n W jb)
+theorem jOp_sound {sw Nw : ℕ} (hW : checkWeight W sw Nw = true) (hpe : checkPiEnclosure pe = true)
+    (B : JBookFacts n W jb)
     (p : Slp) (z : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) {st : List (ℕ × JNode α)}
     (hst : ∀ m ∈ st, JEnc n W jb m.2 (slotFn n p z m.1)) {i eT : ℕ} {nd : JNode α}
-    {base : ℕ} (h : jOp n W jb (p.ops.drop base) base st i eT = some nd) :
+    {base : ℕ} (h : jOp n W pe cfg jb (p.ops.drop base) base st i eT = some nd) :
     JEnc n W jb nd (slotFn n p z i) := by
   unfold jOp at h
   split at h
@@ -190,13 +206,23 @@ theorem jOp_sound {sw Nw : ℕ} (hW : checkWeight W sw Nw = true) (B : JBookFact
       have := jMul_sound hW B (hst _ (mem_of_lookup hx)) (hst _ (mem_of_lookup hy)) h
       exact PEnc.congr this fun θ _ => (slpVal_mul n p (z θ) hop hab.2.1 hab.2.2).symm
     · cases h
+  · rename_i re im deg hop
+    split_ifs at h with hb
+    rw [getD_drop_sub _ hb.1] at hop
+    have hi : i < p.ops.length := by
+      have := hb.2
+      rw [List.length_drop] at this
+      omega
+    have := jLeaf_sound (cfg := cfg) hW hpe B (constModel_encloses n W.rho re im deg) h
+    exact PEnc.congr this fun θ _ => (slpVal_const n p (z θ) hop hi).symm
   · cases h
 
-theorem jRun_sound {sw Nw : ℕ} (hW : checkWeight W sw Nw = true) (B : JBookFacts n W jb)
+theorem jRun_sound {sw Nw : ℕ} (hW : checkWeight W sw Nw = true) (hpe : checkPiEnclosure pe = true)
+    (B : JBookFacts n W jb)
     (p : Slp) (z : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (base : ℕ) :
     ∀ (steps : List JStep) (st st' : List (ℕ × JNode α)),
       (∀ m ∈ st, JEnc n W jb m.2 (slotFn n p z m.1)) →
-      jRun n W jb (p.ops.drop base) base st steps = some st' →
+      jRun n W pe cfg jb (p.ops.drop base) base st steps = some st' →
         ∀ m ∈ st', JEnc n W jb m.2 (slotFn n p z m.1)
   | [], st, st', hst, h => by
     simp only [jRun, Option.some.injEq] at h
@@ -207,13 +233,13 @@ theorem jRun_sound {sw Nw : ℕ} (hW : checkWeight W sw Nw = true) (B : JBookFac
     · rename_i nd hnd
       split at h
       · rename_i nd' hpost
-        have h1 := jOp_sound hW B p z hst hnd
+        have h1 := jOp_sound hW hpe B p z hst hnd
         have h2 : JEnc n W jb nd' (slotFn n p z i) := by
           unfold jPost at hpost
           split_ifs at hpost
           · cases hpost; exact h1
           · exact jRed_sound hW B h1 hpost
-        refine jRun_sound hW B p z base rest _ st' (fun m hm => ?_) h
+        refine jRun_sound hW hpe B p z base rest _ st' (fun m hm => ?_) h
         rcases List.mem_cons.mp hm with rfl | hm
         · exact h2
         · exact hst m hm
@@ -221,10 +247,11 @@ theorem jRun_sound {sw Nw : ℕ} (hW : checkWeight W sw Nw = true) (B : JBookFac
     · cases h
 
 /-- **Soundness of a packed jet segment**: from the imported nodes to the exported ones. -/
-theorem jSegOk_sound {sw Nw : ℕ} (hW : checkWeight W sw Nw = true) (p : Slp)
+theorem jSegOk_sound {sw Nw : ℕ} (hW : checkWeight W sw Nw = true)
+    (hpe : checkPiEnclosure pe = true) (p : Slp)
     (z : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) {start : ℕ}
     {imports exports : List (ℕ × JNode α)} {steps : List JStep}
-    (h : jSegOk n W jb p start imports steps exports = true)
+    (h : jSegOk n W pe cfg jb p start imports steps exports = true)
     (himp : ∀ m ∈ imports, JEnc n W jb m.2 (slotFn n p z m.1)) :
     ∀ m ∈ exports, JEnc n W jb m.2 (slotFn n p z m.1) := by
   unfold jSegOk at h
@@ -233,7 +260,7 @@ theorem jSegOk_sound {sw Nw : ℕ} (hW : checkWeight W sw Nw = true) (p : Slp)
   have B := jBookOk_spec hb
   split at h
   · rename_i st hst
-    have hall := jRun_sound hW B p z start steps imports st himp hst
+    have hall := jRun_sound hW hpe B p z start steps imports st himp hst
     intro m hm
     have hm' := List.all_eq_true.mp h m hm
     split at hm'

@@ -46,8 +46,19 @@ def tJb : JBook where
   ls := 140
   lsb := 140
   off := 6
+  P := 64
+  aC := 2 ^ 66
+  lc := 67
+  lrc := 141
+  lnc := 67
 
-def tP : Slp := ⟨[.const 1 0 0, .const 0 0 0, .add 0 1, .mul 0 1]⟩
+/-- A π enclosure and a configuration (not used by the checks below, which have no constant of
+nonzero degree). -/
+def tPe : PiEnclosure F := ⟨⟨0⟩, ⟨0⟩, 1, 1⟩
+
+def tCfg : ModelConfig F := ⟨24, 30, 12, CertFixed.toMant 64, []⟩
+
+def tP : Slp := ⟨[.const 1 0 0, .const 0 0 0, .add 0 1, .mul 0 1, .const 3 0 0, .mul 0 4]⟩
 
 /-- The constant `1` and the character of key `(1, 0)` at scale `2^64`. -/
 def nOne : JNode F := ⟨false, 2 ^ 65, 64, ⟨2 ^ 64 * 2 ^ (200 * 6), 0⟩, ⟨0⟩, ⟨2 ^ 64⟩⟩
@@ -65,13 +76,19 @@ def tExports (d : ℤ) : List (ℕ × JNode F) :=
 
 example : jBookOk 2 tW tJb = true := by decide +kernel
 
-example : jSegOk 2 tW tJb tP 0 tImports tSteps (tExports 0) = true := by decide +kernel
+/-- A constant (slot `4`, on the one-slot layout) and the product of slot `0` by it (slot `5`,
+on the box at scale `2^128`). -/
+example : jSegOk 2 tW tPe tCfg tJb tP 0 tImports [(4, 0, 0), (5, 0, 0)]
+    [(5, ⟨false, 2 ^ 132, 128, ⟨3 * 2 ^ 128 * 2 ^ (200 * 6), 0⟩, ⟨2 ^ 70⟩, ⟨2 ^ 70⟩⟩)] = true := by
+  decide +kernel
+
+example : jSegOk 2 tW tPe tCfg tJb tP 0 tImports tSteps (tExports 0) = true := by decide +kernel
 
 /-- A digit off by one. -/
-example : jSegOk 2 tW tJb tP 0 tImports tSteps (tExports 1) = false := by decide +kernel
+example : jSegOk 2 tW tPe tCfg tJb tP 0 tImports tSteps (tExports 1) = false := by decide +kernel
 
 /-- A rounding shift of `128 > smax`. -/
-example : jSegOk 2 tW tJb tP 0 tImports [(2, 0, 0), (3, 0, 0)] (tExports 0) = false := by
+example : jSegOk 2 tW tPe tCfg tJb tP 0 tImports [(2, 0, 0), (3, 0, 0)] (tExports 0) = false := by
   decide +kernel
 
 /-- Ingestion: the `3 × 3` box digits `1, -2, 3; 0, 0, 0; -8, 7, 1` at `5` bits spread to the

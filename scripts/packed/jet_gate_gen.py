@@ -19,6 +19,8 @@ The steps are cut into sub-segments of at most `--heavy` heavy steps (box-by-box
 one probe each; `--split=i,j;k` halves chosen sub-segments (rounds separated by `;`).
 V2-PACKED-JET-MEM: `--heavy=34` (two processes, <= 2.65 GB) is the measured setting for LG00's Low range; the
 whole range (68 heavy steps) also passes in one process at 3.90 GB.
+Historical since V2-PACKED-JET-LOW: its own probes predate `jSegOk`'s pi-enclosure and configuration arguments and
+the book's leaf fields (receipts of V2-PACKED-JET-GATE / -MEM); its mirror functions are used by `jet_low_gen.py`.
 Usage: python3 -I scripts/packed/jet_gate_gen.py SEG.json [--stats] [--heavy=N] [--split=...]
 Writes the probes into $V2P_GATE_DIR (default .lake/v2-packed-jet/gate).
 """
@@ -179,8 +181,8 @@ def j_add(C, a, b):                                     # JetNode.jAdd
                 B.upAdd(a2.nb, b2.nb))
 
 
-def z_pc(C, Ls, ls, s, off, x):                         # StageZ.zPC (on the box `Lb`)
-    Lb = C.Lb
+def z_pc(C, Ls, ls, s, off, x, Ld=None):                # StageZ.zPC (onto `Ld`, the box by default)
+    Lb = Ld or C.Lb
     f = lambda Z: z_part(Ls.w, Ls.dl(), ls, s, Lb.S, Lb.dims[0], Lb.dims[1], off, Z)
     return (f(x[0]), f(x[1]))
 
@@ -207,20 +209,21 @@ def j_red_w(C, bk, A_, e, x, r, eT, st):                # JetNode.jRedW
     return Node(False, 2 ** bk.lb, eT, x2, rr, C.pnorm(C.Lb, eT, x2))
 
 
-def j_red(C, bk, nd, eT, st):                           # JetNode.jRed
+def j_red(C, bk, nd, eT, st):                           # JetNode.jRed (on the node's layout)
     s = nd.e - eT
-    assert not nd.u and eT < nd.e
+    L = C.lay(nd.u)
+    assert eT < nd.e
     st["aB"] = max(st["aB"], nd.A)
     st["smax"] = max(st["smax"], s)
     if bk is None:
-        x2 = z_pc(C, C.Lb, nd.A.bit_length(), s, 0, nd.x)
-        st["lb"] = max(st["lb"], max(abs(c) for z in x2 for c in unpack(C.Lb, z).values()).bit_length())
-        return Node(False, None, eT, x2, None, None)
+        x2 = z_pc(C, L, nd.A.bit_length(), s, 0, nd.x, L)
+        st["lb"] = max(st["lb"], max([abs(c) for z in x2 for c in unpack(L, z).values()] + [1]).bit_length())
+        return Node(nd.u, None, eT, x2, None, None)
     assert nd.A <= bk.aB and s <= bk.smax
-    x2 = z_pc(C, C.Lb, bk.lsb, s, 0, nd.x)
-    assert box_ok(C.Lb, bk.lb, x2[0]) and box_ok(C.Lb, bk.lb, x2[1]), "boxOk fails (in place)"
-    rr = C.B.upAdd(nd.r, C.pnorm(C.Lb, nd.e, z_res(C.LU0, s, nd.x, x2)))
-    return Node(False, 2 ** bk.lb, eT, x2, rr, C.pnorm(C.Lb, eT, x2))
+    x2 = z_pc(C, L, bk.lsb, s, 0, nd.x, L)
+    assert box_ok(L, bk.lb, x2[0]) and box_ok(L, bk.lb, x2[1]), "boxOk fails (in place)"
+    rr = C.B.upAdd(nd.r, C.pnorm(L, nd.e, z_res(C.LU0, s, nd.x, x2)))
+    return Node(nd.u, 2 ** bk.lb, eT, x2, rr, C.pnorm(L, eT, x2))
 
 
 def j_mul(C, bk, a, b, eT, st):                         # JetNode.jMul
@@ -329,10 +332,11 @@ def j_mul_pass1(C, a, b, eT, st):
 
 
 def j_red_pass1(C, nd, eT, st):
-    x2 = z_pc(C, C.Lb, nd.A.bit_length(), nd.e - eT, 0, nd.x)
+    L = C.lay(nd.u)
+    x2 = z_pc(C, L, nd.A.bit_length(), nd.e - eT, 0, nd.x, L)
     st["aB"], st["smax"] = max(st["aB"], nd.A), max(st["smax"], nd.e - eT)
-    st["lb"] = max(st["lb"], lb_of(C, x2))
-    return Node(False, 2 ** st["lbfix"], eT, x2, None, None)
+    st["lb"] = max(st["lb"], max([abs(c) for z in x2 for c in unpack(L, z).values()] + [1]).bit_length())
+    return Node(nd.u, 2 ** st["lbfix"], eT, x2, None, None)
 
 
 def book_of(C, st):
