@@ -686,6 +686,7 @@ public import KAM.Planetary.Spatial.Rotation
 public import KAM.Planetary.Spatial.Rotation46
 public import KAM.Planetary.Spatial.RotationAlgebra
 public import KAM.Planetary.Spatial.RotationSolution
+public import KAM.Planetary.Spatial.SourceCarrier
 public import KAM.Planetary.Spatial.Vector
 public import KAM.Planetary.Spatial
 public import KAM.Planetary.StrongAMD.AnalyticDomain.Bounds.Algebra
