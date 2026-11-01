@@ -1658,7 +1658,7 @@ EDGE: bpW:w5:data | blueprint-W/parts/w8-assembly.tex#bpW:w8@L45-L46 | the ordin
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w8a
 REVIEWER: sol-delta6-W-W-w8a
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution (draft, pending audit): standing data and notation are carried by the W8 definitions and hypotheses (constants in KAM/Wave/Assembly/Consts.lean); no separate object; previous status NOT_STARTED
 NOTE: Unlabelled 'Standing data and notation' paragraph (SPEC hypothesis packages).

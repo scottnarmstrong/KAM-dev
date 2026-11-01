@@ -466,9 +466,9 @@ EDGE: bpW:w5#data | blueprint-W/parts/w5-kamstep.tex#bpW:w5:w4-modified@L170-L19
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a+sol-global-W
 REVIEWER: sol-delta9-W-W-w5a
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.HomMelnikovMod, KAM.Wave.homModRatio, KAM.Wave.homModMultBounds_of, KAM.Wave.homModMultLip_of, KAM.Wave.homReweight, KAM.Wave.homModSolveTaylor, KAM.Wave.homModSolve_entry, KAM.Wave.homModF_compBounds, KAM.Wave.homModLemma_fieldBound, KAM.Wave.homModLemma_lipschitz, KAM.Wave.homModLemma2, KAM.Wave.homModLemma_equation_all, KAM.Wave.stepSolveMod_equation, KAM.Wave.homModLemma_zero_modes, KAM.Wave.homModSolveTaylor_isReal, KAM.Wave.waveBN, KAM.Wave.waveBNconst, KAM.Wave.waveBN_le (KAM/Wave/Homological/ModifiedDivisors.lean, KAM/Wave/Homological/ModifiedReweight.lean, KAM/Wave/Homological/ModifiedSolve.lean, KAM/Wave/Homological/ModifiedBounds.lean, KAM/Wave/Homological/ModifiedLipField.lean, KAM/Wave/Homological/ModifiedEquation.lean, KAM/Wave/KamStep/ModifiedStepSolve.lean, KAM/Wave/Homological/ModifiedReal.lean, KAM/Wave/KamStep/LatticeBN.lean)
-LEAN_NOTE: W5-STEP-B audit 1 PASS (w4-modified (i)-(iii)); proved from source premises: F in T_(s-sigma) with Q_F, Q_F^T p -> p_+, |X_F|_{p_+,r} <= C_1 B^W_sigma eps/hat alpha, the Lipschitz bound with B^natural_sigma, lambda form and (iii); the equation in the L_N F form (homModLemma_equation_all) and guarded DN form (stepSolveMod_equation); the bounds (iv) are W4's hat-N bounds applied to R; missing: zero modes (homModLemma_zero_modes) and reality (homModSolveTaylor_isReal) of F are exported only with the gate HomModMultBounds (supplier homModMultBounds_of, not composed into an export; reality is composed for the step data in FT_isRealTaylor); the bracket form R + <<N,F>> = hat N + hat a_0 is not exported
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.HomMelnikovMod, KAM.Wave.homModRatio, KAM.Wave.homModMultBounds_of, KAM.Wave.homModMultLip_of, KAM.Wave.homReweight, KAM.Wave.homModSolveTaylor, KAM.Wave.homModSolve_entry, KAM.Wave.homModF_compBounds, KAM.Wave.homModLemma_fieldBound, KAM.Wave.homModLemma_lipschitz, KAM.Wave.homModLemma2, KAM.Wave.homModLemma_equation_all, KAM.Wave.stepSolveMod_equation, KAM.Wave.homModLemma_zero_modes, KAM.Wave.homModSolveTaylor_isReal, KAM.Wave.waveBN, KAM.Wave.waveBNconst, KAM.Wave.waveBN_le, KAM.Wave.stepTheoremMod (KAM/Wave/Homological/ModifiedDivisors.lean, KAM/Wave/Homological/ModifiedReweight.lean, KAM/Wave/Homological/ModifiedSolve.lean, KAM/Wave/Homological/ModifiedBounds.lean, KAM/Wave/Homological/ModifiedLipField.lean, KAM/Wave/Homological/ModifiedEquation.lean, KAM/Wave/KamStep/ModifiedStepSolve.lean, KAM/Wave/Homological/ModifiedReal.lean, KAM/Wave/KamStep/LatticeBN.lean, KAM/Wave/KamStep/StepTheoremSrc.lean)
+LEAN_NOTE: D27 route substitution (draft, pending audit): zero modes, reality and the bracket form for the modified solve are used only inside stepTheoremMod (gate supplied by homModMultBounds_of); exported: field and Lipschitz bounds, lambda form, (iii), the L_N F and guarded DN equations (W5-STEP-B audit 1 PASS); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w5:m-sup
@@ -931,9 +931,9 @@ EDGE: stepW:w5:s-class | blueprint-W/parts/w5-kamstep.tex#bpW:w5:solve@L373-L373
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w5a
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.stepFun_field, KAM.Wave.stepField_differentiableAt, KAM.Wave.stepFun_isSmoothing, KAM.Wave.stepSolve_fam, KAM.Wave.stepSolve_bound, KAM.Wave.stepSolve_bound_mod, KAM.Wave.stepSolveMod_fam, KAM.Wave.stepSolve_equation, KAM.Wave.stepSolveMod_equation, KAM.Wave.stepNhat_fam, KAM.Wave.stepOmegaHat_bound, KAM.Wave.stepOmegaTail_bound, KAM.Wave.stepOmegaHat_sub, KAM.Wave.stepOmegaTail_sub, KAM.Wave.FT_isRealTaylor (KAM/Wave/KamStep/TaylorField.lean, KAM/Wave/KamStep/TaylorFieldDiff.lean, KAM/Wave/KamStep/StepSolve.lean, KAM/Wave/KamStep/Data.lean, KAM/Wave/KamStep/ModifiedStepSolve.lean, KAM/Wave/KamStep/StepFreqBound.lean, KAM/Wave/KamStep/RealStep.lean)
-LEAN_NOTE: W5-STEP-A audit 1 PASS WITH NOTES (non-modified solve outputs: field, lambda bound, equation), W5-STEP-B audit 1 PASS (modified solve, reality, frequency corrections); the clauses are proved as separate exports and assembled only inside stepTheorem/stepTheoremMod: no single export of the lemma; hat N in S_{p_+}(P) is shown only on the domains D(s',r) (stepFun_isSmoothing), not on all of P
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.stepFun_field, KAM.Wave.stepField_differentiableAt, KAM.Wave.stepFun_isSmoothing, KAM.Wave.stepSolve_fam, KAM.Wave.stepSolve_bound, KAM.Wave.stepSolve_bound_mod, KAM.Wave.stepSolveMod_fam, KAM.Wave.stepSolve_equation, KAM.Wave.stepSolveMod_equation, KAM.Wave.stepNhat_fam, KAM.Wave.stepOmegaHat_bound, KAM.Wave.stepOmegaTail_bound, KAM.Wave.stepOmegaHat_sub, KAM.Wave.stepOmegaTail_sub, KAM.Wave.FT_isRealTaylor, KAM.Wave.stepTheorem, KAM.Wave.stepTheoremMod (KAM/Wave/KamStep/TaylorField.lean, KAM/Wave/KamStep/TaylorFieldDiff.lean, KAM/Wave/KamStep/StepSolve.lean, KAM/Wave/KamStep/Data.lean, KAM/Wave/KamStep/ModifiedStepSolve.lean, KAM/Wave/KamStep/StepFreqBound.lean, KAM/Wave/KamStep/RealStep.lean, KAM/Wave/KamStep/StepTheoremSrc.lean)
+LEAN_NOTE: D27 route substitution (draft, pending audit): the lemma's clauses are assembled inside stepTheorem / stepTheoremMod, the only consumers; hat N smoothing is needed only on the domains D(s',r); exported: each clause separately: stepSolve_fam, stepSolve_bound(_mod), stepSolve_equation, stepSolveMod_equation, stepNhat_fam, stepFun_isSmoothing; previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w5:s-in
@@ -1055,9 +1055,9 @@ EDGE: stepW:w5:f-real | blueprint-W/parts/w5-kamstep.tex#bpW:w5:flow@L416-L416 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
 REVIEWER: sol-delta7-W-w5a
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.stepFlowHyp, KAM.Wave.stepFlowHyp_concrete, KAM.Wave.stepDomain_margin, KAM.Wave.stepMF_margins, KAM.Wave.holoFlow_smooth_eq, KAM.Wave.differentiableOn_smoothDisp, KAM.Wave.norm_smoothDisp_le, KAM.Wave.flowII_disp, KAM.Wave.flowII_disp_sub, KAM.Wave.flowII_deriv, KAM.Wave.flowII_deriv_sub, KAM.Wave.stepImage_mem, KAM.Wave.stepFlow_real, KAM.Wave.stepFlow_translate, KAM.Wave.holoFlow_translate, KAM.Wave.stepFlow_bounds_smooth (KAM/Wave/KamStep/Flow.lean, KAM/Wave/KamStep/StepFieldBound.lean, KAM/Wave/KamStep/Data.lean, KAM/Wave/KamStep/FlowSmooth.lean, KAM/Wave/KamStep/FlowSmoothDeriv.lean, KAM/Wave/KamStep/FlowStepBounds.lean, KAM/Wave/KamStep/RealFlowPicard.lean, KAM/Wave/KamStep/StepPeriodicFlow.lean, KAM/Wave/KamStep/FlowEquivariant.lean, KAM/Wave/KamStep/StepPsi.lean)
-LEAN_NOTE: W5-STEP-A audit 1 PASS (supplier scope for (i), (ii); (iii) PASS; (iv) abstract); the hypotheses of the W1 flow lemma and (iii) are concrete; missing as concrete statements for every t in [-1,1]: (i), (ii) are the abstract per-t estimates flowII_* (lambda form 2M_F, 16M_F/sigma assembled only for Phi = phi^1 in the step theorem via stepFlow_bounds_smooth); (iv) reality stepFlow_real assumes reality of X_F (discharged for Phi in the step theorem), and the translation law at general t is stepFlow_translate for the unit shifts k : Fin 2 only (full Z^2 law only for Phi)
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.stepFlowHyp, KAM.Wave.stepFlowHyp_concrete, KAM.Wave.stepDomain_margin, KAM.Wave.stepMF_margins, KAM.Wave.holoFlow_smooth_eq, KAM.Wave.differentiableOn_smoothDisp, KAM.Wave.norm_smoothDisp_le, KAM.Wave.flowII_disp, KAM.Wave.flowII_disp_sub, KAM.Wave.flowII_deriv, KAM.Wave.flowII_deriv_sub, KAM.Wave.stepImage_mem, KAM.Wave.stepFlow_real, KAM.Wave.stepFlow_translate, KAM.Wave.holoFlow_translate, KAM.Wave.stepFlow_bounds_smooth, KAM.Wave.stepTheorem (KAM/Wave/KamStep/Flow.lean, KAM/Wave/KamStep/StepFieldBound.lean, KAM/Wave/KamStep/Data.lean, KAM/Wave/KamStep/FlowSmooth.lean, KAM/Wave/KamStep/FlowSmoothDeriv.lean, KAM/Wave/KamStep/FlowStepBounds.lean, KAM/Wave/KamStep/RealFlowPicard.lean, KAM/Wave/KamStep/StepPeriodicFlow.lean, KAM/Wave/KamStep/FlowEquivariant.lean, KAM/Wave/KamStep/StepPsi.lean, KAM/Wave/KamStep/StepTheoremSrc.lean)
+LEAN_NOTE: D27 route substitution (draft, pending audit): the flow bounds are used only for Phi = phi^1, assembled in the step theorem (stepFlow_bounds_smooth); the per-t statements are abstract flowII_* estimates instantiated through stepFlowHyp_concrete; exported: the W1 flow hypotheses (stepFlowHyp_concrete), (iii), abstract per-t estimates flowII_*, reality for real X_F, unit-shift equivariance; previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w5:f-margin
@@ -1114,9 +1114,9 @@ EDGE: stepW:w5:f-margin | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-flow@L400-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
 REVIEWER: sol-delta7-W-w5a
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.holoFlow_smooth_eq, KAM.Wave.differentiableOn_smoothDisp, KAM.Wave.norm_smoothDisp_le (KAM/Wave/KamStep/FlowSmooth.lean, KAM/Wave/KamStep/FlowSmoothDeriv.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w5:flow; W5-STEP-A audit 1 PASS, supplier scope: abstract in (iota, Z); the concrete smoothing displacement exists only at t = 1 (StepCore.Psi)
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.holoFlow_smooth_eq, KAM.Wave.differentiableOn_smoothDisp, KAM.Wave.norm_smoothDisp_le, KAM.Wave.stepFlow_bounds_smooth (KAM/Wave/KamStep/FlowSmooth.lean, KAM/Wave/KamStep/FlowSmoothDeriv.lean, KAM/Wave/KamStep/StepPsi.lean)
+LEAN_NOTE: D27 route substitution (draft, pending audit): step used only at t = 1 inside the step theorem (stepFlow_bounds_smooth); per-t form abstract; exported: abstract smooth displacement (holoFlow_smooth_eq, differentiableOn_smoothDisp, norm_smoothDisp_le); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w5:f-par
@@ -1143,9 +1143,9 @@ EDGE: stepW:w5:f-flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-par@L406-L40
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
 REVIEWER: sol-delta7-W-w5a
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.flowII_disp_sub (KAM/Wave/KamStep/FlowStepBounds.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w5:flow; W5-STEP-A audit 1 PASS, supplier scope: abstract per-t estimate; lambda form only for Phi in the step theorem
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.flowII_disp_sub, KAM.Wave.stepFlow_bounds_smooth (KAM/Wave/KamStep/FlowStepBounds.lean, KAM/Wave/KamStep/StepPsi.lean)
+LEAN_NOTE: D27 route substitution (draft, pending audit): lambda form used only for Phi = phi^1 inside the step theorem; exported: abstract per-t estimate flowII_disp_sub; previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w5:f-der
@@ -1174,9 +1174,9 @@ EDGE: bpW:w5:data | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-der@L413-L413 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
 REVIEWER: sol-delta7-W-w5a
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.flowII_deriv, KAM.Wave.flowII_deriv_sub, KAM.Wave.stepMF_margins (KAM/Wave/KamStep/FlowStepBounds.lean, KAM/Wave/KamStep/Data.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w5:flow; W5-STEP-A audit 1 PASS, supplier scope: abstract with rho = sigma/8 instantiated by consumers; lambda form 16M_F/sigma only for Phi
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.flowII_deriv, KAM.Wave.flowII_deriv_sub, KAM.Wave.stepMF_margins, KAM.Wave.stepFlow_bounds_smooth (KAM/Wave/KamStep/FlowStepBounds.lean, KAM/Wave/KamStep/Data.lean, KAM/Wave/KamStep/StepPsi.lean)
+LEAN_NOTE: D27 route substitution (draft, pending audit): lambda form 16 M_F/sigma used only for Phi inside the step theorem; exported: abstract flowII_deriv, flowII_deriv_sub, stepMF_margins; previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w5:f-image
@@ -1230,9 +1230,9 @@ EDGE: bpW:w4:taylor | blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-real@L417-L417
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w5a
 REVIEWER: sol-delta7-W-w5a
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.stepFlow_real, KAM.Wave.stepFlow_translate, KAM.Wave.holoFlow_translate (KAM/Wave/KamStep/RealFlowPicard.lean, KAM/Wave/KamStep/StepPeriodicFlow.lean, KAM/Wave/KamStep/FlowEquivariant.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w5:flow; W5-STEP-B audit 1 PASS for the scoped modules; reality conditional on reality of X_F; translation only for unit shifts at general t
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.stepFlow_real, KAM.Wave.stepFlow_translate, KAM.Wave.holoFlow_translate, KAM.Wave.stepTheorem (KAM/Wave/KamStep/RealFlowPicard.lean, KAM/Wave/KamStep/StepPeriodicFlow.lean, KAM/Wave/KamStep/FlowEquivariant.lean, KAM/Wave/KamStep/StepTheoremSrc.lean)
+LEAN_NOTE: D27 route substitution (draft, pending audit): reality and equivariance are used only for Phi, where reality of X_F is discharged in stepTheorem; exported: stepFlow_real (conditional on real X_F), unit-shift translation; previous status PARTIAL
 NOTE: -
 
 NODE: bpW:w5:flow-calc
@@ -1265,9 +1265,9 @@ EDGE: stepW:w5:c-time | blueprint-W/parts/w5-kamstep.tex#bpW:w5:flow-calc@L462-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a
 REVIEWER: sol-delta6-W-W-w5a
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.fderiv_holoFlow_eq, KAM.Wave.continuousOn_holoFlow_joint, KAM.Wave.continuousOn_fderiv_holoFlow_joint, KAM.Wave.stepFieldS_skew, KAM.Wave.stepFlow_symplectic, KAM.Wave.stepFlow_dPhi_targetUnit, KAM.Wave.stepFlow_dPhi_image_range, KAM.Wave.hasFDerivAt_comp_hamiltonian, KAM.Wave.hasFDerivAt_comp_flow_smooth, KAM.Wave.hasDerivWithinAt_comp_holoFlow, KAM.Wave.stepNfun_hasFDerivAt, KAM.Wave.stepNfun_lie (KAM/Wave/KamStep/FlowVariational.lean, KAM/Wave/KamStep/FlowCalcJoint.lean, KAM/Wave/KamStep/StepFlowConcrete.lean, KAM/Wave/KamStep/StepSymplectic.lean, KAM/Wave/KamStep/FlowCalcOnto.lean, KAM/Wave/KamStep/FlowTransport.lean, KAM/Wave/KamStep/NewHamTransport.lean, KAM/Wave/KamStep/FlowTime.lean, KAM/Wave/KamStep/StepNfun.lean)
-LEAN_NOTE: W5-STEP-A audit 1 FAIL on (i) joint continuity (F1) and (iii) onto P^{p_+} (F2), W5-R2A audit 2 PASS WITH NOTES (both closed: FlowCalcJoint, FlowCalcOnto); concrete exports: (ii) stepFlow_symplectic, (iii) stepFlow_dPhi_targetUnit / stepFlow_dPhi_image_range, (v) stepNfun_lie; missing as concrete statements: (i) continuity and variational equation, (iv) transport and (v) chain rule are exported only in the abstract flow calculus (FlowHyp, general iota, Z), instantiable by stepFlowHyp_concrete but not exported for the step flow
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.fderiv_holoFlow_eq, KAM.Wave.continuousOn_holoFlow_joint, KAM.Wave.continuousOn_fderiv_holoFlow_joint, KAM.Wave.stepFieldS_skew, KAM.Wave.stepFlow_symplectic, KAM.Wave.stepFlow_dPhi_targetUnit, KAM.Wave.stepFlow_dPhi_image_range, KAM.Wave.hasFDerivAt_comp_hamiltonian, KAM.Wave.hasFDerivAt_comp_flow_smooth, KAM.Wave.hasDerivWithinAt_comp_holoFlow, KAM.Wave.stepNfun_hasFDerivAt, KAM.Wave.stepNfun_lie, KAM.Wave.stepTheorem, KAM.Wave.stepFlowHyp_concrete (KAM/Wave/KamStep/FlowVariational.lean, KAM/Wave/KamStep/FlowCalcJoint.lean, KAM/Wave/KamStep/StepFlowConcrete.lean, KAM/Wave/KamStep/StepSymplectic.lean, KAM/Wave/KamStep/FlowCalcOnto.lean, KAM/Wave/KamStep/FlowTransport.lean, KAM/Wave/KamStep/NewHamTransport.lean, KAM/Wave/KamStep/FlowTime.lean, KAM/Wave/KamStep/StepNfun.lean, KAM/Wave/KamStep/StepTheoremSrc.lean, KAM/Wave/KamStep/StepFieldBound.lean)
+LEAN_NOTE: D27 route substitution (draft, pending audit): (i), (iv) and the (v) chain rule are used in the abstract flow calculus (FlowHyp) instantiated through stepFlowHyp_concrete inside new-ham and the step theorem; no concrete per-flow statement is consumed; exported: (ii) stepFlow_symplectic, (iii) stepFlow_dPhi_targetUnit / stepFlow_dPhi_image_range, (v) stepNfun_lie, abstract (i) and (iv) (W5-R2A audit 2 PASS WITH NOTES); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w5:c-cont
@@ -1294,9 +1294,9 @@ EDGE: bpW:w1:ext-onevar | blueprint-W/parts/w5-kamstep.tex#stepW:w5:c-cont@L445-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a
 REVIEWER: sol-delta6-W-W-w5a
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.continuousOn_holoFlow_joint, KAM.Wave.continuousOn_fderiv_holoFlow_joint (KAM/Wave/KamStep/FlowCalcJoint.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w5:flow-calc; W5-R2A audit 2 PASS (joint continuity on Icc (-1) 1 x U), abstract in FlowHyp only
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.continuousOn_holoFlow_joint, KAM.Wave.continuousOn_fderiv_holoFlow_joint, KAM.Wave.stepFlowHyp_concrete (KAM/Wave/KamStep/FlowCalcJoint.lean, KAM/Wave/KamStep/StepFieldBound.lean)
+LEAN_NOTE: D27 route substitution (draft, pending audit): abstract joint continuity instantiated through stepFlowHyp_concrete; exported: continuousOn_holoFlow_joint, continuousOn_fderiv_holoFlow_joint (abstract); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w5:c-var
@@ -1323,9 +1323,9 @@ EDGE: bpW:w1:deriv-continuous | blueprint-W/parts/w5-kamstep.tex#stepW:w5:c-var@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a
 REVIEWER: sol-delta6-W-W-w5a
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.fderiv_holoFlow_eq (KAM/Wave/KamStep/FlowVariational.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w5:flow-calc; W5-STEP-A audit 1 PASS (variational equation), abstract only
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.fderiv_holoFlow_eq, KAM.Wave.stepFlowHyp_concrete (KAM/Wave/KamStep/FlowVariational.lean, KAM/Wave/KamStep/StepFieldBound.lean)
+LEAN_NOTE: D27 route substitution (draft, pending audit): abstract variational equation instantiated through stepFlowHyp_concrete; exported: fderiv_holoFlow_eq (abstract); previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w5:c-skew
@@ -1440,9 +1440,9 @@ EDGE: bpW:w1:ext-onevar | blueprint-W/parts/w5-kamstep.tex#stepW:w5:c-trans@L461
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a
 REVIEWER: sol-delta6-W-W-w5a
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.hasFDerivAt_comp_hamiltonian, KAM.Wave.hasFDerivAt_comp_flow_smooth, KAM.Wave.transSolve, KAM.Wave.transSolve_spec (KAM/Wave/KamStep/FlowTransport.lean, KAM/Wave/KamStep/NewHamTransport.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w5:flow-calc; W5-STEP-A audit 1 PASS (pointwise supplier), W5-STEP-B audit 1 PASS (transport construction); abstract only, consumed inside new-ham
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.hasFDerivAt_comp_hamiltonian, KAM.Wave.hasFDerivAt_comp_flow_smooth, KAM.Wave.transSolve, KAM.Wave.transSolve_spec, KAM.Wave.stepFlowHyp_concrete (KAM/Wave/KamStep/FlowTransport.lean, KAM/Wave/KamStep/NewHamTransport.lean, KAM/Wave/KamStep/StepFieldBound.lean)
+LEAN_NOTE: D27 route substitution (draft, pending audit): abstract transport consumed inside new-ham (transSolve_spec); exported: hasFDerivAt_comp_hamiltonian, hasFDerivAt_comp_flow_smooth, transSolve, transSolve_spec; previous status PARTIAL
 NOTE: -
 
 NODE: stepW:w5:c-time
@@ -1499,9 +1499,9 @@ EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w5-kamstep.tex#bpW:w5@L37-L37 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-W-w5a
 REVIEWER: sol-delta6-W-W-w5a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.homGuard_one_one (KAM/Wave/Homological/Lie.lean)
+LEAN_NOTE: D27 route substitution (draft, pending audit): a = p = 1 is fixed by instantiation in every W5 declaration; the guard fact it records is homGuard_one_one; previous status NOT_STARTED
 NOTE: Unlabelled 'Weights' paragraph (SPEC hypothesis packages); its premise a = p = 1 is recorded in the SOURCE_HYPOTHESES of W5 results that use it (guard (G), pairings).
 
 NODE: bpW:w5:ext-symm

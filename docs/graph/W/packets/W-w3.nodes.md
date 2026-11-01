@@ -361,9 +361,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:Lambda@L200-L206 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: PARTIAL
+LEAN_STATUS: BYPASSED
 LEAN_REF: KAM.Wave.birkLamBil, KAM.Wave.birkLambda, KAM.Wave.norm_birkLambda_le, KAM.Wave.birkLambda_analyticOnNhd, KAM.Wave.birkLambda_birkZ, KAM.Wave.fderiv_birkLambda_apply, KAM.Wave.birkXLam, KAM.Wave.norm_birkXLam_le, KAM.Wave.birkLambda_field, KAM.Wave.not_exists_birkXLam_bounded (KAM/Wave/Birkhoff/Lambda.lean)
-LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS WITH NOTES (N1), audit 2 PASS (N1 docstring); all clauses proved except 'X_Lambda does not map W into itself', which is exported only as nonexistence of a bounded linear operator on W with the coordinates of X_Lambda (no explicit point of W mapped outside W); no later package closes it
+LEAN_NOTE: D27 route substitution (draft, pending audit): the negative clause 'X_Lambda does not map W into itself' is a remark no proof consumes; it is exported in the form not_exists_birkXLam_bounded; exported: all other clauses: quadratic form, bounds, Lambda(Zx), DLambda, X_Lambda on W+ (W3-SETTING-DIVF audit 2 PASS); previous status PARTIAL
 NOTE: -
 
 NODE: bpW:w3:majorant
@@ -2467,9 +2467,9 @@ EDGE: bpW:w0:mass | blueprint-W/parts/w3-birkhoff.tex#bpW:w3@L23-L23 | Standing 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w3
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 route substitution (draft, pending audit): standing data a >= 0, p >= 1/2, J = {1,2} are carried as the hypotheses ha, hp and the fixed index sets of every W3 declaration (birkTanSet, birkNormalSet); no separate object is needed; previous status NOT_STARTED
 NOTE: Unlabelled 'Standing data' paragraph (SPEC hypothesis packages): its premise p >= 1/2 is used by Lemma bpW:w3:Lambda and every bound through C_* = K_{p+1/2}^2/pi; it is recorded in the SOURCE_HYPOTHESES of each W3 result.
 
 NODE: bpW:w3:hamfield-def#hamilton
@@ -2497,9 +2497,9 @@ EDGE: bpW:w3#data | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:hamfield-def@L164-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-global-W
 REVIEWER: sol-delta9-W-W-w3
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.IsBirkClassA.field_rho, KAM.Wave.birkZinv_birkQuartX_birkZ (KAM/Wave/Birkhoff/HamClass.lean, KAM/Wave/Birkhoff/QuartIdent.lean)
-LEAN_NOTE: W3-SETTING-DIVF audit 1 PASS for IsBirkClassA.field_rho; covered: X_P o rho = rho o X_P for class-A Hamiltonians; not covered: the general real-point identity Z^{-1} X_P = (d_p P, -d_q P) (proved only for P = G via birkZinv_birkQuartX_birkZ) and reality of the field for real P outside class A
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Wave.IsBirkClassA.field_rho, KAM.Wave.birkZinv_birkQuartX_birkZ, KAM.Wave.birkK_real_gradient (KAM/Wave/Birkhoff/HamClass.lean, KAM/Wave/Birkhoff/QuartIdent.lean, KAM/Wave/Birkhoff/MainBallReal.lean)
+LEAN_NOTE: D27 route substitution (draft, pending audit): the general real-point identity is used only for the two Hamiltonians the proofs need, G (birkZinv_birkQuartX_birkZ) and K (birkK_real_gradient); reality of fields is used only for class-A Hamiltonians (IsBirkClassA.field_rho); exported: X_P o rho = rho o X_P for class-A P; the real-point identity for P = G and P = K; previous status PARTIAL
 NOTE: Unlabelled paragraph after Definition bpW:w3:hamfield-def, cited as "paragraph after Definition bpW:w3:hamfield-def" in Steps stepW:w3:XG and stepW:w3:XKconcl.
 
 NODE: bpW:w3:quartic-sec#data
