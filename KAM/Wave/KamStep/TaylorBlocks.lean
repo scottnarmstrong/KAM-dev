@@ -152,4 +152,28 @@ theorem stepPr_blockQt (ha : 0 ≤ a) (hpp : 0 ≤ p + pb) (A : KamPhase →L[�
   rw [stepSymp_iotaZ]
   simp only [blockQt, smul_apply, ContinuousLinearMap.comp_apply, map_smul, smul_eq_mul]
 
+theorem homNormalEntry_eq_pr (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (A : HomOp) (i j : ℕ+) :
+    homNormalEntry_gen a p pb A i j =
+      ((homWt a p i * homWt a p j : ℝ) : ℂ) *
+        stepPr ha (homPP hp hpb) (A (kamBasis ℂ j)) (kamBasis ℂ i) := by
+  have h1 := homLam_entry_eq_gen ha hp hpb A i j
+  rw [kamEntry_homLamCLM_gen] at h1
+  have hw1 : (homWt a p i : ℂ) ≠ 0 := by exact_mod_cast (homWt_pos a p i).ne'
+  have hw2 : (homWt a p j : ℂ) ≠ 0 := by exact_mod_cast (homWt_pos a p j).ne'
+  have e : stepPr ha (homPP hp hpb) (A (kamBasis ℂ j)) (kamBasis ℂ i) =
+      homLamD_gen a p pb i * kamEntry A i j := by
+    rw [stepPr_eq_homPairL2, homPairL2_single_right, homLamDiag_apply_gen]
+    rfl
+  rw [e]
+  push_cast
+  rw [← mul_assoc, mul_assoc _ (homLamD_gen a p pb i) , h1]
+  field_simp
+
+theorem homNormalEntry_symm_of_pr (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {A A' : HomOp}
+    (h : ∀ x y, stepPr ha (homPP hp hpb) (A x) y = stepPr ha (homPP hp hpb) (A' y) x)
+    (i j : ℕ+) :
+    homNormalEntry_gen a p pb A i j = homNormalEntry_gen a p pb A' j i := by
+  rw [homNormalEntry_eq_pr ha hp hpb, homNormalEntry_eq_pr ha hp hpb, h (kamBasis ℂ j) (kamBasis ℂ i),
+    mul_comm (homWt a p i : ℝ)]
+
 end KAM.Wave
