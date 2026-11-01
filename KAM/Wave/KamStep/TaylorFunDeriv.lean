@@ -44,7 +44,8 @@ theorem homPartial_apply_comp {f : (Fin 2 → ℂ) → (Fin 2 → ℂ)} {θ : Fi
     (hf : DifferentiableAt ℂ f θ) (i k : Fin 2) :
     homPartial i (fun x => f x k) θ = homPartial i f θ k := by
   unfold homPartial
-  have e : (fun x => f x k) = ⇑(ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : Fin 2 => ℂ) k) ∘ f :=
+  have e : (fun x => f x k) = ⇑(ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : Fin 2 => ℂ) k) ∘ f
+      :=
     rfl
   rw [e]
   have := ((ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : Fin 2 => ℂ) k).hasFDerivAt.comp θ
@@ -61,9 +62,11 @@ theorem stepFun_hasFDerivAt (ha : 0 ≤ a) (hpp : 0 ≤ p + pb) (T : HomTaylor_g
         + (∑ i, W.1 i * stepPr ha hpp (homPartial i T.cm w.1) (stepZb w)
             + stepPr ha hpp (T.cm w.1) (stepZb W))
         + (∑ i, W.1 i * (stepPr ha hpp (homPartial i T.P w.1 (stepZ w)) (stepZ w))
-            + stepPr ha hpp (T.P w.1 (stepZ W)) (stepZ w) + stepPr ha hpp (T.P w.1 (stepZ w)) (stepZ W))
+            + stepPr ha hpp (T.P w.1 (stepZ W)) (stepZ w) + stepPr ha hpp (T.P w.1 (stepZ w))
+                (stepZ W))
         + (∑ i, W.1 i * (stepPr ha hpp (homPartial i T.Q w.1 (stepZ w)) (stepZb w))
-            + stepPr ha hpp (T.Q w.1 (stepZ W)) (stepZb w) + stepPr ha hpp (T.Q w.1 (stepZ w)) (stepZb W))
+            + stepPr ha hpp (T.Q w.1 (stepZ W)) (stepZb w) + stepPr ha hpp (T.Q w.1 (stepZ w))
+                (stepZb W))
         + (∑ i, W.1 i * (stepPr ha hpp (homPartial i T.P' w.1 (stepZb w)) (stepZb w))
             + stepPr ha hpp (T.P' w.1 (stepZb W)) (stepZb w)
             + stepPr ha hpp (T.P' w.1 (stepZb w)) (stepZb W)) := by
@@ -79,7 +82,8 @@ theorem stepFun_hasFDerivAt (ha : 0 ≤ a) (hpp : 0 ≤ p + pb) (T : HomTaylor_g
   have h2 : HasFDerivAt (fun x : KamPhase => ∑ k, T.b x.1 k * x.2.1 k) _ w :=
     HasFDerivAt.fun_sum fun k _ =>
       (((hasFDerivAt_theta_comp (w := w) (differentiableAt_pi.1 db k))).fun_mul
-        (((ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : Fin 2 => ℂ) k).comp stepPrY).hasFDerivAt))
+        (((ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : Fin 2 => ℂ) k).comp
+            stepPrY).hasFDerivAt))
   have hz := (stepZ).hasFDerivAt (x := w)
   have hzb := (stepZb).hasFDerivAt (x := w)
   have h3 := hasFDerivAt_pair_term ha hpp (hasFDerivAt_theta_comp (w := w) dcp) hz

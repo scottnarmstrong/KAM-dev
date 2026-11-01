@@ -11,11 +11,13 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 
 /-!
-# The brackets `{G, F}` for `G ∈ 𝒯_s` (blueprint-W `bpW:w5:new-ham` step `n-br`, `bpW:w5:commutator`)
+# The brackets `{G, F}` for `G ∈ 𝒯_s` (blueprint-W `bpW:w5:new-ham` step `n-br`,
+`bpW:w5:commutator`)
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
-On `U = D(s-2σ, r/2)`: `stepBrG TG z = B(ι Z_G z, ι Z_F z)` has derivative `B(ι stepBrZ TG z, ·)` with
+On `U = D(s-2σ, r/2)`: `stepBrG TG z = B(ι Z_G z, ι Z_F z)` has derivative `B(ι stepBrZ TG z, ·)`
+with
 `stepBrZ = DZ_G(ι Z_F) - DZ_F(ι Z_G)`; holomorphy, and the Cauchy bounds `‖stepBrZ‖ ≤ 4 e M/σ`
 (`‖Z_G‖ ≤ e`, `‖Z_F‖ ≤ M`).
 -/
@@ -225,7 +227,8 @@ theorem stepBrZ_sub_norm_le (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ 
     (by linarith) hz
   have hθs : (StepPhase.toK z).1 ∈ complexStrip 2 s := stepDomain_theta_mem (by linarith) hz
   have hθF : (StepPhase.toK z).1 ∈ complexStrip 2 (s - σ) := stepDomain_theta_mem (by linarith) hz
-  have c1 := stepFieldS_cauchy (σ := σ) ha hp hpb (TG.homSub TG₂) hσ hσ1 hσs (by linarith) hΔG hΔG' hz
+  have c1 := stepFieldS_cauchy (σ := σ) ha hp hpb (TG.homSub TG₂) hσ hσ1 hσs (by linarith) hΔG hΔG'
+      hz
   have c2 := stepFieldS_cauchy (σ := σ) ha hp hpb TG₂ hσ hσ1 hσs (by linarith) he hTG₂ hz
   have c3 := stepFieldS_cauchy (σ := σ) (S := s) ha hp hpb (FT.homSub FT₂) hσ hσ1 hσs le_rfl hN₁
     hΔF hz
@@ -275,11 +278,13 @@ theorem stepBrZ_sub_norm_le (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ 
       (mul_le_mul c4 ((hι _).trans bΔG) (norm_nonneg _) (by positivity))
   refine (norm_sub_le _ _).trans ?_
   have n1 := norm_add_le ((fderiv ℂ (stepFieldS ha hp hpb TG r) z -
-      fderiv ℂ (stepFieldS ha hp hpb TG₂ r) z) (stepEmbedCLM a p pb hpb r (stepFieldS ha hp hpb FT r z)))
+      fderiv ℂ (stepFieldS ha hp hpb TG₂ r) z) (stepEmbedCLM a p pb hpb r (stepFieldS ha hp hpb FT
+          r z)))
       (fderiv ℂ (stepFieldS ha hp hpb TG₂ r) z (stepEmbedCLM a p pb hpb r
           (stepFieldS ha hp hpb FT r z - stepFieldS ha hp hpb FT₂ r z)))
   have n2 := norm_add_le ((fderiv ℂ (stepFieldS ha hp hpb FT r) z -
-      fderiv ℂ (stepFieldS ha hp hpb FT₂ r) z) (stepEmbedCLM a p pb hpb r (stepFieldS ha hp hpb TG r z)))
+      fderiv ℂ (stepFieldS ha hp hpb FT₂ r) z) (stepEmbedCLM a p pb hpb r (stepFieldS ha hp hpb TG
+          r z)))
       (fderiv ℂ (stepFieldS ha hp hpb FT₂ r) z (stepEmbedCLM a p pb hpb r
           (stepFieldS ha hp hpb TG r z - stepFieldS ha hp hpb TG₂ r z)))
   have : ΔG / (σ / 2) * Mf + e / (σ / 2) * N₁ + (N₁ / (σ / 2) * e + Mf / (σ / 2) * ΔG) =

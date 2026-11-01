@@ -37,7 +37,8 @@ theorem norm_integral_sub_riemann_le {f : ℝ → F} {L : ℝ} (hL : 0 ≤ L)
   have hn' : (0 : ℝ) < n := by exact_mod_cast hn
   have hcont : ContinuousOn f (Icc 0 1) := by
     intro t ht
-    refine Metric.continuousWithinAt_iff.2 fun ε hε => ⟨ε / (L + 1), by positivity, fun {t'} ht' hd => ?_⟩
+    refine Metric.continuousWithinAt_iff.2 fun ε hε => ⟨ε / (L + 1), by positivity, fun {t'} ht' hd
+        => ?_⟩
     have := hf t' ht' t ht
     rw [dist_eq_norm]
     rw [Real.dist_eq] at hd
@@ -57,14 +58,16 @@ theorem norm_integral_sub_riemann_le {f : ℝ → F} {L : ℝ} (hL : 0 ≤ L)
     · refine hx.2.trans ?_
       rw [div_le_one hn']
       exact_mod_cast hk
-  have hsum := sum_integral_adjacent_intervals (f := f) (μ := volume) (a := fun k : ℕ => (k : ℝ) / n)
+  have hsum := sum_integral_adjacent_intervals (f := f) (μ := volume) (a := fun k : ℕ => (k : ℝ) /
+      n)
     hint
   simp only [Nat.cast_zero, zero_div] at hsum
   have hnn : ((n : ℕ) : ℝ) / n = 1 := div_self hn'.ne'
   rw [hnn] at hsum
   rw [← hsum]
   have hconst : ∀ k ∈ Finset.range n,
-      ∫ t in ((k : ℝ) / n)..(((k + 1 : ℕ) : ℝ) / n), f ((k : ℝ) / n) = (1 / (n : ℝ)) • f ((k : ℝ) / n) := by
+      ∫ t in ((k : ℝ) / n)..(((k + 1 : ℕ) : ℝ) / n), f ((k : ℝ) / n) = (1 / (n : ℝ)) • f ((k : ℝ) /
+          n) := by
     intro k _
     rw [intervalIntegral.integral_const]
     congr 1

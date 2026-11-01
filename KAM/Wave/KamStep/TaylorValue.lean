@@ -128,9 +128,11 @@ theorem c1_decomp (w : KamPhase) :
     ext j
     simp only [lp.coeFn_smul, lp.coeFn_add, Pi.smul_apply, Pi.add_apply, smul_eq_mul,
       lp.coeFn_sub, Pi.sub_apply, Prod.fst_add, Prod.snd_add]
-    linear_combination (-2 * (v j : ℂ)) * h2 + ((homSqrt2⁻¹ * homSqrt2⁻¹) * (v j : ℂ) * 2) * Complex.I_sq
+    linear_combination (-2 * (v j : ℂ)) * h2 + ((homSqrt2⁻¹ * homSqrt2⁻¹) * (v j : ℂ) * 2) *
+        Complex.I_sq
 
-theorem stepZ_c1 (w : KamPhase) : stepZ ((0 : Fin 2 → ℂ), (0 : Fin 2 → ℂ), w.2.2.1, w.2.2.2) = stepZ w := by
+theorem stepZ_c1 (w : KamPhase) : stepZ ((0 : Fin 2 → ℂ), (0 : Fin 2 → ℂ), w.2.2.1, w.2.2.2) =
+    stepZ w := by
   simp [stepZ]
 
 theorem stepZb_c1 (w : KamPhase) :

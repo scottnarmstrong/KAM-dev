@@ -222,7 +222,8 @@ theorem holo_local_bound (hU : IsOpen U) (hf : DifferentiableOn ℂ f U) (hx : x
   · intro z hz; exact (hball (by simpa [mul_div_cancel₀] using hz)).2
 
 omit [CompleteSpace F] in
-theorem norm_fderiv_le_local (hf : DifferentiableOn ℂ f U) (hρ : 0 < ρ) (hB : 0 ≤ B) (hsub : ball x (3 * ρ) ⊆ U)
+theorem norm_fderiv_le_local (hf : DifferentiableOn ℂ f U) (hρ : 0 < ρ) (hB : 0 ≤ B) (hsub : ball x
+    (3 * ρ) ⊆ U)
     (hbd : ∀ z ∈ ball x (3 * ρ), ‖f z‖ ≤ B) {z : E} (hz : z ∈ ball x (2 * ρ)) :
     ‖fderiv ℂ f z‖ ≤ B / ρ := by
   refine norm_fderiv_le_div_of_ball hρ hB (hf.mono ?_) ?_
@@ -257,7 +258,8 @@ omit [CompleteSpace F] in
 theorem taylorCoeff_one {g : ℂ → F} : taylorCoeff g 1 = deriv g 0 := by
   simp [taylorCoeff, iteratedDeriv_one]
 
-theorem norm_holoD2_le (hU : IsOpen U) (hf : DifferentiableOn ℂ f U) (hρ : 0 < ρ) (hB : 0 ≤ B) (hsub : ball x (3 * ρ) ⊆ U)
+theorem norm_holoD2_le (hU : IsOpen U) (hf : DifferentiableOn ℂ f U) (hρ : 0 < ρ) (hB : 0 ≤ B)
+    (hsub : ball x (3 * ρ) ⊆ U)
     (hbd : ∀ z ∈ ball x (3 * ρ), ‖f z‖ ≤ B) (k d : E) :
     ‖holoD2 f x k d‖ ≤ B / (2 * ρ ^ 2) * ‖k‖ * ‖d‖ := by
   have hx : x ∈ U := hsub (mem_ball_self (by positivity))
@@ -288,7 +290,8 @@ theorem norm_holoD2_le (hU : IsOpen U) (hf : DifferentiableOn ℂ f U) (hρ : 0 
   refine this.trans (le_of_eq ?_)
   rw [hR]; field_simp
 
-theorem norm_fderiv_remainder_le (hU : IsOpen U) (hf : DifferentiableOn ℂ f U) (hρ : 0 < ρ) (hB : 0 ≤ B) (hsub : ball x (3 * ρ) ⊆ U)
+theorem norm_fderiv_remainder_le (hU : IsOpen U) (hf : DifferentiableOn ℂ f U) (hρ : 0 < ρ) (hB : 0
+    ≤ B) (hsub : ball x (3 * ρ) ⊆ U)
     (hbd : ∀ z ∈ ball x (3 * ρ), ‖f z‖ ≤ B) {k : E} (hk : ‖k‖ < ρ) (d : E) :
     ‖fderiv ℂ f (x + k) d - fderiv ℂ f x d - holoD2 f x k d‖ ≤ B / (2 * ρ ^ 3) * ‖k‖ ^ 2 * ‖d‖ := by
   have hx : x ∈ U := hsub (mem_ball_self (by positivity))
@@ -337,7 +340,8 @@ theorem norm_fderiv_remainder_le (hU : IsOpen U) (hf : DifferentiableOn ℂ f U)
     rw [e]
     refine div_le_div_of_nonneg_left hM0 (by positivity) ?_
     nlinarith [sq_nonneg R]
-  have hsum : ‖g 1 - (g 0 + deriv g 0 + taylorCoeff g 2)‖ + ‖taylorCoeff g 2‖ ≤ 2 * (M / R ^ 2) := by
+  have hsum : ‖g 1 - (g 0 + deriv g 0 + taylorCoeff g 2)‖ + ‖taylorCoeff g 2‖ ≤ 2 * (M / R ^ 2) :=
+      by
     have := hrem.trans hR3
     have h2 : ‖taylorCoeff g 2‖ ≤ M / R ^ 2 := hc2
     linarith

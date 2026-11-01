@@ -36,7 +36,8 @@ def stepTauS (r : ℝ) (k : Fin 2) : StepPhase r := StepPhase.ofK (stepTau k)
 theorem toK_add_tauS (w : StepPhase r) (k : Fin 2) :
     StepPhase.toK (w + stepTauS r k) = StepPhase.toK w + stepTau k := rfl
 
-theorem stepDomain_add_tauS {ρ S r' : ℝ} {w : StepPhase ρ} (hw : w ∈ stepDomain ρ S r') (k : Fin 2) :
+theorem stepDomain_add_tauS {ρ S r' : ℝ} {w : StepPhase ρ} (hw : w ∈ stepDomain ρ S r') (k : Fin 2)
+    :
     w + stepTauS ρ k ∈ stepDomain ρ S r' := kamDomain_add_tau hw k
 
 theorem stepFieldS_add_tau (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : HomTaylor_gen a p pb s)

@@ -125,7 +125,8 @@ end field
 
 /-- A continuous real-linear functional vanishing on the values of `f` vanishes on `∫ f`. -/
 theorem integral_clm_eq_zero {α E : Type*} [MeasurableSpace α] {μ : MeasureTheory.Measure α}
-    [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E] (L : E →L[ℝ] ℝ) {f : α → E} (hf : ∀ x, L (f x) = 0) :
+    [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E] (L : E →L[ℝ] ℝ) {f : α → E} (hf : ∀
+        x, L (f x) = 0) :
     L (∫ x, f x ∂μ) = 0 := by
   by_cases hi : MeasureTheory.Integrable f μ
   · have := L.integral_comp_comm hi

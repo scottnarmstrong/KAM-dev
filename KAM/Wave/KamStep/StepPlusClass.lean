@@ -104,7 +104,8 @@ theorem norm_stepZgfam_sub_le {t t' : ℝ} {z : StepPhase r}
     (by linarith) hMf hTn hF hz
   have h2 := stepBrZ_norm_le (TG := T) (FT := FT) ha hp hpb hσ hσ1 hσs he₁ hMf hT hF hz
   have e : stepZgfam ha hp hpb T FT t z - stepZgfam ha hp hpb T FT t' z =
-      ((t - t' : ℝ) : ℂ) • (stepBrZ ha hp hpb T FT z - stepBrZ ha hp hpb (homNhatTaylor_gen T) FT z) := by
+      ((t - t' : ℝ) : ℂ) • (stepBrZ ha hp hpb T FT z - stepBrZ ha hp hpb (homNhatTaylor_gen T) FT
+          z) := by
     unfold stepZgfam
     push_cast
     module
@@ -134,7 +135,8 @@ theorem norm_stepGfam_le {t : ℝ} (ht : t ∈ Icc (0 : ℝ) 1) {z : StepPhase r
     rw [Complex.norm_real, Real.norm_eq_abs, abs_of_nonneg ht.1]
   rw [a1, a2]
   have hc : 0 ≤ (4 * Real.pi + 1) * r ^ 2 * (e₁ * Mf) := by positivity
-  have : (4 * Real.pi + 1) * r ^ 2 * (2 * e₁ * Mf) = 2 * ((4 * Real.pi + 1) * r ^ 2 * (e₁ * Mf)) := by
+  have : (4 * Real.pi + 1) * r ^ 2 * (2 * e₁ * Mf) = 2 * ((4 * Real.pi + 1) * r ^ 2 * (e₁ * Mf)) :=
+      by
     ring
   rw [mul_assoc] at h1
   nlinarith [ht.1, ht.2, norm_nonneg (stepBrG ha hp hpb (homNhatTaylor_gen T) FT z),
@@ -147,7 +149,8 @@ theorem norm_stepGfam_sub_le {t t' : ℝ} {z : StepPhase r}
   have h1 := norm_stepBrG_le (TG := homNhatTaylor_gen T) (FT := FT) ha hp hpb hσ hσs hTn hF hz
   have h2 := norm_stepBrG_le (TG := T) (FT := FT) ha hp hpb hσ hσs hT hF hz
   have e : stepGfam ha hp hpb T FT t z - stepGfam ha hp hpb T FT t' z =
-      ((t - t' : ℝ) : ℂ) * (stepBrG ha hp hpb T FT z - stepBrG ha hp hpb (homNhatTaylor_gen T) FT z) := by
+      ((t - t' : ℝ) : ℂ) * (stepBrG ha hp hpb T FT z - stepBrG ha hp hpb (homNhatTaylor_gen T) FT
+          z) := by
     unfold stepGfam
     push_cast
     ring

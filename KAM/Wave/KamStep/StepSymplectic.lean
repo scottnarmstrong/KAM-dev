@@ -15,7 +15,8 @@ import Mathlib.Tactic.Positivity
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
-`stepFlow_symplectic`: `ϖ(Dφ^t(w) W, Dφ^t(w) W') = ϖ(W, W')` for `w ∈ D(s-2σ, r/2)`, `|t| ≤ 1`, on the
+`stepFlow_symplectic`: `ϖ(Dφ^t(w) W, Dφ^t(w) W') = ϖ(W, W')` for `w ∈ D(s-2σ, r/2)`, `|t| ≤ 1`, on
+the
 concrete flow of `X_F` (`B = ϖ_{p,p}`; the skewness of `DX_F` is `stepFieldS_skew`).
 -/
 

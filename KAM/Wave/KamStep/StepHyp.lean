@@ -116,13 +116,15 @@ theorem R_sub : ∀ ξ ∈ Par, ∀ ζ ∈ Par,
   exact stepTaylor_subFieldBound H.ha H.hp H.hpb H.hs H.hr (H.hP ξ hξ) (H.hP ζ hζ)
     (H.hper ξ hξ) (H.hper ζ hζ) (H.hb ξ hξ) (H.hb ζ hζ) (H.hdiff ξ hξ ζ hζ)
 
-theorem F_field : ∀ ξ ∈ Par, HomFieldBound_gen H.ha H.hp H.hpb r (stepM₀ τ σ α ε₀) (H.FT ξ) := fun ξ hξ => by
+theorem F_field : ∀ ξ ∈ Par, HomFieldBound_gen H.ha H.hp H.hpb r (stepM₀ τ σ α ε₀) (H.FT ξ) := fun
+    ξ hξ => by
   rw [H.FT_eq hξ]
   exact homLemma1_fieldBound_gen H.freq H.mel H.ha H.hp H.hpb H.hr H.hτ H.hα H.hσ H.hσs' hξ
     (H.R ξ) (H.R_field ξ hξ)
 
 theorem F_sub : ∀ ξ ∈ Par, ∀ ζ ∈ Par,
-    HomFieldBound_gen H.ha H.hp H.hpb r (stepM₁ τ σ α ε₀ ε₁ Mω MΩ * ‖ξ - ζ‖) ((H.FT ξ).homSub (H.FT ζ)) :=
+    HomFieldBound_gen H.ha H.hp H.hpb r (stepM₁ τ σ α ε₀ ε₁ Mω MΩ * ‖ξ - ζ‖) ((H.FT ξ).homSub (H.FT
+        ζ)) :=
   fun ξ hξ ζ hζ => by
   rw [H.FT_eq hξ, H.FT_eq hζ]
   have := homLemma1_lipschitz_gen H.freq H.mel H.ha H.hp H.hpb H.hr H.hτ H.hα
@@ -151,7 +153,8 @@ theorem M₁_nonneg : 0 ≤ stepM₁ τ σ α ε₀ ε₁ Mω MΩ := by
   unfold stepM₁
   positivity
 
-theorem M_sum : stepM₀ τ σ α ε₀ + lam * stepM₁ τ σ α ε₀ ε₁ Mω MΩ ≤ stepMF (stepCF τ) (stepExpT τ) α σ ε := by
+theorem M_sum : stepM₀ τ σ α ε₀ + lam * stepM₁ τ σ α ε₀ ε₁ Mω MΩ ≤ stepMF (stepCF τ) (stepExpT τ) α
+    σ ε := by
   have hex := (stepSolve_fam_explicit H.freq H.mel H.ha H.hp H.hpb (r := r) (ε := 3 * ε₀)
     (εL := 3 * ε₁) (lam := lam) (σ := σ) H.hr H.hτ H.hα H.hσ H.hσ1 H.hσs' H.hM H.hlam0 H.hlam
     (by linarith [H.hε₀]) (by linarith [H.hε₁]) H.R H.FT (fun ξ hξ => H.FT_eq hξ) H.R_field

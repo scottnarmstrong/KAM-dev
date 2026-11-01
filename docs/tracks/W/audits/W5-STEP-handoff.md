@@ -188,3 +188,34 @@ Remaining, in order: (a) reality of `R = stepTaylorOf` from `P` real (define "re
 `stepFlow_bounds` (on `w ∈ D(s-3σ,r/4)`, `M₀ ≤ σ/1024`): `|Φ₁w-w| ≤ M₀`, `|(Φ₁-Φ₂)w-…| ≤ 2N`, `|DΦ₁-I| ≤ 8M₀/σ`,
 `|DΦ₁-DΦ₂| ≤ 16N/σ` (`N = M₁d`); with `M₀+λM₁ ≤ M_F` these give the `λ`-bounds `2M_F` and `16M_F/σ`.
 Remaining (a)-(c), (e) as listed above.
+
+## Session 5, item 1 (reality of R) — DONE
+`RealCalc.lean`: `StepReal` (real point), `fderiv_im_of_real`, `stepSymp_field_im` (`ϖ(X w,c)` real), `stepSymp_dfield_im` (`ϖ(DX w c,c')` real), `integral_clm_eq_zero`.
+`TaylorReal.lean`: `tB_real`, `tQ_entry_real` (at real θ), `homCoeff_b_real`, `homCoeff_Q_real`: for `stepTaylorOf` with `P` real at real points
+(`hreal : ∀ w ∈ kamDomain s r, StepReal w → (P w).im = 0`), `[b]_k` and `homNormalEntry [Q]_{jj}` are real, so `N̂` has real frequencies.
+Not done: reality of `R` as a function on all real points / of `F`, `X_F` (W4 has no reality clause in Lean); reality clauses of the step theorem remain open.
+
+## Session 5, item 2 (weak conjugacy, new-ham (iii)) — DONE in derivative form
+`NewHamConj.lean`: `stepWeakConj`: for `w ∈ D_+`, `W`: `DN(Φw)(DΦ w W) + ϖ(ι X_P(Φw), DΦ w W) = DN(w)W + ϖ(ι X_{N̂}(w), W) + ϖ(ι X_{P_+}(w), W)`
+(derivative of `H∘Φ = N+N̂+â₀+P_+`; `DN` = `homDN∘stepToHom`, `W` ranges over the whole `p`-carrier, which contains `P^{p_+}`).
+New helper `stepPplusS_hasFDerivAt` (extracted from `stepPlus_isSmoothing`, StepPlusAssemble.lean).
+Open: the Riesz representation of `DN` by the unbounded field `X_N = (ω/2π,0,Ωv',-Ωu')` with `ϖ_{p-1,p_+}` (needs a pairing at weight `p-1`);
+`N_+ = N + N̂` is still a sum of functions, not yet identified with `N_{ω+ω̂,Ω+Ω̂}` (step assembly).
+
+## Session 5 — NON-MODIFIED STEP THEOREM PROVED (`bpW:w5:step`), items 1–5 DONE
+New modules (all build at default heartbeats with `w_build.sh`; `w_lint.sh` exit 0 after wrapping the >100-char lines and regenerating the root):
+`RealCalc`, `TaylorReal` (item 1), `NewHamConj` (item 2; helper `stepPplusS_hasFDerivAt` in StepPlusAssemble), `StepPeriodic`, `StepPeriodicFlow` (item 3),
+`StepSymplectic` (item 4), `StepNplus` (`N + N̂ = N_+`), `StepSetup`, `StepHyp`, `StepConj`, `StepFlowClauses`, `StepClauses`, **`StepTheorem`** (item 5).
+`StepSolve.lean`: new `stepSolve_fam_explicit` (explicit constants `M₀, M₁`, needed to get `M₀ > 0`).
+Statement: `KAM.Wave.stepTheorem (H : StepHyp …) [Fact (0 < r)]` — a conjunction of: (i) `Φ(D_+) ⊆ D(s-4σ,2ηr)`, `H∘Φ = N_+ + P_+ + â₀` (with `N_+ = stepNfun` for `(ω_+,Ω_+)`),
+weak conjugacy (derivative form), symplecticity, `Φ(w+τ_k)=Φ w+τ_k`; (ii) `P_+` smoothing, periodic, `FamBound` with `C₂(ε²/(ασ^tη²)+ηε)`; (iii) frequency corrections
+(`6πε₀`, `3ε₀`, Lipschitz `6πε₁`, `3ε₁`; `HomFreqHyp` for `(ω_+,Ω_+)` when `λ>0`); (iv) divisors; (v) `M₀+λM₁ ≤ M_F` and the four transformation bounds.
+`StepHyp` = step data (unmodified), smallness `ε ≤ ασ^tη²/(16 c_F)`, `ε₀>0`, `ε₀+λε₁ ≤ ε`, `P` real at real points (`hreal`), periodic.
+`#print axioms KAM.Wave.stepTheorem` (also `stepWeakConj`, `StepHyp.conj_eq`, `homCoeff_Q_real`): propext, Classical.choice, Quot.sound.
+Deviations / open (none is a blueprint defect):
+ * reality of `Φ`, `P_+` (needs W4's `F` real: no reality clause in the Lean W4) and `DΦ(w)(𝒫^{p_+}) = 𝒫^{p_+}` are NOT stated; only the reality of `[b]`, `[Q]_{jj}` (so `N̂` has real frequencies) is proved;
+ * weak conjugacy is stated in derivative form for all `W ∈ 𝒫^p` (superset of `𝒫^{p_+}`); the Riesz representative `X_N` (weight `p-1` pairing) is not constructed;
+ * hypothesis `ε₀ > 0` (can be arranged: if `X_P≡0` take `ε₀=ε/2`, `ε₁=0`); `5σ < s` (blueprint: `σ ≤ s/6`);
+ * the `λ`-norm is the conjunction of sup and Lipschitz bounds (as in the blueprint's Lean reading).
+Lint note: `scripts/lint_sources.sh` was run through `w_lint.sh` (exit 0) after `gen_root_imports.py` (root files regenerated; `KAM/Root/Wave.lean` changed).
+Next: item 6 (modified case) consuming the merged inp-wpq API (`stepSolveMod_fieldBound`, `stepSolveMod_fam`, `stepSolveMod_equation`, `homModLemma2`); `ModifiedStepSolve` builds.

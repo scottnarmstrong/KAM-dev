@@ -16,7 +16,8 @@ import Mathlib.Tactic.Positivity
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
-`stepNewHam_concrete`: for the flow of `X = ι ∘ Z_F` on `StepPhase r`, `N = stepNfun`, `N̂ = stepFS N̂`,
+`stepNewHam_concrete`: for the flow of `X = ι ∘ Z_F` on `StepPhase r`, `N = stepNfun`, `N̂ = stepFS
+N̂`,
 `R = stepFS T` and the homological equation `R + DN·ιX_F = N̂ + â₀` on `V = D(s-σ, r)`,
 `N(Φ w) + P(Φ w) = N w + N̂ w + â₀ + P_+(w)` for `w ∈ D(s-5σ, ηr)`, with
 `P_+ = stepPplusS` (the function of `bpW:w5:new-ham`).

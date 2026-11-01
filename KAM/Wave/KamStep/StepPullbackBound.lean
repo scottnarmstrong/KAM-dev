@@ -19,7 +19,8 @@ Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is 
 
 `stepPullback_bounds`: for the flow of two fields `Z₁, Z₂` (the parameters `ξ, ζ`) with
 `|Z₁ - Z₂| ≤ N₁`, `16 M ≤ σ η²`, and fields `Y₁, Y₂` on `D(s-3σ, 4ηr)` with `|Y_i|_{ηr} ≤ Y₀`,
-`|Y₁ - Y₂|_{ηr} ≤ Y_d`: the transported fields `y_i = (1 + N_i)⁻¹ Y_i(φ_i w)` on `D(s-5σ, ηr)` satisfy
+`|Y₁ - Y₂|_{ηr} ≤ Y_d`: the transported fields `y_i = (1 + N_i)⁻¹ Y_i(φ_i w)` on `D(s-5σ, ηr)`
+satisfy
 `ν(y₁) ≤ 2Y₀` and `ν(y₁ - y₂) ≤ 2Y_d + 8η⁻² N₁ Y₀/σ·… `
 -/
 

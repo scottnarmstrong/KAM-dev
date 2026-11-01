@@ -69,7 +69,8 @@ theorem tA0_real_bound (ha : 0 ≤ a) (hqq : 0 ≤ pb + p) (hs : 0 < s) (hr : 0 
   have hx2 : Q x1 = Q (Function.update x1 1 (Int.fract (x1 1))) := hper_coord 1 x1
   set x2 := Function.update x1 1 (Int.fract (x1 1))
   have hmem : x2 ∈ Icc (0 : Fin 2 → ℝ) 1 := by
-    constructor <;> intro i <;> fin_cases i <;> simp [x2, x1, Int.fract_nonneg, (Int.fract_lt_one _).le]
+    constructor <;> intro i <;> fin_cases i <;> simp [x2, x1, Int.fract_nonneg, (Int.fract_lt_one
+        _).le]
   show ‖Q x‖ ≤ M0
   rw [hx1, hx2]
   exact hM0 x2 hmem
@@ -81,7 +82,8 @@ theorem convex_complexStrip (s : ℝ) : Convex ℝ (complexStrip 2 s) := by
   have e : ((c • θ + d • θ') i).im = c * (θ i).im + d * (θ' i).im := by simp
   rw [e]
   calc |c * (θ i).im + d * (θ' i).im| ≤ |c * (θ i).im| + |d * (θ' i).im| := abs_add_le _ _
-    _ = c * |(θ i).im| + d * |(θ' i).im| := by rw [abs_mul, abs_mul, abs_of_nonneg hc, abs_of_nonneg hd]
+    _ = c * |(θ i).im| + d * |(θ' i).im| := by rw [abs_mul, abs_mul, abs_of_nonneg hc,
+        abs_of_nonneg hd]
     _ < c * s + d * s := by
         rcases hc.eq_or_lt with h | h
         · subst h

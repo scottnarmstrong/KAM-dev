@@ -49,7 +49,8 @@ theorem hasFDerivAt_comp_flow_smooth (h : FlowHyp (smoothField ι Z) V U M δ)
     (hskew : ∀ z ∈ V, ∀ x y, B (fderiv ℂ (smoothField ι Z) z x) y +
       B x (fderiv ℂ (smoothField ι Z) z y) = 0)
     {Gf : F → ℂ} {Zg : F → G} {w : F} (hw : w ∈ U) {t : ℝ} (ht : t ∈ Icc (-1 : ℝ) 1)
-    (hG : HasFDerivAt Gf (B (ι (Zg (holoFlow (smoothField ι Z) t w)))) (holoFlow (smoothField ι Z) t w))
+    (hG : HasFDerivAt Gf (B (ι (Zg (holoFlow (smoothField ι Z) t w)))) (holoFlow (smoothField ι Z)
+        t w))
     {y : G} (hy : y + transNop ι Z t w y = Zg (holoFlow (smoothField ι Z) t w)) :
     HasFDerivAt (fun z => Gf (holoFlow (smoothField ι Z) t z)) (B (ι y)) w := by
   have hφ : HasFDerivAt (holoFlow (smoothField ι Z) t)

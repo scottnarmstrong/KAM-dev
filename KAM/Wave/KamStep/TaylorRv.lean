@@ -11,12 +11,14 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 
 /-!
-# The Taylor polynomial of a Hamiltonian and its derivative (blueprint-W `bpW:w5:taylor`, step `t-field`)
+# The Taylor polynomial of a Hamiltonian and its derivative (blueprint-W `bpW:w5:taylor`, step
+`t-field`)
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
 `taylorRv P w = ∑_{k ≤ 2} (k!)⁻¹ ∂_t^k P(S_t w)|_{t=0}` is the value of the Taylor polynomial `R`
-(`bpW:w5:taylor`). `hasDerivAt_taylorRv`: its derivative in a direction `W'` is the sum of the Taylor
+(`bpW:w5:taylor`). `hasDerivAt_taylorRv`: its derivative in a direction `W'` is the sum of the
+Taylor
 coefficients of `t ↦ DP(S_t w)(S_t W')`, by `hasDerivAt_taylorSum_param`.
 -/
 
@@ -55,7 +57,8 @@ theorem hasDerivAt_taylorRv {P : KamPhase → ℂ} {V : Set KamPhase} (hV : IsOp
   have hdiff : DifferentiableOn ℂ Φ S := fun q hq => by
     have h1 : DifferentiableAt ℂ P (scaleS (q 0) w + q 1 • scaleS (q 0) W') :=
       hP.differentiableAt (hV.mem_nhds hq)
-    have h2 : DifferentiableAt ℂ (fun q : Fin 2 → ℂ => scaleS (q 0) w + q 1 • scaleS (q 0) W') q := by
+    have h2 : DifferentiableAt ℂ (fun q : Fin 2 → ℂ => scaleS (q 0) w + q 1 • scaleS (q 0) W') q :=
+        by
       unfold scaleS; fun_prop
     exact (h1.comp q h2).differentiableWithinAt
   have han := analyticOnNhd_of_differentiableOn_banach hSo hdiff

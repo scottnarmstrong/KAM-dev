@@ -15,7 +15,8 @@ import Mathlib.Tactic.Positivity
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
-`stepNewHam_flow`: for a flow with `FlowHyp`, `C¹` functions `N, N̂, R` (derivatives `DN, DN̂, DR` on
+`stepNewHam_flow`: for a flow with `FlowHyp`, `C¹` functions `N, N̂, R` (derivatives `DN, DN̂, DR`
+on
 `V`) with `DN·X = N̂ + â₀ - R` on `V` (the homological equation through W4's bracket identity), and
 continuous brackets along the trajectory,
 `N(Φ w) = N(w) + N̂(w) + â₀ - R(w) + ∫₀¹ (1-τ)(DN̂·X - DR·X)(φ^τ w) dτ`, `Φ = φ¹`; and the version

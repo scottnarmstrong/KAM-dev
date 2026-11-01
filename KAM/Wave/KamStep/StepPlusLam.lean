@@ -16,8 +16,10 @@ import Mathlib.Tactic.Positivity
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
-`stepPlus_pair_lamBound`: for two parameter values `ξ, ζ` (data indexed by `1, 2`, `d = |ξ - ζ|`) of a
-family with `|X_P| ≤ ε₀`, `|X_{P_1} - X_{P_2}| ≤ ε₁ d` on `D(s,r)`, `|X_F| ≤ M₀`, `|X_{F_1} - X_{F_2}| ≤ M₁ d`,
+`stepPlus_pair_lamBound`: for two parameter values `ξ, ζ` (data indexed by `1, 2`, `d = |ξ - ζ|`)
+of a
+family with `|X_P| ≤ ε₀`, `|X_{P_1} - X_{P_2}| ≤ ε₁ d` on `D(s,r)`, `|X_F| ≤ M₀`, `|X_{F_1} -
+X_{F_2}| ≤ M₁ d`,
 `ε₀ + λε₁ ≤ ε`, `M₀ + λM₁ ≤ M_F`, `16M_F ≤ ση²`: `ν(X_{+,1}) ≤ S`, `ν(X_{+,1} - X_{+,2}) ≤ D d` with
 `S + λ D ≤ 896ηε + 168 ε M_F/(ση²)`.
 -/
@@ -81,8 +83,10 @@ theorem stepPlus_pair_lamBound (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (h
   set T₁ := stepTaylorOf ha hp hpb hs hr hP₁ hper₁ hb₁ with hT₁def
   set T₂ := stepTaylorOf ha hp hpb hs hr hP₂ hper₂ hb₂ with hT₂def
   have hMs0 : 16 * M₀ ≤ σ * η ^ 2 := by linarith
-  have hT₁ : HomFieldBound_gen ha hp hpb r (3 * ε₀) T₁ := stepTaylor_fieldBound ha hp hpb hs hr hP₁ hper₁ hb₁
-  have hT₂ : HomFieldBound_gen ha hp hpb r (3 * ε₀) T₂ := stepTaylor_fieldBound ha hp hpb hs hr hP₂ hper₂ hb₂
+  have hT₁ : HomFieldBound_gen ha hp hpb r (3 * ε₀) T₁ := stepTaylor_fieldBound ha hp hpb hs hr hP₁
+      hper₁ hb₁
+  have hT₂ : HomFieldBound_gen ha hp hpb r (3 * ε₀) T₂ := stepTaylor_fieldBound ha hp hpb hs hr hP₂
+      hper₂ hb₂
   have hTn₁ := homNhat_fieldBound_gen ha hp hpb hr hs T₁ hT₁
   have hTn₂ := homNhat_fieldBound_gen ha hp hpb hr hs T₂ hT₂
   have hΔT : HomFieldBound_gen ha hp hpb r (3 * (ε₁ * d)) (T₁.homSub T₂) :=

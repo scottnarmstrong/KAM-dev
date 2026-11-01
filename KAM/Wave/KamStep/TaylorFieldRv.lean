@@ -12,7 +12,8 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 
 /-!
-# The derivative of `R` is `ϖ(X_R, ·)` in the sense of Gateaux (blueprint-W `bpW:w5:taylor`, `t-scale`, `t-field`)
+# The derivative of `R` is `ϖ(X_R, ·)` in the sense of Gateaux (blueprint-W `bpW:w5:taylor`,
+`t-scale`, `t-field`)
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 

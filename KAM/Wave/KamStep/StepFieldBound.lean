@@ -10,7 +10,8 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 
 /-!
-# The field norm of a Taylor polynomial is W4's `|X_R|_r` (blueprint-W `bpW:w5:solve`, `bpW:w5:flow`)
+# The field norm of a Taylor polynomial is W4's `|X_R|_r` (blueprint-W `bpW:w5:solve`,
+`bpW:w5:flow`)
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
@@ -90,7 +91,8 @@ theorem stepFieldS_norm (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : HomT
   rw [stepPhase_norm_eq]
   exact kamNorm_stepField ha hp hpb T (Fact.out : 0 < r) _
 
-/-- W4's field bound `|X_R|_r ≤ ε` on `D(s,r)` is the bound `‖Z W‖ ≤ ε` on `D(s,r) ⊂ StepPhase r`. -/
+/-- W4's field bound `|X_R|_r ≤ ε` on `D(s,r)` is the bound `‖Z W‖ ≤ ε` on `D(s,r) ⊂ StepPhase r`.
+    -/
 theorem stepFieldS_bound (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : HomTaylor_gen a p pb s)
     (r : ℝ) [Fact (0 < r)] {ε : ℝ} (hX : HomFieldBound_gen ha hp hpb r ε T) {s' : ℝ}
     (hs' : s' ≤ s) {W : StepPhase r} (hW : W ∈ stepDomain r s' r) :
@@ -101,7 +103,8 @@ theorem stepFieldS_bound (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : Hom
   exact hX _ _ _ _ (homDomain_stepZ hW')
 
 /-- **The flow hypotheses for the field of a Taylor polynomial** (`bpW:w5:flow`, concrete):
-`FlowHyp (ι ∘ Z) V U M (σ/4)` with `V = D(s-σ,r)`, `U = D(s-2σ,r/2)` and `M` a bound for `|X_F|_r`. -/
+`FlowHyp (ι ∘ Z) V U M (σ/4)` with `V = D(s-σ,r)`, `U = D(s-2σ,r/2)` and `M` a bound for `|X_F|_r`.
+-/
 theorem stepFlowHyp_concrete (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : HomTaylor_gen a p pb s)
     (r : ℝ) [Fact (0 < r)] {σ M : ℝ} (hσ : 0 < σ) (hσ1 : σ ≤ 1) (hσs : 2 * σ < s)
     (hX : HomFieldBound_gen ha hp hpb r M T) (hM : 0 < M) (hMδ : M < σ / 4) :

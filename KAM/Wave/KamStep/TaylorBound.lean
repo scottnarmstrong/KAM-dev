@@ -132,9 +132,11 @@ theorem norm_homSqrt2_inv_le : ‖homSqrt2⁻¹‖ ≤ 1 := by
 theorem kamNorm_fderiv_iota_le (hr : 0 < r) (hX : DifferentiableOn ℂ X (kamDomain s r)) {ε : ℝ}
     (hb : ∀ z ∈ kamDomain s r, kamNorm r (X z) ≤ ε) (hε : 0 ≤ ε) {θ : Fin 2 → ℂ}
     (hθ : θ ∈ complexStrip 2 s) (z : HomL2) :
-    (‖(fderiv ℂ X (stepW0L θ) (stepIotaZ z)).2.2.1‖ + ‖(fderiv ℂ X (stepW0L θ) (stepIotaZ z)).2.2.2‖ ≤
+    (‖(fderiv ℂ X (stepW0L θ) (stepIotaZ z)).2.2.1‖ + ‖(fderiv ℂ X (stepW0L θ) (stepIotaZ
+        z)).2.2.2‖ ≤
         2 * ε * ‖z‖) ∧
-    (‖(fderiv ℂ X (stepW0L θ) (stepIotaZb z)).2.2.1‖ + ‖(fderiv ℂ X (stepW0L θ) (stepIotaZb z)).2.2.2‖ ≤
+    (‖(fderiv ℂ X (stepW0L θ) (stepIotaZb z)).2.2.1‖ + ‖(fderiv ℂ X (stepW0L θ) (stepIotaZb
+        z)).2.2.2‖ ≤
         2 * ε * ‖z‖) := by
   have hc := norm_homSqrt2_inv_le
   have hz0 := norm_nonneg z

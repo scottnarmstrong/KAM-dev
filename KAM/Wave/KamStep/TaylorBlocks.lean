@@ -114,16 +114,19 @@ def blockQt (A : KamPhase →L[ℂ] KamPhase) : HomOp :=
   (-Complex.I) • stepZb.comp (A.comp stepIotaZb)
 
 theorem stepSymp_iotaZ (ha : 0 ≤ a) (hpp : 0 ≤ p + pb) (Y : KamPhase) (z : HomL2) :
-    stepSymp (q := p) (q' := pb) ha hpp Y (stepIotaZ z) = -Complex.I * stepPr ha hpp (stepZb Y) z := by
+    stepSymp (q := p) (q' := pb) ha hpp Y (stepIotaZ z) = -Complex.I * stepPr ha hpp (stepZb Y) z
+        := by
   rw [stepSymp_z, stepZb_iotaZ, stepZ_iotaZ]
   simp [stepIotaZ_apply]
 
 theorem stepSymp_iotaZb (ha : 0 ≤ a) (hpp : 0 ≤ p + pb) (Y : KamPhase) (z : HomL2) :
-    stepSymp (q := p) (q' := pb) ha hpp Y (stepIotaZb z) = Complex.I * stepPr ha hpp (stepZ Y) z := by
+    stepSymp (q := p) (q' := pb) ha hpp Y (stepIotaZb z) = Complex.I * stepPr ha hpp (stepZ Y) z :=
+        by
   rw [stepSymp_z, stepZb_iotaZb, stepZ_iotaZb]
   simp [stepIotaZb_apply]
 
-theorem stepPr_blockP (ha : 0 ≤ a) (hpp : 0 ≤ p + pb) (A : KamPhase →L[ℂ] KamPhase) (z₁ z₂ : HomL2) :
+theorem stepPr_blockP (ha : 0 ≤ a) (hpp : 0 ≤ p + pb) (A : KamPhase →L[ℂ] KamPhase) (z₁ z₂ : HomL2)
+    :
     stepPr ha hpp (blockP A z₁) z₂ =
       (1 / 2 : ℂ) * stepSymp (q := p) (q' := pb) ha hpp (A (stepIotaZ z₁)) (stepIotaZ z₂) := by
   rw [stepSymp_iotaZ]
@@ -173,7 +176,8 @@ theorem homNormalEntry_symm_of_pr (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb)
     (h : ∀ x y, stepPr ha (homPP hp hpb) (A x) y = stepPr ha (homPP hp hpb) (A' y) x)
     (i j : ℕ+) :
     homNormalEntry_gen a p pb A i j = homNormalEntry_gen a p pb A' j i := by
-  rw [homNormalEntry_eq_pr ha hp hpb, homNormalEntry_eq_pr ha hp hpb, h (kamBasis ℂ j) (kamBasis ℂ i),
+  rw [homNormalEntry_eq_pr ha hp hpb, homNormalEntry_eq_pr ha hp hpb, h (kamBasis ℂ j) (kamBasis ℂ
+      i),
     mul_comm (homWt a p i : ℝ)]
 
 end KAM.Wave

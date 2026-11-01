@@ -83,9 +83,11 @@ theorem stepXplusA_bounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 
   have hq2 : ‖transNop ι (stepFieldS ha hp hpb FT₂ r) 1 w‖ < 1 :=
     lt_of_le_of_lt (stepN_le' ha hp hpb hσ hσ1 (by linarith : 3 * σ < s) hF₂ hM0 hMσ (hU'sub hw)
       ⟨by norm_num, le_rfl⟩) (by norm_num)
-  have hy₁ := transSolve_spec hq1 (stepXPS X₁ r (holoFlow (smoothField ι (stepFieldS ha hp hpb FT₁ r)) 1 w) -
+  have hy₁ := transSolve_spec hq1 (stepXPS X₁ r (holoFlow (smoothField ι (stepFieldS ha hp hpb FT₁
+      r)) 1 w) -
           stepFieldS ha hp hpb T₁ r (holoFlow (smoothField ι (stepFieldS ha hp hpb FT₁ r)) 1 w))
-  have hy₂ := transSolve_spec hq2 (stepXPS X₂ r (holoFlow (smoothField ι (stepFieldS ha hp hpb FT₂ r)) 1 w) -
+  have hy₂ := transSolve_spec hq2 (stepXPS X₂ r (holoFlow (smoothField ι (stepFieldS ha hp hpb FT₂
+      r)) 1 w) -
           stepFieldS ha hp hpb T₂ r (holoFlow (smoothField ι (stepFieldS ha hp hpb FT₂ r)) 1 w))
   have := stepPullback_bounds ha hp hpb hσ hσ1 hσs hη0 hη hF₁ hF₂ hM0 hMs hN₁ hZZ hY0
     hY₁ hY₂ hb₁ hb₂ hd hw (t := 1) ⟨by norm_num, le_rfl⟩ hy₁ hy₂
@@ -203,7 +205,8 @@ theorem stepXplusB_time_bounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (h
         have e2 : 4 * (Mf * Δ₁ + e₁ * N₁) / σ = 4 * ((Mf * Δ₁ + e₁ * N₁) / σ) := by ring
         have e3 : 8 * (Mf * Δ₁ + e₁ * N₁) / σ = 8 * ((Mf * Δ₁ + e₁ * N₁) / σ) := by ring
         rw [e2, e3]; linarith
-      nlinarith [ht.1, ht.2, norm_nonneg (stepBrZ ha hp hpb (homNhatTaylor_gen T₁) FT₁ (StepPhase.ofK (r := r) x) -
+      nlinarith [ht.1, ht.2, norm_nonneg (stepBrZ ha hp hpb (homNhatTaylor_gen T₁) FT₁
+          (StepPhase.ofK (r := r) x) -
           stepBrZ ha hp hpb (homNhatTaylor_gen T₂) FT₂ (StepPhase.ofK (r := r) x)),
         norm_nonneg (stepBrZ ha hp hpb T₁ FT₁ (StepPhase.ofK (r := r) x) -
           stepBrZ ha hp hpb T₂ FT₂ (StepPhase.ofK (r := r) x))]
@@ -227,7 +230,8 @@ theorem stepYfam_time_lip (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 
     {w : StepPhase r} (hw : w ∈ stepDomain r (s - 5 * σ) (η * r)) :
     ∃ L : ℝ, 0 ≤ L ∧ ∀ t ∈ Icc (0 : ℝ) 1, ∀ t' ∈ Icc (0 : ℝ) 1,
       ‖yfam (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb FT r) (stepZgfam ha hp hpb T FT) t w -
-        yfam (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb FT r) (stepZgfam ha hp hpb T FT) t' w‖
+        yfam (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb FT r) (stepZgfam ha hp hpb T FT) t'
+            w‖
           ≤ L * |t - t'| := by
   have hr : 0 < r := Fact.out
   have hMδ : Mf < σ / 4 := by linarith
@@ -257,7 +261,8 @@ theorem stepYfam_time_lip (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 
       ‖stepZgfam ha hp hpb T FT t z‖ ≤ 8 * e₁ * Mf / σ := fun t ht z hz =>
     norm_stepZgfam_le hσ hσ1 (by linarith : 2 * σ < s) he₁ hM0.le hT hTn hF ht hz
   have hnt : ∀ t ∈ Icc (0 : ℝ) 1, ∀ t' ∈ Icc (0 : ℝ) 1, ∀ z ∈ stepDomain r (s - 2 * σ) (r / 2),
-      ‖stepZgfam ha hp hpb T FT t z - stepZgfam ha hp hpb T FT t' z‖ ≤ 12 * e₁ * Mf / σ * |t - t'| :=
+      ‖stepZgfam ha hp hpb T FT t z - stepZgfam ha hp hpb T FT t' z‖ ≤ 12 * e₁ * Mf / σ * |t - t'|
+          :=
     fun t ht t' ht' z hz => norm_stepZgfam_sub_le hσ hσ1 (by linarith : 2 * σ < s) he₁ hM0.le
       hT hTn hF hz
   refine ⟨((8 * e₁ * Mf / σ) / (σ / 16) * Mf + 12 * e₁ * Mf / σ +
@@ -304,7 +309,8 @@ theorem stepXplusB_bounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 
     hTn₁ hTn₂ hΔT hΔTn hF₁ hF₂ hΔF hM0 hMs hw (t := t) ht
   refine ⟨?_, ?_⟩
   · have := stepNu_integral_sub_le hρ (f₁ := fun t => yfam ι (stepFieldS ha hp hpb FT₁ r)
-      (stepZgfam ha hp hpb T₁ FT₁) t w) (f₂ := fun _ => 0) (L₁ := L₁) (L₂ := 0) (K := 2 * (η⁻¹ ^ 2 * (8 * e₁ * Mf / σ)))
+      (stepZgfam ha hp hpb T₁ FT₁) t w) (f₂ := fun _ => 0) (L₁ := L₁) (L₂ := 0) (K := 2 * (η⁻¹ ^ 2
+          * (8 * e₁ * Mf / σ)))
       hL₁ le_rfl hl₁ (fun _ _ _ _ => by simp) (fun t ht => by
         simpa using (hb t ht).1)
     simpa using this

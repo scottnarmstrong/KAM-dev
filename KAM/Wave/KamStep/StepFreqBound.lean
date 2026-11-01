@@ -16,9 +16,11 @@ import Mathlib.Tactic.Positivity
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
-For a Taylor element `R` put `ω̂ = Re [b]` and `Ω̂_j = Re [Q]_{jj}` (the real parts of the zeroth Fourier
+For a Taylor element `R` put `ω̂ = Re [b]` and `Ω̂_j = Re [Q]_{jj}` (the real parts of the zeroth
+Fourier
 coefficients; they are the coefficients of `N̂`, real when `R` is real). `stepOmegaHat_bound`,
-`stepOmegaTail_bound` give the bounds `|ω̂| ≤ 2π ε`, `(j+2)^{p_+-p}|Ω̂_j| ≤ ε` from a `HomFieldBound` with
+`stepOmegaTail_bound` give the bounds `|ω̂| ≤ 2π ε`, `(j+2)^{p_+-p}|Ω̂_j| ≤ ε` from a
+`HomFieldBound` with
 constant `ε`, and the same for the difference of two elements with the Lipschitz constant.
 -/
 

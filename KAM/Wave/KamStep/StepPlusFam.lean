@@ -16,7 +16,8 @@ import Mathlib.Tactic.Positivity
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
 `stepTaylorFam`: the family `ξ ↦ R_ξ` (`stepTaylorOf` on the parameter set, `zeroTaylor` off it).
-`stepPlus_famBound`: `FamBound` of `X_+` on `D(s-5σ, ηr)` in the norm at scale `ηr`, with the constant
+`stepPlus_famBound`: `FamBound` of `X_+` on `D(s-5σ, ηr)` in the norm at scale `ηr`, with the
+constant
 `896ηε + 168 ε M_F/(ση²)`.
 -/
 

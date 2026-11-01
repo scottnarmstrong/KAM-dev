@@ -11,7 +11,8 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 
 /-!
-# Margins of the step domains (blueprint-W `bpW:w5:flow` step `f-der`, `bpW:w5:pullback` step `p-dy`)
+# Margins of the step domains (blueprint-W `bpW:w5:flow` step `f-der`, `bpW:w5:pullback` step
+`p-dy`)
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 

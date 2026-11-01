@@ -15,7 +15,8 @@ import Mathlib.Tactic.Positivity
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
 `stepPplus P X FT T`: `P_+ = (P - R)∘Φ + ∫₀¹ {R(t),F}∘φ^t dt` as a function of `w ∈ KamPhase`
-(through `ofK`), `stepXplus`: its field. `stepPlus_isSmoothing`: `(P_+, X_+) ∈ 𝒮_{p_+}(D(s-5σ, ηr))`.
+(through `ofK`), `stepXplus`: its field. `stepPlus_isSmoothing`: `(P_+, X_+) ∈ 𝒮_{p_+}(D(s-5σ,
+ηr))`.
 -/
 
 @[expose] public noncomputable section
@@ -84,7 +85,8 @@ theorem stepPlus_isSmoothing (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ
     (hF : HomFieldBound_gen ha hp hpb r Mf FT) (hMf0 : 0 < Mf) (hMf : Mf ≤ σ / 1024) :
     IsSmoothing (p := p) ha (by linarith : 0 ≤ pb + p) (kamDomain (s - 5 * σ) (η * r))
       (fun w : KamPhase => stepPplusS ha hp hpb P T FT (StepPhase.ofK (r := r) w))
-      (fun w : KamPhase => StepPhase.toK (stepXplusS ha hp hpb X T FT (StepPhase.ofK (r := r) w))) := by
+      (fun w : KamPhase => StepPhase.toK (stepXplusS ha hp hpb X T FT (StepPhase.ofK (r := r) w)))
+          := by
   have hA := stepPlusA_smoothing ha hp hpb hσ hσ1 hσs hη0 hη hP T FT hF hMf0 hMf
   have hB := stepPlus_integral_smoothing ha hp hpb hσ hσ1 hσs hη0 hη T FT he₁ hT hTn hF hMf0 hMf
   obtain ⟨hA1, hA2⟩ := hA
@@ -100,7 +102,8 @@ theorem stepPlus_isSmoothing (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ
       (hXd.comp (stepOfKCLM r).differentiable.differentiableOn (fun w hw => hw))
   · intro w hw W
     have h1 := hderiv (StepPhase.ofK (r := r) w) hw
-    have h2 : HasFDerivAt (fun w : KamPhase => stepPplusS ha hp hpb P T FT (StepPhase.ofK (r := r) w))
+    have h2 : HasFDerivAt (fun w : KamPhase => stepPplusS ha hp hpb P T FT (StepPhase.ofK (r := r)
+        w))
         ((stepSympCLM (q := p) (q' := p) ha (by linarith) r
           (stepEmbedCLM a p pb hpb r (stepXplusS ha hp hpb X T FT (StepPhase.ofK (r := r) w)))).comp
             (stepOfKCLM r)) w := h1.comp w (stepOfKCLM r).hasFDerivAt

@@ -16,7 +16,8 @@ import Mathlib.Tactic.Positivity
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
-`stepFlow_bounds`: for two Taylor fields `F_1, F_2` with `|X_{F_i}|_r ≤ M₀`, `|X_{F_1} - X_{F_2}|_r ≤ N`,
+`stepFlow_bounds`: for two Taylor fields `F_1, F_2` with `|X_{F_i}|_r ≤ M₀`, `|X_{F_1} - X_{F_2}|_r
+≤ N`,
 `M₀ ≤ σ/1024`, on `w ∈ D(s-3σ, r/4)`: `Φ = φ¹` satisfies `|Φ_1 w - w| ≤ M₀`,
 `|(Φ_1 - Φ_2) w| ≤ 2N`, `|DΦ_1(w) - I| ≤ 8M₀/σ`, `|DΦ_1(w) - DΦ_2(w)| ≤ 16N/σ`.
 With `M₀ + λ M₁ ≤ M_F`, `N = M₁ d` these give the `λ`-bounds `2M_F` and `16M_F/σ`.
@@ -93,7 +94,8 @@ theorem stepFlow_bounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 
           (stepFieldS ha hp hpb FT₁ r) 1) w‖ := ContinuousLinearMap.opNorm_comp_le _ _
       _ ≤ 1 * (M₀ / (σ / 8)) := by
           refine mul_le_mul ?_ this (norm_nonneg _) zero_le_one
-          exact ContinuousLinearMap.opNorm_le_bound _ zero_le_one (fun x => by rw [one_mul]; exact hι x)
+          exact ContinuousLinearMap.opNorm_le_bound _ zero_le_one
+            (fun x => by rw [one_mul]; exact hι x)
       _ = 8 * M₀ / σ := by field_simp
   · rw [fderiv_holoFlow_smooth hFl₁ hZ₁ hb₁ hU h1, fderiv_holoFlow_smooth hFl₂ hZ₂ hb₂ hU h1,
       add_sub_add_left_eq_sub, ← ContinuousLinearMap.comp_sub]
@@ -104,7 +106,8 @@ theorem stepFlow_bounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 
           (stepFieldS ha hp hpb FT₂ r) 1) w‖ := ContinuousLinearMap.opNorm_comp_le _ _
       _ ≤ 1 * (2 * N / (σ / 8)) := by
           refine mul_le_mul ?_ this (norm_nonneg _) zero_le_one
-          exact ContinuousLinearMap.opNorm_le_bound _ zero_le_one (fun x => by rw [one_mul]; exact hι x)
+          exact ContinuousLinearMap.opNorm_le_bound _ zero_le_one
+            (fun x => by rw [one_mul]; exact hι x)
       _ = 16 * N / σ := by field_simp; ring
 
 end KAM.Wave

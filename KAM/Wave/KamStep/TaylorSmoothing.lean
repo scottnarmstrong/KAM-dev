@@ -62,7 +62,8 @@ theorem stepSymp_dX_symm (ha : 0 ≤ a) (hqq : 0 ≤ pb + p)
     hP.holoX.differentiableAt ((kamDomain_isOpen s r).mem_nhds hw)
   have hev : ∀ᶠ y in 𝓝 w, HasFDerivAt P (sympK (q := pb) (q' := p) ha hqq (X y)) y := by
     filter_upwards [(kamDomain_isOpen s r).mem_nhds hw] with y hy
-    have hd : DifferentiableAt ℂ P y := hP.holoP.differentiableAt ((kamDomain_isOpen s r).mem_nhds hy)
+    have hd : DifferentiableAt ℂ P y := hP.holoP.differentiableAt ((kamDomain_isOpen s r).mem_nhds
+        hy)
     have := hd.hasFDerivAt
     rwa [fderiv_eq_sympK ha hqq hP hy] at this
   have hx : HasFDerivAt (fun y => sympK (q := pb) (q' := p) ha hqq (X y))

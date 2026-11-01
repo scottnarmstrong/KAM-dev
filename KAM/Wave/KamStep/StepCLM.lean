@@ -80,7 +80,8 @@ def stepSympCLM (ha : 0 ≤ a) (hqq' : 0 ≤ q + q') (r : ℝ) [Fact (0 < r)] :
     StepPhase r →L[ℂ] StepPhase r →L[ℂ] ℂ :=
   LinearMap.mkContinuous₂ (stepSympLin ha hqq' r) ((4 * Real.pi + 1) * r ^ 2) fun W W' => by
     have := norm_stepSymp_le ha hqq' (Fact.out : 0 < r) (StepPhase.toK W) (StepPhase.toK W')
-    have e : ‖stepSympLin ha hqq' r W W'‖ = ‖stepSymp ha hqq' (StepPhase.toK W) (StepPhase.toK W')‖ :=
+    have e : ‖stepSympLin ha hqq' r W W'‖ = ‖stepSymp ha hqq' (StepPhase.toK W) (StepPhase.toK W')‖
+        :=
       rfl
     rw [e, stepPhase_norm_eq, stepPhase_norm_eq, ← mul_assoc] at *
     exact this

@@ -100,7 +100,8 @@ theorem stepFieldS_skew (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : HomT
     stepSympCLM (q := p) (q' := p) ha (by linarith) r
         (fderiv ℂ (smoothField (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb T r)) x A) C
       + stepSympCLM (q := p) (q' := p) ha (by linarith) r A
-        (fderiv ℂ (smoothField (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb T r)) x C) = 0 := by
+        (fderiv ℂ (smoothField (stepEmbedCLM a p pb hpb r) (stepFieldS ha hp hpb T r)) x C) = 0 :=
+            by
   have hopen : IsOpen {y : StepPhase r | (StepPhase.toK y).1 ∈ complexStrip 2 s} :=
     ((isOpen_complexStrip 2 s).preimage (continuous_fst.comp (stepPhase_toK_continuous r)))
   have hG : ∀ᶠ y in 𝓝 x, HasFDerivAt (stepFS ha hp hpb T r)

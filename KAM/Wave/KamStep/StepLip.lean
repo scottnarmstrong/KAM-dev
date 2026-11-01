@@ -28,7 +28,8 @@ namespace KAM.Wave
 
 open KAM
 
-theorem kamNorm_ball_mem {S σ ρ : ℝ} (hσ : 0 < σ) (hσ1 : σ ≤ 1) (hSσ : σ < S) (hρ : 0 < ρ) {x W : KamPhase}
+theorem kamNorm_ball_mem {S σ ρ : ℝ} (hσ : 0 < σ) (hσ1 : σ ≤ 1) (hSσ : σ < S) (hρ : 0 < ρ) {x W :
+    KamPhase}
     (hx : x ∈ kamDomain (S - σ) (2 * ρ)) (hW : kamNorm ρ W < σ / 2) :
     x + W ∈ kamDomain S (4 * ρ) := by
   have h4 : 0 < 4 * ρ := by positivity

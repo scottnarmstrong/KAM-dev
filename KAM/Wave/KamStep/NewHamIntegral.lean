@@ -33,7 +33,8 @@ variable {F G : Type*} [NormedAddCommGroup F] [NormedSpace ℂ F] [CompleteSpace
 theorem differentiableOn_transNop (h : FlowHyp (smoothField ι Z) V U M δ)
     (hZ : DifferentiableOn ℂ Z V) (hb : ∀ z ∈ V, ‖Z z‖ ≤ M) {t : ℝ} (ht : t ∈ Icc (-1 : ℝ) 1) :
     DifferentiableOn ℂ (fun w => transNop ι Z t w) U := by
-  have h1 := differentiableOn_fderiv_of_holomorphic h.isOpen_U (differentiableOn_smoothDisp h hZ hb ht)
+  have h1 := differentiableOn_fderiv_of_holomorphic h.isOpen_U (differentiableOn_smoothDisp h hZ hb
+      ht)
   exact h1.clm_comp (differentiableOn_const ι)
 
 /-- **`∫₀¹ g_t ∘ φ^t` is a smoothing Hamiltonian** (`bpW:w5:new-ham` (ii), `n-field`). -/
@@ -98,7 +99,8 @@ theorem newHam_integral_smoothing (h : FlowHyp (smoothField ι Z) V U M δ)
       hballV₂ w hw _ (hflow_ball w hw t ht) (mem_ball_self hδ₂)
     have hZd : DifferentiableAt ℂ (Zg t) (holoFlow (smoothField ι Z) t w) :=
       (hZg t ht).differentiableAt (hV₂.mem_nhds hφmem)
-    exact (differentiableAt_transSolve_apply hNd (hZd.comp w hφd) (hq1 w hw t ht)).differentiableWithinAt
+    exact (differentiableAt_transSolve_apply hNd (hZd.comp w hφd) (hq1 w hw t
+        ht)).differentiableWithinAt
   · -- Lipschitz in t of the scalar family
     intro w hw t ht t' ht'
     have hwU := hU'U hw

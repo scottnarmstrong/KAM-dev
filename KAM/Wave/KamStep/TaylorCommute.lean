@@ -13,7 +13,8 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 
 /-!
-# Taylor coefficients commute with a parameter derivative (blueprint-W `bpW:w5:taylor`, step `t-field`)
+# Taylor coefficients commute with a parameter derivative (blueprint-W `bpW:w5:taylor`, step
+`t-field`)
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
@@ -63,15 +64,18 @@ theorem analyticOnNhd_partial {G : (Fin 2 → ℂ) → ℂ} (hS : IsOpen S) (hG 
     (v : Fin 2 → ℂ) : AnalyticOnNhd ℂ (fun y => fderiv ℂ G y v) S := fun y hy =>
   (ContinuousLinearMap.apply ℂ ℂ v).analyticAt _ |>.comp (hG.fderiv_of_isOpen hS y hy)
 
-theorem hasDerivAt_taylorCoeff_zero (hS : IsOpen S) (hΦ : AnalyticOnNhd ℂ Φ S) (h0 : (0 : Fin 2 → ℂ) ∈ S) :
+theorem hasDerivAt_taylorCoeff_zero (hS : IsOpen S) (hΦ : AnalyticOnNhd ℂ Φ S) (h0 : (0 : Fin 2 →
+    ℂ) ∈ S) :
     HasDerivAt (fun ε : ℂ => taylorCoeff (fun t : ℂ => Φ (t • e0 + ε • e1)) 0)
       (taylorCoeff (fun t : ℂ => fderiv ℂ Φ (t • e0) e1) 0) 0 := by
-  have h := hasDerivAt_line (G := Φ) (q := 0) (v := e1) (t := 0) (by simpa using (hΦ 0 h0).differentiableAt)
+  have h := hasDerivAt_line (G := Φ) (q := 0) (v := e1) (t := 0) (by simpa using (hΦ 0
+      h0).differentiableAt)
   simpa [taylorCoeff] using h
 
 theorem line_eventually_mem (hS : IsOpen S) (h0 : (0 : Fin 2 → ℂ) ∈ S) :
     ∀ᶠ ε in 𝓝 (0 : ℂ), ε • e1 ∈ S := by
-  have hc : ContinuousAt (fun ε : ℂ => ε • e1) 0 := (continuous_id.smul continuous_const).continuousAt
+  have hc : ContinuousAt (fun ε : ℂ => ε • e1) 0 := (continuous_id.smul
+      continuous_const).continuousAt
   exact hc.eventually (hS.mem_nhds (by simpa using h0))
 
 theorem hasDerivAt_taylorCoeff_one (hS : IsOpen S) (hΦ : AnalyticOnNhd ℂ Φ S)
@@ -91,7 +95,8 @@ theorem hasDerivAt_taylorCoeff_one (hS : IsOpen S) (hΦ : AnalyticOnNhd ℂ Φ S
       funext t; rw [add_comm]
     rw [e]
     simpa using this.deriv
-  have h1 : HasDerivAt (fun ε : ℂ => fderiv ℂ Φ (ε • e1) e0) (fderiv ℂ (fun y => fderiv ℂ Φ y e0) 0 e1) 0 := by
+  have h1 : HasDerivAt (fun ε : ℂ => fderiv ℂ Φ (ε • e1) e0) (fderiv ℂ (fun y => fderiv ℂ Φ y e0) 0
+      e1) 0 := by
     have := hasDerivAt_line (G := fun y => fderiv ℂ Φ y e0) (q := 0) (v := e1) (t := 0)
       (by simpa using (hD1 0 h0).differentiableAt)
     simpa using this
@@ -106,7 +111,8 @@ theorem hasDerivAt_taylorCoeff_one (hS : IsOpen S) (hΦ : AnalyticOnNhd ℂ Φ S
 
 theorem line0_eventually_mem (hS : IsOpen S) (h0 : (0 : Fin 2 → ℂ) ∈ S) :
     ∀ᶠ t in 𝓝 (0 : ℂ), t • e0 ∈ S := by
-  have hc : ContinuousAt (fun t : ℂ => t • e0) 0 := (continuous_id.smul continuous_const).continuousAt
+  have hc : ContinuousAt (fun t : ℂ => t • e0) 0 := (continuous_id.smul
+      continuous_const).continuousAt
   exact hc.eventually (hS.mem_nhds (by simpa using h0))
 
 theorem taylorCoeff_two {g : ℂ → ℂ} : taylorCoeff g 2 = (2 : ℂ)⁻¹ * deriv (deriv g) 0 := by

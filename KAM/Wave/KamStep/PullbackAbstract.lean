@@ -13,11 +13,13 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 
 /-!
-# Abstract pull-back estimates for `y + N y = u` (blueprint-W `bpW:w5:pullback`, steps `p-inv`, `p-ass`)
+# Abstract pull-back estimates for `y + N y = u` (blueprint-W `bpW:w5:pullback`, steps `p-inv`,
+`p-ass`)
 
 Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 
-For a function `ν` with `ν(x+y) ≤ ν x + ν y`, `ν(-x) = ν x`: if `y + N y = u` and `ν(N y) ≤ q ν(y)` then
+For a function `ν` with `ν(x+y) ≤ ν x + ν y`, `ν(-x) = ν x`: if `y + N y = u` and `ν(N y) ≤ q ν(y)`
+then
 `ν(y) ≤ ν(u)/(1-q)`; and for two solutions with the second operator `q`-contractive for `ν`,
 `ν(y₁ - y₂) ≤ (ν(u₁ - u₂) + ν((N₁ - N₂) y₁))/(1-q)`. These are the inverse-free forms of
 `‖(Dφ)⁻¹‖ ≤ 2` and `Δ(Dφ)⁻¹ = -(Dφ_ξ)⁻¹ ΔDφ (Dφ_ζ)⁻¹`.
