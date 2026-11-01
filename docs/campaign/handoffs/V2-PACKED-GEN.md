@@ -30,7 +30,41 @@ TODO
   rational witness `RefinedWitS` (`RefinedWit.num`, `sitesOk`, `coverOk`, `classicalOk`, `finalOkA`): no Gram,
   torsion or frame model. It is reused verbatim.
 
-**Gate (T′'s data, production form).** TODO
+**The jet route needs no new engine.** `RouteSharpJ.lean` (`framesRJ`, `routeARefinedPackedSJ :=
+routeARefinedSWith (framesRJ …)`, `checkV2With_jetSharp_sound`, and the assembly lemmas `ptD2All_of`,
+`torsRCoreJ_of`) instantiates the engine at kamx-pk-cons' `checkFrameMajorantsRJ`. It imports their modules, so it
+is not on this branch: it is compile-checked on the local integration branch `v2-packed-gen-int` (this branch
+merged with `v2-packed-prod` `0d5f39d9` and `v2-packed-cons` `75deebd9`; never to be landed) and is to be added
+after both land (text below, "Pending module"). kamx-pk-cons' `routeARefinedPackedJ` is the classical-site engine;
+LG00's tori need the sharp sites (classical sites: T″ fails, 0.98×).
+
+**Gate (T′'s data, production form): PASS.** `run_tree.sh TP gate` (log `runA`, 2026-11-01 14:41–15:40 UTC):
+353 modules, all passed, every process under the 4 GiB cap (largest charge 2.68 GB). The modules prove facts
+about LG00's own `LG00.TP.lg00Cert` and `lg00RW` (not copies): T′'s 279 data modules are reused from LG00's run18
+(no rebuild), everything else is built here.
+- `pkGateA` (`LG00Packed.TP.GateA`): `trFrameLOk … lg00Cert.weight pkRBook pkGMemo lg00RW.base.R.bL = true ∧
+  trFrameNOk … = true ∧ trFrameTOk … = true ∧ refinedCoreS 2 lg00Cert.params lg00Cert.freqBox lg00RW = true`,
+  from `pkFrameL/N/T` (T′'s packed Gram memo and rounded node memo, generated) and LG00's own
+  `lg00_refinedCore` (T′'s `Final` site modules, rebuilt against this core: the certified sharp sites).
+  With `checkHamClaim` and the conjuncts the packed frames share with `checkTorsionR` (decided once, by the base
+  checker's stages), `refinedTestPackedS_of` and `checkFrameMajorantsR_of` give
+  `refinedTestPackedS … lg00Cert lg00RW = true`; that assembly is the B3b route below.
+- **One-ulp attacks.** For each frame bound, the test at the largest packed sum (exact mirror) decides `true` and
+  one ulp (2⁻¹²⁸) below it decides `false`: `|Lᵀ|`, `|N|`, `|Nᵀ|`, `sup |T|` (8 modules, all as predicted).
+
+| part | modules | CPU-s | kernel-s | largest charge |
+|---|---:|---:|---:|---:|
+| packed data (Gram memo, node memo, books; shared) | 24 | 204.7 | — | 0.76 GB |
+| `FrameL` / `FrameN` / `FrameT` | 3 | 8.4 / 5.9 / 20.4 | 3.17 / 0.05 / 16.6 | 2.18 GB |
+| sharp sites and `refinedCoreS` (LG00's `Final` modules) | 37 | 848.1 | — | 2.68 GB |
+| `GateA` | 1 | 7.6 | 0 | 0.54 GB |
+| attacks (8) | 8 | 121.0 | 69.1 | 2.36 GB |
+| reused (T′ data, shared LG00 modules) | 280 | 0 | — | — |
+
+Kernel times are the profiler's (`LG00Packed` modules only; LG00's library has no profiler). `FrameT`'s kernel
+time is 16.6 s against 8.9 s for the first certificate's standalone probe (V2-PACKED-FRAMES); the run shared the
+machine with LG00's three workers (user anon at the 20 GB gate, 4.6 s of system time), and the profiler measures
+wall time. Not investigated further.
 
 ## (B) The whole-torus packed pipeline
 
