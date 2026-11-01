@@ -1,0 +1,61 @@
+{
+ "lg00_total_cpu_s": 108292.3,
+ "lg00_modules": 5183,
+ "main_closure": 5206,
+ "removable_modules": 732,
+ "removable_cpu_s": 14138.0,
+ "removable_groups": {
+  "Gram": [
+   89,
+   1425.6
+  ],
+  "KAM.LG00Cert.Final.FrameL": [
+   1,
+   45.9
+  ],
+  "KAM.LG00Cert.Final.FrameN": [
+   1,
+   247.2
+  ],
+  "KAM.LG00Cert.Final.FrameT": [
+   1,
+   279.8
+  ],
+  "KAM.LG00Cert.Final.Frames": [
+   1,
+   4.3
+  ],
+  "KAM.LG00Cert.Final.Torsion": [
+   1,
+   9.5
+  ],
+  "KAM.LG00Cert.Kernel.GramTwo": [
+   1,
+   0.0
+  ],
+  "Torsion": [
+   637,
+   12125.6
+  ]
+ },
+ "missing_from_ledger": [
+  "KAM.LG00Cert.Kernel.GramTwo"
+ ],
+ "packed_processes": {
+  "gram_B2": 9,
+  "torsion_B3b": 64,
+  "frames": 3
+ },
+ "packed_cpu_s": {
+  "gram_B2": 73.0,
+  "torsion_B3b": 1291.8,
+  "FRL": 7.0,
+  "FRN": 8.6,
+  "FRT": 22.1,
+  "total": 1402.5
+ },
+ "net_saving_cpu_s": 12735.5,
+ "net_saving_share_of_lg00": 0.1176,
+ "lg00_after_cpu_h": 26.54,
+ "lg00_before_cpu_h": 30.08
+}
