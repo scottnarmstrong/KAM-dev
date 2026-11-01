@@ -12,7 +12,8 @@ public import KAM.Planetary.StrongAMD.Geometry
 /-!
 # Safety of the sharp core
 
-Package LP-DOM, `LP:MAIN L8 (251–252)`, track LP, non-frozen.
+Package LP-DOM, `LP:MAIN L8 (251–252)`, track LP, non-frozen; the statement surface is proposed in
+docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 * D3 `strongCore_barrierState`: for `w` in the sharp core, `poincareProd ν 1 w` is a
   `BarrierState ν U (3δ/16)` with `U = cthickening (4 r_g) L_δ`.

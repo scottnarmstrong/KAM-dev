@@ -13,7 +13,8 @@ public import KAM.Planetary.Exponential.Setting
 /-!
 # The whole-sublevel planar analytic domain: level set, shared tube, sharp core
 
-Package LP-DOM, `LP:MAIN L8 (244–271)` with amendments N2 and N3, track LP, non-frozen.
+Package LP-DOM, `LP:MAIN L8 (244–271)` with amendments N2 and N3, track LP, non-frozen; the
+statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 * D0 `isCompact_strongLSet`, `strongLSet_subset_chamber`: the image `𝓛` of a compact positive
   strictly ordered `𝒜` under `a ↦ (ν_i √a_i)_i` is compact and lies in the chamber.
@@ -123,7 +124,7 @@ theorem exists_isSharedTube {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (hn : 2
 
 /-! ### D2: the sharp core -/
 
-/-- `Lδ` shorthand used by the core. -/
+/-- The shared compact action set `U = cthickening (4 r) 𝓛_δ` (N2), used by the core. -/
 abbrev _root_.KAM.Planetary.StrongAMD.sharedTube (ν : Fin n → ℝ) (L : Set (Fin n → ℝ))
     (δ r : ℝ) : Set (Fin n → ℝ) :=
   cthickening (4 * r) (strongLevelSet ν L δ)

@@ -13,7 +13,8 @@ public import KAM.Nekhoroshev.NormalForm.Setting
 # The scale choice (37) and the exponential horizon
 
 Package LP-NRS, `LP:MAIN L13 (444–458)` with `LP:MAIN L12 (381–428)` for the shape of `K`;
-track LP, non-frozen.  Amendments N6 (stopped radius `r = D₀ √μ`, improvement to `r/2`) and N4
+track LP, non-frozen; the statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Amendments N6 (stopped radius `r = D₀ √μ`, improvement to `r/2`) and N4
 ((35) is not a dependency) are respected.
 
 Pure scalar arithmetic: for the Lemma-13 route with `p = 2` (`conjExp 2 = 2`) the numeric premises
