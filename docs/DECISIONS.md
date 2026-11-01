@@ -494,3 +494,13 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - **Scope:** this approves the rulings, not yet the freeze itself. The exact final anchor and definition text
     (FREEZE-PROPOSAL draft 7, generated under these rulings) gets an independent statement audit and then goes to the
     owner for approval of the exact text, before anything enters `KAM/Frozen/` or `manifest/`.
+- **D60 (2026-11-01, 08:50 UTC) Track W audits run in parallel on codex-1 and codex-2.** *(Scott: "can you launch more
+  audits on codex-1 and codex-2 in parallel to clear th W lane up?")*
+  - Up to 3 concurrent W audit sessions, each in its own worktree with `w_audit.sh`. This replaces the
+    one-W-audit-at-a-time rule.
+  - Proposed split:
+    - W5 round 2, as deltas plus a separate full audit of action-angle and initial;
+    - W8-ASM now;
+    - the W6 delta when it is ready.
+  - Replays stay capped (4 GB, MemAvailable ≥ 8 GB). Quota is not rationed (D54). An audit that hits an account limit
+    resumes on the other account.
