@@ -5,7 +5,11 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
+public import KAM.Application.AngleGraph
 public import KAM.Application.Certified
+public import KAM.Application.ClockGraph
+public import KAM.Application.ClockGraphCert
+public import KAM.Application.ClockGraphCheck
 public import KAM.Application.Confinement.GlobalODE
 public import KAM.Application.Confinement.Level
 public import KAM.Application.Confinement.Periodic
@@ -17,6 +21,7 @@ public import KAM.Application.Invariance
 public import KAM.Application.Observables
 public import KAM.Application.Physical
 public import KAM.Application.RealTorus
+public import KAM.Application.Tests.ClockGraph
 public import KAM.Application.Tests.Confinement
 public import KAM.Application.Tests.Probes
 public import KAM.Application.Tests.Toy2
