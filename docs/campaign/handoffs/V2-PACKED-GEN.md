@@ -393,7 +393,9 @@ itself: they read only the Hamiltonian and its domain, which the copy has.
 - `gen_packed.py --ham-ported` emits `XferH` (`pkHamBounds := lg00_hamBounds`, `pkHamClaim := lg00_hamClaim`, the
   copy's) and the assembly `Asm.{BaseJH,EngineJH,CheckJH}`, `MainJH` beside the audited `MainJ` (unchanged, still
   built; the other 587 modules are shared and byte-identical).
-- `LG00P.TP.PK.MainJH` proves `pk_kamTorus` with the same statement; its closure contains no LG00 data.
+- `LG00P.TP.PK.MainJH` proves `pk_kamTorus` with the same statement; its closure contains no LG00 data. `#print
+  axioms` (`lake env lean AxH.lean`, 4 GB scope): `pk_kamTorus`, `pk_kamTorusStatement`, `pk_checkJ`, `pkHamBounds`,
+  `pkHamClaim`, `lg00Balls38` each `[propext, Classical.choice, Quot.sound]` (receipt `data/AxH.out`).
 
 | stage | LG00 run: modules | CPU-s | peak | packed route (`MainJH`): modules | CPU-s | peak | ratio |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -437,8 +439,13 @@ emits, then pass after pass mirrors kamx-packed's built T″ chain modules and b
 processes under 4 GB, anon < 18 GB, no start after 04:30 UTC; ends when `LG00P.TPP.PK.MainJ` passes). Log
 `~/kam-data/v2-packed-gen/runT2` (ledger), `runT2.out` (chain-free run), `runT2.jet.out` (driver).
 
-**State at 22:00 UTC:** chain-free part building (125 modules to build, 45 reused); kamx-packed: T″ low mirror done,
-full mirror due ≈ 22:12, Low chain ≈ 22:00–22:30, Full ≈ 22:45.
+**Chain-free part: built** (`runT2`, 21:37–21:52 UTC, 2 processes): 170 modules pass (125 built, 1,269.6 CPU-s,
+45 reused), no failure, no module built twice (`extra.tsv` empty), largest charge 3.62 GB (`Balls.T38b`; `T38a`
+2.93 GB, `T38` 0.50 GB).
+
+**For kamx-pk-cons' bridge:** LG00's `LG00.TPP.Data.Cert` and its closure (274 data modules, built by run18 in
+`lg00-app`) are reused into `kam-lg00` (`gen_pkg.py --keep-config`: sources copied, artifacts hardlinked); from the
+integration workspace `lake build --no-build LG00.TPP.Data.Cert`: `All targets up-to-date (3538 jobs)`.
 
 ## Checks and their output
 
