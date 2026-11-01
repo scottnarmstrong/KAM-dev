@@ -127,8 +127,8 @@ theorem lp1_planar_strongAMD_safety_source_general (hn : 2 ≤ n) (ν : Fin n �
   exact ⟨hph, ⟨hcht, hs, hamd⟩, hΛ, ha, ⟨hs, hdrift⟩, hs1, hs2, hd1, hd2, ⟨hs, ho, hosc, hpa,
     hd3, hd4⟩⟩
 
-/-- **LP1 through the source carriers, with MAIN's mass normalization** (`hνmax`, `hνle`; draft-2 text,
-unused premises). -/
+/-- **LP1 through the source carriers, with MAIN's mass normalization** (`hνmax`, `hνle`;
+the draft-2 text, unused premises). -/
 theorem lp1_planar_strongAMD_safety_source (hn : 2 ≤ n) (ν : Fin n → ℝ)
     (hν : ∀ i, 0 < ν i)
     (_hνmax : ∃ i, ν i = 1) (_hνle : ∀ i, ν i ≤ 1)
