@@ -1018,9 +1018,9 @@ EDGE: bpW:w4:index | blueprint-W/parts/w4-homological.tex#stepW:w4:liebd@L535-L5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-W-w4
-LEAN_STATUS: PROVED
+LEAN_STATUS: PARTIAL
 LEAN_REF: KAM.Wave.homOmega_le, KAM.Wave.homLie_Omega_mem, KAM.Wave.homLie_pairing_summable (KAM/Wave/Homological/Lie.lean, KAM/Wave/Homological/PPlusOne.lean)
-LEAN_NOTE: step of PARTIAL parent bpW:w4:lie; W4-HOMOLOGICAL audit 1 PASS ON SOURCE DOMAIN; continuity in (z, zbar) through the continuous_homPairRep_*_gen helpers (LemmaOneAll)
+LEAN_NOTE: step of PARTIAL parent bpW:w4:lie; W4-HOMOLOGICAL audit 1 PASS ON SOURCE DOMAIN for the bounds (|Omega_j| <= (1+M_0)(j+2), pairing bounds with q = p-1, q' = p+1); missing: continuity of L_N F and <<N,F>> in (z, zbar), the same clause missing from bpW:w4:lie (i), is not exported (only continuous_homPairRep_*_gen helpers, and continuity used inside homLemma1_equation_all)
 NOTE: -
 
 NODE: stepW:w4:liebr
