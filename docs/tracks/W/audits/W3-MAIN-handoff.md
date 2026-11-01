@@ -203,9 +203,9 @@ each exactly `[propext, Classical.choice, Quot.sound]`. No `sorry`/`axiom`/optio
 
 ### Not done
 
-- `Π` (= `Re 𝒵⁻¹`) is used for `𝒵⁻¹` in the real series terms; the separate statement that each
-  term `Φ_k(𝒵v₁,…,𝒵v_{2k+1})` is real for distinct real arguments (so that `Π` may be replaced by
-  `𝒵⁻¹` termwise) is not exported (only the diagonal reality `birkGamma_rho` exists).
+- `Π` (= `Re 𝒵⁻¹`) is used for `𝒵⁻¹` in the real series terms. Termwise reality for distinct real
+  arguments is exported elsewhere: `birkLieMulti_rho` (`LieBirkC1.lean:37`, from `LieRealMulti.lean:31`), on all
+  ordered tuples; it is outside `MainGammaRSeries`'s import closure (corrected per W3-MAIN-audit-2 note 1).
 - The blueprint's reality step for `∫Y dt` (commuting `ϱ` with the integral) is not formalized as such;
   `birkYInt_rho` is proved via `birkYInt = X_{K₂}` and `K₂ ∈ 𝒜(B_{ρ₁})`.
 - The internal `…Ext` helpers are public (distinctly named and documented internal), not `private`,
