@@ -10,6 +10,7 @@ public import KAM.Planetary.StrongAMD.AnalyticDomain.Core
 public import KAM.Planetary.StrongAMD.AnalyticDomain.Safety
 public import KAM.Planetary.StrongAMD.AnalyticDomain.Extension
 public import KAM.Planetary.StrongAMD.AnalyticDomain.Containment
+public import KAM.Planetary.StrongAMD.AnalyticDomain.Bounds
 
 /-!
 # The whole-sublevel planar analytic domain (facade)
