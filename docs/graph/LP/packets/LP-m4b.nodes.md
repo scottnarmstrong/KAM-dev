@@ -46,10 +46,10 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: lpM:L9#sup-to-fourier, lpM:s1:fast, lpM:s1:model
+DEPS: lpM:L9, lpM:s1:fast, lpM:s1:model
 ROUTES: -
 ROUTE_FOR: -
-EDGE: lpM:L9#sup-to-fourier | docs/tracks/LP/source/MAIN.md#L12@L405-L405 | the supremum-to-Fourier estimate from D_4 to D_3
+EDGE: lpM:L9 | docs/tracks/LP/source/MAIN.md#L12@L405-L405 | the supremum-to-Fourier estimate of Lemma 9, from D_4 to D_3
 EDGE: lpM:s1:fast | docs/tracks/LP/source/MAIN.md#L12@L405-L405 | ω(I) - ω(I^0) is O(r) on the action tube
 EDGE: lpM:s1:model | docs/tracks/LP/source/MAIN.md#L12@L405-L405 | H_μ = h + μ f in the chart (the perturbation f)
 TOPOLOGY_STATUS: PROPOSED
@@ -277,10 +277,10 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: lpM:L9#sup-to-fourier, lpM:L13#period-one, lpM:s1:dioph, lpM:s1:fast
+DEPS: lpM:L9, lpM:L13#period-one, lpM:s1:dioph, lpM:s1:fast
 ROUTES: -
 ROUTE_FOR: -
-EDGE: lpM:L9#sup-to-fourier | docs/tracks/LP/source/MAIN.md#L13@L442-L442 | the contour estimate of Lemma 9 applied to f/(2π) gives ε = M_2μ
+EDGE: lpM:L9 | docs/tracks/LP/source/MAIN.md#L13@L442-L442 | the contour estimate of Lemma 9 applied to f/(2π) gives ε = M_2μ
 EDGE: lpM:L13#period-one | docs/tracks/LP/source/MAIN.md#L13@L442-L442 | the period-one Hamiltonian f/(2π) and frequencies ω/(2π)
 EDGE: lpM:s1:dioph | docs/tracks/LP/source/MAIN.md#L13@L444-L444 | (5) gives ¦k·ω(I^0)/(2π)¦ ≥ α for 0 < ¦k¦_1 ≤ K
 EDGE: lpM:s1:fast | docs/tracks/LP/source/MAIN.md#L13@L442-L442 | L bounds the complex frequency derivative of h/(2π)

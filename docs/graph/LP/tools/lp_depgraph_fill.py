@@ -138,7 +138,8 @@ def main():
         if iid in COV:
             it = dict(it, DISPOSITION=COV[iid][0], REASON=clean(COV[iid][1]))
         if it.get("SOURCE") == "TODO":
-            it["SOURCE"] = stmts.get(iid, "TODO")
+            it["SOURCE"] = stmts.get(iid) or loc(spec.get("SOURCES", {}).get(iid)) if (
+                iid in stmts or iid in spec.get("SOURCES", {})) else "TODO"
         it.update(COVERAGE_STATUS="PROPOSED", EXTRACTOR=tag, REVIEWER="-")
         cov.append(it)
     for iid in list(COV) + list(DEFER):

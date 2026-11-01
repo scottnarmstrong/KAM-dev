@@ -794,62 +794,6 @@ LEAN_REF: -
 LEAN_NOTE: -
 NOTE: -
 
-NODE: lpM:L16:defs#sourceOscVelocity
-KIND: definition
-TITLE: actual velocity V_i on source osculating phases
-STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#L16@L512-L512
-PROOF_SOURCE: -
-CONTRACT_ID: planetary.d59.sourceOscVelocity
-CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: z : SourceOsculatingPhase n ν μ; i : Fin n (typing data)
-SOURCE_QUANTIFIERS: for every n, ν, μ, z, i
-SOURCE_CONCLUSION: the actual velocity V_i of Lemma 16 on the carrier
-CONSTANT_SCOPE: none
-FROZEN_FILE: KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscVelocity.lean
-FROZEN_DECL: KAM.Planetary.StrongAMD.sourceOscVelocity
-FROZEN_ANCHOR_ID: planetary.d59.sourceOscVelocity.v1
-FROZEN_ABI_SHA256: d258d9a9606eaa563fe0236af8462a70887af4e1aa8cd4d66d5bcc26a1a0de59
-DEPS: lpM:L16:defs#SourceOsculatingPhase, lpM:L16:defs#oscVelocity
-ROUTES: -
-ROUTE_FOR: -
-EDGE: lpM:L16:defs#SourceOsculatingPhase | docs/tracks/LP/source/MAIN.md#L16@L512-L512 | the carrier of source osculating phases
-EDGE: lpM:L16:defs#oscVelocity | docs/tracks/LP/source/MAIN.md#L16@L512-L512 | the value is the actual velocity V_i
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: kam-lp
-REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
-NOTE: -
-
-NODE: lpM:L16:defs#sourceOscParam
-KIND: definition
-TITLE: gravitational parameter k_i on source osculating phases
-STATEMENT_SOURCE: docs/tracks/LP/source/MAIN.md#L16@L512-L512
-PROOF_SOURCE: -
-CONTRACT_ID: planetary.d59.sourceOscParam
-CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: z : SourceOsculatingPhase n ν μ; i : Fin n (typing data)
-SOURCE_QUANTIFIERS: for every n, ν, μ, z, i
-SOURCE_CONCLUSION: the gravitational parameter k_i of Lemma 16 on the carrier
-CONSTANT_SCOPE: none
-FROZEN_FILE: KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscParam.lean
-FROZEN_DECL: KAM.Planetary.StrongAMD.sourceOscParam
-FROZEN_ANCHOR_ID: planetary.d59.sourceOscParam.v1
-FROZEN_ABI_SHA256: 5a70f7aae97bf0d1eaff664dc304453c7f382487d72d581975032ace8c7020f2
-DEPS: lpM:L16:defs#SourceOsculatingPhase, lpM:L16:defs#oscParam
-ROUTES: -
-ROUTE_FOR: -
-EDGE: lpM:L16:defs#SourceOsculatingPhase | docs/tracks/LP/source/MAIN.md#L16@L512-L512 | the carrier of source osculating phases
-EDGE: lpM:L16:defs#oscParam | docs/tracks/LP/source/MAIN.md#L16@L512-L512 | the value is the gravitational parameter k_i
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: kam-lp
-REVIEWER: sol-review-LP-LP-adef-pl
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
-NOTE: -
-
 NODE: lpM:L16:defs#sourceOscEnergy
 KIND: definition
 TITLE: osculating energy on source osculating phases

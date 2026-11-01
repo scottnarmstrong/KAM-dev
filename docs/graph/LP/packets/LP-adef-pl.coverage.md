@@ -127,11 +127,11 @@ REVIEWER: sol-review-LP-LP-adef-pl
 ITEM: lpM:L16:defs#sourceOscParam
 KIND: definition
 SOURCE: docs/tracks/LP/source/MAIN.md#L16@L512-L512
-DISPOSITION: NODE lpM:L16:defs#sourceOscParam
-REASON: frozen anchor planetary.d59.sourceOscParam.v1 (definition; MAIN L16 (508–525))
-COVERAGE_STATUS: REVIEWED
+DISPOSITION: EXCLUDED
+REASON: frozen anchor planetary.d59.sourceOscParam.v1 (definition; MAIN L16 (508–525)); outside every root closure of track LP: frozen carrier definition that no frozen root statement and no source proof uses (checked against all wave 1-3 nodes; D65 reachability)
+COVERAGE_STATUS: PROPOSED
 EXTRACTOR: kam-lp
-REVIEWER: sol-review-LP-LP-adef-pl
+REVIEWER: -
 
 ITEM: lpM:L16:defs#sourceOscPeri
 KIND: definition
@@ -145,11 +145,11 @@ REVIEWER: sol-review-LP-LP-adef-pl
 ITEM: lpM:L16:defs#sourceOscVelocity
 KIND: definition
 SOURCE: docs/tracks/LP/source/MAIN.md#L16@L512-L512
-DISPOSITION: NODE lpM:L16:defs#sourceOscVelocity
-REASON: frozen anchor planetary.d59.sourceOscVelocity.v1 (definition; MAIN L16 (508–525), (10))
-COVERAGE_STATUS: REVIEWED
+DISPOSITION: EXCLUDED
+REASON: frozen anchor planetary.d59.sourceOscVelocity.v1 (definition; MAIN L16 (508–525), (10)); outside every root closure of track LP: frozen carrier definition that no frozen root statement and no source proof uses (checked against all wave 1-3 nodes; D65 reachability)
+COVERAGE_STATUS: PROPOSED
 EXTRACTOR: kam-lp
-REVIEWER: sol-review-LP-LP-adef-pl
+REVIEWER: -
 
 ITEM: lpM:s1:chamber#OrderedActions
 KIND: definition

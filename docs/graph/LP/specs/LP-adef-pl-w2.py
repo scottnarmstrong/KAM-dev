@@ -1,7 +1,7 @@
 # Track LP, packet LP-adef-pl-w2: the 7 reused frozen definitions that the LP1/LP1-H statements import directly (Q6),
 # bound as LP anchor nodes. DEPS are the bound frozen definitions each declaration uses (read from the frozen file);
-# movingHamiltonian and KAM.Iso.IsHamiltonianSolutionOn (used by IsMovingSolutionOn) are typing data in wave 2
-# (SPEC §1.3); the latter becomes an LP anchor in wave 3 (packet LP-adef-sp), where the edge is added.
+# movingHamiltonian (used by IsMovingSolutionOn) is typing data (SPEC §1.3); KAM.Iso.IsHamiltonianSolutionOn is the
+# wave-3 reused anchor lpM:s1:model#IsHamiltonianSolutionOn (packet LP-adef-sp).
 
 T = "typing data"
 
@@ -38,9 +38,10 @@ NODES = {
         "n : ℕ; m : Fin n → ℝ; μ : ℝ; J : Set ℝ; z : ℝ → Phase (n*2) (" + T + ")", "for every n, m, μ, J, z",
         "z is a solution on J of Hamilton's equations of (1) (frozen movingHamiltonian with star mass and G one; the "
         "differentiability-guarded ODE predicate) and every z(t), t ∈ J, is collision-free (the open domain of (1))",
-        [PH, ("lpM:s1:model#NoCollision", "the configurations stay collision-free")],
+        [PH, ("lpM:s1:model#NoCollision", "the configurations stay collision-free"),
+         ("lpM:s1:model#IsHamiltonianSolutionOn", "the guarded Hamiltonian ODE predicate (bound in wave 3)")],
         note=R.format("planetary.d25.IsMovingSolutionOn.v1", "track P")
-        + "; movingHamiltonian and KAM.Iso.IsHamiltonianSolutionOn are typing data here"),
+        + "; movingHamiltonian is typing data"),
     "lpM:s1:model#MovingUniqueOn": d("s1:24-24", "z agrees with every local solution from z(0) on the overlap with J",
         "n : ℕ; m : Fin n → ℝ; μ : ℝ; J : Set ℝ; z : ℝ → Phase (n*2) (" + T + ")", "for every n, m, μ, J, z",
         "for every open convex U ∋ 0 and every solution w of (1) on U with w(0) = z(0), w = z on U ∩ J: uniqueness of the "

@@ -119,18 +119,19 @@ FROZEN_FILE: KAM/Frozen/Planetary/Defs/IsMovingSolutionOn.lean
 FROZEN_DECL: KAM.Planetary.IsMovingSolutionOn
 FROZEN_ANCHOR_ID: planetary.d25.IsMovingSolutionOn.v1
 FROZEN_ABI_SHA256: b09b6a924851b13c3ab5d708da0cd1cbeff1a2088abc7803ffaa956c257b3708
-DEPS: lpM:s1:model#Phase, lpM:s1:model#NoCollision
+DEPS: lpM:s1:model#Phase, lpM:s1:model#NoCollision, lpM:s1:model#IsHamiltonianSolutionOn
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:s1:model#Phase | docs/tracks/LP/source/MAIN.md#s1@L17-L17 | the phase type
 EDGE: lpM:s1:model#NoCollision | docs/tracks/LP/source/MAIN.md#s1@L17-L17 | the configurations stay collision-free
+EDGE: lpM:s1:model#IsHamiltonianSolutionOn | docs/tracks/LP/source/MAIN.md#s1@L17-L17 | the guarded Hamiltonian ODE predicate (bound in wave 3)
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: reused frozen definition planetary.d25.IsMovingSolutionOn.v1 (track P), bound as an LP anchor node (Q6); movingHamiltonian and KAM.Iso.IsHamiltonianSolutionOn are typing data here
+NOTE: reused frozen definition planetary.d25.IsMovingSolutionOn.v1 (track P), bound as an LP anchor node (Q6); movingHamiltonian is typing data
 
 NODE: lpM:s1:model#MovingUniqueOn
 KIND: definition

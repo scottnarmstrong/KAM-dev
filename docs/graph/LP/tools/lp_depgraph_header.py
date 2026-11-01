@@ -17,6 +17,10 @@ ap.add_argument("--root", default=".")
 a = ap.parse_args()
 g = Path(a.root) / "docs/graph/LP"
 rows = [r for r in csv.DictReader(open(g / "packets/anchor-binding.tsv"), delimiter="\t") if int(r["wave"]) <= a.wave]
+# frozen definitions outside every root closure (no frozen root statement and no source proof uses them; their
+# coverage items are EXCLUDED, SPEC §7): not graph nodes, so not in FROZEN_ANCHORS
+UNCONSUMED = {"lpM:L16:defs#sourceOscVelocity", "lpM:L16:defs#sourceOscParam", "lpM:L16:defs#spatialSourceOscVelocity"}
+rows = [r for r in rows if r["node"] not in UNCONSUMED]
 roots = [r["node"] for r in rows if r["kind"] == "theorem"]
 anchors = [r["node"] for r in rows]
 H = {
@@ -24,8 +28,9 @@ H = {
     "ROOTS": ", ".join(roots),
     "CORPUS": "docs/tracks/LP/source/{MAIN,AMENDMENTS}.md pinned by SHA-256 in docs/graph/LP/CORPUS.sha256 (MAIN "
               "68e9167f...48c1b, 679 lines; AMENDMENTS c887d1e2...51881, 26 lines; N1 fixed in place, N2-N12 override "
-              "the MAIN lines they cite); branch inp-lp-graph off inp after the D62 freeze (main f46b94fb); wave "
-              + str(a.wave),
+              "the MAIN lines they cite); branch inp-lp-graph off inp after the D62 freeze (main f46b94fb); waves 1-"
+              + str(a.wave) + "; streamlined review (D65): one global review, no per-slice reviews; LEAN_STATUS set "
+              "mechanically from LEAN_REFs that resolve on main",
     "CONVENTIONS": "docs/graph/LP/SPEC.md §4: Euclidean ¦·¦ (planeLength, spaceLength) vs max norm on actions; period "
                    "2π angles (L13 converts to period one); G = 1, star mass 1, masses μν_i, max ν = 1, physical AMD "
                    "μC; C = ΣI - ¦L¦ orientation-free (N8, OD-1); thresholds on the chamber carrier OrderedActions "

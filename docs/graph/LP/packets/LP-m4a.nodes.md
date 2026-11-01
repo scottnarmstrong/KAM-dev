@@ -496,10 +496,11 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: lpM:L11#qD-choice, lpM:L11#step-estimate
+DEPS: lpM:L11#qD-choice, lpM:L9#projections-tail, lpM:L11#step-estimate
 ROUTES: -
 ROUTE_FOR: -
 EDGE: lpM:L11#qD-choice | docs/tracks/LP/source/MAIN.md#L11@L375-L375 | E_{j+1} ≤ E_j/2 under (30)
+EDGE: lpM:L9#projections-tail | docs/tracks/LP/source/MAIN.md#L11@L375-L375 | the mean projection has norm at most one: ‖⟨f_l⟩‖ ≤ E_l
 EDGE: lpM:L11#step-estimate | docs/tracks/LP/source/MAIN.md#L11@L375-L375 | the estimates at each step
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: kam-lp

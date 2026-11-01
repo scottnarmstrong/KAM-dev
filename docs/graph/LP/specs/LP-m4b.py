@@ -46,7 +46,7 @@ NODES = {
           "the scaled components of X_{μf} are O(μ/r + μ/s + μ/b), both O(√μ); the supremum-to-Fourier estimate of Lemma 9 "
           "(losing the fixed strip between D_4 and D_3) gives ‖X_{H_μ - h_0}‖_3 ≤ M_1√μ",
         S="M_1 depends only on the fixed chart data",
-        deps=[("lpM:L9#sup-to-fourier", "405", "the supremum-to-Fourier estimate from D_4 to D_3"),
+        deps=[("lpM:L9", "405", "the supremum-to-Fourier estimate of Lemma 9, from D_4 to D_3"),
               ("lpM:s1:fast", "405", "ω(I) - ω(I^0) is O(r) on the action tube"),
               ("lpM:s1:model", "405", "H_μ = h + μ f in the chart (the perturbation f)")]),
     "lpM:L12#kappa-choice": dict(
@@ -133,7 +133,7 @@ NODES = {
           "nonresonant are KLr ≤ α/2, ε ≤ αr/(256K), 64πm s_1 r ≤ w^2, 2πKs_1 ≥ 6 (37); the first two follow from "
           "LD_0κ_1^{τ+1} ≤ γ/(4π) and M_2κ_1^{τ+1} ≤ γD_0/(512π), the last two by decreasing μ_0",
         S="κ_1 depends only on L, M_2, γ, τ and D_0",
-        deps=[("lpM:L9#sup-to-fourier", "442", "the contour estimate of Lemma 9 applied to f/(2π) gives ε = M_2μ"),
+        deps=[("lpM:L9", "442", "the contour estimate of Lemma 9 applied to f/(2π) gives ε = M_2μ"),
               ("lpM:L13#period-one", "442", "the period-one Hamiltonian f/(2π) and frequencies ω/(2π)"),
               ("lpM:s1:dioph", "444", "(5) gives ¦k·ω(I^0)/(2π)¦ ≥ α for 0 < ¦k¦_1 ≤ K"),
               ("lpM:s1:fast", "442", "L bounds the complex frequency derivative of h/(2π)")],

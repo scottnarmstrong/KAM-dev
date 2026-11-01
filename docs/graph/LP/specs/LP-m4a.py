@@ -203,6 +203,7 @@ NODES = {
           "E_j ≤ ε2^{-j}, G_j ≤ 2ε for all j ≤ N",
         S="none",
         deps=[("lpM:L11#qD-choice", "375", "E_{j+1} ≤ E_j/2 under (30)"),
+              ("lpM:L9#projections-tail", "375", "the mean projection has norm at most one: ‖⟨f_l⟩‖ ≤ E_l"),
               ("lpM:L11#step-estimate", "375", "the estimates at each step")]),
     "lpM:L11#composition": dict(
         kind="step", title="Phi = phi_0 o ... o phi_{N-1}: (31) with Z = g_N, R = f_N; displacement <= 2 q_D/N <= 1/32",
