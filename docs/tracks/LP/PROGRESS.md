@@ -22,12 +22,12 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 |---|---|---|---|---|---|
 | LP-THR Threshold | L4 | 1 | `inp-lp-thr` / `/mnt/HC_Volume_106379410/kam-lp/KAM-inp-lp-thr` | claude-6 | **LANDED** main f1fe1d30 (inp c2cd35af); audit LP-BAR1-1 PASS WITH NOTES |
 | LP-MOM Orbital+Momentum (planar) | L2–L3 | 1 | `inp-lp-mom` / `/mnt/HC_Volume_106379410/kam-lp/KAM-inp-lp-mom` | claude-12 | **LANDED** main f1fe1d30 (inp c2cd35af); audit LP-BAR1-1 PASS WITH NOTES |
-| LP-GEO Geometry | L5 | 1 | `inp-lp-geomod` / `/mnt/HC_Volume_106379410/kam-lp/KAM-inp-lp-geomod` (with MOD, brief LP-GEOMOD) | claude-11 | audit LP-W1B-1 PASS WITH NOTES (codex-2); landing requested (inp-lp 7198d469) |
-| LP-MOD Modulus+Continuation | L6 | 1 | (with GEO) | claude-11 | audit LP-W1B-1 PASS WITH NOTES; landing requested |
-| LP-DICT PlanarDictionary + one-centre L13 adapter test | L7, L13 (interface) | 1–2 | `inp-lp-dict` / mom worktree (link `/root/code/KAM-inp-lp-dict`) | claude-12 | audit LP-W1B-1 PASS WITH NOTES (codex-2); landing requested (inp-lp 7198d469) |
-| LP-DOM AnalyticDomain planar | L8 | 2 | `inp-lp-dom` / mom worktree (link `/root/code/KAM-inp-lp-dom`) | claude-11 | running (tmux inp-mprov-lp-dom) |
-| LP-NRR NonresonantReuse | L13 | 2 | — | — | after wave 1 slots |
-| LP-NRS NonresonantScale | L12/(37) | 2 | `inp-lp-nrs` / thr worktree (link `/root/code/KAM-inp-lp-nrs`) | claude-12 | proved 91da0b27 (301 lines; zBall is ℓ¹); audit queued (codex-2, after W7; maybe with DOM) |
+| LP-GEO Geometry | L5 | 1 | `inp-lp-geomod` / `/mnt/HC_Volume_106379410/kam-lp/KAM-inp-lp-geomod` (with MOD, brief LP-GEOMOD) | claude-11 | audit LP-W1B-1 PASS WITH NOTES (codex-2); **LANDED** main 22c7517e (inp 96ef6d94) |
+| LP-MOD Modulus+Continuation | L6 | 1 | (with GEO) | claude-11 | **LANDED** main 22c7517e |
+| LP-DICT PlanarDictionary + one-centre L13 adapter test | L7, L13 (interface) | 1–2 | `inp-lp-dict` / mom worktree (link `/root/code/KAM-inp-lp-dict`) | claude-12 | audit LP-W1B-1 PASS WITH NOTES (codex-2); **LANDED** main 22c7517e (inp 96ef6d94) |
+| LP-DOM AnalyticDomain planar | L8 | 2 | `inp-lp-dom` / mom worktree (link `/root/code/KAM-inp-lp-dom`) | claude-11 | proved d66fa68b (D0–D6, 601 lines); audit LP-W2A (with NRS) running on codex-2 |
+| LP-NRR NonresonantReuse | L13 | 2 | `inp-lp-nrr` / mom worktree (link `/root/code/KAM-inp-lp-nrr`) | claude-11 | running (tmux inp-mprov-lp-nrr) |
+| LP-NRS NonresonantScale | L12/(37) | 2 | `inp-lp-nrs` / thr worktree (link `/root/code/KAM-inp-lp-nrs`) | claude-12 | proved 91da0b27 (301 lines); audit LP-W2A (with DOM) running on codex-2 |
 | LP-CONF Confinement | L14 | 3 | — | — | |
 | LP-OSC Osculating | L16 | 3 | `inp-lp-osc` / geomod worktree (link `/root/code/KAM-inp-lp-osc`) | claude-12 | running (tmux inp-mprov-lp-osc) |
 | LP-PS PlanarSafety (LP1) | T15 | 3 | — | — | |
@@ -53,3 +53,4 @@ Audits on codex-1 only, one at a time machine-wide; LP ahead of W.
 - 2026-11-01 01:14 UTC: THR+MOM LANDED (main f1fe1d30). DICT and GEOMOD proved; combined audit LP-W1B (branch inp-lp-w1b @d927990e, geomod worktree) queued on codex-2 behind W7-MEASURE. Wave 2 started: LP-NRS (claude-12, thr worktree) and LP-DOM (claude-11, mom worktree).
 - 2026-11-01 01:26 UTC: LP-W1B (GEOMOD+DICT) audit 1 PASS WITH NOTES (codex-2); doc notes applied; merged into inp-lp (7198d469); landing requested. codex-2 handed to W7-MEASURE.
 - 2026-11-01 01:28 UTC: LP-NRS proved (audit queued). LP-OSC (L16) launched on claude-12 in the geomod worktree.
+- 2026-11-01 01:45 UTC: LP-W1B LANDED (main 22c7517e): wave 1 (MAIN L2–L7) complete on main. LP-DOM proved; LP-NRR (L13 ExtNFHyp + stopped drift) launched on claude-11; combined audit LP-W2A (DOM+NRS) launched on codex-2 (W7 ended; W3-MAIN r2 next).
