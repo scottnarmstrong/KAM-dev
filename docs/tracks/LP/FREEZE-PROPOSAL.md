@@ -1,4 +1,4 @@
-# Track LP: freeze proposal (DRAFT 5, for the owner's morning review)
+# Track LP: freeze proposal (DRAFT 6, for the owner's morning review)
 
 Status: 2026-11-01, overnight. **Nothing is frozen.** This file proposes the exact Lean text of the LP anchors.
 **Draft 2** applies the independent refute-first statement review
@@ -296,7 +296,10 @@ margin/drift clauses as `∃ hs, … sourceStrongAMD ⟨z t, hs⟩ …` and the 
 with `sourceOsc*` / `sourceKeplerPeri/Apo` (mirroring `∃ hcht` for the thresholds). The frozen planar repository
 definitions (`keplerAxis`, `keplerEccVector`, `keplerAction`, …) stay as in §3.
 
-## 3c. LP2: spatial strong-AMD exponential safety (exact text; draft 4 addition, review pending)
+## 3c. LP2: spatial strong-AMD exponential safety (exact text; draft 4 addition; review 4 PASS for fidelity)
+
+*Review 4 (R4.2, applied in draft 6): the anchor name and binder names below are the anchor surface; the producer
+`lp2_spatial_strongAMD_safety_normalized` (binders `_hνmax`, `_hνle`) closes it by `exact`.*
 
 The exact spatial twin of §3 (LP1): `Phase (n * 3)`, Euclidean `spaceLength`, the vector angular momentum in
 `spatialStrongAMD`, the spatial Newtonian reconstruction and osculating elements. Premises are those of LP1 with the
@@ -306,8 +309,8 @@ Theorem 19; roadmap §2): the frame alignment with `L` is done inside the proof 
 restated through source carriers (package LP-SP-SRC, in progress; audit LP-W4A-1 note N1).
 
 ```lean
-theorem lp2_spatial_strongAMD_safety_normalized (hn : 2 ≤ n) (ν : Fin n → ℝ)
-    (hν : ∀ i, 0 < ν i) (_hνmax : ∃ i, ν i = 1) (_hνle : ∀ i, ν i ≤ 1)
+theorem spatial_strongAMD_exponentialSafety (hn : 2 ≤ n) (ν : Fin n → ℝ)
+    (hν : ∀ i, 0 < ν i) (hνmax : ∃ i, ν i = 1) (hνle : ∀ i, ν i ≤ 1)
     (A : Set (Fin n → ℝ)) (hA : IsCompact A)
     (hAord : ∀ a ∈ A, (∀ i, 0 < a i) ∧ ∀ i j, i < j → a i < a j)
     (δ γ τ : ℝ) (hδ : 0 < δ) (hγ : 0 < γ) (hτ : (n : ℝ) - 1 < τ) :
@@ -362,7 +365,13 @@ theorem lp2_spatial_strongAMD_safety_normalized (hn : 2 ≤ n) (ν : Fin n → �
               spatialOscPeri ν μ (z t) a.upperIdx - spatialOscApo ν μ (z t) a.1)
 ```
 
-## 3d. LP2 under OD-11 option (b): exact text through the spatial source carriers (draft 5 addition, review pending)
+## 3d. LP2 under OD-11 option (b): exact text through the spatial source carriers (draft 5 addition; review 4: R4.1 BLOCKING)
+
+*Review 4, R4.1 (BLOCKING): the text below still applies the unfrozen total `spatialKeplerAxis/Action/EccVector` to
+`z₀` and `z t`. Resolution (A), adopted: restate through `spatialSource*` (exact text in
+`freeze/STATEMENT-REVIEW-4.md`, R4.1); package LP-SP-SRCB2 elaborates and proves it, then this section is replaced by
+the elaborated text and re-reviewed. Resolution (B) (an owner carve-out freezing the three helpers) is recorded as an
+alternative under OD-11.*
 
 Package LP-SP-SRC (part A: `KAM/Planetary/Spatial/SourceCarrier.lean`, the spatial source carriers and source-facing
 definitions with characterizations, answering audit LP-W4A-1 note N1) and LP-SP-SRCB (part B: LP2 restated through
@@ -501,6 +510,29 @@ theorem lp2_spatial_strongAMD_safety_source (hn : 2 ≤ n) (ν : Fin n → ℝ)
   off-carrier junk values). Under (b), the anchors' occurrences of these formulas are restated through the source
   restrictions (the guards `oscEnergy < 0`, `oscEcc < 1` and negative canonical energy, which LP1 exports, supply
   the subtype proofs); the exact restated text is generated once the owner rules, and re-reviewed.
+
+- **Spatial (LP2; OD-11 (b); review 4, R4.3).** The following are frozen **as literal formulas and predicates**,
+  faithful on their whole carriers:
+  - `spaceDot`, `spaceSq`, `spaceLength`, `spaceCross`, `bodyVector3`, `planetAngularMomentum3`, `angularMomentum3`;
+  - `SpatialNoCollision`, `IsSpatialMovingSolutionOn`, `SpatialMovingUniqueOn`;
+  - `spatialMasses`, `spatialBarycentricPositions`, `spatialBarycentricVelocities`, `IsSpatialNewtonSolutionOn`;
+  - the carrier predicate `SpatialNegativeEnergy` and the subtypes `SpatialElliptic` (= `SpatialSourceCanonicalPhase`)
+    and `SpatialOscPhase` (= `SpatialSourceOsculatingPhase`).
+
+  The following are frozen **as one semantic unit with their `rfl` equations and the SourceCarrier
+  characterizations**:
+  - `spatialSourceKeplerAxis`, `spatialSourceKeplerAction`, `spatialSourceKeplerEccVector`, `spatialSourceKeplerEcc`;
+  - `spatialSourcePlanetAngularMomentum`, `spatialSourceAngularMomentum`, `spatialSourceStrongAMD`;
+  - `spatialSourceKeplerPeri/Apo`;
+  - `spatialSourceOsc{Velocity,Param,Energy,Axis,EccVector,Ecc,Peri,Apo}`.
+
+  The total formulas stay **internal implementation helpers in the definition closure** and are not certified as
+  MAIN's objects off their carriers: `spatialKeplerEnergy` (used only inside the carrier predicate),
+  `spatialKeplerAxis/Action/EccVector`, `spatialStrongAMD`, `spatialStrongAMDOn`, `spatialKeplerPeri/Apo` and
+  `spatialOsc*`. The same holds for `spatialHamiltonian`, which is totalized at collisions and consumed only through
+  `IsSpatialMovingSolutionOn`, whose collision guard and `DifferentiableAt` on an open domain make the predicate
+  faithful (R4.8). This bullet presupposes R4.1 (A); under R4.1 (B), `spatialKeplerAxis/Action/EccVector` move to
+  the frozen list with the recorded ruling.
 
 ## 5. What a freeze would require next
 

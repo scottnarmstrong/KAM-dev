@@ -2,7 +2,7 @@
 
 LP3, phase 2 (the plan passed review: `docs/tracks/LP/lp3/LP3-PLAN-REVIEW-1.md`, PASS WITH NOTES, changes applied).
 Prover brief: `/root/code/KAM-inp/.drafts/briefs/lp-prover.md` (hard rules, capped wrappers, handoff; it carries the
-OD-13 import exception for the sealed `partialConvex_nekhoroshev`; never import a provider). Base: `inp-lp`.
+D58 (OD-13) import exception for the sealed `partialConvex_nekhoroshev`; never import a provider). Base: `inp-lp`.
 
 ## Source
 
