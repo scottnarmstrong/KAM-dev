@@ -656,6 +656,12 @@ public import KAM.Planetary.Spatial.Chart.LineDeriv
 public import KAM.Planetary.Spatial.Chart.RotAlgebra
 public import KAM.Planetary.Spatial.Chart.Symplectic
 public import KAM.Planetary.Spatial.Chart
+public import KAM.Planetary.Spatial.ChartLift.Lift
+public import KAM.Planetary.Spatial.ChartLift.Premises
+public import KAM.Planetary.Spatial.ChartLift.Setting
+public import KAM.Planetary.Spatial.ChartLift.Stopped
+public import KAM.Planetary.Spatial.ChartLift.Uniform
+public import KAM.Planetary.Spatial.ChartLift
 public import KAM.Planetary.Spatial.ComplexTube
 public import KAM.Planetary.Spatial.Confinement
 public import KAM.Planetary.Spatial.Continuation
@@ -687,6 +693,12 @@ public import KAM.Planetary.Spatial.Rotation46
 public import KAM.Planetary.Spatial.RotationAlgebra
 public import KAM.Planetary.Spatial.RotationSolution
 public import KAM.Planetary.Spatial.SourceCarrier
+public import KAM.Planetary.Spatial.SpatialSafety.Aligned
+public import KAM.Planetary.Spatial.SpatialSafety.Bridge
+public import KAM.Planetary.Spatial.SpatialSafety.Constants
+public import KAM.Planetary.Spatial.SpatialSafety.Main
+public import KAM.Planetary.Spatial.SpatialSafety.Orientation
+public import KAM.Planetary.Spatial.SpatialSafety
 public import KAM.Planetary.Spatial.Vector
 public import KAM.Planetary.Spatial
 public import KAM.Planetary.StrongAMD.AnalyticDomain.Bounds.Algebra
