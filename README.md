@@ -8,20 +8,20 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-01 13:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.5 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 99 % · track LP 90 %** · frozen statements proved: 27 / 31 · **492,803 lines of hand-written Lean** of an estimated ≈ 504,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-01 13:43 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.6 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 99 % · track LP 100 %** · frozen statements proved: 66 / 70 · **501,528 lines of hand-written Lean** of an estimated ≈ 505,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
 
 Every frozen theorem below is proved and sealed. That covers the 22 of the original project, Rüssmann's theorem
-(track R), track W's PDE KAM theorem `KAM.Wave.nlw2` (sealed 2026-11-01) and track SO's frozen lunar band; only the
+(track R), track W's PDE KAM theorem `KAM.Wave.nlw2` (sealed 2026-11-01), track LP's five safety statements (sealed
+2026-11-01) and track SO's frozen lunar band; only the
 four statements of the Moon's synchronous lock (track SO, part 3) are still in progress. Each frozen statement was
 approved by the owner and frozen before its proof was assembled. The proofs are complete and use only the standard
 axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
-- **Track LP** (items 8–9, the sharp Laskar–Petit safety theorems): every theorem is proved and audited on `main`.
-  The owner approved the exact statements of item 8 and its corollaries (D62), and their freeze and seal are
-  landing.
+- **Track LP** (items 8–9, the sharp Laskar–Petit safety theorems): item 8 and its corollaries are frozen and
+  sealed (D62). Item 9 is proved and audited, and its statements are to be frozen next.
 - **Items 13–15** are track SO's certified numerical tori, among them the Moon's spin-rate band.
 
 The plain-language versions simplify; the linked Lean statements are exact. The full list of frozen statements, with
@@ -108,17 +108,19 @@ sources, is in [docs/STATEMENTS.md](docs/STATEMENTS.md).
 
    There is no hypothesis on the secular dynamics, which may be chaotic, and no prograde or small-inclination
    assumption. The static core is the sharp barrier: every state below the threshold has orbits in ordered,
-   separated annuli. Statements approved for freezing (D62):
-   [`planar_strongAMD_barrier`](KAM/Planetary/StrongAMD/PlanarSafety/Main.lean#L255) ·
-   planar [`…_exponentialSafety`](KAM/Planetary/StrongAMD/PlanarSafety/Source.lean#L132) ·
-   spatial [`…_exponentialSafety`](KAM/Planetary/Spatial/SpatialSafety/Source.lean#L145) (proved implementation
-   theorems; frozen anchors landing). Paper: [papers/LP/main.pdf](papers/LP/main.pdf).
+   separated annuli. Frozen and sealed (D62, 2026-11-01):
+   [`KAM.Planetary.StrongAMD.planar_strongAMD_barrier`](KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDBarrier.lean#L47) ·
+   planar [`planar_strongAMD_exponentialSafety`](KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafety.lean#L61)
+   ([τ = n − ½](KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyHalfInteger.lean#L63)) ·
+   spatial [`KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety`](KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafety.lean#L63)
+   ([τ = n − ½](KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyHalfInteger.lean#L64)).
+   Paper: [papers/LP/main.pdf](papers/LP/main.pdf).
 9. **The same threshold with no arithmetic condition** (track LP). Without the Diophantine hypothesis the same holds
    with Nekhoroshev's exponents: semi-major axes drift by O(μ^(3/(6n²−3n+14))) for
    |t| ≤ T₀·exp(c·μ^(−2/(6n²−3n+14))). This is close to Nekhoroshev 1977, Theorem 12.3 (item 11). What it adds is
    the sharp per-state AMD threshold in place of a box of semi-major axes, and the annulus and osculating
-   conclusions. Proved through the sealed item 7, applied cell by cell. Ordinary theorems; their statements are
-   to be frozen next.
+   conclusions. Proved through the sealed item 7, applied cell by cell. Ordinary theorems for now; their statements
+   are the next freeze (draft 8).
    [`lp3_planar_strongAMD_safety_source`](KAM/Planetary/StrongAMD/Nek/PlanarSafety/Source.lean#L130) ·
    [`lp3_spatial_strongAMD_safety_source`](KAM/Planetary/Spatial/Nek/SpatialSafety/Source.lean#L139)
 
@@ -235,9 +237,9 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 ## At a glance
 
 <!-- AUTO:progress -->
-### Estimated completion: original project **99.5 %** · SO checker **100 %** · SO Moon **100 %** · Moon locked **60 %** · track W **99 %** · track LP **90 %** · LG00 **56 %**
+### Estimated completion: original project **99.6 %** · SO checker **100 %** · SO Moon **100 %** · Moon locked **60 %** · track W **99 %** · track LP **100 %** · LG00 **56 %**
 
-Original project (tracks K, I, N, P): `█████████████████████████` 99.5 %
+Original project (tracks K, I, N, P): `█████████████████████████` 99.6 %
 
 Track SO, part 1, the general Lean certificate checker: `█████████████████████████` 100.0 %
 
@@ -247,11 +249,11 @@ Track SO, part 3, the Moon locked in synchronous rotation forever (D42): `██
 
 Track W, PDE KAM for the cubic wave equation: `█████████████████████████` 99.1 % (statements frozen 1, blueprint milestones 3, graph published 1, graph nodes resolved 10, seal 0.5; all read from the repository)
 
-Track LP, strong-AMD exponential safety (the Laskar–Petit conjecture, D56): `██████████████████████░░░` 90.0 % (stages, weighted by effort: audited paper proof 5, source, spec and plan 5, statements frozen 5, planar Lean packages 40, spatial Lean packages 40, sealed 5; packages from [`docs/tracks/LP/packages.json`](docs/tracks/LP/packages.json), landed when their modules are on `main`; each read from the repository)
+Track LP, strong-AMD exponential safety (the Laskar–Petit conjecture, D56): `█████████████████████████` 100.0 % (stages, weighted by effort: audited paper proof 5, source, spec and plan 5, statements frozen 5, planar Lean packages 40, spatial Lean packages 40, sealed 5; packages from [`docs/tracks/LP/packages.json`](docs/tracks/LP/packages.json), landed when their modules are on `main`; each read from the repository)
 
 Side project LG00, a certified torus of the secular Sun–Jupiter–Saturn model: `██████████████░░░░░░░░░░░` 56 % (stages, weighted by effort: scout: model, torus, thresholds, cost, Diophantine lemmas for the frequency directions (Lean), certificate-data generator and exact dry run, pilot: kernel cost measured on representative shards, kernel certificate of a torus in LG00's Γ′ family and the closed theorem, T′ at the exact energy of LG00's initial point (re-solve and re-certify), second torus T″ (confinement between two tori), confinement theorem in Lean (the real orbit trapped forever between T′ and T″), independent audit and separate repository; from [`docs/campaign/side/lg00-status.json`](docs/campaign/side/lg00-status.json), the side orchestrator's assessment, last reviewed 2026-11-01 00:05 UTC)
 
-Overall, everything together: 95.2 %
+Overall, everything together: 96.1 %
 
 | Part of the project | Items | Weight | Done | Completion |
 |---|---|---|---|---|
@@ -263,14 +265,14 @@ Overall, everything together: 95.2 %
 | Track I (isoenergetic, confinement, R3BP) | 2 | 12 | 12.0 | `██████████` 100 % |
 | Track N (Nekhoroshev) | 4 | 22 | 22.0 | `██████████` 100 % |
 | Track P (planetary) | 5 | 30 | 30.0 | `██████████` 100 % |
-| Sealing of the frozen statements | 23 | 23 | 23.0 | `██████████` 100 % |
+| Sealing of the frozen statements | 62 | 62 | 62.0 | `██████████` 100 % |
 | Track SO, part 1: general Lean certificate checker | 6 | 32 | 32.0 | `██████████` 100 % |
 | Track SO, part 2: the Moon's spin rate (lunar spin–orbit) | 6 | 20 | 20.0 | `██████████` 100 % |
 | Track SO, part 3: the Moon locked in synchronous rotation (D42) | 6 | 16 | 9.6 | `██████░░░░` 60 % |
 | Side project LG00: certified torus of the secular Sun–Jupiter–Saturn model | 9 | 16 | 9.0 | `██████░░░░` 56 % |
 | Track W: PDE KAM for the cubic wave equation (D30, D41) | 5 | 64 | 63.4 | `██████████` 99 % |
-| Track LP: strong-AMD exponential safety, the Laskar–Petit conjecture (D56) | 6 | 16 | 14.4 | `█████████░` 90 % |
-| **Total** | 101 | 342 | 325.6 | **95.2 %** |
+| Track LP: strong-AMD exponential safety, the Laskar–Petit conjecture (D56) | 6 | 16 | 16.0 | `██████████` 100 % |
+| **Total** | 140 | 381 | 366.2 | **96.1 %** |
 
 **How this is estimated.** The project is divided into 52 work items: planning deliverables, campaign infrastructure, the four layers of track K's proof, the proof campaigns of tracks I, N and P, and parts 1 and 2 of track SO (their items count the design's line estimates of the packages landed so far; [`docs/campaign/progress-SO.json`](docs/campaign/progress-SO.json)). Each item is weighted by its difficulty (low 1, moderate 2, high 4, very high 8) and counts with the fraction of it that is done; each sealed frozen theorem adds 1. Items marked *graph* take that fraction from their proof graph (nodes `PROVED`, `BYPASSED`, `EXTERNAL` or owner-accepted `ASSUMED` in [`docs/graph/`](docs/graph)), so they update themselves at every refresh, and count as complete once every frozen theorem of their track is sealed; the other items are the orchestrators' assessment, last reviewed **2026-10-31 14:00 UTC**. Files: [`docs/campaign/progress.json`](docs/campaign/progress.json) (track K and infrastructure) and [`docs/campaign/progress-INP.json`](docs/campaign/progress-INP.json) (tracks I, N, P). The rows of track SO part 3, track W and the side project LG00 are not work items: they take their fraction from the meters above, with weights 16, 64 and the LG00 stage weights.
 
@@ -339,18 +341,18 @@ Overall, everything together: 95.2 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **492,803** (376,004 excluding blank lines and comments) · **+124,827** since 2026-10-31 13:20 UTC |
+| On `main` now (hand-written) | **501,528** (379,994 excluding blank lines and comments) · **+133,552** since 2026-10-31 13:43 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 632,896 lines in 1,649 modules |
-| Written on agent branches, not yet landed (hand-written) | 11,395 |
+| Written on agent branches, not yet landed (hand-written) | 2,147 |
 | Generated certificate data on agent branches (numeric literals; not counted in the other rows) | 5,265 |
-| **Estimated total at completion** (hand-written) | **≈ 504,000** |
-| Estimated still to write | ≈ 0 (0–14,000 over the range of track W's plan) |
+| **Estimated total at completion** (hand-written) | **≈ 505,000** |
+| Estimated still to write | ≈ 1,000 (0–15,000 over the range of track W's plan) |
 
-**How the size is estimated.** Every figure except the two rows of generated data counts hand-written Lean only: the generated certificate data under `KAM/SpinOrbit/Data/` (the barrier tori of the Moon, emitted by `scripts/spin_orbit/` and checked by the kernel) are counted apart. The estimate scales the lines written so far for the other tracks (on `main` plus the agent branches: tracks K, I, N, P and R, the sharp a-posteriori theorems and certifiers, the shared infrastructure) by the done share of the Lean work items, weighted by difficulty (track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P: 100 % done); adds track SO from its design (its lines on `main` plus the line estimates of its packages not yet landed, 0 lines; the Lean packages of part 3 are on `main`, and what it still needs is generated data); and adds track W from its planning range of 72,000–97,000 lines (graph-scaled (2026-10-31): track W's dependency graph has 690 nodes; the finished tracks average 87 lines of Lean per graph node (K 72, I 83, N 59, P 109), so 690 × 87 ≈ 60k; the high end uses track P's 109 per node plus 20 % for infinite-dimensional infrastructure (sequence spaces, parameter-Lipschitz estimates), ≈ 90k; replaces the low-confidence 34k–70k of docs/TRACKS.md; raised to its measured rate, 84,000 lines for the whole graph at its lines on `main` per resolved node; midpoint used), of which 84,313 are written; and adds track LP from its planning range of 12,000–25,000 lines (the Lean roadmap of the audited proof; midpoint used), of which 23,831 are written. The side project LG00 is not counted: its certificate never enters this library. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv) (`lean_lines` counts every module, `generated_lines` the generated data among them).
+**How the size is estimated.** Every figure except the two rows of generated data counts hand-written Lean only: the generated certificate data under `KAM/SpinOrbit/Data/` (the barrier tori of the Moon, emitted by `scripts/spin_orbit/` and checked by the kernel) are counted apart. The estimate scales the lines written so far for the other tracks (on `main` plus the agent branches: tracks K, I, N, P and R, the sharp a-posteriori theorems and certifiers, the shared infrastructure) by the done share of the Lean work items, weighted by difficulty (track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P: 100 % done); adds track SO from its design (its lines on `main` plus the line estimates of its packages not yet landed, 0 lines; the Lean packages of part 3 are on `main`, and what it still needs is generated data); and adds track W from its planning range of 73,000–98,000 lines (graph-scaled (2026-10-31): track W's dependency graph has 690 nodes; the finished tracks average 87 lines of Lean per graph node (K 72, I 83, N 59, P 109), so 690 × 87 ≈ 60k; the high end uses track P's 109 per node plus 20 % for infinite-dimensional infrastructure (sequence spaces, parameter-Lipschitz estimates), ≈ 90k; replaces the low-confidence 34k–70k of docs/TRACKS.md; raised to its measured rate, 85,000 lines for the whole graph at its lines on `main` per resolved node; midpoint used), of which 84,253 are written; and adds track LP from its planning range of 12,000–25,000 lines (the Lean roadmap of the audited proof; midpoint used), of which 24,090 are written. The side project LG00 is not counted: its certificate never enters this library. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv) (`lean_lines` counts every module, `generated_lines` the generated data among them).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-01 13:20 UTC from `main` at `c51ef333` by `scripts/hq-status.py`.*
+*Generated 2026-11-01 13:43 UTC from `main` at `57e9c3ad` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -363,16 +365,17 @@ Overall, everything together: 95.2 %
 - **Gates:** design of the general checker ACCEPTED (Revision 7). Moon band route: the v2 certifier `checkTorusCertificateV2` (D44), refined route A, barriers at N = 65 (D38), kernel-scale fixes D34 (packed products) and D39 (log-depth traversals, dyadic ball rounding), segmented kernel proofs (SO-CSPLIT); band literal 2.755 % with window 9934/10000 … 10066/10000 (D47; rule B's tightness clause waived). Proved on main 2026-10-31 (SO-DATA3, about 1,650 generated data modules). Freeze approved with these literals (D49), seal approved (D50); SO-FREEZE3 carries them out (Q11 data rebuild, freeze, seal, seal audit).
 
 **Track W** (D30, D41; [plan](blueprint-W/PLAN.md)): PDE KAM for the cubic wave equation u_tt = u_xx − m u − u³ on [0, π] (Pöschel 1996) · **99 %**
-- Statements: frozen (12 anchors; `nlw2` sealed) · blueprint milestones written: 9 / 9 (W0, W1, W2, W3, W4, W5, W6, W7, W8) · proof graph: 685 / 695 nodes resolved · `KAM/Wave`: 450 modules, 82,922 lines
+- Statements: frozen (12 anchors; `nlw2` sealed) · blueprint milestones written: 9 / 9 (W0, W1, W2, W3, W4, W5, W6, W7, W8) · proof graph: 685 / 695 nodes resolved · `KAM/Wave`: 456 modules, 84,198 lines
+- ⚠️ **graph sync overdue**: 1,276 Lean lines landed in `KAM/Wave` since the proof graph was last synced (10:48 UTC 01 Nov); the meter counts only recorded nodes, so it undercounts until the sync lands.
 - **Now:** The frozen headline `KAM.Wave.nlw2` is PROVED on a branch (W8-FINAL; standard axioms; types checked equal), not yet sealed. On `main`: W1–W4 and W7; W5 (the KAM step) is landing. Audits run in parallel on two Codex accounts (D60): W6 (iteration and tori), W8 (assembly), the W8-FINAL delta, and W5's action-angle part after a definition-carrier fix. Then a dedicated seal audit and the owner's go for the seal.
 
-**Track LP** (D56; [exploration, audited proof and plan](docs/explorations/amd-crossing/README.md)): chaotic but collision-free planetary systems. Below the sharp Laskar–Petit AMD threshold the exact (1+n)-body problem has no orbit crossing for a time exp(c μ^(−1/(2(τ+1)))), with no hypothesis on its (possibly chaotic) secular dynamics · **90 %**
-- Stages: audited paper proof, source, spec and plan, planar Lean packages, spatial Lean packages · planar packages on `main`: 14 / 14 · spatial: 15 / 15 · `KAM/Planetary/StrongAMD` and `Spatial`: 136 modules, 23,831 lines
+**Track LP** (D56; [exploration, audited proof and plan](docs/explorations/amd-crossing/README.md)): chaotic but collision-free planetary systems. Below the sharp Laskar–Petit AMD threshold the exact (1+n)-body problem has no orbit crossing for a time exp(c μ^(−1/(2(τ+1)))), with no hypothesis on its (possibly chaotic) secular dynamics · **100 %**
+- Stages: audited paper proof, source, spec and plan, statements frozen, planar Lean packages, spatial Lean packages, sealed · planar packages on `main`: 14 / 14 · spatial: 15 / 15 · `KAM/Planetary/StrongAMD` and `Spatial`: 141 modules, 24,090 lines
 - **Now:** Every headline theorem is proved, audited and on `main`: LP0, LP1 (planar) and LP2 (spatial) with the sharp strong Laskar–Petit threshold and exponent 1/(2(τ+1)) (1/(2n+1) at τ = n − 1/2), and LP3 (the same threshold with NO Diophantine hypothesis, Nekhoroshev 1977 exponents). The owner approved the freeze rulings (D59). Freeze proposal draft 7 (5 anchors, 89 definitions, 34 characterizations; 128 files, each verified against the proved theorems) passed its independent delta statement audit; draft 8 (the LP3 anchors) follows. Then the owner's approval of the exact text, the freeze, the source graph and the seals. Paper: [papers/LP/main.pdf](papers/LP/main.pdf) (23 pages, three independent audits).
 
-**Frozen statements proved: 27 / 31** · frozen definitions: 148
+**Frozen statements proved: 66 / 70** · frozen definitions: 237
 
-**Lean on `main` (hand-written):** 2,546 modules · 492,803 lines · 20,902 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0 (both scans cover every module, generated data included)
+**Lean on `main` (hand-written):** 2,724 modules · 501,528 lines · 21,027 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0 (both scans cover every module, generated data included)
 
 **Generated certificate data on `main`:** 632,896 lines in 1,649 modules (numeric literals; not counted above), with 4,663 generated kernel-check theorems; under [`KAM/SpinOrbit/Data/`](KAM/SpinOrbit/Data)
 
@@ -380,7 +383,7 @@ Overall, everything together: 95.2 %
 DRAFT_ANCHORS: 4 (KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitSpec.lean, KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitUnique.lean, KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitBound.lean, KAM/Frozen/SpinOrbit/Theorems/LunarSyncLock.lean)
 UNREGISTERED_SORRIES: 0
 DRAFT_IMPORT_VIOLATIONS: 0 (frozen-anchor guard, run at every landing)
-SEALED: 27 / 31 (kam.aposteriori_kam.v1, kam.kam_positive_measure.v1, kam.kam_positive_measure_qualitative.v1, kam.local_uniqueness_flow.v1, kam.volume_not_diophantine_le.v1, iso.isoenergetic_kam.v1, iso.all_time_confinement.v1, iso.kepler_bordered_det.v1, iso.restricted_near_circular.v1, nekhoroshev.quasiConvex_isoenergetic_derivative.v1, nekhoroshev.zero_perturbation.v1, nekhoroshev.quasiConvex_nekhoroshev_complexBound.v1, planetary.properlyDegenerateKAM.v1, planetary.planarTwoPlanetKAM.v1, planetary.fixedSunPlanetaryKAM.v1, planetary.d25.amdConfinement.v1, planetary.d25.planetaryExponentialSafety.v1, planetary.d25.secularBoxSafety.v1, planetary.d25.secularBoxAtCitedMasses.v1, nekhoroshev.d25.partialConvex_nekhoroshev.v1, nekhoroshev.d28.averaging_mean.v1, nekhoroshev.d28.averaging_most.v1, russmann.russmann_kam.v1, wave.nlw2.v1, spinorbit.d40.lunar_barriers.v1, spinorbit.d40.lunar_spin_confinement.v1, spinorbit.d40.lunarPLo_lt_lunarPHi.v1)
+SEALED: 66 / 70 (kam.aposteriori_kam.v1, kam.kam_positive_measure.v1, kam.kam_positive_measure_qualitative.v1, kam.local_uniqueness_flow.v1, kam.volume_not_diophantine_le.v1, iso.isoenergetic_kam.v1, iso.all_time_confinement.v1, iso.kepler_bordered_det.v1, iso.restricted_near_circular.v1, nekhoroshev.quasiConvex_isoenergetic_derivative.v1, nekhoroshev.zero_perturbation.v1, nekhoroshev.quasiConvex_nekhoroshev_complexBound.v1, planetary.properlyDegenerateKAM.v1, planetary.planarTwoPlanetKAM.v1, planetary.fixedSunPlanetaryKAM.v1, planetary.d25.amdConfinement.v1, planetary.d25.planetaryExponentialSafety.v1, planetary.d25.secularBoxSafety.v1, planetary.d25.secularBoxAtCitedMasses.v1, nekhoroshev.d25.partialConvex_nekhoroshev.v1, nekhoroshev.d28.averaging_mean.v1, nekhoroshev.d28.averaging_most.v1, russmann.russmann_kam.v1, wave.nlw2.v1, spinorbit.d40.lunar_barriers.v1, spinorbit.d40.lunar_spin_confinement.v1, spinorbit.d40.lunarPLo_lt_lunarPHi.v1, planetary.d59.orderedPairThreshold_isLeast.v1, planetary.d59.orderedPairThreshold_existsUnique_value.v1, planetary.d59.orderedCrossThreshold_isLeast.v1, planetary.d59.orderedStrongThreshold_isLeast.v1, planetary.d59.sourceStrongAMD_nonneg.v1, planetary.d59.sum_action_mul_eccDeficit_le_sourceStrongAMD.v1, planetary.d59.sourceKepler_axis_pos.v1, planetary.d59.sourceKepler_ecc_le_one.v1, planetary.d59.sourceKeplerPeri_le_planeLength.v1, planetary.d59.planeLength_le_sourceKeplerApo.v1, planetary.d59.sourceOscAxis_pos.v1, planetary.d59.sourceOscPeri_pos.v1, planetary.d59.sourceOscPeri_le_planeLength.v1, planetary.d59.planeLength_le_sourceOscApo.v1, planetary.d59.spatialSourceKeplerAxis_pos.v1, planetary.d59.spatialSourceKeplerAction_pos.v1, planetary.d59.spatialSourceKeplerAction_sq.v1, planetary.d59.spatialSourceKeplerEcc_sq.v1, planetary.d59.spatialSourceKeplerEcc_nonneg.v1, planetary.d59.spatialSourceKeplerEcc_le_one.v1, planetary.d59.spatialSourcePlanetAngularMomentum_length.v1, planetary.d59.spatialSourcePlanetAngularMomentum_length_le.v1, planetary.d59.spatialSourceKeplerPeri_le_length.v1, planetary.d59.spatialSourceKeplerApo_ge_length.v1, planetary.d59.spatialSourceStrongAMD_nonneg.v1, planetary.d59.spatialSourceAction_mul_eccDeficit_le.v1, planetary.d59.spatialSourceOscParam_pos.v1, planetary.d59.spatialSourceOscEnergy_neg.v1, planetary.d59.spatialSourceOscEcc_lt_one.v1, planetary.d59.spatialSourceOscEcc_nonneg.v1, planetary.d59.spatialSourceOscAxis_pos.v1, planetary.d59.spatialSourceOscPeri_pos.v1, planetary.d59.spatialSourceOscPeri_le_length.v1, planetary.d59.spatialSourceOscApo_ge_length.v1, planetary.d59.planar_strongAMD_barrier.v1, planetary.d59.planar_strongAMD_exponentialSafety.v1, planetary.d59.planar_strongAMD_exponentialSafety_halfInteger.v1, planetary.d59.spatial_strongAMD_exponentialSafety.v1, planetary.d59.spatial_strongAMD_exponentialSafety_halfInteger.v1)
 ```
 <!-- /AUTO:glance -->
 
@@ -398,7 +401,7 @@ by a separate agent on its own branch:
 | **K** | Positive-measure KAM for nearly-integrable analytic Hamiltonians, complement ≤ C·ε^{1/4} | 5 / 5 | 453 / 453 nodes resolved | **complete**: blueprint, graph and all five frozen theorems sealed (2026-10-28) |
 | **I** | All-time confinement in two degrees of freedom (isoenergetic KAM); restricted circular planar three-body problem | 4 / 4 | 450 / 450 nodes resolved | **complete**: all four frozen theorems sealed — I-G1 isoenergetic KAM, I-KEPLER, I-HEAD all-time confinement, I-R3BP restricted three-body (2026-10-28); open graph nodes are alternative routes or steps proved in a specialized form |
 | **N** | Nekhoroshev stability for quasi-convex Hamiltonians, exponents 1/(2n) | 6 / 6 | 728 / 728 nodes resolved | **complete**: all six frozen theorems sealed (the last, partialConvex_nekhoroshev, on 2026-10-29); every graph node resolved (one convention accepted under D31, three blueprint steps repaired under D32) |
-| **P** | Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun | 7 / 7 | 1363 / 1363 nodes resolved | **complete**: all seven frozen theorems sealed (the last, planetaryExponentialSafety, on 2026-10-29); every graph node resolved (two conventions accepted by owner ruling D31) |
+| **P** | Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun | 46 / 46 | 1363 / 1363 nodes resolved | **complete**: all seven frozen theorems sealed (the last, planetaryExponentialSafety, on 2026-10-29); every graph node resolved (two conventions accepted by owner ruling D31) |
 | **R** | Rüssmann's KAM theorem under weak non-degeneracy: invariant tori fill all but κ of phase space | 1 / 1 | — | **complete**: Rüssmann's theorem frozen (strong form Q1(d)) and sealed on 2026-10-30 (D35); proved through track P's quantitative weak-non-degeneracy theorem, without a separate graph |
 | **W** | PDE KAM: two-frequency quasi-periodic solutions of the cubic wave equation u_tt = u_xx − m u − u³ on [0, π], every m > 0 (Pöschel 1996) | 1 / 1 | 685 / 695 nodes resolved | Resumed at reduced size beside SO-3 (D53). Statements frozen (D41: twelve declarations; `nlw2` awaits its proof); blueprint W0–W8 complete and independently accepted; source dependency graph published (695 nodes, 2545 edges, global review PASS); 11 Lean packages on main (W1-SINES, W1-WEIGHTED, W1-ANALYTIC, W0-NORMAL, W1-ALGEBRA, W1-KAMSUP, W0-ANALYSIS, W2-RECON, W1-CUBIC, W3-SETTING, W3-DIVISOR-F) |
 | **LP** | Chaotic but collision-free: below the sharp Laskar–Petit AMD threshold the exact spatial (1+n)-body problem has no orbit crossing for exp(c μ^(−1/(2(τ+1)))), whatever its secular dynamics (D56) | 0 / 0 | not on `main` yet | Launched 2026-11-01 (D56), top priority. LP0 and LP1 (planar) on `main`, audited; LP2 (spatial) PROVED, audits pending; freeze package awaits the owner; LP3 stretch in design |
@@ -442,12 +445,12 @@ The phase table below is track K's.
 ## What we are formalizing: the frozen statements
 
 <!-- AUTO:statements -->
-**31 frozen theorems (27 sealed) and 148 frozen definitions.** Each theorem, with its source, its docstring, a link to the exact Lean declaration and its status, is on its own page: **[docs/STATEMENTS.md](docs/STATEMENTS.md)**.
+**70 frozen theorems (66 sealed) and 237 frozen definitions.** Each theorem, with its source, its docstring, a link to the exact Lean declaration and its status, is on its own page: **[docs/STATEMENTS.md](docs/STATEMENTS.md)**.
 
 - Track K: positive-measure KAM: [`aposteriori_kam`](docs/STATEMENTS.md#aposteriori_kam), [`kam_positive_measure`](docs/STATEMENTS.md#kam_positive_measure), [`kam_positive_measure_qualitative`](docs/STATEMENTS.md#kam_positive_measure_qualitative), [`local_uniqueness_flow`](docs/STATEMENTS.md#local_uniqueness_flow), [`volume_not_diophantine_le`](docs/STATEMENTS.md#volume_not_diophantine_le)
 - Track I: isoenergetic KAM, confinement, restricted three-body problem: [`isoenergetic_kam`](docs/STATEMENTS.md#isoenergetic_kam), [`all_time_confinement`](docs/STATEMENTS.md#all_time_confinement), [`kepler_bordered_det`](docs/STATEMENTS.md#kepler_bordered_det), [`restricted_near_circular`](docs/STATEMENTS.md#restricted_near_circular)
 - Track N: Nekhoroshev stability: [`quasiConvex_isoenergetic_derivative`](docs/STATEMENTS.md#quasiconvex_isoenergetic_derivative), [`zero_perturbation`](docs/STATEMENTS.md#zero_perturbation), [`quasiConvex_nekhoroshev_complexBound`](docs/STATEMENTS.md#quasiconvex_nekhoroshev_complexbound), [`partialConvex_nekhoroshev`](docs/STATEMENTS.md#partialconvex_nekhoroshev), [`averaging_mean`](docs/STATEMENTS.md#averaging_mean), [`averaging_most`](docs/STATEMENTS.md#averaging_most)
-- Track P: planetary systems: [`properlyDegenerateKAM`](docs/STATEMENTS.md#properlydegeneratekam), [`planarTwoPlanetKAM`](docs/STATEMENTS.md#planartwoplanetkam), [`fixedSunPlanetaryKAM`](docs/STATEMENTS.md#fixedsunplanetarykam), [`amdConfinement`](docs/STATEMENTS.md#amdconfinement), [`planetaryExponentialSafety`](docs/STATEMENTS.md#planetaryexponentialsafety), [`secularBoxSafety`](docs/STATEMENTS.md#secularboxsafety), [`secularBoxAtCitedMasses`](docs/STATEMENTS.md#secularboxatcitedmasses)
+- Track P: planetary systems: [`properlyDegenerateKAM`](docs/STATEMENTS.md#properlydegeneratekam), [`planarTwoPlanetKAM`](docs/STATEMENTS.md#planartwoplanetkam), [`fixedSunPlanetaryKAM`](docs/STATEMENTS.md#fixedsunplanetarykam), [`amdConfinement`](docs/STATEMENTS.md#amdconfinement), [`planetaryExponentialSafety`](docs/STATEMENTS.md#planetaryexponentialsafety), [`secularBoxSafety`](docs/STATEMENTS.md#secularboxsafety), [`secularBoxAtCitedMasses`](docs/STATEMENTS.md#secularboxatcitedmasses), [`orderedPairThreshold_isLeast`](docs/STATEMENTS.md#orderedpairthreshold_isleast), [`orderedPairThreshold_existsUnique_value`](docs/STATEMENTS.md#orderedpairthreshold_existsunique_value), [`orderedCrossThreshold_isLeast`](docs/STATEMENTS.md#orderedcrossthreshold_isleast), [`orderedStrongThreshold_isLeast`](docs/STATEMENTS.md#orderedstrongthreshold_isleast), [`sourceStrongAMD_nonneg`](docs/STATEMENTS.md#sourcestrongamd_nonneg), [`sum_action_mul_eccDeficit_le_sourceStrongAMD`](docs/STATEMENTS.md#sum_action_mul_eccdeficit_le_sourcestrongamd), [`sourceKepler_axis_pos`](docs/STATEMENTS.md#sourcekepler_axis_pos), [`sourceKepler_ecc_le_one`](docs/STATEMENTS.md#sourcekepler_ecc_le_one), [`sourceKeplerPeri_le_planeLength`](docs/STATEMENTS.md#sourcekeplerperi_le_planelength), [`planeLength_le_sourceKeplerApo`](docs/STATEMENTS.md#planelength_le_sourcekeplerapo), [`sourceOscAxis_pos`](docs/STATEMENTS.md#sourceoscaxis_pos), [`sourceOscPeri_pos`](docs/STATEMENTS.md#sourceoscperi_pos), [`sourceOscPeri_le_planeLength`](docs/STATEMENTS.md#sourceoscperi_le_planelength), [`planeLength_le_sourceOscApo`](docs/STATEMENTS.md#planelength_le_sourceoscapo), [`spatialSourceKeplerAxis_pos`](docs/STATEMENTS.md#spatialsourcekepleraxis_pos), [`spatialSourceKeplerAction_pos`](docs/STATEMENTS.md#spatialsourcekepleraction_pos), [`spatialSourceKeplerAction_sq`](docs/STATEMENTS.md#spatialsourcekepleraction_sq), [`spatialSourceKeplerEcc_sq`](docs/STATEMENTS.md#spatialsourcekeplerecc_sq), [`spatialSourceKeplerEcc_nonneg`](docs/STATEMENTS.md#spatialsourcekeplerecc_nonneg), [`spatialSourceKeplerEcc_le_one`](docs/STATEMENTS.md#spatialsourcekeplerecc_le_one), [`spatialSourcePlanetAngularMomentum_length`](docs/STATEMENTS.md#spatialsourceplanetangularmomentum_length), [`spatialSourcePlanetAngularMomentum_length_le`](docs/STATEMENTS.md#spatialsourceplanetangularmomentum_length_le), [`spatialSourceKeplerPeri_le_length`](docs/STATEMENTS.md#spatialsourcekeplerperi_le_length), [`spatialSourceKeplerApo_ge_length`](docs/STATEMENTS.md#spatialsourcekeplerapo_ge_length), [`spatialSourceStrongAMD_nonneg`](docs/STATEMENTS.md#spatialsourcestrongamd_nonneg), [`spatialSourceAction_mul_eccDeficit_le`](docs/STATEMENTS.md#spatialsourceaction_mul_eccdeficit_le), [`spatialSourceOscParam_pos`](docs/STATEMENTS.md#spatialsourceoscparam_pos), [`spatialSourceOscEnergy_neg`](docs/STATEMENTS.md#spatialsourceoscenergy_neg), [`spatialSourceOscEcc_lt_one`](docs/STATEMENTS.md#spatialsourceoscecc_lt_one), [`spatialSourceOscEcc_nonneg`](docs/STATEMENTS.md#spatialsourceoscecc_nonneg), [`spatialSourceOscAxis_pos`](docs/STATEMENTS.md#spatialsourceoscaxis_pos), [`spatialSourceOscPeri_pos`](docs/STATEMENTS.md#spatialsourceoscperi_pos), [`spatialSourceOscPeri_le_length`](docs/STATEMENTS.md#spatialsourceoscperi_le_length), [`spatialSourceOscApo_ge_length`](docs/STATEMENTS.md#spatialsourceoscapo_ge_length), [`planar_strongAMD_barrier`](docs/STATEMENTS.md#planar_strongamd_barrier), [`planar_strongAMD_exponentialSafety`](docs/STATEMENTS.md#planar_strongamd_exponentialsafety), [`planar_strongAMD_exponentialSafety_halfInteger`](docs/STATEMENTS.md#planar_strongamd_exponentialsafety_halfinteger), [`spatial_strongAMD_exponentialSafety`](docs/STATEMENTS.md#spatial_strongamd_exponentialsafety), [`spatial_strongAMD_exponentialSafety_halfInteger`](docs/STATEMENTS.md#spatial_strongamd_exponentialsafety_halfinteger)
 - Track R: Rüssmann's KAM theorem (weak non-degeneracy): [`russmann_kam`](docs/STATEMENTS.md#russmann_kam)
 - Track W: PDE KAM (cubic wave equation): [`nlw2`](docs/STATEMENTS.md#nlw2)
 - Track SO: the Moon's spin rate and synchronous lock (certified tori): [`lunar_barriers`](docs/STATEMENTS.md#lunar_barriers), [`lunar_spin_confinement`](docs/STATEMENTS.md#lunar_spin_confinement), [`lunarPLo_lt_lunarPHi`](docs/STATEMENTS.md#lunarplo_lt_lunarphi), [`lunarSyncOrbit_spec`](docs/STATEMENTS.md#lunarsyncorbit_spec), [`lunarSyncOrbit_unique`](docs/STATEMENTS.md#lunarsyncorbit_unique), [`lunarSyncOrbit_bound`](docs/STATEMENTS.md#lunarsyncorbit_bound), [`lunar_sync_lock`](docs/STATEMENTS.md#lunar_sync_lock)
@@ -505,8 +508,8 @@ flowchart BT
 <!-- AUTO:areas -->
 | Area | Content | Modules | Lines | Theorems |
 |---|---|---|---|---|
-| [`KAM/Frozen/`](KAM/Frozen) | Owner-approved frozen statements and definitions (one per file, manifest-bound) | 179 | 8,072 | 31 |
-| [`KAM/Provider/`](KAM/Provider) | One provider module per frozen theorem, where its proof is assembled | 31 | 1,909 | 41 |
+| [`KAM/Frozen/`](KAM/Frozen) | Owner-approved frozen statements and definitions (one per file, manifest-bound) | 307 | 13,267 | 70 |
+| [`KAM/Provider/`](KAM/Provider) | One provider module per frozen theorem, where its proof is assembled | 70 | 3,726 | 82 |
 | [`KAM/Analysis/`](KAM/Analysis) | Track K Part 1: quadratic iteration and scalar estimates | 1 | 158 | 4 |
 | [`KAM/Fourier/`](KAM/Fourier) | Weighted ℓ¹ Fourier norms, used in the cohomological equation (D12) | 4 | 628 | 33 |
 | [`KAM/Diophantine/`](KAM/Diophantine) | Diophantine vectors, cohomological equation, measure of the Diophantine set | 5 | 532 | 34 |
@@ -528,20 +531,20 @@ flowchart BT
 | [`KAM/Sharp/`](KAM/Sharp) | Sharp explicit a-posteriori KAM: Newton engine, torsion route, step, g1_sharp, parameter boxes | 20 | 4,469 | 107 |
 | [`KAM/CertificateSharp/`](KAM/CertificateSharp) | The sharp KAM certifier: engine-agnostic checker, rational constants, soundness | 231 | 43,952 | 1865 |
 | [`KAM/Sharp2/`](KAM/Sharp2) | v2 sharp a-posteriori KAM: route A, modified step (route B), l1 entry, small-divisor constants, PlasmaLean example | 108 | 27,182 | 1121 |
-| [`KAM/Root/`](KAM/Root) | Generated parts of the core root KAM.lean (scripts/gen_root_imports.py; the application roots `<Lib>.lean` and their parts live beside it, D51) | 27 | 2,992 | 0 |
+| [`KAM/Root/`](KAM/Root) | Generated parts of the core root KAM.lean (scripts/gen_root_imports.py; the application roots `<Lib>.lean` and their parts live beside it, D51) | 27 | 3,170 | 0 |
 | [`KAM/Certificate/`](KAM/Certificate) | Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies) | 90 | 22,540 | 1054 |
 | [`KAM/SpinOrbit/`](KAM/SpinOrbit) | Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs, the Moon's band theorems, the synchronous lock in `Lock/`); its generated certificate data are the next row | 37 | 6,771 | 390 |
 | [`KAM/SpinOrbit/Data/`](KAM/SpinOrbit/Data) | Track SO: generated certificate data of the barrier tori (numeric literals emitted by `scripts/spin_orbit/`, checked by the kernel; with their literal format and support lemmas); counted apart from the hand-written Lean | 1649 | 632,896 | 4663 |
-| [`KAM/Wave/`](KAM/Wave) | Track W: PDE KAM for the cubic wave equation (Pöschel 1996): sequence calculus and the weighted convolution algebra, analytic maps on Banach domains, Banach-valued Fourier coefficients for the KAM step, Birkhoff normal form (averaged quartic part, nonresonance, nondegeneracy), analytic and classical reconstruction of the solutions | 450 | 82,922 | 3956 |
-| [`KAM/Planetary/StrongAMD/`](KAM/Planetary/StrongAMD) | Track LP: the sharp strong Laskar–Petit AMD threshold and barrier, the nonresonant exponential normal-form adapter, first exit, planar exponential safety (D56) | 59 | 10,436 | 431 |
-| [`KAM/Planetary/Spatial/`](KAM/Planetary/Spatial) | Track LP: the spatial planetary problem (regular spatial Poincaré chart, vector angular momentum, spatial exponential safety; D56) | 77 | 13,395 | 621 |
+| [`KAM/Wave/`](KAM/Wave) | Track W: PDE KAM for the cubic wave equation (Pöschel 1996): sequence calculus and the weighted convolution algebra, analytic maps on Banach domains, Banach-valued Fourier coefficients for the KAM step, Birkhoff normal form (averaged quartic part, nonresonance, nondegeneracy), analytic and classical reconstruction of the solutions | 456 | 84,198 | 4023 |
+| [`KAM/Planetary/StrongAMD/`](KAM/Planetary/StrongAMD) | Track LP: the sharp strong Laskar–Petit AMD threshold and barrier, the nonresonant exponential normal-form adapter, first exit, planar exponential safety (D56) | 62 | 10,638 | 424 |
+| [`KAM/Planetary/Spatial/`](KAM/Planetary/Spatial) | Track LP: the spatial planetary problem (regular spatial Poincaré chart, vector angular momentum, spatial exponential safety; D56) | 79 | 13,452 | 606 |
 | [`KAM/Application/`](KAM/Application) | — | 24 | 4,398 | 250 |
 
 **Certificate applications** (decision D51): opt-in libraries, not built by a plain `lake build` (which builds the core library `KAM`, every core theorem); each builds with `lake build <Lib>` through the capped driver `scripts/prebuild_heavy.py --lib <Lib>`. Modules are assigned in [`scripts/build_roots.json`](scripts/build_roots.json).
 
 | Library | Content | Modules | Hand-written lines | Generated data lines | Theorems |
 |---|---|---|---|---|---|
-| `KAM` (default) | The core: every module not assigned to an application | 2514 | 489,544 | — | 20893 |
+| `KAM` (default) | The core: every module not assigned to an application | 2692 | 498,091 | — | 21018 |
 | [`KAMLunarBand`](KAMLunarBand.lean) | SO-2: the Moon's spin-orbit band (N = 65 barrier tori) | 1654 | 267 | 632,896 | 4672 |
 | [`KAMLunarLock`](KAMLunarLock.lean) | SO-3: the Moon locked in synchronous rotation (N = 65 librational torus) | 0 | 0 | 0 | 0 |
 <!-- /AUTO:areas -->
@@ -557,19 +560,18 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:workers -->
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
-| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
+| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | 🔄 working | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-5 | 🔄 proving | last commit: LOCK-DATA: Pass.HamBounds/HamClaim from the kernel-checked jet, ball pass and HamOk (HamBr | `inp-lockdata` | 57 (vs `inp`) |
 | **LOCK-FREEZE** `inp-mprov-lockfreeze` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-FREEZE Phase B prep: frozen<->landed bridges and providers for lunarSyncOrbit_{spec,u | `inp-lockfreeze` | 1 (vs `inp`) |
-| **lp** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP: LP-FREEZE8R brief (draft 8 against the landed freeze) | `inp-lp` | 4 (vs `inp`) |
+| **lp** `inp-mprov-lp` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: LP: LP-GRAPH-W1 brief (graph setup and wave 1 after the freeze) | `inp-lp` | 6 (vs `inp`) |
 | **lp-freeze7** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP-FREEZE7R: handoff (parts A-C; superseded by LP-FREEZE-EXEC) | `inp-lp-freeze7` | 1 (vs `inp`) |
 | **lp-freeze8** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP-FREEZE7R part C: WIP | `inp-lp-freeze8` | 4 (vs `inp`) |
 | **lp-fz7r-audit** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP: draft-7 r1 delta statement audit 2 (codex-2): PASS WITH NOTES (BLOCKING 0; R1-R3 small | `inp-lp-fz7r-audit` | 1 (vs `inp`) |
+| **lp-graph** `inp-mprov-lp-graph` | prover (offload) | Claude Opus 5.5 | — | 🔄 proving | last commit: Merge branch 'inp-lp' into inp-lp-graph | `inp-lp-graph` | 6 (vs `inp`) |
 | **lp-providers** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP-FREEZE7R part B: stage the 39 draft-7 r1 providers (quarantined; not in roots), staging | `inp-lp-providers` | 1 (vs `inp`) |
-| **wgclose2** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: Merge branch 'inp' into inp-wgclose2 | `inp-wgclose2` | 2 (vs `inp`) |
-| **wgraph-close** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: Track W graph: bpW:w5:solve PROVED (W-GRAPH-CLOSE audit 2, W-SOLVE-FIX b0e251ba); graph fu | `inp-wgraph-close` | 2 (vs `inp`) |
 <!-- /AUTO:workers -->
 
 ### Recent changes on `main`
@@ -577,6 +579,10 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-01 13:41 | `fbe400d6` | HQ: find track LP's frozen anchors by path (ids are planetary.d59.*, not lp.*) |
+| 2026-11-01 13:41 | `97ce2c58` | README: track LP frozen and sealed (D62, main f46b94fb); item 8 links the frozen anchors |
+| 2026-11-01 13:41 | `57b045dd` | Land paper-lp: LP paper after the freeze (§A.3, frozen-anchor table, axioms checked at f46b94fb; 24 pp) |
+| 2026-11-01 13:23 | `f46b94fb` | Land inp into main |
 | 2026-11-01 13:03 | `c51ef333` | Land v2-bulk run types: tent and crossing runs for the three-frequency bulk walk, acceptance-only cost cuts, Bulk2RouteB (additive); audit AUDIT-V2-BULK-RUNS-1 PASS WITH CHANGES, fixes applied (P = 128 at all bites) |
 | 2026-11-01 12:49 | `aab1bd32` | Land v2-consol: combined engine routeMax (17 branches, every landed engine recovered by rfl; packed base via checkTorusCertificateMax), fibred and sign-tolerant sites in route B variants, regression gaps (l1/hybrid opt-in, rotation, packed toy MicroP), measured cost calibration, sjs path fix; audit AUDIT-V2-CONSOL-1 PASS |
 | 2026-11-01 12:30 | `4dbc74c9` | Land v2-bulk (audited part, a5567900): run-bounded bulk bound for three-frequency sharp sites (bulkSiteOk, RouteH; additive), SJS counts; audit AUDIT-V2-BULK-1 PASS WITH CHANGES, fixes applied |
@@ -585,10 +591,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-01 11:40 | `903f2aa9` | Merge remote-tracking branch 'origin/main' |
 | 2026-11-01 11:39 | `ed7c4daf` | README: main theorems add track W (nlw2, sealed) and track LP (with track N); renumber; layout |
 | 2026-11-01 11:14 | `0c87dbc2` | Merge remote-tracking branch 'origin/main' |
-| 2026-11-01 11:14 | `02f3ee7e` | Merge pull request #5: frozen-anchor guard regression tests in source lint |
-| 2026-11-01 10:52 | `3796dfa8` | Land inp into main |
-| 2026-11-01 10:50 | `30f216ac` | D63: owner relaunches SO-3 and approves sealing the lock once its chain and seal audit pass |
-| 2026-11-01 10:49 | `fcaad50f` | Overnight log: D62, nlw2 sealed, W graph syncs, LP freeze compressed |
 <!-- /AUTO:landed -->
 
 ## Decisions
