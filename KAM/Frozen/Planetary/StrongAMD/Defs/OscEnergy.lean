@@ -1,0 +1,40 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import KAM.Frozen.Planetary.Defs.BodyVector
+public import KAM.Frozen.Planetary.Defs.Phase
+public import KAM.Frozen.Planetary.Defs.PlaneLength
+public import KAM.Frozen.Planetary.Defs.PlaneSq
+public import KAM.Frozen.Planetary.StrongAMD.Defs.OscParam
+public import KAM.Frozen.Planetary.StrongAMD.Defs.OscVelocity
+
+/-!
+# Frozen definition `KAM.Planetary.StrongAMD.oscEnergy`
+
+Track LP, `LP:MAIN L16 (42) (510–520)` (MAIN as amended by AMENDMENTS). Owner-approved on
+2026-11-01 (decision D62; docs/tracks/LP/FREEZE-PROPOSAL.md draft 7, under the rulings
+of D59). This file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an
+owner-approved versioned successor.
+
+Freeze role (D59, OD-11 (b)): an internal total helper in the definition closure. It is certified as
+the source object only on its carrier, through the source-facing definitions and predicates that use
+it; its values off that carrier carry no source meaning. In the anchors it occurs only as a sign
+condition inside a guarded predicate (with `0 < |q_i|`); such a predicate is false whenever `|q_i| =
+0` and literal otherwise (review 5, R5.1).
+-/
+
+@[expose] public noncomputable section
+
+namespace KAM.Planetary.StrongAMD
+
+/-- `E_i^osc = |V_i|²/2 - k_i/|q_i|` (`LP:MAIN L16 (42)`). -/
+def oscEnergy {n : ℕ} (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 2)) (i : Fin n) : ℝ :=
+  planeSq (oscVelocity ν μ z i) / 2 - oscParam ν μ i / planeLength (bodyVector z.1 i)
+
+end KAM.Planetary.StrongAMD
+
+end

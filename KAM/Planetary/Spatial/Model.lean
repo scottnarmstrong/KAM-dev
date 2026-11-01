@@ -9,6 +9,10 @@ public import Mathlib
 public import KAM.Planetary.Spatial.Vector
 public import KAM.Frozen.Defs.HamiltonianVectorField
 public import KAM.Frozen.Iso.Defs.IsHamiltonianSolutionOn
+public import KAM.Frozen.Planetary.Spatial.Defs.IsSpatialMovingSolutionOn
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialHamiltonian
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialMovingUniqueOn
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialNoCollision
 
 /-!
 # The exact spatial model (dimension three)
@@ -35,33 +39,6 @@ namespace KAM.Planetary.Spatial
 open KAM.Planetary
 
 variable {n : ℕ}
-
-/-- The exact spatial Hamiltonian `H_μ` (`LP:MAIN §1 (1)`, `d = 3`): positions `q_i` and scaled
-canonical momenta `p_i` in `Phase (n * 3)`, masses `m_i = μ ν_i`, central Kepler parameter one. -/
-def spatialHamiltonian (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 3)) : ℝ :=
-  (∑ i, (spaceSq (bodyVector3 z.2 i) / (2 * ν i) - ν i / spaceLength (bodyVector3 z.1 i))) +
-    μ * (spaceSq (∑ i, bodyVector3 z.2 i) / 2 -
-      ∑ i, ∑ j ∈ Finset.univ.filter (fun j => i < j),
-        ν i * ν j / spaceLength (bodyVector3 z.1 i - bodyVector3 z.1 j))
-
-/-- The open physical domain of `H_μ`: no planet at the star and no two planets together. -/
-def SpatialNoCollision (q : Fin (n * 3) → ℝ) : Prop :=
-  (∀ i, 0 < spaceLength (bodyVector3 q i)) ∧
-  (∀ i j, i ≠ j → 0 < spaceLength (bodyVector3 q i - bodyVector3 q j))
-
-/-- A genuine spatial moving-Sun solution on `J`: the frozen differentiability-guarded Hamiltonian
-ODE for `H_μ` together with collision exclusion (`LP:MAIN §1 (1)`). -/
-def IsSpatialMovingSolutionOn (ν : Fin n → ℝ) (μ : ℝ) (J : Set ℝ)
-    (z : ℝ → Phase (n * 3)) : Prop :=
-  KAM.Iso.IsHamiltonianSolutionOn (spatialHamiltonian ν μ) Set.univ J z ∧
-    ∀ t ∈ J, SpatialNoCollision (z t).1
-
-/-- Agreement with every other local spatial solution on its overlap with the certified interval
-(the pattern of the frozen planar `MovingUniqueOn`). -/
-def SpatialMovingUniqueOn (ν : Fin n → ℝ) (μ : ℝ) (J : Set ℝ)
-    (z : ℝ → Phase (n * 3)) : Prop :=
-  ∀ (U : Set ℝ) (w : ℝ → Phase (n * 3)), IsOpen U → Convex ℝ U → 0 ∈ U →
-    w 0 = z 0 → IsSpatialMovingSolutionOn ν μ U w → ∀ t ∈ U ∩ J, w t = z t
 
 /-- Force kernel of the star on a planet: `g_i = |q_i|⁻³ q_i`. -/
 def spatialGKernel (q : Fin n → Fin 3 → ℝ) (i : Fin n) : Fin 3 → ℝ :=
