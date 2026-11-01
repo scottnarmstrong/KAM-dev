@@ -944,3 +944,11 @@ One-ulp controls decide `false` on the radii and bounds; at torsion, one ulp of 
 outward rounding of the propagated radius (2²⁰ ulp is rejected). The landed consumers' composition inputs (T′:
 4,121 `Low`/`Full` modules; 77,925 CPU-s for the 3,699 run so far) are no longer needed once the packed chains
 are proved.
+
+**Gate (LG00 T″, `…/V2-PACKED-CONS-GATE/TPP/`).** The same probes at T″'s claims, every one decided as stated:
+- torsion: 43 processes, 408 CPU-s, ≤ 2.77 GB; margin 1.32·10⁻³;
+- frames: sup |T| = 115.68 ≤ 116;
+- invariance: 6 processes; slack 1.52·10⁻¹⁸ against err = 6.56·10⁻¹⁶ (0.23 % of err);
+- energy: |⟨H ∘ K⟩ − E₀| ≤ 6.3·10⁻²³.
+The same caveats as T′ apply: mirror nodes, jet chain not decided, T″'s data pinned by the hashes of the copies.
+

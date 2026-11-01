@@ -130,6 +130,37 @@ The jet chains themselves (`jetCheck` at `cfgLow` and `cfgFull`) are kamx-packed
 - Against B3b's torsion (lg00-cert: 64 processes, 1,292 CPU-s with per-probe data), the J torsion drops the 20
   `DX_H`/`DH` boundary probes and per-probe data elaboration.
 
+## Gate on LG00 T″ (`docs/campaign/studies/V2-PACKED-CONS-GATE/TPP/`)
+
+The same gate on T″'s data, at T″'s own claims (σT − μ = 0.21399, err = 6.56·10⁻¹⁶, `bT = 116`). The caveats are
+those of T′:
+- the jet nodes are an untrusted mirror's output, made here from T″'s generator state with the landed extractor
+  and kamx-packed's `--mirror-only` mirror;
+- the jet chain conjunct is not decided;
+- T″'s `TPP/Data` is untracked in lg00-app, so the receipts pin it by the sha256 of the copied sources.
+
+**All 98 modules decide as stated**, one process each under 4 GB, largest 2.77 GB.
+
+| group (T″) | processes | CPU | kernel | max charge |
+|---|---:|---:|---:|---:|
+| certificate copy / shared consumer data | 18 / 4 | 78.0 / 86.8 s | — | 0.56 / 1.41 GB |
+| Gram link (shared) | 10 | 70.3 s | 35.8 s | 1.99 GB |
+| **torsion** | **43** | **408.4 s** | 254.5 s | **2.77 GB** |
+| **frames** `sup \|T\| ≤ 116` | **1** | **16.9 s** | 14.5 s | 2.14 GB |
+| **invariance** | **6** | **31.9 s** | 9.0 s | 1.05 GB |
+| **energy** | **2** | **8.1 s** | 0.9 s | 0.62 GB |
+| controls (with the frames test at its tight bound) | 13 | 110.1 s | 57.6 s | 2.17 GB |
+
+- **Torsion:** ‖S‖ = 0.212666, δ_T = 4.9·10⁻⁹; margin 1.32·10⁻³.
+- **Frames:** sup |T| = 115.676 against 116.
+- **Invariance:** norms 1.258·10⁻¹⁶, **6.545·10⁻¹⁶**, 1.34·10⁻¹⁷, 6.8·10⁻¹⁸ plus radii ≤ 1.08·10⁻²¹. The worst
+  coordinate has **slack 1.52·10⁻¹⁸, 0.23 % of err** (T′: 0.11 %). In both tori the slack is set by the choice of
+  err, not by the radii.
+- **Energy:** deviation 1.3·10⁻²³, radius 5.0·10⁻²³.
+- **Controls:** as on T′, every one decided as stated (the jet radius + 1 ulp is again absorbed at torsion's X_N).
+- **CPU and load.** The CPU per probe is about half of T′'s, mostly lower system time on a less loaded machine. CPU
+  in these gates is load-sensitive; kernel times compare better.
+
 ## Checks and their output
 
 - **Targeted builds** (`nice -n 5`, `systemd-run --scope -p MemoryMax=4G`, one at a time):
