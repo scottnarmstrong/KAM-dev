@@ -1,0 +1,386 @@
+#!/usr/bin/env python3
+"""V2-TOOLS #3: producer-side route and parameter selection by predicted total kernel cost (untrusted tooling).
+
+    python3 -I scripts/certifier/route_select.py PROFILE [--margin M] [--beta B] [--pi P] [--json OUT]
+    python3 -I scripts/certifier/route_select.py --validate        # lunar65 and lg00 against their hand choices
+
+`routeV2All` is unchanged: the trusted interface dispatches whatever witness the producer emits.  This tool decides
+which witness to emit.  For a model and candidate torus family (a PROFILE: scripts/certifier/fixtures/route-select/
+<name>.json, written by route_profiles.py) it evaluates, at every strip ρ of the profile's grid:
+
+  route                 threshold e* from                                   kind
+  sharp (baseline)      sharp_q.sharp (the landed sharp engine)              exact mirror
+  A.frozen              v2_r2.max_Xs('frozen')                               exact mirror
+  A.refined.classical   v2_r2.max_Xs('refined'), classical sites            exact mirror
+  A.refined.cert[kp]    the same, certified sites (c = c_freq × 1.01) where   exact mirror (sites: float c, the
+                        the clock test applies and the cut-off l <= l_max    Lean balCheck is the check)
+  B.frozen, B.refined   forced_witness.solve_B (route_b_lean_mirror)         exact mirror
+  A.L8'                 refined e*/2 (the forced toy's exact ratio)          estimate
+  l1-entry              refined e* × 10^0.75 (thresholds_v2 at R1, iso)      design estimate
+  hybrid                sqrt(e1*/A_meas), e1* the refined e* at ρ - 3δ₀       design estimate (needs A_meas)
+
+then scans the truncation L and the precision P: achieved err(L, ρ, P) from the profile's measured table
+(log-linear in L, the ρ factor, a precision floor 10^4 · 2^-P), margin log10(e*/err), the support S(L), and the
+predicted kernel cost
+
+    C = C_ref (S(L)/S_ref)^β (P/P_ref)^π · (1 + extra_route) + Σ_sites c(l),   c(l) = c_8 · 2^{1.29 (l - 8)} s,
+
+C_ref the measured cost of the hand choice (lunar: SO-CSPLIT-GATE; LG00: the run20e ledger), β fitted on LG00's
+L = 8 pilot against its L = 20 ledger (packed products: torsion stages 0.91, Gram 0.96; the direct route of the
+forced toy is quadratic instead), π = 1, extra_route 0 for sharp/frozen/refined (the ledger: frames, claim and core are 0.7 %
+of LG00's run once the stages are shared), 0.5 for the l1 entry and 1.0 for the hybrid (unmeasured estimates:
+another stage pass, another composition pass).  It returns the cheapest candidate whose margin is at least the
+requested one and whose sites are feasible (l <= l_max: l = 13 bites exceeded 10 GB at R1), and always the cheapest
+passing baseline (the landed sharp route) as fallback.  Diagnostics per candidate: required vs achieved residual,
+displacement coefficient, binding budget, support, precision, predicted cost, margin, kind.  Estimates are reported
+as such and are never chosen over an exact-mirror candidate of equal cost.
+"""
+import argparse
+import json
+import math
+import os
+import sys
+from fractions import Fraction as F
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
+FIX = os.path.join(HERE, "fixtures", "route-select")
+sys.path.insert(0, os.path.join(ROOT, "scripts", "spin_orbit"))
+sys.path.insert(1, os.path.join(ROOT, "scripts", "apost_sharp"))
+sys.path.insert(2, os.path.join(HERE, "forced"))
+
+import sharp_q as SQ                 # noqa: E402
+import v2_q as V                     # noqa: E402
+import v2_r2 as R2                   # noqa: E402
+import smalldiv as SD                # noqa: E402
+import route_b_lean_mirror as RB     # noqa: E402
+import forced_witness as FW          # noqa: E402
+
+TH, J, KP_FROZEN = F(1, 8), 20, 5
+L1_DELTA = 0.75          # thresholds_v2 --l1 at R1 (iso): A7 -10.95, A7 + l1 entry -10.20
+L8_FACTOR = F(1, 2)      # forced toy Tiny: X*(L8') = X*(refined A) / 2 (kernel-checked, TinyRouteR)
+EXTRA = {"l1-entry": 0.5, "hybrid": 1.0}
+
+
+def lg(x):
+    return math.log10(float(x)) if x and x > 0 else float("-inf")
+
+
+# ---------------------------------------------------------------------------------------------- profiles
+def load_profile(name):
+    with open(os.path.join(FIX, "%s.json" % name)) as fh:
+        d = json.load(fh)
+    d["params"] = {k: (int(v) if k == "tau" else F(v)) for k, v in d["params"].items()}
+    d["box"] = [(F(a), F(b)) for a, b in d["box"]]
+    d["R"] = {k: F(v) for k, v in d["R"].items()}
+    return d
+
+
+def params_at(prof, rho):
+    p = dict(prof["params"])
+    if not prof["rho_fixed"]:
+        ratio = p["rhoInf"] / p["rho"]
+        p["rho"], p["rhoInf"] = F(rho), F(rho) * ratio
+    return p
+
+
+# ---------------------------------------------------------------------------------------------- sites
+def clock_ok(box):
+    """the certified-site test (SmallDivQ.clockOk) needs n = 2 and an exact positive last coordinate."""
+    return len(box) == 2 and box[1][1] == 0 and box[1][0] > 0
+
+
+def site(prof, p, box, bite, kind):
+    """(c, l, certified) at one bite: the certified constant (c_freq × 1.01) and its cut-off l, or the classical."""
+    rule = F(prof["site_l_rule"]["delta" if kind == "d" else "b"])
+    l = max(3, math.ceil(math.log2(float(rule / bite))))
+    if clock_ok(box) and l <= prof["site_l_max"]:
+        om = (float(box[0][0]), float(box[1][0]))
+        c = V.up(SD.c_freq(om, float(p["gamma"]), 1, float(bite))[0] * 1.01, 4)
+        return c, l, True
+    return V.classical_c(2, 1, J, bite), l, False
+
+
+def site_cost(prof, l):
+    tab = {int(k): v for k, v in prof["site_cost_s"].items()}
+    return tab.get(l, 2.4 * 2 ** (1.29 * (l - 8)))
+
+
+# ---------------------------------------------------------------------------------------------- thresholds
+def route_A(prof, p, box, branch, kp, certify):
+    """(e*, Xs, binding at 1.1 X*, displacement coefficient C/(γ²ρ²), site list [(kind, s, l, certified)])."""
+    R = prof["R"]
+    Q0 = V.Num(n=2, tau=1, rho=p["rho"], rhoInf=p["rhoInf"], kp=kp)
+    sites, slist = None, []
+    if branch == "refined":
+        sites = {}
+        for s in range(kp):
+            for kind, bite in (("d", Q0.delta(s)), ("b", Q0.b(s))):
+                if certify:
+                    c, l, cert = site(prof, p, box, bite, kind)
+                else:
+                    c, l, cert = V.classical_c(2, 1, J, bite), 0, False
+                sites[(kind, s)] = c
+                slist.append(dict(kind=kind, s=s, bite=float(bite), l=l, certified=cert, c=float(c)))
+    try:
+        Xs = R2.max_Xs(branch, p, box, kp, TH, J, R if branch == "refined" else None, sites, lo=-40.0, hi=8.0,
+                       steps=34)
+    except Exception as e:                     # noqa: BLE001  (a mirror failure is reported, not chosen)
+        return dict(error=repr(e)[:200])
+    ok, why, w = R2.okB_at(branch, p, box, kp, TH, J, Xs, R if branch == "refined" else None, sites, detail=True)
+    _, why_up, _ = R2.okB_at(branch, p, box, kp, TH, J, Xs * F(11, 10), R if branch == "refined" else None, sites,
+                             detail=True)
+    Q = V.frozen_num(w, 2, p, box) if branch == "frozen" else V.refined_num(dict(w, R=R), 2, p, box)
+    C, *_ = V.disp_coefs(Q, 2, p, Xs, branch == "frozen")
+    d0 = Q0.d0
+    return dict(estar=Xs * p["gamma"] ** 4 * d0 ** 4, Xs=Xs, binding=why_up[:3], disp_coef=C / (p["gamma"] ** 2 *
+                p["rho"] ** 2), sites=slist, ok=ok)
+
+
+def route_B(prof, p, box, frozen, kp=2):
+    R = prof["R"]
+    d0, dl, sp, bfull = FW.b_bites(p, kp)
+    consts = ([V.classical_c(2, 1, J, dl(s)) for s in range(kp)], [V.classical_c(2, 1, J, sp(s)) for s in range(kp)],
+              [V.classical_c(2, 1, J, bfull(s)) for s in range(kp)], V.classical_c(2, 1, J, dl(kp)),
+              V.classical_c(2, 1, J, bfull(kp)))
+    I = FW.default_IB(p) if frozen else dict(iLt=R["bL"], iN=R["bN"], iNt=R["bNt"])
+    lo, hi, best = -30.0, 8.0, None
+    for _ in range(26):
+        mid = (lo + hi) / 2
+        Xs = FW.up_rel(F(10 ** mid), F(0), 3)
+        try:
+            N, caps, fails = FW.solve_B(p, box, R, I, consts, kp, Xs, frozen, iters=60)
+        except (ZeroDivisionError, OverflowError):
+            fails = ["arith"]
+        if not fails:
+            lo, best = mid, (Xs, N)
+        else:
+            hi = mid
+    if best is None:
+        return dict(error="no passing X*")
+    Xs, N = best
+    c1 = RB.c1B(N, I, Xs)
+    return dict(estar=p["gamma"] ** 4 * p["rho"] ** 4 / c1, Xs=Xs, binding=[], disp_coef=None, sites=[], ok=True)
+
+
+def thresholds(prof, rho, kps=(1, 2, 3), with_B=True, log=print):
+    p = params_at(prof, rho)
+    box = prof["box"]
+    out = {}
+    sh = SQ.sharp(dict(p))
+    out["sharp"] = dict(estar=sh["threshold"], kind="exact", disp_coef=sh.get("disp_coef"), binding=[],
+                        sites=[])
+    out["A.frozen"] = dict(route_A(prof, p, box, "frozen", KP_FROZEN, False), kind="exact")
+    out["A.refined.classical"] = dict(route_A(prof, p, box, "refined", 3, False), kind="exact")
+    for kp in kps:
+        if clock_ok(box):
+            out["A.refined.cert[kp=%d]" % kp] = dict(route_A(prof, p, box, "refined", kp, True), kind="exact")
+    if with_B:
+        out["B.frozen"] = dict(route_B(prof, p, box, True), kind="exact")
+        out["B.refined.classical"] = dict(route_B(prof, p, box, False), kind="exact")
+    best_ref = max((v for k, v in out.items() if k.startswith("A.refined") and "estar" in v),
+                   key=lambda v: v["estar"])
+    out["A.L8'"] = dict(estar=best_ref["estar"] * L8_FACTOR, kind="estimate", sites=best_ref.get("sites", []),
+                        binding=[], disp_coef=None)
+    out["l1-entry"] = dict(estar=best_ref["estar"] * F(10 ** L1_DELTA).limit_denominator(10 ** 6), kind="design",
+                           sites=best_ref.get("sites", []), binding=[], disp_coef=None)
+    if prof.get("A_meas"):
+        d0 = min(F(1), (p["rho"] - p["rhoInf"]) / 6)
+        p1 = dict(p, rho=p["rho"] - 3 * d0)
+        e1 = route_A(prof, p1, box, "refined", 3, clock_ok(box))
+        if "estar" in e1:
+            out["hybrid"] = dict(estar=F(math.sqrt(float(e1["estar"]) / float(F(prof["A_meas"])))),
+                                 kind="design", sites=e1["sites"], binding=[], disp_coef=None)
+    for k, v in out.items():
+        if "estar" in v:
+            log("  rho %-7s %-24s log10 e* %7.2f  %s" % (rho, k, lg(v["estar"]), v["kind"]))
+        else:
+            log("  rho %-7s %-24s %s" % (rho, k, v.get("error")))
+    return out
+
+
+# ---------------------------------------------------------------------------------------------- err, support, cost
+def interp_log(table, x):
+    pts = sorted((float(k), math.log(float(v))) for k, v in table.items())
+    if x <= pts[0][0]:
+        (x0, y0), (x1, y1) = pts[0], pts[1]
+    elif x >= pts[-1][0]:
+        (x0, y0), (x1, y1) = pts[-2], pts[-1]
+    else:
+        for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
+            if x0 <= x <= x1:
+                break
+    return math.exp(y0 + (y1 - y0) * (x - x0) / (x1 - x0))
+
+
+def err_at(prof, L, rho, P):
+    e = interp_log(prof["err_L"], L)
+    if not prof["rho_fixed"]:
+        e *= float(F(prof["err_rho_factor"][rho]))
+    return max(e, 1e4 * 2.0 ** -P)
+
+
+def support_at(prof, L):
+    return interp_log(prof["support_L"], L)
+
+
+def cost_h(prof, route, L, P, sites, beta, pi):
+    S_ref = support_at(prof, prof["cost_ref"]["L"])
+    base = float(F(prof["cost_ref"]["cpu_h"])) * (support_at(prof, L) / S_ref) ** beta * (P / prof["P_ref"]) ** pi
+    base *= 1 + EXTRA.get(route, 0.0)
+    return base + sum(site_cost(prof, s["l"]) for s in sites if s.get("certified")) / 3600
+
+
+# ---------------------------------------------------------------------------------------------- selection
+def candidates(prof, th_by_rho, beta=2.0, pi=1.0):
+    Ls = sorted({int(k) for k in prof["err_L"]} | set(range(min(int(k) for k in prof["err_L"]),
+                                                         max(int(k) for k in prof["err_L"]) + 1)))
+    out = []
+    for rho, th in th_by_rho.items():
+        for route, r in th.items():
+            if "estar" not in r:
+                continue
+            feasible_sites = all(s["l"] <= prof["site_l_max"] for s in r.get("sites", []) if s.get("certified"))
+            for L in Ls:
+                for P in prof["P_grid"]:
+                    e = err_at(prof, L, rho, P)
+                    out.append(dict(route=route, kind=r["kind"], rho=rho, L=L, P=P, log10_estar=round(lg(r["estar"]),
+                                    2), log10_err=round(math.log10(e), 2), margin=round(lg(r["estar"]) - math.log10(e),
+                                    2), support=round(support_at(prof, L)), cost_h=round(cost_h(prof, route, L, P,
+                                    r.get("sites", []), beta, pi), 3), sites_ok=feasible_sites,
+                                    sites=[s["l"] for s in r.get("sites", []) if s.get("certified")],
+                                    binding=r.get("binding", []), displacement=(float(r["disp_coef"]) * e
+                                                                                if r.get("disp_coef") else None)))
+    return out
+
+
+def select(cands, margin, exact_only=False):
+    ok = [c for c in cands if c["margin"] >= margin and c["sites_ok"] and (c["kind"] == "exact" or not exact_only)]
+    rank = lambda c: (c["cost_h"], 0 if c["kind"] == "exact" else 1, -c["margin"])
+    best = min(ok, key=rank) if ok else None
+    base = [c for c in ok if c["route"] == "sharp"]
+    fallback = min(base, key=rank) if base else None
+    return best, fallback
+
+
+def hand_candidate(prof, cands):
+    h = prof["hand"]
+    want = h["route"]
+    pool = [c for c in cands if c["L"] == h["L"] and c["rho"] == h["rho"] and c["P"] == h["P"]]
+    pool = [c for c in pool if c["route"] == want or (want == "A.refined.certified" and
+                                                      c["route"] == "A.refined.cert[kp=%d]" % h["kp"])]
+    return pool[0] if pool else None
+
+
+def fit_beta():
+    """the support exponent of the packed kernel cost, from LG00's L = 8 pilot against its L = 20 ledger (torsion
+    stages and Gram): beta = mean of log(cost ratio) / log(support ratio)."""
+    prof = load_profile("lg00")
+    pl, led = prof["pilot_L8"], prof["ledger"]
+    sr = math.log(prof["support_L"]["20"] / pl["support"])
+    bt = math.log(led["Torsion"]["cpu_h"] * 3600 / pl["torsion_s"]) / sr
+    bg = math.log(led["Gram"]["cpu_h"] * 3600 / pl["gram_s"]) / sr
+    return (bt + bg) / 2, dict(torsion=round(bt, 3), gram=round(bg, 3))
+
+
+def run_profile(name, margin=None, beta=None, pi=1.0, with_B=True, log=print):
+    prof = load_profile(name)
+    if beta is None:
+        beta, parts = fit_beta()
+        log("beta fitted on the LG00 ledger (packed products): %.3f %s" % (beta, parts))
+    margin = prof["margin_rule"] if margin is None else margin
+    log("profile %s: %s" % (name, prof["title"]))
+    th = {rho: thresholds(prof, rho, with_B=with_B, log=log) for rho in prof["rho_grid"]}
+    cands = candidates(prof, th, beta, pi)
+    best, fb = select(cands, margin)
+    best_exact, _ = select(cands, margin, exact_only=True)
+    hand = hand_candidate(prof, cands)
+    sens = {}
+    for b in (0.75, 1.0, 1.5, 2.0):
+        c2 = candidates(prof, th, b, pi)
+        bb, _ = select(c2, margin, exact_only=True)
+        hh = hand_candidate(prof, c2)
+        sens["beta=%.1f" % b] = dict(choice=pick(bb), hand_cost_h=hh and hh["cost_h"],
+                                     ratio=(bb["cost_h"] / hh["cost_h"]) if (bb and hh) else None)
+    h = prof["hand"]
+    same_pkg = [c for c in cands if c["rho"] == h["rho"] and c["P"] == h["P"]]
+    cons1, _ = select(same_pkg, margin, exact_only=True)
+    cons2, _ = select(same_pkg, h["margin"] - 0.05, exact_only=True)
+    constrained = {"hand's ρ and P, margin %.1f" % margin: dict(choice=pick(cons1), verdict=verdict(cons1, hand)),
+                   "hand's ρ and P, the hand's realized margin %.2f" % h["margin"]: dict(choice=pick(cons2),
+                                                                                        verdict=verdict(cons2, hand))}
+    rep = dict(profile=name, margin_rule=margin, beta=beta, pi=pi, best=best, best_exact=best_exact,
+               constrained=constrained,
+               baseline_fallback=fb, hand=hand,
+               verdict=verdict(best_exact, hand), sensitivity=sens,
+               thresholds={rho: {k: dict(log10_estar=round(lg(v["estar"]), 2) if "estar" in v else None,
+                                         kind=v.get("kind"), binding=v.get("binding"),
+                                         sites=[(s["kind"], s["s"], s["l"], s["certified"]) for s in v.get("sites",
+                                                                                                         [])],
+                                         error=v.get("error")) for k, v in t.items()} for rho, t in th.items()},
+               candidates=cands)
+    return rep
+
+
+def pick(c):
+    return None if c is None else {k: c[k] for k in ("route", "rho", "L", "P", "margin", "cost_h", "kind")}
+
+
+def verdict(best, hand):
+    if best is None or hand is None:
+        return "no comparison (best %s, hand %s)" % (pick(best), pick(hand))
+    same = all(best[k] == hand[k] for k in ("route", "rho", "L", "P"))
+    if same:
+        return "reproduces the hand choice"
+    r = best["cost_h"] / hand["cost_h"] if hand["cost_h"] else None
+    return "differs: predicted cost %.3f CPU-h against the hand choice's %.3f (ratio %.2f)" % (
+        best["cost_h"], hand["cost_h"], r)
+
+
+def table(rep, top=12):
+    rows = sorted([c for c in rep["candidates"] if c["margin"] >= rep["margin_rule"] and c["sites_ok"]],
+                  key=lambda c: c["cost_h"])[:top]
+    out = ["| route | kind | ρ | L | P | log10 e* | log10 err | margin | support | cost (CPU-h) | sites l |",
+           "|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|"]
+    for c in rows:
+        out.append("| %s | %s | %s | %d | %d | %.2f | %.2f | %.2f | %d | %.3f | %s |" % (
+            c["route"], c["kind"], c["rho"], c["L"], c["P"], c["log10_estar"], c["log10_err"], c["margin"],
+            c["support"], c["cost_h"], ",".join(map(str, c["sites"])) or "-"))
+    return "\n".join(out)
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("profile", nargs="?")
+    ap.add_argument("--margin", type=float, default=None)
+    ap.add_argument("--beta", type=float, default=None, help="default: fitted on the LG00 ledger")
+    ap.add_argument("--pi", type=float, default=1.0)
+    ap.add_argument("--no-B", action="store_true")
+    ap.add_argument("--validate", action="store_true")
+    ap.add_argument("--json", default=None)
+    a = ap.parse_args()
+    names = ["lunar65", "lg00"] if a.validate else [a.profile]
+    reps = []
+    for nm in names:
+        rep = run_profile(nm, a.margin, a.beta, a.pi, with_B=not a.no_B)
+        reps.append(rep)
+        print("\n## %s (margin >= %.1f decades, beta %.2f)\n" % (nm, rep["margin_rule"], rep["beta"]))
+        print(table(rep))
+        print("\nbest (exact mirrors): %s" % pick(rep["best_exact"]))
+        print("best (incl. estimates): %s" % pick(rep["best"]))
+        print("baseline fallback (landed sharp): %s" % pick(rep["baseline_fallback"]))
+        print("hand choice: %s" % pick(rep["hand"]))
+        print("verdict: %s" % rep["verdict"])
+        for k, v in rep["constrained"].items():
+            print("constrained (%s): %s -> %s" % (k, v["choice"], v["verdict"]))
+        print("sensitivity (beta): %s" % json.dumps(rep["sensitivity"], default=str))
+    out = a.json or os.path.join(FIX, "validation.json" if a.validate else "%s_selection.json" % names[0])
+    for rep in reps:          # keep the feasible candidates, cheapest first (the full scan is recomputed in seconds)
+        rep["candidates"] = sorted([c for c in rep["candidates"] if c["margin"] >= rep["margin_rule"] and
+                                    c["sites_ok"]], key=lambda c: c["cost_h"])[:40]
+    with open(out, "w") as fh:
+        json.dump(reps, fh, indent=1, default=str)
+
+
+if __name__ == "__main__":
+    main()

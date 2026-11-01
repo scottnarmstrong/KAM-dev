@@ -1,0 +1,107 @@
+beta fitted on the LG00 ledger (packed products): 0.933 {'torsion': 0.908, 'gram': 0.958}
+profile lunar65: lunar spin-orbit band, N = 65, lower torus (package R2)
+  rho 1/280   sharp                    log10 e*  -33.03  exact
+  rho 1/280   A.frozen                 log10 e*  -29.07  exact
+  rho 1/280   A.refined.classical      log10 e*  -19.86  exact
+  rho 1/280   A.refined.cert[kp=1]     log10 e*  -17.32  exact
+  rho 1/280   A.refined.cert[kp=2]     log10 e*  -16.88  exact
+  rho 1/280   A.refined.cert[kp=3]     log10 e*  -16.66  exact
+  rho 1/280   B.frozen                 log10 e*  -26.54  exact
+  rho 1/280   B.refined.classical      log10 e*  -19.41  exact
+  rho 1/280   A.L8'                    log10 e*  -16.96  estimate
+  rho 1/280   l1-entry                 log10 e*  -15.91  design
+  rho 1/280   hybrid                   log10 e*   -8.68  design
+  rho 1/140   sharp                    log10 e*  -31.83  exact
+  rho 1/140   A.frozen                 log10 e*  -27.87  exact
+  rho 1/140   A.refined.classical      log10 e*  -18.66  exact
+  rho 1/140   A.refined.cert[kp=1]     log10 e*  -16.21  exact
+  rho 1/140   A.refined.cert[kp=2]     log10 e*  -14.47  exact
+  rho 1/140   A.refined.cert[kp=3]     log10 e*  -14.26  exact
+  rho 1/140   B.frozen                 log10 e*  -25.64  exact
+  rho 1/140   B.refined.classical      log10 e*  -18.51  exact
+  rho 1/140   A.L8'                    log10 e*  -14.56  estimate
+  rho 1/140   l1-entry                 log10 e*  -13.51  design
+  rho 1/140   hybrid                   log10 e*   -6.76  design
+  rho 1/100   sharp                    log10 e*  -31.24  exact
+  rho 1/100   A.frozen                 log10 e*  -27.29  exact
+  rho 1/100   A.refined.classical      log10 e*  -18.07  exact
+  rho 1/100   A.refined.cert[kp=1]     log10 e*  -15.70  exact
+  rho 1/100   A.refined.cert[kp=2]     log10 e*  -14.00  exact
+  rho 1/100   A.refined.cert[kp=3]     log10 e*  -13.79  exact
+  rho 1/100   B.frozen                 log10 e*  -25.20  exact
+  rho 1/100   B.refined.classical      log10 e*  -18.07  exact
+  rho 1/100   A.L8'                    log10 e*  -14.09  estimate
+  rho 1/100   l1-entry                 log10 e*  -13.04  design
+  rho 1/100   hybrid                   log10 e*   -6.49  design
+  rho 1/70    sharp                    log10 e*  -30.62  exact
+  rho 1/70    A.frozen                 log10 e*  -26.68  exact
+  rho 1/70    A.refined.classical      log10 e*  -17.46  exact
+  rho 1/70    A.refined.cert[kp=1]     log10 e*  -15.20  exact
+  rho 1/70    A.refined.cert[kp=2]     log10 e*  -13.53  exact
+  rho 1/70    A.refined.cert[kp=3]     log10 e*  -13.41  exact
+  rho 1/70    B.frozen                 log10 e*  -24.75  exact
+  rho 1/70    B.refined.classical      log10 e*  -17.61  exact
+  rho 1/70    A.L8'                    log10 e*  -13.71  estimate
+  rho 1/70    l1-entry                 log10 e*  -12.66  design
+  rho 1/70    hybrid                   log10 e*   -5.56  design
+
+## lunar65 (margin >= 1.0 decades, beta 0.93)
+
+| route | kind | ρ | L | P | log10 e* | log10 err | margin | support | cost (CPU-h) | sites l |
+|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|
+| A.refined.cert[kp=3] | exact | 1/70 | 19 | 96 | -13.41 | -14.41 | 1.00 | 219 | 1.800 | 10,7,11,8,12,9 |
+| hybrid | design | 1/280 | 14 | 96 | -8.68 | -10.68 | 2.00 | 108 | 1.858 | 10,11,12 |
+| hybrid | design | 1/140 | 14 | 96 | -6.76 | -10.43 | 3.67 | 108 | 1.859 | 12,9,10,11 |
+| hybrid | design | 1/100 | 14 | 96 | -6.49 | -10.21 | 3.72 | 108 | 1.859 | 12,9,10,11 |
+| hybrid | design | 1/70 | 14 | 96 | -5.56 | -10.03 | 4.47 | 108 | 1.860 | 11,8,12,9,10 |
+| A.refined.cert[kp=2] | exact | 1/70 | 20 | 96 | -13.53 | -15.40 | 1.86 | 251 | 2.013 | 10,7,11,8 |
+| A.refined.cert[kp=2] | exact | 1/140 | 20 | 96 | -14.47 | -15.80 | 1.32 | 251 | 2.036 | 11,8,12,9 |
+| A.refined.cert[kp=2] | exact | 1/100 | 20 | 96 | -14.00 | -15.58 | 1.58 | 251 | 2.036 | 11,8,12,9 |
+| A.refined.cert[kp=3] | exact | 1/140 | 20 | 96 | -14.26 | -15.80 | 1.53 | 251 | 2.039 | 11,8,12,9,10 |
+| A.L8' | estimate | 1/140 | 20 | 96 | -14.56 | -15.80 | 1.23 | 251 | 2.039 | 11,8,12,9,10 |
+| A.refined.cert[kp=3] | exact | 1/100 | 20 | 96 | -13.79 | -15.58 | 1.78 | 251 | 2.039 | 11,8,12,9,10 |
+| A.L8' | estimate | 1/100 | 20 | 96 | -14.09 | -15.58 | 1.48 | 251 | 2.039 | 11,8,12,9,10 |
+
+best (exact mirrors): {'route': 'A.refined.cert[kp=3]', 'rho': '1/70', 'L': 19, 'P': 96, 'margin': 1.0, 'cost_h': 1.8, 'kind': 'exact'}
+best (incl. estimates): {'route': 'A.refined.cert[kp=3]', 'rho': '1/70', 'L': 19, 'P': 96, 'margin': 1.0, 'cost_h': 1.8, 'kind': 'exact'}
+baseline fallback (landed sharp): {'route': 'sharp', 'rho': '1/70', 'L': 38, 'P': 128, 'margin': 1.55, 'cost_h': 9.903, 'kind': 'exact'}
+hand choice: {'route': 'A.refined.cert[kp=3]', 'rho': '1/140', 'L': 20, 'P': 96, 'margin': 1.53, 'cost_h': 2.039, 'kind': 'exact'}
+verdict: differs: predicted cost 1.800 CPU-h against the hand choice's 2.039 (ratio 0.88)
+constrained (hand's ρ and P, margin 1.0): {'route': 'A.refined.cert[kp=2]', 'rho': '1/140', 'L': 20, 'P': 96, 'margin': 1.32, 'cost_h': 2.036, 'kind': 'exact'} -> differs: predicted cost 2.036 CPU-h against the hand choice's 2.039 (ratio 1.00)
+constrained (hand's ρ and P, the hand's realized margin 1.53): {'route': 'A.refined.cert[kp=3]', 'rho': '1/140', 'L': 20, 'P': 96, 'margin': 1.53, 'cost_h': 2.039, 'kind': 'exact'} -> reproduces the hand choice
+sensitivity (beta): {"beta=0.8": {"choice": {"route": "A.refined.cert[kp=3]", "rho": "1/70", "L": 19, "P": 96, "margin": 1.0, "cost_h": 1.844, "kind": "exact"}, "hand_cost_h": 2.039, "ratio": 0.9043648847474252}, "beta=1.0": {"choice": {"route": "A.refined.cert[kp=3]", "rho": "1/70", "L": 19, "P": 96, "margin": 1.0, "cost_h": 1.783, "kind": "exact"}, "hand_cost_h": 2.039, "ratio": 0.8744482589504659}, "beta=1.5": {"choice": {"route": "A.refined.cert[kp=3]", "rho": "1/70", "L": 19, "P": 96, "margin": 1.0, "cost_h": 1.668, "kind": "exact"}, "hand_cost_h": 2.039, "ratio": 0.8180480627758704}, "beta=2.0": {"choice": {"route": "A.refined.cert[kp=3]", "rho": "1/70", "L": 19, "P": 96, "margin": 1.0, "cost_h": 1.561, "kind": "exact"}, "hand_cost_h": 2.039, "ratio": 0.765571358509073}}
+beta fitted on the LG00 ledger (packed products): 0.933 {'torsion': 0.908, 'gram': 0.958}
+profile lg00: LG00: Locatelli–Giorgilli secular Sun–Jupiter–Saturn torus (route A refined)
+  rho 29/5000 sharp                    log10 e*  -32.04  exact
+  rho 29/5000 A.frozen                 log10 e*  -27.98  exact
+  rho 29/5000 A.refined.classical      log10 e*  -15.10  exact
+  rho 29/5000 B.frozen                 log10 e*  -25.96  exact
+  rho 29/5000 B.refined.classical      log10 e*  -17.81  exact
+  rho 29/5000 A.L8'                    log10 e*  -15.40  estimate
+  rho 29/5000 l1-entry                 log10 e*  -14.35  design
+
+## lg00 (margin >= 1.0 decades, beta 0.93)
+
+| route | kind | ρ | L | P | log10 e* | log10 err | margin | support | cost (CPU-h) | sites l |
+|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|
+| A.refined.classical | exact | 29/5000 | 19 | 96 | -15.10 | -16.12 | 1.02 | 613 | 20.413 | - |
+| A.refined.classical | exact | 29/5000 | 20 | 96 | -15.10 | -17.09 | 1.99 | 683 | 22.582 | - |
+| A.L8' | estimate | 29/5000 | 20 | 96 | -15.40 | -17.09 | 1.69 | 683 | 22.582 | - |
+| A.refined.classical | exact | 29/5000 | 21 | 96 | -15.10 | -18.03 | 2.93 | 749 | 24.601 | - |
+| A.L8' | estimate | 29/5000 | 21 | 96 | -15.40 | -18.03 | 2.63 | 749 | 24.601 | - |
+| A.refined.classical | exact | 29/5000 | 22 | 96 | -15.10 | -18.97 | 3.87 | 821 | 26.800 | - |
+| B.refined.classical | exact | 29/5000 | 22 | 96 | -17.81 | -18.97 | 1.16 | 821 | 26.800 | - |
+| A.L8' | estimate | 29/5000 | 22 | 96 | -15.40 | -18.97 | 3.57 | 821 | 26.800 | - |
+| A.refined.classical | exact | 29/5000 | 19 | 128 | -15.10 | -16.12 | 1.02 | 613 | 27.217 | - |
+| A.refined.classical | exact | 29/5000 | 23 | 96 | -15.10 | -19.91 | 4.82 | 900 | 29.196 | - |
+| B.refined.classical | exact | 29/5000 | 23 | 96 | -17.81 | -19.91 | 2.10 | 900 | 29.196 | - |
+| A.L8' | estimate | 29/5000 | 23 | 96 | -15.40 | -19.91 | 4.51 | 900 | 29.196 | - |
+
+best (exact mirrors): {'route': 'A.refined.classical', 'rho': '29/5000', 'L': 19, 'P': 96, 'margin': 1.02, 'cost_h': 20.413, 'kind': 'exact'}
+best (incl. estimates): {'route': 'A.refined.classical', 'rho': '29/5000', 'L': 19, 'P': 96, 'margin': 1.02, 'cost_h': 20.413, 'kind': 'exact'}
+baseline fallback (landed sharp): {'route': 'sharp', 'rho': '29/5000', 'L': 37, 'P': 128, 'margin': 1.51, 'cost_h': 98.337, 'kind': 'exact'}
+hand choice: {'route': 'A.refined.classical', 'rho': '29/5000', 'L': 20, 'P': 128, 'margin': 1.99, 'cost_h': 30.11, 'kind': 'exact'}
+verdict: differs: predicted cost 20.413 CPU-h against the hand choice's 30.110 (ratio 0.68)
+constrained (hand's ρ and P, margin 1.0): {'route': 'A.refined.classical', 'rho': '29/5000', 'L': 19, 'P': 128, 'margin': 1.02, 'cost_h': 27.217, 'kind': 'exact'} -> differs: predicted cost 27.217 CPU-h against the hand choice's 30.110 (ratio 0.90)
+constrained (hand's ρ and P, the hand's realized margin 2.00): {'route': 'A.refined.classical', 'rho': '29/5000', 'L': 20, 'P': 128, 'margin': 1.99, 'cost_h': 30.11, 'kind': 'exact'} -> reproduces the hand choice
+sensitivity (beta): {"beta=0.8": {"choice": {"route": "A.refined.classical", "rho": "29/5000", "L": 19, "P": 96, "margin": 1.02, "cost_h": 20.821, "kind": "exact"}, "hand_cost_h": 30.11, "ratio": 0.6914978412487546}, "beta=1.0": {"choice": {"route": "A.refined.classical", "rho": "29/5000", "L": 19, "P": 96, "margin": 1.02, "cost_h": 20.265, "kind": "exact"}, "hand_cost_h": 30.11, "ratio": 0.6730322152108934}, "beta=1.5": {"choice": {"route": "A.refined.classical", "rho": "29/5000", "L": 19, "P": 96, "margin": 1.02, "cost_h": 19.197, "kind": "exact"}, "hand_cost_h": 30.11, "ratio": 0.6375622716705414}, "beta=2.0": {"choice": {"route": "A.refined.classical", "rho": "29/5000", "L": 19, "P": 96, "margin": 1.02, "cost_h": 18.185, "kind": "exact"}, "hand_cost_h": 30.11, "ratio": 0.6039521753570242}}

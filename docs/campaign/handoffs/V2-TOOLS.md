@@ -159,3 +159,104 @@ branch.
   measured kernel rates.
 * A rotated-coordinate normalization (`soRotMap`): only the time normalization is tested.
 * Packed advice on the toy: all products are `direct`; the packed route (the lunar data's) is untested here.
+
+## Part #3: producer-side route and parameter selection by total kernel cost
+
+### Files
+
+* `scripts/certifier/route_select.py` (the tool), `scripts/certifier/route_profiles.py` (snapshots the inputs);
+* `scripts/certifier/fixtures/route-select/`: `lunar65.json`, `lg00.json` (profiles with provenance),
+  `ledger_fit.json` (the LG00 run20e ledger by module kind), `validation.json`, `validation.log`.
+* `routeV2All` is unchanged; no Lean file is touched by #3.
+
+### What it does
+
+For a profile (a model and its candidate tori: CertParams, box, refined claim, the measured residual against
+the truncation L and the strip ρ, the support per L, the measured kernel cost at the hand choice) it evaluates
+at every ρ of the profile:
+
+| route | threshold from | kind |
+|---|---|---|
+| sharp (the baseline, landed) | `sharp_q.sharp` | exact mirror |
+| A frozen | `v2_r2.max_Xs('frozen')` | exact mirror |
+| A refined, classical sites | `v2_r2.max_Xs('refined')` | exact mirror |
+| A refined, certified sites (kp = 1, 2, 3) | the same, `c = c_freq × 1.01` where `clockOk` applies and the cut-off `l ≤ 12` | exact mirror (the Lean `balCheck` is the check) |
+| B frozen, B refined | `forced_witness.solve_B` on `route_b_lean_mirror` | exact mirror |
+| A with L8′ | refined `e*/2` (the forced toy's kernel-checked ratio) | estimate |
+| ℓ¹ entry | refined `e* × 10^0.75` (`thresholds_v2 --l1` at R1, iso) | design estimate |
+| hybrid restart | `sqrt(e₁*/A_meas)`, `e₁*` the refined threshold at `ρ − 3δ₀` | design estimate (needs the model's `A_meas`) |
+
+then scans L and the precision P (achieved err: log-linear in L from the measured table, the ρ factor, a floor
+`10⁴ · 2^-P`), and reports per candidate: required vs achieved residual, margin, displacement (`disp_coef ·
+err`), binding budget (the failing clause at `1.1 X⋆`), support, precision, the certified cut-offs, and the
+predicted kernel cost
+
+`C = C_ref (S(L)/S_ref)^β (P/P_ref)^π (1 + extra) + Σ c(l)`,
+
+with `C_ref` the measured cost of the hand choice (lunar 2.0 CPU-h per torus, SO-CSPLIT-GATE's 1.6–2.5; LG00
+30.11 CPU-h, the run20e ledger), **β = 0.93 fitted** on LG00's L = 8 pilot against its L = 20 ledger (torsion
+stages 0.91, Gram 0.96: packed products are about linear in the support; the forced toy's direct route is
+quadratic instead), π = 1, `extra` 0 for sharp/frozen/refined (frames, claim and core are 0.7 % of the LG00 run
+once the stages are shared, `ledger_fit.json`), 0.5 for the ℓ¹ entry and 1.0 for the hybrid (unmeasured), and
+`c(l)` the measured certified-bite costs (SHARP2-C6: l = 8..12: 2.4, 6.1, 10.8, 34.3, 85.2 s; l ≥ 13 is
+infeasible, above 10 GB at R1). It returns the cheapest candidate above the requested margin (exact mirrors
+preferred at equal cost), and always the cheapest passing baseline (the landed sharp route) as fallback.
+
+### Validation (`python3 -I scripts/certifier/route_select.py --validate`, 12 s)
+
+The exact mirrors reproduce every hand-measured threshold at the hand points: lunar R2 sharp −31.83, frozen A
+−27.87, refined A d01b −14.26 (SO-V2PKG: −31.83, −27.87, −14.26); LG00 sharp −32.04, frozen A −27.98, refined A
+classical −15.10 (LG00-CERT: the same three).
+
+| | hand choice | tool, constrained to the hand's ρ, P and realized margin | tool, unconstrained (margin ≥ 1 decade) | sharp fallback |
+|---|---|---|---|---|
+| lunar65 | refined A, certified kp = 3, ρ = 1/140, L = 20, P = 96: 2.04 CPU-h | **reproduces it** | same route at ρ = 1/70, L = 19: **1.80 CPU-h (0.88×)** | ρ = 1/70, L = 38, P = 128: 9.9 CPU-h |
+| lg00 | refined A, classical sites, L = 20, P = 128: 30.1 CPU-h | **reproduces it** | L = 19, P = 96: **20.4 CPU-h (0.68×)** | L = 37, P = 128: 98 CPU-h |
+
+Readings:
+* **lunar65.** The improvement is the wider strip, which SO-V2PKG §4.6 itself identified ("a wider strip gains
+  0.7–1.1 orders, about one digit of L") and declined because it needs a new parameter package (re-enclosed
+  majorants, new boxes and frozen-adjacent pre-checks). The tool holds σK, σB and the refined claim at their R2
+  values across ρ (SO-V2PKG bumped them by 1–2 %), so the 0.88 is an upper estimate of the gain. At the hand's ρ
+  and margin 1 it picks kp = 2 instead of 3 at equal cost (one fewer b-site, about 11 s). The choice is the same
+  for every β in 0.75–2.
+* **lg00.** Two levers: L = 19 already gives one decade (the hand run took L = 20 after L = 18 had none, a
+  2-decade margin), and P = 96 instead of 128 (the precision floor is a model, calibrated on the forced toy only;
+  LG00's large time scale `κ = 160000` may have motivated 128 bits: an owner question below). LG00's clock
+  coordinate is negative (`−41.48`), so `clockOk` rejects certified sites as oriented: classical sites are forced,
+  which the tool detects.
+* **Estimates.** On lunar65 the hybrid design estimate (L = 14) is second at 1.86 CPU-h, behind the exact choice,
+  with its extra cost guessed at one more composition pass; it is the candidate most worth a measured trial
+  (`routeV2Hyb` exists). It is never preferred over an exact-mirror candidate of equal cost.
+
+### Not covered (#3)
+
+* No forced-toy profile in the tool (its producer could feed one live; the forced suite's direct-route costs are
+  quadratic in the support, unlike the packed applications).
+* Route B with certified sites is not scanned (the B rows use classical sites); the refined-B threshold of the
+  forced toy with certified sites is in part #6.
+
+### Owner questions (#3)
+
+1. Should the cost model's unmeasured parts (the ℓ¹ entry +0.5, the hybrid +1.0 of the base cost) be calibrated
+   by one measured trial each before the tool is used to commit an application run?
+2. LG00 at `CertFixed 96`: is there a reason (time scale, jet constants) for 128 bits that the precision-floor
+   model does not see? The tool's 0.68 depends on it (0.90 at P = 128, L = 19).
+3. Lunar at ρ = 1/70, L = 19 (0.88×): worth a new package for the next lunar run, or keep R2 as SO-V2PKG decided?
+
+## Owner questions (#6)
+
+1. Default-build weight of the forced suite: per-module `lake build` peaks are 1.5–3.0 GB and module walls up to
+   32 s (the heaviest single theorem ≈ 7 s), about 4 min serial in all. Keep everything in the default build (as
+   now), or move the route/mutation modules over ~2 GB (`TinyRouteA/B/R`, `TinyMutations`, 2.9–3.0 GB) to
+   `kernel-tests/`? Nothing in the core imports them except `TimeScale`.
+2. The ℓ¹ entry and the hybrid on the forced toy need checker-side memoization bridges (for `checkL1Claim`, and
+   the hybrid compositions) analogous to `Kernel/Stage.lean`: commission them after the SO hold lifts?
+
+## Suspected errata and deviations
+
+* No pinned-source erratum suspected.
+* Deviations: none in the core checker. Observations in untrusted tooling (not fixed, owned by others or
+  historical): `scripts/spin_orbit/v2_q.py` `refinedCore` divides by `1 − θ` without Lean's totalized division
+  (a ZeroDivisionError at θ = 1, where Lean's `wfOk` rejects; the mutation suite records it as a rejection); the
+  `sofx` mirror and the landed checker agreed bit for bit on every forced-toy stage.
