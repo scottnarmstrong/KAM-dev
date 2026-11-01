@@ -118,3 +118,4 @@ src (4th, created 05:30 for the third slot).
 - 2026-11-01 06:06 UTC: LP-W4A (SP-MODEL + SP-ROT) audit 1 PASS WITH NOTES; N2 applied, N1 carried to the LP2 proposal; merged into inp-lp; landing requested.
 - 2026-11-01 06:10 UTC: LP-SP-NRR proved (spatial L13 stopped drift). LP-SP-DOMX launched on claude-12 (SP-SAFE waits for SP-LIFT). codex-2: kam-1b's W5-STEP-A.
 - 2026-11-01 06:14 UTC: LP-SP-LIFT proved. LP-SP-SAFE (the spatial theorem LP2, end-to-end assembly) launched on claude-11.
+- 2026-11-01 06:25 UTC: LP-W4A LANDED (main b2308bac). LP back to 2 provers (root-b8: W's slot returned). LP-W4B staged (branch inp-lp-w4b, 4th worktree), waiting for codex-2 behind kam-1b's W5-STEP-A.
