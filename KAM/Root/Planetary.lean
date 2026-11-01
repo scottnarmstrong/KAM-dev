@@ -652,6 +652,7 @@ public import KAM.Planetary.Spatial.Chart.RotAlgebra
 public import KAM.Planetary.Spatial.Chart.Symplectic
 public import KAM.Planetary.Spatial.Chart
 public import KAM.Planetary.Spatial.ComplexTube
+public import KAM.Planetary.Spatial.Confinement
 public import KAM.Planetary.Spatial.Continuation
 public import KAM.Planetary.Spatial.Elements
 public import KAM.Planetary.Spatial.Field
@@ -660,6 +661,10 @@ public import KAM.Planetary.Spatial.Model
 public import KAM.Planetary.Spatial.Momentum
 public import KAM.Planetary.Spatial.Newton
 public import KAM.Planetary.Spatial.Orbital
+public import KAM.Planetary.Spatial.Osculating.Basic
+public import KAM.Planetary.Spatial.Osculating.Core
+public import KAM.Planetary.Spatial.Osculating.Estimates
+public import KAM.Planetary.Spatial.Osculating
 public import KAM.Planetary.Spatial.Product.Chart
 public import KAM.Planetary.Spatial.Product.Deficit
 public import KAM.Planetary.Spatial.Product.Defs
