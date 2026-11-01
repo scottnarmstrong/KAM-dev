@@ -56,9 +56,11 @@ src (4th, created 05:30 for the third slot).
 | LP-SP-NRR spatial L13 (2n slow pairs) | L13, T19 | 4 | `inp-lp-spnrr` | claude-12 | staged as LP-W4D (`inp-lp-w4d`, handoff 4f02ec3b); codex-2 queue after W4C |
 | LP-SP-DOMX L18 remaining clauses | L18 | 4 | `inp-lp-spdomx` | claude-12 | staged as LP-W4D (`inp-lp-w4d`, handoff 4f02ec3b); codex-2 queue after W4C |
 | LP-SP-SRC spatial source carriers (W4A N1) | freeze prep | 4 | `inp-lp-spsrc` | claude-12 | part A 14a1b9e0, part B 6e84c27a; review 4 R4.1 BLOCKING (§3d used total helpers) → LP-SP-SRCB2 running; audit queued (W4E) |
-| LP-SP-SRCB2 LP2 (b) through `spatialSource*` (R4.1 (A)) | freeze prep | 4 | `inp-lp-spsrcb2` / mom worktree | claude-11 | **RUNNING** (08:2x) |
+| LP-SP-SRCB2 LP2 (b) through `spatialSource*` (R4.1 (A)) | freeze prep | 4 | `inp-lp-spsrcb2` / mom worktree | claude-11 | **PROVED** 1f078521 (R4.1 (A) verbatim); review 5 PASS WITH NOTES; audit queued (W4E) |
 | LP3-KEP Kepler fast Hamiltonian | LP3 plan | LP3 | `inp-lp-lp3kep` / mom worktree | claude-11 | **PROVED** 50aaa4e0 (253 lines: `lp3_kepler_data`; axioms standard); audit queued |
-| LP3-COVERPERT finite cover + normalized perturbation | LP3 plan | LP3 | `inp-lp-lp3cp` / geomod worktree | claude-12 | **RUNNING** (07:5x) |
+| LP3-COVERPERT finite cover + normalized perturbation | LP3 plan | LP3 | `inp-lp-lp3cp` / geomod worktree | claude-12 | **PROVED** bc848662 (590 lines; Cover + Perturbation incl. `−P`); audit queued |
+| LP3-CELL generic cellwise application (k slow pairs), ± time | LP3 plan §5 option | LP3 | `inp-lp-lp3cell` / geomod worktree | claude-11 | **RUNNING** (09:0x) |
+| LP3-SP-COVER spatial cover + perturbation | LP3 plan | LP3 | `inp-lp-lp3spcov` / mom worktree | claude-12 | **RUNNING** (09:0x; on the unlanded spatial branch) |
 
 ## Audit queue (codex-2, one at a time machine-wide; W interleaves when LP has a gap)
 
@@ -137,3 +139,4 @@ src (4th, created 05:30 for the third slot).
 - 2026-11-01 07:11 UTC: LP-SP-SRCB proved (LP2 under OD-11 (b)); FREEZE-PROPOSAL draft 5 (§3c LP2, §3d LP2 (b)). Statement review 4 of §3c/§3d running (independent Opus subagent; codex-2 on W5-STEP-B). W4D staged (inp-lp-w4d).
 - 2026-11-01 08:25 UTC: D58 cited (import ruling). LP3-KEP PROVED (253 lines). Statement review 4: LP2 §3c PASS for fidelity; §3d R4.1 BLOCKING (total helpers) → (A) adopted, LP-SP-SRCB2 launched (claude-11); R4.2/R4.3 applied (proposal draft 6). LP-W4C audit launched on codex-2 (W5-STEP-B finished). W4D handoff staged.
 - 2026-11-01 08:35 UTC: root-b8: two codex-2 lanes (LP and W concurrently); fix (A) for R4.1 confirmed. LP lane: W4C running; then W4D, W4E, LP3-KEP continuously.
+- 2026-11-01 09:0x UTC: LP-SP-SRCB2 PROVED (R4.1 (A) text verbatim; axioms standard); statement review 5 PASS WITH NOTES (R5.1/R5.3 applied; R4.6 docstring fixes in Elements.lean:35 and Model.lean:21 to be folded into the W4E notes round). LP3-COVERPERT PROVED (590 lines). LP3-CELL (claude-11) and LP3-SP-COVER (claude-12) launched. LP-W4C auditing on codex-2; W4D built.
