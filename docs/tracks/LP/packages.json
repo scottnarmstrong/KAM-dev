@@ -187,6 +187,15 @@
    "source": "MAIN L14, d=3 (conditional first exit)"
   },
   {
+   "id": "LP-SP-TUBE",
+   "wave": 4,
+   "weight": 0.4,
+   "modules": [
+    "KAM/Planetary/Spatial/ComplexTube.lean"
+   ],
+   "source": "N12: tube for Phase (n+m)"
+  },
+  {
    "id": "LP-SP-DOM",
    "wave": 4,
    "weight": 1.5,
