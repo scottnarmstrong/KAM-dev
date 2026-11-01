@@ -15,6 +15,6 @@ Every number quoted in `applications/sjsu/README.md` and in
 | `table2_map_*.json` | Table 1 → secular coordinates → modal (x, y); ν, R_j vs Table 2 and eq. (24) | `initial_map.py` |
 | `table2_analysis.json` | invariants (AMD, Gram matrix, R_j) of Table 1, Table 2, eq. (24) (source issue SJSU-E2) | `table2_analysis.py` |
 | `frequencies_*.json` | nonlinear secular frequencies of SJSU18-O2 and of the printed quartic from three initial points, vs GLS17 eq. (37) | `freq_check.py` |
-| `nbody_secular_frequencies.json` | secular frequencies of the full planar N-body flow (10 Myr), vs the model | `nbody_secular_freq.py` |
+| `nbody_secular_frequencies.json` | secular frequencies of the full planar N-body flow (3 Myr, sampled every 50 yr), vs the model | `nbody_secular_freq.py` |
 | `precision.json` | float64 / long double / mpmath-40 vs mpmath-50, maximal relative difference per degree | `precision_check.py` |
 | `sensitivity.json` | change of the coefficients under the open recipe choices (χ degree, n\*, eq. (12) weight, a\* window) | `sensitivity.py` |

@@ -2,7 +2,7 @@
 """Secular frequencies of the full planar N-body flow versus the SJSU18 model (physical check).
 
 Input: the osculating Poincare (xi, eta) sampled along the N-body run
-  python3 -I nbody.py --years 1e7 --dt 0.5 --ic poincare --sample 50 --sample-out samples.npz
+  python3 -I nbody.py --years 3e6 --dt 0.5 --ic poincare --sample 50 --sample-out samples.npz
 The modal signals x_j + i y_j = (O^T xi)_j + i (O^T eta)_j, with O the eigenvectors of the model's
 quadratic part, are frequency-analysed (Hann window, refined peak; freq_check.fundamental_frequency).
 Frequencies are intrinsic, so the osculating short-period terms only add small lines.
