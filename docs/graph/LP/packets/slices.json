@@ -1,0 +1,161 @@
+{
+ "_note": "PLANNED slices (pre-anchor). nodes/coverage are estimates from docs/graph/LP/draft/coverage-*.md (planned node IDs, excluding externals and imports); LP-adef-*/LP-athm sizes are draft-7 estimates, re-read from the frozen manifest after freeze. 'part' names the source file stem; LP3 slices are conditional on the draft-8 freeze and SPEC Q1.",
+ "LP-adef-pl": {
+  "part": "anchors",
+  "lines": [
+   1,
+   1000000000
+  ],
+  "nodes": 56,
+  "coverage": 56,
+  "what": "frozen definition anchors: draft-7 new definitions 1-37 (planar, dimension-free) plus reused frozen definitions (19 direct, 21 in closure); estimate, re-read from the manifest at freeze"
+ },
+ "LP-adef-sp": {
+  "part": "anchors",
+  "lines": [
+   1,
+   1000000000
+  ],
+  "nodes": 51,
+  "coverage": 51,
+  "what": "frozen definition anchors: draft-7 new definitions 38-88 (spatial); estimate"
+ },
+ "LP-athm": {
+  "part": "anchors",
+  "lines": [
+   1,
+   1000000000
+  ],
+  "nodes": 41,
+  "coverage": 41,
+  "what": "frozen theorem anchors: LP0, LP1, LP1-H, LP2, LP2-H (+ LP3-1, LP3-2 if draft 8 is frozen) and the 34 characterization theorems; estimate"
+ },
+ "LP-m1": {
+  "part": "MAIN",
+  "lines": [
+   1,
+   93
+  ],
+  "nodes": 8,
+  "coverage": 25
+ },
+ "LP-m2a": {
+  "part": "MAIN",
+  "lines": [
+   94,
+   160
+  ],
+  "nodes": 20,
+  "coverage": 33
+ },
+ "LP-m2b": {
+  "part": "MAIN",
+  "lines": [
+   161,
+   189
+  ],
+  "nodes": 15,
+  "coverage": 20
+ },
+ "LP-m3": {
+  "part": "MAIN",
+  "lines": [
+   190,
+   271
+  ],
+  "nodes": 16,
+  "coverage": 27
+ },
+ "LP-m4a": {
+  "part": "MAIN",
+  "lines": [
+   272,
+   379
+  ],
+  "nodes": 21,
+  "coverage": 35
+ },
+ "LP-m4b": {
+  "part": "MAIN",
+  "lines": [
+   380,
+   464
+  ],
+  "nodes": 12,
+  "coverage": 21
+ },
+ "LP-m5": {
+  "part": "MAIN",
+  "lines": [
+   465,
+   529
+  ],
+  "nodes": 25,
+  "coverage": 32
+ },
+ "LP-m6": {
+  "part": "MAIN",
+  "lines": [
+   530,
+   603
+  ],
+  "nodes": 17,
+  "coverage": 23
+ },
+ "LP-m78": {
+  "part": "MAIN",
+  "lines": [
+   604,
+   679
+  ],
+  "nodes": 0,
+  "coverage": 12
+ },
+ "LP-amend": {
+  "part": "AMENDMENTS",
+  "lines": [
+   1,
+   26
+  ],
+  "nodes": 0,
+  "coverage": 14
+ },
+ "LP-imports": {
+  "part": "imports",
+  "lines": [
+   1,
+   1000000000
+  ],
+  "nodes": 5,
+  "coverage": 0,
+  "what": "writer-owned candidate imported nodes: N:bpN:p0:partial, N:bpN:p11:nonresonant, N:bpN:p11:s-nf#data, P:bpP:p14:h-data, P:bpP:p14:perturbation"
+ },
+ "LP3-a": {
+  "part": "LP3-PLAN",
+  "lines": [
+   1,
+   258
+  ],
+  "nodes": 17,
+  "coverage": 22
+ },
+ "LP3-b": {
+  "part": "LP3-PLAN",
+  "lines": [
+   259,
+   506
+  ],
+  "nodes": 14,
+  "coverage": 18
+ },
+ "LP-ext": {
+  "part": "externals",
+  "lines": [
+   1,
+   1000000000
+  ],
+  "nodes": 10,
+  "coverage": 0,
+  "what": "writer-owned candidate external leaves: lpM:ext-cauchy-estimates, lpM:ext-compact-cover, lpM:ext-compact-min, lpM:ext-fourier-contour, lpM:ext-ftc, lpM:ext-gronwall, lpM:ext-heine-cantor, lpM:ext-holomorphic-limit, lpM:ext-identity-theorem, lpM:ext-picard"
+ }
+}
