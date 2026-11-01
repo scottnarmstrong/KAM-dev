@@ -1,0 +1,955 @@
+{
+  "status": "literal decimal model; transcription, not interval coefficient provenance",
+  "source": "SLG13, Mathematics and Computers in Simulation 88 (2013), Appendix A, p. 12",
+  "doi": "10.1016/j.matcom.2010.11.018",
+  "source_pdf_sha256": "915002b163d9efaeb7eea0a6b335bfda674a15944a7b7cf4fad0934d91e5147c",
+  "text_sha256": "cfd2e7d3ca1c6012b5bf13961ee3ce47b9c1c589ed1be372c4cb7fd924b62265",
+  "variable_order": [
+    "xi_J",
+    "xi_S",
+    "xi_U",
+    "eta_J",
+    "eta_S",
+    "eta_U"
+  ],
+  "canonical_order": "q=eta, p=xi; X=(dH/dxi,-dH/deta) in (q,p) order",
+  "time_unit": "year",
+  "terms": [
+    {
+      "powers": [
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "-2.0438249530856989e-05",
+      "pdf_token": "\u03be12"
+    },
+    {
+      "powers": [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "+3.9042681895470743e-05",
+      "pdf_token": "\u03be11 \u03be21"
+    },
+    {
+      "powers": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "+4.5005164146422330e-07",
+      "pdf_token": "\u03be11 \u03be31"
+    },
+    {
+      "powers": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "-4.5352294644578622e-05",
+      "pdf_token": "\u03be22"
+    },
+    {
+      "powers": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "+1.9490388069796070e-06",
+      "pdf_token": "\u03be21 \u03be31"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "-5.6845848333331483e-06",
+      "pdf_token": "\u03be32"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      "coefficient": "-2.0438249530856989e-05",
+      "pdf_token": "\u03b721"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "coefficient": "+3.9042681895470675e-05",
+      "pdf_token": "\u03b711 \u03b712"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        1
+      ],
+      "coefficient": "+4.5005164146422409e-07",
+      "pdf_token": "\u03b711 \u03b713"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0
+      ],
+      "coefficient": "-4.5352294644578622e-05",
+      "pdf_token": "\u03b722"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "coefficient": "+1.9490388069796070e-06",
+      "pdf_token": "\u03b712 \u03b713"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        2
+      ],
+      "coefficient": "-5.6845848333331441e-06",
+      "pdf_token": "\u03b723"
+    },
+    {
+      "powers": [
+        4,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "-1.0838003720922759e-04",
+      "pdf_token": "\u03be14"
+    },
+    {
+      "powers": [
+        3,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "+1.2014175808584642e-03",
+      "pdf_token": "\u03be13 \u03be21"
+    },
+    {
+      "powers": [
+        3,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "+6.2045352476790196e-07",
+      "pdf_token": "\u03be13 \u03be31"
+    },
+    {
+      "powers": [
+        2,
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "-4.5563232782076350e-03",
+      "pdf_token": "\u03be12 \u03be22"
+    },
+    {
+      "powers": [
+        2,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "+8.8406443127175810e-07",
+      "pdf_token": "\u03be12 \u03be21 \u03be31"
+    },
+    {
+      "powers": [
+        2,
+        0,
+        2,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "-9.7678628300067324e-06",
+      "pdf_token": "\u03be12 \u03be32"
+    },
+    {
+      "powers": [
+        2,
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      "coefficient": "-2.1676479523871672e-04",
+      "pdf_token": "\u03be12 \u03b721"
+    },
+    {
+      "powers": [
+        2,
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "coefficient": "+1.2014125316196400e-03",
+      "pdf_token": "\u03be12 \u03b711 \u03b712"
+    },
+    {
+      "powers": [
+        2,
+        0,
+        0,
+        1,
+        0,
+        1
+      ],
+      "coefficient": "+6.2157409102827665e-07",
+      "pdf_token": "\u03be12 \u03b711 \u03b713"
+    },
+    {
+      "powers": [
+        2,
+        0,
+        0,
+        0,
+        2,
+        0
+      ],
+      "coefficient": "-1.5832006427474584e-03",
+      "pdf_token": "\u03be12 \u03b722"
+    },
+    {
+      "powers": [
+        2,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "coefficient": "+3.0033462029049336e-07",
+      "pdf_token": "\u03be12 \u03b712 \u03b713"
+    },
+    {
+      "powers": [
+        2,
+        0,
+        0,
+        0,
+        0,
+        2
+      ],
+      "coefficient": "-7.4173186653205456e-06",
+      "pdf_token": "\u03be12 \u03b723"
+    },
+    {
+      "powers": [
+        1,
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "+7.6046689202847869e-03",
+      "pdf_token": "\u03be11 \u03be23"
+    },
+    {
+      "powers": [
+        1,
+        2,
+        1,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "-2.4429460187142667e-06",
+      "pdf_token": "\u03be11 \u03be22 \u03be31"
+    },
+    {
+      "powers": [
+        1,
+        1,
+        2,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "+3.9912387029285291e-07",
+      "pdf_token": "\u03be11 \u03be21 \u03be32"
+    },
+    {
+      "powers": [
+        1,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "coefficient": "+1.2014125316196422e-03",
+      "pdf_token": "\u03be11 \u03be21 \u03b721"
+    },
+    {
+      "powers": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "coefficient": "-5.9464179266765730e-03",
+      "pdf_token": "\u03be11 \u03be21 \u03b711 \u03b712"
+    },
+    {
+      "powers": [
+        1,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "coefficient": "+5.8365071555190281e-07",
+      "pdf_token": "\u03be11 \u03be21 \u03b711 \u03b713"
+    },
+    {
+      "powers": [
+        1,
+        1,
+        0,
+        0,
+        2,
+        0
+      ],
+      "coefficient": "+7.6047082339419673e-03",
+      "pdf_token": "\u03be11 \u03be21 \u03b722"
+    },
+    {
+      "powers": [
+        1,
+        1,
+        0,
+        0,
+        1,
+        1
+      ],
+      "coefficient": "-1.6360484568891480e-06",
+      "pdf_token": "\u03be11 \u03be21 \u03b712 \u03b713"
+    },
+    {
+      "powers": [
+        1,
+        1,
+        0,
+        0,
+        0,
+        2
+      ],
+      "coefficient": "+2.2482538047243290e-07",
+      "pdf_token": "\u03be11 \u03be21 \u03b723"
+    },
+    {
+      "powers": [
+        1,
+        0,
+        3,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "+2.6233130055605185e-05",
+      "pdf_token": "\u03be11 \u03be33"
+    },
+    {
+      "powers": [
+        1,
+        0,
+        1,
+        2,
+        0,
+        0
+      ],
+      "coefficient": "+6.2157409102827644e-07",
+      "pdf_token": "\u03be11 \u03be31 \u03b721"
+    },
+    {
+      "powers": [
+        1,
+        0,
+        1,
+        1,
+        1,
+        0
+      ],
+      "coefficient": "+5.8365071555190228e-07",
+      "pdf_token": "\u03be11 \u03be31 \u03b711 \u03b712"
+    },
+    {
+      "powers": [
+        1,
+        0,
+        1,
+        1,
+        0,
+        1
+      ],
+      "coefficient": "-4.6671904570366227e-06",
+      "pdf_token": "\u03be11 \u03be31 \u03b711 \u03b713"
+    },
+    {
+      "powers": [
+        1,
+        0,
+        1,
+        0,
+        2,
+        0
+      ],
+      "coefficient": "-8.0739065076924997e-07",
+      "pdf_token": "\u03be11 \u03be31 \u03b722"
+    },
+    {
+      "powers": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "coefficient": "+5.4429327654203341e-08",
+      "pdf_token": "\u03be11 \u03be31 \u03b712 \u03b713"
+    },
+    {
+      "powers": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        2
+      ],
+      "coefficient": "+2.6230652324380928e-05",
+      "pdf_token": "\u03be11 \u03be31 \u03b723"
+    },
+    {
+      "powers": [
+        0,
+        4,
+        0,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "-4.8323841400859345e-03",
+      "pdf_token": "\u03be24"
+    },
+    {
+      "powers": [
+        0,
+        3,
+        1,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "+2.9298658121783215e-05",
+      "pdf_token": "\u03be23 \u03be31"
+    },
+    {
+      "powers": [
+        0,
+        2,
+        2,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "-1.3020117317952433e-04",
+      "pdf_token": "\u03be22 \u03be32"
+    },
+    {
+      "powers": [
+        0,
+        2,
+        0,
+        2,
+        0,
+        0
+      ],
+      "coefficient": "-1.5832006427474452e-03",
+      "pdf_token": "\u03be22 \u03b721"
+    },
+    {
+      "powers": [
+        0,
+        2,
+        0,
+        1,
+        1,
+        0
+      ],
+      "coefficient": "+7.6047082339419534e-03",
+      "pdf_token": "\u03be22 \u03b711 \u03b712"
+    },
+    {
+      "powers": [
+        0,
+        2,
+        0,
+        1,
+        0,
+        1
+      ],
+      "coefficient": "-8.0739065076924796e-07",
+      "pdf_token": "\u03be22 \u03b711 \u03b713"
+    },
+    {
+      "powers": [
+        0,
+        2,
+        0,
+        0,
+        2,
+        0
+      ],
+      "coefficient": "-9.6647220999081795e-03",
+      "pdf_token": "\u03be22 \u03b722"
+    },
+    {
+      "powers": [
+        0,
+        2,
+        0,
+        0,
+        1,
+        1
+      ],
+      "coefficient": "+2.9299286278904711e-05",
+      "pdf_token": "\u03be22 \u03b712 \u03b713"
+    },
+    {
+      "powers": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        2
+      ],
+      "coefficient": "-7.7905487286026464e-05",
+      "pdf_token": "\u03be22 \u03b723"
+    },
+    {
+      "powers": [
+        0,
+        1,
+        3,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "+1.9476359726545943e-04",
+      "pdf_token": "\u03be21 \u03be33"
+    },
+    {
+      "powers": [
+        0,
+        1,
+        1,
+        2,
+        0,
+        0
+      ],
+      "coefficient": "+3.0033462029049320e-07",
+      "pdf_token": "\u03be21 \u03be31 \u03b721"
+    },
+    {
+      "powers": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "coefficient": "-1.6360484568891460e-06",
+      "pdf_token": "\u03be21 \u03be31 \u03b711 \u03b712"
+    },
+    {
+      "powers": [
+        0,
+        1,
+        1,
+        1,
+        0,
+        1
+      ],
+      "coefficient": "+5.4429327654202779e-08",
+      "pdf_token": "\u03be21 \u03be31 \u03b711 \u03b713"
+    },
+    {
+      "powers": [
+        0,
+        1,
+        1,
+        0,
+        2,
+        0
+      ],
+      "coefficient": "+2.9299286278906453e-05",
+      "pdf_token": "\u03be21 \u03be31 \u03b722"
+    },
+    {
+      "powers": [
+        0,
+        1,
+        1,
+        0,
+        1,
+        1
+      ],
+      "coefficient": "-1.0427780546265602e-04",
+      "pdf_token": "\u03be21 \u03be31 \u03b712 \u03b713"
+    },
+    {
+      "powers": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        2
+      ],
+      "coefficient": "+1.9476665827159131e-04",
+      "pdf_token": "\u03be21 \u03be31 \u03b723"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        4,
+        0,
+        0,
+        0
+      ],
+      "coefficient": "-2.0277494194124600e-04",
+      "pdf_token": "\u03be34"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        2,
+        2,
+        0,
+        0
+      ],
+      "coefficient": "-7.4173186653203601e-06",
+      "pdf_token": "\u03be32 \u03b721"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        2,
+        1,
+        1,
+        0
+      ],
+      "coefficient": "+2.2482538047243565e-07",
+      "pdf_token": "\u03be32 \u03b711 \u03b712"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        2,
+        1,
+        0,
+        1
+      ],
+      "coefficient": "+2.6230652324380681e-05",
+      "pdf_token": "\u03be32 \u03b711 \u03b713"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        2,
+        0,
+        2,
+        0
+      ],
+      "coefficient": "-7.7905487286035477e-05",
+      "pdf_token": "\u03be32 \u03b722"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        2,
+        0,
+        1,
+        1
+      ],
+      "coefficient": "+1.9476665827159768e-04",
+      "pdf_token": "\u03be32 \u03b712 \u03b713"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        2
+      ],
+      "coefficient": "-4.0555535091919988e-04",
+      "pdf_token": "\u03be32 \u03b723"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        4,
+        0,
+        0
+      ],
+      "coefficient": "-1.0838003720922736e-04",
+      "pdf_token": "\u03b741"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        3,
+        1,
+        0
+      ],
+      "coefficient": "+1.2014175808584629e-03",
+      "pdf_token": "\u03b731 \u03b712"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        3,
+        0,
+        1
+      ],
+      "coefficient": "+6.2045352476790196e-07",
+      "pdf_token": "\u03b731 \u03b713"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        2,
+        2,
+        0
+      ],
+      "coefficient": "-4.5563232782075760e-03",
+      "pdf_token": "\u03b721 \u03b722"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        2,
+        1,
+        1
+      ],
+      "coefficient": "+8.8406443127175704e-07",
+      "pdf_token": "\u03b721 \u03b712 \u03b713"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        2,
+        0,
+        2
+      ],
+      "coefficient": "-9.7678628300066206e-06",
+      "pdf_token": "\u03b721 \u03b723"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        1,
+        3,
+        0
+      ],
+      "coefficient": "+7.6046689202847939e-03",
+      "pdf_token": "\u03b711 \u03b732"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        1,
+        2,
+        1
+      ],
+      "coefficient": "-2.4429460187142612e-06",
+      "pdf_token": "\u03b711 \u03b722 \u03b713"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        2
+      ],
+      "coefficient": "+3.9912387029285359e-07",
+      "pdf_token": "\u03b711 \u03b712 \u03b723"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        3
+      ],
+      "coefficient": "+2.6233130055604931e-05",
+      "pdf_token": "\u03b711 \u03b733"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        0,
+        4,
+        0
+      ],
+      "coefficient": "-4.8323841400860802e-03",
+      "pdf_token": "\u03b742"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        0,
+        3,
+        1
+      ],
+      "coefficient": "+2.9298658121781443e-05",
+      "pdf_token": "\u03b732 \u03b713"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        0,
+        2,
+        2
+      ],
+      "coefficient": "-1.3020117317952618e-04",
+      "pdf_token": "\u03b722 \u03b723"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        3
+      ],
+      "coefficient": "+1.9476359726546422e-04",
+      "pdf_token": "\u03b712 \u03b733"
+    },
+    {
+      "powers": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        4
+      ],
+      "coefficient": "-2.0277494194122486e-04",
+      "pdf_token": "\u03b743"
+    }
+  ]
+}
