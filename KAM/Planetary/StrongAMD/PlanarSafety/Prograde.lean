@@ -25,6 +25,8 @@ reduction of the theorem is in `PlanarSafety/Main`).  The constants are chosen f
 (with `D₀ = 1`), the budget radius of (39), and the barrier/osculating constants for `(U, δ/2)`.
 The stopped drift `hstop` of the confinement helper is discharged by `lpChartLift_premises` and
 `lp_stopped_drift`.
+
+The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
