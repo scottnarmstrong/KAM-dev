@@ -13,3 +13,8 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
 - 2026-11-02 23:42: B0-AUDIT round 1 (codex-2): **PASS WITH NOTES**, no BLOCKING. C1 (OD-B2 wording claimed N/R
   regularity follows; it does not, and is not needed) applied with the reviewer's exact docstrings; types unchanged;
   re-elaborated (only scratch sorry warnings). Auditor session closed.
+- 2026-11-02 23:44: B1-TRANSFER READY (claude-5): Transfer.lean 147, ActionDerivative.lean 139 lines; builds clean,
+  lint PASS, axioms standard (rechecked builds by kam-b1). Renamed `fderiv_apply_hamiltonianVectorField_comp` →
+  `fderiv_chart_apply_hamiltonianVectorField` (short-name clash with LambdaDrift). My rename sed briefly touched
+  LambdaDrift/Rotation.lean and two campaign handoffs in the b1xfer worktree; reverted before any commit (never
+  committed). 23:47: B1-TRANSFER audit 1 launched (codex-2, inp-maud-b1xfer).
