@@ -35,7 +35,9 @@ heliocentric elements at `ν'` are these reduced elements:
 * `strongAMD_redMass`: `strongAMD ν' z = Σ Λ^red_i - |L|` (the total momentum is split-free).
 
 No sign of the energy is needed: the identities hold for every state, both sides using Lean's
-`x / 0 = 0` and `√x = 0` for `x ≤ 0` in the same way.
+`x / 0 = 0` and `√x = 0` for `x ≤ 0` in the same way. The action identity is physically
+meaningful only for a bound reduced orbit, `E^red_i < 0`, which `E_i < 0` does not imply
+(`E^red_i = E_i + μ|p_i|²/2`); for `E^red_i ≥ 0` both sides are `0`.
 
 Against the heliocentric elements: `E^red_i = E_i + μ|p_i|²/2` (`reducedKeplerEnergy_eq_add`) and,
 for `E_i < 0`, `Λ^red_i = Λ_i √(E_i/E^red_i) / s_i` (`keplerAction_redMass_eq_mul`), the exact form
