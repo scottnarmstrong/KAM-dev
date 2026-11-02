@@ -24,7 +24,9 @@ Statements first. Nothing pushed.
 
   In (1c) and (1d), (1b) enters as the named premise `NoCollisionOn`. All use only the standard axioms.
 - **Evaluated:** all 50 cells (AUDIT-HD11964-ROT-1 C2, R1), which fixed the per-slab strips.
-- **Not needed under DESIGN A**, so not proved: (2b)–(2e). See *Part 2*.
+- **Not proved: (2b)–(2e).** They are not needed under DESIGN A *if* the layer's `Major.lean` states its majorant
+  link on the complex function. That module is not built yet, so they stay on the *Open* list until it lands (see
+  *Part 2*, and AUDIT-HD11964-HOLO-1 R3).
 - **Left to the layer:**
   - (1b), discharged by its enclosure of `d²`;
   - `T₁` and `T₂`, as masks of its per-mode majorants. These supersede the anisotropic-strip estimate of `T₂`,
@@ -124,7 +126,8 @@ Every cell's final run exited 0. Cells 2–49 of the first launch failed in the 
 and were re-run.
 
 The Kepler slack of planet `c` per cell comes from `scripts/holo_margin.py` at `ρ_c ∈ {0.02, 0.025, 0.03, 0.035}` with
-`ρ_b = 0.15` and `κ ≤ 0.95`.
+`ρ_b = 0.15` and `κ ≤ 0.95`. The same runs give the min `Re d²` column. They sampled `24²` real angle pairs
+(`--nx=24`) × 4 imaginary signs × 3⁶ cell points; at the default `48²` the values move by ≤ 0.4 % (audit N5).
 
 **The strip per cell.** `scripts/allcells_summary.py --rhob=0.15` takes the strips with Kepler slack ≥ 0.04 and picks
 the one minimising `max(T_c, T_b)`. The summary is `validation/allcells-summary.json`. All numbers are estimated: floating
@@ -237,19 +240,21 @@ The root `applications/hd11964/HD11964.lean` imports both modules (docstring par
 
 ## Open
 
+*(Updated in HD11964-HOLO-FIX. (1c), (1d), the cell-to-slab check and the glue `repSet ⊆ holoDomHD` are done; see
+Part 2 and the audit-fix section.)*
+
 - **(1b), no complex collision**, analytically: not proposed. It should come from the layer's certified enclosure of
-  `d²` on `stripA ρ(slab)` × cell, through `noCollision_of_enclosure`. That lemma is stated for `rhoHolo`, so the
-  per-slab copy is a one-line generalisation.
-- **(1c), `ChartPertExtHD`**: holomorphic, periodic and equal to `chartPert` at real points.
-  - Holomorphy: `keplerSol_differentiableOn` from (1a), the principal power from (1b), and the radicand
-    (`Re > 0`, about 15).
-  - Periodicity: uniqueness of `keplerSol` in the strip under `λ ↦ λ + 2π`.
-  - The real points: `keplerSol y₀ = keplerLongC` on the real line, both being the unique real solution.
-- **(1d), `G2ExtHD`**: the existence of `G_C` from (1c) and the generator's construction.
-- **(2b)–(2e)**: the derivative/tail commutations and the `T₃` bound, as drafted.
-- **`T₂`'s estimate** needs `r_G`.
-- **The cell-to-slab glue**: a cell of slab `s` lies in `|ξ_c| ≤ hi_s`. This is decidable from the plan's data, and
-  the consumer needs it to pick `keplerData_HD_A`/`_B` per cell.
+  `d²` on `stripA ρ(slab)` × cell. `noCollisionOn_of_enclosure` (`HD11964.HoloGlue`) turns that enclosure into the
+  named premise `NoCollisionOn y ρ w` on any strip.
+- **(2b)–(2e)**: the derivative/tail commutations and the `T₃` bound, as drafted. They are not needed under DESIGN A
+  if the layer's `Major.lean` states its link on the complex function. They stay open until it lands.
+- **`T₂`'s estimate** on the anisotropic route needs `r_G`. Under DESIGN A, `T₂` is a mask of the layer's majorants.
+- **The complex-slow-variable extension on the wide strips** (AUDIT-HD11964-HOLO-1 C2). It is needed only if a
+  consumer requires `P_C` holomorphic on a per-slab strip **at complex cell variables**:
+  - `tails_HD_of_cell_aniso`'s `hPd`, `hPp`, `hPm` over `polyDiscC 6 1`;
+  - or an out-of-window tail taken from strip decay uniformly over the complex polydisc.
+
+  See *Part 2, C2*.
 
 ## Part 2 (2 November, after DESIGN A): statements of (1c), (1d) and the cell-to-slab check
 
@@ -279,11 +284,26 @@ lemmas re-assessed against the design.
 - **The link from real to complex derivatives** (`PertDerivReal`, (1d-P)). The layer differentiates the complex
   function (`dTh`, `dU`), while the bracket and the bridge differentiate the real `P`. The two agree at real points.
   This replaces the coefficient-commutation lemmas.
-- **The per-slab strip extension** (`ChartPertExt`, `G2Ext`, the drafted form) remains the source of decay for the
-  modes beyond the layer's window (the scalar tail `τ`): `|P̂_k| ≤ M e^{−2π(ρ_c|k_c| + ρ_b|k_b|)}`, with `M` from
-  `Re d²`'s lower bound. It is also the hypothesis set of the anisotropic route (`tails_HD_of_cell_aniso`), which
-  DESIGN A's masks supersede for the in-window modes.
-
+- **The per-slab strip extension** (`ChartPertExt`, `G2Ext`, the drafted form) holds at **real** cell variables
+  only. *(Reworded in HD11964-HOLO-FIX, AUDIT-HD11964-HOLO-1 C2.)*
+  - **What it supplies.** It gives `tails_HD_of_cell_aniso`'s `hPd`, `hPp`, `hPl` (and the `G` ones) at real
+    `u`.
+  - **What it does not supply.** That theorem quantifies `hPd`, `hPp` and `hPm` over the complex polydisc
+    `u ∈ polyDiscC 6 1` (`TailAniso.lean:371-381`). This would need `pertCC_analyticAt`'s conditions at complex
+    slow variables on the wide strip; there `Re d²` also falls to 0.40–0.52 on slabs 0–5.
+  - **Those conditions fail on the per-slab strips.** I measured them (table *Complex cell variables on the wide
+    strips*, below): planet `b` fails on slabs 0–3 at `ρ_b = 0.15`, and planet `c` fails on slabs 4–6.
+  - So the per-slab strips are **not** a hypothesis set of the anisotropic route. That route needs narrower strips
+    at complex `u`: `ρ_b = 0.1` and a per-slab `ρ_c` (same table).
+- **What the layer's out-of-window scalar tail `τ` needs.**
+  - DESIGN A's majorants bound `sup_{u ∈ D(1)} |R̂_k(u)|` on the **complex** polydisc, because its slow derivatives
+    use per-mode Cauchy in `u`. A `τ` taken from strip decay, `|f̂_k(u)| ≤ M e^{−2π(ρ_c|k_c| + ρ_b|k_b|)}`, must
+    therefore hold uniformly for complex `u ∈ D(1)`.
+  - That needs `P_C` holomorphic on `stripA ρ ×` the complex polydisc. Here `pertCC_analyticAt` applies pointwise
+    under `ChartOkAt` and `Re d² > 0`, but only on the narrower strips of the table, not on the per-slab ones.
+  - The per-slab extension at real `u` suffices only for a `τ` used without slow derivatives.
+  - Alternatively, `τ` comes from the majorant algebra itself: weighted-ℓ¹ products and the Kepler fixed point in
+    the majorant cone. That needs no strip.
 **(2b)–(2e) under DESIGN A: not needed; not proved.**
 - `T₃ = {D_i r₁, χ₁}` is one of the five bracket terms (`a₃`) that the layer computes from its models:
   - `r₁ = (1 − Π_S) P` is already proved (`residual₁_tail`);
@@ -477,10 +497,10 @@ def FitPlanSlabsXi : Prop :=
 conditions of `pertCC_analyticAt` on `T_{1/1000} ×` the complex cell polydisc, so they are what the layer's `hR`
 needs:
 
-| polydisc radius | Kepler `c` slack (min, cell 46) | Kepler `b` | min `Re d²` | min `Re` radicand |
+| polydisc radius | Kepler `c` slack (min, cell 46; 0.1235 with 10× denser sampling, audit N6) | Kepler `b` | min `Re d²` | min `Re` radicand |
 |---|---:|---:|---:|---:|
 | `\|u\| ≤ 1` | 0.162 | 0.99 | 6.04 | 0.555 |
-| `\|u\| ≤ R₀ = 64/49` | 0.125 | 0.80 | 5.66 | 0.555 |
+| `\|u\| ≤ R₀ = 64/49` | ≈ 0.12 | 0.80 | 5.66 | 0.555 |
 
 They are comfortable. The layer certifies `ChartOkAt` from its `v` models and `Re d² > 0` from its enclosure, at each
 point.
@@ -488,9 +508,64 @@ point.
 **Deviations from the part-2 draft.**
 - `PertDerivReal` is stated with `cEmbL` (a continuous `ℝ`-linear map) in place of the draft's `cEmb`/`cDir`.
   `cEmbL_apply` shows that `cEmbL z` is the draft's `realVar z (λ/2π)`.
-- `G2Ext` takes only `ρ`; the draft's `y` was unused.
 - `Slab.xiOk` uses `decide (|c₂| + |h₂| ≤ X)`, as drafted.
+- `HoloSlab`'s theorems (the per-slab (1a)) were committed with their proofs, not statements first (audit N2).
+  They are additions; the drafted `KeplerDataHD` is still proved as stated.
 - No suspected errata in pinned sources.
+
+## Complex cell variables on the wide strips (for C2)
+
+`holo_margin.py --complex --urad=64/49` samples 404 points on the polydisc torus `|u_j| = 64/49` per cell
+(estimated; records in `~/kam-data/hd11964/holo/{wide,narrow}-complex-R0-*.json`). The table gives the minimum per
+slab of the Kepler slack (`κ ≤ 0.95`), and the minimum of `Re d²` over the listed slabs:
+
+| strip `(ρ_c, ρ_b)` | `c` slack, slabs 0 / 1 / 2 / 3 / 4 / 5 / 6 | `b` slack, slabs 0–3 / 4–6 | min `Re d²`, slabs 0–5 / 6 |
+|---|---|---|---|
+| (0.035, 0.15) | 0.227 / 0.334 / 0.174 / 0.058 / **−0.026** / **−0.088** / **−0.066** | **−0.137** … **−0.063** (every cell < 0) / ≥ 0.086 | ≥ 0.40 / 3.41 |
+| (0.03, 0.15) | 0.259 / 0.366 / 0.206 / 0.090 / 0.005 / **−0.057** / **−0.035** | as above | ≥ 0.46 / 3.45 |
+| (0.025, 0.15) | 0.290 / 0.397 / 0.237 / 0.121 / 0.037 / **−0.025** / **−0.003** | as above | ≥ 0.52 / 3.48 |
+| (0.02, 0.1) | 0.322 / 0.428 / 0.269 / 0.153 / 0.068 / 0.006 / 0.028 | ≥ 0.178 / ≥ 0.400 | ≥ 3.41 / 5.18 |
+| (0.015, 0.1) | 0.353 / 0.460 / 0.300 / 0.184 / 0.099 / 0.038 / 0.060 | as above | ≥ 3.44 / 5.21 |
+| (0.01, 0.1) | 0.385 / 0.491 / 0.332 / 0.215 / 0.131 / 0.069 / 0.091 | as above | ≥ 3.47 / 5.23 |
+
+**Reading** (with the same "slack ≥ 0.04" rule as the real per-slab choice).
+- At complex `u`, `ρ_b = 0.15` fails for planet `b` on slabs 0–3, where b's disc is widest.
+- `ρ_b = 0.1` is comfortable: slack ≥ 0.18, `Re d² ≥ 3.4`.
+- Planet `c`'s slack does not depend on `ρ_b`. The admissible `ρ_c` at complex `u` are:
+  - slabs 0–3: up to 0.035;
+  - slab 4: 0.02;
+  - slab 6: 0.015;
+  - slab 5: 0.01 (0.015 is borderline at 0.038).
+- These strips lose decay against the real per-slab ones. Whether the out-of-window `τ` can afford that is the
+  layer's call (see C2 above). The `Re d²` on the `ρ_b = 0.1` rows is measured only at `ρ_c ≤ 0.02`.
+
+## Audit fixes (AUDIT-HD11964-HOLO-1, one commit `HD11964-HOLO-FIX`)
+
+- **C1:** deleted the part-2 deviation line about `G2Ext` (the committed draft already had `G2Ext ρ w`).
+- **C2:** reworded the per-slab strip paragraph in *Part 2* (real cell variables only), and stated what the
+  out-of-window tail needs. Added the measured table *Complex cell variables on the wide strips*.
+- **R1:** `repSet_subset_holoDomHD` (the auditor's probe, adopted), with `AffineCell.etaOk`, `fitPlan_etaOk`
+  (`decide +kernel`) and `abs_eta_le_of_mem_toSet`, in the new module `HD11964.HoloGlue`.
+- **R2:** `noCollisionOn_of_enclosure` (`HoloGlue`): (1b) on any `stripA ρ`, any `y`, concluding
+  `NoCollisionOn y ρ w`. The old `noCollision_of_enclosure` is kept.
+- **R3:** the status line makes (2b)–(2e) conditional on the layer's `Major.lean`, and the *Open* list keeps them.
+  That list is rewritten to the current state.
+- **N1:** the stale strip phrase in `HD11964-ROT.md` (*Open*) now points to the per-slab strips.
+- **N2:** recorded under the part-2 deviations.
+- **N3:** the `HoloExt` facade docstring lists the contents of both parts. After `c607b406` the parts carry their
+  own docstrings.
+- **N5:** the all-cells `Re d²` column is labelled `24²`.
+- **N6:** "0.125" → "≈ 0.12".
+
+**Checks.**
+- `lake build HD11964.HoloGlue`: built, with no warnings.
+- Root `lake env lean HD11964.lean`: exit 0.
+- `GlueCheck.lean` uses `noCollisionOn_of_enclosure` on `rhoHoloA` and prints the axioms of
+  `noCollisionOn_of_enclosure`, `repSet_subset_holoDomHD` and `fitPlan_etaOk`: all
+  `[propext, Classical.choice, Quot.sound]`.
+- `lint_sources.sh`: line length, `check_lean_modules` (4482 files) and the frozen guard pass; the ABI step fails
+  as before (missing `MagAlpha.olean`).
+- `gen_root_imports.py --check`: exit 0.
 
 ## Split of `HoloExt` (after the audit request; a pure move)
 
