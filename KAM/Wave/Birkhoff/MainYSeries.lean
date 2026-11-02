@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.MainYInt
 /-!
 # Power series of the integrand `Y(t,w)` (blueprint-W `bpW:w3:Yseries`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-MAIN, blueprint label `bpW:w3:Yseries`.
+Package W3-MAIN, blueprint label `bpW:w3:Yseries`.
 
 With `ρ₁ = birkRho1 m p = ½(40 C_F)^{-1/2}` (`birkBall1_eq_ball`: `B_{ρ₁}` is the open ball of
 radius `ρ₁`):

@@ -14,8 +14,6 @@ public import KAM.Wave.Recon.SineFeature
 # Weighted sequence spaces `ℓ^{a,p}` and the Cauchy–Schwarz summation bound
 (blueprint `bpW:w0n:recon-bounded`, first display)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 A real sequence `c : ℕ+ → ℝ` lies in `ℓ^{a,p}` when `Σ (ω_{a,p}(j) c_j)²` converges
 (`KAM.Wave.WaveEll`), and `‖c‖_{a,p}` is `KAM.Wave.waveEllNorm`. For `a > 0` the Cauchy–Schwarz
 estimate `Σ_j |c_j| j^k ≤ M_{a,p,k} ‖c‖_{a,p}` of the blueprint is

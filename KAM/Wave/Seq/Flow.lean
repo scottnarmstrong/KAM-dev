@@ -15,8 +15,6 @@ import Mathlib.Analysis.Normed.Group.Tannery
 /-!
 # Complex rotations and the real linear flow (blueprint-W `bpW:w1:diag` (iii), (iv))
 
-Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
-
 * (iii) `rotCLM m hm t`: the representative `R_t = D_μ`, `μ_j = e^{-iλ_j t}`, on `ℓ²_ℂ`:
   `norm_rotCLM`, `rotCLM_add`, `continuous_rotCLM_apply`.
 * (iv) `flowCLM m hm t`: the real flow `L_t` on `ℓ² × ℓ²` (the representative of `E_{a,p}`; the

@@ -12,9 +12,6 @@ public import KAM.Wave.Measure.RealBounds
 # W7: the union over `Λ⁻` at fixed `k` (blueprint `bpW:w7:prep`, `bpW:w7:iter`, steps "`Λ⁻`, sum
 over `n` and sign")
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 `minus_assembly`: the zone of `(k, -l)` is the zone of `(-k, l)`, so the union over `Λ⁻ ∖ X` at
 fixed `k` is covered by the unions for `±k` over `l = e_{j+n} - e_j`, `1 ≤ n ≤ |k|/ϑ`.
 -/

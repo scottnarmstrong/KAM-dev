@@ -11,9 +11,6 @@ public import KAM.Wave.Measure.Shells
 # W7: the shell partition and the shell geometry as single statements
 (blueprint `bpW:w7:shell-geom`, step `stepW:w7:partition`)
 
-Off-frontier, source-faithful infrastructure (W-GRAPH-CLOSE); the dependency graph is still being
-built.
-
 * `shellSet_partition` (step `stepW:w7:partition`): every `I ∈ (0, t_k)²` lies in exactly one shell
   `R_l` with `l ≥ k`, namely the one with `t_{l+1} ≤ max_i I_i < t_l`; `Leb(R_l) = t_l² - t_{l+1}²`.
 * `iUnion_shellSet_eq_box`: `⋃_{l ≥ k} R_l = (0, t_k)²`, both inclusions (the reverse inclusion is

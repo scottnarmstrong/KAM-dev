@@ -11,8 +11,7 @@ public import KAM.Wave.Cubic.HamHamiltonian
 /-!
 # The linear part `Λ` (blueprint-W `bpW:w3:Lambda`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:Lambda`.
+Package W3-SETTING, blueprint label `bpW:w3:Lambda`.
 
 `birkLambda m hm ha hp y = Σ_{j≥1} λ_j w_j w_{-j}` (`w = birkCoord a p y`), `a ≥ 0`, `p ≥ 1/2`:
 

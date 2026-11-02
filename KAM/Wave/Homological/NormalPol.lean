@@ -14,9 +14,6 @@ import Mathlib.Tactic.Positivity
 # The unconjugated pairing on `ℓ²` and polarization (blueprint-W `bpW:w4:components`,
 step *Polarization*)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 * `homPairL2 : ℓ² →L ℓ² →L ℂ`, `(v,w) ↦ ∑ v_j w_j`, a continuous bilinear form of norm `≤ 1`;
 * `homPairL2_symm_of_entries`: for `B` with symmetric matrix, `⟨Bx,y⟩₀ = ⟨By,x⟩₀`;
 * `norm_le_of_quadratic`: a symmetric `B` with `|⟨Bz,z⟩₀| ≤ K‖z‖²` has `‖B‖ ≤ K`
@@ -80,7 +77,6 @@ theorem homPairL2_single_right (v : HomL2) (j : ℕ+) : homPairL2 v (kamBasis �
     · subst hk; simp [kamBasis]
     · simp [kamBasis, hk]
   rw [this, tsum_ite_eq]
-
 
 /-- A continuous linear functional vanishing on the basis vanishes. -/
 theorem homCLM_eq_zero_of_basis (L : HomL2 →L[ℂ] ℂ) (h : ∀ j, L (kamBasis ℂ j) = 0) : L = 0 := by

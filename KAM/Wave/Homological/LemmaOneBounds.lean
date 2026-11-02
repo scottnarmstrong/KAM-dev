@@ -14,9 +14,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Component bounds of `F` (`bpW:w4:lemma1`, step *Component bounds of F*)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 `homF_compBounds_gen`: if `|X_R|_r ≤ ε` on `D(s,r)` then the components of `F = homSolveTaylor_gen
     … R`
 satisfy `HomCompBounds_gen` on `T_{s-σ}` with the scale `E₀ = B^W_σ ε/α` and `K = K_S`, by
@@ -78,7 +75,6 @@ theorem homLam_comm_hadamard_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (h
   refine ContinuousLinearMap.ext fun A => ?_
   simp only [ContinuousLinearMap.comp_apply, homHadamardCLM_apply]
   exact (homHadamardOp_lam_gen ha (homPP hp hpb) h A).symm
-
 
 theorem norm_sum_mul_le_of_sum_norm (β y : Fin 2 → ℂ) :
     ‖∑ k, β k * y k‖ ≤ (∑ k, ‖β k‖) * ‖y‖ := by
@@ -251,7 +247,6 @@ theorem homF_compBounds_gen {a p pb s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : �
             i]
         exact (hang z hz i).2.2.2.2.2.2) hθ
     refine this.trans (le_of_eq ?_); ring
-
 
 /-- CONDITIONAL helper for Lemma 1 (iii), uniform bound: assumes the intermediate gate
 `HomMultBounds`. The source-premise export is `homLemma1_fieldBound_gen`. -/

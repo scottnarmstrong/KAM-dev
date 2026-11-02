@@ -14,9 +14,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Support for the angle-derivative bounds (blueprint-W `bpW:w4:components` (ii))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 * `homEntryCLM`, `homNormEntryCLM_gen`: the matrix entries of `HomOp` as continuous linear
     functionals;
 * `homNormalEntry_partial_gen`: entries commute with `∂_{θ_i}`;

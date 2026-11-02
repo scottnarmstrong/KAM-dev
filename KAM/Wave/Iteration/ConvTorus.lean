@@ -13,8 +13,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: the transformations on the torus (blueprint `bpW:w6:convergence` (iii))
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:convergence` (clause (iii); steps `c-dom`, `c-lim`,
+Blueprint label `bpW:w6:convergence` (clause (iii); steps `c-dom`, `c-lim`,
 `c-cont`).
 
 For `ξ ∈ Π_*` and `θ ∈ T_{s_∞}` (`T_{s'} = complexStrip 2 s'`): `Φ^ν(ιθ) = ιθ + ιΨ^ν(ιθ)`,

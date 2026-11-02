@@ -11,9 +11,6 @@ public import KAM.Wave.Normal.Analysis.CubicAnalytic
 /-!
 # The trilinear map `𝒯^{a,p}_𝕜` on `ℓ²_𝕜` (blueprint `bpW:w1:trilinear` (i))
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 For `a ≥ 0`, `p ≥ 1/2` and `𝕜 ∈ {ℝ, ℂ}` (any `RCLike` field),
 `KAM.Wave.waveTriAux a p y y' y'' = τ_{a,p+1} T(κ_{a,p} y, κ_{a,p} y', κ_{a,p} y'')` is trilinear
 (`waveTriAux_add_left`, …), symmetric (`waveTriAux_swap_*`) and bounded by `C_* ∏‖y‖`

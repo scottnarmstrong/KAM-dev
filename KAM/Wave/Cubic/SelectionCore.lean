@@ -11,9 +11,6 @@ public import KAM.Wave.Normal.Analysis.CubicBound
 # Weighted-norm steps for the selection-rule trilinear maps
 (blueprint `bpW:w1:selection`, steps `stepW:w1:maj1`, `stepW:w1:smooth1`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 Three coefficient-free steps shared by every selection-rule trilinear map:
 
 * `KAM.Wave.waveEvenAbs_weighted_eq`: the even majorant of a real sequence whose weighted squares

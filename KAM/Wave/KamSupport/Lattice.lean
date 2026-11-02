@@ -17,8 +17,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Weighted lattice sums (blueprint-W `bpW:w1:lattice`)
 
-Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
-
 For `n ≥ 1`, `σ > 0`, `ε = 2πσ`, and `|k|₁ = KAM.Fourier.modeSize k`:
 
 * (i) `kamLattice_hasSum_exp`: `∑ₖ e^{-ε|k|₁} = coth(πσ)ⁿ`;

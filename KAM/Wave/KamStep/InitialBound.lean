@@ -15,7 +15,6 @@ import Mathlib.Tactic.Positivity
 # The initial perturbation: the size of `X_P`
 (blueprint-W `bpW:w5:initial`, steps `i-q`, `i-g`, `i-k`)
 
-Off-frontier, source-faithful infrastructure (W5-AA); the dependency graph is still being built.
 Blueprint label `bpW:w5:initial`, steps `i-q`, `i-g`, `i-k`.
 
 At `a = p = 1` (fields in `p+1 = 2`-representatives), for `w ∈ D(s,r)`, `s ≤ 1/8`:

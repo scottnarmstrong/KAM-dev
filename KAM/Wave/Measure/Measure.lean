@@ -11,9 +11,6 @@ public import Mathlib.Data.Finsupp.Encodable
 /-!
 # W7: the measure theorem (blueprint `bpW:w7:measurable`, `bpW:w7:measure`, `bpW:w7:melnikov`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 `exclSet_measurableSet`: the excluded set `ℰ` is Borel. `exclSet_measure_le`: for every admissible
 family, `volume ℰ ≤ C₇ ρ α^{32/47}`, with `ρ = diam Π`. `melnikov_*`: Corollary
 `bpW:w7:melnikov`.
@@ -155,7 +152,6 @@ theorem exclSet_measure_le (hS : MeasSetup m hm Pi α) (F : AdmissibleFamily m h
           simp only [hρζ]
           field_simp
         linarith
-
 
 /-- **Melnikov conditions on the complement** (blueprint `bpW:w7:melnikov`) (i): off `Ξ`. -/
 theorem melnikov_prep {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Pi) (hnot : ξ ∉ prepSet m hm Pi α)

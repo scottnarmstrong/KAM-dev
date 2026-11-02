@@ -13,9 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # `DΦ(w)` maps `𝒫^{p_+}` onto `𝒫^{p_+}` (blueprint-W `bpW:w5:flow-calc` (iii), `bpW:w5:step` (i))
 
-Off-frontier, source-faithful infrastructure (W5-REAL, item 2); the dependency graph is still being
-built.
-
 In the representative model the smoothing space `𝒫^{p_+}` is `StepPhase r` read in the
 `p_+`-representatives, and its inclusion into `𝒫 = 𝒫^p` is the diagonal map
 `ι = stepEmbedCLM a p pb hpb r` (`‖ι‖ ≤ 1`). A vector of `𝒫` lies in `𝒫^{p_+}` iff it is `ι W'`.

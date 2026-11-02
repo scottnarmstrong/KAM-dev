@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Hilbert-matrix bound (blueprint-W `bpW:w1:schur`)
 
-Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
-
 For a bounded operator `A` on `ℓ²_K` with matrix `A_ij = (A e_j)_i` (`kamEntry`):
 
 * the rows and columns of `A` are square summable with sum at most `‖A‖²`

@@ -11,7 +11,7 @@ public import KAM.Wave.Normal.Analysis.PdeForward
 /-!
 # Reconstruction functionals (blueprint `bpW:w2:derived`, `bpW:w2:functionals`)
 
-Infrastructure used by several nodes; the dependency graph is still being built. Blueprint label
+Blueprint label
 `bpW:w2:derived`, `bpW:w2:functionals` (milestone W2, PDE reconstruction).
 
 * `KAM.Wave.reconUx`, `KAM.Wave.reconUxx`: the termwise `x`-derivatives `D¹`, `D²` of the series

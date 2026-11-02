@@ -12,8 +12,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: convergence of the transformations (blueprint `bpW:w6:convergence` (iii), (iv))
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:convergence` (clauses (iii) and (iv)).
+Blueprint label `bpW:w6:convergence` (clauses (iii) and (iv)).
 
 * `w6ConvTorusIt` (`bpW:w6:convergence` (iii)) for an iteration with the hypotheses of every stage
   (`W6IterHyp`), and `w6ConvOps` ((iv));

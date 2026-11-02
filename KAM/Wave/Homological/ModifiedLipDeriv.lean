@@ -13,9 +13,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The Lipschitz bound with modified divisors (`bpW:w5:w4-modified` (ii))
 
-Off-frontier, source-faithful infrastructure (W5-MODIFIED, blueprint `bpW:w5:w4-modified`); the
-dependency graph is still being built.
-
 * `homModLip_dcp`, `homModLip_dcm`, `homModLip_dP`, `homModLip_dP'`: the angle derivatives of the
   components `c^±, P, P'` (W4's route, scale `E^W = B^W_σ(ε^L + 2Mε/α)d/α`);
 * `homModLip_dQ`: step `m-act` for differences, scale `E^♮ = B^♮_σ(ε^L + 2Mε/α)d/α`;

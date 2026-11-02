@@ -12,8 +12,7 @@ import Mathlib.Topology.Algebra.Order.LiminfLimsup
 /-!
 # W6: frequency bounds in the limit (`bpW:w6:convergence` (ii), `bpW:w6:final-freq`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w6:convergence` (step `c-freq`, the limit of the divisor
+Blueprint labels `bpW:w6:convergence` (step `c-freq`, the limit of the divisor
 bound) and `bpW:w6:final-freq` (milestone W6).
 
 * `w6_divisor_limit` (step `c-freq`): if `|⟨k, ω_ν⟩ + ⟨l, Ω_ν⟩| ≥ a_ν ⟨l⟩/A_k` for every `ν`, with

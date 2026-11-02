@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.QuartBarAlg
 /-!
 # Real-variable facts for the divisor bound (blueprint-W `bpW:w3:divisor`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-DIVISOR-F, blueprint label `bpW:w3:divisor`.
+Package W3-DIVISOR-F, blueprint label `bpW:w3:divisor`.
 
 `birkL m k = √(k² + m)` for `k : ℕ` (`lam m hm j = birkL m j`). With `Δ(k) = L(k+1) - L(k)`:
 `birkL_second_diff` (`L(k) + L(k+2) - 2 L(k+1) ≥ m / L(k+2)³`, exact formula, no calculus),

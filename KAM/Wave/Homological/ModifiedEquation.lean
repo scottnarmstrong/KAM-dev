@@ -15,9 +15,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The homological equation with modified divisors (`bpW:w5:w4-modified` (i))
 
-Off-frontier, source-faithful infrastructure (W5-MODIFIED, blueprint `bpW:w5:w4-modified`); the
-dependency graph is still being built.
-
 `bpW:w5:w4-modified` (i) asserts that the equation (ii) of `bpW:w4:lemma1` holds for the solution
 `F` with modified divisors:
 * `homModLemma_equation_fin`: `L_N F + N̂ = R - â₀` for finitely supported `z, \bar z`

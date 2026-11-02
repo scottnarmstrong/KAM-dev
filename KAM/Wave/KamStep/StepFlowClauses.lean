@@ -12,8 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The flow clauses of the KAM step (blueprint-W `bpW:w5:step` (i), (v))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 For `w ∈ D_+ = D(s-5σ, ηr)` and `ξ ∈ Π`: `Φ w ∈ D(s-4σ, 2ηr)` (`StepCore.phi_mem`), the weak
 conjugacy (`StepCore.weakConj`), symplecticity (`StepCore.phi_symplectic`), translation
 equivariance (`StepCore.phi_translate`) and the `λ`-bounds of the transformation

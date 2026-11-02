@@ -12,8 +12,6 @@ public import KAM.Wave.KamSupport.FourierBanach
 /-!
 # Hilbert-valued Fourier series on strips (blueprint-W `bpW:w1:fourier-l2`)
 
-Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
-
 For `H` a complex Hilbert space and `u : T_s → H` holomorphic, `1`-periodic, `‖u‖ ≤ M`:
 
 * (i) `kamFourierL2_sum_le`: `∑_k ‖û_k‖² e^{4π|k|₁ s} ≤ 2ⁿ M²`. The Parseval step is replaced by

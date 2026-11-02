@@ -12,9 +12,6 @@ public import Mathlib.Analysis.Real.Pi.Bounds
 /-!
 # W7: unperturbed frequencies and frequency coordinates (blueprint `bpW:w7:freqcoords`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 The unperturbed tangential frequency is `omegaTan m hm ξ = λ_J + A ξ` and the normal one is
 `omegaNor m hm ξ ν = λ_{ν+3} + (B ξ)_ν` (landed in `KAM.Wave.Normal.Nondegeneracy`). Here we prove
 Lemma `bpW:w7:freqcoords`: the constants `D_A = |det A|`, `N_A`, `L_A = N_A / D_A` (the norm

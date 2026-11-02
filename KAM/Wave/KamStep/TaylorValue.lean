@@ -12,8 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The value of the Taylor polynomial (blueprint-W `bpW:w5:taylor` step `t-poly`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `taylorRv_eq`: with `w₀ = (θ,0,0,0)`, `c₁ = (0,0,u,v)`, `c₂ = (0,y,0,0)`,
 `R(w) = P(w₀) + ϖ(X(w₀), c₁ + c₂) + ½ ϖ(DX(w₀) c₁, c₁)`.
 -/
@@ -208,7 +206,6 @@ theorem stepFun_taylorOf_eq (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hs :
     Finset.sum_congr rfl fun i _ => by ring
   rw [e]
   ring
-
 
 /-- **`X_R = X_{T}`** (`bpW:w5:taylor` (ii), step `t-field`): the field of the polynomial of
 `T = stepTaylorOf …` is the Taylor field `taylorXR X` on `D(s,r)`. -/

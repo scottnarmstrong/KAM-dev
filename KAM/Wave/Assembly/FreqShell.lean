@@ -12,8 +12,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W8: frequencies on one shell (blueprint `bpW:w8:freq-shell`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w8:freq-shell` (milestone W8).
+Blueprint label `bpW:w8:freq-shell` (milestone W8).
 
 For the shell iteration of a prep-step bundle `H : W8ShellPrep m hm n P X` (`bpW:w8:shell-iter`):
 * `w8ShellGamma_subset_D`, `w8ShellOmega_tendsto` (Step `stepW:w8:fs-lim`): `Γ_n ⊆ D^{(n)}_μ` for

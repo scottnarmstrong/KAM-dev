@@ -18,7 +18,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The action–angle substitution: the normal form (blueprint-W `bpW:w5:action-angle` (iv))
 
-Off-frontier, source-faithful infrastructure (W5-AA); the dependency graph is still being built.
 Blueprint label `bpW:w5:action-angle` (iv), step `a-nf`.
 
 For `ξ ∈ ℂ²` (complexified parameters) and `w ∈ 𝒫` with `𝒜_ξ(w) ∈ B_{ρ₁}`:

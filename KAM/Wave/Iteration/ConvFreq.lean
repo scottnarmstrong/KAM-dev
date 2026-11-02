@@ -15,8 +15,7 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # W6: convergence of the frequencies (`bpW:w6:convergence` (i), (ii))
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:convergence` (milestone W6), steps `c-par`, `c-freq`.
+Blueprint label `bpW:w6:convergence` (milestone W6), steps `c-par`, `c-freq`.
 
 For the iteration `S_ν = w6Seq d (w6Start …) ν` of Proposition `bpW:w6:convergence`
 (hypotheses `W6ConvHyp`), with `Π_* = ⋂_ν Π_ν` (`w6PiStarIt`), `ω_* = lim ω_ν`, `Ω_* = lim Ω_ν`

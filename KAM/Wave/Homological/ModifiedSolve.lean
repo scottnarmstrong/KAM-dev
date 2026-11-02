@@ -13,9 +13,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The solution with modified divisors (`bpW:w5:w4-modified` (i), class membership)
 
-Off-frontier, source-faithful infrastructure (W5-MODIFIED, blueprint `bpW:w5:w4-modified`); the
-dependency graph is still being built.
-
 `homModSolveTaylor … R` is the function `F` of `bpW:w5:w4-modified`, defined by the formulas of
 `bpW:w4:lemma1` from `R ∈ 𝒯_s` (`p̄ = p+1`) and read in the class `𝒯_{s-σ}` with gradient weight
 `p₊`:

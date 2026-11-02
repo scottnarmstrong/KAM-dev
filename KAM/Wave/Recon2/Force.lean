@@ -10,7 +10,7 @@ public import KAM.Wave.Recon2.Functionals
 /-!
 # The force identity in frozen form (blueprint `bpW:w2:force`)
 
-Infrastructure used by several nodes; the dependency graph is still being built. Blueprint label
+Blueprint label
 `bpW:w2:force` (milestone W2).
 
 For `y ∈ ℓ²` the series `Σ_lin = Σ √λ_j λ_j κ(y)_j φ_j` and `Σ_cub = Σ √λ_j 𝒢(y)_j φ_j` converge

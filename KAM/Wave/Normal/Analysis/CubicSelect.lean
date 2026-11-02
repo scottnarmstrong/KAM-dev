@@ -14,8 +14,6 @@ public import KAM.Wave.Normal.Analysis.EvenMajorant
 # Selection-rule majorant by a triple convolution
 (blueprint `bpW:w0n:cubic-bound`, step `stepW:w0n:selection`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 For nonnegative, even, summable `x y z : ℤ → ℝ`, the sum over `(i, j, k) ∈ ℕ+³` weighted by the
 number `N(i,j,k;l) = #{ε ∈ {±1}³ : l = ε₁ i + ε₂ j + ε₃ k}` of selection-rule patterns satisfies
 `Σ_{ijk} N · x_i y_j z_k ≤ ((x * y) * z)_l`

@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.MainK3
 /-!
 # The integrand `Y(t,w)` of the remainder field (blueprint-W `bpW:w3:Yseries`, eq. `bpW:w3:Ydef`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-MAIN, blueprint label `bpW:w3:Yseries` (definition `bpW:w3:Ydef`).
+Package W3-MAIN, blueprint label `bpW:w3:Yseries` (definition `bpW:w3:Ydef`).
 
 Domains (public carriers are restricted to them):
 * `birkBall0 m p = B_{ρ₀} = {w | 40 C_F ‖w‖² < 1}`,

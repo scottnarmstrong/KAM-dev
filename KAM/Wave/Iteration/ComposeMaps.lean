@@ -12,8 +12,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: the compositions `Φ^ν = Φ_1 ∘ ⋯ ∘ Φ_ν` (blueprint `bpW:w6:convergence` (iv))
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:convergence` (steps `c-dom`, `c-op`; clause (iv)).
+Blueprint label `bpW:w6:convergence` (steps `c-dom`, `c-op`; clause (iv)).
 
 Along the iteration started at `S₀` (with the hypotheses of every stage), for `ξ ∈ Π_{ν-1}`:
 

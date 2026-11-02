@@ -14,9 +14,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The field bound with modified divisors (`bpW:w5:w4-modified` (i))
 
-Off-frontier, source-faithful infrastructure (W5-MODIFIED, blueprint `bpW:w5:w4-modified`); the
-dependency graph is still being built.
-
 * `homModF_compBounds`: the component bounds of `F = homModSolveTaylor … R` at one `θ ∈ T_{s-σ}`,
   with `K = K_S` and `E₀ = B^W_σ ε/α` (W4's step *Component bounds of F*), the `c^±, P, P'` parts
   from the reweighted data `homReweight R` (field bound `ε` in the `p₊` norm), the `Q, Q^T` parts

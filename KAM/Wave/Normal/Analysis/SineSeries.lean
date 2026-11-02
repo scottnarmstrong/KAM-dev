@@ -16,8 +16,6 @@ public import KAM.Wave.Recon.ReconAnalytic
 /-!
 # Sine series of weighted sequences (blueprint `bpW:w0n:recon-bounded`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 For a real sequence `c` put `S_k c (x) = Σ_j c_j φ_j^{(k)}(x)` (`KAM.Wave.waveSineSeries`). For
 `c ∈ ℓ^{a,p}` with `a > 0` (any `p`) the blueprint lemma `bpW:w0n:recon-bounded` is the following
 list.

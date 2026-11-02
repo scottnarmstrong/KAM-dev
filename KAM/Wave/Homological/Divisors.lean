@@ -13,9 +13,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Divisor bounds (blueprint-W `bpW:w4:divisors`)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 For `(k,l) ∈ 𝒵` the divisor `⟨k,ω⟩ + ⟨l,Ω⟩` satisfies `|δ(ξ)| ≥ α ⟨l⟩ / A_k` (`(H_α)`) and
 `|1/δ(ξ) - 1/δ(ζ)| ≤ 2 (1+|k|₁) A_k² M ⟨l⟩⁻¹ α⁻² |ξ-ζ|` (`homDivGen_bounds`). The six divisors of
 Definition `bpW:w4:melnikov` are the cases `l = 0, ∓e_j, ∓(e_i+e_j), e_i - e_j`

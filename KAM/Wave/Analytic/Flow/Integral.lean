@@ -12,8 +12,7 @@ public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
 /-!
 # Integral estimates over `[0, t]`, for both signs of `t`
 
-Blueprint-W `bpW:w1:flow`, step `stepW:w1:wavePicard` (package W1-ANALYTIC). This is source-faithful
-infrastructure used by several nodes; the dependency graph is still being built.
+Blueprint-W `bpW:w1:flow`, step `stepW:w1:picard` (package W1-ANALYTIC).
 
 If `‖f σ‖ ≤ g |σ|` on the integration interval and `G' = g`, then `‖∫₀ᵗ f‖ ≤ G |t| - G 0`
 (`KAM.Wave.norm_integral_le_primitive`); with `g = c xᵐ` and `g = L e^{L x}` this gives the two

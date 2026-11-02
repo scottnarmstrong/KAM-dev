@@ -13,8 +13,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: the iteration (`bpW:w6:convergence`, step `c-ind`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:convergence` (milestone W6), step `c-ind`.
+Blueprint label `bpW:w6:convergence` (milestone W6), step `c-ind`.
 
 * `W6State`: the data `(Π_ν, ω_ν, Ω_ν, P_ν, X_{P_ν})` of a stage; `W6State.next d ν` applies
   Lemma `bpW:w6:iter-lemma` (W5's step) when the hypotheses of stage `ν` hold, and is the identity

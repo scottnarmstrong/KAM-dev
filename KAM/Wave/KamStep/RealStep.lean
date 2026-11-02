@@ -15,9 +15,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Reality clauses of the KAM step (blueprint-W `bpW:w5:step` (i), (ii); `bpW:w5:new-ham` (ii))
 
-Off-frontier, source-faithful infrastructure (W5-REAL, item 1); the dependency graph is still being
-built.
-
 * `stepTheorem_reality_of_eps0_pos` (`WaveStepHyp`, non-modified case): `Φ` maps real points of
   `D_+` to real points, and `P_+` is real at the real points of `D_+`.
 * `stepTheoremMod_reality_of_eps0_pos` (`StepHypMod`, modified case): the same.

@@ -11,8 +11,7 @@ public import Mathlib.Analysis.Calculus.UniformLimitsDeriv
 /-!
 # Uniform limits of holomorphic maps
 
-Blueprint-W `bpW:w1:uniform-limit` (package W1-ANALYTIC). This is source-faithful infrastructure
-used by several nodes; the dependency graph is still being built.
+Blueprint-W `bpW:w1:uniform-limit` (package W1-ANALYTIC).
 
 A uniform limit `g` of holomorphic maps `f k` on an open set `U` of a complex normed space, with
 values in a complex Banach space, is holomorphic and `D (f k) → D g` uniformly on every ball
@@ -62,7 +61,6 @@ theorem uniformCauchySeqOn_fderiv {f : ℕ → E → F} {U : Set E} (hU : IsOpen
   refine lt_of_le_of_lt key ?_
   rw [show ε * δ / 2 / δ = ε / 2 by field_simp]
   linarith
-
 
 variable [CompleteSpace F]
 

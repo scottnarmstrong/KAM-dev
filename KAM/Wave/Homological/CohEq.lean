@@ -13,9 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The scalar cohomological equation (blueprint-W `bpW:w4:lemma1`, step *The equation*)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 For a scalar `g` on `T_s` and multipliers `m_k` with `i(⟨k,ω⟩ - λ) m_k = 1` for `k ≠ 0`, the solve
 `F = ∑ m_k ĝ_k e_k` satisfies, on `T_{s-σ}`,
 `(1/2π)⟨ω, ∂_θ F⟩ - iλ F = g - e₀ ĝ₀`, with `e₀ = 1 + iλ m₀`

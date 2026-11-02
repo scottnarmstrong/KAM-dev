@@ -11,8 +11,7 @@ public import KAM.Wave.Assembly.Ext
 /-!
 # W8: geometry of the trimmed shells (blueprint `bpW:w8:shell-data` (ii), `bpW:w8:boundaries`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w8:shells`, `bpW:w8:boundaries`; the W5/W6-free part (ii)
+Blueprint labels `bpW:w8:shells`, `bpW:w8:boundaries`; the W5/W6-free part (ii)
 of `bpW:w8:shell-data` (milestone W8).
 
 For every `t₀ > 0`: the trimmed shell `Π_n` is open (`w8Pi_isOpen`), `Π_n ⊆ R_n ⊆ (0, t_n)²`,

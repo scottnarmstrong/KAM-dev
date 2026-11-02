@@ -15,8 +15,7 @@ public import Mathlib.Topology.MetricSpace.HausdorffDistance
 /-!
 # W8: constants and shells (blueprint `bpW:w8:const`, `bpW:w8:shells`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w8:const`, `bpW:w8:shells` (milestone W8).
+Blueprint labels `bpW:w8:const`, `bpW:w8:shells` (milestone W8).
 
 The W8 constants are formulas in constants of W3 (`C_*`, `C_F`, `ρ₁`, `C'_K`), W4 (`M`), W2 (`M_m`),
 W7 (`α₀`), the absolute `c_A = 2200` of W5, and four constants of W5–W6 that have no Lean

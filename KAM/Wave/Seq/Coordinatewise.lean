@@ -13,8 +13,6 @@ import Mathlib.Analysis.Calculus.Deriv.Add
 /-!
 # Derivatives of coordinates (blueprint-W `bpW:w1:coordinatewise`)
 
-Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
-
 `hasDerivAt_coordinates_iff`: for `c : ℝ → ℓ²` with derivative `c'` at `t`, the coordinate curves
 `(κ_{a,p} c)_j` have derivatives `(κ_{a',p'} v)_j` iff `ι̂ c' = v`.
 `frozen_invariance_iff` is a conditional helper for clause (4) of the frozen `KAM.Wave.nlw2`.

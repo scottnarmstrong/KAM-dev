@@ -13,9 +13,6 @@ public import KAM.Wave.Seq.Diag
 # The frozen forms `𝒢^w` and `X^w` (blueprint `bpW:w1:cubic-analytic` (iv),
 `bpW:w1:hamfield` (v), `bpW:w1:coordinatewise`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 * `KAM.Wave.waveGw m hm = 𝒩` for `𝕜 = ℝ`, `(a,p) = (1,1)`: `𝒢^w(y)_l = ω_{1,2}(l) cubicGrad y l`
   (`waveGw_apply`), real analytic, `‖𝒢^w(y)‖ ≤ C_m ‖y‖³` (`waveGw_norm_le`), with the weighted
   coordinates of `𝒢(κ_{1,1} y)` at weights `(1,2)`, `(1,1)`, `(1,0)` (`coeffW_one_two_waveGw`,

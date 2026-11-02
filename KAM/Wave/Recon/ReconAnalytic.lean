@@ -15,8 +15,6 @@ public import KAM.Wave.Recon.SineFeature
 /-!
 # Analytic reconstruction (blueprint `bpW:w1:recon-analytic`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 With `a = p = 1` and `β_j = λ_j^{-1/2}` (respectively `λ_j^{1/2}`) the real sine features of
 `KAM.Wave.sineFeatureR` give the derived reconstructions
 `U^{(k)}_y(x) = ⟨Ψ^{U,k}(x), y⟩`, `V^{(k)}_y(x) = ⟨Ψ^{V,k}(x), y⟩` (`KAM.Wave.reconUIter`,

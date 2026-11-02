@@ -12,8 +12,7 @@ public import KAM.Wave.Cubic.HamHamiltonian
 /-!
 # Identification with Part 0 (blueprint-W `bpW:w3:quartic-ident`), the full quartic
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:quartic-ident`.
+Package W3-SETTING, blueprint label `bpW:w3:quartic-ident`.
 
 For the coefficient `𝔤` on all of `(ℤ∖0)⁴` (`birkCoefAll`; `G = P`),
 at every point `x` of the complex

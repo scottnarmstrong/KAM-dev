@@ -17,8 +17,6 @@ public import KAM.Frozen.Wave.Defs.SineMode
 /-!
 # Analytic sine features (blueprint `bpW:w1:sine-feature`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 For `a > 0`, `p ∈ ℝ`, `k ∈ ℕ` and `β : ℕ+ → ℝ` with `|β j| ≤ B j^ν`, the feature map
 `Ψ(x)_j = β_j φ_j^{(k)}(x) / ω_{a,p}(j)` takes values in `ℓ²` and is analytic.
 

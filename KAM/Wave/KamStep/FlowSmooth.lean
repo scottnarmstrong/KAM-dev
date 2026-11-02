@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The flow of a smoothing field (`bpW:w5:flow`, steps `f-flow`, `f-par`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 Abstract form of the smoothing statements of `bpW:w5:flow` (i). `F` is the carrier with the norm
 `|·|_{p,r}`, `G` the target space of fields with the norm `|·|_{p_+,r}`, and `ι : G →L F` the
 inclusion `𝒫^{p_+} ⊂ 𝒫^p` (norm `≤ 1`; in the concrete model the diagonal embedding `kamEmbed`).

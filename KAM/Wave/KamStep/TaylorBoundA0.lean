@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Boundedness of `a(θ) = P(θ,0,0,0)` (blueprint-W `bpW:w5:taylor` (i), step `t-comp`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `P(θ,0,0,0)` is `1`-periodic and its `θ`-gradient is `-2π X^y`, bounded by `2π r² ε`; hence it is
 bounded on the strip by its sup over the unit cube plus `4π r² ε s`.
 -/

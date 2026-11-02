@@ -15,8 +15,7 @@ import Mathlib.Analysis.SpecificLimits.Basic
 /-!
 # W6: the iteration sequences (blueprint `bpW:w6:sequences`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:sequences` (milestone W6).
+Blueprint label `bpW:w6:sequences` (milestone W6).
 
 Fixed: `τ = 24`, `t = 2τ + 4 = 52` and W5's constants `c_F`, `c₀ = 16 c_F`, `C₂ = 896 + 168 c_F`
 (`stepCF`, `stepC0`, `stepC2` of `KamStep/Data`, evaluated at `τ = 24`). Given

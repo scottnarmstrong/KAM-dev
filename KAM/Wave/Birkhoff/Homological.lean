@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.HomSum
 /-!
 # The homological identity (blueprint-W `bpW:w3:homological`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-DIVISOR-F, blueprint label `bpW:w3:homological`.
+Package W3-DIVISOR-F, blueprint label `bpW:w3:homological`.
 
 `birk_homological`: for every `w ∈ 𝔚`, `DΛ(w) X_F(w) = Z'(w) = Ḡ(w) - G^{tan}(w)` (with
 `X_F(w) ∈ 𝔚⁺`

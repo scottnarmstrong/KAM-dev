@@ -12,8 +12,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: the tori in KAM coordinates after the preparatory step (interface for `bpW:w6:tori`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w6:prep-step` (iii) (sharp bound) and the W6 part of
+Blueprint labels `bpW:w6:prep-step` (iii) (sharp bound) and the W6 part of
 `bpW:w6:tori` (steps `t-hol`, `t-cont`, `t-prep`, `t-close`), before W5's action-angle map
 `𝒜_ξ` (`bpW:w5:action-angle`, not formalized here).
 

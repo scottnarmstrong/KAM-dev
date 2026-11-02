@@ -14,9 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Reality of `F` and `N̂` (`bpW:w4:lemma1` (i), step *Reality*)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 `HomTaylor_gen.isRealTaylor R`: at real `θ`, `a, b` are real, `c^- = \\overline{c^+}`,
 `P' = \\overline P`, `Q^T = \\overline Q` (entrywise, in the entries of the represented operators;
     the
@@ -142,7 +139,6 @@ theorem homSolveTaylor_isReal_gen (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ)
       (fun k => (homDQ_conj w W k i j).symm) x
     rw [(homSolveTaylor_gen hτ hα hσ hσs hm R).transQ θ hθs i j, eQ j i θ hθs, eQ i j θ hθs]
     exact h.symm
-
 
 /-- The mean of a function that is real at real points is real. -/
 theorem homCoeff_zero_im {s : ℝ} {u : (Fin 2 → ℂ) → ℂ}

@@ -12,8 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # `P_+` is a smoothing Hamiltonian (blueprint-W `bpW:w5:new-ham` (ii))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepPplus P X FT T`: `P_+ = (P - R)∘Φ + ∫₀¹ {R(t),F}∘φ^t dt` as a function of `w ∈ KamPhase`
 (through `ofK`), `stepXplus`: its field. `stepPlus_isSmoothing`: `(P_+, X_+) ∈ 𝒮_{p_+}(D(s-5σ,
 ηr))`.

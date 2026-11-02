@@ -14,9 +14,6 @@ import Mathlib.Tactic.Positivity
 # The new frequencies of the modified step through the `p+1` Taylor family
 (blueprint-W `bpW:w5:step`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP-B-FIX, ruling D2 of `W5-STEP-B-audit-1.md`);
-the dependency graph is still being built.
-
 In the modified (preparatory) step the core Taylor family is that of the reweighted field
 `D_ρ ∘ X` at the exponent `p_+`; the frequency corrections only see the diagonal entries of `Q`,
 which the reweighting preserves (`homNormalEntry_rho`). Bridge:

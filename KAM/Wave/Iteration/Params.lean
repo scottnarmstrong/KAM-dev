@@ -11,8 +11,7 @@ public import KAM.Wave.Measure.Measure
 /-!
 # W6: the parameter sets and the exclusion (blueprint `bpW:w6:convergence` (i), `bpW:w6:exclusion`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w6:convergence` (part (i), step `c-par`) and
+Blueprint labels `bpW:w6:convergence` (part (i), step `c-par`) and
 `bpW:w6:exclusion` (milestone W6).
 
 The parameter sets of the iteration are built from the frequencies `(ω_ν, Ω_ν)` by removing

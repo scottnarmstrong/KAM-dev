@@ -15,9 +15,6 @@ import Mathlib.Tactic.Positivity
 # Derivatives of Fourier coefficients and of the multiplier solve (blueprint-W `bpW:w4:fourier-ops`
 (ii), `bpW:w4:solve` (iii))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 * `homPartial_differentiableOn`, `homPartial_periodic`: `∂_{θ_i} f` is holomorphic and `1`-periodic;
 * `homCoeff_partial`: `(∂_{θ_i} f)^_k = 2πi k_i f̂_k` (Banach-valued, by duality with the scalar
   `KAM.torusCoeff_fderiv`);
@@ -37,7 +34,6 @@ variable {E E' : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpac
 /-- The coordinate derivative `∂_{θ_i} f`. -/
 noncomputable def homPartial (i : Fin 2) (u : (Fin 2 → ℂ) → E) : (Fin 2 → ℂ) → E :=
   fun z => fderiv ℂ u z (Pi.single i 1)
-
 
 /-- **Scalar coefficients of a directional derivative** (the scalar case of
 `bpW:w4:fourier-ops` (ii); this is track K's `KAM.torusCoeff_fderiv`, reproved here to avoid the

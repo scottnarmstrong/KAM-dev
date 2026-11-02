@@ -10,9 +10,6 @@ public import KAM.Wave.Measure.ZoneSums
 /-!
 # W7: exceptional zones and the `Λ⁻` zones at fixed `(k, n)` (blueprint `bpW:w7:prep`, `iter`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 `genZone` is the zone `{ξ ∈ D : |⟨k, ω'⟩ + ⟨l, Ω'⟩| < η}` with an arbitrary threshold `η`.
 `X_bound` bounds the union of the exceptional zones; `minus_n_bound` bounds, for fixed `k` and
 `n = i - j`, the union over `j` of the zones of `l = e_{j+n} - e_j`: the first `J₀ - 3` of them by

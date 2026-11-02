@@ -11,8 +11,6 @@ public import KAM.Wave.Normal.Analysis.EvenMajorant
 /-!
 # Weighted majorants for `bpW:w0n:cubic-bound`
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 * `KAM.Wave.w0a_summable_of_weighted`: a nonnegative two-sided sequence in `ℓ^{a,s}_b`, `s ≥ 1`,
   is summable;
 * `KAM.Wave.waveEvenAbs_weighted`: for `q ∈ ℓ^{a,p}`, the even majorant `x_i = |q_{|i|}|/√λ_{|i|}`

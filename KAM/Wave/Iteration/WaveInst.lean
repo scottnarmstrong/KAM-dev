@@ -16,8 +16,7 @@ import Mathlib.Tactic.Positivity
 # W6: the wave iteration, applicability and the frequency pairs (`bpW:w6:applicable`,
 `bpW:w6:freq-lip`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w6:wave-iteration`, `bpW:w6:applicable`,
+Blueprint labels `bpW:w6:wave-iteration`, `bpW:w6:applicable`,
 `bpW:w6:freq-lip` (milestone W6).
 
 * `W6StepRealMod`: W5's reality clause for `P_+` in the modified case (branch inp-w5r,

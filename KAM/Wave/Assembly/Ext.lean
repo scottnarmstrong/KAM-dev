@@ -18,8 +18,7 @@ public import Mathlib.Topology.Order.IntermediateValue
 /-!
 # W8: external facts (blueprint `bpW:w8:ext`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w8:ext`, `bpW:w8:ext-inner`, `bpW:w8:ext-mono`,
+Blueprint labels `bpW:w8:ext`, `bpW:w8:ext-inner`, `bpW:w8:ext-mono`,
 `bpW:w8:ext-compact`, `bpW:w8:ext-exp`, `bpW:w8:ext-sqrt`, `bpW:w8:ext-dist`, `bpW:w8:ext-rpow`,
 `bpW:w8:ext-local` (milestone W8).
 

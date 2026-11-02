@@ -11,8 +11,7 @@ public import KAM.Wave.Measure.Coords
 /-!
 # W8: separation of frequencies across shells (blueprint `bpW:w8:nu-injective`, W6-free steps)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w8:nu-injective` (milestone W8), its W6-free steps only.
+Blueprint label `bpW:w8:nu-injective` (milestone W8), its W6-free steps only.
 
 Lemma `bpW:w8:nu-injective` itself consumes Lemma `bpW:w8:freq-shell` (ii), (iii), a W6 result
 (through `bpW:w8:w6-general`); it is not proved here. This module proves:

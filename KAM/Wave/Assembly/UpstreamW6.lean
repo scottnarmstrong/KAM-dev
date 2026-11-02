@@ -11,8 +11,7 @@ public import KAM.Wave.Iteration.Constants
 /-!
 # W8: the W5–W6 constants as an instance of `W8UpstreamConsts` (blueprint `bpW:w8:const`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w8:const`, `bpW:w6:constants` (milestones W6, W8).
+Blueprint labels `bpW:w8:const`, `bpW:w6:constants` (milestones W6, W8).
 
 `W8-PREP` (deviation D1) took W6's `γ, γ₁` and W5's `c_F, c^♮_F` as the record
 `W8UpstreamConsts`. They now have Lean definitions: `γ = w6Gamma m hm`, `γ₁ = w6Gamma1 m hm`

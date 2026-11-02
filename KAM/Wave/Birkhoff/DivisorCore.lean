@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.DivisorReal
 /-!
 # The divisor bound for sorted quadruples (blueprint-W `bpW:w3:divisor`, Steps 3-6)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-DIVISOR-F, blueprint label `bpW:w3:divisor`.
+Package W3-DIVISOR-F, blueprint label `bpW:w3:divisor`.
 
 For naturals `1 ≤ a ≤ b ≤ c ≤ d` and `β = m/(27 L(a)³)`: no minus sign (`birkDiv_C0`),
 one minus sign

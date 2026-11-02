@@ -12,9 +12,6 @@ public import KAM.Frozen.Wave.Defs.Lam
 /-!
 # The averaged quartic part `⟨G⟩` in the actions (blueprint `bpW:w0n:AB`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 For `N` modes, actions `I : Fin N → ℝ≥0` and angles `φ ∈ [0, 2π]ᴺ`, put `q_j = √(2 I_j) cos φ_j`
 (so `z_j = √I_j e^{-iφ_j}`, `q_j = (z_j + z̄_j)/√2`) and
 `G(q) = ¼ ∑_{ijkl} g_{ijkl} q̂_i q̂_j q̂_k q̂_l`, `q̂_j = q_j / √λ_j`

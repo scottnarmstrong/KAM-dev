@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.Lambda
 /-!
 # Sums over `(ℤ ∖ {0})ⁿ` (blueprint-W `bpW:w3:quartic`, support)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING.
+Package W3-SETTING.
 
 Reindexing of sums over `Fin n → BirkIdx` into a finite sum over sign patterns and a sum over
 `Fin n → ℕ+` (`birk_tsum_pi`), the product of sign sums (`birk_sign_sum_prod`), and the

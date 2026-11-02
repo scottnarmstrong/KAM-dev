@@ -11,8 +11,7 @@ public import KAM.Wave.Assembly.PatchInst
 # W8: invariance and continuity of a shell torus, W8-side reduction
 (blueprint `bpW:w8:shell-inv`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w8:shell-inv` (milestone W8).
+Blueprint label `bpW:w8:shell-inv` (milestone W8).
 
 Lemma `bpW:w8:shell-inv` is about `K^{(n)}_ξ = w8KOfBirk m hm Ψ̃^{(n)}_ξ` with
 `Ψ̃^{(n)}_ξ = 𝒜_ξ ∘ Φ^{(n)}_P ∘ Φ^{(n)}_*`, i.e. it needs W5's `bpW:w5:action-angle` (not in this

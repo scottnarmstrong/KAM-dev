@@ -16,8 +16,7 @@ import Mathlib.Tactic.Positivity
 (blueprint `bpW:w8:Kshell`, `bpW:w8:patch`, `bpW:w8:patch-local`, `bpW:w8:patch-cont`,
 `bpW:w8:nu-injective`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w8:Kshell`, `bpW:w8:patch`, `bpW:w8:patch-local`,
+Blueprint labels `bpW:w8:Kshell`, `bpW:w8:patch`, `bpW:w8:patch-local`,
 `bpW:w8:patch-cont`, `bpW:w8:nu-injective` (milestone W8).
 
 The shell data are a family `H : ∀ n, W8ShellPrep m hm n (Ps n) (Xs n)` of prep-step bundles

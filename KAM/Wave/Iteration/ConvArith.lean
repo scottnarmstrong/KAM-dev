@@ -17,8 +17,7 @@ import Mathlib.Tactic.GCongr
 /-!
 # W6: the arithmetic of the convergence proof (blueprint `bpW:w6:convergence`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:convergence` (milestone W6): the parts of steps
+Blueprint label `bpW:w6:convergence` (milestone W6): the parts of steps
 `c-freq`, `c-op`, `c-cauchy` that concern only the sequences of `bpW:w6:sequences`, under the
 smallness `ε₀ ≤ γ₀ α₀ σ₀^t`.
 

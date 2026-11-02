@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 # Bessel's inequality for Hilbert-valued functions on the torus
 (support for blueprint-W `bpW:w1:fourier-l2`, step `stepW:w1:parseval`)
 
-Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
-
 For `g : ℝⁿ → H` continuous, `H` a complex Hilbert space, and `d_k = ∫ e^{-2πik·x} g(x) dx` its
 Fourier coefficients (`KAM.torusCoeffW`): for every finite set `K ⊂ ℤⁿ`,
 `∑_{k∈K} ‖d_k‖² ≤ ∫ ‖g‖²` (`kamBessel`). The blueprint's Parseval equality in the step is

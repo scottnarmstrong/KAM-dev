@@ -14,7 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The conjugacy identity (blueprint-W `bpW:w5:action-angle` (v), step `a-conj`)
 
-Off-frontier, source-faithful infrastructure (W5-AA); the dependency graph is still being built.
 Blueprint label `bpW:w5:action-angle` (v), step `a-conj`.
 
 * `aaXN ξ w`: the field `X_{N_ξ}(w) = (ω⁰(ξ)/(2π), 0, Ω⁰ v, -Ω⁰ u)` of `N_ξ`, in

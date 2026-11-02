@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The derivative of a holomorphic map on a Banach space is holomorphic (infrastructure for W5)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 Used for: `D²P`, `DX` differentiable (symmetry of the Hessian of a smoothing Hamiltonian),
 operator-norm holomorphy of the Hessian blocks `H(θ)` of the Taylor polynomial, and holomorphy of
 `w ↦ Dφ^t(w)` for the flow (`bpW:w5:taylor`, `bpW:w5:flow-calc`).

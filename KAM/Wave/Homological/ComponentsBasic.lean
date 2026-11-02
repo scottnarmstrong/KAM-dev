@@ -14,9 +14,6 @@ import Mathlib.Tactic.Positivity
 # Component bounds, part A: test points and the zeroth/first order bounds
 (blueprint-W `bpW:w4:components` (i), steps *Test points* and *Zeroth and first order*)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 Hypothesis `hX`: `|X_R|_r ≤ ε` on `D(s,r)`. Conclusions at every `θ ∈ T_s`:
 `|b| ≤ 2πε`, `‖c^±‖ ≤ rε/√2`, `‖2P‖, ‖Q‖, ‖Q^T‖, ‖2P'‖ ≤ ε` (norms of the weighted matrices).
 -/

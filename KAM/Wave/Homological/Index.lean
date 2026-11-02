@@ -14,9 +14,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Normal modes, P96-K index and the weighted pairing (blueprint-W `bpW:w4:index`)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 Normal sequences `z = (z_j)_{j ≥ 1}` (`ℕ+ → ℂ`, P96-K index `j`, wave index `J = j + 2`) with the
 weights `ω_{a,q}(j+2)`:
 
@@ -76,7 +73,6 @@ theorem homNorm_hasSum {a q : ℝ} {z : ℕ+ → ℂ} (hz : HomNormal a q z) :
   unfold homNorm
   simpa only [norm_homNormLp_apply] using this
 
-
 /-- Cauchy–Schwarz for nonnegative square-summable sequences. -/
 theorem summable_tsum_mul_le {A B : ℕ+ → ℝ} {a b : ℝ} (hA : ∀ j, 0 ≤ A j) (hB : ∀ j, 0 ≤ B j)
     (ha0 : 0 ≤ a) (hb0 : 0 ≤ b) (ha : HasSum (fun j => A j ^ 2) (a ^ 2))
@@ -92,7 +88,6 @@ theorem summable_tsum_mul_le {A B : ℕ+ → ℝ} {a b : ℝ} (hA : ∀ j, 0 ≤
   simp only [Real.rpow_two] at h2 ⊢
   rw [ha.tsum_eq, hb.tsum_eq]
   rw [← Real.sqrt_eq_rpow, ← Real.sqrt_eq_rpow, Real.sqrt_sq ha0, Real.sqrt_sq hb0]
-
 
 /-- The product of weights is at least one when `a ≥ 0` and `q + q' ≥ 0` (`J = j + 2 ≥ 1`). -/
 theorem one_le_homWt_mul {a q q' : ℝ} (ha : 0 ≤ a) (hqq' : 0 ≤ q + q') (j : ℕ+) :
@@ -137,7 +132,6 @@ theorem norm_homPair_le {a q q' : ℝ} (ha : 0 ≤ a) (hqq' : 0 ≤ q + q') {x x
     (hx : HomNormal a q x) (hx' : HomNormal a q' x') :
     ‖∑' j, x j * x' j‖ ≤ homNorm hx * homNorm hx' :=
   (norm_tsum_le_tsum_norm (homPair_le ha hqq' hx hx').1).trans (homPair_le ha hqq' hx hx').2
-
 
 /-- **Multipliers lower the weight by one** (blueprint `bpW:w4:lie` (i), step *Bounds*): if
 `|μ_j| ≤ M (j+2)` then `z ∈ ℓ^N_{a,q}` gives `μ z ∈ ℓ^N_{a,q-1}` with

@@ -15,8 +15,6 @@ import Mathlib.Tactic.Positivity
 # The derivative of `R` is `ϖ(X_R, ·)` in the sense of Gateaux (blueprint-W `bpW:w5:taylor`,
 `t-scale`, `t-field`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 * `stepSymp_scale`: `ϖ(X, S_t W') = ϖ(T_t X, W')` (step `t-scale`);
 * `sympK`: `ϖ` as a continuous bilinear map on `KamPhase`;
 * `sum_taylorCoeff_symp`: for a smoothing pair `(P, X)` on `D(s,r)`, the sum of the Taylor

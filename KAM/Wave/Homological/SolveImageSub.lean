@@ -12,9 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Lipschitz bounds for images of the solve (`bpW:w4:lemma1`, step *Lipschitz*)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 The two-parameter versions of `SolveImage.lean`: for continuous linear `Λ` intertwining both pairs
 of multipliers, `‖Λ𝒮₁u₁ - Λ𝒮₂u₂‖ ≤ κ' B^W_σ(m^L + 2M m_Λ/α)d/α`
 (`homSolve_image_sub_bound`), and the same for the `θ`-derivatives

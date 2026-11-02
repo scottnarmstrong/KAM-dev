@@ -12,8 +12,6 @@ public import KAM.Wave.Normal.Analysis.CubicLinear
 # The cubic gradient on `ℓ^{1,1}`: boundedness and analyticity
 (blueprint `bpW:w0n:cubic-bound`, headline case `a = p = 1`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 In the weighted `ℓ²` coordinates of `KAM.Wave.WaveSpace` (`q = coeff y`):
 
 * `KAM.Wave.wave_cubic_bound`: `𝒢(q) ∈ ℓ^{1,2}` and `‖𝒢(q)‖_{1,2} ≤ C_m ‖q‖_{1,1}³`,

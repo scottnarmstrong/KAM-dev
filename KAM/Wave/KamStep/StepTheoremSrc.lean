@@ -15,8 +15,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # One KAM step: the source-facing theorems (blueprint-W `bpW:w5:step`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 The premise `ε₀ > 0` of the conditional helpers (`stepTheorem_of_eps0_pos`,
 `stepTheoremMod_of_eps0_pos`) is not a blueprint premise. The hypotheses `StepHypSrc`,
 `StepHypModSrc` assume only `ε₀ ≥ 0` and the blueprint's `ε > 0` (Definition `bpW:w5:data`:

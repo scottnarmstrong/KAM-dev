@@ -12,8 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The Schur test on `ℓ²` (support for blueprint-W `bpW:w1:schur`)
 
-Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
-
 A matrix `F : ℕ+ → ℕ+ → K` whose finite row sums and finite column sums of moduli are bounded by `Λ`
 defines a bounded operator on `ℓ²` of norm at most `Λ`: `kamSchurCLM`. Its coordinates are the
 absolutely convergent sums `(T v)_i = ∑_j F_{ij} v_j` (`kamSchurCLM_hasSum`).

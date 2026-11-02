@@ -15,8 +15,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Transport of smoothing Hamiltonians by the flow (blueprint-W `bpW:w5:flow-calc` (iii), (iv))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `transNop`: `N_t(w) = DΨ^t(w) ∘ ι : G →L G`, so that `Dφ^t(w) ∘ ι = ι ∘ (1 + N_t(w))`.
 `hasFDerivAt_comp_flow_smooth`: if `DGf(φ^t w) = B(ι Z_g(φ^t w), ·)` and `y` solves
 `(1 + N_t(w)) y = Z_g(φ^t w)` then `Gf ∘ φ^t` has derivative `B(ι y, ·)` at `w`: the field of the

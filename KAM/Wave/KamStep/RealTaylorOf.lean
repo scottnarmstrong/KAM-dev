@@ -13,9 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The Taylor polynomial of a real Hamiltonian is real (blueprint-W `bpW:w5:taylor` (i))
 
-Off-frontier, source-faithful infrastructure (W5-REAL, item 1); the dependency graph is still being
-built.
-
 `stepTaylorOf_isRealTaylor`: for a smoothing pair `(P, X)` on `D(s,r)` with `P` real at real points,
 the Taylor polynomial `R = stepTaylorOf …` is real in the sense of W4
 (`HomTaylor_gen.isRealTaylor`): at real `θ`, `a(θ), b(θ)` are real, `c^- = \overline{c^+}`,

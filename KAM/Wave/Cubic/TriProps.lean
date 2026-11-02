@@ -14,9 +14,6 @@ public import KAM.Wave.Normal.Analysis.SeqBridge
 # Real structure, compatibility and the frozen identification of `𝒯^{a,p}`
 (blueprint `bpW:w1:trilinear` (ii)–(iv))
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 * (ii) `KAM.Wave.waveTriML_complexify`, `KAM.Wave.waveTriML_conj`: `𝒯_ℂ(ι y, ι y', ι y'') =
   ι 𝒯_ℝ(y,y',y'')` and `conj 𝒯_ℂ(z,z',z'') = 𝒯_ℂ(conj z, conj z', conj z'')`;
 * (iii) `KAM.Wave.waveTriML_embed`: compatibility with the inclusions `ℓ^{a,p} ⊂ ℓ^{a',p'}`;

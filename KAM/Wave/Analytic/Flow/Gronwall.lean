@@ -13,8 +13,6 @@ public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
 # Gronwall comparison for curves on `[-1, 1]`
 
 Blueprint-W `bpW:w1:flow`, steps `stepW:w1:flowlip` and `stepW:w1:flowpar` (package W1-ANALYTIC).
-This is source-faithful infrastructure used by several nodes; the dependency graph is still being
-built.
 
 Two curves `γ`, `η` on `[-1, 1]` solving `γ' = X γ`, `η' = Y η` inside a set `B` on which `Y` is
 `L`-Lipschitz, with `‖X - Y‖ ≤ N` on `B` and `γ 0 = η 0`, satisfy
@@ -67,7 +65,6 @@ theorem norm_sub_le_of_solutions_forward {X Y : F → F} {B : Set F} {L N : ℝ}
     calc N / L * (Real.exp (L * t) - 1) = N * ((Real.exp (L * t) - 1) / L) := by ring
       _ ≤ N * (t * Real.exp (L * t)) := mul_le_mul_of_nonneg_left this hN
       _ = t * Real.exp (L * t) * N := by ring
-
 
 theorem continuousOn_of_hasDerivWithinAt_Icc {γ : ℝ → F} {d : ℝ → F}
     (h : ∀ t ∈ Icc (-1 : ℝ) 1, HasDerivWithinAt γ (d t) (Icc (-1) 1) t) :

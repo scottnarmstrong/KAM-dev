@@ -12,8 +12,7 @@ public import KAM.Wave.Cubic.TriProps
 /-!
 # Real transport in `(Q,P)`-coefficient form (blueprint-W `bpW:w3:transport-tori`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-MAIN, blueprint label `bpW:w3:transport-tori`.
+Package W3-MAIN, blueprint label `bpW:w3:transport-tori`.
 
 For a real torus `Ψ` (`ϱ Ψ = Ψ`), `(Q,P) = 𝒵⁻¹ Γ ∘ Ψ = Π Γ ∘ Ψ`
 (`birkTransportQPExt`) satisfies the coefficient system of `bpW:w0:coeffsys` along `ν`:

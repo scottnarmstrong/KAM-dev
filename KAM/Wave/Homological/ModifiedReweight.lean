@@ -14,9 +14,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Reading a Taylor Hamiltonian at a smaller gradient weight (`bpW:w5:w4-modified`, step `m-other`)
 
-Off-frontier, source-faithful infrastructure (W5-MODIFIED, blueprint `bpW:w5:w4-modified`); the
-dependency graph is still being built.
-
 For `p₊ ≤ p+1` the inclusion `ℓ^N_{a,p+1} ⊂ ℓ^N_{a,p₊}` (norm `≤ 1`) acts on representatives as
 the diagonal `D_ρ`, `ρ_j = ω_{a,p₊}(j+2)/ω_{a,p+1}(j+2) ≤ 1` (`homModRho`). `homReweight R` is the
 same Taylor Hamiltonian `R ∈ 𝒯_s` (`p̄ = p+1`) read in the class with gradient weight `p₊`:

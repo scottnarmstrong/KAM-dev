@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.Omega
 /-!
 # Hamiltonian fields and the class `𝒜(U)` (blueprint-W `bpW:w3:hamfield-def`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:hamfield-def`.
+Package W3-SETTING, blueprint label `bpW:w3:hamfield-def`.
 
 Both `P : 𝔚 → ℂ` and the field `X : 𝔚 → 𝔚^+` are maps on `BirkSpace` (weighted coordinates; `X` is
 read at weight `p + 1`, so `X(w) ∈ 𝔚^+`, and is paired with `v ∈ 𝔚` through `birkEmbed`):

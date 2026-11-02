@@ -15,8 +15,7 @@ import Mathlib.Tactic.Positivity
 # W8: the W8-side reductions for shell embeddings and family injectivity
 (blueprint `bpW:w8:shell-embedding`, `bpW:w8:injective`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w8:shell-embedding`, `bpW:w8:injective` (milestone W8).
+Blueprint labels `bpW:w8:shell-embedding`, `bpW:w8:injective` (milestone W8).
 
 Lemma `bpW:w8:shell-embedding` and Proposition `bpW:w8:injective` consume Lemma
 `bpW:w8:torus-shape` and `bpW:w8:shell-inv`, which need W5's action–angle map

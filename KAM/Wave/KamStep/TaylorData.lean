@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The components of the Taylor polynomial (blueprint-W `bpW:w5:taylor` (i), step `t-comp`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 Given a smoothing pair `(P, X)` the components of `R` are, at `w₀(θ) = (θ,0,0,0)`:
 `a = P(w₀)`, `b = 2π X^θ(w₀)`, `c⁺ = -i X^{z̄}(w₀)`, `c⁻ = i X^z(w₀)`, and `P, P', Q, Q^T` the
 blocks of `DX(w₀)` (`TaylorBlocks`). Here: holomorphy and periodicity.

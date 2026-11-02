@@ -13,9 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # One KAM step, modified case (blueprint-W `bpW:w5:step`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP, item 6); the dependency graph is still being
-built.
-
 `stepTheoremMod_of_eps0_pos`: the clauses of `stepTheorem` for `StepHypMod` (modified divisors,
 `P ∈ 𝒮_{p+1}`, `2β ≤ p+1-p₊`, `c♮_F`, `t♮`, `C♮₂`), through `StepHypMod.core`.
 -/

@@ -12,9 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Weak conjugacy in field form (blueprint-W `bpW:w5:new-ham` (iii), `bpW:w5:step` (i))
 
-Off-frontier, source-faithful infrastructure (W5-REAL, item 3); the dependency graph is still being
-built.
-
 For `w ∈ D_+` and `W ∈ 𝒫^{p_+}`:
 `ϖ(X_H(Φ w), DΦ(w) W) = ϖ(X_{N_+}(w) + X_{P_+}(w), W)`, with `X_H = X_N + X_P`, `X_N` the unbounded
 field of `N` (`stepXN`, values in `𝒫^{p-1}`) and `ϖ = ϖ_{p-1,p_+}` on `𝒫^{p-1} × 𝒫^{p_+}`. In the

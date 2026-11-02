@@ -12,8 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Reality of Hamiltonians and their derivatives (blueprint-W `bpW:w5:taylor` (i), "`R` is real")
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 A point of `KamPhase` is *real* (`StepReal`) if `Θ, Y ∈ ℝ²` and `U, V` have real coordinates.
 `P` is real if `P w ∈ ℝ` at real `w ∈ V`. Then, at a real `w ∈ V`, `DP(w) c ∈ ℝ` and
 `ϖ(DX(w) c, c') ∈ ℝ` for real directions `c, c'` (`stepSymp_field_im`, `stepSymp_dfield_im`):

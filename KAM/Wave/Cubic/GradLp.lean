@@ -10,9 +10,6 @@ public import KAM.Wave.Cubic.GradIdentity
 /-!
 # The gradient identity on `ℓ²` (blueprint `bpW:w1:gradient-identity` (i)–(iii))
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 For `a > 0`, `p ≥ 1/2` and `y ∈ ℓ²_ℝ`, put `q = κ_{a,p} y` and let
 `ρ_l = 1/(ω_{a,p+1}(l) ω_{a,p}(l))`,
 `D_ρ = waveRhoCLM`. Then `G^w(y) := G(κ_{a,p} y) = ¼ ⟨D_ρ 𝒩(y), y⟩_{ℓ²}`

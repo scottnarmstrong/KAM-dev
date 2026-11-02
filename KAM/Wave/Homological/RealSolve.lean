@@ -13,9 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Complex conjugation and the multiplier solve (`bpW:w4:lemma1` (i), step *Reality*)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 * `homCoeff_conj`: if `v = \\bar u` at real points then `\\hat v_k = \\overline{\\hat u_{-k}}`;
 * `homSolve_conj_real`: for scalar multipliers with `m'_k = \\overline{m_{-k}}`, at real points
   `\\overline{𝒮_m u} = 𝒮_{m'} v` whenever `v = \\bar u` there.
@@ -46,7 +43,6 @@ theorem homCoeff_conj {u v : (Fin 2 → ℂ) → ℂ}
   simp only [smul_eq_mul, map_mul, hv x, Complex.conj_conj, neg_neg]
   rw [homConj_character_real k x]
 
-
 theorem homSolve_conj_real {u v : (Fin 2 → ℂ) → ℂ}
     (hv : ∀ x : Fin 2 → ℝ, v (fun j => (x j : ℂ)) = starRingEnd ℂ (u (fun j => (x j : ℂ))))
     (m m' : (Fin 2 → ℤ) → ℂ) (hm' : ∀ k, m' k = starRingEnd ℂ (m (-k))) (x : Fin 2 → ℝ) :
@@ -59,7 +55,6 @@ theorem homSolve_conj_real {u v : (Fin 2 → ℂ) → ℂ}
   refine tsum_congr fun k => ?_
   simp only [Equiv.neg_apply, map_mul, homConj_character_real, neg_neg]
   rw [hm' k, homCoeff_conj hv k]
-
 
 theorem conj_homInv (δ : ℝ) : starRingEnd ℂ (homInv δ) = homInv (-δ) := by
   unfold homInv

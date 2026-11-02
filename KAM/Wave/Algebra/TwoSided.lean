@@ -13,8 +13,6 @@ public import KAM.Wave.Algebra.Young
 /-!
 # Two-sided weighted spaces (blueprint `bpW:w1:twosided-transport`, `bpW:w0:twosided`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 For `a ≥ 0`, `s ∈ ℝ` the space `ℓ^{a,s}_b` of complex sequences `c : ℤ → ℂ` with
 `∑_l (⟨l⟩^s e^{a|l|} |c_l|)² < ∞` is the predicate `WaveTwoMem a s c`, with norm
 `waveTwoNorm a s c`.
@@ -75,7 +73,6 @@ theorem wave_jap_hasSum {σ : ℝ} (hσ : 1 < σ) :
   have e : (∑' n : ℕ, ((n : ℝ) + 1) ^ (-σ) + 1) + ∑' n : ℕ, ((n : ℝ) + 1) ^ (-σ) =
       1 + 2 * ∑' n : ℕ, ((n : ℝ) + 1) ^ (-σ) := by ring
   rwa [e] at h3
-
 
 /-- The weight `ω^b_{a,s}(l) = ⟨l⟩^s e^{a|l|}` of `ℓ^{a,s}_b`
 (blueprint `bpW:w1:twosided-transport`). -/

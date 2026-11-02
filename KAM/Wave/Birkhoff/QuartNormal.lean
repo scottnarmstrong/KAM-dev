@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.QuartIdent
 /-!
 # The purely normal quartic `G^{nor}` (blueprint-W `bpW:w3:quartic-ident`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:quartic-ident`.
+Package W3-SETTING, blueprint label `bpW:w3:quartic-ident`.
 
 `birkNormalPart` is `w ↦ ŵ` (the normal part, `|l| ≥ 3`, extended by zero). For the coefficient
 `birkCoefNor = 𝔤 · 1_{𝒯ᶜ}` (all `|x_t| ≥ 3`): `G^{nor}(w) = G^{nor}(ŵ)` (`birkQuartP_normal`),

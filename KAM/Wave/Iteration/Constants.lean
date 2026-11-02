@@ -15,8 +15,7 @@ import Mathlib.Tactic.GCongr
 /-!
 # W6: the constants (blueprint `bpW:w6:constants`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:constants` (milestone W6).
+Blueprint label `bpW:w6:constants` (milestone W6).
 
 In this order, after W7's constants (`measTheta0 = θ₀`, `measBetaStar = β_*`) and W5's
 (`stepTn`, `stepCFn`, `stepC0n`, `stepC2n` at `τ = 24`: `t^♮ = 53`, `c^♮_F`, `c^♮_0`, `C^♮_2`):

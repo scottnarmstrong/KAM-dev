@@ -12,9 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The flow of a real field is real (blueprint-W `bpW:w5:flow` (iv), step `f-real`)
 
-Off-frontier, source-faithful infrastructure (W5-REAL, item 1); the dependency graph is still being
-built.
-
 * `holoFlow_real_of_field_real`: let the real points of `F` be the common zeros of a family of
   continuous real-linear functionals `L i`. If the field `X` maps real points of `V` to real
   vectors, the flow `holoFlow X t` maps real points of `U` to real points (`|t| ≤ 1`). Proof: every

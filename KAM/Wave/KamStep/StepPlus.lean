@@ -15,8 +15,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The concrete new Hamiltonian `P_+` (blueprint-W `bpW:w5:new-ham` (ii))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 Concrete instantiation of the abstract transport engine on `StepPhase r`.
 -/
 

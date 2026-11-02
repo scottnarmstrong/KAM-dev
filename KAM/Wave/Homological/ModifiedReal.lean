@@ -14,9 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The other claims of W4 (i) for the modified divisors (`bpW:w5:w4-modified` (i))
 
-Off-frontier, source-faithful infrastructure (W5-MODIFIED, blueprint `bpW:w5:w4-modified`); the
-dependency graph is still being built.
-
 * `homModSolveTaylor_cp`, `_cm`, `_P`, `_P'`: the components `c^±, P, P'` of `F` are the W4 solves
   of `c^±, P, P'` (in `ℓ^N_{a,p+1}`, resp. bounded `ℓ^N_{a,p} → ℓ^N_{a,p+1}`), read in the
   `p₊`-weighted class through the inclusion `D_ρ` ("all other components as in W4");

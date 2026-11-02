@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.MainYSeries
 /-!
 # Domain-restricted objects of the normal form (blueprint-W `bpW:w3:main` (i)–(ii))
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-MAIN, blueprint labels `bpW:w3:main`, `bpW:w3:Yseries`.
+Package W3-MAIN, blueprint labels `bpW:w3:main`, `bpW:w3:Yseries`.
 
 The source objects of `bpW:w3:main` live on balls; here they are defined only there (as
 `Set.domRestrict` of the internal totalized helpers `…Ext`, which are meaningful only on the ball):

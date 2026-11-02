@@ -14,8 +14,7 @@ import Mathlib.Tactic.Positivity
 # W6: Lipschitz frequencies with the blueprint's constants (`bpW:w6:freq-lip`,
 `bpW:w6:exclusion`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w6:freq-lip`, `bpW:w6:exclusion`.
+Blueprint labels `bpW:w6:freq-lip`, `bpW:w6:exclusion`.
 
 W6-ITER's `W6PrepHyp.w6WaveFamily` has the constants `ε₁ = 0`, `ε₂ = 3γα + 4ε₀` (deviation D4: the
 normal shift of the preparatory step was only available with the weight `J^{1/2}`). With the

@@ -10,9 +10,6 @@ public import KAM.Wave.Cubic.SelectionTwoFinal
 /-!
 # Trilinearity and symmetry of the two-sided `T_c` (blueprint `bpW:w1:selection`, last sentence)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 Additivity and homogeneity in each slot of `KAM.Wave.waveSelSumZ` / `KAM.Wave.waveSelTwo`
 (`waveSelSumZ_add_left`, …, `waveSelTwo_smul_left`, …), and symmetry when `c` is symmetric in its
 first three indices (`waveSelSumZ_swap_left_mid`, `waveSelSumZ_swap_mid_right`,

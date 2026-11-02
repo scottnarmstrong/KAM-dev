@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # One KAM step, non-modified case (blueprint-W `bpW:w5:step`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepTheorem_of_eps0_pos`: under `WaveStepHyp` (step data and the smallness condition) there are the
 objects
 `Φ = WaveStepHyp.Phi`, `P_+ = WaveStepHyp.Pplus`, `X_+ = WaveStepHyp.Xplus`,
@@ -122,7 +120,6 @@ theorem stepTheoremCore (H : StepCore a p pb s r σ η τ α lam ε ε₀ ε₁ 
     fun ξ hξ ζ hζ => ⟨H.freq_lip hξ hζ, H.tail_lip hξ hζ⟩, fun hl => H.freq_hyp hl,
     fun hH K α' hK hα' ξ hξ k l hkl hkK => H.divisors hH hK hα' hξ hkl hkK, H.M_sum,
     fun ξ hξ ζ hζ w hw => H.flow_pair hξ hζ hw⟩
-
 
 namespace WaveStepHyp
 

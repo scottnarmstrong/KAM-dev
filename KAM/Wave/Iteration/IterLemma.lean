@@ -13,8 +13,7 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # W6: the iterative lemma (`bpW:w6:iter-lemma`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:iter-lemma` (milestone W6).
+Blueprint label `bpW:w6:iter-lemma` (milestone W6).
 
 For the data `d` of Definition `bpW:w6:sequences` with `ε₀ ≤ γ₀ α₀ σ₀^t` and the hypotheses
 `W6Stage d ν Π ω Ω P X` at stage `ν`, W5's step (`stepTheorem`, unmodified case) applies with
@@ -144,7 +143,6 @@ variable {d : W6SeqData} {ν : ℕ} {Pi : Set (Fin 2 → ℝ)} {ω : (Fin 2 → 
   {X : (Fin 2 → ℝ) → KamPhase → KamPhase}
   (hd : d.SeqValid) (hsmall : d.eps0 ≤ w6Gamma0 * d.al0 * d.sigma 0 ^ w6T)
   (h : W6Stage d ν Pi ω Ω P X)
-
 
 theorem w6_iter_one_le_three_halves : (1 : ℝ) ≤ 3 / 2 := by norm_num
 

@@ -14,8 +14,7 @@ import Mathlib.Tactic.GCongr
 /-!
 # W6: the Lipschitz frequencies, conditional form (blueprint `bpW:w6:freq-lip`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:freq-lip` (milestone W6), steps `fl-size`, `fl-lip`.
+Blueprint label `bpW:w6:freq-lip` (milestone W6), steps `fl-size`, `fl-lip`.
 
 `w6IsFreqPair_of_bounds` is a **conditional helper** (it is not the label `freq-lip`, which is
 about the outputs of the wave iteration and needs W5's step through `bpW:w6:prep-step` (ii) and

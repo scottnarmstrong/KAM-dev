@@ -12,8 +12,6 @@ public import KAM.Wave.Normal.Analysis.SineProducts
 /-!
 # `G` and its gradient as absolutely convergent sums (blueprint `bpW:w0n:gradient`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 The quantities `U_m(q)`, `𝒢(q)_l`, `G(q)` of the blueprint (`bpW:w0:reconstruction`, `bpW:w0:Gq`,
 `bpW:w0:H`) for a *sequence* `q : ℕ+ → ℝ` (not only `ℓ^{1,1}`) are
 `KAM.Wave.waveU`, `KAM.Wave.waveCubic`, `KAM.Wave.waveG`. On `q ∈ ℓ^{1,1}` they agree with the

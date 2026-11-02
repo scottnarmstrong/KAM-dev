@@ -13,8 +13,7 @@ public import KAM.Wave.Analytic.Complexification
 /-!
 # Holomorphic maps of finitely many variables with Banach values are analytic
 
-Blueprint-W `bpW:w1:holo-analytic-fd` (package W1-ANALYTIC). This is source-faithful infrastructure
-used by several nodes; the dependency graph is still being built.
+Blueprint-W `bpW:w1:holo-analytic-fd` (package W1-ANALYTIC).
 
 Track K proves the analogous statement for second-countable targets
 (`KAM.analyticOnNhd_of_differentiableOn`, `KAM.exists_powerSeries_coeff`). Steps `hacoef`: via the
@@ -67,7 +66,6 @@ theorem analyticOnNhd_of_differentiableOn_banach {n : ℕ} {U : Set (Fin n → �
   filter_upwards [hU.mem_nhds hz] with x hx
   exact hf₀ x hx
 
-
 /-- The sum of a function over the multi-indices of degree `m` is a finite sum over the
 antidiagonal. -/
 theorem tsum_degree_fiber {n : ℕ} {G : Type*} [AddCommMonoid G] [TopologicalSpace G] [T2Space G]
@@ -80,7 +78,6 @@ theorem tsum_degree_fiber {n : ℕ} {G : Type*} [AddCommMonoid G] [TopologicalSp
     simp [Finset.Nat.mem_antidiagonalTuple]
   rw [← Finset.tsum_subtype' (Finset.Nat.antidiagonalTuple n m) g]
   exact tsum_congr_set_coe g hset
-
 
 /-- Polynomial-times-geometric summability: `∑_m #{|α| = m} t^m = (1 - t)^{-n}`. -/
 theorem summable_card_mul_pow (n : ℕ) {t : ℝ} (h0 : 0 ≤ t) (h1 : t < 1) :
@@ -182,7 +179,6 @@ theorem holomorphic_fd_power_series {n : ℕ} (hn : 1 ≤ n) {U : Set (Fin n →
       simp
     rw [funext fun m => (e m).symm]
     exact h
-
 
 /-- Blueprint `bpW:w1:holo-analytic-fd`, real clause (step `stepW:w1:hareal`): if `f` is
 holomorphic on `U ⊆ ℂⁿ` with values in a complex Banach space `F`, and real on the real points of

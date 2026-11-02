@@ -17,8 +17,7 @@ import Mathlib.Tactic.Positivity
 # W8: the KAM iteration on one shell (blueprint `bpW:w8:sharp-prep`, `bpW:w8:shell-iter`,
 `bpW:w8:w6-general`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w8:sharp-prep`, `bpW:w8:shell-iter`, `bpW:w8:w6-general`
+Blueprint labels `bpW:w8:sharp-prep`, `bpW:w8:shell-iter`, `bpW:w8:w6-general`
 (milestone W8).
 
 Model. Shell `n` runs Lemma `bpW:w6:prep-step` with the data of `bpW:w8:shell-data` (iv)

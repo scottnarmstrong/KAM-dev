@@ -12,9 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The field `X_N` and the Riesz representation of `DN` (blueprint-W `bpW:w5:new-ham` (iii))
 
-Off-frontier, source-faithful infrastructure (W5-REAL, item 3); the dependency graph is still being
-built.
-
 `X_N(w') = (ω/2π, 0, Ω v', -Ω u')` is a bounded affine map `𝒫 → 𝒫^{p-1}` (`bpW:w4:lie` (i)). In the
 representative model a point of `𝒫^q` stores `ω_{a,q}(j+2)` times its true normal coordinates; the
 `(p-1)`-representative of `Ω_j v'_j` is `Ω_j ω_{a,p-1}(j+2)/ω_{a,p}(j+2) · v̂'_j = Ω_j v̂'_j/(j+2)`,

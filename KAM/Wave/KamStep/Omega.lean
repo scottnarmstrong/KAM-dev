@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The symplectic form (blueprint-W `bpW:w5:omega`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 On the carrier `KamPhase` (normal parts by their representatives at the weights `q`, `q'` of the
 two arguments)
 `ϖ_{q,q'}(W,W') = 2π(⟨Θ,Y'⟩ - ⟨Y,Θ'⟩) + ⟨U,V'⟩₀ - ⟨V,U'⟩₀`, where for representatives
@@ -155,7 +153,6 @@ theorem norm_stepSymp_le {a q q' : ℝ} (ha : 0 ≤ a) (hqq' : 0 ≤ q + q') {r 
   have := stepSymp_arith (c := 2 * Real.pi) (by positivity) hr.le hα hβ hγ hδ hα' hβ' hγ' hδ'
   refine this.trans (le_of_eq ?_)
   ring
-
 
 /-- **Antisymmetry** of `ϖ` (`bpW:w5:omega`). -/
 theorem stepSymp_antisymm {a q : ℝ} (ha : 0 ≤ a) (hqq : 0 ≤ q + q) (W W' : KamPhase) :

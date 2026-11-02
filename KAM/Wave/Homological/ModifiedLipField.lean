@@ -13,9 +13,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The field bounds with modified divisors (`bpW:w5:w4-modified` (ii))
 
-Off-frontier, source-faithful infrastructure (W5-MODIFIED, blueprint `bpW:w5:w4-modified`); the
-dependency graph is still being built.
-
 * `homModF_sub_compBounds`: the component bounds of `F(ξ) - F(ζ)` with `K = K_S` and
   `E^♮ = B^♮_σ(ε^L + 2Mε/α)d/α` (step `m-ass`);
 * `homModLemma_lipschitz`: **(ii)** `|X_{F(ξ)} - X_{F(ζ)}|_{p₊,r} ≤

@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Taylor estimates for the field (`bpW:w5:taylor` (iii), (iv), steps `t-disc`, `t-est`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 For a field `X` holomorphic on `D(s,r)` put `G(t,w) = T_t X(S_t w)` and
 `taylorXR X w = ∑_{k ≤ 2} g_k(w)` with `g_k` the Taylor coefficients of `G(·, w)` at `t = 0`
 (`taylorField`). Then, with `|X|_r ≤ ε` on `D(s,r)`: `taylorXR_bound` (`|X_R| ≤ 3ε`) and

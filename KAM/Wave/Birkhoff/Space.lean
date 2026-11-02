@@ -11,8 +11,7 @@ public import Mathlib.Topology.Algebra.InfiniteSum.Real
 /-!
 # The two-sided coordinate space (blueprint-W `bpW:w3:space`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:space`.
+Package W3-SETTING, blueprint label `bpW:w3:space`.
 
 `BirkIdx = Bool × ℕ+` indexes `l ∈ ℤ ∖ {0}` by `(sign, |l|)` (`true` is `l > 0`), and
 `BirkSpace = ℓ²(BirkIdx; ℂ)` carries `𝔚_{a,r}` in *weighted coordinates*: the point `y` represents

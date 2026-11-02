@@ -12,8 +12,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: the smoothing of one step's transformation — W5 dependency (blueprint `bpW:w6:iter-lemma`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:iter-lemma` (step `il-tr`), used by
+Blueprint label `bpW:w6:iter-lemma` (step `il-tr`), used by
 `bpW:w6:convergence` (iii), (iv), `bpW:w6:invariance`, `bpW:w6:prep-step` (iii), `bpW:w6:tori`.
 
 W5's `stepTheorem` (v) bounds `Φ - id` and `DΦ - I` only in the ambient norm `|·|_{p,r}`. The

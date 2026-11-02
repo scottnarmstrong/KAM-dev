@@ -12,8 +12,6 @@ public import KAM.Frozen.Wave.Defs.IsClassicalSolution
 # Definitions for the equivalence of the PDE and the coefficient system
 (blueprint `bpW:w0n:pde-equiv`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 * `KAM.Wave.waveV`: the velocity reconstruction `V_m(p)(x) = Σ_j √λ_j p_j φ_j(x)` of a real
   sequence (agrees with the frozen `reconV` on `coeff y`);
 * `KAM.Wave.waveEllToLp a p c`: the weighted `ℓ²` coordinates `(ω_{a,p}(j) c_j)_j` of a sequence

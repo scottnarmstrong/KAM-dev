@@ -14,8 +14,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: the `k = 0` clause of the applicability lemma (blueprint `bpW:w6:applicable`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:applicable` (milestone W6), the `k = 0` clause.
+Blueprint label `bpW:w6:applicable` (milestone W6), the `k = 0` clause.
 
 `w6applicable_k0_of_shift` is a **conditional helper** (the shift bound
 `J |Ω̂_{P,J}| ≤ 3ε` is a conclusion of `bpW:w6:prep-step` (ii), which needs W5's step): for `ξ` with

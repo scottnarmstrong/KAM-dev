@@ -11,8 +11,7 @@ public import KAM.Wave.Cubic.HamField
 /-!
 # Complex coordinates and real structure (blueprint-W `bpW:w3:coords`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:coords`.
+Package W3-SETTING, blueprint label `bpW:w3:coords`.
 
 `E^ℂ = ℓ^{a,p}_ℂ × ℓ^{a,p}_ℂ` is `WaveSpaceK ℂ` in weighted coordinates (max norm), and
 `birkZ : E^ℂ →L[ℂ] 𝔚` is `(𝒵x)_{±j} = (q_j ± i p_j)/√2`. In weighted coordinates the formula is the

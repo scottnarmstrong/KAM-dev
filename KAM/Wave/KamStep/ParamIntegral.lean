@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Parameter integrals of holomorphic families (blueprint-W `bpW:w5:new-ham` step `n-field`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `riemann_uniform`: a function of `t ∈ [0,1]` that is `L`-Lipschitz has Riemann sums within `L/n` of
 its integral. `smoothing_integral`: if `P_t, Y_t` (`t ∈ [0,1]`) are holomorphic families with
 `DP_t = L (Y_t)` and uniformly Lipschitz in `t`, then `∫₀¹ P_t` is holomorphic with derivative

@@ -13,8 +13,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Spectral asymptotics of the wave normal frequencies (blueprint-W `bpW:w1:tails`)
 
-Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
-
 `waveOmega` is `Ω_j(ξ) = λ_j + 3/(2πλ_j) ⟨b, ξ⟩` with `b = (λ_1⁻¹, λ_2⁻¹)`, and
 `waveOmegaTilde = Ω_j - j`. The statement of the blueprint is proved pointwise for `j ≥ 3`
 (`tail_bound`, `tail_lipschitz`, `tail_gap`) and, through the `ℓ^1_∞` realization of

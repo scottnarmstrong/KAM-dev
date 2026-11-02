@@ -11,9 +11,6 @@ public import KAM.Wave.Cubic.SelectionOneSided
 /-!
 # Selection-rule trilinear maps, two-sided (blueprint `bpW:w1:selection` (b)), pointwise part
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 For `l ≠ 0`, the triple sum over `(ℤ ∖ 0)³` of `‖c_{ijkl} w_i w'_j w''_k‖` is reindexed by sign
 patterns and `ℕ+³` (`KAM.Wave.waveSignZEmb`) and bounded by `8 M |l|^{-1/2} ((x̃ * ỹ) * z̃)_{|l|}`
 (`KAM.Wave.waveSelSumZ_pointwise`), using the one-sided selection estimate

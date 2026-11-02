@@ -10,9 +10,6 @@ public import KAM.Wave.Measure.PrepMinus
 /-!
 # W7: the iteration zones of `Λ⁻` (blueprint `bpW:w7:iter`, steps "`Λ⁻`")
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 With `j₀ = ⌈(A_k/α̌)^{1/3}⌉` and the drift `ε = ε₁ + ε₂`: for fixed `k ≠ 0`, `n ≥ 1` the union over
 `j` of the zones of `e_{j+n} - e_j` at level `α̌` has measure
 `≤ (8 ρ_ζ / (|k| D_A)) ((2 + a_κ) n (α̌/A_k)^{2/3} + 2 ε A_k^{-1/6})`.

@@ -13,9 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Hadamard division of operators (blueprint-W `bpW:w4:schur`, parts (i) and (iii))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 Model. By `bpW:w4:schur`, step *Representatives*, an element `M ∈ 𝓛` (a bounded map
 `ℓ^N_{a,p} → ℓ^N_{a,p̄}`) is the same thing, with the same norm, as its weighted matrix
 `(μ_i M_ij ν_j)`, `μ_i = ω_{a,p̄}(i+2)`, `ν_j = ω_{a,p}(j+2)⁻¹`, viewed as a bounded operator on
@@ -129,7 +126,6 @@ theorem homOp_ext_entries {A B : HomOp} (h : ∀ i j, kamEntry A i j = kamEntry 
   ext i
   exact (homOp_hasSum A v i).unique (by simpa only [h] using homOp_hasSum B v i)
 
-
 @[simp] theorem kamEntry_add (A B : HomOp) (i j : ℕ+) :
     kamEntry (A + B) i j = kamEntry A i j + kamEntry B i j := by
   simp [kamEntry]
@@ -182,7 +178,6 @@ theorem norm_homHadamardOp_diag_le {d : ℕ+ → ℕ+ → ℂ} {c : ℝ} (h : Ho
     · simp [hd i j hij, kamEntry, weightedDiagCLM, kamBasis, hij]
   rw [hD]
   exact norm_diagCLM_le _ hμ
-
 
 /-- The matrix entry `M_ij` of the operator `M ∈ 𝓛` (`ℓ^N_{a,p} → ℓ^N_{a,p_+}`, `p_+ = pb`) whose
 weighted matrix is `A`: `A_ij = μ_i M_ij ν_j` with `μ_i = ω_{a,p_+}(i+2)`, `ν_j = ω_{a,p}(j+2)⁻¹`.

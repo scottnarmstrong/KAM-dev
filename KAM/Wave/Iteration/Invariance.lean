@@ -12,8 +12,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: invariant tori in KAM coordinates (blueprint `bpW:w6:invariance`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:invariance` (steps `i-weak`, `i-torus`, `i-lim`).
+Blueprint label `bpW:w6:invariance` (steps `i-weak`, `i-torus`, `i-lim`).
 
 Model (as in `StrongConj`): fields with values in `𝒫^{p-1}` are read in the `(p-1)`-representatives,
 `X_{H_μ} = X_{N_μ} + ι X_{P_μ}` (`w6Field`), and "`X ∈ 𝒫`" means `X = ι_{p→p-1} A` with `A ∈ 𝒫`

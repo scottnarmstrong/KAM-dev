@@ -11,9 +11,6 @@ public import Mathlib.Analysis.SpecialFunctions.Pow.Real
 /-!
 # W7: integer data, weights and the case split of `Λ` (blueprint `bpW:w7:indexdef`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 Normal modes are indexed by `ν : ℕ`, the Dirichlet mode `j = ν + 3` (`normLab ν`); `l : ℕ →₀ ℤ` is
 the finitely supported integer vector on the normal modes. We define `⟨l⟩` (`japL`), `|l|_δ`
 (`absWt`), the modified weight `ŵ` (`hatW`), `Λ` (`IsLam`), `Λ⁻` (`IsLamMinus`) and `A_k`

@@ -12,8 +12,7 @@ import Mathlib.Tactic.Linarith
 /-!
 # W6: strong conjugacy at regular points (blueprint `bpW:w6:strong`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:strong` (milestone W6).
+Blueprint label `bpW:w6:strong` (milestone W6).
 
 Model (W5-REAL, `KamStep/RealNField.lean`): `𝒫 = 𝒫^p` is `StepPhase r` in the `p`-representatives;
 `𝒫^{p_+}` is the range of `ι = stepEmbedCLM a p pb hpb r`; a field with values in `𝒫^{p-1}` is a

@@ -10,8 +10,7 @@ public import KAM.Wave.Assembly.ShellGeom
 /-!
 # W8: the patched family (blueprint `bpW:w8:patch`, `bpW:w8:patch-local`, `bpW:w8:patch-cont`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w8:patch`, `bpW:w8:patch-local`, `bpW:w8:boundaries`,
+Blueprint labels `bpW:w8:patch`, `bpW:w8:patch-local`, `bpW:w8:boundaries`,
 `bpW:w8:patch-cont` (milestone W8).
 
 The single-shell objects `Γ_n = Π^{(n)}_*`, `ν^{(n)}_*`, `K^{(n)}` are outputs of the W6 iteration

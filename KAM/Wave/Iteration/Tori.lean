@@ -14,8 +14,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: invariant tori in Birkhoff coordinates (`bpW:w6:tori`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:tori` (steps `t-cont`, `t-prep`, `t-bk`, `t-an`).
+Blueprint label `bpW:w6:tori` (steps `t-cont`, `t-prep`, `t-bk`, `t-an`).
 
 For the wave iteration (Definition `bpW:w6:wave-iteration`) with `H_in = N_ξ + P_ξ` of
 `bpW:w5:action-angle` (iv) on `D(s, r)` (`P = w6InP`, `X_P = w6InX`; `bpW:w5:initial` supplies the

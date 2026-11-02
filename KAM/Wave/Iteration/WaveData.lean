@@ -14,8 +14,7 @@ import Mathlib.Tactic.GCongr
 /-!
 # W6: the data of the wave iteration (blueprint `bpW:w6:wave-iteration`, `bpW:w6:prep-step`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w6:wave-iteration`, `bpW:w6:prep-step` (steps `p-data`,
+Blueprint labels `bpW:w6:wave-iteration`, `bpW:w6:prep-step` (steps `p-data`,
 `p-step`, `p-size`, the arithmetic only) and `bpW:w6:to-w8` ("Starting size"), milestone W6.
 
 For `0 < α ≤ α₀`, `α̂ = α^{44/47}`, `α̌ = α^{48/47}`, a majorant `ε > 0`, `r > 0`:

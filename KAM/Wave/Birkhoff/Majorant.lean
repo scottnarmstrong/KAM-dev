@@ -11,8 +11,7 @@ public import KAM.Wave.Cubic.TriSeq
 /-!
 # Majorant for the cubic sums (blueprint-W `bpW:w3:majorant`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:majorant`.
+Package W3-SETTING, blueprint label `bpW:w3:majorant`.
 
 For nonnegative `u, u', u'' ∈ ℓ^{a,p}`,
 `𝓜(u,u',u'')_l = λ_l^{-1/2} Σ_{i,j,k ≥ 1} |g_{ijkl}| u_i u'_j u''_k / √(λ_i λ_j λ_k)`

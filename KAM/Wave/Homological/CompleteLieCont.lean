@@ -11,8 +11,7 @@ import Mathlib.Tactic.Linarith
 /-!
 # `L_N F` and `⟨⟨N,F⟩⟩` are continuous polynomials of degree `≤ 2` (`bpW:w4:lie` (i))
 
-Off-frontier, source-faithful infrastructure (W4-LIECONT); the dependency graph is still
-being built. Blueprint label: `bpW:w4:lie` (i), step `stepW:w4:liebd` (continuity in
+Blueprint label: `bpW:w4:lie` (i), step `stepW:w4:liebd` (continuity in
 `(z, \bar z)`).
 
 The clause of `bpW:w4:lie` (i) exported here: for `F ∈ 𝒯_{s'}` and `θ`, the functions

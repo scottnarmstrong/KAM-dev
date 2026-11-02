@@ -12,8 +12,7 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The Lie-coefficient rule for a general `F` (`bpW:w4:lie` (iii))
 
-Off-frontier, source-faithful infrastructure (W4-COMPLETE); the dependency graph is still
-being built. Blueprint label: `bpW:w4:lie` (iii), step `stepW:w4:liecoef`.
+Blueprint label: `bpW:w4:lie` (iii), step `stepW:w4:liecoef`.
 
 For a general Taylor Hamiltonian `F ∈ 𝒯_{s'}` (not only the solution of the homological
 equation) and finitely supported `z, \bar z`:

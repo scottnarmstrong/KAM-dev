@@ -13,9 +13,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Lemma 1 (ii) for all `(z, \bar z)` (`bpW:w4:lemma1`, step *The equation*, density)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 Both sides of `L_N F + N̂ = R - â₀` are continuous in `(z, \bar z) ∈ ℓ^N_{a,p} × ℓ^N_{a,p}`
 (carrier `HomL2 × HomL2`), given `|Ω_j| ≤ K₀ (j+2)`: the pairings are bounded bilinear forms and the
 pairing `⟨c, Ωz⟩₀` is `homPairL2 (diag(D_jΩ_j) ĉ) ẑ` with `|D_jΩ_j| ≤ K₀`. The truncations
@@ -100,7 +97,6 @@ theorem continuous_homRzb_gen {a p pb s : ℝ} (T : HomTaylor_gen a p pb s) (θ 
   exact ((continuous_const.add ((T.Q θ).continuous.comp continuous_fst)).add
     (((T.P' θ).continuous.comp continuous_snd).const_smul (2 : ℂ)))
 
-
 theorem one_le_homWt {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (j : ℕ+) : 1 ≤ homWt a p j := by
   rw [homWt_eq]
   have hJ : (1 : ℝ) ≤ (j : ℝ) + 2 := by
@@ -170,7 +166,6 @@ theorem truncLp_apply_not_mem (N : ℕ) (y : HomL2) (j : ℕ+)
 theorem tendsto_truncLp (y : HomL2) : Tendsto (fun N : ℕ => truncLp N y) atTop (𝓝 y) := by
   rw [tendsto_iff_norm_sub_tendsto_zero]
   simpa only [norm_sub_rev] using tendsto_norm_sub_truncLp y
-
 
 /-- **Carrier evidence** from the frequency bound `|Ω_j| ≤ K₀(j+2)` and `1 ≤ p + p_+`. -/
 theorem homOmegaCarrier_of_bound {a p pb K0 : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb)

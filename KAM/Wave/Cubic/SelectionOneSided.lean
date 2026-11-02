@@ -11,9 +11,6 @@ public import KAM.Wave.Seq.Transport
 /-!
 # Selection-rule trilinear maps, one-sided (blueprint `bpW:w1:selection` (a))
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 For `c : ℕ+⁴ → 𝕜` with `|c_{ijkl}| ≤ M (ijkl)^{-1/2} Σ_ε [l = ε₁ i + ε₂ j + ε₃ k]` and
 `q, q', q'' ∈ ℓ^{a,p}_𝕜` (`a ≥ 0`, `p ≥ 1/2`, `s = p + 1/2`), the sums
 `T_c(q,q',q'')_l = Σ_{ijk} c_{ijkl} q_i q'_j q''_k` converge absolutely and

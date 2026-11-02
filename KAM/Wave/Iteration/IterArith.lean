@@ -14,8 +14,7 @@ import Mathlib.Tactic.GCongr
 /-!
 # W6: the arithmetic of the iterative lemma (blueprint `bpW:w6:iter-lemma`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:iter-lemma` (milestone W6): the parts that concern the
+Blueprint label `bpW:w6:iter-lemma` (milestone W6): the parts that concern the
 sequences of Definition `bpW:w6:sequences` only.
 
 Under the smallness `ε₀ ≤ γ₀ α₀ σ₀^t`, with `q_ν = ε_ν/(α_ν σ_ν^t)`:

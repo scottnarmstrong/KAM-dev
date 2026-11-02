@@ -11,8 +11,7 @@ public import KAM.Wave.Iteration.FreqInst
 # W6: convergence and the wave instances, unconditional (`bpW:w6:convergence` (i), (ii),
 `bpW:w6:freq-lip`, `bpW:w6:exclusion`, `bpW:w6:final-freq`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Milestone W6.
+Milestone W6.
 
 The conditional helpers of `ConvFreq` and `FreqInst` assume W5's reality clauses `W6StepReal`,
 `W6StepRealMod`; these hold (`w6StepReal_holds`, `w6StepRealMod_holds`, from W5's

@@ -15,8 +15,7 @@ import Mathlib.Tactic.Positivity
 # W8: shell data for the initial perturbation and the preparatory step
 (blueprint `bpW:w8:shell-data` (iii), (iv))
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w8:shell-data` (milestone W8), parts (iii), (iv).
+Blueprint label `bpW:w8:shell-data` (milestone W8), parts (iii), (iv).
 
 The W8 constants are evaluated at the W5–W6 constants `w8Upstream m hm` (`γ = w6Gamma m hm`,
 `γ₁ = w6Gamma1 m hm`, `c_F`, `c^♮_F`); `w8T0W m hm` is the resulting `t₀`.

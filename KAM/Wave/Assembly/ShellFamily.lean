@@ -13,8 +13,7 @@ import Mathlib.Tactic.Positivity
 # W8: invariance and continuity on one shell, patched continuity, family injectivity
 (blueprint `bpW:w8:shell-inv`, `bpW:w8:patch-cont`, `bpW:w8:injective`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w8:shell-inv`, `bpW:w8:patch`, `bpW:w8:patch-cont`,
+Blueprint labels `bpW:w8:shell-inv`, `bpW:w8:patch`, `bpW:w8:patch-cont`,
 `bpW:w8:injective` (milestone W8).
 
 For the source family `w8HF hm = (w8HW hm n)_n` (initial perturbation of `bpW:w5:initial` on every

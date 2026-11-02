@@ -11,9 +11,6 @@ public import KAM.Wave.Cubic.GradLp
 /-!
 # The unweighted pairing and the quartic form `𝒬` (blueprint `bpW:w1:gradient-identity` (i))
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 `KAM.Wave.wavePair a p u y = Σ_l (κ_{a,p+1} u)_l (κ_{a,p} y)_l` is the unweighted pairing
 `⟨κ_{a,p+1}u, κ_{a,p}y⟩₀`, a continuous bilinear form on `ℓ²_𝕜` of norm `≤ 1`
 (`KAM.Wave.wavePairCLM`). `KAM.Wave.waveQuartForm` is the continuous 4-linear form

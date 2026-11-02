@@ -13,8 +13,7 @@ import Mathlib.Tactic.Positivity
 # W6: the wave iteration's admissible family, exclusion and final frequencies
 (`bpW:w6:freq-lip`, `bpW:w6:exclusion`, `bpW:w6:final-freq`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w6:freq-lip`, `bpW:w6:exclusion`, `bpW:w6:final-freq`
+Blueprint labels `bpW:w6:freq-lip`, `bpW:w6:exclusion`, `bpW:w6:final-freq`
 (milestone W6).
 
 For the data of Lemma `bpW:w6:prep-step` (`H : W6PrepHyp …`, `MeasSetup`) and a starting size

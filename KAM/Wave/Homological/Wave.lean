@@ -15,9 +15,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The wave frequencies satisfy the frequency hypotheses (blueprint-W `bpW:w4:wave` (i))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 `waveFreqTan m hm ξ = (λ₁, λ₂) + Aξ` (`A = actionA`, Theorem `bpW:w0n:AB`) and
 `waveFreqNor m hm ξ j = Ω_j(ξ) = waveOmega (j+2)` (P96-K index `j`, wave index `J = j+2`).
 `homFreqHyp1_wave` proves `HomFreqHyp1` (and `homFreqHyp_wave` the weaker `HomFreqHyp`) with the

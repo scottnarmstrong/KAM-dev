@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Taylor series in one complex variable, Banach values (external fact `bpW:w5:ext-taylor`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 If `g : ℂ → E` is holomorphic on `|t| < ρ` with `‖g t‖ ≤ B` there, then the Taylor coefficients
 `g_k = (k!)⁻¹ g^{(k)}(0)` satisfy `‖g_k‖ ≤ B ρ^{-k}` (`norm_taylorCoeff_le`) and for `|t| ≤ 1 < ρ`
 `‖g t - ∑_{k ≤ 2} g_k t^k‖ ≤ B ρ^{-3}/(1 - ρ^{-1})` (`norm_taylor_remainder_le`).

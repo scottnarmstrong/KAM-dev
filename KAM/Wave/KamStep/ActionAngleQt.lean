@@ -14,7 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The polynomial part `Q̃` and its field (blueprint-W `bpW:w5:action-angle` (v), step `a-field`)
 
-Off-frontier, source-faithful infrastructure (W5-AA); the dependency graph is still being built.
 Blueprint label `bpW:w5:action-angle` (v) (the field of `Q̃`).
 
 With `c_j = 3/(2πλ_{j+2})` (`aaCoefC`) and `S(w) = Σ_j c_j z_j \bar z_j` (`aaSfun`, a bounded

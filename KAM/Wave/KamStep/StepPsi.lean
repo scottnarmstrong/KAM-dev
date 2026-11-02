@@ -13,9 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The smoothing displacement `Ψ` of the step map (blueprint-W `bpW:w5:step` (i), (v))
 
-Off-frontier, source-faithful infrastructure (W5-STEP-B-FIX, finding F1 of `W5-STEP-B-audit-1.md`);
-the dependency graph is still being built.
-
 `Φ = φ¹` is the time-one map of the smoothing field `ι ∘ X_F` (`ι = stepEmbedCLM`, `𝒫^{p_+} → 𝒫`).
 On `D_+ = D(s-5σ, ηr)` it is `Φ(w) = w + ι Ψ(w)` with the displacement `Ψ = smoothDisp ι X_F 1`
 taking values in the `p_+`-representatives (`StepCore.Psi`, `StepCore.phi_eq_add_Psi`), and

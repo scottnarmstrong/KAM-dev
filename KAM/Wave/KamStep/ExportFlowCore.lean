@@ -13,9 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The step flow `φ^t` at every time `|t| ≤ 1` (blueprint `bpW:w5:flow`, core layer)
 
-Off-frontier, source-faithful infrastructure (W-GRAPH-CLOSE); the dependency graph is still being
-built.
-
 For the step core `H` and `ξ ∈ Π`, `φ^t_ξ = H.phiT ξ t` is the time-`t` map of the flow of
 `X_{F(ξ)} = ι ∘ Z_ξ` (`Z_ξ = stepFieldS (FT ξ)`, values in the `p_+`-representatives,
 `ι = stepEmbedCLM`) and `Ψ^t_ξ = H.PsiT ξ t = ∫₀ᵗ Z_ξ(φ^τ_ξ ·) dτ` its smoothing displacement;

@@ -12,8 +12,7 @@ public import KAM.Wave.Seq.Multiplier
 # Complexification commutes with `τ_{a,p}`, `κ_{a,p}` and real multipliers
 
 Blueprint-W `bpW:w1:complexification-lemma` (i), the clause "all three commute with `τ_{a,p}`,
-`κ_{a,p}` and every real multiplier `D_μ`" (package W1-ANALYTIC). This is source-faithful
-infrastructure used by several nodes; the dependency graph is still being built.
+`κ_{a,p}` and every real multiplier `D_μ`" (package W1-ANALYTIC).
 
 The transports are the `RCLike`-generic `KAM.Wave.coeffW`, `KAM.Wave.tauLp` and
 `KAM.Wave.weightedDiagCLM`, instantiated at `ℝ` and at `ℂ`; a real multiplier `μ` acts on `ℓ²_ℂ`

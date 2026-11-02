@@ -14,8 +14,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: the factors `Φ_{ν+1}` of the compositions on one carrier (blueprint `bpW:w6:convergence`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:convergence` (steps `c-dom`, `c-op`), from
+Blueprint label `bpW:w6:convergence` (steps `c-dom`, `c-op`), from
 `bpW:w6:iter-lemma` and `bpW:w5:step`.
 
 The step of stage `ν` acts on `StepPhase r_ν` (the carrier `KamPhase` with the norm `|·|_{r_ν}`).

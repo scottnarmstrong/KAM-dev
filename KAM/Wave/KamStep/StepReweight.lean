@@ -14,9 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Reweighting on `KamPhase` (blueprint-W `bpW:w5:w4-modified`, `bpW:w5:step`, modified case)
 
-Off-frontier, source-faithful infrastructure (W5-STEP, item 6); the dependency graph is still being
-built.
-
 `stepRhoK a p pb hc`: the diagonal `D_ρ`, `ρ_j = ω_{a,p₊}(j+2)/ω_{a,p+1}(j+2) ≤ 1`, on the normal
 components `(u, v)` of `KamPhase` (it converts a `(p+1)`-representative into a `p₊`-representative).
 * `kamNorm_stepRhoK_le`: `|D_ρ W|_r ≤ |W|_r`;

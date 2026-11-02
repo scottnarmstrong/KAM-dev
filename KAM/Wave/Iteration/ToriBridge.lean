@@ -14,8 +14,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: bridges between W5's action–angle map and the W6 tori (`bpW:w6:tori`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:tori` (steps `t-bk`, `t-close`, `t-an`).
+Blueprint label `bpW:w6:tori` (steps `t-bk`, `t-close`, `t-an`).
 
 The W6 tori live in KAM coordinates (`KamPhase`, `𝒫`, normal components as representatives) and
 W5's action–angle lemma (`bpW:w5:action-angle`) in Birkhoff coordinates (`BirkSpace`, weighted

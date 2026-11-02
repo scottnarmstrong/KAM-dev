@@ -12,8 +12,6 @@ public import Mathlib.Topology.Algebra.InfiniteSum.NatInt
 /-!
 # Young's inequality on `ℤ` (blueprint `bpW:w1:young`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 The convolution `(c * d)_l = ∑' i, c i * d (l - i)` of `ℤ`-indexed sequences, a Cauchy–Schwarz
 lemma for `tsum`s, the `ℓ² * ℓ¹ ⊆ ℓ²` bound (part (i)) and the algebraic rules of part (iii).
 
