@@ -154,3 +154,137 @@ Kept (no common import without adding a heavy one): `aa_kamNorm_sub_le`/`kamNorm
 - LEAN_REF: 1824 distinct `KAM.*` refs in the packets; set of declaration names removed from `KAM/Wave` (131 incl. dups) intersected with them: empty. No rename or namespace change; Frozen, Provider, manifest, README, roots untouched.
 - Hard rules: no heartbeat overrides, no file near 1500 lines (only decreased).
 - Suspected errata/deviations: none.
+
+## Full-repository scan (post-hoc, per orchestrator note)
+Token scan of every git-tracked file (all of `applications/`, `scripts/`, `kernel-tests/`, `docs/`, `blueprint*`, `KAM/`, ...; excluding only the CLEANUP report/handoff and `.drafts`) for each of the 131 removed names (last component). Result: no occurrence in any `.lean` file, `applications/`, `scripts/`, `kernel-tests/`, `docs/graph/` or blueprint, so no deletion needs reverting. The only hits are historical audit/handoff records under `docs/tracks/W/audits/` (listed below; they remain as historical text).
+- `KNu_pos`: audits/W6-ITER-handoff.md
+- `PsiT_one`: no occurrence
+- `abs_waveHat_le`: audits/W0-ANALYSIS-audit-1.md
+- `birkAF_eq`: audits/W3-MAIN-audit-2.md
+- `birkAF_eq_birkGammaDPlus`: audits/W3-MAIN-audit-2.md
+- `birkCoord_neg`: audits/W3-SETTING-DIVF-audit-1.md
+- `birkCoord_sub`: audits/W3-SETTING-DIVF-audit-1.md
+- `birkDelta_nonneg_mono`: audits/W3-SETTING-DIVF-audit-1.md
+- `birkGammaD_embed_birkGammaDPlusInv`: audits/W3-MAIN-audit-2.md
+- `birkGradML_apply`: audits/W3-SETTING-DIVF-audit-1.md
+- `birkK2_rho`: audits/W3-MAIN-audit-2.md, audits/W3-MAIN-handoff.md
+- `birkPsi_embed`: audits/W3-MAIN-audit-1.md, audits/W3-MAIN-audit-2.md, audits/W3-MAIN-handoff.md
+- `birkRho_injective`: audits/W3-SETTING-DIVF-audit-1.md
+- `birkXi_embed`: audits/W3-MAIN-audit-1.md, audits/W3-MAIN-audit-2.md, audits/W3-MAIN-handoff.md
+- `birkZEquiv_apply`: audits/W3-SETTING-DIVF-audit-1.md
+- `birkZEquiv_symm_apply`: audits/W3-SETTING-DIVF-audit-1.md
+- `birk_hasSum_split`: audits/W3-SETTING-DIVF-audit-1.md
+- `blockMap_const`: audits/W3-MAIN-audit-1.md
+- `bound_mono`: audits/W1-KAMSUP-audit-1.md, audits/W1-KAMSUP-audit-2.md, audits/W1-KAMSUP-handoff.md
+- `coeffSum_neg`: no occurrence
+- `coeffW_flow_snd`: audits/W1-WEIGHTED-audit-1.md
+- `coeffW_weightedDiagCLM`: audits/W1-ANALYTIC-audit-2.md, audits/W1-ANALYTIC-handoff.md
+- `coeff_isEll_one_one`: audits/W0-ANALYSIS-audit-1.md, audits/W0-ANALYSIS-handoff.md
+- `domNu_anti`: no occurrence
+- `ellWeight_add_one`: audits/W1-CUBIC-audit-1.md
+- `ellWeight_succ_exponent`: audits/W4-HOMOLOGICAL-audit-1.md
+- `eps_succ_eq_kappa`: audits/W6-PREP-handoff.md
+- `flowCLM_zero`: audits/W1-WEIGHTED-audit-1.md, audits/W1-WEIGHTED-handoff.md
+- `gN_diag`: audits/W0-NORMAL-audit-1.md
+- `hatW_pos`: audits/W7-MEASURE-audit-1.md
+- `homCoeff_continuous_of`: audits/W4-HOMOLOGICAL-audit-1.md
+- `homDP'_conj`: audits/W4-HOMOLOGICAL-audit-1.md
+- `homDualNorm_rho`: audits/W5-STEP-B-audit-1.md
+- `homEntryCLM_apply`: audits/W4-HOMOLOGICAL-audit-1.md
+- `homEq_Q`: audits/W4-HOMOLOGICAL-audit-1.md, audits/W4-HOMOLOGICAL-handoff.md
+- `homKS_lt`: audits/W4-HOMOLOGICAL-audit-1.md
+- `homLamDiag`: audits/W4-HOMOLOGICAL-audit-1.md, audits/W4-HOMOLOGICAL-handoff.md
+- `homLam_comm_homTQ`: audits/W4-HOMOLOGICAL-audit-1.md, audits/W4-HOMOLOGICAL-handoff.md
+- `homLemma1_equation_all_of_gates`: audits/W4-HOMOLOGICAL-audit-2.md
+- `homLemma1_fieldBound_of_gates`: audits/W4-HOMOLOGICAL-audit-2.md
+- `homLemma1_lipschitz_of_gates`: audits/W4-HOMOLOGICAL-audit-2.md
+- `homLemma1_zero_modes`: audits/W4-HOMOLOGICAL-audit-1.md, audits/W4-HOMOLOGICAL-handoff.md
+- `homLemma_lie_iv`: audits/W4-COMPLETE-handoff.md, audits/W4-HOMOLOGICAL-audit-1.md, audits/W4-HOMOLOGICAL-audit-2.md, audits/W4-HOMOLOGICAL-handoff.md
+- `homLipField_dQ`: audits/W4-HOMOLOGICAL-audit-1.md, audits/W4-HOMOLOGICAL-handoff.md
+- `homMelnikovMod_of_melnikov`: audits/W5-MODIFIED-handoff.md, audits/W5-STEP-B-audit-1.md
+- `homModSolveTaylor_P'`: audits/W5-STEP-B-audit-1.md
+- `homModSolveTaylor_cm`: audits/W5-STEP-B-audit-1.md
+- `homMultDm_conj`: audits/W4-HOMOLOGICAL-audit-1.md
+- `homNormEntryCLM`: audits/W4-HOMOLOGICAL-audit-1.md, audits/W4-HOMOLOGICAL-handoff.md
+- `homPair0Raw_comm`: audits/W4-HOMOLOGICAL-audit-2.md
+- `homPairL2_comm`: audits/W4-HOMOLOGICAL-audit-1.md
+- `homPairOmegaRaw`: audits/W4-HOMOLOGICAL-audit-2.md, audits/W4-HOMOLOGICAL-handoff.md
+- `homPairRep`: audits/W4-HOMOLOGICAL-audit-1.md, audits/W4-HOMOLOGICAL-handoff.md
+- `homPairRep_eq'_gen`: audits/W4-HOMOLOGICAL-audit-1.md
+- `homWeightP_ge_abs`: audits/W4-HOMOLOGICAL-audit-1.md
+- `isBirkExtension_restrict`: audits/W3-MAIN-audit-2.md
+- `kamDomain_isOpen'`: audits/W5-STEP-A-audit-1.md
+- `kamLattice_const_nonneg`: audits/W1-KAMSUP-audit-1.md
+- `kamNorm_add_le'`: audits/W5-STEP-A-audit-1.md
+- `kamNorm_anti`: no occurrence
+- `lamTan_eq_lam`: audits/W5-AA-audit-1.md
+- `lieT_birk`: audits/W3-FLOW-audit-1.md
+- `measXSet_neg_iff`: audits/W7-MEASURE-audit-1.md
+- `melnikov_iter`: audits/W7-MEASURE-audit-1.md, audits/W7-MEASURE-handoff.md
+- `melnikov_prep_zero`: audits/W7-MEASURE-audit-1.md, audits/W7-MEASURE-handoff.md
+- `mono_scale`: audits/W5-MODIFIED-handoff.md, audits/W5-STEP-B-audit-1.md
+- `norm_birkGammaDPlusInv_le`: audits/W3-MAIN-audit-2.md
+- `norm_birkNormalPart_le`: audits/W3-SETTING-DIVF-audit-1.md
+- `norm_blockMap_le`: audits/W3-MAIN-audit-1.md
+- `norm_homLamD_mul_le`: audits/W4-HOMOLOGICAL-audit-1.md, audits/W4-HOMOLOGICAL-handoff.md
+- `norm_homModRhoL_apply_le`: audits/W5-STEP-B-audit-1.md
+- `norm_kamChi`: audits/W1-KAMSUP-audit-1.md
+- `norm_kamToStep`: audits/W5-STEP-A-audit-1.md
+- `norm_le_sqrt_two_mul_birkZinv`: audits/W3-SETTING-DIVF-audit-1.md
+- `one_le_homWt`: audits/W4-HOMOLOGICAL-audit-1.md, audits/W4-HOMOLOGICAL-handoff.md
+- `q_nonneg_of_eps`: no occurrence
+- `reconUIterCLM_apply`: audits/W1-SINES-audit-1.md
+- `reconVIterCLM_apply`: audits/W1-SINES-audit-1.md
+- `reconV_eq_waveV`: audits/W0-ANALYSIS-audit-1.md
+- `riemannSum_add`: audits/W5-STEP-A-audit-1.md
+- `sigma_zero`: no occurrence
+- `snoc_eq_vec3`: audits/W3-SETTING-DIVF-audit-1.md
+- `stepC0_pos`: audits/W5-STEP-A-audit-1.md
+- `stepRealFun_apply`: audits/W5-STEP-B-audit-1.md
+- `stepTaylorRho_a0`: audits/W5-STEP-B-audit-1.md
+- `stepTaylorRho_b`: audits/W5-STEP-B-audit-1.md
+- `stepZF`: audits/W5-STEP-B-audit-1.md
+- `stepZ_comp_stepRhoK`: audits/W5-STEP-B-audit-1.md
+- `stepZb_comp_stepRhoK`: audits/W5-STEP-B-audit-1.md
+- `tQt_rhoK`: audits/W5-STEP-B-audit-1.md
+- `transSolve_unique`: audits/W5-STEP-B-audit-1.md
+- `two_two_MF_eq`: audits/W6-PREP-handoff.md
+- `w6Field_irrel`: audits/W6-CONV-handoff.md
+- `w6PiStarS_eq_It`: audits/W6-CONV-handoff.md
+- `w6PiStar_subset`: no occurrence
+- `w6S0_eq`: no occurrence
+- `w6Seq_Pi_subset`: no occurrence
+- `w6SigmaP_le_min`: audits/W6-PREP-handoff.md
+- `w6TorusCLM_apply`: no occurrence
+- `w6Zone_subset`: audits/W6-PREP-handoff.md
+- `w8Pi_subset_shellInner`: audits/W6-ITER-handoff.md, audits/W8-PREP-handoff.md, audits/W8-audit-1.md, audits/W8-audit-2.md
+- `w8ShellGamma_eq`: audits/W8-ASM-handoff.md, audits/W8-audit-1.md, audits/W8-audit-2.md
+- `w8Upstream_cF`: audits/W8-audit-1.md, audits/W8-audit-2.md
+- `w8Upstream_cFnat`: audits/W8-audit-1.md, audits/W8-audit-2.md
+- `w8Upstream_gam`: audits/W8-audit-1.md, audits/W8-audit-2.md
+- `w8Upstream_gam1`: audits/W8-audit-1.md, audits/W8-audit-2.md
+- `w8ext_antitoneOn_Icc`: audits/W8-PREP-handoff.md, audits/W8-audit-1.md, audits/W8-audit-2.md
+- `w8ext_clm_comp_analyticOnNhd`: audits/W8-PREP-handoff.md, audits/W8-audit-1.md, audits/W8-audit-2.md
+- `w8ext_fderiv_clm_comp`: audits/W8-PREP-handoff.md, audits/W8-audit-1.md, audits/W8-audit-2.md
+- `w8ext_hasDerivAt_exp_mul`: audits/W8-PREP-handoff.md, audits/W8-audit-1.md, audits/W8-audit-2.md
+- `w8ext_le_of_tendsto`: audits/W8-PREP-handoff.md, audits/W8-audit-1.md, audits/W8-audit-2.md
+- `w8ext_monotoneOn_Icc`: audits/W8-PREP-handoff.md, audits/W8-audit-1.md, audits/W8-audit-2.md
+- `w8ext_rpow`: audits/W8-PREP-handoff.md, audits/W8-audit-1.md, audits/W8-audit-2.md
+- `w8ext_rpow_le_rpow`: audits/W8-PREP-handoff.md, audits/W8-audit-1.md, audits/W8-audit-2.md
+- `w8ext_summable_abs_mul`: audits/W8-PREP-handoff.md, audits/W8-audit-1.md, audits/W8-audit-2.md
+- `w8ext_tsum_add`: audits/W8-PREP-handoff.md, audits/W8-audit-1.md, audits/W8-audit-2.md
+- `waveEllMajorant_nonneg`: audits/W0-ANALYSIS-audit-1.md
+- `waveEllWeight_pos`: audits/W0-ANALYSIS-audit-1.md
+- `waveGw'`: audits/W1-CUBIC-audit-1.md
+- `wavePairCLM_apply`: audits/W1-CUBIC-audit-2.md
+- `waveSelSum_add_mid`: audits/W1-CUBIC-audit-1.md
+- `waveSelSum_add_right`: audits/W1-CUBIC-audit-1.md
+- `waveSelSum_smul_mid`: audits/W1-CUBIC-audit-1.md
+- `waveSelSum_smul_right`: audits/W1-CUBIC-audit-1.md
+- `waveSelTwo_add_mid`: audits/W1-CUBIC-audit-2.md
+- `waveSelTwo_add_right`: audits/W1-CUBIC-audit-2.md
+- `waveSelTwo_smul_mid`: audits/W1-CUBIC-audit-2.md
+- `waveSelTwo_smul_right`: audits/W1-CUBIC-audit-2.md
+- `waveTriML_apply'`: audits/W1-CUBIC-audit-1.md
+- `waveTwoWeight_zero_left`: audits/W1-ALGEBRA-audit-1.md
+- `wave_ellWeight_sq_div_lam_le`: audits/W0-ANALYSIS-audit-1.md
