@@ -92,9 +92,6 @@ theorem gN_pair_c {N : ℕ} (i k : Fin N) :
   rw [sineQuarticCoeff_pair_val_c]
   simp [modeIdx_injective.eq_iff]
 
-theorem gN_diag {N : ℕ} (i : Fin N) : gN i i i i = 3 / (2 * π) := by
-  unfold gN; exact sineQuarticCoeff_diag _
-
 section sums
 variable {N : ℕ} (F : Fin N → Fin N → Fin N → Fin N → ℝ)
 

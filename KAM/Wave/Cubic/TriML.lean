@@ -69,9 +69,6 @@ def waveTriML :
 lemma waveTriML_apply (v : Fin 3 → lp (fun _ : ℕ+ => K) 2) :
     waveTriML (K := K) m hm ha hp v = waveTriAux m hm ha hp (v 0) (v 1) (v 2) := rfl
 
-lemma waveTriML_apply' (y y' y'' : lp (fun _ : ℕ+ => K) 2) :
-    waveTriML (K := K) m hm ha hp ![y, y', y''] = waveTriAux m hm ha hp y y' y'' := rfl
-
 /-- `bpW:w1:trilinear` (i): `‖𝒯^{a,p}_𝕜‖ ≤ C_* = K_{p+1/2}²/π`. -/
 theorem waveTriML_norm_le : ‖(waveTriML (K := K) m hm ha hp)‖ ≤ waveCubicConst p :=
   MultilinearMap.mkContinuous_norm_le _ (waveCubicConst_nonneg p) _

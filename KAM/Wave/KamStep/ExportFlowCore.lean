@@ -84,8 +84,6 @@ def PsiT (ξ : Fin 2 → ℝ) (t : ℝ) : StepPhase r → StepPhase r :=
 
 theorem phiT_one (ξ : Fin 2 → ℝ) : H.phiT ξ 1 = H.Phi ξ := rfl
 
-theorem PsiT_one (ξ : Fin 2 → ℝ) : H.PsiT ξ 1 = H.Psi ξ := rfl
-
 include H
 
 omit [Fact (0 < r)] in

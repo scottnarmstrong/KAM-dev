@@ -75,9 +75,6 @@ theorem q_succ_eq (ν : ℕ) :
   have h3 := sigma_rpow_pos hd ν
   field_simp
 
-theorem q_nonneg_of_eps (ν : ℕ) (he : 0 ≤ d.eps ν) : 0 ≤ d.qNu ν :=
-  div_nonneg he (alpha_sigma_pos hd ν).le
-
 /-- One step: if `0 ≤ q_ν ≤ γ₀` then `q_{ν+1} ≤ q_ν/4` (step `il-err`). -/
 theorem q_succ_le_of (ν : ℕ) (h0 : 0 ≤ d.qNu ν) (hγ : d.qNu ν ≤ w6Gamma0) :
     d.qNu (ν + 1) ≤ d.qNu ν / 4 := by

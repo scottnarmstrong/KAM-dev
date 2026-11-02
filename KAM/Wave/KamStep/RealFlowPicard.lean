@@ -92,9 +92,6 @@ def stepCoordCLM : StepRealIdx → KamPhase →L[ℂ] ℂ
 def stepRealFun (r : ℝ) [Fact (0 < r)] (i : StepRealIdx) : StepPhase r →L[ℝ] ℝ :=
   Complex.imCLM.comp (((stepCoordCLM i).comp (stepToKCLM r)).restrictScalars ℝ)
 
-theorem stepRealFun_apply (r : ℝ) [Fact (0 < r)] (i : StepRealIdx) (w : StepPhase r) :
-    stepRealFun r i w = (stepCoordCLM i (StepPhase.toK w)).im := rfl
-
 /-- `StepReal` is the vanishing of the functionals `stepRealFun`. -/
 theorem stepReal_iff_stepRealFun (r : ℝ) [Fact (0 < r)] (w : StepPhase r) :
     StepReal (StepPhase.toK w) ↔ ∀ i, stepRealFun r i w = 0 := by

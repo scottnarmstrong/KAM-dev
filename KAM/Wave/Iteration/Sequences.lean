@@ -198,8 +198,6 @@ theorem eps_succ (ν : ℕ) : d.eps (ν + 1) = 2 * w6C2 * d.eps ν * d.etaNu ν 
 
 theorem rNu_succ (ν : ℕ) : d.rNu (ν + 1) = d.etaNu ν * d.rNu ν := rfl
 
-theorem sigma_zero : d.sigma 0 = d.s0 / 40 := by simp [sigma]
-
 theorem sigma_succ (ν : ℕ) : d.sigma (ν + 1) = d.sigma ν / 2 := by
   unfold sigma; rw [pow_succ]; ring
 
@@ -356,24 +354,6 @@ theorem two_pow_le_K (ν : ℕ) : (2 : ℝ) ^ ν ≤ d.K ν := by
   have := one_le_K0 hd
   have : (0 : ℝ) < 2 ^ ν := by positivity
   nlinarith
-
-theorem KNu_pos (ν : ℕ) : 0 < d.K ν := lt_of_lt_of_le (by positivity) (two_pow_le_K hd ν)
-
-/-- `ε_{ν+1} = 2C₂ ε_ν^{κ}/(α_ν σ_ν^t)^{κ-1}`, `κ = 4/3` (blueprint `bpW:w6:sequences`), for
-`ε_ν ≥ 0`. -/
-theorem eps_succ_eq_kappa (ν : ℕ) (he : 0 ≤ d.eps ν) :
-    d.eps (ν + 1) =
-      2 * w6C2 * d.eps ν ^ (4 / 3 : ℝ) / (d.alpha ν * d.sigma ν ^ w6T) ^ (4 / 3 - 1 : ℝ) := by
-  have hb : 0 < d.alpha ν * d.sigma ν ^ w6T :=
-    mul_pos (alpha_pos hd ν) (Real.rpow_pos_of_pos (sigmaNu_pos hd ν) _)
-  rw [eps_succ, etaNu, etaOf, Real.div_rpow he hb.le]
-  have h43 : d.eps ν ^ (4 / 3 : ℝ) = d.eps ν * d.eps ν ^ (1 / 3 : ℝ) := by
-    rw [show (4 / 3 : ℝ) = 1 + 1 / 3 by norm_num]
-    rcases he.eq_or_lt with h | h
-    · rw [← h, Real.zero_rpow (by norm_num)]; simp
-    · rw [Real.rpow_add h, Real.rpow_one]
-  rw [h43, show (4 / 3 - 1 : ℝ) = 1 / 3 by norm_num]
-  ring
 
 end valid
 

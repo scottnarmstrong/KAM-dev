@@ -67,8 +67,6 @@ def homPairL2 : HomL2 →L[ℂ] HomL2 →L[ℂ] ℂ :=
 
 theorem homPairL2_apply (v w : HomL2) : homPairL2 v w = homPairF v w := rfl
 
-theorem homPairL2_comm (v w : HomL2) : homPairL2 v w = homPairL2 w v := homPairF_comm v w
-
 theorem homPairL2_single_right (v : HomL2) (j : ℕ+) : homPairL2 v (kamBasis ℂ j) = v j := by
   rw [homPairL2_apply, homPairF]
   have : (fun k : ℕ+ => (v k : ℂ) * (kamBasis ℂ j k : ℂ)) = fun k => if k = j then v j else 0 := by

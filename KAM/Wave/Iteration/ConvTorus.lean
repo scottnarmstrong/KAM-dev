@@ -49,8 +49,6 @@ theorem w6_tendstoUniformlyOn_geom {α E : Type*} [SeminormedAddCommGroup E] {S 
 def w6TorusCLM : (Fin 2 → ℂ) →L[ℂ] KamPhase :=
   ContinuousLinearMap.inl ℂ (Fin 2 → ℂ) ((Fin 2 → ℂ) × HomL2 × HomL2)
 
-theorem w6TorusCLM_apply (θ : Fin 2 → ℂ) : w6TorusCLM θ = w6TorusPt θ := rfl
-
 theorem w6TorusPt_add_single (θ : Fin 2 → ℂ) (i : Fin 2) :
     w6TorusPt (θ + Pi.single i 1) = w6TorusPt θ + stepTau i := by
   simp [w6TorusPt, stepTau]

@@ -166,9 +166,6 @@ def w8ShellEpsOm (m : ℝ) (hm : 0 < m) (n : ℕ) : ℝ :=
 def w8ShellTorusKam (H : W8ShellPrep m hm n P X) (θ : Fin 2 → ℂ) (ξ : Fin 2 → ℝ) : KamPhase :=
   H.w6TorusKam (w8Eps0W m hm n) θ ξ
 
-theorem w8ShellGamma_eq (H : W8ShellPrep m hm n P X) :
-    w8ShellGamma H = w6PiStarIt (w8ShellSeqData m hm n) (w8ShellStart H) := rfl
-
 /-- The formula of `e^{(n)}_tor` (blueprint `bpW:w8:shell-iter`). -/
 theorem w8ShellEtor_eq (m : ℝ) (hm : 0 < m) (n : ℕ) :
     w8ShellEtor m hm n =

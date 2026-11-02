@@ -36,14 +36,6 @@ def w8Upstream (m : ℝ) (hm : 0 < m) : W8UpstreamConsts where
   cF_pos := w6CF_pos
   cFnat_pos := w6CFn_pos
 
-theorem w8Upstream_gam (m : ℝ) (hm : 0 < m) : (w8Upstream m hm).gam = w6Gamma m hm := rfl
-
-theorem w8Upstream_gam1 (m : ℝ) (hm : 0 < m) : (w8Upstream m hm).gam1 = w6Gamma1 m hm := rfl
-
-theorem w8Upstream_cF (m : ℝ) (hm : 0 < m) : (w8Upstream m hm).cF = stepCF 24 := rfl
-
-theorem w8Upstream_cFnat (m : ℝ) (hm : 0 < m) : (w8Upstream m hm).cFnat = stepCFn 24 := rfl
-
 theorem w8SigmaP_eq_w6 : w8SigmaP = w6SigmaP := by rw [w6SigmaP_val]; unfold w8SigmaP; norm_num
 
 theorem w8Sigma0_eq_w6 : w8Sigma0 = w6Sigma0 := by rw [w6Sigma0_val]; unfold w8Sigma0; norm_num

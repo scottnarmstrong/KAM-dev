@@ -219,10 +219,6 @@ def birkGradML : ContinuousMultilinearMap ℂ (fun _ : Fin 3 => BirkSpace) BirkS
     (fun w => norm_birkGradLp_le m hm ha hp hc w)
 
 include ha hp hc in
-theorem birkGradML_apply (w : Fin 3 → BirkSpace) :
-    birkGradML m hm ha hp hc w = birkGradLp m hm ha hp hc w := rfl
-
-include ha hp hc in
 /-- (`bpW:w3:quartic`) coordinates of `∇𝔓`:
 `birkCoord a (p+1) (∇𝔓 w) l = -i sgn(l)/16 Σ_y c_{(y,-l)} ∏ w^t_{y_t}`. -/
 theorem birkCoord_birkGradML (w : Fin 3 → BirkSpace) (l : BirkIdx) :

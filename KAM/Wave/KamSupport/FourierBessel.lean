@@ -51,8 +51,6 @@ theorem kamChi_mul (k l : Fin n → ℤ) (x : Fin n → ℝ) : kamChi k x * kamC
 theorem torusAverage_kamChi (m : Fin n → ℤ) :
     torusAverage (kamChi m) = if m = 0 then 1 else 0 := torusAverage_character m
 
-theorem norm_kamChi (k : Fin n → ℤ) (x : Fin n → ℝ) : ‖kamChi k x‖ = 1 := norm_character_real k x
-
 section Hilbert
 
 variable {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]

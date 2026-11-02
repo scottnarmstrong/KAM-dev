@@ -34,8 +34,6 @@ def homEntryCLM (i j : ℕ+) : HomOp →L[ℂ] ℂ :=
   (lp.evalCLM ℂ (fun _ : ℕ+ => ℂ) 2 i).comp
     (ContinuousLinearMap.apply ℂ HomL2 (kamBasis ℂ j))
 
-theorem homEntryCLM_apply (i j : ℕ+) (A : HomOp) : homEntryCLM i j A = kamEntry A i j := rfl
-
 /-- The true matrix entry `M_ij` as a continuous linear functional on `HomOp`. -/
 def homNormEntryCLM_gen (a p pb : ℝ) (i j : ℕ+) : HomOp →L[ℂ] ℂ :=
   ((ellWeight a p (j + 2) / ellWeight a pb (i + 2) : ℝ) : ℂ) • homEntryCLM i j

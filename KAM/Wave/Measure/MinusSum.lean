@@ -45,10 +45,6 @@ theorem measXSet_neg {m : ℝ} {hm : 0 < m} {k : Fin 2 → ℤ} {l : ℕ →₀ 
     · left; rwa [isLamMinus_neg_iff]
     · right; exact h5
 
-theorem measXSet_neg_iff {m : ℝ} {hm : 0 < m} {k : Fin 2 → ℤ} {l : ℕ →₀ ℤ} :
-    (-k, -l) ∈ measXSet m hm ↔ (k, l) ∈ measXSet m hm :=
-  ⟨fun h => by simpa using measXSet_neg h, measXSet_neg⟩
-
 /-- Every `l ∈ Λ⁻` is `±(e_{j+n} - e_j)`. -/
 theorem isLamMinus_cases {l : ℕ →₀ ℤ} (h : IsLamMinus l) :
     ∃ j n : ℕ, 1 ≤ n ∧ (l = lamMinusPlus j n ∨ l = -lamMinusPlus j n) := by

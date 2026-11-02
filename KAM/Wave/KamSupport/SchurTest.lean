@@ -36,9 +36,6 @@ variable {F : ℕ+ → ℕ+ → K} {Λ : ℝ}
 
 theorem bound_nonneg (h : KamSchurBound F Λ) : 0 ≤ Λ := by simpa using h.row 1 ∅
 
-theorem bound_mono {Λ' : ℝ} (h : KamSchurBound F Λ) (hΛ : Λ ≤ Λ') : KamSchurBound F Λ' :=
-  ⟨fun i J => (h.row i J).trans hΛ, fun j I => (h.col j I).trans hΛ⟩
-
 /-- Cauchy–Schwarz for one row: `(∑_J |F_ij| |v_j|)² ≤ Λ ∑_J |F_ij| |v_j|²`. -/
 theorem sq_row_le (h : KamSchurBound F Λ) (v : lp (fun _ : ℕ+ => K) 2) (i : ℕ+)
     (J : Finset ℕ+) :

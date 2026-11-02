@@ -45,9 +45,6 @@ def kamToStep (r' : ℝ) [Fact (0 < r')] : KamPhase →L[ℂ] StepPhase r' :=
       show kamNorm r' W ≤ _
       exact kamNorm_le_norm_kamPhase (Fact.out) W
 
-theorem norm_kamToStep (r' : ℝ) [Fact (0 < r')] (W : KamPhase) : ‖kamToStep r' W‖ = kamNorm r' W :=
-  rfl
-
 theorem differentiableAt_scaleS (w : KamPhase) (t : ℂ) :
     DifferentiableAt ℂ (fun t : ℂ => scaleS t w) t := by
   unfold scaleS

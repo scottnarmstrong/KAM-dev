@@ -65,14 +65,6 @@ theorem stepZb_stepRhoK (hc : pb ≤ p + 1) (W : KamPhase) :
   obtain ⟨θ, y, u, v⟩ := W
   rw [stepRhoK_apply, stepZb_apply, stepZb_apply, map_smul, map_sub, map_smul]
 
-theorem stepZ_comp_stepRhoK (hc : pb ≤ p + 1) :
-    stepZ.comp (stepRhoK a p pb hc) = (homModRho a p pb hc).comp stepZ :=
-  ContinuousLinearMap.ext fun W => stepZ_stepRhoK hc W
-
-theorem stepZb_comp_stepRhoK (hc : pb ≤ p + 1) :
-    stepZb.comp (stepRhoK a p pb hc) = (homModRho a p pb hc).comp stepZb :=
-  ContinuousLinearMap.ext fun W => stepZb_stepRhoK hc W
-
 /-- `1/(ω_{p₊}ω_p)` times `ρ` is `1/(ω_{p+1}ω_p)`. -/
 theorem stepWinv_mul_ratio (a p pb : ℝ) (j : ℕ+) :
     stepWinv a pb p j * (homModRatio a p pb j : ℂ) = stepWinv a (p + 1) p j := by

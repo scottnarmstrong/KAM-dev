@@ -158,7 +158,4 @@ theorem one_le_homWeightQ (i j : ℕ+) : 1 ≤ homWeightQ i j := le_max_left _ _
 
 theorem homWeightQ_ge_abs (i j : ℕ+) : ((i : ℤ) - j).natAbs ≤ homWeightQ i j := le_max_right _ _
 
-theorem homWeightP_ge_abs (i j : ℕ+) : ((i : ℤ) - j).natAbs ≤ (i : ℕ) + j := by
-  have := i.pos; have := j.pos; omega
-
 end KAM.Wave

@@ -75,9 +75,6 @@ structure W6IterHyp (d : W6SeqData) (S0 : W6State) : Prop where
   stage : ∀ ν, (w6Seq d S0 ν).w6Stage d ν
   smooth : W6StepSmooth
 
-theorem kamNorm_add_le' {r : ℝ} (hr : 0 < r) (W W' : KamPhase) :
-    kamNorm r (W + W') ≤ kamNorm r W + kamNorm r W' := kamNorm_add_le hr W W'
-
 /-- **Main invariant of the compositions** (steps `c-dom`, `c-op`): for `ξ ∈ Π_μ` (`μ < ν`) and
 `w ∈ D_ν`: `Φ^ν(w) = w + ι Ψ^ν(w)`, `Φ^ν(w) ∈ D_0`, `Φ^ν`, `Ψ^ν` are differentiable at `w`,
 `DΦ^ν(w) = I + ι ∘ DΨ^ν(w)` and `|DΨ^ν(w) W|_{r_0} ≤ (c_ν - 1) |W|_{r_ν}`. -/
@@ -143,8 +140,9 @@ theorem w6Compose_main (hI : W6IterHyp d S0) (ν : ℕ) :
       have hνν := W6SeqData.rNu_succ_le hd ν
       set V := fderiv ℂ (w6PsiK d S0 ν ξ) w W
       have hV : kamNorm (d.rNu ν) V ≤ 1 / 2 ^ (ν + 3) * kamNorm (d.rNu ν) W := hDK W
-      have hWW : kamNorm (d.rNu ν) W ≤ kamNorm (d.rNu (ν + 1)) W := kamNorm_anti hrν1 hνν W
-      have hV0 : kamNorm (d.rNu 0) V ≤ kamNorm (d.rNu ν) V := kamNorm_anti hrν h0ν V
+      have hWW : kamNorm (d.rNu ν) W ≤ kamNorm (d.rNu (ν + 1)) W :=
+        kamNorm_le_of_le_radius hrν1 hνν W
+      have hV0 : kamNorm (d.rNu 0) V ≤ kamNorm (d.rNu ν) V := kamNorm_le_of_le_radius hrν h0ν V
       have hι : kamNorm (d.rNu ν) (w6Iota V) ≤ kamNorm (d.rNu ν) V := kamNorm_w6Iota_le hrν V
       have h6 := a6 (W + w6Iota V)
       have hsum := kamNorm_add_le hrν W (w6Iota V)
@@ -261,7 +259,7 @@ theorem w6Compose_ops (hI : W6IterHyp d S0) (ν : ℕ) :
     have h1 := kamNorm_add_le hr0 W (w6Iota (fderiv ℂ (w6PsiC d S0 ν ξ) w W))
     have h2 := kamNorm_w6Iota_le hr0 (fderiv ℂ (w6PsiC d S0 ν ξ) w W)
     have h3 := a6 W
-    have h4 : kamNorm (d.rNu 0) W ≤ kamNorm (d.rNu ν) W := kamNorm_anti hrν h0ν W
+    have h4 : kamNorm (d.rNu 0) W ≤ kamNorm (d.rNu ν) W := kamNorm_le_of_le_radius hrν h0ν W
     have h5 : 0 ≤ kamNorm (d.rNu ν) W := kamNorm_nonneg hrν.le W
     nlinarith
   · refine ⟨W' + fderiv ℂ (w6PsiC d S0 ν ξ) w (w6Iota W'), ?_, ?_⟩
@@ -271,7 +269,7 @@ theorem w6Compose_ops (hI : W6IterHyp d S0) (ν : ℕ) :
     · have h1 := kamNorm_add_le hr0 W' (fderiv ℂ (w6PsiC d S0 ν ξ) w (w6Iota W'))
       have h3 := a6 (w6Iota W')
       have h2 := kamNorm_w6Iota_le hrν W'
-      have h4 : kamNorm (d.rNu 0) W' ≤ kamNorm (d.rNu ν) W' := kamNorm_anti hrν h0ν W'
+      have h4 : kamNorm (d.rNu 0) W' ≤ kamNorm (d.rNu ν) W' := kamNorm_le_of_le_radius hrν h0ν W'
       have h5 : 0 ≤ kamNorm (d.rNu ν) W' := kamNorm_nonneg hrν.le W'
       have h6 : (w6Cp ν - 1) * kamNorm (d.rNu ν) (w6Iota W') ≤
           (w6Cp ν - 1) * kamNorm (d.rNu ν) W' := mul_le_mul_of_nonneg_left h2 (by linarith)

@@ -84,22 +84,8 @@ theorem homMultDp_conj (w : Fin 2 → ℝ) (W : ℕ+ → ℝ) (k : Fin 2 → ℤ
   unfold homDeltaPlus homDeltaMinus
   rw [homPairZ_neg]; congr 1; ring
 
-theorem homMultDm_conj (w : Fin 2 → ℝ) (W : ℕ+ → ℝ) (k : Fin 2 → ℤ) (j : ℕ+) :
-    starRingEnd ℂ (homMultDm w W (-k) j) = homMultDp w W k j := by
-  unfold homMultDp homMultDm
-  rw [conj_homInv]
-  unfold homDeltaPlus homDeltaMinus
-  rw [homPairZ_neg]; congr 1; ring
-
 theorem homDP_conj (w : Fin 2 → ℝ) (W : ℕ+ → ℝ) (k : Fin 2 → ℤ) (i j : ℕ+) :
     starRingEnd ℂ (homDP w W (-k) i j) = homDP' w W k i j := by
-  unfold homDP homDP'
-  rw [conj_homInv]
-  unfold homDeltaP homDeltaP'
-  rw [homPairZ_neg]; congr 1; ring
-
-theorem homDP'_conj (w : Fin 2 → ℝ) (W : ℕ+ → ℝ) (k : Fin 2 → ℤ) (i j : ℕ+) :
-    starRingEnd ℂ (homDP' w W (-k) i j) = homDP w W k i j := by
   unfold homDP homDP'
   rw [conj_homInv]
   unfold homDeltaP homDeltaP'

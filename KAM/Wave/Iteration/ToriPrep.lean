@@ -264,7 +264,7 @@ theorem w6ToriKam_of_stepSmooth (hS : W6StepSmooth) (hSm : W6StepSmoothMod)
       abel
     · have h1 := kamNorm_add_le hr V (H.w6PsiPK ξ (w6PhiStar d S0 θ ξ))
       have h2 : kamNorm r V ≤ kamNorm (d.rNu 0) V :=
-        kamNorm_anti hr0 (by show w6EtaP α ε * r ≤ r; nlinarith) V
+        kamNorm_le_of_le_radius hr0 (by show w6EtaP α ε * r ≤ r; nlinarith) V
       unfold w6Etor
       linarith
   · -- invariance through the preparatory step

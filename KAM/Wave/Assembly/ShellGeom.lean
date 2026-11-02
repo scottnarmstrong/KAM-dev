@@ -143,11 +143,6 @@ theorem w8Pi_sep_of_ne (ht : 0 < t0) {n n' : ℕ} (h : n ≠ n') {ξ ξ' : Fin 2
   refine max_lt (w8Pi_sep hξ h1) ?_
   rw [dist_comm]; exact w8Pi_sep hξ' h2
 
-/-- `Π_n` lies in W7's inner shell `U_{-α_n} R_n` (`shellInner`). -/
-theorem w8Pi_subset_shellInner (n : ℕ) :
-    w8Pi t0 n ⊆ shellInner (1 / 2) t0 n (w8alpha t0 n) :=
-  fun _ hξ => ⟨hξ.1, hξ.2⟩
-
 /-- For `a < b`, W7's inner shell `U_{-b} R_n` lies in `{dist(·, ℝ² ∖ R_n) > a}`. -/
 theorem shellInner_subset_w8Pi_of_lt {n : ℕ} {b : ℝ}
     (hab : w8alpha t0 n < b) : shellInner (1 / 2) t0 n b ⊆ w8Pi t0 n := by

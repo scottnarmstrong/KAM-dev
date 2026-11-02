@@ -156,12 +156,6 @@ theorem kamLattice_tsum_pow_exp_le (hn : 1 ≤ n) {c σ : ℝ} (hc : 0 ≤ c) (h
     fun k => by have := Fourier.modeSize_nonneg k; positivity
   exact ⟨summable_of_sum_le hnn hbound, Real.tsum_le_of_sum_le hnn hbound⟩
 
-theorem kamLattice_const_nonneg {c σ : ℝ} (hc : 0 ≤ c) (hσ : 0 < σ) :
-    0 ≤ kamLatticeConst n c σ := by
-  unfold kamLatticeConst
-  have : 0 ≤ c + (n - 1 : ℕ) := by positivity
-  positivity
-
 /-- `1 + x^τ ≤ (1+x)^τ` for `x ≥ 0`, `τ ≥ 1` (blueprint `bpW:w1:lattice` (iv)). -/
 theorem kamDivisor_le {x τ : ℝ} (hx : 0 ≤ x) (hτ : 1 ≤ τ) : 1 + x ^ τ ≤ (1 + x) ^ τ := by
   lift x to NNReal using hx

@@ -127,7 +127,7 @@ lemma reconFeatureU_coord_sq_le {k : ℕ} (hk : k ≤ 1) (m : ℝ) (hm : 0 < m) 
     exact inv_le_one_of_one_le₀ h1
   have hit : |sineModeIter k j x| ≤ Real.sqrt (2 / π) * j :=
     (wave_abs_sineModeIter_le k j x).trans (by gcongr)
-  have hω : 0 < ellWeight 1 1 j := waveEllWeight_pos 1 1 j
+  have hω : 0 < ellWeight 1 1 j := ellWeight_pos 1 1 j
   have hc : |reconFeatureU m hm k x j| ≤ Real.sqrt (2 / π) * Real.exp (-(j : ℝ)) := by
     show |sineFeatCoord 1 1 (betaU m hm) k x j| ≤ _
     unfold sineFeatCoord
@@ -149,7 +149,7 @@ lemma reconFeatureU_coord_sq_le {k : ℕ} (hk : k ≤ 1) (m : ℝ) (hm : 0 < m) 
 lemma reconFeatureV_coord_sq_le (m : ℝ) (hm : 0 < m) (x : ℝ) (j : ℕ+) :
     reconFeatureV m hm 0 x j ^ 2 ≤ Real.sqrt (1 + m) * (2 / π * Real.exp (-2 * (j : ℝ))) := by
   have hj : (1 : ℝ) ≤ j := by exact_mod_cast j.pos
-  have hω : 0 < ellWeight 1 1 j := waveEllWeight_pos 1 1 j
+  have hω : 0 < ellWeight 1 1 j := ellWeight_pos 1 1 j
   have hit : sineModeIter 0 j x ^ 2 ≤ 2 / π := by
     have := wave_abs_sineModeIter_le 0 j x
     simp only [pow_zero, mul_one] at this

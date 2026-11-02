@@ -41,12 +41,6 @@ abbrev HomOp : Type := HomL2 →L[ℂ] HomL2
 /-- The constant `K_S = 1 + π/√3` of `bpW:w4:schur`. -/
 noncomputable def homKS : ℝ := 1 + Real.pi / Real.sqrt 3
 
-theorem homKS_lt : homKS < 3 := by
-  have := kamHilbertConst_lt_two
-  unfold kamHilbertConst at this
-  unfold homKS
-  linarith
-
 theorem one_le_homKS : 1 ≤ homKS := by
   unfold homKS
   have : 0 ≤ Real.pi / Real.sqrt 3 := by positivity
@@ -192,12 +186,6 @@ theorem homNormalEntry_hadamard_gen (a p pb : ℝ) {d : ℕ+ → ℕ+ → ℂ} {
         by
   unfold homNormalEntry_gen
   rw [homHadamard_entry]
-  ring
-
-theorem ellWeight_succ_exponent (a p : ℝ) (J : ℕ+) :
-    ellWeight a (p + 1) J = (J : ℝ) * ellWeight a p J := by
-  unfold ellWeight
-  rw [Real.rpow_add_one (by exact_mod_cast J.ne_zero)]
   ring
 
 /-- The ratio of two weights with the same exponential factor is a power. -/

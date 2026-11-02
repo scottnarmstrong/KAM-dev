@@ -32,8 +32,6 @@ variable {a p pb s r : ℝ} {P : KamPhase → ℂ} {X : KamPhase → KamPhase}
 /-- The angle translation `τ_i = (e_i, 0, 0, 0)`. -/
 def stepTau (i : Fin 2) : KamPhase := (Pi.single i 1, 0, 0, 0)
 
-theorem kamDomain_isOpen' (s r : ℝ) : IsOpen (kamDomain s r) := kamDomain_isOpen s r
-
 theorem kamDomain_add_tau {w : KamPhase} (hw : w ∈ kamDomain s r) (i : Fin 2) :
     w + stepTau i ∈ kamDomain s r := by
   obtain ⟨h1, h2, h3⟩ := hw

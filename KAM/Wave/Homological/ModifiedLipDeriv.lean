@@ -251,18 +251,4 @@ theorem homModLip_dQ (R₁ R₂ : HomTaylor_gen a p (p + 1) s)
 
 end lip
 
-/-- Monotonicity of the component bounds in the scale `E₀`. -/
-theorem HomCompBounds_gen.mono_scale {a p pb s : ℝ} {ha : 0 ≤ a} {hp : 0 ≤ p} {hpb : p ≤ pb}
-    {r K E0 E0' : ℝ} {T : HomTaylor_gen a p pb s} {θ : Fin 2 → ℂ} (hr : 0 < r) (hK : 0 ≤ K)
-    (h : HomCompBounds_gen ha hp hpb r K E0 T θ) (hE : E0 ≤ E0') :
-    HomCompBounds_gen ha hp hpb r K E0' T θ := by
-  have hπ := Real.pi_pos
-  have hs2 : 0 < Real.sqrt 2 := Real.sqrt_pos.mpr (by norm_num)
-  refine ⟨h.b.trans (by gcongr), h.cp.trans (by gcongr), h.cm.trans (by gcongr),
-    h.P.trans (by gcongr), h.Q.trans (by gcongr), h.Qt.trans (by gcongr), h.P'.trans (by gcongr),
-    fun i => (h.da i).trans (by gcongr), fun i y => (h.db i y).trans (by gcongr),
-    fun i => (h.dcp i).trans (by gcongr), fun i => (h.dcm i).trans (by gcongr),
-    fun i => (h.dP i).trans (by gcongr), fun i => (h.dP' i).trans (by gcongr),
-    fun i => (h.dQ i).trans (by gcongr)⟩
-
 end KAM.Wave

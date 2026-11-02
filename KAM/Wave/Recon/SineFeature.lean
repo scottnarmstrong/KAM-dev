@@ -13,6 +13,7 @@ public import Mathlib.Analysis.SpecialFunctions.Exp
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
 public import KAM.Frozen.Wave.Defs.EllWeight
 public import KAM.Frozen.Wave.Defs.SineMode
+public import KAM.Wave.Seq.Transport
 
 /-!
 # Analytic sine features (blueprint `bpW:w1:sine-feature`)
@@ -69,10 +70,6 @@ lemma sineModeIterC_ofReal (k : ℕ) (j : ℕ+) (x : ℝ) :
 lemma sineFeatCoordC_ofReal (a p : ℝ) (β : ℕ+ → ℝ) (k : ℕ) (x : ℝ) (j : ℕ+) :
     sineFeatCoordC a p β k (x : ℂ) j = (sineFeatCoord a p β k x j : ℝ) := by
   simp [sineFeatCoordC, sineFeatCoord, sineModeIterC_ofReal]
-
-private lemma ellWeight_pos (a p : ℝ) (j : ℕ+) : 0 < ellWeight a p j := by
-  unfold ellWeight
-  exact mul_pos (Real.rpow_pos_of_pos (by positivity) _) (Real.exp_pos _)
 
 lemma norm_complex_sin_le (z : ℂ) : ‖Complex.sin z‖ ≤ Real.exp |z.im| := by
   rw [Complex.sin]

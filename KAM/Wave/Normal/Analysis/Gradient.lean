@@ -70,12 +70,6 @@ lemma waveU_eq_series (c : ℕ+ → ℝ) :
 lemma wave_sqrt_lam_pos (j : ℕ+) : 0 < Real.sqrt (lam m hm j) :=
   Real.sqrt_pos.2 (lt_of_lt_of_le one_pos (one_le_lam m hm j))
 
-lemma abs_waveHat_le (c : ℕ+ → ℝ) (j : ℕ+) : |waveHat m hm c j| ≤ |c j| := by
-  have h1 : 1 ≤ Real.sqrt (lam m hm j) := Real.one_le_sqrt.2 (one_le_lam m hm j)
-  unfold waveHat
-  rw [abs_div, abs_of_pos (lt_of_lt_of_le one_pos h1)]
-  exact div_le_self (abs_nonneg _) h1
-
 /-- `c ∈ ℓ^{a,p}` implies `c/√λ ∈ ℓ^{a,p}` with no larger norm. -/
 lemma waveEll_waveHat {a p : ℝ} {c : ℕ+ → ℝ} (hc : WaveEll a p c) :
     WaveEll a p (waveHat m hm c) := by

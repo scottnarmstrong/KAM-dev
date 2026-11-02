@@ -114,9 +114,6 @@ theorem birkDelta_ge_beta {a : ℕ} (ha : 1 ≤ a) :
     m / (27 * birkL m a ^ 3) ≤ birkDelta m a :=
   (birkBeta_le_ratio m hm ha).trans (birkDelta_ge m hm a)
 
-theorem birkDelta_nonneg_mono {a b : ℕ} (hab : a ≤ b) : birkDelta m a ≤ birkDelta m b :=
-  birkDelta_mono m hm hab
-
 /-- Outer pairs: `δ₃ = L c + L d - L a - L b ≥ β` unless `a = b = c = d`. -/
 theorem birkDiv_C3 {a b c d : ℕ} (ha : 1 ≤ a) (hab : a ≤ b) (hbc : b ≤ c) (hcd : c ≤ d)
     (hne : ¬ (a = b ∧ b = c ∧ c = d)) :

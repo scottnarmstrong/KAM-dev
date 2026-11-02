@@ -188,13 +188,6 @@ theorem cauchy_sum_le (n : ℕ) :
   have h := cauchy_tail_le hd hsmall 0 n
   rw [Finset.range_eq_Ico]; simpa using h
 
-omit hsmall in
-/-- `2 · 2 M_{F,ν} = 4 c_F q_ν σ_ν` (step `c-cauchy`). -/
-theorem two_two_MF_eq (ν : ℕ) :
-    2 * (2 * stepMF w6CF w6T (d.alpha ν) (d.sigma ν) (d.eps ν)) =
-      4 * w6CF * d.qNu ν * d.sigma ν := by
-  rw [stepMF_eq hd ν]; ring
-
 end W6SeqData
 
 end KAM.Wave

@@ -58,9 +58,6 @@ variable (ha : 0 < a) (hp : 1 / 2 ≤ p)
 def waveGradW (y : lp (fun _ : ℕ+ => ℝ) 2) : lp (fun _ : ℕ+ => ℝ) 2 :=
   waveRhoCLM a p ha.le (by linarith) (waveCubicNL (K := ℝ) m hm ha.le hp y)
 
-/-- `G^w(y) = G(κ_{a,p} y)`. -/
-def waveGw' (a p : ℝ) (y : lp (fun _ : ℕ+ => ℝ) 2) : ℝ := waveG m hm (coeffW a p y)
-
 include ha hp in
 /-- `bpW:w1:gradient-identity` (i): `G(κ_{a,p} y) = ¼ ⟨D_ρ 𝒩(y), y⟩_{ℓ²}`. -/
 theorem waveG_coeffW_eq_inner (y : lp (fun _ : ℕ+ => ℝ) 2) :

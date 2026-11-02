@@ -142,9 +142,6 @@ variable {d : W6SeqData} {Pm : Set (Fin 2 → ℝ)} {ω0 : (Fin 2 → ℝ) → F
 
 theorem w6Pi0_subset : w6Pi0 d Pm ω0 Ω0 ⊆ Pm := Set.sdiff_subset
 
-theorem w6Seq_Pi_subset (S0 : W6State) (ν : ℕ) : (w6Seq d S0 ν).Pi ⊆ S0.Pi :=
-  w6Seq_Pi_antitone d S0 (Nat.zero_le ν)
-
 /-- The `k = 0` conditions at stage `ν` along the iteration, from Lemma `bpW:w6:k0`, given the
 hypotheses of the stages `μ < ν`. -/
 theorem w6Seq_k0 (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) (ν : ℕ)

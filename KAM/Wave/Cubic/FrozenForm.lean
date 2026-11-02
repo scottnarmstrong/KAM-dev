@@ -31,13 +31,6 @@ namespace KAM.Wave
 
 variable (m : ℝ) (hm : 0 < m)
 
-lemma ellWeight_add_one (a p : ℝ) (l : ℕ+) :
-    ellWeight a (p + 1) l = ellWeight a p l * (l : ℝ) := by
-  unfold ellWeight
-  have hn : (0 : ℝ) < l := by positivity
-  rw [Real.rpow_add hn, Real.rpow_one]
-  ring
-
 lemma ellWeight_one_zero (l : ℕ+) : ellWeight 1 0 l = Real.exp (l : ℝ) := by
   simp [ellWeight]
 

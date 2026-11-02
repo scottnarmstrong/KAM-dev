@@ -164,10 +164,6 @@ theorem w6prep_small (hα : 0 < α) (hα0 : α ≤ measAlpha0 m hm) (hε : 0 < �
     _ ≤ 1 * (w6EtaP α ε ^ 2 * (alphaHat α * w6SigmaP ^ w6Tn)) := by gcongr
     _ = _ := by ring
 
-/-- Step `p-data`: `σ_P ≤ min(1/4, s/6)`. -/
-theorem w6SigmaP_le_min : w6SigmaP ≤ min (1 / 4) (w6S / 6) := by
-  rw [w6SigmaP_val]; unfold w6S; norm_num
-
 /-- Step `p-data`: `λ = α/M ≤ α̂/M`. -/
 theorem w6prep_lam_le (hα : 0 < α) (hα0 : α ≤ measAlpha0 m hm) :
     α / w6M m hm ≤ alphaHat α / w6M m hm := by

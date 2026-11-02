@@ -111,10 +111,6 @@ theorem summable_birkQuartTerm (w : Fin 4 → BirkSpace) :
 def birkQuartSum (a p : ℝ) (c : (Fin 4 → BirkIdx) → ℂ) (w : Fin 4 → BirkSpace) : ℂ :=
   ∑' x : Fin 4 → BirkIdx, c x * birkAtom a p x w
 
-theorem snoc_eq_vec3 (w : Fin 3 → BirkSpace) (v : BirkSpace) :
-    (Fin.snoc (α := fun _ => BirkSpace) w v : Fin 4 → BirkSpace) = ![w 0, w 1, w 2, v] := by
-  funext i; fin_cases i <;> rfl
-
 theorem birkInit4_snoc (w : Fin 3 → BirkSpace) (v : BirkSpace) :
     birkInit4 (Fin.snoc (α := fun _ => BirkSpace) w v : Fin 4 → BirkSpace) = w := by
   funext i; fin_cases i <;> rfl

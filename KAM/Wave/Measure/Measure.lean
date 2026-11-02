@@ -164,33 +164,6 @@ theorem melnikov_prep {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Pi) (hnot : ξ ∉ prep
     simp only [prepSet, Set.mem_iUnion]
     exact ⟨k, l, hz, hξ, h⟩)
 
-/-- (i), `l = 0`: `|⟨k, ω⁰⟩| ≥ α̂ / A_k` for `k ≠ 0`. -/
-theorem melnikov_prep_zero {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Pi) (hnot : ξ ∉ prepSet m hm Pi α)
-    {k : Fin 2 → ℤ} (hk : k ≠ 0) :
-    alphaHat α / kAk k ≤ |∑ i, (k i : ℝ) * omegaTan m hm ξ i| := by
-  have h := melnikov_prep m hm hξ hnot (k := k) (l := 0) ⟨Or.inl rfl, Or.inl hk⟩
-  have h1 : hatW (0 : ℕ →₀ ℤ) = 1 := by
-    unfold hatW
-    have : ¬ IsLamMinus (0 : ℕ →₀ ℤ) := by
-      rintro ⟨i, j, σ, hji, hσ, h0⟩
-      have := congrArg (fun f => f i) h0
-      simp [hji.ne'] at this
-      rcases hσ with rfl | rfl <;> simp at this
-    simp only [this, ↓reduceIte, japL_zero]
-  have h2 : linF (0 : ℕ →₀ ℤ) (omegaNor m hm ξ) = 0 := by unfold linF; simp
-  rw [h1, h2] at h
-  simpa using h
-
-/-- (ii): off the iteration zones `R^ν_{kl}`. -/
-theorem melnikov_iter (F : AdmissibleFamily m hm Pi α) {ν : ℕ} {ξ : Fin 2 → ℝ}
-    (hξ : ξ ∈ F.D ν) {k : Fin 2 → ℤ} {l : ℕ →₀ ℤ}
-    (hnot : ξ ∉ zoneSet (F.D ν) (F.ω ν) (F.Ω ν) (alphaCheck α) k l) :
-    alphaCheck α * japL l / kAk k ≤
-      |∑ i, (k i : ℝ) * F.ω ν ξ i + linF l (F.Ω ν ξ)| := by
-  by_contra h
-  push Not at h
-  exact hnot ⟨hξ, h⟩
-
 /-- (iii): the `k = 0` conditions, `|⟨l, Ω'⟩| ≥ 2 β_* ⟨l⟩ ≥ α̂ ⟨l⟩`. -/
 theorem melnikov_sep (hS : MeasSetup m hm Pi α) {D : Set (Fin 2 → ℝ)}
     {ω : (Fin 2 → ℝ) → Fin 2 → ℝ} {Ω : (Fin 2 → ℝ) → ℕ → ℝ} {εω ε1 ε2 θ : ℝ}

@@ -293,15 +293,6 @@ theorem birkZ_birkZinv (w : BirkSpace) : birkZ (birkZinv w) = w := by
 def birkZEquiv : WaveSpaceK ℂ ≃L[ℂ] BirkSpace :=
   ContinuousLinearEquiv.equivOfInverse birkZ birkZinv birkZinv_birkZ birkZ_birkZinv
 
-theorem birkZEquiv_apply (x : WaveSpaceK ℂ) : birkZEquiv x = birkZ x := rfl
-
-theorem birkZEquiv_symm_apply (w : BirkSpace) : birkZEquiv.symm w = birkZinv w := rfl
-
-/-- `‖𝒵⁻¹ w‖_E ≤ ‖w‖ ≤ √2 ‖𝒵⁻¹ w‖_E`. -/
-theorem norm_le_sqrt_two_mul_birkZinv (w : BirkSpace) : ‖w‖ ≤ Real.sqrt 2 * ‖birkZinv w‖ := by
-  have := norm_birkZ_le (birkZinv w)
-  rwa [birkZ_birkZinv] at this
-
 /-! ### Coordinates at every weight -/
 
 /-- (`bpW:w3:coords`) `(𝒵x)_{j} = (q_j + i p_j)/√2` in the actual coordinates at any weight. -/

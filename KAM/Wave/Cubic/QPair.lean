@@ -109,9 +109,6 @@ def wavePairCLM : lp (fun _ : ℕ+ => K) 2 →L[K] lp (fun _ : ℕ+ => K) 2 →L
     1 (fun u y => by
       simpa using wavePair_norm_le ha hp u y)
 
-lemma wavePairCLM_apply (u y : lp (fun _ : ℕ+ => K) 2) :
-    wavePairCLM (K := K) (a := a) (p := p) ha hp u y = wavePair a p u y := rfl
-
 include ha hp in
 lemma norm_wavePairCLM_le : ‖wavePairCLM (K := K) (a := a) (p := p) ha hp‖ ≤ 1 :=
   LinearMap.mkContinuous₂_norm_le _ zero_le_one _

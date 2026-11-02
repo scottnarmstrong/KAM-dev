@@ -182,10 +182,6 @@ theorem flowCLM_add (t s : ℝ) (z : lp (fun _ : ℕ+ => ℝ) 2 × lp (fun _ : �
   · simp only [flowCLM_fst_apply, flowCLM_snd_apply, mul_add, Real.cos_add, Real.sin_add]
     ring
 
-theorem flowCLM_zero (z : lp (fun _ : ℕ+ => ℝ) 2 × lp (fun _ : ℕ+ => ℝ) 2) :
-    flowCLM m hm 0 z = z := by
-  refine Prod.ext ?_ ?_ <;> ext j <;> simp [flowCLM_fst_apply, flowCLM_snd_apply]
-
 /-- `bpW:w1:diag` (iv): every coordinate solves `q̇_j = λ_j p_j`. -/
 theorem hasDerivAt_flow_fst (z : lp (fun _ : ℕ+ => ℝ) 2 × lp (fun _ : ℕ+ => ℝ) 2) (j : ℕ+) (t : ℝ) :
     HasDerivAt (fun s => (flowCLM m hm s z).1 j) (lam m hm j * (flowCLM m hm t z).2 j) t := by
@@ -213,14 +209,6 @@ theorem coeffW_flow_fst (a p : ℝ) (t : ℝ) (z : lp (fun _ : ℕ+ => ℝ) 2 ×
       Real.cos (lam m hm j * t) * coeffW a p z.1 j +
         Real.sin (lam m hm j * t) * coeffW a p z.2 j := by
   simp only [coeffW_apply, flowCLM_fst_apply, RCLike.ofReal_real_eq_id, id]
-  ring
-
-theorem coeffW_flow_snd (a p : ℝ) (t : ℝ) (z : lp (fun _ : ℕ+ => ℝ) 2 × lp (fun _ : ℕ+ => ℝ) 2)
-    (j : ℕ+) :
-    coeffW a p (flowCLM m hm t z).2 j =
-      -(Real.sin (lam m hm j * t) * coeffW a p z.1 j) +
-        Real.cos (lam m hm j * t) * coeffW a p z.2 j := by
-  simp only [coeffW_apply, flowCLM_snd_apply, RCLike.ofReal_real_eq_id, id]
   ring
 
 /-- In weighted coordinates `κ_{a,p}`, `q̇_j = λ_j p_j`. -/

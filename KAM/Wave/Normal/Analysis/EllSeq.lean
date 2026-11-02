@@ -40,13 +40,7 @@ def waveEllNorm (a p : ℝ) (c : ℕ+ → ℝ) : ℝ :=
 def waveEllMajorant (a p : ℝ) (k : ℕ) : ℝ :=
   Real.sqrt (∑' j : ℕ+, (j : ℝ) ^ (2 * (k : ℝ) - 2 * p) * Real.exp (-(2 * a) * j))
 
-lemma waveEllWeight_pos (a p : ℝ) (j : ℕ+) : 0 < ellWeight a p j := by
-  unfold ellWeight
-  exact mul_pos (Real.rpow_pos_of_pos (by positivity) _) (Real.exp_pos _)
-
 lemma waveEllNorm_nonneg (a p : ℝ) (c : ℕ+ → ℝ) : 0 ≤ waveEllNorm a p c := Real.sqrt_nonneg _
-
-lemma waveEllMajorant_nonneg (a p : ℝ) (k : ℕ) : 0 ≤ waveEllMajorant a p k := Real.sqrt_nonneg _
 
 /-- Cauchy–Schwarz for nonnegative square-summable families. -/
 lemma waveCauchySchwarz_tsum {ι : Type*} {f g : ι → ℝ} (hf : ∀ i, 0 ≤ f i) (hg : ∀ i, 0 ≤ g i)
@@ -90,12 +84,12 @@ theorem waveEll_summable_pow_mul {a p : ℝ} (ha : 0 < a) {c : ℕ+ → ℝ} (hc
     Summable fun j : ℕ+ => |c j| * (j : ℝ) ^ k := by
   have hCS := waveCauchySchwarz_tsum
     (f := fun j : ℕ+ => ellWeight a p j * |c j|) (g := fun j : ℕ+ => (j : ℝ) ^ k / ellWeight a p j)
-    (fun j => mul_nonneg (waveEllWeight_pos a p j).le (abs_nonneg _))
-    (fun j => div_nonneg (by positivity) (waveEllWeight_pos a p j).le)
+    (fun j => mul_nonneg (ellWeight_pos a p j).le (abs_nonneg _))
+    (fun j => div_nonneg (by positivity) (ellWeight_pos a p j).le)
     ((show Summable _ from hc).congr fun j => by simp only [mul_pow, sq_abs])
     (by simpa only [waveEllWeight_inv_sq] using summable_waveEllMajorant a p k ha)
   refine hCS.1.congr fun j => ?_
-  have := (waveEllWeight_pos a p j).ne'
+  have := (ellWeight_pos a p j).ne'
   field_simp
 
 /-- `bpW:w0n:recon-bounded`: `Σ_j |c_j| j^k ≤ M_{a,p,k} ‖c‖_{a,p}`. -/
@@ -103,14 +97,14 @@ theorem waveEll_tsum_pow_mul_le {a p : ℝ} (ha : 0 < a) {c : ℕ+ → ℝ} (hc 
     ∑' j : ℕ+, |c j| * (j : ℝ) ^ k ≤ waveEllMajorant a p k * waveEllNorm a p c := by
   have hCS := waveCauchySchwarz_tsum
     (f := fun j : ℕ+ => ellWeight a p j * |c j|) (g := fun j : ℕ+ => (j : ℝ) ^ k / ellWeight a p j)
-    (fun j => mul_nonneg (waveEllWeight_pos a p j).le (abs_nonneg _))
-    (fun j => div_nonneg (by positivity) (waveEllWeight_pos a p j).le)
+    (fun j => mul_nonneg (ellWeight_pos a p j).le (abs_nonneg _))
+    (fun j => div_nonneg (by positivity) (ellWeight_pos a p j).le)
     ((show Summable _ from hc).congr fun j => by simp only [mul_pow, sq_abs])
     (by simpa only [waveEllWeight_inv_sq] using summable_waveEllMajorant a p k ha)
   have e1 : ∑' j : ℕ+, |c j| * (j : ℝ) ^ k
       = ∑' j : ℕ+, (ellWeight a p j * |c j|) * ((j : ℝ) ^ k / ellWeight a p j) := by
     refine tsum_congr fun j => ?_
-    have := (waveEllWeight_pos a p j).ne'
+    have := (ellWeight_pos a p j).ne'
     field_simp
   rw [e1]
   refine hCS.2.trans ?_
@@ -137,7 +131,7 @@ theorem waveEll_mul_poly {a p : ℝ} {c β : ℕ+ → ℝ} {B ν : ℝ} (hB : 0 
             gcongr; exact hβ j
         _ = B * ((j : ℝ) ^ p * Real.exp (a * j)) := by field_simp
     have hsq : (ellWeight a (p - ν) j * |β j|) ^ 2 ≤ (B * ellWeight a p j) ^ 2 :=
-      pow_le_pow_left₀ (by have := waveEllWeight_pos a (p - ν) j; positivity) hw 2
+      pow_le_pow_left₀ (by have := ellWeight_pos a (p - ν) j; positivity) hw 2
     calc (ellWeight a (p - ν) j * (β j * c j)) ^ 2
         = (ellWeight a (p - ν) j * |β j|) ^ 2 * c j ^ 2 := by
           simp only [mul_pow, sq_abs]; ring

@@ -102,10 +102,4 @@ theorem weightedDiagCLM_conjLp {μ : ℕ+ → ℝ} {M : ℝ} (hM : ∀ j, ‖μ 
       weightedDiagCLM (fun j => (μ j : ℂ)) (norm_ofReal_le_of_norm_le hM) (conjLp z) := by
   ext j; simp
 
-/-- `D_μ` commutes with `κ_{a,p}`: `κ (D_μ y) = μ · κ y`, so multipliers also commute with `τ`. -/
-theorem coeffW_weightedDiagCLM {K : Type*} [RCLike K] (a p : ℝ) (μ : ℕ+ → K) {M : ℝ}
-    (hM : ∀ j, ‖μ j‖ ≤ M) (y : lp (fun _ : ℕ+ => K) 2) (j : ℕ+) :
-    coeffW a p (weightedDiagCLM μ hM y) j = μ j * coeffW a p y j := by
-  simp [coeffW, mul_div_assoc]
-
 end KAM.Wave

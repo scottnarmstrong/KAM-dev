@@ -41,11 +41,6 @@ theorem coeffSum_add (l l' : ℕ →₀ ℤ) :
     (l + l').sum (fun _ v => v) = l.sum (fun _ v => v) + l'.sum (fun _ v => v) :=
   Finsupp.sum_add_index' (fun _ => rfl) (fun _ _ _ => rfl)
 
-theorem coeffSum_neg (l : ℕ →₀ ℤ) : (-l).sum (fun _ v => v) = -l.sum (fun _ v => v) := by
-  unfold Finsupp.sum
-  rw [Finsupp.support_neg, ← Finset.sum_neg_distrib]
-  rfl
-
 theorem not_isLamMinus_of_coeffSum_ne {l : ℕ →₀ ℤ} (h : l.sum (fun _ v => v) ≠ 0) :
     ¬ IsLamMinus l := by
   rintro ⟨i, j, σ, -, -, rfl⟩

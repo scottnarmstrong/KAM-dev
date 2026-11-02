@@ -58,30 +58,12 @@ theorem homModSolveTaylor_cp :
   simp [homModTdp, homModRho_apply]
   ring
 
-theorem homModSolveTaylor_cm :
-    (homModSolveTaylor hτ hα hσ hσs hc hm R).cm θ =
-      homModRho a p pb hc (homSolve (homModTdm hm) R.cm θ) := by
-  refine (homSolve_image_eq (T' := homModTdm hm) hτ hα le_rfl hσ hσs (norm_homModTdm_le hm)
-    (homModRho a p pb hc) (fun k => ?_) R.comp_cm.1 R.comp_cm.2.1 R.comp_cm.2.2.choose_spec
-    hθ).symm
-  refine ContinuousLinearMap.ext fun v => ?_
-  ext j
-  simp [homModTdm, homModRho_apply]
-  ring
-
 theorem homModSolveTaylor_P :
     (homModSolveTaylor hτ hα hσ hσs hc hm R).P θ =
       homModRhoL a p pb hc (homSolve (homModTP hm) R.P θ) :=
   (homSolve_image_eq (T' := homModTP hm) hτ hα one_le_homKS hσ hσs (norm_homModTP_le hm)
     (homModRhoL a p pb hc) (fun k => homModRhoL_comm_hadamard hc (hm.P k)) R.comp_P.1
     R.comp_P.2.1 R.comp_P.2.2.choose_spec hθ).symm
-
-theorem homModSolveTaylor_P' :
-    (homModSolveTaylor hτ hα hσ hσs hc hm R).P' θ =
-      homModRhoL a p pb hc (homSolve (homModTP' hm) R.P' θ) :=
-  (homSolve_image_eq (T' := homModTP' hm) hτ hα one_le_homKS hσ hσs (norm_homModTP'_le hm)
-    (homModRhoL a p pb hc) (fun k => homModRhoL_comm_hadamard hc (hm.P' k)) R.comp_P'.1
-    R.comp_P'.2.1 R.comp_P'.2.2.choose_spec hθ).symm
 
 end asW4
 
@@ -220,37 +202,5 @@ theorem homModSolveTaylor_isReal (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) 
       (fun k => (homDQ_conj w W k i j).symm) x
     rw [F.transQ θ hθs i j, eQ j i θ hθs, eQ i j θ hθs]
     exact h.symm
-
-/-- **Sanity check**: W4's Melnikov conditions `(H_α)` imply the modified conditions for every
-`β ≥ 0` (the modified hypothesis `bpW:w5:modified` only weakens the bound of `δ^Q_{k,ij}`,
-`i ≠ j`). -/
-theorem homMelnikovMod_of_melnikov {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 → ℝ) → Fin 2 → ℝ}
-    {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ} {M0 Mω MΩ τ α β : ℝ} (h : HomFreqHyp Par ω Ω M0 Mω MΩ)
-    (hα : 0 < α) (hH : HomMelnikov τ α Par ω Ω) (hβ0 : 0 ≤ β) :
-    HomMelnikovMod τ α β Par ω Ω := by
-  refine ⟨fun ξ hξ k hk => (homDelta0_bound h hα hH hk).1 ξ hξ,
-    fun ξ hξ k j => (homDeltaPlus_bound h hα hH k j).1 ξ hξ,
-    fun ξ hξ k j => (homDeltaMinus_bound h hα hH k j).1 ξ hξ,
-    fun ξ hξ k i j => (homDeltaP_bound h hα hH k i j).1 ξ hξ,
-    fun ξ hξ k i j => (homDeltaP'_bound h hα hH k i j).1 ξ hξ,
-    fun ξ hξ k hk j => ?_, fun ξ hξ k i j hij => ?_⟩
-  · have := (homDeltaQ_bound h hα hH (i := j) (j := j) (Or.inl hk)).1 ξ hξ
-    have hw : (homWeightQ j j : ℝ) = 1 := by simp [homWeightQ]
-    rwa [hw] at this
-  · have hb := (homDeltaQ_bound h hα hH (k := k) (Or.inr hij)).1 ξ hξ
-    have hA : 0 < waveA τ k := lt_of_lt_of_le one_pos (waveA_ge_one k)
-    have hx0 := min_add_two_pos i j
-    have hx1 : 1 ≤ (min (i : ℝ) j + 2) ^ β := Real.one_le_rpow (by
-      have := one_le_natCast_pnat i; have := one_le_natCast_pnat j
-      have : 1 ≤ min (i : ℝ) j := le_min (by assumption) (by assumption)
-      linarith) hβ0
-    have hab := abs_sub_pnat_pos hij
-    have h1 : |(i : ℝ) - j| / (min (i : ℝ) j + 2) ^ β ≤ (homWeightQ i j : ℝ) :=
-      (div_le_self hab.le hx1).trans (homWeightQ_abs i j hij)
-    calc α / waveA τ k * (|(i : ℝ) - j| / (min (i : ℝ) j + 2) ^ β)
-        ≤ α / waveA τ k * (homWeightQ i j : ℝ) :=
-          mul_le_mul_of_nonneg_left h1 (by positivity)
-      _ = α * (homWeightQ i j : ℝ) / waveA τ k := by ring
-      _ ≤ _ := hb
 
 end KAM.Wave

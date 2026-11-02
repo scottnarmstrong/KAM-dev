@@ -43,9 +43,6 @@ theorem waveEllToLp_eq_tauLp {a p : ℝ} {c : ℕ+ → ℝ} (h : IsEll a p c) :
   rw [waveEllToLp_apply hw]
   simp
 
-theorem coeff_isEll_one_one (y : lp (fun _ : ℕ+ => ℝ) 2) : IsEll 1 1 (coeff y) := by
-  rw [← coeffW_one_one]; exact isEll_coeffW 1 1 y
-
 end KAM.Wave
 
 end

@@ -33,13 +33,6 @@ lemma wave_ellWeight_add_half (a p : ℝ) (n : ℕ+) :
   rw [Real.rpow_add hn, Real.sqrt_eq_rpow]
   ring
 
-lemma wave_ellWeight_sq_div_lam_le (m : ℝ) (hm : 0 < m) (a p : ℝ) (n : ℕ+) :
-    ellWeight a (p + 1 / 2) n ^ 2 * (n : ℝ) / lam m hm n ≤ ellWeight a (p + 1 / 2) n ^ 2 := by
-  have hl : 0 < lam m hm n := lt_of_lt_of_le (by positivity) (wave_pnat_le_lam m hm n)
-  rw [div_le_iff₀ hl]
-  have := waveEllWeight_pos a (p + 1 / 2) n
-  nlinarith [wave_pnat_le_lam m hm n, sq_nonneg (ellWeight a (p + 1 / 2) n)]
-
 /-- `stepW:w0n:majorant`: the even majorant of `q/√λ` lies in `ℓ^{a,p+1/2}_b`, with norm at most
 `√2 ‖q‖_{a,p}`. -/
 theorem waveEvenAbs_weighted (m : ℝ) (hm : 0 < m) {a p : ℝ} {q : ℕ+ → ℝ} (hq : WaveEll a p q) :

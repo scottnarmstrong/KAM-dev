@@ -144,12 +144,6 @@ def reconUIterCLM (k : ℕ) (x : ℝ) : lp (fun _ : ℕ+ => ℝ) 2 →L[ℝ] ℝ
 def reconVIterCLM (k : ℕ) (x : ℝ) : lp (fun _ : ℕ+ => ℝ) 2 →L[ℝ] ℝ :=
   innerSL ℝ (reconFeatureV m hm k x)
 
-lemma reconUIterCLM_apply (k : ℕ) (x : ℝ) (y : lp (fun _ : ℕ+ => ℝ) 2) :
-    reconUIterCLM m hm k x y = reconUIter m hm k y x := innerSL_apply_apply ℝ _ _
-
-lemma reconVIterCLM_apply (k : ℕ) (x : ℝ) (y : lp (fun _ : ℕ+ => ℝ) 2) :
-    reconVIterCLM m hm k x y = reconVIter m hm k y x := innerSL_apply_apply ℝ _ _
-
 /-- The series form of `U^{(k)}_y(x)`, absolutely convergent (blueprint `bpW:w1:recon-analytic`,
 step `stepW:w1:bil`). -/
 theorem hasSum_reconUIter (k : ℕ) (y : lp (fun _ : ℕ+ => ℝ) 2) (x : ℝ) :

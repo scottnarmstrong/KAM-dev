@@ -267,7 +267,7 @@ theorem aaQt_hasFDerivAt {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (w : KamPhase
     Complex.ofReal_ne_zero.2 (lam_pnat_pos hm _).ne'
   have hl1 : (lam m hm (modeIdx (1 : Fin 2)) : ℂ) ≠ 0 :=
     Complex.ofReal_ne_zero.2 (lam_pnat_pos hm _).ne'
-  rw [lamTan_eq_lam, lamTan_eq_lam, h01]
+  rw [lamTan_eq, lamTan_eq, h01]
   field_simp
   ring
 

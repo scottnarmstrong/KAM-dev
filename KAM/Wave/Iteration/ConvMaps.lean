@@ -236,9 +236,6 @@ theorem w6ConvOpsSrc_of_stepSmooth (hS : W6StepSmooth) (hC : W6ConvHyp d Pm ω0 
         w6Iota W'') :=
   w6ConvOps (w6IterHyp_of_conv hS hC) ν ξ hξ
 
-/-- `Π_*` here is W6-ITER's `w6PiStarIt`. -/
-theorem w6PiStarS_eq_It (S0 : W6State) : w6PiStarS d S0 = w6PiStarIt d S0 := rfl
-
 end src
 
 end KAM.Wave

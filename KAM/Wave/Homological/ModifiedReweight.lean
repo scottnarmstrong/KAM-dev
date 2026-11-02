@@ -53,11 +53,6 @@ def homModRhoL (a p pb : ℝ) (hc : pb ≤ p + 1) : HomOp →L[ℂ] HomOp :=
 theorem homModRhoL_apply (hc : pb ≤ p + 1) (A : HomOp) :
     homModRhoL a p pb hc A = (homModRho a p pb hc).comp A := rfl
 
-theorem norm_homModRhoL_apply_le (hc : pb ≤ p + 1) (A : HomOp) :
-    ‖homModRhoL a p pb hc A‖ ≤ ‖A‖ :=
-  (ContinuousLinearMap.opNorm_comp_le _ _).trans
-    (by simpa using mul_le_mul_of_nonneg_right (norm_homModRho_le hc) (norm_nonneg A))
-
 theorem kamEntry_homModRho_comp (hc : pb ≤ p + 1) (A : HomOp) (i j : ℕ+) :
     kamEntry ((homModRho a p pb hc).comp A) i j = (homModRatio a p pb i : ℂ) * kamEntry A i j :=
   rfl
@@ -100,12 +95,6 @@ theorem homPairRep_rho (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hc : pb �
     homPairRep_gen ha (homPP hp hpb) (homModRho a p pb hc c) z =
       homPairRep_gen ha (homPP hp (homModPP1 p)) c z := by
   unfold homPairRep_gen
-  rw [homLamDiag_rho ha hp hpb hc]
-
-theorem homDualNorm_rho (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hc : pb ≤ p + 1) (c : HomL2) :
-    homDualNorm_gen ha (homPP hp hpb) (homModRho a p pb hc c) =
-      homDualNorm_gen ha (homPP hp (homModPP1 p)) c := by
-  unfold homDualNorm_gen
   rw [homLamDiag_rho ha hp hpb hc]
 
 theorem IsHomComp.clm {E F : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]

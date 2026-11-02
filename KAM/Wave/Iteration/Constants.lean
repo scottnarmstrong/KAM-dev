@@ -80,8 +80,6 @@ def w6Gamma (m : ℝ) (hm : 0 < m) : ℝ :=
 /-- The Lipschitz number `θ = 425 (1+M) max(γ, γ₁)` of Lemma `bpW:w6:freq-lip`. -/
 def w6Theta (m : ℝ) (hm : 0 < m) : ℝ := 425 * (1 + w6M m hm) * max (w6Gamma m hm) (w6Gamma1 m hm)
 
-theorem w6S0_eq : w6S0 = 7 / 8 * w6S := by unfold w6S0 w6SigmaP w6S; norm_num
-
 theorem w6S0_val : w6S0 = 7 / 64 := by unfold w6S0 w6SigmaP w6S; norm_num
 
 theorem w6SigmaP_val : w6SigmaP = 1 / 320 := by unfold w6SigmaP w6S; norm_num

@@ -154,9 +154,6 @@ def waveAlgConst (s : ℝ) : ℝ :=
 theorem waveAlgConst_nonneg (s : ℝ) : 0 ≤ waveAlgConst s :=
   mul_nonneg (Real.rpow_nonneg (by norm_num) s) (Real.sqrt_nonneg _)
 
-theorem waveTwoWeight_zero_left (s : ℝ) (l : ℤ) : waveTwoWeight 0 s l = waveJap l ^ s := by
-  simp [waveTwoWeight]
-
 theorem waveTwoWeight_mono {a b : ℝ} (hab : a ≤ b) (s : ℝ) (l : ℤ) :
     waveTwoWeight a s l ≤ waveTwoWeight b s l :=
   mul_le_mul_of_nonneg_left

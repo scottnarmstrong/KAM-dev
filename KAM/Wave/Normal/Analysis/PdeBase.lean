@@ -35,9 +35,6 @@ namespace KAM.Wave
 def waveV (m : ℝ) (hm : 0 < m) (c : ℕ+ → ℝ) (x : ℝ) : ℝ :=
   ∑' j : ℕ+, Real.sqrt (lam m hm j) * c j * sineMode j x
 
-lemma reconV_eq_waveV (m : ℝ) (hm : 0 < m) (y : lp (fun _ : ℕ+ => ℝ) 2) :
-    reconV m hm y = waveV m hm (coeff y) := rfl
-
 open scoped Classical in
 /-- The weighted `ℓ²` coordinates of a sequence of `ℓ^{a,p}` (zero for other sequences). -/
 def waveEllToLp (a p : ℝ) (c : ℕ+ → ℝ) : lp (fun _ : ℕ+ => ℝ) 2 :=
@@ -50,7 +47,7 @@ lemma waveEllToLp_apply {a p : ℝ} {c : ℕ+ → ℝ} (h : WaveEll a p c) (j : 
 lemma waveEllToLp_apply_div {a p : ℝ} {c : ℕ+ → ℝ} (h : WaveEll a p c) (j : ℕ+) :
     waveEllToLp a p c j / ellWeight a p j = c j := by
   rw [waveEllToLp_apply h]
-  have := (waveEllWeight_pos a p j).ne'
+  have := (ellWeight_pos a p j).ne'
   field_simp
 
 /-- A classical solution of `u_tt = u_xx - m u - u³` on the open set `I` of times, with explicit

@@ -41,11 +41,6 @@ theorem birkCoord_birkNormalPart (a p : ℝ) (y : BirkSpace) (l : BirkIdx) :
     birkCoord a p (birkNormalPart y) l = birkNormalMul l * birkCoord a p y l := by
   simp only [birkCoord, birkNormalPart_apply]; ring
 
-theorem norm_birkNormalPart_le (y : BirkSpace) : ‖birkNormalPart y‖ ≤ ‖y‖ := by
-  refine (birkNormalPart.le_opNorm y).trans ?_
-  have : ‖birkNormalPart‖ ≤ 1 := norm_lpDiagCLM_le _ _ _
-  nlinarith [norm_nonneg y]
-
 /-- The set `𝒯ᶜ = {x : all |x_t| ≥ 3}`. -/
 def birkNormalSet : Set (Fin 4 → BirkIdx) := {x | ∀ t, 3 ≤ ((x t).2 : ℕ)}
 

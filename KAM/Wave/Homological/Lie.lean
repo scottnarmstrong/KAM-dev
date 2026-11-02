@@ -83,10 +83,6 @@ theorem homLie_pairing_summable_gen {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 →
 inputs. Use the source-domain `homPair0` (with summability evidence). -/
 def homPair0Raw (x x' : ℕ+ → ℂ) : ℂ := ∑' j, x j * x' j
 
-theorem homPair0Raw_comm (x x' : ℕ+ → ℂ) : homPair0Raw x x' = homPair0Raw x' x := by
-  unfold homPair0Raw
-  exact tsum_congr fun j => mul_comm _ _
-
 /-- INTERNAL totalized form of `L_N F = (1/2π)⟨ω, F_θ⟩ - i⟨F_z, Ωz⟩₀ + i⟨F_{\bar z}, Ω\bar z⟩₀`
 (blueprint `bpW:w4:lie`), with `Fθω = (1/2π)⟨ω, F_θ⟩` and the gradients as sequences. -/
 def homLieSeqRaw (Fθω : ℂ) (Fz Fzb Ωz Ωzb : ℕ+ → ℂ) : ℂ :=

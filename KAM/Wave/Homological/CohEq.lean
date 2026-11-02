@@ -26,10 +26,6 @@ namespace KAM.Wave
 
 open KAM
 
-theorem homCoeff_continuous_of {s : ℝ} (hs : 0 < s) {u : (Fin 2 → ℂ) → ℂ}
-    (hu : DifferentiableOn ℂ u (complexStrip 2 s)) :
-    Continuous fun x : Fin 2 → ℝ => u fun j => (x j : ℂ) := homContinuous_restrict hs hu
-
 theorem homCoeff_add {s : ℝ} (hs : 0 < s) {u v : (Fin 2 → ℂ) → ℂ}
     (hu : DifferentiableOn ℂ u (complexStrip 2 s)) (hv : DifferentiableOn ℂ v (complexStrip 2 s))
     (k : Fin 2 → ℤ) : homCoeff (fun z => u z + v z) k = homCoeff u k + homCoeff v k := by

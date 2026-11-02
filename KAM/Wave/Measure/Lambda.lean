@@ -268,14 +268,6 @@ theorem hatW_le_japL (l : ℕ →₀ ℤ) : hatW l ≤ japL l := by
     nlinarith
   · exact le_rfl
 
-theorem hatW_pos (l : ℕ →₀ ℤ) : 0 < hatW l := by
-  unfold hatW
-  split_ifs
-  · have := japL_ge_one l
-    have := Real.rpow_pos_of_pos (normLab_pos (sInf {ν | l ν ≠ 0})) (-(1 / 4 : ℝ))
-    positivity
-  · exact lt_of_lt_of_le one_pos (japL_ge_one l)
-
 theorem normLab_rpow_le_one {ν : ℕ} {δ : ℝ} (hδ : δ ≤ 0) : normLab ν ^ δ ≤ 1 :=
   Real.rpow_le_one_of_one_le_of_nonpos (by linarith [normLab_ge ν]) hδ
 

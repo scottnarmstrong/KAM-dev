@@ -124,11 +124,6 @@ theorem tQ_rhoK (hc : pb ≤ p + 1) {θ : Fin 2 → ℂ} (hθ : θ ∈ complexSt
   unfold tQ
   rw [tDX_rhoK hr hh hc hθ, blockQ_rhoK]
 
-theorem tQt_rhoK (hc : pb ≤ p + 1) {θ : Fin 2 → ℂ} (hθ : θ ∈ complexStrip 2 s) :
-    tQt (fun x => stepRhoK a p pb hc (X x)) θ = (homModRho a p pb hc).comp (tQt X θ) := by
-  unfold tQt
-  rw [tDX_rhoK hr hh hc hθ, blockQt_rhoK]
-
 end taylor
 
 /-- The reweighted pair satisfies the bound of `stepTaylorOf`. -/
@@ -159,12 +154,6 @@ def stepTaylorRho : HomTaylor_gen a p pb s :=
 /-- The element for the `p+1` class. -/
 def stepTaylorP1 : HomTaylor_gen a p (p + 1) s :=
   stepTaylorOf ha hp (homModPP1 p) hs hr hP hper hb
-
-theorem stepTaylorRho_b : (stepTaylorRho ha hp hpb hc hs hr hP hper hb).b =
-    (stepTaylorP1 ha hp hs hr hP hper hb).b := rfl
-
-theorem stepTaylorRho_a0 : (stepTaylorRho ha hp hpb hc hs hr hP hper hb).a0 =
-    (stepTaylorP1 ha hp hs hr hP hper hb).a0 := rfl
 
 /-- **`T' = D_ρ T` on the strip.** -/
 theorem stepFun_taylorRho {w : KamPhase} (hw : w.1 ∈ complexStrip 2 s) :

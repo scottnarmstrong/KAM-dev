@@ -69,10 +69,6 @@ theorem w6Iota_injective : Function.Injective w6Iota := by
   have : Fact ((0 : ℝ) < 1) := ⟨one_pos⟩
   exact stepEmbedCLM_injective (a := 1) w6_one_le_three_halves 1
 
-/-- `|W|_{r} ≤ |W|_{r'}` for `0 < r' ≤ r` (radii of the iteration decrease). -/
-theorem kamNorm_anti {r r' : ℝ} (hr' : 0 < r') (hr : r' ≤ r) (W : KamPhase) :
-    kamNorm r W ≤ kamNorm r' W := kamNorm_le_of_le_radius hr' hr W
-
 namespace W6SeqData
 
 variable {d : W6SeqData}
@@ -94,9 +90,6 @@ theorem domNu_succ_subset (hd : W6State.Std d) (ν : ℕ) : d.domNu (ν + 1) ⊆
   kamDomain_mono (by
       rw [show d.s (ν + 1) = d.s ν - 5 * d.sigma ν from rfl]
       linarith [sigmaNu_pos hd.1 ν]) (w6r_pos hd.1 (ν + 1)) (rNu_succ_le hd ν)
-
-theorem domNu_anti (hd : W6State.Std d) : Antitone d.domNu :=
-  antitone_nat_of_succ_le (domNu_succ_subset hd)
 
 end W6SeqData
 
@@ -273,10 +266,6 @@ def w6SympPred (W W' : KamPhase) : ℂ :=
 def w6Field {K0 : ℝ} {Ω : ℕ+ → ℝ} (hΩ : ∀ j : ℕ+, |Ω j| ≤ K0 * ((j : ℝ) + 2))
     (ω : Fin 2 → ℝ) (X : KamPhase → KamPhase) (w : KamPhase) : KamPhase :=
   stepXN (a := 1) (p := 1) hΩ ω w + kamHomEmbed 1 (1 - 1) (3 / 2) w6_pred_le (X w)
-
-theorem w6Field_irrel {K0 K1 : ℝ} {Ω : ℕ+ → ℝ} (hΩ : ∀ j : ℕ+, |Ω j| ≤ K0 * ((j : ℝ) + 2))
-    (hΩ' : ∀ j : ℕ+, |Ω j| ≤ K1 * ((j : ℝ) + 2)) (ω : Fin 2 → ℝ) (X : KamPhase → KamPhase)
-    (w : KamPhase) : w6Field hΩ ω X w = w6Field hΩ' ω X w := rfl
 
 /-- **The clauses of `Φ_{ν+1}` on `KamPhase`** (`bpW:w5:step` (i)): on `D_{ν+1}`, for `ξ ∈ Π_ν`:
 real on real points, `Φ(w + τ_i) = Φ(w) + τ_i`, `DΦ(w)` symplectic, `DΦ(w)` maps `𝒫^{p_+}` into

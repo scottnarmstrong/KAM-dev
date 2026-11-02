@@ -27,9 +27,6 @@ open KAM Filter Topology
 
 variable {a p pb s : ℝ}
 
-theorem homPairRep_eq'_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (c z : HomL2) :
-    homPairRep_gen ha (homPP hp hpb) c z = homPairL2 (homLamDiag_gen ha (homPP hp hpb) c) z := rfl
-
 theorem continuous_homPairRep_right_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (c :
     HomL2) :
     Continuous fun z : HomL2 => homPairRep_gen ha (homPP hp hpb) c z :=
@@ -96,14 +93,6 @@ theorem continuous_homRzb_gen {a p pb s : ℝ} (T : HomTaylor_gen a p pb s) (θ 
   unfold homRzb_gen
   exact ((continuous_const.add ((T.Q θ).continuous.comp continuous_fst)).add
     (((T.P' θ).continuous.comp continuous_snd).const_smul (2 : ℂ)))
-
-theorem one_le_homWt {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (j : ℕ+) : 1 ≤ homWt a p j := by
-  rw [homWt_eq]
-  have hJ : (1 : ℝ) ≤ (j : ℝ) + 2 := by
-    have : (1 : ℝ) ≤ j := by exact_mod_cast j.pos
-    linarith
-  exact one_le_mul_of_one_le_of_one_le (Real.one_le_rpow hJ hp)
-    (Real.one_le_exp (by positivity))
 
 theorem homWt_mul_ge {a p pb : ℝ} (ha : 0 ≤ a) (hp1 : 1 ≤ p + pb) (j : ℕ+) :
     (j : ℝ) + 2 ≤ homWt a p j * homWt a pb j := by

@@ -148,10 +148,6 @@ theorem tendstoUniformlyOn_riemann {α : Type*} {S : Set α} {f : ℝ → α →
   have : L < ε * N := by rwa [div_lt_iff₀ hε, mul_comm] at hN
   nlinarith
 
-theorem riemannSum_add {β : Type*} [AddCommGroup β] [Module ℝ β] (f g : ℝ → β) (n : ℕ) :
-    riemannSum (fun t => f t + g t) n = riemannSum f n + riemannSum g n := by
-  simp [riemannSum, Finset.sum_add_distrib, smul_add]
-
 /-- **Integral of a holomorphic smoothing family** (`n-field`). -/
 theorem smoothing_integral {U : Set E} (hU : IsOpen U) (Lop : G →L[ℂ] (E →L[ℂ] ℂ))
     {P : ℝ → E → ℂ} {Y : ℝ → E → G} {Lp Ly : ℝ} (hLp : 0 ≤ Lp) (hLy : 0 ≤ Ly)

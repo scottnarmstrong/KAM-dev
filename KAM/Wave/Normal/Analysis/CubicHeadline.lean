@@ -57,7 +57,7 @@ lemma waveCubicConst_one : waveCubicConst 1 = waveCubicHeadlineConst := by
 
 lemma waveEll_coeff (y : lp (fun _ : ℕ+ => ℝ) 2) : WaveEll 1 1 (coeff y) := by
   have h : ∀ j : ℕ+, ellWeight 1 1 j * coeff y j = y j := fun j => by
-    have := (waveEllWeight_pos 1 1 j).ne'
+    have := (ellWeight_pos 1 1 j).ne'
     unfold coeff; field_simp
   unfold WaveEll
   simp only [h]
@@ -69,7 +69,7 @@ lemma wave_lp_norm_eq_sqrt (y : lp (fun _ : ℕ+ => ℝ) 2) : ‖y‖ = Real.sqr
 
 lemma norm_eq_waveEllNorm_coeff (y : lp (fun _ : ℕ+ => ℝ) 2) : ‖y‖ = waveEllNorm 1 1 (coeff y) := by
   have h : ∀ j : ℕ+, ellWeight 1 1 j * coeff y j = y j := fun j => by
-    have := (waveEllWeight_pos 1 1 j).ne'
+    have := (ellWeight_pos 1 1 j).ne'
     unfold coeff; field_simp
   rw [wave_lp_norm_eq_sqrt]
   unfold waveEllNorm

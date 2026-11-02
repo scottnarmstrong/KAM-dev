@@ -38,8 +38,6 @@ section Extension
 
 variable {E β : Type*} {U : Set E}
 
-theorem isBirkExtension_restrict (g : E → β) : IsBirkExtension (U.domRestrict g) g := fun _ => rfl
-
 theorem IsBirkExtension.eqOn_restrict {f g : E → β} (hg : IsBirkExtension (U.domRestrict f) g) :
     Set.EqOn f g U := fun x hx => (hg ⟨x, hx⟩).symm
 
@@ -127,22 +125,6 @@ section Ball0
 
 variable (w : birkBall0 m p)
 
-/-- `ι ψ(w) = Γ(w) - w`. -/
-theorem birkPsi_embed :
-    birkEmbed a (p + 1) p (by linarith) (birkPsi m hm ha hp w) = birkGamma m hm ha hp 1 w - w :=
-  birkPsiExt_embed (hm := hm) (hp := hp) (ha := ha) w w.2
-
-/-- `ι ∘ Ξ(w) = DΓ(w) - I`. -/
-theorem birkXi_embed :
-    (birkEmbed a (p + 1) p (by linarith)).comp (birkXi m hm ha hp w) =
-      birkGammaD m hm ha hp 1 w - 1 :=
-  birkXiExt_embed (hm := hm) (hp := hp) (ha := ha) w w.2
-
-/-- `birkAF w = I + Ξ(w) ι`. -/
-theorem birkAF_eq :
-    birkAF m hm ha hp w = 1 + (birkXi m hm ha hp w).comp (birkEmbed a (p + 1) p (by linarith)) :=
-  rfl
-
 /-- (`bpW:w3:flow` (iii)) The inverse data of `DΓ(w)` on `𝔚` and on `𝔚⁺`: `birkBF w` is the
 two-sided inverse of `birkAF w`, compatible with the inverse `B` on `𝔚`, of norm `≤ 2`, with
 `‖(birkBF w - 1) f‖₊ ≤ 20 C_F ‖w‖² ‖f‖₊`. -/
@@ -155,10 +137,6 @@ theorem birkInvData :
       birkBF m hm ha hp w * birkAF m hm ha hp w = 1 ∧
       ∀ f, ‖birkBF m hm ha hp w f - f‖ ≤ 20 * birkCF m p * ‖(w : BirkSpace)‖ ^ 2 * ‖f‖ :=
   birkInvDataExt (hm := hm) (hp := hp) (ha := ha) w w.2
-
-/-- `birkAF w` and `birkGammaDPlus 1 w` (`MainYInt`) coincide. -/
-theorem birkAF_eq_birkGammaDPlus :
-    birkAF m hm ha hp w = birkGammaDPlus m hm ha hp ⟨1, by norm_num, by norm_num⟩ w := rfl
 
 end Ball0
 
@@ -192,12 +170,6 @@ theorem birkK_rho :
     birkK m hm ha hp ⟨birkRho w, birkRho_mem_birkBall1 m w.2⟩ =
       starRingEnd ℂ (birkK m hm ha hp w) :=
   birkKExt_rho (hm := hm) (hp := hp) (ha := ha) w w.2
-
-/-- (`bpW:w3:main` (i)) `K₂` is real. -/
-theorem birkK2_rho :
-    birkK2 m hm ha hp ⟨birkRho w, birkRho_mem_birkBall1 m w.2⟩ =
-      starRingEnd ℂ (birkK2 m hm ha hp w) :=
-  birkK2Ext_rho (hm := hm) (hp := hp) (ha := ha) w w.2
 
 /-- (`bpW:w3:main` (ii)) `‖X_{K₁}(w)‖₊ ≤ 44 C_* C_F ‖w‖⁵`. -/
 theorem norm_birkXK1_le :
