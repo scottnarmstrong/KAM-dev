@@ -73,9 +73,9 @@ series).
 
 | Series | Support | `|k|`, `|l|` |
 |---|---|---|
-| `u` (sin) | 749 half-keys | ≤ 140, ≤ 82 |
-| `p` | 836 half-keys | ≤ 140, ≤ 82 |
-| `J` | 822 half-keys | ≤ 140, ≤ 82 |
+| `u` (sin) | 749 half-keys | ≤ 111, ≤ 65 |
+| `p` | 836 half-keys | ≤ 111, ≤ 65 |
+| `J` | 822 half-keys | ≤ 111, ≤ 65 |
 | `E₂`, `E₃` | ~1650 full keys each | |
 | `B₁₁`, `B₁₂`, `B₂₂` | 1019 / 1017 / 1019 full keys | |
 | SOS witnesses (pLo, pHi) | 447 / 429 terms | |
