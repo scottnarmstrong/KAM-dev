@@ -1,0 +1,68 @@
+{
+ "application": "MAG (magnetic pilot, mag-pilot 0098a0310): an EXAMPLE of what the pilot will need; fails closed today (names, design §6)",
+ "tree": "T",
+ "dump": {
+  "tree": "<the pilot's package>/MAG/T (an LG00-format tree emitted from certificates/magnetic/mag_cert.json: not yet emitted)",
+  "package": "<the pilot's package, applications/magnetic>"
+ },
+ "names": {
+  "namespace": "MAG",
+  "params": "magParams",
+  "box": "magBox",
+  "cert": "magCert",
+  "emb": "magEmb",
+  "pi": "magPi",
+  "gram_inv": "magGramInv",
+  "tors_inv": "magTorsInv",
+  "witness": "magRW",
+  "jet": "magJet",
+  "jet_bridge": "magHam_jet",
+  "field": "MagF",
+  "statement": "magnetic_barrier"
+ },
+ "layout": {
+  "kind": "own",
+  "prefix": "MAG",
+  "pk_root": "MAG.{T}.PK",
+  "pk_format": "MAG.PKFormat"
+ },
+ "ham": "ported",
+ "asm_suffix": "",
+ "jet": {
+  "low_mirror": "<OUT>/jet/low_mirror.pkl",
+  "full_mirror": "<OUT>/jet/full_mirror.pkl",
+  "state": "<the pilot's sofx generator state>",
+  "tooling": "<mag-pilot worktree>",
+  "chains": {
+   "Low": {
+    "json": "<OUT>/jet/low.json",
+    "mirror": "<OUT>/jet/low_mirror.pkl",
+    "cut": {
+     "seg-io": 40,
+     "led-nodes": 40
+    }
+   },
+   "Full": {
+    "json": "<OUT>/jet/full.json",
+    "mirror": "<OUT>/jet/full_mirror.pkl",
+    "cut": {
+     "seg-io": 13,
+     "led-nodes": 40
+    }
+   }
+  },
+  "box_low": 25,
+  "box_full": 48
+ },
+ "steps": [
+  "extract",
+  "mirror",
+  "chains",
+  "packed"
+ ],
+ "caps": {
+  "python": "8G",
+  "lean": "4G",
+  "anon_gb": 20
+ }
+}
