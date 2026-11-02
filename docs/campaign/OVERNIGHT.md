@@ -3294,3 +3294,4 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
 - **09:03. Owner: push lp-redmass-scope and let lemma.farm build the ObservableBridge.** Pushed (9dd1253f; docs only, 1 file). The LP lane builds nothing.
 - **09:18. Lock:** stale build-output prune freed 6.1 GB (explicit list of 8,903 files; --no-build on 1,511 live modules rc 0); HC 23 GB free. tp9 checks the option-(a) templates.
 - **10:18. Lock tp9:** 763 rc=0. The option-(a) SOS products M2016/M2017 hit a rewrite-order bug (bridges now applied longest-first; segd55v after tp9). GraphL/H wait on it.
+- **11:19. Lock: option-(a) mirror gate PASSED** (graph margins: mono 3.80e-7, pLo 3.08e-7, pHi 2.19e-7; Pass.GraphM 4.64 GB and LockGraphK rc 0). Fallback timeout fixed with S{j}None modules (default heartbeats, 4.33 GB). segd55y follows tp9; Prod.M7 OOM still open. Worker context compacted after its handoff.
