@@ -23,10 +23,9 @@ The order-2 cover of the region `R(d)` (HD11964-CELLS) by **affine cells** `x = 
 * `existsRep`, `hRS_of_coversReps`: every state rotates to a representative, so the cover gives the
   hypothesis `hRS` of `bracket_bound_of_rotation` and `range_bound_of_rotation`.
 
-Status: committed unbuilt (not imported by the package root) before the 2 November 05:00 reboot;
-every declaration was checked in a scratch elaboration (`lake env lean`, exit 0, no proof
-escape). It lands after the reboot with narrower imports (orchestrator ruling). The fitted plan
-and its check are in `HD11964.CoverPlan`.
+The fitted 50-cell plan of `R(1/500)` and its decided check are in `HD11964.CoverPlan`. The only
+import is `HD11964.NoCrossing` (for `region`); a narrower one would not lower the build's memory,
+since every `KAM` module imports all of Mathlib (HD11964-COVER-LEAN).
 -/
 
 @[expose] public noncomputable section

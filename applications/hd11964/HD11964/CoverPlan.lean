@@ -15,9 +15,6 @@ by `scripts/cover2_plan_lean.py` (also `validation/cover2-plan-k0.2-d2e-3.json`)
 `ξ_c`, six fans of wedges (rational rays, Pythagorean frames) and one disc cell. `fitPlan_covers`:
 it covers the rotation representatives of `R(1/500)`, by `coversReps_of_ok` and one
 `decide +kernel` of `CoverPlan.ok`.
-
-Status: committed unbuilt (not imported by the package root) before the 2 November 05:00 reboot;
-checked in a scratch elaboration together with `HD11964.Cover` (exit 0).
 -/
 
 @[expose] public section

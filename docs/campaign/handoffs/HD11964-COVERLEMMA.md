@@ -511,6 +511,11 @@ tf_cell.py --rot_b`.
 
 ## Resume after reboot
 
+**Superseded (2 November, 08:20 UTC): the modules are landed.** See HD11964-COVER-LEAN. The narrower-import plan
+below was measured and dropped: every `KAM` module imports all of Mathlib, so it would save about 8 MB. Both modules
+build under the 4 GB cap, as they are. The notes below are kept as they were written.
+
+
 **State** (branch `hd11964-p2`; nothing pushed):
 - **Committed:**
   - `HD11964/Cover.lean` and `HD11964/CoverPlan.lean`, unbuilt and not imported by `HD11964.lean`;
