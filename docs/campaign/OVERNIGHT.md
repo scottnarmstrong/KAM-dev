@@ -3293,3 +3293,4 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
 - **08:49. Reduced-mass scoping note (owner request)** (lp-redmass-scope 9dd1253f): the reduced-mass elements are LP's frozen elements at ν'=ν/√(1+μν); no definition changes; a successor improves no frozen statement. Recommended: a non-frozen ObservableBridge lemma in KAM/Application/LambdaDrift. Owner to decide who builds it and whether to push the branch.
 - **09:03. Owner: push lp-redmass-scope and let lemma.farm build the ObservableBridge.** Pushed (9dd1253f; docs only, 1 file). The LP lane builds nothing.
 - **09:18. Lock:** stale build-output prune freed 6.1 GB (explicit list of 8,903 files; --no-build on 1,511 live modules rc 0); HC 23 GB free. tp9 checks the option-(a) templates.
+- **10:18. Lock tp9:** 763 rc=0. The option-(a) SOS products M2016/M2017 hit a rewrite-order bug (bridges now applied longest-first; segd55v after tp9). GraphL/H wait on it.
