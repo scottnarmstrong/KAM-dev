@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-02 16:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 68 / 73 · **511,037 lines of hand-written Lean** of an estimated ≈ 513,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-02 16:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 68 / 73 · **511,037 lines of hand-written Lean** of an estimated ≈ 513,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -342,7 +342,7 @@ Overall, everything together: 96.0 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **511,037** (386,437 excluding blank lines and comments) · **+5,463** since 2026-11-01 16:20 UTC |
+| On `main` now (hand-written) | **511,037** (386,437 excluding blank lines and comments) · **+5,463** since 2026-11-01 16:40 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 632,896 lines in 1,649 modules |
 | Written on agent branches, not yet landed (hand-written) | 1,865 |
 | Generated certificate data on agent branches (numeric literals; not counted in the other rows) | 6,883 |
@@ -353,7 +353,7 @@ Overall, everything together: 96.0 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-02 16:20 UTC from `main` at `fd26bfa10` by `scripts/hq-status.py`.*
+*Generated 2026-11-02 16:40 UTC from `main` at `c9a123b53` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -569,7 +569,7 @@ account read from each agent's running process) and their branches. Rules for ag
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-5 | 🔄 proving | last commit: LOCK-DATA frozen commit: SOS option (a) additive, chunked graph checks, D55 tree segd55z2 | `inp-lockdata` | 58 (vs `inp`) |
 | **LOCK-FREEZE** `inp-mprov-lockfreeze` | prover (offload) | Claude Opus 5.5 | claude-12 | 🔄 proving | last commit: LOCK-FREEZE Phase B prep: frozen<->landed bridges and providers for lunarSyncOrbit_{spec,u | `inp-lockfreeze` | 1 (vs `inp`) |
-| **lp** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP progress: reduced-mass note; owner ruling no successor; LP idle | `inp-lp` | 17 (vs `inp`) |
+| **lp** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP progress: clean-up audit and proposed errata | `inp-lp` | 18 (vs `inp`) |
 | **lp-freeze7** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP-FREEZE7R: handoff (parts A-C; superseded by LP-FREEZE-EXEC) | `inp-lp-freeze7` | 1 (vs `inp`) |
 | **lp-fz7r-audit** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP: draft-7 r1 delta statement audit 2 (codex-2): PASS WITH NOTES (BLOCKING 0; R1-R3 small | `inp-lp-fz7r-audit` | 1 (vs `inp`) |
 | **lp-providers** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP-FREEZE7R part B: stage the 39 draft-7 r1 providers (quarantined; not in roots), staging | `inp-lp-providers` | 1 (vs `inp`) |
@@ -590,7 +590,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-02 11:19 | `4772c4f3a` | Log: lock option (a) gate PASS |
 | 2026-11-02 10:18 | `df7495972` | Log: lock tp9 |
 | 2026-11-02 09:44 | `7241c2f8a` | Land redmass-bridge: reduced-mass elements (redMass, the frozen Kepler elements at ν' are the reduced-mass ones, proved), the observable Λ-drift bridge stoppedDrift_of_approxIntegrals_obs and noCrossing_of_approxIntegrals_obs, HD 11964 instances with an analytic range of G − Λ; from the LP lane's reduced-mass scoping note (no frozen change); AUDIT-REDMASS-BRIDGE-1 PASS WITH CHANGES, C1 applied |
-| 2026-11-02 09:18 | `19134dd04` | Merge remote-tracking branch 'origin/main' |
 <!-- /AUTO:landed -->
 
 ## Decisions
