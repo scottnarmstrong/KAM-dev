@@ -13,7 +13,8 @@ public import HD11964.Homological
 * `openHD`: actions within `1/250` of the box (open), chart AMD below `1/50`, every angle.
   `isOpen_openHD`, `isAngleSaturated_openHD`; `openHD_subset_chartSafe` (LP-LIFT: every point,
   at every angle, is collision-free, by `mem_chartSafe_of_liftQ` for the initial state at the
-  nearest box point); `region_subset_openHD` (`R(d) ⊆ openHD` for `0 ≤ d ≤ 1/500`).
+  nearest box point); `region_subset_openHD` (`R(d) ⊆ openHD` for `d ≤ 1/500`);
+  `chartRot_mem_openHD` (`openHD` is invariant under the chart rotation).
 * `modesHD`: the mode set `0 < |k|`, `|k_c| ≤ 80`, `|k_b| ≤ 20`. `smallDivisor_HD`: on `openHD`,
   `|k·ω(Λ)| ≥ ω_b(Λ) ≥ 1/(Λhi_b + 1/250)³` for every `k ∈ modesHD` (`ω_c ≥ 21 ω_b` there, while
   `|k_b| ≤ 20`; the smallest divisor is at `k = (0, ±1)`). `isModeSet_HD`.
@@ -154,6 +155,12 @@ theorem region_subset_openHD {d : ℝ} (hd : d ≤ 1 / 500) : region d ⊆ openH
 
 theorem openHD_subset_dom : openHD ⊆ poincareProdDom 2 := fun _ hw =>
   chartSafe_subset_dom nu (openHD_subset_chartSafe hw)
+
+/-- **`openHD` is invariant under the chart rotation** (the `O` half of the bridge's `hFrot`;
+AUDIT-HD11964-CHI-1, R1): rotations fix `Λ` and `chartAMD`. -/
+theorem chartRot_mem_openHD (θ : ℝ) {w : Phase (2 + 2)} (hw : w ∈ openHD) :
+    chartRot θ w ∈ openHD :=
+  ⟨fun i => by rw [fast_chartRot]; exact hw.1 i, by rw [chartAMD_chartRot]; exact hw.2⟩
 
 /-! ### The small divisors -/
 

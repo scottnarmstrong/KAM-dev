@@ -20,8 +20,8 @@ smooth.
 * `contDiffOn_chartCoeff` (1a): the Fourier coefficients are `C^∞` on `U` (two applications of
   `contDiffOn_intervalIntegral`).
 * `IsModeSet S ω U` (AUDIT-HD11964-LEMMAS-1, L1): `S = -S`, `0 ∉ S`, `k·ω(Λ) ≠ 0` on `U`.
-* `contDiffOn_chiStar`, `contDiffOn_projS` (1b): `χ*` and `Π_S P` are `C^∞` on `U` when the
-  frequency map is smooth and `S` is a mode set.
+* `contDiffOn_chiStar`, `contDiffOn_projS` (1b): `χ*` is `C^∞` on `U` when the frequency map is
+  smooth and `S` is a mode set; `Π_S P` is `C^∞` on `U` for every `S`.
 -/
 
 @[expose] public noncomputable section
