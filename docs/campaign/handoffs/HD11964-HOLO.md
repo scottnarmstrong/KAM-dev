@@ -10,7 +10,20 @@ Worker kamx-hd11964, branch `hd11964-p2`. Task from the orchestrator (2 November
 
 Statements first. Nothing pushed.
 
-**Status: SCOPE AND STATEMENTS** (proofs to follow).
+**Status: PARTIAL.**
+- **Proved** (`HD11964.Holo`, `HD11964.HoloSlab`; standard axioms):
+  - (1a) the Kepler contraction on the uniform strip, and on per-slab strips;
+  - (1b) from a certified enclosure of `d²`;
+  - (2a) the bracket by coordinates.
+- **Evaluated:** the all-cells evaluation asked for by AUDIT-HD11964-ROT-1 (C2, R1), all 50 cells at `N1 = 384`. It
+  fixes the strip per slab; see *The all-cells evaluation* below.
+- **Open:**
+  - (1b) analytically: not proposed; it should come from the layer's enclosure;
+  - (1c) and (1d);
+  - (2b)–(2e);
+  - `T₂`, which needs a model radius for `G₂`.
+
+  See *Open* at the end of the prose.
 
 ## (1) Scope: what has to be holomorphic
 
@@ -47,7 +60,8 @@ floating point, sampled).
 | ℓ¹ eccentricities `≤ (0.68, 0.17)`, any orientation, no AMD budget | (0.025, 0.15) | — | — | 0.19 |
 
 **Reading.**
-- **The strip.** I use `ρ = (0.025, 0.15)` rather than `(0.03, 0.15)`.
+- **The strip.** *(Superseded by the all-cells evaluation below: the strip is chosen per slab.)* I use
+  `ρ = (0.025, 0.15)` rather than `(0.03, 0.15)`.
   - At `ρ_c = 0.03` the Kepler slack for planet `c` on the worst cell is 0.026; that is not comfortable.
   - At 0.025 it is 0.057.
   - The tails stay inside the budget at `(0.025, 0.15)`: HD11964-ROT measured `T_c ≤ 1.5e-7` and `T_b ≤ 1.6e-9`.
@@ -76,7 +90,7 @@ floating point, sampled).
   kernel. It is not proposed.
 
 **Constants** (all with margin):
-- planet `c`, `y₀ = 4/5`, `ē_c = 0.68`: invariance `0.157 + 0.68 sinh 0.8 = 0.761 < 0.8`, and
+- planet `c`, `y₀ = 4/5`, `ē_c = 0.68` (0.69 in the Lean, see *Deviations*): invariance `0.157 + 0.68 sinh 0.8 = 0.761 < 0.8`, and
   `0.68 cosh 0.8 = 0.909 ≤ κ_c = 0.95`;
 - planet `b`, `y₀ = 13/10`, `ē_b = 0.18`: `0.942 + 0.18 sinh 1.3 = 1.248 < 1.3`, and `0.18 cosh 1.3 = 0.355 ≤ 0.5`.
 
@@ -93,6 +107,144 @@ floating point, sampled).
   the remainder. The isotropic or anisotropic cell forms supply them as before.
 - **`χ₁`'s derivatives** are bounded by the generator's enclosure (2b of HD11964-ROT) and Cauchy. They are
   hypotheses `B_v` here.
+
+## The all-cells evaluation (AUDIT-HD11964-ROT-1, C2 and R1)
+
+**Setup.** `scripts/radius2a.py` ran on every cell of the fitted plan (`validation/cover2-plan-k0.2-d2e-3.json`):
+- arguments `--FB=120 --PREC=160 --N1=384 --N2=64 --rho=0.01,0.02`, so `N1 = 384` as R1 requires;
+- serially, one process at a time under `MemoryMax=8G`: about 130 s and 7.3–7.6 GB peak RSS per cell;
+- the records are in `~/kam-data/hd11964/radius/allcells/radius2a-cK.json`, `K = 0..49`, with `times.log`.
+
+Every cell's final run exited 0. Cells 2–49 of the first launch failed in the systemd outage (see *Infrastructure*)
+and were re-run.
+
+The Kepler slack of planet `c` per cell comes from `scripts/holo_margin.py` at `ρ_c ∈ {0.02, 0.025, 0.03, 0.035}` with
+`ρ_b = 0.15` and `κ ≤ 0.95`.
+
+**The strip per cell.** `scripts/allcells_summary.py --rhob=0.15` takes the strips with Kepler slack ≥ 0.04 and picks
+the one minimising `max(T_c, T_b)`. The summary is `validation/allcells-summary.json`. All numbers are estimated: floating
+point, a sampled cell, `σ = 0.98ρ`.
+
+| slab (cells) | `ξ_c ≤` | strip `(ρ_c, ρ_b)` | Kepler `c` slack (min) | min `Re d²` | worst `T₁ = (T_c, T_b)` | % of `2.73e-7` | (2b) radius, real / `ρ' = 0.005` |
+|---|---|---|---:|---:|---|---:|---|
+| 0 (0–15) | 0.06 | (0.035, 0.15) | 0.84 | 2.81 | (6.5e-10, 3.8e-11), cell 5 | 0.2 | 7.0 % / 8.8 % |
+| 1 (16–26) | 0.0816 | (0.035, 0.15) | 0.56 | 2.89 | (4.9e-10, 2.8e-11), cell 22 | 0.2 | 1.4 % / 1.7 % |
+| 2 (27–35) | 0.1030 | (0.035, 0.15) | 0.36 | 2.95 | (5.8e-10, 3.4e-11), cell 30 | 0.2 | 1.9 % / 2.4 % |
+| 3 (36–41) | 0.1237 | (0.035, 0.15) | 0.21 | 2.95 | (1.0e-9, 6.0e-11), cell 39 | 0.4 | 3.0 % / 3.8 % |
+| 4 (42–45) | 0.1431 | (0.035, 0.15) | 0.10 | 3.12 | (2.3e-9, 1.3e-10), cell 44 | 0.8 | 5.0 % / 6.2 % |
+| 5 (46–48) | 0.1611 | (0.03, 0.15) | 0.050 | 3.85 | (6.1e-8, 9.1e-10), cell 47 | 22 | 8.9 % / 11.1 % (cell 47) |
+| 6 (49) | 0.1673 | (0.025, 0.15) | 0.057 | 5.04 | (1.48e-7, 1.7e-9), cell 49 | 54 | 3.7 % / 4.5 % |
+
+**Reading.**
+- **The worst `T₁` is cell 49**: `T_c ≤ 1.48e-7` at `(0.025, 0.15)`, 54 % of the bracket budget `η < 2.73e-7`. That
+  leaves `1.25e-7` for `T₂–T₅`.
+  - Freeing `ρ_b` gives `(0.025, 0.10)` with `T_c = 1.38e-7`, but `T_b = 2.8e-8`.
+  - `(0.03, 0.15)` gives `1.37e-7`, but its Kepler slack, 0.026, is not admissible.
+- **The audit's cell 46 is not the worst (2b) radius.** Cell 47 is: 8.9 % at real `θ` and 11.1 % at `ρ' = 0.005`.
+  Cells 46 and 48 are 7.9 % and 10.0 %.
+- **A uniform strip does not fit the budget.** At `(0.025, 0.15)` cell 47 gives `T_c = 2.70e-7`, 99 % of the budget.
+  The strips must be per slab, and the Lean (1a) is proved on exactly these strips (`HD11964.HoloSlab`):
+  - slabs 0–4, `|ξ_c| ≤ 0.1431`: `keplerData_HD_A`, `ρ = (7/200, 3/20)`;
+  - slab 5, `|ξ_c| ≤ 0.1612`: `keplerData_HD_B`, `ρ = (3/100, 3/20)`;
+  - slab 6 (all of `holoDomHD`): `keplerData_HD`, `ρ = (1/40, 3/20)`.
+
+  The slab bounds are the plan's slab ends: every cell of slab `s` has `ξ_c ≤ hi_s`, since `c + h = hi_s` for the
+  `ξ_c` coordinate in the plan's data.
+- **`T₂` is not estimated.** It needs a model radius `r_G` for `G₂` (the analogue of `r_P`), which nothing computes
+  yet. Degree and strip are therefore fixed for `T₁` only. The audit asked that `T₂` be included before fixing them, so
+  this remains open.
+
+## Proved (Lean)
+
+**`applications/hd11964/HD11964/Holo.lean`** (`bd81f7d7a`, 290 lines). Definitions as in the draft below:
+`planetChartC`, `chartQPC`, `distSqC`, `chartPertC`, `rhoHolo`, `yHolo`, `kappaHolo`, `eBar`, `holoDomHD`.
+
+| theorem | content |
+|---|---|
+| `eccL1_le_eBar` | on `holoDomHD`, `β_j(\|ξ_j\| + \|η_j\|) ≤ ē_j`, `ē = (0.69, 0.18)` |
+| `keplerData_HD` | **(1a)**: `KeplerData {\|Im λ\| < 2πρ_j}` (`ρ = (1/40, 3/20)`, `y = (4/5, 13/10)`, `κ = (19/20, 1/2)`) for both planets on `holoDomHD` |
+| `noCollision_of_enclosure` | **(1b) from the layer's enclosure**: `‖d² − D‖ ≤ r < Re D` on `stripA rhoHolo` ⇒ `0 < Re d²` there |
+| `abs_pb_le` | **(2a)**: `\|{a, b}\| ≤ Σ_k \|∂_{x_k}a\|\|∂_{y_k}b\| + \|∂_{y_k}a\|\|∂_{x_k}b\|` |
+
+Supporting lemmas: `lpGamma_le_chartAMD`, `eccL1_le_of_sq`, and rational bounds on `exp`, `sinh` and `cosh` at
+`±4/5` and `13/10`.
+
+**`applications/hd11964/HD11964/HoloSlab.lean`** (this commit, 204 lines):
+
+| theorem | content |
+|---|---|
+| `eccC_le_of_xi` | planet `c` on `\|ξ\| ≤ X`, `\|η\| ≤ 1/500`, `Λ ≥ Λ₀`: `β(\|ξ\| + \|η\|) ≤ E` if `G = (X² + 1/500²)/2 ≤ Λ₀` and `E²Λ² − (2G + 2X/500)Λ + G²` is `≥ 0` with nonnegative slope at `Λ₀` |
+| `keplerData_of_ecc` | `KeplerData` from `β(\|ξ\| + \|η\|) ≤ E`, `2πρ + E sinh y < y`, `E cosh y ≤ κ < 1` |
+| `keplerData_HD_A` | **(1a), slabs 0–4**: `w ∈ holoDomHD`, `\|ξ_c\| ≤ 0.1431` ⇒ `KeplerData` on `ρ = (7/200, 3/20)`, `y = (1, 13/10)`, `κ = (23/25, 1/2)`; `ē_c = 0.59` |
+| `keplerData_HD_B` | **(1a), slab 5**: `\|ξ_c\| ≤ 0.1612` ⇒ `KeplerData` on `ρ = (3/100, 3/20)`, `y = (9/10, 13/10)`, `κ = (47/50, 1/2)`; `ē_c = 0.65` |
+
+Margins of the per-slab constants (with `π < 3.15`):
+- slabs 0–4: `0.2205 + 0.59 · 1.17525 = 0.914 < 1`, and `0.59 · 1.5433 = 0.911 ≤ 0.92`;
+- slab 5: `0.189 + 0.65 · 1.0266 = 0.856 < 0.9`, and `0.65 · 1.43325 = 0.932 ≤ 0.94`.
+
+Planet `b` reuses `keplerData_HD 1`.
+
+The root `applications/hd11964/HD11964.lean` imports both modules (docstring paragraph extended).
+
+**Checks.**
+- `lake build HD11964.HoloSlab`: built (4.5 s), with no warnings in the new module.
+- `lake env lean HD11964.lean` (root): exit 0.
+- `lake build HD11964.Holo`: 11.4 s at 4.0 GB, earlier.
+- All builds ran under `systemd-run --user --scope -p MemoryMax=4G -p MemorySwapMax=0 nice -n 5`.
+- `scripts/lint_sources.sh`:
+  - passes the line-length check, `check_lean_modules` (4477 files), the 25 unit tests and the frozen-anchor guard;
+  - its ABI step fails because this worktree's build lacks `KAM/Frozen/Magnetic/Defs/MagAlpha.olean`. That gap is
+    pre-existing and unrelated to these files.
+- Scratch check files, `lake env lean`, exit 0:
+  - `HoloCheck.lean` derives the drafted `KeplerDataHD` (1a) and `AbsPbLe` (2a) Props from the theorems;
+  - `HoloSlabCheck.lean` prints the axioms.
+- `#print axioms`: `keplerData_HD`, `noCollision_of_enclosure`, `abs_pb_le`, `keplerData_HD_A`,
+  `keplerData_HD_B`, `eccC_le_of_xi` and `keplerData_of_ecc` all depend only on
+  `[propext, Classical.choice, Quot.sound]`.
+
+## Infrastructure
+
+- From about 11:26 UTC the systemd user manager was down: no login session and no linger, so `/run/user/1004`
+  vanished.
+- Every capped `systemd-run --user` failed. The first all-cells launch lost cells 2–49 (rc 143, then 1), and the
+  `holo_margin.py` runs at `ρ_c = 0.03` and `0.035` failed.
+- Nothing ran uncapped.
+- After the orchestrator enabled linger, the failed work was re-run: the all-cells driver skips finished cells, and
+  both `holo_margin.py` runs were repeated (rc 0).
+
+## Deviations and errata
+
+- **`eBar_c = 0.69`, not the draft's 0.68.** The polynomial proof of `eccL1_le_eBar` at `Λ_c ≥ 0.0563` needs it. The
+  sampled maximum is `A ≤ 0.668` (cell 49).
+  - This is used only inside the proof of (1a); no statement changes.
+  - Margins at 0.69: `0.157 + 0.69 · 0.8882 = 0.770 < 0.8`, and `0.69 · 1.3376 = 0.923 ≤ 0.95`.
+- **The strips of (1a) are per slab** (`HoloSlab`), not the draft's single `rhoHolo`.
+  - The draft statement `KeplerDataHD` (uniform `(1/40, 3/20)`) still holds and is proved.
+  - The per-slab theorems are additions.
+  - The drafted (1b) and (1c) are stated over `stripA rhoHolo`. They need per-slab versions with `rhoHoloA` and
+    `rhoHoloB` (same shape, different `ρ` and `y`).
+- **The audit's C2 reading is refined.** It named cell 46 for the (2b) radius; the worst is cell 47 (8.9 % / 11.1 %).
+  Its `T_c` at `(0.025, 0.15)`, 2.5e-7, is reproduced on cell 46 (2.55e-7); cell 47 is 2.70e-7.
+- **My own defect in ROT-FIX (`3b50ee2b4`):** its C1 docstring edit left `TailSum.lean:23` at 105 characters, over the
+  100-character limit, and the linter flags it. This commit rewraps the bullet; the change is docstring only. The
+  audited and committed history is not rewritten.
+- No suspected errata in pinned sources.
+
+## Open
+
+- **(1b), no complex collision**, analytically: not proposed. It should come from the layer's certified enclosure of
+  `d²` on `stripA ρ(slab)` × cell, through `noCollision_of_enclosure`. That lemma is stated for `rhoHolo`, so the
+  per-slab copy is a one-line generalisation.
+- **(1c), `ChartPertExtHD`**: holomorphic, periodic and equal to `chartPert` at real points.
+  - Holomorphy: `keplerSol_differentiableOn` from (1a), the principal power from (1b), and the radicand
+    (`Re > 0`, about 15).
+  - Periodicity: uniqueness of `keplerSol` in the strip under `λ ↦ λ + 2π`.
+  - The real points: `keplerSol y₀ = keplerLongC` on the real line, both being the unique real solution.
+- **(1d), `G2ExtHD`**: the existence of `G_C` from (1c) and the generator's construction.
+- **(2b)–(2e)**: the derivative/tail commutations and the `T₃` bound, as drafted.
+- **`T₂`'s estimate** needs `r_G`.
+- **The cell-to-slab glue**: a cell of slab `s` lies in `|ξ_c| ≤ hi_s`. This is decidable from the plan's data, and
+  the consumer needs it to pick `keplerData_HD_A`/`_B` per cell.
 
 ## The statements (type-checked as `Prop`s; scratch `lake env lean`, exit 0)
 

@@ -20,8 +20,8 @@ The sup bound on a Fourier tail `D_i (Q - Π_S Q)` from a strip of width `ρ` ca
   `Σ_{|m| > K} q^{|m|} = 2q^{K+1}/(1 - q)` and
   `Σ_{|m| > K} |m| q^{|m|} = 2q^{K+1}((K + 1) - Kq)/(1 - q)²`,
   at any `q < 1` with `e^{-2πρ} ≤ q` (a rational upper bound is data).
-* `tailWeightA`, `summable_absMul_expA`, `tailWeightA_le_boxTailBoundA`: the same on an anisotropic strip
-  (widths `σ₀`, `σ₁` for the two angles; `q₀ ≥ e^{-2πσ₀}`, `q₁ ≥ e^{-2πσ₁}`).
+* `tailWeightA`, `summable_absMul_expA`, `tailWeightA_le_boxTailBoundA`: the same on an
+  anisotropic strip (widths `σ₀`, `σ₁` for the two angles; `q₀ ≥ e^{-2πσ₀}`, `q₁ ≥ e^{-2πσ₁}`).
 -/
 
 @[expose] public noncomputable section
