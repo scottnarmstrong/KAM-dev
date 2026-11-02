@@ -6,14 +6,16 @@ Three studies from 30 October 2026 on certifying a KAM torus of a Sun–Jupiter�
 [striking-applications](../striking-applications.md) §9 called the full planar problem infeasible in the kernel. The
 feasibility study found two levers that could close the gap and recommended the secular LG00 model as the first
 milestone. The LG00 scout became a running side campaign. The costed plan for the full planar problem corrects several
-numbers of the feasibility study and waits for eight owner decisions. For lifetimes (rather than tori) of Sun–Jupiter–
-Saturn–Uranus secular models, see [effective stability](effective-stability.md).
+numbers of the feasibility study and waits for eight owner decisions. A numerical gate of 2 November, which needs none of
+them, measures the plan's largest uncertainty. For lifetimes (rather than tori) of Sun–Jupiter–Saturn–Uranus secular
+models, see [effective stability](effective-stability.md).
 
 | Document | Status | One line |
 |---|---|---|
 | [sjs-feasibility](../sjs-feasibility.md) | scouted; partly superseded by sjs-plan | Route B plus packed kernel arithmetic would make the full planar torus checkable |
 | [sjs-lg00-scout](../sjs-lg00-scout.md) | scouted; running as the LG00 side campaign | LG00's secular torus is checkable at lunar-class cost |
 | [sjs-plan](../sjs-plan.md) | proposed (8 owner decisions) | A synodic chart and a packed layer: 15–300 CPU-h per torus, 8–15k Lean lines |
+| [sjs-x1-support](../sjs-x1-support.md) | measured (gate X1 of sjs-plan) | The torus's Fourier support, measured to L = 22, grows at the plan's low rate: S(45) ≈ 4.0–4.9·10⁶ |
 
 **The running LG00 campaign** (from [`lg00-status.json`](../../campaign/side/lg00-status.json), reviewed 31 October
 2026, 04:45 UTC; 47 % by weighted stages). Done: the scout; Lean Diophantine lemmas for the two frequency directions;
@@ -111,5 +113,40 @@ checks it in 1–20 hours for under USD 200. The cost is Lean work: 8–15k line
   [B](../program-b-plan.md), [C](../program-c-plan.md) and [D](../program-d-plan.md) propose such a model (GLS17) as the
   first planetary lifetime target. The goals differ (a torus here, a lifetime there); sjs-plan and programs B and D all
   note that GLS17's full coefficient data are not printed and would have to be recovered or rebuilt.
+
+## The torus's Fourier support to 22 digits (SJS-X1)
+
+**[sjs-x1-support.md](../sjs-x1-support.md)** · 2 November 2026 · numerical gate (double-double, Python) · status:
+**measured**; gate X1 of [sjs-plan](../sjs-plan.md), floating, no certificate
+
+The gate recomputes FH25's torus in sjs-plan's synodic chart to the double-double floor (residual 6·10⁻³²). It measures the
+torus's Fourier support S(L) in the plan's definition to L = 22, where the plan had L ≤ 10.
+
+- **Finding.** The cube root of S grows by 3.46 per digit at L = 12 and 3.74–3.77 from L = 20 to 24. That is the plan's low
+  scenario (3.7), not its high one (5.3).
+- **Numbers.**
+  - S(22) = 397,070.
+  - S(45) is extrapolated to 4.0–4.1·10⁶ with a flat slope, or 4.9·10⁶ if the slope resumed its earlier rise; the plan had
+    4.3·10⁶–1.3·10⁷.
+  - The best-frame box ratio is 2.2–2.3; the plan used 3.
+  - In the plan's cost model: packed with one `Nat` per model, 10–43 CPU-h (plan 14–143); under the default kernel limit,
+    107–590 (210–6,700).
+  - Input literals at V2-PACKED's measured rates: 340–550 GB of charged kernel memory at 288-bit chunks, 57–70 GB with
+    long-line chunks.
+- **New.** One isolated near-resonant spike, at θ-mode (27, −67, 31), where 27ω₁ − 67ω₂ + 31ω₃ = 7.7·10⁻⁷. Its coefficient
+  is 5.8·10⁻¹⁵, 2.6·10¹⁴ times the median coefficient at its order. It is the only mode with |k·ω| < 10⁻⁶ in the box a 45-digit
+  certificate needs, and it lies inside that box.
+  - Its double small divisor puts noise of about 10⁻¹⁰ on it in every double-precision torus.
+  - A double-double refinement diverges on a grid whose band cuts its satellites.
+- **Checks.**
+  - Energy constant on the torus to 3.8·10⁻³⁰.
+  - ⟨Ĝ⟩ equal to FH25's printed digits.
+  - Two grids of different shapes agree on S(L) for every L ≤ 22.
+  - sjs-plan's coarse torus and its S(L) table are reproduced.
+- **Corrects.** [sjs-plan](../sjs-plan.md) §1.3's support extrapolation: S(45) is at its low end, and box/S is below its
+  3. It also updates §5 with the landed packed layer (V2-PACKED) and a literature search: FH25's computer-assisted proof was
+  not found published by 2 November 2026.
+- **Not done.** No enclosure. Only K's support was measured, not the intermediates'. L = 45 needs about 48 digits
+  (triple-double or the plan's native packed Newton).
 
 [← Back to the catalogue](../README.md)

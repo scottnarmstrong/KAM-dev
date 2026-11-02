@@ -1,0 +1,2 @@
+DD self-test: rel err add/mul/div/sqrt 1.89e-32, sincos abs err 8.71e-32, fft(24) abs err 1.99e-31
+H_syn self-test: grad vs sjs_chart 3.3e-12, hess vs sjs_chart 4.1e-10 (relative to max; since the two formulas agree at 200 bits, this gap is rounding in sjs_chart's double evaluation), DD vs float grad 1.1e-15, DD grad vs mpmath 7.7e-32 (absolute; |grad| max 4.98e-02), H regular-Kepler vs Delaunay route at 200 bits 7.8e-62
