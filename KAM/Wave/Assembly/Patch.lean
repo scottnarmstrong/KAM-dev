@@ -23,8 +23,8 @@ shell number: `n(I)` (`w8ShellIdx`), `Γ = ⋃ Γ_n` (`w8PatchSet`), `ν` (`w8Pa
 
 The regularity lemmas `measurableSet_w8PatchSet_of_pieces`, `continuousOn_w8PatchNu_of_pieces`,
 `continuousOn_w8PatchK_of_pieces` are the patching step of Lemma `bpW:w8:patch-cont` for arbitrary
-pieces: they are conditional helpers whose hypotheses are the per-shell regularity, which for the
-shell iteration is W6's (Lemma `bpW:w8:freq-shell` (iv), Lemma `bpW:w8:shell-inv` (ii)); they do
+pieces: they are hypothesis-taking variants whose hypotheses are the per-shell regularity, which for
+the shell iteration is W6's (Lemma `bpW:w8:freq-shell` (iv), Lemma `bpW:w8:shell-inv` (ii)); they do
 not stand in for `bpW:w8:patch-cont` itself. The inclusion
 `Γ ⊆ {I | (∀ i, 0 < I i) ∧ r(I) < √(2 t₀)}` (`w8PatchSet_subset`) needs only `Γ_n ⊆ Π_n`.
 -/
@@ -132,7 +132,7 @@ theorem w8PatchSet_subset (ht : 0 < t0) :
   · linarith [(hbox 0).2, (hbox 1).2]
 
 /-- Patching step of `bpW:w8:patch-cont` (Step `stepW:w8:pc-nu`), for arbitrary pieces: if each
-`ν^{(n)}` is continuous on `Γ_n`, then `ν` is continuous on `Γ` (conditional helper). -/
+`ν^{(n)}` is continuous on `Γ_n`, then `ν` is continuous on `Γ` (hypothesis-taking variant). -/
 theorem continuousOn_w8PatchNu_of_pieces (ht : 0 < t0) {νs : ℕ → (Fin 2 → ℝ) → Fin 2 → ℝ}
     (hν : ∀ n, ContinuousOn (νs n) (Γs n)) :
     ContinuousOn (w8PatchNu t0 Γs νs) (w8PatchSet Γs) := by
@@ -145,7 +145,7 @@ theorem continuousOn_w8PatchNu_of_pieces (ht : 0 < t0) {νs : ℕ → (Fin 2 →
 
 /-- Patching step of `bpW:w8:patch-cont` (Step `stepW:w8:pc-K`), for arbitrary pieces: if each
 `(I, θ) ↦ K^{(n)}_I(θ)` is continuous on `Γ_n × ℝ²`, then `(I, θ) ↦ K_I(θ)` is continuous on
-`Γ × ℝ²` (conditional helper). -/
+`Γ × ℝ²` (hypothesis-taking variant). -/
 theorem continuousOn_w8PatchK_of_pieces {E : Type*} [Zero E] [TopologicalSpace E] (ht : 0 < t0)
     {Ks : ℕ → (Fin 2 → ℝ) → (Fin 2 → ℝ) → E}
     (hK : ∀ n, ContinuousOn (Function.uncurry (Ks n)) (Γs n ×ˢ univ)) :

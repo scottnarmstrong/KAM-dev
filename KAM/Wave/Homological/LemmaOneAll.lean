@@ -179,8 +179,8 @@ section main
 
 variable {σ τ α K0 : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ}
 
-/-- CONDITIONAL helper for Lemma 1 (ii), all `(z, \bar z)`: assumes the gate `HomMultBounds` and
-the frequency bound. The source-premise export is `homLemma1_equation_all_gen`. -/
+/-- Hypothesis-taking variant for Lemma 1 (ii), all `(z, \bar z)`: assumes the gate `HomMultBounds`
+and the frequency bound. The source-premise export is `homLemma1_equation_all_gen`. -/
 theorem homLemma1_equation_all_of_gates_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hp1 : 1 ≤ p +
   pb) {r ε
     :

@@ -136,7 +136,7 @@ theorem homComp_first {a p s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε : ℝ} (
   apply homComp_first_gen (pb := p + 1) <;>
     first | assumption | exact homPlusOne_le p | linarith
 
-/-- CONDITIONAL helper (assumes the gates `HomMultBounds`, `HomMultLip`); the source-premise
+/-- Hypothesis-taking variant (assumes the gates `HomMultBounds`, `HomMultLip`); the source-premise
 export is `homLemma1_lipschitz`. -/
 theorem homLemma1_lipschitz_of_gates (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε εL : ℝ} (hr : 0 < r) (hτ : 0 ≤
   τ)
@@ -162,7 +162,7 @@ theorem norm_homLamD_mul_le {a p K0 : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hK0 : 
   apply norm_homLamD_mul_le_gen (pb := p + 1) <;> first | assumption | exact homPlusOne_le p |
       linarith
 
-/-- CONDITIONAL helper (assumes the gate `HomMultBounds`); the source-premise export is
+/-- Hypothesis-taking variant (assumes the gate `HomMultBounds`); the source-premise export is
 `homLemma1_equation_all`. -/
 theorem homLemma1_equation_all_of_gates (ha : 0 ≤ a) (hp : 0 ≤ p) {r ε : ℝ} (hr : 0 < r)
     (hτ : 0 ≤ τ)
@@ -237,7 +237,7 @@ theorem homF_compBounds {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ →
   apply homF_compBounds_gen (pb := p + 1) <;>
     first | assumption | exact homPlusOne_le p | linarith
 
-/-- CONDITIONAL helper (assumes the gate `HomMultBounds`); the source-premise export is
+/-- Hypothesis-taking variant (assumes the gate `HomMultBounds`); the source-premise export is
 `homLemma1_fieldBound`. -/
 theorem homLemma1_fieldBound_of_gates {a p s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ} (ha : 0 ≤ a)
     (hp : 0 ≤ p) {r ε : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ) (hσs : σ < s)

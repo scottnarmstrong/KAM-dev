@@ -115,7 +115,7 @@ theorem homModF_sub_compBounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (h
     rw [hpart F₁.comp_Q F₂.comp_Q i]
     exact homModLip_dQ ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL hθ R₁ R₂ hX₁ hXL hX₂ i
 
-/-- CONDITIONAL helper for `bpW:w5:w4-modified` (ii): assumes the gates `HomModMultBounds`,
+/-- Hypothesis-taking variant for `bpW:w5:w4-modified` (ii): assumes the gates `HomModMultBounds`,
 `HomModMultLip`. The source-premise export is `homModLemma_lipschitz`. -/
 theorem homModLemma_lipschitz_of_gates (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb)
     (hc : pb ≤ p + 1) {r ε εL : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α) (hM : 0 ≤ M)

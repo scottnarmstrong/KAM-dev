@@ -18,10 +18,10 @@ bound) and `bpW:w6:final-freq` (milestone W6).
 * `w6_divisor_limit` (step `c-freq`): if `|⟨k, ω_ν⟩ + ⟨l, Ω_ν⟩| ≥ a_ν ⟨l⟩/A_k` for every `ν`, with
   `a_ν ≥ c`, and `ω_ν → ω_*`, `Ω_{ν,j} → Ω_{*,j}` for every `j`, then
   `|⟨k, ω_*⟩ + ⟨l, Ω_*⟩| ≥ c ⟨l⟩/A_k`. No hypothesis on how the frequencies were obtained.
-* `w6FinalFreq_of_limits`: a **conditional helper** (not the label `final-freq`, which is about the
-  outputs of the wave iteration and needs W5's step): for an admissible family `F` (W7) whose
-  `ω_ν` converge on a set `S ⊆ ⋂ D_ν` to `ω_*` and satisfy the stage-wise conditions with `l = 0` at
-  levels `a_ν ≥ α̌/2`, the three conclusions of `bpW:w6:final-freq` hold on `S`.
+* `w6FinalFreq_of_limits`: a **hypothesis-taking variant** (not the label `final-freq`, which is
+  about the outputs of the wave iteration and needs W5's step): for an admissible family `F` (W7)
+  whose `ω_ν` converge on a set `S ⊆ ⋂ D_ν` to `ω_*` and satisfy the stage-wise conditions with
+  `l = 0` at levels `a_ν ≥ α̌/2`, the three conclusions of `bpW:w6:final-freq` hold on `S`.
 -/
 
 @[expose] public noncomputable section
@@ -54,7 +54,7 @@ theorem w6_divisor_limit {ωs : ℕ → Fin 2 → ℝ} {Ωs : ℕ → ℕ → �
   have hJ : 0 ≤ japL l := le_trans zero_le_one (japL_ge_one l)
   exact div_le_div_of_nonneg_right (mul_le_mul_of_nonneg_right (ha ν) hJ) hA.le
 
-/-- **Final frequencies, conditional helper** (the conclusions of `bpW:w6:final-freq` for a
+/-- **Final frequencies, hypothesis-taking variant** (the conclusions of `bpW:w6:final-freq` for a
 limit of an admissible family): if `S ⊆ D_ν` for all `ν`, `ω_ν → ω_*` on `S`, and
 `|⟨k, ω_ν⟩| ≥ a_ν/A_k` (`k ≠ 0`) on `S` with `a_ν ≥ α̌/2`, then on `S`:
 `|⟨k, ω_*⟩| ≥ α̌/(2A_k)` (`k ≠ 0`), `|ω_* - ω⁰|_∞ ≤ ε_ω`, and `ω_*` is Lipschitz with constant

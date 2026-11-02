@@ -35,8 +35,8 @@ The shell data are a family `H : ∀ n, W8ShellPrep m hm n (Ps n) (Xs n)` of pre
   `Ψ̃^{(n)}_ξ = 𝒜_ξ ∘ Φ_P ∘ Φ_*` for an action–angle map `A` (W5's `𝒜_ξ` of
   `bpW:w5:action-angle`, a parameter here: it is not in this base). `w8KW A H` is the
   patched `K`; its continuity on `Γ × ℝ²` is
-  `w8_patchContK_of_pieces` (conditional helper: per shell it is `bpW:w8:shell-inv` (ii), which
-  needs `𝒜_ξ`).
+  `w8_patchContK_of_pieces` (hypothesis-taking variant: per shell it is `bpW:w8:shell-inv` (ii),
+  which needs `𝒜_ξ`).
 -/
 
 @[expose] public noncomputable section
@@ -140,8 +140,9 @@ theorem w8_patchCont (H : ∀ n, W8ShellPrep m hm n (Ps n) (Xs n)) :
     continuousOn_w8PatchNu_of_pieces (w8Gammas_subset H) (w8T0_pos hm _) fun n =>
       (w8_freqShell (H n)).2.2.2.2.1⟩
 
-/-- Step `stepW:w8:pc-K` of `bpW:w8:patch-cont` for the shell iterations (conditional helper: the
-hypothesis is `bpW:w8:shell-inv` (ii) for every shell, which needs W5's `bpW:w5:action-angle`). -/
+/-- Step `stepW:w8:pc-K` of `bpW:w8:patch-cont` for the shell iterations
+(hypothesis-taking variant: the hypothesis is `bpW:w8:shell-inv` (ii) for every shell, which
+needs W5's `bpW:w5:action-angle`). -/
 theorem w8_patchContK_of_pieces (H : ∀ n, W8ShellPrep m hm n (Ps n) (Xs n)) {E : Type*} [Zero E]
     [TopologicalSpace E] {Ks : ℕ → (Fin 2 → ℝ) → (Fin 2 → ℝ) → E}
     (hK : ∀ n, ContinuousOn (Function.uncurry (Ks n)) (w8Gammas H n ×ˢ univ)) :

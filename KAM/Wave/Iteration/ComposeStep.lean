@@ -29,7 +29,7 @@ choice of an equivalent norm) and estimated with the norms `kamNorm r_μ`.
 * `w6PhiK`, `w6PsiK`: `Φ_{ν+1}`, `Ψ_{ν+1}` along the iteration started at `S₀`, on `KamPhase`;
 * `w6StepK_smooth`, `w6StepK_clauses`: their properties at stage `ν` (W5's `stepTheorem` and
   `StepHypSrc.phi_smooth_of`, transported to `KamPhase`). Everything using `Ψ` or `DΦ` is
-  conditional on the W5 dependency `W6StepSmooth` (argument `hS`).
+  assuming `W6StepSmooth` (argument `hS`; proved as `w6StepSmooth_holds`).
 -/
 
 @[expose] public noncomputable section
@@ -166,8 +166,8 @@ theorem w6PsiK_eq (hd : W6State.Std d) (hs : (w6Seq d S0 ν).w6Stage d ν) :
   rw [W6State.stepPsiN_eq hd hs]
 
 /-- **The factor `Φ_{ν+1}` on `KamPhase`** (steps `il-tr`, `c-dom`): for `ξ ∈ Π_ν`, `Φ_{ν+1}` and
-`Ψ_{ν+1}` are holomorphic on the open `D_{ν+1}`, and on `D_{ν+1}` (conditional on the W5
-dependency `W6StepSmooth`):
+`Ψ_{ν+1}` are holomorphic on the open `D_{ν+1}`, and on `D_{ν+1}` (assuming
+`W6StepSmooth`, proved as `w6StepSmooth_holds`):
 `Φ_{ν+1}(w) ∈ D(s_ν - 4σ_ν, 2η_ν r_ν) ⊆ D_ν`, `Φ_{ν+1}(w) = w + ι Ψ_{ν+1}(w)`,
 `|Ψ_{ν+1}(w)|_{r_ν} ≤ M_{F,ν}`, `DΦ_{ν+1}(w) = I + ι ∘ DΨ_{ν+1}(w)` and
 `|DΨ_{ν+1}(w) W|_{r_ν} ≤ 2^{-ν-3} |W|_{r_ν}`. -/

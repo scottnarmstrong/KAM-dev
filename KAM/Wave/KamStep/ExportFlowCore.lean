@@ -29,8 +29,9 @@ For the step core `H` and `ξ ∈ Π`, `φ^t_ξ = H.phiT ξ t` is the time-`t` m
   `D(s-3σ, r/4)`: `Dφ^t = I + ι ∘ DΨ^t`, `|DΨ^t| ≤ 8M_F/σ`, `|DΨ^t|^λ ≤ 16M_F/σ ≤ η²`;
 * `phiT_image` (clause (iii)): `φ^t(D(s-5σ, ηr)) ⊆ D(s-4σ, 2ηr) ⊆ D(s-3σ, r/4)`;
 * `phiT_translate_int` (clause (iv)): `φ^t(w + τ_k) = φ^t(w) + τ_k`, `k ∈ ℤ²`, `w ∈ U`;
-* `phiT_real_of_FT_real` (clause (iv), conditional helper: it assumes the abstract family `FT`
-  real, which `StepCore` does not record; the source-facing exports in `ExportFlow` discharge it).
+* `phiT_real_of_FT_real` (clause (iv), hypothesis-taking variant: it assumes the abstract family
+  `FT` real, which `StepCore` does not record; the source-facing exports in `ExportFlow` discharge
+  it).
 
 These are lemmas about the abstract `StepCore`; the source-facing statements, with only the step
 data `StepHypSrc` / `StepHypModSrc` as hypotheses, are in `KAM.Wave.KamStep.ExportFlow`.
@@ -290,8 +291,8 @@ theorem phiT_translate_int {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {t : ℝ} (ht
   obtain ⟨-, h3⟩ := hlaw 1 (k 1) _ h1
   rw [← add_assoc, h3, h2, add_assoc]
 
-/-- `φ^t` maps real points of `U` to real points, conditional helper: it assumes that the abstract
-solution family `FT` is real (discharged for the step data in `ExportFlow`). -/
+/-- `φ^t` maps real points of `U` to real points, hypothesis-taking variant: it assumes that the
+abstract solution family `FT` is real (discharged for the step data in `ExportFlow`). -/
 theorem phiT_real_of_FT_real (hFT : ∀ ξ ∈ Par, (FT ξ).isRealTaylor) {ξ : Fin 2 → ℝ}
     (hξ : ξ ∈ Par) {t : ℝ} (ht : t ∈ Icc (-1 : ℝ) 1) {w : StepPhase r}
     (hw : w ∈ stepDomain r (s - 2 * σ) (r / 2)) (hwr : StepReal (StepPhase.toK w)) :

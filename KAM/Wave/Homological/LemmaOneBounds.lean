@@ -248,7 +248,7 @@ theorem homF_compBounds_gen {a p pb s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : �
         exact (hang z hz i).2.2.2.2.2.2) hθ
     refine this.trans (le_of_eq ?_); ring
 
-/-- CONDITIONAL helper for Lemma 1 (iii), uniform bound: assumes the intermediate gate
+/-- Hypothesis-taking variant for Lemma 1 (iii), uniform bound: assumes the intermediate gate
 `HomMultBounds`. The source-premise export is `homLemma1_fieldBound_gen`. -/
 theorem homLemma1_fieldBound_of_gates_gen {a p pb s σ τ α : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ} (ha : 0
   ≤ a)

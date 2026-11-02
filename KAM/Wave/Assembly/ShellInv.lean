@@ -19,14 +19,14 @@ base). This module reduces it to properties of an arbitrary torus `Ψ` in Birkho
 * `w8KOfBirk_eq_gamma`: at real points with `𝒵⁻¹Ψ(θ) ∈ B^E_{r₁}`,
   `K(θ) = Γ^ℝ(𝒵⁻¹Ψ(θ)) = Π Γ(Ψ(θ))` (the second expression of Definition `bpW:w8:Kshell`);
 * `w8_shellInv_of_birk` (`bpW:w8:shell-inv` (i), Steps `stepW:w8:si-tr`, `stepW:w8:si-frozen`;
-  conditional helper): if `Ψ` is real, maps into `B_{ρ₁}` with `𝒵⁻¹Ψ ∈ B^E_{r₁}`, is
+  hypothesis-taking variant): if `Ψ` is real, maps into `B_{ρ₁}` with `𝒵⁻¹Ψ ∈ B^E_{r₁}`, is
   differentiable along `ν` with derivative `D`, and `D = X_{H'}(Ψ)` in `𝔚_{a,p-1}` (Theorem
   `bpW:w6:tori` (i), (iii) and Lemma `bpW:w8:torus-shape` (v)),
   then `K = w8KOfBirk m hm Ψ` satisfies
   the two `HasDerivAt` statements of clause (4) of `nlw2` (W3 Corollary
   `bpW:w3:transport-tori-weak`, frozen form);
-* `w8_shellInvCont_of_birk` (`bpW:w8:shell-inv` (ii), Step `stepW:w8:si-cont`; conditional
-  helper): joint continuity of `(ξ, θ) ↦ K_ξ(θ)` from that of `(ξ, θ) ↦ Ψ_ξ(θ)`.
+* `w8_shellInvCont_of_birk` (`bpW:w8:shell-inv` (ii), Step `stepW:w8:si-cont`; hypothesis-taking
+  variant): joint continuity of `(ξ, θ) ↦ K_ξ(θ)` from that of `(ξ, θ) ↦ Ψ_ξ(θ)`.
 -/
 
 @[expose] public noncomputable section
@@ -51,8 +51,8 @@ theorem w8KOfBirk_eq_gamma {Ψ : (Fin 2 → ℝ) → BirkSpace} {θ : Fin 2 → 
   rw [birkZR_birkPi _ hρ]
 
 /-- **Invariance of a shell torus, W8-side reduction** (blueprint `bpW:w8:shell-inv` (i);
-conditional helper): for a real torus `Ψ` in `B_{ρ₁}` with `𝒵⁻¹Ψ ∈ B^E_{r₁}`, derivative `D` along
-`ν`, and the weak invariance `D = X_Λ(Ψ) + X_Ḡ(Ψ) + X_{G^{nor}}(Ψ) + X_K(Ψ)` in `𝔚_{a,p-1}`,
+hypothesis-taking variant): for a real torus `Ψ` in `B_{ρ₁}` with `𝒵⁻¹Ψ ∈ B^E_{r₁}`, derivative `D`
+along `ν`, and the weak invariance `D = X_Λ(Ψ) + X_Ḡ(Ψ) + X_{G^{nor}}(Ψ) + X_K(Ψ)` in `𝔚_{a,p-1}`,
 `K = w8KOfBirk m hm Ψ` satisfies clause (4) of `nlw2` with frequency `ν`. -/
 theorem w8_shellInv_of_birk (ν : Fin 2 → ℝ) (Ψ D : (Fin 2 → ℝ) → BirkSpace)
     (hρ : ∀ θ, birkRho (Ψ θ) = Ψ θ) (hΨ : ∀ θ, Ψ θ ∈ birkBall1 m 1)
@@ -73,7 +73,7 @@ theorem w8_shellInv_of_birk (ν : Fin 2 → ℝ) (Ψ D : (Fin 2 → ℝ) → Bir
   exact birk_transport_tori_weak_frozen_coord (by norm_num) ν Ψ D hρ hΨ hder heq θ j
 
 /-- **Continuity of a shell torus in `(ξ, θ)`, W8-side reduction** (blueprint `bpW:w8:shell-inv`
-(ii); conditional helper): if `(ξ, θ) ↦ Ψ_ξ(θ)` is continuous on `S × ℝ²` with real values in
+(ii); hypothesis-taking variant): if `(ξ, θ) ↦ Ψ_ξ(θ)` is continuous on `S × ℝ²` with real values in
 `B_{ρ₁}` and `𝒵⁻¹Ψ_ξ(θ) ∈ B^E_{r₁}`, then `(ξ, θ) ↦ K_ξ(θ) = w8KOfBirk m hm Ψ_ξ θ` is continuous on
 `S × ℝ²`. -/
 theorem w8_shellInvCont_of_birk {S : Set (Fin 2 → ℝ)}

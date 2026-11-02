@@ -23,8 +23,8 @@ bounded fields `X_P`, `X_{P_+}` (`p_+`-representatives) enter through `ι_{p_+�
 * `StepCore.weakConj_field`: the identity, from the derivative form `StepCore.weakConj`, the Riesz
   representation `stepDN_eq_symp_XN` (for `N` and `N_+`) and the invariance `stepSymp_embed_eq`.
 * `stepTheorem_weakConj_field_of_eps0_pos` (`WaveStepHyp`),
-  `stepTheoremMod_weakConj_field_of_eps0_pos` (`StepHypMod`): conditional helpers (`ε₀ > 0`, carried
-  by `WaveStepHyp`, `StepHypMod`); the source-facing clause is a conjunct of `stepTheorem`,
+  `stepTheoremMod_weakConj_field_of_eps0_pos` (`StepHypMod`): hypothesis-taking variants (`ε₀ > 0`,
+  carried by `WaveStepHyp`, `StepHypMod`); the source-facing clause is a conjunct of `stepTheorem`,
   `stepTheoremMod` (`StepTheoremSrc.lean`).
 -/
 

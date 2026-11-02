@@ -28,12 +28,12 @@ bound,
 * (iv) the divisor bounds;
 * (v) `|Φ - id|`, `|DΦ - I|` (sup and Lipschitz parts, `M₀ + λ M₁ ≤ M_F`).
 
-This module's `stepTheoremCore`/`stepTheorem_of_eps0_pos` are conditional helpers. The reality
-clauses, `DΦ(w)(𝒫^{p_+}) = 𝒫^{p_+}` and the field-form weak conjugacy are supplied by the W5-REAL
-modules (`RealStep`, `RealSmoothOnto`, `RealWeakConj`); clause (v) in the `p_+` norms (the smoothing
-displacement `Ψ`), holomorphy of `Φ`, the `ℤ²` translation law and the Dirichlet-weight clause (iv)
-by `StepPsi`, `StepDivisorsW`. The source-facing statements are `stepTheorem`, `stepTheoremMod`
-in `StepTheoremSrc`.
+This module's `stepTheoremCore`/`stepTheorem_of_eps0_pos` are hypothesis-taking variants. The
+reality clauses, `DΦ(w)(𝒫^{p_+}) = 𝒫^{p_+}` and the field-form weak conjugacy are supplied by the
+W5-REAL modules (`RealStep`, `RealSmoothOnto`, `RealWeakConj`); clause (v) in the `p_+` norms (the
+smoothing displacement `Ψ`), holomorphy of `Φ`, the `ℤ²` translation law and the Dirichlet-weight
+clause (iv) by `StepPsi`, `StepDivisorsW`. The source-facing statements are `stepTheorem`,
+`stepTheoremMod` in `StepTheoremSrc`.
 -/
 
 @[expose] public noncomputable section
@@ -123,8 +123,8 @@ theorem stepTheoremCore (H : StepCore a p pb s r σ η τ α lam ε ε₀ ε₁ 
 
 namespace WaveStepHyp
 
-/-- The clauses of **one KAM step** (`bpW:w5:step`), non-modified case, conditional helper: it
-  assumes `0 < ε₀`, which is not
+/-- The clauses of **one KAM step** (`bpW:w5:step`), non-modified case, hypothesis-taking variant:
+  it assumes `0 < ε₀`, which is not
 a premise of the blueprint (see `stepTheorem`). -/
 protected def Conclusion (H : WaveStepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
     [Fact (0 < r)] : Prop :=    -- (i)
@@ -193,7 +193,7 @@ protected def Conclusion (H : WaveStepHyp a p pb s r σ η τ α lam ε ε₀ ε
 
 end WaveStepHyp
 
-/-- Conditional helper (`0 < ε₀`). -/
+/-- Hypothesis-taking variant (`0 < ε₀`). -/
 theorem stepTheorem_of_eps0_pos
     (H : WaveStepHyp a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
     [Fact (0 < r)] : H.Conclusion :=

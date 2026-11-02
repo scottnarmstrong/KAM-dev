@@ -34,7 +34,7 @@ open KAM
 
 variable {a p pb s σ τ α M d : ℝ} {w₁ w₂ : Fin 2 → ℝ} {W₁ W₂ : ℕ+ → ℝ}
 
-/-- CONDITIONAL helper for Lemma 1 (iii), Lipschitz bound: assumes the gates `HomMultBounds`,
+/-- Hypothesis-taking variant for Lemma 1 (iii), Lipschitz bound: assumes the gates `HomMultBounds`,
 `HomMultLip`. The source-premise export is `homLemma1_lipschitz_gen`. -/
 theorem homLemma1_lipschitz_of_gates_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε εL : ℝ} (hr
   : 0 < r)

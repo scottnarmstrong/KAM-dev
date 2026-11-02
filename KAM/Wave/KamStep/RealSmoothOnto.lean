@@ -24,9 +24,9 @@ In the representative model the smoothing space `𝒫^{p_+}` is `StepPhase r` re
   `D(s-3σ, r/4)` (`bpW:w5:flow-calc` (iii)).
 * `StepCore.dPhi_smooth_mapsTo`, `StepCore.dPhi_smooth_onto` on `D_+ = D(s-5σ, ηr)`, and the
   instances `stepTheorem_dPhi_smooth_onto_of_eps0_pos` (`WaveStepHyp`, `bpW:w5:step` (i)) and
-  `stepTheoremMod_dPhi_smooth_onto_of_eps0_pos` (`StepHypMod`); conditional helpers (`ε₀ > 0`,
-  carried by `WaveStepHyp`, `StepHypMod`), the source-facing clause is a conjunct of `stepTheorem`,
-  `stepTheoremMod` (`StepTheoremSrc.lean`).
+  `stepTheoremMod_dPhi_smooth_onto_of_eps0_pos` (`StepHypMod`); hypothesis-taking variants
+  (`ε₀ > 0`, carried by `WaveStepHyp`, `StepHypMod`), the source-facing clause is a conjunct of
+  `stepTheorem`, `stepTheoremMod` (`StepTheoremSrc.lean`).
 * `stepEmbedCLM_injective`: `ι` is injective, so the preimage in `𝒫^{p_+}` is unique.
 -/
 

@@ -16,10 +16,10 @@ import Mathlib.Tactic.Positivity
 Blueprint labels `bpW:w6:convergence` (iii), (iv), `bpW:w6:invariance`,
 `bpW:w6:prep-step` (iii) (sharp form), and the W6 part of `bpW:w6:tori` (KAM coordinates).
 
-W6-CONV stated these as conditional helpers on the named W5 dependencies `W6StepSmooth`,
-`W6StepSmoothMod`; both are now theorems (`w6StepSmooth_holds`, `w6StepSmoothMod_holds`,
-module `StepSmoothW5`). The unconditional source-facing theorems (same statements, the dependency
-argument removed); the helpers keep their names:
+W6-CONV stated these as hypothesis-taking variants taking the propositions `W6StepSmooth`,
+`W6StepSmoothMod` as hypotheses; both are now theorems (`w6StepSmooth_holds`,
+`w6StepSmoothMod_holds`, module `StepSmoothW5`). The unconditional source-facing theorems (same
+statements, the dependency argument removed); the helpers keep their names:
 
 | helper (kept) | unconditional |
 |---|---|

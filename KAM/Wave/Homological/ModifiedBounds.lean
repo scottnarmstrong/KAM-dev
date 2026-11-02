@@ -208,7 +208,7 @@ theorem homModF_compBounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hc : 
       _ ≤ 16 * Real.pi * (homKS * waveBW τ σ * ε / α) := by nlinarith
       _ = _ := by ring
 
-/-- CONDITIONAL helper for `bpW:w5:w4-modified` (i), field bound: assumes the gate
+/-- Hypothesis-taking variant for `bpW:w5:w4-modified` (i), field bound: assumes the gate
 `HomModMultBounds`. The source-premise export is `homModLemma_fieldBound`. -/
 theorem homModLemma_fieldBound_of_gates (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb)
     (hc : pb ≤ p + 1) {r ε : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ)

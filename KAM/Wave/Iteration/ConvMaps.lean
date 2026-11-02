@@ -213,14 +213,14 @@ theorem w6IterHyp_of_conv (hS : W6StepSmooth) (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0
   ⟨⟨hC.valid, hC.small⟩, w6Seq_stage hC, hS⟩
 
 /-- **Transformations on the torus** (blueprint `bpW:w6:convergence` (iii)) for the data of the
-proposition (`W6ConvHyp`, `Π_{-1} = Pm`, the iteration `w6Seq` started at `w6Start`); conditional
-helper on the W5 dependency `W6StepSmooth`. -/
+proposition (`W6ConvHyp`, `Π_{-1} = Pm`, the iteration `w6Seq` started at `w6Start`);
+hypothesis-taking variant assuming `W6StepSmooth`. -/
 theorem w6ConvTorus_of_stepSmooth (hS : W6StepSmooth) (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) :
     W6ConvTorusClause d (w6Start d Pm ω0 Ω0 P0 X0) :=
   w6ConvTorusIt (w6IterHyp_of_conv hS hC)
 
 /-- **Operator bounds** (blueprint `bpW:w6:convergence` (iv)) for the data of the proposition;
-conditional helper on the W5 dependency `W6StepSmooth`. -/
+hypothesis-taking variant assuming `W6StepSmooth`. -/
 theorem w6ConvOpsSrc_of_stepSmooth (hS : W6StepSmooth) (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀)
     (ν : ℕ) (ξ : Fin 2 → ℝ)
     (hξ : ∀ μ < ν, ξ ∈ (w6Seq d (w6Start d Pm ω0 Ω0 P0 X0) μ).Pi) :

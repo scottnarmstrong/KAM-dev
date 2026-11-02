@@ -68,8 +68,8 @@ section compose
 variable {d : W6SeqData} {S0 : W6State}
 
 /-- The standing hypotheses on the iteration: `Std d`, the hypotheses of every stage, and the W5
-dependency `W6StepSmooth` (the `p_+` smoothing of each step's transformation, being added to W5 on
-`inp-w5aa`); every theorem taking `W6IterHyp` is conditional on that dependency. -/
+hypothesis `W6StepSmooth` (the `p_+` smoothing of each step's transformation, proved as
+`w6StepSmooth_holds`); every theorem taking `W6IterHyp` assumes it. -/
 structure W6IterHyp (d : W6SeqData) (S0 : W6State) : Prop where
   std : W6State.Std d
   stage : ∀ ν, (w6Seq d S0 ν).w6Stage d ν

@@ -32,8 +32,8 @@ For the data `d` of Definition `bpW:w6:sequences` with `ε₀ ≤ γ₀ α₀ σ
 
 The reality of `P_{ν+1}` is W5's clause `bpW:w5:step` (ii) (reality). `W6StepReal` is that clause
 for the data used here; it holds (`w6StepReal_holds`, from `stepTheorem_reality_of_eps0_pos`), and
-`next_stage` gives the full stage `ν+1` (the conditional helper `next_stage_of_stepReal` takes
-`W6StepReal` as a hypothesis).
+`next_stage` gives the full stage `ν+1` (the hypothesis-taking variant `next_stage_of_stepReal`
+takes `W6StepReal` as a hypothesis).
 -/
 
 @[expose] public noncomputable section
@@ -322,7 +322,7 @@ theorem next_core
       ring
     exact c8.mono_lam hsub subset_rfl (W6SeqData.lam_succ_le hd ν) hb.le
 
-/-- **Stage `ν+1`, with reality** (conditional helper; not the label): if W5's reality clause
+/-- **Stage `ν+1`, with reality** (hypothesis-taking variant; not the label): if W5's reality clause
 `W6StepReal` holds, all hypotheses of `bpW:w6:iter-lemma` hold at stage `ν+1`. -/
 theorem next_stage_of_stepReal (hR : W6StepReal)
     (hk0 : W6Mel0 (d.alpha (ν + 1)) (h.PiN hd hsmall) (fun ξ => w6Om7 (h.OmN hd hsmall ξ))) :

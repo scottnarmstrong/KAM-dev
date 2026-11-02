@@ -22,9 +22,9 @@ Model (as in `StrongConj`): fields with values in `𝒫^{p-1}` are read in the `
 * `w6Field_torus`: `X_{H}(ιθ) = ι_{p→p-1}((ω/2π, 0, 0, 0) + ι X_P(ιθ))` at torus points;
 * `w6Invariance_step` (step `i-torus`): `X_{H_0}(Φ^ν ιθ) = ι_{p→p-1}(∂_θ(Φ^ν∘ι)(θ) ω_ν/2π +
   DΦ^ν(ιθ) ι X_{P_ν}(ιθ))`;
-* `w6Invariance_of_stepSmooth` (`bpW:w6:invariance`, conditional on the W5 dependency
-  `W6StepSmooth`): `X_{H_0}(Φ_*(θ)) = ι_{p→p-1}(∂_θΦ_*(θ) ν_*)` for `ξ ∈ Π_*`,
-  `θ ∈ T_{s_0/2}`, `ν_* = ω_*/2π`; the right side exhibits both sides as elements of `𝒫`.
+* `w6Invariance_of_stepSmooth` (`bpW:w6:invariance`, assuming
+  `W6StepSmooth`, proved as `w6StepSmooth_holds`): `X_{H_0}(Φ_*(θ)) = ι_{p→p-1}(∂_θΦ_*(θ) ν_*)` for
+  `ξ ∈ Π_*`, `θ ∈ T_{s_0/2}`, `ν_* = ω_*/2π`; the right side exhibits both sides as elements of `𝒫`.
 -/
 
 @[expose] public noncomputable section
@@ -230,8 +230,8 @@ variable {d : W6SeqData} {Pm : Set (Fin 2 → ℝ)} {ω0 : (Fin 2 → ℝ) → F
 Proposition `bpW:w6:convergence` (`W6ConvHyp`), with `H_0 = N_0 + P_0`,
 `X_{H_0} = X_{N_0} + ι X_{P_0}` (`X_{N_0}(w) = (ω_0/2π, 0, Ω_0 v, -Ω_0 u)`, any bound `K0` for
 `Ω_0(ξ)`), `ν_* = ω_*/(2π)`: for `ξ ∈ Π_*` and `θ ∈ T_{s_0/2}`,
-`X_{H_0}(Φ_*(θ)) = ι_{p→p-1}(∂_θΦ_*(θ) ν_*)` in `𝒫^{p-1}`; both sides lie in `𝒫`. Conditional
-helper on the W5 dependency `W6StepSmooth`. -/
+`X_{H_0}(Φ_*(θ)) = ι_{p→p-1}(∂_θΦ_*(θ) ν_*)` in `𝒫^{p-1}`; both sides lie in `𝒫`. Hypothesis-taking
+variant assuming `W6StepSmooth`. -/
 theorem w6Invariance_of_stepSmooth (hS : W6StepSmooth) (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀)
     {ξ : Fin 2 → ℝ}
     (hξ : ξ ∈ w6PiStarIt d (w6Start d Pm ω0 Ω0 P0 X0))

@@ -31,8 +31,8 @@ variable {a p pb s r σ η τ α β lam ε ε₀ ε₁ γ M0 Mω MΩ : ℝ} {Par
 
 namespace StepHypMod
 
-/-- **One KAM step, modified case** (`bpW:w5:step`), conditional helper (assumes `0 < ε₀`). The
-  solve
+/-- **One KAM step, modified case** (`bpW:w5:step`), hypothesis-taking variant (assumes `0 < ε₀`).
+  The solve
 uses modified divisors; the new objects are those of `H.core` for the pair `(P, D_ρ ∘ X)`. Clause
   (iv)
 is conditional on `HomMelnikov` (the blueprint's "whenever the same holds with `α`"). -/
@@ -104,7 +104,7 @@ protected def Conclusion
 
 end StepHypMod
 
-/-- Conditional helper (`0 < ε₀`). -/
+/-- Hypothesis-taking variant (`0 < ε₀`). -/
 theorem stepTheoremMod_of_eps0_pos
     (H : StepHypMod a p pb s r σ η τ α β lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
     [Fact (0 < r)] : H.Conclusion :=

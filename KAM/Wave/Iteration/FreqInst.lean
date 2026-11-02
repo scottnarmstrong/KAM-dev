@@ -18,10 +18,10 @@ Blueprint labels `bpW:w6:freq-lip`, `bpW:w6:exclusion`, `bpW:w6:final-freq`
 
 For the data of Lemma `bpW:w6:prep-step` (`H : W6PrepHyp …`, `MeasSetup`) and a starting size
 `ε₀ ∈ [ε^♭_0, γ₁ α̌]`, the wave iteration is `w6Seq` started at `w6Start` with the prep-step outputs
-(Definition `bpW:w6:wave-iteration`). All results here are **conditional helpers** on W5's reality
-clauses `W6StepReal` (unmodified step) and `W6StepRealMod` (modified step); these clauses hold
-(`w6StepReal_holds`, `w6StepRealMod_holds`), and the unconditional label statements are in
-`KAM.Wave.Iteration.ConvSource` (`w6WaveFamily`, `w6Exclusion`, `w6FinalFreq`):
+(Definition `bpW:w6:wave-iteration`). All results here are **hypothesis-taking variants**
+taking W5's reality clauses `W6StepReal` (unmodified step) and `W6StepRealMod` (modified step);
+these clauses hold (`w6StepReal_holds`, `w6StepRealMod_holds`), and the unconditional label
+statements are in `KAM.Wave.Iteration.ConvSource` (`w6WaveFamily`, `w6Exclusion`, `w6FinalFreq`):
 
 * `w6WaveFamily_of_stepReal`: the admissible family `(D_ν, ω_ν, Ω_ν, K_ν)` with `D_ν = Π_{ν-1}`
   (`bpW:w6:freq-lip`), constants `ε_ω = 6πγα + 8πε₀`, `ε₁ = 0`, `ε₂ = 3γα + 4ε₀`, `θ` (deviation:
@@ -136,7 +136,7 @@ theorem w6wavePair (ν : ℕ) :
     rw [hl0] at h
     exact hmul hlam0 h
 
-/-- **Lipschitz frequencies** (`bpW:w6:freq-lip`; conditional helper on `W6StepReal`,
+/-- **Lipschitz frequencies** (`bpW:w6:freq-lip`; hypothesis-taking variant on `W6StepReal`,
 `W6StepRealMod`): the admissible family of the wave iteration, `D_ν = Π_{ν-1}`, thresholds `K_ν`. -/
 def w6WaveFamily_of_stepReal : AdmissibleFamily m hm Pi α :=
   w6AdmissibleFamilyOfPairs (w6WaveSeq m hm α r ε ε₀)
@@ -150,7 +150,7 @@ def wavePiStar (H : W6PrepHyp m hm Pi α r ε P X) (ε₀ : ℝ) : Set (Fin 2 �
     (w6Start (w6WaveSeq m hm α r ε ε₀) (Pi \ prepSet m hm Pi α) H.om0 H.Om0 H.w6P0 H.X0)
 
 include hR hRm hS hlo hhi in
-/-- **Exclusion** (`bpW:w6:exclusion`; conditional helper on `W6StepReal`, `W6StepRealMod`):
+/-- **Exclusion** (`bpW:w6:exclusion`; hypothesis-taking variant on `W6StepReal`, `W6StepRealMod`):
 `Π ∖ Π_* ⊆ ℰ`, W7's excluded set for the admissible family of the wave iteration (levels
 `α_ν ≤ α̌`, thresholds `K_ν ≥ 2^ν`). -/
 theorem w6Exclusion_of_stepReal :
@@ -164,7 +164,7 @@ theorem w6Exclusion_of_stepReal :
   exact h
 
 include hR hRm hS hlo hhi in
-/-- **Final frequencies** (`bpW:w6:final-freq`; conditional helper on `W6StepReal`,
+/-- **Final frequencies** (`bpW:w6:final-freq`; hypothesis-taking variant on `W6StepReal`,
 `W6StepRealMod`): for `ξ ∈ Π_*`, `|⟨k, ω_*⟩| ≥ α̌/(2A_k)` (`k ≠ 0`), `|ω_* - ω⁰|_∞ ≤ ε_ω`, and
 `ω_*` is Lipschitz on `Π_*` with constant `N_A + θ`. -/
 theorem w6FinalFreq_of_stepReal :
