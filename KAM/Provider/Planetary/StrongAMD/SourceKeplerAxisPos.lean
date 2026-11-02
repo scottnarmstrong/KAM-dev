@@ -11,13 +11,15 @@ public import KAM.Planetary.StrongAMD.SourceCarrier
 # Provider for `KAM.Planetary.StrongAMD.sourceKepler_axis_pos`
 
 Provider for the frozen theorem `KAM.Planetary.StrongAMD.sourceKepler_axis_pos`,
-characterization theorem of `SourceCanonicalPhase`; track LP (`LP:MAIN L2
+characterization theorem of `SourceCanonicalPhase`;
+track LP (`LP:MAIN L2
 (110–128)`).
 
 The theorem `KAM.Provider.Planetary.StrongAMD.sourceKepler_axis_pos` states the anchor's exact type
 text (its draft file under `docs/tracks/LP/freeze/draft7/`). Its proof is the proof of the former
 implementation lemma `KAM.Planetary.StrongAMD.sourceKepler_axis_pos`
-(`KAM.Planetary.StrongAMD.SourceCarrier`), moved verbatim at the freeze (D62). No module other than the anchor imports this module (AGENTS rule 9).
+(`KAM.Planetary.StrongAMD.SourceCarrier`), moved verbatim at the freeze (D62). No module other than
+the anchor imports this module (AGENTS rule 9).
 -/
 
 @[expose] public section

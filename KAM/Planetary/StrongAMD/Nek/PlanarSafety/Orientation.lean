@@ -11,13 +11,14 @@ public import KAM.Planetary.StrongAMD.PlanarSafety.Orientation
 /-!
 # Orientation reversal of the LP3 planar safety conclusion (drift scale as a parameter)
 
-Source: (planar theorem the Nekhoroshev part, `LP:MAIN L14 (468–500)`, `T15 (502–506)`, `L16 (508–529)`),
-track LP, non-frozen.
+Source: (planar theorem the Nekhoroshev part, `LP:MAIN L14 (468–500)`, `T15 (502–506)`,
+`L16 (508–529)`), track LP, non-frozen.
 
-`nekPlanarState` and `nekPlanarSol` are the per-time and solution-level conclusions of the Nekhoroshev part.  They
+`nekPlanarState` and `nekPlanarSol` are the per-time and solution-level conclusions of the
+Nekhoroshev part.  They
 are the LP1 predicates `PlanarSafeState`, `PlanarSafeSol` with the hard-coded drift scale `√μ`
-replaced by a parameter `s` (in the Nekhoroshev part: `s = μ ^ b_n`).  The reflection `reflectPhase` transports
-both (the invariance lemmas are those of `PlanarSafety/Orientation`).
+replaced by a parameter `s` (in the Nekhoroshev part: `s = μ ^ b_n`).  The reflection
+`reflectPhase` transports both (the invariance lemmas are those of `PlanarSafety/Orientation`).
 
 -/
 

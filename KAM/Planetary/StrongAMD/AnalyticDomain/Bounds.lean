@@ -19,7 +19,8 @@ public import KAM.Planetary.StrongAMD.AnalyticDomain.Bounds.Denominator
 
 Source: `LP:MAIN L8 (244–271)`, track LP, non-frozen.
 
-the analytic domain proved the holomorphic extension `fc` of the perturbation, its sup bound, its real trace and
+the analytic domain proved the holomorphic extension `fc` of the perturbation, its sup bound, its
+real trace and
 the (22) containment.  This package adds the two sentences of MAIN L8 (line 253) that were omitted:
 "on a slightly smaller version of this domain the chart, momenta, `f`, and all their first
 derivatives have bound `M`", and "every Newtonian denominator there has a single holomorphic

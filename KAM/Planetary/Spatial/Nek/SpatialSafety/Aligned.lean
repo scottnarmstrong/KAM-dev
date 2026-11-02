@@ -36,7 +36,8 @@ open KAM.Planetary KAM.Planetary.StrongAMD Set
 
 variable {n : ℕ}
 
-/-- **The Nekhoroshev part for aligned `z₀`** (`LP:MAIN T19 (599–603)`, `L14`, `L16`, `L18`): solution-level
+/-- **The Nekhoroshev part for aligned `z₀`** (`LP:MAIN T19 (599–603)`, `L14`, `L16`, `L18`):
+solution-level
 conclusion without Newtonian reconstruction and without rotation; no arithmetic premise. -/
 theorem spatial_nek_safety_of_aligned (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀ i, 0 < ν i)
     (A : Set (Fin n → ℝ)) (hA : IsCompact A)

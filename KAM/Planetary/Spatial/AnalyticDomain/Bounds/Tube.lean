@@ -14,8 +14,8 @@ public import KAM.Planetary.StrongAMD.AnalyticDomain.Bounds.Cauchy
 
 Source: `LP:MAIN L18 (595)` with `LP:MAIN L8 (253, 270)`, track LP, non-frozen.
 
-Twins of the analytic-domain bounds' `Bounds.TubeBound` for `complexTubeNM` (`n` fast and `m` slow pairs); the
-multivariable Cauchy estimate `norm_fderiv_le_cauchyBall` is dimension-free and reused.
+Twins of the analytic-domain bounds' `Bounds.TubeBound` for `complexTubeNM` (`n` fast and `m` slow
+pairs); the multivariable Cauchy estimate `norm_fderiv_le_cauchyBall` is dimension-free and reused.
 
 * `closedBall_subset_complexTubeNM`: thickening of a tube (monotonicity, openness and shift
   invariance are SP-TUBE's `complexTubeNM_mono`, `isOpen_complexTubeNM`,

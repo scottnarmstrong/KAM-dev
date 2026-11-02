@@ -11,12 +11,15 @@ public import KAM.Planetary.StrongAMD.Threshold.Strong
 /-!
 # Provider for `KAM.Planetary.StrongAMD.orderedStrongThreshold_isLeast`
 
-Provider for the frozen theorem `KAM.Planetary.StrongAMD.orderedStrongThreshold_isLeast`, characterization theorem of `orderedStrongThreshold`; track LP (`LP:MAIN §1 (3) (47–55)`).
+Provider for the frozen theorem `KAM.Planetary.StrongAMD.orderedStrongThreshold_isLeast`,
+characterization theorem of `orderedStrongThreshold`;
+track LP (`LP:MAIN §1 (3) (47–55)`).
 
 The theorem `KAM.Provider.Planetary.StrongAMD.orderedStrongThreshold_isLeast` states the anchor's
 exact type text (its draft file under `docs/tracks/LP/freeze/draft7/`). Its proof is the proof of
 the former implementation lemma `KAM.Planetary.StrongAMD.orderedStrongThreshold_isLeast`
-(`KAM.Planetary.StrongAMD.PlanarSafety.SourceThreshold`), moved verbatim at the freeze (D62); the sibling `orderedCrossThreshold_isLeast` it uses is inlined verbatim
+(`KAM.Planetary.StrongAMD.PlanarSafety.SourceThreshold`), moved verbatim at the freeze (D62); the
+sibling `orderedCrossThreshold_isLeast` it uses is inlined verbatim
 as a private theorem. No module other than the anchor imports this module (AGENTS rule 9).
 -/
 

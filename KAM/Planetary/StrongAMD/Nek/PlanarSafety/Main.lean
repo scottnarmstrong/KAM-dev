@@ -130,7 +130,8 @@ theorem lp3_planar_strongAMD_safety (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : �
   · obtain ⟨z, hz'⟩ := H μ hμ hμle z₀ hphys hAz hpos hch hC0
     exact hfin z hz'
 
-/-- The Nekhoroshev part with MAIN's mass normalization `max ν = 1` (`hνmax`, `hνle`) as unused premises. -/
+/-- The Nekhoroshev part with MAIN's mass normalization `max ν = 1` (`hνmax`, `hνle`) as unused
+premises. -/
 theorem lp3_planar_strongAMD_safety_normalized (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀ i, 0 < ν i)
     (_hνmax : ∃ i, ν i = 1) (_hνle : ∀ i, ν i ≤ 1)
     (A : Set (Fin n → ℝ)) (hA : IsCompact A)

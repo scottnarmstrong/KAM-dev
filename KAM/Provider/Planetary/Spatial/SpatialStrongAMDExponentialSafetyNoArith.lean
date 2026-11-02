@@ -13,12 +13,14 @@ public import KAM.Planetary.Spatial.SourceBarycentric
 
 Anchor (track LP, `LP:MAIN T19 (599–603) with §1 (6)–(9)
 (69–93) without (5), L14 (468–500), L16 (508–529), d = 3; drift supplier L12–L13 (381–467) replaced
-by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)`). The anchor text is in docs/tracks/LP/freeze/draft8/.
+by the sealed partialConvex_nekhoroshev (LP3-PLAN
+§1–§2)`). The anchor text is in docs/tracks/LP/freeze/draft8/.
 
 The proof of `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith` is assembled here
 as `KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith`: the anchor's exact
 type text, proved in one line by the implementation theorem
-`KAM.Planetary.Spatial.lp3_spatial_strongAMD_safety_source`. This module is quarantined (AGENTS rule 9): no module other than the anchor may import it.
+`KAM.Planetary.Spatial.lp3_spatial_strongAMD_safety_source`. This module is quarantined (AGENTS
+rule 9): no module other than the anchor may import it.
 -/
 
 @[expose] public section

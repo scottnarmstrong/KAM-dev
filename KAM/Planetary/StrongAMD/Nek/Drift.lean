@@ -27,7 +27,8 @@ With `ε = B₀ μ` the drift scale is `r(μ) = ε ^ b_n` and the time is `exp (
   (`StoppedOn`) with `|t| ≤ T(μ)`.  No drift, AMD or confinement premise is assumed; the initial
   action lies in `𝓛_δ` (typing data of the sublevel).
 * `lp_stopped_drift_nek_hstop`: the same in the literal `hstop` shape of
-  `strongFirstExit_of_stopped_drift` (time `T₀ exp (c μ^{-a_n})`), for the assembly the planar Nekhoroshev safety.
+  `strongFirstExit_of_stopped_drift` (time `T₀ exp (c μ^{-a_n})`), for the assembly the planar
+  Nekhoroshev safety.
 -/
 
 @[expose] public noncomputable section

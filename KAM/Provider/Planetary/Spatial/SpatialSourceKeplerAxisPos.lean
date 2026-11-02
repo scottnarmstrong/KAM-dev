@@ -10,12 +10,15 @@ public import KAM.Planetary.Spatial.SourceCarrier
 /-!
 # Provider for `KAM.Planetary.Spatial.spatialSourceKeplerAxis_pos`
 
-Provider for the frozen theorem `KAM.Planetary.Spatial.spatialSourceKeplerAxis_pos`, characterization theorem of `spatialSourceKeplerAxis`; track LP (`LP:MAIN L2 (110–128)`).
+Provider for the frozen theorem `KAM.Planetary.Spatial.spatialSourceKeplerAxis_pos`,
+characterization theorem of `spatialSourceKeplerAxis`;
+track LP (`LP:MAIN L2 (110–128)`).
 
 The theorem `KAM.Provider.Planetary.Spatial.spatialSourceKeplerAxis_pos` states the anchor's exact
 type text (its draft file under `docs/tracks/LP/freeze/draft7/`). Its proof is the proof of the
 former implementation lemma `KAM.Planetary.Spatial.spatialSourceKeplerAxis_pos`
-(`KAM.Planetary.Spatial.SourceCarrier`), moved verbatim at the freeze (D62). No module other than the anchor imports this module (AGENTS rule 9).
+(`KAM.Planetary.Spatial.SourceCarrier`), moved verbatim at the freeze (D62). No module other than
+the anchor imports this module (AGENTS rule 9).
 -/
 
 @[expose] public section

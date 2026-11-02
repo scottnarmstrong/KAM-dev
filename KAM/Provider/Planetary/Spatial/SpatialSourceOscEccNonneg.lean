@@ -10,12 +10,15 @@ public import KAM.Planetary.Spatial.SourceCarrier
 /-!
 # Provider for `KAM.Planetary.Spatial.spatialSourceOscEcc_nonneg`
 
-Provider for the frozen theorem `KAM.Planetary.Spatial.spatialSourceOscEcc_nonneg`, characterization theorem of `spatialSourceOscEcc`; track LP (`LP:MAIN L16 (508–525)`).
+Provider for the frozen theorem `KAM.Planetary.Spatial.spatialSourceOscEcc_nonneg`,
+characterization theorem of `spatialSourceOscEcc`;
+track LP (`LP:MAIN L16 (508–525)`).
 
 The theorem `KAM.Provider.Planetary.Spatial.spatialSourceOscEcc_nonneg` states the anchor's exact
 type text (its draft file under `docs/tracks/LP/freeze/draft7/`). Its proof is the proof of the
 former implementation lemma `KAM.Planetary.Spatial.spatialSourceOscEcc_nonneg`
-(`KAM.Planetary.Spatial.SourceCarrier`), moved verbatim at the freeze (D62). No module other than the anchor imports this module (AGENTS rule 9).
+(`KAM.Planetary.Spatial.SourceCarrier`), moved verbatim at the freeze (D62). No module other than
+the anchor imports this module (AGENTS rule 9).
 -/
 
 @[expose] public section

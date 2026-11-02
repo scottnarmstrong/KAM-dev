@@ -134,8 +134,8 @@ theorem lp3_spatial_strongAMD_safety_source_general (hn : 2 ≤ n) (ν : Fin n �
     ⟨hν, hμ, fun i => ⟨(hph i).1, (hosc i).1, (hosc i).2.2.1⟩⟩
   exact ⟨hs, hcht, hamd, hΛ, ha, hdrift, hs1, hs2, hd1, hd2, ho, hosc, hpa, hd3, hd4⟩
 
-/-- **The Nekhoroshev part through the spatial source carriers, with MAIN's mass normalization** (`hνmax`,
-`hνle`; unused premises). Every canonical element is a `spatialSource*` restriction. -/
+/-- **The Nekhoroshev part through the spatial source carriers, with MAIN's mass normalization**
+(`hνmax`, `hνle`; unused premises). Every canonical element is a `spatialSource*` restriction. -/
 theorem lp3_spatial_strongAMD_safety_source (hn : 2 ≤ n) (ν : Fin n → ℝ)
     (hν : ∀ i, 0 < ν i) (hνmax : ∃ i, ν i = 1) (hνle : ∀ i, ν i ≤ 1)
     (A : Set (Fin n → ℝ)) (hA : IsCompact A)

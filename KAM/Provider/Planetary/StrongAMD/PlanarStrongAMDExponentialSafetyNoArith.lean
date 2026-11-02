@@ -12,12 +12,14 @@ public import KAM.Planetary.StrongAMD.Nek.PlanarSafety.Source
 
 Anchor (track LP, `LP:MAIN T15 (502–506) with §1 (6)–(9)
 (69–93) without (5), L14 (468–500), L16 (508–529); N8, N10; drift supplier L12–L13 (381–467)
-replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)`). The anchor text is in docs/tracks/LP/freeze/draft8/.
+replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN
+§1–§2)`). The anchor text is in docs/tracks/LP/freeze/draft8/.
 
 The proof of `KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith` is assembled here
 as `KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith`: the anchor's exact
 type text, proved in one line by the implementation theorem
-`KAM.Planetary.StrongAMD.lp3_planar_strongAMD_safety_source`. This module is quarantined (AGENTS rule 9): no module other than the anchor may import it.
+`KAM.Planetary.StrongAMD.lp3_planar_strongAMD_safety_source`. This module is quarantined (AGENTS
+rule 9): no module other than the anchor may import it.
 -/
 
 @[expose] public section

@@ -227,7 +227,8 @@ end Cell
 
 /-! ### The bundled statement -/
 
-/-- The spatial sharp cover, bundled (`LP:MAIN L8 (259–271)`): after the shared tube, one width `R` and one
+/-- The spatial sharp cover, bundled (`LP:MAIN L8 (259–271)`): after the shared tube, one width `R`
+and one
 normalization `B₀ ≥ 1` give a single global `P` such that, for every cell centred in `𝓛_δ`, `±P`
 are partial perturbations on `(G′_j, D_j, ρ)` (with `D_j ⊆ Phase (n + n)`), and on the open real
 region `V_j` the degenerate Hamiltonian `h + (B₀ μ) Re P` equals the spatial chart Hamiltonian

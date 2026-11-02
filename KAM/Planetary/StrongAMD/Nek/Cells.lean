@@ -29,7 +29,8 @@ One generic theorem in the number `k` of slow pairs (planar `k = n`, spatial `k 
   `[t, 0]` into one of the `(-h, -P)` field on `[0, -t]`;
 * `cell_drift_two_sided`: the two-sided drift bound on every cell (a conditional helper, not a
   source result);
-* `kepler_cell_drift`: the instance `h = planetaryKeplerC ν`, fast premises from the Kepler cell data.
+* `kepler_cell_drift`: the instance `h = planetaryKeplerC ν`, fast premises from the Kepler cell
+  data.
 -/
 
 @[expose] public noncomputable section

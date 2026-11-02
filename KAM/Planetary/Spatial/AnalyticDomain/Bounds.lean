@@ -18,7 +18,8 @@ public import KAM.Planetary.Spatial.AnalyticDomain.Bounds.Denominator
 
 Source: `LP:MAIN L18 (580–597)` with `LP:MAIN L8 (244–271)`, track LP, non-frozen.
 
-the spatial analytic domain proved the holomorphic extension `fc` of the perturbation, its sup bound, its real trace
+the spatial analytic domain proved the holomorphic extension `fc` of the perturbation, its sup
+bound, its real trace
 and the (22) containment over the spatial core (47).  This package adds the two sentences of MAIN
 L8 (line 253), carried over to the spatial setting by L18 (line 595): "on a slightly smaller
 version of this domain the chart, momenta, `f`, and all their first derivatives have bound `M`",

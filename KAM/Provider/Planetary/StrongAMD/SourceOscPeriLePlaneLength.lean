@@ -10,13 +10,15 @@ public import KAM.Planetary.StrongAMD.SourceCarrier
 /-!
 # Provider for `KAM.Planetary.StrongAMD.sourceOscPeri_le_planeLength`
 
-Provider for the frozen theorem `KAM.Planetary.StrongAMD.sourceOscPeri_le_planeLength`, characterization theorem of `sourceOscPeri`; track LP (`LP:MAIN L16
-(527–528)`).
+Provider for the frozen theorem `KAM.Planetary.StrongAMD.sourceOscPeri_le_planeLength`,
+characterization theorem of `sourceOscPeri`;
+track LP (`LP:MAIN L16 (527–528)`).
 
 The theorem `KAM.Provider.Planetary.StrongAMD.sourceOscPeri_le_planeLength` states the anchor's
 exact type text (its draft file under `docs/tracks/LP/freeze/draft7/`). Its proof is the proof of
 the former implementation lemma `KAM.Planetary.StrongAMD.sourceOscPeri_le_planeLength`
-(`KAM.Planetary.StrongAMD.SourceCarrier`), moved verbatim at the freeze (D62). No module other than the anchor imports this module (AGENTS rule 9).
+(`KAM.Planetary.StrongAMD.SourceCarrier`), moved verbatim at the freeze (D62). No module other than
+the anchor imports this module (AGENTS rule 9).
 -/
 
 @[expose] public section

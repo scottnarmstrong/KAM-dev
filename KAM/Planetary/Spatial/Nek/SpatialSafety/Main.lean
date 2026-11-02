@@ -10,7 +10,8 @@ public import KAM.Planetary.Spatial.Nek.SpatialSafety.Aligned
 public import KAM.Planetary.Spatial.Newton
 
 /-!
-# The spatial theorem the Nekhoroshev part (spatial strong-AMD exponential safety, no arithmetic hypothesis)
+# The spatial theorem the Nekhoroshev part (spatial strong-AMD exponential safety, no arithmetic
+hypothesis)
 
 Source: `LP:MAIN T19 (599–603)` with `L14 (468–500)`, `L16 (508–529)`,
 `L18 (595–597)` for `d = 3`, track LP, non-frozen.
@@ -144,8 +145,8 @@ theorem lp3_spatial_strongAMD_safety (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : 
       simpa only [spatialKeplerAction_rotate hR] using hC0')
   exact hfin _ (hz'.transport_rotate hR hdet)
 
-/-- The Nekhoroshev part with MAIN's mass normalization `max ν = 1` (`hνmax`, `hνle`) as unused premises: the
-spatial twin of `lp3_planar_strongAMD_safety_normalized`. -/
+/-- The Nekhoroshev part with MAIN's mass normalization `max ν = 1` (`hνmax`, `hνle`) as unused
+premises: the spatial twin of `lp3_planar_strongAMD_safety_normalized`. -/
 theorem lp3_spatial_strongAMD_safety_normalized (hn : 2 ≤ n) (ν : Fin n → ℝ)
     (hν : ∀ i, 0 < ν i) (_hνmax : ∃ i, ν i = 1) (_hνle : ∀ i, ν i ≤ 1)
     (A : Set (Fin n → ℝ)) (hA : IsCompact A)

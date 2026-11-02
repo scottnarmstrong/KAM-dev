@@ -15,7 +15,8 @@ public import KAM.Planetary.Spatial.NonresonantReuse
 Source: (spatial theorem LP2; `LP:MAIN L14 (468–500)`, `L13 (429–464)`, `L18`), track
 LP, non-frozen.
 
-the spatial chart lift (`spatialChartLift_premises`) and the spatial nonresonant reuse (`spatial_stopped_drift`) were proved
+the spatial chart lift (`spatialChartLift_premises`) and the spatial nonresonant reuse
+(`spatial_stopped_drift`) were proved
 independently and carry their own names for the same chart objects.  This module records the
 identifications, all by unfolding and `ext`:
 
@@ -57,8 +58,8 @@ variable {ν : Fin n → ℝ} {U : Set (Fin n → ℝ)} {z₀ : Phase (n * 3)} {
 
 /-- **The D1 premises of `spatial_stopped_drift`** (`LP:MAIN L14 (477–483)`, `L13`, `L18`): from
 the lift data and a stopped spatial moving solution, a chart curve `w` on `uIcc 0 t` satisfying
-exactly the lift, localization, initial-action and slow-ball hypotheses of the spatial nonresonant reuse's
-`spatial_stopped_drift` for the block `lpBlockNM ν δ (Λ z₀) r wS`. -/
+exactly the lift, localization, initial-action and slow-ball hypotheses of the spatial nonresonant
+reuse's `spatial_stopped_drift` for the block `lpBlockNM ν δ (Λ z₀) r wS`. -/
 theorem spatialChartLift_premises_nrr (hd : SpatialLiftData ν U z₀ δ r) {wS : ℝ} {μ : ℝ}
     {J : Set ℝ} (hJ : J.OrdConnected) (h0 : (0 : ℝ) ∈ J) {z : ℝ → Phase (n * 3)}
     (hz : IsSpatialMovingSolutionOn ν μ J z) (hz0 : z 0 = z₀) {t : ℝ} (ht : t ∈ J)

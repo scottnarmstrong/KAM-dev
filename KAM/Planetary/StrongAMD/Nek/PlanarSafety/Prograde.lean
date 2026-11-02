@@ -15,10 +15,11 @@ public import KAM.Planetary.StrongAMD.Nek.PlanarSafety.Orientation
 /-!
 # The LP3 planar safety theorem for prograde initial states
 
-Source: (planar theorem the Nekhoroshev part, `LP:MAIN L14 (468–500)`, `T15 (502–506)`, `L16 (508–529)`),
-track LP, non-frozen.
+Source: (planar theorem the Nekhoroshev part, `LP:MAIN L14 (468–500)`, `T15 (502–506)`,
+`L16 (508–529)`), track LP, non-frozen.
 
-`nek_planar_safety_of_prograde` is the Nekhoroshev part for initial states with `0 < L(z₀)`, with no arithmetic
+`nek_planar_safety_of_prograde` is the Nekhoroshev part for initial states with `0 < L(z₀)`, with
+no arithmetic
 hypothesis.  It is the LP1 assembly `planar_safety_of_prograde` with exactly one change of
 ingredient: the stopped drift `hstop` of the confinement helper is discharged by
 `lp_stopped_drift_nek_hstop` with drift
@@ -35,7 +36,8 @@ open KAM.Planetary Set
 
 variable {n : ℕ}
 
-/-- **The Nekhoroshev part for `0 < L(z₀)`** (`LP:MAIN T15 (502–506)` with `L14`, `L16`, N2, N6, N10, and the
+/-- **The Nekhoroshev part for `0 < L(z₀)`** (`LP:MAIN T15 (502–506)` with `L14`, `L16`, N2, N6,
+N10, and the
 Nekhoroshev drift): the solution-level conclusion without the Newtonian reconstruction and without
 the orientation reduction.  `0 < totalMomentum z₀` is the orientation of the theorem. -/
 theorem nek_planar_safety_of_prograde (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀ i, 0 < ν i)

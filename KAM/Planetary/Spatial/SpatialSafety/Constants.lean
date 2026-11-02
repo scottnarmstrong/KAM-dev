@@ -21,7 +21,8 @@ non-frozen.
 * `spatialKeplerAxis_eq_action_sq`: `a_i = Λ_i²/ν_i²` on the physical carrier.
 * `spatial_norm_axis_sub_le`: the action-to-axis estimate (MAIN line 497) for `d = 3`.
 * `mem_strongLSet_spatialActionVector`: axes in `A` put the initial actions in `𝓛`.
-* The budget lemma `exists_budget_radius` (MAIN (39)) is shared with the planar `PlanarSafety.Constants`.
+* The budget lemma `exists_budget_radius` (MAIN (39)) is shared with the planar
+  `PlanarSafety.Constants`.
 -/
 
 @[expose] public noncomputable section

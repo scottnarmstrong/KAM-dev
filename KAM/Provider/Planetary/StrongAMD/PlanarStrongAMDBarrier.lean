@@ -10,12 +10,14 @@ public import KAM.Planetary.StrongAMD.PlanarSafety.SourceCorollary
 /-!
 # Provider for `KAM.Planetary.StrongAMD.planar_strongAMD_barrier`
 
-Provider for the frozen theorem `KAM.Planetary.StrongAMD.planar_strongAMD_barrier`, anchor LP0 (the planar sharp strong barrier (full MAIN Lemma 5)); track LP (`LP:MAIN L5 (162–166), with L2–L4 (110–160); N11`).
+Provider for the frozen theorem `KAM.Planetary.StrongAMD.planar_strongAMD_barrier`, anchor LP0 (the
+planar sharp strong barrier (full MAIN Lemma 5));
+track LP (`LP:MAIN L5 (162–166), with L2–L4 (110–160); N11`).
 
 The theorem `KAM.Provider.Planetary.StrongAMD.planar_strongAMD_barrier` states the anchor's exact
 type text (its draft file under `docs/tracks/LP/freeze/draft7/`) and is proved in one line by the
-implementation theorem `KAM.Planetary.StrongAMD.lp0_planar_barrier_source`. This module is quarantined: no module other than the anchor
-may import it (AGENTS rule 9).
+implementation theorem `KAM.Planetary.StrongAMD.lp0_planar_barrier_source`. This module is
+quarantined: no module other than the anchor may import it (AGENTS rule 9).
 -/
 
 @[expose] public section

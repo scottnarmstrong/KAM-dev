@@ -15,8 +15,8 @@ public import KAM.Planetary.Spatial.Product
 Source: `LP:MAIN L18 (580–597)` with `LP:MAIN L8 (244–271)`, amendments N2, N3 and
 N12; track LP, non-frozen.
 
-Layout as in the spatial product chart: a chart point is `w : Phase (n + (n + n))` (`n` fast pairs, `2n` slow
-pairs; `fast w.1 = λ`, `slow w.1 = (ξ | v)`, `fast w.2 = I`, `slow w.2 = (η | u)`).
+Layout as in the spatial product chart: a chart point is `w : Phase (n + (n + n))` (`n` fast pairs,
+`2n` slow pairs; `fast w.1 = λ`, `slow w.1 = (ξ | v)`, `fast w.2 = I`, `slow w.2 = (η | u)`).
 
 * D2 `spatialStrongCore ν L δ r` (MAIN (47)): fast angles in `[0, 2π]`, an `I⁰ ∈ L_δ` within
   `4 r` of the actions, and `(Σ slow²)/2 ≤ B(I⁰) − δ/4`; `isCompact_spatialStrongCore`.

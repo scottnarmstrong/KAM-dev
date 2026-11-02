@@ -22,7 +22,8 @@ non-frozen.
   Proved from `lp2_spatial_strongAMD_safety_source` and `scaleExponent_planar` (the exponent
   arithmetic does not depend on the dimension).
 * `lp2_spatial_strongAMD_safety_source_isDiophantine` and
-  `lp2_spatial_strongAMD_safety_source_isDiophantine_halfInteger`: the two statements with `∀ hμ : 0 < μ` named, the Newtonian reconstruction through
+  `lp2_spatial_strongAMD_safety_source_isDiophantine_halfInteger`: the two statements with
+  `∀ hμ : 0 < μ` named, the Newtonian reconstruction through
   the source maps `spatialSourceBarycentricPositions/Velocities ν μ hν hμ` of
   `KAM/Planetary/Spatial/SourceBarycentric.lean`, and the
   Diophantine premise as the frozen `KAM.IsDiophantine` (`isDiophantine_iff_forall_modeSize`). They

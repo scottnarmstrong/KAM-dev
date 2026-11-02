@@ -24,7 +24,8 @@ the improvement is to `r / 2`); track LP, non-frozen.
 `spatialStrongFirstExit_of_stopped_drift` is the topological first-exit argument of MAIN Lemma 14
 with the stopped drift as an **explicit hypothesis** `hstop`.  It is NOT the public theorem: it is
 the internal conditional helper (the spatial mirror of `strongFirstExit_of_stopped_drift`), and the
-spatial analogue of the planar safety assembly discharges `hstop` from Lemma 13 through the chart lift.
+spatial analogue of the planar safety assembly discharges `hstop` from Lemma 13 through the chart
+lift.
 
 The route is that of the planar helper: the maximal solution of the spatial moving field on the
 collision-free domain; a forward and a backward first exit (`amd_exit_forward`,

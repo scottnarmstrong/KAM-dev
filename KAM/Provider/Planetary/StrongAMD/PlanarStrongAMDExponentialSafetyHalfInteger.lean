@@ -12,13 +12,14 @@ public import KAM.Planetary.StrongAMD.PlanarSafety.SourceDiophantine
 
 Provider for the frozen theorem
 `KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_halfInteger`, anchor
-LP1-H (planar strong-AMD exponential safety at τ = n − 1/2 (exponent 1/(2n+1))); track LP (`LP:MAIN §1 (93) (τ = n − 1/2), T15 (502–506), L16 (508–529)`).
+LP1-H (planar strong-AMD exponential safety at τ = n − 1/2 (exponent 1/(2n+1))); track LP
+(`LP:MAIN §1 (93) (τ = n − 1/2), T15 (502–506), L16 (508–529)`).
 
 The theorem `KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_halfInteger` states
 the anchor's exact type text (its draft file under `docs/tracks/LP/freeze/draft7/`) and is proved in
 one line by the implementation theorem
-`KAM.Planetary.StrongAMD.lp1_planar_strongAMD_safety_source_isDiophantine_halfInteger`. This module is quarantined: no module other
-than the anchor may import it (AGENTS rule 9).
+`KAM.Planetary.StrongAMD.lp1_planar_strongAMD_safety_source_isDiophantine_halfInteger`. This module
+is quarantined: no module other than the anchor may import it (AGENTS rule 9).
 -/
 
 @[expose] public section

@@ -11,13 +11,15 @@ public import KAM.Planetary.StrongAMD.SourceCarrier
 # Provider for `KAM.Planetary.StrongAMD.sourceOscPeri_pos`
 
 Provider for the frozen theorem `KAM.Planetary.StrongAMD.sourceOscPeri_pos`,
-characterization theorem of `sourceOscPeri`; track LP (`LP:MAIN L16
+characterization theorem of `sourceOscPeri`;
+track LP (`LP:MAIN L16
 (527–528)`).
 
 The theorem `KAM.Provider.Planetary.StrongAMD.sourceOscPeri_pos` states the anchor's exact type text
 (its draft file under `docs/tracks/LP/freeze/draft7/`). Its proof is the proof of the former
 implementation lemma `KAM.Planetary.StrongAMD.sourceOscPeri_pos`
-(`KAM.Planetary.StrongAMD.SourceCarrier`), moved verbatim at the freeze (D62); the sibling `sourceOscAxis_pos` it uses is inlined verbatim as a private theorem. No
+(`KAM.Planetary.StrongAMD.SourceCarrier`), moved verbatim at the freeze (D62); the sibling
+`sourceOscAxis_pos` it uses is inlined verbatim as a private theorem. No
 module other than the anchor imports this module (AGENTS rule 9).
 -/
 

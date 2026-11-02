@@ -28,7 +28,8 @@ here restates facts of `Poincare/*` and `Exponential/Dictionary.lean` in MAIN's 
 * the per-planet dictionary: action `I = Λ`, energy `−ν³/(2 I²)`, momentum `L = I − Γ`, the
   eccentricity vector `keplerEccVector = poincareV`, `e² = 1 − (1 − Γ/I)²`, and MAIN's
   `(k, l) = b_e (x, −y)` (`lpChart_eccVector_xy`);
-* the AMD `C = (∑ I_i) − |L|` of MAIN (2) (`strongAMD`, the planar momentum identities) equals `chartAMD w`;
+* the AMD `C = (∑ I_i) − |L|` of MAIN (2) (`strongAMD`, the planar momentum identities) equals
+  `chartAMD w`;
 * one-line corollaries: Hamiltonian identity, symplecticity, analyticity, periodicity, inverse.
 -/
 
@@ -109,8 +110,8 @@ theorem lpChart_physicalAMD {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {w : Ph
     (hw : w ∈ poincareProdDom n) : physicalAMD ν (poincareProd ν 1 w) = chartAMD w :=
   (sec_domain_chart_facts hν hw).2.2
 
-/-- (LP:MAIN L7 (200), §1 (2)) MAIN's `C = ∑ I_i − |L|` (`strongAMD`, the planar momentum identities) of the chart
-image is `chartAMD w`, i.e. `∑ (x_i² + y_i²)/2`. -/
+/-- (LP:MAIN L7 (200), §1 (2)) MAIN's `C = ∑ I_i − |L|` (`strongAMD`, the planar momentum
+identities) of the chart image is `chartAMD w`, i.e. `∑ (x_i² + y_i²)/2`. -/
 theorem lpChart_strongAMD {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {w : Phase (n + n)}
     (hw : w ∈ poincareProdDom n) : strongAMD ν (poincareProd ν 1 w) = chartAMD w := by
   have hpro := (sec_domain_chart_facts hν hw).1
