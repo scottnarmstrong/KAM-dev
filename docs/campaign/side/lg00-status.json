@@ -1,7 +1,7 @@
 {
  "title": "LG00: a kernel-checked KAM torus of Locatelli–Giorgilli's secular Sun–Jupiter–Saturn model",
  "note": "Side campaign (lemma.farm). LG00 now goes by the packed certifier route (owner decision, 1 Nov). The certificate data and kernel shards live on local branches and are never part of KAM-dev's default build (separate repository pending, owner decision). The orchestrator updates this file when a stage completes; weights are the stages' relative effort.",
- "reviewed": "2026-11-01 23:15 UTC",
+ "reviewed": "2026-11-02 03:25 UTC",
  "stages": [
   {
    "name": "scout: model, torus, thresholds, cost",
@@ -48,14 +48,14 @@
   {
    "name": "confinement theorem in Lean (the real orbit trapped forever between T′ and T″)",
    "weight": 2,
-   "done": 0.9,
-   "evidence": "LG00.Confinement.lg00_confinement built 1 Nov 22:26 UTC: no hypotheses, axioms propext, Classical.choice, Quot.sound only. The Table 3 orbit of model (11) is global, unique, on its energy level, and stays strictly between the certified tori T′ and T″. Independent audit running; packaging into one clean package pending."
+   "done": 1.0,
+   "evidence": "LG00.Confinement.lg00_confinement (built 1 Nov 22:26 UTC): no hypotheses, axioms propext, Classical.choice, Quot.sound only (independent walk over 96,288 constants). The Table 3 orbit of model (11) is global, unique, on its energy level, with normal-mode actions in the box, and stays strictly between the certified tori T′ and T″. Independent audit AUDIT-LG00-CONF-PACKED-1: PASS WITH CHANGES (statement additions proposed for the owner; packaging)."
   },
   {
    "name": "independent audit and separate repository",
    "weight": 1,
-   "done": 0.3,
-   "evidence": "audits of the first torus (AUDIT-LG00-PROOF-1) and of the packed route done; final confinement audit running; separate repository pending"
+   "done": 0.5,
+   "evidence": "audits done: first torus (AUDIT-LG00-PROOF-1), packed route (PROD, CONS, JETROUTE), confinement (AUDIT-LG00-CONF-PACKED-1); self-contained release package building; separate repository pending"
   }
  ]
 }
