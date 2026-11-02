@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-02 08:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 68 / 73 · **510,029 lines of hand-written Lean** of an estimated ≈ 512,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-02 08:49 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 68 / 73 · **510,029 lines of hand-written Lean** of an estimated ≈ 512,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -353,7 +353,7 @@ Overall, everything together: 95.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-02 08:40 UTC from `main` at `481c4e00a` by `scripts/hq-status.py`.*
+*Generated 2026-11-02 08:49 UTC from `main` at `e5f2f2e0a` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -563,8 +563,8 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:workers -->
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
-| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
-| **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
+| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | 🔄 working | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
+| **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | 🔄 working | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **LOCK-DATA** `inp-mprov-lockdata` | prover (offload) | Claude Opus 5.5 | claude-5 | 🔄 proving | last commit: LOCK-DATA: Pass.HamBounds/HamClaim from the kernel-checked jet, ball pass and HamOk (HamBr | `inp-lockdata` | 57 (vs `inp`) |
@@ -580,6 +580,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-02 08:49 | `e5f2f2e0a` | Log: reduced-mass scoping note |
 | 2026-11-02 08:36 | `481c4e00a` | Explorations catalogue: HD 11964 pilot |
 | 2026-11-02 08:35 | `d886e9b7f` | HQ README: side project HD 11964 (tracks row, progress meter, completion row) from docs/campaign/side/hd11964-status.json |
 | 2026-11-02 08:13 | `46953be7c` | D70: lock source about 265 MB accepted; SOS option (a) confirmed; the remote run targets a CCX63 |
@@ -591,7 +592,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-02 04:00 | `7bc0a9018` | Land v2-packed-apply: the packed route for any certificate application (design note V2-PACKED-APPLY, generic driver scripts/packed/apply_packed.py, configs), tested byte for byte on LG00 T′ and T″; docs and scripts only |
 | 2026-11-02 03:18 | `7751b4760` | Overnight log: lock tp7, HC disk prune |
 | 2026-11-02 02:56 | `8a6fc13e3` | LG00 side status: confinement theorem independently audited |
-| 2026-11-02 01:49 | `2c3c778c8` | Overnight log: lock size 241 MB (recommendation taken) |
 <!-- /AUTO:landed -->
 
 ## Decisions
