@@ -10,7 +10,7 @@ Worker kamx-hd11964, branch `hd11964-p2`. Task from the orchestrator (2 November
 
 Statements first. Nothing pushed.
 
-**Status: PARTIAL.**
+**Status: PARTIAL** (part 2, statements first: see *Part 2* below).
 - **Proved** (`HD11964.Holo`, `HD11964.HoloSlab`; standard axioms):
   - (1a) the Kepler contraction on the uniform strip, and on per-slab strips;
   - (1b) from a certified enclosure of `d²`;
@@ -245,6 +245,186 @@ The root `applications/hd11964/HD11964.lean` imports both modules (docstring par
 - **`T₂`'s estimate** needs `r_G`.
 - **The cell-to-slab glue**: a cell of slab `s` lies in `|ξ_c| ≤ hi_s`. This is decidable from the plan's data, and
   the consumer needs it to pick `keplerData_HD_A`/`_B` per cell.
+
+## Part 2 (2 November, after DESIGN A): statements of (1c), (1d) and the cell-to-slab check
+
+The orchestrator relayed Scott's approval of DESIGN A for the kernel side (kamx-hd-layer, branch `hd-layer`:
+`HD-LAYER-PIECES.md` §"Scope: derivative models without Cauchy", `HD-LAYER-interface.md` §6). Each model carries a
+per-mode remainder majorant `ρ_k`:
+- angle derivatives are `|k_i| ρ_k` ramps;
+- `(1 − Π_S)` is an exact mask;
+- slow derivatives use per-mode Cauchy in `u`;
+- the Kepler fixed point is solved in the majorant cone.
+
+Priorities: (1c) and (1d) on the per-slab strips, with (1b) as a named premise; the cell-to-slab check; the T₃ tail
+lemmas re-assessed against the design.
+
+**What DESIGN A needs from this side.**
+- **Holomorphy at points, in all complex variables.** The layer's `hR` (`TFPin.dLam_of_rem`, `TFPin.dU_of_remZ`)
+  needs `f − poly` holomorphic on a neighbourhood of `T_ρ × D(1)`, with complex angles **and complex cell variables**.
+  A θ-only extension at real slow variables does not discharge it. So (1c) is stated pointwise in
+  `x = (θ, Λ, ξ, η) ∈ ℂ⁸` (`PertAnalyticAt`), under conditions that are all strict and hence open:
+  - the chart conditions `ChartOkAt` (Kepler invariance and contraction, radicand in the slit plane, `Λ ≠ 0`,
+    `1 + k ≠ 0`);
+  - `Re d² > 0`.
+
+  Analyticity at every point of the compact `T_ρ × D(1)` (modulo periodicity) gives it on a neighbourhood. The layer
+  discharges `Re d² > 0` from its enclosure of `d²`, and `ChartOkAt` from its `v` models; the margins at its strip are
+  measured below.
+- **The link from real to complex derivatives** (`PertDerivReal`, (1d-P)). The layer differentiates the complex
+  function (`dTh`, `dU`), while the bracket and the bridge differentiate the real `P`. The two agree at real points.
+  This replaces the coefficient-commutation lemmas.
+- **The per-slab strip extension** (`ChartPertExt`, `G2Ext`, the drafted form) remains the source of decay for the
+  modes beyond the layer's window (the scalar tail `τ`): `|P̂_k| ≤ M e^{−2π(ρ_c|k_c| + ρ_b|k_b|)}`, with `M` from
+  `Re d²`'s lower bound. It is also the hypothesis set of the anisotropic route (`tails_HD_of_cell_aniso`), which
+  DESIGN A's masks supersede for the in-window modes.
+
+**(2b)–(2e) under DESIGN A: not needed; not proved.**
+- `T₃ = {D_i r₁, χ₁}` is one of the five bracket terms (`a₃`) that the layer computes from its models:
+  - `r₁ = (1 − Π_S) P` is already proved (`residual₁_tail`);
+  - its model is the masked model of `P`, `D_i` is the ramp, the slow derivatives are `u`-shifts with per-mode Cauchy;
+  - the bracket is a product of models.
+- The coefficient-form lemmas would only bound `T₃` from Fourier coefficients of `D_v P`. Their role is taken by:
+  - (2b), (2c) `SlowDerivComm`/`AngleDerivComm` → `PertDerivReal` plus the layer's `dU`/`dLam` on the complex
+    function;
+  - (2d) `TailDerivComm` → masks commute with ramps on models (layer side);
+  - (2e) `T3TailBound` → `a₃` from the models.
+- (2a) `abs_pb_le` is proved and harmless, but unused by DESIGN A.
+- **Caveat:** the layer's `Major.lean` (the majorant link to the real-torus coefficients) is not built yet. If it
+  ends up stated on the real function's coefficients instead of on the complex function, (2b) and (2c) would be
+  needed after all. I will check its statement when it lands.
+
+**Statements** (type-checked as `Prop`s, scratch `ExtDraft.lean`, `lake env lean` exit 0; the proofs go in
+`HD11964/HoloExt.lean`):
+
+```lean
+/-! ## Fully complex chart variables -/
+
+/-- The complex chart variables `x = (θ, Λ, ξ, η)` (`λ = 2πθ`, planet `c` = index `0`). -/
+abbrev CVar : Type := (Fin 2 → ℂ) × (Fin 2 → ℂ) × (Fin 2 → ℂ) × (Fin 2 → ℂ)
+
+/-- Planet `j`'s complexified chart at the complex point `x`. -/
+def qpCC (y : Fin 2 → ℝ) (x : CVar) (j : Fin 2) : (Fin 2 → ℂ) × (Fin 2 → ℂ) :=
+  planetChartC (y j) (nu j) (2 * π * x.1 j) (x.2.1 j) (x.2.2.1 j) (x.2.2.2 j)
+
+/-- The complexified mutual distance squared at `x` (bilinear). -/
+def distSqCC (y : Fin 2 → ℝ) (x : CVar) : ℂ :=
+  ((qpCC y x 0).1 0 - (qpCC y x 1).1 0) ^ 2 + ((qpCC y x 0).1 1 - (qpCC y x 1).1 1) ^ 2
+
+/-- **The fully complexified perturbation** `P_C(θ, Λ, ξ, η)`. -/
+def pertCC (y : Fin 2 → ℝ) (x : CVar) : ℂ :=
+  (mu : ℂ) * ((((qpCC y x 0).2 0 + (qpCC y x 1).2 0) ^ 2 +
+    ((qpCC y x 0).2 1 + (qpCC y x 1).2 1) ^ 2) / 2 -
+    (nu 0 : ℂ) * (nu 1 : ℂ) * distSqCC y x ^ (-(1 / 2 : ℂ)))
+
+/-- The real chart state `w` with complex angles `θ`. -/
+def realVar (w : Phase (2 + 2)) (θ : Fin 2 → ℂ) : CVar :=
+  (θ, fun j => (fast w.2 j : ℂ), fun j => (slow w.1 j : ℂ), fun j => (slow w.2 j : ℂ))
+
+/-- The embedding of real chart states (`θ = λ/2π`). -/
+def cEmb (z : Phase (2 + 2)) : CVar := realVar z fun j => ((fast z.1 j / (2 * π) : ℝ) : ℂ)
+
+/-- The complex direction of a real chart direction (`ℝ`-linear part of `cEmb`). -/
+def cDir (v : Phase (2 + 2)) : CVar := cEmb v
+
+/-- The radicand `(1 - Γ/(2Λ))/Λ`. -/
+def radC (Λ ξ η : ℂ) : ℂ := (1 - (ξ ^ 2 + η ^ 2) / 2 / (2 * Λ)) / Λ
+
+/-- The eccentricity vector `v = radC^{1/2} (ξ, η)` (principal branch). -/
+def eccC (Λ ξ η : ℂ) : Fin 2 → ℂ := radC Λ ξ η ^ (1 / 2 : ℂ) • ![ξ, η]
+
+/-- **One planet's chart conditions at a complex point** (all strict, hence open): `Λ ≠ 0`, the
+radicand in the slit plane, `1 + k ≠ 0`, and the Kepler invariance and contraction (`< 1`). -/
+structure PlanetOk (y₀ : ℝ) (lam Λ ξ η : ℂ) : Prop where
+  ne_zero : Λ ≠ 0
+  rad_mem : radC Λ ξ η ∈ Complex.slitPlane
+  one_add_k : 1 + (1 - (ξ ^ 2 + η ^ 2) / 2 / Λ) ≠ 0
+  y_pos : 0 < y₀
+  invariant : |lam.im| + (|(eccC Λ ξ η 0).re| + |(eccC Λ ξ η 1).re|) * Real.sinh y₀ +
+      (|(eccC Λ ξ η 0).im| + |(eccC Λ ξ η 1).im|) * Real.cosh y₀ < y₀
+  contraction : (‖eccC Λ ξ η 0‖ + ‖eccC Λ ξ η 1‖) * Real.cosh y₀ < 1
+
+/-- Both planets' chart conditions at `x`. -/
+def ChartOkAt (y : Fin 2 → ℝ) (x : CVar) : Prop :=
+  ∀ j, PlanetOk (y j) (2 * π * x.1 j) (x.2.1 j) (x.2.2.1 j) (x.2.2.2 j)
+
+/-! ## (1c) Statements -/
+
+/-- (1c-i) **Holomorphy at a point** (the form a layer hypothesis `hR` consumes: analyticity at
+every point of `T_ρ × D(1)` gives it on a neighbourhood). -/
+def PertAnalyticAt : Prop :=
+  ∀ (y : Fin 2 → ℝ) (x : CVar), ChartOkAt y x → 0 < (distSqCC y x).re →
+    AnalyticAt ℂ (pertCC y) x
+
+/-- (1c-ii) **Periodicity** in each angle. -/
+def PertPeriodic : Prop :=
+  ∀ (y : Fin 2 → ℝ) (x : CVar), ChartOkAt y x → ∀ j : Fin 2,
+    pertCC y (x.1 + Pi.single j 1, x.2) = pertCC y x
+
+/-- (1c-iii) **Agreement at real points**. -/
+def PertReal : Prop :=
+  ∀ (y : Fin 2 → ℝ) (w : Phase (2 + 2)) (t : Fin 2 → ℝ), w ∈ poincareProdDom 2 →
+    ChartOkAt y (realVar w fun j => (t j : ℂ)) →
+    pertCC y (realVar w fun j => (t j : ℂ)) = (chartPert nu mu (withAngles w fun j => 2 * π * t j) : ℂ)
+
+/-- (1b) as a named premise: no complex collision on the strip `ρ` at the real state `w`. -/
+def NoCollisionOn (y ρ : Fin 2 → ℝ) (w : Phase (2 + 2)) : Prop :=
+  ∀ θ ∈ stripA ρ, 0 < (distSqC y w θ).re
+
+/-- (1c) **on a strip**, in the drafted form (one instance per slab: `rhoHolo`/`yHolo`,
+`rhoHoloA`/`yHoloA` with `|ξ_c| ≤ 0.1431`, `rhoHoloB`/`yHoloB` with `|ξ_c| ≤ 0.1612`). -/
+def ChartPertExt (y ρ : Fin 2 → ℝ) (w : Phase (2 + 2)) : Prop :=
+  DifferentiableOn ℂ (chartPertC y w) (stripA ρ) ∧
+    (∀ (j : Fin 2) (θ : Fin 2 → ℂ), θ ∈ stripA ρ →
+      chartPertC y w (θ + Pi.single j 1) = chartPertC y w θ) ∧
+    ∀ t : Fin 2 → ℝ,
+      chartPertC y w (fun j => (t j : ℂ)) = (chartPert nu mu (withAngles w fun j => 2 * π * t j) : ℂ)
+
+def ChartPertExtSlabs : Prop :=
+  (∀ w ∈ holoDomHD, NoCollisionOn yHolo rhoHolo w → ChartPertExt yHolo rhoHolo w) ∧
+  (∀ w ∈ holoDomHD, |slow w.1 0| ≤ 1431 / 10000 → NoCollisionOn yHoloA rhoHoloA w →
+    ChartPertExt yHoloA rhoHoloA w) ∧
+  (∀ w ∈ holoDomHD, |slow w.1 0| ≤ 1612 / 10000 → NoCollisionOn yHoloB rhoHoloB w →
+    ChartPertExt yHoloB rhoHoloB w)
+
+/-! ## (1d) Statements -/
+
+/-- (1d-P) **The first derivatives of `P` extend**: at a real state where the conditions hold,
+the real derivative of `P` in a chart direction `v` is the complex derivative of `P_C` in `cDir v`. -/
+def PertDerivReal : Prop :=
+  ∀ (y : Fin 2 → ℝ) (z : Phase (2 + 2)), z ∈ poincareProdDom 2 → ChartOkAt y (cEmb z) →
+    0 < (distSqCC y (cEmb z)).re → ∀ v : Phase (2 + 2),
+      (fderiv ℝ (chartPert nu mu) z v : ℂ) = fderiv ℂ (pertCC y) (cEmb z) (cDir v)
+
+/-- (1d) **The complex extension of `G₂`** on a strip (one instance per slab, as in (1c)). -/
+def G2Ext (ρ : Fin 2 → ℝ) (w : Phase (2 + 2)) : Prop :=
+  ∃ Gc : (Fin 2 → ℂ) → ℂ,
+    DifferentiableOn ℂ Gc (stripA ρ) ∧
+    (∀ (j : Fin 2) (θ : Fin 2 → ℂ), θ ∈ stripA ρ → Gc (θ + Pi.single j 1) = Gc θ) ∧
+    ∀ t : Fin 2 → ℝ, Gc (fun j => (t j : ℂ)) = (G2HD (withAngles w fun j => 2 * π * t j) : ℂ)
+
+def G2ExtSlabs : Prop :=
+  (∀ w ∈ holoDomHD, NoCollisionOn yHolo rhoHolo w → G2Ext rhoHolo w) ∧
+  (∀ w ∈ holoDomHD, |slow w.1 0| ≤ 1431 / 10000 → NoCollisionOn yHoloA rhoHoloA w →
+    G2Ext rhoHoloA w) ∧
+  (∀ w ∈ holoDomHD, |slow w.1 0| ≤ 1612 / 10000 → NoCollisionOn yHoloB rhoHoloB w →
+    G2Ext rhoHoloB w)
+
+/-! ## The cell-to-slab check -/
+
+/-- The cells of one slab. -/
+def Slab.cells (s : Slab) : List AffineCell := s.disc.toList ++ (s.upper ++ s.lower).map (·.cell)
+
+/-- Decidable: every cell of the slab has `|c₂| + |h₂| ≤ X` (`ξ_c`). -/
+def Slab.xiOk (s : Slab) (X : ℚ) : Bool := s.cells.all fun k => |k.c 2| + |k.h 2| ≤ X
+
+/-- **The cell-to-slab statement**: every cell of slabs 0–4 of `fitPlan` lies in
+`|ξ_c| ≤ 0.1431`, every cell of slab 5 in `|ξ_c| ≤ 0.1612`. -/
+def FitPlanSlabsXi : Prop :=
+  (∀ s ∈ fitPlan.slabs.take 5, ∀ k ∈ s.cells, ∀ w ∈ k.toSet, |slow w.1 0| ≤ 1431 / 10000) ∧
+  (∀ s ∈ (fitPlan.slabs.drop 5).take 1, ∀ k ∈ s.cells, ∀ w ∈ k.toSet,
+    |slow w.1 0| ≤ 1612 / 10000)
+```
 
 ## The statements (type-checked as `Prop`s; scratch `lake env lean`, exit 0)
 

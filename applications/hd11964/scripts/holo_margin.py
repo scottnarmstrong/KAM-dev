@@ -22,7 +22,7 @@ This script measures, on every cell of the fitted plan, with |Im lambda_j| <= 2 
       angles, so its minimum over the strip is attained there) times the cell points; and the crude provable bound
       Re(q_b.q_b) - |q_c.q_c| - 2 |q_c| |q_b| (sups/infs over the samples), q_j.q_j = a_j^2 (1 - v.c)^2 exactly.
 Cell points: the real cell (|u_j| <= 1, a grid) or the complex polydisc (|u_j| = 1, random phases).
-Usage: python3 -I holo_margin.py --plan=PLAN.json [--rho=0.03,0.15] [--complex] [--cells=all|K,K] [--out=F.json]
+Usage: python3 -I holo_margin.py --plan=PLAN.json [--rho=0.03,0.15] [--complex [--urad=R]] [--cells=all|K,K] [--out=F.json]
 """
 import json
 import math
@@ -38,8 +38,9 @@ import prod2_hp as PH  # noqa: E402
 opt = PH.opt
 
 
-def cell_points(cq, complex_u, n_real=3, n_cplx=400, seed=0):
-    """Slow variables (Lam_c, Lam_b, xi_c, eta_c, xi_b, eta_b) at the cell points, complex arrays."""
+def cell_points(cq, complex_u, n_real=3, n_cplx=400, seed=0, urad=1.0):
+    """Slow variables (Lam_c, Lam_b, xi_c, eta_c, xi_b, eta_b) at the cell points, complex arrays
+    (the complex polydisc has radius `urad`: the layer's level-0 disc is |u| <= R0 = 64/49)."""
     c = np.array([float(x) for x in cq["c"]])
     h = np.array([float(x) for x in cq["h"]])
     a, b = float(cq["a"]), float(cq["b"])
@@ -47,6 +48,7 @@ def cell_points(cq, complex_u, n_real=3, n_cplx=400, seed=0):
         rng = np.random.default_rng(seed)
         U = np.exp(2j * np.pi * rng.random((n_cplx, 6)))
         U = np.concatenate([U, np.exp(2j * np.pi * np.array([[0, 0, 0, 0, 0, 0], [.25] * 6, [.5] * 6, [.75] * 6]))])
+        U = urad * U
     else:
         g = np.linspace(-1, 1, n_real)
         mesh = np.meshgrid(*([g] * 6), indexing="ij")
@@ -119,7 +121,7 @@ def main():
     worst = dict(K=[np.inf, np.inf], D=np.inf, crude=np.inf)
     for K in idx:
         cq = cells[K]
-        X = cell_points(cq, complex_u)
+        X = cell_points(cq, complex_u, urad=float(opt("urad", "1")))
         rec = dict(cell=K, slab=cq["slab"])
         parts = []
         for j, (iL, ix, ie) in enumerate([(0, 2, 3), (1, 4, 5)]):
