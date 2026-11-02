@@ -20,8 +20,12 @@ The order-2 cover of the region `R(d)` (HD11964-CELLS) by **affine cells** `x = 
   cell of the list.
 * `CoverPlan`, `CoverPlan.ok`: a plan (slabs in `ξ_c`; per slab one disc cell or two chains of
   wedges in `(ξ_b, η_b)`) and its decidable check. `coversReps_of_ok`: a checked plan covers.
-* `existsRep`, `hRS_of_coversReps`: every state rotates to a representative, so the cover gives the
-  hypothesis `hRS` of `bracket_bound_of_rotation` and `range_bound_of_rotation`.
+* `exists_chartRot_rep`, `hRS_of_coversReps`: every state rotates to a representative, so the cover
+  gives the hypothesis `hRS` of `bracket_bound_of_rotation` and `range_bound_of_rotation`.
+
+**Open.** The step from `hRS` to the bridge's region bounds also needs `F`'s rotation invariance:
+`hFrot` of those two lemmas, with `O` rotation-invariant and `O ⊆ chartSafe ν`, for the global `F`
+the bridge consumes (`approxIntegral₂ k χ₁ χ₂`). No declaration here assumes it; it is still open.
 
 The fitted 50-cell plan of `R(1/500)` and its decided check are in `HD11964.CoverPlan`. The only
 import is `HD11964.NoCrossing` (for `region`); a narrower one would not lower the build's memory,
@@ -94,7 +98,7 @@ def tng (k : AffineCell) (p : Fin 2 → ℚ) : ℚ := -k.b * p 0 + k.a * p 1
 /-- The centre's `(ξ_b, η_b)` part. -/
 def cb (k : AffineCell) : Fin 2 → ℚ := ![k.c 4, k.c 5]
 
-/-- Membership in inequality form (the planned `mem_toSet_iff`, for `wf k`). -/
+/-- Membership in inequality form (`mem_toSet_iff`, for `wf k`). -/
 def MemIneq (k : AffineCell) (x : Fin 6 → ℝ) : Prop :=
   |x 0 - k.c 0| ≤ k.h 0 ∧ |x 1 - k.c 1| ≤ k.h 1 ∧ |x 2 - k.c 2| ≤ k.h 2 ∧
     |x 3 - k.c 3| ≤ k.h 3 ∧
@@ -222,70 +226,27 @@ def ok (P : CoverPlan) : Bool :=
 
 end CoverPlan
 
-/-! ### The planned lemmas (statements only) -/
+/-! ### Steps 1–4 of the cover -/
 
-/-- **The planned theorem** `coversReps_of_ok`: a checked plan covers the representatives. -/
-def CoverTheorem : Prop :=
-  ∀ P : CoverPlan, P.ok = true → CoversReps P.cells (P.d : ℝ)
-
-/-- Step 0 (`exists_chartRot_rep`): every chart state rotates to a representative. -/
-def ExistsRep : Prop :=
-  ∀ w : Phase (2 + 2), ∃ θ : ℝ, slow (chartRot θ w).2 0 = 0 ∧ 0 ≤ slow (chartRot θ w).1 0
-
-/-- The consumer (`hRS_of_coversReps`): the cover statement gives the hypothesis `hRS` of
-`bracket_bound_of_rotation` and `range_bound_of_rotation`, with `R = region d` and
-`S = repSet cells d`. -/
-def HRSOfCovers : Prop :=
-  ∀ (cells : List AffineCell) (d : ℝ), CoversReps cells d →
-    ∀ w ∈ region d, ∃ θ : ℝ, chartRot θ w ∈ repSet cells d
-
-/-- `mem_toSet_iff`: membership in inequality form, for a well-formed cell. -/
-def MemToSetIff : Prop :=
-  ∀ k : AffineCell, k.wf = true → ∀ w : Phase (2 + 2), w ∈ k.toSet ↔ k.MemIneq (cellCoord w)
-
-/-- Step 1 (`exists_slab`): a representative of `R(d)` lies in a slab of a checked chain. -/
-def ExistsSlab : Prop :=
-  ∀ (cm : ℚ) (S : List Slab), CoverPlan.slabsChainOk cm 0 S = true →
-    ∀ x : ℝ, 0 ≤ x → x ^ 2 ≤ 2 * (cm : ℝ) → ∃ s ∈ S, (s.lo : ℝ) ≤ x ∧ x ≤ s.hi
-
-/-- Step 2 (`disc_of_region`): on a slab, b's eccentricity vector lies in the disc of radius `R`. -/
-def DiscOfRegion : Prop :=
-  ∀ (d : ℝ) (w : Phase (2 + 2)), w ∈ region d → slow w.2 0 = 0 → ∀ lo R : ℝ, 0 ≤ lo →
-    lo ≤ slow w.1 0 → 0 ≤ R → 2 * (cBar + 2 * d) - lo ^ 2 ≤ R ^ 2 →
-    slow w.1 1 ^ 2 + slow w.2 1 ^ 2 ≤ R ^ 2
-
-/-- Step 3 (`exists_wedge_of_chain`, a discrete intermediate-value argument on the list): if
-`start × p ≥ 0` and `p × stop ≥ 0`, some wedge of a checked chain has `v × p ≥ 0 ≤ p × w`. -/
-def ExistsWedge : Prop :=
-  ∀ (start stop : Fin 2 → ℚ) (L : List Wedge), CoverPlan.chainOk start stop L = true →
-    ∀ p : Fin 2 → ℝ, 0 ≤ (start 0 : ℝ) * p 1 - start 1 * p 0 →
-      0 ≤ p 0 * (stop 1 : ℝ) - p 1 * stop 0 →
-      ∃ x ∈ L, 0 ≤ (x.v 0 : ℝ) * p 1 - x.v 1 * p 0 ∧ 0 ≤ p 0 * (x.w 1 : ℝ) - p 1 * x.w 0
-
-/-- Step 4 (`memIneq_of_wedge`): a point of a checked wedge's cone inside the disc of radius `R`,
-with the slab's `ξ_c`, `η_c = 0` and `Λ` in the region's box, satisfies the cell's inequalities. -/
-def MemOfWedge : Prop :=
-  ∀ (P : CoverPlan) (s : Slab) (x : Wedge), P.wedgeOk s x = true →
-    ∀ y : Fin 6 → ℝ,
-      ((lamLoQ 0 : ℝ) - P.d ≤ y 0 ∧ y 0 ≤ (lamHiQ 0 : ℝ) + P.d) →
-      ((lamLoQ 1 : ℝ) - P.d ≤ y 1 ∧ y 1 ≤ (lamHiQ 1 : ℝ) + P.d) →
-      (s.lo : ℝ) ≤ y 2 → y 2 ≤ s.hi → y 3 = 0 → 0 ≤ (s.R : ℝ) → y 4 ^ 2 + y 5 ^ 2 ≤ (s.R : ℝ) ^ 2 →
-      0 ≤ (x.v 0 : ℝ) * y 5 - x.v 1 * y 4 → 0 ≤ y 4 * (x.w 1 : ℝ) - y 5 * x.w 0 →
-      x.cell.MemIneq y
-
-
-/-! ### Scratch proofs of steps 2 and 3 -/
-
-/-- Step 2. -/
-theorem discOfRegion : DiscOfRegion := by
+/-- Step 2: on a slab `lo ≤ ξ_c` of a representative of `R(d)`, b's eccentricity vector lies in the
+disc of radius `R`. -/
+theorem sq_add_sq_le_of_mem_region :
+    ∀ (d : ℝ) (w : Phase (2 + 2)), w ∈ region d → slow w.2 0 = 0 → ∀ lo R : ℝ, 0 ≤ lo →
+      lo ≤ slow w.1 0 → 0 ≤ R → 2 * (cBar + 2 * d) - lo ^ 2 ≤ R ^ 2 →
+      slow w.1 1 ^ 2 + slow w.2 1 ^ 2 ≤ R ^ 2 := by
   intro d w hw hη lo R hlo hξ hR hR2
   obtain ⟨-, -, hA⟩ := hw
   unfold chartAMD at hA
   simp only [Fin.sum_univ_two, hη] at hA
   nlinarith [mul_le_mul hξ hξ hlo (hlo.trans hξ)]
 
-/-- Step 3. -/
-theorem existsWedge : ExistsWedge := by
+/-- Step 3, a discrete intermediate-value argument on the list: if `start × p ≥ 0` and
+`p × stop ≥ 0`, some wedge of a checked chain has `v × p ≥ 0` and `p × w ≥ 0`. -/
+theorem exists_wedge_of_chainOk :
+    ∀ (start stop : Fin 2 → ℚ) (L : List Wedge), CoverPlan.chainOk start stop L = true →
+      ∀ p : Fin 2 → ℝ, 0 ≤ (start 0 : ℝ) * p 1 - start 1 * p 0 →
+        0 ≤ p 0 * (stop 1 : ℝ) - p 1 * stop 0 →
+        ∃ x ∈ L, 0 ≤ (x.v 0 : ℝ) * p 1 - x.v 1 * p 0 ∧ 0 ≤ p 0 * (x.w 1 : ℝ) - p 1 * x.w 0 := by
   intro start stop L
   induction L generalizing start with
   | nil => intro h; simp [CoverPlan.chainOk] at h
@@ -306,8 +267,9 @@ theorem existsWedge : ExistsWedge := by
         exact ⟨z, List.mem_cons_of_mem _ hz, hz1, hz2⟩
 
 /-- Step 1, from any start `a`. -/
-theorem existsSlab_aux (cm : ℚ) : ∀ (S : List Slab) (a : ℚ), CoverPlan.slabsChainOk cm a S = true →
-    ∀ x : ℝ, (a : ℝ) ≤ x → x ^ 2 ≤ 2 * (cm : ℝ) → ∃ s ∈ S, (s.lo : ℝ) ≤ x ∧ x ≤ s.hi := by
+theorem exists_slab_of_slabsChainOk_aux (cm : ℚ) :
+    ∀ (S : List Slab) (a : ℚ), CoverPlan.slabsChainOk cm a S = true →
+      ∀ x : ℝ, (a : ℝ) ≤ x → x ^ 2 ≤ 2 * (cm : ℝ) → ∃ s ∈ S, (s.lo : ℝ) ≤ x ∧ x ≤ s.hi := by
   intro S
   induction S with
   | nil => intro a h; simp [CoverPlan.slabsChainOk] at h
@@ -331,11 +293,13 @@ theorem existsSlab_aux (cm : ℚ) : ∀ (S : List Slab) (a : ℚ), CoverPlan.sla
       · obtain ⟨z, hz, h1, h2⟩ := ih s.hi h' x (le_of_lt (not_le.mp hxs)) hx2
         exact ⟨z, List.mem_cons_of_mem _ hz, h1, h2⟩
 
-/-- Step 1. -/
-theorem existsSlab : ExistsSlab := fun cm S h x hx hx2 =>
-  existsSlab_aux cm S 0 h x (by simpa using hx) hx2
+/-- Step 1: a representative of `R(d)` lies in a slab of a checked chain. -/
+theorem exists_slab_of_slabsChainOk :
+    ∀ (cm : ℚ) (S : List Slab), CoverPlan.slabsChainOk cm 0 S = true →
+      ∀ x : ℝ, 0 ≤ x → x ^ 2 ≤ 2 * (cm : ℝ) → ∃ s ∈ S, (s.lo : ℝ) ≤ x ∧ x ≤ s.hi :=
+  fun cm S h x hx hx2 => exists_slab_of_slabsChainOk_aux cm S 0 h x (by simpa using hx) hx2
 
-/-- `MemToSetIff`, the direction used by the cover (inequalities ⇒ membership). -/
+/-- Membership from the inequalities (the direction the cover uses; `mem_toSet_iff`). -/
 theorem mem_toSet_of_memIneq (k : AffineCell) (hk : k.wf = true) (w : Phase (2 + 2))
     (h : k.MemIneq (cellCoord w)) : w ∈ k.toSet := by
   simp only [AffineCell.wf, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq] at hk
@@ -384,8 +348,58 @@ theorem mem_toSet_of_memIneq (k : AffineCell) (hk : k.wf = true) (w : Phase (2 +
   · show x 5 = k.c 5 + k.b * k.h 4 * u 4 + k.a * k.h 5 * u 5
     linear_combination (-(k.b : ℝ)) * e4 + (-(k.a : ℝ)) * e5 + (-(x 5 - k.c 5)) * hr
 
-/-- Step 4. -/
-theorem memOfWedge : MemOfWedge := by
+/-- Membership gives the inequalities. -/
+theorem memIneq_of_mem_toSet (k : AffineCell) (hk : k.wf = true) (w : Phase (2 + 2))
+    (h : w ∈ k.toSet) : k.MemIneq (cellCoord w) := by
+  simp only [AffineCell.wf, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq] at hk
+  obtain ⟨hpos, hrot⟩ := hk
+  have hp : ∀ j, (0 : ℝ) < k.h j := fun j => by exact_mod_cast hpos j (List.mem_finRange j)
+  have hr : (k.a : ℝ) ^ 2 + (k.b : ℝ) ^ 2 = 1 := by exact_mod_cast hrot
+  obtain ⟨u, hu, hx⟩ := h
+  have key : ∀ j, |(k.h j : ℝ) * u j| ≤ k.h j := fun j => by
+    rw [abs_mul, abs_of_pos (hp j)]
+    exact mul_le_of_le_one_right (hp j).le (hu j)
+  have e : ∀ j, cellCoord w j = k.map u j := fun j => by rw [hx]
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
+  · have h0 : cellCoord w 0 - k.c 0 = k.h 0 * u 0 := by rw [e 0]; simp [AffineCell.map]
+    rw [h0]; exact key 0
+  · have h1 : cellCoord w 1 - k.c 1 = k.h 1 * u 1 := by rw [e 1]; simp [AffineCell.map]
+    rw [h1]; exact key 1
+  · have h2 : cellCoord w 2 - k.c 2 = k.h 2 * u 2 := by rw [e 2]; simp [AffineCell.map]
+    rw [h2]; exact key 2
+  · have h3 : cellCoord w 3 - k.c 3 = k.h 3 * u 3 := by rw [e 3]; simp [AffineCell.map]
+    rw [h3]; exact key 3
+  · have h4 : (k.a : ℝ) * (cellCoord w 4 - k.c 4) + k.b * (cellCoord w 5 - k.c 5) =
+        k.h 4 * u 4 := by
+      rw [e 4, e 5]
+      simp only [AffineCell.map]
+      simp
+      linear_combination (k.h 4 * u 4 : ℝ) * hr
+    rw [h4]; exact key 4
+  · have h5 : -(k.b : ℝ) * (cellCoord w 4 - k.c 4) + k.a * (cellCoord w 5 - k.c 5) =
+        k.h 5 * u 5 := by
+      rw [e 4, e 5]
+      simp only [AffineCell.map]
+      simp
+      linear_combination (k.h 5 * u 5 : ℝ) * hr
+    rw [h5]; exact key 5
+
+/-- **Membership in inequality form**, for a well-formed cell. -/
+theorem mem_toSet_iff (k : AffineCell) (hk : k.wf = true) (w : Phase (2 + 2)) :
+    w ∈ k.toSet ↔ k.MemIneq (cellCoord w) :=
+  ⟨memIneq_of_mem_toSet k hk w, mem_toSet_of_memIneq k hk w⟩
+
+/-- Step 4: a point of a checked wedge's cone inside the disc of radius `R`, with the slab's `ξ_c`,
+`η_c = 0` and `Λ` in the region's box, satisfies the cell's inequalities. -/
+theorem memIneq_of_wedgeOk :
+    ∀ (P : CoverPlan) (s : Slab) (x : Wedge), P.wedgeOk s x = true →
+      ∀ y : Fin 6 → ℝ,
+        ((lamLoQ 0 : ℝ) - P.d ≤ y 0 ∧ y 0 ≤ (lamHiQ 0 : ℝ) + P.d) →
+        ((lamLoQ 1 : ℝ) - P.d ≤ y 1 ∧ y 1 ≤ (lamHiQ 1 : ℝ) + P.d) →
+        (s.lo : ℝ) ≤ y 2 → y 2 ≤ s.hi → y 3 = 0 → 0 ≤ (s.R : ℝ) →
+        y 4 ^ 2 + y 5 ^ 2 ≤ (s.R : ℝ) ^ 2 →
+        0 ≤ (x.v 0 : ℝ) * y 5 - x.v 1 * y 4 → 0 ≤ y 4 * (x.w 1 : ℝ) - y 5 * x.w 0 →
+        x.cell.MemIneq y := by
   intro P s x hx y hΛ0 hΛ1 hlo hhi hy3 hR0 hdisc hv hw
   simp only [CoverPlan.wedgeOk, CoverPlan.axesOk, AffineCell.wf, AffineCell.rad, AffineCell.tng,
     AffineCell.cb, crossQ, Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true, and_assoc,
@@ -498,7 +512,7 @@ theorem memOfWedge : MemOfWedge := by
     linarith [abs_sub t tc]
 
 /-- The disc case of step 4. -/
-theorem memOfDisc (P : CoverPlan) (s : Slab) (k : AffineCell) (hk : P.discOk s k = true)
+theorem memIneq_of_discOk (P : CoverPlan) (s : Slab) (k : AffineCell) (hk : P.discOk s k = true)
     (y : Fin 6 → ℝ)
     (hΛ0 : (lamLoQ 0 : ℝ) - P.d ≤ y 0 ∧ y 0 ≤ (lamHiQ 0 : ℝ) + P.d)
     (hΛ1 : (lamLoQ 1 : ℝ) - P.d ≤ y 1 ∧ y 1 ≤ (lamHiQ 1 : ℝ) + P.d)
@@ -562,8 +576,8 @@ theorem lamHiQ_cast (i : Fin 2) : ((lamHiQ i : ℚ) : ℝ) = lamHi i := by
 theorem cmax_cast (P : CoverPlan) : ((P.cmax : ℚ) : ℝ) = cBar + 2 * (P.d : ℝ) := by
   simp [CoverPlan.cmax, cBarQ, cBar]
 
-/-- **The main theorem** (`CoverTheorem`). -/
-theorem coversReps_of_ok : CoverTheorem := by
+/-- **The cover theorem**: a checked plan covers the rotation representatives of `R(d)`. -/
+theorem coversReps_of_ok : ∀ P : CoverPlan, P.ok = true → CoversReps P.cells (P.d : ℝ) := by
   intro P hP w hw hη hξ
   simp only [CoverPlan.ok, Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true] at hP
   obtain ⟨⟨-, hchain⟩, hslabs⟩ := hP
@@ -573,7 +587,7 @@ theorem coversReps_of_ok : CoverTheorem := by
     unfold chartAMD at hA
     simp only [Fin.sum_univ_two, hη] at hA
     nlinarith [sq_nonneg (slow w.1 1), sq_nonneg (slow w.2 1)]
-  obtain ⟨s, hs, hslo, hshi⟩ := existsSlab P.cmax P.slabs hchain _ hξ hx2
+  obtain ⟨s, hs, hslo, hshi⟩ := exists_slab_of_slabsChainOk P.cmax P.slabs hchain _ hξ hx2
   have hsok := hslabs s hs
   simp only [CoverPlan.slabOk, Bool.and_eq_true, decide_eq_true_eq] at hsok
   obtain ⟨⟨⟨⟨hlo0, -⟩, hR0⟩, hR2⟩, hrest⟩ := hsok
@@ -581,7 +595,8 @@ theorem coversReps_of_ok : CoverTheorem := by
   have hR2' : 2 * (cBar + 2 * (P.d : ℝ)) - (s.lo : ℝ) ^ 2 ≤ (s.R : ℝ) ^ 2 := by
     rw [← cmax_cast]; exact_mod_cast hR2
   have hdisc : slow w.1 1 ^ 2 + slow w.2 1 ^ 2 ≤ (s.R : ℝ) ^ 2 :=
-    discOfRegion _ w ⟨hsafe, hΛ, hA⟩ hη s.lo s.R (by exact_mod_cast hlo0) hslo hR0' hR2'
+    sq_add_sq_le_of_mem_region _ w ⟨hsafe, hΛ, hA⟩ hη s.lo s.R (by exact_mod_cast hlo0) hslo hR0'
+      hR2'
   have hΛ0 : (lamLoQ 0 : ℝ) - P.d ≤ cellCoord w 0 ∧ cellCoord w 0 ≤ (lamHiQ 0 : ℝ) + P.d := by
     rw [lamLoQ_cast, lamHiQ_cast]; exact hΛ 0
   have hΛ1 : (lamLoQ 1 : ℝ) - P.d ≤ cellCoord w 1 ∧ cellCoord w 1 ≤ (lamHiQ 1 : ℝ) + P.d := by
@@ -593,7 +608,7 @@ theorem coversReps_of_ok : CoverTheorem := by
   cases hdk : s.disc with
   | some k =>
     rw [hdk] at hrest
-    have hm := memOfDisc P s k hrest (cellCoord w) hΛ0 hΛ1 hslo hshi hη hR0' hdisc
+    have hm := memIneq_of_discOk P s k hrest (cellCoord w) hΛ0 hΛ1 hslo hshi hη hR0' hdisc
     refine ⟨k, hmem k (Or.inl (by simp [hdk])), mem_toSet_of_memIneq k ?_ w hm⟩
     simp only [CoverPlan.discOk, Bool.and_eq_true] at hrest
     exact wf_of_axesOk hrest.1.1
@@ -606,18 +621,18 @@ theorem coversReps_of_ok : CoverTheorem := by
         0 ≤ slow w.1 1 * (x.w 1 : ℝ) - slow w.2 1 * x.w 0 → ∃ k ∈ P.cells, w ∈ k.toSet := by
       intro x hx h1 h2
       have hxok := hall x hx
-      have hm := memOfWedge P s x hxok (cellCoord w) hΛ0 hΛ1 hslo hshi hη hR0' hdisc h1 h2
+      have hm := memIneq_of_wedgeOk P s x hxok (cellCoord w) hΛ0 hΛ1 hslo hshi hη hR0' hdisc h1 h2
       have hwf : x.cell.wf = true := by
         simp only [CoverPlan.wedgeOk, Bool.and_eq_true] at hxok
         exact wf_of_axesOk hxok.1.1.1.1.1.1.1.1.1.1
       exact ⟨x.cell, hmem _ (Or.inr (List.mem_map.mpr ⟨x, hx, rfl⟩)),
         mem_toSet_of_memIneq _ hwf w hm⟩
     by_cases hηb : 0 ≤ slow w.2 1
-    · obtain ⟨x, hx, h1, h2⟩ := existsWedge _ _ s.upper hup ![slow w.1 1, slow w.2 1]
+    · obtain ⟨x, hx, h1, h2⟩ := exists_wedge_of_chainOk _ _ s.upper hup ![slow w.1 1, slow w.2 1]
         (by simpa using hηb) (by simpa using hηb)
       exact key x (List.mem_append_left _ hx) (by simpa using h1) (by simpa using h2)
     · have hn : 0 ≤ -slow w.2 1 := by linarith [not_le.mp hηb]
-      obtain ⟨x, hx, h1, h2⟩ := existsWedge _ _ s.lower hlow ![slow w.1 1, slow w.2 1]
+      obtain ⟨x, hx, h1, h2⟩ := exists_wedge_of_chainOk _ _ s.lower hlow ![slow w.1 1, slow w.2 1]
         (by simpa using hn) (by simpa using hn)
       exact key x (List.mem_append_right _ hx) (by simpa using h1) (by simpa using h2)
 
@@ -633,8 +648,9 @@ theorem slow_chartRot_snd (θ : ℝ) (w : Phase (2 + 2)) (i : Fin 2) :
     slow (chartRot θ w).2 i = Real.sin θ * slow w.1 i + Real.cos θ * slow w.2 i := by
   simp only [chartRot, assemble, slow_append']
 
-/-- Step 0. -/
-theorem existsRep : ExistsRep := by
+/-- Step 0: every chart state rotates to a representative (`η_c = 0`, `ξ_c ≥ 0`). -/
+theorem exists_chartRot_rep :
+    ∀ w : Phase (2 + 2), ∃ θ : ℝ, slow (chartRot θ w).2 0 = 0 ∧ 0 ≤ slow (chartRot θ w).1 0 := by
   intro w
   by_cases h0 : slow w.1 0 = 0 ∧ slow w.2 0 = 0
   · refine ⟨0, ?_, ?_⟩
@@ -661,10 +677,13 @@ theorem existsRep : ExistsRep := by
       rw [e]
       positivity
 
-/-- The consumer: the cover statement gives `hRS` of the rotation lemmas. -/
-theorem hRS_of_coversReps : HRSOfCovers := by
+/-- The consumer: the cover statement gives the hypothesis `hRS` of `bracket_bound_of_rotation` and
+`range_bound_of_rotation`, with `R = region d` and `S = repSet cells d`. -/
+theorem hRS_of_coversReps :
+    ∀ (cells : List AffineCell) (d : ℝ), CoversReps cells d →
+      ∀ w ∈ region d, ∃ θ : ℝ, chartRot θ w ∈ repSet cells d := by
   intro cells d hc w hw
-  obtain ⟨θ, h1, h2⟩ := existsRep w
+  obtain ⟨θ, h1, h2⟩ := exists_chartRot_rep w
   have hr := chartRot_mem_region θ hw
   obtain ⟨k, hk, hkw⟩ := hc _ hr h1 h2
   exact ⟨θ, hr, k, hk, hkw⟩

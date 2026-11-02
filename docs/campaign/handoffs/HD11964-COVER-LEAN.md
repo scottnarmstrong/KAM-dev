@@ -127,3 +127,33 @@ The branch is unchanged since my 04:00 check (last commit 02:48 UTC). The compar
   - landing `hd11964-p2` on main (the core files of P2B follow-ups and the application package);
   - the producer's rotated expansion;
   - the consumer glue once `hd-layer` lands.
+
+## Audit fixes (AUDIT-HD11964-COVER-1, PASS WITH CHANGES)
+
+All three requested changes are made in `HD11964/Cover.lean`. There is no change of substance; `CoverPlan.lean` is
+unchanged.
+- **C1.** The module docstring now states that the step from `hRS` to the bridge's region bounds also needs `F`'s
+  rotation invariance (`hFrot`, with `O` rotation-invariant and `O ⊆ chartSafe ν`, for the global `F`), and that
+  this is open.
+- **C2.**
+  - The header "The planned lemmas (statements only)" and its `Prop` definitions are removed.
+  - `MemToSetIff` is now proved, as `mem_toSet_iff`, with the new direction `memIneq_of_mem_toSet`.
+  - The stale "Scratch proofs" header is replaced.
+- **C3.** Every theorem is stated inline, and the theorem names are snake_case:
+
+  | old | new |
+  |---|---|
+  | `existsRep : ExistsRep` | `exists_chartRot_rep` |
+  | `existsSlab`, `existsSlab_aux` | `exists_slab_of_slabsChainOk`, `…_aux` |
+  | `discOfRegion` | `sq_add_sq_le_of_mem_region` |
+  | `existsWedge` | `exists_wedge_of_chainOk` |
+  | `memOfWedge` | `memIneq_of_wedgeOk` |
+  | `memOfDisc` | `memIneq_of_discOk` |
+  | `coversReps_of_ok : CoverTheorem`, `hRS_of_coversReps : HRSOfCovers` | same names, statements inline |
+
+**Checks.**
+- `lake build HD11964.Cover`, `HD11964.CoverPlan` and `HD11964` succeed under the 4 GB cap, with no warnings in
+  these files.
+- `#check coversReps_of_ok` now prints `∀ (P : CoverPlan), P.ok = true → CoversReps P.cells ↑P.d`.
+- `#print axioms` of the ten main theorems gives `[propext, Classical.choice, Quot.sound]`.
+- The lint passes, except the environmental ABI-hash step.
