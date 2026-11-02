@@ -14,6 +14,7 @@ public import HD11964.CoverPlan
 public import HD11964.Generator
 public import HD11964.Glue
 public import HD11964.Homological
+public import HD11964.Holo
 public import HD11964.ParamIntegral
 public import HD11964.NoCrossing
 public import HD11964.NoCrossingObs
@@ -41,7 +42,8 @@ smooth on angle-saturated sets (`HD11964.ChiSmooth`), `{χ*, h} = Π_S P` and th
 `F` and the tails (HD11964-ROT): `hFrot` for HD 11964 and the assembled no-crossing statement from
 the cell bounds (`HD11964.ChiRot`), the tail weight of a box mode set (`HD11964.TailSum`), and the
 tails `T₁`, `T₂` from Fourier decay on a strip (`HD11964.TailBound`) and on an anisotropic strip
-(`HD11964.TailAniso`).
+(`HD11964.TailAniso`). The complex extension of `P` (HD11964-HOLO): the complexified chart and
+perturbation, and the Kepler contraction on the strip (`HD11964.Holo`).
 
 The reduced-mass bridge (scoping note §4): the reduced Delaunay actions and the analytic range of
 `G - Λ` on `R(r)` (`HD11964.ReducedRange`), and no orbit crossing with the first exit driven by
