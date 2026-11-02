@@ -15,7 +15,7 @@ public import KAM.Planetary.StrongAMD.ChartLift.Stopped
 /-!
 # The chart lift on the stopped interval
 
-Package LP-LIFT, MAIN Lemma 14 (`LP:MAIN L14 (468–500)`, the chart part, with N2, N6), track LP,
+Source: MAIN Lemma 14 (`LP:MAIN L14 (468–500)`, the chart part, with N2, N6), track LP,
 non-frozen.
 
 `lpChartLift_of_stopped` follows the template `KAM.Planetary.lift` (track P): the maximal solution
@@ -28,7 +28,6 @@ conditions are used (not any drift or confinement conclusion).
 * `lpMovingSolutionOn_mono`: restriction of a moving solution to a sub-interval (two-sided
   derivatives, so it is legitimate on the closed stopped interval).
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

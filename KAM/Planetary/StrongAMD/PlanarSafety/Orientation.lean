@@ -14,17 +14,16 @@ public import KAM.Frozen.Planetary.Defs.MovingUniqueOn
 /-!
 # Orientation reversal of the planar safety conclusion
 
-Package LP-PS (planar theorem LP1, MAIN Theorem 15, `LP:MAIN L15 (502–506)`), track LP, non-frozen.
+Source: (planar theorem LP1, MAIN Theorem 15, `LP:MAIN T15 (502–506)`), track LP, non-frozen.
 
 `PlanarSafeState` is the per-time conjunction of the conclusions of the planar safety theorem
 (ellipticity, AMD margin, drifts, separations, osculating clauses) and `PlanarSafeSol` the
 solution-level conclusion without the Newtonian reconstruction.  The orientation reversal
-`reflectPhase` (LP-MOM) transports both:
+`reflectPhase` transports both:
 `PlanarSafeSol … (reflectPhase z₀) z' → PlanarSafeSol … z₀ (reflectPhase ∘ z')`.
 Only invariances are proved here: of `oscVelocity`, `oscEccVector`, `oscPeri`, `oscApo` and of the
 moving uniqueness predicate.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -95,7 +94,7 @@ theorem actionVector_reflectPhase (ν : Fin n → ℝ) (z : Phase (n * 2)) :
   funext fun i => keplerAction_reflectPhase ν z i
 
 /-- The per-time conclusions of the planar safety theorem at a state `zt`, relative to the initial
-state `z₀` (`LP:MAIN L15 (502–506)`, `L16`; the clauses of the proposal's LP1 in the order
+state `z₀` (`LP:MAIN T15 (502–506)`, `L16`; the clauses of the proposal's LP1 in the order
 written there). -/
 def PlanarSafeState (ν : Fin n → ℝ) (μ : ℝ) (hn : 2 ≤ n) (δ AΛ Aa dStar dPair Aosc Aelem : ℝ)
     (z₀ zt : Phase (n * 2)) : Prop :=

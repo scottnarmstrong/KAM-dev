@@ -12,14 +12,13 @@ public import KAM.Planetary.StrongAMD.AnalyticDomain.Bounds.TubeBound
 /-!
 # The holomorphic chart and momenta over the sharp core
 
-Package LP-DOMX, `LP:MAIN L8 (253, 259–271)`, track LP, non-frozen.
+Source: `LP:MAIN L8 (253, 259–271)`, track LP, non-frozen.
 
 Item 1 of the package brief: track P's `tube` applied to each of the `4n` coordinate functions of
 `poincareProd ν 1` on `chartSafe ν` (real analytic, fast-shift periodic) gives one holomorphic,
 shift-periodic extension `Ψc` of the whole chart (positions and momenta) to a thin complex tube
 around the sharp core, with real trace `poincareProd ν 1` and a sup bound on the half tube.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

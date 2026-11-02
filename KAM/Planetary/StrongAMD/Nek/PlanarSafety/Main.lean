@@ -14,10 +14,10 @@ public import KAM.Frozen.Planetary.Defs.BarycentricPositions
 public import KAM.Frozen.Planetary.Defs.BarycentricVelocities
 
 /-!
-# The planar theorem LP3-1 (strong-AMD exponential safety, no arithmetic hypothesis)
+# The planar theorem the Nekhoroshev part (strong-AMD exponential safety, no arithmetic hypothesis)
 
-Package LP3-PS, MAIN Theorem 15 with Lemma 16, drift from the sealed partial-convexity
-Nekhoroshev theorem (`LP:MAIN L14 (468–500)`, `L15 (502–506)`, `L16 (508–529)`;
+Source: MAIN Theorem 15 with Lemma 16, drift from the sealed partial-convexity
+Nekhoroshev theorem (`LP:MAIN L14 (468–500)`, `T15 (502–506)`, `L16 (508–529)`;
 `LP3-PLAN` §1.2), track LP, non-frozen.
 
 * `lp3_planar_strongAMD_safety`: the text of LP1 (`PlanarSafety/Main`) with the data `γ τ`, the
@@ -26,7 +26,6 @@ Nekhoroshev theorem (`LP:MAIN L14 (468–500)`, `L15 (502–506)`, `L16 (508–5
   arithmetic premise: the orientation is handled by the reflection, as in LP1.
 * `lp3_planar_strongAMD_safety_normalized`: the corollary with the unused `hνmax`, `hνle`.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -37,8 +36,8 @@ open KAM.Planetary Set
 
 variable {n : ℕ}
 
-/-- **LP3-1 (planar strong-AMD exponential safety without arithmetic hypothesis;
-`LP:MAIN L15 (502–506)` with `L14`, `L16`).** -/
+/-- **The Nekhoroshev part (planar strong-AMD exponential safety without arithmetic hypothesis;
+`LP:MAIN T15 (502–506)` with `L14`, `L16`).** -/
 theorem lp3_planar_strongAMD_safety (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀ i, 0 < ν i)
     (A : Set (Fin n → ℝ)) (hA : IsCompact A)
     (hAord : ∀ a ∈ A, (∀ i, 0 < a i) ∧ ∀ i j, i < j → a i < a j)
@@ -131,7 +130,8 @@ theorem lp3_planar_strongAMD_safety (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : �
   · obtain ⟨z, hz'⟩ := H μ hμ hμle z₀ hphys hAz hpos hch hC0
     exact hfin z hz'
 
-/-- LP3-1 with MAIN's mass normalization `max ν = 1` (`hνmax`, `hνle`) as unused premises. -/
+/-- The Nekhoroshev part with MAIN's mass normalization `max ν = 1` (`hνmax`, `hνle`) as unused
+premises. -/
 theorem lp3_planar_strongAMD_safety_normalized (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀ i, 0 < ν i)
     (_hνmax : ∃ i, ν i = 1) (_hνle : ∀ i, ν i ≤ 1)
     (A : Set (Fin n → ℝ)) (hA : IsCompact A)

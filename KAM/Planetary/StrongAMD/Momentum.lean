@@ -15,8 +15,8 @@ public import KAM.Frozen.Planetary.StrongAMD.Defs.StrongAMD
 /-!
 # The strong AMD and exact angular momentum, planar
 
-Package LP-MOM, `LP:MAIN L3 (130–139)`, definition `LP:MAIN §1 (2) (26–45)`; track LP,
-non-frozen; the statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L3 (130–139)`, definition `LP:MAIN §1 (2) (26–45)`; track LP,
+non-frozen.
 
 `strongAMD ν z = Σ Λ_i - |L|` with the absolute value of the total angular momentum.  Items:
 conservation of `L` and the AMD identity (13) along a moving solution; `0 ≤ C`; `C < Λ_k ⇒ L ≠ 0`;

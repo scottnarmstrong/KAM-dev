@@ -1,0 +1,35 @@
+{
+ "Low": {
+  "tp_modules": 2484,
+  "tp_ok": 2484,
+  "tp_cpu_s": 55812.7,
+  "tpp_modules": 0,
+  "tpp_ok": 0,
+  "tpp_cpu_s": 0,
+  "matched": 0,
+  "matched_tpp_cpu_s": 0,
+  "matched_tp_cpu_s": 0
+ },
+ "Full": {
+  "tp_modules": 1637,
+  "tp_ok": 1637,
+  "tp_cpu_s": 32255.4,
+  "tpp_modules": 1177,
+  "tpp_ok": 1177,
+  "tpp_cpu_s": 26940.1,
+  "matched": 1177,
+  "matched_tpp_cpu_s": 26940.1,
+  "matched_tp_cpu_s": 19328.9
+ },
+ "Data": {
+  "tp_modules": 275,
+  "tp_ok": 275,
+  "tp_cpu_s": 3378.5,
+  "tpp_modules": 274,
+  "tpp_ok": 274,
+  "tpp_cpu_s": 4066.3,
+  "matched": 274,
+  "matched_tpp_cpu_s": 4066.3,
+  "matched_tp_cpu_s": 3369.8
+ }
+}

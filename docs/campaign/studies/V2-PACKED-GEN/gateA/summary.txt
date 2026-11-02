@@ -1,0 +1,11 @@
+stage                       built reused     CPU-s  kernel-s  peak GB failed
+landed.Data                     0    275       0.0       0.0     0.00      0
+landed.Final.other              1      0       6.1       0.0     0.48      0
+landed.Final.sites             36      0     842.0       0.0     2.68      0
+landed.shared                   0      5       0.0       0.0     0.00      0
+packed.Data                    23      0     199.5       0.0     0.76      0
+packed.Format                   1      0       5.2       0.0     0.48      0
+packed.Frames                   3      0      34.7      19.8     2.18      0
+packed.Gate                     8      0     121.0      69.1     2.36      0
+packed.GateA                    1      0       7.6       0.0     0.54      0
+total                          73    280    1216.1      88.9     2.68      0

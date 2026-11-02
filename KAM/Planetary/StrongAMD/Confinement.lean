@@ -20,15 +20,14 @@ public import KAM.Planetary.StrongAMD.Momentum
 /-!
 # Sharp first exit (conditional confinement helper)
 
-Package LP-CONF, `LP:MAIN L14 (468–500)` with amendments N2 (one shared compact `U`) and N6
+Source: `LP:MAIN L14 (468–500)` with amendments N2 (one shared compact `U`) and N6
 (on the Lemma-13 route the stopped radius is `r` and the improvement is to `r / 2`); track LP,
 non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 `strongFirstExit_of_stopped_drift` is the topological first-exit argument of MAIN Lemma 14 with
 the stopped drift as an **explicit hypothesis** `hstop`.  It is NOT the public theorem: it is the
-internal conditional helper, and package LP-PS discharges `hstop` from Lemma 13 (LP-NRR) through
-the chart lift (LP-LIFT).
+internal conditional helper, and the planar safety assembly discharges `hstop` from Lemma 13 through
+the chart lift.
 
 The route: the maximal solution of the moving field on the collision-free domain; a forward and a
 backward first exit (`amd_exit_forward`, `amd_exit_backward`) for the open tube set
@@ -160,7 +159,7 @@ theorem firstExitCore_closed {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (hn : 
 the topological first-exit argument of MAIN Lemma 14, with the stopped drift as the explicit
 hypothesis `hstop` (MAIN's stopped conditions (40) in strict, open form, both the action drift
 `< r` and the margin `> δ / 2`, improving the drift to `r / 2`).
-Package LP-PS discharges `hstop` from Lemma 13 through the chart lift.
+The planar safety assembly discharges `hstop` from Lemma 13 through the chart lift.
 
 Given the budget `n r + Ω_B(r) ≤ δ / 4` and an initial physical state `z₀` whose closed `r`-action
 ball lies in the shared compact `U` and whose strong AMD is `≤ B(Λ z₀) - δ`, there is a moving

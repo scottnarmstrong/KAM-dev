@@ -13,7 +13,7 @@ public import KAM.Frozen.Planetary.Defs.PlaneLength
 /-!
 # Complexified plane squares and their principal square roots
 
-Package LP-DOMX, `LP:MAIN L8 (266–268)`, track LP, non-frozen.
+Source: `LP:MAIN L8 (266–268)`, track LP, non-frozen.
 
 `cDot v = ∑ v_k²` is the *bilinear* complex dot product on `Fin 2 → ℂ` (never the Hermitian norm).
 * `re_cDot_ge`: if `w` is within `ε` (coordinatewise) of a real vector `u` with `|u_k| ≤ Q`, then
@@ -21,7 +21,6 @@ Package LP-DOMX, `LP:MAIN L8 (266–268)`, track LP, non-frozen.
 * `norm_inv_sqrt_le`, `differentiableOn_inv_sqrt_cDot`: if `Re z ≥ d²/2` then the principal
   branch `z^(1/2)` has reciprocal of norm `≤ √2/d`, holomorphic along any holomorphic family.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -36,9 +35,6 @@ def cBody {n : ℕ} (q : Fin (n * 2) → ℂ) (i : Fin n) : Fin 2 → ℂ :=
 
 /-- The bilinear complex dot product `v · v = ∑ v_k²` (not the Hermitian squared norm). -/
 def cDot (v : Fin 2 → ℂ) : ℂ := ∑ k, v k ^ 2
-
-theorem cBody_ofReal {n : ℕ} (q : Fin (n * 2) → ℝ) (i : Fin n) :
-    cBody (fun j => (q j : ℂ)) i = fun k => ((bodyVector q i k : ℝ) : ℂ) := rfl
 
 theorem cDot_ofReal (u : Fin 2 → ℝ) : cDot (fun k => (u k : ℂ)) = (planeSq u : ℂ) := by
   simp [cDot, planeSq]

@@ -13,8 +13,7 @@ public import KAM.Planetary.Spatial.RotationSolution
 /-!
 # The alignment remark of Lemma 18
 
-Package LP-SP-DOM, `LP:MAIN L18 (595–597)`, track LP, non-frozen. The statement surface is
-proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L18 (595–597)`, track LP, non-frozen.
 
 For a spatial moving solution with `L ≠ 0`, one fixed rotation `R` takes `L/|L|` to `e₃`
 (`exists_rotation_align_angularMomentum3`, SP-MODEL). Along the rotated solution `L` is conserved,
@@ -35,8 +34,6 @@ namespace KAM.Planetary.Spatial
 open KAM.Planetary Matrix
 
 variable {n : ℕ} {ν : Fin n → ℝ}
-
-theorem spaceE3_eq_e₃ : spaceE3 = e₃ := rfl
 
 /-- A state with `L = |L| e₃` has `C = C_{e₃}`. -/
 theorem spatialStrongAMD_eq_spatialFixedPlaneDeficit_of_aligned (ν : Fin n → ℝ)

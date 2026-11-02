@@ -12,11 +12,9 @@ public import KAM.Frozen.Planetary.Defs.Fast
 public import KAM.Frozen.Planetary.Defs.Slow
 
 /-!
-# The period-one rescaling and the field conversion (package LP-DICT, Part B, items 5–6)
+# The period-one rescaling and the field conversion
 
-Package LP-DICT, MAIN Lemma 13 (`LP:MAIN L13 (435–441)`), track LP, non-frozen; the statement
-surface
-is proposed in `docs/tracks/LP/FREEZE-PROPOSAL.md`.
+Source: MAIN Lemma 13 (`LP:MAIN L13 (435–441)`), track LP, non-frozen.
 
 `lpRescale ℓ : Phase (n + n) →L[ℝ] ER n n` sends a chart point `((λ, ξ), (Λ, η))` to the engine
 point
@@ -117,11 +115,6 @@ theorem lpRescale_lpUnrescale {ℓ : ℝ} (hℓ : ℓ ≠ 0) (y : ER n n) :
     · simp [lpUnrescaleFun, lpRescaleFun, fast]
     · refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;>
         simp [lpUnrescaleFun, lpRescaleFun, slow] <;> field_simp
-
-/-- `lpRescale ℓ` as a continuous linear equivalence. -/
-def lpRescaleEquiv {ℓ : ℝ} (hℓ : ℓ ≠ 0) : Phase (n + n) ≃L[ℝ] ER n n :=
-  ContinuousLinearEquiv.equivOfInverse (lpRescale ℓ) (lpUnrescale ℓ)
-    (lpUnrescale_lpRescale hℓ) (lpRescale_lpUnrescale hℓ)
 
 /-! ### Reading the engine coordinates -/
 

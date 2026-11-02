@@ -1,0 +1,7 @@
+wall_s 8.32
+user_s 6.34
+sys_s 1.88
+maxrss_kb 3219344
+exit 0
+cgroup_sampled_peak_bytes 2220875776
+oom_kill 0

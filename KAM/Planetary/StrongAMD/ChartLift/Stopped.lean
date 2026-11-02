@@ -14,19 +14,18 @@ public import KAM.Planetary.StrongAMD.PlanarDictionary
 /-!
 # The stopped interval: prograde states and the whole-ball bound
 
-Package LP-LIFT, MAIN Lemma 14 (`LP:MAIN L14 (468–500)`, lines 477–480, with amendments N2, N6),
+Source: MAIN Lemma 14 (`LP:MAIN L14 (468–500)`, lines 477–480, with amendments N2, N6),
 track LP, non-frozen.
 
-On the stopped interval (MAIN's stopped conditions (40), in the strict form of the LP-CONF
+On the stopped interval (MAIN's stopped conditions (40), in the strict form of the confinement
 helper `hstop`) every physical point is prograde and a barrier state with margin `δ/2`
 (`LiftData.prograde_of_stopped`), and it satisfies the whole-ball bound
 `C ≤ B(I⁰) - δ/4` (`LiftData.strongAMD_le_of_stopped`, MAIN line 480).
 
 * `LiftData`: the source data (standing assumptions, the budget, the initial state, the orientation
   `0 < L(z₀)`); no drift or confinement conclusion.
-* `StoppedOn`: the strict stopped conditions, literally the antecedent of LP-CONF's `hstop`.
+* `StoppedOn`: the strict stopped conditions, literally the antecedent of the confinement's `hstop`.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -56,7 +55,7 @@ structure LiftData (ν : Fin n → ℝ) (U : Set (Fin n → ℝ)) (z₀ : Phase 
   orient : 0 < totalMomentum z₀
 
 /-- The strict stopped conditions (`LP:MAIN L14 (40)`, N6) on `uIcc 0 t`: literally the antecedent
-of the `hstop` hypothesis of LP-CONF's `strongFirstExit_of_stopped_drift`. -/
+of the `hstop` hypothesis of the confinement's `strongFirstExit_of_stopped_drift`. -/
 def StoppedOn (ν : Fin n → ℝ) (z₀ : Phase (n * 2)) (δ r : ℝ) (z : ℝ → Phase (n * 2)) (t : ℝ) :
     Prop :=
   ∀ u ∈ uIcc 0 t, IsPhysicalState ν (z u) ∧

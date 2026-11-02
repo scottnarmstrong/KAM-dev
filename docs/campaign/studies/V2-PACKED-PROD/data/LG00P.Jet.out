@@ -1,0 +1,9 @@
+⚠ [2906/2911] Replayed KAM.Certificate.Expr.Basic
+warning: KAM/Certificate/Expr/Basic.lean:93:5: Variable name `hS` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hS
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+✔ [2916/2916] Built LG00P.Jet (2.6s)
+Build completed successfully (2916 jobs).

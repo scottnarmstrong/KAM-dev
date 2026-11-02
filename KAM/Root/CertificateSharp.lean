@@ -53,6 +53,7 @@ public import KAM.CertificateSharp.LinearShear
 public import KAM.CertificateSharp.Packed.Avg
 public import KAM.CertificateSharp.Packed.Box
 public import KAM.CertificateSharp.Packed.Bridge
+public import KAM.CertificateSharp.Packed.CertCongr
 public import KAM.CertificateSharp.Packed.Complex
 public import KAM.CertificateSharp.Packed.Digits
 public import KAM.CertificateSharp.Packed.Enc
@@ -60,9 +61,21 @@ public import KAM.CertificateSharp.Packed.Frames
 public import KAM.CertificateSharp.Packed.Gram
 public import KAM.CertificateSharp.Packed.GramBase
 public import KAM.CertificateSharp.Packed.GramTests
+public import KAM.CertificateSharp.Packed.JetBase
 public import KAM.CertificateSharp.Packed.JetChain
 public import KAM.CertificateSharp.Packed.JetChar
+public import KAM.CertificateSharp.Packed.JetCheck
+public import KAM.CertificateSharp.Packed.JetConsEnergy
+public import KAM.CertificateSharp.Packed.JetConsFrames
+public import KAM.CertificateSharp.Packed.JetConsInv
+public import KAM.CertificateSharp.Packed.JetConsLoad
+public import KAM.CertificateSharp.Packed.JetConsTests
+public import KAM.CertificateSharp.Packed.JetConsTors
+public import KAM.CertificateSharp.Packed.JetConsTorsSound
+public import KAM.CertificateSharp.Packed.JetFront
 public import KAM.CertificateSharp.Packed.JetIngest
+public import KAM.CertificateSharp.Packed.JetKeyed
+public import KAM.CertificateSharp.Packed.JetKeyedTests
 public import KAM.CertificateSharp.Packed.JetLeaf
 public import KAM.CertificateSharp.Packed.JetNode
 public import KAM.CertificateSharp.Packed.JetSeg
@@ -73,6 +86,8 @@ public import KAM.CertificateSharp.Packed.JetWit
 public import KAM.CertificateSharp.Packed.Norm
 public import KAM.CertificateSharp.Packed.Product
 public import KAM.CertificateSharp.Packed.Round
+public import KAM.CertificateSharp.Packed.RouteSharp
+public import KAM.CertificateSharp.Packed.RouteSharpJ
 public import KAM.CertificateSharp.Packed.Slots
 public import KAM.CertificateSharp.Packed.Stage
 public import KAM.CertificateSharp.Packed.StageZ
@@ -82,6 +97,7 @@ public import KAM.CertificateSharp.Packed.Tors
 public import KAM.CertificateSharp.Packed.TorsBase
 public import KAM.CertificateSharp.Packed.TorsChain
 public import KAM.CertificateSharp.Packed.TorsR
+public import KAM.CertificateSharp.Packed.TorsRAsm
 public import KAM.CertificateSharp.Packed.TorsRBase
 public import KAM.CertificateSharp.Packed.TorsRChain
 public import KAM.CertificateSharp.Packed.TorsRSound

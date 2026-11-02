@@ -566,3 +566,42 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - **Checks:** the structural lint (coverage, edges, cycles, reachability) and ONE independent global review, instead
     of per-slice reviews.
   - **Labelling:** the graph header says so.
+- **D66 (2026-11-01, 14:55 UTC) Magnetic field-line barrier: run the ε = 0.0012 fallback pilot.** *(Scott: "I would
+  approve an ε = 0.0012 pilot as the fallback, can we launch that?")*
+  - **The model:** the plan of `docs/explorations/plan-magnetic-barrier.md`, with ε = 3/2500 instead of 3/1000. At
+    3/1000 the multiprecision solves stalled more than six orders short of the 10⁻²⁵ gate.
+  - **Phase 1 (worker kam-mag, branch `mag-pilot`):** the numerical gate only. Reconstruct the producer from the plan,
+    reusing `scripts/spin_orbit/hp*.py` and the v2 route scripts, and report the verdict.
+  - **Phase 2:** the exact Lean statement goes to the owner for approval before any certificate emission or kernel
+    run.
+- **D67 (2026-11-01, 21:35 UTC) Lock source size: about 228 MB accepted.** *(Scott: "accept 228 MB for the lock".)*
+  - This amends D55's ≈ 200 MB. The growth comes from splitting the side checks into their own modules, which run in
+    parallel remotely, and from the Gram product modules (an emitter bug fix).
+  - Every file stays far below GitHub's per-file limit.
+- **D68 (2026-11-01, 21:35 UTC) Magnetic field-line barrier statement approved.** *(Scott: "approve the magnetic
+  statement", after the review page of the exact text.)*
+  - **The approval object:** branch `mag-pilot` at `a48eb432`: `docs/explorations/mag/FREEZE-PROPOSAL.md` and the seven
+    draft files under `docs/explorations/mag/draft/` (magEps, magH0, magAlpha, magV, magField, magHamC,
+    magnetic_barrier), byte for byte, ε = 3/2500.
+  - **The state type** `ℝ × ℝ × ℝ` is accepted as an exception to AGENTS rule 7, consistent with the sealed lunar
+    statements.
+  - **Freeze:** the definitions frozen, and `magnetic_barrier` frozen as DRAFT_SORRY under `KAM/Frozen/Magnetic/`, with
+    manifest entries. Only the approval date and the decision placeholders change.
+  - **Seal:** as D63. After the certificate chain passes (on the CCX53), the landing checks and a dedicated seal audit,
+    with no further go.
+- **D69 (2026-11-01, 22:25 UTC) Overnight mode, acting on recommendations.** *(Scott: "push mag-pilot when the package
+  is ready. go now into overnight mode - defer approvals and go with recs".)*
+  - **Approvals:** decisions that would normally go to the owner take the orchestrator's recorded recommendation and
+    are logged FOR OWNER in OVERNIGHT.md.
+  - **Still excluded:** no new statement is frozen without the owner's approval of its exact text. The seals already
+    approved (D63 lock, D68 magnetic) proceed when their gates pass.
+  - **No remote job:** the CCX53 needs the owner's access, so nothing remote is started.
+  - **mag-pilot:** once its packed-gate certificate package is committed, root-b8 pushes the branch to `origin` for the
+    side campaign (lemma.farm).
+- **D70 (2026-11-02, 08:15 UTC) Lock source about 265 MB; the remote run on a CCX63.** *(Scott: "accept 265 MB, I'll
+  rent a CCX63, please continue".)*
+  - **Size:** this amends D67's 228 MB. The growth comes from the graph re-split into 64-row chunks and the side-check
+    split.
+  - **Speedup:** the overnight choice of SOS option (a) in additive form (lock-owned RealLowerK, GraphK and LockGraphK
+    plus 2 packed advice entries; core, band and the frozen statement untouched) stands.
+  - **Remote run:** the full chain runs on a CCX63 (48 vCPU, 192 GB; about 17 lanes of 10 GB), which the owner rents.

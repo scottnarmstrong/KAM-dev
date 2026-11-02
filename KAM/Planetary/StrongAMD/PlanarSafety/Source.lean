@@ -12,10 +12,9 @@ public import KAM.Planetary.StrongAMD.PlanarSafety.Main
 /-!
 # LP1 restated through the source carriers (OD-11 option (b))
 
-Package LP-SRC (`LP:MAIN L15 (502–506)`, `L16 (508–529)`), track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: (`LP:MAIN T15 (502–506)`, `L16 (508–529)`), track LP, non-frozen.
 
-* `lp1_planar_strongAMD_safety_source`: the draft-2 LP1 text (with `hνmax`, `hνle`) in which every
+* `lp1_planar_strongAMD_safety_source`: the LP1 text (with `hνmax`, `hνle`) in which every
   conclusion occurrence of `strongAMD`, `keplerPeri/Apo`, `oscEnergy/oscAxis/oscEcc/oscEccVector/
   oscPeri/oscApo` is replaced by its source version.  The subtype proofs are existential in the
   conclusion (`∃ hs, …`, `∃ ho, …`), mirroring `∃ hcht` for the thresholds; the initial AMD
@@ -34,7 +33,7 @@ open KAM.Planetary Set
 variable {n : ℕ}
 
 /-- **LP1 through the source carriers, without the normalization premises**
-(`LP:MAIN L15 (502–506)`, `L16 (508–529)`). -/
+(`LP:MAIN T15 (502–506)`, `L16 (508–529)`). -/
 theorem lp1_planar_strongAMD_safety_source_general (hn : 2 ≤ n) (ν : Fin n → ℝ)
     (hν : ∀ i, 0 < ν i)
     (A : Set (Fin n → ℝ)) (hA : IsCompact A)
@@ -128,7 +127,7 @@ theorem lp1_planar_strongAMD_safety_source_general (hn : 2 ≤ n) (ν : Fin n �
     hd3, hd4⟩⟩
 
 /-- **LP1 through the source carriers, with MAIN's mass normalization** (`hνmax`, `hνle`;
-the draft-2 text, unused premises). -/
+the earlier text, unused premises). -/
 theorem lp1_planar_strongAMD_safety_source (hn : 2 ≤ n) (ν : Fin n → ℝ)
     (hν : ∀ i, 0 < ν i)
     (_hνmax : ∃ i, ν i = 1) (_hνle : ∀ i, ν i ≤ 1)

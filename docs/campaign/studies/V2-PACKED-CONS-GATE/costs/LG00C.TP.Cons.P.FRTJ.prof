@@ -1,0 +1,3 @@
+ℹ [3572/3572] Built LG00C.TP.Cons.P.FRTJ (34s)
+info: LG00C/TP/Cons/P/FRTJ.lean:25:0: type checking took 30.2s
+tactic execution of Lean.Parser.Tactic.decide took 7.39ms

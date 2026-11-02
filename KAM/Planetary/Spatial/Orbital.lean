@@ -12,8 +12,7 @@ public import KAM.Planetary.StrongAMD.Orbital
 /-!
 # Elementary orbital identities in dimension three (no prograde premise)
 
-Package LP-SP-MODEL, `LP:MAIN L2 (110–128)`, `d = 3`; track LP, non-frozen; the statement surface
-is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L2 (110–128)`, `d = 3`; track LP, non-frozen.
 
 For one planet with `0 < ν i`, `0 < |q_i|`, negative energy (the radial case `e = 1`, `L_i = 0` is
 included): `spatial_orbital_identities` bundles `0 < a`, `0 < Λ`, `Λ² = ν² a`, (11)

@@ -10,13 +10,13 @@ public import KAM.Planetary.Spatial.SourceCarrier
 public import KAM.Planetary.Spatial.Nek.SpatialSafety.Main
 
 /-!
-# LP3-2 restated through the spatial source carriers (OD-11 option (b), D59)
+# The Nekhoroshev part restated through the spatial source carriers (OD-11 option (b), D59)
 
-Package LP3-SRC (`LP:MAIN T19 (599–603)` with `L14 (468–500)`, `L16 (508–529)`, `d = 3`), track LP,
-non-frozen.  The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: (`LP:MAIN T19 (599–603)` with `L14 (468–500)`, `L16 (508–529)`, `d = 3`), track LP,
+non-frozen.
 
 * `lp3_spatial_strongAMD_safety_source`: the text of `lp2_spatial_strongAMD_safety_source`
-  (FREEZE-PROPOSAL §3d, review 4 resolution (A): every canonical element through `spatialSource*`)
+  (every canonical element through `spatialSource*`)
   with exactly three changes: the data `γ τ`, the premises `hγ hτ` and the Diophantine premise are
   removed; the time is `T₀ * exp (c * μ ^ (-planetaryTimeExponent n))`; the drift lines (action,
   axis, AMD) read `μ ^ planetaryDriftExponent n` instead of `√μ`.
@@ -34,7 +34,7 @@ open KAM.Planetary KAM.Planetary.StrongAMD Set
 
 variable {n : ℕ}
 
-/-- **LP3-2 through the spatial source carriers, without the normalization premises**
+/-- **The Nekhoroshev part through the spatial source carriers, without the normalization premises**
 (`LP:MAIN T19 (599–603)` with `L14 (468–500)`, `L16 (508–529)`).
 Every canonical element at `z₀` and `z t` is a `spatialSource*` restriction. -/
 theorem lp3_spatial_strongAMD_safety_source_general (hn : 2 ≤ n) (ν : Fin n → ℝ)
@@ -134,8 +134,8 @@ theorem lp3_spatial_strongAMD_safety_source_general (hn : 2 ≤ n) (ν : Fin n �
     ⟨hν, hμ, fun i => ⟨(hph i).1, (hosc i).1, (hosc i).2.2.1⟩⟩
   exact ⟨hs, hcht, hamd, hΛ, ha, hdrift, hs1, hs2, hd1, hd2, ho, hosc, hpa, hd3, hd4⟩
 
-/-- **LP3-2 through the spatial source carriers, with MAIN's mass normalization** (`hνmax`,
-`hνle`; unused premises). Every canonical element is a `spatialSource*` restriction. -/
+/-- **The Nekhoroshev part through the spatial source carriers, with MAIN's mass normalization**
+(`hνmax`, `hνle`; unused premises). Every canonical element is a `spatialSource*` restriction. -/
 theorem lp3_spatial_strongAMD_safety_source (hn : 2 ≤ n) (ν : Fin n → ℝ)
     (hν : ∀ i, 0 < ν i) (hνmax : ∃ i, ν i = 1) (hνle : ∀ i, ν i ≤ 1)
     (A : Set (Fin n → ℝ)) (hA : IsCompact A)

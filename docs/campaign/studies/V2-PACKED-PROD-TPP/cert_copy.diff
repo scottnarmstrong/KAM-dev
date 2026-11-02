@@ -1,0 +1,303 @@
+10,17d9
+< public import LG00P.TPP.Data.W0
+< public import LG00P.TPP.Data.W1
+< public import LG00P.TPP.Data.W2
+< public import LG00P.TPP.Data.W3
+< public import LG00P.TPP.Data.W4
+< public import LG00P.TPP.Data.W5
+< public import LG00P.TPP.Data.W6
+< public import LG00P.TPP.Data.W7
+20,280d11
+< public import LG00P.TPP.Data.A0
+< public import LG00P.TPP.Data.A1
+< public import LG00P.TPP.Data.A2
+< public import LG00P.TPP.Data.A3
+< public import LG00P.TPP.Data.A4
+< public import LG00P.TPP.Data.A5
+< public import LG00P.TPP.Data.A6
+< public import LG00P.TPP.Data.A7
+< public import LG00P.TPP.Data.A8
+< public import LG00P.TPP.Data.A9
+< public import LG00P.TPP.Data.A10
+< public import LG00P.TPP.Data.A11
+< public import LG00P.TPP.Data.A12
+< public import LG00P.TPP.Data.A13
+< public import LG00P.TPP.Data.A14
+< public import LG00P.TPP.Data.A15
+< public import LG00P.TPP.Data.A16
+< public import LG00P.TPP.Data.A17
+< public import LG00P.TPP.Data.A18
+< public import LG00P.TPP.Data.A19
+< public import LG00P.TPP.Data.A20
+< public import LG00P.TPP.Data.A21
+< public import LG00P.TPP.Data.A22
+< public import LG00P.TPP.Data.A23
+< public import LG00P.TPP.Data.A24
+< public import LG00P.TPP.Data.A25
+< public import LG00P.TPP.Data.A26
+< public import LG00P.TPP.Data.A27
+< public import LG00P.TPP.Data.A28
+< public import LG00P.TPP.Data.A29
+< public import LG00P.TPP.Data.A30
+< public import LG00P.TPP.Data.A31
+< public import LG00P.TPP.Data.A32
+< public import LG00P.TPP.Data.A33
+< public import LG00P.TPP.Data.A34
+< public import LG00P.TPP.Data.A35
+< public import LG00P.TPP.Data.A36
+< public import LG00P.TPP.Data.A37
+< public import LG00P.TPP.Data.A38
+< public import LG00P.TPP.Data.A39
+< public import LG00P.TPP.Data.A40
+< public import LG00P.TPP.Data.A41
+< public import LG00P.TPP.Data.A42
+< public import LG00P.TPP.Data.A43
+< public import LG00P.TPP.Data.A44
+< public import LG00P.TPP.Data.A45
+< public import LG00P.TPP.Data.A46
+< public import LG00P.TPP.Data.A47
+< public import LG00P.TPP.Data.A48
+< public import LG00P.TPP.Data.A49
+< public import LG00P.TPP.Data.A50
+< public import LG00P.TPP.Data.A51
+< public import LG00P.TPP.Data.A52
+< public import LG00P.TPP.Data.A53
+< public import LG00P.TPP.Data.A54
+< public import LG00P.TPP.Data.A55
+< public import LG00P.TPP.Data.A56
+< public import LG00P.TPP.Data.A57
+< public import LG00P.TPP.Data.A58
+< public import LG00P.TPP.Data.A59
+< public import LG00P.TPP.Data.A60
+< public import LG00P.TPP.Data.A61
+< public import LG00P.TPP.Data.A62
+< public import LG00P.TPP.Data.A63
+< public import LG00P.TPP.Data.A64
+< public import LG00P.TPP.Data.A65
+< public import LG00P.TPP.Data.A66
+< public import LG00P.TPP.Data.A67
+< public import LG00P.TPP.Data.A68
+< public import LG00P.TPP.Data.A69
+< public import LG00P.TPP.Data.A70
+< public import LG00P.TPP.Data.A71
+< public import LG00P.TPP.Data.A72
+< public import LG00P.TPP.Data.A73
+< public import LG00P.TPP.Data.A74
+< public import LG00P.TPP.Data.A75
+< public import LG00P.TPP.Data.A76
+< public import LG00P.TPP.Data.A77
+< public import LG00P.TPP.Data.A78
+< public import LG00P.TPP.Data.A79
+< public import LG00P.TPP.Data.A80
+< public import LG00P.TPP.Data.A81
+< public import LG00P.TPP.Data.A82
+< public import LG00P.TPP.Data.A83
+< public import LG00P.TPP.Data.A84
+< public import LG00P.TPP.Data.A85
+< public import LG00P.TPP.Data.A86
+< public import LG00P.TPP.Data.A87
+< public import LG00P.TPP.Data.A88
+< public import LG00P.TPP.Data.A89
+< public import LG00P.TPP.Data.A90
+< public import LG00P.TPP.Data.A91
+< public import LG00P.TPP.Data.A92
+< public import LG00P.TPP.Data.A93
+< public import LG00P.TPP.Data.A94
+< public import LG00P.TPP.Data.A95
+< public import LG00P.TPP.Data.A96
+< public import LG00P.TPP.Data.A97
+< public import LG00P.TPP.Data.A98
+< public import LG00P.TPP.Data.A99
+< public import LG00P.TPP.Data.A100
+< public import LG00P.TPP.Data.A101
+< public import LG00P.TPP.Data.A102
+< public import LG00P.TPP.Data.A103
+< public import LG00P.TPP.Data.A104
+< public import LG00P.TPP.Data.A105
+< public import LG00P.TPP.Data.A106
+< public import LG00P.TPP.Data.A107
+< public import LG00P.TPP.Data.A108
+< public import LG00P.TPP.Data.A109
+< public import LG00P.TPP.Data.A110
+< public import LG00P.TPP.Data.A111
+< public import LG00P.TPP.Data.A112
+< public import LG00P.TPP.Data.A113
+< public import LG00P.TPP.Data.A114
+< public import LG00P.TPP.Data.A115
+< public import LG00P.TPP.Data.A116
+< public import LG00P.TPP.Data.A117
+< public import LG00P.TPP.Data.A118
+< public import LG00P.TPP.Data.A119
+< public import LG00P.TPP.Data.A120
+< public import LG00P.TPP.Data.A121
+< public import LG00P.TPP.Data.A122
+< public import LG00P.TPP.Data.A123
+< public import LG00P.TPP.Data.A124
+< public import LG00P.TPP.Data.A125
+< public import LG00P.TPP.Data.A126
+< public import LG00P.TPP.Data.A127
+< public import LG00P.TPP.Data.A128
+< public import LG00P.TPP.Data.A129
+< public import LG00P.TPP.Data.A130
+< public import LG00P.TPP.Data.A131
+< public import LG00P.TPP.Data.A132
+< public import LG00P.TPP.Data.A133
+< public import LG00P.TPP.Data.A134
+< public import LG00P.TPP.Data.A135
+< public import LG00P.TPP.Data.A136
+< public import LG00P.TPP.Data.A137
+< public import LG00P.TPP.Data.A138
+< public import LG00P.TPP.Data.A139
+< public import LG00P.TPP.Data.A140
+< public import LG00P.TPP.Data.A141
+< public import LG00P.TPP.Data.A142
+< public import LG00P.TPP.Data.A143
+< public import LG00P.TPP.Data.A144
+< public import LG00P.TPP.Data.A145
+< public import LG00P.TPP.Data.A146
+< public import LG00P.TPP.Data.A147
+< public import LG00P.TPP.Data.A148
+< public import LG00P.TPP.Data.A149
+< public import LG00P.TPP.Data.A150
+< public import LG00P.TPP.Data.A151
+< public import LG00P.TPP.Data.A152
+< public import LG00P.TPP.Data.A153
+< public import LG00P.TPP.Data.A154
+< public import LG00P.TPP.Data.A155
+< public import LG00P.TPP.Data.A156
+< public import LG00P.TPP.Data.A157
+< public import LG00P.TPP.Data.A158
+< public import LG00P.TPP.Data.A159
+< public import LG00P.TPP.Data.A160
+< public import LG00P.TPP.Data.A161
+< public import LG00P.TPP.Data.A162
+< public import LG00P.TPP.Data.A163
+< public import LG00P.TPP.Data.A164
+< public import LG00P.TPP.Data.A165
+< public import LG00P.TPP.Data.A166
+< public import LG00P.TPP.Data.A167
+< public import LG00P.TPP.Data.A168
+< public import LG00P.TPP.Data.A169
+< public import LG00P.TPP.Data.A170
+< public import LG00P.TPP.Data.A171
+< public import LG00P.TPP.Data.A172
+< public import LG00P.TPP.Data.A173
+< public import LG00P.TPP.Data.A174
+< public import LG00P.TPP.Data.A175
+< public import LG00P.TPP.Data.A176
+< public import LG00P.TPP.Data.A177
+< public import LG00P.TPP.Data.A178
+< public import LG00P.TPP.Data.A179
+< public import LG00P.TPP.Data.A180
+< public import LG00P.TPP.Data.A181
+< public import LG00P.TPP.Data.A182
+< public import LG00P.TPP.Data.A183
+< public import LG00P.TPP.Data.A184
+< public import LG00P.TPP.Data.A185
+< public import LG00P.TPP.Data.A186
+< public import LG00P.TPP.Data.A187
+< public import LG00P.TPP.Data.A188
+< public import LG00P.TPP.Data.A189
+< public import LG00P.TPP.Data.A190
+< public import LG00P.TPP.Data.A191
+< public import LG00P.TPP.Data.A192
+< public import LG00P.TPP.Data.A193
+< public import LG00P.TPP.Data.A194
+< public import LG00P.TPP.Data.A195
+< public import LG00P.TPP.Data.A196
+< public import LG00P.TPP.Data.A197
+< public import LG00P.TPP.Data.A198
+< public import LG00P.TPP.Data.A199
+< public import LG00P.TPP.Data.A200
+< public import LG00P.TPP.Data.A201
+< public import LG00P.TPP.Data.A202
+< public import LG00P.TPP.Data.A203
+< public import LG00P.TPP.Data.A204
+< public import LG00P.TPP.Data.A205
+< public import LG00P.TPP.Data.A206
+< public import LG00P.TPP.Data.A207
+< public import LG00P.TPP.Data.A208
+< public import LG00P.TPP.Data.A209
+< public import LG00P.TPP.Data.A210
+< public import LG00P.TPP.Data.A211
+< public import LG00P.TPP.Data.A212
+< public import LG00P.TPP.Data.A213
+< public import LG00P.TPP.Data.A214
+< public import LG00P.TPP.Data.A215
+< public import LG00P.TPP.Data.A216
+< public import LG00P.TPP.Data.A217
+< public import LG00P.TPP.Data.A218
+< public import LG00P.TPP.Data.A219
+< public import LG00P.TPP.Data.A220
+< public import LG00P.TPP.Data.A221
+< public import LG00P.TPP.Data.A222
+< public import LG00P.TPP.Data.A223
+< public import LG00P.TPP.Data.A224
+< public import LG00P.TPP.Data.A225
+< public import LG00P.TPP.Data.A226
+< public import LG00P.TPP.Data.A227
+< public import LG00P.TPP.Data.A228
+< public import LG00P.TPP.Data.A229
+< public import LG00P.TPP.Data.A230
+< public import LG00P.TPP.Data.A231
+< public import LG00P.TPP.Data.A232
+< public import LG00P.TPP.Data.A233
+< public import LG00P.TPP.Data.A234
+< public import LG00P.TPP.Data.A235
+< public import LG00P.TPP.Data.A236
+< public import LG00P.TPP.Data.A237
+< public import LG00P.TPP.Data.A238
+< public import LG00P.TPP.Data.A239
+< public import LG00P.TPP.Data.A240
+< public import LG00P.TPP.Data.A241
+< public import LG00P.TPP.Data.A242
+< public import LG00P.TPP.Data.A243
+< public import LG00P.TPP.Data.A244
+< public import LG00P.TPP.Data.A245
+< public import LG00P.TPP.Data.A246
+< public import LG00P.TPP.Data.A247
+< public import LG00P.TPP.Data.A248
+< public import LG00P.TPP.Data.A249
+< public import LG00P.TPP.Data.A250
+< public import LG00P.TPP.Data.A251
+< public import LG00P.TPP.Data.A252
+< public import LG00P.TPP.Data.B0
+< public import LG00P.TPP.Data.B1
+< public import LG00P.TPP.Data.B2
+< public import LG00P.TPP.Data.B3
+< public import LG00P.TPP.Data.B4
+< public import LG00P.TPP.Data.B5
+< public import LG00P.TPP.Data.B6
+< public import LG00P.TPP.Data.B7
+286c17,18
+< the certificate's chart (sqrt form), its torus, witnesses, advice and parameters.
+---
+> the certificate's chart (sqrt form), its torus and parameters. The packed route's copy
+> (V2-PACKED-PROD, `scripts/packed/prod_cert_gen.py`): no advice, no witnesses.
+330,343c62,64
+<   invWit :=
+<     [⟨lg00Inv0_0⟩, ⟨lg00Inv1_0⟩]
+<   charWit :=
+<     [([0, 2], ⟨lg00CharP0, 8, 60⟩), ([0, 4], ⟨lg00CharP1, 8, 60⟩), ([0, 6], ⟨lg00CharP2, 8, 60⟩),
+<       ([1, -5], ⟨lg00CharP3, 8, 60⟩), ([1, -3], ⟨lg00CharP4, 8, 60⟩), ([1, -1], ⟨lg00CharP5, 8,
+<       60⟩), ([1, 1], ⟨lg00CharP6, 8, 60⟩), ([1, 3], ⟨lg00CharP7, 8, 60⟩), ([1, 5], ⟨lg00CharP8, 8,
+<       60⟩), ([2, -4], ⟨lg00CharP9, 8, 60⟩), ([2, -2], ⟨lg00CharP10, 8, 60⟩), ([2, 0], ⟨lg00CharP11,
+<       8, 60⟩), ([2, 2], ⟨lg00CharP12, 8, 60⟩), ([2, 4], ⟨lg00CharP13, 8, 60⟩), ([3, -3],
+<       ⟨lg00CharP14, 8, 60⟩), ([3, -1], ⟨lg00CharP15, 8, 60⟩), ([3, 1], ⟨lg00CharP16, 8, 60⟩), ([3,
+<       3], ⟨lg00CharP17, 8, 60⟩), ([4, -2], ⟨lg00CharP18, 8, 60⟩), ([4, 0], ⟨lg00CharP19, 8, 60⟩),
+<       ([4, 2], ⟨lg00CharP20, 8, 60⟩), ([5, -1], ⟨lg00CharP21, 8, 60⟩), ([5, 1], ⟨lg00CharP22, 8,
+<       60⟩), ([6, 0], ⟨lg00CharP23, 8, 60⟩)]
+<   sqrtWit :=
+<     [(2745, ⟨⟨lg00Sqrt0_0⟩, 1, (129 / 2500 : ℚ)⟩), (2772, ⟨⟨lg00Sqrt1_0⟩, 1, (11 / 125 : ℚ)⟩)]
+---
+>   invWit := []
+>   charWit := []
+>   sqrtWit := []
+366c87
+<     (lg00BookFull_0 ++ lg00BookFull_1)
+---
+>     []
+375c96
+<     (lg00BookLow_0 ++ lg00BookLow_1 ++ lg00BookLow_2 ++ lg00BookLow_3)
+---
+>     []

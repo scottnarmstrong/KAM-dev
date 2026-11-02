@@ -17,15 +17,15 @@ public import KAM.Planetary.StrongAMD.Modulus
 /-!
 # Spatial sharp first exit (conditional confinement helper)
 
-Package LP-SP-CONF, `LP:MAIN L14 (468–500)` for `d = 3` (with `LP:MAIN T19 (599–603)`) and
+Source: `LP:MAIN L14 (468–500)` for `d = 3` (with `LP:MAIN T19 (599–603)`) and
 amendments N2 (one shared compact `U`) and N6 (on the Lemma-13 route the stopped radius is `r` and
 the improvement is to `r / 2`); track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 `spatialStrongFirstExit_of_stopped_drift` is the topological first-exit argument of MAIN Lemma 14
 with the stopped drift as an **explicit hypothesis** `hstop`.  It is NOT the public theorem: it is
 the internal conditional helper (the spatial mirror of `strongFirstExit_of_stopped_drift`), and the
-spatial analogue of LP-PS discharges `hstop` from Lemma 13 through the chart lift.
+spatial analogue of the planar safety assembly discharges `hstop` from Lemma 13 through the chart
+lift.
 
 The route is that of the planar helper: the maximal solution of the spatial moving field on the
 collision-free domain; a forward and a backward first exit (`amd_exit_forward`,

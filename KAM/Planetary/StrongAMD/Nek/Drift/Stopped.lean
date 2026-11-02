@@ -12,10 +12,10 @@ public import KAM.Planetary.StrongAMD.Nek.Cover
 public import KAM.Planetary.StrongAMD.Nek.Perturbation
 
 /-!
-# The stopped drift on one cell (the cellwise core of LP3-DRIFT)
+# The stopped drift on one cell (the cellwise core of the stopped drift)
 
-Package LP3-DRIFT, MAIN Lemma 14 (`LP:MAIN L14 (468–500)`, steps 1–7 of `LP3-PLAN` §2.4), track LP,
-non-frozen.  The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: MAIN Lemma 14 (`LP:MAIN L14 (468–500)`, steps 1–7 of `LP3-PLAN` §2.4), track LP,
+non-frozen.
 
 For a physical segment that is stopped (`StoppedOn`) and whose initial action lies within `η/2` of
 the centre `c` of a cell:

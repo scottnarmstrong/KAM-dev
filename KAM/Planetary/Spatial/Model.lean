@@ -17,8 +17,7 @@ public import KAM.Frozen.Planetary.Spatial.Defs.SpatialNoCollision
 /-!
 # The exact spatial model (dimension three)
 
-Package LP-SP-MODEL, `LP:MAIN §1 (1) (17–25)` with `d = 3`; track LP, non-frozen; the statement
-surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN §1 (1) (17–25)` with `d = 3`; track LP, non-frozen.
 
 * `spatialHamiltonian ν μ z = Σ_i (|p_i|²/(2ν_i) − ν_i/|q_i|)
   + μ (|Σ_i p_i|²/2 − Σ_{i<j} ν_iν_j/|q_i − q_j|)`
@@ -78,17 +77,6 @@ theorem sum_sum_eq_diag_add_two_mul (f : Fin n → Fin n → ℝ) (hf : ∀ i j,
     simp [hf i j]
   simp only [hsplit, Finset.sum_add_distrib, hswap, Finset.sum_filter]
   ring
-
-/-- `|Σ v_i|² = Σ |v_i|² + 2 Σ_{i<j} v_i · v_j`. -/
-theorem spaceSq_sum (v : Fin n → Fin 3 → ℝ) :
-    spaceSq (∑ i, v i) =
-      ∑ i, spaceSq (v i) +
-        2 * ∑ i, ∑ j ∈ Finset.univ.filter (fun j => i < j), spaceDot (v i) (v j) := by
-  rw [spaceSq_sum_eq_sum_sum, sum_sum_eq_diag_add_two_mul (fun i j => spaceDot (v i) (v j))
-    (fun i j => spaceDot_comm _ _)]
-  congr 1
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rw [spaceSq_eq_spaceDot]
 
 /-- Action–reaction: `Σ_i ν_i f_i = 0` (no collision hypothesis is needed). -/
 theorem sum_mass_smul_spatialFKernel (ν : Fin n → ℝ) (q : Fin n → Fin 3 → ℝ) :

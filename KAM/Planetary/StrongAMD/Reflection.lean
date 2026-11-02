@@ -13,9 +13,8 @@ public import KAM.Frozen.Planetary.Defs.IsMovingSolutionOn
 /-!
 # Orientation reversal of a planar phase
 
-Package LP-MOM, orientation remark of `LP:MAIN L3 (130–139)` ("choose the plane's orientation so
-that `L > 0`"); track LP, non-frozen; the statement surface is proposed in
-docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: orientation remark of `LP:MAIN L3 (130–139)` ("choose the plane's orientation so
+that `L > 0`"); track LP, non-frozen.
 
 `reflectPhase` negates the second coordinate of every body vector of both `q` and `p` (a linear
 symplectic isometry).  Kepler energy, axis, action, eccentricity, pair distances, `NoCollision`, the
@@ -263,14 +262,6 @@ theorem isMovingSolutionOn_reflectPhase_of {ν : Fin n → ℝ} {μ : ℝ} {J : 
     rw [e, reflectPhaseCLM_apply, ← hamiltonianVectorField_reflectPhase hH (hs t ht).2.1] at h1
     exact h1
   · exact (noCollision_reflectVec_iff _).2 (hnc t ht)
-
-/-- Orientation reversal preserves moving solutions (`LP:MAIN L3 (130–139)`, orientation remark). -/
-theorem isMovingSolutionOn_reflectPhase_iff {ν : Fin n → ℝ} {μ : ℝ} {J : Set ℝ}
-    {z : ℝ → Phase (n * 2)} :
-    IsMovingSolutionOn ν μ J z ↔ IsMovingSolutionOn ν μ J (fun t => reflectPhase (z t)) := by
-  refine ⟨isMovingSolutionOn_reflectPhase_of, fun h => ?_⟩
-  have := isMovingSolutionOn_reflectPhase_of h
-  simpa [reflectPhase_reflectPhase] using this
 
 end ODE
 

@@ -13,7 +13,7 @@ public import KAM.Planetary.Spatial.Elements
 /-!
 # The n-body spatial product chart: (45) summed and the fixed-plane deficit
 
-Package LP-SP-PROD, `LP:MAIN L17 (533–578)` (last sentence of the statement) and
+Source: `LP:MAIN L17 (533–578)` (last sentence of the statement) and
 `LP:MAIN L18 (580–597)` (line 595), track LP, non-frozen. On the product domain:
 
 * `spatialKeplerAction_spatialPoincareProd`: `Λ_i(Ψ w) = I_i`;
@@ -23,7 +23,6 @@ Package LP-SP-PROD, `LP:MAIN L17 (533–578)` (last sentence of the statement) a
 * `spatialStrongAMD_spatialPoincareProd_of_aligned`: if `L = |L| e₃` then
   `C = Σ_i (Γ_i + Z_i)` (MAIN (47), line 595); in general `C ≤ C_{e₃}`.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

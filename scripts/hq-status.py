@@ -764,10 +764,13 @@ TRACKS = [
                         'around a certified synchronous orbit; D42, D45)'),
     ('LG00', 'lg00', 'Side project: a kernel-checked KAM torus of Locatelli–Giorgilli\'s secular Sun–Jupiter–Saturn '
                      'model (first formally verified torus of a planetary model; v2 certifier)'),
+    ('HD11964', 'hd11964', 'Side project: no orbit crossing for a fixed time T (first rung 10³ years) in the planar '
+                           'Newtonian model of the HD 11964 planetary system (star and two planets, catalogue data), '
+                           'by certified drift of the semi-major-axis actions and the LP0 barrier'),
 ]
 # Tracks without a source-level dependency graph: track R is proved through track P's quantitative theorem; track SO
-# and LG00 are certificate campaigns.
-NO_GRAPH = {'R', 'SO-1', 'SO-2', 'SO-3', 'LG00'}
+# and the side projects LG00 and HD11964 are certificate campaigns.
+NO_GRAPH = {'R', 'SO-1', 'SO-2', 'SO-3', 'LG00', 'HD11964'}
 
 
 def track_anchors(prefix):
@@ -786,7 +789,8 @@ def section_tracks():
         gtxt = (f'{g[0]} / {g[1]} nodes resolved' if g and g[1] else '—' if t in NO_GRAPH else 'not on `main` yet')
         ftxt = (f'{sealed} / {len(thm)}' if thm else '— (ordinary theorems)' if prefix is None else
                 'none frozen yet (freeze approved, D49)' if prefix.startswith('so-') else '0 / 0')
-        stage = campaign.get('tracks', {}).get(t, '') if t != 'LG00' else lg00_stage_text()
+        stage = (lg00_stage_text() if t == 'LG00' else hd_stage_text() if t == 'HD11964' else
+                 campaign.get('tracks', {}).get(t, ''))
         out.append(f'| **{t}** | {head} | {ftxt} | {gtxt} | {stage} |')
     return '\n'.join(out)
 
@@ -840,6 +844,9 @@ def completion(rows):
     lg_pct, lg_w = lg00_progress()
     if lg_w:
         groups[LG00_GROUP] = [float(lg_w), lg_w * lg_pct / 100, len(LG00['stages'])]
+    hd_pct, hd_w = hd_progress()
+    if hd_w:
+        groups[HD_GROUP] = [float(hd_w), hd_w * hd_pct / 100, len(HD['stages'])]
     w_pct, _ = w_progress()
     groups[W_GROUP] = [64.0, 64.0 * w_pct / 100, 5]
     lp_pct, _ = lp_progress()
@@ -871,6 +878,31 @@ def lg00_stage_text():
     if cur:
         txt += f'; now: {cur["name"]} ({100 * cur["done"]:.0f} %)'
     return txt
+
+
+HD_GROUP = 'Side project HD 11964: certified no-crossing time for a real exoplanet system'
+_hd_file = root / 'docs/campaign/side/hd11964-status.json'
+HD = json.loads(_hd_file.read_text()) if _hd_file.exists() else {'stages': []}
+
+
+def hd_progress():
+    """Side project HD 11964 (docs/campaign/side/hd11964-status.json): percent done, weighted by stage effort."""
+    w = sum(s['weight'] for s in HD['stages'])
+    return (100 * sum(s['weight'] * s['done'] for s in HD['stages']) / w if w else 0.0), w
+
+
+def hd_stage_text():
+    st = HD['stages']
+    if not st:
+        return ''
+    done = [s['name'] for s in st if s['done'] >= 1]
+    cur = next((s for s in st if s['done'] < 1), None)
+    txt = f'{hd_progress()[0]:.0f} %: done: ' + ('; '.join(done) or 'none')
+    if cur:
+        txt += f'; now: {cur["name"]} ({100 * cur["done"]:.0f} %)'
+    return txt
+
+
 W_GROUP = 'Track W: PDE KAM for the cubic wave equation (D30, D41)'
 W_MILESTONES = ['W0', 'W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8']
 
@@ -1006,7 +1038,7 @@ def completion_split(rows):
     figure, which read 96.0 % then)."""
     pct, groups, total, done = completion(rows)
     parts = [groups.get(g, [0.0, 0.0, 0]) for g in SO_GROUPS]
-    extra = [groups.get(g, [0.0, 0.0, 0]) for g in (LOCK_GROUP, W_GROUP, LP_GROUP, LG00_GROUP)]
+    extra = [groups.get(g, [0.0, 0.0, 0]) for g in (LOCK_GROUP, W_GROUP, LP_GROUP, LG00_GROUP, HD_GROUP)]
     orig = 100 * (done - sum(p[1] for p in parts + extra)) / (total - sum(p[0] for p in parts + extra))
     so1, so2 = (100 * p[1] / p[0] if p[0] else 0.0 for p in parts)
     return orig, so1, so2, pct
@@ -1236,7 +1268,7 @@ def section_progress(rows):
     out = [f'### Estimated completion: original project **{orig:.1f} %** · SO checker **{so1:.0f} %** · '
            f'SO Moon **{so2:.0f} %** · Moon locked **{lock_progress()[0]:.0f} %** · track W **{w_progress()[0]:.0f} %** · '
            f'track LP **{lp_progress()[0]:.0f} %** · '
-           f'LG00 **{lg00_progress()[0]:.0f} %**', '',
+           f'LG00 **{lg00_progress()[0]:.0f} %** · HD 11964 **{hd_progress()[0]:.0f} %**', '',
            f'Original project (tracks K, I, N, P): `{bar(orig)}` {orig:.1f} %', '',
            f'Track SO, part 1, the general Lean certificate checker: `{bar(so1)}` {so1:.1f} %', '',
            f"Track SO, part 2, the Moon's spin rate (its first client): `{bar(so2)}` {so2:.1f} %", '',
@@ -1254,6 +1286,11 @@ def section_progress(rows):
            f'{lg00_progress()[0]:.0f} % (stages, weighted by effort: ' + ', '.join(s['name'] for s in LG00['stages']) + '; '
            'from [`docs/campaign/side/lg00-status.json`](docs/campaign/side/lg00-status.json), the side orchestrator\'s '
            f'assessment, last reviewed {LG00.get("reviewed", "")})', '',
+           f'Side project HD 11964, a certified no-orbit-crossing time for a real exoplanet system: '
+           f'`{bar(hd_progress()[0])}` {hd_progress()[0]:.0f} % (stages, weighted by effort: ' +
+           ', '.join(s['name'] for s in HD['stages']) + '; from '
+           '[`docs/campaign/side/hd11964-status.json`](docs/campaign/side/hd11964-status.json), the side '
+           f'orchestrator\'s assessment, last reviewed {HD.get("reviewed", "")})', '',
            f'Overall, everything together: {pct:.1f} %', '',
            '| Part of the project | Items | Weight | Done | Completion |', '|---|---|---|---|---|']
     for name, (wt, dn, n) in groups.items():
@@ -1271,8 +1308,8 @@ def section_progress(rows):
             f'orchestrators\' assessment, last reviewed **{progress["reviewed"]}**. Files: '
             '[`docs/campaign/progress.json`](docs/campaign/progress.json) (track K and infrastructure) and '
             '[`docs/campaign/progress-INP.json`](docs/campaign/progress-INP.json) (tracks I, N, P). The rows of track '
-            'SO part 3, track W and the side project LG00 are not work items: they take their fraction from the meters '
-            'above, with weights 16, 64 and the LG00 stage weights.',
+            'SO part 3, track W and the side projects LG00 and HD 11964 are not work items: they take their fraction '
+            'from the meters above, with weights 16, 64 and the side projects\' stage weights.',
             '', '<details><summary>All work items with their weight and status</summary>', '',
             '| ID | Item | Difficulty | Done | Note |', '|---|---|---|---|---|']
     for it in progress['items']:

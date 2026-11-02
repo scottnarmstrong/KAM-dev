@@ -15,8 +15,7 @@ public import KAM.Frozen.Planetary.Spatial.Defs.SpatialMasses
 /-!
 # Newtonian reconstruction of spatial moving solutions (MAIN Lemma 1, `d = 3`)
 
-Package LP-SP-MODEL, `LP:MAIN L1 (97–108)`; track LP, non-frozen; the statement surface is
-proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L1 (97–108)`; track LP, non-frozen.
 
 With `M = 1 + μ Σ ν_i`, `x_0 = −μ Σ ν_i q_i / M`, `x_i = x_0 + q_i`, `ẋ_0 = −μ Σ p_i`,
 `ẋ_i = p_i/ν_i` (the frozen planar formulas with `m₀ = 1`, `Fin 3`):

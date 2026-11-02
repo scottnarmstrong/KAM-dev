@@ -1,0 +1,27 @@
+info: core0: no previous manifest, creating one from scratch
+info: toolchain not updated; already up-to-date
+1. unpatched driver, target C
+3 modules, 0 already passed
+3 to do, 3 stale (to build), 0 up to date (reused)
+DONE: 3 passed, 0 failed []
+2. A's source re-emitted (a comment); unpatched driver resumes, target D
+4 modules, 3 already passed
+1 to do, 1 stale (to build), 0 up to date (reused)
+DONE: 4 passed, 0 failed []
+  D's process built: LG00P.A LG00P.D 
+3. A re-emitted again; patched driver resumes from the same ledger, target E
+4 modules, 4 already passed
+3 passed modules are stale again: rebuilt in their own rows
+4 to do, 4 stale (to build), 0 up to date (reused)
+DONE: 4 passed, 0 failed []
+  A's process built: LG00P.A 
+  E's process built: LG00P.E 
+ledger (module, user s, exit, kind):
+  LG00P.A	0.38	0	built
+  LG00P.B	0.46	0	built
+  LG00P.C	0.47	0	built
+  LG00P.D	0.64	0	built
+  LG00P.A	0.49	0	built
+  LG00P.B	0.27	0	reused
+  LG00P.C	0.27	0	reused
+  LG00P.E	0.42	0	built

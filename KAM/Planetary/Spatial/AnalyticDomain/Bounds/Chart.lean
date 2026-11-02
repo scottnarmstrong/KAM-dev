@@ -12,8 +12,7 @@ public import KAM.Planetary.Spatial.AnalyticDomain.Bounds.Tube
 /-!
 # The holomorphic spatial chart extension `Ψc` and its sup bound
 
-Package LP-SP-DOMX, `LP:MAIN L18 (595)` with `LP:MAIN L8 (253, 259–271)`, track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L18 (595)` with `LP:MAIN L8 (253, 259–271)`, track LP, non-frozen.
 
 * `IsSpatialChartExtension`: `Ψc` is a holomorphic shift-periodic extension of the product chart
   `spatialPoincareProd ν` (positions and momenta, `6n` real coordinates) to `complexTubeNM K R'`,

@@ -1,0 +1,75 @@
+$ /home/scott/KAM-dev-worktrees/v2-packed-apply/scripts/packed/gen_packed.py --tree TP --prefix LG00P --cert /home/scott/KAM-dev-worktrees/lg00-app/applications/lg00/LG00/TP --pkg /home/scott/kam-data/v2-packed-apply/final/copy --stages jet --ham-ported --asm-suffix H --jet-low /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tp/low_mirror.pkl --jet-full /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tp/full_mirror.pkl
+J: node terms {'N': 9380, 'DL': 4272, 'DG': 4948, 'C': 5172, 'DGi': 5174, 'DN': 10357, 'XN': 10358} max mantissa bits 134
+J: final (mirror) True {'a': 1.9882101081456976e-08, 'b': 0.2086695859234169, 'r': 1.5698999169673135e-09, 'deltaT': 2.0209691447071753e-08, 'margin': 0.0013204098327500038}
+{
+ "tree": "TP",
+ "prefix": "LG00P",
+ "cert": "/home/scott/KAM-dev-worktrees/lg00-app/applications/lg00/LG00/TP",
+ "stages": [
+  "jet"
+ ],
+ "invariance_energy": {
+  "err": 7.2e-16,
+  "rows": [
+   {
+    "value": 1.2541502357401434e-16,
+    "ok": true
+   },
+   {
+    "value": 7.191724925463541e-16,
+    "ok": true
+   },
+   {
+    "value": 1.4628223639853896e-17,
+    "ok": true
+   },
+   {
+    "value": 8.209809776740436e-18,
+    "ok": true
+   }
+  ],
+  "energy": {
+   "value": 5.72509379614089e-23,
+   "ok": true
+  }
+ },
+ "jet": {
+  "width_low": 392,
+  "width_torsion": 392,
+  "bA_bits": 141,
+  "width_full": 400,
+  "bfull_bits": 141
+ },
+ "modules": 115,
+ "claims": {
+  "bL": "137/100",
+  "bN": "121/100",
+  "bNt": "29/20",
+  "bT": "118"
+ },
+ "edges": {
+  "L": "463464901270249923354181045517865016385/340282366920938463463374607431768211456",
+  "N": "51007642861670937711963342915152307885/42535295865117307932921825928971026432",
+  "Nt": "489912043869510686693508555437438406541/340282366920938463463374607431768211456",
+  "T": "19991711407473995979769294696957361408717/170141183460469231731687303715884105728"
+ },
+ "edges_float": {
+  "L": 1.36200093311897,
+  "N": 1.1991839206530994,
+  "Nt": 1.4397220999210263,
+  "T": 117.50071911377583
+ },
+ "torsion_final": {
+  "a": 1.9882101081456976e-08,
+  "b": 0.2086695859234169,
+  "r": 1.5698999169673135e-09,
+  "deltaT": 2.0209691447071753e-08,
+  "margin": 0.0013204098327500038
+ },
+ "torsion_width": 392
+}
+module list: /home/scott/kam-data/v2-packed-apply/final/copy/modules_TP.json
+
+--- stderr
+
+--- exit 0

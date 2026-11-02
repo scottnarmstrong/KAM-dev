@@ -14,8 +14,8 @@ public import KAM.Planetary.Spatial.Chart.Diffeo
 /-!
 # The n-body spatial product chart: analyticity, symplecticity, image, local diffeomorphism
 
-Package LP-SP-PROD, `LP:MAIN L17 (533–578)` for `n` bodies (item 2), track LP, non-frozen.
-Everything is inherited blockwise from the one-body chart `spatialPoincare` of LP-SP-CHART:
+Source: `LP:MAIN L17 (533–578)` for `n` bodies (item 2), track LP, non-frozen.
+Everything is inherited blockwise from the one-body chart `spatialPoincare` of the spatial chart:
 
 * `analyticOnNhd_spatialPoincareProd`, `spatialPoincareProd_lattice`: analyticity on the product
   domain and invariance under the fast lattice `λ_i ↦ λ_i + 2π k_i`;
@@ -27,7 +27,6 @@ Everything is inherited blockwise from the one-body chart `spatialPoincare` of L
 * `spatialPoincareProd_eq_iff`: injectivity modulo the fast lattice;
 * `spatialPoincareProd_localDiffeo`: local analytic diffeomorphism.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -88,7 +87,7 @@ theorem fderiv_spatialPoincareProd_apply {ν : Fin n → ℝ} (hν : ∀ i, 0 < 
 
 /-! ### Symplecticity -/
 
-/-- Item 2: the product chart is symplectic, the block sum of LP-SP-CHART item 5. -/
+/-- Item 2: the product chart is symplectic, the block sum of the spatial chart item 5. -/
 theorem spatialPoincareProd_symplectic {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) :
     IsSymplecticOn 1 (spatialPoincareProd ν) (spatialPoincareProdDom n) := by
   intro w hw u v

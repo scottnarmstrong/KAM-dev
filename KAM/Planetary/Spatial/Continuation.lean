@@ -13,7 +13,7 @@ public import KAM.Planetary.StrongAMD.Modulus
 /-!
 # The spatial moving threshold (17) and continuation
 
-Package LP-SP-GEO, `LP:MAIN L6 (177–189)` with `d = 3` and amendment N2 (one shared compact `U`);
+Source: `LP:MAIN L6 (177–189)` with `d = 3` and amendment N2 (one shared compact `U`);
 track LP, non-frozen.  The modulus `strongThresholdModulus` is the planar (dimension-free) one.
 
 * `spatialMovingField`, `spatial_moving_ode`: the Hamilton field of `spatialHamiltonian` is `C¹` on
@@ -23,7 +23,6 @@ track LP, non-frozen.  The modulus `strongThresholdModulus` is the planar (dimen
   end of its interval has that end infinite.
 * `spatial_maximal_global_of_tube`: the MAIN-shaped corollary, `n r + Ω_B(r) ≤ δ / 2`.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

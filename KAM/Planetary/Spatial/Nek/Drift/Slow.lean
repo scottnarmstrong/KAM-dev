@@ -11,11 +11,11 @@ public import KAM.Planetary.Spatial.ChartLift.Lift
 public import KAM.Planetary.StrongAMD.Modulus
 
 /-!
-# The sharpened slow bound and the `V_j`-form of the solution premise (LP3-SP-DRIFT)
+# The sharpened slow bound and the `V_j`-form of the solution premise
 
-Package LP3-SP-DRIFT (part: slow premises), `LP:MAIN L14 (477–483)` and `LP:MAIN L18 (595–597)`
+Source: `LP:MAIN L14 (477–483)` and `LP:MAIN L18 (595–597)`
 as planned in `docs/tracks/LP/lp3/LP3-PLAN.md` §2.4 steps 4–6 and §2.5 (`k = n + n`), track LP,
-non-frozen. The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+non-frozen.
 
 * `spatialNek_sharp_slow_bound`: on the stopped interval the strong AMD is below the local sharp
   level, `C(z u) < B(c_j) − 3δ/8` (the curvature step; the whole-ball bound `C ≤ B(I⁰) − δ/4` of

@@ -10,17 +10,15 @@ public import KAM.Planetary.Spatial.SpatialSafety.SourceCorollary
 /-!
 # Provider for `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety`
 
-Provider for the frozen theorem `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety`, draft-7
-revision-1 anchor LP2 (spatial strong-AMD exponential safety); track LP, package LP-FREEZE7R
-(`LP:MAIN T19 (599–603) with §1 (6)–(9) (69–93), L16 (508–529), d = 3`). The statement surface is
-proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Provider for the frozen theorem `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety`, anchor
+LP2 (spatial strong-AMD exponential safety);
+track LP (`LP:MAIN T19 (599–603) with §1 (6)–(9) (69–93), L16 (508–529), d = 3`).
 
 The theorem `KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety` states the anchor's
 exact type text (its draft file under `docs/tracks/LP/freeze/draft7/`) and is proved in one line by
 the implementation theorem
-`KAM.Planetary.Spatial.lp2_spatial_strongAMD_safety_source_isDiophantine`. While the frozen anchor
-is `DRAFT_SORRY` (or not yet created), this module is quarantined: no module other than the anchor
-may import it (AGENTS rule 9).
+`KAM.Planetary.Spatial.lp2_spatial_strongAMD_safety_source_isDiophantine`. This module is
+quarantined: no module other than the anchor may import it (AGENTS rule 9).
 -/
 
 @[expose] public section

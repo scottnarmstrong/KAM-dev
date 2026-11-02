@@ -24,8 +24,7 @@ public import KAM.Frozen.Planetary.StrongAMD.Defs.OscVelocity
 /-!
 # Actual-velocity osculating elements: definitions, velocity identification, tangency
 
-Package LP-OSC, `LP:MAIN L16 (508–529)` with amendment N10; track LP, non-frozen; the statement
-surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L16 (508–529)` with amendment N10; track LP, non-frozen.
 
 Planar, literal `LP:MAIN L16 (42)`: for a phase `z` and planet `i` (`q_i`, `p_i` the body blocks),
 `V_i = p_i/ν_i + μ ∑_j p_j`, `k_i = 1 + μ ν_i`, and the specific elements
@@ -64,13 +63,6 @@ theorem oscVelocity_eq_movingField (ν : Fin n → ℝ) (μ : ℝ) {z : Phase (n
 theorem oscEnergy_eq_spec (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 2)) (i : Fin n) :
     oscEnergy ν μ z i =
       specEnergy (oscParam ν μ i) (bodyVector z.1 i) (oscVelocity ν μ z i) := rfl
-
-theorem oscAxis_eq_spec (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 2)) (i : Fin n) :
-    oscAxis ν μ z i = specAxis (oscParam ν μ i) (bodyVector z.1 i) (oscVelocity ν μ z i) := rfl
-
-theorem oscEccVector_eq_spec (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 2)) (i : Fin n) :
-    oscEccVector ν μ z i =
-      specEccVector (oscParam ν μ i) (bodyVector z.1 i) (oscVelocity ν μ z i) := rfl
 
 theorem planeSq_smul_eq (c : ℝ) (v : Fin 2 → ℝ) : planeSq (c • v) = c ^ 2 * planeSq v := by
   simp only [planeSq_two, Pi.smul_apply, smul_eq_mul]; ring

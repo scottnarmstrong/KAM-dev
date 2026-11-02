@@ -10,10 +10,9 @@ public import KAM.Planetary.StrongAMD.NonresonantAdapter
 public import KAM.Planetary.StrongAMD.NonresonantReuse.Hyp
 
 /-!
-# The stopped drift (package LP-NRR, item 6; MAIN Lemma 13)
+# The stopped drift
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
-Package LP-NRR, MAIN Lemma 13 (`LP:MAIN L13 (429–464)`), amendment N6, track LP, non-frozen.
+Source: MAIN Lemma 13 (`LP:MAIN L13 (429–464)`), amendment N6, track LP, non-frozen.
 
 `lp_stopped_drift` is the conclusion of Lemma 13: constants `μ₀, c, T₀` and the fixed widths
 `s, σ, w` are chosen from `(ν, L, δ, γ, τ, D₀)` only, before `μ`, the centre `I⁰` and the solution.
@@ -22,7 +21,7 @@ solution with chart lift satisfying the stopped/outer-domain localization premis
 `nonresonant_drift_of_chartData`, the Kepler actions stay within `D₀√μ/2` of `I⁰` up to time
 `T₀ exp(c μ^{-a})`.  The premises are the physical solution, its chart lift and the localization;
 no drift, confinement or AMD bound is assumed.  The stopped radius is strictly inside the tube
-radii (`D₀√μ ≤ ρ < r_*`, audit note on N6): `ρ` is half the smallest tube radius.
+radii (`D₀√μ ≤ ρ < r_*`, amendment N6): `ρ` is half the smallest tube radius.
 -/
 
 @[expose] public noncomputable section

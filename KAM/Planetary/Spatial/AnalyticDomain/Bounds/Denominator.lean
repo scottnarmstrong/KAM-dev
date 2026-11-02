@@ -12,10 +12,9 @@ public import KAM.Planetary.Spatial.AnalyticDomain.Bounds.Algebra
 /-!
 # The complex-denominator tube: `Re (w · w) ≥ d²/2` for every star and pair 3-vector
 
-Package LP-SP-DOMX, `LP:MAIN L18 (595)` with `LP:MAIN L8 (266–268)`, track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L18 (595)` with `LP:MAIN L8 (266–268)`, track LP, non-frozen.
 
-Spatial twins of LP-DOMX's `Bounds.Denominator`:
+Spatial twins of the analytic-domain bounds' `Bounds.Denominator`:
 
 * `exists_spatialTube_re_cDot3_ge`: for a chart extension with a derivative bound on the quarter
   tube and real lower/upper bounds on the real trace over `K`, a uniform thin tube on which
