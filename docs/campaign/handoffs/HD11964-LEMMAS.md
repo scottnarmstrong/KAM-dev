@@ -26,7 +26,12 @@ were committed first (`f32acdab`); this section maps them to the proved theorems
 | (3c) `RangeGlue` | `range_bound_of_cellBounds` | `HD11964.Glue` |
 | (3d) `NoCrossingOfCells` | `noCrossing_of_cellBounds` | `HD11964.Glue` |
 
-The statements are the drafted ones, with the binders made implicit where natural; the content is unchanged. The
+The statements are the drafted ones, with the binders made implicit where natural. **One deviation**
+(AUDIT-HD11964-LEMMAS-1, L3): in (3d) the casts of the centred range bound moved.
+- Draft: `((D.lo i + D.hi i : ℚ) / 2 : ℝ)` and `((D.hi i - D.lo i : ℚ) / 2 : ℝ)`.
+- Proved: `(((D.lo i + D.hi i) / 2 : ℚ) : ℝ)` and `(((D.hi i - D.lo i) / 2 : ℚ) : ℝ)`.
+
+The two are equal by `push_cast`; the auditor derived the draft `Prop` from the theorem that way. The
 definitions (`polyDiscC`, `AffineCell.coord`, `invMx`, `charE`, `fourierCoeff2`, `genChi`, `TFPoly`, `l1`,
 `withAngles`, `chartCoeff`, `chiStar`, `cellMapC`, `chartAngle`) are as drafted.
 
@@ -70,7 +75,13 @@ Both identify by `rfl` once the branches meet. `complexStrip` (frozen) is shared
 - (2a) The certified remainder. Given models of `Pc` (centre `p`, remainder `r_P`) and of `1/(i k·ω)` (polynomial
   `q_k`, remainder `ε_k`, bound `B_k`), the producer's centre `c` is within
   `Σ_{k∈S} e^{2πρ|k|₁} (r_P B_k + ‖p_k‖₁ ε_k + ‖p_k q_k − c_k‖₁)`.
-  - Every quantity is either data or an ℓ¹ norm of rational polynomials, computable by the kernel.
+  - **Corrected (AUDIT-HD11964-LEMMAS-1, L2):** the theorem is not yet in a kernel-computable form.
+    - `TFPoly` has complex polynomial coefficients.
+    - `l1` sums complex norms, which are square roots.
+    - The weight `e^{2πρ|k|₁}` is transcendental.
+    - `hP` is not the layer's `TFModel`/`TFRep` form.
+
+    A data adapter is open (see the end of this handoff).
   - The proof: the Fourier coefficient of `Pc − p` is bounded by `r_P` (real `θ` lies in the strip, and the torus
     has volume 1); the characters are orthogonal; `|e(k·θ)| ≤ e^{2πρ|k|₁}` on the strip; and a three-term split.
 - (2b) The link. If `Pc` agrees with `P` at real points of the cell and `om` with `ω(Λ)`, then
@@ -361,7 +372,41 @@ end
 - **Sizes**: `CellCauchy.lean` 173 lines, `Generator.lean` 355, `Glue.lean` 159.
 - **Hygiene**: no heartbeat options, no `native_decide`, no proof escapes.
 
+## Audit fixes (AUDIT-HD11964-LEMMAS-1, PASS WITH CHANGES)
+
+- **L1.** `chiStar`'s and `genChi`'s docstrings now state the conditions on `S`:
+  - `S = −S`, `0 ∉ S`, and `k·ω ≠ 0` on the set considered.
+  - Lean's `0⁻¹ = 0` silently drops every mode with `k·ω = 0`, `k = 0` included.
+  - `.re` halves every mode whose partner `−k` is missing.
+
+  The next pieces (HD11964-CHI: the homological equation and the smoothness of `χ*`) take these conditions as
+  hypotheses. The list below repeats them.
+- **L2.** The "kernel-computable" sentence of (2a) is corrected above, and the data adapter is listed below.
+- **L3.** The (3d) cast change is disclosed above.
+- **L4.** Added the cell inverse and the composed form (the auditor's probes):
+  - `AffineCell.coord_map` and `map_coord` (`CellCauchy`);
+  - `abs_chiStar_sub_le` (`Generator`): on a well-formed cell, `|χ*(w) − Re c(θ(w), u(w))| ≤` the (2a) bound.
+
+  Each depends on `[propext, Classical.choice, Quot.sound]` only.
+- **L5–L7** (optional) are recorded below as open, not done: reusing `KAM.character`, the (2a) radius, and renaming.
+
 ## What these pieces do not do (open, for the next steps)
+
+- **Conditions on `S`** (L1): `S = −S`, `0 ∉ S`, and `k·ω(Λ) ≠ 0` on the set considered. They must be hypotheses of
+  the homological equation and of the smoothness of `χ*`. HD11964-CHI does this.
+- **The data adapter** (L2), from the layer's and the producer's data to (2a):
+  - (Gaussian-)rational data to `TFPoly`, with a computable upper bound on `l1`;
+  - a rational upper bound on the weights `e^{2πρ|k|₁}`;
+  - `TFModel`/`TFRep` to `hP`, with the `JEnc` tails absorbed into `r_P`.
+- **The (2a) radius has no Fourier decay** (L6, optional; not yet evaluated).
+  - (2a) uses `hP` only at real `θ`, so `|P̂_k − p_k| ≤ r_P` carries no decay in `k`.
+  - The bound sums `r_P B_k e^{2πρ|k|₁}` over about 3.3k–11.5k modes.
+  - The variant from `KAM.norm_torusCoeff_le` (`|(P − p)^_k| ≤ e^{−2πρ|k|₁} r_P`, needing holomorphy and
+    1-periodicity in `θ`) would weigh each mode by `e^{−2π(ρ−ρ')|k|₁}` on a strip `ρ' < ρ`. It should be evaluated
+    before the adapter is built.
+- **Reuse and naming** (L5, L7; optional, before the public landing):
+  - `charE` is `KAM.character` (`rfl`), and `norm_charE_le` is `KAM.norm_character_le`;
+  - the generic names `l1`, `charE` and `TFPoly` should move out of `HD11964.Cover`.
 
 - **`hFrot`** (`F`'s rotation invariance): open, as ruled. It is an explicit premise of the glue.
 - **The links are explicit premises.** They are discharged by whoever defines the complex functions:

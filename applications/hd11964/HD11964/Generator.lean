@@ -22,6 +22,8 @@ their per-cell enclosures. Here:
   remainder `r_P`) and models of `1/(i k·ω)` (polynomials `q k`, remainders `ε k`, bounds `B k`),
   the producer's centre `c` is within
   `Σ_{k ∈ S} e^{2πρ|k|₁} (r_P B_k + ‖p_k‖₁ ε_k + ‖p_k q_k - c_k‖₁)`.
+* `abs_chiStar_sub_le`: (2a) and (2b) composed on a well-formed cell, `|χ*(w) - Re c| ≤` the (2a)
+  bound (AUDIT-HD11964-LEMMAS-1, L4; the auditor's probe).
 * `chiStar_eq_re_genChi` (2b): on a cell, if the complex function agrees with `P` at real points
   and `om` with `ω(Λ)`, the global generator is the real part of the cell generator.
 -/
@@ -45,7 +47,11 @@ def fourierCoeff2 (P : (Fin 2 → ℂ) → (Fin 6 → ℂ) → ℂ) (k : Fin 2 �
     P ![(t₀ : ℂ), (t₁ : ℂ)] u * charE (-k) ![(t₀ : ℂ), (t₁ : ℂ)]
 
 /-- **The generator in the cell variables**: `χ(θ, u) = Σ_{k ∈ S} P̂_k(u) / (i k·ω(u)) e(k·θ)`,
-`om u` the frequency vector at the cell variables `u`. -/
+`om u` the frequency vector at the cell variables `u`.
+
+**Conditions on `S`** (not hypotheses of the definition): it is the intended generator only for
+`S = -S`, `0 ∉ S` and `k·ω ≠ 0` on `S`. Lean's `0⁻¹ = 0` silently drops every mode with `k·ω = 0`
+(`k = 0` included); the theorems that need the generator's meaning take these as hypotheses. -/
 def genChi (S : Finset (Fin 2 → ℤ)) (om : (Fin 6 → ℂ) → Fin 2 → ℂ)
     (P : (Fin 2 → ℂ) → (Fin 6 → ℂ) → ℂ) (θ : Fin 2 → ℂ) (u : Fin 6 → ℂ) : ℂ :=
   ∑ k ∈ S, fourierCoeff2 P k u * (Complex.I * ∑ i, (k i : ℂ) * om u i)⁻¹ * charE k θ
@@ -317,7 +323,13 @@ def chartCoeff (P : Phase (2 + 2) → ℝ) (k : Fin 2 → ℤ) (w : Phase (2 + 2
     (P (withAngles w ![2 * π * t₀, 2 * π * t₁]) : ℂ) * charE (-k) ![(t₀ : ℂ), (t₁ : ℂ)]
 
 /-- **The exact generator on the chart**: `χ*(w) = Re Σ_{k ∈ S} P̂_k / (i k·ω(Λ)) e^{i k·λ}`, a
-global function (the Lean `χ₁`, `χ₂` of `approxIntegral₂`, with `P` resp. `G₂`). -/
+global function (the Lean `χ₁`, `χ₂` of `approxIntegral₂`, with `P` resp. `G₂`).
+
+**Conditions on `S`** (AUDIT-HD11964-LEMMAS-1, L1; not hypotheses of the definition): `χ*` solves
+`{χ*, h} = Π_S P` only if `S = -S`, `0 ∉ S` and `k·ω(Λ) ≠ 0` on the set considered. Lean's
+`0⁻¹ = 0` silently drops every mode with `k·ω = 0` (`k = 0` included), and `.re` halves every mode
+whose partner `-k` is missing (`Re Σ_S = ½ Σ_{S ∪ -S}` termwise for real `P`). The homological
+equation and the smoothness of `χ*` take these conditions as hypotheses (HD11964-CHI). -/
 def chiStar (S : Finset (Fin 2 → ℤ)) (ω : (Fin 2 → ℝ) → Fin 2 → ℝ) (P : Phase (2 + 2) → ℝ)
     (w : Phase (2 + 2)) : ℝ :=
   (∑ k ∈ S, chartCoeff P k w * (Complex.I * ∑ i, (k i : ℂ) * ω (fast w.2) i)⁻¹ *
@@ -349,6 +361,44 @@ theorem chiStar_eq_re_genChi (k : AffineCell) (S : Finset (Fin 2 → ℤ))
   congr 1
   funext i
   fin_cases i <;> rfl
+
+/-- **The certified remainder on a cell** (AUDIT-HD11964-LEMMAS-1, L4; the auditor's
+`AuditCompose.abs_chiStar_sub_le`): on a well-formed cell, where `Pc` and `om` agree with `P` and
+`ω(Λ)` at real points, the global generator differs from the real part of the producer's centre at
+the cell variables of `w` by at most the bound of `norm_genChi_sub_le`. -/
+theorem abs_chiStar_sub_le (k : AffineCell) (hk : k.wf = true) (S : Finset (Fin 2 → ℤ))
+    (ω : (Fin 2 → ℝ) → Fin 2 → ℝ) (P : Phase (2 + 2) → ℝ) (Pc : (Fin 2 → ℂ) → (Fin 6 → ℂ) → ℂ)
+    (om : (Fin 6 → ℂ) → Fin 2 → ℂ) {ρ rP : ℝ} (p c : TFPoly)
+    (q : (Fin 2 → ℤ) → MvPolynomial (Fin 6) ℂ) (ε B : (Fin 2 → ℤ) → ℝ) (hρ : 0 < ρ)
+    (hP : ∀ θ ∈ complexStrip 2 ρ, ∀ u ∈ polyDiscC 6 1, ‖Pc θ u - p.eval θ u‖ ≤ rP)
+    (hPc : ∀ u ∈ polyDiscC 6 1, Continuous fun t : Fin 2 → ℝ => Pc (fun i => (t i : ℂ)) u)
+    (hq : ∀ κ ∈ S, ∀ u ∈ polyDiscC 6 1,
+      ‖(Complex.I * ∑ i, (κ i : ℂ) * om u i)⁻¹ - MvPolynomial.eval u (q κ)‖ ≤ ε κ)
+    (hB : ∀ κ ∈ S, ∀ u ∈ polyDiscC 6 1, ‖(Complex.I * ∑ i, (κ i : ℂ) * om u i)⁻¹‖ ≤ B κ)
+    (hc : ↑c.support ⊆ (S : Set (Fin 2 → ℤ)))
+    (hlP : ∀ w ∈ k.toSet, ∀ t : Fin 2 → ℝ,
+      Pc (fun i => (t i : ℂ)) (fun j => (k.coord (cellCoord w) j : ℂ)) =
+        (P (withAngles w (fun i => 2 * π * t i)) : ℂ))
+    (hlom : ∀ w ∈ k.toSet,
+      om (fun j => (k.coord (cellCoord w) j : ℂ)) = fun i => (ω (fast w.2) i : ℂ))
+    (w : Phase (2 + 2)) (hw : w ∈ k.toSet) :
+    |chiStar S ω P w - (c.eval (fun i => ((fast w.1 i / (2 * π) : ℝ) : ℂ))
+        (fun j => (k.coord (cellCoord w) j : ℂ))).re| ≤
+      ∑ κ ∈ S, Real.exp (2 * π * ρ * ∑ i, |(κ i : ℝ)|) *
+        (rP * B κ + l1 (p κ) * ε κ + l1 (p κ * q κ - c κ)) := by
+  obtain ⟨u, hu, hx⟩ := hw
+  have hw' : w ∈ k.toSet := ⟨u, hu, hx⟩
+  have hU : (fun j => (k.coord (cellCoord w) j : ℂ)) ∈ polyDiscC 6 1 := by
+    intro j
+    rw [hx, AffineCell.coord_map k hk u, Complex.norm_real, Real.norm_eq_abs]
+    exact hu j
+  have hθ : (fun i => ((fast w.1 i / (2 * π) : ℝ) : ℂ)) ∈ complexStrip 2 ρ := fun i => by
+    show |(((fast w.1 i / (2 * π) : ℝ) : ℂ)).im| < ρ
+    rw [Complex.ofReal_im, abs_zero]
+    exact hρ
+  rw [chiStar_eq_re_genChi k S ω P Pc om hlP hlom w hw', ← Complex.sub_re]
+  exact (Complex.abs_re_le_norm _).trans
+    (norm_genChi_sub_le S om Pc p c q ε B hρ hP hPc hq hB hc _ hθ _ hU)
 
 end HD11964.Cover
 

@@ -19,7 +19,8 @@ Cauchy estimate.
 * `norm_fderiv_single_le_of_polyDisc` (1a): a function complex differentiable on the polydisc of
   radius `s₀` and bounded there by `r` has `‖∂_j g‖ ≤ r / (s₀ - s)` on radius `s < s₀`.
 * `norm_fderiv_sub_le_of_model` (1b): applied to a model's remainder `f - p`.
-* `AffineCell.coord`, `AffineCell.invMx`: the cell variables of a real point and `∂u_j/∂x_i`.
+* `AffineCell.coord`, `AffineCell.invMx`: the cell variables of a real point and `∂u_j/∂x_i`;
+  `coord_map`, `map_coord`: `coord` and `map` are inverse on a well-formed cell.
   `norm_fderiv_comp_coord_le` (1c): the physical slow derivatives (`∂/∂Λ_i`, `∂/∂ξ_i`, `∂/∂η_i`)
   of `x ↦ g (u(x))` are bounded by `Σ_j |∂u_j/∂x_i| B_j` from bounds `B_j` on the cell-variable
   partials.
@@ -122,6 +123,42 @@ def AffineCell.invMx (k : AffineCell) : Fin 6 → Fin 6 → ℚ :=
   ![![1 / k.h 0, 0, 0, 0, 0, 0], ![0, 1 / k.h 1, 0, 0, 0, 0], ![0, 0, 1 / k.h 2, 0, 0, 0],
     ![0, 0, 0, 1 / k.h 3, 0, 0], ![0, 0, 0, 0, k.a / k.h 4, k.b / k.h 4],
     ![0, 0, 0, 0, -k.b / k.h 5, k.a / k.h 5]]
+
+/-- `coord` inverts `map` on a well-formed cell (AUDIT-HD11964-LEMMAS-1, L4; the auditor's
+probe). -/
+theorem AffineCell.coord_map (k : AffineCell) (hk : k.wf = true) (u : Fin 6 → ℝ) :
+    k.coord (k.map u) = u := by
+  simp only [AffineCell.wf, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq] at hk
+  obtain ⟨hpos, hrot⟩ := hk
+  have hp : ∀ j, (k.h j : ℝ) ≠ 0 := fun j =>
+    (show (0 : ℝ) < k.h j by exact_mod_cast hpos j (List.mem_finRange j)).ne'
+  have hr : (k.a : ℝ) ^ 2 + (k.b : ℝ) ^ 2 = 1 := by exact_mod_cast hrot
+  funext j
+  fin_cases j <;> simp [AffineCell.coord, AffineCell.map]
+  · field_simp [hp 0]
+  · field_simp [hp 1]
+  · field_simp [hp 2]
+  · field_simp [hp 3]
+  · rw [div_eq_iff (hp 4)]; linear_combination ((k.h 4 : ℝ) * u 4) * hr
+  · rw [div_eq_iff (hp 5)]; linear_combination ((k.h 5 : ℝ) * u 5) * hr
+
+/-- `map` inverts `coord` on a well-formed cell (AUDIT-HD11964-LEMMAS-1, L4; the auditor's
+probe). -/
+theorem AffineCell.map_coord (k : AffineCell) (hk : k.wf = true) (x : Fin 6 → ℝ) :
+    k.map (k.coord x) = x := by
+  simp only [AffineCell.wf, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq] at hk
+  obtain ⟨hpos, hrot⟩ := hk
+  have hp : ∀ j, (k.h j : ℝ) ≠ 0 := fun j =>
+    (show (0 : ℝ) < k.h j by exact_mod_cast hpos j (List.mem_finRange j)).ne'
+  have hr : (k.a : ℝ) ^ 2 + (k.b : ℝ) ^ 2 = 1 := by exact_mod_cast hrot
+  funext j
+  fin_cases j <;> simp [AffineCell.coord, AffineCell.map]
+  · field_simp [hp 0]; ring
+  · field_simp [hp 1]; ring
+  · field_simp [hp 2]; ring
+  · field_simp [hp 3]; ring
+  · field_simp [hp 4, hp 5]; linear_combination (x 4 - (k.c 4 : ℝ)) * hr
+  · field_simp [hp 4, hp 5]; linear_combination (x 5 - (k.c 5 : ℝ)) * hr
 
 /-- The linear part of `x ↦ u(x)`, into `ℂ⁶`. -/
 def AffineCell.coordCLM (k : AffineCell) : (Fin 6 → ℝ) →L[ℝ] (Fin 6 → ℂ) :=
