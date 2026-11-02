@@ -32,3 +32,14 @@ Net `KAM/` diff vs main: +544 / -1237 lines, 183 files (141 LP implementation, 4
 
 ## Uncertainties / errata
 No new source errata. Deviations: none beyond the above.
+
+## Follow-up (LP-CLEANUP1-FIX)
+1. Built the 7 `KAM.Frozen.Magnetic.*` modules with `lp_build.sh` (frozen modules only; `Build completed successfully`, rc 0; the
+   only warning is the intended `sorry` of the DRAFT_SORRY `MagneticBarrier` anchor). `lp_lint.sh` then exits 0; tail:
+   `check_lean_modules: PASS (4483 Lean files, 0 comparator configurations)`, `Ran 25 tests ... OK`, `FROZEN-ANCHOR GUARD OK`,
+   `ABI HASHES OK (314 frozen declarations of KAM; ...)`, `rc=0`. (This supersedes the lint caveat above.)
+2. Graph re-pin: `docs/graph/LP/DEPGRAPH.md` line 10 `FROZEN_MANIFEST` sha256 changed from `e5186622...a48375` to the current
+   `80b8a24a...c4308f6` (header tool not needed: only the hash differed; kind/path/export/abi_sha256 of all 128 anchor-map rows
+   verified equal to the current manifest). SPEC change-log line added. `proof_depgraph.py --db docs/graph/LP/DEPGRAPH.md --manifest
+   docs/graph/LP/DEPGRAPH_COVERAGE.md --source-root . --require-complete-coverage --require-all-reachable --check`: rc 0.
+   Note: `header.txt` carries `sha256:auto`, so it needs no change; the hash is stamped at assembly.
