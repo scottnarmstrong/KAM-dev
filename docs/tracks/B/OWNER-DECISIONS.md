@@ -1,0 +1,14 @@
+# Track B: decisions for the owner
+
+Overnight mode (D71, 2026-11-02): every item that needs the owner is logged here instead of asked. Each item states
+the default kam-b1 follows overnight. Nothing is frozen, so every default is reversible. root-b8 presents this file
+with `FREEZE-PROPOSAL.md` in the morning.
+
+| Id | Logged (UTC) | Question | Overnight default | Status |
+|---|---|---|---|---|
+| OD-B1 | 11-02 23:35 | Plan §8 decisions 1–3: primary scope, pilot target, flagship. | §8 defaults: (1) the B1 checker plus one literal instance later; (2) the Hénon–Heiles box of §4 is the pilot **goal** only, not a freeze; (3) flagship decided later. Tonight only B0 and B1 (no numerical normal forms, no certificate data). | DEFAULT TAKEN |
+| OD-B2 | 11-02 23:35 | **FOR OWNER (freeze surface).** The plan's §2.2/§2.3 premises include clauses the proof never uses: V and H lattice-periodic; Ψ lattice-equivariant; Ψ a diffeomorphism **onto an open image** with a `C²` inverse; N `C²`; R `C²`; `0 ≤ a_j`. Freeze the plan-shaped list or the minimal list? | **Minimal list** (FREEZE-PROPOSAL §2): Ψ `C²` and symplectic on the chart domain, mapping into V, with an explicit left inverse `Ψinv`; R differentiable there (its derivative is what the bound constrains) and angle-periodic (torus); N an arbitrary function. Every dropped clause is implied by the plan's, so the plan-shaped statement is an immediate corollary; nothing in the conclusion changes. Reason: fewer premises for an application to discharge, and no unused binders (AGENTS rule 6 spirit). Symplecticity alone gives `DΨ` invertible; `K = H ∘ Ψ` is `C²` from H and Ψ, so N's and R's regularity follow on the chart domain. | DEFAULT TAKEN; owner approves the exact text |
+| OD-B3 | 11-02 23:35 | Inverse chart: an explicit function `Ψinv` with `Ψinv (Ψ w) = w` on the chart domain, or `Function.invFunOn Ψ dom`? | Explicit `Ψinv` binder (source "w(t)=Ψ⁻¹(z(t))"; an application supplies its own inverse). The conclusion also states `Ψ (Ψinv (z t)) = z t`, i.e. the physical orbit stays in the chart image. | DEFAULT TAKEN |
+| OD-B4 | 11-02 23:35 | Lifetime interval of §2.1 ("an open interval U ⊇ [-T,T]"): abstract open `U`, or symmetric `Ioo (-T₁) T₁` with `T < T₁`? | Symmetric `Ioo (-T₁) T₁`, `T < T₁` (a special open interval; uniqueness on `I ∩ Ioo (-T₁) T₁` for every order-connected `I ∋ 0`). | DEFAULT TAKEN |
+| OD-B5 | 11-02 23:35 | Names and home. | `KAM.EffectiveStability.torus_confinement` and `.oscillator_confinement` (plan §7 Brief 1 suggestions), proved tonight as ordinary theorems in `KAM/EffectiveStability/`. At a freeze the anchors take these names under `KAM/Frozen/EffectiveStability/` and the proofs move to `KAM/Provider/` (orchestrator's step). | DEFAULT TAKEN |
+| OD-B6 | 11-02 23:35 | n ≥ 1 in the plan. | Dropped: both theorems hold for `n = 0` (vacuous geometry), so the binder is unused. | DEFAULT TAKEN |

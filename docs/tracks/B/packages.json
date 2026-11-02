@@ -1,0 +1,10 @@
+{
+ "note": "Track B package plan (program-b-plan §7, B0-B1). Modules are public facade paths. Kept truthful by kam-b1.",
+ "packages": [
+  {"id": "B0-STMT", "modules": [], "artifact": "docs/tracks/B/FREEZE-PROPOSAL.md", "status": "drafted"},
+  {"id": "B0-AUDIT", "modules": [], "artifact": "docs/tracks/B/freeze/STATEMENT-REVIEW-1.md", "status": "pending"},
+  {"id": "B1-CORE", "modules": ["KAM/EffectiveStability/Domains.lean", "KAM/EffectiveStability/StoppedDrift.lean", "KAM/EffectiveStability/FirstExit.lean", "KAM/EffectiveStability/ChartFlow.lean"], "source": "plan §7 Brief 2: stopped drift, first exit, continuation", "status": "pending"},
+  {"id": "B1-TRANSFER", "modules": ["KAM/EffectiveStability/Transfer.lean", "KAM/EffectiveStability/ActionDerivative.lean"], "source": "plan §7 Brief 2: chart transport, action derivatives, B1-transfer", "status": "pending"},
+  {"id": "B1-HEAD", "modules": ["KAM/EffectiveStability/Torus.lean", "KAM/EffectiveStability/Oscillator.lean"], "source": "B1-T, B1-E exactly as FREEZE-PROPOSAL", "status": "pending"}
+ ]
+}
