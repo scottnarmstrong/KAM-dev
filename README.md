@@ -696,6 +696,8 @@ Full text: [`docs/DECISIONS.md`](docs/DECISIONS.md).
 - **D68** Freeze the magnetic field-line barrier statement (ε = 3/2500); seal it after its certificate chain and a seal
   audit. *(Scott, 2026-11-01)*
 - **D70** The lock's certificate source may reach about 265 MB; its full chain runs on a rented CCX63. *(Scott, 2026-11-02)*
+- **D71** Program B1 (certified finite-region effective stability) launched; statements proved as ordinary theorems
+  overnight, frozen only after the owner approves their text. *(Scott, 2026-11-02)*
 
 ## Owner questions
 

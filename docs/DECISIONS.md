@@ -605,3 +605,15 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - **Speedup:** the overnight choice of SOS option (a) in additive form (lock-owned RealLowerK, GraphK and LockGraphK
     plus 2 packed advice entries; core, band and the frozen statement untouched) stands.
   - **Remote run:** the full chain runs on a CCX63 (48 vCPU, 192 GB; about 17 lanes of 10 GB), which the owner rents.
+- **D71 (2026-11-02, 23:30 UTC) Program B1 launched, in overnight mode.** *(Scott: "launch program B1", then "please go
+  into overnight mode, defer all approvals and make as much progress on B1 as you can".)*
+  - **Scope:** B0 and B1 of `docs/explorations/program-b-plan.md`: the exact surface of B1-T (finite confinement in a
+    canonical cylinder) and B1-E (Cartesian oscillator confinement, including zero actions), then the region dynamics:
+    stopped drift, first exit, continuation and transfer.
+  - **Overnight rules:** defaults from plan §8 (B1 checker plus one instance; the Hénon–Heiles pilot goal).
+    Approvals are deferred and logged FOR OWNER.
+  - **Nothing frozen:** the headline theorems are proved as ordinary theorems in their exact final form, and a freeze
+    proposal waits for the owner.
+  - **Running it:** sub-orchestrator kam-b1 (claude-9), at most 2 provers (claude-2, claude-5), 4 GB caps, codex-2
+    audits.
+  - **Coordination:** reuse lemma.farm's first-exit API where it fits, and never edit its files.
