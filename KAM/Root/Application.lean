@@ -20,6 +20,7 @@ public import KAM.Application.GraphCert
 public import KAM.Application.GraphCheck
 public import KAM.Application.Invariance
 public import KAM.Application.LambdaDrift.Bridge
+public import KAM.Application.LambdaDrift.LieCalculus
 public import KAM.Application.LambdaDrift.LieRemainder
 public import KAM.Application.LambdaDrift.LieRemainderChart
 public import KAM.Application.LambdaDrift.NoCrossing
