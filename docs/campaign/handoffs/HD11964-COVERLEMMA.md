@@ -29,8 +29,15 @@ end on the 50-cell plan.** Nothing pushed.
   - `κ = 0.2`: 50 cells, 52 wedges;
   - `κ = 0.2`, `nmult = 4`: 57 cells, 56 wedges.
 - Sanity checks are rejected as they should be: an empty plan, and a fan whose tangential half-width is too small.
-- No Lean file is committed. This is a draft for agreement, and no core or package file changed. The scratch files
-  are in `~/kam-data/hd11964/coverlemma/`.
+- **Committed unbuilt** (not imported by the package root, so not built): `applications/hd11964/HD11964/Cover.lean`
+  (the definitions, the adapter `toMx`/`map_eq_cellMap` and all proofs) and `HD11964/CoverPlan.lean` (the
+  generated 50-cell plan and `fitPlan_covers`).
+  - Both pass `scripts/lint_sources.sh`. Its only failure is the known environmental ABI-hash step: the frozen
+    oleans are missing in this worktree.
+  - The two committed files together (`~/kam-data/hd11964/coverlemma/CoverWithPlan.lean`, regenerated from the
+    git versions at 04:06 UTC) elaborate in scratch: exit 0, 8.0 s, 4,157,388 KiB peak. `fitPlan_covers` depends on
+    `[propext, Classical.choice, Quot.sound]` only.
+  - The scratch copies are in `~/kam-data/hd11964/coverlemma/`. No core file changed.
 
 ## Which fitted cover: a correction to the ruling's numbers
 
@@ -444,47 +451,102 @@ Their largest `ρ_eff` is 0.200214 for `κ = 0.2` (float64: 0.200213), so the fl
   "stuck" text is the elaborator's diagnostic after the kernel evaluated the check to `false`; rational literals
   such as `1/500` reduce fine in the kernel, in module and non-module files (checked separately).
 
+## The cell format: kamx-hd-layer's record (branch `hd-layer`, read only)
+
+Source: `docs/campaign/handoffs/HD-LAYER.md` § "The cell format" (`eb55599e`); `KAM/CertificateSharp/PackedTF/
+Assembly.lean` (`cellMap`, `TFModel.bound_of_cellMap`, `TFModel.bound_of_cell`); `applications/hd11964/scripts/
+tf_cell.py --rot_b`.
+
+**Matches.**
+- The variable order: `u = (u_Λc, u_Λb, u_ξc, u_ηc, u_ξb, u_ηb)` = `cellCoord`.
+- The slow variables: those of the LP chart `w = ((λ, ξ), (Λ, η))`, that is `ξ = slow w.1`, `η = slow w.2`.
+- Every angle in a cell.
+- `|u_j| ≤ 1`: their `s = 1`.
+- Rational centre `c_k ∈ ℚ⁶`.
+- The rotation convention. `tf_cell.py` takes `ξ_b = ξ0 + h₁·cs·u₁ − h₂·sn·u₂` and
+  `η_b = η0 + h₁·sn·u₁ + h₂·cs·u₂`. That is `AffineCell.map` with `(cs, sn) = (a, b)`, `h₁ = h₄` (radial) and
+  `h₂ = h₅` (tangential).
+- The cover lemma's role, as their handoff states it: a cell `k` and a real `u` with `|u_j| ≤ 1` and
+  `x = cellMap c_k M_k u`.
+
+**Mismatches, all of representation or to-do, none of convention.**
+1. **Matrix and field.**
+   - Theirs: `cellMap (c : Fin d → ℚ) (Mx : Fin d → Fin d → ℚ) (u : Fin d → ℂ) : Fin d → ℂ`, a general matrix
+     over `ℂ`.
+   - Mine: `AffineCell` (`c`, `h`, `a`, `b`) over `ℝ`.
+   - Adapter, in `Cover.lean`: `AffineCell.toMx` (the explicit 6×6 matrix) and `map_eq_cellMap :
+     k.map u = fun i => c i + Σ_j toMx i j · u j` (proved).
+   - The `ℂ` form, `cellMap k.c k.toMx (ofReal ∘ u) = ofReal ∘ k.map u`, is a two-line `push_cast` lemma. It can
+     be written once `PackedTF/Assembly.lean` and `HD11964/Cover.lean` share a branch; `hd11964-p2` does not have
+     `PackedTF`.
+2. **Their `bound_of_cell` takes the physical point as `cellMap c Mx u`.** The cover lemma gives
+   `cellCoord w = k.map u`. The consumer must also identify their model's `F θ x` with the chart function at `w`,
+   with `θ = λ/2π` and `x = cellCoord w`. That glue is outside the cover lemma.
+3. **The producer (my side, to do).**
+   - `prod2_hp.py` (the 2⁻¹⁸⁴ generators) still expands in the unrotated variables.
+   - For the fitted cells it must expand `χ₁`, `χ₂` in `u` through the same `c_k`, `M_k`, as `tf_cell.py --rot_b`
+     and `cover2_fit.rotate` do.
+   - The cell data must be the exact rationals of `validation/cover2-plan-k0.2-d2e-3.json` (`= fitPlan`), not the
+     float64 centres.
+
+## Open items
+
+- **`F`'s rotation invariance** (`hFrot` of `bracket_bound_of_rotation` / `range_bound_of_rotation`;
+  AUDIT-HD11964-P2B-1's forward note). Still open; it is separate from the cover lemma.
+  - Expected to hold for the exact `χ*`. The rotation acts on the Fourier coefficient of mode `k` by
+    `e^{i(k_c + k_b)θ}` and the rotation of `(ξ, η)`, so the projection `Π_S` (by `k`) and the division by
+    `i k·ω(Λ)` preserve invariance.
+  - The Lean proof depends on how `χ₁`, `χ₂` are defined in Lean.
+- The producer's rotated expansion (mismatch 3).
+- The `ℂ` adapter lemma (mismatch 1), once the branches meet.
+
 ## Owner questions
 
-1. **50 or 57 cells.** The ruling's numbers (50 cells, 5.9, 0.46) are those of the plain `κ = 0.2` plan, while its
-   wording ("multiple of 4") names the 57-cell plan (6.03, 0.52).
-   - The refined step 3 makes multiples of 4 unnecessary, and both plans pass `decide +kernel`.
-   - Taken: both generated and checked. I recommend the 50-cell plan, which is cheaper and the one the ruling's
-     numbers describe.
-2. **Cell format** (for kamx-hd-layer): the rational `AffineCell` and `toSet` above (every angle), the per-cell
-   statement on `k.toSet ∩ region d`, and the plan data as `CoverPlan`. Its confirmation fixes the Lean data format.
-3. **Where the lemma lives, and when it lands.** It would be `applications/hd11964/HD11964/Cover.lean` (application
-   side; it uses `HD11964.region`). The generic chain and wedge lemmas could go to the core
-   (`KAM/Application/LambdaDrift/`) if other applications want affine covers.
-   - The scratch file is ready to land as that module once the cell format is agreed. Landing means one targeted
-     build of the package, after the reboot.
-   - Memory: elaboration peaks at 4.15 GB, 40 MB under the 4 GB cap, because of the imports (Mathlib and the LP
-     lane through `HD11964.NoCrossing`). The landing build may need a 5 GB cap, or a narrower import; this is the
-     owner's call.
-   - Taken: application side; not landed (no builds after 04:30; format pending).
-4. **The bridge's `hη`, `hG` after the cover.** The rotation lemmas need `F` rotation-invariant on `O`
-   (`hFrot`; AUDIT-HD11964-P2B-1's forward note). This is separate from the cover lemma, and still open.
+1. **50 or 57 cells.** Ruled: 50. `fitPlan` is the 50-cell plan.
+2. **Cell format.** kamx-hd-layer's record matches (above). The only differences are the representation adapter and
+   the producer to-do.
+3. **Landing** (ruled): `Cover.lean` and `CoverPlan.lean` land after the reboot with narrower imports. If the build
+   still exceeds 4 GB, one solo build at 5 GB is allowed and logged.
+4. **`F`'s rotation invariance.** Open (above).
 
 ## Resume after reboot
 
-- **Committed** (this handoff's commit):
-  - `scripts/cover2_plan_lean.py`;
-  - `validation/cover2-plan-k0.2-d2e-3.json` (50 cells) and `cover2-plan-k0.2-n4-d2e-3.json` (57 cells), the exact
-    rational plans;
-  - this handoff, with the draft verbatim.
-- **Scratch Lean** (not in git) is in `~/kam-data/hd11964/coverlemma/`:
-  - `CoverProofsOnly.lean`, the draft plus all proofs (sha256 `1eb7b2f6…7f39`);
-  - `CoverFull.lean`, the same plus `fitPlan` and `fitPlan_covers` (sha256 `51a85b5a…648b`);
-  - `CoverDraft.lean`, the draft;
-  - `CoverDraftTest.lean`, the sanity plans;
-  - `CoverDraftFit1.lean` and `CoverDraftFit4.lean`, the draft plus the generated plans and
-    `example : fitPlan.ok = true := by decide +kernel`;
-  - `fitPlan-n*.lean`.
-- **To re-check**, from `applications/hd11964` (one process, 4 GB cap, 5–9 s):
-  `lake env lean ~/kam-data/hd11964/coverlemma/CoverFull.lean`. It prints the four `#print axioms` lines.
-- **To regenerate a plan:**
-  `python3 -I applications/hd11964/scripts/cover2_plan_lean.py OUT.lean OUT.json --d=2e-3 --kappa=0.2 [--nmult=4]`.
-- **Next:**
-  - the cell-format agreement (owner question 2);
-  - then land `CoverProofsOnly.lean` as `HD11964/Cover.lean`, plus the plan data (generated, wrapped to 100
-    columns) and `fitPlan_covers`. This is one targeted package build (owner question 3, memory).
+**State** (branch `hd11964-p2`; nothing pushed):
+- **Committed:**
+  - `HD11964/Cover.lean` and `HD11964/CoverPlan.lean`, unbuilt and not imported by `HD11964.lean`;
+  - `scripts/cover2_plan_lean.py` and the plans `validation/cover2-plan-k0.2{,-n4}-d2e-3.json`;
+  - this handoff.
+- **Copies in `~/kam-data/hd11964/coverlemma/`:**
+  - `Cover.lean`, `CoverPlan.lean`;
+  - `CoverWithPlan.lean` (both concatenated, for a scratch check);
+  - the earlier drafts and test files.
+- **Raw cover records:** `~/kam-data/hd11964/cover2/`.
+
+**Next step: land the two modules with narrower imports.**
+- `Cover.lean` imports `HD11964.NoCrossing` only for `region`, `chartRot_mem_region`, `lamLo`, `lamHi` and `cBar`.
+  `HD11964.NoCrossing` pulls in `KAM.Application.LambdaDrift.NoCrossing` and the LP lane. That import, not this
+  file, makes the 4.15 GB peak.
+- Plan:
+  1. Split `region`, `mem_region` and `chartRot_mem_region` into a new light module `HD11964/Region.lean`
+     (imports: `HD11964.Threshold`, `KAM.Application.LambdaDrift.Rotation`, `KAM.Planetary.Exponential.Setting`).
+     `HD11964/NoCrossing.lean` re-imports it, so its public names are unchanged.
+  2. Point `Cover.lean` at `HD11964.Region`.
+  3. Measure; if the peak stays above 4 GB, one solo build at 5 GB (logged).
+
+**Exact commands**, from the worktree root, one Lean process at a time:
+
+    grep '^anon ' /sys/fs/cgroup/user.slice/user-1004.slice/memory.stat     # wait while > 20 GB
+    cd applications/hd11964
+    # 0. scratch re-check of the committed content (no build), 4 GB cap, about 8 s:
+    systemd-run --user --scope -p MemoryMax=4G -p MemorySwapMax=0 nice -n 5 \
+      lake env lean ~/kam-data/hd11964/coverlemma/CoverWithPlan.lean
+    # 1. after the Region split and the import change, build the modules one at a time:
+    systemd-run --user --scope -p MemoryMax=4G -p MemorySwapMax=0 nice -n 5 lake build HD11964.Region
+    systemd-run --user --scope -p MemoryMax=4G -p MemorySwapMax=0 nice -n 5 lake build HD11964.Cover
+    systemd-run --user --scope -p MemoryMax=4G -p MemorySwapMax=0 nice -n 5 lake build HD11964.CoverPlan
+    #    (if one exceeds 4 GB: one solo rerun with MemoryMax=5G, logged in the handoff)
+    # 2. then import both from HD11964.lean, lake build HD11964, scripts/lint_sources.sh, #print axioms
+
+- **To regenerate the plan:**
+  `python3 -I applications/hd11964/scripts/cover2_plan_lean.py OUT.lean OUT.json --d=2e-3 --kappa=0.2`.
+  `CoverPlan.lean`'s `fitPlan` is that output, wrapped at commas to 100 columns.
