@@ -11,8 +11,7 @@ import Mathlib.Tactic.Linarith
 /-!
 # `L_N F` and `⟨⟨N,F⟩⟩` are continuous polynomials of degree `≤ 2` (`bpW:w4:lie` (i))
 
-Off-frontier, source-faithful infrastructure (W4-LIECONT); the dependency graph is still
-being built. Blueprint label: `bpW:w4:lie` (i), step `stepW:w4:liebd` (continuity in
+Blueprint label: `bpW:w4:lie` (i), step `stepW:w4:liebd` (continuity in
 `(z, \bar z)`).
 
 The clause of `bpW:w4:lie` (i) exported here: for `F ∈ 𝒯_{s'}` and `θ`, the functions
@@ -24,7 +23,8 @@ continuous polynomials of degree `≤ 2`, and in particular continuous in `(z, \
   continuous bilinear (a continuous polynomial of degree `≤ 2`);
   `IsHomContQuadPoly.contQuad_continuous`;
 * `HomPolyDom = ℂ² × HomL2 × HomL2`, the `(y, z, \bar z)` slots;
-* `homLieN_contQuad_of_bound_gen`: CONDITIONAL helper, under `|W_j| ≤ K₀(j+2)` and `1 ≤ p + p_+`;
+* `homLieN_contQuad_of_bound_gen`: Hypothesis-taking variant, under `|W_j| ≤ K₀(j+2)` and
+  `1 ≤ p + p_+`;
 * `homLemma_lie_i_contPoly_gen` (general `p_+`) and `homLemma_lie_i_contPoly` (`p_+ = p + 1`):
   the source-premise exports (`HomFreqHyp`, `ξ ∈ Π`), with `ω = ω ξ`, `Ω = Ω ξ` and the carrier
   `homOmegaCarrier_of_bound … (homOmega_le h hξ)` of `homLemma1_equation_all_gen`.
@@ -157,8 +157,8 @@ theorem homRtheta_contQuad_gen (T : HomTaylor_gen a p pb s) (l : Fin 2) (θ : Fi
 
 end pieces
 
-/-- CONDITIONAL helper for `bpW:w4:lie` (i) (assumes `|W_j| ≤ K₀(j+2)` and `1 ≤ p + p_+`); the
-source-premise exports are `homLemma_lie_i_contPoly_gen`, `homLemma_lie_i_contPoly`.
+/-- Hypothesis-taking variant for `bpW:w4:lie` (i) (assumes `|W_j| ≤ K₀(j+2)` and `1 ≤ p + p_+`);
+the source-premise exports are `homLemma_lie_i_contPoly_gen`, `homLemma_lie_i_contPoly`.
 `(y, z, \bar z) ↦ L_N F(θ, y, z, \bar z)` is a continuous polynomial of degree `≤ 2`. -/
 theorem homLieN_contQuad_of_bound_gen {K0 : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb)
     (hp1 : 1 ≤ p + pb) (hK0 : 0 ≤ K0) {W : ℕ+ → ℝ} (hΩ : ∀ j : ℕ+, |W j| ≤ K0 * ((j : ℝ) + 2))

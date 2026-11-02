@@ -11,9 +11,6 @@ public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
 /-!
 # The quartic coefficients `g_{ijkl}` (blueprint `bpW:w0n:quartic-coeff`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 `KAM.Wave.sineQuarticCoeff i j k l = ∫₀^π φ_i φ_j φ_k φ_l dx` for the frozen `sineMode`.
 We prove the
 closed form of blueprint-W Lemma `bpW:w0n:quartic-coeff` (the Iverson-bracket formula, symmetry,

@@ -13,8 +13,7 @@ public import KAM.Wave.Birkhoff.MainRealId
 # Domain-restricted real objects and transport of tori (blueprint-W `bpW:w3:main`,
 `bpW:w3:gamma-real`, `bpW:w3:transport-tori`, `bpW:w3:transport-tori-weak`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-MAIN, blueprint labels `bpW:w3:main` (ii) real part, (iv),
+Package W3-MAIN, blueprint labels `bpW:w3:main` (ii) real part, (iv),
 `bpW:w3:gamma-real`, `bpW:w3:transport-tori`, `bpW:w3:transport-tori-weak`.
 
 Restricted objects (internal totalized helpers `…Ext`):

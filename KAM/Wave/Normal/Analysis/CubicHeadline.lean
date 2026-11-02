@@ -12,8 +12,6 @@ public import KAM.Wave.Normal.Analysis.CubicLinear
 # The cubic gradient on `ℓ^{1,1}`: boundedness and analyticity
 (blueprint `bpW:w0n:cubic-bound`, headline case `a = p = 1`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 In the weighted `ℓ²` coordinates of `KAM.Wave.WaveSpace` (`q = coeff y`):
 
 * `KAM.Wave.wave_cubic_bound`: `𝒢(q) ∈ ℓ^{1,2}` and `‖𝒢(q)‖_{1,2} ≤ C_m ‖q‖_{1,1}³`,
@@ -59,7 +57,7 @@ lemma waveCubicConst_one : waveCubicConst 1 = waveCubicHeadlineConst := by
 
 lemma waveEll_coeff (y : lp (fun _ : ℕ+ => ℝ) 2) : WaveEll 1 1 (coeff y) := by
   have h : ∀ j : ℕ+, ellWeight 1 1 j * coeff y j = y j := fun j => by
-    have := (waveEllWeight_pos 1 1 j).ne'
+    have := (ellWeight_pos 1 1 j).ne'
     unfold coeff; field_simp
   unfold WaveEll
   simp only [h]
@@ -71,7 +69,7 @@ lemma wave_lp_norm_eq_sqrt (y : lp (fun _ : ℕ+ => ℝ) 2) : ‖y‖ = Real.sqr
 
 lemma norm_eq_waveEllNorm_coeff (y : lp (fun _ : ℕ+ => ℝ) 2) : ‖y‖ = waveEllNorm 1 1 (coeff y) := by
   have h : ∀ j : ℕ+, ellWeight 1 1 j * coeff y j = y j := fun j => by
-    have := (waveEllWeight_pos 1 1 j).ne'
+    have := (ellWeight_pos 1 1 j).ne'
     unfold coeff; field_simp
   rw [wave_lp_norm_eq_sqrt]
   unfold waveEllNorm

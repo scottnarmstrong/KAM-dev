@@ -12,9 +12,6 @@ public import KAM.Wave.KamStep.StepTheoremSrc
 # The flow of the KAM step at every time `|t| ≤ 1` (blueprint `bpW:w5:flow`, steps `f-flow`,
 `f-par`, `f-der`)
 
-Off-frontier, source-faithful infrastructure (W-GRAPH-CLOSE); the dependency graph is still being
-built.
-
 Source-facing exports for the step data alone (`StepHypSrc`, non-modified case; `StepHypModSrc`,
 modified case, where `M_F` is read with `c^♮_F`, `t^♮`). The objects are those of the step theorem
 (`H.hyp.core`): `φ^t_ξ = H.hyp.core.phiT ξ t` is the time-`t` map of the flow of

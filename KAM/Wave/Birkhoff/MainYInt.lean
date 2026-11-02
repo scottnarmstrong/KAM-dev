@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.MainK3
 /-!
 # The integrand `Y(t,w)` of the remainder field (blueprint-W `bpW:w3:Yseries`, eq. `bpW:w3:Ydef`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-MAIN, blueprint label `bpW:w3:Yseries` (definition `bpW:w3:Ydef`).
+Package W3-MAIN, blueprint label `bpW:w3:Yseries` (definition `bpW:w3:Ydef`).
 
 Domains (public carriers are restricted to them):
 * `birkBall0 m p = B_{ρ₀} = {w | 40 C_F ‖w‖² < 1}`,
@@ -199,30 +198,6 @@ theorem birkGammaDPlus_mul_inv :
 theorem birkGammaDPlusInv_mul :
     birkGammaDPlusInv m hm ha hp t w * birkGammaDPlus m hm ha hp t w = 1 :=
   Ring.inverse_mul_cancel _ (isUnit_birkGammaDPlus t w)
-
-/-- (`bpW:w3:flow` (iii)) `‖DΓ_t(w)⁻¹‖_{𝔚⁺ → 𝔚⁺} ≤ 2`. -/
-theorem norm_birkGammaDPlusInv_le : ‖birkGammaDPlusInv m hm ha hp t w‖ ≤ 2 := by
-  obtain ⟨BF, h1, h2, h3⟩ :=
-    birkAFTExt_inverse (hm := hm) (hp := hp) (ha := ha) t (abs_lt_two_of_mem_Ioo t) w w.2
-  have hu : IsUnit (birkGammaDPlus m hm ha hp t w) := isUnit_birkGammaDPlus t w
-  have e : birkGammaDPlusInv m hm ha hp t w = BF := by
-    unfold birkGammaDPlusInv
-    calc Ring.inverse (birkGammaDPlus m hm ha hp t w)
-        = Ring.inverse (birkGammaDPlus m hm ha hp t w) * (birkGammaDPlus m hm ha hp t w * BF) := by
-          rw [show birkGammaDPlus m hm ha hp t w * BF = 1 from h1, mul_one]
-      _ = BF := by rw [← mul_assoc, Ring.inverse_mul_cancel _ hu, one_mul]
-  rw [e]; exact h3
-
-/-- `DΓ_t(w) (ι (DΓ_t(w)⁻¹ f)) = ι f` for `f ∈ 𝔚⁺`. -/
-theorem birkGammaD_embed_birkGammaDPlusInv (f : BirkSpace) :
-    birkGammaD m hm ha hp t w (birkEmbed a (p + 1) p (by linarith)
-      (birkGammaDPlusInv m hm ha hp t w f)) = birkEmbed a (p + 1) p (by linarith) f := by
-  have h := DFunLike.congr_fun (birkGammaDPlus_embed (hm := hm) (ha := ha) (hp := hp) t w)
-    (birkGammaDPlusInv m hm ha hp t w f)
-  simp only [ContinuousLinearMap.comp_apply] at h
-  have h2 : birkGammaDPlus m hm ha hp t w (birkGammaDPlusInv m hm ha hp t w f) = f :=
-    DFunLike.congr_fun (birkGammaDPlus_mul_inv (hm := hm) (ha := ha) (hp := hp) t w) f
-  rw [← h, h2]
 
 end Restricted
 

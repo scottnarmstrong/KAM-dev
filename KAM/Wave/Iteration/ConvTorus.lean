@@ -13,8 +13,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: the transformations on the torus (blueprint `bpW:w6:convergence` (iii))
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:convergence` (clause (iii); steps `c-dom`, `c-lim`,
+Blueprint label `bpW:w6:convergence` (clause (iii); steps `c-dom`, `c-lim`,
 `c-cont`).
 
 For `ξ ∈ Π_*` and `θ ∈ T_{s_∞}` (`T_{s'} = complexStrip 2 s'`): `Φ^ν(ιθ) = ιθ + ιΨ^ν(ιθ)`,
@@ -49,8 +48,6 @@ theorem w6_tendstoUniformlyOn_geom {α E : Type*} [SeminormedAddCommGroup E] {S 
 /-- `ι` on the angles as a continuous linear map. -/
 def w6TorusCLM : (Fin 2 → ℂ) →L[ℂ] KamPhase :=
   ContinuousLinearMap.inl ℂ (Fin 2 → ℂ) ((Fin 2 → ℂ) × HomL2 × HomL2)
-
-theorem w6TorusCLM_apply (θ : Fin 2 → ℂ) : w6TorusCLM θ = w6TorusPt θ := rfl
 
 theorem w6TorusPt_add_single (θ : Fin 2 → ℂ) (i : Fin 2) :
     w6TorusPt (θ + Pi.single i 1) = w6TorusPt θ + stepTau i := by

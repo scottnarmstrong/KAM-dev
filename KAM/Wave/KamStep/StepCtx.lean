@@ -12,8 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The flow context of a step (blueprint-W `bpW:w5:flow`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `StepCtx`: all the hypotheses of the abstract flow engine for `F = G = StepPhase r`,
 `ι = stepEmbedCLM`, `Z = stepFieldS FT`, `B = stepSympCLM`, on `V = D(s-σ,r)`, `U = D(s-2σ,r/2)`.
 -/

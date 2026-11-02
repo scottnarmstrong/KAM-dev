@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.QuartSum
 /-!
 # Quartic forms (blueprint-W `bpW:w3:quartic`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:quartic`.
+Package W3-SETTING, blueprint label `bpW:w3:quartic`.
 
 For coefficients `c : (ℤ∖0)⁴ → ℂ` with `c_x = c_{σx} = conj c_{-x}` and `|c_x| ≤ |𝔤_x|`
 (`IsBirkQuartCoef`) the form `𝔓(w¹,…,w⁴) = (1/16) Σ_x c_x ∏ w^t_{x_t}` (`birkQuartForm`) is a

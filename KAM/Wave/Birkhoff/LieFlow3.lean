@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.LieFlow2
 /-!
 # The flow `Γ_t`: partial derivatives (blueprint-W `bpW:w3:flow` (i), (ii))
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-FLOW, blueprint label `bpW:w3:flow`.
+Package W3-FLOW, blueprint label `bpW:w3:flow`.
 
 `hasDerivAt_lieGamma_t`: `∂_t Γ_t(w) = Σ_k (k+1) t^k φ_{k+1}(w)` (termwise);
 `hasFDerivAt_lieGamma_w`: `D_wΓ_t(w) = Σ_k t^k Dφ_k(w) = lieGammaD T t w`.

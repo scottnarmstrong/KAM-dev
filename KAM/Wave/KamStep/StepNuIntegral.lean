@@ -15,8 +15,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Scale norms of parameter integrals (blueprint-W `bpW:w5:new-ham` step `n-field`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepNu_integral_sub_le`: if `ν_ρ(f₁(t) - f₂(t)) ≤ K` for `t ∈ [0,1]` and `f₁, f₂` are Lipschitz in
 `t` then `ν_ρ(∫₀¹ f₁ - ∫₀¹ f₂) ≤ K` (Riemann sums and the continuity of the norm `|·|_ρ`).
 -/

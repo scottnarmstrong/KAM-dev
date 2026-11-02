@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Linearity of the Taylor field (blueprint-W `bpW:w5:taylor` (iv), parameter-Lipschitz part)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `taylorXR (X₁ - X₂) w = taylorXR X₁ w - taylorXR X₂ w` for fields holomorphic on `D(s,r)`.
 -/
 

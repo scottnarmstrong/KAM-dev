@@ -12,8 +12,6 @@ import Mathlib.Analysis.Complex.ExponentialBounds
 /-!
 # The flow estimates with the numerical margins (`bpW:w5:flow` (i), (ii))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 With `L = M/δ ≤ 1/64` (the step hypotheses: `M = M_F ≤ σ/256`, `δ = σ/4`) one has
 `1 + L e^L ≤ 2`, so the displacement `Ψ^t` of `FlowSmooth` satisfies
 `‖Ψ^t‖ ≤ M`, `‖Ψ_Z^t - Ψ_{Z'}^t‖ ≤ 2N` (`bpW:w5:flow` (i), step `f-par`) and, on points with a

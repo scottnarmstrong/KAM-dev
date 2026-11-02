@@ -15,9 +15,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The homological equation with modified divisors (`bpW:w5:w4-modified` (i))
 
-Off-frontier, source-faithful infrastructure (W5-MODIFIED, blueprint `bpW:w5:w4-modified`); the
-dependency graph is still being built.
-
 `bpW:w5:w4-modified` (i) asserts that the equation (ii) of `bpW:w4:lemma1` holds for the solution
 `F` with modified divisors:
 * `homModLemma_equation_fin`: `L_N F + N̂ = R - â₀` for finitely supported `z, \bar z`
@@ -143,8 +140,8 @@ section all
 
 variable {K0 : ℝ}
 
-/-- CONDITIONAL helper for `bpW:w5:w4-modified` (i), the equation on all `(z, \bar z)`: assumes
-the gate `HomModMultBounds` and the frequency bound. The source-premise export is
+/-- Hypothesis-taking variant for `bpW:w5:w4-modified` (i), the equation on all `(z, \bar z)`:
+assumes the gate `HomModMultBounds` and the frequency bound. The source-premise export is
 `homModLemma_equation_all`. -/
 theorem homModLemma_equation_all_of_gates (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb)
     (hc : pb ≤ p + 1) (hp1 : 1 ≤ p + pb) {r ε : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α)

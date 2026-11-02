@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The abstract core of the KAM step (blueprint-W `bpW:w5:data`, `bpW:w5:step`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `StepCore`: everything the proof of the step theorem uses about the data of the step, with the
 divisor hypothesis (`HomMelnikov` / `HomMelnikovMod`) and the supplier of the solution family `F`
 abstracted away. The data are a smoothing family `(P, X)` at the exponent `p_+` (`pb`), the family

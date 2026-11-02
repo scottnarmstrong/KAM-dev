@@ -15,8 +15,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Linearity of the field of a Taylor polynomial (blueprint-W `bpW:w5:solve`, `bpW:w5:flow`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepField_sub`: `stepField (T₁ - T₂) = stepField T₁ - stepField T₂` on `θ ∈ T_s`, used to turn
 W4's parameter-Lipschitz bounds (stated for `homSub`) into bounds for differences of fields.
 -/

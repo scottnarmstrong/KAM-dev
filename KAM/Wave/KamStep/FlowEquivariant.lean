@@ -10,8 +10,6 @@ public import KAM.Wave.Analytic.Flow.Holomorphic
 /-!
 # Equivariance of the flow under translations (`bpW:w5:flow` (iv), step `f-real`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 If `X (z + a) = X z` on `V`, and `V`, `U` are invariant under `z ↦ z + a`, then
 `φ^t (w + a) = φ^t w + a` for `w ∈ U`, by uniqueness of the flow (`eq_holoFlow_of_solution`). With
 `a = τ_k = (k, 0, 0, 0)`, `k ∈ ℤ²`, and `X = X_F` with `1`-periodic components this is the

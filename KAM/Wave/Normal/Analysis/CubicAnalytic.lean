@@ -12,8 +12,6 @@ public import KAM.Wave.Normal.Analysis.CubicHeadline
 # The cubic gradient as a continuous cubic polynomial on `ℓ²`
 (blueprint `bpW:w0n:cubic-bound`, `stepW:w0n:analytic`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 `KAM.Wave.waveCubicMultilinear` is the continuous trilinear map `T` in the weighted `ℓ²`
 coordinates (`(T(y₁,y₂,y₃))_l = ω_{1,2}(l) T(q₁,q₂,q₃)_l`, `q_i = coeff y_i`), with norm
 `≤ C_m` (`KAM.Wave.waveCubicMultilinear_norm_le`). Its diagonal `KAM.Wave.waveCubicLp` is real

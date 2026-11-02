@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.QuartIdent
 /-!
 # The purely normal quartic `G^{nor}` (blueprint-W `bpW:w3:quartic-ident`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:quartic-ident`.
+Package W3-SETTING, blueprint label `bpW:w3:quartic-ident`.
 
 `birkNormalPart` is `w ↦ ŵ` (the normal part, `|l| ≥ 3`, extended by zero). For the coefficient
 `birkCoefNor = 𝔤 · 1_{𝒯ᶜ}` (all `|x_t| ≥ 3`): `G^{nor}(w) = G^{nor}(ŵ)` (`birkQuartP_normal`),
@@ -41,11 +40,6 @@ def birkNormalPart : BirkSpace →L[ℂ] BirkSpace :=
 theorem birkCoord_birkNormalPart (a p : ℝ) (y : BirkSpace) (l : BirkIdx) :
     birkCoord a p (birkNormalPart y) l = birkNormalMul l * birkCoord a p y l := by
   simp only [birkCoord, birkNormalPart_apply]; ring
-
-theorem norm_birkNormalPart_le (y : BirkSpace) : ‖birkNormalPart y‖ ≤ ‖y‖ := by
-  refine (birkNormalPart.le_opNorm y).trans ?_
-  have : ‖birkNormalPart‖ ≤ 1 := norm_lpDiagCLM_le _ _ _
-  nlinarith [norm_nonneg y]
 
 /-- The set `𝒯ᶜ = {x : all |x_t| ≥ 3}`. -/
 def birkNormalSet : Set (Fin 4 → BirkIdx) := {x | ∀ t, 3 ≤ ((x t).2 : ℕ)}

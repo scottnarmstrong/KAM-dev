@@ -14,9 +14,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Angle derivatives of a solve from its coefficients (`bpW:w5:w4-modified`, step `m-act`)
 
-Off-frontier, source-faithful infrastructure (W5-MODIFIED, blueprint `bpW:w5:w4-modified`); the
-dependency graph is still being built.
-
 Step `m-act` bounds `∂_{θ_i} Q_F` by differentiating the solved series termwise instead of
 solving for the derivative data (W4's bilinear route is not available for the modified divisors).
 For multipliers `‖T_k‖ ≤ κA_k/α` and data `‖u‖ ≤ m` on `T_s`:

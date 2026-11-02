@@ -15,8 +15,7 @@ import Mathlib.Tactic.Positivity
 # W8: the W8-side reductions for shell embeddings and family injectivity
 (blueprint `bpW:w8:shell-embedding`, `bpW:w8:injective`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w8:shell-embedding`, `bpW:w8:injective` (milestone W8).
+Blueprint labels `bpW:w8:shell-embedding`, `bpW:w8:injective` (milestone W8).
 
 Lemma `bpW:w8:shell-embedding` and Proposition `bpW:w8:injective` consume Lemma
 `bpW:w8:torus-shape` and `bpW:w8:shell-inv`, which need W5's action–angle map
@@ -31,9 +30,9 @@ Lemma `bpW:w8:shell-embedding` and Proposition `bpW:w8:injective` consume Lemma
 * `w8_freq_eq_of_shape` (Step `stepW:w8:in-freq`): two tori whose `+i` coordinates have the shape
   `a(θ) e^{-2πi(θ_i + X_i(θ))}` (`a > 0`, `X` bounded) and which carry the same orbit have the
   same frequency (Lemma `bpW:w8:winding`);
-* `w8_injective_of_pieces` (Proposition `bpW:w8:injective`, assembly; conditional helper): clause
-  (6) of `nlw2` from clause (3)'s embedding property, clause (4), equal orbits ⇒ equal frequencies,
-  and injectivity of `ν` (`w8_nuInjective`).
+* `w8_injective_of_pieces` (Proposition `bpW:w8:injective`, assembly; hypothesis-taking variant):
+  clause (6) of `nlw2` from clause (3)'s embedding property, clause (4), equal orbits ⇒ equal
+  frequencies, and injectivity of `ν` (`w8_nuInjective`).
 -/
 
 @[expose] public noncomputable section
@@ -129,10 +128,10 @@ theorem w8_freq_eq_of_shape {F : Type*} (zc : Fin 2 → F → ℂ) {Ψ Ψ' : (Fi
   · rw [← hsh, ← hsh', horb t]
 
 /-- **Family injectivity, assembly** (blueprint `bpW:w8:injective`, Steps `stepW:w8:in-orbit`,
-`stepW:w8:in-act`, `stepW:w8:in-ang`; conditional helper): for any `Γ`, `ν`, `K` such that every
-`K_I` (`I ∈ Γ`) is an analytic torus embedding (clause (3), `bpW:w8:shell-embedding`) satisfying
-the invariance of clause (4) with `ν(I)` (`bpW:w8:shell-inv` (i)), equal orbits have equal
-frequencies (Steps `stepW:w8:in-birk`, `stepW:w8:in-freq`: `w8KOfBirk_eq_of_eq`,
+`stepW:w8:in-act`, `stepW:w8:in-ang`; hypothesis-taking variant): for any `Γ`, `ν`, `K` such that
+every `K_I` (`I ∈ Γ`) is an analytic torus embedding (clause (3), `bpW:w8:shell-embedding`)
+satisfying the invariance of clause (4) with `ν(I)` (`bpW:w8:shell-inv` (i)), equal orbits have
+equal frequencies (Steps `stepW:w8:in-birk`, `stepW:w8:in-freq`: `w8KOfBirk_eq_of_eq`,
 `w8_freq_eq_of_shape`), and `ν` is injective on `Γ` (`w8_nuInjective`): clause (6) of `nlw2`. -/
 theorem w8_injective_of_pieces {m : ℝ} (hm : 0 < m) {Γ : Set (Fin 2 → ℝ)}
     {ν : (Fin 2 → ℝ) → Fin 2 → ℝ} {K : (Fin 2 → ℝ) → (Fin 2 → ℝ) → WaveSpace}

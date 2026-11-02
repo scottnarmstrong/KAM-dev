@@ -13,9 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Joint continuity of the flow and its derivative (blueprint-W `bpW:w5:flow-calc` (i))
 
-Off-frontier, source-faithful infrastructure (W5-STEP-A-FIX, finding F1 of
-`W5-STEP-A-audit-1.md`); the dependency graph is still being built.
-
 For `h : FlowHyp X V U M δ` (blueprint `bpW:w1:flow`), with no further premise:
 
 * `continuousOn_holoFlow_joint`: `(t, w) ↦ φ^t(w)` is continuous on `[-1, 1] × U`;

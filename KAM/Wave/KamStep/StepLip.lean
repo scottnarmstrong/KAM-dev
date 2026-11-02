@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Lipschitz bound of a field at the small scale (blueprint-W `bpW:w5:pullback` step `p-dy`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `kamNorm_lipschitz_small`: for `Y` holomorphic on `D(S, 4ρ)` with `|Y|_ρ ≤ Y₀` there, and
 `x, x' ∈ D(S-σ, 2ρ)`: `|Y x - Y x'|_ρ ≤ (2Y₀/σ) |x - x'|_ρ` (Cauchy in `StepPhase ρ`; balls of
 radius `σ/2` in `|·|_{4ρ} ≤ |·|_ρ` stay in `D(S, 4ρ)`).
@@ -43,7 +41,6 @@ theorem kamNorm_ball_mem {S σ ρ : ℝ} (hσ : 0 < σ) (hσ1 : σ ≤ 1) (hSσ 
   have := kamDomain_add_mem (s := S + σ) hσ hσ1 (by linarith) h4 hx' hW4
   have e3 : (S + σ) - σ = S := by ring
   rwa [e3] at this
-
 
 theorem kamNorm_lipschitz_small {S σ ρ Y0 : ℝ} (hσ : 0 < σ) (hσ1 : σ ≤ 1) (hSσ : σ < S)
     (hρ : 0 < ρ) {Y : KamPhase → KamPhase} (hY : DifferentiableOn ℂ Y (kamDomain S (4 * ρ)))

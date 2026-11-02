@@ -12,8 +12,7 @@ public import Mathlib.Analysis.Calculus.Deriv.Pow
 /-!
 # The flow `Γ_t`: joint differentiability (blueprint-W `bpW:w3:flow` (i), (ii))
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-FLOW, blueprint label `bpW:w3:flow`.
+Package W3-FLOW, blueprint label `bpW:w3:flow`.
 
 Each term `(t, w) ↦ t^k φ_k(w)` is jointly Fréchet differentiable over `ℝ` (`hasFDerivAt_lieTerm`),
 and the termwise derivative series is dominated on `(-τ, τ) × B_ρ` (`2τCρ² < 1/10`), so

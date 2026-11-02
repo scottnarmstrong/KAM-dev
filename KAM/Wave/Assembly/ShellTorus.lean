@@ -14,8 +14,7 @@ import Mathlib.Tactic.Positivity
 # W8: the shell tori in Birkhoff coordinates (blueprint `bpW:w8:shell-data`, `bpW:w8:shell-iter`,
 `bpW:w8:w6-general`, `bpW:w8:torus-shape`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w8:shell-data` (iii), (iv), `bpW:w8:shell-iter`,
+Blueprint labels `bpW:w8:shell-data` (iii), (iv), `bpW:w8:shell-iter`,
 `bpW:w8:w6-general` (tori), `bpW:w8:torus-shape` (milestone W8).
 
 * `w8HW hm n`: the hypotheses of Lemma `bpW:w6:prep-step` for shell `n` and the initial

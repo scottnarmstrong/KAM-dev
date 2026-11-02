@@ -12,8 +12,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: convergence of the transformations (blueprint `bpW:w6:convergence` (iii), (iv))
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:convergence` (clauses (iii) and (iv)).
+Blueprint label `bpW:w6:convergence` (clauses (iii) and (iv)).
 
 * `w6ConvTorusIt` (`bpW:w6:convergence` (iii)) for an iteration with the hypotheses of every stage
   (`W6IterHyp`), and `w6ConvOps` ((iv));
@@ -214,14 +213,14 @@ theorem w6IterHyp_of_conv (hS : W6StepSmooth) (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0
   ⟨⟨hC.valid, hC.small⟩, w6Seq_stage hC, hS⟩
 
 /-- **Transformations on the torus** (blueprint `bpW:w6:convergence` (iii)) for the data of the
-proposition (`W6ConvHyp`, `Π_{-1} = Pm`, the iteration `w6Seq` started at `w6Start`); conditional
-helper on the W5 dependency `W6StepSmooth`. -/
+proposition (`W6ConvHyp`, `Π_{-1} = Pm`, the iteration `w6Seq` started at `w6Start`);
+hypothesis-taking variant assuming `W6StepSmooth`. -/
 theorem w6ConvTorus_of_stepSmooth (hS : W6StepSmooth) (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) :
     W6ConvTorusClause d (w6Start d Pm ω0 Ω0 P0 X0) :=
   w6ConvTorusIt (w6IterHyp_of_conv hS hC)
 
 /-- **Operator bounds** (blueprint `bpW:w6:convergence` (iv)) for the data of the proposition;
-conditional helper on the W5 dependency `W6StepSmooth`. -/
+hypothesis-taking variant assuming `W6StepSmooth`. -/
 theorem w6ConvOpsSrc_of_stepSmooth (hS : W6StepSmooth) (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀)
     (ν : ℕ) (ξ : Fin 2 → ℝ)
     (hξ : ∀ μ < ν, ξ ∈ (w6Seq d (w6Start d Pm ω0 Ω0 P0 X0) μ).Pi) :
@@ -236,9 +235,6 @@ theorem w6ConvOpsSrc_of_stepSmooth (hS : W6StepSmooth) (hC : W6ConvHyp d Pm ω0 
       (∀ W'', ∃ W', fderiv ℂ (w6PhiC d (w6Start d Pm ω0 Ω0 P0 X0) ν ξ) w (w6Iota W') =
         w6Iota W'') :=
   w6ConvOps (w6IterHyp_of_conv hS hC) ν ξ hξ
-
-/-- `Π_*` here is W6-ITER's `w6PiStarIt`. -/
-theorem w6PiStarS_eq_It (S0 : W6State) : w6PiStarS d S0 = w6PiStarIt d S0 := rfl
 
 end src
 

@@ -16,9 +16,6 @@ import Mathlib.Tactic.Ring
 /-!
 # Coefficient extraction by roots of unity (blueprint-W `bpW:w4:extract`)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 For a complex normed space `E` and `g(ζ,η) = ∑_{p+q ≤ 2} g_{pq} ζ^p η^q`, a bound `‖g‖ ≤ K` on the
 open polydisc `|ζ| < ρ₁`, `|η| < ρ₂` gives `‖g_{pq}‖ ≤ K ρ₁^{-p} ρ₂^{-q}`. The coefficients are the
 family `c : Fin 3 → Fin 3 → E` vanishing for `p + q > 2`. The proof averages over the fourth roots
@@ -118,7 +115,6 @@ theorem sum_weighted_polyEval2 (c : Fin 3 → Fin 3 → E) (r₁ r₂ : ℝ) (p 
       · intro p' _ hp'
         simp [hp']
       · simp
-
 
 theorem norm_I_pow (u : ℕ) : ‖I ^ u‖ = 1 := by simp
 

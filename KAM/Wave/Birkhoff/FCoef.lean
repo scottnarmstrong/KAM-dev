@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.Divisor
 /-!
 # The generating Hamiltonian: coefficients (blueprint-W `bpW:w3:Fdef`, `bpW:w3:F` Step Coefficients)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-DIVISOR-F, blueprint labels `bpW:w3:Fdef`, `bpW:w3:F`.
+Package W3-DIVISOR-F, blueprint labels `bpW:w3:Fdef`, `bpW:w3:F`.
 
 `birkFx x = 𝔤_x / δ_x` for `x ∈ 𝒯` not paired and `0` otherwise (Lean: division by `0` is `0`);
 `birkFcoef = i δ_* f_x`. `birkFcoef_isCoef`: `c` satisfies `IsBirkQuartCoef` (symmetric,

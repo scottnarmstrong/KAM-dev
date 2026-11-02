@@ -11,8 +11,6 @@ public import Mathlib.Analysis.Complex.Basic
 /-!
 # Transport of Hamiltonian fields (`bpW:w5:flow-calc` (iv), step `c-trans`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 If `DG(z) = B(X_G(z), ·)`, the map `φ` has derivative `A` at `w` with `B(Aa, Ab) = B(a, b)` and
 `A Y = X_G(φ w)`, then `D(G ∘ φ)(w) = B(Y, ·)`: `Y = A⁻¹ X_G(φ w)` is the field of `G ∘ φ`.
 -/

@@ -12,9 +12,6 @@ public import KAM.Wave.Measure.RealBounds
 # W7: the union over `Λ⁻` at fixed `k` (blueprint `bpW:w7:prep`, `bpW:w7:iter`, steps "`Λ⁻`, sum
 over `n` and sign")
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 `minus_assembly`: the zone of `(k, -l)` is the zone of `(-k, l)`, so the union over `Λ⁻ ∖ X` at
 fixed `k` is covered by the unions for `±k` over `l = e_{j+n} - e_j`, `1 ≤ n ≤ |k|/ϑ`.
 -/
@@ -47,10 +44,6 @@ theorem measXSet_neg {m : ℝ} {hm : 0 < m} {k : Fin 2 → ℤ} {l : ℕ →₀ 
     rcases h5 with h5 | h5
     · left; rwa [isLamMinus_neg_iff]
     · right; exact h5
-
-theorem measXSet_neg_iff {m : ℝ} {hm : 0 < m} {k : Fin 2 → ℤ} {l : ℕ →₀ ℤ} :
-    (-k, -l) ∈ measXSet m hm ↔ (k, l) ∈ measXSet m hm :=
-  ⟨fun h => by simpa using measXSet_neg h, measXSet_neg⟩
 
 /-- Every `l ∈ Λ⁻` is `±(e_{j+n} - e_j)`. -/
 theorem isLamMinus_cases {l : ℕ →₀ ℤ} (h : IsLamMinus l) :

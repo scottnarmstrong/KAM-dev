@@ -12,9 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Differences of Taylor Hamiltonians (`bpW:w4:lemma1`, step *Lipschitz*)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 `HomTaylor_gen.homSub R₁ R₂ ∈ 𝒯_s` has the componentwise differences as components; its field is the
 difference of the fields (`X_{R₁ - R₂} = X_{R₁} - X_{R₂}`, the fields being linear in the
 components), so the Lipschitz hypothesis `|X_{R(ξ)} - X_{R(ζ)}|_r ≤ ε^L |ξ-ζ|` is

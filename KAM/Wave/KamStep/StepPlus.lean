@@ -15,8 +15,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The concrete new Hamiltonian `P_+` (blueprint-W `bpW:w5:new-ham` (ii))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 Concrete instantiation of the abstract transport engine on `StepPhase r`.
 -/
 
@@ -29,10 +27,6 @@ namespace KAM.Wave
 open KAM
 
 variable {a p pb s r σ η M : ℝ}
-
-/-- The concrete flow data: `F = G = StepPhase r`, `ι = stepEmbedCLM`, `Z = stepFieldS FT`. -/
-abbrev stepZF (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (FT : HomTaylor_gen a p pb (s - σ))
-    (r : ℝ) : StepPhase r → StepPhase r := stepFieldS ha hp hpb FT r
 
 theorem stepN_bound [Fact (0 < r)] (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 < σ)
     (hσ1 : σ ≤ 1) (hσs : 3 * σ < s) {FT : HomTaylor_gen a p pb (s - σ)}

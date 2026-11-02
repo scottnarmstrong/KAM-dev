@@ -16,8 +16,6 @@ import Mathlib.Tactic.Positivity
 # Taylor coefficients commute with a parameter derivative (blueprint-W `bpW:w5:taylor`, step
 `t-field`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 For a scalar function `Φ` analytic on an open set `S ∋ 0` of `ℂ²`, the Taylor coefficients of order
 `k ≤ 2` of `t ↦ Φ(t e₀ + ε e₁)` are differentiable in `ε` at `0`, with derivative the `k`-th Taylor
 coefficient of `t ↦ ∂_ε Φ(t e₀)` (mixed partial derivatives of an analytic function commute).

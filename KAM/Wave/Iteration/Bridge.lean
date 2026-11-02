@@ -14,8 +14,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: W7's normal-mode index versus W5's (`bpW:w6:iter-lemma`, `bpW:w4:wave` (ii))
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:iter-lemma` (milestone W6): the Melnikov conditions
+Blueprint label `bpW:w6:iter-lemma` (milestone W6): the Melnikov conditions
 `(bpW:w6:melnikov)` are stated with W7's index set `Z`, Dirichlet weight `⟨l⟩` and `A_k`; W5's step
 uses W4's index set `𝒵`, P96-K's bracket and `A_k`. By Lemma `bpW:w4:wave` (ii) the former imply the
 latter at the same level.

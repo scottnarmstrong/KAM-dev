@@ -15,8 +15,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Transport of smoothing Hamiltonians by the flow (blueprint-W `bpW:w5:flow-calc` (iii), (iv))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `transNop`: `N_t(w) = DΨ^t(w) ∘ ι : G →L G`, so that `Dφ^t(w) ∘ ι = ι ∘ (1 + N_t(w))`.
 `hasFDerivAt_comp_flow_smooth`: if `DGf(φ^t w) = B(ι Z_g(φ^t w), ·)` and `y` solves
 `(1 + N_t(w)) y = Z_g(φ^t w)` then `Gf ∘ φ^t` has derivative `B(ι y, ·)` at `w`: the field of the
@@ -76,26 +74,6 @@ theorem transSolve_spec (hN : ‖N‖ < 1) (u : G) : transSolve N u + N (transSo
   have h := Ring.mul_inverse_cancel _ (newHam_isUnit_one_add hN)
   have := congrArg (fun L : G →L[ℂ] G => L u) h
   simpa [transSolve] using this
-
-theorem transSolve_unique (hN : ‖N‖ < 1) {u y y' : G} (hy : y + N y = u) (hy' : y' + N y' = u) :
-    y = y' := by
-  have h : y + N y = y' + N y' := hy.trans hy'.symm
-  have h0 : (y - y') + (N y - N y') = 0 := by
-    have := sub_eq_zero.mpr h
-    rw [← this]; abel
-  have e : y - y' = -(N (y - y')) := by
-    rw [map_sub]; exact eq_neg_of_add_eq_zero_left h0
-  have h1 : ‖y - y'‖ ≤ ‖N‖ * ‖y - y'‖ := by
-    have : ‖y - y'‖ = ‖N (y - y')‖ := by
-      conv_lhs => rw [e]
-      rw [norm_neg]
-    exact this.trans_le (N.le_opNorm _)
-  have h2 : (1 - ‖N‖) * ‖y - y'‖ ≤ 0 := by nlinarith
-  have h3 : ‖y - y'‖ ≤ 0 := by
-    by_contra hc
-    push Not at hc
-    nlinarith
-  exact sub_eq_zero.mp (norm_le_zero_iff.mp h3)
 
 theorem differentiableAt_transSolve_apply {N : F → (G →L[ℂ] G)} {u : F → G} {w : F}
     (hN : DifferentiableAt ℂ N w) (hu : DifferentiableAt ℂ u w) (hlt : ‖N w‖ < 1) :

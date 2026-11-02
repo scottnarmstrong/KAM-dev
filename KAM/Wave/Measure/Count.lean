@@ -12,9 +12,6 @@ public import Mathlib.Analysis.Convex.SpecificFunctions.Basic
 /-!
 # W7: counting (blueprint `bpW:w7:count`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 (i) the finite set `lamPlusFin N ⊇ {l ∈ Λ⁺ : ⟨l⟩ ≤ N}` has at most `4 N²` elements; (ii) for
 `K_ν ≥ 2^ν` each `k ≠ 0` occurs for at most `|k|` values of `ν`; (iii) is `tsum_lattice_le`.
 We also prove `∑_{j < N} (j+1)^{-1/4} ≤ (4/3) N^{3/4}` used in the preparatory zones.

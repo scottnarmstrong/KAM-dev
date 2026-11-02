@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.MainBallReal
 /-!
 # The real power series of `Γ^ℝ` (blueprint-W `bpW:w3:gamma-real` (i))
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-MAIN, blueprint label `bpW:w3:gamma-real` (i).
+Package W3-MAIN, blueprint label `bpW:w3:gamma-real` (i).
 
 `birkGammaRSeries`: the real formal series on `E = E_{a,p}` whose `n`-th term is
 `Π ∘ q_n(𝒵·, …, 𝒵·)` for the complex series `q = lieSeries T 1` of `Γ = Γ_1`; its `(2k+1)`-st term

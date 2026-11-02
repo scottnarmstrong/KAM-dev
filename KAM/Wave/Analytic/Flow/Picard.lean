@@ -12,9 +12,7 @@ public import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
 /-!
 # Picard iterates for holomorphic vector fields
 
-Blueprint-W `bpW:w1:flow`, steps `stepW:w1:flowlip` and `stepW:w1:wavePicard` (package W1-ANALYTIC).
-This is source-faithful infrastructure used by several nodes; the dependency graph is still being
-built.
+Blueprint-W `bpW:w1:flow`, steps `stepW:w1:flowlip` and `stepW:w1:picard` (package W1-ANALYTIC).
 
 `KAM.Wave.FlowHyp X V U M δ` records the hypotheses of the blueprint lemma (`V` open, `X`
 holomorphic on `V` with `‖X‖ ≤ M`, `U` open with margin `B(w, 2δ) ⊆ V` for `w ∈ U`, `0 < M < δ`).
@@ -85,7 +83,6 @@ theorem continuousOn_X : ContinuousOn X V := h.holo.continuousOn
 
 end FlowHyp
 
-
 section Helpers
 
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
@@ -147,7 +144,7 @@ theorem continuousOn_X_picard {w : F} (hw : w ∈ U) (k : ℕ) :
   h.continuousOn_X.comp (norm_picard_sub_le h hw k).2 fun _ ht =>
     h.mem_V_of_ball hw (picard_mem_ball h hw k ht)
 
-/-- Successive differences of the Picard iterates (blueprint `stepW:w1:wavePicard`). -/
+/-- Successive differences of the Picard iterates (blueprint `stepW:w1:picard`). -/
 theorem norm_picard_succ_sub_le {w : F} (hw : w ∈ U) : ∀ k : ℕ, ∀ t ∈ Icc (-1 : ℝ) 1,
     ‖wavePicard X w (k + 1) t - wavePicard X w k t‖ ≤
       M * (M / δ) ^ k * |t| ^ (k + 1) / ((k + 1).factorial : ℝ)

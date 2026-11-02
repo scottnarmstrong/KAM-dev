@@ -11,8 +11,6 @@ import Mathlib.Tactic.Linarith
 /-!
 # The zero Taylor element (blueprint-W `bpW:w5:step`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `zeroTaylor`: the element `0 ∈ 𝒯_s`; used as the value of parameter families outside the parameter
 set `Π`.
 -/

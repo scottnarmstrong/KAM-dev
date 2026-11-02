@@ -17,8 +17,7 @@ import Mathlib.Tactic.GCongr
 /-!
 # W6: the arithmetic of the convergence proof (blueprint `bpW:w6:convergence`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:convergence` (milestone W6): the parts of steps
+Blueprint label `bpW:w6:convergence` (milestone W6): the parts of steps
 `c-freq`, `c-op`, `c-cauchy` that concern only the sequences of `bpW:w6:sequences`, under the
 smallness `ε₀ ≤ γ₀ α₀ σ₀^t`.
 
@@ -188,13 +187,6 @@ theorem cauchy_sum_le (n : ℕ) :
     ∑ ν ∈ Finset.range n, 4 * w6CF * d.qNu ν * d.sigma ν ≤ d.ePhi := by
   have h := cauchy_tail_le hd hsmall 0 n
   rw [Finset.range_eq_Ico]; simpa using h
-
-omit hsmall in
-/-- `2 · 2 M_{F,ν} = 4 c_F q_ν σ_ν` (step `c-cauchy`). -/
-theorem two_two_MF_eq (ν : ℕ) :
-    2 * (2 * stepMF w6CF w6T (d.alpha ν) (d.sigma ν) (d.eps ν)) =
-      4 * w6CF * d.qNu ν * d.sigma ν := by
-  rw [stepMF_eq hd ν]; ring
 
 end W6SeqData
 

@@ -10,8 +10,6 @@ public import KAM.Wave.Algebra.TwoSided
 /-!
 # The weighted convolution algebra (blueprint `bpW:w1:algebra`, `bpW:w0n:algebra`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 For `a ≥ 0`, `s ≥ 1` and `c, d ∈ ℓ^{a,s}_b`:
 `‖c * d‖_{a,s} ≤ K_s ‖c‖_{a,s} ‖d‖_{a,s}` with `K_s = 2^s (1 + 2ζ(2s))^{1/2}`, every convolution sum
 converging absolutely.

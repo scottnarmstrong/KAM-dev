@@ -14,7 +14,7 @@ public import Mathlib.Analysis.Calculus.Deriv.Shift
 # Analytic coefficient solutions and torus orbits (blueprint `bpW:w2:coeffsol`, `bpW:w2:orbit`,
 `bpW:w2:curve-deriv`)
 
-Infrastructure used by several nodes; the dependency graph is still being built. Blueprint labels
+Blueprint labels
 `bpW:w2:coeffsol`, `bpW:w2:orbit`, `bpW:w2:curve-deriv` (milestone W2).
 
 * `KAM.Wave.IsAnalyticCoeffSolution m hm Y` (Definition `bpW:w2:coeffsol`): `Y : ℝ → WaveSpace` is

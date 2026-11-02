@@ -13,9 +13,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The homological equation `L_N F + N̂ = R - â₀` (`bpW:w4:lemma1` (ii))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 * `homRval_gen T θ y z zb`: the value of the Taylor polynomial `R` (`bpW:w4:R`);
 * `homLieNRaw_gen`: `L_N F = (1/2π)⟨ω,F_θ⟩ - i⟨F_z,Ωz⟩₀ + i⟨F_{\bar z},Ω\bar z⟩₀` (`bpW:w4:lie`);
 * `homNhat_gen R y z zb = ⟨ω̂,y⟩ + ∑ Ω̂_j z_j \bar z_j`, `ω̂ = [b]`, `Ω̂_j = ([Q])_{jj}` (true
@@ -105,7 +102,6 @@ theorem homLop_sum2 (w : Fin 2 → ℝ) {S : Finset ℕ+} (f : Fin 2 → ℕ+ �
   simp only [Finset.sum_mul]
   refine Finset.sum_congr rfl fun l _ => by ring
 
-
 section fin
 
 variable {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {S : Finset ℕ+} {z zb : HomL2}
@@ -179,7 +175,6 @@ theorem homLop_sumK (w : Fin 2 → ℝ) (f : Fin 2 → Fin 2 → ℂ) (c : Fin 2
   simp only [Fin.sum_univ_two]
   ring
 
-
 section blocks
 
 theorem homBlk_sym (S : Finset ℕ+) (c : ℂ) (SR SF : ℕ+ → ℕ+ → ℂ) (hsym : ∀ i j, SF i j = SF j i)
@@ -239,7 +234,6 @@ theorem homBlk_c (S : Finset ℕ+) (c : ℂ) (A B : ℕ+ → ℂ) (W : ℕ+ → 
   ring
 
 end blocks
-
 
 section main
 

@@ -13,9 +13,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Elementary facts about the linear frequencies `λ_j` (blueprint `bpW:w0:basis#lambda-facts`)
 
-Off-frontier, source-faithful infrastructure (W-GRAPH-CLOSE); the dependency graph is still being
-built.
-
 The paragraph after Definition `bpW:w0:basis` (`w0-conventions.tex:45-47`) records, for `m > 0`,
 `λ_j = √(j² + m)` and `f(s) = √(s² + m)`:
 

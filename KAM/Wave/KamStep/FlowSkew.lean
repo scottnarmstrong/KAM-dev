@@ -11,8 +11,6 @@ public import Mathlib.Analysis.Complex.Basic
 /-!
 # Skewness of the derivative of a Hamiltonian field (`bpW:w5:flow-calc`, step `c-skew`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 If `G` has derivative `B(X_G(z), ·)` at every `z` near `x`, with `B` antisymmetric, and `X_G` has
 derivative `DX` at `x`, then `B(DX·a, c) + B(a, DX·c) = 0`: the second derivative of `G` is
 symmetric (external fact `W5-E3`, `second_derivative_symmetric_of_eventually`) while `B` is

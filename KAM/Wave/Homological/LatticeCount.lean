@@ -13,9 +13,6 @@ import Mathlib.Tactic.Ring
 /-!
 # The exact count of `ℓ¹` spheres in `ℤ²` (blueprint-W `bpW:w4:lattice` (i))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 For `N ≥ 1`, exactly `4N` points `k ∈ ℤ²` satisfy `|k₁| + |k₂| = N`
 (`waveSphere_card`, `waveLattice_ncard_fiber`). The finset form `waveLattice_card_filter_le`
 bounds the number of points of any finset of `ℤ²` in the sphere.

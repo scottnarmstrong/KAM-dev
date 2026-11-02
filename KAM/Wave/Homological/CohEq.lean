@@ -13,9 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The scalar cohomological equation (blueprint-W `bpW:w4:lemma1`, step *The equation*)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 For a scalar `g` on `T_s` and multipliers `m_k` with `i(⟨k,ω⟩ - λ) m_k = 1` for `k ≠ 0`, the solve
 `F = ∑ m_k ĝ_k e_k` satisfies, on `T_{s-σ}`,
 `(1/2π)⟨ω, ∂_θ F⟩ - iλ F = g - e₀ ĝ₀`, with `e₀ = 1 + iλ m₀`
@@ -28,10 +25,6 @@ holomorphic periodic bounded function by its Fourier series (`bpW:w4:F3`).
 namespace KAM.Wave
 
 open KAM
-
-theorem homCoeff_continuous_of {s : ℝ} (hs : 0 < s) {u : (Fin 2 → ℂ) → ℂ}
-    (hu : DifferentiableOn ℂ u (complexStrip 2 s)) :
-    Continuous fun x : Fin 2 → ℝ => u fun j => (x j : ℂ) := homContinuous_restrict hs hu
 
 theorem homCoeff_add {s : ℝ} (hs : 0 < s) {u v : (Fin 2 → ℂ) → ℂ}
     (hu : DifferentiableOn ℂ u (complexStrip 2 s)) (hv : DifferentiableOn ℂ v (complexStrip 2 s))

@@ -12,9 +12,6 @@ public import KAM.Wave.Normal.Analysis.PdeBase
 # Bridges between `WaveEll` and the landed `KAM.Wave.Seq` transport API
 (blueprint `bpW:w0:ellap`, `bpW:w1:transport`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 For real sequences, `KAM.Wave.WaveEll a p c` is `KAM.Wave.IsEll a p c`
 (`KAM.Wave.waveEll_iff_isEll`), `KAM.Wave.waveEllNorm` is `KAM.Wave.ellNorm`
 (`KAM.Wave.waveEllNorm_eq_ellNorm`) and `KAM.Wave.waveEllToLp` is `KAM.Wave.tauLp`
@@ -45,9 +42,6 @@ theorem waveEllToLp_eq_tauLp {a p : ℝ} {c : ℕ+ → ℝ} (h : IsEll a p c) :
   ext j
   rw [waveEllToLp_apply hw]
   simp
-
-theorem coeff_isEll_one_one (y : lp (fun _ : ℕ+ => ℝ) 2) : IsEll 1 1 (coeff y) := by
-  rw [← coeffW_one_one]; exact isEll_coeffW 1 1 y
 
 end KAM.Wave
 

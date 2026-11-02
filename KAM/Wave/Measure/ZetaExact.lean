@@ -10,9 +10,6 @@ public import KAM.Wave.Measure.ZetaSum
 /-!
 # W7: exact lattice sums (blueprint `bpW:w7:ext-zeta`, `bpW:w7:count` (iii))
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 The exact statements of `bpW:w7:ext-zeta` and `bpW:w7:count` (iii): `#{k ∈ ℤ² : |k| = N} = 4N`
 for `N ≥ 1`, and `Z₃ = ∑_{k ∈ ℤ² ∖ 0} |k|^{-3} = 4 ζ(2) = 2π²/3 < 7`. The upper bounds used by the
 measure estimate are in `KAM.Wave.Measure.ZetaSum`.

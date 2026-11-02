@@ -15,9 +15,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Sharp lattice sums in `ℤ²` (blueprint-W `bpW:w4:lattice` (ii), (iii))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 With `|k|₁ = KAM.Fourier.modeSize k` and `S_q(σ) = ∑ₖ |k|₁^q e^{-2π|k|₁σ}` (real power, `0^0 = 1`):
 
 * (ii) `waveS_zero_eq`, `waveS_zero_le`: `S_0(σ) = coth(πσ)² ≤ (1 + (πσ)⁻¹)²`;

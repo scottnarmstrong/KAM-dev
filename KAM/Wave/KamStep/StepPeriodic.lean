@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Periodicity of the Taylor objects (blueprint-W `bpW:w5:flow` (iv), step `f-real`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 For `T ∈ 𝒯_s`: `waveStepFun T` and `stepField T` are invariant under the angle translations
 `stepTau k` (components `1`-periodic, hence so are their `θ`-derivatives).
 -/

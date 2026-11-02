@@ -10,8 +10,6 @@ public import KAM.Wave.Normal.Analysis.CubicBound
 /-!
 # Trilinearity and the identification `𝒢 = T(q,q,q)` (blueprint `bpW:w0n:cubic-bound`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 * `KAM.Wave.waveEll_add`, `KAM.Wave.waveEll_smul`: `ℓ^{a,p}` is a vector space;
 * `KAM.Wave.waveTrilinear_add_left` (and `_mid`, `_right`), `KAM.Wave.waveTrilinear_smul_left`
   (and `_mid`, `_right`): `T` is additive and homogeneous in each argument;

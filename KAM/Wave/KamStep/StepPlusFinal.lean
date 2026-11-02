@@ -12,7 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # `∫₀¹ {R(t),F} ∘ φ^t` is a smoothing Hamiltonian on `D_+` (blueprint-W `bpW:w5:new-ham` (ii))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 -/
 
 @[expose] public noncomputable section

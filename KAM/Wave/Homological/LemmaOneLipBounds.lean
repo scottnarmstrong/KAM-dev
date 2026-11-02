@@ -13,9 +13,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Lipschitz bounds for the components of `F` (`bpW:w4:lemma1` (iii), step *Lipschitz*)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 `homF_sub_compBounds_gen`: the difference `F(ξ) - F(ζ)` of the solutions for the data `R₁ = R(ξ)`,
 `R₂ = R(ζ)` satisfies `HomCompBounds_gen` on `T_{s-σ}` with the scale
 `E₀' = B^W_σ(ε^L + 2Mε/α)d/α` and `K = K_S` (`d = |ξ-ζ|`), by `bpW:w4:solve` (ii) in the image
@@ -68,7 +65,6 @@ theorem homPartial_sub_comp_gen {s σ : ℝ} {E : Type*} [NormedAddCommGroup E] 
     homPartial i (fun z => f z - g z) θ = homPartial i f θ - homPartial i g θ :=
   homPartial_sub (hf.1.differentiableAt ((isOpen_complexStrip 2 _).mem_nhds hθ))
     (hg.1.differentiableAt ((isOpen_complexStrip 2 _).mem_nhds hθ)) i
-
 
 theorem homPartial_clm_sub {E G : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
     [NormedAddCommGroup G] [NormedSpace ℂ G] (Λ : E →L[ℂ] G) {u v : (Fin 2 → ℂ) → E}

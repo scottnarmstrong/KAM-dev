@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 # Margins of the step domains (blueprint-W `bpW:w5:flow` step `f-der`, `bpW:w5:pullback` step
 `p-dy`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepDomain_U_margin`: every `w ∈ D(s-3σ, r/4)` has `B(w, σ/8) ⊆ D(s-2σ, r/2)` in the norm
 `|·|_{p,r}` of `StepPhase r`.
 -/

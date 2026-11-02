@@ -11,9 +11,6 @@ public import KAM.Wave.Measure.Slab
 /-!
 # W7: estimates for one frequency pair (blueprint `bpW:w7:sep`, `bpW:w7:largek`, `bpW:w7:zone`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 For a frequency pair `(D, ω, Ω)` satisfying (H1)–(H2): the drift bounds, normal separation
 (`bpW:w7:sep`), the largeness of `|k|` on nonempty zones (`bpW:w7:largek`), the Lipschitz bound of
 `⟨l, Ω⟩` in the frequency coordinate, and the zone estimate (`bpW:w7:zone`).

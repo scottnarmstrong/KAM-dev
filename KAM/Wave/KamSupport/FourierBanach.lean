@@ -11,7 +11,6 @@ public import KAM.Strip.FourierSeriesVector
 /-!
 # Banach-valued Fourier coefficients on strips (blueprint-W `bpW:w1:fourier-banach`)
 
-Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
 (Replaces the false operator-valued square-sum bound of P96-K p. 127, erratum E-W-Pos96K-1.)
 
 Let `F` be a complex Banach space, `u : T_s → F` holomorphic, `1`-periodic, `‖u‖ ≤ M`. The

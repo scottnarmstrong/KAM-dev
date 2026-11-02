@@ -13,8 +13,7 @@ public import Mathlib.Analysis.ODE.Gronwall
 /-!
 # W8: uniqueness for the coefficient system (blueprint `bpW:w8:unique`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w8:unique` (milestone W8).
+Blueprint label `bpW:w8:unique` (milestone W8).
 
 Two analytic coefficient solutions `Y, Y' : ℝ → WaveSpace` (Definition `bpW:w2:coeffsol`) with
 `Y 0 = Y' 0` coincide (`KAM.Wave.isAnalyticCoeffSolution_unique`). The proof is the energy argument

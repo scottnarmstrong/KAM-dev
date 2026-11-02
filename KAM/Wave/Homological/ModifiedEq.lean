@@ -14,9 +14,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The entrywise equations with modified divisors (`bpW:w5:w4-modified` (i), the equation)
 
-Off-frontier, source-faithful infrastructure (W5-MODIFIED, blueprint `bpW:w5:w4-modified`); the
-dependency graph is still being built.
-
 For `F = homModSolveTaylor … R` and `θ ∈ T_{s-σ}` the entrywise equations of W4's step *The
 equation* hold with `R` replaced by its reweighting `R' = homReweight R` (same entries, same
 pairings), `𝔏 g = (2π)⁻¹ ∑_l ω_l ∂_{θ_l} g`:

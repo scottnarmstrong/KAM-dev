@@ -12,8 +12,6 @@ public import KAM.Wave.Normal.Analysis.PdeForce
 /-!
 # Coefficient system `⇒` PDE (blueprint `bpW:w0n:pde-equiv` (i))
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 If `q, p` are curves in `ℓ^{1,1}`, continuously differentiable into `ℓ^{1,0}`, satisfying
 `q̇ = λ p`, `ṗ = -λ q - 𝒢(q)` in `ℓ^{1,0}`, then `u = U_m(q)` is a classical solution on `I` with
 `u_t = V_m(p)` (`KAM.Wave.wave_coeff_to_pde`).

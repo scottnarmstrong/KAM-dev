@@ -13,8 +13,7 @@ public import Mathlib.Analysis.Calculus.FDeriv.Analytic
 /-!
 # The Lie coefficients, diagonal form (blueprint-W `bpW:w3:lie-coeff`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-FLOW, blueprint label `bpW:w3:lie-coeff`.
+Package W3-FLOW, blueprint label `bpW:w3:lie-coeff`.
 
 For a continuous trilinear map `T` on a complex Banach space `E` (in the application `T = ι ∘ S`),
 `lieSeq T w k = φ_k(w)` is defined by `φ_0 = id`, `(k+1) φ_{k+1} = Σ_{a+b+c=k} T(φ_a, φ_b, φ_c)`

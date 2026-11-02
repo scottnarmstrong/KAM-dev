@@ -12,9 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Bounds for images of the solve (blueprint-W `bpW:w4:lemma1`, step *Component bounds of F*)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 For a continuous linear `Λ : E → G` intertwining the multipliers (`Λ T_k = T'_k Λ`),
 the image `Λ 𝒮u` is the solve `𝒮'(Λ u)` (`bpW:w4:solve` (iv)), hence
 

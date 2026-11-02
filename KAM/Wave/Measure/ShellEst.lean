@@ -11,9 +11,6 @@ public import KAM.Wave.Measure.Density
 /-!
 # W7: the shell estimate (blueprint `bpW:w7:shell-est`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 If on the `k`-th shell the good set `Γ` contains `R_k ∩ (Π_k ∖ ℰ_k)`, with `U_{-α_k} R_k ⊆ Π_k ⊆
 (0, t_k)²` and `ℰ_k` the excluded set of an admissible family for `(Π_k, α_k)`, then
 `volume (R_k ∖ Γ) / volume R_k ≤ (7 + C₇) α_k^{32/47} / ((1 - q²) t_k)`.

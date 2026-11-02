@@ -11,9 +11,6 @@ public import KAM.Wave.Normal.Analysis.CubicBound
 # Weighted-norm steps for the selection-rule trilinear maps
 (blueprint `bpW:w1:selection`, steps `stepW:w1:maj1`, `stepW:w1:smooth1`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 Three coefficient-free steps shared by every selection-rule trilinear map:
 
 * `KAM.Wave.waveEvenAbs_weighted_eq`: the even majorant of a real sequence whose weighted squares
@@ -90,14 +87,14 @@ theorem waveSel_norm_step {a p M : ℝ} {t : ℕ+ → ℝ} (ht0 : ∀ l, 0 ≤ t
     have hw : ellWeight a (p + 1) l = ellWeight a (p + 1 / 2) l * Real.sqrt (l : ℝ) := by
       have : p + 1 = (p + 1 / 2) + 1 / 2 := by ring
       rw [this, wave_ellWeight_add_half]
-    have hwp : 0 < ellWeight a (p + 1 / 2) l := waveEllWeight_pos _ _ l
+    have hwp : 0 < ellWeight a (p + 1 / 2) l := ellWeight_pos _ _ l
     have h1 : ellWeight a (p + 1) l * t l ≤ M * (ellWeight a (p + 1 / 2) l * X ((l : ℕ) : ℤ)) := by
       rw [hw]
       calc ellWeight a (p + 1 / 2) l * Real.sqrt (l : ℝ) * t l
           ≤ ellWeight a (p + 1 / 2) l * Real.sqrt (l : ℝ) *
             (M * (Real.sqrt (l : ℝ))⁻¹ * X ((l : ℕ) : ℤ)) := by gcongr; exact hle l
         _ = _ := by field_simp
-    have h0 : 0 ≤ ellWeight a (p + 1) l * t l := mul_nonneg (waveEllWeight_pos _ _ l).le (ht0 l)
+    have h0 : 0 ≤ ellWeight a (p + 1) l * t l := mul_nonneg (ellWeight_pos _ _ l).le (ht0 l)
     have := pow_le_pow_left₀ h0 h1 2
     calc _ ≤ _ := this
       _ = M ^ 2 * F ((l : ℕ) : ℤ) := by

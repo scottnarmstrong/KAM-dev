@@ -12,8 +12,6 @@ public import KAM.Frozen.Wave.Defs.Lam
 /-!
 # Passage between one- and two-sided sequences (blueprint `bpW:w1:twosided`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 One-sided sequences are `q : ℕ+ → ℂ` with `WaveOneMem a p q`
 (`∑ (ω_{a,p}(j) |q_j|)² < ∞`, `ellWeight`);
 two-sided ones are `ℤ → ℂ` with `WaveTwoMem`.

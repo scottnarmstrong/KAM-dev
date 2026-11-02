@@ -16,21 +16,20 @@ import Mathlib.Tactic.Positivity
 # W6: the wave iteration, applicability and the frequency pairs (`bpW:w6:applicable`,
 `bpW:w6:freq-lip`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w6:wave-iteration`, `bpW:w6:applicable`,
+Blueprint labels `bpW:w6:wave-iteration`, `bpW:w6:applicable`,
 `bpW:w6:freq-lip` (milestone W6).
 
-* `W6StepRealMod`: W5's reality clause for `P_+` in the modified case (branch inp-w5r,
-  `stepTheoremMod_reality`); a hypothesis of the conditional helpers only.
+* `W6StepRealMod`: W5's reality clause for `P_+` in the modified case (`stepTheoremMod_reality`);
+  a hypothesis of the `_of_stepRealMod` variants only.
 * `w6applicable_k0_of_shift_half`: the `k = 0` clause of `applicable` from the shift bound with the
   weight `J^{1/2}` (the weight that W5's `stepTheoremMod` (iii) provides).
-* `w6Applicable_of_stepRealMod` (conditional helper): the hypotheses `W6ConvHyp` of Proposition
-  `bpW:w6:convergence` hold for the wave iteration (Definition `bpW:w6:wave-iteration`), for every
-  starting size `ε₀ ∈ [ε^♭_0, γ₁ α̌]`. Every hypothesis except the reality of `P_0` is proved from
-  the prep-step outputs.
+* `w6Applicable_of_stepRealMod` (hypothesis-taking variant): the hypotheses `W6ConvHyp` of
+  Proposition `bpW:w6:convergence` hold for the wave iteration (Definition `bpW:w6:wave-iteration`),
+  for every starting size `ε₀ ∈ [ε^♭_0, γ₁ α̌]`. Every hypothesis except the reality of `P_0` is
+  proved from the prep-step outputs.
 * `w6IsFreqPair_of_bounds_half`: W6-PREP's `w6IsFreqPair_of_bounds` with the shift bound at
   the weight `J^{1/2}`; the normal shift then enters `ε₂` instead of `ε₁`
-  (`ε₁ = 0`, `ε₂ = 3γα + 4ε₀`; deviation forced by W5's interface, see the handoff).
+  (`ε₁ = 0`, `ε₂ = 3γα + 4ε₀`; forced by the interface of W5's `stepTheoremMod`).
 -/
 
 @[expose] public noncomputable section
@@ -102,7 +101,7 @@ section
 
 variable {m : ℝ} {hm : 0 < m}
 
-/-- **Lipschitz frequencies, conditional helper with the shift at weight `J^{1/2}`**
+/-- **Lipschitz frequencies, hypothesis-taking variant with the shift at weight `J^{1/2}`**
 (blueprint `bpW:w6:freq-lip`, steps `fl-size`, `fl-lip`): the shift bounds
 `J^{1/2}(|Ω̂_J| + λ|Ω̂_J|^ℒ) ≤ 3ε`, `|ω̂| + λ|ω̂|^ℒ ≤ 6πε` and the drift bounds of
 `bpW:w6:convergence` (ii) give (H1)–(H2) with `ε_ω = 6πγα + 8πε₀`, `ε₁ = 0`, `ε₂ = 3γα + 4ε₀`,
@@ -253,9 +252,9 @@ theorem waveConv_parts (H : W6PrepHyp m hm Pi α r ε P X) {ε₀ : ℝ}
   · rw [waveSeq_lam_zero]
     exact (H.w6size.2.2.2.1).mono_lam subset_rfl subset_rfl le_rfl hlo
 
-/-- **Applicability** (blueprint `bpW:w6:applicable`; conditional helper on W5's reality clause
-`W6StepRealMod`, not the label): the hypotheses of Proposition `bpW:w6:convergence` hold for the
-wave iteration (Definition `bpW:w6:wave-iteration`, `β₀ = β_*`), for every starting size
+/-- **Applicability** (blueprint `bpW:w6:applicable`; hypothesis-taking variant on W5's reality
+clause `W6StepRealMod`, not the label): the hypotheses of Proposition `bpW:w6:convergence` hold for
+the wave iteration (Definition `bpW:w6:wave-iteration`, `β₀ = β_*`), for every starting size
 `ε₀ ∈ [ε^♭_0, γ₁ α̌]`. -/
 theorem w6Applicable_of_stepRealMod (hRm : W6StepRealMod) (H : W6PrepHyp m hm Pi α r ε P X)
     {ε₀ : ℝ} (hlo : w6EpsFlat α ε ≤ ε₀) (hhi : ε₀ ≤ w6Gamma1 m hm * alphaCheck α) :

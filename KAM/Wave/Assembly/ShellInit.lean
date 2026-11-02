@@ -15,8 +15,7 @@ import Mathlib.Tactic.Positivity
 # W8: shell data for the initial perturbation and the preparatory step
 (blueprint `bpW:w8:shell-data` (iii), (iv))
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w8:shell-data` (milestone W8), parts (iii), (iv).
+Blueprint label `bpW:w8:shell-data` (milestone W8), parts (iii), (iv).
 
 The W8 constants are evaluated at the W5–W6 constants `w8Upstream m hm` (`γ = w6Gamma m hm`,
 `γ₁ = w6Gamma1 m hm`, `c_F`, `c^♮_F`); `w8T0W m hm` is the resulting `t₀`.
@@ -26,13 +25,13 @@ The W8 constants are evaluated at the W5–W6 constants `w8Upstream m hm` (`γ =
   every `ζ ∈ ℂ²` within `ρ_ξ` of a point of `Π_n` has `Re ζ_i ≥ 2r_n²` and `|ζ| ≤ t_n`,
   `c_A (t_n + r_n²) < ρ₁²`; and `ε_in (1 + 4λ/ρ_ξ) = ε_in (1 + 8/M) ≤ ε^♯_n` for `λ = α_n/M`
   (`ε_in = w8EpsIn`, the formula of `bpW:w5:initial`). The last sentence of (iii) (the
-  bound on `X_P`) consumes the conclusion of `bpW:w5:initial`; it is the conditional helper
+  bound on `X_P`) consumes the conclusion of `bpW:w5:initial`; it is the hypothesis-taking variant
   `w8_famBound_sharp_of_initial` (any family bounded by `ε_in(1 + 4λ/ρ_ξ)` is bounded by `ε^♯_n`).
 * (iv) `w8_shellData_prep`: the hypotheses of Lemma `bpW:w6:prep-step` that concern the shell
   data (`Π_n` Borel in `{|ξ| ≤ 1/2}`, `0 < α_n ≤ α₀`, `r_n > 0`, `0 < ε^♯_n ≤ γ α_n`) and
   `c_A(t_n + r_n²) < ρ₁²` (Remark `bpW:w6:to-w8`). The bundle `W6PrepHyp` for shell `n`
   (`W8ShellPrep`) is assembled from the properties of the perturbation `P` supplied by
-  `bpW:w5:initial` by the conditional helper `w8ShellPrep_of_initial`.
+  `bpW:w5:initial` by the hypothesis-taking variant `w8ShellPrep_of_initial`.
 
 Interface (W5-AA, `KAM/Wave/KamStep/Initial.lean`, not in this base): `w8EpsIn m r t` is the
 formula of `aaEpsIn m r t` (`w8CKp m = 66 C_* C_F`, `w8cA = aaCA = 2200`), `w8Rho1 m = birkRho1 m 1`
@@ -226,7 +225,7 @@ theorem w8_shellData_init (n : ℕ) :
     have : 0 < w8Rho1 m ^ 2 := by have := w8Rho1_pos hm; positivity
     linarith
 
-/-- (`bpW:w8:shell-data` (iii), last sentence; conditional helper on the conclusion of
+/-- (`bpW:w8:shell-data` (iii), last sentence; hypothesis-taking variant on the conclusion of
 `bpW:w5:initial`) A family whose fields satisfy `|X|^λ ≤ ε_in(1 + 4λ/ρ_ξ)` for every `λ ≥ 0`
 satisfies `|X|^{α_n/M}_{r_n, V} ≤ ε^♯_n`. -/
 theorem w8_famBound_sharp_of_initial {Par : Set (Fin 2 → ℝ)} {V : Set KamPhase}
@@ -262,7 +261,7 @@ theorem w8_shellData_prep (n : ℕ) :
   unfold w8epsSharp
   exact mul_pos hE (Real.rpow_pos_of_pos h1 _)
 
-/-- (`bpW:w8:shell-data` (iv); conditional helper on the conclusion of `bpW:w5:initial`) The
+/-- (`bpW:w8:shell-data` (iv); hypothesis-taking variant on the conclusion of `bpW:w5:initial`) The
 hypotheses of Lemma `bpW:w6:prep-step` for shell `n`, given a perturbation `P` with field `X` that
 is a smoothing, periodic, real family on `Π_n` with `|X|^λ_{r_n, D(s, r_n)} ≤ ε_in(1 + 4λ/ρ_ξ)`
 (the conclusion of `bpW:w5:initial` for the data of (iii)). -/

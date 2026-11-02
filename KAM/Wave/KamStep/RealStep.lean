@@ -15,14 +15,11 @@ import Mathlib.Tactic.Positivity
 /-!
 # Reality clauses of the KAM step (blueprint-W `bpW:w5:step` (i), (ii); `bpW:w5:new-ham` (ii))
 
-Off-frontier, source-faithful infrastructure (W5-REAL, item 1); the dependency graph is still being
-built.
-
 * `stepTheorem_reality_of_eps0_pos` (`WaveStepHyp`, non-modified case): `Φ` maps real points of
   `D_+` to real points, and `P_+` is real at the real points of `D_+`.
 * `stepTheoremMod_reality_of_eps0_pos` (`StepHypMod`, modified case): the same.
 
-These two are conditional helpers: `WaveStepHyp`, `StepHypMod` carry the non-source premise
+These two are hypothesis-taking variants: `WaveStepHyp`, `StepHypMod` carry the non-source premise
 `ε₀ > 0`. The source-facing clauses are conjuncts of `stepTheorem`, `stepTheoremMod`
 (`StepTheoremSrc.lean`), derived through the splitting `(ε₀*, ε₁*)`.
 * `kamDomain_star_mem`: the domains `D(s,r)` are invariant under complex conjugation of all
@@ -35,8 +32,8 @@ real points (`stepField_real`) and its flow is real (`stepFlow_real`). For `P_+`
 real points, `Φ w` is real and `â₀ = [a]` is real.
 
 The `StepCore` statements `StepCore.phi_real_of_FT_real`, `StepCore.Pplus_real_of_FT_real` are
-conditional helpers: they assume that the abstract solution family `FT` is real, which `StepCore`
-does not record; `WaveStepHyp` and `StepHypMod` discharge it from W4.
+hypothesis-taking variants: they assume that the abstract solution family `FT` is real, which
+`StepCore` does not record; `WaveStepHyp` and `StepHypMod` discharge it from W4.
 -/
 
 @[expose] public noncomputable section
@@ -99,8 +96,8 @@ theorem a0_im {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) : (H.a0 ξ).im = 0 := by
 
 variable [Fact (0 < r)]
 
-/-- `Φ` maps real points of `D_+` to real points, conditional helper: it assumes that the abstract
-solution family `FT` is real (discharged for `WaveStepHyp`, `StepHypMod`). -/
+/-- `Φ` maps real points of `D_+` to real points, hypothesis-taking variant: it assumes that the
+abstract solution family `FT` is real (discharged for `WaveStepHyp`, `StepHypMod`). -/
 theorem phi_real_of_FT_real (hFT : ∀ ξ ∈ Par, (FT ξ).isRealTaylor) {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par)
     {w : StepPhase r} (hw : w ∈ stepDomain r (s - 5 * σ) (η * r))
     (hwr : StepReal (StepPhase.toK w)) : StepReal (StepPhase.toK (H.Phi ξ w)) :=
@@ -110,7 +107,7 @@ theorem phi_real_of_FT_real (hFT : ∀ ξ ∈ Par, (FT ξ).isRealTaylor) {ξ : F
       (hFT ξ hξ) hzr)
     (H.Dplus_sub_U hw) hwr ⟨by norm_num, le_rfl⟩
 
-/-- `P_+` is real at the real points of `D_+`, conditional helper (assumes `FT` real). -/
+/-- `P_+` is real at the real points of `D_+`, hypothesis-taking variant (assumes `FT` real). -/
 theorem Pplus_real_of_FT_real (hFT : ∀ ξ ∈ Par, (FT ξ).isRealTaylor) {ξ : Fin 2 → ℝ}
     (hξ : ξ ∈ Par) {w : StepPhase r} (hw : w ∈ stepDomain r (s - 5 * σ) (η * r))
     (hwr : StepReal (StepPhase.toK w)) : (H.Pplus ξ w).im = 0 := by

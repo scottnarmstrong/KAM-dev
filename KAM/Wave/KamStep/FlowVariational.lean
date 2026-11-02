@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The variational equation of the flow (`bpW:w5:flow-calc` (i), steps `c-cont`, `c-var`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 For `h : FlowHyp X V U M δ` and `w ∈ U`:
 `D φ^t(w) = I + ∫₀ᵗ DX(φ^σ w) Dφ^σ(w) dσ` (`fderiv_holoFlow_eq`), and `t ↦ Dφ^t(w)` is continuous on
 `[-1, 1]` (`continuousOn_fderiv_holoFlow_time`). The proof passes to the limit in the Picard

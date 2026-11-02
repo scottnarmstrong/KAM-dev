@@ -12,8 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The Hamiltonian field of a Taylor polynomial (blueprint-W `bpW:w5:solve`, step `s-class`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepField T w = (b/2π, -(1/2π)F_θ, F_v, -F_u)` is the field of `waveStepFun T` in the weighted
 representatives of `ℓ^N_{a,p_+}`; `stepFun_field` shows
 `D(waveStepFun T)(w) W = ϖ(stepField T w, W)`.

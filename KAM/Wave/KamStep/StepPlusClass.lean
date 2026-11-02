@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The commutator integral of `P_+` is a smoothing Hamiltonian (blueprint-W `bpW:w5:new-ham` (ii))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepGfam t = (1-t) {N̂,F} + t {R,F}` (the brackets `{R(t),F}` of `R(t) = (1-t)N̂ + tR`) with
 `G`-valued fields `stepZgfam` (Zeros of `Cauchy`-bounded size `O(εM_F/σ)`), and the conclusion of
 `newHam_integral_smoothing` on `D_+ = D(s-5σ, ηr)`.

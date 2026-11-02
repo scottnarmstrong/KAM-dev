@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.MainRealTori
 /-!
 # Weak invariance, real form (blueprint-W `bpW:w3:transport-tori-weak`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-MAIN, blueprint label `bpW:w3:transport-tori-weak`.
+Package W3-MAIN, blueprint label `bpW:w3:transport-tori-weak`.
 
 `birk_transport_tori_weak_real_aux`: for real `Ψ` (`ϱ Ψ = Ψ`) satisfying the weak equation in
 `𝔚_{a,p-1}`, `Ψ(θ) ∈ 𝔚⁺` (with the bound), and `(Q,P) = Π Γ Ψ` satisfies the coefficient

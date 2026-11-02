@@ -12,8 +12,6 @@ public import KAM.Wave.Normal.Analysis.SineProducts
 /-!
 # `G` and its gradient as absolutely convergent sums (blueprint `bpW:w0n:gradient`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 The quantities `U_m(q)`, `𝒢(q)_l`, `G(q)` of the blueprint (`bpW:w0:reconstruction`, `bpW:w0:Gq`,
 `bpW:w0:H`) for a *sequence* `q : ℕ+ → ℝ` (not only `ℓ^{1,1}`) are
 `KAM.Wave.waveU`, `KAM.Wave.waveCubic`, `KAM.Wave.waveG`. On `q ∈ ℓ^{1,1}` they agree with the
@@ -71,12 +69,6 @@ lemma waveU_eq_series (c : ℕ+ → ℝ) :
 
 lemma wave_sqrt_lam_pos (j : ℕ+) : 0 < Real.sqrt (lam m hm j) :=
   Real.sqrt_pos.2 (lt_of_lt_of_le one_pos (one_le_lam m hm j))
-
-lemma abs_waveHat_le (c : ℕ+ → ℝ) (j : ℕ+) : |waveHat m hm c j| ≤ |c j| := by
-  have h1 : 1 ≤ Real.sqrt (lam m hm j) := Real.one_le_sqrt.2 (one_le_lam m hm j)
-  unfold waveHat
-  rw [abs_div, abs_of_pos (lt_of_lt_of_le one_pos h1)]
-  exact div_le_self (abs_nonneg _) h1
 
 /-- `c ∈ ℓ^{a,p}` implies `c/√λ ∈ ℓ^{a,p}` with no larger norm. -/
 lemma waveEll_waveHat {a p : ℝ} {c : ℕ+ → ℝ} (hc : WaveEll a p c) :

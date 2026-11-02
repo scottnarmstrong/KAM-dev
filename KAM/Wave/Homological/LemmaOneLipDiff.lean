@@ -14,9 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Differences of the division operators as operators (`bpW:w4:lemma1`, step *Lipschitz*)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 The operator norms of `T_k(ξ) - T_k(ζ)` for the seven families, from `HomMultLip`:
 `norm_homTscal_sub_le`, `norm_homTvec_sub_le`, `norm_homTdp_sub_le`, `norm_homTdm_sub_le`,
 `norm_homTP_sub_le`, `norm_homTP'_sub_le`, `norm_homTQ_sub_le`, `norm_homTQt_sub_le`
@@ -103,7 +100,6 @@ theorem homHadamardCLM_sub {d₁ d₂ d₃ : ℕ+ → ℕ+ → ℂ} {c₁ c₂ c
   refine homOp_ext_entries fun i j => ?_
   simp only [sub_apply, homHadamardCLM_apply, kamEntry_sub', homHadamard_entry, h i j]
   ring
-
 
 theorem norm_hadSub_le {d₁ d₂ : ℕ+ → ℕ+ → ℂ} {c₁ c₂ c₃ : ℝ} (h₁ : HomHadamardBound d₁ c₁)
     (h₂ : HomHadamardBound d₂ c₂) (h₃ : HomHadamardBound (fun i j => d₁ i j - d₂ i j) c₃) :

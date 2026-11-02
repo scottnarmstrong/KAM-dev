@@ -11,9 +11,6 @@ public import Mathlib.Analysis.Matrix.Normed
 /-!
 # W7: the inverse of the frequency map (blueprint `bpW:w7:freqcoords` (i)–(iii))
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 Lemma `bpW:w7:freqcoords`, the parts not in `KAM.Wave.Measure.Coords`:
 (i) `A⁻¹ = (8π/21) [[-3λ₁², 4λ₁λ₂], [4λ₁λ₂, -3λ₂²]]` and `A⁻¹ b = (8π/21) λ_J` with
 `b = (λ₁⁻¹, λ₂⁻¹)`; (ii) the `ℓ^∞` operator norms (maximal absolute row sums,

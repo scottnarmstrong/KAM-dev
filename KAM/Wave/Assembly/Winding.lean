@@ -10,8 +10,7 @@ public import KAM.Wave.Assembly.Ext
 /-!
 # W8: winding of the tangential phases (blueprint `bpW:w8:winding`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w8:winding` (milestone W8).
+Blueprint label `bpW:w8:winding` (milestone W8).
 
 If `a(t) e^{-2πi φ(t)} = a'(t) e^{-2πi φ'(t)}` for all `t`, with `a, a' > 0` and `φ, φ'`
 continuous, and `φ(t) - t ν₀`, `φ'(t) - t ν₀'` bounded, then `ν₀ = ν₀'`

@@ -15,8 +15,6 @@ public import KAM.Wave.Recon.SineFeature
 /-!
 # Analytic reconstruction (blueprint `bpW:w1:recon-analytic`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 With `a = p = 1` and `β_j = λ_j^{-1/2}` (respectively `λ_j^{1/2}`) the real sine features of
 `KAM.Wave.sineFeatureR` give the derived reconstructions
 `U^{(k)}_y(x) = ⟨Ψ^{U,k}(x), y⟩`, `V^{(k)}_y(x) = ⟨Ψ^{V,k}(x), y⟩` (`KAM.Wave.reconUIter`,
@@ -145,12 +143,6 @@ def reconUIterCLM (k : ℕ) (x : ℝ) : lp (fun _ : ℕ+ => ℝ) 2 →L[ℝ] ℝ
 /-- `y ↦ V^{(k)}_y(x)` as a continuous linear functional (blueprint `bpW:w1:recon-analytic`). -/
 def reconVIterCLM (k : ℕ) (x : ℝ) : lp (fun _ : ℕ+ => ℝ) 2 →L[ℝ] ℝ :=
   innerSL ℝ (reconFeatureV m hm k x)
-
-lemma reconUIterCLM_apply (k : ℕ) (x : ℝ) (y : lp (fun _ : ℕ+ => ℝ) 2) :
-    reconUIterCLM m hm k x y = reconUIter m hm k y x := innerSL_apply_apply ℝ _ _
-
-lemma reconVIterCLM_apply (k : ℕ) (x : ℝ) (y : lp (fun _ : ℕ+ => ℝ) 2) :
-    reconVIterCLM m hm k x y = reconVIter m hm k y x := innerSL_apply_apply ℝ _ _
 
 /-- The series form of `U^{(k)}_y(x)`, absolutely convergent (blueprint `bpW:w1:recon-analytic`,
 step `stepW:w1:bil`). -/

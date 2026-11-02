@@ -14,7 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The action–angle substitution is symplectic (blueprint-W `bpW:w5:action-angle` (iii))
 
-Off-frontier, source-faithful infrastructure (W5-AA); the dependency graph is still being built.
 Blueprint label `bpW:w5:action-angle` (iii), step `a-der` (the form).
 
 * `birkOmegaMix ha hqq' W W' = i Σ_l sgn(l) W_l W'_{-l}` (actual coordinates of `W ∈ 𝔚^q`,

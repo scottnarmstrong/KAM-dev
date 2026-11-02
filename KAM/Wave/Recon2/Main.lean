@@ -10,7 +10,7 @@ public import KAM.Wave.Recon2.Curve
 /-!
 # PDE solutions on invariant tori (blueprint `bpW:w2:main`, `bpW:w2:clause5`)
 
-Infrastructure used by several nodes; the dependency graph is still being built. Blueprint labels
+Blueprint labels
 `bpW:w2:main`, `bpW:w2:clause5` (milestone W2).
 
 * `KAM.Wave.reconWave_main` (Theorem `bpW:w2:main`): for `K : ℝ² → WaveSpace` with
