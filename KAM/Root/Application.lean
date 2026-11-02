@@ -24,7 +24,11 @@ public import KAM.Application.LambdaDrift.LieCalculus
 public import KAM.Application.LambdaDrift.LieRemainder
 public import KAM.Application.LambdaDrift.LieRemainderChart
 public import KAM.Application.LambdaDrift.NoCrossing
+public import KAM.Application.LambdaDrift.ObservableBridge
+public import KAM.Application.LambdaDrift.ObservableNoCrossing
 public import KAM.Application.LambdaDrift.Poisson
+public import KAM.Application.LambdaDrift.ReducedElements
+public import KAM.Application.LambdaDrift.ReducedRange
 public import KAM.Application.LambdaDrift.Rotation
 public import KAM.Application.LambdaDrift.Threshold
 public import KAM.Application.Observables
