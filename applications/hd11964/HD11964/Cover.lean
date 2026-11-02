@@ -25,8 +25,8 @@ The order-2 cover of the region `R(d)` (HD11964-CELLS) by **affine cells** `x = 
 
 Status: committed unbuilt (not imported by the package root) before the 2 November 05:00 reboot;
 every declaration was checked in a scratch elaboration (`lake env lean`, exit 0, no proof
-escape). It lands after the reboot with narrower imports (orchestrator ruling). The fitted plan and its check
-are in `HD11964.CoverPlan`.
+escape). It lands after the reboot with narrower imports (orchestrator ruling). The fitted plan
+and its check are in `HD11964.CoverPlan`.
 -/
 
 @[expose] public noncomputable section
