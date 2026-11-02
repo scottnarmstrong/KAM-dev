@@ -18,6 +18,7 @@ public import HD11964.ParamIntegral
 public import HD11964.NoCrossing
 public import HD11964.NoCrossingObs
 public import HD11964.ReducedRange
+public import HD11964.TailAniso
 public import HD11964.TailBound
 public import HD11964.TailSum
 public import HD11964.Threshold
@@ -39,7 +40,8 @@ smooth on angle-saturated sets (`HD11964.ChiSmooth`), `{χ*, h} = Π_S P` and th
 (`HD11964.Homological`), and the HD 11964 instance (`HD11964.ChiHD`). The rotation invariance of
 `F` and the tails (HD11964-ROT): `hFrot` for HD 11964 and the assembled no-crossing statement from
 the cell bounds (`HD11964.ChiRot`), the tail weight of a box mode set (`HD11964.TailSum`), and the
-tails `T₁`, `T₂` from Fourier decay on a strip (`HD11964.TailBound`).
+tails `T₁`, `T₂` from Fourier decay on a strip (`HD11964.TailBound`) and on an anisotropic strip
+(`HD11964.TailAniso`).
 
 The reduced-mass bridge (scoping note §4): the reduced Delaunay actions and the analytic range of
 `G - Λ` on `R(r)` (`HD11964.ReducedRange`), and no orbit crossing with the first exit driven by

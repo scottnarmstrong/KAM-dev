@@ -236,20 +236,69 @@ theorem norm_charE_real (k : Fin 2 → ℤ) (x : Fin 2 → ℝ) :
     ‖charE k (fun j => (x j : ℂ))‖ = 1 :=
   KAM.norm_character_real k x
 
-/-- **(2c) The tail bound at a point.** -/
-theorem abs_dirDeriv_sub_projS_le {U : Set (Phase (2 + 2))} (hU : IsOpen U)
+/-- The Fourier coefficients of a slice: `P̂_k(w)` is the torus coefficient of
+`x ↦ Q(withAngles w (2πx))`. -/
+theorem chartCoeff_eq_torusCoeff (Q : Phase (2 + 2) → ℝ) (w : Phase (2 + 2))
+    (hc : Continuous fun x : Fin 2 → ℝ => (Q (withAngles w fun j => 2 * π * x j) : ℂ))
+    (k : Fin 2 → ℤ) :
+    chartCoeff Q k w = KAM.torusCoeff (fun x => (Q (withAngles w fun j => 2 * π * x j) : ℂ)) k := by
+  rw [torusCoeff_eq_iint hc k]
+  unfold chartCoeff
+  refine intervalIntegral.integral_congr fun t₀ _ =>
+    intervalIntegral.integral_congr fun t₁ _ => ?_
+  have e : (fun j => 2 * π * (![t₀, t₁] : Fin 2 → ℝ) j) = ![2 * π * t₀, 2 * π * t₁] := by
+    funext j
+    fin_cases j <;> rfl
+  simp only [e]
+
+/-- Orthogonality: the torus coefficients of a character. -/
+theorem torusCoeff_charE (k' k : Fin 2 → ℤ) :
+    KAM.torusCoeff (fun x : Fin 2 → ℝ => charE k' (fun j => (x j : ℂ))) k =
+      if k' = k then 1 else 0 := by
+  unfold KAM.torusCoeff
+  simp only [← charE_eq_character]
+  have e : ∀ x : Fin 2 → ℝ, charE (-k) (fun j => (x j : ℂ)) * charE k' (fun j => (x j : ℂ)) =
+      KAM.character (-k + k') (fun j => (x j : ℂ)) := fun x => KAM.character_mul _ _ _
+  simp only [e, KAM.torusAverage_character]
+  by_cases h : k' = k
+  · subst h; simp
+  · have h' : -k + k' ≠ 0 := fun h' => h (by rw [neg_add_eq_zero] at h'; exact h'.symm)
+    simp [h, h']
+
+theorem continuous_charE_real (k : Fin 2 → ℤ) :
+    Continuous fun x : Fin 2 → ℝ => charE k (fun j => (x j : ℂ)) :=
+  (differentiable_charE k).continuous.comp continuous_ofRealVec
+
+/-- The torus coefficients of `v` minus a trigonometric polynomial. -/
+theorem torusCoeff_sub_trig {v : (Fin 2 → ℝ) → ℂ} (hv : Continuous v) (T : Finset (Fin 2 → ℤ))
+    (a : (Fin 2 → ℤ) → ℂ) (k : Fin 2 → ℤ) :
+    KAM.torusCoeff (fun x => v x - ∑ k' ∈ T, a k' * charE k' (fun j => (x j : ℂ))) k =
+      KAM.torusCoeff v k - if k ∈ T then a k else 0 := by
+  rw [KAM.torusCoeff_sub (f := v)
+    (g := fun x : Fin 2 → ℝ => ∑ k' ∈ T, a k' * charE k' (fun j => (x j : ℂ))) hv
+    (continuous_finsetSum _ fun k' _ => continuous_const.mul (continuous_charE_real k')),
+    KAM.torusCoeff_finset_sum_mul T continuous_charE_real a k]
+  simp only [torusCoeff_charE, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq']
+
+/-- **The tail bound at a point, from bounds on the Fourier coefficients** (the core of (2c)): for
+`Q` smooth on an open angle-saturated `U`, `2π`-periodic along the slice at `w ∈ U`, with
+`|Q̂_k(w) - a_k [k ∈ T]| ≤ d_k` and `Σ |k_i| d_k < ∞`,
+`|D_i (Q - Π_S Q)(w)| ≤ Σ_{k ∈ T \ S} |k_i| |a_k| + Σ_{k ∉ S} |k_i| d_k`. -/
+theorem abs_dirDeriv_sub_projS_le_of_coeff {U : Set (Phase (2 + 2))} (hU : IsOpen U)
     (hsat : IsAngleSaturated U) {Q : Phase (2 + 2) → ℝ} (hQ : ContDiffOn ℝ ∞ Q U)
-    (S T : Finset (Fin 2 → ℤ)) (i : Fin 2) {w : Phase (2 + 2)} (hw : w ∈ U) {ρ r : ℝ}
-    (hρ : 0 < ρ) {Qc : (Fin 2 → ℂ) → ℂ} (hQc : DifferentiableOn ℂ Qc (complexStrip 2 ρ))
-    (hper : ∀ (j : Fin 2) (θ : Fin 2 → ℂ), θ ∈ complexStrip 2 ρ → Qc (θ + Pi.single j 1) = Qc θ)
-    (hlink : ∀ t : Fin 2 → ℝ, Qc (fun j => (t j : ℂ)) = (Q (withAngles w fun j => 2 * π * t j) : ℂ))
-    (a : (Fin 2 → ℤ) → ℂ) (hrem : ∀ θ ∈ complexStrip 2 ρ, ‖Qc θ - ∑ k ∈ T, a k * charE k θ‖ ≤ r) :
+    (S T : Finset (Fin 2 → ℤ)) (i : Fin 2) {w : Phase (2 + 2)} (hw : w ∈ U)
+    (hper : ∀ (j : Fin 2) (x : Fin 2 → ℝ),
+      Q (withAngles w fun l => 2 * π * (x + Pi.single j 1 : Fin 2 → ℝ) l) =
+        Q (withAngles w fun l => 2 * π * x l))
+    (a : (Fin 2 → ℤ) → ℂ) (d : (Fin 2 → ℤ) → ℝ)
+    (hcoef : ∀ k, ‖chartCoeff Q k w - (if k ∈ T then a k else 0)‖ ≤ d k)
+    (hd : Summable fun k : Fin 2 → ℤ => |(k i : ℝ)| * d k) :
     |dirDeriv (angleDir (Fin.castAdd 2 i)) (fun y => Q y - projS S Q y) w| ≤
-      ∑ k ∈ T \ S, |(k i : ℝ)| * ‖a k‖ + r * tailWeight S i ρ := by
+      ∑ k ∈ T \ S, |(k i : ℝ)| * ‖a k‖ + ∑' k, if k ∈ S then 0 else |(k i : ℝ)| * d k := by
   have hpi : (2 * π : ℝ) ≠ 0 := by positivity
+  have hd0 : ∀ k, 0 ≤ d k := fun k => (norm_nonneg _).trans (hcoef k)
   -- the slice and its coefficients
   set g : (Fin 2 → ℝ) → ℂ := fun x => (Q (withAngles w fun j => 2 * π * x j) : ℂ) with hg
-  have hgQ : ∀ x, g x = Qc (fun j => (x j : ℂ)) := fun x => (hlink x).symm
   have hσ : ContDiff ℝ ∞ fun x : Fin 2 → ℝ => withAngles w fun j => 2 * π * x j :=
     contDiff_withAngles.comp (contDiff_const.prodMk
       (contDiff_pi.2 fun j => contDiff_const.mul (contDiff_coord j)))
@@ -258,70 +307,14 @@ theorem abs_dirDeriv_sub_projS_le {U : Set (Phase (2 + 2))} (hU : IsOpen U)
       (by exact_mod_cast le_top)
   have hgp : ∀ (j : Fin 2) x, g (x + Pi.single j 1) = g x := by
     intro j x
-    have e : (fun l => (((x + Pi.single j 1 : Fin 2 → ℝ) l : ℝ) : ℂ)) =
-        (fun l => (x l : ℂ)) + Pi.single j 1 := by
-      funext l
-      by_cases h : l = j
-      · subst h; simp
-      · simp [h]
-    rw [hgQ, hgQ, e, hper j _ (KAM.ofReal_mem_complexStrip hρ x)]
+    simp only [hg]
+    rw [hper j x]
   set c : (Fin 2 → ℤ) → ℂ := KAM.torusCoeff g with hcdef
-  have hchart : ∀ k, chartCoeff Q k w = c k := by
+  have hchart : ∀ k, chartCoeff Q k w = c k := chartCoeff_eq_torusCoeff Q w hgC.continuous
+  have hcb : ∀ k, ‖c k‖ ≤ (if k ∈ T then ‖a k‖ else 0) + d k := by
     intro k
-    rw [hcdef, torusCoeff_eq_iint hgC.continuous k]
-    unfold chartCoeff
-    refine intervalIntegral.integral_congr fun t₀ _ =>
-      intervalIntegral.integral_congr fun t₁ _ => ?_
-    have e : (fun j => 2 * π * (![t₀, t₁] : Fin 2 → ℝ) j) = ![2 * π * t₀, 2 * π * t₁] := by
-      funext j
-      fin_cases j <;> rfl
-    simp only [hg, e]
-  -- decay
-  have hdecay : ∀ k, ‖c k - (if k ∈ T then a k else 0)‖ ≤
-      Real.exp (-(2 * π * ρ * ∑ j, |(k j : ℝ)|)) * r := by
-    intro k
-    have hf : DifferentiableOn ℂ (fun θ => Qc θ - ∑ k ∈ T, a k * charE k θ) (complexStrip 2 ρ) :=
-      hQc.sub (Differentiable.fun_sum fun k _ =>
-        (differentiable_const _).mul (differentiable_charE k)).differentiableOn
-    have hfp : ∀ (j : Fin 2) (θ : Fin 2 → ℂ), θ ∈ complexStrip 2 ρ →
-        Qc (θ + Pi.single j 1) - ∑ k ∈ T, a k * charE k (θ + Pi.single j 1) =
-          Qc θ - ∑ k ∈ T, a k * charE k θ := by
-      intro j θ hθ
-      simp only [hper j θ hθ, charE_add_single]
-    have h := KAM.norm_torusCoeff_le hρ hf hfp hrem k
-    have hcQ : Continuous fun x : Fin 2 → ℝ => Qc (fun j => (x j : ℂ)) :=
-      hQc.continuousOn.comp_continuous continuous_ofRealVec
-        fun x => KAM.ofReal_mem_complexStrip hρ x
-    have hch : ∀ k' : Fin 2 → ℤ, Continuous fun x : Fin 2 → ℝ => charE k' (fun j => (x j : ℂ)) :=
-      fun k' => (differentiable_charE k').continuous.comp continuous_ofRealVec
-    have hlin : KAM.torusCoeff (fun x : Fin 2 → ℝ => Qc (fun j => (x j : ℂ)) -
-        ∑ k' ∈ T, a k' * charE k' (fun j => (x j : ℂ))) k = c k - if k ∈ T then a k else 0 := by
-      rw [KAM.torusCoeff_sub (f := fun x : Fin 2 → ℝ => Qc (fun j => (x j : ℂ)))
-        (g := fun x : Fin 2 → ℝ => ∑ k' ∈ T, a k' * charE k' (fun j => (x j : ℂ))) hcQ
-        (continuous_finsetSum _ fun k' _ => continuous_const.mul (hch k')),
-        KAM.torusCoeff_finset_sum_mul T hch a k]
-      have horth : ∀ k' : Fin 2 → ℤ, KAM.torusCoeff (fun x : Fin 2 → ℝ =>
-          charE k' (fun j => (x j : ℂ))) k = if k' = k then 1 else 0 := by
-        intro k'
-        unfold KAM.torusCoeff
-        simp only [← charE_eq_character]
-        have e : ∀ x : Fin 2 → ℝ, charE (-k) (fun j => (x j : ℂ)) * charE k' (fun j => (x j : ℂ)) =
-            KAM.character (-k + k') (fun j => (x j : ℂ)) := fun x => KAM.character_mul _ _ _
-        simp only [e, KAM.torusAverage_character]
-        by_cases h : k' = k
-        · subst h; simp
-        · have h' : -k + k' ≠ 0 := fun h' => h (by rw [neg_add_eq_zero] at h'; exact h'.symm)
-          simp [h, h']
-      simp only [horth, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', hcdef]
-      congr 2
-      funext x
-      exact (hgQ x).symm
-    rw [hlin] at h
-    exact h
-  have hcb : ∀ k, ‖c k‖ ≤ (if k ∈ T then ‖a k‖ else 0) +
-      Real.exp (-(2 * π * ρ * ∑ j, |(k j : ℝ)|)) * r := by
-    intro k
-    have h := (norm_sub_norm_le (c k) (if k ∈ T then a k else 0)).trans (hdecay k)
+    have h := (norm_sub_norm_le (c k) (if k ∈ T then a k else 0)).trans
+      ((hchart k) ▸ hcoef k)
     have e : ‖(if k ∈ T then a k else 0)‖ = if k ∈ T then ‖a k‖ else 0 := by
       split_ifs <;> simp
     rw [e] at h
@@ -339,18 +332,17 @@ theorem abs_dirDeriv_sub_projS_le {U : Set (Phase (2 + 2))} (hU : IsOpen U)
     fun k => KAM.torusCoeff_fderiv_coordinate_real hgC hgp i k
   set x₀ : Fin 2 → ℝ := fun l => fast w.1 l / (2 * π) with hx₀
   -- the bound on the derivative's coefficients
-  set B : (Fin 2 → ℤ) → ℝ := fun k => |(k i : ℝ)| * ((if k ∈ T then ‖a k‖ else 0) +
-      Real.exp (-(2 * π * ρ * ∑ j, |(k j : ℝ)|)) * r) with hBdef
-  have hr0 : 0 ≤ r := (norm_nonneg _).trans (hrem _ (KAM.ofReal_mem_complexStrip hρ 0))
+  set B : (Fin 2 → ℤ) → ℝ := fun k => |(k i : ℝ)| * ((if k ∈ T then ‖a k‖ else 0) + d k)
+    with hBdef
   have hBs : Summable B := by
     have h1 : Summable fun k : Fin 2 → ℤ => |(k i : ℝ)| * (if k ∈ T then ‖a k‖ else 0) :=
       summable_of_ne_finset_zero (s := T) fun k hk => by simp [hk]
-    have h2 := (summable_absMul_exp i hρ).mul_right r
-    refine (h1.add h2).congr fun k => ?_
+    refine (h1.add hd).congr fun k => ?_
     simp only [hBdef]
     ring
   have hcB : ∀ k, |(k i : ℝ)| * ‖c k‖ ≤ B k := fun k =>
     mul_le_mul_of_nonneg_left (hcb k) (abs_nonneg _)
+  have hB0 : ∀ k, 0 ≤ B k := fun k => (mul_nonneg (abs_nonneg _) (norm_nonneg _)).trans (hcB k)
   have hDs : Summable fun k => ‖KAM.torusCoeff Dg k‖ := by
     refine ((hBs.mul_left (2 * π)).of_nonneg_of_le (fun _ => norm_nonneg _) fun k => ?_)
     rw [hDcoef]
@@ -430,28 +422,39 @@ theorem abs_dirDeriv_sub_projS_le {U : Set (Phase (2 + 2))} (hU : IsOpen U)
       simp only [norm_mul, norm_charE_real, Complex.norm_I, Complex.norm_intCast, mul_one, one_mul]
       rw [mul_comm]
       exact hcB k
-  have hBS : Summable fun k => if k ∈ S then 0 else B k :=
-    hBs.of_nonneg_of_le (fun k => by split_ifs <;> [exact le_rfl; positivity])
-      fun k => by split_ifs <;> [positivity; exact le_rfl]
+  have hBS : Summable fun k => if k ∈ S then 0 else B k := by
+    refine hBs.of_nonneg_of_le (fun k => ?_) (fun k => ?_)
+    · split_ifs
+      · exact le_rfl
+      · exact hB0 k
+    · split_ifs
+      · exact hB0 k
+      · exact le_rfl
   have hnorm : ‖((2 * π)⁻¹ : ℝ) • Dg x₀ - ∑ k ∈ S, b k‖ ≤ ∑' k, if k ∈ S then 0 else B k := by
     rw [← htail.tsum_eq]
     exact (norm_tsum_le_tsum_norm (hBS.of_nonneg_of_le (fun _ => norm_nonneg _) hbn)).trans
       ((hBS.of_nonneg_of_le (fun _ => norm_nonneg _) hbn).tsum_le_tsum hbn hBS)
   -- the tail sum
   have hsplit : (∑' k, if k ∈ S then 0 else B k) =
-      ∑ k ∈ T \ S, |(k i : ℝ)| * ‖a k‖ + r * tailWeight S i ρ := by
+      ∑ k ∈ T \ S, |(k i : ℝ)| * ‖a k‖ + ∑' k, if k ∈ S then 0 else |(k i : ℝ)| * d k := by
     have h1 : Summable fun k : Fin 2 → ℤ =>
         if k ∈ S then 0 else |(k i : ℝ)| * (if k ∈ T then ‖a k‖ else 0) :=
       summable_of_ne_finset_zero (s := T) fun k hk => by simp [hk]
-    have h2 := (summable_tailTerm S i hρ).mul_left r
+    have h2 : Summable fun k : Fin 2 → ℤ => if k ∈ S then 0 else |(k i : ℝ)| * d k := by
+      refine hd.of_nonneg_of_le (fun k => ?_) (fun k => ?_)
+      · split_ifs
+        · exact le_rfl
+        · exact mul_nonneg (abs_nonneg _) (hd0 k)
+      · split_ifs
+        · exact mul_nonneg (abs_nonneg _) (hd0 k)
+        · exact le_rfl
     have e : (fun k => if k ∈ S then 0 else B k) = fun k =>
         (if k ∈ S then 0 else |(k i : ℝ)| * (if k ∈ T then ‖a k‖ else 0)) +
-          r * (if k ∈ S then 0 else
-            |(k i : ℝ)| * Real.exp (-(2 * π * ρ * ∑ j, |(k j : ℝ)|))) := by
+          (if k ∈ S then 0 else |(k i : ℝ)| * d k) := by
       funext k
       simp only [hBdef]
       split_ifs <;> ring
-    rw [e, h1.tsum_add h2, tsum_mul_left, tailWeight]
+    rw [e, h1.tsum_add h2]
     congr 1
     rw [tsum_eq_sum (s := T \ S) fun k hk => by
       rw [Finset.mem_sdiff] at hk
@@ -464,6 +467,58 @@ theorem abs_dirDeriv_sub_projS_le {U : Set (Phase (2 + 2))} (hU : IsOpen U)
     simp [hk.1, hk.2]
   rw [hD, ← hsplit]
   exact (Complex.abs_re_le_norm _).trans hnorm
+
+theorem ofReal_add_single (x : Fin 2 → ℝ) (j : Fin 2) :
+    (fun l => (((x + Pi.single j 1 : Fin 2 → ℝ) l : ℝ) : ℂ)) =
+      (fun l => (x l : ℂ)) + Pi.single j 1 := by
+  funext l
+  by_cases h : l = j
+  · subst h; simp
+  · simp [h]
+
+/-- **(2c) The tail bound at a point.** -/
+theorem abs_dirDeriv_sub_projS_le {U : Set (Phase (2 + 2))} (hU : IsOpen U)
+    (hsat : IsAngleSaturated U) {Q : Phase (2 + 2) → ℝ} (hQ : ContDiffOn ℝ ∞ Q U)
+    (S T : Finset (Fin 2 → ℤ)) (i : Fin 2) {w : Phase (2 + 2)} (hw : w ∈ U) {ρ r : ℝ}
+    (hρ : 0 < ρ) {Qc : (Fin 2 → ℂ) → ℂ} (hQc : DifferentiableOn ℂ Qc (complexStrip 2 ρ))
+    (hper : ∀ (j : Fin 2) (θ : Fin 2 → ℂ), θ ∈ complexStrip 2 ρ → Qc (θ + Pi.single j 1) = Qc θ)
+    (hlink : ∀ t : Fin 2 → ℝ, Qc (fun j => (t j : ℂ)) = (Q (withAngles w fun j => 2 * π * t j) : ℂ))
+    (a : (Fin 2 → ℤ) → ℂ) (hrem : ∀ θ ∈ complexStrip 2 ρ, ‖Qc θ - ∑ k ∈ T, a k * charE k θ‖ ≤ r) :
+    |dirDeriv (angleDir (Fin.castAdd 2 i)) (fun y => Q y - projS S Q y) w| ≤
+      ∑ k ∈ T \ S, |(k i : ℝ)| * ‖a k‖ + r * tailWeight S i ρ := by
+  have hr0 : 0 ≤ r := (norm_nonneg _).trans (hrem _ (KAM.ofReal_mem_complexStrip hρ 0))
+  have hcQ : Continuous fun x : Fin 2 → ℝ => Qc (fun j => (x j : ℂ)) :=
+    hQc.continuousOn.comp_continuous continuous_ofRealVec fun x => KAM.ofReal_mem_complexStrip hρ x
+  have hgQ : (fun x : Fin 2 → ℝ => (Q (withAngles w fun j => 2 * π * x j) : ℂ)) =
+      fun x => Qc (fun j => (x j : ℂ)) := funext fun x => (hlink x).symm
+  have hpers : ∀ (j : Fin 2) (x : Fin 2 → ℝ),
+      Q (withAngles w fun l => 2 * π * (x + Pi.single j 1 : Fin 2 → ℝ) l) =
+        Q (withAngles w fun l => 2 * π * x l) := by
+    intro j x
+    apply Complex.ofReal_injective
+    rw [← hlink, ← hlink, ofReal_add_single, hper j _ (KAM.ofReal_mem_complexStrip hρ x)]
+  have hcoef : ∀ k, ‖chartCoeff Q k w - (if k ∈ T then a k else 0)‖ ≤
+      Real.exp (-(2 * π * ρ * ∑ j, |(k j : ℝ)|)) * r := by
+    intro k
+    have hf : DifferentiableOn ℂ (fun θ => Qc θ - ∑ k ∈ T, a k * charE k θ) (complexStrip 2 ρ) :=
+      hQc.sub (Differentiable.fun_sum fun k _ =>
+        (differentiable_const _).mul (differentiable_charE k)).differentiableOn
+    have hfp : ∀ (j : Fin 2) (θ : Fin 2 → ℂ), θ ∈ complexStrip 2 ρ →
+        Qc (θ + Pi.single j 1) - ∑ k ∈ T, a k * charE k (θ + Pi.single j 1) =
+          Qc θ - ∑ k ∈ T, a k * charE k θ := by
+      intro j θ hθ
+      simp only [hper j θ hθ, charE_add_single]
+    have h := KAM.norm_torusCoeff_le hρ hf hfp hrem k
+    rw [torusCoeff_sub_trig hcQ T a k] at h
+    rw [chartCoeff_eq_torusCoeff Q w (hgQ ▸ hcQ) k, hgQ]
+    exact h
+  have h := abs_dirDeriv_sub_projS_le_of_coeff hU hsat hQ S T i hw hpers a _ hcoef
+    (((summable_absMul_exp i hρ).mul_right r).congr fun k => by ring)
+  refine h.trans (le_of_eq ?_)
+  rw [tailWeight, ← tsum_mul_left]
+  congr 1
+  refine tsum_congr fun k => ?_
+  split_ifs <;> ring
 
 /-! ### (2d) The tails on a cell -/
 

@@ -20,6 +20,8 @@ The sup bound on a Fourier tail `D_i (Q - Π_S Q)` from a strip of width `ρ` ca
   `Σ_{|m| > K} q^{|m|} = 2q^{K+1}/(1 - q)` and
   `Σ_{|m| > K} |m| q^{|m|} = 2q^{K+1}((K + 1) - Kq)/(1 - q)²`,
   at any `q < 1` with `e^{-2πρ} ≤ q` (a rational upper bound is data).
+* `tailWeightA`, `summable_absMul_expA`, `tailWeightA_box_le`: the same on an anisotropic strip
+  (widths `σ₀`, `σ₁` for the two angles; `q₀ ≥ e^{-2πσ₀}`, `q₁ ≥ e^{-2πσ₁}`).
 -/
 
 @[expose] public noncomputable section
@@ -287,6 +289,137 @@ theorem tailWeight_le_boxTailBound (K₀ K₁ : ℕ) {S : Finset (Fin 2 → ℤ)
   fin_cases i
   · simpa [boxTailBound] using h.1
   · simpa [boxTailBound] using h.2
+
+/-! ### The anisotropic weight -/
+
+/-- The anisotropic tail weight `Σ_{k ∉ S} |k_i| e^{-2π(σ₀|k_0| + σ₁|k_1|)}`. -/
+def tailWeightA (S : Finset (Fin 2 → ℤ)) (i : Fin 2) (σ₀ σ₁ : ℝ) : ℝ :=
+  ∑' k : Fin 2 → ℤ,
+    if k ∈ S then 0 else |(k i : ℝ)| * Real.exp (-(2 * π * (σ₀ * |(k 0 : ℝ)| + σ₁ * |(k 1 : ℝ)|)))
+
+theorem exp_aniso_eq_pow (σ₀ σ₁ : ℝ) (k : Fin 2 → ℤ) :
+    Real.exp (-(2 * π * (σ₀ * |(k 0 : ℝ)| + σ₁ * |(k 1 : ℝ)|))) =
+      Real.exp (-(2 * π * σ₀)) ^ (k 0).natAbs * Real.exp (-(2 * π * σ₁)) ^ (k 1).natAbs := by
+  rw [← Real.exp_nat_mul, ← Real.exp_nat_mul, ← Real.exp_add, natAbs_cast_eq_abs,
+    natAbs_cast_eq_abs]
+  ring_nf
+
+theorem exp_neg_lt_one {σ : ℝ} (hσ : 0 < σ) : Real.exp (-(2 * π * σ)) < 1 := by
+  rw [← Real.exp_zero]
+  exact Real.exp_lt_exp.mpr (by have := Real.pi_pos; nlinarith)
+
+/-- **The anisotropic weight's series converges** for `σ₀, σ₁ > 0`. -/
+theorem summable_absMul_expA (i : Fin 2) {σ₀ σ₁ : ℝ} (h₀ : 0 < σ₀) (h₁ : 0 < σ₁) :
+    Summable fun k : Fin 2 → ℤ =>
+      |(k i : ℝ)| * Real.exp (-(2 * π * (σ₀ * |(k 0 : ℝ)| + σ₁ * |(k 1 : ℝ)|))) := by
+  set q₀ := Real.exp (-(2 * π * σ₀))
+  set q₁ := Real.exp (-(2 * π * σ₁))
+  have hq₀ : 0 ≤ q₀ := (Real.exp_pos _).le
+  have hq₁ : 0 ≤ q₁ := (Real.exp_pos _).le
+  have hn0 : ∀ (q : ℝ), 0 ≤ q → ∀ m : ℤ, 0 ≤ q ^ m.natAbs := fun q hq m => pow_nonneg hq _
+  have hn1 : ∀ (q : ℝ), 0 ≤ q → ∀ m : ℤ, 0 ≤ (m.natAbs : ℝ) * q ^ m.natAbs :=
+    fun q hq m => mul_nonneg (Nat.cast_nonneg _) (pow_nonneg hq _)
+  fin_cases i
+  · refine (hasSum_fin2_mul (hasSum_int_mul_pow hq₀ (exp_neg_lt_one h₀))
+      (hasSum_int_pow hq₁ (exp_neg_lt_one h₁)) (hn1 q₀ hq₀) (hn0 q₁ hq₁)).summable.congr fun k => ?_
+    simp only [exp_aniso_eq_pow, natAbs_cast_eq_abs]
+    simp
+    ring
+  · refine (hasSum_fin2_mul (hasSum_int_pow hq₀ (exp_neg_lt_one h₀))
+      (hasSum_int_mul_pow hq₁ (exp_neg_lt_one h₁)) (hn0 q₀ hq₀) (hn1 q₁ hq₁)).summable.congr
+        fun k => ?_
+    simp only [exp_aniso_eq_pow, natAbs_cast_eq_abs]
+    simp
+    ring
+
+theorem summable_tailTermA (S : Finset (Fin 2 → ℤ)) (i : Fin 2) {σ₀ σ₁ : ℝ} (h₀ : 0 < σ₀)
+    (h₁ : 0 < σ₁) :
+    Summable fun k : Fin 2 → ℤ => if k ∈ S then 0 else
+      |(k i : ℝ)| * Real.exp (-(2 * π * (σ₀ * |(k 0 : ℝ)| + σ₁ * |(k 1 : ℝ)|))) :=
+  (summable_absMul_expA i h₀ h₁).of_nonneg_of_le (fun k => by split_ifs <;> positivity)
+    fun k => by split_ifs <;> [positivity; exact le_rfl]
+
+/-- The closed-form bound of `tailWeightA_box_le`, per angle. -/
+def boxTailBoundA (K₀ K₁ : ℕ) (i : Fin 2) (q₀ q₁ : ℝ) : ℝ :=
+  if i = 0 then geomT1 K₀ q₀ * geomS0 q₁ + geomS1 q₀ * geomT0 K₁ q₁
+  else geomT0 K₀ q₀ * geomS1 q₁ + geomS0 q₀ * geomT1 K₁ q₁
+
+/-- **The anisotropic tail weight of a box mode set in closed form**, at any `q₀, q₁ < 1` with
+`e^{-2πσ₀} ≤ q₀`, `e^{-2πσ₁} ≤ q₁`. -/
+theorem tailWeightA_le_boxTailBoundA (K₀ K₁ : ℕ) {S : Finset (Fin 2 → ℤ)} (i : Fin 2)
+    {σ₀ σ₁ q₀ q₁ : ℝ} (h₀ : 0 < σ₀) (h₁ : 0 < σ₁)
+    (hS : ∀ k : Fin 2 → ℤ, k ≠ 0 → |k 0| ≤ K₀ → |k 1| ≤ K₁ → k ∈ S)
+    (hq₀ : Real.exp (-(2 * π * σ₀)) ≤ q₀) (hq₀1 : q₀ < 1)
+    (hq₁ : Real.exp (-(2 * π * σ₁)) ≤ q₁) (hq₁1 : q₁ < 1) :
+    tailWeightA S i σ₀ σ₁ ≤ boxTailBoundA K₀ K₁ i q₀ q₁ := by
+  have hq0 : 0 ≤ q₀ := (Real.exp_pos _).le.trans hq₀
+  have hq1 : 0 ≤ q₁ := (Real.exp_pos _).le.trans hq₁
+  set M : (Fin 2 → ℤ) → ℝ := fun k =>
+    ((k i).natAbs : ℝ) * (q₀ ^ (k 0).natAbs * q₁ ^ (k 1).natAbs) *
+      ((if K₀ < (k 0).natAbs then 1 else 0) + (if K₁ < (k 1).natAbs then 1 else 0)) with hM
+  have hle : ∀ k, (if k ∈ S then 0 else |(k i : ℝ)| *
+      Real.exp (-(2 * π * (σ₀ * |(k 0 : ℝ)| + σ₁ * |(k 1 : ℝ)|)))) ≤ M k := by
+    intro k
+    have hM0 : 0 ≤ M k := by rw [hM]; positivity
+    split_ifs with hk
+    · exact hM0
+    · by_cases h0 : k = 0
+      · subst h0
+        simp only [Pi.zero_apply, Int.cast_zero, abs_zero, zero_mul]
+        exact hM0
+      have hout : K₀ < (k 0).natAbs ∨ K₁ < (k 1).natAbs := by
+        by_contra hc
+        push Not at hc
+        refine hk (hS k h0 ?_ ?_)
+        · rw [← Int.natCast_natAbs]; exact_mod_cast hc.1
+        · rw [← Int.natCast_natAbs]; exact_mod_cast hc.2
+      have hind : 1 ≤ ((if K₀ < (k 0).natAbs then (1 : ℝ) else 0) +
+          (if K₁ < (k 1).natAbs then 1 else 0)) := by
+        have hA : (0 : ℝ) ≤ if K₀ < (k 0).natAbs then 1 else 0 := by split_ifs <;> norm_num
+        have hB : (0 : ℝ) ≤ if K₁ < (k 1).natAbs then 1 else 0 := by split_ifs <;> norm_num
+        rcases hout with h | h
+        · have e : (if K₀ < (k 0).natAbs then (1 : ℝ) else 0) = 1 := by simp [h]
+          linarith
+        · have e : (if K₁ < (k 1).natAbs then (1 : ℝ) else 0) = 1 := by simp [h]
+          linarith
+      rw [exp_aniso_eq_pow, ← natAbs_cast_eq_abs, hM]
+      have hpow : Real.exp (-(2 * π * σ₀)) ^ (k 0).natAbs * Real.exp (-(2 * π * σ₁)) ^ (k 1).natAbs
+          ≤ q₀ ^ (k 0).natAbs * q₁ ^ (k 1).natAbs :=
+        mul_le_mul (pow_le_pow_left₀ (Real.exp_pos _).le hq₀ _)
+          (pow_le_pow_left₀ (Real.exp_pos _).le hq₁ _) (by positivity) (pow_nonneg hq0 _)
+      calc ((k i).natAbs : ℝ) * (Real.exp (-(2 * π * σ₀)) ^ (k 0).natAbs *
+            Real.exp (-(2 * π * σ₁)) ^ (k 1).natAbs)
+          ≤ ((k i).natAbs : ℝ) * (q₀ ^ (k 0).natAbs * q₁ ^ (k 1).natAbs) :=
+            mul_le_mul_of_nonneg_left hpow (by positivity)
+        _ = ((k i).natAbs : ℝ) * (q₀ ^ (k 0).natAbs * q₁ ^ (k 1).natAbs) * 1 := (mul_one _).symm
+        _ ≤ _ := mul_le_mul_of_nonneg_left hind (by positivity)
+  have hn0 : ∀ (q : ℝ), 0 ≤ q → ∀ m : ℤ, 0 ≤ q ^ m.natAbs := fun q hq m => pow_nonneg hq _
+  have hn1 : ∀ (q : ℝ), 0 ≤ q → ∀ m : ℤ, 0 ≤ (m.natAbs : ℝ) * q ^ m.natAbs :=
+    fun q hq m => mul_nonneg (Nat.cast_nonneg _) (pow_nonneg hq _)
+  have tn0 : ∀ (q : ℝ), 0 ≤ q → ∀ (K : ℕ) (m : ℤ), 0 ≤ if K < m.natAbs then q ^ m.natAbs else 0 :=
+    fun q hq K m => by split_ifs <;> [exact pow_nonneg hq _; exact le_rfl]
+  have tn1 : ∀ (q : ℝ), 0 ≤ q → ∀ (K : ℕ) (m : ℤ),
+      0 ≤ if K < m.natAbs then (m.natAbs : ℝ) * q ^ m.natAbs else 0 :=
+    fun q hq K m => by split_ifs <;> [exact mul_nonneg (Nat.cast_nonneg _) (pow_nonneg hq _);
+      exact le_rfl]
+  have hMs : HasSum M (boxTailBoundA K₀ K₁ i q₀ q₁) := by
+    fin_cases i
+    · convert (hasSum_fin2_mul (hasSum_int_tail_mul_pow K₀ hq0 hq₀1) (hasSum_int_pow hq1 hq₁1)
+        (tn1 q₀ hq0 K₀) (hn0 q₁ hq1)).add (hasSum_fin2_mul (hasSum_int_mul_pow hq0 hq₀1)
+        (hasSum_int_tail_pow K₁ hq1 hq₁1) (hn1 q₀ hq0) (tn0 q₁ hq1 K₁)) using 1
+      · funext k
+        simp only [hM]
+        split_ifs <;> simp <;> ring
+      · simp [boxTailBoundA]
+    · convert (hasSum_fin2_mul (hasSum_int_tail_pow K₀ hq0 hq₀1) (hasSum_int_mul_pow hq1 hq₁1)
+        (tn0 q₀ hq0 K₀) (hn1 q₁ hq1)).add (hasSum_fin2_mul (hasSum_int_pow hq0 hq₀1)
+        (hasSum_int_tail_mul_pow K₁ hq1 hq₁1) (hn0 q₀ hq0) (tn1 q₁ hq1 K₁)) using 1
+      · funext k
+        simp only [hM]
+        split_ifs <;> simp <;> ring
+      · simp [boxTailBoundA]
+  rw [← hMs.tsum_eq]
+  exact (summable_tailTermA S i h₀ h₁).tsum_le_tsum hle hMs.summable
 
 end HD11964.Cover
 
