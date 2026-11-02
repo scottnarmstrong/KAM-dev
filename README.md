@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-02 18:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 68 / 73 · **511,037 lines of hand-written Lean** of an estimated ≈ 514,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-02 18:38 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 68 / 73 · **510,347 lines of hand-written Lean** of an estimated ≈ 513,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -292,7 +292,7 @@ Overall, everything together: 96.0 %
 | S.LEAN | Exact Lean statements (headline + gates): independent audit, owner approval, freeze | H | ✅ 100 % | approved (D11) and frozen: 5 theorem anchors + 20 definitions, manifest with file/prefix/ABI hashes |
 | S.BP | Blueprint: every proof step written out against the pinned sources | VH | ✅ 100 % | 59 pages; Parts 2-4 reviewed, consolidated; Part 1 reviewed (ACCEPT WITH FIXES, applied) |
 | S.GRAPH | Source-level dependency graph anchored to the frozen statements | H | ✅ 100 % | published: 453 nodes, 1420 edges, 0 source gaps, 11 externals; every node and coverage item independently reviewed; global review PASS |
-| S.ERRATA | Errata and deviations ledger for every formalized source (continuous) | L | 🟨 30 % | ledger: 161 errata (22 candidate, 116 confirmed, 23 dropped) and 68 deviations (36 adopted, 32 planned) over 38 sources; reader-facing record docs/ERRATA-AND-DEVIATIONS.md |
+| S.ERRATA | Errata and deviations ledger for every formalized source (continuous) | L | 🟨 30 % | ledger: 169 errata (28 candidate, 118 confirmed, 23 dropped) and 89 deviations (57 adopted, 32 planned) over 39 sources; reader-facing record docs/ERRATA-AND-DEVIATIONS.md |
 | F.ALG | Weighted ℓ¹ Fourier algebra on ℤⁿ: Banach algebra, exp, derivatives, averages | H | ✅ 100 % | *graph K* · graph K Part 1 (analysis): 124 PROVED, 7 BYPASSED, 11 EXTERNAL, 0 open (2026-10-28); per D12 the weighted ℓ¹ norms are used only in the cohomological equation |
 | F.FT | Fourier–Taylor algebra in (angles, actions); Cauchy estimates in the actions | H | ✅ 100 % | *graph K* · graph K Part 1 (analysis): 124 PROVED, 7 BYPASSED, 11 EXTERNAL, 0 open (2026-10-28); per D12 realized with sup norms on complex strips and one-variable Cauchy estimates, no separate Fourier–Taylor algebra |
 | F.COMP | Composition f∘(id+u) and Taylor remainders in the weighted norms | H | ✅ 100 % | *graph K* · graph K Part 1 (analysis): 124 PROVED, 7 BYPASSED, 11 EXTERNAL, 0 open (2026-10-28); compositions and Taylor remainders in sup norms on complex domains |
@@ -342,18 +342,18 @@ Overall, everything together: 96.0 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **511,037** (386,437 excluding blank lines and comments) · **+5,463** since 2026-11-01 18:20 UTC |
+| On `main` now (hand-written) | **510,347** (386,001 excluding blank lines and comments) · **+4,773** since 2026-11-01 18:20 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 632,896 lines in 1,649 modules |
-| Written on agent branches, not yet landed (hand-written) | 2,858 |
+| Written on agent branches, not yet landed (hand-written) | 2,187 |
 | Generated certificate data on agent branches (numeric literals; not counted in the other rows) | 6,883 |
-| **Estimated total at completion** (hand-written) | **≈ 514,000** |
-| Estimated still to write | ≈ 0 (0–13,000 over the range of track W's plan) |
+| **Estimated total at completion** (hand-written) | **≈ 513,000** |
+| Estimated still to write | ≈ 0 (0–14,000 over the range of track W's plan) |
 
-**How the size is estimated.** Every figure except the two rows of generated data counts hand-written Lean only: the generated certificate data under `KAM/SpinOrbit/Data/` (the barrier tori of the Moon, emitted by `scripts/spin_orbit/` and checked by the kernel) are counted apart. The estimate scales the lines written so far for the other tracks (on `main` plus the agent branches: tracks K, I, N, P and R, the sharp a-posteriori theorems and certifiers, the shared infrastructure) by the done share of the Lean work items, weighted by difficulty (track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P: 100 % done); adds track SO from its design (its lines on `main` plus the line estimates of its packages not yet landed, 0 lines; the Lean packages of part 3 are on `main`, and what it still needs is generated data); and adds track W from its planning range of 72,000–97,000 lines (graph-scaled (2026-10-31): track W's dependency graph has 690 nodes; the finished tracks average 87 lines of Lean per graph node (K 72, I 83, N 59, P 109), so 690 × 87 ≈ 60k; the high end uses track P's 109 per node plus 20 % for infinite-dimensional infrastructure (sequence spaces, parameter-Lipschitz estimates), ≈ 90k; replaces the low-confidence 34k–70k of docs/TRACKS.md; raised to its measured rate, 84,000 lines for the whole graph at its lines on `main` per resolved node; midpoint used), of which 84,574 are written; and adds track LP from its planning range of 12,000–25,000 lines (the Lean roadmap of the audited proof; midpoint used), of which 24,090 are written. The side project LG00 is not counted: its certificate never enters this library. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv) (`lean_lines` counts every module, `generated_lines` the generated data among them).
+**How the size is estimated.** Every figure except the two rows of generated data counts hand-written Lean only: the generated certificate data under `KAM/SpinOrbit/Data/` (the barrier tori of the Moon, emitted by `scripts/spin_orbit/` and checked by the kernel) are counted apart. The estimate scales the lines written so far for the other tracks (on `main` plus the agent branches: tracks K, I, N, P and R, the sharp a-posteriori theorems and certifiers, the shared infrastructure) by the done share of the Lean work items, weighted by difficulty (track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P: 100 % done); adds track SO from its design (its lines on `main` plus the line estimates of its packages not yet landed, 0 lines; the Lean packages of part 3 are on `main`, and what it still needs is generated data); and adds track W from its planning range of 72,000–97,000 lines (graph-scaled (2026-10-31): track W's dependency graph has 690 nodes; the finished tracks average 87 lines of Lean per graph node (K 72, I 83, N 59, P 109), so 690 × 87 ≈ 60k; the high end uses track P's 109 per node plus 20 % for infinite-dimensional infrastructure (sequence spaces, parameter-Lipschitz estimates), ≈ 90k; replaces the low-confidence 34k–70k of docs/TRACKS.md; raised to its measured rate, 84,000 lines for the whole graph at its lines on `main` per resolved node; midpoint used), of which 84,574 are written; and adds track LP from its planning range of 12,000–25,000 lines (the Lean roadmap of the audited proof; midpoint used), of which 23,409 are written. The side project LG00 is not counted: its certificate never enters this library. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv) (`lean_lines` counts every module, `generated_lines` the generated data among them).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-02 18:20 UTC from `main` at `87ebaa93a` by `scripts/hq-status.py`.*
+*Generated 2026-11-02 18:38 UTC from `main` at `f07abeee8` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -370,12 +370,12 @@ Overall, everything together: 96.0 %
 - **Now:** The frozen headline `KAM.Wave.nlw2` is PROVED on a branch (W8-FINAL; standard axioms; types checked equal), not yet sealed. On `main`: W1–W4 and W7; W5 (the KAM step) is landing. Audits run in parallel on two Codex accounts (D60): W6 (iteration and tori), W8 (assembly), the W8-FINAL delta, and W5's action-angle part after a definition-carrier fix. Then a dedicated seal audit and the owner's go for the seal.
 
 **Track LP** (D56; [exploration, audited proof and plan](docs/explorations/amd-crossing/README.md)): chaotic but collision-free planetary systems. Below the sharp Laskar–Petit AMD threshold the exact (1+n)-body problem has no orbit crossing for a time exp(c μ^(−1/(2(τ+1)))), with no hypothesis on its (possibly chaotic) secular dynamics · **100 %**
-- Stages: audited paper proof, source, spec and plan, statements frozen, planar Lean packages, spatial Lean packages, sealed · planar packages on `main`: 14 / 14 · spatial: 15 / 15 · `KAM/Planetary/StrongAMD` and `Spatial`: 141 modules, 24,090 lines
+- Stages: audited paper proof, source, spec and plan, statements frozen, planar Lean packages, spatial Lean packages, sealed · planar packages on `main`: 14 / 14 · spatial: 15 / 15 · `KAM/Planetary/StrongAMD` and `Spatial`: 141 modules, 23,409 lines
 - **Now:** Every headline theorem is proved, audited and on `main`: LP0, LP1 (planar) and LP2 (spatial) with the sharp strong Laskar–Petit threshold and exponent 1/(2(τ+1)) (1/(2n+1) at τ = n − 1/2), and LP3 (the same threshold with NO Diophantine hypothesis, Nekhoroshev 1977 exponents). The owner approved the freeze rulings (D59). Freeze proposal draft 7 (5 anchors, 89 definitions, 34 characterizations; 128 files, each verified against the proved theorems) passed its independent delta statement audit; draft 8 (the LP3 anchors) follows. Then the owner's approval of the exact text, the freeze, the source graph and the seals. Paper: [papers/LP/main.pdf](papers/LP/main.pdf) (23 pages, three independent audits).
 
 **Frozen statements proved: 68 / 73** · frozen definitions: 243
 
-**Lean on `main` (hand-written):** 2,782 modules · 511,037 lines · 21,327 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0 (both scans cover every module, generated data included)
+**Lean on `main` (hand-written):** 2,782 modules · 510,347 lines · 21,237 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0 (both scans cover every module, generated data included)
 
 **Generated certificate data on `main`:** 632,896 lines in 1,649 modules (numeric literals; not counted above), with 4,663 generated kernel-check theorems; under [`KAM/SpinOrbit/Data/`](KAM/SpinOrbit/Data)
 
@@ -510,7 +510,7 @@ flowchart BT
 | Area | Content | Modules | Lines | Theorems |
 |---|---|---|---|---|
 | [`KAM/Frozen/`](KAM/Frozen) | Owner-approved frozen statements and definitions (one per file, manifest-bound) | 316 | 13,834 | 73 |
-| [`KAM/Provider/`](KAM/Provider) | One provider module per frozen theorem, where its proof is assembled | 73 | 3,967 | 84 |
+| [`KAM/Provider/`](KAM/Provider) | One provider module per frozen theorem, where its proof is assembled | 73 | 3,958 | 87 |
 | [`KAM/Analysis/`](KAM/Analysis) | Track K Part 1: quadratic iteration and scalar estimates | 1 | 158 | 4 |
 | [`KAM/Fourier/`](KAM/Fourier) | Weighted ℓ¹ Fourier norms, used in the cohomological equation (D12) | 4 | 628 | 33 |
 | [`KAM/Diophantine/`](KAM/Diophantine) | Diophantine vectors, cohomological equation, measure of the Diophantine set | 5 | 532 | 34 |
@@ -537,8 +537,8 @@ flowchart BT
 | [`KAM/SpinOrbit/`](KAM/SpinOrbit) | Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs, the Moon's band theorems, the synchronous lock in `Lock/`); its generated certificate data are the next row | 37 | 6,771 | 390 |
 | [`KAM/SpinOrbit/Data/`](KAM/SpinOrbit/Data) | Track SO: generated certificate data of the barrier tori (numeric literals emitted by `scripts/spin_orbit/`, checked by the kernel; with their literal format and support lemmas); counted apart from the hand-written Lean | 1649 | 632,896 | 4663 |
 | [`KAM/Wave/`](KAM/Wave) | Track W: PDE KAM for the cubic wave equation (Pöschel 1996): sequence calculus and the weighted convolution algebra, analytic maps on Banach domains, Banach-valued Fourier coefficients for the KAM step, Birkhoff normal form (averaged quartic part, nonresonance, nondegeneracy), analytic and classical reconstruction of the solutions | 456 | 84,252 | 4026 |
-| [`KAM/Planetary/StrongAMD/`](KAM/Planetary/StrongAMD) | Track LP: the sharp strong Laskar–Petit AMD threshold and barrier, the nonresonant exponential normal-form adapter, first exit, planar exponential safety (D56) | 62 | 10,638 | 424 |
-| [`KAM/Planetary/Spatial/`](KAM/Planetary/Spatial) | Track LP: the spatial planetary problem (regular spatial Poincaré chart, vector angular momentum, spatial exponential safety; D56) | 79 | 13,452 | 606 |
+| [`KAM/Planetary/StrongAMD/`](KAM/Planetary/StrongAMD) | Track LP: the sharp strong Laskar–Petit AMD threshold and barrier, the nonresonant exponential normal-form adapter, first exit, planar exponential safety (D56) | 62 | 10,372 | 385 |
+| [`KAM/Planetary/Spatial/`](KAM/Planetary/Spatial) | Track LP: the spatial planetary problem (regular spatial Poincaré chart, vector angular momentum, spatial exponential safety; D56) | 79 | 13,037 | 552 |
 | [`KAM/Application/`](KAM/Application) | — | 36 | 6,891 | 361 |
 | [`KAM/Magnetic/`](KAM/Magnetic) | — | 5 | 475 | 24 |
 
@@ -546,7 +546,7 @@ flowchart BT
 
 | Library | Content | Modules | Hand-written lines | Generated data lines | Theorems |
 |---|---|---|---|---|---|
-| `KAM` (default) | The core: every module not assigned to an application | 2746 | 507,164 | — | 21294 |
+| `KAM` (default) | The core: every module not assigned to an application | 2746 | 506,474 | — | 21204 |
 | [`KAMLunarBand`](KAMLunarBand.lean) | SO-2: the Moon's spin-orbit band (N = 65 barrier tori) | 1654 | 267 | 632,896 | 4672 |
 | [`KAMLunarLock`](KAMLunarLock.lean) | SO-3: the Moon locked in synchronous rotation (N = 65 librational torus) | 0 | 0 | 0 | 0 |
 | [`KAMMagneticBarrier`](KAMMagneticBarrier.lean) | MAG: the magnetic field-line barrier at eps = 3/2500 (D66, D68) | 3 | 366 | 0 | 24 |
@@ -580,6 +580,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-02 18:26 | `f07abeee8` | Land inp into main |
 | 2026-11-02 18:19 | `7bfdb2589` | Log: LP clean-up done |
 | 2026-11-02 17:19 | `b908ef5ab` | Log: clean-up packages started |
 | 2026-11-02 16:19 | `dba37cf6a` | Log: Phase 3 clean-up audits started |
@@ -589,7 +590,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-02 13:19 | `3c28fdfbd` | Log: lock graph route (A) |
 | 2026-11-02 12:19 | `793d97e87` | Log: lock heavy-lane fix, GraphL/H design fix |
 | 2026-11-02 11:19 | `87c22379c` | Merge remote-tracking branch 'origin/main' |
-| 2026-11-02 11:19 | `4772c4f3a` | Log: lock option (a) gate PASS |
 <!-- /AUTO:landed -->
 
 ## Decisions
@@ -749,6 +749,7 @@ against the pinned PDF.
 | HL19 | 1 candidate, 15 confirmed, 2 dropped | 2 adopted, 6 planned |
 | KP96 | 1 candidate, 3 confirmed | 0 |
 | LP17 | 1 confirmed | 1 adopted, 1 planned |
+| LPMAIN | 6 candidate, 2 confirmed | 21 adopted |
 | Nei76 | 1 confirmed | 3 adopted |
 | Nek77 | 3 confirmed | 5 adopted, 1 planned |
 | Pos01 | 5 confirmed | 2 planned |
@@ -992,6 +993,35 @@ against the pinned PDF.
 | E-VL22-3 | erratum | VL22 | arXiv v2, p. 3, (8) and (10) | v in (3) already contains ε, so the prefactor double-counts ε when X solves (6); the two expressions in (8) disagree in sign; (10) lacks the small divisors | CANDIDATE |
 | E-CVCGL05-1 | erratum | CVCGL05 | arXiv v2, p. 9, (14) | the general formula (8), p. 7, gives half this coefficient when H₁ is action-independent | CANDIDATE |
 | E-CVCGL05-2 | erratum | CVCGL05 | arXiv v2, p. 11 | with its maximum-cosine-coefficient norm, the general-(8) model at 0.35 gives about 64.55ε including the constant coefficient, or 64.33ε for the nonconstant harmonics only, not ≈ 35ε; conventions to be rechecked before this is confirmed | CANDIDATE |
+| LP-E-01 | erratum | LPMAIN | MAIN.md:238 (Lemma 7, symplecticity of the planar chart) | typo: the one-form is (x dy − y dx)/2; the derivation is otherwise correct | CONFIRMED |
+| LP-E-02 | erratum | LPMAIN | MAIN.md:179, 257, 472 (Lemmas 6, 8, 14) | Ω_B depends on U and (17), (39) and Lemma 8 are chained, so the three U must be one set; with separate U the chained inequalities are not justified | CANDIDATE |
+| LP-E-03 | erratum | LPMAIN | MAIN.md:271 (Lemma 8, (22)) | missing hypothesis: r_* ≤ 4r_g is used implicitly so that the real parts of the complex actions in (22) lie in the real tube where Lemma 5 was applied | CANDIDATE |
+| LP-E-04 | erratum | LPMAIN | MAIN.md:442 (Lemma 13) | missing parameter margin: the proof needs 2πs₁ < 4s with a margin for convergence of Σ e^{2πs₁∣k∣₁}, w < 4b, D₀√μ < r_*, J = stopped interval of Lemma 14, F = realWfield b.c (realHamiltonianExt b b.rB (liftFast h + f)) | CANDIDATE |
+| LP-E-05 | erratum | LPMAIN | MAIN.md:468-500 (Lemma 14; bound (39)/(40), line 485 "-7δ/16") | inconsistent constants on the Lemma 13 route: the stopped radius is r = D₀√μ and the improvement is to r/2, not r/4; with budget n r + Ω_B(r) ≤ δ/4 the proved bound is B(I⁰) − δ/4 and (39) gives C ≤ B(I(t)) − 3δ/4 | CANDIDATE |
+| LP-E-06 | erratum | LPMAIN | MAIN.md Theorem 15 dependency line (T15, MAIN.md:502-506) | imprecise dependency list: Lemmas 12 and 13 are alternative suppliers of the stopped drift; each proof route lists exactly one | CANDIDATE |
+| LP-E-07 | erratum | LPMAIN | MAIN.md:527-528 (Lemma 16, final constants) | the final μ₀ must also satisfy these; the headline constant list omits them | CANDIDATE |
+| LP-E-08 | erratum | LPMAIN | MAIN.md:175 (Lemma 5) | definition order: d_⋆ := a_min m²/(2 I_max²) must be defined first, then ∣p_i∣ ≤ ν_i√(2/d_⋆) | CONFIRMED |
+| LP-D-01 | deviation | LPMAIN | MAIN.md §1 (2) and Theorem 15 (MAIN.md:35, 506) | AMD convention: MAIN uses C = Σ I_i − ∣L∣ (orientation-free); the repository planar physicalAMD is the signed Σ Λ_i − L, whose hypothesis ≤ B − δ forces L > 0. The frozen anchors use strongAMD = ΣΛ − ∣L∣ with no prograde premise; a lemma identifies it with physicalAMD for L ≥ 0 (reflection bridge) | ADOPTED |
+| LP-D-02 | deviation | LPMAIN | MAIN.md:158 (Lemma 4) | The paragraph "minimizing eccentricities lie in (0,1)^2" and the geometric realization is not formalized; not on the critical path | ADOPTED |
+| LP-D-03 | deviation | LPMAIN | roadmap, spatial chart (MAIN.md Lemmas 17-19) | ComplexTube.tube is typed on Phase (n+n); the spatial chart (n fast, 2n slow pairs) uses Phase (n+(n+n)) (2*n is not defeq n+n) and a re-typed gluing proof (ComplexTubeNM) | ADOPTED |
+| LP-D-04 | deviation | LPMAIN | MAIN.md:340-344 (Lemma 10) and Lemma 12 route | Flow existence, the Lie-series/flow identification and the constant c_D are only sketched; the Lean route uses Lemma 13 (route L13) and does not formalize the Lemma 9-12 route (graph nodes lpM:L10#flow-existence, lpM:L10#lie-flow-identification kept as SOURCE_GAP, route L12 only) | ADOPTED |
+| LP-D-05 | deviation | LPMAIN | MAIN.md:132-139 (Lemma 3, inequality (13)) | (13) is argued only "on such an orbit" (C < B_⋆, hence L ≠ 0); the frozen AMD deficit characterization sum_action_mul_eccDeficit_le_sourceStrongAMD asserts it on every source canonical phase; the case L = 0 is supplied (immediate from D ≤ 1 on [0,1]). The step is true, so this is a deviation, not an erratum | ADOPTED |
+| LP-D-06 | deviation | LPMAIN | MAIN.md:74, 78, 470, 478 (Lemma 14, section 1) | "the maximal local Newtonian solution" and its uniqueness are taken for granted; the passage from Lemma 6 local existence/uniqueness to a unique maximal solution agreeing on overlaps, and the exclusion of initial collisions by Lemma 5 with m = δ, are supplied (standard ODE continuation) | ADOPTED |
+| LP-D-07 | deviation | LPMAIN | MAIN.md:485 and Lemma 13/14 route | Route constants: radius r = D₀√μ, improvement to r/2 (not r/4), budget n r + Ω_B(r) ≤ δ/4, so the proved secular ball is B(I⁰) − δ/4 (MAIN states −7δ/16 with Ω_B ≤ δ/16); widths per N6 | ADOPTED |
+| LP-D-08 | deviation | LPMAIN | MAIN.md:11 (max_i ν_i = 1) and Lemma 16 MAIN.md:527 | The anchors keep max ν = 1 (hνmax, hνle); the implementation proves the general-mass theorems with constants carrying M = max ν (∣k_i − 1∣ ≤ Mμ instead of ≤ μ); LP0 additionally has an unnormalized static extension | ADOPTED |
+| LP-D-09 | deviation | LPMAIN | MAIN.md §1 (exponent) and Theorem 15/19 | Anchors state the time-exponent family with τ > n − 1 free, plus the separately stated τ = n − 1/2 corollary (exponent 1/(2n+1)); the half-integer choice is not an optimizer of 1/(2(τ+1)) | ADOPTED |
+| LP-D-10 | deviation | LPMAIN | MAIN.md §1, Lemma 4 and Lemma 16 (carriers of thresholds and osculating elements) | Frozen definitions use source carriers (subtypes SourceCanonicalPhase, SourceOsculatingPhase, sourceStrongAMD, sourceOsc*, OrderedActions) with the attained-minimum characterization; the total algebraic formulas (strongAMD, keplerPeri/Apo, osc*) stay internal helpers whose physical meaning holds only under the anchors guards | ADOPTED |
+| LP-D-11 | deviation | LPMAIN | MAIN.md §1 (hypothesis (5), Diophantine condition, lines 60-65) | The premise is stated with the frozen KAM.IsDiophantine instead of a hand-written modeSize inequality; DiophantineBridge.isDiophantine_iff_forall_modeSize identifies them (literally equivalent premise) | ADOPTED |
+| LP-D-12 | deviation | LPMAIN | MAIN.md Lemma 5 (energy bound) and Lemma 16 (43) | Energy clauses are per unit mass: oscEnergy ≤ −(c/ν_i)/2 and keplerEnergy bound −ν_min/(2M) for ν_i E_i; extra clauses 0 < oscAxis, oscEcc < 1 and tangency are added to OscEstimate/SpatialOscEstimate | ADOPTED |
+| LP-D-13 | deviation | LPMAIN | MAIN.md Lemma 1-3 and Lemma 5 for d = 3 | Spatial statements: per-planet statements use spaceLength L_i for ∣L_i∣; L̂ is the explicit spatialUnit with L ≠ 0 premises; barrier margin G2 in vector form; chart coordinates (ξ, η) = (x, −y) identification (MAIN dx∧dy vs repository dη∧dξ) | ADOPTED |
+| LP-D-14 | deviation | LPMAIN | MAIN.md Lemma 7 and Lemma 17 (charts) | No single globally analytic inverse is stated: the chart has an explicit inverse (Complex.arg for the real angle) plus local analytic inverses (lpChart_localDiffeo, spatialPoincare_localDiffeo); real-angle representative/local-inverse distinction | ADOPTED |
+| LP-D-15 | deviation | LPMAIN | MAIN.md Lemma 8 (domain) | "Every Newtonian denominator single branch, bounded away from zero" and "first derivatives bounded" are not separate statements: realised through explicit principal-branch functions ((w·w)^(1/2))⁻¹, fc holomorphic with bound M and real trace; lemma8_complete restates on the common radius min R_D4 R′ | ADOPTED |
+| LP-D-16 | deviation | LPMAIN | MAIN.md Lemma 13/14 (37), (440-460) | Parameter-level choices: ℓ ≠ 0 (not > 0) in rescaling; lpKeplerLip a sum over coordinates (not a max); lpPert omits unused ν; M replaced by max M 1; κ chosen with +1 slack; L ≥ 0 allowed; stopped conditions stated pointwise over uIcc 0 t / strict antecedent; ε ≤ αr/(256K) equal to the engine form | ADOPTED |
+| LP-D-17 | deviation | LPMAIN | MAIN.md Lemma 12 (35) | (35) is a remark, not a formal dependency: the paper route inverts only k·ω(I⁰) | ADOPTED |
+| LP-D-18 | deviation | LPMAIN | not in MAIN (LP3: stretch beyond MAIN Theorems 15 and 19) | LP3 (sharp strong threshold with NO arithmetic hypothesis) via the sealed frozen partialConvex_nekhoroshev (resonance-tolerant route of track P), worse exponent; new result, not in MAIN; implementation modules may import the sealed anchor | ADOPTED |
+| LP-D-19 | deviation | LPMAIN | LP3 plan (docs/tracks/LP/lp3/LP3-PLAN.md), not MAIN | Plan-level departures: collar rho0 = Imin/4 (plan example Imin/2); cell statements bundled for all centres in L_δ (stronger); V_j identity without division by B₀; U := L_δ with a shrunken rg; spatial drift uses cell_drift_two_sided instead of kepler_cell_drift; parallel drift-scale-generic predicates (nekPlanarState/Sol, SpatialNekSafeState/Sol with parameter ρ) added instead of editing landed files | ADOPTED |
+| LP-D-20 | deviation | LPMAIN | papers/LP (paper, not Lean): MAIN L3, L9-L11, L14 | Paper deviations: L3 inequality stated on the whole negative-energy region; L14 restated with an explicit stopped-drift hypothesis (drift r/2, A_a = Λ_max/min ν_i²); L9-L11 auxiliary bounds unused and omitted; (35) omitted (N4) | ADOPTED |
+| LP-D-21 | deviation | LPMAIN | MAIN.md:11, §1 and Theorem 15 (n ≥ 2, positivity, ordering) | Local results drop unneeded global mass normalization, n ≥ 2 and ordering assumptions; the final anchors keep n ≥ 2 and ν_i > 0 (hn, hν) as in MAIN; added hν positivity in Lemma 4 helpers (MAIN says "positive masses") | ADOPTED |
 
 </details>
 <!-- /AUTO:errata -->
