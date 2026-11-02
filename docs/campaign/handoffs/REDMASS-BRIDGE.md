@@ -269,3 +269,50 @@ with user anon < 20 GB checked before each run (5.3 GB at the start).
 - **Deviations:** the four statement repairs to the note's §4 sketch listed under Task 2. The note is a scoping
   document, not a pinned source. `ObsDriftData` carries a scalar `eps` as in the note; per-planet widths enter only
   through `hiG_i − loG_i ≤ ε`.
+
+## Addendum REDMASS-PKG (orchestrator decision: root imports and one package build)
+
+The orchestrator approved owner question 1, so the package root is now edited. The commits up to `44dd505a` are under
+independent audit and were not rewritten; this addendum is a new commit.
+
+**Root edit.** `applications/hd11964/HD11964.lean` now has `public import HD11964.NoCrossingObs` and
+`public import HD11964.ReducedRange`, plus the docstring sentence proposed above. The root has no other change.
+
+**Seeding.** I followed HD11964-P2A: `applications/hd11964/.lake/packages -> ../../../.lake/packages`, a symlink that
+the package `.gitignore` (`/.lake/`) ignores and that is not committed.
+- The package manifest's revs (Mathlib `56a00585…` and the eight others) equal the core's, so nothing was fetched.
+
+**Dry run.** `lake build --no-build HD11964`, run in `applications/hd11964` under the 4 GB scope, returned rc=3
+(9374 jobs). The only out-of-date target reported was `HD11964.Threshold`, whose rebuild cascades to the other
+`HD11964.*` modules. Every core and Mathlib module replayed.
+
+**The build.** One process: `systemd-run --user --scope -p MemoryMax=4G -p MemorySwapMax=0 nice -n 5`, with
+`XDG_RUNTIME_DIR` and `DBUS_SESSION_BUS_ADDRESS` exported and user anon at 3.19 GB before the run.
+
+```
+✔ [9367/9374] Built HD11964.Threshold (2.8s)
+✔ [9368/9374] Built HD11964.NoCrossing (2.4s)
+✔ [9369/9374] Built HD11964.ReducedRange (3.4s)
+✔ [9370/9374] Built HD11964.NoCrossingObs (2.5s)
+✔ [9371/9374] Built HD11964.Cover (7.2s)
+✔ [9372/9374] Built HD11964.CoverPlan (4.0s)
+✔ [9373/9374] Built HD11964 (2.1s)
+Build completed successfully (9374 jobs).
+TIME 20.82 s wall, 29.32 s user, 4.86 s sys, 3179544 KB maxrss
+```
+
+- **Cost of the two new application modules:** 5.9 s of Lean time (`ReducedRange` 3.4 s, `NoCrossingObs` 2.5 s).
+- **Whole package:** 24.4 s of Lean time, 20.8 s wall, 3.18 GB max RSS. The cap never triggered.
+- **Warnings:** none in any `HD11964.*` file. The 15 replay warnings all come from existing core modules.
+
+**Axioms, from the package build.** I ran `lake env lean` on a scratch file containing `import HD11964`, inside the
+package. Each of the following depends on `[propext, Classical.choice, Quot.sound]`:
+- `HD11964.noCrossing_of_regionBounds_obs` and `HD11964.noCrossing_of_regionBounds_obs_analytic`;
+- `HD11964.reducedAction_sub_mem_region` and `HD11964.continuousOn_reducedAction`;
+- unchanged: `HD11964.noCrossing_of_regionBounds` and `HD11964.Cover.fitPlan_covers`.
+
+**Lint.** `scripts/lint_sources.sh` after the root edit:
+- `check_lean_modules: PASS (4465 Lean files)`;
+- frozen-anchor tests `OK`;
+- `FROZEN-ANCHOR GUARD OK`.
+- The only failure is the same environmental ABI-hash step (`KAM/Frozen/Magnetic/Defs/MagAlpha.olean` missing).
