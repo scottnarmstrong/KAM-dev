@@ -5,8 +5,11 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
+public import HD11964.CellCauchy
 public import HD11964.Cover
 public import HD11964.CoverPlan
+public import HD11964.Generator
+public import HD11964.Glue
 public import HD11964.NoCrossing
 public import HD11964.Threshold
 
@@ -18,5 +21,8 @@ part A: the action box, `B = Λ_c` and the data of LP-LIFT (`HD11964.Threshold`)
 region `R(d)` and no orbit crossing given the certificate's bounds on it (`HD11964.NoCrossing`). The
 bridge from a certified Λ-drift to no orbit crossing is in the core (`KAM.Application.LambdaDrift`).
 Phase 2, the cover: the cover lemma for affine cells (`HD11964.Cover`) and the fitted 50-cell plan
-of `R(1/500)` with its decided check (`HD11964.CoverPlan`).
+of `R(1/500)` with its decided check (`HD11964.CoverPlan`). The pieces of the cell check
+(HD11964-LEMMAS): the Cauchy bound for the slow derivatives (`HD11964.CellCauchy`), the exact
+generator and its certified remainder (`HD11964.Generator`), and the consumer glue to
+`noCrossing_of_regionBounds` (`HD11964.Glue`).
 -/

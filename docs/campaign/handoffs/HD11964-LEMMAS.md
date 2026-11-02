@@ -10,7 +10,34 @@ HD 11964 = "Build pieces only" (no full run; a 2-cell rehearsal at the end). My 
 
 New files, additive; **statements in the handoff first** (this section). Nothing pushed.
 
-STATUS: STATEMENTS (proofs to follow in `applications/hd11964/HD11964/{CellCauchy,Generator,Glue}.lean`)
+**Status: done.** The three pieces are proved and built, in three new modules of the application package, imported
+by the package root. Every main theorem depends on `[propext, Classical.choice, Quot.sound]` only. The statements
+were committed first (`f32acdab`); this section maps them to the proved theorems.
+
+| draft statement (below) | proved theorem | module |
+|---|---|---|
+| (1a) `CauchyPolyDisc` | `norm_fderiv_single_le_of_polyDisc` | `HD11964.CellCauchy` |
+| (1b) `CauchyModel` | `norm_fderiv_sub_le_of_model` | `HD11964.CellCauchy` |
+| (1c) `CauchyPhysical` | `norm_fderiv_comp_coord_le` | `HD11964.CellCauchy` |
+| (2a) `GenChiModel` | `norm_genChi_sub_le` | `HD11964.Generator` |
+| (2b) `ChiStarEqGenChi` | `chiStar_eq_re_genChi` | `HD11964.Generator` |
+| (3a) `CellMapOfReal` | `cellMapC_ofReal` | `HD11964.Glue` |
+| (3b) `BracketGlue` | `bracket_bound_of_cellBounds` | `HD11964.Glue` |
+| (3c) `RangeGlue` | `range_bound_of_cellBounds` | `HD11964.Glue` |
+| (3d) `NoCrossingOfCells` | `noCrossing_of_cellBounds` | `HD11964.Glue` |
+
+The statements are the drafted ones, with the binders made implicit where natural; the content is unchanged. The
+definitions (`polyDiscC`, `AffineCell.coord`, `invMx`, `charE`, `fourierCoeff2`, `genChi`, `TFPoly`, `l1`,
+`withAngles`, `chartCoeff`, `chiStar`, `cellMapC`, `chartAngle`) are as drafted.
+
+**Helper lemmas, all public:**
+- `AffineCell.coordCLM` and `coord_ofReal_eq`: `u(x)` is affine;
+- `norm_eval_le_l1`: polynomials on the unit polydisc;
+- `norm_charE_le`: the characters on the strip;
+- `norm_iint_le`, `fourierCoeff2_sub`, `integral_exp_two_pi_int`, `iint_charE_mul` and `fourierCoeff2_eval`:
+  Fourier coefficients over `[0,1]²`, with linearity and orthogonality;
+- `continuous_coeffIntegrand`, `vec2_ofReal` and `continuous_vec2`;
+- `exists_cellMapC_of_mem_repSet`.
 
 ## Design
 
@@ -315,3 +342,48 @@ end
   - membership in a cell gives `u` with `cellCoord w = k.map u`, and (3a) moves it to `cellMapC`;
   - `|Re z| ≤ ‖z‖`;
   - for (3d), `noCrossing_of_regionBounds`.
+
+## Checks
+
+- **Builds**, one process each, `MemoryMax=4G`, after `export XDG_RUNTIME_DIR=…`:
+  - `lake build HD11964.CellCauchy`: 2.9 s;
+  - `HD11964.Generator`: 2.4 s;
+  - `HD11964.Glue`: 2.1 s;
+  - `HD11964` (root, now importing the three modules): 1.9 s.
+
+  There are no warnings in these files.
+- **`#print axioms`**: `[propext, Classical.choice, Quot.sound]` for the eleven theorems
+  - `norm_fderiv_single_le_of_polyDisc`, `norm_fderiv_sub_le_of_model`, `norm_fderiv_comp_coord_le`;
+  - `norm_genChi_sub_le`, `chiStar_eq_re_genChi`, `fourierCoeff2_eval`, `iint_charE_mul`;
+  - `cellMapC_ofReal`, `bracket_bound_of_cellBounds`, `range_bound_of_cellBounds`, `noCrossing_of_cellBounds`.
+- **`scripts/lint_sources.sh`**: `check_lean_modules` PASS, the anchor guard OK, lines ≤ 100. The only failure is
+  the known environmental ABI-hash step.
+- **Sizes**: `CellCauchy.lean` 173 lines, `Generator.lean` 355, `Glue.lean` 159.
+- **Hygiene**: no heartbeat options, no `native_decide`, no proof escapes.
+
+## What these pieces do not do (open, for the next steps)
+
+- **`hFrot`** (`F`'s rotation invariance): open, as ruled. It is an explicit premise of the glue.
+- **The links are explicit premises.** They are discharged by whoever defines the complex functions:
+  - (3b), (3c): the layer's `G` is the chart rate (resp. `F − Λ_i`) on the representatives;
+  - (2b): `Pc` agrees with `P` at real points, and `om` with `ω(Λ)`.
+
+  kamx-hd-layer's composed chart functions are the intended `G`, `Pc`.
+- **Not yet proved for `χ*`:**
+  - its smoothness (the bridge's `hF` for `approxIntegral₂ k χ₁* χ₂*`);
+  - the homological equation `{χ₁*, h} = Π_S P`, which makes `r₁` the Fourier tail `(1 − Π_S) P` of the five-term
+    identity.
+
+  Both are statements about parametric Fourier integrals of a smooth `P`, and they are the next Lean pieces.
+- **The numbers in (2a)** (`r_P`, `ε_k`, `B_k`, the ℓ¹ norms) are the kernel's data. The bound weighs each mode by
+  `e^{2πρ|k|₁}`, so its size depends on the layer's strip width `ρ`. Not evaluated here.
+- **`PackedTF` identification.** `polyDiscC` and `cellMapC` are copies of the layer's definitions, equal by `rfl`
+  once the branches share `PackedTF`.
+
+## Resume
+
+From `applications/hd11964`, one Lean process at a time:
+
+    export XDG_RUNTIME_DIR=/run/user/1004 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1004/bus
+    systemd-run --user --scope -p MemoryMax=4G -p MemorySwapMax=0 nice -n 5 lake build HD11964
+
