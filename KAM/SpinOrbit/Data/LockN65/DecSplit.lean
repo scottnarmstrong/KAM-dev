@@ -11,8 +11,8 @@ public import KAM.Certificate.Poly.MulPacked
 # Decoding a packed product in slot pieces (LOCK-DATA)
 
 The decode of a packed product (`dyadicTerms … adv.targetTerms = some T`) is one kernel evaluation
-of the whole overlap-added target; for the largest lock products that needs more than the per-theorem
-memory budget. This module cuts it at slot boundaries:
+of the whole overlap-added target; for the largest lock products that needs more than the
+per-theorem memory budget. This module cuts it at slot boundaries:
 
 * `pieceAt f l a b`: the `filterMap` of `(index, entry)` pairs over the slots `[a, b)`;
 * `filterMap_zip_range_eq_flatten`: the whole `filterMap` over `(List.range n).zip l` is the
@@ -102,7 +102,8 @@ variable {α : Type} [CertArith α]
 
 theorem dyadicTerms_append (P2 sc : ℕ) (place : α → CC α) {x y : List (CertKey × ℤ)}
     {X Y : List (CertKey × CC α)} (hx : dyadicTerms P2 sc place x = some X)
-    (hy : dyadicTerms P2 sc place y = some Y) : dyadicTerms P2 sc place (x ++ y) = some (X ++ Y) := by
+    (hy : dyadicTerms P2 sc place y = some Y) :
+    dyadicTerms P2 sc place (x ++ y) = some (X ++ Y) := by
   unfold dyadicTerms at hx hy ⊢
   split at hx <;> split at hy <;> simp only [Option.some.injEq, reduceCtorEq] at hx hy
   rename_i h1 h2

@@ -11,9 +11,9 @@ public import KAM.CertificateSharp.V2.HamClaim
 /-!
 # The disc pass from its pieces
 
-`checkHamBounds` and `checkHamClaim` from three separately checked facts: the jet of the Hamiltonian, the ball
-pass of its program, and the bounds over those balls. Stated over an abstract certificate, so instantiating
-them evaluates nothing.
+`checkHamBounds` and `checkHamClaim` from three separately checked facts: the jet of the
+Hamiltonian, the ball pass of its program, and the bounds over those balls. Stated over an abstract
+certificate, so instantiating them evaluates nothing.
 -/
 
 @[expose] public section

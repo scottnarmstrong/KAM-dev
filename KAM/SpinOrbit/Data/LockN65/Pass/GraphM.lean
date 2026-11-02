@@ -8,12 +8,13 @@ module
 public import KAM.SpinOrbit.Data.LockN65.Cert
 public import KAM.SpinOrbit.Data.LockN65.Witness
 public import KAM.SpinOrbit.LunarAssemblyV2
+public import KAM.SpinOrbit.Data.LockN65.GraphK
 
 /-!
-# The N = 65 lock: graph monotonicity
+# The N = 65 lock: graph mono SOS (key [7, 0])
 
-One kernel run (`decide +kernel`), as for the band data in
-`KAM/SpinOrbit/Data/Upper/Pass/GraphM.lean`.
+One kernel run (`decide +kernel`): the mono SOS square has no advice under its key `[7, 0]`, so it
+is formed by the direct product (as before, under `[7]`).
 -/
 
 @[expose] public section
@@ -24,8 +25,8 @@ open SoGraph
 open KAM KAM.Certificate KAM.CertificateSharp KAM.CertificateSharp.V2 KAM.SpinOrbit CertArith
 
 theorem lock_graphM :
-    checkRealLowerBound cert.graph.base.weight cert.graph.base.cfgLow (soGraphMonoModel cert.graph)
-      cert.graph.mono₀ cert.graph.mono cert.graph.sosMono = true := by
+    checkRealLowerBoundK cert.graph.base.weight cert.graph.base.cfgLow [7, 0]
+      (soGraphMonoModel cert.graph) cert.graph.mono₀ cert.graph.mono cert.graph.sosMono = true := by
   decide +kernel
 
 end KAM.SpinOrbit.Data.LockN65

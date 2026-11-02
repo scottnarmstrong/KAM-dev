@@ -20,6 +20,7 @@ public import KAM.SpinOrbit.Data.LockN65.Pass.GraphS
 public import KAM.SpinOrbit.Data.LockN65.Pass.GraphM
 public import KAM.SpinOrbit.Data.LockN65.Pass.GraphL
 public import KAM.SpinOrbit.Data.LockN65.Pass.GraphH
+public import KAM.SpinOrbit.Data.LockN65.GraphK
 public import KAM.SpinOrbit.Data.LockN65.Seg.Checks
 public import KAM.SpinOrbit.Data.LockN65.Seg.Checks.Torsion
 public import KAM.SpinOrbit.Data.LockN65.Seg.Checks.FrameN
@@ -29,7 +30,8 @@ public import KAM.SpinOrbit.Data.LockN65.Seg.Checks.FrameT
 # The N = 65 lock: the passing checks
 
 The v2 certifier at the refined-route witness (`checkTorusCertificateV2 routeAV2 base
-(Sum.inr (Sum.inr refinedWit)) = true`), the graph certifier (`checkSoGraph graph = true`) and
+(Sum.inr (Sum.inr refinedWit)) = true`), the graph certifier (`checkSoGraphK graph = true`, a key
+per SOS square) and
 the frequency enclosure, assembled from the kernel-checked parts: the static, Hamiltonian,
 embedding, claim and frame checks (`Pass/*`), the refined core (`Core`), and the segmented
 invariance, energy, Gram and torsion checks (`Seg/Checks*`), as `Data/Upper/Passes.lean` for the
@@ -74,8 +76,8 @@ theorem lock_passes :
     lock_hamClaim lock_frame lock_core
 
 /-- The graph certifier, from its four conjuncts. -/
-theorem lockGraph_passes : checkSoGraph graph = true := by
-  simp only [checkSoGraph, Bool.and_eq_true]
+theorem lockGraph_passes : checkSoGraphK graph = true := by
+  simp only [checkSoGraphK, Bool.and_eq_true]
   exact ⟨⟨⟨lock_graphS, lock_graphM⟩, lock_graphL⟩, lock_graphH⟩
 
 end KAM.SpinOrbit.Data.LockN65

@@ -20,7 +20,8 @@ Mixed lanes (this machine): LOCK_HEAVY=FILE (one module per line) sends those mo
 heavy lanes with LOCK_HEAVY_MEM (default 10G) and LOCK_HEAVY_GATE kB (default 12 GiB); every other module runs on
 the LANES light lanes (LOCK_MEM, LOCK_GATE).  With LOCK_RETRY_HEAVY=1 a light module killed by its cap is retried
 once on a heavy lane.  LOCK_DONE=FILE marks the listed modules done (verify them first with one
-`lake build --no-build $(cat FILE)`, rc 0).
+`lake build --no-build $(cat FILE)`, rc 0).  LOCK_HEAVY_PAUSE=FILE: while FILE exists no heavy module starts
+(light lanes continue; the run waits for the heavy modules until FILE is removed).
 
 Already-built modules are rebuilt by Lake only if their traces changed (a replay takes a few seconds).
 """
@@ -37,11 +38,13 @@ IMP = re.compile(r"^(?:public )?import (\S+)", re.M)
 MISSING = []
 
 
-def src(m):
-    return os.path.join(ROOT, *m.split(".")) + ".lean"
+def src(m, root=None):
+    return os.path.join(root or ROOT, *m.split(".")) + ".lean"
 
 
-def closure(targets):
+def closure(targets, root=None, pfx=None):
+    """import closure of `targets` within the module prefix `pfx` (default the lock's), sources under `root`"""
+    pfx = pfx or PFX
     deps, order, seen = {}, [], set()
     stack = [(t, False) for t in reversed(targets)]
     while stack:
@@ -52,11 +55,11 @@ def closure(targets):
         if m in seen:
             continue
         seen.add(m)
-        if not os.path.exists(src(m)):
+        if not os.path.exists(src(m, root)):
             print("MISSING source %s" % m, flush=True)
             MISSING.append(m)
             continue
-        ds = [i for i in IMP.findall(open(src(m)).read()) if i.startswith(PFX)]
+        ds = [i for i in IMP.findall(open(src(m, root)).read()) if i.startswith(pfx)]
         deps[m] = ds
         stack.append((m, True))
         stack.extend((d, False) for d in reversed(ds) if d not in seen)
@@ -70,10 +73,11 @@ def mem_available_kb():
     return 0
 
 
-def run(m, logdir, lane, mem=None):
+def run(m, logdir, lane, mem=None, root=None):
+    root = root or ROOT
     mem = mem or os.environ.get("LOCK_MEM", "10G")
     log = os.path.join(logdir, m + ".log")
-    head = subprocess.run("date -u; git -C %s rev-parse HEAD; df -h / | tail -1" % ROOT, shell=True,
+    head = subprocess.run("date -u; git -C %s rev-parse HEAD; df -h / | tail -1" % root, shell=True,
                           capture_output=True, text=True).stdout
     script = ('cg=/sys/fs/cgroup$(cut -d: -f3 /proc/self/cgroup); '
               '/usr/bin/time -v nice -n 5 env LEAN_NUM_THREADS=1 lake build %s; rc=$?; '
@@ -84,7 +88,7 @@ def run(m, logdir, lane, mem=None):
         f.write(head + "lane %s mem %s\n" % (lane, mem))
         f.flush()
         subprocess.run(["systemd-run", "--user", "--scope", "-q", "-p", "MemoryMax=" + mem,
-                        "-p", "MemorySwapMax=0", "bash", "-c", script], cwd=ROOT, stdout=f, stderr=subprocess.STDOUT)
+                        "-p", "MemorySwapMax=0", "bash", "-c", script], cwd=root, stdout=f, stderr=subprocess.STDOUT)
     t = open(log).read()
 
     def grab(pat):
@@ -117,6 +121,7 @@ def main(argv):
     hgate = int(os.environ.get("LOCK_HEAVY_GATE", "12582912"))
     hfree = ["H%d" % i for i in range(1, int(os.environ.get("LOCK_HEAVY_LANES", "1")) + 1)] if heavy else []
     retry = os.environ.get("LOCK_RETRY_HEAVY") == "1" and bool(heavy)
+    hpause = os.environ.get("LOCK_HEAVY_PAUSE", "/nonexistent")     # while this file exists no heavy module starts
     state = {m: "todo" for m in order}            # todo / run / ok / fail / skip
     if os.environ.get("LOCK_DONE"):
         # modules already verified up to date (one batch `lake build --no-build …` rc 0): not re-invoked
@@ -168,7 +173,7 @@ def main(argv):
                 break
             launch = []
             for m in [x for x in ready if x in heavy]:
-                if not hfree or mem_available_kb() < hgate:
+                if not hfree or mem_available_kb() < hgate or os.path.exists(hpause):
                     break
                 state[m] = "run"
                 launch.append((m, hfree.pop(0)))

@@ -7,6 +7,7 @@ module
 
 public import KAM.SpinOrbit.Data.LockN65.Passes
 public import KAM.SpinOrbit.Lock.Graph
+public import KAM.SpinOrbit.Data.LockN65.LockGraphK
 public import KAM.SpinOrbit.Lock.Assembly
 
 /-!
@@ -15,11 +16,12 @@ public import KAM.SpinOrbit.Lock.Assembly
 `lunar_sync_lock_N65` is the conclusion of the frozen `KAM.SpinOrbit.lunar_sync_lock`, proved from
 the kernel-checked N = 65 lock certificate:
 
-* `lockBarrier_of_certV2` turns the passing v2 certificate (`lock_passes`), the passing graph
-  certificate (`lockGraph_passes`), the frequency enclosure (`lock_freq`) and the Diophantine
-  property of `lunarRotFreq (lunarNuPlusN 65) 1` (`lunarRotFreqPlusN_isDiophantine_65`, with the
-  certificate's `γ = 1/67`, `τ = 1`) into a librational barrier for `Ω = 8/65` around
-  `lunarLockCentre`, with action range `[pLo - disp, pHi + disp]`;
+* `lockBarrier_of_certV2K` (`lockBarrier_of_certV2` with the graph check `checkSoGraphK`) turns the
+  passing v2 certificate (`lock_passes`), the passing graph certificate (`lockGraph_passes`), the
+  frequency enclosure (`lock_freq`) and the Diophantine property of `lunarRotFreq (lunarNuPlusN 65)
+  1` (`lunarRotFreqPlusN_isDiophantine_65`, with the certificate's `γ = 1/67`, `τ = 1`) into a
+  librational barrier for `Ω = 8/65` around `lunarLockCentre`, with action range `[pLo - disp, pHi +
+  disp]`;
 * `lunar_sync_lock_of_barrier_check` (the conditional helper of `Lock/Assembly.lean`) gives the
   headline shape on the window `[13155/1000000, 163/10000]` with a passing literal check.
 
@@ -61,7 +63,7 @@ theorem lock_barrier :
     Nonempty (LockBarrier ((cert.Ω : ℚ) : ℝ) (lockCentre cert.cs)
       ((cert.graph.pLo : ℝ) - cert.graph.base.params.disp)
       ((cert.graph.pHi : ℝ) + cert.graph.base.params.disp)) :=
-  lockBarrier_of_certV2 cert (by decide +kernel) (by decide +kernel) rfl (by
+  lockBarrier_of_certV2K cert (by decide +kernel) (by decide +kernel) rfl (by
       have h : (0 : ℚ) < cert.graph.pLo - cert.graph.base.params.disp := by decide +kernel
       exact_mod_cast h)
     lock_passes lockGraph_passes lock_freq lock_dio

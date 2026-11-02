@@ -16,9 +16,9 @@ public import KAM.SpinOrbit.Data.LockN65.HamBridge
 /-!
 # The N = 65 lock: Hamiltonian bounds
 
-From the kernel-checked pieces: the jet bridge `lock_jet` (JetEq), the segmented disc pass `lock_balls`
-(HamBalls) and `lock_hamBoundsOk` (HamOk). The monolithic `decide +kernel` (the band data's form) was
-OOM-killed at 8 GB.
+From the kernel-checked pieces: the jet bridge `lock_jet` (JetEq), the segmented disc pass
+`lock_balls` (HamBalls) and `lock_hamBoundsOk` (HamOk). The monolithic `decide +kernel` (the band
+data's form) was OOM-killed at 8 GB.
 -/
 
 @[expose] public section

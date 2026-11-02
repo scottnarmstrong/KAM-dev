@@ -158,8 +158,10 @@ theorem remainderBound_eq_of_cuts (adv : PackedAdvice) (W : CertWeight) (P2 n M 
     (hn : adv.prodLen = n) (hM : adv.maxSlotDeg = M) (rest : List ℕ)
     (hch : monoFrom 0 rest = true) (hl : ((0 :: rest).getLast (List.cons_ne_nil _ _)) = n)
     {Ns : List ℕ}
-    (h : List.Forall₂ (fun p N => packRangeSum (fun i => adv.slotErr i * W.w.num.toNat ^ adv.slotDeg i *
-      W.w.den ^ (M - adv.slotDeg i)) (p.2 - p.1) p.1 (p.2 - p.1) = N) (cutPairs (0 :: rest)) Ns) :
+    (h : List.Forall₂ (fun p N => packRangeSum (fun i => adv.slotErr i *
+      W.w.num.toNat ^ adv.slotDeg i * W.w.den ^ (M - adv.slotDeg i)) (p.2 - p.1) p.1 (p.2 - p.1) =
+        N)
+      (cutPairs (0 :: rest)) Ns) :
     adv.remainderBound W P2 = ((Ns.sum : ℕ) : ℚ) / ((W.w.den ^ M * 2 ^ P2 : ℕ) : ℚ) := by
   unfold PackedAdvice.remainderBound
   rw [hM, hn, ← sum_map_eq_of_forall₂ h, ← packRangeSum_eq_cuts _ 0 rest n hch, hl, Nat.sub_zero]

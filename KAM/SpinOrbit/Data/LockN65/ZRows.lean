@@ -12,8 +12,8 @@ public import KAM.SpinOrbit.Data.LockN65.ZCode
 # Compact term rows of the lock's generated data (LOCK-DATA, B3 lever (a))
 
 A list of Fourier terms written as the flat integer list `k₀, k₁, re, im, …` (in the compact `zdecs`
-form of `ZCode`), read back four entries at a time by `tmsOf` into the rows `tm k₀ k₁ re im`. The data
-stay untrusted: a checker checks whatever `tmsOf` denotes.
+form of `ZCode`), read back four entries at a time by `tmsOf` into the rows `tm k₀ k₁ re im`. The
+data stay untrusted: a checker checks whatever `tmsOf` denotes.
 -/
 
 @[expose] public section
