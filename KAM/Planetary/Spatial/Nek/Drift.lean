@@ -11,12 +11,11 @@ public import KAM.Planetary.Spatial.Nek.Drift.Slow
 public import KAM.Planetary.StrongAMD.PlanarSafety.Constants
 
 /-!
-# The spatial stopped-drift supplier from the partial-convexity Nekhoroshev theorem (LP3-SP-DRIFT)
+# The spatial stopped-drift supplier from the partial-convexity Nekhoroshev theorem
 
-Package LP3-SP-DRIFT, `LP:MAIN L14 (468–500)` with `LP:MAIN L18 (595–597)` and the sealed
+Source: `LP:MAIN L14 (468–500)` with `LP:MAIN L18 (595–597)` and the sealed
 partial-convexity Nekhoroshev theorem (D58), as planned in `docs/tracks/LP/lp3/LP3-PLAN.md` §2.4
-(eight steps) and §2.5 (`k = n + n` slow pairs), track LP, non-frozen. The statement surface is
-proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+(eight steps) and §2.5 (`k = n + n` slow pairs), track LP, non-frozen.
 
 `spatial_stopped_drift_nek` is the spatial twin of the plan's `lp_stopped_drift_nek`, in the exact
 `hstop` shape of `spatialStrongFirstExit_of_stopped_drift` with `r := (B₀ μ)^{b_n}`:

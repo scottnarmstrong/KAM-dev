@@ -13,8 +13,7 @@ public import KAM.Planetary.AMD.AngularMomentum
 /-!
 # Exact angular momentum and the strong AMD, spatial (vector form)
 
-Package LP-SP-MODEL, `LP:MAIN L3 (130–139)`, `d = 3`; track LP, non-frozen; the statement surface
-is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L3 (130–139)`, `d = 3`; track LP, non-frozen.
 
 Conservation of the vector `L = Σ q_i × p_i` along `IsSpatialMovingSolutionOn` (the recoil term is
 `μ P × P = 0`, central forces have no torque, pair forces cancel); `0 ≤ C`; `C < Λ_k ⇒ L ≠ 0`;

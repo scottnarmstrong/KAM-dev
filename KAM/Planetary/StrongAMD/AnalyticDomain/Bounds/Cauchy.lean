@@ -11,7 +11,7 @@ public import KAM.Planetary.Exponential.ComplexTube
 /-!
 # Generic tube and Cauchy-estimate lemmas for the first-derivative bounds
 
-Package LP-DOMX, `LP:MAIN L8 (253, 270)`, track LP, non-frozen.
+Source: `LP:MAIN L8 (253, 270)`, track LP, non-frozen.
 
 * `complexTube_mono`, `complexTube_add_shift`, `closedBall_subset_complexTube`: elementary
   properties of `complexTube`.
@@ -20,7 +20,6 @@ Package LP-DOMX, `LP:MAIN L8 (253, 270)`, track LP, non-frozen.
 * `norm_fderiv_le_cauchyBall`: the multivariable Cauchy estimate
   `‖fderiv ℂ f z‖ ≤ M / ρ` from a bound `M` on `closedBall z ρ`.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

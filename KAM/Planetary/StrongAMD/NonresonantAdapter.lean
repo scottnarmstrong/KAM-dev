@@ -12,11 +12,10 @@ public import KAM.Planetary.StrongAMD.NonresonantAdapterRescale
 public import KAM.Planetary.StrongAMD.PlanarDictionary
 
 /-!
-# The Lemma 13 adapter, one centre (package LP-DICT, Part B, items 7–9)
+# The Lemma 13 adapter, one centre
 
-Package LP-DICT, MAIN Lemma 13 (`LP:MAIN L13 (429–464)`, with amendment N6), track LP,
-non-frozen; the
-statement surface is proposed in `docs/tracks/LP/FREEZE-PROPOSAL.md`.
+Source: MAIN Lemma 13 (`LP:MAIN L13 (429–464)`, with amendment N6), track LP,
+non-frozen.
 
 An early test of the riskiest interface of the campaign: physical orbit → rescaled chart →
 `KAM.Nekhoroshev.nonresonant`.

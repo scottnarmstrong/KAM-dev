@@ -12,11 +12,10 @@ public import KAM.Planetary.StrongAMD.NonresonantScale
 /-!
 # LP0 and the `τ = n - 1/2` corollary of LP1 through the source carriers (OD-11 (b))
 
-Package LP-FREEZE7 (`LP:MAIN L5 (162–166)`, `§1 (93)`, `L15 (502–506)`, `L16 (508–529)`), track LP,
+Source: (`LP:MAIN L5 (162–166)`, `§1 (93)`, `T15 (502–506)`, `L16 (508–529)`), track LP,
 non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
-* `lp0_planar_barrier_source`: the LP0 text (full MAIN L5; statement review 1, F1) in which the
+* `lp0_planar_barrier_source`: the LP0 text (full MAIN L5) in which the
   strong AMD of the physical state is `sourceStrongAMD ⟨z, h⟩` on the source carrier
   `SourceCanonicalPhase n ν`, with `h` a typing binder (exactly as §3b did for LP1). Proved from
   `lp0_planar_barrier` (definitional repacking).
@@ -63,7 +62,7 @@ theorem lp0_planar_barrier_source {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ) 
   obtain ⟨dS, dP, hdS, hdP, hdef, K, hK, hKs, H⟩ := lp0_planar_barrier hn ν hν U hU hUch m hm
   exact ⟨dS, dP, hdS, hdP, hdef, K, hK, hKs, fun z hphys hΛ _h hC => H z hphys hΛ hC⟩
 
-/-- **LP1 at `τ = n - 1/2` through the source carriers** (`LP:MAIN §1 (93)`, `L15 (502–506)`): the
+/-- **LP1 at `τ = n - 1/2` through the source carriers** (`LP:MAIN §1 (93)`, `T15 (502–506)`): the
 horizon is `T₀ exp (c μ^(-1/(2n+1)))`. -/
 theorem lp1_planar_strongAMD_safety_source_halfInteger {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
     (hν : ∀ i, 0 < ν i) (hνmax : ∃ i, ν i = 1) (hνle : ∀ i, ν i ≤ 1)

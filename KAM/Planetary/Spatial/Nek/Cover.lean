@@ -11,12 +11,11 @@ public import KAM.Planetary.Spatial.AnalyticDomain.Containment
 public import KAM.Planetary.Spatial.AnalyticDomain.Extension
 
 /-!
-# The spatial finite sharp cover of the action set (LP3-SP-COVER, cells)
+# The spatial finite sharp cover of the action set
 
-Package LP3-SP-COVER (part: cells), `LP:MAIN L8 (244–271)`, `LP:MAIN L14 (468–500)` and
+Source: `LP:MAIN L8 (244–271)`, `LP:MAIN L14 (468–500)` and
 `LP:MAIN L18 (595–597)` as planned in `docs/tracks/LP/lp3/LP3-PLAN.md` §2.3, §2.5 (`k = n + n`
-slow pairs, `Phase (n + (n + n))`), track LP, non-frozen. The statement surface is proposed in
-docs/tracks/LP/FREEZE-PROPOSAL.md.
+slow pairs, `Phase (n + (n + n))`), track LP, non-frozen.
 
 The fast data are the planar ones verbatim and are reused, not duplicated, from
 `KAM.Planetary.StrongAMD.Nek.Cover` (they involve only the action space `Fin n → ℝ`): the widths

@@ -12,17 +12,16 @@ public import KAM.Planetary.StrongAMD.AnalyticDomain.Bounds.Algebra
 /-!
 # Complex 3-vector algebra for the spatial denominators
 
-Package LP-SP-DOMX, `LP:MAIN L18 (595)` with `LP:MAIN L8 (266–268)`, track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L18 (595)` with `LP:MAIN L8 (266–268)`, track LP, non-frozen.
 
-Twins of LP-DOMX's `Bounds.Algebra` for bodies with `Fin 3` blocks:
+Twins of the analytic-domain bounds' `Bounds.Algebra` for bodies with `Fin 3` blocks:
 
 * `cBody3`, `cDot3`: body block of a complex coordinate vector and the bilinear `v · v = ∑ v_k²`;
 * `cDot3_cpow_ofReal`: on real vectors the principal root is `spaceLength`;
 * `re_cDot3_ge`: coordinatewise perturbation estimate `Re (w · w) ≥ |u|² − 3ε(ε + 2Q)`;
 * `differentiableOn_inv_sqrt_cDot3`: holomorphy of the reciprocal principal root.
 
-The scalar estimate `norm_inv_sqrt_le` is dimension-free and reused from LP-DOMX.
+The scalar estimate `norm_inv_sqrt_le` is dimension-free and reused from the analytic-domain bounds.
 -/
 
 @[expose] public noncomputable section
@@ -37,9 +36,6 @@ def cBody3 {n : ℕ} (q : Fin (n * 3) → ℂ) (i : Fin n) : Fin 3 → ℂ :=
 
 /-- The bilinear complex dot product `v · v = ∑ v_k²` on `Fin 3 → ℂ`. -/
 def cDot3 (v : Fin 3 → ℂ) : ℂ := ∑ k, v k ^ 2
-
-theorem cBody3_ofReal {n : ℕ} (q : Fin (n * 3) → ℝ) (i : Fin n) :
-    cBody3 (fun j => (q j : ℂ)) i = fun k => ((bodyVector3 q i k : ℝ) : ℂ) := rfl
 
 theorem cDot3_ofReal (u : Fin 3 → ℝ) : cDot3 (fun k => (u k : ℂ)) = (spaceSq u : ℂ) := by
   simp [cDot3, spaceSq]

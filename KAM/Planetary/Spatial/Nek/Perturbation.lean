@@ -12,11 +12,10 @@ public import KAM.Planetary.Exponential.Hamiltonian
 public import KAM.Planetary.Exponential.Lift
 
 /-!
-# The spatial normalized perturbation on every cell (LP3-SP-COVER, perturbation)
+# The spatial normalized perturbation on every cell
 
-Package LP3-SP-COVER (part: perturbation), `LP:MAIN L8 (259–271)` and `LP:MAIN L18 (595)` as
-planned in `docs/tracks/LP/lp3/LP3-PLAN.md` §2.3, §2.5, track LP, non-frozen. The statement surface
-is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L8 (259–271)` and `LP:MAIN L18 (595)` as
+planned in `docs/tracks/LP/lp3/LP3-PLAN.md` §2.3, §2.5, track LP, non-frozen.
 
 The spatial twin of `KAM.Planetary.StrongAMD.Nek.Perturbation`, on `Phase (n + (n + n))` with the
 tube `complexTubeNM (spatialStrongCore ν L δ r_g) R` of `exists_spatialStrongTube`.
@@ -228,7 +227,8 @@ end Cell
 
 /-! ### The bundled statement -/
 
-/-- LP3-SP-COVER, bundled (`LP:MAIN L8 (259–271)`): after the shared tube, one width `R` and one
+/-- The spatial sharp cover, bundled (`LP:MAIN L8 (259–271)`): after the shared tube, one width `R`
+and one
 normalization `B₀ ≥ 1` give a single global `P` such that, for every cell centred in `𝓛_δ`, `±P`
 are partial perturbations on `(G′_j, D_j, ρ)` (with `D_j ⊆ Phase (n + n)`), and on the open real
 region `V_j` the degenerate Hamiltonian `h + (B₀ μ) Re P` equals the spatial chart Hamiltonian

@@ -12,8 +12,7 @@ public import KAM.Planetary.StrongAMD.Orbital
 /-!
 # Specific Kepler elements with parameter `k` and their perturbation estimates
 
-Package LP-OSC, `LP:MAIN L16 (508–529)` with amendment N10; track LP, non-frozen; the statement
-surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L16 (508–529)` with amendment N10; track LP, non-frozen.
 
 For a position `q`, a velocity `V` and a gravitational parameter `k` (planar, unit mass), the
 specific elements of `LP:MAIN L16 (42)`:
@@ -23,7 +22,7 @@ specific elements of `LP:MAIN L16 (42)`:
 This module is pure vector/real analysis, free of any masses or phases:
 
 * `specAxis_tangency`: Lemma 2 with parameter `k` (the ellipse passes through `q`), via
-  `orbital_scalar` of LP-MOM.
+  `orbital_scalar` of the planar momentum identities.
 * `abs_specEnergy_sub_le`, `planeLength_specEccVector_sub_le`, `abs_specAxis_sub_le`,
   `abs_peri_apo_sub_le`: the perturbation estimates behind (43).
 -/

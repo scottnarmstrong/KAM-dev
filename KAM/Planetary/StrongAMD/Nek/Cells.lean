@@ -15,10 +15,9 @@ public import KAM.Planetary.StrongAMD.Nek.Kepler
 /-!
 # The sealed partial-convexity theorem over a finite cell family, forward and backward in time
 
-Package LP3-CELL, the cellwise application of the sealed frozen `partialConvex_nekhoroshev`
+Source: the cellwise application of the sealed frozen `partialConvex_nekhoroshev`
 planned in `docs/tracks/LP/lp3/LP3-PLAN.md` §2.1, §2.4 steps 6–8 (infrastructure: no MAIN lemma
-is transcribed); track LP, non-frozen. The statement surface is proposed in
-docs/tracks/LP/FREEZE-PROPOSAL.md.
+is transcribed); track LP, non-frozen.
 
 One generic theorem in the number `k` of slow pairs (planar `k = n`, spatial `k = n + n`):
 
@@ -30,7 +29,8 @@ One generic theorem in the number `k` of slow pairs (planar `k = n`, spatial `k 
   `[t, 0]` into one of the `(-h, -P)` field on `[0, -t]`;
 * `cell_drift_two_sided`: the two-sided drift bound on every cell (a conditional helper, not a
   source result);
-* `kepler_cell_drift`: the instance `h = planetaryKeplerC ν`, fast premises from LP3-KEP.
+* `kepler_cell_drift`: the instance `h = planetaryKeplerC ν`, fast premises from the Kepler cell
+  data.
 -/
 
 @[expose] public noncomputable section

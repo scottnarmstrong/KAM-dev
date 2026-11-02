@@ -27,8 +27,7 @@ public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceStrongAMD
 /-!
 # Source carriers for the strong AMD and the osculating ellipses (OD-11 option (b))
 
-Package LP-SRC (statement review F4: `LP:MAIN §1 (31–37)`, `L16 (510–525)`), track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: (`LP:MAIN §1 (31–37)`, `L16 (510–525)`), track LP, non-frozen.
 
 The total formulas `strongAMD`, `keplerPeri/Apo`, `oscVelocity/oscParam/oscEnergy/oscAxis/
 oscEccVector/oscEcc/oscPeri/oscApo` are defined on every phase.  The source objects live on the
@@ -55,39 +54,6 @@ open KAM.Planetary
 variable {n : ℕ}
 
 /-! ### Defining equations -/
-
-theorem sourceStrongAMD_def {ν : Fin n → ℝ} (z : SourceCanonicalPhase n ν) :
-    sourceStrongAMD z = strongAMD ν z.1 := rfl
-
-theorem sourceKeplerPeri_def {ν : Fin n → ℝ} (z : SourceCanonicalPhase n ν) (i : Fin n) :
-    sourceKeplerPeri z i = keplerPeri ν z.1 i := rfl
-
-theorem sourceKeplerApo_def {ν : Fin n → ℝ} (z : SourceCanonicalPhase n ν) (i : Fin n) :
-    sourceKeplerApo z i = keplerApo ν z.1 i := rfl
-
-theorem sourceOscVelocity_def {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ)
-    (i : Fin n) : sourceOscVelocity z i = oscVelocity ν μ z.1 i := rfl
-
-theorem sourceOscParam_def {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ) (i : Fin n) :
-    sourceOscParam z i = oscParam ν μ i := rfl
-
-theorem sourceOscEnergy_def {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ)
-    (i : Fin n) : sourceOscEnergy z i = oscEnergy ν μ z.1 i := rfl
-
-theorem sourceOscAxis_def {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ) (i : Fin n) :
-    sourceOscAxis z i = oscAxis ν μ z.1 i := rfl
-
-theorem sourceOscEccVector_def {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ)
-    (i : Fin n) : sourceOscEccVector z i = oscEccVector ν μ z.1 i := rfl
-
-theorem sourceOscEcc_def {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ) (i : Fin n) :
-    sourceOscEcc z i = oscEcc ν μ z.1 i := rfl
-
-theorem sourceOscPeri_def {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ) (i : Fin n) :
-    sourceOscPeri z i = oscPeri ν μ z.1 i := rfl
-
-theorem sourceOscApo_def {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ) (i : Fin n) :
-    sourceOscApo z i = oscApo ν μ z.1 i := rfl
 
 /-! ### Characterizations -/
 

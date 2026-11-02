@@ -9,13 +9,12 @@ public import Mathlib
 public import KAM.Planetary.Exponential.ComplexTube
 
 /-!
-# LP-SP-TUBE: the complex tube for unequal fast/slow blocks
+# The complex tube for unequal fast/slow blocks
 
-Package LP-SP-TUBE, track LP, non-frozen (audit note N12). Re-types track P's `tube`
+Source: track LP, non-frozen (amendment N12). Re-types track P's `tube`
 (`KAM/Planetary/Exponential/ComplexTube.lean`, `Phase (n + n)`) to `Phase (n + m)`, as needed for
 the spatial chart with `n` fast and `m` slow pairs. The generic tools (`fastShift`,
 `real_trace_identity`, `exists_glue`, `local_analytic_complexification`) are reused unchanged.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -43,7 +42,7 @@ theorem mem_ball_shiftNM {d : ℕ} {z : (Fin d → ℂ) × (Fin d → ℂ)} {x s
       z - KAM.Nekhoroshev.complexifyPhase s ∈ ball (KAM.Nekhoroshev.complexifyPhase x) r :=
   mem_ball_shift
 
-/-- (LP:MAIN, audit note N12) Track P's `tube`, re-typed from `Phase (n + n)` to `Phase (n + m)`. -/
+/-- (LP:MAIN, amendment N12) Track P's `tube`, re-typed from `Phase (n + n)` to `Phase (n + m)`. -/
 theorem tubeNM {W K : Set (Phase (n+m))} (hW : IsOpen W) (hK : IsCompact K) (hKW : K ⊆ W)
     (hWp : ∀ k : Fin n → ℤ, ∀ w, w ∈ W ↔ w + fastShift k ∈ W)
     {f : Phase (n+m) → ℝ} (hf : AnalyticOnNhd ℝ f W)
@@ -148,13 +147,6 @@ theorem tubeNM {W K : Set (Phase (n+m))} (hW : IsOpen W) (hK : IsCompact K) (hKW
     rw [fastShift_add, e]
     congr 1; abel
 
-
-/-- For `m = n` the tube is track P's `complexTube`. -/
-theorem complexTubeNM_self (K : Set (Phase (n + n))) (r : ℝ) :
-    complexTubeNM K r = complexTube K r := rfl
-
-theorem periodicOrbitSetNM_self (K : Set (Phase (n + n))) :
-    periodicOrbitSetNM K = periodicOrbitSet K := rfl
 
 theorem isOpen_complexTubeNM (K : Set (Phase (n + m))) (r : ℝ) :
     IsOpen (complexTubeNM K r) := by

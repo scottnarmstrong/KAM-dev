@@ -34,8 +34,7 @@ public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceOscVelocity
 /-!
 # Actual-velocity osculating elements in dimension three: definitions, velocity, tangency
 
-Package LP-SP-OSC, `LP:MAIN L16 (508–529)` with `d = 3` and amendment N10; track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L16 (508–529)` with `d = 3` and amendment N10; track LP, non-frozen.
 
 Literal `LP:MAIN L16 (42)` for a phase `z : Phase (n * 3)` and planet `i` (`q_i`, `p_i` the body
 blocks): `V_i = p_i/ν_i + μ ∑_j p_j`, `k_i = 1 + μ ν_i`, and the specific elements
@@ -76,16 +75,6 @@ theorem spatialOscVelocity_eq_hamiltonianVectorField (ν : Fin n → ℝ) (μ : 
 theorem spatialOscEnergy_eq_spec (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 3)) (i : Fin n) :
     spatialOscEnergy ν μ z i =
       spatialSpecEnergy (spatialOscParam ν μ i) (bodyVector3 z.1 i)
-        (spatialOscVelocity ν μ z i) := rfl
-
-theorem spatialOscAxis_eq_spec (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 3)) (i : Fin n) :
-    spatialOscAxis ν μ z i =
-      spatialSpecAxis (spatialOscParam ν μ i) (bodyVector3 z.1 i)
-        (spatialOscVelocity ν μ z i) := rfl
-
-theorem spatialOscEccVector_eq_spec (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 3)) (i : Fin n) :
-    spatialOscEccVector ν μ z i =
-      spatialSpecEccVector (spatialOscParam ν μ i) (bodyVector3 z.1 i)
         (spatialOscVelocity ν μ z i) := rfl
 
 theorem spaceSq_smul_scalar (c : ℝ) (v : Fin 3 → ℝ) : spaceSq (c • v) = c ^ 2 * spaceSq v := by
@@ -135,50 +124,6 @@ theorem spatialOsc_tangency (ν : Fin n → ℝ) {μ : ℝ} (hμ : 0 ≤ μ) {z 
 /-! ### The valid osculating carrier (OD-11 (b)) -/
 
 /-! Defining equations of the carrier versions. -/
-
-theorem spatialSourceOscVelocity_eq {ν : Fin n → ℝ} {μ : ℝ} (z : SpatialOscPhase n ν μ)
-    (i : Fin n) : spatialSourceOscVelocity z i =
-      (1 / ν i) • bodyVector3 z.1.2 i + μ • ∑ j, bodyVector3 z.1.2 j := rfl
-
-theorem spatialSourceOscParam_eq {ν : Fin n → ℝ} {μ : ℝ} (z : SpatialOscPhase n ν μ)
-    (i : Fin n) : spatialSourceOscParam z i = 1 + μ * ν i := rfl
-
-theorem spatialSourceOscEnergy_eq {ν : Fin n → ℝ} {μ : ℝ} (z : SpatialOscPhase n ν μ)
-    (i : Fin n) : spatialSourceOscEnergy z i =
-      spaceSq (spatialSourceOscVelocity z i) / 2 -
-        spatialSourceOscParam z i / spaceLength (bodyVector3 z.1.1 i) := rfl
-
-theorem spatialSourceOscAxis_eq {ν : Fin n → ℝ} {μ : ℝ} (z : SpatialOscPhase n ν μ)
-    (i : Fin n) : spatialSourceOscAxis z i =
-      -spatialSourceOscParam z i / (2 * spatialSourceOscEnergy z i) := rfl
-
-theorem spatialSourceOscEccVector_eq {ν : Fin n → ℝ} {μ : ℝ} (z : SpatialOscPhase n ν μ)
-    (i : Fin n) : spatialSourceOscEccVector z i =
-      (1 / spatialSourceOscParam z i) •
-        ((spaceSq (spatialSourceOscVelocity z i) -
-            spatialSourceOscParam z i / spaceLength (bodyVector3 z.1.1 i)) •
-            bodyVector3 z.1.1 i -
-          spaceDot (bodyVector3 z.1.1 i) (spatialSourceOscVelocity z i) •
-            spatialSourceOscVelocity z i) := rfl
-
-theorem spatialSourceOscEcc_eq {ν : Fin n → ℝ} {μ : ℝ} (z : SpatialOscPhase n ν μ)
-    (i : Fin n) : spatialSourceOscEcc z i = spaceLength (spatialSourceOscEccVector z i) := rfl
-
-theorem spatialSourceOscPeri_eq {ν : Fin n → ℝ} {μ : ℝ} (z : SpatialOscPhase n ν μ)
-    (i : Fin n) : spatialSourceOscPeri z i =
-      spatialSourceOscAxis z i * (1 - spatialSourceOscEcc z i) := rfl
-
-theorem spatialSourceOscApo_eq {ν : Fin n → ℝ} {μ : ℝ} (z : SpatialOscPhase n ν μ)
-    (i : Fin n) : spatialSourceOscApo z i =
-      spatialSourceOscAxis z i * (1 + spatialSourceOscEcc z i) := rfl
-
-theorem spatialSourceKeplerPeri_eq {ν : Fin n → ℝ} (z : SpatialElliptic ν) (i : Fin n) :
-    spatialSourceKeplerPeri z i =
-      spatialKeplerAxis ν z.1 i * (1 - spaceLength (spatialKeplerEccVector ν z.1 i)) := rfl
-
-theorem spatialSourceKeplerApo_eq {ν : Fin n → ℝ} (z : SpatialElliptic ν) (i : Fin n) :
-    spatialSourceKeplerApo z i =
-      spatialKeplerAxis ν z.1 i * (1 + spaceLength (spatialKeplerEccVector ν z.1 i)) := rfl
 
 /-- **Ellipse validity on the carrier**: a valid osculating state has `0 < a^osc`,
 `0 < a^osc (1 - e^osc)` and the ellipse passes through `q_i`. -/

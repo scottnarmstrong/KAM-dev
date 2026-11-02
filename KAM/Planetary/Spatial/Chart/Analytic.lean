@@ -11,11 +11,10 @@ public import KAM.Planetary.Spatial.Chart.Defs
 /-!
 # The regular spatial Poincare chart: analyticity and `2π`-periodicity
 
-Package LP-SP-CHART, `LP:MAIN L17 (533–578)`, track LP, non-frozen. Item 4: `spatialPoincare ν`
+Source: `LP:MAIN L17 (533–578)`, track LP, non-frozen. Item 4: `spatialPoincare ν`
 is real analytic on (44) (the planar chart is analytic through `ξ = η = 0`, the rotation `R`
 through `Z = 0`) and `2π`-periodic in `λ`.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

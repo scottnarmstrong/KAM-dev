@@ -12,9 +12,9 @@ public import KAM.Planetary.Spatial.NonresonantAdapter
 /-!
 # The spatial premises of the Lemma 13 adapter on the stopped interval
 
-Package LP-SP-LIFT, MAIN Lemma 14 (`LP:MAIN L14 (477–483)`) for `d = 3` with Lemma 18
+Source: MAIN Lemma 14 (`LP:MAIN L14 (477–483)`) for `d = 3` with Lemma 18
 (`LP:MAIN L18 (47)`, `(595–597)`) feeding MAIN Lemma 13 (`LP:MAIN L13 (429–464)`, N6); track LP,
-non-frozen.  The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+non-frozen.
 
 For the block `b = spatialStoppedBlock ν δ I⁰ r wₛ = ⟨I⁰, spLiftSecularBall ν δ I⁰, r, wₛ⟩ :
 PartialBlock n (n + n)` and the chart lift `w` of the stopped orbit

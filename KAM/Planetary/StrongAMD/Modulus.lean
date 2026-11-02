@@ -11,8 +11,8 @@ public import KAM.Planetary.StrongAMD.Threshold
 /-!
 # The modulus of continuity of the strong threshold, and the shared compact `U`
 
-Package LP-MOD, `LP:MAIN L6 (177–189)` with amendment N2 (one shared compact `U`); track LP,
-non-frozen; the statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L6 (177–189)` with amendment N2 (one shared compact `U`); track LP,
+non-frozen.
 
 * M1 `strongThresholdModulus` and its properties (nonnegative, monotone, bounded, the defining
   inequality, `Ω_B(r) → 0` as `r ↓ 0`), for any compact `U ⊆ chamber ν` given as data.
@@ -67,20 +67,6 @@ theorem strongThresholdModulus_mono (hν : ∀ i, 0 < ν i) (hn : 2 ≤ n)
   refine Real.sSup_le ?_ (strongThresholdModulus_nonneg ν U s)
   rintro x ⟨I, hI, J, hJ, hIJ, rfl⟩
   exact abs_strongThreshold_sub_le_modulus hν hn hUc hUch hI hJ (hIJ.trans hrs)
-
-theorem bddAbove_strongThresholdModulus (hν : ∀ i, 0 < ν i) (hn : 2 ≤ n)
-    (hUc : IsCompact U) (hUch : U ⊆ chamber ν) :
-    BddAbove (Set.range (strongThresholdModulus ν U)) := by
-  obtain ⟨C, hC⟩ := hUc.exists_bound_of_continuousOn
-    ((continuousOn_strongThreshold hν hn).mono hUch)
-  refine ⟨max (2 * C) 0, ?_⟩
-  rintro _ ⟨r, rfl⟩
-  refine Real.sSup_le ?_ (le_max_right _ _)
-  rintro x ⟨I, hI, J, hJ, -, rfl⟩
-  have h1 := hC I hI
-  have h2 := hC J hJ
-  rw [Real.norm_eq_abs] at h1 h2
-  exact ((abs_sub _ _).trans (by linarith)).trans (le_max_left _ _)
 
 /-- `Ω_B(r) → 0` as `r ↓ 0` (uniform continuity of `B` on the compact `U`). -/
 theorem tendsto_strongThresholdModulus (hν : ∀ i, 0 < ν i) (hn : 2 ≤ n)

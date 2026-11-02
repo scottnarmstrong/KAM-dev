@@ -13,7 +13,7 @@ public import KAM.Planetary.Spatial.Momentum
 /-!
 # The uniform strong barrier in dimension three (physical form)
 
-Package LP-SP-GEO, `LP:MAIN L5 (162–175)` with `d = 3` and amendments N2 (one shared compact `U`)
+Source: `LP:MAIN L5 (162–175)` with `d = 3` and amendments N2 (one shared compact `U`)
 and N11 (`d_⋆ := a_min m² / (2 I_max²)` first); track LP, non-frozen.
 
 The threshold side is dimension-free and reused from the planar package: `strongThreshold`,
@@ -25,7 +25,6 @@ The threshold side is dimension-free and reused from the planar package: `strong
 * G3 `exists_spatialBarrierCompact`: all barrier states lie in one compact collision-free set.
 * `spatialPerihelionFloor_le` (N11).
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

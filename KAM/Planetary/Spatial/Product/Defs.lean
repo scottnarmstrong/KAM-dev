@@ -15,11 +15,11 @@ public import KAM.Planetary.Spatial.Chart.Analytic
 /-!
 # The n-body spatial product chart: layout, block maps and definitions
 
-Package LP-SP-PROD, `LP:MAIN L17 (533–578)` for `n` bodies, with `AMENDMENTS` N12; track LP,
+Source: `LP:MAIN L17 (533–578)` for `n` bodies, with `AMENDMENTS` N12; track LP,
 non-frozen.
 
 **Layout.** A point of the product domain is `w : Phase (n + (n + n))` (`n` fast pairs, `2n`
-slow pairs), with the body-wise slot convention of LP-SP-CHART:
+slow pairs), with the body-wise slot convention of the spatial chart:
 
 * `w.1 = (λ_1..λ_n | ξ_1..ξ_n | v_1..v_n)` (`fast w.1 = λ`, `slow w.1 = (ξ | v)`),
 * `w.2 = (I_1..I_n | η_1..η_n | u_1..u_n)` (`fast w.2 = I`, `slow w.2 = (η | u)`).
@@ -31,7 +31,6 @@ So the `i`-th body block is the point `((λ_i, ξ_i, v_i), (I_i, η_i, u_i))` of
 `spatialPoincareProd ν w : Phase (n * 3)` applies the one-body chart `spatialPoincare (ν i)` to
 each block (body-major ordering of the `3n` Cartesian coordinates, `bodyVector3`).
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -98,13 +97,6 @@ theorem bodyVector3_ofSpatialBodies_snd (P : Fin n → Phase 3) (i : Fin n) :
     bodyVector3 (ofSpatialBodies P).2 i = (P i).2 := by
   show bodyVector3 (ofBodies3 fun i => (P i).2) i = _
   exact bodyVector3_ofBodies3 _ i
-
-theorem ofSpatialBodies_injective : Function.Injective (ofSpatialBodies (n := n)) := by
-  intro P Q h
-  funext i
-  refine Prod.ext ?_ ?_
-  · rw [← bodyVector3_ofSpatialBodies_fst P i, ← bodyVector3_ofSpatialBodies_fst Q i, h]
-  · rw [← bodyVector3_ofSpatialBodies_snd P i, ← bodyVector3_ofSpatialBodies_snd Q i, h]
 
 theorem ofSpatialBodies_bodyVector3 (z : Phase (n * 3)) :
     ofSpatialBodies (fun i => (bodyVector3 z.1 i, bodyVector3 z.2 i)) = z := by

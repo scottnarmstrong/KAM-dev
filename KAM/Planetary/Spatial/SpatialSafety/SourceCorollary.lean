@@ -14,19 +14,18 @@ public import KAM.Planetary.Spatial.SourceBarycentric
 /-!
 # The `τ = n - 1/2` corollary of LP2 through the spatial source carriers (OD-11 (b))
 
-Package LP-FREEZE7 (`LP:MAIN §1 (93)`, `T19 (599–603)`, `L16 (508–529)`, `d = 3`), track LP,
+Source: (`LP:MAIN §1 (93)`, `T19 (599–603)`, `L16 (508–529)`, `d = 3`), track LP,
 non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 * `lp2_spatial_strongAMD_safety_source_halfInteger`: `lp2_spatial_strongAMD_safety_source` at
   `τ = n - 1/2`, with the horizon exponent written explicitly as `1/(2n+1)` (MAIN §1, line 93).
   Proved from `lp2_spatial_strongAMD_safety_source` and `scaleExponent_planar` (the exponent
   arithmetic does not depend on the dimension).
 * `lp2_spatial_strongAMD_safety_source_isDiophantine` and
-  `lp2_spatial_strongAMD_safety_source_isDiophantine_halfInteger` (package LP-FREEZE7R, draft 7
-  revision 1): the two statements with `∀ hμ : 0 < μ` named, the Newtonian reconstruction through
+  `lp2_spatial_strongAMD_safety_source_isDiophantine_halfInteger`: the two statements with
+  `∀ hμ : 0 < μ` named, the Newtonian reconstruction through
   the source maps `spatialSourceBarycentricPositions/Velocities ν μ hν hμ` of
-  `KAM/Planetary/Spatial/SourceBarycentric.lean` (statement audit of draft 7, F1), and the
+  `KAM/Planetary/Spatial/SourceBarycentric.lean`, and the
   Diophantine premise as the frozen `KAM.IsDiophantine` (`isDiophantine_iff_forall_modeSize`). They
   close the frozen anchors LP2, LP2-H.
 -/
@@ -131,8 +130,8 @@ theorem lp2_spatial_strongAMD_safety_source_halfInteger {n : ℕ} (hn : 2 ≤ n)
 /-- **LP2 with the source reconstruction maps and the frozen Diophantine predicate**
 (`LP:MAIN T19 (599–603)`, `L1 (100–108)`, `§1 (5)`): the statement of
 `lp2_spatial_strongAMD_safety_source` with the positivity of `μ` named `hμ`, the Newtonian
-reconstruction through `spatialSourceBarycentricPositions/Velocities ν μ hν hμ` (statement audit of
-draft 7, F1; definitionally the total maps) and the Diophantine premise as `KAM.IsDiophantine`
+reconstruction through `spatialSourceBarycentricPositions/Velocities ν μ hν hμ`
+(definitionally the total maps) and the Diophantine premise as `KAM.IsDiophantine`
 (literally equivalent, `isDiophantine_iff_forall_modeSize`). -/
 theorem lp2_spatial_strongAMD_safety_source_isDiophantine {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
     (hν : ∀ i, 0 < ν i) (hνmax : ∃ i, ν i = 1) (hνle : ∀ i, ν i ≤ 1)

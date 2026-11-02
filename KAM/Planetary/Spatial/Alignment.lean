@@ -12,8 +12,8 @@ public import KAM.Planetary.Spatial.Momentum
 /-!
 # Aligning the angular momentum with the third axis
 
-Package LP-SP-MODEL, rotation invariance for the alignment in `LP:MAIN L18` (`d = 3`); track LP,
-non-frozen; the statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: rotation invariance for the alignment in `LP:MAIN L18` (`d = 3`); track LP,
+non-frozen.
 
 `exists_rotation_unit_eq_e3`: for every unit vector `u` there is a rotation `R` (`Rᵀ R = 1`,
 `det R = 1`) with `R u = e₃`.  `exists_rotation_align_angularMomentum3`: for every `z` with

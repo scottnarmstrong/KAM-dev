@@ -15,9 +15,8 @@ public import KAM.Planetary.Spatial.Geometry
 /-!
 # The spatial chart lift on the stopped interval
 
-Package LP-SP-LIFT, MAIN Lemma 14 (`LP:MAIN L14 (468–500)`, the chart part) for `d = 3` with the
+Source: MAIN Lemma 14 (`LP:MAIN L14 (468–500)`, the chart part) for `d = 3` with the
 Lemma 18 alignment (`LP:MAIN L18 (595–597)`), amendments N2, N6; track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 `spatialChartLift_of_stopped` mirrors the planar `lpChartLift_of_stopped`: the maximal solution
 `y` of the pulled-back chart field through a chart preimage of `z 0` projects to the physical

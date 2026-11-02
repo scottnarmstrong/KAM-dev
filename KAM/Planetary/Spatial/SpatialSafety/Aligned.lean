@@ -17,7 +17,7 @@ public import KAM.Planetary.Spatial.SpatialSafety.Orientation
 /-!
 # The spatial safety theorem for aligned initial states
 
-Package LP-SP-SAFE (spatial theorem LP2, `LP:MAIN L14 (468–500)`, `L16 (508–529)`,
+Source: (spatial theorem LP2, `LP:MAIN L14 (468–500)`, `L16 (508–529)`,
 `L18 (595–597)`, `T19 (599–603)`), track LP, non-frozen.
 
 `spatial_safety_of_aligned` is MAIN Theorem 19 for initial states whose total angular momentum
@@ -28,7 +28,6 @@ constants of Lemma 13 with `2n` slow pairs (`D₀ = 1`), the budget radius of (3
 barrier and osculating constants for `(U, δ/2)`.  The stopped drift `hstop` of the confinement
 helper is discharged by `spatialChartLift_premises_nrr` and `spatial_stopped_drift`.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -77,7 +76,7 @@ theorem spatial_safety_of_aligned (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀
     spatialStrongBarrier_physical hν hn hUc hUch (half_pos hδ)
   obtain ⟨dS2, dP2, c2, hdS2, hdP2, hc2, μ2, A2, Aosc, hμ2, hA2, hAosc, hAm1, hAm2, hosc⟩ :=
     spatial_osculating_barrier hν hn hUc hUch (half_pos hδ)
-  obtain ⟨r1, hr1, hbud⟩ := exists_spatialBudget_radius hν hn hUc hUch hδ
+  obtain ⟨r1, hr1, hbud⟩ := exists_budget_radius hν hn hUc hUch hδ
   obtain ⟨C, hC⟩ := hUc.isBounded.exists_norm_le
   set r2 : ℝ := min r1 rg with hr2
   have hr20 : 0 < r2 := lt_min hr1 hg.pos

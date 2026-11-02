@@ -10,9 +10,10 @@ public import KAM.Planetary.Spatial.Nek.SpatialSafety.Aligned
 public import KAM.Planetary.Spatial.Newton
 
 /-!
-# The spatial theorem LP3-2 (spatial strong-AMD exponential safety, no arithmetic hypothesis)
+# The spatial theorem the Nekhoroshev part (spatial strong-AMD exponential safety, no arithmetic
+hypothesis)
 
-Package LP3-SP-SAFE, `LP:MAIN T19 (599–603)` with `L14 (468–500)`, `L16 (508–529)`,
+Source: `LP:MAIN T19 (599–603)` with `L14 (468–500)`, `L16 (508–529)`,
 `L18 (595–597)` for `d = 3`, track LP, non-frozen.
 
 * `lp3_spatial_strongAMD_safety`: the text of `lp2_spatial_strongAMD_safety` with exactly three
@@ -22,7 +23,6 @@ Package LP3-SP-SAFE, `LP:MAIN T19 (599–603)` with `L14 (468–500)`, `L16 (508
   nonzero-angular-momentum, secular-confinement, alignment or arithmetic premise.
 * `lp3_spatial_strongAMD_safety_normalized`: the corollary with `hνmax`, `hνle` (unused).
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -33,7 +33,7 @@ open KAM.Planetary KAM.Planetary.StrongAMD Set
 
 variable {n : ℕ}
 
-/-- **LP3-2 (spatial strong-AMD exponential safety, no arithmetic hypothesis;
+/-- **The Nekhoroshev part (spatial strong-AMD exponential safety, no arithmetic hypothesis;
 `LP:MAIN T19 (599–603)` with `L14 (468–500)`, `L16`, `L18`).**  The statement of
 `lp2_spatial_strongAMD_safety` without `γ τ` and the Diophantine premise, with time
 `T₀ exp (c μ^{-a_n})` and drift scale `μ^{b_n}`; no orientation premise. -/
@@ -145,8 +145,8 @@ theorem lp3_spatial_strongAMD_safety (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : 
       simpa only [spatialKeplerAction_rotate hR] using hC0')
   exact hfin _ (hz'.transport_rotate hR hdet)
 
-/-- LP3-2 with MAIN's mass normalization `max ν = 1` (`hνmax`, `hνle`) as unused premises: the
-spatial twin of `lp3_planar_strongAMD_safety_normalized`. -/
+/-- The Nekhoroshev part with MAIN's mass normalization `max ν = 1` (`hνmax`, `hνle`) as unused
+premises: the spatial twin of `lp3_planar_strongAMD_safety_normalized`. -/
 theorem lp3_spatial_strongAMD_safety_normalized (hn : 2 ≤ n) (ν : Fin n → ℝ)
     (hν : ∀ i, 0 < ν i) (_hνmax : ∃ i, ν i = 1) (_hνle : ∀ i, ν i ≤ 1)
     (A : Set (Fin n → ℝ)) (hA : IsCompact A)

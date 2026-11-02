@@ -12,11 +12,10 @@ public import KAM.Planetary.StrongAMD.AnalyticDomain.Bounds.Cauchy
 /-!
 # Tube and Cauchy-estimate lemmas on `Phase (n + m)` for the spatial first-derivative bounds
 
-Package LP-SP-DOMX, `LP:MAIN L18 (595)` with `LP:MAIN L8 (253, 270)`, track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L18 (595)` with `LP:MAIN L8 (253, 270)`, track LP, non-frozen.
 
-Twins of LP-DOMX's `Bounds.TubeBound` for `complexTubeNM` (`n` fast and `m` slow pairs); the
-multivariable Cauchy estimate `norm_fderiv_le_cauchyBall` is dimension-free and reused.
+Twins of the analytic-domain bounds' `Bounds.TubeBound` for `complexTubeNM` (`n` fast and `m` slow
+pairs); the multivariable Cauchy estimate `norm_fderiv_le_cauchyBall` is dimension-free and reused.
 
 * `closedBall_subset_complexTubeNM`: thickening of a tube (monotonicity, openness and shift
   invariance are SP-TUBE's `complexTubeNM_mono`, `isOpen_complexTubeNM`,

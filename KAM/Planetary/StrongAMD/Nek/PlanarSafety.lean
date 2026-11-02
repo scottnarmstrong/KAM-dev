@@ -10,14 +10,13 @@ public import KAM.Planetary.StrongAMD.Nek.PlanarSafety.Prograde
 public import KAM.Planetary.StrongAMD.Nek.PlanarSafety.Main
 
 /-!
-# The planar theorem LP3-1 (facade)
+# The planar theorem the Nekhoroshev part (facade)
 
-Package LP3-PS (MAIN Theorem 15 with Lemma 16, Nekhoroshev drift), track LP, non-frozen.
+Source: (MAIN Theorem 15 with Lemma 16, Nekhoroshev drift), track LP, non-frozen.
 Re-exports the parts: `Orientation` (reflection transport of the conclusion, drift scale as a
 parameter), `Prograde` (the theorem for `L > 0`), `Main` (`lp3_planar_strongAMD_safety` and its
 normalized form).
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 public section

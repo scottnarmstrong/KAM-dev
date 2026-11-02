@@ -16,7 +16,7 @@ public import KAM.Planetary.Spatial.AnalyticDomain.Bounds
 /-!
 # The spatial whole-sublevel complex domain (facade)
 
-Package LP-SP-DOM, `LP:MAIN L18 (580–597)`, track LP, non-frozen. Facade importing the modules of
+Source: `LP:MAIN L18 (580–597)`, track LP, non-frozen. Facade importing the modules of
 `KAM/Planetary/Spatial/AnalyticDomain/`:
 
 * `Core`: D2 `spatialStrongCore` (MAIN (47)), compactness, margin, inclusion in the chart domain;
@@ -25,5 +25,4 @@ Package LP-SP-DOM, `LP:MAIN L18 (580–597)`, track LP, non-frozen. Facade impor
 * `Containment`: D5 MAIN (22) with (47) lies in the half tube;
 * `Alignment`: the alignment remark (MAIN 595–597).
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/

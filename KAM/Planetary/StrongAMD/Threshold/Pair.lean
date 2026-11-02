@@ -11,8 +11,7 @@ public import KAM.Planetary.StrongAMD.Threshold.Defs
 /-!
 # Strong AMD thresholds: attainment, contact, positivity, upper bound
 
-Package LP-THR, `LP:MAIN L4 (141–160)`. Track LP, non-frozen; the statement surface is proposed in
-docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L4 (141–160)`. Track LP, non-frozen.
 
 * `pairFeasible_nonempty`, `isCompact_pairFeasible`: the feasible set is nonempty and compact.
 * `pairThreshold_isLeast`, `exists_pairThreshold_attained`: the characterization (attained minimum).

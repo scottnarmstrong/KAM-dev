@@ -15,8 +15,7 @@ public import KAM.ODE.Lipschitz
 /-!
 # Uniform data on the compact fast cylinder, for `a` fast and `b` slow coordinates
 
-Package LP-SP-LIFT, MAIN Lemma 14 for `d = 3` (`LP:MAIN L14 (468–500)`), track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: MAIN Lemma 14 for `d = 3` (`LP:MAIN L14 (468–500)`), track LP, non-frozen.
 
 Re-typing of track P's `KAM.Planetary.uniform_data` (stated for `Phase (n + n)`) to
 `Phase (a + b)`, as needed for the spatial chart `Phase (n + (n + n))` (`a = n`, `b = n + n`;

@@ -11,18 +11,17 @@ public import KAM.Planetary.Spatial.NonresonantAdapterRescale
 public import KAM.Planetary.StrongAMD.NonresonantAdapter
 
 /-!
-# The Lemma 13 adapter for unequal fast and slow blocks (package LP-SP-ADAPT, part 2)
+# The Lemma 13 adapter for unequal fast and slow blocks
 
-Package LP-SP-ADAPT, re-typing of the audited LP-DICT Part B items 7–9
-(`LP:MAIN L13 (429–464)`, with amendment N6), track LP, non-frozen. The statement surface is
-proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: re-typing of the planar chart-dictionary Part B items 7–9
+(`LP:MAIN L13 (429–464)`, with amendment N6), track LP, non-frozen.
 
 For a `PartialBlock n m`: `lpRealDomNM_isOpen`, `lpIndicatorNM_field` (the indicator Hamiltonian
 `realHamiltonianExt b R H` has the weighted field of `Ĝ` on the open real domain once the trace
 identity `(H (extCx y)).re = Ĝ y` holds there), `lpOrbitNM_hasDerivAt` (the rescaled chart lift of a
 solution of the chart Hamiltonian field of an abstract `G` is an orbit of
 `F = realWfield b.c (realHamiltonianExt b b.rB H)`), and `lpRescaleNM_eq_lpRescale`, the agreement
-with LP-DICT's planar `lpRescale` at `m = n`.
+with the planar chart dictionary's planar `lpRescale` at `m = n`.
 
 `nonresonant_drift_of_chartDataNM` is **conditional** (not a source result): it assumes the
 engine's inputs, the trace identity, real-domain membership along the interval and the stopped
@@ -40,17 +39,9 @@ variable {n m : ℕ}
 
 /-! ### Agreement with the planar adapter at `m = n` -/
 
-/-- At `m = n` the generic rescaling is LP-DICT's planar `lpRescale`. -/
+/-- At `m = n` the generic rescaling is the planar chart dictionary's planar `lpRescale`. -/
 theorem lpRescaleNM_eq_lpRescale (ℓ : ℝ) :
     (lpRescaleNM ℓ : Phase (n + n) →L[ℝ] ER n n) = KAM.Planetary.StrongAMD.lpRescale ℓ := rfl
-
-/-- At `m = n` the generic inverse rescaling is LP-DICT's planar `lpUnrescale`. -/
-theorem lpUnrescaleNM_eq_lpUnrescale (ℓ : ℝ) :
-    (lpUnrescaleNM ℓ : ER n n →L[ℝ] Phase (n + n)) = KAM.Planetary.StrongAMD.lpUnrescale ℓ := rfl
-
-/-- At `m = n` the generic rescaled Hamiltonian is LP-DICT's planar `lpRescaleHam`. -/
-theorem lpRescaleHamNM_eq_lpRescaleHam (ℓ : ℝ) (G : Phase (n + n) → ℝ) :
-    lpRescaleHamNM ℓ G = KAM.Planetary.StrongAMD.lpRescaleHam ℓ G := rfl
 
 /-! ### The indicator Hamiltonian -/
 

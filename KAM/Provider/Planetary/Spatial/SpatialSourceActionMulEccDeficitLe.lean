@@ -11,16 +11,15 @@ public import KAM.Planetary.Spatial.SourceCarrier
 # Provider for `KAM.Planetary.Spatial.spatialSourceAction_mul_eccDeficit_le`
 
 Provider for the frozen theorem `KAM.Planetary.Spatial.spatialSourceAction_mul_eccDeficit_le`,
-draft-7 revision-1 characterization theorem of `spatialSourceStrongAMD`; track LP, package
-LP-FREEZE7R (`LP:MAIN L3 (130–139)`). The statement surface is proposed in
-docs/tracks/LP/FREEZE-PROPOSAL.md.
+characterization theorem of `spatialSourceStrongAMD`;
+track LP (`LP:MAIN L3 (130–139)`).
 
 The theorem `KAM.Provider.Planetary.Spatial.spatialSourceAction_mul_eccDeficit_le` states the
 anchor's exact type text (its draft file under `docs/tracks/LP/freeze/draft7/`). Its proof is the
 proof of the former implementation lemma
 `KAM.Planetary.Spatial.spatialSourceAction_mul_eccDeficit_le`
-(`KAM.Planetary.Spatial.SourceCarrier`), moved verbatim at the freeze (D62; FREEZE-PROPOSAL §7 point
-3). No module other than the anchor imports this module (AGENTS rule 9).
+(`KAM.Planetary.Spatial.SourceCarrier`), moved verbatim at the freeze (D62). No module other than
+the anchor imports this module (AGENTS rule 9).
 -/
 
 @[expose] public section

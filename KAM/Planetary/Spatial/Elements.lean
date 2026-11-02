@@ -19,8 +19,7 @@ public import KAM.Frozen.Planetary.Spatial.Defs.SpatialNegativeEnergy
 /-!
 # Kepler elements, angular momentum and strong AMD in dimension three
 
-Package LP-SP-MODEL, `LP:MAIN §1 (2) (26–45)` with `d = 3`; track LP, non-frozen; the statement
-surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN §1 (2) (26–45)` with `d = 3`; track LP, non-frozen.
 
 The total (uncarried) definitions follow the planar frozen convention (mass argument `ν`, total
 Kepler energy `ν_i E_i`); they carry meaning only on the negative-energy carrier
@@ -42,10 +41,6 @@ def spatialStrongAMD (ν : Fin n → ℝ) (z : Phase (n * 3)) : ℝ :=
 
 /-- The strong AMD on its carrier. -/
 def spatialStrongAMDOn (ν : Fin n → ℝ) (z : SpatialElliptic ν) : ℝ := spatialStrongAMD ν z.1
-
-/-- Characterization: on the carrier, the strong AMD is the total one. -/
-theorem spatialStrongAMDOn_eq (ν : Fin n → ℝ) (z : SpatialElliptic ν) :
-    spatialStrongAMDOn ν z = spatialStrongAMD ν z.1 := rfl
 
 theorem angularMomentum3_eq_sum (z : Phase (n * 3)) :
     angularMomentum3 z = ∑ i, planetAngularMomentum3 z i := rfl
