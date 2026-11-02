@@ -14,7 +14,7 @@ public import KAM.Planetary.StrongAMD.Orbital
 /-!
 # Constants and elementary estimates of the planar assembly
 
-Source: (planar theorem LP1, `LP:MAIN L14 (468–500)`, `L15`), track LP, non-frozen.
+Source: (planar theorem LP1, `LP:MAIN L14 (468–500)`, `T15 (502–506)`), track LP, non-frozen.
 
 * `exists_budget_radius`: the budget `n r + Ω_B(r) ≤ δ/4` of MAIN (39) for every small `r`.
 * `norm_axis_sub_le`: the action-to-axis estimate (MAIN line 497).

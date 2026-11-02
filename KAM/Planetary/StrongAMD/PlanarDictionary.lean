@@ -55,6 +55,9 @@ theorem lpChart_image {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) :
     poincareProd ν 1 '' poincareProdDom n = {z | ProgradeElliptic ν z} :=
   poincareProd_image_prograde hν
 
+/-- The chart domain is open (used by the HD 11964 application, `HoloG2.lean`). -/
+theorem lpChart_isOpen_dom (n : ℕ) : IsOpen (poincareProdDom n) := isOpen_poincareProdDom n
+
 /-! ### Per-planet dictionary -/
 
 private theorem planetBlock_snd_zero (w : Phase (n + n)) (i : Fin n) :
