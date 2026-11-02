@@ -7,7 +7,7 @@
 Transfer: `symplecticForm_hamiltonianVectorField (H z v) : ω (X H z) v = - fderiv ℝ H z v`;
 `symplecticForm_nondegenerate (h : ∀ v, ω u v = 0) : u = 0`;
 `bijective_of_symplectic {L : P n →L[ℝ] P n} (h : ∀ u v, ω (L u) (L v) = ω u v) : Function.Bijective L`;
-`fderiv_apply_hamiltonianVectorField_comp`; `hasDerivAt_comp_chart`
+`fderiv_chart_apply_hamiltonianVectorField`; `hasDerivAt_comp_chart`
 (hypotheses order: `hc hΨ hH hsymp`); `contDiffOn_hamiltonianVectorField (hH : ContDiffOn ℝ 2 H V) (hV : IsOpen V)`
 (= `KAM.ODE.ham_smooth_c1`); `observable_transfer_bound`.
 ActionDerivative: `fderiv_eq_zero_of_const_curve` (helper), `fderiv_angle_eq_of_eventuallyEq`,

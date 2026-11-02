@@ -17,7 +17,7 @@ public import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
 
 * `symplecticForm_hamiltonianVectorField`: `ω (X_H z) v = - dH(z) v`; `symplecticForm_nondegenerate`.
 * `bijective_of_symplectic`: symplectic linear maps are bijective.
-* `fderiv_apply_hamiltonianVectorField_comp`: `DΨ X_{H∘Ψ} = X_H ∘ Ψ` for a symplectic chart `Ψ`;
+* `fderiv_chart_apply_hamiltonianVectorField`: `DΨ X_{H∘Ψ} = X_H ∘ Ψ` for a symplectic chart `Ψ`;
   `hasDerivAt_comp_chart` is the curve version.
 * `contDiffOn_hamiltonianVectorField`: `C²` Hamiltonians have `C¹` vector fields.
 * `observable_transfer_bound`: the algebraic core of observable transfer.
@@ -81,7 +81,7 @@ theorem bijective_of_symplectic {L : (Fin n → ℝ) × (Fin n → ℝ) →L[ℝ
   exact ⟨hinj, LinearMap.injective_iff_surjective.1 hinj⟩
 
 /-- Chart transport: a symplectic chart intertwines Hamiltonian vector fields. -/
-theorem fderiv_apply_hamiltonianVectorField_comp {H : (Fin n → ℝ) × (Fin n → ℝ) → ℝ}
+theorem fderiv_chart_apply_hamiltonianVectorField {H : (Fin n → ℝ) × (Fin n → ℝ) → ℝ}
     {Ψ : (Fin n → ℝ) × (Fin n → ℝ) → (Fin n → ℝ) × (Fin n → ℝ)} {w : (Fin n → ℝ) × (Fin n → ℝ)}
     (hH : DifferentiableAt ℝ H (Ψ w)) (hΨ : DifferentiableAt ℝ Ψ w)
     (hsymp : ∀ u v, KAM.symplecticForm (fderiv ℝ Ψ w u) (fderiv ℝ Ψ w v) = KAM.symplecticForm u v) :
@@ -113,7 +113,7 @@ theorem hasDerivAt_comp_chart {H : (Fin n → ℝ) × (Fin n → ℝ) → ℝ}
       KAM.symplecticForm u v) :
     HasDerivAt (Ψ ∘ c) (KAM.hamiltonianVectorField H (Ψ (c t))) t := by
   have := hΨ.hasFDerivAt.comp_hasDerivAt t hc
-  rwa [fderiv_apply_hamiltonianVectorField_comp hH hΨ hsymp] at this
+  rwa [fderiv_chart_apply_hamiltonianVectorField hH hΨ hsymp] at this
 
 /-- `C²` Hamiltonians have `C¹` Hamiltonian vector fields. -/
 theorem contDiffOn_hamiltonianVectorField {H : (Fin n → ℝ) × (Fin n → ℝ) → ℝ}
