@@ -15,6 +15,7 @@ public import HD11964.Generator
 public import HD11964.Glue
 public import HD11964.Homological
 public import HD11964.Holo
+public import HD11964.HoloExt
 public import HD11964.HoloSlab
 public import HD11964.ParamIntegral
 public import HD11964.NoCrossing
@@ -45,7 +46,9 @@ the cell bounds (`HD11964.ChiRot`), the tail weight of a box mode set (`HD11964.
 tails `T₁`, `T₂` from Fourier decay on a strip (`HD11964.TailBound`) and on an anisotropic strip
 (`HD11964.TailAniso`). The complex extension of `P` (HD11964-HOLO): the complexified chart and
 perturbation, and the Kepler contraction on the strip (`HD11964.Holo`) and on the per-slab strips
-(`HD11964.HoloSlab`).
+(`HD11964.HoloSlab`); the fully complexified perturbation, analytic at every point with the chart
+conditions, periodic and equal to `P` at real points, on the per-slab strips, and the cell-to-slab
+check (`HD11964.HoloExt`).
 
 The reduced-mass bridge (scoping note §4): the reduced Delaunay actions and the analytic range of
 `G - Λ` on `R(r)` (`HD11964.ReducedRange`), and no orbit crossing with the first exit driven by
