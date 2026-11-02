@@ -23,3 +23,7 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
 - 2026-11-02 23:50: B1-CORE and B1-TRANSFER merged into inp-b1 (pre-audit, not landed). B1-HEAD prover launched
   (claude-2, KAM-inp-b1head): the two headlines verbatim from the audited text, observable-transfer corollaries,
   edge-case examples. Finished prover sessions closed.
+- 2026-11-02 23:51: B1-TRANSFER audit 1 (codex-2): **PASS WITH NOTES** (N1 = OD-B2 wording, already fixed on inp-b1;
+  N2 = roots regenerate at landing). 23:54: B1-CORE audit 1: **PASS WITH NOTES** (N1 implicit-binder order of
+  `exists_confined_solution_compact`, harmless; N2 = same OD-B2 wording). Auditor sessions closed.
+- 2026-11-02 23:54: landing request for inp-b1 (CORE + TRANSFER + track docs) sent to kam-inp-63.

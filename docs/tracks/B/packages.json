@@ -22,7 +22,7 @@
     "KAM/EffectiveStability/ChartFlow.lean"
    ],
    "source": "plan §7 Brief 2: stopped drift, first exit, continuation",
-   "status": "ready; audit 1 running (codex-2)"
+   "status": "PASS WITH NOTES (audit 1); landing requested"
   },
   {
    "id": "B1-TRANSFER",
@@ -31,7 +31,7 @@
     "KAM/EffectiveStability/ActionDerivative.lean"
    ],
    "source": "plan §7 Brief 2: chart transport, action derivatives, B1-transfer",
-   "status": "ready; audit 1 running (codex-2)"
+   "status": "PASS WITH NOTES (audit 1); landing requested"
   },
   {
    "id": "B1-HEAD",
