@@ -13,9 +13,8 @@ public import KAM.Planetary.StrongAMD.PlanarSafety.Constants
 /-!
 # The planar stopped-drift supplier of LP3 (no Diophantine premise)
 
-Package LP3-DRIFT, MAIN Lemma 14 (`LP:MAIN L14 (468–500)`) with the drift supplied by the sealed
+Source: MAIN Lemma 14 (`LP:MAIN L14 (468–500)`) with the drift supplied by the sealed
 partial-convexity Nekhoroshev theorem (`LP3-PLAN` §2.2–§2.4), track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 Every constant is chosen from `(n, ν, L, δ)` only, before `μ` and the orbit: the shared tube radius
 `r_g`, the normalization `B₀ ≥ 1` of the perturbation, the finite cover of `𝓛_δ`, the thresholds of
@@ -28,7 +27,7 @@ With `ε = B₀ μ` the drift scale is `r(μ) = ε ^ b_n` and the time is `exp (
   (`StoppedOn`) with `|t| ≤ T(μ)`.  No drift, AMD or confinement premise is assumed; the initial
   action lies in `𝓛_δ` (typing data of the sublevel).
 * `lp_stopped_drift_nek_hstop`: the same in the literal `hstop` shape of
-  `strongFirstExit_of_stopped_drift` (time `T₀ exp (c μ^{-a_n})`), for the assembly LP3-PS.
+  `strongFirstExit_of_stopped_drift` (time `T₀ exp (c μ^{-a_n})`), for the assembly the planar Nekhoroshev safety.
 -/
 
 @[expose] public noncomputable section

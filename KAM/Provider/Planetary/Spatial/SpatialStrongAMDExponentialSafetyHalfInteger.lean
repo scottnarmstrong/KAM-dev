@@ -11,16 +11,13 @@ public import KAM.Planetary.Spatial.SpatialSafety.SourceCorollary
 # Provider for `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger`
 
 Provider for the frozen theorem
-`KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger`, draft-7 revision-1 anchor
-LP2-H (spatial strong-AMD exponential safety at τ = n − 1/2 (exponent 1/(2n+1))); track LP, package
-LP-FREEZE7R (`LP:MAIN §1 (93) (τ = n − 1/2), T19 (599–603), L16 (508–529), d = 3`). The statement
-surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+`KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger`, anchor
+LP2-H (spatial strong-AMD exponential safety at τ = n − 1/2 (exponent 1/(2n+1))); track LP (`LP:MAIN §1 (93) (τ = n − 1/2), T19 (599–603), L16 (508–529), d = 3`).
 
 The theorem `KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger` states
 the anchor's exact type text (its draft file under `docs/tracks/LP/freeze/draft7/`) and is proved in
 one line by the implementation theorem
-`KAM.Planetary.Spatial.lp2_spatial_strongAMD_safety_source_isDiophantine_halfInteger`. While the
-frozen anchor is `DRAFT_SORRY` (or not yet created), this module is quarantined: no module other
+`KAM.Planetary.Spatial.lp2_spatial_strongAMD_safety_source_isDiophantine_halfInteger`. This module is quarantined: no module other
 than the anchor may import it (AGENTS rule 9).
 -/
 

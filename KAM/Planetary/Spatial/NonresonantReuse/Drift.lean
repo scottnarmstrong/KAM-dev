@@ -11,10 +11,9 @@ public import KAM.Planetary.Spatial.NonresonantReuse.Hyp
 public import KAM.Planetary.StrongAMD.NonresonantReuse.Drift
 
 /-!
-# The spatial stopped drift (package LP-SP-NRR, item 4; MAIN Lemma 13 and Theorem 19)
+# The spatial stopped drift
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
-Package LP-SP-NRR, MAIN Lemma 13 with `2n` slow pairs and Theorem 19
+Source: MAIN Lemma 13 with `2n` slow pairs and Theorem 19
 (`LP:MAIN L13 (429–464)`, `LP:MAIN T19 (599–603)`), amendment N6, track LP, non-frozen.
 
 `spatial_stopped_drift` is the conclusion of Lemma 13 in dimension three: constants
@@ -24,7 +23,7 @@ condition (5), and every physical spatial solution with chart lift satisfying th
 domain localization premises of `nonresonant_drift_of_chartDataNM`, the Kepler actions stay within
 `D₀√μ/2` of `I⁰` up to time `T₀ exp(c μ^{-a})`.  The premises are the physical solution, its chart
 lift and the localization; no drift, confinement or AMD bound is assumed.  The stopped radius is
-strictly inside the tube radii (`D₀√μ ≤ ρ < r_*`, audit note on N6).
+strictly inside the tube radii (`D₀√μ ≤ ρ < r_*`, amendment N6).
 -/
 
 @[expose] public noncomputable section

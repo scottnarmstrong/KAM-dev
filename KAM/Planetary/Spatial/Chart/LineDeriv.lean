@@ -12,13 +12,12 @@ public import KAM.Planetary.Spatial.Chart.RotAlgebra
 /-!
 # The spatial chart: derivative of the rotation along a line
 
-Package LP-SP-CHART, `LP:MAIN L17 (562–569)`, track LP, non-frozen. Along the line
+Source: `LP:MAIN L17 (562–569)`, track LP, non-frozen. Along the line
 `τ ↦ w + τ • h` the rotation `spatialRot` has entries `rot3 a b c` with `a = u/(2√G)`,
 `b = −v/(2√G)`, `c = incCos u v G`; this module computes their derivatives at `τ = 0`
 (`spatialRot_line_hasDerivAt`) and the algebraic relations between the resulting numbers
 (used by `rot3_form_identity` in the symplecticity proof).
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

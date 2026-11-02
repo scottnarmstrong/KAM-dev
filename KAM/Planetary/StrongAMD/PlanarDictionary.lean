@@ -13,11 +13,10 @@ public import KAM.Planetary.Poincare.Product
 public import KAM.Planetary.StrongAMD.Momentum
 
 /-!
-# The planar chart dictionary (package LP-DICT, Part A)
+# The planar chart dictionary
 
-Package LP-DICT, MAIN Lemma 7 (`LP:MAIN L7 (193–242)`, with N1 at line 238), track LP,
-non-frozen; the
-statement surface is proposed in `docs/tracks/LP/FREEZE-PROPOSAL.md`.
+Source: MAIN Lemma 7 (`LP:MAIN L7 (193–242)`, with N1 at line 238), track LP,
+non-frozen.
 
 The repository chart `poincareProd ν 1 : Phase (n + n) → Phase (n * 2)` (period `2π`, `κ = G m₀ =
 1`)
@@ -29,7 +28,7 @@ here restates facts of `Poincare/*` and `Exponential/Dictionary.lean` in MAIN's 
 * the per-planet dictionary: action `I = Λ`, energy `−ν³/(2 I²)`, momentum `L = I − Γ`, the
   eccentricity vector `keplerEccVector = poincareV`, `e² = 1 − (1 − Γ/I)²`, and MAIN's
   `(k, l) = b_e (x, −y)` (`lpChart_eccVector_xy`);
-* the AMD `C = (∑ I_i) − |L|` of MAIN (2) (`strongAMD`, LP-MOM) equals `chartAMD w`;
+* the AMD `C = (∑ I_i) − |L|` of MAIN (2) (`strongAMD`, the planar momentum identities) equals `chartAMD w`;
 * one-line corollaries: Hamiltonian identity, symplecticity, analyticity, periodicity, inverse.
 -/
 
@@ -66,25 +65,6 @@ theorem lpChart_action {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {w : Phase (
     keplerAction ν (poincareProd ν 1 w) i = fast w.2 i :=
   (poincareProd_planet_facts hν hw i).1
 
-/-- (LP:MAIN L7 (200)) The energy of planet `i` is `−ν³/(2 I²)`. -/
-theorem lpChart_energy {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {w : Phase (n + n)}
-    (hw : w ∈ poincareProdDom n) (i : Fin n) :
-    keplerEnergy ν (poincareProd ν 1 w) i = -(ν i) ^ 3 / (2 * (fast w.2 i) ^ 2) := by
-  obtain ⟨-, hE, -⟩ := poincare_elements (hν i) one_pos (hw i)
-  have hblock := poincareProd_block ν 1 w i
-  have hE' : keplerEnergy ν (poincareProd ν 1 w) i =
-      energyMK (ν i) 1 (poincare (ν i) 1 (planetBlock w i)) := by
-    rw [← hblock]; simp [keplerEnergy, energyMK]
-  rw [hE', hE, planetBlock_snd_zero]
-  simp
-
-/-- (LP:MAIN L7 (200)) `L_i = I_i − Γ_i`. -/
-theorem lpChart_momentum {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {w : Phase (n + n)}
-    (hw : w ∈ poincareProdDom n) (i : Fin n) :
-    planeCross (bodyVector (poincareProd ν 1 w).1 i) (bodyVector (poincareProd ν 1 w).2 i) =
-      fast w.2 i - lpGamma w i :=
-  (poincareProd_planet_facts hν hw i).2.2
-
 /-- (LP:MAIN L7 (226)) The eccentricity vector of planet `i` is the regular vector `poincareV`
 of its chart block. -/
 theorem lpChart_eccVector {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {w : Phase (n + n)}
@@ -99,28 +79,6 @@ theorem lpChart_eccVector {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {w : Phas
   rw [← hV]
   unfold keplerEccVector
   simp only [h1, h2, inv_one, one_smul]
-
-/-- (LP:MAIN L7 (205), (226)) `k² + l² = 1 − s²` with `s = 1 − Γ/I`; hence
-`e² = 1 − (1 − Γ/I)²`. -/
-theorem lpChart_eccSq {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {w : Phase (n + n)}
-    (hw : w ∈ poincareProdDom n) (i : Fin n) :
-    planeSq (keplerEccVector ν (poincareProd ν 1 w) i) =
-      1 - (1 - lpGamma w i / fast w.2 i) ^ 2 := by
-  rw [lpChart_eccVector hν hw i]
-  obtain ⟨-, -, -, -, hsq, -⟩ := poincare_facts (hw i)
-  rw [hsq]
-  have h0 : (planetBlock w i).2 0 = fast w.2 i := planetBlock_snd_zero w i
-  have hΓ : poincareGamma (planetBlock w i) = lpGamma w i := by
-    simp [poincareGamma, lpGamma, planetBlock, slow]
-  simp only [poincareK, h0, hΓ]
-
-/-- (LP:MAIN L7 (226)) The eccentricity `e = |𝐞|` satisfies `e² = 1 − (1 − Γ/I)²`. -/
-theorem lpChart_eccentricity_sq {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {w : Phase (n + n)}
-    (hw : w ∈ poincareProdDom n) (i : Fin n) :
-    planeLength (keplerEccVector ν (poincareProd ν 1 w) i) ^ 2 =
-      1 - (1 - lpGamma w i / fast w.2 i) ^ 2 := by
-  rw [← lpChart_eccSq hν hw i, planeLength, Real.sq_sqrt]
-  exact Finset.sum_nonneg fun k _ => sq_nonneg _
 
 /-- (LP:MAIN L7 (199, 205)) MAIN's `(k, l) = b_e (x, −y)` against the repository's
 `poincareV = b_e (ξ, η)`: under `(ξ, η) = (x, −y)` the chart block's eccentricity vector is
@@ -151,7 +109,7 @@ theorem lpChart_physicalAMD {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {w : Ph
     (hw : w ∈ poincareProdDom n) : physicalAMD ν (poincareProd ν 1 w) = chartAMD w :=
   (sec_domain_chart_facts hν hw).2.2
 
-/-- (LP:MAIN L7 (200), §1 (2)) MAIN's `C = ∑ I_i − |L|` (`strongAMD`, package LP-MOM) of the chart
+/-- (LP:MAIN L7 (200), §1 (2)) MAIN's `C = ∑ I_i − |L|` (`strongAMD`, the planar momentum identities) of the chart
 image is `chartAMD w`, i.e. `∑ (x_i² + y_i²)/2`. -/
 theorem lpChart_strongAMD {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {w : Phase (n + n)}
     (hw : w ∈ poincareProdDom n) : strongAMD ν (poincareProd ν 1 w) = chartAMD w := by
@@ -174,25 +132,6 @@ theorem lpChart_hamiltonian {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (μ : �
   have := movingHamiltonian_poincareProd (G := 1) (m0 := 1) (μ := μ) hν (by norm_num) hw
   simpa only [mul_one] using this
 
-/-- The chart is symplectic (`dI ∧ dλ + dx ∧ dy` form, constant `1`). -/
-theorem lpChart_symplectic {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) :
-    IsSymplecticOn 1 (poincareProd ν 1) (poincareProdDom n) :=
-  poincareProd_symplectic hν one_pos
-
-/-- The chart is real analytic on its (open) domain. -/
-theorem lpChart_analytic {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) :
-    AnalyticOnNhd ℝ (poincareProd ν 1) (poincareProdDom n) :=
-  analyticOnNhd_poincareProd hν one_pos
-
-theorem lpChart_isOpen_dom (n : ℕ) : IsOpen (poincareProdDom n) := isOpen_poincareProdDom n
-
-/-- Fast-angle periodicity: the domain and the chart are invariant under `λ ↦ λ + 2π k`. -/
-theorem lpChart_periodic {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {w : Phase (n + n)}
-    (hw : w ∈ poincareProdDom n) (k : Fin n → ℤ) :
-    w + fastShift (a := n) (b := n) k ∈ poincareProdDom n ∧
-      poincareProd ν 1 (w + fastShift (a := n) (b := n) k) = poincareProd ν 1 w :=
-  poincareProd_lattice hν one_pos hw k
-
 /-- The inverse on the prograde region: every prograde elliptic point has a chart preimage, unique
 modulo the lattice `2π ℤⁿ` of fast angles. -/
 theorem lpChart_inverse {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {z : Phase (n * 2)}
@@ -204,15 +143,6 @@ theorem lpChart_inverse {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {z : Phase 
   obtain ⟨w, hw, rfl⟩ := hz'
   refine ⟨w, hw, rfl, fun w' hw' => ?_⟩
   rw [eq_comm, poincareProd_eq_iff hν one_pos hw hw']
-
-/-- Local analytic inverse: around each chart point the chart is an analytic diffeomorphism onto an
-open set of phase space. -/
-theorem lpChart_localDiffeo {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) {w : Phase (n + n)}
-    (hw : w ∈ poincareProdDom n) :
-    ∃ φ : OpenPartialHomeomorph (Phase (n + n)) (Phase (n * 2)), w ∈ φ.source ∧
-      (φ : Phase (n + n) → Phase (n * 2)) = poincareProd ν 1 ∧
-        AnalyticOnNhd ℝ φ.symm φ.target :=
-  poincareProd_localDiffeo hν one_pos hw
 
 end KAM.Planetary.StrongAMD
 

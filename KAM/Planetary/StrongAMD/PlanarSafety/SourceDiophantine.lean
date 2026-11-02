@@ -11,11 +11,10 @@ public import KAM.Planetary.StrongAMD.PlanarSafety.SourceCorollary
 public import KAM.Planetary.StrongAMD.DiophantineBridge
 
 /-!
-# LP1 and LP1-H with the frozen Diophantine predicate (draft 7 revision 1)
+# LP1 and LP1-H with the frozen Diophantine predicate
 
-Package LP-FREEZE7R (orchestrator scope addition), `LP:MAIN T15 (502–506)`, `§1 (5) (60–65)`,
+Source: `LP:MAIN T15 (502–506)`, `§1 (5) (60–65)`,
 `§1 (93)`; track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 `lp1_planar_strongAMD_safety_source_isDiophantine` and its `τ = n - 1/2` form are the statements
 of `lp1_planar_strongAMD_safety_source` and

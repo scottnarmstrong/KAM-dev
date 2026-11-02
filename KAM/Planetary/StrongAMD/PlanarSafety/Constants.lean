@@ -14,13 +14,12 @@ public import KAM.Planetary.StrongAMD.Orbital
 /-!
 # Constants and elementary estimates of the planar assembly
 
-Package LP-PS (planar theorem LP1, `LP:MAIN L14 (468–500)`, `L15`), track LP, non-frozen.
+Source: (planar theorem LP1, `LP:MAIN L14 (468–500)`, `L15`), track LP, non-frozen.
 
 * `exists_budget_radius`: the budget `n r + Ω_B(r) ≤ δ/4` of MAIN (39) for every small `r`.
 * `norm_axis_sub_le`: the action-to-axis estimate (MAIN line 497).
 * `mem_strongLSet_actionVector`: axes in `A` put the initial actions in `𝓛`.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

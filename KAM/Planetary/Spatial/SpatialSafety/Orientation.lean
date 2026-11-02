@@ -16,20 +16,19 @@ public import KAM.Planetary.StrongAMD.Threshold
 /-!
 # Rotation alignment of the spatial safety conclusion
 
-Package LP-SP-SAFE (spatial theorem LP2, MAIN Theorem 19 with Lemma 16 and Lemma 18, `d = 3`;
+Source: (spatial theorem LP2, MAIN Theorem 19 with Lemma 16 and Lemma 18, `d = 3`;
 `LP:MAIN T19 (599–603)`, `L18 (595–597)`), track LP, non-frozen.
 
 `SpatialSafeState` is the per-time conjunction of the conclusions of the spatial safety theorem
 (ellipticity, AMD margin, drifts, separations, osculating clauses) and `SpatialSafeSol` the
 solution-level conclusion without the Newtonian reconstruction.  The spatial analogue of the
-planar reflection is the rotation `spatialRotatePhase R` (LP-SP-MODEL): every conclusion quantity
+planar reflection is the rotation `spatialRotatePhase R`: every conclusion quantity
 is rotation invariant, and
 `SpatialSafeSol … (spatialRotatePhase R z₀) z' →
   SpatialSafeSol … z₀ (spatialRotatePhase Rᵀ ∘ z')`.
 Only invariances are proved here: the osculating velocity, elements and ellipse data, and the
 moving uniqueness predicate.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

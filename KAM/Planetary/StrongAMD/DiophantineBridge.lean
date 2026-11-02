@@ -12,9 +12,8 @@ public import KAM.Frozen.Defs.IsDiophantine
 /-!
 # The Diophantine condition (5) through the frozen `KAM.IsDiophantine`
 
-Package LP-FREEZE7R (orchestrator scope addition to draft 7 revision 1), `LP:MAIN §1 (5) (60–65)`;
+Source: `LP:MAIN §1 (5) (60–65)`;
 track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 `isDiophantine_iff_forall_modeSize`: the frozen `KAM.IsDiophantine γ τ ω`
 (`γ / (∑ i, |k_i|) ^ τ ≤ |k · ω|` for every `k ≠ 0`, D20) is literally equivalent to the form

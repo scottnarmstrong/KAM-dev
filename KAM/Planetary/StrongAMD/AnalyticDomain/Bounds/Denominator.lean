@@ -14,15 +14,14 @@ public import KAM.Planetary.StrongAMD.AnalyticDomain.Bounds.Algebra
 /-!
 # Newtonian denominators stay away from zero on a thin tube
 
-Package LP-DOMX, `LP:MAIN L8 (266–268)`, track LP, non-frozen.
+Source: `LP:MAIN L8 (266–268)`, track LP, non-frozen.
 
 `exists_tube_re_cDot_ge` is the complex-neighbourhood step of MAIN L8: the complexified chart is
 within `ε` of its real trace on a thin tube (Cauchy/Lipschitz from the first-derivative bound), so
 `Re (w · w) ≥ d²/2` for every star position `w = q_i` and pair difference `w = q_i - q_j`, using
 `|w·w - |w₀|²| ≤ 2Qη + η²` (`re_cDot_ge`).  `exists_strongDenominatorTube` supplies the real
-lower/upper bounds `dS, dP, R` from the barrier of LP-GEOMOD on the sharp core.
+lower/upper bounds `dS, dP, R` from the barrier of the barrier geometry on the sharp core.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -132,7 +131,7 @@ theorem exists_tube_re_cDot_ge (hν : ∀ i, 0 < ν i) {K : Set (Phase (n + n))}
     linarith
 
 /-- The denominators of MAIN L8 on a thin tube around the sharp core: positive real bounds
-`dS, dP` (from the barrier of LP-GEOMOD) and a tube width `ρ` such that
+`dS, dP` (from the barrier of the barrier geometry) and a tube width `ρ` such that
 `Re (w · w) ≥ dS²/2` (stars, `w = q_i`) and `≥ dP²/2` (pairs, `w = q_i - q_j`). -/
 theorem exists_strongDenominatorTube (hν : ∀ i, 0 < ν i) (hn : 2 ≤ n)
     (hg : IsSharedTube ν L δ r) (hδ : 0 < δ) {R' C : ℝ} (hR' : 0 < R')

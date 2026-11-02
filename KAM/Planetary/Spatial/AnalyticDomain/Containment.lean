@@ -12,8 +12,8 @@ public import KAM.Planetary.Spatial.ComplexTube
 /-!
 # Containment of MAIN's spatial domain (22) in the complex tube of the core
 
-Package LP-SP-DOM, `LP:MAIN L18 (580–597)` with `LP:MAIN L8 (261–271)` and amendments N3, N12,
-track LP, non-frozen. The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L18 (580–597)` with `LP:MAIN L8 (261–271)` and amendments N3, N12,
+track LP, non-frozen.
 
 D5 `spatialStrongCore_containment`: a complex chart point `z = ((λ, ξ, v), (I, η, u))` (fast block
 first, `n` fast and `2n` slow coordinates per factor) whose complex actions lie within `r_*` of

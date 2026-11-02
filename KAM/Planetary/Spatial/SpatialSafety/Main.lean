@@ -12,11 +12,11 @@ public import KAM.Planetary.Spatial.Newton
 /-!
 # The spatial theorem LP2 (spatial strong-AMD exponential safety)
 
-Package LP-SP-SAFE, MAIN Theorem 19 with Lemma 16 for `d = 3` (`LP:MAIN T19 (599–603)`,
+Source: MAIN Theorem 19 with Lemma 16 for `d = 3` (`LP:MAIN T19 (599–603)`,
 `L14 (468–500)`, `L16 (508–529)`, `L18 (595–597)`), track LP, non-frozen.
 
-* `lp2_spatial_strongAMD_safety`: the spatial twin of `lp1_planar_strongAMD_safety` (the statement
-  LP1 of `docs/tracks/LP/FREEZE-PROPOSAL.md`, draft 2, §3, without `hνmax`, `hνle`), with
+* `lp2_spatial_strongAMD_safety`: the spatial twin of `lp1_planar_strongAMD_safety` (the planar
+  statement without `hνmax`, `hνle`), with
   `Phase (n * 3)`, `bodyVector3`, `spaceLength`, the spatial Kepler elements, `spatialStrongAMD`
   (Euclidean `|L|`), `IsSpatialMovingSolutionOn`, `SpatialMovingUniqueOn`,
   `IsSpatialNewtonSolutionOn` and the spatial osculating elements.  The premises are exactly those
@@ -26,7 +26,6 @@ Package LP-SP-SAFE, MAIN Theorem 19 with Lemma 16 for `d = 3` (`LP:MAIN T19 (599
 * `lp2_spatial_strongAMD_safety_normalized`: the corollary with `hνmax`, `hνle` (unused).
 * `lp2_spatial_strongAMD_safety_halfInteger`: the corollary `τ = n - 1/2` (exponent `1/(2n+1)`).
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

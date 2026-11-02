@@ -16,9 +16,9 @@ public import KAM.Planetary.Spatial.AnalyticDomain.Bounds.Denominator
 /-!
 # MAIN Lemma 18, complete: spatial chart, momenta, first derivatives and denominators
 
-Package LP-SP-DOMX, `LP:MAIN L18 (580–597)` with `LP:MAIN L8 (244–271)`, track LP, non-frozen.
+Source: `LP:MAIN L18 (580–597)` with `LP:MAIN L8 (244–271)`, track LP, non-frozen.
 
-LP-SP-DOM proved the holomorphic extension `fc` of the perturbation, its sup bound, its real trace
+the spatial analytic domain proved the holomorphic extension `fc` of the perturbation, its sup bound, its real trace
 and the (22) containment over the spatial core (47).  This package adds the two sentences of MAIN
 L8 (line 253), carried over to the spatial setting by L18 (line 595): "on a slightly smaller
 version of this domain the chart, momenta, `f`, and all their first derivatives have bound `M`",
@@ -32,7 +32,6 @@ bounded away from zero" (`(q_i − q_j)·(q_i − q_j)` keeps positive real part
 * `exists_spatialTubeData`: items 1–3 together with SP-DOM's `exists_spatialStrongTube`.
 * `lemma18_complete`: item 4, quantified as MAIN L18, with the containment of (22) with (47).
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

@@ -17,9 +17,9 @@ public import KAM.Planetary.StrongAMD.AnalyticDomain.Bounds.Denominator
 /-!
 # MAIN Lemma 8, complete: chart, momenta, first derivatives and Newtonian denominators
 
-Package LP-DOMX, `LP:MAIN L8 (244–271)`, track LP, non-frozen.
+Source: `LP:MAIN L8 (244–271)`, track LP, non-frozen.
 
-LP-DOM proved the holomorphic extension `fc` of the perturbation, its sup bound, its real trace and
+the analytic domain proved the holomorphic extension `fc` of the perturbation, its sup bound, its real trace and
 the (22) containment.  This package adds the two sentences of MAIN L8 (line 253) that were omitted:
 "on a slightly smaller version of this domain the chart, momenta, `f`, and all their first
 derivatives have bound `M`", and "every Newtonian denominator there has a single holomorphic
@@ -27,10 +27,9 @@ branch, and its modulus is bounded away from zero".
 
 * `exists_strongChart` (in `Bounds.Chart`): item 1, the holomorphic chart and momenta `Ψc`.
 * `StrongTubeData`: the collected analytic data on `complexTube (strongCore ν L δ r)`.
-* `exists_strongTubeData`: items 1–3 together with LP-DOM's `exists_strongTube` (D4).
+* `exists_strongTubeData`: items 1–3 together with the analytic domain's `exists_strongTube` (D4).
 * `lemma8_complete`: item 4, quantified as MAIN L8, with the containment of (22) (D5).
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

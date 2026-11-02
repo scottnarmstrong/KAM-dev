@@ -12,10 +12,10 @@ public import KAM.Planetary.Spatial.NonresonantReuse
 /-!
 # Joining the chart-lift premises to the spatial stopped drift
 
-Package LP-SP-SAFE (spatial theorem LP2; `LP:MAIN L14 (468–500)`, `L13 (429–464)`, `L18`), track
+Source: (spatial theorem LP2; `LP:MAIN L14 (468–500)`, `L13 (429–464)`, `L18`), track
 LP, non-frozen.
 
-LP-SP-LIFT (`spatialChartLift_premises`) and LP-SP-NRR (`spatial_stopped_drift`) were proved
+the spatial chart lift (`spatialChartLift_premises`) and the spatial nonresonant reuse (`spatial_stopped_drift`) were proved
 independently and carry their own names for the same chart objects.  This module records the
 identifications, all by unfolding and `ext`:
 
@@ -27,7 +27,6 @@ identifications, all by unfolding and `ext`:
 `SpatialLiftData.spatialChartLift_premises_nrr` restates the LIFT premises in exactly the shape
 consumed by `spatial_stopped_drift`.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -47,18 +46,10 @@ theorem spLiftSecularBall_eq_spatialSecularBall (ν : Fin n → ℝ) (δ : ℝ) 
   constructor <;> intro h <;> convert h using 2 <;>
     simp only [Finset.sum_div, add_div]
 
-/-- The Lemma 13 block of LP-SP-LIFT and of LP-SP-NRR coincide. -/
+/-- The Lemma 13 block of the spatial chart lift and of the spatial nonresonant reuse coincide. -/
 theorem spatialStoppedBlock_eq_lpBlockNM (ν : Fin n → ℝ) (δ : ℝ) (I0 : Fin n → ℝ) (r w : ℝ) :
     spatialStoppedBlock ν δ I0 r w = lpBlockNM ν δ I0 r w := by
   simp only [spatialStoppedBlock, lpBlockNM, spLiftSecularBall_eq_spatialSecularBall]
-
-/-- The chart-safe sets coincide. -/
-theorem spLiftChartSafe_eq_spatialChartSafe (ν : Fin n → ℝ) :
-    spLiftChartSafe ν = spatialChartSafe ν := rfl
-
-/-- The NRR chart Hamiltonian is the pulled-back Hamiltonian. -/
-theorem lpChartHamNM_eq_spatialPulledHam (ν : Fin n → ℝ) (μ : ℝ) :
-    lpChartHamNM ν μ = spatialPulledHam ν μ := rfl
 
 namespace SpatialLiftData
 
@@ -66,7 +57,7 @@ variable {ν : Fin n → ℝ} {U : Set (Fin n → ℝ)} {z₀ : Phase (n * 3)} {
 
 /-- **The D1 premises of `spatial_stopped_drift`** (`LP:MAIN L14 (477–483)`, `L13`, `L18`): from
 the lift data and a stopped spatial moving solution, a chart curve `w` on `uIcc 0 t` satisfying
-exactly the lift, localization, initial-action and slow-ball hypotheses of LP-SP-NRR's
+exactly the lift, localization, initial-action and slow-ball hypotheses of the spatial nonresonant reuse's
 `spatial_stopped_drift` for the block `lpBlockNM ν δ (Λ z₀) r wS`. -/
 theorem spatialChartLift_premises_nrr (hd : SpatialLiftData ν U z₀ δ r) {wS : ℝ} {μ : ℝ}
     {J : Set ℝ} (hJ : J.OrdConnected) (h0 : (0 : ℝ) ∈ J) {z : ℝ → Phase (n * 3)}

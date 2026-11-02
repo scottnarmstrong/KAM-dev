@@ -11,15 +11,14 @@ public import KAM.Planetary.StrongAMD.PlanarSafety.Orientation
 /-!
 # Orientation reversal of the LP3 planar safety conclusion (drift scale as a parameter)
 
-Package LP3-PS (planar theorem LP3-1, `LP:MAIN L14 (468–500)`, `L15 (502–506)`, `L16 (508–529)`),
+Source: (planar theorem the Nekhoroshev part, `LP:MAIN L14 (468–500)`, `T15 (502–506)`, `L16 (508–529)`),
 track LP, non-frozen.
 
-`nekPlanarState` and `nekPlanarSol` are the per-time and solution-level conclusions of LP3-1.  They
+`nekPlanarState` and `nekPlanarSol` are the per-time and solution-level conclusions of the Nekhoroshev part.  They
 are the LP1 predicates `PlanarSafeState`, `PlanarSafeSol` with the hard-coded drift scale `√μ`
-replaced by a parameter `s` (in LP3-1: `s = μ ^ b_n`).  The reflection `reflectPhase` transports
+replaced by a parameter `s` (in the Nekhoroshev part: `s = μ ^ b_n`).  The reflection `reflectPhase` transports
 both (the invariance lemmas are those of `PlanarSafety/Orientation`).
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -30,8 +29,8 @@ open KAM.Planetary Set
 
 variable {n : ℕ}
 
-/-- The per-time conclusions of LP3-1 at `zt` relative to `z₀`, with drift scale `s`
-(`LP:MAIN L15 (502–506)`, `L16`). -/
+/-- The per-time conclusions of the Nekhoroshev part at `zt` relative to `z₀`, with drift scale `s`
+(`LP:MAIN T15 (502–506)`, `L16`). -/
 def nekPlanarState (ν : Fin n → ℝ) (μ s : ℝ) (hn : 2 ≤ n)
     (δ AΛ Aa dStar dPair Aosc Aelem : ℝ) (z₀ zt : Phase (n * 2)) : Prop :=
   (∀ i, 0 < planeLength (bodyVector zt.1 i) ∧ keplerEnergy ν zt i < 0) ∧
@@ -56,7 +55,7 @@ def nekPlanarState (ν : Fin n → ℝ) (μ s : ℝ) (hn : 2 ≤ n)
   (∀ i, dStar / 2 ≤ oscPeri ν μ zt i) ∧
   (∀ a : AdjIdx n, dPair / 2 ≤ oscPeri ν μ zt a.upperIdx - oscApo ν μ zt a.1)
 
-/-- The solution-level conclusion of LP3-1 without the Newtonian reconstruction. -/
+/-- The solution-level conclusion of the Nekhoroshev part without the Newtonian reconstruction. -/
 def nekPlanarSol (ν : Fin n → ℝ) (μ s T : ℝ) (hn : 2 ≤ n)
     (δ AΛ Aa dStar dPair Aosc Aelem : ℝ) (z₀ : Phase (n * 2)) (z : ℝ → Phase (n * 2)) : Prop :=
   z 0 = z₀ ∧ IsMovingSolutionOn ν μ (Icc (-T) T) z ∧ MovingUniqueOn ν μ (Icc (-T) T) z ∧
@@ -86,7 +85,7 @@ theorem nekPlanarState.of_reflectPhase {ν : Fin n → ℝ} {μ s : ℝ} {hn : 2
   rw [hact zt, strongAMD_reflectPhase] at h2'
   exact h2'
 
-/-- Orientation reversal transports the solution-level conclusion of LP3-1. -/
+/-- Orientation reversal transports the solution-level conclusion of the Nekhoroshev part. -/
 theorem nekPlanarSol.of_reflectPhase {ν : Fin n → ℝ} {μ s T : ℝ} {hn : 2 ≤ n}
     {δ AΛ Aa dStar dPair Aosc Aelem : ℝ} {z₀ : Phase (n * 2)} {z' : ℝ → Phase (n * 2)}
     (h : nekPlanarSol ν μ s T hn δ AΛ Aa dStar dPair Aosc Aelem (reflectPhase z₀) z') :

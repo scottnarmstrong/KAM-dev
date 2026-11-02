@@ -14,7 +14,7 @@ public import KAM.Planetary.StrongAMD.Modulus
 /-!
 # Elementary estimates of the spatial assembly
 
-Package LP-SP-SAFE (spatial theorem LP2, `LP:MAIN L14 (468–500)`, `T19 (599–603)`), track LP,
+Source: (spatial theorem LP2, `LP:MAIN L14 (468–500)`, `T19 (599–603)`), track LP,
 non-frozen.
 
 * `spatialKeplerAxis_eq_action_sq`: `a_i = Λ_i²/ν_i²` on the physical carrier.
@@ -23,7 +23,6 @@ non-frozen.
 * `exists_spatialBudget_radius`: the budget `n r + Ω_B(r) ≤ δ/4` of MAIN (39) for every small `r`
   (the threshold modulus is dimension-free; the argument is that of the planar assembly).
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

@@ -10,17 +10,14 @@ public import KAM.Planetary.StrongAMD.Nek.PlanarSafety.Source
 /-!
 # Provider of the anchor `KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith`
 
-Package LP-FREEZE8 (track LP, non-frozen; anchor LP3-1, `LP:MAIN T15 (502–506) with §1 (6)–(9)
+Anchor (track LP, `LP:MAIN T15 (502–506) with §1 (6)–(9)
 (69–93) without (5), L14 (468–500), L16 (508–529); N8, N10; drift supplier L12–L13 (381–467)
-replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)`). The statement surface is
-proposed in docs/tracks/LP/FREEZE-PROPOSAL.md. The draft-8 delta is
-docs/tracks/LP/FREEZE-PROPOSAL-DRAFT8.md; the anchor text is in docs/tracks/LP/freeze/draft8/.
+replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)`). The anchor text is in docs/tracks/LP/freeze/draft8/.
 
 The proof of `KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith` is assembled here
 as `KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith`: the anchor's exact
 type text, proved in one line by the implementation theorem
-`KAM.Planetary.StrongAMD.lp3_planar_strongAMD_safety_source`. Until the frozen anchor is sealed,
-this module is quarantined (AGENTS rule 9): no module other than the anchor may import it.
+`KAM.Planetary.StrongAMD.lp3_planar_strongAMD_safety_source`. This module is quarantined (AGENTS rule 9): no module other than the anchor may import it.
 -/
 
 @[expose] public section
@@ -30,7 +27,7 @@ namespace KAM.Provider.Planetary.StrongAMD
 open KAM.Planetary KAM.Planetary.StrongAMD
 
 /-- Quarantined provider of the frozen theorem
-`KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith` (LP3-1). -/
+`KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith`. -/
 theorem planar_strongAMD_exponentialSafety_noArith {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
     (hν : ∀ i, 0 < ν i) (hνmax : ∃ i, ν i = 1) (hνle : ∀ i, ν i ≤ 1)
     (A : Set (Fin n → ℝ)) (hA : IsCompact A)

@@ -18,11 +18,10 @@ public import KAM.Fourier.Derivative
 /-!
 # The planar theorem LP1 (planar strong-AMD exponential safety)
 
-Package LP-PS, MAIN Theorem 15 with Lemma 16 (`LP:MAIN L15 (502–506)`, `L14 (468–500)`,
+Source: MAIN Theorem 15 with Lemma 16 (`LP:MAIN T15 (502–506)`, `L14 (468–500)`,
 `L16 (508–529)`), track LP, non-frozen.
 
-* `lp1_planar_strongAMD_safety`: the statement LP1 of `docs/tracks/LP/FREEZE-PROPOSAL.md` (draft 2,
-  §3) without the premises `hνmax`, `hνle` (the general version; the anchor keeps them, OD-3).
+* `lp1_planar_strongAMD_safety`: the planar statement without the premises `hνmax`, `hνle` (the general version; the anchor keeps them, OD-3).
   Orientation: the total momentum
   is nonzero (MOM), and the case `L < 0` is reduced to `L > 0` by the reflection of
   `PlanarSafety/Orientation`.
@@ -39,7 +38,7 @@ open KAM.Planetary Set
 
 variable {n : ℕ}
 
-/-- **LP1 (planar strong-AMD exponential safety; `LP:MAIN L15 (502–506)` with `L14`, `L16`).**
+/-- **LP1 (planar strong-AMD exponential safety; `LP:MAIN T15 (502–506)` with `L14`, `L16`).**
 The proposal's statement without `hνmax`, `hνle`. -/
 theorem lp1_planar_strongAMD_safety (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀ i, 0 < ν i)
     (A : Set (Fin n → ℝ)) (hA : IsCompact A)
@@ -249,7 +248,7 @@ theorem lp1_planar_strongAMD_safety_halfInteger (hn : 2 ≤ n) (ν : Fin n → �
   exact this
 
 /-- **LP0 (planar sharp barrier, full MAIN L5; `LP:MAIN L5 (164)`)**: the source-complete text of
-the statement review (F1): the deficit-list barrier, a compact collision-free set of negative-energy
+the deficit-list barrier, a compact collision-free set of negative-energy
 states, and the physical bounds with the angular-momentum margin and sign.  It is assembled from
 `DeficitBarrier`, `exists_barrierCompact` and `strongBarrier_physical`. -/
 theorem lp0_planar_barrier (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀ i, 0 < ν i)

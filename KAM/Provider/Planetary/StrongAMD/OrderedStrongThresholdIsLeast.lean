@@ -11,15 +11,12 @@ public import KAM.Planetary.StrongAMD.Threshold.Strong
 /-!
 # Provider for `KAM.Planetary.StrongAMD.orderedStrongThreshold_isLeast`
 
-Provider for the frozen theorem `KAM.Planetary.StrongAMD.orderedStrongThreshold_isLeast`, draft-7
-revision-1 characterization theorem of `orderedStrongThreshold`; track LP, package LP-FREEZE7R
-(`LP:MAIN §1 (3) (47–55)`). The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Provider for the frozen theorem `KAM.Planetary.StrongAMD.orderedStrongThreshold_isLeast`, characterization theorem of `orderedStrongThreshold`; track LP (`LP:MAIN §1 (3) (47–55)`).
 
 The theorem `KAM.Provider.Planetary.StrongAMD.orderedStrongThreshold_isLeast` states the anchor's
 exact type text (its draft file under `docs/tracks/LP/freeze/draft7/`). Its proof is the proof of
 the former implementation lemma `KAM.Planetary.StrongAMD.orderedStrongThreshold_isLeast`
-(`KAM.Planetary.StrongAMD.PlanarSafety.SourceThreshold`), moved verbatim at the freeze (D62;
-FREEZE-PROPOSAL §7 point 3); the sibling `orderedCrossThreshold_isLeast` it uses is inlined verbatim
+(`KAM.Planetary.StrongAMD.PlanarSafety.SourceThreshold`), moved verbatim at the freeze (D62); the sibling `orderedCrossThreshold_isLeast` it uses is inlined verbatim
 as a private theorem. No module other than the anchor imports this module (AGENTS rule 9).
 -/
 
@@ -29,7 +26,7 @@ namespace KAM.Provider.Planetary.StrongAMD
 
 open KAM.Planetary KAM.Planetary.StrongAMD
 
-/-- The sibling characterization, inlined verbatim (FREEZE-PROPOSAL §7 point 3). -/
+/-- The sibling characterization, inlined verbatim. -/
 private theorem orderedCrossThreshold_isLeast {n : ℕ} {ν : Fin n → ℝ} (hn : 2 ≤ n)
     (I : OrderedActions ν) : IsLeast {b | ∃ (i j : Fin n) (hij : i < j), (j : ℕ) = i + 1 ∧
         b = orderedPairThreshold I i j hij}

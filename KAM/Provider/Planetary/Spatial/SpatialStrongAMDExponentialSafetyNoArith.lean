@@ -11,17 +11,14 @@ public import KAM.Planetary.Spatial.SourceBarycentric
 /-!
 # Provider of the anchor `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith`
 
-Package LP-FREEZE8 (track LP, non-frozen; anchor LP3-2, `LP:MAIN T19 (599–603) with §1 (6)–(9)
+Anchor (track LP, `LP:MAIN T19 (599–603) with §1 (6)–(9)
 (69–93) without (5), L14 (468–500), L16 (508–529), d = 3; drift supplier L12–L13 (381–467) replaced
-by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)`). The statement surface is proposed in
-docs/tracks/LP/FREEZE-PROPOSAL.md. The draft-8 delta is docs/tracks/LP/FREEZE-PROPOSAL-DRAFT8.md;
-the anchor text is in docs/tracks/LP/freeze/draft8/.
+by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)`). The anchor text is in docs/tracks/LP/freeze/draft8/.
 
 The proof of `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith` is assembled here
 as `KAM.Provider.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith`: the anchor's exact
 type text, proved in one line by the implementation theorem
-`KAM.Planetary.Spatial.lp3_spatial_strongAMD_safety_source`. Until the frozen anchor is sealed, this
-module is quarantined (AGENTS rule 9): no module other than the anchor may import it.
+`KAM.Planetary.Spatial.lp3_spatial_strongAMD_safety_source`. This module is quarantined (AGENTS rule 9): no module other than the anchor may import it.
 -/
 
 @[expose] public section
@@ -31,7 +28,7 @@ namespace KAM.Provider.Planetary.Spatial
 open KAM.Planetary KAM.Planetary.StrongAMD KAM.Planetary.Spatial
 
 /-- Quarantined provider of the frozen theorem
-`KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith` (LP3-2). -/
+`KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith`. -/
 theorem spatial_strongAMD_exponentialSafety_noArith {n : ℕ} (hn : 2 ≤ n) (ν : Fin n → ℝ)
     (hν : ∀ i, 0 < ν i) (hνmax : ∃ i, ν i = 1) (hνle : ∀ i, ν i ≤ 1)
     (A : Set (Fin n → ℝ)) (hA : IsCompact A)

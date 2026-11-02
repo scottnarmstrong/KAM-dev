@@ -10,16 +10,12 @@ public import KAM.Planetary.StrongAMD.Threshold.Pair
 /-!
 # Provider for `KAM.Planetary.StrongAMD.orderedPairThreshold_isLeast`
 
-Provider for the frozen theorem `KAM.Planetary.StrongAMD.orderedPairThreshold_isLeast`, draft-7
-revision-1 characterization theorem of `orderedPairThreshold`, `pairThreshold`; track LP, package
-LP-FREEZE7R (`LP:MAIN §1 (3) (47–55), L4 (141–160)`). The statement surface is proposed in
-docs/tracks/LP/FREEZE-PROPOSAL.md.
+Provider for the frozen theorem `KAM.Planetary.StrongAMD.orderedPairThreshold_isLeast`, characterization theorem of `orderedPairThreshold`, `pairThreshold`; track LP (`LP:MAIN §1 (3) (47–55), L4 (141–160)`).
 
 The theorem `KAM.Provider.Planetary.StrongAMD.orderedPairThreshold_isLeast` states the anchor's
 exact type text (its draft file under `docs/tracks/LP/freeze/draft7/`). Its proof is the proof of
 the former implementation lemma `KAM.Planetary.StrongAMD.orderedPairThreshold_isLeast`
-(`KAM.Planetary.StrongAMD.Threshold.Pair`), moved verbatim at the freeze (D62; FREEZE-PROPOSAL §7
-point 3). No module other than the anchor imports this module (AGENTS rule 9).
+(`KAM.Planetary.StrongAMD.Threshold.Pair`), moved verbatim at the freeze (D62). No module other than the anchor imports this module (AGENTS rule 9).
 -/
 
 @[expose] public section

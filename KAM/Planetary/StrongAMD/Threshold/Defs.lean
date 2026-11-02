@@ -22,8 +22,7 @@ public import KAM.Frozen.Planetary.StrongAMD.Defs.PairThreshold
 /-!
 # Strong AMD thresholds: definitions
 
-Package LP-THR, `LP:MAIN` §1 (lines 43–53), (3). Track LP, non-frozen; the statement surface is
-proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN` §1 (lines 43–53), (3). Track LP, non-frozen.
 
 The action chamber `chamber ν`, the axes `actionAxis ν I i = (I i / ν i)^2`, the eccentricity
 deficit `D(u) = 1 - √(1 - u²)`, the feasible set of a pair, the pair objective and the pair
@@ -52,12 +51,6 @@ def strongThreshold (ν I : Fin n → ℝ) : ℝ := min (crossThreshold ν I) (s
 theorem AdjIdx.lt_upperIdx (a : AdjIdx n) : a.1 < a.upperIdx := by
   show a.1.val < a.1.val + 1
   omega
-
-theorem orderedPairThreshold_eq {ν : Fin n → ℝ} (I : OrderedActions ν) (i j : Fin n)
-    (hij : i < j) : orderedPairThreshold I i j hij = pairThreshold ν I.1 i j := rfl
-
-theorem orderedCrossThreshold_eq {ν : Fin n → ℝ} (hn : 2 ≤ n) (I : OrderedActions ν) :
-    orderedCrossThreshold hn I = crossThreshold ν I.1 := rfl
 
 theorem orderedStrongThreshold_eq {ν : Fin n → ℝ} (hn : 2 ≤ n) (I : OrderedActions ν) :
     orderedStrongThreshold hn I = strongThreshold ν I.1 := rfl

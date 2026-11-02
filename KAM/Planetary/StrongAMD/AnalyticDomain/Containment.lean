@@ -12,8 +12,7 @@ public import KAM.Planetary.Exponential.ComplexTube
 /-!
 # Containment of MAIN's domain (22) in the complex tube of the core
 
-Package LP-DOM, `LP:MAIN L8 (261–271)` with amendment N3 (`r_* ≤ 4 r_g`), track LP, non-frozen; the
-statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L8 (261–271)` with amendment N3 (`r_* ≤ 4 r_g`), track LP, non-frozen.
 
 D5 `strongCore_containment`: a complex chart point `z = ((λ, ξ), (Λ, η))` whose complex actions lie
 within `r_*` of `I⁰ ∈ L_δ`, whose fast angles have `‖Im λ‖_∞ < 4s`, and whose complex slow

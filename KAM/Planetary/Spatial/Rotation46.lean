@@ -10,7 +10,7 @@ public import Mathlib
 /-!
 # The rotation algebra of the spatial Poincare chart, formula (46)
 
-Package LP-SP-ROT, `LP:MAIN L17 (533–578)`, track LP, non-frozen. Pure `3 × 3` matrix algebra on
+Source: `LP:MAIN L17 (533–578)`, track LP, non-frozen. Pure `3 × 3` matrix algebra on
 `Fin 3 → ℝ` with Mathlib's `crossProduct` (`⨯₃`).
 
 * `skewMatrix t` is the matrix of `w ↦ t ⨯₃ w`; `skewMatrix_mul_skewMatrix` is
@@ -19,7 +19,6 @@ Package LP-SP-ROT, `LP:MAIN L17 (533–578)`, track LP, non-frozen. Pure `3 × 3
   determinant one and preserves the cross product.
 * `incTilt`, `incCos`, `incRotation` are the objects `t`, `c`, `R` of (46).
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -262,14 +261,6 @@ theorem incRotation_recover_v (hG : 0 < G) (hZ : (u ^ 2 + v ^ 2) / 2 < G) :
   rw [← incCos_eq_sqrt_of_e₃ hG, incRotation_mulVec_e₃ hG]
   simp
   field_simp
-
-/-- Injectivity of `(u, v) ↦ R e₃` on the carrier at fixed `G`. -/
-theorem incRotation_e₃_injective {u' v' : ℝ} (hG : 0 < G)
-    (hZ : (u ^ 2 + v ^ 2) / 2 < G) (hZ' : (u' ^ 2 + v' ^ 2) / 2 < G)
-    (h : incRotation u v G *ᵥ e₃ = incRotation u' v' G *ᵥ e₃) : u = u' ∧ v = v' := by
-  refine ⟨?_, ?_⟩
-  · rw [incRotation_recover_u hG hZ, incRotation_recover_u hG hZ', h]
-  · rw [incRotation_recover_v hG hZ, incRotation_recover_v hG hZ', h]
 
 /-- The open carrier `{0 < G, (u² + v²)/2 < G}` in the coordinates `(u, v, G)`. -/
 def incCarrier : Set (ℝ × ℝ × ℝ) := {p | 0 < p.2.2 ∧ (p.1 ^ 2 + p.2.1 ^ 2) / 2 < p.2.2}

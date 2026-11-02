@@ -17,7 +17,7 @@ public import KAM.Planetary.Spatial.SpatialSafety.Orientation
 /-!
 # The spatial safety theorem for aligned initial states
 
-Package LP-SP-SAFE (spatial theorem LP2, `LP:MAIN L14 (468–500)`, `L16 (508–529)`,
+Source: (spatial theorem LP2, `LP:MAIN L14 (468–500)`, `L16 (508–529)`,
 `L18 (595–597)`, `T19 (599–603)`), track LP, non-frozen.
 
 `spatial_safety_of_aligned` is MAIN Theorem 19 for initial states whose total angular momentum
@@ -28,7 +28,6 @@ constants of Lemma 13 with `2n` slow pairs (`D₀ = 1`), the budget radius of (3
 barrier and osculating constants for `(U, δ/2)`.  The stopped drift `hstop` of the confinement
 helper is discharged by `spatialChartLift_premises_nrr` and `spatial_stopped_drift`.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

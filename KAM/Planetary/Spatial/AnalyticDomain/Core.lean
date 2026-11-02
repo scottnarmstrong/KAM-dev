@@ -12,11 +12,10 @@ public import KAM.Planetary.Spatial.Product
 /-!
 # The whole-sublevel spatial analytic domain: the sharp core
 
-Package LP-SP-DOM, `LP:MAIN L18 (580–597)` with `LP:MAIN L8 (244–271)`, amendments N2, N3 and
-N12; track LP, non-frozen. The statement surface is proposed in
-docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L18 (580–597)` with `LP:MAIN L8 (244–271)`, amendments N2, N3 and
+N12; track LP, non-frozen.
 
-Layout as in LP-SP-PROD: a chart point is `w : Phase (n + (n + n))` (`n` fast pairs, `2n` slow
+Layout as in the spatial product chart: a chart point is `w : Phase (n + (n + n))` (`n` fast pairs, `2n` slow
 pairs; `fast w.1 = λ`, `slow w.1 = (ξ | v)`, `fast w.2 = I`, `slow w.2 = (η | u)`).
 
 * D2 `spatialStrongCore ν L δ r` (MAIN (47)): fast angles in `[0, 2π]`, an `I⁰ ∈ L_δ` within
@@ -26,7 +25,7 @@ pairs; `fast w.1 = λ`, `slow w.1 = (ξ | v)`, `fast w.2 = I`, `slow w.2 = (η |
   `spatialPoincareProdDom n`.
 
 The dimension-free threshold, `𝓛_δ` and the shared tube (`strongLevelSet`, `IsSharedTube`) are the
-action-only objects of LP-DOM and are reused unchanged.
+action-only objects of the analytic domain and are reused unchanged.
 -/
 
 @[expose] public noncomputable section
@@ -66,10 +65,6 @@ theorem continuous_spatialSlowDeficit : Continuous (spatialSlowDeficit (n := n))
   · refine continuous_finsetSum _ fun k _ => ?_
     exact (((continuous_apply _).comp continuous_snd : Continuous fun w : Phase (n + (n + n)) =>
       slow w.2 k)).pow 2
-
-theorem spatialSlowDeficit_nonneg (w : Phase (n + (n + n))) : 0 ≤ spatialSlowDeficit w := by
-  unfold spatialSlowDeficit
-  positivity
 
 /-- A point of `Phase (a + b)` with all four coordinate blocks bounded by `R` has norm `≤ R`. -/
 theorem spatialPhase_norm_le {a b : ℕ} {R : ℝ} (hR : 0 ≤ R) {w : Phase (a + b)}

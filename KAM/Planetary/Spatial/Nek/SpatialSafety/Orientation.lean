@@ -9,15 +9,14 @@ public import Mathlib
 public import KAM.Planetary.Spatial.SpatialSafety.Orientation
 
 /-!
-# Drift-scale-generic safe states and their rotation transport (LP3-SP-SAFE)
+# Drift-scale-generic safe states and their rotation transport
 
-Package LP3-SP-SAFE (spatial theorem LP3-2, `LP:MAIN T19 (599–603)`, `L16 (508–529)`,
+Source: (spatial theorem the Nekhoroshev part, `LP:MAIN T19 (599–603)`, `L16 (508–529)`,
 `L18 (595–597)`), track LP, non-frozen.  `SpatialNekSafeState`/`SpatialNekSafeSol` are the LP2
 predicates `SpatialSafeState`/`SpatialSafeSol` with the hard-coded drift scale `√μ` replaced by a
 parameter `ρ` (for LP3, `ρ = μ ^ planetaryDriftExponent n`); `transport_rotate` is the same
 proof.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

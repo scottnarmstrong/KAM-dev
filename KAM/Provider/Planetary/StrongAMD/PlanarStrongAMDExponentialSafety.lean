@@ -10,16 +10,12 @@ public import KAM.Planetary.StrongAMD.PlanarSafety.SourceDiophantine
 /-!
 # Provider for `KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety`
 
-Provider for the frozen theorem `KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety`,
-draft-7 revision-1 anchor LP1 (planar strong-AMD exponential safety); track LP, package LP-FREEZE7R
-(`LP:MAIN T15 (502–506) with §1 (6)–(9) (69–93), L16 (508–529); N8, N10`). The statement surface is
-proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Provider for the frozen theorem `KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety`, anchor LP1 (planar strong-AMD exponential safety); track LP (`LP:MAIN T15 (502–506) with §1 (6)–(9) (69–93), L16 (508–529); N8, N10`).
 
 The theorem `KAM.Provider.Planetary.StrongAMD.planar_strongAMD_exponentialSafety` states the
 anchor's exact type text (its draft file under `docs/tracks/LP/freeze/draft7/`) and is proved in one
 line by the implementation theorem
-`KAM.Planetary.StrongAMD.lp1_planar_strongAMD_safety_source_isDiophantine`. While the frozen anchor
-is `DRAFT_SORRY` (or not yet created), this module is quarantined: no module other than the anchor
+`KAM.Planetary.StrongAMD.lp1_planar_strongAMD_safety_source_isDiophantine`. This module is quarantined: no module other than the anchor
 may import it (AGENTS rule 9).
 -/
 

@@ -11,8 +11,8 @@ public import KAM.Planetary.Spatial.Model
 /-!
 # The Hamilton field of the spatial model in body blocks
 
-Package LP-SP-MODEL, `LP:MAIN L1 (97–108)` (equation (10) and the Newton equations), `d = 3`;
-track LP, non-frozen; the statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L1 (97–108)` (equation (10) and the Newton equations), `d = 3`;
+track LP, non-frozen.
 
 `hamiltonianVectorField_spatial`: at a collision-free `z`, for body `i` and coordinate `c`,
 `(X_H z).1 (i,c) = p_i^c/ν_i + μ Σ_j p_j^c` and

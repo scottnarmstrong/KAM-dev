@@ -10,13 +10,13 @@ public import KAM.Planetary.StrongAMD.SourceCarrier
 public import KAM.Planetary.StrongAMD.Nek.PlanarSafety.Main
 
 /-!
-# LP3-1 restated through the source carriers (OD-11 option (b), D59)
+# The Nekhoroshev part restated through the source carriers (OD-11 option (b), D59)
 
-Package LP3-SRC (`LP:MAIN T15 (502–506)` with `L14 (468–500)`, `L16 (508–529)`), track LP,
-non-frozen.  The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: (`LP:MAIN T15 (502–506)` with `L14 (468–500)`, `L16 (508–529)`), track LP,
+non-frozen.
 
 * `lp3_planar_strongAMD_safety_source`: the text of `lp1_planar_strongAMD_safety_source`
-  (FREEZE-PROPOSAL §3b) with exactly three changes: the data `γ τ`, the premises `hγ hτ` and the
+  with exactly three changes: the data `γ τ`, the premises `hγ hτ` and the
   Diophantine premise are removed; the time is `T₀ * exp (c * μ ^ (-planetaryTimeExponent n))`;
   the drift lines (action, axis, AMD) read `μ ^ planetaryDriftExponent n` instead of `√μ`.
 * `lp3_planar_strongAMD_safety_source_general`: the same without `hνmax`, `hνle`.
@@ -32,7 +32,7 @@ open KAM.Planetary Set
 
 variable {n : ℕ}
 
-/-- **LP3-1 through the source carriers, without the normalization premises**
+/-- **The Nekhoroshev part through the source carriers, without the normalization premises**
 (`LP:MAIN T15 (502–506)` with `L14 (468–500)`, `L16 (508–529)`). -/
 theorem lp3_planar_strongAMD_safety_source_general (hn : 2 ≤ n) (ν : Fin n → ℝ)
     (hν : ∀ i, 0 < ν i)
@@ -125,7 +125,7 @@ theorem lp3_planar_strongAMD_safety_source_general (hn : 2 ≤ n) (ν : Fin n �
   exact ⟨hph, ⟨hcht, hs, hamd⟩, hΛ, ha, ⟨hs, hdrift⟩, hs1, hs2, hd1, hd2, ⟨hs, ho, hosc, hpa,
     hd3, hd4⟩⟩
 
-/-- **LP3-1 through the source carriers, with MAIN's mass normalization** (`hνmax`, `hνle`;
+/-- **The Nekhoroshev part through the source carriers, with MAIN's mass normalization** (`hνmax`, `hνle`;
 unused premises). -/
 theorem lp3_planar_strongAMD_safety_source (hn : 2 ≤ n) (ν : Fin n → ℝ)
     (hν : ∀ i, 0 < ν i)
