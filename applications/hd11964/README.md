@@ -82,6 +82,12 @@ report is [`docs/explorations/hd11964-pilot.md`](../../docs/explorations/hd11964
 | `scripts/hiprec.py` | the mass-scaling test, and the long-double rerun that did not finish in time (`hiprec-*.json`) |
 | `scripts/census.py` | the census of jet products per cell, the input of the cost estimate (`product-census.json`) |
 | `scripts/slow_radius.py` | analyticity radii of c's chart in the slow variables, the input of the cell count (`slow-radius.json`) |
+| `scripts/prod2.py` | phase 2: the order-2 producer in the exact form of the Lean identity (float64): the five terms `T1..T5` and `F − Λ` on kamx-hd-layer's worst cell, the identity check against the exact-gradient rate, the phase-1 cross-check (`validation/prod2-cell-f64.json`) |
+| `scripts/prod2_hp.py` | phase 2: the generators `χ₁`, `χ₂` at 2^-184 fixed point (exact sliced DFT), written as 2^-160 integers (gzipped JSON, `~/kam-data/hd11964/prod2/`, not in git); `load_box` expands them for the cell check. `--plan= --cell=` expands them in the rotated cell variables of a fitted-cover cell, `--compare=` checks a rotated run against a box run (`validation/prod2-rot-check-c46.json`) |
+| `scripts/cover2.py` | phase 2: the order-2 cover of `R(d)` modulo rotation (float64): per cell `a₁..a₅`, `η`, the `F − Λ` range, the 10³ yr margin; `--d=` sets `d` (`validation/cover2-order2-pass1.json`, `cover2-order2.json` at `d = 10⁻³`, `cover2-order2-d1.5e-3.json`, `cover2-order2-d2e-3.json`; raw records in `~/kam-data/hd11964/cover2/`) |
+| `scripts/cover2_fit.py` | phase 2: the order-2 cover with b-cells fitted to `R(d)` (sectors carried by rotated boxes; `--kappa=` sets the effective-radius target, `--nmult=4` makes sector counts multiples of 4); the jets are rotated into each cell frame before the l1 bounds (`validation/cover2-fit-*.json`) |
+| `scripts/cover2_plan_lean.py` | phase 2: the exact rational plan of a fitted cover for the Lean cover lemma (`CoverPlan`, checked in fractions; Lean source and `validation/cover2-plan-*.json`) |
+| `scripts/cover2_inregion.py` | phase 2: the sampled `F − Λ` range on `R(d)` against the range over the whole cell boxes, on one `ξ_c` interval (`validation/cover2-inregion-d2e-3.json`) |
 | `validation/` | `gate-N4.jsonl` (all samples), `ladder.json`, `rigor-N3.json`, `checks.json`, `threshold.json`, `kscan-N3-s1.0.json`, `conv-N4-ec044.json`, `hiprec-N4-s0.85-f1.0-352x64-nolong.json`, `product-census.json`, `slow-radius.json` |
 
 ## How to regenerate
@@ -102,6 +108,13 @@ $CAP python3 -I applications/hd11964/scripts/conv.py 1.0 0.5 224x64,320x64,224x9
 $CAP python3 -I applications/hd11964/scripts/hiprec.py 4 0.85 352 64 nolong 1.0471975511965976  # mass scaling, φ = π/3 (5 min)
 $CAP python3 -I applications/hd11964/scripts/census.py                 # product census (minutes)
 python3 -I applications/hd11964/scripts/slow_radius.py                 # slow radii (seconds)
+$CAP python3 -I applications/hd11964/scripts/prod2.py applications/hd11964/validation/prod2-cell-f64.json   # 1 min
+$CAP python3 -I applications/hd11964/scripts/prod2_hp.py --out=$HOME/kam-data/hd11964/prod2/generators-cell-ec06.json.gz --check
+$CAP python3 -I applications/hd11964/scripts/cover2.py OUT.jsonl --procs=2 --hb=0.04 --d=2e-3   # the cover (43 min wall)
+python3 -I applications/hd11964/scripts/cover2.py --summary OUT.jsonl SUMMARY.json --d=2e-3      # same --d
+$CAP python3 -I applications/hd11964/scripts/cover2_fit.py OUT.jsonl --d=2e-3 --kappa=0.2 --procs=2  # fitted cells (22 min)
+python3 -I applications/hd11964/scripts/cover2_fit.py --summary OUT.jsonl SUMMARY.json --d=2e-3 --kappa=0.2
+$CAP python3 -I applications/hd11964/scripts/cover2_inregion.py OUT.jsonl --d=2e-3 --hb=0.04      # in-region range (9 min)
 ```
 
 ## Version history

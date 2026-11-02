@@ -29,8 +29,9 @@ constants: positive, not explicit.
 
 `initial_of_chart` shows the initial set is not empty: every chart state with actions in
 `[Λlo, Λhi]` and chart AMD at most `1/100` (every phase, every perihelion, eccentricities up to the
-AMD bound, so the nominal elements of design §1 too) satisfies the hypotheses on `z₀`;
-`initialSet_nonempty` is the circular coplanar instance.
+AMD bound) satisfies the hypotheses on `z₀`; `initialSet_nonempty` is the circular coplanar
+instance. That the nominal elements of design §1 are such a state (`ΣΓ = 0.009455 ≤ 1/100`, `Λ̂` in
+the box) is a numerical check (`validation/threshold.json`), not a Lean lemma.
 -/
 
 @[expose] public noncomputable section
