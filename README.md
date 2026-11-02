@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-02 13:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 68 / 73 · **511,037 lines of hand-written Lean** of an estimated ≈ 513,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-02 13:19 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 68 / 73 · **511,037 lines of hand-written Lean** of an estimated ≈ 513,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -353,7 +353,7 @@ Overall, everything together: 96.0 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-02 13:00 UTC from `main` at `f9cc747bc` by `scripts/hq-status.py`.*
+*Generated 2026-11-02 13:19 UTC from `main` at `3c28fdfbd` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -580,6 +580,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-02 13:19 | `3c28fdfbd` | Log: lock graph route (A) |
 | 2026-11-02 12:19 | `793d97e87` | Log: lock heavy-lane fix, GraphL/H design fix |
 | 2026-11-02 11:19 | `87c22379c` | Merge remote-tracking branch 'origin/main' |
 | 2026-11-02 11:19 | `4772c4f3a` | Log: lock option (a) gate PASS |
@@ -591,7 +592,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-02 08:36 | `481c4e00a` | Explorations catalogue: HD 11964 pilot |
 | 2026-11-02 08:35 | `d886e9b7f` | HQ README: side project HD 11964 (tracks row, progress meter, completion row) from docs/campaign/side/hd11964-status.json |
 | 2026-11-02 08:13 | `46953be7c` | D70: lock source about 265 MB accepted; SOS option (a) confirmed; the remote run targets a CCX63 |
-| 2026-11-02 07:19 | `7b887d52f` | Overnight log: SOS cost decision for the owner |
 <!-- /AUTO:landed -->
 
 ## Decisions
