@@ -267,12 +267,39 @@ certificate checker of sjsu-effective-stability §5 does not cover them.
 - **(b)** Multiply through by powers of |w_j| to get polynomial observables. They would be valid
   on the tube, but their size grows.
 
-**Literal data size (measured).**
-- Each F_j has 5.6·10⁵ stored coefficients, of which 2.0–2.3·10⁴ exceed 10⁻²⁵ in majorant
-  weight at ρ = 10⁻⁶.
-- S has 2,790 modes, 396 of them above 10⁻²⁰.
-- Pruning changes F. The bracket must then be remeasured, but no step of the scheme depends on
-  F being the exact normal-form pullback.
+**Literal data size: a pruning study (measured).** No step of the scheme needs F to be the exact
+normal-form pullback. Any literal F with small brackets works. So F_j was pruned and the whole
+tube measurement repeated for the pruned observables: brackets with the full model, tails,
+inclusion, and c = F(nominal).
+
+- **Method.** Coefficients c_{m,k} with |c| ρ^{|m|} below a threshold were dropped, with
+  ρ = κ·10⁻⁶ = 2·10⁻⁶.
+- **Runs.** `prune-L8-K50-LB6-v12` and `prune2-L8-K50-LB6-v12` (u-degree 8, Birkhoff degree 6,
+  Fourier order 50). The unpruned F_j has 321,915 stored complex coefficients.
+
+| Threshold | Coefficients kept (J, S, U) | T(δ = 10⁻⁸) | T(10⁻⁷) | T(10⁻⁶) | T(3·10⁻⁶) |
+|---:|---|---:|---:|---:|---:|
+| 0 | 321,915 each | 4.3e10 | 4.3e11 | 2.7e12 | 8.4e9 |
+| 1e-27 | 48,812 / 58,318 / 57,961 | 4.3e10 | 4.3e11 | 2.7e12 | 8.4e9 |
+| 1e-21 | 8,255 / 8,941 / 8,948 | 4.3e10 | 4.3e11 | 2.7e12 | 8.3e9 |
+| 1e-19 | 3,988 / 4,404 / 4,381 | 4.1e10 | 4.1e11 | 2.3e12 | 8.1e9 |
+| 1e-17 | 2,024 / 2,276 / 2,242 | 1.8e10 | 1.6e11 | 3.1e11 | 4.7e9 |
+| 1e-15 | 866 / 1,030 / 1,022 | 4.3e8 | 3.9e9 | 7.3e9 | 5.3e8 |
+| 1e-13 | 325 / 386 / 374 | 1.0e8 | 3.6e8 | 2.2e8 | 3.9e7 |
+
+Times are T_full in years. The tube-inclusion margin is 0.58 δ at δ = 10⁻⁶ in every row.
+
+- **Size needed.** About **2–4 thousand complex Fourier–Taylor coefficients per observable**
+  keep T ≥ 10¹⁰ yr on 10⁻⁸ ≤ δ ≤ 10⁻⁶, with a factor ≥ 30 over 5 Gyr at δ = 10⁻⁷–10⁻⁶.
+  About a thousand still give 7·10⁹ yr at δ = 10⁻⁶.
+- **The other literal data.**
+  - The shift S has 2,790 modes, 396 of them above 10⁻²⁰.
+  - The Hamiltonian is the dataset's 7,941 monomials.
+- **AMD identity.** Pruning breaks the exact identity Σ_j F_j = Σ_j u_j only at the level of the
+  dropped terms: the AMD defect of the brackets is ≤ 6·10⁻¹⁸.
+- **Estimate.** On this evidence the observable data of a phase-3 certificate is small. The cost
+  will be dominated by the exact composition of H with the torus shift and its tail bounds, not
+  by the size of F.
 
 **First-exit theorem (proved, Lean).** `KAM/Application/Confinement/ApproxIntegral.lean` proves
 a generic first-exit and continuation theorem from approximate integrals, for an open W with
@@ -287,7 +314,8 @@ W = {w_j ≠ 0} as needed here.
 **Owner decisions requested.**
 1. Accept polar-coordinate Fourier–Taylor observables as the phase-3 route.
 2. Fix the tube target. Recommendation: δ = 10⁻⁶ (relative width about 4% in the Uranus mode).
-3. Choose between checker routes (a) and (b), with a sizing study before freezing.
+3. Choose between checker routes (a) and (b). The pruning study above sizes the observables;
+   a measured kernel shard (composition and tails) should come before freezing.
 
 ## 9. Reproduce
 
@@ -298,9 +326,14 @@ with numpy; `poly.py` and `run_nf.py` use the standard library only.
 python3 scripts/sjsu/gate2/run_nf.py --K 8                 # origin chart baseline (§2)
 python3 scripts/sjsu/gate2/orbit.py 4e6 200                # orbit and frequency analysis
 python3 scripts/sjsu/gate2/test_ft.py                      # engine check
-python3 scripts/sjsu/gate2/torus.py --L 6 --K 30 --LB 3 --kol 5 --recenter 1 --G2 64 --Lu 3 --tag test
+python3 scripts/sjsu/gate2/torus.py --L 6 --K 30 --LB 3 --kol 5 --recenter 1 --G2 64 --tag test
 python3 scripts/sjsu/gate2/torus2.py --stage1 test --L 10 --K 50 --LB 8 --kol 4 --G2 128 --Lv 14 \
-    --tag t2-L10-K50-LB8-v14                               # stage 2 and the table of §5 (~3 min)
+    --tag t2-L10-K50-LB8-v14                               # stage 2 and the table of §5
+python3 scripts/sjsu/gate2/torus2.py --stage1 test --L 8 --K 50 --LB 6 --kol 4 --G2 128 --Lv 12 \
+    --prune 0,1e-30,1e-27,1e-24,1e-21 --tag prune-L8-K50-LB6-v12      # §8 pruning study
 python3 scripts/sjsu/gate2/verify_flow.py t2-L10-K50-LB8-v14 1e5 20            # §6.1
 python3 scripts/sjsu/gate2/ecc.py t2-L10-K50-LB8-v14 1e-6 2                    # §5 eccentricities
 ```
+
+The scripts run in one process and one thread by default; `FT_THREADS=6 FT_PULL_PROCS=3` makes
+them about three times faster. The pruning run peaked at 3.8 GB RSS (measured).

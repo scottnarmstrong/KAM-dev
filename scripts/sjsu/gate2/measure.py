@@ -92,14 +92,36 @@ def deriv_tails(terms, Bmin, Bmax, r, Lv, hess):
     return tI, tq
 
 
+def inclusion_profile(Fu_j, j, cj):
+    """m -> sum_k |coef of F_j - c_j - v_j| for the tube-inclusion margin (independent of delta)."""
+    out = {}
+    for m, v in Fu_j.items():
+        b = _coef(v)
+        if sum(m) == 1 and m[j] == 1:
+            b[0, 0] -= 1.0
+        elif sum(m) == 0:
+            b[0, 0] -= cj
+        out[m] = float(np.abs(b).sum())
+    return out
+
+
+def observable_profiles(G_j, dqF_j, dpF_j, Fu_j, j, cj):
+    """The small per-observable summaries measure_profiles needs (the grid series can then be freed)."""
+    return {'G': profile(G_j), 'dqF': [profile(s) for s in dqF_j], 'dpF': [profile(s) for s in dpF_j],
+            'inc': inclusion_profile(Fu_j, j, cj)}
+
+
 def measure2(Gs, Fu, dqFs, dpF, dIu, dqu, c, terms, Bmin, Bmax, hess, Lv, kappa, dw,
              deltas=DELTAS, log=print):
-    PG = [profile(G) for G in Gs]
-    PdqF = [[profile(s) for s in dqFs[j]] for j in range(3)]
-    PdpF = [[profile(s) for s in dpF[j]] for j in range(3)]
-    PdI = [profile(s) for s in dIu]
-    Pdq = [profile(s) for s in dqu]
-    Fc = [{m: _coef(v) for m, v in F.items()} for F in Fu]
+    obs = [observable_profiles(Gs[j], dqFs[j], dpF[j], Fu[j], j, c[j]) for j in range(3)]
+    return measure_profiles(obs, [profile(s) for s in dIu], [profile(s) for s in dqu], terms, Bmin,
+                            Bmax, hess, Lv, kappa, dw, deltas, log)
+
+
+def measure_profiles(obs, PdI, Pdq, terms, Bmin, Bmax, hess, Lv, kappa, dw, deltas=DELTAS, log=print):
+    PG = [o['G'] for o in obs]
+    PdqF = [o['dqF'] for o in obs]
+    PdpF = [o['dpF'] for o in obs]
     n = Lv + 1
     rows = []
     for delta in deltas:
@@ -128,15 +150,7 @@ def measure2(Gs, Fu, dqFs, dpF, dIu, dqu, c, terms, Bmin, Bmax, hess, Lv, kappa,
                           'H_tail': ht, 'by_degree_band80': degprof(PG[j], r, n, 1).tolist()})
         incl = []
         for j in range(3):
-            rest = 0.0
-            for m, a in Fc[j].items():
-                w = _w(m, r)
-                b = a.copy()
-                if sum(m) == 1 and m[j] == 1:
-                    b[0, 0] -= 1.0
-                elif sum(m) == 0:
-                    b[0, 0] -= c[j]
-                rest += np.abs(b).sum() * w
+            rest = sum(a * _w(m, r) for m, a in obs[j]['inc'].items())
             incl.append(float(r[j] - rest - d[j]))
         row.update(eta_full=etaF, eta_band80=etaB, parts=parts, inclusion_margin=incl,
                    T_full=float(min((d[j] / 2) / etaF[j] for j in range(3))),

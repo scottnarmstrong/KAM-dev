@@ -20,7 +20,7 @@ import numpy as np
 import ft
 import torus as T1
 from common import modal_model, polar, terms_of
-from measure import measure2
+from measure import measure_profiles, observable_profiles, profile
 from torus import log
 
 
@@ -138,6 +138,8 @@ def main():
     ap.add_argument('--Lv', type=int, default=12)
     ap.add_argument('--dw', default='1,1,1', help='tube weights: delta_j = delta * w_j')
     ap.add_argument('--kappa', type=float, default=2.0)
+    ap.add_argument('--prune', default='0', help='comma list of pruning thresholds for F (0: none)')
+    ap.add_argument('--prune-delta', type=float, default=1e-6, help='tube width used in the pruning weight')
     ap.add_argument('--tag', default='')
     args = ap.parse_args()
     t0 = time.time()
@@ -201,13 +203,9 @@ def main():
     c = np.array([S.eval(F, u_nom, phi_nom).real for F in Fs])
     om = S.omega(Hn)
     log(f'  F(nominal) = {c} ; omega = {om} ({time.time() - t0:.1f}s)')
-    # 4. stage-2 torus and tube measurement
+    # 4. stage-2 torus and tube measurement (one observable at a time, to bound memory)
     tau2, res2, _ = T1.solve_torus(S, Fs, c, G2)
     log(f'stage-2 torus: Newton residual {res2:.1e}; |tau2| max', [float(np.abs(t).max()) for t in tau2])
-    Fv = [T1.grid_values(S, F, G2) for F in Fs]
-    Fu = [T1.compose_F(S, Fv[j], tau2, Lv) for j in range(3)]
-    dpF = [[T1.compose_F(S, T1.grid_values(S, S.d_p(F, i), G2), tau2, Lv) for i in range(3)] for F in Fs]
-    dphF = [[T1.compose_F(S, T1.grid_values(S, S.d_phi(F, a), G2), tau2, Lv) for a in range(2)] for F in Fs]
     # H derivatives at fixed u: du_i from the u-series, dq_i spectrally (includes the S-Hessian term)
     dIu = []
     for i in range(3):
@@ -220,32 +218,52 @@ def main():
             d[tuple(mm)] = m[i] * v
         dIu.append(compose_dict(d, tau2, Lv))
     dph = [{m: spectral_dphi(v, a) for m, v in Hs.items() if sum(m) <= Lv} for a in range(2)]
+    del Hs
     dqu = [compose_dict(dph[0], tau2, Lv), compose_dict(dph[1], tau2, Lv)]
+    del dph
     dqu.append({m: -(dqu[0].get(m, 0) + dqu[1].get(m, 0)) for m in set(dqu[0]) | set(dqu[1])})
-    log(f'composed on the tube ({time.time() - t0:.1f}s)')
-    Gs, dqFs = [], []
-    for j in range(3):
-        dqF = [dphF[j][0], dphF[j][1], {m: -(dphF[j][0].get(m, 0) + dphF[j][1].get(m, 0))
-                                         for m in set(dphF[j][0]) | set(dphF[j][1])}]
-        dqFs.append(dqF)
-        G = {}
-        for i in range(3):
-            for m, v in T1.umul(dqF[i], dIu[i], Lv).items():
-                G[m] = G.get(m, 0) - v
-            for m, v in T1.umul(dpF[j][i], dqu[i], Lv).items():
-                G[m] = G.get(m, 0) + v
-        Gs.append(G)
-    g0 = [float(np.abs(G[(0, 0, 0)]).max()) for G in Gs]
-    amd = float(np.abs(Gs[0][(0, 0, 0)] + Gs[1][(0, 0, 0)] + Gs[2][(0, 0, 0)]).max())
-    log('max |{F_j,H}| on the torus grid:', g0, ' AMD identity defect', amd)
-    tag = args.tag or f'torus2-{args.stage1}-L{args.L}-K{args.K}-LB{args.LB}'
+    PdI = [profile(s) for s in dIu]
+    Pdq = [profile(s) for s in dqu]
+    log(f'composed H on the tube ({time.time() - t0:.1f}s)')
     hess = [[float(np.abs(kk[i] * kk[l] * s_hat).sum()) for l in range(3)] for i in range(3)]
     Bmin = [float((B0[j] + tau2[j]).min()) for j in range(3)]
     Bmax = [float((B0[j] + tau2[j]).max()) for j in range(3)]
     dw = [float(x) for x in args.dw.split(',')]
-    rows = measure2(Gs, Fu, dqFs, dpF, dIu, dqu, c, terms, Bmin, Bmax, hess, Lv, args.kappa, dw)
+    rho_p = [args.kappa * args.prune_delta] * 3
+    prune_rows = []
+    rows = None
+    for thr in [float(x) for x in args.prune.split(',')]:
+        # literal observables kept: coefficients with |c| (kappa delta_p)^m >= thr (thr = 0: all)
+        w = S.weights(rho_p)[:, None, None]
+        Fp = [np.where(np.abs(F) * w >= thr, F, 0) if thr > 0 else F for F in Fs]
+        kept = [int(np.count_nonzero(F)) for F in Fp]
+        cp = np.array([S.eval(F, u_nom, phi_nom).real for F in Fp])
+        obs, g0 = [], []
+        for j in range(3):
+            Fu = T1.compose_F(S, T1.grid_values(S, Fp[j], G2), tau2, Lv)
+            dpF = [T1.compose_F(S, T1.grid_values(S, S.d_p(Fp[j], i), G2), tau2, Lv) for i in range(3)]
+            dphF = [T1.compose_F(S, T1.grid_values(S, S.d_phi(Fp[j], a), G2), tau2, Lv) for a in range(2)]
+            dqF = [dphF[0], dphF[1], {m: -(dphF[0].get(m, 0) + dphF[1].get(m, 0))
+                                      for m in set(dphF[0]) | set(dphF[1])}]
+            G = {}
+            for i in range(3):
+                for m, v in T1.umul(dqF[i], dIu[i], Lv).items():
+                    G[m] = G.get(m, 0) - v
+                for m, v in T1.umul(dpF[i], dqu[i], Lv).items():
+                    G[m] = G.get(m, 0) + v
+            g0.append(G[(0, 0, 0)])
+            obs.append(observable_profiles(G, dqF, dpF, Fu, j, cp[j]))
+            del Fu, dpF, dphF, dqF, G
+        amd = float(np.abs(g0[0] + g0[1] + g0[2]).max())
+        log(f'[prune {thr:g}] kept coefficients {kept} of {[int(np.count_nonzero(F)) for F in Fs]}; '
+            f'max |{{F_j,H}}| on the torus grid {[float(np.abs(g).max()) for g in g0]}; AMD defect {amd:.1e}')
+        r_thr = measure_profiles(obs, PdI, Pdq, terms, Bmin, Bmax, hess, Lv, args.kappa, dw, log=log)
+        prune_rows.append({'threshold': thr, 'rho': rho_p, 'kept': kept, 'amd_defect': amd, 'rows': r_thr})
+        if rows is None:
+            rows = r_thr
+    tag = args.tag or f'torus2-{args.stage1}-L{args.L}-K{args.K}-LB{args.LB}'
     rep = {'args': vars(args), 'Istar': Istar, 'c0': c0, 'omega': om.tolist(), 'c': c.tolist(),
-           'info': info, 'rows': rows, 'log': T1.LOG, 'seconds': time.time() - t0}
+           'info': info, 'rows': rows, 'prune': prune_rows, 'log': T1.LOG, 'seconds': time.time() - t0}
     with open(f'{out_dir}/{tag}.json', 'w') as fh:
         json.dump(rep, fh, indent=1, default=float)
     np.savez(f'{out_dir}/{tag}-F.npz', F0=Fs[0], F1=Fs[1], F2=Fs[2], s_hat=s_hat, Istar=np.array(Istar),

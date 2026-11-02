@@ -212,6 +212,8 @@ chart passes the phase-2 gate.
   - Along the true flow the F_j are conserved to 10⁻¹⁶ over 10⁵ yr.
 - **Proved (Lean).** `KAM.Application.Confinement.ApproxIntegral` gives first exit and continuation from
   approximate integrals, including the Hamiltonian case on an open W. It uses the standard axioms only.
+- **Size.** A pruning study shows that literal observables of about 2–4 thousand complex coefficients
+  each keep T ≥ 10¹⁰ yr for δ from 10⁻⁸ to 10⁻⁶.
 - **Open.** Phase 3 needs a checker for polar Fourier–Taylor observables and exact or interval arithmetic. The report
   requests owner decisions on that route and on the tube target.
 

@@ -33,8 +33,10 @@ Run from the repository root.
 - By default everything runs in one process with one thread.
 - `FT_THREADS=6 FT_PULL_PROCS=3` speeds it up about 3× (the measured runs used this). Expect
   roughly 12 minutes with it, longer without.
-- Stage 2 with `--Lv 14 --G2 128` peaks at an estimated 6 GB, and `--G2 96 --Lv 12` at an
-  estimated 3 GB. Neither figure was measured.
+- Memory: `torus2.py` processes the observables one at a time.
+  - With `--L 8 --Lv 12 --G2 128` it peaked at 3.8 GB RSS (measured).
+  - `--L 10 --Lv 14` needs more (estimated 5–6 GB, not measured), so use a smaller `--G2` on a
+    shared machine.
 - On a shared machine, prefix the commands with `OMP_NUM_THREADS=1 nice -n 10`.
 
 ```sh
@@ -46,6 +48,8 @@ python3 $D/torus.py --L 6 --K 30 --LB 3 --kol 5 --recenter 1 --G2 64 --tag test
 python3 $D/torus2.py --stage1 test --L 10 --K 50 --LB 8 --kol 4 --G2 128 --Lv 14 --tag t2-L10-K50-LB8-v14
 python3 $D/torus2.py --stage1 test --L 10 --K 40 --LB 8 --kol 4 --G2 128 --Lv 14 --tag t2-L10-K40-LB8-v14
 python3 $D/torus2.py --stage1 test --L 8 --K 50 --LB 6 --kol 4 --G2 128 --Lv 12 --tag t2-L8-K50-LB6-v12
+python3 $D/torus2.py --stage1 test --L 8 --K 50 --LB 6 --kol 4 --G2 128 --Lv 12 --prune 0,1e-30,1e-27,1e-24,1e-21 --tag prune-L8-K50-LB6-v12
+python3 $D/torus2.py --stage1 test --L 8 --K 50 --LB 6 --kol 4 --G2 128 --Lv 12 --prune 1e-19,1e-17,1e-15,1e-13 --tag prune2-L8-K50-LB6-v12
 python3 $D/verify_flow.py t2-L10-K50-LB8-v14 1e5 20
 python3 $D/verify_flow.py t2-L10-K50-LB8-v14 1e5 20 5e-7,-5e-7,2e-7
 python3 $D/ecc.py t2-L10-K50-LB8-v14 1e-6 2
@@ -71,3 +75,4 @@ python3 $D/ecc.py t2-L10-K50-LB8-v14 1e-6 2
 | `--G2` | Angle grid of the torus graph and the tube composition |
 | `--Lv` | Truncation degree of the tube series in v. Its tail beyond Lv is bounded separately |
 | `--kappa` | Tube width factor: the tube is \|v_j\| ≤ κδ. The default κ = 2 |
+| `--prune` | Comma-separated pruning thresholds. For each one, F_j drops coefficients with \|c\| (κ·`--prune-delta`)^\|m\| below it, and the tube is measured again (0 = no pruning) |
