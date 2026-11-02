@@ -6,10 +6,14 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import HD11964.CellCauchy
+public import HD11964.ChiHD
+public import HD11964.ChiSmooth
 public import HD11964.Cover
 public import HD11964.CoverPlan
 public import HD11964.Generator
 public import HD11964.Glue
+public import HD11964.Homological
+public import HD11964.ParamIntegral
 public import HD11964.NoCrossing
 public import HD11964.Threshold
 
@@ -24,5 +28,8 @@ Phase 2, the cover: the cover lemma for affine cells (`HD11964.Cover`) and the f
 of `R(1/500)` with its decided check (`HD11964.CoverPlan`). The pieces of the cell check
 (HD11964-LEMMAS): the Cauchy bound for the slow derivatives (`HD11964.CellCauchy`), the exact
 generator and its certified remainder (`HD11964.Generator`), and the consumer glue to
-`noCrossing_of_regionBounds` (`HD11964.Glue`).
+`noCrossing_of_regionBounds` (`HD11964.Glue`). The generator's smoothness and the order-2
+homological equation (HD11964-CHI): smooth parametric integrals (`HD11964.ParamIntegral`), `χ*`
+smooth on angle-saturated sets (`HD11964.ChiSmooth`), `{χ*, h} = Π_S P` and the pure tails
+(`HD11964.Homological`), and the HD 11964 instance (`HD11964.ChiHD`).
 -/
