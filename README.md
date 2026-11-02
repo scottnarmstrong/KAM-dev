@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-02 11:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 68 / 73 · **511,032 lines of hand-written Lean** of an estimated ≈ 513,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-02 11:19 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 68 / 73 · **511,037 lines of hand-written Lean** of an estimated ≈ 513,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -342,7 +342,7 @@ Overall, everything together: 96.0 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **511,032** (386,436 excluding blank lines and comments) · **+30,042** since 2026-11-01 11:00 UTC |
+| On `main` now (hand-written) | **511,037** (386,437 excluding blank lines and comments) · **+28,984** since 2026-11-01 11:14 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 632,896 lines in 1,649 modules |
 | Written on agent branches, not yet landed (hand-written) | 1,865 |
 | Generated certificate data on agent branches (numeric literals; not counted in the other rows) | 5,265 |
@@ -353,7 +353,7 @@ Overall, everything together: 96.0 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-02 11:00 UTC from `main` at `b672365bb` by `scripts/hq-status.py`.*
+*Generated 2026-11-02 11:19 UTC from `main` at `87c22379c` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -375,7 +375,7 @@ Overall, everything together: 96.0 %
 
 **Frozen statements proved: 68 / 73** · frozen definitions: 243
 
-**Lean on `main` (hand-written):** 2,782 modules · 511,032 lines · 21,327 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0 (both scans cover every module, generated data included)
+**Lean on `main` (hand-written):** 2,782 modules · 511,037 lines · 21,327 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0 (both scans cover every module, generated data included)
 
 **Generated certificate data on `main`:** 632,896 lines in 1,649 modules (numeric literals; not counted above), with 4,663 generated kernel-check theorems; under [`KAM/SpinOrbit/Data/`](KAM/SpinOrbit/Data)
 
@@ -539,14 +539,14 @@ flowchart BT
 | [`KAM/Wave/`](KAM/Wave) | Track W: PDE KAM for the cubic wave equation (Pöschel 1996): sequence calculus and the weighted convolution algebra, analytic maps on Banach domains, Banach-valued Fourier coefficients for the KAM step, Birkhoff normal form (averaged quartic part, nonresonance, nondegeneracy), analytic and classical reconstruction of the solutions | 456 | 84,252 | 4026 |
 | [`KAM/Planetary/StrongAMD/`](KAM/Planetary/StrongAMD) | Track LP: the sharp strong Laskar–Petit AMD threshold and barrier, the nonresonant exponential normal-form adapter, first exit, planar exponential safety (D56) | 62 | 10,638 | 424 |
 | [`KAM/Planetary/Spatial/`](KAM/Planetary/Spatial) | Track LP: the spatial planetary problem (regular spatial Poincaré chart, vector angular momentum, spatial exponential safety; D56) | 79 | 13,452 | 606 |
-| [`KAM/Application/`](KAM/Application) | — | 36 | 6,886 | 361 |
+| [`KAM/Application/`](KAM/Application) | — | 36 | 6,891 | 361 |
 | [`KAM/Magnetic/`](KAM/Magnetic) | — | 5 | 475 | 24 |
 
 **Certificate applications** (decision D51): opt-in libraries, not built by a plain `lake build` (which builds the core library `KAM`, every core theorem); each builds with `lake build <Lib>` through the capped driver `scripts/prebuild_heavy.py --lib <Lib>`. Modules are assigned in [`scripts/build_roots.json`](scripts/build_roots.json).
 
 | Library | Content | Modules | Hand-written lines | Generated data lines | Theorems |
 |---|---|---|---|---|---|
-| `KAM` (default) | The core: every module not assigned to an application | 2746 | 507,159 | — | 21294 |
+| `KAM` (default) | The core: every module not assigned to an application | 2746 | 507,164 | — | 21294 |
 | [`KAMLunarBand`](KAMLunarBand.lean) | SO-2: the Moon's spin-orbit band (N = 65 barrier tori) | 1654 | 267 | 632,896 | 4672 |
 | [`KAMLunarLock`](KAMLunarLock.lean) | SO-3: the Moon locked in synchronous rotation (N = 65 librational torus) | 0 | 0 | 0 | 0 |
 | [`KAMMagneticBarrier`](KAMMagneticBarrier.lean) | MAG: the magnetic field-line barrier at eps = 3/2500 (D66, D68) | 3 | 366 | 0 | 24 |
@@ -580,6 +580,8 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-02 11:19 | `87c22379c` | Merge remote-tracking branch 'origin/main' |
+| 2026-11-02 11:19 | `4772c4f3a` | Log: lock option (a) gate PASS |
 | 2026-11-02 10:18 | `df7495972` | Log: lock tp9 |
 | 2026-11-02 09:44 | `7241c2f8a` | Land redmass-bridge: reduced-mass elements (redMass, the frozen Kepler elements at ν' are the reduced-mass ones, proved), the observable Λ-drift bridge stoppedDrift_of_approxIntegrals_obs and noCrossing_of_approxIntegrals_obs, HD 11964 instances with an analytic range of G − Λ; from the LP lane's reduced-mass scoping note (no frozen change); AUDIT-REDMASS-BRIDGE-1 PASS WITH CHANGES, C1 applied |
 | 2026-11-02 09:18 | `19134dd04` | Merge remote-tracking branch 'origin/main' |
@@ -590,8 +592,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-02 08:13 | `46953be7c` | D70: lock source about 265 MB accepted; SOS option (a) confirmed; the remote run targets a CCX63 |
 | 2026-11-02 07:19 | `7b887d52f` | Overnight log: SOS cost decision for the owner |
 | 2026-11-02 06:48 | `3d7a8f6a8` | Overnight log: lock graph re-split (265 MB) |
-| 2026-11-02 05:48 | `f4415b596` | Overnight log: lock graph-chunk risk |
-| 2026-11-02 04:48 | `d79ab182a` | Overnight log: lock tp7 progress |
 <!-- /AUTO:landed -->
 
 ## Decisions
