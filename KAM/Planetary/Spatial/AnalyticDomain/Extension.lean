@@ -12,8 +12,8 @@ public import KAM.Planetary.Spatial.ComplexTube
 /-!
 # The uniform complex extension of the spatial chart perturbation over the core
 
-Package LP-SP-DOM, `LP:MAIN L18 (595)` with `LP:MAIN L8 (259–271)` and amendment N12, track LP,
-non-frozen. The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L18 (595)` with `LP:MAIN L8 (259–271)` and amendment N12, track LP,
+non-frozen.
 
 * `spatialChartSafe_shift_iff`: the collision-free chart domain is invariant under the fast lattice.
 * D4 `exists_spatialStrongTube`: `tubeNM` (never track P's `n + n` tube) applied to the compact

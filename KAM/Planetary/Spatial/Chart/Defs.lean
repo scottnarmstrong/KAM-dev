@@ -12,7 +12,7 @@ public import KAM.Planetary.Spatial.Rotation46
 /-!
 # The regular spatial Poincare chart for one body: definitions and well-definedness
 
-Package LP-SP-CHART, `LP:MAIN L17 (533–578)`, track LP, non-frozen.
+Source: `LP:MAIN L17 (533–578)`, track LP, non-frozen.
 
 **Coordinates.** A point of the chart domain is `w : Phase 3 = (Fin 3 → ℝ) × (Fin 3 → ℝ)` with
 `w.1 = (λ, ξ, v)` ("angle" slots) and `w.2 = (I, η, u)` ("action" slots). The repository's
@@ -24,7 +24,6 @@ the form of MAIN (Lemma 17) for the planar chart in the repository convention
 * `spatialPoincare ν w = (R·(Q, 0), R·(P, 0))` is (46), with `(Q, P)` the planar chart
   `poincare ν 1` at `(λ, ξ; I, η)` and `R = incRotation u v G`, `G = I − Γ`.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -105,12 +104,12 @@ theorem spatialZ_lt_angMom (hw : w ∈ spatialPoincareDom) : spatialZ w < spatia
   have := hw.2
   unfold spatialAngMom; linarith
 
-/-- Item 1: the carrier hypotheses of LP-SP-ROT in the form `(u² + v²)/2 < G`. -/
+/-- Item 1: the carrier hypotheses of the spatial rotation in the form `(u² + v²)/2 < G`. -/
 theorem spatial_carrier (hw : w ∈ spatialPoincareDom) :
     0 < spatialAngMom w ∧ (w.2 2 ^ 2 + w.1 2 ^ 2) / 2 < spatialAngMom w :=
   ⟨spatialAngMom_pos hw, spatialZ_lt_angMom hw⟩
 
-/-- Item 1: `(u, v, G)` lies in the LP-SP-ROT carrier. -/
+/-- Item 1: `(u, v, G)` lies in the spatial rotation carrier. -/
 theorem spatial_mem_incCarrier (hw : w ∈ spatialPoincareDom) :
     (w.2 2, w.1 2, spatialAngMom w) ∈ incCarrier :=
   spatial_carrier hw

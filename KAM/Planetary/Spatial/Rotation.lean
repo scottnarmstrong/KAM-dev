@@ -13,8 +13,8 @@ public import KAM.Planetary.Spatial.Elements
 /-!
 # Rotation invariance of the spatial model: the invariants
 
-Package LP-SP-MODEL, rotation invariance for the alignment in `LP:MAIN L18` (`d = 3`); track LP,
-non-frozen; the statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: rotation invariance for the alignment in `LP:MAIN L18` (`d = 3`); track LP,
+non-frozen.
 
 `spatialRotatePhase R z` applies `R` to every `q_i` and `p_i`.  For `Rᵀ R = 1`:
 `spatialHamiltonian`, `SpatialNoCollision`, the Kepler energy, axis and action, and `|𝐞_i|` are
@@ -62,13 +62,6 @@ section Invariants
 variable (hR : Rᵀ * R = 1)
 include hR
 
-theorem spatialHamiltonian_rotate (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 3)) :
-    spatialHamiltonian ν μ (spatialRotatePhase R z) = spatialHamiltonian ν μ z := by
-  have hsum : ∑ i, R *ᵥ bodyVector3 z.2 i = R *ᵥ ∑ i, bodyVector3 z.2 i :=
-    (Matrix.mulVec_sum _ _ _).symm
-  simp only [spatialHamiltonian, spatialRotatePhase, bodyVector3_rotateBlocks, hsum,
-    spaceSq_mulVec hR, spaceLength_mulVec hR, ← Matrix.mulVec_sub]
-
 theorem spatialNoCollision_rotate_iff (q : Fin (n * 3) → ℝ) :
     SpatialNoCollision (rotateBlocks R q) ↔ SpatialNoCollision q := by
   simp only [SpatialNoCollision, bodyVector3_rotateBlocks, ← Matrix.mulVec_sub,
@@ -100,14 +93,6 @@ theorem spaceLength_spatialKeplerEccVector_rotate (ν : Fin n → ℝ) (z : Phas
     spaceLength (spatialKeplerEccVector ν (spatialRotatePhase R z) i) =
       spaceLength (spatialKeplerEccVector ν z i) := by
   rw [spatialKeplerEccVector_rotate hR, spaceLength_mulVec hR]
-
-theorem spatialNegativeEnergy_rotate_iff (ν : Fin n → ℝ) (z : Phase (n * 3)) :
-    SpatialNegativeEnergy ν (spatialRotatePhase R z) ↔ SpatialNegativeEnergy ν z := by
-  simp only [SpatialNegativeEnergy, spatialRotatePhase, bodyVector3_rotateBlocks,
-    spaceLength_mulVec hR]
-  refine forall_congr' fun i => ?_
-  rw [show spatialKeplerEnergy ν (rotateBlocks R z.1, rotateBlocks R z.2) i =
-    spatialKeplerEnergy ν z i from spatialKeplerEnergy_rotate hR ν z i]
 
 variable (hdet : R.det = 1)
 include hdet

@@ -12,12 +12,11 @@ public import KAM.Planetary.Spatial.SpatialSafety.Main
 /-!
 # LP2 restated through the spatial source carriers (OD-11 option (b))
 
-Packages LP-SP-SRCB and LP-SP-SRCB2 (`LP:MAIN T19 (599–603)`, `L16 (508–529)`, `d = 3`),
+Source: (`LP:MAIN T19 (599–603)`, `L16 (508–529)`, `d = 3`),
 track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 * `lp2_spatial_strongAMD_safety_source`: the LP2 text (§3c, with `hνmax`, `hνle`) restated under
-  statement review 4, R4.1 (A) (LP-SP-SRCB2): every canonical element at `z₀` and `z t`
+  every canonical element at `z₀` and `z t`
   (axis, action, eccentricity vector, strong AMD, perihelion, aphelion) is the `spatialSource*`
   restriction; `h₀` is a typing binder placed right after the physical premise, and the per-time
   block is scoped under one `∃ hs`, with `∃ ho` for the osculating carrier.  The unrestricted

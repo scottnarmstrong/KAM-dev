@@ -11,7 +11,7 @@ public import KAM.Planetary.Spatial.Rotation46
 /-!
 # Rotation (46): the rotation vector of a varying tilt
 
-Package LP-SP-CHART, `LP:MAIN L17 (562–569)`, track LP, non-frozen. Pure algebra for the
+Source: `LP:MAIN L17 (562–569)`, track LP, non-frozen. Pure algebra for the
 symplecticity computation. Since the tilt `t = (a, b, 0)` of (46) has no third component,
 `R = rot3 a b c` is an explicit `3 × 3` matrix, `c² + a² + b² = 1`. For a variation
 `(da, db, dc)` with `a da + b db + c dc = 0`,
@@ -22,7 +22,6 @@ symplecticity computation. Since the tilt `t = (a, b, 0)` of (46) has no third c
   `ω_k3 dG_h − ω_h3 dG_k − G (ω_h × ω_k)_3 = du_h dv_k − dv_h du_k` for
   `(u, v, G) = (2 s a, −2 s b, s²)`.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

@@ -12,8 +12,7 @@ public import KAM.Planetary.Exponential.Perturbation
 /-!
 # The uniform complex extension of the chart perturbation over the sharp core
 
-Package LP-DOM, `LP:MAIN L8 (259–271)`, track LP, non-frozen; the statement surface is proposed in
-docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L8 (259–271)`, track LP, non-frozen.
 
 * D4 `exists_strongTube`: track P's `tube` applied to the compact sharp core inside `chartSafe ν`:
   a shift-periodic holomorphic `fc` on `complexTube core R`, real trace

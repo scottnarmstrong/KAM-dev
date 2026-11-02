@@ -12,11 +12,10 @@ public import KAM.Planetary.Exponential.Hamiltonian
 public import KAM.Planetary.Exponential.Lift
 
 /-!
-# The normalized perturbation on every cell (LP3-PERT)
+# The normalized perturbation on every cell
 
-Package LP3-COVERPERT (part LP3-PERT), `LP:MAIN L8 (259–271)` as planned in
-`docs/tracks/LP/lp3/LP3-PLAN.md` §2.3, track LP, non-frozen. The statement surface is proposed in
-docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L8 (259–271)` as planned in
+`docs/tracks/LP/lp3/LP3-PLAN.md` §2.3, track LP, non-frozen.
 
 * `nekNormalizedPerturbation`: the global `P = fc/B₀` on the tube `complexTube core R`, and `0`
   elsewhere (track P's pt-def); one `P` serves every cell.
@@ -220,7 +219,8 @@ end Cell
 
 /-! ### The bundled statement -/
 
-/-- LP3-PERT, bundled: after the shared tube, one width `R` and one normalization `B₀ ≥ 1` give a
+/-- The normalized perturbation, bundled: after the shared tube, one width `R` and one
+normalization `B₀ ≥ 1` give a
 single global `P` such that, for every cell centred in `𝓛_δ`, `±P` are partial perturbations on
 `(G′_j, D_j, ρ)`, and on the open real region `V_j` the degenerate Hamiltonian `h + (B₀μ) Re P`
 equals the chart Hamiltonian and has the same field. -/

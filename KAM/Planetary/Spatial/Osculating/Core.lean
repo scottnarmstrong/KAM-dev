@@ -11,8 +11,7 @@ public import KAM.Planetary.Spatial.Osculating.Estimates
 /-!
 # The pointwise core of `LP:MAIN L16 (43)` in dimension three
 
-Package LP-SP-OSC, `LP:MAIN L16 (508–529)` with `d = 3`; track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L16 (508–529)` with `d = 3`; track LP, non-frozen.
 
 `spatial_osc_core` is the whole estimate (43) at the level of one position `q`, one reference
 velocity

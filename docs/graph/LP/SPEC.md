@@ -444,3 +444,8 @@ Status after wave-1 extraction (2026-11-01; all PROPOSED, extractor `kam-lp`):
   its slice reviews, which D65 cancels). Lint exit 0; LEAN_STATUS sync re-applied with no change (PROVED 153,
   BYPASSED 136, EXTERNAL 12). Retained SOURCE_GAP steps: `lpM:L3#deficit-zero-L`, `lpM:L10#flow-existence`,
   `lpM:L10#lie-flow-identification`, `lpM:L14#maximal-solution`.
+- 2026-11-02, **FROZEN_MANIFEST re-pin (LP-CLEANUP1-FIX)**: the MAG freeze (D68) changed `manifest/frozen-anchors.json`
+  after the LP graph landed, so the header pin `sha256:e5186622...a48375` was stale. Re-pinned to the current manifest
+  (`sha256:80b8a24a...c4308f6`) in `DEPGRAPH.md` line 10. Identity fields (kind, path, export, abi_sha256) of all 128 anchors of
+  `packets/anchor-map.tsv` verified equal to the current manifest; no node, edge, status or Lean-field change.
+  `proof_depgraph.py --require-complete-coverage --require-all-reachable --check` exits 0.

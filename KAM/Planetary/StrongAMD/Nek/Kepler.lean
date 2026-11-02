@@ -16,8 +16,7 @@ public import KAM.Planetary.StrongAMD.Threshold.Defs
 /-!
 # The Kepler part as the fast Hamiltonian of the partial-convexity Nekhoroshev theorem
 
-Package LP3-KEP, plan row `docs/tracks/LP/lp3/LP3-PLAN.md` (LP3-KEP); track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: plan row `docs/tracks/LP/lp3/LP3-PLAN.md`; track LP, non-frozen.
 
 For `h = planetaryKeplerC ν = -∑ ν_i³ / (2 I_i²)` and for `-h`, on sharp fast sets `G' ⊆ U_ρ₀`
 (`U_ρ₀ = cthickening ρ₀ U`, `U ⊆ chamber ν` compact, `ρ₀ = Imin / 4`) and every collar

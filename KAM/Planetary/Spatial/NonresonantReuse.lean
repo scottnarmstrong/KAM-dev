@@ -14,7 +14,7 @@ public import KAM.Planetary.Spatial.NonresonantReuse.Drift
 /-!
 # The spatial engine data and stopped drift (facade)
 
-Package LP-SP-NRR, MAIN Lemma 13 with `2n` slow pairs and Theorem 19
+Source: MAIN Lemma 13 with `2n` slow pairs and Theorem 19
 (`LP:MAIN L13 (429–464)`, `LP:MAIN T19 (599–603)`), track LP, non-frozen. Facade importing the
 modules of `KAM/Planetary/Spatial/NonresonantReuse/`:
 
@@ -23,5 +23,4 @@ modules of `KAM/Planetary/Spatial/NonresonantReuse/`:
 * `Hyp`: the trace identity `lpTraceNM` and `lpExtNFHypNM` for `PartialBlock n (n + n)`;
 * `Drift`: `spatial_stopped_drift`, via `nonresonant_drift_of_chartDataNM`.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/

@@ -10,15 +10,15 @@ public import KAM.Planetary.StrongAMD.SourceCarrier
 /-!
 # Provider for `KAM.Planetary.StrongAMD.sourceKeplerPeri_le_planeLength`
 
-Provider for the frozen theorem `KAM.Planetary.StrongAMD.sourceKeplerPeri_le_planeLength`, draft-7
-revision-1 characterization theorem of `sourceKeplerPeri`; track LP, package LP-FREEZE7R (`LP:MAIN
-L2 (110–128)`). The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Provider for the frozen theorem `KAM.Planetary.StrongAMD.sourceKeplerPeri_le_planeLength`,
+characterization theorem of `sourceKeplerPeri`;
+track LP (`LP:MAIN L2 (110–128)`).
 
 The theorem `KAM.Provider.Planetary.StrongAMD.sourceKeplerPeri_le_planeLength` states the anchor's
 exact type text (its draft file under `docs/tracks/LP/freeze/draft7/`). Its proof is the proof of
 the former implementation lemma `KAM.Planetary.StrongAMD.sourceKeplerPeri_le_planeLength`
-(`KAM.Planetary.StrongAMD.SourceCarrier`), moved verbatim at the freeze (D62; FREEZE-PROPOSAL §7
-point 3). No module other than the anchor imports this module (AGENTS rule 9).
+(`KAM.Planetary.StrongAMD.SourceCarrier`), moved verbatim at the freeze (D62). No module other than
+the anchor imports this module (AGENTS rule 9).
 -/
 
 @[expose] public section

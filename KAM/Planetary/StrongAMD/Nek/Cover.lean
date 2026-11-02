@@ -10,11 +10,11 @@ public import KAM.Planetary.StrongAMD.AnalyticDomain.Containment
 public import KAM.Planetary.Exponential.Stopped
 
 /-!
-# The finite sharp cover of the action set (LP3-COVER)
+# The finite sharp cover of the action set
 
-Package LP3-COVERPERT (part LP3-COVER), `LP:MAIN L8 (244–271)` and `LP:MAIN L14 (468–500)` as
+Source: `LP:MAIN L8 (244–271)` and `LP:MAIN L14 (468–500)` as
 planned in `docs/tracks/LP/lp3/LP3-PLAN.md` §2.2–§2.3 (fixed data (F3)–(F7)), track LP,
-non-frozen. The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+non-frozen.
 
 Everything here is chosen before the small parameter `μ`. From the shared-tube radius `r_g` and the
 tube width `R` (of `exists_strongTube`):

@@ -12,13 +12,12 @@ public import KAM.Planetary.Spatial.Chart.Defs
 /-!
 # The regular spatial Poincare chart: the elements (45)
 
-Package LP-SP-CHART, `LP:MAIN L17 (533–578)`, track LP, non-frozen. On (44):
+Source: `LP:MAIN L17 (533–578)`, track LP, non-frozen. On (44):
 
 * the Kepler energy of `spatialPoincare ν w` is `−ν³/(2I²)`;
 * `q ⨯₃ p = G • (R e₃)`, `|q ⨯₃ p| = G` and `(q ⨯₃ p) ⬝ᵥ e₃ = I − Γ − Z`;
 * the eccentricity vector is `R` applied to the planar one.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -28,11 +27,6 @@ open Matrix
 namespace KAM.Planetary.Spatial
 
 open KAM KAM.Kepler KAM.Planetary
-
-/-- The spatial Laplace–Runge–Lenz (eccentricity) vector `(|p|²/ν² − 1/|q|) q − (q·p/ν²) p`
-(`κ = 1`, the planar convention of `poincare_elements`). -/
-def spatialEccVector (ν : ℝ) (z : Phase 3) : Fin 3 → ℝ :=
-  ((z.2 ⬝ᵥ z.2) / ν ^ 2 - 1 / Real.sqrt (z.1 ⬝ᵥ z.1)) • z.1 - ((z.1 ⬝ᵥ z.2) / ν ^ 2) • z.2
 
 /-- Orthogonal matrices preserve the dot product. -/
 theorem dotProduct_mulVec_mulVec_of_orth {M : Matrix (Fin 3) (Fin 3) ℝ} (h : Mᵀ * M = 1)
@@ -59,9 +53,6 @@ variable {ν : ℝ} {w : Phase 3}
 lemma spatialRot_transpose_mul (hw : w ∈ spatialPoincareDom) :
     (spatialRot w)ᵀ * spatialRot w = 1 :=
   incRotation_transpose_mul (spatial_carrier hw).1 (spatial_carrier hw).2
-
-lemma spatialRot_det (hw : w ∈ spatialPoincareDom) : (spatialRot w).det = 1 :=
-  incRotation_det (spatial_carrier hw).1 (spatial_carrier hw).2
 
 lemma spatialPlanar_snd_zero (w : Phase 3) : (spatialPlanar w).2 0 = w.2 0 := by
   simp [spatialPlanar]
@@ -137,27 +128,6 @@ theorem spatialPoincare_cross_norm (hν : 0 < ν) (hw : w ∈ spatialPoincareDom
       ((spatialPoincare ν w).1 ⨯₃ (spatialPoincare ν w).2)) = spatialAngMom w := by
   rw [spatialPoincare_cross_dot_self hν hw]
   exact Real.sqrt_sq (spatialAngMom_pos hw).le
-
-/-- Item 2 (MAIN (45)): the eccentricity vector is `R` applied to the planar one. -/
-theorem spatialPoincare_eccVector (hν : 0 < ν) (hw : w ∈ spatialPoincareDom) :
-    spatialEccVector ν (spatialPoincare ν w) =
-      spatialRot w *ᵥ planarEmbed (poincareV (spatialPlanar w)) := by
-  have hR := spatialRot_transpose_mul hw
-  have hp := spatialPlanar_mem hw
-  have h := (poincare_elements hν one_pos hp).2.2.2.2.2
-  rw [inv_one, one_smul] at h
-  set Q := (poincare ν 1 (spatialPlanar w)).1 with hQ
-  set P := (poincare ν 1 (spatialPlanar w)).2 with hP
-  have hv : poincareV (spatialPlanar w) =
-      (planeSq P / ν ^ 2 - 1 / planeLength Q) • Q - (planeDot Q P / ν ^ 2) • P := h.symm
-  rw [hv, planarEmbed_sub, planarEmbed_smul, planarEmbed_smul, Matrix.mulVec_sub,
-    Matrix.mulVec_smul, Matrix.mulVec_smul]
-  unfold spatialEccVector
-  simp only [spatialPoincare_fst, spatialPoincare_snd]
-  rw [dotProduct_mulVec_mulVec_of_orth hR, dotProduct_mulVec_mulVec_of_orth hR,
-    dotProduct_mulVec_mulVec_of_orth hR, planarEmbed_dot_self, planarEmbed_dot_self,
-    planarEmbed_dot]
-  rfl
 
 end Elements
 

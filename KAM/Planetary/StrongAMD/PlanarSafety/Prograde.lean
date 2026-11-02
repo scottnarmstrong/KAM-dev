@@ -16,7 +16,7 @@ public import KAM.Planetary.StrongAMD.PlanarSafety.Orientation
 /-!
 # The planar safety theorem for prograde initial states
 
-Package LP-PS (planar theorem LP1, `LP:MAIN L14 (468–500)`, `L15 (502–506)`, `L16 (508–529)`),
+Source: (planar theorem LP1, `LP:MAIN L14 (468–500)`, `T15 (502–506)`, `L16 (508–529)`),
 track LP, non-frozen.
 
 `planar_safety_of_prograde` is MAIN Theorem 15 for initial states with `0 < L(z₀)` (the orientation
@@ -26,7 +26,6 @@ reduction of the theorem is in `PlanarSafety/Main`).  The constants are chosen f
 The stopped drift `hstop` of the confinement helper is discharged by `lpChartLift_premises` and
 `lp_stopped_drift`.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -37,7 +36,7 @@ open KAM.Planetary Set
 
 variable {n : ℕ}
 
-/-- **MAIN Theorem 15 for `0 < L(z₀)`** (`LP:MAIN L15 (502–506)`, with `L14`, `L16`, N2, N6, N10):
+/-- **MAIN Theorem 15 for `0 < L(z₀)`** (`LP:MAIN T15 (502–506)`, with `L14`, `L16`, N2, N6, N10):
 the solution-level conclusion without the Newtonian reconstruction and without the orientation
 reduction. `0 < totalMomentum z₀` is the orientation of the theorem (not a conclusion). -/
 theorem planar_safety_of_prograde (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀ i, 0 < ν i)

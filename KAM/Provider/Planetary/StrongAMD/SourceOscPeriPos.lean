@@ -10,15 +10,16 @@ public import KAM.Planetary.StrongAMD.SourceCarrier
 /-!
 # Provider for `KAM.Planetary.StrongAMD.sourceOscPeri_pos`
 
-Provider for the frozen theorem `KAM.Planetary.StrongAMD.sourceOscPeri_pos`, draft-7 revision-1
-characterization theorem of `sourceOscPeri`; track LP, package LP-FREEZE7R (`LP:MAIN L16
-(527–528)`). The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Provider for the frozen theorem `KAM.Planetary.StrongAMD.sourceOscPeri_pos`,
+characterization theorem of `sourceOscPeri`;
+track LP (`LP:MAIN L16
+(527–528)`).
 
 The theorem `KAM.Provider.Planetary.StrongAMD.sourceOscPeri_pos` states the anchor's exact type text
 (its draft file under `docs/tracks/LP/freeze/draft7/`). Its proof is the proof of the former
 implementation lemma `KAM.Planetary.StrongAMD.sourceOscPeri_pos`
-(`KAM.Planetary.StrongAMD.SourceCarrier`), moved verbatim at the freeze (D62; FREEZE-PROPOSAL §7
-point 3); the sibling `sourceOscAxis_pos` it uses is inlined verbatim as a private theorem. No
+(`KAM.Planetary.StrongAMD.SourceCarrier`), moved verbatim at the freeze (D62); the sibling
+`sourceOscAxis_pos` it uses is inlined verbatim as a private theorem. No
 module other than the anchor imports this module (AGENTS rule 9).
 -/
 
@@ -28,7 +29,7 @@ namespace KAM.Provider.Planetary.StrongAMD
 
 open KAM.Planetary KAM.Planetary.StrongAMD
 
-/-- The sibling characterization, inlined verbatim (FREEZE-PROPOSAL §7 point 3). -/
+/-- The sibling characterization, inlined verbatim. -/
 private theorem sourceOscAxis_pos {n : ℕ} {ν : Fin n → ℝ} {μ : ℝ} (z : SourceOsculatingPhase n ν μ)
     (i : Fin n) : 0 < sourceOscAxis z i :=
   (osc_tangency ν z.2.2.1.le (z.2.1 i) (z.2.2.2 i).1 (z.2.2.2 i).2.1).1

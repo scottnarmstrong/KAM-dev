@@ -12,8 +12,8 @@ public import KAM.Planetary.StrongAMD.Osculating.Core
 /-!
 # Actual-velocity osculating ellipses (planar)
 
-Package LP-OSC, `LP:MAIN L16 (508–529)` with amendment N10 (`AMENDMENTS.md`); track LP,
-non-frozen; the statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L16 (508–529)` with amendment N10 (`AMENDMENTS.md`); track LP,
+non-frozen.
 
 Definitions and tangency are in `Osculating/Basic.lean`, the pointwise estimate in
 `Osculating/Core.lean`.  Here:
