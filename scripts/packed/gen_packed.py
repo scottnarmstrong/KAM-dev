@@ -80,12 +80,14 @@ def wrap_long(txt, width=100):
 class Emit:
     """Writes modules into the package and records them (with their imports) in emission order."""
 
-    def __init__(self, pkg, tree, cert_root, prefix="LG00"):
+    def __init__(self, pkg, tree, cert_root, prefix="LG00", root=None, fmt=None):
         self.pkg, self.tree, self.cert_root, self.pre = pkg, tree, cert_root, prefix
         self.ns = "%s.%s" % (prefix, tree)
-        # LG00's real certificate: library `LG00Packed`; a copy `<P>` (kamx-packed's format): `<P>.<T>.PK`
+        # LG00's real certificate: library `LG00Packed`; a copy `<P>` (kamx-packed's format): `<P>.<T>.PK`; the LG00
+        # release package: `LG00.<T>.PK` at LG00's own constants (`--pk-root`, `--pk-format`)
         self.root = "LG00Packed.%s" % tree if prefix == "LG00" else "%s.%s.PK" % (prefix, tree)
         self.fmt = "LG00Packed.Format" if prefix == "LG00" else "%s.PKFormat" % prefix
+        self.root, self.fmt = (root.replace("{T}", tree) if root else self.root), (fmt or self.fmt)
         self.mods = []
 
     def mod(self, rel):
@@ -943,7 +945,7 @@ def main():
     suffix = opt("--asm-suffix", "H" if ham_ported else "")    # of the assembly modules (T′: `…H` beside the others)
     cert = GC.Cert(cert_root)
     assert cert.ns == "LG00.%s" % tree, cert.ns
-    E = Emit(pkg, tree, cert_root, prefix)
+    E = Emit(pkg, tree, cert_root, prefix, opt("--pk-root", None), opt("--pk-format", None))
     E.cert = cert
     emit_format(E)
     info = dict(tree=tree, prefix=prefix, cert=cert_root, stages=stages)
