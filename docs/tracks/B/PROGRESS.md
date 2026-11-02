@@ -27,3 +27,4 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
   N2 = roots regenerate at landing). 23:54: B1-CORE audit 1: **PASS WITH NOTES** (N1 implicit-binder order of
   `exists_confined_solution_compact`, harmless; N2 = same OD-B2 wording). Auditor sessions closed.
 - 2026-11-02 23:54: landing request for inp-b1 (CORE + TRANSFER + track docs) sent to kam-inp-63.
+- 2026-11-02 23:58: root-b8 edit-scope rule recorded (SPEC, prover brief): bulk edits only under KAM/EffectiveStability/** and docs/tracks/B/**; diff-stat check before each commit.
