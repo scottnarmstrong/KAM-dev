@@ -186,8 +186,8 @@ The structure is that of `stoppedDrift_of_approxIntegrals`, with the same helper
 (the plain bridge had `d ≤ 2·10⁻³`). The gain depends on how much the range of `F − G` on `R(d+ε)` shrinks relative
 to `F − Λ` (the campaign's ~7×). That range is certificate-side and **not measured here**.
 
-The analytic width at `e_b ≤ 0.142` is about 1.4× the note's first-order figure at the nominal `e_b ≈ 0.1`
-(`1.9·10⁻⁴`), because `R(r)` grants the whole AMD budget to b. A cell bound could tighten it only by using a smaller
+The analytic width at `e_b ≤ 0.142` is 1.46× the note's first-order figure at the nominal `e_b ≈ 0.1`
+(`1.87·10⁻⁴`, quoted as `1.9·10⁻⁴`), because `R(r)` grants the whole AMD budget to b. A cell bound could tighten it only by using a smaller
 set than `R(r)`.
 
 Usability check (scratch, not committed): an `ObsDriftData 2` with `ε = 273/10⁶`, `d = 1/600`, `r = 1/250`,
@@ -316,3 +316,116 @@ package. Each of the following depends on `[propext, Classical.choice, Quot.soun
 - frozen-anchor tests `OK`;
 - `FROZEN-ANCHOR GUARD OK`.
 - The only failure is the same environmental ABI-hash step (`KAM/Frozen/Magnetic/Defs/MagAlpha.olean` missing).
+
+## Addendum REDMASS-MARGIN (numerical: the range of `F − G` on the fitted cover)
+
+The orchestrator asked for the range of `F − G` and `|{F, H}|` per cell on the 50-cell fitted cover at `R(d + ε)`,
+with `ε = 2.73·10⁻⁴` and `r = 1/250`, and for the achievable `d` and the 10³-yr margin against the current 5.9.
+This is Python only, float64, and **untrusted**: numerical evidence, not a certificate.
+
+**Files:**
+- `applications/hd11964/scripts/cover2_obs.py` (new). It imports `cover2` and `cover2_fit` unchanged.
+- `applications/hd11964/validation/cover2-obs-k0.2-d2e-3.json`: the summary plus a per-cell table.
+- Raw records, not committed (like the baseline's): `~/kam-data/hd11964/cover2/obs-k0.2-d2e-3.jsonl` (50 lines)
+  and its `.log`.
+
+**Method.**
+- The region parameter is `d + ε = r/2 = 2·10⁻³`, so the region is `R(2·10⁻³)`. The plan is then exactly
+  `cover2_fit`'s κ = 0.2 cover: 50 cells (49 wedges, 1 square).
+- Per cell, the script runs `cover2_fit.run_cell`'s producer unchanged: same `S`, grid, degree, samples and frame
+  rotation.
+- It adds the jet of `G_i − Λ_i`. This jet is built from the chart jets of `q_i, p_i` with the frozen definitions at
+  `ν' = redMass ν μ`: `E' = |p|²/(2ν') − ν'/|q|`, `a' = −ν'/(2E')`, `G = ν'√a'`.
+- It forms the jet `F_i − G_i = (F_i − Λ_i) − (G_i − Λ_i)` before bounding, so cancellations are kept. It bounds
+  this jet like `cover2.summary` bounds `F − Λ`: `[c0 − spread, c0 + spread]`, plus the sampled ranges.
+- `F` and `η` are unchanged: they are the order-2 approximate integrals of the original `H`.
+
+**Checks (all 50 cells):**
+- **Reproduction.**
+  - The plan equals `cover2_fit`'s.
+  - Per cell, `η` and the `F − Λ` ℓ¹ bound equal the baseline records `fit-k0.2-d2e-3.jsonl`.
+  - Maximum relative `η` difference 0; maximum absolute `F − Λ` difference 0.
+- **The chart's heliocentric action against `Λ`:** at most `1.1·10⁻¹⁵` over normalized coefficients.
+- **`G − Λ` against the closed form** `Λ(1/√((1+k)(1 − k(2a/r − 1))) − 1)` at the centre: at most `1.3·10⁻¹⁵`.
+- **Sampled `G − Λ` inside the Lean bounds `loGan, hiGan`, in every cell:**
+  - c: `[−1.50·10⁻⁶, 6.94·10⁻⁶] ⊂ [−2·10⁻⁶, 1.2·10⁻⁵]`;
+  - b: `[−1.054·10⁻⁴, 1.368·10⁻⁴] ⊂ [−1.17·10⁻⁴, 1.56·10⁻⁴]`.
+
+**Ranges, global over the 50 cells (ℓ¹ bound / sampled widths).** For 10³ yr, `T = 6741.9` units.
+
+| planet | `η = max \|{F,H}\|` | `η T` | `F − Λ` width | `F − G` width | `F − G` ℓ¹ range |
+|---|---:|---:|---:|---:|---|
+| c | `1.98·10⁻⁹` | `1.34·10⁻⁵` | `6.22·10⁻⁵` / `4.00·10⁻⁵` | `4.88·10⁻⁵` / `3.95·10⁻⁵` | `[−2.44, 2.44]·10⁻⁵` |
+| b | `4.36·10⁻¹⁰` | `2.9·10⁻⁶` | `3.35·10⁻⁴` / `2.36·10⁻⁴` | `9.13·10⁻⁵` / `5.30·10⁻⁵` | `[−4.57, 4.56]·10⁻⁵` |
+
+- For b, the `F − G` range is 3.7× narrower than `F − Λ` (ℓ¹ bound) and 4.4× narrower (sampled). For c it is
+  1.3× narrower.
+- The ℓ¹ bound of `G − Λ` alone, `3.31·10⁻⁴` for b, is looser than the analytic `2.73·10⁻⁴`. This does not
+  matter: the bridge uses the analytic ε, and `F − G` is bounded as one jet.
+
+**Margin at 10³ yr:** `d / max_i (η_i T + width_i)`.
+
+| bridge | `d` | ℓ¹ bound | sampled | region-sampled |
+|---|---:|---:|---:|---:|
+| baseline (`F − Λ`) | `2·10⁻³` | 5.92 | 8.38 | 8.72 |
+| observable (`F − G`) | `1.727·10⁻³` | **18.32** | 30.85 | 32.96 |
+
+- **Gain:** 3.10× on the ℓ¹ bound, 3.68× sampled. The note's estimate was ~15.
+- **Binding planet:** b on the ℓ¹ bound (`9.43·10⁻⁵` against c's `6.21·10⁻⁵`). On the sampled ranges, b and c
+  nearly tie (`5.60·10⁻⁵` against `5.28·10⁻⁵`).
+- **Worst cells:** wedges 43 and 44, local margin 18.45. The baseline's worst were 36 and 41, at 5.93.
+
+**Achievable `d`.**
+- With `r = 1/250` fixed, the constraint `d + ε ≤ r/2` gives `d ≤ r/2 − ε = 1.727·10⁻³`.
+- The measured ranges need `d ≥ 9.43·10⁻⁵` for margin 1 and `d ≥ 1.89·10⁻⁴` for margin 2 (ℓ¹ bound). Sampled,
+  these are `5.6·10⁻⁵` and `1.12·10⁻⁴`.
+- For smaller `d` these figures stay valid: `R(d + ε) ⊆ R(2·10⁻³)`, so the measured ranges remain upper bounds.
+
+**Horizon (ℓ¹ bound).** `η` and the ranges on the region do not depend on `T`.
+- Longest time with margin ≥ 1: baseline `1.45·10⁵` yr, observable `1.26·10⁵` yr.
+- Longest time with margin ≥ 2: baseline `7.0·10⁴` yr, observable `6.1·10⁴` yr.
+- The two margins cross at about `2.2·10⁴` yr.
+- Below that crossing, the observable bridge is better, because the widths dominate. Above it, `η_c T` dominates.
+  The bridge does not change `η`, and `d` loses ε, so the observable bridge's maximal horizon is 13% shorter.
+
+**Cost.**
+- 4,148 s wall with 2 worker processes. Each cell took 163–186 s, 3.7× the baseline's ~45 s, because of the two
+  extra range computations and the `G` jet.
+- 39,104 s user CPU: numpy's BLAS threads were not capped, about 4.7 threads per process. A rerun could set
+  `OMP_NUM_THREADS`.
+- Peak RSS 2.84 GB (`2836224 KB` maxrss). The 8 GB cgroup cap never triggered; user anon was 3.99 GB before the
+  run.
+
+**Uncertainties.**
+- These are float64 jets with the ℓ¹ remainder of `cover2`, as in the baseline table. A certificate would need the
+  `G` jet in the rigorous producer. `G` uses the same class of operations as `Λ` (a square root of a rational
+  function of the chart), so this is *est.* routine but not done.
+- Nothing in Lean changed in this addendum.
+
+## Addendum REDMASS-AUDIT-1 follow-up (M1, M2, nit of `AUDIT-REDMASS-BRIDGE-1`)
+
+- **M1.** `ObsDriftData.ok` now also decides `0 ≤ ε`, and `ok_spec` returns `(0 : ℝ) ≤ D.eps` as its third
+  conjunct. `noCrossing_of_approxIntegrals_obs` discards this conjunct, because the bridge does not use it. Its
+  statement is unchanged. The HD statements take `D.ok = true` and are unchanged.
+- **M2.** The module docstring of `ReducedElements` now says that the action identity is physically meaningful only
+  for `E^red_i < 0`. `E_i < 0` does not imply this. For `E^red_i ≥ 0` both sides are `0`.
+- **Nit.** "About 1.4×" is now "1.46×", against the note's `1.87·10⁻⁴`.
+
+**Checks:**
+- Each of these builds ran under the 4 GB cap and completed successfully:
+  - `lake build KAM.Application.LambdaDrift.ReducedElements` (2.5 s);
+  - `lake build KAM.Application.LambdaDrift.ObservableNoCrossing KAM.Application.LambdaDrift.ReducedRange`
+    (ObservableNoCrossing 2.4 s).
+- No warning comes from the changed files; the replayed warnings all come from existing core modules.
+- The HD modules `ReducedRange` and `NoCrossingObs` were recompiled with `lean -o` into scratch against the new core
+  oleans. The package itself was not rebuilt.
+- `#print axioms` gives `[propext, Classical.choice, Quot.sound]` for:
+  - `HD11964.noCrossing_of_regionBounds_obs` and `HD11964.noCrossing_of_regionBounds_obs_analytic`;
+  - `noCrossing_of_approxIntegrals_obs` and `ObsDriftData.ok_spec`;
+  - `keplerAction_redMass`.
+- Two scratch examples were checked by `decide +kernel`:
+  - drift data with `ε = 273/10⁶`, `d = 1727/10⁶`, `r = 1/250`, `loG = loGan` and `hiG = hiGan` gives
+    `ok = true`;
+  - data with `ε = −1/1000` and an inverted `G`-range gives `ok = false`. The old `ok` accepted it.
+- `scripts/lint_sources.sh` gives `check_lean_modules: PASS (4465 Lean files)` and `FROZEN-ANCHOR GUARD OK`. The
+  same environmental ABI step fails (`KAM/Frozen/Magnetic/Defs/MagAlpha.olean` missing).
