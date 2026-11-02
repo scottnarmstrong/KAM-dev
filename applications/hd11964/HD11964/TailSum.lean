@@ -20,7 +20,7 @@ The sup bound on a Fourier tail `D_i (Q - Π_S Q)` from a strip of width `ρ` ca
   `Σ_{|m| > K} q^{|m|} = 2q^{K+1}/(1 - q)` and
   `Σ_{|m| > K} |m| q^{|m|} = 2q^{K+1}((K + 1) - Kq)/(1 - q)²`,
   at any `q < 1` with `e^{-2πρ} ≤ q` (a rational upper bound is data).
-* `tailWeightA`, `summable_absMul_expA`, `tailWeightA_box_le`: the same on an anisotropic strip
+* `tailWeightA`, `summable_absMul_expA`, `tailWeightA_le_boxTailBoundA`: the same on an anisotropic strip
   (widths `σ₀`, `σ₁` for the two angles; `q₀ ≥ e^{-2πσ₀}`, `q₁ ≥ e^{-2πσ₁}`).
 -/
 
@@ -339,7 +339,7 @@ theorem summable_tailTermA (S : Finset (Fin 2 → ℤ)) (i : Fin 2) {σ₀ σ₁
   (summable_absMul_expA i h₀ h₁).of_nonneg_of_le (fun k => by split_ifs <;> positivity)
     fun k => by split_ifs <;> [positivity; exact le_rfl]
 
-/-- The closed-form bound of `tailWeightA_box_le`, per angle. -/
+/-- The closed-form bound of `tailWeightA_le_boxTailBoundA`, per angle. -/
 def boxTailBoundA (K₀ K₁ : ℕ) (i : Fin 2) (q₀ q₁ : ℝ) : ℝ :=
   if i = 0 then geomT1 K₀ q₀ * geomS0 q₁ + geomS1 q₀ * geomT0 K₁ q₁
   else geomT0 K₀ q₀ * geomS1 q₁ + geomS0 q₀ * geomT1 K₁ q₁
