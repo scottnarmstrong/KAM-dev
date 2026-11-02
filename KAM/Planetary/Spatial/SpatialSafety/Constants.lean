@@ -10,6 +10,7 @@ public import KAM.Planetary.Spatial.Orbital
 public import KAM.Planetary.Spatial.Geometry
 public import KAM.Planetary.StrongAMD.AnalyticDomain
 public import KAM.Planetary.StrongAMD.Modulus
+public import KAM.Planetary.StrongAMD.PlanarSafety.Constants
 
 /-!
 # Elementary estimates of the spatial assembly
@@ -20,9 +21,7 @@ non-frozen.
 * `spatialKeplerAxis_eq_action_sq`: `a_i = Λ_i²/ν_i²` on the physical carrier.
 * `spatial_norm_axis_sub_le`: the action-to-axis estimate (MAIN line 497) for `d = 3`.
 * `mem_strongLSet_spatialActionVector`: axes in `A` put the initial actions in `𝓛`.
-* `exists_spatialBudget_radius`: the budget `n r + Ω_B(r) ≤ δ/4` of MAIN (39) for every small `r`
-  (the threshold modulus is dimension-free; the argument is that of the planar assembly).
-
+* The budget lemma `exists_budget_radius` (MAIN (39)) is shared with the planar `PlanarSafety.Constants`.
 -/
 
 @[expose] public noncomputable section
@@ -32,26 +31,6 @@ namespace KAM.Planetary.Spatial
 open KAM.Planetary KAM.Planetary.StrongAMD Set
 
 variable {n : ℕ}
-
-/-- (MAIN (39), N6) There is a radius below which the budget `n r + Ω_B(r) ≤ δ/4` holds. -/
-theorem exists_spatialBudget_radius {ν : Fin n → ℝ} (hν : ∀ i, 0 < ν i) (hn : 2 ≤ n)
-    {U : Set (Fin n → ℝ)} (hUc : IsCompact U) (hUch : U ⊆ chamber ν) {δ : ℝ} (hδ : 0 < δ) :
-    ∃ r1 : ℝ, 0 < r1 ∧ ∀ r : ℝ, 0 < r → r ≤ r1 →
-      (n : ℝ) * r + strongThresholdModulus ν U r ≤ δ / 4 := by
-  have ht := tendsto_strongThresholdModulus hν hn hUc hUch
-  rw [Metric.tendsto_nhdsWithin_nhds] at ht
-  obtain ⟨η, hη, hη'⟩ := ht (δ / 8) (by positivity)
-  have hn0 : (0 : ℝ) < n := by exact_mod_cast (by omega : 0 < n)
-  refine ⟨min (η / 2) (δ / (8 * n)), by positivity, fun r hr hrle => ?_⟩
-  have h1 : r ≤ η / 2 := hrle.trans (min_le_left _ _)
-  have h2 : r ≤ δ / (8 * n) := hrle.trans (min_le_right _ _)
-  have h3 := hη' (x := r) hr (by rw [Real.dist_eq, sub_zero, abs_of_pos hr]; linarith)
-  rw [Real.dist_eq, sub_zero, abs_lt] at h3
-  have h4 : (n : ℝ) * r ≤ δ / 8 := by
-    have := mul_le_mul_of_nonneg_left h2 hn0.le
-    calc (n : ℝ) * r ≤ n * (δ / (8 * n)) := this
-      _ = δ / 8 := by field_simp
-  linarith [h3.2]
 
 /-- Physical states satisfy `a_i = Λ_i² / ν_i²`. -/
 theorem spatialKeplerAxis_eq_action_sq {ν : Fin n → ℝ} {z : Phase (n * 3)}

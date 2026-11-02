@@ -76,7 +76,7 @@ theorem spatial_safety_of_aligned (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀
     spatialStrongBarrier_physical hν hn hUc hUch (half_pos hδ)
   obtain ⟨dS2, dP2, c2, hdS2, hdP2, hc2, μ2, A2, Aosc, hμ2, hA2, hAosc, hAm1, hAm2, hosc⟩ :=
     spatial_osculating_barrier hν hn hUc hUch (half_pos hδ)
-  obtain ⟨r1, hr1, hbud⟩ := exists_spatialBudget_radius hν hn hUc hUch hδ
+  obtain ⟨r1, hr1, hbud⟩ := exists_budget_radius hν hn hUc hUch hδ
   obtain ⟨C, hC⟩ := hUc.isBounded.exists_norm_le
   set r2 : ℝ := min r1 rg with hr2
   have hr20 : 0 < r2 := lt_min hr1 hg.pos
