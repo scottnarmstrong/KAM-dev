@@ -28,8 +28,20 @@ Output (gzipped JSON, see `--out`): the cell, the mode set S, the monomials, and
 k_b lam_b)}  for every k in S with k_b >= 0 (the rest by c[-k] = conj c[k]), as integer pairs (re, im) at scale
 2^OUTB (OUTB >= 128). Also the float64 cross-check against `prod2.py`'s construction on the same grid.
 
+Cells of the fitted cover (HD11964-PROD-ROT): with --plan=PLAN.json --cell=K (the exact rational plan of
+`cover2_plan_lean.py`, = `HD11964.CoverPlan.fitPlan`; K indexes its distinct cells, --list-cells prints them) the
+centre, half-widths and frame are the cell's, and planet b's slow pair is the affine cell map
+(xi_b, eta_b) = (c_4, c_5) + Rot(a, b) diag(h_4, h_5) (u_r, u_t), as `HD11964.Cover.AffineCell.map` and
+`tf_cell.py --rot_b`: every coefficient is one of u^m in the cell variables. The rotation is symplectic with
+determinant 1, so the bracket keeps its form in (u_r, u_t). The grid is `cover2_fit`'s (`gate.grid_for`) unless
+--N1/--N2 are given. --box keeps the centre and h but drops the rotation (the comparison run); --compare=ROT,BOX
+checks the two, coefficient by coefficient, through the exact substitution.
+
 Usage: python3 -I prod2_hp.py --out=FILE.json.gz [--N1=448] [--N2=72] [--Kc=80] [--Kb=20] [--DJ=4] [--FB=184]
        [--OUTB=160] [--check]          (--check: the float64 cross-check)
+       python3 -I prod2_hp.py --out=FILE.json.gz --plan=PLAN.json --cell=K [--box] [--check] [...]
+       python3 -I prod2_hp.py --plan=PLAN.json --list-cells
+       python3 -I prod2_hp.py --compare=ROT.json.gz,BOX.json.gz --out=SUMMARY.json
 Reading: `load_box(path, "chi1", P=128)` expands a generator to the full box at 2^P, keyed as `tf_slice.py`'s nodes.
 Run under the 8 GB cap.
 """
@@ -168,9 +180,17 @@ class MJ:
                 self.series([dc[k % 4] / mp.factorial(k) for k in range(self.S.D + 1)]))
 
 
-def chart(S, nu, lam, L0, x0, e0, h):
-    """q, p of one planet at the angle lam (LP's chart, as `normal_form.chart_planet`), jets in its 3 variables."""
-    Lam, xi, eta = MJ.var(S, 0, L0, h[0]), MJ.var(S, 1, x0, h[1]), MJ.var(S, 2, e0, h[2])
+def chart(S, nu, lam, L0, x0, e0, h, rot=None):
+    """q, p of one planet at the angle lam (LP's chart, as `normal_form.chart_planet`), jets in its 3 variables.
+    With rot = (a, b) (an exact rotation, a^2 + b^2 = 1) the slow pair is the affine cell map of the fitted cover
+    (`HD11964.Cover.AffineCell.map`, `tf_cell.py --rot_b`): xi = x0 + a h1 u1 - b h2 u2, eta = e0 + b h1 u1 + a h2 u2."""
+    Lam = MJ.var(S, 0, L0, h[0])
+    if rot is None:
+        xi, eta = MJ.var(S, 1, x0, h[1]), MJ.var(S, 2, e0, h[2])
+    else:
+        a, b = rot
+        xi = MJ.var(S, 1, x0, a * h[1]) + MJ.var(S, 2, 0, -b * h[2])
+        eta = MJ.var(S, 1, e0, b * h[1]) + MJ.var(S, 2, 0, a * h[2])
     G = (xi * xi + eta * eta) * mp.mpf(0.5)
     K = 1 - G / Lam
     be = ((1 - G / (Lam * 2)) / Lam).sqrt()
@@ -429,10 +449,11 @@ class DFT:
 
 
 # ------------------------------------------------------------------------------------------ the producer
-def omega_inv_jets(S6, nu, Lc, Kc, Kb, kcs, kbs, DJ):
+def omega_inv_jets(S6, nu, Lc, Kc, Kb, kcs, kbs, DJ, hL=None):
     """For every (k_c, k_b) in the box: the Taylor coefficients of 1/(k.omega(Lam_c + h_c u_c, Lam_b + h_b u_b))
     in (u_Lam_c, u_Lam_b), degree DJ, fixed point; returns dict (a, b) -> object array (len(kcs), len(kbs))."""
-    hL = [HM.R(H_CELL[0]), HM.R(H_CELL[1])]
+    if hL is None:
+        hL = [HM.R(H_CELL[0]), HM.R(H_CELL[1])]
     out = {}
     pairs2 = [(a, b) for a in range(DJ + 1) for b in range(DJ + 1 - a)]
     for (a, b) in pairs2:
@@ -493,8 +514,17 @@ def solve_hom(S6, Rre, Rim, inv, kcs, kbs, DJ_out):
 
 
 def main():
+    if opt("compare", ""):
+        rot_path, box_path = opt("compare", "").split(",")
+        compare(rot_path, box_path, opt("out", ""))
+        return
+    if "--list-cells" in sys.argv:
+        for K, cq in enumerate(plan_cells(opt("plan", ""))):
+            print(K, "slab", cq["slab"], "frame %.1f deg" % math.degrees(math.atan2(cq["b"], cq["a"])),
+                  "xi_c %.4f" % float(cq["c"][2]), "(xi_b, eta_b) = (%.4f, %.4f)" % (float(cq["c"][4]), float(cq["c"][5])),
+                  "h_r %.4f h_t %.4f" % (float(cq["h"][4]), float(cq["h"][5])))
+        return
     out_path = opt("out", "prod2_hp.json.gz")
-    N1, N2 = int(opt("N1", "448")), int(opt("N2", "72"))
     Kc, Kb = int(opt("Kc", "80")), int(opt("Kb", "20"))
     DJ = int(opt("DJ", "4"))
     OUTB = int(opt("OUTB", "160"))
@@ -504,16 +534,33 @@ def main():
     mp.mp.prec = int(opt("PREC", "256"))
     nu = [HM.R(x) for x in m.nu]
     mu = HM.R(m.mu)
-    rho, d = [HM.Fr(1, 10 ** 4), HM.Fr(3, 10 ** 3)], HM.Fr(1, 10 ** 3)
-    Lc = [m.Lam(i) - HM.R(rho[i] + d) for i in range(2)]
-    Gc = Lc[0] * (1 - mp.sqrt(1 - ec ** 2))
-    xi_c = mp.sqrt(2 * Gc)
-    h = [HM.R(x) for x in H_CELL]
+    plan = opt("plan", "")
+    cellq = None
+    if plan:
+        # a cell of the fitted cover (exact rationals of `cover2_plan_lean.py`'s plan = `HD11964.Cover.fitPlan`)
+        cellq = plan_cells(plan)[int(opt("cell", "0"))]
+        Lc = [HM.R(cellq["c"][0]), HM.R(cellq["c"][1])]
+        xi_c, eta_c = HM.R(cellq["c"][2]), HM.R(cellq["c"][3])
+        cb = (HM.R(cellq["c"][4]), HM.R(cellq["c"][5]))
+        hq = cellq["h"]
+        rot = None if "--box" in sys.argv else (HM.R(cellq["a"]), HM.R(cellq["b"]))
+        N1d, N2d = plan_grid(cellq, m)
+    else:
+        rho, d = [HM.Fr(1, 10 ** 4), HM.Fr(3, 10 ** 3)], HM.Fr(1, 10 ** 3)
+        Lc = [m.Lam(i) - HM.R(rho[i] + d) for i in range(2)]
+        Gc = Lc[0] * (1 - mp.sqrt(1 - ec ** 2))
+        xi_c, eta_c = mp.sqrt(2 * Gc), mp.mpf(0)
+        cb, hq, rot = (mp.mpf(0), mp.mpf(0)), H_CELL, None
+        N1d, N2d = 448, 72
+    N1, N2 = int(opt("N1", str(N1d))), int(opt("N2", str(N2d)))
+    h = [HM.R(x) for x in hq]
+    print("cell", "plan %s #%s" % (plan, opt("cell", "0")) if plan else "box (tf_cell.py)", "rot", rot is not None,
+          "grid", N1, N2, flush=True)
     t0 = time.time()
     S3 = Space(3, DJ)
     S6 = Space(6, DJ)
-    jc = [chart(S3, nu[0], 2 * mp.pi * g / N1, Lc[0], xi_c, mp.mpf(0), (h[0], h[2], h[3])) for g in range(N1)]
-    jb = [chart(S3, nu[1], 2 * mp.pi * g / N2, Lc[1], mp.mpf(0), mp.mpf(0), (h[1], h[4], h[5])) for g in range(N2)]
+    jc = [chart(S3, nu[0], 2 * mp.pi * g / N1, Lc[0], xi_c, eta_c, (h[0], h[2], h[3])) for g in range(N1)]
+    jb = [chart(S3, nu[1], 2 * mp.pi * g / N2, Lc[1], cb[0], cb[1], (h[1], h[4], h[5]), rot) for g in range(N2)]
     t1 = time.time()
     print("charts %.1fs" % (t1 - t0), flush=True)
     Q = [[embed([J[k] for J in jc], S6, CMAP, 0, N1, N2) for k in range(4)],
@@ -560,7 +607,7 @@ def main():
     for t in range(PSre.shape[0]):
         PSre[t, : zc + 1, 0] = 0
         PSim[t, : zc + 1, 0] = 0
-    inv = omega_inv_jets(S6, nu, Lc, Kc, Kb, kcS, kbS, DJ)
+    inv = omega_inv_jets(S6, nu, Lc, Kc, Kb, kcS, kbS, DJ, hL=[h[0], h[1]])
     chi1re, chi1im = solve_hom(S6, PSre, PSim, inv, kcS, kbS, DJ)
     t4 = time.time()
     print("chi1 %.1fs" % (t4 - t3), flush=True)
@@ -677,10 +724,19 @@ def main():
             outm[",".join(map(str, mon))] = ent
         return outm
 
+    if cellq is None:
+        cell = dict(Lam=[mp.nstr(x, 40) for x in Lc], xi=[mp.nstr(xi_c, 40), "0"], eta=["0", "0"], ec=str(ec),
+                    h=[str(x) for x in H_CELL], vars=["dLam_c", "dLam_b", "dxi_c", "deta_c", "dxi_b", "deta_b"])
+    else:
+        cell = dict(plan=plan, index=int(opt("cell", "0")), slab=cellq["slab"], c=[str(x) for x in cellq["c"]],
+                    h=[str(x) for x in cellq["h"]], a=str(cellq["a"]), b=str(cellq["b"]), rotated=rot is not None,
+                    vars=["u_Lam_c", "u_Lam_b", "u_xi_c", "u_eta_c", "u_r", "u_t"],
+                    map="x = c + M u: Lam_i = c_i + h_i u_i, xi_c = c_2 + h_2 u_2, eta_c = c_3 + h_3 u_3, "
+                        "(xi_b, eta_b) = (c_4, c_5) + Rot(a, b) diag(h_4, h_5) (u_r, u_t)" if rot is not None else
+                        "x = c + diag(h) u (box cell at the plan cell's centre, for the comparison)")
     res = dict(
         format="HD11964 order-2 generators, Taylor x Fourier, fixed point 2^-OUTB",
-        cell=dict(Lam=[mp.nstr(x, 40) for x in Lc], xi=[mp.nstr(xi_c, 40), "0"], eta=["0", "0"], ec=str(ec),
-                  h=[str(x) for x in H_CELL], vars=["dLam_c", "dLam_b", "dxi_c", "deta_c", "dxi_b", "deta_b"]),
+        cell=cell,
         model=dict(nu=[str(x) for x in m.nu], mu=str(m.mu), P="mu f, f = |p_c + p_b|^2/2 - nu_c nu_b/|q_c - q_b|",
                    bracket="{a,b} = sum_j a_lam b_Lam - a_Lam b_lam + a_xi b_eta - a_eta b_xi (Lean pb)"),
         S=dict(Kc=Kc, Kb=Kb, note="0 < |k|, |k_c| <= Kc, |k_b| <= Kb; stored k_b > 0 or (k_b = 0, k_c > 0)"),
@@ -692,7 +748,8 @@ def main():
                      tails=t8 - t7))
     del Pre, Pim, Gre, Gim, Gg, chi1re, chi1im, chi2re, chi2im
     if "--check" in sys.argv:
-        check(res, N1, N2, Kc, Kb, [float(x) for x in Lc], float(xi_c), DJ)
+        check(res, N1, N2, Kc, Kb, [float(x) for x in Lc], [float(xi_c), float(cb[0])], [float(eta_c), float(cb[1])],
+              [float(x) for x in hq], None if rot is None else math.atan2(float(rot[1]), float(rot[0])), DJ)
     with gzip.open(out_path, "wt") as fh:
         json.dump(res, fh)
     print("wrote", out_path, flush=True)
@@ -719,19 +776,22 @@ def load_box(path, name, P=128):
     return out
 
 
-def check(res, N1, N2, Kc, Kb, Lc, xi_c, DJ):
-    """float64 cross-check: prod2.py's construction (unnormalised jets) on the same grid; compare the S-box
-    coefficients of chi1, chi2 after normalisation by h^m."""
+def check(res, N1, N2, Kc, Kb, Lc, xi, eta, hh, phi, DJ):
+    """float64 cross-check: prod2.py's construction (unnormalised jets, physical displacements) on the same grid,
+    rotated into the cell frame when phi is given (`cover2_fit.rotate`); compare the S-box coefficients of chi1,
+    chi2 after normalisation by h^m."""
     from prod2 import Prod2
     nu = [float(HM.R(x)) for x in HM.Model().nu]
     mu = float(HM.R(HM.Model().mu))
     pr = Prod2(nu, mu, N1=N1, N2=N2, N=DJ - 1, K1solve=Kc, K2solve=Kb)
-    pr.setup(Lc, [xi_c, 0.0], [0.0, 0.0])
+    pr.setup(Lc, xi, eta)
     P = pr.f.scale(mu)
     chi1, Rs1 = pr.solve(P)
     G2 = pr.bracket(P - Rs1.scale(0.5), chi1)
     chi2, _ = pr.solve(G2)
-    hh = [float(x) for x in H_CELL]
+    if phi is not None:
+        from cover2_fit import rotate
+        chi1, chi2 = rotate(chi1, phi), rotate(chi2, phi)
     out = {}
     for name, J, deg in (("chi1", chi1, DJ), ("chi2", chi2, DJ - 1)):
         C = np.fft.rfft2(J.c, axes=(1, 2)) / (N1 * N2)
@@ -748,6 +808,114 @@ def check(res, N1, N2, Kc, Kb, Lc, xi_c, DJ):
         out[name] = dict(max_abs_diff=worst, max_abs_coef=scale)
     print("float64 cross-check", out, flush=True)
     res["float64_check"] = out
+
+
+# ------------------------------------------------------------------------- the fitted cover's cells
+def plan_cells(path):
+    """The distinct cells of a rational cover plan (`cover2_plan_lean.py`'s JSON, the data of
+    `HD11964.CoverPlan.fitPlan`), in plan order: dicts with the slab index and exact c, h (Fractions), a, b."""
+    with open(path) as fh:
+        plan = json.load(fh)
+    out, seen = [], set()
+    for si, s in enumerate(plan["slabs"]):
+        cands = []
+        if s["disc"] is not None:
+            cands.append((s["disc"]["c"], s["disc"]["h"], s["disc"]["a"], s["disc"]["b"]))
+        for w in s["wedges"]:
+            cands.append((w["c"], w["h"], w["frame"][0], w["frame"][1]))
+        for c, h, a, b in cands:
+            key = (tuple(c), tuple(h), a, b)
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append(dict(slab=si, c=[HM.Fr(x) for x in c], h=[HM.Fr(x) for x in h], a=HM.Fr(a), b=HM.Fr(b)))
+    return out
+
+
+def plan_grid(cq, m):
+    """The grid of `cover2_fit.run_cell` for the cell: `gate.grid_for` at the cell's largest e_c and e_b,
+    N1 >= 256, N2 >= 64."""
+    import gate
+    from cover2 import ecc_of_xi
+    c, h = [float(x) for x in cq["c"]], [float(x) for x in cq["h"]]
+    Lmin = [c[0] - h[0], c[1] - h[1]]
+    rc = float(cq["a"]) * c[4] + float(cq["b"]) * c[5]
+    corner = math.hypot(abs(rc) + h[4], h[5])
+    emax = [ecc_of_xi(min(c[2] + h[2], 0.2), Lmin[0]), ecc_of_xi(min(corner, 0.2), Lmin[1])]
+    nu = [float(HM.R(x)) for x in m.nu]
+    a = [(c[i] / nu[i]) ** 2 for i in range(2)]
+    N1, N2 = gate.grid_for(emax[0], emax[1], a)
+    return max(N1, 256), max(N2, 64)
+
+
+def compare(rot_path, box_path, out_json):
+    """The rotated expansion against the box expansion at the same centre, coefficient by coefficient and mode by
+    mode, in exact integer arithmetic: the box polynomial in u' (x_b = c_b + diag(h') u') is pushed through the exact
+    substitution u' = diag(1/h') Rot(a, b) diag(h) u and compared with the rotated polynomial in u; the differences
+    are reported in units of 2^-OUTB (both files at the same OUTB)."""
+    from fractions import Fraction
+    R = [json.load(gzip.open(p, "rt")) for p in (rot_path, box_path)]
+    cr, cbx = R[0]["cell"], R[1]["cell"]
+    assert cr["c"] == cbx["c"] and R[0]["grid"] == R[1]["grid"] and R[0]["S"] == R[1]["S"] and R[0]["OUTB"] == R[1]["OUTB"]
+    assert cr["rotated"] and not cbx["rotated"]
+    a, b = Fraction(cr["a"]), Fraction(cr["b"])
+    h = [Fraction(x) for x in cr["h"]]
+    hp = [Fraction(x) for x in cbx["h"]]
+    assert h[:4] == hp[:4]
+    # u'_4 = al1 u_4 + al2 u_5, u'_5 = be1 u_4 + be2 u_5
+    al1, al2 = a * h[4] / hp[4], -b * h[5] / hp[4]
+    be1, be2 = b * h[4] / hp[5], a * h[5] / hp[5]
+    out = dict(rot=rot_path, box=box_path, cell=dict(c=cr["c"], h=cr["h"], a=cr["a"], b=cr["b"]),
+               OUTB=R[0]["OUTB"], grid=R[0]["grid"], S=R[0]["S"])
+    for name in ("chi1", "chi2"):
+        rotc, boxc = R[0][name], R[1][name]
+        # target monomial -> list of (Fraction coefficient, source monomial key)
+        terms = {}
+        for mk in boxc:
+            mon = tuple(int(x) for x in mk.split(","))
+            poly = {(0, 0): Fraction(1)}
+            for f in [(al1, al2)] * mon[4] + [(be1, be2)] * mon[5]:
+                new = {}
+                for (p, q), v in poly.items():
+                    new[(p + 1, q)] = new.get((p + 1, q), 0) + v * f[0]
+                    new[(p, q + 1)] = new.get((p, q + 1), 0) + v * f[1]
+                poly = new
+            for (p, q), v in poly.items():
+                if v:
+                    t = ",".join(map(str, mon[:4] + (p, q)))
+                    terms.setdefault(t, []).append((v, mk))
+        worst, worst_at, scale, nmodes = 0.0, None, 0, 0
+        per_deg = {}
+        for t in set(terms) | set(rotc):
+            D = 1
+            for v, _ in terms.get(t, []):
+                D = D * v.denominator // math.gcd(D, v.denominator)
+            modes = set(rotc.get(t, {}))
+            for _, mk in terms.get(t, []):
+                modes |= set(boxc[mk])
+            deg = sum(int(x) for x in t.split(","))
+            for kk in modes:
+                acc_re, acc_im = 0, 0
+                for v, mk in terms.get(t, []):
+                    ent = boxc[mk].get(kk)
+                    if ent:
+                        z = v.numerator * (D // v.denominator)
+                        acc_re += z * ent[0]
+                        acc_im += z * ent[1]
+                r = rotc.get(t, {}).get(kk, [0, 0])
+                d = max(abs(acc_re - r[0] * D), abs(acc_im - r[1] * D)) / D
+                scale = max(scale, abs(r[0]), abs(r[1]))
+                per_deg[deg] = max(per_deg.get(deg, 0.0), float(d))
+                nmodes += 1
+                if d > worst:
+                    worst, worst_at = float(d), (t, kk)
+        out[name] = dict(max_abs_diff_units=worst, at=worst_at, max_abs_coef_units=scale,
+                         max_abs_diff_units_per_degree={str(k): v for k, v in sorted(per_deg.items())},
+                         entries=nmodes, relative=worst / scale if scale else 0.0)
+        print(name, out[name], flush=True)
+    if out_json:
+        with open(out_json, "w") as fh:
+            json.dump(out, fh, indent=1)
 
 
 if __name__ == "__main__":
