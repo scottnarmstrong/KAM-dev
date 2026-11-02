@@ -446,7 +446,7 @@ def FitPlanSlabsXi : Prop :=
 | `chartPertExt_of`, `chartPertExt_HD` / `_A` / `_B` | **(1c) in the drafted form** on `rhoHolo`, `rhoHoloA` (`\|ξ_c\| ≤ 0.1431`) and `rhoHoloB` (`\|ξ_c\| ≤ 0.1612`), with the premise `NoCollisionOn y ρ w` |
 | `Slab.cells`, `Slab.xiOk`, `fitPlan_xiOk`, `fitPlan_slabs_xi` | **the cell-to-slab check**: decided by `decide +kernel` on `fitPlan`. Every cell of slabs 0–4 lies in `\|ξ_c\| ≤ 0.1431`, every cell of slab 5 in `\|ξ_c\| ≤ 0.1612` |
 
-**`applications/hd11964/HD11964/HoloG2.lean`** (402 lines):
+**`applications/hd11964/HD11964/HoloG2.lean`** (401 lines):
 
 | theorem | content |
 |---|---|
