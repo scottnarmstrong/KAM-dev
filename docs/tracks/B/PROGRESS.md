@@ -18,3 +18,8 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
   `fderiv_chart_apply_hamiltonianVectorField` (short-name clash with LambdaDrift). My rename sed briefly touched
   LambdaDrift/Rotation.lean and two campaign handoffs in the b1xfer worktree; reverted before any commit (never
   committed). 23:47: B1-TRANSFER audit 1 launched (codex-2, inp-maud-b1xfer).
+- 2026-11-02 23:47: B1-CORE READY (claude-2): Domains 160, StoppedDrift 31, FirstExit 165, ChartFlow 148 lines;
+  builds clean (rechecked), signatures as requested. Audit 1 launched (codex-2, inp-maud-b1core).
+- 2026-11-02 23:50: B1-CORE and B1-TRANSFER merged into inp-b1 (pre-audit, not landed). B1-HEAD prover launched
+  (claude-2, KAM-inp-b1head): the two headlines verbatim from the audited text, observable-transfer corollaries,
+  edge-case examples. Finished prover sessions closed.
