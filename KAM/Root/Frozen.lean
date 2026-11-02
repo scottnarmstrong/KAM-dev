@@ -44,6 +44,12 @@ public import KAM.Frozen.Iso.Theorems.AllTimeConfinement
 public import KAM.Frozen.Iso.Theorems.IsoenergeticKam
 public import KAM.Frozen.Iso.Theorems.KeplerBorderedDet
 public import KAM.Frozen.Iso.Theorems.RestrictedNearCircular
+public import KAM.Frozen.Magnetic.Defs.MagAlpha
+public import KAM.Frozen.Magnetic.Defs.MagEps
+public import KAM.Frozen.Magnetic.Defs.MagField
+public import KAM.Frozen.Magnetic.Defs.MagH0
+public import KAM.Frozen.Magnetic.Defs.MagHamC
+public import KAM.Frozen.Magnetic.Defs.MagV
 public import KAM.Frozen.Nekhoroshev.Defs.ActionBall
 public import KAM.Frozen.Nekhoroshev.Defs.AveragingError
 public import KAM.Frozen.Nekhoroshev.Defs.ComplexDomain

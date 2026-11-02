@@ -15,6 +15,8 @@ public import HD11964.Glue
 public import HD11964.Homological
 public import HD11964.ParamIntegral
 public import HD11964.NoCrossing
+public import HD11964.NoCrossingObs
+public import HD11964.ReducedRange
 public import HD11964.Threshold
 
 /-!
@@ -32,4 +34,8 @@ generator and its certified remainder (`HD11964.Generator`), and the consumer gl
 homological equation (HD11964-CHI): smooth parametric integrals (`HD11964.ParamIntegral`), `χ*`
 smooth on angle-saturated sets (`HD11964.ChiSmooth`), `{χ*, h} = Π_S P` and the pure tails
 (`HD11964.Homological`), and the HD 11964 instance (`HD11964.ChiHD`).
+
+The reduced-mass bridge (scoping note §4): the reduced Delaunay actions and the analytic range of
+`G - Λ` on `R(r)` (`HD11964.ReducedRange`), and no orbit crossing with the first exit driven by
+them (`HD11964.NoCrossingObs`).
 -/

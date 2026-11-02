@@ -4,7 +4,7 @@
 
 Every statement below is an exact Lean declaration that the owner approved before its proof was written. Each lives alone in its own file under `KAM/Frozen/`, and the manifest pins its bytes. A sealed theorem has a complete proof, assembled in a separate provider module, replayed by the kernel, and using only the standard axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
-**72 frozen theorems, 68 sealed; 237 frozen definitions.**
+**73 frozen theorems, 68 sealed; 243 frozen definitions.**
 
 ## Index
 
@@ -1020,3 +1020,12 @@ The Moon stays locked in synchronous rotation forever.
 - [`KAM.SpinOrbit.lunarOmega`](../KAM/Frozen/SpinOrbit/Defs/LunarOmega.lean#L22)
 
 </details>
+
+## Other frozen definitions
+
+- [`KAM.Magnetic.magEps`](../KAM/Frozen/Magnetic/Defs/MagEps.lean)
+- [`KAM.Magnetic.magH0`](../KAM/Frozen/Magnetic/Defs/MagH0.lean)
+- [`KAM.Magnetic.magAlpha`](../KAM/Frozen/Magnetic/Defs/MagAlpha.lean)
+- [`KAM.Magnetic.magV`](../KAM/Frozen/Magnetic/Defs/MagV.lean)
+- [`KAM.Magnetic.magField`](../KAM/Frozen/Magnetic/Defs/MagField.lean)
+- [`KAM.Magnetic.magHamC`](../KAM/Frozen/Magnetic/Defs/MagHamC.lean)

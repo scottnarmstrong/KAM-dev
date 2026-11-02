@@ -1,0 +1,26 @@
+## 1. the magnetic example config (names differ from the emitters')
+apply_packed: config names differ from the names the emitters read and write (design §6; the emitters are not parameterized in these yet): box: 'magBox' (emitters: 'lg00Box'), cert: 'magCert' (emitters: 'lg00Cert'), emb: 'magEmb' (emitters: 'lg00Emb'), field: 'MagF' (emitters: 'LGF'), gram_inv: 'magGramInv' (emitters: 'lg00GramInv'), jet: 'magJet' (emitters: 'lg00Jet'), jet_bridge: 'magHam_jet' (emitters: 'lg00Ham_jet'), namespace: 'MAG' (emitters: 'LG00'), params: 'magParams' (emitters: 'lg00Params'), pi: 'magPi' (emitters: 'lg00Pi'), statement: 'magnetic_barrier' (emitters: 'lg00_kamTorus'), tors_inv: 'magTorsInv' (emitters: 'lg00TorsInv'), witness: 'magRW' (emitters: 'lg00RW')
+exit 1
+## 2. a dump without Final/Wit.lean
+apply_packed: dump: missing <scratch>/tree/Final/Wit.lean
+exit 1
+## 3. layout own without pk_root
+apply_packed: layout `own` needs pk_root (e.g. `LG00.{T}.PK`) and pk_format
+exit 1
+## 4. step cert in layout own
+apply_packed: step 'cert' makes the certificate copy: layout `copy` only
+exit 1
+## 5. --out is a package the script did not write (the LG00 release)
+dump OK: /home/scott/KAM-dev-worktrees/lg00-app/applications/lg00/LG00/TP (Data/Cert.lean, Data/DCoeffs.lean, Data/E0.lean, Data/W8.lean, Final/Wit.lean, Main.lean, ../Jet.lean, ../JetBridge.lean, Final/Static.lean, Final/Embedding.lean, Final/RefinedCore.lean, Final/Freq.lean, Balls/HamBounds.lean, Final/HamClaim.lean, ../Physical/HamIdentity.lean)
+[packed] py_capped.sh /home/scott/KAM-dev-worktrees/v2-packed-apply/scripts/packed/gen_packed.py --tree TP --prefix LG00 --cert /home/scott/KAM-dev-worktrees/lg00-app/applications/lg00/LG00/TP --pkg /home/scott/KAM-dev-worktrees/lg00-release/applications/lg00 --stages jet --ham-ported --asm-suffix  --pk-root LG00.{T}.PK --pk-format LG00.PKFormat --jet-low /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tp/low_mirror.pkl --jet-full /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tp/full_mirror.pkl
+apply_packed: /home/scott/KAM-dev-worktrees/lg00-release/applications/lg00 is not empty and holds no apply_<T>.json: not an output of this script (never write into a reference or another worker's package)
+exit 1
+## 6. step extract onto an existing file (kamx-packed's low.json)
+apply_packed: step 'extract' would write /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tp/low.json, which exists: name a new path in the config
+exit 1
+## 7. a namespace other than the dump's (TPP config pointed at the TP tree)
+apply_packed: dump: Data/Cert.lean's namespace is LG00.TP, not LG00.TPP
+exit 1
+## 8. a package without the assembly's Final/Static.lean (the tree of case 2 with Wit.lean added)
+apply_packed: dump: the packed assembly imports <scratch>/tree/Final/Static.lean (static): missing
+exit 1

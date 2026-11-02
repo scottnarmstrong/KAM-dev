@@ -35,7 +35,8 @@ sys.path.insert(0, MIRROR)
 import sofx_arith as A  # noqa: E402
 import sofx_model as M  # noqa: E402
 import sofx_check as C  # noqa: E402
-import sofx_lunar as L  # noqa: E402
+import importlib  # noqa: E402
+L = importlib.import_module(os.environ.get("SO_CLIENT", "sofx_lunar"))  # MAG-2b: client module (default lunar)
 import sofx_packed as PK  # noqa: E402
 import sofx_gen as G  # noqa: E402
 import sofx_lean as SL  # noqa: E402
@@ -140,8 +141,9 @@ def census_compose(B, c, cfg, wanted):
 
 def main(which, out):
     eng = PK.PackedEngine({"cfgFull": G.BUDGET["cfgFull"], "cfgLow": G.BUDGET["cfgLow"]})
-    adv = json.load(open(os.path.join(D3, "g2", "%s_advice.json" % which)))
-    cert = json.load(open(os.path.join(D3, "g2", "%s_cert.json" % which)))
+    gdir = os.environ.get("CSPLIT_GENDIR", os.path.join(D3, "g2"))     # MAG-2b: env override
+    adv = json.load(open(os.path.join(gdir, "%s_advice.json" % which)))
+    cert = json.load(open(os.path.join(gdir, "%s_cert.json" % which)))
     cf, cl = G.make_cfgs(eng)
     c = L.build(which, F(cert["params"]["err"]) if "params" in cert else F(1, 10 ** 16), F(1), cf, cl,
                 G.HALV, G.TAYLOR)

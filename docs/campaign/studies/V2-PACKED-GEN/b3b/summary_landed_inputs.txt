@@ -1,0 +1,9 @@
+stage                       built reused     CPU-s  kernel-s  peak GB failed
+landed.Balls                    0     75       0.0       0.0     0.00      0
+landed.Data                     0    275       0.0       0.0     0.00      0
+landed.Final.hamClaim           8      0      66.3       0.0     1.90      0
+landed.Final.other              0     10       0.0       0.0     0.00      0
+landed.Final.sites              0      1       0.0       0.0     0.00      0
+landed.Full                     0   1637       0.0       0.0     0.00      0
+landed.shared                   8     42      38.5       0.0     1.02      0
+total                          16   2040     104.7       0.0     1.90      0

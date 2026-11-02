@@ -17,6 +17,7 @@ public import KAM.Root.Frozen
 public import KAM.Root.Head
 public import KAM.Root.Iso
 public import KAM.Root.Kepler
+public import KAM.Root.Magnetic
 public import KAM.Root.Matrix
 public import KAM.Root.Measure
 public import KAM.Root.Nekhoroshev
