@@ -492,6 +492,55 @@ point.
 - `Slab.xiOk` uses `decide (|c₂| + |h₂| ≤ X)`, as drafted.
 - No suspected errata in pinned sources.
 
+## Split of `HoloExt` (after the audit request; a pure move)
+
+The orchestrator asked for `HoloExt` (3.97 GB maxrss) to be split into two modules, with a facade keeping the
+public names.
+
+**The split.**
+- `HD11964/HoloExt/Point.lean` (319 lines): the definitions, `keplerSol_analyticAt`, (1c-i), (1c-ii). It imports
+  `HoloSlab` only.
+- `HD11964/HoloExt/Real.lean` (346 lines): (1c-iii), (1c) on the per-slab strips, the cell-to-slab check. It
+  imports `Point` and `CoverPlan`.
+- `HD11964/HoloExt.lean` is now the facade: it imports both parts and holds no code.
+
+**It is a pure move.** A script checked that the 52 declarations, in order, and the text of the proof bodies are
+identical to `86695f338`'s `HoloExt.lean`. Downstream code (`HoloG2`, the root) imports `HD11964.HoloExt`
+unchanged.
+
+**Checks.**
+- `lake build HD11964.HoloG2` rebuilt through the facade: `Point` 9.3 s, `Real` 7.9 s, `HoloExt` 2.6 s, `HoloG2`
+  5.6 s.
+- Root: exit 0.
+- `G2Check.lean` and `ExtCheck.lean` still derive every drafted Prop, with the same axioms.
+- `lint_sources.sh`: line length, `check_lean_modules` (4480 files) and the frozen guard pass.
+
+**Measured** (`lake env lean`, one at a time under `MemoryMax=4G`, two runs each). Peak `memory.current` and anon
+come from polling the scope's cgroup every 50 ms. Kernel 5.15 has no `memory.peak`, and systemd 249 does not report
+it.
+
+| file | cgroup peak (GB) | anon peak (GB) | maxrss (GB) | wall (s) |
+|---|---:|---:|---:|---:|
+| baseline: a module importing `HoloSlab` only | 0.63–0.65 | 0.46 | 3.82 | 3.8 |
+| `HoloExt` before the split (`86695f338`) | 0.76–0.80 | 0.58 | 3.98 | 14.7–15.0 |
+| `HoloExt/Point` | 0.69–0.70 | 0.52 | 3.91 | 10.1–10.4 |
+| baseline: `Point` + `CoverPlan` imports only | 0.63 | 0.46 | 3.82 | 3.5 |
+| `HoloExt/Real` | 0.73–0.74 | 0.55 | 3.94 | 8.5–8.8 |
+| `HoloExt` (facade) | 0.63–0.64 | 0.46 | 3.82 | 3.4–4.0 |
+
+**Reading.**
+- **The 3.97 GB was maxrss, not the capped charge.**
+  - 3.82 GB of it is the floor of loading the imports. A module that imports `HoloSlab` and declares nothing has
+    the same maxrss.
+  - Most of that floor is file-backed `.olean` mappings, which are not charged to the scope: its cgroup peak is
+    0.63 GB.
+- **Against `MemoryMax=4G`, the old module peaked at 0.80 GB.** The parts peak at 0.70 and 0.74 GB.
+- **What the split changes is the module's own share.** Above the import floor, maxrss was 0.15 GB before the split
+  and is 0.08 or 0.11 GB after. The cgroup share was 0.13–0.15 GB before and is 0.06 or 0.10 GB after.
+- **The maxrss figure cannot drop below 3.82 GB by splitting.** Only fewer or lighter imports would lower it.
+- **I recommend gating on the cgroup charge or on anon, not on maxrss.** Under `MemoryMax=4G` it has more than 5×
+  headroom.
+
 ## The statements (type-checked as `Prop`s; scratch `lake env lean`, exit 0)
 
 The file is also at `~/kam-data/hd11964/lemmas/HoloDraft.lean`.
