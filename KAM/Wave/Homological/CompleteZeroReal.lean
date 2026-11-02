@@ -11,8 +11,7 @@ import Mathlib.Tactic.Linarith
 /-!
 # Lemma 1 (i) from the source premises: zero modes and reality (`bpW:w4:lemma1` (i))
 
-Off-frontier, source-faithful infrastructure (W4-COMPLETE); the dependency graph is still
-being built. Blueprint label: `bpW:w4:lemma1` (i), steps `stepW:w4:class` and `stepW:w4:real`.
+Blueprint label: `bpW:w4:lemma1` (i), steps `stepW:w4:class` and `stepW:w4:real`.
 
 The landed W4 modules prove the vanishing coefficients (`homLemma1_zero_modes_gen`) and the
 reality of `F` (`homSolveTaylor_isReal_gen`) for the solve under the intermediate gate

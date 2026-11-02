@@ -12,8 +12,7 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The finite expansion of `L_N F` for a general `F` (`bpW:w4:lie` (iii))
 
-Off-frontier, source-faithful infrastructure (W4-COMPLETE); the dependency graph is still
-being built. Blueprint label: `bpW:w4:lie` (iii), step `stepW:w4:liecoef`.
+Blueprint label: `bpW:w4:lie` (iii), step `stepW:w4:liecoef`.
 
 For `F ∈ 𝒯_s`, `θ ∈ T_s` and `z, \bar z` supported in a finite set `S` (true coordinates
 `z_j = homTrueCoord a p z j`):

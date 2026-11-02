@@ -10,9 +10,6 @@ public import KAM.Wave.Measure.Shells
 /-!
 # W7: density one from shell estimates (blueprint `bpW:w7:density`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 If `Γ ⊆ P = (0, ∞)²` is Borel and the relative shell defects
 `ε_k = volume (R_k ∖ Γ) / volume R_k` tend to `0`, then
 `volume (Γ ∩ B_h) / volume (P ∩ B_h) → 1` along `𝓝[>] 0`, in `ℝ≥0∞`: the exact form of clause (1)

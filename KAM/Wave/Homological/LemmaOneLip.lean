@@ -14,9 +14,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Lipschitz dependence of the division operators on `ξ` (`bpW:w4:lemma1`, step *Lipschitz*)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 `HomMultLip τ α M d w₁ W₁ w₂ W₂`: the differences of the division operators at the parameters `ξ`
 and `ζ` are bounded as in the hypotheses of `bpW:w4:solve` (ii) (`homLipC`), `d = |ξ-ζ|`;
 `homMultLip_of` derives it from `(H_α)` and the Lipschitz bounds (`bpW:w4:divisors`).

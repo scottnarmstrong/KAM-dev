@@ -14,9 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Divisors after the step, Dirichlet-weight variant (blueprint-W `bpW:w5:step` (iv))
 
-Off-frontier, source-faithful infrastructure (W5-STEP-B-FIX, finding F2 of `W5-STEP-B-audit-1.md`);
-the dependency graph is still being built.
-
 The blueprint's clause (iv) "holds for the Dirichlet weight `⟨l⟩^w` of `bpW:w4:wave` (ii) as well as
 for `⟨l⟩`". `stepDivisorsW`: from the old wave-weight lower bound `α⟨l⟩^w/A_k` (`HomMelnikovW`) the
 new one `α'⟨l⟩^w/A_k` follows by the same subtraction argument as `stepDivisors` (only `⟨l⟩^w ≥ 1`

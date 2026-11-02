@@ -11,8 +11,7 @@ public import KAM.Wave.Birkhoff.Forms
 /-!
 # The gradient of the quartic forms (blueprint-W `bpW:w3:quartic`, Steps Majorize and Bound)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:quartic`.
+Package W3-SETTING, blueprint label `bpW:w3:quartic`.
 
 For a coefficient family `c : (ℤ ∖ {0})⁴ → ℂ` with `|c_x| ≤ |𝔤_x|` (`birkG`) the gradient
 `∇𝔓(w¹,w²,w³)_l = -i sgn(l)/16 Σ_{y ∈ (ℤ∖0)³} c_{(y,-l)} w¹_{y₁} w²_{y₂} w³_{y₃}` converges

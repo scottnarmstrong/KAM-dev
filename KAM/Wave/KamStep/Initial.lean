@@ -15,7 +15,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The initial perturbation (blueprint-W `bpW:w5:initial`)
 
-Off-frontier, source-faithful infrastructure (W5-AA); the dependency graph is still being built.
 Blueprint label `bpW:w5:initial` (KP96 §7, Step 3), steps `i-par`, `i-freq`.
 
 * `differentiableAt_aaXP_param`: for fixed `w`, `ζ ↦ X_{P_ζ}(w)` is holomorphic where `𝒜_ζ(w)` is
@@ -152,7 +151,6 @@ theorem aaXP_bound_nbhd {ζ : Fin 2 → ℂ} (hζ : ∃ ξ ∈ Par, ‖ζ - aaOf
     (hw : w ∈ kamDomain s r) :
     kamNorm r (aaXP m hm (zero_le_one' ℝ) (by norm_num : (1 : ℝ) / 2 ≤ 1) ζ w) ≤ aaEpsIn m r t :=
   kamNorm_aaXP_le m hm hs hr ht hρ₁ ζ (hPar ζ hζ).2 (hPar ζ hζ).1 hw
-
 
 /-- **Step `i-par`**: `|X_{P_ξ}(w) - X_{P_ξ'}(w)|_{2,r} ≤ (4 ε_in/ρ_ξ) |ξ - ξ'|` on `Π`. -/
 theorem aaXP_lipschitz {ξ ξ' : Fin 2 → ℝ} (hξ : ξ ∈ Par) (hξ' : ξ' ∈ Par) {w : KamPhase}

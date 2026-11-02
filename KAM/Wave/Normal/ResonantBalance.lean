@@ -11,9 +11,6 @@ public import KAM.Wave.Normal.Nonresonance
 /-!
 # Balanced sign patterns for the resonant quartic terms (blueprint `bpW:w0n:AB`, `resavg`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 A quartic term `g_{ijkl} ∏ (z_{i_s} or z̄_{i_s})` of the complex expansion of `G` is indexed by
 `(i, j, k, l)` and a sign pattern `e ∈ Bool⁴` (`true ↦ z`, `false ↦ z̄`, signs `boolSign`).
 `signBalanced e i j k l` says that the plus-indices and the minus-indices agree as multisets
@@ -71,7 +68,6 @@ theorem signBalanced_of_resonant {N : ℕ} (m : ℝ) (hm : 0 < m) (e : Bool × B
   simpa [Fin.sum_univ_four, unitOfBool_val, modeIdx_injective.eq_iff, Matrix.vecHead,
     Matrix.vecTail] using this
 
-
 /-- The pairing condition equivalent to `signBalanced`. -/
 def signBalancedCond {N : ℕ} (e : Bool × Bool × Bool × Bool) (i j k l : Fin N) : Prop :=
   match e with
@@ -93,7 +89,6 @@ theorem signBalanced_iff {N : ℕ} (e : Bool × Bool × Bool × Bool) (i j k l :
     | (exact fun x => by grind)
     | (have h1 := h i; have h2 := h j; have h3 := h k; have h4 := h l; grind)
 
-
 open Classical in
 theorem signBalanced_count {N : ℕ} (i j k l : Fin N) :
     ∑ e : Bool × Bool × Bool × Bool, (if signBalanced e i j k l then (1 : ℝ) else 0) =
@@ -101,7 +96,6 @@ theorem signBalanced_count {N : ℕ} (i j k l : Fin N) :
         + (if i = l ∧ j = k then 1 else 0)) - 6 * (if i = j ∧ j = k ∧ k = l then 1 else 0) := by
   simp only [signBalanced_iff, Fintype.sum_prod_type, Fintype.sum_bool, signBalancedCond]
   split_ifs <;> first | (exfalso; grind) | norm_num
-
 
 theorem signBalanced_sum_zero {N : ℕ} (e : Bool × Bool × Bool × Bool) (i j k l : Fin N)
     (h : signBalanced e i j k l) (f : Fin N → ℝ) :
@@ -115,8 +109,6 @@ theorem signBalanced_sum_zero {N : ℕ} (e : Bool × Bool × Bool × Bool) (i j 
   simp only [mul_add, Finset.sum_add_distrib, mul_ite, mul_zero, Finset.sum_ite_eq,
     Finset.mem_univ, ite_true] at h0
   linarith
-
-
 
 end KAM.Wave
 

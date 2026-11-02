@@ -11,9 +11,6 @@ public import KAM.Wave.Cubic.SelectionOneSided
 # The cubic coefficients and the trilinear sums over `𝕜 ∈ {ℝ, ℂ}`
 (blueprint `bpW:w1:trilinear`, step `stepW:w1:tricoord`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 `KAM.Wave.waveTriCoef` is `c_{ijkl} = g_{ijkl} (λ_i λ_j λ_k λ_l)^{-1/2}` (real); it satisfies the
 hypothesis of `bpW:w1:selection` (a) with `M = 1/(2π)` (`KAM.Wave.waveTriCoef_bound`).
 `KAM.Wave.waveTriSeq` is the trilinear sum over any `RCLike` field, and

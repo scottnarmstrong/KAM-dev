@@ -14,9 +14,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The entrywise equations of the seven components (`bpW:w4:lemma1`, step *The equation*)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 For `F = homSolveTaylor_gen … R` and `θ ∈ T_{s-σ}` (writing `Δ_l = ∂_{θ_l}`, `𝔏 g = (2π)⁻¹ ∑_l ω_l
     Δ_l
     g`):
@@ -111,7 +108,6 @@ theorem homEq_b (k : Fin 2) :
     simpa using homCoeff_clm (hσ.trans hσs) R.comp_b.1 (ContinuousLinearMap.proj k) 0
   simpa [homSolveTaylor_gen, hc'] using this
 
-
 theorem homEq_cp_gen (j : ℕ+) :
     (2 * Real.pi : ℂ)⁻¹ * (∑ l, (w l : ℂ) * homLamDiag_gen ha (homPP hp hpb) (homPartial l
         (homSolveTaylor_gen hτ hα hσ hσs hm R).cp θ) j)
@@ -174,7 +170,6 @@ theorem homEq_cm_gen (j : ℕ+) :
       exact (fun z hz i => (homComp_angle_gen ha hp hpb hr R hX hz i).2.2.2.1) z hz i) hθ
   simpa [hΛ, homSolveTaylor_gen] using this
 
-
 theorem homEq_P_gen (i j : ℕ+) :
     (2 * Real.pi : ℂ)⁻¹ * (∑ l, (w l : ℂ) * homSent_gen ha hp hpb (homPartial l
         (homSolveTaylor_gen hτ hα hσ hσs hm R).P θ) i j)
@@ -232,7 +227,6 @@ theorem homEq_P'_gen (i j : ℕ+) :
       exact (norm_kamEntry_le _ i j).trans ((fun z hz l => (homComp_angle_gen ha hp hpb hr R hX hz
           l).2.2.2.2.2.1) z hz l)) hθ
   simpa [hΛ, homSolveTaylor_gen] using this
-
 
 theorem homEq_Q_gen (i j : ℕ+) :
     (2 * Real.pi : ℂ)⁻¹ * (∑ l, (w l : ℂ) * homSent_gen ha hp hpb (homPartial l

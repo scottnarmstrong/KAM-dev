@@ -10,9 +10,6 @@ public import KAM.Wave.Measure.SepLarge
 /-!
 # W7: the exceptional zones (blueprint `bpW:w7:Xzones`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 For `(k, l) ∈ X` the function `g_{kl} = ⟨k, ω⁰⟩ + ⟨l, Ω⁰⟩` is affine and not identically zero
 (condition (A₃), `KAM.Wave.A3_holds`): the zone is empty if `p_{kl} = 0`, and of measure
 `≤ 4 ρ_ζ a K_* / (ϑ σ_X D_A)` otherwise.
@@ -169,7 +166,6 @@ theorem IsFreqPair.Xzone_empty (hS : MeasSetup m hm Pi α)
     simp only [sub_sub_cancel] at this
     linarith
   linarith
-
 
 /-- `(k, l) ∈ X` with `p_{kl} ≠ 0`: measure of the zone (blueprint `bpW:w7:Xzones`). -/
 theorem IsFreqPair.Xzone_measure_le

@@ -11,9 +11,6 @@ public import KAM.Wave.Cubic.GradLp
 /-!
 # Hamiltonian structure (blueprint `bpW:w1:hamfield` (iv))
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 For `a > 0`, `p ≥ 1/2` and the weighted coordinates `z = (y, y')` of `(q, p) = (κ_{a,p} y,
 κ_{a,p} y')`, `KAM.Wave.waveHw z = Λ(q,p) + G(q)` with
 `Λ = ½ (⟨λ q, q⟩₀ + ⟨λ p, p⟩₀)` (`KAM.Wave.waveLamQuad`) is real analytic on `ℓ² × ℓ²`

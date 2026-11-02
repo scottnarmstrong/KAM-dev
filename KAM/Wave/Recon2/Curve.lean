@@ -12,7 +12,7 @@ public import KAM.Frozen.Wave.Defs.IsClassicalSolution
 /-!
 # Classical solutions from analytic coefficient solutions (blueprint `bpW:w2:curve`)
 
-Infrastructure used by several nodes; the dependency graph is still being built. Blueprint label
+Blueprint label
 `bpW:w2:curve` (milestone W2): P96-W Lemma 1 in frozen form.
 
 For an analytic coefficient solution `Y` (`KAM.Wave.IsAnalyticCoeffSolution`) and

@@ -10,9 +10,6 @@ public import KAM.Wave.Cubic.SelectionTwoSided
 /-!
 # Selection-rule trilinear maps, two-sided (blueprint `bpW:w1:selection` (b))
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 For `c : ℤ⁴ → ℂ` with `|c_{ijkl}| ≤ M |ijkl|^{-1/2} Σ_ε [l = ε₁ i + ε₂ j + ε₃ k]` (indices nonzero)
 and `w, w', w'' ∈ ℓ^{a,p}_b` (`a ≥ 0`, `p ≥ 1/2`, `s = p + 1/2`), the sums
 `T_c(w,w',w'')_l = Σ_{i,j,k ≠ 0} c_{ijkl} w_i w'_j w''_k` (`l ≠ 0`) converge absolutely and, with

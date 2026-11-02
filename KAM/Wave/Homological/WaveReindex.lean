@@ -13,9 +13,6 @@ import Mathlib.Tactic.Positivity
 # Reindexing the Melnikov conditions from the P96-K index to the wave index
 (blueprint-W `bpW:w4:wave` (ii), `bpW:w4:melnikov-check` (a))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 `homJapW l = max(1, |∑_j (j+2) l_j|)` is the wave-index bracket. For `1 ≤ |l| ≤ 2`:
 `homJap l ≤ homJapW l ≤ 3 homJap l` unless `∑ l_j = 0`, in which case they agree
 (`homJapW_reindex`). Consequently `(H_α)` with `homJapW` implies `(H_α)`, and `(H_α)` implies the

@@ -11,9 +11,6 @@ public import KAM.Wave.Measure.Count
 /-!
 # W7: measure of unions of zones at fixed `k` (blueprint `bpW:w7:prep`, `bpW:w7:iter`, first steps)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 For a frequency pair on `D` at level `a ≤ α̂` and `ρ_ζ` bounding `‖ω⁰ ξ - ω⁰ ξ'‖`: the zones `l =
     0`,
 the union over `Λ⁺ ∖ X` at fixed `k`, and the exceptional zones.

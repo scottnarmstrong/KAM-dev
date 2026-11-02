@@ -13,9 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The step flow `φ^t` at every time `|t| ≤ 1` (blueprint `bpW:w5:flow`, core layer)
 
-Off-frontier, source-faithful infrastructure (W-GRAPH-CLOSE); the dependency graph is still being
-built.
-
 For the step core `H` and `ξ ∈ Π`, `φ^t_ξ = H.phiT ξ t` is the time-`t` map of the flow of
 `X_{F(ξ)} = ι ∘ Z_ξ` (`Z_ξ = stepFieldS (FT ξ)`, values in the `p_+`-representatives,
 `ι = stepEmbedCLM`) and `Ψ^t_ξ = H.PsiT ξ t = ∫₀ᵗ Z_ξ(φ^τ_ξ ·) dτ` its smoothing displacement;
@@ -32,8 +29,9 @@ For the step core `H` and `ξ ∈ Π`, `φ^t_ξ = H.phiT ξ t` is the time-`t` m
   `D(s-3σ, r/4)`: `Dφ^t = I + ι ∘ DΨ^t`, `|DΨ^t| ≤ 8M_F/σ`, `|DΨ^t|^λ ≤ 16M_F/σ ≤ η²`;
 * `phiT_image` (clause (iii)): `φ^t(D(s-5σ, ηr)) ⊆ D(s-4σ, 2ηr) ⊆ D(s-3σ, r/4)`;
 * `phiT_translate_int` (clause (iv)): `φ^t(w + τ_k) = φ^t(w) + τ_k`, `k ∈ ℤ²`, `w ∈ U`;
-* `phiT_real_of_FT_real` (clause (iv), conditional helper: it assumes the abstract family `FT`
-  real, which `StepCore` does not record; the source-facing exports in `ExportFlow` discharge it).
+* `phiT_real_of_FT_real` (clause (iv), hypothesis-taking variant: it assumes the abstract family
+  `FT` real, which `StepCore` does not record; the source-facing exports in `ExportFlow` discharge
+  it).
 
 These are lemmas about the abstract `StepCore`; the source-facing statements, with only the step
 data `StepHypSrc` / `StepHypModSrc` as hypotheses, are in `KAM.Wave.KamStep.ExportFlow`.
@@ -85,8 +83,6 @@ def PsiT (ξ : Fin 2 → ℝ) (t : ℝ) : StepPhase r → StepPhase r :=
   smoothDisp (stepEmbedCLM a p pb H.hpb r) (stepFieldS H.ha H.hp H.hpb (FT ξ) r) t
 
 theorem phiT_one (ξ : Fin 2 → ℝ) : H.phiT ξ 1 = H.Phi ξ := rfl
-
-theorem PsiT_one (ξ : Fin 2 → ℝ) : H.PsiT ξ 1 = H.Psi ξ := rfl
 
 include H
 
@@ -293,8 +289,8 @@ theorem phiT_translate_int {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) {t : ℝ} (ht
   obtain ⟨-, h3⟩ := hlaw 1 (k 1) _ h1
   rw [← add_assoc, h3, h2, add_assoc]
 
-/-- `φ^t` maps real points of `U` to real points, conditional helper: it assumes that the abstract
-solution family `FT` is real (discharged for the step data in `ExportFlow`). -/
+/-- `φ^t` maps real points of `U` to real points, hypothesis-taking variant: it assumes that the
+abstract solution family `FT` is real (discharged for the step data in `ExportFlow`). -/
 theorem phiT_real_of_FT_real (hFT : ∀ ξ ∈ Par, (FT ξ).isRealTaylor) {ξ : Fin 2 → ℝ}
     (hξ : ξ ∈ Par) {t : ℝ} (ht : t ∈ Icc (-1 : ℝ) 1) {w : StepPhase r}
     (hw : w ∈ stepDomain r (s - 2 * σ) (r / 2)) (hwr : StepReal (StepPhase.toK w)) :

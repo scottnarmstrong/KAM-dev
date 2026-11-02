@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The bracket Hamiltonian and its field (blueprint-W `bpW:w5:new-ham` step `n-br`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `hasFDerivAt_bracket_smooth`: for smoothing fields `Z_a, Z_b : F → G` (with `ι`-embedded `B`-skew
 derivatives) the function `z ↦ B(ιZ_a, ιZ_b)` has derivative `B(ι[Z_a,Z_b], ·)` with the bracket
 `[Z_a, Z_b] = DZ_a(ιZ_b) - DZ_b(ιZ_a)` taking values in `G`.

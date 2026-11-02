@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.FForm
 /-!
 # Absolute convergence of the Euler sums (blueprint-W `bpW:w3:homological`, Step Euler identity)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-DIVISOR-F, blueprint label `bpW:w3:homological`.
+Package W3-DIVISOR-F, blueprint label `bpW:w3:homological`.
 
 `summable_birkLamQuartTerm`: for a coefficient `c` with `|c_x| ≤ |𝔤_x|` and `w ∈ 𝔚`, the series
 `Σ_x λ_{|x₄|} c_x ∏_t w_{x_t}` converges absolutely (the factor `λ_{|x₄|} ≤ √(1+m)|x₄|` is absorbed

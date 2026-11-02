@@ -12,9 +12,6 @@ public import Mathlib.Topology.MetricSpace.HausdorffDistance
 /-!
 # W7: action shells and their geometry (blueprint `bpW:w7:shells`, `bpW:w7:shell-geom`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 `t_k = q^k t₀`, the shell `R_k = (0, t_k)² ∖ (0, t_{k+1})²` and the inner shell
 `U_{-a} R_k = {I ∈ R_k : dist_∞ (I, ℝ² ∖ R_k) > a}`, where `dist_∞ (I, ℝ² ∖ R_k)` is
 `Metric.infDist I (R_k)ᶜ` for the sup-norm metric of `Fin 2 → ℝ`. We prove (i) the shells are

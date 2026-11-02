@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.MainRealTori
 /-!
 # Real-coordinate identities (blueprint-W `bpW:w3:main` (ii), `bpW:w3:gamma-real` (iv))
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-MAIN, blueprint labels `bpW:w3:main`, `bpW:w3:gamma-real`.
+Package W3-MAIN, blueprint labels `bpW:w3:main`, `bpW:w3:gamma-real`.
 
 * `birkKExt_real_fderiv`: `D K^ℝ(x) h = ω_ℝ(Π ι X_K(𝒵x), h)`; in coefficients
   (`birkKExt_real_gradient`): `X_K^ℝ = (∂_p K^ℝ, -∂_q K^ℝ)`, i.e.

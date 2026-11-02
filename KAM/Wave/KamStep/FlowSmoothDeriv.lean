@@ -11,8 +11,6 @@ public import KAM.Wave.KamStep.FlowVariational
 /-!
 # Holomorphy and derivative bounds of the smoothing displacement (`bpW:w5:flow` (i), (ii))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 In the setting of `FlowSmooth` (`X = ι ∘ Z`, `Z : F → G`), the displacement `Ψ^t = smoothDisp ι Z t`
 is `G`-valued holomorphic on `U` (`hasFDerivAt_smoothDisp`: differentiation under the integral
 sign, steps `f-flow` of the blueprint), so the Cauchy estimate on balls inside `U` gives the
@@ -83,7 +81,6 @@ theorem hasFDerivAt_smoothDisp {w : F} (hw : w ∈ U) {t : ℝ} (ht : t ∈ Icc 
         ((holomorphicOn_holoFlow h hσ').differentiableAt (h.isOpen_U.mem_nhds hxU)).hasFDerivAt
       exact h1.comp x h2)
   exact hmain
-
 
 omit [CompleteSpace G] in
 /-- `Ψ^t` is holomorphic on `U` (`G`-valued). -/

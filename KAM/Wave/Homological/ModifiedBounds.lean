@@ -14,9 +14,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The field bound with modified divisors (`bpW:w5:w4-modified` (i))
 
-Off-frontier, source-faithful infrastructure (W5-MODIFIED, blueprint `bpW:w5:w4-modified`); the
-dependency graph is still being built.
-
 * `homModF_compBounds`: the component bounds of `F = homModSolveTaylor … R` at one `θ ∈ T_{s-σ}`,
   with `K = K_S` and `E₀ = B^W_σ ε/α` (W4's step *Component bounds of F*), the `c^±, P, P'` parts
   from the reweighted data `homReweight R` (field bound `ε` in the `p₊` norm), the `Q, Q^T` parts
@@ -211,7 +208,7 @@ theorem homModF_compBounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hc : 
       _ ≤ 16 * Real.pi * (homKS * waveBW τ σ * ε / α) := by nlinarith
       _ = _ := by ring
 
-/-- CONDITIONAL helper for `bpW:w5:w4-modified` (i), field bound: assumes the gate
+/-- Hypothesis-taking variant for `bpW:w5:w4-modified` (i), field bound: assumes the gate
 `HomModMultBounds`. The source-premise export is `homModLemma_fieldBound`. -/
 theorem homModLemma_fieldBound_of_gates (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb)
     (hc : pb ≤ p + 1) {r ε : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α) (hσ : 0 < σ)

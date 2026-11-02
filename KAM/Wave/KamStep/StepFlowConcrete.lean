@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The concrete flow setting on `StepPhase r` (blueprint-W `bpW:w5:flow`, `bpW:w5:flow-calc`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 For a W4 Taylor polynomial `T` the abstract flow calculus applies with `F = G = StepPhase r`,
 `Z = stepFieldS T` (the field in the `p_+`-representatives), `ι = stepEmbedCLM` (so that the flow
 field is `X = ι ∘ Z`), `B = stepSympCLM` with `q = q' = p`:

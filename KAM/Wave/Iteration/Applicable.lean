@@ -14,10 +14,9 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: the `k = 0` clause of the applicability lemma (blueprint `bpW:w6:applicable`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:applicable` (milestone W6), the `k = 0` clause.
+Blueprint label `bpW:w6:applicable` (milestone W6), the `k = 0` clause.
 
-`w6applicable_k0_of_shift` is a **conditional helper** (the shift bound
+`w6applicable_k0_of_shift` is a **hypothesis-taking variant** (the shift bound
 `J |Ω̂_{P,J}| ≤ 3ε` is a conclusion of `bpW:w6:prep-step` (ii), which needs W5's step): for `ξ` with
 `|ξ|_∞ ≤ 1/2`, `0 < α ≤ α₀`, `0 ≤ ε ≤ γα` and `Ω_0 = Ω⁰ + Ω̂_P` with `J |Ω̂_{P,J}| ≤ 3ε`:
 `|⟨l, Ω_0⟩| ≥ 2β_* ⟨l⟩` for `l ∈ Λ` (W7's `three_betaStar_japL_le` gives `|⟨l, Ω⁰⟩| ≥ 3β_*⟨l⟩`, and
@@ -31,7 +30,7 @@ open Real
 
 namespace KAM.Wave
 
-/-- **`k = 0` clause of `bpW:w6:applicable`, conditional helper.** -/
+/-- **`k = 0` clause of `bpW:w6:applicable`, hypothesis-taking variant.** -/
 theorem w6applicable_k0_of_shift {m : ℝ} {hm : 0 < m} {α ε : ℝ} (hα : 0 < α)
     (hα0 : α ≤ measAlpha0 m hm) (hε : 0 ≤ ε) (hεγ : ε ≤ w6Gamma m hm * α)
     {ξ : Fin 2 → ℝ} (hξ : ‖ξ‖ ≤ 1 / 2) {Ωh Ω0 : ℕ → ℝ}

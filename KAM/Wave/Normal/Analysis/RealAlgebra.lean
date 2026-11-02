@@ -12,9 +12,6 @@ public import Mathlib.Topology.Algebra.InfiniteSum.NatInt
 # Real nonnegative specializations of the landed convolution algebra
 (blueprint `bpW:w0n:algebra`, used by `bpW:w0n:cubic-bound`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 Bridges from the landed complex statements of `KAM.Wave.Algebra` (`wave_algebra`, `waveConv`,
 `waveTwoWeight`, `waveAlgConst`) to real nonnegative sequences: `KAM.Wave.w0a_convAlgebra_nonneg`
 and `KAM.Wave.w0a_summable_of_weighted`, plus two small helpers on even sums over `ℤ`.

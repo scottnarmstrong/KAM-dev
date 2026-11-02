@@ -11,9 +11,6 @@ public import KAM.Wave.Measure.Lambda
 /-!
 # W7: from the `l = 0` condition to `KAM.IsDiophantine` (blueprint `bpW:w7:dioph`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 If `|⟨k, ω⟩| ≥ c / A_k` for all `k ≠ 0` (`A_k = 1 + |k|^{24}`), then `ν = ω / (2π)` satisfies
 `KAM.IsDiophantine (c / (4π)) 24 ν`, with the frozen `IsDiophantine` (no `2π`, real exponent).
 -/

@@ -11,8 +11,7 @@ public import KAM.Wave.Cubic.FrozenForm
 /-!
 # Transported tori in the frozen form (blueprint-W `bpW:w3:transport-tori`, `bpW:w1:coordinatewise`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-MAIN, blueprint labels `bpW:w3:transport-tori`,
+Package W3-MAIN, blueprint labels `bpW:w3:transport-tori`,
 `bpW:w3:transport-tori-weak`.
 
 At `(a,p) = (1,1)` the real transport (`birk_transport_tori_real_aux`) says that the frozen

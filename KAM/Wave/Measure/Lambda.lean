@@ -11,9 +11,6 @@ public import Mathlib.Analysis.SpecialFunctions.Pow.Real
 /-!
 # W7: integer data, weights and the case split of `Λ` (blueprint `bpW:w7:indexdef`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 Normal modes are indexed by `ν : ℕ`, the Dirichlet mode `j = ν + 3` (`normLab ν`); `l : ℕ →₀ ℤ` is
 the finitely supported integer vector on the normal modes. We define `⟨l⟩` (`japL`), `|l|_δ`
 (`absWt`), the modified weight `ŵ` (`hatW`), `Λ` (`IsLam`), `Λ⁻` (`IsLamMinus`) and `A_k`
@@ -270,14 +267,6 @@ theorem hatW_le_japL (l : ℕ →₀ ℤ) : hatW l ≤ japL l := by
     have := japL_ge_one l
     nlinarith
   · exact le_rfl
-
-theorem hatW_pos (l : ℕ →₀ ℤ) : 0 < hatW l := by
-  unfold hatW
-  split_ifs
-  · have := japL_ge_one l
-    have := Real.rpow_pos_of_pos (normLab_pos (sInf {ν | l ν ≠ 0})) (-(1 / 4 : ℝ))
-    positivity
-  · exact lt_of_lt_of_le one_pos (japL_ge_one l)
 
 theorem normLab_rpow_le_one {ν : ℕ} {δ : ℝ} (hδ : δ ≤ 0) : normLab ν ^ δ ≤ 1 :=
   Real.rpow_le_one_of_one_le_of_nonpos (by linarith [normLab_ge ν]) hδ

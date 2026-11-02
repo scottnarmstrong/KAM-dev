@@ -17,8 +17,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # `H ∘ Φ = N_+ + P_+ + â₀` for the step data (blueprint-W `bpW:w5:step` (i))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 The objects of the step: `StepCore.Phi` (`Φ = φ¹`), `StepCore.Pplus`, `StepCore.Xplus`,
 `StepCore.omegaPlus`, `StepCore.OmegaPlus` (`ω_+ = ω + ω̂`, `Ω_+ = Ω + Ω̂`), `StepCore.a0`.
 `StepCore.conj_eq`: `N(Φ w) + P(Φ w) = N_+(w) + P_+(w) + â₀`.

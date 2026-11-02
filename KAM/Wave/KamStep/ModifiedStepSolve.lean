@@ -15,9 +15,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # W4 with modified divisors on the phase space of W5 (`bpW:w5:w4-modified`)
 
-Off-frontier, source-faithful infrastructure (W5-MODIFIED, blueprint `bpW:w5:w4-modified`); the
-dependency graph is still being built.
-
 The solve outputs of `bpW:w5:w4-modified` on `KamPhase`, in the form consumed by the step
 (compare `stepSolve_fam`, `stepSolve_equation` for unmodified divisors):
 * `stepSolveMod_fieldBound`: (i) `|X_F|_{p₊,r} ≤ C₁B^W_σ ε/α` on `D(s-σ,r)`;

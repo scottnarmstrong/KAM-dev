@@ -14,8 +14,6 @@ import Mathlib.Tactic.Ring
 /-!
 # The `λ`-arithmetic of `X_+` (blueprint-W `bpW:w5:step` (ii), steps `st-1`, `st-2`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepXplus_arith`: with `ε₀ + λε₁ ≤ ε`, `M₀ + λM₁ ≤ M_F`, `16 M_F ≤ ση²`:
 `S + λ D ≤ 896 η ε + 168 ε M_F/(σ η²)`, where `S`, `D` are the sup and Lipschitz constants of the
 two-parameter bound of `X_+` (pull-back of `X_P - X_R` and commutator integral).

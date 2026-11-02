@@ -10,8 +10,6 @@ public import KAM.Wave.Seq.Transport
 /-!
 # Diagonal multipliers on `ℓ²` (blueprint-W `bpW:w1:multiplier`)
 
-Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
-
 * `weightedDiagCLM μ hM`: the operator `D_μ y = (μ_j y_j)` on `lp (fun _ : ℕ+ => 𝕜) 2` for
   `‖μ_j‖ ≤ M`, with `‖D_μ‖ ≤ M` (`norm_diagCLM_le`) and `‖μ_j‖ ≤ ‖D_μ‖`
   (`norm_le_norm_of_apply_eq`).

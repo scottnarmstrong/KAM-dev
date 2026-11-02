@@ -92,9 +92,6 @@ theorem stepCF_pos {τ : ℝ} (hτ : 0 ≤ τ) : 0 < stepCF τ := by
 theorem stepCFn_pos {τ : ℝ} (hτ : 0 ≤ τ) : 0 < stepCFn τ := by
   unfold stepCFn; have := stepC1_pos; have := waveBNconst_pos hτ; positivity
 
-theorem stepC0_pos {τ : ℝ} (hτ : 0 ≤ τ) : 0 < stepC0 τ := by
-  unfold stepC0; have := stepCF_pos hτ; positivity
-
 theorem stepC0n_pos {τ : ℝ} (hτ : 0 ≤ τ) : 0 < stepC0n τ := by
   unfold stepC0n; have := stepCFn_pos hτ; positivity
 

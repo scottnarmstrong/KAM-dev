@@ -15,8 +15,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Counting lattice points of fixed `ℓ¹` size (blueprint-W `bpW:w1:lattice` (ii))
 
-Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
-
 `kamL1 k = ∑ᵢ |kᵢ|` is the natural-number `ℓ¹` size of `k ∈ ℤⁿ`. For `n ≥ 1` the number of `k ∈ ℤⁿ`
 with `kamL1 k = m` is at most `2ⁿ · C(m+n-1, n-1) ≤ 2ⁿ (m+1)^(n-1)`: `k` is determined by the
 multiset of its coordinate absolute values (an element of `Sym (Fin n) m`, counted by

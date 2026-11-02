@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.LieSeq
 /-!
 # Derivatives of the Lie coefficients (blueprint-W `bpW:w3:leibniz`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-FLOW, blueprint label `bpW:w3:leibniz`.
+Package W3-FLOW, blueprint label `bpW:w3:leibniz`.
 
 `lieDer T w k = Dφ_k(w)` is given by the product rule
 `(k+1) Dφ_{k+1}(w) = Σ_{a+b+c=k} Σ_i T(φ_a,…,Dφ_{x_i} ·,…)` (`lieDer_succ`); `hasFDerivAt_lieSeq`

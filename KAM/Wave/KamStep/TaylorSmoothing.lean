@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Properties of a smoothing pair (blueprint-W `bpW:w5:taylor` step `t-comp`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 For a smoothing pair `(P, X)` on `D(s,r)`:
 * `stepSymp_dX_symm`: `ϖ(DX(w) a, c) = ϖ(DX(w) c, a)` (symmetry of `D²P`);
 * `stepField_periodic`: if `P` is `1`-periodic in the angles so is `X`, and so is `DX`.
@@ -33,8 +31,6 @@ variable {a p pb s r : ℝ} {P : KamPhase → ℂ} {X : KamPhase → KamPhase}
 
 /-- The angle translation `τ_i = (e_i, 0, 0, 0)`. -/
 def stepTau (i : Fin 2) : KamPhase := (Pi.single i 1, 0, 0, 0)
-
-theorem kamDomain_isOpen' (s r : ℝ) : IsOpen (kamDomain s r) := kamDomain_isOpen s r
 
 theorem kamDomain_add_tau {w : KamPhase} (hw : w ∈ kamDomain s r) (i : Fin 2) :
     w + stepTau i ∈ kamDomain s r := by

@@ -10,9 +10,6 @@ public import KAM.Wave.Cubic.TriLp
 /-!
 # The continuous multilinear map `𝒯^{a,p}_𝕜` (blueprint `bpW:w1:trilinear` (i))
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 `KAM.Wave.waveTriML a p` is the continuous symmetric `𝕜`-trilinear map
 `(ℓ²_𝕜)³ → ℓ²_𝕜` (`ContinuousMultilinearMap`) with norm at most `C_* = K_{p+1/2}²/π`
 (`KAM.Wave.waveTriML_norm_le`) whose coordinates are those of `T`
@@ -71,9 +68,6 @@ def waveTriML :
 
 lemma waveTriML_apply (v : Fin 3 → lp (fun _ : ℕ+ => K) 2) :
     waveTriML (K := K) m hm ha hp v = waveTriAux m hm ha hp (v 0) (v 1) (v 2) := rfl
-
-lemma waveTriML_apply' (y y' y'' : lp (fun _ : ℕ+ => K) 2) :
-    waveTriML (K := K) m hm ha hp ![y, y', y''] = waveTriAux m hm ha hp y y' y'' := rfl
 
 /-- `bpW:w1:trilinear` (i): `‖𝒯^{a,p}_𝕜‖ ≤ C_* = K_{p+1/2}²/π`. -/
 theorem waveTriML_norm_le : ‖(waveTriML (K := K) m hm ha hp)‖ ≤ waveCubicConst p :=

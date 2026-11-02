@@ -11,8 +11,7 @@ public import KAM.Wave.Measure.Coords
 /-!
 # W8: separation of frequencies across shells (blueprint `bpW:w8:nu-injective`, W6-free steps)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w8:nu-injective` (milestone W8), its W6-free steps only.
+Blueprint label `bpW:w8:nu-injective` (milestone W8), its W6-free steps only.
 
 Lemma `bpW:w8:nu-injective` itself consumes Lemma `bpW:w8:freq-shell` (ii), (iii), a W6 result
 (through `bpW:w8:w6-general`); it is not proved here. This module proves:
@@ -20,8 +19,8 @@ Lemma `bpW:w8:nu-injective` itself consumes Lemma `bpW:w8:freq-shell` (ii), (iii
   `α_{n'}/(70 L_A)`, of `ω⁰` at points of different trimmed shells are different (from
   `bpW:w8:shell-data` (ii) and W7's `bpW:w7:freqcoords` (iv));
 * `w8PatchNu_injOn_of_pieces`: the assembly of Steps `stepW:w8:ni-same`, `stepW:w8:ni-diff` for
-  arbitrary pieces. It is a conditional helper whose hypotheses `hsame`, `hclose` are, for the
-  shell iteration, W6's Lemma `bpW:w8:freq-shell` (ii), (iii); it does not stand in for
+  arbitrary pieces. It is a hypothesis-taking variant whose hypotheses `hsame`, `hclose` are, for
+  the shell iteration, W6's Lemma `bpW:w8:freq-shell` (ii), (iii); it does not stand in for
   `bpW:w8:nu-injective`.
 -/
 
@@ -65,8 +64,8 @@ theorem w8_freq_ne_of_shells (ht : 0 < t0) {n n' : ℕ} (hnn : n ≠ n') {ξ ξ'
   linarith
 
 /-- Steps `stepW:w8:ni-same`, `stepW:w8:ni-diff` of `bpW:w8:nu-injective` for arbitrary pieces
-(conditional helper; for the shell iteration `hsame`, `hclose` are W6's `bpW:w8:freq-shell` (ii),
-(iii), with `ω^{(n)}_* = 2π ν^{(n)}_*`). -/
+(hypothesis-taking variant; for the shell iteration `hsame`, `hclose` are W6's
+`bpW:w8:freq-shell` (ii), (iii), with `ω^{(n)}_* = 2π ν^{(n)}_*`). -/
 theorem w8PatchNu_injOn_of_pieces (ht : 0 < t0) {Γs : ℕ → Set (Fin 2 → ℝ)}
     (hΓ : ∀ n, Γs n ⊆ w8Pi t0 n) {νs : ℕ → (Fin 2 → ℝ) → Fin 2 → ℝ}
     (hsame : ∀ n, ∀ ξ ∈ Γs n, ∀ ξ' ∈ Γs n, 7 / (8 * measLA m hm) * ‖ξ - ξ'‖ ≤

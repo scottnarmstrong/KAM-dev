@@ -13,9 +13,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Lemma 1 (ii) for all `(z, \bar z)` (`bpW:w4:lemma1`, step *The equation*, density)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 Both sides of `L_N F + N̂ = R - â₀` are continuous in `(z, \bar z) ∈ ℓ^N_{a,p} × ℓ^N_{a,p}`
 (carrier `HomL2 × HomL2`), given `|Ω_j| ≤ K₀ (j+2)`: the pairings are bounded bilinear forms and the
 pairing `⟨c, Ωz⟩₀` is `homPairL2 (diag(D_jΩ_j) ĉ) ẑ` with `|D_jΩ_j| ≤ K₀`. The truncations
@@ -29,9 +26,6 @@ namespace KAM.Wave
 open KAM Filter Topology
 
 variable {a p pb s : ℝ}
-
-theorem homPairRep_eq'_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (c z : HomL2) :
-    homPairRep_gen ha (homPP hp hpb) c z = homPairL2 (homLamDiag_gen ha (homPP hp hpb) c) z := rfl
 
 theorem continuous_homPairRep_right_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (c :
     HomL2) :
@@ -100,15 +94,6 @@ theorem continuous_homRzb_gen {a p pb s : ℝ} (T : HomTaylor_gen a p pb s) (θ 
   exact ((continuous_const.add ((T.Q θ).continuous.comp continuous_fst)).add
     (((T.P' θ).continuous.comp continuous_snd).const_smul (2 : ℂ)))
 
-
-theorem one_le_homWt {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (j : ℕ+) : 1 ≤ homWt a p j := by
-  rw [homWt_eq]
-  have hJ : (1 : ℝ) ≤ (j : ℝ) + 2 := by
-    have : (1 : ℝ) ≤ j := by exact_mod_cast j.pos
-    linarith
-  exact one_le_mul_of_one_le_of_one_le (Real.one_le_rpow hJ hp)
-    (Real.one_le_exp (by positivity))
-
 theorem homWt_mul_ge {a p pb : ℝ} (ha : 0 ≤ a) (hp1 : 1 ≤ p + pb) (j : ℕ+) :
     (j : ℝ) + 2 ≤ homWt a p j * homWt a pb j := by
   have hJ : (1 : ℝ) ≤ (j : ℝ) + 2 := by
@@ -171,7 +156,6 @@ theorem tendsto_truncLp (y : HomL2) : Tendsto (fun N : ℕ => truncLp N y) atTop
   rw [tendsto_iff_norm_sub_tendsto_zero]
   simpa only [norm_sub_rev] using tendsto_norm_sub_truncLp y
 
-
 /-- **Carrier evidence** from the frequency bound `|Ω_j| ≤ K₀(j+2)` and `1 ≤ p + p_+`. -/
 theorem homOmegaCarrier_of_bound {a p pb K0 : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb)
     (hp1 : 1 ≤ p + pb) (hK0 : 0 ≤ K0) {Ω : ℕ+ → ℝ}
@@ -184,8 +168,8 @@ section main
 
 variable {σ τ α K0 : ℝ} {w : Fin 2 → ℝ} {W : ℕ+ → ℝ}
 
-/-- CONDITIONAL helper for Lemma 1 (ii), all `(z, \bar z)`: assumes the gate `HomMultBounds` and
-the frequency bound. The source-premise export is `homLemma1_equation_all_gen`. -/
+/-- Hypothesis-taking variant for Lemma 1 (ii), all `(z, \bar z)`: assumes the gate `HomMultBounds`
+and the frequency bound. The source-premise export is `homLemma1_equation_all_gen`. -/
 theorem homLemma1_equation_all_of_gates_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hp1 : 1 ≤ p +
   pb) {r ε
     :

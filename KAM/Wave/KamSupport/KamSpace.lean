@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 # KAM phase space, domains and norms (blueprint-W `bpW:w1:kam-space`, `bpW:w1:kam-conventions`,
 `bpW:w1:kam-domain`)
 
-Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
-
 The complex phase space `𝒫^{a,p}_ℂ = ℂ² × ℂ² × ℓ^{a,p}_ℂ × ℓ^{a,p}_ℂ` is represented in weighted
 coordinates (`KamPhase`): the last two factors are `ℓ²_ℂ`, and the norm `‖u‖_{a,p}` of a point of
 `ℓ^{a,p}` is the `ℓ²` norm of its representative. The weights therefore only enter through the

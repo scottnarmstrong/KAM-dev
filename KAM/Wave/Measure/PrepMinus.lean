@@ -10,9 +10,6 @@ public import KAM.Wave.Measure.MinusSum
 /-!
 # W7: the preparatory zones of `Λ⁻` (blueprint `bpW:w7:prep`, steps "`Λ⁻`")
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 With the weight exponent `β = 1/4` and `j₀ = ⌈(A_k/α̂)^{4/11}⌉`:
 for fixed `k ≠ 0` and `n ≥ 1` the union over `j` of the preparatory zones of `e_{j+n} - e_j` has
 measure `≤ 8 ρ_ζ n (3 + a_κ) (α̂/A_k)^{8/11} / (|k| D_A)`.

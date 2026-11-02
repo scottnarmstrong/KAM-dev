@@ -10,22 +10,18 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 
 /-!
-# W6: the smoothing of one step's transformation — W5 dependency (blueprint `bpW:w6:iter-lemma`)
+# W6: the smoothing of one step's transformation (blueprint `bpW:w6:iter-lemma`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:iter-lemma` (step `il-tr`), used by
+Blueprint label `bpW:w6:iter-lemma` (step `il-tr`), used by
 `bpW:w6:convergence` (iii), (iv), `bpW:w6:invariance`, `bpW:w6:prep-step` (iii), `bpW:w6:tori`.
 
 W5's `stepTheorem` (v) bounds `Φ - id` and `DΦ - I` only in the ambient norm `|·|_{p,r}`. The
 blueprint's bounds `|Φ - id|_{p_+,r} ≤ M_F` (sharp sup bound of step `f-flow`) and
-`|DΦ - I|_{p → p_+, r} ≤ 8 M_F/σ` are being added to W5 (branch `inp-w5aa`, the smoothing
-displacement `Ψ`, `Φ = id + ι Ψ`). Per the orchestrator's ruling, W6 does not reprove them: they are
-the **named W5 dependencies** `W6StepSmooth` (unmodified step) and `W6StepSmoothMod` (modified
-step),
-and every W6 result that uses them is a conditional helper (suffix `_of_stepSmooth`), to be
-discharged by one line once `inp-w5aa` lands. Both are now theorems (`w6StepSmooth_holds`,
-`w6StepSmoothMod_holds`, module `StepSmoothW5`); the unconditional source-facing theorems are in
-`SmoothSrc`.
+`|DΦ - I|_{p → p_+, r} ≤ 8 M_F/σ` (the smoothing displacement `Ψ`, `Φ = id + ι Ψ`) are stated here
+as the propositions `W6StepSmooth` (unmodified step) and `W6StepSmoothMod` (modified step). Every
+W6 result that takes one of them as a hypothesis carries the suffix `_of_stepSmooth`. Both
+propositions are proved as `w6StepSmooth_holds` and `w6StepSmoothMod_holds` (module
+`StepSmoothW5`), and the unconditional source-facing theorems that apply them are in `SmoothSrc`.
 
 * `W6StepSmooth`, `W6StepSmoothMod`: on `D_+ = D(s-5σ, ηr)`, for `ξ ∈ Π`, there is `Ψ` holomorphic
   on `D_+` with `Φ(w) = w + ι Ψ(w)`, `|Ψ(w)|_{p_+,r} ≤ M_F`, `‖DΨ(w)‖_{p → p_+} ≤ 8 M_F/σ`;
@@ -43,7 +39,7 @@ namespace KAM.Wave
 
 open KAM
 
-/-- **W5 dependency** (unmodified step; being added to W5 on `inp-w5aa`): the smoothing
+/-- **Smoothing of one step** (unmodified step; proved as `w6StepSmooth_holds`): the smoothing
 displacement of `Φ = H.hyp.core.Phi ξ` with the blueprint's `p_+` bounds. -/
 def W6StepSmooth : Prop :=
   ∀ (a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ : ℝ) (Par : Set (Fin 2 → ℝ))
@@ -57,7 +53,7 @@ def W6StepSmooth : Prop :=
         ‖Ψ w‖ ≤ stepMF (stepCF τ) (stepExpT τ) α σ ε ∧
         ‖fderiv ℂ Ψ w‖ ≤ 8 * stepMF (stepCF τ) (stepExpT τ) α σ ε / σ
 
-/-- **W5 dependency** (modified step; being added to W5 on `inp-w5aa`): the smoothing
+/-- **Smoothing of one step** (modified step; proved as `w6StepSmoothMod_holds`): the smoothing
 displacement of `Φ = H.hyp.core.Phi ξ` with the blueprint's `p_+` bounds (constants `c^♮_F`,
 `t^♮`). -/
 def W6StepSmoothMod : Prop :=
@@ -104,8 +100,8 @@ def w6Psi (H : StepHypSrc a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω M�
     (h.1 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ H inferInstance ξ h.2).choose
   else fun _ => 0
 
-/-- **The smoothing of `Φ`** (conditional on the W5 dependency `W6StepSmooth`): on `D_+`, for
-`ξ ∈ Π`, `Φ` and `Ψ` are holomorphic, `Φ(w) = w + ι Ψ(w)`, `|Ψ(w)|_r ≤ M_F`,
+/-- **The smoothing of `Φ`** (assuming `W6StepSmooth`, proved as `w6StepSmooth_holds`): on `D_+`,
+for `ξ ∈ Π`, `Φ` and `Ψ` are holomorphic, `Φ(w) = w + ι Ψ(w)`, `|Ψ(w)|_r ≤ M_F`,
 `DΦ(w) = I + ι ∘ DΨ(w)`, `‖DΨ(w)‖ ≤ 8 M_F/σ`. -/
 theorem phi_smooth_of (hS : W6StepSmooth)
     (H : StepHypSrc a p pb s r σ η τ α lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X) [Fact (0 < r)]
@@ -142,7 +138,8 @@ def w6Psi (H : StepHypModSrc a p pb s r σ η τ α β lam ε ε₀ ε₁ γ M0 
     (h.1 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ H inferInstance ξ h.2).choose
   else fun _ => 0
 
-/-- **The smoothing of `Φ`, modified case** (conditional on the W5 dependency `W6StepSmoothMod`). -/
+/-- **The smoothing of `Φ`, modified case** (assuming `W6StepSmoothMod`, proved as
+`w6StepSmoothMod_holds`). -/
 theorem phi_smooth_of (hS : W6StepSmoothMod)
     (H : StepHypModSrc a p pb s r σ η τ α β lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X) [Fact (0 < r)]
     {ξ : Fin 2 → ℝ} (hξ : ξ ∈ Par) :

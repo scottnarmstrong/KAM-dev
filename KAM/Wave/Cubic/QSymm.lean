@@ -12,9 +12,6 @@ public import KAM.Wave.Cubic.CubicDeriv
 /-!
 # Full symmetry of the quartic form `𝒬` (blueprint `bpW:w1:gradient-identity` (i))
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 The coefficient `c_{ijkl}` is symmetric under `k ↔ l` (`waveTriCoef_comm34`). The quadruple series
 `Σ_{ijkl} c_{ijkl} q_i q'_j q''_k q'''_l` converges absolutely (`waveTri_quad_summable`; the
 absolute values of the inner sums are the real `T` of the moduli, bounded by `waveTri_oneSided`),

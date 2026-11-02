@@ -13,9 +13,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Component bounds, part B (blueprint-W `bpW:w4:components` (i))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 `homComp_first_gen`: if `|X_R|_r ≤ ε` on `D(s,r)` then for every `θ ∈ T_s`: `|b| ≤ 2πε`,
 `‖c^±‖ ≤ rε/√2`, `‖2P‖, ‖Q‖, ‖Q^T‖, ‖2P'‖ ≤ ε`.
 -/

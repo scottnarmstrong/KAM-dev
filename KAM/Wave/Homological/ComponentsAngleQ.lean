@@ -13,9 +13,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Component bounds, part D: the mixed term and the statement (blueprint-W `bpW:w4:components` (ii))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 `homComp_angle_gen`: if `|X_R|_r ≤ ε` on `D(s,r)` then for `θ ∈ T_s`, `i ∈ {1,2}`:
 `|∂_i a| ≤ 2π r² ε`, `|∂_i b|₁ ≤ 2π ε`, `‖∂_i c^±‖_* ≤ 2√2 π r ε`,
 `‖Λ∂_i P‖_bil, ‖Λ∂_i P'‖_bil ≤ 4π ε`, `‖Λ∂_i Q‖_bil ≤ 16π ε`.

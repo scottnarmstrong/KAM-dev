@@ -16,9 +16,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Normal operators and their norms (blueprint-W `bpW:w4:ops`, `bpW:w4:schur` (ii))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 Representative model (see `Schur.lean`): `HomL2 = ℓ²_ℂ` is the common model of every `ℓ^N_{a,q}`
 (`ẑ_j = ω_{a,q}(j+2) z_j`), and `HomOp` the model of `𝓛` (weighted matrices).
 

@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Reality of the Taylor polynomial (blueprint-W `bpW:w5:taylor` (i), "`R` is real")
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 For a real smoothing pair `(P, X)` on `D(s,r)` (`P` real at real points), the components of
 `stepTaylorOf` satisfy, at real `θ`: `b(θ) ∈ ℝ²` (`tB_real`) and `Q(θ)_{jj} ∈ ℝ`
 (`tQ_entry_real`), and hence their `θ`-averages `[b]`, `[Q]_{jj}` are real

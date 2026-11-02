@@ -13,9 +13,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Lipschitz bounds of the components with modified divisors (`bpW:w5:w4-modified` (ii))
 
-Off-frontier, source-faithful infrastructure (W5-MODIFIED, blueprint `bpW:w5:w4-modified`); the
-dependency graph is still being built.
-
 The two-parameter bounds of the components of `F(ξ) - F(ζ)` (W4's step *Lipschitz*, with the
 multipliers of `HomModMultBounds` and their Lipschitz bounds `HomModMultLip`, step `m-lip`), with
 the scale `E^W = B^W_σ(ε^L + 2Mε/α)d/α`:

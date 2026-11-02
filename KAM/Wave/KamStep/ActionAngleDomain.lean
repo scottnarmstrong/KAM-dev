@@ -15,7 +15,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The action–angle substitution: the domain check (blueprint-W `bpW:w5:action-angle` (ii), (vi))
 
-Off-frontier, source-faithful infrastructure (W5-AA); the dependency graph is still being built.
 Blueprint label `bpW:w5:action-angle` (ii), step `a-dom`, and the norm comparisons of (vi).
 
 At `a = p = 1`, for `0 < s ≤ 1/8`, `r > 0`, `t > 0`, `|ξ|_∞ ≤ t`, `Re ξ_i ≥ 2r²` and

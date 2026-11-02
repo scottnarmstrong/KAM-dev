@@ -11,8 +11,6 @@ public import KAM.Frozen.Wave.Defs.Lam
 /-!
 # Frequency multipliers and complex rotations (blueprint-W `bpW:w1:diag`, parts (i)-(iii))
 
-Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
-
 * (i) `lamMul m hm r`: the representative `D_μ`, `μ_j = (λ_j/j)^r`, of `λ^r : ℓ^{a,p+r} → ℓ^{a,p}`;
   `lamMul_represents`, `norm_lamMul_le`, `norm_lamMul_eq` (`= (1+m)^{r/2}` for `r ≥ 0`),
   `lamMul_comp_neg` (inverse `λ^{-r}`).

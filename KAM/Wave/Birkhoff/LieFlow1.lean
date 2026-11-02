@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.LieLeibniz
 /-!
 # The flow `Γ_t = Σ t^k φ_k`: convergence and estimates (blueprint-W `bpW:w3:flow` (i), (iii))
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-FLOW, blueprint label `bpW:w3:flow`.
+Package W3-FLOW, blueprint label `bpW:w3:flow`.
 
 For a symmetric continuous trilinear `T` on `E` with `‖T v‖ ≤ C ∏‖v_i‖` and `q = 2|t|C‖w‖² ≤ 1/10`:
 `norm_lieTerm_le` (`‖t^kφ_k(w)‖ ≤ q^k‖w‖`), `summable_lieTerm`, `norm_lieGamma_le`

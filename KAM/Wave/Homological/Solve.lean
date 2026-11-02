@@ -14,9 +14,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The Banach-valued Fourier-multiplier solve (blueprint-W `bpW:w4:solve`, (i) and (ii))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 For complex Banach spaces `E, E'`, multipliers `T_k ∈ L(E, E')` and `u : T_s → E` holomorphic,
 `1`-periodic and bounded, `homSolve T u = ∑_k T_k û_k e^{2πi⟨k,θ⟩}` (`û_k = homCoeff u k`).
 

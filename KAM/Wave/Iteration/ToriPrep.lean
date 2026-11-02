@@ -12,8 +12,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: the tori in KAM coordinates after the preparatory step (interface for `bpW:w6:tori`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w6:prep-step` (iii) (sharp bound) and the W6 part of
+Blueprint labels `bpW:w6:prep-step` (iii) (sharp bound) and the W6 part of
 `bpW:w6:tori` (steps `t-hol`, `t-cont`, `t-prep`, `t-close`), before W5's action-angle map
 `𝒜_ξ` (`bpW:w5:action-angle`, not formalized here).
 
@@ -21,8 +20,9 @@ For the wave iteration (Definition `bpW:w6:wave-iteration`, starting size
 `ε₀ ∈ [ε^♭_0, γ₁ α̌]`), `w6TorusKam H ε₀ θ ξ = Φ_P(Φ_*(θ))`:
 
 * `W6PrepHyp.phiP_sharp_of_stepSmoothMod` (`bpW:w6:prep-step` (iii), sharp form; conditional on the
-  W5 dependency `W6StepSmoothMod`): `Φ_P = id + ι Ψ_P` on `D_0` with `|Ψ_P|_{p_+,r} ≤ M_{F,P}` (the
-  sharper bound of step `f-flow`; W6-ITER's `phiP_bounds` has `2M_{F,P}`, deviation D3);
+  `W6StepSmoothMod` (proved as `w6StepSmoothMod_holds`)): `Φ_P = id + ι Ψ_P` on `D_0` with
+  `|Ψ_P|_{p_+,r} ≤ M_{F,P}` (the sharper bound of step `f-flow`; W6-ITER's `phiP_bounds` has
+  `2M_{F,P}`, deviation D3);
 * `W6PrepHyp.w6ToriKam_of_stepSmooth` (conditional on `W6StepSmooth`, `W6StepSmoothMod`): for
   `ξ ∈ Π_*`, `θ ∈ T_{s_0/2}`: `θ ↦ Φ_P(Φ_*(θ))` is holomorphic,
   periodic, real, jointly continuous in `(θ, ξ)`, with values in `D(s - 4σ_P, 2η_P r) ⊆ D(s, r)`,
@@ -88,7 +88,7 @@ def w6PsiPK (H : W6PrepHyp m hm Pi α r ε P X) (ξ : Fin 2 → ℝ) (w : KamPha
   StepPhase.toK (H.prepStepHyp.w6Psi ξ (StepPhase.ofK w))
 
 /-- **Preparatory step, transformation, sharp form** (`bpW:w6:prep-step` (iii), step `p-lipp`;
-conditional helper on the W5 dependency `W6StepSmoothMod`):
+hypothesis-taking variant assuming `W6StepSmoothMod`):
 for `ξ ∈ Π ∖ Ξ` and `w ∈ D_0 = D(s_0, η_P r)`: `Φ_P(w) = w + ι Ψ_P(w)` with
 `|Ψ_P(w)|_{p_+,r} ≤ M_{F,P} = c^♮_F ε/(α̂ σ_P^{t^♮-1})`, and `Φ_P(w) - w` is Lipschitz in `ξ` in
 `|·|_{p,r}`. -/
@@ -114,8 +114,8 @@ theorem phiP_sharp_of_stepSmoothMod (hSm : W6StepSmoothMod) (H : W6PrepHyp m hm 
     exact h
 
 /-- The clauses of `Φ_P` on `KamPhase` (`bpW:w5:step` (i), modified case): for `ξ ∈ Π ∖ Ξ`,
-`Φ_P` is differentiable on `D_0` (W5 dependency `W6StepSmoothMod`), and on `D_0`:
-`Φ_P(w) ∈ D(s-4σ_P, 2η_P r)`,
+`Φ_P` is differentiable on `D_0` (`W6StepSmoothMod` (proved as `w6StepSmoothMod_holds`)), and on
+`D_0`: `Φ_P(w) ∈ D(s-4σ_P, 2η_P r)`,
 real on real points, `Φ_P(w + τ_i) = Φ_P(w) + τ_i`, `DΦ_P(w)` symplectic and onto `𝒫^{p_+}`, and
 the weak conjugacy in field form. -/
 theorem prepK_clauses (hSm : W6StepSmoothMod) (H : W6PrepHyp m hm Pi α r ε P X) {ξ : Fin 2 → ℝ}
@@ -167,7 +167,7 @@ def w6TorusKam (H : W6PrepHyp m hm Pi α r ε P X) (ε₀ : ℝ) (θ : Fin 2 →
     (w6Start (w6WaveSeq m hm α r ε ε₀) (Pi \ prepSet m hm Pi α) H.om0 H.Om0 H.w6P0 H.X0) θ ξ)
 
 /-- **The tori in KAM coordinates** (W6 part of `bpW:w6:tori`, steps `t-hol`, `t-cont`, `t-prep`,
-`t-close`; before W5's action-angle map; conditional helper on the W5 dependencies
+`t-close`; before W5's action-angle map; hypothesis-taking variant assuming
 `W6StepSmooth`, `W6StepSmoothMod`). For the wave iteration with starting size
 `ε₀ ∈ [ε^♭_0, γ₁ α̌]`, `Π_* = wavePiStar`, `T = T_{s_∞}`, and `Ψ(θ) = Φ_P(Φ_*(θ))`:
 * (i) for `ξ ∈ Π_*`, `Ψ` is holomorphic on `T`, periodic, and real on real `θ`;
@@ -264,7 +264,7 @@ theorem w6ToriKam_of_stepSmooth (hS : W6StepSmooth) (hSm : W6StepSmoothMod)
       abel
     · have h1 := kamNorm_add_le hr V (H.w6PsiPK ξ (w6PhiStar d S0 θ ξ))
       have h2 : kamNorm r V ≤ kamNorm (d.rNu 0) V :=
-        kamNorm_anti hr0 (by show w6EtaP α ε * r ≤ r; nlinarith) V
+        kamNorm_le_of_le_radius hr0 (by show w6EtaP α ε * r ≤ r; nlinarith) V
       unfold w6Etor
       linarith
   · -- invariance through the preparatory step

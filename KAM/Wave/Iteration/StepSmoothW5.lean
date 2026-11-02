@@ -12,8 +12,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: discharge of the W5 smoothing dependency (blueprint `bpW:w6:iter-lemma`, step `il-tr`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:iter-lemma` (step `il-tr`, the `p_+` bounds of one
+Blueprint label `bpW:w6:iter-lemma` (step `il-tr`, the `p_+` bounds of one
 step's transformation), used by `bpW:w6:convergence` (iii), (iv), `bpW:w6:invariance`,
 `bpW:w6:prep-step` (iii), `bpW:w6:tori`.
 

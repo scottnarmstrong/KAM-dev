@@ -12,8 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Lipschitz dependence of the flow quantities on time (blueprint-W `bpW:w5:new-ham` step `n-field`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 For the smoothing flow of `X = ι ∘ Z` with `FlowHyp`: `‖Ψ^t - Ψ^{t'}‖ ≤ M|t-t'|`,
 `‖φ^t - φ^{t'}‖ ≤ M|t-t'|` (for `‖ι g‖ ≤ ‖g‖`) and
 `‖DΨ^t - DΨ^{t'}‖ ≤ (M/δ) e^{M/δ} |t-t'|`; these feed `smoothing_integral`.

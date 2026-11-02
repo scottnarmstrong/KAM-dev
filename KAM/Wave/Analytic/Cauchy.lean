@@ -11,8 +11,7 @@ public import Mathlib.Analysis.Calculus.MeanValue
 /-!
 # Cauchy estimates on Banach domains, and continuity of derivatives
 
-Blueprint-W `bpW:w1:cauchy` and `bpW:w1:deriv-continuous` (package W1-ANALYTIC). This is
-source-faithful infrastructure used by several nodes; the dependency graph is still being built.
+Blueprint-W `bpW:w1:cauchy` and `bpW:w1:deriv-continuous` (package W1-ANALYTIC).
 
 For `f` holomorphic on a ball `B(v, r)` of a complex normed space with values in a complex Banach
 space and `‖f‖ ≤ M` there, `‖Df(v)‖ ≤ M / r` (`KAM.Wave.norm_fderiv_le_div_of_ball`); on an open set
@@ -72,7 +71,6 @@ theorem lipschitz_of_margin {f : E → F} {V : Set E} {δ M : ℝ} (hδ : 0 < δ
     have h := norm_fderiv_le_div_of_ball_subset hδ hM hf hbd (hCV z hz)
     exact ContinuousLinearMap.opNorm_le_bound _ (div_nonneg hM hδ.le) fun x =>
       ((fderiv ℂ f z).le_opNorm x).trans (mul_le_mul_of_nonneg_right h (norm_nonneg x))
-
 
 /-- Local Lipschitz bound for the derivative of a holomorphic map (blueprint
 `bpW:w1:deriv-continuous`, quantitative part). -/

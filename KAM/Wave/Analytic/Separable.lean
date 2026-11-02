@@ -15,8 +15,7 @@ public import Mathlib.Analysis.Normed.Module.Basic
 /-!
 # Reduction of holomorphic maps to a separable target
 
-Blueprint-W `bpW:w1:holo-analytic-fd` (package W1-ANALYTIC), auxiliary file: source-faithful
-infrastructure used by several nodes; the dependency graph is still being built.
+Blueprint-W `bpW:w1:holo-analytic-fd` (package W1-ANALYTIC), auxiliary file.
 
 Track K's finite-dimensional analyticity theorems assume a second-countable target. The blueprint
 states the result for an arbitrary complex Banach space `F`. A holomorphic map `f` on an open

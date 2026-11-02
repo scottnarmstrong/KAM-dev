@@ -11,9 +11,6 @@ public import Mathlib.Analysis.Calculus.FDeriv.Analytic
 /-!
 # Analyticity and Lipschitz bounds of the cubic map (blueprint `bpW:w1:cubic-analytic`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 `KAM.Wave.waveCubicNL a p y = 𝒯^{a,p}(y,y,y)` on `ℓ²_𝕜` is
 (i) `𝕜`-analytic on all of `ℓ²_𝕜` with `‖𝒩(y)‖ ≤ C_* ‖y‖³` (`waveCubicNL_analyticOnNhd`,
 `waveCubicNL_norm_le`); (ii) `D𝒩(y) h = 3 𝒯(y,y,h)` with `‖D𝒩(y)‖ ≤ 3 C_* ‖y‖²`

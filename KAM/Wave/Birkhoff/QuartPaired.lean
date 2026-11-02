@@ -12,8 +12,7 @@ public import KAM.Wave.Normal.Nonresonance
 /-!
 # Paired quadruples (blueprint-W `bpW:w3:quartic-ident`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:quartic-ident`.
+Package W3-SETTING, blueprint label `bpW:w3:quartic-ident`.
 
 `birkPaired x`: the multiset `{x_t : x_t > 0}` equals `{-x_t : x_t < 0}` (as multisets of absolute
 values); `birkTanSet` is `𝒯 = {x : min_t |x_t| ≤ 2}`. The sets `𝒯` and `{paired}` are invariant

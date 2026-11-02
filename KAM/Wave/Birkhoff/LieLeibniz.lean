@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.LieDeriv
 /-!
 # The Leibniz identities (blueprint-W `bpW:w3:leibniz`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-FLOW, blueprint label `bpW:w3:leibniz`.
+Package W3-FLOW, blueprint label `bpW:w3:leibniz`.
 
 For a symmetric trilinear `T` (`hsym`): `lieDer_succ_sym` is `(k+1) Dφ_{k+1}(w) v = Σ_{a+b+c=k} 3
 T(Dφ_a v, φ_b, φ_c)` (part (iv)), and `lieDer_apply_field` is part (i):

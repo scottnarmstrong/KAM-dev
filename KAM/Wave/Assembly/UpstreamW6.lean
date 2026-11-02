@@ -11,8 +11,7 @@ public import KAM.Wave.Iteration.Constants
 /-!
 # W8: the W5–W6 constants as an instance of `W8UpstreamConsts` (blueprint `bpW:w8:const`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w8:const`, `bpW:w6:constants` (milestones W6, W8).
+Blueprint labels `bpW:w8:const`, `bpW:w6:constants` (milestones W6, W8).
 
 `W8-PREP` (deviation D1) took W6's `γ, γ₁` and W5's `c_F, c^♮_F` as the record
 `W8UpstreamConsts`. They now have Lean definitions: `γ = w6Gamma m hm`, `γ₁ = w6Gamma1 m hm`
@@ -36,14 +35,6 @@ def w8Upstream (m : ℝ) (hm : 0 < m) : W8UpstreamConsts where
   gam1_pos := w6Gamma1_pos m hm
   cF_pos := w6CF_pos
   cFnat_pos := w6CFn_pos
-
-theorem w8Upstream_gam (m : ℝ) (hm : 0 < m) : (w8Upstream m hm).gam = w6Gamma m hm := rfl
-
-theorem w8Upstream_gam1 (m : ℝ) (hm : 0 < m) : (w8Upstream m hm).gam1 = w6Gamma1 m hm := rfl
-
-theorem w8Upstream_cF (m : ℝ) (hm : 0 < m) : (w8Upstream m hm).cF = stepCF 24 := rfl
-
-theorem w8Upstream_cFnat (m : ℝ) (hm : 0 < m) : (w8Upstream m hm).cFnat = stepCFn 24 := rfl
 
 theorem w8SigmaP_eq_w6 : w8SigmaP = w6SigmaP := by rw [w6SigmaP_val]; unfold w8SigmaP; norm_num
 

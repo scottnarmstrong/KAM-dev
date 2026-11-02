@@ -12,9 +12,6 @@ public import KAM.Wave.Normal.QuarticCoeff
 # The selection rule for the quartic overlaps `g_{ijkl}`
 (bridge to the landed W0-NORMAL `bpW:w0n:quartic-coeff`; used by `bpW:w0n:cubic-bound`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 `waveQuartic` is `sineQuarticCoeff`, `waveSign` is `boolSign`, and
 `KAM.Wave.abs_waveQuartic_le_signs` is `abs_quarticCoeff_le`.
 -/

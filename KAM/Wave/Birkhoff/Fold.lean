@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.Majorant
 /-!
 # Folded sequences of a point of `𝔚` (blueprint-W `bpW:w3:quartic`, Step Majorize)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING.
+Package W3-SETTING.
 
 For `y ∈ 𝔚` (weighted coordinates) the sequence `u_i = |w_i| + |w_{-i}|` (`birkFoldNorm a p y`,
 `w = birkCoord a p y`) lies in `ℓ^{a,p}` and `‖u‖_{a,p} ≤ √2 ‖y‖` (`isEll_birkFoldNorm`,

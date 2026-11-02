@@ -12,8 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Smoothing Hamiltonians and parameter norms (blueprint-W `bpW:w5:class`, `bpW:w5:lambda-product`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `IsSmoothing a p pb V P X`: `P : V → ℂ` is holomorphic, `X : V → 𝒫^{pb}` is holomorphic and
 `DP(w)W = ϖ(X(w), W)` (`ϖ = stepSymp` with the weight `pb` of the first and `p` of the second
 argument). `X` is unique (`stepSymp_nondeg` in the form `isSmoothing_unique`), so it is *the* field

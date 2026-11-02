@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The frequency corrections of the step (blueprint-W `bpW:w5:step` (iii))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 For a Taylor element `R` put `ω̂ = Re [b]` and `Ω̂_j = Re [Q]_{jj}` (the real parts of the zeroth
 Fourier
 coefficients; they are the coefficients of `N̂`, real when `R` is real). `stepOmegaHat_bound`,

@@ -11,8 +11,6 @@ public import KAM.Wave.Normal.Analysis.CubicTools
 /-!
 # The cubic gradient is a bounded trilinear map (blueprint `bpW:w0n:cubic-bound`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 `KAM.Wave.waveTrilinear` is the symmetric trilinear map `T` of the blueprint,
 `T(q,q',q'')_l = λ_l^{-1/2} Σ_{ijk} g_{ijkl} q̂_i q̂'_j q̂''_k`. `KAM.Wave.wave_trilinear_bound`:
 for `a ≥ 0`, `p ≥ 1/2` and `q, q', q'' ∈ ℓ^{a,p}` the defining series converge absolutely,

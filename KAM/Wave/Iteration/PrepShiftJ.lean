@@ -14,8 +14,7 @@ import Mathlib.Tactic.Positivity
 # W6: the normal frequency shift of the preparatory step with the weight `J`
 (`bpW:w6:prep-step` (ii))
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:prep-step` (ii).
+Blueprint label `bpW:w6:prep-step` (ii).
 
 W6-ITER's `W6PrepHyp.shift_Omega` has the weight `J^{1/2} = (j+2)^{p_+-p}` of W5's clause (iii)
 (deviation D2). Through W5's frequency bridge (`StepHypMod.core_OmegaPlus_eq`: the new normal

@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Holomorphy of the field of a Taylor polynomial (blueprint-W `bpW:w5:solve`, step `s-class`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 The components of `T ∈ 𝒯_s` are holomorphic on the open strip, hence analytic
 (`bpW:w1:holo-analytic-fd`), so their coordinate derivatives are holomorphic too. This gives
 `stepField T` complex differentiable at every point with `θ ∈ T_s` (`stepField_differentiableAt`).

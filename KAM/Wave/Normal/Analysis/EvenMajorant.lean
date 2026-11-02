@@ -12,8 +12,6 @@ public import KAM.Wave.Normal.Analysis.EllSeq
 /-!
 # Even majorants of one-sided sequences (blueprint `bpW:w0n:cubic-bound`, `stepW:w0n:majorant`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 For `f : ℕ+ → ℝ` the even two-sided majorant is `x_i = |f_{|i|}|` for `i ≠ 0`, `x_0 = 0`
 (`KAM.Wave.waveEvenAbs`). Its two-sided weighted norm is `√2` times the one-sided one
 (`KAM.Wave.hasSum_waveEvenAbs_weighted_sq`), and convolutions of even sequences are even

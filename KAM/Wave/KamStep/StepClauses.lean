@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The clauses (ii)–(iv) of the KAM step (blueprint-W `bpW:w5:step`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 (ii) `P_+` is a smoothing Hamiltonian on `D_+` (`StepCore.Pplus_smoothing`), periodic
 (`StepCore.Pplus_periodic`), with the `λ`-bound `C₂(ε²/(α σ^t η²) + η ε)` for `X_{P_+}`
 (`StepCore.Xplus_fam`). (iii) The frequency corrections (`StepCore.freq_*`); (iv) the divisors

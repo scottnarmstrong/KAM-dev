@@ -14,9 +14,6 @@ import Mathlib.Tactic.Positivity
 # The unconjugated pairing on `ℓ²` and polarization (blueprint-W `bpW:w4:components`,
 step *Polarization*)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 * `homPairL2 : ℓ² →L ℓ² →L ℂ`, `(v,w) ↦ ∑ v_j w_j`, a continuous bilinear form of norm `≤ 1`;
 * `homPairL2_symm_of_entries`: for `B` with symmetric matrix, `⟨Bx,y⟩₀ = ⟨By,x⟩₀`;
 * `norm_le_of_quadratic`: a symmetric `B` with `|⟨Bz,z⟩₀| ≤ K‖z‖²` has `‖B‖ ≤ K`
@@ -70,8 +67,6 @@ def homPairL2 : HomL2 →L[ℂ] HomL2 →L[ℂ] ℂ :=
 
 theorem homPairL2_apply (v w : HomL2) : homPairL2 v w = homPairF v w := rfl
 
-theorem homPairL2_comm (v w : HomL2) : homPairL2 v w = homPairL2 w v := homPairF_comm v w
-
 theorem homPairL2_single_right (v : HomL2) (j : ℕ+) : homPairL2 v (kamBasis ℂ j) = v j := by
   rw [homPairL2_apply, homPairF]
   have : (fun k : ℕ+ => (v k : ℂ) * (kamBasis ℂ j k : ℂ)) = fun k => if k = j then v j else 0 := by
@@ -80,7 +75,6 @@ theorem homPairL2_single_right (v : HomL2) (j : ℕ+) : homPairL2 v (kamBasis �
     · subst hk; simp [kamBasis]
     · simp [kamBasis, hk]
   rw [this, tsum_ite_eq]
-
 
 /-- A continuous linear functional vanishing on the basis vanishes. -/
 theorem homCLM_eq_zero_of_basis (L : HomL2 →L[ℂ] ℂ) (h : ∀ j, L (kamBasis ℂ j) = 0) : L = 0 := by

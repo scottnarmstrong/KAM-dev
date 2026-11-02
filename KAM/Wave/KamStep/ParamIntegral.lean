@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Parameter integrals of holomorphic families (blueprint-W `bpW:w5:new-ham` step `n-field`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `riemann_uniform`: a function of `t ∈ [0,1]` that is `L`-Lipschitz has Riemann sums within `L/n` of
 its integral. `smoothing_integral`: if `P_t, Y_t` (`t ∈ [0,1]`) are holomorphic families with
 `DP_t = L (Y_t)` and uniformly Lipschitz in `t`, then `∫₀¹ P_t` is holomorphic with derivative
@@ -149,10 +147,6 @@ theorem tendstoUniformlyOn_riemann {α : Type*} {S : Set α} {f : ℝ → α →
   rw [div_lt_iff₀ (by positivity)]
   have : L < ε * N := by rwa [div_lt_iff₀ hε, mul_comm] at hN
   nlinarith
-
-theorem riemannSum_add {β : Type*} [AddCommGroup β] [Module ℝ β] (f g : ℝ → β) (n : ℕ) :
-    riemannSum (fun t => f t + g t) n = riemannSum f n + riemannSum g n := by
-  simp [riemannSum, Finset.sum_add_distrib, smul_add]
 
 /-- **Integral of a holomorphic smoothing family** (`n-field`). -/
 theorem smoothing_integral {U : Set E} (hU : IsOpen U) (Lop : G →L[ℂ] (E →L[ℂ] ℂ))

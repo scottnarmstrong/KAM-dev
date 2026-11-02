@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The Hessian blocks of a Taylor polynomial (blueprint-W `bpW:w5:taylor` (i), step `t-comp`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepIotaZ z = (0,0,u,v)` with `(z,z̄) = (z,0)`, `stepIotaZb z` with `(z,z̄) = (0,z)`.
 `stepPair_z`: `ϖ(Y,W) = 2π(⟨Y_θ,W_y⟩-⟨Y_y,W_θ⟩) + i(⟨Y_z,W_{z̄}⟩-⟨Y_{z̄},W_z⟩)`.
 For a linear map `A` (the derivative `DX(w₀)`) the four blocks `blockP, blockP', blockQ, blockQt`

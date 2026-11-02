@@ -12,9 +12,6 @@ public import KAM.Wave.Analytic.ComplexificationLp
 /-!
 # The Hamiltonian field (blueprint `bpW:w1:hamfield` (i)–(iii))
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 In the weighted coordinates at weight `(a,p)` (phase space `ℓ² × ℓ²`, max norm):
 
 * (i) `KAM.Wave.waveXLam z = (D z.2, -D z.1)`, `D = lamMul 1`, represents the linear field
