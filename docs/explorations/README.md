@@ -65,7 +65,7 @@ One entry per document, with summary, numbers, outcome and disagreements, is on 
 | [Realistic KAM, the Moon and spin–orbit](themes/moon-and-spin-orbit.md) | 3 | 27–30 Oct |
 | [Applications of the certifier and the next demonstrations](themes/applications-and-demonstrations.md) | 4 | 30 Oct |
 | [Sun–Jupiter–Saturn](themes/sun-jupiter-saturn.md), with the status of the running LG00 campaign | 3 | 30 Oct |
-| [Effective stability and planetary lifetimes: ambition and programs A–D](themes/effective-stability.md) | 8 | 30 Oct–1 Nov |
+| [Effective stability and planetary lifetimes: ambition and programs A–D](themes/effective-stability.md) | 9 | 30 Oct–2 Nov |
 | [PDE KAM](themes/pde-kam.md) | 1 | 28 Oct |
 
 Overview, in date order within each theme:
@@ -95,6 +95,7 @@ Overview, in date order within each theme:
 | [sjsu-effective-stability](sjsu-effective-stability.md) | 1 Nov | [effective stability](themes/effective-stability.md) | scouted | 78-term quartic normal-form pilot through degree 10; nominal sufficient ratio only 34,419 yr; full-model recovery and validated bounds required before a Gyr claim |
 | [sjsu-model-recovery](sjsu-model-recovery.md) | 1 Nov | [effective stability](themes/effective-stability.md) | measured; dataset public | Degree-18 secular SJSU model rebuilt (SJSU18-O2, `applications/sjsu/`); quadratic part within 7.7e-4 of the printed coefficients, quartic 5–8% off; five source issues |
 | [hd11964-pilot](hd11964-pilot.md) | 1 Nov | [effective stability](themes/effective-stability.md) | measured; Lean bridge on main; running | No orbit crossing for HD 11964 (planar Newtonian, catalogue data) by certified Λ-drift and LP0; numerical gate closes 10³ yr (margin about 5.9 with fitted cells); kernel cost about 400–620 CPU-h (estimate) |
+| [sjsu-near-torus-gate](sjsu-near-torus-gate.md) | 2 Nov | [effective stability](themes/effective-stability.md) | measured; first-exit theorem in Lean | Phase-2 gate passes with a local torus chart: literal brackets with the full degree-18 model give T ≈ 4.3·10¹² yr at action width 10⁻⁶ (≥ 10¹⁰ yr for 10⁻⁸–3·10⁻⁶); floating, no certificate |
 | [pde-kam-and-leapfrogging](pde-kam-and-leapfrogging.md) | 28 Oct | [PDE KAM](themes/pde-kam.md) | adopted (D30), running | Two-frequency solutions of the cubic Dirichlet wave equation; became track W |
 
 ## Reading paths
@@ -212,6 +213,7 @@ Each correction is also stated in both catalogue entries.
 | Hybrid plus packed: 6–19 CPU-h; charts do not reduce support; d'Alembert ÷7; 60–150 products | [sjs-feasibility](sjs-feasibility.md) | [sjs-plan](sjs-plan.md) §8: hybrid gives no kernel gain; chart ÷2.7; ÷3.7 and falling; 252–657 products |
 | Route A "proved, not wired"; no `sqrt` node | [sjs-lg00-scout](sjs-lg00-scout.md) | Both now in place; the LG00 campaign runs route A refined at L = 20 with the exact square root |
 | Magnetic barrier ranked first among the next demonstrations | [next-demonstrations](next-demonstrations.md) | [plan-magnetic-barrier](plan-magnetic-barrier.md): multiprecision gate failed so far; Mercury has the stronger evidence |
+| SJSU nominal sufficient ratio only 34,419 yr; higher orders fail at the nominal point | [sjsu-effective-stability](sjsu-effective-stability.md) | [sjsu-near-torus-gate](sjsu-near-torus-gate.md): the origin chart still fails on the degree-18 model, but a local torus chart gives ≥ 10¹⁰ yr for action widths 10⁻⁸–3·10⁻⁶ (floating) |
 | "Hybrid is a design"; later, "no certificate wiring yet" | [ambition](ambition.md); programs [A](program-a-plan.md)–[D](program-d-plan.md) | [31 October review](../campaign/design/CERTIFIER-V2-IMPROVEMENTS.md): the hybrid theorem and `routeV2Hyb` checker wiring are present; application gains still need measurement |
 | Certifier not yet better than PlasmaLean on its own example | [striking-applications](striking-applications.md) | [Repository README](../../README.md): a v2 example reaches 65 times PlasmaLean's tolerance, at assumed canonical data |
 

@@ -1,0 +1,4 @@
+# regenerated arrays (30-80 MB); see README.md
+results/*.npz
+results/*.npy
+results/repro.done
