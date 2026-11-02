@@ -10,3 +10,6 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
   Source PDFs fetched (CL20 2102.05959v1, GLS17 1702.04894v1); SHA-256 match plan §9.
 - 2026-11-02 23:38: provers launched: B1-CORE (claude-2, KAM-inp-b1core) and B1-TRANSFER (claude-5, KAM-inp-b1xfer);
   both are statement-independent infrastructure, so they run in parallel with the B0 audit.
+- 2026-11-02 23:42: B0-AUDIT round 1 (codex-2): **PASS WITH NOTES**, no BLOCKING. C1 (OD-B2 wording claimed N/R
+  regularity follows; it does not, and is not needed) applied with the reviewer's exact docstrings; types unchanged;
+  re-elaborated (only scratch sorry warnings). Auditor session closed.

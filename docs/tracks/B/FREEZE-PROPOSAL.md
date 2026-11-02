@@ -1,6 +1,6 @@
 # Track B: freeze proposal, draft 1 (B0 text of B1-T and B1-E)
 
-Overnight mode (D71). **Nothing is frozen.** This file gives the exact proposed Lean text for the owner's morning
+Overnight mode (D71). **Nothing is frozen.** Statement audit round 1 (codex-2, `freeze/STATEMENT-REVIEW-1.md`): **PASS WITH NOTES**; C1 applied (docstrings and OD-B2 wording; no type change). This file gives the exact proposed Lean text for the owner's morning
 review. Base: branch `inp-b1` off `inp` 98ebd4771. The same text is proved tonight as ordinary theorems
 `KAM.EffectiveStability.torus_confinement` / `.oscillator_confinement` (package B1-HEAD); any change requested
 by audit or owner is applied to both.
@@ -21,7 +21,10 @@ open Set
 
 namespace KAM.EffectiveStability
 
-/-- **B1-T** (plan §2.2; GLS17 §4.3 (56)–(58)): finite confinement in a canonical cylinder. -/
+/-- **B1-T** (plan §2.2; GLS17 §4.3 (56)–(58)): finite confinement in a canonical cylinder.
+The physical phase coordinates are lifted real coordinates. Only the pullback Hamiltonian
+must be angle-periodic. The normal part is differentiated through `H ∘ Ψ - R`, which is
+differentiable on the open chart domain; no differentiability hypothesis on `N` is needed. -/
 theorem torus_confinement {n : ℕ} (a b η : Fin n → ℝ) (ε T : ℝ) (hε : 0 < ε) (hT : 0 ≤ T)
     (hη : ∀ j, 0 ≤ η j) (hmargin : ∀ j, a j + T * η j < b j)
     (V : Set ((Fin n → ℝ) × (Fin n → ℝ))) (hV : IsOpen V)
@@ -51,9 +54,11 @@ theorem torus_confinement {n : ℕ} (a b η : Fin n → ℝ) (ε T : ℝ) (hε :
         ∀ j, |(Ψinv (z t)).2 j - w₀.2 j| ≤ η j * |t| ∧ |(Ψinv (z t)).2 j| ≤ a j + η j * T := by
   ...
 
-/-- **B1-E** (plan §2.3; CL20 §4.1 (32)–(37)): Cartesian oscillator confinement, zero actions
-included. Coordinates `w = (q, p)`; the action is `KAM.Planetary.oscillatorAction w.2 w.1`
-(`I_j = (p_j² + q_j²)/2`); `{I_j, R} = q_j ∂_{p_j} R - p_j ∂_{q_j} R`. -/
+/-- **B1-E** (plan §2.3; CL20 §4.1 (32)–(37)): Cartesian oscillator confinement,
+including zero actions. Coordinates are `w = (q, p)`, with action
+`KAM.Planetary.oscillatorAction w.2 w.1`, so `I_j = (p_j² + q_j²) / 2` and
+`{I_j, R} = q_j ∂_{p_j} R - p_j ∂_{q_j} R`. Rotation invariance of the differentiable
+function `H ∘ Ψ - R` gives the normal-part cancellation without differentiating `N`. -/
 theorem oscillator_confinement {n : ℕ} (a b η : Fin n → ℝ) (ε T : ℝ) (hε : 0 < ε) (hT : 0 ≤ T)
     (hη : ∀ j, 0 ≤ η j) (hmargin : ∀ j, a j + T * η j < b j)
     (V : Set ((Fin n → ℝ) × (Fin n → ℝ))) (hV : IsOpen V)

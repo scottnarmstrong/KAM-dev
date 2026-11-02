@@ -5,13 +5,13 @@
    "id": "B0-STMT",
    "modules": [],
    "artifact": "docs/tracks/B/FREEZE-PROPOSAL.md",
-   "status": "drafted"
+   "status": "audited; awaiting owner approval (not frozen)"
   },
   {
    "id": "B0-AUDIT",
    "modules": [],
    "artifact": "docs/tracks/B/freeze/STATEMENT-REVIEW-1.md",
-   "status": "running (codex-2 round 1)"
+   "status": "PASS WITH NOTES (round 1, 23:42); C1 applied"
   },
   {
    "id": "B1-CORE",
