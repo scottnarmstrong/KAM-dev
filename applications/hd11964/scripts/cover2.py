@@ -21,8 +21,8 @@ a1 + a2 + a3 + a4 + a5/2, sampled sups, the degree ratios of T4 and T5 (converge
 (sampled, and the l1 range bound), the direct rate at the centre and the identity check.  Summary: the worst cell,
 the global eta_i and range, and the 10^3 yr rung (margin = d / max_i (eta_i T + hi_i - lo_i), T = 6741.9 units).
 
-Usage: python3 -I cover2.py OUT.jsonl [--procs=2] [--plan-only] [--limit=N] [--hb=0.08]
-       python3 -I cover2.py --summary OUT.jsonl SUMMARY.json
+Usage: python3 -I cover2.py OUT.jsonl [--procs=2] [--plan-only] [--limit=N] [--hb=0.08] [--d=1e-3]
+       python3 -I cover2.py --summary OUT.jsonl SUMMARY.json [--d=1e-3]   (the same --d as the run)
 Run under the 8 GB cap (each process <= 3 GB).
 """
 import json
@@ -38,7 +38,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import gate  # noqa: E402
 import hd11964_model as HM  # noqa: E402
 
-D_DRIFT, CBAR, RHO = 1e-3, 1e-2, (1e-4, 3e-3)
+D_DRIFT = float(next((x.split('=', 1)[1] for x in sys.argv if x.startswith('--d=')), '1e-3'))
+CBAR, RHO = 1e-2, (1e-4, 3e-3)
 GMAX = CBAR + 2 * D_DRIFT
 KC, KB = 80, 20
 C_W, W_MIN, W_MAX = 0.15, 0.004, 0.03
@@ -189,8 +190,17 @@ def summary(path, out):
                        FmL=[float("%.3g" % x) for x in r["planets"][p]["FmL_bound"]],
                        q=[round(r["planets"][p]["q"]["T4"], 3), round(r["planets"][p]["q"]["T5"], 3)])
                for p in ("c", "b")},
-            margin=round(mc, 2)))
-    res = dict(cells=len(rows), T_units=T_UNITS, d=D_DRIFT, S=dict(Kc=KC, Kb=KB), planets=S,
+            margin=round(mc, 2),
+            margin_local=round(D_DRIFT / max(r["planets"][p]["eta"] * T_UNITS + r["planets"][p]["FmL_bound"][1]
+                                             - r["planets"][p]["FmL_bound"][0] for p in S), 2)))
+    Lhat = rows[0]["cell"]["Lam"]
+    Lmin_c = Lhat[0] - RHO[0] - D_DRIFT
+    ecmax = ecc_of_xi(math.sqrt(2 * GMAX), Lmin_c)
+    region = dict(Cmax=GMAX, Lam_c_min=Lmin_c, e_c_max=ecmax, laplace_limit=0.6627434193, below_laplace=ecmax < 0.6627434193,
+                  dOk=2 * D_DRIFT <= 4e-3 + 1e-15)
+    tol = {p: (D_DRIFT / 2 - S[p]["eta"] * T_UNITS) / (S[p]["FmL_bound"][1] - S[p]["FmL_bound"][0]) for p in S}
+    res = dict(cells=len(rows), T_units=T_UNITS, d=D_DRIFT, region=region, range_width_tolerance=tol,
+               S=dict(Kc=KC, Kb=KB), planets=S,
                rung_1e3=dict(margin_bound=margin, margin_sampled_range=margin_s, closes=margin >= 2,
                              min_cell_margin=min(c["margin"] for c in per_cell)),
                cpu_seconds=sum(r["seconds"] for r in rows), per_cell=per_cell)
