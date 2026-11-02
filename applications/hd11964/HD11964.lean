@@ -16,6 +16,7 @@ public import HD11964.Glue
 public import HD11964.Homological
 public import HD11964.Holo
 public import HD11964.HoloExt
+public import HD11964.HoloG2
 public import HD11964.HoloSlab
 public import HD11964.ParamIntegral
 public import HD11964.NoCrossing
@@ -48,7 +49,8 @@ tails `T₁`, `T₂` from Fourier decay on a strip (`HD11964.TailBound`) and on 
 perturbation, and the Kepler contraction on the strip (`HD11964.Holo`) and on the per-slab strips
 (`HD11964.HoloSlab`); the fully complexified perturbation, analytic at every point with the chart
 conditions, periodic and equal to `P` at real points, on the per-slab strips, and the cell-to-slab
-check (`HD11964.HoloExt`).
+check (`HD11964.HoloExt`); the real derivatives of `P` as complex derivatives and the extension of
+`G₂` on the per-slab strips (`HD11964.HoloG2`).
 
 The reduced-mass bridge (scoping note §4): the reduced Delaunay actions and the analytic range of
 `G - Λ` on `R(r)` (`HD11964.ReducedRange`), and no orbit crossing with the first exit driven by

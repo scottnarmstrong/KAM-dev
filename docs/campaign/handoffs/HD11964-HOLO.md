@@ -10,20 +10,25 @@ Worker kamx-hd11964, branch `hd11964-p2`. Task from the orchestrator (2 November
 
 Statements first. Nothing pushed.
 
-**Status: PARTIAL** (part 2, statements first: see *Part 2* below).
-- **Proved** (`HD11964.Holo`, `HD11964.HoloSlab`; standard axioms):
-  - (1a) the Kepler contraction on the uniform strip, and on per-slab strips;
+**Status: DONE** (part 2, after DESIGN A).
+
+- **Proved, part 1** (`HD11964.Holo`, `HD11964.HoloSlab`):
+  - (1a) the Kepler contraction, on the uniform and the per-slab strips;
   - (1b) from a certified enclosure of `d²`;
   - (2a) the bracket by coordinates.
-- **Evaluated:** the all-cells evaluation asked for by AUDIT-HD11964-ROT-1 (C2, R1), all 50 cells at `N1 = 384`. It
-  fixes the strip per slab; see *The all-cells evaluation* below.
-- **Open:**
-  - (1b) analytically: not proposed; it should come from the layer's enclosure;
-  - (1c) and (1d);
-  - (2b)–(2e);
-  - `T₂`, which needs a model radius for `G₂`.
+- **Proved, part 2** (`HD11964.HoloExt`, `HD11964.HoloG2`):
+  - (1c) the extension of `P`: pointwise analyticity in all complex variables, periodicity, agreement with LP's real
+    chart; in the drafted form on the three strips;
+  - (1d) the real derivatives of `P` as complex derivatives, and the extension of `G₂` on the three strips;
+  - the decided cell-to-slab check.
 
-  See *Open* at the end of the prose.
+  In (1c) and (1d), (1b) enters as the named premise `NoCollisionOn`. All use only the standard axioms.
+- **Evaluated:** all 50 cells (AUDIT-HD11964-ROT-1 C2, R1), which fixed the per-slab strips.
+- **Not needed under DESIGN A**, so not proved: (2b)–(2e). See *Part 2*.
+- **Left to the layer:**
+  - (1b), discharged by its enclosure of `d²`;
+  - `T₁` and `T₂`, as masks of its per-mode majorants. These supersede the anisotropic-strip estimate of `T₂`,
+    which needed `r_G`.
 
 ## (1) Scope: what has to be holomorphic
 
@@ -425,6 +430,67 @@ def FitPlanSlabsXi : Prop :=
   (∀ s ∈ (fitPlan.slabs.drop 5).take 1, ∀ k ∈ s.cells, ∀ w ∈ k.toSet,
     |slow w.1 0| ≤ 1612 / 10000)
 ```
+
+## Part 2 results (proved)
+
+**`applications/hd11964/HD11964/HoloExt.lean`** (631 lines):
+
+| theorem | content |
+|---|---|
+| `keplerSol_analyticAt` | the strip solution of Kepler's equation is analytic at any point where the invariance and contraction hold strictly (generic analytic coefficients on a complete space) |
+| `planetChartC_analyticAt` | one planet's complexified chart is analytic at a point with `PlanetOk` |
+| `pertCC_analyticAt` | **(1c-i)** `P_C` is analytic at every `x ∈ ℂ⁸` with `ChartOkAt y x` and `0 < Re d²(x)` |
+| `pertCC_add_single` | **(1c-ii)** `P_C(θ + e_j, ·) = P_C(θ, ·)` where `ChartOkAt` holds (`keplerSol_shift`) |
+| `planetChartC_ofReal`, `pertCC_realVar_ofReal` | **(1c-iii)** at real points, the chart is LP's `poincare m 1`: the strip solution is `keplerLong`, by uniqueness. `P_C` is `chartPert = μ fMov(Ψ)` (`lpChart_hamiltonian`, `fMov_two`) |
+| `chartOkAt_of_keplerData` | the chart conditions on `stripA ρ` at a real state, from (1a) |
+| `chartPertExt_of`, `chartPertExt_HD` / `_A` / `_B` | **(1c) in the drafted form** on `rhoHolo`, `rhoHoloA` (`\|ξ_c\| ≤ 0.1431`) and `rhoHoloB` (`\|ξ_c\| ≤ 0.1612`), with the premise `NoCollisionOn y ρ w` |
+| `Slab.cells`, `Slab.xiOk`, `fitPlan_xiOk`, `fitPlan_slabs_xi` | **the cell-to-slab check**: decided by `decide +kernel` on `fitPlan`. Every cell of slabs 0–4 lies in `\|ξ_c\| ≤ 0.1431`, every cell of slab 5 in `\|ξ_c\| ≤ 0.1612` |
+
+**`applications/hd11964/HD11964/HoloG2.lean`** (402 lines):
+
+| theorem | content |
+|---|---|
+| `cEmbL`, `cEmbL_apply`, `cEmbL_withAngles` | the real-linear embedding `z ↦ (λ/2π, Λ, ξ, η)` |
+| `planetOk_eventually`, `chartOkAt_eventually` | the chart conditions are open |
+| `fderiv_chartPert_eq` | **(1d-P)** `↑(fderiv ℝ P z v) = fderiv ℂ P_C (cEmbL z) (cEmbL v)` at a real state of the chart domain with the conditions and `Re d² > 0`. This links DESIGN A's `dTh`/`dU` on the complex function to the bracket's real derivatives |
+| `trigSlice_ext` | the slices of the first derivatives of `Re Σ_{k∈S} B_k e^{ik·λ}` (angle-invariant `B_k`, differentiable at `w`) extend to entire `1`-periodic functions |
+| `projS_slice_ext`, `chi1_slice_ext` | its instances `Π_S P` and `χ₁` on `openHD` |
+| `dPC`, `dPC_analyticAt`, `dPC_add_single`, `dPC_ofReal` | the extension of `θ ↦ ∂_v P`: analytic, periodic, the real derivative at real `θ` |
+| `G2Ext`, `g2Ext_of`, `g2Ext_HD` / `_A` / `_B` | **(1d) in the drafted form** on the three strips, with the premise `NoCollisionOn`. The extension is `Σ_k (∂_{x_k}P_C − ½T^Π)T^χ_{y_k} − (∂_{y_k}P_C − ½T^Π)T^χ_{x_k}` (`pb_eq_sum`) |
+
+**Checks.**
+- `lake build HD11964.HoloExt`: 12 s. `lake build HD11964.HoloG2`: 4.6 s.
+- `lake env lean HD11964.lean` (root, which imports both): exit 0.
+- All builds ran under `MemoryMax=4G`, one at a time. `HoloExt` peaks at about 3.97 GB RSS, close to the cap.
+- No warnings in the new modules.
+- `scripts/lint_sources.sh`:
+  - line length, `check_lean_modules` (4479 files) and the frozen-anchor guard pass;
+  - the ABI step fails on the worktree's missing `MagAlpha.olean`, which is pre-existing.
+- Scratch `G2Check.lean` derives every drafted Prop of `ExtDraft.lean` from the theorems: `PertAnalyticAt`,
+  `PertPeriodic`, `PertReal`, `ChartPertExtSlabs`, `PertDerivReal` (with `cEmbL`), `G2ExtSlabs` and
+  `FitPlanSlabsXi`. Exit 0.
+- `#print axioms`: all depend only on `[propext, Classical.choice, Quot.sound]`. The theorems checked are
+  `pertCC_analyticAt`, `pertCC_add_single`, `pertCC_realVar_ofReal`, `chartPertExt_HD` / `_A` / `_B`,
+  `fitPlan_slabs_xi`, `fderiv_chartPert_eq`, `trigSlice_ext` and `g2Ext_HD` / `_A` / `_B`.
+
+**The layer's domain** (`holo_margin.py --rho=0.001,0.001 --complex --urad=R`; estimated, sampled). These are the
+conditions of `pertCC_analyticAt` on `T_{1/1000} ×` the complex cell polydisc, so they are what the layer's `hR`
+needs:
+
+| polydisc radius | Kepler `c` slack (min, cell 46) | Kepler `b` | min `Re d²` | min `Re` radicand |
+|---|---:|---:|---:|---:|
+| `\|u\| ≤ 1` | 0.162 | 0.99 | 6.04 | 0.555 |
+| `\|u\| ≤ R₀ = 64/49` | 0.125 | 0.80 | 5.66 | 0.555 |
+
+They are comfortable. The layer certifies `ChartOkAt` from its `v` models and `Re d² > 0` from its enclosure, at each
+point.
+
+**Deviations from the part-2 draft.**
+- `PertDerivReal` is stated with `cEmbL` (a continuous `ℝ`-linear map) in place of the draft's `cEmb`/`cDir`.
+  `cEmbL_apply` shows that `cEmbL z` is the draft's `realVar z (λ/2π)`.
+- `G2Ext` takes only `ρ`; the draft's `y` was unused.
+- `Slab.xiOk` uses `decide (|c₂| + |h₂| ≤ X)`, as drafted.
+- No suspected errata in pinned sources.
 
 ## The statements (type-checked as `Prop`s; scratch `lake env lean`, exit 0)
 
