@@ -186,8 +186,8 @@ The structure is that of `stoppedDrift_of_approxIntegrals`, with the same helper
 (the plain bridge had `d ≤ 2·10⁻³`). The gain depends on how much the range of `F − G` on `R(d+ε)` shrinks relative
 to `F − Λ` (the campaign's ~7×). That range is certificate-side and **not measured here**.
 
-The analytic width at `e_b ≤ 0.142` is about 1.4× the note's first-order figure at the nominal `e_b ≈ 0.1`
-(`1.9·10⁻⁴`), because `R(r)` grants the whole AMD budget to b. A cell bound could tighten it only by using a smaller
+The analytic width at `e_b ≤ 0.142` is 1.46× the note's first-order figure at the nominal `e_b ≈ 0.1`
+(`1.87·10⁻⁴`, quoted as `1.9·10⁻⁴`), because `R(r)` grants the whole AMD budget to b. A cell bound could tighten it only by using a smaller
 set than `R(r)`.
 
 Usability check (scratch, not committed): an `ObsDriftData 2` with `ε = 273/10⁶`, `d = 1/600`, `r = 1/250`,
@@ -393,10 +393,39 @@ This is Python only, float64, and **untrusted**: numerical evidence, not a certi
   extra range computations and the `G` jet.
 - 39,104 s user CPU: numpy's BLAS threads were not capped, about 4.7 threads per process. A rerun could set
   `OMP_NUM_THREADS`.
-- Peak RSS 2.84 GB (`2836224 KB` maxrss). The 8 GB cgroup cap never triggered; user anon was 3.99 GB before the run.
+- Peak RSS 2.84 GB (`2836224 KB` maxrss). The 8 GB cgroup cap never triggered; user anon was 3.99 GB before the
+  run.
 
 **Uncertainties.**
 - These are float64 jets with the ℓ¹ remainder of `cover2`, as in the baseline table. A certificate would need the
   `G` jet in the rigorous producer. `G` uses the same class of operations as `Λ` (a square root of a rational
   function of the chart), so this is *est.* routine but not done.
 - Nothing in Lean changed in this addendum.
+
+## Addendum REDMASS-AUDIT-1 follow-up (M1, M2, nit of `AUDIT-REDMASS-BRIDGE-1`)
+
+- **M1.** `ObsDriftData.ok` now also decides `0 ≤ ε`, and `ok_spec` returns `(0 : ℝ) ≤ D.eps` as its third
+  conjunct. `noCrossing_of_approxIntegrals_obs` discards this conjunct, because the bridge does not use it. Its
+  statement is unchanged. The HD statements take `D.ok = true` and are unchanged.
+- **M2.** The module docstring of `ReducedElements` now says that the action identity is physically meaningful only
+  for `E^red_i < 0`. `E_i < 0` does not imply this. For `E^red_i ≥ 0` both sides are `0`.
+- **Nit.** "About 1.4×" is now "1.46×", against the note's `1.87·10⁻⁴`.
+
+**Checks:**
+- Each of these builds ran under the 4 GB cap and completed successfully:
+  - `lake build KAM.Application.LambdaDrift.ReducedElements` (2.5 s);
+  - `lake build KAM.Application.LambdaDrift.ObservableNoCrossing KAM.Application.LambdaDrift.ReducedRange`
+    (ObservableNoCrossing 2.4 s).
+- No warning comes from the changed files; the replayed warnings all come from existing core modules.
+- The HD modules `ReducedRange` and `NoCrossingObs` were recompiled with `lean -o` into scratch against the new core
+  oleans. The package itself was not rebuilt.
+- `#print axioms` gives `[propext, Classical.choice, Quot.sound]` for:
+  - `HD11964.noCrossing_of_regionBounds_obs` and `HD11964.noCrossing_of_regionBounds_obs_analytic`;
+  - `noCrossing_of_approxIntegrals_obs` and `ObsDriftData.ok_spec`;
+  - `keplerAction_redMass`.
+- Two scratch examples were checked by `decide +kernel`:
+  - drift data with `ε = 273/10⁶`, `d = 1727/10⁶`, `r = 1/250`, `loG = loGan` and `hiG = hiGan` gives
+    `ok = true`;
+  - data with `ε = −1/1000` and an inverted `G`-range gives `ok = false`. The old `ok` accepted it.
+- `scripts/lint_sources.sh` gives `check_lean_modules: PASS (4465 Lean files)` and `FROZEN-ANCHOR GUARD OK`. The
+  same environmental ABI step fails (`KAM/Frozen/Magnetic/Defs/MagAlpha.olean` missing).

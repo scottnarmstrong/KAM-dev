@@ -58,22 +58,25 @@ structure ObsDriftData (n : ℕ) where
   /-- The tube radius of `LiftData`. -/
   r : ℚ
 
-/-- The decided arithmetic of the observable drift data: `0 < T`, `0 < d`, `2 (d + ε) ≤ r`,
-`η_i T + (hi_i - lo_i) < d` and `hiG_i - loG_i ≤ ε` for every `i`. -/
+/-- The decided arithmetic of the observable drift data: `0 < T`, `0 < d`, `0 ≤ ε`,
+`2 (d + ε) ≤ r`, `η_i T + (hi_i - lo_i) < d` and `hiG_i - loG_i ≤ ε` for every `i`.
+
+The bridge itself does not use `0 ≤ ε`; it excludes data with an inverted `G`-range. -/
 def ObsDriftData.ok (D : ObsDriftData n) : Bool :=
-  decide (0 < D.T) && decide (0 < D.d) && decide (2 * (D.d + D.eps) ≤ D.r) &&
+  decide (0 < D.T) && decide (0 < D.d) && decide (0 ≤ D.eps) &&
+    decide (2 * (D.d + D.eps) ≤ D.r) &&
     decide (∀ i, D.eta i * D.T + (D.hi i - D.lo i) < D.d) &&
     decide (∀ i, D.hiG i - D.loG i ≤ D.eps)
 
 /-- What `ObsDriftData.ok` decides, over `ℝ`. -/
 theorem ObsDriftData.ok_spec {D : ObsDriftData n} (h : D.ok = true) :
-    (0 : ℝ) < D.T ∧ (0 : ℝ) < D.d ∧ (D.d : ℝ) + D.eps ≤ D.r / 2 ∧
+    (0 : ℝ) < D.T ∧ (0 : ℝ) < D.d ∧ (0 : ℝ) ≤ D.eps ∧ (D.d : ℝ) + D.eps ≤ D.r / 2 ∧
       (∀ i, (D.eta i : ℝ) * D.T + (D.hi i - D.lo i) < D.d) ∧
       ∀ i, (D.hiG i : ℝ) - D.loG i ≤ D.eps := by
   simp only [ObsDriftData.ok, Bool.and_eq_true, decide_eq_true_eq] at h
-  obtain ⟨⟨⟨⟨hT, hd⟩, hdr⟩, hη⟩, hε⟩ := h
-  refine ⟨by exact_mod_cast hT, by exact_mod_cast hd, ?_, fun i => by exact_mod_cast hη i,
-    fun i => by exact_mod_cast hε i⟩
+  obtain ⟨⟨⟨⟨⟨hT, hd⟩, hε0⟩, hdr⟩, hη⟩, hε⟩ := h
+  refine ⟨by exact_mod_cast hT, by exact_mod_cast hd, by exact_mod_cast hε0, ?_,
+    fun i => by exact_mod_cast hη i, fun i => by exact_mod_cast hε i⟩
   have : ((2 * (D.d + D.eps) : ℚ) : ℝ) ≤ D.r := by exact_mod_cast hdr
   push_cast at this
   linarith
@@ -121,7 +124,7 @@ theorem noCrossing_of_approxIntegrals_obs (hn : 2 ≤ n) (ν : Fin n → ℝ) (h
   obtain ⟨dStar, dPair, hdS, hdP, hmain⟩ := noCrossing_of_stoppedDrift hn ν hν U hUc hUch δ hδ
   refine ⟨dStar, dPair, hdS, hdP,
     fun D hD μ z₀ hd G F R O hGc hGΛ hO hRO hF hR hη hFG => ?_⟩
-  obtain ⟨hT0, hd0, hdr, hTd, hε⟩ := D.ok_spec hD
+  obtain ⟨hT0, hd0, -, hdr, hTd, hε⟩ := D.ok_spec hD
   exact hmain z₀ D.r μ D.T hd hT0
     (stoppedDrift_of_approxIntegrals_obs hd G F R O (fun i => (D.eta i : ℝ))
       (fun i => (D.lo i : ℝ)) (fun i => (D.hi i : ℝ)) (fun i => (D.loG i : ℝ))
