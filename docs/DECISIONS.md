@@ -598,3 +598,10 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - **No remote job:** the CCX53 needs the owner's access, so nothing remote is started.
   - **mag-pilot:** once its packed-gate certificate package is committed, root-b8 pushes the branch to `origin` for the
     side campaign (lemma.farm).
+- **D70 (2026-11-02, 08:15 UTC) Lock source about 265 MB; the remote run on a CCX63.** *(Scott: "accept 265 MB, I'll
+  rent a CCX63, please continue".)*
+  - **Size:** this amends D67's 228 MB. The growth comes from the graph re-split into 64-row chunks and the side-check
+    split.
+  - **Speedup:** the overnight choice of SOS option (a) in additive form (lock-owned RealLowerK, GraphK and LockGraphK
+    plus 2 packed advice entries; core, band and the frozen statement untouched) stands.
+  - **Remote run:** the full chain runs on a CCX63 (48 vCPU, 192 GB; about 17 lanes of 10 GB), which the owner rents.
