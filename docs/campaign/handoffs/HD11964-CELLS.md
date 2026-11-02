@@ -13,13 +13,30 @@ rulings:
 
 Python only, no Lean. Nothing pushed.
 
-STATUS: RUNNING
+**Status: done.** At `d = 1/500`, fitted cells beat the 100-box cover on margin and on cost:
+
+| cover | cells | `F_b − Λ_b` width (ℓ¹) | 10³ yr margin | room on the width | grid-weighted cost |
+|---|---:|---:|---:|---:|---:|
+| box cover (COVER-D) | 100 | 4.88e-4 | 4.07 | ×2.04 | 1 |
+| **fitted `κ = 0.2`, `nmult = 4`** (recommended) | **57** | **3.29e-4** | **6.03** | **×3.03** | **0.52** |
+| fitted `κ = 0.2` | 50 | 3.35e-4 | 5.92 | ×2.98 | 0.46 |
+| fitted `κ = 0.1` | 79 | 3.08e-4 | 6.43 | ×3.24 | 0.69 |
+
+- The cells are annular sectors (here, wedges from the origin) of b's disc, carried by boxes in a rotated
+  radial/tangential frame: affine cells.
+- Membership is a conjunction of rational linear inequalities. The cover lemma reduces to two generic lemmas plus
+  decided per-cell data.
+- The rate side is unchanged: `η_c ≤ 1.98e-9`, `η_b ≤ 4.4e-10`, degree ratios ≤ 0.40, identity check ≤ 8e-15.
+
+Commits: `2a2bb353` (checkpoint: script, `κ = 0.2` and `0.1` tables, draft) and this handoff's commit (the
+`nmult = 4` table, the final handoff).
 
 ## Why the box cover loses margin
 
 - **The model.** On a cell, the ℓ¹ range bound of `F_b − Λ_b` behaves like `k · ρ_eff`, with
   `ρ_eff = |centre_b| + h₁ + h₂` (the centre's distance from the origin of b's `(ξ_b, η_b)` disc, plus the two
-  half-widths) and `k ≈ 1.70e-3`. It fits all the box cells of HD11964-COVER-D within a few %.
+  half-widths). On every box cell of HD11964-COVER-D (`d = 1/500`), `k = 1.52–1.72e-3`. The widest cells, which
+  set the bound, have `k ≈ 1.7e-3`.
 - **The reason.** The oscillation of `Λ_b` is linear in `(ξ_b, η_b)`, roughly `Re((ξ_b − i η_b) e^{iλ_b})`.
   - The centre value contributes `|centre|`, since the Fourier modulus is Euclidean.
   - Each linear Taylor term contributes its half-width, since ℓ¹ adds them.
@@ -128,22 +145,22 @@ degree ratios, the cell margin and the local margin. The raw records are in
 
 | at `d = 1/500` | box cover (COVER-D) | fitted, `κ = 0.2` | fitted, `κ = 0.2`, `nmult = 4` | fitted, `κ = 0.1` |
 |---|---:|---:|---:|---:|
-| cells | 100 | **50** | N4_CELLS | 79 |
-| largest `ρ_eff` | 0.284 | 0.200 | N4_REFF | 0.184 |
-| `F_b − Λ_b` ℓ¹ bound (width) | ±2.44e-4 (4.88e-4) | ±1.68e-4 (3.35e-4) | N4_WB | ±1.54e-4 (3.08e-4) |
-| `F_b − Λ_b` sampled over the cells | [−1.38e-4, 2.07e-4] | [−1.01e-4, 1.34e-4] | N4_SB | [−1.00e-4, 1.32e-4] |
-| `F_b − Λ_b` sampled on `R(d)` (box points inside it) | [−0.98e-4, 1.29e-4] † | [−0.98e-4, 1.29e-4] | N4_RB | [−0.98e-4, 1.28e-4] |
-| `F_c − Λ_c` ℓ¹ bound (width) | ±3.20e-5 (6.4e-5) | ±3.11e-5 (6.2e-5) | N4_WC | ±3.11e-5 (6.2e-5) |
-| `η_c` / `η_b` | 2.03e-9 / 5.20e-10 | 1.98e-9 / 4.36e-10 | N4_ETA | 1.98e-9 / 4.36e-10 |
-| largest degree ratio (c / b) | 0.38 / 0.30 | 0.40 / 0.34 | N4_Q | 0.39 / 0.33 |
-| identity check (max at the centres) | 2.0e-14 | 6.9e-15 | N4_ID | 6.9e-15 |
-| **10³ yr margin** (ℓ¹ range bounds) | 4.07 | **5.92** | N4_M | **6.43** |
-| 10³ yr margin, sampled over the cells | 5.74 | 8.38 | N4_MS | 8.49 |
-| per-cell margin: min / median / max | 4.07 / 4.09 / 4.09 | 5.92 / 5.94 / 5.95 | N4_PC | 6.43 / 6.47 / 6.47 |
-| **tolerance on the `F_b − Λ_b` width** (margin ≥ 2) | ×2.04 | **×2.98** | N4_TOL | ×3.24 |
-| tolerance on `η_c` / `η_b` | ×68 / ×146 | ×70 / ×226 | N4_ETOL | ×70 / ×235 |
-| float64 CPU (2 processes) | 5,097 s | **2,609 s** (1,307 s wall) | N4_CPU | 3,787 s (1,911 s wall) |
-| CPU relative to the box cover | 1 | **0.51** | N4_REL | 0.74 |
+| cells | 100 | **50** | 57 | 79 |
+| largest `ρ_eff` | 0.284 | 0.200 | 0.200 | 0.184 |
+| `F_b − Λ_b` ℓ¹ bound (width) | ±2.44e-4 (4.88e-4) | ±1.68e-4 (3.35e-4) | ±1.65e-4 (3.29e-4) | ±1.54e-4 (3.08e-4) |
+| `F_b − Λ_b` sampled over the cells | [−1.38e-4, 2.07e-4] | [−1.01e-4, 1.34e-4] | [−1.01e-4, 1.34e-4] | [−1.00e-4, 1.32e-4] |
+| `F_b − Λ_b` sampled on `R(d)` (box points inside it) | [−0.98e-4, 1.29e-4] † | [−0.98e-4, 1.29e-4] | [−0.98e-4, 1.29e-4] | [−0.98e-4, 1.28e-4] |
+| `F_c − Λ_c` ℓ¹ bound (width) | ±3.20e-5 (6.4e-5) | ±3.11e-5 (6.2e-5) | ±3.10e-5 (6.2e-5) | ±3.11e-5 (6.2e-5) |
+| `η_c` / `η_b` | 2.03e-9 / 5.20e-10 | 1.98e-9 / 4.36e-10 | 1.98e-9 / 4.12e-10 | 1.98e-9 / 4.36e-10 |
+| largest degree ratio (c / b) | 0.38 / 0.30 | 0.40 / 0.34 | 0.40 / 0.34 | 0.39 / 0.33 |
+| identity check (max at the centres) | 2.0e-14 | 6.9e-15 | 7.8e-15 | 6.9e-15 |
+| **10³ yr margin** (ℓ¹ range bounds) | 4.07 | **5.92** | **6.03** | **6.43** |
+| 10³ yr margin, sampled over the cells | 5.74 | 8.38 | 8.39 | 8.49 |
+| per-cell margin: min / median / max | 4.07 / 4.09 / 4.09 | 5.92 / 5.94 / 5.95 | 6.03 / 6.05 / 6.06 | 6.43 / 6.47 / 6.47 |
+| **tolerance on the `F_b − Λ_b` width** (margin ≥ 2) | ×2.04 | **×2.98** | ×3.03 | ×3.24 |
+| tolerance on `η_c` / `η_b` | ×68 / ×146 | ×70 / ×226 | ×70 / ×241 | ×70 / ×235 |
+| float64 CPU (2 processes) | 5,097 s | **2,609 s** (1,307 s wall) | 3,102 s (1,565 s wall) | 3,787 s (1,911 s wall) |
+| CPU relative to the box cover | 1 | **0.51** | 0.61 | 0.74 |
 
 † COVER-D's in-region check (`cover2_inregion.py`), on the lowest `ξ_c` interval.
 
@@ -160,31 +177,35 @@ degree ratios, the cell margin and the local margin. The raw records are in
 | 0.1642 | 0.660 | 1 square (4) | 544 | 1.98e-9 | 3.84e-10 | 0.24 | 0.090 | 1.69e-4 | 11.68 | 90 |
 
 **Reading.**
-- **The model holds.** Every cell's width is `k ρ_eff` with `k = 1.65–1.69e-3` (1.9e-3 for the one square), so the planner's target `ρ*`
+- **The model holds.** Every wedge's width is `k ρ_eff` with `k = 1.50–1.70e-3` (1.87e-3 for the one square). The
+  widest wedges, which set the bound, have `k = 1.66–1.69e-3`. So the planner's target `ρ*`
   sets the global range: 3.35e-4 at `κ = 0.2` (predicted 3.4e-4) and 3.08e-4 at `κ = 0.1` (predicted 3.1e-4). Every
   interval reaches about the same width, so no interval dominates.
 - **Fewer cells and a tighter range.** The box cover pays twice: its corner squares raise the range, and it has 12–16
-  cells in the expensive high-`e_c` intervals. The fitted cover has 3–4 cells there. Its CPU is 51 % of the box
+  cells in the two most expensive high-`e_c` intervals. The fitted covers have 4–5 cells there. Its CPU is 51 % of the box
   cover's at `κ = 0.2`.
 - **The rate side is unchanged.**
-  - `η_c` is set by the top square (1.98e-9, as before), and `η_b` falls slightly.
-  - The long wedges (radial half-width 0.084) converge as well as the 0.04 squares: degree ratio ≤ 0.40.
-  - The identity check holds to ≤ 6.9e-15.
+  - `η_c` is set by the top square: 1.98e-9, against 2.03e-9 in the box cover. `η_b` falls slightly.
+  - The long wedges (radial half-width 0.084) converge nearly as well as the 0.04 squares: degree ratio ≤ 0.40,
+    against 0.38.
+  - The identity check holds to ≤ 7.8e-15.
 - **The floor.**
   - With `ρ_eff → R = 0.167` (`κ → 0`) the ℓ¹ width tends to `k R ≈ 2.8e-4`, which is margin about 7.0 at
     `d = 1/500`.
   - The range on `R(d)` itself, sampled, is 2.27e-4, margin 8.7. The remaining factor of about 1.2 is the ℓ¹ norm's own
     loss (harmonics, the `Λ`- and `ξ_c`-dependence), not the cell shape.
   - `κ = 0.1` buys +0.5 of margin for 29 more cells. `κ = 0.2` is the better trade.
+  - With `nmult = 4`, rounding `n` up (12 sectors instead of 11 and 9, 8 instead of 6, 4 instead of 3) adds 7
+    cells and lowers `ρ_eff` there, which gives margin 6.03 for a grid-weighted cost of 0.52.
 
 ## Cost against the 100-cell box cover
 
 | | box cover | fitted `κ = 0.2` | fitted `κ = 0.2`, `nmult = 4` | fitted `κ = 0.1` |
 |---|---:|---:|---:|---:|
-| cells | 100 | 50 | N4_CELLS | 79 |
-| cells in the two high-`e_c` intervals (grids 496, 544) | 16 | 4 | N4_TOP | 4 |
-| `Σ N1·N2` over cells (grid-weighted count) | 2.46e6 | 1.12e6 (0.46) | N4_SUMN | 1.70e6 (0.69) |
-| float64 CPU | 5,097 s | 2,609 s | N4_CPU2 | 3,787 s |
+| cells | 100 | 50 | 57 | 79 |
+| cells in the two high-`e_c` intervals (grids 496, 544) | 16 | 4 | 5 | 4 |
+| `Σ N1·N2` over cells (grid-weighted count) | 2.46e6 | 1.12e6 (0.46) | 1.28e6 (0.52) | 1.70e6 (0.69) |
+| float64 CPU | 5,097 s | 2,609 s | 3,102 s | 3,787 s |
 
 The kernel's per-cell cost scales with the grid area, so the grid-weighted count is the best proxy. On it the
 fitted `κ = 0.2` cover costs 46 % of the box cover, and `κ = 0.1` costs 69 %.
@@ -201,8 +222,8 @@ fitted `κ = 0.2` cover costs 46 % of the box cover, and `κ = 0.1` costs 69 %.
   - 200,000 random points of the representative slice of `R(1/500)` (half on the rim) are covered by each of the
     three plans;
   - every sector lies inside its box (2,000 points per sector, corners included).
-- **Identity check.** At every cell centre, the direct exact-gradient rate equals the five-term right side to
-  ≤ 6.9e-15 (`κ = 0.2` and `0.1`).
+- **Identity check.** At every cell centre of the three fitted covers, the direct exact-gradient rate equals the
+  five-term right side to ≤ 7.8e-15.
 - **Convergence.** Degree ratios are ≤ 0.40 (c) and ≤ 0.34 (b).
 - **Consistency with COVER-D.** The in-region sampled range of `F_b − Λ_b` is the same here, [−0.98e-4, 1.29e-4],
   as in COVER-D's separate check. The rotated cells and the axis squares see the same function.
@@ -210,8 +231,8 @@ fitted `κ = 0.2` cover costs 46 % of the box cover, and `κ = 0.1` costs 69 %.
 
 ## Owner questions
 
-1. **Which fitted cover for the kernel.** `κ = 0.2` with `nmult = 4` is the recommended target: N4_CELLS cells,
-   margin N4_M, ×N4_TOL on the range width. Its sector counts allow the quadrant-split covering lemma. `κ = 0.1`
+1. **Which fitted cover for the kernel.** `κ = 0.2` with `nmult = 4` is the recommended target: 57 cells,
+   margin 6.03, ×3.03 on the range width. Its sector counts allow the quadrant-split covering lemma. `κ = 0.1`
    gives +0.5 of margin for about 30 more cells.
    - Taken: report all three; recommend `κ = 0.2`, `nmult = 4`.
 2. **Kernel interface.** The cell map becomes affine with a 2×2 rational rotation block (Pythagorean frames). This
