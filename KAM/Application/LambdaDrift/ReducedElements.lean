@@ -36,6 +36,10 @@ heliocentric elements at `ν'` are these reduced elements:
 
 No sign of the energy is needed: the identities hold for every state, both sides using Lean's
 `x / 0 = 0` and `√x = 0` for `x ≤ 0` in the same way.
+
+Against the heliocentric elements: `E^red_i = E_i + μ|p_i|²/2` (`reducedKeplerEnergy_eq_add`) and,
+for `E_i < 0`, `Λ^red_i = Λ_i √(E_i/E^red_i) / s_i` (`keplerAction_redMass_eq_mul`), the exact form
+of the oscillation `G_i - Λ_i` (first order `μ ν_i Λ_i (a_i/|q_i| - 1)`, note §0).
 -/
 
 @[expose] public noncomputable section
@@ -205,6 +209,38 @@ theorem strongAMD_redMass (hν : ∀ i, 0 < ν i) (hs : ∀ i, 0 < 1 + μ * ν i
     strongAMD (redMass ν μ) z = (∑ i, reducedDelaunayAction ν μ z i) - |totalMomentum z| := by
   unfold strongAMD
   simp only [keplerAction_redMass (hν _) (hs _)]
+
+/-! ### The reduced action against the heliocentric action -/
+
+/-- `E^red_i = E_i + μ |p_i|² / 2`: the reduced energy is the heliocentric Kepler energy plus the
+diagonal kinetic term of the perturbation. -/
+theorem reducedKeplerEnergy_eq_add (hν : 0 < ν i) (z : Phase (n * 2)) :
+    reducedKeplerEnergy ν μ z i = keplerEnergy ν z i + μ * planeSq (bodyVector z.2 i) / 2 := by
+  unfold reducedKeplerEnergy keplerEnergy
+  field_simp
+  ring
+
+/-- **The reduced action in closed form:** for a negative heliocentric energy,
+`Λ^red_i = Λ_i √(E_i / E^red_i) / s_i`, `s_i = √(1 + μ ν_i)`. With `E^red_i = E_i + μ|p_i|²/2`
+(`reducedKeplerEnergy_eq_add`) this is the exact form of the oscillation `G_i - Λ_i` of the scoping
+note's consistency check, `μ ν_i Λ_i (a_i/|q_i| - 1) + O(μ²)` to first order. -/
+theorem keplerAction_redMass_eq_mul (hν : 0 < ν i) (hs : 0 < 1 + μ * ν i) (z : Phase (n * 2))
+    (hE : keplerEnergy ν z i < 0) :
+    keplerAction (redMass ν μ) z i = keplerAction ν z i *
+      Real.sqrt (keplerEnergy ν z i / reducedKeplerEnergy ν μ z i) / Real.sqrt (1 + μ * ν i) := by
+  have ha : 0 ≤ keplerAxis ν z i := by
+    unfold keplerAxis
+    exact div_nonneg_of_nonpos (by linarith) (by linarith)
+  have hax : keplerAxis (redMass ν μ) z i =
+      keplerAxis ν z i * (keplerEnergy ν z i / reducedKeplerEnergy ν μ z i) := by
+    rw [keplerAxis_redMass hν hs, reducedKeplerAxis_eq hs]
+    unfold keplerAxis
+    rw [div_mul_div_comm, mul_comm (2 : ℝ) (keplerEnergy ν z i), mul_assoc,
+      mul_comm (-ν i) (keplerEnergy ν z i), mul_div_mul_left _ _ hE.ne]
+  unfold keplerAction
+  rw [hax, Real.sqrt_mul ha]
+  unfold redMass
+  ring
 
 end Identity
 

@@ -42,7 +42,8 @@ range of `G - Λ` turns a `G`-drift `< d` into a Λ-drift `≤ d + ε`; then the
 ## Main results
 
 * `chartTube`: the chart image of the stopped tube.
-* `stoppedDrift_of_approxIntegrals_obs`: the `hstop` hypothesis of `strongFirstExit_of_stopped_drift`.
+* `stoppedDrift_of_approxIntegrals_obs`: the `hstop` hypothesis of
+  `strongFirstExit_of_stopped_drift`.
 -/
 
 @[expose] public noncomputable section
