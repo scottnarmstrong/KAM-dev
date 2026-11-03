@@ -236,7 +236,7 @@
     "KAM/EffectiveStability/TorusChart/Symplectic.lean"
    ],
    "source": "plan §3.4 (Chart)",
-   "status": "PASS WITH NOTES; landing requested (batch 14)"
+   "status": "LANDED (main 8afb6169c)"
   },
   {
    "id": "B5-LAG",
@@ -247,7 +247,7 @@
     "KAM/EffectiveStability/TorusLagrangianCert.lean"
    ],
    "source": "plan §3.4 Lagrangian property, real slice",
-   "status": "PASS WITH NOTES; landing requested (batch 14)"
+   "status": "LANDED (main 8afb6169c)"
   },
   {
    "id": "B5-NF",
