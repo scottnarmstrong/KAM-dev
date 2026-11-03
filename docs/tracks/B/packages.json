@@ -124,10 +124,11 @@
   {
    "id": "B2-ORIG",
    "modules": [
-    "KAM/EffectiveStability/OscillatorPhysical.lean"
+    "KAM/EffectiveStability/OscillatorPhysical.lean",
+    "KAM/EffectiveStability/OscillatorPhysicalSmoke.lean"
    ],
    "source": "plan §2.2: original box via inverse chart; (B1-transfer)",
-   "status": "proving (claude-2)"
+   "status": "ready; audit 1 running"
   }
  ]
 }
