@@ -6,12 +6,17 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.EffectiveStability.ActionDerivative
+public import KAM.EffectiveStability.Cauchy
 public import KAM.EffectiveStability.ChartFlow
 public import KAM.EffectiveStability.Domains
 public import KAM.EffectiveStability.Examples
 public import KAM.EffectiveStability.FirstExit
 public import KAM.EffectiveStability.ObservableTransfer
 public import KAM.EffectiveStability.Oscillator
+public import KAM.EffectiveStability.RealFlow.Basic
+public import KAM.EffectiveStability.RealFlow.Lie
+public import KAM.EffectiveStability.RealFlow.Symplectic
+public import KAM.EffectiveStability.RealFlow
 public import KAM.EffectiveStability.StoppedDrift
 public import KAM.EffectiveStability.Torus
 public import KAM.EffectiveStability.Transfer
