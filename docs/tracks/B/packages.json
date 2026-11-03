@@ -236,7 +236,7 @@
     "KAM/EffectiveStability/TorusChart/Symplectic.lean"
    ],
    "source": "plan §3.4 (Chart)",
-   "status": "PASS WITH NOTES; landing requested (batch 14)"
+   "status": "LANDED (main 8afb6169c)"
   },
   {
    "id": "B5-LAG",
@@ -247,21 +247,28 @@
     "KAM/EffectiveStability/TorusLagrangianCert.lean"
    ],
    "source": "plan §3.4 Lagrangian property, real slice",
-   "status": "PASS WITH NOTES; landing requested (batch 14)"
+   "status": "LANDED (main 8afb6169c)"
   },
   {
    "id": "B5-NF",
    "modules": [
-    "KAM/EffectiveStability/TorusNormalForm.lean"
+    "KAM/EffectiveStability/TorusNormalForm.lean",
+    "KAM/EffectiveStability/TorusNormalFormSmoke.lean",
+    "KAM/EffectiveStability/TorusNormalForm/Taylor.lean",
+    "KAM/EffectiveStability/TorusNormalForm/Basic.lean",
+    "KAM/EffectiveStability/TorusNormalForm/Remainder.lean",
+    "KAM/EffectiveStability/TorusNormalForm/Drift.lean"
    ],
    "source": "plan §3.4 E + ω·J + O(J²)",
-   "status": "proving (claude-5)"
+   "status": "ready; audit 1 running"
   },
   {
    "id": "B5-ROUTE",
-   "modules": [],
+   "modules": [
+    "KAM/EffectiveStability/CertifiedTorusRoute.lean"
+   ],
    "source": "plan §3.4 CertifiedTorus → B1-T",
-   "status": "after NF"
+   "status": "proving (claude-2)"
   }
  ]
 }
