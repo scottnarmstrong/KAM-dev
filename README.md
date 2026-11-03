@@ -353,7 +353,7 @@ Overall, everything together: 96.0 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-03 04:19 UTC from `main` at `6a6b390c9` by `scripts/hq-status.py`.*
+*Generated 2026-11-03 04:19 UTC from `main` at `50a01268b` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -569,7 +569,7 @@ account read from each agent's running process) and their branches. Rules for ag
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
-| **b1** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: Track B: B5-NF launched | `inp-b1` | 2 (vs `inp`) |
+| **b1** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: Track B: batch 13 landed; B4 complete | `inp-b1` | 3 (vs `inp`) |
 | **b5chart** `inp-maud-b5chart` | prover (offload) | Claude Opus 5.5 | — | 🔍 in audit | last commit: B5-CHART: audit handoff | `inp-b5chart` | 2 (vs `inp`) |
 | **b5lag** `inp-maud-b5lag` | prover (offload) | Claude Opus 5.5 | — | 🔍 in audit | last commit: B5-LAG: audit handoff | `inp-b5lag` | 2 (vs `inp`) |
 | **b5nf** `inp-mprov-b5nf` | prover (offload) | Claude Sonnet 5.5 | claude-5 | 🔄 proving | last commit: Merge branches 'inp-b5chart' and 'inp-b5lag' into inp-b5nf | `inp-b5nf` | 5 (vs `inp`) |
