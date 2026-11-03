@@ -15,6 +15,8 @@ public import KAM.EffectiveStability.FirstExit
 public import KAM.EffectiveStability.ObservableTransfer
 public import KAM.EffectiveStability.Oscillator
 public import KAM.EffectiveStability.OscillatorCheck
+public import KAM.EffectiveStability.OscillatorPhysical
+public import KAM.EffectiveStability.OscillatorPhysicalSmoke
 public import KAM.EffectiveStability.OscillatorStep.Drift
 public import KAM.EffectiveStability.OscillatorStep.Remainder
 public import KAM.EffectiveStability.OscillatorStep.Smoke
