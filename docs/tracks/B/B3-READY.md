@@ -21,6 +21,9 @@ It follows from `oscillatorChain_physical` with the plan's chart literals:
 - `a_j = (81/10⁶)²`, `b_j = 10⁻⁸`, `η_j ≤ 10⁻¹⁹`, `T = 10¹⁰`, `d_j ≤ 10⁻¹⁰`.
 - Then `a + ηT + d ≤ 7.661·10⁻⁹ < 101·10⁻¹⁰` and `2d + ηT ≤ 1.2·10⁻⁹ = 12·10⁻¹⁰`.
 - Physical box `a' = (1/12500)²`: `(s + tail)² ≤ a` requires `tail ≤ 1·10⁻⁶`.
+  **Deviation (11-03 09:21, OD-B18):** wrong as stated. `oscillatorChain_physical`'s `hs1 : 2a′ ≤ s²` (coordinate
+  box) and `hs3 : (s+tail)² ≤ a` force a ≥ 2a′ > (81·10⁻⁶)², for any data. Fix: the disc variant
+  `oscillatorChain_physical_disc` (`a′ ≤ σ²`, `(σ+tail)² ≤ a`); literal target then holds with tail ≈ 7.4·10⁻⁸.
 - `d ≥ tail(2r + tail)` with `r ≥ √(2(b+εb)) ≈ 1.415·10⁻⁴` requires `tail ≲ 3.5·10⁻⁷`.
 
 Here `tail = Σ ε_k δ_k` is the chain displacement.
