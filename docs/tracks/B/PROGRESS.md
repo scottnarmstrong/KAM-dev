@@ -83,3 +83,4 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
 - 2026-11-03 02:42: launched B4-TCHECK (claude-5: Bool torus certificate checker + soundness) and B4-TORIG (claude-2: physical action box + drift for the torus step), both off inp-b4tstep (under audit).
 - 2026-11-03 02:46: **batch 10 LANDED on main e3c55bc2f** (B4-FT + B4-TDOM; 142 theorems, axioms within the standard three). B4-TSTEP audit stalled on 'model at capacity' after a defect-free review; resumed in the same session for the mechanical receipts.
 - 2026-11-03 02:49: B4-TORIG READY 02:47 (claude-2; TorusPhysical 195 + Smoke 58): torusStep_physical; rechecked; audit 1 launched.
+- 2026-11-03 02:51: B4-TSTEP audit 1: **PASS WITH NOTES** (final after resume); merged into inp-b1.
