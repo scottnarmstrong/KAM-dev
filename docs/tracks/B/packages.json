@@ -90,7 +90,7 @@
     "KAM/EffectiveStability/OscillatorStep.lean"
    ],
    "source": "plan §3.1-3.2: one-generator checker soundness ending in oscillator_confinement",
-   "status": "ready; audit 1 running"
+   "status": "PASS WITH NOTES; landing requested (batch 5)"
   },
   {
    "id": "B2-COMPOSE",
@@ -98,7 +98,7 @@
     "KAM/EffectiveStability/ChartChain.lean"
    ],
    "source": "plan §3.2: composition of exact flows remains canonical",
-   "status": "PASS WITH NOTES (audit 1); merged into inp-b1"
+   "status": "PASS WITH NOTES; landing requested (batch 5)"
   },
   {
    "id": "B2-MULTI",
