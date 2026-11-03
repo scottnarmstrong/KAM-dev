@@ -94,3 +94,4 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
 - 2026-11-03 03:25: B4-TCHECKCHAIN (TorusChainCheck 182 lines) and B4-TORIGCHAIN (TorusChainPhysical 181 + Smoke 59) READY; rechecked; audits launched.
 - 2026-11-03 03:29: **batch 12 LANDED on main 89e07dddf** (B4-TMULTI, torusChain_confinement).
 - 2026-11-03 03:50: B5 (exact-torus adapter) started per root-b8: design B5-DESIGN.md (4 packages: CHART, LAG, NF, ROUTE); OD-B13..B15 logged.
+- 2026-11-03 03:51: B5-CHART (claude-2) and B5-LAG (claude-5) launched.
