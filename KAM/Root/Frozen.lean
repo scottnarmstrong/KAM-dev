@@ -25,6 +25,8 @@ public import KAM.Frozen.Defs.RealHamiltonian
 public import KAM.Frozen.Defs.SymplecticForm
 public import KAM.Frozen.Defs.Torsion
 public import KAM.Frozen.Defs.TorsionAverage
+public import KAM.Frozen.EffectiveStability.OscillatorConfinement
+public import KAM.Frozen.EffectiveStability.TorusConfinement
 public import KAM.Frozen.Iso.Defs.BorderedHessian
 public import KAM.Frozen.Iso.Defs.CollisionFree
 public import KAM.Frozen.Iso.Defs.EnergyAverage
