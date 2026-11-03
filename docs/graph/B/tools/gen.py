@@ -88,5 +88,77 @@ node('b:2.3#B1-E','theorem','B1-E: Cartesian oscillator confinement, including z
      edges=[('b:2.3#compact-continuation',FL(86,87),'existence on Ioo(-T1,T1)'),('b:2.3#first-exit',FL(92,95),'drift and confinement bounds'),('b:brief2#uniqueness',FL(88,91),'uniqueness clause'),('b:brief2#chart-transport',FL(87,92),'z = Psi o w and Psi(Psiinv(z t)) = z t'),(HVF,FL(87,87),'HasDerivAt z (X_H (z t))'),(SF,FL(70,72),'hPsisymp'),(OA,FL(66,69),'action domains and conclusion')],
      frozen=('KAM/Frozen/EffectiveStability/OscillatorConfinement.lean','KAM.EffectiveStability.oscillator_confinement','effectiveStability.d72.oscillator_confinement.v1','6ea8db1e9947d08a0c3cd70be06e80dc6e5cb64ac5d4c82902023f04dfd3ef4c'),
      note='statement source = exact frozen text (FREEZE-PROPOSAL §2, owner D72); mathematical source plan §2.3 L165-L193; deviations in FREEZE-PROPOSAL §6 L161-L166')
+
+H='docs/tracks/B/FREEZE-PROPOSAL-HH.md'
+def HL(a,b): return L('b:freeze-hh',a,b,H)
+B1E='b:2.3#B1-E'; FI='b:4-first-instance'
+node('b:3.2#lie-identity','step','Lie series with integral remainder for an exact time-one flow; remainder bound B/(m+1)!',L('b:3.2',343,354),L('b:3.2',353,356),'b.step.lie-identity',
+     'chi with flow Phi_chi^s defined for 0 <= s <= 1 on the stated (outer complex) domain; H analytic there; |ad_chi^{m+1} H| <= B along the flow',
+     'chi, H, m; then the domain points',
+     'H o Phi_chi^1 = sum_{k<=m} ad_chi^k H / k! + integral remainder, and the remainder is bounded by B/(m+1)!',
+     deps=[BR],edges=[(BR,L('b:3.2',347,349),'ad_chi F = {F,chi}; d/ds F o Phi^s = {F,chi} o Phi^s')],
+     note='plan: "the existing taylor_lie is the starting point" (L354)')
+node('b:3.2#chart-composition','step','Chart from generators: a composition of exact time-one flows is canonical, has the explicit inverse given by the reversed flows, and composed forward/inverse displacement bounds',L('b:3.2',355,356),L('b:3.2',398,402),'b.step.chart-composition',
+     'generators chi_1..chi_m with flows for |s| <= 1 on nested domains with strict margins (§3.1 L317-L318)','the generators and domains',
+     'Psi = Phi_{chi_1}^1 o ... o Phi_{chi_m}^1 is symplectic on its domain, Psiinv = reversed flows satisfies Psi(Psiinv z) = z and Psiinv(Psi w) = w where defined, discarded polynomial terms stay in R, and forward/inverse displacement bounds compose with the needed derivative factors',
+     deps=[SF,HVF,'ext:ode#local','b:3.2#lie-identity'],edges=[('b:3.2#lie-identity',L('b:3.2',355,356),'the discarded polynomial terms remain in R'),(SF,L('b:3.2',355,355),'composition of exact flows remains canonical (symplectic)'),(HVF,L('b:3.2',355,355),'Hamiltonian flows of the generators'),('ext:ode#local',L('b:3.1',317,318),'every flow for -1 <= s <= 1 and its inverse exist on the domain')],
+     note='"a truncated coordinate substitution is not the map being certified" (L356); the explicit inverse and the displacement bounds come from L316-L318, L321, L398-L402; "reversed flows" is the group property of exact flows (uniqueness, ext:ode#local), an inference not stated in the source')
+node('ext:analysis#cauchy','external','Cauchy estimate: a holomorphic function bounded by E on a polydisc with margins delta has first derivatives bounded by E/delta on the inner set','external:analysis#cauchy-estimate','-','ext.analysis.cauchy','f holomorphic on complex discs of radius r + delta about the real points, |f| <= E there','f, E, r, delta','|partial f| <= E/delta on the discs of radius r',
+     note='standard analytic input used by plan L368-L369 and L382-L384 without proof (repository Cauchy estimates)')
+node('b:3.2#oscillator-drift','step','Oscillator drift bound: {I_j, R} <= eta_j from the retained residual polynomial plus Cauchy tails, propagated through the charts',L('b:3.2',373,385),L('b:3.2',387,402),'b.step.oscillator-drift',
+     'residual R = retained polynomial P + Lie tails (lie-identity) on Cartesian complex discs with margins; radii w_j with w_j^2 >= 2 b_j, w_j >= 0 fixed before the arithmetic run',
+     'j; w in closed E_b','|{I_j, R}(w)| <= eta_j = eta_finite + eta_Lie (+ eta_model + eta_rounding), each contribution propagated through later charts; finite part eta_poly = sum |alpha_j - beta_j| |c_ab| prod rho^(alpha+beta) (L378-L379); Cartesian tail contribution w_j E (1/dq_j + 1/dp_j) (L383-L384)',
+     deps=['b:3.2#lie-identity',BR,OA,'b:3.2#chart-composition','ext:analysis#cauchy'],edges=[('b:3.2#lie-identity',L('b:3.2',383,384),'tail E bounded on the complex discs'),(BR,L('b:3.2',375,375),'{I_j, z^a zeta^b} = i(a_j - b_j) z^a zeta^b'),(OA,L('b:3.2',375,375),'I_j = z_j zeta_j'),('b:3.2#chart-composition',L('b:3.2',399,402),'propagate each contribution through later charts with derivative factors'),('ext:analysis#cauchy',L('b:3.2',382,384),'tail on Cartesian complex discs with margins gives w_j E (1/dq_j + 1/dp_j)')],
+     note='the (Tail) series formula (L387-L397) applies to CL-style infinite majorants; the HH certificate uses finite Lie orders with the B/(m+1)! remainder')
+node('b:3.1#checker-soundness','claim','Checker soundness: an accepted finite normal-form certificate yields the unique trajectory with the stated chart/original-coordinate bounds',L('b:3.1',324,333),L('b:3.1',335,340),'b.claim.checker-soundness',
+     'supported Hamiltonian expression (exact polynomial first, L304-L306); finite certificate c with: H expression, parameter box and conventions; nested domains, radii and strict margins; generators chi_1..chi_m; normal form N and retained residual P; bounds on discarded terms; (divisor witnesses, producer-side only); forward/inverse displacement bounds and initial-set inclusions; drift bounds eta_j, observable bounds d_i, time T (L313-L322); checkNormalForm Hexpr c = true',
+     'for every expression and certificate; every parameter in c.parameterBox; every z0 in c.initialRegion',
+     'a unique Hexpr trajectory on an open interval containing [-c.T, c.T] (§2.1 convention), with the stated original-coordinate observable and domain bounds; chart, residual and continuation facts proved from the data',
+     deps=[B1E,'b:3.2#chart-composition','b:3.2#lie-identity','b:3.2#oscillator-drift','b:2.3#transfer'],
+     edges=[('b:2.3#transfer',L('b:3.1',322,322),'original-coordinate observable bounds (L329-L331) are the transfer formula'),(B1E,L('b:2.3',197,198),'the dynamics conclusion (continuation, confinement) is the B1-E sufficient-condition theorem applied to the proved chart data'),
+            ('b:3.2#chart-composition',L('b:3.1',336,336),'"prove the chart ... facts": symplectic chart with explicit inverse'),
+            ('b:3.2#lie-identity',L('b:3.1',336,336),'"residual ... facts": H o Psi = N o I + R with exact Lie identities'),
+            ('b:3.2#oscillator-drift',L('b:3.1',319,322),'drift bounds eta_j for the B1-E bracket premise')],
+     note='models the polynomial/oscillator (B1-E) case only; torus/Fourier-Taylor expressions (L358-L371) are out of this closure; B1-E use: "included once a finite normal form is certified" (L197-L198) with L335-L337; divisor witnesses are listed as inputs (L319) but soundness checks the identities directly: an arbitrary generator is allowed (L317) and a bad one fails the inequality (L337) (owner ruling OD-B12)')
+node('b:4#model-identification','step','Model identification: the checker\'s exact Q(sqrt 2) polynomial is the HH Hamiltonian, smooth on all of phase space',L(FI,531,537),L('b:3.1',304,310),'b.step.hh-model',
+     'Hexpr = I_1 - (sqrt 2/2) I_2 + q_1^2 q_2 - q_2^3/3 with exact coefficients in Q(sqrt 2) (supported algebraic constant)','w in Phase 2',
+     'the evaluation of Hexpr at w equals the displayed H(w) (q = w.1, p = w.2); H is a polynomial, hence C^2 on V = all of Phase 2',
+     deps=[OA,HVF],edges=[(OA,L(FI,535,535),'I_j = (q_j^2 + p_j^2)/2'),(HVF,HL(23,26),'the inlined H whose field X_H is the solution field')],
+     note='"a polynomial that approximates a different H is a different model" (L308-L310); exact arithmetic over Q(sqrt 2) is the supported-constant case of L305')
+node('b:4#certificate-accepted','step','The accepted HH certificate: checkNormalForm(HH, c) = true with the literals a_j = (81/10^6)^2, b_j = 10^-8, eta_j <= 10^-19, T = 10^10, d_j <= 10^-10',L(FI,545,553),L('b:3.1',338,340),'b.step.hh-certificate',
+     'the identified HH model; a finite certificate c in the normalized chart (L546; no rescaling of coordinates or time, §3.3 L418-L424 does not apply)','j = 1, 2; the finite data',
+     'checkNormalForm(HH, c) = true with a_j, b_j, eta_j, T, d_j (per j) for forward oscillator-action displacement on closed E_b and inverse displacement on the physical disc, and the initial-set inclusion of the physical disc in the inverse chart domain (L321)',
+     deps=['b:4#model-identification'],edges=[('b:4#model-identification',L(FI,546,546),'the certificate is for the identified model, in its normalized chart')],
+     note='computational leaf: a finite exact computation replayed in the kernel; producer untrusted (L338-L340); CL20\'s reported computation (L560-L566) only motivates the literals')
+node('b:4#inverse-chart','step','Inverse chart on the physical disc: every physical z0 with I_j(z0) <= (1/12500)^2 equals Psi(w0) for w0 = Psiinv(z0) in the chart domain, with inverse action displacement <= d_j',L('b:2.2',153,155),L(FI,553,553),'b.step.hh-inverse-chart',
+     'the certified chart Psi with explicit inverse (reversed flows) defined on the physical disc; inverse displacement bound from the certificate','z0 with I_j(z0) <= (1/12500)^2',
+     'w0 = Psiinv(z0) lies in the chart domain, Psi(w0) = z0 and |I_j(w0) - I_j(z0)| <= d_j',
+     deps=['b:3.2#chart-composition','b:4#certificate-accepted','b:3.1#checker-soundness',OA],edges=[('b:3.2#chart-composition',L('b:2.2',153,155),'"prove Q in Psi({...}) using the inverse chart"'),('b:4#certificate-accepted',L(FI,553,553),'inverse displacement bound on the physical disc'),('b:3.1#checker-soundness',L('b:3.1',321,321),'acceptance becomes the inverse displacement bound and initial-set inclusion on the actual chart'),(OA,L(FI,553,553),'oscillator-action displacement')],
+     note='L153-L155 is the torus-section requirement, applied by analogy to the oscillator chart. DEVIATION (OD-B18, B3-READY): the Lean route bounds the inverse chart by a coordinate displacement tail and the disc estimate (sigma + tail)^2 <= a (oscillatorChain_physical_disc) instead of the action displacement d_j')
+node('b:4#initial-inclusion','step','Initial-set inclusion: physical actions <= (1/12500)^2 give chart actions <= a_j',L(FI,555,555),L(FI,554,555),'b.step.hh-initial-inclusion',
+     'I_j(z0) <= (1/12500)^2; w0 = Psiinv(z0) with |I_j(w0) - I_j(z0)| <= d_j <= 10^-10','z0; j',
+     'I_j(w0) <= (1/12500)^2 + 10^-10 = 6.5e-9 < a_j = 6.561e-9',
+     deps=['b:4#inverse-chart',OA],edges=[('b:4#inverse-chart',L(FI,555,555),'the inverse displacement d_j'),(OA,L(FI,540,540),'I_j in the initial set')],
+     note='source inequality as stated; Lean route per the inverse-chart NOTE')
+node('b:2.3#transfer','corollary','Oscillator observable transfer: |A_i(z(t)) - A_i(z0)| <= 2 d_i + |t| sum_j |L_ij| eta_j with L I in place of L J',L('b:2.3',201,201),L('b:2.2',143,150),'b.cor.osc-transfer',
+     'z0 = Psi(w0) with I_j(w0) <= a_j; B1-E conclusion along w(t) = Psiinv(z(t)); static bound |A_i(Psi w) - (L I(w))_i| <= d_i on closed E_b','observable A, matrix L, d; t with |t| <= T',
+     '|A_i(z(t)) - A_i(z0)| <= 2 d_i + |t| sum_j |L_ij| eta_j',
+     deps=[B1E,OA],edges=[(B1E,L('b:2.3',201,201),'confinement and drift of the chart actions'),(OA,L('b:2.3',201,201),'L I uses the oscillator actions')],
+     note='for HH: A = I (physical actions), L = id, d_i the forward action displacement')
+node('b:4#physical-bounds','step','Physical output: I_j(z(t)) < b_j + d_j <= 101/10^10 and |I_j(z(t)) - I_j(z0)| <= 2 d_j + eta_j T <= 12/10^10',L(FI,556,557),L(FI,556,557),'b.step.hh-physical-bounds',
+     'chart confinement I_j(w(t)) <= a_j + eta_j T <= 7.561e-9 < b_j and chart drift <= eta_j |t| (B1-E via soundness), w(0) = w0 from the initial inclusion; forward action displacement <= d_j on closed E_b','z0, z(t) = Psi(w(t)); t with |t| <= T = 10^10; j',
+     'I_j(z(t)) < b_j + d_j <= 1.01e-8 = 101/10^10 and |I_j(z(t)) - I_j(z0)| <= 2 d_j + eta_j T <= 1.2e-9 = 12/10^10',
+     deps=['b:3.1#checker-soundness','b:2.3#transfer','b:4#initial-inclusion','b:4#certificate-accepted',OA],
+     edges=[('b:3.1#checker-soundness',L(FI,556,556),'chart confinement a_j + eta_j T < b_j'),('b:2.3#transfer',L(FI,557,557),'2 d_j + eta_j T is the transfer formula with A = I, L = id'),('b:4#initial-inclusion',L(FI,555,557),'the chart solution starts in I(w0) <= a_j'),('b:4#certificate-accepted',L(FI,556,557),'literals a, b, eta, T, d'),(OA,L(FI,557,557),'physical actions')],
+     note='forward displacement only (z(t) = Psi(w(t))); the Lean route bounds I(z(t)) by a_j + eta_j T + d_j, which also gives < 101/10^10')
+node('b:4#HH','theorem','Hénon–Heiles confinement (frozen henonHeiles_confinement)',HL(20,36),L(FI,545,559),'effectiveStability.d73.henonHeiles_confinement',
+     'z0 : Phase 2 with I_j(z0) <= (1/12500)^2 for j = 1, 2; H = I_1 - (sqrt 2/2) I_2 + q_1^2 q_2 - q_2^3/3 with q = z.1, p = z.2 (inlined)',
+     'for every z0 with the premise; then exists T1 > 10^10 and z',
+     'z(0) = z0 and z\' = X_H(z) on Ioo(-T1,T1); every y with y(0) = z0 solving y\' = X_H(y) on an order-connected I containing 0 equals z on I intersect Ioo(-T1,T1); for every |t| <= 10^10 and j: I_j(z(t)) < 101/10^10 and |I_j(z(t)) - I_j(z0)| <= 12/10^10',
+     'all literals explicit; no unquantified constant',
+     deps=['b:3.1#checker-soundness','b:4#certificate-accepted','b:4#model-identification','b:4#inverse-chart','b:4#physical-bounds',HVF,OA],
+     edges=[('b:3.1#checker-soundness',HL(22,32),'existence past 10^10 and uniqueness from the sound checker'),('b:4#certificate-accepted',HL(22,36),'the accepted HH certificate instantiates soundness with T = 10^10'),('b:4#model-identification',HL(23,31),'the inlined H is the certified model, V = all of Phase 2'),('b:4#inverse-chart',HL(21,22),'the solution starts at z0 = Psi(w0)'),('b:4#physical-bounds',HL(33,36),'the two physical bounds'),(HVF,HL(23,26),'HasDerivAt z (X_H (z t))'),(OA,HL(21,36),'oscillator actions in the premise (L21) and the conclusion (L33-L36)')],
+     frozen=('KAM/Frozen/EffectiveStability/HenonHeilesConfinement.lean','KAM.EffectiveStability.henonHeiles_confinement','effectiveStability.d73.henonHeiles_confinement.v1','ecd0cc37042f3fbd267c8c113583f4e1ba70c7e974edc0ba299ce10f626295ea'),
+     note='statement source = exact frozen text (FREEZE-PROPOSAL-HH, owner D73); mathematical target plan §4 L539-L543; plan-to-freeze: "unique solution through |t| <= 10^10" is stated in the §2.1 form (open Ioo(-T1,T1), T1 > 10^10, uniqueness on order-connected intervals through 0); library KAMHenonHeiles')
 import json,sys
 json.dump(nodes,open(sys.argv[1],'w'),indent=1)
