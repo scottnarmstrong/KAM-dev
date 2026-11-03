@@ -24532,6 +24532,61 @@
     "frozen_paths": [],
     "audit_paths": []
    }
+  },
+  {
+   "id": "effectiveStability.d73.henonHeiles_confinement.v1",
+   "kind": "theorem",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-03",
+    "approval_ref": "owner approval of the exact henonHeiles_confinement text (docs/tracks/B/FREEZE-PROPOSAL-HH.md, = brief-B3-CERT step 4), relayed by root-b8; docs/DECISIONS.md D73",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM-inp@400a4223b docs/tracks/B/FREEZE-PROPOSAL-HH.md (plan: main docs/explorations/program-b-plan.md)",
+    "range": "program-b-plan §4 'A first instance with literal acceptance criteria' (HH); CL20 Appendix B"
+   },
+   "contract": {
+    "id": "effectiveStability.d73.henonHeiles_confinement",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/EffectiveStability/HenonHeilesConfinement.lean",
+   "export": "KAM.EffectiveStability.henonHeiles_confinement",
+   "split_policy": {
+    "source_group": "effectiveStability.d73.henonHeiles_confinement",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D73"
+   },
+   "abi_sha256": "ecd0cc37042f3fbd267c8c113583f4e1ba70c7e974edc0ba299ce10f626295ea",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
+     "sha256": "1592cf15aadef80f7e2017860494a1e067de8698ff8f6075c055a2d138877a79"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsDiophantine.lean",
+     "sha256": "45ac03a3d80f3be86018b756497d11e520e59e40beff85bc92e6bec6d873aea9"
+    },
+    {
+     "path": "KAM/Frozen/Defs/SymplecticForm.lean",
+     "sha256": "cb406afe9c796cec050b1d0f340bf2327766481865dcaf001063c9b8d53df60a"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/OscillatorAction.lean",
+     "sha256": "ad724cd5e19a4d4d420c5e30fbcd9f656107affaefa62e9e76c82fa66a4447c5"
+    }
+   ],
+   "implementation": {
+    "module": "KAM.Provider.EffectiveStability.HenonHeilesConfinement",
+    "export": "KAM.Provider.EffectiveStability.henonHeiles_confinement"
+   },
+   "state": "SEALED",
+   "prefix_sha256": "40c40e75767ec19e21549b0fc2d3f6e2073611bff27529ada1769079ad4391ab",
+   "suffix_sha256": "1f2d3361e67df6513a908669be93f0cc58c90f735bf44b2560787c0177a9caa8",
+   "draft_allowlist": {
+    "frozen_paths": [],
+    "audit_paths": []
+   }
   }
  ]
 }
