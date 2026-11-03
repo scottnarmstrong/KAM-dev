@@ -128,7 +128,7 @@
     "KAM/EffectiveStability/OscillatorPhysicalSmoke.lean"
    ],
    "source": "plan §2.2: original box via inverse chart; (B1-transfer)",
-   "status": "ready; audit 1 running"
+   "status": "PASS WITH NOTES; landing requested (batch 7)"
   }
  ]
 }
