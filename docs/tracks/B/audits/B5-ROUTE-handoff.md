@@ -119,3 +119,4 @@ real-slice transfer of the third derivative); the oscillation bound Mμ/2 from G
 (4) the conclusion is torus_confinement's with V = real slice of c.D, ω' = sinf ω*, E0; (5) hygiene (AGENTS rules 3, 4,
 7; widths ≤ 100), names, axioms. Memory rule: every lean/lake call wrapped in
 `systemd-run --user --scope --quiet -p MemoryMax=4G -p MemorySwapMax=0 nice -n 10 env LEAN_NUM_THREADS=1`.
+Post-handoff (kam-b1): two signature lines wrapped to ≤ 100 columns (whitespace only).
