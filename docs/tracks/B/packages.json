@@ -213,15 +213,16 @@
     "KAM/EffectiveStability/TorusChainCheck.lean"
    ],
    "source": "plan §3.1 checker, torus chains",
-   "status": "proving (claude-2)"
+   "status": "ready; audit 1 running"
   },
   {
    "id": "B4-TORIGCHAIN",
    "modules": [
-    "KAM/EffectiveStability/TorusChainPhysical.lean"
+    "KAM/EffectiveStability/TorusChainPhysical.lean",
+    "KAM/EffectiveStability/TorusChainPhysicalSmoke.lean"
    ],
    "source": "plan §2.2 original box, torus chains",
-   "status": "proving (claude-5)"
+   "status": "ready; audit 1 running"
   }
  ]
 }
