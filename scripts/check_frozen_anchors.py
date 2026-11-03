@@ -267,10 +267,30 @@ class Guard:
                     modules[item["implementation"]["module"]] = implementation
             parsed.append((item, path, implementation))
         self.check_split_groups(anchors)
+        self.check_frozen_ownership(anchors)
         self.check_import_graph(modules, parsed)
         self.check_draft_quarantine(parsed)
         self.check_all_sorries()
         self.check_forbidden_axioms_constants()
+
+    def check_frozen_ownership(self, anchors: list[Any]) -> None:
+        """Every Lean file in a frozen tree (a directory component named `Frozen`) has exactly one manifest
+        owner, i.e. exactly one anchor whose `path` is that file. Duplicate `path` fields are also rejected
+        in `check_entry`; this check covers frozen files with no owner (seal audit HH-1 N1, 2026-11-03: an
+        anchor file committed before its manifest entry passed the guard)."""
+        owners: dict[str, int] = {}
+        for item in anchors:
+            if isinstance(item, dict) and isinstance(item.get("path"), str):
+                owners[item["path"]] = owners.get(item["path"], 0) + 1
+        for path in sorted(self.project_files()):
+            rel = path.relative_to(self.root)
+            if "Frozen" not in rel.parts[:-1]:
+                continue
+            count = owners.get(rel.as_posix(), 0)
+            if count == 0:
+                self.fail(f"{rel.as_posix()}: frozen file has no manifest owner (no anchor lists this path)")
+            elif count > 1:
+                self.fail(f"{rel.as_posix()}: frozen file has {count} manifest owners (exactly one required)")
 
     def check_entry(self, anchor: dict[str, Any], number: int, paths: set[str],
                     exports: set[str], ids: set[str], limits: dict[str, int]) -> Path | None:
