@@ -103,10 +103,15 @@
   {
    "id": "B2-MULTI",
    "modules": [
-    "KAM/EffectiveStability/OscillatorChain.lean"
+    "KAM/EffectiveStability/OscillatorChain.lean",
+    "KAM/EffectiveStability/OscillatorChain/Basic.lean",
+    "KAM/EffectiveStability/OscillatorChain/Remainder.lean",
+    "KAM/EffectiveStability/OscillatorChain/Domain.lean",
+    "KAM/EffectiveStability/OscillatorChain/Drift.lean",
+    "KAM/EffectiveStability/OscillatorChain/Smoke.lean"
    ],
    "source": "plan §3.2: composition of exact flows; remainders propagated through later charts",
-   "status": "proving (claude-5)"
+   "status": "ready; audit 1 running"
   },
   {
    "id": "B2-CHECK",

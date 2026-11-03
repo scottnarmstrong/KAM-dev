@@ -61,3 +61,4 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
 - 2026-11-03 01:38: B2-CHECK READY 01:37 (claude-2; OscillatorCheck.lean 198 lines: OscStepCert (ℚ data), checkOscStep : Bool, checkOscStep_sound; smoke cert by decide +kernel in 78 ms); rechecked; audit 1 launched.
 - 2026-11-03 01:39: B2-ORIG launched (claude-2, KAM-inp-b2orig): physical initial action box Q ⊆ Ψ({I ≤ a}) via the inverse flow and physical action drift 2d + η|t| (plan §2.2 original-coordinate requirement).
 - 2026-11-03 01:42: B2-CHECK audit 1: **PASS WITH NOTES**; merged; landing request batch 6.
+- 2026-11-03 01:48: B2-MULTI READY (claude-5): general-m oscillatorChain_confinement (918 lines over 6 modules; telescoped remainders through inner complex flows, one Cauchy estimate on the sum; B2-STEP re-derived from a 1-element chain; 2-step smoke). Merged inp-b1; rebuilt; audit 1 launched.
