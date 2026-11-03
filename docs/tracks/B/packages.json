@@ -54,7 +54,7 @@
     "KAM/EffectiveStability/Poly/Bound.lean"
    ],
    "source": "plan §3.1-3.2: polynomial bracket/evaluation, exact ℚ (OD-B8, OD-B9)",
-   "status": "proving (claude-5)"
+   "status": "ready; short-name rename in progress (claude-5)"
   },
   {
    "id": "B2-REALFLOW",
@@ -65,7 +65,7 @@
     "KAM/EffectiveStability/RealFlow/Lie.lean"
    ],
    "source": "plan §3.2: actual time-one flows, real slice of KAM.Canonical.flow (OD-B10)",
-   "status": "ready; audit 1 running (codex-2)"
+   "status": "PASS WITH NOTES (audit 2, delta after F1); merged into inp-b1"
   },
   {
    "id": "B2-CAUCHY",
@@ -73,6 +73,14 @@
     "KAM/EffectiveStability/Cauchy.lean"
    ],
    "source": "plan §3.2: analytic tail E on discs of radius δ gives drift E/δ; (Tail) identity",
+   "status": "ready; audit 1 running (codex-2)"
+  },
+  {
+   "id": "B2-DOM",
+   "modules": [
+    "KAM/EffectiveStability/PolyDomain.lean"
+   ],
+   "source": "plan §3.1: nested complex domains with strict margins; small-field check",
    "status": "proving (claude-2)"
   },
   {
