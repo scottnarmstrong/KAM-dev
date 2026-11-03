@@ -51,7 +51,8 @@ theorem isOpen_routeDomain (δφ ρJ : ℝ) : IsOpen (routeDomain n δφ ρJ) :=
 
 variable {κc δ δφ ρJ : ℝ}
 
-theorem RouteChecks.routeKappa_nonneg (hG : G1Hyps c ωstar) (hT : CertifiedTorusAt c ωstar Kinf sinf)
+theorem RouteChecks.routeKappa_nonneg (hG : G1Hyps c ωstar)
+    (hT : CertifiedTorusAt c ωstar Kinf sinf)
     (h : RouteChecks c κc δ δφ ρJ) : 0 ≤ κc + (c.params.disp : ℝ) / δ := by
   have h0 : (0 : Fin n → ℂ) ∈ complexStrip n δφ := fun i => by simpa using h.hδφ
   have h1 : 0 ≤ κc := (norm_nonneg _).trans (h.hκc 0 h0)

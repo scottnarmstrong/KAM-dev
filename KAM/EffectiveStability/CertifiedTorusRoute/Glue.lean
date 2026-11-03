@@ -42,7 +42,8 @@ theorem contDiffOn_realPart_of_holo {f : (Fin n → ℂ) × (Fin n → ℂ) → 
   exact Complex.reCLM.contDiff.comp_contDiffOn
     (hcR.comp (realInclusion₂ n).contDiff.contDiffOn fun _ h => h)
 
-theorem RouteChecks.routeKappa_lt_one (hG : G1Hyps c ωstar) (hT : CertifiedTorusAt c ωstar Kinf sinf)
+theorem RouteChecks.routeKappa_lt_one (hG : G1Hyps c ωstar)
+    (hT : CertifiedTorusAt c ωstar Kinf sinf)
     (h : RouteChecks c κc δ δφ ρJ) : κc + (c.params.disp : ℝ) / δ < 1 := by
   have h0 := h.routeKappa_nonneg hG hT
   have hn : (1 : ℝ) ≤ n := by exact_mod_cast (by have := hG.hn; omega : 1 ≤ n)
