@@ -49,7 +49,7 @@ theorem oscillatorChain_confinement {H Nact P : CartPoly}
       η j - 2 * r j * (oscChainBound n l H : ℝ) / δc)
     (hmargin : ∀ j, a j + T * η j < b j) (w₀ : (Fin n → ℝ) × (Fin n → ℝ))
     (hw₀ : ∀ j, KAM.Planetary.oscillatorAction w₀.2 w₀.1 j ≤ a j) :
-    ∃ T₁ : ℝ, T < T₁ ∧ ∃ z : ℝ → (Fin n → ℝ) × (Fin n → ℝ), z 0 = oscChainMap l w₀ ∧ ... 
+    ∃ T₁ : ℝ, T < T₁ ∧ ∃ z : ℝ → (Fin n → ℝ) × (Fin n → ℝ), z 0 = oscChainMap l w₀ ∧ ...
 ```
 The conclusion is `oscillator_confinement`'s with V = univ, physical H = `cartEval H`, Ψ = `oscChainMap l`,
 Ψinv = `oscChainInv l` (full statement in the file; identical in shape to `oscillatorStep_confinement`).
