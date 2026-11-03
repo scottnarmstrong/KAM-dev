@@ -86,3 +86,4 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
 - 2026-11-03 02:51: B4-TSTEP audit 1: **PASS WITH NOTES** (final after resume); merged into inp-b1.
 - 2026-11-03 02:53: B4-TCHECK READY 02:51 (claude-5; TorusCheck 176 lines; torus cert by decide +kernel in 19 ms); rechecked; audit 1 launched.
 - 2026-11-03 02:53: B4-TMULTI launched (claude-5): torus chain checker soundness (mirror of B2-MULTI).
+- 2026-11-03 03:00: B4-TORIG and B4-TCHECK audit 1: **PASS WITH NOTES**; merged. Landing request batch 11 (B4-TSTEP + B4-TORIG + B4-TCHECK).
