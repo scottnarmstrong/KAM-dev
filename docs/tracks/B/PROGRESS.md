@@ -74,3 +74,4 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
 - 2026-11-03 02:12: B2-CHECKCHAIN audit 1: **PASS WITH NOTES**; merged into inp-b1.
 - 2026-11-03 02:13: B2-ORIGCHAIN audit 1: **PASS WITH NOTES** (doc nits N1/N2 kept for byte identity; N3 smoke scope). Merged; landing request batch 9 (B2-CHECKCHAIN + B2-ORIGCHAIN).
 - 2026-11-03 02:17: **batch 8 LANDED on main 0d9575f2b** (B2-MULTI, oscillatorChain_confinement).
+- 2026-11-03 02:18: B4-TDOM READY 02:17 (claude-5; TorusDomain 295 lines: strip domain, gauge, small field, flow lattice equivariance, cylinder/Cauchy inclusions); rechecked; audit 1 launched.

@@ -165,7 +165,7 @@
     "KAM/EffectiveStability/TorusDomain.lean"
    ],
    "source": "plan §3.2/§7 B4: strip domains for the B1-T route",
-   "status": "proving (claude-5)"
+   "status": "ready; audit 1 running"
   }
  ]
 }
