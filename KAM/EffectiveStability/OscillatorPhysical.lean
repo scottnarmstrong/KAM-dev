@@ -24,10 +24,12 @@ namespace KAM.EffectiveStability
 
 open Set CartPoly
 
-variable {n : ℕ}
+variable {n : ℕ} {K : Type} [CertCoeff K] [Algebra K ℝ] [Algebra K ℂ] [IsScalarTower K ℝ ℂ]
+  [CertNormLe K ℝ] [CertNormLe K ℂ]
 
+omit [CertNormLe K ℝ] in
 /-- Coordinatewise real displacement of the time-`t` real chart map, `|t| ≤ 1`. -/
-theorem realFlow_coord_sub_le {χ : CartPoly} (hχ : CartFits n χ) {ρ δ ε : ℝ} (hδ : 0 < δ)
+theorem realFlow_coord_sub_le {χ : CartPolyK K} (hχ : CartFits n χ) {ρ δ ε : ℝ} (hδ : 0 < δ)
     (hε0 : 0 ≤ ε) (hε : ε ≤ 1 / 2) (ρl : List ℚ)
     (hρl : ∀ i : Fin n, ((ρl.getD i 0 : ℚ) : ℝ) = ρ)
     (hq : ∀ i : Fin n, ((cartSupBound (cartDq i χ) ρl ρl : ℚ) : ℝ) ≤ ε * δ)
@@ -54,8 +56,9 @@ theorem realFlow_coord_sub_le {χ : CartPoly} (hχ : CartFits n χ) {ρ δ ε : 
     KAM.realInclusion_apply, ← Complex.ofReal_sub, Complex.norm_real, Real.norm_eq_abs] at h1 h2
   exact ⟨h1, h2⟩
 
+omit [CertNormLe K ℝ] in
 /-- Displacement of the chart `Ψ`: `|Ψ x - x| ≤ ε δ` coordinatewise on `realInterior W Ω 1`. -/
-theorem stepChart_sub_le {χ : CartPoly} (hχ : CartFits n χ) {ρ δ ε : ℝ} (hδ : 0 < δ)
+theorem stepChart_sub_le {χ : CartPolyK K} (hχ : CartFits n χ) {ρ δ ε : ℝ} (hδ : 0 < δ)
     (hε0 : 0 ≤ ε) (hε : ε ≤ 1 / 2) (ρl : List ℚ)
     (hρl : ∀ i : Fin n, ((ρl.getD i 0 : ℚ) : ℝ) = ρ)
     (hq : ∀ i : Fin n, ((cartSupBound (cartDq i χ) ρl ρl : ℚ) : ℝ) ≤ ε * δ)
@@ -68,8 +71,9 @@ theorem stepChart_sub_le {χ : CartPoly} (hχ : CartFits n χ) {ρ δ ε : ℝ} 
     (t := 1) ⟨by norm_num, le_rfl⟩ i
   simpa [stepChart] using this
 
+omit [CertNormLe K ℝ] in
 /-- Displacement of the inverse chart `Ψinv`: `|Ψinv x - x| ≤ ε δ` coordinatewise. -/
-theorem stepChartInv_sub_le {χ : CartPoly} (hχ : CartFits n χ) {ρ δ ε : ℝ} (hδ : 0 < δ)
+theorem stepChartInv_sub_le {χ : CartPolyK K} (hχ : CartFits n χ) {ρ δ ε : ℝ} (hδ : 0 < δ)
     (hε0 : 0 ≤ ε) (hε : ε ≤ 1 / 2) (ρl : List ℚ)
     (hρl : ∀ i : Fin n, ((ρl.getD i 0 : ℚ) : ℝ) = ρ)
     (hq : ∀ i : Fin n, ((cartSupBound (cartDq i χ) ρl ρl : ℚ) : ℝ) ≤ ε * δ)
@@ -83,8 +87,9 @@ theorem stepChartInv_sub_le {χ : CartPoly} (hχ : CartFits n χ) {ρ δ ε : �
     (t := -1) ⟨le_rfl, by norm_num⟩ i
   simpa [stepChartInv] using this
 
+omit [CertNormLe K ℝ] in
 /-- `Ψ (Ψinv z) = z` for real `z` in `realInterior W Ω 1`. -/
-theorem stepChart_stepChartInv {χ : CartPoly} (hχ : CartFits n χ) {ρ δ ε : ℝ} (hδ : 0 < δ)
+theorem stepChart_stepChartInv {χ : CartPolyK K} (hχ : CartFits n χ) {ρ δ ε : ℝ} (hδ : 0 < δ)
     (hε0 : 0 ≤ ε) (hε : ε ≤ 1 / 2) (ρl : List ℚ)
     (hρl : ∀ i : Fin n, ((ρl.getD i 0 : ℚ) : ℝ) = ρ)
     (hq : ∀ i : Fin n, ((cartSupBound (cartDq i χ) ρl ρl : ℚ) : ℝ) ≤ ε * δ)
@@ -128,7 +133,7 @@ private theorem coord_abs_le_of_action_le (w : (Fin n → ℝ) × (Fin n → ℝ
 `oscillatorStep_confinement`, plus a physical initial action box `a'` with radii `s` and a
 transfer constant `d`. For every physical `z₀` with actions `≤ a'`, the physical flow exists, is
 unique, and the PHYSICAL actions drift by at most `2 d + η |t|` on `|t| ≤ T`. -/
-theorem oscillatorStep_physical {H χ Nact P : CartPoly}
+theorem oscillatorStep_physical {H χ Nact P : CartPolyK K}
     (hH : CartFits n H) (hχ : CartFits n χ) (hN : CartFits n Nact) (hP : CartFits n P)
     (hA : cartActOnly Nact = true) {L : ℕ} (hL : 1 ≤ L)
     (hid : cartEqCheck (cartLieSum χ H L) (cartAdd (cartActSubst Nact) P) = true)

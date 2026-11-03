@@ -10,7 +10,7 @@ public import KAM.EffectiveStability.OscillatorStep
 /-!
 # A single Bool checker for one-generator certificates (track B, B2-CHECK)
 
-`OscStepCert n` is pure data (polynomials, a Lie-sum length, rational radii and bounds).
+`OscStepCertK K n` is pure data (polynomials, a Lie-sum length, rational radii and bounds).
 `checkOscStep` is a total computable `Bool` conjunction of every non-binder premise of
 `oscillatorStep_confinement`, evaluated in exact `ℚ`; `checkOscStep_sound` extracts the premises
 and applies B2-STEP. Lists are read with `getD i 0`.
@@ -22,16 +22,18 @@ namespace KAM.EffectiveStability
 
 open Set CartPoly
 
+variable {K : Type} [CertCoeff K]
+
 /-- Certificate data for one generator `χ` (no `Prop` fields; all numbers are rational). -/
-structure OscStepCert (n : ℕ) where
+structure OscStepCertK (K : Type) (n : ℕ) where
   /-- the physical Hamiltonian -/
-  H : CartPoly
+  H : CartPolyK K
   /-- the generator -/
-  χ : CartPoly
+  χ : CartPolyK K
   /-- the normal form, in the `q`-variables only -/
-  Nact : CartPoly
+  Nact : CartPolyK K
   /-- the remainder -/
-  P : CartPoly
+  P : CartPolyK K
   /-- the Lie-sum length -/
   L : ℕ
   /-- chart-domain polydisc radius -/
@@ -55,8 +57,11 @@ structure OscStepCert (n : ℕ) where
   /-- coordinate radii of the oscillator ball -/
   r : List ℚ
 
+/-- The `ℚ`-coefficient certificates (the original name). -/
+abbrev OscStepCert (n : ℕ) := OscStepCertK ℚ n
+
 /-- Boolean version of `CartFits`: all exponents past index `n` are zero. -/
-def cartFitsB (n : ℕ) (P : CartPoly) : Bool :=
+def cartFitsB (n : ℕ) (P : CartPolyK K) : Bool :=
   P.all fun m => (m.a.drop n).all (· == 0) && (m.b.drop n).all (· == 0)
 
 private theorem getD_zero_of_drop {l : List ℕ} {n : ℕ} (h : (l.drop n).all (· == 0) = true)
@@ -70,18 +75,19 @@ private theorem getD_zero_of_drop {l : List ℕ} {n : ℕ} (h : (l.drop n).all (
     simpa [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hlen] using this
   · simp [List.getD_eq_getElem?_getD, List.getElem?_eq_none (not_lt.1 hlen)]
 
-theorem cartFitsB_sound {n : ℕ} {P : CartPoly} (h : cartFitsB n P = true) : CartFits n P := by
+omit [CertCoeff K] in
+theorem cartFitsB_sound {n : ℕ} {P : CartPolyK K} (h : cartFitsB n P = true) : CartFits n P := by
   intro m hm k hk
   have := List.all_eq_true.1 h m hm
   simp only [Bool.and_eq_true] at this
   exact ⟨getD_zero_of_drop this.1 hk, getD_zero_of_drop this.2 hk⟩
 
 /-- The majorant `B = cartSupBound (ad_χ^L H) ρ` of the certificate. -/
-def OscStepCert.Bmaj {n : ℕ} (c : OscStepCert n) : ℚ :=
+def OscStepCertK.Bmaj {n : ℕ} (c : OscStepCertK K n) : ℚ :=
   cartSupBound (cartAdPow c.χ c.L c.H) (List.replicate n c.ρ) (List.replicate n c.ρ)
 
 /-- The Bool checker: every non-binder premise of `oscillatorStep_confinement`, in exact `ℚ`. -/
-def checkOscStep {n : ℕ} (c : OscStepCert n) : Bool :=
+def checkOscStep {n : ℕ} (c : OscStepCertK K n) : Bool :=
   cartFitsB n c.H && cartFitsB n c.χ && cartFitsB n c.Nact && cartFitsB n c.P &&
   cartActOnly c.Nact && decide (1 ≤ c.L) &&
   cartEqCheck (cartLieSum c.χ c.H c.L) (cartAdd (cartActSubst c.Nact) c.P) &&
@@ -100,7 +106,9 @@ def checkOscStep {n : ℕ} (c : OscStepCert n) : Bool :=
       c.η.getD i 0 - 2 * c.r.getD i 0 * c.Bmaj / ((c.L.factorial : ℚ) * c.δc))
     && decide (c.a.getD i 0 + c.T * c.η.getD i 0 < c.b.getD i 0)
 
-theorem checkOscStep_sound {n : ℕ} (c : OscStepCert n) (hc : checkOscStep c = true)
+theorem checkOscStep_sound {n : ℕ} [Algebra K ℝ] [Algebra K ℂ]
+    [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ]
+    (c : OscStepCertK K n) (hc : checkOscStep c = true)
     (w₀ : (Fin n → ℝ) × (Fin n → ℝ))
     (hw₀ : ∀ j : Fin n, KAM.Planetary.oscillatorAction w₀.2 w₀.1 j ≤ (c.a.getD j 0 : ℝ)) :
     ∃ T₁ : ℝ, (c.T : ℝ) < T₁ ∧ ∃ z : ℝ → (Fin n → ℝ) × (Fin n → ℝ),
@@ -157,7 +165,7 @@ theorem checkOscStep_sound {n : ℕ} (c : OscStepCert n) (hc : checkOscStep c = 
       have h2 : ((cartSupBound (cartBracket (cartAction j) c.P) c.r c.r : ℚ) : ℝ) ≤
           (((c.η.getD j 0 - 2 * c.r.getD j 0 * c.Bmaj / ((c.L.factorial : ℚ) * c.δc) : ℚ)) : ℝ) :=
         Rat.cast_le.2 this
-      simpa [OscStepCert.Bmaj] using h2)
+      simpa [OscStepCertK.Bmaj] using h2)
     (fun j => by exact_mod_cast hmg j) w₀ hw₀
 
 /-! ### Smoke test: the harmonic oscillator certificate of B2-STEP -/

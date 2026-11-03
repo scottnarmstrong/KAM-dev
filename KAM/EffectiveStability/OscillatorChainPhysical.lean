@@ -25,30 +25,37 @@ namespace KAM.EffectiveStability
 
 open Set CartPoly
 
-variable {n : ℕ}
+variable {n : ℕ} {K : Type} [CertCoeff K] [Algebra K ℝ] [Algebra K ℂ] [IsScalarTower K ℝ ℂ]
+  [CertNormLe K ℝ] [CertNormLe K ℂ]
 
+omit [Algebra K ℝ] [Algebra K ℂ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ] in
 /-- Radius budget of the inverse chain started on `|z_i| ≤ s i + c`: before step `k` the
 coordinates are at most `s i + (∑_{j<k} ε_j δ_j)`, which must fit the real chart domain. -/
-def OscPhysDom (n : ℕ) (s : Fin n → ℝ) : List OscStep → ℝ → Prop
+def OscPhysDom (n : ℕ) (s : Fin n → ℝ) : List (OscStepK K) → ℝ → Prop
   | [], _ => True
   | st :: l, c => (∀ i, s i + c + (st.δ : ℝ) < (st.ρ : ℝ)) ∧
       OscPhysDom n s l (c + (st.ε : ℝ) * (st.δ : ℝ))
 
 section Step
 
-variable {st : OscStep}
+variable {st : OscStepK K}
 
+omit [CertCoeff K] [Algebra K ℝ] [Algebra K ℂ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ]
+  [CertNormLe K ℂ] in
 private theorem oscStep_cast :
     ∀ i : Fin n, (((List.replicate n st.ρ).getD i 0 : ℚ) : ℝ) = (st.ρ : ℝ) := fun i => by
   rw [replicate_getD_oscRad]
 
+omit [Algebra K ℝ] [Algebra K ℂ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ] in
 private theorem oscStep_epsHalf (hs : OscStepOK n st) : (st.ε : ℝ) ≤ 1 / 2 := by
   have h : ((st.ε : ℚ) : ℝ) ≤ ((1 / 2 : ℚ) : ℝ) := Rat.cast_le.2 hs.ε_le
   simpa using h
 
+omit [Algebra K ℝ] [Algebra K ℂ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ] in
 private theorem oscStep_eps0 (hs : OscStepOK n st) : (0 : ℝ) ≤ (st.ε : ℝ) := by
   exact_mod_cast hs.ε_nonneg
 
+omit [CertNormLe K ℝ] in
 /-- Displacement of one step chart. -/
 theorem oscStep_chart_sub_le (hs : OscStepOK n st) {x : (Fin n → ℝ) × (Fin n → ℝ)}
     (hx : x ∈ realInterior (gaugeScalar (st.δ : ℝ) hs.delta_posℝ) (cpolyOpen (st.ρ : ℝ)) 1) :
@@ -58,6 +65,7 @@ theorem oscStep_chart_sub_le (hs : OscStepOK n st) {x : (Fin n → ℝ) × (Fin 
     (List.replicate n st.ρ) oscStep_cast (fun i => by exact_mod_cast hs.bound_q i)
     (fun i => by exact_mod_cast hs.bound_p i) hx
 
+omit [CertNormLe K ℝ] in
 /-- Displacement of one inverse step chart. -/
 theorem oscStep_inv_sub_le (hs : OscStepOK n st) {x : (Fin n → ℝ) × (Fin n → ℝ)}
     (hx : x ∈ realInterior (gaugeScalar (st.δ : ℝ) hs.delta_posℝ) (cpolyOpen (st.ρ : ℝ)) 1) :
@@ -67,6 +75,7 @@ theorem oscStep_inv_sub_le (hs : OscStepOK n st) {x : (Fin n → ℝ) × (Fin n 
     (List.replicate n st.ρ) oscStep_cast (fun i => by exact_mod_cast hs.bound_q i)
     (fun i => by exact_mod_cast hs.bound_p i) hx
 
+omit [CertNormLe K ℝ] in
 theorem oscStep_chart_chartInv (hs : OscStepOK n st) {x : (Fin n → ℝ) × (Fin n → ℝ)}
     (hx : x ∈ realInterior (gaugeScalar (st.δ : ℝ) hs.delta_posℝ) (cpolyOpen (st.ρ : ℝ)) 1) :
     stepChart st.gen (st.ρ : ℝ) (stepChartInv st.gen (st.ρ : ℝ) x) = x :=
@@ -84,8 +93,9 @@ private theorem abs_sub_add_le {a b c e f : ℝ} (h1 : |a - b| ≤ e) (h2 : |b -
 
 variable {r : Fin n → ℝ} {δc : ℝ}
 
+omit [CertNormLe K ℝ] in
 /-- Displacement of the chain chart: `|Ψ x - x| ≤ ∑ ε_k δ_k` coordinatewise on `oscBox r 0`. -/
-theorem oscChainMap_sub_le : ∀ {l : List OscStep}, (∀ st ∈ l, OscStepOK n st) →
+theorem oscChainMap_sub_le : ∀ {l : List (OscStepK K)}, (∀ st ∈ l, OscStepOK n st) →
     OscDomOK n r δc l → ∀ {x : (Fin n → ℝ) × (Fin n → ℝ)}, x ∈ oscBox r 0 →
     ∀ i, |(oscChainMap l x).1 i - x.1 i| ≤ (oscTail l : ℝ) ∧
       |(oscChainMap l x).2 i - x.2 i| ≤ (oscTail l : ℝ)
@@ -104,9 +114,10 @@ theorem oscChainMap_sub_le : ∀ {l : List OscStep}, (∀ st ∈ l, OscStepOK n 
     rw [e]
     exact ⟨abs_sub_add_le hA.1 hB.1, abs_sub_add_le hA.2 hB.2⟩
 
+omit [CertNormLe K ℝ] in
 /-- Displacement of the inverse chain chart and the inverse property, on coordinates
 `|z_i| ≤ s i + c` within the budget `OscPhysDom`. -/
-theorem oscChainInv_sub_le {s : Fin n → ℝ} : ∀ {l : List OscStep}, (∀ st ∈ l, OscStepOK n st) →
+theorem oscChainInv_sub_le {s : Fin n → ℝ} : ∀ {l : List (OscStepK K)}, (∀ st ∈ l, OscStepOK n st) →
     ∀ {c : ℝ} {z : (Fin n → ℝ) × (Fin n → ℝ)}, OscPhysDom n s l c →
     (∀ i, |z.1 i| ≤ s i + c ∧ |z.2 i| ≤ s i + c) →
     (∀ i, |(oscChainInv l z).1 i - z.1 i| ≤ (oscTail l : ℝ) ∧
@@ -153,14 +164,13 @@ private theorem chain_coord_add {x y : ℝ} {e R : ℝ} (h : |x - y| ≤ e) (hy 
   have : |x| ≤ |y| + |x - y| := by simpa using abs_add_le y (x - y)
   linarith
 
-/-- **Physical `m`-generator confinement** (track B, B2-ORIGCHAIN): the premises of
-`oscillatorChain_confinement`, plus a physical action box `a'` with radii `s`, the inverse-chain
-domain budget `OscPhysDom n s l 0`, and a transfer constant `d`. For every physical `z₀` with
-actions `≤ a'`, the physical flow exists, is unique, and the PHYSICAL actions drift by at most
-`2 d + η |t|` on `|t| ≤ T`. -/
-theorem oscillatorChain_physical {H Nact P : CartPoly}
+/-- **Shared tail of the physical theorems** (track B, B3-CHAINK): the proof of
+`oscillatorChain_physical` with the bound on the chart action of `w₀ = Ψinv z₀` taken as the
+hypothesis `hchart` (every point within `oscTail l` coordinatewise of `z₀` has actions `≤ a`)
+instead of the inequality `hs3`. -/
+theorem oscillatorChain_physical_core {H Nact P : CartPolyK K}
     (hH : CartFits n H) (hN : CartFits n Nact) (hP : CartFits n P)
-    (hA : cartActOnly Nact = true) {l : List OscStep} (hok : OscChainOK n Nact P l H)
+    (hA : cartActOnly Nact = true) {l : List (OscStepK K)} (hok : OscChainOK n Nact P l H)
     {δc : ℝ} (hδc : 0 < δc) (a b η : Fin n → ℝ) (εb T : ℝ) (hεb : 0 < εb) (hT : 0 ≤ T)
     (rl : List ℚ) (r : Fin n → ℝ) (hrl : ∀ i : Fin n, ((rl.getD i 0 : ℚ) : ℝ) = r i)
     (hr0 : ∀ i, 0 ≤ r i) (hdom1 : ∀ i, 2 * (b i + εb) ≤ r i ^ 2) (hdom : OscDomOK n r δc l)
@@ -169,10 +179,13 @@ theorem oscillatorChain_physical {H Nact P : CartPoly}
       η j - 2 * r j * (oscChainBound n l H : ℝ) / δc)
     (hmargin : ∀ j, a j + T * η j < b j)
     (a' s d : Fin n → ℝ) (hs0 : ∀ i, 0 ≤ s i) (hs1 : ∀ i, 2 * a' i ≤ s i ^ 2)
-    (hs2 : OscPhysDom n s l 0) (hs3 : ∀ i, (s i + (oscTail l : ℝ)) ^ 2 ≤ a i)
+    (hs2 : OscPhysDom n s l 0)
     (hd : ∀ j, (oscTail l : ℝ) * (2 * r j + (oscTail l : ℝ)) ≤ d j)
     (z₀ : (Fin n → ℝ) × (Fin n → ℝ))
-    (hz₀ : ∀ j, KAM.Planetary.oscillatorAction z₀.2 z₀.1 j ≤ a' j) :
+    (hz₀ : ∀ j, KAM.Planetary.oscillatorAction z₀.2 z₀.1 j ≤ a' j)
+    (hchart : ∀ w : (Fin n → ℝ) × (Fin n → ℝ),
+      (∀ i, |w.1 i - z₀.1 i| ≤ (oscTail l : ℝ) ∧ |w.2 i - z₀.2 i| ≤ (oscTail l : ℝ)) →
+      ∀ j, KAM.Planetary.oscillatorAction w.2 w.1 j ≤ a j) :
     ∃ T₁ : ℝ, T < T₁ ∧ ∃ z : ℝ → (Fin n → ℝ) × (Fin n → ℝ), z 0 = z₀ ∧
       (∀ t ∈ Ioo (-T₁) T₁, z t ∈ (univ : Set ((Fin n → ℝ) × (Fin n → ℝ))) ∧
         HasDerivAt z (KAM.hamiltonianVectorField
@@ -195,18 +208,7 @@ theorem oscillatorChain_physical {H Nact P : CartPoly}
     simpa using this
   obtain ⟨hdisp0, hΨw₀⟩ := oscChainInv_sub_le hl hs2 hz₀c
   set w₀ := oscChainInv l z₀ with hw₀def
-  have hw₀c : ∀ j, |w₀.1 j| ≤ s j + e ∧ |w₀.2 j| ≤ s j + e := fun j =>
-    ⟨chain_coord_add (hdisp0 j).1 (by simpa using (hz₀c j).1),
-      chain_coord_add (hdisp0 j).2 (by simpa using (hz₀c j).2)⟩
-  have hw₀a : ∀ j, KAM.Planetary.oscillatorAction w₀.2 w₀.1 j ≤ a j := fun j => by
-    have h1 := hw₀c j
-    have h3 := hs3 j
-    have q1 : w₀.1 j ^ 2 ≤ (s j + e) ^ 2 :=
-      sq_le_sq' (by linarith [abs_le.1 h1.1]) (by linarith [abs_le.1 h1.1])
-    have q2 : w₀.2 j ^ 2 ≤ (s j + e) ^ 2 :=
-      sq_le_sq' (by linarith [abs_le.1 h1.2]) (by linarith [abs_le.1 h1.2])
-    simp only [KAM.Planetary.oscillatorAction]
-    linarith
+  have hw₀a : ∀ j, KAM.Planetary.oscillatorAction w₀.2 w₀.1 j ≤ a j := hchart w₀ hdisp0
   obtain ⟨T₁, hT₁, z, hz0, hode, huniq, hb⟩ := oscillatorChain_confinement hH hN hP hA hok hδc
     a b η εb T hεb hT rl r hrl hr0 hdom1 hdom hη hdrift hmargin w₀ hw₀a
   rw [hΨw₀] at hz0
@@ -248,6 +250,57 @@ theorem oscillatorChain_physical {H Nact P : CartPoly}
   constructor
   · rw [abs_le]; constructor <;> nlinarith [c1.1, c1.2, p1'.1, p1'.2, p2'.1, p2'.2]
   · nlinarith [hc.2, p1'.2]
+
+/-- **Physical `m`-generator confinement** (track B, B2-ORIGCHAIN): the premises of
+`oscillatorChain_confinement`, plus a physical action box `a'` with radii `s`, the inverse-chain
+domain budget `OscPhysDom n s l 0`, and a transfer constant `d`. For every physical `z₀` with
+actions `≤ a'`, the physical flow exists, is unique, and the PHYSICAL actions drift by at most
+`2 d + η |t|` on `|t| ≤ T`. -/
+theorem oscillatorChain_physical {H Nact P : CartPolyK K}
+    (hH : CartFits n H) (hN : CartFits n Nact) (hP : CartFits n P)
+    (hA : cartActOnly Nact = true) {l : List (OscStepK K)} (hok : OscChainOK n Nact P l H)
+    {δc : ℝ} (hδc : 0 < δc) (a b η : Fin n → ℝ) (εb T : ℝ) (hεb : 0 < εb) (hT : 0 ≤ T)
+    (rl : List ℚ) (r : Fin n → ℝ) (hrl : ∀ i : Fin n, ((rl.getD i 0 : ℚ) : ℝ) = r i)
+    (hr0 : ∀ i, 0 ≤ r i) (hdom1 : ∀ i, 2 * (b i + εb) ≤ r i ^ 2) (hdom : OscDomOK n r δc l)
+    (hη : ∀ j, 0 ≤ η j)
+    (hdrift : ∀ j : Fin n, ((cartSupBound (cartBracket (cartAction j) P) rl rl : ℚ) : ℝ) ≤
+      η j - 2 * r j * (oscChainBound n l H : ℝ) / δc)
+    (hmargin : ∀ j, a j + T * η j < b j)
+    (a' s d : Fin n → ℝ) (hs0 : ∀ i, 0 ≤ s i) (hs1 : ∀ i, 2 * a' i ≤ s i ^ 2)
+    (hs2 : OscPhysDom n s l 0) (hs3 : ∀ i, (s i + (oscTail l : ℝ)) ^ 2 ≤ a i)
+    (hd : ∀ j, (oscTail l : ℝ) * (2 * r j + (oscTail l : ℝ)) ≤ d j)
+    (z₀ : (Fin n → ℝ) × (Fin n → ℝ))
+    (hz₀ : ∀ j, KAM.Planetary.oscillatorAction z₀.2 z₀.1 j ≤ a' j) :
+    ∃ T₁ : ℝ, T < T₁ ∧ ∃ z : ℝ → (Fin n → ℝ) × (Fin n → ℝ), z 0 = z₀ ∧
+      (∀ t ∈ Ioo (-T₁) T₁, z t ∈ (univ : Set ((Fin n → ℝ) × (Fin n → ℝ))) ∧
+        HasDerivAt z (KAM.hamiltonianVectorField
+          (fun w : (Fin n → ℝ) × (Fin n → ℝ) => cartEval H w) (z t)) t) ∧
+      (∀ (I : Set ℝ) (y : ℝ → (Fin n → ℝ) × (Fin n → ℝ)), I.OrdConnected → (0 : ℝ) ∈ I →
+        y 0 = z₀ →
+        (∀ t ∈ I, y t ∈ (univ : Set ((Fin n → ℝ) × (Fin n → ℝ))) ∧
+          HasDerivAt y (KAM.hamiltonianVectorField
+            (fun w : (Fin n → ℝ) × (Fin n → ℝ) => cartEval H w) (y t)) t) →
+        ∀ t ∈ I, t ∈ Ioo (-T₁) T₁ → y t = z t) ∧
+      ∀ t : ℝ, |t| ≤ T → ∀ j,
+        |KAM.Planetary.oscillatorAction (z t).2 (z t).1 j -
+            KAM.Planetary.oscillatorAction z₀.2 z₀.1 j| ≤ 2 * d j + η j * |t| ∧
+          KAM.Planetary.oscillatorAction (z t).2 (z t).1 j ≤ a j + η j * T + d j := by
+  refine oscillatorChain_physical_core hH hN hP hA hok hδc a b η εb T hεb hT rl r hrl hr0 hdom1
+    hdom hη hdrift hmargin a' s d hs0 hs1 hs2 hd z₀ hz₀ ?_
+  intro w hdisp j
+  have hz₀c : ∀ j, |z₀.1 j| ≤ s j + 0 ∧ |z₀.2 j| ≤ s j + 0 := fun j => by
+    have := chainCoord_abs_le z₀ j (hs0 j) (hs1 j) (hz₀ j)
+    simpa using this
+  have h1 : |w.1 j| ≤ s j + (oscTail l : ℝ) ∧ |w.2 j| ≤ s j + (oscTail l : ℝ) :=
+    ⟨chain_coord_add (hdisp j).1 (by simpa using (hz₀c j).1),
+      chain_coord_add (hdisp j).2 (by simpa using (hz₀c j).2)⟩
+  have h3 := hs3 j
+  have q1 : w.1 j ^ 2 ≤ (s j + (oscTail l : ℝ)) ^ 2 :=
+    sq_le_sq' (by linarith [abs_le.1 h1.1]) (by linarith [abs_le.1 h1.1])
+  have q2 : w.2 j ^ 2 ≤ (s j + (oscTail l : ℝ)) ^ 2 :=
+    sq_le_sq' (by linarith [abs_le.1 h1.2]) (by linarith [abs_le.1 h1.2])
+  simp only [KAM.Planetary.oscillatorAction]
+  linarith
 
 end KAM.EffectiveStability
 

@@ -33,30 +33,36 @@ namespace KAM.EffectiveStability
 
 open CartPoly
 
-variable {n : ℕ}
+variable {n : ℕ} {K : Type} [CertCoeff K] [Algebra K ℝ] [Algebra K ℂ] [IsScalarTower K ℝ ℂ]
+  [CertNormLe K ℝ] [CertNormLe K ℂ]
 
+omit [Algebra K ℝ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ] in
 /-- The Lie remainder `H (X^1 z) - ∑_{j<L} (j!)⁻¹ ad_φ^j H (z)`, as a function of `z ∈ ℂⁿ×ℂⁿ`. -/
-def stepRem (χ H : CartPoly) (ρ : ℝ) (L : ℕ) (z : (Fin n → ℂ) × (Fin n → ℂ)) : ℂ :=
+def stepRem (χ H : CartPolyK K) (ρ : ℝ) (L : ℕ) (z : (Fin n → ℂ) × (Fin n → ℂ)) : ℂ :=
   cartEval H (flow (KAM.hamiltonianVectorFieldℂ (fun w : (Fin n → ℂ) × (Fin n → ℂ) =>
       cartEval χ w)) (cpolyOpen ρ) 1 z) - cartEval (cartLieSum χ H L) z
 
-theorem differentiableOn_cartEval (P : CartPoly) (U : Set ((Fin n → ℂ) × (Fin n → ℂ))) :
+omit [Algebra K ℝ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ] in
+theorem differentiableOn_cartEval (P : CartPolyK K) (U : Set ((Fin n → ℂ) × (Fin n → ℂ))) :
     DifferentiableOn ℂ (fun w : (Fin n → ℂ) × (Fin n → ℂ) => cartEval P w) U :=
   ((contDiff_eval (𝕜 := ℂ) P 1).differentiable one_ne_zero).differentiableOn
 
-theorem cartEval_realInclusion₂ (P : CartPoly) (x : (Fin n → ℝ) × (Fin n → ℝ)) :
+omit [CertNormLe K ℝ] [CertNormLe K ℂ] in
+theorem cartEval_realInclusion₂ (P : CartPolyK K) (x : (Fin n → ℝ) × (Fin n → ℝ)) :
     cartEval P (KAM.realInclusion₂ n x) = ((cartEval P x : ℝ) : ℂ) := by
   have := cartEval_ofReal P x
   simpa [KAM.realInclusion] using this
 
+omit [CertNormLe K ℝ] [CertNormLe K ℂ] in
 /-- The real points have vanishing imaginary part of any rational polynomial. -/
-theorem cartEval_realInclusion₂_im (P : CartPoly) (x : (Fin n → ℝ) × (Fin n → ℝ)) :
+theorem cartEval_realInclusion₂_im (P : CartPolyK K) (x : (Fin n → ℝ) × (Fin n → ℝ)) :
     (cartEval P (KAM.realInclusion₂ n x)).im = 0 := by
   rw [cartEval_realInclusion₂]
   exact Complex.ofReal_im _
 
+omit [Algebra K ℝ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] in
 /-- The majorant checks give the small-field hypothesis. -/
-theorem smallField_of_supBound {χ : CartPoly} (hχ : CartFits n χ) {ρ δ ε : ℝ} (hδ : 0 < δ)
+theorem smallField_of_supBound {χ : CartPolyK K} (hχ : CartFits n χ) {ρ δ ε : ℝ} (hδ : 0 < δ)
     (ρl : List ℚ) (hρl : ∀ i : Fin n, ((ρl.getD i 0 : ℚ) : ℝ) = ρ) (hε0 : 0 ≤ ε) (hε : ε ≤ 1 / 2)
     (hq : ∀ i : Fin n, ((cartSupBound (cartDq i χ) ρl ρl : ℚ) : ℝ) ≤ ε * δ)
     (hp : ∀ i : Fin n, ((cartSupBound (cartDp i χ) ρl ρl : ℚ) : ℝ) ≤ ε * δ) :
@@ -78,8 +84,9 @@ theorem smallField_of_supBound {χ : CartPoly} (hχ : CartFits n χ) {ρ δ ε :
 
 section Remainder
 
-variable {χ H : CartPoly} {ρ δ ε : ℝ} {hδ : 0 < δ}
+variable {χ H : CartPolyK K} {ρ δ ε : ℝ} {hδ : 0 < δ}
 
+omit [Algebra K ℝ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ] in
 theorem differentiableOn_stepRem (hS : SmallField (gaugeScalar δ hδ) (cpolyOpen ρ)
       (KAM.hamiltonianVectorFieldℂ (fun w : (Fin n → ℂ) × (Fin n → ℂ) => cartEval χ w)) ε)
     (L : ℕ) :
@@ -92,6 +99,7 @@ theorem differentiableOn_stepRem (hS : SmallField (gaugeScalar δ hδ) (cpolyOpe
     (differentiableOn_cartEval H univ).comp h1 (fun _ _ => mem_univ _)
   exact h2.sub (differentiableOn_cartEval _ _)
 
+omit [Algebra K ℝ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] in
 /-- The Lie–Taylor remainder bound on the half gauge interior. -/
 theorem norm_stepRem_le (hχ : CartFits n χ) (hH : CartFits n H)
     (hS : SmallField (gaugeScalar δ hδ) (cpolyOpen ρ)
@@ -126,6 +134,7 @@ theorem norm_stepRem_le (hχ : CartFits n χ) (hH : CartFits n H)
   rw [h4]
   exact h3
 
+omit [CertNormLe K ℝ] [CertNormLe K ℂ] in
 /-- At a real point the remainder is the real number `H (Ψ x) - (Lie sum)(x)`. -/
 theorem stepRem_realInclusion₂ (hS : SmallField (gaugeScalar δ hδ) (cpolyOpen ρ)
       (KAM.hamiltonianVectorFieldℂ (fun w : (Fin n → ℂ) × (Fin n → ℂ) => cartEval χ w)) ε)

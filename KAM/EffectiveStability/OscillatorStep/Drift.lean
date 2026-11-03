@@ -28,7 +28,8 @@ namespace KAM.EffectiveStability
 
 open CartPoly
 
-variable {n : ℕ}
+variable {n : ℕ} {K : Type} [CertCoeff K] [Algebra K ℝ] [Algebra K ℂ] [IsScalarTower K ℝ ℂ]
+  [CertNormLe K ℝ] [CertNormLe K ℂ]
 
 /-- Differentiability of the real part of a holomorphic function along the real slice. -/
 theorem differentiableAt_realPart {f : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
@@ -40,8 +41,9 @@ theorem differentiableAt_realPart {f : (Fin n → ℂ) × (Fin n → ℂ) → �
   exact ((Complex.reCLM.hasFDerivAt (x := f (KAM.realInclusion₂ n x))).comp x
     (h1.comp x (KAM.realInclusion₂ n).hasFDerivAt)).differentiableAt
 
+omit [CertNormLe K ℝ] [CertNormLe K ℂ] in
 /-- The chart remainder `R` is `P + Re Rem ∘ ι` on the real half interior. -/
-theorem chartRemainder_eq {χ H Nact P : CartPoly} (hN : CartFits n Nact)
+theorem chartRemainder_eq {χ H Nact P : CartPolyK K} (hN : CartFits n Nact)
     (hA : cartActOnly Nact = true) {L : ℕ} {ρ δ ε : ℝ} {hδ : 0 < δ}
     (hid : cartEqCheck (cartLieSum χ H L) (cartAdd (cartActSubst Nact) P) = true)
     (hS : SmallField (gaugeScalar δ hδ) (cpolyOpen ρ)
@@ -59,7 +61,7 @@ theorem chartRemainder_eq {χ H Nact P : CartPoly} (hN : CartFits n Nact)
   ring
 
 /-- **Drift bound** for the chart remainder at a real point of the closed oscillator domain. -/
-theorem stepDrift_le {χ H Nact P : CartPoly} (hχ : CartFits n χ) (hH : CartFits n H)
+theorem stepDrift_le {χ H Nact P : CartPolyK K} (hχ : CartFits n χ) (hH : CartFits n H)
     (hN : CartFits n Nact) (hP : CartFits n P) (hA : cartActOnly Nact = true) {L : ℕ}
     (hL : 1 ≤ L) {ρ δ δc ε : ℝ} {hδ : 0 < δ} (hδc : 0 < δc)
     (hid : cartEqCheck (cartLieSum χ H L) (cartAdd (cartActSubst Nact) P) = true)

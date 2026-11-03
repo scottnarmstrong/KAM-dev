@@ -11,7 +11,8 @@ public import KAM.EffectiveStability.OscillatorCheck
 /-!
 # A single Bool checker for `m`-generator certificates (track B, B2-CHECKCHAIN)
 
-`OscChainCert n` is pure data (polynomials, the list of `OscStep`s, rational widths and bounds).
+`OscChainCertK K n` is pure data (polynomials, the list of `OscStepK K`s, rational widths and
+bounds).
 `checkOscChain` is a total computable `Bool` conjunction of every non-binder premise of
 `oscillatorChain_confinement`, evaluated in exact `ℚ`; `checkOscChain_sound` extracts the premises
 and applies B2-MULTI. Lists are read with `getD i 0`; ranges `i < n` are `List.range n`.
@@ -23,16 +24,18 @@ namespace KAM.EffectiveStability
 
 open Set CartPoly
 
+variable {K : Type} [CertCoeff K]
+
 /-- Certificate data for a chain of generators (no `Prop` fields; all numbers are rational). -/
-structure OscChainCert (n : ℕ) where
+structure OscChainCertK (K : Type) (n : ℕ) where
   /-- the physical Hamiltonian -/
-  H : CartPoly
+  H : CartPolyK K
   /-- the normal form, in the `q`-variables only -/
-  Nact : CartPoly
+  Nact : CartPolyK K
   /-- the remainder -/
-  P : CartPoly
+  P : CartPolyK K
   /-- the normalization steps, outermost first -/
-  steps : List OscStep
+  steps : List (OscStepK K)
   /-- Cauchy width -/
   δc : ℚ
   /-- slack in the action ball -/
@@ -48,8 +51,11 @@ structure OscChainCert (n : ℕ) where
   /-- coordinate radii of the oscillator ball -/
   r : List ℚ
 
+/-- The `ℚ`-coefficient certificates (the original name). -/
+abbrev OscChainCert (n : ℕ) := OscChainCertK ℚ n
+
 /-- Boolean version of `OscStepOK`. -/
-def oscStepOKB (n : ℕ) (s : OscStep) : Bool :=
+def oscStepOKB (n : ℕ) (s : OscStepK K) : Bool :=
   decide (0 < s.δ) && decide (0 ≤ s.ε) && decide (s.ε ≤ 1 / 2) && decide (1 ≤ s.order) &&
   cartFitsB n s.gen && cartFitsB n s.out &&
   (List.range n).all fun i =>
@@ -58,7 +64,7 @@ def oscStepOKB (n : ℕ) (s : OscStep) : Bool :=
     decide (cartSupBound (cartDp i s.gen) (List.replicate n s.ρ) (List.replicate n s.ρ) ≤
       s.ε * s.δ)
 
-theorem oscStepOKB_sound {n : ℕ} {s : OscStep} (h : oscStepOKB n s = true) : OscStepOK n s := by
+theorem oscStepOKB_sound {n : ℕ} {s : OscStepK K} (h : oscStepOKB n s = true) : OscStepOK n s := by
   unfold oscStepOKB at h
   simp only [Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true, List.mem_range] at h
   obtain ⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩ := h
@@ -66,13 +72,13 @@ theorem oscStepOKB_sound {n : ℕ} {s : OscStep} (h : oscStepOKB n s = true) : O
     fun i => (h7 i i.2).1, fun i => (h7 i i.2).2⟩
 
 /-- Boolean version of `OscChainOK` (using the `cartEqCheck` disjunct of `OscLieOK`). -/
-def oscChainOKB (n : ℕ) (Nact P : CartPoly) : List OscStep → CartPoly → Bool
+def oscChainOKB (n : ℕ) (Nact P : CartPolyK K) : List (OscStepK K) → CartPolyK K → Bool
   | [], Q => cartEqCheck Q (cartAdd (cartActSubst Nact) P)
   | s :: l, Q => oscStepOKB n s && cartEqCheck (cartLieSum s.gen Q s.order) s.out &&
       oscChainOKB n Nact P l s.out
 
-theorem oscChainOKB_sound {n : ℕ} {Nact P : CartPoly} :
-    ∀ (l : List OscStep) (Q : CartPoly), oscChainOKB n Nact P l Q = true →
+theorem oscChainOKB_sound {n : ℕ} {Nact P : CartPolyK K} :
+    ∀ (l : List (OscStepK K)) (Q : CartPolyK K), oscChainOKB n Nact P l Q = true →
       OscChainOK n Nact P l Q
   | [], _, h => h
   | s :: l, Q, h => by
@@ -80,14 +86,15 @@ theorem oscChainOKB_sound {n : ℕ} {Nact P : CartPoly} :
     exact ⟨oscStepOKB_sound h.1.1, Or.inr h.1.2, oscChainOKB_sound l _ h.2⟩
 
 /-- Boolean version of `OscDomOK`, with rational radii `r` read by `getD`. -/
-def oscDomOKB (n : ℕ) (r : List ℚ) (δc : ℚ) : List OscStep → Bool
+def oscDomOKB (n : ℕ) (r : List ℚ) (δc : ℚ) : List (OscStepK K) → Bool
   | [] => true
   | s :: l => ((List.range n).all fun i =>
       decide (r.getD i 0 + oscTail l + s.δ < s.ρ) &&
       decide (r.getD i 0 + δc + oscTail l + s.δ / 2 < s.ρ)) && oscDomOKB n r δc l
 
+omit [CertCoeff K] in
 theorem oscDomOKB_sound {n : ℕ} {r : List ℚ} {δc : ℚ} :
-    ∀ l : List OscStep, oscDomOKB n r δc l = true →
+    ∀ l : List (OscStepK K), oscDomOKB n r δc l = true →
       OscDomOK n (fun i : Fin n => ((r.getD i 0 : ℚ) : ℝ)) (δc : ℝ) l
   | [], _ => trivial
   | s :: l, h => by
@@ -99,7 +106,7 @@ theorem oscDomOKB_sound {n : ℕ} {r : List ℚ} {δc : ℚ} :
       push_cast at this; exact this
 
 /-- The Bool checker: every non-binder premise of `oscillatorChain_confinement`, in exact `ℚ`. -/
-def checkOscChain {n : ℕ} (c : OscChainCert n) : Bool :=
+def checkOscChain {n : ℕ} (c : OscChainCertK K n) : Bool :=
   cartFitsB n c.H && cartFitsB n c.Nact && cartFitsB n c.P && cartActOnly c.Nact &&
   oscChainOKB n c.Nact c.P c.steps c.H && oscDomOKB n c.r c.δc c.steps &&
   decide (0 < c.δc) && decide (0 < c.εb) && decide (0 ≤ c.T) &&
@@ -110,7 +117,9 @@ def checkOscChain {n : ℕ} (c : OscChainCert n) : Bool :=
       c.η.getD i 0 - 2 * c.r.getD i 0 * oscChainBound n c.steps c.H / c.δc) &&
     decide (c.a.getD i 0 + c.T * c.η.getD i 0 < c.b.getD i 0)
 
-theorem checkOscChain_sound {n : ℕ} (c : OscChainCert n) (hc : checkOscChain c = true)
+theorem checkOscChain_sound {n : ℕ} [Algebra K ℝ] [Algebra K ℂ]
+    [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ]
+    (c : OscChainCertK K n) (hc : checkOscChain c = true)
     (w₀ : (Fin n → ℝ) × (Fin n → ℝ))
     (hw₀ : ∀ j : Fin n, KAM.Planetary.oscillatorAction w₀.2 w₀.1 j ≤ (c.a.getD j 0 : ℝ)) :
     ∃ T₁ : ℝ, (c.T : ℝ) < T₁ ∧ ∃ z : ℝ → (Fin n → ℝ) × (Fin n → ℝ),
