@@ -42,7 +42,7 @@
     "KAM/EffectiveStability/Examples.lean"
    ],
    "source": "B1-T, B1-E exactly as FREEZE-PROPOSAL",
-   "status": "proving (claude-2)"
+   "status": "proved; audit 1 running (codex-2)"
   }
  ]
 }

@@ -28,3 +28,8 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
   `exists_confined_solution_compact`, harmless; N2 = same OD-B2 wording). Auditor sessions closed.
 - 2026-11-02 23:54: landing request for inp-b1 (CORE + TRANSFER + track docs) sent to kam-inp-63.
 - 2026-11-02 23:58: root-b8 edit-scope rule recorded (SPEC, prover brief): bulk edits only under KAM/EffectiveStability/** and docs/tracks/B/**; diff-stat check before each commit.
+- 2026-11-03 00:00: B1-HEAD READY (claude-2): Torus 136, Oscillator 146, ObservableTransfer 132, Examples 58 lines.
+  Rechecked by kam-b1: both headlines byte-identical to the audited text (docstring through `:= by`), four
+  targeted builds OK, `#print axioms` of both headlines and both transfer corollaries = [propext, Classical.choice,
+  Quot.sound]. Examples instantiate both headlines (identity chart, η = 0, T ≥ 0 incl. 0, zero action).
+  B1-HEAD audit 1 launched (codex-2, inp-maud-b1head). Prover session closed.
