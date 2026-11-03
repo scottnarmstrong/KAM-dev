@@ -7,7 +7,7 @@ CONVENTIONS: Phase n = (Fin n -> R) x (Fin n -> R); max norm; X_H = (partial_J H
 STANDING_ASSUMPTIONS: -
 EXTERNAL_POLICY: Mathlib-level ODE inputs (local existence/uniqueness, compact continuation) are KIND external nodes ext:ode#*; cited GLS17/CL20 derivations are reproduced in the plan and are provenance, not external inputs
 FROZEN_ANCHORS: b:defs#hamiltonianVectorField, b:defs#symplecticForm, b:defs#oscillatorAction, b:2.2#B1-T, b:2.3#B1-E
-FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:d119b3b44d7553dc558b4b7940a17c23703eb37c9ea54a89c4e44397b10929cf
+FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:fd93ee6b8a686eb4fbd6ee6f8332c437ec230aa41bffebacb8cfb7be77aeb45a
 WRITER: kam-b1
 GLOBAL_REVIEWER: sonnet-global-B
 GLOBAL_REVIEW_REF: docs/graph/B/reviews/GLOBAL-review.md and docs/graph/B/reviews/GLOBAL-recheck.md (fresh Sonnet, ACCEPT WITH FINDINGS; findings applied); node review docs/graph/B/reviews/NODE-review.md
@@ -525,7 +525,7 @@ EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
 LEAN_STATUS: PROVED
 LEAN_REF: KAM.EffectiveStability.oscillator_confinement (KAM/Frozen/EffectiveStability/OscillatorConfinement.lean); provider KAM.Provider.EffectiveStability.oscillator_confinement
-LEAN_NOTE: SEALED (D72, manifest effectiveStability.d72.oscillator_confinement.v1, main cff2accd5); seal audit 1 PASS WITH NOTES; standard axioms; consumers: oscillator step/chain checker stack generic over CertCoeff K and oscillatorChain_physical_disc (B3-CHAINK, track B batch 17)
+LEAN_NOTE: SEALED (D72, manifest effectiveStability.d72.oscillator_confinement.v1, main cff2accd5); seal audit 1 PASS WITH NOTES; standard axioms; consumers: oscillator step/chain checker stack generic over CertCoeff K and oscillatorChain_physical_disc (B3-CHAINK, track B batch 17); literal application KAM.EffectiveStability.henonHeiles_confinement (D73, SEALED, library KAMHenonHeiles) uses the oscillator checker route, not this anchor (not yet a graph root)
 NOTE: statement source = exact frozen text (FREEZE-PROPOSAL §2, owner D72); mathematical source plan §2.3 L165-L193; deviations in FREEZE-PROPOSAL §6 L161-L166
 
 ## Append-only structural amendments
