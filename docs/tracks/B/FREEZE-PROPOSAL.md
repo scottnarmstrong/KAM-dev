@@ -1,6 +1,6 @@
 # Track B: freeze proposal, draft 1 (B0 text of B1-T and B1-E)
 
-Overnight mode (D71). **Nothing is frozen.** Statement audit round 1 (codex-2, `freeze/STATEMENT-REVIEW-1.md`): **PASS WITH NOTES**; C1 applied (docstrings and OD-B2 wording; no type change). This file gives the exact proposed Lean text for the owner's morning
+Overnight mode (D71). **Nothing is frozen.** Statement audit round 1 (codex-2, `freeze/STATEMENT-REVIEW-1.md`): **PASS WITH NOTES**; C1 applied (docstrings and OD-B2 wording; no type change). **Both statements are proved tonight as ordinary theorems in exactly this text** (`KAM/EffectiveStability/Torus.lean`, `Oscillator.lean`; package audit B1-HEAD-1 PASS WITH NOTES; axioms `propext, Classical.choice, Quot.sound`). This file gives the exact proposed Lean text for the owner's morning
 review. Base: branch `inp-b1` off `inp` 98ebd4771. The same text is proved tonight as ordinary theorems
 `KAM.EffectiveStability.torus_confinement` / `.oscillator_confinement` (package B1-HEAD); any change requested
 by audit or owner is applied to both.
@@ -142,8 +142,8 @@ end KAM.EffectiveStability
 - **Why the physical solution is unique in all of V**, not just in the chart image: `H` is `C²` on open `V`, so
   `X_H` is `C¹` there and `gen_uniqueness_inter` applies to any solution in `V`.
 - **Zero oscillator actions.** The Cartesian chart has no singularity at `I_j = 0`; `{I_j, N∘I} = 0` follows from
-  invariance of `N ∘ I` under the rotation in the `j`-th `(q_j, p_j)` plane, with no differentiability of `N` at 0
-  assumed (it is inherited from `K - R`).
+  invariance of `N ∘ I` under the rotation in the `j`-th `(q_j, p_j)` plane; the composition `N ∘ I = K - R` is
+  differentiable on the chart domain; differentiability of `N` itself is not asserted (B1-HEAD audit 1, N1).
 
 ## 5. Source findings (plan §9): dispositions
 

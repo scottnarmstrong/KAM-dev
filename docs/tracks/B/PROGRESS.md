@@ -33,3 +33,6 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
   targeted builds OK, `#print axioms` of both headlines and both transfer corollaries = [propext, Classical.choice,
   Quot.sound]. Examples instantiate both headlines (identity chart, η = 0, T ≥ 0 incl. 0, zero action).
   B1-HEAD audit 1 launched (codex-2, inp-maud-b1head). Prover session closed.
+- 2026-11-03 00:04: B1-HEAD audit 1 (codex-2): **PASS WITH NOTES** (N1: FREEZE-PROPOSAL §4 wording on N's
+  differentiability; applied). Merged into inp-b1; landing request batch 2 sent. **Program B0 + B1 complete**
+  (both headlines proved exactly as the audited B0 text; nothing frozen; owner approval of the text pending).
