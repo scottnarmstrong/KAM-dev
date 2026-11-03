@@ -49,3 +49,4 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
 - 2026-11-03 00:59: B2-DOM audit 1: **PASS WITH NOTES**; merged into inp-b1.
 - 2026-11-03 01:01: **batch 3 LANDED on main 2a6e15477** (B2-REALFLOW + B2-CAUCHY; kam-inp-63; byte-identical to audited heads; 33 theorems standard axioms). inp merged back into inp-b1.
 - 2026-11-03 01:04: B2-POLY audit 1: FAIL on F1 only (Poly.lean:16 at 101 columns — introduced by kam-b1's own facade docstring rewrap, not rechecked; lesson: rerun the width check after every own edit); mathematics PASS WITH NOTES (N1 CartFits typing repair accepted). Fixed; delta audit 2 launched.
+- 2026-11-03 01:06: B2-POLY audit 2 (delta): **PASS WITH NOTES**, F1 closed; merged into inp-b1. Landing request batch 4 (B2-POLY + B2-DOM).

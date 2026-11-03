@@ -54,7 +54,7 @@
     "KAM/EffectiveStability/Poly/Bound.lean"
    ],
    "source": "plan §3.1-3.2: polynomial bracket/evaluation, exact ℚ (OD-B8, OD-B9)",
-   "status": "ready (renamed); audit 1 running"
+   "status": "PASS WITH NOTES; landing requested (batch 4)"
   },
   {
    "id": "B2-REALFLOW",
@@ -81,7 +81,7 @@
     "KAM/EffectiveStability/PolyDomain.lean"
    ],
    "source": "plan §3.1: nested complex domains with strict margins; small-field check",
-   "status": "PASS WITH NOTES (audit 1); merged into inp-b1"
+   "status": "PASS WITH NOTES; landing requested (batch 4)"
   },
   {
    "id": "B2-STEP",
