@@ -158,6 +158,14 @@
    ],
    "source": "plan §3.2 Fourier–Taylor norms and η^poly (B4)",
    "status": "proving (claude-2)"
+  },
+  {
+   "id": "B4-TDOM",
+   "modules": [
+    "KAM/EffectiveStability/TorusDomain.lean"
+   ],
+   "source": "plan §3.2/§7 B4: strip domains for the B1-T route",
+   "status": "proving (claude-5)"
   }
  ]
 }
