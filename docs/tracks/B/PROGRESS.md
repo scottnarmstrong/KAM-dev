@@ -72,3 +72,4 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
 - 2026-11-03 02:10: B2-ORIGCHAIN READY 02:08 (claude-5; OscillatorChainPhysical 254 + Smoke 67): oscillatorChain_physical; rechecked; audit 1 launched.
 - 2026-11-03 02:11: B4-TDOM launched (claude-5, KAM-inp-b4tdom): strip×polydisc domain, scaleCLE gauge, small field, lattice equivariance (flow_d), cylinder and Cauchy-disc inclusions.
 - 2026-11-03 02:12: B2-CHECKCHAIN audit 1: **PASS WITH NOTES**; merged into inp-b1.
+- 2026-11-03 02:13: B2-ORIGCHAIN audit 1: **PASS WITH NOTES** (doc nits N1/N2 kept for byte identity; N3 smoke scope). Merged; landing request batch 9 (B2-CHECKCHAIN + B2-ORIGCHAIN).
