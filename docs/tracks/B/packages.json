@@ -170,10 +170,13 @@
   {
    "id": "B4-TSTEP",
    "modules": [
-    "KAM/EffectiveStability/TorusStep.lean"
+    "KAM/EffectiveStability/TorusStep.lean",
+    "KAM/EffectiveStability/TorusStep/Remainder.lean",
+    "KAM/EffectiveStability/TorusStep/Drift.lean",
+    "KAM/EffectiveStability/TorusStep/Smoke.lean"
    ],
    "source": "plan §3.2/§7 B4: B1-T checker route (one generator)",
-   "status": "proving (claude-2)"
+   "status": "ready; audit 1 running"
   }
  ]
 }
