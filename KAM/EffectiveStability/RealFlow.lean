@@ -16,3 +16,5 @@ See `RealFlow/Basic.lean` (definitions, reality, smoothness, displacement),
 `RealFlow/Symplectic.lean` (symplectic, inverse) and `RealFlow/Lie.lean` (observables, real
 Lie–Taylor bound, smoke test).
 -/
+
+public section
