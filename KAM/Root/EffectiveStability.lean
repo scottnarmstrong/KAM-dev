@@ -7,16 +7,22 @@ module
 
 public import KAM.EffectiveStability.ActionDerivative
 public import KAM.EffectiveStability.Cauchy
+public import KAM.EffectiveStability.ChartChain
 public import KAM.EffectiveStability.ChartFlow
 public import KAM.EffectiveStability.Domains
 public import KAM.EffectiveStability.Examples
 public import KAM.EffectiveStability.FirstExit
 public import KAM.EffectiveStability.ObservableTransfer
 public import KAM.EffectiveStability.Oscillator
+public import KAM.EffectiveStability.OscillatorStep.Drift
+public import KAM.EffectiveStability.OscillatorStep.Remainder
+public import KAM.EffectiveStability.OscillatorStep.Smoke
+public import KAM.EffectiveStability.OscillatorStep
 public import KAM.EffectiveStability.Poly.Basic
 public import KAM.EffectiveStability.Poly.Bound
 public import KAM.EffectiveStability.Poly.Bracket
 public import KAM.EffectiveStability.Poly.Deriv
+public import KAM.EffectiveStability.Poly.Lie
 public import KAM.EffectiveStability.Poly
 public import KAM.EffectiveStability.PolyDomain
 public import KAM.EffectiveStability.RealFlow.Basic
