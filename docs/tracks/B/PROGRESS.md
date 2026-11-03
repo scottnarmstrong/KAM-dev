@@ -53,3 +53,4 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
 - 2026-11-03 01:12: B2-COMPOSE READY 01:10 (claude-5; ChartChain.lean 189 lines; rechecked); audit 1 launched.
 - 2026-11-03 01:14: B2-COMPOSE audit 1: **PASS WITH NOTES**; merged into inp-b1 (lands with B2-STEP).
 - 2026-11-03 01:20: B2-STEP READY (claude-2): Poly/Lie 188 + OscillatorStep{,/Remainder,/Drift,/Smoke} 468 lines; `oscillatorStep_confinement`: an exact cartEqCheck of the finite Lie sum (= N∘I + P) plus rational inequalities ⇒ B1-E conclusion for the physical polynomial H with Ψ the real time-one flow; no extra premise needed. Merged inp-b1 (Poly.lean docstring conflict resolved); rebuilt; audit 1 launched.
+- 2026-11-03 01:20: **batch 4 LANDED on main 3f448b187** (B2-POLY + B2-DOM; byte-identical to audited heads; 98 theorems, axioms subsets of the standard three; no ofReduceBool).
