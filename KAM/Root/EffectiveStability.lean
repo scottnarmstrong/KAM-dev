@@ -20,6 +20,9 @@ public import KAM.EffectiveStability.OscillatorChain.Drift
 public import KAM.EffectiveStability.OscillatorChain.Remainder
 public import KAM.EffectiveStability.OscillatorChain.Smoke
 public import KAM.EffectiveStability.OscillatorChain
+public import KAM.EffectiveStability.OscillatorChainCheck
+public import KAM.EffectiveStability.OscillatorChainPhysical
+public import KAM.EffectiveStability.OscillatorChainPhysicalSmoke
 public import KAM.EffectiveStability.OscillatorCheck
 public import KAM.EffectiveStability.OscillatorPhysical
 public import KAM.EffectiveStability.OscillatorPhysicalSmoke
