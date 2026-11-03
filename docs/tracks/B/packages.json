@@ -99,6 +99,14 @@
    ],
    "source": "plan §3.2: composition of exact flows remains canonical",
    "status": "PASS WITH NOTES (audit 1); merged into inp-b1"
+  },
+  {
+   "id": "B2-MULTI",
+   "modules": [
+    "KAM/EffectiveStability/OscillatorChain.lean"
+   ],
+   "source": "plan §3.2: composition of exact flows; remainders propagated through later charts",
+   "status": "proving (claude-5)"
   }
  ]
 }
