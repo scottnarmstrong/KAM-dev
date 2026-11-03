@@ -65,7 +65,7 @@
     "KAM/EffectiveStability/RealFlow/Lie.lean"
    ],
    "source": "plan §3.2: actual time-one flows, real slice of KAM.Canonical.flow (OD-B10)",
-   "status": "PASS WITH NOTES; landing requested (batch 3)"
+   "status": "LANDED (main 2a6e15477)"
   },
   {
    "id": "B2-CAUCHY",
@@ -73,7 +73,7 @@
     "KAM/EffectiveStability/Cauchy.lean"
    ],
    "source": "plan §3.2: analytic tail E on discs of radius δ gives drift E/δ; (Tail) identity",
-   "status": "PASS WITH NOTES; landing requested (batch 3)"
+   "status": "LANDED (main 2a6e15477)"
   },
   {
    "id": "B2-DOM",
