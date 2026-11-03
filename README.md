@@ -723,6 +723,8 @@ Full text: [`docs/DECISIONS.md`](docs/DECISIONS.md).
   overnight, frozen only after the owner approves their text. *(Scott, 2026-11-02)*
 - **D72** Program B: freeze B1-T/B1-E (minimal premise list) and seal them in one pass; confirm defaults OD-B1..B15;
   start B3 (Hénon–Heiles, exact ℚ(√2) layer first); no extra anchors. *(Scott, 2026-11-03)*
+- **D73** Approve the exact Hénon–Heiles theorem text (`henonHeiles_confinement`); freeze and seal it in one pass once
+  proved. *(Scott, 2026-11-03)*
 
 ## Owner questions
 

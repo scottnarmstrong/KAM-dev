@@ -627,3 +627,10 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
     (OD-B16). Its literal application theorem is the next candidate anchor; its exact text goes to the owner first.
   - **Optional anchors:** none. `checkOscChain_sound`, `checkTorusChain_sound` and `certifiedTorus_confinement`
     stay ordinary audited theorems (D40: do not freeze an evolving certificate serialization).
+- **D73 (2026-11-03, 10:27 UTC) The Hénon–Heiles theorem text is approved.** *(Scott: "i approve the Hénon–Heiles theorem
+  text".)* The approved text is `KAM.EffectiveStability.HenonHeiles.henonHeiles_confinement` exactly as in
+  `.drafts/B/brief-B3-CERT.md` step 4 (inp-b1). For every initial point with both oscillator actions ≤ (1/12500)², the
+  orbit exists beyond ±10¹⁰, is unique, keeps its actions below 1.01·10⁻⁸ and drifts by at most 1.2·10⁻⁹.
+  - It is frozen and sealed in one pass once it is proved, as plan §2.4 and the D72 addendum recommend (one literal
+    application theorem; the checkers stay unfrozen).
+  - It lives in the opt-in application library `KAMHenonHeiles` (D51).
