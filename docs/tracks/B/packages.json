@@ -136,7 +136,7 @@
     "KAM/EffectiveStability/OscillatorChainCheck.lean"
    ],
    "source": "plan §3.1 checker for chains",
-   "status": "PASS WITH NOTES; landing requested (batch 9)"
+   "status": "LANDED (main e0dd8aac9)"
   },
   {
    "id": "B2-ORIGCHAIN",
@@ -145,7 +145,7 @@
     "KAM/EffectiveStability/OscillatorChainPhysicalSmoke.lean"
    ],
    "source": "plan §2.2 original box for chains",
-   "status": "PASS WITH NOTES; landing requested (batch 9)"
+   "status": "LANDED (main e0dd8aac9)"
   },
   {
    "id": "B4-FT",

@@ -76,3 +76,4 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
 - 2026-11-03 02:17: **batch 8 LANDED on main 0d9575f2b** (B2-MULTI, oscillatorChain_confinement).
 - 2026-11-03 02:18: B4-TDOM READY 02:17 (claude-5; TorusDomain 295 lines: strip domain, gauge, small field, flow lattice equivariance, cylinder/Cauchy inclusions); rechecked; audit 1 launched.
 - 2026-11-03 02:22: B4-TDOM audit 1: **PASS WITH NOTES** (N1: comp_realFlow_angleShift assumes global periodicity of H — fine for FT polynomials); merged into inp-b1.
+- 2026-11-03 02:25: **batch 9 LANDED on main e0dd8aac9** (B2-CHECKCHAIN + B2-ORIGCHAIN). **Program B2 complete on main** (oscillator case: polynomial algebra, real flows, Cauchy, domains, one-step and chain soundness, Bool checkers, physical boxes).
