@@ -42,8 +42,10 @@ public import KAM.EffectiveStability.OscillatorStep
 public import KAM.EffectiveStability.Poly.Basic
 public import KAM.EffectiveStability.Poly.Bound
 public import KAM.EffectiveStability.Poly.Bracket
+public import KAM.EffectiveStability.Poly.Coeff
 public import KAM.EffectiveStability.Poly.Deriv
 public import KAM.EffectiveStability.Poly.Lie
+public import KAM.EffectiveStability.Poly.QSqrt2Smoke
 public import KAM.EffectiveStability.Poly
 public import KAM.EffectiveStability.PolyDomain
 public import KAM.EffectiveStability.RealFlow.Basic

@@ -10,7 +10,8 @@ public import KAM.EffectiveStability.Poly.Bracket
 /-!
 # Cartesian polynomials: computable sup bounds (track B, B2-POLY)
 
-`CartPoly.cartSupBound P r s = ∑ |c| ∏ r_i^{a_i} s_i^{b_i}` (exact `ℚ`) majorizes `‖P.cartEval z‖`
+`CartPoly.cartSupBound P r s = ∑ absUB(c) ∏ r_i^{a_i} s_i^{b_i}` (exact `ℚ`; `absUB c = |c|` for
+`K = ℚ`) majorizes `‖cartEval P z‖`
   on
 polydiscs `‖z.1 i‖ ≤ r_i`, `‖z.2 i‖ ≤ s_i` (for `P` fitting in `n` variables), over `ℝ` and `ℂ`;
 the drift bound for a finite residual and the radius bridge for oscillator actions follow. The
@@ -23,13 +24,15 @@ namespace KAM.EffectiveStability
 
 namespace CartPoly
 
+variable {K : Type} [CertCoeff K]
+
 /-- The majorant of a single monomial: `|c| ∏ r_k^{a_k} s_k^{b_k}`. -/
-def cartMonoBound (m : CartMono) (r s : List ℚ) : ℚ :=
-  |m.c| * ∏ k ∈ Finset.range (max m.a.length m.b.length),
+def cartMonoBound (m : CartMonoK K) (r s : List ℚ) : ℚ :=
+  CertCoeff.absUB m.c * ∏ k ∈ Finset.range (max m.a.length m.b.length),
     (r.getD k 0 ^ m.a.getD k 0 * s.getD k 0 ^ m.b.getD k 0)
 
-/-- Computable majorant of `‖P.cartEval z‖` on the polydisc of radii `(r, s)`. -/
-def cartSupBound (P : CartPoly) (r s : List ℚ) : ℚ := (P.map fun m => cartMonoBound m r s).sum
+/-- Computable majorant of `‖cartEval P z‖` on the polydisc of radii `(r, s)`. -/
+def cartSupBound (P : CartPolyK K) (r s : List ℚ) : ℚ := (P.map fun m => cartMonoBound m r s).sum
 
 variable {𝕜 : Type*} [RCLike 𝕜] {n : ℕ}
 
@@ -48,14 +51,16 @@ theorem prod_range_eq_univ (f : ℕ → ℝ) (L n : ℕ)
       h i (Or.inl (by simpa using hni))
   rw [h1, h2]
 
-theorem norm_eval_mono_le (m : CartMono) (hm : ∀ k, n ≤ k → m.a.getD k 0 = 0 ∧ m.b.getD k 0 = 0)
+theorem norm_eval_mono_le [Algebra K 𝕜] [CertNormLe K 𝕜] (m : CartMonoK K) (hm : ∀ k, n ≤ k →
+    m.a.getD k 0 = 0 ∧ m.b.getD k 0 = 0)
     (r s : List ℚ) (z : (Fin n → 𝕜) × (Fin n → 𝕜))
     (hr : ∀ i : Fin n, ‖z.1 i‖ ≤ ((r.getD i 0 : ℚ) : ℝ))
     (hs : ∀ i : Fin n, ‖z.2 i‖ ≤ ((s.getD i 0 : ℚ) : ℝ)) :
     ‖m.cartMonoEval z‖ ≤ ((cartMonoBound m r s : ℚ) : ℝ) := by
-  unfold CartMono.cartMonoEval CartMono.powProd cartMonoBound
-  rw [norm_mul, norm_algebraMap_rat, Rat.cast_mul, Rat.cast_abs]
-  refine mul_le_mul_of_nonneg_left ?_ (abs_nonneg _)
+  unfold CartMonoK.cartMonoEval CartMonoK.powProd cartMonoBound
+  rw [norm_mul, Rat.cast_mul]
+  have hc := CertNormLe.norm_le (K := K) (𝕜 := 𝕜) m.c
+  refine mul_le_mul hc ?_ (norm_nonneg _) ((norm_nonneg _).trans hc)
   rw [Rat.cast_prod]
   set f : ℕ → ℝ := fun k => (((r.getD k 0 ^ m.a.getD k 0 * s.getD k 0 ^ m.b.getD k 0 : ℚ)) : ℝ)
     with hf
@@ -77,12 +82,13 @@ theorem norm_eval_mono_le (m : CartMono) (hm : ∀ k, n ≤ k → m.a.getD k 0 =
   exact mul_le_mul (pow_le_pow_left₀ (norm_nonneg _) (hr i) _)
     (pow_le_pow_left₀ (norm_nonneg _) (hs i) _) (by positivity) (by positivity)
 
-/-- `‖P.cartEval z‖ ≤ cartSupBound P r s` on the polydisc (`ℝ` and `ℂ`). -/
-theorem norm_eval_le_supBound (P : CartPoly) (hP : CartFits n P) (r s : List ℚ)
+/-- `‖cartEval P z‖ ≤ cartSupBound P r s` on the polydisc (`ℝ` and `ℂ`). -/
+theorem norm_eval_le_supBound [Algebra K 𝕜] [CertNormLe K 𝕜] (P : CartPolyK K) (hP : CartFits n P)
+    (r s : List ℚ)
     (z : (Fin n → 𝕜) × (Fin n → 𝕜))
     (hr : ∀ i : Fin n, ‖z.1 i‖ ≤ ((r.getD i 0 : ℚ) : ℝ))
     (hs : ∀ i : Fin n, ‖z.2 i‖ ≤ ((s.getD i 0 : ℚ) : ℝ)) :
-    ‖P.cartEval z‖ ≤ ((cartSupBound P r s : ℚ) : ℝ) := by
+    ‖cartEval P z‖ ≤ ((cartSupBound P r s : ℚ) : ℝ) := by
   induction P with
   | nil => simp [cartSupBound, cartEval]
   | cons m P ih =>
@@ -94,21 +100,23 @@ theorem norm_eval_le_supBound (P : CartPoly) (hP : CartFits n P) (r s : List ℚ
     exact (norm_add_le _ _).trans (add_le_add h1 h2)
 
 /-- Real version of `norm_eval_le_supBound`. -/
-theorem abs_eval_le_supBound (P : CartPoly) (hP : CartFits n P) (r s : List ℚ)
+theorem abs_eval_le_supBound [Algebra K ℝ] [CertNormLe K ℝ] (P : CartPolyK K) (hP : CartFits n P)
+    (r s : List ℚ)
     (z : (Fin n → ℝ) × (Fin n → ℝ))
     (hr : ∀ i : Fin n, |z.1 i| ≤ ((r.getD i 0 : ℚ) : ℝ))
     (hs : ∀ i : Fin n, |z.2 i| ≤ ((s.getD i 0 : ℚ) : ℝ)) :
-    |P.cartEval z| ≤ ((cartSupBound P r s : ℚ) : ℝ) := by
+    |cartEval P z| ≤ ((cartSupBound P r s : ℚ) : ℝ) := by
   simpa using norm_eval_le_supBound (𝕜 := ℝ) P hP r s z (by simpa using hr) (by simpa using hs)
 
 /-- The B1-E drift bound for a finite residual `P`:
 `|q_j ∂_{p_j} P - p_j ∂_{q_j} P| ≤ cartSupBound (cartBracket (cartAction j) P) r r`. -/
-theorem abs_actionBracket_le_supBound (P : CartPoly) (hP : CartFits n P) (j : Fin n) (r : List ℚ)
+theorem abs_actionBracket_le_supBound [Algebra K ℝ] [CertNormLe K ℝ] (P : CartPolyK K) (hP :
+    CartFits n P) (j : Fin n) (r : List ℚ)
     (z : (Fin n → ℝ) × (Fin n → ℝ))
     (hq : ∀ i : Fin n, |z.1 i| ≤ ((r.getD i 0 : ℚ) : ℝ))
     (hp : ∀ i : Fin n, |z.2 i| ≤ ((r.getD i 0 : ℚ) : ℝ)) :
     |z.1 j * cartEval (cartDp j P) z - z.2 j * cartEval (cartDq j P) z| ≤
-      ((cartSupBound (cartBracket (cartAction j) P) r r : ℚ) : ℝ) := by
+      ((cartSupBound (cartBracket (cartAction (K := K) j) P) r r : ℚ) : ℝ) := by
   rw [← cartEval_bracket_action]
   exact abs_eval_le_supBound _ (cartFits_bracket (cartFits_action j.2) hP) r r z hq hp
 
