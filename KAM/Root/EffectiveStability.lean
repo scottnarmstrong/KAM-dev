@@ -14,6 +14,12 @@ public import KAM.EffectiveStability.Examples
 public import KAM.EffectiveStability.FirstExit
 public import KAM.EffectiveStability.ObservableTransfer
 public import KAM.EffectiveStability.Oscillator
+public import KAM.EffectiveStability.OscillatorChain.Basic
+public import KAM.EffectiveStability.OscillatorChain.Domain
+public import KAM.EffectiveStability.OscillatorChain.Drift
+public import KAM.EffectiveStability.OscillatorChain.Remainder
+public import KAM.EffectiveStability.OscillatorChain.Smoke
+public import KAM.EffectiveStability.OscillatorChain
 public import KAM.EffectiveStability.OscillatorCheck
 public import KAM.EffectiveStability.OscillatorPhysical
 public import KAM.EffectiveStability.OscillatorPhysicalSmoke
