@@ -45,7 +45,8 @@ def reMap (Ψ : (Fin n → ℂ) × (Fin n → ℂ) → (Fin n → ℂ) × (Fin n
 /-- If `Ψ (ι x)` is real, then `ι (reMap Ψ x) = Ψ (ι x)`.
 (Copied from the private `psi_real_eq` of `KAM/Nekhoroshev/Stability/Conjugation.lean`.) -/
 theorem realInclusion₂_reMap {Ψ : (Fin n → ℂ) × (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
-    {x : (Fin n → ℝ) × (Fin n → ℝ)} (h : Ψ (KAM.realInclusion₂ n x) ∈ range (KAM.realInclusion₂ n)) :
+    {x : (Fin n → ℝ) × (Fin n → ℝ)}
+    (h : Ψ (KAM.realInclusion₂ n x) ∈ range (KAM.realInclusion₂ n)) :
     KAM.realInclusion₂ n (reMap Ψ x) = Ψ (KAM.realInclusion₂ n x) := by
   obtain ⟨y, hy⟩ := h
   have : reMap Ψ x = y := by
@@ -121,7 +122,7 @@ theorem realInterior_mono {c c' : ℝ} (h : c' ≤ c) : realInterior W Ω c ⊆ 
 
 /-- The Hamiltonian field of a holomorphic function that is real on real points is real on real
 points of `Ω`. -/
-theorem field_real (hΩ : IsOpen Ω) (hφ : DifferentiableOn ℂ φ Ω)
+theorem hamiltonianVectorFieldℂ_real (hΩ : IsOpen Ω) (hφ : DifferentiableOn ℂ φ Ω)
     (hreal : ∀ x : (Fin n → ℝ) × (Fin n → ℝ), KAM.realInclusion₂ n x ∈ Ω →
       (φ (KAM.realInclusion₂ n x)).im = 0)
     {x : (Fin n → ℝ) × (Fin n → ℝ)} (hx : KAM.realInclusion₂ n x ∈ Ω) :
@@ -140,7 +141,7 @@ theorem realInclusion₂_realFlow (hΩ : IsOpen Ω) (hφ : DifferentiableOn ℂ 
       flow (KAM.hamiltonianVectorFieldℂ φ) Ω t (KAM.realInclusion₂ n x) := by
   have hfe := flow_e h (fun z hz ⟨y, hy⟩ => by
     subst hy
-    exact field_real hΩ hφ hreal hz) (KAM.realInclusion₂ n x) hx ⟨x, rfl⟩ t ht
+    exact hamiltonianVectorFieldℂ_real hΩ hφ hreal hz) (KAM.realInclusion₂ n x) hx ⟨x, rfl⟩ t ht
   exact realInclusion₂_reMap hfe
 
 /-- (2) Smoothness of the real flow on `realInterior W Ω (1/2)` (smooth order `∞`). -/

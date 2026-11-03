@@ -15,7 +15,8 @@ public import KAM.Canonical.Lie
   `H x = Re h (ι x)` satisfies `H (X^t x) = Re h (X^t_ℂ (ι x))` and is `C^∞` on `{x | ι x ∈ U}`.
 * `real_taylor_lie_bound`: the real parts of both sides of `KAM.Canonical.taylor_lie`; the bound
   needs no reality assumption on `u` or on `adPow φ j u`.
-* `smoke_zero_generator`: the standing data for `φ = 0` are satisfiable and the flow is the identity.
+* `smoke_zero_generator`: the standing data for `φ = 0` are satisfiable and the flow is the
+  identity.
 -/
 
 @[expose] public noncomputable section
@@ -47,7 +48,8 @@ theorem realObs_realFlow (hφ : DifferentiableOn ℂ φ Ω)
 theorem contDiffOn_realObs {U : Set ((Fin n → ℂ) × (Fin n → ℂ))} (hU : IsOpen U)
     {g : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} (hg : DifferentiableOn ℂ g U) :
     ContDiffOn ℝ ∞ (fun x => (g (KAM.realInclusion₂ n x)).re) {x | KAM.realInclusion₂ n x ∈ U} := by
-  have h2 : ContDiffOn ℝ ∞ g U := (KAM.contDiffOn_infty_of_differentiableOn hU hg).restrict_scalars ℝ
+  have h2 : ContDiffOn ℝ ∞ g U :=
+    (KAM.contDiffOn_infty_of_differentiableOn hU hg).restrict_scalars ℝ
   exact Complex.reCLM.contDiff.comp_contDiffOn
     (h2.comp (KAM.realInclusion₂ n).contDiff.contDiffOn (fun x hx => hx))
 
