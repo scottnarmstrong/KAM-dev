@@ -92,3 +92,4 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
 - 2026-11-03 03:12: launched B4-TCHECKCHAIN (claude-2) and B4-TORIGCHAIN (claude-5), off inp-b4tmulti (under audit).
 - 2026-11-03 03:17: B4-TMULTI audit 1: **PASS WITH NOTES**; merged; landing request batch 12.
 - 2026-11-03 03:25: B4-TCHECKCHAIN (TorusChainCheck 182 lines) and B4-TORIGCHAIN (TorusChainPhysical 181 + Smoke 59) READY; rechecked; audits launched.
+- 2026-11-03 03:29: **batch 12 LANDED on main 89e07dddf** (B4-TMULTI, torusChain_confinement).

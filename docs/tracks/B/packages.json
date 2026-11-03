@@ -205,7 +205,7 @@
     "KAM/EffectiveStability/TorusChain/Smoke.lean"
    ],
    "source": "plan §3.2/§7 B4: torus chain",
-   "status": "PASS WITH NOTES; landing requested (batch 12)"
+   "status": "LANDED (main 89e07dddf)"
   },
   {
    "id": "B4-TCHECKCHAIN",
