@@ -59,7 +59,7 @@ theorem torus_confinement {n : ℕ} (a b η : Fin n → ℝ) (ε T : ℝ) (hε :
         ∀ j, |(Ψinv (z t)).2 j - w₀.2 j| ≤ η j * |t| ∧ |(Ψinv (z t)).2 j| ≤ a j + η j * T :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
   by exact KAM.Provider.EffectiveStability.torus_confinement a b η ε T hε hT hη hmargin V hV H hH Ψ
-    Ψinv hΨ hΨV hΨsymp hΨinv N R hR hRper hHΨ hRη w₀ hw₀
+      Ψinv hΨ hΨV hΨsymp hΨinv N R hR hRper hHΨ hRη w₀ hw₀
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 

@@ -67,7 +67,7 @@ theorem oscillator_confinement {n : ℕ} (a b η : Fin n → ℝ) (ε T : ℝ) (
           KAM.Planetary.oscillatorAction (Ψinv (z t)).2 (Ψinv (z t)).1 j ≤ a j + η j * T :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
   by exact KAM.Provider.EffectiveStability.oscillator_confinement a b η ε T hε hT hη hmargin V hV H
-    hH Ψ Ψinv hΨ hΨV hΨsymp hΨinv N R hR hHΨ hRη w₀ hw₀
+      hH Ψ Ψinv hΨ hΨV hΨsymp hΨinv N R hR hHΨ hRη w₀ hw₀
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
