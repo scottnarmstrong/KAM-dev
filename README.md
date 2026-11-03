@@ -15,14 +15,14 @@ Diophantine frequencies, as soon as f is small enough.
 
 Every frozen theorem below is proved and sealed. That covers the 22 of the original project, Rüssmann's theorem
 (track R), track W's PDE KAM theorem `KAM.Wave.nlw2` (sealed 2026-11-01), track LP's seven safety statements (sealed
-2026-11-01), track SO's frozen lunar band and track B's two confinement theorems (sealed 2026-11-03); only the
+2026-11-01), track SO's frozen lunar band and track B's three confinement theorems (sealed 2026-11-03); only the
 four statements of the Moon's synchronous lock (track SO, part 3) are still in progress. Each frozen statement was
 approved by the owner and frozen before its proof was assembled. The proofs are complete and use only the standard
 axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
 - **Track LP** (items 8–9, the sharp Laskar–Petit safety theorems): all frozen and sealed (D62, D64).
 - **Items 13–15** are track SO's certified numerical tori, among them the Moon's spin-rate band.
-- **Item 16** is track B's finite-time effective stability (D72).
+- **Items 16–17** are track B's finite-time effective stability (D72, D73).
 
 The plain-language versions simplify; the linked Lean statements are exact. The full list of frozen statements, with
 sources, is in [docs/STATEMENTS.md](docs/STATEMENTS.md).
@@ -206,8 +206,14 @@ D45); its Lean packages are on `main`, and its certificate data are being emitte
 
     Ordinary proved theorems on top of these: sound Bool checkers for finite chains of Lie transforms with exact ℚ
     arithmetic, in Cartesian (`checkOscChain_sound`) and Fourier–Taylor (`checkTorusChain_sound`) form, and a route
-    from a v2 certified torus to confinement near it (`certifiedTorus_confinement`). The first literal instance, the
-    Hénon–Heiles box over ℚ(√2), is in progress.
+    from a v2 certified torus to confinement near it (`certifiedTorus_confinement`).
+17. **The Hénon–Heiles system stays confined for 10¹⁰ time units.** For
+    H = (q₀² + p₀²)/2 − (√2/2)(q₁² + p₁²)/2 + q₀²q₁ − q₁³/3, every initial point whose two oscillator actions are at most
+    (1/12500)² has a unique orbit on an open time interval containing [−10¹⁰, 10¹⁰]. Its actions stay below 1.01·10⁻⁸
+    and move by at most 1.2·10⁻⁹. The proof is a three-step Lie-transform certificate with exact ℚ(√2) coefficients,
+    checked by `checkOscChain` inside Lean's kernel in 34 shards (opt-in library `KAMHenonHeiles`). Frozen and sealed
+    2026-11-03 (D73).
+    [`KAM.EffectiveStability.henonHeiles_confinement`](KAM/Frozen/EffectiveStability/HenonHeilesConfinement.lean#L32)
 
 ## Overview
 
