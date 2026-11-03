@@ -13,6 +13,12 @@ public import KAM.EffectiveStability.Examples
 public import KAM.EffectiveStability.FirstExit
 public import KAM.EffectiveStability.ObservableTransfer
 public import KAM.EffectiveStability.Oscillator
+public import KAM.EffectiveStability.Poly.Basic
+public import KAM.EffectiveStability.Poly.Bound
+public import KAM.EffectiveStability.Poly.Bracket
+public import KAM.EffectiveStability.Poly.Deriv
+public import KAM.EffectiveStability.Poly
+public import KAM.EffectiveStability.PolyDomain
 public import KAM.EffectiveStability.RealFlow.Basic
 public import KAM.EffectiveStability.RealFlow.Lie
 public import KAM.EffectiveStability.RealFlow.Symplectic
