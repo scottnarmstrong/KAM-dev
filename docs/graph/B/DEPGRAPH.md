@@ -525,7 +525,7 @@ EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
 LEAN_STATUS: PROVED
 LEAN_REF: KAM.EffectiveStability.oscillator_confinement (KAM/Frozen/EffectiveStability/OscillatorConfinement.lean); provider KAM.Provider.EffectiveStability.oscillator_confinement
-LEAN_NOTE: SEALED (D72, manifest effectiveStability.d72.oscillator_confinement.v1, main cff2accd5); seal audit 1 PASS WITH NOTES; standard axioms
+LEAN_NOTE: SEALED (D72, manifest effectiveStability.d72.oscillator_confinement.v1, main cff2accd5); seal audit 1 PASS WITH NOTES; standard axioms; consumers: oscillator step/chain checker stack generic over CertCoeff K and oscillatorChain_physical_disc (B3-CHAINK, track B batch 17)
 NOTE: statement source = exact frozen text (FREEZE-PROPOSAL §2, owner D72); mathematical source plan §2.3 L165-L193; deviations in FREEZE-PROPOSAL §6 L161-L166
 
 ## Append-only structural amendments
