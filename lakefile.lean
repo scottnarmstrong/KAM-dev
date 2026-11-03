@@ -70,6 +70,14 @@ lean_lib «KAMMagneticBarrier» where
   globs := libGlobs `KAMMagneticBarrier
   leanOptions := projectLeanOptions
 
+/-- B3: Hénon–Heiles confinement (D73). The exact ℚ(√2) normal-form certificate under
+`KAM/EffectiveStability/HenonHeiles` (sharded kernel check), and the sealed frozen theorem
+`henonHeiles_confinement` with its provider. -/
+lean_lib «KAMHenonHeiles» where
+  roots := #[`KAMHenonHeiles]
+  globs := libGlobs `KAMHenonHeiles
+  leanOptions := projectLeanOptions
+
 /-
 Template for a further application inside this package (for example LG00). New applications
 should rather be separate Lake packages `applications/<name>/` that require this one
