@@ -12,10 +12,11 @@ public import KAM.EffectiveStability.OscillatorChainPhysicalDisc
 /-!
 # Confinement for the Hénon–Heiles Hamiltonian (track B, B3-CERT)
 
-`henonHeiles_confinement`: for `H = I₁ - (√2/2) I₂ + q₁² q₂ - q₂³/3`, every initial point with
-both actions `≤ (1/12500)²` has a solution on an interval `(-T₁, T₁)`, `T₁ > 10¹⁰`, unique among
-solutions on intervals through `0`, whose actions stay `< 101/10¹⁰` and within `12/10¹⁰` of their
-initial values for `|t| ≤ 10¹⁰`.
+`henonHeiles_confinement_proof` (implementation of the frozen
+`KAM.EffectiveStability.henonHeiles_confinement`, D73): for `H = I₁ - (√2/2) I₂ + q₁² q₂ - q₂³/3`,
+every initial point with both actions `≤ (1/12500)²` has a solution on an interval `(-T₁, T₁)`,
+`T₁ > 10¹⁰`, unique among solutions on intervals through `0`, whose actions stay `< 101/10¹⁰` and
+within `12/10¹⁰` of their initial values for `|t| ≤ 10¹⁰`.
 
 The proof applies `oscillatorChain_physical_disc` to the certificate `hhCert`, whose Boolean
 checker `hhCert_check` was verified in the kernel (`Check`); the premises are unpacked from the
@@ -29,7 +30,7 @@ namespace KAM.EffectiveStability.HenonHeiles
 
 open Set CartPoly
 
-theorem henonHeiles_confinement (z₀ : (Fin 2 → ℝ) × (Fin 2 → ℝ))
+theorem henonHeiles_confinement_proof (z₀ : (Fin 2 → ℝ) × (Fin 2 → ℝ))
     (hz₀ : ∀ j, KAM.Planetary.oscillatorAction z₀.2 z₀.1 j ≤ (1 / 12500) ^ 2) :
     ∃ T₁ : ℝ, 10 ^ 10 < T₁ ∧ ∃ z : ℝ → (Fin 2 → ℝ) × (Fin 2 → ℝ), z 0 = z₀ ∧
       (∀ t ∈ Set.Ioo (-T₁) T₁, HasDerivAt z (KAM.hamiltonianVectorField

@@ -5,7 +5,7 @@
     "A module belongs to an application when its name equals one of the application's prefixes or extends it by further name components; otherwise it is core. Rules checked by `scripts/gen_root_imports.py --check`: no module matches two applications; every module under an application_only prefix belongs to some application; a core module imports only core modules; an application module imports only core modules, its own modules and those of the applications it requires."
   ],
   "core": {"lib": "KAM", "root": "KAM", "parts": "KAM.Root"},
-  "application_only": ["KAM.SpinOrbit.Data", "KAM.Magnetic.Data"],
+  "application_only": ["KAM.SpinOrbit.Data", "KAM.Magnetic.Data", "KAM.EffectiveStability.HenonHeiles"],
   "applications": [
     {
       "lib": "KAMLunarBand",
@@ -40,6 +40,17 @@
       "track": "MAG",
       "requires": [],
       "prefixes": ["KAM.Magnetic.Data"]
+    },
+    {
+      "lib": "KAMHenonHeiles",
+      "title": "B3: Hénon–Heiles confinement (literal certificate, D73)",
+      "track": "B",
+      "requires": [],
+      "prefixes": [
+        "KAM.EffectiveStability.HenonHeiles",
+        "KAM.Frozen.EffectiveStability.HenonHeilesConfinement",
+        "KAM.Provider.EffectiveStability.HenonHeilesConfinement"
+      ]
     }
   ]
 }
