@@ -177,6 +177,22 @@
    ],
    "source": "plan §3.2/§7 B4: B1-T checker route (one generator)",
    "status": "ready; audit 1 running"
+  },
+  {
+   "id": "B4-TCHECK",
+   "modules": [
+    "KAM/EffectiveStability/TorusCheck.lean"
+   ],
+   "source": "plan §3.1 checker, torus",
+   "status": "proving (claude-5)"
+  },
+  {
+   "id": "B4-TORIG",
+   "modules": [
+    "KAM/EffectiveStability/TorusPhysical.lean"
+   ],
+   "source": "plan §2.2 original box, torus",
+   "status": "proving (claude-2)"
   }
  ]
 }
