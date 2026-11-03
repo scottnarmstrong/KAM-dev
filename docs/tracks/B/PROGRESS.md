@@ -67,3 +67,4 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
 - 2026-11-03 01:56: **batch 6 LANDED on main d4c30daa8** (B2-CHECK, checkOscStep_sound). Batch 7 (B2-ORIG) requested.
 - 2026-11-03 01:57: B2-MULTI audit 1: **PASS WITH NOTES** (N1 doc wording, N2 smoke coverage, N3 rational step radii, N4 handoff whitespace — fixed). Merged; landing request batch 8.
 - 2026-11-03 02:01: batch 8 (B2-MULTI) requested. Launched B2-CHECKCHAIN (claude-2: Bool checker + soundness for chains) and B2-ORIGCHAIN (claude-5: physical box + physical drift for chains).
+- 2026-11-03 02:04: **batch 7 LANDED on main a0cd8e09d** (B2-ORIG, oscillatorStep_physical). Batch 8 (B2-MULTI) in the lander's queue.

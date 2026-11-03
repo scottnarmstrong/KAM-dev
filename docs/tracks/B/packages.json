@@ -128,7 +128,7 @@
     "KAM/EffectiveStability/OscillatorPhysicalSmoke.lean"
    ],
    "source": "plan §2.2: original box via inverse chart; (B1-transfer)",
-   "status": "merged into inp (batch 7)"
+   "status": "LANDED (main a0cd8e09d)"
   },
   {
    "id": "B2-CHECKCHAIN",
