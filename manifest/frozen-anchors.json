@@ -24422,6 +24422,116 @@
     "frozen_paths": [],
     "audit_paths": []
    }
+  },
+  {
+   "id": "effectiveStability.d72.torus_confinement.v1",
+   "kind": "theorem",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-03",
+    "approval_ref": "owner reply 'approve all' (2026-11-03, 07:27 UTC) to the morning packet docs/tracks/B/MORNING-2026-11-03.md; exact text docs/tracks/B/FREEZE-PROPOSAL.md §2 (statement audit freeze/STATEMENT-REVIEW-1.md PASS WITH NOTES, C1 applied; minimal premises OD-B2); docs/DECISIONS.md D72",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM-inp@c0a551843 docs/tracks/B/FREEZE-PROPOSAL.md §2 (plan: main docs/explorations/program-b-plan.md)",
+    "range": "program-b-plan §2.2 (B1-T); GLS17 §4.3 (56)–(58)"
+   },
+   "contract": {
+    "id": "effectiveStability.d72.torus_confinement",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/EffectiveStability/TorusConfinement.lean",
+   "export": "KAM.EffectiveStability.torus_confinement",
+   "split_policy": {
+    "source_group": "effectiveStability.d72.torus_confinement",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D72"
+   },
+   "abi_sha256": "bc5bc3eca192d370415c8cd4916c61345fda22452343ea83734171747c129a54",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
+     "sha256": "1592cf15aadef80f7e2017860494a1e067de8698ff8f6075c055a2d138877a79"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsDiophantine.lean",
+     "sha256": "45ac03a3d80f3be86018b756497d11e520e59e40beff85bc92e6bec6d873aea9"
+    },
+    {
+     "path": "KAM/Frozen/Defs/SymplecticForm.lean",
+     "sha256": "cb406afe9c796cec050b1d0f340bf2327766481865dcaf001063c9b8d53df60a"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/OscillatorAction.lean",
+     "sha256": "ad724cd5e19a4d4d420c5e30fbcd9f656107affaefa62e9e76c82fa66a4447c5"
+    }
+   ],
+   "implementation": {
+    "module": "KAM.Provider.EffectiveStability.TorusConfinement",
+    "export": "KAM.Provider.EffectiveStability.torus_confinement"
+   },
+   "state": "SEALED",
+   "prefix_sha256": "9427bc6162f8d0b0b0f281d75c1496e840ceb3dadc5ff90a472ca57699bd569f",
+   "suffix_sha256": "1f2d3361e67df6513a908669be93f0cc58c90f735bf44b2560787c0177a9caa8",
+   "draft_allowlist": {
+    "frozen_paths": [],
+    "audit_paths": []
+   }
+  },
+  {
+   "id": "effectiveStability.d72.oscillator_confinement.v1",
+   "kind": "theorem",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-03",
+    "approval_ref": "owner reply 'approve all' (2026-11-03, 07:27 UTC) to the morning packet docs/tracks/B/MORNING-2026-11-03.md; exact text docs/tracks/B/FREEZE-PROPOSAL.md §2 (statement audit freeze/STATEMENT-REVIEW-1.md PASS WITH NOTES, C1 applied; minimal premises OD-B2); docs/DECISIONS.md D72",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM-inp@c0a551843 docs/tracks/B/FREEZE-PROPOSAL.md §2 (plan: main docs/explorations/program-b-plan.md)",
+    "range": "program-b-plan §2.3 (B1-E); CL20 §4.1 (32)–(37)"
+   },
+   "contract": {
+    "id": "effectiveStability.d72.oscillator_confinement",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/EffectiveStability/OscillatorConfinement.lean",
+   "export": "KAM.EffectiveStability.oscillator_confinement",
+   "split_policy": {
+    "source_group": "effectiveStability.d72.oscillator_confinement",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D72"
+   },
+   "abi_sha256": "6ea8db1e9947d08a0c3cd70be06e80dc6e5cb64ac5d4c82902023f04dfd3ef4c",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
+     "sha256": "1592cf15aadef80f7e2017860494a1e067de8698ff8f6075c055a2d138877a79"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsDiophantine.lean",
+     "sha256": "45ac03a3d80f3be86018b756497d11e520e59e40beff85bc92e6bec6d873aea9"
+    },
+    {
+     "path": "KAM/Frozen/Defs/SymplecticForm.lean",
+     "sha256": "cb406afe9c796cec050b1d0f340bf2327766481865dcaf001063c9b8d53df60a"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/OscillatorAction.lean",
+     "sha256": "ad724cd5e19a4d4d420c5e30fbcd9f656107affaefa62e9e76c82fa66a4447c5"
+    }
+   ],
+   "implementation": {
+    "module": "KAM.Provider.EffectiveStability.OscillatorConfinement",
+    "export": "KAM.Provider.EffectiveStability.oscillator_confinement"
+   },
+   "state": "SEALED",
+   "prefix_sha256": "79e9d8a14ec53b841f46721df68b707d2ed5b4bb2662d1f7a8ac932f3b51893f",
+   "suffix_sha256": "1f2d3361e67df6513a908669be93f0cc58c90f735bf44b2560787c0177a9caa8",
+   "draft_allowlist": {
+    "frozen_paths": [],
+    "audit_paths": []
+   }
   }
  ]
 }

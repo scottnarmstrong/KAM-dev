@@ -6,6 +6,8 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.Provider.AposterioriKam
+public import KAM.Provider.EffectiveStability.OscillatorConfinement
+public import KAM.Provider.EffectiveStability.TorusConfinement
 public import KAM.Provider.Iso.AllTimeConfinement
 public import KAM.Provider.Iso.IsoenergeticKam
 public import KAM.Provider.Iso.KeplerBorderedDet
