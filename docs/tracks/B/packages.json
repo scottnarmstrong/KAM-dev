@@ -200,7 +200,7 @@
     "KAM/EffectiveStability/TorusChain.lean"
    ],
    "source": "plan §3.2/§7 B4: torus chain",
-   "status": "proving (claude-5)"
+   "status": "ready; audit 1 running"
   }
  ]
 }
