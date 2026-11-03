@@ -4,7 +4,7 @@
 
 Every statement below is an exact Lean declaration that the owner approved before its proof was written. Each lives alone in its own file under `KAM/Frozen/`, and the manifest pins its bytes. A sealed theorem has a complete proof, assembled in a separate provider module, replayed by the kernel, and using only the standard axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
-**73 frozen theorems, 68 sealed; 243 frozen definitions.**
+**75 frozen theorems, 70 sealed; 243 frozen definitions.**
 
 ## Index
 
