@@ -7,6 +7,9 @@ module
 
 public import KAM.EffectiveStability.ActionDerivative
 public import KAM.EffectiveStability.Cauchy
+public import KAM.EffectiveStability.CauchyThird
+public import KAM.EffectiveStability.CertifiedTorusRoute.Glue
+public import KAM.EffectiveStability.CertifiedTorusRoute
 public import KAM.EffectiveStability.ChartChain
 public import KAM.EffectiveStability.ChartFlow
 public import KAM.EffectiveStability.Domains
@@ -68,10 +71,22 @@ public import KAM.EffectiveStability.TorusCheck
 public import KAM.EffectiveStability.TorusDomain
 public import KAM.EffectiveStability.TorusLagrangian
 public import KAM.EffectiveStability.TorusLagrangianCert
+public import KAM.EffectiveStability.TorusNormalForm.Basic
+public import KAM.EffectiveStability.TorusNormalForm.Drift
+public import KAM.EffectiveStability.TorusNormalForm.Remainder
+public import KAM.EffectiveStability.TorusNormalForm.Taylor
+public import KAM.EffectiveStability.TorusNormalForm
+public import KAM.EffectiveStability.TorusNormalFormSmoke
 public import KAM.EffectiveStability.TorusPhysical
 public import KAM.EffectiveStability.TorusPhysicalSmoke
 public import KAM.EffectiveStability.TorusProjection
 public import KAM.EffectiveStability.TorusRealSlice
+public import KAM.EffectiveStability.TorusRoute.Bound
+public import KAM.EffectiveStability.TorusRoute.Chart
+public import KAM.EffectiveStability.TorusRoute.Data
+public import KAM.EffectiveStability.TorusRoute.Matrix
+public import KAM.EffectiveStability.TorusRoute.Real
+public import KAM.EffectiveStability.TorusRoute.Strip
 public import KAM.EffectiveStability.TorusStep.Drift
 public import KAM.EffectiveStability.TorusStep.Remainder
 public import KAM.EffectiveStability.TorusStep.Smoke
