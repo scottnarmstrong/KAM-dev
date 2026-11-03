@@ -13,7 +13,8 @@ public import KAM.EffectiveStability.Poly.Bound
 /-!
 # Cartesian polynomials with exact `ℚ` coefficients (track B, B2-POLY)
 
-Facade importing `Poly.Basic` (algebra, `normalize`, `eqCheck`), `Poly.Deriv` (formal partial
+Facade importing `Poly.Basic` (algebra, `cartNormalize`, `cartEqCheck`), `Poly.Deriv` (formal
+  partial
 derivatives with analytic meaning), `Poly.Bracket` (Poisson bracket) and `Poly.Bound`
 (computable sup bounds, drift bound, radius bridge, smoke tests).
 -/
