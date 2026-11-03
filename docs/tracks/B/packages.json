@@ -141,10 +141,11 @@
   {
    "id": "B2-ORIGCHAIN",
    "modules": [
-    "KAM/EffectiveStability/OscillatorChainPhysical.lean"
+    "KAM/EffectiveStability/OscillatorChainPhysical.lean",
+    "KAM/EffectiveStability/OscillatorChainPhysicalSmoke.lean"
    ],
    "source": "plan §2.2 original box for chains",
-   "status": "proving (claude-5)"
+   "status": "ready; audit 1 running"
   },
   {
    "id": "B4-FT",

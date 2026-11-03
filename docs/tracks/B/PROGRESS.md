@@ -69,3 +69,4 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
 - 2026-11-03 02:01: batch 8 (B2-MULTI) requested. Launched B2-CHECKCHAIN (claude-2: Bool checker + soundness for chains) and B2-ORIGCHAIN (claude-5: physical box + physical drift for chains).
 - 2026-11-03 02:04: **batch 7 LANDED on main a0cd8e09d** (B2-ORIG, oscillatorStep_physical). Batch 8 (B2-MULTI) in the lander's queue.
 - 2026-11-03 02:08: B2-CHECKCHAIN READY 02:06 (claude-2; OscillatorChainCheck 190 lines; 2-step cert by decide +kernel in 26 ms); rechecked; audit 1 launched. B4-FT launched (claude-2, KAM-inp-b4ft): Fourier–Taylor polynomials with (2π)^e tags, exact semantics, periodicity, bracket, λ-strip majorants and B1-T angle-drift bound.
+- 2026-11-03 02:10: B2-ORIGCHAIN READY 02:08 (claude-5; OscillatorChainPhysical 254 + Smoke 67): oscillatorChain_physical; rechecked; audit 1 launched.
