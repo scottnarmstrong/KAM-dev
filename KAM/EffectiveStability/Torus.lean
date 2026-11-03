@@ -6,6 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.Frozen.EffectiveStability.TorusConfinement
+public import KAM.EffectiveStability.TorusProof
 
 /-!
 # B1-T: facade

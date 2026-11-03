@@ -6,6 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.Frozen.EffectiveStability.OscillatorConfinement
+public import KAM.EffectiveStability.OscillatorProof
 
 /-!
 # B1-E: facade
