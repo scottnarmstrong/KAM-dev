@@ -30,9 +30,9 @@ open Set
 
 /-- Implementation of the frozen **B1-E** (plan §2.3; CL20 §4.1 (32)–(37)): Cartesian oscillator
 confinement, including zero actions. Coordinates are `w = (q, p)`, with action
-`KAM.Planetary.oscillatorAction w.2 w.1`, so `I_j = (p_j² + q_j²) / 2` and `{I_j, R} = q_j ∂_{p_j} R
-- p_j ∂_{q_j} R`. Rotation invariance of the differentiable function `H ∘ Ψ - R` gives the
-normal-part cancellation without differentiating `N`. -/
+`KAM.Planetary.oscillatorAction w.2 w.1`, so `I_j = (p_j² + q_j²) / 2` and
+`{I_j, R} = q_j ∂_{p_j} R - p_j ∂_{q_j} R`. Rotation invariance of the differentiable function
+`H ∘ Ψ - R` gives the normal-part cancellation without differentiating `N`. -/
 theorem oscillator_confinement_proof {n : ℕ} (a b η : Fin n → ℝ) (ε T : ℝ) (hε : 0 < ε) (hT : 0 ≤ T)
     (hη : ∀ j, 0 ≤ η j) (hmargin : ∀ j, a j + T * η j < b j)
     (V : Set ((Fin n → ℝ) × (Fin n → ℝ))) (hV : IsOpen V)

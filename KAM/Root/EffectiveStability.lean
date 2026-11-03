@@ -34,6 +34,7 @@ public import KAM.EffectiveStability.OscillatorChainPhysicalSmoke
 public import KAM.EffectiveStability.OscillatorCheck
 public import KAM.EffectiveStability.OscillatorPhysical
 public import KAM.EffectiveStability.OscillatorPhysicalSmoke
+public import KAM.EffectiveStability.OscillatorProof
 public import KAM.EffectiveStability.OscillatorStep.Drift
 public import KAM.EffectiveStability.OscillatorStep.Remainder
 public import KAM.EffectiveStability.OscillatorStep.Smoke
@@ -80,6 +81,7 @@ public import KAM.EffectiveStability.TorusNormalFormSmoke
 public import KAM.EffectiveStability.TorusPhysical
 public import KAM.EffectiveStability.TorusPhysicalSmoke
 public import KAM.EffectiveStability.TorusProjection
+public import KAM.EffectiveStability.TorusProof
 public import KAM.EffectiveStability.TorusRealSlice
 public import KAM.EffectiveStability.TorusRoute.Bound
 public import KAM.EffectiveStability.TorusRoute.Chart
