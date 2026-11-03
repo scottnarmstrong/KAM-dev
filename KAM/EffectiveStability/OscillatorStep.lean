@@ -31,22 +31,25 @@ namespace KAM.EffectiveStability
 
 open Set CartPoly
 
-variable {n : ℕ}
+variable {n : ℕ} {K : Type} [CertCoeff K] [Algebra K ℝ] [Algebra K ℂ] [IsScalarTower K ℝ ℂ]
+  [CertNormLe K ℝ] [CertNormLe K ℂ]
 
+omit [Algebra K ℝ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ] in
 /-- The chart `Ψ`: the real time-one map of the flow of the complexified generator `χ` on the
 open polydisc `cpolyOpen ρ`. -/
-def stepChart (χ : CartPoly) (ρ : ℝ) :
+def stepChart (χ : CartPolyK K) (ρ : ℝ) :
     (Fin n → ℝ) × (Fin n → ℝ) → (Fin n → ℝ) × (Fin n → ℝ) :=
   realFlow (fun w : (Fin n → ℂ) × (Fin n → ℂ) => cartEval χ w) (cpolyOpen ρ) 1
 
+omit [Algebra K ℝ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ] in
 /-- The inverse chart `Ψinv`: the real time-`(-1)` map. -/
-def stepChartInv (χ : CartPoly) (ρ : ℝ) :
+def stepChartInv (χ : CartPolyK K) (ρ : ℝ) :
     (Fin n → ℝ) × (Fin n → ℝ) → (Fin n → ℝ) × (Fin n → ℝ) :=
   realFlow (fun w : (Fin n → ℂ) × (Fin n → ℂ) => cartEval χ w) (cpolyOpen ρ) (-1)
 
 /-- **One-step soundness** (track B, B2-STEP): a single exact finite Lie-sum identity plus
 rational/real majorant inequalities certify oscillator confinement for the physical flow. -/
-theorem oscillatorStep_confinement {H χ Nact P : CartPoly}
+theorem oscillatorStep_confinement {H χ Nact P : CartPolyK K}
     (hH : CartFits n H) (hχ : CartFits n χ) (hN : CartFits n Nact) (hP : CartFits n P)
     (hA : cartActOnly Nact = true) {L : ℕ} (hL : 1 ≤ L)
     (hid : cartEqCheck (cartLieSum χ H L) (cartAdd (cartActSubst Nact) P) = true)

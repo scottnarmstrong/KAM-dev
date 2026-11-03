@@ -26,10 +26,12 @@ namespace KAM.EffectiveStability
 
 open CartPoly
 
-variable {n : ℕ}
+variable {n : ℕ} {K : Type} [CertCoeff K] [Algebra K ℝ] [Algebra K ℂ] [IsScalarTower K ℝ ℂ]
+  [CertNormLe K ℝ] [CertNormLe K ℂ]
 
+omit [Algebra K ℂ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℂ] in
 /-- Abstract drift bound: polynomial part by `cartSupBound`, holomorphic part by Cauchy. -/
-theorem driftAbstract_le {R : (Fin n → ℝ) × (Fin n → ℝ) → ℝ} {P : CartPoly} (hP : CartFits n P)
+theorem driftAbstract_le {R : (Fin n → ℝ) × (Fin n → ℝ) → ℝ} {P : CartPolyK K} (hP : CartFits n P)
     {G : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {U : Set ((Fin n → ℂ) × (Fin n → ℂ))} (hU : IsOpen U)
     (hG : DifferentiableOn ℂ G U) {x : (Fin n → ℝ) × (Fin n → ℝ)}
     (hxU : KAM.realInclusion₂ n x ∈ U)
@@ -89,8 +91,8 @@ theorem oscBound_of_cpolydisc {r : Fin n → ℝ} {δc : ℝ} {x : (Fin n → �
   constructor <;> linarith [(hxr i).1, (hxr i).2]
 
 /-- **Chain drift bound** at a real point `x` of the closed oscillator domain. -/
-theorem chainDrift_le {H Nact P : CartPoly} (hH : CartFits n H) (hN : CartFits n Nact)
-    (hP : CartFits n P) (hA : cartActOnly Nact = true) {l : List OscStep}
+theorem chainDrift_le {H Nact P : CartPolyK K} (hH : CartFits n H) (hN : CartFits n Nact)
+    (hP : CartFits n P) (hA : cartActOnly Nact = true) {l : List (OscStepK K)}
     (hok : OscChainOK n Nact P l H) {r : Fin n → ℝ} {δc : ℝ} (hdom : OscDomOK n r δc l)
     (hδc : 0 < δc) (rl : List ℚ) (b η : Fin n → ℝ) {εb : ℝ}
     (hrl : ∀ i : Fin n, ((rl.getD i 0 : ℚ) : ℝ) = r i) (hr0 : ∀ i, 0 ≤ r i)

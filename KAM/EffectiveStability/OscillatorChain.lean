@@ -12,7 +12,7 @@ public import KAM.EffectiveStability.Oscillator
 # `m`-generator finite Birkhoff normalization ⇒ certified oscillator confinement (track B, B2-MULTI)
 
 `oscillatorChain_confinement`: the soundness theorem of the checker for a FINITE LIST of
-generators `χ₁, …, χ_m` (`OscStep`, outermost first), generalizing `oscillatorStep_confinement`.
+generators `χ₁, …, χ_m` (`OscStepK K`, outermost first), generalizing `oscillatorStep_confinement`.
 The chart is `Ψ = Φ₁ ∘ ⋯ ∘ Φ_m` (`oscChainMap`), each `Φ_k` the real time-one flow of `χ_k` on
 `cpolyOpen ρ_k`; `Ψinv` is the reversed composition of time `-1` flows (`oscChainInv`).
 
@@ -36,7 +36,8 @@ namespace KAM.EffectiveStability
 
 open Set CartPoly
 
-variable {n : ℕ}
+variable {n : ℕ} {K : Type} [CertCoeff K] [Algebra K ℝ] [Algebra K ℂ] [IsScalarTower K ℝ ℂ]
+  [CertNormLe K ℝ] [CertNormLe K ℂ]
 
 theorem osc_subset_oscBox {b r : Fin n → ℝ} {εb : ℝ} (hb : ∀ i, 2 * (b i + εb) ≤ r i ^ 2)
     (hr0 : ∀ i, 0 ≤ r i) : osc (fun j => b j + εb) ⊆ oscBox r 0 := by
@@ -50,9 +51,9 @@ theorem osc_subset_oscBox {b r : Fin n → ℝ} {εb : ℝ} (hb : ∀ i, 2 * (b 
 
 /-- **`m`-generator soundness** (track B, B2-MULTI): finitely many exact Lie-sum identities plus
 rational/real majorant inequalities certify oscillator confinement for the physical flow. -/
-theorem oscillatorChain_confinement {H Nact P : CartPoly}
+theorem oscillatorChain_confinement {H Nact P : CartPolyK K}
     (hH : CartFits n H) (hN : CartFits n Nact) (hP : CartFits n P)
-    (hA : cartActOnly Nact = true) {l : List OscStep} (hok : OscChainOK n Nact P l H)
+    (hA : cartActOnly Nact = true) {l : List (OscStepK K)} (hok : OscChainOK n Nact P l H)
     {δc : ℝ} (hδc : 0 < δc) (a b η : Fin n → ℝ) (εb T : ℝ) (hεb : 0 < εb) (hT : 0 ≤ T)
     (rl : List ℚ) (r : Fin n → ℝ) (hrl : ∀ i : Fin n, ((rl.getD i 0 : ℚ) : ℝ) = r i)
     (hr0 : ∀ i, 0 ≤ r i) (hdom1 : ∀ i, 2 * (b i + εb) ≤ r i ^ 2) (hdom : OscDomOK n r δc l)

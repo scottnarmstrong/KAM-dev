@@ -28,7 +28,8 @@ namespace KAM.EffectiveStability
 
 open CartPoly
 
-variable {n : ℕ}
+variable {n : ℕ} {K : Type} [CertCoeff K] [Algebra K ℝ] [Algebra K ℂ] [IsScalarTower K ℝ ℂ]
+  [CertNormLe K ℝ] [CertNormLe K ℂ]
 
 /-- The open real box `|q_i|, |p_i| < r i + c`. -/
 def oscBox (r : Fin n → ℝ) (c : ℝ) : Set ((Fin n → ℝ) × (Fin n → ℝ)) :=
@@ -46,35 +47,41 @@ theorem isOpen_oscBox (r : Fin n → ℝ) (c : ℝ) : IsOpen (oscBox r c) := by
 theorem oscBox_congr (r : Fin n → ℝ) {c c' : ℝ} (h : c = c') : oscBox r c = oscBox r c' := by
   rw [h]
 
+omit [Algebra K ℝ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ] in
 /-- The composite real chart `Φ₁ ∘ ⋯ ∘ Φ_m`. -/
-def oscChainMap : List OscStep → (Fin n → ℝ) × (Fin n → ℝ) → (Fin n → ℝ) × (Fin n → ℝ)
+def oscChainMap : List (OscStepK K) → (Fin n → ℝ) × (Fin n → ℝ) → (Fin n → ℝ) × (Fin n → ℝ)
   | [] => id
   | s :: l => stepChart s.gen (s.ρ : ℝ) ∘ oscChainMap l
 
+omit [Algebra K ℝ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ] in
 /-- The composite inverse `Φ_m⁻¹ ∘ ⋯ ∘ Φ₁⁻¹` (time `-1` flows). -/
-def oscChainInv : List OscStep → (Fin n → ℝ) × (Fin n → ℝ) → (Fin n → ℝ) × (Fin n → ℝ)
+def oscChainInv : List (OscStepK K) → (Fin n → ℝ) × (Fin n → ℝ) → (Fin n → ℝ) × (Fin n → ℝ)
   | [] => id
   | s :: l => oscChainInv l ∘ stepChartInv s.gen (s.ρ : ℝ)
 
+omit [Algebra K ℝ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ] in
 /-- The chain of `ChartStep`s of a chain, over the boxes `oscBox r (inner displacement)`. -/
-def oscChartSteps (r : Fin n → ℝ) : List OscStep → List (ChartStep n)
+def oscChartSteps (r : Fin n → ℝ) : List (OscStepK K) → List (ChartStep n)
   | [] => []
   | s :: l => ⟨stepChart s.gen (s.ρ : ℝ), stepChartInv s.gen (s.ρ : ℝ), oscBox r (oscTail l : ℝ),
       oscBox r (oscTail (s :: l) : ℝ)⟩ :: oscChartSteps r l
 
+omit [Algebra K ℝ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ] in
 theorem chartChainMap_oscChartSteps (r : Fin n → ℝ) :
-    ∀ l : List OscStep, chartChainMap (oscChartSteps r l) = oscChainMap l
+    ∀ l : List (OscStepK K), chartChainMap (oscChartSteps r l) = oscChainMap l
   | [] => rfl
   | s :: l => by
     simp only [oscChartSteps, chartChainMap, oscChainMap, chartChainMap_oscChartSteps r l]
 
+omit [Algebra K ℝ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ] in
 theorem chartChainInv_oscChartSteps (r : Fin n → ℝ) :
-    ∀ l : List OscStep, chartChainInv (oscChartSteps r l) = oscChainInv l
+    ∀ l : List (OscStepK K), chartChainInv (oscChartSteps r l) = oscChainInv l
   | [] => rfl
   | s :: l => by
     simp only [oscChartSteps, chartChainInv, oscChainInv, chartChainInv_oscChartSteps r l]
 
-theorem chartChainTarget_oscChartSteps (r : Fin n → ℝ) (l : List OscStep) :
+omit [Algebra K ℝ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ] in
+theorem chartChainTarget_oscChartSteps (r : Fin n → ℝ) (l : List (OscStepK K)) :
     chartChainTarget (oscBox r 0) (oscChartSteps r l) = oscBox r (oscTail l : ℝ) := by
   cases l <;> simp [chartChainTarget, oscChartSteps, oscTail]
 
@@ -85,17 +92,20 @@ theorem norm_realInclusion₂_sub_coord (a b : (Fin n → ℝ) × (Fin n → ℝ
 
 section Step
 
-variable {s : OscStep}
+variable {s : OscStepK K}
 
+omit [CertNormLe K ℝ] [CertNormLe K ℂ] in
 private theorem oscStep_gen_real (x : (Fin n → ℝ) × (Fin n → ℝ)) :
     (cartEval s.gen (KAM.realInclusion₂ n x)).im = 0 := cartEval_realInclusion₂_im s.gen x
 
+omit [Algebra K ℝ] [Algebra K ℂ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ] in
 theorem oscBox_subset_realInterior (hs : OscStepOK n s) {r : Fin n → ℝ} {c : ℝ}
     (hdom : ∀ i, r i + c + (s.δ : ℝ) < (s.ρ : ℝ)) :
     oscBox r c ⊆ realInterior (gaugeScalar (s.δ : ℝ) hs.delta_posℝ) (cpolyOpen (s.ρ : ℝ)) 1 :=
   fun _ hx => mem_realInterior_cpolyOpen hs.delta_posℝ (r := fun i => r i + c) hdom
     (fun i => ⟨(hx i).1.le, (hx i).2.le⟩)
 
+omit [CertNormLe K ℝ] in
 /-- One step is a canonical chart from `oscBox r c` into `oscBox r (c + ε δ)`. -/
 theorem oscStep_isCanonicalChart (hs : OscStepOK n s) {r : Fin n → ℝ} {c : ℝ}
     (hdom : ∀ i, r i + c + (s.δ : ℝ) < (s.ρ : ℝ)) :
@@ -136,7 +146,8 @@ section Chain
 
 variable {r : Fin n → ℝ} {δc : ℝ}
 
-theorem oscChartSteps_ok {l : List OscStep} (hl : ∀ s ∈ l, OscStepOK n s)
+omit [CertNormLe K ℝ] in
+theorem oscChartSteps_ok {l : List (OscStepK K)} (hl : ∀ s ∈ l, OscStepOK n s)
     (hdom : OscDomOK n r δc l) :
     ChartChainOK (oscBox r 0) (oscChartSteps r l) := by
   induction l with
@@ -152,8 +163,9 @@ theorem oscChartSteps_ok {l : List OscStep} (hl : ∀ s ∈ l, OscStepOK n s)
       exact this
     · rw [chartChainTarget_oscChartSteps]
 
+omit [CertNormLe K ℝ] in
 /-- The composite real chart is canonical from `oscBox r 0` onto `oscBox r (∑ ε δ)`. -/
-theorem oscChain_isCanonical {l : List OscStep} (hl : ∀ s ∈ l, OscStepOK n s)
+theorem oscChain_isCanonical {l : List (OscStepK K)} (hl : ∀ s ∈ l, OscStepOK n s)
     (hdom : OscDomOK n r δc l) :
     IsCanonicalChart (oscChainMap l) (oscChainInv l) (oscBox r 0) (oscBox r (oscTail l : ℝ)) := by
   have h := chartChain_isCanonical (oscBox r 0) _ (oscChartSteps_ok hl hdom)
@@ -161,7 +173,8 @@ theorem oscChain_isCanonical {l : List OscStep} (hl : ∀ s ∈ l, OscStepOK n s
     chartChainTarget_oscChartSteps] at h
   exact h
 
-theorem oscChainMap_realInclusion {l : List OscStep} (hl : ∀ s ∈ l, OscStepOK n s)
+omit [CertNormLe K ℝ] in
+theorem oscChainMap_realInclusion {l : List (OscStepK K)} (hl : ∀ s ∈ l, OscStepOK n s)
     (hdom : OscDomOK n r δc l) {w : (Fin n → ℝ) × (Fin n → ℝ)} (hw : w ∈ oscBox r 0) :
     KAM.realInclusion₂ n (oscChainMap l w) = oscChainTheta l (KAM.realInclusion₂ n w) := by
   induction l with
@@ -186,10 +199,11 @@ theorem oscChainMap_realInclusion {l : List OscStep} (hl : ∀ s ∈ l, OscStepO
       ih hl' h3]
     rfl
 
+omit [CertNormLe K ℝ] in
 /-- **Telescoped Lie identity** on the real box: `Q (Ψ w) = Nact(I w) + P w + Re (Rem_l (ι w))`. -/
-theorem oscChain_identity {Nact P : CartPoly} (hN : CartFits n Nact)
+theorem oscChain_identity {Nact P : CartPolyK K} (hN : CartFits n Nact)
     (hA : cartActOnly Nact = true) :
-    ∀ {l : List OscStep} {Q : CartPoly}, OscChainOK n Nact P l Q → OscDomOK n r δc l →
+    ∀ {l : List (OscStepK K)} {Q : CartPolyK K}, OscChainOK n Nact P l Q → OscDomOK n r δc l →
       ∀ {w : (Fin n → ℝ) × (Fin n → ℝ)}, w ∈ oscBox r 0 →
       cartEval Q (oscChainMap l w) =
         cartEval Nact ((KAM.Planetary.oscillatorAction w.2 w.1, (0 : Fin n → ℝ)) :
