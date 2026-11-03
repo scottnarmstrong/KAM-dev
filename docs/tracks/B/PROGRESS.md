@@ -112,3 +112,7 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
   lint OK. Seal audit 1 (fresh Opus, claude-9): **PASS WITH NOTES, seal-ready**; N1 roots regenerated, N2 fixed, N4 scripted
   kernel_replay --fast rerun in progress (first run was stopped by machine memory pressure from another user's jobs).
   B3: OD-B17 (coefficient-generic CartPoly); B3-COEF (claude-5) proving; B3-PRODUCER (claude-2, Python, E1) launched.
+- 09:23 Freeze: N4 kernel_replay --fast OK (389/389); final landing request sent (inp-bfreeze@4cc9904e2,
+  inp-b1@65dd110df). B3-PRODUCER: E1 producer GO (3 steps, η margin 2.2×); physical box needs the disc variant (OD-B18,
+  accepted by root-b8; deviation recorded in B3-READY). B3-COEF done, audit 1 running (Opus, claude-9). B3-CHAINK
+  (generic chain over K + disc variant) launched on claude-5.
