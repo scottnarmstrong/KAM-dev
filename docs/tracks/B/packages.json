@@ -157,7 +157,7 @@
     "KAM/EffectiveStability/FT/Bound.lean"
    ],
    "source": "plan §3.2 Fourier–Taylor norms and η^poly (B4)",
-   "status": "PASS WITH NOTES; landing requested (batch 10)"
+   "status": "LANDED (main e3c55bc2f)"
   },
   {
    "id": "B4-TDOM",
@@ -165,15 +165,42 @@
     "KAM/EffectiveStability/TorusDomain.lean"
    ],
    "source": "plan §3.2/§7 B4: strip domains for the B1-T route",
-   "status": "PASS WITH NOTES; landing requested (batch 10)"
+   "status": "LANDED (main e3c55bc2f)"
   },
   {
    "id": "B4-TSTEP",
    "modules": [
-    "KAM/EffectiveStability/TorusStep.lean"
+    "KAM/EffectiveStability/TorusStep.lean",
+    "KAM/EffectiveStability/TorusStep/Remainder.lean",
+    "KAM/EffectiveStability/TorusStep/Drift.lean",
+    "KAM/EffectiveStability/TorusStep/Smoke.lean"
    ],
    "source": "plan §3.2/§7 B4: B1-T checker route (one generator)",
-   "status": "proving (claude-2)"
+   "status": "PASS WITH NOTES; landing requested (batch 11)"
+  },
+  {
+   "id": "B4-TCHECK",
+   "modules": [
+    "KAM/EffectiveStability/TorusCheck.lean"
+   ],
+   "source": "plan §3.1 checker, torus",
+   "status": "PASS WITH NOTES; landing requested (batch 11)"
+  },
+  {
+   "id": "B4-TORIG",
+   "modules": [
+    "KAM/EffectiveStability/TorusPhysical.lean"
+   ],
+   "source": "plan §2.2 original box, torus",
+   "status": "PASS WITH NOTES; landing requested (batch 11)"
+  },
+  {
+   "id": "B4-TMULTI",
+   "modules": [
+    "KAM/EffectiveStability/TorusChain.lean"
+   ],
+   "source": "plan §3.2/§7 B4: torus chain",
+   "status": "proving (claude-5)"
   }
  ]
 }
