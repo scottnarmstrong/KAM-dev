@@ -54,6 +54,9 @@ public import KAM.EffectiveStability.TorusChain.Drift
 public import KAM.EffectiveStability.TorusChain.Remainder
 public import KAM.EffectiveStability.TorusChain.Smoke
 public import KAM.EffectiveStability.TorusChain
+public import KAM.EffectiveStability.TorusChainCheck
+public import KAM.EffectiveStability.TorusChainPhysical
+public import KAM.EffectiveStability.TorusChainPhysicalSmoke
 public import KAM.EffectiveStability.TorusCheck
 public import KAM.EffectiveStability.TorusDomain
 public import KAM.EffectiveStability.TorusPhysical
