@@ -111,7 +111,7 @@
     "KAM/EffectiveStability/OscillatorChain/Smoke.lean"
    ],
    "source": "plan §3.2: composition of exact flows; remainders propagated through later charts",
-   "status": "ready; audit 1 running"
+   "status": "PASS WITH NOTES; landing requested (batch 8)"
   },
   {
    "id": "B2-CHECK",
