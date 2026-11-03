@@ -8,8 +8,12 @@ module
 public import KAM.EffectiveStability.ActionDerivative
 public import KAM.EffectiveStability.ChartFlow
 public import KAM.EffectiveStability.Domains
+public import KAM.EffectiveStability.Examples
 public import KAM.EffectiveStability.FirstExit
+public import KAM.EffectiveStability.ObservableTransfer
+public import KAM.EffectiveStability.Oscillator
 public import KAM.EffectiveStability.StoppedDrift
+public import KAM.EffectiveStability.Torus
 public import KAM.EffectiveStability.Transfer
 
 /-!
