@@ -176,7 +176,7 @@
     "KAM/EffectiveStability/TorusStep/Smoke.lean"
    ],
    "source": "plan §3.2/§7 B4: B1-T checker route (one generator)",
-   "status": "ready; audit 1 running"
+   "status": "PASS WITH NOTES; landing requested (batch 11)"
   },
   {
    "id": "B4-TCHECK",
@@ -184,7 +184,7 @@
     "KAM/EffectiveStability/TorusCheck.lean"
    ],
    "source": "plan §3.1 checker, torus",
-   "status": "proving (claude-5)"
+   "status": "PASS WITH NOTES; landing requested (batch 11)"
   },
   {
    "id": "B4-TORIG",
@@ -192,7 +192,15 @@
     "KAM/EffectiveStability/TorusPhysical.lean"
    ],
    "source": "plan §2.2 original box, torus",
-   "status": "proving (claude-2)"
+   "status": "PASS WITH NOTES; landing requested (batch 11)"
+  },
+  {
+   "id": "B4-TMULTI",
+   "modules": [
+    "KAM/EffectiveStability/TorusChain.lean"
+   ],
+   "source": "plan §3.2/§7 B4: torus chain",
+   "status": "proving (claude-5)"
   }
  ]
 }
