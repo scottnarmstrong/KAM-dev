@@ -197,10 +197,15 @@
   {
    "id": "B4-TMULTI",
    "modules": [
-    "KAM/EffectiveStability/TorusChain.lean"
+    "KAM/EffectiveStability/TorusChain.lean",
+    "KAM/EffectiveStability/TorusChain/Basic.lean",
+    "KAM/EffectiveStability/TorusChain/Remainder.lean",
+    "KAM/EffectiveStability/TorusChain/Domain.lean",
+    "KAM/EffectiveStability/TorusChain/Drift.lean",
+    "KAM/EffectiveStability/TorusChain/Smoke.lean"
    ],
    "source": "plan §3.2/§7 B4: torus chain",
-   "status": "ready; audit 1 running"
+   "status": "PASS WITH NOTES; landing requested (batch 12)"
   },
   {
    "id": "B4-TCHECKCHAIN",
