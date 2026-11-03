@@ -26,15 +26,18 @@ namespace KAM.EffectiveStability
 
 open CartPoly
 
-variable {n : ℕ}
+variable {n : ℕ} {K : Type} [CertCoeff K] [Algebra K ℝ] [Algebra K ℂ] [IsScalarTower K ℝ ℂ]
+  [CertNormLe K ℝ] [CertNormLe K ℂ]
 
+omit [Algebra K ℝ] [Algebra K ℂ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ] in
 /-- The open domain on which the composite flow `Θ_l` is defined with every intermediate point in
 the half interior of the next polydisc. -/
-def oscChainDom : List OscStep → Set ((Fin n → ℂ) × (Fin n → ℂ))
+def oscChainDom : List (OscStepK K) → Set ((Fin n → ℂ) × (Fin n → ℂ))
   | [] => univ
   | s :: l => oscChainDom l ∩ oscChainTheta l ⁻¹' cpolyOpen ((s.ρ : ℝ) - (s.δ : ℝ) / 2)
 
-theorem cpolyOpen_sub_subset_gaugeInterior {s : OscStep} (hs : OscStepOK n s) :
+omit [Algebra K ℝ] [Algebra K ℂ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ] in
+theorem cpolyOpen_sub_subset_gaugeInterior {s : OscStepK K} (hs : OscStepOK n s) :
     cpolyOpen (n := n) ((s.ρ : ℝ) - (s.δ : ℝ) / 2) ⊆
       gaugeInterior (gaugeScalar (s.δ : ℝ) hs.delta_posℝ) (cpolyOpen (s.ρ : ℝ)) (1 / 2) := by
   intro z hz
@@ -48,8 +51,9 @@ theorem norm_coord_le_prod (v : (Fin n → ℂ) × (Fin n → ℂ)) (i : Fin n) 
   ⟨(norm_le_pi_norm v.1 i).trans (le_max_left _ _),
     (norm_le_pi_norm v.2 i).trans (le_max_right _ _)⟩
 
+omit [Algebra K ℝ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] in
 /-- A step flow moves each coordinate by at most `ε δ`. -/
-theorem oscStepFlow_oscBound {s : OscStep} (hs : OscStepOK n s) {r : Fin n → ℝ} {c : ℝ}
+theorem oscStepFlow_oscBound {s : OscStepK K} (hs : OscStepOK n s) {r : Fin n → ℝ} {c : ℝ}
     {z : (Fin n → ℂ) × (Fin n → ℂ)} (hz : z ∈ cpolyOpen (n := n) ((s.ρ : ℝ) - (s.δ : ℝ) / 2))
     (hb : OscBound r c z) : OscBound r (c + (s.ε : ℝ) * (s.δ : ℝ)) (oscStepFlow s z) := by
   have hδ := hs.delta_posℝ
@@ -72,7 +76,8 @@ section Chain
 
 variable {r : Fin n → ℝ} {δc : ℝ}
 
-theorem oscChainDom_isOpen_and_differentiableOn {l : List OscStep}
+omit [Algebra K ℝ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] in
+theorem oscChainDom_isOpen_and_differentiableOn {l : List (OscStepK K)}
     (hl : ∀ s ∈ l, OscStepOK n s) :
     IsOpen (oscChainDom (n := n) l) ∧ DifferentiableOn ℂ (oscChainTheta (n := n) l)
       (oscChainDom l) := by
@@ -92,15 +97,17 @@ theorem oscChainDom_isOpen_and_differentiableOn {l : List OscStep}
     exact hfl.comp (hd.mono inter_subset_left) (fun z hz =>
       cpolyOpen_sub_subset_gaugeInterior hs hz.2)
 
-theorem OscChainOK.stepsOK {Nact P : CartPoly} :
-    ∀ {l : List OscStep} {Q : CartPoly}, OscChainOK n Nact P l Q → ∀ s ∈ l, OscStepOK n s
+omit [Algebra K ℝ] [Algebra K ℂ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] [CertNormLe K ℂ] in
+theorem OscChainOK.stepsOK {Nact P : CartPolyK K} :
+    ∀ {l : List (OscStepK K)} {Q : CartPolyK K}, OscChainOK n Nact P l Q → ∀ s ∈ l, OscStepOK n s
   | [], _, _ => fun s hs => by simp at hs
   | t :: l, Q, h => fun s hs => by
     rcases List.mem_cons.1 hs with rfl | hs
     · exact h.1
     · exact OscChainOK.stepsOK h.2.2 s hs
 
-theorem oscChainTheta_oscBound {l : List OscStep} (hl : ∀ s ∈ l, OscStepOK n s)
+omit [Algebra K ℝ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] in
+theorem oscChainTheta_oscBound {l : List (OscStepK K)} (hl : ∀ s ∈ l, OscStepOK n s)
     (hD : OscDomOK n r δc l) {z : (Fin n → ℂ) × (Fin n → ℂ)} (hz : OscBound r δc z) :
     z ∈ oscChainDom l ∧ OscBound r (δc + (oscTail l : ℝ)) (oscChainTheta l z) := by
   induction l with
@@ -119,8 +126,9 @@ theorem oscChainTheta_oscBound {l : List OscStep} (hl : ∀ s ∈ l, OscStepOK n
     rw [e]
     exact this
 
-theorem differentiableOn_oscChainRem {l : List OscStep} (hl : ∀ s ∈ l, OscStepOK n s) :
-    ∀ Q : CartPoly, DifferentiableOn ℂ (oscChainRem (n := n) l Q) (oscChainDom l) := by
+omit [Algebra K ℝ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] in
+theorem differentiableOn_oscChainRem {l : List (OscStepK K)} (hl : ∀ s ∈ l, OscStepOK n s) :
+    ∀ Q : CartPolyK K, DifferentiableOn ℂ (oscChainRem (n := n) l Q) (oscChainDom l) := by
   induction l with
   | nil => intro Q; exact differentiableOn_const 0
   | cons s l ih =>
@@ -136,8 +144,9 @@ theorem differentiableOn_oscChainRem {l : List OscStep} (hl : ∀ s ∈ l, OscSt
         cpolyOpen_sub_subset_gaugeInterior hs hz.2)
     exact h1.add ((ih hl' s.out).mono inter_subset_left)
 
-theorem norm_oscChainRem_le {Nact P : CartPoly} :
-    ∀ {l : List OscStep} {Q : CartPoly}, CartFits n Q → OscChainOK n Nact P l Q →
+omit [Algebra K ℝ] [IsScalarTower K ℝ ℂ] [CertNormLe K ℝ] in
+theorem norm_oscChainRem_le {Nact P : CartPolyK K} :
+    ∀ {l : List (OscStepK K)} {Q : CartPolyK K}, CartFits n Q → OscChainOK n Nact P l Q →
       OscDomOK n r δc l → ∀ {z : (Fin n → ℂ) × (Fin n → ℂ)}, OscBound r δc z →
       ‖oscChainRem l Q z‖ ≤ (oscChainBound n l Q : ℝ)
   | [], Q, _, _, _, z, _ => by simp [oscChainRem, oscChainBound]
