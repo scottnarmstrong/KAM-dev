@@ -617,3 +617,13 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - **Running it:** sub-orchestrator kam-b1 (claude-9), at most 2 provers (claude-2, claude-5), 4 GB caps, codex-2
     audits.
   - **Coordination:** reuse lemma.farm's first-exit API where it fits, and never edit its files.
+- **D72 (2026-11-03, 07:27 UTC) Program B: freeze approved, B3 launched.** *(Scott: "approve all", answering the morning
+  packet `docs/tracks/B/MORNING-2026-11-03.md`.)*
+  - **Freeze:** B1-T `KAM.EffectiveStability.torus_confinement` and B1-E `.oscillator_confinement`, in the exact
+    text of `docs/tracks/B/FREEZE-PROPOSAL.md` §2. Both are already proved, so they are frozen and sealed in one pass
+    (one branch, one landing), with no DRAFT_SORRY stage.
+  - **OD-B2:** the minimal premise list. **OD-B1, OD-B3 to OD-B15:** the overnight defaults are confirmed.
+  - **B3 is ON:** the Hénon–Heiles literal instance (plan §4), starting with the exact ℚ(√2) coefficient layer
+    (OD-B16). Its literal application theorem is the next candidate anchor; its exact text goes to the owner first.
+  - **Optional anchors:** none. `checkOscChain_sound`, `checkTorusChain_sound` and `certifiedTorus_confinement`
+    stay ordinary audited theorems (D40: do not freeze an evolving certificate serialization).

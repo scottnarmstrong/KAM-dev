@@ -702,6 +702,8 @@ Full text: [`docs/DECISIONS.md`](docs/DECISIONS.md).
 - **D70** The lock's certificate source may reach about 265 MB; its full chain runs on a rented CCX63. *(Scott, 2026-11-02)*
 - **D71** Program B1 (certified finite-region effective stability) launched; statements proved as ordinary theorems
   overnight, frozen only after the owner approves their text. *(Scott, 2026-11-02)*
+- **D72** Program B: freeze B1-T/B1-E (minimal premise list) and seal them in one pass; confirm defaults OD-B1..B15;
+  start B3 (Hénon–Heiles, exact ℚ(√2) layer first); no extra anchors. *(Scott, 2026-11-03)*
 
 ## Owner questions
 
