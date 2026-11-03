@@ -1,0 +1,66 @@
+Started b3-prod-083141-verify-run.service - /usr/bin/time -v python3 -B -I verify.py /root/code/KAM-inp-b3prod/docs/tracks/B/b3/out/hh-cert.json.
+PASS cartActOnly Nact (b exponents zero)
+PASS cartFitsB (n=2)
+PASS step1 0<delta,0<=eps<=1/2,1<=order
+PASS step1 i=0 supBound dq/dp <= eps*delta  4.652e-08,5.706e-08 <= 7.378e-08
+PASS step1 i=1 supBound dq/dp <= eps*delta  3.950e-08,7.378e-08 <= 7.378e-08
+PASS step1 cartEqCheck(cartLieSum chi Q L=5) out   [raw terms 6412]
+PASS step2 0<delta,0<=eps<=1/2,1<=order
+PASS step2 i=0 supBound dq/dp <= eps*delta  2.028e-11,2.188e-11 <= 2.200e-11
+PASS step2 i=1 supBound dq/dp <= eps*delta  2.091e-11,2.176e-11 <= 2.200e-11
+PASS step2 cartEqCheck(cartLieSum chi Q L=2) out   [raw terms 1055]
+PASS step3 0<delta,0<=eps<=1/2,1<=order
+PASS step3 i=0 supBound dq/dp <= eps*delta  4.612e-14,4.783e-14 <= 5.000e-13
+PASS step3 i=1 supBound dq/dp <= eps*delta  6.430e-14,6.099e-14 <= 5.000e-13
+PASS step3 cartEqCheck(cartLieSum chi Q L=2) out   [raw terms 4409]
+PASS final cartEqCheck(Q_m, cartActSubst Nact + P)
+PASS dom step1 i=0
+PASS dom step1 i=1
+PASS dom step2 i=0
+PASS dom step2 i=1
+PASS dom step3 i=0
+PASS dom step3 i=1
+PASS 0<dc, 0<epsb, 0<=T
+PASS j=0 0<=r, 2(b+epsb)<=r^2, 0<=eta
+PASS j=0 supBound(bracket(cartAction j,P)) <= eta - 2rB/dc  1.401e-21 <= 5.753e-20; B=3.003e-21
+PASS j=0 a + T eta < b  7.561e-09 < 1.000e-08
+PASS j=1 0<=r, 2(b+epsb)<=r^2, 0<=eta
+PASS j=1 supBound(bracket(cartAction j,P)) <= eta - 2rB/dc  1.409e-21 <= 5.753e-20; B=3.003e-21
+PASS j=1 a + T eta < b  7.561e-09 < 1.000e-08
+PASS phys j=0 hs0,hs1 (0<=s, 2a'<=s^2)
+PASS phys j=0 hs2 OscPhysDom
+FAIL phys j=0 hs3 (s+tail)^2<=a  1.2817e-08 vs a=6.5610e-09
+PASS phys j=0 hd tail(2r+tail)<=d  2.088e-11 <= 2.090e-11
+PASS phys j=0 d<=1e-10
+PASS phys j=0 conclusion a+eta T+d<101e-10 and 2d+eta T<=12e-10
+PASS phys j=1 hs0,hs1 (0<=s, 2a'<=s^2)
+PASS phys j=1 hs2 OscPhysDom
+FAIL phys j=1 hs3 (s+tail)^2<=a  1.2817e-08 vs a=6.5610e-09
+PASS phys j=1 hd tail(2r+tail)<=d  2.088e-11 <= 2.090e-11
+PASS phys j=1 d<=1e-10
+PASS phys j=1 conclusion a+eta T+d<101e-10 and 2d+eta T<=12e-10
+SUMMARY: 40 checks, 2 failed: ['phys j=0 hs3 (s+tail)^2<=a', 'phys j=1 hs3 (s+tail)^2<=a']
+	Command being timed: "python3 -B -I verify.py /root/code/KAM-inp-b3prod/docs/tracks/B/b3/out/hh-cert.json"
+	User time (seconds): 5.85
+	System time (seconds): 0.06
+	Percent of CPU this job got: 100%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:05.92
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 87532
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 23920
+	Voluntary context switches: 1
+	Involuntary context switches: 27
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+b3-prod-083141-verify-run.service: Consumed 5.927s CPU time, 612.0K memory peak, 0B memory swap peak.
