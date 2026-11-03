@@ -15,13 +15,14 @@ Diophantine frequencies, as soon as f is small enough.
 
 Every frozen theorem below is proved and sealed. That covers the 22 of the original project, Rüssmann's theorem
 (track R), track W's PDE KAM theorem `KAM.Wave.nlw2` (sealed 2026-11-01), track LP's seven safety statements (sealed
-2026-11-01) and track SO's frozen lunar band; only the
+2026-11-01), track SO's frozen lunar band and track B's two confinement theorems (sealed 2026-11-03); only the
 four statements of the Moon's synchronous lock (track SO, part 3) are still in progress. Each frozen statement was
 approved by the owner and frozen before its proof was assembled. The proofs are complete and use only the standard
 axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
 - **Track LP** (items 8–9, the sharp Laskar–Petit safety theorems): all frozen and sealed (D62, D64).
 - **Items 13–15** are track SO's certified numerical tori, among them the Moon's spin-rate band.
+- **Item 16** is track B's finite-time effective stability (D72).
 
 The plain-language versions simplify; the linked Lean statements are exact. The full list of frozen statements, with
 sources, is in [docs/STATEMENTS.md](docs/STATEMENTS.md).
@@ -191,6 +192,22 @@ Item 15 is the first application of the checker, the lunar spin–orbit problem 
 floor of this method is 2.62 %). Part 3 of track SO, in progress, proves more: the Moon stays locked in synchronous
 rotation forever, confined by one librational invariant torus around a certified synchronous periodic orbit (D42,
 D45); its Lean packages are on `main`, and its certificate data are being emitted and kernel-checked.
+
+**Certified effective stability (track B).**
+
+16. **Finite-time confinement from a normal form.** Suppose a symplectic C² chart Ψ around a torus, or in Cartesian
+    oscillator coordinates, brings H to a normal form N(J) + R, and the angle derivatives of the remainder R (the
+    brackets {I_j, R} for oscillators) are bounded by η_j on the region of actions |J_j| ≤ b_j. Then every orbit
+    starting at action level a_j, with a_j + T·η_j < b_j, exists beyond times ±T and is unique in the phase-space
+    domain. Its actions drift by at most η_j·|t| and stay below a_j + η_j·T, so it remains in the chart. Zero
+    oscillator actions are allowed. Frozen and sealed 2026-11-03 (D72).
+    [`KAM.EffectiveStability.torus_confinement`](KAM/Frozen/EffectiveStability/TorusConfinement.lean#L33) ·
+    [`KAM.EffectiveStability.oscillator_confinement`](KAM/Frozen/EffectiveStability/OscillatorConfinement.lean#L34)
+
+    Ordinary proved theorems on top of these: sound Bool checkers for finite chains of Lie transforms with exact ℚ
+    arithmetic, in Cartesian (`checkOscChain_sound`) and Fourier–Taylor (`checkTorusChain_sound`) form, and a route
+    from a v2 certified torus to confinement near it (`certifiedTorus_confinement`). The first literal instance, the
+    Hénon–Heiles box over ℚ(√2), is in progress.
 
 ## Overview
 
