@@ -75,7 +75,7 @@ def graph_resolved(graph, parts):
 
 # Lean directories whose landings a track's proof graph must record (2026-11-01: track W's meter sat at 65 % for
 # hours because W5, W6 and W7 landed without a LEAN_STATUS sync; the owner asked that this never recur).
-GRAPH_DIRS = {'W': ['KAM/Wave'], 'LP': ['KAM/Planetary/StrongAMD', 'KAM/Planetary/Spatial']}
+GRAPH_DIRS = {'W': ['KAM/Wave'], 'LP': ['KAM/Planetary/StrongAMD', 'KAM/Planetary/Spatial'], 'B': ['KAM/EffectiveStability']}
 GRAPH_SYNC_GRACE_MIN = 60
 
 
