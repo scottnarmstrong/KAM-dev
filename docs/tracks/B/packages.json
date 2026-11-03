@@ -111,7 +111,7 @@
     "KAM/EffectiveStability/OscillatorChain/Smoke.lean"
    ],
    "source": "plan §3.2: composition of exact flows; remainders propagated through later charts",
-   "status": "PASS WITH NOTES; landing requested (batch 8)"
+   "status": "LANDED (main 0d9575f2b)"
   },
   {
    "id": "B2-CHECK",
@@ -136,7 +136,7 @@
     "KAM/EffectiveStability/OscillatorChainCheck.lean"
    ],
    "source": "plan §3.1 checker for chains",
-   "status": "PASS WITH NOTES; landing requested (batch 9)"
+   "status": "LANDED (main e0dd8aac9)"
   },
   {
    "id": "B2-ORIGCHAIN",
@@ -145,7 +145,7 @@
     "KAM/EffectiveStability/OscillatorChainPhysicalSmoke.lean"
    ],
    "source": "plan §2.2 original box for chains",
-   "status": "PASS WITH NOTES; landing requested (batch 9)"
+   "status": "LANDED (main e0dd8aac9)"
   },
   {
    "id": "B4-FT",
@@ -157,7 +157,7 @@
     "KAM/EffectiveStability/FT/Bound.lean"
    ],
    "source": "plan §3.2 Fourier–Taylor norms and η^poly (B4)",
-   "status": "proving (claude-2)"
+   "status": "PASS WITH NOTES; landing requested (batch 10)"
   },
   {
    "id": "B4-TDOM",
@@ -165,7 +165,15 @@
     "KAM/EffectiveStability/TorusDomain.lean"
    ],
    "source": "plan §3.2/§7 B4: strip domains for the B1-T route",
-   "status": "proving (claude-5)"
+   "status": "PASS WITH NOTES; landing requested (batch 10)"
+  },
+  {
+   "id": "B4-TSTEP",
+   "modules": [
+    "KAM/EffectiveStability/TorusStep.lean"
+   ],
+   "source": "plan §3.2/§7 B4: B1-T checker route (one generator)",
+   "status": "proving (claude-2)"
   }
  ]
 }

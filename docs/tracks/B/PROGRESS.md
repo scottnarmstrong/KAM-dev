@@ -73,3 +73,9 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
 - 2026-11-03 02:11: B4-TDOM launched (claude-5, KAM-inp-b4tdom): strip×polydisc domain, scaleCLE gauge, small field, lattice equivariance (flow_d), cylinder and Cauchy-disc inclusions.
 - 2026-11-03 02:12: B2-CHECKCHAIN audit 1: **PASS WITH NOTES**; merged into inp-b1.
 - 2026-11-03 02:13: B2-ORIGCHAIN audit 1: **PASS WITH NOTES** (doc nits N1/N2 kept for byte identity; N3 smoke scope). Merged; landing request batch 9 (B2-CHECKCHAIN + B2-ORIGCHAIN).
+- 2026-11-03 02:17: **batch 8 LANDED on main 0d9575f2b** (B2-MULTI, oscillatorChain_confinement).
+- 2026-11-03 02:18: B4-TDOM READY 02:17 (claude-5; TorusDomain 295 lines: strip domain, gauge, small field, flow lattice equivariance, cylinder/Cauchy inclusions); rechecked; audit 1 launched.
+- 2026-11-03 02:22: B4-TDOM audit 1: **PASS WITH NOTES** (N1: comp_realFlow_angleShift assumes global periodicity of H — fine for FT polynomials); merged into inp-b1.
+- 2026-11-03 02:25: **batch 9 LANDED on main e0dd8aac9** (B2-CHECKCHAIN + B2-ORIGCHAIN). **Program B2 complete on main** (oscillator case: polynomial algebra, real flows, Cauchy, domains, one-step and chain soundness, Bool checkers, physical boxes).
+- 2026-11-03 02:30: B4-FT READY (claude-2; FT/{Basic,Deriv,Bracket,Bound} + facade, 1463 lines; all items incl. bracket/adPow/Lie sum; generic ℝ/ℂ layer); rechecked; audit 1 launched. B4-TSTEP launched (claude-2, KAM-inp-b4tstep off inp-b1 + B4-FT): torus one-step checker ending in torus_confinement.
+- 2026-11-03 02:34: B4-FT audit 1: **PASS WITH NOTES** (normalizer, products, tags, bracket, majorants all PASS); merged; landing request batch 10 (B4-FT + B4-TDOM).
