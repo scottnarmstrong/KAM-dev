@@ -48,7 +48,14 @@ public import KAM.EffectiveStability.RealFlow.Symplectic
 public import KAM.EffectiveStability.RealFlow
 public import KAM.EffectiveStability.StoppedDrift
 public import KAM.EffectiveStability.Torus
+public import KAM.EffectiveStability.TorusCheck
 public import KAM.EffectiveStability.TorusDomain
+public import KAM.EffectiveStability.TorusPhysical
+public import KAM.EffectiveStability.TorusPhysicalSmoke
+public import KAM.EffectiveStability.TorusStep.Drift
+public import KAM.EffectiveStability.TorusStep.Remainder
+public import KAM.EffectiveStability.TorusStep.Smoke
+public import KAM.EffectiveStability.TorusStep
 public import KAM.EffectiveStability.Transfer
 
 /-!
