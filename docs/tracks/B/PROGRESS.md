@@ -37,3 +37,4 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
   differentiability; applied). Merged into inp-b1; landing request batch 2 sent. **Program B0 + B1 complete**
   (both headlines proved exactly as the audited B0 text; nothing frozen; owner approval of the text pending).
 - 2026-11-03 00:18: landing lint (line length ≤ 100) failed batch 1 on 9 lines; 11 lines wrapped (whitespace only, incl. 2 in ObservableTransfer); all 9 modules rebuilt; local lint fails only on the generated root (lander's step).
+- 2026-11-03 00:20: root-b8 extended tonight's scope to B2 (finite polynomial normalization; B3 OFF). OD-B7 logged. Reuse inventory started (plan §3; KAM/Canonical flow, symplectic, taylor_lie, flow_c/flow_e are general holomorphic-field results, reusable after complexification).
