@@ -22,7 +22,7 @@
     "KAM/EffectiveStability/ChartFlow.lean"
    ],
    "source": "plan §7 Brief 2: stopped drift, first exit, continuation",
-   "status": "PASS WITH NOTES (audit 1); landing requested"
+   "status": "LANDED (main 4bb1aab69)"
   },
   {
    "id": "B1-TRANSFER",
@@ -31,7 +31,7 @@
     "KAM/EffectiveStability/ActionDerivative.lean"
    ],
    "source": "plan §7 Brief 2: chart transport, action derivatives, B1-transfer",
-   "status": "PASS WITH NOTES (audit 1); landing requested"
+   "status": "LANDED (main 4bb1aab69)"
   },
   {
    "id": "B1-HEAD",
@@ -42,7 +42,7 @@
     "KAM/EffectiveStability/Examples.lean"
    ],
    "source": "B1-T, B1-E exactly as FREEZE-PROPOSAL",
-   "status": "PASS WITH NOTES (audit 1); landing requested"
+   "status": "LANDED (main 4bb1aab69)"
   },
   {
    "id": "B2-POLY",
