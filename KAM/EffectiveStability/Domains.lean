@@ -74,7 +74,8 @@ theorem continuous_oscAct : Continuous (oscAct (n := n)) := by
   fun_prop
 
 theorem isOpen_osc (c : Fin n → ℝ) : IsOpen (osc c) := by
-  have : osc c = ⋂ j, {w : (Fin n → ℝ) × (Fin n → ℝ) | oscAct w j < c j} := by ext; simp [osc, oscAct]
+  have : osc c = ⋂ j, {w : (Fin n → ℝ) × (Fin n → ℝ) | oscAct w j < c j} := by
+    ext; simp [osc, oscAct]
   rw [this]
   exact isOpen_iInter_of_finite fun j =>
     isOpen_lt ((continuous_apply j).comp continuous_oscAct) continuous_const
@@ -90,19 +91,24 @@ theorem isCompact_actionBoxClosed (c : Fin n → ℝ) : IsCompact (actionBoxClos
   rw [actionBoxClosed_eq_pi]; exact isCompact_univ_pi fun j => isCompact_Icc
 
 theorem isCompact_oscClosed (c : Fin n → ℝ) : IsCompact (oscClosed c) := by
-  have hsub : oscClosed c ⊆ actionBoxClosed (fun j => c j + 1) ×ˢ actionBoxClosed (fun j => c j + 1) := by
+  have hsub :
+      oscClosed c ⊆ actionBoxClosed (fun j => c j + 1) ×ˢ actionBoxClosed (fun j => c j + 1) := by
     intro w hw
     have key : ∀ j, ∀ x : ℝ, (x ^ 2 + 0) / 2 ≤ c j → |x| ≤ c j + 1 := fun j x hx => by
       nlinarith [sq_nonneg (|x| - 1), sq_abs x]
     refine ⟨fun j => key j _ ?_, fun j => key j _ ?_⟩
-    · have := hw j; simp only [KAM.Planetary.oscillatorAction] at this; nlinarith [sq_nonneg (w.2 j)]
-    · have := hw j; simp only [KAM.Planetary.oscillatorAction] at this; nlinarith [sq_nonneg (w.1 j)]
+    · have := hw j; simp only [KAM.Planetary.oscillatorAction] at this
+      nlinarith [sq_nonneg (w.2 j)]
+    · have := hw j; simp only [KAM.Planetary.oscillatorAction] at this
+      nlinarith [sq_nonneg (w.1 j)]
   have hcl : IsClosed (oscClosed c) := by
     have : oscClosed c = ⋂ j, {w : (Fin n → ℝ) × (Fin n → ℝ) | oscAct w j ≤ c j} := by
       ext; simp [oscClosed, oscAct]
     rw [this]
-    exact isClosed_iInter fun j => isClosed_le ((continuous_apply j).comp continuous_oscAct) continuous_const
-  exact ((isCompact_actionBoxClosed _).prod (isCompact_actionBoxClosed _)).of_isClosed_subset hcl hsub
+    exact isClosed_iInter fun j =>
+      isClosed_le ((continuous_apply j).comp continuous_oscAct) continuous_const
+  exact ((isCompact_actionBoxClosed _).prod (isCompact_actionBoxClosed _)).of_isClosed_subset
+    hcl hsub
 
 theorem actionBoxClosed_subset_actionBox {b : Fin n → ℝ} {ε : ℝ} (hε : 0 < ε) :
     actionBoxClosed b ⊆ actionBox (fun j => b j + ε) :=

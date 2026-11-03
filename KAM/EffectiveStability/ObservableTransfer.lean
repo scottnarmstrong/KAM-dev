@@ -55,8 +55,9 @@ theorem torus_observable_transfer {n m : ℕ} (a b η : Fin n → ℝ) (ε T : �
       (∀ t : ℝ, |t| ≤ T → Ψ (Ψinv (z t)) = z t ∧
         ∀ j, |(Ψinv (z t)).2 j - w₀.2 j| ≤ η j * |t| ∧ |(Ψinv (z t)).2 j| ≤ a j + η j * T) ∧
       ∀ t : ℝ, |t| ≤ T → ∀ i, |A (z t) i - A (z 0) i| ≤ 2 * d i + |t| * ∑ j, |L i j| * η j := by
-  obtain ⟨T₁, hT₁, z, h0, hs, hu, hb⟩ := torus_confinement a b η ε T hε hT hη hmargin V hV H hH Ψ Ψinv
-    hΨ hΨV hΨsymp hΨinv N R hR hRper hHΨ hRη w₀ hw₀
+  obtain ⟨T₁, hT₁, z, h0, hs, hu, hb⟩ :=
+    torus_confinement a b η ε T hε hT hη hmargin V hV H hH Ψ Ψinv
+      hΨ hΨV hΨsymp hΨinv N R hR hRper hHΨ hRη w₀ hw₀
   refine ⟨T₁, hT₁, z, h0, hs, hu, hb, fun t ht i => ?_⟩
   have hab : ∀ j, a j ≤ b j := fun j => by
     have := hmargin j; have := mul_nonneg hT (hη j); linarith
@@ -74,7 +75,8 @@ theorem torus_observable_transfer {n m : ℕ} (a b η : Fin n → ℝ) (ε T : �
 
 /-- Observable transfer for `oscillator_confinement`: the headline solution `z` also controls the
 observable `A`. -/
-theorem oscillator_observable_transfer {n m : ℕ} (a b η : Fin n → ℝ) (ε T : ℝ) (hε : 0 < ε) (hT : 0 ≤ T)
+theorem oscillator_observable_transfer {n m : ℕ} (a b η : Fin n → ℝ) (ε T : ℝ) (hε : 0 < ε)
+    (hT : 0 ≤ T)
     (hη : ∀ j, 0 ≤ η j) (hmargin : ∀ j, a j + T * η j < b j)
     (V : Set ((Fin n → ℝ) × (Fin n → ℝ))) (hV : IsOpen V)
     (H : (Fin n → ℝ) × (Fin n → ℝ) → ℝ) (hH : ContDiffOn ℝ 2 H V)

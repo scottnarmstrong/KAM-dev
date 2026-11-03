@@ -15,7 +15,8 @@ public import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
 /-!
 # Symplectic chart transport and observable transfer (track B, package B1-TRANSFER)
 
-* `symplecticForm_hamiltonianVectorField`: `ω (X_H z) v = - dH(z) v`; `symplecticForm_nondegenerate`.
+* `symplecticForm_hamiltonianVectorField`: `ω (X_H z) v = - dH(z) v`;
+  `symplecticForm_nondegenerate`.
 * `bijective_of_symplectic`: symplectic linear maps are bijective.
 * `fderiv_chart_apply_hamiltonianVectorField`: `DΨ X_{H∘Ψ} = X_H ∘ Ψ` for a symplectic chart `Ψ`;
   `hasDerivAt_comp_chart` is the curve version.
