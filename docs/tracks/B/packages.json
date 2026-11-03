@@ -213,7 +213,7 @@
     "KAM/EffectiveStability/TorusChainCheck.lean"
    ],
    "source": "plan §3.1 checker, torus chains",
-   "status": "ready; audit 1 running"
+   "status": "PASS WITH NOTES; landing requested (batch 13)"
   },
   {
    "id": "B4-TORIGCHAIN",
@@ -222,7 +222,7 @@
     "KAM/EffectiveStability/TorusChainPhysicalSmoke.lean"
    ],
    "source": "plan §2.2 original box, torus chains",
-   "status": "ready; audit 1 running"
+   "status": "PASS WITH NOTES; landing requested (batch 13)"
   },
   {
    "id": "B5-CHART",
@@ -235,10 +235,13 @@
   {
    "id": "B5-LAG",
    "modules": [
-    "KAM/EffectiveStability/TorusLagrangian.lean"
+    "KAM/EffectiveStability/TorusLagrangian.lean",
+    "KAM/EffectiveStability/TorusRealSlice.lean",
+    "KAM/EffectiveStability/TorusProjection.lean",
+    "KAM/EffectiveStability/TorusLagrangianCert.lean"
    ],
    "source": "plan §3.4 Lagrangian property, real slice",
-   "status": "proving (claude-5)"
+   "status": "ready; audit 1 running"
   },
   {
    "id": "B5-NF",
