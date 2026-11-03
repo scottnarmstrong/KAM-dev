@@ -57,3 +57,4 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
 - 2026-11-03 01:21: B2-MULTI launched (claude-5, KAM-inp-b2multi off inp-b2step): m-generator chain ⇒ oscillator_confinement (telescoping remainders propagated through inner flows, displacement radius budget); two-step fallback allowed.
 - 2026-11-03 01:24: B2-STEP audit 1: **PASS WITH NOTES** (one-generator checker soundness accepted); merged into inp-b1. Landing request batch 5 (B2-STEP + B2-COMPOSE).
 - 2026-11-03 01:28: B2-CHECK launched (claude-2, KAM-inp-b2check): one Bool checker over all-ℚ certificate data + soundness via B2-STEP (plan §3.1 shape).
+- 2026-11-03 01:36: **batch 5 LANDED on main 815a24728** (B2-STEP incl. oscillatorStep_confinement + B2-COMPOSE; byte-identical to audited heads; 32 theorems, standard axioms).
