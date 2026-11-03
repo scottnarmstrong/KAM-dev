@@ -27,3 +27,13 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
   N2 = roots regenerate at landing). 23:54: B1-CORE audit 1: **PASS WITH NOTES** (N1 implicit-binder order of
   `exists_confined_solution_compact`, harmless; N2 = same OD-B2 wording). Auditor sessions closed.
 - 2026-11-02 23:54: landing request for inp-b1 (CORE + TRANSFER + track docs) sent to kam-inp-63.
+- 2026-11-02 23:58: root-b8 edit-scope rule recorded (SPEC, prover brief): bulk edits only under KAM/EffectiveStability/** and docs/tracks/B/**; diff-stat check before each commit.
+- 2026-11-03 00:00: B1-HEAD READY (claude-2): Torus 136, Oscillator 146, ObservableTransfer 132, Examples 58 lines.
+  Rechecked by kam-b1: both headlines byte-identical to the audited text (docstring through `:= by`), four
+  targeted builds OK, `#print axioms` of both headlines and both transfer corollaries = [propext, Classical.choice,
+  Quot.sound]. Examples instantiate both headlines (identity chart, η = 0, T ≥ 0 incl. 0, zero action).
+  B1-HEAD audit 1 launched (codex-2, inp-maud-b1head). Prover session closed.
+- 2026-11-03 00:04: B1-HEAD audit 1 (codex-2): **PASS WITH NOTES** (N1: FREEZE-PROPOSAL §4 wording on N's
+  differentiability; applied). Merged into inp-b1; landing request batch 2 sent. **Program B0 + B1 complete**
+  (both headlines proved exactly as the audited B0 text; nothing frozen; owner approval of the text pending).
+- 2026-11-03 00:18: landing lint (line length ≤ 100) failed batch 1 on 9 lines; 11 lines wrapped (whitespace only, incl. 2 in ObservableTransfer); all 9 modules rebuilt; local lint fails only on the generated root (lander's step).

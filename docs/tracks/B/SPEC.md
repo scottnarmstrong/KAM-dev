@@ -48,3 +48,9 @@ on `Ioo (-T₁) T₁`; every solution `y` in `V` on an order-connected `I ∋ 0`
 LP's `strongFirstExit_of_stopped_drift` (`KAM/Planetary/StrongAMD/Confinement.lean`) and lemma.farm's LambdaDrift
 bridge are planetary-specific (phys. states, AMD barrier); B uses its own generic first-exit lemma in
 `KAM/EffectiveStability/FirstExit.lean`. No LambdaDrift file is edited or imported.
+
+## Edit scope (root-b8 rule, 2026-11-02)
+
+Every bulk edit (sed, rename script) is restricted by explicit path to `KAM/EffectiveStability/**` and
+`docs/tracks/B/**` (plus, at freeze time only, the assigned provider and frozen paths), never repo-wide. Before each
+commit, `git diff --cached --stat` must show no path outside those. `KAM/Application/LambdaDrift/**` is lemma.farm's.

@@ -104,7 +104,8 @@ theorem bracket_action_eq_of_eventuallyEq {K R : (Fin n → ℝ) × (Fin n → �
       simp
       nlinarith [this]
     · simp [KAM.Planetary.oscillatorAction, hγdef, e₁, e₂, hi]
-  have hev : ∀ᶠ s in 𝓝 (0 : ℝ), γ s ∈ {x | K x = N (KAM.Planetary.oscillatorAction x.2 x.1) + R x} :=
+  have hev :
+      ∀ᶠ s in 𝓝 (0 : ℝ), γ s ∈ {x | K x = N (KAM.Planetary.oscillatorAction x.2 x.1) + R x} :=
     hγ.continuousAt.eventually (by simpa [hγ0] using heq)
   have h0 : (K - R) w = N (KAM.Planetary.oscillatorAction w.2 w.1) := by
     have := heq.self_of_nhds

@@ -74,7 +74,8 @@ theorem firstExit_box_nonneg {f : ℝ → Fin n → ℝ} {J : Set ℝ} (hJ : J.O
       · have hut : u ≤ t₁ := heq ▸ hst₁
         rcases hu.1.lt_or_eq with hpos | hzero
         · have hclosed : IsClosed {x ∈ Icc 0 t₁ | |f x j| ≤ b j} := by
-            have : {x ∈ Icc 0 t₁ | |f x j| ≤ b j} = Icc 0 t₁ ∩ (fun x => |f x j|) ⁻¹' Iic (b j) := by
+            have : {x ∈ Icc 0 t₁ | |f x j| ≤ b j} =
+                Icc 0 t₁ ∩ (fun x => |f x j|) ⁻¹' Iic (b j) := by
               ext; simp
             rw [this]
             exact (((continuous_apply j).comp_continuousOn (hcont.mono hIcc)).abs
