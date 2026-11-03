@@ -245,9 +245,11 @@
   },
   {
    "id": "B5-NF",
-   "modules": [],
+   "modules": [
+    "KAM/EffectiveStability/TorusNormalForm.lean"
+   ],
    "source": "plan §3.4 E + ω·J + O(J²)",
-   "status": "after CHART, LAG"
+   "status": "proving (claude-5)"
   },
   {
    "id": "B5-ROUTE",
