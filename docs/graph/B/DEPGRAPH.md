@@ -38,9 +38,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.hamiltonianVectorField (KAM/Frozen/Defs/HamiltonianVectorField.lean)
+LEAN_NOTE: sealed frozen definition; nothing to prove
 NOTE: -
 
 NODE: b:defs#symplecticForm
@@ -64,9 +64,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.symplecticForm (KAM/Frozen/Defs/SymplecticForm.lean)
+LEAN_NOTE: sealed frozen definition; nothing to prove
 NOTE: -
 
 NODE: b:defs#oscillatorAction
@@ -90,9 +90,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.oscillatorAction (KAM/Frozen/Planetary/Defs/OscillatorAction.lean)
+LEAN_NOTE: sealed frozen definition; nothing to prove
 NOTE: -
 
 NODE: b:defs#bracket
@@ -117,9 +117,9 @@ EDGE: b:defs#hamiltonianVectorField | docs/explorations/program-b-plan.md#b:2.1@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: convention realized in KAM.EffectiveStability.bracket_action_eq_of_eventuallyEq and the frozen B1-E bracket text
+LEAN_NOTE: convention; nothing further to prove
 NOTE: convention only; in the frozen B1-E text the bracket {I_j,R} is written out as q_j R_{p_j} - p_j R_{q_j} (FREEZE-PROPOSAL L59-L60, L80-L83)
 
 NODE: ext:ode#local
@@ -144,8 +144,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
 LEAN_STATUS: EXTERNAL
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: KAM.ODE.gen_uniqueness_inter (KAM/ODE/Uniqueness.lean)
+LEAN_NOTE: discharged by the repository ODE library (Picard-Lindelof based)
 NOTE: repository KAM.ODE local theory (built on Mathlib IsPicardLindelof); invoked by "Handle T=0 by local existence" (L854) and by the uniqueness step
 
 NODE: ext:ode#compact-continuation
@@ -170,8 +170,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
 LEAN_STATUS: EXTERNAL
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: KAM.ODE.gen_maximal (KAM/ODE/Continuation.lean)
+LEAN_NOTE: discharged by the repository ODE library
 NOTE: "the existing continuation theorem" (plan L850-L851); the repository KAM.ODE continuation library
 
 NODE: b:brief2#chart-transport
@@ -197,9 +197,9 @@ EDGE: b:defs#symplecticForm | docs/explorations/program-b-plan.md#b:brief2-proof
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.EffectiveStability.hasDerivAt_comp_chart, fderiv_chart_apply_hamiltonianVectorField (KAM/EffectiveStability/Transfer.lean)
+LEAN_NOTE: landed main (track B batch 2+)
 NOTE: frozen premises: hH, hPsi, hPsiV, hPsisymp, hPsiinv (FREEZE-PROPOSAL L31-L37); no inverse regularity or open image is needed (OD-B3, left inverse)
 
 NODE: b:brief2#stopped-drift
@@ -223,9 +223,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.EffectiveStability.abs_sub_le_of_deriv_bound (KAM/EffectiveStability/StoppedDrift.lean)
+LEAN_NOTE: landed main
 NOTE: eta = 0 allowed, no division (L854-L855)
 
 NODE: b:brief2#uniqueness
@@ -251,9 +251,9 @@ EDGE: b:defs#hamiltonianVectorField | docs/explorations/program-b-plan.md#b:2.1@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_uniqueness_inter used in torus_confinement_proof / oscillator_confinement_proof
+LEAN_NOTE: landed main
 NOTE: -
 
 NODE: b:2.2#action-derivative
@@ -279,9 +279,9 @@ EDGE: b:defs#hamiltonianVectorField | docs/explorations/program-b-plan.md#b:brie
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.EffectiveStability.fderiv_angle_eq_of_eventuallyEq, hamiltonianVectorField_snd_apply (KAM/EffectiveStability/ActionDerivative.lean)
+LEAN_NOTE: landed main
 NOTE: frozen version differentiates H o Psi - R, so no regularity of N is assumed (FREEZE-PROPOSAL L25-L27)
 
 NODE: b:2.2#first-exit
@@ -307,9 +307,9 @@ EDGE: b:brief2#stopped-drift | docs/explorations/program-b-plan.md#b:2.2-source-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.EffectiveStability.firstExit_box_of_deriv (KAM/EffectiveStability/FirstExit.lean)
+LEAN_NOTE: landed main
 NOTE: a_j >= 0 follows from |J_j(0)| <= a_j; eta = 0 and both time directions allowed (L847-L848, L854-L855); the reviewer rule L863-L864 (no assumed existence interval) is respected
 
 NODE: b:2.2#periodic-reduction
@@ -338,9 +338,9 @@ EDGE: b:defs#hamiltonianVectorField | docs/explorations/program-b-plan.md#b:brie
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.EffectiveStability.exists_confined_solution_periodic (KAM/EffectiveStability/ChartFlow.lean)
+LEAN_NOTE: landed main
 NOTE: lifted angles are unbounded, so the cylinder is not compact (L162-L163); periodicity of R (hRper, FREEZE-PROPOSAL L40-L41) replaces the plan's V/H/Psi periodicity premises (OD-B2)
 
 NODE: b:2.2#B1-T
@@ -370,9 +370,9 @@ EDGE: b:defs#symplecticForm | docs/tracks/B/FREEZE-PROPOSAL.md#b:freeze-2@L35-L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.EffectiveStability.torus_confinement (KAM/Frozen/EffectiveStability/TorusConfinement.lean); provider KAM.Provider.EffectiveStability.torus_confinement
+LEAN_NOTE: SEALED (D72, manifest effectiveStability.d72.torus_confinement.v1, main cff2accd5); seal audit 1 PASS WITH NOTES; standard axioms
 NOTE: statement source = the exact frozen text (FREEZE-PROPOSAL §2, owner D72); mathematical source plan §2.2 L100-L136; deviations (minimal premises OD-B2, left-inverse chart OD-B3, n >= 1 dropped OD-B6) listed in FREEZE-PROPOSAL §6 L161-L166
 
 NODE: b:2.3#action-bracket
@@ -400,9 +400,9 @@ EDGE: b:defs#hamiltonianVectorField | docs/explorations/program-b-plan.md#b:brie
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.EffectiveStability.hasDerivAt_oscillatorAction, bracket_action_eq_of_eventuallyEq (KAM/EffectiveStability/ActionDerivative.lean)
+LEAN_NOTE: landed main
 NOTE: -
 
 NODE: b:2.3#normal-form-commutes
@@ -428,9 +428,9 @@ EDGE: b:defs#bracket | docs/explorations/program-b-plan.md#b:2.3-continuation@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.EffectiveStability.bracket_action_eq_of_eventuallyEq (KAM/EffectiveStability/ActionDerivative.lean)
+LEAN_NOTE: landed main
 NOTE: frozen version: rotation invariance of the differentiable H o Psi - R, no differentiability of N (FREEZE-PROPOSAL L60-L61); source states it as the algebraic lemma {I_j, N o I} = 0
 
 NODE: b:2.3#first-exit
@@ -458,9 +458,9 @@ EDGE: b:defs#oscillatorAction | docs/explorations/program-b-plan.md#b:2.3-contin
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.EffectiveStability.firstExit_box_nonneg, firstExit_box_of_deriv (KAM/EffectiveStability/FirstExit.lean)
+LEAN_NOTE: landed main
 NOTE: zero actions and eta = 0 without division (L854-L855); no assumed existence interval (L863-L864)
 
 NODE: b:2.3#compact-continuation
@@ -490,9 +490,9 @@ EDGE: b:defs#hamiltonianVectorField | docs/explorations/program-b-plan.md#b:brie
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.EffectiveStability.exists_confined_solution_compact (KAM/EffectiveStability/ChartFlow.lean)
+LEAN_NOTE: landed main
 NOTE: -
 
 NODE: b:2.3#B1-E
@@ -523,9 +523,9 @@ EDGE: b:defs#oscillatorAction | docs/tracks/B/FREEZE-PROPOSAL.md#b:freeze-2@L66-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-nodes
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.EffectiveStability.oscillator_confinement (KAM/Frozen/EffectiveStability/OscillatorConfinement.lean); provider KAM.Provider.EffectiveStability.oscillator_confinement
+LEAN_NOTE: SEALED (D72, manifest effectiveStability.d72.oscillator_confinement.v1, main cff2accd5); seal audit 1 PASS WITH NOTES; standard axioms
 NOTE: statement source = exact frozen text (FREEZE-PROPOSAL §2, owner D72); mathematical source plan §2.3 L165-L193; deviations in FREEZE-PROPOSAL §6 L161-L166
 
 ## Append-only structural amendments
