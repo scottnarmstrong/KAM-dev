@@ -163,3 +163,122 @@ end KAM.EffectiveStability
 `C²`/differentiable regularity instead of analytic; anisotropic closed initial boxes with strict outer margins;
 explicit two-sided existence on `Ioo (-T₁) T₁` and uniqueness in all of `V`; Cartesian handling of zero actions;
 minimal premise list (OD-B2); left-inverse chart (OD-B3); `n ≥ 1` dropped (OD-B6).
+
+
+## Addendum (2026-11-03, overnight): OPTIONAL further candidates. NOT proposed for freezing tonight
+
+Requested by root-b8 for the owner's consideration. Nothing here is frozen or proposed as a default. The three theorems
+below are proved ordinary theorems: two on main, and `certifiedTorus_confinement` in audit (B5-ROUTE). Their exact current
+text is reproduced from the source. The elaboration receipt is `#check` and `#print axioms` in a transient scratch module
+importing the three modules: exit 0, and each depends only on `[propext, Classical.choice, Quot.sound]`.
+
+**Caution (plan §2.4 and the SO precedent D40):** "do not freeze an evolving certificate serialization". Freezing
+`checkOscChain_sound` or `checkTorusChain_sound` would also freeze the definitions they mention:
+- `OscChainCert`, `OscStep`, `checkOscChain`, `cartSupBound`, `CartPoly`, …;
+- the torus analogues.
+**Recommendation:** freeze none of the checkers. Instead freeze ONE literal application theorem, such as the Hénon–Heiles
+instance of `B3-READY.md`, whose type mentions only H, the region, T and the bounds. The checker soundness theorems stay
+ordinary and audited.
+`certifiedTorus_confinement` depends on the v2 certificate contract (`TorusCertificate`, `CertifiedTorusAt`,
+`G1Hyps`). It is a candidate only if that contract is itself frozen or stable.
+
+### A1. `checkOscChain_sound` (oscillator chain checker; `KAM/EffectiveStability/OscillatorChainCheck.lean`)
+### A2. `checkTorusChain_sound` (torus chain checker; `KAM/EffectiveStability/TorusChainCheck.lean`)
+### A3. `certifiedTorus_confinement` (exact-torus route; `KAM/EffectiveStability/CertifiedTorusRoute.lean`, in audit)
+
+```lean
+=== checkOscChain_sound (KAM/EffectiveStability/OscillatorChainCheck.lean)
+/-- The Bool checker: every non-binder premise of `oscillatorChain_confinement`, in exact `ℚ`. -/
+def checkOscChain {n : ℕ} (c : OscChainCert n) : Bool :=
+  cartFitsB n c.H && cartFitsB n c.Nact && cartFitsB n c.P && cartActOnly c.Nact &&
+  oscChainOKB n c.Nact c.P c.steps c.H && oscDomOKB n c.r c.δc c.steps &&
+  decide (0 < c.δc) && decide (0 < c.εb) && decide (0 ≤ c.T) &&
+  (List.range n).all fun i =>
+    decide (0 ≤ c.r.getD i 0) && decide (2 * (c.b.getD i 0 + c.εb) ≤ c.r.getD i 0 ^ 2) &&
+    decide (0 ≤ c.η.getD i 0) &&
+    decide (cartSupBound (cartBracket (cartAction i) c.P) c.r c.r ≤
+      c.η.getD i 0 - 2 * c.r.getD i 0 * oscChainBound n c.steps c.H / c.δc) &&
+    decide (c.a.getD i 0 + c.T * c.η.getD i 0 < c.b.getD i 0)
+
+theorem checkOscChain_sound {n : ℕ} (c : OscChainCert n) (hc : checkOscChain c = true)
+    (w₀ : (Fin n → ℝ) × (Fin n → ℝ))
+    (hw₀ : ∀ j : Fin n, KAM.Planetary.oscillatorAction w₀.2 w₀.1 j ≤ (c.a.getD j 0 : ℝ)) :
+    ∃ T₁ : ℝ, (c.T : ℝ) < T₁ ∧ ∃ z : ℝ → (Fin n → ℝ) × (Fin n → ℝ),
+      z 0 = oscChainMap c.steps w₀ ∧
+      (∀ t ∈ Ioo (-T₁) T₁, z t ∈ (univ : Set ((Fin n → ℝ) × (Fin n → ℝ))) ∧
+        HasDerivAt z (KAM.hamiltonianVectorField
+          (fun w : (Fin n → ℝ) × (Fin n → ℝ) => cartEval c.H w) (z t)) t) ∧
+      (∀ (I : Set ℝ) (y : ℝ → (Fin n → ℝ) × (Fin n → ℝ)), I.OrdConnected → (0 : ℝ) ∈ I →
+        y 0 = oscChainMap c.steps w₀ →
+        (∀ t ∈ I, y t ∈ (univ : Set ((Fin n → ℝ) × (Fin n → ℝ))) ∧
+          HasDerivAt y (KAM.hamiltonianVectorField
+            (fun w : (Fin n → ℝ) × (Fin n → ℝ) => cartEval c.H w) (y t)) t) →
+        ∀ t ∈ I, t ∈ Ioo (-T₁) T₁ → y t = z t) ∧
+      ∀ t : ℝ, |t| ≤ (c.T : ℝ) →
+        oscChainMap c.steps (oscChainInv c.steps (z t)) = z t ∧
+        ∀ j : Fin n,
+          |KAM.Planetary.oscillatorAction (oscChainInv c.steps (z t)).2
+              (oscChainInv c.steps (z t)).1 j -
+            KAM.Planetary.oscillatorAction w₀.2 w₀.1 j| ≤ (c.η.getD j 0 : ℝ) * |t| ∧
+          KAM.Planetary.oscillatorAction (oscChainInv c.steps (z t)).2
+            (oscChainInv c.steps (z t)).1 j ≤
+              (c.a.getD j 0 : ℝ) + (c.η.getD j 0 : ℝ) * (c.T : ℝ) := by
+
+=== checkTorusChain_sound (KAM/EffectiveStability/TorusChainCheck.lean)
+/-- The Bool checker: every non-binder premise of `torusChain_confinement`, in exact `ℚ`. -/
+def checkTorusChain {n : ℕ} (c : TorusChainCert n) : Bool :=
+  ftFitsCheck n c.H && ftFitsCheck n c.P && ftActOnly c.Nact &&
+  tchChainOKB n c.Nact c.P c.steps c.H && tchDomOKB n c.b c.r c.εb c.δc c.steps &&
+  decide (0 < c.δc) && decide (0 < c.εb) && decide (0 ≤ c.T) &&
+  (List.range n).all fun i =>
+    decide (c.b.getD i 0 ≤ c.r.getD i 0) && decide (0 ≤ c.η.getD i 0) &&
+    decide (ftAngleDriftBound c.P i ftPiUB c.b + tchChainBound n c.steps c.H / c.δc ≤
+      c.η.getD i 0) &&
+    decide (c.a.getD i 0 + c.T * c.η.getD i 0 < c.b.getD i 0)
+
+theorem checkTorusChain_sound {n : ℕ} (c : TorusChainCert n) (hc : checkTorusChain c = true)
+    (w₀ : (Fin n → ℝ) × (Fin n → ℝ)) (hw₀ : ∀ j : Fin n, |w₀.2 j| ≤ (c.a.getD j 0 : ℝ)) :
+    ∃ T₁ : ℝ, (c.T : ℝ) < T₁ ∧ ∃ z : ℝ → (Fin n → ℝ) × (Fin n → ℝ),
+      z 0 = tchChainMap c.steps w₀ ∧
+      (∀ t ∈ Ioo (-T₁) T₁, z t ∈ (univ : Set ((Fin n → ℝ) × (Fin n → ℝ))) ∧
+        HasDerivAt z (KAM.hamiltonianVectorField
+          (fun w : (Fin n → ℝ) × (Fin n → ℝ) => ftEvalR c.H w) (z t)) t) ∧
+      (∀ (I : Set ℝ) (y : ℝ → (Fin n → ℝ) × (Fin n → ℝ)), I.OrdConnected → (0 : ℝ) ∈ I →
+        y 0 = tchChainMap c.steps w₀ →
+        (∀ t ∈ I, y t ∈ (univ : Set ((Fin n → ℝ) × (Fin n → ℝ))) ∧
+          HasDerivAt y (KAM.hamiltonianVectorField
+            (fun w : (Fin n → ℝ) × (Fin n → ℝ) => ftEvalR c.H w) (y t)) t) →
+        ∀ t ∈ I, t ∈ Ioo (-T₁) T₁ → y t = z t) ∧
+      ∀ t : ℝ, |t| ≤ (c.T : ℝ) →
+        tchChainMap c.steps (tchChainInv c.steps (z t)) = z t ∧
+        ∀ j : Fin n,
+          |(tchChainInv c.steps (z t)).2 j - w₀.2 j| ≤ (c.η.getD j 0 : ℝ) * |t| ∧
+          |(tchChainInv c.steps (z t)).2 j| ≤
+            (c.a.getD j 0 : ℝ) + (c.η.getD j 0 : ℝ) * (c.T : ℝ) := by
+
+=== certifiedTorus_confinement (/root/code/KAM-inp-b5route/KAM/EffectiveStability/CertifiedTorusRoute.lean)
+/-- **Certified exact torus ⇒ certified effective stability near it.** -/
+theorem certifiedTorus_confinement (hG : G1Hyps c ωstar)
+    (hdio : IsDiophantine (c.params.γ : ℝ) (c.params.tau : ℝ) ωstar)
+    (hT : CertifiedTorusAt c ωstar Kinf sinf) (h : RouteChecks c κc δ δφ ρJ)
+    {r : ℝ} (hr : 0 < r) (hrφ : r ≤ δφ)
+    (a b η : Fin n → ℝ) (ε Tt : ℝ) (hε : 0 < ε) (hTt : 0 ≤ Tt)
+    (hmargin : ∀ j, a j + Tt * η j < b j) (hrJ : ∀ j, b j + ε + r ≤ ρJ)
+    (B : ℝ) (hB0 : 0 ≤ B) (hB : ∀ j, b j ≤ B) (hηB : ∀ j, routeC3 c r * B ^ 2 / 2 ≤ η j)
+    (w₀ : (Fin n → ℝ) × (Fin n → ℝ)) (hw₀ : ∀ j, |w₀.2 j| ≤ a j) :
+    ∃ T₁ : ℝ, Tt < T₁ ∧ ∃ z : ℝ → (Fin n → ℝ) × (Fin n → ℝ),
+      z 0 = torusChartMap (torusRealU Kinf) (torusRealV Kinf) w₀ ∧
+      (∀ t ∈ Ioo (-T₁) T₁, z t ∈ {y | realInclusion₂ n y ∈ c.D} ∧
+        HasDerivAt z (hamiltonianVectorField (realHam c.H) (z t)) t) ∧
+      (∀ (I : Set ℝ) (y : ℝ → (Fin n → ℝ) × (Fin n → ℝ)), I.OrdConnected → (0 : ℝ) ∈ I →
+        y 0 = torusChartMap (torusRealU Kinf) (torusRealV Kinf) w₀ →
+        (∀ t ∈ I, y t ∈ {y | realInclusion₂ n y ∈ c.D} ∧
+          HasDerivAt y (hamiltonianVectorField (realHam c.H) (y t)) t) →
+        ∀ t ∈ I, t ∈ Ioo (-T₁) T₁ → y t = z t) ∧
+      ∀ t : ℝ, |t| ≤ Tt →
+        torusChartMap (torusRealU Kinf) (torusRealV Kinf)
+          (torusChartInvMap (torusRealU Kinf) (torusRealV Kinf) (z t)) = z t ∧
+        ∀ j, |(torusChartInvMap (torusRealU Kinf) (torusRealV Kinf) (z t)).2 j - w₀.2 j| ≤
+            η j * |t| ∧
+          |(torusChartInvMap (torusRealU Kinf) (torusRealV Kinf) (z t)).2 j| ≤ a j + η j * Tt := by
+```
