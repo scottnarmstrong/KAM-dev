@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-03 08:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 68 / 73 · **524,985 lines of hand-written Lean** of an estimated ≈ 527,000 (plus 632,896 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-03 09:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 60 % · track W 100 % · track LP 100 %** · frozen statements proved: 68 / 73 · **524,985 lines of hand-written Lean** of an estimated ≈ 527,000 (plus 632,896 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -342,7 +342,7 @@ Overall, everything together: 96.0 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **524,985** (397,228 excluding blank lines and comments) · **+14,956** since 2026-11-02 08:40 UTC |
+| On `main` now (hand-written) | **524,985** (397,228 excluding blank lines and comments) · **+14,956** since 2026-11-02 09:00 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 632,896 lines in 1,649 modules |
 | Written on agent branches, not yet landed (hand-written) | 2,435 |
 | Generated certificate data on agent branches (numeric literals; not counted in the other rows) | 6,883 |
@@ -353,7 +353,7 @@ Overall, everything together: 96.0 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-03 08:40 UTC from `main` at `10203f9cc` by `scripts/hq-status.py`.*
+*Generated 2026-11-03 09:00 UTC from `main` at `c3f873553` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -585,6 +585,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-03 08:48 | `c3f873553` | Overnight log: seal-audit account ruling |
 | 2026-11-03 07:27 | `db03246d9` | D72: program B freeze approved, B3 launched |
 | 2026-11-03 05:26 | `f4b96fbd0` | Land inp into main |
 | 2026-11-03 05:23 | `170b1d59f` | Overnight log: program B5 complete, batch 15 landed |
@@ -596,7 +597,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-03 03:25 | `89e07dddf` | Land inp into main |
 | 2026-11-03 03:18 | `2ad542b3e` | Log: B4 torus step |
 | 2026-11-03 03:08 | `d34f42cd7` | Land inp into main |
-| 2026-11-03 02:49 | `83c317c90` | Log: B2 complete |
 <!-- /AUTO:landed -->
 
 ## Decisions
