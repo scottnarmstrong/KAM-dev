@@ -200,6 +200,30 @@ class FrozenAnchorTests(unittest.TestCase):
         self.fixture.approve_theorem_fixture(self.fixture.sealed, header, body)
         self.assert_accepts()
 
+    def test_unowned_frozen_file_is_rejected(self) -> None:
+        # Seal audit HH-1 N1 (2026-11-03): an anchor file committed before its manifest entry.
+        orphan = "Fixture/Frozen/Orphan.lean"
+        self.fixture.write(orphan, self.fixture.read(SEALED).replace("Fixture.sealed", "Fixture.orphan"))
+        self.assert_rejects(f"{orphan}: frozen file has no manifest owner (no anchor lists this path)")
+
+    def test_unowned_nested_frozen_file_is_rejected(self) -> None:
+        orphan = "Fixture/Frozen/Sub/Deep.lean"
+        self.fixture.write(orphan, "module\npublic def Fixture.deep : Nat := 0\n")
+        self.assert_rejects(f"{orphan}: frozen file has no manifest owner (no anchor lists this path)")
+
+    def test_frozen_file_with_two_owners_is_rejected(self) -> None:
+        twin = json.loads(json.dumps(self.fixture.definition))
+        twin["id"] = twin["id"] + ".twin"
+        twin["export"] = twin["export"] + "Twin"
+        self.fixture.manifest["anchors"].append(twin)
+        result = self.run_guard()
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        self.assertIn(f"- {DEFINITION}: frozen file has 2 manifest owners (exactly one required)", result.stderr)
+
+    def test_non_frozen_files_need_no_owner(self) -> None:
+        self.fixture.write("Fixture/NotFrozen/Free.lean", "module\npublic def Fixture.free : Nat := 0\n")
+        self.assert_accepts()
+
     def test_prefix_mutation(self) -> None:
         self.fixture.replace(SEALED, "public theorem", "-- changed prefix\npublic theorem")
         self.assert_rejects("anchor[1]: frozen prefix hash drift (all bytes before proof body changed)")
