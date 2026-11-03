@@ -157,7 +157,7 @@
     "KAM/EffectiveStability/FT/Bound.lean"
    ],
    "source": "plan §3.2 Fourier–Taylor norms and η^poly (B4)",
-   "status": "proving (claude-2)"
+   "status": "PASS WITH NOTES; landing requested (batch 10)"
   },
   {
    "id": "B4-TDOM",
@@ -165,7 +165,15 @@
     "KAM/EffectiveStability/TorusDomain.lean"
    ],
    "source": "plan §3.2/§7 B4: strip domains for the B1-T route",
-   "status": "PASS WITH NOTES (audit 1); merged into inp-b1"
+   "status": "PASS WITH NOTES; landing requested (batch 10)"
+  },
+  {
+   "id": "B4-TSTEP",
+   "modules": [
+    "KAM/EffectiveStability/TorusStep.lean"
+   ],
+   "source": "plan §3.2/§7 B4: B1-T checker route (one generator)",
+   "status": "proving (claude-2)"
   }
  ]
 }
