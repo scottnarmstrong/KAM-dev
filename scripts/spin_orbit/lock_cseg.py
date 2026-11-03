@@ -286,7 +286,100 @@ def _fix_hk(text):
         pos = spans[13][0] + len(term)
         changed = True
         HKFIXED.append(adv)
+    return _reflow_lookups(_hoist_advat(_witness_sub(text)[0])[0]), changed
+
+
+def _reflow_lookups(text, width=100):
+    """lines of the advice lookups lengthened by `_witness_sub`/`_hoist_advat`, broken at spaces to the lint width
+    (continuations keep the line's indentation, at least 6). Idempotent."""
+    out = []
+    for line in text.split("\n"):
+        while len(line) > width and re.search(r"_advAt|adviceLookup|\badv(Full|Low)\.b\d", line) and not line.startswith("theorem"):
+            ind = len(line) - len(line.lstrip(" "))
+            cut = line.rfind(" ", ind + 1, width + 1)
+            while cut > ind and (line[cut + 1:].startswith("+") or line[:cut].endswith("(by")):
+                cut = line.rfind(" ", ind + 1, cut)      # never inside `(by decide +kernel)`
+            if cut <= ind:
+                break
+            out.append(line[:cut])
+            line = " " * max(ind, 6) + line[cut + 1:]
+        out.append(line)
+    return "\n".join(out)
+
+
+ADVLOOKUPSUB = "KAM.SpinOrbit.Data.LockN65.AdvLookupSub"
+
+
+def _witness_sub(text):
+    """DELTA-LAM 2b: a witness product (`cfg.forWitness s i`, key `s :: rest`) needs its advice in the sub-book
+    `subAdvice s i cfg.advice`; the chunk lookup was stated for the product key in the whole book (whose entry
+    has the key `s :: i :: rest`), and the elaborator unified the two by evaluating both books entry by entry
+    (maximum recursion depth at chunk entries 158/159/178/179, lam run). Now
+    `(adviceLookup_forWitness_cseg cfg s i rest).trans <chunk lookup of s :: i :: rest>`, stated on
+    `(cfg.forWitness s i).advice` itself (the `subAdvice` form made lazy delta evaluate the book). Idempotent."""
+    pos, changed = 0, False
+    while True:
+        i = text.find("polyProduct_eq_of_mulPacked", pos)
+        if i < 0:
+            break
+        spans = _arg_spans(text, i + len("polyProduct_eq_of_mulPacked"), 14)
+        arg = lambda q: text[spans[q][0]:spans[q][1]]
+        pos = spans[-1][1]
+        w = re.match(r"^\(base\.(cfg\w+)\.forWitness (\d+) (\d+)\)$", " ".join(arg(1).split()))
+        hk = arg(13)
+        if not w or not hk.startswith("((congrArg (fun b => adviceLookup b "):
+            continue
+        key = re.match(r"\[[0-9, ]*\]", hk[len("((congrArg (fun b => adviceLookup b "):]).group(0)
+        ks = [int(x) for x in key[1:-1].split(",") if x.strip()]
+        st, wi = int(w.group(2)), int(w.group(3))
+        assert ks and ks[0] == st, (key, w.groups())
+        full = "[" + ", ".join(str(x) for x in [st, wi] + ks[1:]) + "]"
+        k_ = re.escape(key)
+        new = re.sub(r"(adviceLookup b )" + k_ + r"\)", r"\g<1>" + full + ")", hk)
+        new = re.sub(r"(_cseg\s+adv\w+\.b\d+\s+_\s+)" + k_ + r"(\s)", r"\g<1>" + full + r"\g<2>", new)
+        rest = "[" + ", ".join(str(x) for x in ks[1:]) + "]"
+        new = "((adviceLookup_forWitness_cseg base.%s %d %d %s).trans\n          %s)" % (w.group(1), st, wi, rest,
+                                                                                     new)
+        text = text[:spans[13][0]] + new + text[spans[13][1]:]
+        pos = spans[13][0] + len(new)
+        changed = True
     return text, changed
+
+
+_ADVAT = re.compile(r"\(adviceLookup_at_cseg\s+(adv\w+\.b\d+)\s+_\s+")
+
+
+def _hoist_advat(text):
+    """DELTA-LAM 2b: the chunk entry `hm : A[m]? = some (k', a)` of `adviceLookup_at_cseg` as its own top-level
+    theorem `<product>_advAt` (`rfl`, one shallow walk): inline, the `rfl` sat ~6 applications deep in the
+    product's `exact polyProduct_eq_of_mulPacked …` term and hit the elaborator's maximum recursion depth at
+    chunk entries 158/159/178/179 (lam run, M558/M559/M578/M579); at top level entry 158 elaborates in 0.27 s.
+    Idempotent; every chunk lookup is hoisted (the depth limit depends on the nesting, not on a fixed index)."""
+    out, pos, aux = [], 0, []
+    for m in _ADVAT.finditer(text):
+        if m.start() < pos:
+            continue
+        spans = _arg_spans(text, m.end() - 1, 7)       # key, m, k', a, hpre, hm, hk
+        arg = lambda q: text[spans[q][0]:spans[q][1]]
+        if arg(5) != "rfl":
+            continue
+        th = list(re.finditer(r"^theorem (\S+)", text[:m.start()], re.M))[-1]
+        nm = th.group(1) + "_advAt%d" % len(aux) if aux else th.group(1) + "_advAt"
+        stmt = "%s[%s]? = some (%s, %s)" % (m.group(1), arg(1), " ".join(arg(2).split()), " ".join(arg(3).split()))
+        aux.append((th.start(), nm, stmt))
+        out.append(text[pos:spans[5][0]] + nm)
+        pos = spans[5][1]
+    out.append(text[pos:])
+    text = "".join(out)
+    for at, nm, stmt in reversed(aux):
+        doc = text.rfind("/--", 0, at)
+        if doc >= 0 and text[doc:at].rstrip().endswith("-/") and "theorem " not in text[doc:at] \
+                and "def " not in text[doc:at]:
+            at = doc
+        block = "\n".join(["/-- The advice entry of the product, at its chunk position (a shallow `rfl`). -/",
+                           "theorem %s :" % nm] + wrap(stmt.split(" "), "    ") + ["    := rfl", "", ""])
+        text = text[:at] + block + text[at:]
+    return text, bool(aux)
 
 
 def _write_sharded(self, rel, imports, title, doc, body, heavy=False, ns=None):
@@ -297,6 +390,8 @@ def _write_sharded(self, rel, imports, title, doc, body, heavy=False, ns=None):
         t_, ch_ = _fix_hk("\n".join(body))
         if ch_:
             body, imports = t_.split("\n"), list(imports) + [ADVLOOKUP]
+            if "adviceLookup_forWitness_cseg" in t_:
+                imports = imports + [ADVLOOKUPSUB]
     if rel == "Tors/Base":
         body, imports = _tors_base(self, body, imports, ns)
     if rel.startswith("Gram/"):
@@ -476,7 +571,23 @@ def _seg_lookups(body, imports):
     t = re.sub(r"\((\w+)Metas\.getD(\s+)(\d+) ", r"(\1.metas[\3]?.getD\2", t)
     t = _RFL3.sub("(eq_some_getD_cseg _ (by decide +kernel)) (eq_some_getD_cseg _ (by decide +kernel))\n"
                   "      (by decide +kernel) (by decide +kernel)", t)
-    return t.split("\n"), list(imports) + [SEGDECIDE]
+    return _seg_lockm_bridge(t).split("\n"), list(imports) + [SEGDECIDE]
+
+
+def _seg_lockm_bridge(t):
+    """DELTA-LAM 2a: a memo-routed segment closes with `rw [… , lockM<k>]`, and `lockM<k>` (Prod/M<k>) states its
+    seed as `(CMetas.getD j d)`, `(CSegs.getD j d)`, while the goal (after `_seg_lookups`) has `C.metas[j]?.getD d`,
+    `C.segs[j]?.getD d`: the rewrite found no instance (lam run: every Seg.Full lockM segment). Bridge the goal
+    first (`C.metas = CMetas` and `C.segs = CSegs` by `rfl`, then `← List.getD_eq_getElem?_getD`). Idempotent."""
+    m = re.search(r"\n(\s*)(lockM\d+)\]", t)
+    if not m or "List.getD_eq_getElem?_getD" in t:
+        return t
+    c = re.search(r"\((\w+)\.metas\[(\d+)\]\?\.getD", t)
+    C, j, ind = c.group(1), c.group(2), m.group(1)
+    br = ["show %s.metas = %sMetas from rfl," % (C, C), "show %s.segs = %sSegs from rfl," % (C, C),
+          "← List.getD_eq_getElem?_getD (l := %sMetas) (i := %s)," % (C, j),
+          "← List.getD_eq_getElem?_getD (l := %sSegs) (i := %s)," % (C, j)]
+    return t[:m.start()] + "".join("\n" + ind + b for b in br) + t[m.start():]
 
 
 def _split_aux(self, rel, body, imports, ns, split):
