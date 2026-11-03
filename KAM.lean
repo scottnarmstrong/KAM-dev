@@ -12,6 +12,7 @@ public import KAM.Root.Canonical
 public import KAM.Root.Certificate
 public import KAM.Root.CertificateSharp
 public import KAM.Root.Diophantine
+public import KAM.Root.EffectiveStability
 public import KAM.Root.Fourier
 public import KAM.Root.Frozen
 public import KAM.Root.Head
