@@ -98,7 +98,7 @@
     "KAM/EffectiveStability/ChartChain.lean"
    ],
    "source": "plan §3.2: composition of exact flows remains canonical",
-   "status": "proving (claude-5)"
+   "status": "PASS WITH NOTES (audit 1); merged into inp-b1"
   }
  ]
 }
