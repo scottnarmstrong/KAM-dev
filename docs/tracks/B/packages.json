@@ -227,10 +227,16 @@
   {
    "id": "B5-CHART",
    "modules": [
-    "KAM/EffectiveStability/TorusChart.lean"
+    "KAM/EffectiveStability/TorusChart.lean",
+    "KAM/EffectiveStability/TorusChart/Inverse.lean",
+    "KAM/EffectiveStability/TorusChart/Matrix.lean",
+    "KAM/EffectiveStability/TorusChart/Algebra.lean",
+    "KAM/EffectiveStability/TorusChart/Map.lean",
+    "KAM/EffectiveStability/TorusChart/Deriv.lean",
+    "KAM/EffectiveStability/TorusChart/Symplectic.lean"
    ],
    "source": "plan §3.4 (Chart)",
-   "status": "ready; audit 1 running"
+   "status": "PASS WITH NOTES; landing requested (batch 14)"
   },
   {
    "id": "B5-LAG",
@@ -241,7 +247,7 @@
     "KAM/EffectiveStability/TorusLagrangianCert.lean"
    ],
    "source": "plan §3.4 Lagrangian property, real slice",
-   "status": "ready; audit 1 running"
+   "status": "PASS WITH NOTES; landing requested (batch 14)"
   },
   {
    "id": "B5-NF",

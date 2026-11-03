@@ -99,3 +99,4 @@ Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main o
 - 2026-11-03 04:16: B5-CHART READY 04:12 (claude-2; TorusChart{,/*} 753 lines: contraction inverse, Ψ and Ψinv two-sided, C², equivariance, symplectic from Dxᵀ Dv symmetric); rechecked; audit 1 launched. B5-LAG audit 1 running.
 - 2026-11-03 04:17: B5-NF launched (claude-5, off inp-b1 + B5-CHART + B5-LAG pre-audit): normal form E0 + ω'·J + R, drift from C₃, torusNormalForm_confinement.
 - 2026-11-03 04:19: **batch 13 LANDED on main f8d195fab** (B4-TCHECKCHAIN + B4-TORIGCHAIN). **B4 complete on main** (torus parity with B2).
+- 2026-11-03 04:23: B5-LAG and B5-CHART audit 1: **PASS WITH NOTES**; merged; landing request batch 14.
