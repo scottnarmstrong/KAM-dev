@@ -65,6 +65,14 @@
     "KAM/EffectiveStability/RealFlow/Lie.lean"
    ],
    "source": "plan §3.2: actual time-one flows, real slice of KAM.Canonical.flow (OD-B10)",
+   "status": "ready; audit 1 running (codex-2)"
+  },
+  {
+   "id": "B2-CAUCHY",
+   "modules": [
+    "KAM/EffectiveStability/Cauchy.lean"
+   ],
+   "source": "plan §3.2: analytic tail E on discs of radius δ gives drift E/δ; (Tail) identity",
    "status": "proving (claude-2)"
   },
   {
