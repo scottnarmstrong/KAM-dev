@@ -30,11 +30,14 @@ public import KAM.EffectiveStability.OscillatorChain.Smoke
 public import KAM.EffectiveStability.OscillatorChain
 public import KAM.EffectiveStability.OscillatorChainCheck
 public import KAM.EffectiveStability.OscillatorChainPhysical
+public import KAM.EffectiveStability.OscillatorChainPhysicalDisc
+public import KAM.EffectiveStability.OscillatorChainPhysicalDiscSmoke
 public import KAM.EffectiveStability.OscillatorChainPhysicalSmoke
 public import KAM.EffectiveStability.OscillatorCheck
 public import KAM.EffectiveStability.OscillatorPhysical
 public import KAM.EffectiveStability.OscillatorPhysicalSmoke
 public import KAM.EffectiveStability.OscillatorProof
+public import KAM.EffectiveStability.OscillatorQSqrt2Smoke
 public import KAM.EffectiveStability.OscillatorStep.Drift
 public import KAM.EffectiveStability.OscillatorStep.Remainder
 public import KAM.EffectiveStability.OscillatorStep.Smoke
