@@ -230,7 +230,7 @@
     "KAM/EffectiveStability/TorusChart.lean"
    ],
    "source": "plan §3.4 (Chart)",
-   "status": "proving (claude-2)"
+   "status": "ready; audit 1 running"
   },
   {
    "id": "B5-LAG",
