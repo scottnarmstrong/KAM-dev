@@ -128,7 +128,23 @@
     "KAM/EffectiveStability/OscillatorPhysicalSmoke.lean"
    ],
    "source": "plan §2.2: original box via inverse chart; (B1-transfer)",
-   "status": "PASS WITH NOTES; landing requested (batch 7)"
+   "status": "merged into inp (batch 7)"
+  },
+  {
+   "id": "B2-CHECKCHAIN",
+   "modules": [
+    "KAM/EffectiveStability/OscillatorChainCheck.lean"
+   ],
+   "source": "plan §3.1 checker for chains",
+   "status": "proving (claude-2)"
+  },
+  {
+   "id": "B2-ORIGCHAIN",
+   "modules": [
+    "KAM/EffectiveStability/OscillatorChainPhysical.lean"
+   ],
+   "source": "plan §2.2 original box for chains",
+   "status": "proving (claude-5)"
   }
  ]
 }
