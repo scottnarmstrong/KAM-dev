@@ -213,7 +213,7 @@
     "KAM/EffectiveStability/TorusChainCheck.lean"
    ],
    "source": "plan §3.1 checker, torus chains",
-   "status": "PASS WITH NOTES; landing requested (batch 13)"
+   "status": "LANDED (main f8d195fab)"
   },
   {
    "id": "B4-TORIGCHAIN",
@@ -222,7 +222,7 @@
     "KAM/EffectiveStability/TorusChainPhysicalSmoke.lean"
    ],
    "source": "plan §2.2 original box, torus chains",
-   "status": "PASS WITH NOTES; landing requested (batch 13)"
+   "status": "LANDED (main f8d195fab)"
   },
   {
    "id": "B5-CHART",
