@@ -61,6 +61,46 @@ The same data were tried in two other storage forms:
 | Low.S281 | > 5 h on lam | 359 s |
 | Decoding `lockM1900T` (Tors data) | 76.9 s | 3.6 s |
 
+### A second case: the values themselves (DELTA-LAM-5)
+
+Whitening fixes the decoding intermediates, not the decoded values. The lock's stage models (the torsion matrix
+`T`, the frame matrix `N`, the Gram and DG families) were computed at about 45-bit precision and stored as
+fixed-point mantissas at `P = 112`, so every big coefficient is a multiple of `2 ^ 64`.
+
+| Family | Big coefficients | Low 64 bits = 0 |
+|---|---|---|
+| lockTb (5151 terms) | 5123 | 100% |
+| lockN0 (8537 terms) | 8519 | 100% |
+| lockBG*, lockDG*, lockDGi*, lockDN*, lockGE*, lockTGi | all | 100% |
+| lockY, lockTL, lockTDL, lockXN1 | | 0% |
+
+The frame checks sum, at every vertex `l` of `signLists 2`, `normUp c · expUb(dot k l)` over every term. Each
+`|re| + |im|` and each product with an exponential bound is again a multiple of `2 ^ 64`, so a single
+`decide +kernel` creates tens of thousands of distinct literals with the same low limb.
+
+Measured on exact copies of the whitened data (10G scope, walls with about 6 s of import loading):
+
+| One declaration | Wall |
+|---|---|
+| 1 model × 1 vertex | 23 s |
+| 1 model × 4 vertices | 35 s |
+| 2 models × 1 vertex | 65 s |
+| 2 models × 2 vertices | 226 s |
+| the same, with the coefficients' low bits randomized | 23 s |
+| 2 models × 4 vertices (one row of `checkFrameT`) | > 600 s |
+| all of `checkFrameT` (2 rows) | > 1500 s |
+
+The cost grows superlinearly with the number of colliding literals per declaration. That is the signature of the
+same low-limb hashing, now on values that are legitimately equal mod `2 ^ 64`.
+
+**Mitigation used:** one declaration per row (or column) and vertex. Kernel caches are per declaration, so each
+stays small. `LockN65/CornerSplit.lean` reassembles the per-vertex facts into `rowCornerLeq` and the `List.all`
+over rows; no data or arithmetic changes.
+
+**For an upstream report:** a hash over all limbs (or a mix of the low and high limbs) of big `Nat` literals would
+remove both cases. Multiples of a large power of two arise naturally in fixed-point data of lower precision than
+its storage format.
+
 ## Reproduction
 
 The scratch files, prepared during the run, are:

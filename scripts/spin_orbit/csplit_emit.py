@@ -71,6 +71,10 @@ open KAM.SpinOrbit.Data CertArith
 end {ns}
 """
 
+# the literal torsion matrix `T` of `<t>_torsionModels` (`%` the torus prefix twice)
+TORS_T = ("buildMat (2 + 1) (2 + 1) fun i j => if i < 2 then (if j < 2 then modelMatrixEntry %sTb i j else "
+          "freqModel 2 base.freqBox base.params.s i) else (if j < 2 then modelMatrixEntry %sY 0 j else zeroModel)")
+
 
 # ---------------------------------------------------------------------------------------------- formatting
 def wrap(parts, indent="  "):
@@ -907,9 +911,7 @@ class Emitter:
                                                                 "Tb", "Y")]
         args += ["%s_eps" % t, "%s_lowCompose" % t, "%s_dk" % t, "%s_gi" % t, "%s_dkw" % t] + \
                 ["%s_T%d" % (t, s) for s in range(10)]
-        rhs = ("some (buildMat (2 + 1) (2 + 1) fun i j => if i < 2 then (if j < 2 then modelMatrixEntry %sTb i j else "
-               "freqModel 2 base.freqBox base.params.s i) else (if j < 2 then modelMatrixEntry %sY 0 j else zeroModel))"
-               % (t, t))
+        rhs = "some (" + TORS_T % (t, t) + ")"
         st = ("torsionModels 2 base.ham base.emb base.wit base.gramInv %sDB base.freqBox base.params.s %s %s %s = %s"
               % (t, W, cfg, pe, rhs))
         body = ["theorem %s_torsionModels :" % t] + wrap(st.split(" "), "    ")
@@ -1039,21 +1041,8 @@ class Emitter:
                                ["theorem %s_csTorsion : checkTorsion base = true := by" % t,
                                 "  rw [checkTorsion_eq_of %s_gramCheck %s_torsionModels]" % (t, t),
                                 "  decide +kernel"], heavy=True)
-        frT = self.tree.write("Checks/FrameT", self.base + [self.tors_mod, self.gram_mod,
-                                                           "KAM.SpinOrbit.Data.%s.Witness" % self.T],
-                              "The frame bound |T|",
-                              "`checkFrameT` on the literal `T`.",
-                              ["theorem %s_csFrameT : checkFrameT base refinedWit.R.bT = true := by" % t,
-                               "  rw [checkFrameT_eq_of %s_gramCheck %s_torsionModels]" % (t, t),
-                               "  decide +kernel"], heavy=True)
-        frN = self.tree.write("Checks/FrameN", self.base + [self.tors_mod, self.gram_mod,
-                                                           "KAM.SpinOrbit.Data.%s.Witness" % self.T],
-                              "The frame bounds |N|, |Nᵀ|", "`checkFrameN` with `N = Ω₀ (L G⁻¹)` from the [4,0] stage.",
-                              ["theorem %s_csFrameN : checkFrameN base refinedWit.R.bN refinedWit.R.bNt = true := by" % t,
-                               "  rw [checkFrameN_eq_of %s_gramCheck %s_eps" % (t, t),
-                               "    (frameNModels_eq_of_stage 2 base.emb base.gramInv %sEps %s base.cfgLow %s %s_dk %s_gi"
-                               % (t, W, pe, t, t), "      %s_T0)]" % t,
-                               "  decide +kernel"], heavy=True)
+        frT = self.emit_frameT()
+        frN = self.emit_frameN()
         body = ["theorem %s_csEnergy : checkEnergy base = true :=" % t,
                 "  checkEnergy_of_ckpt (c := base) (J := soJetLit) %s_jet %sFullCkpt %s_fullPlan %s_fullSegs" % (
                     t, t, t, t),
@@ -1069,6 +1058,32 @@ class Emitter:
                         "The heavy sub-checks of the %s torus" % self.w,
                         "`checkEnergy`, `checkInvariance`, `checkGram` from the segmented proof (SO-CSPLIT §3.4);\n"
                         "`checkTorsion`, `checkFrameN`, `checkFrameT` are in `Checks/*`.", body)
+
+    def frame_imports(self):
+        return self.base + [self.tors_mod, self.gram_mod, "KAM.SpinOrbit.Data.%s.Witness" % self.T]
+
+    def emit_frameT(self):
+        """`Checks/FrameT`: `checkFrameT` in one evaluation (the lock overrides it; DELTA-LAM-5)"""
+        t = self.t
+        return self.tree.write("Checks/FrameT", self.frame_imports(), "The frame bound |T|",
+                               "`checkFrameT` on the literal `T`.",
+                               ["theorem %s_csFrameT : checkFrameT base refinedWit.R.bT = true := by" % t,
+                                "  rw [checkFrameT_eq_of %s_gramCheck %s_torsionModels]" % (t, t),
+                                "  decide +kernel"], heavy=True)
+
+    def frameN_rw(self):
+        t, W, pe = self.t, self.W, self.pe
+        return ["  rw [checkFrameN_eq_of %s_gramCheck %s_eps" % (t, t),
+                "    (frameNModels_eq_of_stage 2 base.emb base.gramInv %sEps %s base.cfgLow %s %s_dk %s_gi"
+                % (t, W, pe, t, t), "      %s_T0)]" % t]
+
+    def emit_frameN(self):
+        """`Checks/FrameN`: `checkFrameN` in one evaluation (the lock overrides it; DELTA-LAM-5)"""
+        t = self.t
+        return self.tree.write("Checks/FrameN", self.frame_imports(), "The frame bounds |N|, |Nᵀ|",
+                               "`checkFrameN` with `N = Ω₀ (L G⁻¹)` from the [4,0] stage.",
+                               ["theorem %s_csFrameN : checkFrameN base refinedWit.R.bN refinedWit.R.bNt = true := by"
+                                % t] + self.frameN_rw() + ["  decide +kernel"], heavy=True)
 
     # ------------------------------------------------------------------ all
     def run(self):

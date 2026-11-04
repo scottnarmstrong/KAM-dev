@@ -92,6 +92,17 @@ _GRP = re.compile(r"^( *)checkPackedSp_of_groups (\S+) (.*?)\s+\[(\S+)\.shardRan
                   r"⟨\S+\.shardRange, List\.mem_singleton_self _, hs⟩\)\s+\(fun g hg => by rw "
                   r"\[List\.mem_singleton\.1 hg\]; exact (\S+)\)", re.M | re.S)
 DECSPLIT = "KAM.SpinOrbit.Data.LockN65.DecSplit"
+CORNERSPLIT = "KAM.SpinOrbit.Data.LockN65.CornerSplit"     # DELTA-LAM-5: the frame checks per vertex
+VERTS2 = ("[true, true]", "[false, true]", "[true, false]", "[false, false]")    # `signLists 2`, in order
+
+
+def frame_leaves(names, ind):
+    """the goals of `apply all_finRange_*`, one row each: `rowCornerLeq_two` from the row's four vertex theorems"""
+    out = []
+    for nm in names:
+        out += ["%s· apply rowCornerLeq_two" % ind,
+                "%s  exacts [%s]" % (ind, ", ".join("%s_v%d" % (nm, v) for v in range(4)))]
+    return out
 REMSPLIT = "KAM.SpinOrbit.Data.LockN65.RemSplit"
 PAIRCODE = "KAM.SpinOrbit.Data.LockN65.PairCode"
 EXPSPLIT = "KAM.SpinOrbit.Data.LockN65.ExpSplit"
@@ -1975,6 +1986,71 @@ class LockEmitter(CE.Emitter):
                 "def charE : List (CertKey × CC %s) := %s.terms" % (TY, self.char_term(c))]
         self.base = self.base + [self.tree.write("CharE", self.base, "The forced character witness",
                                                 "The witness of the character slot, by name.", body)]
+
+    # ------------------------------------------------------------------ the frame checks, one vertex at a time
+    # DELTA-LAM-5: the stage models' big coefficients are multiples of 2^64 (about 45-bit values at P = 112). In
+    # one evaluation of `checkFrameT`/`checkFrameN` they and their products share one low limb, and the kernel's
+    # per-declaration caches degrade superlinearly (docs/explorations/lean-kernel-nat-literal-hash.md). So each row
+    # (or column) and vertex is its own `decide +kernel` declaration, and `CornerSplit` reassembles them.
+    # The combiners go goal-first (`apply`), so every metavariable of `CornerSplit`'s lemmas is fixed by the goal
+    # before a per-vertex theorem is matched against it; an `exact` of the nested term could guess the row function
+    # first and then unfold the corner sums in the elaborator (scratch: OOM at 10G).
+    def frame_rows(self, rel, title, doc, rows):
+        """one module of per-vertex corner theorems; rows = [(name, models, bound)] (models: the row's list)"""
+        W = self.W
+        body = []
+        for nm, ms, b in rows:
+            for v, l in enumerate(VERTS2):
+                st = "ble (rowCornerUp %s (wloOf %s base.expOrder) %s %s) (ofRatDown %s) = true" % (W, W, l, ms, b)
+                body += ["theorem %s_v%d :" % (nm, v)] + CE.wrap(st.split(" "), "    ")
+                body[-1] += " := by"
+                body += ["  decide +kernel", ""]
+        return self.tree.write(rel, self.frame_imports(), title, doc, body[:-1], heavy=True)
+
+    def emit_frameT(self):
+        t = self.t
+        T = "(%s)" % (CE.TORS_T % (t, t))
+        mods, rows = [], []
+        for i in range(2):
+            nm = "%s_frameT_r%d" % (t, i)
+            ms = "((List.finRange 2).map fun j => modelMatrixEntry %s (%d : Fin 2).val j.val)" % (T, i)
+            mods.append(self.frame_rows("Checks/FrameTR%d" % i, "The frame bound |T|, row %d" % i,
+                                        "Row %d of `checkFrameT` at each vertex (`CornerSplit`)." % i,
+                                        [(nm, ms, "refinedWit.R.bT")]))
+            rows.append(nm)
+        body = ["theorem %s_csFrameT : checkFrameT base refinedWit.R.bT = true := by" % t,
+                "  rw [checkFrameT_eq_of %s_gramCheck %s_torsionModels]" % (t, t),
+                "  apply all_finRange_two"] + frame_leaves(rows, "  ")
+        return self.tree.write("Checks/FrameT", self.frame_imports() + mods + [CORNERSPLIT], "The frame bound |T|",
+                               "`checkFrameT` on the literal `T`, from its rows and vertices (`Checks/FrameTR*`).",
+                               body)
+
+    def emit_frameN(self):
+        t = self.t
+        M = "(modelMatOmega 2 2 %sN0)" % t
+        mods, rows, cols = [], [], []
+        for r in range(4):
+            nm = "%s_frameN_r%d" % (t, r)
+            ms = "((List.finRange 2).map fun j => modelMatrixEntry %s (%d : Fin (2 + 2)).val j.val)" % (M, r)
+            mods.append(self.frame_rows("Checks/FrameNR%d" % r, "The frame bound |N|, row %d" % r,
+                                        "Row %d of the |N| part of `checkFrameN` at each vertex (`CornerSplit`)." % r,
+                                        [(nm, ms, "refinedWit.R.bN")]))
+            rows.append(nm)
+        for j in range(2):
+            nm = "%s_frameN_c%d" % (t, j)
+            ms = "((List.finRange (2 + 2)).map fun r => modelMatrixEntry %s r.val (%d : Fin 2).val)" % (M, j)
+            mods.append(self.frame_rows("Checks/FrameNC%d" % j, "The frame bound |Nᵀ|, column %d" % j,
+                                        "Column %d of the |Nᵀ| part of `checkFrameN` at each vertex (`CornerSplit`)."
+                                        % j, [(nm, ms, "refinedWit.R.bNt")]))
+            cols.append(nm)
+        body = ["theorem %s_csFrameN : checkFrameN base refinedWit.R.bN refinedWit.R.bNt = true := by" % t]
+        body += self.frameN_rw()
+        body += ["  apply and_eq_true_of", "  · apply all_finRange_four"] + frame_leaves(rows, "    ")
+        body += ["  · apply all_finRange_two"] + frame_leaves(cols, "    ")
+        return self.tree.write("Checks/FrameN", self.frame_imports() + mods + [CORNERSPLIT],
+                               "The frame bounds |N|, |Nᵀ|",
+                               "`checkFrameN` with `N = Ω₀ (L G⁻¹)` from the [4,0] stage,\n"
+                               "from its rows, columns and vertices (`Checks/FrameNR*`, `Checks/FrameNC*`).", body)
 
     def run(self):
         self.led_ops = [tuple(o) for o in self.led["ops"]]
