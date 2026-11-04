@@ -97,6 +97,38 @@ same low-limb hashing, now on values that are legitimately equal mod `2 ^ 64`.
 stays small. `LockN65/CornerSplit.lean` reassembles the per-vertex facts into `rowCornerLeq` and the `List.all`
 over rows; no data or arithmetic changes.
 
+### Census: every LockN65 data family
+
+**Scope and method:** all 13,694 LockN65 sources, 2026-11-04, `scratchpad census.py`.
+- Every `zdecsX`/`zdecs` block is decoded with the `lock_zx` mirrors, and every other integer literal ≥ 2^64 is
+  scanned.
+- Totals: 2,211,981 big values, of which 445,945 (20%) are ≡ 0 mod 2^64.
+
+**Families with values ≡ 0 mod 2^64:**
+
+| Family (file : definition) | Big values | ≡ 0 mod 2^64 | Consumers |
+|---|---|---|---|
+| Seg/Stage : lockDN, lockDGi, lockDG, lockN0, lockTb, lockTGi, lockBG, lockGE | 63,801 | 100% | Tors stages, Gram, FrameT/FrameN |
+| Seg/Stage : lockTL, lockTDL, lockXN1, lockY | 20,136 | 4 values | Tors stages |
+| Seg/Memo : lockM (lockM…TRR: 0%) | 146,719 | 84% | memo products, Low chain |
+| Seg/LedgerLow : lockL | 392,012 | 57% | Low chain segments |
+| Seg/Prod/M…RRShOpsD : `rr_shardsEB` (`EA`: 0%) | 95,729 | 17% | products |
+| Seg/Gram/E…X : lockGE…X | 6,684 | 100% | Gram check |
+| Gram… (`gram#` literals, the witness `Binv`) | 3,831 | 100% | Pieces → Gram check |
+| Ck… (`ck#` literals) | 14,495 | 45% | HamOk, HamSeg* |
+| Seg/Prod/M…{RR,RI,IR,II}Rem (literals) | 130,359 | about 1% | products |
+| Pieces : torsInv, wit (literals) | 14 | 100% | Torsion, Witness |
+| Seg/LedgerFull : lockF | 149,120 | 33 values | Full chain segments |
+| DK/Lita | 2,132 | 2 values | DK |
+
+**Families with no such values:** AdvFull (1,032,747 big values), AdvLow, AdvLowSOS, GraphK LitL/LitH/LitA, DK/Litp,
+Seg/Prod/M…ShOpsD, …RIShOpsD, …IRShOpsD, and the Sos, InvW, SqrtW, ExpW, CharW, Action and Angle literals.
+
+**Status:** every consumer of an affected family had finished on lam (phases 1–2 and delta4) by 2026-11-04, except
+FrameN. DELTA-LAM-5 splits FrameN, and FrameT with it, per vertex.
+- The heaviest Low-chain segments decode the most affected families (LedgerLow 57%, Memo 84%). This may explain part
+  of their 18–25 GB peaks; it was not measured.
+
 **For an upstream report:** a hash over all limbs (or a mix of the low and high limbs) of big `Nat` literals would
 remove both cases. Multiples of a large power of two arise naturally in fixed-point data of lower precision than
 its storage format.
