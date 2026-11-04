@@ -991,13 +991,16 @@ class Emitter:
             segs = self.seg_mods[chain]
             imps += [m for _, _, m in segs]
             ns = len(self.plan[chain]["segs"])
+            # the chain length by the kernel: an elaborator `rfl` walks the whole list and exceeds maxRecDepth for
+            # long chains (the lock's 386 cfgLow segments; DELTA-LAM-4)
+            body += ["theorem %s_segs_length : %s.segs.length = %d := by decide +kernel" % (C, C, ns), ""]
             body += ["theorem %s_%sPlan : %s.planOk soJetLit.prog.ops.length = true := by decide +kernel" % (t, sub, C), "",
                      "theorem %s_%sSegs :" % (t, sub),
                      "    ∀ j < %s.segs.length," % C,
                      "      %s.segOk 2 soJetLit.prog.ops base.emb base.wit %s %s %s j = true :=" % (C, W, cfg, pe),
                      "  fun j hj => match j, hj with"]
             body += ["    | %d, _ => %s" % (j, nm) for j, nm, _ in segs]
-            body += ["    | j + %d, h => absurd h (by rw [show %s.segs.length = %d from rfl]; omega)" % (ns, C, ns), ""]
+            body += ["    | j + %d, h => absurd h (by rw [%s_segs_length]; omega)" % (ns, C), ""]
         body += ["theorem %s_fullWantedE : %sFullCkpt.wantedOk [soJetLit.v0] = true := by decide +kernel" % (t, t),
                  "theorem %s_fullWantedI : %sFullCkpt.wantedOk (d1Slots 2 soJetLit) = true := by decide +kernel" % (t, t),
                  "theorem %s_lowWanted : %sLowCkpt.wantedOk (torsionSlots 2 soJetLit) = true := by decide +kernel"

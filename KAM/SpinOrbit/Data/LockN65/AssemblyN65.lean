@@ -58,9 +58,10 @@ theorem lock_dio :
   rw [hγ, hτ]
   exact h
 
-/-- The librational barrier of the N = 65 lock certificate. -/
+/-- The librational barrier of the N = 65 lock certificate. (The centre map is named in full:
+inside this namespace `lockCentre` is the certificate's data `List ℚ` of `Domain`.) -/
 theorem lock_barrier :
-    Nonempty (LockBarrier ((cert.Ω : ℚ) : ℝ) (lockCentre cert.cs)
+    Nonempty (LockBarrier ((cert.Ω : ℚ) : ℝ) (KAM.SpinOrbit.Lock.lockCentre cert.cs)
       ((cert.graph.pLo : ℝ) - cert.graph.base.params.disp)
       ((cert.graph.pHi : ℝ) + cert.graph.base.params.disp)) :=
   lockBarrier_of_certV2K cert (by decide +kernel) (by decide +kernel) rfl (by
