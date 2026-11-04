@@ -78,6 +78,7 @@ def main(gdir, outroot):
                                 title="The N = 65 lock: %s" % title, doc=doc, ns=NS,
                                 body="\n".join(opens + CE.autowrap(body)).rstrip())
         text = text.replace("`scripts/spin_orbit/csplit_emit.py`", "`scripts/spin_orbit/lock_dk.py`")
+        text = LC.ZX.whiten_text(text)[0]       # DELTA-LAM-3: whitened `zdecs` rows (lock_zx.py, ZCodeX.lean)
         for k, l in enumerate(text.splitlines()):
             assert len(l) <= 100, (rel, k, l)
         assert text.count("\n") <= 1500, (rel, text.count("\n"))

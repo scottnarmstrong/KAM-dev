@@ -12,6 +12,8 @@ cfgLow then uses `advLow ++ advLow.b6`: every existing entry keeps its index.
 import os
 import re
 import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import lock_zx as ZX  # noqa: E402
 
 HDR = """/-
 Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
@@ -88,6 +90,7 @@ def main(src, odir):
                           title="The SOS-square advice of `advLow`, part %d" % j,
                           doc="Packed-product advice of the SOS squares `[7, 1]`, `[7, 2]` (compact `zdecs` literals).",
                           body="\n".join(l for b in p for l in b))
+        text = ZX.whiten_text(text)[0]       # DELTA-LAM-3: whitened `zdecs` rows (lock_zx.py, ZCodeX.lean)
         assert max(len(l) for l in text.split("\n")) <= 100 and text.count("\n") <= 1500
         open(os.path.join(odir, "AdvLowSOS%d.lean" % j), "w").write(text)
         mods.append("%s.AdvLowSOS%d" % (NS, j))

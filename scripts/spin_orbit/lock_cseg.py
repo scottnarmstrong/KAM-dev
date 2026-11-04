@@ -32,6 +32,7 @@ import csplit_emit as CE     # noqa: E402
 import sofx_packed as SP     # noqa: E402
 
 import lock_zadv as LZ      # noqa: E402
+import lock_zx as ZX        # noqa: E402
 
 CE.TY = "LockBackend"
 CE.P = 112
@@ -942,9 +943,12 @@ def _tree_write(self, rel, imports, title, doc, body, heavy=False, ns=None):
     """`CE.Tree.write` after the DELTA-LAM-2 transforms (`_delta2`), with MemoBridge imported where they use it"""
     if body:
         t, mb = _delta2("\n".join(body))
+        t, zx = ZX.whiten_text(t)          # DELTA-LAM-3: whitened `zdecs` rows (lock_zx.py, ZCodeX.lean)
         body = t.split("\n")
         if mb:
             imports = list(imports) + [MEMOBRIDGE]
+        if zx:
+            imports = list(imports) + [ZX.ZCODEX]
     return _tree_write0(self, rel, imports, title, doc, body, heavy=heavy, ns=ns)
 
 
