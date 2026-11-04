@@ -590,6 +590,220 @@ def _seg_lockm_bridge(t):
     return t[:m.start()] + "".join("\n" + ind + b for b in br) + t[m.start():]
 
 
+# ---------------------------------------------------------------------------------------------------------------
+# DELTA-LAM-2: memo applications the elaborator could only match by evaluating data (lam run: `maximum recursion
+# depth` in 33 Seg.Prod `*MP`, Seg.Full.S9, Seg.Low.S11, Seg.Rad.InvF1984).  Each transform below makes the two
+# sides of the unification syntactically equal.  All three are text -> text, idempotent, keep every line <= COLS
+# (so `CE.autowrap` leaves them alone), and run on every module the emitter writes (`_tree_write`), so the tree
+# and the generator agree byte for byte.
+
+MEMOBRIDGE = "KAM.SpinOrbit.Data.LockN65.MemoBridge"
+_NEGMAP = re.compile(r"fun\s+t\s+=>\s+\(t\.1,\s+-t\.2\)")
+_NEGMAP_TYPED = "fun (t : CertKey × ℤ) => (t.1, -t.2)"
+
+
+def _theorem_spans(text):
+    """(start of the proof, end of the block) of every `theorem` block: the proof starts at the statement's `:=`"""
+    starts = [m.start() for m in re.finditer(r"^(?:theorem|def|lemma|/--) ", text, re.M)] + [len(text)]
+    out = []
+    for a, b in zip(starts, starts[1:]):
+        if text.startswith("theorem ", a):
+            k = text.find(":=", a, b)
+            if k >= 0:
+                out.append((k, b))
+    return out
+
+
+def _rewrap(text, lo, hi):
+    """`CE.autowrap` on the lines meeting [lo, hi) only"""
+    a = text.rfind("\n", 0, lo) + 1
+    b = text.find("\n", hi)
+    b = len(text) if b < 0 else b
+    return text[:a] + "\n".join(CE.autowrap(text[a:b].split("\n"))) + text[b:]
+
+
+def _typed_negmap(text):
+    """class A (the 33 `*MP` of lam's list; every product with a live ii part, 39): the ii part enters `mulPacked`
+    negated, `(pII.1.map fun t => (t.1, -t.2))`.  In a PROOF (`(tII := …)` of `mulPacked_eq_of_parts` in M<k>MP, the
+    `out` argument of `polyProduct_eq_of_mulPacked` in M<k>) the untyped lambda's elaboration was postponed, and the
+    unifier then matched `List.map ?f L` against the memo's `List.map g L` cell by cell over `ii.targetTerms`
+    (143–2959 cells; the 6 products with an empty ii list passed).  The binder is now typed, so the lambda
+    elaborates at once (statements are untouched: there it already elaborates, and its term is the same)."""
+    out, pos = [], 0
+    for k, b in _theorem_spans(text):
+        seg = text[k:b]
+        new = _NEGMAP.sub(_NEGMAP_TYPED, seg)
+        if new != seg:
+            for m in reversed(list(re.finditer(re.escape(_NEGMAP_TYPED), new))):
+                new = _rewrap(new, m.start(), m.end())
+        out.append(text[pos:k] + new)
+        pos = b
+    out.append(text[pos:])
+    return "".join(out)
+
+
+def _fields(t):
+    """the fields of an anonymous constructor `⟨f, g, h⟩` (top-level commas), or None"""
+    t = " ".join(t.split())
+    if not (t.startswith("⟨") and t.endswith("⟩")):
+        return None
+    fs, depth, cur = [], 0, ""
+    for c in t[1:-1]:
+        if c in "([⟨{":
+            depth += 1
+        elif c in ")]⟩}":
+            depth -= 1
+        if c == "," and depth == 0:
+            fs.append(cur.strip())
+            cur = ""
+        else:
+            cur += c
+    fs.append(cur.strip())
+    return fs
+
+
+def _atom(f):
+    """a field as an argument: parenthesized when it has a top-level space"""
+    depth = 0
+    for c in f:
+        if c in "([⟨{":
+            depth += 1
+        elif c in ")]⟩}":
+            depth -= 1
+        elif c == " " and depth == 0:
+            return "(%s)" % f
+    return f
+
+
+_SLOTPOLY = re.compile(r"^\(\w+Ckpt\.slotPair [^()]+\)\.1\.poly$")
+
+
+def _mul_mk(text):
+    """class B (Seg.Rad.InvF1984; every inv radius, 8): `mul_eq_of_polyProduct_cseg W cfg key ⟨0, Q, ofInt 0⟩
+    ⟨0, P.poly, P.rad⟩ memo` with P a checkpoint slot (`C.slotPair W i).1`): `h` expected `(⟨0, P.poly, P.rad⟩).poly`
+    where the memo states `P.poly`; the unifier compared the constructor with `P` by structure eta and evaluated slot
+    `i` (1983 failed, 17/433/787 passed).  Now `mul_mk_eq_of_polyProduct_cseg W cfg key 0 Q (ofInt 0) 0 P.poly P.rad
+    memo` (MemoBridge.lean): `h` is the memo's statement verbatim.  Only for a factor built from a slot's own
+    fields (the eta case); a memo stated on a constructor's `.poly` (Gram BG) keeps its form."""
+    pos = 0
+    while True:
+        i = text.find("mul_eq_of_polyProduct_cseg ", pos)
+        if i < 0:
+            return text
+        spans = _arg_spans(text, i + len("mul_eq_of_polyProduct_cseg"), 6)
+        arg = lambda q: " ".join(text[spans[q][0]:spans[q][1]].split())
+        pos = spans[-1][1]
+        fa, fb = _fields(arg(3)), _fields(arg(4))
+        if not fa or not fb or len(fa) != 3 or len(fb) != 3 or not any(_SLOTPOLY.match(f) for f in fa + fb):
+            continue
+        new = "mul_mk_eq_of_polyProduct_cseg %s %s %s %s %s" % (
+            arg(0), arg(1), arg(2), " ".join(_atom(f) for f in fa + fb), arg(5))
+        # the call (with the head and the tail of its lines) re-wrapped at the line's own indentation
+        a = text.rfind("\n", 0, i) + 1
+        b = text.find("\n", spans[-1][1])
+        b = len(text) if b < 0 else b
+        lines = CE.autowrap([text[a:i] + new + text[spans[-1][1]:b]])
+        text = text[:a] + "\n".join(lines) + text[b:]
+        pos = a + len("\n".join(lines))
+
+
+def _char_cache(text):
+    """class C (Seg.Full.S9, Seg.Low.S11: the two character segments): `composeStep_char_eq … (ComposeState.seed …) k
+    lock_char<chain>` asked `h` for `charSlot … (seed …).cache k` against the memo's literal cache, and the unifier
+    failed to reach it (maximum recursion depth at `h`).  Now `composeStep_char_eq_of_cache_cseg … _ k <seg>_cache
+    lock_char<chain>` (MemoBridge.lean): `<seg>_cache : (seed …).cache = [] := rfl` is its own top-level theorem
+    (the seed's typed anonymous constructors), and the state is the goal's (`_`)."""
+    i = text.find("composeStep_char_eq ")
+    if i < 0:
+        return text
+    spans = _arg_spans(text, i + len("composeStep_char_eq"), 9)
+    arg = lambda q: " ".join(text[spans[q][0]:spans[q][1]].split())
+    st = arg(6)
+    th = list(re.finditer(r"^theorem (\S+)", text[:i], re.M))[-1]
+    nm = th.group(1) + "_cache"
+    new = "composeStep_char_eq_of_cache_cseg %s _ %s %s %s" % (" ".join(arg(q) for q in range(6)), arg(7), nm,
+                                                               arg(8))
+    a = text.rfind("\n", 0, i) + 1
+    b = text.find("\n", spans[-1][1])
+    b = len(text) if b < 0 else b
+    text = text[:a] + "\n".join(CE.autowrap([text[a:i] + new + text[spans[-1][1]:b]])) + text[b:]
+    st_t = st.replace(".getD ⟨0, 0, 0, []⟩)", ".getD (⟨0, 0, 0, []⟩ : ComposeMeta %s))" % TY)
+    st_t = st_t.replace(".getD ⟨0, 0, [], [], []⟩)", ".getD (⟨0, 0, [], [], []⟩ : SegSpec))")
+    block = ["/-- The cache of the segment's seed (a shallow `rfl`). -/", "theorem %s :" % nm] + \
+        CE.autowrap(["    %s.cache = [] :=" % st_t]) + ["  rfl", "", ""]
+    at = th.start()
+    doc = text.rfind("/--", 0, at)
+    if doc >= 0 and text[doc:at].rstrip().endswith("-/") and "theorem " not in text[doc:at]:
+        at = doc
+    return text[:at] + "\n".join(block) + text[at:]
+
+
+def _seed_slot_once(text):
+    """class D (lam-12/13: Seg.Low.S119, the 16 squaring segments `.mul k k`): the forced mul segment rewrites with
+    `seed_slot_of_mem … (a := a)` and `(a := b)`; for a = b the second rewrite is the first again, which already
+    rewrote every occurrence (`Did not find an occurrence of the pattern`).  An entry of a `rw` list equal to the
+    entry before it is dropped."""
+    lines, out, prev, i = text.split("\n"), [], None, 0
+    while i < len(lines):
+        if lines[i].lstrip().startswith("seed_slot_of_mem "):
+            j = i
+            while not lines[j].rstrip().endswith("(by decide +kernel) (by decide +kernel),"):
+                j += 1
+            entry = " ".join(" ".join(lines[i:j + 1]).split())
+            if entry != prev:
+                out.extend(lines[i:j + 1])
+            prev, i = entry, j + 1
+            continue
+        prev = None
+        out.append(lines[i])
+        i += 1
+    return "\n".join(out)
+
+
+def _exp_bounds(text):
+    """class E (lam-14/15/16: Seg.Rad.ExpL888, ExpL1128; every exp radius, 8): the bounds `hB : expm1Up … = some mB`
+    and `hη : … = some mη` of `expWitnessRadiusOf_eq_of_residuals` were inline `(by decide +kernel)` blocks, run at
+    the end of the rewrite term's elaboration within the declaration's heartbeat budget (deterministic timeout at
+    «synthesize pending MVars» in ExpL888/ExpL1128, whose mη and residuals are ~90-bit; ExpF ~40-bit passed).  Each
+    is now its own top-level theorem `<name>_mB`, `<name>_mEta` (scratch: ExpL888 passes in 40 s)."""
+    i = text.find("expWitnessRadiusOf_eq_of_residuals ")
+    if i < 0:
+        return text
+    spans = _arg_spans(text, i + len("expWitnessRadiusOf_eq_of_residuals"), 11)
+    arg = lambda q: " ".join(text[spans[q][0]:spans[q][1]].split())
+    if arg(9) != "(by decide +kernel)" or arg(10) != "(by decide +kernel)":
+        return text
+    named = {}
+    for q in (6, 7, 8):
+        mm = re.match(r"^\((\S+) := (.*)\)$", arg(q))
+        named[mm.group(1)] = mm.group(2)
+    W, cw, g = arg(1), arg(2), arg(3)
+    th = list(re.finditer(r"^theorem (\S+)", text[:i], re.M))[-1]
+    nm = th.group(1)
+    text = text[:spans[9][0]] + "%s_mB %s_mEta" % (nm, nm) + text[spans[10][1]:]
+    a = text.rfind("\n", 0, spans[9][0]) + 1
+    b = text.find("\n", spans[9][0])
+    text = text[:a] + "\n".join(CE.autowrap([text[a:b]])) + text[b:]
+    block = ["/-- The exp witness bound `mB` (its own kernel run). -/", "theorem %s_mB :" % nm] + \
+        CE.autowrap(["    expm1Up %s.halvings %s.taylorN (%s.poly.supNormUp %s) = some %s := by"
+                     % (cw, cw, g, W, named["mB"])]) + ["  decide +kernel", "",
+                                                         "/-- The exp witness bound `mη` (its own kernel run). -/",
+                                                         "theorem %s_mEta :" % nm] + \
+        CE.autowrap(["    expm1Up %s.halvings %s.taylorN %s.rad = some %s := by" % (cw, cw, g, named["mη"])]) + \
+        ["  decide +kernel", "", ""]
+    at = th.start()
+    doc = text.rfind("/--", 0, at)
+    if doc >= 0 and text[doc:at].rstrip().endswith("-/") and "theorem " not in text[doc:at]:
+        at = doc
+    return text[:at] + "\n".join(block) + text[at:]
+
+
+def _delta2(text):
+    """the DELTA-LAM-2 transforms; returns (text, needs MemoBridge)"""
+    t = _exp_bounds(_seed_slot_once(_char_cache(_mul_mk(_typed_negmap(text)))))
+    return t, ("mul_mk_eq_of_polyProduct_cseg" in t or "composeStep_char_eq_of_cache_cseg" in t)
+
+
 def _split_aux(self, rel, body, imports, ns, split):
     lines = "\n".join(body).split("\n")
     blocks, cur = [], []
@@ -721,7 +935,19 @@ def _write_dec(self, rel, imports, title, doc, md, heavy, ns):
     return _tree_write(self, rel, mods + [DECSPLIT], title, doc, body, heavy=False, ns=ns)
 
 
-_tree_write = CE.Tree.write
+_tree_write0 = CE.Tree.write
+
+
+def _tree_write(self, rel, imports, title, doc, body, heavy=False, ns=None):
+    """`CE.Tree.write` after the DELTA-LAM-2 transforms (`_delta2`), with MemoBridge imported where they use it"""
+    if body:
+        t, mb = _delta2("\n".join(body))
+        body = t.split("\n")
+        if mb:
+            imports = list(imports) + [MEMOBRIDGE]
+    return _tree_write0(self, rel, imports, title, doc, body, heavy=heavy, ns=ns)
+
+
 CE.Tree.write = _write_sharded
 
 
