@@ -222,7 +222,10 @@ random.seed($AUDIT_SEED); k=max(1,len(xs)*$AUDIT_PCT//100)
 print('\n'.join(sorted(random.sample(xs,k))))"
   } > "$WORK/$T_NAME.audit_sample.txt"
   echo "sample: $(wc -l < "$WORK/$T_NAME.audit_sample.txt") modules -> $WORK/$T_NAME.audit_sample.txt"
-  local lp chk; lp="$RET/lib/lean:$(cd "$T_SRC" && lake env printenv LEAN_PATH)"
+  # $RET LAST: leanchecker finds the target's oleans by walking real directories (it does not enter the symlinked
+  # module dir), while imports resolve through the first search-path entry that has a `KAM/` dir. With $RET first,
+  # every core import resolved into $RET and failed ("object file … does not exist"; 2026-11-05 return).
+  local lp chk; lp="$(cd "$T_SRC" && lake env printenv LEAN_PATH):$RET/lib/lean"
   chk="$HOME/.elan/toolchains/$(sed 's|/|--|; s|:|---|' "$T_SRC/lean-toolchain")/bin/leanchecker"
   while read -r m; do
     L "until [ \$(awk '/MemAvailable/{print \$2}' /proc/meminfo) -ge 12582912 ]; do sleep 30; done; systemd-run --user --scope -q -p MemoryMax=10G -p MemorySwapMax=0 nice -n 10 env LEAN_PATH=$lp /usr/bin/time -f '%e s %M kB' $chk $m >> $WORK/$T_NAME.audit.log 2>&1; echo \"$m rc=\$?\" >> $WORK/$T_NAME.audit.log"
