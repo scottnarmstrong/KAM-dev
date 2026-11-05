@@ -15,8 +15,8 @@ Diophantine frequencies, as soon as f is small enough.
 
 Every frozen theorem below is proved and sealed. That covers the 22 of the original project, Rüssmann's theorem
 (track R), track W's PDE KAM theorem `KAM.Wave.nlw2` (sealed 2026-11-01), track LP's seven safety statements (sealed
-2026-11-01), track SO's frozen lunar band and track B's three confinement theorems (sealed 2026-11-03); only the
-four statements of the Moon's synchronous lock (track SO, part 3) are still in progress. Each frozen statement was
+2026-11-01), track SO's frozen lunar band and the four statements of the Moon's synchronous lock (sealed
+2026-11-05), and track B's three confinement theorems (sealed 2026-11-03). Each frozen statement was
 approved by the owner and frozen before its proof was assembled. The proofs are complete and use only the standard
 axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
@@ -189,9 +189,12 @@ band (item 15) is frozen and sealed: `KAM.SpinOrbit.lunar_spin_confinement` (D49
     [`KAM.SpinOrbit.lunar_barriers_65_v2`](KAM/SpinOrbit/LunarFinalR2V2.lean#L50)
 
 Item 15 is the first application of the checker, the lunar spin–orbit problem (barriers at N = 65; the separatrix
-floor of this method is 2.62 %). Part 3 of track SO, in progress, proves more: the Moon stays locked in synchronous
-rotation forever, confined by one librational invariant torus around a certified synchronous periodic orbit (D42,
-D45); its Lean packages are on `main`, and its certificate data are being emitted and kernel-checked.
+floor of this method is 2.62 %). Part 3 of track SO proves more: the Moon stays locked in synchronous rotation
+forever, confined by one librational invariant torus around a certified synchronous periodic orbit (D42, D45). Its
+certificate chain of 13,668 generated modules (opt-in library `KAMLunarLock`) passed Lean's kernel. The four frozen
+statements (the synchronous orbit's existence, uniqueness and bounds, and the lock) are sealed (D63, 2026-11-05),
+with only the standard axioms.
+[`KAM.SpinOrbit.lunar_sync_lock`](KAM/Frozen/SpinOrbit/Theorems/LunarSyncLock.lean#L31)
 
 **Certified effective stability (track B).**
 
