@@ -141,9 +141,12 @@ checker, or a lock-owned lemma above. `SegDecide` holds one deliberate orphan in
     - Families: 541 Seg.Prod, 22 Seg.Low, 18 Pass, 10 LedgerLow, 7 LedgerFull, 7 Seg.Full, 4 Memo, 3 Rad, 3 Tors,
       2 Stage, Chain, Checks (the leaf `Seg.Checks.*` module sampled), Passes, AssemblyN65.
     - None of the 621 has descendant modules, so each run replayed exactly that one module (see the next point).
-  - **For lam at 32G: 8 modules.** These are the 6 over 9 GiB (Pass.FrameL0/FrameL1, Seg.Prod.M1918ShG1,
-    Seg.Low.S221, Seg.Tors.E2_1_0, Seg.Full.S136) plus S108/S109, which are not in the seeded sample. So 627 = 621 + 6,
-    and lam's list adds 2.
+  - **On lam at 32G: 8/8 rc 0**, on the frozen 447772bf (`lam-reports/heavy-leanchecker.txt`): the 6 over
+    9 GiB (Pass.FrameL0/FrameL1, Seg.Prod.M1918ShG1, Seg.Low.S221, Seg.Tors.E2_1_0, Seg.Full.S136) plus S108/S109,
+    which are not in the seeded sample. Peaks 13.7–23.3 GiB, walls 97–210 s. None of the 8 has descendant
+    modules.
+  - **So the seeded sample is complete: 627/627 rc 0** (621 here plus 6 on lam), with S108 and S109 replayed in
+    addition.
   - **Correction (audit-1).** `leanchecker <M>` without `--fresh` replays every module whose name has M as a prefix
     (LeanChecker.lean:109), not only M. The auditor therefore replayed leaf modules only, and elaborated GraphK and
     Seg.Checks from exact source copies.
