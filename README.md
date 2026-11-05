@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-05 21:47 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 100 % · track W 100 % · track LP 100 %** · frozen statements proved: 75 / 76 · **551,452 lines of hand-written Lean** of an estimated ≈ 553,000 (plus 4,097,429 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-05 22:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 100 % · track W 100 % · track LP 100 %** · frozen statements proved: 75 / 76 · **551,452 lines of hand-written Lean** of an estimated ≈ 553,000 (plus 4,097,429 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -368,7 +368,7 @@ Overall, everything together: 97.6 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **551,452** (420,723 excluding blank lines and comments) · **+117** since 2026-11-04 21:40 UTC |
+| On `main` now (hand-written) | **551,452** (420,723 excluding blank lines and comments) · **+117** since 2026-11-04 22:00 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 4,097,429 lines in 15,317 modules |
 | Written on agent branches, not yet landed (hand-written) | 1,772 |
 | **Estimated total at completion** (hand-written) | **≈ 553,000** |
@@ -378,7 +378,7 @@ Overall, everything together: 97.6 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-05 21:47 UTC from `main` at `608e30daf` by `scripts/hq-status.py`.*
+*Generated 2026-11-05 22:00 UTC from `main` at `9943014f2` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -594,7 +594,7 @@ account read from each agent's running process) and their branches. Rules for ag
 | **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-11 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
-| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | 🔄 working | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
+| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **b1** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: Track B: stand-down summary | `inp-b1` | 1 (vs `inp`) |
 | **lp** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP progress: tier-1 clean-up landed (f07abeee8); idle | `inp-lp` | 19 (vs `inp`) |
 | **lp-freeze7** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP-FREEZE7R: handoff (parts A-C; superseded by LP-FREEZE-EXEC) | `inp-lp-freeze7` | 1 (vs `inp`) |
@@ -607,6 +607,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-05 21:51 | `9943014f2` | README: the Moon's synchronous lock is sealed (D63) |
 | 2026-11-05 21:32 | `608e30daf` | Land inp into main |
 | 2026-11-05 12:12 | `a40ddbc70` | Land inp into main |
 <!-- /AUTO:landed -->
