@@ -200,9 +200,9 @@ EDGE: stepW:w0n:young | blueprint-W/parts/w0-normalization.tex#bpW:w0n:algebra@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
-LEAN_STATUS: PARTIAL
-LEAN_REF: KAM.Wave.wave_algebra, KAM.Wave.waveAlgConst_three_halves_sq, KAM.Wave.waveCubicConst_one (KAM/Wave/Algebra/Algebra.lean, KAM/Wave/Normal/Analysis/CubicHeadline.lean)
-LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: the identity K_(3/2)^2 = 8(1+2 zeta(3)) is proved by waveAlgConst_three_halves_sq (Normal/Analysis/CubicHeadline.lean:46-58) and used by waveCubicConst_one (finding A); exported: the algebra inequality and absolute convergence wave_algebra (W1-ALGEBRA audit 1 PASS WITH NOTES); candidate PROVED with the corrected reference (audit finding A)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.wave_algebra_w0n (KAM/Wave/Algebra/ExportW0n.lean)
+LEAN_NOTE: W-GRAPH-CLOSE audit 1 (maud-wpj-1, inp-wgclose a82197a3) PROVED-OK: absolute summability, membership and norm bound with waveAlgConst s, plus the exact K_(3/2)^2 identity (equivalent older mapping: wave_algebra, waveAlgConst_three_halves_sq); supersedes the BYPASS-audit-1 KEEP (finding A)
 NOTE: -
 
 NODE: stepW:w0n:weight
@@ -227,9 +227,9 @@ EDGE: bpW:w0:twosided | blueprint-W/parts/w0-normalization.tex#stepW:w0n:weight@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
 REVIEWER: sol-review-W-w0n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: KAM.Wave.wave_weight_ineq, KAM.Wave.waveJap_sub_le, KAM.Wave.wave_algebra (KAM/Wave/Algebra/Algebra.lean)
-LEAN_NOTE: D27 audit BYPASS-audit-1 KEEP: the step is a separate theorem wave_weight_ineq (Algebra/Algebra.lean:48-74, exponential triangle inequality plus waveJap_sub_le), invoked by wave_algebra at line 102; after unfolding waveTwoWeight it is the W0 weight inequality (finding A); candidate PROVED with the corrected reference (audit finding A)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Wave.wave_weight_step (KAM/Wave/Algebra/ExportW0n.lean)
+LEAN_NOTE: W-GRAPH-CLOSE audit 1 (maud-wpj-1, inp-wgclose a82197a3) PROVED-OK: all three packet conclusions with the intermediate exponential-weight inequality; integer indices, max 1 |l| bracket, hypotheses and constants match; supersedes the BYPASS-audit-1 KEEP (finding A)
 NOTE: -
 
 NODE: stepW:w0n:young

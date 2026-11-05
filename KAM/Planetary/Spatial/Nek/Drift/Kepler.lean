@@ -11,14 +11,15 @@ public import KAM.Planetary.StrongAMD.Nek.Kepler
 public import KAM.Planetary.Spatial.Nek.Cover
 
 /-!
-# The Kepler margin on the spatial cells and the cell-family drift threshold (LP3-SP-DRIFT)
+# The Kepler margin on the spatial cells and the cell-family drift threshold
 
-Package LP3-SP-DRIFT (part: Kepler cell data), `LP:MAIN L14 (468–500)` and `LP:MAIN L18 (595–597)`
+Source: `LP:MAIN L14 (468–500)` and `LP:MAIN L18 (595–597)`
 as planned in `docs/tracks/LP/lp3/LP3-PLAN.md` §2.3, §2.5 (`k = n + n` slow pairs), track LP,
-non-frozen. The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+non-frozen.
 
 The fast Hamiltonian `h = planetaryKeplerC ν` involves only the `n` fast actions, so the planar
-LP3-KEP clauses (`keplerC_clauses`, `keplerCNeg_clauses`, `keplerC_definite`) are reused unchanged.
+the Kepler cell data clauses (`keplerC_clauses`, `keplerCNeg_clauses`, `keplerC_definite`) are
+reused unchanged.
 The planar `lp3_kepler_data` asks `G′ ⊆ cthickening ρ₀ U` with `ρ₀ = Imin/4`; the cell widths are
 fixed by `(r_g, R)` and need not be below `Imin/4`, so the margin is instead taken from the plan's
 own argument (§2.3, "Kepler data"): every real part of the complex collar of a cell lies in the

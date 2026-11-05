@@ -11,8 +11,7 @@ public import KAM.Planetary.StrongAMD.Osculating.Estimates
 /-!
 # The pointwise core of `LP:MAIN L16 (43)`
 
-Package LP-OSC, `LP:MAIN L16 (508–529)`; track LP, non-frozen; the statement surface is proposed
-in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L16 (508–529)`; track LP, non-frozen.
 
 `osc_core` is the whole estimate (43) at the level of one position `q`, one reference velocity `v`
 (with the unperturbed specific elements, `k = 1`) and the actual velocity `V` (parameter `k`),

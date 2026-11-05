@@ -1,0 +1,8 @@
+linting took 13.2ms
+elaboration took 2.3ms
+typeclass inference of Decidable took 1.29ms
+type checking took 17.7s
+tactic execution of Lean.Parser.Tactic.decide took 1.43ms
+declTypeLinter took 7.33ms
+tacticAnalysis took 2.23ms
+linting took 15.3ms

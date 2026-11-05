@@ -11,8 +11,7 @@ public import KAM.Planetary.StrongAMD.Threshold.Pair
 /-!
 # Strong AMD thresholds: the contact parameterization and continuity
 
-Package LP-THR, `LP:MAIN L4 (141–160)`, parameterization (15) and continuity. Track LP, non-frozen;
-the statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L4 (141–160)`, parameterization (15) and continuity. Track LP, non-frozen;
 
 `contactObjective` is the objective along the fixed-interval contact parameterization (15);
 `pairThreshold_eq_sInf_contact` identifies `B_ij` with its infimum over `t ∈ [0,1]`, and

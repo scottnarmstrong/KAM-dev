@@ -11,8 +11,7 @@ import Mathlib.Tactic.Linarith
 /-!
 # Lemma 1 (ii): the bracket and the guarded forms of the homological equation
 
-Off-frontier, source-faithful infrastructure (W4-COMPLETE); the dependency graph is still
-being built. Blueprint label: `bpW:w4:lemma1` (ii), step `stepW:w4:equation` (second and third
+Blueprint label: `bpW:w4:lemma1` (ii), step `stepW:w4:equation` (second and third
 forms), with `bpW:w4:lie` (ii), (iv).
 
 The landed W4 export `homLemma1_equation_all_gen` is the first form `L_N F + N̂ = R - â₀` on

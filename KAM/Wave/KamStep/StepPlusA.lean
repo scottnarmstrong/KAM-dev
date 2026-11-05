@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The pulled-back term `(P - R) ∘ Φ` (blueprint-W `bpW:w5:new-ham` (ii))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepSympCLM_embed_apply`: `ϖ_{p,p}(ι g, W) = ϖ_{p_+,p}(g, W)`. The function `Q₀ = P - R` on
 `StepPhase r` has derivative `B(ι(X_P - X_R), ·)` on `D(s,r)`; its pull-back by the flow is a
 smoothing Hamiltonian with field `(1 + N_1)⁻¹ (X_P - X_R)(Φ w)`.

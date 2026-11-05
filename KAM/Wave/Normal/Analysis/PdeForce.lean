@@ -12,8 +12,6 @@ public import KAM.Wave.Recon.SineCompleteness
 /-!
 # The force identity (blueprint `bpW:w0n:pde-equiv`, equation `bpW:w0n:force`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 For `q ∈ ℓ^{1,1}`: `U_m(q)(x)^3 = Σ_l √λ_l 𝒢(q)_l φ_l(x)` for `x ∈ [0, π]`
 (`KAM.Wave.wave_force_identity`), proved from `∫ U³ φ_l = √λ_l 𝒢(q)_l` (`bpW:w0n:gradient`), the
 bound `𝒢(q) ∈ ℓ^{1,2}` (`bpW:w0n:cubic-bound`) and the completeness of the sine system
@@ -35,7 +33,7 @@ lemma waveEll_mono {a p p' : ℝ} (h : p' ≤ p) {c : ℕ+ → ℝ} (hc : WaveEl
   have h1 : ellWeight a p' j ≤ ellWeight a p j := by
     unfold ellWeight
     gcongr
-  have h0 : 0 ≤ ellWeight a p' j := (waveEllWeight_pos a p' j).le
+  have h0 : 0 ≤ ellWeight a p' j := (ellWeight_pos a p' j).le
   rw [mul_pow, mul_pow]
   exact mul_le_mul_of_nonneg_right (pow_le_pow_left₀ h0 h1 2) (sq_nonneg _)
 

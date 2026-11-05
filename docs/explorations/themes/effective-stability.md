@@ -149,4 +149,71 @@ the full planar SJS problem is needed for three. On the observed inner Solar Sys
 - **Also.** Ready briefs D-P0 (model charter, to be written as `program-d-model-charter.md`, which does not exist yet)
   and D-P1 (finite partial-convex gate); six owner decisions.
 
+## SJSU scope: recover the model, then test a complete bracket certificate
+
+**[sjsu-effective-stability.md](../sjsu-effective-stability.md)** · 1 November 2026 · scope and reproducible prototype ·
+status: **scouted**, no new Lean result
+
+The report recommends checking finite approximate integrals against the entire original secular Hamiltonian, then
+using first exit and continuation. A five-billion-year action tube is a conditional research target. The full
+degree-18 coefficient set, averaged reference actions and near-torus maps remain missing; the experiment uses the
+separate 78-term quadratic/quartic polynomial printed in SLG13 Appendix A. Two independently parsed PDF versions
+agree on every coefficient and exponent.
+
+- **Measured, floating.** Cartesian normal forms through degree 10 take about 14 CPU-s and 50 MiB RSS. The best
+  tested sufficient confinement ratio at nominal amplitudes is 34,419 yr; higher-order boundary tests fail there.
+  At 30% amplitudes the degree-ten ratio reaches 3.84·10¹⁰ yr, but that region excludes the nominal point. A second
+  source-data interpretation gives the same negative nominal result. No interval enclosure or lifetime is proved.
+- **Source issues.** The printed literal polynomial has an exactly nonzero bracket with the standard quadratic AMD,
+  exceeding last-digit rounding, and the printed initial radii disagree with their formula and Table 2. Exact AMD
+  conservation and planar reduction from three degrees to two therefore require verification for the selected model.
+- **Plan and cost, estimated.** Recover the model, build a small original-field checker, and require a complete
+  time-versus-region budget before freezing the long-time instance. Roughly 6–12 weeks after data recovery if that
+  numerical gate succeeds; quartic kernel pilot 1–15 CPU-h, full-model estimate 10–1,000 CPU-h conditional on sparsity,
+  with a measured shard required first. Spatial SJSU has four fully reduced secular degrees of freedom and needs a
+  separate model and feasibility study. LP0 supplies AMD geometry, not a billion-year averaging-error bound.
+
+## SJSU phase 0: the degree-18 model rebuilt
+
+**[sjsu-model-recovery.md](../sjsu-model-recovery.md)** · 1 November 2026 · reconstruction and validation ·
+status: **measured**, dataset public (`applications/sjsu/`, data under CC BY 4.0), no new Lean result
+
+The degree-18 planar secular SJSU Hamiltonian was regenerated from the SLG13/GLS17 recipe, strictly at order two in
+the masses (SJSU18-O2, 7,941 coefficients); an independent audit rebuilt it with every coefficient identical.
+
+- **Measured.** Quadratic coefficients within 7.7·10⁻⁴ of the printed ones; linear secular frequencies within
+  5.8·10⁻⁴ of Table 2; secular frequencies of a 3-Myr planar N-body run from the mapped Table 1 point within 1.6%,
+  0.35% and 0.05%. The printed quartic's Jupiter–Saturn terms differ by 5–8% (unexplained); its three-planet terms
+  appear only at third order in the masses. Coefficients of degree 12 and above depend by 22–69% on choices the
+  papers leave open.
+- **Readings.** n* includes the first-order frequency correction; a* is the 1-Myr N-body average; Table 1 holds
+  Poincaré elements.
+- **Source issues.** Confirmed: the printed quartic's rotation-breaking component (about 10⁻⁸; SJSU-E1), Table 2's
+  initial data matching neither the mapped Table 1 point nor the N-body flow (SJSU-E2), the degree of the generating
+  functions (9 vs 6) and a "5λ₅" typo. Plausible: a factor ½ in eq. (12).
+- **Owner decisions (1 Nov).** Phase 1 certifies SJSU18-O2 as published, at the mapped Table 1 point.
+
+## HD 11964: a certified no-crossing time for a real exoplanet system
+
+**[hd11964-pilot.md](../hd11964-pilot.md)** · 1 November 2026 · pilot (phase 1 report; phase 2 running) ·
+status: **measured**, Lean bridge on main, no certificate yet
+
+The planar Newtonian three-body model of HD 11964 (star, planets c and b; Rosenthal et al. 2021 rows of the NASA
+Exoplanet Archive, minimum masses, coplanar). The route certifies the drift of the semi-major-axis actions Λ through
+approximate integrals checked against the original Hamiltonian; exact conservation of the total angular momentum,
+the LP lane's first-exit lemma and LP0 then give no orbit crossing for |t| ≤ T. Design:
+[`docs/campaign/design/HD11964-PILOT.md`](../../campaign/design/HD11964-PILOT.md); data:
+[`applications/hd11964/`](../../../applications/hd11964/).
+
+- **Proved (on main).** The Λ-drift bridge and a no-crossing theorem for any planar system given the certificate's
+  bounds (`KAM/Application/LambdaDrift/`), the HD 11964 margin lemmas, and the order-2 Lie remainder identity (the
+  drift rate as five separately bounded terms); standard axioms; audited.
+- **Measured, floating.** Order 2 closes 10³ yr; at d = 1/500 with a region-fitted 50-cell cover the margin is about
+  5.9 (need 2). The margin is set by the oscillation of planet b's own Λ (the reduced-mass kinetic term), not by
+  the drift rate. Order 3 would reach 10⁶ yr; order 4 is limited by double precision (10⁹ yr provisional).
+- **Estimated.** One order-2 cell costs about 13.5 CPU-h in the kernel with the new packed Taylor × Fourier layer
+  (measured on one cell); the 10³-yr certificate about 400–620 CPU-h.
+- **Owner decisions (2 Nov).** Build the remaining kernel pieces and a two-cell rehearsal; no full run yet. A
+  reduced-mass variant of the LP lane's Kepler actions (about 7× smaller oscillation) is proposed to the LP lane.
+
 [← Back to the catalogue](../README.md)

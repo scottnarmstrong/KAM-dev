@@ -61,20 +61,24 @@ src (4th, created 05:30 for the third slot).
 | LP3-COVERPERT finite cover + normalized perturbation | LP3 plan | LP3 | `inp-lp-lp3cp` / geomod worktree | claude-12 | **LANDED** W5A (main a994efdf); audit LP-W5A-1 PASS WITH NOTES |
 | LP3-CELL generic cellwise application (k slow pairs), ± time | LP3 plan §5 option | LP3 | `inp-lp-lp3cell` / geomod worktree | claude-11 | **LANDED** W5A (main a994efdf); audit LP-W5A-1 PASS WITH NOTES |
 | LP3-DRIFT planar `hstop` supplier (no Diophantine premise) | LP3 plan §2.4 | LP3 | `inp-lp-lp3drift` / geomod worktree | claude-11 | **LANDED** W5A (main a994efdf); audit LP-W5A-1 PASS WITH NOTES |
-| LP3-PS planar theorem LP3-1 (no arithmetic hypothesis) | LP3 plan §1.2 | LP3 | `inp-lp-lp3ps` / geomod worktree | claude-11 | audit LP-W5C-1 **PASS** (component; combined PASS WITH NOTES, codex-2); merged; **landing requested** |
+| LP3-PS planar theorem LP3-1 (no arithmetic hypothesis) | LP3 plan §1.2 | LP3 | `inp-lp-lp3ps` / geomod worktree | claude-11 | **LANDED** W5C (main 74d77b43); audit LP-W5C-1 PASS |
 | LP-FREEZE7 draft 7 exact freeze text (D59) | freeze | — | `inp-lp-freeze7` / geomod worktree | claude-11 (Opus) | draft 7 (8d6f33cc); statement audit 1 (codex-2, HEAD 809aa0dd): **RETURN FOR REVISION** (F1 spatial barycentric maps on whole carrier; F2 helper roles; N2) → LP-FREEZE7R running |
-| LP-FREEZE7R draft 7 rev 1 (F1, F2, N2) + provider staging | freeze | — | `inp-lp-freeze7` (A), `inp-lp-providers` (B) | claude-2 (Opus) | **RUNNING** (09:38) |
-| LP-FREEZE8 draft 8 (LP3 delta) + its 2 providers | freeze | — | `inp-lp-freeze8` / thr worktree | claude-11 (Opus) | **RUNNING** (09:26) |
+| LP-FREEZE7R draft 7 rev 1 (F1, F2, N2) + provider staging | freeze | — | `inp-lp-freeze7` (A), `inp-lp-providers` (B) | claude-2 (Opus) | part A 05155acf (F1, F2, N2, option C); **delta audit 7-2 PASS WITH NOTES** (BLOCKING 0); R1–R3 being applied; part B (providers) and part C (draft 8 regeneration) running |
+| LP-FREEZE8 draft 8 (LP3 delta) + its 2 providers | freeze | — | `inp-lp-freeze8` / thr worktree | claude-11 (Opus) | **DONE** f6b4b6ef: draft 8 (2 anchors `…_noArith`; 0 new definitions; LP3-2 under F1 via stand-ins, regenerate after r1); 2 providers staged; checks pass, axioms standard |
 | LP3-SP-COVER spatial cover + perturbation | LP3 plan | LP3 | `inp-lp-lp3spcov` / mom worktree | claude-12 | **LANDED** W5B (main 4916704e); audit LP-W5B-1 PASS WITH NOTES |
 | LP3-SP-DRIFT spatial `hstop` supplier | LP3 plan §2.5 | LP3 | `inp-lp-lp3spdrift` / mom worktree | claude-12 | **LANDED** W5B (main 4916704e); audit LP-W5B-1 PASS WITH NOTES |
-| LP3-SP-SAFE spatial theorem LP3-2 (no arithmetic hypothesis) | LP3 plan §1.3 | LP3 | `inp-lp-lp3spsafe` / mom worktree | claude-12 | audit LP-W5C-1 **PASS** (component; combined PASS WITH NOTES, codex-2); merged; **landing requested** |
-| LP3-SRC LP3-1/LP3-2 through source carriers (OD-11 (b)) | freeze prep (draft 8) | LP3 | `inp-lp-lp3src` / mom worktree | claude-12 | audit LP-W5C-1 **PASS** (component; combined PASS WITH NOTES, codex-2); merged; **landing requested** |
+| LP3-SP-SAFE spatial theorem LP3-2 (no arithmetic hypothesis) | LP3 plan §1.3 | LP3 | `inp-lp-lp3spsafe` / mom worktree | claude-12 | **LANDED** W5C (main 74d77b43); audit LP-W5C-1 PASS |
+| LP3-SRC LP3-1/LP3-2 through source carriers (OD-11 (b)) | freeze prep (draft 8) | LP3 | `inp-lp-lp3src` / mom worktree | claude-12 | **LANDED** W5C (main 74d77b43); audit LP-W5C-1 PASS |
 
 ## Audit queue (codex-2, one at a time machine-wide; W interleaves when LP has a gap)
 
 1. LP-OSC (done, PASS WITH NOTES) → 2. LP-W3B (CONF + NRR, running) → 3. FREEZE-PROPOSAL statement review 1 (done: RETURN FOR REVISION; draft 2 written) → [W7 r2] → 4. LP-W3C (LIFT + DOMX, ready) → 5. delta review 2 of draft 2 (scoped to F1–F5; `DRAFT=2 EXTRA=… lp_stmt_review.sh 2 codex-2`) → 6. THR2 → 7. PS.
 
 ## Carried requirements
+
+- **Graph sync rule (owner, via root-b8, 2026-11-01):** once the LP dependency graph is published, every LP landing that
+  adds Lean under `KAM/Planetary/StrongAMD` or `KAM/Planetary/Spatial` gets its LEAN_STATUS sync on main **within the
+  same hour**. The HQ prints "graph sync pending/overdue" (`scripts/hq-status.py` `graph_sync_lag`).
 
 - **Auditor policy (root-b8, 07:50):** Opus subagents are fine for PAPER-level reviews (the LP3 plan, the freeze-text
   statement reviews), but every audit that GATES a Lean landing stays on Codex (codex-2; D54/D57). Never land a Lean
@@ -170,3 +174,10 @@ now on every stamp is taken from `date -u +%H:%M`.
 - 2026-11-01 09:24 UTC: LP-W5B LANDED (main 4916704e; lander: 25 theorems standard, no sorryAx through the sealed anchor). Audit launchers now require the audited HEAD in the report's first lines (lander's request). Draft-7 statement audit running concurrently with W5C (root-b8, 09:22).
 - 2026-11-01 09:25 UTC: **LP-W5C audit 1: LP3-PS, LP3-SP-SAFE, LP3-SRC all PASS** (combined PASS WITH NOTES; independent full-signature comparison of all eight LP3 types against the landed LP1/LP2 templates: only the intended changes). **LP3 fully proved and audited.** Merged; landing requested. Next: draft 8 (LP3 anchors) after the draft-7 audit.
 - 2026-11-01 09:39 UTC: draft-7 statement audit 1: RETURN FOR REVISION (anchors pass the MAIN comparison; F1: new spatial barycentric maps need guarded source exports in LP2/LP2-H; F2 role paragraphs; N2). root-b8: the owner said "now get everything sealed and audited!"; prepare providers, runbook and dependency-graph prep now. LP-FREEZE7R on claude-2 (second slot returned for this); LP-FREEZE8 told to use the F1 convention and stage its providers; runbook and depgraph prep on Opus subagents (paper-level); delta re-audit brief ready.
+- 2026-11-01 09:53 UTC: LP-FREEZE8 DONE (draft 8: LP3-1 `planar_strongAMD_exponentialSafety_noArith`, LP3-2 `spatial_…_noArith`; no new definitions; providers staged). claude-11 released to W. Provider quarantine decision: providers stay on staging branches (`inp-lp-providers`, `inp-lp-freeze8`) merged only at freeze; root regeneration deferred to the freeze commit.
+- 2026-11-01 09:55 UTC: **LP-W5C LANDED (main 74d77b43): all LP Lean work (LP0, LP1, LP2, LP3-1, LP3-2 and their source restatements) is on main**, every theorem with standard axioms (lander). Remaining: freeze/seal of the approved text (draft 7 r1, draft 8).
+- 2026-11-01 10:29 UTC: draft 7 r1 delta statement audit (codex-2, HEAD c9c2b904): **PASS WITH NOTES**, BLOCKING 0 (option C verified as a literal equivalence). Owner summary committed (b7c62993) and sent to root-b8 with the verdict and verification output. R1–R3 (docstring/editorial) being applied by LP-FREEZE7R.
+- 2026-11-01 10:43 UTC: **OWNER APPROVED DRAFT 7 r1 (D62, main 7394d94e): freeze and seals.** LP-FREEZE-EXEC started (claude-2, the FREEZE7R session; part C paused) in the new worktree `/root/code/KAM-inp-lp-freeze` (branch `inp-lp-freeze` off inp 6798a3c5, HC volume). LP-FREEZE7R part B done (39 providers staged, f2fa9f88).
+- 2026-11-01 12:07 UTC: **LP froze and sealed in one pass (D62)** on `inp-lp-freeze` (f5729cf8; audit report c68c1f09): 89 frozen definitions, 39 sealed theorem anchors (5 headline + 34 characterizations), 39 providers, 128 SEALED manifest entries; implementation rebased. **Seal audit 1 (codex-2): PASS WITH NOTES, BLOCKING 0, CHANGE-RECOMMENDED 0** (128/128 identity, 39/39 Expr-equal, 78/78 standard axioms, 167 modules replayed). Landing requested from kam-inp-63 (3-worker replay of 284 modules).
+- 2026-11-01 13:42 UTC: **LP FROZEN AND SEALED ON MAIN (f46b94fb; D62).** Lander: guard OK, ABI OK (305), lint OK, full core build OK; #print axioms 78/78 (39 anchors + 39 providers) exactly [propext, Classical.choice, Quot.sound]; kernel replay 284/284 exit 0 (3 workers, 47 min). LP0, LP1, LP1-H, LP2, LP2-H and the 34 characterizations are sealed frozen theorems. Next: graph extraction (graph-sync rule now applies), draft 8 (LP3) regeneration, audit and approval.
+

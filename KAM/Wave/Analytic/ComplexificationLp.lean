@@ -12,8 +12,6 @@ public import KAM.Frozen.Wave.Defs.WaveSpace
 # Complexification of `ℓ²`
 
 Blueprint-W `bpW:w1:complexification` and `bpW:w1:complexification-lemma` (i) (package W1-ANALYTIC).
-This is source-faithful infrastructure used by several nodes; the dependency graph is still being
-built.
 
 `ι : ℓ²_ℝ → ℓ²_ℂ`, `re : ℓ²_ℂ → ℓ²_ℝ` and the conjugation of `ℓ²_ℂ` are built coordinatewise
 (`KAM.Wave.lpPointwise`); `ℓ²` is `lp (fun _ : ℕ+ => ℝ) 2` as in the frozen `KAM.Wave.WaveSpace`,
@@ -40,7 +38,6 @@ def lpPointwise {E E' : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 @[simp] theorem lpPointwise_apply {E E' : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     [NormedAddCommGroup E'] [NormedSpace ℝ E'] (φ : E →L[ℝ] E') (hφ : ∀ x, ‖φ x‖ ≤ ‖x‖)
     (x : lp (fun _ : ℕ+ => E) 2) (j : ℕ+) : lpPointwise φ hφ x j = φ (x j) := rfl
-
 
 theorem norm_ofRealCLM_le (x : ℝ) : ‖Complex.ofRealCLM x‖ ≤ ‖x‖ := by simp
 

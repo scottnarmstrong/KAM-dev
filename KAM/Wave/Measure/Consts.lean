@@ -10,9 +10,6 @@ public import KAM.Wave.Measure.UnpertBounds
 /-!
 # W7: the exceptional set `X` and the constants (blueprint `bpW:w7:Xdef`, `bpW:w7:constdef`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 The constants of `bpW:w7:constdef` in the order (C1)–(C5): `W`, `ϑ`, `c_Λ`, `K_*`, `j_*`; the finite
 exceptional set `X` with `N_X`, `σ_X`, `c_X`; `θ₀`, `α₀`; `Z₃`, `C_P`, `C_I`, `C₇`; and
 `α̂ = α^{44/47}`, `α̌ = α^{48/47}`. All depend on `m` only.

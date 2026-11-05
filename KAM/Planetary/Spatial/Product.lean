@@ -13,7 +13,7 @@ public import KAM.Planetary.Spatial.Product.Split
 /-!
 # The n-body spatial product chart (facade)
 
-Package LP-SP-PROD, `LP:MAIN L17 (533–578)` for `n` bodies, track LP, non-frozen. Facade importing
+Source: `LP:MAIN L17 (533–578)` for `n` bodies, track LP, non-frozen. Facade importing
 the modules of `KAM/Planetary/Spatial/Product/`:
 
 * `Defs`: layout `Phase (n + (n + n))`, block maps, `spatialPoincareProd`, domain and region;
@@ -22,5 +22,4 @@ the modules of `KAM/Planetary/Spatial/Product/`:
 * `Deficit`: (45) summed, the fixed-plane deficit identity `C_{e₃} = Σ (Γ_i + Z_i)`;
 * `Split`: the exact split `H_μ = −Σ ν_i³/(2 I_i²) + μ fSpatial`.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/

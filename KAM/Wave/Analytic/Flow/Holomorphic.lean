@@ -12,8 +12,7 @@ public import KAM.Wave.Analytic.UniformLimit
 /-!
 # Holomorphic flows: the conclusions (i)-(iv)
 
-Blueprint-W `bpW:w1:flow` (package W1-ANALYTIC). This is source-faithful infrastructure used by
-several nodes; the dependency graph is still being built.
+Blueprint-W `bpW:w1:flow` (package W1-ANALYTIC).
 
 For `h : FlowHyp X V U M δ` and `φ = holoFlow X`:
 

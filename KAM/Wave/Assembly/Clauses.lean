@@ -17,8 +17,7 @@ import Mathlib.Tactic.Positivity
 # W8: clauses (1) and (2) of W-NLW2 for the patched family (blueprint `bpW:w8:nlw2-proof`,
 Steps `stepW:w8:p-dens`, `stepW:w8:p-dioph`, `stepW:w8:p-lim`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w8:nlw2-proof` (milestone W8), the steps that use only
+Blueprint label `bpW:w8:nlw2-proof` (milestone W8), the steps that use only
 W6–W7 (not W5's action–angle map).
 
 For a family `H : ∀ n, W8ShellPrep m hm n (Ps n) (Xs n)` of prep-step bundles, `Γ = w8GammaW H`,

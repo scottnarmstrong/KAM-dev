@@ -13,7 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The action–angle substitution: the derivative (blueprint-W `bpW:w5:action-angle` (iii))
 
-Off-frontier, source-faithful infrastructure (W5-AA); the dependency graph is still being built.
 Blueprint label `bpW:w5:action-angle` (iii), step `a-der`.
 
 Write `s_i = √(ξ_i + y_i)`, `E_{±,i} = e^{∓2πiθ_i}` (`aaS`, `aaE`). For `Re(ξ_i + y_i) > 0`:

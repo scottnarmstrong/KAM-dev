@@ -29,9 +29,6 @@ namespace KAM.Wave
 
 variable (m : ℝ) (hm : 0 < m) {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p)
 
-theorem lieT_birk :
-    lieT (birkEmbed a (p + 1) p (by linarith)) (birkS m hm ha hp) = birkT m hm ha hp := rfl
-
 variable {m hm ha hp}
 
 include hm hp in

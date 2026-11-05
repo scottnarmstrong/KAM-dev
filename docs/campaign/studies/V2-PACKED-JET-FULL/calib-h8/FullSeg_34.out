@@ -1,0 +1,7 @@
+linting took 1.86ms
+elaboration took 1.78ms
+typeclass inference of Decidable took 5.73ms
+type checking took 8.03s
+declTypeLinter took 1.3ms
+tacticAnalysis took 1.06ms
+linting took 5.72ms

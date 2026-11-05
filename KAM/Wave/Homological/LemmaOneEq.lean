@@ -14,9 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The component equations (`bpW:w4:lemma1`, step *The equation*, analytic part)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 `homFamily_eq`: for a continuous linear functional `Λ` intertwining the multipliers of a component
 with the scalar multipliers `mu_k`, the functional of the solve satisfies the scalar cohomological
 equation of `CohEq.lean`. The specializations are the entrywise equations of the seven components.

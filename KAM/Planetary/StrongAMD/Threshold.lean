@@ -13,8 +13,8 @@ public import KAM.Planetary.StrongAMD.Threshold.Strong
 /-!
 # Strong AMD thresholds (facade)
 
-Package LP-THR, `LP:MAIN L4 (141–160)`. Track LP, non-frozen; the statement surface is proposed in
-docs/tracks/LP/FREEZE-PROPOSAL.md. Imports the parts `Defs`, `Pair`, `Continuity`, `Strong`.
+Source: `LP:MAIN L4 (141–160)`. Track LP, non-frozen. Imports the parts `Defs`, `Pair`,
+`Continuity`, `Strong`.
 -/
 
 public section

@@ -16,8 +16,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The data of the KAM step: Taylor and solve families (blueprint-W `bpW:w5:step`, construction)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepFTfam`: the family `F_ξ = homSolveTaylor_gen … R_ξ` (zero off `Π`). `stepSetup_*`: the field
 bounds of `R_ξ` (`3ε₀`, `3ε₁d`) and of `F_ξ` (`M₀`, `M₁ d`, with `M₀ + λ M₁ ≤ M_F`).
 -/

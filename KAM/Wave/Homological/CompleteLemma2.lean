@@ -12,8 +12,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # P96-K Lemma 2 in the `λ`-weighted field norms (`bpW:w4:lemma2`)
 
-Off-frontier, source-faithful infrastructure (W4-COMPLETE); the dependency graph is still
-being built. Blueprint label: `bpW:w4:lemma2`.
+Blueprint label: `bpW:w4:lemma2`.
 
 The blueprint writes `|X|^λ = ε_X + λ ε_X^L` for a field (family `ξ ↦ X_ξ`) with uniform bound
 `ε_X` and Lipschitz constant `ε_X^L` on the relevant domain. Here these are the best constants,

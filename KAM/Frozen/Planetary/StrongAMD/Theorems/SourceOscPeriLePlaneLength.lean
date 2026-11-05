@@ -1,0 +1,43 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+-- FROZEN_ANCHOR_PREFIX_BEGIN
+module
+
+public import KAM.Frozen.Planetary.Defs.BodyVector
+public import KAM.Frozen.Planetary.Defs.PlaneLength
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOscPeri
+public import KAM.Frozen.Planetary.StrongAMD.Defs.SourceOsculatingPhase
+import KAM.Provider.Planetary.StrongAMD.SourceOscPeriLePlaneLength
+
+/-!
+# Frozen theorem `KAM.Planetary.StrongAMD.sourceOscPeri_le_planeLength`
+
+Track LP characterization theorem of `sourceOscPeri` (`LP:MAIN L16 (527–528)`), frozen with its
+definition as one semantic unit (D59, OD-11 (b)). Owner-approved on 2026-11-01 (decision
+D62; docs/tracks/LP/FREEZE-PROPOSAL.md draft 7, under the rulings of D59). This file is
+frozen: it is hashed in `manifest/frozen-anchors.json`; any change needs an owner-approved versioned
+successor. Only the proof body between the markers may change, and only to `by exact
+KAM.Provider.Planetary.StrongAMD.sourceOscPeri_le_planeLength z i` when the provider
+`KAM.Provider.Planetary.StrongAMD.SourceOscPeriLePlaneLength` is complete (sealing).
+-/
+
+@[expose] public section
+
+namespace KAM.Planetary.StrongAMD
+
+/-- `a^osc (1 - e^osc) ≤ |q_i|` on source osculating phases (`LP:MAIN L16 (527–528)`). -/
+theorem sourceOscPeri_le_planeLength {n : ℕ} {ν : Fin n → ℝ} {μ : ℝ}
+    (z : SourceOsculatingPhase n ν μ)
+    (i : Fin n) : sourceOscPeri z i ≤ planeLength (bodyVector z.1.1 i) :=
+  -- FROZEN_ANCHOR_PROOF_BEGIN
+  by exact KAM.Provider.Planetary.StrongAMD.sourceOscPeri_le_planeLength z i
+  -- FROZEN_ANCHOR_PROOF_END
+-- FROZEN_ANCHOR_SUFFIX_BEGIN
+
+end KAM.Planetary.StrongAMD
+
+end
+-- FROZEN_ANCHOR_SUFFIX_END

@@ -12,8 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Fourier coefficients under an imaginary shift (blueprint-W `bpW:w1:fourier-shift`)
 
-Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
-
 For `u : T_s → F` holomorphic and `1`-periodic with values in a complex Banach space `F`, and
 `η ∈ ℝⁿ` with `|η_i| < s`:
 `∫_{[0,1]ⁿ} u(x + iη) e^{-2πik·x} dx = e^{-2πk·η} û_k`.

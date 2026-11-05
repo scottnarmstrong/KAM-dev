@@ -7,12 +7,16 @@ module
 
 public import Mathlib
 public import KAM.Frozen.Planetary.Defs.Phase
+public import KAM.Frozen.Planetary.Spatial.Defs.BodyVector3
+public import KAM.Frozen.Planetary.Spatial.Defs.SpaceCross
+public import KAM.Frozen.Planetary.Spatial.Defs.SpaceDot
+public import KAM.Frozen.Planetary.Spatial.Defs.SpaceLength
+public import KAM.Frozen.Planetary.Spatial.Defs.SpaceSq
 
 /-!
 # Three-dimensional vectors and body blocks
 
-Package LP-SP-MODEL, support for `LP:MAIN §1 (9–93)` with `d = 3`; track LP, non-frozen; the
-statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: support for `LP:MAIN §1 (9–93)` with `d = 3`; track LP, non-frozen.
 
 Euclidean dot product, squared length, length and cross product on `Fin 3 → ℝ` (never
 `EuclideanSpace`; physical lengths are Euclidean, never the Pi sup norm), the body block map
@@ -26,23 +30,6 @@ namespace KAM.Planetary.Spatial
 
 open KAM.Planetary
 open scoped ContDiff
-
-/-- Euclidean scalar product on `Fin 3 → ℝ`. -/
-def spaceDot (v w : Fin 3 → ℝ) : ℝ := ∑ k, v k * w k
-
-/-- Squared Euclidean length on `Fin 3 → ℝ`. -/
-def spaceSq (v : Fin 3 → ℝ) : ℝ := ∑ k, v k ^ 2
-
-/-- Euclidean length on `Fin 3 → ℝ`, independent of the ambient Pi sup norm. -/
-def spaceLength (v : Fin 3 → ℝ) : ℝ := Real.sqrt (spaceSq v)
-
-/-- The standard cross product on `Fin 3 → ℝ`, written out in components. -/
-def spaceCross (v w : Fin 3 → ℝ) : Fin 3 → ℝ :=
-  ![v 1 * w 2 - v 2 * w 1, v 2 * w 0 - v 0 * w 2, v 0 * w 1 - v 1 * w 0]
-
-/-- Extract the three Cartesian coordinates of body `i`. -/
-def bodyVector3 {n : ℕ} (q : Fin (n * 3) → ℝ) (i : Fin n) : Fin 3 → ℝ :=
-  fun k => q (finProdFinEquiv (i, k))
 
 section Algebra
 
@@ -123,9 +110,6 @@ theorem abs_spaceDot_le (v w : Fin 3 → ℝ) : |spaceDot v w| ≤ spaceLength v
   apply Real.abs_le_sqrt
   rw [spaceSq_mul_spaceSq]; nlinarith [spaceSq_nonneg (spaceCross v w)]
 
-theorem spaceDot_comm (v w : Fin 3 → ℝ) : spaceDot v w = spaceDot w v := by
-  simp only [spaceDot_def]; ring
-
 theorem spaceDot_add_right (v a b : Fin 3 → ℝ) :
     spaceDot v (a + b) = spaceDot v a + spaceDot v b := by
   simp only [spaceDot_def, Pi.add_apply]; ring
@@ -156,14 +140,6 @@ theorem spaceLength_add_le (v w : Fin 3 → ℝ) :
   apply le_of_sq_le_sq _ (add_nonneg (spaceLength_nonneg v) (spaceLength_nonneg w))
   rw [spaceLength_sq, spaceSq_add, ← hv, ← hw]
   nlinarith
-
-/-- Expansion of the squared length of a sum: `|Σ v_i|² = Σ_i Σ_j v_i · v_j`. -/
-theorem spaceSq_sum_eq_sum_sum {n : ℕ} (v : Fin n → Fin 3 → ℝ) :
-    spaceSq (∑ i, v i) = ∑ i, ∑ j, spaceDot (v i) (v j) := by
-  simp only [spaceSq, spaceDot, Finset.sum_apply, sq, Finset.sum_mul_sum]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rw [Finset.sum_comm]
 
 /-! ### Cross product -/
 
@@ -200,12 +176,6 @@ theorem spaceDot_cross_self_left (v w : Fin 3 → ℝ) : spaceDot v (spaceCross 
   simp only [spaceDot_def, spaceCross_apply_zero, spaceCross_apply_one, spaceCross_apply_two]; ring
 
 theorem spaceDot_cross_self_right (v w : Fin 3 → ℝ) : spaceDot w (spaceCross v w) = 0 := by
-  simp only [spaceDot_def, spaceCross_apply_zero, spaceCross_apply_one, spaceCross_apply_two]; ring
-
-/-- Binet–Cauchy: `(a × b) · (c × d) = (a·c)(b·d) - (a·d)(b·c)`. -/
-theorem spaceDot_cross_cross (a b c d : Fin 3 → ℝ) :
-    spaceDot (spaceCross a b) (spaceCross c d) =
-      spaceDot a c * spaceDot b d - spaceDot a d * spaceDot b c := by
   simp only [spaceDot_def, spaceCross_apply_zero, spaceCross_apply_one, spaceCross_apply_two]; ring
 
 end Algebra
@@ -298,9 +268,6 @@ theorem bodyVector3_zero (i : Fin n) : bodyVector3 (0 : Fin (n * 3) → ℝ) i =
 
 theorem bodyVector3_add (q r : Fin (n * 3) → ℝ) (i : Fin n) :
     bodyVector3 (q + r) i = bodyVector3 q i + bodyVector3 r i := rfl
-
-theorem bodyVector3_sub (q r : Fin (n * 3) → ℝ) (i : Fin n) :
-    bodyVector3 (q - r) i = bodyVector3 q i - bodyVector3 r i := rfl
 
 theorem bodyVector3_smul (c : ℝ) (q : Fin (n * 3) → ℝ) (i : Fin n) :
     bodyVector3 (c • q) i = c • bodyVector3 q i := rfl

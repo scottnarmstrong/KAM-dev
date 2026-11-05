@@ -7,9 +7,9 @@ statement is sealed (see the [repository README](../../README.md) and [`docs/STA
 exploration led to a proved theorem or a running campaign, the catalogue says so and names the decision in
 [`docs/DECISIONS.md`](../DECISIONS.md).
 
-This page and the pages under [`themes/`](themes/) are an index written on 31 October 2026. The 20 documents themselves
-are not edited here. Numbers are quoted from the documents together with their own qualifications (sampled, projected,
-estimated, measured).
+This page and the pages under [`themes/`](themes/) are an index written on 31 October 2026. The original 20 documents
+themselves are not edited here. Later review comments are dated and linked separately. Numbers are quoted from the
+documents together with their own qualifications (sampled, projected, estimated, measured).
 
 **Status legend**
 
@@ -45,6 +45,15 @@ MP, multiprecision; CPU-h, kernel CPU-hours; Dn, decision n in [`docs/DECISIONS.
 6. [**next-demonstrations.md**](next-demonstrations.md): the two proposed next applications of the certifier (a magnetic
    field-line barrier and Mercury's 3:2 spin), with reasons for the candidates not selected; read
    [plan-mercury-32.md](plan-mercury-32.md) next.
+7. [**Plasma physics routes: 31 October review**](themes/applications-and-demonstrations.md#plasma-physics-routes-review-31-october-2026):
+   controlled field-line barriers, device-derived fields and particle dynamics require different application contracts.
+   See also the [confirmed v2 fixes](../campaign/design/CERTIFIER-V2-FIXES.md) and
+   [v2 improvements](../campaign/design/CERTIFIER-V2-IMPROVEMENTS.md). The review identifies no fundamental defect
+   in SO-2/SO-3; the fixes document distinguishes their campaign-reported progress from this review's own checks.
+8. [**amd-crossing/**](amd-crossing/README.md): a co-author's proposal that planets can be chaotic yet never cross
+   orbits for exp(cμ^(−1/(2n+1))), worked out as a sharp strong-AMD, nonresonant, spatial upgrade of P-EXP-SAFE; its
+   paper proof passed an independent audit (with notes), the Lean campaign is launched as track LP (D56), and the full
+   Solar System fails the AMD premise.
 
 ## The catalogue
 
@@ -56,7 +65,7 @@ One entry per document, with summary, numbers, outcome and disagreements, is on 
 | [Realistic KAM, the Moon and spin–orbit](themes/moon-and-spin-orbit.md) | 3 | 27–30 Oct |
 | [Applications of the certifier and the next demonstrations](themes/applications-and-demonstrations.md) | 4 | 30 Oct |
 | [Sun–Jupiter–Saturn](themes/sun-jupiter-saturn.md), with the status of the running LG00 campaign | 3 | 30 Oct |
-| [Effective stability and planetary lifetimes: ambition and programs A–D](themes/effective-stability.md) | 5 | 30 Oct |
+| [Effective stability and planetary lifetimes: ambition and programs A–D](themes/effective-stability.md) | 8 | 30 Oct–1 Nov |
 | [PDE KAM](themes/pde-kam.md) | 1 | 28 Oct |
 
 Overview, in date order within each theme:
@@ -67,6 +76,7 @@ Overview, in date order within each theme:
 | [almost-every-shorter-times](almost-every-shorter-times.md) | 27 Oct | [planetary](themes/planetary-and-almost-every.md) | done in part (D22, D28) | Averaging gives mean error O(√ε), hence exception O(√ε/η); not "O(√ε) off O(√ε)" |
 | [almost-every-round2](almost-every-round2.md) | 27 Oct | [planetary](themes/planetary-and-almost-every.md) | done, corrected | Exponential-time safety for every low-AMD initial condition; secular SJS box safe forever |
 | [almost-every-round3-refutation](almost-every-round3-refutation.md) | 27 Oct | [planetary](themes/planetary-and-almost-every.md) | audit; done (D25) | Round 2 confirmed with corrections; exponent 1/(2n) unverified; it is Nekhoroshev 1977 Thm 12.3 |
+| [amd-crossing](amd-crossing/README.md) | 31 Oct | [planetary](themes/planetary-and-almost-every.md) | launched (D56); paper proof audited, PASS WITH NOTES | Chaotic but collision-free: strong-AMD threshold plus nonresonant exponential safety upgrades P-EXP-SAFE; the full Solar System fails the premise |
 | [realistic-kam-and-finite-size](realistic-kam-and-finite-size.md) | 27 Oct | [Moon](themes/moon-and-spin-orbit.md) | partly adopted (C2 → SO) | A-posteriori KAM plus a computer proof is the realistic form; finite size surveyed |
 | [lunar-spin-orbit-certificate-proposal](lunar-spin-orbit-certificate-proposal.md) | 29 Oct | [Moon](themes/moon-and-spin-orbit.md) | adopted (D30), running | Two certified barriers confine the Moon's spin rate; became track SO |
 | [lunar-band-2p8-2p9](lunar-band-2p8-2p9.md) | 30 Oct | [Moon](themes/moon-and-spin-orbit.md) | adopted (D37), overtaken (D38) | Move the barriers toward the separatrix floor 2.62 % |
@@ -82,6 +92,9 @@ Overview, in date order within each theme:
 | [program-b-plan](program-b-plan.md) | 30 Oct | [effective stability](themes/effective-stability.md) | proposed | Finite normal-form confinement near a torus or an elliptic equilibrium |
 | [program-c-plan](program-c-plan.md) | 30 Oct | [effective stability](themes/effective-stability.md) | proposed | First-exit confinement from approximate integrals of the original field |
 | [program-d-plan](program-d-plan.md) | 30 Oct | [effective stability](themes/effective-stability.md) | proposed | A 5-Gyr secular SJSU action bound; the existing stopped estimate fails a real-mass test |
+| [sjsu-effective-stability](sjsu-effective-stability.md) | 1 Nov | [effective stability](themes/effective-stability.md) | scouted | 78-term quartic normal-form pilot through degree 10; nominal sufficient ratio only 34,419 yr; full-model recovery and validated bounds required before a Gyr claim |
+| [sjsu-model-recovery](sjsu-model-recovery.md) | 1 Nov | [effective stability](themes/effective-stability.md) | measured; dataset public | Degree-18 secular SJSU model rebuilt (SJSU18-O2, `applications/sjsu/`); quadratic part within 7.7e-4 of the printed coefficients, quartic 5–8% off; five source issues |
+| [hd11964-pilot](hd11964-pilot.md) | 1 Nov | [effective stability](themes/effective-stability.md) | measured; Lean bridge on main; running | No orbit crossing for HD 11964 (planar Newtonian, catalogue data) by certified Λ-drift and LP0; numerical gate closes 10³ yr (margin about 5.9 with fitted cells); kernel cost about 400–620 CPU-h (estimate) |
 | [pde-kam-and-leapfrogging](pde-kam-and-leapfrogging.md) | 28 Oct | [PDE KAM](themes/pde-kam.md) | adopted (D30), running | Two-frequency solutions of the cubic Dirichlet wave equation; became track W |
 
 ## Reading paths
@@ -104,7 +117,9 @@ Overview, in date order within each theme:
   [SO-LOCK-SCOPE](../tracks/SO/studies/SO-LOCK-SCOPE.md) (D42, D45).
 - **Next demonstrations, including a non-celestial one.** [striking-applications](striking-applications.md) →
   [next-demonstrations](next-demonstrations.md) → [plan-magnetic-barrier](plan-magnetic-barrier.md) (a controlled
-  magnetic field-line model) and [plan-mercury-32](plan-mercury-32.md).
+  magnetic field-line model) and [plan-mercury-32](plan-mercury-32.md). Continue with the
+  [plasma-route assessment](themes/applications-and-demonstrations.md#plasma-physics-routes-review-31-october-2026)
+  for the distinction between field-line barriers, device fields and particle confinement.
 - **"Almost every" initial condition.** [almost-every-shorter-times](almost-every-shorter-times.md) (most data, polynomial
   times) → [almost-every-round2](almost-every-round2.md) (all data, exponential times) →
   [almost-every-round3-refutation](almost-every-round3-refutation.md). The theme returns in
@@ -197,11 +212,15 @@ Each correction is also stated in both catalogue entries.
 | Hybrid plus packed: 6–19 CPU-h; charts do not reduce support; d'Alembert ÷7; 60–150 products | [sjs-feasibility](sjs-feasibility.md) | [sjs-plan](sjs-plan.md) §8: hybrid gives no kernel gain; chart ÷2.7; ÷3.7 and falling; 252–657 products |
 | Route A "proved, not wired"; no `sqrt` node | [sjs-lg00-scout](sjs-lg00-scout.md) | Both now in place; the LG00 campaign runs route A refined at L = 20 with the exact square root |
 | Magnetic barrier ranked first among the next demonstrations | [next-demonstrations](next-demonstrations.md) | [plan-magnetic-barrier](plan-magnetic-barrier.md): multiprecision gate failed so far; Mercury has the stronger evidence |
-| "Hybrid is a design" | [ambition](ambition.md) | Programs [A](program-a-plan.md)–[D](program-d-plan.md): the hybrid theorems have landed; no certificate wiring yet |
+| "Hybrid is a design"; later, "no certificate wiring yet" | [ambition](ambition.md); programs [A](program-a-plan.md)–[D](program-d-plan.md) | [31 October review](../campaign/design/CERTIFIER-V2-IMPROVEMENTS.md): the hybrid theorem and `routeV2Hyb` checker wiring are present; application gains still need measurement |
 | Certifier not yet better than PlasmaLean on its own example | [striking-applications](striking-applications.md) | [Repository README](../../README.md): a v2 example reaches 65 times PlasmaLean's tolerance, at assumed canonical data |
 
 ## Related documents elsewhere in the repository
 
+- [`CERTIFIER-V2-FIXES.md`](../campaign/design/CERTIFIER-V2-FIXES.md): four confirmed review findings, reproduction
+  evidence, repair criteria and the explicit SO-2/SO-3 clarification. Proposed fixes, not applied changes.
+- [`CERTIFIER-V2-IMPROVEMENTS.md`](../campaign/design/CERTIFIER-V2-IMPROVEMENTS.md): sharper structured bounds,
+  producer route selection, higher-dimensional frequency checks, bounded replay costs and physical-model interfaces.
 - [`docs/DECISIONS.md`](../DECISIONS.md): owner rulings cited here (D14 tracks, D22 and D25 planetary milestones, D30 tracks
   SO and W, D37–D38 lunar band, D41 W freeze, D42 and D45 Moon lock).
 - [`docs/STATEMENTS.md`](../STATEMENTS.md): every frozen statement and its proof status.

@@ -7,15 +7,18 @@ module
 
 public import KAM.Root.Analysis
 public import KAM.Root.Apost
+public import KAM.Root.Application
 public import KAM.Root.Canonical
 public import KAM.Root.Certificate
 public import KAM.Root.CertificateSharp
 public import KAM.Root.Diophantine
+public import KAM.Root.EffectiveStability
 public import KAM.Root.Fourier
 public import KAM.Root.Frozen
 public import KAM.Root.Head
 public import KAM.Root.Iso
 public import KAM.Root.Kepler
+public import KAM.Root.Magnetic
 public import KAM.Root.Matrix
 public import KAM.Root.Measure
 public import KAM.Root.Nekhoroshev

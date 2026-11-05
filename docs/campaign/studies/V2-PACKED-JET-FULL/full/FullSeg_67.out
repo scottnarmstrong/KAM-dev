@@ -1,0 +1,5 @@
+linting took 1.76ms
+typeclass inference of OfNat took 1.97ms
+elaboration took 1.19ms
+type checking took 5.25s
+linting took 2.32ms

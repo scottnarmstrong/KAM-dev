@@ -421,3 +421,187 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - Future applications start as separate Lake packages (`applications/<name>/`, requiring the core); the
     existing ones keep their module names to avoid recompiling.
   - This amends the earlier rule that a plain `lake build` covers every theorem: it now covers every core theorem.
+- **D52 (2026-10-31, 14:47 UTC) The lock data land at about 158 MB.** *(Scott: "approve", to the orchestrator's
+  request to land the lock data at about 158 MB.)* The B3 cost levers, approved as engineering with no statement
+  change, are: compact literals with a lock-owned decoder, six elaboration lanes and no decoded memos. They bring
+  LOCK-DATA to about 158 MB, under 1 h of elaboration and about 21–22 CPU-h of kernel, with the margin unchanged
+  (1.74 decades at 73.8°). This supersedes D48's figure of 131 MB. As under D48, there is no shrinking, and the
+  files must stay below GitHub's 100 MB per-file limit.
+- **D53 (2026-10-31, 17:16 UTC) Track W resumes at reduced size beside SO-3.** *(Scott: "Yes", to the orchestrator's
+  proposal of the W sub-orchestrator plus 2 capped provers, the lock keeping priority.)* This amends the pause of
+  2026-10-30, which said W returns once both SO tracks are done.
+  - **Size:** the sub-orchestrator kam-1b and at most 2 Lean provers.
+  - **Each prover:** one lean process at a time, capped at 4 GB (`systemd-run --user --scope -p MemoryMax=4G
+    -p MemorySwapMax=0`), at nice 10 (the lock runs at nice 5). Builds pause while MemAvailable is below 8 GB.
+  - **Worktrees:** reuse the existing W worktrees; put any new one on the HC volume.
+  - **Audits:** codex-1 stays reserved for the lock's remaining audits (LOCK-DATA and the seal). New W audits wait for
+    codex-3 (resets 5 Nov) unless the owner names another account. W1-CUBIC is already audited and lands now.
+- **D54 (2026-10-31, 19:52 UTC) Audits continue on codex-1, for every track.** *(Scott: "please continue audits on
+  codex-1 and do not complain about quota".)* This amends D53: W audits no longer wait for codex-3. The queued W
+  audits (graph delta 8 and global review, W3-SETTING with W3-DIVISOR-F, W4-HOMOLOGICAL after its p₊ refactor) and the
+  lock audits (LOCK-DATA, then the seal) all run on codex-1. Quota is not raised as an owner item.
+- **D55 (2026-10-31, 23:44 UTC) The lock data plan: shared literals plus a 10 GB budget for heavy modules (option
+  (c)+(b10)); lock source up to about 200 MB.** *(Scott: he chose "(c)+(b10) (Recommended)" and "Yes, up to ~200 MB"
+  from the orchestrator's costed options; .drafts/LOCK-OPTIONS.md on inp-lockdata.)*
+  - **Why:** the current 6 GiB split design needs 10,242 modules, 70–95 h and about 69 GB of build output.
+  - **The plan:**
+    - each heavy product's shared inputs are computed once as kernel-checked literals that its split modules
+      import;
+    - the heaviest modules may use up to 10 GB on the dedicated kernel lane, which waives the 8 GB-per-theorem rule
+      for these lock data modules only;
+    - a heavy lock module starts only when MemAvailable ≥ 12 GB, and track W's capped builds wait meanwhile.
+  - **Estimate:** about 2–2.5k modules, 28–38 h on one lane, about 150–165 MB of source, about 14–17 GB of build.
+  - **Size cap:** this lifts D52's figure for the lock data to about 200 MB (every file far below GitHub's 100 MB
+    per-file limit).
+  - **Unchanged:** the frozen `lunar_sync_lock`, N = 65, and the certificate.
+- **D56 (2026-11-01, 00:12 UTC) Track LP launched: strong-AMD exponential safety (the Laskar–Petit conjecture,
+  asymptotic form).** *(Scott: "if the audit passes, I want you to launch the campaign … prove the strongest, most
+  badass version of the theorem you can"; "make LP your top priority".)*
+  - **Proof and audit:** the source proof (docs/explorations/amd-crossing/A8) passed an independent refute-first
+    audit, PASS WITH NOTES, with no blocking issue (A10).
+  - **Target, strongest version:** the exact spatial Newtonian (1+n)-body problem below the sharp strong
+    Laskar–Petit threshold, with no secular hypothesis:
+    - time exp(c μ^(−1/(2(τ+1)))), with τ = n − 1/2 giving 1/(2n+1);
+    - O(√μ) action drift;
+    - no orbit crossing or collision, including for the osculating ellipses.
+  - **Order:** the planar theorem first, then the spatial one. A resonance-tolerant sharp-threshold variant is a
+    stretch goal.
+  - **Running:** sub-orchestrator kam-lp (session kam-inp-c2) with at most 2 provers capped at 4 GB. LP has top
+    priority for prover slots and the codex-1 audit queue.
+  - **Overnight mode:** nothing is frozen. The exact statements wait in a freeze proposal for the owner's approval.
+- **D57 (2026-11-01, 00:55 UTC) Audits run on codex-2.** *(Scott: "codex-2 has some usage credits, use that for the
+  audits, ok?")* codex-2 is logged in. Its weekly plan reads 0 %, but it has usage credits. It carries the LP and W
+  audits from now on: Sol medium, default tier, one audit at a time machine-wide, LP first. codex-1 finishes the audit
+  already running on it. This resolves LP's OD-10 (audit capacity after codex-1 ran low).
+- **D58 (2026-11-01, 07:16 UTC; orchestrator) Sealed frozen theorems may be imported by implementation modules.** AGENTS.md
+  rule 9 quarantines only PROVIDERS and DRAFT_SORRY anchors. A SEALED frozen theorem is the audited source-facing
+  interface, and any implementation module may import and apply it. That is the preferred way to consume it; its
+  provider is never imported directly.
+  - Precedent: KAM/Planetary/Exponential/Stopped.lean imports the sealed `KAM.Nekhoroshev.partialConvex_nekhoroshev`.
+  - Track LP's LP3 (the sharp threshold without arithmetic hypothesis) uses the same theorem (LP OD-13).
+- **D59 (2026-11-01, 08:27 UTC) Track LP: the recommended freeze rulings are approved.** *(Scott: "Approved", in reply
+  to the LP outlook asking for rulings on LP's OD-1…OD-13.)* These settle the conventions of the LP anchors:
+  - **OD-1:** the AMD is `strongAMD = ΣΛ − |L|` (orientation-free, MAIN (2)), with no prograde premise.
+  - **OD-2 and OD-11, option (b):** every frozen meaning-carrying definition lives on its source carrier, with its
+    characterization theorem: the thresholds on `OrderedActions`, and the strong AMD, Kepler and osculating elements
+    through source subtypes. In the spatial case the anchors are restated through `spatialSource*` (review 4,
+    resolution (A)). The total formulas stay internal helpers.
+  - **OD-3:** the anchors keep MAIN's normalization `max ν = 1`. The general-mass version stays an ordinary theorem.
+  - **OD-4:** τ > n − 1 is free, plus the τ = n − 1/2 corollary (exponent 1/(2n+1)).
+  - **OD-5 and OD-9:** the crossing notion is canonical annuli, all-pair distances and the actual-velocity osculating
+    annuli, with half gaps. The ordering of μ₀ is internal to the proof.
+  - **OD-6:** new anchors only; P-EXP-SAFE is unchanged.
+  - **Scope:** this approves the rulings, not yet the freeze itself. The exact final anchor and definition text
+    (FREEZE-PROPOSAL draft 7, generated under these rulings) gets an independent statement audit and then goes to the
+    owner for approval of the exact text, before anything enters `KAM/Frozen/` or `manifest/`.
+- **D60 (2026-11-01, 08:50 UTC) Track W audits run in parallel on codex-1 and codex-2.** *(Scott: "can you launch more
+  audits on codex-1 and codex-2 in parallel to clear th W lane up?")*
+  - Up to 3 concurrent W audit sessions, each in its own worktree with `w_audit.sh`. This replaces the
+    one-W-audit-at-a-time rule.
+  - Proposed split:
+    - W5 round 2, as deltas plus a separate full audit of action-angle and initial;
+    - W8-ASM now;
+    - the W6 delta when it is ready.
+  - Replays stay capped (4 GB, MemAvailable ≥ 8 GB). Quota is not rationed (D54). An audit that hits an account limit
+    resumes on the other account.
+- **D61 (2026-11-01, 09:45 UTC) Seal W-NLW2.** *(Scott: "Approve, now get everything sealed and audited!", to the staged
+  seal of `KAM.Wave.nlw2`.)*
+  - **The edit:** the frozen body in `KAM/Frozen/Wave/Theorems/Nlw2.lean` changes from `by sorry` to
+    `by exact KAM.Provider.Wave.nlw2 hm`, and `wave.nlw2.v1` becomes SEALED in the manifest. The text is in
+    `.drafts/W/SEAL-NLW2-STAGED.md`.
+  - **When:** as soon as these gates pass; no further owner go is needed:
+    - PASS on W6 round 2, W8, the W8-FINAL delta, and W5's action-angle/initial after the F1 fix;
+    - the type-equality and axiom checks re-run on the final merge;
+    - a dedicated seal audit (codex) of the provider and the anchor body.
+  - **Procedure:** as D26/D50. Everything lands on `main` (W5, W6, W8 with the provider, action-angle/initial), then
+    the seal commit lands with its MANIFEST-CHANGES.md row.
+- **D62 (2026-11-01, 10:50 UTC) Freeze and seal track LP's statements, draft 7 revision 1.** *(Scott: "approve draft 7",
+  after reviewing the exact text: the review page of all 128 files, each sha256-checked against the verification
+  record.)*
+  - **The approval object:** branch `inp-lp-freeze7` at `de343000`: `docs/tracks/LP/FREEZE-PROPOSAL.md` and the 128
+    files under `docs/tracks/LP/freeze/draft7/`, byte for byte. That is 5 anchors, 34 characterization theorems and 89
+    definitions.
+    - The anchors are LP0 `planar_strongAMD_barrier`, LP1 `planar_strongAMD_exponentialSafety` and LP1-H `…_halfInteger`
+      (in `KAM.Planetary.StrongAMD`), and LP2 `spatial_strongAMD_exponentialSafety` and LP2-H `…_halfInteger` (in
+      `KAM.Planetary.Spatial`).
+    - Both τ = n − 1/2 corollaries are frozen as anchors.
+    - The text includes option C: the Diophantine premise is the frozen `KAM.IsDiophantine` with ω_i = ν_i³/Λ_i³.
+  - **Only change at freeze time:** the approval date and this decision number fill the docstring placeholders.
+  - **Under the LP runbook (`docs/tracks/LP/freeze/RUNBOOK.md`):**
+    - **Freeze:** the anchors start as DRAFT_SORRY, with manifest entries and the frozen-anchor guard.
+    - **Graph:** the source dependency graph is built.
+    - **Seals:** each sealed body is a one-line `by exact` to its provider. The seals need no further go, but only
+      after a dedicated seal audit passes (as D61). Each seal gets a MANIFEST-CHANGES row citing D62.
+  - **Not covered:** draft 8 (the LP3 anchors) needs its own approval.
+- **D63 (2026-11-01, 11:05 UTC) Relaunch SO-3 (the lunar lock) and seal it.** *(Scott: "can you relaunch the SO-3
+  stuff now? I want to get that subproblem sealed as well".)*
+  - This ends the overnight hold on lock work. The plan is D55's (c)+(b10).
+  - **Steps now, on this machine** (the lock-data morning plan):
+    1. re-emit the full segmented tree in the D55 form, after first dechaining the ledger/plan data parts so the build
+       can run wide;
+    2. kernel-check the template representatives;
+    3. split the Pass modules that exceed 10 GB.
+  - **Then the full kernel chain:** on a remote machine if the owner provides one (LOCK-REMOTE). Otherwise here, with one
+    10 GB heavy lane plus light lanes, gated on MemAvailable. Track LP's freeze build keeps priority while it runs.
+  - **Then seal** the frozen lock anchors (LOCK-FREEZE Phase B). The seal needs no further go, but only after the full
+    chain passes, the landing checks pass (`prebuild_heavy.py --check-all`, KAMLunarLock up to date) and a dedicated
+    seal audit passes (as D50 and D61).
+- **D64 (2026-11-01, 14:20 UTC) Freeze and seal track LP's LP3 statements, draft 8.** *(Scott: "approve draft 8", after
+  reviewing the exact text on the review page; all three file hashes re-checked against the approval commit.)*
+  - **The approval object:** branch `inp-lp-freeze8r` at `6c168945`: `docs/tracks/LP/FREEZE-PROPOSAL-DRAFT8.md`, plus,
+    under `docs/tracks/LP/freeze/draft8/`, the two anchor texts and `manifest-entries.json`, byte for byte.
+  - **The anchors:**
+    - `KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith`;
+    - `KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith`.
+
+    They are the sharp strong-AMD safety with no Diophantine hypothesis, with Nekhoroshev exponents a_n, b_n (track P's
+    frozen `planetaryTimeExponent` / `planetaryDriftExponent`). There are no new definitions.
+  - **Install:** in one pass, already sealed, as D62. The approval date and this decision number fill the placeholders;
+    the providers are staged and Expr-checked; then 2 SEALED manifest entries and 2 MANIFEST-CHANGES rows. A dedicated
+    seal audit and the landing (kernel replay, `#print axioms`) follow, with no further go needed.
+- **D65 (2026-11-01, 14:25 UTC) Streamlined dependency graph for a fully proved track (LP).** *(Scott: "streamline the
+  approval for the LP graph since it is fucking around 100% proved. save tokens".)*
+  - When every anchor of a track is already proved, audited and sealed, its source graph is a provenance record.
+  - **Extraction:** one pass by one extractor. LEAN_STATUS is set mechanically from LEAN_REFs that resolve on `main`.
+  - **Checks:** the structural lint (coverage, edges, cycles, reachability) and ONE independent global review, instead
+    of per-slice reviews.
+  - **Labelling:** the graph header says so.
+- **D66 (2026-11-01, 14:55 UTC) Magnetic field-line barrier: run the ε = 0.0012 fallback pilot.** *(Scott: "I would
+  approve an ε = 0.0012 pilot as the fallback, can we launch that?")*
+  - **The model:** the plan of `docs/explorations/plan-magnetic-barrier.md`, with ε = 3/2500 instead of 3/1000. At
+    3/1000 the multiprecision solves stalled more than six orders short of the 10⁻²⁵ gate.
+  - **Phase 1 (worker kam-mag, branch `mag-pilot`):** the numerical gate only. Reconstruct the producer from the plan,
+    reusing `scripts/spin_orbit/hp*.py` and the v2 route scripts, and report the verdict.
+  - **Phase 2:** the exact Lean statement goes to the owner for approval before any certificate emission or kernel
+    run.
+- **D67 (2026-11-01, 21:35 UTC) Lock source size: about 228 MB accepted.** *(Scott: "accept 228 MB for the lock".)*
+  - This amends D55's ≈ 200 MB. The growth comes from splitting the side checks into their own modules, which run in
+    parallel remotely, and from the Gram product modules (an emitter bug fix).
+  - Every file stays far below GitHub's per-file limit.
+- **D68 (2026-11-01, 21:35 UTC) Magnetic field-line barrier statement approved.** *(Scott: "approve the magnetic
+  statement", after the review page of the exact text.)*
+  - **The approval object:** branch `mag-pilot` at `a48eb432`: `docs/explorations/mag/FREEZE-PROPOSAL.md` and the seven
+    draft files under `docs/explorations/mag/draft/` (magEps, magH0, magAlpha, magV, magField, magHamC,
+    magnetic_barrier), byte for byte, ε = 3/2500.
+  - **The state type** `ℝ × ℝ × ℝ` is accepted as an exception to AGENTS rule 7, consistent with the sealed lunar
+    statements.
+  - **Freeze:** the definitions frozen, and `magnetic_barrier` frozen as DRAFT_SORRY under `KAM/Frozen/Magnetic/`, with
+    manifest entries. Only the approval date and the decision placeholders change.
+  - **Seal:** as D63. After the certificate chain passes (on the CCX53), the landing checks and a dedicated seal audit,
+    with no further go.
+- **D69 (2026-11-01, 22:25 UTC) Overnight mode, acting on recommendations.** *(Scott: "push mag-pilot when the package
+  is ready. go now into overnight mode - defer approvals and go with recs".)*
+  - **Approvals:** decisions that would normally go to the owner take the orchestrator's recorded recommendation and
+    are logged FOR OWNER in OVERNIGHT.md.
+  - **Still excluded:** no new statement is frozen without the owner's approval of its exact text. The seals already
+    approved (D63 lock, D68 magnetic) proceed when their gates pass.
+  - **No remote job:** the CCX53 needs the owner's access, so nothing remote is started.
+  - **mag-pilot:** once its packed-gate certificate package is committed, root-b8 pushes the branch to `origin` for the
+    side campaign (lemma.farm).
+- **D70 (2026-11-02, 08:15 UTC) Lock source about 265 MB; the remote run on a CCX63.** *(Scott: "accept 265 MB, I'll
+  rent a CCX63, please continue".)*
+  - **Size:** this amends D67's 228 MB. The growth comes from the graph re-split into 64-row chunks and the side-check
+    split.
+  - **Speedup:** the overnight choice of SOS option (a) in additive form (lock-owned RealLowerK, GraphK and LockGraphK
+    plus 2 packed advice entries; core, band and the frozen statement untouched) stands.
+  - **Remote run:** the full chain runs on a CCX63 (48 vCPU, 192 GB; about 17 lanes of 10 GB), which the owner rents.

@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.LieMulti
 /-!
 # The Lie coefficients on `ℕ`-indexed inputs (blueprint-W `bpW:w3:lie-coeff`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-FLOW, blueprint label `bpW:w3:lie-coeff` (audit finding F1).
+Package W3-FLOW, blueprint label `bpW:w3:lie-coeff` (audit finding F1).
 
 `lieMb T k v` is the block recursion of `lieMulti` read on a sequence `v : ℕ → E` (only the entries
 `v 0, …, v (2k)` matter, `lieMb_congr`). It agrees with `lieMulti` on `Fin`-indexed inputs

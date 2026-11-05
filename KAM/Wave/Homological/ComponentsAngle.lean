@@ -14,9 +14,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Component bounds, part C: the angle derivatives (blueprint-W `bpW:w4:components` (ii))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 Evaluation of `∂_{θ_i} R` at the test points and extraction of the coefficients
 (`bpW:w4:extract`). This file proves the scalar, linear and `z`-quadratic bounds; the mixed
 `Q` bound and the final statement `homComp_angle_gen` are in `ComponentsAngleQ.lean`.
@@ -69,7 +66,6 @@ theorem homAngle_a_gen {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p �
   have := (norm_le_pi_norm (fun i => homRtheta_gen ha hp hpb T i θ 0 0 0) i).trans h
   rw [homRtheta_y_gen] at this
   simpa using this
-
 
 /-- **Linear order in `y`**: `∑_k |∂_{θ_i} b_k| ≤ 2π ε` (the dual of the max norm). -/
 theorem homAngle_b_gen {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε : ℝ} (hr : 0 <
@@ -124,7 +120,6 @@ theorem homAngle_b_gen {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p �
   have hs : 0 ≤ ∑ k, ‖β k‖ := Finset.sum_nonneg fun _ _ => norm_nonneg _
   rw [Complex.norm_real, Real.norm_eq_abs, abs_of_nonneg hs] at this
   exact this.trans hL
-
 
 theorem homQuad_of_unit {B : HomOp} {M : ℝ} (h : ∀ z : HomL2, ‖z‖ ≤ 1 → ‖homPairL2 (B z) z‖ ≤ M)
     (z : HomL2) : ‖homPairL2 (B z) z‖ ≤ M * ‖z‖ ^ 2 := by

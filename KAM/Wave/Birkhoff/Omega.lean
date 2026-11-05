@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.Coords
 /-!
 # The symplectic form (blueprint-W `bpW:w3:omega`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:omega`.
+Package W3-SETTING, blueprint label `bpW:w3:omega`.
 
 `birkOmega ha hr : 𝔚 →L 𝔚 →L ℂ`, `Ω(w,w') = i Σ_{l≠0} sgn(l) w_l w'_{-l}`, in the weighted
 coordinates at weight `(a, r)` (`0 ≤ a`, `0 ≤ r`; the blueprint takes `r = p`).

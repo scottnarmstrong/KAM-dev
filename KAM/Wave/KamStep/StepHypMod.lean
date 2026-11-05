@@ -14,9 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The hypotheses of the KAM step, modified case (blueprint-W `bpW:w5:data`, `bpW:w5:w4-modified`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP, item 6); the dependency graph is still being
-built.
-
 `StepHypMod`: step data with modified divisors (`HomMelnikovMod`, `2β ≤ p+1-p₊`), `P ∈ 𝒮_{p+1}`,
 smallness with `c♮_F`, `t♮`. `StepHypMod.core`: its `StepCore` for the pair `(P, D_ρ ∘ X)` at the
 exponent `p₊`, with the solution family `stepFTfamMod` (modified divisors applied to the `p+1`

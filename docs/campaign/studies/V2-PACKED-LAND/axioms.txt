@@ -1,0 +1,14 @@
+'KAM.CertificateSharp.Packed.checkV2With_jetBase_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.CertificateSharp.Packed.checkV2With_jetBasePackedJ_sound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'KAM.CertificateSharp.Packed.jetPacked_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.CertificateSharp.Packed.jetPacked_sound_prefix' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.CertificateSharp.Packed.jetCheck_withFront' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.CertificateSharp.Packed.checkV2With_jetSharp_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.CertificateSharp.Packed.checkHamBounds_congr' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.CertificateSharp.Packed.checkHamClaim_congr' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.CertificateSharp.Packed.checkTorsionJ_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.CertificateSharp.Packed.checkInvarianceJ_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.CertificateSharp.Packed.checkEnergyJ_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.CertificateSharp.Packed.jetCheck_mono' depends on axioms: [propext, Classical.choice, Quot.sound]

@@ -1,0 +1,8 @@
+import LG00P.TP.PK.MainJH
+open LG00P.TP
+#print axioms pk_kamTorus
+#print axioms pk_kamTorusStatement
+#print axioms pk_checkJ
+#print axioms pkHamBounds
+#print axioms pkHamClaim
+#print axioms lg00Balls38

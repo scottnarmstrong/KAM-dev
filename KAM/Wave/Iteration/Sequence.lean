@@ -13,8 +13,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: the iteration (`bpW:w6:convergence`, step `c-ind`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:convergence` (milestone W6), step `c-ind`.
+Blueprint label `bpW:w6:convergence` (milestone W6), step `c-ind`.
 
 * `W6State`: the data `(Π_ν, ω_ν, Ω_ν, P_ν, X_{P_ν})` of a stage; `W6State.next d ν` applies
   Lemma `bpW:w6:iter-lemma` (W5's step) when the hypotheses of stage `ν` hold, and is the identity
@@ -22,7 +21,7 @@ still being built. Blueprint label `bpW:w6:convergence` (milestone W6), step `c-
 * `W6ConvHyp`: the hypotheses of Proposition `bpW:w6:convergence` on `Π_{-1}`; `w6Start` is the
   stage-`0` state, with `Π_0 = Π_{-1} ∖ ⋃_{(k,l) ∈ Z, k ≠ 0} R^0_{kl}`.
 * `w6Seq_stage`: the hypotheses of stage `ν` hold for every `ν` (step `c-ind`: the iterative
-  lemma with Lemma `bpW:w6:k0`); conditional helper `w6Seq_stage_of_stepReal` (hypothesis
+  lemma with Lemma `bpW:w6:k0`); hypothesis-taking variant `w6Seq_stage_of_stepReal` (hypothesis
   `W6StepReal`, discharged by `w6StepReal_holds`).
 * `w6Seq_Pi_antitone`.
 -/
@@ -143,9 +142,6 @@ variable {d : W6SeqData} {Pm : Set (Fin 2 → ℝ)} {ω0 : (Fin 2 → ℝ) → F
 
 theorem w6Pi0_subset : w6Pi0 d Pm ω0 Ω0 ⊆ Pm := Set.sdiff_subset
 
-theorem w6Seq_Pi_subset (S0 : W6State) (ν : ℕ) : (w6Seq d S0 ν).Pi ⊆ S0.Pi :=
-  w6Seq_Pi_antitone d S0 (Nat.zero_le ν)
-
 /-- The `k = 0` conditions at stage `ν` along the iteration, from Lemma `bpW:w6:k0`, given the
 hypotheses of the stages `μ < ν`. -/
 theorem w6Seq_k0 (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) (ν : ℕ)
@@ -207,7 +203,7 @@ theorem w6Start_stage (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) :
   · have e : d.domNu 0 = d.domNu 0 := rfl
     exact hC.bound.mono_lam hsub subset_rfl le_rfl le_rfl
 
-/-- **Induction** (step `c-ind`; conditional helper, not the label): if W5's reality clause
+/-- **Induction** (step `c-ind`; hypothesis-taking variant, not the label): if W5's reality clause
 `W6StepReal` holds, the hypotheses of `bpW:w6:iter-lemma` hold at every stage of the iteration. -/
 theorem w6Seq_stage_of_stepReal (hR : W6StepReal) (hC : W6ConvHyp d Pm ω0 Ω0 P0 X0 β₀) (ν : ℕ) :
     (w6Seq d (w6Start d Pm ω0 Ω0 P0 X0) ν).w6Stage d ν := by

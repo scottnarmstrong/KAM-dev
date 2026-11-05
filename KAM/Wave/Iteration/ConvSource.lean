@@ -11,11 +11,8 @@ public import KAM.Wave.Iteration.FreqInst
 # W6: convergence and the wave instances, unconditional (`bpW:w6:convergence` (i), (ii),
 `bpW:w6:freq-lip`, `bpW:w6:exclusion`, `bpW:w6:final-freq`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Milestone W6.
-
-The conditional helpers of `ConvFreq` and `FreqInst` assume W5's reality clauses `W6StepReal`,
-`W6StepRealMod`; these hold (`w6StepReal_holds`, `w6StepRealMod_holds`, from W5's
+The hypothesis-taking variants of `ConvFreq` and `FreqInst` assume W5's reality clauses
+`W6StepReal`, `W6StepRealMod`; these hold (`w6StepReal_holds`, `w6StepRealMod_holds`, from W5's
 `stepTheorem_reality_of_eps0_pos`, `stepTheoremMod_reality_of_eps0_pos`). The statements below are
 those of the helpers with the clauses discharged:
 
@@ -109,7 +106,7 @@ variable {m : ℝ} {hm : 0 < m} {Pi : Set (Fin 2 → ℝ)} {α r ε : ℝ}
 
 /-- **Lipschitz frequencies** (`bpW:w6:freq-lip`): the admissible family of the wave iteration,
 `D_ν = Π_{ν-1}`, thresholds `K_ν`, constants `ε_ω = 6πγα + 8πε₀`, `ε₁ = 0`, `ε₂ = 3γα + 4ε₀`, `θ`
-(deviation D4 of the W6-ITER handoff). -/
+(the modified shift weight). -/
 def w6WaveFamily (hS : MeasSetup m hm Pi α) (H : W6PrepHyp m hm Pi α r ε P X)
     (hlo : w6EpsFlat α ε ≤ ε₀) (hhi : ε₀ ≤ w6Gamma1 m hm * alphaCheck α) :
     AdmissibleFamily m hm Pi α :=

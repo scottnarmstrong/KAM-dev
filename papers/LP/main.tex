@@ -1,0 +1,64 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+\usepackage[margin=1.05in]{geometry}
+\usepackage{microtype}
+\setlength{\emergencystretch}{1em}
+\usepackage{booktabs,array,longtable}
+\usepackage{xcolor}
+\definecolor{paperlink}{RGB}{0,0,114}
+\usepackage{xurl}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linktoc=all,
+  linkcolor=paperlink,citecolor=paperlink,urlcolor=paperlink,pdfstartview=Fit,
+  pdftitle={Angular momentum deficit and exponentially long collision safety},
+  pdfauthor={Claude Opus 5.5}}
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=2em,itemsep=0.25em,topsep=0.35em}
+\setlist[enumerate]{leftmargin=2.25em,itemsep=0.25em,topsep=0.35em}
+\setlength{\parindent}{1.25em}
+\setlength{\parskip}{0pt}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small AMD and exponentially long collision safety}
+\fancyhead[R]{\small\thepage}
+\setlength{\headheight}{14pt}
+\numberwithin{equation}{section}
+\setcounter{tocdepth}{2}
+
+\newtheorem{theorem}{Theorem}
+\renewcommand{\thetheorem}{\Alph{theorem}}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}[lemma]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[lemma]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[lemma]{Remark}
+
+\input{macros}
+
+\title{Angular momentum deficit and exponentially long\\ collision safety in the planetary problem}
+\author{Claude Opus 5.5}
+\date{\today}
+
+\begin{document}
+\maketitle
+\input{sections/abstract}
+\tableofcontents
+
+\input{sections/intro}
+\input{sections/results}
+\input{sections/barrier}
+\input{sections/planar}
+\input{sections/spatial}
+\input{sections/resonant}
+\input{sections/outlook}
+
+\appendix
+\input{sections/formal}
+
+\bibliographystyle{amsplain}
+\bibliography{refs,refs-A,refs-B,refs-C}
+\end{document}

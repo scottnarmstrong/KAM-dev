@@ -1,0 +1,37 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+public import KAM.Frozen.Magnetic.Defs.MagEps
+
+/-!
+# Frozen definition `KAM.Magnetic.magHamC`
+
+Owner-approved on 2026-11-01 (decision D68, docs/explorations/mag/FREEZE-PROPOSAL.md at
+mag-pilot@a48eb432). This file is frozen: it is hashed in `manifest/frozen-anchors.json`; any change
+needs an owner-approved versioned successor.
+-/
+
+@[expose] public noncomputable section
+
+namespace KAM.Magnetic
+
+open Complex
+
+/-- The holomorphic extended Hamiltonian `H((q, φ), (p, J)) = J + h(p) + V(q, φ)` on `ℂ² × ℂ²`
+(angles `z.1 = (q, φ)` in turns, actions `z.2 = (p, J)`, `J` the dummy action of the clock
+`φ`); on real arguments `h = magH0` and `V = magV`. -/
+def magHamC (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) : ℂ :=
+  z.2 1 + (z.2 0 - 3 / 4 * z.2 0 ^ 2 + 1 / 3 * z.2 0 ^ 3 - 1 / 16 * z.2 0 ^ 4) +
+    ((magEps : ℂ) * (cos (2 * (Real.pi : ℂ) * (2 * z.1 0 - z.1 1)) + cos (2 * (Real.pi : ℂ) * (3 * z.1 0 - 2 * z.1 1))) +
+      1427 / 3200 * (magEps : ℂ) ^ 2 *
+        (32000 / 2777 * cos (2 * (Real.pi : ℂ) * (2 * z.1 0 - z.1 1)) -
+          96000 / 7669 * cos (2 * (Real.pi : ℂ) * (3 * z.1 0 - 2 * z.1 1))) ^ 2)
+
+end KAM.Magnetic
+
+end

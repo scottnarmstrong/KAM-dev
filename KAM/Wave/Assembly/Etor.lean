@@ -12,8 +12,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W8: shell errors tend to zero (blueprint `bpW:w8:etor`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w8:etor` (milestone W8).
+Blueprint label `bpW:w8:etor` (milestone W8).
 
 `w8_etor`: for every shell `n`, `e^{(n)}_tor ≤ E₄ κ_n = E₅ t_n^{1/64} ≤ 7/256` and
 `ε^{(n)}_ω ≤ α_n/(70 L_A) ≤ α_n` (the W8 constants at the W5–W6 constants `w8Upstream m hm`).

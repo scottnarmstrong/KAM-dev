@@ -12,10 +12,9 @@ public import KAM.Planetary.StrongAMD.NonresonantReuse.PertClass
 public import KAM.Planetary.Exponential.Lift
 
 /-!
-# The engine hypotheses and the trace identity (package LP-NRR, items 4 and 5)
+# The engine hypotheses and the trace identity
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
-Package LP-NRR, MAIN Lemma 13 (`LP:MAIN L13 (429–464)`), N6, track LP, non-frozen.
+Source: MAIN Lemma 13 (`LP:MAIN L13 (429–464)`), N6, track LP, non-frozen.
 
 * `lpTrace`: on `b.realDom b.rB`,
   `((liftFast (lpKepler ν) + lpPert μ b.lam fc) (extCx y)).re`

@@ -15,7 +15,7 @@ public import KAM.Planetary.Spatial.Chart.LineDeriv
 /-!
 # The regular spatial Poincare chart is symplectic
 
-Package LP-SP-CHART, `LP:MAIN L17 (562–571)`, track LP, non-frozen. Item 5.
+Source: `LP:MAIN L17 (562–571)`, track LP, non-frozen. Item 5.
 
 `spatialPoincare ν w = (R Φ_q, R Φ_p)` with `Φ` the embedded planar chart, so
 `DΨ h = (R Dq_h + (dR_h) Φ_q, R Dp_h + (dR_h) Φ_p)` and `dR_h = R [ω_h]ₓ`
@@ -28,7 +28,6 @@ and `Φ_q × Φ_p = G e₃`, so everything reduces to the planar form (`poincare
 `Phase 3`, coordinates `((λ, ξ, v), (I, η, u))`) the result is
 `symplecticForm (DΨ h) (DΨ k) = symplecticForm h k`, i.e. `dI ∧ dλ + dη ∧ dξ + du ∧ dv`.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -250,14 +249,6 @@ theorem spatialPoincare_symplectic_at (hν : 0 < ν) (hw : w ∈ spatialPoincare
   simp only [symplecticForm, Fin.sum_univ_three]
   rw [hu_h, hv_k, hv_h, hu_k]
   linear_combination hF3
-
-/-- Item 5 (MAIN (562–571)): the spatial chart is symplectic for `dI ∧ dλ + dη ∧ dξ + du ∧ dv`,
-in the repository convention of `poincare_symplectic`. -/
-theorem spatialPoincare_symplectic (hν : 0 < ν) :
-    IsSymplecticOn 1 (spatialPoincare ν) spatialPoincareDom := by
-  intro z hz u v
-  rw [one_mul]
-  exact spatialPoincare_symplectic_at hν hz u v
 
 end Main
 

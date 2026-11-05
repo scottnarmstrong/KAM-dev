@@ -10,9 +10,6 @@ public import KAM.Wave.Measure.Count
 /-!
 # W7: real-number estimates for the zone sums (blueprint `bpW:w7:prep`, `bpW:w7:iter`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 The real-power estimates behind the choices of `j₀`: for `u = α̂/A_k ∈ (0, 1/27]` and
 `J₀ = ⌈u^{-4/11}⌉` (resp. `⌈u^{-1/3}⌉`), bounds on `u J₀^{3/4}`, `J₀^{-2}`, `J₀`, `J₀^{-1/2}`; and
 the comparison `|k|^e ≤ A_k^s` for `e ≤ 24 s`.

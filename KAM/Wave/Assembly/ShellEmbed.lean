@@ -14,8 +14,7 @@ import Mathlib.Tactic.Positivity
 # W8: each shell torus is an analytic torus embedding (blueprint `bpW:w8:Kshell`,
 `bpW:w8:shell-embedding`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w8:Kshell`, `bpW:w8:shell-embedding` (milestone W8).
+Blueprint labels `bpW:w8:Kshell`, `bpW:w8:shell-embedding` (milestone W8).
 
 * `w8AA ξ = 𝒜_ξ` (W5's `aaMap 1 1 ξ`, `bpW:w5:action-angle`) and
   `w8Kshell w8AA (w8HW hm n) ξ = w8KOfBirk m hm (w8Psi hm n ξ)` (`w8Kshell_eq`), i.e.

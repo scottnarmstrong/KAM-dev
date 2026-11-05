@@ -1,0 +1,4 @@
+type checking took 142s
+process pre-definitions took 5.15ms
+elaboration took 2.62ms
+linting took 3.23ms

@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.LieSlot3
 /-!
 # The literal slot recurrence for `lieMulti` (blueprint-W `bpW:w3:lie-coeff`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-FLOW, blueprint label `bpW:w3:lie-coeff` (audit finding F1).
+Package W3-FLOW, blueprint label `bpW:w3:lie-coeff` (audit finding F1).
 
 `lieMulti_slot`: on **all** ordered inputs `w¹, …, w^{2k+3}`,
 `Φ_{k+1}(w¹, …, w^{2k+3}) = (1/(k+1)) Σ_{i=1}^{2k+1} Φ_k(…, S(w^i, w^{i+1}, w^{i+2}), …)`,

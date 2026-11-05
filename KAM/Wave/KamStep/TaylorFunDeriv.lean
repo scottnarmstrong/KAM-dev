@@ -12,7 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Differentiability of the polynomial of a Taylor polynomial (blueprint-W `bpW:w5:solve`, `s-class`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 -/
 
 @[expose] public noncomputable section

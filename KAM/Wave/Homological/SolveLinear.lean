@@ -13,9 +13,6 @@ import Mathlib.Tactic.Positivity
 # The multiplier solve commutes with linear images (blueprint-W `bpW:w4:solve` (iv),
 `bpW:w4:fourier-ops` (i))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 * `homCoeff_clm`: `(Λ f)^_k = Λ f̂_k` for a continuous linear `Λ : E → E'`;
 * `homSolve_intertwine`: if `Λ₁ T_k = T'_k Λ₀` then `Λ₁ (𝒮 u) = 𝒮' (Λ₀ u)` on `T_ρ` whenever
   the weighted coefficient series of `𝒮 u` is summable; `homSolve_clm` is the case `Λ₀ = id`.

@@ -12,9 +12,6 @@ public import Mathlib.Algebra.Order.BigOperators.Group.Finset
 /-!
 # Finitely supported integer vectors of small `ℓ¹` norm (for blueprint `bpW:w0n:nondeg`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 `KAM.Wave.l1Norm l = ∑ j, |l_j|` for `l : ℕ →₀ ℤ` (the index `j` stands for the normal mode
 `j + 3`). A vector of `ℓ¹` norm `1` is `±e_ν`; of norm `2` it is `±2e_ν` or `±e_a ± e_b`, `a ≠ b`.
 -/

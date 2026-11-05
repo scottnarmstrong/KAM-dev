@@ -15,8 +15,7 @@ public import KAM.Frozen.Planetary.Defs.KeplerEccVector
 /-!
 # Elementary orbital identities, planar, without a prograde premise
 
-Package LP-MOM, `LP:MAIN L2 (110–128)`, definitions `LP:MAIN §1 (26–45)`; track LP, non-frozen; the
-statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L2 (110–128)`, definitions `LP:MAIN §1 (26–45)`; track LP, non-frozen.
 
 For one planet with `0 < ν i`, `0 < |q_i|` and negative Kepler energy (and **no** sign condition
 on the angular momentum `L_i = q_i × p_i`, so the radial case `e_i = 1`, `L_i = 0` is included):

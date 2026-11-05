@@ -10,8 +10,6 @@ public import KAM.Wave.Analytic.Flow.Holomorphic
 /-!
 # Time derivative along the flow (`bpW:w5:flow-calc` (v), step `c-time`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `d/dt G(φ^t w) = DG(φ^t w) X(φ^t w)` for `G` differentiable at `φ^t w`
 (`hasDerivWithinAt_comp_holoFlow`), and the integrated form `G(φ^t w) - G(w) = ∫₀ᵗ …` for `C¹` `G`
 is the fundamental theorem of calculus on the resulting continuous derivative.

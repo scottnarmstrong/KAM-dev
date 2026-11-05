@@ -13,9 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # `Dφ^t(w)` maps `𝒫^{p_+}` onto `𝒫^{p_+}` (blueprint-W `bpW:w5:flow-calc` (iii))
 
-Off-frontier, source-faithful infrastructure (W5-STEP-A-FIX, finding F2 of
-`W5-STEP-A-audit-1.md`); the dependency graph is still being built.
-
 The smoothing space `𝒫^{p_+}` is kept as its own representative space `G` with the inclusion
 `ι : G →L F` (concretely `ι = stepEmbedCLM a p pb hpb r` on `StepPhase r`); it is never identified
 with `𝒫` because the representative types coincide.

@@ -32,8 +32,9 @@ listed in the generated block of `lakefile.lean`. No module may import a root or
 The imports are split into parts so that no generated file exceeds the 1500-line limit: one part
 per top-level area `KAM.<Area>` (`KAM.Root.<Area>` for the core, `<Lib>.<Area>` for an application),
 and an area with more than `LIMIT` modules is split further by its next name component (with `Top`
-for the modules directly under the area). The grouping follows the module names, so adding a
-module changes only its own part. Every generated file has the module layout of AGENTS.md rule 3
+for the modules directly under the area; more than `LIMIT` of those become numbered chunks `Top0`,
+`Top1`, … in sorted name order). The grouping follows the module names, so adding a module changes
+only its own part (or, inside a chunked `Top`, the chunks after it). Every generated file has the module layout of AGENTS.md rule 3
 (copyright, `module`, imports, module docstring, `public section`).
 """
 from __future__ import annotations
@@ -216,8 +217,30 @@ def split(base: list[str], prefix: list[str], names: list[str]) -> dict[str, lis
         groups.setdefault(comps[depth] if len(comps) > depth + 1 else "Top", []).append(n)
     out: dict[str, list[str]] = {}
     for key, group in sorted(groups.items()):
-        out.update(split(base, prefix + [key], group) if key != "Top" else {".".join(base + prefix + ["Top"]): group})
+        parts_here = split(base, prefix + [key], group) if key != "Top" else top_parts(base, prefix, group)
+        clash = out.keys() & parts_here.keys()
+        if clash:
+            raise SystemExit(f"gen_root_imports: part name clash {sorted(clash)}")
+        out.update(parts_here)
     return out
+
+
+def top_parts(base: list[str], prefix: list[str], group: list[str]) -> dict[str, list[str]]:
+    """The modules directly under `KAM.<prefix>`. They cannot be split by name, so a group of more
+    than `LIMIT` modules becomes numbered chunks `Top0`, `Top1`, … of at most `LIMIT` modules each, in
+    sorted name order (every part stays well under the 1500-line limit); a smaller group stays one
+    part `Top`, in its given order."""
+    if len(group) <= LIMIT:
+        return {".".join(base + prefix + ["Top"]): group}
+    ordered = sorted(group)
+    chunks = {".".join(base + prefix + [f"Top{i}"]): ordered[k:k + LIMIT]
+              for i, k in enumerate(range(0, len(ordered), LIMIT))}
+    CHUNK_PARTS.update(chunks)
+    return chunks
+
+
+# Names of the parts that `top_parts` produced as numbered chunks (read by `render` for their docstring).
+CHUNK_PARTS: set[str] = set()
 
 
 def parts(base: list[str], names: list[str]) -> dict[str, list[str]]:
@@ -228,6 +251,9 @@ def parts(base: list[str], names: list[str]) -> dict[str, list[str]]:
     out: dict[str, list[str]] = {}
     for area, group in sorted(areas.items()):
         out.update(split(base, [area], group))
+    shadow = out.keys() & set(names)
+    if shadow:
+        raise SystemExit(f"gen_root_imports: generated part would overwrite module(s) {sorted(shadow)}")
     return out
 
 
@@ -302,6 +328,11 @@ def render(lib_of: dict[str, str], cfg: dict) -> dict[Path, str]:
                 what = f"the modules directly under `{LIB}`"
             elif area.endswith(".Top"):
                 what = f"the modules directly under `{LIB}.{area[:-4]}`"
+            elif name in CHUNK_PARTS:
+                chunk = area.rsplit(".", 1)[-1]
+                under = area[: -len(chunk) - 1] if "." in area else ""
+                what = (f"chunk {chunk[3:]} (in sorted name order) of the modules directly under\n"
+                        f"`{LIB}{'.' + under if under else ''}`")
             else:
                 what = f"the modules under `{LIB}.{area}`"
             if lib != core:

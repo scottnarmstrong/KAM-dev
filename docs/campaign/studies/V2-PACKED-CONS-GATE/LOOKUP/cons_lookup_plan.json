@@ -1,0 +1,22 @@
+{
+ "probes": [
+  "LG00C.TP.Cons.L.LKDataW",
+  "LG00C.TP.Cons.L.LKXN00W",
+  "LG00C.TP.Cons.L.LKYW",
+  "LG00C.TP.Cons.L.LKIV1W",
+  "LG00C.TP.Cons.L.LKENW",
+  "LG00C.TP.Cons.L.LKLowLookW",
+  "LG00C.TP.Cons.L.LKLowReadW",
+  "LG00C.TP.Cons.L.LKFullLookW",
+  "LG00C.TP.Cons.L.LKFullReadW",
+  "LG00C.TP.Cons.L.LKDataR",
+  "LG00C.TP.Cons.L.LKXN00R",
+  "LG00C.TP.Cons.L.LKYR",
+  "LG00C.TP.Cons.L.LKIV1R",
+  "LG00C.TP.Cons.L.LKENR",
+  "LG00C.TP.Cons.L.LKLowLookR",
+  "LG00C.TP.Cons.L.LKLowReadR",
+  "LG00C.TP.Cons.L.LKFullLookR",
+  "LG00C.TP.Cons.L.LKFullReadR"
+ ]
+}

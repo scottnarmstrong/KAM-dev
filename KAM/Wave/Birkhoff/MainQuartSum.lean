@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.MainQuart
 /-!
 # The combined quartic field `X_Ḡ + X_{G^{nor}}` (blueprint-W `bpW:w3:transport-tori-weak`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-MAIN, blueprint label `bpW:w3:transport-tori-weak` (Step
+Package W3-MAIN, blueprint label `bpW:w3:transport-tori-weak` (Step
 `stepW:w3:wk-reg`: `‖X_Ḡ(w) + X_{G^{nor}}(w)‖ ≤ C_*‖w‖³` by `bpW:w3:quartic` applied to
 `𝔊̄ + 𝔊^{nor}`, whose coefficient sets are disjoint).
 

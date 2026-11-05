@@ -1,0 +1,6 @@
+linting took 6.57ms
+typeclass inference of HSub took 11ms
+typeclass inference of HPow took 4.19ms
+elaboration took 41.5ms
+type checking took 183ms
+linting took 7.57ms

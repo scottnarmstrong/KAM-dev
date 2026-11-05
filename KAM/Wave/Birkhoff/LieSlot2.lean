@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.LieSlot1
 /-!
 # The slot recurrence for the Lie coefficients (blueprint-W `bpW:w3:lie-coeff`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-FLOW, blueprint label `bpW:w3:lie-coeff` (audit finding F1).
+Package W3-FLOW, blueprint label `bpW:w3:lie-coeff` (audit finding F1).
 
 `lieMb_slot`: `(k+1) Φ_{k+1}(v) = Σ_{i < 2k+1} Φ_k(v¹, …, T(v^i, v^{i+1}, v^{i+2}), …)` for all
 sequences `v` (a hook-length type induction from the block recursion; no symmetry of `T` is

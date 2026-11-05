@@ -1,0 +1,237 @@
+{
+ "_note": "Slices of the track-LP graph (SPEC §9). Waves 1-4 extracted and assembled (LP-GRAPH-W1, LP-GRAPH-W2 under D65): counts are actual. Wave additions to the anchor/external/m1/amend slices live in their own packets <slice>-w2/-w3 (listed under 'packets'); packets/slices-assembled.txt is the assembly order. LP3 (wave 4) extracted after the D64 landing.",
+ "LP-adef-pl": {
+  "part": "anchors",
+  "lines": [
+   1,
+   1000000000
+  ],
+  "nodes": 46,
+  "coverage": 48,
+  "what": "frozen definition anchors: wave 1 the 36 planar/dimension-free D62 definitions + 12 reused; wave 2 the 7 reused definitions of the LP1 statements",
+  "wave": 1,
+  "status": "extracted and assembled (D65 streamlined; one global review pending)",
+  "packets": {
+   "LP-adef-pl-w2": {
+    "nodes": 7,
+    "coverage": 7
+   },
+   "LP-adef-pl-w4": {
+    "nodes": 2,
+    "coverage": 2
+   }
+  }
+ },
+ "LP-adef-sp": {
+  "part": "anchors",
+  "lines": [
+   1,
+   1000000000
+  ],
+  "nodes": 53,
+  "coverage": 54,
+  "what": "frozen definition anchors: the 53 spatial D62 definitions + KAM.Iso.IsHamiltonianSolutionOn (wave 3)",
+  "wave": 3,
+  "status": "extracted and assembled (D65 streamlined; one global review pending)"
+ },
+ "LP-athm": {
+  "part": "anchors",
+  "lines": [
+   1,
+   1000000000
+  ],
+  "nodes": 11,
+  "coverage": 11,
+  "what": "frozen theorem anchors: wave 1 LP0 + 10 planar characterizations; wave 2 LP1, LP1-H + 4 planar osculating characterizations; wave 3 LP2, LP2-H + 20 spatial characterizations",
+  "wave": 1,
+  "status": "extracted and assembled (D65 streamlined; one global review pending)",
+  "packets": {
+   "LP-athm-w2": {
+    "nodes": 6,
+    "coverage": 6
+   },
+   "LP-athm-w3": {
+    "nodes": 22,
+    "coverage": 22
+   },
+   "LP-athm-w4": {
+    "nodes": 2,
+    "coverage": 2
+   }
+  }
+ },
+ "LP-m1": {
+  "part": "MAIN",
+  "lines": [
+   1,
+   93
+  ],
+  "nodes": 6,
+  "coverage": 19,
+  "wave": 1,
+  "status": "extracted and assembled (D65 streamlined; one global review pending)",
+  "packets": {
+   "LP-m1-w2": {
+    "nodes": 0,
+    "coverage": 6
+   }
+  }
+ },
+ "LP-m2a": {
+  "part": "MAIN",
+  "lines": [
+   94,
+   160
+  ],
+  "nodes": 24,
+  "coverage": 36,
+  "wave": 1,
+  "status": "extracted and assembled (D65 streamlined; one global review pending)"
+ },
+ "LP-m2b": {
+  "part": "MAIN",
+  "lines": [
+   161,
+   189
+  ],
+  "nodes": 15,
+  "coverage": 20,
+  "wave": 1,
+  "status": "extracted and assembled (D65 streamlined; one global review pending)"
+ },
+ "LP-m3": {
+  "part": "MAIN",
+  "lines": [
+   190,
+   271
+  ],
+  "nodes": 16,
+  "coverage": 27,
+  "wave": 2,
+  "status": "extracted and assembled (D65 streamlined; one global review pending)"
+ },
+ "LP-m4a": {
+  "part": "MAIN",
+  "lines": [
+   272,
+   379
+  ],
+  "nodes": 20,
+  "coverage": 35,
+  "wave": 2,
+  "status": "extracted and assembled (D65 streamlined; one global review pending)"
+ },
+ "LP-m4b": {
+  "part": "MAIN",
+  "lines": [
+   380,
+   464
+  ],
+  "nodes": 12,
+  "coverage": 21,
+  "wave": 2,
+  "status": "extracted and assembled (D65 streamlined; one global review pending)"
+ },
+ "LP-m5": {
+  "part": "MAIN",
+  "lines": [
+   465,
+   529
+  ],
+  "nodes": 26,
+  "coverage": 32,
+  "wave": 2,
+  "status": "extracted and assembled (D65 streamlined; one global review pending)"
+ },
+ "LP-m6": {
+  "part": "MAIN",
+  "lines": [
+   530,
+   603
+  ],
+  "nodes": 17,
+  "coverage": 23,
+  "wave": 3,
+  "status": "extracted and assembled (D65 streamlined; one global review pending)"
+ },
+ "LP-m78": {
+  "part": "MAIN",
+  "lines": [
+   604,
+   679
+  ],
+  "nodes": 0,
+  "coverage": 12,
+  "wave": 1,
+  "status": "extracted and assembled (D65 streamlined; one global review pending)"
+ },
+ "LP-amend": {
+  "part": "AMENDMENTS",
+  "lines": [
+   1,
+   26
+  ],
+  "nodes": 0,
+  "coverage": 7,
+  "wave": 1,
+  "status": "extracted and assembled (D65 streamlined; one global review pending)",
+  "packets": {
+   "LP-amend-w2": {
+    "nodes": 0,
+    "coverage": 7
+   }
+  }
+ },
+ "LP-imports": {
+  "part": "imports",
+  "lines": [
+   1,
+   1000000000
+  ],
+  "nodes": 2,
+  "coverage": 1,
+  "what": "writer-owned candidate imported nodes: N:bpN:p0:partial, N:bpN:p11:nonresonant, N:bpN:p11:s-nf#data, P:bpP:p14:h-data, P:bpP:p14:perturbation",
+  "wave": 2,
+  "status": "extracted and assembled (D65 streamlined; one global review pending)"
+ },
+ "LP3-a": {
+  "part": "LP3-PLAN",
+  "lines": [
+   1,
+   258
+  ],
+  "nodes": 1,
+  "coverage": 22,
+  "wave": 4,
+  "status": "extracted and assembled (wave 4, D64 landed; D65 minimal model from LP3-PLAN.md)"
+ },
+ "LP3-b": {
+  "part": "LP3-PLAN",
+  "lines": [
+   259,
+   506
+  ],
+  "nodes": 3,
+  "coverage": 18,
+  "wave": 4,
+  "status": "extracted and assembled (wave 4, D64 landed; D65 minimal model from LP3-PLAN.md)"
+ },
+ "LP-ext": {
+  "part": "externals",
+  "lines": [
+   1,
+   1000000000
+  ],
+  "nodes": 5,
+  "coverage": 0,
+  "what": "writer-owned external leaves (closed list, SPEC §3); wave 1: lpM:ext-ftc, lpM:ext-compact-min, lpM:ext-heine-cantor, lpM:ext-picard, lpM:ext-gronwall; wave 2: lpM:ext-cauchy-estimates, lpM:ext-compact-cover, lpM:ext-fourier-contour, lpM:ext-holomorphic-limit, lpM:ext-identity-theorem",
+  "wave": 1,
+  "status": "extracted and assembled (D65 streamlined; one global review pending)",
+  "packets": {
+   "LP-ext-w2": {
+    "nodes": 5,
+    "coverage": 0
+   }
+  }
+ }
+}

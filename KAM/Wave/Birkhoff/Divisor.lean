@@ -11,8 +11,7 @@ public import Mathlib.Data.Fin.Tuple.Sort
 /-!
 # The divisor lower bound (blueprint-W `bpW:w3:divisor`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-DIVISOR-F, blueprint label `bpW:w3:divisor`.
+Package W3-DIVISOR-F, blueprint label `bpW:w3:divisor`.
 
 `birk_divisor_bound`: for `x ∈ (ℤ∖0)⁴` satisfying the selection rule
 (`∃ ε ∈ {±1}⁴, Σ ε_t |x_t| = 0`) and

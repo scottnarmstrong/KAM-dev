@@ -10,10 +10,9 @@ public import KAM.Planetary.Spatial.NonresonantReuse.Pert
 public import KAM.Planetary.StrongAMD.NonresonantReuse.PertClass
 
 /-!
-# The spatial perturbation is in the engine's class (package LP-SP-NRR, item 1, second half)
+# The spatial perturbation is in the engine's class
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
-Package LP-SP-NRR, MAIN Lemma 13 with `2n` slow pairs (`LP:MAIN L13 (441–458)`,
+Source: MAIN Lemma 13 with `2n` slow pairs (`LP:MAIN L13 (441–458)`,
 `LP:MAIN T19 (599–603)`), N6, track LP, non-frozen.
 
 * `lpPertNM_extClass`: `ext_class b b.rB t (lpPertNM μ b.lam fc)` for `b : PartialBlock n (n + n)`

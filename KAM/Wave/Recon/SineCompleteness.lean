@@ -14,8 +14,6 @@ public import KAM.Frozen.Wave.Defs.SineMode
 /-!
 # Completeness of the sine system (blueprint `bpW:w1:sine-completeness`)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 If `f ∈ L²(0, π)` and `∫₀^π f φ_l = 0` for all `l ≥ 1` (`φ_l = KAM.Wave.sineMode l`), then `f = 0`
 almost everywhere on `(0, π)` (`KAM.Wave.ae_eq_zero_of_integral_sineMode_eq_zero`); if moreover
 `f` is continuous on `[0, π]` then `f = 0` there

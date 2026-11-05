@@ -14,8 +14,7 @@ public import KAM.Wave.Birkhoff.LieSlot4
 # `C¹` regularity and multilinear reality for the W3 flow (blueprint-W `bpW:w3:flow`,
 `bpW:w3:leibniz`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-FLOW, blueprint labels `bpW:w3:flow` (i), `bpW:w3:leibniz` (iii)
+Package W3-FLOW, blueprint labels `bpW:w3:flow` (i), `bpW:w3:leibniz` (iii)
 (audit findings F1, F2, F3), specialised to `T = ι ∘ S` (`birkT`).
 -/
 

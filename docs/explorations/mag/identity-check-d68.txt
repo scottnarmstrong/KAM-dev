@@ -1,0 +1,7 @@
+Defs/MagEps                  IDENTICAL (allowed edits only)
+Defs/MagH0                   IDENTICAL (allowed edits only)
+Defs/MagAlpha                IDENTICAL (allowed edits only)
+Defs/MagV                    IDENTICAL (allowed edits only)
+Defs/MagField                IDENTICAL (allowed edits only)
+Defs/MagHamC                 IDENTICAL (allowed edits only)
+Theorems/MagneticBarrier     IDENTICAL (allowed edits only)

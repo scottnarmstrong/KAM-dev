@@ -15,8 +15,7 @@ public import KAM.Planetary.Spatial.SpatialSafety.Main
 /-!
 # The spatial theorem LP2 (facade)
 
-Package LP-SP-SAFE, MAIN Theorem 19 with Lemma 16 for `d = 3`; track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: MAIN Theorem 19 with Lemma 16 for `d = 3`; track LP, non-frozen.
 
 Facade over `SpatialSafety.{Orientation, Constants, Bridge, Aligned, Main}`:
 `lp2_spatial_strongAMD_safety`, `lp2_spatial_strongAMD_safety_normalized`,

@@ -15,8 +15,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The pull-back bound (blueprint-W `bpW:w5:pullback`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepPullback_bounds`: for the flow of two fields `Z₁, Z₂` (the parameters `ξ, ζ`) with
 `|Z₁ - Z₂| ≤ N₁`, `16 M ≤ σ η²`, and fields `Y₁, Y₂` on `D(s-3σ, 4ηr)` with `|Y_i|_{ηr} ≤ Y₀`,
 `|Y₁ - Y₂|_{ηr} ≤ Y_d`: the transported fields `y_i = (1 + N_i)⁻¹ Y_i(φ_i w)` on `D(s-5σ, ηr)`
@@ -33,7 +31,6 @@ namespace KAM.Wave
 open KAM
 
 variable {a p pb s r σ η M : ℝ} [Fact (0 < r)]
-
 
 theorem stepPullback_bounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 < σ) (hσ1 : σ ≤ 1)
     (hσs : 5 * σ < s) (hη0 : 0 < η) (hη : η ≤ 1 / 8)

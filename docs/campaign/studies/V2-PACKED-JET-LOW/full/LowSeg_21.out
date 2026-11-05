@@ -1,0 +1,4 @@
+linting took 4.24ms
+type checking took 7.71s
+tactic execution of Lean.Parser.Tactic.decide took 4.48ms
+linting took 2.29ms

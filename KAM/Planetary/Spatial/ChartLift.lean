@@ -15,8 +15,7 @@ public import KAM.Planetary.Spatial.ChartLift.Premises
 /-!
 # The spatial chart lift on a stopped interval (facade)
 
-Package LP-SP-LIFT, MAIN Lemma 14 with the Lemma 18 alignment, `d = 3`; track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: MAIN Lemma 14 with the Lemma 18 alignment, `d = 3`; track LP, non-frozen.
 
 Facade over `ChartLift.{Stopped, Uniform, Setting, Lift, Premises}`:
 `SpatialLiftData`, `SpatialStoppedOn`, `SpatialLiftData.spLift_prograde_of_stopped`,

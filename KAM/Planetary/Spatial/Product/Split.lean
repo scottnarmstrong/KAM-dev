@@ -13,7 +13,7 @@ public import KAM.Planetary.Spatial.Model
 /-!
 # The n-body spatial product chart: the exact Hamiltonian split
 
-Package LP-SP-PROD, `LP:MAIN L17 (533–578)` with MAIN (1), track LP, non-frozen.
+Source: `LP:MAIN L17 (533–578)` with MAIN (1), track LP, non-frozen.
 
 * `fSpatial ν z = |Σ_i p_i|²/2 − Σ_{i<j} ν_i ν_j/|q_i − q_j|`: the literal perturbation of MAIN (1)
   (recoil plus pair potentials);
@@ -23,7 +23,6 @@ Package LP-SP-PROD, `LP:MAIN L17 (533–578)` with MAIN (1), track LP, non-froze
 * `analyticOnNhd_fSpatial_spatialPoincareProd`: `fSpatial ∘ Ψ` is analytic on the part of the domain
   whose image is collision free.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

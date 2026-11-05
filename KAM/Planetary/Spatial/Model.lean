@@ -9,12 +9,15 @@ public import Mathlib
 public import KAM.Planetary.Spatial.Vector
 public import KAM.Frozen.Defs.HamiltonianVectorField
 public import KAM.Frozen.Iso.Defs.IsHamiltonianSolutionOn
+public import KAM.Frozen.Planetary.Spatial.Defs.IsSpatialMovingSolutionOn
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialHamiltonian
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialMovingUniqueOn
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialNoCollision
 
 /-!
 # The exact spatial model (dimension three)
 
-Package LP-SP-MODEL, `LP:MAIN §1 (1) (17–25)` with `d = 3`; track LP, non-frozen; the statement
-surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN §1 (1) (17–25)` with `d = 3`; track LP, non-frozen.
 
 * `spatialHamiltonian ν μ z = Σ_i (|p_i|²/(2ν_i) − ν_i/|q_i|)
   + μ (|Σ_i p_i|²/2 − Σ_{i<j} ν_iν_j/|q_i − q_j|)`
@@ -35,33 +38,6 @@ namespace KAM.Planetary.Spatial
 open KAM.Planetary
 
 variable {n : ℕ}
-
-/-- The exact spatial Hamiltonian `H_μ` (`LP:MAIN §1 (1)`, `d = 3`): positions `q_i` and scaled
-canonical momenta `p_i` in `Phase (n * 3)`, masses `m_i = μ ν_i`, central Kepler parameter one. -/
-def spatialHamiltonian (ν : Fin n → ℝ) (μ : ℝ) (z : Phase (n * 3)) : ℝ :=
-  (∑ i, (spaceSq (bodyVector3 z.2 i) / (2 * ν i) - ν i / spaceLength (bodyVector3 z.1 i))) +
-    μ * (spaceSq (∑ i, bodyVector3 z.2 i) / 2 -
-      ∑ i, ∑ j ∈ Finset.univ.filter (fun j => i < j),
-        ν i * ν j / spaceLength (bodyVector3 z.1 i - bodyVector3 z.1 j))
-
-/-- The open physical domain of `H_μ`: no planet at the star and no two planets together. -/
-def SpatialNoCollision (q : Fin (n * 3) → ℝ) : Prop :=
-  (∀ i, 0 < spaceLength (bodyVector3 q i)) ∧
-  (∀ i j, i ≠ j → 0 < spaceLength (bodyVector3 q i - bodyVector3 q j))
-
-/-- A genuine spatial moving-Sun solution on `J`: the frozen differentiability-guarded Hamiltonian
-ODE for `H_μ` together with collision exclusion (`LP:MAIN §1 (1)`). -/
-def IsSpatialMovingSolutionOn (ν : Fin n → ℝ) (μ : ℝ) (J : Set ℝ)
-    (z : ℝ → Phase (n * 3)) : Prop :=
-  KAM.Iso.IsHamiltonianSolutionOn (spatialHamiltonian ν μ) Set.univ J z ∧
-    ∀ t ∈ J, SpatialNoCollision (z t).1
-
-/-- Agreement with every other local spatial solution on its overlap with the certified interval
-(the pattern of the frozen planar `MovingUniqueOn`). -/
-def SpatialMovingUniqueOn (ν : Fin n → ℝ) (μ : ℝ) (J : Set ℝ)
-    (z : ℝ → Phase (n * 3)) : Prop :=
-  ∀ (U : Set ℝ) (w : ℝ → Phase (n * 3)), IsOpen U → Convex ℝ U → 0 ∈ U →
-    w 0 = z 0 → IsSpatialMovingSolutionOn ν μ U w → ∀ t ∈ U ∩ J, w t = z t
 
 /-- Force kernel of the star on a planet: `g_i = |q_i|⁻³ q_i`. -/
 def spatialGKernel (q : Fin n → Fin 3 → ℝ) (i : Fin n) : Fin 3 → ℝ :=
@@ -101,17 +77,6 @@ theorem sum_sum_eq_diag_add_two_mul (f : Fin n → Fin n → ℝ) (hf : ∀ i j,
     simp [hf i j]
   simp only [hsplit, Finset.sum_add_distrib, hswap, Finset.sum_filter]
   ring
-
-/-- `|Σ v_i|² = Σ |v_i|² + 2 Σ_{i<j} v_i · v_j`. -/
-theorem spaceSq_sum (v : Fin n → Fin 3 → ℝ) :
-    spaceSq (∑ i, v i) =
-      ∑ i, spaceSq (v i) +
-        2 * ∑ i, ∑ j ∈ Finset.univ.filter (fun j => i < j), spaceDot (v i) (v j) := by
-  rw [spaceSq_sum_eq_sum_sum, sum_sum_eq_diag_add_two_mul (fun i j => spaceDot (v i) (v j))
-    (fun i j => spaceDot_comm _ _)]
-  congr 1
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rw [spaceSq_eq_spaceDot]
 
 /-- Action–reaction: `Σ_i ν_i f_i = 0` (no collision hypothesis is needed). -/
 theorem sum_mass_smul_spatialFKernel (ν : Fin n → ℝ) (q : Fin n → Fin 3 → ℝ) :

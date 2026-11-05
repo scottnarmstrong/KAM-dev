@@ -11,9 +11,6 @@ public import KAM.Wave.Measure.Coords
 /-!
 # W7: the frequency limit (blueprint `bpW:w7:limit`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 If `Γ ⊆ ⋃_k R_k` and `‖ω_* - ω⁰‖_∞ ≤ e_k` on `Γ ∩ R_k` with `e_k → 0`, then `ν = ω_* / (2π)`
 tends to `λ_J / (2π)` as `I → 0` in `Γ`, in the exact form of clause (2) of the frozen
 `KAM.Wave.nlw2` (the Lean index `i : Fin 2` is the Dirichlet mode `i + 1`).

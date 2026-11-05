@@ -1,0 +1,5 @@
+linting took 2.31ms
+elaboration took 1.21ms
+type checking took 3.77s
+share common exprs took 2.59ms
+linting took 4.68ms

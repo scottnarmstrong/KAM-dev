@@ -15,8 +15,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: the divisor hypotheses of the preparatory step (`bpW:w6:prep-step` (i))
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:prep-step` (milestone W6), clause (i) and step `p-div`.
+Blueprint label `bpW:w6:prep-step` (milestone W6), clause (i) and step `p-div`.
 
 For `ξ ∈ Π ∖ Ξ` (W7's preparatory set `prepSet`, Definition `bpW:w7:zones` (i)) and every
 `(k, l) ∈ Z`, the defining inequality of `S_{kl}` fails:
@@ -41,11 +40,6 @@ theorem coeffSum_single (a : ℕ) (σ : ℤ) : (single a σ).sum (fun _ v => v) 
 theorem coeffSum_add (l l' : ℕ →₀ ℤ) :
     (l + l').sum (fun _ v => v) = l.sum (fun _ v => v) + l'.sum (fun _ v => v) :=
   Finsupp.sum_add_index' (fun _ => rfl) (fun _ _ _ => rfl)
-
-theorem coeffSum_neg (l : ℕ →₀ ℤ) : (-l).sum (fun _ v => v) = -l.sum (fun _ v => v) := by
-  unfold Finsupp.sum
-  rw [Finsupp.support_neg, ← Finset.sum_neg_distrib]
-  rfl
 
 theorem not_isLamMinus_of_coeffSum_ne {l : ℕ →₀ ℤ} (h : l.sum (fun _ v => v) ≠ 0) :
     ¬ IsLamMinus l := by

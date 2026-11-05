@@ -11,8 +11,7 @@ public import Mathlib.Analysis.Calculus.ParametricIntervalIntegral
 /-!
 # Holomorphy of the Picard iterates
 
-Blueprint-W `bpW:w1:flow`, step `stepW:w1:picardholo` (package W1-ANALYTIC). This is source-faithful
-infrastructure used by several nodes; the dependency graph is still being built.
+Blueprint-W `bpW:w1:flow`, step `stepW:w1:picardholo` (package W1-ANALYTIC).
 
 By induction on `k`: for `t ∈ [-1, 1]`, `w ↦ φ_k(w, t)` is holomorphic on `U`, its derivative
 `D_w φ_k(w, t)` has norm at most `e^{L |t|}` (`L = M / δ`) and is continuous in `t`
@@ -59,7 +58,6 @@ theorem picardInv_zero : PicardInv X U (M / δ) 0 where
     have : (fun t => picardD X 0 t w) = fun _ => ContinuousLinearMap.id ℂ F := by
       funext t; simp [picardD]
     rw [this]; exact continuousOn_const
-
 
 /-- The `w`-derivative of the integrand `X (φ_k (w, σ))`. -/
 def picardG (X : F → F) (w : F) (k : ℕ) (σ : ℝ) : F →L[ℂ] F :=
@@ -116,7 +114,6 @@ theorem hasFDerivAt_picard_succ {k : ℕ} (hk : PicardInv X U (M / δ) k) {w : F
         ((hk.diff σ hσ').differentiableAt (h.isOpen_U.mem_nhds hxU)).hasFDerivAt
       exact h1.comp x h2)
   exact (hasFDerivAt_id w).add hmain
-
 
 theorem picardD_succ {k : ℕ} (hk : PicardInv X U (M / δ) k) {w : F} (hw : w ∈ U) {t : ℝ}
     (ht : t ∈ Icc (-1 : ℝ) 1) :

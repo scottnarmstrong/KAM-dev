@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The expansion of `H ∘ Φ` along the flow (blueprint-W `bpW:w5:new-ham` (i), step `n-exp`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepNewHam_flow`: for a flow with `FlowHyp`, `C¹` functions `N, N̂, R` (derivatives `DN, DN̂, DR`
 on
 `V`) with `DN·X = N̂ + â₀ - R` on `V` (the homological equation through W4's bracket identity), and

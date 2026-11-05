@@ -10,9 +10,6 @@ public import KAM.Wave.Measure.Consts
 /-!
 # W7: resonance zones and admissible frequency families (blueprint `bpW:w7:zones`, `bpW:w7:family`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 `IsFreqPair` is the structure of hypotheses (H1)–(H2) of an admissible family on one parameter
 domain `D`; `AdmissibleFamily` is a sequence of such pairs with the common numbers
 `ε_ω, ε₁, ε₂, θ` and the thresholds `K_ν ≥ 2^ν`. These are the hypotheses W6 supplies; they are

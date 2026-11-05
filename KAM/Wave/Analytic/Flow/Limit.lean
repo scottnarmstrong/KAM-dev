@@ -13,8 +13,7 @@ public import Mathlib.Analysis.SpecificLimits.Normed
 /-!
 # The flow as a limit of Picard iterates
 
-Blueprint-W `bpW:w1:flow`, step `stepW:w1:flowlim` (package W1-ANALYTIC). This is source-faithful
-infrastructure used by several nodes; the dependency graph is still being built.
+Blueprint-W `bpW:w1:flow`, step `stepW:w1:flowlim` (package W1-ANALYTIC).
 
 `KAM.Wave.holoFlow X t w = w + ∑' k, (φ_{k+1}(w, t) - φ_k(w, t))` is the limit of the Picard
 iterates,

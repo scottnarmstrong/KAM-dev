@@ -14,10 +14,9 @@ public import KAM.Planetary.StrongAMD.Osculating
 /-!
 # Actual-velocity osculating ellipses in dimension three
 
-Package LP-SP-OSC, `LP:MAIN L16 (508–529)` with `d = 3` and amendment N10 (`AMENDMENTS.md`); track
+Source: `LP:MAIN L16 (508–529)` with `d = 3` and amendment N10 (`AMENDMENTS.md`); track
 LP,
 non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 Definitions, velocity identification and tangency are in `Osculating/Basic.lean`, the pointwise
 estimate in `Osculating/Core.lean`.  Here:
@@ -37,7 +36,7 @@ collision
 (b)).
 
 Mass normalization: `spatialKeplerEnergy ν z i = ν_i E_i`; the osculating quantities are specific
-(unit mass), so the energy clause is compared with `c/ν_i` (audit note of LP-OSC).
+(unit mass), so the energy clause is compared with `c/ν_i`.
 -/
 
 @[expose] public noncomputable section

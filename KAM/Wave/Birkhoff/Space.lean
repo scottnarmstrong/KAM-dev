@@ -11,8 +11,7 @@ public import Mathlib.Topology.Algebra.InfiniteSum.Real
 /-!
 # The two-sided coordinate space (blueprint-W `bpW:w3:space`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:space`.
+Package W3-SETTING, blueprint label `bpW:w3:space`.
 
 `BirkIdx = Bool × ℕ+` indexes `l ∈ ℤ ∖ {0}` by `(sign, |l|)` (`true` is `l > 0`), and
 `BirkSpace = ℓ²(BirkIdx; ℂ)` carries `𝔚_{a,r}` in *weighted coordinates*: the point `y` represents
@@ -86,14 +85,6 @@ theorem birkCoord_smul (a r : ℝ) (c : ℂ) (y : BirkSpace) (l : BirkIdx) :
     birkCoord a r (c • y) l = c * birkCoord a r y l := by
   simp [birkCoord, mul_div_assoc]
 
-theorem birkCoord_sub (a r : ℝ) (y y' : BirkSpace) (l : BirkIdx) :
-    birkCoord a r (y - y') l = birkCoord a r y l - birkCoord a r y' l := by
-  simp [birkCoord, sub_div]
-
-theorem birkCoord_neg (a r : ℝ) (y : BirkSpace) (l : BirkIdx) :
-    birkCoord a r (-y) l = -birkCoord a r y l := by
-  simp [birkCoord, neg_div]
-
 theorem birk_one_le_weight {a r : ℝ} (ha : 0 ≤ a) (hr : 0 ≤ r) (j : ℕ+) :
     1 ≤ ellWeight a r j := by
   unfold ellWeight
@@ -118,11 +109,6 @@ theorem birk_tsum_split {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F] [
     {f : BirkIdx → F} (hf : Summable f) :
     ∑' l, f l = ∑' j : ℕ+, f (true, j) + ∑' j : ℕ+, f (false, j) := by
   rw [Summable.tsum_prod hf, tsum_fintype, Fintype.sum_bool]
-
-theorem birk_hasSum_split {f : BirkIdx → ℝ} {s t : ℝ}
-    (h1 : HasSum (fun j : ℕ+ => f (true, j)) s) (h2 : HasSum (fun j : ℕ+ => f (false, j)) t)
-    (hf : Summable f) : HasSum f (s + t) := by
-  rw [← h1.tsum_eq, ← h2.tsum_eq, ← birk_tsum_split hf]; exact hf.hasSum
 
 /-! ### Diagonal multipliers on `ℓ²` over an arbitrary index type -/
 
@@ -257,9 +243,6 @@ def birkRho : BirkSpace →ₛₗᵢ[starRingEnd ℂ] BirkSpace where
 
 @[simp] theorem birkRho_birkRho (y : BirkSpace) : birkRho (birkRho y) = y := by
   ext l; simp
-
-theorem birkRho_injective : Function.Injective birkRho := fun y y' h => by
-  simpa using congrArg birkRho h
 
 theorem birkCoord_birkRho (a r : ℝ) (y : BirkSpace) (l : BirkIdx) :
     birkCoord a r (birkRho y) l = starRingEnd ℂ (birkCoord a r y (birkNeg l)) := by

@@ -1,0 +1,172 @@
+{
+ "A_meas": null,
+ "A_meas_source": "not measured for LG00",
+ "P_grid": [
+  96,
+  128,
+  160,
+  192,
+  256
+ ],
+ "P_ref": 128,
+ "R": {
+  "bL": "137/100",
+  "bN": "121/100",
+  "bNt": "29/20",
+  "bT": "118",
+  "d2h": "559",
+  "d2x": "5170",
+  "dh": "827/10",
+  "dx": "249"
+ },
+ "box": [
+  [
+   "-9641395542459655779208035275431384548753158622193547039901093565819825273398193009957801160104905991181661029573129340088408265817790133763/413657257263218606375000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+   "12961718757584703/4550229829895404670125000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  ],
+  [
+   "-12961718757584703/312500312500000",
+   "0"
+  ]
+ ],
+ "cost_ref": {
+  "L": 20,
+  "P": 128,
+  "cpu_h": "30.11",
+  "source": "LG00-CERT run20e ledger (passing set)"
+ },
+ "err_L": {
+  "12": "2.6e-10",
+  "18": "7.2e-16",
+  "20": "8.1e-18",
+  "21": "1.1e-18",
+  "24": "1.4e-21",
+  "30": "1.9e-27",
+  "36": "2.7e-33",
+  "40": "3.3e-37"
+ },
+ "err_L_measured": [
+  "18",
+  "20",
+  "21"
+ ],
+ "hand": {
+  "L": 20,
+  "P": 128,
+  "kp": 3,
+  "margin": 2.0,
+  "note": "LG00-CERT: route A refined, classical sites, err 8.1e-18 vs 7.9e-16",
+  "rho": "29/5000",
+  "route": "A.refined.classical"
+ },
+ "kappa": "160000",
+ "ledger": {
+  "Balls": {
+   "cpu_h": 0.105,
+   "max_rss_gb": 7.05,
+   "modules": 74
+  },
+  "Data": {
+   "cpu_h": 1.768,
+   "max_rss_gb": 1.98,
+   "modules": 289
+  },
+  "Final": {
+   "cpu_h": 0.222,
+   "max_rss_gb": 5.25,
+   "modules": 32
+  },
+  "Full": {
+   "cpu_h": 10.206,
+   "max_rss_gb": 7.26,
+   "modules": 1590
+  },
+  "Gram": {
+   "cpu_h": 0.396,
+   "max_rss_gb": 3.45,
+   "modules": 89
+  },
+  "Low": {
+   "cpu_h": 14.032,
+   "max_rss_gb": 7.6,
+   "modules": 2469
+  },
+  "Physical": {
+   "cpu_h": 0.009,
+   "max_rss_gb": 2.26,
+   "modules": 8
+  },
+  "Torsion": {
+   "cpu_h": 3.368,
+   "max_rss_gb": 3.64,
+   "modules": 637
+  }
+ },
+ "ledger_total_cpu_h": 30.11,
+ "margin_rule": 1.0,
+ "name": "lg00",
+ "params": {
+  "E0": "-3082815918183304955830657443860480000001/340282366920938463463374607431768211456",
+  "M": "5170",
+  "disp": "97/25000",
+  "err": "81/10000000000000000000",
+  "gamma": "116655468818262327/12500012500000000",
+  "gbar": "116655468818262327/12500012500000000",
+  "mu": "1/100000",
+  "nu": "8217/200000000",
+  "rho": "29/5000",
+  "rhoInf": "29/5000000",
+  "s": "1000001/1000000",
+  "sB": "73/50",
+  "sK": "131/100",
+  "sT": "21/100",
+  "som": "2",
+  "tau": "1"
+ },
+ "pilot_L8": {
+  "P": 96,
+  "gram_s": 248,
+  "source": "LG00-CERT.md, status (2); the pilot was CertFixed 96 (LG00-CERT.md:211), the L = 20 ledger CertFixed 128",
+  "support": 110,
+  "torsion_s": 2311
+ },
+ "precision_rule": {
+  "kind": "abs_budget",
+  "offset": 12,
+  "source": "LG00-CERT.md:204: the cfgFull packed-product rounding budget 10^-(L+12) must stay above 2^-P (the L = 20 data needed CertFixed 128, LG00-CERT.md:155)"
+ },
+ "provenance": {
+  "box": "lg00_gen.freq_box(160000/s)",
+  "claim": "LG00-CERT.md \u00a7Route and threshold",
+  "err_table": "docs/explorations/lg00-prep.md \u00a75 and LG00-CERT.md (fixed torus)",
+  "report": "lg00-cert scripts/sjs/lg00/results/lg00_dryrun_sqrt_L20.json"
+ },
+ "rho_fixed": true,
+ "rho_grid": [
+  "29/5000"
+ ],
+ "site_cost_s": {
+  "10": 10.8,
+  "11": 34.3,
+  "12": 85.2,
+  "8": 2.4,
+  "9": 6.1
+ },
+ "site_l_max": 12,
+ "site_l_rule": {
+  "b": "1.8",
+  "delta": "2.4",
+  "source": "SO-V2PKG \u00a72.2 rule, transferred"
+ },
+ "support_L": {
+  "12": 250,
+  "18": 550,
+  "20": 683,
+  "24": 986,
+  "30": 1556,
+  "36": 2306,
+  "40": 2840,
+  "8": 110
+ },
+ "title": "LG00: Locatelli\u2013Giorgilli secular Sun\u2013Jupiter\u2013Saturn torus (route A refined)"
+}

@@ -14,7 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The coordinates of `X_Ḡ` (blueprint-W `bpW:w5:action-angle` (v), step `a-conj`, support)
 
-Off-frontier, source-faithful infrastructure (W5-AA); the dependency graph is still being built.
 Blueprint label `bpW:w5:action-angle` (v) (support for the conjugacy identity).
 
 For every `w' ∈ 𝔚` (no reality assumption), with `I_k = w'_k w'_{-k}` and

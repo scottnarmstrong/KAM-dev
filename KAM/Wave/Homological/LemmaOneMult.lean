@@ -14,9 +14,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The division operators of Theorem `bpW:w4:lemma1` (step *Division operators*)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 At a fixed parameter value (frequencies `w ∈ ℝ²`, `W : ℕ+ → ℝ`) the multipliers of the seven
 components are: scalar `homMultA0 w k = 1/(iδ⁰_k)` (zero for `k = 0`) for `a` and `b`; diagonal
 `homMultDp`, `homMultDm` (`1/(iδ^±_{k,j})`) for `c^±`; and the Hadamard matrices `homDP`, `homDP'`,
@@ -98,7 +95,6 @@ theorem homHadamardBound_of_weight {d : ℕ+ → ℕ+ → ℂ} {c : ℝ} (hc : 0
   · refine (hd i i).trans ?_
     have := hw1 i i
     exact div_le_self hc this
-
 
 theorem homWeightQ_abs (i j : ℕ+) (hij : i ≠ j) :
     |(i : ℝ) - (j : ℝ)| ≤ (homWeightQ i j : ℝ) := by

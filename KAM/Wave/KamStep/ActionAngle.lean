@@ -17,7 +17,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The action–angle substitution: definition and part (i) (blueprint-W `bpW:w5:action-angle`)
 
-Off-frontier, source-faithful infrastructure (W5-AA); the dependency graph is still being built.
 Blueprint label `bpW:w5:action-angle` (i).
 
 For `ξ ∈ ℂ²` and `w = (θ, y, u, v) ∈ 𝒫` (`KamPhase`, normal components in `p`-representatives with

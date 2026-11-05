@@ -11,8 +11,6 @@ public import KAM.Wave.KamStep.SymplecticFlow
 /-!
 # Symplecticity of the flow (`bpW:w5:flow-calc` (ii), steps `c-var`, `c-symp`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 For `h : FlowHyp X V U M δ`, a bounded bilinear form `B` skewed by every `DX(z)`, `z ∈ V`
 (step `c-skew`), is preserved by `Dφ^t(w)` for `w ∈ U` (`holoFlow_preserves_form`): the curve
 `a(t) = Dφ^t(w) W` solves `a' = DX(φ^t w) a` (`hasDerivWithinAt_fderiv_holoFlow`) and

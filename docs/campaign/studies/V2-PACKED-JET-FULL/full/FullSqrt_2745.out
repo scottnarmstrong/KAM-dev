@@ -1,0 +1,5 @@
+linting took 1.46ms
+elaboration took 1.99ms
+type checking took 3.04s
+declTypeLinter took 1.36ms
+linting took 4.37ms

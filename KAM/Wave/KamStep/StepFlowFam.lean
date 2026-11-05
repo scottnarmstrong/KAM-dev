@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The transformation bounds (blueprint-W `bpW:w5:step` (v), `bpW:w5:flow` (i)--(ii))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepFlow_bounds`: for two Taylor fields `F_1, F_2` with `|X_{F_i}|_r ≤ M₀`, `|X_{F_1} - X_{F_2}|_r
 ≤ N`,
 `M₀ ≤ σ/1024`, on `w ∈ D(s-3σ, r/4)`: `Φ = φ¹` satisfies `|Φ_1 w - w| ≤ M₀`,

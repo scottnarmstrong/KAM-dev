@@ -1,0 +1,123 @@
+\section{Resonant mean motions}\label{sec:resonant}
+
+The Diophantine condition enters the proofs of Theorems~\ref{thm:planar} and~\ref{thm:spatial} only through the
+stopped drift estimate of Lemma~\ref{lem:scaling}; here Nekhoroshev's theorem for a convex Hamiltonian with slow
+variables replaces it. As explained in Section~\ref{sec:intro}, Theorem~\ref{thm:resonant} is close to Nekhoroshev's planetary theorem~\cite[Theorem~12.3]{Nek77}. Table~\ref{tab:comparison} compares
+Theorem~\ref{thm:resonant} with Theorems~\ref{thm:planar} and~\ref{thm:spatial}.
+
+\subsection{The input theorem}
+
+Write points of $\R^{2(n+n_s)}$ as $(\theta,\xi;I,\eta)$, with fast angles $\theta$, fast actions $I\in\R^n$ and
+slow pairs $(\xi,\eta)\in\R^{n_s}\times\R^{n_s}$, and the form $\sum dI_i\wedge d\theta_i+\sum d\eta_k\wedge
+d\xi_k$. For a set $X$ and $r>0$ let $X\ominus r=\{x\in X:\{\norm{y-x}_\infty\le r\}\subset X\}$; $\aE{},\bE{}$ are
+as in Theorem~\ref{thm:resonant}.
+
+\begin{proposition}[Nekhoroshev, definite case with slow variables]\label{thm:partialnek}
+Let $n\ge2$, $n_s\ge1$, let $G\subset G'\subset\R^n$ be open and convex, $W\subset\R^{2n_s}$ open and
+$\rho_*>0$, with the closed $\rho_*$-ball about every point of $G$ contained in $G'$. Let $h$ be holomorphic on
+$G'_{\rho_*}=\{I\in\C^n:\operatorname{dist}_\infty(I,G')<\rho_*\}$, real on real points, with
+$\norm{D^2h}\le M_2$ there, and let $g,m_h>0$ and $\sigma\in\{1,-1\}$ be such that $\nrm{\nabla h(I)}\ge g$ and
+$\sigma D^2h(I)(v,v)\ge m_h\abs v^2$ for all real $I\in G'_{\rho_*}$ and $v\in\R^n$. Then there exists
+$\varepsilon_*>0$, depending only on $(n,n_s,G,G',W,\rho_*,h,g,m_h,M_2)$, with the following property.
+
+Let $0<\varepsilon<\varepsilon_*$, and let $P$ be holomorphic on the set $\mathcal F$ of
+$(\theta,\xi;I,\eta)\in\C^{2(n+n_s)}$ with $\operatorname{Re}I\in G'$, $(\operatorname{Re}\xi,\operatorname{Re}\eta)
+\in W$ and all imaginary parts of modulus $<\rho_*$, real on real points, $2\pi$-periodic in each $\theta_i$, with
+$\abs P\le1$ on $\mathcal F$. Let $T_1>0$ and let $(\theta,\xi,I,\eta)$ solve Hamilton's equations for
+$h(I)+\varepsilon P$ on $[0,T_1]$, with $I(t)\in G$ there and $I(0)\in G\ominus\varepsilon^{\bE{}}$. Then
+$\nrm{I(t)-I(0)}\le\frac12\varepsilon^{\bE{}}$ for every $t\in[0,\min\{T_1,\varepsilon^{-1}\exp(\varepsilon^{-\aE{}})\}]$
+such that $(\xi(u),\eta(u))\in W\ominus\varepsilon^{\bE{}}$ for all $u\in[0,t]$.
+\end{proposition}
+
+Here $\varepsilon_*$ precedes $P$, $T_1$ and the solution. This is
+\cite[Theorem~4.4, p.~30]{Nek77}, with $\sup\abs{H_1}$ as allowed by \cite[Remark~4.5.A]{Nek77}, specialized to a
+definite Hessian, which is quasiconvex with all steepness indices one \cite[\S1.11, p.~9]{Nek77}; then
+\cite[(4.1), (4.4), (4.5)]{Nek77} give the exponents $\aE{},\bE{}$. The form is slightly weaker
+(analyticity on $G'\supset G$, maximum-norm erosions and conclusion, $\varepsilon_*$ depending on the domains). It is proved in this form in Lean (Appendix~\ref{app:formal}).
+
+\subsection{A finite cover}
+
+As $\varepsilon_*$ is not quantitative in $G'\times W$, we use finitely many cells, each with a slow ball at its
+own sharp level. We may assume
+$\Lset_\delta\ne\emptyset$, since otherwise no initial state is admissible. Let $n_s=n$ in the plane and $n_s=2n$
+in space, and take $U$, $r_g$, $\Omega_B$ as in Section~\ref{sec:planar} and $r_*,s,b,M$ from
+Lemma~\ref{lem:domain} or~\ref{lem:spdomain}, shrunk so that $|f|\le M$ on the domain \eqref{eq:domain}
+centred at any $\Lambda^0\in\Lset_\delta$. Put $h(\Lambda)=-\sum_i\nu_i^3/(2\Lambda_i^2)$ and
+\[
+  w=\min\{r_*,4s,4b\},\qquad r_c=w/4,\qquad\rho_*=w/8,\qquad B_0=\max\{M,1\},\qquad P=f/B_0.
+\]
+
+\begin{lemma}[Finite cover]\label{lem:cover}
+There are $\bar\Lambda_1,\dots,\bar\Lambda_J\in\Lset_\delta$ with
+$\Lset_\delta\subset\bigcup_j\{\nrm{\Lambda-\bar\Lambda_j}<r_c/2\}$ such that the cells
+$G_j=\{\nrm{\Lambda-\bar\Lambda_j}<r_c\}$, $G_j'=\{\nrm{\Lambda-\bar\Lambda_j}<2r_c\}$ and
+$W_j=\{z\in\R^{2n_s}:\frac12\abs z^2<B(\bar\Lambda_j)-5\delta/16\}$ satisfy, with constants independent of $j$:
+\begin{enumerate}[label=(\roman*)]
+\item $(G_j,G_j',W_j,\rho_*,\pm h)$ satisfy the hypotheses of Proposition~\ref{thm:partialnek} with
+  $\sigma=\mp1$, and $\pm P$ satisfy them on the domain $\mathcal F_j$ built from $(G_j',W_j,\rho_*)$, on whose
+  real points the chart Hamiltonian is $h+B_0\mu P$;
+\item if $\Lambda^0\in\Lset_\delta$, $\nrm{\Lambda^0-\bar\Lambda_j}<r_c/2$, $\Lambda\in U$ and
+  $\nrm{\Lambda-\Lambda^0}\le4r_g$, then $B(\Lambda)\le B(\bar\Lambda_j)+\delta/8$;
+\item there is $\varepsilon_1>0$ with $\{\frac12\abs z^2<B(\bar\Lambda_j)-3\delta/8\}\subset W_j\ominus r$ for all
+  $j$ and $0<r<\varepsilon_1$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The cover exists by compactness, and $r_c+\rho_*<2r_c$. (i) Points of $(G_j')_{\rho_*}$ and of $\mathcal F_j$
+have actions within $2r_c+\rho_*<w\le r_*$ of $\bar\Lambda_j$, so with real parts in $U$; there $h$ is
+holomorphic and real, $D^2h=\operatorname{diag}(-3\nu_i^3/\Lambda_i^4)$ is bounded, and at real points
+$\omega_i\ge g$ and $-D^2h(v,v)\ge m_h\abs v^2$ for constants $g,m_h>0$ depending on $U$ and $w$. Points of
+$\mathcal F_j$ also have angles with imaginary parts below $\rho_*<4s$ and slow coordinates within $\rho_*<4b$ of
+$W_j\subset\mathcal Z_0(\bar\Lambda_j)$, so $\mathcal F_j$ lies in the domain \eqref{eq:domain} centred at
+$\bar\Lambda_j$, and the splitting $H_\mu=h+\mu f$ gives the last claim. (ii) As $r_c/2\le r_g$,
+$B(\Lambda)\le B(\Lambda^0)+\Omega_B(4r_g)\le B(\bar\Lambda_j)+2\Omega_B(4r_g)\le B(\bar\Lambda_j)+\delta/8$.
+(iii) With $A_j=B(\bar\Lambda_j)-5\delta/16$ and $A_j'=B(\bar\Lambda_j)-3\delta/8\ge5\delta/8$: if
+$\frac12\abs z^2<A_j'$ and $\nrm{z'-z}\le r$, then $\abs{z'}<\sqrt{2A_j'}+\sqrt{2n_s}\,r$; take
+$\varepsilon_1=\min_j(\sqrt{2A_j}-\sqrt{2A_j'})/\sqrt{2n_s}$.
+\end{proof}
+
+\subsection{Proof of Theorem~\ref{thm:resonant}}
+
+\begin{table}[ht]
+\centering\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+ & Theorems~\ref{thm:planar}, \ref{thm:spatial} & Theorem~\ref{thm:resonant}\\
+\midrule
+arithmetic hypothesis & Diophantine $(\gamma,\tau)$ at $\omega(\Lambda(0))$ & none\\
+constants depend on & $(n,\nu,\Aset,\delta,\gamma,\tau)$ & $(n,\nu,\Aset,\delta)$\\
+time & $T_0\exp(c\mu^{-\vartheta})$, $\vartheta=1/(2(\tau+1))$ & $T_0\exp(c\mu^{-\aE{}})$\\
+action, axis, AMD drift & $O(\sqrt\mu)$ & $O(\mu^{\bE{}})$\\
+other conclusions & sharp $B$, margin $\delta/2$ & identical\\
+\bottomrule
+\end{tabular}
+\caption{The Diophantine and the resonance-tolerant results; neither implies the other.}\label{tab:comparison}
+\end{table}
+
+\emph{Constants.} Proposition~\ref{thm:partialnek} gives, for each $j$, constants $\varepsilon_j^\pm$ for $\pm h$.
+Let $r_1>0$ be such that $nr+\Omega_B(r)\le\delta/4$ for $r\le r_1$. Choose $\varepsilon_0\in(0,1]$ with
+$\varepsilon_0\le\min_j\varepsilon_j^\pm$, $\varepsilon_0^{\bE{}}\le\min\{r_c/4,r_1,r_g\}$ and
+$\varepsilon_0^{\bE{}}<\varepsilon_1$, and let $\mu_0\le\varepsilon_0/(2B_0)$ satisfy also the conditions of
+Lemma~\ref{lem:osc}. For $0<\mu\le\mu_0$ put $\varepsilon=B_0\mu<\varepsilon_0$, $r=\varepsilon^{\bE{}}$ and
+$T=\exp(\varepsilon^{-\aE{}})=T_0\exp(c\mu^{-\aE{}})$, with $T_0=1$, $c=B_0^{-\aE{}}$; all this precedes the
+initial state. Then $r\le r_g$ and $nr+\Omega_B(r)\le\delta/4$.
+
+\emph{Stopped drift.} We verify the stopped drift hypothesis of Lemma~\ref{lem:exit} for these $r$ and $T$: if
+$\abs t\le T$ and for all $u$ between $0$ and $t$ the state is prograde and satisfies \eqref{eq:stopped}, then
+$\nrm{\Lambda(t)-\Lambda^0}\le r/2$. Orient or rotate as in Theorems~\ref{thm:planar} and~\ref{thm:spatial} and
+pass to the chart, where $\frac12\abs{z}^2=C$. As $\Lambda^0\in\Lset_\delta$, choose $j$ with
+$\nrm{\Lambda^0-\bar\Lambda_j}<r_c/2$. Since $r\le r_c/4$, $\Lambda^0\in G_j\ominus r$ and $\Lambda(u)\in G_j$. By
+Lemma~\ref{lem:cover}(ii),
+\[
+  \tfrac12\abs{z(u)}^2=C(u)<B(\Lambda(u))-\delta/2\le B(\bar\Lambda_j)-3\delta/8,
+\]
+so $z(u)\in W_j\ominus r$ by Lemma~\ref{lem:cover}(iii). The orbit thus stays in the real points of
+$\mathcal F_j$, where it solves Hamilton's equations for $h+\varepsilon P$. For $t>0$, as $\varepsilon\le1$,
+$t\le\exp(\varepsilon^{-\aE{}})\le\varepsilon^{-1}\exp(\varepsilon^{-\aE{}})$, and Proposition~\ref{thm:partialnek}
+with $T_1=t$ gives $\nrm{\Lambda(t)-\Lambda^0}\le\frac12\varepsilon^{\bE{}}=r/2$. For $t<0$, the time-reversed orbit
+on $[0,-t]$ solves Hamilton's equations for $-h-\varepsilon P$; use $\varepsilon_j^-$.
+
+\emph{Conclusion.} Lemma~\ref{lem:exit} now gives existence on $[-T,T]$ (uniqueness as in Theorem~\ref{thm:planar}) and, on $[-T,T]$, the margin $\delta/2$, the
+separations, and the drift bounds with $A_\Lambda=B_0^{\bE{}}/2$; Lemmas~\ref{lem:osc}
+and~\ref{lem:normalization} give the rest. In space $n_s=2n$, and the exponents are unchanged. \qed

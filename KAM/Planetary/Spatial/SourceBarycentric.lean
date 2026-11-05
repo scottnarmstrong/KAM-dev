@@ -1,0 +1,35 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import Mathlib
+public import KAM.Planetary.Spatial.Newton
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceBarycentricPositions
+public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceBarycentricVelocities
+
+/-!
+# Source-facing spatial barycentric reconstruction maps (OD-11 (b))
+
+Source: `LP:MAIN L1 (100–108)`,
+`d = 3`; track LP, non-frozen.
+
+The total maps `spatialBarycentricPositions` and `spatialBarycentricVelocities`
+(`KAM/Planetary/Spatial/Newton.lean`) divide by `1 + μ Σ ν_i` and by `ν_i`; on their whole Lean
+carriers they include zero-denominator inputs outside the source (MAIN L1 takes positive `ν`, `μ`).
+The source-facing maps below take the source premises `0 < ν_i` and `0 < μ` as proof arguments
+and are definitionally the total maps (the `_def` equations are `rfl`). No characterization is
+proposed: the implementation proves no barycentric identity (zero mass-weighted position sum,
+`p_i = ν_i V_i`) for these maps, and MAIN L1 (100–106) gives the reconstruction by these explicit
+formulas (`CHARACTERIZATION: N/A_LITERAL`).
+-/
+
+@[expose] public noncomputable section
+
+namespace KAM.Planetary.Spatial
+
+end KAM.Planetary.Spatial
+
+end

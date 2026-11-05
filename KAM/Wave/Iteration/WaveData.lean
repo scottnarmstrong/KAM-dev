@@ -14,8 +14,7 @@ import Mathlib.Tactic.GCongr
 /-!
 # W6: the data of the wave iteration (blueprint `bpW:w6:wave-iteration`, `bpW:w6:prep-step`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w6:wave-iteration`, `bpW:w6:prep-step` (steps `p-data`,
+Blueprint labels `bpW:w6:wave-iteration`, `bpW:w6:prep-step` (steps `p-data`,
 `p-step`, `p-size`, the arithmetic only) and `bpW:w6:to-w8` ("Starting size"), milestone W6.
 
 For `0 < α ≤ α₀`, `α̂ = α^{44/47}`, `α̌ = α^{48/47}`, a majorant `ε > 0`, `r > 0`:
@@ -164,10 +163,6 @@ theorem w6prep_small (hα : 0 < α) (hα0 : α ≤ measAlpha0 m hm) (hε : 0 < �
       = (w6EtaP α ε * w6C0n) * (w6EtaP α ε ^ 2 * (alphaHat α * w6SigmaP ^ w6Tn)) := by ring
     _ ≤ 1 * (w6EtaP α ε ^ 2 * (alphaHat α * w6SigmaP ^ w6Tn)) := by gcongr
     _ = _ := by ring
-
-/-- Step `p-data`: `σ_P ≤ min(1/4, s/6)`. -/
-theorem w6SigmaP_le_min : w6SigmaP ≤ min (1 / 4) (w6S / 6) := by
-  rw [w6SigmaP_val]; unfold w6S; norm_num
 
 /-- Step `p-data`: `λ = α/M ≤ α̂/M`. -/
 theorem w6prep_lam_le (hα : 0 < α) (hα0 : α ≤ measAlpha0 m hm) :

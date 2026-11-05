@@ -4,17 +4,17 @@
 
 Every statement below is an exact Lean declaration that the owner approved before its proof was written. Each lives alone in its own file under `KAM/Frozen/`, and the manifest pins its bytes. A sealed theorem has a complete proof, assembled in a separate provider module, replayed by the kernel, and using only the standard axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
-**27 frozen theorems, 26 sealed; 144 frozen definitions.**
+**73 frozen theorems, 68 sealed; 243 frozen definitions.**
 
 ## Index
 
 - **Track K: positive-measure KAM:** [`aposteriori_kam`](#aposteriori_kam) · [`kam_positive_measure`](#kam_positive_measure) · [`kam_positive_measure_qualitative`](#kam_positive_measure_qualitative) · [`local_uniqueness_flow`](#local_uniqueness_flow) · [`volume_not_diophantine_le`](#volume_not_diophantine_le)
 - **Track I: isoenergetic KAM, confinement, restricted three-body problem:** [`isoenergetic_kam`](#isoenergetic_kam) · [`all_time_confinement`](#all_time_confinement) · [`kepler_bordered_det`](#kepler_bordered_det) · [`restricted_near_circular`](#restricted_near_circular)
 - **Track N: Nekhoroshev stability:** [`quasiConvex_isoenergetic_derivative`](#quasiconvex_isoenergetic_derivative) · [`zero_perturbation`](#zero_perturbation) · [`quasiConvex_nekhoroshev_complexBound`](#quasiconvex_nekhoroshev_complexbound) · [`partialConvex_nekhoroshev`](#partialconvex_nekhoroshev) · [`averaging_mean`](#averaging_mean) · [`averaging_most`](#averaging_most)
-- **Track P: planetary systems:** [`properlyDegenerateKAM`](#properlydegeneratekam) · [`planarTwoPlanetKAM`](#planartwoplanetkam) · [`fixedSunPlanetaryKAM`](#fixedsunplanetarykam) · [`amdConfinement`](#amdconfinement) · [`planetaryExponentialSafety`](#planetaryexponentialsafety) · [`secularBoxSafety`](#secularboxsafety) · [`secularBoxAtCitedMasses`](#secularboxatcitedmasses)
+- **Track P: planetary systems:** [`properlyDegenerateKAM`](#properlydegeneratekam) · [`planarTwoPlanetKAM`](#planartwoplanetkam) · [`fixedSunPlanetaryKAM`](#fixedsunplanetarykam) · [`amdConfinement`](#amdconfinement) · [`planetaryExponentialSafety`](#planetaryexponentialsafety) · [`secularBoxSafety`](#secularboxsafety) · [`secularBoxAtCitedMasses`](#secularboxatcitedmasses) · [`orderedPairThreshold_isLeast`](#orderedpairthreshold_isleast) · [`orderedPairThreshold_existsUnique_value`](#orderedpairthreshold_existsunique_value) · [`orderedCrossThreshold_isLeast`](#orderedcrossthreshold_isleast) · [`orderedStrongThreshold_isLeast`](#orderedstrongthreshold_isleast) · [`sourceStrongAMD_nonneg`](#sourcestrongamd_nonneg) · [`sum_action_mul_eccDeficit_le_sourceStrongAMD`](#sum_action_mul_eccdeficit_le_sourcestrongamd) · [`sourceKepler_axis_pos`](#sourcekepler_axis_pos) · [`sourceKepler_ecc_le_one`](#sourcekepler_ecc_le_one) · [`sourceKeplerPeri_le_planeLength`](#sourcekeplerperi_le_planelength) · [`planeLength_le_sourceKeplerApo`](#planelength_le_sourcekeplerapo) · [`sourceOscAxis_pos`](#sourceoscaxis_pos) · [`sourceOscPeri_pos`](#sourceoscperi_pos) · [`sourceOscPeri_le_planeLength`](#sourceoscperi_le_planelength) · [`planeLength_le_sourceOscApo`](#planelength_le_sourceoscapo) · [`spatialSourceKeplerAxis_pos`](#spatialsourcekepleraxis_pos) · [`spatialSourceKeplerAction_pos`](#spatialsourcekepleraction_pos) · [`spatialSourceKeplerAction_sq`](#spatialsourcekepleraction_sq) · [`spatialSourceKeplerEcc_sq`](#spatialsourcekeplerecc_sq) · [`spatialSourceKeplerEcc_nonneg`](#spatialsourcekeplerecc_nonneg) · [`spatialSourceKeplerEcc_le_one`](#spatialsourcekeplerecc_le_one) · [`spatialSourcePlanetAngularMomentum_length`](#spatialsourceplanetangularmomentum_length) · [`spatialSourcePlanetAngularMomentum_length_le`](#spatialsourceplanetangularmomentum_length_le) · [`spatialSourceKeplerPeri_le_length`](#spatialsourcekeplerperi_le_length) · [`spatialSourceKeplerApo_ge_length`](#spatialsourcekeplerapo_ge_length) · [`spatialSourceStrongAMD_nonneg`](#spatialsourcestrongamd_nonneg) · [`spatialSourceAction_mul_eccDeficit_le`](#spatialsourceaction_mul_eccdeficit_le) · [`spatialSourceOscParam_pos`](#spatialsourceoscparam_pos) · [`spatialSourceOscEnergy_neg`](#spatialsourceoscenergy_neg) · [`spatialSourceOscEcc_lt_one`](#spatialsourceoscecc_lt_one) · [`spatialSourceOscEcc_nonneg`](#spatialsourceoscecc_nonneg) · [`spatialSourceOscAxis_pos`](#spatialsourceoscaxis_pos) · [`spatialSourceOscPeri_pos`](#spatialsourceoscperi_pos) · [`spatialSourceOscPeri_le_length`](#spatialsourceoscperi_le_length) · [`spatialSourceOscApo_ge_length`](#spatialsourceoscapo_ge_length) · [`planar_strongAMD_barrier`](#planar_strongamd_barrier) · [`planar_strongAMD_exponentialSafety`](#planar_strongamd_exponentialsafety) · [`planar_strongAMD_exponentialSafety_halfInteger`](#planar_strongamd_exponentialsafety_halfinteger) · [`spatial_strongAMD_exponentialSafety`](#spatial_strongamd_exponentialsafety) · [`spatial_strongAMD_exponentialSafety_halfInteger`](#spatial_strongamd_exponentialsafety_halfinteger) · [`planar_strongAMD_exponentialSafety_noArith`](#planar_strongamd_exponentialsafety_noarith) · [`spatial_strongAMD_exponentialSafety_noArith`](#spatial_strongamd_exponentialsafety_noarith)
 - **Track R: Rüssmann's KAM theorem (weak non-degeneracy):** [`russmann_kam`](#russmann_kam)
 - **Track W: PDE KAM (cubic wave equation):** [`nlw2`](#nlw2)
-- **Track SO: the Moon's spin rate and synchronous lock (certified tori):** [`lunar_barriers`](#lunar_barriers) · [`lunar_spin_confinement`](#lunar_spin_confinement) · [`lunarPLo_lt_lunarPHi`](#lunarplo_lt_lunarphi)
+- **Track SO: the Moon's spin rate and synchronous lock (certified tori):** [`lunar_barriers`](#lunar_barriers) · [`lunar_spin_confinement`](#lunar_spin_confinement) · [`lunarPLo_lt_lunarPHi`](#lunarplo_lt_lunarphi) · [`lunarSyncOrbit_spec`](#lunarsyncorbit_spec) · [`lunarSyncOrbit_unique`](#lunarsyncorbit_unique) · [`lunarSyncOrbit_bound`](#lunarsyncorbit_bound) · [`lunar_sync_lock`](#lunar_sync_lock)
 
 ## Track K: positive-measure KAM
 
@@ -319,7 +319,417 @@ The decimal model masses of Figueras--Haro, arXiv:2403.10152v1 §4 p. 6: μ=0.00
 - **Proof assembled in:** `KAM.Provider.Planetary.SecularBoxAtCitedMasses`
 - **Manifest ID:** `planetary.d25.secularBoxAtCitedMasses.v1`
 
-<details><summary>Frozen definitions of this track (67)</summary>
+### orderedPairThreshold_isLeast
+
+[`KAM.Planetary.StrongAMD.orderedPairThreshold_isLeast`](../KAM/Frozen/Planetary/StrongAMD/Theorems/OrderedPairThresholdIsLeast.lean#L34) · ✅ proved and sealed
+
+The ordered pair threshold is the attained minimum of the objective over the feasible set (carrier-level characterization; `LP:MAIN L4`).
+
+- **Source:** MAIN §1 (3) (47–55), L4 (141–160)
+- **Proof assembled in:** `KAM.Provider.Planetary.StrongAMD.OrderedPairThresholdIsLeast`
+- **Manifest ID:** `planetary.d59.orderedPairThreshold_isLeast.v1`
+
+### orderedPairThreshold_existsUnique_value
+
+[`KAM.Planetary.StrongAMD.orderedPairThreshold_existsUnique_value`](../KAM/Frozen/Planetary/StrongAMD/Theorems/OrderedPairThresholdExistsUniqueValue.lean#L33) · ✅ proved and sealed
+
+The value of the ordered pair threshold is the unique least value.
+
+- **Source:** MAIN §1 (3) (47–55), L4 (141–160)
+- **Proof assembled in:** `KAM.Provider.Planetary.StrongAMD.OrderedPairThresholdExistsUniqueValue`
+- **Manifest ID:** `planetary.d59.orderedPairThreshold_existsUnique_value.v1`
+
+### orderedCrossThreshold_isLeast
+
+[`KAM.Planetary.StrongAMD.orderedCrossThreshold_isLeast`](../KAM/Frozen/Planetary/StrongAMD/Theorems/OrderedCrossThresholdIsLeast.lean#L33) · ✅ proved and sealed
+
+**`B_cross` is an attained minimum** (`LP:MAIN §1 (3) (47–55)`): on the carrier, for `2 ≤ n`, `orderedCrossThreshold hn I` is the least element of the set of adjacent pair thresholds `B_{i,i+1}(I)`.
+
+- **Source:** MAIN §1 (3) (47–55)
+- **Proof assembled in:** `KAM.Provider.Planetary.StrongAMD.OrderedCrossThresholdIsLeast`
+- **Manifest ID:** `planetary.d59.orderedCrossThreshold_isLeast.v1`
+
+### orderedStrongThreshold_isLeast
+
+[`KAM.Planetary.StrongAMD.orderedStrongThreshold_isLeast`](../KAM/Frozen/Planetary/StrongAMD/Theorems/OrderedStrongThresholdIsLeast.lean#L33) · ✅ proved and sealed
+
+**`B` is an attained minimum** (`LP:MAIN §1 (3) (47–55)`): on the carrier, for `2 ≤ n`, `orderedStrongThreshold hn I = min (B_cross(I), min_i I_i)` is the least element of the set of adjacent pair thresholds `B_{i,i+1}(I)` together with the actions `I_i`.
+
+- **Source:** MAIN §1 (3) (47–55)
+- **Proof assembled in:** `KAM.Provider.Planetary.StrongAMD.OrderedStrongThresholdIsLeast`
+- **Manifest ID:** `planetary.d59.orderedStrongThreshold_isLeast.v1`
+
+### sourceStrongAMD_nonneg
+
+[`KAM.Planetary.StrongAMD.sourceStrongAMD_nonneg`](../KAM/Frozen/Planetary/StrongAMD/Theorems/SourceStrongAMDNonneg.lean#L30) · ✅ proved and sealed
+
+`0 ≤ C` on source canonical phases (`LP:MAIN L3 (130–139)`).
+
+- **Source:** MAIN L3 (130–139)
+- **Proof assembled in:** `KAM.Provider.Planetary.StrongAMD.SourceStrongAMDNonneg`
+- **Manifest ID:** `planetary.d59.sourceStrongAMD_nonneg.v1`
+
+### sum_action_mul_eccDeficit_le_sourceStrongAMD
+
+[`KAM.Planetary.StrongAMD.sum_action_mul_eccDeficit_le_sourceStrongAMD`](../KAM/Frozen/Planetary/StrongAMD/Theorems/SumActionMulEccDeficitLeSourceStrongAMD.lean#L35) · ✅ proved and sealed
+
+The deficit bound `Σ_i Λ_i D(e_i) ≤ C` on source canonical phases (`LP:MAIN L3 (130–139)`).
+
+- **Source:** MAIN L3 (130–139)
+- **Proof assembled in:** `KAM.Provider.Planetary.StrongAMD.SumActionMulEccDeficitLeSourceStrongAMD`
+- **Manifest ID:** `planetary.d59.sum_action_mul_eccDeficit_le_sourceStrongAMD.v1`
+
+### sourceKepler_axis_pos
+
+[`KAM.Planetary.StrongAMD.sourceKepler_axis_pos`](../KAM/Frozen/Planetary/StrongAMD/Theorems/SourceKeplerAxisPos.lean#L30) · ✅ proved and sealed
+
+`0 < a_i` on source canonical phases (`LP:MAIN L2 (110–128)`).
+
+- **Source:** MAIN L2 (110–128)
+- **Proof assembled in:** `KAM.Provider.Planetary.StrongAMD.SourceKeplerAxisPos`
+- **Manifest ID:** `planetary.d59.sourceKepler_axis_pos.v1`
+
+### sourceKepler_ecc_le_one
+
+[`KAM.Planetary.StrongAMD.sourceKepler_ecc_le_one`](../KAM/Frozen/Planetary/StrongAMD/Theorems/SourceKeplerEccLeOne.lean#L31) · ✅ proved and sealed
+
+`e_i ≤ 1` on source canonical phases (`LP:MAIN L2 (110–128)`).
+
+- **Source:** MAIN L2 (110–128)
+- **Proof assembled in:** `KAM.Provider.Planetary.StrongAMD.SourceKeplerEccLeOne`
+- **Manifest ID:** `planetary.d59.sourceKepler_ecc_le_one.v1`
+
+### sourceKeplerPeri_le_planeLength
+
+[`KAM.Planetary.StrongAMD.sourceKeplerPeri_le_planeLength`](../KAM/Frozen/Planetary/StrongAMD/Theorems/SourceKeplerPeriLePlaneLength.lean#L32) · ✅ proved and sealed
+
+`a_i (1 - e_i) ≤ |q_i|` on source canonical phases (`LP:MAIN L2 (110–128)`).
+
+- **Source:** MAIN L2 (110–128)
+- **Proof assembled in:** `KAM.Provider.Planetary.StrongAMD.SourceKeplerPeriLePlaneLength`
+- **Manifest ID:** `planetary.d59.sourceKeplerPeri_le_planeLength.v1`
+
+### planeLength_le_sourceKeplerApo
+
+[`KAM.Planetary.StrongAMD.planeLength_le_sourceKeplerApo`](../KAM/Frozen/Planetary/StrongAMD/Theorems/PlaneLengthLeSourceKeplerApo.lean#L32) · ✅ proved and sealed
+
+`|q_i| ≤ a_i (1 + e_i)` on source canonical phases (`LP:MAIN L2 (110–128)`).
+
+- **Source:** MAIN L2 (110–128)
+- **Proof assembled in:** `KAM.Provider.Planetary.StrongAMD.PlaneLengthLeSourceKeplerApo`
+- **Manifest ID:** `planetary.d59.planeLength_le_sourceKeplerApo.v1`
+
+### sourceOscAxis_pos
+
+[`KAM.Planetary.StrongAMD.sourceOscAxis_pos`](../KAM/Frozen/Planetary/StrongAMD/Theorems/SourceOscAxisPos.lean#L30) · ✅ proved and sealed
+
+`0 < a_i^osc` on source osculating phases (`LP:MAIN L16 (527–528)`).
+
+- **Source:** MAIN L16 (527–528)
+- **Proof assembled in:** `KAM.Provider.Planetary.StrongAMD.SourceOscAxisPos`
+- **Manifest ID:** `planetary.d59.sourceOscAxis_pos.v1`
+
+### sourceOscPeri_pos
+
+[`KAM.Planetary.StrongAMD.sourceOscPeri_pos`](../KAM/Frozen/Planetary/StrongAMD/Theorems/SourceOscPeriPos.lean#L30) · ✅ proved and sealed
+
+`0 < a_i^osc (1 - e_i^osc)` on source osculating phases.
+
+- **Source:** MAIN L16 (527–528)
+- **Proof assembled in:** `KAM.Provider.Planetary.StrongAMD.SourceOscPeriPos`
+- **Manifest ID:** `planetary.d59.sourceOscPeri_pos.v1`
+
+### sourceOscPeri_le_planeLength
+
+[`KAM.Planetary.StrongAMD.sourceOscPeri_le_planeLength`](../KAM/Frozen/Planetary/StrongAMD/Theorems/SourceOscPeriLePlaneLength.lean#L32) · ✅ proved and sealed
+
+`a^osc (1 - e^osc) ≤ |q_i|` on source osculating phases (`LP:MAIN L16 (527–528)`).
+
+- **Source:** MAIN L16 (527–528)
+- **Proof assembled in:** `KAM.Provider.Planetary.StrongAMD.SourceOscPeriLePlaneLength`
+- **Manifest ID:** `planetary.d59.sourceOscPeri_le_planeLength.v1`
+
+### planeLength_le_sourceOscApo
+
+[`KAM.Planetary.StrongAMD.planeLength_le_sourceOscApo`](../KAM/Frozen/Planetary/StrongAMD/Theorems/PlaneLengthLeSourceOscApo.lean#L32) · ✅ proved and sealed
+
+`|q_i| ≤ a^osc (1 + e^osc)` on source osculating phases (`LP:MAIN L16 (527–528)`).
+
+- **Source:** MAIN L16 (527–528)
+- **Proof assembled in:** `KAM.Provider.Planetary.StrongAMD.PlaneLengthLeSourceOscApo`
+- **Manifest ID:** `planetary.d59.planeLength_le_sourceOscApo.v1`
+
+### spatialSourceKeplerAxis_pos
+
+[`KAM.Planetary.Spatial.spatialSourceKeplerAxis_pos`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerAxisPos.lean#L30) · ✅ proved and sealed
+
+`0 < a_i` (`LP:MAIN L2 (110–128)`, `d = 3`).
+
+- **Source:** MAIN L2 (110–128)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourceKeplerAxisPos`
+- **Manifest ID:** `planetary.d59.spatialSourceKeplerAxis_pos.v1`
+
+### spatialSourceKeplerAction_pos
+
+[`KAM.Planetary.Spatial.spatialSourceKeplerAction_pos`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerActionPos.lean#L30) · ✅ proved and sealed
+
+`0 < Λ_i`.
+
+- **Source:** MAIN L2 (110–128)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourceKeplerActionPos`
+- **Manifest ID:** `planetary.d59.spatialSourceKeplerAction_pos.v1`
+
+### spatialSourceKeplerAction_sq
+
+[`KAM.Planetary.Spatial.spatialSourceKeplerAction_sq`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerActionSq.lean#L31) · ✅ proved and sealed
+
+`Λ_i² = ν_i² a_i` (`LP:MAIN L2 (110–128)`).
+
+- **Source:** MAIN L2 (110–128)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourceKeplerActionSq`
+- **Manifest ID:** `planetary.d59.spatialSourceKeplerAction_sq.v1`
+
+### spatialSourceKeplerEcc_sq
+
+[`KAM.Planetary.Spatial.spatialSourceKeplerEcc_sq`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerEccSq.lean#L33) · ✅ proved and sealed
+
+`e_i² = 1 − |L_i|²/Λ_i²` (`LP:MAIN L2 (110–128)`).
+
+- **Source:** MAIN L2 (110–128)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourceKeplerEccSq`
+- **Manifest ID:** `planetary.d59.spatialSourceKeplerEcc_sq.v1`
+
+### spatialSourceKeplerEcc_nonneg
+
+[`KAM.Planetary.Spatial.spatialSourceKeplerEcc_nonneg`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerEccNonneg.lean#L30) · ✅ proved and sealed
+
+`0 ≤ e_i`.
+
+- **Source:** MAIN L2 (110–128)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourceKeplerEccNonneg`
+- **Manifest ID:** `planetary.d59.spatialSourceKeplerEcc_nonneg.v1`
+
+### spatialSourceKeplerEcc_le_one
+
+[`KAM.Planetary.Spatial.spatialSourceKeplerEcc_le_one`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerEccLeOne.lean#L30) · ✅ proved and sealed
+
+`e_i ≤ 1` (`LP:MAIN L2 (110–128)`; the radial case `e_i = 1` is included).
+
+- **Source:** MAIN L2 (110–128)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourceKeplerEccLeOne`
+- **Manifest ID:** `planetary.d59.spatialSourceKeplerEcc_le_one.v1`
+
+### spatialSourcePlanetAngularMomentum_length
+
+[`KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourcePlanetAngularMomentumLength.lean#L33) · ✅ proved and sealed
+
+`|L_i| = Λ_i √(1 − e_i²)` (`LP:MAIN L2 (110–128)`).
+
+- **Source:** MAIN L2 (110–128)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourcePlanetAngularMomentumLength`
+- **Manifest ID:** `planetary.d59.spatialSourcePlanetAngularMomentum_length.v1`
+
+### spatialSourcePlanetAngularMomentum_length_le
+
+[`KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum_length_le`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourcePlanetAngularMomentumLengthLe.lean#L32) · ✅ proved and sealed
+
+`|L_i| ≤ Λ_i`.
+
+- **Source:** MAIN L2 (110–128)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourcePlanetAngularMomentumLengthLe`
+- **Manifest ID:** `planetary.d59.spatialSourcePlanetAngularMomentum_length_le.v1`
+
+### spatialSourceKeplerPeri_le_length
+
+[`KAM.Planetary.Spatial.spatialSourceKeplerPeri_le_length`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerPeriLeLength.lean#L32) · ✅ proved and sealed
+
+Radial incidence on the canonical carrier: `a_i (1 − e_i) ≤ |q_i|` (`LP:MAIN L2 (110–128)`).
+
+- **Source:** MAIN L2 (110–128)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourceKeplerPeriLeLength`
+- **Manifest ID:** `planetary.d59.spatialSourceKeplerPeri_le_length.v1`
+
+### spatialSourceKeplerApo_ge_length
+
+[`KAM.Planetary.Spatial.spatialSourceKeplerApo_ge_length`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceKeplerApoGeLength.lean#L32) · ✅ proved and sealed
+
+Radial incidence on the canonical carrier: `|q_i| ≤ a_i (1 + e_i)` (`LP:MAIN L2 (110–128)`).
+
+- **Source:** MAIN L2 (110–128)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourceKeplerApoGeLength`
+- **Manifest ID:** `planetary.d59.spatialSourceKeplerApo_ge_length.v1`
+
+### spatialSourceStrongAMD_nonneg
+
+[`KAM.Planetary.Spatial.spatialSourceStrongAMD_nonneg`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceStrongAMDNonneg.lean#L30) · ✅ proved and sealed
+
+`0 ≤ C` on the canonical carrier (`LP:MAIN L3 (130–139)`).
+
+- **Source:** MAIN L3 (130–139)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourceStrongAMDNonneg`
+- **Manifest ID:** `planetary.d59.spatialSourceStrongAMD_nonneg.v1`
+
+### spatialSourceAction_mul_eccDeficit_le
+
+[`KAM.Planetary.Spatial.spatialSourceAction_mul_eccDeficit_le`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceActionMulEccDeficitLe.lean#L32) · ✅ proved and sealed
+
+`Σ_i Λ_i (1 − √(1 − e_i²)) ≤ C` on the canonical carrier (`LP:MAIN L3 (130–139)`).
+
+- **Source:** MAIN L3 (130–139)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourceActionMulEccDeficitLe`
+- **Manifest ID:** `planetary.d59.spatialSourceAction_mul_eccDeficit_le.v1`
+
+### spatialSourceOscParam_pos
+
+[`KAM.Planetary.Spatial.spatialSourceOscParam_pos`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscParamPos.lean#L30) · ✅ proved and sealed
+
+On the osculating carrier: `0 < k_i`.
+
+- **Source:** MAIN L16 (508–525)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourceOscParamPos`
+- **Manifest ID:** `planetary.d59.spatialSourceOscParam_pos.v1`
+
+### spatialSourceOscEnergy_neg
+
+[`KAM.Planetary.Spatial.spatialSourceOscEnergy_neg`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscEnergyNeg.lean#L30) · ✅ proved and sealed
+
+On the osculating carrier: `E_i^osc < 0`.
+
+- **Source:** MAIN L16 (508–525)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourceOscEnergyNeg`
+- **Manifest ID:** `planetary.d59.spatialSourceOscEnergy_neg.v1`
+
+### spatialSourceOscEcc_lt_one
+
+[`KAM.Planetary.Spatial.spatialSourceOscEcc_lt_one`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscEccLtOne.lean#L30) · ✅ proved and sealed
+
+On the osculating carrier: `e_i^osc < 1`.
+
+- **Source:** MAIN L16 (508–525)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourceOscEccLtOne`
+- **Manifest ID:** `planetary.d59.spatialSourceOscEcc_lt_one.v1`
+
+### spatialSourceOscEcc_nonneg
+
+[`KAM.Planetary.Spatial.spatialSourceOscEcc_nonneg`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscEccNonneg.lean#L30) · ✅ proved and sealed
+
+On the osculating carrier: `0 ≤ e_i^osc`.
+
+- **Source:** MAIN L16 (508–525)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourceOscEccNonneg`
+- **Manifest ID:** `planetary.d59.spatialSourceOscEcc_nonneg.v1`
+
+### spatialSourceOscAxis_pos
+
+[`KAM.Planetary.Spatial.spatialSourceOscAxis_pos`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscAxisPos.lean#L30) · ✅ proved and sealed
+
+On the osculating carrier: `0 < a_i^osc` (SP-OSC's `spatialOscPhase_ellipse`).
+
+- **Source:** MAIN L16 (527–528)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourceOscAxisPos`
+- **Manifest ID:** `planetary.d59.spatialSourceOscAxis_pos.v1`
+
+### spatialSourceOscPeri_pos
+
+[`KAM.Planetary.Spatial.spatialSourceOscPeri_pos`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscPeriPos.lean#L30) · ✅ proved and sealed
+
+On the osculating carrier: `0 < a^osc (1 − e^osc)`.
+
+- **Source:** MAIN L16 (527–528)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourceOscPeriPos`
+- **Manifest ID:** `planetary.d59.spatialSourceOscPeri_pos.v1`
+
+### spatialSourceOscPeri_le_length
+
+[`KAM.Planetary.Spatial.spatialSourceOscPeri_le_length`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscPeriLeLength.lean#L32) · ✅ proved and sealed
+
+Radial incidence on the osculating carrier: `a^osc (1 − e^osc) ≤ |q_i|`.
+
+- **Source:** MAIN L16 (527–528)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourceOscPeriLeLength`
+- **Manifest ID:** `planetary.d59.spatialSourceOscPeri_le_length.v1`
+
+### spatialSourceOscApo_ge_length
+
+[`KAM.Planetary.Spatial.spatialSourceOscApo_ge_length`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialSourceOscApoGeLength.lean#L32) · ✅ proved and sealed
+
+Radial incidence on the osculating carrier: `|q_i| ≤ a^osc (1 + e^osc)`.
+
+- **Source:** MAIN L16 (527–528)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialSourceOscApoGeLength`
+- **Manifest ID:** `planetary.d59.spatialSourceOscApo_ge_length.v1`
+
+### planar_strongAMD_barrier
+
+[`KAM.Planetary.StrongAMD.planar_strongAMD_barrier`](../KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDBarrier.lean#L47) · ✅ proved and sealed
+
+**LP0** (`LP:MAIN L5 (162–166), with L2–L4 (110–160); N11`): the planar sharp strong barrier (full MAIN Lemma 5).
+
+- **Source:** MAIN L5 (162–166), with L2–L4 (110–160); N11
+- **Proof assembled in:** `KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDBarrier`
+- **Manifest ID:** `planetary.d59.planar_strongAMD_barrier.v1`
+
+### planar_strongAMD_exponentialSafety
+
+[`KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety`](../KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafety.lean#L61) · ✅ proved and sealed
+
+**LP1** (`LP:MAIN T15 (502–506) with §1 (6)–(9) (69–93), L16 (508–529); N8, N10`): planar strong-AMD exponential safety.
+
+- **Source:** MAIN T15 (502–506) with §1 (6)–(9) (69–93), L16 (508–529); N8, N10
+- **Proof assembled in:** `KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafety`
+- **Manifest ID:** `planetary.d59.planar_strongAMD_exponentialSafety.v1`
+
+### planar_strongAMD_exponentialSafety_halfInteger
+
+[`KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_halfInteger`](../KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyHalfInteger.lean#L63) · ✅ proved and sealed
+
+**LP1-H** (`LP:MAIN §1 (93) (τ = n − 1/2), T15 (502–506), L16 (508–529)`): planar strong-AMD exponential safety at τ = n − 1/2 (exponent 1/(2n+1)).
+
+- **Source:** MAIN §1 (93) (τ = n − 1/2), T15 (502–506), L16 (508–529)
+- **Proof assembled in:** `KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyHalfInteger`
+- **Manifest ID:** `planetary.d59.planar_strongAMD_exponentialSafety_halfInteger.v1`
+
+### spatial_strongAMD_exponentialSafety
+
+[`KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafety.lean#L63) · ✅ proved and sealed
+
+**LP2** (`LP:MAIN T19 (599–603) with §1 (6)–(9) (69–93), L16 (508–529), d = 3`): spatial strong-AMD exponential safety.
+
+- **Source:** MAIN T19 (599–603) with §1 (6)–(9) (69–93), L16 (508–529), d = 3
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafety`
+- **Manifest ID:** `planetary.d59.spatial_strongAMD_exponentialSafety.v1`
+
+### spatial_strongAMD_exponentialSafety_halfInteger
+
+[`KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_halfInteger`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyHalfInteger.lean#L64) · ✅ proved and sealed
+
+**LP2-H** (`LP:MAIN §1 (93) (τ = n − 1/2), T19 (599–603), L16 (508–529), d = 3`): spatial strong-AMD exponential safety at τ = n − 1/2 (exponent 1/(2n+1)).
+
+- **Source:** MAIN §1 (93) (τ = n − 1/2), T19 (599–603), L16 (508–529), d = 3
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyHalfInteger`
+- **Manifest ID:** `planetary.d59.spatial_strongAMD_exponentialSafety_halfInteger.v1`
+
+### planar_strongAMD_exponentialSafety_noArith
+
+[`KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith`](../KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean#L68) · ✅ proved and sealed
+
+**LP3-1** (`LP:MAIN T15 (502–506) with §1 (6)–(9) (69–93) without (5), L14 (468–500), L16 (508–529); N8, N10; drift supplier L12–L13 (381–467) replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)`): planar strong-AMD exponential safety with no arithmetic hypothesis (time exponent `planetaryTimeExponent n`, drift exponent `planetaryDriftExponent n`).
+
+- **Source:** MAIN T15 (502–506) with §1 (6)–(9) (69–93) without (5), L14 (468–500), L16 (508–529); N8, N10; drift supplier L12–L13 (381–467) replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)
+- **Proof assembled in:** `KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyNoArith`
+- **Manifest ID:** `planetary.d59.planar_strongAMD_exponentialSafety_noArith.v1`
+
+### spatial_strongAMD_exponentialSafety_noArith
+
+[`KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean#L69) · ✅ proved and sealed
+
+**LP3-2** (`LP:MAIN T19 (599–603) with §1 (6)–(9) (69–93) without (5), L14 (468–500), L16 (508–529), d = 3; drift supplier L12–L13 (381–467) replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)`): spatial strong-AMD exponential safety with no arithmetic hypothesis (time exponent `planetaryTimeExponent n`, drift exponent `planetaryDriftExponent n`).
+
+- **Source:** MAIN T19 (599–603) with §1 (6)–(9) (69–93) without (5), L14 (468–500), L16 (508–529), d = 3; drift supplier L12–L13 (381–467) replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyNoArith`
+- **Manifest ID:** `planetary.d59.spatial_strongAMD_exponentialSafety_noArith.v1`
+
+<details><summary>Frozen definitions of this track (156)</summary>
 
 - [`KAM.Planetary.Phase`](../KAM/Frozen/Planetary/Defs/Phase.lean#L37)
 - [`KAM.Planetary.fast`](../KAM/Frozen/Planetary/Defs/Fast.lean#L37)
@@ -388,6 +798,95 @@ The decimal model masses of Figueras--Haro, arXiv:2403.10152v1 §4 p. 6: μ=0.00
 - [`KAM.Planetary.SecularRegular`](../KAM/Frozen/Planetary/Defs/SecularRegular.lean#L41)
 - [`KAM.Planetary.jupiterSaturnWeights`](../KAM/Frozen/Planetary/Defs/JupiterSaturnWeights.lean#L35)
 - [`KAM.Planetary.SecularInputBox`](../KAM/Frozen/Planetary/Defs/SecularInputBox.lean#L40)
+- [`KAM.Planetary.StrongAMD.actionAxis`](../KAM/Frozen/Planetary/StrongAMD/Defs/ActionAxis.lean#L30)
+- [`KAM.Planetary.StrongAMD.chamber`](../KAM/Frozen/Planetary/StrongAMD/Defs/Chamber.lean#L27)
+- [`KAM.Planetary.StrongAMD.eccDeficit`](../KAM/Frozen/Planetary/StrongAMD/Defs/EccDeficit.lean#L30)
+- [`KAM.Planetary.StrongAMD.pairFeasible`](../KAM/Frozen/Planetary/StrongAMD/Defs/PairFeasible.lean#L28)
+- [`KAM.Planetary.StrongAMD.pairObjective`](../KAM/Frozen/Planetary/StrongAMD/Defs/PairObjective.lean#L27)
+- [`KAM.Planetary.StrongAMD.pairThreshold`](../KAM/Frozen/Planetary/StrongAMD/Defs/PairThreshold.lean#L32)
+- [`KAM.Planetary.StrongAMD.AdjIdx`](../KAM/Frozen/Planetary/StrongAMD/Defs/AdjIdx.lean#L27)
+- [`KAM.Planetary.StrongAMD.AdjIdx.upperIdx`](../KAM/Frozen/Planetary/StrongAMD/Defs/AdjIdxUpperIdx.lean#L1)
+- [`KAM.Planetary.StrongAMD.OrderedActions`](../KAM/Frozen/Planetary/StrongAMD/Defs/OrderedActions.lean#L26)
+- [`KAM.Planetary.StrongAMD.orderedPairThreshold`](../KAM/Frozen/Planetary/StrongAMD/Defs/OrderedPairThreshold.lean#L29)
+- [`KAM.Planetary.StrongAMD.orderedCrossThreshold`](../KAM/Frozen/Planetary/StrongAMD/Defs/OrderedCrossThreshold.lean#L32)
+- [`KAM.Planetary.StrongAMD.orderedStrongThreshold`](../KAM/Frozen/Planetary/StrongAMD/Defs/OrderedStrongThreshold.lean#L28)
+- [`KAM.Planetary.StrongAMD.strongAMD`](../KAM/Frozen/Planetary/StrongAMD/Defs/StrongAMD.lean#L31)
+- [`KAM.Planetary.StrongAMD.keplerPeri`](../KAM/Frozen/Planetary/StrongAMD/Defs/KeplerPeri.lean#L31)
+- [`KAM.Planetary.StrongAMD.keplerApo`](../KAM/Frozen/Planetary/StrongAMD/Defs/KeplerApo.lean#L31)
+- [`KAM.Planetary.StrongAMD.oscVelocity`](../KAM/Frozen/Planetary/StrongAMD/Defs/OscVelocity.lean#L29)
+- [`KAM.Planetary.StrongAMD.oscParam`](../KAM/Frozen/Planetary/StrongAMD/Defs/OscParam.lean#L28)
+- [`KAM.Planetary.StrongAMD.oscEnergy`](../KAM/Frozen/Planetary/StrongAMD/Defs/OscEnergy.lean#L35)
+- [`KAM.Planetary.StrongAMD.oscAxis`](../KAM/Frozen/Planetary/StrongAMD/Defs/OscAxis.lean#L30)
+- [`KAM.Planetary.StrongAMD.oscEccVector`](../KAM/Frozen/Planetary/StrongAMD/Defs/OscEccVector.lean#L34)
+- [`KAM.Planetary.StrongAMD.oscEcc`](../KAM/Frozen/Planetary/StrongAMD/Defs/OscEcc.lean#L32)
+- [`KAM.Planetary.StrongAMD.oscPeri`](../KAM/Frozen/Planetary/StrongAMD/Defs/OscPeri.lean#L30)
+- [`KAM.Planetary.StrongAMD.oscApo`](../KAM/Frozen/Planetary/StrongAMD/Defs/OscApo.lean#L30)
+- [`KAM.Planetary.StrongAMD.SourceCanonicalPhase`](../KAM/Frozen/Planetary/StrongAMD/Defs/SourceCanonicalPhase.lean#L30)
+- [`KAM.Planetary.StrongAMD.SourceOsculatingPhase`](../KAM/Frozen/Planetary/StrongAMD/Defs/SourceOsculatingPhase.lean#L31)
+- [`KAM.Planetary.StrongAMD.sourceStrongAMD`](../KAM/Frozen/Planetary/StrongAMD/Defs/SourceStrongAMD.lean#L28)
+- [`KAM.Planetary.StrongAMD.sourceKeplerPeri`](../KAM/Frozen/Planetary/StrongAMD/Defs/SourceKeplerPeri.lean#L28)
+- [`KAM.Planetary.StrongAMD.sourceKeplerApo`](../KAM/Frozen/Planetary/StrongAMD/Defs/SourceKeplerApo.lean#L28)
+- [`KAM.Planetary.StrongAMD.sourceOscVelocity`](../KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscVelocity.lean#L28)
+- [`KAM.Planetary.StrongAMD.sourceOscParam`](../KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscParam.lean#L28)
+- [`KAM.Planetary.StrongAMD.sourceOscEnergy`](../KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEnergy.lean#L28)
+- [`KAM.Planetary.StrongAMD.sourceOscAxis`](../KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscAxis.lean#L28)
+- [`KAM.Planetary.StrongAMD.sourceOscEccVector`](../KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEccVector.lean#L28)
+- [`KAM.Planetary.StrongAMD.sourceOscEcc`](../KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscEcc.lean#L28)
+- [`KAM.Planetary.StrongAMD.sourceOscPeri`](../KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscPeri.lean#L28)
+- [`KAM.Planetary.StrongAMD.sourceOscApo`](../KAM/Frozen/Planetary/StrongAMD/Defs/SourceOscApo.lean#L28)
+- [`KAM.Planetary.Spatial.spaceDot`](../KAM/Frozen/Planetary/Spatial/Defs/SpaceDot.lean#L28)
+- [`KAM.Planetary.Spatial.spaceSq`](../KAM/Frozen/Planetary/Spatial/Defs/SpaceSq.lean#L28)
+- [`KAM.Planetary.Spatial.spaceLength`](../KAM/Frozen/Planetary/Spatial/Defs/SpaceLength.lean#L28)
+- [`KAM.Planetary.Spatial.spaceCross`](../KAM/Frozen/Planetary/Spatial/Defs/SpaceCross.lean#L28)
+- [`KAM.Planetary.Spatial.bodyVector3`](../KAM/Frozen/Planetary/Spatial/Defs/BodyVector3.lean#L28)
+- [`KAM.Planetary.Spatial.planetAngularMomentum3`](../KAM/Frozen/Planetary/Spatial/Defs/PlanetAngularMomentum3.lean#L29)
+- [`KAM.Planetary.Spatial.angularMomentum3`](../KAM/Frozen/Planetary/Spatial/Defs/AngularMomentum3.lean#L29)
+- [`KAM.Planetary.Spatial.spatialHamiltonian`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialHamiltonian.lean#L34)
+- [`KAM.Planetary.Spatial.SpatialNoCollision`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialNoCollision.lean#L28)
+- [`KAM.Planetary.Spatial.IsSpatialMovingSolutionOn`](../KAM/Frozen/Planetary/Spatial/Defs/IsSpatialMovingSolutionOn.lean#L31)
+- [`KAM.Planetary.Spatial.SpatialMovingUniqueOn`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialMovingUniqueOn.lean#L30)
+- [`KAM.Planetary.Spatial.spatialBarycentricPositions`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialBarycentricPositions.lean#L34)
+- [`KAM.Planetary.Spatial.spatialBarycentricVelocities`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialBarycentricVelocities.lean#L34)
+- [`KAM.Planetary.Spatial.spatialMasses`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialMasses.lean#L28)
+- [`KAM.Planetary.Spatial.IsSpatialNewtonSolutionOn`](../KAM/Frozen/Planetary/Spatial/Defs/IsSpatialNewtonSolutionOn.lean#L28)
+- [`KAM.Planetary.Spatial.spatialKeplerEnergy`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerEnergy.lean#L33)
+- [`KAM.Planetary.Spatial.spatialKeplerAxis`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerAxis.lean#L29)
+- [`KAM.Planetary.Spatial.spatialKeplerAction`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerAction.lean#L29)
+- [`KAM.Planetary.Spatial.spatialKeplerEccVector`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerEccVector.lean#L32)
+- [`KAM.Planetary.Spatial.SpatialNegativeEnergy`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialNegativeEnergy.lean#L30)
+- [`KAM.Planetary.Spatial.SpatialElliptic`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialElliptic.lean#L27)
+- [`KAM.Planetary.Spatial.spatialKeplerPeri`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerPeri.lean#L31)
+- [`KAM.Planetary.Spatial.spatialKeplerApo`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialKeplerApo.lean#L31)
+- [`KAM.Planetary.Spatial.spatialOscVelocity`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialOscVelocity.lean#L30)
+- [`KAM.Planetary.Spatial.spatialOscParam`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialOscParam.lean#L28)
+- [`KAM.Planetary.Spatial.spatialOscEnergy`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEnergy.lean#L35)
+- [`KAM.Planetary.Spatial.spatialOscAxis`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialOscAxis.lean#L30)
+- [`KAM.Planetary.Spatial.spatialOscEccVector`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEccVector.lean#L34)
+- [`KAM.Planetary.Spatial.spatialOscEcc`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialOscEcc.lean#L32)
+- [`KAM.Planetary.Spatial.spatialOscPeri`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialOscPeri.lean#L30)
+- [`KAM.Planetary.Spatial.spatialOscApo`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialOscApo.lean#L30)
+- [`KAM.Planetary.Spatial.SpatialOscPhase`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialOscPhase.lean#L32)
+- [`KAM.Planetary.Spatial.SpatialSourceCanonicalPhase`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceCanonicalPhase.lean#L27)
+- [`KAM.Planetary.Spatial.SpatialSourceOsculatingPhase`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOsculatingPhase.lean#L26)
+- [`KAM.Planetary.Spatial.spatialSourceKeplerAxis`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerAxis.lean#L28)
+- [`KAM.Planetary.Spatial.spatialSourceKeplerAction`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerAction.lean#L28)
+- [`KAM.Planetary.Spatial.spatialSourceKeplerEccVector`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerEccVector.lean#L28)
+- [`KAM.Planetary.Spatial.spatialSourceKeplerEcc`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerEcc.lean#L29)
+- [`KAM.Planetary.Spatial.spatialSourcePlanetAngularMomentum`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourcePlanetAngularMomentum.lean#L28)
+- [`KAM.Planetary.Spatial.spatialSourceAngularMomentum`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceAngularMomentum.lean#L28)
+- [`KAM.Planetary.Spatial.spatialSourceStrongAMD`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceStrongAMD.lean#L30)
+- [`KAM.Planetary.Spatial.spatialSourceKeplerPeri`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerPeri.lean#L28)
+- [`KAM.Planetary.Spatial.spatialSourceKeplerApo`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceKeplerApo.lean#L28)
+- [`KAM.Planetary.Spatial.spatialSourceOscVelocity`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscVelocity.lean#L28)
+- [`KAM.Planetary.Spatial.spatialSourceOscParam`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscParam.lean#L28)
+- [`KAM.Planetary.Spatial.spatialSourceOscEnergy`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEnergy.lean#L28)
+- [`KAM.Planetary.Spatial.spatialSourceOscAxis`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscAxis.lean#L28)
+- [`KAM.Planetary.Spatial.spatialSourceOscEccVector`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEccVector.lean#L28)
+- [`KAM.Planetary.Spatial.spatialSourceOscEcc`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscEcc.lean#L28)
+- [`KAM.Planetary.Spatial.spatialSourceOscPeri`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscPeri.lean#L28)
+- [`KAM.Planetary.Spatial.spatialSourceOscApo`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceOscApo.lean#L28)
+- [`KAM.Planetary.Spatial.spatialSourceBarycentricPositions`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricPositions.lean#L32)
+- [`KAM.Planetary.Spatial.spatialSourceBarycentricVelocities`](../KAM/Frozen/Planetary/Spatial/Defs/SpatialSourceBarycentricVelocities.lean#L32)
 
 </details>
 
@@ -413,7 +912,7 @@ The decimal model masses of Figueras--Haro, arXiv:2403.10152v1 §4 p. 6: μ=0.00
 
 ### nlw2
 
-[`KAM.Wave.nlw2`](../KAM/Frozen/Wave/Theorems/Nlw2.lean#L43) · ⬜ not yet
+[`KAM.Wave.nlw2`](../KAM/Frozen/Wave/Theorems/Nlw2.lean#L43) · ✅ proved and sealed
 
 **W-NLW2.** For every `m > 0` the cubic Dirichlet wave equation `u_tt = u_xx - m u - u³` has a density-one (in the actions, at `0`) Borel family of small analytic invariant 2-tori with Diophantine frequencies, carrying exact classical PDE solutions, pairwise disjoint and embedded.
 
@@ -469,7 +968,41 @@ The initial momentum window of `lunar_spin_confinement` is nonempty.
 - **Proof assembled in:** `KAM.Provider.SpinOrbit.LunarWindow`
 - **Manifest ID:** `spinorbit.d40.lunarPLo_lt_lunarPHi.v1`
 
-<details><summary>Frozen definitions of this track (10)</summary>
+### lunarSyncOrbit_spec
+
+[`KAM.SpinOrbit.lunarSyncOrbit_spec`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitSpec.lean#L28) · ⬜ not yet
+
+- **Source:** FREEZE-PROPOSAL-LOCK §1.2 (existence; Q1)
+- **Proof assembled in:** `KAM.Provider.SpinOrbit.LunarSyncOrbitSpec`
+- **Manifest ID:** `spinorbit.lock.lunarSyncOrbit_spec.v1`
+
+### lunarSyncOrbit_unique
+
+[`KAM.SpinOrbit.lunarSyncOrbit_unique`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitUnique.lean#L28) · ⬜ not yet
+
+- **Source:** FREEZE-PROPOSAL-LOCK §1.2 (uniqueness among odd one-periodic orbits; Q1)
+- **Proof assembled in:** `KAM.Provider.SpinOrbit.LunarSyncOrbitUnique`
+- **Manifest ID:** `spinorbit.lock.lunarSyncOrbit_unique.v1`
+
+### lunarSyncOrbit_bound
+
+[`KAM.SpinOrbit.lunarSyncOrbit_bound`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitBound.lean#L27) · ⬜ not yet
+
+- **Source:** FREEZE-PROPOSAL-LOCK §1.2 (location of psi*; Q5, D49 literals)
+- **Proof assembled in:** `KAM.Provider.SpinOrbit.LunarSyncOrbitBound`
+- **Manifest ID:** `spinorbit.lock.lunarSyncOrbit_bound.v1`
+
+### lunar_sync_lock
+
+[`KAM.SpinOrbit.lunar_sync_lock`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncLock.lean#L31) · ⬜ not yet
+
+The Moon stays locked in synchronous rotation forever.
+
+- **Source:** FREEZE-PROPOSAL-LOCK §1.2 headline (Q3, D49 literals)
+- **Proof assembled in:** `KAM.Provider.SpinOrbit.LunarSyncLock`
+- **Manifest ID:** `spinorbit.lock.lunar_sync_lock.v1`
+
+<details><summary>Frozen definitions of this track (14)</summary>
 
 - [`KAM.SpinOrbit.soEcc`](../KAM/Frozen/SpinOrbit/Defs/SoEcc.lean#L23)
 - [`KAM.SpinOrbit.soEps`](../KAM/Frozen/SpinOrbit/Defs/SoEps.lean#L23)
@@ -481,5 +1014,18 @@ The initial momentum window of `lunar_spin_confinement` is nonempty.
 - [`KAM.SpinOrbit.SoBarrier`](../KAM/Frozen/SpinOrbit/Defs/SoBarrier.lean#L26)
 - [`KAM.SpinOrbit.lunarPLo`](../KAM/Frozen/SpinOrbit/Defs/LunarPLo.lean#L23)
 - [`KAM.SpinOrbit.lunarPHi`](../KAM/Frozen/SpinOrbit/Defs/LunarPHi.lean#L23)
+- [`KAM.SpinOrbit.IsSyncOrbit`](../KAM/Frozen/SpinOrbit/Defs/IsSyncOrbit.lean#L25)
+- [`KAM.SpinOrbit.lunarSyncOrbit`](../KAM/Frozen/SpinOrbit/Defs/LunarSyncOrbit.lean#L24)
+- [`KAM.SpinOrbit.libAction`](../KAM/Frozen/SpinOrbit/Defs/LibAction.lean#L26)
+- [`KAM.SpinOrbit.lunarOmega`](../KAM/Frozen/SpinOrbit/Defs/LunarOmega.lean#L22)
 
 </details>
+
+## Other frozen definitions
+
+- [`KAM.Magnetic.magEps`](../KAM/Frozen/Magnetic/Defs/MagEps.lean)
+- [`KAM.Magnetic.magH0`](../KAM/Frozen/Magnetic/Defs/MagH0.lean)
+- [`KAM.Magnetic.magAlpha`](../KAM/Frozen/Magnetic/Defs/MagAlpha.lean)
+- [`KAM.Magnetic.magV`](../KAM/Frozen/Magnetic/Defs/MagV.lean)
+- [`KAM.Magnetic.magField`](../KAM/Frozen/Magnetic/Defs/MagField.lean)
+- [`KAM.Magnetic.magHamC`](../KAM/Frozen/Magnetic/Defs/MagHamC.lean)

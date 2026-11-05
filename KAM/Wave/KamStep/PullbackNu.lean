@@ -15,8 +15,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The operator `N_t` at the small scale (blueprint-W `bpW:w5:pullback` step `p-inv`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepNu ρ y = |y|_ρ`. For the flow of `ι Z` and `w ∈ D(s-3σ, r/4)`:
 `ν_{ηr}(N_t(w) y) ≤ (8M/(σ η²)) ν_{ηr}(y)` and, for two fields with `|Z - Z'| ≤ N₁`,
 `ν_{ηr}((N_t - N'_t) y) ≤ (16 N₁/(σ η²)) ν_{ηr}(y)`.
@@ -102,7 +100,6 @@ theorem stepNu_transNop_sub_le (hη0 : 0 < η) (hη1 : η ≤ 1) (hι : ∀ g, �
     _ ≤ η⁻¹ ^ 2 * (2 * N₁ / ρ' * stepNu (η * r) y) :=
         mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left hy (by positivity)) (by positivity)
     _ = _ := by ring
-
 
 theorem stepPullback_sup (hη0 : 0 < η) (hη1 : η ≤ 1) (hι : ∀ g, ‖ι g‖ ≤ ‖g‖)
     (h : FlowHyp (smoothField ι Z) V U M δ) (hZ : DifferentiableOn ℂ Z V)

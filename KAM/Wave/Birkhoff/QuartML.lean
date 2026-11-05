@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.QuartGrad
 /-!
 # The gradient `∇𝔓` as a continuous trilinear map (blueprint-W `bpW:w3:quartic`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:quartic`.
+Package W3-SETTING, blueprint label `bpW:w3:quartic`.
 
 `birkGradLp` is the point `∇𝔓(w¹,w²,w³) ∈ 𝔚^+` (weighted coordinates at weight `p + 1`),
 `birkCoord_birkGradLp` gives its coordinates `-i sgn(l)/16 Σ_y c_{(y,-l)} ∏ w^t_{y_t}`,
@@ -218,10 +217,6 @@ include ha hp hc in
 def birkGradML : ContinuousMultilinearMap ℂ (fun _ : Fin 3 => BirkSpace) BirkSpace :=
   (birkGradMLmap m hm ha hp hc).mkContinuous (waveCubicConst p / 4)
     (fun w => norm_birkGradLp_le m hm ha hp hc w)
-
-include ha hp hc in
-theorem birkGradML_apply (w : Fin 3 → BirkSpace) :
-    birkGradML m hm ha hp hc w = birkGradLp m hm ha hp hc w := rfl
 
 include ha hp hc in
 /-- (`bpW:w3:quartic`) coordinates of `∇𝔓`:

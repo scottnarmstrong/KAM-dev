@@ -13,9 +13,6 @@ public import Mathlib.Data.PNat.Basic
 /-!
 # Frequencies, divisors and Melnikov conditions (blueprint-W `bpW:w4:melnikov`)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 Normal modes carry the P96-K index `j ≥ 1` (`ℕ+`), the wave mode being `J = j + 2`
 (blueprint `bpW:w4:index`). `ω : (Fin 2 → ℝ) → Fin 2 → ℝ` and `Ω : (Fin 2 → ℝ) → ℕ+ → ℝ` are the
 frequencies, on the parameter set `Π`. Integer vectors `l ∈ ℤ^{ℕ₊}` with finite support are

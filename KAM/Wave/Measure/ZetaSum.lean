@@ -11,9 +11,6 @@ public import Mathlib.NumberTheory.ZetaValues
 /-!
 # W7: lattice sums (blueprint `bpW:w7:ext-zeta`, `bpW:w7:count` (iii))
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 `#{k ∈ ℤ² : |k| = N} ≤ 4 N` for `N ≥ 1` and `∑_N N^{-2} = π²/6` give
 `∑_{k ≠ 0} c |k|^{-3} ≤ c · 2π²/3 = c · Z₃`.
 -/

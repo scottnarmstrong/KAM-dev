@@ -17,8 +17,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Weighted lattice sums (blueprint-W `bpW:w1:lattice`)
 
-Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
-
 For `n ≥ 1`, `σ > 0`, `ε = 2πσ`, and `|k|₁ = KAM.Fourier.modeSize k`:
 
 * (i) `kamLattice_hasSum_exp`: `∑ₖ e^{-ε|k|₁} = coth(πσ)ⁿ`;
@@ -157,12 +155,6 @@ theorem kamLattice_tsum_pow_exp_le (hn : 1 ≤ n) {c σ : ℝ} (hc : 0 ≤ c) (h
       0 ≤ (1 + Fourier.modeSize k) ^ c * Real.exp (-(2 * Real.pi * σ) * Fourier.modeSize k) :=
     fun k => by have := Fourier.modeSize_nonneg k; positivity
   exact ⟨summable_of_sum_le hnn hbound, Real.tsum_le_of_sum_le hnn hbound⟩
-
-theorem kamLattice_const_nonneg {c σ : ℝ} (hc : 0 ≤ c) (hσ : 0 < σ) :
-    0 ≤ kamLatticeConst n c σ := by
-  unfold kamLatticeConst
-  have : 0 ≤ c + (n - 1 : ℕ) := by positivity
-  positivity
 
 /-- `1 + x^τ ≤ (1+x)^τ` for `x ≥ 0`, `τ ≥ 1` (blueprint `bpW:w1:lattice` (iv)). -/
 theorem kamDivisor_le {x τ : ℝ} (hx : 0 ≤ x) (hτ : 1 ≤ τ) : 1 + x ^ τ ≤ (1 + x) ^ τ := by

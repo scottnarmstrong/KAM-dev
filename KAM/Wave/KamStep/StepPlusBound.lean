@@ -17,7 +17,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Bounds of the field of `P_+` (blueprint-W `bpW:w5:new-ham` (ii), `bpW:w5:step` (ii))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
 -/
 
 @[expose] public noncomputable section
@@ -92,7 +91,6 @@ theorem stepXplusA_bounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 
   have := stepPullback_bounds ha hp hpb hσ hσ1 hσs hη0 hη hF₁ hF₂ hM0 hMs hN₁ hZZ hY0
     hY₁ hY₂ hb₁ hb₂ hd hw (t := 1) ⟨by norm_num, le_rfl⟩ hy₁ hy₂
   exact this
-
 
 /-- Per-time bounds for the commutator term (two parameters). -/
 theorem stepXplusB_time_bounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 < σ)
@@ -219,7 +217,6 @@ theorem stepXplusB_time_bounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (h
     hd hw (t := t) ⟨by linarith [ht.1], ht.2⟩ hy₁ hy₂
   exact hpb'
 
-
 /-- `t ↦ y_t(w)` is Lipschitz (in the norm of `StepPhase r`). -/
 theorem stepYfam_time_lip (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 < σ) (hσ1 : σ ≤ 1)
     (hσs : 5 * σ < s) (hη0 : 0 < η) (hη : η ≤ 1 / 8) {T : HomTaylor_gen a p pb s}
@@ -272,7 +269,6 @@ theorem stepYfam_time_lip (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 
     (by positivity : 0 < σ / 16) (by linarith) (by norm_num) hY0 (by positivity) hdiff hnb hnt
     (hU'U hw) (hball) hN ht ht'
 
-
 /-- **The commutator integral** `∫₀¹ y_t dt`: sup bound and two-parameter difference bound. -/
 theorem stepXplusB_bounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 < σ)
     (hσ1 : σ ≤ 1) (hσs : 5 * σ < s) (hη0 : 0 < η) (hη : η ≤ 1 / 8)
@@ -317,7 +313,6 @@ theorem stepXplusB_bounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 
   · exact stepNu_integral_sub_le hρ (f₁ := fun t => yfam ι (stepFieldS ha hp hpb FT₁ r)
       (stepZgfam ha hp hpb T₁ FT₁) t w) (f₂ := fun t => yfam ι (stepFieldS ha hp hpb FT₂ r)
       (stepZgfam ha hp hpb T₂ FT₂) t w) hL₁ hL₂ hl₁ hl₂ (fun t ht => (hb t ht).2)
-
 
 /-- **Bounds of `X_+`** for two parameters: sum of the pulled-back and commutator terms. -/
 theorem stepXplus_pair_bound (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 < σ)

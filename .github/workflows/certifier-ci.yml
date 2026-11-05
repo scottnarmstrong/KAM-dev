@@ -1,0 +1,115 @@
+# Inexpensive checks of the certifier's producer tools, exact mirrors and file-based guards (V2-PUBLIC #4).
+#
+# Manual trigger only (Actions tab, "Run workflow"), by the owner's decision: this repository receives
+# automated status commits about every 20 minutes. Every job runs one command that also runs locally:
+# `python3 -I scripts/ci_checks.py --group <job>` (`--list` names the checks).
+#
+# Supply chain: every action is pinned by full commit SHA (its release in the comment); checkout keeps no
+# credentials; elan is a fixed release whose tarball is checked against its sha256 before it runs; the Python
+# packages are installed with --require-hashes from scripts/requirements.txt.
+#
+# Measured on the development machine (AMD Ryzen 7 7700, 1 November 2026; GitHub's runners are slower per
+# core, so expect 1.5-2.5 times these numbers):
+#   mirror         10 checks, 83-89 s, plus the install of the pinned wheels (numpy, mpmath: 17 MB)
+#   lint           lint_sources.sh without its ABI step 113-144 s (4100+ Lean files), pin check 1 s
+#   lean-fixtures  (opt-in) the 32 forced-toy modules and Fiber3XLang with their KAM closure: 445 modules,
+#                  1235 CPU-s serial, 177 s critical path, simulated 5-7 min on 4 cores, at most 2.5 GB per
+#                  Lean process; plus the Mathlib dependency checkout and `lake exe cache get` (about 6.7 GB
+#                  unpacked); then forced_xlang 26 s and the route-B mirror check 5 s. A restored .lake/build
+#                  cache skips unchanged modules.
+name: certifier-ci
+
+on:
+  workflow_dispatch:
+    inputs:
+      lean-fixtures:
+        description: "Also build the light Lean fixtures (Tests/Forced, Fiber3XLang) and run the Lean cross-checks"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: certifier-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  ELAN_VERSION: v4.2.4
+  # sha256 of elan-x86_64-unknown-linux-gnu.tar.gz of that release (the digest GitHub publishes for the asset,
+  # checked against a download on 1 November 2026)
+  ELAN_SHA256: 42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63
+
+jobs:
+  mirror:
+    name: "mirrors and producers (Python, no Lean)"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # v7.0.0
+        with:
+          python-version: "3.13"
+      - name: Pinned producer environment (scripts/requirements.txt)
+        run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: \
+            -r scripts/requirements.txt
+      - name: Mirror, regeneration and diagnostics checks
+        run: python -I scripts/ci_checks.py --group mirror
+
+  lint:
+    name: "file-based guards"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # v7.0.0
+        with:
+          python-version: "3.13"
+      - name: lint_sources.sh (ABI-hash step stubbed) and the pin check
+        run: python -I scripts/ci_checks.py --group lint
+
+  lean-fixtures:
+    name: "light Lean fixtures (opt-in)"
+    if: ${{ inputs.lean-fixtures }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # v7.0.0
+        with:
+          python-version: "3.13"
+      - name: Pinned producer environment (scripts/requirements.txt)
+        run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: \
+            -r scripts/requirements.txt
+      - name: Install elan ${{ env.ELAN_VERSION }}, checksum verified (the toolchain comes from lean-toolchain)
+        run: |
+          tmp=$(mktemp -d)
+          curl -sSfL -o "$tmp/elan.tar.gz" \
+            "https://github.com/leanprover/elan/releases/download/${ELAN_VERSION}/elan-x86_64-unknown-linux-gnu.tar.gz"
+          echo "${ELAN_SHA256}  $tmp/elan.tar.gz" | sha256sum -c -
+          tar -xzf "$tmp/elan.tar.gz" -C "$tmp"
+          "$tmp/elan-init" -y --no-modify-path --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Restore the KAM build (Lake re-checks every trace; a stale restore is safe)
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
+        with:
+          path: .lake/build
+          key: kam-build-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ hashFiles('KAM/**/*.lean') }}
+          restore-keys: |
+            kam-build-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+      - name: Mathlib build cache
+        run: lake exe cache get
+      - name: Build the light fixtures
+        run: |
+          targets=$(find KAM/CertificateSharp/V2/Tests/Forced -name '*.lean' | sort | sed 's#/#.#g; s#\.lean$##')
+          lake build $targets KAM.CertificateSharp.V2.Tests.Fiber3XLang
+      - name: Compiled-Lean cross-language checks (forced_xlang, the route-B diagnostics mirror)
+        run: python -I scripts/ci_checks.py --group lean

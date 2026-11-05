@@ -13,9 +13,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Assembly of the field norm from component bounds (`bpW:w4:lemma1`, step *Assembly*)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 `homXnorm_le_of_components_gen`: if the components of `T ∈ 𝒯_s` at `θ` satisfy the bounds of
 `bpW:w4:components` with the scale `E₀` and the operator constant `K ≥ 1` (that is `|b| ≤ 2πE₀`,
 `‖c^±‖ ≤ rE₀/√2`, `‖2P‖,‖Q‖,‖Q^T‖,‖2P'‖ ≤ KE₀`, `|∂_ia| ≤ 2πr²E₀`, `|⟨∂_ib,y⟩| ≤ 2πE₀|y|`,
@@ -53,7 +50,6 @@ structure HomCompBounds_gen {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb 
   dP' : ∀ i, ‖homLamCLM_gen ha (homPP hp hpb) (homPartial i T.P' θ)‖ ≤ K * (4 * Real.pi * E0)
   dQ : ∀ i, ‖homLamCLM_gen ha (homPP hp hpb) (homPartial i T.Q θ)‖ ≤ K * (16 * Real.pi * E0)
 
-
 theorem norm_homPairRep_le_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (c z : HomL2) :
     ‖homPairRep_gen ha (homPP hp hpb) c z‖ ≤ homDualNorm_gen ha (homPP hp hpb) c * ‖z‖ := by
   have := norm_homPairF_le (homLamDiag_gen ha (homPP hp hpb) c) z
@@ -81,7 +77,6 @@ theorem norm_le_of_domain {r : ℝ} {z zb : HomL2} (h : ‖homU z zb‖ + ‖hom
   obtain ⟨h1, h2⟩ := homNorm_le_uv z zb
   exact ⟨h1.trans (div_le_div_of_nonneg_right h.le hs.le),
     h2.trans (div_le_div_of_nonneg_right h.le hs.le)⟩
-
 
 theorem norm_add7_le {E : Type*} [SeminormedAddCommGroup E] (a b c d e f g : E) :
     ‖a + b + c + d + e + f + g‖ ≤ ‖a‖ + ‖b‖ + ‖c‖ + ‖d‖ + ‖e‖ + ‖f‖ + ‖g‖ := by

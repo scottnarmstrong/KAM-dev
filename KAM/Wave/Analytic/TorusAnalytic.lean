@@ -12,8 +12,7 @@ public import KAM.Strip.Cauchy
 /-!
 # Real-analytic tori from complex strips
 
-Blueprint-W `bpW:w1:torus-analytic` (package W1-ANALYTIC). This is source-faithful infrastructure
-used by several nodes; the dependency graph is still being built.
+Blueprint-W `bpW:w1:torus-analytic` (package W1-ANALYTIC).
 
 `WaveSpaceC` is `E^ℂ_{1,1}`, two copies of `ℓ²_ℂ`; `complexifyWave` and `reWave` are `ι` and `re` on
 it. A holomorphic, real-on-reals, `1`-periodic map `K̃` on the strip `T_s = complexStrip 2 s` with

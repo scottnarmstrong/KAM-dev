@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The new normal form `N_+ = N + N̂` (blueprint-W `bpW:w5:new-ham`, `bpW:w5:step` (iii))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepNfun_add_Nhat`: when `[b]` and `[Q]_{jj}` are real (`homCoeff_b_real`, `homCoeff_Q_real`),
 `N_{ω,Ω} + N̂ = N_{ω+ω̂, Ω+Ω̂}` with `ω̂ = Re[b]`, `Ω̂_j = Re[Q]_{jj}` (`stepOmegaHat`,
 `stepOmegaTail`) as functions on `KamPhase`.

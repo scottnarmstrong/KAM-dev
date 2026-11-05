@@ -12,9 +12,8 @@ public import KAM.Planetary.StrongAMD.NonresonantReuse.Hyp
 public import KAM.Planetary.StrongAMD.NonresonantReuse.Drift
 
 /-!
-# The engine's analytic data and the stopped drift (package LP-NRR, MAIN Lemma 13)
+# The engine's analytic data and the stopped drift
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 Facade for track LP, non-frozen: `Kepler` (period-one Kepler data, nonresonance), `Pert`/`PertClass`
 (complex unrescaling and the perturbation), `Hyp` (`ExtNFHyp` and the trace identity), `Drift`
 (`lp_stopped_drift`).

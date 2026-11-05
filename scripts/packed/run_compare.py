@@ -1,0 +1,167 @@
+#!/usr/bin/env python3
+"""V2-PACKED-GEN: the whole-torus cost table of a packed route against LG00's run ledger (untrusted reporting tool).
+
+Walks the import closure of a target module across the scratch packages (`--pkg DIR` for each package root, in
+order), attributes each module's cost to the ledger that built it (`--ledger FILE` for each: the run harness's
+`ledger.tsv`, LG00's run ledger, or a kamx-packed summary JSON with `rows`), and prints the totals per stage next to
+LG00's own stages of the same tree. A module found in no ledger is listed (cost unknown).
+A `--ledger` may also be a directory of kamx-packed's per-module `<module>.cost` files (`run_modules.sh`).
+Usage: python3 -I scripts/packed/run_compare.py TARGET --tree TP --pkg DIR... --ledger FILE... --lg00-ledger FILE
+       [--base-tree TP]       (compare with another tree's LG00 run: T″'s was stopped by the owner's decision)
+"""
+import json
+import os
+import re
+import sys
+
+IMP = re.compile(r"^public import (\S+)", re.M)
+
+
+def opts(name):
+    out, args = [], sys.argv
+    for i, a in enumerate(args):
+        if a == name and i + 1 < len(args):
+            out.append(args[i + 1])
+    return out
+
+
+def load_ledger(path):
+    rows = {}
+    if os.path.isdir(path):                  # kamx-packed's run_modules.sh: one LOGDIR/<module>.cost per module
+        for fn in sorted(os.listdir(path)):
+            if not fn.endswith(".cost"):
+                continue
+            kv = dict(l.split(None, 1) for l in open(os.path.join(path, fn)) if len(l.split(None, 1)) == 2)
+            g = lambda k: kv.get(k, "0").strip()
+            rows[fn[:-5]] = dict(cpu=float(g("user_s")) + float(g("sys_s")), ok=g("exit") == "0", reused=False,
+                                 peak=int(float(g("cgroup_sampled_peak_bytes"))))
+        return {m: r for m, r in rows.items() if r["ok"]}
+    if path.endswith(".json"):
+        for r in json.load(open(path))["rows"]:
+            rows[r["module"]] = dict(cpu=r["cpu"], peak=r.get("peak", 0) or 0, ok=r["exit"] == 0, reused=False)
+        return rows
+    for l in open(path):
+        f = l.rstrip("\n").split("\t")
+        if len(f) < 7:
+            continue
+        reused = len(f) > 7 and f[7] == "reused"
+        peak = int(f[5]) if f[5].isdigit() else 0
+        r = dict(cpu=float(f[1]) + float(f[2]) if f[1] not in ("?", "") else 0.0, peak=peak, ok=f[6] == "0",
+                 reused=reused)
+        if r["ok"] and (not reused or f[0] not in rows):
+            rows[f[0]] = r
+    return rows
+
+
+def lake_secs(t):
+    return sum(float(v) * {"ms": 0.001, "s": 1, "m": 60, "h": 3600}[u] for v, u in re.findall(r"([0-9.]+)(ms|s|m|h)", t))
+
+
+def extras(path, rows):
+    """The other modules a ledger row's `lake build` compiled (V2-PACKED-CONS-PERF: such rows booked rebuilt
+    dependencies to the row's module): {module: [(other, Lake's seconds)]}, from the per-module logs beside a TSV
+    ledger."""
+    out = {}
+    if path.endswith(".json"):
+        return out
+    for m, r in rows.items():
+        log = (os.path.join(path, m + ".out") if os.path.isdir(path) else
+               os.path.join(os.path.dirname(path), m + ".log"))
+        if r["reused"] or not os.path.exists(log):
+            continue
+        ex = [(x, lake_secs(t)) for x, t in re.findall(r"Built (\S+)(?: \(([^)]*)\))?", open(log).read()) if x != m]
+        if ex:
+            out[m] = ex
+    return out
+
+
+def stage(m, tree):
+    p = m.split(".")
+    if p[0] == "LG00P" and len(p) > 2 and p[2] == "PK":
+        x = p[3] if len(p) > 3 else ""
+        return {"TorsJ": "Torsion", "Gram": "Gram", "FramesJ": "Final", "InvJ": "Full", "EnJ": "Full",
+                "Front": "Data", "Data": "Data", "HamJet": "Final", "Xfer": "Final", "Asm": "Final",
+                "MainJ": "Main", "XferH": "Final", "MainJH": "Main"}.get(x, "Final")
+    if len(p) > 3 and p[1] == tree and p[2] == "Jet":
+        return {"Low": "Low", "Full": "Full"}[p[3]]
+    if len(p) > 2 and p[1] == tree:
+        return {"Data": "Data", "Balls": "Balls", "Final": "Final", "Low": "Low", "Full": "Full", "Gram": "Gram",
+                "Torsion": "Torsion"}.get(p[2], "Final")
+    return "Data" if p[1:2] in (["Format"], ["FormatK"], ["FormatQ"], ["Coeffs0"], ["Coeffs1"], ["Ham"]) else "Final"
+
+
+def main():
+    target = sys.argv[1]
+    tree = (opts("--tree") or ["TP"])[0]
+    pkgs = opts("--pkg")
+    ledgers = [load_ledger(p) for p in opts("--ledger")]
+    lg00 = load_ledger(opts("--lg00-ledger")[0])
+    # no double booking: a row loses the Lake time of the other modules its build compiled, when those have their own
+    # row (a single pass builds each module once)
+    own = {m for L in ledgers for m, r in L.items() if not r["reused"]}
+    nfix, sfix = 0, 0.0
+    for p, L in zip(opts("--ledger"), ledgers):
+        for m, ex in extras(p, L).items():
+            cut = min(sum(t for x, t in ex if x in own), L[m]["cpu"])
+            if cut > 0:
+                L[m] = dict(L[m], cpu=L[m]["cpu"] - cut)
+                nfix += 1
+                sfix += cut
+    print("double booking removed: %d rows, %.1f s (other modules their builds compiled)" % (nfix, sfix))
+
+    def src(m):
+        for p in pkgs:
+            f = os.path.join(p, *m.split(".")) + ".lean"
+            if os.path.exists(f):
+                return f
+        return None
+    seen, stack = set(), [target]
+    while stack:
+        m = stack.pop()
+        if m in seen:
+            continue
+        seen.add(m)
+        for d in IMP.findall(open(src(m), encoding="utf-8").read()):
+            if d.split(".")[0] in ("LG00", "LG00P") and src(d):
+                stack.append(d)
+    tot, unknown = {}, []
+    for m in seen:
+        r = None
+        for L in ledgers + [lg00]:
+            if m in L and not L[m]["reused"]:
+                r = L[m]
+                break
+        st = stage(m, tree)
+        t = tot.setdefault(st, dict(n=0, cpu=0.0, peak=0))
+        t["n"] += 1
+        if r is None:
+            unknown.append(m)
+            continue
+        t["cpu"] += r["cpu"]
+        t["peak"] = max(t["peak"], r["peak"])
+    base, btree = {}, (opts("--base-tree") or [tree])[0]     # the LG00 run's tree to compare with (default: same)
+    for m, r in lg00.items():
+        p = m.split(".")
+        if len(p) > 2 and p[0] == "LG00" and p[1] == btree:
+            b = base.setdefault(p[2] if p[2] in ("Data", "Balls", "Gram", "Torsion", "Low", "Full", "Final")
+                                else "Main", dict(n=0, cpu=0.0, peak=0))
+            b["n"] += 1
+            b["cpu"] += r["cpu"]
+            b["peak"] = max(b["peak"], r["peak"])
+    order = ["Data", "Balls", "Gram", "Torsion", "Low", "Full", "Final", "Main"]
+    print("| stage | LG00 run: modules | CPU-s | peak | packed route: modules | CPU-s | peak | ratio |")
+    print("|---|---:|---:|---:|---:|---:|---:|---:|")
+    T = dict(bn=0, bc=0.0, n=0, c=0.0)
+    for st in order:
+        b, t = base.get(st, dict(n=0, cpu=0, peak=0)), tot.get(st, dict(n=0, cpu=0, peak=0))
+        ratio = ("%.1f×" % (b["cpu"] / t["cpu"])) if t["cpu"] else "—"
+        print("| %s | %d | %.0f | %.2f GB | %d | %.0f | %.2f GB | %s |" % (
+            st, b["n"], b["cpu"], b["peak"] / 1e9, t["n"], t["cpu"], t["peak"] / 1e9, ratio))
+        T["bn"] += b["n"]; T["bc"] += b["cpu"]; T["n"] += t["n"]; T["c"] += t["cpu"]
+    print("| **total** | **%d** | **%.0f** (%.2f CPU-h) | | **%d** | **%.0f** (%.2f CPU-h) | | **%.1f×** |" % (
+        T["bn"], T["bc"], T["bc"] / 3600, T["n"], T["c"], T["c"] / 3600, T["bc"] / T["c"] if T["c"] else 0))
+    print("modules with no ledger row (cost unknown): %d %s" % (len(unknown), sorted(unknown)[:12]))
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,31 @@
+{
+ "replaced": [
+  "lpM:L5",
+  "lpM:L5#gap-positive",
+  "lpM:L6",
+  "lpM:L6#shared-U",
+  "lpM:L6#moving-threshold",
+  "lpM:L6#local-existence",
+  "lpM:L6#continuation",
+  "lpM:L6#backward"
+ ],
+ "added": [],
+ "items": [],
+ "unresolved": {},
+ "passes": [
+  "lpM:L5#Km-compact",
+  "lpM:L5#empty-case",
+  "lpM:L5#perihelion",
+  "lpM:L5#bounds",
+  "lpM:L5#pair-distances",
+  "lpM:L5#compact-physical",
+  "lpM:L5#projection",
+  "lpM:L5#Km-compact",
+  "lpM:L5#empty-case",
+  "lpM:L5#perihelion",
+  "lpM:L5#bounds",
+  "lpM:L5#pair-distances",
+  "lpM:L5#compact-physical",
+  "lpM:L5#projection"
+ ]
+}

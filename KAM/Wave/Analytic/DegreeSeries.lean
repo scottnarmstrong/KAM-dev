@@ -15,8 +15,7 @@ public import Mathlib.Algebra.BigOperators.Fin
 /-!
 # Grouping a multi-index power series by degree
 
-Blueprint-W `bpW:w1:holo-analytic-fd`, step `stepW:w1:hagroup` (package W1-ANALYTIC). This is
-source-faithful infrastructure used by several nodes; the dependency graph is still being built.
+Blueprint-W `bpW:w1:holo-analytic-fd`, step `stepW:w1:hagroup` (package W1-ANALYTIC).
 
 For coefficients `c : (Fin n → ℕ) → F` we build the formal multilinear series
 `KAM.Wave.degreeSeries c` on `Fin n → ℂ` with `p_m (h, …, h) = ∑_{|α| = m} h^α c_α`. The blueprint
@@ -80,7 +79,6 @@ def degreeSeries (c : (Fin n → ℕ) → F) : FormalMultilinearSeries ℂ (Fin 
   fun m => ∑ σ : Fin m → Fin n,
     wordTerm σ (((wordFiberCard m (wordCount σ) : ℕ) : ℂ)⁻¹ • c (wordCount σ))
 
-
 theorem sum_wordCount {m : ℕ} (σ : Fin m → Fin n) : ∑ i, wordCount σ i = m := by
   have := Finset.card_eq_sum_card_fiberwise (s := (univ : Finset (Fin m)))
     (t := (univ : Finset (Fin n)))
@@ -120,7 +118,6 @@ theorem prod_word {m : ℕ} (σ : Fin m → Fin n) (h : Fin n → ℂ) :
   rw [Finset.prod_congr rfl (g := fun _ => h i) (fun l hl => by rw [(Finset.mem_filter.mp hl).2])]
   simp [wordCount]
 
-
 theorem wordFiberCard_pos {m : ℕ} {α : Fin n → ℕ} (hα : ∑ i, α i = m) : 0 < wordFiberCard m α := by
   obtain ⟨σ, hσ⟩ := exists_word_of_sum hα
   exact Finset.card_pos.mpr ⟨σ, by simpa using hσ⟩
@@ -145,7 +142,6 @@ theorem degreeSeries_apply_diag (c : (Fin n → ℕ) → F) (m : ℕ) (h : Fin n
   rw [← wordFiberCard, smul_smul, mul_comm]
   have hne : ((wordFiberCard m α : ℕ) : ℂ) ≠ 0 := by exact_mod_cast hpos.ne'
   rw [← mul_assoc, inv_mul_cancel₀ hne, one_mul]
-
 
 /-- Norm bound for the degree-`m` part: `‖p_m‖ ≤ #{α : |α| = m} · b` when `‖c_α‖ ≤ b` for
 `|α| = m`. -/

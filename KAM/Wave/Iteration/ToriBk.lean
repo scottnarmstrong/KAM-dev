@@ -13,8 +13,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: the tori in Birkhoff coordinates, basic clauses (`bpW:w6:tori` (i), (ii), (iv))
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:tori` (steps `t-hol`, `t-cont`, `t-close`).
+Blueprint label `bpW:w6:tori` (steps `t-hol`, `t-cont`, `t-close`).
 
 The input Hamiltonian is `H_in = N_ξ + P_ξ` of W5's action–angle lemma (`bpW:w5:action-angle` (iv),
 `a = p = 1`), `P = w6InP`, `X_P = w6InX`; `bpW:w5:initial` supplies the hypotheses of the

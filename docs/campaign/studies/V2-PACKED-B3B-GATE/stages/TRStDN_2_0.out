@@ -1,0 +1,6 @@
+linting took 1.22ms
+typeclass inference of KAM.Certificate.CertArith took 3.52ms
+elaboration took 5.9ms
+type checking took 9.92s
+tactic execution of Lean.Parser.Tactic.decide took 1.82ms
+linting took 3.25ms

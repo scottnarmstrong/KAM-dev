@@ -12,8 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The Taylor polynomial `R ∈ 𝒯_s` (blueprint-W `bpW:w5:taylor` (i))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepTaylorOf`: for a smoothing pair `(P, X)` on `D(s,r)` with `P` periodic and `|X|_r ≤ ε`, the
 element `R ∈ 𝒯_s` (W4's class, `HomTaylor_gen a p pb s`) whose components are those of
 `bpW:w5:taylor`.

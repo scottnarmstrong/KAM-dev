@@ -1,0 +1,6 @@
+LP-FREEZE8-EXEC (D64) pre-landing kernel replay, per module: systemd-run --user --scope -p MemoryMax=4G -p MemorySwapMax=0 nice -n 10 env LEAN_NUM_THREADS=1 lake env leanchecker <Module> (MemAvailable >= 8 GB gate)
+KAM.Planetary.StrongAMD.Nek.PlanarSafety.Source rc=0 14s 
+KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyNoArith rc=0 15s 
+KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyNoArith rc=0 14s 
+KAM.Frozen.Planetary.StrongAMD.Theorems.PlanarStrongAMDExponentialSafetyNoArith rc=0 15s 
+KAM.Frozen.Planetary.Spatial.Theorems.SpatialStrongAMDExponentialSafetyNoArith rc=0 15s 

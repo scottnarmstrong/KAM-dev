@@ -13,7 +13,7 @@ public import KAM.Planetary.StrongAMD.NonresonantAdapter
 /-!
 # The premises of the Lemma 13 adapter on the stopped interval
 
-Package LP-LIFT, MAIN Lemma 14 (`LP:MAIN L14 (477–483)`) feeding MAIN Lemma 13
+Source: MAIN Lemma 14 (`LP:MAIN L14 (477–483)`) feeding MAIN Lemma 13
 (`LP:MAIN L13 (429–464)`, N6), track LP, non-frozen.
 
 For the block `b = lpStoppedBlock ν δ I⁰ r wₛ = ⟨I⁰, secularBall ν δ I⁰, r, wₛ⟩` and the chart lift
@@ -28,7 +28,6 @@ shape `nonresonant_drift_of_chartData` consumes (with `J := uIcc 0 t`):
 None is assumed.  `lpStopped_drift_of_chartData` composes them with the (conditional) adapter, to
 check that the shapes match; it does not discharge `hstop`.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

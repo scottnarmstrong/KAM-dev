@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 # Translation equivariance of `Φ` and periodicity of `P_+` (blueprint-W `bpW:w5:flow` (iv),
 `bpW:w5:new-ham` (ii), "periodic")
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepFlow_translate`: `Φ(w + τ_k) = Φ(w) + τ_k` for `w ∈ D(s-2σ, r/2)`;
 `stepPplusS_periodic`: `P_+(w + τ_k) = P_+(w)` on `D_+` when `P` is periodic.
 -/

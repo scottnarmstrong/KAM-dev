@@ -13,9 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # One KAM step, modified case (blueprint-W `bpW:w5:step`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP, item 6); the dependency graph is still being
-built.
-
 `stepTheoremMod_of_eps0_pos`: the clauses of `stepTheorem` for `StepHypMod` (modified divisors,
 `P ∈ 𝒮_{p+1}`, `2β ≤ p+1-p₊`, `c♮_F`, `t♮`, `C♮₂`), through `StepHypMod.core`.
 -/
@@ -34,8 +31,8 @@ variable {a p pb s r σ η τ α β lam ε ε₀ ε₁ γ M0 Mω MΩ : ℝ} {Par
 
 namespace StepHypMod
 
-/-- **One KAM step, modified case** (`bpW:w5:step`), conditional helper (assumes `0 < ε₀`). The
-  solve
+/-- **One KAM step, modified case** (`bpW:w5:step`), hypothesis-taking variant (assumes `0 < ε₀`).
+  The solve
 uses modified divisors; the new objects are those of `H.core` for the pair `(P, D_ρ ∘ X)`. Clause
   (iv)
 is conditional on `HomMelnikov` (the blueprint's "whenever the same holds with `α`"). -/
@@ -107,7 +104,7 @@ protected def Conclusion
 
 end StepHypMod
 
-/-- Conditional helper (`0 < ε₀`). -/
+/-- Hypothesis-taking variant (`0 < ε₀`). -/
 theorem stepTheoremMod_of_eps0_pos
     (H : StepHypMod a p pb s r σ η τ α β lam ε ε₀ ε₁ γ M0 Mω MΩ Par ω Ω P X)
     [Fact (0 < r)] : H.Conclusion :=

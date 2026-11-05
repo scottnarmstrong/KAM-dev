@@ -17,6 +17,13 @@ same day as part 3 of track SO (D42, D45). Sun–Jupiter–Saturn, rank 13 in th
 | [plan-magnetic-barrier](../plan-magnetic-barrier.md) | proposed; numerical gate failed so far | One uncrossable graph at ε = 0.003; MP solves miss 10⁻²⁵ by 6 orders |
 | [plan-mercury-32](../plan-mercury-32.md) | proposed; numerical evidence favourable | Spin within 0.018 of 3/2 for all time, exact Kepler forcing |
 
+The [31 October plasma-route assessment](#plasma-physics-routes-review-31-october-2026)
+below distinguishes controlled field-line models, device-derived fields and
+particle dynamics. The accompanying [certifier fixes](../../campaign/design/CERTIFIER-V2-FIXES.md)
+and [improvements](../../campaign/design/CERTIFIER-V2-IMPROVEMENTS.md) separate
+confirmed issues from proposed extensions. They identify no fundamental defect
+in SO-2 or SO-3 and do not supersede the lunar campaigns.
+
 ## Striking applications of a formally verified KAM certifier
 
 **[striking-applications.md](../striking-applications.md)** · 30 October 2026 · feasibility study (APPS-SCOUT;
@@ -124,5 +131,117 @@ libration of the resonant angle, nor the first rigorous Mercury trapping result.
   `spin_kepler` function in `scripts/apps_scout/models.py` uses a floating-point square root, so its output is a
   numerical diagnostic, not an exact certificate expression.
 - **Corrects** [next-demonstrations](../next-demonstrations.md) on the 512×192 grid (radix-two FFT).
+
+## Plasma physics routes: review, 31 October 2026
+
+Assessment at `bbf13193ed4dd15dfe141e2f7cd9902b48b818ea`; recommendations,
+not an adopted campaign or a new plasma certificate. This extends the four
+application studies above. The existing magnetic plan remains the source of
+its exact model, candidate statement and measured numerical gate.
+
+The certifier has a plausible plasma application path, but "a plasma torus"
+can describe different mathematical objects and physical conclusions. Choose
+the dynamics and observable before choosing the theorem extension.
+
+| Route | Object to certify | Fit to present certifier | Additional work |
+|---|---|---|---|
+| Controlled field-line Hamiltonian | A two-dimensional invariant surface that separates field-line trajectories | Closest fit: canonical autonomous extension of a periodically forced system | Complete the finite certificate, graph transfer and non-crossing theorem |
+| Field from actual coils or an equilibrium representation | A surface for the explicitly represented magnetic field | Requires a certified reduction/chart, or an appropriate geometric theorem | Field representation, derivative/remainder bounds, chart domain and physical-coordinate transfer |
+| Guiding-centre or full particle dynamics | Phase-space invariant tori and specified particle observables | A different application; canonical reduction or a noncanonical extension may be needed | Symplectic/reduction data, additional frequencies where appropriate, and a separate confinement argument |
+
+### Controlled field-line models: the first integration case
+
+Use the [exact quadratic-control model](../plan-magnetic-barrier.md), whose
+autonomous Hamiltonian has the form `J + h(p) + V(q,phi)`. It fits the present
+expression language and isoenergetic engine. Its two-frequency clock structure
+also fits the specialized sharp small-divisor sites.
+
+The proposed output is a separating graph `p=P(q,phi)` and a theorem that its
+field lines cannot cross it. One such surface supplies separation, not
+two-sided flux confinement by itself. A torus-existence result needs the
+graph, embedding and dynamical transfer arguments before it becomes that
+physical barrier statement.
+
+The existing plan's 1024² pilot reaches a weighted residual around
+`5.12e-19`, against its proposed `1e-25` allocation. This is a failed numerical
+gate at the tested settings, not a disproof of the barrier. Investigate the
+support, strip and enclosure budgets before committing another large kernel
+run. Compare the existing A variants and hybrid at checked data; do not assume
+that either a sharper formula or extra resolution automatically closes the gap.
+
+A smaller-perturbation pilot would be a separately labelled model/target.
+Retain the existing owner decision process for changing the planned physical
+statement. Mercury's stronger numerical readiness does not make this plasma
+route uninteresting; it changes the sensible order of costly application runs.
+
+Valvo–Locatelli provide a relevant computer-assisted magnetic-barrier precedent
+and public numerical code. Compare exact Hamiltonians and truncation conventions
+before comparing thresholds or making novelty claims; the existing plan records
+specific source/model distinctions. [Primary paper](https://arxiv.org/abs/2101.07785)
+
+### Device-derived fields: certify the model as well as the torus
+
+For a coil or equilibrium application, identify the exact mathematical field
+being certified. A sampled grid and a visually smooth interpolant are not an
+analytic enclosure of the physical model. The application package should carry:
+
+- A finite analytic field or vector-potential representation, with certified
+  derivatives and explicit remainder bounds on the relevant complex domain.
+- The divergence/symplectic structure needed by the chosen formulation. A
+  vector potential with `B=curl A` is one possible representation, not a
+  requirement for every route.
+- A valid coordinate chart and all denominator/branch bounds. If toroidal
+  angle is used as time, certify that the corresponding field component stays
+  away from zero on the stated domain and account for the time change.
+- Transfer of the invariant surface and its separation property back to the
+  original spatial coordinates, including any claimed distance to a boundary.
+- A precise scope for uncertain coil parameters or equilibrium coefficients:
+  one exact model, or an explicitly quantified family with uniform checks.
+
+Start with one modest analytic device-field model and one chart. Use that
+example to decide whether certified canonical reduction or a noncanonical
+theorem is the better investment. The present review did not establish which
+approach is cheaper for a particular device.
+
+### Particle dynamics: a separate certificate and conclusion
+
+A magnetic field-line barrier is not automatically a charged-particle
+confinement theorem. Guiding-centre drift and full-orbit motion live in phase
+space and have different equations. Fix the approximation, conserved
+quantities, symplectic structure and requested observable for the chosen model.
+
+The practical gaps include sharp certification for more than two frequencies
+and either usable canonical charts or a suitable noncanonical extension.
+The current enhanced-site checker requires `n=2`, `tau=1`, and an exact clock;
+the classical fallback is more general. Thus this is a sharpness/reuse gap,
+not a claim that the current engine is unsound outside lunar applications.
+
+For higher-dimensional phase space, an invariant torus usually does not
+separate an energy surface into confined regions. To conclude something about
+a set of nearby particles, add the required family, geometry or finite-time
+stability estimate. Collisions, dissipation and time-dependent model errors
+must enter the stated dynamics or a separate controlled approximation.
+
+Keep candidate generation open to external numerical methods. Ruth, Kulik and
+Burby describe reconstruction of higher-dimensional tori from trajectories;
+this is a candidate-generation option to investigate, not an interval or Lean
+certificate. Its output would still need refinement, exact frequency data and
+all the existing checker obligations. [Primary paper](https://arxiv.org/abs/2505.08715)
+
+### Recommended plasma milestones
+
+1. Reproduce a small controlled field-line example through the existing
+   certifier, graph transfer and non-crossing statement. Separate this cheap
+   regression from the harder proposed `epsilon=0.003` target.
+2. Close or revise that target's numerical gate on explicit evidence before
+   scheduling its full kernel replay.
+3. Build one device-derived analytic field package with a certified chart and
+   model-error budget. Use its measured needs to select further mathematics.
+4. Pursue particle tori as a distinct application, with three-frequency
+   certification and physical-observable transfer where required.
+
+These milestones can reuse the lunar checker, arithmetic and barrier work.
+They do not imply that SO-2 or SO-3 is fundamentally flawed, nor that the
+already reported SO-2 kernel run should be repeated for this assessment.
 
 [← Back to the catalogue](../README.md)

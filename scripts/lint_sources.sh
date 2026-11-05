@@ -155,6 +155,10 @@ fi
 python3 -I "$project_root/scripts/gen_root_imports.py" --check || status=1
 python3 -I "$project_root/scripts/render_errata.py" --check || status=1
 python3 -I "$project_root/scripts/check_lean_modules.py" --root "$project_root" || status=1
+# Exercise the anchor guard's acceptance and rejection rules in temporary fixture projects.
+python3 -I "$project_root/scripts/test_frozen_anchors.py" || status=1
+# Root part splitting: oversized flat groups chunk deterministically and every part fits 1500 lines.
+python3 -I "$project_root/scripts/test_gen_root_imports.py" || status=1
 # The anchor guard rejects an empty manifest; until the first anchor is frozen, instead require
 # that KAM/Frozen holds no Lean file at all.
 manifest="$project_root/manifest/frozen-anchors.json"

@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 # The field norm of a Taylor polynomial is W4's `|X_R|_r` (blueprint-W `bpW:w5:solve`,
 `bpW:w5:flow`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `kamNorm r (stepField T w) = homXnorm_gen r T θ y z z̄` at `z = stepZ w`, `z̄ = stepZb w`, and the
 domain `D(s,r)` of `KamPhase` is W4's `HomDomain` under `z = (u+iv)/√2`. So W4's field bounds
 (`HomFieldBound_gen`) are bounds for `stepFieldS` in the norm of `StepPhase r`.

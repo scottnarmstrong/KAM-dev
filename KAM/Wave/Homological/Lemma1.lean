@@ -14,9 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # P96-K Lemma 1 for the wave setting (`bpW:w4:lemma1`)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 Assembly of the statements of Theorem `bpW:w4:lemma1` from the earlier modules:
 
 * (i) `homSolveTaylor_gen` (membership in `𝒯_{s-σ}`), `homLemma1_zero_modes_gen`;
@@ -37,7 +34,7 @@ open KAM
 
 variable {a p pb s σ τ α M d : ℝ} {w₁ w₂ : Fin 2 → ℝ} {W₁ W₂ : ℕ+ → ℝ}
 
-/-- CONDITIONAL helper for Lemma 1 (iii), Lipschitz bound: assumes the gates `HomMultBounds`,
+/-- Hypothesis-taking variant for Lemma 1 (iii), Lipschitz bound: assumes the gates `HomMultBounds`,
 `HomMultLip`. The source-premise export is `homLemma1_lipschitz_gen`. -/
 theorem homLemma1_lipschitz_of_gates_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r ε εL : ℝ} (hr
   : 0 < r)
@@ -63,7 +60,6 @@ theorem homLemma1_lipschitz_of_gates_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p 
     (homF_sub_compBounds_gen ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL R₁ R₂ hX₁ hX₂ hXL
         hdom.1)
     hdom.2.1.le hdom.2.2
-
 
 theorem HomTaylor_gen.ext_of {T T' : HomTaylor_gen a p pb s} (h1 : T.a0 = T'.a0) (h2 : T.b = T'.b)
     (h3 : T.cp = T'.cp) (h4 : T.cm = T'.cm) (h5 : T.P = T'.P) (h6 : T.P' = T'.P')
@@ -133,7 +129,6 @@ theorem homNhat_lipschitz_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {r 
         R₂)) := by
   rw [homNhatTaylor_sub_gen hs]
   exact homNhat_fieldBound_gen ha hp hpb hr hs (R₁.homSub R₂) hXL
-
 
 theorem homKS_lt_29 : homKS < 2.9 := by
   have h1 : (1.73 : ℝ) < Real.sqrt 3 := by

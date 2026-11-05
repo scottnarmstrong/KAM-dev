@@ -13,8 +13,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: the Cauchy estimate for the compositions on the torus (blueprint `bpW:w6:convergence` (iii))
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:convergence` (steps `c-cauchy`, `c-lim`).
+Blueprint label `bpW:w6:convergence` (steps `c-cauchy`, `c-lim`).
 
 * `kamNorm_sub_le_of_segment`: the mean value inequality along a segment, with the norm
   `|·|_{r_0}` on the values and an arbitrary bound on the directional derivatives;
@@ -97,7 +96,7 @@ theorem w6PsiC_cauchy (hI : W6IterHyp d S0) {ν : ℕ} {ξ : Fin 2 → ℝ}
   rw [e]
   have h4 := kamNorm_add_le hr0 (w6PsiK d S0 ν ξ w) (w6PsiC d S0 ν ξ z - w6PsiC d S0 ν ξ w)
   have h5 : kamNorm (d.rNu 0) (w6PsiK d S0 ν ξ w) ≤ kamNorm (d.rNu ν) (w6PsiK d S0 ν ξ w) :=
-    kamNorm_anti hrν h0ν _
+    kamNorm_le_of_le_radius hrν h0ν _
   linarith
 
 /-- `ι(θ) = (θ, 0, 0, 0)`: the torus `{y = 0, z = z̄ = 0}`. -/

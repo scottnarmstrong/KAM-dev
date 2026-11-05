@@ -1,0 +1,45 @@
+{
+ "all_pass": true,
+ "processes": 2,
+ "cpu_s": 54.9,
+ "kernel_s": 8.4,
+ "wall_s": 39.8,
+ "max_charged_bytes": 2649333760,
+ "heavy_steps": 68,
+ "kernel_s_per_heavy": 0.12,
+ "cpu_s_per_heavy": 0.81,
+ "data_control_JData_0": {
+  "cpu_s": 19.1,
+  "peak": 945782784
+ },
+ "landed_cpu_s": 4815.2,
+ "landed_modules": 228,
+ "landed_max_charged_bytes": 5267603456,
+ "ratio_landed_over_packed": 87.7,
+ "rows": [
+  {
+   "name": "JSeg_0",
+   "heavy": 34,
+   "imports": 42,
+   "exports": 19,
+   "exit": 0,
+   "oom": 0,
+   "cpu": 27.14,
+   "wall": 20.31,
+   "kernel": 3.87,
+   "peak": 2649333760
+  },
+  {
+   "name": "JSeg_1",
+   "heavy": 34,
+   "imports": 26,
+   "exports": 16,
+   "exit": 0,
+   "oom": 0,
+   "cpu": 27.740000000000002,
+   "wall": 19.51,
+   "kernel": 4.54,
+   "peak": 2168188928
+  }
+ ]
+}

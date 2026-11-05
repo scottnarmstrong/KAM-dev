@@ -14,19 +14,18 @@ public import KAM.Planetary.Spatial.Confinement
 public import KAM.Planetary.Spatial.Osculating
 
 /-!
-# The spatial safety theorem for aligned initial states, without arithmetic hypothesis (LP3-SP-SAFE)
+# The spatial safety theorem for aligned initial states, without arithmetic hypothesis
 
-Package LP3-SP-SAFE (spatial theorem LP3-2, `LP:MAIN L14 (468–500)`, `L16 (508–529)`,
+Source: (spatial theorem the Nekhoroshev part, `LP:MAIN L14 (468–500)`, `L16 (508–529)`,
 `L18 (595–597)`, `T19 (599–603)`), track LP, non-frozen.
 
 `spatial_nek_safety_of_aligned` is the LP2 assembly `spatial_safety_of_aligned` with exactly one
 change of ingredient: the Diophantine stopped drift `spatial_stopped_drift` is replaced by the
-partial-convexity supplier `spatial_stopped_drift_nek` (LP3-SP-DRIFT).  The drift scale is
+partial-convexity supplier `spatial_stopped_drift_nek`.  The drift scale is
 `r = (B₀ μ)^{b_n}`, the horizon is `exp ((B₀ μ)^{-a_n}) = 1 * exp (B₀^{-a_n} μ^{-a_n})`, and the
 constants depend on `(n, ν, A, δ)` only.  The orientation datum `L(z₀) = |L(z₀)| e₃` is the typing
 datum of `SpatialLiftData`, discharged in `Nek/SpatialSafety/Main` by a rotation.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section
@@ -37,7 +36,8 @@ open KAM.Planetary KAM.Planetary.StrongAMD Set
 
 variable {n : ℕ}
 
-/-- **LP3-2 for aligned `z₀`** (`LP:MAIN T19 (599–603)`, `L14`, `L16`, `L18`): solution-level
+/-- **The Nekhoroshev part for aligned `z₀`** (`LP:MAIN T19 (599–603)`, `L14`, `L16`, `L18`):
+solution-level
 conclusion without Newtonian reconstruction and without rotation; no arithmetic premise. -/
 theorem spatial_nek_safety_of_aligned (hn : 2 ≤ n) (ν : Fin n → ℝ) (hν : ∀ i, 0 < ν i)
     (A : Set (Fin n → ℝ)) (hA : IsCompact A)

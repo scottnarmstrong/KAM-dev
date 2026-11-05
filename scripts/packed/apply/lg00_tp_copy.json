@@ -1,0 +1,70 @@
+{
+ "application": "LG00",
+ "tree": "TP",
+ "dump": {
+  "tree": "/home/scott/KAM-dev-worktrees/lg00-app/applications/lg00/LG00/TP",
+  "package": "/home/scott/KAM-dev-worktrees/lg00-app/applications/lg00"
+ },
+ "names": {
+  "namespace": "LG00",
+  "params": "lg00Params",
+  "box": "lg00Box",
+  "cert": "lg00Cert",
+  "emb": "lg00Emb",
+  "pi": "lg00Pi",
+  "gram_inv": "lg00GramInv",
+  "tors_inv": "lg00TorsInv",
+  "witness": "lg00RW",
+  "jet": "lg00Jet",
+  "jet_bridge": "lg00Ham_jet",
+  "field": "LGF",
+  "statement": "lg00_kamTorus"
+ },
+ "layout": {
+  "kind": "copy",
+  "prefix": "LG00P"
+ },
+ "ham": "ported",
+ "asm_suffix": "H",
+ "jet": {
+  "low_mirror": "/home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tp/low_mirror.pkl",
+  "full_mirror": "/home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tp/full_mirror.pkl",
+  "box_low": 25,
+  "box_full": 48,
+  "state": "/home/scott/kam-data/v2-packed-prod/gen_tp_L18/state.pkl",
+  "tooling": "/home/scott/KAM-dev-worktrees/lg00-app",
+  "chains": {
+   "Low": {
+    "json": "/home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tp/low.json",
+    "mirror": "/home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tp/low_mirror.pkl",
+    "cut": {
+     "seg-io": 40,
+     "led-nodes": 40
+    }
+   },
+   "Full": {
+    "json": "/home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tp/full.json",
+    "mirror": "/home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tp/full_mirror.pkl",
+    "cut": {
+     "seg-io": 13,
+     "led-nodes": 40
+    }
+   }
+  }
+ },
+ "steps": [
+  "cert",
+  "port",
+  "packed"
+ ],
+ "caps": {
+  "python": "8G",
+  "lean": "4G",
+  "anon_gb": 20
+ },
+ "port": {
+  "split_balls": [
+   38
+  ]
+ }
+}
