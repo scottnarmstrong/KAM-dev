@@ -133,13 +133,26 @@ checker, or a lock-owned lemma above. `SegDecide` holds one deliberate orphan in
     modules outside the closure were built here; 26 stale import hubs were moved out to
     `kam-data/so-lock/quarantine-hubs-20261105/`.
 - **Kernel replay sample** (the runbook's audit method: seed 65, 5 % of `Seg/**` plus Pass/*, Passes, AssemblyN65;
-  627 modules):
-  - 621 modules (lam build peaks ≤ 8.97 GiB) replay here with `leanchecker`, one at a time, MemoryMax=10G, under
-    `orchestrator-tools/.kernel-probe.lock`. They run in the background. The log is
-    `/tmp/claude-0/-root-code-KAM-inp-lockdata/e26c44b1-1b72-4f6e-86d4-b570e02318e6/scratchpad/ret/audit.log`; the
-    results will be added here. AssemblyN65 already passes: rc 0, 134 s, 5.9 GB.
-  - 8 heavy modules are replayed by lam at 32G: Pass.FrameL0/FrameL1, Seg.Prod.M1918ShG1, Seg.Low.S221,
-    Seg.Tors.E2_1_0, Seg.Full.S136/S108/S109.
+  627 modules), done 2026-11-05 00:51–10:24 UTC:
+  - **Here: 621 modules, 621 rc 0.** These are the 627 minus the 6 whose lam build peak was above 9 GiB.
+    - Method: `leanchecker`, one module at a time, MemoryMax=10G, under `orchestrator-tools/.kernel-probe.lock`.
+    - Totals: 9.1 h of checker time; the longest replay 494 s; peak RSS 13.5 GB (file-backed pages included; the
+      10G cgroup cap held).
+    - Families: 541 Seg.Prod, 22 Seg.Low, 18 Pass, 10 LedgerLow, 7 LedgerFull, 7 Seg.Full, 4 Memo, 3 Rad, 3 Tors,
+      2 Stage, Chain, Checks (the leaf `Seg.Checks.*` module sampled), Passes, AssemblyN65.
+    - None of the 621 has descendant modules, so each run replayed exactly that one module (see the next point).
+  - **For lam at 32G: 8 modules.** These are the 6 over 9 GiB (Pass.FrameL0/FrameL1, Seg.Prod.M1918ShG1,
+    Seg.Low.S221, Seg.Tors.E2_1_0, Seg.Full.S136) plus S108/S109, which are not in the seeded sample. So 627 = 621 + 6,
+    and lam's list adds 2.
+  - **Correction (audit-1).** `leanchecker <M>` without `--fresh` replays every module whose name has M as a prefix
+    (LeanChecker.lean:109), not only M. The auditor therefore replayed leaf modules only, and elaborated GraphK and
+    Seg.Checks from exact source copies.
+  - **Counts.** 29 modules were outside AssemblyN65's closure before the 26 stale hubs were quarantined; 3 remain
+    (ErrRadiusTbl, ExpSplit, SegRoutesProbe).
+- **Audit-1 (codex-2):** PASS WITH NOTES, `LOCK-DATA-audit-1.md`. No mathematical, smuggling, codec or
+  frozen-fit failure. The seal application of `lunar_sync_lock` elaborates with the standard three axioms. Phase B
+  must also assign the headline provider and frozen anchor to KAMLunarLock (D51) before the provider imports
+  AssemblyN65.
 
 ## 6. Deltas after the D70 run (each a frozen commit, re-checked on lam)
 
