@@ -331,7 +331,7 @@ def render(lib_of: dict[str, str], cfg: dict) -> dict[Path, str]:
             elif name in CHUNK_PARTS:
                 chunk = area.rsplit(".", 1)[-1]
                 under = area[: -len(chunk) - 1] if "." in area else ""
-                what = (f"chunk {chunk[3:]} (in sorted name order) of the modules directly under "
+                what = (f"chunk {chunk[3:]} (in sorted name order) of the modules directly under\n"
                         f"`{LIB}{'.' + under if under else ''}`")
             else:
                 what = f"the modules under `{LIB}.{area}`"
