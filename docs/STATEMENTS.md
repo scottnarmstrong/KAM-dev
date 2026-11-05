@@ -4,7 +4,7 @@
 
 Every statement below is an exact Lean declaration that the owner approved before its proof was written. Each lives alone in its own file under `KAM/Frozen/`, and the manifest pins its bytes. A sealed theorem has a complete proof, assembled in a separate provider module, replayed by the kernel, and using only the standard axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
-**76 frozen theorems, 71 sealed; 243 frozen definitions.**
+**76 frozen theorems, 75 sealed; 243 frozen definitions.**
 
 ## Index
 
@@ -970,7 +970,7 @@ The initial momentum window of `lunar_spin_confinement` is nonempty.
 
 ### lunarSyncOrbit_spec
 
-[`KAM.SpinOrbit.lunarSyncOrbit_spec`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitSpec.lean#L28) · ⬜ not yet
+[`KAM.SpinOrbit.lunarSyncOrbit_spec`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitSpec.lean#L28) · ✅ proved and sealed
 
 - **Source:** FREEZE-PROPOSAL-LOCK §1.2 (existence; Q1)
 - **Proof assembled in:** `KAM.Provider.SpinOrbit.LunarSyncOrbitSpec`
@@ -978,7 +978,7 @@ The initial momentum window of `lunar_spin_confinement` is nonempty.
 
 ### lunarSyncOrbit_unique
 
-[`KAM.SpinOrbit.lunarSyncOrbit_unique`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitUnique.lean#L28) · ⬜ not yet
+[`KAM.SpinOrbit.lunarSyncOrbit_unique`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitUnique.lean#L28) · ✅ proved and sealed
 
 - **Source:** FREEZE-PROPOSAL-LOCK §1.2 (uniqueness among odd one-periodic orbits; Q1)
 - **Proof assembled in:** `KAM.Provider.SpinOrbit.LunarSyncOrbitUnique`
@@ -986,7 +986,7 @@ The initial momentum window of `lunar_spin_confinement` is nonempty.
 
 ### lunarSyncOrbit_bound
 
-[`KAM.SpinOrbit.lunarSyncOrbit_bound`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitBound.lean#L27) · ⬜ not yet
+[`KAM.SpinOrbit.lunarSyncOrbit_bound`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitBound.lean#L27) · ✅ proved and sealed
 
 - **Source:** FREEZE-PROPOSAL-LOCK §1.2 (location of psi*; Q5, D49 literals)
 - **Proof assembled in:** `KAM.Provider.SpinOrbit.LunarSyncOrbitBound`
@@ -994,7 +994,7 @@ The initial momentum window of `lunar_spin_confinement` is nonempty.
 
 ### lunar_sync_lock
 
-[`KAM.SpinOrbit.lunar_sync_lock`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncLock.lean#L31) · ⬜ not yet
+[`KAM.SpinOrbit.lunar_sync_lock`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncLock.lean#L31) · ✅ proved and sealed
 
 The Moon stays locked in synchronous rotation forever.
 
