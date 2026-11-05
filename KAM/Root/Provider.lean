@@ -70,6 +70,9 @@ public import KAM.Provider.Planetary.StrongAMD.SourceOscPeriPos
 public import KAM.Provider.Planetary.StrongAMD.SourceStrongAMDNonneg
 public import KAM.Provider.Planetary.StrongAMD.SumActionMulEccDeficitLeSourceStrongAMD
 public import KAM.Provider.Russmann.RussmannKam
+public import KAM.Provider.SpinOrbit.LunarSyncOrbitBound
+public import KAM.Provider.SpinOrbit.LunarSyncOrbitSpec
+public import KAM.Provider.SpinOrbit.LunarSyncOrbitUnique
 public import KAM.Provider.SpinOrbit.LunarWindow
 public import KAM.Provider.VolumeNotDiophantineLe
 public import KAM.Provider.Wave.Nlw2
