@@ -21,6 +21,7 @@ public import KAM.SpinOrbit.Lock.Coords.Conjugacy
 public import KAM.SpinOrbit.Lock.Coords.HamExpr
 public import KAM.SpinOrbit.Lock.Coords.Inverse
 public import KAM.SpinOrbit.Lock.Coords.Maps
+public import KAM.SpinOrbit.Lock.FrozenBridge
 public import KAM.SpinOrbit.Lock.Graph.Angle
 public import KAM.SpinOrbit.Lock.Graph.Bridge
 public import KAM.SpinOrbit.Lock.Graph

@@ -32,7 +32,11 @@
       "title": "SO-3: the Moon locked in synchronous rotation (N = 65 librational torus)",
       "track": "SO",
       "requires": [],
-      "prefixes": ["KAM.SpinOrbit.Data.LockN65"]
+      "prefixes": [
+        "KAM.SpinOrbit.Data.LockN65",
+        "KAM.Frozen.SpinOrbit.Theorems.LunarSyncLock",
+        "KAM.Provider.SpinOrbit.LunarSyncLock"
+      ]
     },
     {
       "lib": "KAMMagneticBarrier",

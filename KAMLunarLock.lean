@@ -5,6 +5,8 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
+public import KAMLunarLock.Frozen
+public import KAMLunarLock.Provider
 public import KAMLunarLock.SpinOrbit.Data.LockN65.DK
 public import KAMLunarLock.SpinOrbit.Data.LockN65.GraphK
 public import KAMLunarLock.SpinOrbit.Data.LockN65.Pass

@@ -298,6 +298,9 @@ public import KAM.Frozen.SpinOrbit.Defs.SoEps
 public import KAM.Frozen.SpinOrbit.Defs.SoField
 public import KAM.Frozen.SpinOrbit.Defs.SoModes
 public import KAM.Frozen.SpinOrbit.Defs.SoV
+public import KAM.Frozen.SpinOrbit.Theorems.LunarSyncOrbitBound
+public import KAM.Frozen.SpinOrbit.Theorems.LunarSyncOrbitSpec
+public import KAM.Frozen.SpinOrbit.Theorems.LunarSyncOrbitUnique
 public import KAM.Frozen.SpinOrbit.Theorems.LunarWindow
 public import KAM.Frozen.Theorems.AposterioriKam
 public import KAM.Frozen.Theorems.KamPositiveMeasure
