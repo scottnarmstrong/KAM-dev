@@ -132,6 +132,32 @@ def grid_functions(g, Om=OMEGA_R):
     return out
 
 
+def witness_grids(g, tr, S, Om=OMEGA_R):
+    """LOCK-DATA: the witness functions of the TRUNCATED embedding (the checker composes the program with the
+    truncated U, P): E = exp(2 pi i Ut), W = exp(i A(K)) with A = 4 pi (c + X), X = sqrt(Pt/(pi Om)) sin 2 pi alpha,
+    alpha = theta_1 + Ut, and S1, S2, R1, R2 of Pt."""
+    t0 = time.time()
+    Omm = mp.mpf(Om.numerator) / Om.denominator
+    tp = 2 * mp.pi
+    Ug, Pg = synth(g, tr["U"], S), synth(g, tr["P"], S)
+    names = ["Er", "Ei", "Wr", "Wi", "S1", "S2", "R1", "R2"]
+    out = {k: np.empty((g.nx, g.nt), dtype=object) for k in names}
+    for a in range(g.nx):
+        for c in range(g.nt):
+            ph = mp.mpf(c) / g.nt
+            U, I = g.mp(Ug[a, c]), g.mp(Pg[a, c])
+            al = mp.mpf(a) / g.nx + U
+            s1, s2 = mp.sqrt(I / (mp.pi * Omm)), mp.sqrt(I * Omm / mp.pi)
+            X = s1 * mp.sin(tp * al)
+            E = mp.expj(tp * U)
+            W = mp.expj(2 * tp * (centre_mp(ph) + X))
+            vals = dict(Er=E.real, Ei=E.imag, Wr=W.real, Wi=W.imag, S1=s1, S2=s2, R1=1 / s1, R2=1 / s2)
+            for k in names:
+                out[k][a, c] = g.fx(vals[k])
+    print("  witness grids (truncated embedding) %.0fs" % (time.time() - t0), flush=True)
+    return out
+
+
 def fourier(g, re, im=None):
     """Fourier coefficients (fixed point, dict key -> (re, im) ints) of a grid function."""
     im = HF.zeros(re.shape) if im is None else im
@@ -312,6 +338,8 @@ def main():
     ap.add_argument("--digits", type=int, default=20)
     ap.add_argument("--wdigits", type=int, default=0, help="witness truncation digits (default = digits)")
     ap.add_argument("--form", default="design")
+    ap.add_argument("--wtrunc", action="store_true", help="LOCK-DATA: witnesses of the truncated embedding")
+    ap.add_argument("--wrho", default="", help="LOCK-DATA: weighted witness truncation at this rho (default off)")
     ap.add_argument("--lean")
     ap.add_argument("--cache")
     ap.add_argument("--pkg", help="a row of lock_v2.py scan output (JSON file): the package and its exact check")
@@ -334,7 +362,17 @@ def main():
     tr = {k: truncate(co[k], a.Ks, a.Ls, a.shape, S) for k in ("U", "P", "J")}
     thr = 2 ** (P - S)
     wd = a.wdigits or a.digits
-    keep = lambda c: {kk: v for kk, v in c.items() if max(abs(v[0]), abs(v[1])) >= 10 ** (-wd) * 2 ** P}
+    if a.wrho:
+        # LOCK-DATA: weighted truncation, as the checker's residual sees a dropped term (weight and one derivative)
+        wr = float(F(a.wrho))
+        wt = lambda kk: math.exp(2 * math.pi * wr * (abs(kk[0]) + abs(kk[1]))) * (1 + 2 * math.pi * (abs(kk[0]) + abs(kk[1])))
+        keep = lambda c: {kk: v for kk, v in c.items() if max(abs(v[0]), abs(v[1])) * wt(kk) >= 10 ** (-wd) * 2 ** P}
+    else:
+        keep = lambda c: {kk: v for kk, v in c.items() if max(abs(v[0]), abs(v[1])) >= 10 ** (-wd) * 2 ** P}
+    if a.wtrunc:
+        wg = witness_grids(g, tr, S)
+        co = dict(co, E=fourier(g, wg["Er"], wg["Ei"]), W=fourier(g, wg["Wr"], wg["Wi"]),
+                  **{k: fourier(g, wg[k]) for k in ("S1", "S2", "R1", "R2")})
     wit = {k: truncate(keep(co[k]), 10 ** 6, 10 ** 6, "rect", S) for k in ("E", "W", "S1", "S2", "R1", "R2")}
     res = residual(g, tr, S, rho, kappa)
     print("residual", json.dumps(res), flush=True)
