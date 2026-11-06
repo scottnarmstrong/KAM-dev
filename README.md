@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-06 18:23 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 100 % · track W 100 % · track LP 100 % · SJSU gate 2 90 %** · frozen statements proved: 75 / 76 · **678,480 lines of hand-written Lean** of an estimated ≈ 698,000 (plus 4,097,429 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-06 18:26 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 100 % · track W 100 % · track LP 100 % · SJSU gate 2 74 %** · frozen statements proved: 75 / 76 · **678,480 lines of hand-written Lean** of an estimated ≈ 698,000 (plus 4,097,429 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -268,7 +268,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 ## At a glance
 
 <!-- AUTO:progress -->
-### Estimated completion: original project **99.2 %** · SO checker **100 %** · SO Moon **100 %** · Moon locked **100 %** · track W **100 %** · track LP **100 %** · SJSU gate 2 **90 %** · LG00 **97 %** · HD 11964 **51 %**
+### Estimated completion: original project **99.2 %** · SO checker **100 %** · SO Moon **100 %** · Moon locked **100 %** · track W **100 %** · track LP **100 %** · SJSU gate 2 **74 %** · LG00 **97 %** · HD 11964 **51 %**
 
 Original project (tracks K, I, N, P): `█████████████████████████` 99.2 %
 
@@ -282,7 +282,7 @@ Track W, PDE KAM for the cubic wave equation: `███████████
 
 Track LP, strong-AMD exponential safety (the Laskar–Petit conjecture, D56): `█████████████████████████` 100.0 % (stages, weighted by effort: audited paper proof 5, source, spec and plan 5, statements frozen 5, planar Lean packages 40, spatial Lean packages 40, sealed 5; packages from [`docs/tracks/LP/packages.json`](docs/tracks/LP/packages.json), landed when their modules are on `main`; each read from the repository)
 
-Program T2-CONF, SJSU gate 2: the secular Sun–Jupiter–Saturn–Uranus model confined for 5·10⁹ yr (D74): `███████████████████████░░` 90 % (stages, weighted by effort: scoping plan 3, numerical gates SR-1..7 5, statement approved and frozen 5, N2 symplectic charts 15, N3 trig models and packed products 20, N4 witnesses 8, N5a Hamiltonian models 8, N5 tube checker soundness 17, N6 eccentricity enclosure 7, N7 data, kernel run, library 10, sealed 5; each read from the repository)
+Program T2-CONF, SJSU gate 2: the secular Sun–Jupiter–Saturn–Uranus model confined for 5·10⁹ yr (D74): `███████████████████░░░░░░` 74 % (stages, weighted by effort: scoping plan 3, numerical gates SR-1..7 5, statement approved and frozen 5, N2 symplectic charts 15, N3 trig models and packed products 20, N4 witnesses 8, N5a Hamiltonian models 8, N5 tube checker soundness 17, N6 eccentricity enclosure 7, N7 production checker, data, kernel run 10, sealed 5; each read from the repository)
 
 Side project LG00, a certified torus of the secular Sun–Jupiter–Saturn model: `████████████████████████░` 97 % (stages, weighted by effort: scout: model, torus, thresholds, cost, Diophantine lemmas for the frequency directions (Lean), certificate-data generator and exact dry run, pilot: kernel cost measured on representative shards, kernel certificate of a torus in LG00's Γ′ family and the closed theorem, T′ at the exact energy of LG00's initial point (re-solve and re-certify), second torus T″ (confinement between two tori), confinement theorem in Lean (the real orbit trapped forever between T′ and T″), independent audit and separate repository; from [`docs/campaign/side/lg00-status.json`](docs/campaign/side/lg00-status.json), the side orchestrator's assessment, last reviewed 2026-11-02 03:25 UTC)
 
@@ -387,7 +387,7 @@ Overall, everything together: 97.6 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-06 18:23 UTC from `main` at `3e8d31e92` by `scripts/hq-status.py`.*
+*Generated 2026-11-06 18:26 UTC from `main` at `f0cc370df` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -604,7 +604,7 @@ account read from each agent's running process) and their branches. Rules for ag
 | **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-3 | 🔄 working | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
-| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | 🔄 working | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
+| **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **b1** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: Merge branch 'inp' into inp-b1 | `inp-b1` | 1 (vs `inp`) |
 | **lp** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP progress: tier-1 clean-up landed (f07abeee8); idle | `inp-lp` | 19 (vs `inp`) |
 | **lp-freeze7** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP-FREEZE7R: handoff (parts A-C; superseded by LP-FREEZE-EXEC) | `inp-lp-freeze7` | 1 (vs `inp`) |
