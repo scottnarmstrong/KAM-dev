@@ -605,3 +605,59 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - **Speedup:** the overnight choice of SOS option (a) in additive form (lock-owned RealLowerK, GraphK and LockGraphK
     plus 2 packed advice entries; core, band and the frozen statement untouched) stands.
   - **Remote run:** the full chain runs on a CCX63 (48 vCPU, 192 GB; about 17 lanes of 10 GB), which the owner rents.
+- **D71 (2026-11-02, 23:30 UTC) Program B1 launched, in overnight mode.** *(Scott: "launch program B1", then "please go
+  into overnight mode, defer all approvals and make as much progress on B1 as you can".)*
+  - **Scope:** B0 and B1 of `docs/explorations/program-b-plan.md`: the exact surface of B1-T (finite confinement in a
+    canonical cylinder) and B1-E (Cartesian oscillator confinement, including zero actions), then the region dynamics:
+    stopped drift, first exit, continuation and transfer.
+  - **Overnight rules:** defaults from plan §8 (B1 checker plus one instance; the Hénon–Heiles pilot goal).
+    Approvals are deferred and logged FOR OWNER.
+  - **Nothing frozen:** the headline theorems are proved as ordinary theorems in their exact final form, and a freeze
+    proposal waits for the owner.
+  - **Running it:** sub-orchestrator kam-b1 (claude-9), at most 2 provers (claude-2, claude-5), 4 GB caps, codex-2
+    audits.
+  - **Coordination:** reuse lemma.farm's first-exit API where it fits, and never edit its files.
+- **D72 (2026-11-03, 07:27 UTC) Program B: freeze approved, B3 launched.** *(Scott: "approve all", answering the morning
+  packet `docs/tracks/B/MORNING-2026-11-03.md`.)*
+  - **Freeze:** B1-T `KAM.EffectiveStability.torus_confinement` and B1-E `.oscillator_confinement`, in the exact
+    text of `docs/tracks/B/FREEZE-PROPOSAL.md` §2. Both are already proved, so they are frozen and sealed in one pass
+    (one branch, one landing), with no DRAFT_SORRY stage.
+  - **OD-B2:** the minimal premise list. **OD-B1, OD-B3 to OD-B15:** the overnight defaults are confirmed.
+  - **B3 is ON:** the Hénon–Heiles literal instance (plan §4), starting with the exact ℚ(√2) coefficient layer
+    (OD-B16). Its literal application theorem is the next candidate anchor; its exact text goes to the owner first.
+  - **Optional anchors:** none. `checkOscChain_sound`, `checkTorusChain_sound` and `certifiedTorus_confinement`
+    stay ordinary audited theorems (D40: do not freeze an evolving certificate serialization).
+- **D73 (2026-11-03, 10:27 UTC) The Hénon–Heiles theorem text is approved.** *(Scott: "i approve the Hénon–Heiles theorem
+  text".)* The approved text is `KAM.EffectiveStability.henonHeiles_confinement` exactly as in
+  `.drafts/B/brief-B3-CERT.md` step 4 (inp-b1). For every initial point with both oscillator actions ≤ (1/12500)², the
+  orbit exists beyond ±10¹⁰, is unique, keeps its actions below 1.01·10⁻⁸ and drifts by at most 1.2·10⁻⁹.
+  - It is frozen and sealed in one pass once it is proved, as plan §2.4 and the D72 addendum recommend (one literal
+    application theorem; the checkers stay unfrozen).
+  - It lives in the opt-in application library `KAMHenonHeiles` (D51).
+- **D74 (2026-11-06, 13:19 UTC) SJSU gate 2 is certified in Lean (program T2-CONF).** *(Scott: "YES - let's do GATE 2
+  !!!!!!", after the scoping plan `docs/explorations/sjs-rigor-plan.md`, inp-bsjs 9712dacb3.)*
+  - **Recommended defaults taken:** §6 decisions 1(a), 2(a), 3(a), 4(a), 5(a), 6(a), 7(a), 9(a) and 10(a).
+    - T2-CONF only: finite-time confinement through `ApproxIntegral` plus a packed tube checker.
+    - Model of record: SJSU18-O2 as published, with exact rationals.
+    - Q: a sup-norm ball first.
+    - δ = 10⁻⁶, T = 5·10⁹ yr.
+    - Packed Fourier–Taylor checker; the generic layer in core and the data in an opt-in library (D51).
+    - The model is frozen as generated, manifest-pinned data modules. B4×B5 is deferred.
+    - Budget: ≤ 3 CPU-h of gates, then ≤ 75 CPU-h of production.
+  - **Decision 8 (the X1 track) is deferred.**
+  - **Order:** the numerical gates SR-1..SR-7 first, with no Lean before they pass. The exact frozen statement and
+    data definition go to the owner for approval before any freeze.
+- **D75 (2026-11-06, 14:45 UTC) T2-CONF model of record: the complex form of SJSU18-O2.** *(Scott: "approved", on gate SR-1,
+  `docs/explorations/sjsu-g2-gates.md`.)* The frozen data definition is the published 7,941-coefficient
+  rotation-invariant complex form, with z = (ξ − iη)/√2, and H defined as the real part of Σ c·zᵃz̄ᵇ. The 38,466-term
+  real form is not rotation-invariant as exact rationals: its coefficients were rounded independently, so the charged
+  part is about 2·10⁻³⁴. Phase 2 (Lean) is launched. The statement's eccentricity intervals and the radius of Q go to the
+  owner with the exact text.
+  - **2026-11-06 ruling (a):** the statement keeps two-sided eccentricity intervals [0.026, 0.062], [0.009, 0.085] and [0.006, 0.063], with the lower bounds proved by a φ-resolved grid enclosure (about 1 CPU-h). *(Scott: "(a)".)*
+- **D76 (2026-11-06, 16:05 UTC) The exact text of the T2-CONF statement is approved.** *(Scott: "approved".)*
+  - **Approved text:** draft v2 of `docs/explorations/sjsu-g2-t2conf-proposal.md` (inp-sjsu-g2 at 793d59797), audited by
+    STMT-AUDIT-1, PASS WITH NOTES:
+    - `sjsu_secular_confinement`, with Q a sup ball of radius 10⁻⁶ about z\*, T = 5·10⁹ yr, and two-sided eccentricity
+      intervals [0.026, 0.062], [0.009, 0.085] and [0.006, 0.063];
+    - the frozen data `sjsu18O2` (Re Σ c zᵃz̄ᵇ over 7,941 terms in 6 hash-pinned parts).
+  - **Next:** prove it as an ordinary theorem, then freeze and seal it in one pass, byte-identical to the approved text.

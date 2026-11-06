@@ -1,0 +1,114 @@
+{
+ "gate": "SR-1 EXACT-MODEL",
+ "data": "applications/sjsu/data/sjsu18-o2.json",
+ "census": {
+  "terms": 38466,
+  "duplicates": 0,
+  "by_degree": {
+   "2": 12,
+   "4": 66,
+   "6": 236,
+   "8": 651,
+   "10": 1512,
+   "12": 3108,
+   "14": 5832,
+   "16": 10197,
+   "18": 16852
+  },
+  "nonzero_coefficients": true,
+  "pass": true
+ },
+ "reversibility": {
+  "terms_odd_in_eta": 0,
+  "pass": true
+ },
+ "complex_form_exact": {
+  "nonzero_monomials": 37973,
+  "charged_nonzero": 30032,
+  "nonreal": 0,
+  "asymmetric_c_ab_vs_c_ba": 0,
+  "pass": false
+ },
+ "vs_published_complex_form": {
+  "published_terms": 7941,
+  "exact_terms": 37973,
+  "same_support": false,
+  "identical_coefficients": 87,
+  "max_relative_difference": 1.0,
+  "at": [
+   3,
+   0,
+   3,
+   8,
+   0,
+   2
+  ],
+  "note": "independently rounded to 25 digits; agreement to rounding expected, identity not"
+ },
+ "amd_bracket": {
+  "bracket_monomials_checked": 38247,
+  "nonzero": 34952,
+  "pass": false
+ },
+ "nominal": {
+  "source": "applications/sjsu/validation/table2_map_poincare_order1.json:xi_eta_secular",
+  "decimals": [
+   "0.03446271128616895",
+   "-0.0014352339355918572",
+   "-0.010122263133599879",
+   "-0.009080669615926963",
+   "-0.025602508346796338",
+   "-0.0016540224121661881"
+  ],
+  "order": "xi_J, xi_S, xi_U, eta_J, eta_S, eta_U",
+  "H_exact_30": "-5.22983516352663049817339496888E-8",
+  "C_exact_30": "0.00101644068052544490327604844268",
+  "H_denominator_bits": 1204,
+  "pass": true
+ },
+ "real_form_defect": {
+  "max_abs_charged_coefficient_by_degree": {
+   "2": "0.00e+00",
+   "4": "2.50e-28",
+   "6": "5.00e-25",
+   "8": "6.00e-23",
+   "10": "2.00e-21",
+   "12": "5.00e-20",
+   "14": "1.28e-17",
+   "16": "2.39e-16",
+   "18": "4.54e-13"
+  },
+  "max_abs_published_coefficient_by_degree": {
+   "2": "9.07e-05",
+   "4": "1.81e-02",
+   "6": "2.15e+01",
+   "8": "1.44e+03",
+   "10": "5.90e+04",
+   "12": "1.32e+06",
+   "14": "3.25e+08",
+   "16": "2.20e+10",
+   "18": "1.44e+13"
+  },
+  "charged_majorant_at_nominal_radii": "2.001e-34",
+  "H_majorant_at_nominal_radii": "1.117e-07",
+  "nominal_radii": [
+   0.025200565766143584,
+   0.018132130736590923,
+   0.0072524479000466895
+  ]
+ },
+ "complex_form_model": {
+  "terms": 7941,
+  "charged": 0,
+  "c_ab_ne_c_ba": 0,
+  "amd_bracket_nonzero": 0,
+  "H_exact_30": "-5.22983516352663049817339571061E-8",
+  "H_imag_exact_zero": true,
+  "H_complex_minus_H_real_at_nominal": "-7.417e-33",
+  "pass": true
+ },
+ "verdict_real_form": "FAIL",
+ "verdict_complex_form": "PASS",
+ "verdict": "PASS for the complex form only",
+ "seconds": 16.7
+}

@@ -1,0 +1,118 @@
+{
+ "gate": "SR-6 KSHARD",
+ "toolchain": "leanprover/lean4:v4.35.0, standalone `lean`, core Nat only, no options, systemd scope MemoryMax=4G",
+ "generator": "scripts/sjsu/rigor/sr6_kshard.py --p 80",
+ "info": {
+  "p": 80,
+  "w": 173,
+  "A_terms": 1900,
+  "B_terms": 2791,
+  "real": {
+   "operand_bits": [
+    1156023,
+    1156368,
+    1261190,
+    1260842
+   ],
+   "C_bits": [
+    2417212,
+    2417557
+   ],
+   "chunks": [
+    4014,
+    4016,
+    4380,
+    4378,
+    8394,
+    8395
+   ],
+   "low64_distinct_chunks": 9354
+  },
+  "rand": {
+   "operand_bits": [
+    1156023,
+    1156384,
+    1261216,
+    1260842
+   ],
+   "C_bits": [
+    2417238,
+    2417600
+   ],
+   "chunks": [
+    4014,
+    4016,
+    4380,
+    4378,
+    8394,
+    8395
+   ],
+   "low64_distinct_chunks": 15382
+  }
+ },
+ "runs": {
+  "real_data": {
+   "wall_s": 16.36,
+   "user_s": 18.98,
+   "peak_GB": 0.86,
+   "out": ""
+  },
+  "real_prod": {
+   "wall_s": 18.1,
+   "user_s": 20.65,
+   "peak_GB": 0.872,
+   "out": ""
+  },
+  "real_mask": {
+   "wall_s": 22.26,
+   "user_s": 25.3,
+   "peak_GB": 0.968,
+   "out": ""
+  },
+  "rand_data": {
+   "wall_s": 5.89,
+   "user_s": 8.26,
+   "peak_GB": 0.861,
+   "out": ""
+  },
+  "rand_prod": {
+   "wall_s": 5.86,
+   "user_s": 8.32,
+   "peak_GB": 0.877,
+   "out": ""
+  },
+  "rand_mask": {
+   "wall_s": 7.0,
+   "user_s": 9.93,
+   "peak_GB": 0.983,
+   "out": ""
+  },
+  "real_prod20": {
+   "wall_s": 274.39,
+   "user_s": 276.12,
+   "peak_GB": 1.62,
+   "out": ""
+  },
+  "rand_prod20": {
+   "wall_s": 9.62,
+   "user_s": 11.4,
+   "peak_GB": 1.686,
+   "out": ""
+  },
+  "rand_dec40": {
+   "wall_s": 11.8,
+   "peak_GB": 1.959,
+   "note": "40 decode-only declarations (sum of the six literals)"
+  }
+ },
+ "per_declaration_s": {
+  "real": 6.450749999999999,
+  "rand": 0.09324999999999999,
+  "rand_decode_only": 0.14775000000000002
+ },
+ "law_2mul_s": 0.020179040000000002,
+ "law_peak_GB": 1.4515764875000001,
+ "note": "per declaration = re-decoding the six literals (balanced Nat.add/Nat.shiftLeft trees of 288-bit chunks) + 2 Nat.mul + add + equality; kernel caches are per declaration",
+ "verdict": "PASS with whitened literals: <= 0.15 s and <= 1 GB per product declaration (law: 0.02-0.03 s, 1.45 GB); FAIL with raw packed chunks: 6.4 s per declaration (low-limb collisions)",
+ "resolution": "the 2 Nat.mul per declaration are not separable from literal decoding at this size (decode-only 0.15 s vs product 0.09 s per declaration, within run-to-run variance); multiplication <= ~0.05 s vs law 0.02 s"
+}

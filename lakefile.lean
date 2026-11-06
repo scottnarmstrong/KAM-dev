@@ -78,6 +78,14 @@ lean_lib «KAMHenonHeiles» where
   globs := libGlobs `KAMHenonHeiles
   leanOptions := projectLeanOptions
 
+/-- T2-CONF: SJSU secular confinement (D76). The tube certificate of `SJSU18-O2` under
+`KAM/EffectiveStability/SJSU` (data, ledger, assembly), the frozen data definitions and the sealed
+frozen theorem `sjsu_secular_confinement` with its provider. -/
+lean_lib «KAMSJSU» where
+  roots := #[`KAMSJSU]
+  globs := libGlobs `KAMSJSU
+  leanOptions := projectLeanOptions
+
 /-
 Template for a further application inside this package (for example LG00). New applications
 should rather be separate Lake packages `applications/<name>/` that require this one
