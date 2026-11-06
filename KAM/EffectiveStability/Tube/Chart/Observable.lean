@@ -13,7 +13,9 @@ public import KAM.EffectiveStability.Tube.Chart.Composite
 A literal observable `f` of `(u, φ)`, `2π`-periodic in `φ`, defines the phase-space observable
 `x ↦ f (tubeChart V B x)` (for a `2π`-periodic shift `B`). Although `tubeChart` uses `Complex.arg`,
 this observable satisfies the chart identity of target (E) on all of `actionPos`, is as smooth as
-`f` on the punctured set, and its rate along `X_H` is the reduced bracket.
+`f` and `B` on the punctured set (for orthogonal `V`), and, under the Hamiltonian identity,
+differentiability and symmetry hypotheses of the rate theorem, its rate along `X_H` is the reduced
+bracket.
 
 * `comp_tubeChart_rotMap_polar`: `f (tubeChart V B (rotMap V (polar y))) = f (shiftChart B y)` for
   `y ∈ actionPos 3`.
