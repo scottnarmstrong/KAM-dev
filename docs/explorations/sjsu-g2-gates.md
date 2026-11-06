@@ -83,7 +83,7 @@ Nyquist, which covers twice the largest product mode, 2 × 55.
 - **Model of record:** the complex form (SR-1), mapped exactly to modal coordinates by V′: `fmpq_mpoly`
   composition, 7,941 terms in 714 groups n, all charge-0 and reversible (checked).
 - **Literal producer data** (run `sr-vp-L8`), read as exact dyadics:
-  - S: 816 modes in the hexagon of order 60;
+  - S: 2,790 modes in the hexagon of order 60;
   - Ī = I* + c₀;
   - F_j: 165 u-monomials × 1,951 modes.
 - **Exact parity:** F_j is replaced by its even part and S by its odd part. The producer's F has a genuine
@@ -219,7 +219,7 @@ upper bounds of arb quantities without directed rounding; its margins are wide.
 1. **Model of record:** the complex form (owner decision pending; SR-1).
 2. **Chart:** V′ = R(q)·D as in SR-2, with an 87-bit denominator.
 3. **Observables:** Lv = 8, δ = 10⁻⁶, κ = 2, tube centred on B₀.
-   - Literal data: even F_j (165 slots, K = 50), odd S (816 modes, K = 60), Ī, W and Y witnesses (KH = 60).
+   - Literal data: even F_j (165 slots, K = 50), odd S (2,790 modes, K = 60), Ī, W and Y witnesses (KH = 60).
    - Optional: the L10/LB8 observables for 2× on η.
 4. **Checker:** 2-D slot-pair packed products at p = 80, cell ≤ 173 bits, ≤ 1.5 Mbit operands.
    - W-norm balls for the Fourier truncations, binomial sup tails for u-degree > 8, degree profiles for the

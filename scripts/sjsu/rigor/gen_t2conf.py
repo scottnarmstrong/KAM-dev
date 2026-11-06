@@ -140,7 +140,8 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     tx, terms = texts()
     # scratch check module (not a repository module)
-    chk = ['import Mathlib', 'import KAM.Frozen.Defs.HamiltonianVectorField',
+    chk = ['import Mathlib.Analysis.Complex.Basic', 'import Mathlib.Analysis.Calculus.Deriv.Basic',
+           'import Mathlib.Order.Interval.Set.OrdConnected', 'import KAM.Frozen.Defs.HamiltonianVectorField',
            'import KAM.Frozen.Planetary.Defs.OscillatorAction', '', 'noncomputable section', '',
            f'namespace {NS}', '']
     for k in ['sjsuTerm'] + [f'sjsu18O2Part{k}' for k in range(NPART)] + ['sjsu18O2Terms', 'sjsu18O2']:
