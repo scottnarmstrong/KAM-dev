@@ -132,6 +132,7 @@ public import KAM.EffectiveStability.Tube.Ecc.Gamma
 public import KAM.EffectiveStability.Tube.Ecc.Sound
 public import KAM.EffectiveStability.Tube.Engine.BTerm
 public import KAM.EffectiveStability.Tube.Engine.Block
+public import KAM.EffectiveStability.Tube.Engine.BrChunk
 public import KAM.EffectiveStability.Tube.Engine.Bracket
 public import KAM.EffectiveStability.Tube.Engine.Comb
 public import KAM.EffectiveStability.Tube.Engine.DOpd
