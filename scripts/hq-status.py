@@ -997,6 +997,40 @@ def lp_glance():
             *([f'- **Now:** {campaign["lp"]["now"]}'] if campaign.get('lp', {}).get('now') else [])]
 
 
+# Program T2-CONF (D74/D75): SJSU gate 2 certified in Lean, finite-time confinement of the secular SJSU18-O2 model
+# for 5·10⁹ yr. Stages weighted by effort, each read from the repository (plan docs/explorations/sjs-rigor-plan.md).
+G2_DIR = root / 'KAM' / 'EffectiveStability' / 'SJSU'
+
+
+def _g2_has(*names):
+    """1.0 when a G2 Lean package directory exists on `main` with at least one module."""
+    return 1.0 * any((G2_DIR / n).is_dir() and any((G2_DIR / n).rglob('*.lean')) for n in names)
+
+
+def _g2_anchors():
+    return [a for a in manifest['anchors'] if 'SJSU' in a.get('path', '') or 'sjsu' in a.get('id', '').lower()]
+
+
+G2_STAGES = [
+    ('scoping plan', 3, lambda: 1.0 * (root / 'docs/explorations/sjs-rigor-plan.md').exists()),
+    ('numerical gates SR-1..7', 5, lambda: 1.0 * (root / 'docs/explorations/sjsu-g2-gates.md').exists()),
+    ('statement approved and frozen', 5, lambda: 1.0 * bool(_g2_anchors())),
+    ('N2 symplectic charts', 15, lambda: _g2_has('Chart', 'Charts')),
+    ('N3 trig models and packed products', 20, lambda: _g2_has('Trig', 'Packed')),
+    ('N4 witnesses', 8, lambda: _g2_has('Witness', 'Witnesses')),
+    ('N5 tube checker soundness', 25, lambda: _g2_has('Tube', 'Check', 'Checker')),
+    ('N6 eccentricity enclosure', 7, lambda: _g2_has('Ecc', 'Eccentricity')),
+    ('N7 data, kernel run, library', 10, lambda: 1.0 * ('KAMSJSU' in (root / 'scripts/build_roots.json').read_text())),
+    ('sealed', 5, lambda: 1.0 * bool(_g2_anchors() and all(a['state'] == 'SEALED' for a in _g2_anchors()))),
+]
+
+
+def g2_progress():
+    """Program T2-CONF (D74), read from the repository: (percent by stage weight, [(stage, fraction done)])."""
+    done = [(name, w, test()) for name, w, test in G2_STAGES]
+    return 100 * sum(w * f for _, w, f in done) / sum(w for _, w, _ in G2_STAGES), [(n, f) for n, _, f in done]
+
+
 # Stages of track SO part 3, weighted by effort (owner/orchestrator, 2026-10-31; they had counted equally): each
 # test reads the repository. The sealed test also accepts the planned anchor `lunar_sync_lock` (LOCK-FREEZE names its
 # anchors spinorbit.*, which `so.lunar_lock` alone never matched).
@@ -1256,7 +1290,8 @@ def section_updated(rows, est):
     gen = lean_stats(LIB, generated=True)[1]
     return (f'> **Last updated: {NOW}** (automatic: every 20 minutes and after every commit) · '
             f'**estimated completion: original project {orig:.1f} % · SO checker {so1:.0f} % · SO Moon {so2:.0f} % · '
-            f'Moon locked {lock_progress()[0]:.0f} % · track W {w_progress()[0]:.0f} % · track LP {lp_progress()[0]:.0f} %** · '
+            f'Moon locked {lock_progress()[0]:.0f} % · track W {w_progress()[0]:.0f} % · track LP {lp_progress()[0]:.0f} % · '
+            f'SJSU gate 2 {g2_progress()[0]:.0f} %** · '
             f'frozen statements proved: {sealed} / {len(rows)} · '
             f'**{total:,} lines of hand-written Lean** of an estimated ≈ {round(est, -3):,.0f}' +
             (f' (plus {gen:,} lines of generated certificate data, not counted)' if gen else ''))
@@ -1267,7 +1302,7 @@ def section_progress(rows):
     orig, so1, so2, _ = completion_split(rows)
     out = [f'### Estimated completion: original project **{orig:.1f} %** · SO checker **{so1:.0f} %** · '
            f'SO Moon **{so2:.0f} %** · Moon locked **{lock_progress()[0]:.0f} %** · track W **{w_progress()[0]:.0f} %** · '
-           f'track LP **{lp_progress()[0]:.0f} %** · '
+           f'track LP **{lp_progress()[0]:.0f} %** · SJSU gate 2 **{g2_progress()[0]:.0f} %** · '
            f'LG00 **{lg00_progress()[0]:.0f} %** · HD 11964 **{hd_progress()[0]:.0f} %**', '',
            f'Original project (tracks K, I, N, P): `{bar(orig)}` {orig:.1f} %', '',
            f'Track SO, part 1, the general Lean certificate checker: `{bar(so1)}` {so1:.1f} %', '',
@@ -1282,6 +1317,9 @@ def section_progress(rows):
            f'{lp_progress()[0]:.1f} % (stages, weighted by effort: ' + ', '.join(f'{n} {w}' for n, w, _ in LP_STAGES) +
            '; packages from [`docs/tracks/LP/packages.json`](docs/tracks/LP/packages.json), landed when their modules '
            'are on `main`; each read from the repository)', '',
+           f'Program T2-CONF, SJSU gate 2: the secular Sun–Jupiter–Saturn–Uranus model confined for 5·10⁹ yr (D74): '
+           f'`{bar(g2_progress()[0])}` {g2_progress()[0]:.0f} % (stages, weighted by effort: ' +
+           ', '.join(f'{n} {w}' for n, w, _ in G2_STAGES) + '; each read from the repository)', '',
            f'Side project LG00, a certified torus of the secular Sun–Jupiter–Saturn model: `{bar(lg00_progress()[0])}` '
            f'{lg00_progress()[0]:.0f} % (stages, weighted by effort: ' + ', '.join(s['name'] for s in LG00['stages']) + '; '
            'from [`docs/campaign/side/lg00-status.json`](docs/campaign/side/lg00-status.json), the side orchestrator\'s '
