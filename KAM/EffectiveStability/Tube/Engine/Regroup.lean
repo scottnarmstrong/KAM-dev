@@ -192,7 +192,8 @@ theorem sum_filter_mon {ι : Type*} (Fl : List ι) (μ : ι → Fin 3 → ℕ) {
         have hct : (brCand μ p a i kind sh).coef μ monOf ≠ 0 := by
           have : brCand μ p a i kind sh = ⟨a, i, e, kind, sh⟩ := by rw [het]; rfl
           rw [this]; exact hc
-        have hkeep : brKeep μ inH p a i kind sh = tvalid (μ i) (if sh then 2 else a.castSucc) p := by
+        have hkeep :
+            brKeep μ inH p a i kind sh = tvalid (μ i) (if sh then 2 else a.castSucc) p := by
           unfold brKeep
           rw [hinH]
           simp [hct]

@@ -132,7 +132,8 @@ def rowPart (w S C l r : ℕ) (Z : ℤ) : ℤ :=
 /-- **The packed angle derivative** (kernel): `psgn p · Σ_c (c - C) · part_c` (`a = 0`) or the
 same over the rows (`a = 1`). -/
 def derivZ (w S C l : ℕ) (a : Fin 2) (p : Bool) (Z : ℤ) : ℤ :=
-  psgn p * (if a = 0 then ((List.range (2 * C + 1)).map fun (c : ℕ) => ((c : ℤ) - C) * colPart w S C l c Z).sum
+  psgn p * (if a = 0 then
+      ((List.range (2 * C + 1)).map fun (c : ℕ) => ((c : ℤ) - C) * colPart w S C l c Z).sum
     else ((List.range (2 * C + 1)).map fun (r : ℕ) => ((r : ℤ) - C) * rowPart w S C l r Z).sum)
 
 theorem geom_sub_one (w K : ℕ) : ∑ c ∈ range K, (2 ^ w - 1) * 2 ^ (w * c) = 2 ^ (w * K) - 1 := by
@@ -169,7 +170,8 @@ theorem packSum_dlist {w S C l : ℕ} (hKS : 2 * C + 1 ≤ S) (hlw : l + 1 ≤ w
   have hyfZ : ∀ i, (yf i : ℤ) = D i + 2 ^ l := fun i => Int.toNat_of_nonneg (by linarith [hD i])
   have hpl : (2 : ℕ) ^ (l + 1) ≤ 2 ^ w := Nat.pow_le_pow_right (by norm_num) hlw
   have hyflt : ∀ i, yf i < 2 ^ w := fun i => by
-    have : (yf i : ℤ) < ((2 ^ (l + 1) : ℕ) : ℤ) := by rw [hyfZ]; push_cast; rw [pow_succ]; linarith [hD i]
+    have : (yf i : ℤ) < ((2 ^ (l + 1) : ℕ) : ℤ) := by
+      rw [hyfZ]; push_cast; rw [pow_succ]; linarith [hD i]
     exact (by exact_mod_cast this : yf i < 2 ^ (l + 1)).trans_le hpl
   have hplw : (2 : ℕ) ^ l < 2 ^ w := Nat.pow_lt_pow_right (by norm_num) (by omega)
   have hmlt : 2 ^ w - 1 < 2 ^ w := Nat.sub_lt (Nat.two_pow_pos w) (by norm_num)
@@ -207,8 +209,8 @@ theorem packSum_dlist {w S C l : ℕ} (hKS : 2 * C + 1 ≤ S) (hlw : l + 1 ≤ w
     rw [← sum_sub_distrib]
     refine sum_congr rfl fun i _ => ?_
     split_ifs with hP
-    · rw [Nat.and_two_pow_sub_one_eq_mod, Nat.mod_eq_of_lt (hyflt i), Nat.and_two_pow_sub_one_eq_mod,
-        Nat.mod_eq_of_lt hplw, hyfZ, pow_mul]
+    · rw [Nat.and_two_pow_sub_one_eq_mod, Nat.mod_eq_of_lt (hyflt i),
+        Nat.and_two_pow_sub_one_eq_mod, Nat.mod_eq_of_lt hplw, hyfZ, pow_mul]
       push_cast
       ring
     · simp
