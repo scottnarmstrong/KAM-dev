@@ -26,7 +26,7 @@ SJSU instance, namespace `KAM.EffectiveStability.SJSU`, directory `KAM/Effective
 |---|---:|---|
 | `Modes0.lean`, `Modes1.lean` | 1426 each | the 2,790 modes `(m₁, m₂, σ)` of `S`, exact, in JSON file order (`dyMode m₁ m₂ n e = (m₁, m₂, n/2^e)`) |
 | `Data.lean` | 211 | `sjsuEccModes`, `sjsuEccIbar`, `sjsuEccV` (exact `V′`), `sjsuEccFix` (130 fixed-point modes), `sjsuEccData`, `sjsuEcc_globalOK` (`decide +kernel`) |
-| `TreePP/PM/MP/MM.lean` | 1251/559/901/699 | the four chart trees (signs `±, ±`): 900 leaves in 46 blocks of ≤ 32 leaves, one `decide +kernel` per block, assembled by `checkTree_split_intro` |
+| `TreePP/PM/MP/MM.lean` | 1251/559/901/699 | the four chart trees (signs `±, ±`): 900 leaves in 42 blocks of ≤ 32 leaves, one `decide +kernel` per block, assembled by `checkTree_split_intro` |
 | `Main.lean` | 114 | `sjsuB`, `sjsuLambdaStar`, `sjsuGammaLo/Hi`, **`sjsu_tube_gamma`, `sjsu_tube_ecc`, `sjsu_tube_ecc_of_dev`** |
 
 Generator and mirror (scratch; not repository code): `.drafts/g2/scratch/N6-Ecc/`. The files are
