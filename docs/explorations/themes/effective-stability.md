@@ -193,6 +193,30 @@ the masses (SJSU18-O2, 7,941 coefficients); an independent audit rebuilt it with
   functions (9 vs 6) and a "5λ₅" typo. Plausible: a factor ½ in eq. (12).
 - **Owner decisions (1 Nov).** Phase 1 certifies SJSU18-O2 as published, at the mapped Table 1 point.
 
+## SJSU gate 2: near-torus approximate integrals at the nominal point
+
+**[sjsu-near-torus-gate.md](../sjsu-near-torus-gate.md)** · 2 November 2026 · numerical gate ·
+status: **measured** (float64); generic first-exit theorem compiled; no certificate
+
+The origin-centred Birkhoff observables still fail at the nominal point on the full SJSU18-O2 model. A local torus
+chart passes the phase-2 gate.
+
+- **Construction.** A Kolmogorov normal form (frequency left free) and a Birkhoff normal form are built about the
+  nominal torus. H is re-expanded exactly about the torus graph through the canonical shift
+  I = I* + c₀ + ∇S(φ) + u, giving literal Fourier–Taylor observables F_j in modal polar coordinates.
+- **Measured.** The F_j are bracketed with the entire degree-18 polynomial on a tube of action width δ, with
+  truncation tails and the float64 noise floor counted. This gives T ≈ 4.3·10¹² yr at δ = 10⁻⁶ and T ≥ 10¹⁰ yr for
+  10⁻⁸ ≤ δ ≤ 3·10⁻⁶.
+  - The tube keeps the eccentricities within [0.027, 0.061] for Jupiter, [0.011, 0.084] for Saturn and
+    [0.007, 0.062] for Uranus.
+  - Along the true flow the F_j are conserved to 10⁻¹⁶ over 10⁵ yr.
+- **Proved (Lean).** `KAM.Application.Confinement.ApproxIntegral` gives first exit and continuation from
+  approximate integrals, including the Hamiltonian case on an open W. It uses the standard axioms only.
+- **Size.** A pruning study shows that literal observables of about 2–4 thousand complex coefficients
+  each keep T ≥ 10¹⁰ yr for δ from 10⁻⁸ to 10⁻⁶.
+- **Open.** Phase 3 needs a checker for polar Fourier–Taylor observables and exact or interval arithmetic. The report
+  requests owner decisions on that route and on the tube target.
+
 ## HD 11964: a certified no-crossing time for a real exoplanet system
 
 **[hd11964-pilot.md](../hd11964-pilot.md)** · 1 November 2026 · pilot (phase 1 report; phase 2 running) ·

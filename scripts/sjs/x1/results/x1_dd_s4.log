@@ -1,0 +1,7 @@
+grid (64, 162, 243), n 2519424, band 1810035 modes, setup 1 s; 0 modes with |k.w'| < 0.0e+00 held during 0 iterations
+dd 12 |E|in sup max 1.083e-26 (per comp 4.1e-29 1.1e-26 2.4e-28 1.2e-29 8.1e-30 1.8e-30) out-of-band l1 max 5.756e-25 |dC| 1.82e-26 |T^-1| 390.953 t 100
+dd 13 |E|in sup max 6.635e-32 (per comp 6.6e-32 4.1e-32 3.4e-32 1.3e-33 1.6e-34 3.1e-35) out-of-band l1 max 5.756e-25 |dC| 2.22e-27 |T^-1| 390.953 t 197
+dd 14 |E|in sup max 5.927e-32 (per comp 5.9e-32 3.2e-32 3.0e-32 1.4e-33 2.7e-35 1.0e-35) out-of-band l1 max 5.756e-25 |dC| 1.22e-27 |T^-1| 390.953 t 297
+dd 15 |E|in sup max 5.923e-32 (per comp 5.9e-32 3.2e-32 3.2e-32 1.2e-33 2.7e-35 1.3e-35) out-of-band l1 max 5.756e-25 |dC| 1.24e-27 |T^-1| 390.953 t 397
+dd 16 |E|in sup max 5.617e-32 (per comp 5.6e-32 3.1e-32 2.8e-32 1.2e-33 2.5e-35 1.1e-35) out-of-band l1 max 5.756e-25 |dC| 3.02e-27 |T^-1| 390.953 t 494
+GUARD: exit 0, peak RSS 3247952 KB
