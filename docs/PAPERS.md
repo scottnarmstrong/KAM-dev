@@ -640,3 +640,5 @@ Strong AMD and exponential safety (campaign manuscript, 31 October 2026): planar
 Links: none (print only).
 
 **Used for.** Track LP source: sharp strong Laskar–Petit AMD threshold and exponential-time safety without secular hypotheses. Independent proof audit PROOF-AUDIT-1: PASS WITH NOTES (N1 fixed in place; N2–N12 normative in docs/tracks/LP/source/AMENDMENTS.md).
+
+**Errata recorded:** 29 entries.
