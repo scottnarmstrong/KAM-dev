@@ -737,6 +737,9 @@ Full text: [`docs/DECISIONS.md`](docs/DECISIONS.md).
   proved. *(Scott, 2026-11-03)*
 - **D74** Certify SJSU gate 2 in Lean (T2-CONF: finite-time confinement of SJSU18-O2 via a packed tube checker); plan
   defaults; numerical gates SR-1..7 first; statement approved before freezing. *(Scott, 2026-11-06)*
+- **D75** T2-CONF's model of record is the complex form of SJSU18-O2; two-sided eccentricity intervals. *(Scott, 2026-11-06)*
+- **D76** Approve the exact T2-CONF statement `sjsu_secular_confinement` and its data `sjsu18O2`; freeze and seal in one
+  pass once proved. *(Scott, 2026-11-06)*
 
 ## Owner questions
 

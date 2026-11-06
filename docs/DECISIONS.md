@@ -654,3 +654,10 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   part is about 2·10⁻³⁴. Phase 2 (Lean) is launched. The statement's eccentricity intervals and the radius of Q go to the
   owner with the exact text.
   - **2026-11-06 ruling (a):** the statement keeps two-sided eccentricity intervals [0.026, 0.062], [0.009, 0.085] and [0.006, 0.063], with the lower bounds proved by a φ-resolved grid enclosure (about 1 CPU-h). *(Scott: "(a)".)*
+- **D76 (2026-11-06, 16:05 UTC) The exact text of the T2-CONF statement is approved.** *(Scott: "approved".)*
+  - **Approved text:** draft v2 of `docs/explorations/sjsu-g2-t2conf-proposal.md` (inp-sjsu-g2 at 793d59797), audited by
+    STMT-AUDIT-1, PASS WITH NOTES:
+    - `sjsu_secular_confinement`, with Q a sup ball of radius 10⁻⁶ about z\*, T = 5·10⁹ yr, and two-sided eccentricity
+      intervals [0.026, 0.062], [0.009, 0.085] and [0.006, 0.063];
+    - the frozen data `sjsu18O2` (Re Σ c zᵃz̄ᵇ over 7,941 terms in 6 hash-pinned parts).
+  - **Next:** prove it as an ordinary theorem, then freeze and seal it in one pass, byte-identical to the approved text.
