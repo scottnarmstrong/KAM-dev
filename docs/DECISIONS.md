@@ -647,3 +647,9 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - **Decision 8 (the X1 track) is deferred.**
   - **Order:** the numerical gates SR-1..SR-7 first, with no Lean before they pass. The exact frozen statement and
     data definition go to the owner for approval before any freeze.
+- **D75 (2026-11-06, 14:45 UTC) T2-CONF model of record: the complex form of SJSU18-O2.** *(Scott: "approved", on gate SR-1,
+  `docs/explorations/sjsu-g2-gates.md`.)* The frozen data definition is the published 7,941-coefficient
+  rotation-invariant complex form, with z = (ξ − iη)/√2, and H defined as the real part of Σ c·zᵃz̄ᵇ. The 38,466-term
+  real form is not rotation-invariant as exact rationals: its coefficients were rounded independently, so the charged
+  part is about 2·10⁻³⁴. Phase 2 (Lean) is launched. The statement's eccentricity intervals and the radius of Q go to the
+  owner with the exact text.
