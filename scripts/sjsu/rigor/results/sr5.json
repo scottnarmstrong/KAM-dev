@@ -1,0 +1,67 @@
+{
+ "gate": "SR-5 OPCOUNT",
+ "sr4": "sr4-sr-vp-L8-Lv8-d1e-06",
+ "p_bits": 80,
+ "guard_bits": 16,
+ "CP": 30,
+ "KH": 60,
+ "Lv": 8,
+ "products": 36298,
+ "unpacks": 2540,
+ "by_stage": {
+  "Hbuild": {
+   "products": 13614,
+   "mul_CPU_h": 0.04209880027000001
+  },
+  "bracket": {
+   "products": 22564,
+   "mul_CPU_h": 0.07304576028000001
+  },
+  "powers": {
+   "products": 120,
+   "mul_CPU_h": 0.00038847240000000003
+  }
+ },
+ "max_operand_Mbit": 1.4567715,
+ "peak_per_declaration_GB": 0.451820964375,
+ "peak_split_cycle_GB": 0.45291354300000003,
+ "kernel_CPU_h_kappa2": 0.23106606590000003,
+ "kernel_CPU_h_kappa3": 0.34659909885,
+ "ledger_per_truncation": {
+  "GB": 0.0945134,
+  "elaboration_CPU_h": [
+   0.1890268,
+   0.2730387111111111
+  ],
+  "charged_GB": [
+   27.2198592,
+   35.5370384
+  ]
+ },
+ "ledger_per_product": {
+  "GB": 1.35064858,
+  "elaboration_CPU_h": [
+   2.7012971599999998,
+   3.901873675555556
+  ],
+  "charged_GB": [
+   388.98679104,
+   507.84386608
+  ]
+ },
+ "inputs_Mbit": {
+  "H_z": 0.659103,
+  "S_F_witnesses_estimate": 2.96928
+ },
+ "H_w_by_symmetric_powers": {
+  "rational_multiply_adds": 679974,
+  "entry_bits_max": 1649,
+  "note": "estimate; exact, no balls; one-off"
+ },
+ "pass": {
+  "kernel<=50": true,
+  "ledger<=5GB (per truncation)": true,
+  "declaration<=8GB": true
+ },
+ "verdict": "PASS"
+}

@@ -1,0 +1,26 @@
+space L=6 K=30 G=48 M=84; I*=[0.00031713936128874775, 0.0006694538636095217, 2.984745562717539e-05]; C0=0.0010164406805254448
+[pass 0] expanded H about I* (1.9s)
+  kolmogorov 0: |A|=2.292e-10 |B|=5.130e-11 omega=[-1.35268785e-04 -2.02876597e-05 -1.15096540e-05] min|k.w|=9.084e-08
+  kolmogorov 1: |A|=7.309e-13 |B|=1.545e-12 omega=[-1.35266918e-04 -2.02882850e-05 -1.15227123e-05] min|k.w|=1.015e-06
+  kolmogorov 2: |A|=4.385e-17 |B|=9.098e-15 omega=[-1.35266906e-04 -2.02882826e-05 -1.15227586e-05] min|k.w|=1.027e-06
+  kolmogorov 3: |A|=1.179e-25 |B|=3.718e-19 omega=[-1.35266906e-04 -2.02882826e-05 -1.15227586e-05] min|k.w|=1.027e-06
+  kolmogorov 4: |A|=1.168e-40 |B|=7.529e-28 omega=[-1.35266906e-04 -2.02882826e-05 -1.15227586e-05] min|k.w|=1.027e-06
+  birkhoff p-degree 2: |angle part|=2.189e-13
+  birkhoff p-degree 3: |angle part|=7.359e-16
+  remaining angle part by p-degree (rho_ref): 1.2e-40 1.1e-42 6.3e-28 2.1e-30 2.4e-18 1.0e-20 5.7e-23
+  normalized: 12 generators (5.7s)
+  F(nominal) = [-2.52472852e-06  3.80216976e-06 -1.27744124e-06]  sum = -8.174e-20  (p nominal = [2.0074664181401634e-06, -7.896680905845454e-07, -1.2177983275556993e-06]) (12.6s)
+[pass 1] expanded H about I* (12.6s)
+  kolmogorov 0: |A|=2.255e-10 |B|=5.102e-11 omega=[-1.35048554e-04 -2.02825986e-05 -1.15075636e-05] min|k.w|=2.630e-07
+  kolmogorov 1: |A|=7.200e-13 |B|=1.522e-12 omega=[-1.35046706e-04 -2.02832244e-05 -1.15207652e-05] min|k.w|=8.405e-07
+  kolmogorov 2: |A|=4.444e-17 |B|=8.884e-15 omega=[-1.35046694e-04 -2.02832220e-05 -1.15208133e-05] min|k.w|=8.522e-07
+  kolmogorov 3: |A|=1.267e-25 |B|=3.772e-19 omega=[-1.35046694e-04 -2.02832220e-05 -1.15208133e-05] min|k.w|=8.522e-07
+  kolmogorov 4: |A|=1.510e-40 |B|=8.172e-28 omega=[-1.35046694e-04 -2.02832220e-05 -1.15208133e-05] min|k.w|=8.522e-07
+  birkhoff p-degree 2: |angle part|=2.191e-13
+  birkhoff p-degree 3: |angle part|=7.405e-16
+  remaining angle part by p-degree (rho_ref): 1.5e-40 1.4e-42 7.3e-28 2.4e-30 2.4e-18 1.1e-20 6.4e-23
+  normalized: 12 generators (16.4s)
+  F(nominal) = [-9.46816947e-14  1.26219365e-13 -3.15376850e-14]  sum = -1.476e-20  (p nominal = [np.float64(4.532194936916832e-06), np.float64(-4.591837848314136e-06), np.float64(5.964291139728698e-08)]) (21.5s)
+torus frequencies omega = [-1.35046694e-04 -2.02832220e-05 -1.15208133e-05]  (orbit NAFF: -1.3514e-4, -2.0291e-5, -1.1667e-5)
+torus graph: Newton residual 4.97e-21; tau range [(-2.4865009923449595e-05, 2.238637023672375e-05), (-2.4397685388620733e-05, 2.6128801326735857e-05), (-3.60229983185797e-06, 4.492186001691394e-06)]
+done in 22.1s
