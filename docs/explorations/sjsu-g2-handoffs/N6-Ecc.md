@@ -209,7 +209,7 @@ inside the 6 GB scope.
 | Uranus | [8.70396·10⁻⁷, 9.42989·10⁻⁵] | [0.00606, 0.06300] | [0.006, 0.063] |
 
 The worst leaves sit just inside the targets because refinement stops as soon as a cell passes. This is not
-a fragility: every check is exact rational arithmetic. The true ranges are phase 1's (see the brief).
+a fragility: every check is exact rational arithmetic. The tighter phase-1 ranges are numerical estimates; the certified enclosure is the one above (audit N6-A1 N2).
 
 ## Design signals hit
 
