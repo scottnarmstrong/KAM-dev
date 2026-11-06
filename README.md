@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-06 22:52 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 100 % · track W 100 % · track LP 100 % · SJSU gate 2 74 %** · frozen statements proved: 75 / 76 · **701,370 lines of hand-written Lean** of an estimated ≈ 704,000 (plus 4,097,429 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-06 23:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 100 % · track W 100 % · track LP 100 % · SJSU gate 2 74 %** · frozen statements proved: 75 / 76 · **701,370 lines of hand-written Lean** of an estimated ≈ 704,000 (plus 4,097,429 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -377,7 +377,7 @@ Overall, everything together: 97.6 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **701,370** (558,542 excluding blank lines and comments) · **+149,918** since 2026-11-05 22:40 UTC |
+| On `main` now (hand-written) | **701,370** (558,542 excluding blank lines and comments) · **+149,918** since 2026-11-05 23:00 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 4,097,429 lines in 15,317 modules |
 | Written on agent branches, not yet landed (hand-written) | 2,610 |
 | **Estimated total at completion** (hand-written) | **≈ 704,000** |
@@ -387,7 +387,7 @@ Overall, everything together: 97.6 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-06 22:52 UTC from `main` at `f9740cd7e` by `scripts/hq-status.py`.*
+*Generated 2026-11-06 23:00 UTC from `main` at `5b25a3969` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -610,7 +610,7 @@ account read from each agent's running process) and their branches. Rules for ag
 | **lp-freeze7** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP-FREEZE7R: handoff (parts A-C; superseded by LP-FREEZE-EXEC) | `inp-lp-freeze7` | 1 (vs `inp`) |
 | **lp-fz7r-audit** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP: draft-7 r1 delta statement audit 2 (codex-2): PASS WITH NOTES (BLOCKING 0; R1-R3 small | `inp-lp-fz7r-audit` | 1 (vs `inp`) |
 | **lp-providers** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP-FREEZE7R part B: stage the 39 draft-7 r1 providers (quarantined; not in roots), staging | `inp-lp-providers` | 1 (vs `inp`) |
-| **sjsu-g2** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: Merge main (landing 5) into inp-sjsu-g2 | `inp-sjsu-g2` | 10 (vs `inp`) |
+| **sjsu-g2** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: SJSU-G2 N5a-2 instance: audit N5a2i-AUDIT-1 (PASS WITH NOTES) and its handoff note I1 | `inp-sjsu-g2` | 11 (vs `inp`) |
 <!-- /AUTO:workers -->
 
 ### Recent changes on `main`
