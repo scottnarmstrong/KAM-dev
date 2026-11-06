@@ -1,23 +1,193 @@
-# N5b-Assembly handoff (T2-CONF, worker g2-n5b): phase A, the generic assembly
+# N5b-Assembly handoff (T2-CONF, worker g2-n5b): phases A and B(i)–(iii)
 
 6 November 2026, branch `inp-sjsu-g2`, shared worktree; nothing committed by me. Brief
 `.drafts/g2/BRIEF-N5b-Assembly.md`.
 
 **Status.**
-- **Phase A is complete:** the generic tube-checker assembly in `KAM/EffectiveStability/Tube/Check/`. Every literal
-  check is an abstract numeric hypothesis on functions of `(u, φ)` or on the ball `Q`.
-- **Phase B is not started:** the SJSU instance in `KAM/EffectiveStability/SJSU/Confinement/`. It needs:
-  - N5a's `h̃` tube model;
-  - the literal observables `f_j` (F-v1);
-  - the η / face / partial-bound checkers;
-  - N5c-Q's ball discharges.
+- **Phase A is complete** (committed by kam-g2 as `c2a92e9d1`): the generic tube-checker assembly in
+  `KAM/EffectiveStability/Tube/Check/`.
+- **Phase B (i)–(iii) is complete** (16:47 UTC); see the section "Phase B" right below.
+  - The exact D76 conclusion is derived from `tubeChart_confinement`. The literal checks still pending are
+    hypotheses of an intermediate lemma.
+  - The properties of N5a's `B` are proved, and so is `ContDiff ℝ 2 sjsu18O2`.
+- **Not yet possible:** the ordinary theorem `KAM.EffectiveStability.SJSU.sjsu_secular_confinement_proof` itself.
+  It waits for N5a's `h̃` (`hHh`, `hhd`) and N7's observables and checks. Once they land, it is a one-line
+  application of `sjsu_secular_confinement_of_obs` (template below).
 - No `sorry`, `axiom` or `set_option`; every file ≤ 1500 lines. The axioms are only `propext`, `Classical.choice`
   and `Quot.sound`.
+
+## Phase B: the SJSU instance (`KAM/EffectiveStability/SJSU/Confinement/`, namespace `KAM.EffectiveStability.SJSU`, opt-in `KAMSJSU`)
+
+| file | lines | content |
+|---|---:|---|
+| `Shift.lean` | 105 | (ii) `sjsuBmin`, `sjsuBmax`, `sjsuB_eq_eccCenter` (`rfl`), `shiftPeriodic_sjsuB`, `differentiable_sjsuB`, `sjsuB_bounds`, `sjsu_rho_lt_bmin`; (iii) `contDiff_polyRe`, `contDiff_sjsu18O2` |
+| `Statement.lean` | 163 | (i) `chartGamma_sjsuV`, `sjsu_hG`, **`sjsu_secular_confinement_of_checks`**, **`sjsu_secular_confinement_of_obs`** |
+
+There is also one new core file, `KAM/EffectiveStability/Tube/Check/Center.lean` (87 lines):
+- `abs_modeK_mul_le`;
+- `abs_tubeCenter_sub_le : |tubeCenter modes Ibar k φ - Ibar k| ≤ ((lipSum₁ modes k + lipSum₂ modes k : ℚ) : ℝ)`;
+- `tubeCenter_bounds_of_globalOK (hg : globalOK d = true) k φ`, which gives
+  `↑(d.Ibar k - (d.L₁ k + d.L₂ k)) ≤ tubeCenter d.modes d.Ibar k φ ≤ ↑(d.Ibar k + (d.L₁ k + d.L₂ k))`.
+
+### (ii) The shift `B = sjsuB` (N5a)
+
+```lean
+def sjsuBmin (k : Fin 3) : ℚ := sjsuEccIbar k - (sjsuEccData.L₁ k + sjsuEccData.L₂ k)
+def sjsuBmax (k : Fin 3) : ℚ := sjsuEccIbar k + (sjsuEccData.L₁ k + sjsuEccData.L₂ k)
+theorem sjsuB_eq_eccCenter (φ : Fin 2 → ℝ) (k : Fin 3) : sjsuB φ k = sjsuEccCenter k φ := rfl
+theorem shiftPeriodic_sjsuB : ShiftPeriodic sjsuB
+theorem differentiable_sjsuB : Differentiable ℝ sjsuB
+theorem sjsuB_bounds (φ : Fin 2 → ℝ) (k : Fin 3) :
+    (sjsuBmin k : ℝ) ≤ sjsuB φ k ∧ sjsuB φ k ≤ (sjsuBmax k : ℝ)
+theorem sjsu_rho_lt_bmin (k : Fin 3) : (2 / 10 ^ 6 : ℝ) < (sjsuBmin k : ℝ)
+```
+
+- **No new kernel check.**
+  - `|B_k − Ī_k| ≤ Σ|m_k σ| ≤ Σ|m_k σ|(|m₁| + |m₂|) = lipSum₁ + lipSum₂ ≤ L₁ + L₂`, using N6's `globalOK`.
+  - A mode with `m₁ = m₂ = 0` has `m_k = 0`; every other mode has `|m₁| + |m₂| ≥ 1`.
+  - Values: `bmin ≈ (2.63·10⁻⁴, 6.19·10⁻⁴, 2.34·10⁻⁵)`, far above `ρ = 2·10⁻⁶`.
+- **Symmetry:** N5a's `sjsuB_symm` (from `tubeCenter_symm`, N2's `shift_symm_of_gradient`), used as is.
+- **`β`:** N5c's `sjsu_hβ` (`β = sjsuBeta ≥ max(L₁, L₂)`), used as is. I did not duplicate it.
+- **`B` is N6's centre:** N5a's `sjsuB φ k` is literally `tubeCenter sjsuEccModes sjsuEccIbar k φ`, which is N6's
+  `sjsuEccCenter k φ` by `rfl`. N6's `sjsu_tube_ecc` therefore applies to `sjsuB` with no conversion.
+
+### (iii) `hH`
+
+```lean
+theorem contDiff_polyRe {n : WithTop ℕ∞} (L : List (ℕ × ℕ × ℕ × ℕ × ℕ × ℕ × ℚ)) :
+    ContDiff ℝ n (fun x => let z := …; ((L.map fun t => …).sum).re)   -- the body of `sjsu18O2`
+theorem contDiff_sjsu18O2 {n : WithTop ℕ∞} : ContDiff ℝ n sjsu18O2 := contDiff_polyRe sjsu18O2Terms
+```
+
+- The proof is by induction over an arbitrary term list, so the 7,941 rows are never unfolded. The last step is a
+  definitional match of the body; it elaborates in seconds.
+- Ingredients: `z_j` is real-affine into `ℂ` (`Complex.ofRealCLM`); `star` is `Complex.conjCLE`; `Re` is
+  `Complex.reCLM`; `ContDiff.mul`, `ContDiff.pow` in the normed `ℝ`-algebra `ℂ`.
+
+### (i) The D76 statement
+
+Both lemmas conclude **the exact conclusion of `sjsu_secular_confinement` (draft v2)** for every `z₀` satisfying
+its `hz₀`. The text is copied verbatim and differs only in line breaks.
+
+They discharge:
+- `hV` (N5a's `sjsuV_orth`);
+- the shift (ii) and `hH` (iii);
+- `hT`;
+- `hz₀ ↔ z₀ ∈ Metric.closedBall sjsuZStar (1/10^6)` (`mem_closedBall_iff_coords`; N5c's `sjsuZStar` uses the
+  statement's decimals verbatim, so this is definitional);
+- `Pγ`, the eccentricity intervals, via `sjsu_hG`. That is N6's `sjsu_tube_ecc` after
+  `chartGamma_sjsuV : chartGamma sjsuV I φ j = eccGamma sjsuEccV I φ j`, from N5c's `sjsuV_eq_eccV` and `rfl`.
+
+Fixed values: `δ = r = 1/10^6`, `ρ = 2/10^6`, `T = 5 * 10^9`, `z = sjsuZStar`, `V = sjsuV`, `B = sjsuB`,
+`H = sjsu18O2`.
+
+```lean
+theorem sjsu_secular_confinement_of_checks
+    {h : (Fin 3 → ℝ) × (Fin 2 → ℝ) → ℝ} {f : Fin 3 → (Fin 3 → ℝ) × (Fin 2 → ℝ) → ℝ}
+    {β ct ε γ η μ A a : Fin 3 → ℝ} {Fu : Fin 3 → Fin 3 → ℝ} {Fφ : Fin 3 → Fin 2 → ℝ} {Nv : ℝ}
+    -- N5a: the Hamiltonian in tube coordinates
+    (hHh : ∀ y ∈ actionPos 3, sjsu18O2 (rotMap sjsuV (polar y)) = h (shiftChart sjsuB y))
+    (hhd : ∀ u φ, (∀ l, |u l| ≤ 2 / 10 ^ 6) → DifferentiableAt ℝ h (u, φ))
+    -- N7: the observables, rates and faces
+    (hfper : ∀ j, ObsPeriodic (f j)) (hfd : ∀ j, Differentiable ℝ (f j))
+    (hη : ∀ j u φ, (∀ l, |u l| ≤ 2 / 10 ^ 6) → |reducedBracket (f j) h (u, φ)| ≤ η j)
+    (hTη : ∀ j, 5 * 10 ^ 9 * η j < 1 / 10 ^ 6 / 2)
+    (hface : ∀ j u φ, (∀ l, |u l| ≤ 2 / 10 ^ 6) → |f j (u, φ) - ct j - u j| ≤ ε j)
+    (hc : ∀ j, |f j (tubeChart sjsuV sjsuB sjsuZStar) - ct j| ≤ γ j)
+    (hερ : ∀ j, 1 / 10 ^ 6 + ε j + γ j < 2 / 10 ^ 6)
+    -- N5c: the ball `Q = closedBall z* 10⁻⁶`
+    (hN : ∀ j, ∑ k, |sjsuV k j| ≤ Nv)
+    (hAb : ∀ y ∈ Metric.closedBall sjsuZStar (1 / 10 ^ 6), ∀ j,
+      |(rotMap sjsuVᵀ y).1 j| + |(rotMap sjsuVᵀ y).2 j| ≤ A j)
+    (ha : ∀ j, 0 < a j)
+    (hab : ∀ y ∈ Metric.closedBall sjsuZStar (1 / 10 ^ 6), ∀ j, a j ≤ modeSq sjsuV y j)
+    (hβ : ∀ φ (b : Fin 2) (l : Fin 3), |fderiv ℝ sjsuB φ (Pi.single b 1) l| ≤ β l)
+    (hμ : ∀ j, |tubeU sjsuV sjsuB sjsuZStar j| ≤ μ j)
+    (hμρ : ∀ j, μ j + chartLip Nv A a β (Pi.single j 1) 0 * (1 / 10 ^ 6) < 2 / 10 ^ 6)
+    (hFu : ∀ j u φ, (∀ l, |u l| ≤ 2 / 10 ^ 6) → ∀ l,
+      |fderiv ℝ (f j) (u, φ) (Pi.single l 1, 0)| ≤ Fu j l)
+    (hFφ : ∀ j u φ, (∀ l, |u l| ≤ 2 / 10 ^ 6) → ∀ b,
+      |fderiv ℝ (f j) (u, φ) (0, Pi.single b 1)| ≤ Fφ j b)
+    (hLF : ∀ j, chartLip Nv A a β (Fu j) (Fφ j) * (1 / 10 ^ 6) ≤ 1 / 10 ^ 6 / 2)
+    (z₀ : (Fin 3 → ℝ) × (Fin 3 → ℝ)) (hz₀ : …the D76 hz₀…) : …the D76 conclusion…
+
+theorem sjsu_secular_confinement_of_obs
+    {h : (Fin 3 → ℝ) × (Fin 2 → ℝ) → ℝ} {f : Fin 3 → (Fin 3 → ℝ) × (Fin 2 → ℝ) → ℝ}
+    {ct ε η : Fin 3 → ℝ}
+    (hHh : ∀ y ∈ actionPos 3, sjsu18O2 (rotMap sjsuV (polar y)) = h (shiftChart sjsuB y))
+    (hhd : ∀ u φ, (∀ l, |u l| ≤ 2 / 10 ^ 6) → DifferentiableAt ℝ h (u, φ))
+    (hfper : ∀ j, ObsPeriodic (f j)) (hfd : ∀ j, Differentiable ℝ (f j))
+    (hη : ∀ j u φ, (∀ l, |u l| ≤ 2 / 10 ^ 6) → |reducedBracket (f j) h (u, φ)| ≤ η j)
+    (hTη : ∀ j, 5 * 10 ^ 9 * η j < 1 / 10 ^ 6 / 2)
+    (hface : ∀ j u φ, (∀ l, |u l| ≤ 2 / 10 ^ 6) → |f j (u, φ) - ct j - u j| ≤ ε j)
+    (hερ : ∀ j, 1 / 10 ^ 6 + ε j + (ε j + (sjsuMu : ℝ)) < 2 / 10 ^ 6)
+    (hFu : ∀ j u φ, (∀ l, |u l| ≤ 2 / 10 ^ 6) → ∀ l,
+      |fderiv ℝ (f j) (u, φ) (Pi.single l 1, 0)| ≤ (sjsuFuMax j l : ℝ))
+    (hFφ : ∀ j u φ, (∀ l, |u l| ≤ 2 / 10 ^ 6) → ∀ b,
+      |fderiv ℝ (f j) (u, φ) (0, Pi.single b 1)| ≤ (sjsuFphiMax j b : ℝ))
+    (z₀ : (Fin 3 → ℝ) × (Fin 3 → ℝ)) (hz₀ : …the D76 hz₀…) : …the D76 conclusion…
+```
+
+- **`of_obs`** plugs in N5c's ball discharges: `sjsu_hN`, `sjsu_hAb`, `sjsu_ha`, `sjsu_hab`, `sjsu_hβ`, `sjsu_hμ`,
+  `sjsu_hμρ` and `sjsu_hLF`, with N5c's ceilings `sjsuFuMax` and `sjsuFphiMax`.
+- **`hc`** is discharged with `γ_j = ε_j + μ` through N5c's `abs_obs_sub_le_of_face`.
+- **What remains:**
+  - N5a: `h` with `hHh`, `hhd`;
+  - N7: the literal observables `f` with `hfper`, `hfd`, `hη`, `hTη`, `hface`, `hερ` (a face margin
+    `2ε + 10⁻⁹ < 10⁻⁶`; phase 1 had `ε ≈ 0.423δ`), and the partial ceilings `hFu`/`hFφ`.
+  - N5c's `Tube/Initial/Partials` (`abs_fderiv_tmEvalPair_u_le`/`_φ_le`, `differentiable_tmEvalPair`,
+    `tmEvalPair_add_two_pi`) gives `hFu`, `hFφ`, `hfd`, `hfper` from coefficient norms if
+    `f j = tmEvalPair s μ (g j)`.
+- **Using `of_checks` directly:** if N5c's ceilings change, `of_obs` changes, and `of_checks` does not.
+
+**Template for the ordinary theorem**, once N5a and N7 land:
+
+```lean
+theorem sjsu_secular_confinement_proof (z₀ : (Fin 3 → ℝ) × (Fin 3 → ℝ)) (hz₀ : …D76…) : …D76… :=
+  sjsu_secular_confinement_of_obs (h := sjsuHTilde) (f := sjsuObs) sjsu_hHh sjsu_hhd sjsu_hfper sjsu_hfd
+    sjsu_hη sjsu_hTη sjsu_hface sjsu_hερ sjsu_hFu sjsu_hFφ z₀ hz₀
+```
+
+It must be stated in the verbatim D76 text. The binders of `of_obs` elaborate to the same term (copied text;
+`exact` closed `of_obs` from `of_checks`).
+
+**Phase-B checks.**
+- **Builds** (`g2lake build`):
+  - `KAM.EffectiveStability.SJSU.Confinement.Statement`: `Build completed successfully (9125 jobs)`. This builds
+    `Shift`, `Tube.Check.Center`, N5c's `SJSU.Initial.Main`, N6's `SJSU.Ecc.Main` and N5a's `SJSU.Ham.Center` and
+    `Rot`.
+  - `KAM.EffectiveStability.Tube.Check.Bracket` rebuilt after N6's rename (`treeSum` → `treeSumQ`):
+    `Build completed successfully`.
+  - No warnings in my files.
+- **`#print axioms`** (`.drafts/g2/scratch/n5b/Axioms2.lean`, output `axioms2.out`):
+  `[propext, Classical.choice, Quot.sound]` for each of the following:
+  - `abs_tubeCenter_sub_le`, `tubeCenter_bounds_of_globalOK`;
+  - `sjsuB_eq_eccCenter`, `shiftPeriodic_sjsuB`, `differentiable_sjsuB`, `sjsuB_bounds`, `sjsu_rho_lt_bmin`;
+  - `contDiff_polyRe`, `contDiff_sjsu18O2`;
+  - `chartGamma_sjsuV`, `sjsu_hG`, `sjsu_secular_confinement_of_checks`, `sjsu_secular_confinement_of_obs`.
+- **Line counts:** `Shift` 105, `Statement` 163, `Center` 87. No line is over 100 characters.
+- **Lint:** see "Lint (phase B)" at the end.
+
+**Phase-B dependencies on in-progress packages.**
+- `Statement.lean` imports N5c's `SJSU.Initial.Main`. N5c's package audit is pending.
+- `Center.lean` uses N6's `treeSumQ_eq`, which N6 renamed during this session.
+- A rename in either package breaks these imports, and the fix is a one-line edit on my side.
+
+**Audit 1 fix N1** (`docs/explorations/sjsu-g2-audits/N5b-Assembly-AUDIT-1.md`, applied).
+- The `polarInvD` docstring (`Tube/Check/Deriv.lean`) now reads: "the inverse of the polar derivative at
+  `polarInv w` (equivalently, the derivative of a smooth local inverse of `polar` through that lift), for nonzero
+  modes". It adds that it is not a derivative of `polarInv` itself, whose `arg` lift is discontinuous on
+  `q = 0, p < 0`.
+- The change is documentation only. `Statement` and its whole import chain rebuild: `Build completed successfully
+  (9125 jobs)`.
+
+**Phase-B design signals.** None. Higher-order unification could not infer `Pγ` from `sjsu_hG`, so it is passed
+explicitly.
 
 The files `Confine.lean` and `Solution.lean` were drafts by the previous N5b session. I kept and checked them, and
 generalized nothing in them.
 
-## The interface for the instance (exact hypothesis form; N5c-Q should match this)
+## Phase A: the interface for the instance (exact hypothesis form; N5c-Q should match this)
 
 The main theorem, `KAM.EffectiveStability.Tube.tubeChart_confinement` (`Tube/Check/TubeChart.lean`):
 
@@ -228,7 +398,7 @@ None at heartbeats; every module elaborates in a few seconds. One elaboration no
   differentiability of `f` and `h̃` at `(u, φ)` as explicit hypotheses. They come from the polynomial structure
   (`f`) and from N5a (`h̃`), never from `TubeClose`.
 
-## Remaining (phase B, the SJSU instance in `SJSU/Confinement/`)
+## Remaining (as of phase A; superseded by "Phase B" above)
 
 - **Ownership.** I own the definition of the literal observables `sjsuObs j : (Fin 3 → ℝ) × (Fin 2 → ℝ) → ℝ`.
   - Planned form: `sjsuObs j p = tmEval s μ (g j) p.1 p.2` (N3's `tmEval`), with `g j i = TP.eval S (x j i)` (N3
@@ -282,3 +452,28 @@ package:
 
 Everything else passed: `check_lean_modules: PASS`, unit tests `Ran 29 tests … OK` and `Ran 8 tests … OK`,
 `FROZEN-ANCHOR GUARD OK`.
+
+## Lint (phase B)
+
+`.drafts/g2/lint_noabi.sh` (output `.drafts/g2/scratch/n5b/lint3.out`; **the `abi_hashes` step was skipped**).
+
+Result: exit 1, with **no finding under `KAM/EffectiveStability/Tube/Check/` or `KAM/EffectiveStability/SJSU/Confinement/`**.
+
+The failures come from outside this package:
+- lines over 100 characters in `SJSU/Ham/*`, `SJSU/Model/SJSU18O2Part*`, `Tube/Engine/*` and `Tube/Poly/*`;
+- `KAM.lean is out of date` (orchestrator-owned roots).
+
+Everything else passed: `check_lean_modules: PASS`, unit tests `Ran 29 tests … OK` and `Ran 8 tests … OK`,
+`FROZEN-ANCHOR GUARD OK`.
+
+An earlier run (`lint2.out`) crashed when another worker deleted `SJSU/Ham/Hw/D3P0.lean` during the run. That is a
+race in the shared worktree, not a finding.
+
+**Freeze-prep note (for N6's staging).** The ordinary theorem will live in the module
+`KAM.EffectiveStability.SJSU.Confinement.Proof` (file `SJSU/Confinement/Proof.lean`, not yet written).
+- Its type is the v2 text verbatim.
+- It will import `SJSU.Confinement.Statement` plus the N5a/N7 instance modules, and nothing under `KAM/Frozen/` and
+  no provider.
+
+I confirmed this to g2-n6.
+

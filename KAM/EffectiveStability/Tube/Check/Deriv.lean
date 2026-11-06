@@ -32,8 +32,10 @@ open Set Filter Topology Matrix Real
 
 variable {n : ℕ}
 
-/-- The derivative of `polarInv` at `w` in the direction `dw`:
-`(q dq + p dp, (q dp - p dq) / (q² + p²))` per mode. -/
+/-- The inverse of the polar derivative at `polarInv w` (equivalently, the derivative of a smooth
+local inverse of `polar` through that lift), for nonzero modes, applied to `dw`:
+`(q dq + p dp, (q dp - p dq) / (q² + p²))` per mode. It is not a derivative of `polarInv` itself,
+whose `arg` lift is discontinuous on the cut `q = 0`, `p < 0`. -/
 def polarInvD (w dw : (Fin n → ℝ) × (Fin n → ℝ)) : (Fin n → ℝ) × (Fin n → ℝ) :=
   (fun j => w.1 j * dw.1 j + w.2 j * dw.2 j,
     fun j => (w.1 j * dw.2 j - w.2 j * dw.1 j) / (w.1 j ^ 2 + w.2 j ^ 2))
