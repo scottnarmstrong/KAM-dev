@@ -7,8 +7,8 @@ coordinated with N7 (kam-sjsu-g2-4d).
 **Status: complete.**
 - **Generic part** (`Tube/Poly/HtDense`, `Tube/Poly/HtBridge`, `SJSU/Ham/HtBridge`): committed in b15dedbe8 and
   audited in N7b-N5a2-AUDIT-1 (PASS WITH NOTES).
-- **Instance** (`SJSU/Ham/HtBridgeInst` and its 6 submodules): new and uncommitted. It is a separate deliverable,
-  not covered by that audit. `sjsuHD_Ht_eq_hCoef` is proved against N7's built `Ledger.H.HData`. No `sorry`,
+- **Instance** (`SJSU/Ham/HtBridgeInst` and its 6 submodules): committed in 4afebe84d and audited separately in
+  N5a2i-AUDIT-1 (PASS WITH NOTES); it is not covered by the generic audit. `sjsuHD_Ht_eq_hCoef` is proved against N7's built `Ledger.H.HData`. No `sorry`,
   `axiom` or `set_option`; the axioms are only `propext`, `Classical.choice` and `Quot.sound`.
 
 ## Files
@@ -161,7 +161,8 @@ Generic part: see N7b-N5a2-AUDIT-1 (builds with 0 warnings in the three files; a
 - **Build cost and memory.** About 29 CPU-minutes, mostly the 90 `T_n` blocks. `Tdat2` peaked at 6.0 GB RSS,
   close to the g2lake cap (the margin is in anonymous memory, which was lower). If it ever OOMs under
   `LEAN_NUM_THREADS=2`, split it further (blocks of 4, or one module per 10 blocks).
-- **The instance is unaudited.** It is a separate deliverable, outside N7b-N5a2-AUDIT-1's scope.
+- **The instance** is a separate deliverable, outside N7b-N5a2-AUDIT-1's scope; its own audit is N5a2i-AUDIT-1
+  (PASS WITH NOTES).
 - No suspected errata in pinned sources.
 
 READY g2-n5a2
