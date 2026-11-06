@@ -16,6 +16,7 @@ intervals. Decisions D74–D76 are in [`docs/DECISIONS.md`](../DECISIONS.md).
    and the frozen data definition `sjsu18O2`, approved by the owner (D76). Its audit is
    [`sjsu-g2-audits/STMT-AUDIT-1.md`](sjsu-g2-audits/STMT-AUDIT-1.md).
 4. [`sjsu-g2-decisions.md`](sjsu-g2-decisions.md): the program's decision log.
+5. [`sjsu-lean-rigor-astra.md`](sjsu-lean-rigor-astra.md): an independent second opinion (Astra, codex-2), written in parallel with the scoping plan.
 
 ## Method in one paragraph
 
