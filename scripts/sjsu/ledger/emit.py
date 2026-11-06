@@ -137,6 +137,16 @@ def emit_F(small, outdir: Path, w, S, b):
     return mods + ['KAM.EffectiveStability.SJSU.Ledger.F']
 
 
+LEDGER = 'KAM.EffectiveStability.SJSU.Ledger'
+
+
+def module_path(outdir: Path, mod: str) -> Path:
+    """The file of a Ledger module under the output directory `outdir` (= the `Ledger` directory)."""
+    assert mod == LEDGER or mod.startswith(LEDGER + '.'), mod
+    rel = mod[len(LEDGER) + 1:]
+    return outdir / (rel.replace('.', '/') + '.lean')
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('stage', choices=['F'])
@@ -144,15 +154,25 @@ def main():
     ap.add_argument('--w', type=int, default=448)
     ap.add_argument('--S', type=int, default=139)
     ap.add_argument('--b', type=int, default=82)
+    ap.add_argument('--outdir', help='write the Ledger tree (and its manifest) here instead, e.g. to '
+                                     'regenerate into a scratch directory for a byte comparison')
     args = ap.parse_args()
     outdir = ROOT / 'KAM/EffectiveStability/SJSU/Ledger'
     if args.small:
         outdir = ROOT / '.drafts/g2/scratch/n7/ledger-small/SJSU/Ledger'
+    if args.outdir:
+        outdir = Path(args.outdir).resolve()
     outdir.mkdir(parents=True, exist_ok=True)
     mods = emit_F(args.small, outdir, args.w, args.S, args.b)
-    man = {m: hashlib.sha256((ROOT / (m.replace('.', '/') + '.lean')).read_bytes()).hexdigest()
-           for m in mods if (ROOT / (m.replace('.', '/') + '.lean')).exists()}
-    (HERE / 'manifest-F.json').write_text(json.dumps(man, indent=1) + '\n')
+    # hash exactly the files this run wrote (audit N7-N8-1 N1: the small run hashed production paths)
+    missing = [m for m in mods if not module_path(outdir, m).exists()]
+    if missing:
+        raise SystemExit(f'emit: modules not written under {outdir}: {missing}')
+    man = {m: hashlib.sha256(module_path(outdir, m).read_bytes()).hexdigest() for m in mods}
+    name = 'manifest-F-small.json' if args.small else 'manifest-F.json'
+    mdir = outdir if args.outdir else HERE
+    (mdir / name).write_text(json.dumps(man, indent=1) + '\n')
+    print(f'manifest: {len(man)} modules -> {mdir / name}')
 
 
 if __name__ == '__main__':
