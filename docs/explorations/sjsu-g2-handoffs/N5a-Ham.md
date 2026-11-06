@@ -72,7 +72,7 @@ theorem KAM.EffectiveStability.SJSU.sjsu18O2_rate (f : (Fin 3 → ℝ) × (Fin 2
 ### Scripts
 - `scripts/sjsu/rigor/gen_t2conf.py`: new `--lean-dev` mode (D76 namespace). No other change.
 - `scripts/sjsu/rigor/gen_ham_lean.py` (new) writes `SJSU/Ham/Hw/*.lean` from `results/hw.json` (kam-g2's
-  `gen_hw.py` output; sha256 recorded in the module docstrings) and from the model JSON.
+  `gen_hw.py` output; its sha256 is in `ham_lean_manifest.json` (`hw_json_sha256`)) and from the model JSON.
   - It recomputes `S`, `T = C S`, `H = Sᵀ T` exactly in Python and **asserts `H` equals `hw.json` entrywise** in every
     degree before writing.
   - It writes `results/ham_lean_manifest.json` (sha256 of each generated module).

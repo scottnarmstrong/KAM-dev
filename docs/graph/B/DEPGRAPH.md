@@ -7,7 +7,7 @@ CONVENTIONS: Phase n = (Fin n -> R) x (Fin n -> R); max norm; X_H = (partial_J H
 STANDING_ASSUMPTIONS: -
 EXTERNAL_POLICY: Mathlib-level inputs are KIND external nodes: ODE local existence/uniqueness and compact continuation (ext:ode#*), and the Cauchy estimate (ext:analysis#cauchy); cited GLS17/CL20 derivations are reproduced in the plan and are provenance, not external inputs
 FROZEN_ANCHORS: b:defs#hamiltonianVectorField, b:defs#symplecticForm, b:defs#oscillatorAction, b:2.2#B1-T, b:2.3#B1-E, b:4#HH
-FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:fd93ee6b8a686eb4fbd6ee6f8332c437ec230aa41bffebacb8cfb7be77aeb45a
+FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:0c83c45ed823f7f76695aee111d6c48f8f051adc1642a12a736a814ca5e9a43f
 WRITER: kam-b1
 GLOBAL_REVIEWER: sonnet-global-B-hh
 GLOBAL_REVIEW_REF: B1 roots: docs/graph/B/reviews/GLOBAL-review.md, GLOBAL-recheck.md (sonnet-global-B); HH root: GLOBAL-review-hh.md, GLOBAL-recheck-hh.md, GLOBAL-final-hh.md (sonnet-global-B-hh, final VERDICT ACCEPT); node reviews NODE-review.md, NODE-*-hh.md
@@ -875,7 +875,7 @@ EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-hh-nodes
 LEAN_STATUS: PROVED
 LEAN_REF: KAM.EffectiveStability.henonHeiles_confinement (KAM/Frozen/EffectiveStability/HenonHeilesConfinement.lean); provider KAM.Provider.EffectiveStability.henonHeiles_confinement
-LEAN_NOTE: SEALED (D73, manifest effectiveStability.d73.henonHeiles_confinement.v1, main 95387f9b0); seal audit HH-1 PASS WITH NOTES; standard axioms; library KAMHenonHeiles
+LEAN_NOTE: SEALED (D73, manifest effectiveStability.d73.henonHeiles_confinement.v1, main 95387f9b0); seal audit HH-1 PASS WITH NOTES; standard axioms; library KAMHenonHeiles; T2-CONF (D74-D76) packages KAM/EffectiveStability/Tube/* (core) and KAM/EffectiveStability/SJSU/* (library KAMSJSU) landed on main a9e07eb24 (18:17 UTC 06 Nov) and after, outside the B root closure; no node change (T2-CONF gets its own graph at its freeze)
 NOTE: statement source = exact frozen text (FREEZE-PROPOSAL-HH, owner D73); mathematical target plan §4 L539-L543; plan-to-freeze: "unique solution through |t| <= 10^10" is stated in the §2.1 form (open Ioo(-T1,T1), T1 > 10^10, uniqueness on order-connected intervals through 0); library KAMHenonHeiles
 
 ## Append-only structural amendments
