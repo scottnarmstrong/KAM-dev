@@ -10,13 +10,15 @@ public import KAM.CertificateSharp.Packed.Norm
 /-!
 # Spreading packed digits (T2-CONF, N7)
 
-Ledger literals are stored compactly: the `n` digits of a model, each `b` bits, in one natural number.
-The packed product layout needs the same digits at a wider slot width `w ≥ b`. `spread b w f n X`
-re-spaces the digits by balanced halving (mask the low half, shift the high half; `f` levels of
-fuel), so the kernel does `O(n)` small GMP operations and no per-digit loop over big numbers.
+Ledger literals are stored compactly: the `n` digits of a model, each `b` bits, in one natural
+number. The packed product layout needs the same digits at a wider slot width `w ≥ b`.
+`pspread b w L X` re-spaces the `2^L` digits in `L` parallel rounds (`spreadRound`: one periodic
+mask, one `AND`, one subtraction, one shift, one addition each), so the kernel does a few
+whole-number operations and no per-digit loop over big numbers.
 
 * `dig b X i = (X >>> (b i)) % 2^b`: digit `i` of `X` in base `2^b`;
-* `spread_eq`: for `X < 2^(b n)`, `n ≤ 2^f`, `b ≤ w`: `spread b w f n X = Σ_{i<n} dig b X i · 2^(w i)`;
+* `pspread_eq`: for `0 < b ≤ w` and `X < 2^(b 2^L)`,
+  `pspread b w L X = Σ_{i<2^L} dig b X i · 2^(w i)`; `expand_eq`: the same on the square box;
 * `dig_digitSum`: the digits of `Σ_{i<n} e_i 2^(m i)` (all `e_i < 2^m`) are the `e_i`;
 * `sum_range_mul_regroup`: `Σ_{i < K R} f i = Σ_{r<R} Σ_{c<K} f (c + K r)`.
 -/
@@ -144,7 +146,7 @@ def blk (b : ℕ) (e : ℕ → ℕ) (k t : ℕ) : ℕ := ∑ i ∈ range (2 ^ k)
 
 theorem blk_lt {b : ℕ} {e : ℕ → ℕ} (he : ∀ i, e i < 2 ^ b) (k t : ℕ) :
     blk b e k t < 2 ^ (b * 2 ^ k) :=
-  digitSum_lt fun i _ => he _
+  digitSum_lt fun _ _ => he _
 
 theorem blk_succ {b : ℕ} (e : ℕ → ℕ) (k t : ℕ) :
     blk b e (k + 1) t = blk b e k (2 * t) + 2 ^ (b * 2 ^ k) * blk b e k (2 * t + 1) := by

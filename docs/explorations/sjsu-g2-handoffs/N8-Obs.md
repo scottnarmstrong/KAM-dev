@@ -68,8 +68,11 @@ theorem sjsu_hερ : ∀ j : Fin 3, 1 / 10 ^ 6 + sjsuObsEps j + (sjsuObsEps j + 
 - **Face bound.** It is the exact centred ℓ¹ bound. Per term (s, d) it is
   `ρ^|s| (|q m₀ − κ_s| + |q| Σ_{k≠0}|m|)`, with `κ = c̃` for s = 0, `κ = 1` for s = e_j and `κ = 0`
   otherwise. It is dominated by `ρ|g_{j,e_j} − 1|` and the linear cross terms, matching phase 1's 0.42δ.
-- **Margins.** `hερ` holds with a margin of at least 0.15δ (Saturn). The tightest ceiling is
-  `Fφ_{S,0}` (3.16e-7 ≤ 4e-7, about 21 % headroom).
+- **Margins.** `hερ` holds with a margin of at least 0.15δ (Saturn).
+  - Over all partial ceilings, the tightest is `Fu_{J,0}`: 1.12947 ≤ 1.2, about 5.88 % of the ceiling
+    (6.24 % over the bound).
+  - Among the angle ceilings alone, the tightest is `Fφ_{S,0}`: 3.16e-7 ≤ 4e-7, about 21 %.
+  - (Corrected after audit N7-N8-AUDIT-1 N2: an earlier version stated 21 % for all ceilings.)
 
 ## Checks run
 
@@ -102,8 +105,9 @@ and the kernel cost is about 4 s per check.
 - **Dependence on N7's data.** The checks depend on N7's data as landed (not yet committed when I built).
   A regeneration with the same values only re-runs the checks. `w` in `Fprm` is provisional and does not
   matter, since my checks use only `Fprm.S` (through `SpD.ok`) and the entries. New values need
-  `parse.py` → `gen_obs.py` (new `ε_j`) and a rebuild; the margins (≥ 21 % on ceilings, ≥ 0.15δ on the
-  face condition) absorb small changes.
+  `parse.py` → `gen_obs.py` (new `ε_j`) and a rebuild, with fresh kernel checks. The margins (≥ 5.88 % on
+  every partial ceiling, ≥ 21 % on the angle ceilings, ≥ 0.15δ on the face condition) absorb only small
+  changes.
 - **Partial formulas for N7.** `fderiv_listObs_φ` states the φ-partial with
   `fderiv ℝ (g e) p.2 (Pi.single b 1)`, which is N3's `pderiv (g e) p.2 b` by abbrev.
 
@@ -115,5 +119,28 @@ and the kernel cost is about 4 s per check.
   N5c's ceilings did not need to be raised.
 
 No suspected errata in pinned sources.
+
+## Audit N7-N8-AUDIT-1 fixes (PASS WITH NOTES)
+
+- **N2 (this handoff).** The headroom claim is qualified above: 5.88 % is the minimum over all partial
+  ceilings (`Fu_{J,0}`), and 21 % holds only for the angle ceilings.
+- **N3 (N7's Engine files, handed over for hygiene only).** No signature or statement changed. Files:
+  `Tube/Engine/{BTerm,Lit,Sparse,Spread,Step,Types,Input}.lean`.
+  - The 10 lines over 100 columns are reflowed. Two of them are definitions (`litOff`, `Term.comb`),
+    split across lines with identical bodies; the rest are docstrings or proof lines.
+  - The deprecated `if_pos`/`if_neg` are replaced by `ite_eq_left`/`ite_eq_right` (Lit 6, Sparse 5).
+  - The unused simp arguments are removed (Lit: `List.getElem?_replicate`, `litList`).
+  - The unused lambda name is now `_` (Spread `blk_lt`).
+  - Stale docstrings are corrected:
+    - `Input.lean` now lists only its exports and defers the exact-input layer to the later stage;
+    - `Spread.lean` describes `pspread`/`pspread_eq`/`expand_eq` instead of `spread_eq`.
+- **One warning left (deliberate).** `Step.lean:68`, the unused implicit `{w}` of `Opd.abs_eval_le`.
+  Removing or renaming it changes the signature: callers pass `(w := …)`, in `Step.lean:188–189`, my
+  `Tube/Obs/Sparse.lean:131`, and N7's `Engine/Witness.lean:236`, which was not handed over. Left for
+  N7's decision.
+- **Rebuilds.** Through g2lake, one at a time: `Engine.Types`, `Spread`, `Lit`, `Step`, `Input`,
+  `Sparse`, `BTerm`, then `SJSU.Obs.Main` (which rebuilds `Tube.Obs.*`). All `Build completed
+  successfully`, with no other warning in these files. The axioms of the N8 theorems are unchanged
+  (`propext`, `Classical.choice`, `Quot.sound`). No line in the seven files is over 100 columns.
 
 READY g2-n8

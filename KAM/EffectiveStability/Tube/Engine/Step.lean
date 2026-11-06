@@ -10,8 +10,9 @@ public import KAM.EffectiveStability.Tube.Engine.Comb
 /-!
 # One checker step: a sum of products, then an output literal (T2-CONF, N7)
 
-**Operands.** `Opd`: a slot list `l` on the square layout of half-width `C` (common stride `S`), its
-packed value `Z`, a parity and a rational scale `q`; its value is `q · evalK (Layout.key C S) par l`.
+**Operands.** `Opd`: a slot list `l` on the square layout of half-width `C` (common stride `S`),
+its packed value `Z`, a parity and a rational scale `q`; its value is
+`q · evalK (Layout.key C S) par l`.
 `Opd.WF`: `packSum w l = Z`, zero padding, at most `Layout.len C S` slots. `Opd.Cert f o e₀ e₁ n`:
 well formed, `C1Close f o.eval e₀ e₁`, `l1 l ≤ n`; `Opd.Mx o mx`: every slot `|x| ≤ mx`.
 
@@ -22,9 +23,9 @@ rational `Q` (the sign of a product of two odd factors lives in `c`). Then
 `X = lcomb [(c 2^sh, listConv A.l B.l)]`, with the product-rule errors (sup bounds from the claimed
 `ℓ¹` bounds, `wl1 ≤ C l1`); the kernel only computes `Σ c 2^sh Z_A Z_B = packSum w X`.
 
-**Output** (`outCheck`, `out_sound`). An output operand `O` on a sub-layout, integers `α_X, α_O` with
-`q_O α_X = Q α_O`: the difference `D = α_X packSum X - α_O 2^(w shift) Z_O` is the packing of the
-slotwise difference, and its packed `ℓ¹` (`l1P`) bounds the `C¹` distance
+**Output** (`outCheck`, `out_sound`). An output operand `O` on a sub-layout, integers `α_X, α_O`
+with `q_O α_X = Q α_O`: the difference `D = α_X packSum X - α_O 2^(w shift) Z_O` is the packing of
+the slotwise difference, and its packed `ℓ¹` (`l1P`) bounds the `C¹` distance
 (`|Q|/α_X · δ`, and `|Q|/α_X · (C_a + C_b) · δ` for the derivatives).
 -/
 
@@ -120,7 +121,8 @@ def prodCheck (S Ca Cb : ℕ) (p : Bool) (Q : ℚ) (ts : List Term) (E₀ E₁ :
     decide ((ts.map Term.slotB).sum ≤ BX)
 
 /-- The exact combination of a list of terms. -/
-def Term.comb (ts : List Term) : List ℤ := lcomb (ts.map fun t => (t.c * 2 ^ t.sh, listConv t.A.l t.B.l))
+def Term.comb (ts : List Term) : List ℤ :=
+  lcomb (ts.map fun t => (t.c * 2 ^ t.sh, listConv t.A.l t.B.l))
 
 theorem abs_listSum_le {α : Type*} (f : α → ℤ) : ∀ l : List α,
     |(l.map f).sum| ≤ (l.map fun x => |f x|).sum

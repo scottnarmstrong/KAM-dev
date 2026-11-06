@@ -11,8 +11,9 @@ public import KAM.EffectiveStability.Tube.Trig.Product
 /-!
 # Compact literal models (T2-CONF, N7)
 
-A ledger model of half-width `C` is stored as `(2C+1)²` offset digits of `b` bits (row-major over the
-square box `|k_i| ≤ C`, digit value `mantissa + 2^(b-1)`) in one natural number `X` (the unwhitened
+A ledger model of half-width `C` is stored as `(2C+1)²` offset digits of `b` bits (row-major over
+the square box `|k_i| ≤ C`, digit value `mantissa + 2^(b-1)`) in one natural number `X` (the
+unwhitened
 literal). Its slot list on the square layout of stride `S` (`Layout.key C S`) is `litList C S b X`:
 slot `c + S r` (`c, r ≤ 2C`) holds `dig b X (c + (2C+1) r) - 2^(b-1)`, the padding columns hold `0`.
 
@@ -37,7 +38,8 @@ def litSlot (C S b X i : ℕ) : ℤ :=
 def litList (C S b X : ℕ) : List ℤ := (List.range (Layout.len C S)).map (litSlot C S b X)
 
 /-- The packed offset `Σ_{r,c ≤ 2C} 2^(b-1) 2^(w (c + S r))` in closed form. -/
-def litOff (C S b w : ℕ) : ℕ := 2 ^ (b - 1) * (periodic w (2 * C + 1) 1 * periodic (S * w) (2 * C + 1) 1)
+def litOff (C S b w : ℕ) : ℕ :=
+  2 ^ (b - 1) * (periodic w (2 * C + 1) 1 * periodic (S * w) (2 * C + 1) 1)
 
 /-- The packed value of a literal model (kernel form). -/
 def litZ (C S b w L₁ L₂ X : ℕ) : ℤ := (expand C S b w L₁ L₂ X : ℤ) - (litOff C S b w : ℤ)
@@ -56,7 +58,7 @@ theorem periodic_one_eq_sum {w : ℕ} (hw : 0 < w) (N : ℕ) :
     periodic w N 1 = ∑ i ∈ range N, 2 ^ (w * i) := by
   rw [periodic_eq_natPack hw, natPack_eq_sum, List.length_replicate]
   refine sum_congr rfl fun i hi => ?_
-  simp [List.getD_eq_getElem?_getD, List.getElem?_replicate, mem_range.mp hi]
+  simp [List.getD_eq_getElem?_getD, mem_range.mp hi]
 
 theorem colsOk_of_getD {C S : ℕ} : ∀ {i₀ : ℕ} {d : List ℤ},
     (∀ i, d.getD i 0 ≠ 0 → (i₀ + i) % S ≤ 2 * C) → colsOkAux C S i₀ d = true
@@ -118,7 +120,7 @@ theorem litZ_eq {C S b w L₁ L₂ X : ℕ} (hb : 0 < b) (hbw : b ≤ w) (hKS : 
   have hext : ∑ i ∈ range (Layout.len C S), (litList C S b X).getD i 0 * (2 ^ w) ^ i =
       ∑ i ∈ range (S * K), (litList C S b X).getD i 0 * (2 ^ w) ^ i := by
     refine sum_subset (range_subset_range.mpr hlen) fun i _ hi => ?_
-    rw [getD_litList, if_neg (by simpa using hi), zero_mul]
+    rw [getD_litList, ite_eq_right (by simpa using hi), zero_mul]
   rw [hext, sum_range_mul_regroup S _ K]
   have hrow : ∀ r ∈ range K, ∑ c ∈ range S, (litList C S b X).getD (c + S * r) 0 *
       (2 ^ w) ^ (c + S * r) = ∑ c ∈ range K, ((dig b X (c + K * r) : ℤ) - 2 ^ (b - 1)) *
@@ -132,16 +134,16 @@ theorem litZ_eq {C S b w L₁ L₂ X : ℕ} (hb : 0 < b) (hbw : b ≤ w) (hKS : 
       rw [getD_litList]
       split_ifs
       · unfold litSlot
-        rw [(mod_div_of_lt hc.1).1, if_neg (by omega), zero_mul]
+        rw [(mod_div_of_lt hc.1).1, ite_eq_right (by omega), zero_mul]
       · rw [zero_mul]
     · have hcK := mem_range.mp hc
       have hlt : c + S * r < Layout.len C S := by
         unfold Layout.len
         have : S * r ≤ S * (2 * C) := Nat.mul_le_mul_left S (by omega)
         nlinarith
-      rw [getD_litList, if_pos hlt]
+      rw [getD_litList, ite_eq_left hlt]
       unfold litSlot
-      rw [(mod_div_of_lt (by omega)).1, (mod_div_of_lt (by omega)).2, if_pos hcK, ← pow_mul]
+      rw [(mod_div_of_lt (by omega)).1, (mod_div_of_lt (by omega)).2, ite_eq_left hcK, ← pow_mul]
   have hoff : ((litOff C S b w : ℕ) : ℤ) =
       ∑ r ∈ range K, ∑ c ∈ range K, (2 : ℤ) ^ (b - 1) * 2 ^ (w * (c + S * r)) := by
     rw [litOff, periodic_one_eq_sum hw, periodic_one_eq_sum (Nat.mul_pos hS hw), sum_mul_sum,
@@ -233,7 +235,7 @@ theorem symOk_litList {q : Bool} {C S b X : ℕ} (hb : 1 ≤ b) (hKS : 2 * C + 1
       rw [hjrefl] at hds
       unfold litSlot
       rw [hrefl, (mod_div_of_lt (by omega)).1, (mod_div_of_lt (by omega)).2, ← hc, ← hr,
-        if_pos (by omega), if_pos hcK]
+        ite_eq_left (by omega), ite_eq_left hcK]
       cases q
       · simp only [Bool.false_eq_true, ↓reduceIte] at hds
         rw [hds]; simp [psgn, hK]
@@ -256,7 +258,7 @@ theorem symOk_litList {q : Bool} {C S b X : ℕ} (hb : 1 ≤ b) (hKS : 2 * C + 1
       have hrefl : Layout.len C S - 1 - i = (S + 2 * C - c) + S * (2 * C - r - 1) := by
         rw [hlenE, hY]; omega
       unfold litSlot
-      rw [hrefl, (mod_div_of_lt (by omega)).1, if_neg (by omega), if_neg hcK, mul_zero]
+      rw [hrefl, (mod_div_of_lt (by omega)).1, ite_eq_right (by omega), ite_eq_right hcK, mul_zero]
   -- lift to the lists
   have hlen := length_litList C S b X
   unfold symOk
@@ -268,7 +270,7 @@ theorem symOk_litList {q : Bool} {C S b X : ℕ} (hb : 1 ≤ b) (hKS : 2 * C + 1
     rw [List.getElem_reverse]
     simp only [litList, List.getElem_map, List.getElem_range, List.length_map, List.length_range]
     rw [key i hi]
-    cases q <;> simp [psgn, litList]
+    cases q <;> simp [psgn]
 
 end KAM.EffectiveStability.Tube
 

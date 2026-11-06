@@ -83,15 +83,15 @@ theorem fiber_sum {M : Type*} [AddCommMonoid M] {S n : ℕ} (g : (ℕ × ℕ) ×
         h i ((if (idx S e == i) = true then e :: es.filter (fun e => idx S e == i)
           else es.filter (fun e => idx S e == i)).map g).sum =
         h i ((es.filter fun e => idx S e == i).map g).sum := fun i hi => by
-      rw [if_neg (by simpa using (Finset.ne_of_mem_erase hi).symm)]
-    rw [sum_congr rfl hrest, if_pos (by simp), List.map_cons, List.sum_cons, hadd]
+      rw [ite_eq_right (by simpa using (Finset.ne_of_mem_erase hi).symm)]
+    rw [sum_congr rfl hrest, ite_eq_left (by simp), List.map_cons, List.sum_cons, hadd]
     abel
 
 theorem length_list (S : ℕ) (d : SpD) : (d.list S).length = Layout.len d.C S := by simp [list]
 
 theorem packSum_list {w S : ℕ} {d : SpD} (h : d.ok S = true) : packSum w (d.list S) = d.Z w S := by
   rw [packSum_eq_sum, length_list,
-    sum_congr rfl (fun i hi => by rw [getD_list, if_pos (mem_range.mp hi)]),
+    sum_congr rfl (fun i hi => by rw [getD_list, ite_eq_left (mem_range.mp hi)]),
     fiber_sum (S := S) (n := Layout.len d.C S) (fun e => e.2)
       (fun i x => x * (2 ^ w) ^ i) (fun i x y => add_mul _ _ _) (fun i => zero_mul _) d.es
       (fun e he => (idx_lt h he).1), Z]
@@ -119,7 +119,8 @@ theorem colsOk_list {S : ℕ} {d : SpD} (h : d.ok S = true) : colsOk d.C S (d.li
 theorem abs_listSum_le' (l : List ℤ) : |l.sum| ≤ (l.map fun x => |x|).sum := by
   induction l with
   | nil => simp
-  | cons x l ih => simp only [List.sum_cons, List.map_cons]; exact (abs_add_le _ _).trans (by linarith)
+  | cons x l ih =>
+    simp only [List.sum_cons, List.map_cons]; exact (abs_add_le _ _).trans (by linarith)
 
 theorem l1_list_le {S : ℕ} {d : SpD} (h : d.ok S = true) : l1 (d.list S) ≤ d.l1E := by
   rw [l1_eq, length_list]
@@ -127,7 +128,7 @@ theorem l1_list_le {S : ℕ} {d : SpD} (h : d.ok S = true) : l1 (d.list S) ≤ d
       ≤ ∑ i ∈ range (Layout.len d.C S), ((d.es.filter fun e => idx S e == i).map
           fun e => (e.2.natAbs : ℤ)).sum := by
         refine sum_le_sum fun i hi => ?_
-        rw [getD_list, if_pos (mem_range.mp hi)]
+        rw [getD_list, ite_eq_left (mem_range.mp hi)]
         refine (abs_listSum_le' _).trans (le_of_eq ?_)
         rw [List.map_map]
         refine congrArg List.sum (List.map_congr_left fun e _ => ?_)
@@ -148,7 +149,7 @@ theorem eval_eq {w S : ℕ} {d : SpD} (h : d.ok S = true) (φ : Fin 2 → ℝ) :
   simp only [Opd.eval, opd]
   congr 1
   rw [evalK, length_list,
-    sum_congr rfl (fun i hi => by rw [getD_list, if_pos (mem_range.mp hi), Int.cast_list_sum,
+    sum_congr rfl (fun i hi => by rw [getD_list, ite_eq_left (mem_range.mp hi), Int.cast_list_sum,
       List.map_map])]
   simp only [Function.comp_def]
   rw [fiber_sum (S := S) (n := Layout.len d.C S) (fun e => (e.2 : ℝ))

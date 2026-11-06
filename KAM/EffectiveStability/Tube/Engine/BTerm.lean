@@ -22,8 +22,8 @@ is the sum over the terms `b : BT` (direction `a`, indices `i`, `e`, a kind and 
 | `true` | `false` | `-ν_e(a)` | `μ i + ν e - e_a` | `∂_a g_i · k_e` |
 | `true` | `true` | `ν_e(2)` | `μ i + ν e - e_2` | `∂_a g_i · k_e` |
 
-(`u_a` is `Pi.single a.castSucc 1`.) The kernel bounds the grouped values `Σ_{mon b = p} coef b · val b`
-for the kept `p`; the identity itself is proved on the analytic side.
+(`u_a` is `Pi.single a.castSucc 1`.) The kernel bounds the grouped values
+`Σ_{mon b = p} coef b · val b` for the kept `p`; the identity itself is proved on the analytic side.
 -/
 
 @[expose] public section

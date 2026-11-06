@@ -16,12 +16,10 @@ public import KAM.EffectiveStability.Tube.Trig.Literal
   with its half-width, parity, scale and spread rounds), `LitD.opd` its operand:
   `LitD.wf` (well formed), `LitD.mx` (slots below `2^(b-1)`), `LitD.sym` (symmetry from the compact
   digits), `LitD.l1_le` (an `ℓ¹` claim checked by `l1P`).
-* `evalR κ p n a`: a trigonometric sum with real coefficients; `c1Close_evalR`.
-* `boxKey C i`: the mode of compact index `i` (row-major over the square box);
-  `evalK_litList`: a literal's value as a sum over its compact digits.
-* `denseCos C cs`: the cosine series of a dense rational coefficient list in box order (the exact
-  inputs `T_n`, `B_j`, the constant `1`); `inputCheck` and `input_sound`: a literal rounding the
-  exact data, with the exact `ℓ¹` and weighted errors.
+* `LitD.l1Check`: the kernel `ℓ¹` claim (one load check and one packed `ℓ¹`).
+
+The exact-input layer (real-coefficient sums, compact-digit evaluation, the input rounding checks)
+is a later stage of the engine and is not part of this module.
 -/
 
 @[expose] public section

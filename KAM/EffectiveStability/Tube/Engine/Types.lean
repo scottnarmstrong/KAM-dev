@@ -109,7 +109,8 @@ increasing index order (one pass; the ledger's entries are sorted and distinct).
 def denseM : Nat → Nat → List (Nat × Rat) → List Rat
   | 0, _, _ => []
   | k + 1, i, [] => 0 :: denseM k (i + 1) []
-  | k + 1, i, e :: es => if e.1 == i then e.2 :: denseM k (i + 1) es else 0 :: denseM k (i + 1) (e :: es)
+  | k + 1, i, e :: es =>
+    if e.1 == i then e.2 :: denseM k (i + 1) es else 0 :: denseM k (i + 1) (e :: es)
 
 /-- A dense list of `len` rationals from sorted sparse `(index, value)` entries. -/
 def denseQ (len : Nat) (es : List (Nat × Rat)) : List Rat := denseM len 0 es
