@@ -136,8 +136,8 @@ No suspected errata in pinned sources.
     - `Spread.lean` describes `pspread`/`pspread_eq`/`expand_eq` instead of `spread_eq`.
 - **One warning left (deliberate).** `Step.lean:68`, the unused implicit `{w}` of `Opd.abs_eval_le`.
   Removing or renaming it changes the signature: callers pass `(w := …)`, in `Step.lean:188–189`, my
-  `Tube/Obs/Sparse.lean:131`, and N7's `Engine/Witness.lean:236`, which was not handed over. Left for
-  N7's decision.
+  `Tube/Obs/Sparse.lean:131`, and N7's `Engine/Witness.lean:236`, which was not handed over. N7 ruled to
+  keep the binder as it is (harmless; no change in `Obs/Sparse`).
 - **Rebuilds.** Through g2lake, one at a time: `Engine.Types`, `Spread`, `Lit`, `Step`, `Input`,
   `Sparse`, `BTerm`, then `SJSU.Obs.Main` (which rebuilds `Tube.Obs.*`). All `Build completed
   successfully`, with no other warning in these files. The axioms of the N8 theorems are unchanged
