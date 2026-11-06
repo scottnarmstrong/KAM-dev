@@ -1,0 +1,319 @@
+#!/usr/bin/env python3
+"""Lean data and kernel checks of the modal Hamiltonian H_w of SJSU18-O2 (T2-CONF, package N5a).
+
+H_w = H_z o (z = V' w) with V' = M / N (results/vprime.json) and the model rows c = cint / 10^E. In each degree d
+the monomials of degree d, sorted lexicographically, form the list A_d (n = |A_d|); every degree-d part is dense
+(n x n). The composition H_d = S_d^T C_d S_d is checked in the kernel row by row (small declarations):
+  S_i = symPow M (A_d i)                       (sjsuS<d>_row<i>)
+  T_i = sum_j C(A_d i, A_d j) S_j               (sjsuT<d>_row<i>; C read off the integer model rows)
+  H_k = sum_i S_i[k] T_i                        (sjsuH<d>_row<k>)
+Files in KAM/EffectiveStability/SJSU/Ham/Hw/:
+  A.lean                      the lists A_d, d = 1..9, with Nodup and degree checks
+  C<d>P<p>.lean, C<d>.lean    the integer model rows of z-degree d (c * 10^E) in file order, the conversion check
+                              against the model and the key checks (keys in A_d x A_d); d = 0 has no rows
+  S<d>P<p>.lean, S<d>.lean    S rows and their checks; T..., H... likewise; H<d>.lean also states sjsuH<d>_eval
+Integers are written `hz neg [limbs]` with 320-bit hex limbs (lines <= 100 characters).
+The H rows are compared with results/hw.json (written by gen_hw.py) before writing.
+Usage: python3 gen_ham_lean.py [--out KAM/EffectiveStability/SJSU/Ham/Hw] [--degrees 1,...,9]
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+from fractions import Fraction
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[2]
+HEADER = '''/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/'''
+MOD = 'KAM.EffectiveStability.SJSU.Ham'
+LIMB = 320
+MAXLINES = 1400
+
+
+def multis(d):
+    return sorted((a, b, d - a - b) for a in range(d + 1) for b in range(d + 1 - a))
+
+
+def sym_row(M, a):
+    """prod_j (sum_k M_jk w_k)^{a_j} as a dict b -> int."""
+    p = {(0, 0, 0): 1}
+    for j in range(3):
+        for _ in range(a[j]):
+            q = {}
+            for b, v in p.items():
+                for k in range(3):
+                    bb = tuple(b[i] + (i == k) for i in range(3))
+                    q[bb] = q.get(bb, 0) + v * M[j][k]
+            p = q
+    return p
+
+
+def int_lines(v, indent):
+    ls = []
+    n = abs(v)
+    while True:
+        ls.append(n & ((1 << LIMB) - 1))
+        n >>= LIMB
+        if n == 0:
+            break
+    ls = ls[::-1]
+    head = f"{' ' * indent}hz {'true' if v < 0 else 'false'} ["
+    out = []
+    for i, x in enumerate(ls):
+        pre = head if i == 0 else ' ' * (indent + 13 if v < 0 else indent + 14)
+        post = ']' if i == len(ls) - 1 else ','
+        out.append(f'{pre}0x{x:x}{post}')
+    return out
+
+
+def row_def(name, row, doc):
+    lines = [f'/-- {doc} -/', f'def {name} : List ℤ := [']
+    for i, v in enumerate(row):
+        t = int_lines(v, 2)
+        if i < len(row) - 1:
+            t[-1] += ','
+        lines += t
+    lines[-1] += ']'
+    return lines
+
+
+def module(imports, doc, body):
+    return f'''{HEADER}
+module
+
+{imports}
+
+/-!
+{doc}
+-/
+
+@[expose] public section
+
+namespace KAM.EffectiveStability.SJSU
+
+open KAM.EffectiveStability.Tube
+
+{body}
+end KAM.EffectiveStability.SJSU
+
+end
+'''
+
+
+def wrap_list(names, indent='    ', first='  ['):
+    words = ', '.join(names).split(' ') if names else []
+    out, line = [], first
+    for w in words:
+        if len(line) + len(w) + 1 > 98:
+            out.append(line.rstrip())
+            line = indent
+        line += w + ' '
+    out.append(line.rstrip() + ']')
+    return out
+
+
+class Writer:
+    def __init__(self, out):
+        self.out = out
+        self.manifest = {}
+
+    def write(self, name, text):
+        long = [x for x in text.splitlines() if len(x) > 100]
+        assert not long, (name, long[:3])
+        assert len(text.splitlines()) <= 1500, name
+        (self.out / f'{name}.lean').write_text(text)
+        self.manifest[name] = hashlib.sha256(text.encode()).hexdigest()
+
+
+def write_rows(W, d, tag, rows, what):
+    """Data part files with row definitions sjsu<tag><d>R<i>; returns the number of parts."""
+    parts, cur, cur_n = [], [], 0
+    for i, r in enumerate(rows):
+        lines = row_def(f'sjsu{tag}{d}R{i}', r, f'Row {i} of `{what}` in degree {d}.')
+        if cur and cur_n + len(lines) + 1 > MAXLINES - 30:
+            parts.append(cur)
+            cur, cur_n = [], 0
+        cur.append(lines)
+        cur_n += len(lines) + 1
+    if cur:
+        parts.append(cur)
+    for p, part in enumerate(parts):
+        body = '\n\n'.join('\n'.join(x) for x in part) + '\n'
+        W.write(f'{tag}{d}P{p}', module(f'public import {MOD}.HwRow',
+                f'# `{what}`, degree {d}, part {p} (T2-CONF, N5a; generated by `gen_ham_lean.py`)', body))
+    return len(parts)
+
+
+def cases_proof(n, thm, symm=False):
+    lines = ['  intro i hi', f'  have hi\' : i < {n} := lt_of_lt_of_eq hi (by rfl)', '  interval_cases i']
+    for i in range(n):
+        lines.append(f'  · exact {"(" if symm else ""}eq_of_listBEq {thm}{i}{").symm" if symm else ""}')
+    return lines
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--out', default=str(ROOT / 'KAM/EffectiveStability/SJSU/Ham/Hw'))
+    ap.add_argument('--degrees', default='1,2,3,4,5,6,7,8,9')
+    args = ap.parse_args()
+    out = Path(args.out)
+    out.mkdir(parents=True, exist_ok=True)
+    W = Writer(out)
+    raw = (HERE / 'results/hw.json').read_bytes()
+    hw = json.loads(raw)
+    sha = hashlib.sha256(raw).hexdigest()
+    vp = json.loads((HERE / 'results/vprime.json').read_text())
+    V = [[Fraction(x) for x in r] for r in vp['Vprime_exact']]
+    N = int(hw['N'])
+    E = hw['E']
+    assert all(N % x.denominator == 0 for r in V for x in r)
+    M = [[int(x * N) for x in r] for r in V]
+    data = json.loads((ROOT / 'applications/sjsu/data/sjsu18-o2.json').read_text())
+    terms = data['complex_form']['terms']
+    hwref = {}
+    for k, v in hw['Hw'].items():
+        b, bp = k.split('|')
+        b = tuple(map(int, b.split(',')))
+        bp = tuple(map(int, bp.split(',')))
+        num = Fraction(v) * N ** (2 * sum(b)) * 10 ** E
+        assert num.denominator == 1
+        hwref[(b, bp)] = int(num)
+    degrees = [int(x) for x in args.degrees.split(',')]
+    # A.lean
+    body = []
+    for d in range(1, 10):
+        A = multis(d)
+        body.append(f'/-- The monomials of degree {d}, in lexicographic order. -/')
+        body += [f'def sjsuA{d} : List Mon :='] + wrap_list([f'({a}, {b}, {c})' for a, b, c in A])
+        body += ['', f'theorem sjsuA{d}_nodup : sjsuA{d}.Nodup := by decide +kernel', '',
+                 f'theorem sjsuA{d}_deg : ∀ b ∈ sjsuA{d}, Mon.deg b = {d} := by decide +kernel', '']
+    W.write('A', module(f'public import {MOD}.HwRow',
+                        '# The monomial lists `A_d` (T2-CONF, N5a; generated by `gen_ham_lean.py`)',
+                        '\n'.join(body)))
+    # C0 (no rows of degree 0)
+    W.write('C0', module(f'public import {MOD}.IntModel\npublic import {MOD}.HwRow',
+                         '# The model has no rows of `z`-degree 0 (T2-CONF, N5a; generated)',
+                         'theorem sjsuC0_check : (sjsuIntChunks 0).flatten = [] := by\n'
+                         '  apply eq_of_listBEq\n  decide +kernel\n'))
+    for d in degrees:
+        A = multis(d)
+        n = len(A)
+        rows = []
+        for t in terms:
+            a, ap = (t[0], t[2], t[4]), (t[1], t[3], t[5])
+            if sum(a) != d:
+                continue
+            c = Fraction(t[6]) * 10 ** E
+            assert c.denominator == 1
+            rows.append((a, ap, int(c)))
+        # C parts
+        chunks = [rows[i:i + 200] for i in range(0, len(rows), 200)]
+        names, parts = [], [chunks[i:i + 6] for i in range(0, len(chunks), 6)]
+        for p, part in enumerate(parts):
+            pbody = []
+            for jj, ch in enumerate(part):
+                j = 6 * p + jj
+                nm = f'sjsuCD{d}B{j}'
+                names.append(nm)
+                ls = []
+                for i, (a, ap, c) in enumerate(ch):
+                    cc = f'({c})' if c < 0 else str(c)
+                    ls.append(f'  cRow {a[0]} {a[1]} {a[2]} {ap[0]} {ap[1]} {ap[2]} {cc}' +
+                              (',' if i < len(ch) - 1 else ']'))
+                pbody.append(f'/-- Integer model rows of `z`-degree {d}, block {j}. -/\n'
+                             f'def {nm} : List ((Mon × Mon) × ℤ) := [\n' + '\n'.join(ls) + '\n')
+            W.write(f'C{d}P{p}', module(f'public import {MOD}.HwRow',
+                    f'# Integer model rows, `z`-degree {d}, part {p} (T2-CONF, N5a; generated)',
+                    '\n'.join(pbody)))
+        key = f'keyIn sjsuA{d}'
+        cb = [f'/-- The integer model rows `c · 10^E` of `z`-degree {d}, in file order, in chunks. -/',
+              f'def sjsuCD{d} : List (List ((Mon × Mon) × ℤ)) :='] + wrap_list(names) + ['']
+        cb += [f'/-- **Kernel check**: the literal rows are the model rows of degree {d}, converted. -/',
+               f'theorem sjsuCD{d}_check : listBEq (sjsuIntChunks {d}).flatten sjsuCD{d}.flatten = true := by',
+               '  decide +kernel', '']
+        for nm in names:
+            cb += [f'theorem {nm}_keys : {nm}.all ({key}) = true := by', '  decide +kernel', '']
+        cb += [f'theorem sjsuCD{d}_keys : ∀ e ∈ sjsuCD{d}.flatten, e.1.1 ∈ sjsuA{d} ∧ e.1.2 ∈ sjsuA{d} := by',
+               f'  have h : sjsuCD{d}.flatten.all ({key}) = true := by',
+               f'    simp only [sjsuCD{d}, List.flatten_cons, List.flatten_nil, List.all_append, List.all_nil,'] + \
+              wrap_list([f'{nm}_keys' for nm in names], indent='      ', first='      ')[:-1] + \
+              [wrap_list([f'{nm}_keys' for nm in names], indent='      ', first='      ')[-1][:-1] +
+               ', Bool.and_true]' if names else '      Bool.and_true]'] + \
+              ['  intro e he', '  have := List.all_eq_true.1 h e he', '  simpa [keyIn] using this', '']
+        W.write(f'C{d}', module('\n'.join([f'public import {MOD}.IntModel', f'public import {MOD}.Hw.A'] +
+                                          [f'public import {MOD}.Hw.C{d}P{p}' for p in range(len(parts))]),
+                                f'# Integer model rows of `SJSU18-O2`, `z`-degree {d}: checks (T2-CONF, N5a; '
+                                f'generated)', '\n'.join(cb)))
+        # dense C, S, T, H
+        C = {}
+        for a, ap, c in rows:
+            C[(a, ap)] = C.get((a, ap), 0) + c
+        S = [[sym_row(M, a).get(b, 0) for b in A] for a in A]
+        T = [[sum(C.get((A[i], A[j]), 0) * S[j][l] for j in range(n)) for l in range(n)] for i in range(n)]
+        H = [[sum(S[i][k] * T[i][l] for i in range(n)) for l in range(n)] for k in range(n)]
+        for k in range(n):
+            for l in range(n):
+                assert H[k][l] == hwref.get((A[k], A[l]), 0), (d, k, l)
+        assert sum(1 for key_ in hwref if sum(key_[0]) == d) == n * n
+        for tag, R, what in (('S', S, 'S'), ('T', T, 'T = C S'), ('H', H, 'H_w = Sᵀ C S')):
+            np_ = write_rows(W, d, tag, R, what)
+            imp = [f'public import {MOD}.Hw.{tag}{d}P{p}' for p in range(np_)]
+            lst = [f'sjsu{tag}{d}R{i}' for i in range(n)]
+            b = [f'/-- The rows of `{what}` in degree {d}. -/', f'def sjsu{tag}{d} : List (List ℤ) :='] + \
+                wrap_list(lst) + ['']
+            b += [f'theorem sjsu{tag}{d}_len : sjsu{tag}{d}.length = sjsuA{d}.length := by rfl', '',
+                  f'theorem sjsu{tag}{d}_rowlen : ∀ r ∈ sjsu{tag}{d}, r.length = sjsuA{d}.length := by',
+                  '  decide +kernel', '']
+            if tag == 'S':
+                imp = [f'public import {MOD}.Hw.A', f'public import {MOD}.Rot',
+                       'public import KAM.EffectiveStability.Tube.Poly.Dense',
+                       'public import Mathlib.Tactic.IntervalCases'] + imp
+                for i in range(n):
+                    b += [f'theorem sjsuS{d}_row{i} :',
+                          f'    listBEq (symPow sjsuM (sjsuA{d}.getD {i} default)) (sjsuA{d}.zip (sjsuS{d}.getD {i} [])) =',
+                          '      true := by', '  decide +kernel', '']
+                b += [f'theorem sjsuS{d}_rows : ∀ i < sjsuA{d}.length,',
+                      f'    symPow sjsuM (sjsuA{d}.getD i default) = sjsuA{d}.zip (sjsuS{d}.getD i []) := by'] + \
+                    cases_proof(n, f'sjsuS{d}_row') + ['']
+            elif tag == 'T':
+                imp = [f'public import {MOD}.Hw.S{d}', f'public import {MOD}.Hw.C{d}'] + imp
+                for i in range(n):
+                    b += [f'theorem sjsuT{d}_row{i} : listBEq (linComb sjsuA{d}.length',
+                          f'    (cRowOf sjsuA{d} sjsuCD{d}.flatten (sjsuA{d}.getD {i} default)) sjsuS{d})',
+                          f'    (sjsuT{d}.getD {i} []) = true := by', '  decide +kernel', '']
+                b += [f'theorem sjsuT{d}_rows : ∀ i < sjsuA{d}.length, sjsuT{d}.getD i [] =',
+                      f'    linComb sjsuA{d}.length (cRowOf sjsuA{d} sjsuCD{d}.flatten (sjsuA{d}.getD i default))',
+                      f'      sjsuS{d} := by'] + cases_proof(n, f'sjsuT{d}_row', symm=True) + ['']
+            else:
+                imp = [f'public import {MOD}.Hw.T{d}'] + imp
+                for k in range(n):
+                    b += [f'theorem sjsuH{d}_row{k} : listBEq (linComb sjsuA{d}.length',
+                          f'    (sjsuS{d}.map fun r => r.getD {k} 0) sjsuT{d}) (sjsuH{d}.getD {k} []) = true := by',
+                          '  decide +kernel', '']
+                b += [f'theorem sjsuH{d}_rows : ∀ k < sjsuA{d}.length, sjsuH{d}.getD k [] =',
+                      f'    linComb sjsuA{d}.length (sjsuS{d}.map fun r => r.getD k 0) sjsuT{d} := by'] + \
+                    cases_proof(n, f'sjsuH{d}_row', symm=True) + ['']
+                b += [f'/-- **`H_w` in degree {d}**: the degree-{d} model rows at `(M w, M v)` are the dense',
+                      f'`H_w` rows at `(w, v)`. -/',
+                      f'theorem sjsuH{d}_eval {{R : Type*}} [CommRing R] (w v : Fin 3 → R) :',
+                      f'    bevalAt (sjsuIntChunks {d}).flatten (sjsuM.apply w) (sjsuM.apply v) =',
+                      f'      bevalAt (denseRows sjsuA{d} sjsuH{d}) w v := by',
+                      f'  rw [eq_of_listBEq sjsuCD{d}_check, bevalAt_eq_dense sjsuM sjsuA{d} sjsuA{d}_nodup _',
+                      f'    sjsuCD{d}_keys sjsuS{d} sjsuT{d} sjsuH{d} sjsuS{d}_len sjsuT{d}_len sjsuS{d}_rowlen',
+                      f'    sjsuT{d}_rowlen sjsuS{d}_rows sjsuT{d}_rows sjsuH{d}_rows,',
+                      f'    bevalAt_denseRows _ _ sjsuH{d}_len]', '']
+            W.write(f'{tag}{d}', module('\n'.join(imp), f'# `{what}` in degree {d}: rows and kernel checks '
+                                        f'(T2-CONF, N5a; generated by `gen_ham_lean.py`)', '\n'.join(b)))
+        print(f'degree {d}: n = {n}, {len(rows)} model rows')
+    (HERE / 'results/ham_lean_manifest.json').write_text(json.dumps(
+        {'hw_json_sha256': sha, 'modules': W.manifest}, indent=1) + '\n')
+
+
+if __name__ == '__main__':
+    main()
