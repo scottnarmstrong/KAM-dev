@@ -113,29 +113,29 @@ def fixOf (K : ℕ) (modes : List (ℤ × ℤ × ℚ)) : List (ℤ × ℤ × ℤ
     if truncQ (x.2.2 * pow2 K) = 0 then none else some (x.1, x.2.1, truncQ (x.2.2 * pow2 K))
 
 /-- One pairing pass `[a, b, c, d, …] ↦ [a + b, c + d, …]`. -/
-def pairSum : List ℚ → List ℚ
-  | a :: b :: l => (a + b) :: pairSum l
+def pairSumQ : List ℚ → List ℚ
+  | a :: b :: l => (a + b) :: pairSumQ l
   | l => l
 
 /-- A balanced sum: pairing passes (`n` of them at most), so that the kernel's evaluation depth is
-logarithmic in the length; equal to `List.sum` (`treeSum_eq`). -/
-def treeSum : ℕ → List ℚ → ℚ
+logarithmic in the length; equal to `List.sum` (`treeSumQ_eq`). -/
+def treeSumQ : ℕ → List ℚ → ℚ
   | 0, l => l.sum
   | _ + 1, [] => 0
   | _ + 1, [a] => a
-  | n + 1, l@(_ :: _ :: _) => treeSum n (pairSum l)
+  | n + 1, l@(_ :: _ :: _) => treeSumQ n (pairSumQ l)
 
 /-- The rounding error `Σ_m |m_k| |σ_m - σ̃_m|`. -/
 def errSum (K : ℕ) (modes : List (ℤ × ℤ × ℚ)) (k : Fin 3) : ℚ :=
-  treeSum 64 (modes.map fun x => |(modeK x.1 x.2.1 k : ℚ)| * |x.2.2 - fixVal K x.2.2|)
+  treeSumQ 64 (modes.map fun x => |(modeK x.1 x.2.1 k : ℚ)| * |x.2.2 - fixVal K x.2.2|)
 
 /-- The Lipschitz sum `Σ_m |m_k σ_m| |m₁|`. -/
 def lipSum₁ (modes : List (ℤ × ℤ × ℚ)) (k : Fin 3) : ℚ :=
-  treeSum 64 (modes.map fun x => |(modeK x.1 x.2.1 k : ℚ)| * |x.2.2| * |(x.1 : ℚ)|)
+  treeSumQ 64 (modes.map fun x => |(modeK x.1 x.2.1 k : ℚ)| * |x.2.2| * |(x.1 : ℚ)|)
 
 /-- The Lipschitz sum `Σ_m |m_k σ_m| |m₂|`. -/
 def lipSum₂ (modes : List (ℤ × ℤ × ℚ)) (k : Fin 3) : ℚ :=
-  treeSum 64 (modes.map fun x => |(modeK x.1 x.2.1 k : ℚ)| * |x.2.2| * |(x.2.1 : ℚ)|)
+  treeSumQ 64 (modes.map fun x => |(modeK x.1 x.2.1 k : ℚ)| * |x.2.2| * |(x.2.1 : ℚ)|)
 
 /-- The checks on one component `k` of the global data. -/
 def globalOKk (d : EccData) (k : Fin 3) : Bool :=

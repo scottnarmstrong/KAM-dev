@@ -20,7 +20,7 @@ Soundness of the centre evaluation of the eccentricity checker
   within `errSum` of the exact one at unit points;
 * `bSumZ_div_eq`: the Gaussian-integer sum `bSumZ` over the tables of a chart point is the
   fixed-point centre, scaled by `2^K N₁^M N₂^M`;
-* `globalOK_spec`, `treeSum_eq`: the global check unpacked.
+* `globalOK_spec`, `treeSumQ_eq`: the global check unpacked.
 -/
 
 @[expose] public section
@@ -31,16 +31,16 @@ namespace KAM.EffectiveStability.Tube
 
 /-! ### Sums -/
 
-theorem pairSum_sum : ∀ l : List ℚ, (pairSum l).sum = l.sum
+theorem pairSumQ_sum : ∀ l : List ℚ, (pairSumQ l).sum = l.sum
   | [] => rfl
   | [_] => rfl
-  | a :: b :: l => by simp [pairSum, pairSum_sum l, add_assoc]
+  | a :: b :: l => by simp [pairSumQ, pairSumQ_sum l, add_assoc]
 
-theorem treeSum_eq : ∀ (n : ℕ) (l : List ℚ), treeSum n l = l.sum
+theorem treeSumQ_eq : ∀ (n : ℕ) (l : List ℚ), treeSumQ n l = l.sum
   | 0, l => rfl
   | _ + 1, [] => rfl
-  | _ + 1, [_] => by simp [treeSum]
-  | n + 1, a :: b :: l => by rw [treeSum, treeSum_eq n, pairSum_sum]
+  | _ + 1, [_] => by simp [treeSumQ]
+  | n + 1, a :: b :: l => by rw [treeSumQ, treeSumQ_eq n, pairSumQ_sum]
 
 theorem cast_list_sum_map {α : Type*} (l : List α) (f : α → ℚ) :
     (((l.map f).sum : ℚ) : ℝ) = (l.map fun x => (f x : ℝ)).sum := by
@@ -187,7 +187,7 @@ theorem abs_tubeCenterW_sub_le (modes : List (ℤ × ℤ × ℚ)) (Ibar : Fin 3 
     |tubeCenterW modes Ibar k w₁ w₂ - tubeCenterW modes Ibar k P₁ P₂| ≤
       ε₁ * (lipSum₁ modes k : ℝ) + ε₂ * (lipSum₂ modes k : ℝ) := by
   unfold tubeCenterW lipSum₁ lipSum₂
-  rw [treeSum_eq, treeSum_eq, cast_list_sum_map, cast_list_sum_map]
+  rw [treeSumQ_eq, treeSumQ_eq, cast_list_sum_map, cast_list_sum_map]
   have e : ∀ (a b c : ℝ), a + b - (a + c) = b - c := fun a b c => by ring
   rw [e]
   have key := abs_list_sum_sub_le modes
@@ -248,7 +248,7 @@ theorem abs_tubeCenterW_sub_fix_le (K : ℕ) (modes : List (ℤ × ℤ × ℚ)) 
     |tubeCenterW modes Ibar k P₁ P₂ - fixCenterW K (fixOf K modes) Ibar k P₁ P₂| ≤
       (errSum K modes k : ℝ) := by
   unfold tubeCenterW fixCenterW errSum
-  rw [fixOf_sum, treeSum_eq, cast_list_sum_map]
+  rw [fixOf_sum, treeSumQ_eq, cast_list_sum_map]
   have e : ∀ (a b c : ℝ), a + b - (a + c) = b - c := fun a b c => by ring
   rw [e]
   apply abs_list_sum_sub_le

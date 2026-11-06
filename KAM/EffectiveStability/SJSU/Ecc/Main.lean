@@ -15,7 +15,7 @@ public import KAM.EffectiveStability.SJSU.Ecc.TreeMM
 # SJSU eccentricity enclosure on the tube (T2-CONF, package N6)
 
 The tube of T2-CONF is `I_k = B_k(φ) + v_k`, `|v_k| ≤ r = κδ = 2·10⁻⁶`, all `φ`, with the centre
-`B_k(φ) = Ī_k + Σ_m (-m_k σ_m) cos(m₁ φ₀ + m₂ φ₁)` (`sjsuB`, the 2,790 modes of `S` in
+`B_k(φ) = Ī_k + Σ_m (-m_k σ_m) cos(m₁ φ₀ + m₂ φ₁)` (`sjsuEccCenter`, the 2,790 modes of `S` in
 `.drafts/g2/data/literal-v1.json`, `m_3 = -m₁ - m₂`). With `V′` the exact rotation (`z = V′ w`),
 `w_k = √I_k e^{i q_k}` and `q = (φ₀, φ₁, 0)`, `Γ_j = |z_j|²` (`eccGamma sjsuEccV I φ j`).
 
@@ -38,7 +38,7 @@ namespace KAM.EffectiveStability.SJSU
 open KAM.EffectiveStability.Tube
 
 /-- The SJSU tube centre `B_k(φ) = Ī_k + Σ_m (-m_k σ_m) cos(m₁ φ₀ + m₂ φ₁)`. -/
-def sjsuB (k : Fin 3) (φ : Fin 2 → ℝ) : ℝ := tubeCenter sjsuEccModes sjsuEccIbar k φ
+def sjsuEccCenter (k : Fin 3) (φ : Fin 2 → ℝ) : ℝ := tubeCenter sjsuEccModes sjsuEccIbar k φ
 
 /-- The dataset's reference actions `Λ*` (`parameters.Lambda_star`, verbatim). -/
 def sjsuLambdaStar : Fin 3 → ℝ :=
@@ -67,7 +67,8 @@ theorem sjsuEccTrees_ok (s₁ s₂ : Bool) :
 
 /-- **`Γ` on the SJSU tube**: for every `φ` and every `I` with `|I_k - B_k(φ)| ≤ 2·10⁻⁶`,
 `Γ_lo_j ≤ Γ_j(I, φ) ≤ Γ_hi_j`. -/
-theorem sjsu_tube_gamma (φ : Fin 2 → ℝ) (I : Fin 3 → ℝ) (hI : ∀ k, |I k - sjsuB k φ| ≤ 2 / 10 ^ 6)
+theorem sjsu_tube_gamma (φ : Fin 2 → ℝ) (I : Fin 3 → ℝ)
+    (hI : ∀ k, |I k - sjsuEccCenter k φ| ≤ 2 / 10 ^ 6)
     (j : Fin 3) :
     (sjsuGammaLo j : ℝ) ≤ eccGamma sjsuEccV I φ j ∧ eccGamma sjsuEccV I φ j ≤ sjsuGammaHi j := by
   have hr : ((sjsuEccData.r : ℚ) : ℝ) = 2 / 10 ^ 6 := by
@@ -88,7 +89,8 @@ theorem sjsu_ecc_conditions (j : Fin 3) :
 /-- **Eccentricities on the SJSU tube** (owner ruling (a)): for every `φ` and every `I` with
 `|I_k - B_k(φ)| ≤ 2·10⁻⁶`, `e_j = √(1 - (1 - Γ_j/Λ*_j)²)` lies in `[0.026, 0.062]`,
 `[0.009, 0.085]`, `[0.006, 0.063]` for `j = J, S, U`. -/
-theorem sjsu_tube_ecc (φ : Fin 2 → ℝ) (I : Fin 3 → ℝ) (hI : ∀ k, |I k - sjsuB k φ| ≤ 2 / 10 ^ 6)
+theorem sjsu_tube_ecc (φ : Fin 2 → ℝ) (I : Fin 3 → ℝ)
+    (hI : ∀ k, |I k - sjsuEccCenter k φ| ≤ 2 / 10 ^ 6)
     (j : Fin 3) :
     ![0.026, 0.009, 0.006] j ≤
         Real.sqrt (1 - (1 - eccGamma sjsuEccV I φ j / sjsuLambdaStar j) ^ 2) ∧
@@ -102,9 +104,9 @@ theorem sjsu_tube_ecc (φ : Fin 2 → ℝ) (I : Fin 3 → ℝ) (hI : ∀ k, |I k
 theorem sjsu_tube_ecc_of_dev (φ : Fin 2 → ℝ) (v : Fin 3 → ℝ) (hv : ∀ k, |v k| ≤ 2 / 10 ^ 6)
     (j : Fin 3) :
     ![0.026, 0.009, 0.006] j ≤
-        Real.sqrt (1 - (1 - eccGamma sjsuEccV (fun k => sjsuB k φ + v k) φ j /
+        Real.sqrt (1 - (1 - eccGamma sjsuEccV (fun k => sjsuEccCenter k φ + v k) φ j /
           sjsuLambdaStar j) ^ 2) ∧
-      Real.sqrt (1 - (1 - eccGamma sjsuEccV (fun k => sjsuB k φ + v k) φ j /
+      Real.sqrt (1 - (1 - eccGamma sjsuEccV (fun k => sjsuEccCenter k φ + v k) φ j /
           sjsuLambdaStar j) ^ 2) ≤
         ![0.062, 0.085, 0.063] j :=
   sjsu_tube_ecc φ _ (fun k => by simpa using hv k) j
