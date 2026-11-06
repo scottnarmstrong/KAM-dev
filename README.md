@@ -210,6 +210,13 @@ with only the standard axioms.
     Ordinary proved theorems on top of these: sound Bool checkers for finite chains of Lie transforms with exact ℚ
     arithmetic, in Cartesian (`checkOscChain_sound`) and Fourier–Taylor (`checkTorusChain_sound`) form, and a route
     from a v2 certified torus to confinement near it (`certifiedTorus_confinement`).
+
+    **Confinement from approximate integrals** (ordinary theorem, 2026-11-06). If finitely many functions F_j drift
+    slowly under the flow of a C² Hamiltonian (|{F_j, H}| ≤ η_j on the closure of a bounded open D), and every boundary
+    point of D has some F_j outside its starting range widened by η_j·T, then every orbit from the initial set exists
+    beyond ±T, is unique, stays in D for |t| ≤ T, and each F_j drifts by at most η_j|t|. This is the
+    coordinate-free form of item 16, and the engine of the SJSU certificate under construction (D74).
+    [`KAM.Application.Confinement.hamiltonian_approxIntegrals_confinement`](KAM/Application/Confinement/ApproxIntegral.lean#L295)
 17. **The Hénon–Heiles system stays confined for 10¹⁰ time units.** For
     H = (q₀² + p₀²)/2 − (√2/2)(q₁² + p₁²)/2 + q₀²q₁ − q₁³/3, every initial point whose two oscillator actions are at most
     (1/12500)² has a unique orbit on an open time interval containing [−10¹⁰, 10¹⁰]. Its actions stay below 1.01·10⁻⁸
