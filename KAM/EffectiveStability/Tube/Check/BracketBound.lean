@@ -27,7 +27,8 @@ true coefficients `h_e`, a remainder `R`, and models `k_e` with `C¹` certificat
 
 where `Fd_a ≥ |(∂_{u_a} - ∂_{u_2}) f|`, `Fp_a ≥ |∂_{φ_a} f|` at `(u, φ)`, and `Ru_l`, `Rp` bound the
 slice partials of `R` at `(u, φ)` (N5a's `hRem_tube`). Joint differentiability of `R` at `(u, φ)` is
-a hypothesis (slice regularity does not suffice, N3 audit); the models and `f` are jointly smooth.
+a hypothesis (slice regularity does not suffice, N3 audit); the models and `f` are jointly
+differentiable.
 
 Ingredients: `reducedBracket` is additive in its second argument (`reducedBracket_add`), bounded by
 the partials (`abs_reducedBracket_le`); the model part is N9 (A) `reducedBracket_listObs`, split by

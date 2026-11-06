@@ -5,6 +5,17 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
+public import KAM.EffectiveStability.SJSU.Check.Tail.Rows
+public import KAM.EffectiveStability.SJSU.Check.Tail.Tab
+public import KAM.EffectiveStability.SJSU.Check.Tail.Tails
+public import KAM.EffectiveStability.SJSU.Check.Tail.W1to6
+public import KAM.EffectiveStability.SJSU.Check.Tail.W7
+public import KAM.EffectiveStability.SJSU.Check.Tail.W8
+public import KAM.EffectiveStability.SJSU.Check.Tail.W9
+public import KAM.EffectiveStability.SJSU.Check.TailAcc
+public import KAM.EffectiveStability.SJSU.Check.TailCheck
+public import KAM.EffectiveStability.SJSU.Check.TailData
+public import KAM.EffectiveStability.SJSU.Check.TailMain
 public import KAM.EffectiveStability.SJSU.Confinement.Shift
 public import KAM.EffectiveStability.SJSU.Confinement.Statement
 public import KAM.EffectiveStability.SJSU.Ecc.Data
@@ -16,6 +27,7 @@ public import KAM.EffectiveStability.SJSU.Ecc.TreeMP
 public import KAM.EffectiveStability.SJSU.Ecc.TreePM
 public import KAM.EffectiveStability.SJSU.Ecc.TreePP
 public import KAM.EffectiveStability.SJSU.Ham.Center
+public import KAM.EffectiveStability.SJSU.Ham.HtBridge
 public import KAM.EffectiveStability.SJSU.Ham.Hw.A
 public import KAM.EffectiveStability.SJSU.Ham.Hw.C0
 public import KAM.EffectiveStability.SJSU.Ham.Hw.C1
