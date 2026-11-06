@@ -75,7 +75,8 @@ theorem lit_cert {P : Prm} {Ca Cb : ℕ} {p : Bool} {Q : ℚ} {ts : List Term} {
     (hA : ∀ t ∈ ts, t.A.Cert P.w P.S (fA t) t.ea₀ t.ea₁ t.na)
     (hB : ∀ t ∈ ts, t.B.Cert P.w P.S (fB t) t.eb₀ t.eb₁ t.nb ∧ t.B.Mx t.mxb ∧
       symOk t.B.par t.B.l = true ∧ t.B.l.length = Layout.len t.B.C P.S) :
-    (d.opd P).Cert P.w P.S (fun φ => (ts.map fun t => (t.ρ : ℝ) * (fA t φ * fB t φ)).sum) e₀ e₁ n := by
+    (d.opd P).Cert P.w P.S (fun φ => (ts.map fun t => (t.ρ : ℝ) * (fA t φ * fB t φ)).sum)
+      e₀ e₁ n := by
   simp only [litCheck, Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at h
   obtain ⟨⟨⟨⟨⟨⟨⟨hp, hok⟩, hb⟩, hpar⟩, hout⟩, he₀⟩, he₁⟩, hl1⟩ := h
   obtain ⟨hc, hpack, hcols, hlen, hbd⟩ := prod_sound hp fA fB hA hB
@@ -92,7 +93,8 @@ theorem litSlot_center (C S b X : ℕ) (hKS : 2 * C + 1 ≤ S) :
   rw [(mod_div_of_lt (by omega)).1, (mod_div_of_lt (by omega)).2, if_pos (by omega)]
 
 /-- The centre digit of a literal (kernel: one shift and one mask). -/
-def LitD.c0 (P : Prm) (d : LitD) : ℤ := (dig P.b d.X (d.C + (2 * d.C + 1) * d.C) : ℤ) - 2 ^ (P.b - 1)
+def LitD.c0 (P : Prm) (d : LitD) : ℤ :=
+  (dig P.b d.X (d.C + (2 * d.C + 1) * d.C) : ℤ) - 2 ^ (P.b - 1)
 
 /-- **Lower bound of an even literal**: `evalK ≥ 2 c₀ - l1`. -/
 theorem lowB_litList {P : Prm} {d : LitD} (hKS : 2 * d.C + 1 ≤ P.S) (φ : Fin 2 → ℝ) :
@@ -123,7 +125,8 @@ theorem lowB_litList {P : Prm} {d : LitD} (hKS : 2 * d.C + 1 ≤ P.S) (φ : Fin 
   rw [← sum_erase_add _ _ (mem_range.mpr hctrlt), ← sum_erase_add _ _ (mem_range.mpr hctrlt)]
   simp only [zero_add]
   have hrest : ∀ i ∈ (range L.length).erase ctr,
-      -(|L.getD i 0| : ℤ) ≤ (if Layout.key d.C P.S i = (0, 0) then L.getD i 0 else -|L.getD i 0|) := by
+      -(|L.getD i 0| : ℤ) ≤
+        (if Layout.key d.C P.S i = (0, 0) then L.getD i 0 else -|L.getD i 0|) := by
     intro i hi
     have hne := (mem_erase.mp hi).1
     rw [if_neg (fun h => hne (hkey i h))]

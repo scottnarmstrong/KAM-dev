@@ -152,7 +152,8 @@ theorem PCert_of {j : ℕ} {s : SqPrm} {i : IvPrm} {pp : ℤ → OPrm} (h : D.pA
   obtain ⟨hinvc, hYl, hokY, hYsym⟩ := invSqrt_sound hinv hsqc hσB hc1
   -- the four base certificates
   have P2 : D.PCert j 2 := by
-    refine ⟨⟨LitD.wf hokB, ?_, hBl⟩, LitD.mx hb, LitD.sym hb (hKS _ hokB) (by rw [hparB]; exact hsB)⟩
+    refine ⟨⟨LitD.wf hokB, ?_, hBl⟩, LitD.mx hb,
+      LitD.sym hb (hKS _ hokB) (by rw [hparB]; exact hsB)⟩
     rw [show D.Pt j 2 = D.Bt j from sqrtPow_two fun φ => (hBpos φ).le]
     exact hcB
   have P0 : D.PCert j 0 := by

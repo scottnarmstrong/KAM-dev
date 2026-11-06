@@ -224,7 +224,8 @@ theorem getD_compactDigits {C b X i : ℕ} (hi : i < (2 * C + 1) * (2 * C + 1)) 
 
 /-- **Soundness of an exact input**: the literal is `C¹`-close to the exact dense cosine series. -/
 theorem input_sound {P : Prm} {d : LitD} {cs : List ℚ} {e₀ e₁ : ℚ}
-    (h : inputCheck P d cs e₀ e₁ = true) : C1Close (denseCos d.C cs) ((d.opd P).eval P.S) e₀ e₁ := by
+    (h : inputCheck P d cs e₀ e₁ = true) :
+    C1Close (denseCos d.C cs) ((d.opd P).eval P.S) e₀ e₁ := by
   simp only [inputCheck, Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq, Bool.not_eq_true']
     at h
   obtain ⟨⟨⟨⟨⟨hok, hpar⟩, hlen⟩, h0⟩, h1⟩, h2⟩ := h

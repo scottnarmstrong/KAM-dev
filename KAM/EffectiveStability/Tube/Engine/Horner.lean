@@ -115,7 +115,8 @@ def vOk (n1 m2 m3 : ℕ) (uprm : List (ℕ × UPrm)) (v : OPrm) : Bool :=
 
 /-- **The block of `(n₁, m₃)`**: every `U`, then every `V` literal. -/
 def vBlock (n1 m3 : ℕ) (uprm : List (ℕ × UPrm)) (vprm : List (ℕ × OPrm)) : Bool :=
-  decide (m3 ≤ D.M) && (D.n2s n1).all (fun n2 => (D.uIdx n1 n2 m3).isEmpty || D.uOk n1 n2 m3 (uPrmOf uprm n2)) &&
+  decide (m3 ≤ D.M) &&
+    (D.n2s n1).all (fun n2 => (D.uIdx n1 n2 m3).isEmpty || D.uOk n1 n2 m3 (uPrmOf uprm n2)) &&
     (List.range (D.M + 1 - m3)).all fun m2 =>
       (D.vIdx n1 m2 m3).isEmpty ||
         D.vOk n1 m2 m3 uprm ((vprm.lookup m2).getD ⟨1, 0, 0, 0, 1, 1, 0, 0, 0⟩)
@@ -131,8 +132,9 @@ def hTerms (m : ℕ × ℕ × ℕ) (Q : ℚ) : List Term :=
 
 /-- **The block of `m`**: the `h` literal. -/
 def hBlock (m : ℕ × ℕ × ℕ) (o : OPrm) : Bool :=
-  decide (m.1 + m.2.1 + m.2.2 ≤ D.M) && litCheck D.P D.CP D.CP false o.Q (D.hTerms m o.Q) o.E₀ o.E₁ o.BX (D.H m) o.aX o.aO o.lD o.F₀ o.F₁
-    (D.Hc m).e₀ (D.Hc m).e₁ (D.Hc m).n
+  decide (m.1 + m.2.1 + m.2.2 ≤ D.M) &&
+    litCheck D.P D.CP D.CP false o.Q (D.hTerms m o.Q) o.E₀ o.E₁ o.BX (D.H m) o.aX o.aO o.lD o.F₀
+      o.F₁ (D.Hc m).e₀ (D.Hc m).e₁ (D.Hc m).n
 
 /-! ### True functions -/
 
@@ -216,8 +218,10 @@ theorem vBlock_sound {n1 m3 : ℕ} {uprm : List (ℕ × UPrm)} {vprm : List (ℕ
         simp only [vIdx, n2s, List.mem_filter, List.mem_range] at hn2
         omega
       exact hP 1 (by norm_num) _ (by push_cast; omega) (by push_cast; omega))
-  have hfun : (fun φ => ((D.vTerms n1 m2 m3 uprm ((vprm.lookup m2).getD ⟨1, 0, 0, 0, 1, 1, 0, 0, 0⟩).Q).map
-      fun t => (t.ρ : ℝ) * (D.Ut Tt Pt n1 t.tag.2.1 m3 φ * Pt 1 ((t.tag.2.1 : ℤ) - 2 * m2) φ)).sum) =
+  have hfun : (fun φ =>
+      ((D.vTerms n1 m2 m3 uprm ((vprm.lookup m2).getD ⟨1, 0, 0, 0, 1, 1, 0, 0, 0⟩).Q).map
+        fun t => (t.ρ : ℝ) *
+          (D.Ut Tt Pt n1 t.tag.2.1 m3 φ * Pt 1 ((t.tag.2.1 : ℤ) - 2 * m2) φ)).sum) =
       D.Vt Tt Pt n1 m2 m3 := by
     funext φ
     simp only [vTerms, List.map_map, Vt]
