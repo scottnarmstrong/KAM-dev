@@ -103,9 +103,11 @@ noncomputable def sjsu18O2 (x : (Fin 3 → ℝ) × (Fin 3 → ℝ)) : ℝ :=
 every initial state within `10⁻⁶` (sup norm in `(ξ, η)`) of the nominal secular state (SLG13 Table 1 read
 as Poincaré elements and mapped to secular variables, `applications/sjsu/validation/
 table2_map_poincare_order1.json`), `SJSU18-O2` has a solution on `(-T₁, T₁)` with `T₁ > 5·10⁹` yr,
-unique among solutions on intervals through `0`, along which for `|t| ≤ 5·10⁹` yr the eccentricities
-`e_j = √(1 - (1 - Γ_j/Λ*_j)²)`, `Γ_j = (ξ_j² + η_j²)/2`, of Jupiter, Saturn and Uranus stay in
-`[0.026, 0.062]`, `[0.009, 0.085]` and `[0.006, 0.063]`. -/'''
+unique among solutions on intervals through `0`, along which for `|t| ≤ 5·10⁹` yr the fixed-reference
+secular-model eccentricities of Jupiter, Saturn and Uranus, `e_j = √(1 - (1 - Γ_j/Λ*_j)²)` with
+`Γ_j = (ξ_j² + η_j²)/2` and the dataset's reference actions `Λ*_j` (at `L = 0`), stay in `[0.026, 0.062]`,
+`[0.009, 0.085]` and `[0.006, 0.063]`. Nothing is asserted about the osculating elements of the full
+planetary problem. -/'''
     return out, terms
 
 
