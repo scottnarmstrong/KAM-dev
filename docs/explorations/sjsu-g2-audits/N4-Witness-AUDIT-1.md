@@ -197,5 +197,12 @@ wording above. The documented lower-bound parametrization, omission of the unnec
 premise, real exponents, slot-tail bookkeeping and optional-target omission are acceptable
 within the stated package scope. This auditor introduced no mathematical deviation.
 
-Final integrity check: HEAD is unchanged from the first line, all recorded Witness and handoff
-SHA256 values still match, and the Witness directory remains byte-identical to `4fc1a8af8`.
+Final integrity check: all six recorded Witness SHA256 values still match, and the Witness
+directory remains byte-identical to `4fc1a8af8`. While this audit was finishing, the orchestrator
+advanced HEAD through N3 commit `8980710d5` to `375ae0e8fbe08b88c21918ecba9d942d594fa552`,
+committing this report and correcting the handoff's N4-A1-01 wording. The first-line HEAD and
+handoff SHA256 identify the original audit snapshot. The corrected handoff now has SHA256
+`71e4ff4e97aeb15bb01dfa10d56e5904c4639f6f21928023d93a273e5d2ff11e`.
+The finding is therefore resolved in the current handoff; it is retained above as the audit
+record. This auditor did not make those commits or edit the handoff. The final update to this
+report records the concurrent change. No production Lean bytes changed.
