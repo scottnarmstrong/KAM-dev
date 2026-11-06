@@ -19,3 +19,7 @@ The checks are split into modules (one process each) to keep every kernel run wi
 cap: `Tail/Tab` (slot tables), `Tail/Tails` (tail sums), `Tail/Rows` (row weights over common
 denominators) and `Tail/W1to6`, `W7`, `W8`, `W9` (integer row sums per degree).
 -/
+
+@[expose] public section
+
+end
