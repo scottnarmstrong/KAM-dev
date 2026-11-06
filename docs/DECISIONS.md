@@ -653,3 +653,4 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   real form is not rotation-invariant as exact rationals: its coefficients were rounded independently, so the charged
   part is about 2·10⁻³⁴. Phase 2 (Lean) is launched. The statement's eccentricity intervals and the radius of Q go to the
   owner with the exact text.
+  - **2026-11-06 ruling (a):** the statement keeps two-sided eccentricity intervals [0.026, 0.062], [0.009, 0.085] and [0.006, 0.063], with the lower bounds proved by a φ-resolved grid enclosure (about 1 CPU-h). *(Scott: "(a)".)*
