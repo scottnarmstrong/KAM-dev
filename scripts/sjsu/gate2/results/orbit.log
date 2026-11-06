@@ -1,0 +1,13 @@
+/Users/zohar/Library/Application Support/Claude/scratch-workspaces/2327b753-2657-4616-8dd9-830dba1df723/c0924824-72bc-44b0-a732-1297e5442471/scratch-2026-10-27-82b180/sjsu-branch/scripts/sjsu/gate2/orbit.py:136: RuntimeWarning: divide by zero encountered in matmul
+  ws = zs @ V  # w_k = sum_j V[j][k] z_j
+/Users/zohar/Library/Application Support/Claude/scratch-workspaces/2327b753-2657-4616-8dd9-830dba1df723/c0924824-72bc-44b0-a732-1297e5442471/scratch-2026-10-27-82b180/sjsu-branch/scripts/sjsu/gate2/orbit.py:136: RuntimeWarning: overflow encountered in matmul
+  ws = zs @ V  # w_k = sum_j V[j][k] z_j
+/Users/zohar/Library/Application Support/Claude/scratch-workspaces/2327b753-2657-4616-8dd9-830dba1df723/c0924824-72bc-44b0-a732-1297e5442471/scratch-2026-10-27-82b180/sjsu-branch/scripts/sjsu/gate2/orbit.py:136: RuntimeWarning: invalid value encountered in matmul
+  ws = zs @ V  # w_k = sum_j V[j][k] z_j
+integrated 4e+06 yr with h=200.0 in 130.0s; 10001 samples
+rel energy drift 8.993383337650648e-08  AMD rel drift 3.286901751848624e-08
+modal actions: mean [3.15645557e-04 6.72019641e-04 2.87754666e-05]  min [2.89760922e-04 6.48858543e-04 2.49679405e-05]  max [3.37000830e-04 6.99381771e-04 3.30463818e-05]
+linear nu [-0.00011211690554748541, -1.9677075858190905e-05, -1.1133725882896612e-05]
+mode 0: 1.3504665089e-04 (|A|=1.771e-02), 2.0283376833e-05 (|A|=1.279e-03), 2.4980991934e-04 (|A|=6.416e-04), 1.2628506776e-04 (|A|=1.197e-04), 1.4380901462e-04 (|A|=1.172e-04), 1.1520887156e-05 (|A|=6.486e-05)
+mode 1: 2.0283219770e-05 (|A|=2.592e-02), 1.3504664824e-04 (|A|=4.484e-04), 2.4980992081e-04 (|A|=4.138e-05), 1.1520877150e-05 (|A|=3.692e-05), -9.4480168398e-05 (|A|=1.754e-05), 2.9045640793e-05 (|A|=1.916e-05)
+mode 2: 1.1520706698e-05 (|A|=5.344e-03), 2.0282997573e-05 (|A|=2.228e-04), 1.3504671239e-04 (|A|=1.041e-04), 2.7582999716e-06 (|A|=3.692e-05), 2.9045669518e-05 (|A|=2.394e-05), 2.4980972540e-04 (|A|=1.042e-05)

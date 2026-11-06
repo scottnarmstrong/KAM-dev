@@ -1,0 +1,17 @@
+frequencies nu (rad/yr): [-0.00011211690554748541, -1.9677075858190905e-05, -1.1133725882896612e-05]
+modal H: 7941 terms (3.1s)
+nominal modal actions I0 = [0.00031914682770685046, 0.0006686641955189648, 2.8629657299629862e-05]  sum = 0.0010164406805254452
+H(z0) = (-5.2298351635266325e-08+1.7310374943792081e-25j)  H(w0) = (-5.229835163526632e-08+2.157900670710857e-24j)
+max off-diagonal quadratic coef after diagonalization: 1.0164395367051604e-20
+max |coef| of {C, H}: 0.00048828125
+  normalized degree 4: 30 generator terms, min divisor 8.543349975294294e-06
+F terms: [23, 23, 23] (3.2s)
+bracket terms: [12285, 12277, 12282] (3.7s)
+polydisk r=0.3: T=3.815e+06 yr at R=0.360
+polydisk r=0.5: T=2.935e+05 yr at R=0.650
+polydisk r=0.7: T=1.547e+04 yr at R=0.910
+polydisk r=1.0: T=-5.973e+03 yr at R=2.000
+annulus r'=1e-06: T=-2.324e+04 yr at R'=0.5, eta=['4.60e-09', '4.61e-09', '5.76e-10'], eps=['4.91e-05', '5.82e-05', '1.38e-05']
+annulus r'=0.001: T=-2.329e+04 yr at R'=0.5, eta=['4.60e-09', '4.61e-09', '5.76e-10'], eps=['4.91e-05', '5.82e-05', '1.38e-05']
+annulus r'=0.01: T=-2.374e+04 yr at R'=0.5, eta=['4.60e-09', '4.61e-09', '5.76e-10'], eps=['4.91e-05', '5.82e-05', '1.38e-05']
+done in 6.8s
