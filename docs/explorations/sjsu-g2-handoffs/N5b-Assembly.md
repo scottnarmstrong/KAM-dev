@@ -477,3 +477,120 @@ race in the shared worktree, not a finding.
 
 I confirmed this to g2-n6.
 
+## Final step staged (scratch; promote once N5a is committed and N7 lands)
+
+`.drafts/g2/scratch/n5b/Proof.lean` (not in the package).
+
+**Part 1** is type-checked with `g2lake env lean` (17:1x UTC, against N5a's built oleans).
+- `sjsu_hhd`: `h̃ = sjsuHTilde sjsuB` is differentiable on the whole box. It uses N5a's `differentiableAt_hTildeOf`;
+  on the box `B_j + u_j ≥ bmin_j − ρ > 0`.
+- `sjsu_secular_confinement_of_N7` is `of_obs` with `h := sjsuHTilde sjsuB`, `hHh := sjsu18O2_chart` (N5a) and
+  `hhd := sjsu_hhd`. Its only hypotheses are N7's: `hfper`, `hfd`, `hη` (bracket with `sjsuHTilde sjsuB`), `hTη`,
+  `hface`, `hερ`, `hFu`, `hFφ`.
+- `#print axioms`: `[propext, Classical.choice, Quot.sound]` for both.
+
+**Part 2** (commented out) is `sjsu_secular_confinement_proof`.
+- It follows kam-g2's width ruling: the text is reflowed to ≤ 100 columns, the same Expr as v2. The frozen anchor
+  stays byte-identical and gets `scripts/lint-width-allow.txt` entries at freeze.
+- It calls `of_N7` with placeholder N7 names: `sjsuObs`, `sjsuObsCt`, `sjsuObsEps`, `sjsuEta`, `sjsu_hfper`, …,
+  `sjsu_hFφ`.
+- Its target is `KAM/EffectiveStability/SJSU/Confinement/Proof.lean` (module
+  `KAM.EffectiveStability.SJSU.Confinement.Proof`).
+
+**Update (N8-Obs plugged in; scratch, type-checked).**
+- `sjsu_secular_confinement_of_rate` instantiates `of_N7` with N8's `sjsuObs`, `sjsuObsCt`, `sjsuObsEps`,
+  `sjsu_hfper`, `sjsu_hfd`, `sjsu_hface`, `sjsu_hερ`, `sjsu_hFu`, `sjsu_hFφ` (module
+  `KAM.EffectiveStability.SJSU.Obs.Main`).
+- Its **only** hypotheses are the rate check:
+  - `hη : ∀ j u φ, (∀ l, |u l| ≤ 2/10^6) → |reducedBracket (sjsuObs j) (sjsuHTilde sjsuB) (u, φ)| ≤ η j`;
+  - `hTη : ∀ j, 5·10^9 · η j < 1/10^6/2`.
+- `#print axioms`: `[propext, Classical.choice, Quot.sound]`.
+- Part 2 now reads `sjsu_secular_confinement_of_rate (η := sjsuEta) sjsu_hη sjsu_hTη z₀ hz₀`. The placeholders left
+  are N7's η checker only.
+
+## N9-Bracket (worker g2-n5b; brief `.drafts/g2/BRIEF-N9-Bracket.md`)
+
+**Status (17:40 UTC): (A) and (B) are built (interim `READY g2-n9a`); (C), the SJSU instance, is next.**
+
+### Files (core, `KAM/EffectiveStability/Tube/Check/`, namespace `KAM.EffectiveStability.Tube`)
+
+| file | lines | content |
+|---|---:|---|
+| `BracketList.lean` | 135 | (A) `natCast_mul_umon_sub_mul_umon`, `natCast_mul_umon_mul_umon_sub`, `sum_map_flatMap`, `list_sum_mul_list_sum`, `list_sum_sub`, `list_sum_add`, **`reducedBracket_listObs`** |
+| `BracketBound.lean` | 246 | (B) `mem_truncSet_iff`, `list_sum_split_fiber`, `list_sum_split_truncSet`, `reducedBracket_add`, `abs_reducedBracket_le`, `bracketKept/Drop/Err/Tail`, `abs_reducedBracket_listObs_le`, `listObs_add_sub`, **`reducedBracket_bound`** |
+
+Imports: N7's `Engine/BTerm`, N8's `Obs/ListObs`, N2's `Chart/Shift`, my `Check/Bracket`, and N4's
+`Witness/BinomialProd`.
+
+### (A), exactly as the brief states it
+
+```lean
+theorem reducedBracket_listObs {ι κ : Type*} (Fl : List ι) (μ : ι → Fin 3 → ℕ)
+    (g : ι → (Fin 2 → ℝ) → ℝ) (Hl : List κ) (ν : κ → Fin 3 → ℕ) (k : κ → (Fin 2 → ℝ) → ℝ)
+    (hg : ∀ i ∈ Fl, Differentiable ℝ (g i)) (hk : ∀ e ∈ Hl, Differentiable ℝ (k e))
+    (u : Fin 3 → ℝ) (φ : Fin 2 → ℝ) :
+    reducedBracket (listObs Fl μ g) (listObs Hl ν k) (u, φ) =
+      ((bterms Fl Hl).map fun b => (b.coef μ ν : ℝ) * umon (b.mon μ ν) u * b.val g k φ).sum
+```
+
+- Both sides are expanded to `Σ_a Σ_i Σ_e T(a, i, e)`.
+- The bracket side uses N8's `fderiv_listObs_u/φ` and list distributivity; the `bterms` side uses flatMap sums.
+- Term by term, `linear_combination` closes the goal with `m_x u^{m−e_x} u^n = m_x u^{m+n−e_x}` (natural
+  subtraction; both sides are 0 when `m_x = 0`). This also verifies N7's `BTerm` table.
+
+### (B)
+
+```lean
+def bracketKept (L : ℕ) (r : ℝ) (G : (Fin 3 → ℕ) → ℝ) : ℝ := ∑ p ∈ truncSet (Fin 3) L, r ^ mdeg p * G p
+def bracketDrop (Fl) (μ) (Hl) (ν) (L : ℕ) (r : ℝ) (V : BT ι κ → ℝ) : ℝ :=
+  (((bterms Fl Hl).filter fun b => decide (L < mdeg (b.mon μ ν))).map fun b =>
+    |(b.coef μ ν : ℝ)| * r ^ mdeg (b.mon μ ν) * V b).sum
+def bracketErr (Hl) (ν) (r : ℝ) (e₀ e₁ : κ → ℝ) (Fd Fp : Fin 2 → ℝ) : ℝ :=
+  ∑ a : Fin 2, (Fd a * (Hl.map fun e => r ^ mdeg (ν e) * e₁ e).sum +
+    Fp a * ((Hl.map fun e => (ν e a.castSucc : ℝ) * r ^ mdeg (ν e - Pi.single a.castSucc 1) * e₀ e).sum +
+      (Hl.map fun e => (ν e 2 : ℝ) * r ^ mdeg (ν e - Pi.single 2 1) * e₀ e).sum))
+def bracketTail (Fd Fp : Fin 2 → ℝ) (Ru : Fin 3 → ℝ) (Rp : ℝ) : ℝ :=
+  ∑ a : Fin 2, (Fd a * Rp + Fp a * (Ru a.castSucc + Ru 2))
+
+theorem reducedBracket_bound {ι κ : Type*} (Fl : List ι) (μ : ι → Fin 3 → ℕ)
+    (g : ι → (Fin 2 → ℝ) → ℝ) (Hl : List κ) (ν : κ → Fin 3 → ℕ)
+    (k hc : κ → (Fin 2 → ℝ) → ℝ) (hg : ∀ i ∈ Fl, Differentiable ℝ (g i))
+    {e₀ e₁ : κ → ℝ} (hcert : ∀ e ∈ Hl, C1Close (hc e) (k e) (e₀ e) (e₁ e))
+    {h R : (Fin 3 → ℝ) × (Fin 2 → ℝ) → ℝ} (hdec : ∀ p, h p = listObs Hl ν hc p + R p)
+    {L : ℕ} {r : ℝ} {G : (Fin 3 → ℕ) → ℝ} {V : BT ι κ → ℝ}
+    (hG : ∀ p ∈ truncSet (Fin 3) L, ∀ φ, |((bterms Fl Hl).filter fun b =>
+      decide (b.mon μ ν = p)).map (fun b => (b.coef μ ν : ℝ) * b.val g k φ) |>.sum| ≤ G p)
+    (hV : ∀ b ∈ bterms Fl Hl, ∀ φ, |b.val g k φ| ≤ V b)
+    {u : Fin 3 → ℝ} (hu : ∀ l, |u l| ≤ r) (φ : Fin 2 → ℝ)
+    {Fd Fp : Fin 2 → ℝ}
+    (hFd : ∀ a : Fin 2, |fderiv ℝ (listObs Fl μ g) (u, φ) (Pi.single a.castSucc 1, 0) -
+      fderiv ℝ (listObs Fl μ g) (u, φ) (Pi.single 2 1, 0)| ≤ Fd a)
+    (hFp : ∀ a : Fin 2, |fderiv ℝ (listObs Fl μ g) (u, φ) (0, Pi.single a 1)| ≤ Fp a)
+    {Ru : Fin 3 → ℝ} {Rp : ℝ} (hRd : DifferentiableAt ℝ R (u, φ))
+    (hRu : ∀ l, |fderiv ℝ (fun v => R (v, φ)) u (Pi.single l 1)| ≤ Ru l)
+    (hRp : ∀ a, |fderiv ℝ (fun ψ => R (u, ψ)) φ (Pi.single a 1)| ≤ Rp) :
+    |reducedBracket (listObs Fl μ g) h (u, φ)| ≤
+      bracketKept L r G + bracketDrop Fl μ Hl ν L r V + bracketErr Hl ν r e₀ e₁ Fd Fp +
+        bracketTail Fd Fp Ru Rp
+```
+
+- **Splitting `h`.** `h = model + (true − model) + R` as functions (`hdec` is global, like N5a's `hTildeOf_taylor`).
+  Additivity gives three brackets:
+  - the model part, ≤ `KEPT + DROP`: (A), then a fibre split over N4's `truncSet (Fin 3) L`;
+  - the certificate part, ≤ `ERR`: N8's `abs_fderiv_listObs_u/φ_le` applied to `d_e = h_e − k_e`;
+  - the remainder, ≤ `TAIL`: slice-to-joint partials of `R` through `Check/Bracket`, using the joint
+    differentiability `hRd`.
+- **Regularity.**
+  - `hG` is N7's per-`p` form verbatim (filter by `decide (b.mon μ ν = p)`). For `p` with no terms the sum is
+    `0`.
+  - `V` is any bound of `|val b|`: for the SJSU, `if kind then sup|∂g|·sup|k| else sup|g|·sup|∂k|`.
+  - Joint differentiability: the models `k` and the true `h_e` come from `C1Close` (both sides differentiable);
+    for `R`, it is the hypothesis `hRd`.
+- **Checks.**
+  - Builds: `KAM.EffectiveStability.Tube.Check.BracketList` and `.BracketBound` both report
+    `Build completed successfully`. No warnings in my files; no line over 100 characters.
+  - `#print axioms` (`.drafts/g2/scratch/n5b/axioms3.out`): `[propext, Classical.choice, Quot.sound]` for
+    `reducedBracket_listObs`, `list_sum_split_truncSet`, `reducedBracket_add`, `abs_reducedBracket_le`,
+    `abs_reducedBracket_listObs_le` and `reducedBracket_bound`.
+- **Design signals:** none.
+

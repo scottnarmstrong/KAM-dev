@@ -12,7 +12,7 @@ public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 /-!
 # `SJSU18-O2` as an integer polynomial, by degree (T2-CONF, N5a)
 
-Every coefficient `c` of `sjsu18O2Terms` has `c · 10^E ∈ ℤ` (`sjsuTerms_den`, kernel), so
+Every coefficient `c` of `sjsu18O2Terms` has `c · 10^E ∈ ℤ` (`sjsuTerms_ok`, kernel), so
 `sjsu18O2 x = Re (10^{-E} Σ_d C_d(z, z̄))` with the integer polynomials `C_d` of degree `d` in `z`
 (`sjsu18O2_eq_intChunks`), `z_j = (ξ_j - i η_j)/√2`. The rows of degree `d` are kept as chunks of at
 most 256 rows of the six data parts (`sjsuIntChunks d`), which bounds the kernel's nesting when

@@ -112,3 +112,25 @@ No `set_option` of any kind, no heartbeat or recursion override, no `sorry` in a
 Lean files are ≤ 1354 lines.
 
 READY g2-freeze-prep
+
+## Update (17:46 UTC): re-staged against HEAD 498a8ccf6
+
+At HEAD, `scripts/build_roots.json` already has the `KAMSJSU` entry (prefix `KAM.EffectiveStability.SJSU`
+only, and the prefix in `application_only`). `lakefile.lean` already declares `lean_lib «KAMSJSU»`, and
+`scripts/lint-width-allow.txt` has 6 entries for `SJSU/Model/SJSU18O2Part*.lean`. `apply_merge.py` now
+handles that state:
+- it adds the missing prefixes `KAM.Frozen.EffectiveStability.SJSU` and
+  `KAM.Provider.EffectiveStability.SJSUSecularConfinement` to the existing entry (textual edit);
+- it leaves an existing lakefile block untouched;
+- it drops allow-list rows for files the mirror tree replaces (the 6 Model rows; those files become
+  facades) before appending the 17 frozen/provider rows.
+
+Re-run of `sh .drafts/g2/freeze/apply.sh --dry-run`:
+`applied: 20 files, 10 manifest entries, KAMSJSU prefixes in build_roots; lakefile.lean already declares
+lean_lib KAMSJSU (unchanged); 10 MANIFEST-CHANGES rows, 17 lint allowances added, 6 stale allowances
+dropped`, `ROOTS CHECK OK`, `FROZEN-ANCHOR GUARD OK`.
+- The diffs are minimal: 2 prefix lines in `build_roots.json`; the lakefile unchanged; 6 allow-list rows
+  replaced by 17.
+- `stage.py` re-verified the texts against the current dev copies (still byte-identical).
+- The width scan of the 24 new or changed files in the dry tree gives 0 violations.
+- `RUNBOOK.md` is updated with the new expected output.
