@@ -720,6 +720,8 @@ Full text: [`docs/DECISIONS.md`](docs/DECISIONS.md).
   start B3 (Hénon–Heiles, exact ℚ(√2) layer first); no extra anchors. *(Scott, 2026-11-03)*
 - **D73** Approve the exact Hénon–Heiles theorem text (`henonHeiles_confinement`); freeze and seal it in one pass once
   proved. *(Scott, 2026-11-03)*
+- **D74** Certify SJSU gate 2 in Lean (T2-CONF: finite-time confinement of SJSU18-O2 via a packed tube checker); plan
+  defaults; numerical gates SR-1..7 first; statement approved before freezing. *(Scott, 2026-11-06)*
 
 ## Owner questions
 

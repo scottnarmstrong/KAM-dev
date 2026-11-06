@@ -634,3 +634,16 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - It is frozen and sealed in one pass once it is proved, as plan §2.4 and the D72 addendum recommend (one literal
     application theorem; the checkers stay unfrozen).
   - It lives in the opt-in application library `KAMHenonHeiles` (D51).
+- **D74 (2026-11-06, 13:19 UTC) SJSU gate 2 is certified in Lean (program T2-CONF).** *(Scott: "YES - let's do GATE 2
+  !!!!!!", after the scoping plan `docs/explorations/sjs-rigor-plan.md`, inp-bsjs 9712dacb3.)*
+  - **Recommended defaults taken:** §6 decisions 1(a), 2(a), 3(a), 4(a), 5(a), 6(a), 7(a), 9(a) and 10(a).
+    - T2-CONF only: finite-time confinement through `ApproxIntegral` plus a packed tube checker.
+    - Model of record: SJSU18-O2 as published, with exact rationals.
+    - Q: a sup-norm ball first.
+    - δ = 10⁻⁶, T = 5·10⁹ yr.
+    - Packed Fourier–Taylor checker; the generic layer in core and the data in an opt-in library (D51).
+    - The model is frozen as generated, manifest-pinned data modules. B4×B5 is deferred.
+    - Budget: ≤ 3 CPU-h of gates, then ≤ 75 CPU-h of production.
+  - **Decision 8 (the X1 track) is deferred.**
+  - **Order:** the numerical gates SR-1..SR-7 first, with no Lean before they pass. The exact frozen statement and
+    data definition go to the owner for approval before any freeze.
