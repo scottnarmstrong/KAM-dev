@@ -510,14 +510,16 @@ I confirmed this to g2-n6.
 
 ## N9-Bracket (worker g2-n5b; brief `.drafts/g2/BRIEF-N9-Bracket.md`)
 
-**Status (17:40 UTC): (A) and (B) are built (interim `READY g2-n9a`); (C), the SJSU instance, is next.**
+**Status (18:40 UTC):** (A) and (B) are built, audited (PASS WITH NOTES) and landed. (C) is in progress: the remainder
+budget and the generic `h̃` assembly are built; what remains waits on N7's ledger and N5a-2's instance bridge (see
+"N9 (C)" below).
 
 ### Files (core, `KAM/EffectiveStability/Tube/Check/`, namespace `KAM.EffectiveStability.Tube`)
 
 | file | lines | content |
 |---|---:|---|
 | `BracketList.lean` | 135 | (A) `natCast_mul_umon_sub_mul_umon`, `natCast_mul_umon_mul_umon_sub`, `sum_map_flatMap`, `list_sum_mul_list_sum`, `list_sum_sub`, `list_sum_add`, **`reducedBracket_listObs`** |
-| `BracketBound.lean` | 246 | (B) `mem_truncSet_iff`, `list_sum_split_fiber`, `list_sum_split_truncSet`, `reducedBracket_add`, `abs_reducedBracket_le`, `bracketKept/Drop/Err/Tail`, `abs_reducedBracket_listObs_le`, `listObs_add_sub`, **`reducedBracket_bound`** |
+| `BracketBound.lean` | 334 | (B) `mem_truncSet_iff`, `list_sum_split_fiber`, `list_sum_split_truncSet`, `reducedBracket_add`, `abs_reducedBracket_le`, `bracketKept/Drop/Err/Tail`, `abs_reducedBracket_listObs_le`, `abs_reducedBracket_listObs_le_of_drop`, `listObs_add_sub`, **`reducedBracket_bound`**, **`reducedBracket_bound_of_drop`** (N7's whole-drop bound in place of `V`/`bracketDrop`) |
 
 Imports: N7's `Engine/BTerm`, N8's `Obs/ListObs`, N2's `Chart/Shift`, my `Check/Bracket`, and N4's
 `Witness/BinomialProd`.
@@ -591,6 +593,99 @@ theorem reducedBracket_bound {ι κ : Type*} (Fl : List ι) (μ : ι → Fin 3 �
     `Build completed successfully`. No warnings in my files; no line over 100 characters.
   - `#print axioms` (`.drafts/g2/scratch/n5b/axioms3.out`): `[propext, Classical.choice, Quot.sound]` for
     `reducedBracket_listObs`, `list_sum_split_truncSet`, `reducedBracket_add`, `abs_reducedBracket_le`,
-    `abs_reducedBracket_listObs_le` and `reducedBracket_bound`.
+    `abs_reducedBracket_listObs_le`, `reducedBracket_bound`, `abs_reducedBracket_listObs_le_of_drop`
+    and `reducedBracket_bound_of_drop`.
 - **Design signals:** none.
+
+### N9 (C), the SJSU instance: status
+
+**Built and checked (no warnings in these files, no line over 100 characters):**
+
+Core (`Tube/Check/`):
+
+| file | lines | content |
+|---|---:|---|
+| `TailMaj.lean` | 222 | `max_rpow_sub_le`, `rpow_add_le_mul_ratio`, `max_rpow_sub_le_rem`, `slotHat`/`slotHatDu`/`slotHatP` and **`slotMaj_le_hat`**/`slotMajDu_le_hat`/`slotMajP_le_hat` (`slotMaj ≤ b_max^s · hat` for `0 ≤ s ≤ 9`), `tailSum_mul_slots`, `tailSum_update_mul_slots`, `tailSum_fin3` |
+| `TailRem.lean` | 284 | nonnegativity of the hats, `rpow_half_le_pow`, `sum_expSet_eq_rows(')`, **`hRem_bounds_rows`** (N5a's `hRem_tube` with `n`-uniform tables indexed by `K = |n|`, regrouped over the rows) |
+| `TailQ.lean` | 112 | `gbR`, the rational hats `slotHatQ`/`DuQ`/`PQ` with cast lemmas, `tailQ`, `tailSum_ratCast`, `updQ`, `update_ratCast` |
+| `HSplit.lean` | 143 | `sum_truncSet_fin3`, `sum_truncSet_eq_list`, `hTildeOf_eq_listObs`, `differentiableAt_hRem`, **`reducedBracket_hTilde_bound`** (the bracket with `h̃`: (B) with the Taylor split along an enumerating list, the bridge `hc_t = h_{monOf t}`, and the joint differentiability of `R`) |
+
+Instance (`SJSU/Check/`):
+
+| file | lines | content |
+|---|---:|---|
+| `TailData.lean` | 430 | generated (`.drafts/g2/scratch/n5b/py/gen_tail.py`); see below |
+| `TailAcc.lean` | 54 | accessors, `sjsuTailR = 2·10⁻⁶`, the hats `sjsuHat*`, `sjsu_tail_box` (kernel) |
+| `Tail/Tab.lean` | 50 | `sjsu_tab_ok` (three kernel checks by range of `K`) |
+| `Tail/Tails.lean` | 89 | `sjsu_tail_ok` (one kernel check per degree) |
+| `Tail/Rows.lean` | 199 | `sjsuRowW`/`Wp`, the integer forms `sjsuRowWZ`/`WpZ`, power tables, `sjsuRowW_eq` (exact identity over the block denominator), `sjsu_block_le` |
+| `Tail/W1to6`, `W7`, `W8`, `W9` | 66/31/31/31 | the integer row sums per degree (kernel, through N6's `treeSumQ`) |
+| `TailCheck.lean` | 21 | facade |
+| `TailMain.lean` | 260 | `sjsuRu`, `sjsuRp`, `sjsuHw_deg`, `sjsuHw_mdeg`, `sjsuHwAll_sum`, `block_le`, `sjsu_W_ok`, **`sjsu_hRem_bounds`** |
+
+`TailData.lean` holds:
+- the short-decimal box `sjsuTailBmin ≤ B ≤ sjsuTailBmax` and `sjsuTailHi`;
+- the slot tables `GT`/`GTD`/`GTP` (`K ≤ 18`, `m ≤ 10`, 6 digits rounded up);
+- the tails `TT`/`TU`/`TP`;
+- the row weights `W`/`Wp` per degree.
+
+```lean
+theorem sjsu_hRem_bounds (φ : Fin 2 → ℝ) (u : Fin 3 → ℝ) (hu : ∀ j, |u j| ≤ 2 / 1000000) :
+    (∀ i, |fderiv ℝ (fun v => hRem sjsuE sjsuN sjsuHwAll sjsuB 9 (v, φ)) u (Pi.single i 1)| ≤
+      (sjsuRu i : ℝ)) ∧
+    (∀ a, |fderiv ℝ (fun ψ => hRem sjsuE sjsuN sjsuHwAll sjsuB 9 (u, ψ)) φ (Pi.single a 1)| ≤
+      (sjsuRp : ℝ))
+
+theorem reducedBracket_hTilde_bound … :   -- see HSplit.lean
+    |reducedBracket (listObs Fl μ g) (hTildeOf E N rows B) (u, φ)| ≤
+      bracketKept L' r G + D + bracketErr Hl (fun t => monOf t) r e₀ e₁ Fd Fp + bracketTail Fd Fp Ru Rp
+```
+
+**The remainder budget (TAIL).**
+- *Method.*
+  - N4's slot majorants factor as `b_max,j^{n_j/2} · hat` (they need only `0 ≤ s ≤ 9`).
+  - The hats are bounded by tables that do not depend on `n` and are indexed by `K = |n|`.
+  - `b_max^{n/2} ≤ Π hi^{n_j}`, with rational `hi ≥ √b_max`.
+  - The rows of degree `d` have `K = 2d`, so the tail factor is constant on each block.
+  - The block weights are summed in integers: `hi_j = M_j / 10^6`, with the common denominator
+    `10^E N^{2d} 10^{12d}`.
+- *Values.*
+  - `sjsuRu ≈ (1.2·10⁻¹⁵, 5.1·10⁻¹⁶, 2.8·10⁻¹³)` and `sjsuRp ≈ 1.1·10⁻¹⁹`.
+  - With N5c's ceilings this gives `TAIL ≈ 4.4·10⁻¹⁹` per `j`, against the `η` budget `< 10⁻¹⁶`.
+  - Python prototype: `.drafts/g2/scratch/n5b/py/tail.py`, `tail2.py`.
+- *Kernel cost (measured).*
+
+  | module | time | peak RSS |
+  |---|---:|---:|
+  | `Tab` | 20 s | 2.1 GB |
+  | `Tails` | 60 s | 2.2 GB |
+  | `W1to6` | 8 s | — |
+  | `W7` | 9 s | — |
+  | `W8` | 10 s | — |
+  | `W9` | 14 s | 2.0 GB |
+
+**Design signals hit, and how they were resolved (no options set).**
+- One module holding all checks was OOM-killed at the 6 GB cap.
+  - Memory per declaration is freed, but not within one declaration.
+  - Fix: split into per-range and per-degree declarations, in separate modules.
+- `List.sum` over 3,025 rows fails in the kernel ("stuck at match", depth). Fix: N6's `treeSumQ`.
+- Rational row weights with `Monoid.npow` powers took 229 s at 5 GB. Fix: integer weights with power tables
+  (14 s).
+
+**Waiting on.**
+- N7:
+  - `Ledger.H.{HData,Main}`: `sjsuHD`, `sjsuMons`, `sjsu_hcerts`;
+  - `Ledger.Br.Main`: `sjsu_G_bound`, `sjsu_drop_bound`, `sjsu_hIdx_ne`.
+- N5a-2: `SJSU.Ham.HtBridgeInst` (`sjsuHD_Ht_eq_hCoef`), which builds once N7's `HData` lands.
+- Once these land, the instance is plumbing into `reducedBracket_hTilde_bound` with these inputs:
+  - `Fl = Ftab j`; `Hl = sjsuMons`, enumerating `truncSet 9` (kernel checks);
+  - `hc = sjsuHD.Ht …`, `k = (H t).opd.eval`, `e₀`/`e₁` from `Hc`;
+  - `G`/`D` from N7;
+  - `Fd = FuMax_a + FuMax_2` and `Fp = FphiMax_a` (N8's `sjsu_hFu`/`hFφ`);
+  - `Ru`/`Rp` = `sjsuRu`/`sjsuRp`.
+
+  Then `η_j` is a literal rational bounding `KEPT + DROP + ERR + TAIL` (KEPT and ERR evaluated in `ℚ`); this
+  yields `sjsu_hη`, `sjsu_hTη`, and `Proof.lean`.
+- `#print axioms` (`.drafts/g2/scratch/n5b/axioms4.out`): `[propext, Classical.choice, Quot.sound]` for all 20
+  new results.
 

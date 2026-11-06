@@ -1014,6 +1014,12 @@ def _g2_anchors():
     return [a for a in manifest['anchors'] if 'SJSU' in a.get('path', '') or 'sjsu' in a.get('id', '').lower()]
 
 
+def _g2_thm(name):
+    """1.0 when a `theorem <name>` declaration is on `main` under KAM/EffectiveStability."""
+    pat = re.compile(r'^\s*(?:private\s+)?theorem\s+' + re.escape(name) + r'\b', re.M)
+    return 1.0 * any(pat.search(f.read_text(errors='ignore')) for f in (root / 'KAM' / 'EffectiveStability').rglob('*.lean'))
+
+
 G2_STAGES = [
     ('scoping plan', 3, lambda: 1.0 * (root / 'docs/explorations/sjs-rigor-plan.md').exists()),
     ('numerical gates SR-1..7', 5, lambda: 1.0 * (root / 'docs/explorations/sjsu-g2-gates.md').exists()),
@@ -1022,9 +1028,10 @@ G2_STAGES = [
     ('N3 trig models and packed products', 20, lambda: _g2_has('Trig', 'Packed')),
     ('N4 witnesses', 8, lambda: _g2_has('Witness')),
     ('N5a Hamiltonian models', 8, lambda: _g2_has('Ham')),
-    ('N5 tube checker soundness', 17, lambda: _g2_has('Check') * 0.5 + _g2_has('Confinement') * 0.5),
+    ('N5 tube checker soundness', 17, lambda: 0.5 * _g2_thm('tubeChart_confinement') + 0.5 * _g2_thm('checkTube_sound')),
     ('N6 eccentricity enclosure', 7, lambda: _g2_has('Ecc')),
-    ('N7 data, kernel run, library', 10, lambda: 1.0 * ('KAMSJSU' in (root / 'scripts/build_roots.json').read_text())),
+    ('N7 production checker, data, kernel run', 10, lambda: 0.2 * ('KAMSJSU' in (root / 'scripts/build_roots.json').read_text())
+     + 0.8 * _g2_thm('sjsu_secular_confinement_proof')),
     ('sealed', 5, lambda: 1.0 * bool(_g2_anchors() and all(a['state'] == 'SEALED' for a in _g2_anchors()))),
 ]
 
