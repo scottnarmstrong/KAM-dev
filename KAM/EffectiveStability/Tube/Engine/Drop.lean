@@ -18,7 +18,7 @@ the dropped part, the terms of `u`-degree `> L`, on the box `|u| ≤ r`:
 * `dropT`: the bound of one term, `|coef| r^{d - 1} (|q| Σ|m|)_F (|q| n)_H` (`n` the `ℓ¹` claim of
   `H_t`, times `C` for its derivative), when the total degree `d = |s_i| + |t|` is at least `L + 2`,
   else `0`;
-* `dropSum`: `Σ dropT` over the terms, as nested sums in the order of `bterms`;
+* `dropSum`: factored nested sums equal to `Σ dropT` over `bterms` (`dropSum_eq`);
 * `dropCheck` and **`dropCheck_sound`**: `dropSum ≤ D` bounds the dropped part by `D`.
 
 For a term with a nonzero coefficient, the monomial has degree `d - 1` (`mdeg_mon_eq`), so it is
