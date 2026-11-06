@@ -519,7 +519,7 @@ budget and the generic `h̃` assembly are built; what remains waits on N7's ledg
 | file | lines | content |
 |---|---:|---|
 | `BracketList.lean` | 135 | (A) `natCast_mul_umon_sub_mul_umon`, `natCast_mul_umon_mul_umon_sub`, `sum_map_flatMap`, `list_sum_mul_list_sum`, `list_sum_sub`, `list_sum_add`, **`reducedBracket_listObs`** |
-| `BracketBound.lean` | 334 | (B) `mem_truncSet_iff`, `list_sum_split_fiber`, `list_sum_split_truncSet`, `reducedBracket_add`, `abs_reducedBracket_le`, `bracketKept/Drop/Err/Tail`, `abs_reducedBracket_listObs_le`, `abs_reducedBracket_listObs_le_of_drop`, `listObs_add_sub`, **`reducedBracket_bound`**, **`reducedBracket_bound_of_drop`** (N7's whole-drop bound in place of `V`/`bracketDrop`) |
+| `BracketBound.lean` | 335 | (B) `mem_truncSet_iff`, `list_sum_split_fiber`, `list_sum_split_truncSet`, `reducedBracket_add`, `abs_reducedBracket_le`, `bracketKept/Drop/Err/Tail`, `abs_reducedBracket_listObs_le`, `abs_reducedBracket_listObs_le_of_drop`, `listObs_add_sub`, **`reducedBracket_bound`**, **`reducedBracket_bound_of_drop`** (N7's whole-drop bound in place of `V`/`bracketDrop`) |
 
 Imports: N7's `Engine/BTerm`, N8's `Obs/ListObs`, N2's `Chart/Shift`, my `Check/Bracket`, and N4's
 `Witness/BinomialProd`.
