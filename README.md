@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-06 19:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 100 % · track W 100 % · track LP 100 % · SJSU gate 2 74 %** · frozen statements proved: 75 / 76 · **695,847 lines of hand-written Lean** of an estimated ≈ 702,000 (plus 4,097,429 lines of generated certificate data, not counted)
+> **Last updated: 2026-11-06 21:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.2 % · SO checker 100 % · SO Moon 100 % · Moon locked 100 % · track W 100 % · track LP 100 % · SJSU gate 2 74 %** · frozen statements proved: 75 / 76 · **699,765 lines of hand-written Lean** of an estimated ≈ 703,000 (plus 4,097,429 lines of generated certificate data, not counted)
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -377,17 +377,17 @@ Overall, everything together: 97.6 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **695,847** (554,394 excluding blank lines and comments) · **+144,512** since 2026-11-05 19:20 UTC |
+| On `main` now (hand-written) | **699,765** (557,318 excluding blank lines and comments) · **+148,430** since 2026-11-05 21:00 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 4,097,429 lines in 15,317 modules |
-| Written on agent branches, not yet landed (hand-written) | 5,706 |
-| **Estimated total at completion** (hand-written) | **≈ 702,000** |
+| Written on agent branches, not yet landed (hand-written) | 3,263 |
+| **Estimated total at completion** (hand-written) | **≈ 703,000** |
 | Estimated still to write | ≈ 0 (0–14,000 over the range of track W's plan) |
 
 **How the size is estimated.** Every figure except the two rows of generated data counts hand-written Lean only: the generated certificate data under `KAM/SpinOrbit/Data/` (the barrier tori of the Moon, emitted by `scripts/spin_orbit/` and checked by the kernel) are counted apart. The estimate scales the lines written so far for the other tracks (on `main` plus the agent branches: tracks K, I, N, P and R, the sharp a-posteriori theorems and certifiers, the shared infrastructure) by the done share of the Lean work items, weighted by difficulty (track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P: 100 % done); adds track SO from its design (its lines on `main` plus the line estimates of its packages not yet landed, 0 lines; the Lean packages of part 3 are on `main`, and what it still needs is generated data); and adds track W from its planning range of 70,000–95,000 lines (graph-scaled (2026-10-31): track W's dependency graph has 690 nodes; the finished tracks average 87 lines of Lean per graph node (K 72, I 83, N 59, P 109), so 690 × 87 ≈ 60k; the high end uses track P's 109 per node plus 20 % for infinite-dimensional infrastructure (sequence spaces, parameter-Lipschitz estimates), ≈ 90k; replaces the low-confidence 34k–70k of docs/TRACKS.md; raised to its measured rate, 83,000 lines for the whole graph at its lines on `main` per resolved node; midpoint used), of which 82,615 are written; and adds track LP from its planning range of 12,000–25,000 lines (the Lean roadmap of the audited proof; midpoint used), of which 23,409 are written. The side project LG00 is not counted: its certificate never enters this library. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv) (`lean_lines` counts every module, `generated_lines` the generated data among them).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-06 19:20 UTC from `main` at `ed0cd024b` by `scripts/hq-status.py`.*
+*Generated 2026-11-06 21:00 UTC from `main` at `887bff5e8` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -410,7 +410,7 @@ Overall, everything together: 97.6 %
 
 **Frozen statements proved: 75 / 76** · frozen definitions: 243
 
-**Lean on `main` (hand-written):** 3,199 modules · 695,847 lines · 23,846 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0 (both scans cover every module, generated data included)
+**Lean on `main` (hand-written):** 3,222 modules · 699,765 lines · 24,010 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0 (both scans cover every module, generated data included)
 
 **Generated certificate data on `main`:** 4,097,429 lines in 15,317 modules (numeric literals; not counted above), with 22,577 generated kernel-check theorems; under [`KAM/SpinOrbit/Data/`](KAM/SpinOrbit/Data)
 
@@ -567,7 +567,7 @@ flowchart BT
 | [`KAM/Sharp/`](KAM/Sharp) | Sharp explicit a-posteriori KAM: Newton engine, torsion route, step, g1_sharp, parameter boxes | 20 | 4,469 | 107 |
 | [`KAM/CertificateSharp/`](KAM/CertificateSharp) | The sharp KAM certifier: engine-agnostic checker, rational constants, soundness | 272 | 52,656 | 2153 |
 | [`KAM/Sharp2/`](KAM/Sharp2) | v2 sharp a-posteriori KAM: route A, modified step (route B), l1 entry, small-divisor constants, PlasmaLean example | 108 | 27,182 | 1121 |
-| [`KAM/Root/`](KAM/Root) | Generated parts of the core root KAM.lean (scripts/gen_root_imports.py; the application roots `<Lib>.lean` and their parts live beside it, D51) | 29 | 3,439 | 0 |
+| [`KAM/Root/`](KAM/Root) | Generated parts of the core root KAM.lean (scripts/gen_root_imports.py; the application roots `<Lib>.lean` and their parts live beside it, D51) | 29 | 3,450 | 0 |
 | [`KAM/Certificate/`](KAM/Certificate) | Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies) | 90 | 22,540 | 1054 |
 | [`KAM/SpinOrbit/`](KAM/SpinOrbit) | Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs, the Moon's band theorems, the synchronous lock in `Lock/`); its generated certificate data are the next row | 38 | 6,812 | 394 |
 | [`KAM/SpinOrbit/Data/`](KAM/SpinOrbit/Data) | Track SO: generated certificate data of the barrier tori (numeric literals emitted by `scripts/spin_orbit/`, checked by the kernel; with their literal format and support lemmas); counted apart from the hand-written Lean | 15317 | 4,097,429 | 22577 |
@@ -575,19 +575,19 @@ flowchart BT
 | [`KAM/Planetary/StrongAMD/`](KAM/Planetary/StrongAMD) | Track LP: the sharp strong Laskar–Petit AMD threshold and barrier, the nonresonant exponential normal-form adapter, first exit, planar exponential safety (D56) | 62 | 10,372 | 385 |
 | [`KAM/Planetary/Spatial/`](KAM/Planetary/Spatial) | Track LP: the spatial planetary problem (regular spatial Poincaré chart, vector angular momentum, spatial exponential safety; D56) | 79 | 13,037 | 552 |
 | [`KAM/Application/`](KAM/Application) | — | 37 | 7,246 | 371 |
-| [`KAM/EffectiveStability/`](KAM/EffectiveStability) | — | 395 | 183,010 | 2580 |
+| [`KAM/EffectiveStability/`](KAM/EffectiveStability) | — | 418 | 186,917 | 2744 |
 | [`KAM/Magnetic/`](KAM/Magnetic) | — | 5 | 475 | 24 |
 
 **Certificate applications** (decision D51): opt-in libraries, not built by a plain `lake build` (which builds the core library `KAM`, every core theorem); each builds with `lake build <Lib>` through the capped driver `scripts/prebuild_heavy.py --lib <Lib>`. Modules are assigned in [`scripts/build_roots.json`](scripts/build_roots.json).
 
 | Library | Content | Modules | Hand-written lines | Generated data lines | Theorems |
 |---|---|---|---|---|---|
-| `KAM` (default) | The core: every module not assigned to an application | 2919 | 534,445 | — | 22544 |
+| `KAM` (default) | The core: every module not assigned to an application | 2930 | 536,981 | — | 22649 |
 | [`KAMLunarBand`](KAMLunarBand.lean) | SO-2: the Moon's spin-orbit band (N = 65 barrier tori) | 1654 | 267 | 632,896 | 4672 |
 | [`KAMLunarLock`](KAMLunarLock.lean) | SO-3: the Moon locked in synchronous rotation (N = 65 librational torus) | 13670 | 87 | 3,464,533 | 17916 |
 | [`KAMMagneticBarrier`](KAMMagneticBarrier.lean) | MAG: the magnetic field-line barrier at eps = 3/2500 (D66, D68) | 3 | 366 | 0 | 24 |
 | [`KAMHenonHeiles`](KAMHenonHeiles.lean) | B3: Hénon–Heiles confinement (literal certificate, D73) | 67 | 25,293 | 0 | 305 |
-| [`KAMSJSU`](KAMSJSU.lean) | T2-CONF: SJSU secular confinement (literal tube certificate, D76) | 174 | 131,950 | 0 | 962 |
+| [`KAMSJSU`](KAMSJSU.lean) | T2-CONF: SJSU secular confinement (literal tube certificate, D76) | 186 | 133,321 | 0 | 1021 |
 <!-- /AUTO:areas -->
 
 ## What the agents are doing now
@@ -610,7 +610,7 @@ account read from each agent's running process) and their branches. Rules for ag
 | **lp-freeze7** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: LP-FREEZE7R: handoff (parts A-C; superseded by LP-FREEZE-EXEC) | `inp-lp-freeze7` | 1 (vs `inp`) |
 | **lp-fz7r-audit** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP: draft-7 r1 delta statement audit 2 (codex-2): PASS WITH NOTES (BLOCKING 0; R1-R3 small | `inp-lp-fz7r-audit` | 1 (vs `inp`) |
 | **lp-providers** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: LP-FREEZE7R part B: stage the 39 draft-7 r1 providers (quarantined; not in roots), staging | `inp-lp-providers` | 1 (vs `inp`) |
-| **sjsu-g2** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: SJSU-G2 decision log: heavy lane for the G_p kernel stage (kam-38) | `inp-sjsu-g2` | 2 (vs `inp`) |
+| **sjsu-g2** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: SJSU-G2 N7-Engine part 3: reflow 4 overlong lines in Deriv and Regroup (layout only; by g2 | `inp-sjsu-g2` | 7 (vs `inp`) |
 <!-- /AUTO:workers -->
 
 ### Recent changes on `main`
@@ -618,6 +618,8 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-06 19:36 | `d441ede27` | SJSU: scoping note from the secular model to the full planar Newtonian problem (docs only) |
+| 2026-11-06 19:21 | `5343e9976` | Land inp into main |
 | 2026-11-06 18:41 | `5b61de513` | Land inp into main |
 | 2026-11-06 18:28 | `30c712e3d` | HQ: T2-CONF meter credits the checker and the production run by their theorems, not by directories |
 | 2026-11-06 18:03 | `a9e07eb24` | Land inp into main |
@@ -628,8 +630,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-06 15:00 | `d1d6f8dc9` | HQ: completion meter for program T2-CONF (SJSU gate 2, D74) |
 | 2026-11-06 14:58 | `0ce87fa5b` | D75 addendum: two-sided eccentricity intervals (owner ruling a) |
 | 2026-11-06 14:54 | `22f7dd4b5` | README: list confinement from approximate integrals (ApproxIntegral.lean) |
-| 2026-11-06 14:45 | `848c71f18` | D75: T2-CONF model of record is the complex form of SJSU18-O2 |
-| 2026-11-06 13:19 | `546fcd964` | D74: SJSU gate 2 certification launched (T2-CONF) |
 <!-- /AUTO:landed -->
 
 ## Decisions
