@@ -89,7 +89,7 @@ theorem sum_map_ite_eq_of_nodup {β : Type*} [DecidableEq β] {l : List β} (hnd
 
 /-! ### The monomial of a term -/
 
-theorem monOf_apply (t : ℕ × ℕ × ℕ) :
+theorem monOf_apply_triple (t : ℕ × ℕ × ℕ) :
     monOf t 0 = t.1 ∧ monOf t 1 = t.2.1 ∧ monOf t 2 = t.2.2 := by
   simp [monOf]
 
