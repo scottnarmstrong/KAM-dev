@@ -161,7 +161,7 @@ The components are also stated separately: `abs_binomProdRem_le_box`, `abs_fderi
 - **Numeric sanity** (`.drafts/g2/scratch/n4/compare.py`, floats): `remBound₀` against phase 1's geometric tail
   (`sr4_ball_mirror.py` `Tails.tail`), with the phase-1 `B_min`, `B_max = 1.3 B_min` (assumed), `r = 2·10⁻⁶`, `L = 8`.
   - The ratio is 1.72–1.84 for half-integer exponent tuples.
-  - Both bounds are exactly 0 for nonnegative integer exponents ≤ L.
+  - Both bounds are exactly 0 for nonnegative integer exponent tuples whose sum is ≤ L (audit N4-A1-01: with total-degree truncation, the cross-term tail can be nonzero even when every exponent is ≤ L).
 
 ## Design signals
 
