@@ -1002,9 +1002,12 @@ def lp_glance():
 G2_DIR = root / 'KAM' / 'EffectiveStability' / 'SJSU'
 
 
+G2_TUBE = root / 'KAM' / 'EffectiveStability' / 'Tube'
+
+
 def _g2_has(*names):
-    """1.0 when a G2 Lean package directory exists on `main` with at least one module."""
-    return 1.0 * any((G2_DIR / n).is_dir() and any((G2_DIR / n).rglob('*.lean')) for n in names)
+    """1.0 when a G2 Lean package directory (under EffectiveStability/Tube or /SJSU) is on `main` with a module."""
+    return 1.0 * any((d / n).is_dir() and any((d / n).rglob('*.lean')) for d in (G2_TUBE, G2_DIR) for n in names)
 
 
 def _g2_anchors():
@@ -1017,9 +1020,10 @@ G2_STAGES = [
     ('statement approved and frozen', 5, lambda: 1.0 * bool(_g2_anchors())),
     ('N2 symplectic charts', 15, lambda: _g2_has('Chart', 'Charts')),
     ('N3 trig models and packed products', 20, lambda: _g2_has('Trig', 'Packed')),
-    ('N4 witnesses', 8, lambda: _g2_has('Witness', 'Witnesses')),
-    ('N5 tube checker soundness', 25, lambda: _g2_has('Tube', 'Check', 'Checker')),
-    ('N6 eccentricity enclosure', 7, lambda: _g2_has('Ecc', 'Eccentricity')),
+    ('N4 witnesses', 8, lambda: _g2_has('Witness')),
+    ('N5a Hamiltonian models', 8, lambda: _g2_has('Ham')),
+    ('N5 tube checker soundness', 17, lambda: _g2_has('Check') * 0.5 + _g2_has('Confinement') * 0.5),
+    ('N6 eccentricity enclosure', 7, lambda: _g2_has('Ecc')),
     ('N7 data, kernel run, library', 10, lambda: 1.0 * ('KAMSJSU' in (root / 'scripts/build_roots.json').read_text())),
     ('sealed', 5, lambda: 1.0 * bool(_g2_anchors() and all(a['state'] == 'SEALED' for a in _g2_anchors()))),
 ]
