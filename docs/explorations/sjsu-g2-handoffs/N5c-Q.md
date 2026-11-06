@@ -67,7 +67,8 @@ These cover the brief's three targets:
 3. **`|F_j − F_j(z*)| ≤ δ/2` on Q:** `sjsu_hLF` (with N5b's `hFb`), once N7's norms meet the ceilings. The
    value is `chartLip·r ≤ 1.19·10⁻⁷` against `5·10⁻⁷`.
 
-`c̃_j`, `γ_j` come from `abs_obs_sub_le_of_face`.
+N7 supplies the literal `c̃_j` and its face bound; `abs_obs_sub_le_of_face` then supplies
+`γ_j = ε_j + sjsuMu` (package audit 1, N2).
 
 ## Generic statements (namespace `KAM.EffectiveStability.Tube`)
 
