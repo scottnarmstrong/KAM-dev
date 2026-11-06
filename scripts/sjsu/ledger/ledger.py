@@ -3,10 +3,14 @@
 
 Loads the producer's plan (produce.py: out*/hbuild.pkl), builds the records the Lean ledger states
 (literal descriptors, claims Cl, step parameters UPrm/OPrm/SqPrm/IvPrm keyed as the Lean lookups),
-and re-runs EVERY kernel Bool check of KAM/EffectiveStability/Tube/Engine in exact Python arithmetic
-(prodCheck, combCheck, outCheck, litCheck, l1Check, symDigOk, inputCheck, sqrtCheck, invCheck,
-pBase/powOk, vBlock, hBlock), with the same index functions (uIdx, vIdx, hIdx, n1s, n2s).
-Usage: python3 ledger.py [--small]    (exit 0 iff every check passes)
+and mirrors a SUBSET of the kernel Bool checks of KAM/EffectiveStability/Tube/Engine in exact Python
+arithmetic, as a producer-side diagnostic: the U/V/H/power product steps (prodCheck, combCheck,
+outCheck, litCheck, l1Check, vBlock, hBlock, powOk), with the same index functions (uIdx, vIdx, hIdx,
+n1s, n2s). It does NOT run inputCheck, sqrtCheck, invCheck or pBase (their records are copied).
+With LEDGER_NOMIRROR=1 (the full production ledger) litCheck and combCheck return True and the mirror
+checks nothing. In both modes the gate is kernel acceptance of the emitted Lean checks, never this
+mirror.
+Usage: python3 ledger.py [--small]    (exit 0 iff every mirrored check passes)
 """
 from __future__ import annotations
 

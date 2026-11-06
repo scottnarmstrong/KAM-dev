@@ -13,8 +13,9 @@ public import KAM.EffectiveStability.Tube.Engine.Bracket
 The kernel's memory grows with the number of operands of one declaration, so a kept coefficient
 with many terms is checked in chunks of `m` consecutive terms of `brList` (`brCheckC`, one
 declaration each); each chunk is an exact sum, and the coefficient is bounded by the sum of the
-chunk bounds (`brChunks_sound`, `brChunksAll_sound`). Splitting into chunks of about 100 terms
-loses a factor 2–3 of the cancellation only.
+chunk bounds (`brChunks_sound`, `brAllC_sound`). The producer estimates (an empirical
+observation, not proved here) that chunks of about 100 terms lose only a factor 2–3 of the
+cancellation.
 -/
 
 @[expose] public section

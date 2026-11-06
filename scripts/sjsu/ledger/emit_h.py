@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """N7 ledger emitter, H stage (T2-CONF): literals, inputs, tables, HData, kernel checks, assembly.
 
-Reads the producer's plan (out*/hbuild.pkl), re-runs the kernel mirror (ledger.py; aborts on any
-failure), then writes under KAM/EffectiveStability/SJSU/Ledger/<root>/ (root `H`, or `Small` for
+Reads the producer's plan (out*/hbuild.pkl), runs the partial kernel mirror of ledger.py (aborts on
+any failure; with LEDGER_NOMIRROR=1 it checks nothing, see ledger.py), then writes under KAM/EffectiveStability/SJSU/Ledger/<root>/ (root `H`, or `Small` for
 --small with namespace KAM.EffectiveStability.SJSU.Small):
   Lit<i>.lean     literal models (whitened Nat.add/Nat.shiftLeft trees, <= 256 chunks per sub-def)
   Inputs.lean     sjsuNs, sjsuTdat (exact H_w data), sjsuBdat (exact B_j data)
