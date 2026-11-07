@@ -138,6 +138,7 @@ public import KAM.EffectiveStability.Tube.Engine.Comb
 public import KAM.EffectiveStability.Tube.Engine.DOpd
 public import KAM.EffectiveStability.Tube.Engine.Deriv
 public import KAM.EffectiveStability.Tube.Engine.Drop
+public import KAM.EffectiveStability.Tube.Engine.DropChunk
 public import KAM.EffectiveStability.Tube.Engine.Exact
 public import KAM.EffectiveStability.Tube.Engine.Horner
 public import KAM.EffectiveStability.Tube.Engine.Input
