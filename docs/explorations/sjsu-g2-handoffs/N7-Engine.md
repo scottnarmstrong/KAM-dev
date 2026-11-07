@@ -96,12 +96,12 @@ Build driver: `scripts/sjsu/ledger/build_ledger.py` (part 4); ordered module lis
 
 1. **Cancellation.** `KEPT = Σ_p r^|p| G_p` is `(6.48, 2.77, 7.14)·10⁻²⁰` when each `G_{j,p}` is computed exactly; any
    triangle split loses about ten orders (per term `1.2·10⁻¹⁰`, per literal operand `1.16·10⁻¹⁰`, per `h`-monomial
-   `4.2·10⁻¹¹`). Every kept coefficient is therefore one exact sum (≈130 products) in one declaration.
+   `4.2·10⁻¹¹`). (Historical, parts 1–3: every kept coefficient was then one exact sum, ≈130 products, in one declaration. Superseded by part 4: each kept coefficient is an exact sum per chunk of at most 100 terms, one declaration per chunk, with a triangle bound across the chunks of a coefficient; see Part 4 above and LBr-AUDIT-1 N2.)
 2. **Kernel memory (design signal).** The kernel's whnf cache keeps every intermediate value, so memory grows with the
    work of a declaration. Measured at full size (`w = 256`, 15401 slots): a literal expansion ≈ 24 MB, a `derivZ`
    ≈ 135 MB, a sparse-model packing ≈ 26 MB and 0.25 s (symbolic list work). Hence: all operands are literals
    (certified copies of the 277 sparse `F` models, 554 `F` derivative literals, 440 `h` derivative literals, each
-   certified once at a narrow width), one kept coefficient per module, built on the 10 GB / one-thread heavy lane.
+   certified once at a narrow width), one declaration per module (historically one kept coefficient; now one coefficient chunk), built on the 10 GB / one-thread heavy lane.
 3. Earlier signals (parts 1–2): heartbeat timeouts in big list literals (chunk definitions), deep recursion in linear
    sums (balanced tree sums), per-digit expansion cost (parallel spread).
 
