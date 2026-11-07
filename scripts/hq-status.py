@@ -231,7 +231,9 @@ STATEMENT_TRACKS = [('kam', 'Track K: positive-measure KAM'),
                     ('russmann', "Track R: Rüssmann's KAM theorem (weak non-degeneracy)"),
                     ('wave', 'Track W: PDE KAM (cubic wave equation)'),
                     ('lp', 'Track LP: strong-AMD exponential safety (the Laskar–Petit conjecture)'),
-                    ('spinorbit', "Track SO: the Moon's spin rate and synchronous lock (certified tori)")]
+                    ('spinorbit', "Track SO: the Moon's spin rate and synchronous lock (certified tori)"),
+                    ('effectiveStability', 'Track B: finite-time effective stability (and SJSU gate 2)'),
+                    ('magnetic', 'Magnetic field-line barrier (proof open)')]
 
 
 def frozen_doc(path, short):
@@ -762,6 +764,12 @@ TRACKS = [
                         '(N = 65; proved 2026-10-31)'),
     ('SO-3', 'so-lock', 'Track SO, part 3: the Moon locked in synchronous rotation forever (one librational torus '
                         'around a certified synchronous orbit; D42, D45)'),
+    ('B', 'effectiveStability', 'Finite-time effective stability: confinement from a normal form and a remainder '
+                                'bound; the Hénon–Heiles system confined (D72, D73)'),
+    ('SJSU', 'sjsu', 'SJSU gate 2: the secular Sun–Jupiter–Saturn–Uranus model keeps its eccentricities in fixed bands '
+                     'for 5·10⁹ years (D74–D76)'),
+    ('Magnetic', 'magnetic', 'A real-analytic invariant surface that no field line of a model magnetic field crosses '
+                             '(D68)'),
     ('LG00', 'lg00', 'Side project: a kernel-checked KAM torus of Locatelli–Giorgilli\'s secular Sun–Jupiter–Saturn '
                      'model (first formally verified torus of a planetary model; v2 certifier)'),
     ('HD11964', 'hd11964', 'Side project: no orbit crossing for a fixed time T (first rung 10³ years) in the planar '
@@ -770,13 +778,15 @@ TRACKS = [
 ]
 # Tracks without a source-level dependency graph: track R is proved through track P's quantitative theorem; track SO
 # and the side projects LG00 and HD11964 are certificate campaigns.
-NO_GRAPH = {'R', 'SO-1', 'SO-2', 'SO-3', 'LG00', 'HD11964'}
+NO_GRAPH = {'R', 'SO-1', 'SO-2', 'SO-3', 'LG00', 'HD11964', 'SJSU', 'Magnetic'}
 
 
 def track_anchors(prefix):
     """Frozen theorems of a track: by manifest id prefix; track SO's parts 2 and 3 split its `spinorbit.*` ids."""
     if prefix in ('so-band', 'so-lock'):
         return so_anchors(prefix == 'so-lock')
+    if prefix == 'sjsu':
+        return sub_anchors('SJSU')
     if prefix in ('lp', 'planetary'):
         return sub_anchors('LP' if prefix == 'lp' else 'P')
     return [a for a in manifest['anchors'] if a['kind'] == 'theorem' and a['id'].split('.')[0] == prefix]

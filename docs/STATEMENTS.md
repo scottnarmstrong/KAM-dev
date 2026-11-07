@@ -15,6 +15,8 @@ Every statement below is an exact Lean declaration that the owner approved befor
 - **Track R: Rüssmann's KAM theorem (weak non-degeneracy):** [`russmann_kam`](#russmann_kam)
 - **Track W: PDE KAM (cubic wave equation):** [`nlw2`](#nlw2)
 - **Track SO: the Moon's spin rate and synchronous lock (certified tori):** [`lunar_barriers`](#lunar_barriers) · [`lunar_spin_confinement`](#lunar_spin_confinement) · [`lunarPLo_lt_lunarPHi`](#lunarplo_lt_lunarphi) · [`lunarSyncOrbit_spec`](#lunarsyncorbit_spec) · [`lunarSyncOrbit_unique`](#lunarsyncorbit_unique) · [`lunarSyncOrbit_bound`](#lunarsyncorbit_bound) · [`lunar_sync_lock`](#lunar_sync_lock)
+- **Track B: finite-time effective stability (and SJSU gate 2):** [`torus_confinement`](#torus_confinement) · [`oscillator_confinement`](#oscillator_confinement) · [`henonHeiles_confinement`](#henonheiles_confinement)
+- **Magnetic field-line barrier (proof open):** [`magnetic_barrier`](#magnetic_barrier)
 
 ## Track K: positive-measure KAM
 
@@ -1021,11 +1023,57 @@ The Moon stays locked in synchronous rotation forever.
 
 </details>
 
-## Other frozen definitions
+## Track B: finite-time effective stability (and SJSU gate 2)
 
-- [`KAM.Magnetic.magEps`](../KAM/Frozen/Magnetic/Defs/MagEps.lean)
-- [`KAM.Magnetic.magH0`](../KAM/Frozen/Magnetic/Defs/MagH0.lean)
-- [`KAM.Magnetic.magAlpha`](../KAM/Frozen/Magnetic/Defs/MagAlpha.lean)
-- [`KAM.Magnetic.magV`](../KAM/Frozen/Magnetic/Defs/MagV.lean)
-- [`KAM.Magnetic.magField`](../KAM/Frozen/Magnetic/Defs/MagField.lean)
-- [`KAM.Magnetic.magHamC`](../KAM/Frozen/Magnetic/Defs/MagHamC.lean)
+### torus_confinement
+
+[`KAM.EffectiveStability.torus_confinement`](../KAM/Frozen/EffectiveStability/TorusConfinement.lean#L33) · ✅ proved and sealed
+
+**B1-T** (plan §2.2; GLS17 §4.3 (56)–(58)): finite confinement in a canonical cylinder. The physical phase coordinates are lifted real coordinates. Only the pullback Hamiltonian must be angle-periodic. The normal part is differentiated through `H ∘ Ψ - R`, which is differentiable on the open chart domain; no differentiability hypothesis on `N` is needed.
+
+- **Source:** program-b-plan §2.2 (B1-T); GLS17 §4.3 (56)–(58)
+- **Proof assembled in:** `KAM.Provider.EffectiveStability.TorusConfinement`
+- **Manifest ID:** `effectiveStability.d72.torus_confinement.v1`
+
+### oscillator_confinement
+
+[`KAM.EffectiveStability.oscillator_confinement`](../KAM/Frozen/EffectiveStability/OscillatorConfinement.lean#L34) · ✅ proved and sealed
+
+**B1-E** (plan §2.3; CL20 §4.1 (32)–(37)): Cartesian oscillator confinement, including zero actions. Coordinates are `w = (q, p)`, with action `KAM.Planetary.oscillatorAction w.2 w.1`, so `I_j = (p_j² + q_j²) / 2` and `{I_j, R} = q_j ∂_{p_j} R - p_j ∂_{q_j} R`. Rotation invariance of the differentiable function `H ∘ Ψ - R` gives the normal-part cancellation without differentiating `N`.
+
+- **Source:** program-b-plan §2.3 (B1-E); CL20 §4.1 (32)–(37)
+- **Proof assembled in:** `KAM.Provider.EffectiveStability.OscillatorConfinement`
+- **Manifest ID:** `effectiveStability.d72.oscillator_confinement.v1`
+
+### henonHeiles_confinement
+
+[`KAM.EffectiveStability.henonHeiles_confinement`](../KAM/Frozen/EffectiveStability/HenonHeilesConfinement.lean#L32) · ✅ proved and sealed
+
+**Hénon–Heiles confinement** (track B, plan §4 "A first instance with literal acceptance criteria"; CL20 Appendix B model `H = I₁ - (√2/2) I₂ + q₁² q₂ - q₂³/3`, `q = z.1`, `p = z.2`): every initial point with both oscillator actions `≤ (1/12500)²` has a Hamiltonian solution on `(-T₁, T₁)` with `T₁ > 10¹⁰`, unique among solutions on intervals through `0`, whose actions stay `< 101/10¹⁰` and within `12/10¹⁰` of their initial values for `|t| ≤ 10¹⁰`.
+
+- **Source:** program-b-plan §4 'A first instance with literal acceptance criteria' (HH); CL20 Appendix B
+- **Proof assembled in:** `KAM.Provider.EffectiveStability.HenonHeilesConfinement`
+- **Manifest ID:** `effectiveStability.d73.henonHeiles_confinement.v1`
+
+## Magnetic field-line barrier (proof open)
+
+### magnetic_barrier
+
+[`KAM.Magnetic.magnetic_barrier`](../KAM/Frozen/Magnetic/Theorems/MagneticBarrier.lean#L41) · ⬜ not yet
+
+**Magnetic transport barrier.** The field-line flow of the controlled model at `ε = 3/2500` has a real-analytic invariant graph `p = P(q, φ)`, one-periodic in both angles, with `8/25 ≤ P ≤ 39/100`, which no field line crosses: every initial point has a global field line, which every local field line through it on an interval containing `0` agrees with, and the side of the graph (below, on, above) is the same at every real time. The graph is the action component of an analytic primary invariant torus `K∞` of the extended Hamiltonian `magHamC`, holomorphic on the strip of width `3/1000000`, real on real angles, with frequency `(α, 1)` (`α = magAlpha`), energy zero and clock `φ = θ₁` (plan-magnetic-barrier §1.2).
+
+- **Source:** FREEZE-PROPOSAL §Proposed Lean text, draft/MagneticBarrier.lean.txt (headline)
+- **Proof assembled in:** `KAM.Provider.Magnetic.MagneticBarrier`
+- **Manifest ID:** `magnetic.magnetic_barrier.v1`
+
+<details><summary>Frozen definitions of this track (6)</summary>
+
+- [`KAM.Magnetic.magEps`](../KAM/Frozen/Magnetic/Defs/MagEps.lean#L24)
+- [`KAM.Magnetic.magH0`](../KAM/Frozen/Magnetic/Defs/MagH0.lean#L25)
+- [`KAM.Magnetic.magAlpha`](../KAM/Frozen/Magnetic/Defs/MagAlpha.lean#L25)
+- [`KAM.Magnetic.magV`](../KAM/Frozen/Magnetic/Defs/MagV.lean#L30)
+- [`KAM.Magnetic.magField`](../KAM/Frozen/Magnetic/Defs/MagField.lean#L27)
+- [`KAM.Magnetic.magHamC`](../KAM/Frozen/Magnetic/Defs/MagHamC.lean#L28)
+
+</details>

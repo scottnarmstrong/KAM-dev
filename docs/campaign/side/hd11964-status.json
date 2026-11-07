@@ -25,7 +25,7 @@
    "name": "region-fitted cover of the certificate region (numerics and Lean)",
    "weight": 1,
    "done": 1.0,
-   "evidence": "50-cell region-fitted cover of R(1/500), numerical margin about 5.9; Lean cover lemma on main (95ed6a15, opt-in package), standard axioms; audited (AUDIT-HD11964-COVER-1); F's rotation invariance still open"
+   "evidence": "50-cell region-fitted cover of R(1/500), numerical margin about 5.9; Lean cover lemma on main (95ed6a15, opt-in package), standard axioms; audited (AUDIT-HD11964-COVER-1); F's rotation invariance proved since (rotInv_FHD, noCrossing_HD_of_cellBounds in applications/hd11964/HD11964/ChiRot.lean, 9a2b6a4eb, 2026-11-02 15:15)"
   },
   {
    "name": "packed Taylor x Fourier kernel layer and one-cell gate",
