@@ -78,9 +78,18 @@ def wrap_expr(head, expr, indent='  '):
     """wrap an expression on token boundaries (lines <= MAXL)"""
     out, cur = [], head
     tk = []
+    glue_next = False
     for t in toks(expr):
         if t == '+kernel' and tk:
             tk[-1] += ' +kernel'   # never break `decide +kernel`
+        elif t == ']' and tk and (tk[-1].endswith('+kernel') or tk[-1].endswith('decide')):
+            tk[-1] += ']'          # nor `decide +kernel]`
+        elif t == 'at' and tk:
+            tk[-1] += ' at'        # nor `] at h`: a hypothesis alone on the next line fails checkColGt
+            glue_next = True
+        elif glue_next:
+            tk[-1] += ' ' + t
+            glue_next = False
         else:
             tk.append(t)
     for t in tk:
@@ -380,8 +389,17 @@ def emit(Lg, rec, small):
     pre = []
     pre += wrap_expr('theorem tin : sjsuHD.ns.all sjsuHD.tIn = true := by', '')
     pre = ['theorem tin : sjsuHD.ns.all sjsuHD.tIn = true := by']
-    pre += wrap_expr('  rw [show sjsuHD.ns =', ' ++ '.join('[' + ', '.join(tri(n) for n in ch) + ']'
-                                                        for ch in tin_chunks) + ' from by decide +kernel]', '    ')
+    # each chunk is ascribed: `++` is heterogeneous, so an unascribed literal leaves every numeral pending
+    # (the full ledger's `tin` hit the default heartbeats in `synthesize pending MVars`)
+    # and the chunks are joined as a balanced tree: simp over a left-nested chain of ~650 appends exceeds the
+    # default maximum recursion depth
+    def bal(xs):
+        if len(xs) == 1:
+            return xs[0]
+        h = len(xs) // 2
+        return '(' + bal(xs[:h]) + ' ++ ' + bal(xs[h:]) + ')'
+    pre += wrap_expr('  rw [show sjsuHD.ns =', bal(['([' + ', '.join(tri(n) for n in ch) + '] : List (Nat × Nat × Nat))'
+                                                    for ch in tin_chunks]) + ' from by decide +kernel]', '    ')
     pre += wrap_expr('  simp only [List.all_append,', ', '.join(f'tin_{k}' for k in range(len(tin_chunks)))
                      + ', Bool.and_self]', '    ')
     pre += ['']
@@ -467,7 +485,13 @@ def emit(Lg, rec, small):
     asm += ['']
     asm += wrap_expr('theorem sjsu_allH :', '(sjsuMons.all fun m => (sjsuHD.hIdx m).isEmpty || '
                      'sjsuHD.hBlock m (sjsuHp m)) = true := by')
-    asm += wrap_expr('  simp only [sjsuMons, List.all_cons, List.all_nil, Bool.and_true,', hb_names + ']', '    ')
+    # sjsuMons as a balanced tree of ascribed 8-element chunks: simp over the 220-element cons list
+    # (List.all_cons) exceeds the default maximum recursion depth
+    mchunks = ['([' + ', '.join(tri(m) for m in mons[k:k + 8]) + '] : List (Nat × Nat × Nat))'
+               for k in range(0, len(mons), 8)]
+    asm += wrap_expr('  rw [show sjsuMons =', bal(mchunks) + ' from by decide +kernel]', '    ')
+    asm += wrap_expr('  simp only [List.all_append, List.all_cons, List.all_nil, Bool.and_true,', hb_names + ']',
+                     '    ')
     asm += ['', '/-- Every `h` monomial of the ledger has a nonempty block. -/',
             'theorem sjsu_hIdx_ne : ∀ t ∈ sjsuMons, sjsuHD.hIdx t ≠ [] := by',
             '  have h : (sjsuMons.all fun m => !(sjsuHD.hIdx m).isEmpty) = true := by decide +kernel',
