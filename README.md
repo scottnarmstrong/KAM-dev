@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-07 14:40 UTC** (automatic: every 20 minutes and after every commit) · **frozen statements proved: 75 / 76** · **3,933,715 lines of hand-written Lean** (plus 4,097,429 lines of generated certificate data) · **in progress:** SJSU gate 2 90 %, LG00 (side) 97 %, HD 11964 (side) 51 %, Magnetic barrier (proof open); every other subproject is complete. Details: [progress by subproject](#progress-by-subproject).
+> **Last updated: 2026-11-07 15:00 UTC** (automatic: every 20 minutes and after every commit) · **frozen statements proved: 75 / 76** · **3,933,715 lines of hand-written Lean** (plus 4,097,429 lines of generated certificate data) · **in progress:** SJSU gate 2 90 %, LG00 (side) 97 %, HD 11964 (side) 51 %, Magnetic barrier (proof open); every other subproject is complete. Details: [progress by subproject](#progress-by-subproject).
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -407,7 +407,7 @@ The original project is divided into 52 work items: planning deliverables, campa
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-07 14:40 UTC from `main` at `9ea7bf8fa` by `scripts/hq-status.py`.*
+*Generated 2026-11-07 15:00 UTC from `main` at `8e8ca80d6` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
