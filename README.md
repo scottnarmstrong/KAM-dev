@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-07 13:51 UTC** (automatic: every 20 minutes and after every commit) · **frozen statements proved: 75 / 76** · **3,933,715 lines of hand-written Lean** (plus 4,097,429 lines of generated certificate data) · **in progress:** SJSU gate 2 90 %, LG00 (side) 97 %, HD 11964 (side) 51 %, Magnetic barrier (proof open); every other subproject is complete. Details: [progress by subproject](#progress-by-subproject).
+> **Last updated: 2026-11-07 13:56 UTC** (automatic: every 20 minutes and after every commit) · **frozen statements proved: 75 / 76** · **3,933,715 lines of hand-written Lean** (plus 4,097,429 lines of generated certificate data) · **in progress:** SJSU gate 2 90 %, LG00 (side) 97 %, HD 11964 (side) 51 %, Magnetic barrier (proof open); every other subproject is complete. Details: [progress by subproject](#progress-by-subproject).
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -278,22 +278,22 @@ Everything together: **97.6 %** · the original project (tracks K, I, N, P, with
 | Track K | Positive-measure KAM for nearly-integrable analytic Hamiltonians, complement ≤ C·ε^{1/4} | 5 / 5 sealed | `██████████` 100 % | [what is proved](docs/results/K.md) |
 | Track I | Isoenergetic KAM; all-time confinement in two degrees of freedom; restricted circular planar three-body problem | 4 / 4 sealed | `██████████` 100 % | [what is proved](docs/results/I.md) |
 | Track N | Nekhoroshev stability for quasi-convex Hamiltonians, exponents 1/(2n) | 6 / 6 sealed | `██████████` 100 % | [what is proved](docs/results/N.md) |
-| Track P | Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun; AMD and secular-box safety | 7 / 7 sealed | `██████████` 100 % | *being written* |
+| Track P | Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun; AMD and secular-box safety | 7 / 7 sealed | `██████████` 100 % | [what is proved](docs/results/P.md) |
 | **Extensions of the theory** | | | | |
-| Track R | Rüssmann's KAM theorem under weak non-degeneracy | 1 / 1 sealed | `██████████` 100 % | *being written* |
+| Track R | Rüssmann's KAM theorem under weak non-degeneracy | 1 / 1 sealed | `██████████` 100 % | [what is proved](docs/results/R.md) |
 | Track W | PDE KAM: quasi-periodic solutions of the cubic wave equation (Pöschel 1996) | 1 / 1 sealed | `██████████` 100 % | [what is proved](docs/results/W.md) |
-| Track LP | Below the sharp Laskar–Petit AMD threshold the (1+n)-body problem has no orbit crossing for an exponentially long time, whatever its secular dynamics | 41 / 41 sealed | `██████████` 100 % | *being written* |
-| Track B | Finite-time effective stability from a normal form; the Hénon–Heiles system confined | 3 / 3 sealed | `██████████` 100 % | *being written* |
+| Track LP | Below the sharp Laskar–Petit AMD threshold the (1+n)-body problem has no orbit crossing for an exponentially long time, whatever its secular dynamics | 41 / 41 sealed | `██████████` 100 % | [what is proved](docs/results/LP.md) |
+| Track B | Finite-time effective stability from a normal form; the Hénon–Heiles system confined | 3 / 3 sealed | `██████████` 100 % | [what is proved](docs/results/B.md) |
 | **Certified numerics: the Moon** | | | | |
-| SO part 1 | A general Lean checker that turns numerical KAM tori into theorems | ordinary theorems | `██████████` 100 % | *being written* |
-| SO part 2 | The Moon's spin rate stays within 2.755 % of its orbital rate for all time | 3 / 3 sealed | `██████████` 100 % | *being written* |
-| SO part 3 | The Moon is locked in synchronous rotation forever | 4 / 4 sealed | `██████████` 100 % | *being written* |
+| SO part 1 | A general Lean checker that turns numerical KAM tori into theorems | ordinary theorems | `██████████` 100 % | [what is proved](docs/results/SO-1.md) |
+| SO part 2 | The Moon's spin rate stays within 2.755 % of its orbital rate for all time | 3 / 3 sealed | `██████████` 100 % | [what is proved](docs/results/SO-2.md) |
+| SO part 3 | The Moon is locked in synchronous rotation forever | 4 / 4 sealed | `██████████` 100 % | [what is proved](docs/results/SO-3.md) |
 | **Certified numerics: planetary systems** | | | | |
-| SJSU gate 2 | The secular Sun–Jupiter–Saturn–Uranus model keeps its eccentricities in fixed bands for 5·10⁹ years | proved; freeze approved (D76), in progress | `█████████░` 90 % | *being written* |
-| LG00 (side) | A kernel-checked KAM torus of a secular Sun–Jupiter–Saturn model | side project, not frozen | `██████████` 97 % | *being written* |
-| HD 11964 (side) | No orbit crossing for a fixed time in the HD 11964 exoplanet system | side project, not frozen | `█████░░░░░` 51 % | *being written* |
+| SJSU gate 2 | The secular Sun–Jupiter–Saturn–Uranus model keeps its eccentricities in fixed bands for 5·10⁹ years | proved; freeze approved (D76), in progress | `█████████░` 90 % | [what is proved](docs/results/SJSU.md) |
+| LG00 (side) | A kernel-checked KAM torus of a secular Sun–Jupiter–Saturn model | side project, not frozen | `██████████` 97 % | [what is proved](docs/results/LG00.md) |
+| HD 11964 (side) | No orbit crossing for a fixed time in the HD 11964 exoplanet system | side project, not frozen | `█████░░░░░` 51 % | [what is proved](docs/results/HD11964.md) |
 | **Frozen, proof open** | | | | |
-| Magnetic barrier | An invariant surface that no field line of a model magnetic field crosses | 0 / 1 sealed | — | *being written* |
+| Magnetic barrier | An invariant surface that no field line of a model magnetic field crosses | 0 / 1 sealed | — | [what is proved](docs/results/Magnetic.md) |
 
 <details><summary>How each meter is computed</summary>
 
@@ -407,7 +407,7 @@ The original project is divided into 52 work items: planning deliverables, campa
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-07 13:51 UTC from `main` at `9d0f07ee7` by `scripts/hq-status.py`.*
+*Generated 2026-11-07 13:56 UTC from `main` at `53d636e87` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, every node of graphs K, I, N and P is resolved, and track R (Rüssmann's theorem) is sealed too. Now, track SO (D30, D42): part 2 is PROVED, FROZEN AND SEALED, the Moon's spin rate stays within 2.755 % of its orbital rate for all time (on main since 2026-10-31 08:18), and it is frozen and sealed (D49, D50; SO-FREEZE3 landed 2026-10-31, `ceeb106c`); part 3, the Moon locked in synchronous rotation forever, has all its Lean packages on main, and its certificate data are being emitted and kernel-checked. Track W (PDE KAM) resumed at reduced size beside SO-3 on 2026-10-31 (D53); its source dependency graph is published. Track LP (D56, top priority since 2026-11-01): strong-AMD exponential safety, the Laskar–Petit conjecture made rigorous (chaotic but collision-free planetary systems); audited paper proof, Lean wave 1 under way.
 
@@ -463,7 +463,7 @@ by a separate agent on its own branch:
 | **[SO-1](docs/results/SO-1.md)** | Track SO, part 1: a general Lean certificate checker turning numerical KAM tori into theorems | — (ordinary theorems) | — | **complete**: the checker and its soundness theorem (`checkTorusCertificate_sound`, through the sealed isoenergetic theorem), the sharp certifier (D36), the toy certificates, and the kernel-scale fixes SO-PACKFIX (D34), SO-BALLDY/SO-BALLFIX and SO-KDEPTH (D39), SO-KDEPTH2 (log-depth jet compiler) and SO-CSPLIT's segmented-proof core; the Moon uses the v2 certifier `checkTorusCertificateV2` (D44) |
 | **[SO-2](docs/results/SO-2.md)** | Track SO, part 2: the Moon's spin rate stays within 2.755 % of its orbital rate for all time (N = 65; proved 2026-10-31) | 3 / 3 | — | **proved** on main since 2026-10-31 08:18 (SO-DATA3, `7adca9fc`): `lunar_barriers_65_v2` and `lunar_spin_confinement_65_v2`, band 2.755 % (D47), window 0.9934 < p₀ < 1.0066, kernel-checked through the v2 certifier with standard axioms only; frozen (D49) and SEALED (D50) on main since 2026-10-31 14:10 (SO-FREEZE3, `ceeb106c`; seal audit PASS WITH NOTES): `KAM.SpinOrbit.lunar_barriers`, `lunar_spin_confinement`, `lunarPLo_lt_lunarPHi` |
 | **[SO-3](docs/results/SO-3.md)** | Track SO, part 3: the Moon locked in synchronous rotation forever (one librational torus around a certified synchronous orbit; D42, D45) | 4 / 4 | — | every Lean package on main (LOCK-PO, LOCK-CONF, LOCK-COORDS-R/C, LOCK-SQRT, assembly part 1, LOCK-GRAPH); freeze of `lunar_sync_lock` approved (D49); the N = 65 librational certificate (73.8°) passes every check in the exact mirror; kernel runs and data emission in progress (about 158 MB after compaction; owner ruling on the size pending); then the headline, a one-line application, and the seal |
-| **LG00** | Side project: a kernel-checked KAM torus of Locatelli–Giorgilli's secular Sun–Jupiter–Saturn model (first formally verified torus of a planetary model; v2 certifier) | 0 / 0 | — | 97 %: done: scout: model, torus, thresholds, cost; Diophantine lemmas for the frequency directions (Lean); certificate-data generator and exact dry run; pilot: kernel cost measured on representative shards; kernel certificate of a torus in LG00's Γ′ family and the closed theorem; T′ at the exact energy of LG00's initial point (re-solve and re-certify); second torus T″ (confinement between two tori); confinement theorem in Lean (the real orbit trapped forever between T′ and T″); now: independent audit and separate repository (50 %) |
+| **[LG00](docs/results/LG00.md)** | Side project: a kernel-checked KAM torus of Locatelli–Giorgilli's secular Sun–Jupiter–Saturn model (first formally verified torus of a planetary model; v2 certifier) | 0 / 0 | — | 97 %: done: scout: model, torus, thresholds, cost; Diophantine lemmas for the frequency directions (Lean); certificate-data generator and exact dry run; pilot: kernel cost measured on representative shards; kernel certificate of a torus in LG00's Γ′ family and the closed theorem; T′ at the exact energy of LG00's initial point (re-solve and re-certify); second torus T″ (confinement between two tori); confinement theorem in Lean (the real orbit trapped forever between T′ and T″); now: independent audit and separate repository (50 %) |
 | **[HD11964](docs/results/HD11964.md)** | Side project: no orbit crossing for a fixed time T (first rung 10³ years) in the planar Newtonian model of the HD 11964 planetary system (star and two planets, catalogue data), by certified drift of the semi-major-axis actions and the LP0 barrier | 0 / 0 | — | 51 %: done: data, design and numerical gate; Λ-drift bridge and no-crossing theorem for planar systems (Lean); order-2 Lie remainder identity and Poisson calculus (Lean); region-fitted cover of the certificate region (numerics and Lean); packed Taylor x Fourier kernel layer and one-cell gate; now: remaining kernel pieces and a two-cell rehearsal (20 %) |
 <!-- /AUTO:tracks -->
 
@@ -634,6 +634,8 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-07 13:56 | `53d636e87` | docs/results: plain-language accounts of exactly what each subproject proves |
+| 2026-11-07 13:54 | `976ecc95e` | HQ: one progress table by subproject, with links to plain-language results |
 | 2026-11-07 12:00 | `6c4445f0a` | HQ meter: credit the T2-CONF checker stage by the landed proof (checkTube_sound was superseded by the bracket/drop checkers) |
 | 2026-11-07 11:28 | `f9a5f9548` | Land inp into main |
 | 2026-11-07 03:25 | `c389fa3aa` | Land inp into main |
