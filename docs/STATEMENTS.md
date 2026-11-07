@@ -4,7 +4,7 @@
 
 Every statement below is an exact Lean declaration that the owner approved before its proof was written. Each lives alone in its own file under `KAM/Frozen/`, and the manifest pins its bytes. A sealed theorem has a complete proof, assembled in a separate provider module, replayed by the kernel, and using only the standard axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
-**76 frozen theorems, 75 sealed; 243 frozen definitions.**
+**77 frozen theorems, 76 sealed; 252 frozen definitions.**
 
 ## Index
 
@@ -15,7 +15,7 @@ Every statement below is an exact Lean declaration that the owner approved befor
 - **Track R: Rüssmann's KAM theorem (weak non-degeneracy):** [`russmann_kam`](#russmann_kam)
 - **Track W: PDE KAM (cubic wave equation):** [`nlw2`](#nlw2)
 - **Track SO: the Moon's spin rate and synchronous lock (certified tori):** [`lunar_barriers`](#lunar_barriers) · [`lunar_spin_confinement`](#lunar_spin_confinement) · [`lunarPLo_lt_lunarPHi`](#lunarplo_lt_lunarphi) · [`lunarSyncOrbit_spec`](#lunarsyncorbit_spec) · [`lunarSyncOrbit_unique`](#lunarsyncorbit_unique) · [`lunarSyncOrbit_bound`](#lunarsyncorbit_bound) · [`lunar_sync_lock`](#lunar_sync_lock)
-- **Track B: finite-time effective stability (and SJSU gate 2):** [`torus_confinement`](#torus_confinement) · [`oscillator_confinement`](#oscillator_confinement) · [`henonHeiles_confinement`](#henonheiles_confinement)
+- **Track B: finite-time effective stability (and SJSU gate 2):** [`torus_confinement`](#torus_confinement) · [`oscillator_confinement`](#oscillator_confinement) · [`henonHeiles_confinement`](#henonheiles_confinement) · [`sjsu_secular_confinement`](#sjsu_secular_confinement)
 - **Magnetic field-line barrier (proof open):** [`magnetic_barrier`](#magnetic_barrier)
 
 ## Track K: positive-measure KAM
@@ -1054,6 +1054,30 @@ The Moon stays locked in synchronous rotation forever.
 - **Source:** program-b-plan §4 'A first instance with literal acceptance criteria' (HH); CL20 Appendix B
 - **Proof assembled in:** `KAM.Provider.EffectiveStability.HenonHeilesConfinement`
 - **Manifest ID:** `effectiveStability.d73.henonHeiles_confinement.v1`
+
+### sjsu_secular_confinement
+
+[`KAM.EffectiveStability.sjsu_secular_confinement`](../KAM/Frozen/EffectiveStability/SJSU/SecularConfinement.lean#L42) · ✅ proved and sealed
+
+**SJSU secular confinement** (T2-CONF, D74/D75; `docs/explorations/sjs-rigor-plan.md` §1.1): for every initial state within `10⁻⁶` (sup norm in `(ξ, η)`) of the nominal secular state (SLG13 Table 1 read as Poincaré elements and mapped to secular variables, `applications/sjsu/validation/ table2_map_poincare_order1.json`), `SJSU18-O2` has a solution on `(-T₁, T₁)` with `T₁ > 5·10⁹` yr, unique among solutions on intervals through `0`, along which for `|t| ≤ 5·10⁹` yr the fixed-reference secular-model eccentricities of Jupiter, Saturn and Uranus, `e_j = √(1 - (1 - Γ_j/Λ*_j)²)` with `Γ_j = (ξ_j² + η_j²)/2` and the dataset's reference actions `Λ*_j` (at `L = 0`), stay in `[0.026, 0.062]`, `[0.009, 0.085]` and `[0.006, 0.063]`. Nothing is asserted about the osculating elements of the full planetary problem.
+
+- **Source:** § "The theorem" (T2-CONF; docs/explorations/sjs-rigor-plan.md §1.1)
+- **Proof assembled in:** `KAM.Provider.EffectiveStability.SJSUSecularConfinement`
+- **Manifest ID:** `effectiveStability.d76.sjsu_secular_confinement.v1`
+
+<details><summary>Frozen definitions of this track (9)</summary>
+
+- [`KAM.EffectiveStability.sjsuTerm`](../KAM/Frozen/EffectiveStability/SJSU/SJSUTerm.lean#L25)
+- [`KAM.EffectiveStability.sjsu18O2Part0`](../KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part0.lean#L25)
+- [`KAM.EffectiveStability.sjsu18O2Part1`](../KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part1.lean#L25)
+- [`KAM.EffectiveStability.sjsu18O2Part2`](../KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part2.lean#L25)
+- [`KAM.EffectiveStability.sjsu18O2Part3`](../KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part3.lean#L25)
+- [`KAM.EffectiveStability.sjsu18O2Part4`](../KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part4.lean#L25)
+- [`KAM.EffectiveStability.sjsu18O2Part5`](../KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part5.lean#L25)
+- [`KAM.EffectiveStability.sjsu18O2Terms`](../KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Terms.lean#L29)
+- [`KAM.EffectiveStability.sjsu18O2`](../KAM/Frozen/EffectiveStability/SJSU/SJSU18O2.lean#L27)
+
+</details>
 
 ## Magnetic field-line barrier (proof open)
 
