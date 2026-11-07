@@ -63,6 +63,19 @@ Build driver: `scripts/sjsu/ledger/build_ledger.py` (part 4); ordered module lis
      maximum recursion depth: `sjsuMons` is now rewritten (`decide +kernel`) as a balanced tree of
      ascribed 8-element chunks before the simp.
   `H.Asm0` 18 s, `Asm1` 41 s, `Asm2` 46 s, `Asm3` 2.3 s, `H.Main` 3.9 s on g2heavy (peak RSS ≤ 2.4 GB).
+- **Br stage memory (design signal: kernel memory accumulates within a module).** Measured under the 10 GB
+  cap (`lake env lean`): one certificate declaration 5.3 GB, ten 7.9 GB, i.e. about +0.3 GB per declaration
+  over an import baseline of about 4.8 GB (a module build has about 1.9 GB less baseline). The first emission's
+  `Br.Cert0` (142 declarations, cut at 600 lines) was OOM-killed at the cap: `br.py` now emits one certificate
+  declaration per module (`BR_CERT_PER`, default 1; 157 `Cert` modules, declarations unchanged, checked by digest).
+  `Br.Drop0` (one `dropCheck` declaration over all 87 entries of `Ftab 0`) was OOM-killed too: new core file
+  `Engine/DropChunk.lean` (`dropSum_append`, `dropCheckC`, `dropCheck_of_chunks`; committed and audited
+  separately by kam-g2) and `br.py`'s `drop_chunks` (exact per-chunk sums in `Ftab` order, chunk claims rounded
+  up to 64-bit dyadics, asserted `Σ claims ≤ sjsuDrop j`, so `Prm` and the P modules are unchanged):
+  `DropD` (`brDc`), 70 `DropC<j>_<k>` (4 entries each; an 8-entry chunk peaked at 7.9 GB in scratch) and
+  `Drop<j>` proving the same `brdrop_j`. Finally `Br.Main`'s list-length facts (`brH_len`, `brF_len_j`) and the
+  length argument of `dropCheck_of_chunks` use `decide +kernel` (the elaborator's `decide` on the 220-element
+  `sjsuMons` hit the maximum recursion depth).
 - **Worst chunk** `Br.P497` (`j = 1`, `p = (3,2,3)`, `k = 0`) on the heavy lane (`g2heavy`): the module 16 s,
   call wall 48 s (with a `Prm` rebuild, 11 s), **peak RSS 5.98 GB** (budget 7.4 GB), rc 0.
 - **Build driver (design signal: the D51 driver does not scale to 4.4k modules).** `prebuild_heavy.py --lib KAMSJSU`
@@ -94,7 +107,26 @@ Build driver: `scripts/sjsu/ledger/build_ledger.py` (part 4); ordered module lis
 
 ## Checks
 
-(to be filled with the build outputs, `#print axioms`, timings)
+Production build (`kamsjsu-ledger.service`, driver `build_ledger.py`, 7 Nov 01:38–05:42 UTC after the fixes above;
+H checks 6 Nov 21:41–7 Nov 01:30; final `Br.Main` on g2heavy). Per family (lake's wall per module; peak = the
+lean process's VmHWM, which includes mmapped olean pages and so exceeds the cgroup's anonymous memory: no module
+was OOM-killed after the fixes):
+
+| family | built | wall total | mean | peak VmHWM |
+|---|---|---|---|---|
+| H.Check | 650 (+2 earlier) | 3.65 h | 20.2 s | 11.3 GB (Check231; anon < 10 GB cap) |
+| H.Asm0–3, H.Main | 5 | 1.5 min | | ≤ 2.4 GB |
+| Br.Cert | 157 | 0.24 h | 5.6 s | 4.7 GB |
+| Br.DropC / DropD / Drop | 70 / 1 / 3 | 0.40 h | 21.5 s | 4.5 GB |
+| Br.P | 875 | 2.51 h | 10.4 s | 6.2 GB (P869) |
+| Br.Q, Ps, Main | 4 / 1 / 1 | 6 min | | 3.3 GB |
+
+Total built-module wall about 6.9 h (the 1271 + 1318 literal modules were built earlier). Ledger source:
+`Ledger/H` 156 MB (2095 modules), `Ledger/Br` 119 MB (2386 modules), `Ledger/F` 1 MB.
+
+Axioms (`#print axioms`, `.drafts/g2/g2lake env lean`): `sjsu_G_bound`, `sjsu_drop_bound`, `sjsu_hcerts`,
+`sjsu_hIdx_ne`, `brAllC_sound`, `brChunks_sound`, `dropCheck_of_chunks`: `[propext, Classical.choice, Quot.sound]`.
+`sjsu_drop_bound j : (∀ l, |u l| ≤ ↑(2 / 1000000)) → ∀ φ, |Σ_{8 < mdeg} …| ≤ ↑(sjsuDrop ↑j)`.
 
 ## Deviations and process notes
 
