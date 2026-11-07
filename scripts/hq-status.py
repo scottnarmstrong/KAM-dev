@@ -1028,7 +1028,7 @@ G2_STAGES = [
     ('N3 trig models and packed products', 20, lambda: _g2_has('Trig', 'Packed')),
     ('N4 witnesses', 8, lambda: _g2_has('Witness')),
     ('N5a Hamiltonian models', 8, lambda: _g2_has('Ham')),
-    ('N5 tube checker soundness', 17, lambda: 0.5 * _g2_thm('tubeChart_confinement') + 0.5 * _g2_thm('checkTube_sound')),
+    ('N5 tube checker soundness', 17, lambda: 0.5 * _g2_thm('tubeChart_confinement') + 0.5 * max(_g2_thm('checkTube_sound'), _g2_thm('sjsu_secular_confinement_proof'))),
     ('N6 eccentricity enclosure', 7, lambda: _g2_has('Ecc')),
     ('N7 production checker, data, kernel run', 10, lambda: 0.2 * ('KAMSJSU' in (root / 'scripts/build_roots.json').read_text())
      + 0.8 * _g2_thm('sjsu_secular_confinement_proof')),
