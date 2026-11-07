@@ -1,10 +1,12 @@
 # Five billion years of confinement in a secular Sun–Jupiter–Saturn–Uranus model (SJSU gate 2, T2-CONF)
 
-**Status:** proved; freeze and seal in progress (2026-11-07) · proved theorem
-`KAM.EffectiveStability.SJSU.sjsu_secular_confinement_proof` (on `main` since 2026-11-07) · approved frozen statement
-`KAM.EffectiveStability.sjsu_secular_confinement` with data `KAM.EffectiveStability.sjsu18O2` (D76; staged on branch
-`inp-sjsu-g2`, not yet on `main`) · axioms of the proved theorem: standard only (`propext`, `Classical.choice`,
-`Quot.sound`)
+**Status:** proved, frozen and sealed (2026-11-07, D76; landed in `355b02da5`) · frozen theorem
+`KAM.EffectiveStability.sjsu_secular_confinement`
+([`KAM/Frozen/EffectiveStability/SJSU/SecularConfinement.lean`](../../KAM/Frozen/EffectiveStability/SJSU/SecularConfinement.lean))
+with frozen data `KAM.EffectiveStability.sjsu18O2` · axioms: standard only (`propext`, `Classical.choice`,
+`Quot.sound`) · independent kernel replay: core library and 192 of 194 hand-written SJSU modules done; the generated
+certificate data and the modules `Ham.HtBridgeInst` and `Ham.Hw` (over 16 GB each) are pending on the 64-core
+workstation (all were kernel-checked when built)
 
 ## In brief
 
@@ -17,7 +19,7 @@ intervals. It is a theorem about this truncated secular model, not about the ful
 
 ## Exactly what is proved
 
-Lean: [`sjsu_secular_confinement_proof`](../../KAM/EffectiveStability/SJSU/Confinement/Proof.lean). The approved frozen
+Lean: [`sjsu_secular_confinement_proof`](../../KAM/EffectiveStability/SJSU/Confinement/Proof.lean). The frozen and sealed
 statement `sjsu_secular_confinement` has the same type (the Lean expressions are checked equal; the proved copy is only
 reflowed to 100 columns). Its text is in
 [`docs/explorations/sjsu-g2-t2conf-proposal.md`](../explorations/sjsu-g2-t2conf-proposal.md); at the freeze it goes to
