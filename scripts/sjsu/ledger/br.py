@@ -13,7 +13,7 @@ The packing width w satisfies 2 BX < 2^w and BX < 2^(w - 16) (load level w - 16)
 Writes under KAM/EffectiveStability/SJSU/Ledger/Br (Ledger/Small/Br with --small, plus small F data):
   Lit<k>    the literal copies and derivative literals
   Prm       brPb, brPd, brPc, brPcd, the literal tables, brD j, brInH, sjsuG
-  Cert<k>   the certificate checks (fCheck, dCheck, ok, symDigOk), in chunks
+  Cert<k>   the certificate checks (fCheck, dCheck, ok, symDigOk), in chunks, one declaration per module
   P<k>      one kept-coefficient check per module (heavy: 10 GB lane, one thread)
   Main      the assembly: brD_ok j, br_all j, sjsu_G_bound
 Usage: python3 br.py [--small] [--L 8] [--emit-only]
@@ -43,6 +43,8 @@ from poly import Poly, mul  # noqa: E402
 R0 = Fr(2, 10 ** 6)
 WC = 96        # certification width
 CHUNK = 8      # certificate chunk
+DCH = int(__import__("os").environ.get("BR_DCH", "4"))  # entries of Ftab j per dropped-part chunk
+CERT_PER = int(__import__("os").environ.get("BR_CERT_PER", "1"))  # certificate declarations per module
 MCH = int(__import__("os").environ.get("BR_MCH", "100"))  # terms per kept-coefficient chunk (about 7 GB at 100)
 
 
@@ -210,6 +212,43 @@ def drop(Fs, dF, H, nH, Cb, L, r=R0):
     return out
 
 
+def drop_chunks(R, m, bits=64, r=R0):
+    """The exact dropSum of each chunk of m consecutive entries of Ftab j (sorted order, as Ledger/F),
+    the dyadic chunk claims (rounded up) and a check that they sum to at most sjsuDrop j = R['D'][j]."""
+    Fs, dF, nH, Cb, L, Hq = R['Fs'], R['dF'], R['nH'], R['Cb'], R['L'], R['Hq']
+    Ht = sorted(Hq)
+    out = []
+    for j, Fj in enumerate(Fs):
+        ents = sorted(Fj)
+        sums = []
+        for k in range(0, len(ents), m):
+            tot = Fr(0)
+            for a in (0, 1):
+                for s in ents[k:k + m]:
+                    q, mant = Fj[s]
+                    for kind in (False, True):
+                        fF = abs(q) * sum(abs(x) for x in (dF[j][(s, a)] if kind else mant).values())
+                        acc = Fr(0)
+                        for t in Ht:
+                            dd = sum(s) + sum(t)
+                            if not L + 2 <= dd:
+                                continue
+                            fH = abs(Hq[t]) * (nH[t] if kind else Cb * nH[t])
+                            c = Fr(0)
+                            for sh in (False, True):
+                                coef = (s[a] if not sh else -s[2]) if not kind else (-t[a] if not sh else t[2])
+                                c += abs(coef) * r ** (dd - 1)
+                            acc += fH * c
+                        tot += fF * acc
+            sums.append(tot)
+        claims = [up_dyadic(x, bits) for x in sums]
+        D = Fr(R['D'][j][0], 1 << R['D'][j][1])
+        assert up_dyadic(sum(sums)) == tuple(R['D'][j]), ('drop total', j)
+        assert sum(Fr(c, 1 << e) for c, e in claims) <= D, ('drop chunk claims exceed sjsuDrop', j)
+        out.append(claims)
+    return out
+
+
 class LM:
     """the shape lit_lines expects"""
 
@@ -373,15 +412,21 @@ def emit(R, small):
         cert += ['  decide +kernel', '']
     for j in range(3):
         cert += [f'theorem brc_fok_{j} : ((Ftab {j}).all fun i => i.2.ok brPb.S) = true := by decide +kernel', '']
-    certmods, cur = [], []
+    # CERT_PER declarations per module: the kernel's memory grows by about 0.3 GB per certificate
+    # declaration within a module, over an import baseline of about 4.8 GB (measured: 1 decl 5.3 GB, 10 decls
+    # 7.9 GB; the 142-declaration module of the first emission was OOM-killed at the 10 GB cap)
+    blocks, cur = [], []
     for line in cert:
         cur.append(line)
-        if len(cur) > 600 and line == '':
-            certmods.append(md.write(f'Cert{len(certmods)}', [prm, f'{hroot}.Main'],
-                                     '# Bracket certificates (generated)', cur))
+        if line == '':
+            blocks.append(cur)
             cur = []
-    certmods.append(md.write(f'Cert{len(certmods)}', [prm, f'{hroot}.Main'],
-                             '# Bracket certificates (generated)', cur))
+    if cur:
+        blocks.append(cur)
+    certmods = []
+    for k in range(0, len(blocks), CERT_PER):
+        certmods.append(md.write(f'Cert{len(certmods)}', [prm, f'{hroot}.Main'],
+                                 '# Bracket certificates (generated)', sum(blocks[k:k + CERT_PER], [])))
     # ---- the kept coefficients: one module per check
     pmods = []
     for j in range(3):
@@ -407,7 +452,7 @@ def emit(R, small):
            '    simpa using List.all_eq_true.mp h2 t hm',
            '  · intro h',
            '    exact List.all_eq_true.mp h1 t h', '',
-           f'theorem brH_len : sjsuMons.length ≤ {CHUNK} * {nH} := by decide', '',
+           f'theorem brH_len : sjsuMons.length ≤ {CHUNK} * {nH} := by decide +kernel', '',
            'theorem brH_ok : (sjsuMons.all fun t => (sjsuHD.H t).ok brPb &&',
            '    symDigOk (sjsuHD.H t).par (sjsuHD.H t).C brPb.b (sjsuHD.H t).X) = true := by',
            '  refine all_of_chunks _ _ brH_len fun k hk => ?_',
@@ -420,7 +465,7 @@ def emit(R, small):
     asm += wrap_expr('  exacts [', ', '.join(f'brc_dh_{k}' for k in range(nH)) + ']', '    ')
     asm += ['']
     for j in range(3):
-        asm += [f'theorem brF_len_{j} : (Ftab {j}).length ≤ {CHUNK} * {nF[j]} := by decide', '',
+        asm += [f'theorem brF_len_{j} : (Ftab {j}).length ≤ {CHUNK} * {nF[j]} := by decide +kernel', '',
                 f'theorem brD_ok_{j} : (brD {j}).Ok (Ftab {j}) sjsuMons := by',
                 '  refine BrD.ok_of (Pc := brPc) (Pcd := brPcd) rfl rfl rfl rfl (by decide) (by decide) rfl rfl',
                 '    ?_ ?_ (List.all_eq_true.mp brH_ok) (List.all_eq_true.mp brdH_ok)',
@@ -478,13 +523,32 @@ def emit(R, small):
         asm += [f'  · exact brAllC_sound (D := brD {j}) (P0 := sjsuHD.P) br_all_{j} brMons_nodup brInH_iff',
                 f"      brD_ok_{j} Fprm.w rfl rfl p hp' φ"]
     # the dropped terms: one heavy module per observable
+    # the dropped part in chunks of DCH entries of Ftab j (Engine/DropChunk): one declaration over all of
+    # Ftab j needs more than 10 GB of kernel memory (OOM-killed at the cap); 8 entries 7.9 GB in scratch
+    dcl = drop_chunks(R, DCH)
+    lsts = ['([' + ', '.join(f'{c} / 2 ^ {e}' for c, e in dcl[j]) + '] : List ℚ)' for j in range(3)]
+    dd = ['/-- The claims of the chunks of the dropped part (dyadic, rounded up). -/']
+    dd += wrap_expr('def brDc (j k : ℕ) : ℚ :=',
+                    f'(if j = 0 then {lsts[0]} else if j = 1 then {lsts[1]} else {lsts[2]}).getD k 0')
+    ddmod = md.write('DropD', [prm, f'{hroot}.Main', 'KAM.EffectiveStability.Tube.Engine.DropChunk'],
+                     '# The dropped bracket terms: chunk claims (generated)', dd)
     dmods = []
     for j in range(3):
+        nc = len(dcl[j])
+        cm = []
+        for k in range(nc):
+            ls = wrap_expr(f'theorem brdropc_{j}_{k} :',
+                           f'dropCheckC brPb sjsuHD.H brNH (2 / 1000000) {L} (Ftab {j}) sjsuMons {DCH} {k} '
+                           f'(brDc {j} {k}) = true := by')
+            ls += ['  decide +kernel']
+            cm.append(md.write(f'DropC{j}_{k}', [ddmod], '# A chunk of the dropped bracket terms (generated)', ls))
         ls = [f'theorem brdrop_{j} : dropCheck brPb sjsuHD.H brNH (2 / 1000000) {L} (Ftab {j}) sjsuMons',
               f'    (sjsuDrop {j}) = true := by',
-              '  decide +kernel']
-        dmods.append(md.write(f'Drop{j}', [prm, f'{hroot}.Main', 'KAM.EffectiveStability.Tube.Engine.Drop'],
-                              '# The dropped bracket terms (generated)', ls))
+              f'  refine dropCheck_of_chunks (m := {DCH}) (n := {nc}) (Dc := brDc {j}) (by norm_num)',
+              '    (by decide +kernel) (fun k hk => ?_) (by decide +kernel)',
+              '  interval_cases k']
+        ls += wrap_expr('  exacts [', ', '.join(f'brdropc_{j}_{k}' for k in range(nc)) + ']', '    ')
+        dmods.append(md.write(f'Drop{j}', cm, '# The dropped bracket terms (generated)', ls))
     asm += ['', 'theorem brN_ok : (sjsuMons.all fun t => (sjsuHD.H t).ok brPb &&',
             '    (sjsuHD.H t).l1Check brPb (brNH t)) = true := by',
             '  refine all_of_chunks _ _ brH_len fun k hk => ?_',

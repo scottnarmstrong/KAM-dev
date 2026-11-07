@@ -672,20 +672,80 @@ theorem reducedBracket_hTilde_bound … :   -- see HSplit.lean
 - Rational row weights with `Monoid.npow` powers took 229 s at 5 GB. Fix: integer weights with power tables
   (14 s).
 
-**Waiting on.**
-- N7:
-  - `Ledger.H.{HData,Main}`: `sjsuHD`, `sjsuMons`, `sjsu_hcerts`;
-  - `Ledger.Br.Main`: `sjsu_G_bound`, `sjsu_drop_bound`, `sjsu_hIdx_ne`.
-- N5a-2: `SJSU.Ham.HtBridgeInst` (`sjsuHD_Ht_eq_hCoef`), which builds once N7's `HData` lands.
-- Once these land, the instance is plumbing into `reducedBracket_hTilde_bound` with these inputs:
-  - `Fl = Ftab j`; `Hl = sjsuMons`, enumerating `truncSet 9` (kernel checks);
-  - `hc = sjsuHD.Ht …`, `k = (H t).opd.eval`, `e₀`/`e₁` from `Hc`;
-  - `G`/`D` from N7;
-  - `Fd = FuMax_a + FuMax_2` and `Fp = FphiMax_a` (N8's `sjsu_hFu`/`hFφ`);
-  - `Ru`/`Rp` = `sjsuRu`/`sjsuRp`.
+- `#print axioms` of the TAIL part (`.drafts/g2/scratch/n5b/axioms4.out`): `[propext, Classical.choice,
+  Quot.sound]` for all 20 results.
 
-  Then `η_j` is a literal rational bounding `KEPT + DROP + ERR + TAIL` (KEPT and ERR evaluated in `ℚ`); this
-  yields `sjsu_hη`, `sjsu_hTη`, and `Proof.lean`.
-- `#print axioms` (`.drafts/g2/scratch/n5b/axioms4.out`): `[propext, Classical.choice, Quot.sound]` for all 20
-  new results.
+### N9 (C), done: the rate check and the T2-CONF theorem
 
+**Files (opt-in `KAMSJSU`, namespace `KAM.EffectiveStability.SJSU`):**
+
+| file | lines | content |
+|---|---:|---|
+| `SJSU/Check/Eta.lean` | 208 | `sjsuMons` enumerates `truncSet 9` (`sjsuMons_nodup`, `_mem`, `_cov`; kernel); `sjsuK`, `sjsuHc`, `sjsu_hcert` (N7's `sjsu_hcerts` + `sjsu_hIdx_ne`), `sjsu_hbr` (N5a-2's `sjsuHD_Ht_eq_hCoef`); the budgets `sjsuFdQ`, `sjsuFpQ`, `sjsuKeptQ`, `sjsuErrQ`, `sjsuTailQ` in `ℚ` with cast lemmas; **`sjsu_rate_le`**; `sjsuRateQ`, `sjsuRate_ok0..2` (kernel), `sjsuEta`, **`sjsu_hη`**, **`sjsu_hTη`** |
+| `SJSU/Confinement/Proof.lean` | 135 | `sjsu_hhd`, `sjsu_secular_confinement_of_N7`, `sjsu_secular_confinement_of_rate`, **`sjsu_secular_confinement_proof`** |
+
+```lean
+theorem sjsu_rate_le (j : Fin 3) (u : Fin 3 → ℝ) (φ : Fin 2 → ℝ) (hu : ∀ l, |u l| ≤ 2 / 10 ^ 6) :
+    |reducedBracket (sjsuObs j) (sjsuHTilde sjsuB) (u, φ)| ≤
+      ((sjsuKeptQ j + sjsuDrop j + sjsuErrQ j + sjsuTailQ j : ℚ) : ℝ)
+
+def sjsuRateQ : Fin 3 → ℚ := ![6 / 10 ^ 19, 23 / 10 ^ 19, 22 / 10 ^ 19]
+noncomputable def sjsuEta (j : Fin 3) : ℝ := ((sjsuRateQ j : ℚ) : ℝ)
+
+theorem sjsu_hη : ∀ j u φ, (∀ l, |u l| ≤ 2 / 10 ^ 6) →
+    |reducedBracket (sjsuObs j) (sjsuHTilde sjsuB) (u, φ)| ≤ sjsuEta j
+theorem sjsu_hTη : ∀ j, 5 * 10 ^ 9 * sjsuEta j < 1 / 10 ^ 6 / 2
+
+theorem sjsu_secular_confinement_proof … :=   -- the v2 text, reflowed to 100 columns
+  sjsu_secular_confinement_of_rate (η := sjsuEta) sjsu_hη sjsu_hTη z₀ hz₀
+```
+
+**Approach.** `sjsu_rate_le` is `reducedBracket_hTilde_bound` (N9 (C) core) with:
+- `Fl = Ftab j`, `Hl = sjsuMons` (`L = 9`);
+- `hc = sjsuHD.Ht sjsuHD.Tt sjsuHD.Pt`, `k = ((sjsuHD.H t).opd sjsuHD.P).eval sjsuHD.P.S`, and
+  `e₀`/`e₁` from `sjsuHD.Hc`;
+- `L' = 8`, `G = sjsuG j`, `D = sjsuDrop j` (N7);
+- `Fd_a = FuMax_a + FuMax_2` (by `|x − y| ≤ |x| + |y|`) and `Fp_a = FphiMax_a` (N8);
+- `Ru = sjsuRu`, `Rp = sjsuRp` (`sjsu_hRem_bounds`), and `r = sjsuTailR = 2·10⁻⁶`.
+
+The real budgets `bracketKept`/`Err`/`Tail` are identified with the casts of the rational ones
+(`sjsu_kept_cast` via `sum_truncSet_fin3`, `sjsu_err_cast`, `sjsu_tail_cast`).
+
+**Values** (`#eval`, `.drafts/g2/scratch/n5b/EtaEval.lean`; units of `10⁻²²`, rounded up):
+
+| `j` | KEPT | DROP | ERR | TAIL | sum | `η_j` |
+|---|---:|---:|---:|---:|---:|---:|
+| 0 | 1718 | 168 | 1 | 3960 | 5846 | 6000 |
+| 1 | 17565 | 226 | 1 | 4339 | 22129 | 23000 |
+| 2 | 17188 | 339 | 1 | 3441 | 20968 | 22000 |
+
+`T η_j ≤ 5·10⁹ · 2.3·10⁻¹⁸ ≈ 1.2·10⁻⁸`, against `δ/2 = 5·10⁻⁷` (a factor of about 40 to spare).
+
+**Checks run** (all through `.drafts/g2/g2lake`, one at a time):
+- `build KAM.EffectiveStability.SJSU.Check.Eta`: success; the three kernel checks `sjsuRate_ok0..2`
+  plus the module took 48 s wall, 4.4 GB peak (under the 6 GB cap);
+- `build KAM.EffectiveStability.SJSU.Confinement.Proof`: "Build completed successfully (13866 jobs)",
+  60 s wall; no warnings in either file; no line over 100 columns;
+- `env lean .drafts/g2/scratch/n5b/ProofCheck.lean` (output `axioms-n9c.out`): elaborates the verbatim
+  v2 text (`.drafts/g2/freeze/gen/v2/stmt.txt`) as `v2check := sjsu_secular_confinement_proof z₀ hz₀`
+  and compares the types with `==`: **`EXPR-EQUAL: reflowed statement == v2 text`**;
+- `#print axioms`: `[propext, Classical.choice, Quot.sound]` for `sjsu_secular_confinement_proof`,
+  `sjsu_hη`, `sjsu_hTη`, `sjsu_rate_le`;
+- lint (`.drafts/g2/lint_noabi.sh`, `abi_hashes` skipped; log `.drafts/g2/scratch/n5b/lint-n9c.log`):
+  exit 1 only for "KAM.lean is out of date; run scripts/gen_root_imports.py" (the generated parts
+  `KAMSJSU/EffectiveStability/SJSU/Check.lean`, `…/Confinement.lean`, N7's `…/Ledger/Br/Top0..2.lean`,
+  and `KAMSJSU.lean`: new modules, roots are kam-g2's to regenerate, AGENTS rule 10); no forbidden
+  patterns, no size violations, `check_lean_modules: PASS (23129 Lean files)`, both test suites OK,
+  `FROZEN-ANCHOR GUARD OK`.
+
+**Design signals:** none (no options set; first-try kernel checks at default limits).
+
+**Deviations.**
+- The rate literal is named `sjsuRateQ` (not `sjsuEtaQ`): `sjsuEtaQ` is already the initial `η`
+  coordinate (`SJSU/Initial/Data.lean`). The real rates keep the brief's name `sjsuEta`.
+- `Proof.lean` reflows the v2 text to 100 columns (kam-g2's width ruling); the Expr check above confirms it.
+- Not committed (WORKER-RULES: kam-g2 commits by path). Paths to commit:
+  `KAM/EffectiveStability/SJSU/Check/Eta.lean`, `KAM/EffectiveStability/SJSU/Confinement/Proof.lean`,
+  this handoff.
+
+**Suspected errata:** none.

@@ -175,9 +175,11 @@ def build_batch(batch: list[str], log) -> int:
     rc = proc.wait()
     sampler.stop.set()
     if rc != 0:
-        bad = building or '?'
+        # a killed lean (e.g. a memcg OOM kill: lake then gets SIGTERM, rc 143) prints no failure line: name
+        # the modules the sampler saw running that lake never reported done
+        bad = building or ','.join(m for m in sampler.peak if m not in seen) or '?'
         log_line(log, utc(), bad, 'FAILED', f'{time.time() - t0:.0f}s(batch)',
-                 f'{sampler.peak.get(bad, 0) // 1024}MB', rc)
+                 f'{max((sampler.peak.get(m, 0) for m in bad.split(",")), default=0) // 1024}MB', rc)
         log.write('# lake errors:\n' + '\n'.join('#   ' + l for l in errors) + '\n')
         log.write('# lake output tail:\n' + '\n'.join('#   ' + l for l in tail) + '\n')
         log.flush()

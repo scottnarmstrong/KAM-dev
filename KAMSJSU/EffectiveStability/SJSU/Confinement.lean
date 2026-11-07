@@ -5,6 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
+public import KAM.EffectiveStability.SJSU.Confinement.Proof
 public import KAM.EffectiveStability.SJSU.Confinement.Shift
 public import KAM.EffectiveStability.SJSU.Confinement.Statement
 
