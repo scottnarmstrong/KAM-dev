@@ -5,6 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
+public import KAM.EffectiveStability.SJSU.Check.Eta
 public import KAM.EffectiveStability.SJSU.Check.Tail.Rows
 public import KAM.EffectiveStability.SJSU.Check.Tail.Tab
 public import KAM.EffectiveStability.SJSU.Check.Tail.Tails
