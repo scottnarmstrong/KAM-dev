@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-07 18:30 UTC** (automatic: every 20 minutes and after every commit) · **frozen statements proved: 76 / 77** · **3,934,008 lines of hand-written Lean** (plus 4,097,429 lines of generated certificate data) · **in progress:** LG00 (side) 97 %, HD 11964 (side) 51 %, Magnetic barrier (proof open); every other subproject is complete. Details: [progress by subproject](#progress-by-subproject).
+> **Last updated: 2026-11-07 18:40 UTC** (automatic: every 20 minutes and after every commit) · **frozen statements proved: 76 / 77** · **3,934,008 lines of hand-written Lean** (plus 4,097,429 lines of generated certificate data) · **in progress:** LG00 (side) 97 %, HD 11964 (side) 51 %, Magnetic barrier (proof open); every other subproject is complete. Details: [progress by subproject](#progress-by-subproject).
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -399,7 +399,7 @@ The original project is divided into 52 work items: planning deliverables, campa
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **3,934,008** (3,694,374 excluding blank lines and comments) · **+3,255,528** since 2026-11-06 18:26 UTC |
+| On `main` now (hand-written) | **3,934,008** (3,694,374 excluding blank lines and comments) · **+3,255,528** since 2026-11-06 18:40 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 4,097,429 lines in 15,317 modules |
 | Written on agent branches, not yet landed (hand-written) | 1 |
 | **Estimated total at completion** (hand-written) | **≈ 3,934,000** |
@@ -409,7 +409,7 @@ The original project is divided into 52 work items: planning deliverables, campa
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-07 18:30 UTC from `main` at `1569653dc` by `scripts/hq-status.py`.*
+*Generated 2026-11-07 18:40 UTC from `main` at `ae34057d3` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, and track R (Rüssmann's theorem) is sealed too. Since then: track W (PDE KAM, `nlw2`) sealed 2026-11-01; track LP (the Laskar–Petit conjecture made rigorous) sealed 2026-11-01 (D62, D64); track SO complete: the Moon's spin-rate band (sealed 2026-10-31) and the Moon locked in synchronous rotation forever (sealed 2026-11-05, D63); track B (finite-time effective stability, Hénon–Heiles) sealed 2026-11-03 (D72, D73). Now: SJSU gate 2 (program T2-CONF, D74–D76): the secular Sun–Jupiter–Saturn–Uranus model confined for 5·10⁹ years is PROVED on `main` (2026-11-07); its freeze and seal are in progress. Side projects LG00 and HD 11964 continue; the magnetic barrier statement is frozen and its proof is open.
 
@@ -630,12 +630,12 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:workers -->
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
-| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-9 | 🔄 working | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
+| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-9 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
 | **b1** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: Merge branch 'inp' into inp-b1 | `inp-b1` | 1 (vs `inp`) |
-| **sjsu-g2** | prover (offload) | Claude Opus 5.5 | — | ✅ audited, handed back | last commit: T2-CONF D76 seal audit SEAL-AUDIT-SJSU-1 (PASS WITH NOTES, addendum 1b), replay status in  | `inp-sjsu-g2` | 26 (vs `inp`) |
+| **sjsu-g2** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: docs/results/SJSU: the statement is frozen and sealed (D76) | `inp-sjsu-g2` | 54 (vs `inp`) |
 <!-- /AUTO:workers -->
 
 ### Recent changes on `main`
@@ -643,6 +643,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-07 18:34 | `ae34057d3` | docs/results/SJSU: the statement is frozen and sealed (D76) |
 | 2026-11-07 18:04 | `355b02da5` | Land inp-sjsu-g2 into main |
 | 2026-11-07 15:14 | `3ff770e3e` | README and status records: correct the track K hypothesis, retire stale status text, list tracks B, SJSU and the magnetic barrier |
 | 2026-11-07 13:56 | `53d636e87` | docs/results: plain-language accounts of exactly what each subproject proves |
