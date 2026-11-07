@@ -27,6 +27,8 @@ with exit 3, naming the application and the stale data modules: build it deliber
 `--lib LIB`, then land again. Otherwise (generated root and parts, LunarFinalR2V2 and other light
 modules) the first is built alone under the cap and the check repeats. A landing that leaves every
 application up to date builds nothing.
+Applications listed in CHECK_ALL_SKIP (each with its owner ruling) are not checked; a WARNING line names
+each one.
 """
 from __future__ import annotations
 
@@ -94,9 +96,23 @@ def heavy(module: str, cfg: dict) -> bool:
     return any(roots.extends(module, p) for p in cfg.get('application_only', []))
 
 
+# Applications that --check-all skips, each with the owner ruling that allows it. Every other application is
+# checked. 2026-11-07: a disk cleanup deleted the build artifacts of the two lunar libraries (the SpinOrbit/Data
+# overlay); their sources and sealed theorems are unchanged on main. Owner ruling (via the main orchestrator,
+# 2026-11-07): land with the check skipped for these two only; rebuilding them is a separate, later job. Remove an
+# entry once `scripts/prebuild_heavy.py --lib LIB` has rebuilt that library.
+CHECK_ALL_SKIP = {
+    'KAMLunarBand': 'build artifacts lost in the 2026-11-07 cleanup; owner ruling 2026-11-07, rebuild pending',
+    'KAMLunarLock': 'build artifacts lost in the 2026-11-07 cleanup; owner ruling 2026-11-07, rebuild pending',
+}
+
+
 def check_all(cfg: dict) -> int:
     for app in cfg['applications']:
         lib, built, seen = app['lib'], 0, set()
+        if lib in CHECK_ALL_SKIP:
+            print(f'prebuild_heavy: WARNING: {lib}: NOT CHECKED ({CHECK_ALL_SKIP[lib]})', flush=True)
+            continue
         while todo := stale([lib]):
             data = [m for m in todo if heavy(m, cfg)]
             if data:
