@@ -875,7 +875,7 @@ EXTRACTOR: kam-b1
 REVIEWER: sonnet-review-B-hh-nodes
 LEAN_STATUS: PROVED
 LEAN_REF: KAM.EffectiveStability.henonHeiles_confinement (KAM/Frozen/EffectiveStability/HenonHeilesConfinement.lean); provider KAM.Provider.EffectiveStability.henonHeiles_confinement
-LEAN_NOTE: SEALED (D73, manifest effectiveStability.d73.henonHeiles_confinement.v1, main 95387f9b0); seal audit HH-1 PASS WITH NOTES; standard axioms; library KAMHenonHeiles; T2-CONF (D74-D76) packages KAM/EffectiveStability/Tube/* (core) and KAM/EffectiveStability/SJSU/* (library KAMSJSU) landed on main in a9e07eb24, 5b61de513 and the later T2-CONF landings (note refreshed 02:12 UTC 07 Nov for the H ledger / N5a-2 instance landing), outside the B root closure; no node change (T2-CONF gets its own graph at its freeze)
+LEAN_NOTE: SEALED (D73, manifest effectiveStability.d73.henonHeiles_confinement.v1, main 95387f9b0); seal audit HH-1 PASS WITH NOTES; standard axioms; library KAMHenonHeiles; T2-CONF (D74-D76) packages KAM/EffectiveStability/Tube/* (core) and KAM/EffectiveStability/SJSU/* (library KAMSJSU) landed on main in a9e07eb24, 5b61de513 and the later T2-CONF landings (note refreshed 02:56 UTC 07 Nov for the H ledger / N5a-2 instance and N7 part 5 / DropChunk landings), outside the B root closure; no node change (T2-CONF gets its own graph at its freeze)
 NOTE: statement source = exact frozen text (FREEZE-PROPOSAL-HH, owner D73); mathematical target plan §4 L539-L543; plan-to-freeze: "unique solution through |t| <= 10^10" is stated in the §2.1 form (open Ioo(-T1,T1), T1 > 10^10, uniqueness on order-connected intervals through 0); library KAMHenonHeiles
 
 ## Append-only structural amendments
