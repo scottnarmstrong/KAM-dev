@@ -1,0 +1,1275 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import KAM.EffectiveStability.Tube.Engine.Types
+
+/-!
+# Ledger literals (generated)
+-/
+
+@[expose] public section
+
+namespace KAM.EffectiveStability.SJSU
+
+open KAM.EffectiveStability.Tube
+
+def L_B_0_c0 : Nat := (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x2000000000000000000008000000000000000000020000b6c46fd43f8e7bab (Nat.shiftLeft
+  0x200000000000000000000800000000000000000002000000000000016d88df287f1cf756 288)) (Nat.shiftLeft (
+  Nat.add 0x800000000000000000002000000000000000000008002244d4f7cbeab7301 (Nat.shiftLeft
+  0x8000000000000000000020000000000000000000080000000000002db11bf70fe39eeac 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add 0x20000000000000000000080000000000000000000200391d62f253dc86a57 (
+  Nat.shiftLeft 0x2000000000000000000008000000000000000000020000000000004489a9ef17d56e602 288)) (
+  Nat.shiftLeft (Nat.add 0x80000000000000000000200000000000000000000804ff5f0ecdbce561ad (
+  Nat.shiftLeft 0x800000000000000000002000000000000000000008000000000005b6237ea3fc73dd58 288)) 576))
+  1152)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x3a1e00000000000000000000800000000000000000002066ce7ee763c025903 (Nat.shiftLeft
+  0x67dfffffffffffffffff4c9800000000000000002a2e00000000000723ac5f48fb90d4ae 288)) (Nat.shiftLeft (
+  Nat.add 0x18d880000000000000000b375fffffffffffffffffd4487da70ce1ebb1f505b (Nat.shiftLeft
+  0x6447ffffffffffffffff167dfffffffffffffffffdd07ffffffffff76ecac24f1aadcc04 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xffffffffffca62000000000000000008ee7fffffffffffffffeeba6947f9adc73a3c47af (Nat.shiftLeft
+  0xfb65ffffffffffffffffcbf880000000000000001f5d1ffffffffff60141e2343e353ca5 288)) (Nat.shiftLeft (
+  Nat.add 0x39d580000000000000001da31ffffffffffffffffd5502b5828d6fb9593f05 (Nat.shiftLeft
+  0x930380000000000000003f93dffffffffffffffffe38d7fffffffff493b90373b2e7bab0 288)) 576)) 1152)) 2304
+  )) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x51e5fffffffffffffffff165800000000000000029169dcf492e7c789c9a4 (Nat.shiftLeft
+  0x200000000000000000000800000000000000000002000000000cd9cfdceb0084b206 288)) (Nat.shiftLeft (
+  Nat.add 0x8000000000000000000020000000000000000000d10944cc0b7932db1 (Nat.shiftLeft
+  0x80000000000000000000200000000000000000000800000000e4758bc94f701a95c 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x2000000000000000000008000000000000000000ede1d2c6936b02507 (Nat.shiftLeft
+  0x20000000000000000000080000000000000000000200000000fb4e19c3d7636a0b2 288)) (Nat.shiftLeft (
+  Nat.add 0x800000000000000000002000000000000000001063a60c11b5cd1c5d (Nat.shiftLeft
+  0x80000000000000000000200000000000000000000800000011226a7be5f5599808 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x2000000000000000000008000000000000000011db2eebba34ea13b3 (Nat.shiftLeft
+  0x200000000000000001736800000000000000000002000000128ff35b8e74780f5e 288)) (Nat.shiftLeft (Nat.add
+  0x109e7fffffffffffffffff3fdffffffffffffffffea5837cb62b4070b09 (Nat.shiftLeft
+  0xffff83f800000000000000000829fffffffffffffffffebc7fffffec0283c4c90de326b4 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add 0x447200000000000000001a997fffffffffffffffe929df54f4ccdbfda0 (
+  Nat.shiftLeft 0xfffe321a0000000000000000238780000000000000000f77dfffffea94fae5208cee160a 288)) (
+  Nat.shiftLeft (Nat.add 0xe9f87ffffffffffffffffdaa200000000000000014dfde754c4dbf064a (Nat.shiftLeft
+  0x36447ffffffffffffffff3976000000000000000034828000016d88dfa87f1c21360 288)) 576)) 1152)) 2304))
+  4608)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0xffffffffffffffeaeba000000000000000050d880000000000000017f39c6a5c315df10b (Nat.shiftLeft
+  0xfffff3965ffffffffffffffffbfaf7fffffffffffffffdd8f5ffffe7b9e925cf8f3ddac9 288)) (Nat.shiftLeft (
+  Nat.add 0x7fffffffffffffffedb3a000000000000001883cd35fb4f85179e (Nat.shiftLeft
+  0x80000000000000000000200000000000000000000800019b39fb9d8f009642c 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x200000000000000000000800000000000001a6a6409ad2f97dfb7 (Nat.shiftLeft
+  0x2000000000000000000008000000000000000000020001b212899816f265b6a 288)) (Nat.shiftLeft (Nat.add
+  0x80000000000000000000200000000000001bd7ed0155aeb4d70d (Nat.shiftLeft
+  0x800000000000000000002000000000000000000008001c8eb17929ee4352ba 288)) 576)) 1152)) (Nat.shiftLeft
+  (Nat.add (Nat.add (Nat.add
+  0x8000000000000000000020000000000000000000080000000000001d4575eafe2dd1ce63 (Nat.shiftLeft
+  0x200000000000000000000800000000000000000002001dfc3a58d26d604a0e 288)) (Nat.shiftLeft (Nat.add
+  0xdfffffffffffffffffe908000000000000000000020000000000001eb2fec826aceec5b9 (Nat.shiftLeft
+  0x2648000000000000000024b6000000000000000000007fe0963cc7851382bfd6 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0xb800000000000000005ab2000000000000000002627fffffffffffdfdf7899af2c0bbd0f (
+  Nat.shiftLeft 0xffffffff52b1fffffffffffffffff5fc800000000000000007711fdf28b3e7dc9465c7aa 288)) (
+  Nat.shiftLeft (Nat.add 0xca000000000000000028507fffffffffffffffede79fffffffffffde71eea0e054d74b9a
+  (Nat.shiftLeft 0xffffffffef9880000000000000002af1e0000000000000000566b82244d4f7cbeab73086 288))
+  576)) 1152)) 2304)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x9a8000000000000000257b9fffffffffffffffff1ce7ffffffffffdd046713c9d5ba5444 (Nat.shiftLeft
+  0x473ddffffffffffffffffeada80000000000000000ac8ddc4da2288b962bd8bc 288)) (Nat.shiftLeft (Nat.add
+  0xa200000000000000000e3c8000000000000000103b1ffffffffffdb96ddadea2962a311 (Nat.shiftLeft
+  0x304c7ffffffffffffffff84b9ffffffffffffffffe23fa51fe6b71ce8f11eb2 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x80000000000000000000200000000000000000000800000000025d6ab26f1087f9a67 (
+  Nat.shiftLeft 0x20000000000000000000080000000000000000000068d6f96c5680e1612 288)) (Nat.shiftLeft (
+  Nat.add 0x2000000000000000000008000000000000000000020000000002744340699af9c91bd (Nat.shiftLeft
+  0x80000000000000000000200000000000000000002ffaf8766de72b0d68 288)) 576)) 1152)) (Nat.shiftLeft (
+  Nat.add (Nat.add (Nat.add 0x8000000000000000000020000000000000000000080000000028b1bce64224b98913 (
+  Nat.shiftLeft 0x20000000000000000000080000000000000000002b68815616664804be 288)) (Nat.shiftLeft (
+  Nat.add 0x200000000000000000000800000000000000000002000000002a1f45c5eaa5568069 (Nat.shiftLeft
+  0xffffffffffff1bf8000000000000000000020000000000000000002a560a35bee564fc14 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xff433800000000000000000001fffffffffffffffffd04800000002b8ccea593e7ec8840 (Nat.shiftLeft
+  0x6e61fffffffffffffffffb377fffffffffffffffffba9c6cea989b7e0c95 288)) (Nat.shiftLeft (Nat.add
+  0x65e200000000000000000fc57ffffffffffffffffd335fffffffd305a87ac470686f15 (Nat.shiftLeft
+  0x16cb7ffffffffffffffff49d9fffffffffffffffffe9e91bf50fe39eeac0 288)) 576)) 1152)) 2304)) 4608))
+  9216)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x25bc8000000000000000076160000000000000000113580000002e67e064e41a57666b (Nat.shiftLeft
+  0xfffffffffffff1dde00000000000000009a3a7ffffffffffffffff4e5ca4d4b862bbe216 288)) (Nat.shiftLeft (
+  Nat.add 0xfff0f01ffffffffffffffffca147ffffffffffffffff0dfa0000002fd569448cf8e5223e (Nat.shiftLeft
+  0x89a57ffffffffffffffff90fe00000000000000002209524b9f1e272693 288)) 576)) (Nat.shiftLeft (Nat.add
+  (Nat.add 0xa3ed7fffffffffffffffc5e5e0000000000000000571f7fffffcebd0ddbcad6acb517 (Nat.shiftLeft
+  0x20000000000000000000080000000000000002319d6940960f5d0c2 288)) (Nat.shiftLeft (Nat.add
+  0x2000000000000000000008000000000000000000020000032b07b03dda084446d (Nat.shiftLeft
+  0x80000000000000000000200000000000000033673773b1e012c818 288)) 576)) 1152)) (Nat.shiftLeft (
+  Nat.add (Nat.add (Nat.add 0x8000000000000000000020000000000000000000080000341e03e3861fa141c3 (
+  Nat.shiftLeft 0x20000000000000000000080000000000000034d4ca535a5f2fbf6e 288)) (Nat.shiftLeft (
+  Nat.add 0x2000000000000000000008000000000000000000020000358b8cc32e9ebe3b99 (Nat.shiftLeft
+  0x80000000000000000000200000000000000364251b302de4cb6c4 288)) 576)) (Nat.shiftLeft (Nat.add (
+  Nat.add 0x6680000000000000000000200000000000000000000800036f915a2d71ddb324f (Nat.shiftLeft
+  0x48a000000000000000005168000000000000037af84f2ab5d69ae1a 288)) (Nat.shiftLeft (Nat.add
+  0xfffffff5a1fffffffffffffffffa5f7fffffffffffffffff46e00038669e827f9cf829cd (Nat.shiftLeft
+  0xffffffffffffffffe75c800000000000000004e21fffffffffffffc6e22055ac23795a8f 288)) 576)) 1152)) 2304
+  )) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x8f67fffffffffffffffed579ffffffffffffffffe85b7ffc62bd89dd7e3eb9aea (Nat.shiftLeft
+  0x80000000000000000e81a00000000000000001bdf7ffffffffffffc575207bfc5ba39cc6 288)) (Nat.shiftLeft (
+  Nat.add 0x1560e00000000000000003ae17fffffffffffffffefd19ffc4be4fbe2f64cded24 (Nat.shiftLeft
+  0x5ffffffffffffffffe1f08000000000000000053260000000000003bf8721f24dac0941c 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x30148000000000000000045ae00000000000000004405803caf3921791a4f00ee (Nat.shiftLeft
+  0xc7ffffffffffffffffa6a5ffffffffffffffffd2d87fffffffffffc29a17612d59dd8b72 288)) (Nat.shiftLeft (
+  Nat.add 0x1ffffffffffffffffd71c800000000000000006fa203e1cc20121996c034e (Nat.shiftLeft
+  0x200000000000000000000800000000000000000002000000000003ed38670fdd8fa82c8 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x8000000000000000000020000000000000000000083f8a4ae0ca1888fe73 (Nat.shiftLeft
+  0x800000000000000000002000000000000000000008000000000040410f509c58177a1e 288)) (Nat.shiftLeft (
+  Nat.add 0x20000000000000000000080000000000000000000240f7d3c07297a5f5c9 (Nat.shiftLeft
+  0x200000000000000000000800000000000000000002000000000041ae98304657347174 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add 0x80000000000000000000200000000000000000000c2655ca01b16c2ed1f (
+  Nat.shiftLeft 0xc3f800000000000000000002000000000000000000008000000000431c210fef765168ca 288)) (
+  Nat.shiftLeft (Nat.add 0xffffffffffe76dfffffffffffffffffb717fffffffffffffffff3adc2d1a803c6a201b88
+  (Nat.shiftLeft 0xd112000000000000000013558000000000000000000020000000004489a9efb8a2919fdf 288))
+  576)) 1152)) 2304)) 4608)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0xffffffffffcfa37ffffffffffffffffc82dffffffffffffffffe70b2bf91a093eb032434 (Nat.shiftLeft
+  0x444b7ffffffffffffffff2792000000000000000010217ffffffffba08cd30bb9974a889 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffffffffe28a0000000000000000173780000000000000000358cadf73f149419d321 (Nat.shiftLeft
+  0xee4aa0000000000000001253d7ffffffffffffffff82f2000000004764bbaec399d7b133 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xfffffffffffdcde7ffffffffffffffff91cdfffffffffffffffef6c6647fe142ecc93588 (Nat.shiftLeft
+  0xd38480000000000000000b059ffffffffffffffff668a7fffffffb72dbb71796e9ab9dd 288)) (Nat.shiftLeft (
+  Nat.add 0xffffffffffff9eedffffffffffffffff340e8000000000000000158de908fe659253c1cd (Nat.shiftLeft
+  0x1eb6a0000000000000000c3c77fffffffffffffffe99f600000004a3fcd6e3e4fb5c287 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x800000000000000000002000000000000000004afe91de0e1170b923 (Nat.shiftLeft
+  0x8000000000000000000020000000000000000000080000004bad564de250fd34ce 288)) (Nat.shiftLeft (Nat.add
+  0x200000000000000000000800000000000000004c661abdb6908db079 (Nat.shiftLeft
+  0x2000000000000000000008000000000000000000020000004d1adf2d8ad01cac24 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x80000000000000000000200000000000000004dd1239d5f0faaa7cf (Nat.shiftLeft
+  0x800000000000000000002000000000000000000008000004e88680d334f39037a 288)) (Nat.shiftLeft (Nat.add
+  0x20000000000000000000080000000000000004f3f0c7d078ec79f25 (Nat.shiftLeft
+  0x283e000000000000000009297fffffffffffffffffbce000004ff5f0ecdbce0bb2d0 288)) 576)) 1152)) 2304)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x7ffffffffffffffffece9fffffffffffffffaf896d5cb00de4967b (Nat.shiftLeft
+  0xffffef997ffffffffffffffffe8cdfffffffffffffffff82080000516379cc844d7e3426 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffffffffffff64cdfffffffffffffffff1dd7ffffffffffffffaddc1bc3a772fe722e (Nat.shiftLeft
+  0x1ba2dffffffffffffffffcd498000000000000000086a2000052d102ac2ccc9f8703 288)) 576)) (Nat.shiftLeft
+  (Nat.add (Nat.add 0x1c1e7ffffffffffffffff4f5dffffffffffffffac6e559c010c1e8527 (Nat.shiftLeft
+  0x4a1480000000000000003928a00000000000000000e137fffabc174742ab441cd32 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffffffffffffe065a000000000000000029287fffffffffffffab06559ba98b3b7c7d (Nat.shiftLeft
+  0x65a00000000000000001efe7ffffffffffffffff35c200055ac146b7dcac929ef 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xffffffffffffffffced6800000000000000006b26000000000000056629b43520a5873d3 (Nat.shiftLeft
+  0x800000000000000000001ffffffffffffffffcea97ffa8e662b4d9b6192b1f 288)) (Nat.shiftLeft (Nat.add
+  0x80000000000000000000200000000000000000000800000000000057d061b8fa89756b29 (Nat.shiftLeft
+  0x200000000000000000000800000000000000000002005887262acec903e6d4 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x200000000000000000000800000000000000000002000000000000593dea9a230892627f (
+  Nat.shiftLeft 0x800000000000000000002000000000000000000008059f4af0a774820de2a 288)) (Nat.shiftLeft
+  (Nat.add 0x800000000000000000002000000000000000000008000000000005aab737a6b87af59d5 (Nat.shiftLeft
+  0x20000000000000000000080000000000000000000205b6237ea1fc73dd580 288)) 576)) 1152)) 2304)) 4608))
+  9216)) 18432)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x51fffffffffffffffffd5d7ffffffffffffffffb356000000000005c18fe70cc06cc512b (Nat.shiftLeft
+  0xffffffffe7c480000000000000000107a00000000000000000c247a3303f3637b9a53365 288)) (Nat.shiftLeft (
+  Nat.add 0x9b800000000000000000eaa00000000000000001cf8800000000005d8685399d7a16b77e (Nat.shiftLeft
+  0xfffffffffe39a000000000000000036627ffffffffffffffffd4bda1c2b6568f3a883bde 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x599ffffffffffffffffce9b7fffffffffffffffff695ffffffffffa10bf1f72f7af9c028 (Nat.shiftLeft
+  0x69de7ffffffffffffffffa5da0000000000000000986a20552d76e6bb6b447a 288)) (Nat.shiftLeft (Nat.add
+  0x1fa80000000000000000ca8dfffffffffffffffeee667fffffffff9f9e6903192423372d (Nat.shiftLeft
+  0x1836dffffffffffffffff596e80000000000000000c4381185b68c1c3b1b2cc 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xa459ffffffffffffffff63b680000000000000001727600000000061cf1fd7e05b402e83 (Nat.shiftLeft
+  0x91c87fffffffffffffffcb965ffffffffffffffff03c7a85e4486a42ceaa2e 288)) (Nat.shiftLeft (Nat.add
+  0x7fffffffffffffffeddddffffffffffffffffec58800000000633ca8baf9f05d25d9 (Nat.shiftLeft
+  0x200000000000000000000800000000000000000061f36d2812c1eba184 288)) 576)) (Nat.shiftLeft (Nat.add (
+  Nat.add 0x2000000000000000000008000000000000000000020000000064aa3197e701fa1d2f (Nat.shiftLeft
+  0x80000000000000000000200000000000000000065e0f607bb410898da 288)) (Nat.shiftLeft (Nat.add
+  0x80000000000000000000200000000000000000000800000006617ba778f80b71485 (Nat.shiftLeft
+  0x20000000000000000000080000000000000000066ee7ee763c0259030 288)) 576)) 1152)) 2304)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x20000000000000000000080000000000000000000200000006785435737ffbc0bdb (Nat.shiftLeft
+  0x11d77ffffffffffffffffc6ea000000000000000004aa407c70c3f428786 288)) (Nat.shiftLeft (Nat.add
+  0xfff3c77ffffffffffffffffc965fffffffffffffffffaf4800000068f2cc36e065f70331 (Nat.shiftLeft
+  0xfffffffffffffd812000000000000000000007ffffffffffffffffb1146f594b41a08123 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xffff031fffffffffffffffff0a67ffffffffffffffffe151ffffff959faae97706ba8578 (Nat.shiftLeft
+  0xfffffffffffffe5c1800000000000000004921ffffffffffffffff94406679a2c28389cd 288)) (Nat.shiftLeft (
+  Nat.add 0xffff38a7ffffffffffffffffdf0dffffffffffffffffdbc07fffff94322209ce8012ae22 (Nat.shiftLeft
+  0x48ce1fffffffffffffffffdfb7fffffffffffffff8fa87d99fa43669277 288)) 576)) 1152)) (Nat.shiftLeft (
+  Nat.add (Nat.add (Nat.add
+  0xfffec065fffffffffffffffff80480000000000000000e252000006d3b66d5d9fab8c133 (Nat.shiftLeft
+  0x3b5e7fffffffffffffffec8b9fffffffffffffff90b71cba51c4499b21 288)) (Nat.shiftLeft (Nat.add
+  0x130800000000000000050dda00000000000000005d8a7ffff9157104a7d8547be89 (Nat.shiftLeft
+  0x4a791ffffffffffffffffb8bc7ffffffffffffff9095722556bad35c34 288)) 576)) (Nat.shiftLeft (Nat.add (
+  Nat.add 0x200000000000000000000800000000000000000001ffff8fe9876ad50582405f (Nat.shiftLeft
+  0x8000000000000000000020000000000000070cd3d84ff39f0538a 288)) (Nat.shiftLeft (Nat.add
+  0x80000000000000000000200000000000000000000800071840174d3797ecf15 (Nat.shiftLeft
+  0x20000000000000000000080000000000000723ac5c4a7b90d4ae0 288)) 576)) 1152)) 2304)) 4608)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x20000000000000000000080000000000000000000200072f18a547bf89bc683 (Nat.shiftLeft
+  0x800000000000000000002000000000000073a84ecc50382a4236 288)) (Nat.shiftLeft (Nat.add
+  0x16480000000000000000131600000000000000003027800745f13342477b8bde3 (Nat.shiftLeft
+  0x80000000000000000177a000000000000000007db7ffffffffffff8aea1ca9f8b747398c 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add 0x1ffffffffffffffffffd97ffffffffffffffffef99ff8a3363ec33092a41fc (
+  Nat.shiftLeft 0x2000000000000000011817ffffffffffffffffe9a1ffffffffffff897c9da821366430e2 288)) (
+  Nat.shiftLeft (Nat.add 0xffffffe545980000000000000000fb6dffffffffffffffffc0587f88c5db0c8a8a0d4372
+  (Nat.shiftLeft 0x67ffffffffffffffffd056000000000000000083ab7fffffffffff880f3de1564a7ed7c7 288))
+  576)) 1152)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xeab60000000000000000a45e7ffffffffffffffff9612078a7add31df50fa33d (Nat.shiftLeft
+  0x9ffffffffffffffff810a80000000000000001053200000000000795e750daa349e1f8e 288)) (Nat.shiftLeft (
+  Nat.add 0xffffffffbd2a80000000000000000ed920000000000000000ef2b785eac94d398bd364fd (Nat.shiftLeft
+  0x267fffffffffffffffadaaa000000000000000044cf7ffffffffff85340448474c44e91b 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xffffffffe6a8e00000000000000001c4e80000000000000001eba5847d406d910cb66d35 (Nat.shiftLeft
+  0x2000000000000000000007fffffffffffffffcee35ffffffffff83c67b7be24d27f1c5 288)) (Nat.shiftLeft (
+  Nat.add 0x80000000000000000000200000000000000000000fcf0487217726689e5 (Nat.shiftLeft
+  0x8000000000000000000020000000000000000000080000000007da70ce1eb91f50590 288)) 576)) 1152)) 2304))
+  (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x200000000000000000000800000000000000000005e5dd151bff183813b (Nat.shiftLeft
+  0x2000000000000000000008000000000000000000020000000007f1495c1943911fce6 288)) (Nat.shiftLeft (
+  Nat.add 0x800000000000000000002000000000000000000077cb5a316870a07891 (Nat.shiftLeft
+  0xecc47ffffffffffffffff5e9a0000000000000000195380000000080821ea13cb22ef43c 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xfffffffffffd1b9ffffffffffffffffef0d800000000000000009308c71ceeef10429018 (Nat.shiftLeft
+  0x1285fffffffffffffffff5237ffffffffffffffffb115ffffffff7e10587f1c5534146d 288)) (Nat.shiftLeft (
+  Nat.add 0xffffffffffff7547ffffffffffffffffc0fe00000000000000000082266bf0b96eda673d (Nat.shiftLeft
+  0x6fc9b7ffffffffffffffea26fdfffffffffffffffe20787fffffff7ca2cf9f7d0bf71d17 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xffffffffffff37de00000000000000015daa800000000000000005728c0b2f9e1208a16c (Nat.shiftLeft
+  0x2b5a6000000000000000029767fffffffffffffffec0f9fffffff7b3546bfcfcde225c1 288)) (Nat.shiftLeft (
+  Nat.add 0xffffffffffff8109800000000000000017aa1ffffffffffffffffdbf297db00a6d1455e9 (Nat.shiftLeft
+  0xfffda17fffffffffffffffe84b6000000000000000012f380000008638421fdc5cdf2e6b 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add 0x475bdfffffffffffffffff25480000000000000000780af9704d13ceb2c0 (
+  Nat.shiftLeft 0x3fc5dffffffffffffffffc80f7fffffffffffffff8d17dffffff785a350078c71348ea 288)) (
+  Nat.shiftLeft (Nat.add 0x27577fffffffffffffffbd845ffffffffffffffff51db0f6f5b6b4e4495 (
+  Nat.shiftLeft 0x80000000000000000000200000000000000000000800000891353df2faadce040 288)) 576)) 1152
+  )) 2304)) 4608)) 9216)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x200000000000000000000800000000000000089ca384f03ea6b3beb (Nat.shiftLeft
+  0x200000000000000000000800000000000000000002000008a80dcbed829f9bf96 288)) (Nat.shiftLeft (Nat.add
+  0x8000000000000000000020000000000000008b37a92eac69883341 (Nat.shiftLeft
+  0x80000000000000000000200000000000000000000800008bee659e80a916acec 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x94e00000000000000000f728000000000000008ca5280e54e8a52a97 (Nat.shiftLeft
+  0x271a00000000000000001e567fffffffffffffffff3aa00008d5bee7e2928235bc2 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffffffffffffea6c7fffffffffffffffffcde000000000000008e05c56dfd67c221ed (Nat.shiftLeft
+  0x1557800000000000000000001fffffffffffffffff29580008ec9775dd1a750d407 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xffffffffffffff782269fffffffffffffff96ec97fffffffffffff7058222da5e6df1943 (Nat.shiftLeft
+  0xf6f85ffffffffffffffe17a4f8000000000000013d219a0009037003d7a25b191a9 288)) (Nat.shiftLeft (
+  Nat.add 0x69ed80000000000000000a7e2000000000000090e590854e65fc1099 (Nat.shiftLeft
+  0x14cc7fffffffffffffffe9479ffffffffffffffffefae80091a4891d22a58b8f96 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x8000000000000000091d60000000000000000594b7ffffffffffff6da6d87ef6e51907ef (
+  Nat.shiftLeft 0xffffffd328e0000000000000000018e80000000000000000858200931211fccb24a78b8e 288)) (
+  Nat.shiftLeft (Nat.add 0xdffffffffffffffff3dbc80000000000000002e44a00000000000093c85502e09bca00ba
+  (Nat.shiftLeft 0x1ab77fffffffffffffffe3995ffffffffffffffff088c80947f9adc73a3c46c19 288)) 576))
+  1152)) 2304)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x800000000000000000002000000000000000000007fffffffffff6ac9a20467e352f69b (Nat.shiftLeft
+  0x200000000000000000000800000000000000000002095ed23bc1c22e17246 288)) (Nat.shiftLeft (Nat.add
+  0x2000000000000000000008000000000000000000020000000000096a3e82bf8626fedf1 (Nat.shiftLeft
+  0x800000000000000000002000000000000000000008975aac9bc4a1fe699c 288)) 576)) (Nat.shiftLeft (Nat.add
+  (Nat.add 0x80000000000000000000200000000000000000000800000000009811710b9ae18ce547 (Nat.shiftLeft
+  0xfffffffffa6ea000000000000000008ca80000000000000000000298c8357b6d211b60f2 288)) (Nat.shiftLeft (
+  Nat.add 0x359ffffffffffffffffd7b280000000000000000ce31ffffffffff66810610801f562362 (Nat.shiftLeft
+  0xffffffffff0eb7ffffffffffffffff8649ffffffffffffffffeb90e5ca41a4ea5fc7a7bd 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x8000000000000000045fe000000000000000003a880000000009aec82cc2380392c0c (Nat.shiftLeft
+  0x89f94dfffffffffffffff934187ffffffffffffffff42b7ba3473abe1f554f9e 288)) (Nat.shiftLeft (Nat.add
+  0x8979ffffffffffffffba9b9b7ffffffffffffff26e6aa0000000009c5a106d9f96e3cb49 (Nat.shiftLeft
+  0x1469800000000000000003989fffffffffffffffe961d510d01a669e7246b4 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0xbac980000000000000001d4a5ffffffffffffffffdb0e8000000009dc794883d5000c29f (
+  Nat.shiftLeft 0xffffffffffa28760000000000000000434580000000000000002502781a705f0e270c1b5 288)) (
+  Nat.shiftLeft (Nat.add 0x158e1ffffffffffffffffe94080000000000000001feda000000009f351d69b83462460a
+  (Nat.shiftLeft 0xfffffffffff74e87fffffffffffffffbaa21fffffffffffffffff9d96be1d9b79cac35a0 288))
+  576)) 1152)) 2304)) 4608)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x40c97fffffffffffffffe1bd9ffffffffffffffffb0f680000000a0a2a64981b8a54eb4 (Nat.shiftLeft
+  0x2000000000000000024e1800000000000000018bbf96ab9601bc92cf6 288)) (Nat.shiftLeft (Nat.add
+  0x2000000000000000000008000000000000000000020000000a2102f29345b5fa8a1 (Nat.shiftLeft
+  0x80000000000000000000200000000000000000a2cef399089ae6244c 288)) 576)) (Nat.shiftLeft (Nat.add (
+  Nat.add 0x800000000000000000002000000000000000000008000000a37db808dcda769ff7 (Nat.shiftLeft
+  0x20000000000000000000080000000000000000a4367c78b11a031ba2 288)) (Nat.shiftLeft (Nat.add
+  0xfff9bde000000000000000035f6800000000000000000002000000a4eb40e8855991174d (Nat.shiftLeft
+  0x35db7ffffffffffffffffc7f5ffffffffffffffff50397aa7a666dfed07 288)) 576)) 1152)) (Nat.shiftLeft (
+  Nat.add (Nat.add (Nat.add 0x677ffffffffffffffffda0a000000000000000043547fffff59a73637d22dedaea3 (
+  Nat.shiftLeft 0xffffffffffffff7b5e000000000000000001aa7fffffffffffffff5c9cae3802183d0a4e 288)) (
+  Nat.shiftLeft (Nat.add 0xfef1e78dfffffffffffffffeec5a800000000000000000001fffff5839ad5829a3cf3206
+  (Nat.shiftLeft 0x4b4c4df7ffffffffffffbca5fb2a00000000000000c2d2d90e85568a5fe5b 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x1339e800000000000000057e0e000000000000000acc597ffff56cc2478832d807b4f (Nat.shiftLeft
+  0xffffffffffffffd6f4a000000000000000084bf800000000000000a8a651f7531676f8fa 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffcb56000000000000000024027fffffffffffffffe22fdffff555e9b98d8a9b71dda (Nat.shiftLeft
+  0xfffffffffffffffc97b80000000000000001636e00000000000000abd5f5a9046a6c0faf 288)) 576)) 1152)) 2304
+  )) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0xfffff7ff580000000000000000c825ffffffffffffffff40be8000ac0eed46cfd502bbe4 (Nat.shiftLeft
+  0x1aeda000000000000000039db7fffffffffffff53105ee95beb4f1859 288)) (Nat.shiftLeft (Nat.add
+  0xfffffe16820000000000000001cbfe7ffffffffffffffff1185fff528389d987abc47319 (Nat.shiftLeft
+  0x8000000000000000000020000000000000ae333a91b36c322103 288)) 576)) (Nat.shiftLeft (Nat.add (
+  Nat.add 0x80000000000000000000200000000000000000000800aee9ff0620d35c5aa5 (Nat.shiftLeft
+  0x800000000000000000002000000000000000000008000000000000afa0c377f512ead652 288)) (Nat.shiftLeft (
+  Nat.add 0x20000000000000000000080000000000000000000200b05787e5c9527951fd (Nat.shiftLeft
+  0x5ffffffffffffffffeffc800000000000000000002000000000000b10e4c551d9207cda8 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x3077fffffffffffffffffb5dffffffffffffffffe73580b1c510c571d1964971 (Nat.shiftLeft
+  0x80000000000000000722dffffffffffffffffd2577fffffffffff4d843b41261124c4fe 288)) (Nat.shiftLeft (
+  Nat.add 0xffffffffa1aa0000000000000000154f800000000000000004b99f4ccd665ae5af4cbe96 (Nat.shiftLeft
+  0x16000000000000000000007ffffffffffffffef5d31fffffffffff4c1689a5496fbe43ab 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xfffffd04182d7fffffffffffff6edcff6000000000000049fcbc68b4a02284c2cfd07e89 (Nat.shiftLeft
+  0x3c7ffffffffffffffdf14c1ffffffffffffffef97a280000000000b554e02adef0a14c55 288)) (Nat.shiftLeft (
+  Nat.add 0x288e1ffffffffffffffffbc4b7fffffffffffffffc220949f2549b94b112d3f3 (Nat.shiftLeft
+  0xada000000000000000330467fffffffffffffffca2ae0000000000b6c46fec6d0e7bab00 288)) 576)) 1152)) 2304
+  )) 4608)) 9216)) 18432)) 36864))
+
+def L_B_0_c1 : Nat := (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x32177ffffffffffffffffb302000000000000000282fdc884cbbbec31f5d806 (Nat.shiftLeft
+  0xa1d7ffffffffffffffff1a360000000000000000665c7fffffffff47ce0755cf2d98a256 288)) (Nat.shiftLeft (
+  Nat.add 0x35cd9ffffffffffffffff920680000000000000003d07e71742dc43b2d8e1fa (Nat.shiftLeft
+  0x8d1fffffffffffffffff10880000000000000001bcd6000000000b99f81938144b599ac 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add 0x80000000000000000000200000000000000008b61256460364cc441555 (
+  Nat.shiftLeft 0x80000000000000000000200000000000000000000800000000bb0d0a733909d29102 288)) (
+  Nat.shiftLeft (Nat.add 0x2000000000000000000008000000000000000000b9c3cee30d4b610cad (Nat.shiftLeft
+  0x20000000000000000000080000000000000000000200000000bc7a9352e18a6f8858 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xffffffffffffae2800000000000000000002000000000000000000bdb157c2b5ca7e0403 (Nat.shiftLeft
+  0xfdc8c7ffffffffffffffff8fbe00000000000000000b1a7fffffff4217e3cd73e6538051 288)) (Nat.shiftLeft (
+  Nat.add 0x6fae000000000000000011757ffffffffffffffff8d9811f5da1b66504a6 (Nat.shiftLeft
+  0xff86a600000000000000002fe37ffffffffffffffffaef20000000bf55a51232c7317704 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add 0x34a4bc7ffffffffffffffbe5e59fffffffffffffffbc5b2b967df937480d50 (
+  Nat.shiftLeft 0xadc9997ffffffffffffde851a2600000000000000cd4dbd8000000c0c32df1db08446e5a 288)) (
+  Nat.shiftLeft (Nat.add 0x2ad2e000000000000000ab5b17fffffffffffffdb7eb7ff261af47d4ea06 (
+  Nat.shiftLeft 0xce7c9fffffffffffffffe2a697ffffffffffffffe2263dffffff3dcf492e7cd3dae5b0 288)) 576))
+  1152)) 2304)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0xfffffffffffdfa9897ffffffffffffffee7e95fffffffffffffffe9324fb4157c6f1e15b (Nat.shiftLeft
+  0xffec4f07fffffffffffffffd9f95ffffffffffffffaa73e7800000c39e3fb13b5a5782f9 288)) (Nat.shiftLeft (
+  Nat.add 0x29401ffffffffffffffffa547800000000000000084c0dbdeffb9f1274e (Nat.shiftLeft
+  0x1760000000000000000c4657fffffffffffffffe455200000c50bc890d4860f8c5c 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0xd1867fffffffffffffffaf115fffffffffffffff3c7b2500a8c52bd007 (Nat.shiftLeft
+  0x800000000000000043cd2000000000000000046c680000c67951707d04b961b2 288)) (Nat.shiftLeft (Nat.add
+  0x200000000000000000000800000000000000c73017e0514448c75d (Nat.shiftLeft
+  0x2000000000000000000008000000000000000000020000c7e6da502583d74388 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add 0x80000000000000000000200000000000000c89d9e3ff9c365beb3 (
+  Nat.shiftLeft 0xfffffe0bf800000000000000000002000000000000000000008000c954632fce02f43a7e 288)) (
+  Nat.shiftLeft (Nat.add 0xffffffffffffffffb321fffffffffffffffff1577fffffffffffff35f693005dbd7d49f6
+  (Nat.shiftLeft 0x8d79ffffffffffffffffea187ffffffffffffffff989dfff353e13f0897deeb273 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xfffffffffffffffffa0a80000000000000000c03dfffffffffffff348735e74ac19fad5f (Nat.shiftLeft
+  0xb297b47ffffffffffffff823211fffffffffffffffb43fb7ff33d08b10e0fed1c453 288)) (Nat.shiftLeft (
+  Nat.add 0x80000000000001698d232000000000000000000007ffffffffffff33772900f340bca4b5 (Nat.shiftLeft
+  0xda4020000000000000004c73e800000000000003c7d6a9ff32630231387e8ded00 288)) 576)) 1152)) 2304))
+  4608)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x5fffffffffffffffea8a1800000000000000193561ffffffffffff31afc5871bbfd99c0b (Nat.shiftLeft
+  0xfffffece5b47fffffffffffffffaf20e0000000000000002be627f30f579519000973d19 288)) (Nat.shiftLeft (
+  Nat.add 0x87ffffffffffffff930991ffffffffffffffc061e8800000000000cfce60c69bc1096c9e (Nat.shiftLeft
+  0xfffffffe9796000000000000000037487fffffffffffffffd03860d0780f8e187e850feb 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xf200000000000000000fb680000000000000001fd29fffffffffff2ed12e875b41ec7548 (Nat.shiftLeft
+  0xffffffffa0107ffffffffffffffff5ed1ffffffffffffffff9f4c8d1e5986dc0fda207ff 288)) (Nat.shiftLeft (
+  Nat.add 0x107ffffffffffffffffef9e00000000000000006b5980000000000d29c5c37b4c2cf7df2 (Nat.shiftLeft
+  0x200000000000000000000800000000000000000002d353214d697cbefdde 288)) 576)) 1152)) (Nat.shiftLeft (
+  Nat.add (Nat.add (Nat.add 0x2000000000000000000008000000000000000000020000000000d409e5bd3d3c4d7963
+  (Nat.shiftLeft 0x8000000000000000000020000000000000000000054c0aa2d11fbdbf50e 288)) (Nat.shiftLeft
+  (Nat.add 0xa58800000000000000000002000000000000000000008000000000d5776e9ce61b6a70b9 (Nat.shiftLeft
+  0xffffffffff7f4600000000000000003b8f800000000000000010a7b62e330cba7af8ec65 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x7c6a0000000000000000097a7ffffffffffffffff46c9fffffffff291b0881c6cd7897f0 (Nat.shiftLeft
+  0x26c08000000000000000063e9ffffffffffffffffeae5f9bbbec62fa15e3ba 288)) (Nat.shiftLeft (Nat.add
+  0x59b97ffffffffffffff662b71fffffffffffffffc25a27ffffffff27ad7fa3e507a45f65 (Nat.shiftLeft
+  0x2000000000000008d3ae98000000000000004615870944cc0b7932da30 288)) 576)) 1152)) 2304)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x8d1b200000000000003fc1587800000000000011f153ba00000000d9c00a287a974156bb (Nat.shiftLeft
+  0x476f4f7ffffffffffffffa72f05ffffffffffffffc55654f6cdabb3f84fd27d 288)) (Nat.shiftLeft (Nat.add
+  0xdb035800000000000000b59579ffffffffffffffb7d2567fffffff24d26de2216d7e4e11 (Nat.shiftLeft
+  0xffffffffffb885720000000000000048956f7ffffffffffffffed6ff3ba974a388933643 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x355b600000000000000007f03800000000000000034469fffffff2364e505f1b51cba98 (Nat.shiftLeft
+  0x1eef800000000000000009b71ffffffffffffffffe0619df6b04f689c112 288)) (Nat.shiftLeft (Nat.add
+  0xff18a67fffffffffffffffeb1ca0000000000000000eedd7ffffff21f75c2525885e3cbd (Nat.shiftLeft
+  0x2bc3dffffffffffffffffad9b7ffffffffffffffff0c0297b5528a594797 288)) 576)) 1152)) (Nat.shiftLeft (
+  Nat.add (Nat.add (Nat.add 0x2000000000000000000007ffffffffffffffff7cc5ffffff2089d3457ed14ab413 (
+  Nat.shiftLeft 0x8000000000000000000020000000000000000e02c712a55f4c3afbe 288)) (Nat.shiftLeft (
+  Nat.add 0x80000000000000000000200000000000000000000800000e0e3b59a2a34520b69 (Nat.shiftLeft
+  0x2000000000000000000008000000000000000e19a5a09fe73e0a714 288)) 576)) (Nat.shiftLeft (Nat.add (
+  Nat.add 0xffffdf3e0000000000000000043d7ffffffffffffffffa60600000e2513e79d2b3d08abf (Nat.shiftLeft
+  0x5687fffffffffffffffffb75fffffffffffffff1fe07516590d026195 288)) (Nat.shiftLeft (Nat.add
+  0xffffde168000000000000000073b600000000000000000d7c7ffff1c4138a684cd47a415 (Nat.shiftLeft
+  0xfffffffffffff783b35fffffffffffffffd6a787ffffffffffffff1ab4a236b08de56a3f 288)) 576)) 1152)) 2304
+  )) 4608)) 9216)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0xf39f02a000000000000015584dd8000000000000003b707e0000e52c50392281546c14 (Nat.shiftLeft
+  0x19f71573800000000000074ac4f5e00000000000000e5e31428f7f1378d16 288)) (Nat.shiftLeft (Nat.add
+  0x23a0c497fffffffffffff625801a00000000000001b8f16d8000e699d918c9686fbfe1 (Nat.shiftLeft
+  0xfffffffffffff20a8681fffffffffffffaded2ef80000000000001e1ea8be8a07054846c 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xffff25bee200000000000002301eb4800000000000001acb616000e80761f874cc1943a0 (Nat.shiftLeft
+  0x62bf7ffffffffffffffd5d0d1fffffffffffff17afbf3fb7108e843d 288)) (Nat.shiftLeft (Nat.add
+  0x61577ffffffffffffffffa5ba000000000000000012d07ff168b1527e2d10162ef (Nat.shiftLeft
+  0x7ffffffffffffffff1a35ffffffffffffffff82ef8000000000000ea2ad069f16e8e7318 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x50c1ffffffffffffffffc1b67ffffffffffffffff588dff151d8c483a51e3209e (Nat.shiftLeft
+  0x20000000000000000458080000000000000000432e000000000000eb990c4a19edab6a6e 288)) (Nat.shiftLeft (
+  Nat.add 0x8000000000000000000020000000000000000000080ec4ffc976e2d39e619 (Nat.shiftLeft
+  0x80000000000000000000200000000000000000000800000000000ed06c107626cc861c4 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add 0x2000000000000000000008000000000000000000020edbd857716ac56dd6f (
+  Nat.shiftLeft 0xe6000000000000000046c38000000000000000056fa00000000000ee744b3082ebe5591a 288)) (
+  Nat.shiftLeft (Nat.add 0x10607fffffffffffffffff6ca000000000000000025628ef2b0e56bf2b73d492 (
+  Nat.shiftLeft 0xbd7ffffffffffffffffa495ffffffffffffffffdddf80000000000efe1d2bb596b025070 288)) 576
+  )) 1152)) 2304)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0xfffffffa5e1e9fffffffffffffffef8fe800000000000000002ddef098973667aa90cc33 (Nat.shiftLeft
+  0x6b600000000000001b95ba98000000000000000e9bba0000000000f14fb0fd0395e0b839 288)) (Nat.shiftLeft (
+  Nat.add 0xbb0454b88000000000000000000020000000000001b47ee09720620161029afa79b (Nat.shiftLeft
+  0x3b580000000000000a657c96000000000000609e9ff08000000000f2a7e82b49093c3f1c 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xffffff025fd2820000000000004e7aae12800000000000089554d22c8c570a475737ae09 (Nat.shiftLeft
+  0xde95ffffffffffffe796e2af800000000000138a79315fffffffff0bd6be6f60afa6c98d 288)) (Nat.shiftLeft (
+  Nat.add 0xffffffffffc23b7ffffffffffffffe17d8e0000000000000005eeb8ce131d56127e7a9d6 (Nat.shiftLeft
+  0xc5238000000000000000122c9ffffffffffffffffed587ffffffff0a6809ba139a89d237 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xffffffffffc8c3a00000000000000000e397fffffffffffffffd9f0fb1454af658fb568c (Nat.shiftLeft
+  0xef6ae00000000000000005bfe8000000000000000199bdffffffff08fa80db53daecdae1 288)) (Nat.shiftLeft (
+  Nat.add 0x69397fffffffffffffffdfbedffffffffffffffffb301c3bc6b4dd9de5f36 (Nat.shiftLeft
+  0x800000000000000000002000000000000000000007fffffff078cf7fb6164101c74 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x200000000000000000000800000000000000000f909cc745aa53e981f (Nat.shiftLeft
+  0x2000000000000000000008000000000000000000020000000f9e090e42ee4c513ca 288)) (Nat.shiftLeft (
+  Nat.add 0xffffffffffffccad7fffffffffffffffffc9600000000000000000329f555403245b8f75 (Nat.shiftLeft
+  0x32de7ffffffffffffffff7355ffffffffffffffffc3b68000000fb4e19c3d680a3f4df 288)) 576)) 1152)) 2304))
+  4608)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0xfffffffffffff7215ffffffffffffffffef467ffffffffffffffff50a2de33aba37886cb (Nat.shiftLeft
+  0xfd0c3d1ffffffffffffffff4ad37fffffffffffffffe79e5ffffff03445d5c8033557d89 288)) (Nat.shiftLeft (
+  Nat.add 0x17e4b2b7fffffffffffffffdaa7e000000000000008b04a218ecabdd6a81de (Nat.shiftLeft
+  0x8000000000002c35594660000000000003ef68145800000fe292b8020665719cc 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x8735695ba000000000004ccc6d97a800000000000d19b77e50ff2fca1b27577 (Nat.shiftLeft
+  0xff7ef0d60000000000037796b6677fffffffffff92c06dd5dfffff00694bb2005db85922 288)) (Nat.shiftLeft (
+  Nat.add 0xffffffffeb109c323d7fffffffffff42ae1976dfffffffffffafa79eae00d2a520cf6cc1 (Nat.shiftLeft
+  0x45b680000000000000050557e00000000000001cbbac68000101043d42f8e566ed87 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xffffffffffffffc92edfffffffffffffffff7cb80000000000000103f7f3b24d9fec6423 (Nat.shiftLeft
+  0xfffff5b660000000000000000175780000000000000003b44a00010271c62221df3f01b1 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffffffffffff95fe80000000000000002e71600000000000001033840ee09e0f6a486 (Nat.shiftLeft
+  0x89518000000000000000098c5ffffffffffffffffa22a7ffefc20b0fe35a1732bfb 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x2000000000000000019117ffffffffffffefb6addd19e9e2652cf (Nat.shiftLeft
+  0x200000000000000000000800000000000000000002001054cd7e172ddb4ce72 288)) (Nat.shiftLeft (Nat.add
+  0x800000000000000000002000000000000106039c59471d434a25 (Nat.shiftLeft
+  0x4bcd800000000000000005a92000000000000000054e580106ba60c11b5cd1c5d2 288)) 576)) 1152)) 2304)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x80000000000000000240e00000000000000004011800000000000107718542ef9c60417b (Nat.shiftLeft
+  0xfffffff285a00000000000000001d527ffffffffffffffffa8e9fef7d8165f3c24115d1e 288)) (Nat.shiftLeft (
+  Nat.add 0x5ffffffffffffffffd5b5800000000000000007b2200000000000108defc34e7e482c72e (Nat.shiftLeft
+  0xeddd327ffffffffffffffee693a000000000000004246067ef66a8d7f93a4f5763d 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0xd8000000000005e2971d920000000000004bec373e80000000000108cab59ca09a9a3027 (
+  Nat.shiftLeft 0xab2134b7c2000000000020f5aafb2080000000000000000000210b02fb60149f5e53da 288)) (
+  Nat.shiftLeft (Nat.add 0x6600000000000687cc517c7ffffffffff3efa0a6279fffffffffff41c77493a119b7277d
+  (Nat.shiftLeft 0xb1e44b1f867ffffffffff59987321d200000000002193fc178790c70843fbdd752a4b5 288)) 576)
+  ) 1152)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xd7ffffffffffffff0b6e75ffffffffffffe9bdbe477fffffffffec24681674398d41ed3 (Nat.shiftLeft
+  0xffffffffd560e00000000000000037db98000000000000000ad3730dde0d1f65d8629616 288)) (Nat.shiftLeft (
+  Nat.add 0x8f9ffffffffffffffff852d7ffffffffffffffffa27dfffffffffef16b2fe11d680ee9d6 (Nat.shiftLeft
+  0xddb87ffffffffffffffff9ba9ffffffffffffffffa04270b46a00f1a8806e2b 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x4d97ffffffffffffffff903e0000000000000000b94e7ffffffffeeffda5b897370e0d7f (
+  Nat.shiftLeft 0xfffffffffef99a0000000000000000a53e7ffffffffffffffffa2d30b91edeb6d69c8920 288)) (
+  Nat.shiftLeft (Nat.add 0x200000000000000000000800000000000000000002000000001116fe34e8b11d4fb2a (
+  Nat.shiftLeft 0x80000000000000000000200000000000000000011a26a7be5f55b98080 288)) 576)) 1152)) 2304
+  )) 4608)) 9216)) 18432)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (
+  Nat.add 0xdf6d7fffffffffffffffedcbe000000000000000001dc80000000112dd6c2e339747fc2b (Nat.shiftLeft
+  0xfffffffffffec31ffffffffffffffffc67880000000000000001fdbe6bcf61f82b298829 288)) (Nat.shiftLeft (
+  Nat.add 0xff859ffffffffffffffffe4bf80000000000000001059600000001144af50df8631b0c7e (Nat.shiftLeft
+  0xfffffffffffb369800000000000000001acdffffffffffffffffef657e46824fac0c90d3 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x92cb7fffffffffffffff8791a00000000000000194f117ffffffeea47821227a3de1528 (Nat.shiftLeft
+  0x6912040c20000000000003c733ed38000000000000184bc2e4f425d58d3106685 288)) (Nat.shiftLeft (Nat.add
+  0x583be20000000000000000000080000000000494a571986000000117267f1180d1f6e22d (Nat.shiftLeft
+  0xfffffbe95cdf98447fffffffff7f6b37ca3de00000000054d8f2bcefd4cb3d0152285abb 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x2a8ad780000000003892e143ff2000000000170b0e76534800000118959d21dcb2a2267c (Nat.shiftLeft
+  0xfffffffffe550b2e9fffffffffffc6af19fd480000000001090c8ef930541ca9d15f5c6e 288)) (Nat.shiftLeft (
+  Nat.add 0xffe98b5fffffffffffffffdea05800000000000000168ac5fffffee5fee773fd247baf26 (Nat.shiftLeft
+  0xfffffffffffffeb8680000000000000001f585fffffffffffffffe66e8a303adaf98b37b 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xfffd5d9800000000000000091bde0000000000000000854b7ffffee4915e93d96e5d17d0 (Nat.shiftLeft
+  0x15689ffffffffffffffff874a7ffffffffffffffee1a0fa2405307bbc25 288)) (Nat.shiftLeft (Nat.add
+  0x2537dffffffffffffffffe0917fffffffffffffffed54a000011cdc2a4bcf09b75785 (Nat.shiftLeft
+  0x800000000000000000001ffffffffffffffee55bd6bba34ea13b30 288)) 576)) 1152)) 2304)) (Nat.shiftLeft
+  (Nat.add (Nat.add (Nat.add (Nat.add
+  0x80000000000000000000200000000000000000000800011e49b32b778e2fb4db (Nat.shiftLeft
+  0xffffffffffffffff7e2000000000000000062bb8000000000000011f00759b4bcdbe3286 288)) (Nat.shiftLeft (
+  Nat.add 0x2a61fffffffffffffffff3e37ffffffffffffffffd2ca00011fb73c0b200d71d64e (Nat.shiftLeft
+  0xfffffffffffffffeae880000000000000000727600000000000001204322faf44cdb29dc 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x41d67ffffffffffffffff8b32000000000000000018bc7ffededb3b1537738655d8 (Nat.shiftLeft
+  0xfffffffffffffff07fea0000000000000008106f7ffffffffffffede356d7a9ccbf82132 288)) (Nat.shiftLeft (
+  Nat.add 0x4ff5e155a00000000000022ca923280000000000000b004fee00122924dca7109152efa (Nat.shiftLeft
+  0xfffffffffff31a1954008000000000093e844882e00000000000824dc22362454b151888 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x9ef9acb758000000011320ce9ee326000000002761428c223580123ffd6aa198aa39432 (Nat.shiftLeft
+  0x8000000002845742141d20000000044fcc33806c37ffffffff2ccd9a5072241235cdf073 288)) (Nat.shiftLeft (
+  Nat.add 0xffaf3c174b20000000000278d6fcdb28000000000c7f117845a5feda92a00bdfa7fae450 (Nat.shiftLeft
+  0xdfffffffffffffffb6c117ffffffffffffff186935fffffffffffed1ddf0b4e9b6b0f8cb 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x856f800000000000000016bb6000000000000000149d57ed9251796957722fca1 (Nat.shiftLeft
+  0x87fffffffffffffffc9de5ffffffffffffffff90778000000000012791aaf85ec86bfe8a 288)) (Nat.shiftLeft (
+  Nat.add 0x79b600000000000000010df37ffffffffffffffffa6821284871491307fa7c4e (Nat.shiftLeft
+  0x1600000000000000012aca800000000000000001995ffffffffffed700cb817f4788f5e0 288)) 576)) 1152)) 2304
+  )) 4608)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x7ffffffffffffffff64020000000000000000117d6d64a05d74478e88f3f (Nat.shiftLeft
+  0x80000000000000000000200000000000000000000800000000012a6cbe988dc6a5ed36 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffffff40c6000000000000000016ef8000000000000000000032b23830864063468e1 (Nat.shiftLeft
+  0xfddfffffffffffffffff4fa80000000000000000f1a1fffffffffed425b89c0f3a3d1b73 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xfffffffffd81a80000000000000001d8be00000000000000000ea9536ef417f37aae9fc7 (Nat.shiftLeft
+  0xe5a7fffffffffffffffffcb1fffffffffffffffffbd780000000012d47d044e41b20241d 288)) (Nat.shiftLeft (
+  Nat.add 0x3c52e0000000000000001f68b7fffffffffffffffefac0dfe94c7b5046e578d (Nat.shiftLeft
+  0xa6960000000000000ef27911800000000000003c5796a0000000012eb559bf424bfcd338 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xffffdf7c4f5c74800000000008b1b41eb7e000000000005c7c6e78476c1da75d8389f7e7 (Nat.shiftLeft
+  0x18fe800000008c625cfb387f6000000000000000000007fffffffe989455cb0722e63571 288)) (Nat.shiftLeft (
+  Nat.add 0xf8838c00b20c9fffffffd0c1639dd1d6e7ffffffeed66b018fc08ed9a68703e9ec5bbf (Nat.shiftLeft
+  0x1a88a0000000002d809a6b6588000000009687b9bbbb89fffffff768b23a523406b6c1e4 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xfffffffffe5ad797ffffffffffffef2b75fa0000000000001b255328c72f66ae81c65e98 (Nat.shiftLeft
+  0x1b6f800000000000000003e820000000000000000c1378000000132fdf3d7a8978c46c5 288)) (Nat.shiftLeft (
+  Nat.add 0x5c4c5ffffffffffffffffb5db7fffffffffffffffcd9494b8465700e234e5 (Nat.shiftLeft
+  0xb231ffffffffffffffffd8857fffffffffffffffd041dffffffecb948349d7b668b090 288)) 576)) 1152)) 2304))
+  (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0xb977fffffffffffffffce26200000000000000005b09a4125ff7fff2c3b (Nat.shiftLeft
+  0x4bca80000000000000001f2c1ffffffffffffffffd5e6800000135d90595d2f7bfa7e6 288)) (Nat.shiftLeft (
+  Nat.add 0x20000000000000000000080000000000000001368dca05a7ff1c2391 (Nat.shiftLeft
+  0x19dbe00000000000000006c0180000000000000000000200000137468e757c3eaa1f3c 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add 0x17327ffffffffffffffffd465fffffffffffffffe9918d2e5507e391ae7 (
+  Nat.shiftLeft 0xfff702e80000000000000000252200000000000000003a687ffffec74be8aadb5373f692 288)) (
+  Nat.shiftLeft (Nat.add 0xfffffffffffffebc71ffffffffffffffffadff7ffffffffffffffec219043b0702a9edc2
+  (Nat.shiftLeft 0xfffcf086000000000000000103fa800000000000000000062000013a21a034cd3d0e7a17 288))
+  576)) 1152)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x4e3070b800000000000000fa11ce0000000000000012384235b5e838cf66c (Nat.shiftLeft
+  0x1db1c6dd8000000000063b00b0fe2000000000002fa50164b800013b8f29156f52319b3e 288)) (Nat.shiftLeft (
+  Nat.add 0x1fffffffe239ad6563fb17ffffffffc5f5a21c098f8449fb900068 (Nat.shiftLeft
+  0xa301be6cdffffff940734b5d300d7800000112fd1cb5811f7200013cccea35b29a555c14 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xfffffffea177da262598000000095f1dc6468d5dfffffe2ea7dab21290a41c0d8559cb72 (Nat.shiftLeft
+  0xfff982ac08000000000000cb2e693a0000000000079672571580013e6a3ab6605f2e3735 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffffffffffff7522dfffffffffffffffd017a7ffffffffffffec2958e5c650636106a (Nat.shiftLeft
+  0xfffffcbbb60000000000000000e19780000000000000000a2b9ffec0283c4c90c6868217 288)) 576)) 1152)) 2304
+  )) 4608)) 9216)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x66517fffffffffffffffe06e20000000000001408cfb04bc87191914 (Nat.shiftLeft
+  0x3a417fffffffffffffffe5d49ffffffffffffffff220980141454c9317b874a394 288)) (Nat.shiftLeft (Nat.add
+  0x800000000000000004119ffffffffffffffff34a47fffffffffffebe0006ecebf803de41 (Nat.shiftLeft
+  0x20000000000000000000080000000000000000280a0142b2d572c037924dfa 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x5ffffffffffffffffef9c800000000000000000002000000000001436999e2147720d597 (
+  Nat.shiftLeft 0x57c7ffffffffffffffffd629ffffffffffffffffe00f8144205e5268b6af5984 288)) (
+  Nat.shiftLeft (Nat.add 0x57ffffffffffffffff79c1ffffffffffffffffff467ffffffffffebb28dbb41cf63dcced
+  (Nat.shiftLeft 0xffffffff17adfffffffffffffffff2e87fffffffffffffffd836deba7218cdeeca33b2ba 288))
+  576)) 1152)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xf9ffffffffffffffffd4727ffffffffffffffffa262000000000014644aa33e28aa53bbc (Nat.shiftLeft
+  0x133cb0480000000000000030476dfffffffffffffffec36b6b9048fee464b16c21e 288)) (Nat.shiftLeft (
+  Nat.add 0xfc800000000002e52e1bf7e0000000000011d48a5678000000000147e43d22ebf477bb99 (Nat.shiftLeft
+  0x747917f01d9e5fffffffe2edbd3455a7f7fffffffff0ee3e826f734868f8f16250169558 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x482000004dbd0439d76702080000099521db38749a820000000001491fbd61360c6b4d1b (Nat.shiftLeft
+  0xd722919ab4d807fffffc7ae3ca038cbdc600001859fe5796485e0136297f21cfcfeeea48 288)) (Nat.shiftLeft (
+  Nat.add 0x7888000000000007fea2e865fffffffffffde7e88d6c7ffffffffb85c1b9921ded4e55ba (Nat.shiftLeft
+  0xfffffffffbaa49fffffffffffffffe080f80000000000000040238eb440ab0b33240de75 288)) 576)) 1152)) 2304
+  )) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x690dffffffffffffffff96b87fffffffffffffff8ad920000000014bfacf260016315e64 (Nat.shiftLeft
+  0x4d37fffffffffffffffb9815ffffffffffffffffa1e0b4e6c6fa44ea2e2ba 288)) (Nat.shiftLeft (Nat.add
+  0xfd587fffffffffffffffd61de00000000000000006b907fffffffeb297a7fd840eeb98f1 (Nat.shiftLeft
+  0xfffffffffffab01ffffffffffffffffb8b680000000000000003c567e0e38ffbcf85eb63 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x1ffffffffffffffffe2e57ffffffffffffffff4e42000000014ed5e0dff6f6776fb8 (Nat.shiftLeft
+  0x4c8e8000000000000000000020000000000000000014f0ca54facaf970bf2 288)) (Nat.shiftLeft (Nat.add
+  0x7f9f800000000000000000c35ffffffffffffffff240e80000001504369bf945185879d (Nat.shiftLeft
+  0x70be0000000000000000559c7ffffffffffffffff75bda2e2f552eb40348 288)) 576)) 1152)) (Nat.shiftLeft (
+  Nat.add (Nat.add (Nat.add
+  0xfe7581ffffffffffffffff60fc80000000000000000260e000000151b0f29f2a38aa7ef3 (Nat.shiftLeft
+  0x62a17fffffffffffffffea30dffffffffffffffff9873048f102522f0561 288)) (Nat.shiftLeft (Nat.add
+  0x38164d8000000000000000b5c71fffffffffffffffd59a07fffffeace184812c9ac57649 (Nat.shiftLeft
+  0xf8a0f8e120000000000004f65261b8000000000000137d93a33feea62cedf1f4 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x53db725ffffffffa45ffa12820b80000000007f7ae78619e000001548c35e5202474ed9f (
+  Nat.shiftLeft 0x2b8852055d30b100800000000000000000001fffffd1c81e49811af72b731b154b8a3ac 288)) (
+  Nat.shiftLeft (Nat.add 0xe7764a780000103a0e3b3fd7e3820004a055fae2d847c80080000d61bc2d3d6585d944f5
+  (Nat.shiftLeft 0xffffffff9a4bebaba1fffffffffa5b2cfb777f7fffffffc96f9497169e31adf72b0715dc 288))
+  576)) 1152)) 2304)) 4608)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0xfffd73c5fffffffffffffff33f7a800000000000009227d56000015767161ceb6d610bb4 (Nat.shiftLeft
+  0xfffffffffffffe9e847fffffffffffffffa32da0000000000000017d1a4d726055bb2809 288)) (Nat.shiftLeft (
+  Nat.add 0xffffedc57ffffffffffffffffbc3dffffffffffffffff92bc7fffea72b61028c16ae5e5e (Nat.shiftLeft
+  0xffffffffffffffd781dffffffffffffffff83688000000000000015893aa92b7d69e30b3 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xfffffc22e000000000000000016737fffffffffffffffedc71fffea5bdd822e397221688 (Nat.shiftLeft
+  0xffffffffffffffffae17fffffffffffffffeab2a000000000000015ade93330f5781395d 288)) (Nat.shiftLeft (
+  Nat.add 0xfffff6e82800000000000000000002000000000000000000007ffea4504f433b17f930d2 (Nat.shiftLeft
+  0xfffffffffffffffe9f19ffffffffffffffffff48800000000000015c70203366d8644207 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xffffff7215fffffffffffffffffd3b7ffffffffffffffff72adffea2e2c6639298d579f4 (Nat.shiftLeft
+  0xffffffffffffffffc2c67fffffffffffffffee699ffffffffffffea22d90bbbe59474ab1 288)) (Nat.shiftLeft (
+  Nat.add 0xffffffed2a7fffffffffffffffe817e000000000000000000977fea1753d83ea19b8b27c (Nat.shiftLeft
+  0x80000000000000003005e000000000000000041bc7fffffffffffea0b6171a15da2a535b 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x3ad745b0e0000000000001012264f80000000000000319e202015ff84b5bbe65623439 (Nat.shiftLeft
+  0x20000000000d97f65e66580000000004252e7d545e00000000000daae7dead12a4f2a3fa 288)) (Nat.shiftLeft (
+  Nat.add 0x7ffff139648cd880eb001fffffde439df32b105207e9e9a29c2863e722437 (Nat.shiftLeft
+  0x8000342e2acf7e9dff001ffb4bcf6d583d258000080007cae0b6da40b78ab1b240f9b50 288)) 576)) 1152)) 2304)
+  ) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0xfd33fa3733120000000008c3752836d580000003a5579f4130e8e162d375bdf74d9d5bef (Nat.shiftLeft
+  0x860000000000000039ec637ffffffffffffe45979e5ffffffffffec606f7d9845cd36d59 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffffc54b27fffffffffffffff5e311ffffffffffffffff32cb69bbf1a05481d44d6ec (Nat.shiftLeft
+  0x827fffffffffffffffeea21ffffffffffffffff247e8000000000164f7af57edddb67603 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xffffffffdcbfa00000000000000000f927fffffffffffffffd6c6c9a5191259f9e27fa31 (Nat.shiftLeft
+  0x94200000000000000005fe080000000000000002cf7dfffffffffe999accbbbfde997ead 288)) (Nat.shiftLeft (
+  Nat.add 0x4025800000000000000008a3dffffffffffffffff555d18e40845f71f0b0349 (Nat.shiftLeft
+  0xa33800000000000000000001ffffffffffffffffb5157ffffffffe982d43d529008378a8 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xfffffffffe5745fffffffffffffffdab967ffffffffffffffff9fa77767f664e9fee0bb9 (Nat.shiftLeft
+  0x34fe000000000000000663a980000000000000001b1a9ffffffffe96bfbae70c085f9001 288)) (Nat.shiftLeft (
+  Nat.add 0x1e08d7fffffffffffffffc2335fffffffffffffffec3291f7097959df2eeba9 (Nat.shiftLeft
+  0x6ca97ffffffffffffffff91ae0000000000000001026b7fffffffe95523214d570bd6754 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add 0x146a15fffffffffffffffe54ec7fffffffffffffff6ecb29b6da6fda1b41d01
+  (Nat.shiftLeft 0x73ec6000000000000024380b0800000000000000387d25fffffffe93e4a934d6e45a5eaa 288)) (
+  Nat.shiftLeft (Nat.add 0x898901fdb4380000000000e3c5c881e60000000000022116521f521b38aadd68d3a6 (
+  Nat.shiftLeft 0xba0007ffff9d9d9a3314ad3801ffffffb085ad99275dc2800000016c378a9ed40e575600 288)) 576
+  )) 1152)) 2304)) 4608)) 9216)) 18432)) 36864))
+
+def L_B_0_c2 : Nat := (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x55a0d907df3c0001fa14a7490b3fed8000008000000000000000016e205bd7968a5ab2ea (Nat.shiftLeft
+  0x8122960000000240a75fb1ec778000000f5138d71c9f29a00000114651ab095a38b3b2b3 288)) (Nat.shiftLeft (
+  Nat.add 0x40ca7a17fffffffffffdffc62675fffffffffff728d0676152cf7fbdbba4283 (Nat.shiftLeft
+  0xfbf7047ffffffffffffffef614e000000000000000d4a9f80000017063f1673100c744ac 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xffffffffffff89c19fffffffffffffffe180c8000000000000001147274a285ba5403fa8 (Nat.shiftLeft
+  0xffb531dffffffffffffffffc43380000000000000001b609fffffe8e2e85b8842e8443fd 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffffffffffbdd97fffffffffffffffd314200000000000000030b9c4148b326234852 (Nat.shiftLeft
+  0xffdb99a80000000000000005fa2a0000000000000006e7e47ffffe8cc0fcd8dea8506ca7 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x10b3dffffffffffffffff09c17ffffffffffffffeda7158690aa70650fc (Nat.shiftLeft
+  0xfffd6f61ffffffffffffffffb18b7fffffffffffffffff99dffffe8b5373f93663bda2ae 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffffffffffff5eb800000000000000024ac200000000000000175b437896227e959a6 (Nat.shiftLeft
+  0xffffedf88000000000000000136ddfffffffffffffffffa4c7fffe89e5eb198de91e17fb 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xffffffffffffffed9b9ffffffffffffffffc94e800000000000001762fa4a9b9a8cc6250 (Nat.shiftLeft
+  0xee49a0000000000000001c02380000000000000004d051fffe88786239e5691efa25 288)) (Nat.shiftLeft (
+  Nat.add 0x286a5c7fffffffffffffffd5335fffffffffffffe84f231b5eed6509505 (Nat.shiftLeft
+  0x1a7366fcf800000000000c8640655a00000000000035be26e7800178f526a5c208fa8250 288)) 576)) 1152)) 2304
+  )) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0xffffefc3c1ae6fdad9a1fffffffd00a5d714f82c800000000eb1b1dd90f77597556d8c49 (Nat.shiftLeft
+  0x968e600002a4f2dc7728de90249f807fed654299b968e600001ffe92e04bec81e7580801 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffffd00a5d714f82c7ffffefc3c1ae6fdad9a1fffe882e469eb08bd73f2c102deaa2a (Nat.shiftLeft
+  0x35be26e7800000000000c8640655a000000000121a7366fcf8017bd0388e0f1e5b4e99 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x7fffffffffffffffd533600000000000000286a5c80000000000016d54a5fae853a77b07 (Nat.shiftLeft
+  0x4d0520000000000000001c0238000000000000000ee499fe82c23ebb436cc93ae1 288)) (Nat.shiftLeft (Nat.add
+  0xdffffffffffffffffc94e7fffffffffffffffed9b9fffffffffffe820b595710d2c4725d (Nat.shiftLeft
+  0xffffffffa4c8000000000000000136ddffffffffffffffffedf8817eab4a24651252e1ff 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x6800000000000000024ac1fffffffffffffffff5eb7ffffffffffe809de52766ae1e964c (Nat.shiftLeft
+  0xfffffffff99dffffffffffffffffb18b7fffffffffffffffd6f6218018d3040d916fe589 288)) (Nat.shiftLeft (
+  Nat.add 0x49ffffffffffffffff09c1800000000000000010b3dffffffffffe7f306c46662f019ef6 (Nat.shiftLeft
+  0x6e7e480000000000000005fa29fffffffffffffffdb99a67e79a41c49ef73262c 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x147fffffffffffffffd3141ffffffffffffffffbdd97fffffffffe7dc2db403c501b585f (
+  Nat.shiftLeft 0x1b609ffffffffffffffffc4337fffffffffffffffb531f82f3e4c35e8fa9d673 288)) (
+  Nat.shiftLeft (Nat.add 0x63dfffffffffffffffe180c7fffffffffffffff89c19fffffffffe7c555587f84f384fb5
+  (Nat.shiftLeft 0xd4a9f7ffffffffffffffef614dfffffffffffffffbf70504616da3070ec6ca63 288)) 576)) 1152
+  )) 2304)) 4608)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x19b7fffffffffffdffc62676000000000000040ca7a1800000000185183c03642e55470b (Nat.shiftLeft
+  0xf5138d71c9f29a0000000240a75fb1ec77800000000188b8281228da31097d5072914fb1 288)) (Nat.shiftLeft (
+  Nat.add 0x1fa14a7490b3fed8000007ffe555a0d907df3c000200000102921463b8f2765723e61 (Nat.shiftLeft
+  0xb085ad99275dc27ffff9d9d9a3314ad3801fffcfc5d6df6341ba018f3c7f62580d00ba0c 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x537380000000000e3c5c881e6000000000898901fdb438000000019c0610b89d6570ca48 (Nat.shiftLeft
+  0x387d26000000000000024380b080000000000009f373f4eaa0842008c1f9074 288)) (Nat.shiftLeft (Nat.add
+  0x6edd9fffffffffffffffe54ec800000000000000146a15fffffffe769f334dd4b22c2d0d (Nat.shiftLeft
+  0x1026b7ffffffffffffffff91adfffffffffffffffe6d23686ede56f4c55747 288)) 576)) 1152)) (Nat.shiftLeft
+  (Nat.add (Nat.add (Nat.add
+  0xec33f7fffffffffffffffc23360000000000000001e08d7ffffffe7531aa6ea2fc292463 (Nat.shiftLeft
+  0x1b1aa000000000000000663a9800000000000000002c45ae5feae75a85ff1 288)) (Nat.shiftLeft (Nat.add
+  0xff9fb1fffffffffffffffdab967fffffffffffffffe5745ffffffe73c4218ecb407e1bb9 (Nat.shiftLeft
+  0xffffffffffffb515800000000000000000001fffffffffffffffeb2fc55d1f05f68b689b 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xff555c800000000000000008a3e000000000000000040257fffffe725698af318642ecf0 (Nat.shiftLeft
+  0x2cf7e00000000000000005fe07fffffffffffffffac721d43f5d776e7145 288)) (Nat.shiftLeft (Nat.add
+  0xffd6c6e00000000000000000f927fffffffffffffffdcbf9fffffe70e90fcf8939ab8a65 (Nat.shiftLeft
+  0xfffffffffffff247e7fffffffffffffffeea21fffffffffffffffe194fcb5fb4f85179ef 288)) 576)) 1152)) 2304
+  )) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0xfff32cb7fffffffffffffff5e311fffffffffffffffc54b2800001908479101f14eb1e44 (Nat.shiftLeft
+  0xffffffffffe45979e60000000000000039ec637ffffffffffffffc1ae362800c79348299 288)) (Nat.shiftLeft (
+  Nat.add 0xf4130e8e0000000008c3752836d57fffffffffd33fa373311ffffe6e0dfe4a4b100a9eee (Nat.shiftLeft
+  0xb4bcf6d583d25800008000342e2acf7e9dff0020000028a6f82e02dfbcce5f9c05d221c5 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x32b105207ffff139648cd880eb002000000000000000000008000659bf3c03113b76f198 (Nat.shiftLeft
+  0x4252e7d545e0000000000d97f65e6657ffffffdf9e0daea7af6ec0bb78e155cd 288)) (Nat.shiftLeft (Nat.add
+  0x319e2020000000000001012264f8000000000003ad745b0e000194cd13a3d28c42813d (Nat.shiftLeft
+  0x41bc80000000000000003005e00000000000001939fae9eed04226368 288)) 576)) 1152)) (Nat.shiftLeft (
+  Nat.add (Nat.add (Nat.add 0x977fffffffffffffffe817dffffffffffffffffed2a7ffe69c563713ebcc9c033 (
+  Nat.shiftLeft 0xfffffffffffffffee699ffffffffffffffffc2c67ffffffffffffe6909489e95833f5abe 288)) (
+  Nat.shiftLeft (Nat.add 0xffffff72adfffffffffffffffffd3b7ffffffffffffffff7215ffe6857da91963d33b8de
+  (Nat.shiftLeft 0xffffffffffffffffff487fffffffffffffffe9f19ffffffffffffe67a1a989c1fda3adeb 288))
+  576)) (Nat.shiftLeft (Nat.add (Nat.add
+  0x800000000000000000001ffffffffffffffff6e828019915ae4e1241eba8ee (Nat.shiftLeft
+  0x7fffffffffffffffeab29fffffffffffffffffae17fffffffffffe66333597e68179496a 288)) (Nat.shiftLeft (
+  Nat.add 0xffffffedc72000000000000000016737ffffffffffffffffc22e019a83372dbac107e36a (Nat.shiftLeft
+  0x9ffffffffffffffff83687fffffffffffffffd781dfffffffffffe64c629c1f0ff69bf3f 288)) 576)) 1152)) 2304
+  )) 4608)) 9216)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0xfffffff92bc7ffffffffffffffffbc3dffffffffffffffffedc5819bf0c00d634024ade7 (Nat.shiftLeft
+  0x97fffffffffffffffa32d9fffffffffffffffe9e847ffffffffffe635873ade8804cc7e9 288)) (Nat.shiftLeft (
+  Nat.add 0x9227d55fffffffffffffff33f7a7fffffffffffffffd73c619d5e48ed0bbf4196c6 (Nat.shiftLeft
+  0xe5fffffffffa5b2cfb777f7ffffffffff9a4bebaba2000000000019f350a8b87fed02f6c 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xfae2d847c80080000103a0e3b3fd7e382000000020f57ce7764a7661342e3022c717cf15 (Nat.shiftLeft
+  0x3080000000000000000000200002b8852055d30b10080000c3445b9fb6e0d88a7de98697 288)) (Nat.shiftLeft (
+  Nat.add 0x7f7ae78619dffffffffa45ffa12820b7ffffff8b24ae653db7245fc6a7b0dd59e3b297 (Nat.shiftLeft
+  0x760000000000004f65261b800000000000f8a0f8e120000000001914b4554387d0a1e18 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xffffffffd59a08000000000000000b5c720000000000000038164c21a6e38c053c99ae0f (Nat.shiftLeft
+  0xd557fffffffffffffffea30e000000000000000062a17ffffffffe5da2582ca0e3d8ea91 288)) (Nat.shiftLeft (
+  Nat.add 0x260dffffffffffffffff60fc7fffffffffffffffe759bceb939452444a6ee1 (Nat.shiftLeft
+  0x60b20000000000000000559c8000000000000000070be000000001a3cb30d8d713440cc4 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xffffffffff240e800000000000000000c3600000000000000007f8537e0ab4a9c52d7790 (Nat.shiftLeft
+  0x80000000000000000000200000000000000004c8e800000001a538b9ba61939efbe5 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffffffff4e41ffffffffffffffffe2e58000000000000000001a7ef7e2afeb9ef7fc5 (Nat.shiftLeft
+  0x3c429ffffffffffffffffb8b67ffffffffffffffffab0200000001a6a6429afc7f02048f 288)) 576)) 1152)) 2304
+  )) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x6b907fffffffffffffffd61ddfffffffffffffffffcffdd070aa7390c771b (Nat.shiftLeft
+  0xfa1f47fffffffffffffffb9816000000000000000004d37ffffffe57ec3485a1c77af2c6 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffffffff8ad91ffffffffffffffff96b87fffffffffffffffc738157015b047d6918e (Nat.shiftLeft
+  0x402399fffffffffffffffe080f7fffffffffffffffbaa4a0000001a981545a2570d015e3 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xfffffffde7e88d6c8000000000007fea2e8660000000000000fb84d2b018c9f8374665c7 (Nat.shiftLeft
+  0x485e007fffffc7ae3ca038cbdc5fffffffd722919ab4d807fffffe554229f6315ae51e8d 288)) (Nat.shiftLeft (
+  Nat.add 0x99521db38749a82000004dbd0439d7670207ffffef0c57ccdc4c8f27a1a9b8ef9d0a8b (Nat.shiftLeft
+  0xe826f71fffffffe2edbd3455a7f7ffffff4747917f01d9e6000001ac5c661974f5f158c8 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x11d48a567800000000002e52e1bf7e00000000006410a3b1ef5576b6ca7f5a90 (Nat.shiftLeft
+  0xffec36b80000000000000030476e0000000000000133cb04800001adc9eefc7def38b01e 288)) (Nat.shiftLeft (
+  Nat.add 0xffffffffffffffa261ffffffffffffffffd4727ffffffffffffffe718f2c970e4b62b436 (Nat.shiftLeft
+  0xfffd836dfffffffffffffffff2e87ffffffffffffffff17ae00001af3777d8c5f5b9c08b 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xffffffffffffffff467ffffffffffffffff79c1ffffffffffffffe55cc6bb765cc45bce0 (Nat.shiftLeft
+  0xffffe00f7ffffffffffffffffd62a0000000000000000057c7fffe4f5aff47918cdfdf35 288)) (Nat.shiftLeft (
+  Nat.add 0x1ffffffffffffffffef9c800000000000001b1d7a0d7bd4d28c58a (Nat.shiftLeft
+  0x280a000000000000000000008000000000000000000020001b212899816f265b6a0 288)) 576)) 1152)) 2304))
+  4608)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0xfffffffffffffff34a480000000000000000411a00000000000001b2dd5887eb31f431cb (Nat.shiftLeft
+  0xfffff22097fffffffffffffffe5d4a00000000000000003a417ffe4c7fed88408e43d3a9 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffffffffffffe06e20000000000000000665180000000000001b42ac6f86c4eeed6de (Nat.shiftLeft
+  0xa2ba0000000000000000e1977fffffffffffffffcbbb6001b4ed9b5767f09dd7eb 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0xfffffffffffffffd017a7fffffffffffffff7522dffffffffffffe4a7ab69f3c302e2077 (
+  Nat.shiftLeft 0x7967257158000000000000cb2e6939ffffffffffffff982ac07fe49a4dbc8ef9067cb33 288)) (
+  Nat.shiftLeft (Nat.add 0x8000000095f1dc6468d5dffffffffea177da26259800000000065bd940bce8e4af4b17cd
+  (Nat.shiftLeft 0xd1cb5811f71ffffff940734b5d300d77ffffff5334da301be6cdfe483683b1625df6b0aa 288))
+  576)) 1152)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x1fffffffe239ad6563fb1800000000000000000002000000305bc014de3aa60d2e681e0c (Nat.shiftLeft
+  0x2fa50164b8000000000063b00b0fe20000000000811db1c6dd7e46c9ca0a3e37c48e08 288)) (Nat.shiftLeft (
+  Nat.add 0x4800000000000000fa11ce00000000000004e3070b800000000001a8421967d5ad850679 (Nat.shiftLeft
+  0x62000000000000000103fa7fffffffffffffffcf0861baa3bed609ed139b78 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x3dffffffffffffffffadff7fffffffffffffffebc7200000000001bb5a82af262ca1fdcf (
+  Nat.shiftLeft 0x3a68800000000000000002521ffffffffffffffff702e643eeb84a4d93cf86cd 288)) (
+  Nat.shiftLeft (Nat.add 0xe57ffffffffffffffffd466000000000000000017327fffffffffe4337f2cec0abbef525
+  (Nat.shiftLeft 0x200000000000000006c01800000000000000019dbc42812f6aa514b28f7e 288)) 576)) 1152))
+  2304)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x2000000000000000000008000000000000000000020000000001be3595052faadbec7b (Nat.shiftLeft
+  0xfffffffffd5e680000000000000001f2c200000000000000004bcb3eec5975036a6a6826 288)) (Nat.shiftLeft (
+  Nat.add 0x85b7fffffffffffffffce26200000000000000000b978000000001bfa31df054b6071c2e (Nat.shiftLeft
+  0xfffffffffd041dffffffffffffffffd88580000000000000000b22e059e254abe9875f78 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xca71ffffffffffffffffb5db80000000000000005c4c5ffffffffe3eef5938763eea24d8 (Nat.shiftLeft
+  0xc137800000000000000003e8200000000000000001b7363894cbab975ba92e 288)) (Nat.shiftLeft (Nat.add
+  0x521a7ffffffffffffef2b75f9ffffffffffffffe5ad79800000001c27e2fb68dc632d27d (Nat.shiftLeft
+  0x9687b9bbbb8a0000000002d809a6b65880000000000363171a94934f413fce7c1550d 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xfc1bdfffffffd0c1639dd1d6e80000000f8838c00b20c9fffffff79ac9e8273f63cfc9d3 (Nat.shiftLeft
+  0x800000008c625cfb387f600000005eb441d86193add830c5b8bb8f566 288)) (Nat.shiftLeft (Nat.add
+  0x6e796800000000008b1b41eb7dffffffffffdf7c4f5c747ffffffe3fd22a1ebac84cc129 (Nat.shiftLeft
+  0x3c5796a0000000000000ef279118000000000002b904baf7005d34de5fb60a8 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0xfefad20000000000000001f68b80000000000000003c52e0000001c6c6ca43aaee81b87f (
+  Nat.shiftLeft 0xfffffffffffffbd77fffffffffffffffffcb20000000000000000122da714d099ae7cbd5 288)) (
+  Nat.shiftLeft (Nat.add 0xea880000000000000001d8bdffffffffffffffffd81a8000001c8345322cb94eb502a (
+  Nat.shiftLeft 0xf1a1fffffffffffffffff4fa7fffffffffffffffec73517929ee4352b80 288)) 576)) 1152))
+  2304)) 4608)) 9216)) 18432)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  (Nat.add 0x2000000000000000016ef7ffffffffffffffff40c5fffffe365e23fd8cc7f4272b (Nat.shiftLeft
+  0x8000000000000000000020000000000000001ca58207247635222d6 288)) (Nat.shiftLeft (Nat.add
+  0x117d7ffffffffffffffff640200000000000000000000800001cb0f64e21ba2e0be81 (Nat.shiftLeft
+  0x199600000000000000012aca7ffffffffffffffe20874951efe26f1a2c 288)) 576)) (Nat.shiftLeft (Nat.add (
+  Nat.add 0xffffa68200000000000000010df38000000000000000079b5ffffe3383123e3bdfc40dd7 (Nat.shiftLeft
+  0xffffffffffffff90777fffffffffffffffc9de6000000000000001cb4835ce679e73ee7d 288)) (Nat.shiftLeft (
+  Nat.add 0x149d5800000000000000016bb60000000000000000856f80001cdea76a16ca17898d2 (Nat.shiftLeft
+  0xfffffffffffff186935fffffffffffffffb6c117fffffffffffffe3946d51140e0a908d8 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xf117845a60000000000278d6fcdb27fffffffffffaf3c174b1fffe30a8007ee2d9e4c9fc (Nat.shiftLeft
+  0x44fcc33806c38000000002845742141d1ffffffff821dafea611a70e95fc600e9 288)) (Nat.shiftLeft (Nat.add
+  0x1428c22358000000011320ce9ee325ffffffffad09ef9acb757ffe2f3a7aac76713ae839 (Nat.shiftLeft
+  0x93e844882dfffffffffff31a19540080000000000001d17c4cf091dee2f5f2 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0xb004fee00000000000022ca92328000000000004ff5e155a001d2331140e570fa4277 (
+  Nat.shiftLeft 0x8106f7fffffffffffffff07fea0000000000001d07a67983a5dffeeda 288)) (Nat.shiftLeft (
+  Nat.add 0x18bc7ffffffffffffffff8b32000000000000000041d67fe2c5f65dff1627084c7 (Nat.shiftLeft
+  0x800000000000000007275ffffffffffffffffeae87fffffffffffe2ba9a189e2dd1ce630 288)) 576)) 1152)) 2304
+  )) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0xfffffffd2c9fffffffffffffffff3e3800000000000000002a6201d50e22ffb71cab4cf9 (Nat.shiftLeft
+  0x2000000000000000062bb7fffffffffffffffff7e2000000000001d5c4da17f4a3c62279 288)) (Nat.shiftLeft (
+  Nat.add 0x8000000000000000000020000000000000000000081d67babdf5f9bc85931 (Nat.shiftLeft
+  0x380000000000000000000200000000000000000000800000000001d732704f13db56d4dc 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xfffffffed549ffffffffffffffffe09180000000000000002537de2816cb40f7e51aa84e (Nat.shiftLeft
+  0x59ffffffffffffffff874a80000000000000001568a00000000001d89fff8b3ba58c33cd 288)) (Nat.shiftLeft (
+  Nat.add 0x854b800000000000000091bddffffffffffffffffd5d9626a942614f65fdb805 (Nat.shiftLeft
+  0x5f80000000000000001f585ffffffffffffffffeb867fffffffffe25f27c140ad990c388 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x168ac5fffffffffffffffdea057fffffffffffffffe98b4253bb981a6e6e0c04f (Nat.shiftLeft
+  0x79fffffffffffc6af19fd47ffffffffffffe550b2e9fffffffffe248489da8ed8adbade 288)) (Nat.shiftLeft (
+  Nat.add 0x170b0e7653480000000003892e143ff2000000001509402a8ad65c31cf5e0188acfe77 (Nat.shiftLeft
+  0xf807fffffffff7f6b37ca3ddfffffffffbe95cdf98448000000001bdc0435fe477cab234 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x494a57198600000000000000000000800000000050763583bffd9f583daa4381df62 (Nat.shiftLeft
+  0xd3820000000000003c733ed38000000000006912040c2000000001de2fc000bd3ee7a98a 288)) (Nat.shiftLeft (
+  Nat.add 0x194f117fffffffffffffff8791a000000000000007092d670ce11d5296763d7e (Nat.shiftLeft
+  0xee70800000000000000001acdffffffffffffffffb3697fffffffe203c5a7715d004a0e0 288)) 576)) 1152)) 2304
+  )) 4608)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x10595ffffffffffffffffe4bf7fffffffffffffffff9b985960304ea6ce374 (Nat.shiftLeft
+  0x1fcadffffffffffffffffc6787ffffffffffffffffec3200000001e1312e6ceb22a19836 288)) (Nat.shiftLeft (
+  Nat.add 0x1dc7fffffffffffffffedcbdffffffffffffffffde8c67f2dca394b013e1 (Nat.shiftLeft
+  0x8000000000000000000020000000000000000000080000001e29eb74c77d41e8f8c 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x200000000000000000000800000000000000001e3757bbc4c13cd0b37 (Nat.shiftLeft
+  0xffa2c20000000000000000a53e7fffffffffffffffef99a0000001e40c402c20535386e2 288)) (Nat.shiftLeft (
+  Nat.add 0xb94e7ffffffffffffffff903e0000000000000000ba954fb640b6d15fd72 (Nat.shiftLeft
+  0xffa0437ffffffffffffffff9baa0000000000000000ddb87fffffe1a8636f435b5227e38 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xfffffffffffffa27dffffffffffffffff852d7fffffffffffffffe1ec9728462edf9061c (Nat.shiftLeft
+  0xad37200000000000000037db97fffffffffffffffd560dfffffe1918ae148f3fb20a71 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffffffe9bdbe477ffffffffffffff0b6e76000000000000000d8f93965b459123f139 (Nat.shiftLeft
+  0x3fc17877ffffffffff59987321d20000000000b1e44b1f867ffffe17ab263d054c3f731b 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xffffffff3efa0a627a00000000000687cc517c800000000008e17190ddff3aee1040ea96 (Nat.shiftLeft
+  0x2000000000020f5aafb2080000000000ab2134b7c1ffffe163d9de0bc849323c5 288)) (Nat.shiftLeft (Nat.add
+  0x4bec373e8000000000005e2971d920000000000045771271f01a968f5ddfe5 (Nat.shiftLeft
+  0x4246067ffffffffffffffee693a00000000000000eddd3280001eb2fec8a42a6da9590 288)) 576)) 1152)) 2304))
+  (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x7b21ffffffffffffffffd5b57fffffffffffffe07c2a6fa3f0e7ad73b (Nat.shiftLeft
+  0xfffffa8ea00000000000000001d527ffffffffffffffff285a0001ec9d756a134e5b7666 288)) (Nat.shiftLeft (
+  Nat.add 0x401180000000000000000240dfffffffffffffe12b401a6187268316e (Nat.shiftLeft
+  0x54e5800000000000000005a9200000000000000004bcd8001ee0afe49bbcd2c4d1c 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x20000000000000000000080000000000001eec1c299900cb4c5e7 (Nat.shiftLeft
+  0x200000000000000000000800000000000000000002001ef788729644c43419a 288)) (Nat.shiftLeft (Nat.add
+  0x19118000000000000000000020000000000001f02f4b91388bd1bd3d (Nat.shiftLeft
+  0xffffffa22a8000000000000000098c6000000000000000089517fe0f19eff6f3349ff402 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x80000000000000002e715ffffffffffffffff95fe7fffffffffffe0e629bb51ef5114b6c (Nat.shiftLeft
+  0x3b44a000000000000000017577ffffffffffffffff5b6601f25398e8b54a7d20f4 288)) (Nat.shiftLeft (Nat.add
+  0x1fffffffffffffffff7cb7fffffffffffffffc92ee000000000001f30a1886098a0babe9 (Nat.shiftLeft
+  0x1cbbac680000000000000050557e000000000000000045b681f3c121c85dc99a035b 288)) 576)) (Nat.shiftLeft
+  (Nat.add (Nat.add 0x77fffffffffff42ae1976dffffffffffeb109c323d800000000001fc6fb588520928a33f (
+  Nat.shiftLeft 0xfff92c06dd5e0000000000037796b667800000000000cff7ef0d5e0ad15557f9e7118009 288)) (
+  Nat.shiftLeft (Nat.add 0xae000000000004ccc6d97a8000000000008735695b9ffffffffffe2535d3ef7d77ba656a
+  (Nat.shiftLeft 0x3ef681458000000000002c3559466000000000000000000009f69c3387aecacdaed3 288)) 576))
+  1152)) 2304)) 4608)) 9216)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0xd07fffffffffffffffdaa7e000000000000017e4b2b80000000001f76277b0cd076291eb (Nat.shiftLeft
+  0xffffffffe79e5ffffffffffffffff4ad37ffffffffffffffd0c3d3f809bc675746f1866f 288)) (Nat.shiftLeft (
+  Nat.add 0xca5ffffffffffffffffef467ffffffffffffffff7215fffffffffe073f7f0779f98076be (Nat.shiftLeft
+  0xfffffffffc3b67ffffffffffffffff7356000000000000000032df8688bab90039f1fb16 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xc807fffffffffffffffffc95ffffffffffffffffccad8000000001fa2e09a8e09a637f68 (Nat.shiftLeft
+  0x20000000000000000000080000000000000000001dae4ce26a8452afc42 288)) (Nat.shiftLeft (Nat.add
+  0x200000000000000000000800000000000000000002000000001fb9b92967c8cb977ed (Nat.shiftLeft
+  0x8000000000000000000020000000000000000001f452570650c447f398 288)) 576)) 1152)) (Nat.shiftLeft (
+  Nat.add (Nat.add (Nat.add
+  0xb3f67fffffffffffffffdfbee000000000000000069397fffffffe02f6e4885519d66f43 (Nat.shiftLeft
+  0x199be00000000000000005bfe7fffffffffffffffef75040201a06bc9b1511 288)) (Nat.shiftLeft (Nat.add
+  0xd9ffa00000000000000000e397fffffffffffffffc8c39fffffffe01895baa43be736699 (Nat.shiftLeft
+  0xfffffffffffed588000000000000000122c9ffffffffffffffffc4dc52973a5e3d7e1dbb 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x5eeb77ffffffffffffffe17d8dffffffffffffffffc23b7ffffffe001bd2ca846dcfa210 (Nat.shiftLeft
+  0x138a79315ffffffffffffe796e2af80000000000001bcbfe9faf1a54a419ed99a 288)) (Nat.shiftLeft (Nat.add
+  0x554d2e0000000000004e7aae127ffffffffffff025fd281ffffffdfeae4ac6146d655545 (Nat.shiftLeft
+  0x609e9ff080000000000000a657c95ffffffffffffd14cc39507a84f2c0bbd079 288)) 576)) 1152)) 2304)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x47ee09800000000000000000002000000000000bb0454b8800000202bf3f440dea9c4c9b (Nat.shiftLeft
+  0xe9bba00000000000001b95ba98000000000000264ca5c003649b3fd8c85d 288)) (Nat.shiftLeft (Nat.add
+  0x2dddfffffffffffffffef8fe7ffffffffffffffa5e1ea000002042cc7d484245fc3f1 (Nat.shiftLeft
+  0xfffffffffffffdddf7ffffffffffffffffa49600000000000000022c5e0c4443bef5bf9c 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x25627fffffffffffffffff6ca00000000000000001060800002059a50b417f958a4b8 (Nat.shiftLeft
+  0x56fa000000000000000046c38000000000000002032f7523ec3e12b6f2 288)) (Nat.shiftLeft (Nat.add
+  0x200000000000000000000800000000000000000002000020707d993c07f775a9d (Nat.shiftLeft
+  0x80000000000000000000200000000000000207be960394bd2fae48 288)) 576)) 1152)) (Nat.shiftLeft (
+  Nat.add (Nat.add (Nat.add 0x80000000000000000000200000000000000000000800020875627368fcbe2bf3 (
+  Nat.shiftLeft 0x432e00000000000000004580800000000000002092c24e33d3c4ca59e 288)) (Nat.shiftLeft (
+  Nat.add 0xfffff588dffffffffffffffffc1b68000000000000000050c2000209e2eb53117bef4cc9 (Nat.shiftLeft
+  0xfffffffffffffff82ef7ffffffffffffffff1a35fffffffffffffdf557f2bd1a4496630b 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x12d07ffffffffffffffffa5ba0000000000000000615780020b507432b9faefea40 (Nat.shiftLeft
+  0xffffffffffffffd5d0d2000000000000000062bf7ffffffffffffdf3ee60828e3a86944a 288)) (Nat.shiftLeft (
+  Nat.add 0x1acb61600000000000002301eb47ffffffffffffff25bee1ffdf34202ed9d850496a2 (Nat.shiftLeft
+  0xfffffffffffffaded2ef7fffffffffffff20a868200000000000026e8e823a36b9a38ba0 288)) 576)) 1152)) 2304
+  )) 4608)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x1b8f16d7fffffffffffff625801a000000000000023a0c498020e2b85f20ae959a62e (Nat.shiftLeft
+  0x800000000000074ac4f5e00000000000019f7157380000000000025b68d113df38c082f6 288)) (Nat.shiftLeft (
+  Nat.add 0x3b707e000000000000015584dd80000000000000f39f02a020f990ed1b3784efea1 (Nat.shiftLeft
+  0x9fffffffffffffffd6a787ffffffffffffff783b36000000000002117f2e3c07b7dd7a4c 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add 0xd7c8000000000000000073b5ffffffffffffffffde167deef9684ea4089419e5
+  (Nat.shiftLeft 0x77fffffffffffffffffb76000000000000000005687ffffffffffdee42a09ad036fa71a2 288)) (
+  Nat.shiftLeft (Nat.add 0xffffffffa6060000000000000000043d7ffffffffffffffffdf3dded8bdf6efb897711a5
+  (Nat.shiftLeft 0x20000000000000000000080000000000000000000200000000002132ae5bf7f49e89707 288)) 576
+  )) 1152)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x80000000000000000000200000000000000000000a13e1a970acf5a5e4a3 (Nat.shiftLeft
+  0x800000000000000000002000000000000000000008000000000214986de0833534604e 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffffff7cc600000000000000000000800000000000000000000154f32505574c2dbf9 (Nat.shiftLeft
+  0x2bdffffffffffffffffad9b80000000000000002bc3dfffffffffde9fa09a456cbaea85b 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add 0xeedd7fffffffffffffffeb1c9ffffffffffffffff18a4694344d0020c202cb2
+  (Nat.shiftLeft 0xdb4800000000000000009b7200000000000000001eef7ffffffffde88c805436536e4efa 288)) (
+  Nat.shiftLeft (Nat.add 0x3446a00000000000000007f038000000000000000355947d5bbf0598d03355b (
+  Nat.shiftLeft 0x624e0000000000000048956f7ffffffffffffffb88571ffffffffde71ef6be795a8b4650 288)) 576
+  )) 1152)) 2304)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0xffffffffb7d256800000000000000b59579fffffffffffffffdb014e683310b10de63e16 (Nat.shiftLeft
+  0x568e7ffffffffffffffa72f0600000000000000476f4f7fffffffde5b16ec5b69857c259 288)) (Nat.shiftLeft (
+  Nat.add 0x11f153ba00000000000003fc1587800000000000001b8d3aafaaa31088ec94694 (Nat.shiftLeft
+  0x6155e000000000000008d3ae9800000000000000000002000000021bbc192d6e9f4534fc 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xffffffffffc25a27ffffffffffffff662b7200000000000001205ba5f2deae9ff053b0a3 (Nat.shiftLeft
+  0xfeae88000000000000000063ea000000000000000026c07ffffffde2d65ce1890c3dd3ad 288)) (Nat.shiftLeft (
+  Nat.add 0xffffffffffff46ca0000000000000000097a800000000000000005db7f9871b7908f5802 (Nat.shiftLeft
+  0x10a7600000000000000003b8f7ffffffffffffffff7f45ffffffde168d401e1e688dc57 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x80000000000000000000200000000000000003bac5f06df0ee8d9f53 (Nat.shiftLeft
+  0x8000000000000000000020000000000000000000080000022004b4ddc52e1e1afe 288)) (Nat.shiftLeft (Nat.add
+  0x2000000000000000000008000000000000000220b9794d996daa96a9 (Nat.shiftLeft
+  0x20000000000000000000080000000000000000000200000221723dbd6dad399254 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x6b597ffffffffffffffffef9e00000000000000024439822d41ecc78dff (Nat.shiftLeft
+  0xfff9f4c7ffffffffffffffff5ed1ffffffffffffffffa01080000222dfc69d1622f429aa 288)) (Nat.shiftLeft (
+  Nat.add 0x1fd2a00000000000000000fb680000000000000023a4994f315941b7aaa (Nat.shiftLeft
+  0xfffd0386000000000000000037487fffffffffffffffe9795ffffddbb2b083415609b900 288)) 576)) 1152)) 2304
+  )) 4608)) 9216)) 18432)) 36864))
+
+def L_B_0_c3 : Nat := (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0xffffffffffffc061e87ffffffffffffff93099200000000000000225e394136d14fe8354 (Nat.shiftLeft
+  0x2be627fffffffffffffffaf20dffffffffffffffece5b48000225bad85c67d83275a9 288)) (Nat.shiftLeft (
+  Nat.add 0x193561fffffffffffffffea8a17fffffffffffffdd4db6acc3b6a1e7401 (Nat.shiftLeft
+  0x3c7d6aa0000000000000004c73e8000000000000000da401fffdd8d79ec3f055ab562c 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add 0x80000000000001698d231fffffffffffffce112452be3e93b6b57 (
+  Nat.shiftLeft 0xffffb43fb7ffffffffffffff82321200000000000000b297b47ffdd76a15e447d1d8e2e2 288)) (
+  Nat.shiftLeft (Nat.add 0xc03dfffffffffffffffffa0a7ffffffffffffdd6b27b147397a79d52 (Nat.shiftLeft
+  0xffffff989dffffffffffffffffea18800000000000000008d79ffdd5fc8d049f58195bc0 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xfffffffffffffffff1577ffffffffffffffffb321ffffffffffffdd545b4accb188aa5fc (Nat.shiftLeft
+  0x800000000000000000001ffffffffffffffffe0bf7fdd48f0424f6d8fc0ee7 288)) (Nat.shiftLeft (Nat.add
+  0x8000000000000000000020000000000000000000080000000000022c27c048dd66925159 (Nat.shiftLeft
+  0x200000000000000000000800000000000000000002022cde84bab1a620cd04 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x2000000000000000000008000000000000000000020000000000022d95492a05e5af48af (
+  Nat.shiftLeft 0x46c6800000000000000043cd200000000000000000000822e4c0d9a5a253dc45a 288)) (
+  Nat.shiftLeft (Nat.add 0xa7fffffffffffffffaf1160000000000000000d1868000000000022f02d2388e64cc4005
+  (Nat.shiftLeft 0xfffffffe45520000000000000000c465800000000000000000175dd0466985fd5ba54209 288))
+  576)) 1152)) 2304)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x5dffffffffffffffffa547800000000000000029402000000000023070597b011c16c8a4 (Nat.shiftLeft
+  0xffffffaa73e77fffffffffffffffd9f95fffffffffffffffec4f0a31271f59ab2377b70f 288)) (Nat.shiftLeft (
+  Nat.add 0xc37ffffffffffffffee7e95ffffffffffffffdfa9898000000000231dc9604029cf9d14e (Nat.shiftLeft
+  0xfffffffe2263dfffffffffffffffe2a698000000000000000ce7cbcd6b57c6ac5d6b540d 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xa06000000000000000ab5b180000000000000002ad2dfffffffffdccb493fd9e9ddcd9f8 (Nat.shiftLeft
+  0xcd4dbd7ffffffffffffde851a2600000000000003adc99b4bfdcee703de4e7ac0 288)) (Nat.shiftLeft (Nat.add
+  0x9b27ffffffffffffffbe5e5a0000000000000034a4bc800000000234b8f588d041401d5d (Nat.shiftLeft
+  0xffffffffffaef200000000000000002fe37ffffffffffffffff8686a9046075b5f3166b4 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x867200000000000000001175800000000000000006fae00000000236267e6836f7a2eb4c (Nat.shiftLeft
+  0xb1a7ffffffffffffffff8fbdffffffffffffffffdcaf122bd27b2e0146fa1 288)) (Nat.shiftLeft (Nat.add
+  0x800000000000000000001fffffffffffffffffae27fffffffdc86bf8b7bf997a0c09 (Nat.shiftLeft
+  0x20000000000000000000080000000000000000023a4acbb7f59f0887b4 288)) 576)) (Nat.shiftLeft (Nat.add (
+  Nat.add 0x2000000000000000000008000000000000000000020000000239019027c9de17035f (Nat.shiftLeft
+  0x800000000000000000002000000000000000002393854979e1e257f0a 288)) (Nat.shiftLeft (Nat.add
+  0x8b6a80000000000000000000200000000000000000000800000023a6f1907725d93fab5 (Nat.shiftLeft
+  0x1bcd5fffffffffffffffff108800000000000000022b605dd77469d427660 288)) 576)) 1152)) 2304)) 4608)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x3d075ffffffffffffffff9206800000000000000035cda00000023bdca1e71acd18f20b (Nat.shiftLeft
+  0x665c7ffffffffffffffff1a35ffffffffffffffff99d4b6656ef1c5f6db6 288)) (Nat.shiftLeft (Nat.add
+  0x282fd7ffffffffffffffffb302000000000000000032177fffffdc2b5d5393d399fe961 (Nat.shiftLeft
+  0xffffffffffffca2ae000000000000000330467ffffffffffffffe8e4daef36979b7c650c 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xffc2209ffffffffffffffffbc4b8000000000000000288e20000023eb7b3a66be3589f48 (Nat.shiftLeft
+  0xfffffffffffef97a27ffffffffffffffdf14c1fffffffffffffffe995207e9bfe566a39d 288)) (Nat.shiftLeft (
+  Nat.add 0x49fcbc67fffffffffffff6edcff5fffffffffffffd04182d80000240253c863437c347f2 (Nat.shiftLeft
+  0xffffffffffffef5d32000000000000000000008000000000000006d7bd60f5e899b653b8 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x4b9a0000000000000000154f7ffffffffffffffffa1a9ffffdbe6d3a9a430ef5689c (Nat.shiftLeft
+  0xffffffffffffffd25780000000000000000722dffffffffffffffdbc7681d59118d34b0e 288)) (Nat.shiftLeft (
+  Nat.add 0xffffe7357fffffffffffffffffb5e000000000000000003077fffdbcffb1ba9aa6868346 (Nat.shiftLeft
+  0x1ffffffffffffffffeffc80000000000000243b5374ac6680fbd9b 288)) 576)) (Nat.shiftLeft (Nat.add (
+  Nat.add 0x2000000000000000000008000000000000000000020002446dd7250dd77ebe8f (Nat.shiftLeft
+  0x8000000000000000000020000000000000245249b14e2170d39ba 288)) (Nat.shiftLeft (Nat.add
+  0x80000000000000000000200000000000000000000800245db6004b6569bb545 (Nat.shiftLeft
+  0x20000000000000000000080000000000002469224548a962a3110 288)) 576)) 1152)) 2304)) (Nat.shiftLeft (
+  Nat.add (Nat.add (Nat.add (Nat.add
+  0xffffff11860000000000000001cbfe7fffffffffffffffe16820024748e8e45ed5b8acb3 (Nat.shiftLeft
+  0x39db80000000000000001aed9ffffffffffffdb804bd13cceab8d799 288)) (Nat.shiftLeft (Nat.add
+  0xffffff40be80000000000000000c825ffffffffffffffff7ff57fdb7498e3bf8ab28fae7 (Nat.shiftLeft
+  0x80000000000000001636dffffffffffffffffc97b8000000000002496f3b32246b9be043 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xffffffe22fe000000000000000024027ffffffffffffffffcb56024a23faa3afd3f216ba (Nat.shiftLeft
+  0xe000000000000000084bf7fffffffffffffffd6f49fffffffffffdb5250d7afbec7ee8ed 288)) (Nat.shiftLeft (
+  Nat.add 0xacc59800000000000000057e0e0000000000000001339e824b91838358530f8671 (Nat.shiftLeft
+  0x87ffffffffffffbca5fb2a00000000000004b4c4df7ffffffffffdb397f1734c929e0e68 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x1fffffffffffffffeec5a7fffffffffffffef1e78e24cff0c6300d2200f43 (Nat.shiftLeft
+  0x32000000000000000001aa7ffffffffffffffff7b5dffffffffffdb24a24d66d11bb05be 288)) (Nat.shiftLeft (
+  Nat.add 0x43547ffffffffffffffffda0a000000000000000000675b1936abd56aeb67ed0 (Nat.shiftLeft
+  0x9b7ffffffffffffffffc7f6000000000000000035db7fffffffffdb0dca6e64f90d7fd14 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add 0x2000000000000000035f67ffffffffffffffff9bdfb025e1ddae2f99874a (
+  Nat.shiftLeft 0x20000000000000000000080000000000000000000200000000025090e292268ff4f46a 288)) (
+  Nat.shiftLeft (Nat.add 0x80000000000000000000200000000000000000002d147a701fa4f837015 (
+  Nat.shiftLeft 0x80000000000000000000200000000000000000000800000000251fe6b71ceaf11ebc0 288)) 576))
+  1152)) 2304)) 4608)) 9216)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x2000000000000000000008000000000000000000272b52fe1a2cea0676b (Nat.shiftLeft
+  0x81aa000000000000000024e1800000000000000000002000000002536bf45177062ee316 288)) (Nat.shiftLeft (
+  Nat.add 0xffffffffffb0f67fffffffffffffffe1bda000000000000000040ecc22b8c14b4dbd5ec0 (Nat.shiftLeft
+  0xf9467fffffffffffffffbaa21ffffffffffffffff74e880000000254d97d31b9c4b42593 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add 0x1fed9ffffffffffffffffe940800000000000000015ab46fbe5f0c3325a9e8 (
+  Nat.shiftLeft 0x250ba000000000000000043457fffffffffffffffa287600000002564706109365e8d1c2 288)) (
+  Nat.shiftLeft (Nat.add 0xfffffffffffdb0e80000000000000001d4a5ffffffffffffffffb89f7dca809c4bf74d6d
+  (Nat.shiftLeft 0xe961480000000000000000398a000000000000000014698000000257b48ef050f35a36e7 288))
+  576)) 1152)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xffffffffff26e6a9ffffffffffffffba9b9b80000000000000040acff4ac9fbb34ebbb3c (Nat.shiftLeft
+  0xff42bdfffffffffffffff9341880000000000000089f94e0000002592217cbde07653f91 288)) (Nat.shiftLeft (
+  Nat.add 0x3a88000000000000000045fe0000000000000000259df23c012b5cec3e6 (Nat.shiftLeft
+  0xffeb907ffffffffffffffff8649fffffffffffffffff0eb80000025a8fa0afc1e519b7c4 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add 0xce31ffffffffffffffffd7b27fffffffffffffffd081f9ae06a36b1cc90 (
+  Nat.shiftLeft 0x2000000000000000008ca7ffffffffffffffffa6e9fffffda402d67095f31d2f1a 288)) (
+  Nat.shiftLeft (Nat.add 0x80000000000000000000200000000000000025cb36dff3e486b2ac5 (Nat.shiftLeft
+  0x800000000000000000002000000000000000000008000025d6ab26f1287f98670 288)) 576)) 1152)) 2304)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x20000000000000000000080000000000000025e2156dee6c788221b (Nat.shiftLeft
+  0x200000000000000000000800000000000000000002000025ed83b4ebb071695c6 288)) (Nat.shiftLeft (Nat.add
+  0x8000000000000000000020000000000000025f8ef7be8f46a51971 (Nat.shiftLeft
+  0xffff088c7fffffffffffffffe399600000000000000001ab77fffd9fba3bd19c79e7171c 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add 0x2e449ffffffffffffffff3dbc80000000000000261921561c83a3def38 (
+  Nat.shiftLeft 0x85820000000000000000018e7fffffffffffffffd328e000261b34d0e0c05d3e2f2 288)) (
+  Nat.shiftLeft (Nat.add 0x594b8000000000000000091d600000000000002626205fde044df081d (Nat.shiftLeft
+  0xfffffefae7fffffffffffffffe947a000000000000000014cc7ffd9cdf2a124b7bb4dce8 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xa7e2000000000000000069ed8000000000000263c7a742773c04008c (Nat.shiftLeft
+  0x13d2199ffffffffffffffe17a4f8000000000000000f6f86002648e5ecd5d03822f36 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffffffffffff96ec97ffffffffffffff78226a000000000000266992675314318f6c9 (Nat.shiftLeft
+  0xfffffff295800000000000000000002000000000000000015577fd9a041852fa7d5af3e9 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x7fffffffffffffffffcddffffffffffffffffea6c800000000000266b2a885263dca11e0 (Nat.shiftLeft
+  0xffffffff3aa00000000000000001e5680000000000000000271a026769708cae01c47ebd 288)) (Nat.shiftLeft (
+  Nat.add 0x200000000000000000f7280000000000000000094e00000000000268202401fdbead1a8a (Nat.shiftLeft
+  0x800000000000000000002000000000000000000008268d6f96c5680e16120 288)) 576)) 1152)) 2304)) 4608)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x80000000000000000000200000000000000000000800000000002698dbddc0ac06fdccb (Nat.shiftLeft
+  0x20000000000000000000080000000000000000000226a44824bfefffe5876 288)) (Nat.shiftLeft (Nat.add
+  0x200000000000000000000800000000000000000002000000000026afb46bbdb3f8cd421 (Nat.shiftLeft
+  0x80000000000000000000200000000000000000000a6bb20b2ba77f1b4fcc 288)) 576)) (Nat.shiftLeft (Nat.add
+  (Nat.add 0x877fffffffffffffffbd84600000000000000002757800000000026c68cf9b79bea9cb77 (Nat.shiftLeft
+  0xffffffff8d17dffffffffffffffffc80f80000000000000003fc5f92e06bf4b001c7b8fb 288)) (Nat.shiftLeft (
+  Nat.add 0xee5fffffffffffffffff2548000000000000000475bdfffffffffd9229a7978842393d32 (Nat.shiftLeft
+  0x12f37fffffffffffffffe84b5fffffffffffffffffda3ee8d1ceaf87d553e77 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x3aa800000000000000017aa1ffffffffffffffff810980000000026f43e175cb5ce3ba23 (Nat.shiftLeft
+  0xfffffffffec0fa0000000000000000297680000000000000002b5830055a355f038dca33 288)) (Nat.shiftLeft (
+  Nat.add 0x5f6a00000000000000015daa7ffffffffffffffff37ddffffffffd8f4e95c3955bff4e86 (Nat.shiftLeft
+  0xfffffffffe20787ffffffffffffffea26fdfffffffffffffff6fcbc9682eaa497b8f2d24 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x7ffffffffffffffffc0fdfffffffffffffffff7547fffffffd8de10ce517e2e25730 (Nat.shiftLeft
+  0xfffffffffffb115fffffffffffffffff5238000000000000000010f4d5b789f1faac247a 288)) (Nat.shiftLeft (
+  Nat.add 0x9389ffffffffffffffffef0d7ffffffffffffffffd1b9fffffffd8c7384063f40455fda (Nat.shiftLeft
+  0x19537ffffffffffffffff5e99ffffffffffffffffeeb0c340699a79c91bd0 288)) 576)) 1152)) 2304)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x800000000000000000002000000000000000000008000000274fa04d96eb977977b (Nat.shiftLeft
+  0x2000000000000000000008000000000000000027590c94942f8e61326 288)) (Nat.shiftLeft (Nat.add
+  0x200000000000000000000800000000000000000002000000276678db917387c8ed1 (Nat.shiftLeft
+  0x8000000000000000000020000000000000000277165228eb78030a7c 288)) 576)) (Nat.shiftLeft (Nat.add (
+  Nat.add 0x80000000000000000000200000000000000000000800000277d51698bfb7938627 (Nat.shiftLeft
+  0xffffffffffffcee3600000000000000000000800000000000000027889db0893f72001d2 288)) (Nat.shiftLeft (
+  Nat.add 0x1eba600000000000000001c4e7fffffffffffffffe6a8dfffffd86bd6087974f0f0282 (Nat.shiftLeft
+  0x44cf7fffffffffffffffadaa9fffffffffffffffdc3dfe3e83c763cf928 288)) 576)) 1152)) (Nat.shiftLeft (
+  Nat.add (Nat.add (Nat.add 0xef2b80000000000000000ed91ffffffffffffffffbd2a7ffffd854fd7a7ef436694d3
+  (Nat.shiftLeft 0x10531ffffffffffffffff810a7ffffffffffffffd87264cc7e4f559f07e 288)) (Nat.shiftLeft
+  (Nat.add 0xffff96120000000000000000a45e80000000000000000eab6000027c1db137b933a73429 (Nat.shiftLeft
+  0x83ab7ffffffffffffffffd0560000000000000027c0a1258728b89182b 288)) 576)) (Nat.shiftLeft (Nat.add (
+  Nat.add 0xffffc05880000000000000000fb6dfffffffffffffffe54597fffd8274c5e89e494d417f (Nat.shiftLeft
+  0xfffffffffffffffe9a2000000000000000011817fffffffffffffd80be0f78ca0c6c20d5 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffef99ffffffffffffffffffd9800000000000000000001fffd81073d08f5ccdf71aa (Nat.shiftLeft
+  0x7db800000000000000001779fffffffffffffd805b4c19218d4f297f 288)) 576)) 1152)) 2304)) 4608)) 9216))
+  18432)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x3027800000000000000001316000000000000000001647ffd7f99b4294d4dc3e28b (Nat.shiftLeft
+  0x20000000000000000000080000000000002811d106686f1cdcdd6 288)) (Nat.shiftLeft (Nat.add
+  0x20000000000000000000080000000000000000000200281d3d4b65b315c4989 (Nat.shiftLeft
+  0x8000000000000000000020000000000002828a992e2f70eac52c 288)) 576)) (Nat.shiftLeft (Nat.add (
+  Nat.add 0x8000000000000000000020000000000000000000080283415d9603b07940d5 (Nat.shiftLeft
+  0x80000000000000000000200000000000000000000800000000000283f82207d7f007bc82 288)) (Nat.shiftLeft (
+  Nat.add 0x2000000000000000000008000000000000000000020284aee675ac2f96382d (Nat.shiftLeft
+  0x5ffffffffffffffffb8bc80000000000000004a791fffffffffffd7a9a4972006f24b3d8 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x5d8a800000000000000050dda000000000000000001307d79e390aaab514cd32f (Nat.shiftLeft
+  0x37fffffffffffffffec8ba00000000000000003b5e7ffffffffffd792cd3f0c8ee41ab2e 288)) (Nat.shiftLeft (
+  Nat.add 0xe251fffffffffffffffff8047fffffffffffffffec065d787607cb02d22fdb9c (Nat.shiftLeft
+  0xcdfffffffffffffffffdfb800000000000000048ce2000000000028840ba3bf96d5ea284 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xffffffffdbc07ffffffffffffffffdf0dfffffffffffffffff38a577087eeb5a5312e01d (Nat.shiftLeft
+  0x57800000000000000004921ffffffffffffffffe5c17fffffffffd7651ba55fc13846625 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffffffe151fffffffffffffffff0a67fffffffffffffffff033759af60bb1d3f5ea7a (Nat.shiftLeft
+  0x8be000000000000000000007ffffffffffffffffd811fffffffffd74e4319f7514676ecf 288)) 576)) 1152)) 2304
+  )) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0xffffffffffaf47ffffffffffffffffc965fffffffffffffffff3c5f42d6d2c0954d8f326 (Nat.shiftLeft
+  0x2297ffffffffffffffffc6ea000000000000000011d780000000028c89574278b54a7779 288)) (Nat.shiftLeft (
+  Nat.add 0x20000000000000000000080000000000000000002ad401bb39f2a440431 (Nat.shiftLeft
+  0x2000000000000000000008000000000000000000020000000028df6e0237361d27fdc 288)) 576)) (Nat.shiftLeft
+  (Nat.add (Nat.add 0x800000000000000000002000000000000000000286ada49347a960fb87 (Nat.shiftLeft
+  0x800000000000000000002000000000000000000008000000028f6469031beaef7732 288)) (Nat.shiftLeft (
+  Nat.add 0x2000000000000000000008000000000000000002921b2d72f0287df2dd (Nat.shiftLeft
+  0x2000000000000000000008000000000000000000020000000290d1f1e2c4688c6e88 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0xfffffffffffec587fffffffffffffffeddde0000000000000000029108b65298a79aea33 (Nat.shiftLeft
+  0xf03c17fffffffffffffffcb966000000000000000091c880000002923f7ac24090369a21 288)) (Nat.shiftLeft (
+  Nat.add 0x17275ffffffffffffffff63b6800000000000000008d769c0cdbed9481e76 (Nat.shiftLeft
+  0xc43dffffffffffffffff596e80000000000000001836e000000293ad03a21a101e5d34 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xfffffffffffeee6680000000000000000ca8e000000000000000168bcbc811e9a5d4d8df (Nat.shiftLeft
+  0x986a7ffffffffffffffffa5da000000000000000069de7fffffd6ae5737e425a2aab75 288)) (Nat.shiftLeft (
+  Nat.add 0xffffffffffffff695ffffffffffffffffce9b7fffffffffffffffd104b50f19224f1d035 (Nat.shiftLeft
+  0xfffd4be000000000000000036627ffffffffffffffffe399fffffd6977ea9e998aea341f 288)) 576)) 1152)) 2304
+  )) 4608)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x1cf8800000000000000000ea9fffffffffffffffd65a5a62ec55bf13874 (Nat.shiftLeft
+  0xc24800000000000000001079ffffffffffffffffe7c480000297f59e410ee39d6336 288)) (Nat.shiftLeft (
+  Nat.add 0xffffffffffffffb355fffffffffffffffffd5d7ffffffffffffffd639942b0e3232bbee1 (Nat.shiftLeft
+  0x2000000000000000000008000000000000000000020000299632720b760930d73 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x8000000000000000000020000000000000029a19e3908ba248b637 (Nat.shiftLeft
+  0x80000000000000000000200000000000000000000800029ad0b0005fe1d733e2 288)) (Nat.shiftLeft (Nat.add
+  0x2000000000000000000008000000000000029b877670342165ad8d (Nat.shiftLeft
+  0x20000000000000000000080000000000000000000200029c3e38e00860f429b8 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add 0x800000000000000000002000000000000029cf4fdcfdca082a4e3 (
+  Nat.shiftLeft 0xfffffcea98000000000000000000020000000000000000000080029dabc1bfb0e01120ae 288)) (
+  Nat.shiftLeft (Nat.add 0x6b25ffffffffffffffffced67ffffffffffffd619ec0307ae06063c6 (Nat.shiftLeft
+  0xffffff35c200000000000000001efe80000000000000000065a0029f194a9f595f2e547c 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add 0x29287fffffffffffffffe065a00000000000029fd0dec8d261436c70 (
+  Nat.shiftLeft 0xe1380000000000000003928a00000000000000004a147fd5f792c80fe21b43e9c 288)) (
+  Nat.shiftLeft (Nat.add 0x7ffffffffffffffff4f5e00000000000000001c1e7fffffffffffd5ec35b30d61dd98ae5
+  (Nat.shiftLeft 0x86a1ffffffffffffffffcd4980000000000000001ba2dfd5e0ba3a155a297ef02 288)) 576))
+  1152)) 2304)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x5fffffffffffffffff1dd7ffffffffffffffff64ce000000000002a2ab2f40fe9cf6823b (Nat.shiftLeft
+  0xffffffff8207ffffffffffffffffe8cdffffffffffffffffef997d5c9e1ac1ad237b0184 288)) (Nat.shiftLeft (
+  Nat.add 0xd7ffffffffffffffffecea00000000000000000000800000000002a418a97c78e3ec866e (Nat.shiftLeft
+  0xfffffffffbce0000000000000000092980000000000000000283dd5b3091e204a45e0a19 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x20000000000000000000080000000000000000000200000000002a58632d06864cf8f18 (Nat.shiftLeft
+  0x80000000000000000000200000000000000000000aa63cf6fda3dabeec92 288)) (Nat.shiftLeft (Nat.add
+  0x8000000000000000000020000000000000000000080000000002a6f3bb6d7a1a4d683d (Nat.shiftLeft
+  0x200000000000000000000800000000000000000000a7aa7fdd4c59dbe3e8 288)) 576)) 1152)) (Nat.shiftLeft (
+  Nat.add (Nat.add (Nat.add 0x2000000000000000000008000000000000000000020000000002a861444d20196a5f93
+  (Nat.shiftLeft 0x80000000000000000000200000000000000000002291808bcf4d8f8db3e 288)) (Nat.shiftLeft
+  (Nat.add 0x800000000000000000002000000000000000000008000000002a9cecd2cc9388756e9 (Nat.shiftLeft
+  0xfffffffffe99f60000000000000000c3c780000000000000001eb40a85919c9d5815d294 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0x5c45ffffffffffffffff340e7ffffffffffffffff9eee000000002ab3c560befc05bb1c0 (Nat.shiftLeft
+  0xffffffffff668a80000000000000000b05a0000000000000000d3ae3f31a7c45d732c9eb 288)) (Nat.shiftLeft (
+  Nat.add 0xf68e7ffffffffffffffff91cdffffffffffffffffdcde7fffffffd5356211299d33eba6a (Nat.shiftLeft
+  0xfffffffffff82f20000000000000001253d7fffffffffffffffee6049f5ca411a9b03ebe 288)) 576)) 1152)) 2304
+  )) 4608)) 9216)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x35ca000000000000000017377ffffffffffffffffe28a00000002ae1767cbe9dfa1c314 (Nat.shiftLeft
+  0x10217ffffffffffffffff2792000000000000000046e54e2c3b96d56cb896 288)) (Nat.shiftLeft (Nat.add
+  0xfe70f7ffffffffffffffffc82dffffffffffffffffcfa37ffffffd507b0f5494a81b3441 (Nat.shiftLeft
+  0x2000000000000000013557fffffffffffffffffa1244ae4c0ab765013 288)) 576)) (Nat.shiftLeft (Nat.add (
+  Nat.add 0xfff3a9fffffffffffffffffb717ffffffffffffffffe76e0000002b0f2798b13bb602b97 (Nat.shiftLeft
+  0x800000000000000000001fffffffffffffffff725ec205182c5958bd 288)) (Nat.shiftLeft (Nat.add
+  0x800000000000000000002000000000000000000008000002b260026abc133722ed (Nat.shiftLeft
+  0x20000000000000000000080000000000000002b314c6da9052c39e98 288)) 576)) 1152)) (Nat.shiftLeft (
+  Nat.add (Nat.add (Nat.add 0x200000000000000000000800000000000000000002000002b3cd8b4a6492529a43 (
+  Nat.shiftLeft 0x8000000000000000000020000000000000002b484cfba38d1e095ee 288)) (Nat.shiftLeft (
+  Nat.add 0x80000000000000000000200000000000000000000800002b53b142a0d116f3199 (Nat.shiftLeft
+  0x2000000000000000000008000000000000002b5f1f899e150fd8d44 288)) 576)) (Nat.shiftLeft (Nat.add (
+  Nat.add 0x6fa1ffffffffffffffffd71c80000000000000000000200002b6a89d09b5908c00ef (Nat.shiftLeft
+  0xffffffffffffffd2d87ffffffffffffffffa6a6000000000000002b30ca97989d01a849a 288)) (Nat.shiftLeft (
+  Nat.add 0x44058000000000000000045ae000000000000000030147fffd47e9da16a1f10605ba (Nat.shiftLeft
+  0x5325ffffffffffffffffe1f0800000000000002b83e7c59324f377bf0 288)) 576)) 1152)) 2304)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0xffffefd1a00000000000000003ae180000000000000001560e0002b983aec9068ec3591b (Nat.shiftLeft
+  0x1bdf80000000000000000e819fffffffffffffd45cf26472531ab8cb9 288)) (Nat.shiftLeft (Nat.add
+  0xfffffe85b7fffffffffffffffed57a000000000000000008f67ffd450ec85750f21e5451 (Nat.shiftLeft
+  0x4e21ffffffffffffffffe75c7ffffffffffffd444c43077cb28e9563 288)) 576)) (Nat.shiftLeft (Nat.add (
+  Nat.add 0xfffffff46dfffffffffffffffffa5f7fffffffffffffffff5a1ffd43a13f77a87300a4ef (Nat.shiftLeft
+  0x51680000000000000000048a0000000000002bd1584ffd433719e0d 288)) (Nat.shiftLeft (Nat.add
+  0x80000000000000000000200000000000000000066802bdcc4968000c1cd873 (Nat.shiftLeft
+  0x800000000000000000002000000000000000000008000000000002be830dd5d44bab5948 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x20000000000000000000080000000000000000000202bf39d247a88b39d4f3 (Nat.shiftLeft
+  0x200000000000000000000800000000000000000002000000000002bff096b7fccac8509e 288)) (Nat.shiftLeft (
+  Nat.add 0x8000000000000000000020000000000000000000082c0a75b27510a56cc49 (Nat.shiftLeft
+  0x80000000000000000000200000000000000000000800000000002c15e1f970549e547f4 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add 0x2000000000000000000008000000000000000000022c214e406f98973c39f (
+  Nat.shiftLeft 0x60000000000000000000080000000000000000000200000000002c2cba876c5c9023f4a 288)) (
+  Nat.shiftLeft (Nat.add 0x571f7fffffffffffffffc5e5e0000000000000000a3edac3826ce6a20890bbdb (
+  Nat.shiftLeft 0x857ffffffffffffffff90fe000000000000000089a57fffffffffd3bc6ce2ac8481f36a0 288)) 576
+  )) 1152)) 2304)) 4608)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0xfffffffff0df9ffffffffffffffffca147ffffffffffffffff0f00c4eff5c64a87adb259 (Nat.shiftLeft
+  0x14200000000000000009a3a7ffffffffffffffff1dde0000000002c5a6ba6cb1b8c3d209 288)) (Nat.shiftLeft (
+  Nat.add 0x1135800000000000000007616000000000000000025beb9a2815a0cf9355657 (Nat.shiftLeft
+  0xc457ffffffffffffffff49da000000000000000016cb8000000002c714431650e659254c 288)) 576)) (
+  Nat.shiftLeft (Nat.add (Nat.add
+  0xffffffffffd33600000000000000000fc58000000000000000065cd834f87a647a185f08 (Nat.shiftLeft
+  0xf96dfffffffffffffffffb37800000000000000006e61ffffffffd377e340abbb289e35d 288)) (Nat.shiftLeft (
+  Nat.add 0xfffffffffffd04800000000000000000001fffffffffffffffff41fec76f9abbfafb67b2 (Nat.shiftLeft
+  0x800000000000000000001fffffffffffffffff1bf800000002c9ef54d514756cec07 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x2000000000000000000008000000000000000002c8a61944ec84218fa3 (Nat.shiftLeft
+  0x20000000000000000000080000000000000000000200000002cb5cddb4c0c3300b4e 288)) (Nat.shiftLeft (
+  Nat.add 0x800000000000000000002000000000000000002cc93a22495033e86f9 (Nat.shiftLeft
+  0x8000000000000000000020000000000000000000080000002ccca66946942ed02a4 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x200000000000000000000800000000000000002cda12b043d825b7e4f (Nat.shiftLeft
+  0x2000000000000000000008000000000000000000020000002ce37ef7411c1e1f9fa 288)) (Nat.shiftLeft (
+  Nat.add 0x80000000000000000000200000000000000002cee6b3e3e6017875a5 (Nat.shiftLeft
+  0xffe23f7ffffffffffffffff84ba0000000000000000304c8000002cfa57853ba4104f150 288)) 576)) 1152)) 2304
+  )) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x103b200000000000000000e3c8000000000000000230fdc33c717f6a9304 (Nat.shiftLeft
+  0xac8dffffffffffffffffeada8000000000000000473ddfffffd2eecfecc9d2a8168a6 288)) (Nat.shiftLeft (
+  Nat.add 0xffffffffffffff1ce8000000000000000257b9fffffffffffffffd0b5345a336ffb26451 (Nat.shiftLeft
+  0x566b80000000000000002af1dffffffffffffffffef987ffffd2d7f75ecf4d8064003 288)) 576)) (Nat.shiftLeft
+  (Nat.add (Nat.add 0xfffffffffffffede7a000000000000000028508000000000000002da5bee82df7ecf5ba7 (
+  Nat.shiftLeft 0x7711fffffffffffffffff5fc7ffffffffffffffff52b1ffffd2c11ed0d4c407ac0ad 288)) (
+  Nat.shiftLeft (Nat.add 0x262800000000000000005ab1ffffffffffffffd2bb46f6287fdec52fd (Nat.shiftLeft
+  0x8000000000000000024b6000000000000000002647fffd2aa4642da3c289d0a8 288)) 576)) 1152)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add 0x1fffffffffffffffffe907fffffffffffffd29f94e42307d094a53
+  (Nat.shiftLeft 0x2000000000000000000008000000000000000000020002d6c924b204bc97c57e 288)) (
+  Nat.shiftLeft (Nat.add 0x80000000000000000000200000000000002d77fe9a1d8fc2641a9 (Nat.shiftLeft
+  0x800000000000000000002000000000000000000008002d836ad91ad3bb4bd74 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x20000000000000000000080000000000002d8ed7221817b4338ff (Nat.shiftLeft
+  0x200000000000000000000800000000000000000002002d9a4367155bad1b4a2 288)) (Nat.shiftLeft (Nat.add
+  0x8000000000000000000020000000000002da5afae929fa603055 (Nat.shiftLeft
+  0x80000000000000000000200000000000000000000802db11bf50fe39eeac02 288)) 576)) 1152)) 2304)) 4608))
+  9216)) 18432)) 36864))
+
+def L_B_0_c4 : Nat := (Nat.add (Nat.add (Nat.add (Nat.add (Nat.add
+  0x7fffffffffffffffedb3a000000000000000000008000000000002dbc883c2d2797d27ab (Nat.shiftLeft
+  0xffffffdd8f5ffffffffffffffffbfaf7ffffffffffffffff396602dc7f4830a6b90bdc40 288)) (Nat.shiftLeft (
+  Nat.add 0xe000000000000000050d87fffffffffffffffeaeb9fffffffffffd22c9dd16050765e0fe (Nat.shiftLeft
+  0x34827ffffffffffffffff39760000000000000000364482ddecd1104f38289d60 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x17ffffffffffffffffdaa20000000000000000e9f8800000000002dea395564377b71657 (
+  Nat.shiftLeft 0xf77e000000000000000023877fffffffffffffffe321a2df5a59eff7b74590fc 288)) (
+  Nat.shiftLeft (Nat.add 0xda00000000000000001a99800000000000000004471ffffffffffd1feee003a3f6d40dad
+  (Nat.shiftLeft (Nat.add 0xfffffffffebc800000000000000000829fffffffffffffffff83f51f381d305fc99d7681
+  (Nat.shiftLeft 0x1e7fffffffffffffffff3fe0000000000000000109e7fffffffffd1e8158d81d8a0efafc 288))
+  288)) 576)) 1152)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x2000000000000000017368000000000000000000031dca9450b74a807f57 (Nat.shiftLeft
+  0x2000000000000000000008000000000000000000020000000002e2ec301f1c750dfc59 288)) (Nat.shiftLeft (
+  Nat.add 0x8000000000000000000020000000000000000000263a2f48ef1349c7804 (Nat.shiftLeft
+  0x800000000000000000002000000000000000000008000000002e459b8fec5542af3af 288)) 576)) (Nat.shiftLeft
+  (Nat.add (Nat.add 0x20000000000000000000080000000000000000002c5107d6e99b3b96f5a (Nat.shiftLeft
+  0x200000000000000000000800000000000000000002000000002e5c741de6dfb47eb05 288)) (Nat.shiftLeft (
+  Nat.add 0x8000000000000000000020000000000000000002ee7e064e4232d666b0 (Nat.shiftLeft (Nat.add
+  0x80000000000000000000200000000000000000000800000002e734cabe167064e25b (Nat.shiftLeft
+  0x2000000000000000000008000000000000000002e5eb8f2deab1f35e06 288)) 288)) 576)) 1152)) 2592)) (
+  Nat.shiftLeft (Nat.add (Nat.add (Nat.add (Nat.add
+  0x29165fffffffffffffffff1658000000000000000051e600000002e8a2539db98901d9b1 (Nat.shiftLeft
+  0xfffffffffffe38d80000000000000003f93dffffffffffffffff91ead9180d933110555c 288)) (Nat.shiftLeft (
+  Nat.add 0xfd55080000000000000001da32000000000000000039d57ffffffd15f023828474012ef8 (Nat.shiftLeft
+  0x1f5d1ffffffffffffffffcbf880000000000000000d5c995f12c44fd2b34d 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0xfeeba6000000000000000008ee7ffffffffffffffffca61ffffffd14829aa2f040f3c85d (
+  Nat.shiftLeft 0xfffffffffffffdd07ffffffffffffffff167e000000000000000028873d6331bd0b5bbf7 288)) (
+  Nat.shiftLeft (Nat.add 0xfffd4480000000000000000b376000000000000000018d87fffffd131511c3479505404c
+  (Nat.shiftLeft (Nat.add 0x2a2dfffffffffffffffff4c980000000000000002cbdc4d53735198c4a1 (
+  Nat.shiftLeft 0x200000000000000000000800000000000000003a1e000002ee58771c60ecf73709 288)) 288)) 576
+  )) 1152)) (Nat.shiftLeft (Nat.add (Nat.add (Nat.add
+  0x8000000000000000000020000000000000002ef0fbb8c352d8432b4 (Nat.shiftLeft
+  0x80000000000000000000200000000000000000000800002efc5fffc096d128e5f 288)) (Nat.shiftLeft (Nat.add
+  0x2000000000000000000008000000000000002f07ce46bddaca12a0a (Nat.shiftLeft
+  0x20000000000000000000080000000000000000000200002f13388dbb1ec2fadb5 288)) 576)) (Nat.shiftLeft (
+  Nat.add (Nat.add 0x800000000000000000002000000000000002f1ea454b862bbe2160 (Nat.shiftLeft
+  0x8000000000000000000020000000000000000000080002f2a111bb5a6b4c9f0b 288)) (Nat.shiftLeft (Nat.add
+  0x200000000000000000000800000000000002f357d42b2eaadb18b6 (Nat.shiftLeft (Nat.add
+  0x2000000000000000000008000000000000000000020002f40e9a9b02ea6994e1 (Nat.shiftLeft
+  0x200000000000002f4c55f8ad729f8100c 288)) 288)) 576)) 1152)) 2592)) 5184))
+
+def L_B_0_lit : Nat := (Nat.add (Nat.add L_B_0_c0 (Nat.shiftLeft L_B_0_c1 73728)) (Nat.shiftLeft (
+  Nat.add L_B_0_c2 (Nat.shiftLeft (Nat.add L_B_0_c3 (Nat.shiftLeft L_B_0_c4 73728)) 73728)) 147456))
+
+def L_B_0 : LitD := ⟨30, false, (mkQ false 1 0x80000000000000000000000), 715, 1060, L_B_0_lit, 12, 6
+  ⟩
+
+
+end KAM.EffectiveStability.SJSU
+
+end
