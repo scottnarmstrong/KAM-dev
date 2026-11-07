@@ -24587,6 +24587,450 @@
     "frozen_paths": [],
     "audit_paths": []
    }
+  },
+  {
+   "id": "effectiveStability.d76.sjsuTerm.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-06",
+    "approval_ref": "owner approval of the exact T2-CONF text, draft v2 of docs/explorations/sjsu-g2-t2conf-proposal.md (`sjsuTerm`), relayed by kam-38; docs/explorations/sjsu-g2-decisions.md D76",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM-inp@793d59797 docs/explorations/sjsu-g2-t2conf-proposal.md (draft v2; D76 recorded at 1043ebed2)",
+    "range": "§ \"The Hamiltonian\" / \"The data\" (`sjsuTerm`); applications/sjsu/data/sjsu18-o2.json sha256 702b0b3a3c7c713d48cc3044f90bd13795b79f255550275cc7937c5d8a067772"
+   },
+   "contract": {
+    "id": "effectiveStability.d76.sjsuTerm",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/EffectiveStability/SJSU/SJSUTerm.lean",
+   "export": "KAM.EffectiveStability.sjsuTerm",
+   "split_policy": {
+    "source_group": "effectiveStability.d76.sjsuTerm",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/explorations/sjsu-g2-decisions.md D76"
+   },
+   "abi_sha256": "e5fc65784b7e0ae41fe7006dfcfedc455ca871b5dda1afe64299949b03917e9d",
+   "definition_closure": [],
+   "state": "SEALED",
+   "full_file_sha256": "bd6dbbe5c00d0be55a347c893b3f2caa50c70efc95b58c883c368a1ea3a2b34f"
+  },
+  {
+   "id": "effectiveStability.d76.sjsu18O2Part0.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-06",
+    "approval_ref": "owner approval of the exact T2-CONF text, draft v2 of docs/explorations/sjsu-g2-t2conf-proposal.md (`sjsu18O2Part0`), relayed by kam-38; docs/explorations/sjsu-g2-decisions.md D76",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM-inp@793d59797 docs/explorations/sjsu-g2-t2conf-proposal.md (draft v2; D76 recorded at 1043ebed2)",
+    "range": "§ \"The Hamiltonian\" / \"The data\" (`sjsu18O2Part0`); applications/sjsu/data/sjsu18-o2.json sha256 702b0b3a3c7c713d48cc3044f90bd13795b79f255550275cc7937c5d8a067772"
+   },
+   "contract": {
+    "id": "effectiveStability.d76.sjsu18O2Part0",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part0.lean",
+   "export": "KAM.EffectiveStability.sjsu18O2Part0",
+   "split_policy": {
+    "source_group": "effectiveStability.d76.sjsu18O2Part0",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/explorations/sjsu-g2-decisions.md D76"
+   },
+   "abi_sha256": "ce7f5c87ff0779f8b5c04e4a282efc2bc3e809b0cde99f5b7c2b0e498c94f35f",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSUTerm.lean",
+     "sha256": "bd6dbbe5c00d0be55a347c893b3f2caa50c70efc95b58c883c368a1ea3a2b34f"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "f4965118680b0088c6278348f88957cce5f12bfe01fcaaf4e27dd4ad96768ecf"
+  },
+  {
+   "id": "effectiveStability.d76.sjsu18O2Part1.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-06",
+    "approval_ref": "owner approval of the exact T2-CONF text, draft v2 of docs/explorations/sjsu-g2-t2conf-proposal.md (`sjsu18O2Part1`), relayed by kam-38; docs/explorations/sjsu-g2-decisions.md D76",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM-inp@793d59797 docs/explorations/sjsu-g2-t2conf-proposal.md (draft v2; D76 recorded at 1043ebed2)",
+    "range": "§ \"The Hamiltonian\" / \"The data\" (`sjsu18O2Part1`); applications/sjsu/data/sjsu18-o2.json sha256 702b0b3a3c7c713d48cc3044f90bd13795b79f255550275cc7937c5d8a067772"
+   },
+   "contract": {
+    "id": "effectiveStability.d76.sjsu18O2Part1",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part1.lean",
+   "export": "KAM.EffectiveStability.sjsu18O2Part1",
+   "split_policy": {
+    "source_group": "effectiveStability.d76.sjsu18O2Part1",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/explorations/sjsu-g2-decisions.md D76"
+   },
+   "abi_sha256": "0a9899db65b03c133f3bba4db4c7faaff35b5a95703d0c1644540dc9db7c2494",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSUTerm.lean",
+     "sha256": "bd6dbbe5c00d0be55a347c893b3f2caa50c70efc95b58c883c368a1ea3a2b34f"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "022eaf016567aa6a6cd796d3b9e15a8f2c70ac8c7623f60c78d3b5c77d8ff1a6"
+  },
+  {
+   "id": "effectiveStability.d76.sjsu18O2Part2.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-06",
+    "approval_ref": "owner approval of the exact T2-CONF text, draft v2 of docs/explorations/sjsu-g2-t2conf-proposal.md (`sjsu18O2Part2`), relayed by kam-38; docs/explorations/sjsu-g2-decisions.md D76",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM-inp@793d59797 docs/explorations/sjsu-g2-t2conf-proposal.md (draft v2; D76 recorded at 1043ebed2)",
+    "range": "§ \"The Hamiltonian\" / \"The data\" (`sjsu18O2Part2`); applications/sjsu/data/sjsu18-o2.json sha256 702b0b3a3c7c713d48cc3044f90bd13795b79f255550275cc7937c5d8a067772"
+   },
+   "contract": {
+    "id": "effectiveStability.d76.sjsu18O2Part2",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part2.lean",
+   "export": "KAM.EffectiveStability.sjsu18O2Part2",
+   "split_policy": {
+    "source_group": "effectiveStability.d76.sjsu18O2Part2",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/explorations/sjsu-g2-decisions.md D76"
+   },
+   "abi_sha256": "cf93d1a70d71f428bc1d464e3a51023a48b406bd2976066b4c1e1b4b3a711356",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSUTerm.lean",
+     "sha256": "bd6dbbe5c00d0be55a347c893b3f2caa50c70efc95b58c883c368a1ea3a2b34f"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "72a5135e737189063a80a475e0fd90dd64c6a8e7b675ad278fb8962b24c5d1af"
+  },
+  {
+   "id": "effectiveStability.d76.sjsu18O2Part3.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-06",
+    "approval_ref": "owner approval of the exact T2-CONF text, draft v2 of docs/explorations/sjsu-g2-t2conf-proposal.md (`sjsu18O2Part3`), relayed by kam-38; docs/explorations/sjsu-g2-decisions.md D76",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM-inp@793d59797 docs/explorations/sjsu-g2-t2conf-proposal.md (draft v2; D76 recorded at 1043ebed2)",
+    "range": "§ \"The Hamiltonian\" / \"The data\" (`sjsu18O2Part3`); applications/sjsu/data/sjsu18-o2.json sha256 702b0b3a3c7c713d48cc3044f90bd13795b79f255550275cc7937c5d8a067772"
+   },
+   "contract": {
+    "id": "effectiveStability.d76.sjsu18O2Part3",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part3.lean",
+   "export": "KAM.EffectiveStability.sjsu18O2Part3",
+   "split_policy": {
+    "source_group": "effectiveStability.d76.sjsu18O2Part3",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/explorations/sjsu-g2-decisions.md D76"
+   },
+   "abi_sha256": "7a800a02b18fb60e266ba2be67ddab6715605e05ceaf2971e23d92d8ae7b0052",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSUTerm.lean",
+     "sha256": "bd6dbbe5c00d0be55a347c893b3f2caa50c70efc95b58c883c368a1ea3a2b34f"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "d9c80454964bace3488a0a6d54dd48a5cd063d259a4c3898cea32ba8b7a05c5b"
+  },
+  {
+   "id": "effectiveStability.d76.sjsu18O2Part4.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-06",
+    "approval_ref": "owner approval of the exact T2-CONF text, draft v2 of docs/explorations/sjsu-g2-t2conf-proposal.md (`sjsu18O2Part4`), relayed by kam-38; docs/explorations/sjsu-g2-decisions.md D76",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM-inp@793d59797 docs/explorations/sjsu-g2-t2conf-proposal.md (draft v2; D76 recorded at 1043ebed2)",
+    "range": "§ \"The Hamiltonian\" / \"The data\" (`sjsu18O2Part4`); applications/sjsu/data/sjsu18-o2.json sha256 702b0b3a3c7c713d48cc3044f90bd13795b79f255550275cc7937c5d8a067772"
+   },
+   "contract": {
+    "id": "effectiveStability.d76.sjsu18O2Part4",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part4.lean",
+   "export": "KAM.EffectiveStability.sjsu18O2Part4",
+   "split_policy": {
+    "source_group": "effectiveStability.d76.sjsu18O2Part4",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/explorations/sjsu-g2-decisions.md D76"
+   },
+   "abi_sha256": "ae29c619401161a0b6a891e0ad91db94c11b2620771fa3fb9e98524fa98648bf",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSUTerm.lean",
+     "sha256": "bd6dbbe5c00d0be55a347c893b3f2caa50c70efc95b58c883c368a1ea3a2b34f"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "88a096edf0cd06f97a35032ee948a24733177d05e62fd64f24302ad83c5f35fc"
+  },
+  {
+   "id": "effectiveStability.d76.sjsu18O2Part5.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-06",
+    "approval_ref": "owner approval of the exact T2-CONF text, draft v2 of docs/explorations/sjsu-g2-t2conf-proposal.md (`sjsu18O2Part5`), relayed by kam-38; docs/explorations/sjsu-g2-decisions.md D76",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM-inp@793d59797 docs/explorations/sjsu-g2-t2conf-proposal.md (draft v2; D76 recorded at 1043ebed2)",
+    "range": "§ \"The Hamiltonian\" / \"The data\" (`sjsu18O2Part5`); applications/sjsu/data/sjsu18-o2.json sha256 702b0b3a3c7c713d48cc3044f90bd13795b79f255550275cc7937c5d8a067772"
+   },
+   "contract": {
+    "id": "effectiveStability.d76.sjsu18O2Part5",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part5.lean",
+   "export": "KAM.EffectiveStability.sjsu18O2Part5",
+   "split_policy": {
+    "source_group": "effectiveStability.d76.sjsu18O2Part5",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/explorations/sjsu-g2-decisions.md D76"
+   },
+   "abi_sha256": "265ced82f763989c1caf5747c575f28480928a50913465c58fda35bcc602062e",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSUTerm.lean",
+     "sha256": "bd6dbbe5c00d0be55a347c893b3f2caa50c70efc95b58c883c368a1ea3a2b34f"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "a93168c76c3dd68fb37e4809fa143437715ada228e221398de053f963e3cc1f0"
+  },
+  {
+   "id": "effectiveStability.d76.sjsu18O2Terms.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-06",
+    "approval_ref": "owner approval of the exact T2-CONF text, draft v2 of docs/explorations/sjsu-g2-t2conf-proposal.md (`sjsu18O2Terms`), relayed by kam-38; docs/explorations/sjsu-g2-decisions.md D76",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM-inp@793d59797 docs/explorations/sjsu-g2-t2conf-proposal.md (draft v2; D76 recorded at 1043ebed2)",
+    "range": "§ \"The Hamiltonian\" / \"The data\" (`sjsu18O2Terms`); applications/sjsu/data/sjsu18-o2.json sha256 702b0b3a3c7c713d48cc3044f90bd13795b79f255550275cc7937c5d8a067772"
+   },
+   "contract": {
+    "id": "effectiveStability.d76.sjsu18O2Terms",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Terms.lean",
+   "export": "KAM.EffectiveStability.sjsu18O2Terms",
+   "split_policy": {
+    "source_group": "effectiveStability.d76.sjsu18O2Terms",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/explorations/sjsu-g2-decisions.md D76"
+   },
+   "abi_sha256": "f03b8bc9830d4f8fb8a286f112f4d232a6773d910540e2be4626fb750a128a8b",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part0.lean",
+     "sha256": "f4965118680b0088c6278348f88957cce5f12bfe01fcaaf4e27dd4ad96768ecf"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part1.lean",
+     "sha256": "022eaf016567aa6a6cd796d3b9e15a8f2c70ac8c7623f60c78d3b5c77d8ff1a6"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part2.lean",
+     "sha256": "72a5135e737189063a80a475e0fd90dd64c6a8e7b675ad278fb8962b24c5d1af"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part3.lean",
+     "sha256": "d9c80454964bace3488a0a6d54dd48a5cd063d259a4c3898cea32ba8b7a05c5b"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part4.lean",
+     "sha256": "88a096edf0cd06f97a35032ee948a24733177d05e62fd64f24302ad83c5f35fc"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part5.lean",
+     "sha256": "a93168c76c3dd68fb37e4809fa143437715ada228e221398de053f963e3cc1f0"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSUTerm.lean",
+     "sha256": "bd6dbbe5c00d0be55a347c893b3f2caa50c70efc95b58c883c368a1ea3a2b34f"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "f301c07581af8d281beede22f5075a666f3f0db1ff39144ae3e941887fcdfe0c"
+  },
+  {
+   "id": "effectiveStability.d76.sjsu18O2.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-06",
+    "approval_ref": "owner approval of the exact T2-CONF text, draft v2 of docs/explorations/sjsu-g2-t2conf-proposal.md (`sjsu18O2`), relayed by kam-38; docs/explorations/sjsu-g2-decisions.md D76",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM-inp@793d59797 docs/explorations/sjsu-g2-t2conf-proposal.md (draft v2; D76 recorded at 1043ebed2)",
+    "range": "§ \"The Hamiltonian\" / \"The data\" (`sjsu18O2`); applications/sjsu/data/sjsu18-o2.json sha256 702b0b3a3c7c713d48cc3044f90bd13795b79f255550275cc7937c5d8a067772"
+   },
+   "contract": {
+    "id": "effectiveStability.d76.sjsu18O2",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2.lean",
+   "export": "KAM.EffectiveStability.sjsu18O2",
+   "split_policy": {
+    "source_group": "effectiveStability.d76.sjsu18O2",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/explorations/sjsu-g2-decisions.md D76"
+   },
+   "abi_sha256": "35293ee8cc5782df5678857a73ced810e5999eb633b607616ac2a9a967f42f58",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part0.lean",
+     "sha256": "f4965118680b0088c6278348f88957cce5f12bfe01fcaaf4e27dd4ad96768ecf"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part1.lean",
+     "sha256": "022eaf016567aa6a6cd796d3b9e15a8f2c70ac8c7623f60c78d3b5c77d8ff1a6"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part2.lean",
+     "sha256": "72a5135e737189063a80a475e0fd90dd64c6a8e7b675ad278fb8962b24c5d1af"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part3.lean",
+     "sha256": "d9c80454964bace3488a0a6d54dd48a5cd063d259a4c3898cea32ba8b7a05c5b"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part4.lean",
+     "sha256": "88a096edf0cd06f97a35032ee948a24733177d05e62fd64f24302ad83c5f35fc"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part5.lean",
+     "sha256": "a93168c76c3dd68fb37e4809fa143437715ada228e221398de053f963e3cc1f0"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Terms.lean",
+     "sha256": "f301c07581af8d281beede22f5075a666f3f0db1ff39144ae3e941887fcdfe0c"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSUTerm.lean",
+     "sha256": "bd6dbbe5c00d0be55a347c893b3f2caa50c70efc95b58c883c368a1ea3a2b34f"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "ab2252df39248b888e293d3bc7b80830c90210a1c75f7396c4b2eeedb5264600"
+  },
+  {
+   "id": "effectiveStability.d76.sjsu_secular_confinement.v1",
+   "kind": "theorem",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-11-06",
+    "approval_ref": "owner approval of the exact T2-CONF text, draft v2 of docs/explorations/sjsu-g2-t2conf-proposal.md (`sjsu_secular_confinement`), relayed by kam-38; docs/explorations/sjsu-g2-decisions.md D76",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "KAM-inp@793d59797 docs/explorations/sjsu-g2-t2conf-proposal.md (draft v2; D76 recorded at 1043ebed2)",
+    "range": "§ \"The theorem\" (T2-CONF; docs/explorations/sjs-rigor-plan.md §1.1)"
+   },
+   "contract": {
+    "id": "effectiveStability.d76.sjsu_secular_confinement",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/EffectiveStability/SJSU/SecularConfinement.lean",
+   "export": "KAM.EffectiveStability.sjsu_secular_confinement",
+   "split_policy": {
+    "source_group": "effectiveStability.d76.sjsu_secular_confinement",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/explorations/sjsu-g2-decisions.md D76"
+   },
+   "abi_sha256": "c04d48bb172921770a23409dd91954b955c4df0c4e9bd98324d230d16e87b1cf",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
+     "sha256": "1592cf15aadef80f7e2017860494a1e067de8698ff8f6075c055a2d138877a79"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsDiophantine.lean",
+     "sha256": "45ac03a3d80f3be86018b756497d11e520e59e40beff85bc92e6bec6d873aea9"
+    },
+    {
+     "path": "KAM/Frozen/Defs/SymplecticForm.lean",
+     "sha256": "cb406afe9c796cec050b1d0f340bf2327766481865dcaf001063c9b8d53df60a"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2.lean",
+     "sha256": "ab2252df39248b888e293d3bc7b80830c90210a1c75f7396c4b2eeedb5264600"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part0.lean",
+     "sha256": "f4965118680b0088c6278348f88957cce5f12bfe01fcaaf4e27dd4ad96768ecf"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part1.lean",
+     "sha256": "022eaf016567aa6a6cd796d3b9e15a8f2c70ac8c7623f60c78d3b5c77d8ff1a6"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part2.lean",
+     "sha256": "72a5135e737189063a80a475e0fd90dd64c6a8e7b675ad278fb8962b24c5d1af"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part3.lean",
+     "sha256": "d9c80454964bace3488a0a6d54dd48a5cd063d259a4c3898cea32ba8b7a05c5b"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part4.lean",
+     "sha256": "88a096edf0cd06f97a35032ee948a24733177d05e62fd64f24302ad83c5f35fc"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part5.lean",
+     "sha256": "a93168c76c3dd68fb37e4809fa143437715ada228e221398de053f963e3cc1f0"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Terms.lean",
+     "sha256": "f301c07581af8d281beede22f5075a666f3f0db1ff39144ae3e941887fcdfe0c"
+    },
+    {
+     "path": "KAM/Frozen/EffectiveStability/SJSU/SJSUTerm.lean",
+     "sha256": "bd6dbbe5c00d0be55a347c893b3f2caa50c70efc95b58c883c368a1ea3a2b34f"
+    },
+    {
+     "path": "KAM/Frozen/Planetary/Defs/OscillatorAction.lean",
+     "sha256": "ad724cd5e19a4d4d420c5e30fbcd9f656107affaefa62e9e76c82fa66a4447c5"
+    }
+   ],
+   "implementation": {
+    "module": "KAM.Provider.EffectiveStability.SJSUSecularConfinement",
+    "export": "KAM.Provider.EffectiveStability.sjsu_secular_confinement"
+   },
+   "state": "SEALED",
+   "prefix_sha256": "0a5f720c4f1ee09037954ea0fbd751c389adddfef8da98eab370730132e4855c",
+   "suffix_sha256": "1f2d3361e67df6513a908669be93f0cc58c90f735bf44b2560787c0177a9caa8",
+   "draft_allowlist": {
+    "frozen_paths": [],
+    "audit_paths": []
+   }
   }
  ]
 }
