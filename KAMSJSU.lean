@@ -20,6 +20,8 @@ public import KAMSJSU.EffectiveStability.SJSU.Ledger.H.Top2
 public import KAMSJSU.EffectiveStability.SJSU.Ledger.Top
 public import KAMSJSU.EffectiveStability.SJSU.Model
 public import KAMSJSU.EffectiveStability.SJSU.Obs
+public import KAMSJSU.Frozen
+public import KAMSJSU.Provider
 
 /-!
 # KAMSJSU

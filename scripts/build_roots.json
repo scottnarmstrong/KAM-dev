@@ -63,7 +63,9 @@
       "track": "B",
       "requires": [],
       "prefixes": [
-        "KAM.EffectiveStability.SJSU"
+        "KAM.EffectiveStability.SJSU",
+        "KAM.Frozen.EffectiveStability.SJSU",
+        "KAM.Provider.EffectiveStability.SJSUSecularConfinement"
       ]
     }
   ]
