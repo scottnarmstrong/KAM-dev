@@ -35,6 +35,20 @@ sys.path.insert(0, HERE)
 sys.path.insert(1, os.path.join(HERE, "..", "spin_orbit"))
 sys.set_int_max_str_digits(0)
 import mag_sofx_lean as SL  # noqa: E402
+import sofx_packed as SP     # noqa: E402
+from types import SimpleNamespace as _NS  # noqa: E402
+
+DEC_CHUNKS = int(os.environ.get("MAG_DEC_CHUNKS", "8"))   # memo chunks (ROWS terms each) per decode piece
+
+
+def advice_obj(pj):
+    """one part of a packed advice (JSON form: layouts `[lo, dims, stride, width, blockRows]`, windows
+    run-length encoded as the Lean literal `unzero [...]`) as the attribute object the `sofx_packed` mirror reads."""
+    from sodata_lean import unzero
+    def lay(L):
+        return _NS(lo=list(L[0]), dims=list(L[1]), stride=list(L[2]), width=L[3], blockRows=L[4])
+    return _NS(la=lay(pj["la"]), lb=lay(pj["lb"]), target=lay(pj["target"]), scale=pj["scale"],
+               rounded=[unzero(w) for w in pj["rounded"]], outLog=pj["outLog"])
 
 COLS = 100
 MAXLINES = 1400
@@ -494,11 +508,8 @@ class Emitter:
             # needs no unfolding (design R5)
             pair = "(%s.targetTerms, %s.remainderBound %s (2 * %d)).1" % (adv, adv, self.W, P)
             src = "(%s)" % pair if p != "ii" else "((%s).map fun t => (t.1, -t.2))" % pair
-            dec = ["theorem %s_dec :" % nm] + wrap(("dyadicTerms (2 * %d) %s.scale %s %s = some %s :="
-                                                    % (P, adv, f, src, tname)).split(" "), "    ")
-            dec += ["  eq_some_of_termsBeq_cseg (by decide +kernel)"]
-            self.tree.write("Prod/M%dDec" % k, imps, "Packed product %d: decode" % k,
-                            "The decode of one packed product (L1c (b)).", dec, heavy=True)
+            self.emit_dec(k, nm, adv, p, f, src, tname, len(m["out"][0]) if m["out"] else 0,
+                          self.book(cfgname)[int(advname.split(".p")[1])][1][2 + PART_ORDER.index(p)], imps)
         # assembly. Every Boolean side check is its OWN theorem (a statement of closed terms, its own
         # heartbeat budget): nested `decide`s inside one declaration share one budget (design signal)
         body, auxn = [], [0]
@@ -578,6 +589,70 @@ class Emitter:
                               "Packed product %d" % k, "The product equation from its shards and decode (L1c).",
                               [self.fix_long(l) for l in body], heavy=True)
         self.prod_done[k] = mod
+
+    def emit_dec(self, k, nm, adv, p, f, src, tname, nterms, pj, imps):
+        """the decode `dyadicTerms … targetTerms = some T` of product `k`, cut at the slots where the groups of
+        DEC_CHUNKS memo chunks `T.cK` begin: one kernel theorem per piece, each in its own module `M{k}DecP{j}`
+        (DecSplit.lean; the uncut decode of a 2,700-term target needs > 10 GB), assembled in `M{k}Dec` under the
+        unchanged name and statement `{nm}_dec`."""
+        po = advice_obj(pj)
+        comb = SP.combined(po)
+        n = SP.prodLen(po)
+        nz = [i for i, c in enumerate(comb) if c != 0]
+        nch = -(-nterms // ROWS) if nterms else 0
+        assert len(nz) == nterms and nch >= 1, (k, len(nz), nterms)
+        groups = [list(range(g, min(g + DEC_CHUNKS, nch))) for g in range(0, nch, DEC_CHUNKS)]
+        cuts = [0] + [nz[ROWS * g[0]] for g in groups[1:]] + [n]
+        assert all(a < b for a, b in zip(cuts, cuts[1:])), (k, cuts)
+        # a named memo is always `T := List.flatten [T.c0, …]` (`terms_defs`, named)
+        cname = (lambda c: "%s.c%d" % (tname, c))
+        gt = ["List.flatten [%s]" % ", ".join(cname(c) for c in g) for g in groups]
+        ii = p == "ii"
+        neg = "fun t => (t.1, -t.2)"
+        plc = "dyadicTerms (2 * %d) %s.scale %s" % (P, adv, f)
+        dimps = imps + ["KAM.Magnetic.Support.DecSplit"]
+        mods, hs = [], []
+        for j, g in enumerate(groups):
+            pc = "(pieceAt %s.targetEntry %s.combined %d %d)" % (adv, adv, cuts[j], cuts[j + 1])
+            if ii:
+                pc = "(%s.map %s)" % (pc, neg)
+            st = "%s %s = some (%s) :=" % (plc, pc, gt[j])
+            pb = ["theorem %s_decP%d :" % (nm, j)] + wrap(st.split(" "), "    ") + \
+                ["  eq_some_of_termsBeq_cseg (by decide +kernel)"]
+            mods.append(self.tree.write("Prod/M%dDecP%d" % (k, j), dimps, "Packed product %d: decode, piece %d" % (k, j),
+                                        "One slot piece of the decode of one packed product (L1c (b)).", pb,
+                                        heavy=True))
+            hs.append("%s_decP%d" % (nm, j))
+        fa = ".nil"
+        for h in reversed(hs):
+            fa = "(.cons %s %s)" % (h, fa)
+
+        def hang(text):
+            ls = wrap(text.split(" "), "    ")
+            ls[0] = "  " + ls[0].lstrip()
+            return ls
+        Ts = ", ".join("(%s)" % x for x in gt)
+        lam = ("(fun p X => %s ((pieceAt %s.targetEntry %s.combined p.1 p.2).map %s) = some X)" % (plc, adv, adv, neg)
+               if ii else "(fun p X => %s (pieceAt %s.targetEntry %s.combined p.1 p.2) = some X)" % (plc, adv, adv))
+        body = ["theorem %s_decF :" % nm] + wrap(("List.Forall₂ %s (cutPairs [%s]) [%s] :=" % (
+            lam, ", ".join(map(str, cuts)), Ts)).split(" "), "    ") + hang(fa) + [""]
+        tgt = "(%s.targetTerms.map %s)" % (adv, neg) if ii else "%s.targetTerms" % adv
+        body += ["theorem %s_decA :" % nm] + wrap(("%s %s = some (List.flatten [%s]) :=" % (plc, tgt, Ts)
+                                                  ).split(" "), "    ")
+        body += hang("%s (2 * %d) %s.scale %s %s %s[%s] (by decide +kernel) (by decide +kernel) %s_decF"
+                     % ("dyadicTerms_targetTerms_map_of_pieces" if ii else "dyadicTerms_targetTerms_of_pieces", P,
+                        adv, f, adv, "(%s) " % neg if ii else "", ", ".join(map(str, cuts[1:])), nm))
+        # three steps, each a syntactic match for the elaborator (a direct `exact` against the pair form makes it
+        # unfold and evaluate `targetTerms`: LockN65, measured); the chunk regrouping is `simp only` on the chunk
+        # NAMES (no chunk is unfolded)
+        body += ["", "theorem %s_dec :" % nm] + wrap(("%s %s = some %s := by" % (plc, src, tname)).split(" "), "    ")
+        body += hang("rw [fst_targetPair, show %s = List.flatten [%s] by simp only [%s%s List.flatten_cons, "
+                     "List.flatten_nil, List.append_nil, List.append_assoc]]"
+                     % (tname, Ts, tname, ","))
+        body += ["  exact %s_decA" % nm]
+        self.tree.write("Prod/M%dDec" % k, mods + ["KAM.Magnetic.Support.DecSplit"],
+                        "Packed product %d: decode" % k,
+                        "The decode of one packed product (L1c (b)) from its slot pieces `M%dDecP*`." % k, body)
 
     @staticmethod
     def fix_long(l):
