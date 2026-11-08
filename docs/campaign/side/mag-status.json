@@ -1,7 +1,7 @@
 {
  "title": "Magnetic field-line barrier: seal KAM.Magnetic.magnetic_barrier",
  "note": "Priority since 2026-11-08 (owner). Sub-orchestrator kam-mag2, branch mag-pilot (worktree on the HC volume). Route: the v2 torus certifier, route A refined, as for the Moon's spin band; then a glue theorem from the certificate to the frozen statement, a provider, the seal and an independent audit. Plan: docs/explorations/mag/SEAL-PLAN.md. The main orchestrator updates this file at each milestone; weights are the stages' relative effort.",
- "reviewed": "2026-11-08 17:40 UTC",
+ "reviewed": "2026-11-08 18:10 UTC",
  "stages": [
   {
    "name": "model and statement frozen (D66, D68)",
@@ -24,14 +24,14 @@
   {
    "name": "kernel data modules emitted, per-family kernel cost measured",
    "weight": 10,
-   "done": 0.85,
-   "evidence": "all data emitted under the line cap (base 168, graph 58, pass 8, 1442 segment modules); cost measured so far: data ~6 s/module, first segment 17 s / 3.1 GB, FrameL pass 9.4 GB; Prod/Tors samples pending"
+   "done": 0.7,
+   "evidence": "all families except the 174 products emitted and measured; the products are lock-sized (one decode piece up to 9.3 GB): redesign under way (a shard-aligned decode lemma; the lunar lock product machinery ported to the magnetic emitter); ~50 h serial, so the chain goes to the 64-core workstation"
   },
   {
    "name": "kernel check of the full certificate (here or on the 64-core workstation)",
    "weight": 35,
    "done": 0.3,
-   "evidence": "graph 58/58 and pass 8/8 rc 0; segment chain 622 of 2230 modules (count grew: the 174 product decode modules now split into 788 slot pieces via KAM/Magnetic/Support/DecSplit.lean, 17:3x); measuring the pieces, then the chain resumes"
+   "evidence": "graph 58/58 and pass 8/8 rc 0; segment chain 622 of ~1442 base modules (everything up to the product family)"
   },
   {
    "name": "glue theorem: passing certificate implies the frozen statement",
