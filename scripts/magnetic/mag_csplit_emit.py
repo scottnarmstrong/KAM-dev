@@ -625,7 +625,9 @@ class Emitter:
         body += wrap(["d1 := %s" % nat_list(J["d1"])], "  ") + wrap(["d2 := %s" % tab(J["d2"])], "  ")
         body += wrap(d3.replace(",", ", ").split(" ") if False else ("d3 := " + d3).split(" "), "  ")
         jt = Tree(root, "Lower")
-        txt = HEADER.format(imports="public import KAM.Magnetic.Params\npublic import "
+        txt = HEADER.format(imports="public import KAM.CertificateSharp.V2.RouteARefined\n"
+                                    "public import KAM.Magnetic.Params\npublic import KAM.SpinOrbit.Graph.Cert\n"
+                                    "public import "
                                     "KAM.Magnetic.Support.CsegSupport",
                             title="The literal jet of the magnetic Hamiltonian",
                             doc="`magJetLit`: the compiled jet of `magHamExpr` as data "
