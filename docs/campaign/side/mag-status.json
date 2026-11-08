@@ -1,7 +1,7 @@
 {
  "title": "Magnetic field-line barrier: seal KAM.Magnetic.magnetic_barrier",
  "note": "Priority since 2026-11-08 (owner). Sub-orchestrator kam-mag2, branch mag-pilot (worktree on the HC volume). Route: the v2 torus certifier, route A refined, as for the Moon's spin band; then a glue theorem from the certificate to the frozen statement, a provider, the seal and an independent audit. Plan: docs/explorations/mag/SEAL-PLAN.md. The main orchestrator updates this file at each milestone; weights are the stages' relative effort.",
- "reviewed": "2026-11-08 13:55 UTC",
+ "reviewed": "2026-11-08 15:15 UTC",
  "stages": [
   {
    "name": "model and statement frozen (D66, D68)",
@@ -18,14 +18,14 @@
   {
    "name": "re-confirmation against today's checker",
    "weight": 2,
-   "done": 0.3,
-   "evidence": "main merged into mag-pilot (3b41fa7b), checker sources unchanged since the package; mirror re-run (unit mag2-mirror, ~3.3 h) running"
+   "done": 1.0,
+   "evidence": "mirror re-run against today’s checker (kam-data/mag/rerun-20261108, 14:18): err 7.3e-22, every check true, graph 0.3261.."
   },
   {
    "name": "kernel data modules emitted, per-family kernel cost measured",
    "weight": 10,
-   "done": 0.25,
-   "evidence": "168 base modules (16.6 MB) built in 2.18 h at 2.0 GB peak; census done; segment plan, ledger and emission next"
+   "done": 0.4,
+   "evidence": "168 base modules built (2.18 h, 2.0 GB peak); census done; segment ledger self-checking (cfgLow 100, cfgFull 57 segments so far); graph and first 10 pass modules building in the heavy lane"
   },
   {
    "name": "kernel check of the full certificate (here or on the 64-core workstation)",
@@ -37,7 +37,7 @@
    "name": "glue theorem: passing certificate implies the frozen statement",
    "weight": 20,
    "done": 1.0,
-   "evidence": "magnetic_barrier_of_V2 proved on mag-pilot (ff655cd2): exactly the frozen type from certificate hypotheses only, standard axioms; independent audit at the seal"
+   "evidence": "magnetic_barrier_of_V2 proved on mag-pilot (ff655cd2): exactly the frozen type from certificate hypotheses only, standard axioms; independent audit at the seal; independent audit MAG-GLUE-1 PASS WITH NOTES (one lint width fix before landing)"
   },
   {
    "name": "provider, seal, independent seal audit, kernel replay",
