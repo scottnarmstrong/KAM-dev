@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-08 18:34 UTC** (automatic: every 20 minutes and after every commit) · **frozen statements proved: 76 / 77** · **3,934,008 lines of hand-written Lean** (plus 4,097,429 lines of generated certificate data) · **in progress:** LG00 (side) 97 %, HD 11964 (side) 51 %, Magnetic barrier 65 %; every other subproject is complete. Details: [progress by subproject](#progress-by-subproject).
+> **Last updated: 2026-11-08 18:40 UTC** (automatic: every 20 minutes and after every commit) · **frozen statements proved: 76 / 77** · **3,934,008 lines of hand-written Lean** (plus 4,097,429 lines of generated certificate data) · **in progress:** LG00 (side) 97 %, HD 11964 (side) 51 %, Magnetic barrier 65 %; every other subproject is complete. Details: [progress by subproject](#progress-by-subproject).
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -436,7 +436,7 @@ The original project is divided into 52 work items: planning deliverables, campa
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **3,934,008** (3,694,374 excluding blank lines and comments) · **+0** since 2026-11-07 18:30 UTC |
+| On `main` now (hand-written) | **3,934,008** (3,694,374 excluding blank lines and comments) · **+0** since 2026-11-07 18:40 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 4,097,429 lines in 15,317 modules |
 | Written on agent branches, not yet landed (hand-written) | 1,631 |
 | **Estimated total at completion** (hand-written) | **≈ 3,936,000** |
@@ -446,7 +446,7 @@ The original project is divided into 52 work items: planning deliverables, campa
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-08 18:34 UTC from `main` at `5f4267dae` by `scripts/hq-status.py`.*
+*Generated 2026-11-08 18:40 UTC from `main` at `44ec9ff5c` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, and track R (Rüssmann's theorem) is sealed too. Since then: track W (PDE KAM, `nlw2`) sealed 2026-11-01; track LP (the Laskar–Petit conjecture made rigorous) sealed 2026-11-01 (D62, D64); track SO complete: the Moon's spin-rate band (sealed 2026-10-31) and the Moon locked in synchronous rotation forever (sealed 2026-11-05, D63); track B (finite-time effective stability, Hénon–Heiles) sealed 2026-11-03 (D72, D73). SJSU gate 2 (program T2-CONF, D74–D76): the secular Sun–Jupiter–Saturn–Uranus model confined for 5·10⁹ years, sealed 2026-11-07; its independent kernel re-check runs on the 64-core workstation. **Now (owner priority since 2026-11-08): seal the magnetic barrier** ([plan](docs/explorations/mag/SEAL-PLAN.md)): the numerical certificate passes in the exact mirror; next the kernel data modules, the kernel check and the glue theorem. Then HD 11964. Research: a route to the full Newtonian Sun–Jupiter–Saturn–Uranus problem.
 
@@ -667,7 +667,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:workers -->
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
-| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | 🔄 working | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
+| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-4 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
@@ -680,6 +680,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-08 18:37 | `44ec9ff5c` | HQ: magnetic barrier data emitted and packaged for the workstation; provider drafted |
 | 2026-11-08 18:04 | `f5c5fdd6f` | HQ: magnetic barrier products need the lock-style product machinery; redesign under way |
 | 2026-11-08 17:32 | `a0924be04` | HQ: magnetic barrier product decode split; chain 622/2230 |
 | 2026-11-08 17:26 | `ad8255f21` | HQ: magnetic barrier segment chain 622/1442; product decode split next |
@@ -691,7 +692,6 @@ account read from each agent's running process) and their branches. Rules for ag
 | 2026-11-08 13:54 | `bc2f05124` | HQ: magnetic barrier glue theorem proved (mag-pilot ff655cd2) |
 | 2026-11-08 11:33 | `8b8611000` | SJSU-FULL: research plan for the full Newtonian Sun–Jupiter–Saturn–Uranus problem (docs only) |
 | 2026-11-08 11:02 | `a1741048f` | HQ: progress meter and plan for sealing the magnetic barrier |
-| 2026-11-08 10:35 | `68b2faea5` | D77: native-checked certificates are a separate, quarantined tier |
 <!-- /AUTO:landed -->
 
 ## Decisions
