@@ -39,6 +39,7 @@ import sofx_packed as SP     # noqa: E402
 from types import SimpleNamespace as _NS  # noqa: E402
 
 DEC_CHUNKS = int(os.environ.get("MAG_DEC_CHUNKS", "8"))   # memo chunks (ROWS terms each) per decode piece
+DEC_SPAN = int(os.environ.get("MAG_DEC_SPAN", "2"))       # blocks of slots per decode piece (beyond one chunk)
 
 
 def advice_obj(pj):
@@ -601,19 +602,42 @@ class Emitter:
         nz = [i for i, c in enumerate(comb) if c != 0]
         nch = -(-nterms // ROWS) if nterms else 0
         assert len(nz) == nterms and nch >= 1, (k, len(nz), nterms)
-        groups = [list(range(g, min(g + DEC_CHUNKS, nch))) for g in range(0, nch, DEC_CHUNKS)]
+        L = SP.blockLen(po)
+        assert L > 0 and all(len(w) <= 2 * L for w in po.rounded), k
+        # greedy groups of whole memo chunks: at most DEC_CHUNKS chunks and (beyond the first chunk) at most
+        # DEC_SPAN blocks of slots per piece (a piece costs about the slots of the windows that reach it)
+        start = lambda c: nz[ROWS * c] if c else 0
+        groups, c = [], 0
+        while c < nch:
+            g = [c]
+            while g[-1] + 1 < nch and len(g) < DEC_CHUNKS:
+                end = start(g[-1] + 2) if g[-1] + 2 < nch else n
+                if end - start(c) > DEC_SPAN * L:
+                    break
+                g.append(g[-1] + 1)
+            groups.append(g)
+            c = g[-1] + 1
         cuts = [0] + [nz[ROWS * g[0]] for g in groups[1:]] + [n]
         assert all(a < b for a, b in zip(cuts, cuts[1:])), (k, cuts)
+        st_of = [(a // L, -(-b // L)) for a, b in zip(cuts, cuts[1:])]
         # a named memo is always `T := List.flatten [T.c0, …]` (`terms_defs`, named)
         cname = (lambda c: "%s.c%d" % (tname, c))
         gt = ["List.flatten [%s]" % ", ".join(cname(c) for c in g) for g in groups]
         ii = p == "ii"
         neg = "fun t => (t.1, -t.2)"
         plc = "dyadicTerms (2 * %d) %s.scale %s" % (P, adv, f)
-        dimps = imps + ["KAM.Magnetic.Support.DecSplit"]
+        dimps = imps + ["KAM.Magnetic.Support.DecLocal"]
         mods, hs = [], []
+        # the window lengths (`pieceAt_eq_localPiece`), decided once in its own module
+        wl = ["theorem %s_wlen :" % nm] + wrap(("∀ w ∈ %s.rounded, w.length ≤ 2 * %s.blockLen := by"
+                                                % (adv, adv)).split(" "), "    ") + ["  decide +kernel"]
+        mods.append(self.tree.write("Prod/M%dDecW" % k, imps + ["KAM.Magnetic.Support.DecLocal"],
+                                    "Packed product %d: decode, window lengths" % k,
+                                    "Every advice window of one packed product has at most two blocks.", wl,
+                                    heavy=True))
         for j, g in enumerate(groups):
-            pc = "(pieceAt %s.targetEntry %s.combined %d %d)" % (adv, adv, cuts[j], cuts[j + 1])
+            s0, t0 = st_of[j]
+            pc = "(localPiece %s %d %d %d %d)" % (adv, s0, t0, cuts[j], cuts[j + 1])
             if ii:
                 pc = "(%s.map %s)" % (pc, neg)
             st = "%s %s = some (%s) :=" % (plc, pc, gt[j])
@@ -624,8 +648,14 @@ class Emitter:
                                         heavy=True))
             hs.append("%s_decP%d" % (nm, j))
         fa = ".nil"
-        for h in reversed(hs):
-            fa = "(.cons %s %s)" % (h, fa)
+        for j in reversed(range(len(hs))):
+            s0, t0 = st_of[j]
+            lift = ("(dyadicTerms_pieceAt_map_of_local (2 * %d) %s.scale %s %s (%s) %s_wlen (s := %d) (t := %d)"
+                    % (P, adv, f, adv, neg, nm, s0, t0) if ii else
+                    "(dyadicTerms_pieceAt_of_local (2 * %d) %s.scale %s %s %s_wlen (s := %d) (t := %d)"
+                    % (P, adv, f, adv, nm, s0, t0))
+            lift += " (by decide +kernel) (by decide +kernel) (by decide +kernel) (by decide +kernel) %s)" % hs[j]
+            fa = "(.cons %s %s)" % (lift, fa)
 
         def hang(text):
             ls = wrap(text.split(" "), "    ")
@@ -650,7 +680,7 @@ class Emitter:
                      "List.flatten_nil, List.append_nil, List.append_assoc]]"
                      % (tname, Ts, tname, ","))
         body += ["  exact %s_decA" % nm]
-        self.tree.write("Prod/M%dDec" % k, mods + ["KAM.Magnetic.Support.DecSplit"],
+        self.tree.write("Prod/M%dDec" % k, mods + ["KAM.Magnetic.Support.DecLocal"],
                         "Packed product %d: decode" % k,
                         "The decode of one packed product (L1c (b)) from its slot pieces `M%dDecP*`." % k, body)
 

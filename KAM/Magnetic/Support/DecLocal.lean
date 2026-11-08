@@ -81,7 +81,8 @@ theorem drop_packOverlapAdd (L : ℕ) : ∀ (ws : List (List ℤ)) (s : ℕ),
         simp only [List.length_drop]
         rw [Nat.succ_mul]
         omega
-      rw [drop_packAddZ, hx, drop_packOverlapAdd L xs s fun w hw' => hw w (List.mem_cons_of_mem _ hw')]
+      rw [drop_packAddZ, hx,
+        drop_packOverlapAdd L xs s fun w hw' => hw w (List.mem_cons_of_mem _ hw')]
       simp [packAddZ]
 
 /-- The first `m ≤ k · L` slots of an overlap-add need only its first `k` windows. -/
