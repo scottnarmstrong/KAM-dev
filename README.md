@@ -16,13 +16,14 @@ Diophantine frequencies, as soon as f is small enough.
 Every frozen theorem below is proved and sealed. That covers the 22 of the original project, Rüssmann's theorem
 (track R), track W's PDE KAM theorem `KAM.Wave.nlw2` (sealed 2026-11-01), track LP's seven safety statements (sealed
 2026-11-01), track SO's frozen lunar band and the four statements of the Moon's synchronous lock (sealed
-2026-11-05), and track B's three confinement theorems (sealed 2026-11-03). Each frozen statement was
+2026-11-05), track B's three confinement theorems (sealed 2026-11-03), and the SJSU secular confinement theorem
+(sealed 2026-11-07). Each frozen statement was
 approved by the owner and frozen before its proof was assembled. The proofs are complete and use only the standard
 axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
 - **Track LP** (items 8–9, the sharp Laskar–Petit safety theorems): all frozen and sealed (D62, D64).
 - **Items 13–15** are track SO's certified numerical tori, among them the Moon's spin-rate band.
-- **Items 16–17** are track B's finite-time effective stability (D72, D73).
+- **Items 16–18** are track B's finite-time effective stability (D72, D73) and the SJSU certificate (D74–D76).
 
 The plain-language versions simplify; the linked Lean statements are exact. The full list of frozen statements, with
 sources, is in [docs/STATEMENTS.md](docs/STATEMENTS.md).
@@ -217,7 +218,7 @@ with only the standard axioms.
     slowly under the flow of a C² Hamiltonian (|{F_j, H}| ≤ η_j on the closure of a bounded open D), and every boundary
     point of D has some F_j outside its starting range widened by η_j·T, then every orbit from the initial set exists
     beyond ±T, is unique, stays in D for |t| ≤ T, and each F_j drifts by at most η_j|t|. This is the
-    coordinate-free form of item 16, and the engine of the SJSU certificate under construction (D74).
+    coordinate-free form of item 16, and the engine of the SJSU certificate (item 18).
     [`KAM.Application.Confinement.hamiltonian_approxIntegrals_confinement`](KAM/Application/Confinement/ApproxIntegral.lean#L295)
 17. **The Hénon–Heiles system stays confined for 10¹⁰ time units.** For
     H = (q₀² + p₀²)/2 − (√2/2)(q₁² + p₁²)/2 + q₀²q₁ − q₁³/3, every initial point whose two oscillator actions are at most
@@ -226,6 +227,40 @@ with only the standard axioms.
     checked by `checkOscChain` inside Lean's kernel in 34 shards (opt-in library `KAMHenonHeiles`). Frozen and sealed
     2026-11-03 (D73).
     [`KAM.EffectiveStability.henonHeiles_confinement`](KAM/Frozen/EffectiveStability/HenonHeilesConfinement.lean#L32)
+18. **The secular Sun–Jupiter–Saturn–Uranus model keeps its eccentricities in fixed bands for 5·10⁹ years.** In the
+    planar secular model SJSU18-O2 (second order in the masses, degree 18 in the secular variables, 7,941 exact
+    rational terms), every initial state within 10⁻⁶ of the nominal present-day secular state has a unique solution for
+    at least 5·10⁹ years in both time directions, and along it the eccentricities stay in [0.026, 0.062] (Jupiter),
+    [0.009, 0.085] (Saturn) and [0.006, 0.063] (Uranus). This is a theorem about the truncated secular model, not the
+    full Newtonian problem. The proof applies confinement from approximate integrals to three observables in a tube
+    around a near-invariant torus; their drift rates (about 10⁻¹⁸ per year) are certified by exact computations
+    checked in Lean's kernel, in 4,687 generated modules (opt-in library `KAMSJSU`). Frozen and sealed 2026-11-07
+    (D76); the independent re-check of the generated modules by `leanchecker` is running on a 64-core workstation.
+    [`KAM.EffectiveStability.sjsu_secular_confinement`](KAM/Frozen/EffectiveStability/SJSU/SecularConfinement.lean#L42) ·
+    [what is proved](docs/results/SJSU.md)
+
+**A faster, differently trusted route: native-checked certificates (experimental, not on `main`).** A second
+implementation of the SJSU certificate, on branch
+[`codex/sjsu-native-certificate-20261107`](https://github.com/lemma-farm/KAM-dev/tree/codex/sjsu-native-certificate-20261107)
+of `lemma-farm/KAM-dev`, proves the same theorem with exactly the same Lean statement in about 25 minutes on one
+machine, against roughly 10 hours of kernel checking here. It has two parts:
+
+- **A representation-independent certificate.** `numerical_certificate` lists what any numerical method must supply
+  (a rotation, a periodic torus shift, three near-integrals and explicit bounds on their drift, faces and derivatives),
+  and one soundness theorem, checked by the kernel with the standard axioms, turns any such certificate into the
+  confinement theorem. It does not care which basis or algorithm produced the numbers.
+- **Native checking.** The finite arithmetic that certifies the numbers is run as compiled code (`native_decide`)
+  instead of being reduced inside Lean's kernel. That is far faster, but it adds one axiom: that the Lean compiler, the
+  C compiler and the runtime's big-number arithmetic computed the Boolean check correctly. In plain words, the result
+  is as trustworthy as the kernel *plus* the assumption that the compiled code is not lying. Every sealed theorem in
+  this repository uses only the three standard axioms, so native-checked results are kept as a separate, labelled tier
+  and never count as sealed.
+
+The speed matters for the next goal, the full Newtonian Sun–Jupiter–Saturn–Uranus problem: its certificates are
+estimated at 10³–10⁷ CPU-hours of kernel checking
+([scoping note](docs/explorations/sjsu-full-problem-scope.md)), and native checking could bring the shorter horizons
+within easy reach. Longer horizons are blocked mainly by mathematics (a rigorously averaged Hamiltonian at higher order
+in the masses, near the 5:2 Jupiter–Saturn resonance), not only by compute.
 
 ## Overview
 
