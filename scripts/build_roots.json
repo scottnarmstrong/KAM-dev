@@ -44,7 +44,8 @@
       "title": "MAG: the magnetic field-line barrier at eps = 3/2500 (D66, D68)",
       "track": "MAG",
       "requires": [],
-      "prefixes": ["KAM.Magnetic.Data"]
+      "prefixes": ["KAM.Magnetic.Data", "KAM.Frozen.Magnetic.Theorems.MagneticBarrier",
+                   "KAM.Provider.Magnetic.MagneticBarrier"]
     },
     {
       "lib": "KAMHenonHeiles",
