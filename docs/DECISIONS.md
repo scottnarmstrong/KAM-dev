@@ -661,3 +661,18 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
       intervals [0.026, 0.062], [0.009, 0.085] and [0.006, 0.063];
     - the frozen data `sjsu18O2` (Re Σ c zᵃz̄ᵇ over 7,941 terms in 6 hash-pinned parts).
   - **Next:** prove it as an ordinary theorem, then freeze and seal it in one pass, byte-identical to the approved text.
+
+- **D77 (2026-11-08, 10:35 UTC) Native-checked certificates are a separate, quarantined tier.** *(Scott: "approve D77, let's
+  keep it on his repo for now, that's fine".)*
+  - **Rule:** a result whose proof uses `native_decide` (or `Lean.ofReduceBool`/`ofReduceNat`) may live in this
+    repository only in an opt-in library labelled as native-checked. No core module and no sealed proof may import it,
+    the source lint's ban on these constructs stays in force everywhere else, and such a result is never frozen, sealed
+    or counted among the sealed theorems. Its trust base is the kernel plus the Lean compiler, the C compiler and the
+    runtime's big-number arithmetic.
+  - **Now:** the native-checked SJSU certificate (branch `codex/sjsu-native-certificate-20261107` of
+    `lemma-farm/KAM-dev`) stays in that repository for now. The README describes it as an experimental route; nothing
+    of it is merged.
+  - **When it lands later:** the representation-independent `numerical_certificate` interface and its soundness proof
+    (standard axioms) may go into core; the native proof goes into its own opt-in library; the runtime speedups are
+    added alongside the existing engine instead of rewriting the modules the sealed SJSU proof depends on; commits
+    credit the author with a `Co-authored-by:` line.

@@ -485,7 +485,7 @@ The original project ran as four parallel tracks, K, I, N and P (decision D14; d
 [`docs/TRACKS.md`](docs/TRACKS.md)); all four are complete. Since then, all complete and sealed: track R, Rüssmann's
 theorem (D35); track W, PDE KAM for the cubic wave equation (D30, D41); track LP, the Laskar–Petit conjecture (D56);
 track SO, certified numerical tori and the Moon, in three parts (D30, D42, D45); track B, finite-time effective
-stability (D72, D73). In progress: SJSU gate 2 (D74–D76; proved, seal pending), the side projects LG00 and HD 11964,
+stability (D72, D73). Also sealed: SJSU gate 2 (D74–D76, 2026-11-07). In progress: the side projects LG00 and HD 11964,
 and the magnetic barrier (statement frozen, proof open). Each name links to a plain-language account of exactly what
 is proved:
 
@@ -793,6 +793,9 @@ Full text: [`docs/DECISIONS.md`](docs/DECISIONS.md).
 - **D75** T2-CONF's model of record is the complex form of SJSU18-O2; two-sided eccentricity intervals. *(Scott, 2026-11-06)*
 - **D76** Approve the exact T2-CONF statement `sjsu_secular_confinement` and its data `sjsu18O2`; freeze and seal in one
   pass once proved. *(Scott, 2026-11-06)*
+- **D77** Native-checked certificates (`native_decide`) form a separate, quarantined tier: opt-in labelled libraries
+  only, never imported by core, never sealed; the native SJSU certificate stays in its own repository for now.
+  *(Scott, 2026-11-08)*
 
 ## Owner questions
 
