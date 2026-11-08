@@ -46,7 +46,8 @@ theorem differentiable_magHamC : Differentiable ℂ magHamC := by
   unfold magHamC
   fun_prop
 
-/-- **The clock**: `magHamC` is affine of slope `1` in the dummy action `J`, so `∂_J magHamC ≡ 1`. -/
+/-- **The clock**: `magHamC` is affine of slope `1` in the dummy action `J`, so
+`∂_J magHamC ≡ 1`. -/
 theorem magHamC_clock (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) :
     fderiv ℂ magHamC z (phaseBasis (.inr 1)) = 1 := by
   have hline : HasDerivAt (fun t : ℂ => z + t • phaseBasis (.inr 1)) (phaseBasis (.inr 1)) 0 := by

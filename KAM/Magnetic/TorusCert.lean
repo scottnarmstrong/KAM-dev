@@ -89,7 +89,8 @@ theorem fderiv_shiftTorus (v : Fin n → ℝ) (θ : Fin n → ℂ) :
 
 theorem invarianceError_shiftTorus (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (ω : Fin n → ℝ)
     (v : Fin n → ℝ) (θ : Fin n → ℂ) :
-    invarianceError h (shiftTorus Kinf v) ω θ = invarianceError h Kinf ω (θ - realInclusion n v) := by
+    invarianceError h (shiftTorus Kinf v) ω θ =
+      invarianceError h Kinf ω (θ - realInclusion n v) := by
   simp only [invarianceError, fderiv_shiftTorus]
   rfl
 
