@@ -134,8 +134,11 @@ def main(which, gdir, root):
         files["Graph%s" % ("L" if S == "Lo" else "H")] = (
             base + ["KAM.Magnetic.Data.%s.Pass.Graph%sC%d" % (T, S, k) for k in range(n)],
             "the graph check: p%s by row chunks" % S, "The SOS side from its chunk theorems (CsegGraph).", body, True)
+    # the shared header opens `KAM.CertificateSharp.V2`; the lunar Cert imported it transitively, the magnetic one
+    # does not (MAG-SEAL fix)
+    V2IMP = "KAM.CertificateSharp.V2.RouteARefined"
     for rel, (imps, title, doc, body, hv) in files.items():
-        text = E.HEADER.replace("mag_csplit_emit.py", "mag_csplit_graph.py").format(imports="\n".join("public import " + i for i in sorted(set(imps))),
+        text = E.HEADER.replace("mag_csplit_emit.py", "mag_csplit_graph.py").format(imports="\n".join("public import " + i for i in sorted(set(imps) | {V2IMP})),
                                title="The magnetic torus: %s" % title, doc=doc,
                                ns="KAM.Magnetic.Data.%s" % T, body="\n".join(E.autowrap(body)).rstrip())
         for i, l in enumerate(text.splitlines()):
