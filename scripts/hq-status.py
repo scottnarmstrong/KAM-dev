@@ -802,6 +802,7 @@ def section_tracks():
         ftxt = (f'{sealed} / {len(thm)}' if thm else '— (ordinary theorems)' if prefix is None else
                 'none frozen yet (freeze approved, D49)' if prefix.startswith('so-') else '0 / 0')
         stage = (lg00_stage_text() if t == 'LG00' else hd_stage_text() if t == 'HD11964' else
+                 mag_stage_text() if t == 'Magnetic' else
                  campaign.get('tracks', {}).get(t, ''))
         key = {'LG00': 'LG00', 'HD11964': 'HD11964'}.get(t, t)
         name = f'[{t}](docs/results/{key}.md)' if (root / f'docs/results/{key}.md').exists() else t
@@ -903,6 +904,31 @@ def hd_progress():
     """Side project HD 11964 (docs/campaign/side/hd11964-status.json): percent done, weighted by stage effort."""
     w = sum(s['weight'] for s in HD['stages'])
     return (100 * sum(s['weight'] * s['done'] for s in HD['stages']) / w if w else 0.0), w
+
+
+_mag_file = root / 'docs/campaign/side/mag-status.json'
+MAG = json.loads(_mag_file.read_text()) if _mag_file.exists() else {'stages': []}
+
+
+def mag_progress():
+    """Magnetic barrier (docs/campaign/side/mag-status.json), percent by stage weight; 100 once its anchor is sealed."""
+    if any(a['id'].split('.')[0] == 'magnetic' and a['kind'] == 'theorem' and a['state'] == 'SEALED'
+           for a in manifest['anchors']):
+        return 100.0, 0
+    w = sum(s['weight'] for s in MAG['stages'])
+    return (100 * sum(s['weight'] * s['done'] for s in MAG['stages']) / w if w else 0.0), w
+
+
+def mag_stage_text():
+    st = MAG['stages']
+    if not st:
+        return ''
+    done = [s['name'] for s in st if s['done'] >= 1]
+    cur = next((s for s in st if s['done'] < 1), None)
+    txt = (f'{mag_progress()[0]:.0f} % ([plan](docs/explorations/mag/SEAL-PLAN.md)): done: ' + ('; '.join(done) or 'none'))
+    if cur:
+        txt += f'; now: {cur["name"]} ({100 * cur["done"]:.0f} %)'
+    return txt
 
 
 def hd_stage_text():
@@ -1334,7 +1360,7 @@ SUBPROJECTS = [
 ]
 SUB_GROUPS = {'kam': 'KAM theory: the original project', 'ext': 'Extensions of the theory',
               'moon': 'Certified numerics: the Moon', 'planets': 'Certified numerics: planetary systems',
-              'open': 'Frozen, proof open'}
+              'open': 'Frozen, proof in progress'}
 SUB_PREFIX = {'K': 'kam', 'I': 'iso', 'N': 'nekhoroshev', 'R': 'russmann', 'W': 'wave', 'B': 'effectiveStability',
               'Magnetic': 'magnetic'}
 
@@ -1360,11 +1386,10 @@ def sub_progress(key, rows):
     _, so1, so2, _ = completion_split(rows)
     meters = {'W': lambda: w_progress()[0], 'LP': lambda: lp_progress()[0], 'SO-1': lambda: so1,
               'SO-2': lambda: so2, 'SO-3': lambda: lock_progress()[0], 'SJSU': lambda: g2_progress()[0],
-              'LG00': lambda: lg00_progress()[0], 'HD11964': lambda: hd_progress()[0]}
+              'LG00': lambda: lg00_progress()[0], 'HD11964': lambda: hd_progress()[0],
+              'Magnetic': lambda: mag_progress()[0]}
     if key in meters:
         return meters[key]()
-    if key == 'Magnetic':
-        return None
     thm = sub_anchors(key)
     return 100 * sum(a['state'] == 'SEALED' for a in thm) / len(thm) if thm else None
 
@@ -1387,7 +1412,7 @@ def section_updated(rows, est):
     total = loc(LIB)[0]
     gen = lean_stats(LIB, generated=True)[1]
     open_ = [(n, sub_progress(k, rows)) for k, _, n, _ in SUBPROJECTS]
-    open_ = [f'{n} {p:.0f} %' if p is not None else f'{n} (proof open)' for n, p in open_ if p is None or p < 99.95]
+    open_ = [f'{n} {p:.0f} %' if p is not None else f'{n} (no meter)' for n, p in open_ if p is None or p < 99.95]
     return (f'> **Last updated: {NOW}** (automatic: every 20 minutes and after every commit) · '
             f'**frozen statements proved: {sealed} / {len(rows)}** · '
             f'**{total:,} lines of hand-written Lean**' +
@@ -1413,7 +1438,7 @@ def section_progress(rows):
         meter = f'`{bar(p, 10)}` {p:.0f} %' if p is not None else '—'
         out.append(f'| {name} | {head} | {sub_frozen(key)} | {meter} | {sub_link(key)} |')
     out += ['', '<details><summary>How each meter is computed</summary>', '',
-            '- **Tracks K, I, N, P, R, B and the magnetic barrier:** the share of their frozen theorems that are sealed.',
+            '- **Tracks K, I, N, P, R and B:** the share of their frozen theorems that are sealed.',
             '- **SO part 1 and part 2:** their work items below (design line estimates of the landed packages).',
             '- **SO part 3** (stages weighted by effort, each read from the repository): ' +
             ', '.join(f'{n} {w}' for n, w, _ in LOCK_STAGES) + '.',
@@ -1427,7 +1452,11 @@ def section_progress(rows):
             f'{LG00.get("reviewed", "")}.',
             '- **HD 11964:** ' + ', '.join(s['name'] for s in HD['stages']) + '; the side orchestrator\'s assessment in '
             '[`docs/campaign/side/hd11964-status.json`](docs/campaign/side/hd11964-status.json), last reviewed '
-            f'{HD.get("reviewed", "")}.', '',
+            f'{HD.get("reviewed", "")}.',
+            '- **Magnetic barrier:** ' + ', '.join(f'{s_["name"]} {s_["weight"]}' for s_ in MAG['stages']) + '; the '
+            'main orchestrator\'s assessment in [`docs/campaign/side/mag-status.json`](docs/campaign/side/mag-status.json), '
+            f'last reviewed {MAG.get("reviewed", "")}; 100 % once the frozen statement is sealed. Plan: '
+            '[`docs/explorations/mag/SEAL-PLAN.md`](docs/explorations/mag/SEAL-PLAN.md).', '',
             '**Everything together** weighs every part of the project by effort:', '',
             '| Part of the project | Items | Weight | Done | Completion |', '|---|---|---|---|---|']
     for name, (wt, dn, n) in groups.items():

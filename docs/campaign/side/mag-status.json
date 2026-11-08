@@ -1,0 +1,21 @@
+{
+ "title": "Magnetic field-line barrier: seal KAM.Magnetic.magnetic_barrier",
+ "note": "Priority since 2026-11-08 (owner). Sub-orchestrator kam-mag2, branch mag-pilot (worktree on the HC volume). Route: the v2 torus certifier, route A refined, as for the Moon's spin band; then a glue theorem from the certificate to the frozen statement, a provider, the seal and an independent audit. Plan: docs/explorations/mag/SEAL-PLAN.md. The main orchestrator updates this file at each milestone; weights are the stages' relative effort.",
+ "reviewed": "2026-11-08 11:00 UTC",
+ "stages": [
+  {"name": "model and statement frozen (D66, D68)", "weight": 5, "done": 1.0,
+   "evidence": "KAM/Frozen/Magnetic/ (frozen 2026-11-01, DRAFT_SORRY), audits MAG-FZ-1/2, MAG-SA-1/2"},
+  {"name": "numerical certificate passing in the exact mirror", "weight": 15, "done": 1.0,
+   "evidence": "branch mag-pilot certificates/magnetic/: route A refined, err 7.3e-22 vs threshold 10^-19.19 (margin 1.94 decades), graph 0.3261..0.3876 inside [8/25, 39/100]"},
+  {"name": "re-confirmation against today's checker", "weight": 2, "done": 0.3,
+   "evidence": "main merged into mag-pilot (3b41fa7b), checker sources unchanged since the package; mirror re-run (unit mag2-mirror, ~3.3 h) running"},
+  {"name": "kernel data modules emitted, per-family kernel cost measured", "weight": 10, "done": 0.0,
+   "evidence": ""},
+  {"name": "kernel check of the full certificate (here or on the 64-core workstation)", "weight": 35, "done": 0.0,
+   "evidence": "expected 10-40 kernel hours"},
+  {"name": "glue theorem: passing certificate implies the frozen statement", "weight": 20, "done": 0.0,
+   "evidence": "magnetic_barrier_of_V2, ~1-1.5k lines; generic layer already in core (ClockGraphCert, AngleGraph, Confinement/GlobalODE)"},
+  {"name": "provider, seal, independent seal audit, kernel replay", "weight": 8, "done": 0.0, "evidence": ""},
+  {"name": "landed on main", "weight": 5, "done": 0.0, "evidence": ""}
+ ]
+}
