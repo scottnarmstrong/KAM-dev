@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.QuartBar
 /-!
 # The resonant quartic `Ḡ` (blueprint-W `bpW:w3:quartic-ident`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:quartic-ident`.
+Package W3-SETTING, blueprint label `bpW:w3:quartic-ident`.
 
 `birkQuartP_bar`: for every `w ∈ 𝔚` (complex coordinates, no reality assumption),
 `Ḡ(w) = ½ Σ_{i,i'∈J} A_{ii'} I_i I_{i'} + Σ_{j ≥ 3, i ∈ J} B_{ji} I_i I_j`, `I_j = w_j w_{-j}`,

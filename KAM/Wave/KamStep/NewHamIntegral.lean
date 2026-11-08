@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The transported time integral is a smoothing Hamiltonian (blueprint-W `bpW:w5:new-ham` (ii))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `newHam_integral_smoothing`: for a family `g_t` of smoothing Hamiltonians (`Dg_t = B(ι Zg_t, ·)`),
 uniformly bounded and Lipschitz in `t`, the function `w ↦ ∫₀¹ g_t(φ^t w) dt` is holomorphic with
 derivative `B(ι Y(w), ·)`, `Y(w) = ∫₀¹ (1 + N_t(w))⁻¹ Zg_t(φ^t w) dt` (holomorphic, `p_+`-valued).

@@ -1,0 +1,30 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import LG00P.TP.Balls.Acc
+public import LG00P.TP.Data.Cert
+public import LG00P.Jet
+public import LG00P.Kernel.BallSplit
+
+/-!
+# LG00P disc pass, chunk 38, first part (generated)
+
+Ops `[7600, 7680)` from the checkpoint (split in two by V2-PACKED-GEN's `gen_port.py`
+at the boundary of the stored halves `lg00BN38_1`, `lg00BN38_0`; the unsplit chunk needs 6 GB).
+-/
+
+@[expose] public noncomputable section
+
+namespace LG00P.TP
+
+open KAM KAM.Certificate
+
+theorem lg00Balls38a :
+    lg00BR 7600 lg00BallAcc38 (lg00Ops38.take 80) = some (lg00BN38_1 ++ lg00BallAcc38) :=
+  ballsRev_of_chunkOk (by decide +kernel)
+
+end LG00P.TP

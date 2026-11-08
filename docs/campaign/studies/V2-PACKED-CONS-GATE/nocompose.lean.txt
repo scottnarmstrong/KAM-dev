@@ -1,0 +1,43 @@
+import KAM.CertificateSharp.Packed.JetBase
+open Lean Meta Elab Command
+
+/-- The constants reachable from `n` through definition bodies (theorems, i.e. proofs, are not
+followed). -/
+partial def reach (env : Environment) (start : Name) : NameSet := Id.run do
+  let mut seen : NameSet := {}
+  let mut todo : List Name := [start]
+  while !todo.isEmpty do
+    let n := todo.head!
+    todo := todo.tail!
+    if seen.contains n then continue
+    seen := seen.insert n
+    match env.find? n with
+    | some (.defnInfo d) => todo := d.value.getUsedConstants.toList ++ d.type.getUsedConstants.toList ++ todo
+    | some (.opaqueInfo d) => todo := d.value.getUsedConstants.toList ++ todo
+    | some (.inductInfo i) => todo := i.ctors ++ todo
+    | some (.ctorInfo c) => todo := c.type.getUsedConstants.toList ++ todo
+    | _ => pure ()
+  return seen
+
+elab "#reaches " a:ident b:ident : command => do
+  let env ← getEnv
+  let s := reach env a.getId
+  logInfo m!"{a.getId} reaches {b.getId}: {s.contains b.getId} ({s.size} constants)"
+
+#reaches KAM.CertificateSharp.Packed.checkTorsionR KAM.Certificate.Slp.compose
+#reaches KAM.CertificateSharp.Packed.checkFrameMajorantsR KAM.Certificate.Slp.compose
+#reaches KAM.Certificate.checkInvariance KAM.Certificate.Slp.compose
+#reaches KAM.CertificateSharp.Packed.checkTorsionJ KAM.Certificate.Slp.compose
+#reaches KAM.CertificateSharp.Packed.checkInvarianceJ KAM.Certificate.Slp.compose
+#reaches KAM.CertificateSharp.Packed.checkEnergyJ KAM.Certificate.Slp.compose
+#reaches KAM.CertificateSharp.Packed.checkFrameMajorantsRJ KAM.Certificate.Slp.compose
+#reaches KAM.CertificateSharp.Packed.refinedTestPackedJ KAM.Certificate.Slp.compose
+#reaches KAM.CertificateSharp.Packed.checkTorsionJ KAM.CertificateSharp.Packed.jetCheck
+#reaches KAM.CertificateSharp.Packed.checkTorsionJ KAM.Certificate.torsionModels
+#reaches KAM.CertificateSharp.Packed.checkTorsionJ KAM.Certificate.gramCheck
+#reaches KAM.CertificateSharp.Packed.refinedTestPackedJ KAM.Certificate.torsionModels
+#reaches KAM.CertificateSharp.Packed.refinedTestPackedJ KAM.Certificate.gramCheck
+#reaches KAM.CertificateSharp.Packed.checkGramPacked KAM.Certificate.Slp.compose
+#reaches KAM.Certificate.checkHamBounds KAM.Certificate.Slp.compose
+#reaches KAM.Certificate.checkEmbedding KAM.Certificate.Slp.compose
+#reaches KAM.Certificate.checkStatic KAM.Certificate.Slp.compose

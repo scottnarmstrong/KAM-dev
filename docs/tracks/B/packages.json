@@ -1,0 +1,282 @@
+{
+ "note": "Track B package plan (program-b-plan §7, B0-B1). Modules are public facade paths. Kept truthful by kam-b1.",
+ "packages": [
+  {
+   "id": "B0-STMT",
+   "modules": [],
+   "artifact": "docs/tracks/B/FREEZE-PROPOSAL.md",
+   "status": "audited; awaiting owner approval (not frozen)"
+  },
+  {
+   "id": "B0-AUDIT",
+   "modules": [],
+   "artifact": "docs/tracks/B/freeze/STATEMENT-REVIEW-1.md",
+   "status": "PASS WITH NOTES (round 1, 23:42); C1 applied"
+  },
+  {
+   "id": "B1-CORE",
+   "modules": [
+    "KAM/EffectiveStability/Domains.lean",
+    "KAM/EffectiveStability/StoppedDrift.lean",
+    "KAM/EffectiveStability/FirstExit.lean",
+    "KAM/EffectiveStability/ChartFlow.lean"
+   ],
+   "source": "plan §7 Brief 2: stopped drift, first exit, continuation",
+   "status": "LANDED (main 4bb1aab69)"
+  },
+  {
+   "id": "B1-TRANSFER",
+   "modules": [
+    "KAM/EffectiveStability/Transfer.lean",
+    "KAM/EffectiveStability/ActionDerivative.lean"
+   ],
+   "source": "plan §7 Brief 2: chart transport, action derivatives, B1-transfer",
+   "status": "LANDED (main 4bb1aab69)"
+  },
+  {
+   "id": "B1-HEAD",
+   "modules": [
+    "KAM/EffectiveStability/Torus.lean",
+    "KAM/EffectiveStability/Oscillator.lean",
+    "KAM/EffectiveStability/ObservableTransfer.lean",
+    "KAM/EffectiveStability/Examples.lean"
+   ],
+   "source": "B1-T, B1-E exactly as FREEZE-PROPOSAL",
+   "status": "LANDED (main 4bb1aab69)"
+  },
+  {
+   "id": "B2-POLY",
+   "modules": [
+    "KAM/EffectiveStability/Poly.lean",
+    "KAM/EffectiveStability/Poly/Basic.lean",
+    "KAM/EffectiveStability/Poly/Deriv.lean",
+    "KAM/EffectiveStability/Poly/Bracket.lean",
+    "KAM/EffectiveStability/Poly/Bound.lean"
+   ],
+   "source": "plan §3.1-3.2: polynomial bracket/evaluation, exact ℚ (OD-B8, OD-B9)",
+   "status": "LANDED (main 3f448b187)"
+  },
+  {
+   "id": "B2-REALFLOW",
+   "modules": [
+    "KAM/EffectiveStability/RealFlow.lean",
+    "KAM/EffectiveStability/RealFlow/Basic.lean",
+    "KAM/EffectiveStability/RealFlow/Symplectic.lean",
+    "KAM/EffectiveStability/RealFlow/Lie.lean"
+   ],
+   "source": "plan §3.2: actual time-one flows, real slice of KAM.Canonical.flow (OD-B10)",
+   "status": "LANDED (main 2a6e15477)"
+  },
+  {
+   "id": "B2-CAUCHY",
+   "modules": [
+    "KAM/EffectiveStability/Cauchy.lean"
+   ],
+   "source": "plan §3.2: analytic tail E on discs of radius δ gives drift E/δ; (Tail) identity",
+   "status": "LANDED (main 2a6e15477)"
+  },
+  {
+   "id": "B2-DOM",
+   "modules": [
+    "KAM/EffectiveStability/PolyDomain.lean"
+   ],
+   "source": "plan §3.1: nested complex domains with strict margins; small-field check",
+   "status": "LANDED (main 3f448b187)"
+  },
+  {
+   "id": "B2-STEP",
+   "modules": [
+    "KAM/EffectiveStability/Poly/Lie.lean",
+    "KAM/EffectiveStability/OscillatorStep.lean"
+   ],
+   "source": "plan §3.1-3.2: one-generator checker soundness ending in oscillator_confinement",
+   "status": "LANDED (main 815a24728)"
+  },
+  {
+   "id": "B2-COMPOSE",
+   "modules": [
+    "KAM/EffectiveStability/ChartChain.lean"
+   ],
+   "source": "plan §3.2: composition of exact flows remains canonical",
+   "status": "LANDED (main 815a24728)"
+  },
+  {
+   "id": "B2-MULTI",
+   "modules": [
+    "KAM/EffectiveStability/OscillatorChain.lean",
+    "KAM/EffectiveStability/OscillatorChain/Basic.lean",
+    "KAM/EffectiveStability/OscillatorChain/Remainder.lean",
+    "KAM/EffectiveStability/OscillatorChain/Domain.lean",
+    "KAM/EffectiveStability/OscillatorChain/Drift.lean",
+    "KAM/EffectiveStability/OscillatorChain/Smoke.lean"
+   ],
+   "source": "plan §3.2: composition of exact flows; remainders propagated through later charts",
+   "status": "LANDED (main 0d9575f2b)"
+  },
+  {
+   "id": "B2-CHECK",
+   "modules": [
+    "KAM/EffectiveStability/OscillatorCheck.lean"
+   ],
+   "source": "plan §3.1: checkNormalForm c = true -> dynamics",
+   "status": "LANDED (main d4c30daa8)"
+  },
+  {
+   "id": "B2-ORIG",
+   "modules": [
+    "KAM/EffectiveStability/OscillatorPhysical.lean",
+    "KAM/EffectiveStability/OscillatorPhysicalSmoke.lean"
+   ],
+   "source": "plan §2.2: original box via inverse chart; (B1-transfer)",
+   "status": "LANDED (main a0cd8e09d)"
+  },
+  {
+   "id": "B2-CHECKCHAIN",
+   "modules": [
+    "KAM/EffectiveStability/OscillatorChainCheck.lean"
+   ],
+   "source": "plan §3.1 checker for chains",
+   "status": "LANDED (main e0dd8aac9)"
+  },
+  {
+   "id": "B2-ORIGCHAIN",
+   "modules": [
+    "KAM/EffectiveStability/OscillatorChainPhysical.lean",
+    "KAM/EffectiveStability/OscillatorChainPhysicalSmoke.lean"
+   ],
+   "source": "plan §2.2 original box for chains",
+   "status": "LANDED (main e0dd8aac9)"
+  },
+  {
+   "id": "B4-FT",
+   "modules": [
+    "KAM/EffectiveStability/FT.lean",
+    "KAM/EffectiveStability/FT/Basic.lean",
+    "KAM/EffectiveStability/FT/Deriv.lean",
+    "KAM/EffectiveStability/FT/Bracket.lean",
+    "KAM/EffectiveStability/FT/Bound.lean"
+   ],
+   "source": "plan §3.2 Fourier–Taylor norms and η^poly (B4)",
+   "status": "LANDED (main e3c55bc2f)"
+  },
+  {
+   "id": "B4-TDOM",
+   "modules": [
+    "KAM/EffectiveStability/TorusDomain.lean"
+   ],
+   "source": "plan §3.2/§7 B4: strip domains for the B1-T route",
+   "status": "LANDED (main e3c55bc2f)"
+  },
+  {
+   "id": "B4-TSTEP",
+   "modules": [
+    "KAM/EffectiveStability/TorusStep.lean",
+    "KAM/EffectiveStability/TorusStep/Remainder.lean",
+    "KAM/EffectiveStability/TorusStep/Drift.lean",
+    "KAM/EffectiveStability/TorusStep/Smoke.lean"
+   ],
+   "source": "plan §3.2/§7 B4: B1-T checker route (one generator)",
+   "status": "LANDED (main d34f42cd7)"
+  },
+  {
+   "id": "B4-TCHECK",
+   "modules": [
+    "KAM/EffectiveStability/TorusCheck.lean"
+   ],
+   "source": "plan §3.1 checker, torus",
+   "status": "LANDED (main d34f42cd7)"
+  },
+  {
+   "id": "B4-TORIG",
+   "modules": [
+    "KAM/EffectiveStability/TorusPhysical.lean"
+   ],
+   "source": "plan §2.2 original box, torus",
+   "status": "LANDED (main d34f42cd7)"
+  },
+  {
+   "id": "B4-TMULTI",
+   "modules": [
+    "KAM/EffectiveStability/TorusChain.lean",
+    "KAM/EffectiveStability/TorusChain/Basic.lean",
+    "KAM/EffectiveStability/TorusChain/Remainder.lean",
+    "KAM/EffectiveStability/TorusChain/Domain.lean",
+    "KAM/EffectiveStability/TorusChain/Drift.lean",
+    "KAM/EffectiveStability/TorusChain/Smoke.lean"
+   ],
+   "source": "plan §3.2/§7 B4: torus chain",
+   "status": "LANDED (main 89e07dddf)"
+  },
+  {
+   "id": "B4-TCHECKCHAIN",
+   "modules": [
+    "KAM/EffectiveStability/TorusChainCheck.lean"
+   ],
+   "source": "plan §3.1 checker, torus chains",
+   "status": "LANDED (main f8d195fab)"
+  },
+  {
+   "id": "B4-TORIGCHAIN",
+   "modules": [
+    "KAM/EffectiveStability/TorusChainPhysical.lean",
+    "KAM/EffectiveStability/TorusChainPhysicalSmoke.lean"
+   ],
+   "source": "plan §2.2 original box, torus chains",
+   "status": "LANDED (main f8d195fab)"
+  },
+  {
+   "id": "B5-CHART",
+   "modules": [
+    "KAM/EffectiveStability/TorusChart.lean",
+    "KAM/EffectiveStability/TorusChart/Inverse.lean",
+    "KAM/EffectiveStability/TorusChart/Matrix.lean",
+    "KAM/EffectiveStability/TorusChart/Algebra.lean",
+    "KAM/EffectiveStability/TorusChart/Map.lean",
+    "KAM/EffectiveStability/TorusChart/Deriv.lean",
+    "KAM/EffectiveStability/TorusChart/Symplectic.lean"
+   ],
+   "source": "plan §3.4 (Chart)",
+   "status": "LANDED (main 8afb6169c)"
+  },
+  {
+   "id": "B5-LAG",
+   "modules": [
+    "KAM/EffectiveStability/TorusLagrangian.lean",
+    "KAM/EffectiveStability/TorusRealSlice.lean",
+    "KAM/EffectiveStability/TorusProjection.lean",
+    "KAM/EffectiveStability/TorusLagrangianCert.lean"
+   ],
+   "source": "plan §3.4 Lagrangian property, real slice",
+   "status": "LANDED (main 8afb6169c)"
+  },
+  {
+   "id": "B5-NF",
+   "modules": [
+    "KAM/EffectiveStability/TorusNormalForm.lean",
+    "KAM/EffectiveStability/TorusNormalFormSmoke.lean",
+    "KAM/EffectiveStability/TorusNormalForm/Taylor.lean",
+    "KAM/EffectiveStability/TorusNormalForm/Basic.lean",
+    "KAM/EffectiveStability/TorusNormalForm/Remainder.lean",
+    "KAM/EffectiveStability/TorusNormalForm/Drift.lean"
+   ],
+   "source": "plan §3.4 E + ω·J + O(J²)",
+   "status": "LANDED (main 4d265c31b)"
+  },
+  {
+   "id": "B5-ROUTE",
+   "modules": [
+    "KAM/EffectiveStability/CauchyThird.lean",
+    "KAM/EffectiveStability/CertifiedTorusRoute.lean",
+    "KAM/EffectiveStability/CertifiedTorusRoute/Glue.lean",
+    "KAM/EffectiveStability/TorusRoute/Matrix.lean",
+    "KAM/EffectiveStability/TorusRoute/Chart.lean",
+    "KAM/EffectiveStability/TorusRoute/Real.lean",
+    "KAM/EffectiveStability/TorusRoute/Strip.lean",
+    "KAM/EffectiveStability/TorusRoute/Data.lean",
+    "KAM/EffectiveStability/TorusRoute/Bound.lean"
+   ],
+   "source": "plan §3.4 CertifiedTorus → B1-T",
+   "status": "LANDED (main 4d265c31b)"
+  }
+ ]
+}

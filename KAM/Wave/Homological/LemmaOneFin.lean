@@ -13,9 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Finite-support expansions of the pairings (`bpW:w4:lemma1`, step *The equation*, algebra)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 * `homPairOmegaRaw_gen ha hp hpb W c z = ∑ (D ĉ)_j Ω_j z_j`, the pairing `⟨c, Ωz⟩₀` of `L_N`
     (`bpW:w4:lie`);
 * for `z, z'` supported in a finite set `S`, the pairings are finite sums over `S`

@@ -11,9 +11,6 @@ public import KAM.Wave.Normal.FinsuppAbs
 /-!
 # Nondegeneracy for every `m > 0` (blueprint `bpW:w0n:nondeg`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 With `J = {1, 2}`, `ω(I) = λ_J + A I` and `Ω(I) = λ_N + B I` (the corrected coefficients of
 `KAM/Wave/Normal/ActionCoeff.lean`), we prove for every `m > 0`
 * (i) `det A = -63/(64 π² λ_1² λ_2²) = -63/(64 π² (1+m)(4+m)) ≠ 0` (`KAM.Wave.det_actionA`);

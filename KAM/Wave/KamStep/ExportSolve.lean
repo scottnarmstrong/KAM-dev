@@ -13,9 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The solution of the homological equation in the step as one statement (blueprint `bpW:w5:solve`)
 
-Off-frontier, source-faithful infrastructure (W-GRAPH-CLOSE); the dependency graph is still being
-built.
-
 Lemma `bpW:w5:solve` (`w5-kamstep.tex:352-363`): under the step data, with `R` the Taylor polynomial
 of `bpW:w5:taylor` and `F`, `N̂`, `â₀` the W4 objects for `R`: `F ∈ T_{s-σ} ∩ S_{p_+}(D(s-σ,r))`,
 `N̂ ∈ S_{p_+}(𝒫)`, both real, `R + DN·X_F = N̂ + â₀` on `D(s-σ,r)`, `|X_F|^λ_{r,D(s-σ,r)} ≤ M_F`,

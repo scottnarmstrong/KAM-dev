@@ -1,0 +1,17 @@
+⚠ [2840/2906] Replayed KAM.Certificate.Arith.PiHigh
+warning: KAM/Certificate/Arith/PiHigh.lean:218:8: This simp argument is unused:
+  Nat.succ_eq_add_one
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [div_eq_mul_inv]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [2959/3137] Replayed KAM.Certificate.Expr.Basic
+warning: KAM/Certificate/Expr/Basic.lean:93:5: Variable name `hS` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hS
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+✔ [3321/3321] Built LG00P.TP.Jet.Full.B15 (3.9s)
+Build completed successfully (3321 jobs).

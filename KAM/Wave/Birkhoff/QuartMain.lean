@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.QuartForm
 /-!
 # Quartic forms: the diagonal in class `𝒜`, bounds, coefficient sets (blueprint-W `bpW:w3:quartic`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:quartic`.
+Package W3-SETTING, blueprint label `bpW:w3:quartic`.
 
 For `c` with `IsBirkQuartCoef`, the diagonal `P = birkQuartP` and the field `X_P = birkQuartX`:
 

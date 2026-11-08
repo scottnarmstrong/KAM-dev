@@ -13,9 +13,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The field bounds with modified divisors (`bpW:w5:w4-modified` (ii))
 
-Off-frontier, source-faithful infrastructure (W5-MODIFIED, blueprint `bpW:w5:w4-modified`); the
-dependency graph is still being built.
-
 * `homModF_sub_compBounds`: the component bounds of `F(ξ) - F(ζ)` with `K = K_S` and
   `E^♮ = B^♮_σ(ε^L + 2Mε/α)d/α` (step `m-ass`);
 * `homModLemma_lipschitz`: **(ii)** `|X_{F(ξ)} - X_{F(ζ)}|_{p₊,r} ≤
@@ -118,7 +115,7 @@ theorem homModF_sub_compBounds (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (h
     rw [hpart F₁.comp_Q F₂.comp_Q i]
     exact homModLip_dQ ha hp hpb hr hτ hα hM hd hεL hσ hσs hm₁ hm₂ hL hθ R₁ R₂ hX₁ hXL hX₂ i
 
-/-- CONDITIONAL helper for `bpW:w5:w4-modified` (ii): assumes the gates `HomModMultBounds`,
+/-- Hypothesis-taking variant for `bpW:w5:w4-modified` (ii): assumes the gates `HomModMultBounds`,
 `HomModMultLip`. The source-premise export is `homModLemma_lipschitz`. -/
 theorem homModLemma_lipschitz_of_gates (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb)
     (hc : pb ≤ p + 1) {r ε εL : ℝ} (hr : 0 < r) (hτ : 0 ≤ τ) (hα : 0 < α) (hM : 0 ≤ M)

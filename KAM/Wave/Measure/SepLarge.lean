@@ -11,8 +11,6 @@ public import KAM.Wave.Measure.ZoneBound
 # W7: normal separation, large `|k|` and the dichotomy (blueprint `bpW:w7:sep`, `bpW:w7:largek`,
 `bpW:w7:dichotomy`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
 -/
 
 @[expose] public noncomputable section

@@ -1,7 +1,7 @@
 {
  "title": "LG00: a kernel-checked KAM torus of Locatelli–Giorgilli's secular Sun–Jupiter–Saturn model",
- "note": "Side campaign (lemma.farm). The certificate data and kernel shards live on branch lg00-cert and are never part of KAM-dev's default build (separate repository pending, owner decision). The orchestrator updates this file when a stage completes; weights are the stages' relative effort.",
- "reviewed": "2026-11-01 13:58 UTC",
+ "note": "Side campaign (lemma.farm). LG00 now goes by the packed certifier route (owner decision, 1 Nov). The certificate data and kernel shards live on local branches and are never part of KAM-dev's default build (separate repository pending, owner decision). The orchestrator updates this file when a stage completes; weights are the stages' relative effort.",
+ "reviewed": "2026-11-02 03:25 UTC",
  "stages": [
   {
    "name": "scout: model, torus, thresholds, cost",
@@ -36,26 +36,26 @@
   {
    "name": "T′ at the exact energy of LG00's initial point (re-solve and re-certify)",
    "weight": 2,
-   "done": 0.69,
-   "evidence": "kernel run in progress (route A refined + certified sharp sites, L = 18, 128 bits; energy E* exact): 3,631 of 5,241 modules passed, 19.1 CPU-h, no proof failures (13:54 UTC); expected to finish about 21:00 UTC 1 Nov"
+   "done": 1.0,
+   "evidence": "T′ at the exact energy E*: proved twice. Existing route (run18): 5,241 kernel modules, 29.9 CPU-h, standard axioms. Packed route: 881 modules, 2.84 CPU-h (about 11x less), standard axioms; independent audits PROD/CONS/JETROUTE passed with changes."
   },
   {
    "name": "second torus T″ (confinement between two tori)",
    "weight": 2,
-   "done": 0.25,
-   "evidence": "T″ solved on E* in T′s chart (inside Γ″, mean I₁ above the initial point as confinement needs); statements audited (AUDIT-LG00-T2-STMT-1); certificate data passes the exact dry run; its 5,232 kernel modules run after T′ in the same run (expected to finish about 18:00 UTC 2 Nov)"
+   "done": 1.0,
+   "evidence": "T″ on E* in T′'s chart (window Γ″): proved by the packed route only (run18 stopped by owner decision): 592 modules, 1.75 CPU-h, standard axioms; carried to LG00's own certificate by a definitional bridge."
   },
   {
    "name": "confinement theorem in Lean (the real orbit trapped forever between T′ and T″)",
    "weight": 2,
-   "done": 0.5,
-   "evidence": "core KAM.Application.Confinement on main (two-torus confinement, invariance-only graphs); LG00 assembly lg00_confinement_assembly proved on a local branch; the closing theorem awaits the T′ and T″ certificates"
+   "done": 1.0,
+   "evidence": "LG00.Confinement.lg00_confinement (built 1 Nov 22:26 UTC): no hypotheses, axioms propext, Classical.choice, Quot.sound only (independent walk over 96,288 constants). The Table 3 orbit of model (11) is global, unique, on its energy level, with normal-mode actions in the box, and stays strictly between the certified tori T′ and T″. Independent audit AUDIT-LG00-CONF-PACKED-1: PASS WITH CHANGES (statement additions proposed for the owner; packaging)."
   },
   {
    "name": "independent audit and separate repository",
    "weight": 1,
-   "done": 0.0,
-   "evidence": "proof audit of the first torus done (AUDIT-LG00-PROOF-1); final audit after the confinement theorem; separate repository pending"
+   "done": 0.5,
+   "evidence": "audits done: first torus (AUDIT-LG00-PROOF-1), packed route (PROD, CONS, JETROUTE), confinement (AUDIT-LG00-CONF-PACKED-1); self-contained release package building; separate repository pending"
   }
  ]
 }

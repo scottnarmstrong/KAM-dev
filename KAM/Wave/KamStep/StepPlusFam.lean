@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The `λ`-bound of `X_+` as a family bound (blueprint-W `bpW:w5:step` (ii))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepTaylorFam`: the family `ξ ↦ R_ξ` (`stepTaylorOf` on the parameter set, `zeroTaylor` off it).
 `stepPlus_famBound`: `FamBound` of `X_+` on `D(s-5σ, ηr)` in the norm at scale `ηr`, with the
 constant

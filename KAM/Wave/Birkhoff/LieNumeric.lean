@@ -12,8 +12,7 @@ public import Mathlib.Analysis.SpecificLimits.Basic
 /-!
 # The majorant sequence of the Lie series (blueprint-W `bpW:w3:leibniz`, norms)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-FLOW, blueprint label `bpW:w3:leibniz`.
+Package W3-FLOW, blueprint label `bpW:w3:leibniz`.
 
 `birkLieM` is defined by `m₀ = 1`, `(k+1) m_{k+1} = Σ_{a+b+c=k} m_a m_b m_c` (the coefficients
 of the

@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.FCoef
 /-!
 # `F` is bounded and one-smoothing (blueprint-W `bpW:w3:F`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-DIVISOR-F, blueprint label `bpW:w3:F`.
+Package W3-DIVISOR-F, blueprint label `bpW:w3:F`.
 
 `birkFform = δ_*⁻¹ 𝔓_c` (`𝔉`), `birkFgrad` (`∇𝔉`), `birkS = 4∇𝔉 : 𝔚³ → 𝔚⁺`,
 `C_F = C_*/δ_*` (`birkCF`):

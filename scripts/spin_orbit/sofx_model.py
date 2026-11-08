@@ -589,6 +589,21 @@ def invWitnessRadius(B, n, W, cfg, b, Q):
     return None
 
 
+def sqrtWitnessRadius(B, n, W, cfg, g, S):
+    """Model/SqrtWitness.lean `sqrtWitnessRadius`; S = (poly, anchor, margin)."""
+    poly, s, d = S[0], F(S[1]), F(S[2])
+    if not (0 <= d < s):
+        return None
+    Wm = Model(0, poly, B.ofInt(0))
+    if not B.ble(supBound(B, W, model_add(B, W, Wm, constModel(B, n, -s, 0, 0))), B.ofRatDown(d)):
+        return None
+    if not B.blt(supBound(B, W, model_add(B, W, g, constModel(B, n, -(s * s), 0, 0))), B.ofRatDown(s * s)):
+        return None
+    res = model_add(B, W, g, model_mul(B, W, cfg, (3,), constModel(B, n, -1, 0, 0),
+                                       model_mul(B, W, cfg, (3,), Wm, Wm)))
+    return B.upMul(supBound(B, W, res), B.ofRatUp(1 / (s - d)))
+
+
 # ---------------------------------------------------------------------------------------------- ComposeModels
 def ratErrUp(B, q):
     u, d = B.ofRatUp(q), B.ofRatDown(q)
@@ -684,8 +699,9 @@ def findKeyIdx(k, L):
 class Witnesses:
     """expWit: list of (poly, pinHalvings, pinOrder); invWit: list of polys; charWit: list of (key, expWit)."""
 
-    def __init__(self, expWit, invWit, charWit):
+    def __init__(self, expWit, invWit, charWit, sqrtWit=()):
         self.expWit, self.invWit, self.charWit = expWit, invWit, charWit
+        self.sqrtWit = list(sqrtWit)   # (slot, (poly, anchor, margin)), keyed by slot (`find?`, first match)
 
 
 class ComposeState:
@@ -777,6 +793,15 @@ def composeStep(B, n, K, wit, W, cfg, pe, st, op):
             return None
         st.push(B, W, Model(-a.deg, Q, r))
         st.nInv += 1
+    elif t == "sqrt":
+        S = next((e[1] for e in wit.sqrtWit if e[0] == len(st.slots)), None)
+        if S is None:
+            return None
+        r = sqrtWitnessRadius(B, n, W, cfg.forWitness(3, len(st.slots)),
+                              toDeg(B, W, pe, 0, st.slot(B, W, op[1])[0]), S)
+        if r is None:
+            return None
+        st.push(B, W, Model(0, S[0], r))
     else:
         raise ValueError(op)
     return st

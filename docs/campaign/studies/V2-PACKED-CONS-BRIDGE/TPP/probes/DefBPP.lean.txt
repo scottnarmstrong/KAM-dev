@@ -1,0 +1,20 @@
+module
+
+public import LG00P.TPP.Balls.HamBounds
+public import LG00B.TPP.Fields
+public import KAM.CertificateSharp.Packed.CertCongr
+
+@[expose] public noncomputable section
+
+namespace LG00.TPP
+
+open KAM KAM.Certificate
+
+theorem probe_hamBounds : checkHamBounds lg00Cert = true :=
+  (KAM.CertificateSharp.Packed.checkHamBounds_congr LG00B.TPP.ham_eq LG00B.TPP.weightH_eq
+    LG00B.TPP.centre_eq LG00B.TPP.radius_eq LG00B.TPP.expOrder_eq
+    (congrArg CertParams.M LG00B.TPP.params_eq)).symm.trans LG00P.TPP.lg00_hamBounds
+
+#print axioms probe_hamBounds
+
+end LG00.TPP

@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.LieMulti
 /-!
 # Multilinear reality of the Lie coefficients (blueprint-W `bpW:w3:leibniz` (iii))
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-FLOW, blueprint label `bpW:w3:leibniz` (audit finding F2).
+Package W3-FLOW, blueprint label `bpW:w3:leibniz` (audit finding F2).
 
 If `ρ` is a conjugate-linear isometry commuting with `T`, then on **all** ordered inputs
 `Φ_k(ρ w¹, …, ρ w^{2k+1}) = ρ Φ_k(w¹, …, w^{2k+1})` (`lieMulti_rho`).

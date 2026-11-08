@@ -1,0 +1,118 @@
+# Track B progress log (program B, packages B0–B1; overnight mode D71)
+
+Timestamps UTC from `date -u +%H:%M`. Sub-orchestrator kam-b1 (claude-9); main orchestrator root-b8 (kam-b7).
+
+- 2026-11-02 23:2x: launched; worktree /root/code/KAM-inp-b1 (branch inp-b1 off inp 98ebd4771), build hard-linked
+  (`cp -al`) from KAM-inp on the root volume (first attempt on HC removed at root-b8's request).
+- 2026-11-02 23:32: B0-STMT drafted; both statements elaborate (4 GB scope; only the scratch `sorry` warnings).
+- 2026-11-02 23:34: SPEC, OWNER-DECISIONS (OD-B1..B6), FREEZE-PROPOSAL draft 1, packages.json committed.
+- 2026-11-02 23:38: B0-AUDIT round 1 launched (codex-2, tmux inp-maud-b-stmt, report freeze/STATEMENT-REVIEW-1.md).
+  Source PDFs fetched (CL20 2102.05959v1, GLS17 1702.04894v1); SHA-256 match plan §9.
+- 2026-11-02 23:38: provers launched: B1-CORE (claude-2, KAM-inp-b1core) and B1-TRANSFER (claude-5, KAM-inp-b1xfer);
+  both are statement-independent infrastructure, so they run in parallel with the B0 audit.
+- 2026-11-02 23:42: B0-AUDIT round 1 (codex-2): **PASS WITH NOTES**, no BLOCKING. C1 (OD-B2 wording claimed N/R
+  regularity follows; it does not, and is not needed) applied with the reviewer's exact docstrings; types unchanged;
+  re-elaborated (only scratch sorry warnings). Auditor session closed.
+- 2026-11-02 23:44: B1-TRANSFER READY (claude-5): Transfer.lean 147, ActionDerivative.lean 139 lines; builds clean,
+  lint PASS, axioms standard (rechecked builds by kam-b1). Renamed `fderiv_apply_hamiltonianVectorField_comp` →
+  `fderiv_chart_apply_hamiltonianVectorField` (short-name clash with LambdaDrift). My rename sed briefly touched
+  LambdaDrift/Rotation.lean and two campaign handoffs in the b1xfer worktree; reverted before any commit (never
+  committed). 23:47: B1-TRANSFER audit 1 launched (codex-2, inp-maud-b1xfer).
+- 2026-11-02 23:47: B1-CORE READY (claude-2): Domains 160, StoppedDrift 31, FirstExit 165, ChartFlow 148 lines;
+  builds clean (rechecked), signatures as requested. Audit 1 launched (codex-2, inp-maud-b1core).
+- 2026-11-02 23:50: B1-CORE and B1-TRANSFER merged into inp-b1 (pre-audit, not landed). B1-HEAD prover launched
+  (claude-2, KAM-inp-b1head): the two headlines verbatim from the audited text, observable-transfer corollaries,
+  edge-case examples. Finished prover sessions closed.
+- 2026-11-02 23:51: B1-TRANSFER audit 1 (codex-2): **PASS WITH NOTES** (N1 = OD-B2 wording, already fixed on inp-b1;
+  N2 = roots regenerate at landing). 23:54: B1-CORE audit 1: **PASS WITH NOTES** (N1 implicit-binder order of
+  `exists_confined_solution_compact`, harmless; N2 = same OD-B2 wording). Auditor sessions closed.
+- 2026-11-02 23:54: landing request for inp-b1 (CORE + TRANSFER + track docs) sent to kam-inp-63.
+- 2026-11-02 23:58: root-b8 edit-scope rule recorded (SPEC, prover brief): bulk edits only under KAM/EffectiveStability/** and docs/tracks/B/**; diff-stat check before each commit.
+- 2026-11-03 00:00: B1-HEAD READY (claude-2): Torus 136, Oscillator 146, ObservableTransfer 132, Examples 58 lines.
+  Rechecked by kam-b1: both headlines byte-identical to the audited text (docstring through `:= by`), four
+  targeted builds OK, `#print axioms` of both headlines and both transfer corollaries = [propext, Classical.choice,
+  Quot.sound]. Examples instantiate both headlines (identity chart, η = 0, T ≥ 0 incl. 0, zero action).
+  B1-HEAD audit 1 launched (codex-2, inp-maud-b1head). Prover session closed.
+- 2026-11-03 00:04: B1-HEAD audit 1 (codex-2): **PASS WITH NOTES** (N1: FREEZE-PROPOSAL §4 wording on N's
+  differentiability; applied). Merged into inp-b1; landing request batch 2 sent. **Program B0 + B1 complete**
+  (both headlines proved exactly as the audited B0 text; nothing frozen; owner approval of the text pending).
+- 2026-11-03 00:18: landing lint (line length ≤ 100) failed batch 1 on 9 lines; 11 lines wrapped (whitespace only, incl. 2 in ObservableTransfer); all 9 modules rebuilt; local lint fails only on the generated root (lander's step).
+- 2026-11-03 00:20: root-b8 extended tonight's scope to B2 (finite polynomial normalization; B3 OFF). OD-B7 logged. Reuse inventory started (plan §3; KAM/Canonical flow, symplectic, taylor_lie, flow_c/flow_e are general holomorphic-field results, reusable after complexification).
+- 2026-11-03 00:23: B2 inventory done (Explore agent): complex flow/symplectic/Lie APIs general; real-slice helpers exist (reMap, realInclusion₂, hamiltonian_real_fderiv, symplFormC_realInclusion₂); no Cartesian polynomial type with bracket semantics (CertPoly is Fourier), no real C²-symplectic flow theorem. OD-B8..B10 logged. Provers launched: B2-POLY (claude-5, KAM-inp-b2poly) and B2-REALFLOW (claude-2, KAM-inp-b2flow).
+- 2026-11-03 00:30: **batches 1+2 LANDED on main 4bb1aab69** (kam-inp-63; inp merges 109833564, 9b45d72e1; roots regenerated; lint 0, guard OK, ABI 314; 42 EffectiveStability theorems with standard axioms). inp merged back into inp-b1. 100-column check added to the prover brief.
+- 2026-11-03 00:38: B2-REALFLOW READY 00:34 (claude-2; 445 lines; rechecked builds; renamed field_real → hamiltonianVectorFieldℂ_real for the short-name check; 3 lines wrapped). Audit 1 launched (codex-2, inp-maud-b2flow). B2-CAUCHY launched (claude-2, KAM-inp-b2cauchy). B2-POLY still proving.
+- 2026-11-03 00:44: B2-REALFLOW audit 1: FAIL on hygiene only (F1: facade lacked `public section`), mathematics PASS WITH NOTES (N1 smooth ∞ not analytic ⊤, accepted; N2 chart-domain inclusions are application obligations; N3 doc nits). F1 fixed (aa05699a9); delta audit round 2 launched.
+- 2026-11-03 00:46: B2-CAUCHY READY 00:44 (claude-2; Cauchy.lean 214 lines; rechecked); audit 1 launched (codex-2). B2-POLY READY 00:45 (claude-5; 1048 lines; Fits n P typing hypothesis added, decide +kernel smoke tests) but the short-name gate rejects ~25 generic names (eval, add, Fits.bracket, …); sent back to its prover for a rename. Short-name rule added to the prover brief.
+- 2026-11-03 00:48: B2-REALFLOW audit 2 (delta): **PASS WITH NOTES**, F1 resolved; merged into inp-b1 (landing batched with B2-CAUCHY). B2-DOM launched (claude-2, KAM-inp-b2dom): polydisc/gauge geometry, small field from coordinate bounds, chart and Cauchy-disc inclusions.
+- 2026-11-03 00:49: B2-CAUCHY audit 1: **PASS WITH NOTES**; merged into inp-b1. Landing request batch 3 (B2-REALFLOW + B2-CAUCHY).
+- 2026-11-03 00:59: B2-DOM READY 00:53 (claude-2; PolyDomain.lean 192 lines; rechecked); audit 1 launched. B2-POLY rename READY 00:55 (cart* names, 1103 lines); facade public section added by kam-b1; audit 1 launched (codex-2). B2-STEP launched (claude-2, KAM-inp-b2step off inp-b1 + POLY + DOM pre-audit): one-generator finite Birkhoff step ⇒ oscillator_confinement instance from an exact eqCheck and rational inequalities. B2-COMPOSE launched (claude-5, KAM-inp-b2comp): canonical-chart chains.
+- 2026-11-03 00:59: B2-DOM audit 1: **PASS WITH NOTES**; merged into inp-b1.
+- 2026-11-03 01:01: **batch 3 LANDED on main 2a6e15477** (B2-REALFLOW + B2-CAUCHY; kam-inp-63; byte-identical to audited heads; 33 theorems standard axioms). inp merged back into inp-b1.
+- 2026-11-03 01:04: B2-POLY audit 1: FAIL on F1 only (Poly.lean:16 at 101 columns — introduced by kam-b1's own facade docstring rewrap, not rechecked; lesson: rerun the width check after every own edit); mathematics PASS WITH NOTES (N1 CartFits typing repair accepted). Fixed; delta audit 2 launched.
+- 2026-11-03 01:06: B2-POLY audit 2 (delta): **PASS WITH NOTES**, F1 closed; merged into inp-b1. Landing request batch 4 (B2-POLY + B2-DOM).
+- 2026-11-03 01:12: B2-COMPOSE READY 01:10 (claude-5; ChartChain.lean 189 lines; rechecked); audit 1 launched.
+- 2026-11-03 01:14: B2-COMPOSE audit 1: **PASS WITH NOTES**; merged into inp-b1 (lands with B2-STEP).
+- 2026-11-03 01:20: B2-STEP READY (claude-2): Poly/Lie 188 + OscillatorStep{,/Remainder,/Drift,/Smoke} 468 lines; `oscillatorStep_confinement`: an exact cartEqCheck of the finite Lie sum (= N∘I + P) plus rational inequalities ⇒ B1-E conclusion for the physical polynomial H with Ψ the real time-one flow; no extra premise needed. Merged inp-b1 (Poly.lean docstring conflict resolved); rebuilt; audit 1 launched.
+- 2026-11-03 01:20: **batch 4 LANDED on main 3f448b187** (B2-POLY + B2-DOM; byte-identical to audited heads; 98 theorems, axioms subsets of the standard three; no ofReduceBool).
+- 2026-11-03 01:21: B2-MULTI launched (claude-5, KAM-inp-b2multi off inp-b2step): m-generator chain ⇒ oscillator_confinement (telescoping remainders propagated through inner flows, displacement radius budget); two-step fallback allowed.
+- 2026-11-03 01:24: B2-STEP audit 1: **PASS WITH NOTES** (one-generator checker soundness accepted); merged into inp-b1. Landing request batch 5 (B2-STEP + B2-COMPOSE).
+- 2026-11-03 01:28: B2-CHECK launched (claude-2, KAM-inp-b2check): one Bool checker over all-ℚ certificate data + soundness via B2-STEP (plan §3.1 shape).
+- 2026-11-03 01:36: **batch 5 LANDED on main 815a24728** (B2-STEP incl. oscillatorStep_confinement + B2-COMPOSE; byte-identical to audited heads; 32 theorems, standard axioms).
+- 2026-11-03 01:38: B2-CHECK READY 01:37 (claude-2; OscillatorCheck.lean 198 lines: OscStepCert (ℚ data), checkOscStep : Bool, checkOscStep_sound; smoke cert by decide +kernel in 78 ms); rechecked; audit 1 launched.
+- 2026-11-03 01:39: B2-ORIG launched (claude-2, KAM-inp-b2orig): physical initial action box Q ⊆ Ψ({I ≤ a}) via the inverse flow and physical action drift 2d + η|t| (plan §2.2 original-coordinate requirement).
+- 2026-11-03 01:42: B2-CHECK audit 1: **PASS WITH NOTES**; merged; landing request batch 6.
+- 2026-11-03 01:48: B2-MULTI READY (claude-5): general-m oscillatorChain_confinement (918 lines over 6 modules; telescoped remainders through inner complex flows, one Cauchy estimate on the sum; B2-STEP re-derived from a 1-element chain; 2-step smoke). Merged inp-b1; rebuilt; audit 1 launched.
+- 2026-11-03 01:50: B2-ORIG READY 01:48 (claude-2; OscillatorPhysical 250 + Smoke 60): oscillatorStep_physical — every PHYSICAL z₀ in the original action box a' gets the unique solution with physical action drift 2d + η|t| (inverse-chart inclusion proved). Rechecked; audit 1 launched.
+- 2026-11-03 01:53: B2-ORIG audit 1: **PASS WITH NOTES** (N1 stale docstring pointer 'OscillatorPhysical/Main' — left as is to keep the audited bytes, for a later clean-up; N2 smoke scope at the origin). Merged; landing request batch 7.
+- 2026-11-03 01:56: **batch 6 LANDED on main d4c30daa8** (B2-CHECK, checkOscStep_sound). Batch 7 (B2-ORIG) requested.
+- 2026-11-03 01:57: B2-MULTI audit 1: **PASS WITH NOTES** (N1 doc wording, N2 smoke coverage, N3 rational step radii, N4 handoff whitespace — fixed). Merged; landing request batch 8.
+- 2026-11-03 02:01: batch 8 (B2-MULTI) requested. Launched B2-CHECKCHAIN (claude-2: Bool checker + soundness for chains) and B2-ORIGCHAIN (claude-5: physical box + physical drift for chains).
+- 2026-11-03 02:04: **batch 7 LANDED on main a0cd8e09d** (B2-ORIG, oscillatorStep_physical). Batch 8 (B2-MULTI) in the lander's queue.
+- 2026-11-03 02:08: B2-CHECKCHAIN READY 02:06 (claude-2; OscillatorChainCheck 190 lines; 2-step cert by decide +kernel in 26 ms); rechecked; audit 1 launched. B4-FT launched (claude-2, KAM-inp-b4ft): Fourier–Taylor polynomials with (2π)^e tags, exact semantics, periodicity, bracket, λ-strip majorants and B1-T angle-drift bound.
+- 2026-11-03 02:10: B2-ORIGCHAIN READY 02:08 (claude-5; OscillatorChainPhysical 254 + Smoke 67): oscillatorChain_physical; rechecked; audit 1 launched.
+- 2026-11-03 02:11: B4-TDOM launched (claude-5, KAM-inp-b4tdom): strip×polydisc domain, scaleCLE gauge, small field, lattice equivariance (flow_d), cylinder and Cauchy-disc inclusions.
+- 2026-11-03 02:12: B2-CHECKCHAIN audit 1: **PASS WITH NOTES**; merged into inp-b1.
+- 2026-11-03 02:13: B2-ORIGCHAIN audit 1: **PASS WITH NOTES** (doc nits N1/N2 kept for byte identity; N3 smoke scope). Merged; landing request batch 9 (B2-CHECKCHAIN + B2-ORIGCHAIN).
+- 2026-11-03 02:17: **batch 8 LANDED on main 0d9575f2b** (B2-MULTI, oscillatorChain_confinement).
+- 2026-11-03 02:18: B4-TDOM READY 02:17 (claude-5; TorusDomain 295 lines: strip domain, gauge, small field, flow lattice equivariance, cylinder/Cauchy inclusions); rechecked; audit 1 launched.
+- 2026-11-03 02:22: B4-TDOM audit 1: **PASS WITH NOTES** (N1: comp_realFlow_angleShift assumes global periodicity of H — fine for FT polynomials); merged into inp-b1.
+- 2026-11-03 02:25: **batch 9 LANDED on main e0dd8aac9** (B2-CHECKCHAIN + B2-ORIGCHAIN). **Program B2 complete on main** (oscillator case: polynomial algebra, real flows, Cauchy, domains, one-step and chain soundness, Bool checkers, physical boxes).
+- 2026-11-03 02:30: B4-FT READY (claude-2; FT/{Basic,Deriv,Bracket,Bound} + facade, 1463 lines; all items incl. bracket/adPow/Lie sum; generic ℝ/ℂ layer); rechecked; audit 1 launched. B4-TSTEP launched (claude-2, KAM-inp-b4tstep off inp-b1 + B4-FT): torus one-step checker ending in torus_confinement.
+- 2026-11-03 02:34: B4-FT audit 1: **PASS WITH NOTES** (normalizer, products, tags, bracket, majorants all PASS); merged; landing request batch 10 (B4-FT + B4-TDOM).
+- 2026-11-03 02:41: B4-TSTEP READY (claude-2; TorusStep{,/Remainder,/Drift,/Smoke} 494 lines): torusStep_confinement — exact ftEqCheck + rational/real inequalities ⇒ torus_confinement for the physical FT Hamiltonian (Ψ = time-one flow on a complex strip). Merged inp-b1; rechecked; audit 1 launched.
+- 2026-11-03 02:42: launched B4-TCHECK (claude-5: Bool torus certificate checker + soundness) and B4-TORIG (claude-2: physical action box + drift for the torus step), both off inp-b4tstep (under audit).
+- 2026-11-03 02:46: **batch 10 LANDED on main e3c55bc2f** (B4-FT + B4-TDOM; 142 theorems, axioms within the standard three). B4-TSTEP audit stalled on 'model at capacity' after a defect-free review; resumed in the same session for the mechanical receipts.
+- 2026-11-03 02:49: B4-TORIG READY 02:47 (claude-2; TorusPhysical 195 + Smoke 58): torusStep_physical; rechecked; audit 1 launched.
+- 2026-11-03 02:51: B4-TSTEP audit 1: **PASS WITH NOTES** (final after resume); merged into inp-b1.
+- 2026-11-03 02:53: B4-TCHECK READY 02:51 (claude-5; TorusCheck 176 lines; torus cert by decide +kernel in 19 ms); rechecked; audit 1 launched.
+- 2026-11-03 02:53: B4-TMULTI launched (claude-5): torus chain checker soundness (mirror of B2-MULTI).
+- 2026-11-03 03:00: B4-TORIG and B4-TCHECK audit 1: **PASS WITH NOTES**; merged. Landing request batch 11 (B4-TSTEP + B4-TORIG + B4-TCHECK).
+- 2026-11-03 03:11: B4-TMULTI READY (claude-5; TorusChain{,/*} 904 lines): torusChain_confinement (general m) + torusStep_of_chain; rechecked; audit 1 launched.
+- 2026-11-03 03:12: **batch 11 LANDED on main d34f42cd7** (B4-TSTEP, B4-TORIG, B4-TCHECK; 22 theorems standard axioms).
+- 2026-11-03 03:12: launched B4-TCHECKCHAIN (claude-2) and B4-TORIGCHAIN (claude-5), off inp-b4tmulti (under audit).
+- 2026-11-03 03:17: B4-TMULTI audit 1: **PASS WITH NOTES**; merged; landing request batch 12.
+- 2026-11-03 03:25: B4-TCHECKCHAIN (TorusChainCheck 182 lines) and B4-TORIGCHAIN (TorusChainPhysical 181 + Smoke 59) READY; rechecked; audits launched.
+- 2026-11-03 03:29: **batch 12 LANDED on main 89e07dddf** (B4-TMULTI, torusChain_confinement).
+- 2026-11-03 03:50: B5 (exact-torus adapter) started per root-b8: design B5-DESIGN.md (4 packages: CHART, LAG, NF, ROUTE); OD-B13..B15 logged.
+- 2026-11-03 03:51: B5-CHART (claude-2) and B5-LAG (claude-5) launched.
+- 2026-11-03 04:07: B4-TCHECKCHAIN and B4-TORIGCHAIN audit 1: **PASS WITH NOTES** (both resumed after capacity stops). Merged; landing request batch 13. **B4 parity with B2 complete.** B5-LAG READY 04:06 (542 lines; Lagrangian property derived directly: ∂_ωΩ_K = 0 + periodic + zero average + CohData uniqueness).
+- 2026-11-03 04:16: B5-CHART READY 04:12 (claude-2; TorusChart{,/*} 753 lines: contraction inverse, Ψ and Ψinv two-sided, C², equivariance, symplectic from Dxᵀ Dv symmetric); rechecked; audit 1 launched. B5-LAG audit 1 running.
+- 2026-11-03 04:17: B5-NF launched (claude-5, off inp-b1 + B5-CHART + B5-LAG pre-audit): normal form E0 + ω'·J + R, drift from C₃, torusNormalForm_confinement.
+- 2026-11-03 04:19: **batch 13 LANDED on main f8d195fab** (B4-TCHECKCHAIN + B4-TORIGCHAIN). **B4 complete on main** (torus parity with B2).
+- 2026-11-03 04:23: B5-LAG and B5-CHART audit 1: **PASS WITH NOTES**; merged; landing request batch 14.
+- 2026-11-03 04:37: B5-NF READY (claude-5; 635 lines; sharp C₃‖J‖²/2; open obligations hG, hD3 for ROUTE); rechecked; audit 1 launched. B5-ROUTE launched (claude-2, off inp-b5nf): certifiedTorus_confinement via complexified chart + Cauchy third-derivative bound.
+- 2026-11-03 04:38: **batch 14 LANDED on main 8afb6169c** (B5-CHART + B5-LAG; 72 theorems standard axioms; Application imports verified core).
+- 2026-11-03 05:00: B5-NF audit 1: **PASS WITH NOTES**; merged into inp-b1.
+- 2026-11-03 05:04: B5-ROUTE READY 05:00 (claude-2; 1106 lines over 9 modules): certifiedTorus_confinement — CertifiedTorusAt + soundness premises + finite RouteChecks ⇒ torus_confinement near the certified torus; hG, hD3 discharged by complexified chart + three nested Cauchy steps (C₃ = 64(Mμ/2)/r³); no new sup-bound premise. Rechecked; audit 1 launched.
+- 2026-11-03 05:13: B5-ROUTE audit 1: **PASS WITH NOTES** (on corrected HEAD 25b51ee6b; hG/hD3 confirmed discharged). Merged; landing request batch 15 (B5-NF + B5-ROUTE). **B5 complete pending landing.** Closing items per root-b8: FREEZE-PROPOSAL addendum (optional candidates, none proposed), B3-READY.md + OD-B16, worktree retirement.
+- 2026-11-03 05:30: **batch 15 LANDED on main 4d265c31b** (+ MORNING doc at f4b96fbd0). **B5 complete on main.** B5-NF, B5-ROUTE worktrees retired. Sub-orchestrator standing down.
+- 2026-11-03 08:24: **D72** (owner "approve all"): freeze+seal of B1-T/B1-E in one pass and B3 ON. Freeze on
+  inp-bfreeze: anchors KAM/Frozen/EffectiveStability/{TorusConfinement,OscillatorConfinement}.lean (byte-identical to
+  FREEZE-PROPOSAL §2), providers, *_proof implementation modules, facades; manifest entries SEALED; guard/ABI/replay/axioms/
+  lint OK. Seal audit 1 (fresh Opus, claude-9): **PASS WITH NOTES, seal-ready**; N1 roots regenerated, N2 fixed, N4 scripted
+  kernel_replay --fast rerun in progress (first run was stopped by machine memory pressure from another user's jobs).
+  B3: OD-B17 (coefficient-generic CartPoly); B3-COEF (claude-5) proving; B3-PRODUCER (claude-2, Python, E1) launched.
+- 09:23 Freeze: N4 kernel_replay --fast OK (389/389); final landing request sent (inp-bfreeze@4cc9904e2,
+  inp-b1@65dd110df). B3-PRODUCER: E1 producer GO (3 steps, η margin 2.2×); physical box needs the disc variant (OD-B18,
+  accepted by root-b8; deviation recorded in B3-READY). B3-COEF done, audit 1 running (Opus, claude-9). B3-CHAINK
+  (generic chain over K + disc variant) launched on claude-5.

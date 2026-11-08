@@ -13,9 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # A real Taylor Hamiltonian is real at real points, and so is its field (blueprint-W `bpW:w5:solve`)
 
-Off-frontier, source-faithful infrastructure (W5-REAL, item 1); the dependency graph is still being
-built.
-
 For `T ∈ 𝒯_s` real in the sense of W4 (`HomTaylor_gen.isRealTaylor`):
 
 * `stepFun_real`: the function `T(θ, y, z, \bar z)` is real at every real point (`θ, y` real,

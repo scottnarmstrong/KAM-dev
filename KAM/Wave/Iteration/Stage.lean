@@ -13,8 +13,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: the hypotheses of the iterative lemma at stage `ν` (`bpW:w6:iter-lemma`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:iter-lemma` (milestone W6).
+Blueprint label `bpW:w6:iter-lemma` (milestone W6).
 
 Fixed: `a = p = 1`, `p_+ = p + 1/2 = 3/2`, `τ = 24`, W4's guard constant `γ_G = e^{-6}/3`
 (`homGuard_one_one`). For the data `d` of Definition `bpW:w6:sequences`:

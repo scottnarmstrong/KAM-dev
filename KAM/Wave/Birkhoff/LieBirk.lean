@@ -21,7 +21,7 @@ the abstract theory (`LieFlow1`–`LieMain`) to `T = ι ∘ S` (`birkT`) with `C
 `|t| < 2`, `40 C_F ‖w‖² < 1` (that is, `‖w‖ < ρ₀ = (40 C_F)^{-1/2}`).
 
 Estimates in the `𝔚`-norm only (the `𝔚⁺`-norm refinements are not formalised here, see the
-handoff): `‖Γ_t w‖ ≤ 10/9 ‖w‖`, `‖Γ_t w - w‖ ≤ 3|t|C_F‖w‖³`, `‖DΓ_t - I‖ ≤ 10|t|C_F‖w‖²`.
+blueprint): `‖Γ_t w‖ ≤ 10/9 ‖w‖`, `‖Γ_t w - w‖ ≤ 3|t|C_F‖w‖³`, `‖DΓ_t - I‖ ≤ 10|t|C_F‖w‖²`.
 -/
 
 @[expose] public noncomputable section

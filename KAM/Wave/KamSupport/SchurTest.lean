@@ -12,8 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The Schur test on `ℓ²` (support for blueprint-W `bpW:w1:schur`)
 
-Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
-
 A matrix `F : ℕ+ → ℕ+ → K` whose finite row sums and finite column sums of moduli are bounded by `Λ`
 defines a bounded operator on `ℓ²` of norm at most `Λ`: `kamSchurCLM`. Its coordinates are the
 absolutely convergent sums `(T v)_i = ∑_j F_{ij} v_j` (`kamSchurCLM_hasSum`).
@@ -37,9 +35,6 @@ namespace KamSchurBound
 variable {F : ℕ+ → ℕ+ → K} {Λ : ℝ}
 
 theorem bound_nonneg (h : KamSchurBound F Λ) : 0 ≤ Λ := by simpa using h.row 1 ∅
-
-theorem bound_mono {Λ' : ℝ} (h : KamSchurBound F Λ) (hΛ : Λ ≤ Λ') : KamSchurBound F Λ' :=
-  ⟨fun i J => (h.row i J).trans hΛ, fun j I => (h.col j I).trans hΛ⟩
 
 /-- Cauchy–Schwarz for one row: `(∑_J |F_ij| |v_j|)² ≤ Λ ∑_J |F_ij| |v_j|²`. -/
 theorem sq_row_le (h : KamSchurBound F Λ) (v : lp (fun _ : ℕ+ => K) 2) (i : ℕ+)

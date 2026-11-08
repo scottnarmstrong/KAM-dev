@@ -1,0 +1,27 @@
+import took 3.35s
+cumulative profiling times:
+	.olean serialization 1.66ms
+	attribute application 0.0116ms
+	declTypeLinter 6.89ms
+	elaboration 5.13ms
+	fix level params 0.0112ms
+	import 3.35s
+	initialization 68.3ms
+	instantiate metavars 0.0101ms
+	interpretation 303ms
+	let-to-have transformation 0.0204ms
+	linting 2.22ms
+	module linting 0.0104ms
+	parsing 0.836ms
+	process pre-definitions 0.191ms
+	share common exprs 0.0414ms
+	tacticAnalysis 0.845ms
+	type checking 0.33ms
+	typeclass inference 0.824ms
+wall_s 3.90
+user_s 1.42
+sys_s 0.87
+maxrss_kb 1992492
+exit 0
+cgroup_sampled_peak_bytes 906661888
+oom_kill 0

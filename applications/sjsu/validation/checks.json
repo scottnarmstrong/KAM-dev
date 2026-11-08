@@ -1,0 +1,31 @@
+{
+ "kepler_series_abs_error_by_e": {
+  "0.06": 2.4710696910741106e-22,
+  "0.03": 4.60678201279686e-28,
+  "0.015": 8.696708695457476e-34
+ },
+ "laplace_vs_quadrature": {
+  "alpha": "0.5455",
+  "max_abs_difference": 2.2958874039497803e-40
+ },
+ "lie_mimic_N2_vs_secular_degree_le_4": {
+  "terms_compared": 45,
+  "extra_terms_in_mimic": 0,
+  "max_rel_difference": 5.847074417574455e-17
+ },
+ "nbody_step_size_2000yr": {
+  "aP_mean_2000yr": {
+   "0.5": [
+    5.202393399807058,
+    9.55423758515897,
+    19.214902825356184
+   ],
+   "0.25": [
+    5.202393390819319,
+    9.55423760961952,
+    19.214902996876088
+   ]
+  },
+  "max_rel_difference": 8.926399684941926e-09
+ }
+}

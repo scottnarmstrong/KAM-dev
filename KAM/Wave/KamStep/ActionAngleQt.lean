@@ -14,7 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The polynomial part `Q̃` and its field (blueprint-W `bpW:w5:action-angle` (v), step `a-field`)
 
-Off-frontier, source-faithful infrastructure (W5-AA); the dependency graph is still being built.
 Blueprint label `bpW:w5:action-angle` (v) (the field of `Q̃`).
 
 With `c_j = 3/(2πλ_{j+2})` (`aaCoefC`) and `S(w) = Σ_j c_j z_j \bar z_j` (`aaSfun`, a bounded
@@ -268,7 +267,7 @@ theorem aaQt_hasFDerivAt {a p : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (w : KamPhase
     Complex.ofReal_ne_zero.2 (lam_pnat_pos hm _).ne'
   have hl1 : (lam m hm (modeIdx (1 : Fin 2)) : ℂ) ≠ 0 :=
     Complex.ofReal_ne_zero.2 (lam_pnat_pos hm _).ne'
-  rw [lamTan_eq_lam, lamTan_eq_lam, h01]
+  rw [lamTan_eq, lamTan_eq, h01]
   field_simp
   ring
 

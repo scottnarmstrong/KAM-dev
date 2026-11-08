@@ -18,8 +18,7 @@ public import Mathlib.Topology.Order.IntermediateValue
 /-!
 # W8: external facts (blueprint `bpW:w8:ext`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w8:ext`, `bpW:w8:ext-inner`, `bpW:w8:ext-mono`,
+Blueprint labels `bpW:w8:ext`, `bpW:w8:ext-inner`, `bpW:w8:ext-mono`,
 `bpW:w8:ext-compact`, `bpW:w8:ext-exp`, `bpW:w8:ext-sqrt`, `bpW:w8:ext-dist`, `bpW:w8:ext-rpow`,
 `bpW:w8:ext-local` (milestone W8).
 
@@ -54,51 +53,12 @@ theorem w8ext_inner_eq_tsum (f g : lp (fun _ : ℕ+ => ℝ) 2) :
   rw [lp.inner_eq_tsum]
   exact tsum_congr e
 
-/-- (blueprint `bpW:w8:ext-inner`) The products of two `ℓ²_ℝ` sequences are absolutely summable. -/
-theorem w8ext_summable_abs_mul (f g : lp (fun _ : ℕ+ => ℝ) 2) :
-    Summable fun j => |f j * g j| :=
-  summable_abs_iff.2 (w8ext_inner_eq_tsum f g).1
-
-/-- (blueprint `bpW:w8:ext-inner`) Termwise sums of summable series. -/
-theorem w8ext_tsum_add {f g : ℕ+ → ℝ} (hf : Summable f) (hg : Summable g) :
-    ∑' j, (f j + g j) = ∑' j, f j + ∑' j, g j :=
-  hf.tsum_add hg
-
 /-- (blueprint `bpW:w8:ext-inner`) Cauchy–Schwarz in `ℓ²_ℝ`. -/
 theorem w8ext_abs_inner_le (f g : lp (fun _ : ℕ+ => ℝ) 2) :
     |inner ℝ f g| ≤ ‖f‖ * ‖g‖ :=
   abs_real_inner_le_norm f g
 
 /-! ### (W8-E2) Sign of the derivative (`bpW:w8:ext-mono`) -/
-
-/-- (blueprint `bpW:w8:ext-mono`) Nonpositive derivative on an interval: antitone. -/
-theorem w8ext_antitoneOn_Icc {f f' : ℝ → ℝ} {a b : ℝ}
-    (hf : ∀ x ∈ Icc a b, HasDerivAt f (f' x) x) (h : ∀ x ∈ Icc a b, f' x ≤ 0) :
-    AntitoneOn f (Icc a b) := by
-  refine antitoneOn_of_deriv_nonpos (convex_Icc a b)
-    (fun x hx => (hf x hx).continuousAt.continuousWithinAt)
-    (fun x hx => (hf x (interior_subset hx)).differentiableAt.differentiableWithinAt)
-    (fun x hx => ?_)
-  rw [(hf x (interior_subset hx)).deriv]; exact h x (interior_subset hx)
-
-/-- (blueprint `bpW:w8:ext-mono`) Nonnegative derivative on an interval: monotone. -/
-theorem w8ext_monotoneOn_Icc {f f' : ℝ → ℝ} {a b : ℝ}
-    (hf : ∀ x ∈ Icc a b, HasDerivAt f (f' x) x) (h : ∀ x ∈ Icc a b, 0 ≤ f' x) :
-    MonotoneOn f (Icc a b) := by
-  refine monotoneOn_of_deriv_nonneg (convex_Icc a b)
-    (fun x hx => (hf x hx).continuousAt.continuousWithinAt)
-    (fun x hx => (hf x (interior_subset hx)).differentiableAt.differentiableWithinAt)
-    (fun x hx => ?_)
-  rw [(hf x (interior_subset hx)).deriv]; exact h x (interior_subset hx)
-
-/-- (blueprint `bpW:w8:ext-mono`) The derivative of `t ↦ e^{ct} f(t)`. -/
-theorem w8ext_hasDerivAt_exp_mul {f : ℝ → ℝ} {f' c x : ℝ} (hf : HasDerivAt f f' x) :
-    HasDerivAt (fun t => Real.exp (c * t) * f t)
-      (Real.exp (c * x) * (f' + c * f x)) x := by
-  have he : HasDerivAt (fun t => Real.exp (c * t)) (Real.exp (c * x) * c) x := by
-    have := ((hasDerivAt_id x).const_mul c).exp
-    simpa [mul_comm] using this
-  convert he.mul hf using 1; ring
 
 /-! ### (W8-E3) Compactness (`bpW:w8:ext-compact`) -/
 
@@ -192,17 +152,6 @@ theorem w8ext_infDist {X : Type*} [PseudoMetricSpace X] (S : Set X) (a : ℝ) :
 
 /-! ### (W8-E7) Real powers (`bpW:w8:ext-rpow`) -/
 
-/-- (blueprint `bpW:w8:ext-rpow`) The `rpow` facts used in W8. -/
-theorem w8ext_rpow {x a b : ℝ} (hx : 0 < x) :
-    x ^ a * x ^ b = x ^ (a + b) ∧ 0 ≤ x ^ a ∧ (x ≤ 1 → b ≤ a → x ^ a ≤ x ^ b) :=
-  ⟨(Real.rpow_add hx a b).symm, Real.rpow_nonneg hx.le a,
-    fun h1 hba => Real.rpow_le_rpow_of_exponent_ge hx h1 hba⟩
-
-/-- (blueprint `bpW:w8:ext-rpow`) Monotonicity of `x ↦ x^a` on `[0, ∞)` for `a ≥ 0`. -/
-theorem w8ext_rpow_le_rpow {x y a : ℝ} (hx : 0 ≤ x) (hxy : x ≤ y) (ha : 0 ≤ a) :
-    x ^ a ≤ y ^ a :=
-  Real.rpow_le_rpow hx hxy ha
-
 /-- (blueprint `bpW:w8:ext-rpow`) `C r^a → 0` as `r → 0⁺`, for `a > 0`. -/
 theorem w8ext_tendsto_const_mul_rpow {a : ℝ} (ha : 0 < a) (C : ℝ) :
     Tendsto (fun r : ℝ => C * r ^ a) (𝓝[>] 0) (𝓝 0) := by
@@ -223,25 +172,6 @@ theorem w8ext_continuousOn_of_local {X Y : Type*} [TopologicalSpace X] [Topologi
   refine continuousOn_of_locally_continuousOn fun x hx => ?_
   obtain ⟨O, hO, hxO, g, hg, hfg⟩ := h x hx
   exact ⟨O, hO, hxO, hg.congr hfg⟩
-
-/-- (blueprint `bpW:w8:ext-local`) Continuous linear maps preserve `AnalyticOnNhd`. -/
-theorem w8ext_clm_comp_analyticOnNhd {E F G : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-    [NormedAddCommGroup F] [NormedSpace ℝ F] [NormedAddCommGroup G] [NormedSpace ℝ G]
-    (L : F →L[ℝ] G) {f : E → F} {s : Set E} (hf : AnalyticOnNhd ℝ f s) :
-    AnalyticOnNhd ℝ (L ∘ f) s :=
-  L.comp_analyticOnNhd hf
-
-/-- (blueprint `bpW:w8:ext-local`) Chain rule for a continuous linear map after `f`. -/
-theorem w8ext_fderiv_clm_comp {E F G : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-    [NormedAddCommGroup F] [NormedSpace ℝ F] [NormedAddCommGroup G] [NormedSpace ℝ G]
-    (L : F →L[ℝ] G) {f : E → F} {x : E} (hf : DifferentiableAt ℝ f x) :
-    fderiv ℝ (L ∘ f) x = L.comp (fderiv ℝ f x) := by
-  rw [fderiv_comp x L.differentiableAt hf, L.fderiv]
-
-/-- (blueprint `bpW:w8:ext-local`) Inequalities pass to limits of convergent sequences. -/
-theorem w8ext_le_of_tendsto {u v : ℕ → ℝ} {a b : ℝ} (hu : Tendsto u atTop (𝓝 a))
-    (hv : Tendsto v atTop (𝓝 b)) (h : ∀ n, u n ≤ v n) : a ≤ b :=
-  le_of_tendsto_of_tendsto' hu hv h
 
 end KAM.Wave
 

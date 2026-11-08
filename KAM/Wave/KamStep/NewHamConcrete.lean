@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # `H ∘ Φ = N_+ + P_+ + â₀` on the concrete flow (blueprint-W `bpW:w5:new-ham` (i))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepNewHam_concrete`: for the flow of `X = ι ∘ Z_F` on `StepPhase r`, `N = stepNfun`, `N̂ = stepFS
 N̂`,
 `R = stepFS T` and the homological equation `R + DN·ιX_F = N̂ + â₀` on `V = D(s-σ, r)`,

@@ -15,8 +15,7 @@ import Mathlib.Tactic.GCongr
 /-!
 # W6: the constants (blueprint `bpW:w6:constants`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:constants` (milestone W6).
+Blueprint label `bpW:w6:constants` (milestone W6).
 
 In this order, after W7's constants (`measTheta0 = θ₀`, `measBetaStar = β_*`) and W5's
 (`stepTn`, `stepCFn`, `stepC0n`, `stepC2n` at `τ = 24`: `t^♮ = 53`, `c^♮_F`, `c^♮_0`, `C^♮_2`):
@@ -80,8 +79,6 @@ def w6Gamma (m : ℝ) (hm : 0 < m) : ℝ :=
 
 /-- The Lipschitz number `θ = 425 (1+M) max(γ, γ₁)` of Lemma `bpW:w6:freq-lip`. -/
 def w6Theta (m : ℝ) (hm : 0 < m) : ℝ := 425 * (1 + w6M m hm) * max (w6Gamma m hm) (w6Gamma1 m hm)
-
-theorem w6S0_eq : w6S0 = 7 / 8 * w6S := by unfold w6S0 w6SigmaP w6S; norm_num
 
 theorem w6S0_val : w6S0 = 7 / 64 := by unfold w6S0 w6SigmaP w6S; norm_num
 

@@ -15,9 +15,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # One KAM step: the source-facing theorems (blueprint-W `bpW:w5:step`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
-The premise `ε₀ > 0` of the conditional helpers (`stepTheorem_of_eps0_pos`,
+The premise `ε₀ > 0` of the hypothesis-taking variants (`stepTheorem_of_eps0_pos`,
 `stepTheoremMod_of_eps0_pos`) is not a blueprint premise. The hypotheses `StepHypSrc`,
 `StepHypModSrc` assume only `ε₀ ≥ 0` and the blueprint's `ε > 0` (Definition `bpW:w5:data`:
 "a number `ε > 0` with `ε ≥ |X_P|^λ`", `w5-kamstep.tex` l. 336). The theorems `stepTheorem`,
@@ -30,7 +28,7 @@ Clause (iv) is conditional on `HomMelnikov` (blueprint: "whenever the same holds
 
 Clause (i) also contains "`Φ` is real on real points", "`DΦ(w)` maps `𝒫^{p_+}` onto itself" and the
 weak conjugacy of `bpW:w5:new-ham` (iii) in field form, and clause (ii) "`P_+` is real"; they are
-derived from the conditional helpers `stepTheorem_reality_of_eps0_pos`,
+derived from the hypothesis-taking variants `stepTheorem_reality_of_eps0_pos`,
 `stepTheorem_dPhi_smooth_onto_of_eps0_pos`, `stepTheorem_weakConj_field_of_eps0_pos` (and their
 `Mod` forms, W5-REAL) applied to `H.hyp`, so no premise `ε₀ > 0` appears.
 -/

@@ -13,8 +13,6 @@ public import KAM.Frozen.Wave.Defs.WaveSpace
 /-!
 # Weighted spaces as transports of `ℓ²` (blueprint-W `bpW:w1:transport`, `bpW:w1:space`)
 
-Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
-
 Every weighted space `ℓ^{a,p}_𝕜` is the image of `lp (fun _ : ℕ+ => 𝕜) 2` under the coefficient map
 `coeffW a p` (the blueprint's `κ_{a,p}`), with inverse `tauLp` (`τ_{a,p}`) defined on the sequences
 satisfying `IsEll`. No new normed type is introduced.

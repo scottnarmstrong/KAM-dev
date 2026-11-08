@@ -16,9 +16,6 @@ import Mathlib.Tactic.Positivity
 # The solution `F` of Theorem `bpW:w4:lemma1`: construction and membership in `𝒯_{s-σ}`
 (`bpW:w4:lemma1` (i), steps *Division operators*, *The solution is in the class*)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 * `HomMultBounds τ α w W`: the bounds of the division operators at one parameter value
   (`homMultBounds_of` derives them from `(H_α)`);
 * the multiplier families `homTscal`, `homTvec`, `homTdp`, `homTdm`, `homTP`, `homTP'`, `homTQ`,
@@ -153,7 +150,6 @@ theorem isHomComp_solve {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [
   obtain ⟨-, -, hb, hd', hp', -⟩ := homSolve_spec hτ hα hκ hσ hσs hT hd hp hm
   exact ⟨hd', hp', _, hb⟩
 
-
 theorem homCoeff_congr {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] {s : ℝ} (hs : 0 < s)
     {u v : (Fin 2 → ℂ) → E} (h : ∀ z ∈ complexStrip 2 s, u z = v z) (k : Fin 2 → ℤ) :
     homCoeff u k = homCoeff v k := by
@@ -192,7 +188,6 @@ theorem homSolve_hadamard_entry_gen {s σ m κ α τ : ℝ} (a p pb : ℝ) (hτ 
         homNormalEntry_hadamard_gen, ContinuousLinearMap.smul_apply, ContinuousLinearMap.id_apply,
         smul_eq_mul]) hu hp hm hθ
   simpa only [homNormEntryCLM_apply_gen] using this
-
 
 /-- Entries of the Hadamard solve of an operator component, packaged. -/
 theorem homSolve_entry_symm_gen {s σ κ : ℝ} {a p pb : ℝ} (hτ : 0 ≤ τ) (hα : 0 < α) (hκ : 1 ≤ κ)

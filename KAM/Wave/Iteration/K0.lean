@@ -13,8 +13,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W6: the conditions with `k = 0` (blueprint `bpW:w6:k0`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:k0` (milestone W6).
+Blueprint label `bpW:w6:k0` (milestone W6).
 
 Normal modes are indexed as in W7 (`KAM/Wave/Measure`): `j : ℕ` with Dirichlet label
 `normLab j = j + 3`, which is W5's `j + 2` for W5's index `j ≥ 1`; so W5's weight `(j+2)^{1/2}` is

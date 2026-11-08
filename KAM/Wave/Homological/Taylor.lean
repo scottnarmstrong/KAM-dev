@@ -13,9 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Taylor Hamiltonians and their field norm (blueprint-W `bpW:w4:taylor`)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 Representative model (`NormalOps.lean`): the normal variables `z, \bar z ∈ ℓ^N_{a,p}` are given by
 their representatives in `ℓ²` (`HomL2`), the gradients `c^±` by representatives in `ℓ²` of
 `ℓ^N_{a,p+1}`, and the operator components `P, P', Q, Q^T` by weighted matrices (`HomOp`).
@@ -138,7 +135,6 @@ theorem homRzb_eq_gen (T : HomTaylor_gen a p pb s) (θ : Fin 2 → ℂ) (z zb : 
   ring_nf
   simp only [h2', Complex.I_sq]
   ring
-
 
 /-- `∂_{θ_i} R` for the Taylor polynomial, in terms of the derivatives of the components
 (`bpW:w4:taylor`). -/

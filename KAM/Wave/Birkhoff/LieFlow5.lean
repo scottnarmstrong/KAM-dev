@@ -14,8 +14,7 @@ public import Mathlib.Analysis.Normed.Group.FunctionSeries
 /-!
 # The flow `Γ_t`: joint `C¹` regularity (blueprint-W `bpW:w3:flow` (i))
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-FLOW, blueprint label `bpW:w3:flow` (audit finding F3).
+Package W3-FLOW, blueprint label `bpW:w3:flow` (audit finding F3).
 
 Each term `(t, w) ↦ t^k φ_k(w)` is `C^∞` over `ℝ` (`contDiff_lieTerm`), so its Fréchet derivative
 `lieTermD` is continuous (`continuous_lieTermD`); the derivative series is locally uniformly

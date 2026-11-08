@@ -13,8 +13,7 @@ public import Mathlib.Analysis.Calculus.FDeriv.Analytic
 /-!
 # Complexification and real analyticity: the generic part
 
-Blueprint-W `bpW:w1:complexification-lemma` (ii), (iii) (package W1-ANALYTIC). This is
-source-faithful infrastructure used by several nodes; the dependency graph is still being built.
+Blueprint-W `bpW:w1:complexification-lemma` (ii), (iii) (package W1-ANALYTIC).
 
 If `f` is `ℂ`-analytic at `ℓ x` between complex normed spaces and `ℓ`, `π` are continuous
 `ℝ`-linear, then `π ∘ f ∘ ℓ` is `ℝ`-analytic at `x` (`KAM.Wave.analyticAt_comp_realLinear`). For a

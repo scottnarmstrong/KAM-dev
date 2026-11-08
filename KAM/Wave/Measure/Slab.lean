@@ -12,9 +12,6 @@ public import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 /-!
 # W7: slicing lemma and Borel sets (blueprint `bpW:w7:slab`, `bpW:w7:ext-borel`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 `volume_le_of_coord_slices` is Tonelli along a coordinate line: a measurable `S ⊆ ℝ²` of diameter
 `≤ ρ` whose lines in direction `e_i` have diameter `≤ d` has measure `≤ d ρ`. `measSlab_measure_le`
 is blueprint Lemma `bpW:w7:slab`: if `|φ| < η` on `S` and `φ` grows at least like `σ |t|` along

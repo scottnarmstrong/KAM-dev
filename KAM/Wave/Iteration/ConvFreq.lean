@@ -15,8 +15,7 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # W6: convergence of the frequencies (`bpW:w6:convergence` (i), (ii))
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:convergence` (milestone W6), steps `c-par`, `c-freq`.
+Blueprint label `bpW:w6:convergence` (milestone W6), steps `c-par`, `c-freq`.
 
 For the iteration `S_ν = w6Seq d (w6Start …) ν` of Proposition `bpW:w6:convergence`
 (hypotheses `W6ConvHyp`), with `Π_* = ⋂_ν Π_ν` (`w6PiStarIt`), `ω_* = lim ω_ν`, `Ω_* = lim Ω_ν`
@@ -24,7 +23,7 @@ For the iteration `S_ν = w6Seq d (w6Start …) ν` of Proposition `bpW:w6:conve
 
 * `w6_uniform_limit`: sequences with increments `≤ C 4^{-n}` converge uniformly, with tail
   `≤ (4/3) C 4^{-n}` (no W5 input);
-* the conditional helpers (hypothesis `W6StepReal`, W5's reality clause; not the label; the
+* the hypothesis-taking variants (hypothesis `W6StepReal`, W5's reality clause; not the label; the
   unconditional statements are in `KAM.Wave.Iteration.ConvSource`):
   `w6Seq_Pi_eq_of_stepReal` and `w6ConvParams_of_stepReal` (clause (i): `Π_ν` is W6-PREP's
   `w6PiSeq` of the output frequencies, `Π_{-1} ∖ Π_* = ⋃_ν ⋃_{|k| > K_{ν-1}} R^ν_{kl}`), and
@@ -195,7 +194,7 @@ theorem w6PiStarIt_eq_of_stepReal :
   · intro h ν
     rw [w6Seq_Pi_eq_of_stepReal hR hC ν]; exact h (ν + 1)
 
-/-- **Convergence (i)** (`bpW:w6:convergence` (i), conditional helper): for the iteration,
+/-- **Convergence (i)** (`bpW:w6:convergence` (i), hypothesis-taking variant): for the iteration,
 `Π_{-1} ∖ Π_* = ⋃_{ν ≥ 0} ⋃_{(k,l) ∈ Z, |k| > K_{ν-1}} R^ν_{kl}`, with `R^ν_{kl}` the zone of
 `(ω_ν, Ω_ν)` at level `α_ν` in `Π_{ν-1}`. -/
 theorem w6ConvParams_of_stepReal :
@@ -310,8 +309,8 @@ theorem w6Seq_Om_limit (j : ℕ) :
         _ = 3 * d.eps0 / 4 ^ n := by ring
   exact ⟨h1, h3⟩
 
-/-- **Convergence (ii)** (`bpW:w6:convergence` (ii); conditional helper on `W6StepReal`, not the
-label): `ω_ν → ω_*`, `Ω_ν → Ω_*` uniformly on `Π_*` (each `Ω_{·,j}`, W7 index), with
+/-- **Convergence (ii)** (`bpW:w6:convergence` (ii); hypothesis-taking variant on `W6StepReal`, not
+the label): `ω_ν → ω_*`, `Ω_ν → Ω_*` uniformly on `Π_*` (each `Ω_{·,j}`, W7 index), with
 `|ω_* - ω_0| ≤ 8πε₀`, `|ω_* - ω_0|^ℒ ≤ 64πε₀/λ₀`, `sup_j (j+2)^{1/2} |Ω_{*,j} - Ω_{0,j}| ≤ 4ε₀`,
 its Lipschitz constant `≤ 16ε₀/λ₀`, and `|⟨k, ω_*⟩ + ⟨l, Ω_*⟩| ≥ (α₀/2)⟨l⟩/A_k` for `(k,l) ∈ Z`.
 (The same bounds for `(ω_ν, Ω_ν)` on `Π_{ν-1}`: `w6Seq_om_partial`, `w6Seq_Om_partial`.) -/
@@ -361,8 +360,8 @@ theorem w6ConvFreq_of_stepReal :
       (fun ν => W6SeqData.half_le_alpha hC.valid ν) k l fun ν => ?_
     exact (w6Seq_stage_of_stepReal hR hC ν).mel ξ (mem_w6PiStarIt hξ ν) k l hkl
 
-/-- **Convergence (i), Borel** (`bpW:w6:convergence` (i); conditional helper): if `Π_{-1}` is Borel,
-every `Π_ν` and `Π_*` are Borel (the `ω_ν`, `Ω_{ν,j}` are Lipschitz, hence continuous, on
+/-- **Convergence (i), Borel** (`bpW:w6:convergence` (i); hypothesis-taking variant): if `Π_{-1}` is
+Borel, every `Π_ν` and `Π_*` are Borel (the `ω_ν`, `Ω_{ν,j}` are Lipschitz, hence continuous, on
 `Π_{ν-1}`). -/
 theorem w6ConvBorel_of_stepReal (hPm : MeasurableSet Pm) :
     (∀ ν, MeasurableSet (𝒮 ν).Pi) ∧ MeasurableSet (w6PiStarIt d (w6Start d Pm ω0 Ω0 P0 X0)) := by

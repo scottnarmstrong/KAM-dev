@@ -1,0 +1,24 @@
+$ /home/scott/KAM-dev-worktrees/v2-packed-apply/scripts/packed/prod_cert_gen.py /home/scott/kam-data/v2-packed-apply/final/copy --app=/home/scott/KAM-dev-worktrees/lg00-app/applications/lg00 --tree=TP --prefix=LG00P
+LG00P.Format
+LG00P.FormatK
+LG00P.FormatQ
+LG00P.Coeffs0
+LG00P.Coeffs1
+LG00P.Ham
+LG00P.JetOps0
+LG00P.JetOps1
+LG00P.JetOps2
+LG00P.JetOps3
+LG00P.JetOps4
+LG00P.JetOps5
+LG00P.JetOps6
+LG00P.Jet
+LG00P.JetBridge
+LG00P.TP.Data.DCoeffs
+LG00P.TP.Data.E0
+LG00P.TP.Data.W8
+LG00P.TP.Data.Cert
+
+--- stderr
+
+--- exit 0

@@ -13,9 +13,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The small-divisor lattice constant `b_W(τ)` (blueprint-W `bpW:w4:lattice` (iv))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 `waveA τ k` is `A_k` (`A_0 = 1`, `A_k = 1 + |k|₁^τ` otherwise), `waveBW τ σ` is `B^W_σ`, and
 `waveBWconst τ = b_W(τ)`. Main results: `waveSum_A_le_waveBW` (`∑ A_k e^{-2π|k|₁σ} ≤ B^W_σ`) and
 `waveBW_le` (`B^W_σ ≤ b_W(τ) σ^{-(2τ+3)}` for `0 < σ ≤ 1`).

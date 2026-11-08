@@ -13,9 +13,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Modified divisors for the preparatory step (blueprint-W `bpW:w5:w4-modified`, hypotheses)
 
-Off-frontier, source-faithful infrastructure (W5-MODIFIED, blueprint `bpW:w5:w4-modified`); the
-dependency graph is still being built.
-
 * `HomMelnikovMod τ α β Π ω Ω`: every divisor of `bpW:w4:melnikov` satisfies the bound of
   `(H_α)`, except the divisors `δ^Q_{k,ij}`, `i ≠ j`, for which only
   `|δ^Q_{k,ij}| ≥ (α/A_k) |i-j| / (min(i,j)+2)^β` is assumed (`bpW:w5:modified`);

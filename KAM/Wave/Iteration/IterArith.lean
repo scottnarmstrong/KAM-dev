@@ -14,8 +14,7 @@ import Mathlib.Tactic.GCongr
 /-!
 # W6: the arithmetic of the iterative lemma (blueprint `bpW:w6:iter-lemma`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:iter-lemma` (milestone W6): the parts that concern the
+Blueprint label `bpW:w6:iter-lemma` (milestone W6): the parts that concern the
 sequences of Definition `bpW:w6:sequences` only.
 
 Under the smallness `ε₀ ≤ γ₀ α₀ σ₀^t`, with `q_ν = ε_ν/(α_ν σ_ν^t)`:
@@ -75,9 +74,6 @@ theorem q_succ_eq (ν : ℕ) :
   have h2 := alpha_pos hd (ν + 1)
   have h3 := sigma_rpow_pos hd ν
   field_simp
-
-theorem q_nonneg_of_eps (ν : ℕ) (he : 0 ≤ d.eps ν) : 0 ≤ d.qNu ν :=
-  div_nonneg he (alpha_sigma_pos hd ν).le
 
 /-- One step: if `0 ≤ q_ν ≤ γ₀` then `q_{ν+1} ≤ q_ν/4` (step `il-err`). -/
 theorem q_succ_le_of (ν : ℕ) (h0 : 0 ≤ d.qNu ν) (hγ : d.qNu ν ≤ w6Gamma0) :

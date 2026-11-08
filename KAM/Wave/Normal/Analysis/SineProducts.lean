@@ -15,8 +15,6 @@ public import KAM.Frozen.Wave.Defs.CubicGrad
 # Products of sine series and the integrals `∫ U^3 φ_l`, `∫ U^4`
 (blueprint `bpW:w0n:gradient`, first two formulas)
 
-Infrastructure used by several nodes; the dependency graph is still being built.
-
 Let `h : ℕ+ → ℝ` be absolutely summable and `U(x) = Σ_j h_j φ_j(x)`
 (`KAM.Wave.waveSineSeries 0 h`). With `g_{ijkl} = ∫₀^π φ_i φ_j φ_k φ_l`
 (`KAM.Wave.waveQuartic`):

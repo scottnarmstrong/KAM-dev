@@ -22,7 +22,7 @@ private def projectLeanOptions : Array LeanOption := #[
 The frozen-anchor quarantine forbids every other module, the roots included, from importing
 them, so each library builds them as extra globs beside its root. -/
 private def quarantinedModules : Array (Lean.Name × Array Lean.Name) := #[
-  (`KAM, #[`KAM.Frozen.Magnetic.Theorems.MagneticBarrier, `KAM.Frozen.SpinOrbit.Theorems.LunarSyncLock, `KAM.Frozen.SpinOrbit.Theorems.LunarSyncOrbitBound, `KAM.Frozen.SpinOrbit.Theorems.LunarSyncOrbitSpec, `KAM.Frozen.SpinOrbit.Theorems.LunarSyncOrbitUnique, `KAM.Provider.Magnetic.MagneticBarrier, `KAM.Provider.SpinOrbit.LunarSyncLock, `KAM.Provider.SpinOrbit.LunarSyncOrbitBound, `KAM.Provider.SpinOrbit.LunarSyncOrbitSpec, `KAM.Provider.SpinOrbit.LunarSyncOrbitUnique])]
+  (`KAM, #[`KAM.Frozen.Magnetic.Theorems.MagneticBarrier, `KAM.Provider.Magnetic.MagneticBarrier])]
 -- END GENERATED BLOCK
 
 /-- The globs of library `lib`: its root (with its whole import closure) and its quarantined
@@ -68,6 +68,22 @@ lean_lib «KAMLunarLock» where
 lean_lib «KAMMagneticBarrier» where
   roots := #[`KAMMagneticBarrier]
   globs := libGlobs `KAMMagneticBarrier
+  leanOptions := projectLeanOptions
+
+/-- B3: Hénon–Heiles confinement (D73). The exact ℚ(√2) normal-form certificate under
+`KAM/EffectiveStability/HenonHeiles` (sharded kernel check), and the sealed frozen theorem
+`henonHeiles_confinement` with its provider. -/
+lean_lib «KAMHenonHeiles» where
+  roots := #[`KAMHenonHeiles]
+  globs := libGlobs `KAMHenonHeiles
+  leanOptions := projectLeanOptions
+
+/-- T2-CONF: SJSU secular confinement (D76). The tube certificate of `SJSU18-O2` under
+`KAM/EffectiveStability/SJSU` (data, ledger, assembly), the frozen data definitions and the sealed
+frozen theorem `sjsu_secular_confinement` with its provider. -/
+lean_lib «KAMSJSU» where
+  roots := #[`KAMSJSU]
+  globs := libGlobs `KAMSJSU
   leanOptions := projectLeanOptions
 
 /-

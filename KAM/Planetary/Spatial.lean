@@ -20,8 +20,8 @@ public import KAM.Planetary.Spatial.Alignment
 /-!
 # The spatial exact model (facade)
 
-Package LP-SP-MODEL (wave 4), `LP:MAIN §1 (9–93)`, Lemmas 1–3 (`d = 3`) and rotation invariance;
-track LP, non-frozen; the statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN §1 (9–93)`, Lemmas 1–3 (`d = 3`) and rotation invariance;
+track LP, non-frozen.
 Public import path for the modules `KAM.Planetary.Spatial.*` (namespace `KAM.Planetary.Spatial`).
 -/
 

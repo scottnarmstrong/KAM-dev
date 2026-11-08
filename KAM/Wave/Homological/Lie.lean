@@ -14,9 +14,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The weak bracket with the normal form, sequence level (blueprint-W `bpW:w4:lie` (i), (ii), (iv))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 This file proves the sequence-space content of `bpW:w4:lie` for given gradients
 `F_z, F_{\bar z} ∈ ℓ^N_{a,p+1}` and a given `θ`-derivative term `Fθω = (1/2π) ⟨ω, F_θ⟩` (a complex
 number):
@@ -85,10 +82,6 @@ theorem homLie_pairing_summable_gen {Par : Set (Fin 2 → ℝ)} {ω : (Fin 2 →
 /-- INTERNAL totalized pairing `∑' j, x_j x'_j` (no conjugation); it returns `0` on divergent
 inputs. Use the source-domain `homPair0` (with summability evidence). -/
 def homPair0Raw (x x' : ℕ+ → ℂ) : ℂ := ∑' j, x j * x' j
-
-theorem homPair0Raw_comm (x x' : ℕ+ → ℂ) : homPair0Raw x x' = homPair0Raw x' x := by
-  unfold homPair0Raw
-  exact tsum_congr fun j => mul_comm _ _
 
 /-- INTERNAL totalized form of `L_N F = (1/2π)⟨ω, F_θ⟩ - i⟨F_z, Ωz⟩₀ + i⟨F_{\bar z}, Ω\bar z⟩₀`
 (blueprint `bpW:w4:lie`), with `Fθω = (1/2π)⟨ω, F_θ⟩` and the gradients as sequences. -/

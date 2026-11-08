@@ -13,9 +13,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The normal form correction `N̂` (`bpW:w4:lemma1` (iv))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 `N̂ = ⟨ω̂,y⟩ + ∑ Ω̂_j z_j \\bar z_j` is a Taylor Hamiltonian with constant components
 (`homNhatTaylor_gen R`: `b = [b]`, `Q = Q^T` the diagonal of `[Q]`); `homNhatTaylor_val_gen`
     identifies its
@@ -94,7 +91,6 @@ theorem homNhatTaylor_val_gen {a p pb : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb 
   simp only [kamEntryDiagCLM, weightedDiagCLM_apply]
   field_simp
 
-
 theorem homPartial_const {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] (c : E)
     (i : Fin 2) (θ : Fin 2 → ℂ) : homPartial i (fun _ : Fin 2 → ℂ => c) θ = 0 := by
   simp [homPartial]
@@ -157,7 +153,6 @@ theorem homNhat_fieldBound_gen {a p pb s : ℝ} (ha : 0 ≤ a) (hp : 0 ≤ p) (h
       _ = ε := by field_simp
   simp only [norm_zero, mul_zero, add_zero]
   linarith
-
 
 /-- **Lemma 1 (i), vanishing of the resonant modes**: `â_{F,0} = 0`, `\hat b_{F,0} = 0`,
 `(Q̂_{F,0})_{jj} = 0`. -/

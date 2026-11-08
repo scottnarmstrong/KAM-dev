@@ -566,3 +566,113 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - **Checks:** the structural lint (coverage, edges, cycles, reachability) and ONE independent global review, instead
     of per-slice reviews.
   - **Labelling:** the graph header says so.
+- **D66 (2026-11-01, 14:55 UTC) Magnetic field-line barrier: run the ε = 0.0012 fallback pilot.** *(Scott: "I would
+  approve an ε = 0.0012 pilot as the fallback, can we launch that?")*
+  - **The model:** the plan of `docs/explorations/plan-magnetic-barrier.md`, with ε = 3/2500 instead of 3/1000. At
+    3/1000 the multiprecision solves stalled more than six orders short of the 10⁻²⁵ gate.
+  - **Phase 1 (worker kam-mag, branch `mag-pilot`):** the numerical gate only. Reconstruct the producer from the plan,
+    reusing `scripts/spin_orbit/hp*.py` and the v2 route scripts, and report the verdict.
+  - **Phase 2:** the exact Lean statement goes to the owner for approval before any certificate emission or kernel
+    run.
+- **D67 (2026-11-01, 21:35 UTC) Lock source size: about 228 MB accepted.** *(Scott: "accept 228 MB for the lock".)*
+  - This amends D55's ≈ 200 MB. The growth comes from splitting the side checks into their own modules, which run in
+    parallel remotely, and from the Gram product modules (an emitter bug fix).
+  - Every file stays far below GitHub's per-file limit.
+- **D68 (2026-11-01, 21:35 UTC) Magnetic field-line barrier statement approved.** *(Scott: "approve the magnetic
+  statement", after the review page of the exact text.)*
+  - **The approval object:** branch `mag-pilot` at `a48eb432`: `docs/explorations/mag/FREEZE-PROPOSAL.md` and the seven
+    draft files under `docs/explorations/mag/draft/` (magEps, magH0, magAlpha, magV, magField, magHamC,
+    magnetic_barrier), byte for byte, ε = 3/2500.
+  - **The state type** `ℝ × ℝ × ℝ` is accepted as an exception to AGENTS rule 7, consistent with the sealed lunar
+    statements.
+  - **Freeze:** the definitions frozen, and `magnetic_barrier` frozen as DRAFT_SORRY under `KAM/Frozen/Magnetic/`, with
+    manifest entries. Only the approval date and the decision placeholders change.
+  - **Seal:** as D63. After the certificate chain passes (on the CCX53), the landing checks and a dedicated seal audit,
+    with no further go.
+- **D69 (2026-11-01, 22:25 UTC) Overnight mode, acting on recommendations.** *(Scott: "push mag-pilot when the package
+  is ready. go now into overnight mode - defer approvals and go with recs".)*
+  - **Approvals:** decisions that would normally go to the owner take the orchestrator's recorded recommendation and
+    are logged FOR OWNER in OVERNIGHT.md.
+  - **Still excluded:** no new statement is frozen without the owner's approval of its exact text. The seals already
+    approved (D63 lock, D68 magnetic) proceed when their gates pass.
+  - **No remote job:** the CCX53 needs the owner's access, so nothing remote is started.
+  - **mag-pilot:** once its packed-gate certificate package is committed, root-b8 pushes the branch to `origin` for the
+    side campaign (lemma.farm).
+- **D70 (2026-11-02, 08:15 UTC) Lock source about 265 MB; the remote run on a CCX63.** *(Scott: "accept 265 MB, I'll
+  rent a CCX63, please continue".)*
+  - **Size:** this amends D67's 228 MB. The growth comes from the graph re-split into 64-row chunks and the side-check
+    split.
+  - **Speedup:** the overnight choice of SOS option (a) in additive form (lock-owned RealLowerK, GraphK and LockGraphK
+    plus 2 packed advice entries; core, band and the frozen statement untouched) stands.
+  - **Remote run:** the full chain runs on a CCX63 (48 vCPU, 192 GB; about 17 lanes of 10 GB), which the owner rents.
+- **D71 (2026-11-02, 23:30 UTC) Program B1 launched, in overnight mode.** *(Scott: "launch program B1", then "please go
+  into overnight mode, defer all approvals and make as much progress on B1 as you can".)*
+  - **Scope:** B0 and B1 of `docs/explorations/program-b-plan.md`: the exact surface of B1-T (finite confinement in a
+    canonical cylinder) and B1-E (Cartesian oscillator confinement, including zero actions), then the region dynamics:
+    stopped drift, first exit, continuation and transfer.
+  - **Overnight rules:** defaults from plan §8 (B1 checker plus one instance; the Hénon–Heiles pilot goal).
+    Approvals are deferred and logged FOR OWNER.
+  - **Nothing frozen:** the headline theorems are proved as ordinary theorems in their exact final form, and a freeze
+    proposal waits for the owner.
+  - **Running it:** sub-orchestrator kam-b1 (claude-9), at most 2 provers (claude-2, claude-5), 4 GB caps, codex-2
+    audits.
+  - **Coordination:** reuse lemma.farm's first-exit API where it fits, and never edit its files.
+- **D72 (2026-11-03, 07:27 UTC) Program B: freeze approved, B3 launched.** *(Scott: "approve all", answering the morning
+  packet `docs/tracks/B/MORNING-2026-11-03.md`.)*
+  - **Freeze:** B1-T `KAM.EffectiveStability.torus_confinement` and B1-E `.oscillator_confinement`, in the exact
+    text of `docs/tracks/B/FREEZE-PROPOSAL.md` §2. Both are already proved, so they are frozen and sealed in one pass
+    (one branch, one landing), with no DRAFT_SORRY stage.
+  - **OD-B2:** the minimal premise list. **OD-B1, OD-B3 to OD-B15:** the overnight defaults are confirmed.
+  - **B3 is ON:** the Hénon–Heiles literal instance (plan §4), starting with the exact ℚ(√2) coefficient layer
+    (OD-B16). Its literal application theorem is the next candidate anchor; its exact text goes to the owner first.
+  - **Optional anchors:** none. `checkOscChain_sound`, `checkTorusChain_sound` and `certifiedTorus_confinement`
+    stay ordinary audited theorems (D40: do not freeze an evolving certificate serialization).
+- **D73 (2026-11-03, 10:27 UTC) The Hénon–Heiles theorem text is approved.** *(Scott: "i approve the Hénon–Heiles theorem
+  text".)* The approved text is `KAM.EffectiveStability.henonHeiles_confinement` exactly as in
+  `.drafts/B/brief-B3-CERT.md` step 4 (inp-b1). For every initial point with both oscillator actions ≤ (1/12500)², the
+  orbit exists beyond ±10¹⁰, is unique, keeps its actions below 1.01·10⁻⁸ and drifts by at most 1.2·10⁻⁹.
+  - It is frozen and sealed in one pass once it is proved, as plan §2.4 and the D72 addendum recommend (one literal
+    application theorem; the checkers stay unfrozen).
+  - It lives in the opt-in application library `KAMHenonHeiles` (D51).
+- **D74 (2026-11-06, 13:19 UTC) SJSU gate 2 is certified in Lean (program T2-CONF).** *(Scott: "YES - let's do GATE 2
+  !!!!!!", after the scoping plan `docs/explorations/sjs-rigor-plan.md`, inp-bsjs 9712dacb3.)*
+  - **Recommended defaults taken:** §6 decisions 1(a), 2(a), 3(a), 4(a), 5(a), 6(a), 7(a), 9(a) and 10(a).
+    - T2-CONF only: finite-time confinement through `ApproxIntegral` plus a packed tube checker.
+    - Model of record: SJSU18-O2 as published, with exact rationals.
+    - Q: a sup-norm ball first.
+    - δ = 10⁻⁶, T = 5·10⁹ yr.
+    - Packed Fourier–Taylor checker; the generic layer in core and the data in an opt-in library (D51).
+    - The model is frozen as generated, manifest-pinned data modules. B4×B5 is deferred.
+    - Budget: ≤ 3 CPU-h of gates, then ≤ 75 CPU-h of production.
+  - **Decision 8 (the X1 track) is deferred.**
+  - **Order:** the numerical gates SR-1..SR-7 first, with no Lean before they pass. The exact frozen statement and
+    data definition go to the owner for approval before any freeze.
+- **D75 (2026-11-06, 14:45 UTC) T2-CONF model of record: the complex form of SJSU18-O2.** *(Scott: "approved", on gate SR-1,
+  `docs/explorations/sjsu-g2-gates.md`.)* The frozen data definition is the published 7,941-coefficient
+  rotation-invariant complex form, with z = (ξ − iη)/√2, and H defined as the real part of Σ c·zᵃz̄ᵇ. The 38,466-term
+  real form is not rotation-invariant as exact rationals: its coefficients were rounded independently, so the charged
+  part is about 2·10⁻³⁴. Phase 2 (Lean) is launched. The statement's eccentricity intervals and the radius of Q go to the
+  owner with the exact text.
+  - **2026-11-06 ruling (a):** the statement keeps two-sided eccentricity intervals [0.026, 0.062], [0.009, 0.085] and [0.006, 0.063], with the lower bounds proved by a φ-resolved grid enclosure (about 1 CPU-h). *(Scott: "(a)".)*
+- **D76 (2026-11-06, 16:05 UTC) The exact text of the T2-CONF statement is approved.** *(Scott: "approved".)*
+  - **Approved text:** draft v2 of `docs/explorations/sjsu-g2-t2conf-proposal.md` (inp-sjsu-g2 at 793d59797), audited by
+    STMT-AUDIT-1, PASS WITH NOTES:
+    - `sjsu_secular_confinement`, with Q a sup ball of radius 10⁻⁶ about z\*, T = 5·10⁹ yr, and two-sided eccentricity
+      intervals [0.026, 0.062], [0.009, 0.085] and [0.006, 0.063];
+    - the frozen data `sjsu18O2` (Re Σ c zᵃz̄ᵇ over 7,941 terms in 6 hash-pinned parts).
+  - **Next:** prove it as an ordinary theorem, then freeze and seal it in one pass, byte-identical to the approved text.
+
+- **D77 (2026-11-08, 10:35 UTC) Native-checked certificates are a separate, quarantined tier.** *(Scott: "approve D77, let's
+  keep it on his repo for now, that's fine".)*
+  - **Rule:** a result whose proof uses `native_decide` (or `Lean.ofReduceBool`/`ofReduceNat`) may live in this
+    repository only in an opt-in library labelled as native-checked. No core module and no sealed proof may import it,
+    the source lint's ban on these constructs stays in force everywhere else, and such a result is never frozen, sealed
+    or counted among the sealed theorems. Its trust base is the kernel plus the Lean compiler, the C compiler and the
+    runtime's big-number arithmetic.
+  - **Now:** the native-checked SJSU certificate (branch `codex/sjsu-native-certificate-20261107` of
+    `lemma-farm/KAM-dev`) stays in that repository for now. The README describes it as an experimental route; nothing
+    of it is merged.
+  - **When it lands later:** the representation-independent `numerical_certificate` interface and its soundness proof
+    (standard axioms) may go into core; the native proof goes into its own opt-in library; the runtime speedups are
+    added alongside the existing engine instead of rewriting the modules the sealed SJSU proof depends on; commits
+    credit the author with a `Co-authored-by:` line.

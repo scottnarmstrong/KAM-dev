@@ -302,6 +302,14 @@ def mutations() -> list[tuple[str, str, str, bool, object]]:
     add("k24", "module imports an application root", "application root",
         lambda t: t.edit(PLAIN, "public import KAM.Canonical.Setting",
                          "public import KAM.Canonical.Setting\nimport KAMLunarBand"))
+    # Seal audit HH-1 N1 (2026-11-03): a frozen anchor file committed before its manifest entry, with the roots
+    # regenerated (state of inp-b3cert@400a4223b). Only the frozen-file ownership check can see it.
+    add("a13", "frozen file with no manifest owner (anchor committed before its manifest entry, roots regenerated)",
+        "FROZEN-ANCHOR",
+        lambda t: (t.write("KAM/Frozen/Defs/ActionNbhdMutA13.lean",
+                           t.read(FROZEN_DEF).replace("def actionNbhd ", "def actionNbhdMutA13 ")),
+                   t.edit("KAM/Root/Frozen.lean", "public import KAM.Frozen.Defs.ActionNbhd\n",
+                          "public import KAM.Frozen.Defs.ActionNbhd\npublic import KAM.Frozen.Defs.ActionNbhdMutA13\n")))
     return M
 
 

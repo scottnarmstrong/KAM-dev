@@ -75,7 +75,7 @@ def graph_resolved(graph, parts):
 
 # Lean directories whose landings a track's proof graph must record (2026-11-01: track W's meter sat at 65 % for
 # hours because W5, W6 and W7 landed without a LEAN_STATUS sync; the owner asked that this never recur).
-GRAPH_DIRS = {'W': ['KAM/Wave'], 'LP': ['KAM/Planetary/StrongAMD', 'KAM/Planetary/Spatial']}
+GRAPH_DIRS = {'W': ['KAM/Wave'], 'LP': ['KAM/Planetary/StrongAMD', 'KAM/Planetary/Spatial'], 'B': ['KAM/EffectiveStability']}
 GRAPH_SYNC_GRACE_MIN = 60
 
 
@@ -231,7 +231,9 @@ STATEMENT_TRACKS = [('kam', 'Track K: positive-measure KAM'),
                     ('russmann', "Track R: Rüssmann's KAM theorem (weak non-degeneracy)"),
                     ('wave', 'Track W: PDE KAM (cubic wave equation)'),
                     ('lp', 'Track LP: strong-AMD exponential safety (the Laskar–Petit conjecture)'),
-                    ('spinorbit', "Track SO: the Moon's spin rate and synchronous lock (certified tori)")]
+                    ('spinorbit', "Track SO: the Moon's spin rate and synchronous lock (certified tori)"),
+                    ('effectiveStability', 'Track B: finite-time effective stability (and SJSU gate 2)'),
+                    ('magnetic', 'Magnetic field-line barrier (proof open)')]
 
 
 def frozen_doc(path, short):
@@ -762,18 +764,31 @@ TRACKS = [
                         '(N = 65; proved 2026-10-31)'),
     ('SO-3', 'so-lock', 'Track SO, part 3: the Moon locked in synchronous rotation forever (one librational torus '
                         'around a certified synchronous orbit; D42, D45)'),
+    ('B', 'effectiveStability', 'Finite-time effective stability: confinement from a normal form and a remainder '
+                                'bound; the Hénon–Heiles system confined (D72, D73)'),
+    ('SJSU', 'sjsu', 'SJSU gate 2: the secular Sun–Jupiter–Saturn–Uranus model keeps its eccentricities in fixed bands '
+                     'for 5·10⁹ years (D74–D76)'),
+    ('Magnetic', 'magnetic', 'A real-analytic invariant surface that no field line of a model magnetic field crosses '
+                             '(D68)'),
     ('LG00', 'lg00', 'Side project: a kernel-checked KAM torus of Locatelli–Giorgilli\'s secular Sun–Jupiter–Saturn '
                      'model (first formally verified torus of a planetary model; v2 certifier)'),
+    ('HD11964', 'hd11964', 'Side project: no orbit crossing for a fixed time T (first rung 10³ years) in the planar '
+                           'Newtonian model of the HD 11964 planetary system (star and two planets, catalogue data), '
+                           'by certified drift of the semi-major-axis actions and the LP0 barrier'),
 ]
 # Tracks without a source-level dependency graph: track R is proved through track P's quantitative theorem; track SO
-# and LG00 are certificate campaigns.
-NO_GRAPH = {'R', 'SO-1', 'SO-2', 'SO-3', 'LG00'}
+# and the side projects LG00 and HD11964 are certificate campaigns.
+NO_GRAPH = {'R', 'SO-1', 'SO-2', 'SO-3', 'LG00', 'HD11964', 'SJSU', 'Magnetic'}
 
 
 def track_anchors(prefix):
     """Frozen theorems of a track: by manifest id prefix; track SO's parts 2 and 3 split its `spinorbit.*` ids."""
     if prefix in ('so-band', 'so-lock'):
         return so_anchors(prefix == 'so-lock')
+    if prefix == 'sjsu':
+        return sub_anchors('SJSU')
+    if prefix in ('lp', 'planetary'):
+        return sub_anchors('LP' if prefix == 'lp' else 'P')
     return [a for a in manifest['anchors'] if a['kind'] == 'theorem' and a['id'].split('.')[0] == prefix]
 
 
@@ -786,8 +801,11 @@ def section_tracks():
         gtxt = (f'{g[0]} / {g[1]} nodes resolved' if g and g[1] else '—' if t in NO_GRAPH else 'not on `main` yet')
         ftxt = (f'{sealed} / {len(thm)}' if thm else '— (ordinary theorems)' if prefix is None else
                 'none frozen yet (freeze approved, D49)' if prefix.startswith('so-') else '0 / 0')
-        stage = campaign.get('tracks', {}).get(t, '') if t != 'LG00' else lg00_stage_text()
-        out.append(f'| **{t}** | {head} | {ftxt} | {gtxt} | {stage} |')
+        stage = (lg00_stage_text() if t == 'LG00' else hd_stage_text() if t == 'HD11964' else
+                 campaign.get('tracks', {}).get(t, ''))
+        key = {'LG00': 'LG00', 'HD11964': 'HD11964'}.get(t, t)
+        name = f'[{t}](docs/results/{key}.md)' if (root / f'docs/results/{key}.md').exists() else t
+        out.append(f'| **{name}** | {head} | {ftxt} | {gtxt} | {stage} |')
     return '\n'.join(out)
 
 
@@ -840,6 +858,9 @@ def completion(rows):
     lg_pct, lg_w = lg00_progress()
     if lg_w:
         groups[LG00_GROUP] = [float(lg_w), lg_w * lg_pct / 100, len(LG00['stages'])]
+    hd_pct, hd_w = hd_progress()
+    if hd_w:
+        groups[HD_GROUP] = [float(hd_w), hd_w * hd_pct / 100, len(HD['stages'])]
     w_pct, _ = w_progress()
     groups[W_GROUP] = [64.0, 64.0 * w_pct / 100, 5]
     lp_pct, _ = lp_progress()
@@ -871,6 +892,31 @@ def lg00_stage_text():
     if cur:
         txt += f'; now: {cur["name"]} ({100 * cur["done"]:.0f} %)'
     return txt
+
+
+HD_GROUP = 'Side project HD 11964: certified no-crossing time for a real exoplanet system'
+_hd_file = root / 'docs/campaign/side/hd11964-status.json'
+HD = json.loads(_hd_file.read_text()) if _hd_file.exists() else {'stages': []}
+
+
+def hd_progress():
+    """Side project HD 11964 (docs/campaign/side/hd11964-status.json): percent done, weighted by stage effort."""
+    w = sum(s['weight'] for s in HD['stages'])
+    return (100 * sum(s['weight'] * s['done'] for s in HD['stages']) / w if w else 0.0), w
+
+
+def hd_stage_text():
+    st = HD['stages']
+    if not st:
+        return ''
+    done = [s['name'] for s in st if s['done'] >= 1]
+    cur = next((s for s in st if s['done'] < 1), None)
+    txt = f'{hd_progress()[0]:.0f} %: done: ' + ('; '.join(done) or 'none')
+    if cur:
+        txt += f'; now: {cur["name"]} ({100 * cur["done"]:.0f} %)'
+    return txt
+
+
 W_GROUP = 'Track W: PDE KAM for the cubic wave equation (D30, D41)'
 W_MILESTONES = ['W0', 'W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8']
 
@@ -965,6 +1011,51 @@ def lp_glance():
             *([f'- **Now:** {campaign["lp"]["now"]}'] if campaign.get('lp', {}).get('now') else [])]
 
 
+# Program T2-CONF (D74/D75): SJSU gate 2 certified in Lean, finite-time confinement of the secular SJSU18-O2 model
+# for 5·10⁹ yr. Stages weighted by effort, each read from the repository (plan docs/explorations/sjs-rigor-plan.md).
+G2_DIR = root / 'KAM' / 'EffectiveStability' / 'SJSU'
+
+
+G2_TUBE = root / 'KAM' / 'EffectiveStability' / 'Tube'
+
+
+def _g2_has(*names):
+    """1.0 when a G2 Lean package directory (under EffectiveStability/Tube or /SJSU) is on `main` with a module."""
+    return 1.0 * any((d / n).is_dir() and any((d / n).rglob('*.lean')) for d in (G2_TUBE, G2_DIR) for n in names)
+
+
+def _g2_anchors():
+    return [a for a in manifest['anchors'] if 'SJSU' in a.get('path', '') or 'sjsu' in a.get('id', '').lower()]
+
+
+def _g2_thm(name):
+    """1.0 when a `theorem <name>` declaration is on `main` under KAM/EffectiveStability."""
+    pat = re.compile(r'^\s*(?:private\s+)?theorem\s+' + re.escape(name) + r'\b', re.M)
+    return 1.0 * any(pat.search(f.read_text(errors='ignore')) for f in (root / 'KAM' / 'EffectiveStability').rglob('*.lean'))
+
+
+G2_STAGES = [
+    ('scoping plan', 3, lambda: 1.0 * (root / 'docs/explorations/sjs-rigor-plan.md').exists()),
+    ('numerical gates SR-1..7', 5, lambda: 1.0 * (root / 'docs/explorations/sjsu-g2-gates.md').exists()),
+    ('statement approved and frozen', 5, lambda: 1.0 * bool(_g2_anchors())),
+    ('N2 symplectic charts', 15, lambda: _g2_has('Chart', 'Charts')),
+    ('N3 trig models and packed products', 20, lambda: _g2_has('Trig', 'Packed')),
+    ('N4 witnesses', 8, lambda: _g2_has('Witness')),
+    ('N5a Hamiltonian models', 8, lambda: _g2_has('Ham')),
+    ('N5 tube checker soundness', 17, lambda: 0.5 * _g2_thm('tubeChart_confinement') + 0.5 * max(_g2_thm('checkTube_sound'), _g2_thm('sjsu_secular_confinement_proof'))),
+    ('N6 eccentricity enclosure', 7, lambda: _g2_has('Ecc')),
+    ('N7 production checker, data, kernel run', 10, lambda: 0.2 * ('KAMSJSU' in (root / 'scripts/build_roots.json').read_text())
+     + 0.8 * _g2_thm('sjsu_secular_confinement_proof')),
+    ('sealed', 5, lambda: 1.0 * bool(_g2_anchors() and all(a['state'] == 'SEALED' for a in _g2_anchors()))),
+]
+
+
+def g2_progress():
+    """Program T2-CONF (D74), read from the repository: (percent by stage weight, [(stage, fraction done)])."""
+    done = [(name, w, test()) for name, w, test in G2_STAGES]
+    return 100 * sum(w * f for _, w, f in done) / sum(w for _, w, _ in G2_STAGES), [(n, f) for n, _, f in done]
+
+
 # Stages of track SO part 3, weighted by effort (owner/orchestrator, 2026-10-31; they had counted equally): each
 # test reads the repository. The sealed test also accepts the planned anchor `lunar_sync_lock` (LOCK-FREEZE names its
 # anchors spinorbit.*, which `so.lunar_lock` alone never matched).
@@ -1006,7 +1097,7 @@ def completion_split(rows):
     figure, which read 96.0 % then)."""
     pct, groups, total, done = completion(rows)
     parts = [groups.get(g, [0.0, 0.0, 0]) for g in SO_GROUPS]
-    extra = [groups.get(g, [0.0, 0.0, 0]) for g in (LOCK_GROUP, W_GROUP, LP_GROUP, LG00_GROUP)]
+    extra = [groups.get(g, [0.0, 0.0, 0]) for g in (LOCK_GROUP, W_GROUP, LP_GROUP, LG00_GROUP, HD_GROUP)]
     orig = 100 * (done - sum(p[1] for p in parts + extra)) / (total - sum(p[0] for p in parts + extra))
     so1, so2 = (100 * p[1] / p[0] if p[0] else 0.0 for p in parts)
     return orig, so1, so2, pct
@@ -1217,62 +1308,140 @@ def bar(pct, n=25):
     return '█' * k + '░' * (n - k)
 
 
+# Subprojects shown in the README's progress table: (key, group, short name, one-line result). Every key has a
+# plain-language explanation of exactly what is proved in docs/results/<key>.md.
+SUBPROJECTS = [
+    ('K', 'kam', 'Track K', 'Positive-measure KAM for nearly-integrable analytic Hamiltonians, complement ≤ C·ε^{1/4}'),
+    ('I', 'kam', 'Track I', 'Isoenergetic KAM; all-time confinement in two degrees of freedom; restricted '
+                            'circular planar three-body problem'),
+    ('N', 'kam', 'Track N', 'Nekhoroshev stability for quasi-convex Hamiltonians, exponents 1/(2n)'),
+    ('P', 'kam', 'Track P', 'Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun; '
+                            'AMD and secular-box safety'),
+    ('R', 'ext', 'Track R', "Rüssmann's KAM theorem under weak non-degeneracy"),
+    ('W', 'ext', 'Track W', 'PDE KAM: quasi-periodic solutions of the cubic wave equation (Pöschel 1996)'),
+    ('LP', 'ext', 'Track LP', 'Below the sharp Laskar–Petit AMD threshold the (1+n)-body problem has no orbit '
+                              'crossing for an exponentially long time, whatever its secular dynamics'),
+    ('B', 'ext', 'Track B', 'Finite-time effective stability from a normal form; the Hénon–Heiles system confined'),
+    ('SO-1', 'moon', 'SO part 1', 'A general Lean checker that turns numerical KAM tori into theorems'),
+    ('SO-2', 'moon', 'SO part 2', "The Moon's spin rate stays within 2.755 % of its orbital rate for all time"),
+    ('SO-3', 'moon', 'SO part 3', 'The Moon is locked in synchronous rotation forever'),
+    ('SJSU', 'planets', 'SJSU gate 2', 'The secular Sun–Jupiter–Saturn–Uranus model keeps its eccentricities in '
+                                       'fixed bands for 5·10⁹ years'),
+    ('LG00', 'planets', 'LG00 (side)', 'A kernel-checked KAM torus of a secular Sun–Jupiter–Saturn model'),
+    ('HD11964', 'planets', 'HD 11964 (side)', 'No orbit crossing for a fixed time in the HD 11964 exoplanet system'),
+    ('Magnetic', 'open', 'Magnetic barrier', 'An invariant surface that no field line of a model magnetic field '
+                                             'crosses'),
+]
+SUB_GROUPS = {'kam': 'KAM theory: the original project', 'ext': 'Extensions of the theory',
+              'moon': 'Certified numerics: the Moon', 'planets': 'Certified numerics: planetary systems',
+              'open': 'Frozen, proof open'}
+SUB_PREFIX = {'K': 'kam', 'I': 'iso', 'N': 'nekhoroshev', 'R': 'russmann', 'W': 'wave', 'B': 'effectiveStability',
+              'Magnetic': 'magnetic'}
+
+
+def sub_anchors(key):
+    """Frozen theorems of a subproject (track LP's are the `planetary.d59.*` ids)."""
+    thm = [a for a in manifest['anchors'] if a['kind'] == 'theorem']
+    if key in SUB_PREFIX:
+        return [a for a in thm if a['id'].split('.')[0] == SUB_PREFIX[key]]
+    if key == 'P':
+        return [a for a in thm if a['id'].startswith('planetary.') and '.d59.' not in a['id']]
+    if key == 'LP':
+        return [a for a in thm if '.d59.' in a['id']]
+    if key in ('SO-2', 'SO-3'):
+        return so_anchors(key == 'SO-3')
+    if key == 'SJSU':
+        return [a for a in _g2_anchors() if a.get('kind') == 'theorem']
+    return []
+
+
+def sub_progress(key, rows):
+    """Percent complete of a subproject, or None when it has no meter."""
+    _, so1, so2, _ = completion_split(rows)
+    meters = {'W': lambda: w_progress()[0], 'LP': lambda: lp_progress()[0], 'SO-1': lambda: so1,
+              'SO-2': lambda: so2, 'SO-3': lambda: lock_progress()[0], 'SJSU': lambda: g2_progress()[0],
+              'LG00': lambda: lg00_progress()[0], 'HD11964': lambda: hd_progress()[0]}
+    if key in meters:
+        return meters[key]()
+    if key == 'Magnetic':
+        return None
+    thm = sub_anchors(key)
+    return 100 * sum(a['state'] == 'SEALED' for a in thm) / len(thm) if thm else None
+
+
+def sub_frozen(key):
+    thm = sub_anchors(key)
+    if thm:
+        return f'{sum(a["state"] == "SEALED" for a in thm)} / {len(thm)} sealed'
+    return {'SO-1': 'ordinary theorems', 'SJSU': 'proved; freeze approved (D76), in progress',
+            'LG00': 'side project, not frozen', 'HD11964': 'side project, not frozen'}.get(key, '—')
+
+
+def sub_link(key):
+    f = f'docs/results/{key}.md'
+    return f'[what is proved]({f})' if (root / f).exists() else '*being written*'
+
+
 def section_updated(rows, est):
-    orig, so1, so2, pct = completion_split(rows)
     sealed = sum(1 for r in rows if r[4] == 'sealed')
     total = loc(LIB)[0]
     gen = lean_stats(LIB, generated=True)[1]
+    open_ = [(n, sub_progress(k, rows)) for k, _, n, _ in SUBPROJECTS]
+    open_ = [f'{n} {p:.0f} %' if p is not None else f'{n} (proof open)' for n, p in open_ if p is None or p < 99.95]
     return (f'> **Last updated: {NOW}** (automatic: every 20 minutes and after every commit) · '
-            f'**estimated completion: original project {orig:.1f} % · SO checker {so1:.0f} % · SO Moon {so2:.0f} % · '
-            f'Moon locked {lock_progress()[0]:.0f} % · track W {w_progress()[0]:.0f} % · track LP {lp_progress()[0]:.0f} %** · '
-            f'frozen statements proved: {sealed} / {len(rows)} · '
-            f'**{total:,} lines of hand-written Lean** of an estimated ≈ {round(est, -3):,.0f}' +
-            (f' (plus {gen:,} lines of generated certificate data, not counted)' if gen else ''))
+            f'**frozen statements proved: {sealed} / {len(rows)}** · '
+            f'**{total:,} lines of hand-written Lean**' +
+            (f' (plus {gen:,} lines of generated certificate data)' if gen else '') + ' · '
+            f'**in progress:** {", ".join(open_) or "nothing"}; every other subproject is complete. '
+            'Details: [progress by subproject](#progress-by-subproject).')
 
 
 def section_progress(rows):
     pct, groups, total, done = completion(rows)
     orig, so1, so2, _ = completion_split(rows)
-    out = [f'### Estimated completion: original project **{orig:.1f} %** · SO checker **{so1:.0f} %** · '
-           f'SO Moon **{so2:.0f} %** · Moon locked **{lock_progress()[0]:.0f} %** · track W **{w_progress()[0]:.0f} %** · '
-           f'track LP **{lp_progress()[0]:.0f} %** · '
-           f'LG00 **{lg00_progress()[0]:.0f} %**', '',
-           f'Original project (tracks K, I, N, P): `{bar(orig)}` {orig:.1f} %', '',
-           f'Track SO, part 1, the general Lean certificate checker: `{bar(so1)}` {so1:.1f} %', '',
-           f"Track SO, part 2, the Moon's spin rate (its first client): `{bar(so2)}` {so2:.1f} %", '',
-           f'Track SO, part 3, the Moon locked in synchronous rotation forever (D42): `{bar(lock_progress()[0])}` '
-           f'{lock_progress()[0]:.0f} % (stages, weighted by effort: ' +
-           ', '.join(f'{n} {w}' for n, w, _ in LOCK_STAGES) + '; each read from the repository)', '',
-           f'Track W, PDE KAM for the cubic wave equation: `{bar(w_progress()[0])}` {w_progress()[0]:.1f} % '
-           '(statements frozen 1, blueprint milestones 3, graph published 1, graph nodes resolved 10, seal 0.5; '
-           'all read from the repository)', '',
-           f'Track LP, strong-AMD exponential safety (the Laskar–Petit conjecture, D56): `{bar(lp_progress()[0])}` '
-           f'{lp_progress()[0]:.1f} % (stages, weighted by effort: ' + ', '.join(f'{n} {w}' for n, w, _ in LP_STAGES) +
-           '; packages from [`docs/tracks/LP/packages.json`](docs/tracks/LP/packages.json), landed when their modules '
-           'are on `main`; each read from the repository)', '',
-           f'Side project LG00, a certified torus of the secular Sun–Jupiter–Saturn model: `{bar(lg00_progress()[0])}` '
-           f'{lg00_progress()[0]:.0f} % (stages, weighted by effort: ' + ', '.join(s['name'] for s in LG00['stages']) + '; '
-           'from [`docs/campaign/side/lg00-status.json`](docs/campaign/side/lg00-status.json), the side orchestrator\'s '
-           f'assessment, last reviewed {LG00.get("reviewed", "")})', '',
-           f'Overall, everything together: {pct:.1f} %', '',
-           '| Part of the project | Items | Weight | Done | Completion |', '|---|---|---|---|---|']
+    out = ['### Progress by subproject', '',
+           f'Everything together: **{pct:.1f} %** · the original project (tracks K, I, N, P, with its infrastructure '
+           f'and planning items): **{orig:.1f} %**. Each subproject links to a plain-language account of exactly what '
+           'is proved (index: [`docs/results/`](docs/results/README.md)).', '',
+           '| Subproject | Result | Frozen theorems | Progress | Explanation |', '|---|---|---|---|---|']
+    last = None
+    for key, grp, name, head in SUBPROJECTS:
+        if grp != last:
+            out.append(f'| **{SUB_GROUPS[grp]}** | | | | |')
+            last = grp
+        p = sub_progress(key, rows)
+        meter = f'`{bar(p, 10)}` {p:.0f} %' if p is not None else '—'
+        out.append(f'| {name} | {head} | {sub_frozen(key)} | {meter} | {sub_link(key)} |')
+    out += ['', '<details><summary>How each meter is computed</summary>', '',
+            '- **Tracks K, I, N, P, R, B and the magnetic barrier:** the share of their frozen theorems that are sealed.',
+            '- **SO part 1 and part 2:** their work items below (design line estimates of the landed packages).',
+            '- **SO part 3** (stages weighted by effort, each read from the repository): ' +
+            ', '.join(f'{n} {w}' for n, w, _ in LOCK_STAGES) + '.',
+            '- **Track W:** statements frozen 1, blueprint milestones 3, graph published 1, graph nodes resolved 10, '
+            'seal 0.5.',
+            '- **Track LP:** ' + ', '.join(f'{n} {w}' for n, w, _ in LP_STAGES) + '; packages from '
+            '[`docs/tracks/LP/packages.json`](docs/tracks/LP/packages.json), landed when their modules are on `main`.',
+            '- **SJSU gate 2** (program T2-CONF, D74): ' + ', '.join(f'{n} {w}' for n, w, _ in G2_STAGES) + '.',
+            '- **LG00:** ' + ', '.join(s['name'] for s in LG00['stages']) + '; the side orchestrator\'s assessment in '
+            '[`docs/campaign/side/lg00-status.json`](docs/campaign/side/lg00-status.json), last reviewed '
+            f'{LG00.get("reviewed", "")}.',
+            '- **HD 11964:** ' + ', '.join(s['name'] for s in HD['stages']) + '; the side orchestrator\'s assessment in '
+            '[`docs/campaign/side/hd11964-status.json`](docs/campaign/side/hd11964-status.json), last reviewed '
+            f'{HD.get("reviewed", "")}.', '',
+            '**Everything together** weighs every part of the project by effort:', '',
+            '| Part of the project | Items | Weight | Done | Completion |', '|---|---|---|---|---|']
     for name, (wt, dn, n) in groups.items():
         out.append(f'| {name} | {n} | {wt:.0f} | {dn:.1f} | `{bar(100 * dn / wt, 10)}` {100 * dn / wt:.0f} % |')
     out.append(f'| **Total** | {sum(g[2] for g in groups.values())} | {total:.0f} | {done:.1f} | **{pct:.1f} %** |')
-    out += ['', f'**How this is estimated.** The project is divided into {len(progress["items"])} work items: planning '
-            'deliverables, campaign infrastructure, the four layers of track K\'s proof, the proof campaigns of '
-            'tracks I, N and P, and parts 1 and 2 of track SO (their items count the design\'s line estimates of the '
-            'packages landed so far; [`docs/campaign/progress-SO.json`](docs/campaign/progress-SO.json)). Each item is '
-            'weighted by its difficulty (low 1, moderate 2, high 4, very high 8) and '
-            'counts with the fraction of it that is done; each sealed frozen theorem adds 1. Items marked *graph* '
-            'take that fraction from their proof graph (nodes `PROVED`, `BYPASSED`, `EXTERNAL` or owner-accepted `ASSUMED` in '
-            '[`docs/graph/`](docs/graph)), so they update themselves at every refresh, and count as complete once '
-            'every frozen theorem of their track is sealed; the other items are the '
-            f'orchestrators\' assessment, last reviewed **{progress["reviewed"]}**. Files: '
-            '[`docs/campaign/progress.json`](docs/campaign/progress.json) (track K and infrastructure) and '
-            '[`docs/campaign/progress-INP.json`](docs/campaign/progress-INP.json) (tracks I, N, P). The rows of track '
-            'SO part 3, track W and the side project LG00 are not work items: they take their fraction from the meters '
-            'above, with weights 16, 64 and the LG00 stage weights.',
+    out += ['', f'The original project is divided into {len(progress["items"])} work items: planning deliverables, '
+            'campaign infrastructure, the four layers of track K\'s proof, the proof campaigns of tracks I, N and P, '
+            'and parts 1 and 2 of track SO ([`docs/campaign/progress-SO.json`](docs/campaign/progress-SO.json)). Each '
+            'item is weighted by its difficulty (low 1, moderate 2, high 4, very high 8) and counts with the fraction '
+            'of it that is done; each sealed frozen theorem adds 1. Items marked *graph* take that fraction from their '
+            'proof graph ([`docs/graph/`](docs/graph)); the other items are the orchestrators\' assessment, last '
+            f'reviewed **{progress["reviewed"]}**. Files: [`docs/campaign/progress.json`](docs/campaign/progress.json) '
+            'and [`docs/campaign/progress-INP.json`](docs/campaign/progress-INP.json). The rows of SO part 3, track W, '
+            'track LP and the side projects take their fraction from the meters above.',
             '', '<details><summary>All work items with their weight and status</summary>', '',
             '| ID | Item | Difficulty | Done | Note |', '|---|---|---|---|---|']
     for it in progress['items']:
@@ -1280,7 +1449,7 @@ def section_progress(rows):
         out.append(f'| {it["id"]} | {it["title"].replace("|", "∣")} | {it["difficulty"]} | '
                    f'{mark} {100 * it["done"]:.0f} % | {"*graph " + it["auto"]["graph"] + "* · " if "auto" in it else ""}'
                    f'{it.get("note", "")} |')
-    out += ['', '</details>']
+    out += ['', '</details>', '', '</details>']
     return '\n'.join(out)
 
 

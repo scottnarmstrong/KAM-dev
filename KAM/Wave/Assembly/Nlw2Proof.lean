@@ -21,8 +21,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W8: the proof of W-NLW2 (blueprint `bpW:w8:nlw2-proof`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w8:nlw2-proof` (milestone W8, the root).
+Blueprint label `bpW:w8:nlw2-proof` (milestone W8, the root).
 
 **`KAM.Wave.nlw2_proof`** proves the frozen statement of `KAM.Wave.nlw2`
 (`KAM/Frozen/Wave/Theorems/Nlw2.lean`, Theorem `bpW:wh:nlw2`) verbatim, under a distinct name;

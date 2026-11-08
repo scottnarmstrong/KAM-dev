@@ -13,9 +13,6 @@ public import KAM.Wave.Normal.Analysis.SineSeries
 /-!
 # Classical solutions give the coefficient system (blueprint `bpW:w0n:pde-equiv`, part (ii))
 
-Infrastructure used by several nodes; this is off the frontier: the dependency graph is still
-being built.
-
 * `KAM.Wave.waveParam_hasDerivAt`: differentiation (and continuity) of `t ↦ ∫₀^π F(t,x) dx` under
   the integral sign, for `F` jointly continuous on `I × [0,π]` with continuous `∂_t F`;
 * `KAM.Wave.wave_pde_to_coeff` (blueprint `bpW:w0n:pde-equiv`, (ii), `stepW:w0n:converse`): if

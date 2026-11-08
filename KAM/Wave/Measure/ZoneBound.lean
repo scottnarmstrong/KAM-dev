@@ -10,9 +10,6 @@ public import KAM.Wave.Measure.Pair
 /-!
 # W7: the zone estimate (blueprint `bpW:w7:zone`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 `IsFreqPair.zone_measure_le`: for `k ≠ 0` and `ψ` with Lipschitz constant `|k|/8` in the frequency
 coordinate, `{ξ ∈ D : |⟨k, ω'(ξ)⟩ + ψ(ξ)| < η}` is Borel of measure `≤ 8 η ρ_ζ / (|k| D_A)`.
 -/
@@ -112,7 +109,6 @@ theorem IsFreqPair.zone_diff_bounds (hP : IsFreqPair m hm Pi α D ω Ω εω ε1
     rw [abs_neg, sub_neg_eq_add] at hAB
     rw [← hdi', hdecomp, hsum, add_assoc]
     nlinarith
-
 
 /-- Abstract slicing estimate in the frequency coordinate: if `F` is continuous on the Borel set
 `D` and grows at least like `σ |Δζ_i|` along the coordinate lines `e_i` of `ζ = ω⁰(ξ)`, then

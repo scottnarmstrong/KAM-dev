@@ -1,0 +1,34 @@
+{
+ "1": {
+  "setup_mul": 11,
+  "setup_pairs": 705,
+  "total_mul": 29,
+  "total_pairs": 1003,
+  "D": 2,
+  "M": 28
+ },
+ "2": {
+  "setup_mul": 14,
+  "setup_pairs": 4618,
+  "total_mul": 98,
+  "total_pairs": 10446,
+  "D": 3,
+  "M": 84
+ },
+ "3": {
+  "setup_mul": 17,
+  "setup_pairs": 23728,
+  "total_mul": 223,
+  "total_pairs": 71834,
+  "D": 4,
+  "M": 210
+ },
+ "4": {
+  "setup_mul": 20,
+  "setup_pairs": 99076,
+  "total_mul": 444,
+  "total_pairs": 378322,
+  "D": 5,
+  "M": 462
+ }
+}

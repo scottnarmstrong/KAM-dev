@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The `λ`-bound of the field of `P_+` (blueprint-W `bpW:w5:step` (ii))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepPlus_pair_lamBound`: for two parameter values `ξ, ζ` (data indexed by `1, 2`, `d = |ξ - ζ|`)
 of a
 family with `|X_P| ≤ ε₀`, `|X_{P_1} - X_{P_2}| ≤ ε₁ d` on `D(s,r)`, `|X_F| ≤ M₀`, `|X_{F_1} -
@@ -33,7 +31,6 @@ namespace KAM.Wave
 open KAM
 
 variable {a p pb s r σ η : ℝ} [Fact (0 < r)]
-
 
 /-- The sup constant of `X_+`. -/
 def stepSplus (ε₀ M₀ η σ : ℝ) : ℝ :=
@@ -53,7 +50,6 @@ theorem stepSplus_stepDplus_le {ε₀ ε₁ ε lam M₀ M₁ MF : ℝ} (hσ : 0 
     stepSplus ε₀ M₀ η σ + lam * stepDplus ε₀ ε₁ M₀ M₁ η σ ≤
       896 * η * ε + 168 * ε * MF / (σ * η ^ 2) :=
   stepXplus_arith hσ hη hε₀ hε₁ hlam hM₀ hM₁ hε hM hs
-
 
 theorem stepPlus_pair_lamBound (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hs : 0 < s) (hσ : 0 < σ)
     (hσ1 : σ ≤ 1) (hσs : 5 * σ < s) (hη0 : 0 < η) (hη : η ≤ 1 / 8)

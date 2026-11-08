@@ -14,9 +14,8 @@ public import KAM.Planetary.Spatial.ChartLift.Uniform
 /-!
 # The spatial chart setting for the stopped lift
 
-Package LP-SP-LIFT, MAIN Lemma 14 for `d = 3` (`LP:MAIN L14 (468–500)`) with Lemma 18
+Source: MAIN Lemma 14 for `d = 3` (`LP:MAIN L14 (468–500)`) with Lemma 18
 (`LP:MAIN L18 (595–597)`); track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 The spatial mirror of track P's `chartSafe`, `liftChartHam`, `liftQ`, `liftPhysicalDeriv`,
 `liftField_periodic`, on `Phase (n + (n + n))` (`n` fast, `2n` slow canonical pairs):

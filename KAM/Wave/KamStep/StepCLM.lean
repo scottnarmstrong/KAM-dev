@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Continuous-linear packaging on `StepPhase r` (blueprint-W `bpW:w5:setting`, `bpW:w5:flow`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 The abstract flow calculus of `KAM/Wave/KamStep/Flow*.lean` is stated for a Banach space `F`, a
 bilinear form `B : F →L F →L ℂ` and an embedding `ι : G →L F`. This file supplies the concrete data
 on `F = G = StepPhase r`: the symplectic form `stepSympCLM` (`bpW:w5:omega`, norm `≤ (4π+1) r²`),

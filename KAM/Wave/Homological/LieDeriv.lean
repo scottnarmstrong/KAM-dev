@@ -15,9 +15,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The guarded derivative of `N` along `X_F` (`bpW:w4:lie` (iv))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 Phase space carrier: `homPhase = ℂ² × ℂ² × HomL2 × HomL2` for `(θ, y, z, \bar z)`, the last two
 factors being the weighted `lp` carrier `ℓ²` of `ℓ^N_{a,p}` (representatives
 `ẑ_j = ω_{a,p}(j+2) z_j`, as in `KAM/Wave/Seq`). Under the guard
@@ -209,7 +206,6 @@ theorem homLemma_lie_iv_gen (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (T : 
   ring
 
 end deriv
-
 
 section guard
 

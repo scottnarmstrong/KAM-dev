@@ -14,7 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The conjugacy identity (blueprint-W `bpW:w5:action-angle` (v), step `a-conj`)
 
-Off-frontier, source-faithful infrastructure (W5-AA); the dependency graph is still being built.
 Blueprint label `bpW:w5:action-angle` (v), step `a-conj`.
 
 * `aaXN ξ w`: the field `X_{N_ξ}(w) = (ω⁰(ξ)/(2π), 0, Ω⁰ v, -Ω⁰ u)` of `N_ξ`, in
@@ -113,7 +112,7 @@ theorem aaGbarR_aaMap (a p : ℝ) (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (ξ : Fin 2 
   rw [tsum_ite_three, ← aaSfun_eq ha (le_trans one_half_pos.le hp), div_eq_mul_inv,
     ← tsum_mul_right]
   refine tsum_congr fun j => ?_
-  rw [birkAction_aaMap_nor, birkActionB, aaCoefC, lamTan_eq_lam]
+  rw [birkAction_aaMap_nor, birkActionB, aaCoefC, lamTan_eq]
   have hl := (lam_pnat_pos hm (j + 2)).ne'
   have hli := (lam_pnat_pos hm (modeIdx i)).ne'
   have hpi := Real.pi_ne_zero
@@ -154,7 +153,7 @@ theorem aaConjugacy {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (ξ : Fin 2 �
     unfold aaOmega0
     have hpi : (2 * Real.pi : ℂ) ≠ 0 := by
       have := Real.pi_pos; exact_mod_cast (by positivity : (0 : ℝ) < 2 * Real.pi).ne'
-    rw [lamTan_eq_lam]
+    rw [lamTan_eq]
     field_simp
     simp only [Fin.sum_univ_two]
     ring
@@ -216,7 +215,7 @@ theorem aaConjugacy {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (ξ : Fin 2 �
     cases b
     · rw [birkCoord_aaDer_nor_false, hcoordp, aaMap_nor_false, hZU, hZV, hκ', hsucc2, hsucc]
       simp only [aaXNcoef, aaCoefE, aaCoefC, aaOmegaN0, birkSgn_false, birkActionB, hbd, aaBdot,
-        Fin.sum_univ_two, lamTan_eq_lam]
+        Fin.sum_univ_two, lamTan_eq]
       push_cast
       field_simp
       ring_nf
@@ -224,7 +223,7 @@ theorem aaConjugacy {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (ξ : Fin 2 �
       ring
     · rw [birkCoord_aaDer_nor_true, hcoordp, aaMap_nor_true, hZU, hZV, hκ', hsucc2, hsucc]
       simp only [aaXNcoef, aaCoefE, aaCoefC, aaOmegaN0, birkSgn_true, birkActionB, hbd, aaBdot,
-        Fin.sum_univ_two, lamTan_eq_lam]
+        Fin.sum_univ_two, lamTan_eq]
       push_cast
       field_simp
       ring_nf

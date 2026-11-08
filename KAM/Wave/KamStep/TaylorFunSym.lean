@@ -12,8 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Symmetry of the weighted pairing (blueprint-W `bpW:w5:solve`, step `s-class`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepPair_swap`: if the weighted matrices satisfy `A_ij = A'_ji` then
 `⟨A x, y⟩ = ⟨A' y, x⟩` for the weighted pairing `stepPr` (used for `D²F` symmetry of the field of a
 Taylor polynomial: `P`, `P'` symmetric and `Q^T` the transpose of `Q`).

@@ -12,8 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The phase space as a Banach space (blueprint-W `bpW:w5:setting`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `StepPhase r` is the carrier `KamPhase = ℂ² × ℂ² × ℓ² × ℓ²` (weighted coordinates of
 `bpW:w1:kam-space`) equipped with the norm `|W|_{q,r}` (`kamNorm r`): a complex Banach space for
 `r > 0`, in which the flow lemma of W1 (`KAM/Wave/Analytic/Flow`) is applied
@@ -93,7 +91,6 @@ instance stepPhaseNormedSpace (r : ℝ) [Fact (0 < r)] : NormedSpace ℂ (StepPh
   norm_smul_le c W := by
     rw [stepPhase_norm_eq, stepPhase_norm_eq]
     exact (kamNorm_smul c _).le
-
 
 theorem norm_kamPhase_le_kamNorm {r : ℝ} (hr : 0 < r) (W : KamPhase) :
     ‖W‖ ≤ max 1 (max (r ^ 2) r) * kamNorm r W := by

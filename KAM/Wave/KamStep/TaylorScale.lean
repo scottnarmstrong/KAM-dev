@@ -12,8 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The scalings `S_t`, `T_t` (`bpW:w5:taylor`, steps `t-scale`, `t-disc`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `S_t(θ,y,u,v) = (θ, t²y, tu, tv)` and `T_t(Θ,Y,U,V) = (t²Θ, Y, tU, tV)` on `KamPhase` (`t ∈ ℂ`).
 `scaleS_mem`: if `w ∈ D(s, r')` and `|t| r' < r` then `S_t w ∈ D(s, r)` (the disc of radius
 `ρ = r/r'` of step `t-disc`), and `kamNorm_scaleT_le`: `|T_t X|_{r'} ≤ ρ² |X|_r` for `|t| ≤ ρ`.

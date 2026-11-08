@@ -12,8 +12,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # W8: closeness and size on one shell (blueprint `bpW:w8:shell-close`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w8:shell-close` (milestone W8).
+Blueprint label `bpW:w8:shell-close` (milestone W8).
 
 For `ξ ∈ Γ_n` and real `θ`, with `w = Ψ̃^{(n)}_ξ(θ)`, `w⁰ = 𝒜_ξ(θ, 0, 0, 0)`, `x = 𝒵⁻¹w`,
 `x⁰ = 𝒵⁻¹w⁰ = K⁰_ξ(θ)` (W5 `aaMap_linearTorus`):

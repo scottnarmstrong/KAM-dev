@@ -1,0 +1,55 @@
+{
+ "title": "HD 11964: a certified no-orbit-crossing time for a real exoplanet system",
+ "note": "Side campaign (lemma.farm). Planar Newtonian three-body model of HD 11964 (star, planets c and b; Rosenthal et al. 2021 catalogue data, minimum masses, coplanar). Route: certified drift of the semi-major-axis actions from approximate integrals checked against the original Hamiltonian, then exact angular-momentum conservation, the LP lane's first-exit lemma and LP0 give no orbit crossing for |t| <= T. Target rung: T = 10^3 yr. The application package applications/hd11964 is opt-in and never part of KAM-dev's default build. The orchestrator updates this file when a stage completes; weights are the stages' relative effort.",
+ "reviewed": "2026-11-02 09:45 UTC",
+ "stages": [
+  {
+   "name": "data, design and numerical gate",
+   "weight": 1,
+   "done": 1.0,
+   "evidence": "applications/hd11964 (pinned catalogue rows, CC BY 4.0), docs/campaign/design/HD11964-PILOT.md, docs/explorations/hd11964-pilot.md; audited (AUDIT-HD11964-PILOT-1)"
+  },
+  {
+   "name": "Λ-drift bridge and no-crossing theorem for planar systems (Lean)",
+   "weight": 2,
+   "done": 1.0,
+   "evidence": "KAM/Application/LambdaDrift (stoppedDrift_of_approxIntegrals, noCrossing_of_approxIntegrals), HD 11964 margin lemmas; on main (a83c3845), standard axioms; audited"
+  },
+  {
+   "name": "order-2 Lie remainder identity and Poisson calculus (Lean)",
+   "weight": 1,
+   "done": 1.0,
+   "evidence": "the drift rate as five separately bounded terms against the original Hamiltonian; on main (a83c3845), standard axioms; audited"
+  },
+  {
+   "name": "region-fitted cover of the certificate region (numerics and Lean)",
+   "weight": 1,
+   "done": 1.0,
+   "evidence": "50-cell region-fitted cover of R(1/500), numerical margin about 5.9; Lean cover lemma on main (95ed6a15, opt-in package), standard axioms; audited (AUDIT-HD11964-COVER-1); F's rotation invariance proved since (rotInv_FHD, noCrossing_HD_of_cellBounds in applications/hd11964/HD11964/ChiRot.lean, 9a2b6a4eb, 2026-11-02 15:15)"
+  },
+  {
+   "name": "packed Taylor x Fourier kernel layer and one-cell gate",
+   "weight": 2,
+   "done": 1.0,
+   "evidence": "branch hd-layer: layer prototype, one order-2 cell measured in the kernel (about 13.5 CPU-h per cell optimized, estimate); pre-audit review passed"
+  },
+  {
+   "name": "remaining kernel pieces and a two-cell rehearsal",
+   "weight": 3,
+   "done": 0.2,
+   "evidence": "owner decision 2 Nov: build the pieces and rehearse, no full run yet. Lean side: Cauchy bound, the exact generator's certified remainder and the cell-to-region glue proved (audit running); engine side (identity program, Kepler check, ramp, production theorem) in progress"
+  },
+  {
+   "name": "full 10^3-year certificate run",
+   "weight": 4,
+   "done": 0.0,
+   "evidence": "not started; estimated 400-620 CPU-h; owner decision pending"
+  },
+  {
+   "name": "headline theorem and independent audit",
+   "weight": 1,
+   "done": 0.0,
+   "evidence": "not started"
+  }
+ ]
+}

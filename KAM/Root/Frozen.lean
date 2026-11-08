@@ -25,6 +25,8 @@ public import KAM.Frozen.Defs.RealHamiltonian
 public import KAM.Frozen.Defs.SymplecticForm
 public import KAM.Frozen.Defs.Torsion
 public import KAM.Frozen.Defs.TorsionAverage
+public import KAM.Frozen.EffectiveStability.OscillatorConfinement
+public import KAM.Frozen.EffectiveStability.TorusConfinement
 public import KAM.Frozen.Iso.Defs.BorderedHessian
 public import KAM.Frozen.Iso.Defs.CollisionFree
 public import KAM.Frozen.Iso.Defs.EnergyAverage
@@ -296,6 +298,9 @@ public import KAM.Frozen.SpinOrbit.Defs.SoEps
 public import KAM.Frozen.SpinOrbit.Defs.SoField
 public import KAM.Frozen.SpinOrbit.Defs.SoModes
 public import KAM.Frozen.SpinOrbit.Defs.SoV
+public import KAM.Frozen.SpinOrbit.Theorems.LunarSyncOrbitBound
+public import KAM.Frozen.SpinOrbit.Theorems.LunarSyncOrbitSpec
+public import KAM.Frozen.SpinOrbit.Theorems.LunarSyncOrbitUnique
 public import KAM.Frozen.SpinOrbit.Theorems.LunarWindow
 public import KAM.Frozen.Theorems.AposterioriKam
 public import KAM.Frozen.Theorems.KamPositiveMeasure

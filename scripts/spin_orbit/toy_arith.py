@@ -230,7 +230,44 @@ def ball_exp(z, zRad, s, N, P=SLP_BALL_PREC):
     return out
 
 
+def dyScale(k):
+    return F(2) ** k
+
+
+def dyDown(S, q):
+    return F((q * S).numerator // (q * S).denominator) / S
+
+
+def dyUp(S, q):
+    return F(-((-(q * S).numerator) // (q * S).denominator)) / S
+
+
+def sqrtAnchor(P, x):
+    """Expr/BallSqrt.lean `sqrtAnchor`: nine Newton steps rounded up to 1/S, from 2^(ilog2Q x / 2) (Int.ediv)."""
+    e = ilog2Q(x) // 2
+    S = dyScale(P - e)
+    s = dyScale(e)
+    for _ in range(9):
+        s = dyUp(S, (s + x / s) / 2)
+    return s
+
+
+def ballSqrt(P, c, r):
+    """Expr/BallSqrt.lean `ballSqrt`."""
+    re, im = c
+    if not r < re:
+        return None
+    s = sqrtAnchor(P, re)
+    R = abs(re - s * s) + abs(im) + r
+    if 0 < s and R < s * s:
+        return ball_round(((s, F(0)), R / s), P)
+    return None
+
+
 def ballStepG(n, wH, centre, radius, taylorN, acc, op):
+    if op[0] == "S":
+        c, r = acc[op[1]] if op[1] < len(acc) else BALL_ZERO
+        return ballSqrt(SLP_BALL_PREC, c, r)
     if op[0] == "E":
         c, r = acc[op[1]] if op[1] < len(acc) else BALL_ZERO
         return ball_exp(c, r, cexpHalvings(c, r), taylorN)

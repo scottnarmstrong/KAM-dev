@@ -57,32 +57,6 @@ theorem blockMap_apply {r : ℕ} (R : ContinuousMultilinearMap ℂ (fun _ : Fin 
     (n : ℕ) (h : ∑ l, sz l = n) (v : Fin n → E) :
     blockMap R sz P n h v = R fun l => P l (fun b => v (blockEquiv sz n h ⟨l, b⟩)) := rfl
 
-theorem blockMap_const {r : ℕ} (R : ContinuousMultilinearMap ℂ (fun _ : Fin r => E) G)
-    (sz : Fin r → ℕ) (P : (l : Fin r) → ContinuousMultilinearMap ℂ (fun _ : Fin (sz l) => E) E)
-    (n : ℕ) (h : ∑ l, sz l = n) (w : E) :
-    blockMap R sz P n h (fun _ => w) = R fun l => P l (fun _ => w) := rfl
-
-theorem norm_blockMap_le {r : ℕ} (R : ContinuousMultilinearMap ℂ (fun _ : Fin r => E) G)
-    (sz : Fin r → ℕ) (P : (l : Fin r) → ContinuousMultilinearMap ℂ (fun _ : Fin (sz l) => E) E)
-    (n : ℕ) (h : ∑ l, sz l = n) :
-    ‖blockMap R sz P n h‖ ≤ ‖R‖ * ∏ l, ‖P l‖ := by
-  refine ContinuousMultilinearMap.opNorm_le_bound (by positivity) fun v => ?_
-  rw [blockMap_apply]
-  refine (R.le_opNorm _).trans ?_
-  have hb : ∀ l : Fin r, ‖P l (fun b => v (blockEquiv sz n h ⟨l, b⟩))‖ ≤
-      ‖P l‖ * ∏ b, ‖v (blockEquiv sz n h ⟨l, b⟩)‖ := fun l => (P l).le_opNorm _
-  have hprod : ∏ l : Fin r, ‖P l (fun b => v (blockEquiv sz n h ⟨l, b⟩))‖ ≤
-      ∏ l : Fin r, (‖P l‖ * ∏ b, ‖v (blockEquiv sz n h ⟨l, b⟩)‖) := by
-    gcongr with l hl; exact hb l
-  have hsig : ∏ l : Fin r, ∏ b, ‖v (blockEquiv sz n h ⟨l, b⟩)‖ = ∏ i : Fin n, ‖v i‖ := by
-    rw [← Fintype.prod_sigma' (fun l b => ‖v (blockEquiv sz n h ⟨l, b⟩)‖)]
-    exact Equiv.prod_comp (blockEquiv sz n h) (fun i => ‖v i‖)
-  calc ‖R‖ * ∏ l : Fin r, ‖P l (fun b => v (blockEquiv sz n h ⟨l, b⟩))‖
-      ≤ ‖R‖ * ∏ l : Fin r, (‖P l‖ * ∏ b, ‖v (blockEquiv sz n h ⟨l, b⟩)‖) :=
-        mul_le_mul_of_nonneg_left hprod (norm_nonneg _)
-    _ = ‖R‖ * (∏ l, ‖P l‖) * ∏ i : Fin n, ‖v i‖ := by
-        rw [Finset.prod_mul_distrib, hsig]; ring
-
 /-! ### Symmetrization -/
 
 /-- The symmetrization `(1/n!) Σ_σ Φ ∘ σ`. -/

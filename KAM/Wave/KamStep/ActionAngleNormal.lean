@@ -18,7 +18,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The action–angle substitution: the normal form (blueprint-W `bpW:w5:action-angle` (iv))
 
-Off-frontier, source-faithful infrastructure (W5-AA); the dependency graph is still being built.
 Blueprint label `bpW:w5:action-angle` (iv), step `a-nf`.
 
 For `ξ ∈ ℂ²` (complexified parameters) and `w ∈ 𝒫` with `𝒜_ξ(w) ∈ B_{ρ₁}`:
@@ -106,8 +105,6 @@ end K
 variable {m hm}
 
 /-! ### Real parameters -/
-
-theorem lamTan_eq_lam (i : Fin 2) : lamTan m hm i = lam m hm (modeIdx i) := rfl
 
 theorem aaOmega0_ofReal (ξ : Fin 2 → ℝ) (i : Fin 2) :
     aaOmega0 m hm (fun i => (ξ i : ℂ)) i = (waveFreqTan m hm ξ i : ℂ) := by
@@ -284,7 +281,7 @@ theorem aaMap_normalForm {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (ξ : Fin
       have hl := (lam_pnat_pos hm (j + 2)).ne'
       have hli := (lam_pnat_pos hm (modeIdx i)).ne'
       have hpi := Real.pi_ne_zero
-      rw [lamTan_eq_lam]
+      rw [lamTan_eq]
       push_cast
       field_simp
   -- `N_ξ` and `Q̃`
@@ -305,7 +302,7 @@ theorem aaMap_normalForm {a p : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (ξ : Fin
     simp [aaKext, h]
   unfold aaPfun
   rw [hΛ, hG, hN, hQ, hK]
-  simp only [aaEnergy, aaOmega0, aaBdot, Fin.sum_univ_two, lamTan_eq_lam]
+  simp only [aaEnergy, aaOmega0, aaBdot, Fin.sum_univ_two, lamTan_eq]
   have h0 : modeIdx (0 : Fin 2) = 1 := rfl
   have h1 : modeIdx (1 : Fin 2) = 2 := rfl
   rw [h0, h1, actionA_symm 1 0]

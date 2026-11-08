@@ -11,9 +11,6 @@ public import KAM.Wave.Normal.NonresAux
 /-!
 # Qualitative nonresonance of all quartic terms (blueprint `bpW:w0n:nonres`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 Let `m > 0`, `a b c d ≥ 1` with `g_{abcd} ≠ 0` and `σ ∈ {±1}⁴`. If
 `σ₁ λ_a + σ₂ λ_b + σ₃ λ_c + σ₄ λ_d = 0`, then the indices with `σ = +1` and those with `σ = -1`
 form equal multisets (`KAM.Wave.quartic_nonresonance`). The proof follows the blueprint: a signed

@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.QuartML
 /-!
 # The quartic sum and its pairing identity (blueprint-W `bpW:w3:quartic`, Step Identify)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:quartic`.
+Package W3-SETTING, blueprint label `bpW:w3:quartic`.
 
 `birkQuartSum a p c w = Σ_{x ∈ (ℤ∖0)⁴} c_x ∏_t w^t_{x_t}` converges absolutely
 (`summable_birkQuartTerm`), and equals `16 Ω(∇𝔓(w¹,w²,w³), w⁴)` (`birkQuartSum_eq_omega`),
@@ -111,10 +110,6 @@ theorem summable_birkQuartTerm (w : Fin 4 → BirkSpace) :
 /-- `Σ_{x ∈ (ℤ∖0)⁴} c_x ∏_t w^t_{x_t}`. -/
 def birkQuartSum (a p : ℝ) (c : (Fin 4 → BirkIdx) → ℂ) (w : Fin 4 → BirkSpace) : ℂ :=
   ∑' x : Fin 4 → BirkIdx, c x * birkAtom a p x w
-
-theorem snoc_eq_vec3 (w : Fin 3 → BirkSpace) (v : BirkSpace) :
-    (Fin.snoc (α := fun _ => BirkSpace) w v : Fin 4 → BirkSpace) = ![w 0, w 1, w 2, v] := by
-  funext i; fin_cases i <;> rfl
 
 theorem birkInit4_snoc (w : Fin 3 → BirkSpace) (v : BirkSpace) :
     birkInit4 (Fin.snoc (α := fun _ => BirkSpace) w v : Fin 4 → BirkSpace) = w := by

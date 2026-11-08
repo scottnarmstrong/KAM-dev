@@ -64,8 +64,8 @@ One entry per document, with summary, numbers, outcome and disagreements, is on 
 | [Planetary KAM, Nekhoroshev and the "almost every" question](themes/planetary-and-almost-every.md) | 4 | 27 Oct |
 | [Realistic KAM, the Moon and spin–orbit](themes/moon-and-spin-orbit.md) | 3 | 27–30 Oct |
 | [Applications of the certifier and the next demonstrations](themes/applications-and-demonstrations.md) | 4 | 30 Oct |
-| [Sun–Jupiter–Saturn](themes/sun-jupiter-saturn.md), with the status of the running LG00 campaign | 3 | 30 Oct |
-| [Effective stability and planetary lifetimes: ambition and programs A–D](themes/effective-stability.md) | 6 | 30 Oct–1 Nov |
+| [Sun–Jupiter–Saturn](themes/sun-jupiter-saturn.md), with the status of the running LG00 campaign | 4 | 30 Oct–2 Nov |
+| [Effective stability and planetary lifetimes: ambition and programs A–D](themes/effective-stability.md) | 9 | 30 Oct–2 Nov |
 | [PDE KAM](themes/pde-kam.md) | 1 | 28 Oct |
 
 Overview, in date order within each theme:
@@ -87,12 +87,16 @@ Overview, in date order within each theme:
 | [sjs-feasibility](sjs-feasibility.md) | 30 Oct | [SJS](themes/sun-jupiter-saturn.md) | scouted; partly superseded | Route B plus packed kernel arithmetic would make the planar SJS torus checkable |
 | [sjs-lg00-scout](sjs-lg00-scout.md) | 30 Oct | [SJS](themes/sun-jupiter-saturn.md) | scouted; running (LG00) | LG00's secular torus at lunar-class cost; no new theorem needed |
 | [sjs-plan](sjs-plan.md) | 30 Oct | [SJS](themes/sun-jupiter-saturn.md) | proposed | Synodic chart and packed layer: 15–300 CPU-h, 8–15k Lean lines, 4–6 weeks |
+| [sjs-x1-support](sjs-x1-support.md) | 2 Nov | [SJS](themes/sun-jupiter-saturn.md) | measured (gate X1) | FH25's torus in double-double: its Fourier support, measured to L = 22, grows at sjs-plan's low rate (S(45) ≈ 4.0–4.9·10⁶, box ratio 2.3); one near-resonant spike at (27, −67, 31); floating, no certificate |
 | [ambition](ambition.md) | 30 Oct | [effective stability](themes/effective-stability.md) | proposed | Certify slow transport in a region, then a planetary lifetime; programs A–D |
 | [program-a-plan](program-a-plan.md) | 30 Oct | [effective stability](themes/effective-stability.md) | proposed | Explicit quasi-convex Nekhoroshev certificates, then the steep theorem |
 | [program-b-plan](program-b-plan.md) | 30 Oct | [effective stability](themes/effective-stability.md) | proposed | Finite normal-form confinement near a torus or an elliptic equilibrium |
 | [program-c-plan](program-c-plan.md) | 30 Oct | [effective stability](themes/effective-stability.md) | proposed | First-exit confinement from approximate integrals of the original field |
 | [program-d-plan](program-d-plan.md) | 30 Oct | [effective stability](themes/effective-stability.md) | proposed | A 5-Gyr secular SJSU action bound; the existing stopped estimate fails a real-mass test |
 | [sjsu-effective-stability](sjsu-effective-stability.md) | 1 Nov | [effective stability](themes/effective-stability.md) | scouted | 78-term quartic normal-form pilot through degree 10; nominal sufficient ratio only 34,419 yr; full-model recovery and validated bounds required before a Gyr claim |
+| [sjsu-model-recovery](sjsu-model-recovery.md) | 1 Nov | [effective stability](themes/effective-stability.md) | measured; dataset public | Degree-18 secular SJSU model rebuilt (SJSU18-O2, `applications/sjsu/`); quadratic part within 7.7e-4 of the printed coefficients, quartic 5–8% off; five source issues |
+| [hd11964-pilot](hd11964-pilot.md) | 1 Nov | [effective stability](themes/effective-stability.md) | measured; Lean bridge on main; running | No orbit crossing for HD 11964 (planar Newtonian, catalogue data) by certified Λ-drift and LP0; numerical gate closes 10³ yr (margin about 5.9 with fitted cells); kernel cost about 400–620 CPU-h (estimate) |
+| [sjsu-near-torus-gate](sjsu-near-torus-gate.md) | 2 Nov | [effective stability](themes/effective-stability.md) | measured; first-exit theorem in Lean | Phase-2 gate passes with a local torus chart: literal brackets with the full degree-18 model give T ≈ 4.3·10¹² yr at action width 10⁻⁶ (≥ 10¹⁰ yr for 10⁻⁸–3·10⁻⁶); floating, no certificate |
 | [pde-kam-and-leapfrogging](pde-kam-and-leapfrogging.md) | 28 Oct | [PDE KAM](themes/pde-kam.md) | adopted (D30), running | Two-frequency solutions of the cubic Dirichlet wave equation; became track W |
 
 ## Reading paths
@@ -106,7 +110,8 @@ Overview, in date order within each theme:
   the first-order secular model. [striking-applications](striking-applications.md) §9 judges the full planar
   Sun–Jupiter–Saturn torus infeasible; [sjs-feasibility](sjs-feasibility.md) finds two levers;
   [sjs-lg00-scout](sjs-lg00-scout.md) picks the secular LG00 model, now the running LG00 campaign
-  ([status](../campaign/side/lg00-status.json)); [sjs-plan](sjs-plan.md) prices the full planar torus. For lifetimes
+  ([status](../campaign/side/lg00-status.json)); [sjs-plan](sjs-plan.md) prices the full planar torus, and
+  [sjs-x1-support](sjs-x1-support.md) measures the plan's largest uncertainty, the torus's Fourier support. For lifetimes
   rather than tori, continue with [ambition](ambition.md) and [program-d-plan](program-d-plan.md).
 - **The Moon and spin–orbit.** [realistic-kam-and-finite-size](realistic-kam-and-finite-size.md) (proposal C2) →
   [lunar-spin-orbit-certificate-proposal](lunar-spin-orbit-certificate-proposal.md) (track SO, D30) →
@@ -152,10 +157,11 @@ flowchart TD
     MB["plan-magnetic-barrier"]
     ME["plan-mercury-32"]
   end
-  subgraph SJS["30 Oct: Sun-Jupiter-Saturn"]
+  subgraph SJS["30 Oct-2 Nov: Sun-Jupiter-Saturn"]
     SF["sjs-feasibility"]
     LG["sjs-lg00-scout"]
     SP["sjs-plan"]
+    SX["sjs-x1-support"]
   end
   subgraph EFF["30 Oct: effective stability"]
     AM["ambition"]
@@ -184,6 +190,7 @@ flowchart TD
   SA -->|SJS verdict revisited| SF
   SF --> LG --> LGC
   SF -->|corrected by| SP
+  SP -->|gate X1| SX
   PDE --> W
   P27 --> AM
   MOON --> AM
@@ -208,8 +215,10 @@ Each correction is also stated in both catalogue entries.
 | Librational lunar tori need a Birkhoff normal form or a new G1 | [lunar band](lunar-band-2p8-2p9.md) | [striking-applications](striking-applications.md) §3: primary in a polar chart; D45 chose that route |
 | Planar Sun–Jupiter–Saturn torus infeasible in the kernel | [striking-applications](striking-applications.md) | [sjs-feasibility](sjs-feasibility.md) (34–351 CPU-h with route B and packed arithmetic); [sjs-plan](sjs-plan.md) (15–300 CPU-h) |
 | Hybrid plus packed: 6–19 CPU-h; charts do not reduce support; d'Alembert ÷7; 60–150 products | [sjs-feasibility](sjs-feasibility.md) | [sjs-plan](sjs-plan.md) §8: hybrid gives no kernel gain; chart ÷2.7; ÷3.7 and falling; 252–657 products |
+| Support S(45) = 4.3·10⁶–1.3·10⁷ (a factor 3, extrapolated from L ≤ 10); box ratio 3 | [sjs-plan](sjs-plan.md) | [sjs-x1-support](sjs-x1-support.md): measured to L = 22, S(45) ≈ 4.0–4.9·10⁶ (the plan's low end), box ratio 2.2–2.3 |
 | Route A "proved, not wired"; no `sqrt` node | [sjs-lg00-scout](sjs-lg00-scout.md) | Both now in place; the LG00 campaign runs route A refined at L = 20 with the exact square root |
 | Magnetic barrier ranked first among the next demonstrations | [next-demonstrations](next-demonstrations.md) | [plan-magnetic-barrier](plan-magnetic-barrier.md): multiprecision gate failed so far; Mercury has the stronger evidence |
+| SJSU nominal sufficient ratio only 34,419 yr; higher orders fail at the nominal point | [sjsu-effective-stability](sjsu-effective-stability.md) | [sjsu-near-torus-gate](sjsu-near-torus-gate.md): the origin chart still fails on the degree-18 model, but a local torus chart gives ≥ 10¹⁰ yr for action widths 10⁻⁸–3·10⁻⁶ (floating) |
 | "Hybrid is a design"; later, "no certificate wiring yet" | [ambition](ambition.md); programs [A](program-a-plan.md)–[D](program-d-plan.md) | [31 October review](../campaign/design/CERTIFIER-V2-IMPROVEMENTS.md): the hybrid theorem and `routeV2Hyb` checker wiring are present; application gains still need measurement |
 | Certifier not yet better than PlasmaLean on its own example | [striking-applications](striking-applications.md) | [Repository README](../../README.md): a v2 example reaches 65 times PlasmaLean's tolerance, at assumed canonical data |
 

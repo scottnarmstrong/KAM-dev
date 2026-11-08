@@ -13,9 +13,8 @@ public import KAM.Frozen.Planetary.Spatial.Defs.SpatialSourceBarycentricVelociti
 /-!
 # Source-facing spatial barycentric reconstruction maps (OD-11 (b))
 
-Package LP-FREEZE7R (statement audit of draft 7, round 1, finding F1), `LP:MAIN L1 (100–108)`,
+Source: `LP:MAIN L1 (100–108)`,
 `d = 3`; track LP, non-frozen.
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 
 The total maps `spatialBarycentricPositions` and `spatialBarycentricVelocities`
 (`KAM/Planetary/Spatial/Newton.lean`) divide by `1 + μ Σ ν_i` and by `ν_i`; on their whole Lean
@@ -30,14 +29,6 @@ formulas (`CHARACTERIZATION: N/A_LITERAL`).
 @[expose] public noncomputable section
 
 namespace KAM.Planetary.Spatial
-
-theorem spatialSourceBarycentricPositions_def {n : ℕ} (ν : Fin n → ℝ) (μ : ℝ)
-    (hν : ∀ i, 0 < ν i) (hμ : 0 < μ) (q : Fin (n * 3) → ℝ) :
-    spatialSourceBarycentricPositions ν μ hν hμ q = spatialBarycentricPositions ν μ q := rfl
-
-theorem spatialSourceBarycentricVelocities_def {n : ℕ} (ν : Fin n → ℝ) (μ : ℝ)
-    (hν : ∀ i, 0 < ν i) (hμ : 0 < μ) (p : Fin (n * 3) → ℝ) :
-    spatialSourceBarycentricVelocities ν μ hν hμ p = spatialBarycentricVelocities ν μ p := rfl
 
 end KAM.Planetary.Spatial
 

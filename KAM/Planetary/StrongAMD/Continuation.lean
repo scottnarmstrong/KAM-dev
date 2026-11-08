@@ -14,8 +14,8 @@ public import KAM.Planetary.StrongAMD.Modulus
 /-!
 # The moving threshold (17) and continuation
 
-Package LP-MOD, `LP:MAIN L6 (177–189)` with amendment N2 (one shared compact `U`); track LP,
-non-frozen; the statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L6 (177–189)` with amendment N2 (one shared compact `U`); track LP,
+non-frozen.
 
 * M3 `strongAMD_le_of_tube`: inequality (17), `C(t) ≤ B(I(t)) - δ + n r + Ω_B(r)`.
 * M4 `maximal_global_of_barrier`: the maximal solution of the moving field on the collision-free

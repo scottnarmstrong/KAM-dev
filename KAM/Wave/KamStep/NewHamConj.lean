@@ -12,8 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Weak conjugacy (blueprint-W `bpW:w5:new-ham` (iii))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepWeakConj`: differentiating `H ∘ Φ = N + N̂ + â₀ + P_+` (`stepNewHam_concrete`) at `w ∈ D_+`:
 `(DN(Φw) + ϖ(X_P(Φw), ·)) ∘ DΦ(w) = DN(w) + ϖ(X_{N̂}(w), ·) + ϖ(X_{P_+}(w), ·)`.
 Here `DN(w')` is the (bounded) derivative of the quadratic form `N`, whose Riesz representative

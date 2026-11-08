@@ -12,9 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The flow of a real field is real (blueprint-W `bpW:w5:flow` (iv), step `f-real`)
 
-Off-frontier, source-faithful infrastructure (W5-REAL, item 1); the dependency graph is still being
-built.
-
 * `holoFlow_real_of_field_real`: let the real points of `F` be the common zeros of a family of
   continuous real-linear functionals `L i`. If the field `X` maps real points of `V` to real
   vectors, the flow `holoFlow X t` maps real points of `U` to real points (`|t| ≤ 1`). Proof: every
@@ -94,9 +91,6 @@ def stepCoordCLM : StepRealIdx → KamPhase →L[ℂ] ℂ
 /-- The functionals `w ↦ im (coordinate of w)` on `StepPhase r`. -/
 def stepRealFun (r : ℝ) [Fact (0 < r)] (i : StepRealIdx) : StepPhase r →L[ℝ] ℝ :=
   Complex.imCLM.comp (((stepCoordCLM i).comp (stepToKCLM r)).restrictScalars ℝ)
-
-theorem stepRealFun_apply (r : ℝ) [Fact (0 < r)] (i : StepRealIdx) (w : StepPhase r) :
-    stepRealFun r i w = (stepCoordCLM i (StepPhase.toK w)).im := rfl
 
 /-- `StepReal` is the vanishing of the functionals `stepRealFun`. -/
 theorem stepReal_iff_stepRealFun (r : ℝ) [Fact (0 < r)] (w : StepPhase r) :

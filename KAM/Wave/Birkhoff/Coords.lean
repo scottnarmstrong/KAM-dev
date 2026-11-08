@@ -11,8 +11,7 @@ public import KAM.Wave.Cubic.HamField
 /-!
 # Complex coordinates and real structure (blueprint-W `bpW:w3:coords`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:coords`.
+Package W3-SETTING, blueprint label `bpW:w3:coords`.
 
 `E^ℂ = ℓ^{a,p}_ℂ × ℓ^{a,p}_ℂ` is `WaveSpaceK ℂ` in weighted coordinates (max norm), and
 `birkZ : E^ℂ →L[ℂ] 𝔚` is `(𝒵x)_{±j} = (q_j ± i p_j)/√2`. In weighted coordinates the formula is the
@@ -293,15 +292,6 @@ theorem birkZ_birkZinv (w : BirkSpace) : birkZ (birkZinv w) = w := by
 /-- (`bpW:w3:coords`) `𝒵` is a `ℂ`-linear bijection `E^ℂ ≃ 𝔚` (a continuous linear equivalence). -/
 def birkZEquiv : WaveSpaceK ℂ ≃L[ℂ] BirkSpace :=
   ContinuousLinearEquiv.equivOfInverse birkZ birkZinv birkZinv_birkZ birkZ_birkZinv
-
-theorem birkZEquiv_apply (x : WaveSpaceK ℂ) : birkZEquiv x = birkZ x := rfl
-
-theorem birkZEquiv_symm_apply (w : BirkSpace) : birkZEquiv.symm w = birkZinv w := rfl
-
-/-- `‖𝒵⁻¹ w‖_E ≤ ‖w‖ ≤ √2 ‖𝒵⁻¹ w‖_E`. -/
-theorem norm_le_sqrt_two_mul_birkZinv (w : BirkSpace) : ‖w‖ ≤ Real.sqrt 2 * ‖birkZinv w‖ := by
-  have := norm_birkZ_le (birkZinv w)
-  rwa [birkZ_birkZinv] at this
 
 /-! ### Coordinates at every weight -/
 

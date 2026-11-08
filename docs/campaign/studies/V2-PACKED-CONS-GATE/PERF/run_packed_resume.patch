@@ -1,0 +1,25 @@
+--- a/scripts/packed/run_packed.py	2026-11-01 21:16:59.514200019 +0000
++++ b/scripts/packed/run_packed.py	2026-11-01 21:17:07.002142561 +0000
+@@ -236,6 +236,11 @@
+         for m in mods:
+             print(m, "passed" if m in done else "")
+         return 0
++    passed = [m for m in mods if m in done]   # a passed row goes stale when its source is re-emitted (or an
++    if passed and not no_build(pkg, passed):  # import changes): Lake would rebuild it inside the next target's
++        again = stale_set(pkg, passed)        # process and book it there (V2-PACKED-CONS-PERF)
++        print("%d passed modules are stale again: rebuilt in their own rows" % len(again), flush=True)
++        done -= again
+     todo = [m for m in mods if m not in done]
+     stale = predict_stale(pkg, todo, deps, LG00_CORE)
+     fresh = [m for m in todo if m not in stale]
+@@ -266,6 +271,10 @@
+         r = row(m, log, "built" if built else "reused", cap)
+         open(ledger, "a").write(r + "\n")
+         print(r, flush=True)
++        n = len(re.findall(r"Built \S+ \(", open(log).read())) if os.path.exists(log) else 0
++        if n > 1:                             # cannot happen after the check above, unless sources change mid-run
++            print("WARNING %s: its process built %d modules (row cost includes %d dependencies)" % (m, n, n - 1),
++                  flush=True)
+         if r.split("\t")[6] == "0":
+             done.add(m)
+         else:

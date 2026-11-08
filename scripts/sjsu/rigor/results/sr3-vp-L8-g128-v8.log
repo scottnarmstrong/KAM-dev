@@ -1,0 +1,52 @@
+stage-1 torus: Newton residual 5.1e-21; non-gradient part (l1 of coef) 9.11e-19; S coef mass beyond 0.8 KS: 6.03e-22
+B0 range [(0.00028974962284652133, 0.0003370010030066946), (0.0006488583479786306, 0.000699384834693987), (2.4967714556364254e-05, 3.3062200389913914e-05)] (3.8s)
+u-series of H about B0: 220 monomials (4.8s)
+stage-2 space L=8 K=50 G=78 M=165; Fourier tail of H beyond K (rho 3e-8): 2.40e-21
+nominal point: u = [5.421010862427522e-20, 1.0842021724855044e-19, -4.743384504624082e-20]  H~ = -5.22983516352663e-08  H = -5.229835163526624e-08
+  kolmogorov 0: |A|=1.412e-18 |B|=6.084e-13 omega=[-1.35046307e-04 -2.02831924e-05 -1.15200885e-05] min|k.w|=8.451e-08
+  kolmogorov 1: |A|=3.414e-21 |B|=1.719e-14 omega=[-1.35046694e-04 -2.02832220e-05 -1.15208141e-05] min|k.w|=8.428e-07
+  kolmogorov 2: |A|=5.875e-26 |B|=9.092e-17 omega=[-1.35046694e-04 -2.02832220e-05 -1.15208141e-05] min|k.w|=8.522e-07
+  kolmogorov 3: |A|=5.497e-36 |B|=5.347e-22 omega=[-1.35046694e-04 -2.02832220e-05 -1.15208141e-05] min|k.w|=8.522e-07
+  birkhoff p-degree 2: |angle part|=6.804e-17
+  birkhoff p-degree 3: |angle part|=2.274e-20
+  birkhoff p-degree 4: |angle part|=1.399e-23
+  birkhoff p-degree 5: |angle part|=1.035e-26
+  birkhoff p-degree 6: |angle part|=8.204e-30
+  remaining angle part by p-degree (rho_ref): 5.5e-36 4.2e-32 2.6e-31 7.5e-35 4.3e-38 3.3e-41 2.5e-44 6.9e-33 6.1e-36
+  normalized: 13 generators (18.2s)
+  F(nominal) = [-1.70704729e-16 -5.61125983e-14  5.62834182e-14] ; omega = [-1.35046694e-04 -2.02832220e-05 -1.15208141e-05] (50.8s)
+stage-2 torus: Newton residual 4.5e-25; |tau2| max [1.1213174513310088e-13, 4.067502890424199e-13, 4.356780652419714e-13]
+composed H on the tube (52.8s)
+[prune 0] kept coefficients [321915, 321915, 321915] of [321915, 321915, 321915]; max |{F_j,H}| on the torus grid [3.816251022521449e-21, 3.3486123367439873e-21, 4.8140543768940966e-21]; AMD defect 1.9e-31
+delta=1e-09: T_full=4.46e+09 T_band80=4.44e+10 yr; eta_full=['8.5e-20', '8.4e-20', '1.1e-19']; U parts: trunc 1.1e-20 dropped 7.2e-49 Htail 1.3e-48; U by degree 1e-20 8e-26 1e-30 8e-35 5e-39 3e-43 1e-41 6e-41 5e-45; incl ['6e-10', '6e-10', '8e-10']
+delta=1e-08: T_full=4.46e+10 T_band80=4.44e+11 yr; eta_full=['8.5e-20', '8.4e-20', '1.1e-19']; U parts: trunc 1.1e-20 dropped 7.2e-40 Htail 1.3e-39; U by degree 1e-20 8e-25 1e-28 8e-32 5e-35 3e-38 1e-35 6e-34 5e-37; incl ['6e-09', '6e-09', '8e-09']
+delta=1e-07: T_full=4.46e+11 T_band80=4.43e+12 yr; eta_full=['8.5e-20', '8.4e-20', '1.1e-19']; U parts: trunc 1.1e-20 dropped 7.2e-31 Htail 1.4e-30; U by degree 1e-20 8e-24 1e-26 8e-29 5e-31 3e-33 1e-29 6e-27 5e-29; incl ['6e-08', '6e-08', '8e-08']
+delta=3e-07: T_full=1.34e+12 T_band80=1.33e+13 yr; eta_full=['8.5e-20', '8.4e-20', '1.1e-19']; U parts: trunc 1.1e-20 dropped 1.4e-26 Htail 2.7e-26; U by degree 1e-20 2e-23 1e-25 2e-27 4e-29 8e-31 7e-27 1e-23 3e-25; incl ['2e-07', '2e-07', '2e-07']
+delta=1e-06: T_full=2.73e+12 T_band80=6.13e+12 yr; eta_full=['1.5e-19', '1.1e-19', '1.8e-19']; U parts: trunc 7.9e-20 dropped 7.5e-22 Htail 1.5e-21; U by degree 1e-20 8e-23 1e-24 8e-26 5e-27 3e-28 1e-23 6e-20 5e-21; incl ['6e-07', '6e-07', '8e-07']
+delta=3e-06: T_full=6.72e+09 T_band80=6.73e+09 yr; eta_full=['1.8e-16', '1.0e-16', '2.2e-16']; U parts: trunc 1.7e-16 dropped 1.6e-17 Htail 3.7e-17; U by degree 1e-20 2e-22 1e-23 2e-24 4e-25 8e-26 7e-21 1e-16 3e-17; incl ['2e-06', '2e-06', '2e-06']
+delta=1e-05: T_full=4.93e+05 T_band80=4.93e+05 yr; eta_full=['5.3e-12', '7.3e-12', '1.0e-11']; U parts: trunc 1.1e-12 dropped 1.2e-12 Htail 7.9e-12; U by degree 1e-20 8e-22 1e-22 8e-23 5e-23 3e-23 1e-17 6e-13 5e-13; incl ['6e-06', '5e-06', '7e-06']
+delta=2e-05: tube reaches I_j = 0; skipped
+done in 59.2s
+	Command being timed: "python3 scripts/sjsu/gate2/torus2.py --stage1 sr-vp-s1 --L 8 --K 50 --LB 6 --kol 4 --G2 128 --Lv 8 --tag sr3-vp-L8-g128-v8"
+	User time (seconds): 184.43
+	System time (seconds): 13.91
+	Percent of CPU this job got: 333%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:59.45
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1329892
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 1429018
+	Voluntary context switches: 18643
+	Involuntary context switches: 77690
+	Swaps: 0
+	File system inputs: 24
+	File system outputs: 94752
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

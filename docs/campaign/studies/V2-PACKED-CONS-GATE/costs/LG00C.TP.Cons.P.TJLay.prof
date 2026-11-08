@@ -1,0 +1,3 @@
+ℹ [3572/3572] Built LG00C.TP.Cons.P.TJLay (7.6s)
+info: LG00C/TP/Cons/P/TJLay.lean:25:0: type checking took 335ms
+tactic execution of Lean.Parser.Tactic.decide took 1.33ms

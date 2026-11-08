@@ -1,0 +1,227 @@
+# Track LP graph: mechanical LEAN_REF map of the ordinary nodes (D65), main d547b92674d7b1e5b0f013d1c5b17f8882a61b14
+
+declarations scanned on main: 714 (with docstrings, public); ordinary nodes: 136
+PROVED: 1; NOT_STARTED: 135
+import closure: 145 KAM modules; identical to main in /root/code/KAM-inp (HEAD, clean)
+
+| node | kind | status | LEAN_REF | reason | candidates |
+|---|---|---|---|---|---|
+| lpM:s1:data | definition | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:s1:model | definition | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:s1:elements | definition | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:s1:fast | definition | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:s1:dioph | definition | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:s1:half-integer | claim | NOT_STARTED | - | 4 matching declarations: not unique | KAM.Planetary.Spatial.lp2_spatial_strongAMD_safety_source_halfInteger, KAM.Planetary.Spatial.lp2_spatial_strongAMD_safety_source_isDiophantine_halfInteger, KAM.Planetary.StrongAMD.lp1_planar_strongAMD_safety_source_halfInteger, KAM.Planetary.StrongAMD.lp1_planar_strongAMD_safety_source_isDiophantine_halfInteger |
+| lpM:L1 | lemma | NOT_STARTED | - | 2 matching declarations: not unique | KAM.Planetary.Spatial.hamiltonianVectorField_spatial, KAM.Planetary.Spatial.isSpatialNewtonSolutionOn_of_isSpatialMovingSolutionOn |
+| lpM:L1#reduction | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L1#velocity | display | NOT_STARTED | - | 2 matching declarations: not unique | KAM.Planetary.Spatial.spatialOscVelocity_eq_hamiltonianVectorField, KAM.Planetary.StrongAMD.oscVelocity_eq_movingField |
+| lpM:L1#reconstruction | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L2 | lemma | NOT_STARTED | - | 2 matching declarations: not unique | KAM.Planetary.Spatial.spatial_orbital_identities, KAM.Planetary.StrongAMD.orbital_identities |
+| lpM:L2#ecc-identity | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L2#radial-bounds | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L3 | lemma | NOT_STARTED | - | 19 matching declarations: not unique | KAM.Planetary.Spatial.SpatialLiftData.spLift_prograde_of_stopped, KAM.Planetary.Spatial.angularMomentum3_const, KAM.Planetary.Spatial.spatialStrongAMD_sub_eq_sum, KAM.Planetary.Spatial.spatialStrongAMD_nonneg, KAM.Planetary.Spatial.angularMomentum3_ne_zero_of_strongAMD_lt, KAM.Planetary.Spatial.spatialStrongAMD_eq_sum_sub_proj … |
+| lpM:L3#static | lemma | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L3#dynamic | lemma | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L3#conservation | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L3#amd-nonneg | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L3#L-nonzero | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L3#projections | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L3#deficit | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L3#deficit-zero-L | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L3#planar-orientation | claim | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L4 | lemma | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L4#feasible-compact | step | NOT_STARTED | - | unique docstring match, but KAM.Planetary.StrongAMD.exists_contact_minimizer is also the match of lpM:L4#contact-reduction (its citation is coarser than this node) | KAM.Planetary.StrongAMD.exists_contact_minimizer |
+| lpM:L4#contact-reduction | step | NOT_STARTED | - | unique docstring match, but KAM.Planetary.StrongAMD.exists_contact_minimizer is also the match of lpM:L4#feasible-compact (its citation is coarser than this node) | KAM.Planetary.StrongAMD.exists_contact_minimizer |
+| lpM:L4#contact-param | step | NOT_STARTED | - | 3 matching declarations: not unique | KAM.Planetary.StrongAMD.pairThreshold_isLeast_contact, KAM.Planetary.StrongAMD.continuousOn_pairThreshold, KAM.Planetary.StrongAMD.exists_contact_minimizer |
+| lpM:L4#continuity | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L4#positivity | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L4#competitor | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L5 | lemma | NOT_STARTED | - | 2 matching declarations: not unique | KAM.Planetary.Spatial.spatialBarrier_osc_data, KAM.Planetary.StrongAMD.barrier_osc_data |
+| lpM:L5#gap-positive | step | NOT_STARTED | - | 4 matching declarations: not unique | KAM.Planetary.StrongAMD.gap_pos_of_mem_deficitRegion, KAM.Planetary.StrongAMD.exists_deficitBarrier, KAM.Planetary.StrongAMD.lp0_planar_barrier, KAM.Planetary.StrongAMD.pairThreshold_le_of_feasible |
+| lpM:L5#Km-compact | step | NOT_STARTED | - | 8 matching declarations: not unique | KAM.Planetary.Spatial.spatialStrongBarrier_physical, KAM.Planetary.Spatial.exists_spatialBarrierCompact, KAM.Planetary.StrongAMD.gap_pos_of_mem_deficitRegion, KAM.Planetary.StrongAMD.exists_deficitBarrier, KAM.Planetary.StrongAMD.strongBarrier_physical, KAM.Planetary.StrongAMD.exists_barrierCompact … |
+| lpM:L5#empty-case | step | NOT_STARTED | - | 2 matching declarations: not unique | KAM.Planetary.Spatial.exists_spatialBarrierCompact, KAM.Planetary.StrongAMD.exists_barrierCompact |
+| lpM:L5#perihelion | step | NOT_STARTED | - | 2 matching declarations: not unique | KAM.Planetary.Spatial.exists_spatialBarrierCompact, KAM.Planetary.StrongAMD.exists_barrierCompact |
+| lpM:L5#bounds | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L5#pair-distances | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L5#compact-physical | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L5#projection | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L6 | lemma | NOT_STARTED | - | 4 matching declarations: not unique | KAM.Planetary.Spatial.spatial_maximal_global_of_barrier, KAM.Planetary.Spatial.spatial_maximal_global_of_tube, KAM.Planetary.StrongAMD.maximal_global_of_barrier, KAM.Planetary.StrongAMD.maximal_global_of_tube |
+| lpM:L6#shared-U | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L6#moving-threshold | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L6#local-existence | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L6#continuation | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L6#backward | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L7 | lemma | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L7#kepler-equation | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L7#chart-formula | display | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L7#rotated-form | step | NOT_STARTED | - | 2 matching declarations: not unique | KAM.Planetary.StrongAMD.lpChart_eccVector, KAM.Planetary.StrongAMD.lpChart_eccentricity_sq |
+| lpM:L7#symplectic | step | NOT_STARTED | - | 2 matching declarations: not unique | KAM.Planetary.StrongAMD.lpChart_eccVector, KAM.Planetary.StrongAMD.lpChart_eccentricity_sq |
+| lpM:L7#inverse | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L8 | lemma | PROVED | KAM.Planetary.StrongAMD.lemma8_complete | unique docstring match | KAM.Planetary.StrongAMD.lemma8_complete |
+| lpM:L8#empty-case | step | NOT_STARTED | - | unique docstring match, but KAM.Planetary.StrongAMD.exists_isSharedTube is also the match of lpM:L8#shared-tube, lpM:L8#real-margin (its citation is coarser than this node) | KAM.Planetary.StrongAMD.exists_isSharedTube |
+| lpM:L8#shared-tube | step | NOT_STARTED | - | unique docstring match, but KAM.Planetary.StrongAMD.exists_isSharedTube is also the match of lpM:L8#empty-case, lpM:L8#real-margin (its citation is coarser than this node) | KAM.Planetary.StrongAMD.exists_isSharedTube |
+| lpM:L8#real-margin | step | NOT_STARTED | - | unique docstring match, but KAM.Planetary.StrongAMD.exists_isSharedTube is also the match of lpM:L8#empty-case, lpM:L8#shared-tube (its citation is coarser than this node) | KAM.Planetary.StrongAMD.exists_isSharedTube |
+| lpM:L8#compact-real-set | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L8#newton-extension | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L8#gluing | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L8#denominators | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L8#widths | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L8#exact-split | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L9 | lemma | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L9#domains | definition | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L9#norm | definition | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L9#sup-to-fourier | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L9#banach-algebra | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L9#cauchy-derivative | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L9#commutator | display | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L9#projections-tail | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L10 | lemma | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L10#homological | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L10#lie-series-bound | display | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L10#lie-flow-identification | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L10#flow-existence | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L10#remainder | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L11 | lemma | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L11#step-estimate | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L11#qD-choice | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L11#induction | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L11#composition | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L11#inverse | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L12 | lemma | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L12#perturbation-size | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L12#kappa-choice | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L12#time-choice | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L12#normal-form | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L12#drift | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L13 | lemma | NOT_STARTED | - | 5 matching declarations: not unique | KAM.Planetary.Spatial.nonresonant_drift_of_chartDataNM, KAM.Planetary.Spatial.spatial_stopped_drift, KAM.Planetary.StrongAMD.nonresonant_drift_of_chartData, KAM.Planetary.StrongAMD.lp_stopped_drift, KAM.Planetary.StrongAMD.exists_scale_kappa |
+| lpM:L13#interface | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L13#period-one | step | NOT_STARTED | - | 4 matching declarations: not unique | KAM.Planetary.Spatial.lpIndicatorNM_field, KAM.Planetary.Spatial.lpOrbitNM_hasDerivAt, KAM.Planetary.StrongAMD.lpIndicator_field, KAM.Planetary.StrongAMD.lpOrbit_hasDerivAt |
+| lpM:L13#numeric-hypotheses | step | NOT_STARTED | - | 5 matching declarations: not unique | KAM.Planetary.Spatial.lpIndicatorNM_field, KAM.Planetary.Spatial.lpUnrescaleCNM_mem_complexTube, KAM.Planetary.StrongAMD.lpIndicator_field, KAM.Planetary.StrongAMD.lpUnrescaleC_mem_complexTube, KAM.Planetary.StrongAMD.lp_scale_choice |
+| lpM:L13#structural-hypotheses | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L13#conclusion | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L14 | lemma | NOT_STARTED | - | 6 matching declarations: not unique | KAM.Planetary.Spatial.spatialStrongFirstExit_of_stopped_drift, KAM.Planetary.Spatial.spatial_stopped_drift_nek, KAM.Planetary.StrongAMD.strongFirstExit_of_stopped_drift, KAM.Planetary.StrongAMD.lp_stopped_drift_nek, KAM.Planetary.StrongAMD.nek_sharp_slow_bound, KAM.Planetary.StrongAMD.nek_stopped_drift_core |
+| lpM:L14#centers | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L14#choices | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L14#maximal-solution | step | NOT_STARTED | - | 5 matching declarations: not unique | KAM.Planetary.Spatial.SpatialLiftData.spLift_strongAMD_le_of_stopped, KAM.Planetary.Spatial.SpatialLiftData.spLift_prograde_of_stopped, KAM.Planetary.Spatial.spatialNek_sharp_slow_bound, KAM.Planetary.StrongAMD.LiftData.strongAMD_le_of_stopped, KAM.Planetary.StrongAMD.LiftData.prograde_of_stopped |
+| lpM:L14#stopped-membership | step | NOT_STARTED | - | 10 matching declarations: not unique | KAM.Planetary.Spatial.SpatialLiftData.spatialChartLift_of_stopped, KAM.Planetary.Spatial.SpatialLiftData.spatialChartLift_premises, KAM.Planetary.Spatial.SpatialLiftData.spLift_strongAMD_le_of_stopped, KAM.Planetary.Spatial.SpatialLiftData.spLift_prograde_of_stopped, KAM.Planetary.Spatial.spatialNek_sharp_slow_bound, KAM.Planetary.Spatial.SpatialLiftData.spatialChartLift_premises_nrr … |
+| lpM:L14#improvement | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L14#route-L12 | route | NOT_STARTED | - | route node: alternative wrapper, no declaration expected |  |
+| lpM:L14#route-L13 | route | NOT_STARTED | - | route node: alternative wrapper, no declaration expected |  |
+| lpM:L14#no-exit | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L14#backward | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L14#separation | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L14#axis-drift | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:T15 | theorem | NOT_STARTED | - | 7 matching declarations: not unique | KAM.Planetary.StrongAMD.lp3_planar_strongAMD_safety, KAM.Planetary.StrongAMD.nek_planar_safety_of_prograde, KAM.Planetary.StrongAMD.lp3_planar_strongAMD_safety_source_general, KAM.Planetary.StrongAMD.lp1_planar_strongAMD_safety, KAM.Planetary.StrongAMD.planar_safety_of_prograde, KAM.Planetary.StrongAMD.lp1_planar_strongAMD_safety_source_general … |
+| lpM:T15#orientation | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:T15#chart-cover | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:T15#apply-L14 | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:T15#reconstruction | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:T15#osculating | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L16:defs | definition | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L16 | lemma | NOT_STARTED | - | 6 matching declarations: not unique | KAM.Planetary.Spatial.exists_spatial_osc_estimates, KAM.Planetary.Spatial.spatial_osculating_barrier, KAM.Planetary.Spatial.spatial_osc_core, KAM.Planetary.StrongAMD.exists_osc_estimates, KAM.Planetary.StrongAMD.osculating_barrier, KAM.Planetary.StrongAMD.osc_core |
+| lpM:L16#element-error | step | NOT_STARTED | - | 4 matching declarations: not unique | KAM.Planetary.Spatial.spatialOsc_tangency, KAM.Planetary.Spatial.spatialSpecAxis_tangency, KAM.Planetary.StrongAMD.osc_tangency, KAM.Planetary.StrongAMD.specAxis_tangency |
+| lpM:L16#elliptic | step | NOT_STARTED | - | 4 matching declarations: not unique | KAM.Planetary.Spatial.spatialOsc_tangency, KAM.Planetary.Spatial.spatialSpecAxis_tangency, KAM.Planetary.StrongAMD.osc_tangency, KAM.Planetary.StrongAMD.specAxis_tangency |
+| lpM:L16#endpoint-estimate | step | NOT_STARTED | - | 4 matching declarations: not unique | KAM.Planetary.Spatial.spatialOsc_tangency, KAM.Planetary.Spatial.spatialSpecAxis_tangency, KAM.Planetary.StrongAMD.osc_tangency, KAM.Planetary.StrongAMD.specAxis_tangency |
+| lpM:L16#tangent-ellipse | step | NOT_STARTED | - | 4 matching declarations: not unique | KAM.Planetary.Spatial.spatialOsc_tangency, KAM.Planetary.Spatial.spatialSpecAxis_tangency, KAM.Planetary.StrongAMD.osc_tangency, KAM.Planetary.StrongAMD.specAxis_tangency |
+| lpM:L16#mu0-choice | step | NOT_STARTED | - | 4 matching declarations: not unique | KAM.Planetary.Spatial.spatialOsc_tangency, KAM.Planetary.Spatial.spatialSpecAxis_tangency, KAM.Planetary.StrongAMD.osc_tangency, KAM.Planetary.StrongAMD.specAxis_tangency |
+| lpM:L16#half-gaps | step | NOT_STARTED | - | 4 matching declarations: not unique | KAM.Planetary.Spatial.spatialOsc_tangency, KAM.Planetary.Spatial.spatialSpecAxis_tangency, KAM.Planetary.StrongAMD.osc_tangency, KAM.Planetary.StrongAMD.specAxis_tangency |
+| lpM:L17 | lemma | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L17#rotation | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L17#symplectic | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L17#inverse | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L17#deficit-identity | claim | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:L18 | lemma | NOT_STARTED | - | 2 matching declarations: not unique | KAM.Planetary.Spatial.lemma18_complete, KAM.Planetary.Spatial.isSpatialMovingSolutionOn_rotate_iff |
+| lpM:L18#margins | step | NOT_STARTED | - | 9 matching declarations: not unique | KAM.Planetary.Spatial.spatialStrongAMD_eq_spatialSlowDeficit_of_aligned, KAM.Planetary.Spatial.exists_spatialTubeData, KAM.Planetary.Spatial.exists_spatialChart, KAM.Planetary.Spatial.spatialStrongCore_containment, KAM.Planetary.Spatial.spatialStrongCore_margin, KAM.Planetary.Spatial.spatialStrongCore_subset_dom … |
+| lpM:L18#whole-ball-safe | step | NOT_STARTED | - | 6 matching declarations: not unique | KAM.Planetary.Spatial.spatialStrongAMD_eq_spatialSlowDeficit_of_aligned, KAM.Planetary.Spatial.exists_spatialTubeData, KAM.Planetary.Spatial.exists_spatialChart, KAM.Planetary.Spatial.spatialStrongCore_containment, KAM.Planetary.Spatial.exists_spatialStrongTube, KAM.Planetary.Spatial.spatialHamiltonian_split_chartSafe |
+| lpM:L18#extension | step | NOT_STARTED | - | 10 matching declarations: not unique | KAM.Planetary.Spatial.spatialStrongAMD_eq_spatialSlowDeficit_of_aligned, KAM.Planetary.Spatial.aligned_rotated_solution_stays_aligned, KAM.Planetary.Spatial.exists_aligned_rotated_solution, KAM.Planetary.Spatial.exists_spatialTubeData, KAM.Planetary.Spatial.exists_spatialChart, KAM.Planetary.Spatial.spatialStrongCore_containment … |
+| lpM:L18#rotation-invariance | step | NOT_STARTED | - | 10 matching declarations: not unique | KAM.Planetary.Spatial.spatialStrongAMD_eq_spatialSlowDeficit_of_aligned, KAM.Planetary.Spatial.aligned_rotated_solution_stays_aligned, KAM.Planetary.Spatial.exists_aligned_rotated_solution, KAM.Planetary.Spatial.exists_spatialTubeData, KAM.Planetary.Spatial.exists_spatialChart, KAM.Planetary.Spatial.spatialStrongCore_containment … |
+| lpM:L18#alignment | step | NOT_STARTED | - | 10 matching declarations: not unique | KAM.Planetary.Spatial.spatialStrongAMD_eq_spatialSlowDeficit_of_aligned, KAM.Planetary.Spatial.aligned_rotated_solution_stays_aligned, KAM.Planetary.Spatial.exists_aligned_rotated_solution, KAM.Planetary.Spatial.exists_spatialTubeData, KAM.Planetary.Spatial.exists_spatialChart, KAM.Planetary.Spatial.spatialStrongCore_containment … |
+| lpM:T19 | theorem | NOT_STARTED | - | 9 matching declarations: not unique | KAM.Planetary.Spatial.spatial_nek_safety_of_aligned, KAM.Planetary.Spatial.lp3_spatial_strongAMD_safety, KAM.Planetary.Spatial.lp3_spatial_strongAMD_safety_source_general, KAM.Planetary.Spatial.spatial_stopped_drift, KAM.Planetary.Spatial.lpUnrescaleCNM_mem_complexTube, KAM.Planetary.Spatial.spatial_safety_of_aligned … |
+| lpM:T19#align | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:T19#apply-L14 | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:T19#osculating | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:T19#reconstruction | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+| lpM:T19#unrotate | step | NOT_STARTED | - | no declaration on main cites this MAIN item |  |
+
+## #print axioms output (one scratch file, one process)
+
+```
+'KAM.Planetary.StrongAMD.lemma8_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+# Step B (2026-11-01T14:46Z, main d547b92674d7b1e5b0f013d1c5b17f8882a61b14): rule (a) d-generic pairs, rule (b) D27 BYPASS
+
+## (a) Pair rule: the regenerated map (all rules of step A plus rule (a))
+
+declarations scanned on main: 714 (with docstrings, public); ordinary nodes: 136
+PROVED: 4; NOT_STARTED: 132
+import closure: 224 KAM modules; identical to main in /root/code/KAM-inp (HEAD, clean)
+
+Rows changed by rule (a):
+
+| node | kind | status | LEAN_REF | reason | candidates |
+|---|---|---|---|---|---|
+| lpM:L1#velocity | display | PROVED | KAM.Planetary.StrongAMD.oscVelocity_eq_movingField ; KAM.Planetary.Spatial.spatialOscVelocity_eq_hamiltonianVectorField | d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a)) | KAM.Planetary.Spatial.spatialOscVelocity_eq_hamiltonianVectorField, KAM.Planetary.StrongAMD.oscVelocity_eq_movingField |
+| lpM:L2 | lemma | PROVED | KAM.Planetary.StrongAMD.orbital_identities ; KAM.Planetary.Spatial.spatial_orbital_identities | d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a)) | KAM.Planetary.Spatial.spatial_orbital_identities, KAM.Planetary.StrongAMD.orbital_identities |
+| lpM:L5 | lemma | PROVED | KAM.Planetary.StrongAMD.barrier_osc_data ; KAM.Planetary.Spatial.spatialBarrier_osc_data | d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a)) | KAM.Planetary.Spatial.spatialBarrier_osc_data, KAM.Planetary.StrongAMD.barrier_osc_data |
+| lpM:L5#empty-case | step | NOT_STARTED | - | d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a)), but KAM.Planetary.StrongAMD.exists_barrierCompact ; KAM.Planetary.Spatial.exists_spatialBarrierCompact is also the match of lpM:L5#perihelion, lpM:L5#perihelion (its citation is coarser than this node) | KAM.Planetary.Spatial.exists_spatialBarrierCompact, KAM.Planetary.StrongAMD.exists_barrierCompact |
+| lpM:L5#perihelion | step | NOT_STARTED | - | d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a)), but KAM.Planetary.StrongAMD.exists_barrierCompact ; KAM.Planetary.Spatial.exists_spatialBarrierCompact is also the match of lpM:L5#empty-case, lpM:L5#empty-case (its citation is coarser than this node) | KAM.Planetary.Spatial.exists_spatialBarrierCompact, KAM.Planetary.StrongAMD.exists_barrierCompact |
+
+### #print axioms output of step B (one scratch file, one process)
+
+```
+'KAM.Planetary.Spatial.spatialBarrier_osc_data' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.Spatial.spatialOscVelocity_eq_hamiltonianVectorField' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'KAM.Planetary.Spatial.spatial_orbital_identities' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.StrongAMD.barrier_osc_data' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.StrongAMD.lemma8_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.StrongAMD.orbital_identities' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.StrongAMD.oscVelocity_eq_movingField' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+## (b) D27 BYPASS
+
+Rule: every ordinary node still without a LEAN_REF, all of whose consumers are PROVED or themselves BYPASSED (greatest fixed point over DEPS and ROUTES of the assembled packets, route nodes included), gets LEAN_STATUS BYPASSED, LEAN_REF -, LEAN_NOTE 'D27 route substitution: the sealed root's Lean proof (provider -> implementation theorem) follows the implementation route; this source step is not separately formalized; confirmed by the D65 global review; previous status NOT_STARTED' (W precedent format).
+
+BYPASSED: 132 (every ordinary node without a LEAN_REF, including the 2 route nodes); blocked (a consumer not PROVED): 0 (reports/bypass-blocked.txt is empty)
+
+## Final LEAN_STATUS and structural lint
+
+PROVED 149 (145 anchors; lpM:L8 unique match; lpM:L1#velocity, lpM:L2, lpM:L5 d-generic pairs), BYPASSED 132, EXTERNAL 11, NOT_STARTED 0
+proof_depgraph.py --require-complete-coverage --require-all-reachable --write-dashboard: rc 0; --check: rc 0
+
+# Step C (2026-11-01T14:58Z, main 67f6fd6986c077cffb531c942b96ff908d315a5c): wave 4 (LP3, D64) and the same rules
+
+declarations scanned on main: 716 (with docstrings, public); ordinary nodes: 140
+PROVED: 4; NOT_STARTED: 136
+import closure: 224 KAM modules; identical to main in /root/code/KAM-inp (HEAD, clean)
+
+The four LP3 step nodes (lp3:s2.3, lp3:s2.4, lp3:s2.5, lp3:s3#first-exit) have LP3-PLAN locators, not MAIN ones, so no docstring citation matches them ('no MAIN locator'); the two LP3 anchors and the two reused exponent definitions are anchors (PROVED when their LEAN_REF resolves on main). The step A/B proposals are unchanged:
+
+| lpM:L1#velocity | display | PROVED | KAM.Planetary.StrongAMD.oscVelocity_eq_movingField ; KAM.Planetary.Spatial.spatialOscVelocity_eq_hamiltonianVectorField | d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a)) | KAM.Planetary.Spatial.spatialOscVelocity_eq_hamiltonianVectorField, KAM.Planetary.StrongAMD.oscVelocity_eq_movingField |
+| lpM:L2 | lemma | PROVED | KAM.Planetary.StrongAMD.orbital_identities ; KAM.Planetary.Spatial.spatial_orbital_identities | d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a)) | KAM.Planetary.Spatial.spatial_orbital_identities, KAM.Planetary.StrongAMD.orbital_identities |
+| lpM:L5 | lemma | PROVED | KAM.Planetary.StrongAMD.barrier_osc_data ; KAM.Planetary.Spatial.spatialBarrier_osc_data | d-generic pair: exactly one planar and one spatial matching declaration (step B, rule (a)) | KAM.Planetary.Spatial.spatialBarrier_osc_data, KAM.Planetary.StrongAMD.barrier_osc_data |
+| lpM:L8 | lemma | PROVED | KAM.Planetary.StrongAMD.lemma8_complete | unique docstring match | KAM.Planetary.StrongAMD.lemma8_complete |
+
+### #print axioms output of step C (one scratch file, one process)
+
+```
+'KAM.Planetary.Spatial.spatialBarrier_osc_data' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.Spatial.spatialOscVelocity_eq_hamiltonianVectorField' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'KAM.Planetary.Spatial.spatial_orbital_identities' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.StrongAMD.barrier_osc_data' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.StrongAMD.lemma8_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.StrongAMD.orbital_identities' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Planetary.StrongAMD.oscVelocity_eq_movingField' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+D27 BYPASS: 136 (the 132 of step B + the 4 LP3 steps), blocked 0
+
+## Final LEAN_STATUS and structural lint (waves 1-4)
+
+301 nodes: PROVED 153 (149 anchors + lpM:L8, lpM:L1#velocity, lpM:L2, lpM:L5), BYPASSED 136, EXTERNAL 12 (10 closed-list + N:bpN:p11:nonresonant + N:bpN:p0:partial), NOT_STARTED 0
+proof_depgraph.py --require-complete-coverage --require-all-reachable --write-dashboard: rc 0; --check: rc 0

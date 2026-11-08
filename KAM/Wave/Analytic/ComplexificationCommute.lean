@@ -12,8 +12,7 @@ public import KAM.Wave.Seq.Multiplier
 # Complexification commutes with `τ_{a,p}`, `κ_{a,p}` and real multipliers
 
 Blueprint-W `bpW:w1:complexification-lemma` (i), the clause "all three commute with `τ_{a,p}`,
-`κ_{a,p}` and every real multiplier `D_μ`" (package W1-ANALYTIC). This is source-faithful
-infrastructure used by several nodes; the dependency graph is still being built.
+`κ_{a,p}` and every real multiplier `D_μ`" (package W1-ANALYTIC).
 
 The transports are the `RCLike`-generic `KAM.Wave.coeffW`, `KAM.Wave.tauLp` and
 `KAM.Wave.weightedDiagCLM`, instantiated at `ℝ` and at `ℂ`; a real multiplier `μ` acts on `ℓ²_ℂ`
@@ -102,11 +101,5 @@ theorem weightedDiagCLM_conjLp {μ : ℕ+ → ℝ} {M : ℝ} (hM : ∀ j, ‖μ 
     conjLp (weightedDiagCLM (fun j => (μ j : ℂ)) (norm_ofReal_le_of_norm_le hM) z) =
       weightedDiagCLM (fun j => (μ j : ℂ)) (norm_ofReal_le_of_norm_le hM) (conjLp z) := by
   ext j; simp
-
-/-- `D_μ` commutes with `κ_{a,p}`: `κ (D_μ y) = μ · κ y`, so multipliers also commute with `τ`. -/
-theorem coeffW_weightedDiagCLM {K : Type*} [RCLike K] (a p : ℝ) (μ : ℕ+ → K) {M : ℝ}
-    (hM : ∀ j, ‖μ j‖ ≤ M) (y : lp (fun _ : ℕ+ => K) 2) (j : ℕ+) :
-    coeffW a p (weightedDiagCLM μ hM y) j = μ j * coeffW a p y j := by
-  simp [coeffW, mul_div_assoc]
 
 end KAM.Wave

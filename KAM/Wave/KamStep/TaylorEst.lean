@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Taylor estimates for the field (`bpW:w5:taylor` (iii), (iv), steps `t-disc`, `t-est`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 For a field `X` holomorphic on `D(s,r)` put `G(t,w) = T_t X(S_t w)` and
 `taylorXR X w = ∑_{k ≤ 2} g_k(w)` with `g_k` the Taylor coefficients of `G(·, w)` at `t = 0`
 (`taylorField`). Then, with `|X|_r ≤ ε` on `D(s,r)`: `taylorXR_bound` (`|X_R| ≤ 3ε`) and
@@ -46,9 +44,6 @@ def kamToStep (r' : ℝ) [Fact (0 < r')] : KamPhase →L[ℂ] StepPhase r' :=
     (1 + 1 / r' ^ 2 + 2 / r') fun W => by
       show kamNorm r' W ≤ _
       exact kamNorm_le_norm_kamPhase (Fact.out) W
-
-theorem norm_kamToStep (r' : ℝ) [Fact (0 < r')] (W : KamPhase) : ‖kamToStep r' W‖ = kamNorm r' W :=
-  rfl
 
 theorem differentiableAt_scaleS (w : KamPhase) (t : ℂ) :
     DifferentiableAt ℂ (fun t : ℂ => scaleS t w) t := by

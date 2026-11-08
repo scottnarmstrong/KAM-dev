@@ -14,11 +14,10 @@ import Mathlib.Tactic.GCongr
 /-!
 # W6: the Lipschitz frequencies, conditional form (blueprint `bpW:w6:freq-lip`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:freq-lip` (milestone W6), steps `fl-size`, `fl-lip`.
+Blueprint label `bpW:w6:freq-lip` (milestone W6), steps `fl-size`, `fl-lip`.
 
-`w6IsFreqPair_of_bounds` is a **conditional helper** (it is not the label `freq-lip`, which is
-about the outputs of the wave iteration and needs W5's step through `bpW:w6:prep-step` (ii) and
+`w6IsFreqPair_of_bounds` is a **hypothesis-taking variant** (it is not the label `freq-lip`, which
+is about the outputs of the wave iteration and needs W5's step through `bpW:w6:prep-step` (ii) and
 `bpW:w6:convergence` (ii)). It is the arithmetic of the two steps: given on a Borel `D ⊆ Π`
 * frequencies `ω₀ = ω⁰ + ω̂`, `Ω₀ = Ω⁰ + Ω̂` with `|ω̂| ≤ 6πε`, `λ|ω̂|^L ≤ 6πε`,
   `J |Ω̂_J| ≤ 3ε`, `J λ |Ω̂_J|^L ≤ 3ε` (`λ = α/M`), and
@@ -103,8 +102,9 @@ theorem w6_lipcoef_Omega {α ε ε₀ : ℝ} (hα : 0 < α) (hα0 : α ≤ measA
     apply div_le_div_of_nonneg_right _ (by positivity); nlinarith
   linarith
 
-/-- **Lipschitz frequencies, conditional helper** (blueprint `bpW:w6:freq-lip`, steps `fl-size`,
-`fl-lip`): the shift and drift bounds give (H1)–(H2) with the constants of `bpW:w6:freq-lip`. -/
+/-- **Lipschitz frequencies, hypothesis-taking variant** (blueprint `bpW:w6:freq-lip`, steps
+`fl-size`, `fl-lip`): the shift and drift bounds give (H1)–(H2) with the constants of
+`bpW:w6:freq-lip`. -/
 theorem w6IsFreqPair_of_bounds {Pi D : Set (Fin 2 → ℝ)} {α ε ε₀ : ℝ}
     (hDm : MeasurableSet D) (hDsub : D ⊆ Pi) (hα : 0 < α) (hα0 : α ≤ measAlpha0 m hm)
     (hε : 0 ≤ ε) (hεγ : ε ≤ w6Gamma m hm * α) (hε₀ : 0 ≤ ε₀)

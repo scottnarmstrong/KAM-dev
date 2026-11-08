@@ -13,7 +13,7 @@ public import KAM.Planetary.Spatial.Chart.Analytic
 /-!
 # The regular spatial Poincare chart: the explicit inverse (MAIN lines 571–576)
 
-Package LP-SP-CHART, `LP:MAIN L17 (571–578)`, track LP, non-frozen. Item 3.
+Source: `LP:MAIN L17 (571–578)`, track LP, non-frozen. Item 3.
 
 For a spatial state `z = (q, p)` put `c = q ⨯₃ p`, `G = |c|`, `x = c/G` (the `ŵ` of MAIN),
 `cc = √((1 + x₃)/2)`, `u = −√G x₂/cc`, `v = −√G x₁/cc`, `R = incRotation u v G`. Then
@@ -22,7 +22,6 @@ For a spatial state `z = (q, p)` put `c = q ⨯₃ p`, `G = |c|`, `x = c/G` (the
 `spatialPoincare` up to the `2π`-lattice shift, and a right inverse on the prograde
 negative-energy region.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

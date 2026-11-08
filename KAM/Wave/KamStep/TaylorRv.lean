@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 # The Taylor polynomial of a Hamiltonian and its derivative (blueprint-W `bpW:w5:taylor`, step
 `t-field`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `taylorRv P w = ∑_{k ≤ 2} (k!)⁻¹ ∂_t^k P(S_t w)|_{t=0}` is the value of the Taylor polynomial `R`
 (`bpW:w5:taylor`). `hasDerivAt_taylorRv`: its derivative in a direction `W'` is the sum of the
 Taylor

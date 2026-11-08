@@ -2,7 +2,7 @@
 
 Theorems~\ref{thm:barrier}--\ref{thm:resonant}, Corollary~\ref{cor:half} and Proposition~\ref{thm:partialnek} are
 proved in Lean~4 \cite{Lean4} (version 4.35.0) with the Mathlib library \cite{Mathlib}, in the repository
-\cite{KAMrepo} at commit \texttt{f46b94fb}. This appendix records what the formal proofs establish, what they do
+\cite{KAMrepo} at commit \texttt{61c6d5a7}. This appendix records what the formal proofs establish, what they do
 not, and where the statements are.
 
 \subsection{What is verified and what is not}
@@ -41,11 +41,11 @@ its statement was written, from \cite[Theorem~4.4]{Nek77}, before its proof.
 Tables~\ref{tab:lean-main} and~\ref{tab:lean-lemmas} list the formal statements and the principal formal
 counterparts of lemmas. The declaration names are internal identifiers, listed verbatim, in the namespaces
 \texttt{KAM.Planetary.StrongAMD} (planar), \texttt{KAM.Planetary.Spatial} (spatial) and \texttt{KAM.Nekhoroshev}.
-For Theorems~\ref{thm:barrier}--\ref{thm:spatial} and Corollary~\ref{cor:half}, the row marked \emph{frozen}
-gives the frozen statement: a separate file, fixed by the authors and protected against change, whose one-line
-proof applies short adapter theorems built on the implementation theorems listed above it. The frozen statements take the \texttt{\_source}
-form of the AMD and the elements; those of Theorems~\ref{thm:planar}, \ref{thm:spatial} and
-Corollary~\ref{cor:half} also take $\max_i\nu_i=1$. Paths are relative to \texttt{KAM/Planetary/}, those of
+For Theorems~\ref{thm:barrier}--\ref{thm:resonant} and Corollary~\ref{cor:half}, the row marked \emph{frozen}
+gives the frozen statement: a separate file, fixed in advance and protected against change, whose one-line
+proof applies the implementation theorems listed above it, directly or through short adapter theorems. The frozen statements take the \texttt{\_source}
+form of the AMD and the elements; those of Theorems~\ref{thm:planar}, \ref{thm:spatial},
+\ref{thm:resonant} and Corollary~\ref{cor:half} also take $\max_i\nu_i=1$. Paths are relative to \texttt{KAM/Planetary/}, those of
 the frozen statements to \texttt{KAM/Frozen/Planetary/}, except in the last row of Table~\ref{tab:lean-main}.
 
 \begin{table}[htb]
@@ -77,11 +77,15 @@ Thm.~\ref{thm:resonant} & \texttt{lp3\_planar\_strongAMD\_safety}, \texttt{\_nor
   (\texttt{StrongAMD/Nek/PlanarSafety/Main.lean:42, 135}; \texttt{\_source} forms \texttt{Source.lean:37, 130});
   \texttt{lp3\_spatial\_strongAMD\_safety}, \texttt{\_normalized}
   (\texttt{Spatial/Nek/SpatialSafety/Main.lean:40, 150}; \texttt{\_source} forms \texttt{Source.lean:40, 139})\\
+\quad frozen & \texttt{planar\_strongAMD\_exponentialSafety\_noArith}
+  (\texttt{StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean:68}),
+  \texttt{spatial\_strongAMD\_exponentialSafety\_noArith}
+  (\texttt{Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean:69})\\
 Prop.~\ref{thm:partialnek} & \texttt{partialConvex\_nekhoroshev}
   (\texttt{KAM/Frozen/Nekhoroshev/Theorems/PartialConvexNekhoroshev.lean:48})\\
 \bottomrule
 \end{tabular}
-\caption{Formal statements of the main results, at commit \texttt{f46b94fb}.}\label{tab:lean-main}
+\caption{Formal statements of the main results, at commit \texttt{61c6d5a7}.}\label{tab:lean-main}
 \end{table}
 
 \begin{table}[htb]
@@ -106,14 +110,14 @@ Lemma & Lean declarations (file and line)\\
 \ref{lem:spdomain} & \texttt{lemma18\_complete} (\texttt{Spatial/AnalyticDomain/Bounds.lean:191})\\
 \bottomrule
 \end{tabular}
-\caption{Formal counterparts of lemmas, at commit \texttt{f46b94fb}.}\label{tab:lean-lemmas}
+\caption{Formal counterparts of lemmas, at commit \texttt{61c6d5a7}.}\label{tab:lean-lemmas}
 \end{table}
 
 \subsection{Axioms and status}
 
 \texttt{\#print axioms} reports exactly \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound} for
-the five frozen statements of Table~\ref{tab:lean-main} and for each of the following implementation
-declarations, checked at commit \texttt{f46b94fb}:
+the seven frozen statements of Table~\ref{tab:lean-main} and for each of the following implementation
+declarations:
 \begin{itemize}
 \item \texttt{lp0\_planar\_barrier};
 \item \texttt{lp1\_planar\_strongAMD\_safety}, \texttt{lp2\_spatial\_strongAMD\_safety}\\ and their
@@ -121,15 +125,17 @@ declarations, checked at commit \texttt{f46b94fb}:
 \item \texttt{lp3\_planar\_strongAMD\_safety}, \texttt{lp3\_spatial\_strongAMD\_safety}\\ and their
   \texttt{\_normalized} and \texttt{\_source} versions.
 \end{itemize}
-Each integration of new code into the repository replays the proofs in the Lean kernel. The statements of
-Theorems~\ref{thm:barrier}--\ref{thm:spatial} and Corollary~\ref{cor:half} are frozen; Theorem~\ref{thm:resonant}
-is proved, and the freezing of its statement is pending.
+The two frozen statements of Theorem~\ref{thm:resonant} were checked at commit \texttt{61c6d5a7}, the others
+at commit \texttt{f46b94fb}; between these two commits the implementation files changed only in comments. Each
+integration of new code into the repository replays the proofs in the Lean kernel. The statements of
+Theorems~\ref{thm:barrier}--\ref{thm:resonant} and Corollary~\ref{cor:half} are frozen.
 
 
 \subsection{Use of AI and formal tools}
 
 The proofs in this paper, their Lean formalization and a first draft of the text were developed with
-substantial use of large language model systems, working under the direction of the authors. Every formal proof
+substantial use of large language model systems, working under the direction of Scott Armstrong and Zohar
+Komargodski. Every formal proof
 was checked by the Lean kernel. Statements, proofs and the correspondence between the paper and the formal
-statements were reviewed by independent model-based audits and by the authors. The authors take full
-responsibility for the content of the paper.
+statements were reviewed by independent model-based audits, and the exact frozen statements were approved before
+they were frozen.

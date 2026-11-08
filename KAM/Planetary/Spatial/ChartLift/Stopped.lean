@@ -12,11 +12,12 @@ public import KAM.Planetary.Spatial.Product
 /-!
 # The spatial stopped interval: aligned prograde states and the whole-ball bound
 
-Package LP-SP-LIFT, MAIN Lemma 14 (`LP:MAIN L14 (468–500)`, lines 477–480) with the spatial
+Source: MAIN Lemma 14 (`LP:MAIN L14 (468–500)`, lines 477–480) with the spatial
 Lemma 18 alignment (`LP:MAIN L18 (595–597)`, `d = 3`) and amendments N2, N6; track LP,
-non-frozen.  The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+non-frozen.
 
-On the stopped interval (MAIN's stopped conditions (40), in the strict form of the LP-SP-CONF
+On the stopped interval (MAIN's stopped conditions (40), in the strict form of the spatial
+confinement
 helper `hstop`) every physical state is a barrier state with margin `δ/2`, its angular momentum
 stays aligned with `e₃`, and the projections `L_i · e₃ ≥ δ/2 > 0` put it in the image of the
 spatial product chart (`spatialPoincareProd_image`); the strong AMD is the fixed-plane deficit
@@ -24,8 +25,8 @@ and satisfies the whole-ball bound `C ≤ B(I⁰) - δ/4` (MAIN (47)).
 
 * `SpatialLiftData`: source data (standing assumptions, the budget, the initial state, the
   alignment `L(z₀) = |L(z₀)| e₃`); no drift or confinement conclusion.
-* `SpatialStoppedOn`: the strict stopped conditions, literally the antecedent of LP-SP-CONF's
-  `hstop`.
+* `SpatialStoppedOn`: the strict stopped conditions, literally the antecedent of the spatial
+  confinement's `hstop`.
 * `spLiftSecularBall`: the ball (47) in physical slow coordinates `Phase (n + n)`.
 -/
 
@@ -64,7 +65,7 @@ structure SpatialLiftData (ν : Fin n → ℝ) (U : Set (Fin n → ℝ)) (z₀ :
   aligned : angularMomentum3 z₀ = spaceLength (angularMomentum3 z₀) • e₃
 
 /-- The strict stopped conditions (`LP:MAIN L14 (40)`, N6) on `uIcc 0 t`: literally the antecedent
-of the `hstop` hypothesis of LP-SP-CONF's `spatialStrongFirstExit_of_stopped_drift`. -/
+of the `hstop` hypothesis of the spatial confinement's `spatialStrongFirstExit_of_stopped_drift`. -/
 def SpatialStoppedOn (ν : Fin n → ℝ) (z₀ : Phase (n * 3)) (δ r : ℝ) (z : ℝ → Phase (n * 3))
     (t : ℝ) : Prop :=
   ∀ u ∈ uIcc 0 t, SpatialNegativeEnergy ν (z u) ∧

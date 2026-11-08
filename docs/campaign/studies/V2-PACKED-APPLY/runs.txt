@@ -1,0 +1,53 @@
+== copy TP 02:51:37
+dump OK: /home/scott/KAM-dev-worktrees/lg00-app/applications/lg00/LG00/TP (Data/Cert.lean, Data/DCoeffs.lean, Data/E0.lean, Data/W8.lean, Final/Wit.lean, Main.lean, ../Jet.lean, ../JetBridge.lean, Final/Static.lean, Final/Embedding.lean, Final/RefinedCore.lean, Final/Freq.lean, Balls/HamBounds.lean, Final/HamClaim.lean, ../Physical/HamIdentity.lean)
+[cert] py_capped.sh /home/scott/KAM-dev-worktrees/v2-packed-apply/scripts/packed/prod_cert_gen.py /home/scott/kam-data/v2-packed-apply/final/copy --app=/home/scott/KAM-dev-worktrees/lg00-app/applications/lg00 --tree=TP --prefix=LG00P
+[port] py_capped.sh /home/scott/KAM-dev-worktrees/v2-packed-apply/scripts/packed/gen_port.py /home/scott/kam-data/v2-packed-apply/final/copy --app=/home/scott/KAM-dev-worktrees/lg00-app/applications/lg00 --tree=TP --prefix=LG00P --prod-gen=/home/scott/KAM-dev-worktrees/v2-packed-apply/scripts/packed/prod_cert_gen.py --ham-port --split-balls=38
+[packed] py_capped.sh /home/scott/KAM-dev-worktrees/v2-packed-apply/scripts/packed/gen_packed.py --tree TP --prefix LG00P --cert /home/scott/KAM-dev-worktrees/lg00-app/applications/lg00/LG00/TP --pkg /home/scott/kam-data/v2-packed-apply/final/copy --stages jet --ham-ported --asm-suffix H --jet-low /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tp/low_mirror.pkl --jet-full /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tp/full_mirror.pkl
+[cert] exit 0
+[port] exit 0
+[packed] exit 0
+emitted: 286 files, 4817081 bytes
+check against /home/scott/KAM-dev-worktrees/v2-packed-gen-int/.lake/lg00p: 286 files compared, 1 different, 0 missing in the reference; lists {'modules_TP.json': True, 'ported_LG00P_TP.json': True}: DIFFERENT
+  LG00P/PKFormat.lean
+Command exited with non-zero status 1
+time: wall 78.08 s, user 76.47 s, sys 1.54 s, max RSS 1285792 kB
+== copy TPP 02:52:55
+dump OK: /home/scott/KAM-dev-worktrees/lg00-app/applications/lg00/LG00/TPP (Data/Cert.lean, Data/DCoeffs.lean, Data/E0.lean, Data/W8.lean, Final/Wit.lean, Main.lean, ../Jet.lean, ../JetBridge.lean, Final/Static.lean, Final/Embedding.lean, Final/RefinedCore.lean, Final/Freq.lean, Balls/HamBounds.lean, Final/HamClaim.lean, ../Physical/HamIdentity.lean)
+[cert] py_capped.sh /home/scott/KAM-dev-worktrees/v2-packed-apply/scripts/packed/prod_cert_gen.py /home/scott/kam-data/v2-packed-apply/final/copy --app=/home/scott/KAM-dev-worktrees/lg00-app/applications/lg00 --tree=TPP --prefix=LG00P
+[port] py_capped.sh /home/scott/KAM-dev-worktrees/v2-packed-apply/scripts/packed/gen_port.py /home/scott/kam-data/v2-packed-apply/final/copy --app=/home/scott/KAM-dev-worktrees/lg00-app/applications/lg00 --tree=TPP --prefix=LG00P --prod-gen=/home/scott/KAM-dev-worktrees/v2-packed-apply/scripts/packed/prod_cert_gen.py --ham-port --split-balls=38
+[packed] py_capped.sh /home/scott/KAM-dev-worktrees/v2-packed-apply/scripts/packed/gen_packed.py --tree TPP --prefix LG00P --cert /home/scott/KAM-dev-worktrees/lg00-app/applications/lg00/LG00/TPP --pkg /home/scott/kam-data/v2-packed-apply/final/copy --stages jet --ham-ported --asm-suffix  --jet-low /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tpp/low_mirror.pkl --jet-full /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tpp/full_mirror.pkl
+[cert] exit 0
+[port] exit 0
+[packed] exit 0
+emitted: 286 files, 4819234 bytes
+check against /home/scott/KAM-dev-worktrees/v2-packed-gen-int/.lake/lg00p: 286 files compared, 0 different, 0 missing in the reference; lists {'modules_TP.json': True, 'modules_TPP.json': True, 'ported_LG00P_TP.json': True, 'ported_LG00P_TPP.json': True}: IDENTICAL
+time: wall 76.65 s, user 75.30 s, sys 1.22 s, max RSS 1290684 kB
+== copy TP recheck 02:54:12
+dump OK: /home/scott/KAM-dev-worktrees/lg00-app/applications/lg00/LG00/TP (Data/Cert.lean, Data/DCoeffs.lean, Data/E0.lean, Data/W8.lean, Final/Wit.lean, Main.lean, ../Jet.lean, ../JetBridge.lean, Final/Static.lean, Final/Embedding.lean, Final/RefinedCore.lean, Final/Freq.lean, Balls/HamBounds.lean, Final/HamClaim.lean, ../Physical/HamIdentity.lean)
+[cert] py_capped.sh /home/scott/KAM-dev-worktrees/v2-packed-apply/scripts/packed/prod_cert_gen.py /home/scott/kam-data/v2-packed-apply/final/copy --app=/home/scott/KAM-dev-worktrees/lg00-app/applications/lg00 --tree=TP --prefix=LG00P
+[port] py_capped.sh /home/scott/KAM-dev-worktrees/v2-packed-apply/scripts/packed/gen_port.py /home/scott/kam-data/v2-packed-apply/final/copy --app=/home/scott/KAM-dev-worktrees/lg00-app/applications/lg00 --tree=TP --prefix=LG00P --prod-gen=/home/scott/KAM-dev-worktrees/v2-packed-apply/scripts/packed/prod_cert_gen.py --ham-port --split-balls=38
+[packed] py_capped.sh /home/scott/KAM-dev-worktrees/v2-packed-apply/scripts/packed/gen_packed.py --tree TP --prefix LG00P --cert /home/scott/KAM-dev-worktrees/lg00-app/applications/lg00/LG00/TP --pkg /home/scott/kam-data/v2-packed-apply/final/copy --stages jet --ham-ported --asm-suffix H --jet-low /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tp/low_mirror.pkl --jet-full /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tp/full_mirror.pkl
+emitted: 286 files, 4817083 bytes
+check against /home/scott/KAM-dev-worktrees/v2-packed-gen-int/.lake/lg00p: 286 files compared, 0 different, 0 missing in the reference; lists {'modules_TP.json': True, 'modules_TPP.json': True, 'ported_LG00P_TP.json': True, 'ported_LG00P_TPP.json': True}: IDENTICAL
+== own TP 02:54:12
+dump OK: /home/scott/KAM-dev-worktrees/lg00-app/applications/lg00/LG00/TP (Data/Cert.lean, Data/DCoeffs.lean, Data/E0.lean, Data/W8.lean, Final/Wit.lean, Main.lean, ../Jet.lean, ../JetBridge.lean, Final/Static.lean, Final/Embedding.lean, Final/RefinedCore.lean, Final/Freq.lean, Balls/HamBounds.lean, Final/HamClaim.lean, ../Physical/HamIdentity.lean)
+[packed] py_capped.sh /home/scott/KAM-dev-worktrees/v2-packed-apply/scripts/packed/gen_packed.py --tree TP --prefix LG00 --cert /home/scott/KAM-dev-worktrees/lg00-app/applications/lg00/LG00/TP --pkg /home/scott/kam-data/v2-packed-apply/final/own --stages jet --ham-ported --asm-suffix  --pk-root LG00.{T}.PK --pk-format LG00.PKFormat --jet-low /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tp/low_mirror.pkl --jet-full /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tp/full_mirror.pkl
+[packed] exit 0
+emitted: 115 files, 2375239 bytes
+check against /home/scott/KAM-dev-worktrees/lg00-release/applications/lg00: 115 files compared, 1 different, 0 missing in the reference; lists {'modules_TP.json': True}: DIFFERENT
+  LG00/PKFormat.lean
+Command exited with non-zero status 1
+time: wall 75.34 s, user 74.13 s, sys 1.09 s, max RSS 1286164 kB
+== own TPP 02:55:27
+dump OK: /home/scott/KAM-dev-worktrees/lg00-app/applications/lg00/LG00/TPP (Data/Cert.lean, Data/DCoeffs.lean, Data/E0.lean, Data/W8.lean, Final/Wit.lean, Main.lean, ../Jet.lean, ../JetBridge.lean, Final/Static.lean, Final/Embedding.lean, Final/RefinedCore.lean, Final/Freq.lean, Balls/HamBounds.lean, Final/HamClaim.lean, ../Physical/HamIdentity.lean)
+[packed] py_capped.sh /home/scott/KAM-dev-worktrees/v2-packed-apply/scripts/packed/gen_packed.py --tree TPP --prefix LG00 --cert /home/scott/KAM-dev-worktrees/lg00-app/applications/lg00/LG00/TPP --pkg /home/scott/kam-data/v2-packed-apply/final/own --stages jet --ham-ported --asm-suffix  --pk-root LG00.{T}.PK --pk-format LG00.PKFormat --jet-low /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tpp/low_mirror.pkl --jet-full /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tpp/full_mirror.pkl
+[packed] exit 0
+emitted: 115 files, 2378515 bytes
+check against /home/scott/KAM-dev-worktrees/lg00-release/applications/lg00: 115 files compared, 0 different, 0 missing in the reference; lists {'modules_TP.json': True, 'modules_TPP.json': True}: IDENTICAL
+time: wall 74.68 s, user 73.60 s, sys 1.06 s, max RSS 1287384 kB
+== own TP recheck 02:56:42
+dump OK: /home/scott/KAM-dev-worktrees/lg00-app/applications/lg00/LG00/TP (Data/Cert.lean, Data/DCoeffs.lean, Data/E0.lean, Data/W8.lean, Final/Wit.lean, Main.lean, ../Jet.lean, ../JetBridge.lean, Final/Static.lean, Final/Embedding.lean, Final/RefinedCore.lean, Final/Freq.lean, Balls/HamBounds.lean, Final/HamClaim.lean, ../Physical/HamIdentity.lean)
+[packed] py_capped.sh /home/scott/KAM-dev-worktrees/v2-packed-apply/scripts/packed/gen_packed.py --tree TP --prefix LG00 --cert /home/scott/KAM-dev-worktrees/lg00-app/applications/lg00/LG00/TP --pkg /home/scott/kam-data/v2-packed-apply/final/own --stages jet --ham-ported --asm-suffix  --pk-root LG00.{T}.PK --pk-format LG00.PKFormat --jet-low /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tp/low_mirror.pkl --jet-full /home/scott/KAM-dev-worktrees/v2-packed/.lake/v2-packed-prod/tp/full_mirror.pkl
+emitted: 115 files, 2375241 bytes
+check against /home/scott/KAM-dev-worktrees/lg00-release/applications/lg00: 115 files compared, 0 different, 0 missing in the reference; lists {'modules_TP.json': True, 'modules_TPP.json': True}: IDENTICAL
+== end 02:56:42

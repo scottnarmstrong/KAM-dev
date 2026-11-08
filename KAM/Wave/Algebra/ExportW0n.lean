@@ -13,9 +13,6 @@ import Mathlib.Tactic.FieldSimp
 # The weighted convolution algebra of W0 as single statements
 (blueprint `bpW:w0n:algebra`, step `stepW:w0n:weight`)
 
-Off-frontier, source-faithful infrastructure (W-GRAPH-CLOSE); the dependency graph is still being
-built.
-
 * `wave_weight_step` (step `stepW:w0n:weight`): for `i, l ∈ ℤ`, `w_l = ⟨l⟩^s e^{a|l|}`:
   `e^{a|l|} ≤ e^{a|i|} e^{a|l-i|}`, `⟨l⟩ ≤ ⟨i⟩ + ⟨l-i⟩`,
   `w_l ≤ 2^{s-1}(w_i e^{a|l-i|} + e^{a|i|} w_{l-i})

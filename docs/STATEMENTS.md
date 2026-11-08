@@ -4,17 +4,19 @@
 
 Every statement below is an exact Lean declaration that the owner approved before its proof was written. Each lives alone in its own file under `KAM/Frozen/`, and the manifest pins its bytes. A sealed theorem has a complete proof, assembled in a separate provider module, replayed by the kernel, and using only the standard axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
-**70 frozen theorems, 66 sealed; 237 frozen definitions.**
+**77 frozen theorems, 76 sealed; 252 frozen definitions.**
 
 ## Index
 
 - **Track K: positive-measure KAM:** [`aposteriori_kam`](#aposteriori_kam) · [`kam_positive_measure`](#kam_positive_measure) · [`kam_positive_measure_qualitative`](#kam_positive_measure_qualitative) · [`local_uniqueness_flow`](#local_uniqueness_flow) · [`volume_not_diophantine_le`](#volume_not_diophantine_le)
 - **Track I: isoenergetic KAM, confinement, restricted three-body problem:** [`isoenergetic_kam`](#isoenergetic_kam) · [`all_time_confinement`](#all_time_confinement) · [`kepler_bordered_det`](#kepler_bordered_det) · [`restricted_near_circular`](#restricted_near_circular)
 - **Track N: Nekhoroshev stability:** [`quasiConvex_isoenergetic_derivative`](#quasiconvex_isoenergetic_derivative) · [`zero_perturbation`](#zero_perturbation) · [`quasiConvex_nekhoroshev_complexBound`](#quasiconvex_nekhoroshev_complexbound) · [`partialConvex_nekhoroshev`](#partialconvex_nekhoroshev) · [`averaging_mean`](#averaging_mean) · [`averaging_most`](#averaging_most)
-- **Track P: planetary systems:** [`properlyDegenerateKAM`](#properlydegeneratekam) · [`planarTwoPlanetKAM`](#planartwoplanetkam) · [`fixedSunPlanetaryKAM`](#fixedsunplanetarykam) · [`amdConfinement`](#amdconfinement) · [`planetaryExponentialSafety`](#planetaryexponentialsafety) · [`secularBoxSafety`](#secularboxsafety) · [`secularBoxAtCitedMasses`](#secularboxatcitedmasses) · [`orderedPairThreshold_isLeast`](#orderedpairthreshold_isleast) · [`orderedPairThreshold_existsUnique_value`](#orderedpairthreshold_existsunique_value) · [`orderedCrossThreshold_isLeast`](#orderedcrossthreshold_isleast) · [`orderedStrongThreshold_isLeast`](#orderedstrongthreshold_isleast) · [`sourceStrongAMD_nonneg`](#sourcestrongamd_nonneg) · [`sum_action_mul_eccDeficit_le_sourceStrongAMD`](#sum_action_mul_eccdeficit_le_sourcestrongamd) · [`sourceKepler_axis_pos`](#sourcekepler_axis_pos) · [`sourceKepler_ecc_le_one`](#sourcekepler_ecc_le_one) · [`sourceKeplerPeri_le_planeLength`](#sourcekeplerperi_le_planelength) · [`planeLength_le_sourceKeplerApo`](#planelength_le_sourcekeplerapo) · [`sourceOscAxis_pos`](#sourceoscaxis_pos) · [`sourceOscPeri_pos`](#sourceoscperi_pos) · [`sourceOscPeri_le_planeLength`](#sourceoscperi_le_planelength) · [`planeLength_le_sourceOscApo`](#planelength_le_sourceoscapo) · [`spatialSourceKeplerAxis_pos`](#spatialsourcekepleraxis_pos) · [`spatialSourceKeplerAction_pos`](#spatialsourcekepleraction_pos) · [`spatialSourceKeplerAction_sq`](#spatialsourcekepleraction_sq) · [`spatialSourceKeplerEcc_sq`](#spatialsourcekeplerecc_sq) · [`spatialSourceKeplerEcc_nonneg`](#spatialsourcekeplerecc_nonneg) · [`spatialSourceKeplerEcc_le_one`](#spatialsourcekeplerecc_le_one) · [`spatialSourcePlanetAngularMomentum_length`](#spatialsourceplanetangularmomentum_length) · [`spatialSourcePlanetAngularMomentum_length_le`](#spatialsourceplanetangularmomentum_length_le) · [`spatialSourceKeplerPeri_le_length`](#spatialsourcekeplerperi_le_length) · [`spatialSourceKeplerApo_ge_length`](#spatialsourcekeplerapo_ge_length) · [`spatialSourceStrongAMD_nonneg`](#spatialsourcestrongamd_nonneg) · [`spatialSourceAction_mul_eccDeficit_le`](#spatialsourceaction_mul_eccdeficit_le) · [`spatialSourceOscParam_pos`](#spatialsourceoscparam_pos) · [`spatialSourceOscEnergy_neg`](#spatialsourceoscenergy_neg) · [`spatialSourceOscEcc_lt_one`](#spatialsourceoscecc_lt_one) · [`spatialSourceOscEcc_nonneg`](#spatialsourceoscecc_nonneg) · [`spatialSourceOscAxis_pos`](#spatialsourceoscaxis_pos) · [`spatialSourceOscPeri_pos`](#spatialsourceoscperi_pos) · [`spatialSourceOscPeri_le_length`](#spatialsourceoscperi_le_length) · [`spatialSourceOscApo_ge_length`](#spatialsourceoscapo_ge_length) · [`planar_strongAMD_barrier`](#planar_strongamd_barrier) · [`planar_strongAMD_exponentialSafety`](#planar_strongamd_exponentialsafety) · [`planar_strongAMD_exponentialSafety_halfInteger`](#planar_strongamd_exponentialsafety_halfinteger) · [`spatial_strongAMD_exponentialSafety`](#spatial_strongamd_exponentialsafety) · [`spatial_strongAMD_exponentialSafety_halfInteger`](#spatial_strongamd_exponentialsafety_halfinteger)
+- **Track P: planetary systems:** [`properlyDegenerateKAM`](#properlydegeneratekam) · [`planarTwoPlanetKAM`](#planartwoplanetkam) · [`fixedSunPlanetaryKAM`](#fixedsunplanetarykam) · [`amdConfinement`](#amdconfinement) · [`planetaryExponentialSafety`](#planetaryexponentialsafety) · [`secularBoxSafety`](#secularboxsafety) · [`secularBoxAtCitedMasses`](#secularboxatcitedmasses) · [`orderedPairThreshold_isLeast`](#orderedpairthreshold_isleast) · [`orderedPairThreshold_existsUnique_value`](#orderedpairthreshold_existsunique_value) · [`orderedCrossThreshold_isLeast`](#orderedcrossthreshold_isleast) · [`orderedStrongThreshold_isLeast`](#orderedstrongthreshold_isleast) · [`sourceStrongAMD_nonneg`](#sourcestrongamd_nonneg) · [`sum_action_mul_eccDeficit_le_sourceStrongAMD`](#sum_action_mul_eccdeficit_le_sourcestrongamd) · [`sourceKepler_axis_pos`](#sourcekepler_axis_pos) · [`sourceKepler_ecc_le_one`](#sourcekepler_ecc_le_one) · [`sourceKeplerPeri_le_planeLength`](#sourcekeplerperi_le_planelength) · [`planeLength_le_sourceKeplerApo`](#planelength_le_sourcekeplerapo) · [`sourceOscAxis_pos`](#sourceoscaxis_pos) · [`sourceOscPeri_pos`](#sourceoscperi_pos) · [`sourceOscPeri_le_planeLength`](#sourceoscperi_le_planelength) · [`planeLength_le_sourceOscApo`](#planelength_le_sourceoscapo) · [`spatialSourceKeplerAxis_pos`](#spatialsourcekepleraxis_pos) · [`spatialSourceKeplerAction_pos`](#spatialsourcekepleraction_pos) · [`spatialSourceKeplerAction_sq`](#spatialsourcekepleraction_sq) · [`spatialSourceKeplerEcc_sq`](#spatialsourcekeplerecc_sq) · [`spatialSourceKeplerEcc_nonneg`](#spatialsourcekeplerecc_nonneg) · [`spatialSourceKeplerEcc_le_one`](#spatialsourcekeplerecc_le_one) · [`spatialSourcePlanetAngularMomentum_length`](#spatialsourceplanetangularmomentum_length) · [`spatialSourcePlanetAngularMomentum_length_le`](#spatialsourceplanetangularmomentum_length_le) · [`spatialSourceKeplerPeri_le_length`](#spatialsourcekeplerperi_le_length) · [`spatialSourceKeplerApo_ge_length`](#spatialsourcekeplerapo_ge_length) · [`spatialSourceStrongAMD_nonneg`](#spatialsourcestrongamd_nonneg) · [`spatialSourceAction_mul_eccDeficit_le`](#spatialsourceaction_mul_eccdeficit_le) · [`spatialSourceOscParam_pos`](#spatialsourceoscparam_pos) · [`spatialSourceOscEnergy_neg`](#spatialsourceoscenergy_neg) · [`spatialSourceOscEcc_lt_one`](#spatialsourceoscecc_lt_one) · [`spatialSourceOscEcc_nonneg`](#spatialsourceoscecc_nonneg) · [`spatialSourceOscAxis_pos`](#spatialsourceoscaxis_pos) · [`spatialSourceOscPeri_pos`](#spatialsourceoscperi_pos) · [`spatialSourceOscPeri_le_length`](#spatialsourceoscperi_le_length) · [`spatialSourceOscApo_ge_length`](#spatialsourceoscapo_ge_length) · [`planar_strongAMD_barrier`](#planar_strongamd_barrier) · [`planar_strongAMD_exponentialSafety`](#planar_strongamd_exponentialsafety) · [`planar_strongAMD_exponentialSafety_halfInteger`](#planar_strongamd_exponentialsafety_halfinteger) · [`spatial_strongAMD_exponentialSafety`](#spatial_strongamd_exponentialsafety) · [`spatial_strongAMD_exponentialSafety_halfInteger`](#spatial_strongamd_exponentialsafety_halfinteger) · [`planar_strongAMD_exponentialSafety_noArith`](#planar_strongamd_exponentialsafety_noarith) · [`spatial_strongAMD_exponentialSafety_noArith`](#spatial_strongamd_exponentialsafety_noarith)
 - **Track R: Rüssmann's KAM theorem (weak non-degeneracy):** [`russmann_kam`](#russmann_kam)
 - **Track W: PDE KAM (cubic wave equation):** [`nlw2`](#nlw2)
 - **Track SO: the Moon's spin rate and synchronous lock (certified tori):** [`lunar_barriers`](#lunar_barriers) · [`lunar_spin_confinement`](#lunar_spin_confinement) · [`lunarPLo_lt_lunarPHi`](#lunarplo_lt_lunarphi) · [`lunarSyncOrbit_spec`](#lunarsyncorbit_spec) · [`lunarSyncOrbit_unique`](#lunarsyncorbit_unique) · [`lunarSyncOrbit_bound`](#lunarsyncorbit_bound) · [`lunar_sync_lock`](#lunar_sync_lock)
+- **Track B: finite-time effective stability (and SJSU gate 2):** [`torus_confinement`](#torus_confinement) · [`oscillator_confinement`](#oscillator_confinement) · [`henonHeiles_confinement`](#henonheiles_confinement) · [`sjsu_secular_confinement`](#sjsu_secular_confinement)
+- **Magnetic field-line barrier (proof open):** [`magnetic_barrier`](#magnetic_barrier)
 
 ## Track K: positive-measure KAM
 
@@ -709,6 +711,26 @@ Radial incidence on the osculating carrier: `|q_i| ≤ a^osc (1 + e^osc)`.
 - **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyHalfInteger`
 - **Manifest ID:** `planetary.d59.spatial_strongAMD_exponentialSafety_halfInteger.v1`
 
+### planar_strongAMD_exponentialSafety_noArith
+
+[`KAM.Planetary.StrongAMD.planar_strongAMD_exponentialSafety_noArith`](../KAM/Frozen/Planetary/StrongAMD/Theorems/PlanarStrongAMDExponentialSafetyNoArith.lean#L68) · ✅ proved and sealed
+
+**LP3-1** (`LP:MAIN T15 (502–506) with §1 (6)–(9) (69–93) without (5), L14 (468–500), L16 (508–529); N8, N10; drift supplier L12–L13 (381–467) replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)`): planar strong-AMD exponential safety with no arithmetic hypothesis (time exponent `planetaryTimeExponent n`, drift exponent `planetaryDriftExponent n`).
+
+- **Source:** MAIN T15 (502–506) with §1 (6)–(9) (69–93) without (5), L14 (468–500), L16 (508–529); N8, N10; drift supplier L12–L13 (381–467) replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)
+- **Proof assembled in:** `KAM.Provider.Planetary.StrongAMD.PlanarStrongAMDExponentialSafetyNoArith`
+- **Manifest ID:** `planetary.d59.planar_strongAMD_exponentialSafety_noArith.v1`
+
+### spatial_strongAMD_exponentialSafety_noArith
+
+[`KAM.Planetary.Spatial.spatial_strongAMD_exponentialSafety_noArith`](../KAM/Frozen/Planetary/Spatial/Theorems/SpatialStrongAMDExponentialSafetyNoArith.lean#L69) · ✅ proved and sealed
+
+**LP3-2** (`LP:MAIN T19 (599–603) with §1 (6)–(9) (69–93) without (5), L14 (468–500), L16 (508–529), d = 3; drift supplier L12–L13 (381–467) replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)`): spatial strong-AMD exponential safety with no arithmetic hypothesis (time exponent `planetaryTimeExponent n`, drift exponent `planetaryDriftExponent n`).
+
+- **Source:** MAIN T19 (599–603) with §1 (6)–(9) (69–93) without (5), L14 (468–500), L16 (508–529), d = 3; drift supplier L12–L13 (381–467) replaced by the sealed partialConvex_nekhoroshev (LP3-PLAN §1–§2)
+- **Proof assembled in:** `KAM.Provider.Planetary.Spatial.SpatialStrongAMDExponentialSafetyNoArith`
+- **Manifest ID:** `planetary.d59.spatial_strongAMD_exponentialSafety_noArith.v1`
+
 <details><summary>Frozen definitions of this track (156)</summary>
 
 - [`KAM.Planetary.Phase`](../KAM/Frozen/Planetary/Defs/Phase.lean#L37)
@@ -950,7 +972,7 @@ The initial momentum window of `lunar_spin_confinement` is nonempty.
 
 ### lunarSyncOrbit_spec
 
-[`KAM.SpinOrbit.lunarSyncOrbit_spec`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitSpec.lean#L28) · ⬜ not yet
+[`KAM.SpinOrbit.lunarSyncOrbit_spec`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitSpec.lean#L28) · ✅ proved and sealed
 
 - **Source:** FREEZE-PROPOSAL-LOCK §1.2 (existence; Q1)
 - **Proof assembled in:** `KAM.Provider.SpinOrbit.LunarSyncOrbitSpec`
@@ -958,7 +980,7 @@ The initial momentum window of `lunar_spin_confinement` is nonempty.
 
 ### lunarSyncOrbit_unique
 
-[`KAM.SpinOrbit.lunarSyncOrbit_unique`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitUnique.lean#L28) · ⬜ not yet
+[`KAM.SpinOrbit.lunarSyncOrbit_unique`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitUnique.lean#L28) · ✅ proved and sealed
 
 - **Source:** FREEZE-PROPOSAL-LOCK §1.2 (uniqueness among odd one-periodic orbits; Q1)
 - **Proof assembled in:** `KAM.Provider.SpinOrbit.LunarSyncOrbitUnique`
@@ -966,7 +988,7 @@ The initial momentum window of `lunar_spin_confinement` is nonempty.
 
 ### lunarSyncOrbit_bound
 
-[`KAM.SpinOrbit.lunarSyncOrbit_bound`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitBound.lean#L27) · ⬜ not yet
+[`KAM.SpinOrbit.lunarSyncOrbit_bound`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncOrbitBound.lean#L27) · ✅ proved and sealed
 
 - **Source:** FREEZE-PROPOSAL-LOCK §1.2 (location of psi*; Q5, D49 literals)
 - **Proof assembled in:** `KAM.Provider.SpinOrbit.LunarSyncOrbitBound`
@@ -974,7 +996,7 @@ The initial momentum window of `lunar_spin_confinement` is nonempty.
 
 ### lunar_sync_lock
 
-[`KAM.SpinOrbit.lunar_sync_lock`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncLock.lean#L31) · ⬜ not yet
+[`KAM.SpinOrbit.lunar_sync_lock`](../KAM/Frozen/SpinOrbit/Theorems/LunarSyncLock.lean#L31) · ✅ proved and sealed
 
 The Moon stays locked in synchronous rotation forever.
 
@@ -998,5 +1020,84 @@ The Moon stays locked in synchronous rotation forever.
 - [`KAM.SpinOrbit.lunarSyncOrbit`](../KAM/Frozen/SpinOrbit/Defs/LunarSyncOrbit.lean#L24)
 - [`KAM.SpinOrbit.libAction`](../KAM/Frozen/SpinOrbit/Defs/LibAction.lean#L26)
 - [`KAM.SpinOrbit.lunarOmega`](../KAM/Frozen/SpinOrbit/Defs/LunarOmega.lean#L22)
+
+</details>
+
+## Track B: finite-time effective stability (and SJSU gate 2)
+
+### torus_confinement
+
+[`KAM.EffectiveStability.torus_confinement`](../KAM/Frozen/EffectiveStability/TorusConfinement.lean#L33) · ✅ proved and sealed
+
+**B1-T** (plan §2.2; GLS17 §4.3 (56)–(58)): finite confinement in a canonical cylinder. The physical phase coordinates are lifted real coordinates. Only the pullback Hamiltonian must be angle-periodic. The normal part is differentiated through `H ∘ Ψ - R`, which is differentiable on the open chart domain; no differentiability hypothesis on `N` is needed.
+
+- **Source:** program-b-plan §2.2 (B1-T); GLS17 §4.3 (56)–(58)
+- **Proof assembled in:** `KAM.Provider.EffectiveStability.TorusConfinement`
+- **Manifest ID:** `effectiveStability.d72.torus_confinement.v1`
+
+### oscillator_confinement
+
+[`KAM.EffectiveStability.oscillator_confinement`](../KAM/Frozen/EffectiveStability/OscillatorConfinement.lean#L34) · ✅ proved and sealed
+
+**B1-E** (plan §2.3; CL20 §4.1 (32)–(37)): Cartesian oscillator confinement, including zero actions. Coordinates are `w = (q, p)`, with action `KAM.Planetary.oscillatorAction w.2 w.1`, so `I_j = (p_j² + q_j²) / 2` and `{I_j, R} = q_j ∂_{p_j} R - p_j ∂_{q_j} R`. Rotation invariance of the differentiable function `H ∘ Ψ - R` gives the normal-part cancellation without differentiating `N`.
+
+- **Source:** program-b-plan §2.3 (B1-E); CL20 §4.1 (32)–(37)
+- **Proof assembled in:** `KAM.Provider.EffectiveStability.OscillatorConfinement`
+- **Manifest ID:** `effectiveStability.d72.oscillator_confinement.v1`
+
+### henonHeiles_confinement
+
+[`KAM.EffectiveStability.henonHeiles_confinement`](../KAM/Frozen/EffectiveStability/HenonHeilesConfinement.lean#L32) · ✅ proved and sealed
+
+**Hénon–Heiles confinement** (track B, plan §4 "A first instance with literal acceptance criteria"; CL20 Appendix B model `H = I₁ - (√2/2) I₂ + q₁² q₂ - q₂³/3`, `q = z.1`, `p = z.2`): every initial point with both oscillator actions `≤ (1/12500)²` has a Hamiltonian solution on `(-T₁, T₁)` with `T₁ > 10¹⁰`, unique among solutions on intervals through `0`, whose actions stay `< 101/10¹⁰` and within `12/10¹⁰` of their initial values for `|t| ≤ 10¹⁰`.
+
+- **Source:** program-b-plan §4 'A first instance with literal acceptance criteria' (HH); CL20 Appendix B
+- **Proof assembled in:** `KAM.Provider.EffectiveStability.HenonHeilesConfinement`
+- **Manifest ID:** `effectiveStability.d73.henonHeiles_confinement.v1`
+
+### sjsu_secular_confinement
+
+[`KAM.EffectiveStability.sjsu_secular_confinement`](../KAM/Frozen/EffectiveStability/SJSU/SecularConfinement.lean#L42) · ✅ proved and sealed
+
+**SJSU secular confinement** (T2-CONF, D74/D75; `docs/explorations/sjs-rigor-plan.md` §1.1): for every initial state within `10⁻⁶` (sup norm in `(ξ, η)`) of the nominal secular state (SLG13 Table 1 read as Poincaré elements and mapped to secular variables, `applications/sjsu/validation/ table2_map_poincare_order1.json`), `SJSU18-O2` has a solution on `(-T₁, T₁)` with `T₁ > 5·10⁹` yr, unique among solutions on intervals through `0`, along which for `|t| ≤ 5·10⁹` yr the fixed-reference secular-model eccentricities of Jupiter, Saturn and Uranus, `e_j = √(1 - (1 - Γ_j/Λ*_j)²)` with `Γ_j = (ξ_j² + η_j²)/2` and the dataset's reference actions `Λ*_j` (at `L = 0`), stay in `[0.026, 0.062]`, `[0.009, 0.085]` and `[0.006, 0.063]`. Nothing is asserted about the osculating elements of the full planetary problem.
+
+- **Source:** § "The theorem" (T2-CONF; docs/explorations/sjs-rigor-plan.md §1.1)
+- **Proof assembled in:** `KAM.Provider.EffectiveStability.SJSUSecularConfinement`
+- **Manifest ID:** `effectiveStability.d76.sjsu_secular_confinement.v1`
+
+<details><summary>Frozen definitions of this track (9)</summary>
+
+- [`KAM.EffectiveStability.sjsuTerm`](../KAM/Frozen/EffectiveStability/SJSU/SJSUTerm.lean#L25)
+- [`KAM.EffectiveStability.sjsu18O2Part0`](../KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part0.lean#L25)
+- [`KAM.EffectiveStability.sjsu18O2Part1`](../KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part1.lean#L25)
+- [`KAM.EffectiveStability.sjsu18O2Part2`](../KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part2.lean#L25)
+- [`KAM.EffectiveStability.sjsu18O2Part3`](../KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part3.lean#L25)
+- [`KAM.EffectiveStability.sjsu18O2Part4`](../KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part4.lean#L25)
+- [`KAM.EffectiveStability.sjsu18O2Part5`](../KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Part5.lean#L25)
+- [`KAM.EffectiveStability.sjsu18O2Terms`](../KAM/Frozen/EffectiveStability/SJSU/SJSU18O2Terms.lean#L29)
+- [`KAM.EffectiveStability.sjsu18O2`](../KAM/Frozen/EffectiveStability/SJSU/SJSU18O2.lean#L27)
+
+</details>
+
+## Magnetic field-line barrier (proof open)
+
+### magnetic_barrier
+
+[`KAM.Magnetic.magnetic_barrier`](../KAM/Frozen/Magnetic/Theorems/MagneticBarrier.lean#L41) · ⬜ not yet
+
+**Magnetic transport barrier.** The field-line flow of the controlled model at `ε = 3/2500` has a real-analytic invariant graph `p = P(q, φ)`, one-periodic in both angles, with `8/25 ≤ P ≤ 39/100`, which no field line crosses: every initial point has a global field line, which every local field line through it on an interval containing `0` agrees with, and the side of the graph (below, on, above) is the same at every real time. The graph is the action component of an analytic primary invariant torus `K∞` of the extended Hamiltonian `magHamC`, holomorphic on the strip of width `3/1000000`, real on real angles, with frequency `(α, 1)` (`α = magAlpha`), energy zero and clock `φ = θ₁` (plan-magnetic-barrier §1.2).
+
+- **Source:** FREEZE-PROPOSAL §Proposed Lean text, draft/MagneticBarrier.lean.txt (headline)
+- **Proof assembled in:** `KAM.Provider.Magnetic.MagneticBarrier`
+- **Manifest ID:** `magnetic.magnetic_barrier.v1`
+
+<details><summary>Frozen definitions of this track (6)</summary>
+
+- [`KAM.Magnetic.magEps`](../KAM/Frozen/Magnetic/Defs/MagEps.lean#L24)
+- [`KAM.Magnetic.magH0`](../KAM/Frozen/Magnetic/Defs/MagH0.lean#L25)
+- [`KAM.Magnetic.magAlpha`](../KAM/Frozen/Magnetic/Defs/MagAlpha.lean#L25)
+- [`KAM.Magnetic.magV`](../KAM/Frozen/Magnetic/Defs/MagV.lean#L30)
+- [`KAM.Magnetic.magField`](../KAM/Frozen/Magnetic/Defs/MagField.lean#L27)
+- [`KAM.Magnetic.magHamC`](../KAM/Frozen/Magnetic/Defs/MagHamC.lean#L28)
 
 </details>

@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 # The Hamiltonian of a W4 Taylor polynomial on `KamPhase` (blueprint-W `bpW:w5:solve`, step
 `s-class`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 For `T : HomTaylor_gen a p pb s` (W4's class `𝒯_s`) we define the polynomial
 `waveStepFun T : KamPhase → ℂ` in the coordinates `(θ, y, u, v)` of `bpW:w1:kam-space`, through
 `z = (u + i v)/√2`, `z̄ = (u - i v)/√2` (`stepZ`, `stepZb`), and prove that it is Fréchet

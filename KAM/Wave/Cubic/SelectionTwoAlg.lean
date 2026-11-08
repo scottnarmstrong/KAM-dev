@@ -10,9 +10,6 @@ public import KAM.Wave.Cubic.SelectionTwoFinal
 /-!
 # Trilinearity and symmetry of the two-sided `T_c` (blueprint `bpW:w1:selection`, last sentence)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 Additivity and homogeneity in each slot of `KAM.Wave.waveSelSumZ` / `KAM.Wave.waveSelTwo`
 (`waveSelSumZ_add_left`, …, `waveSelTwo_smul_left`, …), and symmetry when `c` is symmetric in its
 first three indices (`waveSelSumZ_swap_left_mid`, `waveSelSumZ_swap_mid_right`,
@@ -124,20 +121,6 @@ theorem waveSelTwo_smul_left (r : ℂ) (w w' w'' : ℤ → ℂ) (l : ℤ) :
   · simp
   · exact waveSelSumZ_smul_left c l r w w' w''
 
-theorem waveSelTwo_smul_mid (r : ℂ) (w w' w'' : ℤ → ℂ) (l : ℤ) :
-    waveSelTwo c w (fun j => r * w' j) w'' l = r * waveSelTwo c w w' w'' l := by
-  unfold waveSelTwo
-  split_ifs
-  · simp
-  · exact waveSelSumZ_smul_mid c l r w w' w''
-
-theorem waveSelTwo_smul_right (r : ℂ) (w w' w'' : ℤ → ℂ) (l : ℤ) :
-    waveSelTwo c w w' (fun j => r * w'' j) l = r * waveSelTwo c w w' w'' l := by
-  unfold waveSelTwo
-  split_ifs
-  · simp
-  · exact waveSelSumZ_smul_right c l r w w' w''
-
 theorem waveSelTwo_add_left (w v w' w'' : ℤ → ℂ) (l : ℤ)
     (hw : l ≠ 0 → Summable (waveSelTermZ c w w' w'' l))
     (hv : l ≠ 0 → Summable (waveSelTermZ c v w' w'' l)) :
@@ -147,26 +130,6 @@ theorem waveSelTwo_add_left (w v w' w'' : ℤ → ℂ) (l : ℤ)
   by_cases h : l = 0
   · simp [h]
   · simp only [h, if_false]; exact waveSelSumZ_add_left c l w v w' w'' (hw h) (hv h)
-
-theorem waveSelTwo_add_mid (w w' v w'' : ℤ → ℂ) (l : ℤ)
-    (hw : l ≠ 0 → Summable (waveSelTermZ c w w' w'' l))
-    (hv : l ≠ 0 → Summable (waveSelTermZ c w v w'' l)) :
-    waveSelTwo c w (fun j => w' j + v j) w'' l =
-      waveSelTwo c w w' w'' l + waveSelTwo c w v w'' l := by
-  unfold waveSelTwo
-  by_cases h : l = 0
-  · simp [h]
-  · simp only [h, if_false]; exact waveSelSumZ_add_mid c l w w' v w'' (hw h) (hv h)
-
-theorem waveSelTwo_add_right (w w' w'' v : ℤ → ℂ) (l : ℤ)
-    (hw : l ≠ 0 → Summable (waveSelTermZ c w w' w'' l))
-    (hv : l ≠ 0 → Summable (waveSelTermZ c w w' v l)) :
-    waveSelTwo c w w' (fun j => w'' j + v j) l =
-      waveSelTwo c w w' w'' l + waveSelTwo c w w' v l := by
-  unfold waveSelTwo
-  by_cases h : l = 0
-  · simp [h]
-  · simp only [h, if_false]; exact waveSelSumZ_add_right c l w w' w'' v (hw h) (hv h)
 
 theorem waveSelTwo_swap_left_mid (hc : ∀ i j k l, c i j k l = c j i k l) (w w' w'' : ℤ → ℂ)
     (l : ℤ) : waveSelTwo c w w' w'' l = waveSelTwo c w' w w'' l := by

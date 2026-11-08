@@ -11,8 +11,7 @@ public import KAM.Wave.Measure.Measure
 /-!
 # W6: the parameter sets and the exclusion (blueprint `bpW:w6:convergence` (i), `bpW:w6:exclusion`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w6:convergence` (part (i), step `c-par`) and
+Blueprint labels `bpW:w6:convergence` (part (i), step `c-par`) and
 `bpW:w6:exclusion` (milestone W6).
 
 The parameter sets of the iteration are built from the frequencies `(ω_ν, Ω_ν)` by removing
@@ -60,8 +59,6 @@ theorem w6PiSeq_subset (ν : ℕ) : w6PiSeq P0 ω Ω a Kp ν ⊆ P0 :=
 theorem w6PiStar_subset_seq (ν : ℕ) : w6PiStar P0 ω Ω a Kp ⊆ w6PiSeq P0 ω Ω a Kp ν :=
   iInter_subset _ ν
 
-theorem w6PiStar_subset : w6PiStar P0 ω Ω a Kp ⊆ P0 := w6PiStar_subset_seq P0 ω Ω a Kp 0
-
 /-- **Parameters** (blueprint `bpW:w6:convergence` (i), step `c-par`):
 `Π_{-1} ∖ Π_* = ⋃_{ν ≥ 0} ⋃_{(k,l) ∈ Z, |k| > K_{ν-1}} R^ν_{kl}`, with `R^ν_{kl} ⊆ Π_{ν-1}`. -/
 theorem w6Convergence_params :
@@ -96,10 +93,6 @@ theorem w6Convergence_params :
     apply h.2
     simp only [w6Removed, mem_iUnion]
     exact ⟨k, l, hkl, hz⟩
-
-theorem w6Zone_subset (ν : ℕ) (k : Fin 2 → ℤ) (l : ℕ →₀ ℤ) :
-    zoneSet (w6PiSeq P0 ω Ω a Kp ν) (ω ν) (Ω ν) (a ν) k l ⊆ w6PiSeq P0 ω Ω a Kp ν :=
-  fun _ h => h.1
 
 theorem continuousOn_w6ZoneFun {D : Set (Fin 2 → ℝ)} {w : (Fin 2 → ℝ) → Fin 2 → ℝ}
     {W : (Fin 2 → ℝ) → ℕ → ℝ} (hw : ContinuousOn w D) (hW : ∀ j, ContinuousOn (fun ξ => W ξ j) D)

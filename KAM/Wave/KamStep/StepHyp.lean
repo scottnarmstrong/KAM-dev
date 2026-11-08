@@ -12,8 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The hypotheses of the KAM step (blueprint-W `bpW:w5:data`, non-modified case)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `WaveStepHyp`: step data and the smallness condition. `ε₀, ε₁` are the two bounds that make up
 `|X_P|^λ ≤ ε` read as a conjunction (`ε₀ + λ ε₁ ≤ ε`); `ε₀ > 0` (it can always be arranged by
 enlarging `ε₀` when `X_P ≢ 0`, and `ε₀ := ε/2`, `ε₁ := 0` when `X_P = 0`).

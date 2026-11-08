@@ -10,9 +10,6 @@ public import KAM.Wave.Normal.ResonantBalance
 /-!
 # The resonant quartic part `Ḡ` in complex coordinates (blueprint `bpW:w0n:AB`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 Finite-mode version of blueprint Definition `bpW:w0n:Qdef`, Step `stepW:w0n:resavg` and Theorem
 `bpW:w0n:AB`. In the complex coordinates `z = (q + i p)/√2` of `bpW:w0:z` the quartic functional
 `G` is `(1/16) ∑ g̃_{ijkl} ∏ (z_{i_s} + z̄_{i_s})` (`KAM.Wave.quarticG_eq_complex`), a sum over
@@ -198,7 +195,6 @@ theorem resonantQuarticReal_split {N : ℕ} (m : ℝ) (hm : 0 < m) (r : Fin N �
   · have h' : tangentialQuarticTuple i j k l := this.2 h
     simp [h, h', allQuarticTuples]
 
-
 theorem resonantQuarticReal_all {N : ℕ} (m : ℝ) (hm : 0 < m) (r : Fin N → ℝ) :
     resonantQuarticReal allQuarticTuples m hm r = 3 / (16 * π) *
       (4 * (∑ j, r j ^ 2 / lamMode m hm j) ^ 2 - ∑ j, (r j ^ 2 / lamMode m hm j) ^ 2) := by
@@ -244,7 +240,6 @@ theorem resonantQuarticReal_all {N : ℕ} (m : ℝ) (hm : 0 < m) (r : Fin N → 
   have hpi : π ≠ 0 := Real.pi_ne_zero
   field_simp
   ring
-
 
 theorem resonantQuarticReal_normal {N : ℕ} (m : ℝ) (hm : 0 < m) (r : Fin N → ℝ) :
     resonantQuarticReal normalQuarticTuple m hm r
@@ -304,7 +299,6 @@ theorem resonantQuarticPart_tangential_eq {n : ℕ} (m : ℝ) (hm : 0 < m) (I : 
   have := partial_avgG_eq m hm I Z hI hZ
   rw [← this, e1, e2]
 
-
 /-- The quartic functional `G` in complex coordinates: `(1/16) ∑ g̃_{ijkl} ∏ (z + z̄)`, expanded as
 the sum over all sign patterns of the monomials (blueprint (`bpW:w0n:Gz`)). -/
 def quarticGComplex {N : ℕ} (m : ℝ) (hm : 0 < m) (z : Fin N → ℂ) : ℂ :=
@@ -360,7 +354,6 @@ theorem quarticG_eq_complex {N : ℕ} (m : ℝ) (hm : 0 < m) (q p : Fin N → �
   field_simp
   rw [e4]
   ring
-
 
 end KAM.Wave
 

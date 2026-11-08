@@ -1,0 +1,9 @@
+assembly   pass   user    sys    CPU   wall   import     elab   kernel    peak
+jet Core   1      1.42   0.87   2.29   3.90    3.35s    5.1ms   0.33ms  0.91GB
+jet Core   2      1.40   1.05   2.45   3.93    3.38s    7.9ms   0.35ms  0.46GB
+B3b Core   1      1.35   0.83   2.18   2.63    2.11s    7.1ms   0.26ms  0.35GB
+B3b Core   2      1.50   0.67   2.17   2.48    1.98s    5.2ms   0.35ms  0.33GB
+jet TorsJ  1      1.63   1.68   3.31   9.11    8.47s    6.3ms   0.37ms  0.49GB
+jet TorsJ  2      1.43   0.64   2.07   2.42    1.95s    9.3ms   0.36ms  0.31GB
+B3b Tors   1      1.55   0.88   2.43   3.10    2.48s   26.8ms   2.04ms  0.36GB
+B3b Tors   2      1.66   0.91   2.57   3.03    2.41s    4.0ms   0.65ms  0.38GB

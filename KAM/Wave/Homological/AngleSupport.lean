@@ -14,9 +14,6 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Support for the angle-derivative bounds (blueprint-W `bpW:w4:components` (ii))
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 * `homEntryCLM`, `homNormEntryCLM_gen`: the matrix entries of `HomOp` as continuous linear
     functionals;
 * `homNormalEntry_partial_gen`: entries commute with `∂_{θ_i}`;
@@ -36,8 +33,6 @@ open KAM
 def homEntryCLM (i j : ℕ+) : HomOp →L[ℂ] ℂ :=
   (lp.evalCLM ℂ (fun _ : ℕ+ => ℂ) 2 i).comp
     (ContinuousLinearMap.apply ℂ HomL2 (kamBasis ℂ j))
-
-theorem homEntryCLM_apply (i j : ℕ+) (A : HomOp) : homEntryCLM i j A = kamEntry A i j := rfl
 
 /-- The true matrix entry `M_ij` as a continuous linear functional on `HomOp`. -/
 def homNormEntryCLM_gen (a p pb : ℝ) (i j : ℕ+) : HomOp →L[ℂ] ℂ :=

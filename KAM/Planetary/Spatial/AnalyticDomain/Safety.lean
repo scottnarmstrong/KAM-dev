@@ -12,8 +12,7 @@ public import KAM.Planetary.Spatial.Geometry
 /-!
 # Safety of the spatial sharp core, for the whole ball
 
-Package LP-SP-DOM, `LP:MAIN L18 (588–593)`, track LP, non-frozen. The statement surface is
-proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L18 (588–593)`, track LP, non-frozen.
 
 * `spatialChartSafe ν`: the collision-free part of the product chart domain.
 * `spatialStrongAMD_le_spatialSlowDeficit`: `C ≤ C_{e₃} = (Σ slow²)/2` for *every* chart point

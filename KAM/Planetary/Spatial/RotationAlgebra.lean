@@ -11,9 +11,8 @@ public import KAM.Planetary.Spatial.Vector
 /-!
 # Rotations of `Fin 3 → ℝ`: dot, length and cross product equivariance
 
-Package LP-SP-MODEL, rotation invariance for `LP:MAIN L18` alignment (support for
-`LP:MAIN §1 (9–93)`, `d = 3`); track LP, non-frozen; the statement surface is proposed in
-docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: rotation invariance for `LP:MAIN L18` alignment (support for
+`LP:MAIN §1 (9–93)`, `d = 3`); track LP, non-frozen.
 
 A rotation is a `Matrix (Fin 3) (Fin 3) ℝ` with `Rᵀ * R = 1` and `R.det = 1`, acting by `mulVec`
 (Mathlib's standard 3-vector API: `dotProduct`, `crossProduct`, `mulVec`).  Dot product and length

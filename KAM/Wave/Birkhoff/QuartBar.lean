@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.QuartPaired
 /-!
 # The resonant quartic `Ḡ`: sign patterns (blueprint-W `bpW:w3:quartic-ident`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:quartic-ident`.
+Package W3-SETTING, blueprint label `bpW:w3:quartic-ident`.
 
 The quartic sum of `Ḡ` is split by sign pattern `s ∈ {±}⁴` (`birkV`); a pattern contributes only if
 it
@@ -190,7 +189,6 @@ theorem birkCoefBar_s0 (mm : Fin 4 → ℕ+) :
     unfold birkBarSet birkTanSet
     simp only [Set.mem_ofPred_eq, birkMk_s0_paired, birkMk]
   simp only [hmem, birkG, birkMk]
-
 
 theorem waveTriCoef_swap_last (r s : ℕ+) :
     waveTriCoef m hm r s s r = waveTriCoef m hm r s r s := by

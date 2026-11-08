@@ -10,9 +10,6 @@ public import KAM.Wave.Cubic.SelectionCore
 /-!
 # The two-sided majorant (blueprint `bpW:w1:selection` (b), step `stepW:w1:maj2`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 For `w : ℤ → ℂ` let `x̃_i = (‖w_i‖ + ‖w_{-i}‖) / √|i|` (`i ≠ 0`), `x̃_0 = 0`
 (`KAM.Wave.waveTwoMaj`). It is even and nonnegative, and for `w ∈ ℓ^{a,p}_b`,
 `‖x̃‖_{a,p+1/2} ≤ 2 ‖w‖_{a,p}` (`KAM.Wave.waveTwoMaj_weighted`).

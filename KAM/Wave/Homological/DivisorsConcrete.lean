@@ -12,9 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The six divisors and their weights (blueprint-W `bpW:w4:divisors`)
 
-Off-frontier, source-faithful infrastructure (W4-HOMOLOGICAL); the dependency graph is still
-being built.
-
 `HomDivisorBound` packages the two conclusions of Lemma `bpW:w4:divisors` for a divisor `δ(ξ)` with
 weight `w`: `|δ(ξ)| ≥ α w / A_k` and the Lipschitz bound for `1/δ`. It is proved for
 `δ⁰_k` (`homDelta0_bound`, `k ≠ 0`, `w = 1`), `δ^±_{k,j}` (`w = j`), `δ^P_{k,ij}`, `δ^{P'}_{k,ij}`
@@ -160,8 +157,5 @@ theorem homDeltaQ_bound (h : HomFreqHyp Par ω Ω M0 Mω MΩ) (hα : 0 < α)
 theorem one_le_homWeightQ (i j : ℕ+) : 1 ≤ homWeightQ i j := le_max_left _ _
 
 theorem homWeightQ_ge_abs (i j : ℕ+) : ((i : ℤ) - j).natAbs ≤ homWeightQ i j := le_max_right _ _
-
-theorem homWeightP_ge_abs (i j : ℕ+) : ((i : ℤ) - j).natAbs ≤ (i : ℕ) + j := by
-  have := i.pos; have := j.pos; omega
 
 end KAM.Wave

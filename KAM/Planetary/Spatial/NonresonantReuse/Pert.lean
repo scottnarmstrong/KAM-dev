@@ -11,10 +11,9 @@ public import KAM.Planetary.Spatial.AnalyticDomain
 public import KAM.Planetary.Spatial.NonresonantAdapterRescale
 
 /-!
-# The spatial complex unrescaling and perturbation (package LP-SP-NRR, item 1, first half)
+# The spatial complex unrescaling and perturbation
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
-Package LP-SP-NRR, MAIN Lemma 13 with `2n` slow pairs and Theorem 19
+Source: MAIN Lemma 13 with `2n` slow pairs and Theorem 19
 (`LP:MAIN L13 (435–441, 444–458)`, `LP:MAIN T19 (599–603)`), N6, track LP, non-frozen.
 
 `lpUnrescaleCNM ℓ : EC n m → ℂ^{n+m} × ℂ^{n+m}` is the complexification of `lpUnrescaleNM ℓ`

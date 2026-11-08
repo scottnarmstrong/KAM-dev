@@ -11,9 +11,6 @@ public import Mathlib.MeasureTheory.Integral.Pi
 /-!
 # Angle averages of products of cosines (for blueprint `bpW:w0n:AB`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 `angleMeasure` is the normalized Lebesgue measure on `[0, 2π]`, and `KAM.Wave.angleAvg N F` is the
 average of `F : (Fin N → ℝ) → ℝ` over the torus of angles `φ ∈ [0, 2π]ᴺ` (the product
 probability measure). The main results are the moments `E cos^m` (`m ≤ 4`) and the four-fold

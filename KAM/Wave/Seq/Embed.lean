@@ -10,8 +10,6 @@ public import KAM.Wave.Seq.Multiplier
 /-!
 # Embeddings between weighted spaces (blueprint-W `bpW:w1:embed`)
 
-Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
-
 * (i) `embedCLM`: the representative `D_μ`, `μ_j = ω_{a',p'}(j)/ω_{a,p}(j) ∈ (0,1]`, of the
   inclusion
   `ℓ^{a,p} ⊂ ℓ^{a',p'}` for `a' ≤ a`, `p' ≤ p`; `norm_embedCLM_le`, `ellTsumNorm_coeffW_le_of_le`.

@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The embedded field pairs like the `p_+` field (blueprint-W `bpW:w5:flow`, `bpW:w5:omega`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `ϖ_{p,p}(ι X, W) = ϖ_{p,p_+}(X, W)`: pairing the `p`-weighted image of a `p_+`-representative
 against a `p`-representative is the pairing of `X` itself (with the weight `1/(ω_p ω_{p_+})`).
 -/

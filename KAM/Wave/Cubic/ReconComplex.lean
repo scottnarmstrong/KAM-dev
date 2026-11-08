@@ -11,8 +11,7 @@ public import KAM.Wave.Normal.Analysis.SineSeries
 /-!
 # Reconstruction for complex coefficient sequences (blueprint `bpW:w0n:recon-bounded`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built. This is the complex-carrier clause of `bpW:w0n:recon-bounded`, assigned to
+This is the complex-carrier clause of `bpW:w0n:recon-bounded`, assigned to
 package W1-CUBIC by the scope ruling on W0-ANALYSIS; the statements are over any `RCLike` field `𝕜`
 (so `ℝ` and `ℂ`).
 

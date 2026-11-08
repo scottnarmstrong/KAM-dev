@@ -10,8 +10,7 @@ public import KAM.Wave.Birkhoff.HamClass
 /-!
 # Smoothing symmetric forms (blueprint-W `bpW:w3:forms`)
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is still
-being built. Package W3-SETTING, blueprint label `bpW:w3:forms`.
+Package W3-SETTING, blueprint label `bpW:w3:forms`.
 
 A continuous symmetric `(n+1)`-linear form `𝔓` on `𝔚` is *smoothing with constant `c`*
 (`IsBirkSmoothing`, `d = n + 1`, `n ≥ 1`) if there is a continuous `n`-linear `N = ∇𝔓 : 𝔚ⁿ → 𝔚^+`

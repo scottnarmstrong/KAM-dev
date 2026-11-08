@@ -15,7 +15,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # `P_ξ` is a smoothing Hamiltonian (blueprint-W `bpW:w5:action-angle` (v))
 
-Off-frontier, source-faithful infrastructure (W5-AA); the dependency graph is still being built.
 Blueprint label `bpW:w5:action-angle` (v), step `a-field`.
 
 `aaXP ξ w = X_{Q̃}(w) + D𝒜_ξ(w)⁻¹ (X_{G^{nor}} + X_K)(𝒜_ξ w)` (`p+1`-representatives; the inverse is

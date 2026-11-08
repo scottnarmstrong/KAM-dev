@@ -1,0 +1,113 @@
+@checkOscChain_sound : ∀ {n : ℕ} (c : OscChainCert n),
+  checkOscChain c = true →
+    ∀ (w₀ : (Fin n → ℝ) × (Fin n → ℝ)),
+      (∀ (j : Fin n), KAM.Planetary.oscillatorAction w₀.2 w₀.1 j ≤ ↑(c.a.getD (↑j) 0)) →
+        ∃ T₁,
+          ↑c.T < T₁ ∧
+            ∃ z,
+              z 0 = oscChainMap c.steps w₀ ∧
+                (∀ t ∈ Set.Ioo (-T₁) T₁,
+                    z t ∈ Set.univ ∧ HasDerivAt z (KAM.hamiltonianVectorField (fun w => c.H.cartEval w) (z t)) t) ∧
+                  (∀ (I : Set ℝ) (y : ℝ → (Fin n → ℝ) × (Fin n → ℝ)),
+                      I.OrdConnected →
+                        0 ∈ I →
+                          y 0 = oscChainMap c.steps w₀ →
+                            (∀ t ∈ I,
+                                y t ∈ Set.univ ∧
+                                  HasDerivAt y (KAM.hamiltonianVectorField (fun w => c.H.cartEval w) (y t)) t) →
+                              ∀ t ∈ I, t ∈ Set.Ioo (-T₁) T₁ → y t = z t) ∧
+                    ∀ (t : ℝ),
+                      |t| ≤ ↑c.T →
+                        oscChainMap c.steps (oscChainInv c.steps (z t)) = z t ∧
+                          ∀ (j : Fin n),
+                            |KAM.Planetary.oscillatorAction (oscChainInv c.steps (z t)).2 (oscChainInv c.steps (z t)).1
+                                      j -
+                                    KAM.Planetary.oscillatorAction w₀.2 w₀.1 j| ≤
+                                ↑(c.η.getD (↑j) 0) * |t| ∧
+                              KAM.Planetary.oscillatorAction (oscChainInv c.steps (z t)).2 (oscChainInv c.steps (z t)).1
+                                  j ≤
+                                ↑(c.a.getD (↑j) 0) + ↑(c.η.getD (↑j) 0) * ↑c.T
+@checkTorusChain_sound : ∀ {n : ℕ} (c : TorusChainCert n),
+  checkTorusChain c = true →
+    ∀ (w₀ : (Fin n → ℝ) × (Fin n → ℝ)),
+      (∀ (j : Fin n), |w₀.2 j| ≤ ↑(c.a.getD (↑j) 0)) →
+        ∃ T₁,
+          ↑c.T < T₁ ∧
+            ∃ z,
+              z 0 = tchChainMap c.steps w₀ ∧
+                (∀ t ∈ Set.Ioo (-T₁) T₁,
+                    z t ∈ Set.univ ∧ HasDerivAt z (KAM.hamiltonianVectorField (fun w => ftEvalR c.H w) (z t)) t) ∧
+                  (∀ (I : Set ℝ) (y : ℝ → (Fin n → ℝ) × (Fin n → ℝ)),
+                      I.OrdConnected →
+                        0 ∈ I →
+                          y 0 = tchChainMap c.steps w₀ →
+                            (∀ t ∈ I,
+                                y t ∈ Set.univ ∧
+                                  HasDerivAt y (KAM.hamiltonianVectorField (fun w => ftEvalR c.H w) (y t)) t) →
+                              ∀ t ∈ I, t ∈ Set.Ioo (-T₁) T₁ → y t = z t) ∧
+                    ∀ (t : ℝ),
+                      |t| ≤ ↑c.T →
+                        tchChainMap c.steps (tchChainInv c.steps (z t)) = z t ∧
+                          ∀ (j : Fin n),
+                            |(tchChainInv c.steps (z t)).2 j - w₀.2 j| ≤ ↑(c.η.getD (↑j) 0) * |t| ∧
+                              |(tchChainInv c.steps (z t)).2 j| ≤ ↑(c.a.getD (↑j) 0) + ↑(c.η.getD (↑j) 0) * ↑c.T
+@certifiedTorus_confinement : ∀ {n : ℕ} {α : Type} [inst : KAM.Certificate.CertArith α]
+  {c : KAM.Certificate.TorusCertificate n α} {ωstar : Fin n → ℝ} {Kinf : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+  {sinf κc δ δφ ρJ : ℝ},
+  KAM.Certificate.G1Hyps c ωstar →
+    KAM.IsDiophantine (↑c.params.γ) (↑c.params.tau) ωstar →
+      KAM.Application.CertifiedTorusAt c ωstar Kinf sinf →
+        RouteChecks c κc δ δφ ρJ →
+          ∀ {r : ℝ},
+            0 < r →
+              r ≤ δφ →
+                ∀ (a b η : Fin n → ℝ) (ε Tt : ℝ),
+                  0 < ε →
+                    0 ≤ Tt →
+                      (∀ (j : Fin n), a j + Tt * η j < b j) →
+                        (∀ (j : Fin n), b j + ε + r ≤ ρJ) →
+                          ∀ (B : ℝ),
+                            0 ≤ B →
+                              (∀ (j : Fin n), b j ≤ B) →
+                                (∀ (j : Fin n), routeC3 c r * B ^ 2 / 2 ≤ η j) →
+                                  ∀ (w₀ : (Fin n → ℝ) × (Fin n → ℝ)),
+                                    (∀ (j : Fin n), |w₀.2 j| ≤ a j) →
+                                      ∃ T₁,
+                                        Tt < T₁ ∧
+                                          ∃ z,
+                                            z 0 = torusChartMap (torusRealU Kinf) (torusRealV Kinf) w₀ ∧
+                                              (∀ t ∈ Set.Ioo (-T₁) T₁,
+                                                  z t ∈ {y | (KAM.realInclusion₂ n) y ∈ c.D} ∧
+                                                    HasDerivAt z
+                                                      (KAM.hamiltonianVectorField (KAM.Application.realHam c.H) (z t))
+                                                      t) ∧
+                                                (∀ (I : Set ℝ) (y : ℝ → (Fin n → ℝ) × (Fin n → ℝ)),
+                                                    I.OrdConnected →
+                                                      0 ∈ I →
+                                                        y 0 = torusChartMap (torusRealU Kinf) (torusRealV Kinf) w₀ →
+                                                          (∀ t ∈ I,
+                                                              y t ∈ {y | (KAM.realInclusion₂ n) y ∈ c.D} ∧
+                                                                HasDerivAt y
+                                                                  (KAM.hamiltonianVectorField
+                                                                    (KAM.Application.realHam c.H) (y t))
+                                                                  t) →
+                                                            ∀ t ∈ I, t ∈ Set.Ioo (-T₁) T₁ → y t = z t) ∧
+                                                  ∀ (t : ℝ),
+                                                    |t| ≤ Tt →
+                                                      torusChartMap (torusRealU Kinf) (torusRealV Kinf)
+                                                            (torusChartInvMap (torusRealU Kinf) (torusRealV Kinf)
+                                                              (z t)) =
+                                                          z t ∧
+                                                        ∀ (j : Fin n),
+                                                          |(torusChartInvMap (torusRealU Kinf) (torusRealV Kinf)
+                                                                        (z t)).2
+                                                                    j -
+                                                                  w₀.2 j| ≤
+                                                              η j * |t| ∧
+                                                            |(torusChartInvMap (torusRealU Kinf) (torusRealV Kinf)
+                                                                      (z t)).2
+                                                                  j| ≤
+                                                              a j + η j * Tt
+'KAM.EffectiveStability.checkOscChain_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.EffectiveStability.checkTorusChain_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.EffectiveStability.certifiedTorus_confinement' depends on axioms: [propext, Classical.choice, Quot.sound]

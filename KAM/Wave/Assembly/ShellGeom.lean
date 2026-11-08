@@ -11,8 +11,7 @@ public import KAM.Wave.Assembly.Ext
 /-!
 # W8: geometry of the trimmed shells (blueprint `bpW:w8:shell-data` (ii), `bpW:w8:boundaries`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w8:shells`, `bpW:w8:boundaries`; the W5/W6-free part (ii)
+Blueprint labels `bpW:w8:shells`, `bpW:w8:boundaries`; the W5/W6-free part (ii)
 of `bpW:w8:shell-data` (milestone W8).
 
 For every `t₀ > 0`: the trimmed shell `Π_n` is open (`w8Pi_isOpen`), `Π_n ⊆ R_n ⊆ (0, t_n)²`,
@@ -143,11 +142,6 @@ theorem w8Pi_sep_of_ne (ht : 0 < t0) {n n' : ℕ} (h : n ≠ n') {ξ ξ' : Fin 2
     Set.disjoint_left.1 (w8Rn_disjoint ht h) (w8Pi_subset_Rn n hξ) hm
   refine max_lt (w8Pi_sep hξ h1) ?_
   rw [dist_comm]; exact w8Pi_sep hξ' h2
-
-/-- `Π_n` lies in W7's inner shell `U_{-α_n} R_n` (`shellInner`). -/
-theorem w8Pi_subset_shellInner (n : ℕ) :
-    w8Pi t0 n ⊆ shellInner (1 / 2) t0 n (w8alpha t0 n) :=
-  fun _ hξ => ⟨hξ.1, hξ.2⟩
 
 /-- For `a < b`, W7's inner shell `U_{-b} R_n` lies in `{dist(·, ℝ² ∖ R_n) > a}`. -/
 theorem shellInner_subset_w8Pi_of_lt {n : ℕ} {b : ℝ}

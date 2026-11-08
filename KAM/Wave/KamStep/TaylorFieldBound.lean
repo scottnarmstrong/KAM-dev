@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The Taylor element satisfies W4's field bound (blueprint-W `bpW:w5:taylor` (iii))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepTaylor_fieldBound`: `|X_R|_r ≤ 3ε` on `D(s,r)` in the form `HomFieldBound_gen` required by
 W4's Lemma 1, for `R = stepTaylorOf …`, via `taylorXR_bound` and `stepField_taylorOf_eq`.
 -/
@@ -70,7 +68,6 @@ theorem stepTaylor_fieldBound (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hs
     (θ, y, homU z zb, homV z zb)) = homXnorm_gen ha hp hpb r _ θ y z zb at e
   rw [← e, this]
   exact hbd
-
 
 /-- The difference of two Taylor elements has field `taylorXR (X₁ - X₂)`, hence the bound `3ε` in
 W4's form: `|X_{R₁} - X_{R₂}|_r ≤ 3ε'` when `|X₁ - X₂|_r ≤ ε'` on `D(s,r)`. -/

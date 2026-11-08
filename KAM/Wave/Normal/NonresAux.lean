@@ -10,9 +10,6 @@ public import KAM.Frozen.Wave.Defs.Lam
 /-!
 # Analytic ingredients for quartic nonresonance (blueprint `bpW:w0n:nonres`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 For `m > 0` the extension `lamExt m x = √(x² + m)` of the frozen `KAM.Wave.lam` to real arguments
 is increasing on `[0, ∞)`, strictly subadditive on `(0, ∞)`, and convex (hence
 `lamExt x + lamExt y ≤ lamExt (x+y) + lamExt 0` on `[0, ∞)`). From these we prove the three

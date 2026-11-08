@@ -1,0 +1,27 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import KAM.EffectiveStability.SJSU.Ledger.Br.Prm
+public import KAM.EffectiveStability.Tube.Engine.BrChunk
+
+/-!
+# A chunk of a kept bracket coefficient (generated)
+-/
+
+@[expose] public section
+
+namespace KAM.EffectiveStability.SJSU
+
+open KAM.EffectiveStability.Tube
+
+theorem brp_1_0_0_8_0 : brCheckC (brD 1) 25 30 true (Ftab 1) brInH (0, 0, 8) 100 0 (brGc 1 (0, 0, 8)
+  0) = true := by
+  decide +kernel
+
+end KAM.EffectiveStability.SJSU
+
+end

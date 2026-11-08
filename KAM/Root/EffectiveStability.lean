@@ -1,0 +1,193 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import KAM.EffectiveStability.ActionDerivative
+public import KAM.EffectiveStability.Cauchy
+public import KAM.EffectiveStability.CauchyThird
+public import KAM.EffectiveStability.CertifiedTorusRoute.Glue
+public import KAM.EffectiveStability.CertifiedTorusRoute
+public import KAM.EffectiveStability.ChartChain
+public import KAM.EffectiveStability.ChartFlow
+public import KAM.EffectiveStability.Domains
+public import KAM.EffectiveStability.Examples
+public import KAM.EffectiveStability.FT.Basic
+public import KAM.EffectiveStability.FT.Bound
+public import KAM.EffectiveStability.FT.Bracket
+public import KAM.EffectiveStability.FT.Deriv
+public import KAM.EffectiveStability.FT
+public import KAM.EffectiveStability.FirstExit
+public import KAM.EffectiveStability.ObservableTransfer
+public import KAM.EffectiveStability.Oscillator
+public import KAM.EffectiveStability.OscillatorChain.Basic
+public import KAM.EffectiveStability.OscillatorChain.Domain
+public import KAM.EffectiveStability.OscillatorChain.Drift
+public import KAM.EffectiveStability.OscillatorChain.Remainder
+public import KAM.EffectiveStability.OscillatorChain.Smoke
+public import KAM.EffectiveStability.OscillatorChain
+public import KAM.EffectiveStability.OscillatorChainCheck
+public import KAM.EffectiveStability.OscillatorChainPhysical
+public import KAM.EffectiveStability.OscillatorChainPhysicalDisc
+public import KAM.EffectiveStability.OscillatorChainPhysicalDiscSmoke
+public import KAM.EffectiveStability.OscillatorChainPhysicalSmoke
+public import KAM.EffectiveStability.OscillatorCheck
+public import KAM.EffectiveStability.OscillatorPhysical
+public import KAM.EffectiveStability.OscillatorPhysicalSmoke
+public import KAM.EffectiveStability.OscillatorProof
+public import KAM.EffectiveStability.OscillatorQSqrt2Smoke
+public import KAM.EffectiveStability.OscillatorStep.Drift
+public import KAM.EffectiveStability.OscillatorStep.Remainder
+public import KAM.EffectiveStability.OscillatorStep.Smoke
+public import KAM.EffectiveStability.OscillatorStep
+public import KAM.EffectiveStability.Poly.Basic
+public import KAM.EffectiveStability.Poly.Bound
+public import KAM.EffectiveStability.Poly.Bracket
+public import KAM.EffectiveStability.Poly.Coeff
+public import KAM.EffectiveStability.Poly.Deriv
+public import KAM.EffectiveStability.Poly.Lie
+public import KAM.EffectiveStability.Poly.QSqrt2Smoke
+public import KAM.EffectiveStability.Poly
+public import KAM.EffectiveStability.PolyDomain
+public import KAM.EffectiveStability.RealFlow.Basic
+public import KAM.EffectiveStability.RealFlow.Lie
+public import KAM.EffectiveStability.RealFlow.Symplectic
+public import KAM.EffectiveStability.RealFlow
+public import KAM.EffectiveStability.StoppedDrift
+public import KAM.EffectiveStability.Torus
+public import KAM.EffectiveStability.TorusChain.Basic
+public import KAM.EffectiveStability.TorusChain.Domain
+public import KAM.EffectiveStability.TorusChain.Drift
+public import KAM.EffectiveStability.TorusChain.Remainder
+public import KAM.EffectiveStability.TorusChain.Smoke
+public import KAM.EffectiveStability.TorusChain
+public import KAM.EffectiveStability.TorusChainCheck
+public import KAM.EffectiveStability.TorusChainPhysical
+public import KAM.EffectiveStability.TorusChainPhysicalSmoke
+public import KAM.EffectiveStability.TorusChart.Algebra
+public import KAM.EffectiveStability.TorusChart.Deriv
+public import KAM.EffectiveStability.TorusChart.Inverse
+public import KAM.EffectiveStability.TorusChart.Map
+public import KAM.EffectiveStability.TorusChart.Matrix
+public import KAM.EffectiveStability.TorusChart.Symplectic
+public import KAM.EffectiveStability.TorusChart
+public import KAM.EffectiveStability.TorusCheck
+public import KAM.EffectiveStability.TorusDomain
+public import KAM.EffectiveStability.TorusLagrangian
+public import KAM.EffectiveStability.TorusLagrangianCert
+public import KAM.EffectiveStability.TorusNormalForm.Basic
+public import KAM.EffectiveStability.TorusNormalForm.Drift
+public import KAM.EffectiveStability.TorusNormalForm.Remainder
+public import KAM.EffectiveStability.TorusNormalForm.Taylor
+public import KAM.EffectiveStability.TorusNormalForm
+public import KAM.EffectiveStability.TorusNormalFormSmoke
+public import KAM.EffectiveStability.TorusPhysical
+public import KAM.EffectiveStability.TorusPhysicalSmoke
+public import KAM.EffectiveStability.TorusProjection
+public import KAM.EffectiveStability.TorusProof
+public import KAM.EffectiveStability.TorusRealSlice
+public import KAM.EffectiveStability.TorusRoute.Bound
+public import KAM.EffectiveStability.TorusRoute.Chart
+public import KAM.EffectiveStability.TorusRoute.Data
+public import KAM.EffectiveStability.TorusRoute.Matrix
+public import KAM.EffectiveStability.TorusRoute.Real
+public import KAM.EffectiveStability.TorusRoute.Strip
+public import KAM.EffectiveStability.TorusStep.Drift
+public import KAM.EffectiveStability.TorusStep.Remainder
+public import KAM.EffectiveStability.TorusStep.Smoke
+public import KAM.EffectiveStability.TorusStep
+public import KAM.EffectiveStability.Transfer
+public import KAM.EffectiveStability.Tube.Algebra.Bounds
+public import KAM.EffectiveStability.Tube.Algebra.C1
+public import KAM.EffectiveStability.Tube.C1Close
+public import KAM.EffectiveStability.Tube.Chart.Bracket
+public import KAM.EffectiveStability.Tube.Chart.Composite
+public import KAM.EffectiveStability.Tube.Chart.LocalInverse
+public import KAM.EffectiveStability.Tube.Chart.Observable
+public import KAM.EffectiveStability.Tube.Chart.Polar
+public import KAM.EffectiveStability.Tube.Chart.Rotation
+public import KAM.EffectiveStability.Tube.Chart.Shift
+public import KAM.EffectiveStability.Tube.Chart.ShiftSymm
+public import KAM.EffectiveStability.Tube.Check.Bracket
+public import KAM.EffectiveStability.Tube.Check.BracketBound
+public import KAM.EffectiveStability.Tube.Check.BracketList
+public import KAM.EffectiveStability.Tube.Check.Center
+public import KAM.EffectiveStability.Tube.Check.Confine
+public import KAM.EffectiveStability.Tube.Check.Deriv
+public import KAM.EffectiveStability.Tube.Check.Domain
+public import KAM.EffectiveStability.Tube.Check.Gamma
+public import KAM.EffectiveStability.Tube.Check.HSplit
+public import KAM.EffectiveStability.Tube.Check.Lip
+public import KAM.EffectiveStability.Tube.Check.Solution
+public import KAM.EffectiveStability.Tube.Check.TailMaj
+public import KAM.EffectiveStability.Tube.Check.TailQ
+public import KAM.EffectiveStability.Tube.Check.TailRem
+public import KAM.EffectiveStability.Tube.Check.TubeChart
+public import KAM.EffectiveStability.Tube.Ecc.Center
+public import KAM.EffectiveStability.Tube.Ecc.Circle
+public import KAM.EffectiveStability.Tube.Ecc.Defs
+public import KAM.EffectiveStability.Tube.Ecc.Gamma
+public import KAM.EffectiveStability.Tube.Ecc.Sound
+public import KAM.EffectiveStability.Tube.Engine.BTerm
+public import KAM.EffectiveStability.Tube.Engine.Block
+public import KAM.EffectiveStability.Tube.Engine.BrChunk
+public import KAM.EffectiveStability.Tube.Engine.Bracket
+public import KAM.EffectiveStability.Tube.Engine.Comb
+public import KAM.EffectiveStability.Tube.Engine.DOpd
+public import KAM.EffectiveStability.Tube.Engine.Deriv
+public import KAM.EffectiveStability.Tube.Engine.Drop
+public import KAM.EffectiveStability.Tube.Engine.DropChunk
+public import KAM.EffectiveStability.Tube.Engine.Exact
+public import KAM.EffectiveStability.Tube.Engine.Horner
+public import KAM.EffectiveStability.Tube.Engine.Input
+public import KAM.EffectiveStability.Tube.Engine.L1
+public import KAM.EffectiveStability.Tube.Engine.Lit
+public import KAM.EffectiveStability.Tube.Engine.LitCert
+public import KAM.EffectiveStability.Tube.Engine.Powers
+public import KAM.EffectiveStability.Tube.Engine.Regroup
+public import KAM.EffectiveStability.Tube.Engine.Sparse
+public import KAM.EffectiveStability.Tube.Engine.Spread
+public import KAM.EffectiveStability.Tube.Engine.Step
+public import KAM.EffectiveStability.Tube.Engine.Types
+public import KAM.EffectiveStability.Tube.Engine.Witness
+public import KAM.EffectiveStability.Tube.Initial.Partials
+public import KAM.EffectiveStability.Tube.Initial.Point
+public import KAM.EffectiveStability.Tube.Obs.Check
+public import KAM.EffectiveStability.Tube.Obs.ListObs
+public import KAM.EffectiveStability.Tube.Obs.Sparse
+public import KAM.EffectiveStability.Tube.Poly.Center
+public import KAM.EffectiveStability.Tube.Poly.Compose
+public import KAM.EffectiveStability.Tube.Poly.Dense
+public import KAM.EffectiveStability.Tube.Poly.HTilde
+public import KAM.EffectiveStability.Tube.Poly.HTildeBounds
+public import KAM.EffectiveStability.Tube.Poly.HtBridge
+public import KAM.EffectiveStability.Tube.Poly.HtDense
+public import KAM.EffectiveStability.Tube.Poly.Polar
+public import KAM.EffectiveStability.Tube.Poly.Sparse
+public import KAM.EffectiveStability.Tube.Trig.Literal
+public import KAM.EffectiveStability.Tube.Trig.Model
+public import KAM.EffectiveStability.Tube.Trig.Packed
+public import KAM.EffectiveStability.Tube.Trig.Poly
+public import KAM.EffectiveStability.Tube.Trig.Product
+public import KAM.EffectiveStability.Tube.Trig.Trunc
+public import KAM.EffectiveStability.Tube.Trig.Tube
+public import KAM.EffectiveStability.Tube.Trig.TubeClose
+public import KAM.EffectiveStability.Tube.Witness.Binomial
+public import KAM.EffectiveStability.Tube.Witness.BinomialProd
+public import KAM.EffectiveStability.Tube.Witness.BinomialProdDeriv
+public import KAM.EffectiveStability.Tube.Witness.HalfPow
+public import KAM.EffectiveStability.Tube.Witness.InvSqrt
+public import KAM.EffectiveStability.Tube.Witness.Sqrt
+
+/-!
+# Root part `KAM.Root.EffectiveStability`
+
+Part of the generated root `KAM.lean`. It imports
+the modules under `KAM.EffectiveStability`,
+except those that the root skips. Generated by `scripts/gen_root_imports.py`; do not edit it by
+hand, and never import it.
+-/
+
+public section

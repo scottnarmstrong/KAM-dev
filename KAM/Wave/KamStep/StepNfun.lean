@@ -13,8 +13,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # The normal form `N` on `KamPhase` and `DN·X_F = -L_N F` (blueprint-W `bpW:w5:flow-calc` (v))
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `stepNfun` is W4's `homNfun` pulled back along the coordinate change `(θ,y,u,v) ↦ (θ,y,z,z̄)`
 (`stepToHom`). `stepNfun_lie`: along the (embedded) field `ι X_F` of a Taylor polynomial,
 `D N(w)(ι X_F(w)) = -L_N F(w)` (W4 `homLemma_lie_iv_gen`).

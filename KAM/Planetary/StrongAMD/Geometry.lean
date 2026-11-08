@@ -14,9 +14,8 @@ public import KAM.Planetary.Newtonian.Models
 /-!
 # The uniform strong barrier (deficit form and physical form)
 
-Package LP-GEO, `LP:MAIN L5 (162–175)` with amendments N2 (one shared compact `U`) and N11
-(`d_⋆ := a_min m² / (2 I_max²)` first); track LP, non-frozen; the statement surface is proposed in
-docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: `LP:MAIN L5 (162–175)` with amendments N2 (one shared compact `U`) and N11
+(`d_⋆ := a_min m² / (2 I_max²)` first); track LP, non-frozen.
 
 Everything is stated for an arbitrary compact `U ⊆ chamber ν` given as data.
 

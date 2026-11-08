@@ -14,9 +14,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Reweighting on `KamPhase` (blueprint-W `bpW:w5:w4-modified`, `bpW:w5:step`, modified case)
 
-Off-frontier, source-faithful infrastructure (W5-STEP, item 6); the dependency graph is still being
-built.
-
 `stepRhoK a p pb hc`: the diagonal `D_ρ`, `ρ_j = ω_{a,p₊}(j+2)/ω_{a,p+1}(j+2) ≤ 1`, on the normal
 components `(u, v)` of `KamPhase` (it converts a `(p+1)`-representative into a `p₊`-representative).
 * `kamNorm_stepRhoK_le`: `|D_ρ W|_r ≤ |W|_r`;
@@ -67,14 +64,6 @@ theorem stepZb_stepRhoK (hc : pb ≤ p + 1) (W : KamPhase) :
     stepZb (stepRhoK a p pb hc W) = homModRho a p pb hc (stepZb W) := by
   obtain ⟨θ, y, u, v⟩ := W
   rw [stepRhoK_apply, stepZb_apply, stepZb_apply, map_smul, map_sub, map_smul]
-
-theorem stepZ_comp_stepRhoK (hc : pb ≤ p + 1) :
-    stepZ.comp (stepRhoK a p pb hc) = (homModRho a p pb hc).comp stepZ :=
-  ContinuousLinearMap.ext fun W => stepZ_stepRhoK hc W
-
-theorem stepZb_comp_stepRhoK (hc : pb ≤ p + 1) :
-    stepZb.comp (stepRhoK a p pb hc) = (homModRho a p pb hc).comp stepZb :=
-  ContinuousLinearMap.ext fun W => stepZb_stepRhoK hc W
 
 /-- `1/(ω_{p₊}ω_p)` times `ρ` is `1/(ω_{p+1}ω_p)`. -/
 theorem stepWinv_mul_ratio (a p pb : ℝ) (j : ℕ+) :

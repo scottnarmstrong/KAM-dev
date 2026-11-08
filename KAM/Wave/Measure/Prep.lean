@@ -10,9 +10,6 @@ public import KAM.Wave.Measure.PrepMinus
 /-!
 # W7: the preparatory zones (blueprint `bpW:w7:prep`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 `volume Ξ ≤ C_P ρ_ζ D_A⁻¹ α̂^{8/11}`.
 -/
 
@@ -82,7 +79,6 @@ theorem prep_perk_real {a ρ DA ϑ aκ : ℝ} (ha0 : 0 < a) (ha1 : a ≤ 1) (hρ
     _ ≤ (8 * a ^ (8 / 11 : ℝ) * ρ / DA) * u3 + (32 * a ^ (8 / 11 : ℝ) * ρ / (ϑ ^ 3 * DA)) * u3 +
         (16 * ρ * (3 + aκ) * a ^ (8 / 11 : ℝ) / (ϑ ^ 2 * DA)) * u3 := by gcongr
     _ = _ := by field_simp
-
 
 /-- The preparatory zones (blueprint `bpW:w7:prep`): `volume Ξ ≤ C_P ρ_ζ D_A⁻¹ α̂^{8/11}`. -/
 theorem prepSet_measure_le (hS : MeasSetup m hm Pi α) {ρζ : ℝ} (hρ0 : 0 ≤ ρζ)

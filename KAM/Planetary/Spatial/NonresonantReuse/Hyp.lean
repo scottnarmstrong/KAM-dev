@@ -11,10 +11,9 @@ public import KAM.Planetary.Spatial.NonresonantReuse.PertClass
 public import KAM.Planetary.StrongAMD.NonresonantReuse.Hyp
 
 /-!
-# The spatial engine hypotheses and trace identity (package LP-SP-NRR, items 2 and 3)
+# The spatial engine hypotheses and trace identity
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
-Package LP-SP-NRR, MAIN Lemma 13 with `2n` slow pairs (`LP:MAIN L13 (429–464)`,
+Source: MAIN Lemma 13 with `2n` slow pairs (`LP:MAIN L13 (429–464)`,
 `LP:MAIN T19 (599–603)`), N6, track LP, non-frozen.
 
 * `lpChartHamNM ν μ w = H_μ (Ψ w)`: the spatial chart Hamiltonian (SP-PROD).

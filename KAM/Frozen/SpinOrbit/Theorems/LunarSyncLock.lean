@@ -37,7 +37,7 @@ theorem lunar_sync_lock (q₀ p₀ φ₀ : ℝ)
       ∀ y : ℝ → ℝ × ℝ × ℝ, (y 0 = (q₀, p₀, φ₀) ∧ ∀ t, HasDerivAt y (soField (y t)) t) →
         y = z :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact KAM.Provider.SpinOrbit.lunar_sync_lock q₀ p₀ φ₀ h₀
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 

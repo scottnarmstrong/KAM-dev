@@ -10,8 +10,7 @@ public import KAM.Wave.Assembly.ShellGeom
 /-!
 # W8: sizes of the shell data (blueprint `bpW:w8:const`, `bpW:w8:shell-data` (i))
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint labels `bpW:w8:const`, `bpW:w8:shells`, and the W5/W6-free part (i)
+Blueprint labels `bpW:w8:const`, `bpW:w8:shells`, and the W5/W6-free part (i)
 of `bpW:w8:shell-data` (milestone W8).
 
 Signs of the W8 constants (`w8T0_pos`, …) and, for `t₀ = w8T0 m hm u`, the size facts of

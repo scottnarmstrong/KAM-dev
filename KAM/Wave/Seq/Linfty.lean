@@ -12,8 +12,6 @@ public import Mathlib.Data.PNat.Basic
 /-!
 # Sup-weighted sequences (blueprint-W `bpW:w1:linfty`)
 
-Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
-
 `ℓ^p_∞` is realized as `lp (fun _ : ℕ+ => ℝ) ∞` through `w ↦ (j^p w_j)`:
 `IsLinfty`, `tauInfty`, `norm_tauInfty` (`‖τ w‖ = sup_j |w_j| j^p`), and the `L`-Lipschitz predicate
 `IsLinftyLipschitz`, with the pointwise characterization `isLinftyLipschitz_iff`.

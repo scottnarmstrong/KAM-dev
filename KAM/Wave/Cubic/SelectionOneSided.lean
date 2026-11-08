@@ -11,9 +11,6 @@ public import KAM.Wave.Seq.Transport
 /-!
 # Selection-rule trilinear maps, one-sided (blueprint `bpW:w1:selection` (a))
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 For `c : ℕ+⁴ → 𝕜` with `|c_{ijkl}| ≤ M (ijkl)^{-1/2} Σ_ε [l = ε₁ i + ε₂ j + ε₃ k]` and
 `q, q', q'' ∈ ℓ^{a,p}_𝕜` (`a ≥ 0`, `p ≥ 1/2`, `s = p + 1/2`), the sums
 `T_c(q,q',q'')_l = Σ_{ijk} c_{ijkl} q_i q'_j q''_k` converge absolutely and
@@ -232,41 +229,11 @@ theorem waveSelSum_smul_left (c : ℕ+ → ℕ+ → ℕ+ → ℕ+ → K) (r : K)
   rw [← tsum_mul_left]
   exact tsum_congr fun t => by ring
 
-theorem waveSelSum_smul_mid (c : ℕ+ → ℕ+ → ℕ+ → ℕ+ → K) (r : K) (q q' q'' : ℕ+ → K) (l : ℕ+) :
-    waveSelSum c q (fun j => r * q' j) q'' l = r * waveSelSum c q q' q'' l := by
-  unfold waveSelSum
-  rw [← tsum_mul_left]
-  exact tsum_congr fun t => by ring
-
-theorem waveSelSum_smul_right (c : ℕ+ → ℕ+ → ℕ+ → ℕ+ → K) (r : K) (q q' q'' : ℕ+ → K) (l : ℕ+) :
-    waveSelSum c q q' (fun j => r * q'' j) l = r * waveSelSum c q q' q'' l := by
-  unfold waveSelSum
-  rw [← tsum_mul_left]
-  exact tsum_congr fun t => by ring
-
 theorem waveSelSum_add_left (c : ℕ+ → ℕ+ → ℕ+ → ℕ+ → K) (q r q' q'' : ℕ+ → K) (l : ℕ+)
     (hq : Summable fun t : ℕ+ × ℕ+ × ℕ+ => c t.1 t.2.1 t.2.2 l * (q t.1 * (q' t.2.1 * q'' t.2.2)))
     (hr : Summable fun t : ℕ+ × ℕ+ × ℕ+ => c t.1 t.2.1 t.2.2 l * (r t.1 * (q' t.2.1 * q'' t.2.2))) :
     waveSelSum c (fun j => q j + r j) q' q'' l =
       waveSelSum c q q' q'' l + waveSelSum c r q' q'' l := by
-  unfold waveSelSum
-  rw [← Summable.tsum_add hq hr]
-  exact tsum_congr fun t => by ring
-
-theorem waveSelSum_add_mid (c : ℕ+ → ℕ+ → ℕ+ → ℕ+ → K) (q q' r q'' : ℕ+ → K) (l : ℕ+)
-    (hq : Summable fun t : ℕ+ × ℕ+ × ℕ+ => c t.1 t.2.1 t.2.2 l * (q t.1 * (q' t.2.1 * q'' t.2.2)))
-    (hr : Summable fun t : ℕ+ × ℕ+ × ℕ+ => c t.1 t.2.1 t.2.2 l * (q t.1 * (r t.2.1 * q'' t.2.2))) :
-    waveSelSum c q (fun j => q' j + r j) q'' l =
-      waveSelSum c q q' q'' l + waveSelSum c q r q'' l := by
-  unfold waveSelSum
-  rw [← Summable.tsum_add hq hr]
-  exact tsum_congr fun t => by ring
-
-theorem waveSelSum_add_right (c : ℕ+ → ℕ+ → ℕ+ → ℕ+ → K) (q q' q'' r : ℕ+ → K) (l : ℕ+)
-    (hq : Summable fun t : ℕ+ × ℕ+ × ℕ+ => c t.1 t.2.1 t.2.2 l * (q t.1 * (q' t.2.1 * q'' t.2.2)))
-    (hr : Summable fun t : ℕ+ × ℕ+ × ℕ+ => c t.1 t.2.1 t.2.2 l * (q t.1 * (q' t.2.1 * r t.2.2))) :
-    waveSelSum c q q' (fun j => q'' j + r j) l =
-      waveSelSum c q q' q'' l + waveSelSum c q q' r l := by
   unfold waveSelSum
   rw [← Summable.tsum_add hq hr]
   exact tsum_congr fun t => by ring

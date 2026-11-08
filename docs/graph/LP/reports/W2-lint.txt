@@ -1,0 +1,234 @@
+# final structural lint (D65), 2026-11-01T14:35Z, branch inp-lp-graph
+LP-adef-pl: 46 nodes, 99 edges, 48 coverage items, 46 problems
+  lpM:s1:thresholds#actionAxis: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:chamber#chamber: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:thresholds#eccDeficit: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:thresholds#pairFeasible: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:thresholds#pairObjective: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:thresholds#pairThreshold: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:thresholds#AdjIdx: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:thresholds#AdjIdx.upperIdx: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:chamber#OrderedActions: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:thresholds#orderedPairThreshold: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:thresholds#orderedCrossThreshold: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:thresholds#orderedStrongThreshold: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#strongAMD: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#keplerPeri: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#keplerApo: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#SourceCanonicalPhase: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#sourceStrongAMD: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#sourceKeplerPeri: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#sourceKeplerApo: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#oscVelocity: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#oscParam: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#oscEnergy: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#oscAxis: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#oscEccVector: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#oscEcc: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#oscPeri: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#oscApo: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#SourceOsculatingPhase: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#sourceOscEnergy: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#sourceOscAxis: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#sourceOscEccVector: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#sourceOscEcc: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#sourceOscPeri: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#sourceOscApo: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:model#Phase: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:model#bodyVector: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:model#NoCollision: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#keplerEnergy: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#keplerAxis: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#keplerAction: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#keplerEccVector: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#planeCross: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#totalMomentum: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:data#planeSq: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:data#planeLength: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:data#planeDot: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+LP-athm: 11 nodes, 69 edges, 11 coverage items, 11 problems
+  lpM:L5#planar_strongAMD_barrier: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L4#orderedPairThreshold_isLeast: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L4#orderedPairThreshold_existsUnique_value: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L4#orderedCrossThreshold_isLeast: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L4#orderedStrongThreshold_isLeast: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L3#sourceStrongAMD_nonneg: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L3#sum_action_mul_eccDeficit_le_sourceStrongAMD: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L2#sourceKepler_axis_pos: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L2#sourceKepler_ecc_le_one: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L2#sourceKeplerPeri_le_planeLength: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L2#planeLength_le_sourceKeplerApo: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+LP-ext: 5 nodes, 0 edges, 0 coverage items, 0 problems
+LP-m1: 6 nodes, 8 edges, 19 coverage items, 0 problems
+LP-m2a: 24 nodes, 98 edges, 36 coverage items, 0 problems
+LP-m2b: 15 nodes, 68 edges, 20 coverage items, 0 problems
+LP-amend: 0 nodes, 0 edges, 7 coverage items, 0 problems
+LP-m78: 0 nodes, 0 edges, 12 coverage items, 0 problems
+LP-m3: 16 nodes, 64 edges, 27 coverage items, 0 problems
+LP-m4a: 20 nodes, 48 edges, 35 coverage items, 0 problems
+LP-m4b: 12 nodes, 40 edges, 21 coverage items, 0 problems
+LP-m5: 26 nodes, 108 edges, 32 coverage items, 0 problems
+LP-imports: 1 nodes, 0 edges, 1 coverage items, 0 problems
+LP-ext-w2: 5 nodes, 0 edges, 0 coverage items, 0 problems
+LP-athm-w2: 6 nodes, 88 edges, 6 coverage items, 6 problems
+  lpM:T15#planar_strongAMD_exponentialSafety: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:T15#planar_strongAMD_exponentialSafety_halfInteger: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16#sourceOscAxis_pos: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16#sourceOscPeri_pos: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16#sourceOscPeri_le_planeLength: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16#planeLength_le_sourceOscApo: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+LP-adef-pl-w2: 7 nodes, 8 edges, 7 coverage items, 7 problems
+  lpM:s1:dioph#IsDiophantine: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:model#actualMasses: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L1#barycentricPositions: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L1#barycentricVelocities: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:model#IsMovingSolutionOn: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:model#MovingUniqueOn: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L1#IsNewtonSolutionOn: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+LP-m1-w2: 0 nodes, 0 edges, 6 coverage items, 0 problems
+LP-amend-w2: 0 nodes, 0 edges, 7 coverage items, 0 problems
+LP-adef-sp: 53 nodes, 120 edges, 54 coverage items, 53 problems
+  lpM:s1:data#spaceDot: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:data#spaceSq: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:data#spaceLength: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#spaceCross: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:model#bodyVector3: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#planetAngularMomentum3: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#angularMomentum3: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:model#spatialHamiltonian: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:model#SpatialNoCollision: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:model#IsSpatialMovingSolutionOn: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:model#SpatialMovingUniqueOn: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L1#spatialBarycentricPositions: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L1#spatialBarycentricVelocities: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:model#spatialMasses: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L1#IsSpatialNewtonSolutionOn: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#spatialKeplerEnergy: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#spatialKeplerAxis: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#spatialKeplerAction: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#spatialKeplerEccVector: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#SpatialNegativeEnergy: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#SpatialElliptic: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#spatialKeplerPeri: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#spatialKeplerApo: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#spatialOscVelocity: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#spatialOscParam: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#spatialOscEnergy: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#spatialOscAxis: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#spatialOscEccVector: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#spatialOscEcc: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#spatialOscPeri: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#spatialOscApo: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#SpatialOscPhase: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#SpatialSourceCanonicalPhase: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#SpatialSourceOsculatingPhase: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#spatialSourceKeplerAxis: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#spatialSourceKeplerAction: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#spatialSourceKeplerEccVector: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#spatialSourceKeplerEcc: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#spatialSourcePlanetAngularMomentum: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#spatialSourceAngularMomentum: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#spatialSourceStrongAMD: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#spatialSourceKeplerPeri: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:elements#spatialSourceKeplerApo: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#spatialSourceOscParam: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#spatialSourceOscEnergy: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#spatialSourceOscAxis: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#spatialSourceOscEccVector: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#spatialSourceOscEcc: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#spatialSourceOscPeri: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16:defs#spatialSourceOscApo: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L1#spatialSourceBarycentricPositions: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L1#spatialSourceBarycentricVelocities: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:s1:model#IsHamiltonianSolutionOn: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+LP-m6: 17 nodes, 68 edges, 23 coverage items, 0 problems
+LP-athm-w3: 22 nodes, 154 edges, 22 coverage items, 22 problems
+  lpM:L2#spatialSourceKeplerAxis_pos: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L2#spatialSourceKeplerAction_pos: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L2#spatialSourceKeplerAction_sq: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L2#spatialSourceKeplerEcc_sq: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L2#spatialSourceKeplerEcc_nonneg: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L2#spatialSourceKeplerEcc_le_one: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L2#spatialSourcePlanetAngularMomentum_length: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L2#spatialSourcePlanetAngularMomentum_length_le: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L2#spatialSourceKeplerPeri_le_length: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L2#spatialSourceKeplerApo_ge_length: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L3#spatialSourceStrongAMD_nonneg: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L3#spatialSourceAction_mul_eccDeficit_le: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16#spatialSourceOscParam_pos: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16#spatialSourceOscEnergy_neg: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16#spatialSourceOscEcc_lt_one: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16#spatialSourceOscEcc_nonneg: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16#spatialSourceOscAxis_pos: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16#spatialSourceOscPeri_pos: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16#spatialSourceOscPeri_le_length: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:L16#spatialSourceOscApo_ge_length: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:T19#spatial_strongAMD_exponentialSafety: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+  lpM:T19#spatial_strongAMD_exponentialSafety_halfInteger: Lean fields must be initial (LEAN_STATUS NOT_STARTED, LEAN_REF -, LEAN_NOTE -)
+(slice checker: the Lean-field problems above, if any, are the applied LEAN_STATUS, expected after D65)
+$ proof_depgraph.py ... --require-complete-coverage --require-all-reachable --write-dashboard
+dashboard: current
+rc 0
+$ ... --check
+rc 0
+$ ... --report
+Regenerated by `proof_depgraph.py`; do not hand-edit.
+
+### Dashboard
+
+* Total nodes: **292**
+* Frozen anchors: **145**
+* Versioned statement contracts: **292**
+* Total edges: **1040**
+* Root-closure nodes: **292**
+* Dependency leaves in root closure: **31**
+* Assumption boundary leaves: **0**
+* External boundary leaves: **11**
+* Alternative routes: **2**
+* Topology review queue: **220**
+* Explicit source gaps: **4**
+* Coverage items: **394**; excluded: **40**
+
+### Roots
+
+* `lpM:L4#orderedPairThreshold_isLeast` [PROPOSED; frozen] — contract `planetary.d59.orderedPairThreshold_isLeast@1`
+* `lpM:L4#orderedPairThreshold_existsUnique_value` [PROPOSED; frozen] — contract `planetary.d59.orderedPairThreshold_existsUnique_value@1`
+* `lpM:L4#orderedCrossThreshold_isLeast` [PROPOSED; frozen] — contract `planetary.d59.orderedCrossThreshold_isLeast@1`
+* `lpM:L4#orderedStrongThreshold_isLeast` [PROPOSED; frozen] — contract `planetary.d59.orderedStrongThreshold_isLeast@1`
+* `lpM:L3#sourceStrongAMD_nonneg` [REVIEWED; frozen] — contract `planetary.d59.sourceStrongAMD_nonneg@1`
+* `lpM:L3#sum_action_mul_eccDeficit_le_sourceStrongAMD` [REVIEWED; frozen] — contract `planetary.d59.sum_action_mul_eccDeficit_le_sourceStrongAMD@1`
+* `lpM:L2#sourceKepler_axis_pos` [REVIEWED; frozen] — contract `planetary.d59.sourceKepler_axis_pos@1`
+* `lpM:L2#sourceKepler_ecc_le_one` [REVIEWED; frozen] — contract `planetary.d59.sourceKepler_ecc_le_one@1`
+* `lpM:L2#sourceKeplerPeri_le_planeLength` [REVIEWED; frozen] — contract `planetary.d59.sourceKeplerPeri_le_planeLength@1`
+* `lpM:L2#planeLength_le_sourceKeplerApo` [REVIEWED; frozen] — contract `planetary.d59.planeLength_le_sourceKeplerApo@1`
+* `lpM:L16#sourceOscAxis_pos` [PROPOSED; frozen] — contract `planetary.d59.sourceOscAxis_pos@1`
+* `lpM:L16#sourceOscPeri_pos` [PROPOSED; frozen] — contract `planetary.d59.sourceOscPeri_pos@1`
+* `lpM:L16#sourceOscPeri_le_planeLength` [PROPOSED; frozen] — contract `planetary.d59.sourceOscPeri_le_planeLength@1`
+* `lpM:L16#planeLength_le_sourceOscApo` [PROPOSED; frozen] — contract `planetary.d59.planeLength_le_sourceOscApo@1`
+* `lpM:L2#spatialSourceKeplerAxis_pos` [PROPOSED; frozen] — contract `planetary.d59.spatialSourceKeplerAxis_pos@1`
+* `lpM:L2#spatialSourceKeplerAction_pos` [PROPOSED; frozen] — contract `planetary.d59.spatialSourceKeplerAction_pos@1`
+* `lpM:L2#spatialSourceKeplerAction_sq` [PROPOSED; frozen] — contract `planetary.d59.spatialSourceKeplerAction_sq@1`
+* `lpM:L2#spatialSourceKeplerEcc_sq` [PROPOSED; frozen] — contract `planetary.d59.spatialSourceKeplerEcc_sq@1`
+* `lpM:L2#spatialSourceKeplerEcc_nonneg` [PROPOSED; frozen] — contract `planetary.d59.spatialSourceKeplerEcc_nonneg@1`
+* `lpM:L2#spatialSourceKeplerEcc_le_one` [PROPOSED; frozen] — contract `planetary.d59.spatialSourceKeplerEcc_le_one@1`
+* `lpM:L2#spatialSourcePlanetAngularMomentum_length` [PROPOSED; frozen] — contract `planetary.d59.spatialSourcePlanetAngularMomentum_length@1`
+* `lpM:L2#spatialSourcePlanetAngularMomentum_length_le` [PROPOSED; frozen] — contract `planetary.d59.spatialSourcePlanetAngularMomentum_length_le@1`
+* `lpM:L2#spatialSourceKeplerPeri_le_length` [PROPOSED; frozen] — contract `planetary.d59.spatialSourceKeplerPeri_le_length@1`
+* `lpM:L2#spatialSourceKeplerApo_ge_length` [PROPOSED; frozen] — contract `planetary.d59.spatialSourceKeplerApo_ge_length@1`
+* `lpM:L3#spatialSourceStrongAMD_nonneg` [PROPOSED; frozen] — contract `planetary.d59.spatialSourceStrongAMD_nonneg@1`
+* `lpM:L3#spatialSourceAction_mul_eccDeficit_le` [PROPOSED; frozen] — contract `planetary.d59.spatialSourceAction_mul_eccDeficit_le@1`
+* `lpM:L16#spatialSourceOscParam_pos` [PROPOSED; frozen] — contract `planetary.d59.spatialSourceOscParam_pos@1`
+* `lpM:L16#spatialSourceOscEnergy_neg` [PROPOSED; frozen] — contract `planetary.d59.spatialSourceOscEnergy_neg@1`
+* `lpM:L16#spatialSourceOscEcc_lt_one` [PROPOSED; frozen] — contract `planetary.d59.spatialSourceOscEcc_lt_one@1`
+* `lpM:L16#spatialSourceOscEcc_nonneg` [PROPOSED; frozen] — contract `planetary.d59.spatialSourceOscEcc_nonneg@1`
+* `lpM:L16#spatialSourceOscAxis_pos` [PROPOSED; frozen] — contract `planetary.d59.spatialSourceOscAxis_pos@1`
+* `lpM:L16#spatialSourceOscPeri_pos` [PROPOSED; frozen] — contract `planetary.d59.spatialSourceOscPeri_pos@1`
+* `lpM:L16#spatialSourceOscPeri_le_length` [PROPOSED; frozen] — contract `planetary.d59.spatialSourceOscPeri_le_length@1`
+* `lpM:L16#spatialSourceOscApo_ge_length` [PROPOSED; frozen] — contract `planetary.d59.spatialSourceOscApo_ge_length@1`
+* `lpM:L5#planar_strongAMD_barrier` [REVIEWED; frozen] — contract `planetary.d59.planar_strongAMD_barrier@1`
+* `lpM:T15#planar_strongAMD_exponentialSafety` [PROPOSED; frozen] — contract `planetary.d59.planar_strongAMD_exponentialSafety@1`
+* `lpM:T15#planar_strongAMD_exponentialSafety_halfInteger` [PROPOSED; frozen] — contract `planetary.d59.planar_strongAMD_exponentialSafety_halfInteger@1`
+* `lpM:T19#spatial_strongAMD_exponentialSafety` [PROPOSED; frozen] — contract `planetary.d59.spatial_strongAMD_exponentialSafety@1`
+* `lpM:T19#spatial_strongAMD_exponentialSafety_halfInteger` [PROPOSED; frozen] — contract `planetary.d59.spatial_strongAMD_exponentialSafety_halfInteger@1`
+
+### Topology review queue

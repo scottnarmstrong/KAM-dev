@@ -12,7 +12,7 @@ public import KAM.Planetary.Exponential.Perturbation
 /-!
 # Bounds on thin complex tubes
 
-Package LP-DOMX, `LP:MAIN L8 (253, 270)`, track LP, non-frozen.
+Source: `LP:MAIN L8 (253, 270)`, track LP, non-frozen.
 
 * `complexTube_mono`, `complexTube_add_shift`, `closedBall_subset_complexTube`,
   `isOpen_complexTube`.
@@ -20,7 +20,6 @@ Package LP-DOMX, `LP:MAIN L8 (253, 270)`, track LP, non-frozen.
 * `norm_fderiv_le_quarterTube`: Cauchy estimate on the quarter tube from a bound on the half tube.
 * `norm_sub_le_of_quarterTube`: the resulting Lipschitz estimate near a real centre.
 
-The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
 -/
 
 @[expose] public noncomputable section

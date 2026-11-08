@@ -12,8 +12,6 @@ import Mathlib.Tactic.Positivity
 /-!
 # Boundedness of the Taylor components (blueprint-W `bpW:w5:taylor` (i), step `t-comp`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 `kamNorm_fderiv_normal_le`: along a purely normal direction `d = (0,0,u,v)` the derivative of the
 field at `(θ,0,0,0)` has `kamNorm r (DX d) ≤ ε (‖u‖+‖v‖)/r` (Cauchy in the single variable `λ`,
 without any margin in `θ`). With this the components of `R` are bounded on the strip.

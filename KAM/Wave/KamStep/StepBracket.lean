@@ -14,8 +14,6 @@ import Mathlib.Tactic.Positivity
 # The brackets `{G, F}` for `G ∈ 𝒯_s` (blueprint-W `bpW:w5:new-ham` step `n-br`,
 `bpW:w5:commutator`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 On `U = D(s-2σ, r/2)`: `stepBrG TG z = B(ι Z_G z, ι Z_F z)` has derivative `B(ι stepBrZ TG z, ·)`
 with
 `stepBrZ = DZ_G(ι Z_F) - DZ_F(ι Z_G)`; holomorphy, and the Cauchy bounds `‖stepBrZ‖ ≤ 4 e M/σ`
@@ -188,7 +186,6 @@ theorem norm_stepBrG_le (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 
           (by have := (norm_nonneg _).trans h1; positivity)
     _ = _ := by ring
 
-
 theorem stepFieldS_sub (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {s' : ℝ}
     (T₁ T₂ : HomTaylor_gen a p pb s') {z : StepPhase r}
     (hz : (StepPhase.toK z).1 ∈ complexStrip 2 s') :
@@ -210,7 +207,6 @@ theorem fderiv_stepFieldS_sub (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) {s'
   rw [hev.fderiv_eq]
   exact fderiv_sub (stepFieldS_differentiableAt ha hp hpb T₁ r hz)
     (stepFieldS_differentiableAt ha hp hpb T₂ r hz)
-
 
 theorem stepBrZ_sub_norm_le (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 < σ) (hσ1 : σ ≤ 1)
     (hσs : 2 * σ < s) {TG₂ : HomTaylor_gen a p pb s} {FT₂ : HomTaylor_gen a p pb (s - σ)}
@@ -292,7 +288,6 @@ theorem stepBrZ_sub_norm_le (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ 
   linarith
 
 end bounds
-
 
 theorem stepN_le' [Fact (0 < r)] (ha : 0 ≤ a) (hp : 0 ≤ p) (hpb : p ≤ pb) (hσ : 0 < σ)
     (hσ1 : σ ≤ 1) (hσs : 3 * σ < s) {FT : HomTaylor_gen a p pb (s - σ)}

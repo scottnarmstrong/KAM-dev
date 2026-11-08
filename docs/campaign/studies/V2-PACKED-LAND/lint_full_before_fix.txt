@@ -1,0 +1,14 @@
+Lean lines over 100 characters:
+/home/scott/KAM-dev-worktrees/v2-packed-land/KAM/CertificateSharp/Packed/CertCongr.lean:13:110
+/home/scott/KAM-dev-worktrees/v2-packed-land/KAM/CertificateSharp/Packed/CertCongr.lean:15:105
+/home/scott/KAM-dev-worktrees/v2-packed-land/KAM/CertificateSharp/Packed/CertCongr.lean:16:109
+check_lean_modules: PASS (4456 Lean files, 0 comparator configurations)
+.........................
+----------------------------------------------------------------------
+Ran 25 tests in 3.333s
+
+OK
+FROZEN-ANCHOR GUARD OK
+/home/scott/KAM-dev-worktrees/v2-packed-land/.lake/abi-scratch/tmpca_3yxhr.lean:1:0: error: object file '/home/scott/KAM-dev-worktrees/v2-packed-land/.lake/build/lib/lean/KAM/Frozen/Magnetic/Defs/MagAlpha.olean' of module KAM.Frozen.Magnetic.Defs.MagAlpha does not exist
+
+lint_exit=1

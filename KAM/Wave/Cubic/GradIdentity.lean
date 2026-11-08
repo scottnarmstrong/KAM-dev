@@ -11,9 +11,6 @@ public import Mathlib.Analysis.InnerProductSpace.l2Space
 /-!
 # The gradient identity (blueprint `bpW:w1:gradient-identity`), series part
 
-Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
-still being built.
-
 For a real sequence `c ∈ ℓ^{a,p}`, `a > 0`: `G(c) = ¼ Σ_l c_l 𝒢(c)_l`
 (`KAM.Wave.waveG_hasSum_pairing`, the unweighted pairing `⟨𝒢(c), c⟩₀`).
 -/

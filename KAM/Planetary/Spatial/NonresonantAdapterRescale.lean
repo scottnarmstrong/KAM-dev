@@ -13,10 +13,10 @@ public import KAM.Frozen.Planetary.Defs.Slow
 public import KAM.Planetary.StrongAMD.NonresonantAdapterRescale
 
 /-!
-# The period-one rescaling for unequal fast and slow blocks (package LP-SP-ADAPT, part 1)
+# The period-one rescaling for unequal fast and slow blocks
 
-Package LP-SP-ADAPT, re-typing of the audited LP-DICT Part B adapter (`LP:MAIN L13 (435–441)`),
-track LP, non-frozen. The statement surface is proposed in docs/tracks/LP/FREEZE-PROPOSAL.md.
+Source: re-typing of the planar chart-dictionary Part B adapter (`LP:MAIN L13 (435–441)`),
+track LP, non-frozen.
 
 `lpRescaleNM ℓ : Phase (n + m) →L[ℝ] ER n m` sends a chart point `((λ, ξ), (Λ, η))`, with `n` fast
 pairs and `m` slow pairs (slow positions in `w.1`, slow momenta in `w.2`), to the engine point
@@ -111,11 +111,6 @@ theorem lpRescaleNM_lpUnrescaleNM {ℓ : ℝ} (hℓ : ℓ ≠ 0) (y : ER n m) :
     · simp [lpUnrescaleNMFun, lpRescaleNMFun, fast]
     · refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;>
         simp [lpUnrescaleNMFun, lpRescaleNMFun, slow] <;> field_simp
-
-/-- `lpRescaleNM ℓ` as a continuous linear equivalence. -/
-def lpRescaleNMEquiv {ℓ : ℝ} (hℓ : ℓ ≠ 0) : Phase (n + m) ≃L[ℝ] ER n m :=
-  ContinuousLinearEquiv.equivOfInverse (lpRescaleNM ℓ) (lpUnrescaleNM ℓ)
-    (lpUnrescaleNM_lpRescaleNM hℓ) (lpRescaleNM_lpUnrescaleNM hℓ)
 
 /-! ### Reading the engine coordinates -/
 

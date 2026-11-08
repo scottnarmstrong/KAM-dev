@@ -12,8 +12,6 @@ import Mathlib.Analysis.Complex.ExponentialBounds
 /-!
 # Invertibility of the flow derivative (`bpW:w5:flow-calc` (iii), step `c-inv`)
 
-Off-frontier, source-faithful infrastructure (W5-STEP); the dependency graph is still being built.
-
 From the variational equation, `‖Dφ^t(w) - I‖ ≤ |t| L e^L` with `L = M/δ`
 (`norm_fderiv_holoFlow_sub_id_le`);
 for `L ≤ 1/64` this is `< 1/8`, so `Dφ^t(w)` is a unit of `F →L F` by the Neumann series

@@ -10,8 +10,7 @@ public import KAM.Wave.KamStep.Omega
 /-!
 # W6: strong conjugacy at regular points, the linear-algebra core (blueprint `bpW:w6:strong`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built. Blueprint label `bpW:w6:strong` (milestone W6), the core of its proof.
+Blueprint label `bpW:w6:strong` (milestone W6), the core of its proof.
 
 On W5's carrier `KamPhase` with the form `ϖ_{q,q'}` (`stepSymp`, `bpW:w5:omega`): if `L` is onto
 and two vectors `x`, `y` of `𝒫^q` have the same pairings `ϖ_{q,q'}(x, L W) = ϖ_{q,q'}(y, L W)` with

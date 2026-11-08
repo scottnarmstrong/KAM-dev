@@ -11,9 +11,6 @@ public import KAM.Wave.Measure.Lambda
 /-!
 # W7: unperturbed separation and asymptotics (blueprint `bpW:w7:unpert-bounds`)
 
-Off the frontier: source-faithful infrastructure used by several nodes. The dependency graph is
-still being built.
-
 For `‖ξ‖ ≤ 1/2`: `|s| ≤ 1`, `|ω⁰| ≤ λ₂ + 3/10` (i); normal separation
 `|⟨l, Ω⁰⟩| ≥ 3 β_* ⟨l⟩` on `Λ` (ii); the `κ = 2` asymptotics (iii); and the Lipschitz bound of
 `⟨l, Ω⁰⟩` in the frequency coordinate (iv).
