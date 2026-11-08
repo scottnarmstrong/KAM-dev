@@ -1,7 +1,7 @@
 {
  "title": "Magnetic field-line barrier: seal KAM.Magnetic.magnetic_barrier",
  "note": "Priority since 2026-11-08 (owner). Sub-orchestrator kam-mag2, branch mag-pilot (worktree on the HC volume). Route: the v2 torus certifier, route A refined, as for the Moon's spin band; then a glue theorem from the certificate to the frozen statement, a provider, the seal and an independent audit. Plan: docs/explorations/mag/SEAL-PLAN.md. The main orchestrator updates this file at each milestone; weights are the stages' relative effort.",
- "reviewed": "2026-11-08 16:40 UTC",
+ "reviewed": "2026-11-08 17:30 UTC",
  "stages": [
   {
    "name": "model and statement frozen (D66, D68)",
@@ -30,8 +30,8 @@
   {
    "name": "kernel check of the full certificate (here or on the 64-core workstation)",
    "weight": 35,
-   "done": 0.14,
-   "evidence": "graph check 58/58 and pass modules 8/8 rc 0; segment chain 200 of 1442 modules in 21 min (16:37); estimate a few hours serial here"
+   "done": 0.4,
+   "evidence": "graph 58/58 and pass 8/8 rc 0; segment chain 622 of 1442 modules (17:24), stopped at Prod.M0Dec (killed at the 10 GB cap): the emitter splits the product decode theorems, then the chain resumes"
   },
   {
    "name": "glue theorem: passing certificate implies the frozen statement",
