@@ -1,7 +1,7 @@
 {
  "title": "Magnetic field-line barrier: seal KAM.Magnetic.magnetic_barrier",
  "note": "Priority since 2026-11-08 (owner). Sub-orchestrator kam-mag2, branch mag-pilot (worktree on the HC volume). Route: the v2 torus certifier, route A refined, as for the Moon's spin band; then a glue theorem from the certificate to the frozen statement, a provider, the seal and an independent audit. Plan: docs/explorations/mag/SEAL-PLAN.md. The main orchestrator updates this file at each milestone; weights are the stages' relative effort.",
- "reviewed": "2026-11-08 15:15 UTC",
+ "reviewed": "2026-11-08 15:50 UTC",
  "stages": [
   {
    "name": "model and statement frozen (D66, D68)",
@@ -24,8 +24,8 @@
   {
    "name": "kernel data modules emitted, per-family kernel cost measured",
    "weight": 10,
-   "done": 0.4,
-   "evidence": "168 base modules built (2.18 h, 2.0 GB peak); census done; segment ledger self-checking (cfgLow 100, cfgFull 57 segments so far); graph and first 10 pass modules building in the heavy lane"
+   "done": 0.35,
+   "evidence": "168 base modules built; census, plan (57+100 segments) and ledger (all segments self-checked) done; graph check ~55/58 built (4.7 GB peak); pass modules queued; ledger modules to be split under the 1500-line cap (handoff-MAG2, 15:41)"
   },
   {
    "name": "kernel check of the full certificate (here or on the 64-core workstation)",
