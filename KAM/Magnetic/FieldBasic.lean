@@ -64,7 +64,7 @@ theorem hasDerivAt_magV (q φ : ℝ) : HasDerivAt (fun s => magV s φ) (magVq q 
   unfold magV
   convert h using 1
   · funext s; simp [magCtl]
-  · simp only [magVq, magCtl, Pi.sub_apply, Pi.add_apply]
+  · simp only [magVq, magCtl, Pi.sub_apply]
     push_cast
     ring
 
