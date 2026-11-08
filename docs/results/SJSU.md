@@ -4,9 +4,8 @@
 `KAM.EffectiveStability.sjsu_secular_confinement`
 ([`KAM/Frozen/EffectiveStability/SJSU/SecularConfinement.lean`](../../KAM/Frozen/EffectiveStability/SJSU/SecularConfinement.lean))
 with frozen data `KAM.EffectiveStability.sjsu18O2` · axioms: standard only (`propext`, `Classical.choice`,
-`Quot.sound`) · independent kernel replay: core library and 192 of 194 hand-written SJSU modules done; the generated
-certificate data and the modules `Ham.HtBridgeInst` and `Ham.Hw` (over 16 GB each) are pending on the 64-core
-workstation (all were kernel-checked when built)
+`Quot.sound`) · independent kernel replay: every module replayed and accepted except the parent module `Ham.Hw`, whose
+submodules all pass (see below)
 
 ## In brief
 
@@ -87,9 +86,11 @@ The only premise is z₀ in the ball. Everything else (the tube, the observables
 - **Nominal point.** z* is a published Table 1 state read as Poincaré elements and mapped to secular variables; the
   radius 10⁻⁶ is not a claim about observational uncertainty.
 - **Finite time.** 5·10⁹ years, both directions. No all-time statement and no invariant torus is asserted.
-- **Kernel replay pending.** Building the library checks every declaration in Lean's kernel, including the 4,687
-  modules of `KAMSJSU` (generated certificate data and checkers). The separate full independent kernel replay of those
-  modules, part of the seal procedure, has not been completed yet.
+- **Independent kernel replay** ([LAM-REPLAY-1](../explorations/sjsu-g2-audits/LAM-REPLAY-1.md)). Building the library
+  checks every declaration in Lean's kernel. A separate replay with `leanchecker` then re-checked the compiled files:
+  the core library (387/387), the hand-written SJSU modules, and 4,494 of the 4,495 remaining `KAMSJSU` modules, plus
+  all 131 submodules of `Ham.Hw` one at a time; no rejections. Only the parent module `Ham.Hw` was not replayed
+  separately: loading its 131 submodules in one process needs more than 220 GB.
 
 ## Sources and proof
 

@@ -235,7 +235,8 @@ with only the standard axioms.
     full Newtonian problem. The proof applies confinement from approximate integrals to three observables in a tube
     around a near-invariant torus; their drift rates (about 10⁻¹⁸ per year) are certified by exact computations
     checked in Lean's kernel, in 4,687 generated modules (opt-in library `KAMSJSU`). Frozen and sealed 2026-11-07
-    (D76); the independent re-check of the generated modules by `leanchecker` is running on a 64-core workstation.
+    (D76). An independent `leanchecker` replay re-checked every module except one parent module, `Ham.Hw`, whose 131
+    submodules all pass one at a time ([LAM-REPLAY-1](docs/explorations/sjsu-g2-audits/LAM-REPLAY-1.md)).
     [`KAM.EffectiveStability.sjsu_secular_confinement`](KAM/Frozen/EffectiveStability/SJSU/SecularConfinement.lean#L42) ·
     [what is proved](docs/results/SJSU.md)
 
