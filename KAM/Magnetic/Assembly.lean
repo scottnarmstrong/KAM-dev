@@ -19,10 +19,10 @@ public import KAM.Frozen.Defs.InvarianceError
 
 `magnetic_barrier_of_V2`: the statement of the frozen `KAM.Magnetic.magnetic_barrier`, for any
 magnetic graph certificate `g` (backend `MagBackend`) whose Hamiltonian is `magHamExpr`, whose
-parameters are `magParams err disp`, which passes the v2 certifier `routeAV2` at the witness `w` and
-the graph check, whose frequency box encloses `algFreq 2 magCoeffs √5`, and whose graph range widened
-by `disp` lies in `[8/25, 39/100]`. It is a conditional helper over certificate data (not a source
-result): the provider discharges every hypothesis by kernel computations on the emitted data.
+parameters are `magParams err disp`, which passes the v2 certifier `routeAV2` at the witness `w`
+and the graph check, whose frequency box encloses `algFreq 2 magCoeffs √5`, and whose graph range
+widened by `disp` lies in `[8/25, 39/100]`. It is a conditional helper over certificate data (not a
+source result): the provider discharges every hypothesis by kernel computations on the emitted data.
 
 * the torus, graph and field-line conjuncts: `magnetic_torus_of_V2` (`TorusCert.lean`), with the
   Diophantine premise `magFreq_isDiophantine` (`Freq.lean`);

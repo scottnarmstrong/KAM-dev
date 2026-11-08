@@ -180,8 +180,26 @@ class Tree:
 
     def data(self, stem, title, doc, items, imports):
         """pack (name, lines) items into files `stem NN` of <= MAXLINES lines; records each name's module."""
-        files, cur, n = [], [], 0
+        # An item longer than MAXLINES is cut at its blank lines (between its defs) into consecutive pieces; each
+        # file imports the previous one, so a later piece sees the earlier ones. A name is recorded at the module
+        # holding its last piece (its main def).
+        pieces = []
         for nm, lines in items:
+            lines = autowrap(lines)  # count the lines as written (wrapping adds lines)
+            blk, out = [], []
+            for l in lines:
+                blk.append(l)
+                if l == "":
+                    out.append(blk)
+                    blk = []
+            if blk:
+                out.append(blk)
+            for b in out:
+                assert len(b) <= MAXLINES, (stem, nm, len(b))
+            for j, b in enumerate(out):
+                pieces.append((nm if j + 1 == len(out) else None, b))
+        files, cur, n = [], [], 0
+        for nm, lines in pieces:
             if cur and n + len(lines) > MAXLINES:
                 files.append(cur)
                 cur, n = [], 0
@@ -195,7 +213,8 @@ class Tree:
             m = self.write(rel, imports + mods[-1:], "%s, part %d" % (title, fi), doc,
                            [l for _, ls in f for l in ls])
             for nm, _ in f:
-                self.defs[nm] = m
+                if nm is not None:
+                    self.defs[nm] = m
             mods.append(m)
         return mods
 
