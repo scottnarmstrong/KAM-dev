@@ -240,7 +240,7 @@ with only the standard axioms.
     [what is proved](docs/results/SJSU.md)
 
 **A faster, differently trusted route: native-checked certificates (experimental, not on `main`).** A second
-implementation of the SJSU certificate, on branch
+implementation of the SJSU certificate, by Jaume, on branch
 [`codex/sjsu-native-certificate-20261107`](https://github.com/lemma-farm/KAM-dev/tree/codex/sjsu-native-certificate-20261107)
 of `lemma-farm/KAM-dev`, proves the same theorem with exactly the same Lean statement in about 25 minutes on one
 machine, against roughly 10 hours of kernel checking here. It has two parts:
