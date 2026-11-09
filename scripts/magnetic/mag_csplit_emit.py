@@ -19,7 +19,8 @@ Modules (per torus, prefix `t` = lower/upper):
   Seg/Memo NN               decoded packed products and operand mantissas                           (data)
   Seg/Stage NN              Gram / BG / torsion stage literals                                      (data)
   Seg/Full/S{j}, Low/S{j}   one segment `segOk … j = true` (forced one-op segments by rewriting)   (heavy)
-  Seg/Prod/M{k}Sh, M{k}Dec  one packed product: its shards, its decode                              (heavy)
+  Seg/Prod/M{k}ShG{g}       one packed product: one shard group (SH_GROUP shards)                   (heavy)
+  Seg/Prod/M{k}Sh, M{k}Dec  one packed product: its shards (from the groups), its decode            (heavy)
   Seg/Prod/M{k}             the product equation `polyProduct … = some …` (assembly; operand work)  (heavy)
   Seg/Gram/*, Seg/Tors/*    stage entries and stages                                                (heavy)
   Seg/Chain, Seg/Checks     the `compose_eq` instances and the landed sub-check Bools              (light/heavy)
@@ -40,6 +41,12 @@ from types import SimpleNamespace as _NS  # noqa: E402
 
 DEC_CHUNKS = int(os.environ.get("MAG_DEC_CHUNKS", "8"))   # memo chunks (ROWS terms each) per decode piece
 DEC_SPAN = int(os.environ.get("MAG_DEC_SPAN", "2"))       # blocks of slots per decode piece (beyond one chunk)
+# MAG5: products whose last decode piece runs on through a long all-zero tail (windows `unzero [0, n]`): that tail
+# is cut into block-aligned pieces with no terms. Measured (kernel, M219 = advLow.p120.ir, piece from block 7): the
+# slots forced past the last nonzero cost superlinearly (755 slots ~9 s, 4,755 slots ~222 s, the whole 27,549-slot
+# piece > 107 min on lam), while one block-aligned all-zero block piece costs ~6 s. Only the products whose last
+# piece was not built on lam are cut (every other product's modules stay byte-identical).
+DEC_TAIL_SPLIT = {int(x) for x in os.environ.get("MAG_DEC_TAIL_SPLIT", "219,285").split(",") if x}
 
 
 def advice_obj(pj):
@@ -169,6 +176,16 @@ def autowrap(lines):
                     cur = " " * (ind + 4) + tk
             out.append(cur)
     return [x.replace("\u00a0", " ") for x in out]
+
+
+# MAG5: shards per kernel theorem (one module each). Measured on M0 at the 10 GB cap (MAG-EMIT worker): one shard
+# 4.33 GB 31 s, two shards 7.05 GB 71 s (superlinear), the all-shard theorem a kernel deterministic timeout on lam
+SH_GROUP = int(os.environ.get("MAG_SH_GROUP", "1"))
+
+
+def sh_groups(n):
+    """the shard numbers 0..n-1 in consecutive groups of SH_GROUP (the last group takes the remainder)"""
+    return [list(range(i, min(i + SH_GROUP, n))) for i in range(0, n, SH_GROUP)]
 
 
 class Tree:
@@ -487,6 +504,7 @@ class Emitter:
         assert Pm == P
         parts = {p["part"]: p for p in m["parts"]}
         ne = [p for p in PART_ORDER if not parts[p]["empty"]]
+        extra = list(imps)
         imps = self.base + self.memo_data + imps
         ma = "(%s.toMants %s.toMant %d)" % (a, cfg, P)
         mb = "(%s.toMants %s.toMant %d)" % (b, cfg, P)
@@ -500,10 +518,36 @@ class Emitter:
             Y = "((%s.getD ([], []))%s)" % (mb, xy[p][1])
             ea = "(%s.la.slotTerms %s)" % (adv, X)
             eb = "(%s.lb.slotTerms %s)" % (adv, Y)
-            sh = ["theorem %s_shards :" % nm] + wrap(("%s.shardRange.all (checkShardAt %s %s %s) = true := by"
-                                                      % (adv, adv, ea, eb)).split(" "), "    ") + ["  decide +kernel"]
-            self.tree.write("Prod/M%dSh" % k, imps, "Packed product %d: shards" % k,
-                            "The shard group of one packed product (L1c (a)).", sh, heavy=True)
+            # MAG5: the shards in groups of SH_GROUP, one kernel theorem (one module) each, and `{nm}_shards`
+            # (statement unchanged) assembled from them by coverage. The single all-shard `decide +kernel` hit the
+            # kernel's deterministic timeout on lam (M0Sh, M8Sh, ~8 min at 28 GB): a design signal (hard rule 1).
+            # The group modules import no memo data (the shards need only the operands).
+            kimps = self.base + list(extra)
+            pj = self.book(cfgname)[int(advname.split(".p")[1])][1][2 + PART_ORDER.index(p)]
+            groups = sh_groups(len(pj["rounded"]))
+            gmods, hg = [], "(fun _ h => nomatch h)"
+            for gi, g in enumerate(groups):
+                sh = ["theorem %s_shG%d :" % (nm, gi)] + wrap(("[%s].all (checkShardAt %s %s %s) = true := by"
+                                                              % (", ".join(map(str, g)), adv, ea, eb)).split(" "),
+                                                             "    ") + ["  decide +kernel"]
+                gmods.append(self.tree.write("Prod/M%dShG%d" % (k, gi), kimps,
+                                             "Packed product %d: shards %d to %d" % (k, g[0], g[-1]),
+                                             "One shard group of one packed product (L1c (a)).", sh, heavy=True))
+            for gi in reversed(range(len(groups))):
+                hg = "(List.forall_mem_cons.2 ⟨%s_shG%d, %s⟩)" % (nm, gi, hg)
+            G = "[%s]" % ", ".join("[%s]" % ", ".join(map(str, g)) for g in groups)
+            sh = ["theorem %s_cover :" % nm] + wrap(("∀ s ∈ %s.shardRange, ∃ g ∈ %s, s ∈ g := by" % (adv, G)
+                                                     ).split(" "), "    ") + ["  decide +kernel", ""]
+            sh += ["theorem %s_groups :" % nm] + wrap(("∀ g ∈ %s, g.all (checkShardAt %s %s %s) = true :="
+                                                       % (G, adv, ea, eb)).split(" "), "    ")
+            sh += wrap(hg.split(" "), "  ") + [""]
+            sh += ["theorem %s_shards :" % nm] + wrap(("%s.shardRange.all (checkShardAt %s %s %s) = true :="
+                                                       % (adv, adv, ea, eb)).split(" "), "    ")
+            sh += wrap(("List.all_eq_true.2 fun s hs => (%s_cover s hs).elim fun g hg => List.all_eq_true.1 "
+                        "(%s_groups g hg.1) s hg.2" % (nm, nm)).split(" "), "  ")
+            self.tree.write("Prod/M%dSh" % k, kimps + gmods, "Packed product %d: shards" % k,
+                            "The shard check of one packed product (L1c (a)) from its shard groups `M%dShG*`."
+                            % k, sh, heavy=True)
             f = "(fun v => ⟨v, ofInt 0⟩)" if p in ("rr", "ii") else "(fun v => ⟨ofInt 0, v⟩)"
             # exactly the form `mulPacked_eq_of_parts` expects (`pXX.1` of the explicit pair), so the application
             # needs no unfolding (design R5)
@@ -618,11 +662,18 @@ class Emitter:
             groups.append(g)
             c = g[-1] + 1
         cuts = [0] + [nz[ROWS * g[0]] for g in groups[1:]] + [n]
+        if k in DEC_TAIL_SPLIT:
+            # the tail after the last nonzero slot: from the next block boundary on, one block per piece
+            e = -(-(nz[-1] + 1) // L) * L
+            assert cuts[-2] <= nz[-1] < e < n, (k, cuts, e, n)
+            cuts = cuts[:-1] + list(range(e, n, L)) + [n]
+            groups = groups + [[] for _ in range(len(cuts) - 1 - len(groups))]
         assert all(a < b for a, b in zip(cuts, cuts[1:])), (k, cuts)
         st_of = [(a // L, -(-b // L)) for a, b in zip(cuts, cuts[1:])]
         # a named memo is always `T := List.flatten [T.c0, …]` (`terms_defs`, named)
         cname = (lambda c: "%s.c%d" % (tname, c))
-        gt = ["List.flatten [%s]" % ", ".join(cname(c) for c in g) for g in groups]
+        gt = ["List.flatten [%s]" % ", ".join(cname(c) for c in g) if g else "([] : List (CertKey × CC %s))" % TY
+              for g in groups]
         ii = p == "ii"
         neg = "fun t => (t.1, -t.2)"
         plc = "dyadicTerms (2 * %d) %s.scale %s" % (P, adv, f)
@@ -677,8 +728,8 @@ class Emitter:
         # NAMES (no chunk is unfolded)
         body += ["", "theorem %s_dec :" % nm] + wrap(("%s %s = some %s := by" % (plc, src, tname)).split(" "), "    ")
         body += hang("rw [fst_targetPair, show %s = List.flatten [%s] by simp only [%s%s List.flatten_cons, "
-                     "List.flatten_nil, List.append_nil, List.append_assoc]]"
-                     % (tname, Ts, tname, ","))
+                     "List.flatten_nil, List.append_nil, %sList.append_assoc]]"
+                     % (tname, Ts, tname, ",", "List.nil_append, " if k in DEC_TAIL_SPLIT else ""))
         body += ["  exact %s_decA" % nm]
         self.tree.write("Prod/M%dDec" % k, mods + ["KAM.Magnetic.Support.DecLocal"],
                         "Packed product %d: decode" % k,

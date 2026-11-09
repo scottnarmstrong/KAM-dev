@@ -8,10 +8,14 @@ scripts/spin_orbit/remote_pool.py and lock_mlane.py).
   ONE `lake build <module>` in its own systemd scope (`MemoryMax=cap`, `MemorySwapMax=0`, `LEAN_NUM_THREADS=1`,
   nice 5), starting only when every import is done and MemAvailable >= cap + 2 GB.
 * Caps come from COMPLETED runs only. The modules listed in MAG_PROBES (env, comma separated) are built first at
-  MAG_PROBE_CAP (default 48G). A module of a probed class (`classify`) starts only after every probe of its class
-  has completed with rc 0; its cap is ceil(1.3 x the largest completed probe peak of the class), at least 4G.
-  Other modules get MAG_DEFAULT_CAP (default 16G). A module killed at its cap (oom) is retried once at
-  MAG_PROBE_CAP; a probe killed at MAG_PROBE_CAP stops the run (STOP line).
+  MAG_PROBE_CAP (default 48G). A module of a probed class (`classify`) starts once ONE probe of its class has
+  completed with rc 0; its cap is ceil(1.3 x the largest completed probe peak of the class), at least MAG_CAP_FLOOR
+  (default 5G). Other modules get MAG_DEFAULT_CAP (default 16G). A module killed at its cap (oom) is retried once
+  at MAG_PROBE_CAP; a probe that does not finish with rc 0 (killed, failed or timed out) stops the run (STOP line).
+* MAG_TIMEOUT (default 1800 s): the wall-clock limit of one module (per class: MAG_TIMEOUTS, default `Prod:5400`;
+  the product assembly M0 measured 636 s at the 10 GB cap); past it the build's process group is killed and the
+  module is recorded with the distinct rc=TIMEOUT (a hang is not filed as an OOM; no retry).
+* A cap kill records the cap itself as the (lower-bound) peak when the cgroup is gone before its peak is read.
 * MAG_DONE=FILE: modules already verified up to date (one `lake build --no-build $(cat FILE)`, rc 0): not
   re-invoked.
 * A module passes iff `lake build` returns 0. Failures do not stop the run: dependents are skipped.
@@ -32,7 +36,10 @@ PFX = "KAM.Magnetic.Data"
 IMP = re.compile(r"^(?:public )?import (\S+)", re.M)
 PROBE_CAP = os.environ.get("MAG_PROBE_CAP", "48G")
 DEFAULT_CAP = os.environ.get("MAG_DEFAULT_CAP", "16G")
-CLASSES = [("Sh", re.compile(r"\.Seg\.Prod\.M\d+Sh$")), ("DecW", re.compile(r"\.Seg\.Prod\.M\d+DecW$")),
+CAP_FLOOR = int(os.environ.get("MAG_CAP_FLOOR", "5"))
+TIMEOUT = int(os.environ.get("MAG_TIMEOUT", "1800"))
+TIMEOUTS = {c: int(t) for c, t in (x.split(":") for x in os.environ.get("MAG_TIMEOUTS", "Prod:5400").split(",") if x)}
+CLASSES = [("ShG", re.compile(r"\.Seg\.Prod\.M\d+ShG\d+$")), ("Sh", re.compile(r"\.Seg\.Prod\.M\d+Sh$")), ("DecW", re.compile(r"\.Seg\.Prod\.M\d+DecW$")),
            ("DecP", re.compile(r"\.Seg\.Prod\.M\d+DecP\d+$")), ("Dec", re.compile(r"\.Seg\.Prod\.M\d+Dec$")),
            ("Prod", re.compile(r"\.Seg\.Prod\.M\d+$"))]
 
@@ -98,11 +105,12 @@ def sha(path):
 
 def build(root, m, logdir, lane, cap):
     log = os.path.join(logdir, m + ".log")
+    tmo = TIMEOUTS.get(classify(m), TIMEOUT)
     script = ('cg=/sys/fs/cgroup$(cut -d: -f3 /proc/self/cgroup); '
-              '/usr/bin/time -v nice -n 5 env LEAN_NUM_THREADS=1 lake build %s; rc=$?; '
+              '/usr/bin/time -v timeout -k 30 %d nice -n 5 env LEAN_NUM_THREADS=1 lake build %s; rc=$?; '
               'echo "MEMPEAK $(cat $cg/memory.peak 2>/dev/null || echo UNMEASURED)"; '
               'echo "OOMKILL $(grep oom_kill $cg/memory.events 2>/dev/null | awk \'{print $2}\')"; '
-              'echo "rc=$rc"' % m)
+              'echo "rc=$rc"' % (tmo, m))
     t0 = time.time()
     with open(log, "w") as f:
         f.write("%s lane %s cap %s\n" % (time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), lane, cap))
@@ -118,7 +126,12 @@ def build(root, m, logdir, lane, cap):
     rc = grab(r"^rc=(\S+)") or "killed"
     peak = grab(r"^MEMPEAK (\S+)")
     oom = grab(r"^OOMKILL (\S+)") not in ("", "0") or rc == "killed"
-    return rc, wall, (int(peak) if peak.isdigit() else -1), oom
+    if rc in ("124", "137") and wall >= tmo and not oom:
+        rc = "TIMEOUT"          # `timeout` killed the process group: a hang, not a memory kill
+    peak = int(peak) if peak.isdigit() else -1
+    if oom and peak < 0:
+        peak = gb(cap) * 2 ** 30    # the cgroup was torn down before its peak was read: the cap is a lower bound
+    return rc, wall, peak, oom
 
 
 def main(argv):
@@ -159,14 +172,14 @@ def main(argv):
         c = cls[m]
         if c in pcls:
             mx = max(peaks.get(c, [0]))
-            return "%dG" % max(4, math.ceil(1.3 * mx / 2 ** 30))
+            return "%dG" % max(CAP_FLOOR, math.ceil(1.3 * mx / 2 ** 30))
         return DEFAULT_CAP
 
     def ready_cap(m):
-        """the cap if m may start now, else None (its class's probes not all completed)"""
+        """the cap if m may start now, else None (no probe of its class has completed yet)"""
         if m in probes or attempt[m] > 0 or cls[m] not in pcls:
             return cap_of(m)
-        if all(state[p] == "ok" for p in probes if cls[p] == cls[m]):
+        if any(state[p] == "ok" for p in probes if cls[p] == cls[m]):
             return cap_of(m)
         return None
 
@@ -185,9 +198,10 @@ def main(argv):
                 state[m] = "ok"
                 if m in probes:
                     peaks.setdefault(cls[m], []).append(peak)
-            elif oom and m in probes:
+            elif m in probes:
                 state[m] = "fail"
-                print("STOP: probe %s was killed at %s; caps cannot be derived" % (m, cap), flush=True)
+                print("STOP: probe %s did not finish (rc=%s%s) at %s" % (m, rc, ", oom" if oom else "", cap),
+                      flush=True)
                 stop.set()
             elif oom and attempt[m] == 1 and cap != PROBE_CAP:
                 state[m] = "todo"
