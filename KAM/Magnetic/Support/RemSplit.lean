@@ -13,8 +13,9 @@ public import KAM.Magnetic.Support.DecSplit
 
 `PackedAdvice.remainderBound` sums a natural-number term over every product slot, with the
 largest slot degree `maxSlotDeg` (a maximum over every slot) in the exponents. For the largest
-products one kernel evaluation of either is too costly (copied from `KAM.SpinOrbit.Data.LockN65.RemSplit`;
-the magnetic product assemblies are consumed with the bound as a literal).
+products one kernel evaluation of either is too costly (copied from
+`KAM.SpinOrbit.Data.LockN65.RemSplit`; the magnetic product assemblies are consumed with the
+bound as a literal).
 This module cuts both at slot boundaries:
 
 * `packRangeMax_le_iff`, `packRangeMax_split`, `packRangeSum_split`: the range maximum and the
