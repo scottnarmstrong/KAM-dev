@@ -12,6 +12,8 @@ public import KAMMagneticBarrier.Magnetic.Data.Mag.Seg.Gram
 public import KAMMagneticBarrier.Magnetic.Data.Mag.Seg.Low
 public import KAMMagneticBarrier.Magnetic.Data.Mag.Seg.Prod.Top0
 public import KAMMagneticBarrier.Magnetic.Data.Mag.Seg.Prod.Top1
+public import KAMMagneticBarrier.Magnetic.Data.Mag.Seg.Prod.Top2
+public import KAMMagneticBarrier.Magnetic.Data.Mag.Seg.Prod.Top3
 public import KAMMagneticBarrier.Magnetic.Data.Mag.Seg.Top
 public import KAMMagneticBarrier.Magnetic.Data.Mag.Seg.Tors
 public import KAMMagneticBarrier.Magnetic.Data.Mag.Top
