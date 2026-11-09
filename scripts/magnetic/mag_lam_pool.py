@@ -15,6 +15,9 @@ scripts/spin_orbit/remote_pool.py and lock_mlane.py).
 * MAG_TIMEOUT (default 1800 s): the wall-clock limit of one module (per class: MAG_TIMEOUTS, default `Prod:5400`;
   the product assembly M0 measured 636 s at the 10 GB cap); past it the build's process group is killed and the
   module is recorded with the distinct rc=TIMEOUT (a hang is not filed as an OOM; no retry).
+* Admission is on commitment: the caps of the running modules plus the new cap plus MAG_HEADROOM_GB (16) must
+  fit in MemTotal (MAG_TOTAL_GB overrides), each cap released when its module exits; MemAvailable >= cap + 2 GB is
+  a second guard; at most MAG_MAX_BIG (2) modules run at the probe cap at once (probes and 48G retries).
 * A cap kill records the cap itself as the (lower-bound) peak when the cgroup is gone before its peak is read.
 * MAG_DONE=FILE: modules already verified up to date (one `lake build --no-build $(cat FILE)`, rc 0): not
   re-invoked.
@@ -38,6 +41,18 @@ PROBE_CAP = os.environ.get("MAG_PROBE_CAP", "48G")
 DEFAULT_CAP = os.environ.get("MAG_DEFAULT_CAP", "16G")
 CAP_FLOOR = int(os.environ.get("MAG_CAP_FLOOR", "5"))
 TIMEOUT = int(os.environ.get("MAG_TIMEOUT", "1800"))
+HEADROOM = int(os.environ.get("MAG_HEADROOM_GB", "16"))       # GB never committed to module caps
+MAX_BIG = int(os.environ.get("MAG_MAX_BIG", "2"))             # modules at the probe cap at once (probes, retries)
+
+
+def _total_gb():
+    for line in open("/proc/meminfo"):
+        if line.startswith("MemTotal"):
+            return int(line.split()[1]) >> 20
+    return 0
+
+
+TOTAL_GB = int(os.environ.get("MAG_TOTAL_GB", "0")) or _total_gb()
 TIMEOUTS = {c: int(t) for c, t in (x.split(":") for x in os.environ.get("MAG_TIMEOUTS", "Prod:5400").split(",") if x)}
 CLASSES = [("ShG", re.compile(r"\.Seg\.Prod\.M\d+ShG\d+$")), ("Sh", re.compile(r"\.Seg\.Prod\.M\d+Sh$")),
            ("DecW", re.compile(r"\.Seg\.Prod\.M\d+DecW$")),
@@ -164,6 +179,7 @@ def main(argv):
     peaks = {}                      # class -> [completed probe peaks]
     lock = threading.Lock()
     free = list(range(1, lanes + 1))
+    committed = {}                  # lane -> cap (GB) of the module running there
     stop = threading.Event()
     res = open(os.path.join(logdir, "results.tsv"), "a")
     t_start = time.time()
@@ -190,6 +206,7 @@ def main(argv):
         digest = sha(olean(root, m)) if rc == "0" else ""
         with lock:
             free.append(lane)
+            committed.pop(lane, None)
             attempt[m] += 1
             line = "%s rc=%s wall=%.0fs peak=%.2fGB cap=%s oom=%d attempt=%d lane=%s" % (
                 m, rc, wall, peak / 2 ** 30, cap, oom, attempt[m], lane)
@@ -233,13 +250,20 @@ def main(argv):
                 cap = ready_cap(m)
                 if cap is None:
                     continue
-                if avail < (gb(cap) + 2) * 2 ** 20:
+                # admission: the caps of every running module stay committed until it exits (a just-launched
+                # module has not used its memory yet, so MemAvailable alone over-commits: lam run 2, system OOM);
+                # MemAvailable is a second guard, and at most MAG_MAX_BIG runs at the probe cap at once
+                big = gb(cap) >= gb(PROBE_CAP)
+                if (sum(committed.values()) + gb(cap) + HEADROOM > TOTAL_GB or avail < (gb(cap) + 2) * 2 ** 20
+                        or (big and sum(1 for c in committed.values() if c >= gb(PROBE_CAP)) >= MAX_BIG)):
                     if m in probes:
                         break           # a probe waits for memory; nothing overtakes it
                     continue
                 state[m] = "run"
                 avail -= (gb(cap) + 2) * 2 ** 20
-                launch.append((m, free.pop(0), cap))
+                lane = free.pop(0)
+                committed[lane] = gb(cap)
+                launch.append((m, lane, cap))
         for m, lane, cap in launch:
             threading.Thread(target=worker, args=(m, lane, cap), daemon=True).start()
             time.sleep(1)
