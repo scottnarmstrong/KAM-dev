@@ -39,9 +39,11 @@ DEFAULT_CAP = os.environ.get("MAG_DEFAULT_CAP", "16G")
 CAP_FLOOR = int(os.environ.get("MAG_CAP_FLOOR", "5"))
 TIMEOUT = int(os.environ.get("MAG_TIMEOUT", "1800"))
 TIMEOUTS = {c: int(t) for c, t in (x.split(":") for x in os.environ.get("MAG_TIMEOUTS", "Prod:5400").split(",") if x)}
-CLASSES = [("ShG", re.compile(r"\.Seg\.Prod\.M\d+ShG\d+$")), ("Sh", re.compile(r"\.Seg\.Prod\.M\d+Sh$")), ("DecW", re.compile(r"\.Seg\.Prod\.M\d+DecW$")),
+CLASSES = [("ShG", re.compile(r"\.Seg\.Prod\.M\d+ShG\d+$")), ("Sh", re.compile(r"\.Seg\.Prod\.M\d+Sh$")),
+           ("DecW", re.compile(r"\.Seg\.Prod\.M\d+DecW$")),
            ("DecP", re.compile(r"\.Seg\.Prod\.M\d+DecP\d+$")), ("Dec", re.compile(r"\.Seg\.Prod\.M\d+Dec$")),
-           ("Prod", re.compile(r"\.Seg\.Prod\.M\d+$"))]
+           ("Prod", re.compile(r"\.Seg\.Prod\.M\d+$")), ("RemR", re.compile(r"\.Seg\.Prod\.M\d+RemR\d+$")),
+           ("Full", re.compile(r"\.Seg\.Full\.S\d+$")), ("Low", re.compile(r"\.Seg\.Low\.S\d+$"))]
 
 
 def classify(m):

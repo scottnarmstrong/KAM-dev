@@ -188,6 +188,43 @@ def sh_groups(n):
     return [list(range(i, min(i + SH_GROUP, n))) for i in range(0, n, SH_GROUP)]
 
 
+# MAG5 (lam run 2): every consumer of a product equation `magM{k}` (the forced `.mul` segments, the character
+# residuals) evaluated `remainderBound` (a sum over all product slots, with `maxSlotDeg` a maximum over them) inside
+# its own `decide`: `decide failed to reduce` at ~28 GB on lam; `maxSlotDeg` of M0 alone > 900 s here. As in the
+# lock (`lock_cseg.py` emit_rem, `RemSplit.lean`) the bound is computed in slot ranges of REM_CHUNK slots, one kernel
+# theorem each (4,000 slots: ~6 s max / ~8 s sum, ~5 GB with the imports, measured on M0), REM_GROUP ranges per
+# module, and the consumers use `magM{k}_lit`, the product equation with the bound as a literal.
+REM_CHUNK = int(os.environ.get("MAG_REM_CHUNK", "4000"))
+REM_GROUP = int(os.environ.get("MAG_REM_GROUP", "10"))
+REMSPLIT = "KAM.Magnetic.Support.RemSplit"
+PREFIXSPLIT = "KAM.Magnetic.Support.PrefixSplit"   # SPLIT_AUX products: the prefix check window by window
+# MAG5: products whose side checks `{nm}A<n>` go one module each (lock_cseg SPLIT_AUX: the joined form measured 5-7x
+# slower there). M109 (cfgLow twin of M10) timed out at 5,400 s on lam with them inline; only the products listed
+# change (every other product module stays byte-identical).
+SPLIT_AUX = {int(x) for x in os.environ.get("MAG_SPLIT_AUX", "109").split(",") if x}
+SEGDECIDE = "KAM.Magnetic.Support.SegDecide"   # `DecidableEq SlpOp` for the forced segments' `s.ops ops = [op]`
+
+
+def _weight_w():
+    """`base.weight.w` of the magnetic certificate (Cert.lean literal)."""
+    import re
+    t = open(os.path.join(HERE, "../../KAM/Magnetic/Data/Mag/Cert.lean")).read()
+    m = re.search(r"def weight : CertWeight :=\s*⟨\(([^)]*)\),\s*\(([^)]*)\)", t)
+    a, b = m.group(2).split("/")
+    return F(int(a), int(b))
+
+
+def natlit(n):
+    """a natural-number literal: plain when short, else `natOfChunks [0x…, …]` (256-bit digits)"""
+    if n < 1 << 256:
+        return "%d" % n
+    ds = []
+    while n:
+        ds.append(n & ((1 << 256) - 1))
+        n >>= 256
+    return "(natOfChunks [%s])" % ", ".join("0x%x" % d for d in reversed(ds))
+
+
 class Tree:
     """the emitted files; `heavy` the modules needing the locked, capped build."""
 
@@ -429,22 +466,31 @@ class Emitter:
         head[-1] += " := by"
         common = ["  refine ComposeCkpt.segOk_one_of (s := %s)" % spec,
                   "    (m := %s)" % meta,
-                  "    (op := %s) (st' := ?st) rfl rfl rfl (by decide +kernel) ?hop ?hres" % self.op_lit(op)]
+                  # MAG5: `s.ops ops = [op]` by the kernel (`rfl` hit the elaborator's maximum recursion depth at op
+                  # 610, lam run 2: S51, S52; `DecidableEq SlpOp` from SegDecide)
+                  "    (op := %s) (st' := ?st)" % self.op_lit(op),
+                  # MAG5: the two lookups by the kernel too (an elaborator `rfl` walks the plan list cell by cell)
+                  "    ((eq_some_getD_cseg _ (by decide +kernel)).trans (congrArg some",
+                  "      (List.getD_eq_getElem?_getD (l := %sSegs) (i := %d)).symm))" % (C, j),
+                  "    ((eq_some_getD_cseg _ (by decide +kernel)).trans (congrArg some",
+                  "      (List.getD_eq_getElem?_getD (l := %sMetas) (i := %d)).symm))" % (C, j),
+                  "    (by decide +kernel) (by decide +kernel) ?hop ?hres"]
         if op[0] == "mul":
             a, b = op[1], op[2]
             memo = self.memo_index(chain, (0, i))
-            self.forced_imports[(chain, j)] = [self.prod_mod_name(memo)]
+            lth, lmod = self.lit_ref(memo)
+            self.forced_imports[(chain, j)] = [lmod, SEGDECIDE]
             pf = ["  case hop =>",
                   "    rw [shadowStep_of_live 2 base.emb base.wit %s %s %s (by decide +kernel)," % (W, cfg, self.pe),
                   "      composeStep_mul_eq,",
                   "      seed_slot_of_mem %s %s %s (a := %d) (by decide +kernel) (by decide +kernel)," % (W, meta, C, a),
                   "      seed_slot_of_mem %s %s %s (a := %d) (by decide +kernel) (by decide +kernel)," % (W, meta, C, b),
-                  "      CertModel.mulN_eq_of_polyProduct %s %s _ _ _ _ _ %s]" % (W, cfg, self.memo_name(memo)),
+                  "      CertModel.mulN_eq_of_polyProduct %s %s _ _ _ _ _ %s]" % (W, cfg, lth),
                   "  case hres =>",
                   "    decide +kernel"]
             return head + common + pf
         if op[0] == "char":
-            self.forced_imports[(chain, j)] = [self.char_mod[(chain, i)]]
+            self.forced_imports[(chain, j)] = [self.char_mod[(chain, i)], SEGDECIDE]
             pf = ["  case hop =>",
                   "    rw [shadowStep_of_live 2 base.emb base.wit %s %s %s (by decide +kernel)," % (W, cfg, self.pe),
                   "      composeStep_char_eq 2 base.emb base.wit %s %s %s %s %s %s_char%s%d]" % (
@@ -471,6 +517,149 @@ class Emitter:
                 return k
         raise KeyError((ctx_chain, fullKey))
 
+    def prefix_split(self, k, nm, adv, ea, eb, cfgname, p, imps, auxmods):
+        """`checkPackedSpPrefix` of product k window by window (PrefixSplit.lean): `M{k}PreW{s}` one window each,
+        `M{k}Pre` the base guards, the rest of the prefix, the window cover and the assembled `{nm}_pre`."""
+        advname = adv.rsplit(".", 1)[0]
+        nw = len(self.book(cfgname)[int(advname.split(".p")[1])][1][2 + PART_ORDER.index(p)]["rounded"])
+        pimps = list(imps) + [PREFIXSPLIT]
+        wmods = []
+        for w in range(nw):
+            wmods.append(self.tree.write("Prod/M%dPreW%d" % (k, w), pimps,
+                                         "Packed product %d: prefix check, window %d" % (k, w),
+                                         "One advice window of the prefix check (one kernel run).",
+                                         ["theorem %s_pw%d : packWindowOK %s %d = true := by" % (nm, w, adv, w),
+                                          "  decide +kernel"], heavy=True))
+        ws = "[%s]" % ", ".join(map(str, range(nw)))
+        hw = "(fun _ h => nomatch h)"
+        for w in reversed(range(nw)):
+            hw = "(List.forall_mem_cons.2 ⟨%s_pw%d, %s⟩)" % (nm, w, hw)
+        body = ["theorem %s_pb : packShapeBase %s = true := by" % (nm, adv), "  decide +kernel", ""]
+        body += ["theorem %s_pr :" % nm] + wrap(("checkPackedSpRest %s %s %s = true := by" % (adv, ea, eb)).split(" "),
+                                               "    ") + ["  decide +kernel", ""]
+        body += ["theorem %s_pc : ∀ s < %s.rounded.length, s ∈ %s := by" % (nm, adv, ws), "  decide +kernel", ""]
+        body += ["theorem %s_pre :" % nm] + wrap(("checkPackedSpPrefix %s %s %s = true :=" % (adv, ea, eb)).split(" "),
+                                                "    ")
+        body += wrap(("checkPackedSpPrefix_of_parts %s %s %s %s_pb %s %s_pc %s %s_pr"
+                      % (adv, ea, eb, nm, ws, nm, hw, nm)).split(" "), "  ")
+        auxmods.append(self.tree.write("Prod/M%dPre" % k, pimps + wmods, "Packed product %d: prefix check" % k,
+                                       "The prefix check of one packed product from its windows (PrefixSplit.lean).",
+                                       [self.fix_long(l) for l in body], heavy=True))
+        return "%s_pre" % nm
+
+    def lit_ref(self, k):
+        """(theorem, module) of product k's equation with its remainder bound as a literal (`{nm}_lit`, module
+        `Prod/M{k}Rem`), emitted on first use; a product with no nonempty part has the bound 0 (its own equation)."""
+        if k in self.lit_done:
+            return self.lit_done[k]
+        info = self.prod_info[k]
+        nm = info["nm"]
+        if not info["parts"]:
+            self.lit_done[k] = (nm, self.prod_done[k])
+            return self.lit_done[k]
+        stmt, rbs, mods = info["stmt"], [], []
+        for adv, pj in info["parts"]:
+            mod, rb, lit, old = self.emit_rem(k, adv, pj, info["kimps"])
+            assert old in stmt, (k, old)
+            stmt = stmt.replace(old, lit)
+            self.lit_sub.setdefault(k, []).append((old, lit))
+            rbs.append(rb)
+            mods.append(mod)
+        body = ["/-- The packed product %d with its remainder bound as a literal (the form its consumers decide). -/"
+                % k, "theorem %s_lit :" % nm] + wrap(stmt.split(" "), "    ")
+        body[-1] += " := by"
+        body += ["  rw [%s, %s]" % (nm, ", ".join(rbs))]
+        mod = self.tree.write("Prod/M%dRem" % k, [self.prod_done[k], REMSPLIT] + mods,
+                              "Packed product %d: remainder bound" % k,
+                              "The product equation with the remainder bound as a literal, assembled from the\nslot "
+                              "ranges (RemSplit.lean).", [self.fix_long(l) for l in body], heavy=True)
+        self.lit_done[k] = ("%s_lit" % nm, mod)
+        return self.lit_done[k]
+
+    def emit_rem(self, k, adv, pj, imps):
+        """`adv.remainderBound W (2 * P)` as a literal from the slot ranges (after the lock's emit_rem): REM_GROUP
+        ranges of REM_CHUNK slots per module `M{k}RemR{g}` (per range the largest slot degree and the slot sum, one
+        theorem each) and the assembly `M{k}RemA`. Returns (module, theorem, literal, the term it replaces)."""
+        po = advice_obj(pj)
+        degs = SP.slotDegs(po)
+        box = SP.InBox(po)
+        n = len(degs)
+        cuts = list(range(0, n, REM_CHUNK)) + [n]
+        M = max(degs) if degs else 0
+        W = _weight_w()
+        num, den = W.numerator, W.denominator
+        hi_in, hi_out = 1 << po.scale, 1 << (po.outLog + 1)
+        pw = {}
+        tag = "%s%s" % (self.memo_name(k), adv.rsplit(".", 1)[1].upper())
+        f = ("(fun i => %s.slotErr i * base.weight.w.num.toNat ^ %s.slotDeg i * base.weight.w.den ^ (%d - %s.slotDeg"
+             " i))" % (adv, adv, M, adv))
+        Ms, Ns, mods, body, rng = [], [], [], [], []
+        nr = len(cuts) - 1
+
+        def flush():
+            mods.append(self.tree.write("Prod/M%dRemR%d" % (k, len(mods)), list(imps) + [REMSPLIT],
+                                        "Packed product %d: remainder bound, slots %d to %d" % (k, rng[0][0], rng[-1][1]),
+                                        "Slot ranges of the remainder bound of one packed product;\none kernel "
+                                        "run per theorem (RemSplit.lean).", [self.fix_long(l) for l in body[:-1]],
+                                        heavy=True))
+            del body[:], rng[:]
+        for j in range(nr):
+            a, b = cuts[j], cuts[j + 1]
+            Ms.append(max(degs[a:b]))
+            tot = 0
+            for i in range(a, b):
+                d = degs[i]
+                if d not in pw:
+                    pw[d] = num ** d * den ** (M - d)
+                tot += (hi_in if box(i) else hi_out) * pw[d]
+            Ns.append(tot)
+            blk = ["theorem %s_remM%d :" % (tag, j)] + wrap(("packRangeMax %s.slotDeg (%d - %d) %d (%d - %d) = %d := by"
+                                                              % (adv, b, a, a, b, a, Ms[-1])).split(" "), "    ")
+            blk += ["  decide +kernel", "", "/-- The slot sum of the range. -/", "def %s_remN%d : ℕ :=" % (tag, j)]
+            blk += wrap(natlit(Ns[-1]).split(" "), "  ") + ["", "theorem %s_remS%d :" % (tag, j)]
+            blk += wrap(("packRangeSum %s (%d - %d) %d (%d - %d) = %s_remN%d := by" % (f, b, a, a, b, a, tag, j)
+                         ).split(" "), "    ") + ["  decide +kernel", ""]
+            # a module takes at most REM_GROUP ranges and at most ~1,300 lines (the long slot sums)
+            if body and (len(rng) == REM_GROUP or len(body) + len(blk) > 1300):
+                flush()
+            body += blk
+            rng.append((a, b))
+        flush()
+        ps = "[%s]" % ", ".join(map(str, cuts[1:]))
+        Mf, Nf = ".nil", ".nil"
+        for j in reversed(range(len(Ms))):
+            Mf = "(.cons %s_remM%d %s)" % (tag, j, Mf)
+            Nf = "(.cons %s_remS%d %s)" % (tag, j, Nf)
+        cp = "(cutPairs [%s])" % ", ".join(map(str, cuts))
+        lit = "(([%s].sum : ℕ) : ℚ) / ((base.weight.w.den ^ %d * 2 ^ (2 * %d) : ℕ) : ℚ)" % (
+            ", ".join("%s_remN%d" % (tag, j) for j in range(len(Ns))), M, P)
+
+        def hang(text):
+            ls = wrap(text.split(" "), "      ")
+            ls[0] = "  " + ls[0].lstrip()
+            return ls
+        body = ["theorem %s_len : %s.prodLen = %d := by" % (tag, adv, n), "  decide +kernel", ""]
+        body += ["theorem %s_maxF :" % tag] + wrap(("List.Forall₂ (fun p M => packRangeMax %s.slotDeg (p.2 - p.1) p.1"
+                                                     " (p.2 - p.1) = M) %s [%s] :=" % (adv, cp, ", ".join(map(str, Ms)))
+                                                     ).split(" "), "    ") + wrap(Mf.split(" "), "  ") + [""]
+        body += ["theorem %s_max : %s.maxSlotDeg = %d := by" % (tag, adv, M)]
+        body += hang("rw [maxSlotDeg_eq_of_cuts %s %d %s_len %s (by decide +kernel) (by decide +kernel) %s_maxF]"
+                     % (adv, n, tag, ps, tag))
+        body += ["  decide +kernel", ""]
+        body += ["theorem %s_sumF :" % tag] + wrap(("List.Forall₂ (fun p N => packRangeSum %s (p.2 - p.1) p.1 (p.2 - p.1)"
+                                                     " = N) %s [%s] :=" % (f, cp, ", ".join(
+                                                         "%s_remN%d" % (tag, j) for j in range(len(Ns))))).split(" "),
+                                                    "    ") + wrap(Nf.split(" "), "  ") + [""]
+        body += ["theorem %s_rb :" % tag] + wrap(("%s.remainderBound base.weight (2 * %d) = %s := by" % (adv, P, lit)
+                                                  ).split(" "), "    ")
+        body += hang("rw [remainderBound_eq_of_cuts %s base.weight (2 * %d) %d %d %s_len %s_max %s (by decide +kernel)"
+                     " (by decide +kernel) %s_sumF]" % (adv, P, n, M, tag, tag, ps, tag))
+        mod = self.tree.write("Prod/M%dRemA" % k, list(imps) + [REMSPLIT] + mods,
+                              "Packed product %d: remainder bound assembly" % k,
+                              "The remainder bound from its slot ranges (RemSplit.lean).",
+                              [self.fix_long(l) for l in body], heavy=True)
+        return mod, "%s_rb" % tag, lit, "%s.remainderBound base.weight (2 * %d)" % (adv, P)
+
     def memo_name(self, k):
         return "%sM%d" % (self.t, k)
 
@@ -480,6 +669,9 @@ class Emitter:
     def emit_products(self, operand_of):
         """`operand_of(memo)` gives (cfg term, key term, a term, b term, extra imports)."""
         self.prod_done = {}
+        self.prod_info = {}
+        self.lit_done = {}
+        self.lit_sub = {}
         self.memo_out = {}
         items = []
         for k, m in enumerate(self.led["memos"]):
@@ -557,12 +749,19 @@ class Emitter:
                           self.book(cfgname)[int(advname.split(".p")[1])][1][2 + PART_ORDER.index(p)], imps)
         # assembly. Every Boolean side check is its OWN theorem (a statement of closed terms, its own
         # heartbeat budget): nested `decide`s inside one declaration share one budget (design signal)
-        body, auxn = [], [0]
+        body, auxn, auxmods = [], [0], []
 
         def aux(stmt):
             nmA = "%sA%d" % (nm, auxn[0])
             auxn[0] += 1
-            body.extend(["theorem %s :" % nmA] + wrap((stmt + " := by").split(" "), "    ") + ["  decide +kernel", ""])
+            tb = ["theorem %s :" % nmA] + wrap((stmt + " := by").split(" "), "    ") + ["  decide +kernel"]
+            if k in SPLIT_AUX:
+                auxmods.append(self.tree.write("Prod/M%dAux%d" % (k, auxn[0] - 1), imps,
+                                               "Packed product %d: side check %d" % (k, auxn[0] - 1),
+                                               "One Boolean side check of one packed product (one kernel run).",
+                                               [self.fix_long(l) for l in tb], heavy=True))
+            else:
+                body.extend(tb + [""])
             return nmA
         hparts, tparts, rems = {}, {}, {}
         for p in PART_ORDER:
@@ -597,7 +796,10 @@ class Emitter:
             Y = "((%s.getD ([], []))%s)" % (mb, xy[p][1])
             ea = "(%s.la.slotTerms %s)" % (adv, X)
             eb = "(%s.lb.slotTerms %s)" % (adv, Y)
-            hpre = aux("checkPackedSpPrefix %s %s %s = true" % (adv, ea, eb))
+            if k in SPLIT_AUX:
+                hpre = self.prefix_split(k, nm, adv, ea, eb, cfgname, p, imps, auxmods)
+            else:
+                hpre = aux("checkPackedSpPrefix %s %s %s = true" % (adv, ea, eb))
             body += ["theorem %s_sp :" % nm] + wrap(("checkPackedSp %s %s %s = true :=" % (adv, ea, eb)).split(" "), "    ")
             body += ["  checkPackedSp_of_groups %s %s %s [%s.shardRange] %s" % (adv, ea, eb, adv, hpre),
                      "    (fun s hs => ⟨%s.shardRange, List.mem_singleton_self _, hs⟩)" % adv,
@@ -629,11 +831,14 @@ class Emitter:
         for p in PART_ORDER:
             body += ["      " + ("%s_dec" % nm if p in ne else "(dyadicTerms_nil_cseg _ _ _)")]
         body[-1] += ")"
-        mod = self.tree.write("Prod/M%d" % k, imps + ([self.tree.mod("Prod/M%dSh" % k), self.tree.mod("Prod/M%dDec" % k)]
-                                                        if ne else []),
+        mod = self.tree.write("Prod/M%d" % k, imps + auxmods +
+                              ([self.tree.mod("Prod/M%dSh" % k), self.tree.mod("Prod/M%dDec" % k)] if ne else []),
                               "Packed product %d" % k, "The product equation from its shards and decode (L1c).",
                               [self.fix_long(l) for l in body], heavy=True)
         self.prod_done[k] = mod
+        self.prod_info[k] = dict(nm=nm, stmt=stmt, kimps=self.base + extra,
+                                 parts=[("%s.%s" % (advname, p), self.book(cfgname)[int(advname.split(".p")[1])][1]
+                                         [2 + PART_ORDER.index(p)]) for p in ne])
 
     def emit_dec(self, k, nm, adv, p, f, src, tname, nterms, pj, imps):
         """the decode `dyadicTerms … targetTerms = some T` of product `k`, cut at the slots where the groups of
@@ -931,7 +1136,7 @@ class Emitter:
 
     # ------------------------------------------------------------------ Gram (M2)
     def mul_rw(self, k, cfg, key, A, B):
-        return "mul_eq_of_polyProduct_cseg %s %s %s %s %s %s" % (self.W, cfg, key, A, B, self.memo_name(k))
+        return "mul_eq_of_polyProduct_cseg %s %s %s %s %s %s" % (self.W, cfg, key, A, B, self.lit_ref(k)[0])
 
     def memos_for(self, pred):
         return [(k, m) for k, m in enumerate(self.led["memos"]) if pred(m) and k in self.ops_map]
@@ -1004,9 +1209,9 @@ class Emitter:
     def memo_imports(self, rws):
         out = []
         for r in rws:
-            for k in self.prod_done:
-                if r.endswith(" " + self.memo_name(k)):
-                    out.append(self.prod_done[k])
+            for k, (th, mod) in self.lit_done.items():
+                if r.endswith(" " + th):
+                    out.append(mod)
         return out
 
     def prod_text(self, k, cfg, key, A, B):
@@ -1015,7 +1220,10 @@ class Emitter:
         W = self.W
         if k is None:
             return "(CertModel.mul %s %s %s %s %s)" % (W, cfg, key, A, B)
+        self.lit_ref(k)
         o = self.memo_out[k]
+        for old, lit in self.lit_sub.get(k, []):
+            o = o.replace(old, lit)
         return ("(⟨%s.deg + %s.deg, truncPoly %s.cutoff %s.1, upAdd (upAdd %s.2 (errRadius %s (%s.1.map "
                 "(truncErr %s.cutoff)))) (upAdd (upAdd (crossUp (%s.poly.supNormUp %s) %s.rad) (crossUp "
                 "(%s.poly.supNormUp %s) %s.rad)) (upMul %s.rad %s.rad))⟩ : CertModel %s)"
@@ -1141,14 +1349,15 @@ class Emitter:
         for j in range(2):
             k = next(k for k, m in self.memos_for(lambda m: m["ctx"] == "%s/slot%d" % (chain, sl) and
                                                   m["fullKey"][2] == j))
-            imps.append(self.prod_done[k])
+            lth, lmod = self.lit_ref(k)
+            imps.append(lmod)
             st = "expResidualUp %s %s %s.poly %s.poly (%s.poly.supNormUp %s) %d = %s" % (
                 W, cfgw, g, EW, EW, W, j, fixed(c["res"][j]))
             body += ["theorem %s_res%s_%d :" % (t, tag, j)] + wrap(st.split(" "), "    ")
             body[-1] += " := by"
             body += ["  unfold expResidualUp"]
             body += wrap(("rw [expResidualProduct_eq_of_polyProduct %s %s %s.poly %s.poly %d %s]"
-                          % (W, cfgw, g, EW, j, self.memo_name(k))).split(" "), "  ")
+                          % (W, cfgw, g, EW, j, lth)).split(" "), "  ")
             body += ["  decide +kernel", ""]
         rs = "(fun j => if j = 0 then %s else %s)" % (fixed(c["res"][0]), fixed(c["res"][1]))
         pin = ("(certCExpReduced (expPinBall %s).1 (expPinBall %s).2 %s.pinHalvings %s.pinOrder).map "
