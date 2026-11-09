@@ -17,6 +17,9 @@ public import KAM.Magnetic.Support.CsegSupport
 public import KAM.Magnetic.Support.DecLocal
 public import KAM.Magnetic.Support.DecSplit
 public import KAM.Magnetic.Support.Format
+public import KAM.Magnetic.Support.PrefixSplit
+public import KAM.Magnetic.Support.RemSplit
+public import KAM.Magnetic.Support.SegDecide
 public import KAM.Magnetic.TorusCert
 
 /-!
