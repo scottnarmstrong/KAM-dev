@@ -728,8 +728,8 @@ class Emitter:
         # NAMES (no chunk is unfolded)
         body += ["", "theorem %s_dec :" % nm] + wrap(("%s %s = some %s := by" % (plc, src, tname)).split(" "), "    ")
         body += hang("rw [fst_targetPair, show %s = List.flatten [%s] by simp only [%s%s List.flatten_cons, "
-                     "List.flatten_nil, List.append_nil, %sList.append_assoc]]"
-                     % (tname, Ts, tname, ",", "List.nil_append, " if k in DEC_TAIL_SPLIT else ""))
+                     "List.flatten_nil, List.append_nil, List.append_assoc]]"
+                     % (tname, Ts, tname, ","))
         body += ["  exact %s_decA" % nm]
         self.tree.write("Prod/M%dDec" % k, mods + ["KAM.Magnetic.Support.DecLocal"],
                         "Packed product %d: decode" % k,
