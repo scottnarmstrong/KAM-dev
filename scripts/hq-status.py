@@ -1360,7 +1360,7 @@ SUBPROJECTS = [
 ]
 SUB_GROUPS = {'kam': 'KAM theory: the original project', 'ext': 'Extensions of the theory',
               'moon': 'Certified numerics: the Moon', 'planets': 'Certified numerics: planetary systems',
-              'open': 'Frozen, proof in progress'}
+              'open': 'Certified numerics: magnetic confinement'}
 SUB_PREFIX = {'K': 'kam', 'I': 'iso', 'N': 'nekhoroshev', 'R': 'russmann', 'W': 'wave', 'B': 'effectiveStability',
               'Magnetic': 'magnetic'}
 

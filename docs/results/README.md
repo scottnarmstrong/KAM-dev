@@ -35,6 +35,6 @@ accounts are written from them. Progress meters are in the [README](../../README
 - [LG00](LG00.md) (side project): a kernel-checked KAM torus of a secular Sun–Jupiter–Saturn model.
 - [HD 11964](HD11964.md) (side project, in progress): no orbit crossing for a fixed time in a real exoplanet system.
 
-## Frozen, proof open
+## Certified numerics: magnetic confinement
 
-- [Magnetic barrier](Magnetic.md): an invariant surface that no field line of a model magnetic field crosses.
+- [Magnetic barrier](Magnetic.md): an invariant surface that no field line of a model magnetic field crosses (sealed 2026-11-10).
