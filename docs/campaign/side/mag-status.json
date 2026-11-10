@@ -1,7 +1,7 @@
 {
  "title": "Magnetic field-line barrier: seal KAM.Magnetic.magnetic_barrier",
  "note": "Priority since 2026-11-08 (owner). Sub-orchestrator kam-mag2, branch mag-pilot (worktree on the HC volume). Route: the v2 torus certifier, route A refined, as for the Moon's spin band; then a glue theorem from the certificate to the frozen statement, a provider, the seal and an independent audit. Plan: docs/explorations/mag/SEAL-PLAN.md. The main orchestrator updates this file at each milestone; weights are the stages' relative effort.",
- "reviewed": "2026-11-10 01:00 UTC",
+ "reviewed": "2026-11-10 02:25 UTC",
  "stages": [
   {
    "name": "model and statement frozen (D66, D68)",
@@ -30,8 +30,8 @@
   {
    "name": "kernel check of the full certificate (here or on the 64-core workstation)",
    "weight": 35,
-   "done": 0.97,
-   "evidence": "5,804 of 5,807 chain modules built (third workstation run 2026-11-09 22:10-00:43, no memory failures; admission fix verified); remaining: Seg.Checks.FrameN and FrameT time out deterministically (kernel reduction, 2.4 GB), so Seg.Checks waits; fix (split/whiten as in the lunar lock frame checks) then a local build"
+   "done": 1.0,
+   "evidence": "all 5,807 chain modules built: three workstation runs (2026-11-08/09) plus local; frame checks split per vertex as in the lunar lock (FrameT/FrameN 64-317 s per piece, <= 2.8 GB); Seg.Checks built, lake build --no-build up to date (9,379 jobs)"
   },
   {
    "name": "glue theorem: passing certificate implies the frozen statement",
@@ -42,8 +42,8 @@
   {
    "name": "provider, seal, independent seal audit, kernel replay",
    "weight": 8,
-   "done": 0.3,
-   "evidence": "provider KAM/Provider/Magnetic/MagneticBarrier.lean written on mag-pilot; dry run elaborates the exact frozen type with the two chain passes as hypotheses, standard axioms; seal, audit and replay after the workstation returns the chain"
+   "done": 0.4,
+   "evidence": "provider KAM.Provider.Magnetic.magnetic_barrier built (13 s); seal dry run on a scratch copy elaborates, axioms propext/Classical.choice/Quot.sound; registered seal, independent seal audit and replay under way"
   },
   {
    "name": "landed on main",
