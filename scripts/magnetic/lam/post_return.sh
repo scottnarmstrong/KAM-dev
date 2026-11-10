@@ -14,9 +14,11 @@ SCR=$D/sealdry; mkdir -p $SCR
 LD=$WT/.lake/sealdry; mkdir -p $LD   # lean wants its input inside the root; .lake is not tracked
 cd $WT
 echo "== $(date -u +%H:%M) 1. verify + seed"
-python3 $WT/scripts/magnetic/lam/verify_return.py "$ARC" "$STG"
-(cd "$STG" && sha256sum -c --quiet sha256.txt)
-cp -a "$STG/lib" "$STG/ir" $WT/.lake/build/
+if [ -z "${SKIP_SEED:-}" ]; then   # SKIP_SEED=1: the return is already verified and seeded
+  python3 $WT/scripts/magnetic/lam/verify_return.py "$ARC" "$STG"
+  (cd "$STG" && sha256sum -c --quiet sha256.txt)
+  cp -a "$STG/lib" "$STG/ir" $WT/.lake/build/
+fi
 echo "== $(date -u +%H:%M) 2. chain up to date"
 nice lake build --no-build KAM.Magnetic.Data.Mag.Seg.Checks > $SCR/checks-nobuild.log 2>&1 \
   || { tail -20 $SCR/checks-nobuild.log; echo "STOP: the chain is not up to date"; exit 1; }

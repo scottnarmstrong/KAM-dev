@@ -12,8 +12,8 @@ public import KAM.Frozen.Magnetic.Defs.MagHamC
 public import KAM.Frozen.Defs.IsPrimaryOnStrip
 public import KAM.Frozen.Defs.IsRealOnReals
 public import KAM.Frozen.Defs.InvarianceError
-import KAM.Magnetic.Assembly
-import KAM.Magnetic.Data.Mag.Passes
+public import KAM.Magnetic.Assembly
+public import KAM.Magnetic.Data.Mag.Passes
 
 /-!
 # Provider for the frozen theorem `KAM.Magnetic.magnetic_barrier`
