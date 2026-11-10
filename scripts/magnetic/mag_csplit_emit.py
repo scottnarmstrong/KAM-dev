@@ -197,6 +197,8 @@ def sh_groups(n):
 REM_CHUNK = int(os.environ.get("MAG_REM_CHUNK", "4000"))
 REM_GROUP = int(os.environ.get("MAG_REM_GROUP", "10"))
 REMSPLIT = "KAM.Magnetic.Support.RemSplit"
+CORNERSPLIT = "KAM.Magnetic.Support.CornerSplit"   # the frame checks per row/column and vertex
+VERTS2 = ("[true, true]", "[false, true]", "[true, false]", "[false, false]")    # `signLists 2`, in order
 PREFIXSPLIT = "KAM.Magnetic.Support.PrefixSplit"   # SPLIT_AUX products: the prefix check window by window
 # MAG5: products whose side checks `{nm}A<n>` go one module each (lock_cseg SPLIT_AUX: the joined form measured 5-7x
 # slower there). M109 (cfgLow twin of M10) timed out at 5,400 s on lam with them inline; only the products listed
@@ -1453,21 +1455,60 @@ class Emitter:
                                ["theorem %s_csTorsion : checkTorsion base = true := by" % t,
                                 "  rw [checkTorsion_eq_of %s_gramCheck %s_torsionModels]" % (t, t),
                                 "  decide +kernel"], heavy=True)
-        frT = self.tree.write("Checks/FrameT", self.base + [self.tors_mod, self.gram_mod,
-                                                           "KAM.Magnetic.Data.%s.Witness" % self.T],
-                              "The frame bound |T|",
-                              "`checkFrameT` on the literal `T`.",
+        # MAG5 (lam MAG-3): the single all-vertex `decide` of each frame check did not finish in 1,800 s (both
+        # attempts, ~2.3 GB): split as the lock's DELTA-LAM-5 (CornerSplit.lean): one theorem per row (or column)
+        # and vertex, a module per row/column, the assembly reassembles them (no evaluation)
+        fimps = self.base + [self.tors_mod, self.gram_mod, "KAM.Magnetic.Data.%s.Witness" % self.T]
+        wlo = "(wloOf base.weight base.expOrder)"
+        Tm = ("(buildMat (2 + 1) (2 + 1) fun i j => if i < 2 then (if j < 2 then modelMatrixEntry %sTb i j else "
+              "freqModel 2 base.freqBox base.params.s i) else (if j < 2 then modelMatrixEntry %sY 0 j else "
+              "zeroModel))" % (t, t))
+        Nm = "(modelMatOmega 2 2 %sN0)" % t
+
+        def vmod(rel, title, nm, ms, bound):
+            body = []
+            for v, vs in enumerate(VERTS2):
+                body += ["theorem %s_v%d :" % (nm, v)] + wrap(("ble (rowCornerUp base.weight %s %s %s) (ofRatDown %s) = "
+                                                              "true := by" % (wlo, vs, ms, bound)).split(" "), "    ")
+                body += ["  decide +kernel", ""]
+            return self.tree.write(rel, fimps, title, "One row (or column) of a frame check, one theorem per vertex.",
+                                   [self.fix_long(l) for l in body[:-1]], heavy=True)
+
+        def leaves(names, ind):
+            out = []
+            for nm in names:
+                out += ["%s· apply rowCornerLeq_two" % ind,
+                        "%s  exacts [%s]" % (ind, ", ".join("%s_v%d" % (nm, v) for v in range(4)))]
+            return out
+        tmods, tn = [], []
+        for r in range(2):
+            ms = "((List.finRange 2).map fun j => modelMatrixEntry %s (%d : Fin 2).val j.val)" % (Tm, r)
+            tn.append("%s_frameT_r%d" % (t, r))
+            tmods.append(vmod("Checks/FrameTR%d" % r, "The frame bound |T|, row %d" % r, tn[-1], ms, "refinedWit.R.bT"))
+        frT = self.tree.write("Checks/FrameT", fimps + [CORNERSPLIT] + tmods, "The frame bound |T|",
+                              "`checkFrameT` on the literal `T`, from its rows and vertices `FrameTR*`.",
                               ["theorem %s_csFrameT : checkFrameT base refinedWit.R.bT = true := by" % t,
                                "  rw [checkFrameT_eq_of %s_gramCheck %s_torsionModels]" % (t, t),
-                               "  decide +kernel"], heavy=True)
-        frN = self.tree.write("Checks/FrameN", self.base + [self.tors_mod, self.gram_mod,
-                                                           "KAM.Magnetic.Data.%s.Witness" % self.T],
-                              "The frame bounds |N|, |Nᵀ|", "`checkFrameN` with `N = Ω₀ (L G⁻¹)` from the [4,0] stage.",
+                               "  apply all_finRange_two"] + leaves(tn, "  "), heavy=True)
+        nmods, rn, cn = [], [], []
+        for r in range(4):
+            ms = "((List.finRange 2).map fun j => modelMatrixEntry %s (%d : Fin (2 + 2)).val j.val)" % (Nm, r)
+            rn.append("%s_frameN_r%d" % (t, r))
+            nmods.append(vmod("Checks/FrameNR%d" % r, "The frame bound |N|, row %d" % r, rn[-1], ms, "refinedWit.R.bN"))
+        for c in range(2):
+            ms = "((List.finRange (2 + 2)).map fun r => modelMatrixEntry %s r.val (%d : Fin 2).val)" % (Nm, c)
+            cn.append("%s_frameN_c%d" % (t, c))
+            nmods.append(vmod("Checks/FrameNC%d" % c, "The frame bound |Nᵀ|, column %d" % c, cn[-1], ms,
+                              "refinedWit.R.bNt"))
+        frN = self.tree.write("Checks/FrameN", fimps + [CORNERSPLIT] + nmods, "The frame bounds |N|, |Nᵀ|",
+                              "`checkFrameN` with `N = Ω₀ (L G⁻¹)` from the [4,0] stage, from its rows, columns\n"
+                              "and vertices `FrameNR*`, `FrameNC*`.",
                               ["theorem %s_csFrameN : checkFrameN base refinedWit.R.bN refinedWit.R.bNt = true := by" % t,
                                "  rw [checkFrameN_eq_of %s_gramCheck %s_eps" % (t, t),
                                "    (frameNModels_eq_of_stage 2 base.emb base.gramInv %sEps %s base.cfgLow %s %s_dk %s_gi"
                                % (t, W, pe, t, t), "      %s_T0)]" % t,
-                               "  decide +kernel"], heavy=True)
+                               "  apply and_eq_true_of", "  · apply all_finRange_four"] + leaves(rn, "    ") +
+                              ["  · apply all_finRange_two"] + leaves(cn, "    "), heavy=True)
         body = ["theorem %s_csEnergy : checkEnergy base = true :=" % t,
                 "  checkEnergy_of_ckpt (c := base) (J := magJetLit) %s_jet %sFullCkpt %s_fullPlan %s_fullSegs" % (
                     t, t, t, t),
