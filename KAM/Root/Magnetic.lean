@@ -12,6 +12,7 @@ public import KAM.Magnetic.Freq
 public import KAM.Magnetic.Ham
 public import KAM.Magnetic.HamExpr
 public import KAM.Magnetic.Params
+public import KAM.Magnetic.Support.CornerSplit
 public import KAM.Magnetic.Support.CsegGraph
 public import KAM.Magnetic.Support.CsegSupport
 public import KAM.Magnetic.Support.DecLocal
