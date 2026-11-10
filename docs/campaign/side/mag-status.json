@@ -1,7 +1,7 @@
 {
  "title": "Magnetic field-line barrier: seal KAM.Magnetic.magnetic_barrier",
  "note": "Priority since 2026-11-08 (owner). Sub-orchestrator kam-mag2, branch mag-pilot (worktree on the HC volume). Route: the v2 torus certifier, route A refined, as for the Moon's spin band; then a glue theorem from the certificate to the frozen statement, a provider, the seal and an independent audit. Plan: docs/explorations/mag/SEAL-PLAN.md. The main orchestrator updates this file at each milestone; weights are the stages' relative effort.",
- "reviewed": "2026-11-10 04:30 UTC",
+ "reviewed": "2026-11-10 05:55 UTC",
  "stages": [
   {
    "name": "model and statement frozen (D66, D68)",
@@ -42,14 +42,14 @@
   {
    "name": "provider, seal, independent seal audit, kernel replay",
    "weight": 8,
-   "done": 0.75,
-   "evidence": "SEALED on mag-pilot (seal commit cc2d25cf6): body by exact KAM.Provider.Magnetic.magnetic_barrier, manifest DRAFT_SORRY -> SEALED; library build rc 0 (9,503 jobs); axioms propext, Classical.choice, Quot.sound; lint, guard and ABI OK; independent seal audit SEAL-AUDIT-MAG-1 running"
+   "done": 1.0,
+   "evidence": "sealed (cc2d25cf6); independent seal audit SEAL-AUDIT-MAG-1 + re-check R1 PASS WITH NOTES; axioms propext, Classical.choice, Quot.sound"
   },
   {
    "name": "landed on main",
    "weight": 5,
-   "done": 0.0,
-   "evidence": ""
+   "done": 1.0,
+   "evidence": "on main 2026-11-10 (ab78ed4ea); data artifacts in MAIN-BUILD-magnetic-data-DO-NOT-DELETE on the HC volume"
   }
  ]
 }

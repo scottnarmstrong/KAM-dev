@@ -1,9 +1,6 @@
 # A magnetic field-line barrier (MAG)
 
-**Status:** frozen, not yet proved (frozen 2026-11-01, D68; manifest state DRAFT_SORRY: the frozen theorem's body is
-`sorry`) · frozen ids `magnetic.magnetic_barrier.v1` (theorem) and the six definitions `magnetic.magEps.v1`,
-`magnetic.magH0.v1`, `magnetic.magAlpha.v1`, `magnetic.magV.v1`, `magnetic.magField.v1`, `magnetic.magHamC.v1`
-(sealed as definitions)
+**Status:** proved, frozen and sealed (2026-11-10, D68; landed in ) · frozen theorem  · axioms: standard only (, , ) · independent seal audit SEAL-AUDIT-MAG-1 PASS WITH NOTES
 
 ## In brief
 
