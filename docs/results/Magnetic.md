@@ -1,6 +1,6 @@
 # A magnetic field-line barrier (MAG)
 
-**Status:** proved, frozen and sealed (2026-11-10, D68; landed in ) · frozen theorem  · axioms: standard only (, , ) · independent seal audit SEAL-AUDIT-MAG-1 PASS WITH NOTES
+**Status:** proved, frozen and sealed (2026-11-10, D68; landed in `ab78ed4ea`) · frozen theorem `KAM.Magnetic.magnetic_barrier` · axioms: standard only (`propext`, `Classical.choice`, `Quot.sound`) · independent seal audit SEAL-AUDIT-MAG-1 PASS WITH NOTES
 
 ## In brief
 
@@ -8,8 +8,8 @@ In a toroidal magnetic device, magnetic field lines can be described as the orbi
 a half degrees of freedom: the toroidal angle plays the role of time. An invariant torus of this system is a surface
 that field lines cannot cross, a transport barrier. The frozen statement asserts that, for one explicit perturbed
 model with a quadratic control term, such a barrier exists: an analytic surface p = P(q, φ) in a stated flux range
-that separates field lines below it from field lines above it, for all time. **This statement is open in the
-repository**: it is frozen, and no proof has been assembled.
+that separates field lines below it from field lines above it, for all time. **It is proved and sealed**
+(2026-11-10): a certificate checked inside Lean's kernel, with the standard axioms only.
 
 ## Exactly what is claimed (the frozen statement)
 
@@ -73,9 +73,9 @@ with p₀ > 39/100 satisfy p(t) > 8/25 for all real t.
 
 ## What is assumed and what is not claimed
 
-- **Open.** The statement is frozen and has no proof in the repository (manifest state DRAFT_SORRY). It is sealed only
-  after its certificate chain passes Lean's kernel, the landing checks pass and a dedicated seal audit passes (D68,
-  with the procedure of D63).
+- **How it is proved.** A certificate of the v2 torus certifier (route A refined), checked inside Lean's kernel in
+  5,807 generated modules (opt-in library `KAMMagneticBarrier`), plus a bridge theorem `magnetic_barrier_of_V2` from a
+  passing certificate to the frozen statement; sealed after an independent seal audit (SEAL-AUDIT-MAG-1, PASS WITH NOTES).
 - **One separating surface**, not a bounded slab and not two-sided confinement: field lines below the surface may
   have arbitrarily negative flux, and those above it arbitrarily large flux.
 - **One exact model.** The model includes the quadratic control term; nothing is claimed for the uncontrolled model
@@ -87,7 +87,7 @@ with p₀ > 39/100 satisfy p(t) > 8/25 for all real t.
   (D68), consistent with the sealed lunar statements.
 - **ε.** The value 3/2500 is the owner-approved fallback (D66); the planning value 3/1000 was not attempted.
 
-## Sources and planned proof
+## Sources and proof
 
 Model: C. Chandre, M. Vittot, G. Ciraolo, Ph. Ghendrih, R. Lima, *Control of stochasticity in magnetic field lines*,
 arXiv:nlin/0504033v2 (2005), general formula (8) with their equilibrium and two modes (the specialized formula (14) of
@@ -95,7 +95,7 @@ that paper is not used); L. Valvo, U. Locatelli, *Hamiltonian control of magneti
 proving the existence of KAM barriers*, J. Comput. Dyn. 9 (2022) 505–527, for the safety-factor profile and the
 rotation number. That paper's computer-assisted theorem concerns a truncated transformed Hamiltonian, not this model.
 
-The planned route is the track SO certificate checker: a numerical candidate torus at frequency (α, 1), certified
+The route is the track SO certificate checker: a numerical candidate torus at frequency (α, 1), certified
 through the sealed isoenergetic a-posteriori KAM theorem by a finite certificate checked inside Lean's kernel, followed by
 a graph-transfer step that turns the exact torus into the graph P and the non-crossing statement. The numerical gate
 passed (residual about 10⁻³⁷), and a certificate package with error 7.3·10⁻²² against a threshold of 10^−19.19 and a

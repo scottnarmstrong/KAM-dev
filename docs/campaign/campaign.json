@@ -187,7 +187,7 @@
   "LP": "**complete**: LP0–LP3 and their 34 characterization theorems frozen and sealed on 2026-11-01 (D62, D64); planar and spatial, with and without the Diophantine hypothesis",
   "B": "**complete**: `torus_confinement`, `oscillator_confinement` (D72) and `henonHeiles_confinement` (D73, an exact ℚ(√2) Lie-chain certificate in 34 kernel shards) sealed on 2026-11-03",
   "SJSU": "**proved** on `main` (2026-11-07): `sjsu_secular_confinement_proof`, standard axioms, 4,676 KAMSJSU modules; freeze of the approved statement (D76) and seal in progress",
-  "Magnetic": "**complete**:  frozen (D68) and sealed 2026-11-10; certificate checked by the kernel in 5,807 generated modules (built on the 64-core workstation and here)"
+  "Magnetic": "**complete**: `magnetic_barrier` frozen (D68) and sealed 2026-11-10; certificate checked by the kernel in 5,807 generated modules (built on the 64-core workstation and here)"
  },
  "so": {
   "goal": "a general Lean certificate checker that turns numerical KAM tori into theorems (complete); first client: the Moon's spin rate stays within 2.755 % of its orbital rate for all time (N = 65; D38, D47), PROVED through the v2 certifier (D44) and on main since 2026-10-31; frozen and sealed (D49, D50) (D49, D50). Next: the Moon locked in synchronous rotation forever (part 3; D42, D45).",
