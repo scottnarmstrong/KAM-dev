@@ -5,6 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
+public import KAMMagneticBarrier.Frozen
 public import KAMMagneticBarrier.Magnetic.Data.Mag.Pass
 public import KAMMagneticBarrier.Magnetic.Data.Mag.Seg.Checks
 public import KAMMagneticBarrier.Magnetic.Data.Mag.Seg.Full
@@ -19,6 +20,7 @@ public import KAMMagneticBarrier.Magnetic.Data.Mag.Seg.Top
 public import KAMMagneticBarrier.Magnetic.Data.Mag.Seg.Tors
 public import KAMMagneticBarrier.Magnetic.Data.Mag.Top
 public import KAMMagneticBarrier.Magnetic.Data.Top
+public import KAMMagneticBarrier.Provider
 
 /-!
 # KAMMagneticBarrier
