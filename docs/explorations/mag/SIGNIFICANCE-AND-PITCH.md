@@ -672,3 +672,22 @@ the generated-HQ/README post-commit action prohibited by this brief.
 
 The committed deliverable is this report and its small numerical scripts.
 Downloaded papers, candidate arrays, logs and JSON receipts remain scratch.
+
+## Addendum (2026-11-10): PlasmaLean, corrected comparison and timeline
+
+Checked against PlasmaLean's Lean sources at `79b6152e779a62287da76fb4a49918e38575b3d6` and its commit history.
+
+- **Existence of field lines is proved there too.** Besides `rationalStellarator_confined_forever` (which quantifies
+  over given two-sided field lines), PlasmaLean proves `rationalStellarator_confined_forever_exists`
+  (`PlasmaLean/Design/RationalStellaratorFieldLines.lean`): every starting point on the axis or inside the torus has a
+  unique field line for all time (`∃! γ, IsFieldLine (field (1/4)) γ ∧ γ 0 = x₀`), and all such lines stay inside.
+  Global existence and uniqueness is therefore not a distinguishing feature of this repository's result.
+- **Timeline.** PlasmaLean's verified-KAM confinement for its exact stellarator field dates from 2026-10-20 (commits
+  `a30b3d62`, then `a9a042f4` adding field-line existence), before this repository's magnetic statement was frozen
+  (2026-11-01, D68) and sealed (2026-11-10). No PlasmaLean commit or source refers to this repository; the two
+  projects developed independently and converged on similar kernel-scale techniques.
+- **Comparison, as it stands.** PlasmaLean: earlier, physically richer (an exact 3-D vacuum field; trapping in a solid
+  torus around the magnetic axis; guiding-centre and alpha-particle extensions), KAM via one Newton step with explicit
+  constants. This repository: a general kernel-checked certificate method demonstrated on three systems (two lunar,
+  one magnetic), an exact controlled field-line Hamiltonian, and numerical evidence that the control creates the
+  barrier at the sealed amplitude.
