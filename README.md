@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-10 08:00 UTC** (automatic: every 20 minutes and after every commit) · **frozen statements proved: 77 / 77** · **6,078,872 lines of hand-written Lean** (plus 4,097,429 lines of generated certificate data) · **in progress:** LG00 (side) 97 %, HD 11964 (side) 51 %; every other subproject is complete. Details: [progress by subproject](#progress-by-subproject).
+> **Last updated: 2026-11-10 08:38 UTC** (automatic: every 20 minutes and after every commit) · **frozen statements proved: 77 / 77** · **6,078,872 lines of hand-written Lean** (plus 4,097,429 lines of generated certificate data) · **in progress:** LG00 (side) 97 %, HD 11964 (side) 51 %; every other subproject is complete. Details: [progress by subproject](#progress-by-subproject).
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -436,7 +436,7 @@ The original project is divided into 52 work items: planning deliverables, campa
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **6,078,872** (5,675,355 excluding blank lines and comments) · **+2,144,864** since 2026-11-09 08:00 UTC |
+| On `main` now (hand-written) | **6,078,872** (5,675,355 excluding blank lines and comments) · **+2,144,864** since 2026-11-09 08:20 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 4,097,429 lines in 15,317 modules |
 | Written on agent branches, not yet landed (hand-written) | 0 |
 | **Estimated total at completion** (hand-written) | **≈ 6,079,000** |
@@ -446,7 +446,7 @@ The original project is divided into 52 work items: planning deliverables, campa
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-10 08:00 UTC from `main` at `bf5241acc` by `scripts/hq-status.py`.*
+*Generated 2026-11-10 08:38 UTC from `main` at `3816e2488` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, and track R (Rüssmann's theorem) is sealed too. Since then: track W (PDE KAM, `nlw2`) sealed 2026-11-01; track LP (the Laskar–Petit conjecture made rigorous) sealed 2026-11-01 (D62, D64); track SO complete: the Moon's spin-rate band (sealed 2026-10-31) and the Moon locked in synchronous rotation forever (sealed 2026-11-05, D63); track B (finite-time effective stability, Hénon–Heiles) sealed 2026-11-03 (D72, D73). SJSU gate 2 (program T2-CONF, D74–D76): the secular Sun–Jupiter–Saturn–Uranus model confined for 5·10⁹ years, sealed 2026-11-07; its independent kernel re-check runs on the 64-core workstation. The magnetic barrier is sealed (2026-11-10): every frozen statement is now proved (77/77). **Next: HD 11964.** Research: a route to the full Newtonian Sun–Jupiter–Saturn–Uranus problem.
 
@@ -454,7 +454,7 @@ The original project is divided into 52 work items: planning deliverables, campa
 
 - **Part 1, a general Lean certificate checker (complete):** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. Since the packages: kernel-scale fixes SO-PACKFIX (D34), SO-BALLDY/SO-BALLFIX and SO-KDEPTH (D39), SO-KDEPTH2 (log-depth jet compiler) and the segmented-proof core of SO-CSPLIT (`KAM/CertificateSharp/Kernel`); the Moon is checked by the v2 certifier `checkTorusCertificateV2` (D44). `KAM/Certificate`: 90 modules · 22,540 lines. **Packages landed: 27 / 27**.
 - **Part 2, the Moon's spin rate: PROVED** (on `main` since 2026-10-31 08:18 UTC, `7adca9fcf`): for every initial state with spin rate 0.9934 < p₀ < 1.0066 (in units of the orbital rate; any angles) the unique global solution satisfies |p(t) − 1| ≤ 2755/100000 (2.755 %) for all real t; two barrier tori at N = 65 (frequencies 1 ± 1/(65 + g), g the golden-mean conjugate) bound the band [0.97245, 1.02755]; kernel-checked through the v2 certifier (refined route A), standard axioms only (D38, D44, D47). [`lunar_spin_confinement_65_v2`](KAM/SpinOrbit/LunarFinalR2V2.lean). Status: ordinary theorem; frozen (D49) and sealed (D50). `KAM/SpinOrbit`: 38 modules · 6,812 lines hand-written, plus 4,097,429 lines of generated certificate data in 15,317 modules. **Packages landed: 26 / 26**.
-- **Part 3, the Moon locked in synchronous rotation forever** (D42, D45): one librational invariant torus around a certified synchronous periodic orbit confines the spin (a stronger result than the spin-rate band; route: polar coordinates, the landed certifier, one new primitive `HamExpr.sqrt`; N = 65) · **100 %** · stages reached: scoping study, design, statements frozen, Lean proof modules, certificate data, sealed · the lock sub-orchestrator is running (package workers: LOCK-DATA, LOCK-FREEZE). Frozen (D49) and sealed on 2026-11-05 (D63): `lunar_sync_lock` and the synchronous-orbit statements; the N = 65 librational certificate at 73.8° is checked in 13,668 generated kernel modules.
+- **Part 3, the Moon locked in synchronous rotation forever** (D42, D45): one librational invariant torus around a certified synchronous periodic orbit confines the spin (a stronger result than the spin-rate band; route: polar coordinates, the landed certifier, one new primitive `HamExpr.sqrt`; N = 65) · **100 %** · stages reached: scoping study, design, statements frozen, Lean proof modules, certificate data, sealed. Frozen (D49) and sealed on 2026-11-05 (D63): `lunar_sync_lock` and the synchronous-orbit statements; the N = 65 librational certificate at 73.8° is checked in 13,668 generated kernel modules.
 - Design estimate for parts 1 and 2: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-PACKFIX, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-DION, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-SHARPLINK, SO-GEN, SO-GEN2, SO-DATA-PY, SO-DATA, SO-GEN3, SO-EMITFIX, SO-R1, SO-LUNAR, SO-LUNAR-A, SO-R2, SO-FREEZE3 (freeze), SO-FREEZE3 (seal).
 - **Gates:** design of the general checker ACCEPTED (Revision 7). Moon band route: the v2 certifier `checkTorusCertificateV2` (D44), refined route A, barriers at N = 65 (D38), kernel-scale fixes D34 (packed products) and D39 (log-depth traversals, dyadic ball rounding), segmented kernel proofs (SO-CSPLIT); band literal 2.755 % with window 9934/10000 … 10066/10000 (D47; rule B's tightness clause waived). Proved on main 2026-10-31 (SO-DATA3, about 1,650 generated data modules). Freeze approved with these literals (D49), seal approved (D50); SO-FREEZE3 carries them out (Q11 data rebuild, freeze, seal, seal audit).
 
@@ -667,12 +667,10 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:workers -->
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
-| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-7 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
-| **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
-| **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
+| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-7 | 🔄 working | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
-| **b1** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: Merge branch 'inp' into inp-b1 | `inp-b1` | 1 (vs `inp`) |
-| **sjsu-g2** | prover (offload) | Claude Opus 5.5 | — | ⏸ parked (no session) | last commit: docs/results/SJSU: the statement is frozen and sealed (D76) | `inp-sjsu-g2` | 54 (vs `inp`) |
+
+*2 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
 
 ### Recent changes on `main`
@@ -680,6 +678,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-11-10 08:15 | `3816e2488` | Land mag-pitch into main |
 | 2026-11-10 06:04 | `6e19f331e` | HQ: magnetic barrier listed under certified numerics |
 | 2026-11-10 05:59 | `dd9d9561b` | docs/results/Magnetic: proved and sealed; campaign status text |
 | 2026-11-10 05:54 | `7630d9eff` | HQ: magnetic barrier sealed on main; 77/77 frozen statements proved |
