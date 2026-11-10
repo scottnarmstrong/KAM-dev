@@ -18,8 +18,8 @@ The preferred route **to this repository's existing KAM theorem** is a certified
 It requires a vector potential, a periodic gauge, and a validated implicit radial inversion.
 That is a new trusted analytic interface, not merely another `HamExpr` formula.
 A precise conditional transfer theorem and its construction obligations appear in §6.
-The best collaboration fallback is an analytic extension of PlasmaLean's flow-form theorem.
-The latter can reuse our certificate engineering but is a different mathematical checker.
+The alternative is an analytic flow-form KAM theorem of our own (route (c), §5).
+It can reuse our certificate engineering but is a different mathematical checker.
 
 Claims in this report carry the following meanings:
 
@@ -299,7 +299,7 @@ The `AnaFieldAt` work closes part of this job, but its scalar Cartesian instance
 The exact identity `X = n/D` must remain attached to the original segment sum.
 Certificate shards can prove the finite norm inequalities for this new flow checker.
 They do not make `checkTorusCertificateV2` a flow checker by renaming its input.
-**Estimate:** this route may deliver a joint theorem earlier if the canonical inverse is badly conditioned.
+**Estimate:** this route may deliver a theorem earlier if the canonical inverse is badly conditioned.
 Its current smallness constants can demand substantially smaller errors than the magnetic example.
 
 ## 6. Precise bridge theorem for route (a)
@@ -692,30 +692,9 @@ The first literal unpaid analytic gate is a cancellation-aware complex enclosure
 In parallel the candidate still needs a high-precision solve and a true residual-tail bound.
 Neither outstanding gate is paid by the successful low-resolution Newton solve.
 
-## 11. Concrete collaboration offer and resulting theorem
+## 11. Target theorem
 
-Offer PlasmaLean a pinned candidate/data interchange and an audited integer-certificate backend:
-
-* Shared rational endpoint/current format, radian/turn conversion tests and exact frequency mapping.
-* Packed products, root/inverse witness models, outward dyadic rounding and signed polynomial sums.
-* Shared literal decoding, small proof shards and a manifest-based workstation replay protocol.
-* An exact DFT/aliasing certificate implementation that preserves cancellation.
-* A benchmark on identical data, precision, domains and kernel/trust policies.
-* If route (a) works, the canonical transfer theorem and a complete original-field attachment.
-
-Need from PlasmaLean, or must reconstruct jointly:
-
-* Confirmation of the literal coil model as the desired target, including the remote TF returns.
-* A high-precision candidate or a reproducible high-precision refit with the full toroidal period.
-* Sharp grouped complex bounds and the exact flux/divergence identities for the segment sum.
-* Frame/twist and geometric admissibility bounds for the refitted coil torus.
-* For route (c), an analytic flow-form iteration and compatible coefficient-space interfaces.
-* A precise trapping region with coil clearance and continuation hypotheses paid by source data.
-
-No message was sent to the upstream project during this task.
-This is a collaboration proposal, not a report of an agreed joint development.
-
-The joint result could state: **for the specified exact rational polygonal closed-current model,
+If the stages succeed, the result would state: **for the specified exact rational polygonal closed-current model,
 there is an analytic embedded invariant torus of specified rotation ratio; every initial point
 in a specified compact solid torus has a unique field line for all real time and stays inside.**
 Its conclusion would name the coil field, currents, endpoints, region and time parameter literally.
