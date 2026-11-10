@@ -105,7 +105,7 @@ class Tree:
         self.files[rel] = text
 
 
-FORMAT = "KAM.Magnetic.Data.Format"
+FORMAT = "KAM.Magnetic.Support.Format"
 
 
 def row_lines(parts, indent="  "):

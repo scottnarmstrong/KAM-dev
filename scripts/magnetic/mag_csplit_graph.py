@@ -6,7 +6,7 @@
 `checkRealLowerBound` squares the SOS witness `g` by the direct product (`directItems`, one evaluation of all
 `|g|²` term pairs; over the 10 GB cap at 271-325 terms). The data store `g` in chunks of 32 = 2^5 rows
 (`sosLo.cK`), and the landed `directItems` merges its rows positionally as a balanced tree, so its first five
-levels are the chunk-wise ones (`levelNCseg_flatten`, `KAM/Magnetic/Data/CsegGraph.lean`). Emitted per side
+levels are the chunk-wise ones (`levelNCseg_flatten`, `KAM/Magnetic/Support/CsegGraph.lean`). Emitted per side
 (Lo: `pLo`, Hi: `pHi`) under KAM/Magnetic/Data/<Torus>/Pass/:
 
   Graph{S}Lit{k}    the chunk results `L_k` (mirror, self-checked against the mirror's whole `directItems`)  data
@@ -74,7 +74,7 @@ def main(which, gdir, root):
     B = A.FixedB(128)
     tree_ = E.Tree(root, T)
     pdir = os.path.join(root, "KAM", "Magnetic", "Data", T, "Pass")
-    base = ["KAM.Magnetic.Data.%s.Cert" % T, "KAM.Magnetic.Data.CsegGraph", "KAM.SpinOrbit.Graph.Cert"]
+    base = ["KAM.Magnetic.Data.%s.Cert" % T, "KAM.Magnetic.Support.CsegGraph", "KAM.SpinOrbit.Graph.Cert"]
     files = {}
     heavy = []
     for S, key, fexpr, m0, m in (("Lo", "sosLo", "(soGraphActionModel cert)", "cert.pLo₀", "cert.pLo"),
@@ -134,8 +134,11 @@ def main(which, gdir, root):
         files["Graph%s" % ("L" if S == "Lo" else "H")] = (
             base + ["KAM.Magnetic.Data.%s.Pass.Graph%sC%d" % (T, S, k) for k in range(n)],
             "the graph check: p%s by row chunks" % S, "The SOS side from its chunk theorems (CsegGraph).", body, True)
+    # the shared header opens `KAM.CertificateSharp.V2`; the lunar Cert imported it transitively, the magnetic one
+    # does not (MAG-SEAL fix)
+    V2IMP = "KAM.CertificateSharp.V2.RouteARefined"
     for rel, (imps, title, doc, body, hv) in files.items():
-        text = E.HEADER.replace("mag_csplit_emit.py", "mag_csplit_graph.py").format(imports="\n".join("public import " + i for i in sorted(set(imps))),
+        text = E.HEADER.replace("mag_csplit_emit.py", "mag_csplit_graph.py").format(imports="\n".join("public import " + i for i in sorted(set(imps) | {V2IMP})),
                                title="The magnetic torus: %s" % title, doc=doc,
                                ns="KAM.Magnetic.Data.%s" % T, body="\n".join(E.autowrap(body)).rstrip())
         for i, l in enumerate(text.splitlines()):

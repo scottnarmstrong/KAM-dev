@@ -60,7 +60,7 @@ theorem magnetic_barrier :
           (x₀.2.1 = P x₀.1 x₀.2.2 → (z t).2.1 = P (z t).1 (z t).2.2) ∧
           (P x₀.1 x₀.2.2 < x₀.2.1 → P (z t).1 (z t).2.2 < (z t).2.1) :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact KAM.Provider.Magnetic.magnetic_barrier
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 

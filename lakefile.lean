@@ -21,8 +21,7 @@ private def projectLeanOptions : Array LeanOption := #[
 /-- Per library, the frozen theorem anchors in state `DRAFT_SORRY` and their provider modules.
 The frozen-anchor quarantine forbids every other module, the roots included, from importing
 them, so each library builds them as extra globs beside its root. -/
-private def quarantinedModules : Array (Lean.Name × Array Lean.Name) := #[
-  (`KAM, #[`KAM.Frozen.Magnetic.Theorems.MagneticBarrier, `KAM.Provider.Magnetic.MagneticBarrier])]
+private def quarantinedModules : Array (Lean.Name × Array Lean.Name) := #[]
 -- END GENERATED BLOCK
 
 /-- The globs of library `lib`: its root (with its whole import closure) and its quarantined
