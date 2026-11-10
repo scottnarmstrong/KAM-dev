@@ -4,7 +4,7 @@
 
 Every statement below is an exact Lean declaration that the owner approved before its proof was written. Each lives alone in its own file under `KAM/Frozen/`, and the manifest pins its bytes. A sealed theorem has a complete proof, assembled in a separate provider module, replayed by the kernel, and using only the standard axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
-**77 frozen theorems, 76 sealed; 252 frozen definitions.**
+**77 frozen theorems, 77 sealed; 252 frozen definitions.**
 
 ## Index
 
@@ -1083,7 +1083,7 @@ The Moon stays locked in synchronous rotation forever.
 
 ### magnetic_barrier
 
-[`KAM.Magnetic.magnetic_barrier`](../KAM/Frozen/Magnetic/Theorems/MagneticBarrier.lean#L41) · ⬜ not yet
+[`KAM.Magnetic.magnetic_barrier`](../KAM/Frozen/Magnetic/Theorems/MagneticBarrier.lean#L41) · ✅ proved and sealed
 
 **Magnetic transport barrier.** The field-line flow of the controlled model at `ε = 3/2500` has a real-analytic invariant graph `p = P(q, φ)`, one-periodic in both angles, with `8/25 ≤ P ≤ 39/100`, which no field line crosses: every initial point has a global field line, which every local field line through it on an interval containing `0` agrees with, and the side of the graph (below, on, above) is the same at every real time. The graph is the action component of an analytic primary invariant torus `K∞` of the extended Hamiltonian `magHamC`, holomorphic on the strip of width `3/1000000`, real on real angles, with frequency `(α, 1)` (`α = magAlpha`), energy zero and clock `φ = θ₁` (plan-magnetic-barrier §1.2).
 
