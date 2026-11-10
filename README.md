@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-10 04:00 UTC** (automatic: every 20 minutes and after every commit) · **frozen statements proved: 76 / 77** · **3,934,008 lines of hand-written Lean** (plus 4,097,429 lines of generated certificate data) · **in progress:** LG00 (side) 97 %, HD 11964 (side) 51 %, Magnetic barrier 90 %; every other subproject is complete. Details: [progress by subproject](#progress-by-subproject).
+> **Last updated: 2026-11-10 04:19 UTC** (automatic: every 20 minutes and after every commit) · **frozen statements proved: 76 / 77** · **3,934,008 lines of hand-written Lean** (plus 4,097,429 lines of generated certificate data) · **in progress:** LG00 (side) 97 %, HD 11964 (side) 51 %, Magnetic barrier 93 %; every other subproject is complete. Details: [progress by subproject](#progress-by-subproject).
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -331,7 +331,7 @@ Everything together: **97.6 %** · the original project (tracks K, I, N, P, with
 | LG00 (side) | A kernel-checked KAM torus of a secular Sun–Jupiter–Saturn model | side project, not frozen | `██████████` 97 % | [what is proved](docs/results/LG00.md) |
 | HD 11964 (side) | No orbit crossing for a fixed time in the HD 11964 exoplanet system | side project, not frozen | `█████░░░░░` 51 % | [what is proved](docs/results/HD11964.md) |
 | **Frozen, proof in progress** | | | | |
-| Magnetic barrier | An invariant surface that no field line of a model magnetic field crosses | 0 / 1 sealed | `█████████░` 90 % | [what is proved](docs/results/Magnetic.md) |
+| Magnetic barrier | An invariant surface that no field line of a model magnetic field crosses | 0 / 1 sealed | `█████████░` 93 % | [what is proved](docs/results/Magnetic.md) |
 
 <details><summary>How each meter is computed</summary>
 
@@ -343,7 +343,7 @@ Everything together: **97.6 %** · the original project (tracks K, I, N, P, with
 - **SJSU gate 2** (program T2-CONF, D74): scoping plan 3, numerical gates SR-1..7 5, statement approved and frozen 5, N2 symplectic charts 15, N3 trig models and packed products 20, N4 witnesses 8, N5a Hamiltonian models 8, N5 tube checker soundness 17, N6 eccentricity enclosure 7, N7 production checker, data, kernel run 10, sealed 5.
 - **LG00:** scout: model, torus, thresholds, cost, Diophantine lemmas for the frequency directions (Lean), certificate-data generator and exact dry run, pilot: kernel cost measured on representative shards, kernel certificate of a torus in LG00's Γ′ family and the closed theorem, T′ at the exact energy of LG00's initial point (re-solve and re-certify), second torus T″ (confinement between two tori), confinement theorem in Lean (the real orbit trapped forever between T′ and T″), independent audit and separate repository; the side orchestrator's assessment in [`docs/campaign/side/lg00-status.json`](docs/campaign/side/lg00-status.json), last reviewed 2026-11-02 03:25 UTC.
 - **HD 11964:** data, design and numerical gate, Λ-drift bridge and no-crossing theorem for planar systems (Lean), order-2 Lie remainder identity and Poisson calculus (Lean), region-fitted cover of the certificate region (numerics and Lean), packed Taylor x Fourier kernel layer and one-cell gate, remaining kernel pieces and a two-cell rehearsal, full 10^3-year certificate run, headline theorem and independent audit; the side orchestrator's assessment in [`docs/campaign/side/hd11964-status.json`](docs/campaign/side/hd11964-status.json), last reviewed 2026-11-02 09:45 UTC.
-- **Magnetic barrier:** model and statement frozen (D66, D68) 5, numerical certificate passing in the exact mirror 15, re-confirmation against today's checker 2, kernel data modules emitted, per-family kernel cost measured 10, kernel check of the full certificate (here or on the 64-core workstation) 35, glue theorem: passing certificate implies the frozen statement 20, provider, seal, independent seal audit, kernel replay 8, landed on main 5; the main orchestrator's assessment in [`docs/campaign/side/mag-status.json`](docs/campaign/side/mag-status.json), last reviewed 2026-11-10 02:25 UTC; 100 % once the frozen statement is sealed. Plan: [`docs/explorations/mag/SEAL-PLAN.md`](docs/explorations/mag/SEAL-PLAN.md).
+- **Magnetic barrier:** model and statement frozen (D66, D68) 5, numerical certificate passing in the exact mirror 15, re-confirmation against today's checker 2, kernel data modules emitted, per-family kernel cost measured 10, kernel check of the full certificate (here or on the 64-core workstation) 35, glue theorem: passing certificate implies the frozen statement 20, provider, seal, independent seal audit, kernel replay 8, landed on main 5; the main orchestrator's assessment in [`docs/campaign/side/mag-status.json`](docs/campaign/side/mag-status.json), last reviewed 2026-11-10 04:30 UTC; 100 % once the frozen statement is sealed. Plan: [`docs/explorations/mag/SEAL-PLAN.md`](docs/explorations/mag/SEAL-PLAN.md).
 
 **Everything together** weighs every part of the project by effort:
 
@@ -436,7 +436,7 @@ The original project is divided into 52 work items: planning deliverables, campa
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **3,934,008** (3,694,374 excluding blank lines and comments) · **+0** since 2026-11-09 04:00 UTC |
+| On `main` now (hand-written) | **3,934,008** (3,694,374 excluding blank lines and comments) · **+0** since 2026-11-09 04:20 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 4,097,429 lines in 15,317 modules |
 | Written on agent branches, not yet landed (hand-written) | 2,020 |
 | **Estimated total at completion** (hand-written) | **≈ 3,936,000** |
@@ -446,7 +446,7 @@ The original project is divided into 52 work items: planning deliverables, campa
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-10 04:00 UTC from `main` at `f2f7cd92a` by `scripts/hq-status.py`.*
+*Generated 2026-11-10 04:19 UTC from `main` at `c97a42981` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, and track R (Rüssmann's theorem) is sealed too. Since then: track W (PDE KAM, `nlw2`) sealed 2026-11-01; track LP (the Laskar–Petit conjecture made rigorous) sealed 2026-11-01 (D62, D64); track SO complete: the Moon's spin-rate band (sealed 2026-10-31) and the Moon locked in synchronous rotation forever (sealed 2026-11-05, D63); track B (finite-time effective stability, Hénon–Heiles) sealed 2026-11-03 (D72, D73). SJSU gate 2 (program T2-CONF, D74–D76): the secular Sun–Jupiter–Saturn–Uranus model confined for 5·10⁹ years, sealed 2026-11-07; its independent kernel re-check runs on the 64-core workstation. **Now (owner priority since 2026-11-08): seal the magnetic barrier** ([plan](docs/explorations/mag/SEAL-PLAN.md)): the numerical certificate passes in the exact mirror; next the kernel data modules, the kernel check and the glue theorem. Then HD 11964. Research: a route to the full Newtonian Sun–Jupiter–Saturn–Uranus problem.
 
@@ -506,7 +506,7 @@ is proved:
 | **[SO-3](docs/results/SO-3.md)** | Track SO, part 3: the Moon locked in synchronous rotation forever (one librational torus around a certified synchronous orbit; D42, D45) | 4 / 4 | — | **complete**: the four lock statements (`lunarSyncOrbit_spec`, `_unique`, `_bound`, `lunar_sync_lock`) frozen (D49) and sealed on 2026-11-05 (D63); one librational torus at N = 65 checked in 13,668 generated kernel modules |
 | **[B](docs/results/B.md)** | Finite-time effective stability: confinement from a normal form and a remainder bound; the Hénon–Heiles system confined (D72, D73) | 4 / 4 | 30 / 30 nodes resolved | **complete**: `torus_confinement`, `oscillator_confinement` (D72) and `henonHeiles_confinement` (D73, an exact ℚ(√2) Lie-chain certificate in 34 kernel shards) sealed on 2026-11-03 |
 | **[SJSU](docs/results/SJSU.md)** | SJSU gate 2: the secular Sun–Jupiter–Saturn–Uranus model keeps its eccentricities in fixed bands for 5·10⁹ years (D74–D76) | 1 / 1 | — | **proved** on `main` (2026-11-07): `sjsu_secular_confinement_proof`, standard axioms, 4,676 KAMSJSU modules; freeze of the approved statement (D76) and seal in progress |
-| **[Magnetic](docs/results/Magnetic.md)** | A real-analytic invariant surface that no field line of a model magnetic field crosses (D68) | 0 / 1 | — | 90 % ([plan](docs/explorations/mag/SEAL-PLAN.md)): done: model and statement frozen (D66, D68); numerical certificate passing in the exact mirror; re-confirmation against today's checker; kernel data modules emitted, per-family kernel cost measured; kernel check of the full certificate (here or on the 64-core workstation); glue theorem: passing certificate implies the frozen statement; now: provider, seal, independent seal audit, kernel replay (40 %) |
+| **[Magnetic](docs/results/Magnetic.md)** | A real-analytic invariant surface that no field line of a model magnetic field crosses (D68) | 0 / 1 | — | 93 % ([plan](docs/explorations/mag/SEAL-PLAN.md)): done: model and statement frozen (D66, D68); numerical certificate passing in the exact mirror; re-confirmation against today's checker; kernel data modules emitted, per-family kernel cost measured; kernel check of the full certificate (here or on the 64-core workstation); glue theorem: passing certificate implies the frozen statement; now: provider, seal, independent seal audit, kernel replay (75 %) |
 | **[LG00](docs/results/LG00.md)** | Side project: a kernel-checked KAM torus of Locatelli–Giorgilli's secular Sun–Jupiter–Saturn model (first formally verified torus of a planetary model; v2 certifier) | 0 / 0 | — | 97 %: done: scout: model, torus, thresholds, cost; Diophantine lemmas for the frequency directions (Lean); certificate-data generator and exact dry run; pilot: kernel cost measured on representative shards; kernel certificate of a torus in LG00's Γ′ family and the closed theorem; T′ at the exact energy of LG00's initial point (re-solve and re-certify); second torus T″ (confinement between two tori); confinement theorem in Lean (the real orbit trapped forever between T′ and T″); now: independent audit and separate repository (50 %) |
 | **[HD11964](docs/results/HD11964.md)** | Side project: no orbit crossing for a fixed time T (first rung 10³ years) in the planar Newtonian model of the HD 11964 planetary system (star and two planets, catalogue data), by certified drift of the semi-major-axis actions and the LP0 barrier | 0 / 0 | — | 51 %: done: data, design and numerical gate; Λ-drift bridge and no-crossing theorem for planar systems (Lean); order-2 Lie remainder identity and Poisson calculus (Lean); region-fitted cover of the certificate region (numerics and Lean); packed Taylor x Fourier kernel layer and one-cell gate; now: remaining kernel pieces and a two-cell rehearsal (20 %) |
 <!-- /AUTO:tracks -->
@@ -667,7 +667,7 @@ account read from each agent's running process) and their branches. Rules for ag
 <!-- AUTO:workers -->
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
-| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-7 | ⏸ idle | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
+| **orchestrator** (root-b8) `KAM` | lead | Claude Opus 5.5 | claude-7 | 🔄 working | Campaign lead: all tracks, owner questions and decisions, freezes and seals, sources, this README | — | — |
 | **suborch-LOCK** (kam-inp-24) `kam-suborch-lock` | sub-orchestrator, track SO part 3 (D42, D45) | Claude Opus 5.5 | claude-12 | ⏸ idle | The Moon locked in synchronous rotation: lock packages (all on main), certificate data and their kernel runs (LOCK-DATA), freeze of `lunar_sync_lock` (LOCK-FREEZE, D49), seal | — | — |
 | **suborch-W** (kam-1b) `kam-suborch-w` | sub-orchestrator, track W (D41) | Claude Opus 5.5 | claude-3 | ⏸ paused | Track W: blueprint W0–W8 (complete), dependency graph (published), proof campaign; resumed at reduced size beside SO-3 (D53) | — | — |
 | **suborch-INP** (kam-inp-63) `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-3 | ⏸ idle | Merges and lands the packages on `main` through `inp` (tracks I, N, P complete; now track SO parts 2 and 3, and track W when it resumes); graphs I, N, P | — | — |
