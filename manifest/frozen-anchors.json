@@ -24411,7 +24411,7 @@
      "sha256": "152bd1afe3c49973e9aad6bf2685f343f000827e1f72d43fc934f9093d211d41"
     }
    ],
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "implementation": {
     "export": "KAM.Provider.Magnetic.magnetic_barrier",
     "module": "KAM.Provider.Magnetic.MagneticBarrier"
