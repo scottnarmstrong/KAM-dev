@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-11 17:20 UTC** (automatic: every 20 minutes and after every commit) · **frozen statements proved: 77 / 77** · **6,078,872 lines of hand-written Lean** (plus 4,097,429 lines of generated certificate data) · **in progress:** LG00 (side) 97 %, HD 11964 (side) 51 %; every other subproject is complete. Details: [progress by subproject](#progress-by-subproject).
+> **Last updated: 2026-11-11 17:40 UTC** (automatic: every 20 minutes and after every commit) · **frozen statements proved: 77 / 77** · **6,078,872 lines of hand-written Lean** (plus 4,097,429 lines of generated certificate data) · **in progress:** LG00 (side) 97 %, HD 11964 (side) 51 %; every other subproject is complete. Details: [progress by subproject](#progress-by-subproject).
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -436,7 +436,7 @@ The original project is divided into 52 work items: planning deliverables, campa
 
 | | Lines of Lean |
 |---|---|
-| On `main` now (hand-written) | **6,078,872** (5,675,355 excluding blank lines and comments) · **+0** since 2026-11-10 17:20 UTC |
+| On `main` now (hand-written) | **6,078,872** (5,675,355 excluding blank lines and comments) · **+0** since 2026-11-10 17:40 UTC |
 | Generated certificate data on `main` (numeric literals; not counted in the other rows) | 4,097,429 lines in 15,317 modules |
 | Written on agent branches, not yet landed (hand-written) | 0 |
 | **Estimated total at completion** (hand-written) | **≈ 6,079,000** |
@@ -446,7 +446,7 @@ The original project is divided into 52 work items: planning deliverables, campa
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-11-11 17:20 UTC from `main` at `9b13ec34a` by `scripts/hq-status.py`.*
+*Generated 2026-11-11 17:40 UTC from `main` at `b025769d3` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed, and track R (Rüssmann's theorem) is sealed too. Since then: track W (PDE KAM, `nlw2`) sealed 2026-11-01; track LP (the Laskar–Petit conjecture made rigorous) sealed 2026-11-01 (D62, D64); track SO complete: the Moon's spin-rate band (sealed 2026-10-31) and the Moon locked in synchronous rotation forever (sealed 2026-11-05, D63); track B (finite-time effective stability, Hénon–Heiles) sealed 2026-11-03 (D72, D73). SJSU gate 2 (program T2-CONF, D74–D76): the secular Sun–Jupiter–Saturn–Uranus model confined for 5·10⁹ years, sealed 2026-11-07; its independent kernel re-check runs on the 64-core workstation. The magnetic barrier is sealed (2026-11-10): every frozen statement is now proved (77/77). **Next: HD 11964.** Research: a route to the full Newtonian Sun–Jupiter–Saturn–Uranus problem.
 
