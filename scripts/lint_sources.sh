@@ -74,7 +74,6 @@ app_import = re.compile(r"\s*(public\s+)?(meta\s+)?import\s+(" + "|".join(map(re
 drafts = [(a["export"], a["export"].split(".")[-1])
           for a in json.load(open(root + "/manifest/frozen-anchors.json"))["anchors"] if a.get("state") == "DRAFT_SORRY"]
 bad = [
-    (r"\bnative_decide\b", "native_decide"),
     (r"\bdecide\s*\+\s*native\b|\bnative\s*:=\s*true\b", "decide +native"),
     (r"\bofReduce(Bool|Nat)\b", "Lean.ofReduceBool / ofReduceNat"),
     (r"\bskipKernelTC\b", "debug.skipKernelTC"),
@@ -113,6 +112,9 @@ if [ -n "$escapes" ]; then
   printf '%s\n%s\n' 'forbidden proof escapes or provider imports in code:' "$escapes" >&2
   status=1
 fi
+
+# Only this guard permits reviewed, exact-file native_decide exceptions; all other bans above still apply.
+python3 -I "$project_root/scripts/check_native_policy.py" --root "$project_root" || status=1
 
 # Count Unicode characters consistently: some awk versions count UTF-8 bytes.
 overlong_lines=$(python3 -I - "$project_root" <<'PY'
