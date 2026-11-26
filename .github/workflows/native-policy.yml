@@ -1,0 +1,63 @@
+# Fast source checks always run on PRs. Nonempty, reviewed configuration additionally requires BOTH
+# endpoint jobs; native success never replaces kernel replay. Empty configuration skips proof jobs.
+name: native-policy
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: native-policy-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  policy:
+    name: native source policy (no Lean)
+    runs-on: ubuntu-24.04
+    outputs:
+      audits: ${{ steps.config.outputs.audits }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # v7.0.0
+        with:
+          python-version: "3.13"
+      - run: python -I scripts/ci_checks.py --group lint
+      - run: python -I scripts/test_native_policy.py
+      - run: python -I scripts/check_native_policy.py
+      - id: config
+        run: echo "audits=$(python -I scripts/check_native_policy.py --count)" >> "$GITHUB_OUTPUT"
+  endpoints:
+    name: ${{ matrix.mode }} endpoint verification
+    needs: policy
+    if: needs.policy.outputs.audits != '0'
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [kernel, native]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # v7.0.0
+        with:
+          python-version: "3.13"
+      - name: Install checksum-verified elan (same pin as certifier-ci)
+        env:
+          ELAN_VERSION: v4.2.4
+          ELAN_SHA256: 42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63
+        run: |
+          tmp=$(mktemp -d)
+          trap 'rm -rf "$tmp"' EXIT
+          curl -sSfL -o "$tmp/elan.tar.gz" \
+            "https://github.com/leanprover/elan/releases/download/${ELAN_VERSION}/elan-x86_64-unknown-linux-gnu.tar.gz"
+          echo "${ELAN_SHA256}  $tmp/elan.tar.gz" | sha256sum -c -
+          tar -xzf "$tmp/elan.tar.gz" -C "$tmp"
+          "$tmp/elan-init" -y --no-modify-path --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Mathlib build cache
+        run: lake exe cache get
+      - name: Build and verify the configured final theorem endpoints
+        run: python -I scripts/check_native_policy.py --mode ${{ matrix.mode }}
